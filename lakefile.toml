@@ -10,3 +10,4 @@ rev = "v4.33.1"
 [[lean_lib]]
 name = "Hartshorne"
 srcDir = "src"
+leanOptions = { autoImplicit = false, relaxedAutoImplicit = false }

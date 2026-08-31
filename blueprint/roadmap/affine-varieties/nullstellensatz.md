@@ -3,6 +3,9 @@ declaration: theorem
 origin: background
 mathlib: true
 mathlib_declaration: MvPolynomial.vanishingIdeal_zeroLocus_eq_radical
+statement: formalized
+proof: formalized
+lean: Hartshorne.vanishingIdeal_zeroSet_eq_radical Hartshorne.exists_pow_mem_of_forall_eval_eq_zero
 ---
 
 # Hilbert's Nullstellensatz

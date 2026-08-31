@@ -1,6 +1,9 @@
 ---
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.zeroSet Hartshorne.IsAlgebraicSet Hartshorne.zeroSet_eq_zeroLocus_span Hartshorne.isAlgebraicSet_iff_exists_finset
 ---
 
 # Algebraic sets

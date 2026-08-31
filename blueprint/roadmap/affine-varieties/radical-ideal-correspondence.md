@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.algebraicSetEquivRadicalIdeal Hartshorne.isIrreducible_iff_isPrime Hartshorne.isIrreducible_univ
 ---
 
 # Algebraic sets and radical ideals

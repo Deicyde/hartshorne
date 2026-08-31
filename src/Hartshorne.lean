@@ -1,1 +1,6 @@
 import Hartshorne.Basic
+import Hartshorne.Affine.AlgebraicSet
+import Hartshorne.Affine.Zariski
+import Hartshorne.Affine.VanishingIdeal
+import Hartshorne.Affine.Nullstellensatz
+import Hartshorne.Affine.Correspondence

@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.vanishingIdeal_union Hartshorne.zeroLocus_vanishingIdeal_eq_closure
 ---
 
 # The vanishing ideal
