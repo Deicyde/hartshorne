@@ -32,7 +32,9 @@ gives for Chapters II and III.
 
 - [Graded localization](graded-localization.md)
 - [The local ring at a point](local-ring.md)
+- [The local ring is local](local-ring-is-local.md)
 - [The function field](function-field.md)
+- [The three rings embed in the function field](function-field-injections.md)
 - [The homogeneous vanishing ideal](../projective-varieties/homogeneous-vanishing-ideal.md)
 
 ## Proof depends on

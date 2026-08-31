@@ -36,7 +36,9 @@ geometry and commutative algebra are the same subject.
 
 - [The ring of regular functions](ring-of-regular-functions.md)
 - [The local ring at a point](local-ring.md)
+- [The local ring is local](local-ring-is-local.md)
 - [The function field](function-field.md)
+- [The three rings embed in the function field](function-field-injections.md)
 
 ## Computing them
 

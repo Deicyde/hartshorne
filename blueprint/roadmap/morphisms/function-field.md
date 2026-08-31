@@ -16,14 +16,17 @@ irreducible, so any two nonempty open sets meet; inverses exist because a nonzer
 regular. Irreducibility is doing real work here and is the reason Hartshorne's
 varieties are irreducible by definition.
 
-Restriction gives injections `𝒪(Y) ↪ 𝒪_P ↪ K(Y)`, by the identity principle, and
-this node should establish them: the rest of the section treats all three as
-subrings of `K(Y)` without comment.
+Note that `K(Y)` is defined without reference to `𝒪_P`: both are equivalence
+classes of pairs `(U, f)`, differing only in whether `U` is required to contain a
+fixed point. The comparison between them is
+[a separate article](function-field-injections.md), so this node depends on
+neither the local ring nor the global sections.
 
 ## Depends on
 
-- [The ring of regular functions](ring-of-regular-functions.md)
-- [The local ring at a point](local-ring.md)
+- [Varieties](variety.md)
+- [Regular functions on a quasi-affine variety](regular-function-quasi-affine.md)
+- [Regular functions on a quasi-projective variety](regular-function-quasi-projective.md)
 
 ## Proof depends on
 
@@ -31,4 +34,4 @@ subrings of `K(Y)` without comment.
 
 ## Sources
 
-- [Hartshorne I.3, definition of `K(Y)` and the injections into it (p. 16)](../../sources/hartshorne.md#i3)
+- [Hartshorne I.3, definition of `K(Y)` (p. 16)](../../sources/hartshorne.md#i3)

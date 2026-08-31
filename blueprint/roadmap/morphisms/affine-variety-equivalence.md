@@ -10,9 +10,10 @@ affine varieties over `k` and the category of finitely generated integral domain
 over `k` (Corollary 3.8).
 
 Fully faithful is Proposition 3.5 with `X` affine, using `𝒪(X) ≅ A(X)`.
-Essentially surjective is Remark 1.4.6: every finitely generated `k`-algebra
-domain is `A(Y)` for some affine variety `Y`. Functoriality and arrow reversal
-come from the naturality of `α`.
+Essentially surjective is
+[the realization theorem](../affine-varieties/coordinate-ring-realization.md),
+Hartshorne's Remark 1.4.6. Functoriality and arrow reversal come from the
+naturality of `α`.
 
 This is where Chapter I's first three sections are heading. It is the precise
 statement that affine algebraic geometry over an algebraically closed field and
@@ -32,6 +33,7 @@ which is not a consequence of it.
 
 - [Isomorphism via coordinate rings](affine-iso-iff-algebra-iso.md)
 - [The rings of an affine variety](affine-variety-rings.md)
+- [Every finitely generated domain is a coordinate ring](../affine-varieties/coordinate-ring-realization.md)
 
 ## Sources
 

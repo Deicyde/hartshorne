@@ -4,7 +4,7 @@ A Lean 4 formalization of the classical variety theory in Chapter I of Robin
 Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 1977), built on Mathlib.
 
-Sections 1 through 3 are decomposed into a dependency graph of 44 formalization
+Sections 1 through 3 are decomposed into a dependency graph of 47 formalization
 targets, running from the definition of an algebraic set to Corollary I.3.8: the
 functor sending an affine variety to its coordinate ring is an arrow-reversing
 equivalence onto the finitely generated integral domains over `k`. Nothing is

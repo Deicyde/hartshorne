@@ -18,10 +18,15 @@ enters: over `ℝ` the curve `x² + y² + 1 = 0` has no points and the statement
 fails.
 
 Mathlib proves it as `MvPolynomial.vanishingIdeal_zeroLocus_eq_radical` in
-`Mathlib/RingTheory/Nullstellensatz.lean`, stated for `MvPolynomial σ k` with
-`k` a field, `K` an algebraically closed extension, and the zero locus taken in
-`σ → K`. Hartshorne's case is `K = k`. The work in this node is checking that
-specialisation lines up, not reproving the theorem.
+`Mathlib/RingTheory/Nullstellensatz.lean`, under
+`[Field k] [Field K] [Algebra k K] [IsAlgClosed K] [Finite σ]`: the ideal lives
+in `MvPolynomial σ k`, the zero locus in `σ → K`, and only the extension `K` is
+required to be algebraically closed. Hartshorne's case is `K = k` with
+`[IsAlgClosed k]` and `σ = Fin n`, which satisfies `[Finite σ]`. The work in this
+node is checking that specialisation lines up, not reproving the theorem.
+
+The `[Finite σ]` hypothesis is worth carrying forward: it is real, and it rules
+out stating Chapter I over an arbitrary index type without extra work.
 
 ## Depends on
 

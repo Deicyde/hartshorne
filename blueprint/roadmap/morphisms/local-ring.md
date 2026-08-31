@@ -9,9 +9,10 @@ For `P` a point of a variety `Y`, the *local ring* `𝒪_{P,Y}` is the ring of g
 of regular functions near `P`: pairs `(U, f)` with `U` an open neighbourhood of
 `P` and `f` regular on `U`, identified when they agree on a common refinement.
 
-It is a local ring: its maximal ideal `𝔪` is the germs vanishing at `P`, since a
-germ with `f(P) ≠ 0` has `1/f` regular near `P`, and the residue field
-`𝒪_P/𝔪` is `k`.
+That it deserves the name — that `𝒪_{P,Y}` is a local ring with maximal ideal
+the germs vanishing at `P`, and residue field `k` — is a theorem and lives in
+[its own article](local-ring-is-local.md). This node is the construction and its
+ring structure.
 
 Well-definedness of the identification is where Remark 3.1.1 is used —
 transitivity of the relation needs that two regular functions agreeing on a

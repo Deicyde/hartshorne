@@ -10,16 +10,25 @@ Chapter I, sections 1 through 3, book pages 1–23:
 
 | Section | Title | Pages | Articles |
 | --- | --- | --- | --- |
-| I.1 | Affine Varieties | 1–8 | [15 articles](../roadmap/affine-varieties/README.md) |
+| I.1 | Affine Varieties | 1–8 | [16 articles](../roadmap/affine-varieties/README.md) |
 | I.2 | Projective Varieties | 8–14 | [13 articles](../roadmap/projective-varieties/README.md) |
-| I.3 | Morphisms | 14–23 | [16 articles](../roadmap/morphisms/README.md) |
+| I.3 | Morphisms | 14–23 | [18 articles](../roadmap/morphisms/README.md) |
 
-Every numbered definition, proposition, lemma, theorem and corollary in the
-running text of those sections has an article. Exercises 2.1–2.7 also have
-articles, because Hartshorne states the projective Nullstellensatz, the
-homogeneous ideal correspondence, and both projective dimension computations as
-exercises and then relies on them in later sections; leaving them out would make
-§3 rest on unstated results.
+Every result the main text of those sections proves or uses is covered by an
+article. Some articles carry more than one numbered result when they land
+together: Propositions 1.5 and 1.6 share one, and Theorem 1.11A, Proposition
+1.12A and Proposition 1.13 share another. The
+[source notes](../sources/hartshorne.md) give the result-to-article map.
+
+Exercises 2.1–2.7 are covered too, because Hartshorne states the projective
+Nullstellensatz, the homogeneous ideal correspondence, and both projective
+dimension computations as exercises and then relies on them in later sections;
+leaving them out would make §3 rest on unstated results.
+
+**One numbered result in these sections has no article.** Theorem 3.9A
+(finiteness of integral closure, p. 20) is stated in §3 but used only by
+exercises, which are out of scope. It is needed from §6 onward and will be
+picked up whenever that scope is.
 
 The chapter target is Corollary I.3.8, the arrow-reversing equivalence between
 affine varieties over `k` and finitely generated integral domains over `k`.
@@ -40,11 +49,25 @@ trailing `A` are commutative algebra imported from Atiyah–Macdonald, Matsumura
 and Zariski–Samuel. They carry `origin: background` and are prerequisites rather
 than claims against the source. Where the pinned Mathlib already proves one, the
 article records the upstream declaration and the work is to check that the
-statement matches. Two are known to be present
-(`Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes` for I.1.11A,
-`UniqueFactorizationMonoid.iff_forall_isPrincipal_of_height_eq_one` for I.1.12A)
-and one, Hilbert's Nullstellensatz I.1.3A, is
-`MvPolynomial.vanishingIdeal_zeroLocus_eq_radical`. Theorem I.1.8A, that a
+statement matches. Checked against the pinned checkout:
+
+- **I.1.3A**, Hilbert's Nullstellensatz, is
+  `MvPolynomial.vanishingIdeal_zeroLocus_eq_radical`, under
+  `[IsAlgClosed K] [Finite σ]`. Hartshorne's case is the specialisation `K = k`.
+  This is the one article in the project asserting `mathlib: true`.
+- **I.1.12A** is
+  `UniqueFactorizationMonoid.iff_forall_isPrincipal_of_height_eq_one`, an exact
+  match for "a Noetherian domain is a UFD iff every height-one prime is
+  principal".
+- **I.1.11A** is *not* matched exactly.
+  `Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes` proves
+  `p.height ≤ 1` for a prime minimal over a principal ideal, with no
+  non-zero-divisor and no non-unit hypothesis; Hartshorne asserts height exactly
+  `1` under those hypotheses. The inequality is the reusable part and the
+  remaining `1 ≤ height` is left to the article that needs it. This is recorded
+  as a candidate, not as status.
+
+Theorem I.1.8A, that a
 finitely generated `k`-algebra domain has Krull dimension equal to the
 transcendence degree of its fraction field, is **not** in the pinned Mathlib in
 that form and is the chapter's largest single piece of background work.

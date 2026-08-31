@@ -66,7 +66,9 @@ as source targets rather than optional practice.
 | Prop. 2.2 | `φᵢ : Uᵢ → 𝔸ⁿ` is a homeomorphism | 10–11 | [Standard affine charts](../roadmap/projective-varieties/standard-affine-charts.md) |
 | Cor. 2.3 | Every projective (quasi-projective) variety is covered by affine (quasi-affine) varieties `Y ∩ Uᵢ` | 11 | [Affine cover](../roadmap/projective-varieties/affine-cover.md) |
 | Ex. 2.1 | Homogeneous Nullstellensatz | 11 | [Projective Nullstellensatz](../roadmap/projective-varieties/projective-nullstellensatz.md) |
-| Ex. 2.3–2.4 | `Z`/`J` order reversal; algebraic sets in `ℙⁿ` ↔ homogeneous radical ideals `≠ S₊`; irreducible ↔ prime | 11 | [Homogeneous ideal correspondence](../roadmap/projective-varieties/homogeneous-ideal-correspondence.md) |
+| Ex. 2.2 | `Z(𝔞) = ∅` iff `√𝔞` is `S` or `S₊`, iff `𝔞 ⊇ S_d` for some `d > 0` | 11 | [Projective Nullstellensatz](../roadmap/projective-varieties/projective-nullstellensatz.md) |
+| Ex. 2.3 | `Z`/`J` order reversal, `J(Y₁ ∪ Y₂) = J(Y₁) ∩ J(Y₂)`, `Z(J(Y)) = Ȳ` | 11 | [Homogeneous vanishing ideal](../roadmap/projective-varieties/homogeneous-vanishing-ideal.md) |
+| Ex. 2.4 | Algebraic sets in `ℙⁿ` ↔ homogeneous radical ideals `≠ S₊`; irreducible ↔ prime; `ℙⁿ` is irreducible | 11 | [Homogeneous ideal correspondence](../roadmap/projective-varieties/homogeneous-ideal-correspondence.md) |
 | Ex. 2.5 | `ℙⁿ` is a Noetherian topological space; irreducible components exist and are unique | 11 | [Projective space is Noetherian](../roadmap/projective-varieties/projective-space-noetherian.md) |
 | Ex. 2.6 | `dim S(Y) = dim Y + 1` for a projective variety `Y` | 11–12 | [Homogeneous coordinate ring dimension](../roadmap/projective-varieties/homogeneous-coordinate-ring-dimension.md) |
 | Ex. 2.7 | `dim ℙⁿ = n`; `dim Y = dim Ȳ` for `Y` quasi-projective | 12 | [Dimension in projective space](../roadmap/projective-varieties/projective-dimension.md) |
@@ -94,7 +96,7 @@ Morphisms, book pp. 14–23.
 | Lem. 3.6 | `ψ : X → Y ⊆ 𝔸ⁿ` is a morphism iff each `xᵢ ∘ ψ` is regular | 20 | [Criterion for a morphism to an affine variety](../roadmap/morphisms/morphism-to-affine-criterion.md) |
 | Cor. 3.7 | Affine varieties `X`, `Y` are isomorphic iff `A(X) ≅ A(Y)` as `k`-algebras | 20 | [Isomorphism via coordinate rings](../roadmap/morphisms/affine-iso-iff-algebra-iso.md) |
 | Cor. 3.8 | `X ↦ A(X)` is an arrow-reversing equivalence between affine varieties over `k` and finitely generated integral domains over `k` | 20 | [Equivalence with finitely generated domains](../roadmap/morphisms/affine-variety-equivalence.md) |
-| Thm. 3.9A | Finiteness of integral closure | 20 | Not used by §§1–3; recorded for later sections |
+| Thm. 3.9A | Finiteness of integral closure | 20 | **No article.** Hartshorne states it in §3 with "we include here an algebraic result which will be used in the exercises"; nothing in the main text of §§1–3 uses it, and the exercises that do are out of scope. It is needed from §6 onward. |
 
 ## Sections not decomposed
 

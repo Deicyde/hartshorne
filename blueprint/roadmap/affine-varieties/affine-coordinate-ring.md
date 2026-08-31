@@ -9,16 +9,14 @@ For an affine algebraic set `Y ⊆ 𝔸ⁿ`, the *affine coordinate ring* is
 `A(Y) = A/I(Y)`.
 
 When `Y` is a variety, `I(Y)` is prime, so `A(Y)` is a finitely generated
-`k`-algebra that is an integral domain. Hartshorne notes the converse in Remark
-1.4.6: any finitely generated `k`-algebra domain `B` is `A(Y)` for some affine
-variety `Y`, obtained by writing `B = A/𝔞` and taking `Y = Z(𝔞)`. Both
-directions belong in this node, since §3 needs them to state the equivalence of
-categories.
+`k`-algebra that is an integral domain. That much is this node: the construction
+and the two structural facts it carries.
 
-The interesting half is the converse: it needs `𝔞` prime to give `Z(𝔞)`
-irreducible, which is the correspondence from the previous node, and it needs
-`I(Z(𝔞)) = 𝔞` rather than merely `√𝔞`, which is the Nullstellensatz plus
-primeness.
+Hartshorne's converse in Remark 1.4.6 — every finitely generated `k`-algebra
+domain arises this way — is the harder half and is
+[its own article](coordinate-ring-realization.md), because it is a theorem rather
+than part of the construction and because the equivalence of categories in §3
+cites it separately.
 
 ## Depends on
 

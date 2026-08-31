@@ -25,6 +25,7 @@ what the rest of Chapter I computes with.
 - [Algebraic sets and radical ideals](radical-ideal-correspondence.md)
 - [Affine and quasi-affine varieties](affine-variety.md)
 - [The affine coordinate ring](affine-coordinate-ring.md)
+- [Every finitely generated domain is a coordinate ring](coordinate-ring-realization.md)
 
 ## Decomposition into irreducibles
 

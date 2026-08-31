@@ -31,7 +31,9 @@ categories at the end of the chapter possible.
 
 - [The ring of regular functions](ring-of-regular-functions.md)
 - [The local ring at a point](local-ring.md)
+- [The local ring is local](local-ring-is-local.md)
 - [The function field](function-field.md)
+- [The three rings embed in the function field](function-field-injections.md)
 - [The affine coordinate ring](../affine-varieties/affine-coordinate-ring.md)
 
 ## Proof depends on

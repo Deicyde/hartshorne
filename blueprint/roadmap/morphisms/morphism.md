@@ -24,10 +24,6 @@ be allowed to bridge the two.
 
 - [Varieties](variety.md)
 
-## Proof depends on
-
-- [Regular functions are continuous](regular-function-continuous.md)
-
 ## Sources
 
 - [Hartshorne I.3, definition of morphism and isomorphism, with Exercise 3.2 (pp. 15-16, 21)](../../sources/hartshorne.md#i3)
