@@ -1,8 +1,18 @@
 # Hartshorne, Algebraic Geometry
 
-A Lean 4 formalization of material from Robin Hartshorne, *Algebraic Geometry*
-(Springer, Graduate Texts in Mathematics 52, 1977), built on Mathlib. Scope has
-not been decided yet; see the [coverage contract](blueprint/coverage/README.md).
+A Lean 4 formalization of the classical variety theory in Chapter I of Robin
+Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
+1977), built on Mathlib.
+
+Sections I.1 through I.3 are decomposed into a dependency graph of 44
+formalization targets, from the definition of an algebraic set to Corollary
+I.3.8: the functor sending an affine variety to its coordinate ring is an
+arrow-reversing equivalence onto the finitely generated integral domains over
+`k`. Sections I.4 onward and Chapters II through V are out of scope; see the
+[coverage contract](blueprint/coverage/README.md) for exactly what is and is not
+claimed.
+
+**No results are proved yet.** The roadmap is written; the Lean is not.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 
