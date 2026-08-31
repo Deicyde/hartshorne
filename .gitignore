@@ -1,0 +1,7 @@
+.lake/
+site/
+site-src/
+*.log
+
+# Reference PDFs are read locally, never committed or published.
+*.pdf
