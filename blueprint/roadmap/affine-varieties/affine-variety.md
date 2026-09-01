@@ -1,6 +1,9 @@
 ---
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsAffineVariety Hartshorne.IsQuasiAffineVariety Hartshorne.IsQuasiAffineVariety.isIrreducible Hartshorne.IsQuasiAffineVariety.closure_eq
 ---
 
 # Affine and quasi-affine varieties

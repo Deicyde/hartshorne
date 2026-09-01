@@ -4,3 +4,4 @@ import Hartshorne.Affine.Zariski
 import Hartshorne.Affine.VanishingIdeal
 import Hartshorne.Affine.Nullstellensatz
 import Hartshorne.Affine.Correspondence
+import Hartshorne.Affine.Variety
