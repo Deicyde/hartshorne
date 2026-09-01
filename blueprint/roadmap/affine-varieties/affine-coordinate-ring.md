@@ -1,6 +1,9 @@
 ---
-declaration: def
+declaration: abbrev
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.coordinateRing Hartshorne.finiteType_coordinateRing Hartshorne.isDomain_coordinateRing
 ---
 
 # The affine coordinate ring

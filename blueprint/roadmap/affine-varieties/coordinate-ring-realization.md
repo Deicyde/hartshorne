@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_isAffineVariety_coordinateRing_equiv Hartshorne.isAffineVariety_zeroLocus_of_isPrime Hartshorne.vanishingIdeal_zeroLocus_of_isPrime
 ---
 
 # Every finitely generated domain is a coordinate ring
