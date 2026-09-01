@@ -1,6 +1,9 @@
 ---
 declaration: instance
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.instNoetherianSpace Hartshorne.strictMono_vanishingIdeal_compl
 ---
 
 # Affine space is a Noetherian space
