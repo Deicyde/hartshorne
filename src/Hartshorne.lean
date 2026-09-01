@@ -6,3 +6,4 @@ import Hartshorne.Affine.Nullstellensatz
 import Hartshorne.Affine.Correspondence
 import Hartshorne.Affine.Variety
 import Hartshorne.Affine.Noetherian
+import Hartshorne.Affine.Decomposition

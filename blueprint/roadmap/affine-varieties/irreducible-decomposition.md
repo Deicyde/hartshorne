@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_unique_irredundant_decomposition Hartshorne.IsAlgebraicSet.exists_unique_decomposition Hartshorne.IsIrreducible.exists_mem_subset_of_subset_biUnion Hartshorne.irredundant_decomposition_unique
 ---
 
 # Decomposition into irreducible components
