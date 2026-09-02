@@ -28,6 +28,39 @@ proving that each of the four kinds satisfies the structure, which the two
 regular-function articles supply and which is why they are prerequisites for
 *stating* this definition rather than only for its proofs.
 
+## Status, and a cost the decision underestimated
+
+The structure exists (`Hartshorne.Variety`) and the **quasi-affine construction
+is done** (`Variety.ofQuasiAffine`), which covers the affine case too. Two
+refinements were needed along the way and are worth recording:
+
+- Regularity had to be generalised from a subtype inclusion to an arbitrary map
+  into affine space (`IsRegularVia`). An open subset of a subset reaches `𝔸ⁿ`
+  by a composite of two coercions, and without the generalisation every
+  restriction needs transport along `↥U ≃ ↥(val '' U)`.
+- Locality was dropped from the structure. Regularity here is defined pointwise,
+  so it is local automatically, and carrying it as a field would force
+  transporting functions back along inclusions at every construction.
+
+**The quasi-projective construction is blocked.** The same proof that works for
+the affine case fails on the `regular` field with a deterministic `whnf`
+timeout that does not resolve at four million heartbeats, so it is diverging
+rather than merely slow. What has been ruled out: instance search for the
+topologies (terminates fast on its own), `abbrev` versus `def` for the coercion
+map, `Subalgebra`-membership versus predicate phrasing, and proving restriction
+standalone versus inline. Notably the affine construction itself needs a raised
+heartbeat limit, and the standalone form of *its* restriction lemma diverges
+too — it only compiles inline, where the field pins the expected type. So the
+representation is marginal for the affine carrier and over the edge for the
+projective one, whose carrier is a quotient type.
+
+That is a genuine cost the design decision underestimated. Before spending more
+on it, the options worth weighing are: making `ProjectiveSpace` irreducible so
+it cannot unfold into the quotient during unification; giving `Variety` a single
+universe parameter; or abandoning the bundled form for §3 and stating the
+affine and projective results separately, accepting the duplication the decision
+was meant to avoid. This node stays unmarked until one of those lands.
+
 ## Depends on
 
 - [Affine and quasi-affine varieties](../affine-varieties/affine-variety.md)
