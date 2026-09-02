@@ -21,3 +21,4 @@ import Hartshorne.Projective.Chart
 import Hartshorne.Projective.Dehomogenize
 import Hartshorne.Projective.Homogenize
 import Hartshorne.Projective.AffineCover
+import Hartshorne.Projective.Irrelevant
