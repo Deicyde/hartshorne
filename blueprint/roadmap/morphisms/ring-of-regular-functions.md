@@ -1,6 +1,9 @@
 ---
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.globalRegular Hartshorne.polynomialToRegular Hartshorne.isRegular_polynomialToRegular Hartshorne.polynomialToRegular_eq_zero_iff
 ---
 
 # The ring of regular functions

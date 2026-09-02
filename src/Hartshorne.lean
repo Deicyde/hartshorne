@@ -27,3 +27,4 @@ import Hartshorne.Morphism.RegularFunction
 import Hartshorne.Morphism.RegularFunctionProj
 import Hartshorne.Morphism.Variety
 import Hartshorne.Morphism.AffineVariety
+import Hartshorne.Morphism.GlobalRegular
