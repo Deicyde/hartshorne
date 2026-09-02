@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.homogeneousVanishingIdeal_projZeroSet Hartshorne.isIrreducible_iff_isPrime_homogeneousVanishingIdeal Hartshorne.isRadical_homogeneousVanishingIdeal Hartshorne.irrelevantIdeal Hartshorne.projZeroSet_eq_empty_iff Hartshorne.irrelevantIdeal_isMaximal
 ---
 
 # Algebraic sets and homogeneous radical ideals
