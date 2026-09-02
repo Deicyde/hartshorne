@@ -36,6 +36,12 @@ satisfy the structure, which is what the two regular-function files supply.
 Packaging regularity as a `Subalgebra` rather than a bare predicate collapses
 the constant, addition, negation and multiplication axioms into one field.
 
+Only restriction is imposed, not locality. In every construction here
+regularity is *defined* pointwise, so it is local automatically; carrying
+locality as an axiom would mean transporting functions back along inclusions of
+open subtypes at each construction, for no gain. If a later section needs
+locality abstractly it should be added then, with the constructions updated.
+
 ## Main definitions
 
 * `Hartshorne.Variety`
@@ -64,12 +70,6 @@ structure Variety (k : Type u) [Field k] where
   /-- Regularity is preserved by restriction to a smaller open set. -/
   regular_restrict : ∀ {U V : Opens carrier} (h : V ≤ U) {f : U → k},
     f ∈ regular U → (fun x : V => f ⟨x.1, h x.2⟩) ∈ regular V
-  /-- Regularity is local: a function regular on each piece of an open cover is
-  regular. -/
-  regular_of_cover : ∀ {U : Opens carrier} (f : U → k) (S : Set (Opens carrier)),
-    (∀ V ∈ S, V ≤ U) → (∀ x : U, ∃ V ∈ S, (x : carrier) ∈ V) →
-      (∀ V ∈ S, ∀ h : V ≤ U, (fun x : V => f ⟨x.1, h x.2⟩) ∈ regular V) →
-        f ∈ regular U
 
 attribute [instance] Variety.topology Variety.irreducible
 
