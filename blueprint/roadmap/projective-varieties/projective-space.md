@@ -1,6 +1,9 @@
 ---
-declaration: def
+declaration: abbrev
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.ProjectiveSpace Hartshorne.HomogeneousVanish Hartshorne.homogeneousVanish_iff_of_isHomogeneous Hartshorne.standardChart Hartshorne.exists_mem_standardChart
 ---
 
 # Projective space
