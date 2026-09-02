@@ -21,6 +21,11 @@ The exclusion of `S₊` is the one genuine difference from the affine case and t
 usual source of off-by-one errors: `S₊` is a homogeneous radical ideal with
 `Z(S₊) = ∅`, and `∅` already corresponds to `S`.
 
+Exercise 2.2 belongs here rather than with the Nullstellensatz: `Z(𝔞) = ∅` if
+and only if `√𝔞` is `S` or `S₊`, equivalently `𝔞 ⊇ S_d` for some `d > 0`. That
+is exactly the criterion deciding which homogeneous radical ideals this
+correspondence must leave out, and it is not needed to prove Exercise 2.1.
+
 ## Depends on
 
 - [The homogeneous vanishing ideal](homogeneous-vanishing-ideal.md)

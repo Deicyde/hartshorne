@@ -66,7 +66,7 @@ as source targets rather than optional practice.
 | Prop. 2.2 | `φᵢ : Uᵢ → 𝔸ⁿ` is a homeomorphism | 10–11 | [Standard affine charts](../roadmap/projective-varieties/standard-affine-charts.md) |
 | Cor. 2.3 | Every projective (quasi-projective) variety is covered by affine (quasi-affine) varieties `Y ∩ Uᵢ` | 11 | [Affine cover](../roadmap/projective-varieties/affine-cover.md) |
 | Ex. 2.1 | Homogeneous Nullstellensatz | 11 | [Projective Nullstellensatz](../roadmap/projective-varieties/projective-nullstellensatz.md) |
-| Ex. 2.2 | `Z(𝔞) = ∅` iff `√𝔞` is `S` or `S₊`, iff `𝔞 ⊇ S_d` for some `d > 0` | 11 | [Projective Nullstellensatz](../roadmap/projective-varieties/projective-nullstellensatz.md) |
+| Ex. 2.2 | `Z(𝔞) = ∅` iff `√𝔞` is `S` or `S₊`, iff `𝔞 ⊇ S_d` for some `d > 0` | 11 | [Homogeneous ideal correspondence](../roadmap/projective-varieties/homogeneous-ideal-correspondence.md) |
 | Ex. 2.3 | `Z`/`J` order reversal, `J(Y₁ ∪ Y₂) = J(Y₁) ∩ J(Y₂)`, `Z(J(Y)) = Ȳ` | 11 | [Homogeneous vanishing ideal](../roadmap/projective-varieties/homogeneous-vanishing-ideal.md) |
 | Ex. 2.4 | Algebraic sets in `ℙⁿ` ↔ homogeneous radical ideals `≠ S₊`; irreducible ↔ prime; `ℙⁿ` is irreducible | 11 | [Homogeneous ideal correspondence](../roadmap/projective-varieties/homogeneous-ideal-correspondence.md) |
 | Ex. 2.5 | `ℙⁿ` is a Noetherian topological space; irreducible components exist and are unique | 11 | [Projective space is Noetherian](../roadmap/projective-varieties/projective-space-noetherian.md) |
