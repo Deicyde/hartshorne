@@ -17,3 +17,4 @@ import Hartshorne.Projective.Zariski
 import Hartshorne.Projective.VanishingIdeal
 import Hartshorne.Projective.Nullstellensatz
 import Hartshorne.Projective.Variety
+import Hartshorne.Projective.Chart
