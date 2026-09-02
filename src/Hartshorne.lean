@@ -10,3 +10,4 @@ import Hartshorne.Affine.Noetherian
 import Hartshorne.Affine.Decomposition
 import Hartshorne.Affine.CoordinateRing
 import Hartshorne.Affine.Dimension
+import Hartshorne.Affine.DimensionCoordinateRing
