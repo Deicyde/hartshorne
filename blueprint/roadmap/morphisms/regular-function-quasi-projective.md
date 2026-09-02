@@ -1,6 +1,9 @@
 ---
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsRegularAtProj Hartshorne.IsRegularProj Hartshorne.ratio_eq_of_smul Hartshorne.isClosed_eqLocusProj
 ---
 
 # Regular functions on a quasi-projective variety
