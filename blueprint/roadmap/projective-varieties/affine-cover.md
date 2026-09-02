@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.isAffineVariety_chartMap_image Hartshorne.isQuasiAffineVariety_chartMap_image Hartshorne.iUnion_standardChart Hartshorne.chartMap_image_eq_chartInv_preimage
 ---
 
 # Varieties are covered by affine pieces
