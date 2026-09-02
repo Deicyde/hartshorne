@@ -14,3 +14,4 @@ import Hartshorne.Affine.DimensionCoordinateRing
 import Hartshorne.Projective.Basic
 import Hartshorne.Projective.HomogeneousIdeal
 import Hartshorne.Projective.Zariski
+import Hartshorne.Projective.VanishingIdeal

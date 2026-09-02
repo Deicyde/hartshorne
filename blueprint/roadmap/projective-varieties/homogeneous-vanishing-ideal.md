@@ -1,6 +1,9 @@
 ---
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.homogeneousVanishingIdeal Hartshorne.homogeneousCoordinateRing Hartshorne.isHomogeneousIdeal_homogeneousVanishingIdeal Hartshorne.homogeneousVanishingIdeal_anti_mono Hartshorne.projZeroSet_homogeneousVanishingIdeal_eq_closure
 ---
 
 # The homogeneous vanishing ideal
