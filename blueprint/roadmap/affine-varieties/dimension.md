@@ -1,6 +1,9 @@
 ---
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.dim Hartshorne.dim_le_of_subset Hartshorne.dim_univ
 ---
 
 # Dimension of a topological space and of a ring
