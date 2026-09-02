@@ -19,3 +19,4 @@ import Hartshorne.Projective.Nullstellensatz
 import Hartshorne.Projective.Variety
 import Hartshorne.Projective.Chart
 import Hartshorne.Projective.Dehomogenize
+import Hartshorne.Projective.Homogenize

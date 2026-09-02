@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.chartHomeomorph Hartshorne.homogenize Hartshorne.dehomogenize Hartshorne.eval_homogenize Hartshorne.eval_dehomogenize Hartshorne.chartEquiv
 ---
 
 # The standard affine charts
