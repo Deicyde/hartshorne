@@ -1,6 +1,9 @@
 ---
 declaration: instance
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.instNoetherianSpaceProjectiveSpace Hartshorne.strictMono_homogeneousVanishingIdeal_compl Hartshorne.IsProjAlgebraicSet.exists_unique_decomposition
 ---
 
 # Projective space is a Noetherian space

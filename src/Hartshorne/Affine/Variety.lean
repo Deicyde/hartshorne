@@ -58,8 +58,9 @@ theorem IsAffineVariety.isAlgebraicSet {Y : Set (σ → k)} (h : IsAffineVariety
 
 /-- Example 1.1.3, in the form needed for quasi-affine varieties: intersecting a
 preirreducible set with an open set stays preirreducible. -/
-theorem IsPreirreducible.inter_isOpen {V U : Set (σ → k)} (hV : IsPreirreducible V)
-    (hU : IsOpen U) : IsPreirreducible (V ∩ U) := by
+theorem IsPreirreducible.inter_isOpen {X : Type*} [TopologicalSpace X]
+    {V U : Set X} (hV : IsPreirreducible V) (hU : IsOpen U) :
+    IsPreirreducible (V ∩ U) := by
   rintro u v hu hv ⟨x, hx, hxu⟩ ⟨y, hy, hyv⟩
   obtain ⟨z, hzV, hz⟩ := hV (u ∩ U) (v ∩ U) (hu.inter hU) (hv.inter hU)
     ⟨x, hx.1, hxu, hx.2⟩ ⟨y, hy.1, hyv, hy.2⟩

@@ -1,6 +1,9 @@
 ---
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsProjVariety Hartshorne.IsQuasiProjVariety Hartshorne.projDim Hartshorne.IsQuasiProjVariety.isIrreducible
 ---
 
 # Projective and quasi-projective varieties
