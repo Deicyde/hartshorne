@@ -23,3 +23,4 @@ import Hartshorne.Projective.Homogenize
 import Hartshorne.Projective.AffineCover
 import Hartshorne.Projective.Irrelevant
 import Hartshorne.Projective.Correspondence
+import Hartshorne.Morphism.RegularFunction

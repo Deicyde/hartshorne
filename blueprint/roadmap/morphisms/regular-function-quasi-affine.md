@@ -1,6 +1,9 @@
 ---
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsRegularAt Hartshorne.IsRegular
 ---
 
 # Regular functions on a quasi-affine variety

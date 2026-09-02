@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.isClosed_eqLocus Hartshorne.eq_of_eqOn_isOpen
 ---
 
 # Regular functions are continuous
@@ -10,15 +13,24 @@ topology of `𝔸¹` (Lemma 3.1). Consequently, if two regular functions on a
 variety agree on some nonempty open subset then they agree everywhere
 (Remark 3.1.1).
 
-For continuity it suffices that `f⁻¹(a)` is closed for each `a ∈ k`, since the
-closed sets of `𝔸¹` are the finite sets. Closedness is local, and on an open `U`
-where `f = g/h` one has `f⁻¹(a) ∩ U = Z(g − ah) ∩ U`.
+Hartshorne's proof has two steps. First, closedness is local, and on an open `U`
+where `f = g/h` one has `f⁻¹(a) ∩ U = Z(g − ah) ∩ U`, so every fibre is closed.
+Second, the closed sets of `𝔸¹` are the finite sets, so closed fibres give
+continuity.
 
-The corollary is the identity principle for varieties, and it carries far more
-weight than its proof suggests: it is what makes `𝒪(Y) → 𝒪_P → K(Y)` injective,
-so that all three rings can be treated as subrings of `K(Y)`. Every later
-argument in the section that manipulates germs as if they were functions relies
-on it.
+**What is formalized here is the first step and the consequence, not the literal
+statement.** `isClosed_eqLocus` proves the agreement locus of two regular
+functions is closed, which is the first step in the form that gets used, and
+`eq_of_eqOn_isOpen` is Remark 3.1.1. The second step needs a topology on `k`
+identified with the one on `Unit → k`, plus the fact that a nonzero univariate
+polynomial has finitely many roots. Nothing in §§1–3 uses continuity as such:
+every later appeal is to the identity principle. That step is therefore deferred
+rather than done for its own sake, and this article does not claim it.
+
+The identity principle carries far more weight than its proof suggests: it is
+what makes `𝒪(Y) → 𝒪_P → K(Y)` injective, so that all three rings can be
+treated as subrings of `K(Y)`. Every later argument in the section that
+manipulates germs as if they were functions relies on it.
 
 ## Depends on
 
