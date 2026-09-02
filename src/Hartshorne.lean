@@ -28,3 +28,4 @@ import Hartshorne.Morphism.RegularFunctionProj
 import Hartshorne.Morphism.Variety
 import Hartshorne.Morphism.AffineVariety
 import Hartshorne.Morphism.GlobalRegular
+import Hartshorne.Morphism.LocalRing
