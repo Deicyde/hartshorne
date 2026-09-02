@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.dimAffineSpace_eq Hartshorne.vanishingIdeal_univ
 ---
 
 # The dimension of affine space

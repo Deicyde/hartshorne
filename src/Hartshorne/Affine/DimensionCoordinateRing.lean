@@ -7,6 +7,9 @@ import Hartshorne.Affine.Dimension
 import Hartshorne.Topology.Subspace
 import Mathlib.RingTheory.Spectrum.Prime.RingHom
 import Mathlib.RingTheory.Spectrum.Prime.Topology
+import Mathlib.Algebra.MvPolynomial.Funext
+import Mathlib.RingTheory.KrullDimension.Polynomial
+import Mathlib.RingTheory.KrullDimension.Field
 
 /-!
 # Dimension is the dimension of the coordinate ring
@@ -114,5 +117,32 @@ theorem dim_eq_ringKrullDim_coordinateRing {Y : Set (σ → k)} (hY : IsAlgebrai
     Order.krullDim_orderDual,
     Order.krullDim_eq_of_orderIso
       (Ideal.primeSpectrumQuotientOrderIsoZeroLocus (vanishingIdeal k Y))]
+
+omit [Finite σ] in
+/-- Only the zero polynomial vanishes identically on affine space. An
+algebraically closed field is infinite, which is exactly what this needs; the
+number of variables is irrelevant. -/
+theorem vanishingIdeal_univ :
+    vanishingIdeal k (Set.univ : Set (σ → k)) = ⊥ := by
+  ext f
+  simp only [mem_vanishingIdeal_iff, Set.mem_univ, forall_const, Ideal.mem_bot]
+  refine ⟨fun h => MvPolynomial.funext fun x => ?_, fun h => by simp [h]⟩
+  simpa using h x
+
+/-- **Hartshorne 1.9**: `dim 𝔸ⁿ = n`.
+
+By Proposition 1.7 this is the assertion that `k[x₁,…,xₙ]` has Krull dimension
+`n`. Hartshorne deduces that from Theorem 1.8A, but it does not need the full
+strength of 1.8A: Mathlib computes the dimension of a polynomial ring over a
+Noetherian base directly. -/
+theorem dimAffineSpace_eq : dimAffineSpace k σ = Nat.card σ := by
+  rw [← dim_univ, dim_eq_ringKrullDim_coordinateRing isAlgebraicSet_univ]
+  have hbot : ringKrullDim (coordinateRing (Set.univ : Set (σ → k)))
+      = ringKrullDim (MvPolynomial σ k) := by
+    exact RingEquiv.ringKrullDim
+      ((Ideal.quotEquivOfEq vanishingIdeal_univ).trans
+        (RingEquiv.quotientBot (MvPolynomial σ k)))
+  rw [hbot, MvPolynomial.ringKrullDim_of_isNoetherianRing,
+    ringKrullDim_eq_zero_of_field, zero_add]
 
 end Hartshorne
