@@ -1,6 +1,9 @@
 ---
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.projZeroSet Hartshorne.IsProjAlgebraicSet Hartshorne.IsHomogeneousSet Hartshorne.projZeroSet_union_projZeroSet Hartshorne.isProjAlgebraicSet_sInter
 ---
 
 # Projective algebraic sets

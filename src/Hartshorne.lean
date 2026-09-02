@@ -12,3 +12,4 @@ import Hartshorne.Affine.CoordinateRing
 import Hartshorne.Affine.Dimension
 import Hartshorne.Affine.DimensionCoordinateRing
 import Hartshorne.Projective.Basic
+import Hartshorne.Projective.Zariski
