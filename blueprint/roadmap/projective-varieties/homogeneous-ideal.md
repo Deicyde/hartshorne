@@ -1,6 +1,9 @@
 ---
-declaration: def
+declaration: abbrev
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsHomogeneousIdeal Hartshorne.isHomogeneousElem_iff Hartshorne.IsHomogeneousIdeal.radical Hartshorne.IsHomogeneousIdeal.isPrime_iff
 ---
 
 # Homogeneous ideals
