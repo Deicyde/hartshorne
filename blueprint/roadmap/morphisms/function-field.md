@@ -1,6 +1,9 @@
 ---
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.RationalRep Hartshorne.RationalRep.Rel Hartshorne.RationalRep.rel_trans Hartshorne.inter_nonempty Hartshorne.GermRep.toRationalRep
 ---
 
 # The function field
