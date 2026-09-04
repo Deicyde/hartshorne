@@ -1,6 +1,9 @@
 ---
-declaration: def
+declaration: abbrev
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.gradedLocalization Hartshorne.gradedLocalizationAway Hartshorne.isField_gradedLocalization_bot
 ---
 
 # Graded localization
@@ -13,10 +16,23 @@ local ring with maximal ideal `(𝔭 · T⁻¹S) ∩ S_(𝔭)`. When `S` is a do
 `S_f` for `f` homogeneous.
 
 This is the construction Theorem 3.4 is phrased in, and it is the one place in
-Chapter I where the grading is allowed to take negative values. Mathlib has
-graded localizations in the `HomogeneousLocalization` API developed for the `Proj`
-construction; check whether `HomogeneousLocalization.AtPrime` matches Hartshorne's
-`S_(𝔭)` before defining anything new.
+Chapter I where the grading is allowed to take negative values.
+
+## What Mathlib supplies
+
+`HomogeneousLocalization.AtPrime` is Hartshorne's `S_(𝔭)` and
+`HomogeneousLocalization.Away` is his `S_(f)`, both developed for the `Proj`
+construction, and the local ring instance is there too. Mathlib builds the
+degree-zero part directly rather than grading the localization and cutting it
+down afterwards. That is the same ring and it sidesteps the negative degrees,
+so nothing is lost by adopting it; the project fixes those as its names, as the
+dimension node does for `ringKrullDim`.
+
+What is not upstream is the last clause: that `S_((0))` is a field when `S` is a
+domain. Theorem 3.4(c) is a statement about exactly that ring, so it is proved
+here. The argument is Hartshorne's — `a/b` with `a ≠ 0` has inverse `b/a` — run
+through `val`, since for `𝔭 = (0)` in a domain the ambient localization is the
+fraction field.
 
 ## Depends on
 
