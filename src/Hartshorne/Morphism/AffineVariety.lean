@@ -68,6 +68,27 @@ theorem IsRegularVia.mul {f g : A → k} (hf : IsRegularVia ι f)
     simp only [map_mul]
     field_simp
 
+/-- Negatives of regular functions are regular: negate the numerator. -/
+theorem IsRegularVia.neg {f : A → k} (hf : IsRegularVia ι f) :
+    IsRegularVia ι (-f) := by
+  intro P
+  obtain ⟨U, hU, hP, g, h, hne, he⟩ := hf P
+  exact ⟨U, hU, hP, -g, h, hne, fun x hx => by
+    rw [Pi.neg_apply, he x hx, map_neg, neg_div]⟩
+
+/-- A nowhere-zero regular function has a regular inverse: swap numerator and
+denominator.
+
+The new denominator is the old numerator, and it is nonvanishing precisely
+because `f` is: `f = g/h` and `f ≠ 0` force `g ≠ 0`. -/
+theorem IsRegularVia.inv {f : A → k} (hf : IsRegularVia ι f) (hne : ∀ x, f x ≠ 0) :
+    IsRegularVia ι f⁻¹ := by
+  intro P
+  obtain ⟨U, hU, hP, g, h, hh, he⟩ := hf P
+  refine ⟨U, hU, hP, h, g, fun x hx hg => hne x ?_, fun x hx => ?_⟩
+  · rw [he x hx, hg, zero_div]
+  · rw [Pi.inv_apply, he x hx, inv_div]
+
 variable {Y : Set (σ → k)}
 
 /-- The map to affine space attached to an open subset of `Y`: two coercions
