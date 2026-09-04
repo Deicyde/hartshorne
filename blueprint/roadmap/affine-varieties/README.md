@@ -36,7 +36,10 @@ what the rest of Chapter I computes with.
 
 - [Dimension of a topological space and of a ring](dimension.md)
 - [Dimension is the dimension of the coordinate ring](dim-eq-coordinate-ring-dim.md)
+- [Krull dimension is invariant under integral extensions](dimension-integral-extension.md)
+- [A finitely generated algebra over a field has finite dimension](dim-fg-algebra-finite.md)
 - [Dimension of a finitely generated domain](dim-fg-domain.md)
+- [The dimension formula for a finitely generated domain](dim-formula-catenary.md)
 - [The dimension of affine space](dim-affine-space.md)
 - [Dimension of a quasi-affine variety](dim-quasi-affine.md)
 - [Hypersurfaces and codimension one](hypersurface-dimension.md)

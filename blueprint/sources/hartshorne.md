@@ -38,7 +38,8 @@ Affine Varieties, book pp. 1–8.
 | Cor. 1.6 | Every algebraic set in `𝔸ⁿ` is uniquely a union of varieties, none containing another | 5 | [Irreducible decomposition](../roadmap/affine-varieties/irreducible-decomposition.md) |
 | Def. | Dimension of a topological space; height of a prime; Krull dimension | 5–6 | [Dimension](../roadmap/affine-varieties/dimension.md) |
 | Prop. 1.7 | `dim Y = dim A(Y)` for an affine algebraic set | 6 | [Dimension via the coordinate ring](../roadmap/affine-varieties/dim-eq-coordinate-ring-dim.md) |
-| Thm. 1.8A | For a f.g. `k`-algebra domain `B`: `dim B = trdeg_k K(B)`, and `height 𝔭 + dim B/𝔭 = dim B` | 6 | [Dimension of a finitely generated domain](../roadmap/affine-varieties/dim-fg-domain.md) |
+| Thm. 1.8A(a) | For a f.g. `k`-algebra domain `B`: `dim B = trdeg_k K(B)` | 6 | [Dimension of a finitely generated domain](../roadmap/affine-varieties/dim-fg-domain.md) |
+| Thm. 1.8A(b) | For a f.g. `k`-algebra domain `B`: `height 𝔭 + dim B/𝔭 = dim B` | 6 | [The dimension formula](../roadmap/affine-varieties/dim-formula-catenary.md) |
 | Prop. 1.9 | `dim 𝔸ⁿ = n` | 6 | [Dimension of affine space](../roadmap/affine-varieties/dim-affine-space.md) |
 | Prop. 1.10 | `dim Y = dim Ȳ` for `Y` quasi-affine | 6 | [Dimension of a quasi-affine variety](../roadmap/affine-varieties/dim-quasi-affine.md) |
 | Thm. 1.11A | Krull's Hauptidealsatz | 7 | [Hypersurfaces and codimension one](../roadmap/affine-varieties/hypersurface-dimension.md) |

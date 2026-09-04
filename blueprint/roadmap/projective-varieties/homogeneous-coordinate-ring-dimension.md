@@ -29,6 +29,7 @@ place.
 - [The standard affine charts](standard-affine-charts.md)
 - [Dimension is the dimension of the coordinate ring](../affine-varieties/dim-eq-coordinate-ring-dim.md)
 - [Dimension of a finitely generated domain](../affine-varieties/dim-fg-domain.md)
+- [The dimension formula for a finitely generated domain](../affine-varieties/dim-formula-catenary.md)
 
 ## Sources
 

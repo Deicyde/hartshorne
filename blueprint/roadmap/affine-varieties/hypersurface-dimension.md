@@ -30,6 +30,7 @@ since Mathlib states the height bound as an inequality.
 
 - [Dimension is the dimension of the coordinate ring](dim-eq-coordinate-ring-dim.md)
 - [Dimension of a finitely generated domain](dim-fg-domain.md)
+- [The dimension formula for a finitely generated domain](dim-formula-catenary.md)
 
 ## Sources
 

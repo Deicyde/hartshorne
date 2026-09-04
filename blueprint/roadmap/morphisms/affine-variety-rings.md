@@ -35,11 +35,17 @@ injectivity is separation of points by a coordinate function, and surjectivity
 is the Nullstellensatz applied to the pullback of a maximal ideal, whose point
 lands in `Z(I(Y)) = Y`.
 
-Parts (a), (c) and (d) are not. The dimension clause of (c) and the
-transcendence-degree clause of (d) both need Theorem 1.8A, which is still open.
-Part (a) and the localisation clause of (c) do not, but (a)'s surjectivity needs
-that a domain is the intersection of its localisations at all maximal ideals,
-which is the one outside fact Hartshorne's proof appeals to.
+Parts (a), (c) and (d) are not.
+
+The transcendence-degree clause of (d) is now unblocked: Theorem 1.8A(a) is
+proved, so what remains there is identifying `K(Y)` with the fraction field of
+`A(Y)` and applying it. The dimension clause of (c) still needs
+[the dimension formula](../affine-varieties/dim-formula-catenary.md), the second
+clause of 1.8A, which is not.
+
+Part (a) and the localisation clause of (c) need neither, but (a)'s surjectivity
+needs that a domain is the intersection of its localisations at all maximal
+ideals, which is the one outside fact Hartshorne's proof appeals to.
 
 ## Depends on
 
@@ -55,6 +61,7 @@ which is the one outside fact Hartshorne's proof appeals to.
 - [Algebraic sets and radical ideals](../affine-varieties/radical-ideal-correspondence.md)
 - [Dimension is the dimension of the coordinate ring](../affine-varieties/dim-eq-coordinate-ring-dim.md)
 - [Dimension of a finitely generated domain](../affine-varieties/dim-fg-domain.md)
+- [The dimension formula for a finitely generated domain](../affine-varieties/dim-formula-catenary.md)
 
 ## Sources
 

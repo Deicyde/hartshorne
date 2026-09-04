@@ -1,44 +1,37 @@
 ---
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.isAlgebraic_of_isFractionRing Hartshorne.exists_ringKrullDim_eq_trdeg
 ---
 
 # Dimension of a finitely generated domain
 
 Let `k` be a field and `B` an integral domain that is a finitely generated
-`k`-algebra. Then
+`k`-algebra. Then `dim B = trdeg_k K(B)`, the transcendence degree of the
+fraction field.
 
-- `dim B = trdeg_k K(B)`, the transcendence degree of the fraction field; and
-- `height 𝔭 + dim B/𝔭 = dim B` for every prime `𝔭 ⊆ B`.
-
-Hartshorne quotes both as Theorem 1.8A, citing Matsumura and Atiyah–Macdonald.
-Everything numerical in Chapter I rests on them: `dim 𝔸ⁿ = n`, `dim Y = dim Ȳ`
+This is the first clause of Hartshorne's Theorem 1.8A, quoted from Matsumura and
+Atiyah–Macdonald. Everything numerical in Chapter I rests on it, together with
+its second clause, which is now
+[the dimension formula](dim-formula-catenary.md): `dim 𝔸ⁿ = n`, `dim Y = dim Ȳ`
 for quasi-affine `Y`, the codimension-one characterisation of hypersurfaces, and
 in §3 the fact that `K(Y)` has transcendence degree `dim Y`.
 
-This is the largest identified gap in the pinned Mathlib. `ringKrullDim`,
-`Algebra.trdeg` and the machinery around Noether normalisation are all present,
-but the two statements above are not, in this form. Expect this node to be the
-single biggest piece of the chapter, and expect it to be worth upstreaming.
-Because it is quoted rather than proved in the source, its proof is not
-constrained to follow Hartshorne.
+Because it is quoted rather than proved in the source, the proof is not
+constrained to follow Hartshorne. A single Noether normalisation
+`k[y₁,…,y_s] ↪ B` answers both sides: `B` is integral over the polynomial ring,
+so the two have the same dimension, and it is algebraic over it, so they have
+the same transcendence degree. The fraction field is algebraic over `B`, so it
+does not move the transcendence degree either.
 
-## Status
+## Statement shape
 
-The route through Noether normalisation is built and gives `dim B = s`, where
-`s` is the number of variables the normalisation produces; see
-[Krull dimension is invariant under integral extensions](dimension-integral-extension.md)
-and [a finitely generated algebra over a field has finite dimension](dim-fg-algebra-finite.md).
-
-What remains for the first clause is the identification `s = trdeg_k K(B)`. That
-is a statement about the normalisation map rather than about dimension: the
-normalisation variables are algebraically independent and `B` is algebraic over
-them, so they form a transcendence basis of `K(B)` over `k`. Mathlib has
-`IsTranscendenceBasis` and the invariance of its cardinality, so this is a
-bookkeeping argument, not a new theorem.
-
-The second clause is the catenary statement and is untouched. Mathlib has no
-`IsCatenary`, so it needs the dimension formula built from scratch.
+`ringKrullDim` is valued in `WithBot ℕ∞` and `Algebra.trdeg` in `Cardinal`,
+which have no canonical map between them. The statement is therefore that one
+natural number `s` answers both questions, which is what the equation means and
+is strictly more informative, since it also records that both sides are finite.
 
 ## Depends on
 

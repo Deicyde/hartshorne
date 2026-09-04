@@ -27,6 +27,7 @@ statement, which is worth knowing when scheduling the background node.
 
 - [Dimension is the dimension of the coordinate ring](dim-eq-coordinate-ring-dim.md)
 - [Dimension of a finitely generated domain](dim-fg-domain.md)
+- [The dimension formula for a finitely generated domain](dim-formula-catenary.md)
 - [Algebraic sets and radical ideals](radical-ideal-correspondence.md)
 
 ## Sources

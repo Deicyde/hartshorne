@@ -36,3 +36,4 @@ import Hartshorne.Morphism.PointsMaximal
 import Hartshorne.Morphism.Hom
 import Hartshorne.Dimension.Integral
 import Hartshorne.Dimension.FgAlgebra
+import Hartshorne.Dimension.FgDomain
