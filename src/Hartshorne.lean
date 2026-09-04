@@ -32,3 +32,4 @@ import Hartshorne.Morphism.LocalRing
 import Hartshorne.Morphism.ProjVariety
 import Hartshorne.Morphism.FunctionField
 import Hartshorne.Morphism.Injections
+import Hartshorne.Morphism.PointsMaximal

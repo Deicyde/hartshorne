@@ -27,6 +27,20 @@ This is the main theorem of the section. It says the coordinate ring already
 knows everything about an affine variety, and it is what makes the equivalence of
 categories at the end of the chapter possible.
 
+## Status
+
+**Part (b) is proved** (`Hartshorne.pointsEquivMaximalIdeals`): evaluation at `P`
+descends to `A(Y)` and is surjective onto `k`, so its kernel `𝔪_P` is maximal;
+injectivity is separation of points by a coordinate function, and surjectivity
+is the Nullstellensatz applied to the pullback of a maximal ideal, whose point
+lands in `Z(I(Y)) = Y`.
+
+Parts (a), (c) and (d) are not. The dimension clause of (c) and the
+transcendence-degree clause of (d) both need Theorem 1.8A, which is still open.
+Part (a) and the localisation clause of (c) do not, but (a)'s surjectivity needs
+that a domain is the intersection of its localisations at all maximal ideals,
+which is the one outside fact Hartshorne's proof appeals to.
+
 ## Depends on
 
 - [The ring of regular functions](ring-of-regular-functions.md)
