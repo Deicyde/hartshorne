@@ -1,6 +1,9 @@
 ---
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.VarietyHom Hartshorne.VarietyHom.id Hartshorne.VarietyHom.comp Hartshorne.VarietyHom.comp_assoc Hartshorne.VarietyHom.IsIso Hartshorne.VarietyHom.IsIso.bijective
 ---
 
 # Morphisms
