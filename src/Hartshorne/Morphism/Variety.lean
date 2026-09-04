@@ -36,11 +36,18 @@ satisfy the structure, which is what the two regular-function files supply.
 Packaging regularity as a `Subalgebra` rather than a bare predicate collapses
 the constant, addition, negation and multiplication axioms into one field.
 
-Only restriction is imposed, not locality. In every construction here
-regularity is *defined* pointwise, so it is local automatically; carrying
-locality as an axiom would mean transporting functions back along inclusions of
-open subtypes at each construction, for no gain. If a later section needs
-locality abstractly it should be added then, with the constructions updated.
+Locality is not imposed. In every construction here regularity is *defined*
+pointwise, so it is local automatically; carrying locality as an axiom would
+mean transporting functions back along inclusions of open subtypes at each
+construction, for no gain. If a later section needs locality abstractly it
+should be added then, with the constructions updated.
+
+Closedness of zero loci *is* imposed, on exactly that principle. Every
+construction proves it as Lemma 3.1, but the proof is about polynomials and
+there is no way to recover it from the abstract data. Lemma 3.6 derives the
+continuity of a map into an affine variety from the regularity of its
+coordinates, and that derivation needs it for the source, which is an arbitrary
+variety.
 
 ## Main definitions
 
@@ -70,6 +77,11 @@ structure Variety (k : Type u) [Field k] where
   /-- Regularity is preserved by restriction to a smaller open set. -/
   regular_restrict : ∀ {U V : Opens carrier} (h : V ≤ U) {f : U → k},
     f ∈ regular U → (fun x : V => f ⟨x.1, h x.2⟩) ∈ regular V
+  /-- The zero locus of a regular function is closed. This is Lemma 3.1, which
+  every construction below proves anyway; carrying it makes it available for an
+  abstract variety, where Lemma 3.6 needs it to get continuity. -/
+  isClosed_zeroLocus : ∀ {U : Opens carrier} {f : U → k}, f ∈ regular U →
+    IsClosed {x : U | f x = 0}
 
 attribute [instance] Variety.topology Variety.irreducible
 

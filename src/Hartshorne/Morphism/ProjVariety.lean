@@ -82,6 +82,11 @@ noncomputable def Variety.ofQuasiProjective (hY : IsQuasiProjVariety Y) : Variet
   regular_restrict {U V} hUV {f} hf :=
     mem_projRegularSubalgebra.2
       (isRegularProjVia_restrict hUV (mem_projRegularSubalgebra.1 hf))
+  isClosed_zeroLocus {U} {f} hf := by
+    -- Lemma 3.1, projective case, applied to the pair `(f, 0)`.
+    have := isClosed_eqLocusProjVia (ι := projOpenIota U) (by fun_prop)
+      (mem_projRegularSubalgebra.1 hf) (isRegularProjVia_const (projOpenIota U) 0)
+    simpa using this
 
 /-- A projective variety is in particular a variety. -/
 noncomputable def Variety.ofProjective (hY : IsProjVariety Y) : Variety k :=

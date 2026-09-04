@@ -134,5 +134,10 @@ noncomputable def Variety.ofQuasiAffine (hY : IsQuasiAffineVariety Y) : Variety 
     refine ⟨(fun x : V => (⟨x.1, hUV x.2⟩ : U)) ⁻¹' W, ?_, hPW, g, h,
       fun x hx => hne _ hx, fun x hx => he _ hx⟩
     exact hW.preimage (Continuous.subtype_mk continuous_subtype_val _)
+  isClosed_zeroLocus {U} {f} hf := by
+    -- Lemma 3.1 applied to the pair `(f, 0)`.
+    have := isClosed_eqLocusVia (ι := openIota U) (by fun_prop) hf
+      (isRegularVia_const (openIota U) 0)
+    simpa using this
 
 end Hartshorne

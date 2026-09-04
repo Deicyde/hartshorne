@@ -45,6 +45,15 @@ refinements were needed along the way and are worth recording:
 - Locality was dropped from the structure. Regularity here is defined pointwise,
   so it is local automatically, and carrying it as a field would force
   transporting functions back along inclusions at every construction.
+- Closedness of zero loci was later added, on the same principle read the other
+  way. Every construction proves it as Lemma 3.1, but the proof is about
+  polynomials and nothing in the abstract data recovers it, so an abstract
+  variety needs it as a field. Lemma 3.6 is what forced the issue: it derives
+  continuity of a map into an affine variety from regularity of its
+  coordinates, and that derivation is about the source, which is arbitrary.
+  Two further fields, locality and closure under division by a nowhere-zero
+  regular function, are needed for the rest of Lemma 3.6 and are not yet
+  present; see [that node](morphism-to-affine-criterion.md).
 
 The quasi-projective construction was blocked for a while by an elaboration
 divergence that also affected the affine one. The cause turned out to have
