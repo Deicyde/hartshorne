@@ -22,7 +22,7 @@ bijection with closed inverse.
 This is the key result of §2 and the most-used result of Chapter I: it is what
 lets every local question about a projective variety be answered affinely. It is
 upgraded from a homeomorphism to an isomorphism of varieties in §3, once
-morphisms exist; see [the chart isomorphism](../morphisms/chart-isomorphism.md).
+morphisms exist; see [the chart isomorphism](../morphisms/projective-rings/chart-isomorphism.md).
 
 ## What `α` and `β` do to polynomials
 

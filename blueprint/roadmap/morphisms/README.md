@@ -37,7 +37,10 @@ geometry and commutative algebra are the same subject.
 - [The ring of regular functions](ring-of-regular-functions.md)
 - [The local ring at a point](local-ring.md)
 - [The local ring is local](local-ring-is-local.md)
+- [The local ring is functorial](local-ring-functorial.md)
 - [The function field](function-field.md)
+- [The function field of an arbitrary variety](function-field-abstract.md)
+- [The function field is functorial for dominant morphisms](function-field-functorial.md)
 - [The three rings embed in the function field](function-field-injections.md)
 
 ## Computing them
@@ -47,9 +50,10 @@ geometry and commutative algebra are the same subject.
 - [The local ring is a localisation](local-ring-is-localization.md)
 - [The function field is the fraction field](function-field-is-fraction-field.md)
 - [The local ring and function field of an affine variety](affine-variety-rings.md)
-- [The charts are isomorphisms of varieties](chart-isomorphism.md)
-- [Graded localization](graded-localization.md)
-- [The rings of a projective variety](projective-variety-rings.md)
+
+## The projective case
+
+- [The rings of a projective variety](projective-rings/README.md)
 
 ## Affine varieties and finitely generated domains
 

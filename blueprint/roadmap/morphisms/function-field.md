@@ -25,6 +25,11 @@ fixed point. The comparison between them is
 [a separate article](function-field-injections.md), so this node depends on
 neither the local ring nor the global sections.
 
+## The same construction for an arbitrary variety
+
+Theorem 3.4(c) needs `K(Y)` for a projective `Y`, so the construction is redone
+over the bundled `Variety`. That is [its own node](function-field-abstract.md).
+
 ## Depends on
 
 - [Varieties](variety.md)

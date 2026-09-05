@@ -1,7 +1,7 @@
 ---
 declaration: theorem
 origin: cited
-lean: Hartshorne.projLocalRingEquiv Hartshorne.chartPoint Hartshorne.isOpen_inter_standardChart_in Hartshorne.nonempty_inter_standardChart
+lean: Hartshorne.projLocalRingEquiv Hartshorne.chartPoint Hartshorne.isOpen_inter_standardChart_in Hartshorne.nonempty_inter_standardChart Hartshorne.projFunctionFieldEquiv
 ---
 
 # The rings of a projective variety
@@ -34,11 +34,11 @@ gives for Chapters II and III.
 Not proved. What is now in place is the polynomial dictionary parts (b) and (c)
 run on: `α` is a bijection from the homogeneous polynomials, up to powers of
 `xᵢ`, onto the polynomials in the affine coordinates. Both halves are recorded
-on [the standard affine charts](../projective-varieties/standard-affine-charts.md);
+on [the standard affine charts](../../projective-varieties/standard-affine-charts.md);
 they are what an isomorphism `A(Yᵢ) ≅ S(Y)_(xᵢ)` has to be built from, since
 that map sends `g/xᵢⁿ` to `α(g)`. The ambient case is done: `S_(xᵢ) ≅ k[y]`, and the two vanishing ideals are now
 matched, on
-[the affine cover node](../projective-varieties/affine-cover.md): for
+[the affine cover node](../../projective-varieties/affine-cover.md): for
 homogeneous `g`, `α(g) ∈ I(Yᵢ)` exactly when `xᵢ · g ∈ J(Y)`.
 
 The quotient grading is now in place too
@@ -93,13 +93,27 @@ It is four isomorphisms in a row, none of which he states:
   having been built separately;
 - `A(Yᵢ)_𝔪 ≅ 𝒪_{φᵢ(P),Yᵢ}`, Theorem 3.2(c).
 
-The first three are [the functoriality node](local-ring-functorial.md) and
-[the local ring node](local-ring.md); supplying the second is why the chart
+The first three are [the functoriality node](../local-ring-functorial.md) and
+[the local ring node](../local-ring.md); supplying the second is why the chart
 isomorphism was generalised from `Uᵢ` to `Yᵢ`.
 
 What is left of (b) is the graded step: rewriting `A(Yᵢ)_𝔪` as `S(Y)_(𝔪_P)`,
 using `A(Yᵢ) ≅ S(Y)_(xᵢ)` and transitivity of localisation. That is a statement
 about homogeneous localisation with no germs in it.
+
+## Part (c) is reduced to the affine case
+
+**`K(Y) ≅ K(Yᵢ)` is proved** (`Hartshorne.projFunctionFieldEquiv`), for `Y`
+projective meeting `Uᵢ`. With Theorem 3.2(d), which says `K(Yᵢ)` is the fraction
+field of `A(Yᵢ)`, that is the affine reduction of (c).
+
+The chain is the one (b) uses with a step removed, and every remaining step is
+shorter, because a rational function has no base point: restrict to the chart
+piece, transport along the chart isomorphism, identify the abstract function
+field with the affine one. The germ chain needed a fourth link and a hypothesis
+about the point; here the only hypothesis is that `Y` meets the chart.
+
+The transports themselves are [their own node](../function-field-functorial.md).
 
 ## What is left
 
@@ -108,16 +122,12 @@ localisation" was too quick, and is worth correcting rather than deleting: the
 objects on the left-hand sides did not exist. `𝒪_P` and `K(Y)` were defined for
 an affine `Y`, in affine coordinates, and Theorem 3.4 is about a projective one.
 Both have since been rebuilt over the abstract `Variety`; see
-[the local ring at a point](local-ring.md). That is what makes the statements of
+[the local ring at a point](../local-ring.md). That is what makes the statements of
 (b) and (c) writable at all.
 
-Part (c) has the same shape as (b), with `K(Y)` and the localisation at `(0)`
-in place of `𝒪_P` and `𝔪_P`, and needs the corresponding transport statements
-for the function field. Those are not built: `K(Y)` exists over an abstract
-`Variety`, but nothing yet says an isomorphism of varieties induces one on
-function fields, or that `K(Y) = K(Yᵢ)` for an open piece. Both are easier than
-their germ counterparts — the function field has no base point, so none of the
-point-index transport problems arise.
+For (c), what is left is the graded step, `Frac(A(Yᵢ)) ≅ S(Y)_((0))`. Like the
+one for (b) it is a statement about homogeneous localisation with no geometry in
+it.
 
 Part (a) remains untouched and is independent of all of it. Its integrality
 argument has no affine analogue and needs the whole affine cover at once, not
@@ -126,20 +136,22 @@ one chart at a time.
 ## Depends on
 
 - [Graded localization](graded-localization.md)
-- [The local ring at a point](local-ring.md)
-- [The local ring is local](local-ring-is-local.md)
-- [The local ring is functorial](local-ring-functorial.md)
-- [The function field](function-field.md)
-- [The three rings embed in the function field](function-field-injections.md)
-- [The homogeneous vanishing ideal](../projective-varieties/homogeneous-vanishing-ideal.md)
+- [The local ring at a point](../local-ring.md)
+- [The local ring is local](../local-ring-is-local.md)
+- [The local ring is functorial](../local-ring-functorial.md)
+- [The function field](../function-field.md)
+- [The function field of an arbitrary variety](../function-field-abstract.md)
+- [The function field is functorial for dominant morphisms](../function-field-functorial.md)
+- [The three rings embed in the function field](../function-field-injections.md)
+- [The homogeneous vanishing ideal](../../projective-varieties/homogeneous-vanishing-ideal.md)
 
 ## Proof depends on
 
-- [The local ring and function field of an affine variety](affine-variety-rings.md)
-- [The coordinate ring is the ring of regular functions](global-regular-eq-coordinate-ring.md)
+- [The local ring and function field of an affine variety](../affine-variety-rings.md)
+- [The coordinate ring is the ring of regular functions](../global-regular-eq-coordinate-ring.md)
 - [The charts are isomorphisms of varieties](chart-isomorphism.md)
-- [Varieties are covered by affine pieces](../projective-varieties/affine-cover.md)
+- [Varieties are covered by affine pieces](../../projective-varieties/affine-cover.md)
 
 ## Sources
 
-- [Hartshorne I.3, Theorem 3.4 (pp. 18-19)](../../sources/hartshorne.md#i3)
+- [Hartshorne I.3, Theorem 3.4 (pp. 18-19)](../../../sources/hartshorne.md#i3)

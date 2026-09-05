@@ -104,6 +104,18 @@ theorem isQuasiProjVariety_inter_standardChart :
   exact ⟨hne, V, U ∩ standardChart i, hV, hU.inter (isOpen_standardChart i),
     Set.inter_assoc _ _ _⟩
 
+omit [IsAlgClosed k] [Finite σ] [DecidableEq σ] [Nonempty σ] in
+/-- `Yᵢ` is open in `Y`, being cut out by an open set of projective space. This
+is what makes `Y ∩ Uᵢ` an open subvariety rather than merely a subvariety. -/
+theorem isOpen_inter_standardChart_in :
+    IsOpen {y : Y | y.1 ∈ Y ∩ standardChart i} := by
+  have hset : {y : Y | y.1 ∈ Y ∩ standardChart i}
+      = Subtype.val ⁻¹' (standardChart i : Set (ProjectiveSpace k σ)) := by
+    ext y
+    exact ⟨fun h => h.2, fun h => ⟨y.2, h⟩⟩
+  rw [hset]
+  exact (isOpen_standardChart i).preimage continuous_subtype_val
+
 /-- `Yᵢ`, as a variety. -/
 noncomputable abbrev chartVariety : Variety k :=
   Variety.ofQuasiProjective (isQuasiProjVariety_inter_standardChart k i hY hne)

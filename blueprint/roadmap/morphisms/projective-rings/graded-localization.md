@@ -36,9 +36,9 @@ fraction field.
 
 ## Depends on
 
-- [Homogeneous ideals](../projective-varieties/homogeneous-ideal.md)
-- [The homogeneous vanishing ideal](../projective-varieties/homogeneous-vanishing-ideal.md)
+- [Homogeneous ideals](../../projective-varieties/homogeneous-ideal.md)
+- [The homogeneous vanishing ideal](../../projective-varieties/homogeneous-vanishing-ideal.md)
 
 ## Sources
 
-- [Hartshorne I.3, definition of `S_(𝔭)` and `S_(f)` (p. 18)](../../sources/hartshorne.md#i3)
+- [Hartshorne I.3, definition of `S_(𝔭)` and `S_(f)` (p. 18)](../../../sources/hartshorne.md#i3)

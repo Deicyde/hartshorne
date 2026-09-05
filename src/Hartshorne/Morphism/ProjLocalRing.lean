@@ -53,17 +53,6 @@ include hP in
 theorem nonempty_inter_standardChart : (Y ∩ standardChart i).Nonempty :=
   ⟨P.1, P.2, hP⟩
 
-omit [IsAlgClosed k] [Finite σ] [DecidableEq σ] [Nonempty σ] in
-/-- `Y ∩ Uᵢ` is open in `Y`, being cut out by an open set of projective space. -/
-theorem isOpen_inter_standardChart_in :
-    IsOpen {y : Y | y.1 ∈ Y ∩ standardChart i} := by
-  have hset : {y : Y | y.1 ∈ Y ∩ standardChart i}
-      = Subtype.val ⁻¹' (standardChart i : Set (ProjectiveSpace k σ)) := by
-    ext y
-    exact ⟨fun h => h.2, fun h => ⟨y.2, h⟩⟩
-  rw [hset]
-  exact (isOpen_standardChart i).preimage continuous_subtype_val
-
 /-- `P`, as a point of the chart piece `Y ∩ Uᵢ`. -/
 abbrev chartPoint : (chartVariety k i hY.isQuasiProjVariety
     (nonempty_inter_standardChart hY i P hP)).carrier :=
@@ -91,7 +80,7 @@ noncomputable def projLocalRingEquiv :
       ≃+* Variety.LocalRingAt (Variety.ofQuasiProjective hYi) Q :=
     RingEquiv.ofBijective ((inclHom hYq hYi Set.inter_subset_left).localRingHom Q)
       (bijective_localRingHom_inclHom hYq hYi Set.inter_subset_left
-        (isOpen_inter_standardChart_in i) Q)
+        (isOpen_inter_standardChart_in k i) Q)
   let e₂ : Variety.LocalRingAt (chartTarget k i hYq hne)
         (chartFun k i hYq hne Q)
       ≃+* Variety.LocalRingAt (Variety.ofQuasiProjective hYi) Q :=

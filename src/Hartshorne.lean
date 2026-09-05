@@ -64,3 +64,9 @@ import Hartshorne.Morphism.VarietyLocalRingHom
 import Hartshorne.Morphism.OpenSubvariety
 import Hartshorne.Morphism.AffineGermCompare
 import Hartshorne.Morphism.ProjLocalRing
+import Hartshorne.Morphism.VarietyRational
+import Hartshorne.Morphism.VarietyFunctionFieldStructure
+import Hartshorne.Morphism.VarietyFunctionFieldHom
+import Hartshorne.Morphism.OpenSubvarietyFunctionField
+import Hartshorne.Morphism.AffineRationalCompare
+import Hartshorne.Morphism.ProjFunctionField

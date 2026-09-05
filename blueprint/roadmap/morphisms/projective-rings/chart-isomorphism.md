@@ -47,9 +47,9 @@ polynomials of equal degree does not see the choice of representative, and
 what dehomogenising computes with.
 
 Treating `Uᵢ` as a variety at all needs `ℙⁿ` to be irreducible; see
-[projective and quasi-projective varieties](../projective-varieties/projective-variety.md).
+[projective and quasi-projective varieties](../../projective-varieties/projective-variety.md).
 
-The elaboration pathology recorded on [Varieties](variety.md) recurred here, in
+The elaboration pathology recorded on [Varieties](../variety.md) recurred here, in
 the same form and with the same fix: a hypothesis applied as `hne _ hx` leaves a
 metavariable, the elaborator falls back on unfolding `eval` over `MvPolynomial`,
 and the proof times out. Naming the point makes it match by cheap definitional
@@ -57,10 +57,10 @@ equality.
 
 ## Depends on
 
-- [Morphisms](morphism.md)
-- [The standard affine charts](../projective-varieties/standard-affine-charts.md)
-- [Regular functions on a quasi-projective variety](regular-function-quasi-projective.md)
+- [Morphisms](../morphism.md)
+- [The standard affine charts](../../projective-varieties/standard-affine-charts.md)
+- [Regular functions on a quasi-projective variety](../regular-function-quasi-projective.md)
 
 ## Sources
 
-- [Hartshorne I.3, Proposition 3.3 (p. 18)](../../sources/hartshorne.md#i3)
+- [Hartshorne I.3, Proposition 3.3 (p. 18)](../../../sources/hartshorne.md#i3)
