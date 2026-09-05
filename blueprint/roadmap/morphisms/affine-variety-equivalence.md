@@ -23,6 +23,13 @@ into the definition of a scheme. Mathlib already has that adjunction as
 `AlgebraicGeometry.ΓSpec.adjunction`; this node is the variety-level statement,
 which is not a consequence of it.
 
+## Naturality of Proposition 3.5
+
+The bijection `Hom(X, Y) ≃ Hom_{k-alg}(A(Y), 𝒪(X))` is proved as a bijection
+only; naturality in both arguments belongs here, because it is a statement about
+the two functors and those are introduced in this node. Do not treat the earlier
+node as having supplied it.
+
 ## Depends on
 
 - [Morphisms into an affine variety](hom-affine-bijection.md)

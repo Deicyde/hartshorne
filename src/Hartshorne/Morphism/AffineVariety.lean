@@ -37,6 +37,11 @@ theorem isRegularVia_const (ι : A → (σ → k)) (c : k) :
     IsRegularVia ι (fun _ => c) := fun _ =>
   ⟨Set.univ, isOpen_univ, Set.mem_univ _, C c, 1, by simp, by simp⟩
 
+/-- A polynomial in the coordinates is regular: denominator `1`. -/
+theorem isRegularVia_eval (ι : A → (σ → k)) (p : MvPolynomial σ k) :
+    IsRegularVia ι (fun x => eval (ι x) p) := fun _ =>
+  ⟨Set.univ, isOpen_univ, Set.mem_univ _, p, 1, by simp, by simp⟩
+
 /-- Sums of regular functions are regular: put the two quotients over a common
 denominator on the intersection of their neighbourhoods. -/
 theorem IsRegularVia.add {f g : A → k} (hf : IsRegularVia ι f)

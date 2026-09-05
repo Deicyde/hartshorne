@@ -12,15 +12,15 @@ arrow-reversing equivalence onto the finitely generated integral domains over
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**42 of the 53 targets are done**: 41 proved here, sorry-free and depending only
+**43 of the 53 targets are done**: 42 proved here, sorry-free and depending only
 on Lean's three standard axioms, and one already in Mathlib. Among them are the
 Nullstellensatz correspondence, irreducible decomposition, the projective
 Nullstellensatz and the standard affine charts, regular functions and the
 identity principle, morphisms of varieties, Theorem 3.2(b), the local ring at a
-point with its `IsLocalRing` instance, Lemma 3.6, Theorem 3.2(a) and (b),
-and Theorem 1.8A(a).
+point with its `IsLocalRing` instance, Lemma 3.6, Proposition 3.5,
+Theorem 3.2(a) and (b), and Theorem 1.8A(a).
 
-Eleven remain. The one that blocks the most is the second clause of Theorem
+Ten remain. The one that blocks the most is the second clause of Theorem
 1.8A, the dimension formula `height 𝔭 + dim B/𝔭 = dim B`, which Hartshorne
 quotes from Matsumura and which the pinned Mathlib has in no form.
 

@@ -9,9 +9,9 @@ targets, running from the definition of an algebraic set to Corollary I.3.8: the
 functor sending an affine variety to its coordinate ring is an arrow-reversing
 equivalence onto the finitely generated integral domains over `k`.
 
-42 of them are done: 41 proved here, sorry-free and on Lean's three standard
+43 of them are done: 42 proved here, sorry-free and on Lean's three standard
 axioms, and one already in Mathlib. The progress page has the current count and
-the graph shows which of the remaining eleven are blocked and by what.
+the graph shows which of the remaining ten are blocked and by what.
 The largest remaining gap is the dimension formula
 `height 𝔭 + dim B/𝔭 = dim B`, the second clause of Hartshorne's Theorem 1.8A,
 which he quotes from Matsumura and which Mathlib does not have in any form.
