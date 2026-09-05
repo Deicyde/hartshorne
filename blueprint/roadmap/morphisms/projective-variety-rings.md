@@ -82,18 +82,29 @@ Saying that (b) and (c) "follow from the affine case by transitivity of
 localisation" was too quick, and is worth correcting rather than deleting: the
 objects on the left-hand sides did not exist. `𝒪_P` and `K(Y)` were defined for
 an affine `Y`, in affine coordinates, and Theorem 3.4 is about a projective one.
-Both have since been rebuilt over the abstract `Variety` — see
-[the local ring at a point](local-ring.md) — which is what makes the statements
-of (b) and (c) writable at all.
+Both have since been rebuilt over the abstract `Variety`; see
+[the local ring at a point](local-ring.md). That is what makes the statements of
+(b) and (c) writable at all.
 
-With those in place, (b) needs a chain of three isomorphisms, of which two are
-proved. `𝒪_P ≅ 𝒪_{φᵢ(P)}` on the chart is the transport, and it is now
-available: local rings are functorial and an isomorphism of varieties induces a
-bijection on them (`Hartshorne.VarietyHom.bijective_localRingHom_of_isIso`).
-`𝒪_{φᵢ(P)} ≅ A(Yᵢ)_𝔪` is Theorem 3.2(c), proved. `A(Yᵢ) ≅ S(Y)_(xᵢ)` is proved
-here. What remains is assembling them and checking that the maximal ideal
-matches `𝔪_P`, the homogeneous elements vanishing at `P`. Part (c) is the same
-shape with `K(Y)` and the localisation at `(0)`.
+With those in place, (b) is a chain of four isomorphisms, of which three are
+proved:
+
+- `𝒪_{P,Y} ≅ 𝒪_{P,Yᵢ}`, because the local ring does not see beyond an open
+  neighbourhood;
+- `𝒪_{P,Yᵢ} ≅ 𝒪_{φᵢ(P),φᵢ(Yᵢ)}`, because an isomorphism of varieties induces one
+  on local rings, and the chart is an isomorphism onto `φᵢ(Yᵢ)`;
+- `𝒪_{φᵢ(P)} ≅ A(Yᵢ)_𝔪`, Theorem 3.2(c);
+- `A(Yᵢ) ≅ S(Y)_(xᵢ)`, proved here.
+
+The first two are [the functoriality node](local-ring-functorial.md); the chart
+isomorphism was generalised from `Uᵢ` to `Yᵢ` to supply the second. What remains
+is the third link: identifying `𝒪_{φᵢ(P),φᵢ(Yᵢ)}`, a germ ring of an abstract
+`Variety`, with the affine germ ring Theorem 3.2(c) is stated over. The two
+constructions were built separately, in abstract and in affine coordinates, and
+nothing has yet identified them. After that, assembling the chain and checking
+that the maximal ideal matches `𝔪_P`, the homogeneous elements vanishing at `P`.
+
+Part (c) is the same shape with `K(Y)` and the localisation at `(0)`.
 
 Part (a) remains untouched and is independent of all of it. Its integrality
 argument has no affine analogue and needs the whole affine cover at once, not
@@ -104,6 +115,7 @@ one chart at a time.
 - [Graded localization](graded-localization.md)
 - [The local ring at a point](local-ring.md)
 - [The local ring is local](local-ring-is-local.md)
+- [The local ring is functorial](local-ring-functorial.md)
 - [The function field](function-field.md)
 - [The three rings embed in the function field](function-field-injections.md)
 - [The homogeneous vanishing ideal](../projective-varieties/homogeneous-vanishing-ideal.md)
