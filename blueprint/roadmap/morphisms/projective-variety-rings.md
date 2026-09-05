@@ -68,19 +68,23 @@ a unit, so it factors through the localisation at `[xᵢ]`. Surjectivity will be
 correspondence — `α(g) ∈ I(Yᵢ)` gives `xᵢ · g ∈ J(Y)`, so the fraction is
 already zero, with a single power of `xᵢ`.
 
-The instance obstacle recorded earlier is solved: registering
-`GradedAlgebra (projCoordGrading Y)` directly for this family, rather than
-relying on the generic instance for a quotient grading, makes search succeed.
-The ring map `S(Y)_(xᵢ) → A(Yᵢ)` now exists (`Hartshorne.coordAwayToPoly`).
+**`S(Y)_(xᵢ) ≅ A(Yᵢ)` is proved** (`Hartshorne.coordAwayChartEquiv`). The route
+is the ambient one with `S(Y)` and `A(Yᵢ)` in place of `S` and `k[y]`:
+dehomogenisation sends the class of `xᵢ` to `1`, a unit, so it factors through
+the localisation, and the degree-zero part is carried along. Surjectivity is
+`α(β(p)) = p` modulo `I(Yᵢ)`; injectivity is the direction of the ideal
+correspondence with content, `α(g) ∈ I(Yᵢ)` giving `xᵢ · g ∈ J(Y)`, so the
+fraction is already zero with a single power of `xᵢ` — which is exactly what the
+localisation can see.
 
-What is left is its bijectivity, and both arguments are settled — surjectivity
-is `α(β(p)) = p` modulo `I(Yᵢ)`, injectivity is the ideal correspondence giving
-a single power of `xᵢ`. The remaining friction is Lean plumbing of a familiar
-kind: `rw` will not fire `HomogeneousLocalization.Away.val_mk` against terms
-built here, because the `GradedRing` instance inside the goal's `Away.mk` is not
-syntactically the one the upstream lemma elaborates with. Since `val_mk` is
-`rfl`, the way through is to restate the two computation rules locally in the
-spelling actually used. That is noted in the Lean file.
+Two pieces of friction are worth recording, since both recurred. The generic
+`GradedRing` instance for a quotient grading is not found through this
+projection, and has to be registered directly for the family. And `rw` will not
+fire `HomogeneousLocalization.Away.val_mk` here, because the instance inside the
+goal is not syntactically the one the upstream lemma elaborates with; since
+`val_mk` is `rfl`, restating it locally in the spelling actually used is the way
+through. Both are spelling problems rather than mathematics, but neither is
+guessable from the error messages.
 
 With that, (b) and (c) follow from the affine case by transitivity of
 localisation.

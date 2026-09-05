@@ -102,25 +102,54 @@ theorem coordAwayToPoly_mk (i : σ) (Y : Set (ProjectiveSpace k σ)) (n : ℕ)
   show awayCoordChart i Y _ = _
   rw [HomogeneousLocalization.Away.val_mk, awayCoordChart_mk]
 
-/-
-Bijectivity of `coordAwayToPoly` is the remaining step, and both arguments are
-settled; what is left is Lean plumbing.
+/-- **`S(Y)_(xᵢ) ≅ A(Yᵢ)`.**
 
-Surjectivity: `homogenize i p` is homogeneous of degree `p.totalDegree`, and
-`coordAwayToPoly` sends the corresponding fraction to
-`α(β(p)) = p` modulo `I(Yᵢ)`.
-
-Injectivity: if the image of `g/xᵢⁿ` vanishes then `α(g) ∈ I(Yᵢ)`, so
-`xᵢ · g ∈ J(Y)` by `dehomogenize_mem_vanishingIdeal_iff`, so the class of
-`xᵢ · g` is zero in `S(Y)` and the fraction is zero — with a single power of
-`xᵢ`, which is what the localisation can see.
-
-The friction is that `rw` will not fire `HomogeneousLocalization.Away.val_mk`
-against terms built here: the `GradedRing` instance inside the goal's `Away.mk`
-is not syntactically the one `val_mk` elaborates with, even though both are
-`instGradedProjCoord`. `val_mk` is `rfl`, so the way through is to restate the
-two computation rules in this file as `rfl` lemmas in the exact spelling used,
-rather than rewriting with the upstream ones.
--/
+Surjectivity is `α(β(p)) = p` modulo `I(Yᵢ)`. Injectivity is the direction of the
+ideal dictionary with content: `α(g) ∈ I(Yᵢ)` gives `xᵢ · g ∈ J(Y)`, so the
+fraction is already zero, and with a single power of `xᵢ` — which is exactly
+what the localisation can see. -/
+noncomputable def coordAwayChartEquiv (i : σ) (Y : Set (ProjectiveSpace k σ)) :
+    HomogeneousLocalization.Away (projCoordGrading Y)
+        (Ideal.Quotient.mk (projVanishingIdeal Y).toIdeal (X i)) ≃+*
+      coordinateRing (chartMap i '' (Y ∩ standardChart i)) :=
+  RingEquiv.ofBijective (coordAwayToPoly i Y) (by
+    constructor
+    · rw [injective_iff_map_eq_zero]
+      intro z hz
+      obtain ⟨n, a, ha, rfl⟩ :=
+        HomogeneousLocalization.Away.mk_surjective _ (mk_X_mem_projCoordGrading i Y) z
+      have hz' : coordChartHom i Y a = 0 := (coordAwayToPoly_mk i Y n a ha).symm.trans hz
+      obtain ⟨g, hg, hga⟩ := id ha
+      have hag : (Ideal.Quotient.mk (homogeneousVanishingIdeal Y) g
+          : homogeneousCoordinateRing Y) = a := hga
+      have hz2 : dehomogenize i g
+          ∈ vanishingIdeal k (chartMap i '' (Y ∩ standardChart i)) := by
+        rw [← Ideal.Quotient.eq_zero_iff_mem, ← coordChartHom_mk i Y g, hag]
+        exact hz'
+      have hxg : (X i : MvPolynomial σ k) * g ∈ homogeneousVanishingIdeal Y :=
+        (dehomogenize_mem_vanishingIdeal_iff
+          ((mem_homogeneousSubmodule _ _).1 hg) Y).1 hz2
+      apply HomogeneousLocalization.val_injective
+      rw [HomogeneousLocalization.val_zero]
+      have hval : (HomogeneousLocalization.Away.mk (projCoordGrading Y)
+          (mk_X_mem_projCoordGrading i Y) n a ha).val
+          = Localization.mk a
+            (⟨Ideal.Quotient.mk (projVanishingIdeal Y).toIdeal (X i) ^ n, n, rfl⟩ :
+              Submonoid.powers (Ideal.Quotient.mk (projVanishingIdeal Y).toIdeal (X i))) := rfl
+      rw [hval, Localization.mk_eq_mk', IsLocalization.mk'_eq_zero_iff]
+      refine ⟨⟨_, 1, pow_one _⟩, ?_⟩
+      show Ideal.Quotient.mk (projVanishingIdeal Y).toIdeal (X i) * a = 0
+      rw [← hag, ← map_mul, Ideal.Quotient.eq_zero_iff_mem]
+      exact hxg
+    · intro q
+      obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective q
+      have hhom : (Ideal.Quotient.mk (homogeneousVanishingIdeal Y) (homogenize i p)
+          : homogeneousCoordinateRing Y) ∈ projCoordGrading Y (p.totalDegree • 1) :=
+        ⟨homogenize i p, by
+          simpa using (mem_homogeneousSubmodule _ _).2 (homogenize_isHomogeneous i p), rfl⟩
+      refine ⟨HomogeneousLocalization.Away.mk (projCoordGrading Y)
+        (mk_X_mem_projCoordGrading i Y) p.totalDegree _ hhom, ?_⟩
+      refine (coordAwayToPoly_mk i Y p.totalDegree _ hhom).trans ?_
+      rw [coordChartHom_mk, dehomogenize_homogenize])
 
 end Hartshorne
