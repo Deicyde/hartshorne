@@ -46,3 +46,4 @@ import Hartshorne.Morphism.HomAffine
 import Hartshorne.Morphism.GlobalRegularTop
 import Hartshorne.Morphism.AffineIso
 import Hartshorne.Morphism.Equivalence
+import Hartshorne.Morphism.LocalRingLocalization

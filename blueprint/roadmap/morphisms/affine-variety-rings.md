@@ -28,15 +28,15 @@ what makes the equivalence of categories at the end of the chapter possible.
 
 ## Status
 
-Neither part is proved.
+The localisation clause of (c) is proved and is now
+[its own node](local-ring-is-localization.md), together with
+`dim 𝒪_P = height 𝔪_P`.
 
-The transcendence-degree clause of (d) is unblocked: Theorem 1.8A(a) is proved,
-so what remains is identifying `K(Y)` with the fraction field of `A(Y)` and
-applying it. The dimension clause of (c) still needs
+What remains here is `height 𝔪_P = dim Y`, which needs
 [the dimension formula](../affine-varieties/dim-formula-catenary.md), the second
-clause of 1.8A, which is open. The localisation clause of (c) needs neither and
-is the natural next step; `IsLocalization.AtPrime.ringKrullDim_eq_height` in
-Mathlib will then supply `dim 𝒪_P = height 𝔪_P` for free.
+clause of 1.8A; and all of (d). The transcendence-degree clause of (d) is
+otherwise unblocked, since Theorem 1.8A(a) is proved: what is left there is
+identifying `K(Y)` with the fraction field of `A(Y)` and applying it.
 
 ## Depends on
 
@@ -46,6 +46,7 @@ Mathlib will then supply `dim 𝒪_P = height 𝔪_P` for free.
 - [The three rings embed in the function field](function-field-injections.md)
 - [The coordinate ring is the ring of regular functions](global-regular-eq-coordinate-ring.md)
 - [Points and maximal ideals](points-eq-maximal-ideals.md)
+- [The local ring is a localisation](local-ring-is-localization.md)
 
 ## Proof depends on
 
