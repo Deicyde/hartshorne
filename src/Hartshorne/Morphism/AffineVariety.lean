@@ -139,5 +139,22 @@ noncomputable def Variety.ofQuasiAffine (hY : IsQuasiAffineVariety Y) : Variety 
     have := isClosed_eqLocusVia (ι := openIota U) (by fun_prop) hf
       (isRegularVia_const (openIota U) 0)
     simpa using this
+  regular_div {U} {f g} hf hg hgne := by
+    have : (fun x : U => f x / g x) = f * g⁻¹ := by
+      funext x; rw [Pi.mul_apply, Pi.inv_apply, div_eq_mul_inv]
+    rw [this]
+    exact IsRegularVia.mul hf (IsRegularVia.inv hg hgne)
+  regular_of_locally {U} {f} hloc := by
+    intro P
+    obtain ⟨V, hVU, hPV, hV⟩ := hloc P
+    -- The local datum at `P`, read inside `V`.
+    obtain ⟨W, hW, hPW, g, h, hne, he⟩ := hV ⟨P.1, hPV⟩
+    -- `W` is open in `↥V`, so it is cut out of the carrier by an open set,
+    -- and the same set cuts out a neighbourhood of `P` inside `↥U`.
+    rw [isOpen_induced_iff] at hW
+    obtain ⟨O, hO, rfl⟩ := hW
+    refine ⟨Subtype.val ⁻¹' (O ∩ (V : Set Y)),
+      (hO.inter V.isOpen).preimage continuous_subtype_val, ⟨hPW, hPV⟩, g, h,
+      fun x hx => hne ⟨x.1, hx.2⟩ hx.1, fun x hx => he ⟨x.1, hx.2⟩ hx.1⟩
 
 end Hartshorne

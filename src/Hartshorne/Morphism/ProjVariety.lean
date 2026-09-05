@@ -87,6 +87,25 @@ noncomputable def Variety.ofQuasiProjective (hY : IsQuasiProjVariety Y) : Variet
     have := isClosed_eqLocusProjVia (ι := projOpenIota U) (by fun_prop)
       (mem_projRegularSubalgebra.1 hf) (isRegularProjVia_const (projOpenIota U) 0)
     simpa using this
+  regular_div {U} {f g} hf hg hgne := by
+    have heq : (fun x : U => f x / g x) = f * g⁻¹ := by
+      funext x; rw [Pi.mul_apply, Pi.inv_apply, div_eq_mul_inv]
+    rw [mem_projRegularSubalgebra, heq]
+    exact IsRegularProjVia.mul (mem_projRegularSubalgebra.1 hf)
+      (IsRegularProjVia.inv (mem_projRegularSubalgebra.1 hg) hgne)
+  regular_of_locally {U} {f} hloc := by
+    rw [mem_projRegularSubalgebra]
+    intro P
+    obtain ⟨V, hVU, hPV, hV⟩ := hloc P
+    obtain ⟨W, hW, hPW, n, g, h, hg, hh, hne, he⟩ :=
+      (mem_projRegularSubalgebra.1 hV) ⟨P.1, hPV⟩
+    -- `W` is cut out of the carrier by an open set, which also cuts out a
+    -- neighbourhood of `P` inside `↥U`.
+    rw [isOpen_induced_iff] at hW
+    obtain ⟨O, hO, rfl⟩ := hW
+    exact ⟨Subtype.val ⁻¹' (O ∩ (V : Set Y)),
+      (hO.inter V.isOpen).preimage continuous_subtype_val, ⟨hPW, hPV⟩, n, g, h, hg, hh,
+      fun x hx => hne ⟨x.1, hx.2⟩ hx.1, fun x hx => he ⟨x.1, hx.2⟩ hx.1⟩
 
 /-- A projective variety is in particular a variety. -/
 noncomputable def Variety.ofProjective (hY : IsProjVariety Y) : Variety k :=

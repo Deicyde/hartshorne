@@ -45,15 +45,17 @@ refinements were needed along the way and are worth recording:
 - Locality was dropped from the structure. Regularity here is defined pointwise,
   so it is local automatically, and carrying it as a field would force
   transporting functions back along inclusions at every construction.
-- Closedness of zero loci was later added, on the same principle read the other
-  way. Every construction proves it as Lemma 3.1, but the proof is about
-  polynomials and nothing in the abstract data recovers it, so an abstract
-  variety needs it as a field. Lemma 3.6 is what forced the issue: it derives
-  continuity of a map into an affine variety from regularity of its
-  coordinates, and that derivation is about the source, which is arbitrary.
-  Two further fields, locality and closure under division by a nowhere-zero
-  regular function, are needed for the rest of Lemma 3.6 and are not yet
-  present; see [that node](morphism-to-affine-criterion.md).
+- Locality was then put back, together with two more fields, and the earlier
+  reasoning turned out to be the wrong way round. "Regularity is defined
+  pointwise, so locality is free" is true of every construction and useless for
+  an abstract variety, which has no definition to appeal to.
+  [Lemma 3.6](morphism-to-affine-criterion.md) forced the correction: it is
+  stated for an arbitrary source and needs three things a `Subalgebra` does not
+  give — closed zero loci, closure under division by a nowhere-zero regular
+  function, and locality. All three are Lemma 3.1 or the pointwise definition in
+  each of the four constructions, so the cost was small; the mistake was
+  reasoning about what the constructions satisfy instead of about what the
+  abstract structure exposes.
 
 The quasi-projective construction was blocked for a while by an elaboration
 divergence that also affected the affine one. The cause turned out to have

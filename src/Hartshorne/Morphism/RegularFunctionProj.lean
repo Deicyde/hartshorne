@@ -105,6 +105,16 @@ theorem IsRegularProjVia.mul {f g : A → k} (hf : IsRegularProjVia ι f)
     simp only [map_mul]
     field_simp
 
+/-- A nowhere-zero regular function has a regular inverse: exchange numerator
+and denominator, which keeps their degrees equal. -/
+theorem IsRegularProjVia.inv {f : A → k} (hf : IsRegularProjVia ι f)
+    (hne : ∀ x, f x ≠ 0) : IsRegularProjVia ι f⁻¹ := by
+  intro P
+  obtain ⟨U, hU, hP, n, g, h, hg, hh, hh0, he⟩ := hf P
+  refine ⟨U, hU, hP, n, h, g, hh, hg, fun x hx hgz => hne x ?_, fun x hx => ?_⟩
+  · rw [he x hx, hgz, zero_div]
+  · rw [Pi.inv_apply, he x hx, inv_div]
+
 /-- **Lemma 3.1** for the projective case: the agreement locus of two regular
 functions is closed.
 

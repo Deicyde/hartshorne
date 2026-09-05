@@ -36,18 +36,21 @@ satisfy the structure, which is what the two regular-function files supply.
 Packaging regularity as a `Subalgebra` rather than a bare predicate collapses
 the constant, addition, negation and multiplication axioms into one field.
 
-Locality is not imposed. In every construction here regularity is *defined*
-pointwise, so it is local automatically; carrying locality as an axiom would
-mean transporting functions back along inclusions of open subtypes at each
-construction, for no gain. If a later section needs locality abstractly it
-should be added then, with the constructions updated.
+Four conditions are imposed: restriction, closed zero loci, closure under
+division by a nowhere-vanishing regular function, and locality. All four hold in
+every construction here, where regularity is *defined* by the local-quotient
+condition, and none of them follows from the others.
 
-Closedness of zero loci *is* imposed, on exactly that principle. Every
-construction proves it as Lemma 3.1, but the proof is about polynomials and
-there is no way to recover it from the abstract data. Lemma 3.6 derives the
-continuity of a map into an affine variety from the regularity of its
-coordinates, and that derivation needs it for the source, which is an arbitrary
-variety.
+Lemma 3.6 is what fixed the list. It says a map into an affine variety is a
+morphism as soon as its coordinates are regular, and it is stated for an
+arbitrary source. Continuity of such a map needs closed zero loci; and the
+pullback of a regular function is only *locally* a quotient of pulled-back
+polynomials, so concluding that it is regular needs both division and locality.
+A `Subalgebra` gives the ring operations and nothing else.
+
+Locality was left out at first, on the argument that regularity is defined
+pointwise in every construction and so is local for free. That is true and it is
+beside the point: an abstract variety has no such definition to appeal to.
 
 ## Main definitions
 
@@ -82,6 +85,14 @@ structure Variety (k : Type u) [Field k] where
   abstract variety, where Lemma 3.6 needs it to get continuity. -/
   isClosed_zeroLocus : ∀ {U : Opens carrier} {f : U → k}, f ∈ regular U →
     IsClosed {x : U | f x = 0}
+  /-- A quotient of regular functions with nowhere-vanishing denominator is
+  regular. A `Subalgebra` gives the ring operations but not this. -/
+  regular_div : ∀ {U : Opens carrier} {f g : U → k}, f ∈ regular U → g ∈ regular U →
+    (∀ x, g x ≠ 0) → (fun x => f x / g x) ∈ regular U
+  /-- Regularity is local: a function regular near each point is regular. -/
+  regular_of_locally : ∀ {U : Opens carrier} {f : U → k},
+    (∀ x : U, ∃ V : Opens carrier, ∃ hVU : V ≤ U, x.1 ∈ V ∧
+      (fun y : V => f ⟨y.1, hVU y.2⟩) ∈ regular V) → f ∈ regular U
 
 attribute [instance] Variety.topology Variety.irreducible
 
@@ -98,6 +109,23 @@ abbrev globalRegular (X : Variety.{u, v} k) : Subalgebra k ((⊤ : Opens X) → 
 /-- A variety is nonempty, since an irreducible space is. -/
 theorem nonempty (X : Variety.{u, v} k) : Nonempty X.carrier :=
   X.irreducible.toNonempty
+
+/-- A function on the whole carrier is *globally regular* when its restriction
+to the top open set is.
+
+The detour exists because `regular` is indexed by `Opens` and so takes functions
+on `↥(⊤ : Opens X)`, while a morphism takes functions on `X.carrier`. Stating
+it this way keeps the two apart without any transport along the homeomorphism
+between them. -/
+def IsGlobalRegular (X : Variety.{u, v} k) (f : X.carrier → k) : Prop :=
+  (fun x : (⊤ : Opens X.carrier) => f x.1) ∈ X.regular ⊤
+
+/-- A globally regular function restricts to a regular function on every open
+subset. -/
+theorem IsGlobalRegular.restrict {X : Variety.{u, v} k} {f : X.carrier → k}
+    (hf : X.IsGlobalRegular f) (U : Opens X.carrier) :
+    (fun x : U => f x.1) ∈ X.regular U :=
+  X.regular_restrict le_top hf
 
 end Variety
 
