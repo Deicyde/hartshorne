@@ -49,46 +49,78 @@ noncomputable abbrev projCoordGrading (Y : Set (ProjectiveSpace k σ)) :
 omit [DecidableEq σ] in
 /-- The class of `xᵢ` is homogeneous of degree one in `S(Y)`. -/
 theorem mk_X_mem_projCoordGrading (i : σ) (Y : Set (ProjectiveSpace k σ)) :
-    (Ideal.Quotient.mk (homogeneousVanishingIdeal Y) (X i)) ∈ projCoordGrading Y 1 :=
+    (Ideal.Quotient.mk (projVanishingIdeal Y).toIdeal (X i)) ∈ projCoordGrading Y 1 :=
   ⟨X i, X_mem_homogeneousSubmodule i, rfl⟩
+
+/-- Dehomogenisation sends the class of `xᵢ` to `1`. -/
+@[simp]
+theorem coordChartHom_mk_X (i : σ) (Y : Set (ProjectiveSpace k σ)) :
+    coordChartHom i Y (Ideal.Quotient.mk (projVanishingIdeal Y).toIdeal (X i)) = 1 := by
+  rw [coordChartHom_mk, dehomogenize_X_self, map_one]
 
 /-- Dehomogenisation inverts the class of `xᵢ`, so it factors through the
 localisation. -/
 noncomputable def awayCoordChart (i : σ) (Y : Set (ProjectiveSpace k σ)) :
-    Localization.Away (Ideal.Quotient.mk (homogeneousVanishingIdeal Y) (X i)) →+*
+    Localization.Away (Ideal.Quotient.mk (projVanishingIdeal Y).toIdeal (X i)) →+*
       coordinateRing (chartMap i '' (Y ∩ standardChart i)) :=
   IsLocalization.lift
-    (M := Submonoid.powers (Ideal.Quotient.mk (homogeneousVanishingIdeal Y) (X i)))
+    (M := Submonoid.powers (Ideal.Quotient.mk (projVanishingIdeal Y).toIdeal (X i)))
     (g := coordChartHom i Y) (by
       rintro ⟨y, n, rfl⟩
-      simp)
+      rw [map_pow, coordChartHom_mk_X, one_pow]
+      exact isUnit_one)
 
 @[simp]
 theorem awayCoordChart_mk (i : σ) (Y : Set (ProjectiveSpace k σ))
     (a : homogeneousCoordinateRing Y) (n : ℕ)
-    (h : (Ideal.Quotient.mk (homogeneousVanishingIdeal Y) (X i)) ^ n
-      ∈ Submonoid.powers (Ideal.Quotient.mk (homogeneousVanishingIdeal Y) (X i))) :
+    (h : (Ideal.Quotient.mk (projVanishingIdeal Y).toIdeal (X i)) ^ n
+      ∈ Submonoid.powers (Ideal.Quotient.mk (projVanishingIdeal Y).toIdeal (X i))) :
     awayCoordChart i Y (Localization.mk a ⟨_, h⟩) = coordChartHom i Y a := by
-  rw [Localization.mk_eq_mk', awayCoordChart, IsLocalization.lift_mk'_spec]
-  simp
+  rw [Localization.mk_eq_mk', awayCoordChart, IsLocalization.lift_mk'_spec, map_pow,
+    coordChartHom_mk_X, one_pow, one_mul]
+
+noncomputable instance instGradedProjCoord (Y : Set (ProjectiveSpace k σ)) :
+    GradedAlgebra (projCoordGrading Y) :=
+  instGradedAlgebraQuotGrading _ _
+
+/-- The map `S(Y)_(xᵢ) → A(Yᵢ)`. -/
+noncomputable def coordAwayToPoly (i : σ) (Y : Set (ProjectiveSpace k σ)) :
+    HomogeneousLocalization.Away (projCoordGrading Y)
+        (Ideal.Quotient.mk (projVanishingIdeal Y).toIdeal (X i)) →+*
+      coordinateRing (chartMap i '' (Y ∩ standardChart i)) where
+  toFun z := awayCoordChart i Y z.val
+  map_one' := by simp [HomogeneousLocalization.val_one]
+  map_mul' a b := by simp [HomogeneousLocalization.val_mul]
+  map_zero' := by simp [HomogeneousLocalization.val_zero]
+  map_add' a b := by simp [HomogeneousLocalization.val_add]
+
+@[simp]
+theorem coordAwayToPoly_mk (i : σ) (Y : Set (ProjectiveSpace k σ)) (n : ℕ)
+    (a : homogeneousCoordinateRing Y) (ha : a ∈ projCoordGrading Y (n • 1)) :
+    coordAwayToPoly i Y (HomogeneousLocalization.Away.mk (projCoordGrading Y)
+      (mk_X_mem_projCoordGrading i Y) n a ha) = coordChartHom i Y a := by
+  show awayCoordChart i Y _ = _
+  rw [HomogeneousLocalization.Away.val_mk, awayCoordChart_mk]
 
 /-
-The remaining step is `S(Y)_(xᵢ) ≅ A(Yᵢ)`, and it is blocked on instance
-resolution rather than on mathematics.
+Bijectivity of `coordAwayToPoly` is the remaining step, and both arguments are
+settled; what is left is Lean plumbing.
 
-`HomogeneousLocalization.Away (projCoordGrading Y) z` needs a `CommRing`, which
-needs `GradedRing (projCoordGrading Y)`. That instance exists — it is
-`instGradedAlgebraQuotGrading` — and is found for a generic homogeneous ideal,
-but not for this one: the grading lives on `MvPolynomial σ k ⧸ I.toIdeal` while
-the element `z` is written in `MvPolynomial σ k ⧸ homogeneousVanishingIdeal Y`.
-The two are definitionally equal and unify when elaborating the *statement*, but
-instance search does not see through the projection, and making
-`projVanishingIdeal` reducible was not enough.
+Surjectivity: `homogenize i p` is homogeneous of degree `p.totalDegree`, and
+`coordAwayToPoly` sends the corresponding fraction to
+`α(β(p)) = p` modulo `I(Yᵢ)`.
 
-Everything else is in hand: `awayCoordChart` above is the map, surjectivity is
-`dehomogenize_homogenize` modulo `I(Yᵢ)`, and injectivity is
-`dehomogenize_mem_vanishingIdeal_iff` in the direction that gives a single power
-of `xᵢ`.
+Injectivity: if the image of `g/xᵢⁿ` vanishes then `α(g) ∈ I(Yᵢ)`, so
+`xᵢ · g ∈ J(Y)` by `dehomogenize_mem_vanishingIdeal_iff`, so the class of
+`xᵢ · g` is zero in `S(Y)` and the fraction is zero — with a single power of
+`xᵢ`, which is what the localisation can see.
+
+The friction is that `rw` will not fire `HomogeneousLocalization.Away.val_mk`
+against terms built here: the `GradedRing` instance inside the goal's `Away.mk`
+is not syntactically the one `val_mk` elaborates with, even though both are
+`instGradedProjCoord`. `val_mk` is `rfl`, so the way through is to restate the
+two computation rules in this file as `rfl` lemmas in the exact spelling used,
+rather than rewriting with the upstream ones.
 -/
 
 end Hartshorne

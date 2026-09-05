@@ -68,16 +68,19 @@ a unit, so it factors through the localisation at `[xᵢ]`. Surjectivity will be
 correspondence — `α(g) ∈ I(Yᵢ)` gives `xᵢ · g ∈ J(Y)`, so the fraction is
 already zero, with a single power of `xᵢ`.
 
-What stops the last step is instance resolution, not mathematics.
-`HomogeneousLocalization.Away (projCoordGrading Y) z` needs a `CommRing`, hence
-`GradedRing (projCoordGrading Y)`. That instance exists and is found for a
-generic homogeneous ideal, but not for this one: the grading lives on
-`MvPolynomial σ k ⧸ I.toIdeal` while the element is written in
-`MvPolynomial σ k ⧸ J(Y)`. The two are definitionally equal and unify when the
-statement is elaborated, but instance search does not see through the
-projection, and making the bundled ideal reducible was not enough. The fix is
-presentational — align the two spellings, or supply the instance explicitly —
-and is noted in the Lean file.
+The instance obstacle recorded earlier is solved: registering
+`GradedAlgebra (projCoordGrading Y)` directly for this family, rather than
+relying on the generic instance for a quotient grading, makes search succeed.
+The ring map `S(Y)_(xᵢ) → A(Yᵢ)` now exists (`Hartshorne.coordAwayToPoly`).
+
+What is left is its bijectivity, and both arguments are settled — surjectivity
+is `α(β(p)) = p` modulo `I(Yᵢ)`, injectivity is the ideal correspondence giving
+a single power of `xᵢ`. The remaining friction is Lean plumbing of a familiar
+kind: `rw` will not fire `HomogeneousLocalization.Away.val_mk` against terms
+built here, because the `GradedRing` instance inside the goal's `Away.mk` is not
+syntactically the one the upstream lemma elaborates with. Since `val_mk` is
+`rfl`, the way through is to restate the two computation rules locally in the
+spelling actually used. That is noted in the Lean file.
 
 With that, (b) and (c) follow from the affine case by transitivity of
 localisation.
