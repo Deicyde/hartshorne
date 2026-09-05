@@ -35,9 +35,15 @@ run on: `α` is a bijection from the homogeneous polynomials, up to powers of
 `xᵢ`, onto the polynomials in the affine coordinates. Both halves are recorded
 on [the standard affine charts](../projective-varieties/standard-affine-charts.md);
 they are what an isomorphism `A(Yᵢ) ≅ S(Y)_(xᵢ)` has to be built from, since
-that map sends `g/xᵢⁿ` to `α(g)`. The ambient case is done: `S_(xᵢ) ≅ k[y]`.
-Cutting it down by `Y` is what remains, and it should be the quotient of that
-isomorphism by the two vanishing ideals, once they are matched up.
+that map sends `g/xᵢⁿ` to `α(g)`. The ambient case is done: `S_(xᵢ) ≅ k[y]`, and the two vanishing ideals are now
+matched, on
+[the affine cover node](../projective-varieties/affine-cover.md): for
+homogeneous `g`, `α(g) ∈ I(Yᵢ)` exactly when `xᵢ · g ∈ J(Y)`.
+
+What is left is assembling those into `S(Y)_(xᵢ) ≅ A(Yᵢ)`, and the obstacle is
+bookkeeping rather than mathematics: `S(Y)_(xᵢ)` is a *graded* localisation of
+the quotient `S/J(Y)`, so it needs the quotient grading, which neither Mathlib
+nor this project currently carries.
 
 Also in place: the affine case in full, and
 [the chart isomorphism](chart-isomorphism.md), which is what transfers

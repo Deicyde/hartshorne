@@ -53,3 +53,4 @@ import Hartshorne.Projective.IrreducibleSpace
 import Hartshorne.Morphism.ChartIso
 import Hartshorne.Projective.ChartDictionary
 import Hartshorne.Projective.AwayChart
+import Hartshorne.Projective.ChartIdeal
