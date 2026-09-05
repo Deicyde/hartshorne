@@ -49,3 +49,4 @@ import Hartshorne.Morphism.Equivalence
 import Hartshorne.Morphism.LocalRingLocalization
 import Hartshorne.Morphism.FunctionFieldStructure
 import Hartshorne.Morphism.FunctionFieldFractions
+import Hartshorne.Projective.IrreducibleSpace

@@ -18,6 +18,23 @@ Without it the chart gives only a homeomorphism, and the counterexamples in
 Exercise 3.2 show a homeomorphism carries no information about regular
 functions.
 
+## Status
+
+Not proved. The prerequisite that was missing is now in place: `ℙⁿ` is
+irreducible, hence itself a projective variety, so `Uᵢ` can be viewed as a
+quasi-projective variety at all. See
+[projective and quasi-projective varieties](../projective-varieties/projective-variety.md).
+
+What remains is the two morphisms. One direction is cheap: `φᵢ : Uᵢ → 𝔸ⁿ` has
+coordinates `x_j/x_i`, ratios of homogeneous polynomials of equal degree, so it
+is a morphism by [Lemma 3.6](morphism-to-affine-criterion.md), which is stated
+for an arbitrary source. The other direction is not covered by that lemma, since
+the target is projective; it has to be checked directly, and the pullback of a
+regular function along `β` is where `homogenize` and `dehomogenize` earn their
+keep — a ratio of homogeneous polynomials of equal degree in the homogeneous
+coordinates becomes a ratio of polynomials in the affine ones, because the
+`i`-th coordinate of `β(y)` is `1`.
+
 ## Depends on
 
 - [Morphisms](morphism.md)
