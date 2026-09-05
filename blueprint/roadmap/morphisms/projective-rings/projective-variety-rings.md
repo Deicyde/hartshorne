@@ -110,7 +110,15 @@ fact.
 
 What is left of (b) is the graded step: rewriting `A(Yᵢ)_𝔪` as `S(Y)_(𝔪_P)`,
 using `A(Yᵢ) ≅ S(Y)_(xᵢ)` and transitivity of localisation. That is a statement
-about homogeneous localisation with no germs in it.
+about homogeneous localisation with no germs in it, and the general form of it
+is now proved on [the graded localisation node](graded-localization.md):
+`S_(𝔭)` is the localisation of `S_(f)` at the prime lying under its maximal
+ideal, for `f` homogeneous of degree one outside `𝔭`.
+
+What is not yet built is the geometry that feeds it: `𝔪_P`, the homogeneous
+prime of `S(Y)` at a point, and the identification of the maximal ideal
+`𝔪 ⊆ A(Yᵢ)` with its image under `A(Yᵢ) ≅ S(Y)_(xᵢ)`. Those are the remaining
+step for (b), and (c) is the same with `(0)` in place of `𝔪_P`.
 
 ## Part (c) is reduced to the affine case
 
