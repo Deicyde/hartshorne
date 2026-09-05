@@ -61,11 +61,23 @@ graded components of `a - b` all have to lie in `I`.
 Four ingredients are now available — `S_(xᵢ) ≅ k[y]`, the ideal correspondence,
 the quotient grading, and the descended map `S(Y) → A(Yᵢ)` — and what remains is
 to assemble them into `S(Y)_(xᵢ) ≅ A(Yᵢ)`. The route is the one the ambient case took, with `S(Y)` and `A(Yᵢ)` in place of
-`S` and `k[y]`. `coordChartHom` sends the class of `xᵢ` to `1`, a unit, so it
-factors through the localisation at `[xᵢ]`; composing with `val` gives
-`S(Y)_(xᵢ) → A(Yᵢ)`. Surjectivity is `homogenize`, and injectivity is the other
-direction of the ideal correspondence: if `α(g) ∈ I(Yᵢ)` then `xᵢ · g ∈ J(Y)`,
-so the fraction is already zero, with a single power of `xᵢ`.
+`S` and `k[y]`, and the map is already built
+(`Hartshorne.awayCoordChart`): `coordChartHom` sends the class of `xᵢ` to `1`,
+a unit, so it factors through the localisation at `[xᵢ]`. Surjectivity will be
+`α(β(p)) = p` modulo `I(Yᵢ)`, and injectivity the other direction of the ideal
+correspondence — `α(g) ∈ I(Yᵢ)` gives `xᵢ · g ∈ J(Y)`, so the fraction is
+already zero, with a single power of `xᵢ`.
+
+What stops the last step is instance resolution, not mathematics.
+`HomogeneousLocalization.Away (projCoordGrading Y) z` needs a `CommRing`, hence
+`GradedRing (projCoordGrading Y)`. That instance exists and is found for a
+generic homogeneous ideal, but not for this one: the grading lives on
+`MvPolynomial σ k ⧸ I.toIdeal` while the element is written in
+`MvPolynomial σ k ⧸ J(Y)`. The two are definitionally equal and unify when the
+statement is elaborated, but instance search does not see through the
+projection, and making the bundled ideal reducible was not enough. The fix is
+presentational — align the two spellings, or supply the instance explicitly —
+and is noted in the Lean file.
 
 With that, (b) and (c) follow from the affine case by transitivity of
 localisation.

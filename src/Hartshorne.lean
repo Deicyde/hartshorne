@@ -56,3 +56,4 @@ import Hartshorne.Projective.AwayChart
 import Hartshorne.Projective.ChartIdeal
 import Hartshorne.Projective.QuotientGrading
 import Hartshorne.Projective.CoordChart
+import Hartshorne.Projective.CoordAwayChart
