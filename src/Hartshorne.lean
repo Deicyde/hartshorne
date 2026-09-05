@@ -45,3 +45,4 @@ import Hartshorne.Morphism.CoordinateRingIso
 import Hartshorne.Morphism.HomAffine
 import Hartshorne.Morphism.GlobalRegularTop
 import Hartshorne.Morphism.AffineIso
+import Hartshorne.Morphism.Equivalence
