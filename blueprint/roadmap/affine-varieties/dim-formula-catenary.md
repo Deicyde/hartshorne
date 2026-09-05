@@ -21,6 +21,13 @@ maximal chain, observes its bottom term is a point, and needs `dim B/𝔪_P = 0`
 convert `height 𝔪_P` into `dim B`. Proposition 1.13 uses it to turn Krull's
 Hauptidealsatz from a height statement into a dimension statement.
 
+## Status
+
+One inequality is proved and is a separate node,
+[one inequality of the dimension formula](dim-formula-inequality.md):
+`height 𝔭 + dim R/𝔭 ≤ dim R`, in any commutative ring. What remains here is the
+reverse, which is the whole difficulty.
+
 ## Mathlib boundary
 
 The pinned Mathlib has no `IsCatenary` and no dimension formula, so unlike the
@@ -36,6 +43,7 @@ work that only needs `dim B = trdeg_k K(B)` should not be blocked behind it.
 ## Depends on
 
 - [Dimension of a topological space and of a ring](dimension.md)
+- [One inequality of the dimension formula](dim-formula-inequality.md)
 - [Krull dimension is invariant under integral extensions](dimension-integral-extension.md)
 - [A finitely generated algebra over a field has finite dimension](dim-fg-algebra-finite.md)
 

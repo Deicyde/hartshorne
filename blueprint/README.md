@@ -4,12 +4,12 @@ A Lean 4 formalization of the classical variety theory in Chapter I of Robin
 Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 1977), built on Mathlib.
 
-Sections 1 through 3 are decomposed into a dependency graph of 50 formalization
+Sections 1 through 3 are decomposed into a dependency graph of 51 formalization
 targets, running from the definition of an algebraic set to Corollary I.3.8: the
 functor sending an affine variety to its coordinate ring is an arrow-reversing
 equivalence onto the finitely generated integral domains over `k`.
 
-39 of them are done: 38 proved here, sorry-free and on Lean's three standard
+40 of them are done: 39 proved here, sorry-free and on Lean's three standard
 axioms, and one already in Mathlib. The progress page has the current count and
 the graph shows which of the remaining eleven are blocked and by what.
 The largest remaining gap is the dimension formula

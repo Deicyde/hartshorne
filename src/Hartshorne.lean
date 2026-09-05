@@ -40,3 +40,4 @@ import Hartshorne.Dimension.FgDomain
 import Hartshorne.Morphism.LocalRingStructure
 import Hartshorne.Projective.GradedLocalization
 import Hartshorne.Morphism.MorphismToAffine
+import Hartshorne.Dimension.HeightCoheight
