@@ -97,12 +97,14 @@ proved:
 - `A(Yᵢ) ≅ S(Y)_(xᵢ)`, proved here.
 
 The first two are [the functoriality node](local-ring-functorial.md); the chart
-isomorphism was generalised from `Uᵢ` to `Yᵢ` to supply the second. What remains
-is the third link: identifying `𝒪_{φᵢ(P),φᵢ(Yᵢ)}`, a germ ring of an abstract
-`Variety`, with the affine germ ring Theorem 3.2(c) is stated over. The two
-constructions were built separately, in abstract and in affine coordinates, and
-nothing has yet identified them. After that, assembling the chain and checking
-that the maximal ideal matches `𝔪_P`, the homogeneous elements vanishing at `P`.
+isomorphism was generalised from `Uᵢ` to `Yᵢ` to supply the second. The third
+needs the abstract germ ring `𝒪_{φᵢ(P),φᵢ(Yᵢ)}` to be identified with the affine
+germ ring Theorem 3.2(c) is stated over, since the two were built separately;
+that identification is now in place (`Hartshorne.localRingEquivAffine`), so the
+link is available.
+
+What remains is assembling the chain and checking that the maximal ideal it
+carries across is `𝔪_P`, the homogeneous elements vanishing at `P`.
 
 Part (c) is the same shape with `K(Y)` and the localisation at `(0)`.
 

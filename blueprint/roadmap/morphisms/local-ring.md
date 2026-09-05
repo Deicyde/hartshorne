@@ -3,7 +3,7 @@ declaration: def
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.GermRep Hartshorne.GermRep.Rel Hartshorne.GermRep.rel_trans Hartshorne.isRegularVia_restrict Hartshorne.preirreducible_univ_of_isOpen Hartshorne.Variety.GermRep Hartshorne.Variety.GermRep.Rel Hartshorne.Variety.GermRep.rel_trans Hartshorne.Variety.LocalRingAt
+lean: Hartshorne.GermRep Hartshorne.GermRep.Rel Hartshorne.GermRep.rel_trans Hartshorne.isRegularVia_restrict Hartshorne.preirreducible_univ_of_isOpen Hartshorne.Variety.GermRep Hartshorne.Variety.GermRep.Rel Hartshorne.Variety.GermRep.rel_trans Hartshorne.Variety.LocalRingAt Hartshorne.affinePoint Hartshorne.germRepToVariety Hartshorne.germRepOfVariety Hartshorne.localRingEquivAffine
 ---
 
 # The local ring at a point
@@ -36,8 +36,23 @@ Nothing about polynomials survives into it.
 
 Both constructions are kept. The affine one is what §3's earlier results are
 stated over and what carries the local-ring and localisation theorems; the
-general one is what §3's projective results will be stated over. Identifying
-them for an affine `Y` is not needed by anything yet and has not been done.
+general one is what §3's projective results are stated over.
+
+For a quasi-affine `Y` they are the same ring
+(`Hartshorne.localRingEquivAffine`), which is what Theorem 3.4(b) needs in order
+to reach Theorem 3.2(c) from the projective side. There is no mathematics in it:
+a representative is an open neighbourhood carrying a regular function, and
+`regular` on `Variety.ofQuasiAffine hY` is by definition `IsRegularVia` in the
+affine coordinates. The only difference is that one side packages the
+neighbourhood as a set plus a proof and the other as an `Opens`, so both
+directions and all four ring-map obligations are `rfl` on representatives.
+
+Writing it down still needed one trick. Instance search will not unfold
+`Variety.ofQuasiAffine` to see that its carrier is `↥Y`, so with the point typed
+on one side the ring structure on the other is not found, and the two sides
+cannot both be satisfied by one variable. Spelling the point as `⟨P.1, P.2⟩` on
+the affine side, which is `P` by eta, gives instance search a term of the type
+it expects.
 
 ## Functoriality
 
