@@ -60,3 +60,4 @@ import Hartshorne.Projective.CoordAwayChart
 import Hartshorne.Morphism.VarietyIdentity
 import Hartshorne.Morphism.VarietyGerm
 import Hartshorne.Morphism.VarietyLocalRing
+import Hartshorne.Morphism.VarietyLocalRingHom

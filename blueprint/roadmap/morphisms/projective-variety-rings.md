@@ -56,19 +56,9 @@ graded components of `a - b` all have to lie in `I`.
 `J(Y)` into `I(Yᵢ)` but not onto it — and both defects are repaired by inverting
 `xᵢ`, which is why Theorem 3.4 localises.
 
-## What is left
-
-Four ingredients are now available — `S_(xᵢ) ≅ k[y]`, the ideal correspondence,
-the quotient grading, and the descended map `S(Y) → A(Yᵢ)` — and what remains is
-to assemble them into `S(Y)_(xᵢ) ≅ A(Yᵢ)`. The route is the one the ambient case took, with `S(Y)` and `A(Yᵢ)` in place of
-`S` and `k[y]`, and the map is already built
-(`Hartshorne.awayCoordChart`): `coordChartHom` sends the class of `xᵢ` to `1`,
-a unit, so it factors through the localisation at `[xᵢ]`. Surjectivity will be
-`α(β(p)) = p` modulo `I(Yᵢ)`, and injectivity the other direction of the ideal
-correspondence — `α(g) ∈ I(Yᵢ)` gives `xᵢ · g ∈ J(Y)`, so the fraction is
-already zero, with a single power of `xᵢ`.
-
-**`S(Y)_(xᵢ) ≅ A(Yᵢ)` is proved** (`Hartshorne.coordAwayChartEquiv`). The route
+**`S(Y)_(xᵢ) ≅ A(Yᵢ)` is proved** (`Hartshorne.coordAwayChartEquiv`), from four
+ingredients: `S_(xᵢ) ≅ k[y]`, the ideal correspondence, the quotient grading,
+and the descended map `S(Y) → A(Yᵢ)`. The route
 is the ambient one with `S(Y)` and `A(Yᵢ)` in place of `S` and `k[y]`:
 dehomogenisation sends the class of `xᵢ` to `1`, a unit, so it factors through
 the localisation, and the degree-zero part is carried along. Surjectivity is
@@ -86,16 +76,26 @@ goal is not syntactically the one the upstream lemma elaborates with; since
 through. Both are spelling problems rather than mathematics, but neither is
 guessable from the error messages.
 
-With that, (b) and (c) follow from the affine case by transitivity of
-localisation.
+## What is left
 
-Part (a) remains independent of all of this.
+Saying that (b) and (c) "follow from the affine case by transitivity of
+localisation" was too quick, and is worth correcting rather than deleting: the
+objects on the left-hand sides did not exist. `𝒪_P` and `K(Y)` were defined for
+an affine `Y`, in affine coordinates, and Theorem 3.4 is about a projective one.
+Both have since been rebuilt over the abstract `Variety` — see
+[the local ring at a point](local-ring.md) — which is what makes the statements
+of (b) and (c) writable at all.
 
-Also in place: the affine case in full, and
-[the chart isomorphism](chart-isomorphism.md), which is what transfers
-statements between `Yᵢ` and `Y`.
+With those in place, (b) needs a chain of three isomorphisms, of which two are
+proved. `𝒪_P ≅ 𝒪_{φᵢ(P)}` on the chart is the transport, and it is now
+available: local rings are functorial and an isomorphism of varieties induces a
+bijection on them (`Hartshorne.VarietyHom.bijective_localRingHom_of_isIso`).
+`𝒪_{φᵢ(P)} ≅ A(Yᵢ)_𝔪` is Theorem 3.2(c), proved. `A(Yᵢ) ≅ S(Y)_(xᵢ)` is proved
+here. What remains is assembling them and checking that the maximal ideal
+matches `𝔪_P`, the homogeneous elements vanishing at `P`. Part (c) is the same
+shape with `K(Y)` and the localisation at `(0)`.
 
-Part (a) remains untouched and is independent of all of that. Its integrality
+Part (a) remains untouched and is independent of all of it. Its integrality
 argument has no affine analogue and needs the whole affine cover at once, not
 one chart at a time.
 
