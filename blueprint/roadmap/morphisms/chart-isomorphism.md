@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.isIso_chartHom Hartshorne.chartHom Hartshorne.chartInvHom Hartshorne.chartVariety Hartshorne.chartTarget Hartshorne.isQuasiProjVariety_standardChart Hartshorne.eval_rep_chartInv_div Hartshorne.isGlobalRegular_chartCoord
 ---
 
 # The charts are isomorphisms of varieties
@@ -18,22 +21,30 @@ Without it the chart gives only a homeomorphism, and the counterexamples in
 Exercise 3.2 show a homeomorphism carries no information about regular
 functions.
 
-## Status
+## The two directions are checked by different means
 
-Not proved. The prerequisite that was missing is now in place: `ℙⁿ` is
-irreducible, hence itself a projective variety, so `Uᵢ` can be viewed as a
-quasi-projective variety at all. See
+Forward is Lemma 3.6, and this is where it repays being stated for an arbitrary
+source: the coordinates of `φᵢ` are `x_j/x_i`, ratios of homogeneous polynomials
+of degree one whose denominator is nowhere zero on `Uᵢ` by the definition of the
+chart, so the criterion applies with nothing else to check.
+
+Backward is not covered by that lemma, whose target must be affine, so the
+pullback of a regular function is checked by hand. A regular function on an open
+subset of `Uᵢ` is locally `g/h` with `g` and `h` homogeneous of the same degree,
+and `β` turns that into `α(g)/α(h)`, a ratio of polynomials in the affine
+coordinates. Two facts make it go through: the ratio of two homogeneous
+polynomials of equal degree does not see the choice of representative, and
+`β(y)` may be represented by the vector with `1` in slot `i`, which is exactly
+what dehomogenising computes with.
+
+Treating `Uᵢ` as a variety at all needs `ℙⁿ` to be irreducible; see
 [projective and quasi-projective varieties](../projective-varieties/projective-variety.md).
 
-What remains is the two morphisms. One direction is cheap: `φᵢ : Uᵢ → 𝔸ⁿ` has
-coordinates `x_j/x_i`, ratios of homogeneous polynomials of equal degree, so it
-is a morphism by [Lemma 3.6](morphism-to-affine-criterion.md), which is stated
-for an arbitrary source. The other direction is not covered by that lemma, since
-the target is projective; it has to be checked directly, and the pullback of a
-regular function along `β` is where `homogenize` and `dehomogenize` earn their
-keep — a ratio of homogeneous polynomials of equal degree in the homogeneous
-coordinates becomes a ratio of polynomials in the affine ones, because the
-`i`-th coordinate of `β(y)` is `1`.
+The elaboration pathology recorded on [Varieties](variety.md) recurred here, in
+the same form and with the same fix: a hypothesis applied as `hne _ hx` leaves a
+metavariable, the elaborator falls back on unfolding `eval` over `MvPolynomial`,
+and the proof times out. Naming the point makes it match by cheap definitional
+equality.
 
 ## Depends on
 

@@ -12,17 +12,18 @@ arrow-reversing equivalence onto the finitely generated integral domains over
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**47 of the 55 targets are done**: 46 proved here, sorry-free and depending only
+**48 of the 55 targets are done**: 47 proved here, sorry-free and depending only
 on Lean's three standard axioms, and one already in Mathlib. Among them are the
 Nullstellensatz correspondence, irreducible decomposition, the projective
 Nullstellensatz and the standard affine charts, regular functions and the
 identity principle, morphisms of varieties, the local ring at a point with its
 `IsLocalRing` instance, Theorem 1.8A(a), Theorem 3.2(a) and (b), Lemma 3.6,
-Proposition 3.5, Corollary 3.7, Theorem 3.2(c) and (d), and Corollary 3.8 itself, the destination of the
+Proposition 3.5, Corollary 3.7, Theorem 3.2(c) and (d), Proposition 3.3, and Corollary 3.8
+itself, the destination of the
 whole chapter: the coordinate ring functor is an arrow-reversing equivalence
 onto the finitely generated integral domains.
 
-Eight remain. The one that blocks the most is the second clause of Theorem
+Seven remain. The one that blocks the most is the second clause of Theorem
 1.8A, the dimension formula `height 𝔭 + dim B/𝔭 = dim B`, which Hartshorne
 quotes from Matsumura and which the pinned Mathlib has in no form.
 

@@ -50,3 +50,4 @@ import Hartshorne.Morphism.LocalRingLocalization
 import Hartshorne.Morphism.FunctionFieldStructure
 import Hartshorne.Morphism.FunctionFieldFractions
 import Hartshorne.Projective.IrreducibleSpace
+import Hartshorne.Morphism.ChartIso
