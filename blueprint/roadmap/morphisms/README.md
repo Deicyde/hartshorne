@@ -42,7 +42,9 @@ geometry and commutative algebra are the same subject.
 
 ## Computing them
 
-- [The rings of an affine variety](affine-variety-rings.md)
+- [Points and maximal ideals](points-eq-maximal-ideals.md)
+- [The coordinate ring is the ring of regular functions](global-regular-eq-coordinate-ring.md)
+- [The local ring and function field of an affine variety](affine-variety-rings.md)
 - [The charts are isomorphisms of varieties](chart-isomorphism.md)
 - [Graded localization](graded-localization.md)
 - [The rings of a projective variety](projective-variety-rings.md)

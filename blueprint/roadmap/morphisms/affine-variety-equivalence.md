@@ -32,7 +32,8 @@ which is not a consequence of it.
 ## Proof depends on
 
 - [Isomorphism via coordinate rings](affine-iso-iff-algebra-iso.md)
-- [The rings of an affine variety](affine-variety-rings.md)
+- [The coordinate ring is the ring of regular functions](global-regular-eq-coordinate-ring.md)
+- [Points and maximal ideals](points-eq-maximal-ideals.md)
 - [Every finitely generated domain is a coordinate ring](../affine-varieties/coordinate-ring-realization.md)
 
 ## Sources

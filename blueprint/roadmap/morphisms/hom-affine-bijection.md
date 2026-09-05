@@ -31,7 +31,7 @@ bijection to be a natural isomorphism rather than a family of bijections.
 
 ## Proof depends on
 
-- [The rings of an affine variety](affine-variety-rings.md)
+- [The coordinate ring is the ring of regular functions](global-regular-eq-coordinate-ring.md)
 - [Criterion for a morphism into an affine variety](morphism-to-affine-criterion.md)
 
 ## Sources

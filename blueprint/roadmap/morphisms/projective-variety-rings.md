@@ -39,7 +39,8 @@ gives for Chapters II and III.
 
 ## Proof depends on
 
-- [The rings of an affine variety](affine-variety-rings.md)
+- [The local ring and function field of an affine variety](affine-variety-rings.md)
+- [The coordinate ring is the ring of regular functions](global-regular-eq-coordinate-ring.md)
 - [The charts are isomorphisms of varieties](chart-isomorphism.md)
 - [Varieties are covered by affine pieces](../projective-varieties/affine-cover.md)
 

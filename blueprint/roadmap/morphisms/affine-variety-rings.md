@@ -3,62 +3,52 @@ declaration: theorem
 origin: cited
 ---
 
-# The rings of an affine variety
+# The local ring and function field of an affine variety
 
 Let `Y ⊆ 𝔸ⁿ` be an affine variety with coordinate ring `A(Y)`. Then
-(Theorem 3.2):
 
-- `𝒪(Y) ≅ A(Y)`;
-- `P ↦ 𝔪_P` is a bijection from the points of `Y` to the maximal ideals of
-  `A(Y)`, where `𝔪_P` is the ideal of functions vanishing at `P`;
-- `𝒪_P ≅ A(Y)_{𝔪_P}`, and `dim 𝒪_P = dim Y`;
-- `K(Y)` is the fraction field of `A(Y)`, a finitely generated field extension of
-  `k` of transcendence degree `dim Y`.
+- `𝒪_P ≅ A(Y)_{𝔪_P}`, and `dim 𝒪_P = dim Y` (Theorem 3.2(c));
+- `K(Y)` is the fraction field of `A(Y)`, a finitely generated field extension
+  of `k` of transcendence degree `dim Y` (Theorem 3.2(d)).
 
-Everything follows from the injection `α : A(Y) → 𝒪(Y)` plus the correspondence
-of §1. The bijection on points is Corollary 1.4 pushed through the quotient;
-`𝒪_P ≅ A(Y)_{𝔪_P}` is injectivity of `α` plus surjectivity straight from the
-definition of regular; the dimension claim is `dim 𝒪_P = height 𝔪_P` together
-with Theorem 1.8A. Part (a) is last and is the only one needing an outside fact:
-a domain is the intersection of its localizations at all maximal ideals, taken
-inside its fraction field.
+These are the two parts of Theorem 3.2 that are about the *local* rings rather
+than the global one. The first two parts are separate nodes:
+[`𝒪(Y) ≅ A(Y)`](global-regular-eq-coordinate-ring.md) and
+[points ↔ maximal ideals](points-eq-maximal-ideals.md), both proved.
 
-This is the main theorem of the section. It says the coordinate ring already
-knows everything about an affine variety, and it is what makes the equivalence of
-categories at the end of the chapter possible.
+`𝒪_P ≅ A(Y)_{𝔪_P}` is the injectivity of `α : A(Y) → 𝒪(Y)` together with
+surjectivity straight from the definition of regular: a germ at `P` is `g/h` with
+`h(P) ≠ 0`, which is exactly an element of the localisation. The dimension claim
+is `dim 𝒪_P = height 𝔪_P` together with Theorem 1.8A. Part (d) follows from (c)
+at the generic point, or directly from `α` being injective with the right image.
+
+Together with the first two parts this is the main theorem of the section: the
+coordinate ring already knows everything about an affine variety, and that is
+what makes the equivalence of categories at the end of the chapter possible.
 
 ## Status
 
-**Part (b) is proved** (`Hartshorne.pointsEquivMaximalIdeals`): evaluation at `P`
-descends to `A(Y)` and is surjective onto `k`, so its kernel `𝔪_P` is maximal;
-injectivity is separation of points by a coordinate function, and surjectivity
-is the Nullstellensatz applied to the pullback of a maximal ideal, whose point
-lands in `Z(I(Y)) = Y`.
+Neither part is proved.
 
-Parts (a), (c) and (d) are not.
-
-The transcendence-degree clause of (d) is now unblocked: Theorem 1.8A(a) is
-proved, so what remains there is identifying `K(Y)` with the fraction field of
-`A(Y)` and applying it. The dimension clause of (c) still needs
+The transcendence-degree clause of (d) is unblocked: Theorem 1.8A(a) is proved,
+so what remains is identifying `K(Y)` with the fraction field of `A(Y)` and
+applying it. The dimension clause of (c) still needs
 [the dimension formula](../affine-varieties/dim-formula-catenary.md), the second
-clause of 1.8A, which is not.
-
-Part (a) and the localisation clause of (c) need neither, but (a)'s surjectivity
-needs that a domain is the intersection of its localisations at all maximal
-ideals, which is the one outside fact Hartshorne's proof appeals to.
+clause of 1.8A, which is open. The localisation clause of (c) needs neither and
+is the natural next step; `IsLocalization.AtPrime.ringKrullDim_eq_height` in
+Mathlib will then supply `dim 𝒪_P = height 𝔪_P` for free.
 
 ## Depends on
 
-- [The ring of regular functions](ring-of-regular-functions.md)
 - [The local ring at a point](local-ring.md)
 - [The local ring is local](local-ring-is-local.md)
 - [The function field](function-field.md)
 - [The three rings embed in the function field](function-field-injections.md)
-- [The affine coordinate ring](../affine-varieties/affine-coordinate-ring.md)
+- [The coordinate ring is the ring of regular functions](global-regular-eq-coordinate-ring.md)
+- [Points and maximal ideals](points-eq-maximal-ideals.md)
 
 ## Proof depends on
 
-- [Algebraic sets and radical ideals](../affine-varieties/radical-ideal-correspondence.md)
 - [Dimension is the dimension of the coordinate ring](../affine-varieties/dim-eq-coordinate-ring-dim.md)
 - [Dimension of a finitely generated domain](../affine-varieties/dim-fg-domain.md)
 - [The dimension formula for a finitely generated domain](../affine-varieties/dim-formula-catenary.md)

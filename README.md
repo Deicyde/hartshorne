@@ -4,7 +4,7 @@ A Lean 4 formalization of the classical variety theory in Chapter I of Robin
 Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 1977), built on Mathlib.
 
-Sections I.1 through I.3 are decomposed into a dependency graph of 51
+Sections I.1 through I.3 are decomposed into a dependency graph of 53
 formalization targets, from the definition of an algebraic set to Corollary
 I.3.8: the functor sending an affine variety to its coordinate ring is an
 arrow-reversing equivalence onto the finitely generated integral domains over
@@ -12,12 +12,13 @@ arrow-reversing equivalence onto the finitely generated integral domains over
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**40 of the 51 targets are done**: 39 proved here, sorry-free and depending only
+**42 of the 53 targets are done**: 41 proved here, sorry-free and depending only
 on Lean's three standard axioms, and one already in Mathlib. Among them are the
 Nullstellensatz correspondence, irreducible decomposition, the projective
 Nullstellensatz and the standard affine charts, regular functions and the
 identity principle, morphisms of varieties, Theorem 3.2(b), the local ring at a
-point with its `IsLocalRing` instance, Lemma 3.6, and Theorem 1.8A(a).
+point with its `IsLocalRing` instance, Lemma 3.6, Theorem 3.2(a) and (b),
+and Theorem 1.8A(a).
 
 Eleven remain. The one that blocks the most is the second clause of Theorem
 1.8A, the dimension formula `height 𝔭 + dim B/𝔭 = dim B`, which Hartshorne

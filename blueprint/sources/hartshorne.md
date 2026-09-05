@@ -89,7 +89,9 @@ Morphisms, book pp. 14–23.
 | Def. | Ring of global regular functions `𝒪(Y)` | 16 | [Ring of regular functions](../roadmap/morphisms/ring-of-regular-functions.md) |
 | Def. | Local ring `𝒪_{P,Y}` of germs at `P` | 16 | [Local ring at a point](../roadmap/morphisms/local-ring.md) |
 | Def. | Function field `K(Y)`; rational functions | 16 | [Function field](../roadmap/morphisms/function-field.md) |
-| Thm. 3.2 | For `Y` affine: `𝒪(Y) ≅ A(Y)`; points ↔ maximal ideals; `𝒪_P ≅ A(Y)_{𝔪_P}` with `dim 𝒪_P = dim Y`; `K(Y) ≅ Frac A(Y)` of transcendence degree `dim Y` | 17 | [Rings of an affine variety](../roadmap/morphisms/affine-variety-rings.md) |
+| Thm. 3.2(a) | For `Y` affine: `𝒪(Y) ≅ A(Y)` | 17 | [Coordinate ring is the ring of regular functions](../roadmap/morphisms/global-regular-eq-coordinate-ring.md) |
+| Thm. 3.2(b) | Points of `Y` ↔ maximal ideals of `A(Y)` | 17 | [Points and maximal ideals](../roadmap/morphisms/points-eq-maximal-ideals.md) |
+| Thm. 3.2(c),(d) | `𝒪_P ≅ A(Y)_{𝔪_P}` with `dim 𝒪_P = dim Y`; `K(Y) ≅ Frac A(Y)` of transcendence degree `dim Y` | 17 | [Local ring and function field](../roadmap/morphisms/affine-variety-rings.md) |
 | Prop. 3.3 | `φᵢ : Uᵢ → 𝔸ⁿ` is an isomorphism of varieties | 18 | [Charts are isomorphisms](../roadmap/morphisms/chart-isomorphism.md) |
 | Def. | Graded localizations `S_(𝔭)` and `S_(f)` | 18 | [Graded localization](../roadmap/morphisms/graded-localization.md) |
 | Thm. 3.4 | For `Y` projective: `𝒪(Y) = k`; `𝒪_P = S(Y)_(𝔪_P)`; `K(Y) ≅ S(Y)_((0))` | 18–19 | [Rings of a projective variety](../roadmap/morphisms/projective-variety-rings.md) |
