@@ -63,3 +63,4 @@ import Hartshorne.Morphism.VarietyLocalRing
 import Hartshorne.Morphism.VarietyLocalRingHom
 import Hartshorne.Morphism.OpenSubvariety
 import Hartshorne.Morphism.AffineGermCompare
+import Hartshorne.Morphism.ProjLocalRing

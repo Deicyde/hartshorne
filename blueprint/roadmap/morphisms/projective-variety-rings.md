@@ -1,6 +1,7 @@
 ---
 declaration: theorem
 origin: cited
+lean: Hartshorne.projLocalRingEquiv Hartshorne.chartPoint Hartshorne.isOpen_inter_standardChart_in Hartshorne.nonempty_inter_standardChart
 ---
 
 # The rings of a projective variety
@@ -76,6 +77,30 @@ goal is not syntactically the one the upstream lemma elaborates with; since
 through. Both are spelling problems rather than mathematics, but neither is
 guessable from the error messages.
 
+## Part (b) is reduced to the affine case
+
+**`𝒪_{P,Y} ≅ A(Yᵢ)_𝔪` is proved** (`Hartshorne.projLocalRingEquiv`), for `Y`
+projective and `P ∈ Y ∩ Uᵢ`, with `𝔪` the maximal ideal at `φᵢ(P)`. This is what
+Hartshorne means by "the result follows from the affine case", written out.
+
+It is four isomorphisms in a row, none of which he states:
+
+- `𝒪_{P,Y} ≅ 𝒪_{P,Y∩Uᵢ}`, since the local ring does not see beyond an open
+  neighbourhood;
+- `𝒪_{P,Y∩Uᵢ} ≅ 𝒪_{φᵢ(P),Yᵢ}`, since `φᵢ` is an isomorphism of varieties onto its
+  image, and an isomorphism induces one on local rings;
+- the abstract germ ring on `Yᵢ` is the affine germ ring, the two constructions
+  having been built separately;
+- `A(Yᵢ)_𝔪 ≅ 𝒪_{φᵢ(P),Yᵢ}`, Theorem 3.2(c).
+
+The first three are [the functoriality node](local-ring-functorial.md) and
+[the local ring node](local-ring.md); supplying the second is why the chart
+isomorphism was generalised from `Uᵢ` to `Yᵢ`.
+
+What is left of (b) is the graded step: rewriting `A(Yᵢ)_𝔪` as `S(Y)_(𝔪_P)`,
+using `A(Yᵢ) ≅ S(Y)_(xᵢ)` and transitivity of localisation. That is a statement
+about homogeneous localisation with no germs in it.
+
 ## What is left
 
 Saying that (b) and (c) "follow from the affine case by transitivity of
@@ -86,27 +111,13 @@ Both have since been rebuilt over the abstract `Variety`; see
 [the local ring at a point](local-ring.md). That is what makes the statements of
 (b) and (c) writable at all.
 
-With those in place, (b) is a chain of four isomorphisms, of which three are
-proved:
-
-- `𝒪_{P,Y} ≅ 𝒪_{P,Yᵢ}`, because the local ring does not see beyond an open
-  neighbourhood;
-- `𝒪_{P,Yᵢ} ≅ 𝒪_{φᵢ(P),φᵢ(Yᵢ)}`, because an isomorphism of varieties induces one
-  on local rings, and the chart is an isomorphism onto `φᵢ(Yᵢ)`;
-- `𝒪_{φᵢ(P)} ≅ A(Yᵢ)_𝔪`, Theorem 3.2(c);
-- `A(Yᵢ) ≅ S(Y)_(xᵢ)`, proved here.
-
-The first two are [the functoriality node](local-ring-functorial.md); the chart
-isomorphism was generalised from `Uᵢ` to `Yᵢ` to supply the second. The third
-needs the abstract germ ring `𝒪_{φᵢ(P),φᵢ(Yᵢ)}` to be identified with the affine
-germ ring Theorem 3.2(c) is stated over, since the two were built separately;
-that identification is now in place (`Hartshorne.localRingEquivAffine`), so the
-link is available.
-
-What remains is assembling the chain and checking that the maximal ideal it
-carries across is `𝔪_P`, the homogeneous elements vanishing at `P`.
-
-Part (c) is the same shape with `K(Y)` and the localisation at `(0)`.
+Part (c) has the same shape as (b), with `K(Y)` and the localisation at `(0)`
+in place of `𝒪_P` and `𝔪_P`, and needs the corresponding transport statements
+for the function field. Those are not built: `K(Y)` exists over an abstract
+`Variety`, but nothing yet says an isomorphism of varieties induces one on
+function fields, or that `K(Y) = K(Yᵢ)` for an open piece. Both are easier than
+their germ counterparts — the function field has no base point, so none of the
+point-index transport problems arise.
 
 Part (a) remains untouched and is independent of all of it. Its integrality
 argument has no affine analogue and needs the whole affine cover at once, not
