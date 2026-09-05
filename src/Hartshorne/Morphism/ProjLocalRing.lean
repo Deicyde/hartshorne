@@ -36,6 +36,10 @@ to do with germs.
 ## Main definitions
 
 * `Hartshorne.projLocalRingEquiv`
+
+## Main results
+
+* `Hartshorne.ringKrullDim_projLocalRing`
 -/
 
 namespace Hartshorne
@@ -90,5 +94,28 @@ noncomputable def projLocalRingEquiv :
   let e₄ := localizationEquivLocalRing hW.isIrreducible
     (affinePoint hW (chartFun k i hYq hne Q))
   ((e₁.trans e₂.symm).trans e₃).trans e₄.symm
+
+
+/-- The maximal ideal of the chart's coordinate ring at `φᵢ(P)`. -/
+noncomputable abbrev chartMaximalIdeal : Ideal (coordinateRing
+    (chartMap i '' (Y ∩ standardChart i))) :=
+  maximalIdealAt _
+    (affinePoint (isQuasiAffineVariety_chartMap_image i hY.isQuasiProjVariety
+        (nonempty_inter_standardChart hY i P hP))
+      (chartFun k i hY.isQuasiProjVariety (nonempty_inter_standardChart hY i P hP)
+        (chartPoint hY i P hP)))
+
+/-- **`dim 𝒪_P = height 𝔪` for a projective variety.**
+
+Immediate from the reduction to the affine case, since Mathlib computes the
+dimension of a localisation at a prime as that prime's height. Turning the
+right-hand side into `dim Y` is the clause of Theorem 1.8A that is still
+missing, exactly as in the affine case. -/
+theorem ringKrullDim_projLocalRing :
+    ringKrullDim (Variety.LocalRingAt (Variety.ofQuasiProjective hY.isQuasiProjVariety) P)
+      = (chartMaximalIdeal hY i P hP).height := by
+  rw [ringKrullDim_eq_of_ringEquiv (projLocalRingEquiv hY i P hP)]
+  exact IsLocalization.AtPrime.ringKrullDim_eq_height (chartMaximalIdeal hY i P hP)
+    (Localization.AtPrime (chartMaximalIdeal hY i P hP))
 
 end Hartshorne

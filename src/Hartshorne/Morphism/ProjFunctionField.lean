@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Morphism.AffineRationalCompare
 import Hartshorne.Morphism.ChartIso
 import Hartshorne.Morphism.OpenSubvarietyFunctionField
+import Hartshorne.Morphism.FunctionFieldFractions
 
 /-!
 # The function field of a projective variety, on a chart
@@ -33,7 +34,8 @@ here the only hypothesis is that `Y` meets the chart at all.
 
 ## Main definitions
 
-* `Hartshorne.projFunctionFieldEquiv`
+* `Hartshorne.projFunctionFieldEquiv`,
+  `Hartshorne.projFunctionFieldEquivFractionRing`
 -/
 
 namespace Hartshorne
@@ -71,5 +73,32 @@ noncomputable def projFunctionFieldEquiv :
       (VarietyHom.bijective_functionFieldHom_of_isIso (isIso_chartHom k i hYq hne) _)
   let e₃ := functionFieldEquivAffine hW
   (e₁.trans e₂.symm).trans e₃
+
+
+/-- **`K(Y)` is the fraction field of the coordinate ring of a chart.**
+
+Theorem 3.4(c) in the form Hartshorne's reduction actually delivers: the
+projective function field is the affine one, and the affine one is a fraction
+field by Theorem 3.2(d). Rewriting the right-hand side as a graded localisation
+of `S(Y)` is the step that remains.
+
+Stated as an equivalence with `FractionRing` rather than as an `IsFractionRing`
+instance, because the projective side carries no `A(Yᵢ)`-algebra structure and
+inventing one would be a choice rather than a fact. -/
+noncomputable def projFunctionFieldEquivFractionRing :
+    Variety.FunctionField (Variety.ofQuasiProjective hY.isQuasiProjVariety)
+      ≃+* FractionRing (coordinateRing (chartMap i '' (Y ∩ standardChart i))) :=
+  let hW' := isAffineVariety_chartMap_image i hY hne
+  have _ : IsDomain (coordinateRing (chartMap i '' (Y ∩ standardChart i))) :=
+    isDomain_coordinateRing hW'
+  have _ : IsFractionRing (coordinateRing (chartMap i '' (Y ∩ standardChart i)))
+      (FunctionField (isQuasiAffineVariety_chartMap_image i hY.isQuasiProjVariety
+        hne).isIrreducible) := isFractionRing_functionField _
+  (projFunctionFieldEquiv hY i hne).trans
+    (IsLocalization.algEquiv
+      (nonZeroDivisors (coordinateRing (chartMap i '' (Y ∩ standardChart i))))
+      (FunctionField (isQuasiAffineVariety_chartMap_image i hY.isQuasiProjVariety
+        hne).isIrreducible)
+      (FractionRing (coordinateRing (chartMap i '' (Y ∩ standardChart i))))).toRingEquiv
 
 end Hartshorne

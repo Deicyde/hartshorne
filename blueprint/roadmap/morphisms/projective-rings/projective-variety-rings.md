@@ -1,7 +1,7 @@
 ---
 declaration: theorem
 origin: cited
-lean: Hartshorne.projLocalRingEquiv Hartshorne.chartPoint Hartshorne.isOpen_inter_standardChart_in Hartshorne.nonempty_inter_standardChart Hartshorne.projFunctionFieldEquiv
+lean: Hartshorne.projLocalRingEquiv Hartshorne.chartPoint Hartshorne.chartMaximalIdeal Hartshorne.ringKrullDim_projLocalRing Hartshorne.isOpen_inter_standardChart_in Hartshorne.nonempty_inter_standardChart Hartshorne.projFunctionFieldEquiv Hartshorne.projFunctionFieldEquivFractionRing
 ---
 
 # The rings of a projective variety
@@ -96,6 +96,17 @@ It is four isomorphisms in a row, none of which he states:
 The first three are [the functoriality node](../local-ring-functorial.md) and
 [the local ring node](../local-ring.md); supplying the second is why the chart
 isomorphism was generalised from `Uᵢ` to `Yᵢ`.
+
+Two consequences come for free. `dim 𝒪_P = height 𝔪`
+(`Hartshorne.ringKrullDim_projLocalRing`), since Mathlib computes the dimension
+of a localisation at a prime as that prime's height; turning the right side into
+`dim Y` needs the same missing clause of Theorem 1.8A as the affine case does.
+And `K(Y)` is the fraction field of `A(Yᵢ)`
+(`Hartshorne.projFunctionFieldEquivFractionRing`), which is 3.4(c) in the form
+the reduction delivers. That one is stated as an equivalence with `FractionRing`
+rather than as an `IsFractionRing` instance, because the projective side carries
+no `A(Yᵢ)`-algebra structure and inventing one would be a choice rather than a
+fact.
 
 What is left of (b) is the graded step: rewriting `A(Yᵢ)_𝔪` as `S(Y)_(𝔪_P)`,
 using `A(Yᵢ) ≅ S(Y)_(xᵢ)` and transitivity of localisation. That is a statement
