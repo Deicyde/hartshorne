@@ -3,7 +3,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.isIso_chartHom Hartshorne.chartHom Hartshorne.chartInvHom Hartshorne.chartVariety Hartshorne.chartTarget Hartshorne.isQuasiProjVariety_standardChart Hartshorne.isQuasiProjVariety_inter_standardChart Hartshorne.eval_rep_chartInv_div Hartshorne.isGlobalRegular_chartCoord
+lean: Hartshorne.isIso_chartHom Hartshorne.chartHom Hartshorne.chartInvHom Hartshorne.chartVariety Hartshorne.chartTarget Hartshorne.isQuasiProjVariety_standardChart Hartshorne.isQuasiProjVariety_inter_standardChart Hartshorne.eval_rep_chartInv_div Hartshorne.isGlobalRegular_chartCoord Hartshorne.isOpen_inter_standardChart_in
 ---
 
 # The charts are isomorphisms of varieties

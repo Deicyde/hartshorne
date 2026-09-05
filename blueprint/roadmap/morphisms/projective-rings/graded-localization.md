@@ -3,7 +3,7 @@ declaration: abbrev
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.gradedLocalization Hartshorne.gradedLocalizationAway Hartshorne.isField_gradedLocalization_bot Hartshorne.awayToAtPrime Hartshorne.awayPrime Hartshorne.powers_le_primeCompl Hartshorne.isUnit_mk_of_num_notMem Hartshorne.exists_decompose_notMem Hartshorne.decompose_mul_eq_zero Hartshorne.awayToAtPrime_mk Hartshorne.isLocalization_awayPrime
+lean: Hartshorne.gradedLocalization Hartshorne.gradedLocalizationAway Hartshorne.isField_gradedLocalization_bot Hartshorne.awayToAtPrime Hartshorne.awayPrime Hartshorne.powers_le_primeCompl Hartshorne.isUnit_mk_of_num_notMem Hartshorne.exists_decompose_notMem Hartshorne.decompose_mul_eq_zero Hartshorne.awayToAtPrime_mk Hartshorne.isLocalization_awayPrime Hartshorne.ne_bot_notMem Hartshorne.awayToAtPrime_bot_injective Hartshorne.isFractionRing_atPrime_bot
 ---
 
 # Graded localization
@@ -42,7 +42,7 @@ homogeneous of degree one with `f ∉ 𝔭`,
 `S_(𝔭) = (S_(f))_𝔮`,
 
 where `𝔮` is the prime of `S_(f)` lying under the maximal ideal of `S_(𝔭)`
-(`Hartshorne.isLocalization_awayPrime`). Hartshorne passes over this. Having
+(`Hartshorne.isLocalization_awayPrime Hartshorne.ne_bot_notMem Hartshorne.awayToAtPrime_bot_injective Hartshorne.isFractionRing_atPrime_bot`). Hartshorne passes over this. Having
 identified `𝒪_P` with a localisation of `A(Yᵢ)`, he writes the answer as a
 localisation of `S(Y)`, and the two agree only because inverting `xᵢ` first
 changes nothing at `𝔭`, where `xᵢ` is invertible already.
@@ -61,6 +61,13 @@ Homogeneity of `𝔭` is used exactly once, in the third axiom. An equality in
 needed is a *homogeneous* such `s`. One graded component of `s` avoids `𝔭`
 because `𝔭` is homogeneous, and it still annihilates, because the product lives
 in a single degree and Mathlib computes that component directly.
+
+The `𝔭 = (0)` case is separated out (`Hartshorne.isFractionRing_atPrime_bot`),
+since it is what Theorem 3.4(c) runs on and it says something sharper: `S_((0))`
+is the *fraction field* of `S_(f)`. The prime lying under the maximal ideal is
+`(0)` itself, because `S_((0))` is a field and the comparison map is injective
+when `S` is a domain, so localising at its complement is localising at the
+nonzero divisors.
 
 ## Depends on
 

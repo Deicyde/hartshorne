@@ -94,7 +94,7 @@ Morphisms, book pp. 14–23.
 | Thm. 3.2(c),(d) | `𝒪_P ≅ A(Y)_{𝔪_P}` with `dim 𝒪_P = dim Y`; `K(Y) ≅ Frac A(Y)` of transcendence degree `dim Y` | 17 | [Local ring and function field](../roadmap/morphisms/affine-variety-rings.md) |
 | Prop. 3.3 | `φᵢ : Uᵢ → 𝔸ⁿ` is an isomorphism of varieties | 18 | [Charts are isomorphisms](../roadmap/morphisms/chart-isomorphism.md) |
 | Def. | Graded localizations `S_(𝔭)` and `S_(f)` | 18 | [Graded localization](../roadmap/morphisms/graded-localization.md) |
-| Thm. 3.4 | For `Y` projective: `𝒪(Y) = k`; `𝒪_P = S(Y)_(𝔪_P)`; `K(Y) ≅ S(Y)_((0))` | 18–19 | [Rings of a projective variety](../roadmap/morphisms/projective-variety-rings.md) |
+| Thm. 3.4 | For `Y` projective: `𝒪(Y) = k`; `𝒪_P = S(Y)_(𝔪_P)`; `K(Y) ≅ S(Y)_((0))` | 18–19 | [(a)](../roadmap/morphisms/projective-rings/projective-global-regular.md), [(b)](../roadmap/morphisms/projective-rings/projective-local-ring.md), [(c)](../roadmap/morphisms/projective-rings/projective-function-field.md) |
 | Prop. 3.5 | `Hom(X, Y) ≅ Hom_{k-alg}(A(Y), 𝒪(X))` for `Y` affine, `X` any variety | 19 | [Morphisms into an affine variety](../roadmap/morphisms/hom-affine-bijection.md) |
 | Lem. 3.6 | `ψ : X → Y ⊆ 𝔸ⁿ` is a morphism iff each `xᵢ ∘ ψ` is regular | 20 | [Criterion for a morphism to an affine variety](../roadmap/morphisms/morphism-to-affine-criterion.md) |
 | Cor. 3.7 | Affine varieties `X`, `Y` are isomorphic iff `A(X) ≅ A(Y)` as `k`-algebras | 20 | [Isomorphism via coordinate rings](../roadmap/morphisms/affine-iso-iff-algebra-iso.md) |

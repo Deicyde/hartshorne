@@ -6,6 +6,7 @@ import Mathlib.RingTheory.GradedAlgebra.HomogeneousLocalization
 import Mathlib.RingTheory.GradedAlgebra.Homogeneous.Ideal
 import Mathlib.RingTheory.LocalRing.MaximalIdeal.Basic
 import Mathlib.Tactic.LinearCombination
+import Hartshorne.Projective.GradedLocalization
 
 /-!
 # The graded localisation at a prime is a localisation of a chart
@@ -48,6 +49,7 @@ the product is homogeneous of a single degree.
 ## Main results
 
 * `Hartshorne.isLocalization_awayPrime`
+* `Hartshorne.isFractionRing_atPrime_bot`
 -/
 
 namespace Hartshorne
@@ -179,6 +181,66 @@ theorem isLocalization_awayPrime (hp : Ideal.IsHomogeneous 𝒜 𝔭) :
       refine ⟨1, ?_⟩
       simp only [OneMemClass.coe_one, one_mul, Submonoid.coe_mul]
       linear_combination (f ^ j : A) * hdec
+
+section Bot
+
+variable [IsDomain A] (hf0 : f ≠ 0)
+
+omit [IsDomain A] in
+include hf0 in
+theorem ne_bot_notMem : f ∉ (⊥ : Ideal A) := by simpa using hf0
+
+include hf hf0 in
+/-- `A_(f) → A_((0))` is injective when `A` is a domain: a fraction with zero
+image has zero numerator, and then it was already zero. -/
+theorem awayToAtPrime_bot_injective :
+    Function.Injective (awayToAtPrime (𝒜 := 𝒜) (f := f) ⊥ (ne_bot_notMem hf0)) := by
+  rw [injective_iff_map_eq_zero]
+  intro z hz
+  obtain ⟨n, a, ha, rfl⟩ := Away.mk_surjective 𝒜 hf z
+  rw [awayToAtPrime_mk hf ⊥ (ne_bot_notMem hf0), ext_iff_val, val_mk, val_zero,
+    Localization.mk_eq_mk', IsLocalization.mk'_eq_zero_iff] at hz
+  obtain ⟨⟨m, hm⟩, hma⟩ := hz
+  have ha0 : a = 0 := by
+    rcases mul_eq_zero.1 hma with h | h
+    · exact absurd (by simpa using h) hm
+    · exact h
+  subst ha0
+  rw [ext_iff_val, Away.val_mk, val_zero, Localization.mk_zero]
+
+include hf hf0 in
+/-- **`A_((0))` is the fraction field of `A_(f)`.**
+
+The `𝔭 = (0)` case of the comparison, which is what Theorem 3.4(c) needs. The
+prime lying under the maximal ideal is `(0)` itself, because `A_((0))` is a field
+and the comparison map is injective, so localising at its complement is
+localising at the nonzero divisors. -/
+theorem isFractionRing_atPrime_bot :
+    letI := (awayToAtPrime (𝒜 := 𝒜) (f := f) ⊥ (ne_bot_notMem hf0)).toAlgebra
+    IsFractionRing (Away 𝒜 f) (AtPrime 𝒜 (⊥ : Ideal A)) := by
+  let _ := (awayToAtPrime (𝒜 := 𝒜) (f := f) ⊥ (ne_bot_notMem hf0)).toAlgebra
+  have hinj := awayToAtPrime_bot_injective hf hf0
+  -- `A_((0))` is a field, so the prime lying under its maximal ideal is `(0)`.
+  let _ : Field (AtPrime 𝒜 (⊥ : Ideal A)) := (isField_gradedLocalization_bot 𝒜).toField
+  have _ : IsDomain (Away 𝒜 f) := Function.Injective.isDomain _ hinj
+  have hmax : IsLocalRing.maximalIdeal (AtPrime 𝒜 (⊥ : Ideal A)) = ⊥ :=
+    (IsLocalRing.isField_iff_maximalIdeal_eq).1 (isField_gradedLocalization_bot 𝒜)
+  have hq : awayPrime (𝒜 := 𝒜) (f := f) ⊥ (ne_bot_notMem hf0) = ⊥ := by
+    rw [awayPrime, hmax, ← RingHom.ker_eq_comap_bot]
+    exact (RingHom.injective_iff_ker_eq_bot _).1 hinj
+  have hloc := isLocalization_awayPrime hf (⊥ : Ideal A) (ne_bot_notMem hf0)
+    (Ideal.IsHomogeneous.bot 𝒜)
+  have hsub : (awayPrime (𝒜 := 𝒜) (f := f) ⊥ (ne_bot_notMem hf0)).primeCompl
+      = nonZeroDivisors (Away 𝒜 f) := by
+    ext z
+    rw [mem_nonZeroDivisors_iff_ne_zero]
+    show z ∉ awayPrime (𝒜 := 𝒜) (f := f) ⊥ (ne_bot_notMem hf0) ↔ z ≠ 0
+    rw [hq, Ideal.mem_bot]
+  show IsLocalization (nonZeroDivisors (Away 𝒜 f)) (AtPrime 𝒜 (⊥ : Ideal A))
+  rw [← hsub]
+  exact hloc
+
+end Bot
 
 end
 
