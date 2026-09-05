@@ -45,6 +45,7 @@ geometry and commutative algebra are the same subject.
 - [Points and maximal ideals](points-eq-maximal-ideals.md)
 - [The coordinate ring is the ring of regular functions](global-regular-eq-coordinate-ring.md)
 - [The local ring is a localisation](local-ring-is-localization.md)
+- [The function field is the fraction field](function-field-is-fraction-field.md)
 - [The local ring and function field of an affine variety](affine-variety-rings.md)
 - [The charts are isomorphisms of varieties](chart-isomorphism.md)
 - [Graded localization](graded-localization.md)

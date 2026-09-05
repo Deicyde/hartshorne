@@ -32,11 +32,12 @@ The localisation clause of (c) is proved and is now
 [its own node](local-ring-is-localization.md), together with
 `dim 𝒪_P = height 𝔪_P`.
 
-What remains here is `height 𝔪_P = dim Y`, which needs
+Part (d) is also proved and is
+[its own node](function-field-is-fraction-field.md).
+
+What remains here is one clause: `height 𝔪_P = dim Y`, which needs
 [the dimension formula](../affine-varieties/dim-formula-catenary.md), the second
-clause of 1.8A; and all of (d). The transcendence-degree clause of (d) is
-otherwise unblocked, since Theorem 1.8A(a) is proved: what is left there is
-identifying `K(Y)` with the fraction field of `A(Y)` and applying it.
+clause of 1.8A.
 
 ## Depends on
 
@@ -47,6 +48,7 @@ identifying `K(Y)` with the fraction field of `A(Y)` and applying it.
 - [The coordinate ring is the ring of regular functions](global-regular-eq-coordinate-ring.md)
 - [Points and maximal ideals](points-eq-maximal-ideals.md)
 - [The local ring is a localisation](local-ring-is-localization.md)
+- [The function field is the fraction field](function-field-is-fraction-field.md)
 
 ## Proof depends on
 
