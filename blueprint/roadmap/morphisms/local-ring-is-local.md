@@ -3,7 +3,7 @@ declaration: instance
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.instIsLocalRingLocalRingAt Hartshorne.instCommRingLocalRingAt Hartshorne.evalAtPoint Hartshorne.isUnit_iff_evalAtPoint_ne_zero Hartshorne.maximalIdeal_eq_ker Hartshorne.residueFieldEquiv Hartshorne.GermRep.inv
+lean: Hartshorne.instIsLocalRingLocalRingAt Hartshorne.Variety.instIsLocalRingLocalRingAt Hartshorne.Variety.instCommRingLocalRingAt Hartshorne.Variety.evalAtPoint Hartshorne.Variety.isUnit_iff_evalAtPoint_ne_zero Hartshorne.Variety.maximalIdeal_eq_ker Hartshorne.Variety.GermRep.inv Hartshorne.instCommRingLocalRingAt Hartshorne.evalAtPoint Hartshorne.isUnit_iff_evalAtPoint_ne_zero Hartshorne.maximalIdeal_eq_ker Hartshorne.residueFieldEquiv Hartshorne.GermRep.inv
 ---
 
 # The local ring is local
@@ -38,6 +38,18 @@ Two supporting facts are not in Hartshorne's line and are not in Mathlib:
 a nowhere-zero regular function has a regular reciprocal, obtained by exchanging
 numerator and denominator, and the set where a regular function is nonzero is
 open, which is Lemma 3.1 applied to the pair `(f, 0)`.
+
+## The same, for an arbitrary variety
+
+Theorem 3.4 needs this for a projective `Y`, so it is proved again over the
+bundled `Variety` (`Hartshorne.Variety.instIsLocalRingLocalRingAt`).
+
+The two supporting facts that cost work in the affine case — a nowhere-zero
+regular function has a regular reciprocal, and the set where a regular function
+is nonzero is open — are `regular_div` and `isClosed_zeroLocus`, both fields of
+`Variety`. So the abstract proof really is Hartshorne's one line, with the
+polynomial arguments removed rather than repeated. That is the third time the
+fields Lemma 3.6 forced have paid for themselves.
 
 ## Depends on
 
