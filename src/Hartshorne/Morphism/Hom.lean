@@ -38,6 +38,16 @@ universe u v
 
 variable {k : Type u} [Field k]
 
+/-- Precomposition with a map, as a `k`-algebra homomorphism of function
+algebras. -/
+def compAlgHom {A B : Type*} (φ : A → B) : (B → k) →ₐ[k] (A → k) where
+  toFun g := fun a => g (φ a)
+  map_one' := rfl
+  map_mul' _ _ := rfl
+  map_zero' := rfl
+  map_add' _ _ := rfl
+  commutes' _ := rfl
+
 /-- A morphism of varieties: continuous, and pulling regular functions back to
 regular functions. -/
 structure VarietyHom (X Y : Variety.{u, v} k) where
@@ -91,6 +101,35 @@ theorem id_comp (f : VarietyHom X Y) : (VarietyHom.id Y).comp f = f := ext rfl
 
 theorem comp_assoc {W : Variety.{u, v} k} (h : VarietyHom Z W) (g : VarietyHom Y Z)
     (f : VarietyHom X Y) : (h.comp g).comp f = h.comp (g.comp f) := ext rfl
+
+/-- The map `𝒪(Y) → 𝒪(X)` induced by a morphism `φ : X → Y`.
+
+This is the functoriality that makes `𝒪` an invariant: Proposition 3.5 is stated
+in terms of it, and Corollary 3.7 needs it to turn a two-sided inverse of
+algebras into a two-sided inverse of morphisms. -/
+noncomputable def pullback (f : VarietyHom X Y) : Y.regular ⊤ →ₐ[k] X.regular ⊤ :=
+  AlgHom.codRestrict
+    ((compAlgHom fun z : (⊤ : Opens X.carrier) => (⟨f z.1, trivial⟩ : (⊤ : Opens Y.carrier))).comp
+      (Y.regular ⊤).val)
+    (X.regular ⊤)
+    fun g => f.regular_comp ⊤ g.1 g.2
+
+@[simp]
+theorem pullback_val (f : VarietyHom X Y) (g : Y.regular ⊤) (z : (⊤ : Opens X.carrier)) :
+    (f.pullback g).val z = g.val ⟨f z.1, trivial⟩ :=
+  rfl
+
+@[simp]
+theorem pullback_id (X : Variety.{u, v} k) :
+    (VarietyHom.id X).pullback = AlgHom.id k (X.regular ⊤) := by
+  ext g z
+  rfl
+
+/-- Pullback is contravariantly functorial. -/
+theorem pullback_comp (g : VarietyHom Y Z) (f : VarietyHom X Y) :
+    (g.comp f).pullback = f.pullback.comp g.pullback := by
+  ext h z
+  rfl
 
 /-- An *isomorphism* is a morphism admitting a two-sided inverse morphism.
 

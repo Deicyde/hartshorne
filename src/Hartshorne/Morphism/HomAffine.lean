@@ -47,16 +47,6 @@ universe u
 
 variable {k : Type u} [Field k] {σ : Type*} {Y : Set (σ → k)}
 
-/-- Precomposition with a map, as a `k`-algebra homomorphism of function
-algebras. -/
-def compAlgHom {A B : Type*} (φ : A → B) : (B → k) →ₐ[k] (A → k) where
-  toFun g := fun a => g (φ a)
-  map_one' := rfl
-  map_mul' _ _ := rfl
-  map_zero' := rfl
-  map_add' _ _ := rfl
-  commutes' _ := rfl
-
 variable {X : Variety k}
 
 /-- The forward map: a morphism `X → Y` pulls a polynomial function on `Y` back

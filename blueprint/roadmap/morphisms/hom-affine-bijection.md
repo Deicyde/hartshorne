@@ -3,7 +3,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.homEquivAlgHom Hartshorne.homToAlgHom Hartshorne.algHomToHom Hartshorne.algHomToFun Hartshorne.eval_algHomToFun Hartshorne.compAlgHom
+lean: Hartshorne.homEquivAlgHom Hartshorne.homToAlgHom Hartshorne.algHomToHom Hartshorne.algHomToFun Hartshorne.eval_algHomToFun
 ---
 
 # Morphisms into an affine variety

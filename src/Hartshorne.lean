@@ -43,3 +43,5 @@ import Hartshorne.Morphism.MorphismToAffine
 import Hartshorne.Dimension.HeightCoheight
 import Hartshorne.Morphism.CoordinateRingIso
 import Hartshorne.Morphism.HomAffine
+import Hartshorne.Morphism.GlobalRegularTop
+import Hartshorne.Morphism.AffineIso
