@@ -3,7 +3,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.chartHomeomorph Hartshorne.homogenize Hartshorne.dehomogenize Hartshorne.eval_homogenize Hartshorne.eval_dehomogenize Hartshorne.chartEquiv
+lean: Hartshorne.chartHomeomorph Hartshorne.homogenize Hartshorne.dehomogenize Hartshorne.eval_homogenize Hartshorne.eval_dehomogenize Hartshorne.chartEquiv Hartshorne.dehomogenize_homogenize Hartshorne.eq_zero_of_dehomogenize_eq_zero Hartshorne.chartInvVec_div
 ---
 
 # The standard affine charts
@@ -22,7 +22,25 @@ bijection with closed inverse.
 This is the key result of §2 and the most-used result of Chapter I: it is what
 lets every local question about a projective variety be answered affinely. It is
 upgraded from a homeomorphism to an isomorphism of varieties in §3, once
-morphisms exist.
+morphisms exist; see [the chart isomorphism](../morphisms/chart-isomorphism.md).
+
+## What `α` and `β` do to polynomials
+
+Proposition 2.2 needs only that the pair moves closed sets in both directions.
+Theorem 3.4 needs more: that `α` is a bijection from the homogeneous
+polynomials, up to powers of `xᵢ`, onto all polynomials in the affine
+coordinates. Both halves are recorded here, since they are statements about the
+same pair.
+
+One half is bookkeeping: `α(β(g)) = g`, because `β` pads each monomial with a
+power of `xᵢ` and `α` sets `xᵢ` to `1`.
+
+The other half is that `α` is injective on homogeneous polynomials, and it is
+proved by evaluation rather than by comparing supports. If `α(g) = 0` then `g`
+vanishes at every vector with `i`-th coordinate `1`, hence by homogeneity
+wherever the `i`-th coordinate is nonzero; so `xᵢ · g` vanishes identically and,
+over an infinite field, is zero. Homogeneity is doing the work and cannot be
+dropped: `xᵢ − 1` is killed by `α` and is not zero.
 
 ## Depends on
 

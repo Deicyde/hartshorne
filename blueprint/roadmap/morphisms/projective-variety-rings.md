@@ -28,6 +28,23 @@ That `𝒪(Y) = k` is the structural reason projective varieties need sheaf
 cohomology rather than global functions, and it is the motivation Hartshorne
 gives for Chapters II and III.
 
+## Status
+
+Not proved. What is now in place is the polynomial dictionary parts (b) and (c)
+run on: `α` is a bijection from the homogeneous polynomials, up to powers of
+`xᵢ`, onto the polynomials in the affine coordinates. Both halves are recorded
+on [the standard affine charts](../projective-varieties/standard-affine-charts.md);
+they are what an isomorphism `A(Yᵢ) ≅ S(Y)_(xᵢ)` has to be built from, since
+that map sends `g/xᵢⁿ` to `α(g)`.
+
+Also in place: the affine case in full, and
+[the chart isomorphism](chart-isomorphism.md), which is what transfers
+statements between `Yᵢ` and `Y`.
+
+Part (a) remains untouched and is independent of all of that. Its integrality
+argument has no affine analogue and needs the whole affine cover at once, not
+one chart at a time.
+
 ## Depends on
 
 - [Graded localization](graded-localization.md)
