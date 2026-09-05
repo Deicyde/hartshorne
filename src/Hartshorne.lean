@@ -58,3 +58,4 @@ import Hartshorne.Projective.QuotientGrading
 import Hartshorne.Projective.CoordChart
 import Hartshorne.Projective.CoordAwayChart
 import Hartshorne.Morphism.VarietyIdentity
+import Hartshorne.Morphism.VarietyGerm

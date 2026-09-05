@@ -3,7 +3,7 @@ declaration: def
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.GermRep Hartshorne.GermRep.Rel Hartshorne.GermRep.rel_trans Hartshorne.isRegularVia_restrict Hartshorne.preirreducible_univ_of_isOpen
+lean: Hartshorne.GermRep Hartshorne.GermRep.Rel Hartshorne.GermRep.rel_trans Hartshorne.isRegularVia_restrict Hartshorne.preirreducible_univ_of_isOpen Hartshorne.Variety.GermRep Hartshorne.Variety.GermRep.Rel Hartshorne.Variety.GermRep.rel_trans Hartshorne.Variety.LocalRingAt
 ---
 
 # The local ring at a point
@@ -21,6 +21,23 @@ Well-definedness of the identification is where Remark 3.1.1 is used —
 transitivity of the relation needs that two regular functions agreeing on a
 nonempty open set agree on the overlap of their domains — which is why the
 continuity node is a proof prerequisite rather than an aside.
+
+## The same construction for an arbitrary variety
+
+The version above is built from `IsRegularVia`, in affine coordinates.
+Theorem 3.4 is about `𝒪_P` for a *projective* variety, so it needs the
+construction over the abstract `Variety` instead
+(`Hartshorne.Variety.LocalRingAt`).
+
+Over the abstract structure it is shorter, not longer: restriction is a field,
+and the transitivity argument is the same one with
+[the general identity principle](variety.md) in place of the affine Lemma 3.1.
+Nothing about polynomials survives into it.
+
+Both constructions are kept. The affine one is what §3's earlier results are
+stated over and what carries the local-ring and localisation theorems; the
+general one is what §3's projective results will be stated over. Identifying
+them for an affine `Y` is not needed by anything yet and has not been done.
 
 ## Depends on
 
