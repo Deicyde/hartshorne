@@ -96,6 +96,16 @@ theorem isUnit_mk_of_num_notMem {q : NumDenSameDeg 𝒜 𝔭.primeCompl}
   rw [← mk_mul, ext_iff_val, val_mk, val_one]
   simp [mul_comm (q.den : A)]
 
+/-- **A class is a unit in `A_(𝔭)` exactly when its numerator avoids `𝔭`.** The
+converse of the construction above, and what makes the contracted prime `𝔮`
+computable: membership in it is a condition on numerators. -/
+theorem isUnit_mk_iff_num_notMem {q : NumDenSameDeg 𝒜 𝔭.primeCompl} :
+    IsUnit (mk q : AtPrime 𝒜 𝔭) ↔ (q.num : A) ∉ 𝔭 := by
+  refine ⟨fun h => ?_, isUnit_mk_of_num_notMem 𝔭⟩
+  have hval : IsUnit (mk q : AtPrime 𝒜 𝔭).val := h.map (algebraMap _ _)
+  rw [val_mk, Localization.mk_eq_mk', IsLocalization.AtPrime.isUnit_mk'_iff] at hval
+  exact hval
+
 omit [𝔭.IsPrime] hfp in
 /-- A nonzero graded component outside `𝔭`, for an element outside `𝔭`. If every
 component were inside, so would be their sum. -/
@@ -181,6 +191,17 @@ theorem isLocalization_awayPrime (hp : Ideal.IsHomogeneous 𝒜 𝔭) :
       refine ⟨1, ?_⟩
       simp only [OneMemClass.coe_one, one_mul, Submonoid.coe_mul]
       linear_combination (f ^ j : A) * hdec
+
+include hf in
+/-- **Membership in the contracted prime is a condition on the numerator.**
+
+`𝔮` was defined as a contraction, which made primality free; this is the price
+paid back, and it is what lets `𝔮` be recognised in a concrete presentation of
+`A_(f)`. -/
+theorem mem_awayPrime_iff (n : ℕ) (x : A) (hx : x ∈ 𝒜 (n • 1)) :
+    Away.mk 𝒜 hf n x hx ∈ awayPrime (𝒜 := 𝒜) (f := f) 𝔭 hfp ↔ x ∈ 𝔭 := by
+  rw [← not_iff_not, notMem_awayPrime_iff 𝔭 hfp, awayToAtPrime_mk hf 𝔭 hfp,
+    isUnit_mk_iff_num_notMem 𝔭]
 
 section Bot
 

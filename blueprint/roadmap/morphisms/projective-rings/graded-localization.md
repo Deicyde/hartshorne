@@ -3,7 +3,7 @@ declaration: abbrev
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.gradedLocalization Hartshorne.gradedLocalizationAway Hartshorne.isField_gradedLocalization_bot Hartshorne.awayToAtPrime Hartshorne.awayPrime Hartshorne.powers_le_primeCompl Hartshorne.isUnit_mk_of_num_notMem Hartshorne.exists_decompose_notMem Hartshorne.decompose_mul_eq_zero Hartshorne.awayToAtPrime_mk Hartshorne.isLocalization_awayPrime Hartshorne.ne_bot_notMem Hartshorne.awayToAtPrime_bot_injective Hartshorne.isFractionRing_atPrime_bot
+lean: Hartshorne.gradedLocalization Hartshorne.gradedLocalizationAway Hartshorne.isField_gradedLocalization_bot Hartshorne.awayToAtPrime Hartshorne.awayPrime Hartshorne.powers_le_primeCompl Hartshorne.isUnit_mk_of_num_notMem Hartshorne.exists_decompose_notMem Hartshorne.decompose_mul_eq_zero Hartshorne.awayToAtPrime_mk Hartshorne.isUnit_mk_iff_num_notMem Hartshorne.mem_awayPrime_iff Hartshorne.isLocalization_awayPrime Hartshorne.ne_bot_notMem Hartshorne.awayToAtPrime_bot_injective Hartshorne.isFractionRing_atPrime_bot
 ---
 
 # Graded localization
@@ -49,7 +49,11 @@ changes nothing at `𝔭`, where `xᵢ` is invertible already.
 
 Taking `𝔮` as the contraction of the maximal ideal, rather than describing it by
 numerators, means primality comes for free and the first localisation axiom is
-one line: `S_(𝔭)` is local, so anything outside `𝔮` maps to a unit.
+one line: `S_(𝔭)` is local, so anything outside `𝔮` maps to a unit. The price is
+paid back by `Hartshorne.mem_awayPrime_iff`, which recovers the numerator
+description: `g/fⁿ ∈ 𝔮` exactly when `g ∈ 𝔭`. Without it `𝔮` could not be
+recognised in a concrete presentation of `S_(f)`, which is what Theorem 3.4(b)
+has to do.
 
 Two hypotheses earn their place. Degree one is not cosmetic: for `f` of degree
 `d`, a fraction `a/b` can only be rewritten with a power of `f` underneath when
