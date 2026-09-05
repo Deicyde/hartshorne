@@ -57,3 +57,4 @@ import Hartshorne.Projective.ChartIdeal
 import Hartshorne.Projective.QuotientGrading
 import Hartshorne.Projective.CoordChart
 import Hartshorne.Projective.CoordAwayChart
+import Hartshorne.Morphism.VarietyIdentity

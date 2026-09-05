@@ -3,7 +3,7 @@ declaration: def
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.Variety Hartshorne.Variety.ofQuasiAffine Hartshorne.Variety.ofQuasiProjective Hartshorne.Variety.ofProjective Hartshorne.regularSubalgebra Hartshorne.projRegularSubalgebra
+lean: Hartshorne.Variety Hartshorne.Variety.ofQuasiAffine Hartshorne.Variety.ofQuasiProjective Hartshorne.Variety.ofProjective Hartshorne.regularSubalgebra Hartshorne.projRegularSubalgebra Hartshorne.Variety.eq_of_eqOn Hartshorne.Variety.preirreducible_univ
 ---
 
 # Varieties
@@ -70,6 +70,20 @@ So the bundled representation is fine after all, and the cost it charges is the
 four constructions, as originally estimated. The episode is recorded because the
 symptom pointed hard at the representation and at the projective quotient
 carrier, and both were red herrings.
+
+## The identity principle, once instead of twice
+
+Remark 3.1.1 was proved separately in affine and in projective coordinates, each
+time from Lemma 3.1. With the fields Lemma 3.6 forced, it can be proved once for
+any `Variety` and from the structure alone: regular functions form a subalgebra,
+so the difference of two is regular; the zero locus of a regular function is
+closed; and a nonempty open subset of an irreducible space is dense. No
+polynomial appears.
+
+This is what makes germs and the function field constructible for an arbitrary
+variety rather than separately in each set of coordinates, which is what
+Theorem 3.4 will need — it is about `𝒪_P` and `K(Y)` for a projective `Y`, and
+those exist so far only in the affine case.
 
 ## Depends on
 
