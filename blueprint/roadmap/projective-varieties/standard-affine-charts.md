@@ -3,7 +3,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.chartHomeomorph Hartshorne.homogenize Hartshorne.dehomogenize Hartshorne.eval_homogenize Hartshorne.eval_dehomogenize Hartshorne.chartEquiv Hartshorne.dehomogenize_homogenize Hartshorne.eq_zero_of_dehomogenize_eq_zero Hartshorne.chartInvVec_div
+lean: Hartshorne.chartHomeomorph Hartshorne.homogenize Hartshorne.dehomogenize Hartshorne.eval_homogenize Hartshorne.eval_dehomogenize Hartshorne.chartEquiv Hartshorne.dehomogenize_homogenize Hartshorne.eq_zero_of_dehomogenize_eq_zero Hartshorne.chartInvVec_div Hartshorne.awayDehomogenize Hartshorne.awayToPoly Hartshorne.awayChartEquiv
 ---
 
 # The standard affine charts
@@ -41,6 +41,13 @@ vanishes at every vector with `i`-th coordinate `1`, hence by homogeneity
 wherever the `i`-th coordinate is nonzero; so `xᵢ · g` vanishes identically and,
 over an infinite field, is zero. Homogeneity is doing the work and cannot be
 dropped: `xᵢ − 1` is killed by `α` and is not zero.
+
+Together these give the ring-level form of Proposition 2.2: `S_(xᵢ) ≅ k[y]`,
+the degree-zero part of `S` localised at `xᵢ` being the coordinate ring of the
+chart. The map needs no grading to define — `α` sends `xᵢ` to a unit, so it
+factors through the localisation at `xᵢ` outright, and the degree-zero part is
+carried along. Theorem 3.4 is stated in terms of `S(Y)_(xᵢ)`, and this is the
+ambient case of it.
 
 ## Depends on
 

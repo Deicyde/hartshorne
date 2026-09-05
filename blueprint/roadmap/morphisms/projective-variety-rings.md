@@ -35,7 +35,9 @@ run on: `α` is a bijection from the homogeneous polynomials, up to powers of
 `xᵢ`, onto the polynomials in the affine coordinates. Both halves are recorded
 on [the standard affine charts](../projective-varieties/standard-affine-charts.md);
 they are what an isomorphism `A(Yᵢ) ≅ S(Y)_(xᵢ)` has to be built from, since
-that map sends `g/xᵢⁿ` to `α(g)`.
+that map sends `g/xᵢⁿ` to `α(g)`. The ambient case is done: `S_(xᵢ) ≅ k[y]`.
+Cutting it down by `Y` is what remains, and it should be the quotient of that
+isomorphism by the two vanishing ideals, once they are matched up.
 
 Also in place: the affine case in full, and
 [the chart isomorphism](chart-isomorphism.md), which is what transfers
