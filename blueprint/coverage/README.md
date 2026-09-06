@@ -10,9 +10,15 @@ Chapter I, sections 1 through 3, book pages 1–23:
 
 | Section | Title | Pages | Articles |
 | --- | --- | --- | --- |
-| I.1 | Affine Varieties | 1–8 | [16 articles](../roadmap/affine-varieties/README.md) |
+| I.1 | Affine Varieties | 1–8 | [23 articles](../roadmap/affine-varieties/README.md) |
 | I.2 | Projective Varieties | 8–14 | [13 articles](../roadmap/projective-varieties/README.md) |
-| I.3 | Morphisms | 14–23 | [18 articles](../roadmap/morphisms/README.md) |
+| I.3 | Morphisms | 14–23 | [32 articles](../roadmap/morphisms/README.md) |
+
+All 68 are done: 67 proved here and one already in Mathlib. The counts have
+grown as the work went on, always by splitting a node that turned out to hold
+more than one pull request's worth of Lean, never by widening the scope; the
+result-to-article map in the source notes is the record of which numbered
+results ended up where.
 
 Every result the main text of those sections proves or uses is covered by an
 article. Some articles carry more than one numbered result when they land
@@ -59,18 +65,21 @@ statement matches. Checked against the pinned checkout:
   `UniqueFactorizationMonoid.iff_forall_isPrincipal_of_height_eq_one`, an exact
   match for "a Noetherian domain is a UFD iff every height-one prime is
   principal".
-- **I.1.11A** is *not* matched exactly.
-  `Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes` proves
-  `p.height ≤ 1` for a prime minimal over a principal ideal, with no
-  non-zero-divisor and no non-unit hypothesis; Hartshorne asserts height exactly
-  `1` under those hypotheses. The inequality is the reusable part and the
-  remaining `1 ≤ height` is left to the article that needs it. This is recorded
-  as a candidate, not as status.
+- **I.1.11A**, Krull's Hauptidealsatz, is matched in two pieces:
+  `Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes` gives `p.height ≤ 1`
+  for a prime minimal over a principal ideal, and
+  `Ideal.one_le_height_span_singleton_of_mem_nonZeroDivisors` gives the reverse
+  under Hartshorne's non-zero-divisor hypothesis. The packaged
+  `Ideal.height_span_singleton_eq_one_of_mem_nonZeroDivisors` is the ideal-level
+  form and is what Exercise 2.6 uses.
 
-Theorem I.1.8A, that a
-finitely generated `k`-algebra domain has Krull dimension equal to the
-transcendence degree of its fraction field, is **not** in the pinned Mathlib in
-that form and is the chapter's largest single piece of background work.
+**I.1.8A**, that a finitely generated `k`-algebra domain has Krull dimension
+equal to the transcendence degree of its fraction field, and that
+`height 𝔭 + dim B/𝔭 = dim B`, is **not** in the pinned Mathlib in either form.
+It was the chapter's largest single piece of background work and is now proved
+here: part (a) through Noether normalisation, part (b) by induction on the
+height with the height-one case going through a Noether normalisation of its
+own.
 
 **Reformulation into scheme language.** Mathlib's `AlgebraicGeometry` namespace
 covers much of Hartshorne Chapter II, and several results in Chapters III and IV

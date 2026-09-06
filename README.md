@@ -4,7 +4,7 @@ A Lean 4 formalization of the classical variety theory in Chapter I of Robin
 Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 1977), built on Mathlib.
 
-Sections I.1 through I.3 are decomposed into a dependency graph of 55
+Sections I.1 through I.3 are decomposed into a dependency graph of 68
 formalization targets, from the definition of an algebraic set to Corollary
 I.3.8: the functor sending an affine variety to its coordinate ring is an
 arrow-reversing equivalence onto the finitely generated integral domains over
@@ -12,20 +12,19 @@ arrow-reversing equivalence onto the finitely generated integral domains over
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**48 of the 55 targets are done**: 47 proved here, sorry-free and depending only
-on Lean's three standard axioms, and one already in Mathlib. Among them are the
-Nullstellensatz correspondence, irreducible decomposition, the projective
-Nullstellensatz and the standard affine charts, regular functions and the
-identity principle, morphisms of varieties, the local ring at a point with its
-`IsLocalRing` instance, Theorem 1.8A(a), Theorem 3.2(a) and (b), Lemma 3.6,
-Proposition 3.5, Corollary 3.7, Theorem 3.2(c) and (d), Proposition 3.3, and Corollary 3.8
-itself, the destination of the
-whole chapter: the coordinate ring functor is an arrow-reversing equivalence
-onto the finitely generated integral domains.
-
-Seven remain. The one that blocks the most is the second clause of Theorem
-1.8A, the dimension formula `height 𝔭 + dim B/𝔭 = dim B`, which Hartshorne
-quotes from Matsumura and which the pinned Mathlib has in no form.
+**All 68 targets are done**: 67 proved here, sorry-free and depending only on
+Lean's three standard axioms, and one already in Mathlib. Among them are the
+Nullstellensatz correspondence, irreducible decomposition, the dimension of a
+variety as the Krull dimension of its coordinate ring, both clauses of Theorem
+1.8A including the dimension formula `height 𝔭 + dim B/𝔭 = dim B` that
+Hartshorne quotes from Matsumura and that the pinned Mathlib has in no form,
+Proposition 1.10 and Proposition 1.13, the projective Nullstellensatz and the
+standard affine charts, `dim ℙⁿ = n` and `dim S(Y) = dim Y + 1`, regular
+functions and the identity principle, morphisms of varieties, the local ring at
+a point with its `IsLocalRing` instance and its dimension, all four parts of
+Theorem 3.2, all three parts of Theorem 3.4, and Corollary 3.8 itself, the
+destination of the whole chapter: the coordinate ring functor is an
+arrow-reversing equivalence onto the finitely generated integral domains.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 
