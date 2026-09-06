@@ -41,7 +41,7 @@ open MvPolynomial
 
 universe u
 
-variable {k : Type u} [Field k] [IsAlgClosed k] {σ : Type u} [Finite σ] [DecidableEq σ]
+variable {k : Type u} [Field k] [IsAlgClosed k] {σ : Type} [Finite σ] [DecidableEq σ]
   {Y : Set (ProjectiveSpace k σ)}
 
 /-- `S(Y)` is a finitely generated `k`-algebra, being a quotient of a polynomial

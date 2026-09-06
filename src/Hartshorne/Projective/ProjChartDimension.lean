@@ -88,7 +88,7 @@ end Chart
 
 universe u
 
-variable {k : Type u} [Field k] [IsAlgClosed k] {σ : Type u} [Finite σ] [DecidableEq σ]
+variable {k : Type u} [Field k] [IsAlgClosed k] {σ : Type} [Finite σ] [DecidableEq σ]
   {Y : Set (ProjectiveSpace k σ)}
 
 /-- **All nonempty chart pieces of a projective variety have the same

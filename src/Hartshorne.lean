@@ -72,6 +72,7 @@ import Hartshorne.Projective.DehomogenizeKernel
 import Hartshorne.Projective.ConeSection
 import Hartshorne.Projective.ConeDimension
 import Hartshorne.Projective.ProjChartDimension
+import Hartshorne.Projective.ProjSpaceDimension
 import Hartshorne.Morphism.VarietyIdentity
 import Hartshorne.Morphism.VarietyGerm
 import Hartshorne.Morphism.VarietyLocalRing

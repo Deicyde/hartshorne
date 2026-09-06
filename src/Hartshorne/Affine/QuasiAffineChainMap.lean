@@ -44,7 +44,7 @@ open MvPolynomial TopologicalSpace
 
 universe u
 
-variable {k : Type u} [Field k] [IsAlgClosed k] {σ : Type*} [Finite σ]
+variable {k : Type u} [Field k] [IsAlgClosed k] {σ : Type} [Finite σ]
   {W : Set (σ → k)} (hW : IsAlgebraicSet W)
 
 /-- The irreducible closed subset attached to a prime of `A(W)`. -/
@@ -95,7 +95,7 @@ A maximal chain of primes below `𝔪_P` in `A(Ȳ)` has length `dim Ȳ`, because
 every maximal ideal of a finitely generated domain has full height. Reading it
 as irreducible closed subsets of `Ȳ`, all of them through `P`, and restricting
 each to `Y`, gives a chain of the same length inside `Y`. -/
-theorem dim_closure_le_dim {m : ℕ} {Y : Set (Fin m → k)} (hY : IsQuasiAffineVariety Y) :
+theorem dim_closure_le_dim {Y : Set (σ → k)} (hY : IsQuasiAffineVariety Y) :
     dim (closure Y) ≤ dim Y := by
   classical
   obtain ⟨hne, V₀, U, hV₀aff, hU, hYeq⟩ := hY
@@ -138,7 +138,7 @@ theorem dim_closure_le_dim {m : ℕ} {Y : Set (Fin m → k)} (hY : IsQuasiAffine
 
 /-- **Proposition 1.10**: a quasi-affine variety and its closure have the same
 dimension. -/
-theorem dim_eq_dim_closure {m : ℕ} {Y : Set (Fin m → k)} (hY : IsQuasiAffineVariety Y) :
+theorem dim_eq_dim_closure {Y : Set (σ → k)} (hY : IsQuasiAffineVariety Y) :
     dim Y = dim (closure Y) :=
   le_antisymm (dim_le_dim_closure Y) (dim_closure_le_dim hY)
 
