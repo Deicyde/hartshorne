@@ -1,6 +1,7 @@
 ---
 declaration: theorem
 origin: background
+lean: Hartshorne.injective_adjoinRoot_of Hartshorne.isAlgebraic_adjoinRoot Hartshorne.trdeg_adjoinRoot
 ---
 
 # A hypersurface in affine space drops the transcendence degree by one
@@ -25,6 +26,24 @@ Not to be confused with [the hypersurface dimension](hypersurface-dimension.md)
 node, which is Hartshorne's Proposition 1.13 and is a *consequence* of the
 dimension formula. This one is an input to it, and is about a polynomial ring
 rather than an arbitrary affine variety.
+
+## Status
+
+The algebraic core is proved (`Hartshorne.trdeg_adjoinRoot`): for a domain `A`
+over `k` and `F ∈ A[X]` of positive degree cutting out a domain, `A[X]/(F)` has
+the same transcendence degree over `k` as `A`. Positive degree is used twice —
+it makes `A → A[X]/(F)` injective, and it makes `F` a nonzero relation for the
+root — and the quotient must be a domain because that is what makes an algebraic
+extension contribute nothing.
+
+Stating it for `AdjoinRoot`, which is Mathlib's name for `A[X]/(F)`, keeps the
+mathematics separate from the `MvPolynomial` bookkeeping.
+
+What is left is exactly that bookkeeping: singling out a variable occurring in
+`f` and viewing `k[y₁,…,y_d]` as a polynomial ring in it over the other `d − 1`.
+Mathlib has `MvPolynomial.finSuccEquiv` for the case of the first variable, so
+the work is a permutation of the index and transport of the quotient along an
+algebra isomorphism.
 
 ## Depends on
 

@@ -42,6 +42,7 @@ import Hartshorne.Projective.GradedLocalization
 import Hartshorne.Morphism.MorphismToAffine
 import Hartshorne.Dimension.HeightCoheight
 import Hartshorne.Dimension.DimFormulaReduction
+import Hartshorne.Dimension.AdjoinRootTrdeg
 import Hartshorne.Morphism.CoordinateRingIso
 import Hartshorne.Morphism.HomAffine
 import Hartshorne.Morphism.GlobalRegularTop
