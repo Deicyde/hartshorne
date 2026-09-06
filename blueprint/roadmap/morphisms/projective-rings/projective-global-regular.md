@@ -25,7 +25,7 @@ analogue and no reduction to one chart: it uses the whole affine cover at once,
 and the finiteness it turns on is a statement about the graded pieces of `S(Y)`
 rather than about germs or fractions.
 
-Every ingredient is now proved; what is left is to put them together.
+Every ingredient is proved, but they do not yet compose; see *What is left*.
 
 **The integrality core** and the finiteness it consumes are
 [their own node](stable-subspace.md): an element stabilising a nonzero
@@ -75,14 +75,41 @@ over those forces `αᵢ ≥ Nᵢ` for some `i`; then `x^α` absorbs the denomin
 
 ## What is left
 
-Assembling. Every ingredient is proved; what remains is to put them together:
-feed the chart readings into the degree bound to get `t · S(Y)_N ⊆ S(Y)_N`,
-check that `S(Y)_N` is nonzero and finite-dimensional so that the integrality
-core applies, and translate "`t` is a constant in `Frac(S(Y))`" back into
-"`f ∈ k`" along the injection of `𝒪(Y)` into the function field.
+Assembling — and it does not go through yet, for a reason worth recording,
+because it is the sort of thing Hartshorne's notation hides completely.
 
-Nonvanishing of `S(Y)_N` is the one thing not yet recorded, and it is short: a
-point of `Y` lies in some chart, so `xᵢ` does not vanish on `Y` and `[xᵢ]^N ≠ 0`.
+The degree bound needs a *single* `t ∈ Frac(S(Y))` with `xᵢ^{Nᵢ} t ∈ S(Y)` for
+every chart. What the chart reading produces is, for each `i`, an equation whose
+right-hand side is `Φᵢ(f)`, where `Φᵢ : K(Y) ≅ S(Y)_((0))` is
+[part (c)](projective-function-field.md)'s isomorphism — and that isomorphism is
+built through the chart `Uᵢ`. Different charts give different terms `Φᵢ(f)`, and
+nothing so far says they are the same element. Until they are, the per-chart
+equations cannot be combined.
+
+Hartshorne has no such difficulty because he treats `K(Y)` and `S(Y)_((0))` as
+literally the same field from the start, so the identification is used once and
+never named. Formally it has to be constructed, and it was constructed one chart
+at a time, which is exactly what parts (b) and (c) wanted and what part (a) does
+not.
+
+Two ways out, of which the second looks better:
+
+- prove the `Φᵢ` agree, a cocycle condition comparing two charts; or
+- build `K(Y) ≅ S(Y)_((0))` chart-free. That is available: an element of
+  `S(Y)_((0))` is `[g]/[h]` with `g, h` homogeneous of the same degree, and it
+  defines a rational function directly — `P ↦ g(P)/h(P)` on the open set where
+  `h ≠ 0`, which is well defined because the degrees agree and regular by the
+  definition of regular on a projective variety. Surjectivity is that definition
+  read backwards, and injectivity is that a nonzero fraction is nonzero
+  somewhere. Both directions are pointwise checks, with no chart in sight.
+
+The second also gives a cleaner statement of part (c) than the one now proved.
+
+After that, the assembly is as expected: feed the chart readings into the degree
+bound, check that `S(Y)_N` is nonzero and finite-dimensional so the integrality
+core applies, and translate back along the injection of `𝒪(Y)` into `K(Y)`.
+Nonvanishing of `S(Y)_N` is short — a point of `Y` lies in some chart, so `xᵢ`
+does not vanish on `Y` and `[xᵢ]^N ≠ 0`.
 
 ## Depends on
 
