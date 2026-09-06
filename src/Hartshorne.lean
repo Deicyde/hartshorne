@@ -13,6 +13,7 @@ import Hartshorne.Affine.Dimension
 import Hartshorne.Affine.DimensionCoordinateRing
 import Hartshorne.Affine.HypersurfaceDimension
 import Hartshorne.Affine.QuasiAffineDimension
+import Hartshorne.Affine.QuasiAffineChain
 import Hartshorne.Projective.Basic
 import Hartshorne.Projective.HomogeneousIdeal
 import Hartshorne.Projective.Zariski

@@ -1,7 +1,7 @@
 ---
 declaration: theorem
 origin: cited
-lean: Hartshorne.dim_le_dim_closure
+lean: Hartshorne.dim_le_dim_closure Hartshorne.inter_eq_inter_isOpen Hartshorne.isIrreducible_inter_of_subset_closure Hartshorne.closure_inter_eq_of_subset_closure
 ---
 
 # Dimension of a quasi-affine variety
@@ -32,12 +32,22 @@ ideal of a finitely generated domain over a field has height the whole dimension
 (`Hartshorne.height_eq_ringKrullDim_of_isMaximal`), which is the dimension
 formula applied at a maximal ideal.
 
-What is left is the topology between them. A chain of primes below `𝔪_P` in
-`A(Ȳ)` has to be read as a chain of irreducible closed subsets of `Ȳ` through
-`P`, and each of those intersected with `Y` — which stays irreducible, closed in
-`Y`, and strictly decreasing, because `Y` is dense and each term meets it. That
-correspondence is what the project has for closed subsets
-(`subtypeIrreducibleClosedsOrderIso`) but not yet for an open one.
+The two geometric facts the reverse inequality turns on are proved. For `V` an
+irreducible closed subset of `Ȳ` meeting `Y`:
+
+- `V ∩ Y` is irreducible (`isIrreducible_inter_of_subset_closure`), because it
+  is `V` intersected with an *ambient* open set — the closed half of the locally
+  closed presentation `Y = V₀ ∩ U` does nothing, `V` already lying inside `V₀` —
+  and a nonempty open piece of an irreducible set is irreducible;
+- and `V` is its closure (`closure_inter_eq_of_subset_closure`), so intersecting
+  with `Y` loses nothing and is therefore injective and strictly monotone on
+  such subsets.
+
+What is left is packaging: turning a chain of primes below `𝔪_P` into a chain of
+`IrreducibleCloseds ↥Y` of the same length. The project's existing
+correspondence (`subtypeIrreducibleClosedsOrderIso`) is for subsets of the
+ambient space contained in a *closed* set, so the passage between that and
+`IrreducibleCloseds ↥Y` for an open `Y` is the remaining subtype work.
 
 ## Depends on
 
