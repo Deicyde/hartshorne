@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Affine.Variety
 import Hartshorne.Affine.QuasiAffineDimension
+import Mathlib.Topology.Sets.Closeds
 
 /-!
 # Cutting a chain down to a quasi-affine piece
@@ -29,6 +30,7 @@ open set: `V` already lies inside `V₀`, so the closed half does nothing.
 
 * `Hartshorne.isIrreducible_inter_of_subset_closure`
 * `Hartshorne.closure_inter_eq_of_subset_closure`
+* `Hartshorne.restrictToY`, `Hartshorne.strictMono_restrictToY`
 -/
 
 namespace Hartshorne
@@ -83,5 +85,61 @@ theorem closure_inter_eq_of_subset_closure (hY : Y = V₀ ∩ U) (hV₀ : IsClos
   refine ⟨z, hzo, hzV, ?_⟩
   rw [hY]
   exact ⟨hsubV0 hzV, hzU⟩
+
+open TopologicalSpace in
+/-- Irreducibility transfers back along the inclusion of a subspace: an embedding
+reflects it, because the opens of the subspace are traces of ambient opens. -/
+theorem isPreirreducible_preimage_val {Y : Set X} {s : Set Y}
+    (h : IsPreirreducible (Subtype.val '' s)) : IsPreirreducible s := by
+  rintro u v hu hv ⟨x, hxs, hxu⟩ ⟨y, hys, hyv⟩
+  obtain ⟨u', hu', rfl⟩ := isOpen_induced_iff.1 hu
+  obtain ⟨v', hv', rfl⟩ := isOpen_induced_iff.1 hv
+  obtain ⟨z, hz, hzu, hzv⟩ :=
+    h u' v' hu' hv' ⟨x.1, ⟨x, hxs, rfl⟩, hxu⟩ ⟨y.1, ⟨y, hys, rfl⟩, hyv⟩
+  obtain ⟨w, hws, rfl⟩ := hz
+  exact ⟨w, hws, hzu, hzv⟩
+
+theorem isIrreducible_preimage_val {Y : Set X} {s : Set Y}
+    (h : IsIrreducible (Subtype.val '' s)) : IsIrreducible s :=
+  ⟨Set.image_nonempty.1 h.1, isPreirreducible_preimage_val h.2⟩
+
+open TopologicalSpace in
+/-- **Restricting to `Y` an irreducible closed subset of `Ȳ` through a point of
+`Y`.** -/
+def restrictToY (hY : Y = V₀ ∩ U) (hV₀ : IsClosed V₀) (hU : IsOpen U) {P : X}
+    (hP : P ∈ Y)
+    (Z : {Z : IrreducibleCloseds X // P ∈ (Z : Set X) ∧ (Z : Set X) ⊆ closure Y}) :
+    IrreducibleCloseds Y where
+  carrier := Subtype.val ⁻¹' (Z.1 : Set X)
+  isIrreducible' := by
+    refine isIrreducible_preimage_val ?_
+    rw [Subtype.image_preimage_coe, Set.inter_comm]
+    exact isIrreducible_inter_of_subset_closure hY hV₀ hU Z.1.isIrreducible' Z.2.2
+      ⟨P, Z.2.1, hP⟩
+  isClosed' := Z.1.isClosed'.preimage continuous_subtype_val
+
+open TopologicalSpace in
+/-- And the restriction is strictly monotone, because each such subset is the
+closure of its trace on `Y`. -/
+theorem strictMono_restrictToY (hY : Y = V₀ ∩ U) (hV₀ : IsClosed V₀) (hU : IsOpen U)
+    {P : X} (hP : P ∈ Y) :
+    StrictMono (restrictToY hY hV₀ hU hP) := by
+  intro Z W hZW
+  have hsub : (Z.1 : Set X) ⊆ (W.1 : Set X) := hZW.le
+  refine lt_of_le_of_ne
+    (show restrictToY hY hV₀ hU hP Z ≤ restrictToY hY hV₀ hU hP W from
+      fun x hx => hsub hx) fun heq => hZW.ne ?_
+  have hcar : Subtype.val ⁻¹' (Z.1 : Set X) = Subtype.val ⁻¹' (W.1 : Set X) :=
+    congrArg (fun t : TopologicalSpace.IrreducibleCloseds Y => (t : Set Y)) heq
+  have himg : Y ∩ (Z.1 : Set X) = Y ∩ (W.1 : Set X) := by
+    rw [← Subtype.image_preimage_coe, ← Subtype.image_preimage_coe]
+    exact congrArg _ hcar
+  have hZc := closure_inter_eq_of_subset_closure (V := (Z.1 : Set X)) hY hV₀ hU
+    Z.1.isIrreducible' Z.1.isClosed' Z.2.2 ⟨P, Z.2.1, hP⟩
+  have hWc := closure_inter_eq_of_subset_closure (V := (W.1 : Set X)) hY hV₀ hU
+    W.1.isIrreducible' W.1.isClosed' W.2.2 ⟨P, W.2.1, hP⟩
+  have hsets : (Z.1 : Set X) = (W.1 : Set X) := by
+    rw [← hZc, ← hWc, Set.inter_comm (Z.1 : Set X) Y, Set.inter_comm (W.1 : Set X) Y, himg]
+  exact Subtype.ext (IrreducibleCloseds.ext hsets)
 
 end Hartshorne

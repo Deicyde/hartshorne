@@ -1,7 +1,7 @@
 ---
 declaration: theorem
 origin: cited
-lean: Hartshorne.dim_le_dim_closure Hartshorne.inter_eq_inter_isOpen Hartshorne.isIrreducible_inter_of_subset_closure Hartshorne.closure_inter_eq_of_subset_closure
+lean: Hartshorne.dim_le_dim_closure Hartshorne.inter_eq_inter_isOpen Hartshorne.isIrreducible_inter_of_subset_closure Hartshorne.closure_inter_eq_of_subset_closure Hartshorne.isPreirreducible_preimage_val Hartshorne.isIrreducible_preimage_val Hartshorne.restrictToY Hartshorne.strictMono_restrictToY
 ---
 
 # Dimension of a quasi-affine variety
@@ -43,11 +43,21 @@ irreducible closed subset of `Ȳ` meeting `Y`:
   with `Y` loses nothing and is therefore injective and strictly monotone on
   such subsets.
 
-What is left is packaging: turning a chain of primes below `𝔪_P` into a chain of
-`IrreducibleCloseds ↥Y` of the same length. The project's existing
-correspondence (`subtypeIrreducibleClosedsOrderIso`) is for subsets of the
-ambient space contained in a *closed* set, so the passage between that and
-`IrreducibleCloseds ↥Y` for an open `Y` is the remaining subtype work.
+Those two now package into a strictly monotone map
+(`Hartshorne.restrictToY`, `Hartshorne.strictMono_restrictToY`)
+
+`{Z irreducible closed in the ambient space | P ∈ Z ⊆ Ȳ} → IrreducibleCloseds ↥Y`,
+
+sending `Z` to its trace on `Y`. Irreducibility of the trace has to be moved
+onto the subtype, which needs that the inclusion of a subspace *reflects*
+irreducibility — Mathlib has the forward direction along a continuous map but
+not this one, so it is proved here from the fact that opens of a subspace are
+traces of ambient opens.
+
+What is left is to feed a chain into it: a chain of primes below `𝔪_P` becomes,
+through the project's existing correspondence, a chain of irreducible closed
+subsets of the ambient space contained in `Ȳ` and containing `P`, and
+`LTSeries.map` then carries it into `IrreducibleCloseds ↥Y` at the same length.
 
 ## Depends on
 
