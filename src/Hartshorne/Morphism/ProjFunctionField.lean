@@ -46,6 +46,47 @@ variable {k : Type*} [Field k] [IsAlgClosed k] {σ : Type*} [Finite σ] [Decidab
   [Nonempty σ] {Y : Set (ProjectiveSpace k σ)} (hY : IsProjVariety Y) (i : σ)
   (hne : (Y ∩ standardChart i).Nonempty)
 
+/-- Restriction to the chart piece, on function fields. -/
+noncomputable def restrictFunctionFieldEquiv :
+    Variety.FunctionField (Variety.ofQuasiProjective hY.isQuasiProjVariety)
+      ≃+* Variety.FunctionField (Variety.ofQuasiProjective
+        (isQuasiProjVariety_inter_standardChart k i hY.isQuasiProjVariety hne)) :=
+  RingEquiv.ofBijective
+    ((inclHom hY.isQuasiProjVariety
+        (isQuasiProjVariety_inter_standardChart k i hY.isQuasiProjVariety hne)
+        Set.inter_subset_left).functionFieldHom
+      (dense_range_inclHom _ _ Set.inter_subset_left (isOpen_inter_standardChart_in k i)))
+    (bijective_functionFieldHom_inclHom _ _ Set.inter_subset_left
+      (isOpen_inter_standardChart_in k i))
+
+/-- The chart isomorphism, on function fields. -/
+noncomputable def chartFunctionFieldEquiv :
+    Variety.FunctionField (chartTarget k i hY.isQuasiProjVariety hne)
+      ≃+* Variety.FunctionField (Variety.ofQuasiProjective
+        (isQuasiProjVariety_inter_standardChart k i hY.isQuasiProjVariety hne)) :=
+  RingEquiv.ofBijective
+    ((chartHom k i hY.isQuasiProjVariety hne).functionFieldHom
+      (VarietyHom.dense_range_of_surjective
+        (isIso_chartHom k i hY.isQuasiProjVariety hne).bijective.2))
+    (VarietyHom.bijective_functionFieldHom_of_isIso
+      (isIso_chartHom k i hY.isQuasiProjVariety hne) _)
+
+@[simp]
+theorem restrictFunctionFieldEquiv_apply (x) :
+    restrictFunctionFieldEquiv hY i hne x
+      = (inclHom hY.isQuasiProjVariety
+          (isQuasiProjVariety_inter_standardChart k i hY.isQuasiProjVariety hne)
+          Set.inter_subset_left).functionFieldHom
+        (dense_range_inclHom _ _ Set.inter_subset_left
+          (isOpen_inter_standardChart_in k i)) x := rfl
+
+@[simp]
+theorem chartFunctionFieldEquiv_apply (x) :
+    chartFunctionFieldEquiv hY i hne x
+      = (chartHom k i hY.isQuasiProjVariety hne).functionFieldHom
+        (VarietyHom.dense_range_of_surjective
+          (isIso_chartHom k i hY.isQuasiProjVariety hne).bijective.2) x := rfl
+
 /-- **The function field of a projective variety is that of an affine chart.**
 
 Three isomorphisms: restrict to the chart piece, transport along the chart
@@ -54,26 +95,18 @@ noncomputable def projFunctionFieldEquiv :
     Variety.FunctionField (Variety.ofQuasiProjective hY.isQuasiProjVariety)
       ≃+* FunctionField
         (isQuasiAffineVariety_chartMap_image i hY.isQuasiProjVariety hne).isIrreducible :=
-  let hYq := hY.isQuasiProjVariety
-  let hYi := isQuasiProjVariety_inter_standardChart k i hYq hne
-  let hW := isQuasiAffineVariety_chartMap_image i hYq hne
-  let e₁ : Variety.FunctionField (Variety.ofQuasiProjective hYq)
-      ≃+* Variety.FunctionField (Variety.ofQuasiProjective hYi) :=
-    RingEquiv.ofBijective
-      ((inclHom hYq hYi Set.inter_subset_left).functionFieldHom
-        (dense_range_inclHom hYq hYi Set.inter_subset_left
-          (isOpen_inter_standardChart_in k i)))
-      (bijective_functionFieldHom_inclHom hYq hYi Set.inter_subset_left
-        (isOpen_inter_standardChart_in k i))
-  let e₂ : Variety.FunctionField (chartTarget k i hYq hne)
-      ≃+* Variety.FunctionField (Variety.ofQuasiProjective hYi) :=
-    RingEquiv.ofBijective
-      ((chartHom k i hYq hne).functionFieldHom
-        (VarietyHom.dense_range_of_surjective (isIso_chartHom k i hYq hne).bijective.2))
-      (VarietyHom.bijective_functionFieldHom_of_isIso (isIso_chartHom k i hYq hne) _)
-  let e₃ := functionFieldEquivAffine hW
-  (e₁.trans e₂.symm).trans e₃
+  ((restrictFunctionFieldEquiv hY i hne).trans
+      (chartFunctionFieldEquiv hY i hne).symm).trans
+    (functionFieldEquivAffine (isQuasiAffineVariety_chartMap_image i hY.isQuasiProjVariety hne))
 
+@[simp]
+theorem projFunctionFieldEquiv_apply (x : Variety.FunctionField
+    (Variety.ofQuasiProjective hY.isQuasiProjVariety)) :
+    projFunctionFieldEquiv hY i hne x
+      = functionFieldEquivAffine
+          (isQuasiAffineVariety_chartMap_image i hY.isQuasiProjVariety hne)
+          ((chartFunctionFieldEquiv hY i hne).symm (restrictFunctionFieldEquiv hY i hne x)) :=
+  rfl
 
 /-- **`K(Y)` is the fraction field of the coordinate ring of a chart.**
 

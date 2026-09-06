@@ -87,6 +87,15 @@ namespace VarietyHom
 def globalPullback (f : VarietyHom X Y) (g : Y.globalRegular) : X.globalRegular :=
   ⟨fun x => g.1 ⟨f x.1, trivial⟩, f.regular_comp ⊤ g.1 g.2⟩
 
+@[simp]
+theorem globalPullback_id (X : Variety.{u, v} k) (g : X.globalRegular) :
+    (VarietyHom.id X).globalPullback g = g := rfl
+
+/-- Pullback of global functions is contravariantly functorial. -/
+theorem globalPullback_comp {Z : Variety.{u, v} k} (g : VarietyHom Y Z)
+    (f : VarietyHom X Y) (h : Z.globalRegular) :
+    (g.comp f).globalPullback h = f.globalPullback (g.globalPullback h) := rfl
+
 /-- **Pullback commutes with the inclusion into the function field.**
 
 Both sides are the class of the same function, since a global function has the
@@ -104,7 +113,7 @@ section Affine
 
 open MvPolynomial
 
-variable {σ : Type u} [IsAlgClosed k] [Finite σ] {Z : Set (σ → k)}
+variable {σ : Type*} [IsAlgClosed k] [Finite σ] {Z : Set (σ → k)}
 
 /-- **The two routes from `A(Y)` into `K(Y)` agree.**
 

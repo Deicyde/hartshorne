@@ -1,7 +1,7 @@
 ---
 declaration: theorem
 origin: cited
-lean: Hartshorne.isIntegral_of_mul_mem Hartshorne.exists_algebraMap_eq_of_isIntegral Hartshorne.exists_algebraMap_eq_of_mul_mem Hartshorne.fg_projCoordGrading Hartshorne.finiteDimensional_projCoordGrading Hartshorne.Variety.globalRationalRep Hartshorne.Variety.globalToFunctionField Hartshorne.Variety.globalToFunctionField_injective Hartshorne.VarietyHom.globalPullback Hartshorne.VarietyHom.functionFieldHom_globalToFunctionField Hartshorne.coordToRational_eq_globalToFunctionField
+lean: Hartshorne.isIntegral_of_mul_mem Hartshorne.exists_algebraMap_eq_of_isIntegral Hartshorne.exists_algebraMap_eq_of_mul_mem Hartshorne.fg_projCoordGrading Hartshorne.finiteDimensional_projCoordGrading Hartshorne.Variety.globalRationalRep Hartshorne.Variety.globalToFunctionField Hartshorne.Variety.globalToFunctionField_injective Hartshorne.VarietyHom.globalPullback Hartshorne.VarietyHom.functionFieldHom_globalToFunctionField Hartshorne.coordToRational_eq_globalToFunctionField Hartshorne.VarietyHom.globalPullback_id Hartshorne.VarietyHom.globalPullback_comp Hartshorne.restrictFunctionFieldEquiv Hartshorne.chartFunctionFieldEquiv Hartshorne.restrictFunctionFieldEquiv_globalToFunctionField Hartshorne.chartFunctionFieldEquiv_symm_globalToFunctionField Hartshorne.exists_coordToRational_eq_of_globalRegular
 ---
 
 # The global regular functions of a projective variety
@@ -58,15 +58,28 @@ function, or directly as a rational function — agree
 (`coordToRational_eq_globalToFunctionField`). Both are `Quotient.sound` on
 representatives that are literally the same function.
 
+**The chart reading.** With those in hand, the image of a global regular
+function in `K(Y)` lies in the image of `A(Yᵢ)`
+(`Hartshorne.exists_coordToRational_eq_of_globalRegular`) — the sentence "`f` is
+regular on `Yᵢ`, so `f ∈ A(Yᵢ)`" that Hartshorne's proof opens with. It is a
+chase along the three isomorphisms identifying `K(Y)` with the affine chart's
+function field, checking at each step that a global regular function stays one.
+Making it possible meant naming the three components of that identification
+instead of leaving it a single composite: a `let`-bound chain of `RingEquiv`s
+computes on no element.
+
+Nothing in the chase is deep, and none of it was available from parts (b) and
+(c): they moved one *ring* across the chart isomorphism, while this moves an
+*element* and has to know where it lands.
+
 ## What is left
 
 Two things, and this is where (a) is genuinely harder than (b) and (c) rather
 than merely different: those two travelled one chart at a time, while this one
 needs every chart inside one ring at once.
 
-- Assembling the above into the statement that the image of `f` in `S(Y)_((0))`
-  lies in the image of `S(Y)_(xᵢ)` — that is, that `f = gᵢ/xᵢ^{Nᵢ}`. The pieces
-  are the two compatibilities, the chart isomorphism, and
+- Turning "in the image of `A(Yᵢ)`" into "`f = gᵢ/xᵢ^{Nᵢ}` in `S(Y)_((0))`", by
+  pushing the statement above through `A(Yᵢ) ≅ S(Y)_(xᵢ)` and
   [part (c)](projective-function-field.md), which already identifies `K(Y)` with
   `S(Y)_((0))`.
 - The degree bookkeeping: choosing `N ≥ Σ Nᵢ` so that `S(Y)_N · f ⊆ S(Y)_N`.

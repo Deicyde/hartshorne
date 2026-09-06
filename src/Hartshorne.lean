@@ -74,5 +74,6 @@ import Hartshorne.Projective.AwayAtPrime
 import Hartshorne.Projective.PointIdeal
 import Hartshorne.Projective.StableSubspace
 import Hartshorne.Morphism.GlobalRegularFunctionField
+import Hartshorne.Morphism.ProjGlobalRegular
 import Hartshorne.Morphism.ProjLocalRingGraded
 import Hartshorne.Morphism.ProjFunctionFieldGraded
