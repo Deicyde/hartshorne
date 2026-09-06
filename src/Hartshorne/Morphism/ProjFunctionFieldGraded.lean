@@ -6,6 +6,7 @@ import Hartshorne.Morphism.ProjFunctionField
 import Hartshorne.Projective.AwayAtPrime
 import Hartshorne.Projective.CoordAwayChart
 import Hartshorne.Projective.ChartIdeal
+import Hartshorne.Projective.PointIdeal
 import Hartshorne.Morphism.ProjGlobalRegular
 
 /-!
@@ -41,14 +42,6 @@ open MvPolynomial TopologicalSpace HomogeneousLocalization
 variable {k : Type*} [Field k] [IsAlgClosed k] {σ : Type*} [Finite σ] [DecidableEq σ]
   [Nonempty σ] {Y : Set (ProjectiveSpace k σ)} (hY : IsProjVariety Y) (i : σ)
   (hne : (Y ∩ standardChart i).Nonempty)
-
-omit [DecidableEq σ] [Nonempty σ] in
-include hY in
-/-- `S(Y)` is a domain, `J(Y)` being prime for an irreducible `Y`. -/
-theorem isDomain_homogeneousCoordinateRing : IsDomain (homogeneousCoordinateRing Y) := by
-  have : (homogeneousVanishingIdeal Y).IsPrime :=
-    (isIrreducible_iff_isPrime_homogeneousVanishingIdeal hY.isProjAlgebraicSet).1 hY.1
-  exact Ideal.Quotient.isDomain _
 
 omit [IsAlgClosed k] [Finite σ] [DecidableEq σ] [Nonempty σ] in
 include hne in

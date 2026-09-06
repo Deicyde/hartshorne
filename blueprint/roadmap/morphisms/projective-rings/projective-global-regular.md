@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_const_eq_globalRegular Hartshorne.eval_eq_zero_of_eval_eq_zero_on_open Hartshorne.inter_inter_nonempty Hartshorne.mk_cross_eq Hartshorne.mk_X_pow_ne_zero
 ---
 
 # The global regular functions of a projective variety
@@ -57,21 +60,26 @@ has no such difficulty because he treats `K(Y)` and `S(Y)_((0))` as the same
 field from the start; the identification is used once and never named.
 
 Pointwise the question does not arise: the values of `f` are what they are, and
-no identification is involved. So the fix is not to compare the `Φᵢ` — nor to
-rebuild them chart-free, which was the other candidate — but to avoid them.
+no identification is involved. So the fix was not to compare the `Φᵢ`, nor to
+rebuild them chart-free, but to avoid them.
 
-## What is left
+## The assembly
 
-- Comparing two charts, in the only place it is needed: for good `i` and a fixed
-  `i₀`, the forms satisfy `g_{i₀} · xᵢ^{Nᵢ} ≡ gᵢ · x_{i₀}^{N_{i₀}}` modulo
-  `J(Y)`. Both sides are homogeneous and agree on `Y ∩ Uᵢ ∩ U_{i₀}`, which is a
-  nonempty open subset of an irreducible space, so they agree on `Y`. This makes
-  `t := [g_{i₀}]/[x_{i₀}]^{N_{i₀}}` satisfy the hypothesis of the degree bound
-  for every chart at once.
-- Nonvanishing of `S(Y)_N`, which is short: a point of `Y` lies in some chart,
-  so `xᵢ` does not vanish on `Y` and `[xᵢ]^N ≠ 0`.
-- The final translation: `t = c ∈ k` gives `f = c` on `Y ∩ U_{i₀}`, hence on `Y`
-  by the identity principle.
+With the pointwise reading, the two charts are compared only once and directly.
+If `f` is `gᵢ/xᵢ^{Nᵢ}` on `Uᵢ` and `g_{i₀}/x_{i₀}^{N_{i₀}}` on `U_{i₀}`, then
+
+`g_{i₀} · xᵢ^{Nᵢ} = gᵢ · x_{i₀}^{N_{i₀}}` in `S(Y)`,
+
+because both sides are homogeneous of the same degree and agree on
+`Y ∩ Uᵢ ∩ U_{i₀}` — a nonempty open subset of an irreducible space, hence
+enough. That makes `t := [g_{i₀}]/[x_{i₀}]^{N_{i₀}}` satisfy the degree bound's
+hypothesis for every chart at once, and the rest follows: `t` stabilises
+`S(Y)_N`, which is nonzero because `[xᵢ₀]^N ≠ 0` and finite-dimensional, so `t`
+is a constant `c`; then `f = c` on `U_{i₀}` and, by the identity principle, on
+`Y`.
+
+Irreducibility is used exactly twice, both times to move a statement off a
+chart onto all of `Y`: once for the cross equation, once at the end.
 
 ## Depends on
 

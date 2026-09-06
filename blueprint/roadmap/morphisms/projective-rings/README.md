@@ -5,9 +5,9 @@ coordinate ring loses nothing. Theorem 3.4 does the same for a projective
 variety and finds the opposite: the global regular functions see nothing at all,
 `𝒪(Y) = k`, and everything local lives in graded localisations of `S(Y)`.
 
-The three parts need different equipment, which is why they are separate nodes.
-Parts (b) and (c) are proved; part (a) is untouched, and its argument has
-nothing in common with theirs.
+All three parts are proved. They need different equipment, which is why they
+are separate nodes: (b) and (c) reduce to the affine case one chart at a time,
+while (a) has no affine analogue and must hold every chart in view at once.
 
 Parts (b) and (c) reduce to the affine case, one chart at a time. That reduction
 is not the one-line remark it looks like: the chart has to be an isomorphism of
@@ -20,6 +20,12 @@ Part (a) has no affine analogue. Its integrality argument needs the whole affine
 cover at once rather than one chart at a time, and it is the structural reason
 projective varieties need sheaf cohomology rather than global functions — the
 motivation Hartshorne gives for Chapters II and III.
+
+Formalising it turned up the one place where his notation genuinely hides
+something: treating `K(Y)` and `S(Y)_((0))` as the same field makes the
+identification invisible, but it has to be built, and if it is built chart by
+chart then readings on different charts are not comparable. The way out was to
+keep the chart readings pointwise, where there is nothing to identify.
 
 ## Ingredients
 

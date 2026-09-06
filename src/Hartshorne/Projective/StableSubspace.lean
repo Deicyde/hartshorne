@@ -45,7 +45,7 @@ variable {k K : Type*} [Field k] [CommRing K] [IsDomain K] [Algebra k K]
 `k[f]` embeds into `V` by acting on a nonzero element, so it is finitely
 generated as a `k`-module, and every element of a finitely generated subalgebra
 is integral. -/
-theorem isIntegral_of_mul_mem (V : Submodule k K) [FiniteDimensional k V] (hV : V ≠ ⊥)
+theorem isIntegral_of_mul_mem (V : Submodule k K) [Module.Finite k ↥V] (hV : V ≠ ⊥)
     {f : K} (hf : ∀ v ∈ V, f * v ∈ V) : IsIntegral k f := by
   set S := Algebra.adjoin k ({f} : Set K) with hS
   -- Everything in `k[f]` stabilises `V`, by induction on the generation.
@@ -90,7 +90,7 @@ theorem exists_algebraMap_eq_of_isIntegral [IsAlgClosed k] {f : K} (hf : IsInteg
 a nonzero finite-dimensional subspace is a constant. This is Theorem 3.4(a) with
 the geometry removed. -/
 theorem exists_algebraMap_eq_of_mul_mem [IsAlgClosed k] (V : Submodule k K)
-    [FiniteDimensional k V] (hV : V ≠ ⊥) {f : K} (hf : ∀ v ∈ V, f * v ∈ V) :
+    [Module.Finite k ↥V] (hV : V ≠ ⊥) {f : K} (hf : ∀ v ∈ V, f * v ∈ V) :
     ∃ c : k, algebraMap k K c = f :=
   exists_algebraMap_eq_of_isIntegral (isIntegral_of_mul_mem V hV hf)
 
