@@ -1,7 +1,9 @@
 ---
 declaration: theorem
 origin: background
-lean: Hartshorne.injective_adjoinRoot_of Hartshorne.isAlgebraic_adjoinRoot Hartshorne.trdeg_adjoinRoot
+statement: formalized
+proof: formalized
+lean: Hartshorne.injective_adjoinRoot_of Hartshorne.isAlgebraic_adjoinRoot Hartshorne.trdeg_adjoinRoot Hartshorne.trdeg_quotient_span_of_degreeOf_zero_ne_zero Hartshorne.exists_degreeOf_ne_zero_of_irreducible Hartshorne.exists_trdeg_quotient_span_irreducible Hartshorne.trdeg_fractionRing Hartshorne.exists_trdeg_fractionRing_quotient_span_irreducible
 ---
 
 # A hypersurface in affine space drops the transcendence degree by one
@@ -27,23 +29,27 @@ node, which is Hartshorne's Proposition 1.13 and is a *consequence* of the
 dimension formula. This one is an input to it, and is about a polynomial ring
 rather than an arbitrary affine variety.
 
-## Status
+## How it is organised
 
-The algebraic core is proved (`Hartshorne.trdeg_adjoinRoot`): for a domain `A`
-over `k` and `F ∈ A[X]` of positive degree cutting out a domain, `A[X]/(F)` has
-the same transcendence degree over `k` as `A`. Positive degree is used twice —
-it makes `A → A[X]/(F)` injective, and it makes `F` a nonzero relation for the
-root — and the quotient must be a domain because that is what makes an algebraic
-extension contribute nothing.
+The mathematics is stated for `AdjoinRoot`, Mathlib's name for `A[X]/(F)`: for a
+domain `A` over `k` and `F` of positive degree cutting out a domain, `A[X]/(F)`
+has the same transcendence degree over `k` as `A`. Positive degree earns its
+place twice — it makes `A → A[X]/(F)` injective, and it makes `F` a nonzero
+relation for the root — and the quotient must be a domain, because that is what
+makes an algebraic extension contribute nothing.
 
-Stating it for `AdjoinRoot`, which is Mathlib's name for `A[X]/(F)`, keeps the
-mathematics separate from the `MvPolynomial` bookkeeping.
+Everything else is bookkeeping, kept separate: an irreducible polynomial
+involves some variable, since a constant is either zero or a unit; that variable
+is moved to the front by renaming along a transposition; and
+`MvPolynomial.finSuccEquiv` then presents `k[y₁,…,y_d]` as a polynomial ring in
+it over the other `d − 1`, carrying the quotient along.
 
-What is left is exactly that bookkeeping: singling out a variable occurring in
-`f` and viewing `k[y₁,…,y_d]` as a polynomial ring in it over the other `d − 1`.
-Mathlib has `MvPolynomial.finSuccEquiv` for the case of the first variable, so
-the work is a permutation of the index and transport of the quotient along an
-algebra isomorphism.
+The result is stated both for the quotient ring and for its fraction field,
+which is the form the dimension formula consumes; the two agree because a
+fraction field is algebraic over its domain.
+
+The drop is recorded as `n + 1 = d` rather than `d − 1`, so that no natural
+subtraction appears and the fact that `d ≥ 1` is carried explicitly.
 
 ## Depends on
 

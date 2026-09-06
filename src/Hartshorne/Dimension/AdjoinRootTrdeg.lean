@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Dimension.FgDomain
 import Mathlib.RingTheory.AdjoinRoot
 import Mathlib.RingTheory.Algebraic.Integral
+import Mathlib.Algebra.MvPolynomial.Equiv
 
 /-!
 # Adjoining a root does not change the transcendence degree
@@ -32,6 +33,9 @@ it makes `F` a nonzero relation for the root.
 * `Hartshorne.injective_adjoinRoot_of`
 * `Hartshorne.isAlgebraic_adjoinRoot`
 * `Hartshorne.trdeg_adjoinRoot`
+* `Hartshorne.trdeg_quotient_span_of_degreeOf_zero_ne_zero`
+* `Hartshorne.exists_trdeg_quotient_span_irreducible`
+* `Hartshorne.trdeg_fractionRing`
 -/
 
 namespace Hartshorne
@@ -84,5 +88,128 @@ theorem trdeg_adjoinRoot [IsDomain (AdjoinRoot G)] (hG : 0 < G.degree) :
   have h := trdeg_add_eq k B (A := AdjoinRoot G)
   rw [trdeg_eq_zero (R := B) (A := AdjoinRoot G), add_zero] at h
   exact h.symm
+
+/-- **The hypersurface computation.**
+
+Cutting `k[y₀,…,y_n]` by a prime principal ideal whose generator involves `y₀`
+leaves transcendence degree `n`.
+
+The polynomial ring is viewed as `k[y₁,…,y_n][y₀]` and the quotient becomes
+`AdjoinRoot`, where the previous result applies. That the generator involves
+`y₀` is what gives the polynomial positive degree in `y₀`. -/
+theorem trdeg_quotient_span_of_degreeOf_zero_ne_zero {n : ℕ}
+    {f : MvPolynomial (Fin (n + 1)) k}
+    [IsDomain (MvPolynomial (Fin (n + 1)) k ⧸ Ideal.span {f})]
+    (hdeg : MvPolynomial.degreeOf 0 f ≠ 0) :
+    Algebra.trdeg k (MvPolynomial (Fin (n + 1)) k ⧸ Ideal.span {f}) = n := by
+  classical
+  set e := MvPolynomial.finSuccEquiv k n with he
+  set F : Polynomial (MvPolynomial (Fin n) k) := e f with hF
+  -- The generator has positive degree in the distinguished variable.
+  have hFdeg : 0 < F.degree := by
+    have hnat : F.natDegree = MvPolynomial.degreeOf 0 f := MvPolynomial.natDegree_finSuccEquiv f
+    have hFne : F ≠ 0 := by
+      intro h
+      rw [h] at hnat
+      exact hdeg (by simpa using hnat.symm)
+    rw [Polynomial.degree_eq_natDegree hFne, hnat]
+    exact_mod_cast Nat.pos_of_ne_zero hdeg
+  -- The two quotients agree.
+  have hmap : Ideal.span {F} = (Ideal.span {f}).map e := by
+    rw [Ideal.map_span, Set.image_singleton]
+  have hquot : (MvPolynomial (Fin (n + 1)) k ⧸ Ideal.span {f}) ≃ₐ[k] AdjoinRoot F :=
+    Ideal.quotientEquivAlg (Ideal.span {f}) (Ideal.span {F}) e hmap
+  have _ : IsDomain (AdjoinRoot F) :=
+    Function.Injective.isDomain hquot.symm.toRingHom hquot.symm.injective
+  rw [hquot.trdeg_eq, trdeg_adjoinRoot hFdeg]
+  simp
+
+/-- An irreducible polynomial involves some variable: a constant is either zero
+or a unit. -/
+theorem exists_degreeOf_ne_zero_of_irreducible {ι : Type*} {f : MvPolynomial ι k}
+    (hf : Irreducible f) : ∃ i, MvPolynomial.degreeOf i f ≠ 0 := by
+  classical
+  by_contra hcon
+  push Not at hcon
+  -- Every exponent in every monomial is bounded by the corresponding `degreeOf`.
+  have hsupp : ∀ m ∈ f.support, m = 0 := by
+    intro m hm
+    ext x
+    have := MvPolynomial.monomial_le_degreeOf x hm
+    rw [hcon x] at this
+    simpa using this
+  have htot : f.totalDegree = 0 := by
+    refine Nat.le_zero.1 ?_
+    rw [MvPolynomial.totalDegree]
+    refine Finset.sup_le fun m hm => ?_
+    rw [hsupp m hm]
+    simp
+  have hC := MvPolynomial.totalDegree_eq_zero_iff_eq_C.1 htot
+  rcases eq_or_ne (MvPolynomial.coeff 0 f) 0 with hc | hc
+  · exact hf.ne_zero (by rw [hC, hc, map_zero])
+  · exact hf.not_isUnit
+      (hC ▸ (isUnit_iff_ne_zero.2 hc).map (MvPolynomial.C : k →+* MvPolynomial ι k))
+
+/-- **The hypersurface computation for an irreducible polynomial.**
+
+`k[y₁,…,y_d]/(f)` has transcendence degree `d − 1`, stated as `n + 1 = d` so
+that the drop is recorded without natural subtraction. -/
+theorem exists_trdeg_quotient_span_irreducible {d : ℕ} {f : MvPolynomial (Fin d) k}
+    (hf : Irreducible f) :
+    ∃ n : ℕ, n + 1 = d ∧
+      Algebra.trdeg k (MvPolynomial (Fin d) k ⧸ Ideal.span {f}) = n := by
+  classical
+  obtain ⟨i, hi⟩ := exists_degreeOf_ne_zero_of_irreducible hf
+  obtain ⟨n, rfl⟩ : ∃ n, d = n + 1 := ⟨d - 1, (Nat.succ_pred_eq_of_pos i.pos).symm⟩
+  refine ⟨n, rfl, ?_⟩
+  -- Move the variable that occurs to the front.
+  set σ : Equiv.Perm (Fin (n + 1)) := Equiv.swap i 0 with hσ
+  set E := MvPolynomial.renameEquiv k σ with hE
+  set g := E f with hg
+  have hgdeg : MvPolynomial.degreeOf 0 g ≠ 0 := by
+    have hren : MvPolynomial.degreeOf (σ i) (MvPolynomial.rename σ f)
+        = MvPolynomial.degreeOf i f := MvPolynomial.degreeOf_rename_of_injective σ.injective i
+    rw [hσ, Equiv.swap_apply_left] at hren
+    show MvPolynomial.degreeOf 0 (MvPolynomial.rename σ f) ≠ 0
+    rw [hren]
+    exact hi
+  have hprime : (Ideal.span {f}).IsPrime := by
+    refine (Ideal.span_singleton_prime hf.ne_zero).2 ?_
+    exact (UniqueFactorizationMonoid.irreducible_iff_prime).1 hf
+  have hquot : (MvPolynomial (Fin (n + 1)) k ⧸ Ideal.span {f}) ≃ₐ[k]
+      (MvPolynomial (Fin (n + 1)) k ⧸ Ideal.span {g}) :=
+    Ideal.quotientEquivAlg (Ideal.span {f}) (Ideal.span {g}) E (by
+      rw [Ideal.map_span, Set.image_singleton, hg]; rfl)
+  have _ : IsDomain (MvPolynomial (Fin (n + 1)) k ⧸ Ideal.span {f}) :=
+    Ideal.Quotient.isDomain _
+  have _ : IsDomain (MvPolynomial (Fin (n + 1)) k ⧸ Ideal.span {g}) :=
+    Function.Injective.isDomain hquot.symm.toRingHom hquot.symm.injective
+  rw [hquot.trdeg_eq]
+  exact trdeg_quotient_span_of_degreeOf_zero_ne_zero hgdeg
+
+/-- Passing to the fraction field does not change the transcendence degree: a
+fraction field is algebraic over its domain. -/
+theorem trdeg_fractionRing (C : Type u) [CommRing C] [IsDomain C] [Algebra k C] :
+    Algebra.trdeg k (FractionRing C) = Algebra.trdeg k C := by
+  have _ : Algebra.IsAlgebraic C (FractionRing C) :=
+    isAlgebraic_of_isFractionRing C (FractionRing C)
+  have _ : FaithfulSMul C (FractionRing C) :=
+    (faithfulSMul_iff_algebraMap_injective _ _).2
+      (IsFractionRing.injective C (FractionRing C))
+  have h := trdeg_add_eq k C (A := FractionRing C)
+  rw [trdeg_eq_zero (R := C) (A := FractionRing C), add_zero] at h
+  exact h.symm
+
+/-- **The hypersurface computation, on fraction fields.** This is the form the
+dimension formula consumes. -/
+theorem exists_trdeg_fractionRing_quotient_span_irreducible {d : ℕ}
+    {f : MvPolynomial (Fin d) k} (hf : Irreducible f) :
+    ∃ n : ℕ, n + 1 = d ∧
+      Algebra.trdeg k (FractionRing (MvPolynomial (Fin d) k ⧸ Ideal.span {f})) = n := by
+  obtain ⟨n, hn, htr⟩ := exists_trdeg_quotient_span_irreducible hf
+  have _ : (Ideal.span {f}).IsPrime :=
+    (Ideal.span_singleton_prime hf.ne_zero).2
+      (UniqueFactorizationMonoid.irreducible_iff_prime.1 hf)
+  exact ⟨n, hn, by rw [trdeg_fractionRing]; exact htr⟩
 
 end Hartshorne
