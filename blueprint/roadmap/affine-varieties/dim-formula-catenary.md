@@ -1,6 +1,7 @@
 ---
 declaration: theorem
 origin: background
+lean: Hartshorne.exists_ringKrullDim_quotient_eq_trdeg Hartshorne.height_add_ringKrullDim_quotient_eq_of_trdeg
 ---
 
 # The dimension formula for a finitely generated domain
@@ -25,17 +26,44 @@ Hauptidealsatz from a height statement into a dimension statement.
 
 One inequality is proved and is a separate node,
 [one inequality of the dimension formula](dim-formula-inequality.md):
-`height 𝔭 + dim R/𝔭 ≤ dim R`, in any commutative ring. What remains here is the
+`height 𝔭 + dim R/𝔭 ≤ dim R`, in any commutative ring. What remains is the
 reverse, which is the whole difficulty.
+
+**The reduction to transcendence degrees is proved**
+(`Hartshorne.height_add_ringKrullDim_quotient_eq_of_trdeg`). Part (a) computes
+`dim B` as `trdeg_k K(B)`, and it applies verbatim to `B/𝔭`, which is again a
+finitely generated domain. So the formula is equivalent to
+
+`trdeg_k K(B) = trdeg_k K(B/𝔭) + height 𝔭`,
+
+and that is what the remaining nodes prove. The reduction is worth isolating
+because the two statements are not of the same kind: the original is about the
+poset of primes and is what makes a ring catenary, while the transcendence-degree
+form is a statement about field extensions, and it is the form the standard
+proofs actually establish.
+
+## The remaining decomposition
+
+- [A height-one prime drops the transcendence degree by one](trdeg-drop-height-one.md)
+  is the heart. Everything else in the formula follows from it by induction
+  along a maximal chain below `𝔭`.
+- It rests on [going down](going-down-integral.md) for an integral extension of
+  a normal domain, and on
+  [the hypersurface computation](polynomial-hypersurface-trdeg.md) in a
+  polynomial ring.
 
 ## Mathlib boundary
 
-The pinned Mathlib has no `IsCatenary` and no dimension formula, so unlike the
-first clause this cannot be assembled from existing pieces. It needs the
-catenary property of finitely generated algebras over a field built from
-scratch, most likely by induction on the number of generators through Noether
-normalisation. Expect this to be the single biggest piece of the chapter, and
-expect it to be worth upstreaming.
+The pinned Mathlib has no `IsCatenary` and no dimension formula. It does have
+more of the surrounding machinery than expected: `Algebra.HasGoingDown` and, in
+particular, `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`, which is
+exactly the height comparison the argument needs.
+
+What is missing is the *hypothesis*: the only instance of `HasGoingDown` upstream
+is for flat algebras, and an integral extension is not flat. Supplying the
+classical instance is therefore the one genuinely large prerequisite, and it is
+a piece of commutative algebra worth upstreaming rather than a piece of
+Hartshorne.
 
 The transcendence-degree clause is available and does not depend on this one, so
 work that only needs `dim B = trdeg_k K(B)` should not be blocked behind it.
@@ -46,6 +74,8 @@ work that only needs `dim B = trdeg_k K(B)` should not be blocked behind it.
 - [One inequality of the dimension formula](dim-formula-inequality.md)
 - [Krull dimension is invariant under integral extensions](dimension-integral-extension.md)
 - [A finitely generated algebra over a field has finite dimension](dim-fg-algebra-finite.md)
+- [A height-one prime drops the transcendence degree by one](trdeg-drop-height-one.md)
+- [Dimension of a finitely generated domain](dim-fg-domain.md)
 
 ## Sources
 
