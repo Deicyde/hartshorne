@@ -1,7 +1,7 @@
 ---
 declaration: theorem
 origin: background
-lean: Hartshorne.exists_ringKrullDim_quotient_eq_trdeg Hartshorne.height_add_ringKrullDim_quotient_eq_of_trdeg
+lean: Hartshorne.exists_ringKrullDim_quotient_eq_trdeg Hartshorne.height_add_ringKrullDim_quotient_eq_of_trdeg Hartshorne.height_lt_height_of_lt Hartshorne.isPrime_map_quotient Hartshorne.comap_map_quotient Hartshorne.comap_lt_comap_quotient Hartshorne.eq_bot_of_comap_eq Hartshorne.height_bot_eq_zero Hartshorne.height_map_quotient_eq_one
 ---
 
 # The dimension formula for a finitely generated domain
@@ -65,10 +65,16 @@ above `h`, and `𝔭` height above that, so at least `h + 2`. With it the induct
 is mechanical — apply the height-one result to `B/𝔮`, use
 `(B/𝔮)/(𝔭/𝔮) ≅ B/𝔭`, and appeal to the inductive hypothesis for `𝔮`.
 
-An attempt at this lemma is not yet in the repository. The mathematics is three
-lines; the care needed is with the correspondence between primes of `R/𝔮` and
-primes of `R` above `𝔮`, and with the fact that strict monotonicity of height
-lives on `Order.height` over `PrimeSpectrum` rather than on `Ideal.height`.
+That lemma is now proved (`Hartshorne.height_map_quotient_eq_one`). The
+mathematics is three lines; what it cost was the two mismatches anticipated —
+strict monotonicity of height lives on `Order.height` over `PrimeSpectrum`
+rather than on `Ideal.height`, so the two have to be bridged, and primes of
+`R/𝔮` have to be pushed back to primes of `R` above `𝔮`, where the height
+hypotheses live. Both are now separate named lemmas.
+
+What is left is the induction itself: pick `𝔮 < 𝔭` of height `h` from a maximal
+chain, apply the height-one result to `B/𝔮`, and identify `(B/𝔮)/(𝔭/𝔮)` with
+`B/𝔭`.
 
 ## Mathlib boundary
 
