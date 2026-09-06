@@ -3,7 +3,7 @@ declaration: def
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.projFunctionFieldEquiv Hartshorne.projFunctionFieldEquivFractionRing Hartshorne.projFunctionFieldEquivGraded Hartshorne.isDomain_homogeneousCoordinateRing Hartshorne.mk_X_ne_zero Hartshorne.isFractionRing_projAtPrimeBot
+lean: Hartshorne.projFunctionFieldEquiv Hartshorne.projFunctionFieldEquivFractionRing Hartshorne.projFunctionFieldEquivGraded Hartshorne.isDomain_homogeneousCoordinateRing Hartshorne.mk_X_ne_zero Hartshorne.isFractionRing_projAtPrimeBot Hartshorne.isOpen_projNonvanishing Hartshorne.projRatOfFraction Hartshorne.projRatOfFraction_toFun Hartshorne.projRatOfFraction_rel
 ---
 
 # The function field of a projective variety
@@ -39,6 +39,30 @@ irreducible `Y`; and the class of `xᵢ` is nonzero in `S(Y)`, because `xᵢ` do
 not vanish at a point of `Y` in the chart. The second is where the hypothesis
 that `Y` meets `Uᵢ` is used, and it is the only hypothesis the theorem needs
 beyond `Y` being projective.
+
+## A chart-free version is under construction
+
+The isomorphism above is built through a chart, which is what parts (b) and (c)
+want. [Part (a)](projective-global-regular.md) needs one that is not, because it
+compares readings on different charts and has to know they land on the same
+element.
+
+The chart-free route runs the other way: an element of `S(Y)_((0))` is `[g]/[h]`
+with `g`, `h` homogeneous of the same degree, and `P ↦ g(P)/h(P)` is directly a
+rational function on the open set where `h ≠ 0`
+(`Hartshorne.projRatOfFraction`). Nothing is checked beyond two pointwise facts:
+the ratio does not see the choice of representative because the degrees agree,
+and it is regular because being locally such a ratio *is* the definition of
+regular on a projective variety — here it is such a ratio on its whole domain.
+
+Well-definedness is likewise pointwise
+(`Hartshorne.projRatOfFraction_rel`): the localisation hands over an equation
+`g h' = g' h` in `S(Y)`, an element of `J(Y)` vanishes on `Y`, and cross
+multiplication finishes.
+
+What remains is to assemble these into the ring map `S(Y)_((0)) → K(Y)` and show
+it bijective. Surjectivity is the definition of regular read backwards;
+injectivity is that a nonzero fraction is nonzero somewhere.
 
 ## Depends on
 
