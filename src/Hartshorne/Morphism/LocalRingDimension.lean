@@ -41,21 +41,8 @@ nothing and the height absorbs the whole dimension. -/
 theorem height_maximalIdealAt_eq (hY : IsAffineVariety Y) (P : Y) :
     ((maximalIdealAt Y P).height : WithBot ℕ∞) = ringKrullDim (coordinateRing Y) := by
   haveI : IsDomain (coordinateRing Y) := isDomain_coordinateRing hY
-  haveI : FiniteRingKrullDim (coordinateRing Y) :=
-    finiteRingKrullDim_of_finiteType k (coordinateRing Y)
-  haveI hmax : (maximalIdealAt Y P).IsMaximal := maximalIdealAt_isMaximal P
-  haveI : (maximalIdealAt Y P).IsPrime := hmax.isPrime
-  obtain ⟨h, hh⟩ : ∃ h : ℕ, (maximalIdealAt Y P).height = h :=
-    ENat.ne_top_iff_exists.mp ((maximalIdealAt Y P).height_ne_top hmax.ne_top) |>.imp
-      fun _ e => e.symm
-  have hquot : ringKrullDim (coordinateRing Y ⧸ maximalIdealAt Y P) = 0 := by
-    exact ringKrullDim_eq_zero_of_isField
-      ((Ideal.Quotient.maximal_ideal_iff_isField_quotient _).1 hmax)
-  have hform := height_add_ringKrullDim_quotient_eq k (coordinateRing Y)
-    (maximalIdealAt Y P) h hh
-  rw [hquot, add_zero] at hform
-  rw [hh]
-  exact hform
+  haveI : (maximalIdealAt Y P).IsMaximal := maximalIdealAt_isMaximal P
+  exact height_eq_ringKrullDim_of_isMaximal k (coordinateRing Y) (maximalIdealAt Y P)
 
 /-- **Theorem 3.2(c) in full**: `dim 𝒪_P = dim Y`. -/
 theorem ringKrullDim_localRingAt_eq_dim (hY : IsAffineVariety Y) (P : Y) :

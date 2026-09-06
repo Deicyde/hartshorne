@@ -31,6 +31,7 @@ is how `𝔮` is found.
 
 * `Hartshorne.trdeg_eq_trdeg_quotient_add_height`
 * `Hartshorne.height_add_ringKrullDim_quotient_eq`
+* `Hartshorne.height_eq_ringKrullDim_of_isMaximal`
 -/
 
 namespace Hartshorne
@@ -116,5 +117,26 @@ theorem height_add_ringKrullDim_quotient_eq (B : Type u) [CommRing B] [IsDomain 
   have hkey := trdeg_eq_trdeg_quotient_add_height k h B 𝔭 hp hh
   rw [hd, he] at hkey
   exact_mod_cast hkey
+
+/-- **Every maximal ideal of a finitely generated domain has height the whole
+dimension.**
+
+The quotient by a maximal ideal is a field, so it contributes nothing to the
+dimension formula and the height absorbs everything. This is what makes such a
+ring equidimensional, and it is the form in which the formula is used
+geometrically. -/
+theorem height_eq_ringKrullDim_of_isMaximal (B : Type u) [CommRing B] [IsDomain B]
+    [Algebra k B] [Algebra.FiniteType k B] (𝔪 : Ideal B) [hm : 𝔪.IsMaximal] :
+    ((𝔪.height : ℕ∞) : WithBot ℕ∞) = ringKrullDim B := by
+  haveI : FiniteRingKrullDim B := finiteRingKrullDim_of_finiteType k B
+  haveI : 𝔪.IsPrime := hm.isPrime
+  obtain ⟨h, hh⟩ : ∃ h : ℕ, 𝔪.height = h :=
+    ENat.ne_top_iff_exists.mp (𝔪.height_ne_top hm.ne_top) |>.imp fun _ e => e.symm
+  have hquot : ringKrullDim (B ⧸ 𝔪) = 0 :=
+    ringKrullDim_eq_zero_of_isField ((Ideal.Quotient.maximal_ideal_iff_isField_quotient _).1 hm)
+  have hform := height_add_ringKrullDim_quotient_eq k B 𝔪 h hh
+  rw [hquot, add_zero] at hform
+  rw [hh]
+  exact hform
 
 end Hartshorne
