@@ -75,6 +75,7 @@ import Hartshorne.Projective.PointIdeal
 import Hartshorne.Projective.StableSubspace
 import Hartshorne.Projective.DegreeBound
 import Hartshorne.Projective.CanonicalRational
+import Hartshorne.Projective.ChartRepresentation
 import Hartshorne.Morphism.GlobalRegularFunctionField
 import Hartshorne.Morphism.ProjGlobalRegular
 import Hartshorne.Morphism.ProjLocalRingGraded

@@ -27,6 +27,8 @@ motivation Hartshorne gives for Chapters II and III.
 - [Graded localization](graded-localization.md)
 - [The homogeneous prime at a point](point-ideal.md)
 - [An element stabilising a finite-dimensional subspace is integral](stable-subspace.md)
+- [Reading a global regular function on a chart](chart-reading.md)
+- [The degree bound](degree-bound.md)
 
 ## Theorem 3.4
 
