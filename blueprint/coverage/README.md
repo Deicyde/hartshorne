@@ -99,10 +99,14 @@ A section counts as finished when every article listed for it satisfies all of:
    including the standing hypothesis that `k` is algebraically closed and the
    convention that varieties are irreducible.
 
-The chapter counts as finished when all three sections do. Derived progress on
-the published site is computed from the dependency graph and is not a claim
-about scope: a green node means its Lean proof compiles, not that the section
-containing it is complete.
+The chapter counts as finished when all three sections do. **All three do.**
+Every article compiles, no proof contains `sorry` or `native_decide`, every
+`#print axioms` is clean, and every statement has been read against its cited
+passage.
+
+Derived progress on the published site is computed from the dependency graph and
+is not a claim about scope: a green node means its Lean proof compiles, not that
+the section containing it is complete.
 
 ## What is not claimed
 
