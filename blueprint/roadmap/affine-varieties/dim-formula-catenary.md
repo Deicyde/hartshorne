@@ -42,15 +42,33 @@ poset of primes and is what makes a ring catenary, while the transcendence-degre
 form is a statement about field extensions, and it is the form the standard
 proofs actually establish.
 
-## The remaining decomposition
+## What is proved, and what is left
 
-- [A height-one prime drops the transcendence degree by one](trdeg-drop-height-one.md)
-  is the heart. Everything else in the formula follows from it by induction
-  along a maximal chain below `𝔭`.
-- It rests on [the height comparison](height-comap-integral.md) for an integral extension of
-  a normal domain, and on
+Three of the four pieces are done:
+
+- [A height-one prime drops the transcendence degree by one](trdeg-drop-height-one.md),
+  the heart of the argument;
+- its two inputs, [the height comparison](height-comap-integral.md) for an
+  integral extension of a normal domain, and
   [the hypersurface computation](polynomial-hypersurface-trdeg.md) in a
   polynomial ring.
+
+What remains is the induction from height one to general height, and it needs
+exactly one lemma that is not upstream:
+
+**if `𝔮 < 𝔭` are primes with `height 𝔮 = h` and `height 𝔭 = h + 1`, then `𝔭/𝔮`
+has height one in `R/𝔮`.**
+
+The content is that nothing lies strictly between `𝔮` and `𝔭`, and that is
+forced by the heights rather than assumed: an intermediate `𝔯` would have height
+above `h`, and `𝔭` height above that, so at least `h + 2`. With it the induction
+is mechanical — apply the height-one result to `B/𝔮`, use
+`(B/𝔮)/(𝔭/𝔮) ≅ B/𝔭`, and appeal to the inductive hypothesis for `𝔮`.
+
+An attempt at this lemma is not yet in the repository. The mathematics is three
+lines; the care needed is with the correspondence between primes of `R/𝔮` and
+primes of `R` above `𝔮`, and with the fact that strict monotonicity of height
+lives on `Order.height` over `PrimeSpectrum` rather than on `Ideal.height`.
 
 ## Mathlib boundary
 
