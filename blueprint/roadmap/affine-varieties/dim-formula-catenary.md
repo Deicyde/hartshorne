@@ -47,7 +47,7 @@ proofs actually establish.
 - [A height-one prime drops the transcendence degree by one](trdeg-drop-height-one.md)
   is the heart. Everything else in the formula follows from it by induction
   along a maximal chain below `𝔭`.
-- It rests on [going down](going-down-integral.md) for an integral extension of
+- It rests on [the height comparison](height-comap-integral.md) for an integral extension of
   a normal domain, and on
   [the hypersurface computation](polynomial-hypersurface-trdeg.md) in a
   polynomial ring.
@@ -59,11 +59,11 @@ more of the surrounding machinery than expected: `Algebra.HasGoingDown` and, in
 particular, `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`, which is
 exactly the height comparison the argument needs.
 
-What is missing is the *hypothesis*: the only instance of `HasGoingDown` upstream
-is for flat algebras, and an integral extension is not flat. Supplying the
-classical instance is therefore the one genuinely large prerequisite, and it is
-a piece of commutative algebra worth upstreaming rather than a piece of
-Hartshorne.
+It also has the going-down instance for an integral extension of an integrally
+closed domain, in `IntegralClosure/GoingDown.lean` — which an earlier survey of
+this node reported as missing. That was wrong: the instance is anonymous and
+sits away from the `HasGoingDown` class, and the search that produced the claim
+did not reach it. Nothing about going down needs to be built.
 
 The transcendence-degree clause is available and does not depend on this one, so
 work that only needs `dim B = trdeg_k K(B)` should not be blocked behind it.

@@ -18,7 +18,7 @@ Take a Noether normalisation `k[y₁,…,y_d] ⊆ B`, so `B` is integral over a
 polynomial ring and `d = trdeg_k K(B)`. Let `𝔮 = 𝔭 ∩ k[y]`.
 
 - `height 𝔮 = height 𝔭 = 1`, by
-  [going down](going-down-integral.md) together with the fact that the fibres of
+  [the height comparison](height-comap-integral.md) together with the fact that the fibres of
   an integral extension are zero-dimensional. This is the only step that is not
   formal, and it is the one Mathlib does not supply.
 - A height-one prime of a UFD is principal, so `𝔮 = (f)` with `f` irreducible,
@@ -28,7 +28,7 @@ polynomial ring and `d = trdeg_k K(B)`. Let `𝔮 = 𝔭 ∩ k[y]`.
 
 ## Depends on
 
-- [Going down for an integral extension of a normal domain](going-down-integral.md)
+- [Height is preserved by contraction along an integral extension](height-comap-integral.md)
 - [A hypersurface in affine space drops the transcendence degree by one](polynomial-hypersurface-trdeg.md)
 - [Dimension of a finitely generated domain](dim-fg-domain.md)
 

@@ -42,7 +42,7 @@ what the rest of Chapter I computes with.
 - [One inequality of the dimension formula](dim-formula-inequality.md)
 - [The dimension formula for a finitely generated domain](dim-formula-catenary.md)
 - [A height-one prime drops the transcendence degree by one](trdeg-drop-height-one.md)
-- [Going down for an integral extension of a normal domain](going-down-integral.md)
+- [Height is preserved by contraction along an integral extension](height-comap-integral.md)
 - [A hypersurface in affine space drops the transcendence degree by one](polynomial-hypersurface-trdeg.md)
 - [The dimension of affine space](dim-affine-space.md)
 - [Dimension of a quasi-affine variety](dim-quasi-affine.md)
