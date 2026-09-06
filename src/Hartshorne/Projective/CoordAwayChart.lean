@@ -52,6 +52,21 @@ theorem mk_X_mem_projCoordGrading (i : σ) (Y : Set (ProjectiveSpace k σ)) :
     (Ideal.Quotient.mk (projVanishingIdeal Y).toIdeal (X i)) ∈ projCoordGrading Y 1 :=
   ⟨X i, X_mem_homogeneousSubmodule i, rfl⟩
 
+omit [DecidableEq σ] in
+/-- Each graded piece of `S(Y)` is a finite-dimensional `k`-vector space: it is
+the image of a graded piece of the polynomial ring, and those are finitely
+generated when there are finitely many variables.
+
+This is the finiteness Theorem 3.4(a) turns on. -/
+theorem fg_projCoordGrading [Finite σ] (Y : Set (ProjectiveSpace k σ)) (n : ℕ) :
+    (projCoordGrading Y n).FG :=
+  (MvPolynomial.homogeneousSubmodule_fg σ k n).map _
+
+omit [DecidableEq σ] in
+theorem finiteDimensional_projCoordGrading [Finite σ] (Y : Set (ProjectiveSpace k σ))
+    (n : ℕ) : FiniteDimensional k (projCoordGrading Y n) :=
+  Module.Finite.of_fg (fg_projCoordGrading Y n)
+
 /-- Dehomogenisation sends the class of `xᵢ` to `1`. -/
 @[simp]
 theorem coordChartHom_mk_X (i : σ) (Y : Set (ProjectiveSpace k σ)) :
