@@ -26,6 +26,7 @@ motivation Hartshorne gives for Chapters II and III.
 - [The charts are isomorphisms of varieties](chart-isomorphism.md)
 - [Graded localization](graded-localization.md)
 - [The homogeneous prime at a point](point-ideal.md)
+- [An element stabilising a finite-dimensional subspace is integral](stable-subspace.md)
 
 ## Theorem 3.4
 

@@ -1,7 +1,7 @@
 ---
 declaration: theorem
 origin: cited
-lean: Hartshorne.isIntegral_of_mul_mem Hartshorne.exists_algebraMap_eq_of_isIntegral Hartshorne.exists_algebraMap_eq_of_mul_mem Hartshorne.fg_projCoordGrading Hartshorne.finiteDimensional_projCoordGrading Hartshorne.Variety.globalRationalRep Hartshorne.Variety.globalToFunctionField Hartshorne.Variety.globalToFunctionField_injective Hartshorne.VarietyHom.globalPullback Hartshorne.VarietyHom.functionFieldHom_globalToFunctionField Hartshorne.coordToRational_eq_globalToFunctionField Hartshorne.VarietyHom.globalPullback_id Hartshorne.VarietyHom.globalPullback_comp Hartshorne.restrictFunctionFieldEquiv Hartshorne.chartFunctionFieldEquiv Hartshorne.restrictFunctionFieldEquiv_globalToFunctionField Hartshorne.chartFunctionFieldEquiv_symm_globalToFunctionField Hartshorne.exists_coordToRational_eq_of_globalRegular Hartshorne.exists_awayToAtPrime_eq_of_globalRegular Hartshorne.mk_X_eq_zero_of_inter_eq_empty Hartshorne.exists_le_of_degree_le Hartshorne.monomial_eq_mul_X_pow Hartshorne.degree_sub_single Hartshorne.gradedImage Hartshorne.mul_mem_gradedImage
+lean: Hartshorne.restrictFunctionFieldEquiv Hartshorne.chartFunctionFieldEquiv Hartshorne.restrictFunctionFieldEquiv_globalToFunctionField Hartshorne.chartFunctionFieldEquiv_symm_globalToFunctionField Hartshorne.exists_coordToRational_eq_of_globalRegular Hartshorne.exists_awayToAtPrime_eq_of_globalRegular Hartshorne.mk_X_eq_zero_of_inter_eq_empty Hartshorne.exists_le_of_degree_le Hartshorne.monomial_eq_mul_X_pow Hartshorne.degree_sub_single Hartshorne.gradedImage Hartshorne.mul_mem_gradedImage
 ---
 
 # The global regular functions of a projective variety
@@ -25,38 +25,18 @@ analogue and no reduction to one chart: it uses the whole affine cover at once,
 and the finiteness it turns on is a statement about the graded pieces of `S(Y)`
 rather than about germs or fractions.
 
-Two of the three ingredients are proved, and they are the ones with content.
+Every ingredient is now proved; what is left is to put them together.
 
-**The integrality core** (`Hartshorne.exists_algebraMap_eq_of_mul_mem`), stated
-with the geometry removed: if `K` is a `k`-algebra domain, `V ⊆ K` a nonzero
-finite-dimensional `k`-subspace, and `f · V ⊆ V`, then `f` is integral over `k`,
-and lies in `k` when `k` is algebraically closed. What makes `f · V ⊆ V` give
-integrality rather than mere algebraicity is the determinant trick, and Mathlib
-supplies it as `IsIntegral.of_mem_of_fg`: it is enough that `k[f]` be a finitely
-generated `k`-module, which holds because `a ↦ a · v` embeds `k[f]` into `V` for
-any nonzero `v ∈ V`, injectively because `K` is a domain.
-
-**The finiteness** (`Hartshorne.finiteDimensional_projCoordGrading`): each graded
-piece of `S(Y)` is a finite-dimensional `k`-vector space, being the image of a
-graded piece of the polynomial ring, which is finitely generated when there are
-finitely many variables.
+**The integrality core** and the finiteness it consumes are
+[their own node](stable-subspace.md): an element stabilising a nonzero
+finite-dimensional subspace is integral, hence constant over an algebraically
+closed field, and each graded piece of `S(Y)` is finite-dimensional.
 
 **The common home.** A global regular function and the graded pieces of `S(Y)`
 have nothing to do with each other until both sit inside `K(Y)`, so `𝒪(X)` has
-to embed in `K(X)` over the abstract structure
-(`Hartshorne.Variety.globalToFunctionField`). That is free — a global regular
-function is a rational function whose domain happens to be everything, and
-injectivity is that the overlap of two everywhere-defined domains is
-everything. Parts (b) and (c) never needed it, because they worked one chart at
-a time and a chart supplies its own ambient ring.
-
-Two compatibilities come with it, and they are what make the chart readings
-comparable: the embedding commutes with pullback along a dominant morphism
-(`functionFieldHom_globalToFunctionField`), and on an affine variety the two
-routes from `A(Y)` into `K(Y)` — through Theorem 3.2(a) as a global regular
-function, or directly as a rational function — agree
-(`coordToRational_eq_globalToFunctionField`). Both are `Quotient.sound` on
-representatives that are literally the same function.
+to embed in `K(X)` over the abstract structure; that too is
+[its own node](../global-regular-in-function-field.md), along with the
+compatibilities that make readings on different charts comparable.
 
 **The chart reading.** With those in hand, the image of a global regular
 function in `K(Y)` lies in the image of `A(Yᵢ)`
@@ -107,6 +87,8 @@ point of `Y` lies in some chart, so `xᵢ` does not vanish on `Y` and `[xᵢ]^N 
 ## Depends on
 
 - [The ring of regular functions](../ring-of-regular-functions.md)
+- [Global regular functions inside the function field](../global-regular-in-function-field.md)
+- [An element stabilising a finite-dimensional subspace is integral](stable-subspace.md)
 - [Graded localization](graded-localization.md)
 - [The homogeneous vanishing ideal](../../projective-varieties/homogeneous-vanishing-ideal.md)
 

@@ -42,6 +42,7 @@ geometry and commutative algebra are the same subject.
 - [The function field of an arbitrary variety](function-field-abstract.md)
 - [The function field is functorial for dominant morphisms](function-field-functorial.md)
 - [The three rings embed in the function field](function-field-injections.md)
+- [Global regular functions inside the function field](global-regular-in-function-field.md)
 
 ## Computing them
 
