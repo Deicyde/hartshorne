@@ -1,7 +1,9 @@
 ---
 declaration: theorem
 origin: cited
-lean: Hartshorne.dim_le_dim_closure Hartshorne.inter_eq_inter_isOpen Hartshorne.isIrreducible_inter_of_subset_closure Hartshorne.closure_inter_eq_of_subset_closure Hartshorne.isPreirreducible_preimage_val Hartshorne.isIrreducible_preimage_val Hartshorne.restrictToY Hartshorne.strictMono_restrictToY
+statement: formalized
+proof: formalized
+lean: Hartshorne.dim_eq_dim_closure Hartshorne.dim_closure_le_dim Hartshorne.dim_le_dim_closure Hartshorne.inter_eq_inter_isOpen Hartshorne.isIrreducible_inter_of_subset_closure Hartshorne.closure_inter_eq_of_subset_closure Hartshorne.isPreirreducible_preimage_val Hartshorne.isIrreducible_preimage_val Hartshorne.restrictToY Hartshorne.strictMono_restrictToY Hartshorne.zeroLocusOfPrime Hartshorne.zeroLocusOfPrime_subset_closure Hartshorne.mem_zeroLocusOfPrime Hartshorne.zeroLocusOfPrime_lt
 ---
 
 # Dimension of a quasi-affine variety
@@ -21,7 +23,9 @@ statement, which is worth knowing when scheduling the background node.
 
 ## Status
 
-The easy inequality is proved (`Hartshorne.dim_le_dim_closure`), for an
+Proved, as `Hartshorne.dim_eq_dim_closure`.
+
+The easy inequality (`Hartshorne.dim_le_dim_closure`), for an
 arbitrary subset rather than just a quasi-affine variety: a chain of irreducible
 closed subsets of a subspace is no longer than one upstairs. Mathlib states that
 for an inducing map, and the inclusion of `Y` into its closure is inducing
@@ -54,10 +58,21 @@ irreducibility — Mathlib has the forward direction along a continuous map but
 not this one, so it is proved here from the fact that opens of a subspace are
 traces of ambient opens.
 
-What is left is to feed a chain into it: a chain of primes below `𝔪_P` becomes,
-through the project's existing correspondence, a chain of irreducible closed
-subsets of the ambient space contained in `Ȳ` and containing `P`, and
-`LTSeries.map` then carries it into `IrreducibleCloseds ↥Y` at the same length.
+Feeding a chain into it is the last step (`Hartshorne.dim_closure_le_dim`).
+A prime `𝔭` of `A(Ȳ)` gives the irreducible closed set `Z(𝔭)` cut out by its
+preimage in the polynomial ring (`Hartshorne.zeroLocusOfPrime`); that set lies
+inside `Ȳ` because the preimage contains `I(Ȳ)`, contains `P` as soon as
+`𝔭 ⊆ 𝔪_P`, and the assignment reverses strict inclusions. A chain realising
+`height 𝔪_P` therefore becomes, read backwards and restricted to `Y`, a chain in
+`IrreducibleCloseds ↥Y` of the same length, so
+`dim Ȳ = height 𝔪_P ≤ dim Y`.
+
+Two Lean details are worth recording. The height result is stated for a ring in
+the *same* universe as `k`, so the ambient space has to be `Fin m → k` rather
+than `σ → k` for a general index type; every other dimension result in the
+chapter already carries that restriction. And the chain construction is slow
+enough to need a raised heartbeat limit, the cost sitting in the elaboration of
+the restricted chain rather than in any one tactic.
 
 ## Depends on
 
