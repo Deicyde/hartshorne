@@ -1,7 +1,7 @@
 ---
 declaration: theorem
 origin: cited
-lean: Hartshorne.isIntegral_of_mul_mem Hartshorne.exists_algebraMap_eq_of_isIntegral Hartshorne.exists_algebraMap_eq_of_mul_mem Hartshorne.fg_projCoordGrading Hartshorne.finiteDimensional_projCoordGrading Hartshorne.Variety.globalRationalRep Hartshorne.Variety.globalToFunctionField Hartshorne.Variety.globalToFunctionField_injective Hartshorne.VarietyHom.globalPullback Hartshorne.VarietyHom.functionFieldHom_globalToFunctionField Hartshorne.coordToRational_eq_globalToFunctionField Hartshorne.VarietyHom.globalPullback_id Hartshorne.VarietyHom.globalPullback_comp Hartshorne.restrictFunctionFieldEquiv Hartshorne.chartFunctionFieldEquiv Hartshorne.restrictFunctionFieldEquiv_globalToFunctionField Hartshorne.chartFunctionFieldEquiv_symm_globalToFunctionField Hartshorne.exists_coordToRational_eq_of_globalRegular
+lean: Hartshorne.isIntegral_of_mul_mem Hartshorne.exists_algebraMap_eq_of_isIntegral Hartshorne.exists_algebraMap_eq_of_mul_mem Hartshorne.fg_projCoordGrading Hartshorne.finiteDimensional_projCoordGrading Hartshorne.Variety.globalRationalRep Hartshorne.Variety.globalToFunctionField Hartshorne.Variety.globalToFunctionField_injective Hartshorne.VarietyHom.globalPullback Hartshorne.VarietyHom.functionFieldHom_globalToFunctionField Hartshorne.coordToRational_eq_globalToFunctionField Hartshorne.VarietyHom.globalPullback_id Hartshorne.VarietyHom.globalPullback_comp Hartshorne.restrictFunctionFieldEquiv Hartshorne.chartFunctionFieldEquiv Hartshorne.restrictFunctionFieldEquiv_globalToFunctionField Hartshorne.chartFunctionFieldEquiv_symm_globalToFunctionField Hartshorne.exists_coordToRational_eq_of_globalRegular Hartshorne.exists_awayToAtPrime_eq_of_globalRegular
 ---
 
 # The global regular functions of a projective variety
@@ -60,7 +60,7 @@ representatives that are literally the same function.
 
 **The chart reading.** With those in hand, the image of a global regular
 function in `K(Y)` lies in the image of `A(Yᵢ)`
-(`Hartshorne.exists_coordToRational_eq_of_globalRegular`) — the sentence "`f` is
+(`Hartshorne.exists_coordToRational_eq_of_globalRegular Hartshorne.exists_awayToAtPrime_eq_of_globalRegular`) — the sentence "`f` is
 regular on `Yᵢ`, so `f ∈ A(Yᵢ)`" that Hartshorne's proof opens with. It is a
 chase along the three isomorphisms identifying `K(Y)` with the affine chart's
 function field, checking at each step that a global regular function stays one.
@@ -72,19 +72,29 @@ Nothing in the chase is deep, and none of it was available from parts (b) and
 (c): they moved one *ring* across the chart isomorphism, while this moves an
 *element* and has to know where it lands.
 
+**`f = gᵢ/xᵢ^{Nᵢ}`.** Pushing that through `A(Yᵢ) ≅ S(Y)_(xᵢ)` and
+[part (c)](projective-function-field.md) puts the image of `f` in `S(Y)_((0))`
+inside the image of `S(Y)_(xᵢ)`
+(`Hartshorne.exists_awayToAtPrime_eq_of_globalRegular`). That is Hartshorne's
+`xᵢ^{Nᵢ} f ∈ S(Y)`, with the power of `xᵢ` kept inside the graded localisation
+rather than written out. It is short because every map involved commutes with
+`algebraMap`, so the image of `A(Yᵢ)` is carried where it should go.
+
 ## What is left
 
-Two things, and this is where (a) is genuinely harder than (b) and (c) rather
-than merely different: those two travelled one chart at a time, while this one
-needs every chart inside one ring at once.
+The degree bookkeeping, and nothing else. Choose `N` at least the sum of the
+`Nᵢ`; then `f · S(Y)_N ⊆ S(Y)_N` inside `Frac(S(Y))`, and the integrality core
+finishes.
 
-- Turning "in the image of `A(Yᵢ)`" into "`f = gᵢ/xᵢ^{Nᵢ}` in `S(Y)_((0))`", by
-  pushing the statement above through `A(Yᵢ) ≅ S(Y)_(xᵢ)` and
-  [part (c)](projective-function-field.md), which already identifies `K(Y)` with
-  `S(Y)_((0))`.
-- The degree bookkeeping: choosing `N ≥ Σ Nᵢ` so that `S(Y)_N · f ⊆ S(Y)_N`.
-  This is combinatorics over the finite index set, and it is the only place the
-  cover being finite is used.
+The argument is a pigeonhole. `S(Y)_N` is spanned by classes of degree-`N`
+monomials, and for such a monomial `x^α` there are two cases. If some `αᵢ > 0`
+with `Y ∩ Uᵢ` empty, then `xᵢ` vanishes on `Y`, so the class is zero and there is
+nothing to check. Otherwise `α` is supported on the indices that do meet `Y`,
+and `Σ αᵢ = N ≥ Σ Nᵢ` over those, so some `αᵢ ≥ Nᵢ` — and then
+`x^α · f = (x^α/xᵢ^{Nᵢ}) · gᵢ` is again in `S(Y)_N`.
+
+This is the only place the cover being finite is used, and the only remaining
+step that is combinatorial rather than a transport.
 
 ## Depends on
 
