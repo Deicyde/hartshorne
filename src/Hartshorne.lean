@@ -46,6 +46,7 @@ import Hartshorne.Dimension.AdjoinRootTrdeg
 import Hartshorne.Dimension.HeightIntegral
 import Hartshorne.Dimension.HeightOneTrdeg
 import Hartshorne.Dimension.QuotientHeight
+import Hartshorne.Dimension.DimFormula
 import Hartshorne.Morphism.CoordinateRingIso
 import Hartshorne.Morphism.HomAffine
 import Hartshorne.Morphism.GlobalRegularTop

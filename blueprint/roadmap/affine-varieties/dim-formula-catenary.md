@@ -1,7 +1,9 @@
 ---
 declaration: theorem
 origin: background
-lean: Hartshorne.exists_ringKrullDim_quotient_eq_trdeg Hartshorne.height_add_ringKrullDim_quotient_eq_of_trdeg Hartshorne.height_lt_height_of_lt Hartshorne.isPrime_map_quotient Hartshorne.comap_map_quotient Hartshorne.comap_lt_comap_quotient Hartshorne.eq_bot_of_comap_eq Hartshorne.height_bot_eq_zero Hartshorne.height_map_quotient_eq_one
+statement: formalized
+proof: formalized
+lean: Hartshorne.trdeg_eq_trdeg_quotient_add_height Hartshorne.height_add_ringKrullDim_quotient_eq Hartshorne.exists_ringKrullDim_quotient_eq_trdeg Hartshorne.height_add_ringKrullDim_quotient_eq_of_trdeg Hartshorne.height_lt_height_of_lt Hartshorne.isPrime_map_quotient Hartshorne.comap_map_quotient Hartshorne.comap_lt_comap_quotient Hartshorne.eq_bot_of_comap_eq Hartshorne.height_bot_eq_zero Hartshorne.height_map_quotient_eq_one
 ---
 
 # The dimension formula for a finitely generated domain
@@ -22,59 +24,32 @@ maximal chain, observes its bottom term is a point, and needs `dim B/𝔪_P = 0`
 convert `height 𝔪_P` into `dim B`. Proposition 1.13 uses it to turn Krull's
 Hauptidealsatz from a height statement into a dimension statement.
 
-## Status
+## How it goes
 
-One inequality is proved and is a separate node,
-[one inequality of the dimension formula](dim-formula-inequality.md):
-`height 𝔭 + dim R/𝔭 ≤ dim R`, in any commutative ring. What remains is the
-reverse, which is the whole difficulty.
-
-**The reduction to transcendence degrees is proved**
-(`Hartshorne.height_add_ringKrullDim_quotient_eq_of_trdeg`). Part (a) computes
-`dim B` as `trdeg_k K(B)`, and it applies verbatim to `B/𝔭`, which is again a
-finitely generated domain. So the formula is equivalent to
+Part (a) computes `dim B` as `trdeg_k K(B)`, and applies verbatim to `B/𝔭`,
+which is again a finitely generated domain. So the formula is equivalent to
 
 `trdeg_k K(B) = trdeg_k K(B/𝔭) + height 𝔭`,
 
-and that is what the remaining nodes prove. The reduction is worth isolating
-because the two statements are not of the same kind: the original is about the
-poset of primes and is what makes a ring catenary, while the transcendence-degree
-form is a statement about field extensions, and it is the form the standard
-proofs actually establish.
+and that is what is proved, by induction on the height. At height zero the prime
+is `(0)`. At height `h + 1`, a chain realising the height supplies a prime
+`𝔮 < 𝔭` of height `h` — each term of such a chain has its own index as its
+height, which is a Mathlib lemma; the height-one case applied to `B/𝔮` and
+`𝔭/𝔮` removes one, and the inductive hypothesis applied to `𝔮` removes the rest.
 
-## What is proved, and what is left
+Isolating the transcendence-degree form was worth doing: the original statement
+is about the poset of primes and is what makes a ring catenary, while this one
+is about field extensions, and it is the form the standard proofs establish.
 
-Three of the four pieces are done:
+The pieces, all separate nodes:
 
 - [A height-one prime drops the transcendence degree by one](trdeg-drop-height-one.md),
-  the heart of the argument;
-- its two inputs, [the height comparison](height-comap-integral.md) for an
-  integral extension of a normal domain, and
-  [the hypersurface computation](polynomial-hypersurface-trdeg.md) in a
-  polynomial ring.
-
-What remains is the induction from height one to general height, and it needs
-exactly one lemma that is not upstream:
-
-**if `𝔮 < 𝔭` are primes with `height 𝔮 = h` and `height 𝔭 = h + 1`, then `𝔭/𝔮`
-has height one in `R/𝔮`.**
-
-The content is that nothing lies strictly between `𝔮` and `𝔭`, and that is
-forced by the heights rather than assumed: an intermediate `𝔯` would have height
-above `h`, and `𝔭` height above that, so at least `h + 2`. With it the induction
-is mechanical — apply the height-one result to `B/𝔮`, use
-`(B/𝔮)/(𝔭/𝔮) ≅ B/𝔭`, and appeal to the inductive hypothesis for `𝔮`.
-
-That lemma is now proved (`Hartshorne.height_map_quotient_eq_one`). The
-mathematics is three lines; what it cost was the two mismatches anticipated —
-strict monotonicity of height lives on `Order.height` over `PrimeSpectrum`
-rather than on `Ideal.height`, so the two have to be bridged, and primes of
-`R/𝔮` have to be pushed back to primes of `R` above `𝔮`, where the height
-hypotheses live. Both are now separate named lemmas.
-
-What is left is the induction itself: pick `𝔮 < 𝔭` of height `h` from a maximal
-chain, apply the height-one result to `B/𝔮`, and identify `(B/𝔮)/(𝔭/𝔮)` with
-`B/𝔭`.
+  the heart;
+- its inputs, [the height comparison](height-comap-integral.md) for an integral
+  extension of a normal domain and
+  [the hypersurface computation](polynomial-hypersurface-trdeg.md);
+- and the step lemma, that a consecutive pair of a chain has height one in the
+  quotient, which lives here.
 
 ## Mathlib boundary
 
