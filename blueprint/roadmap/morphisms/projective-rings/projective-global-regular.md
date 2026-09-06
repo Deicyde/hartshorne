@@ -1,7 +1,7 @@
 ---
 declaration: theorem
 origin: cited
-lean: Hartshorne.isIntegral_of_mul_mem Hartshorne.exists_algebraMap_eq_of_isIntegral Hartshorne.exists_algebraMap_eq_of_mul_mem Hartshorne.fg_projCoordGrading Hartshorne.finiteDimensional_projCoordGrading
+lean: Hartshorne.isIntegral_of_mul_mem Hartshorne.exists_algebraMap_eq_of_isIntegral Hartshorne.exists_algebraMap_eq_of_mul_mem Hartshorne.fg_projCoordGrading Hartshorne.finiteDimensional_projCoordGrading Hartshorne.Variety.globalRationalRep Hartshorne.Variety.globalToFunctionField Hartshorne.Variety.globalToFunctionField_injective Hartshorne.VarietyHom.globalPullback Hartshorne.VarietyHom.functionFieldHom_globalToFunctionField Hartshorne.coordToRational_eq_globalToFunctionField
 ---
 
 # The global regular functions of a projective variety
@@ -41,26 +41,37 @@ piece of `S(Y)` is a finite-dimensional `k`-vector space, being the image of a
 graded piece of the polynomial ring, which is finitely generated when there are
 finitely many variables.
 
+**The common home.** A global regular function and the graded pieces of `S(Y)`
+have nothing to do with each other until both sit inside `K(Y)`, so `𝒪(X)` has
+to embed in `K(X)` over the abstract structure
+(`Hartshorne.Variety.globalToFunctionField`). That is free — a global regular
+function is a rational function whose domain happens to be everything, and
+injectivity is that the overlap of two everywhere-defined domains is
+everything. Parts (b) and (c) never needed it, because they worked one chart at
+a time and a chart supplies its own ambient ring.
+
+Two compatibilities come with it, and they are what make the chart readings
+comparable: the embedding commutes with pullback along a dominant morphism
+(`functionFieldHom_globalToFunctionField`), and on an affine variety the two
+routes from `A(Y)` into `K(Y)` — through Theorem 3.2(a) as a global regular
+function, or directly as a rational function — agree
+(`coordToRational_eq_globalToFunctionField`). Both are `Quotient.sound` on
+representatives that are literally the same function.
+
 ## What is left
 
-The plumbing, which is where this part is genuinely harder than (b) and (c)
-rather than merely different. Those two travelled one chart at a time; this one
-needs all the charts inside one ring at once, and that ring is `K(Y)`. Three
-things are missing:
+Two things, and this is where (a) is genuinely harder than (b) and (c) rather
+than merely different: those two travelled one chart at a time, while this one
+needs every chart inside one ring at once.
 
-- a map `𝒪(Y) → K(Y)` for an abstract variety, so that a global regular function
-  and the graded pieces of `S(Y)` live in the same place — the affine version of
-  this is [the injections node](../function-field-injections.md), stated in
-  affine coordinates;
-- the statement that a global regular `f`, restricted to `Yᵢ` and read through
-  `A(Yᵢ) ≅ S(Y)_(xᵢ)`, is `gᵢ/xᵢ^{Nᵢ}` — that is, that all the chart readings of
-  `f` are the same element of `K(Y)`;
-- the degree bookkeeping: choosing `N ≥ Σ Nᵢ` so that `S(Y)_N · f ⊆ S(Y)_N`,
-  which is where the cover being finite is used.
-
-The third is combinatorics over the finite index set; the first two are the same
-kind of transport work that parts (b) and (c) needed, and none of it is
-available from them, since neither ever had to compare different charts.
+- Assembling the above into the statement that the image of `f` in `S(Y)_((0))`
+  lies in the image of `S(Y)_(xᵢ)` — that is, that `f = gᵢ/xᵢ^{Nᵢ}`. The pieces
+  are the two compatibilities, the chart isomorphism, and
+  [part (c)](projective-function-field.md), which already identifies `K(Y)` with
+  `S(Y)_((0))`.
+- The degree bookkeeping: choosing `N ≥ Σ Nᵢ` so that `S(Y)_N · f ⊆ S(Y)_N`.
+  This is combinatorics over the finite index set, and it is the only place the
+  cover being finite is used.
 
 ## Depends on
 
