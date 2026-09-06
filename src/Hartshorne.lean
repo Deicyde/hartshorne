@@ -68,6 +68,10 @@ import Hartshorne.Projective.ChartIdeal
 import Hartshorne.Projective.QuotientGrading
 import Hartshorne.Projective.CoordChart
 import Hartshorne.Projective.CoordAwayChart
+import Hartshorne.Projective.DehomogenizeKernel
+import Hartshorne.Projective.ConeSection
+import Hartshorne.Projective.ConeDimension
+import Hartshorne.Projective.ProjChartDimension
 import Hartshorne.Morphism.VarietyIdentity
 import Hartshorne.Morphism.VarietyGerm
 import Hartshorne.Morphism.VarietyLocalRing
