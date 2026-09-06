@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_trdeg_of_height_eq_one
 ---
 
 # A height-one prime drops the transcendence degree by one
