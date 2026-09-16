@@ -1,6 +1,9 @@
 ---
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.eq_of_eqOn_isOpen_hom Hartshorne.isClosed_eqLocus_hom Hartshorne.eq_of_minors_eq_zero Hartshorne.minors_eq_zero_of_eq Hartshorne.div_minor_eq_zero_iff Hartshorne.chartOpen Hartshorne.chartCoord Hartshorne.chartCoord_mem_regular Hartshorne.agreeChart Hartshorne.coordOf Hartshorne.coordOf_mem_regular
 ---
 
 # Morphisms agreeing on an open set
@@ -45,6 +48,24 @@ local, so `Z` is closed.
 The mathematics is Hartshorne's — these are the Segre equations for the
 diagonal — but arranged so that the Segre embedding is needed only where the
 source needs it for its own sake, in the blow-up construction.
+
+## Status
+
+Proved, as `Hartshorne.eq_of_eqOn_isOpen_hom`, by the route above.
+
+The target is `Variety.ofQuasiProjective hY` rather than an arbitrary
+`Variety`, and that restriction is forced rather than convenient: the abstract
+structure imposes no separation axiom, and the line with a doubled origin
+satisfies it while failing the lemma. Hartshorne's varieties are the four
+concrete kinds, all quasi-projective, so nothing in the source is lost.
+
+Two small pieces carry the argument. `eq_of_minors_eq_zero` says a vanishing
+family of minors forces two points of `ℙⁿ` to agree, which is where the scalar
+relating the two coordinate vectors is written down. And `div_minor_eq_zero_iff`
+says the minor normalised by the two chart denominators vanishes exactly when
+the minor does — that is the step that turns an expression in homogeneous
+coordinates, which is not a function on `ℙⁿ`, into a difference of products of
+chart coordinates, which is.
 
 ## Depends on
 

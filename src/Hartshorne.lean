@@ -97,3 +97,5 @@ import Hartshorne.Morphism.GlobalRegularFunctionField
 import Hartshorne.Morphism.ProjGlobalRegular
 import Hartshorne.Morphism.ProjLocalRingGraded
 import Hartshorne.Morphism.ProjFunctionFieldGraded
+import Hartshorne.Rational.Minors
+import Hartshorne.Rational.MorphismAgreement
