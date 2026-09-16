@@ -42,6 +42,7 @@ quasi-projective, so nothing in the source is lost.
 
 * `Hartshorne.chartCoord_mem_regular`
 * `Hartshorne.eq_of_eqOn_isOpen_hom`
+* `Hartshorne.Variety.IsSeparated`, `Hartshorne.isSeparated_ofQuasiProjective`
 -/
 
 namespace Hartshorne
@@ -169,5 +170,21 @@ theorem eq_of_eqOn_isOpen_hom (φ ψ : VarietyHom X (Variety.ofQuasiProjective h
   have hsub : U ⊆ {z : X.carrier | φ z = ψ z} := hU
   have hcl := (isClosed_eqLocus_hom φ ψ).closure_subset_iff.2 hsub
   exact hcl ((Variety.dense_of_isOpen_of_nonempty hUo hUne).closure_eq ▸ Set.mem_univ z)
+
+/-- **Separatedness**, in the only form Chapter I needs it: two morphisms into
+`Y` that agree on a nonempty open subset of their common source are equal.
+
+Naming the property rather than always carrying a quasi-projective presentation
+is what lets rational maps be defined once, for any target with it, instead of
+once per kind of variety. Lemma 4.1 says every quasi-projective variety has
+it. -/
+def Variety.IsSeparated (Y : Variety.{u, v} k) : Prop :=
+  ∀ (Z : Variety.{u, v} k) (φ ψ : VarietyHom Z Y) (U : Set Z.carrier),
+    IsOpen U → U.Nonempty → (∀ z ∈ U, φ z = ψ z) → φ = ψ
+
+/-- **Lemma 4.1, restated**: a quasi-projective variety is separated. -/
+theorem isSeparated_ofQuasiProjective (hY : IsQuasiProjVariety Y) :
+    (Variety.ofQuasiProjective hY).IsSeparated :=
+  fun _ φ ψ _ hUo hUne hU => VarietyHom.ext (funext (eq_of_eqOn_isOpen_hom φ ψ hUo hUne hU))
 
 end Hartshorne

@@ -99,3 +99,5 @@ import Hartshorne.Morphism.ProjLocalRingGraded
 import Hartshorne.Morphism.ProjFunctionFieldGraded
 import Hartshorne.Rational.Minors
 import Hartshorne.Rational.MorphismAgreement
+import Hartshorne.Rational.OpenSubvariety
+import Hartshorne.Rational.RationalMap
