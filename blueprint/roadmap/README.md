@@ -11,16 +11,18 @@ is also the part Mathlib has not built. Mathlib's algebraic geometry starts at
 with — an affine variety as an irreducible closed subset of `𝔸ⁿ`, its coordinate
 ring, its regular functions — have no counterpart there.
 
-The goal of the sections below is Corollary I.3.8: the functor sending an affine
-variety to its coordinate ring is an arrow-reversing equivalence onto the
-finitely generated integral domains over `k`. Getting there requires the
-`Z`/`I` correspondence and the Nullstellensatz (§1), the same correspondence
-made homogeneous together with the affine charts on `ℙⁿ` (§2), and the three
-rings attached to a variety with their computation in the affine and projective
-cases (§3).
+The first destination is Corollary I.3.8: the functor sending an affine variety
+to its coordinate ring is an arrow-reversing equivalence onto the finitely
+generated integral domains over `k`. Getting there requires the `Z`/`I`
+correspondence and the Nullstellensatz (§1), the same correspondence made
+homogeneous together with the affine charts on `ℙⁿ` (§2), and the three rings
+attached to a variety with their computation in the affine and projective cases
+(§3). Section 4 then loosens isomorphism to birational equivalence and proves
+the coarser classification: the function field determines a variety up to
+birational equivalence.
 
 Read the [coverage contract](../coverage/README.md) before reading progress off
-this book: §§1–3 are decomposed here, and the rest of Hartshorne is located in
+this book: §§1–4 are decomposed here, and the rest of Hartshorne is located in
 the [source notes](../sources/hartshorne.md) but carries no articles.
 
 ## Chapters
@@ -32,3 +34,6 @@ the [source notes](../sources/hartshorne.md) but carries no articles.
   locally affine.
 - [Morphisms](morphisms/README.md) — Hartshorne I.3. Regular functions, the
   category of varieties, and the equivalence with finitely generated domains.
+- [Rational maps](rational-maps/README.md) — Hartshorne I.4. Maps defined only
+  on an open set, birational equivalence, and the classification of varieties by
+  their function fields.

@@ -4,12 +4,15 @@ A Lean 4 formalization of the classical variety theory in Chapter I of Robin
 Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 1977), built on Mathlib.
 
-Sections 1 through 3 are decomposed into a dependency graph of 68 formalization
-targets, running from the definition of an algebraic set to Corollary I.3.8: the
-functor sending an affine variety to its coordinate ring is an arrow-reversing
-equivalence onto the finitely generated integral domains over `k`.
+Sections 1 through 4 are decomposed into a dependency graph of 81 formalization
+targets, running from the definition of an algebraic set to Theorem I.4.4: the
+function field determines a variety up to birational equivalence.
 
-**All 68 are done**: 67 proved here, sorry-free and on Lean's three standard
+Sections 1 through 3 account for 68 of those targets, ending at Corollary I.3.8,
+the arrow-reversing equivalence between affine varieties over `k` and the
+finitely generated integral domains over `k`.
+
+**All 68 of them are done**: 67 proved here, sorry-free and on Lean's three standard
 axioms, and one already in Mathlib. That covers the whole of §§1–3 as scoped by
 the [coverage contract](coverage/README.md), including the results Hartshorne
 quotes from commutative algebra rather than proving. The one that took the most
@@ -20,6 +23,9 @@ through a Noether normalisation and resting on two things Mathlib does have,
 that height is preserved by contraction along an integral extension of an
 integrally closed domain and that a height-one prime of a unique factorisation
 domain is principal.
+
+Section 4, rational maps and birational equivalence, accounts for the remaining
+13 targets. It is decomposed but carries no Lean yet.
 
 - [Roadmap](roadmap/README.md) — the book: chapters, statements, and their
   dependencies.

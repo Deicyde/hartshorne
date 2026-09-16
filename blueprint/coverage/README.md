@@ -6,19 +6,23 @@ What this project claims, and what it does not. The source is Robin Hartshorne,
 
 ## In scope
 
-Chapter I, sections 1 through 3, book pages 1–23:
+Chapter I, sections 1 through 4, book pages 1–29:
 
-| Section | Title | Pages | Articles |
-| --- | --- | --- | --- |
-| I.1 | Affine Varieties | 1–8 | [23 articles](../roadmap/affine-varieties/README.md) |
-| I.2 | Projective Varieties | 8–14 | [13 articles](../roadmap/projective-varieties/README.md) |
-| I.3 | Morphisms | 14–23 | [32 articles](../roadmap/morphisms/README.md) |
+| Section | Title | Pages | Articles | State |
+| --- | --- | --- | --- | --- |
+| I.1 | Affine Varieties | 1–8 | [23 articles](../roadmap/affine-varieties/README.md) | done |
+| I.2 | Projective Varieties | 8–14 | [13 articles](../roadmap/projective-varieties/README.md) | done |
+| I.3 | Morphisms | 14–23 | [32 articles](../roadmap/morphisms/README.md) | done |
+| I.4 | Rational Maps | 24–29 | [13 articles](../roadmap/rational-maps/README.md) | decomposed, not yet proved |
 
-All 68 are done: 67 proved here and one already in Mathlib. The counts have
-grown as the work went on, always by splitting a node that turned out to hold
-more than one pull request's worth of Lean, never by widening the scope; the
-result-to-article map in the source notes is the record of which numbered
-results ended up where.
+All 68 articles of §§1–3 are done: 67 proved here and one already in Mathlib.
+§4 is decomposed but carries no Lean yet, and no article in it claims otherwise.
+
+The counts grow as the work goes on, almost always by splitting a node that
+turned out to hold more than one pull request's worth of Lean; where the scope
+itself widened, as it did for §4, this contract says so. The result-to-article
+map in the source notes is the record of which numbered results ended up
+where.
 
 Every result the main text of those sections proves or uses is covered by an
 article. Some articles carry more than one numbered result when they land
@@ -26,29 +30,44 @@ together: Propositions 1.5 and 1.6 share one, and Theorem 1.11A, Proposition
 1.12A and Proposition 1.13 share another. The
 [source notes](../sources/hartshorne.md) give the result-to-article map.
 
-Exercises 2.1–2.7 are covered too, because Hartshorne states the projective
-Nullstellensatz, the homogeneous ideal correspondence, and both projective
-dimension computations as exercises and then relies on them in later sections;
-leaving them out would make §3 rest on unstated results.
+Some exercises are covered too, under one rule: **an exercise is adopted when
+the main text of an in-scope section depends on it.** Nothing else is adopted.
+
+- **Exercises 2.1–2.7**, because Hartshorne states the projective
+  Nullstellensatz, the homogeneous ideal correspondence, and both projective
+  dimension computations as exercises and then relies on them in §3.
+- **Exercise 2.9**, the projective closure of an affine variety, because
+  Proposition 4.9 ends by taking one.
+- **Exercises 2.14 and 3.16**, the Segre embedding and products of
+  quasi-projective varieties, because the blowing-up construction of §4 lives in
+  `𝔸ⁿ × ℙⁿ⁻¹`. Only parts (a) and (b) of 3.16 are claimed, together with the
+  two clauses of the starred part (c) that §4 consumes: the projections are
+  morphisms and a pair of morphisms into the factors induces one into the
+  product.
 
 **One numbered result in these sections has no article.** Theorem 3.9A
 (finiteness of integral closure, p. 20) is stated in §3 but used only by
 exercises, which are out of scope. It is needed from §6 onward and will be
 picked up whenever that scope is.
 
-The chapter target is Corollary I.3.8, the arrow-reversing equivalence between
-affine varieties over `k` and finitely generated integral domains over `k`.
+The first target was Corollary I.3.8, the arrow-reversing equivalence between
+affine varieties over `k` and finitely generated integral domains over `k`. The
+target of §4 is its birational counterpart, Theorem 4.4: varieties with dominant
+rational maps are equivalent, arrows reversed, to finitely generated field
+extensions of `k`.
 
 ## Out of scope
 
-**Chapter I, sections 4 through 8, and Chapters II through V.** These are read
-and located in the source notes so that a reader can see where §§1–3 sit, but
+**Chapter I, sections 5 through 8, and Chapters II through V.** These are read
+and located in the source notes so that a reader can see where §§1–4 sit, but
 they carry no articles and nothing about them is claimed. They are located, not
 planned: no dependency analysis has been done and no decomposition exists.
 
-**The exercises, apart from 2.1–2.7.** Hartshorne has more than four hundred
-exercises. The seven adopted above are adopted because the main text depends on
-them, and that is the only criterion applied.
+**The exercises of §4, and every exercise not listed above.** Hartshorne has
+more than four hundred exercises. The ones adopted are adopted because the main
+text depends on them, and that is the only criterion applied. Exercise 3.16(c)
+is adopted only in the weak form stated above, not as the full categorical
+product.
 
 **Results Hartshorne quotes without proof.** Statements he numbers with a
 trailing `A` are commutative algebra imported from Atiyah–Macdonald, Matsumura
@@ -99,10 +118,10 @@ A section counts as finished when every article listed for it satisfies all of:
    including the standing hypothesis that `k` is algebraically closed and the
    convention that varieties are irreducible.
 
-The chapter counts as finished when all three sections do. **All three do.**
-Every article compiles, no proof contains `sorry` or `native_decide`, every
-`#print axioms` is clean, and every statement has been read against its cited
-passage.
+A section counts as finished when all its articles do. **§§1, 2 and 3 are
+finished.** Every article in them compiles, no proof contains `sorry` or
+`native_decide`, every `#print axioms` is clean, and every statement has been
+read against its cited passage. §4 is not finished and is not claimed to be.
 
 Derived progress on the published site is computed from the dependency graph and
 is not a claim about scope: a green node means its Lean proof compiles, not that
@@ -110,7 +129,7 @@ the section containing it is complete.
 
 ## What is not claimed
 
-No result outside §§1–3 is claimed, formalized, or planned. Nothing in this
+No result outside §§1–4 is claimed, formalized, or planned. Nothing in this
 repository should be read as formalizing "Hartshorne" or "algebraic geometry"
 without the section qualifier. If the published site ever shows full progress,
-that means §§1–3 are done and pages 24 through 420 of the book are untouched.
+that means §§1–4 are done and pages 30 through 420 of the book are untouched.
