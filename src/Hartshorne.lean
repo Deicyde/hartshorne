@@ -104,3 +104,4 @@ import Hartshorne.Rational.OpenSubvariety
 import Hartshorne.Rational.RationalMap
 import Hartshorne.Rational.BirationalMap
 import Hartshorne.Rational.PrincipalOpenCoordinateRing
+import Hartshorne.Rational.HypersurfaceComplement

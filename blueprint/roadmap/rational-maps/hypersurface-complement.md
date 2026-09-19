@@ -3,6 +3,9 @@ article_id: af_99905fcdb2a616c538f5d376
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.graphProjection_isIso
 ---
 
 # The complement of a hypersurface is affine
