@@ -3,6 +3,9 @@ article_id: af_8a05003a5be1e12ca9cc7683
 declaration: def
 origin: cited
 source_units: [chapter-i-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.principalOpenCoordinateRingEquiv
 ---
 
 # The graph hypersurface has localized coordinate ring

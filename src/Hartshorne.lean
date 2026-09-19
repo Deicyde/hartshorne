@@ -103,3 +103,4 @@ import Hartshorne.Rational.MorphismAgreement
 import Hartshorne.Rational.OpenSubvariety
 import Hartshorne.Rational.RationalMap
 import Hartshorne.Rational.BirationalMap
+import Hartshorne.Rational.PrincipalOpenCoordinateRing
