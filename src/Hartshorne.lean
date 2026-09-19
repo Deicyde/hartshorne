@@ -94,6 +94,7 @@ import Hartshorne.Projective.CanonicalRational
 import Hartshorne.Projective.ChartRepresentation
 import Hartshorne.Projective.GlobalRegularConst
 import Hartshorne.Morphism.GlobalRegularFunctionField
+import Hartshorne.Morphism.GlobalLocalIntersection
 import Hartshorne.Morphism.ProjGlobalRegular
 import Hartshorne.Morphism.ProjLocalRingGraded
 import Hartshorne.Morphism.ProjFunctionFieldGraded
