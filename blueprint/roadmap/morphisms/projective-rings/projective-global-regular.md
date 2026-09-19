@@ -1,6 +1,8 @@
 ---
+article_id: af_8994ed8cb0812948eff0e5f2
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_const_eq_globalRegular Hartshorne.eval_eq_zero_of_eval_eq_zero_on_open Hartshorne.inter_inter_nonempty Hartshorne.mk_cross_eq Hartshorne.mk_X_pow_ne_zero
@@ -27,7 +29,8 @@ analogue and no reduction to one chart: it uses the whole affine cover at once,
 and the finiteness it turns on is a statement about the graded pieces of `S(Y)`
 rather than about germs or fractions.
 
-Every ingredient is proved, but they do not yet compose; see *What is left*.
+The completed proof composes the ingredients below into
+`Hartshorne.exists_const_eq_globalRegular`.
 
 **The integrality core** and the finiteness it consumes are
 [their own node](stable-subspace.md): an element stabilising a nonzero
@@ -37,7 +40,7 @@ closed field, and each graded piece of `S(Y)` is finite-dimensional.
 **The common home.** A global regular function and the graded pieces of `S(Y)`
 have nothing to do with each other until both sit inside `K(Y)`, so `𝒪(X)` has
 to embed in `K(X)` over the abstract structure; that too is
-[its own node](../global-regular-in-function-field.md), along with the
+[its own node](../global-functions/global-regular-in-function-field.md), along with the
 compatibilities that make readings on different charts comparable.
 
 **The chart reading** and **the degree bound** are each
@@ -84,7 +87,7 @@ chart onto all of `Y`: once for the cross equation, once at the end.
 ## Depends on
 
 - [The ring of regular functions](../ring-of-regular-functions.md)
-- [Global regular functions inside the function field](../global-regular-in-function-field.md)
+- [Global regular functions inside the function field](../global-functions/global-regular-in-function-field.md)
 - [An element stabilising a finite-dimensional subspace is integral](stable-subspace.md)
 - [Reading a global regular function on a chart](chart-reading.md)
 - [The degree bound](degree-bound.md)

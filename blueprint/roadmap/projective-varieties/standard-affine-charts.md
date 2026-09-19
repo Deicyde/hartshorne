@@ -1,9 +1,11 @@
 ---
-declaration: theorem
+article_id: af_dddc3e684133ba9c97f4a783
+declaration: def
 origin: cited
+source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
-lean: Hartshorne.chartHomeomorph Hartshorne.homogenize Hartshorne.dehomogenize Hartshorne.eval_homogenize Hartshorne.eval_dehomogenize Hartshorne.chartEquiv Hartshorne.dehomogenize_homogenize Hartshorne.eq_zero_of_dehomogenize_eq_zero Hartshorne.chartInvVec_div Hartshorne.awayDehomogenize Hartshorne.awayToPoly Hartshorne.awayChartEquiv
+lean: Hartshorne.chartHomeomorph Hartshorne.chartEquiv Hartshorne.awayChartEquiv
 ---
 
 # The standard affine charts

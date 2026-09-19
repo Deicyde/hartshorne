@@ -1,6 +1,8 @@
 ---
+article_id: af_a9da78beeb90da30964f70b1
 declaration: theorem
 origin: background
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.injective_adjoinRoot_of Hartshorne.isAlgebraic_adjoinRoot Hartshorne.trdeg_adjoinRoot Hartshorne.trdeg_quotient_span_of_degreeOf_zero_ne_zero Hartshorne.exists_degreeOf_ne_zero_of_irreducible Hartshorne.exists_trdeg_quotient_span_irreducible Hartshorne.trdeg_fractionRing Hartshorne.exists_trdeg_fractionRing_quotient_span_irreducible

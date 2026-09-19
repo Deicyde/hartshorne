@@ -1,9 +1,11 @@
 ---
+article_id: af_7784104b5370425681c0fc40
 declaration: def
 origin: cited
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
-lean: Hartshorne.zeroSet Hartshorne.IsAlgebraicSet Hartshorne.zeroSet_eq_zeroLocus_span Hartshorne.isAlgebraicSet_iff_exists_finset
+lean: Hartshorne.zeroSet Hartshorne.IsAlgebraicSet
 ---
 
 # Algebraic sets

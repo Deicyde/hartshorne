@@ -1,6 +1,8 @@
 ---
+article_id: af_edfd5d5cec98a8f47ed0cf78
 declaration: theorem
 origin: background
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.strictMono_primeSpectrum_comap Hartshorne.ringKrullDim_le_of_isIntegral Hartshorne.le_ringKrullDim_of_isIntegral Hartshorne.ringKrullDim_eq_of_isIntegral

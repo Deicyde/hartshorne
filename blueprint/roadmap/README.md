@@ -1,3 +1,7 @@
+---
+article_id: af_d30e42b7fc6d70a061a0fd65
+---
+
 # Hartshorne, Algebraic Geometry
 
 A Lean 4 formalization of the classical variety theory in Chapter I of Robin

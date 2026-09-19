@@ -1,9 +1,11 @@
 ---
+article_id: af_3f6ebf4555248edb9ac0b577
 declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.IsRegularAtProjVia Hartshorne.IsRegularProjVia Hartshorne.IsRegularProj Hartshorne.ratio_eq_of_smul Hartshorne.isClosed_eqLocusProj
+lean: Hartshorne.IsRegularAtProjVia Hartshorne.IsRegularProjVia Hartshorne.IsRegularProj
 ---
 
 # Regular functions on a quasi-projective variety

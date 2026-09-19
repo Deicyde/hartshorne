@@ -1,9 +1,11 @@
 ---
+article_id: af_2ee7948708b181e79fc71226
 declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.GermRep Hartshorne.GermRep.Rel Hartshorne.GermRep.rel_trans Hartshorne.isRegularVia_restrict Hartshorne.preirreducible_univ_of_isOpen Hartshorne.Variety.GermRep Hartshorne.Variety.GermRep.Rel Hartshorne.Variety.GermRep.rel_trans Hartshorne.Variety.LocalRingAt Hartshorne.affinePoint Hartshorne.germRepToVariety Hartshorne.germRepOfVariety Hartshorne.localRingEquivAffine
+lean: Hartshorne.LocalRingAt Hartshorne.Variety.LocalRingAt Hartshorne.localRingEquivAffine
 ---
 
 # The local ring at a point

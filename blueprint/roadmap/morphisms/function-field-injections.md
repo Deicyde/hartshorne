@@ -1,45 +1,39 @@
 ---
+article_id: af_a7d1a97e3f9969001b1d67d0
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.LocalRingAt Hartshorne.FunctionField Hartshorne.globalToLocal Hartshorne.localToFunctionField Hartshorne.globalToLocal_injective Hartshorne.localToFunctionField_injective Hartshorne.GermRep.rel_iff_eventually
+lean: Hartshorne.globalToLocal_injective Hartshorne.localToFunctionField_injective
 ---
 
-# The three rings embed in the function field
+# The underlying maps into germs and rational functions are injective
 
-Restriction of germs gives injective `k`-algebra maps
+In the concrete subset-of-affine-space model used to construct the objects of
+§3, forgetting domain information gives injective functions
 
-`𝒪(Y) ↪ 𝒪_{P,Y} ↪ K(Y)`
+`𝒪(Y) ↪ 𝒪_{P,Y} ↪ K(Y)`.
 
-for every point `P` of a variety `Y`. Consequently all three rings may be
-treated as subrings of `K(Y)`, and `𝒪(Y) = ⋂_{P ∈ Y} 𝒪_P` inside `K(Y)`.
+This article records exactly the two statements currently proved in Lean:
+`globalToLocal_injective` and `localToFunctionField_injective`. The maps here
+are functions between quotient types, not yet bundled `k`-algebra
+homomorphisms. Consequently this node does **not** identify the three objects as
+subalgebras of one ambient field and does not prove Hartshorne's intersection
+formula.
 
-**What is formalized is injectivity of the maps, not yet that they are
-`k`-algebra homomorphisms.** The ring structure on the two quotients is built
-with Theorem 3.2, where it is first used; until then these are injections of
-sets. `𝒪(Y) = ⋂_{P ∈ Y} 𝒪_P` is likewise deferred to that theorem, whose proof
-is where the intersection is actually needed.
+The missing algebraic maps and the equality
+`𝒪(Y) = ⋂_{P ∈ Y} 𝒪_{P,Y}` inside `K(Y)` are tracked separately in
+[Global regular functions are the intersection of the local rings](global-functions/global-regular-intersection-local-rings.md).
 
-Injectivity turns out to be immediate, for a reason worth recording: Hartshorne
-identifies `(U, f)` with `(V, g)` when they agree on the *whole* overlap, not
-when they agree near `P`. With that relation two global functions have the same
-germ exactly when they are equal, and the two germ relations are the same
-condition.
+Injectivity is immediate for Hartshorne's representatives. Two global
+functions have the same germ exactly when they agree on the whole overlap,
+which is all of `Y`; and the local-to-rational map uses the same agreement
+relation after forgetting the distinguished point.
 
-What the identity principle buys is that this is not an accident of the choice
-of relation: `GermRep.rel_iff_eventually` shows agreeing on some neighbourhood
-of `P` already forces agreement on the whole overlap. Without it Hartshorne's
-definition and the usual "agree near `P`" definition of a germ would be
-different notions, and only one of them would give injectivity for free.
-
-This is bookkeeping that Hartshorne does in a sentence and then relies on
-silently for the rest of the section — Theorem 3.2(a) is stated as an
-intersection of localizations *inside* `K(Y)`, and the whole of Theorem 3.4
-compares subrings of `S(Y)`'s fraction field. In Lean the identification cannot
-stay silent: it has to be a named map with a proved injectivity lemma, or every
-later statement grows explicit coercions. That is why it is its own article
-rather than a remark attached to the function field.
+The identity principle still matters: `GermRep.rel_iff_eventually` proves that
+Hartshorne's whole-overlap relation agrees with the usual germ relation of
+agreement on some neighbourhood of `P`.
 
 ## Depends on
 
@@ -50,7 +44,6 @@ rather than a remark attached to the function field.
 ## Proof depends on
 
 - [Regular functions are continuous](regular-function-continuous.md)
-- [The local ring is local](local-ring-is-local.md)
 
 ## Sources
 

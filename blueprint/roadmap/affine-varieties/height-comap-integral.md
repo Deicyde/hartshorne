@@ -1,6 +1,8 @@
 ---
+article_id: af_f738e02ee27aca87ee002bce
 declaration: theorem
 origin: background
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.height_le_height_comap_of_isIntegral Hartshorne.height_comap_le_height_of_hasGoingDown Hartshorne.height_comap_eq_height_of_isIntegral

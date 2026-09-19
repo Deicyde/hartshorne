@@ -1,6 +1,8 @@
 ---
+article_id: af_4efd62a06d98b4e4b1a19941
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projDim_univ Hartshorne.projDim_univ_fin Hartshorne.projDim_univ_add_one Hartshorne.projDim_eq_projDim_closure Hartshorne.closure_chartMap_image Hartshorne.isOpenMap_chartInv Hartshorne.chartMap_image_univ

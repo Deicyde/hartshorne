@@ -1,9 +1,11 @@
 ---
-declaration: theorem
+article_id: af_00f356814aa13851cf5257ea
+declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.coordinateToRegular Hartshorne.coordinateToRegular_injective Hartshorne.denominators Hartshorne.exists_mem_denominators_evalAt_ne_zero Hartshorne.denominators_eq_top Hartshorne.coordinateToRegular_surjective Hartshorne.coordinateRingEquivGlobalRegular
+lean: Hartshorne.coordinateRingEquivGlobalRegular
 ---
 
 # The coordinate ring is the ring of regular functions

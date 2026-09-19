@@ -1,9 +1,11 @@
 ---
+article_id: af_93d17cf8e41f0ee7a7cf9564
 declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.globalRegular Hartshorne.polynomialToRegular Hartshorne.isRegular_polynomialToRegular Hartshorne.polynomialToRegular_eq_zero_iff Hartshorne.VarietyHom.pullback Hartshorne.VarietyHom.pullback_id Hartshorne.VarietyHom.pullback_comp Hartshorne.compAlgHom Hartshorne.isRegular_iff_top
+lean: Hartshorne.globalRegular Hartshorne.VarietyHom.pullback
 ---
 
 # The ring of regular functions

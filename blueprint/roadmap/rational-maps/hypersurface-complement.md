@@ -1,49 +1,42 @@
 ---
+article_id: af_99905fcdb2a616c538f5d376
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-4]
 ---
 
 # The complement of a hypersurface is affine
 
-Let `Y = Z(f)` be the hypersurface in `𝔸ⁿ` cut out by `f ∈ k[x₁,…,x_n]`. Then
-`𝔸ⁿ − Y` is isomorphic to the hypersurface `H = Z(x_{n+1} f − 1)` in `𝔸ⁿ⁺¹`. In
-particular `𝔸ⁿ − Y` is affine, with coordinate ring `k[x₁,…,x_n]_f`
-(Lemma 4.2).
+Let `0 ≠ f ∈ k[x₁,…,x_n]`, let `Y = Z(f)`, and write
+`D(f) = 𝔸ⁿ − Y`. Then `D(f)` is isomorphic to the graph hypersurface
 
-An open set is not usually affine, so this is a genuine construction and not a
-formality: the trick is to buy the missing inverse of `f` by paying for one more
-coordinate.
+`H_f = Z(x_{n+1} f − 1) ⊆ 𝔸ⁿ⁺¹`.
+
+In particular `D(f)` has an affine presentation (Lemma 4.2). The nonzero
+hypothesis is essential in the project's irreducible, nonempty notion of a
+variety: for `f = 0`, the complement is empty.
 
 ## The proof
 
-Projection `π : H → 𝔸ⁿ`, `(a₁,…,a_{n+1}) ↦ (a₁,…,a_n)`, is a morphism, being
-given by coordinate functions. It corresponds to the ring map `A → A_f` for
-`A = k[x₁,…,x_n]`, since on `H` the last coordinate is forced to be `1/f`. It is
-a bijection onto `𝔸ⁿ − Y`: a point off `Y` has `f ≠ 0` there, so there is one
-and only one legal value of `x_{n+1}`.
+Projection `π : H_f → 𝔸ⁿ`, `(a₁,…,a_{n+1}) ↦ (a₁,…,a_n)`, lands in `D(f)` and
+is a morphism because its coordinates are regular. It is inverse on points to
 
-Bijectivity is not enough — a bijective morphism need not be an isomorphism — so
-the inverse has to be exhibited as a morphism. It is
 `(a₁,…,a_n) ↦ (a₁,…,a_n, 1/f(a₁,…,a_n))`, whose last coordinate is a regular
-function on `𝔸ⁿ − Y` precisely because `f` is invertible there. Lemma 3.6, the
-criterion that a map to an affine variety is a morphism as soon as its
-coordinates are regular, is what turns that observation into a morphism.
-
-The coordinate ring is then read off: `A(H) = k[x₁,…,x_{n+1}]/(x_{n+1} f − 1)`,
-which is `A_f` because inverting `f` is exactly adjoining a root of
-`x_{n+1} f − 1`.
+function on `D(f)` because `f` is nowhere zero there. The criterion for maps to
+affine varieties therefore makes this inverse a morphism. The graph
+hypersurface is an affine variety because its coordinate algebra is the
+localization at `f`, hence a domain; that algebra calculation is split into
+[its own node](principal-open-coordinate-ring.md).
 
 ## Depends on
 
 - [Affine and quasi-affine varieties](../affine-varieties/affine-variety.md)
-- [The affine coordinate ring](../affine-varieties/affine-coordinate-ring.md)
 - [Morphisms](../morphisms/morphism.md)
+- [The graph hypersurface has localized coordinate ring](principal-open-coordinate-ring.md)
 
 ## Proof depends on
 
 - [Criterion for a morphism to an affine variety](../morphisms/morphism-to-affine-criterion.md)
-- [Isomorphism via coordinate rings](../morphisms/affine-iso-iff-algebra-iso.md)
-- [Hypersurfaces and codimension one](../affine-varieties/hypersurface-dimension.md)
 
 ## Sources
 

@@ -1,3 +1,7 @@
+---
+article_id: af_a0c663862a8cb83c9c2e9b1d
+---
+
 # Rational maps
 
 A rational map is a morphism defined only on some open subset, and forgetting
@@ -42,10 +46,12 @@ See the [coverage contract](../../coverage/README.md).
 
 - [Morphisms agreeing on an open set](morphism-agreement.md)
 - [Rational maps](rational-map.md)
+- [Composition of dominant rational maps](rational-map-composition.md)
 - [Birational maps](birational-map.md)
 
 ## Varieties are locally affine
 
+- [The graph hypersurface has localized coordinate ring](principal-open-coordinate-ring.md)
 - [The complement of a hypersurface is affine](hypersurface-complement.md)
 - [Open affine sets are a base for the topology](affine-base.md)
 

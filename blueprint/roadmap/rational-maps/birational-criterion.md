@@ -1,11 +1,15 @@
 ---
+article_id: af_bee9a975db6a53592b5a0819
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-4]
 ---
 
 # The birational criterion
 
-For varieties `X` and `Y` the following are equivalent (Corollary 4.5):
+For varieties `X` and `Y` in Hartshorne's four concrete classes, carrying the
+affine-open-basis and separatedness witnesses used by the §4 category, the
+following are equivalent (Corollary 4.5):
 
 1. `X` and `Y` are birationally equivalent;
 2. there are open subsets `U ⊆ X` and `V ⊆ Y` with `U` isomorphic to `V`;
@@ -39,7 +43,7 @@ and its inverse giving mutually inverse dominant rational maps.
 ## Proof depends on
 
 - [Morphisms agreeing on an open set](morphism-agreement.md)
-- [The function field](../morphisms/function-field.md)
+- [The function field is functorial for dominant morphisms](../morphisms/function-field-functorial.md)
 
 ## Sources
 

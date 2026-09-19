@@ -1,9 +1,11 @@
 ---
+article_id: af_2b5eb74d5e0861e7dca01d34
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
-lean: Hartshorne.dim_eq_ringKrullDim_coordinateRing Hartshorne.irreducibleClosedsOrderIso Hartshorne.subtypeIrreducibleClosedsOrderIso
+lean: Hartshorne.dim_eq_ringKrullDim_coordinateRing
 ---
 
 # Dimension is the dimension of the coordinate ring

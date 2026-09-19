@@ -1,9 +1,11 @@
 ---
+article_id: af_f801b5bc0f2a08bbd4e42e42
 declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.coordEquivalence Hartshorne.AffineVarietyCat Hartshorne.FgDomainCat Hartshorne.coordFunctor Hartshorne.AffineVarietyCat.coordMap Hartshorne.AffineVarietyCat.coordMap_comp Hartshorne.AffineVarietyCat.homEquivCoord Hartshorne.AffineVarietyCat.exists_coordMap_eq Hartshorne.AffineVarietyCat.coordMap_injective Hartshorne.AffineVarietyCat.coordEquiv
+lean: Hartshorne.coordEquivalence
 ---
 
 # Equivalence with finitely generated domains

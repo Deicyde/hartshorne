@@ -1,9 +1,11 @@
 ---
+article_id: af_c1f0eb64f03403a0fa846bde
 declaration: theorem
 origin: bridged
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.mk_X_eq_zero_of_inter_eq_empty Hartshorne.exists_le_of_degree_le Hartshorne.monomial_eq_mul_X_pow Hartshorne.degree_sub_single Hartshorne.gradedImage Hartshorne.mul_mem_gradedImage
+lean: Hartshorne.mul_mem_gradedImage
 ---
 
 # The degree bound

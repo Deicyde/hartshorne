@@ -1,6 +1,8 @@
 ---
+article_id: af_a96cd333de533cfcb078c7d9
 declaration: theorem
 origin: background
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.trdeg_eq_trdeg_quotient_add_height Hartshorne.height_add_ringKrullDim_quotient_eq Hartshorne.exists_ringKrullDim_quotient_eq_trdeg Hartshorne.height_add_ringKrullDim_quotient_eq_of_trdeg Hartshorne.height_lt_height_of_lt Hartshorne.isPrime_map_quotient Hartshorne.comap_map_quotient Hartshorne.comap_lt_comap_quotient Hartshorne.eq_bot_of_comap_eq Hartshorne.height_bot_eq_zero Hartshorne.height_map_quotient_eq_one

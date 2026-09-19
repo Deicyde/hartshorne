@@ -1,8 +1,10 @@
 ---
+article_id: af_99a287d25bb1d1989e451bf8
 declaration: definition
 origin: cited
+source_units: [chapter-i-section-4]
 statement: formalized
-lean: Hartshorne.RatMapRep Hartshorne.RatMapRep.Rel Hartshorne.RatMapRep.rel_trans Hartshorne.ratMapSetoid Hartshorne.RatMap Hartshorne.RatMapRep.IsDominant Hartshorne.RatMapRep.isDominant_congr Hartshorne.Variety.IsSeparated Hartshorne.isSeparated_ofQuasiProjective Hartshorne.Variety.restrict Hartshorne.Variety.inclHom Hartshorne.Variety.inclHomOfLE Hartshorne.pushOpens Hartshorne.pushHomeomorph
+lean: Hartshorne.RatMap Hartshorne.RatMapRep.IsDominant
 ---
 
 # Rational maps
@@ -39,8 +41,7 @@ No separatedness is used.
 
 ## Status
 
-The definition, the equivalence relation and dominance are formalized;
-composition is not yet.
+The definition, the equivalence relation and dominance are formalized.
 
 Two pieces of infrastructure came first. An open subset of a variety is a
 variety (`Variety.restrict`), which Hartshorne asserts without comment and uses
@@ -58,19 +59,9 @@ the definition below. It does not need separatedness — two equivalent
 representatives agree on the overlap of their domains, which is dense in each,
 so each image lands in the closure of the other.
 
-What is left is composition, and with it the category. That needs one more piece
-of infrastructure: a morphism `φ : A → B` and an open `V ⊆ B` with `φ⁻¹(V)`
-nonempty should give a morphism from the open subvariety `φ⁻¹(V)` of `A` to the
-open subvariety `V` of `B`.
-
-## Composition
-
-Dominant rational maps compose: if `φ : X ⇢ Y` is represented by `⟨U, φ_U⟩` and
-`ψ : Y ⇢ Z` by `⟨V, ψ_V⟩`, then `φ_U⁻¹(V)` is nonempty — this is exactly where
-dominance is used, since a non-dominant `φ` could have image missing `V`
-entirely — and `ψ_V ∘ φ_U` represents the composite. So there is a category of
-varieties and dominant rational maps, and it is the category
-[Theorem 4.4](rational-map-function-field.md) identifies.
+Composition and the resulting category of varieties with dominant rational maps
+are tracked separately in
+[Composition of dominant rational maps](rational-map-composition.md).
 
 ## Depends on
 

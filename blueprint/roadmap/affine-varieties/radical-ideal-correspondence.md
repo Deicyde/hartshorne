@@ -1,9 +1,11 @@
 ---
+article_id: af_e7ef021d07d027ea3714eae3
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
-lean: Hartshorne.algebraicSetEquivRadicalIdeal Hartshorne.isIrreducible_iff_isPrime Hartshorne.isIrreducible_univ
+lean: Hartshorne.isIrreducible_iff_isPrime
 ---
 
 # Algebraic sets and radical ideals

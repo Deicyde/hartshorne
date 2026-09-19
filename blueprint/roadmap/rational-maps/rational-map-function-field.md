@@ -1,18 +1,22 @@
 ---
+article_id: af_efc666120dfb5881de675ab4
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-4]
 ---
 
 # Rational maps and function fields
 
-For any two varieties `X` and `Y` there is a bijection between
+For varieties `X` and `Y` in Hartshorne's four concrete classes — represented
+in Lean together with the affine-open-basis witness of Proposition 4.3 — there
+is a bijection between
 
 - dominant rational maps `X ⇢ Y`, and
 - `k`-algebra homomorphisms `K(Y) → K(X)`,
 
 and this correspondence is an arrow-reversing equivalence between the category
-of varieties with dominant rational maps and the category of finitely generated
-field extensions of `k` (Theorem 4.4).
+of such varieties with dominant rational maps and the category of finitely
+generated field extensions of `k` (Theorem 4.4).
 
 This is the section's main result and the birational counterpart of Corollary
 3.8. There, the coordinate ring determined an affine variety up to isomorphism;
@@ -49,13 +53,14 @@ half of Corollary 3.8, and then `K ≅ K(Y)`.
 
 ## Depends on
 
-- [Rational maps](rational-map.md)
-- [The function field](../morphisms/function-field.md)
+- [Composition of dominant rational maps](rational-map-composition.md)
+- [The function field of an arbitrary variety](../morphisms/function-field-abstract.md)
 - [Open affine sets are a base for the topology](affine-base.md)
 
 ## Proof depends on
 
 - [Morphisms into an affine variety](../morphisms/hom-affine-bijection.md)
+- [The function field is functorial for dominant morphisms](../morphisms/function-field-functorial.md)
 - [The function field is the fraction field](../morphisms/function-field-is-fraction-field.md)
 - [Equivalence with finitely generated domains](../morphisms/affine-variety-equivalence.md)
 - [The coordinate ring is the ring of regular functions](../morphisms/global-regular-eq-coordinate-ring.md)

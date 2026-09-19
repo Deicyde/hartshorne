@@ -1,9 +1,11 @@
 ---
+article_id: af_4c750d75c9abbf05e8b839b5
 declaration: instance
 origin: cited
+source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
-lean: Hartshorne.projZariskiTopology Hartshorne.isClosed_iff_isProjAlgebraicSet Hartshorne.isOpen_standardChart
+lean: Hartshorne.projZariskiTopology
 ---
 
 # The Zariski topology on projective space

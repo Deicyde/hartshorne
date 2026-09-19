@@ -1,9 +1,11 @@
 ---
+article_id: af_655a613445ec81df54de2d65
 declaration: abbrev
 origin: cited
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
-lean: Hartshorne.coordinateRing Hartshorne.finiteType_coordinateRing Hartshorne.isDomain_coordinateRing
+lean: Hartshorne.coordinateRing
 ---
 
 # The affine coordinate ring

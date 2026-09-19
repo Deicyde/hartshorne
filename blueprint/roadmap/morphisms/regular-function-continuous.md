@@ -1,6 +1,8 @@
 ---
+article_id: af_575e619ae8ec073c42a7444a
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.isClosed_eqLocus Hartshorne.eq_of_eqOn_isOpen
@@ -27,10 +29,11 @@ polynomial has finitely many roots. Nothing in §§1–3 uses continuity as such
 every later appeal is to the identity principle. That step is therefore deferred
 rather than done for its own sake, and this article does not claim it.
 
-The identity principle carries far more weight than its proof suggests: it is
-what makes `𝒪(Y) → 𝒪_P → K(Y)` injective, so that all three rings can be
-treated as subrings of `K(Y)`. Every later argument in the section that
-manipulates germs as if they were functions relies on it.
+The identity principle carries far more weight than its proof suggests: it
+establishes the quotient relations used for germs and rational functions and
+shows that Hartshorne's whole-overlap germ relation agrees with the usual
+near-a-point relation. Bundling the resulting maps as algebra embeddings and
+proving the intersection theorem are separate work.
 
 ## Depends on
 

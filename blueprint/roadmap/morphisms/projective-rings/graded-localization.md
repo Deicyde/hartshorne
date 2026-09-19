@@ -1,9 +1,11 @@
 ---
+article_id: af_90818c4c3f8c5cdc256259f3
 declaration: abbrev
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.gradedLocalization Hartshorne.gradedLocalizationAway Hartshorne.isField_gradedLocalization_bot Hartshorne.awayToAtPrime Hartshorne.awayPrime Hartshorne.powers_le_primeCompl Hartshorne.isUnit_mk_of_num_notMem Hartshorne.exists_decompose_notMem Hartshorne.decompose_mul_eq_zero Hartshorne.awayToAtPrime_mk Hartshorne.isUnit_mk_iff_num_notMem Hartshorne.mem_awayPrime_iff Hartshorne.isLocalization_awayPrime Hartshorne.ne_bot_notMem Hartshorne.awayToAtPrime_bot_injective Hartshorne.isFractionRing_atPrime_bot
+lean: Hartshorne.gradedLocalization Hartshorne.gradedLocalizationAway
 ---
 
 # Graded localization

@@ -1,9 +1,11 @@
 ---
+article_id: af_768cb27118c861e6835ad334
 declaration: instance
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.instIsLocalRingLocalRingAt Hartshorne.Variety.instIsLocalRingLocalRingAt Hartshorne.Variety.instCommRingLocalRingAt Hartshorne.Variety.evalAtPoint Hartshorne.Variety.isUnit_iff_evalAtPoint_ne_zero Hartshorne.Variety.maximalIdeal_eq_ker Hartshorne.Variety.GermRep.inv Hartshorne.instCommRingLocalRingAt Hartshorne.evalAtPoint Hartshorne.isUnit_iff_evalAtPoint_ne_zero Hartshorne.maximalIdeal_eq_ker Hartshorne.residueFieldEquiv Hartshorne.GermRep.inv
+lean: Hartshorne.instIsLocalRingLocalRingAt Hartshorne.Variety.instIsLocalRingLocalRingAt
 ---
 
 # The local ring is local

@@ -1,9 +1,11 @@
 ---
+article_id: af_a583b15ad8a2e84459d9b21c
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
-lean: Hartshorne.dim_eq_dim_closure Hartshorne.dim_closure_le_dim Hartshorne.dim_le_dim_closure Hartshorne.inter_eq_inter_isOpen Hartshorne.isIrreducible_inter_of_subset_closure Hartshorne.closure_inter_eq_of_subset_closure Hartshorne.isPreirreducible_preimage_val Hartshorne.isIrreducible_preimage_val Hartshorne.restrictToY Hartshorne.strictMono_restrictToY Hartshorne.zeroLocusOfPrime Hartshorne.zeroLocusOfPrime_subset_closure Hartshorne.mem_zeroLocusOfPrime Hartshorne.zeroLocusOfPrime_lt
+lean: Hartshorne.dim_eq_dim_closure
 ---
 
 # Dimension of a quasi-affine variety

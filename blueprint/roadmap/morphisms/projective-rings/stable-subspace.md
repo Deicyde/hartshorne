@@ -1,6 +1,8 @@
 ---
+article_id: af_0e226ccf6491b72157afd22a
 declaration: theorem
 origin: bridged
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.isIntegral_of_mul_mem Hartshorne.exists_algebraMap_eq_of_isIntegral Hartshorne.exists_algebraMap_eq_of_mul_mem Hartshorne.fg_projCoordGrading Hartshorne.finiteDimensional_projCoordGrading

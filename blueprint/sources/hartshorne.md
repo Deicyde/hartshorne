@@ -90,11 +90,12 @@ Morphisms, book pp. 14–23.
 | Def. | Ring of global regular functions `𝒪(Y)` | 16 | [Ring of regular functions](../roadmap/morphisms/ring-of-regular-functions.md) |
 | Def. | Local ring `𝒪_{P,Y}` of germs at `P` | 16 | [Local ring at a point](../roadmap/morphisms/local-ring.md) |
 | Def. | Function field `K(Y)`; rational functions | 16 | [Function field](../roadmap/morphisms/function-field.md) |
+| After Defs. | Natural injective homomorphisms `𝒪(Y) → 𝒪_{P,Y} → K(Y)` and `𝒪(Y) = ⋂_{P ∈ Y} 𝒪_{P,Y}` inside `K(Y)` | 16 | [Underlying injections](../roadmap/morphisms/function-field-injections.md), [Intersection of local rings](../roadmap/morphisms/global-functions/global-regular-intersection-local-rings.md) |
 | Thm. 3.2(a) | For `Y` affine: `𝒪(Y) ≅ A(Y)` | 17 | [Coordinate ring is the ring of regular functions](../roadmap/morphisms/global-regular-eq-coordinate-ring.md) |
 | Thm. 3.2(b) | Points of `Y` ↔ maximal ideals of `A(Y)` | 17 | [Points and maximal ideals](../roadmap/morphisms/points-eq-maximal-ideals.md) |
 | Thm. 3.2(c),(d) | `𝒪_P ≅ A(Y)_{𝔪_P}` with `dim 𝒪_P = dim Y`; `K(Y) ≅ Frac A(Y)` of transcendence degree `dim Y` | 17 | [Local ring and function field](../roadmap/morphisms/affine-variety-rings.md) |
-| Prop. 3.3 | `φᵢ : Uᵢ → 𝔸ⁿ` is an isomorphism of varieties | 18 | [Charts are isomorphisms](../roadmap/morphisms/chart-isomorphism.md) |
-| Def. | Graded localizations `S_(𝔭)` and `S_(f)` | 18 | [Graded localization](../roadmap/morphisms/graded-localization.md) |
+| Prop. 3.3 | `φᵢ : Uᵢ → 𝔸ⁿ` is an isomorphism of varieties | 18 | [Charts are isomorphisms](../roadmap/morphisms/projective-rings/chart-isomorphism.md) |
+| Def. | Graded localizations `S_(𝔭)` and `S_(f)` | 18 | [Graded localization](../roadmap/morphisms/projective-rings/graded-localization.md) |
 | Thm. 3.4 | For `Y` projective: `𝒪(Y) = k`; `𝒪_P = S(Y)_(𝔪_P)`; `K(Y) ≅ S(Y)_((0))` | 18–19 | [(a)](../roadmap/morphisms/projective-rings/projective-global-regular.md), [(b)](../roadmap/morphisms/projective-rings/projective-local-ring.md), [(c)](../roadmap/morphisms/projective-rings/projective-function-field.md) |
 | Prop. 3.5 | `Hom(X, Y) ≅ Hom_{k-alg}(A(Y), 𝒪(X))` for `Y` affine, `X` any variety | 19 | [Morphisms into an affine variety](../roadmap/morphisms/hom-affine-bijection.md) |
 | Lem. 3.6 | `ψ : X → Y ⊆ 𝔸ⁿ` is a morphism iff each `xᵢ ∘ ψ` is regular | 20 | [Criterion for a morphism to an affine variety](../roadmap/morphisms/morphism-to-affine-criterion.md) |
@@ -116,8 +117,9 @@ here.
 | --- | --- | --- | --- |
 | Lem. 4.1 | Two morphisms `X → Y` of varieties agreeing on a nonempty open subset are equal | 24 | [Morphisms agreeing on an open set](../roadmap/rational-maps/morphism-agreement.md) |
 | Def. | Rational map `φ : X ⇢ Y` as an equivalence class of pairs `⟨U, φ_U⟩`; dominant | 24 | [Rational maps](../roadmap/rational-maps/rational-map.md) |
+| Infrastructure | Identity and composition for dominant rational maps; the category used in Theorem 4.4 | 24–26 | [Composition of dominant rational maps](../roadmap/rational-maps/rational-map-composition.md) |
 | Def. | Birational map; birationally equivalent | 24 | [Birational maps](../roadmap/rational-maps/birational-map.md) |
-| Lem. 4.2 | For a hypersurface `Y = Z(f)` in `𝔸ⁿ`, `𝔸ⁿ − Y` is isomorphic to `Z(x_{n+1} f − 1) ⊆ 𝔸ⁿ⁺¹`, hence affine with ring `k[x₁,…,x_n]_f` | 25 | [Complement of a hypersurface](../roadmap/rational-maps/hypersurface-complement.md) |
+| Lem. 4.2 | For a hypersurface `Y = Z(f)` in `𝔸ⁿ`, `𝔸ⁿ − Y` is isomorphic to `Z(x_{n+1} f − 1) ⊆ 𝔸ⁿ⁺¹`, hence affine with ring `k[x₁,…,x_n]_f` | 25 | [Localized coordinate ring](../roadmap/rational-maps/principal-open-coordinate-ring.md), [Complement of a hypersurface](../roadmap/rational-maps/hypersurface-complement.md) |
 | Prop. 4.3 | On any variety the open affine subsets form a base for the topology | 25 | [Affine sets are a base](../roadmap/rational-maps/affine-base.md) |
 | Thm. 4.4 | Dominant rational maps `X ⇢ Y` correspond bijectively to `k`-algebra homomorphisms `K(Y) → K(X)`; arrow-reversing equivalence with finitely generated field extensions of `k` | 25–26 | [Rational maps and function fields](../roadmap/rational-maps/rational-map-function-field.md) |
 | Cor. 4.5 | `X`, `Y` birational ⟺ they have isomorphic open subsets ⟺ `K(X) ≅ K(Y)` | 26 | [Birational criterion](../roadmap/rational-maps/birational-criterion.md) |

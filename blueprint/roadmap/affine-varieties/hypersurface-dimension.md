@@ -1,6 +1,8 @@
 ---
+article_id: af_e6d7d33fe68baa6aa2beb588
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_dim_zeroSet_irreducible Hartshorne.exists_irreducible_eq_zeroSet

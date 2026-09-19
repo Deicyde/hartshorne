@@ -1,6 +1,8 @@
 ---
+article_id: af_591daa60fe66a7f31be6c0b6
 declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.IsRegularAt Hartshorne.IsRegular

@@ -1,9 +1,11 @@
 ---
+article_id: af_81c10fb1e90a0ecf4e9aacdd
 declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.projLocalRingEquiv Hartshorne.chartPoint Hartshorne.chartMaximalIdeal Hartshorne.ringKrullDim_projLocalRing Hartshorne.nonempty_inter_standardChart Hartshorne.chartImagePoint Hartshorne.chartMaximalIdeal_eq Hartshorne.mem_awayPrime_iff_mem_maximalIdealAt Hartshorne.map_primeCompl_awayPrime Hartshorne.projLocalRingEquivGraded
+lean: Hartshorne.projLocalRingEquivGraded
 ---
 
 # The local ring of a projective variety

@@ -1,9 +1,11 @@
 ---
+article_id: af_02b813024028fb3b623f3d8b
 declaration: instance
 origin: cited
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
-lean: Hartshorne.zariskiTopology Hartshorne.zeroSet_union_zeroSet Hartshorne.isAlgebraicSet_sInter Hartshorne.isClosed_iff_isAlgebraicSet
+lean: Hartshorne.zariskiTopology
 ---
 
 # The Zariski topology on affine space

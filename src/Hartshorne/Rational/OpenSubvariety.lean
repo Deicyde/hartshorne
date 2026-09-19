@@ -35,6 +35,7 @@ need proving.
 * `Hartshorne.pushOpens`, `Hartshorne.pushHomeomorph`
 * `Hartshorne.Variety.restrict`
 * `Hartshorne.Variety.inclHom`, `Hartshorne.Variety.inclHomOfLE`
+* `Hartshorne.Variety.preimageOpens`, `Hartshorne.Variety.restrictPreimageHom`
 -/
 
 namespace Hartshorne
@@ -159,6 +160,47 @@ noncomputable def inclHomOfLE (X : Variety.{u, v} k) {V U : Opens X.carrier} (hV
           (continuous_subtype_val).subtype_mk _⟩ W) ≤ pushOpens U W from
         fun _ hx => ⟨hVU hx.1, fun _ => hx.2 hx.1⟩)
       hf
+
+/-- The preimage of an open subset of the target under a morphism defined on an
+open subvariety, read as an open subset of the ambient space of the source. -/
+noncomputable def preimageOpens {A B : Variety.{u, v} k} {U : Opens A.carrier}
+    (hU : (U : Set A.carrier).Nonempty) (φ : VarietyHom (A.restrict U hU) B)
+    (V : Opens B.carrier) : Opens A.carrier :=
+  pushOpens U (Opens.comap ⟨φ.toFun, φ.continuous_toFun⟩ V)
+
+theorem mem_preimageOpens {A B : Variety.{u, v} k} {U : Opens A.carrier}
+    {hU : (U : Set A.carrier).Nonempty} {φ : VarietyHom (A.restrict U hU) B}
+    {V : Opens B.carrier} {a : A.carrier} :
+    a ∈ preimageOpens hU φ V ↔ a ∈ U ∧ ∀ h : a ∈ U, φ ⟨a, h⟩ ∈ V := Iff.rfl
+
+/-- **A morphism out of an open subvariety, cut down to the preimage of an open
+subset of the target.**
+
+Both the source and the target shrink, and the point of the construction is that
+the source shrinks to an open subvariety of the *ambient* space rather than to a
+subvariety of a subvariety. That is what lets composites of rational maps be
+represented by a pair `⟨open subset of `X`, morphism⟩` again. -/
+noncomputable def restrictPreimageHom {A B : Variety.{u, v} k} {U : Opens A.carrier}
+    (hU : (U : Set A.carrier).Nonempty) (φ : VarietyHom (A.restrict U hU) B)
+    (V : Opens B.carrier) (hV : (V : Set B.carrier).Nonempty)
+    (hP : ((preimageOpens hU φ V : Opens A.carrier) : Set A.carrier).Nonempty) :
+    VarietyHom (A.restrict (preimageOpens hU φ V) hP) (B.restrict V hV) where
+  toFun x := ⟨φ (ofPush x).1, (ofPush x).2⟩
+  continuous_toFun := by
+    change Continuous (fun x : preimageOpens hU φ V =>
+      (⟨φ ⟨x.1, x.2.1⟩, x.2.2 x.2.1⟩ : V))
+    exact (φ.continuous_toFun.comp
+      (continuous_subtype_val.subtype_mk (fun x => x.2.1))).subtype_mk _
+  regular_comp W f hf :=
+    A.regular_restrict
+      (show pushOpens (preimageOpens hU φ V)
+            (Opens.comap ⟨fun x : preimageOpens hU φ V =>
+              ⟨φ ⟨x.1, x.2.1⟩, x.2.2 x.2.1⟩, by
+                exact (φ.continuous_toFun.comp
+                  (continuous_subtype_val.subtype_mk (fun x => x.2.1))).subtype_mk _⟩ W)
+          ≤ pushOpens U (Opens.comap ⟨φ.toFun, φ.continuous_toFun⟩ (pushOpens V W)) from
+        fun _ ha => ⟨ha.1.1, fun h => ⟨ha.1.2 h, fun _ => ha.2 ha.1⟩⟩)
+      (φ.regular_comp (pushOpens V W) (fun w => f (ofPush w)) hf)
 
 end Variety
 

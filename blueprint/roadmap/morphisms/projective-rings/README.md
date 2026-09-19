@@ -1,3 +1,7 @@
+---
+article_id: af_2a6659234206a788b61bfba3
+---
+
 # The rings of a projective variety
 
 Theorem 3.2 computes the three rings of an affine variety and finds that the

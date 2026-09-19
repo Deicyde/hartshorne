@@ -1,3 +1,7 @@
+---
+article_id: af_57e7a327fd202f9b1729e50f
+---
+
 # Affine varieties
 
 Hartshorne opens over a fixed algebraically closed field `k` and builds the

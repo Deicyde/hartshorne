@@ -1,8 +1,29 @@
+---
+schema: autoform-coverage/v2
+artifact: sources/hartshorne.md
+artifact_sha256: aebb86240fc561870280e777e349ef1294605a6deb8fa1cd29315384660805bd
+---
+
 # Coverage contract
 
 What this project claims, and what it does not. The source is Robin Hartshorne,
 *Algebraic Geometry*, Springer GTM 52, 1977; see the
 [source notes](../sources/hartshorne.md) for locators.
+
+This contract exhaustively partitions every LF-terminated line of the
+project-authored source inventory. DECOMPOSED means that the inventory unit
+has roadmap leaves; it does not mean that those leaves are proved.
+
+| Unit | Area | Lines | Locator | Unit SHA-256 | Coverage | Evidence |
+| --- | --- | --- | --- | --- | --- | --- |
+| inventory-preamble | Bibliography and inventory policy | 1-18 | Source-notes preamble | 572b7ea54a46bc93e9261ca05d8f8a43fbfe902ef8b822861f30b51b38db1fc9 | OUT | Project-authored bibliographic metadata and roadmap policy, not a standalone mathematical target |
+| chapter-i-section-1 | Affine varieties | 19-49 | Chapter I §1, book pp. 1–8 | ce343b2db86774cdb86b8efcd433d223715fe44c0d2be865fe6d99ae864a1bfa | DECOMPOSED | [The affine coordinate ring](../roadmap/affine-varieties/affine-coordinate-ring.md), [Affine space is a Noetherian space](../roadmap/affine-varieties/affine-space-noetherian.md), [Affine and quasi-affine varieties](../roadmap/affine-varieties/affine-variety.md), [Algebraic sets](../roadmap/affine-varieties/algebraic-set.md), [Every finitely generated domain is a coordinate ring](../roadmap/affine-varieties/coordinate-ring-realization.md), [The dimension of affine space](../roadmap/affine-varieties/dim-affine-space.md), [Dimension is the dimension of the coordinate ring](../roadmap/affine-varieties/dim-eq-coordinate-ring-dim.md), [A finitely generated algebra over a field has finite dimension](../roadmap/affine-varieties/dim-fg-algebra-finite.md), [Dimension of a finitely generated domain](../roadmap/affine-varieties/dim-fg-domain.md), [The dimension formula for a finitely generated domain](../roadmap/affine-varieties/dim-formula-catenary.md), [One inequality of the dimension formula](../roadmap/affine-varieties/dim-formula-inequality.md), [Dimension of a quasi-affine variety](../roadmap/affine-varieties/dim-quasi-affine.md), [Dimension of a topological space and of a ring](../roadmap/affine-varieties/dimension.md), [Krull dimension is invariant under integral extensions](../roadmap/affine-varieties/dimension-integral-extension.md), [Height is preserved by contraction along an integral extension](../roadmap/affine-varieties/height-comap-integral.md), [Hypersurfaces and codimension one](../roadmap/affine-varieties/hypersurface-dimension.md), [Decomposition into irreducible components](../roadmap/affine-varieties/irreducible-decomposition.md), [Hilbert's Nullstellensatz](../roadmap/affine-varieties/nullstellensatz.md), [A hypersurface in affine space drops the transcendence degree by one](../roadmap/affine-varieties/polynomial-hypersurface-trdeg.md), [Algebraic sets and radical ideals](../roadmap/affine-varieties/radical-ideal-correspondence.md), [A height-one prime drops the transcendence degree by one](../roadmap/affine-varieties/trdeg-drop-height-one.md), [The vanishing ideal](../roadmap/affine-varieties/vanishing-ideal.md), [The Zariski topology on affine space](../roadmap/affine-varieties/zariski-topology.md) |
+| chapter-i-section-2 | Projective varieties | 50-77 | Chapter I §2, book pp. 8–14 | 7d1de7f5186c3c491bcde17d14773f8bfb013439247df789e36fa29fbe050ac9 | DECOMPOSED | [Varieties are covered by affine pieces](../roadmap/projective-varieties/affine-cover.md), [Dimension of the homogeneous coordinate ring](../roadmap/projective-varieties/homogeneous-coordinate-ring-dimension.md), [Homogeneous ideals](../roadmap/projective-varieties/homogeneous-ideal.md), [Algebraic sets and homogeneous radical ideals](../roadmap/projective-varieties/homogeneous-ideal-correspondence.md), [The homogeneous vanishing ideal](../roadmap/projective-varieties/homogeneous-vanishing-ideal.md), [Projective algebraic sets](../roadmap/projective-varieties/projective-algebraic-set.md), [Dimension in projective space](../roadmap/projective-varieties/projective-dimension.md), [The homogeneous Nullstellensatz](../roadmap/projective-varieties/projective-nullstellensatz.md), [Projective space](../roadmap/projective-varieties/projective-space.md), [Projective space is a Noetherian space](../roadmap/projective-varieties/projective-space-noetherian.md), [Projective and quasi-projective varieties](../roadmap/projective-varieties/projective-variety.md), [The Zariski topology on projective space](../roadmap/projective-varieties/projective-zariski-topology.md), [The standard affine charts](../roadmap/projective-varieties/standard-affine-charts.md) |
+| chapter-i-section-3 | Morphisms | 78-103 | Chapter I §3, book pp. 14–23, except Theorem 3.9A | f4da0c0a7240dbc99d6c481b930e8f40e9f55ed0caf8b3743f53724dec7e350d | DECOMPOSED | [Isomorphism via coordinate rings](../roadmap/morphisms/affine-iso-iff-algebra-iso.md), [Equivalence with finitely generated domains](../roadmap/morphisms/affine-variety-equivalence.md), [The local ring and function field of an affine variety](../roadmap/morphisms/affine-variety-rings.md), [The function field](../roadmap/morphisms/function-field.md), [The function field of an arbitrary variety](../roadmap/morphisms/function-field-abstract.md), [The function field is functorial for dominant morphisms](../roadmap/morphisms/function-field-functorial.md), [The underlying maps into germs and rational functions are injective](../roadmap/morphisms/function-field-injections.md), [The function field is the fraction field](../roadmap/morphisms/function-field-is-fraction-field.md), [The coordinate ring is the ring of regular functions](../roadmap/morphisms/global-regular-eq-coordinate-ring.md), [Global regular functions inside the function field](../roadmap/morphisms/global-functions/global-regular-in-function-field.md), [Global regular functions are the intersection of the local rings](../roadmap/morphisms/global-functions/global-regular-intersection-local-rings.md), [Morphisms into an affine variety](../roadmap/morphisms/hom-affine-bijection.md), [The local ring at a point](../roadmap/morphisms/local-ring.md), [The local ring is functorial](../roadmap/morphisms/local-ring-functorial.md), [The local ring is local](../roadmap/morphisms/local-ring-is-local.md), [The local ring is a localisation](../roadmap/morphisms/local-ring-is-localization.md), [Morphisms](../roadmap/morphisms/morphism.md), [Criterion for a morphism into an affine variety](../roadmap/morphisms/morphism-to-affine-criterion.md), [Points and maximal ideals](../roadmap/morphisms/points-eq-maximal-ideals.md), [The charts are isomorphisms of varieties](../roadmap/morphisms/projective-rings/chart-isomorphism.md), [Reading a global regular function on a chart](../roadmap/morphisms/projective-rings/chart-reading.md), [The degree bound](../roadmap/morphisms/projective-rings/degree-bound.md), [Graded localization](../roadmap/morphisms/projective-rings/graded-localization.md), [The homogeneous prime at a point](../roadmap/morphisms/projective-rings/point-ideal.md), [The function field of a projective variety](../roadmap/morphisms/projective-rings/projective-function-field.md), [The global regular functions of a projective variety](../roadmap/morphisms/projective-rings/projective-global-regular.md), [The local ring of a projective variety](../roadmap/morphisms/projective-rings/projective-local-ring.md), [An element stabilising a finite-dimensional subspace is integral](../roadmap/morphisms/projective-rings/stable-subspace.md), [Regular functions are continuous](../roadmap/morphisms/regular-function-continuous.md), [Regular functions on a quasi-affine variety](../roadmap/morphisms/regular-function-quasi-affine.md), [Regular functions on a quasi-projective variety](../roadmap/morphisms/regular-function-quasi-projective.md), [The ring of regular functions](../roadmap/morphisms/ring-of-regular-functions.md), [Varieties](../roadmap/morphisms/variety.md) |
+| theorem-i-3-9a | Finiteness of integral closure | 104-105 | Chapter I, Theorem 3.9A, book p. 20 | 0f5341b4836456b2f4cf19a5574b3643e0799eac867daf6b74865bfdabff7920 | DEFERRED | Deferred until Chapter I §6 enters scope; §§1–4 main text does not use it |
+| chapter-i-section-4 | Rational maps | 106-145 | Chapter I §4 running text and adopted prerequisites, book pp. 12, 13, 22, 24–29 | d0329b4f0e2285c3c2fba03d123f0bebdde1bc9ee20a311caa54418c1bac538f | DECOMPOSED | [Open affine sets are a base for the topology](../roadmap/rational-maps/affine-base.md), [The birational criterion](../roadmap/rational-maps/birational-criterion.md), [Every variety is birational to a hypersurface](../roadmap/rational-maps/birational-hypersurface.md), [Birational maps](../roadmap/rational-maps/birational-map.md), [Blowing up a point](../roadmap/rational-maps/blowing-up.md), [The complement of a hypersurface is affine](../roadmap/rational-maps/hypersurface-complement.md), [The graph hypersurface has localized coordinate ring](../roadmap/rational-maps/principal-open-coordinate-ring.md), [Morphisms agreeing on an open set](../roadmap/rational-maps/morphism-agreement.md), [Products of varieties](../roadmap/rational-maps/product-variety.md), [The projective closure of an affine variety](../roadmap/rational-maps/projective-closure.md), [Composition of dominant rational maps](../roadmap/rational-maps/rational-map-composition.md), [Rational maps](../roadmap/rational-maps/rational-map.md), [Rational maps and function fields](../roadmap/rational-maps/rational-map-function-field.md), [The Segre embedding](../roadmap/rational-maps/segre-embedding.md), [Separably generated field extensions](../roadmap/rational-maps/separably-generated.md) |
+| remaining-sections | Undecomposed remainder of the book | 146-161 | Chapter I §§5–8 and Chapters II–V, book pp. 31–420 | 736c146c717c47dbed27fd39dedc1a343c1685cbb8519d5d09cc41b77a2986ea | OUT | Explicitly outside this project's Chapter I §§1–4 scope; the inventory only locates these sections |
+| standing-conventions | Algebraically closed base field and irreducible varieties | 162-169 | Standing conventions for Chapter I | 32c55ea4bf211d1ee39edc51f124ebc7e3841b0728a82001ac113c4cff8be7df | DECOMPOSED | [Affine and quasi-affine varieties](../roadmap/affine-varieties/affine-variety.md), [Projective and quasi-projective varieties](../roadmap/projective-varieties/projective-variety.md), [Varieties](../roadmap/morphisms/variety.md) |
 
 ## In scope
 
@@ -12,11 +33,13 @@ Chapter I, sections 1 through 4, book pages 1–29:
 | --- | --- | --- | --- | --- |
 | I.1 | Affine Varieties | 1–8 | [23 articles](../roadmap/affine-varieties/README.md) | done |
 | I.2 | Projective Varieties | 8–14 | [13 articles](../roadmap/projective-varieties/README.md) | done |
-| I.3 | Morphisms | 14–23 | [32 articles](../roadmap/morphisms/README.md) | done |
-| I.4 | Rational Maps | 24–29 | [13 articles](../roadmap/rational-maps/README.md) | decomposed, not yet proved |
+| I.3 | Morphisms | 14–23 | [33 articles](../roadmap/morphisms/README.md) | in progress |
+| I.4 | Rational Maps | 24–29 | [15 articles](../roadmap/rational-maps/README.md) | in progress |
 
-All 68 articles of §§1–3 are done: 67 proved here and one already in Mathlib.
-§4 is decomposed but carries no Lean yet, and no article in it claims otherwise.
+Of the 69 articles in §§1–3, 68 are done: 67 proved here and one already in
+Mathlib. The remaining §3 target is the intersection of the local rings inside
+the function field. In §4, Lemma 4.1, the basic rational-map construction, and
+composition are formalized; the remaining targets are not.
 
 The counts grow as the work goes on, almost always by splitting a node that
 turned out to hold more than one pull request's worth of Lean; where the scope
@@ -51,10 +74,11 @@ exercises, which are out of scope. It is needed from §6 onward and will be
 picked up whenever that scope is.
 
 The first target was Corollary I.3.8, the arrow-reversing equivalence between
-affine varieties over `k` and finitely generated integral domains over `k`. The
-target of §4 is its birational counterpart, Theorem 4.4: varieties with dominant
-rational maps are equivalent, arrows reversed, to finitely generated field
-extensions of `k`.
+affine varieties over `k` and finitely generated integral domains over `k`.
+Theorem 4.4 is its birational counterpart: varieties with dominant rational
+maps are equivalent, arrows reversed, to finitely generated field extensions of
+`k`. The declared §4 scope continues through Proposition 4.9 and the blow-up
+construction on pages 28–29.
 
 ## Out of scope
 
@@ -118,10 +142,11 @@ A section counts as finished when every article listed for it satisfies all of:
    including the standing hypothesis that `k` is algebraically closed and the
    convention that varieties are irreducible.
 
-A section counts as finished when all its articles do. **§§1, 2 and 3 are
-finished.** Every article in them compiles, no proof contains `sorry` or
+A section counts as finished when all its articles do. **§§1 and 2 are
+finished.** Their articles compile, no proof contains `sorry` or
 `native_decide`, every `#print axioms` is clean, and every statement has been
-read against its cited passage. §4 is not finished and is not claimed to be.
+read against its cited passage. §3 awaits the intersection theorem above, and
+§4 is also unfinished.
 
 Derived progress on the published site is computed from the dependency graph and
 is not a claim about scope: a green node means its Lean proof compiles, not that

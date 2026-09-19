@@ -1,6 +1,8 @@
 ---
+article_id: af_b788bfcd173aff95570bd3a8
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-4]
 ---
 
 # The projective closure of an affine variety

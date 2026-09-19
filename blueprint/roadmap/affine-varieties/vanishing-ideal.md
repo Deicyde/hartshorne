@@ -1,6 +1,8 @@
 ---
+article_id: af_55226f15d7959f3667585ad1
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.vanishingIdeal_union Hartshorne.zeroLocus_vanishingIdeal_eq_closure

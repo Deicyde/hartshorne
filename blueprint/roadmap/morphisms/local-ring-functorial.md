@@ -1,9 +1,11 @@
 ---
+article_id: af_59bf5c5a065cb7280464d06c
 declaration: def
 origin: bridged
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.VarietyHom.germPullback Hartshorne.VarietyHom.localRingHom Hartshorne.VarietyHom.localRingHom_id Hartshorne.VarietyHom.localRingHom_comp Hartshorne.VarietyHom.bijective_localRingHom_of_isIso Hartshorne.inclHom Hartshorne.pushGerm Hartshorne.pullPoint Hartshorne.regular_pullPoint Hartshorne.isOpen_pushOpens Hartshorne.bijective_localRingHom_inclHom
+lean: Hartshorne.VarietyHom.localRingHom
 ---
 
 # The local ring is functorial

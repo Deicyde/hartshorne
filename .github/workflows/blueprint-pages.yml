@@ -23,7 +23,7 @@ permissions:
 
 env:
   AUTOFORM_SOURCE: "https://github.com/facebookresearch/autoform-bot.git"
-  AUTOFORM_REF: "36060dcaee389e804209d1a904cf917f7993f975"
+  AUTOFORM_REF: "1cf2ca825fec5e6d3303e24374e218bf3e8ab5c1"
 
 concurrency:
   group: blueprint-pages
@@ -41,12 +41,12 @@ jobs:
         with:
           version: "0.12.1"
 
-      # Rejects cycles and dangling links, and fails when a node names a Lean
-      # declaration that is not in the sources.
-      - name: Validate the theorem DAG and its declarations
+      # Rejects invalid coverage, cycles, dangling links, metadata drift, and
+      # Lean declarations that do not resolve with the declared kind.
+      - name: Validate the blueprint contract
         run: >-
           uvx --from "git+${AUTOFORM_SOURCE}@${AUTOFORM_REF}"
-          autoform check blueprint --lean-root .
+          autoform doctor blueprint --lean-root .
 
       # Writes site-src/: statement boxes, derived statuses, the Mermaid graph,
       # and permalinks into the Lean code at this exact commit.

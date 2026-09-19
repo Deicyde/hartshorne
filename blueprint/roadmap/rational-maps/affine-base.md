@@ -1,16 +1,28 @@
 ---
+article_id: af_dae717a792f8af7b8c1043d8
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-4]
 ---
 
 # Open affine sets are a base for the topology
 
-On any variety `Y`, the open subsets that are affine — isomorphic to an affine
-variety — form a base for the topology (Proposition 4.3).
+For every variety in Hartshorne's four concrete classes, the open subsets that
+are affine — isomorphic to an affine variety — form a base for the topology
+(Proposition 4.3).
 
 This is the statement that makes "reduce to the affine case" a legitimate move
 for an arbitrary variety and not just for a projective one covered by charts.
 Every later argument in the section uses it.
+
+The Lean target must retain that scope explicitly. The current abstract
+`Variety` structure records regular functions and irreducibility, but does not
+record that the space came from an affine, quasi-affine, projective, or
+quasi-projective construction. Proposition 4.3 is false for an arbitrary
+structure with only those fields. Its implementation should therefore package
+an affine-open-basis witness (for example `Variety.HasAffineOpenBasis`) and
+prove it for the concrete constructors; downstream §4 statements quantify over
+varieties carrying that witness.
 
 ## The proof
 
@@ -44,6 +56,7 @@ not merely locally closed: `Ȳ − H` is closed in `𝔸ⁿ − H`, and
 ## Proof depends on
 
 - [Varieties are covered by affine pieces](../projective-varieties/affine-cover.md)
+- [The charts are isomorphisms of varieties](../morphisms/projective-rings/chart-isomorphism.md)
 - [The vanishing ideal](../affine-varieties/vanishing-ideal.md)
 - [Algebraic sets and radical ideals](../affine-varieties/radical-ideal-correspondence.md)
 

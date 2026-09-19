@@ -1,9 +1,11 @@
 ---
+article_id: af_ee5b9082258b320eb1d4eaa4
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.nonempty_isIso_iff_nonempty_algEquiv Hartshorne.homToAlgHom_eq_pullback_comp Hartshorne.coordinateRingEquivRegularTop
+lean: Hartshorne.nonempty_isIso_iff_nonempty_algEquiv
 ---
 
 # Isomorphism via coordinate rings

@@ -1,9 +1,11 @@
 ---
+article_id: af_9151d1a05185ce97d9df7ad5
 declaration: theorem
 origin: bridged
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.restrictFunctionFieldEquiv Hartshorne.chartFunctionFieldEquiv Hartshorne.restrictFunctionFieldEquiv_globalToFunctionField Hartshorne.chartFunctionFieldEquiv_symm_globalToFunctionField Hartshorne.exists_coordToRational_eq_of_globalRegular Hartshorne.exists_awayToAtPrime_eq_of_globalRegular Hartshorne.coordinateRingEquivRegularTop_apply Hartshorne.exists_homogeneous_repr_of_globalRegular
+lean: Hartshorne.exists_awayToAtPrime_eq_of_globalRegular Hartshorne.exists_homogeneous_repr_of_globalRegular
 ---
 
 # Reading a global regular function on a chart
@@ -42,7 +44,7 @@ discrepancy between evaluating a polynomial and evaluating its homogenisation.
 
 ## Depends on
 
-- [Global regular functions inside the function field](../global-regular-in-function-field.md)
+- [Global regular functions inside the function field](../global-functions/global-regular-in-function-field.md)
 - [The charts are isomorphisms of varieties](chart-isomorphism.md)
 
 ## Proof depends on

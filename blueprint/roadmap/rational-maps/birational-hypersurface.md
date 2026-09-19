@@ -1,12 +1,15 @@
 ---
+article_id: af_282371bb38115fa34ae6b5a5
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-4]
 ---
 
 # Every variety is birational to a hypersurface
 
-Any variety `X` of dimension `r` is birational to a hypersurface `Y` in
-`ℙ^{r+1}` (Proposition 4.9).
+Any variety `X` of dimension `r` in Hartshorne's four concrete classes — hence
+carrying the affine-open-basis and separatedness witnesses used by §4 — is
+birational to a hypersurface `Y` in `ℙ^{r+1}` (Proposition 4.9).
 
 This is as much of a normal form as birational geometry provides, and it is a
 clean illustration of what [Theorem 4.4](rational-map-function-field.md) buys:

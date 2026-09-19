@@ -1,6 +1,8 @@
 ---
+article_id: af_7b4c04ecca578f6cd6b4d287
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-4]
 ---
 
 # Products of varieties

@@ -1,9 +1,11 @@
 ---
-declaration: def
+article_id: af_300dd006c62e894e27ba7e7b
+declaration: structure
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.VarietyHom Hartshorne.VarietyHom.id Hartshorne.VarietyHom.comp Hartshorne.VarietyHom.comp_assoc Hartshorne.VarietyHom.IsIso Hartshorne.VarietyHom.IsIso.bijective
+lean: Hartshorne.VarietyHom
 ---
 
 # Morphisms

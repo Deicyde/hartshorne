@@ -1,9 +1,11 @@
 ---
+article_id: af_3bfd873df32de1e7b9c89d8a
 declaration: def
 origin: bridged
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.VarietyHom.ratPullback Hartshorne.VarietyHom.functionFieldHom Hartshorne.VarietyHom.dense_range_of_surjective Hartshorne.VarietyHom.bijective_functionFieldHom_of_isIso Hartshorne.dense_range_inclHom Hartshorne.pushRat Hartshorne.bijective_functionFieldHom_inclHom
+lean: Hartshorne.VarietyHom.functionFieldHom
 ---
 
 # The function field is functorial for dominant morphisms

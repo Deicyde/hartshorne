@@ -1,9 +1,11 @@
 ---
+article_id: af_f960b52328c9616ca4870018
 declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.RationalRep Hartshorne.RationalRep.Rel Hartshorne.RationalRep.rel_trans Hartshorne.inter_nonempty Hartshorne.GermRep.toRationalRep
+lean: Hartshorne.FunctionField
 ---
 
 # The function field

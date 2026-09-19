@@ -1,6 +1,8 @@
 ---
+article_id: af_01b34428bd087a4d13d151be
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.height_maximalIdealAt_eq Hartshorne.ringKrullDim_localRingAt_eq_dim
@@ -51,7 +53,7 @@ finished well before the commutative algebra it rests on.
 - [The local ring at a point](local-ring.md)
 - [The local ring is local](local-ring-is-local.md)
 - [The function field](function-field.md)
-- [The three rings embed in the function field](function-field-injections.md)
+- [The underlying maps into germs and rational functions are injective](function-field-injections.md)
 - [The coordinate ring is the ring of regular functions](global-regular-eq-coordinate-ring.md)
 - [Points and maximal ideals](points-eq-maximal-ideals.md)
 - [The local ring is a localisation](local-ring-is-localization.md)

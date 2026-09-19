@@ -1,8 +1,11 @@
 ---
+article_id: af_f8d7b54996f51594f707d44f
 declaration: theorem
 origin: background
+source_units: [chapter-i-section-1]
 mathlib: true
 mathlib_declaration: MvPolynomial.vanishingIdeal_zeroLocus_eq_radical
+mathlib_file: Mathlib/RingTheory/Nullstellensatz.lean
 statement: formalized
 proof: formalized
 lean: Hartshorne.vanishingIdeal_zeroSet_eq_radical Hartshorne.exists_pow_mem_of_forall_eval_eq_zero

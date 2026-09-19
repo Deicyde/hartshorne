@@ -1,6 +1,8 @@
 ---
+article_id: af_3a1b61ce82b649c859736803
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_unique_irredundant_decomposition Hartshorne.IsAlgebraicSet.exists_unique_decomposition Hartshorne.IsIrreducible.exists_mem_subset_of_subset_biUnion Hartshorne.irredundant_decomposition_unique

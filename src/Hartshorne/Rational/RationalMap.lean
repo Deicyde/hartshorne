@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Rational.OpenSubvariety
 import Hartshorne.Rational.MorphismAgreement
+import Mathlib.CategoryTheory.Category.Basic
 
 /-!
 # Rational maps
@@ -37,11 +38,13 @@ replacement. The target is therefore required to be separated, which by Lemma
 * `Hartshorne.RatMapRep`, `Hartshorne.RatMapRep.Rel`
 * `Hartshorne.ratMapSetoid`, `Hartshorne.RatMap`
 * `Hartshorne.RatMapRep.IsDominant`
+* `Hartshorne.DominantRatMap`, `Hartshorne.SeparatedVariety`
 -/
 
 namespace Hartshorne
 
 open TopologicalSpace
+open CategoryTheory
 
 universe u v
 
@@ -148,5 +151,271 @@ theorem RatMapRep.isDominant_congr {r s : RatMapRep X Y}
     rintro _ ⟨y, rfl⟩
     exact hall y
   exact dense_closure.1 (Dense.mono hrange hr)
+
+/-- Dominance as a property of a rational map, independent of the chosen
+representative. -/
+def RatMap.IsDominant {hY : Y.IsSeparated} (f : RatMap X Y hY) : Prop :=
+  Quotient.liftOn f RatMapRep.IsDominant fun r s h => by
+    apply propext
+    exact ⟨RatMapRep.isDominant_congr h,
+      RatMapRep.isDominant_congr (RatMapRep.rel_symm h)⟩
+
+/-- The inverse image of the domain of a second representative is nonempty
+when the first representative is dominant. This is the one place where
+dominance is needed to define composition. -/
+theorem RatMapRep.compDomain_nonempty {Z : Variety.{u, v} k} (s : RatMapRep Y Z)
+    (r : RatMapRep X Y) (hr : r.IsDominant) :
+    ((Variety.preimageOpens r.nonempty_U r.hom s.U : Opens X.carrier) :
+      Set X.carrier).Nonempty := by
+  obtain ⟨_, ⟨x, rfl⟩, hx⟩ := hr.exists_mem_open s.U.isOpen s.nonempty_U
+  refine ⟨x.1, Variety.mem_preimageOpens.2 ⟨x.2, fun h => ?_⟩⟩
+  change (s.U : Set Y.carrier) (r.hom ⟨x.1, h⟩)
+  have hxeq : (⟨x.1, h⟩ : r.U) = x := Subtype.ext (by rfl)
+  rw [hxeq]
+  exact hx
+
+/-- Compose representatives of dominant rational maps. The domain is the
+inverse image of the domain of the second representative. -/
+noncomputable def RatMapRep.comp {Z : Variety.{u, v} k} (s : RatMapRep Y Z)
+    (r : RatMapRep X Y) (hr : r.IsDominant) : RatMapRep X Z where
+  U := Variety.preimageOpens r.nonempty_U r.hom s.U
+  nonempty_U := RatMapRep.compDomain_nonempty s r hr
+  hom := s.hom.comp
+    (Variety.restrictPreimageHom r.nonempty_U r.hom s.U s.nonempty_U
+      (RatMapRep.compDomain_nonempty s r hr))
+
+@[simp]
+theorem RatMapRep.comp_eval {Z : Variety.{u, v} k} (s : RatMapRep Y Z)
+    (r : RatMapRep X Y) (hr : r.IsDominant) {x : X.carrier}
+    (hx : x ∈ Variety.preimageOpens r.nonempty_U r.hom s.U) :
+    (s.comp r hr).eval hx =
+      s.eval ((Variety.mem_preimageOpens.1 hx).2 (Variety.mem_preimageOpens.1 hx).1) :=
+  rfl
+
+/-- A composite of dominant representatives is dominant. -/
+theorem RatMapRep.comp_isDominant {Z : Variety.{u, v} k} (s : RatMapRep Y Z)
+    (r : RatMapRep X Y) (hs : s.IsDominant) (hr : r.IsDominant) :
+    (s.comp r hr).IsDominant := by
+  rw [RatMapRep.IsDominant, dense_iff_inter_open]
+  intro W hW hWne
+  obtain ⟨_, ⟨y, rfl⟩, hyW⟩ := hs.exists_mem_open hW hWne
+  let W' : Opens Z.carrier := ⟨W, hW⟩
+  let T : Opens Y.carrier :=
+    pushOpens s.U (Opens.comap ⟨s.hom.toFun, s.hom.continuous_toFun⟩ W')
+  have hTne : (T : Set Y.carrier).Nonempty := by
+    refine ⟨y.1, y.2, fun _ => ?_⟩
+    exact hyW
+  obtain ⟨_, ⟨x, rfl⟩, hxT⟩ := hr.exists_mem_open T.isOpen hTne
+  have hxU : r.hom x ∈ s.U := hxT.1
+  have hxW : s.hom ⟨r.hom x, hxU⟩ ∈ W := hxT.2 hxU
+  let p : (s.comp r hr).U :=
+    ⟨x.1, Variety.mem_preimageOpens.2 ⟨x.2, fun h => by
+      have hxeq : (⟨x.1, h⟩ : r.U) = x := Subtype.ext (by rfl)
+      simpa only [hxeq] using hxU⟩⟩
+  refine ⟨s.hom ⟨r.hom x, hxU⟩, hxW, p, ?_⟩
+  change s.hom ⟨r.hom ⟨p.1, p.2.1⟩, p.2.2 p.2.1⟩ = s.hom ⟨r.hom x, hxU⟩
+  congr
+
+/-- Composition is independent of both representatives. -/
+theorem RatMapRep.comp_rel {Z : Variety.{u, v} k} {s s' : RatMapRep Y Z}
+    {r r' : RatMapRep X Y} (hs : s.Rel s') (hr : r.Rel r')
+    (hdr : r.IsDominant) (hdr' : r'.IsDominant) :
+    (s.comp r hdr).Rel (s'.comp r' hdr') := by
+  intro x hx hx'
+  have hxr : x ∈ r.U := (Variety.mem_preimageOpens.1 hx).1
+  have hxr' : x ∈ r'.U := (Variety.mem_preimageOpens.1 hx').1
+  have hxs : r.eval hxr ∈ s.U :=
+    (Variety.mem_preimageOpens.1 hx).2 hxr
+  have hxs' : r'.eval hxr' ∈ s'.U :=
+    (Variety.mem_preimageOpens.1 hx').2 hxr'
+  have hmid : r.eval hxr = r'.eval hxr' := hr x hxr hxr'
+  have hxs'' : r.eval hxr ∈ s'.U := by
+    rw [hmid]
+    exact hxs'
+  rw [RatMapRep.comp_eval s r hdr hx, RatMapRep.comp_eval s' r' hdr' hx']
+  calc
+    s.eval hxs = s'.eval hxs'' := hs (r.eval hxr) hxs hxs''
+    _ = s'.eval hxs' := by
+      congr 1
+
+/-- The everywhere-defined identity representative. -/
+noncomputable def RatMapRep.id (X : Variety.{u, v} k) : RatMapRep X X where
+  U := ⊤
+  nonempty_U := Set.univ_nonempty
+  hom := Variety.inclHom X ⊤ Set.univ_nonempty
+
+@[simp]
+theorem RatMapRep.id_eval (X : Variety.{u, v} k) {x : X.carrier}
+    (hx : x ∈ (RatMapRep.id X).U) : (RatMapRep.id X).eval hx = x :=
+  rfl
+
+/-- The identity representative is dominant. -/
+theorem RatMapRep.id_isDominant (X : Variety.{u, v} k) : (RatMapRep.id X).IsDominant := by
+  apply Function.Surjective.denseRange
+  intro x
+  exact ⟨⟨x, trivial⟩, rfl⟩
+
+/-- Left identity holds up to the representative relation. -/
+theorem RatMapRep.id_comp_rel (r : RatMapRep X Y) (hr : r.IsDominant) :
+    (RatMapRep.id Y).comp r hr |>.Rel r :=
+  fun _ _ _ => rfl
+
+/-- Right identity holds up to the representative relation. -/
+theorem RatMapRep.comp_id_rel (r : RatMapRep X Y) :
+    (r.comp (RatMapRep.id X) (RatMapRep.id_isDominant X)).Rel r :=
+  fun _ _ _ => rfl
+
+/-- Associativity holds up to the representative relation. -/
+theorem RatMapRep.comp_assoc_rel {Z W : Variety.{u, v} k} (t : RatMapRep Z W)
+    (s : RatMapRep Y Z) (r : RatMapRep X Y) (hs : s.IsDominant) (hr : r.IsDominant) :
+    ((t.comp s hs).comp r hr).Rel
+      (t.comp (s.comp r hr) (s.comp_isDominant r hs hr)) :=
+  fun _ _ _ => rfl
+
+/-- A representative together with the dominance needed for composition. -/
+structure DominantRatMapRep (X Y : Variety.{u, v} k) where
+  /-- The underlying rational-map representative. -/
+  rep : RatMapRep X Y
+  /-- Its image is dense. -/
+  isDominant : rep.IsDominant
+
+namespace DominantRatMapRep
+
+variable {Z W : Variety.{u, v} k}
+
+/-- Equivalence of dominant representatives is equivalence of the underlying
+rational-map representatives. -/
+def Rel (r s : DominantRatMapRep X Y) : Prop := r.rep.Rel s.rep
+
+/-- The setoid of dominant representatives. -/
+def setoid (X Y : Variety.{u, v} k) (hY : Y.IsSeparated) :
+    Setoid (DominantRatMapRep X Y) where
+  r := Rel
+  iseqv := {
+    refl := fun r => r.rep.rel_refl
+    symm := fun h => RatMapRep.rel_symm h
+    trans := fun h₁ h₂ => RatMapRep.rel_trans hY h₁ h₂ }
+
+/-- Composition of dominant representatives. -/
+noncomputable def comp (s : DominantRatMapRep Y Z) (r : DominantRatMapRep X Y) :
+    DominantRatMapRep X Z where
+  rep := s.rep.comp r.rep r.isDominant
+  isDominant := s.rep.comp_isDominant r.rep s.isDominant r.isDominant
+
+theorem comp_rel {s s' : DominantRatMapRep Y Z} {r r' : DominantRatMapRep X Y}
+    (hs : Rel s s') (hr : Rel r r') : Rel (s.comp r) (s'.comp r') :=
+  RatMapRep.comp_rel hs hr r.isDominant r'.isDominant
+
+/-- The dominant identity representative. -/
+noncomputable def id (X : Variety.{u, v} k) : DominantRatMapRep X X :=
+  ⟨RatMapRep.id X, RatMapRep.id_isDominant X⟩
+
+end DominantRatMapRep
+
+/-- Dominant rational maps, quotiented by agreement on common domains. -/
+def DominantRatMap (X Y : Variety.{u, v} k) (hY : Y.IsSeparated) :=
+  Quotient (DominantRatMapRep.setoid X Y hY)
+
+namespace DominantRatMap
+
+variable {Z W : Variety.{u, v} k}
+
+/-- Forget dominance, obtaining the underlying rational map. -/
+def toRatMap {hY : Y.IsSeparated} (f : DominantRatMap X Y hY) : RatMap X Y hY :=
+  Quotient.map DominantRatMapRep.rep
+    (fun {_ _} h => (show RatMapRep.Rel _ _ from h)) f
+
+theorem toRatMap_isDominant {hY : Y.IsSeparated} (f : DominantRatMap X Y hY) :
+    (toRatMap f).IsDominant := by
+  refine Quotient.inductionOn f ?_
+  intro r
+  exact r.isDominant
+
+/-- Forgetting dominance loses no information. -/
+theorem toRatMap_injective {hY : Y.IsSeparated} :
+    Function.Injective (@toRatMap k _ X Y hY) := by
+  intro f g
+  refine Quotient.inductionOn₂ f g ?_
+  intro r s h
+  apply Quotient.sound
+  change (⟦r.rep⟧ : RatMap X Y hY) = ⟦s.rep⟧ at h
+  change r.rep.Rel s.rep
+  exact (@Quotient.eq _ (ratMapSetoid X Y hY) r.rep s.rep).1 h
+
+/-- The bundled quotient is equivalent to a rational map equipped with the
+well-defined dominance property. -/
+noncomputable def equivSubtype {hY : Y.IsSeparated} :
+    DominantRatMap X Y hY ≃ {f : RatMap X Y hY // f.IsDominant} :=
+  Equiv.ofBijective
+    (fun f => ⟨toRatMap f, toRatMap_isDominant f⟩)
+    ⟨by
+      intro f g h
+      apply toRatMap_injective
+      exact congrArg Subtype.val h,
+     by
+      rintro ⟨f, hf⟩
+      revert hf
+      refine Quotient.inductionOn f ?_
+      intro r hr
+      exact ⟨⟦⟨r, hr⟩⟧, rfl⟩⟩
+
+/-- Composition of dominant rational maps. -/
+noncomputable def comp {hY : Y.IsSeparated} {hZ : Z.IsSeparated}
+    (g : DominantRatMap Y Z hZ) (f : DominantRatMap X Y hY) :
+    DominantRatMap X Z hZ :=
+  Quotient.map₂ DominantRatMapRep.comp
+    (fun _ _ hs _ _ hr => DominantRatMapRep.comp_rel hs hr) g f
+
+/-- The identity dominant rational map. -/
+noncomputable def id (X : Variety.{u, v} k) (hX : X.IsSeparated) :
+    DominantRatMap X X hX := ⟦DominantRatMapRep.id X⟧
+
+@[simp]
+theorem comp_id {hX : X.IsSeparated} {hY : Y.IsSeparated}
+    (f : DominantRatMap X Y hY) : comp f (id X hX) = f := by
+  refine Quotient.inductionOn f ?_
+  intro r
+  apply Quotient.sound
+  exact RatMapRep.comp_id_rel r.rep
+
+@[simp]
+theorem id_comp {hY : Y.IsSeparated}
+    (f : DominantRatMap X Y hY) : comp (id Y hY) f = f := by
+  refine Quotient.inductionOn f ?_
+  intro r
+  apply Quotient.sound
+  exact RatMapRep.id_comp_rel r.rep r.isDominant
+
+theorem assoc {hY : Y.IsSeparated} {hZ : Z.IsSeparated}
+    {hW : W.IsSeparated} (f : DominantRatMap X Y hY)
+    (g : DominantRatMap Y Z hZ) (h : DominantRatMap Z W hW) :
+    comp (comp h g) f = comp h (comp g f) := by
+  refine Quotient.inductionOn₃ f g h ?_
+  intro r s t
+  apply Quotient.sound
+  exact RatMapRep.comp_assoc_rel t.rep s.rep r.rep s.isDominant r.isDominant
+
+end DominantRatMap
+
+/-- A variety equipped with the separatedness needed for rational maps to form
+a setoid. -/
+structure SeparatedVariety (k : Type u) [Field k] where
+  /-- The underlying variety. -/
+  toVariety : Variety.{u, v} k
+  /-- Its separatedness property. -/
+  isSeparated : toVariety.IsSeparated
+
+namespace SeparatedVariety
+
+/-- Separated varieties and dominant rational maps form a category. -/
+noncomputable instance : Category (SeparatedVariety.{u, v} k) where
+  Hom X Y := DominantRatMap X.toVariety Y.toVariety Y.isSeparated
+  id X := DominantRatMap.id X.toVariety X.isSeparated
+  comp f g := DominantRatMap.comp g f
+  id_comp := fun {X _} f => DominantRatMap.comp_id (hX := X.isSeparated) f
+  comp_id := fun {_ _} f => DominantRatMap.id_comp f
+  assoc := fun {_ _ _ _} f g h => (DominantRatMap.assoc f g h).symm
+
+end SeparatedVariety
 
 end Hartshorne

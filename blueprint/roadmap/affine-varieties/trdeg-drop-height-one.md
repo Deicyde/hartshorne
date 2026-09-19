@@ -1,6 +1,8 @@
 ---
+article_id: af_8a649f06764de378e6f03c08
 declaration: theorem
 origin: background
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_trdeg_of_height_eq_one

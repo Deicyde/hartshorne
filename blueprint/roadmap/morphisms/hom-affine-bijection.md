@@ -1,9 +1,11 @@
 ---
-declaration: theorem
+article_id: af_60f933bd73afed54cd8907e2
+declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.homEquivAlgHom Hartshorne.homToAlgHom Hartshorne.algHomToHom Hartshorne.algHomToFun Hartshorne.eval_algHomToFun
+lean: Hartshorne.homEquivAlgHom
 ---
 
 # Morphisms into an affine variety

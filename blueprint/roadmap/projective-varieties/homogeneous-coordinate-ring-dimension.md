@@ -1,9 +1,11 @@
 ---
+article_id: af_fa06185e80961e6f07a43fc0
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
-lean: Hartshorne.ringKrullDim_homogeneousCoordinateRing_eq_projDim_add_one Hartshorne.ringKrullDim_homogeneousCoordinateRing Hartshorne.projDim_eq_dim_chart Hartshorne.dim_chart_eq_dim_chart Hartshorne.ker_dehomogenize Hartshorne.ker_coordChartHom Hartshorne.coordChartQuotEquiv Hartshorne.height_chartSectionIdeal Hartshorne.mk_X_sub_one_ne_zero Hartshorne.topologicalKrullDim_chartPiece_eq_krullDim_meeting
+lean: Hartshorne.ringKrullDim_homogeneousCoordinateRing_eq_projDim_add_one
 ---
 
 # Dimension of the homogeneous coordinate ring

@@ -1,6 +1,8 @@
 ---
+article_id: af_cace6cae38334dde8edf5e10
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
 lean: Hartshorne.isAffineVariety_chartMap_image Hartshorne.isQuasiAffineVariety_chartMap_image Hartshorne.iUnion_standardChart Hartshorne.chartMap_image_eq_chartInv_preimage Hartshorne.homogeneousVanish_iff_eval_dehomogenize Hartshorne.dehomogenize_mem_vanishingIdeal_iff Hartshorne.homogeneousVanish_of_mem_homogeneousVanishingIdeal

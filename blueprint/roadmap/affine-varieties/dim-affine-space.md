@@ -1,6 +1,8 @@
 ---
+article_id: af_a9e57f8d9d634fcf8140cc0b
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.dimAffineSpace_eq Hartshorne.vanishingIdeal_univ

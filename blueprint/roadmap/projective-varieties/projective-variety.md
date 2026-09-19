@@ -1,9 +1,11 @@
 ---
+article_id: af_a52093169757ed6b0988908f
 declaration: def
 origin: cited
+source_units: [chapter-i-section-2, standing-conventions]
 statement: formalized
 proof: formalized
-lean: Hartshorne.IsProjVariety Hartshorne.IsQuasiProjVariety Hartshorne.projDim Hartshorne.IsQuasiProjVariety.isIrreducible Hartshorne.homogeneousVanishingIdeal_univ Hartshorne.isIrreducible_univ_projectiveSpace Hartshorne.isProjVariety_univ
+lean: Hartshorne.IsProjVariety Hartshorne.IsQuasiProjVariety Hartshorne.projDim
 ---
 
 # Projective and quasi-projective varieties

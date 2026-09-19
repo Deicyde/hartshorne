@@ -1,9 +1,11 @@
 ---
+article_id: af_ee8518fd16a5e78a6cd4a378
 declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.localizationEquivLocalRing Hartshorne.coordToLocal Hartshorne.polyToLocal Hartshorne.isUnit_coordToLocal Hartshorne.coordToLocal_injective Hartshorne.localizationToLocal Hartshorne.localizationToLocal_surjective Hartshorne.ringKrullDim_localRingAt
+lean: Hartshorne.localizationEquivLocalRing
 ---
 
 # The local ring is a localisation

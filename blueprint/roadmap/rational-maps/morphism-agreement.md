@@ -1,9 +1,11 @@
 ---
+article_id: af_daad9faeda5a941ac86e9d79
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-4]
 statement: formalized
 proof: formalized
-lean: Hartshorne.eq_of_eqOn_isOpen_hom Hartshorne.isClosed_eqLocus_hom Hartshorne.eq_of_minors_eq_zero Hartshorne.minors_eq_zero_of_eq Hartshorne.div_minor_eq_zero_iff Hartshorne.chartOpen Hartshorne.chartCoord Hartshorne.chartCoord_mem_regular Hartshorne.agreeChart Hartshorne.coordOf Hartshorne.coordOf_mem_regular
+lean: Hartshorne.eq_of_eqOn_isOpen_hom
 ---
 
 # Morphisms agreeing on an open set
@@ -17,7 +19,7 @@ topology. The Zariski topology is not Hausdorff and the statement is not
 topologically formal: it is the assertion that the diagonal of `Y × Y` is
 closed.
 
-## Hartshorne's proof, and the one planned here
+## Hartshorne's proof, and the proof used here
 
 Hartshorne reduces to `Y = ℙⁿ`, gives `ℙⁿ × ℙⁿ` its Segre structure, observes
 that the diagonal `Δ` is cut out by the equations `xᵢyⱼ = xⱼyᵢ` and so is
@@ -25,8 +27,8 @@ closed, and concludes because `(φ × ψ)(U) ⊆ Δ` with `U` dense.
 
 That route makes products a prerequisite of everything downstream, and products
 are themselves an adopted exercise. The same equations prove the lemma without
-constructing the product, by reading them chartwise, and that is the route
-planned here:
+constructing the product, by reading them chartwise, and that is the route used
+here:
 
 - the agreement locus `Z = {x ∈ X : φ(x) = ψ(x)}` is closed;
 - it contains `U`, which is dense because `X` is irreducible;

@@ -1,6 +1,8 @@
 ---
+article_id: af_dbf6174162e22fb1ef61e8b6
 declaration: theorem
 origin: background
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.ringKrullDim_quotient_eq_coheight Hartshorne.height_add_ringKrullDim_quotient_le

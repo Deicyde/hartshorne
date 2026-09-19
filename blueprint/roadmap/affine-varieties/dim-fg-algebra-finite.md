@@ -1,6 +1,8 @@
 ---
+article_id: af_1d979119a72daf4ba70d3a3b
 declaration: theorem
 origin: background
+source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_ringKrullDim_eq_natCast Hartshorne.finiteRingKrullDim_of_finiteType

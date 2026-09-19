@@ -1,9 +1,11 @@
 ---
-declaration: def
+article_id: af_fd6237e40274d9342ff299cf
+declaration: structure
 origin: cited
+source_units: [chapter-i-section-3, standing-conventions]
 statement: formalized
 proof: formalized
-lean: Hartshorne.Variety Hartshorne.Variety.ofQuasiAffine Hartshorne.Variety.ofQuasiProjective Hartshorne.Variety.ofProjective Hartshorne.regularSubalgebra Hartshorne.projRegularSubalgebra Hartshorne.Variety.eq_of_eqOn Hartshorne.Variety.preirreducible_univ
+lean: Hartshorne.Variety
 ---
 
 # Varieties

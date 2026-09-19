@@ -1,9 +1,11 @@
 ---
-declaration: theorem
+article_id: af_afdae7c93f1d1ddc7a1894cb
+declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.evalAt Hartshorne.maximalIdealAt Hartshorne.maximalIdealAt_isMaximal Hartshorne.maximalIdealAt_injective Hartshorne.maximalIdealAt_surjective Hartshorne.pointsEquivMaximalIdeals Hartshorne.residueEquiv
+lean: Hartshorne.pointsEquivMaximalIdeals
 ---
 
 # Points and maximal ideals

@@ -1,3 +1,7 @@
+---
+article_id: af_ecb013ebbdc908ad91523f98
+---
+
 # Projective varieties
 
 Hartshorne rebuilds §1 over projective `n`-space, and the point of the exercise

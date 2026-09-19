@@ -1,9 +1,11 @@
 ---
+article_id: af_c5aaa0cd7091b530bdb5a3c7
 declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.Variety.RationalRep Hartshorne.Variety.RationalRep.Rel Hartshorne.Variety.RationalRep.rel_trans Hartshorne.Variety.FunctionField Hartshorne.Variety.opens_inter_nonempty Hartshorne.Variety.dense_of_isOpen_of_nonempty Hartshorne.Variety.instCommRingFunctionField Hartshorne.Variety.instFieldFunctionField Hartshorne.Variety.isField_functionField Hartshorne.ratRepToVariety Hartshorne.ratRepOfVariety Hartshorne.functionFieldEquivAffine
+lean: Hartshorne.Variety.FunctionField
 ---
 
 # The function field of an arbitrary variety

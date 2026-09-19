@@ -1,9 +1,11 @@
 ---
+article_id: af_9b067939bc81da4d8c8a87af
 declaration: def
 origin: cited
+source_units: [chapter-i-section-1, standing-conventions]
 statement: formalized
 proof: formalized
-lean: Hartshorne.IsAffineVariety Hartshorne.IsQuasiAffineVariety Hartshorne.IsQuasiAffineVariety.isIrreducible Hartshorne.IsQuasiAffineVariety.closure_eq
+lean: Hartshorne.IsAffineVariety Hartshorne.IsQuasiAffineVariety
 ---
 
 # Affine and quasi-affine varieties

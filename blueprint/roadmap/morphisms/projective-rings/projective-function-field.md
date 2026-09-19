@@ -1,9 +1,11 @@
 ---
+article_id: af_2083bac423a66fdd008a0280
 declaration: def
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.projFunctionFieldEquiv Hartshorne.projFunctionFieldEquivFractionRing Hartshorne.projFunctionFieldEquivGraded Hartshorne.isDomain_homogeneousCoordinateRing Hartshorne.mk_X_ne_zero Hartshorne.isFractionRing_projAtPrimeBot Hartshorne.isOpen_projNonvanishing Hartshorne.projRatOfFraction Hartshorne.projRatOfFraction_toFun Hartshorne.projRatOfFraction_rel
+lean: Hartshorne.projFunctionFieldEquivGraded
 ---
 
 # The function field of a projective variety

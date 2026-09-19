@@ -1,9 +1,11 @@
 ---
+article_id: af_0f2fc7f66b84519f39d31cf5
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.isIso_chartHom Hartshorne.chartHom Hartshorne.chartInvHom Hartshorne.chartVariety Hartshorne.chartTarget Hartshorne.isQuasiProjVariety_standardChart Hartshorne.isQuasiProjVariety_inter_standardChart Hartshorne.eval_rep_chartInv_div Hartshorne.isGlobalRegular_chartCoord Hartshorne.isOpen_inter_standardChart_in
+lean: Hartshorne.isIso_chartHom
 ---
 
 # The charts are isomorphisms of varieties

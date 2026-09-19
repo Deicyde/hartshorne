@@ -1,9 +1,11 @@
 ---
+article_id: af_10042b25581c3b02ce260a77
 declaration: abbrev
 origin: cited
+source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
-lean: Hartshorne.ProjectiveSpace Hartshorne.HomogeneousVanish Hartshorne.homogeneousVanish_iff_of_isHomogeneous Hartshorne.standardChart Hartshorne.exists_mem_standardChart
+lean: Hartshorne.ProjectiveSpace
 ---
 
 # Projective space

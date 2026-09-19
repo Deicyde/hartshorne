@@ -1,6 +1,8 @@
 ---
+article_id: af_949c34bb369be4bc97dc3172
 declaration: theorem
 origin: cited
+source_units: [chapter-i-section-4]
 ---
 
 # The Segre embedding
