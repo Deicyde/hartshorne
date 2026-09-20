@@ -58,6 +58,8 @@ See the [coverage contract](../../coverage/README.md).
 ## The function field classifies
 
 - [Rational maps and function fields](rational-map-function-field.md)
+- [Birational varieties have isomorphic open subsets](birational-open-subsets.md)
+- [Birational varieties have isomorphic function fields](birational-function-fields.md)
 - [The birational criterion](birational-criterion.md)
 
 ## Birational normal form

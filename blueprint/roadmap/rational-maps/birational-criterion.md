@@ -3,6 +3,9 @@ article_id: af_bee9a975db6a53592b5a0819
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.birational_criterion
 ---
 
 # The birational criterion
@@ -37,13 +40,8 @@ and its inverse giving mutually inverse dominant rational maps.
 
 ## Depends on
 
-- [Birational maps](birational-map.md)
-- [Rational maps and function fields](rational-map-function-field.md)
-
-## Proof depends on
-
-- [Morphisms agreeing on an open set](morphism-agreement.md)
-- [The function field is functorial for dominant morphisms](../morphisms/function-field-functorial.md)
+- [Birational varieties have isomorphic open subsets](birational-open-subsets.md)
+- [Birational varieties have isomorphic function fields](birational-function-fields.md)
 
 ## Sources
 
