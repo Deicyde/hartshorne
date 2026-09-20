@@ -3,6 +3,9 @@ article_id: af_282371bb38115fa34ae6b5a5
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_birational_projective_hypersurface
 ---
 
 # Every variety is birational to a hypersurface
@@ -34,13 +37,16 @@ by Theorem 3.2(d) and Proposition 1.7. Then:
 - its [projective closure](projective-closure.md) in `ℙ^{r+1}` is the required
   `Y`, birational to the affine hypersurface and hence to `X`.
 
-Two small things are worth pinning down, because they are where a formalization
-will spend its time. Irreducibility of `f` after clearing denominators is not
-automatic from irreducibility of the minimal polynomial over `k(x₁,…,x_r)`; it
-is Gauss's lemma, moving between `k(x₁,…,x_r)[y]` and `k[x₁,…,x_r][y]`. And the
-identification of the function field of `Z(f)` with `K` is
-[Proposition 1.13](../affine-varieties/hypersurface-dimension.md) plus Theorem
-3.2(d), which the chapter already has.
+Two small things are worth pinning down. Classically, irreducibility after
+clearing denominators is the Gauss-lemma step from
+`k(x₁,…,x_r)[y]` to `k[x₁,…,x_r,y]`. The formal proof packages the same
+argument through ideals: evaluation at `x₁,…,x_r,y` has prime kernel, the
+dimension formula makes that kernel height one, and the height-one prime
+theorem for a polynomial UFD supplies an irreducible generator `f`. The
+quotient is then shown to have fraction field `K`; the coordinate-ring
+dimension theorem computes the dimension of `Z(f)` from this identification.
+Finally, the projective-closure theorem identifies its closure literally with
+the projective zero set of the homogenisation of `f`.
 
 ## Depends on
 

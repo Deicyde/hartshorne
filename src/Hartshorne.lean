@@ -110,3 +110,5 @@ import Hartshorne.Rational.RationalMapFunctionFieldEquivalence
 import Hartshorne.Rational.BirationalCriterion
 import Hartshorne.Rational.SeparablyGenerated
 import Hartshorne.Rational.ProjectiveClosure
+import Hartshorne.Rational.VarietyDimension
+import Hartshorne.Rational.BirationalHypersurface
