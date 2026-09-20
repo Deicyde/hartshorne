@@ -3,6 +3,9 @@ article_id: af_f769a7811ae08f7f40149b88
 declaration: theorem
 origin: background
 source_units: [chapter-i-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_separatingTranscendenceBasis_and_primitiveElement
 ---
 
 # Separably generated field extensions

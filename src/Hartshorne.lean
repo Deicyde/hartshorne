@@ -108,3 +108,4 @@ import Hartshorne.Rational.HypersurfaceComplement
 import Hartshorne.Rational.AffineOpenBasis
 import Hartshorne.Rational.RationalMapFunctionFieldEquivalence
 import Hartshorne.Rational.BirationalCriterion
+import Hartshorne.Rational.SeparablyGenerated
