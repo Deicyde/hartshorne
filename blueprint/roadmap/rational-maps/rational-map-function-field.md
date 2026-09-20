@@ -3,6 +3,9 @@ article_id: af_efc666120dfb5881de675ab4
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.RationalMapFunctionField.bijective_functionFieldAlgHom_of_hasAffineOpenBasis Hartshorne.RationalMapFunctionField.functionFieldFunctor_isEquivalence
 ---
 
 # Rational maps and function fields
@@ -64,6 +67,7 @@ half of Corollary 3.8, and then `K ≅ K(Y)`.
 - [The function field is the fraction field](../morphisms/function-field-is-fraction-field.md)
 - [Equivalence with finitely generated domains](../morphisms/affine-variety-equivalence.md)
 - [The coordinate ring is the ring of regular functions](../morphisms/global-regular-eq-coordinate-ring.md)
+- [Global regular functions are the intersection of the local rings](../morphisms/global-functions/global-regular-intersection-local-rings.md)
 
 ## Sources
 

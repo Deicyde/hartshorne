@@ -27,6 +27,7 @@ their open cover.
 
 * `Hartshorne.Variety.IsAffine`
 * `Hartshorne.Variety.HasAffineOpenBasis`
+* `Hartshorne.Variety.hasAffineOpenBasis_ofAffine`
 * `Hartshorne.Variety.hasAffineOpenBasis_ofQuasiAffine`
 * `Hartshorne.Variety.hasAffineOpenBasis_ofQuasiProjective`
 * `Hartshorne.Variety.hasAffineOpenBasis_ofProjective`
@@ -45,7 +46,7 @@ namespace Variety
 
 /-- A variety presented, up to isomorphism, by an affine algebraic set. -/
 def IsAffine (X : Variety k) : Prop :=
-  ∃ (σ : Type u) (Z : Set (σ → k)) (hZ : IsAffineVariety Z)
+  ∃ (σ : Type u) (_hσ : Finite σ) (Z : Set (σ → k)) (hZ : IsAffineVariety Z)
     (φ : VarietyHom X (Variety.ofQuasiAffine hZ.isQuasiAffineVariety)), φ.IsIso
 
 /-- Every neighbourhood contains an affine open neighbourhood. -/
@@ -458,9 +459,15 @@ theorem Variety.hasAffineOpenBasis_ofQuasiAffine {Y : Set (σ → k)}
   · have hDO₀ : principalOpen f ⊆ O₀ := fun y hy => (hfsub hy).1
     have hAD : (A ∩ principalOpen f).Nonempty := ⟨x.1, hYA x.2, hfx⟩
     have hZ := affineGraphPiece_isAffine hA f hf hAD
-    refine ⟨Option σ, affineGraphPiece A f, hZ,
+    refine ⟨Option σ, inferInstance, affineGraphPiece A f, hZ,
       toAffineGraphHom hY hYA hA f hf hV, ?_⟩
     exact toAffineGraphHom_isIso hY hYA hA hYeq f hf hDO₀ hV
+
+/-- The affine case of Proposition 4.3. -/
+theorem Variety.hasAffineOpenBasis_ofAffine {Y : Set (σ → k)}
+    (hY : IsAffineVariety Y) :
+    (Variety.ofQuasiAffine hY.isQuasiAffineVariety).HasAffineOpenBasis :=
+  Variety.hasAffineOpenBasis_ofQuasiAffine hY.isQuasiAffineVariety
 
 end AlgClosed
 
@@ -468,8 +475,8 @@ namespace Variety
 
 theorem IsAffine.of_isIso {X Y : Variety k} (hY : Y.IsAffine)
     {f : VarietyHom X Y} (hf : f.IsIso) : X.IsAffine := by
-  obtain ⟨τ, Z, hZ, g, hg⟩ := hY
-  exact ⟨τ, Z, hZ, g.comp f, hg.comp hf⟩
+  obtain ⟨τ, hτ, Z, hZ, g, hg⟩ := hY
+  exact ⟨τ, hτ, Z, hZ, g.comp f, hg.comp hf⟩
 
 @[simp]
 theorem inclHom_apply {X : Variety k} (U : Opens X.carrier)
