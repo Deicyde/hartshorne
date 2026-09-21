@@ -3,6 +3,8 @@ article_id: af_dfbfb056049d16cdd33cb367
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-5-geometry]
+statement: formalized
+lean: Hartshorne.definingIdealGradientSpace_eq_jacobianRowSpace_of_span_eq Hartshorne.jacobianMatrix_rank_eq_jacobianRank Hartshorne.jacobianMatrix_rank_eq_of_span_eq Hartshorne.exists_fin_jacobianMatrix_rank_eq_jacobianRank
 ---
 
 # Jacobian rank is independent of generators
@@ -30,6 +32,7 @@ many variables and is Noetherian.
 ## Depends on
 
 - [The cotangent space of affine space](ambient-cotangent-space.md)
+- [The defining ideal and the local cotangent space](defining-ideal-cotangent-sequence.md)
 - [The vanishing ideal](../affine-varieties/vanishing-ideal.md)
 
 ## Sources

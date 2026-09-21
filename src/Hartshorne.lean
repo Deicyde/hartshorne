@@ -121,4 +121,5 @@ import Hartshorne.Nonsingular.AmbientCotangent
 import Hartshorne.Nonsingular.DefiningIdealCotangent
 import Hartshorne.Nonsingular.DeterminantalLocus
 import Hartshorne.Nonsingular.IrreduciblePartial
+import Hartshorne.Nonsingular.JacobianRank
 import Hartshorne.Nonsingular.LocalRingOpen
