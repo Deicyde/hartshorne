@@ -4,6 +4,7 @@ declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-5-geometry]
 statement: formalized
+proof: formalized
 lean: Hartshorne.exists_pderiv_ne_zero_of_irreducible
 ---
 
