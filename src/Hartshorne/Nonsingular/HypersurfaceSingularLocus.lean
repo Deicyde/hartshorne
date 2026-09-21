@@ -30,23 +30,23 @@ universe u
 variable {k : Type u} [Field k] [IsAlgClosed k]
 
 private theorem vanishingIdeal_zeroSet_singleton_eq_span
-    {n : ℕ} {f : MvPolynomial (Fin n) k} (hf : Irreducible f) :
-    vanishingIdeal k (zeroSet ({f} : Set (MvPolynomial (Fin n) k))) =
+    {σ : Type*} [Finite σ] {f : MvPolynomial σ k} (hf : Irreducible f) :
+    vanishingIdeal k (zeroSet ({f} : Set (MvPolynomial σ k))) =
       Ideal.span {f} := by
   have hfne : f ≠ 0 := hf.ne_zero
   have hprime : (Ideal.span {f}).IsPrime :=
     (Ideal.span_singleton_prime hfne).2
       (UniqueFactorizationMonoid.irreducible_iff_prime.1 hf)
   have hspan :
-      zeroSet ({f} : Set (MvPolynomial (Fin n) k)) =
-        zeroSet ((Ideal.span {f} : Ideal (MvPolynomial (Fin n) k)) : Set _) := by
+      zeroSet ({f} : Set (MvPolynomial σ k)) =
+        zeroSet ((Ideal.span {f} : Ideal (MvPolynomial σ k)) : Set _) := by
     rw [zeroSet_eq_zeroLocus_span, zeroLocus_eq_zeroSet]
   rw [hspan, vanishingIdeal_zeroSet_eq_radical, hprime.radical]
 
 /-- The zero set of an irreducible polynomial is an affine variety. -/
 theorem isAffineVariety_zeroSet_singleton_of_irreducible
-    {n : ℕ} {f : MvPolynomial (Fin n) k} (hf : Irreducible f) :
-    IsAffineVariety (zeroSet ({f} : Set (MvPolynomial (Fin n) k))) := by
+    {σ : Type*} [Finite σ] {f : MvPolynomial σ k} (hf : Irreducible f) :
+    IsAffineVariety (zeroSet ({f} : Set (MvPolynomial σ k))) := by
   have hprime : (Ideal.span {f}).IsPrime :=
     (Ideal.span_singleton_prime hf.ne_zero).2
       (UniqueFactorizationMonoid.irreducible_iff_prime.1 hf)
@@ -55,7 +55,7 @@ theorem isAffineVariety_zeroSet_singleton_of_irreducible
 
 omit [IsAlgClosed k] in
 private theorem degreeOf_pderiv_lt
-    {n : ℕ} {f : MvPolynomial (Fin n) k} {i : Fin n}
+    {σ : Type*} {f : MvPolynomial σ k} {i : σ}
     (hderiv : pderiv i f ≠ 0) :
     degreeOf i (pderiv i f) < degreeOf i f := by
   classical
@@ -75,20 +75,20 @@ private theorem degreeOf_pderiv_lt
   simpa using hle
 
 private theorem exists_point_eval_pderiv_ne_zero
-    {n : ℕ} {f : MvPolynomial (Fin n) k} (hf : Irreducible f) :
-    ∃ (P : zeroSet ({f} : Set (MvPolynomial (Fin n) k))) (i : Fin n),
-      eval (P : Fin n → k) (pderiv i f) ≠ 0 := by
+    {σ : Type*} [Finite σ] {f : MvPolynomial σ k} (hf : Irreducible f) :
+    ∃ (P : zeroSet ({f} : Set (MvPolynomial σ k))) (i : σ),
+      eval (P : σ → k) (pderiv i f) ≠ 0 := by
   obtain ⟨i, hi⟩ := exists_pderiv_ne_zero_of_irreducible hf
-  have hex : ∃ P : zeroSet ({f} : Set (MvPolynomial (Fin n) k)),
-      eval (P : Fin n → k) (pderiv i f) ≠ 0 := by
+  have hex : ∃ P : zeroSet ({f} : Set (MvPolynomial σ k)),
+      eval (P : σ → k) (pderiv i f) ≠ 0 := by
     by_contra hnone
-    have hall : ∀ x ∈ zeroSet ({f} : Set (MvPolynomial (Fin n) k)),
+    have hall : ∀ x ∈ zeroSet ({f} : Set (MvPolynomial σ k)),
         eval x (pderiv i f) = 0 := by
       intro x hx
       by_contra hxne
       exact hnone ⟨⟨x, hx⟩, hxne⟩
     have hmem : pderiv i f ∈
-        vanishingIdeal k (zeroSet ({f} : Set (MvPolynomial (Fin n) k))) := hall
+        vanishingIdeal k (zeroSet ({f} : Set (MvPolynomial σ k))) := hall
     rw [vanishingIdeal_zeroSet_singleton_eq_span hf] at hmem
     have hdiv : f ∣ pderiv i f := Ideal.mem_span_singleton.mp hmem
     have hdeg_le : degreeOf i f ≤ degreeOf i (pderiv i f) := by
@@ -103,22 +103,27 @@ private theorem exists_point_eval_pderiv_ne_zero
   obtain ⟨P, hP⟩ := hex
   exact ⟨P, i, hP⟩
 
-/-- An irreducible affine hypersurface has an affine nonsingular point. -/
-theorem exists_affineNonsingularAt_zeroSet_irreducible
-    {n : ℕ} {f : MvPolynomial (Fin n) k} (hf : Irreducible f) :
-    ∃ P : zeroSet ({f} : Set (MvPolynomial (Fin n) k)),
+/-- An irreducible hypersurface of dimension one less than its finite ambient
+space has an affine nonsingular point. -/
+theorem exists_affineNonsingularAt_zeroSet_irreducible_of_dim
+    {σ : Type*} [Finite σ] {f : MvPolynomial σ k} (hf : Irreducible f)
+    {r : ℕ}
+    (hdim : dim (zeroSet ({f} : Set (MvPolynomial σ k))) =
+      (r : WithBot ℕ∞))
+    (hcard : r + 1 = Nat.card σ) :
+    ∃ P : zeroSet ({f} : Set (MvPolynomial σ k)),
       IsAffineNonsingularAt
-        (zeroSet ({f} : Set (MvPolynomial (Fin n) k))) P := by
+        (zeroSet ({f} : Set (MvPolynomial σ k))) P := by
   classical
-  let Y : Set (Fin n → k) := zeroSet ({f} : Set (MvPolynomial (Fin n) k))
+  let _ : Fintype σ := Fintype.ofFinite σ
+  let Y : Set (σ → k) := zeroSet ({f} : Set (MvPolynomial σ k))
   obtain ⟨P, i, hi⟩ := exists_point_eval_pderiv_ne_zero hf
-  obtain ⟨m, hm, hdim⟩ := exists_dim_zeroSet_irreducible hf
   have hvi : Ideal.span (Set.range (fun _ : Fin 1 => f)) = vanishingIdeal k Y := by
     rw [vanishingIdeal_zeroSet_singleton_eq_span hf]
     congr 1
     ext g
     simp
-  let A := jacobianMatrix (P : Fin n → k) (fun _ : Fin 1 => f)
+  let A := jacobianMatrix (P : σ → k) (fun _ : Fin 1 => f)
   have hentry : A 0 i ≠ 0 := by
     simpa [A, jacobianMatrix] using hi
   have hnlt : ¬ A.rank < 1 := by
@@ -138,7 +143,38 @@ theorem exists_affineNonsingularAt_zeroSet_irreducible
     rw [← jacobianMatrix_rank_eq_jacobianRank P (fun _ : Fin 1 => f) hvi]
     exact hrank
   rw [hjac]
-  simpa [Y, Nat.add_comm] using hm
+  simpa [Y, Nat.add_comm] using hcard
+
+/-- An irreducible affine hypersurface in `Fin n` coordinates has an affine
+nonsingular point. -/
+theorem exists_affineNonsingularAt_zeroSet_irreducible
+    {n : ℕ} {f : MvPolynomial (Fin n) k} (hf : Irreducible f) :
+    ∃ P : zeroSet ({f} : Set (MvPolynomial (Fin n) k)),
+      IsAffineNonsingularAt
+        (zeroSet ({f} : Set (MvPolynomial (Fin n) k))) P := by
+  obtain ⟨r, hcard, hdim⟩ := exists_dim_zeroSet_irreducible hf
+  exact exists_affineNonsingularAt_zeroSet_irreducible_of_dim hf hdim
+    (by simpa using hcard)
+
+/-- An affine hypersurface with the expected dimension has an intrinsic
+nonsingular point. -/
+theorem exists_nonsingularAt_of_eq_zeroSet_irreducible_of_dim
+    {σ : Type*} [Finite σ] {Y : Set (σ → k)} {f : MvPolynomial σ k}
+    (hY : IsAffineVariety Y)
+    (hYf : Y = zeroSet ({f} : Set (MvPolynomial σ k)))
+    (hf : Irreducible f) {r : ℕ} (hdim : dim Y = (r : WithBot ℕ∞))
+    (hcard : r + 1 = Nat.card σ) :
+    ∃ P : (Variety.ofQuasiAffine hY.isQuasiAffineVariety).carrier,
+      Variety.NonsingularAt
+        (Variety.ofQuasiAffine hY.isQuasiAffineVariety) P := by
+  subst Y
+  obtain ⟨P, hP⟩ :=
+    exists_affineNonsingularAt_zeroSet_irreducible_of_dim hf hdim hcard
+  let Q : (Variety.ofQuasiAffine hY.isQuasiAffineVariety).carrier :=
+    ⟨P.1, P.2⟩
+  refine ⟨Q, ?_⟩
+  rw [nonsingularAt_affine_iff hY Q]
+  exact hP
 
 /-- A variety presented as the zero set of an irreducible polynomial has an
 intrinsic nonsingular point. -/
@@ -151,12 +187,9 @@ theorem exists_nonsingularAt_of_eq_zeroSet_irreducible
       Variety.NonsingularAt
         (Variety.ofQuasiAffine hY.isQuasiAffineVariety) P := by
   subst Y
-  obtain ⟨P, hP⟩ := exists_affineNonsingularAt_zeroSet_irreducible hf
-  let Q : (Variety.ofQuasiAffine hY.isQuasiAffineVariety).carrier :=
-    ⟨P.1, P.2⟩
-  refine ⟨Q, ?_⟩
-  rw [nonsingularAt_affine_iff hY Q]
-  exact hP
+  obtain ⟨r, hcard, hdim⟩ := exists_dim_zeroSet_irreducible hf
+  exact exists_nonsingularAt_of_eq_zeroSet_irreducible_of_dim hY rfl hf hdim
+    (by simpa using hcard)
 
 /-- The hypersurface case of Hartshorne I.5, Theorem 5.3: the singular locus
 of an irreducible affine hypersurface is proper and closed; equivalently, its

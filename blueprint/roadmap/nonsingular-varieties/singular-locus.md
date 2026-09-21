@@ -3,6 +3,8 @@ article_id: af_881bbb9581972ab339f0acfd
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-5-geometry]
+statement: formalized
+lean: Hartshorne.SeparatedVariety.exists_nonsingularAt Hartshorne.SeparatedVariety.singularLocus_isProper Hartshorne.Variety.HasAffineOpenBasis.singularLocus_isProper
 ---
 
 # The singular locus is proper and closed
@@ -38,6 +40,7 @@ nonsingular, proving that its singular locus is not all of `X`.
 - [An irreducible hypersurface has a nonsingular point](hypersurface-singular-locus-proper.md)
 - [Every variety is birational to a hypersurface](../rational-maps/birational-hypersurface.md)
 - [Birational varieties have isomorphic open subsets](../rational-maps/birational-open-subsets.md)
+- [The projective closure of an affine variety](../rational-maps/projective-closure.md)
 - [The standard affine charts](../projective-varieties/standard-affine-charts.md)
 - [The charts are isomorphisms of varieties](../morphisms/projective-rings/chart-isomorphism.md)
 - [Local rings are unchanged on open neighbourhoods](local-ring-open-invariance.md)

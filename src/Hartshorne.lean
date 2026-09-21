@@ -130,3 +130,4 @@ import Hartshorne.Nonsingular.AffineSingularLocus
 import Hartshorne.Nonsingular.LocalRingOpen
 import Hartshorne.Nonsingular.SingularLocusClosed
 import Hartshorne.Nonsingular.HypersurfaceSingularLocus
+import Hartshorne.Nonsingular.SingularLocus
