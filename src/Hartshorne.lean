@@ -120,3 +120,4 @@ import Hartshorne.Nonsingular.CotangentDimension
 import Hartshorne.Nonsingular.AmbientCotangent
 import Hartshorne.Nonsingular.DeterminantalLocus
 import Hartshorne.Nonsingular.IrreduciblePartial
+import Hartshorne.Nonsingular.LocalRingOpen
