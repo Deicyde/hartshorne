@@ -125,4 +125,5 @@ import Hartshorne.Nonsingular.JacobianRank
 import Hartshorne.Nonsingular.AffineNonsingular
 import Hartshorne.Nonsingular.JacobianCriterion
 import Hartshorne.Nonsingular.IntrinsicNonsingular
+import Hartshorne.Nonsingular.JacobianRankBound
 import Hartshorne.Nonsingular.LocalRingOpen

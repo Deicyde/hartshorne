@@ -3,6 +3,8 @@ article_id: af_2a3cea68a7953dda12f13d0c
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-5-geometry]
+statement: formalized
+lean: Hartshorne.jacobianRank_add_dim_le_ambient Hartshorne.jacobianRank_le_ambient_sub_dim Hartshorne.not_isAffineNonsingularAt_iff_jacobianRank_lt
 ---
 
 # The Jacobian rank bound
@@ -25,6 +27,7 @@ a point fails to be nonsingular precisely when the rank is *strictly less* than
 ## Depends on
 
 - [Jacobian rank is independent of generators](jacobian-rank-invariance.md)
+- [Nonsingular points of an affine variety](affine-nonsingular-points.md)
 - [Dimension of a topological space and of a ring](../affine-varieties/dimension.md)
 
 ## Proof depends on
