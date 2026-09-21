@@ -3,6 +3,9 @@ article_id: af_4d390f0993f2c69e8e37f37c
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.blowing_up
 ---
 
 # Blowing up a point
@@ -21,6 +24,21 @@ birational morphism that is not an isomorphism. It is also the tool resolution
 of singularities is built from, which is why Hartshorne includes it here rather
 than leaving it to the exercises.
 
+## What is claimed
+
+The formal statement treats the origin in a finite nonempty affine coordinate
+space over an algebraically closed field. It constructs the incidence locus
+and proves all four properties below. For every affine variety `Y` through the
+origin it records the exhaustive edge-case split: if `Y − {O}` is nonempty,
+the strict transform is quasi-projective and birational to `Y`; otherwise
+`Y = {O}` and the displayed strict transform is empty. Thus Hartshorne's
+birationality sentence is formalized in precisely its nondegenerate case,
+while its omitted zero-dimensional exception is made explicit.
+
+Moving the centre by a linear change of coordinates, the general criterion
+that a blow-up of a singular variety is not an isomorphism, and the detailed
+calculation for the nodal cubic are context rather than claims of this node.
+
 ## The four properties of `X`
 
 1. For `P ≠ O`, `φ⁻¹(P)` is a single point, and `φ` restricts to an isomorphism
@@ -37,10 +55,11 @@ than leaving it to the exercises.
    closure of a line inside the first piece, so the first piece is dense.
 
 Then `φ` induces an isomorphism `Ỹ − φ⁻¹(O) ≅ Y − O`, so `φ : Ỹ → Y` is a
-birational morphism. It is not an isomorphism whenever `Y` is singular at `O`:
-Example 4.9.1 blows up the plane cubic `y² = x²(x + 1)` at the origin and finds
-that the two branches, which met at `O`, are pulled apart to the two points
-`u = ±1` of the exceptional curve, their slopes.
+birational morphism. As motivation, Hartshorne explains that it is not an
+isomorphism when `Y` is singular at `O`: Example 4.9.1 blows up the plane cubic
+`y² = x²(x + 1)` at the origin and finds that the two branches, which met at
+`O`, are pulled apart to the two points `u = ±1` of the exceptional curve,
+their slopes.
 
 Hartshorne notes that the construction looks as though it depends on the
 embedding `Y ⊆ 𝔸ⁿ` and remarks that it does not, referring forward to II.7.15.1.

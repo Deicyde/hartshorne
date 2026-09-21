@@ -115,3 +115,4 @@ import Hartshorne.Rational.BirationalHypersurface
 import Hartshorne.Rational.SegreEmbedding
 import Hartshorne.Rational.ProductGeometry
 import Hartshorne.Rational.ProductVariety
+import Hartshorne.Rational.BlowingUp
