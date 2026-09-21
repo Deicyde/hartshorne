@@ -5,6 +5,7 @@ origin: cited
 source_units: [chapter-i-section-5-geometry]
 statement: formalized
 lean: Hartshorne.SeparatedVariety.exists_nonsingularAt Hartshorne.SeparatedVariety.singularLocus_isProper Hartshorne.Variety.HasAffineOpenBasis.singularLocus_isProper
+proof: formalized
 ---
 
 # The singular locus is proper and closed
