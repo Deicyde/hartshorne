@@ -4,6 +4,7 @@ declaration: theorem
 origin: cited
 source_units: [chapter-i-section-5-geometry]
 statement: formalized
+proof: formalized
 lean: Hartshorne.definingIdealCotangentEquiv_nonempty Hartshorne.residueField_smul_cotangentSpace_eq_baseField_smul Hartshorne.definingIdealGradient_apply Hartshorne.affineCoordinatesToLocalCotangent_surjective Hartshorne.affineCoordinatesToLocalCotangent_ker Hartshorne.finrank_localCotangent_add_finrank_gradientSpace
 ---
 
