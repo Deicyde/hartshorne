@@ -4,6 +4,7 @@ declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-5-geometry]
 statement: formalized
+proof: formalized
 lean: Hartshorne.Variety.bijective_localRingHom_inclHom Hartshorne.Variety.HasAffineOpenBasis.isNoetherianRing_localRingAt
 ---
 
