@@ -34,12 +34,12 @@ Chapter I, sections 1 through 4, book pages 1–29:
 | I.1 | Affine Varieties | 1–8 | [23 articles](../roadmap/affine-varieties/README.md) | done |
 | I.2 | Projective Varieties | 8–14 | [13 articles](../roadmap/projective-varieties/README.md) | done |
 | I.3 | Morphisms | 14–23 | [33 articles](../roadmap/morphisms/README.md) | done |
-| I.4 | Rational Maps | 24–29 | [17 articles](../roadmap/rational-maps/README.md) | in progress |
+| I.4 | Rational Maps | 24–29 | [17 articles](../roadmap/rational-maps/README.md) | done |
 
-All 69 articles in §§1–3 are done: 68 are proved here and one was already in
-Mathlib. In §4, the rational-map core through Corollary 4.5 is formalized. The
-remaining targets concern separability, projective closure, the Segre/product
-construction, the hypersurface normal form, and blowing up.
+All 86 articles in §§1–4 are done: 85 are proved here and one was already in
+Mathlib. The §4 results include the rational-map core through Corollary 4.5,
+separability, projective closure, the Segre/product construction, the
+hypersurface normal form, and blowing up.
 
 The counts grow as the work goes on, almost always by splitting a node that
 turned out to hold more than one pull request's worth of Lean; where the scope
@@ -142,10 +142,10 @@ A section counts as finished when every article listed for it satisfies all of:
    including the standing hypothesis that `k` is algebraically closed and the
    convention that varieties are irreducible.
 
-A section counts as finished when all its articles do. **§§1–3 are
+A section counts as finished when all its articles do. **§§1–4 are
 finished.** Their articles compile, no proof contains `sorry` or
 `native_decide`, every `#print axioms` is clean, and every statement has been
-read against its cited passage. §4 remains in progress.
+read against its cited passage.
 
 Derived progress on the published site is computed from the dependency graph and
 is not a claim about scope: a green node means its Lean proof compiles, not that
