@@ -4,6 +4,7 @@ declaration: theorem
 origin: cited
 source_units: [chapter-i-section-5-geometry]
 statement: formalized
+proof: formalized
 lean: Hartshorne.exists_affineNonsingularAt_zeroSet_irreducible Hartshorne.exists_nonsingularAt_of_eq_zeroSet_irreducible Hartshorne.hypersurface_singularLocus_isProper Hartshorne.hypersurface_zeroSet_singularLocus_isProper
 ---
 
