@@ -4,6 +4,7 @@ declaration: theorem
 origin: cited
 source_units: [chapter-i-section-5-geometry]
 statement: formalized
+proof: formalized
 lean: Hartshorne.jacobianRank_add_dim_le_ambient Hartshorne.jacobianRank_le_ambient_sub_dim Hartshorne.not_isAffineNonsingularAt_iff_jacobianRank_lt
 ---
 
