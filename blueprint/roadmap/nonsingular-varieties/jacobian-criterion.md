@@ -3,6 +3,8 @@ article_id: af_d6e446056a8870546b543b7a
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-5-geometry]
+statement: formalized
+lean: Hartshorne.isAffineNonsingularAt_iff_isRegularLocalRing
 ---
 
 # The Jacobian criterion
