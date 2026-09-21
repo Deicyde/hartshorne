@@ -4,6 +4,7 @@ declaration: theorem
 origin: cited
 source_units: [chapter-i-section-5-geometry]
 statement: formalized
+proof: formalized
 lean: Hartshorne.Variety.isClosed_singularLocus_of_isIso Hartshorne.Variety.IsAffine.isClosed_singularLocus Hartshorne.Variety.HasAffineOpenBasis.isClosed_singularLocus
 ---
 
