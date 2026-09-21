@@ -3,6 +3,9 @@ article_id: af_eec06f727fc1cf5bb44d0721
 declaration: theorem
 origin: background
 source_units: [chapter-i-section-5-geometry]
+statement: formalized
+proof: formalized
+lean: Hartshorne.ringKrullDim_le_finrank_cotangentSpace
 ---
 
 # The cotangent-dimension bound

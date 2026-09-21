@@ -116,3 +116,4 @@ import Hartshorne.Rational.SegreEmbedding
 import Hartshorne.Rational.ProductGeometry
 import Hartshorne.Rational.ProductVariety
 import Hartshorne.Rational.BlowingUp
+import Hartshorne.Nonsingular.CotangentDimension
