@@ -4,6 +4,7 @@ declaration: theorem
 origin: cited
 source_units: [chapter-i-section-5-geometry]
 statement: formalized
+proof: formalized
 lean: Hartshorne.isAffineNonsingularAt_iff_isRegularLocalRing
 ---
 
