@@ -13,9 +13,8 @@ four kinds of variety from §§1–2 become a single category.
 Three rings come with each variety: the global regular functions `𝒪(Y)`, the
 local ring `𝒪_{P,Y}` of germs at a point, and the function field `K(Y)`.
 Hartshorne identifies them as subrings of `K(Y)` and proves that the first is
-the intersection of all the local rings. The underlying injections are already
-formalized; bundling the remaining algebra maps and proving that intersection
-formula is the one open target in this section.
+the intersection of all the local rings. The injections, bundled algebra maps,
+and intersection formula are all formalized.
 
 The section then computes them. For an affine variety, Theorem 3.2 identifies
 all three with `A(Y)` and its localizations, which says the coordinate ring loses
