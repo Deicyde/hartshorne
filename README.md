@@ -4,10 +4,12 @@ A Lean 4 formalization of the classical variety theory in Chapter I of Robin
 Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 1977), built on Mathlib.
 
-Sections I.1 through I.4 are decomposed into a dependency graph of 86
-formalization targets, from the definition of an algebraic set through the
-blow-up construction following Proposition I.4.9. Sections I.5 onward and
-Chapters II through V are out of scope; see the
+Sections I.1 through I.4 and the geometric core of I.5 through Theorem I.5.3
+are decomposed into a dependency graph of 102 formalization targets, from the
+definition of an algebraic set through the properness and closedness of the
+singular locus. The completion, Cohen-structure, and analytic-isomorphism
+material later in §I.5 is deferred; Theorem I.5.7A, the §I.5 exercises, §I.6
+onward, and Chapters II through V are out of scope. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
@@ -25,6 +27,11 @@ a point with its `IsLocalRing` instance and its dimension, all four parts of
 Theorem 3.2, all three parts of Theorem 3.4, Corollary 3.8, rational maps and
 their composition, the function-field classification up to birational
 equivalence, the hypersurface normal form, and blowing up a point.
+
+The geometric core of §I.5 contributes 16 further roadmap leaves. Its
+regular-local/cotangent-space criterion is already an exact Mathlib result; the
+other 15 leaves await project formalization. Thus the roadmap has 102 leaves in
+total, of which 87 are complete.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 

@@ -1,12 +1,12 @@
 # Hartshorne, Algebraic Geometry
 
 A Lean 4 formalization project for classical variety theory in Robin Hartshorne,
-*Algebraic Geometry*, scoped to Chapter I §§1–4 (book pages 1–29); later sections
-and Chapters II–V are out of scope.
+*Algebraic Geometry*, scoped to Chapter I §§1–4 and the geometric core of §5
+through Theorem 5.3 (§§1–4 on book pp. 1–29 and the §5 core on pp. 31–33).
 
-Sections 1 through 4 are decomposed into a dependency graph of 86 formalization
-targets, running from the definition of an algebraic set through the blow-up
-construction following Proposition I.4.9.
+This scope is decomposed into a dependency graph of 102 formalization targets,
+running from the definition of an algebraic set through the properness and
+closedness of the singular locus.
 
 Sections 1 through 3 account for 69 of those targets, ending at Corollary I.3.8,
 the arrow-reversing equivalence between affine varieties over `k` and the
@@ -29,6 +29,15 @@ Section 4, rational maps and birational equivalence, accounts for the remaining
 the blow-up of affine space at the origin and the birationality of strict
 transforms. Altogether, 85 targets are proved here and one is supplied by
 Mathlib.
+
+The geometric core of Section 5 contributes 16 further roadmap leaves. Its
+regular-local/cotangent-space criterion is already an exact Mathlib result; the
+other 15 leaves await project formalization. Thus 87 of the 102 leaves are
+complete: 85 are proved in this project and two are supplied by Mathlib.
+
+The completion, Cohen-structure, and analytic-isomorphism material later in
+§I.5 is deferred. Theorem I.5.7A, the §I.5 exercises, §I.6 onward, and Chapters
+II–V are out of scope.
 
 - [Roadmap](roadmap/README.md) — the book: chapters, statements, and their
   dependencies.

@@ -25,9 +25,18 @@ attached to a variety with their computation in the affine and projective cases
 the coarser classification: the function field determines a variety up to
 birational equivalence.
 
+Sections I.1–I.4 are complete: 85 of their 86 leaves are proved in this project
+and one is supplied by Mathlib. The next milestone is the geometric core of
+§I.5 through Theorem 5.3. It has 16 leaves: the regular-local/cotangent-space
+criterion is already an exact Mathlib result, while the other 15 await project
+formalization. Across the roadmap, 87 of 102 formalization leaves are complete.
+
 Read the [coverage contract](../coverage/README.md) before reading progress off
-this book: §§1–4 are decomposed here, and the rest of Hartshorne is located in
-the [source notes](../sources/hartshorne.md) but carries no articles.
+this book: §§1–4 and the geometric core of §5 through Theorem 5.3 are
+decomposed here. The completion, Cohen-structure, and analytic-isomorphism
+material later in §5 is deferred; Theorem 5.7A, the §5 exercises, §6 onward,
+and Chapters II–V are out of scope. The complete source partition is recorded
+in the [source notes](../sources/hartshorne.md).
 
 ## Chapters
 
@@ -41,3 +50,6 @@ the [source notes](../sources/hartshorne.md) but carries no articles.
 - [Rational maps](rational-maps/README.md) — Hartshorne I.4. Maps defined only
   on an open set, birational equivalence, and the classification of varieties by
   their function fields.
+- [Nonsingular varieties](nonsingular-varieties/README.md) — Hartshorne I.5
+  through Theorem 5.3. Regular local rings, the Jacobian criterion, and the
+  proper closed singular locus.
