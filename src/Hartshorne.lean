@@ -112,3 +112,4 @@ import Hartshorne.Rational.SeparablyGenerated
 import Hartshorne.Rational.ProjectiveClosure
 import Hartshorne.Rational.VarietyDimension
 import Hartshorne.Rational.BirationalHypersurface
+import Hartshorne.Rational.SegreEmbedding

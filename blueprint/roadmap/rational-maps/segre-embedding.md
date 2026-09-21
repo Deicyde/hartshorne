@@ -3,6 +3,9 @@ article_id: af_949c34bb369be4bc97dc3172
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.segre_embedding
 ---
 
 # The Segre embedding
