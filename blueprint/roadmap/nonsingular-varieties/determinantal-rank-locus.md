@@ -3,13 +3,16 @@ article_id: af_80387e069a7fe6f488ba819e
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-5-geometry]
+statement: formalized
+lean: Hartshorne.rank_lt_iff_forall_minors_eq_zero Hartshorne.matrixRankDropLocus_eq_zeroSet Hartshorne.isClosed_matrixRankDropLocus Hartshorne.determinantalMinors_zero Hartshorne.matrixRankDropLocus_zero
 ---
 
 # Rank-drop loci are determinantal
 
-Let `M` be a finite matrix whose entries are polynomials on `𝔸ⁿ`, and let
-`q : ℕ`. The points `P` for which the evaluated matrix `M(P)` has rank less
-than `q` are exactly the common zero set of all `q × q` minors of `M`.
+Let `k` be a field, let `σ` be a coordinate type, let `m` and `n` be finite
+row and column index types, and let `M : Matrix m n (MvPolynomial σ k)`.
+For `q : ℕ`, the points `P : σ → k` for which the evaluated matrix
+`M(P)` has rank less than `q` are exactly the common zero set of all `q × q` minors of `M`.
 Consequently this rank-drop locus is Zariski closed.
 
 The algebraic statement is the standard rank/minor criterion over a field:
