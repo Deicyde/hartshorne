@@ -3,6 +3,8 @@ article_id: af_0501b46f3624fa99b6ff84e1
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-5-geometry]
+statement: formalized
+lean: Hartshorne.definingIdealCotangentEquiv_nonempty Hartshorne.residueField_smul_cotangentSpace_eq_baseField_smul Hartshorne.definingIdealGradient_apply Hartshorne.affineCoordinatesToLocalCotangent_surjective Hartshorne.affineCoordinatesToLocalCotangent_ker Hartshorne.finrank_localCotangent_add_finrank_gradientSpace
 ---
 
 # The defining ideal and the local cotangent space
