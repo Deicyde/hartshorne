@@ -4,6 +4,7 @@ declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-5-geometry]
 statement: formalized
+proof: formalized
 lean: Hartshorne.rank_lt_iff_forall_minors_eq_zero Hartshorne.matrixRankDropLocus_eq_zeroSet Hartshorne.isClosed_matrixRankDropLocus Hartshorne.determinantalMinors_zero Hartshorne.matrixRankDropLocus_zero
 ---
 
