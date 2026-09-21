@@ -117,3 +117,4 @@ import Hartshorne.Rational.ProductGeometry
 import Hartshorne.Rational.ProductVariety
 import Hartshorne.Rational.BlowingUp
 import Hartshorne.Nonsingular.CotangentDimension
+import Hartshorne.Nonsingular.AmbientCotangent
