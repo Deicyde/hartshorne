@@ -143,7 +143,7 @@ own.
 `IsRegularLocalRing.iff_finrank_cotangentSpace` identifies Mathlib's
 `IsRegularLocalRing` class with Hartshorne's equality
 `dim_κ 𝔪/𝔪² = dim A`. Proposition 5.2A is not a single upstream declaration;
-its project wrapper will combine `ringKrullDim_le_spanFinrank_maximalIdeal`
+its project wrapper combines `ringKrullDim_le_spanFinrank_maximalIdeal`
 with `IsLocalRing.spanFinrank_maximalIdeal_eq_finrank_cotangentSpace`.
 
 **Reformulation into scheme language.** Mathlib's `AlgebraicGeometry` namespace
