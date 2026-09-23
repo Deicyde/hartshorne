@@ -129,6 +129,7 @@ import Hartshorne.Nonsingular.IntrinsicNonsingular
 import Hartshorne.Nonsingular.JacobianRankBound
 import Hartshorne.Nonsingular.AffineSingularLocus
 import Hartshorne.Nonsingular.LocalRingOpen
+import Hartshorne.Nonsingular.LocalRingDimension
 import Hartshorne.Nonsingular.SingularLocusClosed
 import Hartshorne.Nonsingular.HypersurfaceSingularLocus
 import Hartshorne.Nonsingular.SingularLocus

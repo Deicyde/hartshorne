@@ -3,6 +3,8 @@ article_id: af_2be48af475bcbe3565ef8435
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-local-structure]
+statement: formalized
+lean: Hartshorne.Variety.HasAffineOpenBasis.ringKrullDim_localRingAt_eq
 ---
 
 # Dimension of the local ring of a variety
@@ -14,8 +16,8 @@ Let `X` be a variety with an affine-open basis and `P : X`. Then
 This is Theorem 3.2(c), already proved for affine varieties, transported to the
 abstract interface needed in §6. Choose an affine open neighbourhood of `P`.
 Its local ring is isomorphic to `𝒪_{P,X}`; its dimension equals its coordinate-
-ring dimension; and a nonempty open subset of an irreducible space has the same
-topological dimension as the ambient variety.
+ring dimension. Comparing the function fields of the affine open and ambient
+variety identifies their transcendence degrees, hence their dimensions.
 
 The finite-dimensionality witness should remain explicit so the conclusion can
 be rewritten to a natural number. In particular, if `X.IsCurve`, every local
@@ -31,6 +33,7 @@ ring has Krull dimension one.
 - [The local ring and function field of an affine variety](../morphisms/affine-variety-rings.md)
 - [Local rings are unchanged on open neighbourhoods](../nonsingular-varieties/local-ring-open-invariance.md)
 - [Dimension of a quasi-affine variety](../affine-varieties/dim-quasi-affine.md)
+- [Rational maps and function fields](../rational-maps/rational-map-function-field.md)
 
 ## Sources
 
