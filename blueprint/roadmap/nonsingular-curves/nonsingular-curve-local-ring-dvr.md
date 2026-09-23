@@ -4,6 +4,7 @@ declaration: theorem
 origin: cited
 source_units: [chapter-i-section-6-local-structure]
 statement: formalized
+proof: formalized
 lean: Hartshorne.Variety.HasAffineOpenBasis.isDiscreteValuationRing_localRingAt_of_nonsingularAt
 ---
 
