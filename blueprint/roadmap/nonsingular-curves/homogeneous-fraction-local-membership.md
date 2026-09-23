@@ -4,6 +4,7 @@ declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-local-structure]
 statement: formalized
+proof: formalized
 lean: Hartshorne.projRatClass_mem_localRingRange_iff
 ---
 
