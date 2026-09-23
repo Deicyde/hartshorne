@@ -3,6 +3,8 @@ article_id: af_f77fddedd3b45d252d8d3124
 declaration: theorem
 origin: background
 source_units: [chapter-i-section-6-valuations]
+statement: formalized
+lean: Hartshorne.dedekind_localization_dvr
 ---
 
 # Localizations of a Dedekind domain are DVRs

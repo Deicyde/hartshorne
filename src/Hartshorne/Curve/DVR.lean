@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib.RingTheory.DiscreteValuationRing.TFAE
+import Mathlib.RingTheory.DedekindDomain.Dvr
 import Mathlib.RingTheory.RegularLocalRing.Defs
 
 /-!
@@ -17,6 +18,23 @@ closed, being regular local, and having principal maximal ideal are equivalent.
 namespace Hartshorne
 
 open IsLocalRing
+
+/-- A Noetherian, integrally closed domain of dimension one localized at a
+nonzero prime ideal is a discrete valuation ring. -/
+theorem dedekind_localization_dvr
+    (A : Type*) [CommRing A] [IsNoetherianRing A] [IsIntegrallyClosed A]
+    [IsDomain A] (hdim : ringKrullDim A = 1)
+    (P : Ideal A) [P.IsPrime] (hP : P ≠ ⊥) :
+    IsDiscreteValuationRing (Localization.AtPrime P) := by
+  let : Ring.DimensionLEOne A :=
+    ⟨fun {Q} hQ hQprime =>
+      Ring.krullDimLE_one_iff_of_noZeroDivisors.mp
+        (Ring.krullDimLE_iff.mpr hdim.le) Q hQ hQprime⟩
+  let : IsDedekindDomain A :=
+    { toIsDomain := inferInstance
+      toIsDedekindRing := {} }
+  exact IsLocalization.AtPrime.isDiscreteValuationRing_of_dedekind_domain
+    A hP (Localization.AtPrime P)
 
 /-- **Hartshorne I.6, Theorem 6.2A.** The four standard characterizations of a
 discrete valuation ring among Noetherian local domains of dimension one. -/
