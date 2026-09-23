@@ -4,6 +4,7 @@ declaration: theorem
 origin: background
 source_units: [chapter-i-section-6-valuations]
 statement: formalized
+proof: formalized
 lean: Hartshorne.dvr_characterizations
 ---
 
