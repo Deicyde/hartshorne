@@ -3,6 +3,8 @@ article_id: af_14eaa7de868a5c79cf51f1a0
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-6-local-structure]
+statement: formalized
+lean: Hartshorne.IsQuasiProjVariety.eq_of_localRingRange_le
 ---
 
 # The local ring determines the point

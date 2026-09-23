@@ -93,6 +93,7 @@ import Hartshorne.Projective.LinearSeparation
 import Hartshorne.Projective.DegreeBound
 import Hartshorne.Projective.CanonicalRational
 import Hartshorne.Projective.LocalFraction
+import Hartshorne.Projective.LocalRingDeterminesPoint
 import Hartshorne.Projective.ChartRepresentation
 import Hartshorne.Projective.GlobalRegularConst
 import Hartshorne.Morphism.GlobalRegularFunctionField
