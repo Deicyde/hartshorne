@@ -3,6 +3,8 @@ article_id: af_860f4cc4dfa97f0017c8d7df
 declaration: theorem
 origin: background
 source_units: [chapter-i-section-6-valuations]
+statement: formalized
+lean: Hartshorne.dvr_characterizations
 ---
 
 # Characterizations of discrete valuation rings
