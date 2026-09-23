@@ -3,6 +3,8 @@ article_id: af_82b63943cf8eb3b9f988705c
 declaration: def
 origin: cited
 source_units: [chapter-i-section-6-local-structure]
+statement: formalized
+lean: Hartshorne.Variety.HasAffineOpenBasis.valuationSubringAt
 ---
 
 # Nonsingular curve points define discrete valuations
