@@ -3,6 +3,8 @@ article_id: af_53cc18015910ca620822fa44
 declaration: lemma
 origin: bridged
 source_units: [chapter-i-section-6-local-structure]
+statement: formalized
+lean: Hartshorne.exists_linear_forms_separating_projective_points
 ---
 
 # Linear fractions separate projective points
@@ -14,9 +16,8 @@ Let `P ≠ Q` be points of projective space over the algebraically closed field
 
 Thus the homogeneous fraction `g/h` is regular at `Q` but has a genuine pole at
 `P`. Construct `h` as a linear form separating the two projective lines, then
-choose `g` outside the two hyperplanes of forms vanishing at `P` or at `Q`.
-Algebraic closedness makes `k` infinite, which is enough to avoid these finitely
-many forbidden linear conditions.
+construct a second linear form with the opposite vanishing pattern and add the
+two forms to obtain `g`. The argument works over every field.
 
 This is the projective-coordinate content of Hartshorne's preliminary linear
 change of coordinates in Lemma 6.4, isolated so the local-ring argument does
@@ -25,7 +26,6 @@ not need a general projective automorphism API.
 ## Depends on
 
 - [Projective space](../projective-varieties/projective-space.md)
-- [Homogeneous ideals](../projective-varieties/homogeneous-ideal.md)
 
 ## Sources
 

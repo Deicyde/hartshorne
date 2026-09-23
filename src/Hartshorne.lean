@@ -89,6 +89,7 @@ import Hartshorne.Morphism.ProjFunctionField
 import Hartshorne.Projective.AwayAtPrime
 import Hartshorne.Projective.PointIdeal
 import Hartshorne.Projective.StableSubspace
+import Hartshorne.Projective.LinearSeparation
 import Hartshorne.Projective.DegreeBound
 import Hartshorne.Projective.CanonicalRational
 import Hartshorne.Projective.ChartRepresentation
