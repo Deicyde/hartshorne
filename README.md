@@ -4,16 +4,16 @@ A Lean 4 formalization of the classical variety theory in Chapter I of Robin
 Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 1977), built on Mathlib.
 
-Sections I.1 through I.4 and the geometric core of I.5 through Theorem I.5.3
-are decomposed into a dependency graph of 102 formalization targets, from the
-definition of an algebraic set through the properness and closedness of the
-singular locus. The completion, Cohen-structure, and analytic-isomorphism
-material later in §I.5 is deferred; Theorem I.5.7A, the §I.5 exercises, §I.6
-onward, and Chapters II through V are out of scope. See the
+Sections I.1 through I.4, the geometric core of I.5 through Theorem I.5.3, and
+the opening local-structure milestone of I.6 through Lemma I.6.4 are decomposed
+into a dependency graph of 114 formalization targets. The completion,
+Cohen-structure, and analytic-isomorphism material later in §I.5 is deferred;
+so are Theorems I.3.9A and I.6.3A and the rest of §I.6. The unadopted exercises,
+§I.7 onward, and Chapters II through V are out of scope. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**The full declared scope through Theorem I.5.3 is complete.** Of the first 86
+**The scope through Theorem I.5.3 is complete.** Of the first 86
 targets in §§I.1–I.4, 85 are proved here,
 sorry-free and depending only on Lean's three standard axioms, and one is
 already in Mathlib. Completed results include the
@@ -34,6 +34,11 @@ regular-local/cotangent-space criterion is an exact Mathlib result and the
 other 15 are proved here, culminating in the properness and closedness of the
 singular locus. Thus all 102 roadmap leaves are complete: 100 are proved in
 this project and two are supplied by Mathlib.
+
+The §I.6 opening adds 12 leaves: two clauses of Theorem 6.1A already in Mathlib
+and ten project targets leading to DVR local rings for nonsingular curves and
+Lemma 6.4, that the local ring determines the point. The expanded roadmap is
+therefore 104 of 114 targets complete.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 

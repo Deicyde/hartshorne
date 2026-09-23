@@ -8,7 +8,7 @@ book page numbers**, which is the numbering the text itself uses in cross
 references. If you are reading a scan whose front matter is included, the
 1977 Springer printing has `pdf page index = book page + 15`, so book page 1
 (the first page of Chapter I) is the sixteenth page of the file. Checked
-against book pages 12, 13, 22, 23 and 24.
+against book pages 12, 13, 22–24, and 39–45.
 
 Results Hartshorne numbers with a trailing `A` (1.3A, 1.8A, 1.11A, …) are
 commutative algebra he quotes without proof and attributes to Atiyah–Macdonald,
@@ -198,6 +198,66 @@ printed pp. 35–39 are part of the approved scope.
 | Thm. 5.7A | Elimination theory for common nontrivial zeros of homogeneous polynomials with indeterminate coefficients | 35 | Out of scope; it is introduced only for Exercise 5.15 |
 | Ex. 5.1–5.15 | Singularities, multiplicities, intersection multiplicity, blow-ups, projective Jacobians, tangent spaces, quadrics, normality, analytic singularities, and families of plane curves | 35–39 | Out of scope; the exercises were not adopted |
 
+## I.6 valuation and DVR background
+
+Nonsingular Curves, approved opening on printed pp. 39–41 through Lemma 6.4.
+Hartshorne first recalls valuation and Dedekind-domain facts, then identifies
+the local ring of a nonsingular curve point as a discrete valuation ring inside
+the function field. The quoted Theorem 6.3A is deliberately split into its own
+deferred unit: it occurs before Lemma 6.4 in the text but is first used by
+Lemma 6.5.
+
+| Locator | Statement | Page | Roadmap article |
+| --- | --- | --- | --- |
+| Intro.; Def. | A function field of dimension one over `k`; valuations, valuation rings, and valuation rings of `K/k` | 39–40 | [Curves](../roadmap/nonsingular-curves/curve.md), [Valuation rings are maximal local subrings](../roadmap/nonsingular-curves/valuation-ring-maximal-local-subring.md) |
+| Def. | A local ring `B` contained in a field dominates `A` when `A ⊆ B` and `𝔪_B ∩ A = 𝔪_A` | 40 | [Valuation rings are maximal local subrings](../roadmap/nonsingular-curves/valuation-ring-maximal-local-subring.md) |
+| Thm. 6.1A, first clause | A local subring of a field is a valuation ring iff it is maximal for domination | 40 | [Valuation rings are maximal local subrings](../roadmap/nonsingular-curves/valuation-ring-maximal-local-subring.md) |
+| Thm. 6.1A, second clause | Every local subring of a field is dominated by a valuation ring | 40 | [Every local subring is dominated by a valuation ring](../roadmap/nonsingular-curves/valuation-ring-dominates-local-subring.md) |
+| Def.; Thm. 6.2A | For a Noetherian local domain of dimension one, being a DVR, integrally closed, regular local, and having principal maximal ideal are equivalent | 40 | [Characterizations of discrete valuation rings](../roadmap/nonsingular-curves/dvr-characterizations.md) |
+| Def.; after Thm. 6.2A | A Dedekind domain is an integrally closed Noetherian domain of dimension one; its localization at a nonzero prime is a DVR | 40 | [Localizations of a Dedekind domain are DVRs](../roadmap/nonsingular-curves/dedekind-localization-dvr.md) |
+
+## I.6 deferred integral-closure theorem
+
+| Locator | Material | Page | Disposition |
+| --- | --- | --- | --- |
+| Thm. 6.3A | The integral closure of a Dedekind domain in a finite extension of its fraction field is again a Dedekind domain | 40 | Deferred to the normalization and valuation-space milestone; Mathlib's current theorem assumes separability, while Hartshorne's statement does not |
+
+## I.6 local structure and point separation
+
+The paragraph after Theorem 6.3A uses Theorems 5.1 and 6.2A to put the local
+ring of a nonsingular curve point inside its function field as a DVR. Lemma 6.4
+then proves that the resulting local subring determines the point. Hartshorne's
+proof places two points in a common affine chart. The planned Lean proof uses
+the equivalent projective argument directly: a homogeneous linear fraction is
+regular at one point and not the other. This avoids adding a general coordinate-
+change API solely for this lemma while preserving its full quasi-projective
+statement.
+
+| Locator | Statement | Page | Roadmap article |
+| --- | --- | --- | --- |
+| After Thm. 6.3A | If `P` lies on a nonsingular curve `Y`, then `𝒪_{P,Y}` is a DVR whose fraction field is `K(Y)`, hence a valuation ring of `K(Y)/k` | 41 | [The function field is the fraction field of every local ring](../roadmap/nonsingular-curves/local-ring-fraction-field.md), [Dimension of the local ring of a variety](../roadmap/nonsingular-curves/local-ring-dimension.md), [Local rings of nonsingular curves are DVRs](../roadmap/nonsingular-curves/nonsingular-curve-local-ring-dvr.md), [Nonsingular curve points define discrete valuations](../roadmap/nonsingular-curves/nonsingular-curve-valuation.md) |
+| Lem. 6.4 | If `Y` is quasi-projective, `P,Q ∈ Y`, and `𝒪_{Q,Y} ⊆ 𝒪_{P,Y}` inside `K(Y)`, then `P = Q` | 41 | [Linear fractions separate projective points](../roadmap/nonsingular-curves/projective-linear-separation.md), [Membership of a homogeneous fraction in a local ring](../roadmap/nonsingular-curves/homogeneous-fraction-local-membership.md), [The local ring determines the point](../roadmap/nonsingular-curves/local-ring-inclusion-determines-point.md) |
+
+## I.6 deferred normalization and projective-model material
+
+The rest of the running text is a coherent later milestone. It uses Theorem
+6.3A and the deferred Theorem 3.9A to build the valuation-space curve `C_K`,
+then proves that every one-dimensional function field has a unique nonsingular
+projective model.
+
+| Locator | Material | Pages | Disposition |
+| --- | --- | --- | --- |
+| Lem. 6.5; Cor. 6.6 | A rational function has only finitely many poles on `C_K`; every DVR of `K/k` is the local ring of a point on a nonsingular affine curve | 41–42 | Deferred to a normalization and valuation-space milestone |
+| Def.; Prop. 6.7 | Abstract nonsingular curves and their equivalence with nonsingular quasi-projective curves | 42–43 | Deferred to the same milestone |
+| Prop. 6.8 | A morphism from a punctured abstract nonsingular curve to a projective variety extends uniquely | 43–44 | Deferred to the projective-model milestone |
+| Thm. 6.9; Cor. 6.10–6.12 | Existence and uniqueness of the nonsingular projective model and the equivalence with one-dimensional function fields | 44–45 | Deferred to the projective-model milestone |
+
+## I.6 exercises
+
+| Locator | Material | Pages | Disposition |
+| --- | --- | --- | --- |
+| Ex. 6.1–6.7 | Valuations, birational invariants, maps of curves, genus-zero and plane-curve applications | 46–47 | Out of scope; no exercise is used by the approved opening through Lemma 6.4 |
+
 ## Sections not decomposed
 
 These are read and located but carry no roadmap articles. See the
@@ -205,7 +265,6 @@ These are read and located but carry no roadmap articles. See the
 
 | Section | Title | Pages |
 | --- | --- | --- |
-| I.6 | Nonsingular Curves | 39–47 |
 | I.7 | Intersections in Projective Space | 47–55 |
 | I.8 | What Is Algebraic Geometry? | 55–59 |
 | II | Schemes | 60–200 |

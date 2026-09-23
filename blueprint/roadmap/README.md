@@ -31,12 +31,18 @@ is complete as well: its regular-local/cotangent-space criterion is an exact
 Mathlib result and the other 15 leaves are proved here. Across the roadmap, all
 102 formalization leaves are complete: 100 in this project and two in Mathlib.
 
+The next milestone is the opening of §I.6 through Lemma 6.4. Its 12 leaves
+develop valuation and DVR background, identify local rings of nonsingular
+curves as discrete valuation rings in their function fields, and prove that the
+local ring determines the point. Two leaves are exact Mathlib results; the
+remaining ten are planned for project formalization.
+
 Read the [coverage contract](../coverage/README.md) before reading progress off
-this book: §§1–4 and the geometric core of §5 through Theorem 5.3 are
-decomposed here. The completion, Cohen-structure, and analytic-isomorphism
-material later in §5 is deferred; Theorem 5.7A, the §5 exercises, §6 onward,
-and Chapters II–V are out of scope. The complete source partition is recorded
-in the [source notes](../sources/hartshorne.md).
+this book: §§1–4, the geometric core of §5 through Theorem 5.3, and the opening
+of §6 through Lemma 6.4 are decomposed here. The completion material later in
+§5, Theorems 3.9A and 6.3A, and the rest of §6 are deferred; the unadopted
+exercises, §7 onward, and Chapters II–V are out of scope. The complete source
+partition is recorded in the [source notes](../sources/hartshorne.md).
 
 ## Chapters
 
@@ -53,3 +59,6 @@ in the [source notes](../sources/hartshorne.md).
 - [Nonsingular varieties](nonsingular-varieties/README.md) — Hartshorne I.5
   through Theorem 5.3. Regular local rings, the Jacobian criterion, and the
   proper closed singular locus.
+- [Local structure of nonsingular curves](nonsingular-curves/README.md) — the
+  opening of Hartshorne I.6 through Lemma 6.4. Valuation rings, DVRs, and the
+  determination of a point by its local ring.
