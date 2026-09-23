@@ -135,3 +135,4 @@ import Hartshorne.Nonsingular.HypersurfaceSingularLocus
 import Hartshorne.Nonsingular.SingularLocus
 import Hartshorne.Curve.Basic
 import Hartshorne.Curve.DVR
+import Hartshorne.Curve.LocalDVR
