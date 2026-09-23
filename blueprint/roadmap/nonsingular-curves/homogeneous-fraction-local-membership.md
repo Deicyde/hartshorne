@@ -3,6 +3,8 @@ article_id: af_fc163557346aca575b9a0fd2
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-local-structure]
+statement: formalized
+lean: Hartshorne.projRatClass_mem_localRingRange_iff
 ---
 
 # Membership of a homogeneous fraction in a local ring
@@ -28,9 +30,7 @@ functions and identify its germ through the canonical map into `K(Y)`.
 
 ## Proof depends on
 
-- [The local ring is local](../morphisms/local-ring-is-local.md)
-- [The function field is the fraction field of every local ring](local-ring-fraction-field.md)
-- [The local ring of a projective variety](../morphisms/projective-rings/projective-local-ring.md)
+No additional project-local proof prerequisites.
 
 ## Sources
 
