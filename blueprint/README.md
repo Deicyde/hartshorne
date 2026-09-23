@@ -31,9 +31,10 @@ transforms. Altogether, 85 targets are proved here and one is supplied by
 Mathlib.
 
 The geometric core of Section 5 contributes 16 further roadmap leaves. Its
-regular-local/cotangent-space criterion is already an exact Mathlib result; the
-other 15 leaves await project formalization. Thus 87 of the 102 leaves are
-complete: 85 are proved in this project and two are supplied by Mathlib.
+regular-local/cotangent-space criterion is an exact Mathlib result, and the
+other 15 are now proved here, ending with Theorem 5.3: the singular locus of a
+variety is a proper closed subset. Thus all 102 scoped leaves are complete:
+100 are proved in this project and two are supplied by Mathlib.
 
 The completion, Cohen-structure, and analytic-isomorphism material later in
 §I.5 is deferred. Theorem I.5.7A, the §I.5 exercises, §I.6 onward, and Chapters

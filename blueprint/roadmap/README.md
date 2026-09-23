@@ -26,10 +26,10 @@ the coarser classification: the function field determines a variety up to
 birational equivalence.
 
 Sections I.1–I.4 are complete: 85 of their 86 leaves are proved in this project
-and one is supplied by Mathlib. The next milestone is the geometric core of
-§I.5 through Theorem 5.3. It has 16 leaves: the regular-local/cotangent-space
-criterion is already an exact Mathlib result, while the other 15 await project
-formalization. Across the roadmap, 87 of 102 formalization leaves are complete.
+and one is supplied by Mathlib. The geometric core of §I.5 through Theorem 5.3
+is complete as well: its regular-local/cotangent-space criterion is an exact
+Mathlib result and the other 15 leaves are proved here. Across the roadmap, all
+102 formalization leaves are complete: 100 in this project and two in Mathlib.
 
 Read the [coverage contract](../coverage/README.md) before reading progress off
 this book: §§1–4 and the geometric core of §5 through Theorem 5.3 are

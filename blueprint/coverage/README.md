@@ -39,15 +39,15 @@ section 5 through Theorem 5.3 (book pages 31–33):
 | I.2 | Projective Varieties | 8–14 | [13 articles](../roadmap/projective-varieties/README.md) | done |
 | I.3 | Morphisms | 14–23 | [33 articles](../roadmap/morphisms/README.md) | done |
 | I.4 | Rational Maps | 24–29 | [17 articles](../roadmap/rational-maps/README.md) | done |
-| I.5 through Thm. 5.3 | Nonsingular Varieties | 31–33 | [16 articles](../roadmap/nonsingular-varieties/README.md) | planned |
+| I.5 through Thm. 5.3 | Nonsingular Varieties | 31–33 | [16 articles](../roadmap/nonsingular-varieties/README.md) | done |
 
 All 86 articles in §§1–4 are done: 85 are proved here and one was already in
 Mathlib. The §4 results include the rational-map core through Corollary 4.5,
 separability, projective closure, the Segre/product construction, the
 hypersurface normal form, and blowing up. The approved part of §5 adds 16
 articles: Mathlib supplies the exact regular-local/cotangent criterion, and the
-other 15 await project formalization. Thus 87 of 102 scoped targets are
-currently complete.
+other 15 are proved here. Thus all 102 scoped targets are complete: 100 are
+proved in this project and two are supplied by Mathlib.
 
 The counts grow as the work goes on, almost always by splitting a node that
 turned out to hold more than one pull request's worth of Lean; where the scope
@@ -86,9 +86,9 @@ affine varieties over `k` and finitely generated integral domains over `k`.
 Theorem 4.4 is its birational counterpart: varieties with dominant rational
 maps are equivalent, arrows reversed, to finitely generated field extensions of
 `k`. The declared §4 scope continues through Proposition 4.9 and the blow-up
-construction on pages 28–29. The next milestone develops the Jacobian
-criterion and ends with Theorem 5.3, that the singular locus is a proper closed
-subset.
+construction on pages 28–29. The §5 milestone develops the Jacobian criterion
+and ends with Theorem 5.3, that the singular locus is a proper closed subset;
+that milestone is now complete.
 
 ## Deferred and out of scope
 
@@ -165,8 +165,8 @@ A section counts as finished when every article listed for it satisfies all of:
    convention that varieties are irreducible.
 
 A scoped section or partial section counts as finished when all its articles
-do. **§§1–4 are finished; the approved part of §5 is planned.** The completed
-articles compile, no proof contains `sorry` or
+do. **§§1–4 and the approved part of §5 are finished.** The completed articles
+compile, no proof contains `sorry` or
 `native_decide`, every `#print axioms` is clean, and every statement has been
 read against its cited passage.
 

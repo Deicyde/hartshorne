@@ -13,7 +13,8 @@ onward, and Chapters II through V are out of scope. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**§§I.1–I.4 are complete.** Of their 86 targets, 85 are proved here,
+**The full declared scope through Theorem I.5.3 is complete.** Of the first 86
+targets in §§I.1–I.4, 85 are proved here,
 sorry-free and depending only on Lean's three standard axioms, and one is
 already in Mathlib. Completed results include the
 Nullstellensatz correspondence, irreducible decomposition, the dimension of a
@@ -29,9 +30,10 @@ their composition, the function-field classification up to birational
 equivalence, the hypersurface normal form, and blowing up a point.
 
 The geometric core of §I.5 contributes 16 further roadmap leaves. Its
-regular-local/cotangent-space criterion is already an exact Mathlib result; the
-other 15 leaves await project formalization. Thus the roadmap has 102 leaves in
-total, of which 87 are complete.
+regular-local/cotangent-space criterion is an exact Mathlib result and the
+other 15 are proved here, culminating in the properness and closedness of the
+singular locus. Thus all 102 roadmap leaves are complete: 100 are proved in
+this project and two are supplied by Mathlib.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 
