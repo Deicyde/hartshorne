@@ -3,6 +3,8 @@ article_id: af_c9ec3c715008de92212224d1
 declaration: def
 origin: cited
 source_units: [chapter-i-section-6-valuations, chapter-i-section-6-local-structure]
+statement: formalized
+lean: Hartshorne.Variety.IsCurve
 ---
 
 # Curves
@@ -28,4 +30,5 @@ companion theorem, without building a second notion of dimension.
 
 ## Sources
 
-- [Hartshorne I.6, opening discussion of curves and one-dimensional function fields (p. 39)](../../sources/hartshorne.md#i6-valuation-and-dvr-background)
+- [Hartshorne I.2, convention that a curve has dimension one (p. 13)](../../sources/hartshorne.md#i2)
+- [Hartshorne I.6, opening discussion of one-dimensional function fields (p. 39)](../../sources/hartshorne.md#i6-valuation-and-dvr-background)
