@@ -2,16 +2,17 @@
 
 A Lean 4 formalization project for classical variety theory in Robin Hartshorne,
 *Algebraic Geometry*, scoped to Chapter I §§1–4, the geometric core of §5
-through Theorem 5.3, and the local-structure opening of §6 through Lemma 6.4.
+through Theorem 5.3, and §6 through Proposition 6.7.
 
-This scope is fully formalized as a dependency graph of 114 targets,
-running from the definition of an algebraic set through the properness and
-closedness of the singular locus, and onward to the valuation-theoretic local
-structure of nonsingular curves.
+The dependency graph has 138 targets. Its first 114 targets are fully
+formalized, running from the definition of an algebraic set through the
+properness and closedness of the singular locus, and onward to the
+valuation-theoretic local structure of nonsingular curves through Lemma 6.4.
 
-Sections 1 through 3 account for 69 of those targets, ending at Corollary I.3.8,
-the arrow-reversing equivalence between affine varieties over `k` and the
-finitely generated integral domains over `k`.
+The completed core of Sections 1 through 3 accounts for 69 of those targets,
+ending at Corollary I.3.8, the arrow-reversing equivalence between affine
+varieties over `k` and the finitely generated integral domains over `k`.
+Theorem I.3.9A is part of the new normalization milestone below.
 
 **All 69 of those targets are done**: 68 proved here, sorry-free and on Lean's
 three standard axioms, and one already in Mathlib. This covers §§1–3 in the
@@ -25,11 +26,10 @@ that height is preserved by contraction along an integral extension of an
 integrally closed domain and that a height-one prime of a unique factorisation
 domain is principal.
 
-Section 4, rational maps and birational equivalence, accounts for the remaining
-17 targets. All are done, ending with the construction and four properties of
-the blow-up of affine space at the origin and the birationality of strict
-transforms. Altogether, 85 targets are proved here and one is supplied by
-Mathlib.
+The completed main-text scope of Section 4, rational maps and birational
+equivalence, accounts for the remaining 17 targets, ending with the blow-up of
+affine space at the origin. The weak consequence of Exercise 4.8(a) newly
+needed by Proposition 6.7 is planned in the normalization milestone.
 
 The geometric core of Section 5 contributes 16 further roadmap leaves. Its
 regular-local/cotangent-space criterion is an exact Mathlib result, and the
@@ -37,17 +37,21 @@ other 15 are now proved here, ending with Theorem 5.3: the singular locus of a
 variety is a proper closed subset. Thus all 102 scoped leaves are complete:
 100 are proved in this project and two are supplied by Mathlib.
 
-The opening of Section 6 through Lemma 6.4 contributes 12 new leaves. Mathlib
+The opening of Section 6 through Lemma 6.4 contributes 12 leaves. Mathlib
 supplies the two clauses of Theorem 6.1A exactly; the ten project leaves develop
 the DVR local rings of nonsingular curves and prove that inclusion of local
 rings inside the function field determines the point. All 12 are complete, so
-the full 114-leaf roadmap is complete: 110 targets are formalized in this project
-and four are supplied by Mathlib.
+the completed portion has 110 project formalizations and four Mathlib results.
+
+The next milestone adds 24 planned leaves. It includes the exact nonseparable
+Theorems 3.9A and 6.3A, proves finite poles and realizes every function-field
+DVR on a nonsingular affine curve, then constructs the valuation-space curve
+and reaches Proposition 6.7. These new leaves are planned, not yet formalized.
 
 The completion, Cohen-structure, and analytic-isomorphism material later in
-§I.5 is deferred. Theorems I.3.9A and I.6.3A and the rest of §I.6 form later
-normalization and projective-model milestones. The unadopted exercises, §I.7
-onward, and Chapters II–V are out of scope.
+§I.5 is deferred. Proposition I.6.8 onward forms the later projective-model
+milestone. The unadopted exercises, §I.7 onward, and Chapters II–V are out of
+scope.
 
 - [Roadmap](roadmap/README.md) — the book: chapters, statements, and their
   dependencies.

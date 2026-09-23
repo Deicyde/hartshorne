@@ -5,15 +5,15 @@ Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 1977), built on Mathlib.
 
 Sections I.1 through I.4, the geometric core of I.5 through Theorem I.5.3, and
-the opening local-structure milestone of I.6 through Lemma I.6.4 are decomposed
-into a dependency graph of 114 formalization targets. The completion,
-Cohen-structure, and analytic-isomorphism material later in §I.5 is deferred;
-so are Theorems I.3.9A and I.6.3A and the rest of §I.6. The unadopted exercises,
-§I.7 onward, and Chapters II through V are out of scope. See the
+I.6 through Proposition I.6.7 are decomposed into a dependency graph of 138
+formalization targets. The completion, Cohen-structure, and analytic-isomorphism
+material later in §I.5 is deferred; so is the projective-model material from
+Proposition I.6.8 onward. The unadopted exercises, §I.7 onward, and Chapters II
+through V are out of scope. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**The declared scope through Lemma I.6.4 is complete.** Of the first 86
+**The first 114 targets, through Lemma I.6.4, are complete.** Of the first 86
 targets in §§I.1–I.4, 85 are proved here,
 sorry-free and depending only on Lean's three standard axioms, and one is
 already in Mathlib. Completed results include the
@@ -38,8 +38,15 @@ this project and two are supplied by Mathlib.
 The §I.6 opening adds 12 leaves: two clauses of Theorem 6.1A already in Mathlib
 and ten project targets leading to DVR local rings for nonsingular curves and
 Lemma 6.4, that the local ring determines the point. All 12 are complete. The
-full 114-leaf roadmap is therefore complete: 110 targets are formalized here and
-four are supplied by Mathlib.
+completed 114-leaf portion therefore consists of 110 targets formalized here
+and four supplied by Mathlib.
+
+The next 24 planned leaves cover the exact nonseparable integral-closure
+Theorems 3.9A and 6.3A, finite poles and affine models for function-field DVRs,
+and the valuation-space construction through Proposition 6.7. A separable
+two-chart route lets the geometric branch proceed independently of the harder
+background normalization theorems. None of these 24 new leaves is yet claimed
+formalized.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 

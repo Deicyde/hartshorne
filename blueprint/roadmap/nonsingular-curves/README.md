@@ -58,7 +58,8 @@ checkout and does not assume any of these PRs merge.
 ## Scope note
 
 This milestone stops after Lemma 6.4 on printed p. 41. Theorem 6.3A is
-explicitly deferred because it is first used in Lemma 6.5, where it combines
-with the already deferred Theorem 3.9A. Lemma 6.5 through Corollary 6.12 form a
-later normalization, valuation-space, and projective-model milestone. The §6
-exercises remain out of scope.
+handled in the following
+[normalization and valuation-space milestone](../curve-normalization/README.md),
+together with Theorem 3.9A and Lemma 6.5 through Proposition 6.7. Proposition
+6.8 through Corollary 6.12 remain deferred to the projective-model milestone;
+the §6 exercises remain out of scope.
