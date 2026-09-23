@@ -13,7 +13,7 @@ of `K(Y)/k`.
 
 The second result in this milestone is Lemma 6.4. For a quasi-projective variety
 `Y`, inclusion `𝒪_{Q,Y} ⊆ 𝒪_{P,Y}` inside `K(Y)` forces `P = Q`. Hartshorne
-puts the two points into a common affine chart. The Lean plan uses an equivalent
+puts the two points into a common affine chart. The Lean proof uses an equivalent
 projective separation argument: choose a homogeneous linear fraction regular at
 `Q` but not at `P`. This keeps the full source statement while fitting the
 project's existing projective function-field API.

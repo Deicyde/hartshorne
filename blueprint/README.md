@@ -4,7 +4,7 @@ A Lean 4 formalization project for classical variety theory in Robin Hartshorne,
 *Algebraic Geometry*, scoped to Chapter I §§1–4, the geometric core of §5
 through Theorem 5.3, and the local-structure opening of §6 through Lemma 6.4.
 
-This scope is decomposed into a dependency graph of 114 formalization targets,
+This scope is fully formalized as a dependency graph of 114 targets,
 running from the definition of an algebraic set through the properness and
 closedness of the singular locus, and onward to the valuation-theoretic local
 structure of nonsingular curves.
@@ -40,8 +40,9 @@ variety is a proper closed subset. Thus all 102 scoped leaves are complete:
 The opening of Section 6 through Lemma 6.4 contributes 12 new leaves. Mathlib
 supplies the two clauses of Theorem 6.1A exactly; the ten project leaves develop
 the DVR local rings of nonsingular curves and prove that inclusion of local
-rings inside the function field determines the point. Thus 104 of the expanded
-114-leaf roadmap are already complete.
+rings inside the function field determines the point. All 12 are complete, so
+the full 114-leaf roadmap is complete: 110 targets are formalized in this project
+and four are supplied by Mathlib.
 
 The completion, Cohen-structure, and analytic-isomorphism material later in
 §I.5 is deferred. Theorems I.3.9A and I.6.3A and the rest of §I.6 form later

@@ -101,7 +101,7 @@ Morphisms, book pp. 14–23.
 | Lem. 3.6 | `ψ : X → Y ⊆ 𝔸ⁿ` is a morphism iff each `xᵢ ∘ ψ` is regular | 20 | [Criterion for a morphism to an affine variety](../roadmap/morphisms/morphism-to-affine-criterion.md) |
 | Cor. 3.7 | Affine varieties `X`, `Y` are isomorphic iff `A(X) ≅ A(Y)` as `k`-algebras | 20 | [Isomorphism via coordinate rings](../roadmap/morphisms/affine-iso-iff-algebra-iso.md) |
 | Cor. 3.8 | `X ↦ A(X)` is an arrow-reversing equivalence between affine varieties over `k` and finitely generated integral domains over `k` | 20 | [Equivalence with finitely generated domains](../roadmap/morphisms/affine-variety-equivalence.md) |
-| Thm. 3.9A | Finiteness of integral closure | 20 | **No article.** Hartshorne states it in §3 with "we include here an algebraic result which will be used in the exercises"; nothing in the main text of §§1–3 uses it, and the exercises that do are out of scope. It is needed from §6 onward. |
+| Thm. 3.9A | Finiteness of integral closure | 20 | **No article.** Hartshorne states it in §3 with "we include here an algebraic result which will be used in the exercises"; nothing in the main text of §§1–3 uses it, and the exercises that do are out of scope. It is first needed by Lemma 6.5. |
 
 ## I.4
 
@@ -227,7 +227,7 @@ Lemma 6.5.
 The paragraph after Theorem 6.3A uses Theorems 5.1 and 6.2A to put the local
 ring of a nonsingular curve point inside its function field as a DVR. Lemma 6.4
 then proves that the resulting local subring determines the point. Hartshorne's
-proof places two points in a common affine chart. The planned Lean proof uses
+proof places two points in a common affine chart. The Lean proof uses
 the equivalent projective argument directly: a homogeneous linear fraction is
 regular at one point and not the other. This avoids adding a general coordinate-
 change API solely for this lemma while preserving its full quasi-projective

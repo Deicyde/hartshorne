@@ -13,7 +13,7 @@ so are Theorems I.3.9A and I.6.3A and the rest of §I.6. The unadopted exercises
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**The scope through Theorem I.5.3 is complete.** Of the first 86
+**The declared scope through Lemma I.6.4 is complete.** Of the first 86
 targets in §§I.1–I.4, 85 are proved here,
 sorry-free and depending only on Lean's three standard axioms, and one is
 already in Mathlib. Completed results include the
@@ -37,8 +37,9 @@ this project and two are supplied by Mathlib.
 
 The §I.6 opening adds 12 leaves: two clauses of Theorem 6.1A already in Mathlib
 and ten project targets leading to DVR local rings for nonsingular curves and
-Lemma 6.4, that the local ring determines the point. The expanded roadmap is
-therefore 104 of 114 targets complete.
+Lemma 6.4, that the local ring determines the point. All 12 are complete. The
+full 114-leaf roadmap is therefore complete: 110 targets are formalized here and
+four are supplied by Mathlib.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 

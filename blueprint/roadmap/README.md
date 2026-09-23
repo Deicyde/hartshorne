@@ -31,11 +31,12 @@ is complete as well: its regular-local/cotangent-space criterion is an exact
 Mathlib result and the other 15 leaves are proved here. Across the roadmap, all
 102 formalization leaves are complete: 100 in this project and two in Mathlib.
 
-The next milestone is the opening of §I.6 through Lemma 6.4. Its 12 leaves
-develop valuation and DVR background, identify local rings of nonsingular
-curves as discrete valuation rings in their function fields, and prove that the
-local ring determines the point. Two leaves are exact Mathlib results; the
-remaining ten are planned for project formalization.
+The opening of §I.6 through Lemma 6.4 contributes 12 more leaves. They develop
+valuation and DVR background, identify local rings of nonsingular curves as
+discrete valuation rings in their function fields, and prove that the local
+ring determines the point. All are complete: ten are proved in this project and
+two are exact Mathlib results. Thus the full 114-leaf roadmap is complete, with
+110 project formalizations and four Mathlib results.
 
 Read the [coverage contract](../coverage/README.md) before reading progress off
 this book: §§1–4, the geometric core of §5 through Theorem 5.3, and the opening
