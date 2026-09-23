@@ -26,6 +26,9 @@ retains the full quasi-projective statement.
 
 - [Projective and quasi-projective varieties](../projective-varieties/projective-variety.md)
 - [Global regular functions are the intersection of the local rings](../morphisms/global-functions/global-regular-intersection-local-rings.md)
+
+## Proof depends on
+
 - [Linear fractions separate projective points](projective-linear-separation.md)
 - [Membership of a homogeneous fraction in a local ring](homogeneous-fraction-local-membership.md)
 

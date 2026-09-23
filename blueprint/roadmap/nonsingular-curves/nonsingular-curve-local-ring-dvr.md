@@ -19,13 +19,13 @@ nonsingular curve, with the pointwise result as the headline completion target.
 ## Depends on
 
 - [Curves](curve.md)
-- [Characterizations of discrete valuation rings](dvr-characterizations.md)
 - [The function field is the fraction field of every local ring](local-ring-fraction-field.md)
-- [Dimension of the local ring of a variety](local-ring-dimension.md)
 - [Intrinsic nonsingularity](../nonsingular-varieties/intrinsic-nonsingularity.md)
 
 ## Proof depends on
 
+- [Characterizations of discrete valuation rings](dvr-characterizations.md)
+- [Dimension of the local ring of a variety](local-ring-dimension.md)
 - [Local rings are unchanged on open neighbourhoods](../nonsingular-varieties/local-ring-open-invariance.md)
 
 ## Sources

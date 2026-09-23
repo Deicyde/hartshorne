@@ -25,7 +25,6 @@ valuation-valued corollary that the pinned API supports; do not rely on open PR
 
 ## Depends on
 
-- [Valuation rings are maximal local subrings](valuation-ring-maximal-local-subring.md)
 - [The function field is the fraction field of every local ring](local-ring-fraction-field.md)
 - [Local rings of nonsingular curves are DVRs](nonsingular-curve-local-ring-dvr.md)
 

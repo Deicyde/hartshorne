@@ -9,7 +9,7 @@ source_units: [chapter-i-section-6-local-structure]
 
 Let `X` be a variety with an affine-open basis and `P : X`. Then
 
-`ringKrullDim (𝒪_{P,X}) = topologicalKrullDim X`.
+`ringKrullDim (𝒪_{P,X}) = topologicalKrullDim X.carrier`.
 
 This is Theorem 3.2(c), already proved for affine varieties, transported to the
 abstract interface needed in §6. Choose an affine open neighbourhood of `P`.
