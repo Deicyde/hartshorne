@@ -3,6 +3,8 @@ article_id: af_c6bf0d8d37f0cc07eedc10f3
 declaration: def
 origin: cited
 source_units: [chapter-i-section-6-normalization]
+statement: formalized
+lean: Hartshorne.FunctionFieldDVR
 ---
 
 # Discrete valuation rings of a function field

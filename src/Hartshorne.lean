@@ -140,3 +140,4 @@ import Hartshorne.Curve.Basic
 import Hartshorne.Curve.DVR
 import Hartshorne.Curve.LocalDVR
 import Hartshorne.Curve.Valuation
+import Hartshorne.Curve.FunctionFieldDVR
