@@ -8,7 +8,7 @@ book page numbers**, which is the numbering the text itself uses in cross
 references. If you are reading a scan whose front matter is included, the
 1977 Springer printing has `pdf page index = book page + 15`, so book page 1
 (the first page of Chapter I) is the sixteenth page of the file. Checked
-against book pages 12, 13, 20, 22–24, 27, 30, and 39–45.
+against book pages 12, 13, 20, 22–24, 27, 30–31, and 39–45.
 
 Results Hartshorne numbers with a trailing `A` (1.3A, 1.8A, 1.11A, …) are
 commutative algebra he quotes without proof and attributes to Atiyah–Macdonald,
@@ -104,11 +104,11 @@ Morphisms, book pp. 14–23.
 | Thm. 3.9A | If `A` is a finitely generated `k`-algebra domain with fraction field `K` and `L/K` is finite algebraic, then the integral closure of `A` in `L` is finite over `A` and finitely generated over `k` | 20 | [Frobenius finiteness](../roadmap/curve-normalization/frobenius-finite-affine-algebra.md), [purely inseparable normalization](../roadmap/curve-normalization/purely-inseparable-normalization-finite.md), [polynomial normalization](../roadmap/curve-normalization/polynomial-normalization-finite.md), and [finiteness of integral closure](../roadmap/curve-normalization/finite-integral-closure.md) |
 
 Hartshorne cites Zariski–Samuel, vol. I, Chapter V, Theorem 9 for Theorem
-3.9A. [Stacks Project, Tag 0335](https://stacks.math.columbia.edu/tag/0335)
-gives a modern route through the fact that finite-type algebras over fields are
-Nagata. The pinned Mathlib theorem proves the finite-normalization conclusion
-only over an integrally closed base and for a separable extension, so it is not
-an exact match.
+3.9A but gives no proof. [Stacks Project, Tag 0335](https://stacks.math.columbia.edu/tag/0335)
+gives the Nagata conclusion, not the Frobenius/maximal-separable route chosen
+by the first three leaves. That route still needs an exact proof source or an
+explicit project-authored designation. The pinned Mathlib theorem covers only
+the integrally closed, separable case, so it is not an exact match.
 
 ## I.4
 
@@ -271,7 +271,7 @@ and Corollary 6.6 available independently of the harder nonseparable branch.
 | Locator | Statement | Pages | Roadmap article |
 | --- | --- | --- | --- |
 | Def. | `C_K` is the set of discrete valuation rings of `K/k`; poles and zeros are nonmembership and maximal-ideal membership | 39–42 | [Discrete valuation rings of a function field](../roadmap/curve-normalization/function-field-dvrs.md) |
-| Proof infrastructure | A one-dimensional function field has a separating parameter; the normalizations of its two polynomial charts are finite-type Dedekind domains covering `C_K` | 41–42 | [Separating parameters](../roadmap/curve-normalization/separating-parameter.md), [two separable normalization charts](../roadmap/curve-normalization/separable-normalization-charts.md) |
+| Project-authored proof infrastructure | A one-dimensional function field has a separating parameter; a fixed pair of polynomial normalization charts covers `C_K`, reorganizing Hartshorne's element-dependent chart argument | 41–42 | [Separating parameters](../roadmap/curve-normalization/separating-parameter.md), [two separable normalization charts](../roadmap/curve-normalization/separable-normalization-charts.md) |
 | Proof infrastructure | A function-field DVR containing a Dedekind model is its localization at a unique center; finite-type Dedekind domains and their localizations have nonsingular affine curve models | 41–42 | [Centers and localizations](../roadmap/curve-normalization/dedekind-subring-localization.md), [Dedekind affine models](../roadmap/curve-normalization/dedekind-affine-model.md) |
 | Lem. 6.5 | For `x ∈ K`, the set `{R ∈ C_K | x ∉ R}` is finite | 41 | [A rational function has finitely many poles](../roadmap/curve-normalization/finite-poles.md) |
 | Cor. 6.6 | Every DVR of `K/k` is isomorphic to the local ring of a point on a nonsingular affine curve; the roadmap additionally preserves the compatible embeddings into `K` needed by Proposition 6.7 | 42 | [Every function-field DVR has a nonsingular affine model](../roadmap/curve-normalization/dvr-affine-model.md) |
@@ -282,8 +282,8 @@ Give `C_K` the cofinite topology. For an open `U`, Hartshorne defines
 `𝒪(U) = ⋂_{R ∈ U} R` inside `K`; the residue-field identification supplied by
 Corollary 6.6 reads each element as a `k`-valued function. Lemma 6.5 makes this
 evaluation injective and makes every element of `K` regular on some nonempty
-open subset. An abstract nonsingular curve is a nonempty open subset of `C_K`
-with this regular-function structure.
+open subset. Hartshorne calls an open subset of `C_K` with this structure an
+abstract nonsingular curve; the roadmap's nonempty restriction is project-authored.
 
 The text uses the infinitude consequence of Exercise 4.8(a) here. Following
 the project's exercise policy, the roadmap adopts only that consequence, not
@@ -291,8 +291,8 @@ the exercise's stronger cardinality equality or part (b).
 
 | Locator | Statement | Pages | Roadmap article |
 | --- | --- | --- | --- |
-| Ex. 4.8(a), used here | A positive-dimensional variety is infinite; a quasi-projective curve has the cofinite topology | 30, 42 | [Quasi-projective curves have the cofinite topology](../roadmap/curve-normalization/quasiprojective-curve-cofinite.md) |
-| Def.; discussion | The cofinite topology on `C_K`, the residue evaluation to `k`, regular functions on its opens, and the abstract nonsingular curve attached to a nonempty open | 42 | [Valuation-space topology](../roadmap/curve-normalization/valuation-space-topology.md), [residue fields](../roadmap/curve-normalization/valuation-residue-field.md), [regular functions](../roadmap/curve-normalization/valuation-regular-functions.md), [regularity axioms](../roadmap/curve-normalization/valuation-regular-functions-local.md), [abstract nonsingular curves](../roadmap/curve-normalization/abstract-nonsingular-curve.md), [their function fields](../roadmap/curve-normalization/valuation-space-function-field.md) |
+| Ex. 4.8(a), used here | A positive-dimensional variety is infinite; a quasi-projective curve has the cofinite topology | 31, 42 | [Quasi-projective curves have the cofinite topology](../roadmap/curve-normalization/quasiprojective-curve-cofinite.md) |
+| Def.; discussion | The cofinite topology on `C_K`, the residue evaluation to `k`, regular functions on its opens, and abstract nonsingular curves; the roadmap packages nonempty opens | 42 | [Valuation-space topology](../roadmap/curve-normalization/valuation-space-topology.md), [residue fields](../roadmap/curve-normalization/valuation-residue-field.md), [regular functions](../roadmap/curve-normalization/valuation-regular-functions.md), [regularity axioms](../roadmap/curve-normalization/valuation-regular-functions-local.md), [abstract nonsingular curves](../roadmap/curve-normalization/abstract-nonsingular-curve.md), [their function fields](../roadmap/curve-normalization/valuation-space-function-field.md) |
 | Prop. 6.7, affine input | A nonsingular affine curve has a Dedekind coordinate ring | 42–43 | [Nonsingular affine curves have Dedekind coordinate rings](../roadmap/curve-normalization/nonsingular-affine-curve-dedekind.md) |
 | Prop. 6.7 | For a nonsingular quasi-projective curve `Y`, the map `P ↦ 𝒪_{P,Y}` identifies `Y` with an open abstract nonsingular subcurve of `C_{K(Y)}` | 42–43 | [The local-ring map has open image](../roadmap/curve-normalization/curve-local-ring-map-open.md), [nonsingular curves are open subcurves of their valuation spaces](../roadmap/curve-normalization/curve-to-valuation-space-iso.md) |
 

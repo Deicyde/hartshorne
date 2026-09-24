@@ -13,8 +13,8 @@ through V are out of scope. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**The first 114 targets, through Lemma I.6.4, are complete.** Of the first 86
-targets in §§I.1–I.4, 85 are proved here,
+**115 of the 138 targets are complete.** The first 114 targets, through Lemma
+I.6.4, are complete. Of the first 86 targets in §§I.1–I.4, 85 are proved here,
 sorry-free and depending only on Lean's three standard axioms, and one is
 already in Mathlib. Completed results include the
 Nullstellensatz correspondence, irreducible decomposition, the dimension of a
@@ -41,12 +41,12 @@ Lemma 6.4, that the local ring determines the point. All 12 are complete. The
 completed 114-leaf portion therefore consists of 110 targets formalized here
 and four supplied by Mathlib.
 
-The next 24 planned leaves cover the exact nonseparable integral-closure
+The current 24-leaf milestone covers the exact nonseparable integral-closure
 Theorems 3.9A and 6.3A, finite poles and affine models for function-field DVRs,
 and the valuation-space construction through Proposition 6.7. A separable
 two-chart route lets the geometric branch proceed independently of the harder
-background normalization theorems. None of these 24 new leaves is yet claimed
-formalized.
+background normalization theorems. Its foundational function-field-DVR
+definition is formalized; the other 23 leaves are not yet formalized.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 

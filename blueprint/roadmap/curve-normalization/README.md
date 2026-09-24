@@ -15,6 +15,10 @@ valuation rings of `K` containing `k`.  Lemma 6.5 says that every element of
 `K` has only finitely many poles on `C_K`.  Corollary 6.6 realizes each point
 of `C_K` as the local ring of a point on a nonsingular affine curve.
 
+The foundational `FunctionFieldDVR` definition, its compatibility with the
+base-field embedding, and its pole and vanishing predicates are formalized.
+The other 23 leaves in this milestone are not yet formalized.
+
 The second phase equips `C_K` with its cofinite topology and defines regular
 functions on an open set `U` by the intersection of its valuation rings.
 Proposition 6.7 then identifies every nonsingular quasi-projective curve with
@@ -42,6 +46,11 @@ separable, so Mathlib constructs finite Dedekind normalizations for both
 these two affine charts suffice for Lemma 6.5, Corollary 6.6, and Proposition
 6.7. Theorems 3.9A and 6.3A remain in scope as independent source-facing
 branches.
+
+The fixed two-chart organization and the nonempty-open `Hartshorne.Variety`
+packaging are project-authored representation choices. The Frobenius and
+maximal-separable-subextension route for Theorem 3.9A is still awaiting either
+an exact proof source or an explicit decision to treat it as project-authored.
 
 ## Finiteness of normalization
 

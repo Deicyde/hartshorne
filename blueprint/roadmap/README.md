@@ -40,12 +40,12 @@ ring determines the point. All are complete: ten are proved in this project and
 two are exact Mathlib results. Thus the completed 114-leaf portion contains 110
 project formalizations and four Mathlib results.
 
-The next 24 leaves are planned in two independent fronts. One proves the exact
+The current 24-leaf milestone has two independent fronts. One proves the exact
 nonseparable integral-closure Theorems 3.9A and 6.3A. The other uses two
 separable normalization charts to prove finite poles, construct affine models
 of function-field DVRs, and build the abstract valuation-space curve through
-Proposition 6.7. The expanded roadmap therefore has 138 leaves, with 114
-complete and 24 planned.
+Proposition 6.7. Its foundational function-field-DVR definition is formalized,
+so the expanded roadmap has 138 leaves, with 115 complete and 23 unfinished.
 
 Read the [coverage contract](../coverage/README.md) before reading progress off
 this book: §§1–4, the geometric core of §5 through Theorem 5.3, and §6 through
