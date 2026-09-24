@@ -34,5 +34,5 @@ once that image is known to be open.
 
 ## Sources
 
-- [Hartshorne I.4, Exercise 4.8(a), and I.6 before Proposition 6.7 (pp. 30, 42)](../../sources/hartshorne.md#i4)
+- [Hartshorne I.4, Exercise 4.8(a), and I.6 before Proposition 6.7 (pp. 31, 42)](../../sources/hartshorne.md#i4)
 - [Hartshorne I.6, cofinite topology on `C_K` (p. 42)](../../sources/hartshorne.md#i6-abstract-nonsingular-curves)
