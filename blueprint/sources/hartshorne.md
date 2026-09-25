@@ -103,12 +103,12 @@ Morphisms, book pp. 14–23.
 | Cor. 3.8 | `X ↦ A(X)` is an arrow-reversing equivalence between affine varieties over `k` and finitely generated integral domains over `k` | 20 | [Equivalence with finitely generated domains](../roadmap/morphisms/affine-variety-equivalence.md) |
 | Thm. 3.9A | If `A` is a finitely generated `k`-algebra domain with fraction field `K` and `L/K` is finite algebraic, then the integral closure of `A` in `L` is finite over `A` and finitely generated over `k` | 20 | [Frobenius finiteness](../roadmap/curve-normalization/frobenius-finite-affine-algebra.md), [purely inseparable normalization](../roadmap/curve-normalization/purely-inseparable-normalization-finite.md), [polynomial normalization](../roadmap/curve-normalization/polynomial-normalization-finite.md), and [finiteness of integral closure](../roadmap/curve-normalization/finite-integral-closure.md) |
 
-Hartshorne cites Zariski–Samuel, vol. I, Chapter V, Theorem 9 for Theorem
-3.9A but gives no proof. [Stacks Project, Tag 0335](https://stacks.math.columbia.edu/tag/0335)
-gives the Nagata conclusion, not the Frobenius/maximal-separable route chosen
-by the first three leaves. That route still needs an exact proof source or an
-explicit project-authored designation. The pinned Mathlib theorem covers only
-the integrally closed, separable case, so it is not an exact match.
+### Project-authored proof specification for Theorem I.3.9A
+
+Hartshorne cites Zariski–Samuel, vol. I, Chapter V, Theorem 9 but gives no proof. [Stacks Project, Tag 0335](https://stacks.math.columbia.edu/tag/0335) implies the conclusion via the Nagata property, not the following adopted decomposition.
+For perfect `k` and `q = p^e`, identify `A^q` with the iterated-Frobenius range and prove `A` finite over it. For normal finite-type `A` and finite purely inseparable `L/Frac(A)`, use `B^q ⊆ A` and Frobenius injectivity to span the integral closure `B` finitely over `A`.
+For `P = k[X₁,…,Xₙ]`, pass through the maximal separable subextension `M`, apply the pinned separable integral-closure theorem, and identify the iterated integral closure with the direct one.
+The choice and assembly of these sourced inputs, the spanning argument, and the Lean API packaging are project-authored.
 
 ## I.4
 

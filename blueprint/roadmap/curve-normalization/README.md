@@ -50,8 +50,11 @@ branches.
 
 The fixed two-chart organization and the nonempty-open `Hartshorne.Variety`
 packaging are project-authored representation choices. The Frobenius and
-maximal-separable-subextension route for Theorem 3.9A is still awaiting either
-an exact proof source or an explicit decision to treat it as project-authored.
+maximal-separable-subextension route for Theorem 3.9A is an adopted
+project-authored proof decomposition. Its three support leaves retain
+`origin: bridged`: they are intermediate results, not direct Hartshorne
+targets. Their externally sourced ingredients and project-authored steps are
+distinguished in the individual provenance notes.
 
 ## Finiteness of normalization
 

@@ -21,11 +21,21 @@ span `A` over `A^q`. Package the result both for the range of the iterated
 Frobenius homomorphism and for the corresponding scalar-restriction module;
 the inseparable-normalization argument needs to move between those two forms.
 
+## Provenance
+
+Stacks Project, Tag 0CCD proves that relative Frobenius is finite for a
+locally finite-type morphism in positive characteristic. Over a perfect base
+field, the image of the corresponding affine ring map is the subring of
+`p`th powers; iteration gives the stated `q`th-power result. The iterated-range
+and scalar-restriction API packaging is project-authored. This remains a
+bridge article because it is an intermediate input to Hartshorne's theorem,
+not a direct source target.
+
 ## Depends on
 
 No project-local statement prerequisites.
 
 ## Sources
 
-- [Hartshorne I.3, algebraic input to Theorem 3.9A (p. 20)](../../sources/hartshorne.md#i3)
-- [Stacks Project, finite-type algebras over fields are Nagata (Tag 0335)](https://stacks.math.columbia.edu/tag/0335)
+- [Project-authored proof specification for Hartshorne I.3.9A](../../sources/hartshorne.md#project-authored-proof-specification-for-theorem-i39a)
+- [Stacks Project, relative Frobenius is finite (Tag 0CCD)](https://stacks.math.columbia.edu/tag/0CCD)

@@ -26,6 +26,14 @@ Keep the exponent and the finite spanning family explicit.  They are needed
 when the result is applied after taking the maximal separable subextension of
 an arbitrary finite extension.
 
+## Provenance
+
+Stacks Project, Tag 0335 implies the stated finiteness as part of the stronger
+Nagata theorem, but it does not supply the displayed Frobenius-spanning proof.
+That proof specification is project-authored. This remains a bridge article
+because it isolates the inseparable intermediate step rather than a direct
+Hartshorne target.
+
 ## Depends on
 
 No project-local statement prerequisites.
@@ -36,4 +44,6 @@ No project-local statement prerequisites.
 
 ## Sources
 
-- [Hartshorne I.3, Theorem 3.9A (p. 20)](../../sources/hartshorne.md#i3)
+- [Project-authored proof specification for Hartshorne I.3.9A](../../sources/hartshorne.md#project-authored-proof-specification-for-theorem-i39a)
+- [Stacks Project, finite-type algebras over fields are Nagata (Tag 0335)](https://stacks.math.columbia.edu/tag/0335)
+- [Stacks Project, Japanese and N-2 rings (Tag 032F)](https://stacks.math.columbia.edu/tag/032F)
