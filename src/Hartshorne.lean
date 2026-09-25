@@ -142,3 +142,4 @@ import Hartshorne.Curve.LocalDVR
 import Hartshorne.Curve.Valuation
 import Hartshorne.Curve.FunctionFieldDVR
 import Hartshorne.Curve.Cofinite
+import Hartshorne.Curve.SeparatingParameter
