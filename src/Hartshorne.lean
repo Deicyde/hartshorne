@@ -141,7 +141,10 @@ import Hartshorne.Curve.DVR
 import Hartshorne.Curve.LocalDVR
 import Hartshorne.Curve.Valuation
 import Hartshorne.Curve.FunctionFieldDVR
+import Hartshorne.Curve.DedekindSubringLocalization
 import Hartshorne.Curve.Cofinite
+import Hartshorne.Curve.ValuationSpaceTopology
 import Hartshorne.Curve.SeparatingParameter
 import Hartshorne.Curve.SeparableNormalizationCharts
 import Hartshorne.Curve.NonsingularAffineDedekind
+import Hartshorne.Curve.DedekindAffineModel
