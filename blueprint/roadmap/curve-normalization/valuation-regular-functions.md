@@ -7,8 +7,10 @@ source_units: [chapter-i-section-6-abstract-curves]
 
 # Regular functions on the valuation space
 
-Let `U` be an open subset of the valuation space `C_K`.  Define the algebra of
-rational functions regular on `U` by
+Let `k` be algebraically closed, let `K/k` be an essentially finite-type field
+extension with `Algebra.trdeg k K = 1`, and let `U` be an open subset of the
+valuation space `C_K`.  Define the algebra of rational functions regular on
+`U` by
 
 `𝒪_K(U) = ⋂_{R ∈ U} R ⊆ K`.
 
@@ -33,12 +35,13 @@ is restricted to nonempty opens.
 
 ## Depends on
 
-- [The cofinite valuation space](valuation-space-topology.md)
+- [The cofinite valuation space](valuation-space/valuation-space-topology.md)
 - [Residue fields of function-field DVRs](valuation-residue-field.md)
 
 ## Proof depends on
 
 - [A rational function has finitely many poles](finite-poles.md)
+- [The valuation space is infinite](valuation-space/valuation-space-infinitude.md)
 
 ## Sources
 

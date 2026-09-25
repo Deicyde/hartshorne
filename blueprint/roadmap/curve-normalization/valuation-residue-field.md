@@ -7,7 +7,9 @@ source_units: [chapter-i-section-6-abstract-curves]
 
 # Residue fields of function-field DVRs
 
-Let `R ∈ C_K`.  The algebra map from `k` to the residue field
+Let `k` be algebraically closed, let `K/k` be an essentially finite-type field
+extension with `Algebra.trdeg k K = 1`, and let `R ∈ C_K`.  The algebra map
+from `k` to the residue field
 `κ(R) = R / 𝔪_R` is an isomorphism.  Choose its canonical inverse and
 define the residue evaluation
 
@@ -32,8 +34,7 @@ evaluate rational functions on the valuation space.
 ## Proof depends on
 
 - [Every function-field DVR has a nonsingular affine model](dvr-affine-model.md)
-- [Points and maximal ideals](../morphisms/points-eq-maximal-ideals.md)
-- [The local ring is a localisation](../morphisms/local-ring-is-localization.md)
+- [The local ring is local](../morphisms/local-ring-is-local.md)
 
 ## Sources
 

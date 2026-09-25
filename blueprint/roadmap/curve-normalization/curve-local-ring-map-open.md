@@ -37,7 +37,7 @@ original point-to-local-ring map.
 
 ## Depends on
 
-- [The cofinite valuation space](valuation-space-topology.md)
+- [The cofinite valuation space](valuation-space/valuation-space-topology.md)
 - [Nonsingular curve points define discrete valuations](../nonsingular-curves/nonsingular-curve-valuation.md)
 
 ## Proof depends on

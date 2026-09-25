@@ -4,12 +4,14 @@ A Lean 4 formalization project for classical variety theory in Robin Hartshorne,
 *Algebraic Geometry*, scoped to Chapter I §§1–4, the geometric core of §5
 through Theorem 5.3, and §6 through Proposition 6.7.
 
-The dependency graph has 138 targets, of which 116 are fully formalized. The
+The dependency graph has 139 targets, of which 119 are fully formalized. The
 first 114 run from the definition of an algebraic set through the properness and
 closedness of the singular locus, and onward to the valuation-theoretic local
-structure of nonsingular curves through Lemma 6.4. Two further targets define
-the discrete valuation rings of a function field and prove that a
-quasi-projective curve has the cofinite topology.
+structure of nonsingular curves through Lemma 6.4. Five further targets define
+the discrete valuation rings of a function field, prove that a quasi-projective
+curve has the cofinite topology, construct a separating parameter and its two
+normalization charts, and prove that a nonsingular affine curve has a Dedekind
+coordinate ring.
 
 The completed core of Sections 1 through 3 accounts for 69 of those targets,
 ending at Corollary I.3.8, the arrow-reversing equivalence between affine
@@ -45,11 +47,13 @@ the DVR local rings of nonsingular curves and prove that inclusion of local
 rings inside the function field determines the point. All 12 are complete, so
 the completed portion has 110 project formalizations and four Mathlib results.
 
-The current milestone adds 24 leaves. It includes the exact nonseparable
+The current milestone adds 25 leaves. It includes the exact nonseparable
 Theorems 3.9A and 6.3A, proves finite poles and realizes every function-field
 DVR on a nonsingular affine curve, then constructs the valuation-space curve
-and reaches Proposition 6.7. Its function-field-DVR definition and
-cofinite-topology theorem are formalized; the other 22 leaves are not yet.
+and reaches Proposition 6.7. Five leaves are formalized: the function-field-DVR
+definition, the cofinite-topology theorem, the separating parameter, the two
+normalization charts, and the Dedekind coordinate-ring theorem for nonsingular
+affine curves. The other 20 leaves are not yet.
 
 The completion, Cohen-structure, and analytic-isomorphism material later in
 §I.5 is deferred. Proposition I.6.8 onward forms the later projective-model

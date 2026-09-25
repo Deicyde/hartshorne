@@ -261,8 +261,8 @@ statement.
 
 For a one-dimensional function field `K/k`, Hartshorne writes `C_K` for the
 set of discrete valuation rings of `K/k`. His proof of Lemma 6.5 normalizes
-`k[y]` for `y = x⁻¹` and invokes Theorems 3.9A and 6.3A. The Lean roadmap also
-formalizes those exact background results, but its geometric branch uses an
+`k[y]` for `y = x⁻¹` and invokes Theorems 3.9A and 6.3A. The Lean roadmap
+retains those exact background results as formalization targets, but its geometric branch uses an
 equivalent two-chart argument: choose one separating parameter `t`, normalize
 `k[t]` and `k[t⁻¹]` by the pinned separable integral-closure theorems, and use
 the fact that every valuation ring contains `t` or `t⁻¹`. This keeps Lemma 6.5
@@ -278,12 +278,15 @@ and Corollary 6.6 available independently of the harder nonseparable branch.
 
 ## I.6 abstract nonsingular curves
 
-Give `C_K` the cofinite topology. For an open `U`, Hartshorne defines
-`𝒪(U) = ⋂_{R ∈ U} R` inside `K`; the residue-field identification supplied by
-Corollary 6.6 reads each element as a `k`-valued function. Lemma 6.5 makes this
-evaluation injective and makes every element of `K` regular on some nonempty
-open subset. Hartshorne calls an open subset of `C_K` with this structure an
-abstract nonsingular curve; the roadmap's nonempty restriction is project-authored.
+Hartshorne first notes that `C_K` is infinite and then gives it the cofinite
+topology. For an open `U`, he defines `𝒪(U) = ⋂_{R ∈ U} R` inside `K`; the
+residue-field identification supplied by Corollary 6.6 reads each element as a
+`k`-valued function. Lemma 6.5 makes this evaluation injective on every
+nonempty open and makes every element of `K` regular on some nonempty open
+subset. Hartshorne calls an open subset of `C_K` with this structure an
+abstract nonsingular curve. The roadmap's restriction to nonempty abstract
+curves, and its convention that the empty open carries the full function
+algebra, are project-authored packaging choices.
 
 The text uses the infinitude consequence of Exercise 4.8(a) here. Following
 the project's exercise policy, the roadmap adopts only that consequence, not
@@ -292,7 +295,8 @@ the exercise's stronger cardinality equality or part (b).
 | Locator | Statement | Pages | Roadmap article |
 | --- | --- | --- | --- |
 | Ex. 4.8(a), used here | A positive-dimensional variety is infinite; a quasi-projective curve has the cofinite topology | 31, 42 | [Quasi-projective curves have the cofinite topology](../roadmap/curve-normalization/quasiprojective-curve-cofinite.md) |
-| Def.; discussion | The cofinite topology on `C_K`, the residue evaluation to `k`, regular functions on its opens, and abstract nonsingular curves; the roadmap packages nonempty opens | 42 | [Valuation-space topology](../roadmap/curve-normalization/valuation-space-topology.md), [residue fields](../roadmap/curve-normalization/valuation-residue-field.md), [regular functions](../roadmap/curve-normalization/valuation-regular-functions.md), [regularity axioms](../roadmap/curve-normalization/valuation-regular-functions-local.md), [abstract nonsingular curves](../roadmap/curve-normalization/abstract-nonsingular-curve.md), [their function fields](../roadmap/curve-normalization/valuation-space-function-field.md) |
+| Discussion; Def. | `C_K` is infinite and carries the cofinite topology | 42 | [Valuation-space topology](../roadmap/curve-normalization/valuation-space/valuation-space-topology.md), [valuation-space infinitude](../roadmap/curve-normalization/valuation-space/valuation-space-infinitude.md) |
+| Def.; discussion | The residue evaluation to `k`, regular functions on the opens of `C_K`, and abstract nonsingular curves; the roadmap packages nonempty opens and specifies the empty-open convention | 42 | [Residue fields](../roadmap/curve-normalization/valuation-residue-field.md), [regular functions](../roadmap/curve-normalization/valuation-regular-functions.md), [regularity axioms](../roadmap/curve-normalization/valuation-regular-functions-local.md), [abstract nonsingular curves](../roadmap/curve-normalization/abstract-nonsingular-curve.md), [their function fields](../roadmap/curve-normalization/valuation-space-function-field.md) |
 | Prop. 6.7, affine input | A nonsingular affine curve has a Dedekind coordinate ring | 42–43 | [Nonsingular affine curves have Dedekind coordinate rings](../roadmap/curve-normalization/nonsingular-affine-curve-dedekind.md) |
 | Prop. 6.7 | For a nonsingular quasi-projective curve `Y`, the map `P ↦ 𝒪_{P,Y}` identifies `Y` with an open abstract nonsingular subcurve of `C_{K(Y)}` | 42–43 | [The local-ring map has open image](../roadmap/curve-normalization/curve-local-ring-map-open.md), [nonsingular curves are open subcurves of their valuation spaces](../roadmap/curve-normalization/curve-to-valuation-space-iso.md) |
 

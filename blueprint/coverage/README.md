@@ -1,7 +1,7 @@
 ---
 schema: autoform-coverage/v2
 artifact: sources/hartshorne.md
-artifact_sha256: 9f77c2cbf0f9bdb0ef3975bde2003d8cc0c9cf1370c100390663e0974974c793
+artifact_sha256: 9ca71ab4e8413eb3ed6cbfdc1ae73ad28c7e2c636fb532b65eefa9263d90161a
 ---
 
 # Coverage contract
@@ -28,12 +28,12 @@ has roadmap leaves; it does not mean that those leaves are proved.
 | chapter-i-section-6-valuations | Valuation rings, DVRs, and Dedekind localizations | 212-229 | Chapter I §6 through Theorem 6.2A and the following Dedekind observation, book pp. 39–40 | f31487b6d972e64e19d2522573f81dd8a88195b3bc9c3dcdec4720b2862fb11a | DECOMPOSED | [Curves](../roadmap/nonsingular-curves/curve.md), [Valuation rings are maximal local subrings](../roadmap/nonsingular-curves/valuation-ring-maximal-local-subring.md), [Every local subring is dominated by a valuation ring](../roadmap/nonsingular-curves/valuation-ring-dominates-local-subring.md), [Characterizations of discrete valuation rings](../roadmap/nonsingular-curves/dvr-characterizations.md), [Localizations of a Dedekind domain are DVRs](../roadmap/nonsingular-curves/dedekind-localization-dvr.md) |
 | theorem-i-6-3a | Integral closure of a Dedekind domain | 230-243 | Chapter I, Theorem 6.3A, book p. 40 | fa581188e6390a5d362e1c451a3657a5255e024154059ccba8cf16b1e3c3653f | DECOMPOSED | [Finite-length quotients in Krull–Akizuki](../roadmap/curve-normalization/krull-akizuki-quotient-finite.md), [The Krull–Akizuki theorem](../roadmap/curve-normalization/krull-akizuki.md), [Integral closures of Dedekind domains](../roadmap/curve-normalization/dedekind-integral-closure.md) |
 | chapter-i-section-6-local-structure | Local structure of nonsingular curves and point separation | 244-259 | Chapter I §6 after Theorem 6.3A through Lemma 6.4, book p. 41 | 449002e69a8a7a1a3cba7af6c3431990167071a14df73facf7f8b0a3fedfc2e3 | DECOMPOSED | [Curves](../roadmap/nonsingular-curves/curve.md), [The function field is the fraction field of every local ring](../roadmap/nonsingular-curves/local-ring-fraction-field.md), [Dimension of the local ring of a variety](../roadmap/nonsingular-curves/local-ring-dimension.md), [Local rings of nonsingular curves are DVRs](../roadmap/nonsingular-curves/nonsingular-curve-local-ring-dvr.md), [Nonsingular curve points define discrete valuations](../roadmap/nonsingular-curves/nonsingular-curve-valuation.md), [Linear fractions separate projective points](../roadmap/nonsingular-curves/projective-linear-separation.md), [Membership of a homogeneous fraction in a local ring](../roadmap/nonsingular-curves/homogeneous-fraction-local-membership.md), [The local ring determines the point](../roadmap/nonsingular-curves/local-ring-inclusion-determines-point.md) |
-| chapter-i-section-6-normalization | Normalization, finite poles, and affine DVR models | 260-278 | Chapter I §6, Lemma 6.5 and Corollary 6.6, book pp. 41–42 | f94cd26e35727f007635973ccffa2abc7ea29f0330ad9bffec677acb3eca7722 | DECOMPOSED | [Discrete valuation rings of a function field](../roadmap/curve-normalization/function-field-dvrs.md), [One-dimensional function fields have separating parameters](../roadmap/curve-normalization/separating-parameter.md), [The two separable normalization charts](../roadmap/curve-normalization/separable-normalization-charts.md), [A DVR containing a Dedekind subring is its localization](../roadmap/curve-normalization/dedekind-subring-localization.md), [Dedekind localizations occur on nonsingular affine curves](../roadmap/curve-normalization/dedekind-affine-model.md), [A rational function has finitely many poles](../roadmap/curve-normalization/finite-poles.md), [Every function-field DVR has a nonsingular affine model](../roadmap/curve-normalization/dvr-affine-model.md) |
-| chapter-i-section-6-abstract-curves | Valuation-space and abstract nonsingular curves | 279-298 | Chapter I §6, definitions and Proposition 6.7, book pp. 42–43 | 9a923fc57f73ec3bb873bb4c58de6388833e73be6ecfb79dbb4a0b0e43daff30 | DECOMPOSED | [Quasi-projective curves have the cofinite topology](../roadmap/curve-normalization/quasiprojective-curve-cofinite.md), [The cofinite valuation space](../roadmap/curve-normalization/valuation-space-topology.md), [Residue fields of function-field DVRs](../roadmap/curve-normalization/valuation-residue-field.md), [Regular functions on the valuation space](../roadmap/curve-normalization/valuation-regular-functions.md), [The valuation-space regularity axioms](../roadmap/curve-normalization/valuation-regular-functions-local.md), [Abstract nonsingular curves](../roadmap/curve-normalization/abstract-nonsingular-curve.md), [The function field of an abstract nonsingular curve](../roadmap/curve-normalization/valuation-space-function-field.md), [Nonsingular affine curves have Dedekind coordinate rings](../roadmap/curve-normalization/nonsingular-affine-curve-dedekind.md), [The local-ring map has open image](../roadmap/curve-normalization/curve-local-ring-map-open.md), [Nonsingular curves are open subcurves of their valuation spaces](../roadmap/curve-normalization/curve-to-valuation-space-iso.md) |
-| chapter-i-section-6-projective-model | Extension across points and projective models | 299-309 | Chapter I §6, Proposition 6.8 through Corollary 6.12, book pp. 43–45 | b03a93d0af541842ca54ec7dc6a0efd4cf884c9bc77f21c73a4d6f0ac5660460 | DEFERRED | Deferred to the next projective-model milestone after Proposition 6.7 |
-| chapter-i-section-6-exercises | Exercises on curves and valuations | 310-315 | Chapter I, Exercises 6.1–6.7, book pp. 46–47 | 55ac9385112eab5cf48c10642fa9971ea07ee496361743ef3e8e5921304540bc | OUT | No §6 exercise is used by the approved scope through Proposition 6.7 |
-| remaining-sections | Undecomposed remainder of the book | 316-329 | Chapter I §§7–8 and Chapters II–V, book pp. 47–420 | 00ceefe5dcbf4668bdc2abd0f2bfd445cf0e428435bffb0bfbd49e4bf6cd5ef6 | OUT | Explicitly outside the current scope; the inventory only locates these sections |
-| standing-conventions | Algebraically closed base field and irreducible varieties | 330-337 | Standing conventions for Chapter I | 32c55ea4bf211d1ee39edc51f124ebc7e3841b0728a82001ac113c4cff8be7df | DECOMPOSED | [Affine and quasi-affine varieties](../roadmap/affine-varieties/affine-variety.md), [Projective and quasi-projective varieties](../roadmap/projective-varieties/projective-variety.md), [Varieties](../roadmap/morphisms/variety.md) |
+| chapter-i-section-6-normalization | Normalization, finite poles, and affine DVR models | 260-278 | Chapter I §6, Lemma 6.5 and Corollary 6.6, book pp. 41–42 | fa8a7c43b84a8bc9188df4ff8485d455c3047445f73e7e3c9ee4dfecee6645b2 | DECOMPOSED | [Discrete valuation rings of a function field](../roadmap/curve-normalization/function-field-dvrs.md), [One-dimensional function fields have separating parameters](../roadmap/curve-normalization/separating-parameter.md), [The two separable normalization charts](../roadmap/curve-normalization/separable-normalization-charts.md), [A DVR containing a Dedekind subring is its localization](../roadmap/curve-normalization/dedekind-subring-localization.md), [Dedekind localizations occur on nonsingular affine curves](../roadmap/curve-normalization/dedekind-affine-model.md), [A rational function has finitely many poles](../roadmap/curve-normalization/finite-poles.md), [Every function-field DVR has a nonsingular affine model](../roadmap/curve-normalization/dvr-affine-model.md) |
+| chapter-i-section-6-abstract-curves | Valuation-space and abstract nonsingular curves | 279-302 | Chapter I §6, definitions and Proposition 6.7, book pp. 42–43 | 364f65bc543535d335016e2307173f2b5ad811d68b01251e81d6d3318182621c | DECOMPOSED | [Quasi-projective curves have the cofinite topology](../roadmap/curve-normalization/quasiprojective-curve-cofinite.md), [The cofinite valuation space](../roadmap/curve-normalization/valuation-space/valuation-space-topology.md), [The valuation space is infinite](../roadmap/curve-normalization/valuation-space/valuation-space-infinitude.md), [Residue fields of function-field DVRs](../roadmap/curve-normalization/valuation-residue-field.md), [Regular functions on the valuation space](../roadmap/curve-normalization/valuation-regular-functions.md), [The valuation-space regularity axioms](../roadmap/curve-normalization/valuation-regular-functions-local.md), [Abstract nonsingular curves](../roadmap/curve-normalization/abstract-nonsingular-curve.md), [The function field of an abstract nonsingular curve](../roadmap/curve-normalization/valuation-space-function-field.md), [Nonsingular affine curves have Dedekind coordinate rings](../roadmap/curve-normalization/nonsingular-affine-curve-dedekind.md), [The local-ring map has open image](../roadmap/curve-normalization/curve-local-ring-map-open.md), [Nonsingular curves are open subcurves of their valuation spaces](../roadmap/curve-normalization/curve-to-valuation-space-iso.md) |
+| chapter-i-section-6-projective-model | Extension across points and projective models | 303-313 | Chapter I §6, Proposition 6.8 through Corollary 6.12, book pp. 43–45 | b03a93d0af541842ca54ec7dc6a0efd4cf884c9bc77f21c73a4d6f0ac5660460 | DEFERRED | Deferred to the next projective-model milestone after Proposition 6.7 |
+| chapter-i-section-6-exercises | Exercises on curves and valuations | 314-319 | Chapter I, Exercises 6.1–6.7, book pp. 46–47 | 55ac9385112eab5cf48c10642fa9971ea07ee496361743ef3e8e5921304540bc | OUT | No §6 exercise is used by the approved scope through Proposition 6.7 |
+| remaining-sections | Undecomposed remainder of the book | 320-333 | Chapter I §§7–8 and Chapters II–V, book pp. 47–420 | 00ceefe5dcbf4668bdc2abd0f2bfd445cf0e428435bffb0bfbd49e4bf6cd5ef6 | OUT | Explicitly outside the current scope; the inventory only locates these sections |
+| standing-conventions | Algebraically closed base field and irreducible varieties | 334-341 | Standing conventions for Chapter I | 32c55ea4bf211d1ee39edc51f124ebc7e3841b0728a82001ac113c4cff8be7df | DECOMPOSED | [Affine and quasi-affine varieties](../roadmap/affine-varieties/affine-variety.md), [Projective and quasi-projective varieties](../roadmap/projective-varieties/projective-variety.md), [Varieties](../roadmap/morphisms/variety.md) |
 
 ## In scope
 
@@ -51,7 +51,7 @@ Proposition 6.7 (book pages 39–43), including the quoted Theorems 3.9A and
 | I.4, Ex. 4.8(a) consequence | Infinitude used in §6 | 31 | [1 article](../roadmap/curve-normalization/quasiprojective-curve-cofinite.md) | done |
 | I.5 through Thm. 5.3 | Nonsingular Varieties | 31–33 | [16 articles](../roadmap/nonsingular-varieties/README.md) | done |
 | I.6 through Lem. 6.4, excluding Thm. 6.3A | Local Structure of Nonsingular Curves | 39–41 | [12 articles](../roadmap/nonsingular-curves/README.md) | done |
-| I.3.9A and I.6.3A–6.7 | Normalization and the Valuation-Space Curve | 20, 40–43 | [24 articles](../roadmap/curve-normalization/README.md) | 2 formalized, 22 not yet formalized |
+| I.3.9A and I.6.3A–6.7 | Normalization and the Valuation-Space Curve | 20, 40–43 | [25 articles](../roadmap/curve-normalization/README.md) | 5 formalized, 20 not yet formalized |
 
 All 86 main-text and previously adopted articles in §§1–4 are done: 85 are
 proved here and one was already in Mathlib. The §4 results include the
@@ -67,11 +67,13 @@ Theorem 6.1A exactly, and the other ten are proved in this project. That
 114-leaf roadmap is complete: 110 project formalizations and four Mathlib
 results.
 
-The normalization and valuation-space milestone adds 24 leaves: seven
+The normalization and valuation-space milestone adds 25 leaves: seven
 for the exact nonseparable background theorems, seven for finite poles and
-affine DVR models, and ten for abstract nonsingular curves through Proposition
-6.7. Its function-field-DVR definition and cofinite-topology theorem are
-formalized, so the enlarged roadmap has 138 leaves, of which 116 are complete.
+affine DVR models, and eleven for abstract nonsingular curves through
+Proposition 6.7. Five are formalized: the function-field-DVR definition, the
+cofinite-topology theorem, the separating parameter, the two normalization
+charts, and the Dedekind coordinate-ring theorem for nonsingular affine curves.
+The enlarged roadmap has 139 leaves, of which 119 are complete.
 The geometric branch uses two separable normalization charts, so it can advance
 independently of the harder exact Theorems 3.9A and 6.3A.
 
@@ -226,8 +228,10 @@ A section counts as finished when every article listed for it satisfies all of:
 A scoped section or partial section counts as finished when all its articles
 do. **The original scope through §§1–4, the approved part of §5, and the opening
 of §6 through Lemma 6.4 is finished. In the new scope through Proposition 6.7,
-the function-field-DVR definition and cofinite-topology theorem are formalized,
-and the other 22 leaves are not yet finished.** The completed articles
+five leaves are formalized: the function-field-DVR definition, the
+cofinite-topology theorem, the separating parameter, the two normalization
+charts, and the Dedekind coordinate-ring theorem for nonsingular affine curves.
+The other 20 leaves are not yet finished.** The completed articles
 compile, no proof contains `sorry` or
 `native_decide`, every `#print axioms` is clean, and every statement has been
 read against its cited passage.
@@ -238,10 +242,10 @@ the section containing it is complete.
 
 ## What is not claimed
 
-No result after Proposition 6.7 is planned. Apart from the function-field-DVR
-definition and cofinite-topology theorem, the remaining 22 leaves from Theorem
-3.9A through Proposition 6.7 are roadmap commitments, not completed
-formalizations. The completion material later in §5, Proposition 6.8 onward,
+No result after Proposition 6.7 is planned. Apart from the five completed
+milestone leaves named above, the remaining 20 leaves from Theorem 3.9A through
+Proposition 6.7 are roadmap commitments, not completed formalizations. The
+completion material later in §5, Proposition 6.8 onward,
 the unadopted exercises, §7 onward, and Chapters II–V remain out or deferred.
 Nothing in this repository should be read as formalizing "Hartshorne" or
 "algebraic geometry" without the precise scope qualifier. Full progress means

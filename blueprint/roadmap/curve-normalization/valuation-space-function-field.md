@@ -7,9 +7,10 @@ source_units: [chapter-i-section-6-abstract-curves]
 
 # The function field of an abstract nonsingular curve
 
-Let `U` be a nonempty open subset of `C_K`.  The function field of the
-associated abstract nonsingular curve is canonically isomorphic to `K` as a
-`k`-algebra.
+Let `k` be algebraically closed, let `K/k` be an essentially finite-type field
+extension with `Algebra.trdeg k K = 1`, and let `U` be a nonempty open subset
+of `C_K`.  The function field of the associated abstract nonsingular curve is
+canonically isomorphic to `K` as a `k`-algebra.
 
 Every `f : K` lies in all but finitely many valuation rings by Lemma 6.5, so it
 is regular on a nonempty open subset of `U` and defines a rational function.
@@ -26,6 +27,7 @@ equivalence relation and are inverse algebra maps.
 
 - [A rational function has finitely many poles](finite-poles.md)
 - [Regular functions on the valuation space](valuation-regular-functions.md)
+- [The valuation space is infinite](valuation-space/valuation-space-infinitude.md)
 
 ## Sources
 

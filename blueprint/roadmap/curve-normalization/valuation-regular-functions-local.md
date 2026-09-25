@@ -7,8 +7,10 @@ source_units: [chapter-i-section-6-abstract-curves]
 
 # The valuation-space regularity axioms
 
-The regular-function algebras on open subsets of `C_K` satisfy the four axioms
-required by `Hartshorne.Variety`:
+Let `k` be algebraically closed and let `K/k` be an essentially finite-type
+field extension with `Algebra.trdeg k K = 1`.  The regular-function algebras on
+open subsets of `C_K` satisfy the four axioms required by
+`Hartshorne.Variety`:
 
 1. regular functions restrict to smaller opens;
 2. the zero locus of a regular function is closed;
@@ -37,6 +39,7 @@ definition of an abstract curve contains no new mathematical proof.
 ## Proof depends on
 
 - [A rational function has finitely many poles](finite-poles.md)
+- [The valuation space is infinite](valuation-space/valuation-space-infinitude.md)
 
 ## Sources
 

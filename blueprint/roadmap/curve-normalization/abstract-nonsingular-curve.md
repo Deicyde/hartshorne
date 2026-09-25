@@ -7,9 +7,10 @@ source_units: [chapter-i-section-6-abstract-curves]
 
 # Abstract nonsingular curves
 
-Let `K/k` be a one-dimensional function field.  An abstract nonsingular curve
-is a nonempty open subset `U` of the cofinite valuation space `C_K`, equipped
-with the induced topology and with regular functions
+Let `k` be algebraically closed and let `K/k` be an essentially finite-type
+field extension with `Algebra.trdeg k K = 1`.  An abstract nonsingular curve is
+a nonempty open subset `U` of the cofinite valuation space `C_K`, equipped with
+the induced topology and with regular functions
 
 `𝒪(U') = ⋂_{R ∈ U'} R`
 
@@ -32,12 +33,13 @@ quasi-projective curves.
 
 ## Depends on
 
-- [The cofinite valuation space](valuation-space-topology.md)
+- [The cofinite valuation space](valuation-space/valuation-space-topology.md)
 - [Regular functions on the valuation space](valuation-regular-functions.md)
 
 ## Proof depends on
 
 - [The valuation-space regularity axioms](valuation-regular-functions-local.md)
+- [The valuation space is infinite](valuation-space/valuation-space-infinitude.md)
 
 ## Sources
 

@@ -15,10 +15,11 @@ valuation rings of `K` containing `k`.  Lemma 6.5 says that every element of
 `K` has only finitely many poles on `C_K`.  Corollary 6.6 realizes each point
 of `C_K` as the local ring of a point on a nonsingular affine curve.
 
-The foundational `FunctionFieldDVR` definition, its compatibility with the
-base-field embedding, and its pole and vanishing predicates are formalized, as
-is the theorem that quasi-projective curves carry the cofinite topology. The
-other 22 leaves in this milestone are not yet formalized.
+Five leaves in this milestone are formalized: the foundational
+`FunctionFieldDVR` definition, the theorem that quasi-projective curves carry
+the cofinite topology, the separating-parameter theorem, the two separable
+normalization charts, and the Dedekind coordinate-ring theorem for nonsingular
+affine curves. The other 20 leaves are not yet formalized.
 
 The second phase equips `C_K` with its cofinite topology and defines regular
 functions on an open set `U` by the intersection of its valuation rings.
@@ -82,7 +83,7 @@ distinguished in the individual provenance notes.
 ## The valuation-space curve
 
 - [Quasi-projective curves have the cofinite topology](quasiprojective-curve-cofinite.md)
-- [The cofinite valuation space](valuation-space-topology.md)
+- [Valuation-space topology](valuation-space/README.md)
 - [Residue fields of function-field DVRs](valuation-residue-field.md)
 - [Regular functions on the valuation space](valuation-regular-functions.md)
 - [The valuation-space regularity axioms](valuation-regular-functions-local.md)
