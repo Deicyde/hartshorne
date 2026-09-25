@@ -3,6 +3,9 @@ article_id: af_9ccfa4b4af1188a70942772f
 declaration: def
 origin: bridged
 source_units: [chapter-i-section-6-normalization]
+statement: formalized
+proof: formalized
+lean: Hartshorne.separableNormalizationCharts
 ---
 
 # The two separable normalization charts
