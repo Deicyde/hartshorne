@@ -12,14 +12,18 @@ Let `A` be a one-dimensional Noetherian domain with fraction field `K`, let
 `A ⊆ B ⊆ L`.  Then `B` is Noetherian and has Krull dimension at most
 one.
 
-For a nonzero ideal `I` of `B`, finite `A`-length of `B/I` controls the ideals
-above `I`; the usual Krull--Akizuki argument then gives a finite generating set
-for every ideal of `B`. The zero ideal is already finitely generated. Prime
-chains have length at most one because a nonzero prime contracts, after
-clearing denominators, to the one-dimensional base.
+For a nonzero ideal `I` of `B`, choose `0 ≠ x ∈ I`. Finite `A`-length of
+`B/xB` makes its submodule `I/xB` finite over `A`. Lift a finite set of
+`A`-module generators and adjoin `x`; these elements generate `I` as a
+`B`-ideal. The zero ideal is already finitely generated, so `B` is Noetherian.
+For a nonzero prime `𝔭` of `B`, finite length makes `B/𝔭` Artinian; because it
+is also a domain, it is a field. Thus every nonzero prime is maximal and prime
+chains have length at most one.
 
-Record the Noetherian and dimension conclusions separately as well as in one
-packaged theorem; the integral-closure wrapper consumes both.
+Record the Noetherian conclusion together with both pinned-compatible dimension
+interfaces, `Ring.KrullDimLE 1 B` and `Ring.DimensionLEOne B`, as well as in one
+packaged theorem. The integral-closure wrapper consumes the legacy
+`Ring.DimensionLEOne` class used by the pinned `IsDedekindDomain` API.
 
 Open Mathlib PR
 [#41755](https://github.com/leanprover-community/mathlib4/pull/41755)
@@ -38,5 +42,5 @@ No project-local statement prerequisites.
 
 ## Sources
 
-- [Hartshorne I.6, Theorem 6.3A and its cited algebraic input (p. 40)](../../sources/hartshorne.md#i6-integral-closure-theorem)
+- [Hartshorne I.6, Theorem 6.3A and its cited algebraic input (p. 40)](../../../sources/hartshorne.md#i6-integral-closure-theorem)
 - [Stacks Project, Krull–Akizuki (Tag 00PG)](https://stacks.math.columbia.edu/tag/00PG)

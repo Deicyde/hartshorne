@@ -13,12 +13,14 @@ extension.  If `A'` is the integral closure of `A` in `L`, then `A'` is a
 finite `A`-module and therefore a finitely generated `k`-algebra.
 
 This is Theorem 3.9A under the standing hypothesis on `k`, with no
-separability assumption on `L/K`.  Choose a Noether normalization
-`P = k[X_1,\ldots,X_n] → A`.  The extension `A/P` is integral, while `L`
-is finite over the fraction field of `P`.  The integral elements of `L` over
-`A` and over `P` coincide.  Finiteness of the normalization over `P` therefore
-gives a finite `P`-spanning family, and the same family spans over the larger
-ring `A`.
+separability assumption on `L/K`. Choose a finite injective Noether
+normalization `P = k[X_1,\ldots,X_n] → A` using
+`exists_finite_inj_algHom_of_fg`. Localizing this finite map makes
+`Frac(A)/Frac(P)` finite-dimensional; combining it with the given finite
+extension `L/Frac(A)` makes `L/Frac(P)` finite-dimensional by the tower law.
+The integral elements of `L` over `A` and over `P` coincide. Finiteness of the
+normalization over `P` therefore gives a finite `P`-spanning family, and the
+same family spans over the larger ring `A`.
 
 The finite-type conclusion over `k` should be exposed as a companion theorem
 or instance. Hartshorne uses it in the proof of Corollary 6.6 to realize `A'`
@@ -36,3 +38,4 @@ No project-local statement prerequisites.
 ## Sources
 
 - [Hartshorne I.3, Theorem 3.9A (p. 20)](../../sources/hartshorne.md#i3)
+- [Project-authored proof specification for Theorem I.3.9A](../../sources/hartshorne.md#project-authored-proof-specification-for-theorem-i39a)

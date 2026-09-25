@@ -107,7 +107,7 @@ Morphisms, book pp. 14–23.
 
 Hartshorne cites Zariski–Samuel, vol. I, Chapter V, Theorem 9 but gives no proof. [Stacks Project, Tag 0335](https://stacks.math.columbia.edu/tag/0335) implies the conclusion via the Nagata property, not the following adopted decomposition.
 For perfect `k` and `q = p^e`, identify `A^q` with the iterated-Frobenius range and prove `A` finite over it. For normal finite-type `A` and finite purely inseparable `L/Frac(A)`, use `B^q ⊆ A` and Frobenius injectivity to span the integral closure `B` finitely over `A`.
-For `P = k[X₁,…,Xₙ]`, pass through the maximal separable subextension `M`, apply the pinned separable integral-closure theorem, and identify the iterated integral closure with the direct one.
+For `P = k[X₁,…,Xₙ]`, pass through the maximal separable subextension `M`, apply the pinned separable integral-closure theorem, and identify the iterated integral closure with the direct one. For a general finite-type domain `A`, choose a finite injective Noether normalization `P → A`. Localization makes `Frac(A)` finite over `Frac(P)`, so tower finiteness makes the given `L/Frac(P)` finite. Apply the polynomial-normalization result over `P`, identify integrality over `P` with integrality over `A`, and reuse the resulting finite spanning family as an `A`-spanning family.
 The choice and assembly of these sourced inputs, the spanning argument, and the Lean API packaging are project-authored.
 
 ## I.4
@@ -231,7 +231,7 @@ Hartshorne's proof of Lemma 6.5.
 
 | Locator | Statement | Page | Roadmap article |
 | --- | --- | --- | --- |
-| Thm. 6.3A | The integral closure of a Dedekind domain in a finite extension of its fraction field is again a Dedekind domain, with no separability hypothesis | 40 | [Finite-length quotients](../roadmap/curve-normalization/krull-akizuki-quotient-finite.md), [Krull–Akizuki](../roadmap/curve-normalization/krull-akizuki.md), and [integral closures of Dedekind domains](../roadmap/curve-normalization/dedekind-integral-closure.md) |
+| Thm. 6.3A | The integral closure of a Dedekind domain in a finite extension of its fraction field is again a Dedekind domain, with no separability hypothesis | 40 | [Principal quotient length](../roadmap/curve-normalization/krull-akizuki/krull-akizuki-principal-quotient-length.md), [finite-length ideal quotients](../roadmap/curve-normalization/krull-akizuki/krull-akizuki-quotient-finite.md), [Krull–Akizuki](../roadmap/curve-normalization/krull-akizuki/krull-akizuki.md), and [integral closures of Dedekind domains](../roadmap/curve-normalization/krull-akizuki/dedekind-integral-closure.md) |
 
 The source cites Zariski–Samuel, vol. I, Chapter V, Theorem 19. The
 [Krull–Akizuki theorem in Stacks Project, Tag 00PG](https://stacks.math.columbia.edu/tag/00PG)

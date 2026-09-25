@@ -27,8 +27,8 @@ No project-local statement prerequisites.
 ## Proof depends on
 
 - [The Krull--Akizuki theorem](krull-akizuki.md)
-- [Krull dimension is invariant under integral extensions](../affine-varieties/dimension-integral-extension.md)
+- [Krull dimension is invariant under integral extensions](../../affine-varieties/dimension-integral-extension.md)
 
 ## Sources
 
-- [Hartshorne I.6, Theorem 6.3A (p. 40)](../../sources/hartshorne.md#i6-integral-closure-theorem)
+- [Hartshorne I.6, Theorem 6.3A (p. 40)](../../../sources/hartshorne.md#i6-integral-closure-theorem)

@@ -7,22 +7,36 @@ source_units: [chapter-i-section-6-normalization]
 
 # Dedekind localizations occur on nonsingular affine curves
 
-Let `B` be a finitely generated `k`-algebra domain which is Dedekind of exact
-Krull dimension one, let `K` be a chosen fraction field of `B`, and let `℘` be
-a maximal ideal of `B`.  There are an affine variety `Y`, a point `P ∈ Y`, and
-compatible `k`-algebra equivalences
+Let `k` be algebraically closed. Let `B` be a finitely generated `k`-algebra
+domain which is Dedekind of exact Krull dimension one, and let `K` be a chosen
+fraction field with compatible instances
+`[Algebra B K] [IsFractionRing B K] [Algebra k K]
+[IsScalarTower k B K]`. For a maximal ideal `℘` of `B`, there are an affine
+variety `Y` with witness `hY`, a point `P ∈ Y`, and compatible `k`-algebra
+equivalences
 
-`e_B : A(Y) ≃ₐ[k] B`, `e_K : K(Y) ≃ₐ[k] K`, and
-`e_P : 𝒪_{P,Y} ≃ₐ[k] B_℘`
+`e_B : A(Y) ≃ₐ[k] B`,
+`e_K : Hartshorne.FunctionField hY.isIrreducible ≃ₐ[k] K`, and
+`e_P : Hartshorne.LocalRingAt hY.isIrreducible P ≃ₐ[k] B_℘`
 
 such that `Y` is a nonsingular curve and
 
 `Ideal.map e_B.toRingEquiv (𝔪_P) = ℘`.
 
-Compatibility means that the canonical embedding `𝒪_{P,Y} → K(Y)`, followed
-by `e_K`, equals `e_P` followed by the canonical embedding `B_℘ → K`.  State
-this commuting square explicitly rather than retaining only abstract ring
-equivalences.
+Write `ι_℘ : B_℘ →ₐ[k] K` for the canonical localization map. Compatibility
+means that both equations
+
+`e_K (coordToRational hY.isIrreducible a) = algebraMap B K (e_B a)`
+
+and
+
+`e_K (localToFunctionField hY.isIrreducible P z) = ι_℘ (e_P z)`
+
+hold for every `a : A(Y)` and
+`z : Hartshorne.LocalRingAt hY.isIrreducible P`. State these commuting
+squares explicitly rather than retaining three unrelated abstract
+equivalences. Use this affine presentation consistently; do not mix it with
+the separate bundled `Variety.FunctionField` API.
 
 Realize `B` as a coordinate ring using Remark 1.4.6 and transport `℘` to a
 point by Theorem 3.2(b).  Dimension of the coordinate ring makes `Y` a curve.
