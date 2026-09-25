@@ -3,6 +3,9 @@ article_id: af_4ca05bb2cb060de6a13e3554
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-abstract-curves]
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsAffineVariety.ringKrullDim_coordinateRing_eq_one Hartshorne.IsAffineVariety.isDedekindDomain_coordinateRing_of_nonsingular
 ---
 
 # Nonsingular affine curves have Dedekind coordinate rings
