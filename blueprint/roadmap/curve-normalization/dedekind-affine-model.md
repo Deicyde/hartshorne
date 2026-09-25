@@ -3,6 +3,9 @@ article_id: af_64778191cf786477556c0eb8
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-normalization]
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_dedekind_affine_model
 ---
 
 # Dedekind localizations occur on nonsingular affine curves
