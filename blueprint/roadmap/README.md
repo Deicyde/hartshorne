@@ -45,7 +45,8 @@ nonseparable integral-closure Theorems 3.9A and 6.3A. The other uses two
 separable normalization charts to prove finite poles, construct affine models
 of function-field DVRs, and build the abstract valuation-space curve through
 Proposition 6.7. Its foundational function-field-DVR definition is formalized,
-so the expanded roadmap has 138 leaves, with 115 complete and 23 unfinished.
+as is the cofinite-topology theorem for quasi-projective curves. The expanded
+roadmap therefore has 138 leaves, with 116 complete and 22 unfinished.
 
 Read the [coverage contract](../coverage/README.md) before reading progress off
 this book: §§1–4, the geometric core of §5 through Theorem 5.3, and §6 through

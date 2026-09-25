@@ -48,10 +48,10 @@ Proposition 6.7 (book pages 39–43), including the quoted Theorems 3.9A and
 | I.2 | Projective Varieties | 8–14 | [13 articles](../roadmap/projective-varieties/README.md) | done |
 | I.3 | Morphisms | 14–23 | [33 articles](../roadmap/morphisms/README.md) | done |
 | I.4 | Rational Maps | 24–29 | [17 articles](../roadmap/rational-maps/README.md) | done |
-| I.4, Ex. 4.8(a) consequence | Infinitude used in §6 | 31 | [1 article](../roadmap/curve-normalization/quasiprojective-curve-cofinite.md) | planned |
+| I.4, Ex. 4.8(a) consequence | Infinitude used in §6 | 31 | [1 article](../roadmap/curve-normalization/quasiprojective-curve-cofinite.md) | done |
 | I.5 through Thm. 5.3 | Nonsingular Varieties | 31–33 | [16 articles](../roadmap/nonsingular-varieties/README.md) | done |
 | I.6 through Lem. 6.4, excluding Thm. 6.3A | Local Structure of Nonsingular Curves | 39–41 | [12 articles](../roadmap/nonsingular-curves/README.md) | done |
-| I.3.9A and I.6.3A–6.7 | Normalization and the Valuation-Space Curve | 20, 40–43 | [24 articles](../roadmap/curve-normalization/README.md) | 1 formalized, 23 not yet formalized |
+| I.3.9A and I.6.3A–6.7 | Normalization and the Valuation-Space Curve | 20, 40–43 | [24 articles](../roadmap/curve-normalization/README.md) | 2 formalized, 22 not yet formalized |
 
 All 86 main-text and previously adopted articles in §§1–4 are done: 85 are
 proved here and one was already in Mathlib. The §4 results include the
@@ -70,10 +70,10 @@ results.
 The normalization and valuation-space milestone adds 24 leaves: seven
 for the exact nonseparable background theorems, seven for finite poles and
 affine DVR models, and ten for abstract nonsingular curves through Proposition
-6.7. Its foundational function-field-DVR definition is formalized, so the
-enlarged roadmap has 138 leaves, of which 115 are complete. The geometric
-branch uses two separable normalization charts, so it can advance independently
-of the harder exact Theorems 3.9A and 6.3A.
+6.7. Its function-field-DVR definition and cofinite-topology theorem are
+formalized, so the enlarged roadmap has 138 leaves, of which 116 are complete.
+The geometric branch uses two separable normalization charts, so it can advance
+independently of the harder exact Theorems 3.9A and 6.3A.
 
 The counts grow as the work goes on, almost always by splitting a node that
 turned out to hold more than one pull request's worth of Lean; where the scope
@@ -226,8 +226,8 @@ A section counts as finished when every article listed for it satisfies all of:
 A scoped section or partial section counts as finished when all its articles
 do. **The original scope through §§1–4, the approved part of §5, and the opening
 of §6 through Lemma 6.4 is finished. In the new scope through Proposition 6.7,
-the function-field-DVR definition is formalized and the other 23 leaves are not
-yet finished.** The completed articles
+the function-field-DVR definition and cofinite-topology theorem are formalized,
+and the other 22 leaves are not yet finished.** The completed articles
 compile, no proof contains `sorry` or
 `native_decide`, every `#print axioms` is clean, and every statement has been
 read against its cited passage.
@@ -239,10 +239,10 @@ the section containing it is complete.
 ## What is not claimed
 
 No result after Proposition 6.7 is planned. Apart from the function-field-DVR
-definition, the remaining 23 leaves from Theorem 3.9A through Proposition 6.7
-are roadmap commitments, not completed formalizations. The completion material
-later in §5, Proposition 6.8 onward, the unadopted exercises, §7 onward, and
-Chapters II–V remain out or deferred.
+definition and cofinite-topology theorem, the remaining 22 leaves from Theorem
+3.9A through Proposition 6.7 are roadmap commitments, not completed
+formalizations. The completion material later in §5, Proposition 6.8 onward,
+the unadopted exercises, §7 onward, and Chapters II–V remain out or deferred.
 Nothing in this repository should be read as formalizing "Hartshorne" or
 "algebraic geometry" without the precise scope qualifier. Full progress means
 only completion of the declared scope through Proposition 6.7.

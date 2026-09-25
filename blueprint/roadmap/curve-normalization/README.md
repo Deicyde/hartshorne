@@ -16,8 +16,9 @@ valuation rings of `K` containing `k`.  Lemma 6.5 says that every element of
 of `C_K` as the local ring of a point on a nonsingular affine curve.
 
 The foundational `FunctionFieldDVR` definition, its compatibility with the
-base-field embedding, and its pole and vanishing predicates are formalized.
-The other 23 leaves in this milestone are not yet formalized.
+base-field embedding, and its pole and vanishing predicates are formalized, as
+is the theorem that quasi-projective curves carry the cofinite topology. The
+other 22 leaves in this milestone are not yet formalized.
 
 The second phase equips `C_K` with its cofinite topology and defines regular
 functions on an open set `U` by the intersection of its valuation rings.
