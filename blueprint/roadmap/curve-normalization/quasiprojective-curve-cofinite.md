@@ -3,6 +3,9 @@ article_id: af_ce39f8914d2433976bdb3455
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-4, chapter-i-section-6-abstract-curves]
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsQuasiProjVariety.isCurve_infinite_and_isClosed_iff
 ---
 
 # Quasi-projective curves have the cofinite topology
@@ -11,11 +14,14 @@ Let `Y` be a quasi-projective curve over the algebraically closed field `k`.
 Then `Y` has infinitely many points, and every proper closed subset of `Y` is
 finite.  Equivalently, its Zariski topology is the cofinite topology.
 
-For the closed-set statement, an irreducible component of a proper closed
-subset has dimension zero; a zero-dimensional quasi-projective algebraic set
-is finite.  Infinitude is the weak consequence of Exercise 4.8(a) actually
-used in §6.  Do not formalize the exercise's stronger cardinality equality or
-part (b), since Proposition 6.7 needs neither.
+Projective linear forms separate points, so the Zariski topology is T₁.  A
+finite T₁ space is discrete and has topological Krull dimension at most zero,
+which proves infinitude.  For the closed-set statement, decompose a proper
+closed subset into finitely many irreducible closed components.  In an
+irreducible space of dimension one, each proper irreducible closed subset is
+minimal; the closed singleton below it therefore shows that it is a point.
+Do not formalize Exercise 4.8(a)'s stronger cardinality equality or part (b),
+since Proposition 6.7 needs neither.
 
 This result is separated from the construction of `C_K`: it also proves that
 the point-to-local-ring map between a curve and its image is a homeomorphism
@@ -29,8 +35,7 @@ once that image is known to be open.
 ## Proof depends on
 
 - [Decomposition into irreducible components](../affine-varieties/irreducible-decomposition.md)
-- [Dimension of a quasi-affine variety](../affine-varieties/dim-quasi-affine.md)
-- [Open affine sets are a base for the topology](../rational-maps/affine-base.md)
+- [Linear fractions separate projective points](../nonsingular-curves/projective-linear-separation.md)
 
 ## Sources
 
