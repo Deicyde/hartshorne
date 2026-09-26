@@ -3,6 +3,9 @@ article_id: af_cdbb59a26819ffce4274f733
 declaration: theorem
 origin: background
 source_units: [theorem-i-6-3a]
+statement: formalized
+proof: formalized
+lean: Hartshorne.integralClosure_isDedekindDomain_of_finite_extension Hartshorne.ringKrullDim_integralClosure_eq_one_of_finite_extension
 ---
 
 # Integral closures of Dedekind domains
