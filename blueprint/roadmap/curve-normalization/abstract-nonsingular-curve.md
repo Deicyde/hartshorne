@@ -3,6 +3,9 @@ article_id: af_e31d8787e86350185ec8ff60
 declaration: def
 origin: cited
 source_units: [chapter-i-section-6-abstract-curves]
+statement: formalized
+proof: formalized
+lean: Hartshorne.ValuationSpace.abstractNonsingularCurve
 ---
 
 # Abstract nonsingular curves
