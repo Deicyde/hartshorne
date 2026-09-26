@@ -94,6 +94,6 @@ distinguished in the individual provenance notes.
 
 This milestone stops at Proposition 6.7 on printed p. 43.  Proposition 6.8,
 extension of morphisms across a missing point, begins the separate projective-
-model milestone leading to Theorem 6.9 and Corollaries 6.10--6.12.  The
-exercises remain out of scope except for the weak infinitude consequence of
-Exercise 4.8 used in Hartshorne's construction of `C_K`.
+model milestone, now decomposed through Theorem 6.9 and Corollaries
+6.10--6.12.  The exercises remain out of scope except for the weak infinitude
+consequence of Exercise 4.8 used in Hartshorne's construction of `C_K`.

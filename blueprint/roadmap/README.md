@@ -40,19 +40,26 @@ ring determines the point. All are complete: ten are proved in this project and
 two are exact Mathlib results. Thus the completed 114-leaf portion contains 110
 project formalizations and four Mathlib results.
 
-The final 26-leaf milestone has two independent fronts. One proves the exact
+The completed 26-leaf milestone has two independent fronts. One proves the exact
 nonseparable integral-closure Theorems 3.9A and 6.3A. The other uses two
 separable normalization charts to prove finite poles, construct affine models
 of function-field DVRs, and build the abstract valuation-space curve through
 Proposition 6.7. Both fronts are complete. The expanded roadmap therefore has
 140 leaves, all formalized: 136 in this project and four in Mathlib.
 
+The next 21-leaf milestone adopts Exercise 3.3(a)–(c) where Theorem 6.9 uses
+it, proves extension to projective targets, constructs nonsingular projective
+models, and reaches the category equivalences of Corollary 6.12. Exercise
+3.3(a) is the existing completed local-ring map; the 21 new leaves comprise
+two for Exercise 3.3(b),(c) and 19 for Proposition 6.8 through Corollary 6.12.
+The full roadmap therefore has 161 leaves, 140 complete and 21 planned.
+
 Read the [coverage contract](../coverage/README.md) before reading progress off
 this book: §§1–4, the geometric core of §5 through Theorem 5.3, and §6 through
-Proposition 6.7 are decomposed here. The completion material later in §5 and
-the projective-model material from Proposition 6.8 onward are deferred; the
-unadopted exercises, §7 onward, and Chapters II–V are out of scope. The complete
-source partition is recorded in the [source notes](../sources/hartshorne.md).
+Corollary 6.12 are decomposed here. The completion material later in §5 is
+deferred; the unadopted exercises, §7 onward, and Chapters II–V are out of
+scope. The complete source partition is recorded in the
+[source notes](../sources/hartshorne.md).
 
 ## Chapters
 
@@ -75,3 +82,7 @@ source partition is recorded in the [source notes](../sources/hartshorne.md).
 - [Normalization and the valuation-space curve](curve-normalization/README.md)
   — Theorems 3.9A and 6.3A, Hartshorne I.6.5–6.7, finite poles, affine DVR
   models, and abstract nonsingular curves.
+- [Projective models of curves](projective-models/README.md) — Exercise
+  I.3.3(a)–(c) as used by Theorem 6.9, Proposition I.6.8 through Corollary
+  I.6.12, projective completions, and the contravariant function-field
+  equivalence.

@@ -1,8 +1,8 @@
 ---
 article_id: af_59bf5c5a065cb7280464d06c
 declaration: def
-origin: bridged
-source_units: [chapter-i-section-3]
+origin: cited
+source_units: [exercise-i-3-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.VarietyHom.localRingHom
@@ -11,13 +11,14 @@ lean: Hartshorne.VarietyHom.localRingHom
 # The local ring is functorial
 
 A morphism `φ : X → Y` induces a ring map `𝒪_{φ(P),Y} → 𝒪_{P,X}`,
-contravariantly. Two consequences are what Theorem 3.4 actually consumes: an
+contravariantly. This is Exercise 3.3(a), later used explicitly in Theorem
+6.9. Two consequences are what Theorem 3.4 consumes: an
 isomorphism of varieties induces an isomorphism of local rings, and the
 inclusion of an open subvariety does too.
 
-Neither statement is in Hartshorne. He does not need the first because he never
-moves a local ring between varieties, and he uses the second silently. Theorem
-3.4(b) needs both: it is about `𝒪_P` for a projective `Y`, every affine result
+The induced map itself is Hartshorne's Exercise 3.3(a); the two specialized
+isomorphism lemmas below are project infrastructure. Theorem 3.4(b) needs both:
+it is about `𝒪_P` for a projective `Y`, every affine result
 is stated on the chart, and the chart is `Yᵢ = Y ∩ Uᵢ`, not `Y`. So the local
 ring has to travel twice, once along the open inclusion `Yᵢ ⊆ Y` and once along
 the chart isomorphism `Yᵢ ≅ φᵢ(Yᵢ)`.
@@ -74,4 +75,5 @@ points.
 
 ## Sources
 
+- [Hartshorne I.3, Exercise 3.3(a) (p. 21)](../../sources/hartshorne.md#i3)
 - [Hartshorne I.3, Theorem 3.4(b) (pp. 18-19)](../../sources/hartshorne.md#i3)

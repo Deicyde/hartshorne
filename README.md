@@ -5,16 +5,17 @@ Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 1977), built on Mathlib.
 
 Sections I.1 through I.4, the geometric core of I.5 through Theorem I.5.3, and
-I.6 through Proposition I.6.7 are decomposed into a dependency graph of 140
+I.6 through Corollary I.6.12 are decomposed into a dependency graph of 161
 formalization targets. The completion, Cohen-structure, and analytic-isomorphism
-material later in §I.5 is deferred; so is the projective-model material from
-Proposition I.6.8 onward. The unadopted exercises, §I.7 onward, and Chapters II
-through V are out of scope. See the
+material later in §I.5 is deferred. Material after Corollary I.6.12, the
+unadopted exercises, §I.7 onward, and Chapters II through V are out of scope.
+See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**All 140 targets are complete:** 136 are proved in this project and four are
-supplied by Mathlib. The first 114 targets run through Lemma I.6.4. Of the
+**The original 140 targets are complete; 21 new targets are planned.** Of the
+completed targets, 136 are proved in this project and four are supplied by
+Mathlib. The first 114 targets run through Lemma I.6.4. Of the
 first 86 targets in §§I.1–I.4, 85 are proved here,
 sorry-free and depending only on Lean's three standard axioms, and one is
 already in Mathlib. Completed results include the
@@ -42,7 +43,7 @@ Lemma 6.4, that the local ring determines the point. All 12 are complete. The
 completed 114-leaf portion therefore consists of 110 targets formalized here
 and four supplied by Mathlib.
 
-The final 26-leaf milestone covers the exact nonseparable integral-closure
+The completed 26-leaf normalization milestone covers the exact nonseparable integral-closure
 Theorems 3.9A and 6.3A, finite poles and affine models for function-field DVRs,
 and the valuation-space construction through Proposition 6.7. A separable
 two-chart route lets the geometric branch proceed independently of the harder
@@ -50,6 +51,12 @@ background normalization theorems. All 26 leaves are formalized, including the
 nonseparable normalization theorems, the full valuation-space regular-function
 structure, and the isomorphism of a nonsingular curve with its open image in
 the valuation space.
+
+The new 21-leaf projective-model milestone adopts the local-ring criteria in
+Exercise I.3.3 used by Theorem I.6.9, proves Proposition I.6.8, constructs the
+nonsingular projective model of Theorem I.6.9, and decomposes Corollaries
+I.6.10–6.12 through the contravariant equivalence with one-dimensional
+function fields. These leaves are planned, not formalized.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 

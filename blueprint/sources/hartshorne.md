@@ -8,7 +8,7 @@ book page numbers**, which is the numbering the text itself uses in cross
 references. If you are reading a scan whose front matter is included, the
 1977 Springer printing has `pdf page index = book page + 15`, so book page 1
 (the first page of Chapter I) is the sixteenth page of the file. Checked
-against book pages 12, 13, 20, 22–24, 27, 30–31, and 39–45.
+against book pages 12, 13, 20–21, 22–24, 27, 30–31, and 39–46.
 
 Results Hartshorne numbers with a trailing `A` (1.3A, 1.8A, 1.11A, …) are
 commutative algebra he quotes without proof and attributes to Atiyah–Macdonald,
@@ -109,6 +109,19 @@ Hartshorne cites Zariski–Samuel, vol. I, Chapter V, Theorem 9 but gives no pro
 For perfect `k` and `q = p^e`, identify `A^q` with the iterated-Frobenius range and prove `A` finite over it. For normal finite-type `A` and finite purely inseparable `L/Frac(A)`, use `B^q ⊆ A` and Frobenius injectivity to span the integral closure `B` finitely over `A`.
 For `P = k[X₁,…,Xₙ]`, pass through the maximal separable subextension `M`, apply the pinned separable integral-closure theorem, and identify the iterated integral closure with the direct one. For a general finite-type domain `A`, choose a finite injective Noether normalization `P → A`. Localization makes `Frac(A)` finite over `Frac(P)`, so tower finiteness makes the given `L/Frac(P)` finite. Apply the polynomial-normalization result over `P`, identify integrality over `P` with integrality over `A`, and reuse the resulting finite spanning family as an `A`-spanning family.
 The choice and assembly of these sourced inputs, the spanning argument, and the Lean API packaging are project-authored.
+
+### Adopted Exercise I.3.3
+
+Exercise 3.3(a)–(c) is adopted because Hartshorne invokes it in the proof of
+Theorem 6.9.  Part (a) is the already-formalized contravariant map on local
+rings; parts (b) and (c) are new prerequisites of the projective-model
+milestone.
+
+| Locator | Statement | Page | Roadmap article |
+| --- | --- | --- | --- |
+| Ex. 3.3(a), used in Thm. 6.9 | A morphism `φ : X → Y` induces `φ* : 𝒪_{φ(P),Y} → 𝒪_{P,X}` | 21 | [The local ring is functorial](../roadmap/morphisms/local-ring-functorial.md) |
+| Ex. 3.3(b), used in Thm. 6.9 | A morphism is an isomorphism iff it is a homeomorphism and all its induced local-ring maps are isomorphisms | 21 | [Isomorphisms from topology and local rings](../roadmap/projective-models/isomorphism-local-criterion.md) |
+| Ex. 3.3(c), used in Thm. 6.9 | If the image of a morphism is dense, every induced local-ring map is injective | 21 | [Dense morphisms inject on local rings](../roadmap/projective-models/dominant-morphism-local-ring.md) |
 
 ## I.4
 
@@ -300,22 +313,36 @@ the exercise's stronger cardinality equality or part (b).
 | Prop. 6.7, affine input | A nonsingular affine curve has a Dedekind coordinate ring | 42–43 | [Nonsingular affine curves have Dedekind coordinate rings](../roadmap/curve-normalization/nonsingular-affine-curve-dedekind.md) |
 | Prop. 6.7 | For a nonsingular quasi-projective curve `Y`, the map `P ↦ 𝒪_{P,Y}` identifies `Y` with an open abstract nonsingular subcurve of `C_{K(Y)}` | 42–43 | [The local-ring map has open image](../roadmap/curve-normalization/curve-local-ring-map-open.md), [nonsingular curves are open subcurves of their valuation spaces](../roadmap/curve-normalization/curve-to-valuation-space-iso.md) |
 
-## I.6 deferred projective models
+## I.6 projective models
 
-Proposition 6.8 begins the separate extension and projective-model milestone
-leading to the unique nonsingular projective model of a one-dimensional
-function field.
+Proposition 6.8 through Corollary 6.12 form the projective-model milestone.
+Hartshorne's proof of Corollary 6.12 continues onto printed p. 46, so the
+source range is pp. 43–46, not pp. 43–45.  The roadmap follows the source's
+construction but uses the already-formalized fixed pair of separable
+normalization charts in place of choosing an arbitrary finite affine cover.
+Their two projective closures have a binary Segre product, which gives the
+same diagonal-closure argument without a heterogeneous finite product.
 
-| Locator | Material | Pages | Disposition |
+Theorem 6.9 needs inclusions of local rings as subrings of one common function
+field, not merely abstract ring isomorphisms.  The roadmap therefore isolates
+the compatible function-field and local-ring comparisons, the DVR dominating
+a curve local ring, and the final application of Exercise 3.3(b).  Corollary
+6.12 is explicitly contravariant: a `k`-homomorphism `K₂ → K₁` induces a
+dominant morphism `C_{K₁} → C_{K₂}`.
+
+| Locator | Statement | Pages | Roadmap article |
 | --- | --- | --- | --- |
-| Prop. 6.8 | A morphism from a punctured abstract nonsingular curve to a projective variety extends uniquely | 43–44 | Deferred to the projective-model milestone |
-| Thm. 6.9; Cor. 6.10–6.12 | Existence and uniqueness of the nonsingular projective model and the equivalence with one-dimensional function fields | 44–45 | Deferred to the projective-model milestone |
+| Prop. 6.8 | A morphism from an abstract nonsingular curve minus one point to a projective variety extends uniquely over that point | 43–44 | [Extension to a projective target](../roadmap/projective-models/projective-extension.md), with [regularity near a valuation](../roadmap/projective-models/regular-near-valuation.md) and [a projective coordinate pivot](../roadmap/projective-models/valuation-projective-pivot.md) |
+| Thm. 6.9 | For a one-dimensional function field `K/k`, the abstract curve `C_K` is isomorphic to a nonsingular projective curve | 44–45 | [Nonsingular projective models of function fields](../roadmap/projective-models/function-field-projective-model.md) and its construction leaves in the [projective-model chapter](../roadmap/projective-models/README.md) |
+| Cor. 6.10 | Every abstract nonsingular curve is quasi-projective, and every nonsingular quasi-projective curve is an open subcurve of a nonsingular projective curve | 45 | [Abstract curves are quasi-projective](../roadmap/projective-models/abstract-curve-quasiprojective.md), [completion of a nonsingular curve](../roadmap/projective-models/nonsingular-curve-projective-open.md) |
+| Cor. 6.11 | Every curve is birational to a nonsingular projective curve | 45 | [Projective models of curves](../roadmap/projective-models/curve-projective-model.md) |
+| Cor. 6.12 | Nonsingular projective curves with dominant morphisms, quasi-projective curves with dominant rational maps, and one-dimensional function fields with `k`-homomorphisms are equivalent categories, with the field category taken oppositely | 45–46 | [Curve categories](../roadmap/projective-models/curve-categories.md), [extension of rational maps](../roadmap/projective-models/projective-rational-map-extension.md), [the category equivalence](../roadmap/projective-models/curve-category-equivalence.md) |
 
 ## I.6 exercises
 
 | Locator | Material | Pages | Disposition |
 | --- | --- | --- | --- |
-| Ex. 6.1–6.7 | Valuations, birational invariants, maps of curves, genus-zero and plane-curve applications | 46–47 | Out of scope; none is used through Proposition 6.7 |
+| Ex. 6.1–6.7 | Valuations, birational invariants, maps of curves, genus-zero and plane-curve applications | 46–47 | Out of scope; none is used through Corollary 6.12 |
 
 ## Sections not decomposed
 

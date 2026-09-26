@@ -2,14 +2,14 @@
 
 A Lean 4 formalization project for classical variety theory in Robin Hartshorne,
 *Algebraic Geometry*, scoped to Chapter I §§1–4, the geometric core of §5
-through Theorem 5.3, and §6 through Proposition 6.7.
+through Theorem 5.3, and §6 through Corollary 6.12.
 
-The dependency graph has 140 targets, all fully formalized: 136 are proved in
-this project and four are supplied by Mathlib. The first 114 run from the
-definition of an algebraic set through the properness and closedness of the
-singular locus, and onward to the valuation-theoretic local structure of
-nonsingular curves through Lemma 6.4. The final 26 prove the normalization and
-valuation-space results through Proposition 6.7.
+The dependency graph has 161 targets. The original 140 are fully formalized:
+136 are proved in this project and four are supplied by Mathlib. The first 114
+run from the definition of an algebraic set through the local structure of
+nonsingular curves through Lemma 6.4; the next 26 prove normalization and the
+valuation-space results through Proposition 6.7. The remaining 21 are planned
+for the projective-model milestone and are not marked formalized.
 
 The completed core of Sections 1 through 3 accounts for 69 of those targets,
 ending at Corollary I.3.8, the arrow-reversing equivalence between affine
@@ -45,17 +45,23 @@ the DVR local rings of nonsingular curves and prove that inclusion of local
 rings inside the function field determines the point. All 12 are complete, so
 the completed portion has 110 project formalizations and four Mathlib results.
 
-The final milestone adds 26 leaves. It includes the exact nonseparable
+The completed normalization milestone adds 26 leaves. It includes the exact nonseparable
 Theorems 3.9A and 6.3A, proves finite poles and realizes every function-field
 DVR on a nonsingular affine curve, then constructs the valuation-space curve
 and reaches Proposition 6.7. All 26 leaves are formalized, including the
 abstract curve's function field and the isomorphism from every nonsingular
 quasi-projective curve to its open valuation-space image.
 
+The planned 21-leaf milestone adopts Exercise 3.3(b),(c), exposes the
+valuation and local-ring bridges needed by Proposition 6.8, constructs the
+nonsingular projective model of a one-dimensional function field in Theorem
+6.9, and decomposes Corollaries 6.10–6.12. Its two-chart diagonal construction
+uses the existing separable normalization charts but imposes no separability
+hypothesis on the function field.
+
 The completion, Cohen-structure, and analytic-isomorphism material later in
-§I.5 is deferred. Proposition I.6.8 onward forms the later projective-model
-milestone. The unadopted exercises, §I.7 onward, and Chapters II–V are out of
-scope.
+§I.5 is deferred. Material after Corollary I.6.12, the unadopted exercises,
+§I.7 onward, and Chapters II–V are out of scope.
 
 - [Roadmap](roadmap/README.md) — the book: chapters, statements, and their
   dependencies.

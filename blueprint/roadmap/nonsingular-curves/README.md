@@ -61,5 +61,6 @@ This milestone stops after Lemma 6.4 on printed p. 41. Theorem 6.3A is
 handled in the following
 [normalization and valuation-space milestone](../curve-normalization/README.md),
 together with Theorem 3.9A and Lemma 6.5 through Proposition 6.7. Proposition
-6.8 through Corollary 6.12 remain deferred to the projective-model milestone;
-the §6 exercises remain out of scope.
+6.8 through Corollary 6.12 are decomposed in the following
+[projective-model milestone](../projective-models/README.md); the §6 exercises
+remain out of scope.
