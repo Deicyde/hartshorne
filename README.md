@@ -13,8 +13,8 @@ See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**The original 140 targets are complete; 21 new targets are planned.** Of the
-completed targets, 136 are proved in this project and four are supplied by
+**142 targets are complete; 19 remain planned.** Of the completed targets,
+138 are proved in this project and four are supplied by
 Mathlib. The first 114 targets run through Lemma I.6.4. Of the
 first 86 targets in §§I.1–I.4, 85 are proved here,
 sorry-free and depending only on Lean's three standard axioms, and one is
@@ -52,11 +52,12 @@ nonseparable normalization theorems, the full valuation-space regular-function
 structure, and the isomorphism of a nonsingular curve with its open image in
 the valuation space.
 
-The new 21-leaf projective-model milestone adopts the local-ring criteria in
+The 21-leaf projective-model milestone adopts the local-ring criteria in
 Exercise I.3.3 used by Theorem I.6.9, proves Proposition I.6.8, constructs the
 nonsingular projective model of Theorem I.6.9, and decomposes Corollaries
 I.6.10–6.12 through the contravariant equivalence with one-dimensional
-function fields. These leaves are planned, not formalized.
+function fields. Its two Exercise I.3.3 prerequisites are formalized; the
+remaining 19 leaves are planned.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 

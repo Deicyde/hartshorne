@@ -3,6 +3,9 @@ article_id: af_336eb54287251594421bfd3b
 declaration: theorem
 origin: cited
 source_units: [exercise-i-3-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.VarietyHom.injective_localRingHom_of_denseRange
 ---
 
 # Dense morphisms inject on local rings

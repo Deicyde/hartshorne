@@ -3,6 +3,9 @@ article_id: af_4d70319a29a0ec29f2c79a20
 declaration: theorem
 origin: cited
 source_units: [exercise-i-3-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.VarietyHom.isIso_iff_isHomeomorph_and_bijective_localRingHom
 ---
 
 # Isomorphisms from topology and local rings

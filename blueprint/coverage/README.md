@@ -67,7 +67,8 @@ proved in this project and two are supplied by Mathlib.
 
 Exercise 3.3(a) is already among those completed articles under its corrected
 source provenance. Parts (b) and (c), newly adopted because Theorem 6.9 uses
-them, are two of the 21 planned projective-model leaves.
+them, are the first two formalized leaves of the 21-leaf projective-model
+milestone.
 
 The approved opening of §6 adds 12 targets. Mathlib supplies the two clauses of
 Theorem 6.1A exactly, and the other ten are proved in this project. That
@@ -82,10 +83,11 @@ all complete: 136 project formalizations and four exact Mathlib results.
 The geometric branch uses two separable normalization charts, so it can advance
 independently of the harder exact Theorems 3.9A and 6.3A.
 
-The projective-model milestone adds 21 planned leaves: the two new Exercise
-3.3 criteria and 19 leaves for Proposition 6.8 through Corollary 6.12.  Thus
-the roadmap has 161 leaves total, with the original 140 complete and 21 not yet
-formalized.  No planned leaf is counted as statement- or proof-formalized.
+The projective-model milestone adds 21 leaves: the two new Exercise 3.3
+criteria, now formalized, and 19 planned leaves for Proposition 6.8 through
+Corollary 6.12. Thus the roadmap has 161 leaves total, with 142 complete and
+19 not yet formalized. No planned leaf is counted as statement- or
+proof-formalized.
 
 The counts grow as the work goes on, almost always by splitting a node that
 turned out to hold more than one pull request's worth of Lean; where the scope
