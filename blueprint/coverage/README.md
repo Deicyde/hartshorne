@@ -84,9 +84,10 @@ The geometric branch uses two separable normalization charts, so it can advance
 independently of the harder exact Theorems 3.9A and 6.3A.
 
 The projective-model milestone adds 21 leaves: the two new Exercise 3.3
-criteria, now formalized, and 19 planned leaves for Proposition 6.8 through
-Corollary 6.12. Thus the roadmap has 161 leaves total, with 142 complete and
-19 not yet formalized. No planned leaf is counted as statement- or
+criteria, now formalized, and 19 leaves for Proposition 6.8 through Corollary
+6.12, of which the valuation-regularity and projective-pivot bridges are now
+formalized. Thus the roadmap has 161 leaves total, with 144 complete and 17
+not yet formalized. No planned leaf is counted as statement- or
 proof-formalized.
 
 The counts grow as the work goes on, almost always by splitting a node that

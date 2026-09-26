@@ -3,6 +3,9 @@ article_id: af_e2c74229d0e5f0d585bda655
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-projective-model]
+statement: formalized
+proof: formalized
+lean: Hartshorne.ValuationSpace.mem_valuationSubring_iff_exists_regular_neighborhood
 ---
 
 # Regularity near a valuation
