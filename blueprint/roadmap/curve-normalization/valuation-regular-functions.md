@@ -3,6 +3,9 @@ article_id: af_9d9ddee15270ff39e2460179
 declaration: def
 origin: cited
 source_units: [chapter-i-section-6-abstract-curves]
+statement: formalized
+proof: formalized
+lean: Hartshorne.ValuationSpace.regularFunctions
 ---
 
 # Regular functions on the valuation space
