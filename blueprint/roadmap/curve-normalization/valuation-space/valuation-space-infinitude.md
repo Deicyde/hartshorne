@@ -3,6 +3,9 @@ article_id: af_e1eecc8dc2884eefd2335da4
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-6-abstract-curves]
+statement: formalized
+proof: formalized
+lean: Hartshorne.FunctionFieldDVR.infinite_of_trdeg_eq_one Hartshorne.ValuationSpace.irreducibleSpace_of_trdeg_eq_one Hartshorne.ValuationSpace.infinite_of_isOpen_of_nonempty
 ---
 
 # The valuation space is infinite
@@ -20,6 +23,11 @@ charts.  Realize that chart as the coordinate ring of a nonsingular affine
 curve.  The curve has infinitely many points.  Sending a point to its local
 DVR inside `K` is injective because inclusion of local rings determines the
 point, so `FunctionFieldDVR k K` is infinite.
+
+In the formal proof, the maximal ideal of each affine point is transported to
+a height-one prime of the normalization ring. Its embedded localization in
+`K` is a function-field DVR. Injectivity of point maximal ideals and of the
+height-one-prime construction gives the required injection directly.
 
 State infinitude as a theorem from the algebraic-closedness, finite-type, and
 transcendence-degree hypotheses, not as an unconditional global instance.
