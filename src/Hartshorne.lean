@@ -146,5 +146,7 @@ import Hartshorne.Curve.Cofinite
 import Hartshorne.Curve.ValuationSpaceTopology
 import Hartshorne.Curve.SeparatingParameter
 import Hartshorne.Curve.SeparableNormalizationCharts
+import Hartshorne.Curve.FinitePoles
 import Hartshorne.Curve.NonsingularAffineDedekind
 import Hartshorne.Curve.DedekindAffineModel
+import Hartshorne.Curve.DVRAffineModel
