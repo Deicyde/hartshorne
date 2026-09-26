@@ -166,6 +166,7 @@ import Hartshorne.Curve.ValuationSpaceInfinitude
 import Hartshorne.Curve.ValuationRegularFunctions
 import Hartshorne.Curve.ValuationRegularity
 import Hartshorne.Curve.AbstractNonsingularCurve
+import Hartshorne.Curve.AbstractCurveDimension
 import Hartshorne.Curve.ValuationSpaceFunctionField
 import Hartshorne.Curve.LocalRingMapOpen
 import Hartshorne.Curve.CurveToValuationSpaceIso
