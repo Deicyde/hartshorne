@@ -99,6 +99,7 @@ import Hartshorne.Projective.GlobalRegularConst
 import Hartshorne.Morphism.GlobalRegularFunctionField
 import Hartshorne.Morphism.GlobalLocalIntersection
 import Hartshorne.Morphism.LocalRingFunctionField
+import Hartshorne.Morphism.DominantLocalRing
 import Hartshorne.Morphism.ProjGlobalRegular
 import Hartshorne.Morphism.ProjLocalRingGraded
 import Hartshorne.Morphism.ProjFunctionFieldGraded
