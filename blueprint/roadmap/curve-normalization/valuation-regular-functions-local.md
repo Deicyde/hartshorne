@@ -3,6 +3,9 @@ article_id: af_0fdccec34faa6f6a85264973
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-abstract-curves]
+statement: formalized
+proof: formalized
+lean: Hartshorne.ValuationSpace.regularFunctions_axioms
 ---
 
 # The valuation-space regularity axioms
