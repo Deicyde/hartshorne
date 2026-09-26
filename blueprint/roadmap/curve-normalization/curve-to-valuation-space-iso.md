@@ -3,6 +3,9 @@ article_id: af_013c74c106370228b55e5404
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-6-abstract-curves]
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsQuasiProjVariety.localRingMapAbstractCurveHom_isIso
 ---
 
 # Nonsingular curves are open subcurves of their valuation spaces
