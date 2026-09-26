@@ -146,6 +146,7 @@ import Hartshorne.Curve.Cofinite
 import Hartshorne.Curve.ValuationSpaceTopology
 import Hartshorne.Curve.FrobeniusFinite
 import Hartshorne.Curve.PurelyInseparableNormalization
+import Hartshorne.Curve.PolynomialNormalization
 import Hartshorne.Curve.SeparatingParameter
 import Hartshorne.Curve.SeparableNormalizationCharts
 import Hartshorne.Curve.FinitePoles
@@ -155,3 +156,4 @@ import Hartshorne.Curve.DVRAffineModel
 import Hartshorne.Curve.ValuationResidueField
 import Hartshorne.Curve.ValuationSpaceInfinitude
 import Hartshorne.Curve.ValuationRegularFunctions
+import Hartshorne.Curve.ValuationRegularity
