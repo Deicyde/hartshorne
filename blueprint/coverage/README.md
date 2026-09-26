@@ -85,10 +85,10 @@ independently of the harder exact Theorems 3.9A and 6.3A.
 
 The projective-model milestone adds 21 leaves: the two new Exercise 3.3
 criteria, now formalized, and 19 leaves for Proposition 6.8 through Corollary
-6.12, of which the valuation-regularity and projective-pivot bridges are now
-formalized. Thus the roadmap has 161 leaves total, with 144 complete and 17
-not yet formalized. No planned leaf is counted as statement- or
-proof-formalized.
+6.12, of which the valuation-regularity, abstract-curve-dimension, and
+projective-pivot bridges are now formalized. Thus the roadmap has 161 leaves
+total, with 145 complete and 16 not yet formalized. No planned leaf is counted
+as statement- or proof-formalized.
 
 The counts grow as the work goes on, almost always by splitting a node that
 turned out to hold more than one pull request's worth of Lean; where the scope

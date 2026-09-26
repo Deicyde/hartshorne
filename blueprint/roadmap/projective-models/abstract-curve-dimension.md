@@ -3,6 +3,9 @@ article_id: af_0231ea26be501ebabff4b989
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-projective-model]
+statement: formalized
+proof: formalized
+lean: Hartshorne.ValuationSpace.abstractNonsingularCurve_isCurve
 ---
 
 # Abstract valuation curves have dimension one
