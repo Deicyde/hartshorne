@@ -151,6 +151,7 @@ import Hartshorne.Curve.FiniteIntegralClosure
 import Hartshorne.Curve.KrullAkizukiPrincipal
 import Hartshorne.Curve.KrullAkizukiQuotient
 import Hartshorne.Curve.KrullAkizuki
+import Hartshorne.Curve.DedekindIntegralClosure
 import Hartshorne.Curve.SeparatingParameter
 import Hartshorne.Curve.SeparableNormalizationCharts
 import Hartshorne.Curve.FinitePoles
