@@ -144,6 +144,7 @@ import Hartshorne.Curve.FunctionFieldDVR
 import Hartshorne.Curve.DedekindSubringLocalization
 import Hartshorne.Curve.Cofinite
 import Hartshorne.Curve.ValuationSpaceTopology
+import Hartshorne.Curve.FrobeniusFinite
 import Hartshorne.Curve.SeparatingParameter
 import Hartshorne.Curve.SeparableNormalizationCharts
 import Hartshorne.Curve.FinitePoles
