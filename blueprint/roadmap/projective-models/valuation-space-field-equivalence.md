@@ -3,6 +3,9 @@ article_id: af_e597df3a5b7fded55fe3733e
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-projective-model]
+statement: formalized
+proof: formalized
+lean: Hartshorne.ValuationSpace.abstractNonsingularCurveIsoOfAlgEquiv
 ---
 
 # Transporting valuation curves along a field equivalence
