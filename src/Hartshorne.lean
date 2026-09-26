@@ -154,3 +154,4 @@ import Hartshorne.Curve.DedekindAffineModel
 import Hartshorne.Curve.DVRAffineModel
 import Hartshorne.Curve.ValuationResidueField
 import Hartshorne.Curve.ValuationSpaceInfinitude
+import Hartshorne.Curve.ValuationRegularFunctions
