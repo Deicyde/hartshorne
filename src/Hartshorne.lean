@@ -170,3 +170,4 @@ import Hartshorne.Curve.AbstractCurveDimension
 import Hartshorne.Curve.ValuationSpaceFunctionField
 import Hartshorne.Curve.LocalRingMapOpen
 import Hartshorne.Curve.CurveToValuationSpaceIso
+import Hartshorne.Curve.Categories
