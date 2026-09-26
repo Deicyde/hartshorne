@@ -3,6 +3,9 @@ article_id: af_8050d89a6a44d6f922db6a21
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-6-abstract-curves]
+statement: formalized
+proof: formalized
+lean: Hartshorne.ValuationSpace.abstractNonsingularCurveToFunctionFieldAlgHom_bijective
 ---
 
 # The function field of an abstract nonsingular curve
