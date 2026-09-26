@@ -3,6 +3,9 @@ article_id: af_cf2398d956660cee93095537
 declaration: theorem
 origin: bridged
 source_units: [theorem-i-6-3a]
+statement: formalized
+proof: formalized
+lean: Hartshorne.krullAkizuki_isNoetherianRing Hartshorne.krullAkizuki_krullDimLE_one Hartshorne.krullAkizuki_dimensionLEOne Hartshorne.krull_akizuki
 ---
 
 # The Krull--Akizuki theorem
