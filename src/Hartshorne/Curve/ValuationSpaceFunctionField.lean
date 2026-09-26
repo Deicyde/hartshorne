@@ -4,6 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Curve.AbstractNonsingularCurve
 import Hartshorne.Morphism.VarietyFunctionFieldStructure
+import Hartshorne.Morphism.GlobalLocalIntersection
+import Hartshorne.Nonsingular.IntrinsicNonsingular
 
 /-!
 # The function field of an abstract nonsingular curve
@@ -319,6 +321,145 @@ noncomputable def abstractNonsingularCurveFunctionFieldAlgEquiv
   AlgEquiv.ofBijective
     (abstractNonsingularCurveToFunctionFieldAlgHom htrdeg U hU)
     (abstractNonsingularCurveToFunctionFieldAlgHom_bijective htrdeg U hU)
+
+private noncomputable def abstractCurveLocalToAmbientAlgHom
+    [IsAlgClosed k] [Algebra.EssFiniteType k K]
+    (htrdeg : Algebra.trdeg k K = 1)
+    (U : Opens (ValuationSpace k K))
+    (hU : (U : Set (ValuationSpace k K)).Nonempty)
+    (P : (abstractNonsingularCurve htrdeg U hU).carrier) :
+    (abstractNonsingularCurve htrdeg U hU).LocalRingAt P →ₐ[k] K :=
+  (abstractNonsingularCurveFunctionFieldAlgEquiv htrdeg U hU).symm.toAlgHom.comp
+    ((abstractNonsingularCurve htrdeg U hU).localToFunctionFieldAlgHom P)
+
+private theorem abstractCurveLocalToAmbientAlgHom_mem
+    [IsAlgClosed k] [Algebra.EssFiniteType k K]
+    (htrdeg : Algebra.trdeg k K = 1)
+    (U : Opens (ValuationSpace k K))
+    (hU : (U : Set (ValuationSpace k K)).Nonempty)
+    (P : (abstractNonsingularCurve htrdeg U hU).carrier)
+    (a : (abstractNonsingularCurve htrdeg U hU).LocalRingAt P) :
+    abstractCurveLocalToAmbientAlgHom htrdeg U hU P a ∈
+      ((ValuationSpace.of k K).symm P.1).toValuationSubring := by
+  let X := abstractNonsingularCurve htrdeg U hU
+  let R := (ValuationSpace.of k K).symm P.1
+  change abstractCurveLocalToAmbientAlgHom htrdeg U hU P a ∈
+    R.toValuationSubring
+  refine Quotient.inductionOn a ?_
+  intro r
+  have hr := r.regular
+  change (fun w : pushOpens U r.U ↦ r.toFun (ofPush w)) ∈
+    regularFunctions htrdeg
+      (pushOpens U r.U : Set (ValuationSpace k K)) at hr
+  rw [regularFunctions, AlgHom.mem_range] at hr
+  obtain ⟨q, hq⟩ := hr
+  have hfield :
+      abstractNonsingularCurveToFunctionFieldAlgHom htrdeg U hU q.1 =
+        X.localToFunctionFieldAlgHom P
+          (Quotient.mk (Variety.germSetoid X P) r) := by
+    apply Quotient.sound
+    intro S hSq hrS
+    have hpoint := congrFun hq (toPush (⟨S, hrS⟩ : r.U))
+    change regularValue htrdeg U q.1 ⟨S, hSq⟩ = r.toFun ⟨S, hrS⟩
+    change FunctionFieldDVR.residueAt htrdeg
+        ((ValuationSpace.of k K).symm S.1) ⟨q.1, _⟩ = r.toFun ⟨S, hrS⟩
+    change FunctionFieldDVR.residueAt htrdeg
+        ((ValuationSpace.of k K).symm S.1) ⟨q.1, _⟩ =
+          r.toFun ⟨S, hrS⟩ at hpoint
+    exact hpoint
+  have htoK :
+      (abstractNonsingularCurveFunctionFieldAlgEquiv htrdeg U hU).symm
+          (X.localToFunctionFieldAlgHom P
+            (Quotient.mk (Variety.germSetoid X P) r)) = q.1 := by
+    rw [← hfield]
+    exact (abstractNonsingularCurveFunctionFieldAlgEquiv htrdeg U hU).symm_apply_apply q.1
+  change (abstractNonsingularCurveFunctionFieldAlgEquiv htrdeg U hU).symm
+      (X.localToFunctionFieldAlgHom P
+        (Quotient.mk (Variety.germSetoid X P) r)) ∈ R.toValuationSubring
+  rw [htoK]
+  apply (mem_valuationSubring_iff_exists_regular_neighborhood htrdeg R q.1).mpr
+  refine ⟨pushOpens U r.U, ?_, q.2⟩
+  have hP : P.1 ∈ pushOpens U r.U := (toPush (⟨P, r.mem_U⟩ : r.U)).2
+  simpa [R] using hP
+
+/-- **Hartshorne I.6.** The local ring at a point of an abstract nonsingular
+curve is canonically the valuation ring represented by that point. -/
+noncomputable def abstractNonsingularCurveLocalRingAlgEquiv
+    [IsAlgClosed k] [Algebra.EssFiniteType k K]
+    (htrdeg : Algebra.trdeg k K = 1)
+    (U : Opens (ValuationSpace k K))
+    (hU : (U : Set (ValuationSpace k K)).Nonempty)
+    (P : (abstractNonsingularCurve htrdeg U hU).carrier) :
+    (abstractNonsingularCurve htrdeg U hU).LocalRingAt P ≃ₐ[k]
+      ((ValuationSpace.of k K).symm P.1).toValuationSubring := by
+  let X := abstractNonsingularCurve htrdeg U hU
+  let eK := abstractNonsingularCurveFunctionFieldAlgEquiv htrdeg U hU
+  let toK := abstractCurveLocalToAmbientAlgHom htrdeg U hU P
+  let R := (ValuationSpace.of k K).symm P.1
+  let f : X.LocalRingAt P →ₐ[k] R.toValuationSubring := {
+    toFun := fun a ↦ ⟨toK a, abstractCurveLocalToAmbientAlgHom_mem htrdeg U hU P a⟩
+    map_one' := Subtype.ext (map_one toK)
+    map_mul' := fun a b ↦ Subtype.ext (map_mul toK a b)
+    map_zero' := Subtype.ext (map_zero toK)
+    map_add' := fun a b ↦ Subtype.ext (map_add toK a b)
+    commutes' := fun c ↦ Subtype.ext (toK.commutes c)
+  }
+  refine AlgEquiv.ofBijective f ⟨?_, ?_⟩
+  · intro a b hab
+    apply X.localToFunctionFieldAlgHom_injective P
+    apply eK.symm.injective
+    exact congrArg Subtype.val hab
+  · intro z
+    let rr := rationalRepOfElement htrdeg U hU z.1
+    have hPdomain : P ∈ rr.U := by
+      change ¬ z.1 ∉ R.toValuationSubring
+      exact not_not.mpr z.2
+    let r : X.GermRep P := {
+      U := rr.U
+      mem_U := hPdomain
+      toFun := rr.toFun
+      regular := rr.regular
+    }
+    let a : X.LocalRingAt P := Quotient.mk (Variety.germSetoid X P) r
+    refine ⟨a, Subtype.ext ?_⟩
+    change (abstractNonsingularCurveFunctionFieldAlgEquiv htrdeg U hU).symm
+      (X.localToFunctionFieldAlgHom P a) = z.1
+    calc
+      _ = (abstractNonsingularCurveFunctionFieldAlgEquiv htrdeg U hU).symm
+          ((abstractNonsingularCurveFunctionFieldAlgEquiv htrdeg U hU) z.1) := by
+        congr 1
+      _ = z.1 := (abstractNonsingularCurveFunctionFieldAlgEquiv
+        htrdeg U hU).symm_apply_apply z.1
+
+/-- The canonical local-ring equivalence commutes with the two embeddings into
+the ambient function field `K`. -/
+@[simp]
+theorem abstractNonsingularCurveLocalRingAlgEquiv_coe
+    [IsAlgClosed k] [Algebra.EssFiniteType k K]
+    (htrdeg : Algebra.trdeg k K = 1)
+    (U : Opens (ValuationSpace k K))
+    (hU : (U : Set (ValuationSpace k K)).Nonempty)
+    (P : (abstractNonsingularCurve htrdeg U hU).carrier)
+    (a : (abstractNonsingularCurve htrdeg U hU).LocalRingAt P) :
+    (((abstractNonsingularCurveLocalRingAlgEquiv htrdeg U hU P) a :
+        ((ValuationSpace.of k K).symm P.1).toValuationSubring) : K) =
+      (abstractNonsingularCurveFunctionFieldAlgEquiv htrdeg U hU).symm
+        ((abstractNonsingularCurve htrdeg U hU).localToFunctionFieldAlgHom P a) := by
+  unfold abstractNonsingularCurveLocalRingAlgEquiv
+  rfl
+
+/-- Abstract curves obtained from one-dimensional function fields are
+nonsingular because all of their local rings are the represented DVRs. -/
+theorem abstractNonsingularCurve_nonsingular
+    [IsAlgClosed k] [Algebra.EssFiniteType k K]
+    (htrdeg : Algebra.trdeg k K = 1)
+    (U : Opens (ValuationSpace k K))
+    (hU : (U : Set (ValuationSpace k K)).Nonempty) :
+    (abstractNonsingularCurve htrdeg U hU).Nonsingular := by
+  intro P
+  exact (isRegularLocalRing_iff_of_ringEquiv
+    (abstractNonsingularCurveLocalRingAlgEquiv htrdeg U hU P).toRingEquiv).mpr
+      inferInstance
 
 end ValuationSpace
 
