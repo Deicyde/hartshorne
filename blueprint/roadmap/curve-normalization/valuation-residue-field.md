@@ -3,6 +3,9 @@ article_id: af_6ae7ab997d79403ec249423a
 declaration: def
 origin: cited
 source_units: [chapter-i-section-6-abstract-curves]
+statement: formalized
+proof: formalized
+lean: Hartshorne.FunctionFieldDVR.residueAt
 ---
 
 # Residue fields of function-field DVRs
