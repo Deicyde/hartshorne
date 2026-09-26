@@ -148,6 +148,7 @@ import Hartshorne.Curve.FrobeniusFinite
 import Hartshorne.Curve.PurelyInseparableNormalization
 import Hartshorne.Curve.PolynomialNormalization
 import Hartshorne.Curve.FiniteIntegralClosure
+import Hartshorne.Curve.KrullAkizukiPrincipal
 import Hartshorne.Curve.SeparatingParameter
 import Hartshorne.Curve.SeparableNormalizationCharts
 import Hartshorne.Curve.FinitePoles
@@ -159,4 +160,5 @@ import Hartshorne.Curve.ValuationSpaceInfinitude
 import Hartshorne.Curve.ValuationRegularFunctions
 import Hartshorne.Curve.ValuationRegularity
 import Hartshorne.Curve.AbstractNonsingularCurve
+import Hartshorne.Curve.ValuationSpaceFunctionField
 import Hartshorne.Curve.LocalRingMapOpen
