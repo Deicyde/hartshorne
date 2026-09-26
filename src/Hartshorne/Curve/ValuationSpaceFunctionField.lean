@@ -45,7 +45,7 @@ private theorem poleSet_finite [IsAlgClosed k] [Algebra.EssFiniteType k K]
 
 /-- The maximal open subset of `U` on which `x : K` belongs to every
 valuation ring. -/
-private def regularDomain [IsAlgClosed k] [Algebra.EssFiniteType k K]
+def regularDomain [IsAlgClosed k] [Algebra.EssFiniteType k K]
     (htrdeg : Algebra.trdeg k K = 1)
     (U : Opens (ValuationSpace k K)) (x : K) : Opens U where
   carrier := (Subtype.val : U → ValuationSpace k K) ⁻¹' (poleSet (k := k) x)ᶜ
@@ -65,6 +65,38 @@ private theorem mem_valuationSubring_of_mem_regularDomain
   change ¬ (x ∉ ((ValuationSpace.of k K).symm R.1).toValuationSubring) at hR
   exact not_not.mp hR
 
+/-- An element of a one-dimensional function field belongs to a given
+valuation ring exactly when it is regular on some open neighbourhood of that
+valuation. -/
+theorem mem_valuationSubring_iff_exists_regular_neighborhood
+    [IsAlgClosed k] [Algebra.EssFiniteType k K]
+    (htrdeg : Algebra.trdeg k K = 1)
+    (R : FunctionFieldDVR k K) (q : K) :
+    q ∈ R.toValuationSubring ↔
+      ∃ U : Opens (ValuationSpace k K),
+        ValuationSpace.of k K R ∈ U ∧
+          q ∈ regularRationalFunctions (k := k) (K := K)
+            (U : Set (ValuationSpace k K)) := by
+  classical
+  constructor
+  · intro hq
+    let T : Opens (ValuationSpace k K) := ⊤
+    let V : Opens T := regularDomain htrdeg T q
+    let U : Opens (ValuationSpace k K) := pushOpens T V
+    refine ⟨U, ?_, ?_⟩
+    · refine ⟨Set.mem_univ _, ?_⟩
+      intro _
+      change ¬ q ∉ R.toValuationSubring
+      exact not_not.mpr hq
+    · rw [mem_regularRationalFunctions_iff]
+      intro S
+      exact mem_valuationSubring_of_mem_regularDomain
+        htrdeg T q (ofPush S).2
+  · rintro ⟨U, hRU, hqU⟩
+    have hqR := mem_regularRationalFunctions_iff.mp hqU
+      (⟨ValuationSpace.of k K R, hRU⟩ : U)
+    simpa using hqR
+
 private theorem regularDomain_nonempty [IsAlgClosed k]
     [Algebra.EssFiniteType k K] (htrdeg : Algebra.trdeg k K = 1)
     (U : Opens (ValuationSpace k K))
@@ -81,7 +113,7 @@ private theorem regularDomain_nonempty [IsAlgClosed k]
   exact ⟨⟨R, hRU⟩, hRpole⟩
 
 /-- Residue evaluation of `x` on its maximal pole-free open domain. -/
-private noncomputable def regularValue [IsAlgClosed k]
+noncomputable def regularValue [IsAlgClosed k]
     [Algebra.EssFiniteType k K] (htrdeg : Algebra.trdeg k K = 1)
     (U : Opens (ValuationSpace k K)) (x : K)
     (R : regularDomain htrdeg U x) : k :=
@@ -91,7 +123,7 @@ private noncomputable def regularValue [IsAlgClosed k]
 
 /-- An ambient rational function, represented by residue evaluation on its
 maximal pole-free open subset of `U`. -/
-private noncomputable def rationalRepOfElement [IsAlgClosed k]
+noncomputable def rationalRepOfElement [IsAlgClosed k]
     [Algebra.EssFiniteType k K] (htrdeg : Algebra.trdeg k K = 1)
     (U : Opens (ValuationSpace k K))
     (hU : (U : Set (ValuationSpace k K)).Nonempty) (x : K) :
