@@ -151,3 +151,4 @@ import Hartshorne.Curve.FinitePoles
 import Hartshorne.Curve.NonsingularAffineDedekind
 import Hartshorne.Curve.DedekindAffineModel
 import Hartshorne.Curve.DVRAffineModel
+import Hartshorne.Curve.ValuationResidueField
