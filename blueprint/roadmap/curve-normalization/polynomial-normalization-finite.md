@@ -3,6 +3,9 @@ article_id: af_7a8650a3a8f379e0ba31aae1
 declaration: theorem
 origin: bridged
 source_units: [theorem-i-3-9a]
+statement: formalized
+proof: formalized
+lean: Hartshorne.moduleFinite_integralClosure_mvPolynomial
 ---
 
 # Normalizations of polynomial rings are finite
