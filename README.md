@@ -13,8 +13,9 @@ through V are out of scope. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**119 of the 140 targets are complete.** The first 114 targets, through Lemma
-I.6.4, are complete. Of the first 86 targets in §§I.1–I.4, 85 are proved here,
+**All 140 targets are complete:** 136 are proved in this project and four are
+supplied by Mathlib. The first 114 targets run through Lemma I.6.4. Of the
+first 86 targets in §§I.1–I.4, 85 are proved here,
 sorry-free and depending only on Lean's three standard axioms, and one is
 already in Mathlib. Completed results include the
 Nullstellensatz correspondence, irreducible decomposition, the dimension of a
@@ -41,14 +42,14 @@ Lemma 6.4, that the local ring determines the point. All 12 are complete. The
 completed 114-leaf portion therefore consists of 110 targets formalized here
 and four supplied by Mathlib.
 
-The current 26-leaf milestone covers the exact nonseparable integral-closure
+The final 26-leaf milestone covers the exact nonseparable integral-closure
 Theorems 3.9A and 6.3A, finite poles and affine models for function-field DVRs,
 and the valuation-space construction through Proposition 6.7. A separable
 two-chart route lets the geometric branch proceed independently of the harder
-background normalization theorems. Five leaves are formalized: the
-function-field-DVR definition, the cofinite-topology theorem, the separating
-parameter, the two normalization charts, and the Dedekind coordinate-ring
-theorem for nonsingular affine curves. The other 21 leaves are not yet.
+background normalization theorems. All 26 leaves are formalized, including the
+nonseparable normalization theorems, the full valuation-space regular-function
+structure, and the isomorphism of a nonsingular curve with its open image in
+the valuation space.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 

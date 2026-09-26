@@ -15,11 +15,10 @@ valuation rings of `K` containing `k`.  Lemma 6.5 says that every element of
 `K` has only finitely many poles on `C_K`.  Corollary 6.6 realizes each point
 of `C_K` as the local ring of a point on a nonsingular affine curve.
 
-Five leaves in this 26-leaf milestone are formalized: the foundational
-`FunctionFieldDVR` definition, the theorem that quasi-projective curves carry
-the cofinite topology, the separating-parameter theorem, the two separable
-normalization charts, and the Dedekind coordinate-ring theorem for nonsingular
-affine curves. The other 21 leaves are not yet formalized.
+All 26 leaves in this milestone are formalized. They include the nonseparable
+normalization theorems, finite poles and affine DVR models, the complete
+regular-function structure on the valuation space, the abstract curve and its
+function field, and Proposition 6.7 as an isomorphism of varieties.
 
 The second phase equips `C_K` with its cofinite topology and defines regular
 functions on an open set `U` by the intersection of its valuation rings.

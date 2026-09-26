@@ -70,10 +70,8 @@ results.
 The normalization and valuation-space milestone adds 26 leaves: eight
 for the exact nonseparable background theorems, seven for finite poles and
 affine DVR models, and eleven for abstract nonsingular curves through
-Proposition 6.7. Five are formalized: the function-field-DVR definition, the
-cofinite-topology theorem, the separating parameter, the two normalization
-charts, and the Dedekind coordinate-ring theorem for nonsingular affine curves.
-The enlarged roadmap has 140 leaves, of which 119 are complete.
+Proposition 6.7. All 26 are formalized. The enlarged roadmap has 140 leaves,
+all complete: 136 project formalizations and four exact Mathlib results.
 The geometric branch uses two separable normalization charts, so it can advance
 independently of the harder exact Theorems 3.9A and 6.3A.
 
@@ -227,11 +225,9 @@ A section counts as finished when every article listed for it satisfies all of:
 
 A scoped section or partial section counts as finished when all its articles
 do. **The original scope through §§1–4, the approved part of §5, and the opening
-of §6 through Lemma 6.4 is finished. In the new scope through Proposition 6.7,
-five leaves are formalized: the function-field-DVR definition, the
-cofinite-topology theorem, the separating parameter, the two normalization
-charts, and the Dedekind coordinate-ring theorem for nonsingular affine curves.
-The other 21 leaves are not yet finished.** The completed articles
+of §6 through Lemma 6.4 is finished. The 26-leaf normalization and
+valuation-space milestone through Proposition 6.7 is also finished.** The
+completed articles
 compile, no proof contains `sorry` or
 `native_decide`, every `#print axioms` is clean, and every statement has been
 read against its cited passage.
@@ -242,10 +238,9 @@ the section containing it is complete.
 
 ## What is not claimed
 
-No result after Proposition 6.7 is planned. Apart from the five completed
-milestone leaves named above, the remaining 21 leaves from Theorem 3.9A through
-Proposition 6.7 are roadmap commitments, not completed formalizations. The
-completion material later in §5, Proposition 6.8 onward,
+No result after Proposition 6.7 is planned. Every roadmap commitment from
+Theorem 3.9A through Proposition 6.7 is completed. The completion material
+later in §5, Proposition 6.8 onward,
 the unadopted exercises, §7 onward, and Chapters II–V remain out or deferred.
 Nothing in this repository should be read as formalizing "Hartshorne" or
 "algebraic geometry" without the precise scope qualifier. Full progress means
