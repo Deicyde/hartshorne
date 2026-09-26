@@ -3,6 +3,9 @@ article_id: af_dc1508fedff9a089a2641a04
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-6-normalization]
+statement: formalized
+proof: formalized
+lean: Hartshorne.FunctionFieldDVR.finite_hasPoleAt Hartshorne.FunctionFieldDVR.finite_vanishesAt Hartshorne.FunctionFieldDVR.finite_mem_maximalIdeal
 ---
 
 # A rational function has finitely many poles
