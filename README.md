@@ -13,8 +13,8 @@ See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**148 targets are complete; 13 remain planned.** Of the completed targets,
-144 are proved in this project and four are supplied by
+**149 targets are complete; 12 remain planned.** Of the completed targets,
+145 are proved in this project and four are supplied by
 Mathlib. The first 114 targets run through Lemma I.6.4. Of the
 first 86 targets in §§I.1–I.4, 85 are proved here,
 sorry-free and depending only on Lean's three standard axioms, and one is
@@ -56,7 +56,7 @@ The 21-leaf projective-model milestone adopts the local-ring criteria in
 Exercise I.3.3 used by Theorem I.6.9, proves Proposition I.6.8, constructs the
 nonsingular projective model of Theorem I.6.9, and decomposes Corollaries
 I.6.10–6.12 through the contravariant equivalence with one-dimensional
-function fields. Eight leaves are now formalized; the remaining 13 are
+function fields. Nine leaves are now formalized; the remaining 12 are
 planned.
 
 **Site:** <https://deicyde.github.io/hartshorne/>

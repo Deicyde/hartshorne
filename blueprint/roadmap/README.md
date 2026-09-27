@@ -53,8 +53,8 @@ nonsingular projective models, and reaches the category equivalences of
 Corollary 6.12. Exercise
 3.3(a) is the existing completed local-ring map; the 21 new leaves comprise
 two for Exercise 3.3(b),(c), which are now complete, and 19 for Proposition
-6.8 through Corollary 6.12. Six of those 19 bridges are now complete. The full
-roadmap therefore has 161 leaves, 148 complete and 13 planned.
+6.8 through Corollary 6.12. Seven of those 19 bridges are now complete. The
+full roadmap therefore has 161 leaves, 149 complete and 12 planned.
 
 Read the [coverage contract](../coverage/README.md) before reading progress off
 this book: §§1–4, the geometric core of §5 through Theorem 5.3, and §6 through

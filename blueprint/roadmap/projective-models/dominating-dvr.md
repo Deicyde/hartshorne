@@ -3,6 +3,9 @@ article_id: af_ac2003f542f79c13b0dab5f6
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-6-projective-model]
+statement: formalized
+proof: formalized
+lean: Hartshorne.Variety.HasAffineOpenBasis.exists_functionFieldDVR_dominating_localRing
 ---
 
 # A dominating function-field DVR
