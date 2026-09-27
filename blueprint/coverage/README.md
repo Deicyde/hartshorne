@@ -87,9 +87,9 @@ The projective-model milestone adds 21 leaves: the two new Exercise 3.3
 criteria, now formalized, and 19 leaves for Proposition 6.8 through Corollary
 6.12, of which the valuation-regularity, abstract-curve-dimension,
 field-equivalence, local-ring, dominating-DVR, and projective-pivot bridges,
-the curve-category definitions, Proposition 6.8, and the two-chart affine cover
-are now formalized. Thus the roadmap has 161 leaves total, with 151 complete
-and 10 not yet formalized.
+the curve-category definitions, Proposition 6.8, the two-chart affine cover,
+and extension of dominant rational maps are now formalized. Thus the roadmap
+has 161 leaves total, with 152 complete and nine not yet formalized.
 No planned leaf is counted as statement- or proof-formalized.
 
 The counts grow as the work goes on, almost always by splitting a node that

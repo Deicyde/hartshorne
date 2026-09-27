@@ -3,6 +3,9 @@ article_id: af_80c5665b10ceeb3789f03554
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-projective-model]
+statement: formalized
+proof: formalized
+lean: Hartshorne.DominantRatMap.existsUnique_projectiveCurve_extension
 ---
 
 # Extension of dominant rational maps
