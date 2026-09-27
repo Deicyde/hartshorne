@@ -204,6 +204,190 @@ theorem IsQuasiProjVariety.localRingMap_injective
     hX.valuationSubringAt_toSubring hcurve Q (hns Q)]
   exact hx
 
+/-- A function-field DVR containing the coordinate ring of a nonsingular
+affine chart is represented by a point of the ambient curve.  The coordinate
+ring is embedded in the function field through the chart equivalence, so this
+form retains the compatibility needed when an affine model was constructed
+inside a prescribed ambient function field. -/
+theorem IsQuasiProjVariety.functionFieldDVR_mem_range_localRingMap_of_affineChart
+    {τ : Type u} [Finite τ] {Z : Set (τ → k)}
+    (hY : IsQuasiProjVariety Y)
+    (hcurve : (Variety.ofQuasiProjective hY).IsCurve)
+    (hns : (Variety.ofQuasiProjective hY).Nonsingular)
+    (V : Opens (Variety.ofQuasiProjective hY).carrier)
+    (hV : (V : Set (Variety.ofQuasiProjective hY).carrier).Nonempty)
+    (hZ : IsAffineVariety Z)
+    (φ : VarietyHom
+      ((Variety.ofQuasiProjective hY).restrict V hV)
+      (Variety.ofQuasiAffine hZ.isQuasiAffineVariety))
+    (hφ : φ.IsIso)
+    (R : FunctionFieldDVR k
+      (Variety.ofQuasiProjective hY).FunctionField)
+    (hR : ∀ b : coordinateRing Z,
+      ((RationalMapFunctionField.affineChartFunctionFieldAlgEquiv
+          V hV hZ φ hφ).trans
+        (RationalMapFunctionField.functionFieldAlgEquivAffine
+          hZ.isQuasiAffineVariety)).symm
+          (coordToRational hZ.isIrreducible b) ∈
+        R.toValuationSubring) :
+    R ∈ Set.range
+      ((Variety.hasAffineOpenBasis_ofQuasiProjective hY).functionFieldDVRAt
+        hcurve hns) := by
+  let X := Variety.ofQuasiProjective hY
+  let hX := Variety.hasAffineOpenBasis_ofQuasiProjective hY
+  let A := Variety.ofQuasiAffine hZ.isQuasiAffineVariety
+  let eKA : X.FunctionField ≃ₐ[k] A.FunctionField :=
+    RationalMapFunctionField.affineChartFunctionFieldAlgEquiv V hV hZ φ hφ
+  let eK : X.FunctionField ≃ₐ[k] FunctionField hZ.isIrreducible :=
+    eKA.trans
+      (RationalMapFunctionField.functionFieldAlgEquivAffine
+        hZ.isQuasiAffineVariety)
+  let B := coordinateRing Z
+  let ι : B →ₐ[k] X.FunctionField :=
+    eK.symm.toAlgHom.comp (coordToRational hZ.isIrreducible)
+  let _ : IsDomain B := isDomain_coordinateRing hZ
+  let _ : Algebra B X.FunctionField := ι.toRingHom.toAlgebra
+  let _ : IsScalarTower k B X.FunctionField :=
+    IsScalarTower.of_algebraMap_eq fun c ↦ (ι.commutes c).symm
+  let _ : IsFractionRing B (FunctionField hZ.isIrreducible) :=
+    isFractionRing_functionField hZ.isIrreducible
+  let eFrac : FunctionField hZ.isIrreducible ≃ₐ[B] X.FunctionField :=
+    AlgEquiv.ofRingEquiv (f := eK.symm.toRingEquiv) fun b ↦ rfl
+  let _ : IsFractionRing B X.FunctionField := IsFractionRing.of_algEquiv eFrac
+  have htrdeg : Algebra.trdeg k X.FunctionField = 1 :=
+    hX.isCurve_iff_trdeg_eq_one.mp hcurve
+  have hcurveA : A.IsCurve := by
+    apply (Variety.hasAffineOpenBasis_ofAffine hZ).isCurve_iff_trdeg_eq_one.mpr
+    exact eKA.trdeg_eq.symm.trans htrdeg
+  have hnsV : (X.restrict V hV).Nonsingular := by
+    intro Q
+    exact (Variety.nonsingularAt_restrict_iff Q).mpr (hns Q.1)
+  have hnsA : A.Nonsingular :=
+    (Variety.nonsingular_iff_of_isIso hφ).mp hnsV
+  let _ : IsDedekindDomain B :=
+    hZ.isDedekindDomain_coordinateRing_of_nonsingular hcurveA hnsA
+  have hRB : ∀ b : B,
+      algebraMap B X.FunctionField b ∈ R.toValuationSubring := by
+    intro b
+    change ι b ∈ R.toValuationSubring
+    exact hR b
+  let _ : (R.center hRB).IsMaximal := R.center_isMaximal hRB
+  obtain ⟨z, hz⟩ :=
+    maximalIdealAt_surjective hZ.isAlgebraicSet
+      (show (R.center hRB).IsMaximal from inferInstance)
+  let zA : A.carrier := ⟨z.1, z.2⟩
+  obtain ⟨Q, hQ⟩ := hφ.bijective.2 zA
+  let zQ : Z := affinePoint hZ.isQuasiAffineVariety (φ Q)
+  have hzQ : maximalIdealAt Z zQ = R.center hRB := by
+    rw [show zQ = z by
+      apply Subtype.ext
+      exact congrArg Subtype.val hQ]
+    exact hz
+  have hpne : maximalIdealAt Z zQ ≠ ⊥ := by
+    rw [hzQ]
+    exact R.center_ne_bot hRB
+  let p : IsDedekindDomain.HeightOneSpectrum B :=
+    ⟨maximalIdealAt Z zQ, (maximalIdealAt_isMaximal zQ).isPrime, hpne⟩
+  let S := hX.functionFieldDVRAt hcurve hns Q.1
+  let eOpenL := Variety.localRingEquivRestrict Q
+  let eIsoL : A.LocalRingAt (φ Q) ≃+* (X.restrict V hV).LocalRingAt Q :=
+    RingEquiv.ofBijective (φ.localRingHom Q)
+      (VarietyHom.bijective_localRingHom_of_isIso hφ Q)
+  let eAffL := localRingEquivAffine hZ.isQuasiAffineVariety (φ Q)
+  let eL : LocalRingAt hZ.isIrreducible zQ ≃+* X.LocalRingAt Q.1 :=
+    eAffL.symm.trans (eIsoL.trans eOpenL)
+  let eLoc : Localization.AtPrime (maximalIdealAt Z zQ) ≃+*
+      X.LocalRingAt Q.1 :=
+    (localizationEquivLocalRing hZ.isIrreducible zQ).trans eL
+  let locToK : Localization.AtPrime (maximalIdealAt Z zQ) →ₐ[k]
+      X.FunctionField :=
+    localizationAtPrimeToFunctionField (k := k) B X.FunctionField
+      (maximalIdealAt Z zQ)
+  have hloc (a : Localization.AtPrime (maximalIdealAt Z zQ)) :
+      X.localToFunctionFieldAlgHom Q.1 (eLoc a) = locToK a := by
+    let f : Localization.AtPrime (maximalIdealAt Z zQ) →+* X.FunctionField :=
+      (X.localToFunctionFieldAlgHom Q.1).toRingHom.comp eLoc.toRingHom
+    have hfg : f = locToK.toRingHom := by
+      apply IsLocalization.ringHom_ext (maximalIdealAt Z zQ).primeCompl
+      apply DFunLike.ext _ _
+      intro b
+      change X.localToFunctionFieldAlgHom Q.1
+          (eLoc (algebraMap B
+            (Localization.AtPrime (maximalIdealAt Z zQ)) b)) =
+        locToK (algebraMap B
+          (Localization.AtPrime (maximalIdealAt Z zQ)) b)
+      have heLoc : eLoc (algebraMap B
+            (Localization.AtPrime (maximalIdealAt Z zQ)) b) =
+          eL (coordToLocal hZ.isIrreducible zQ b) := by
+        change eL ((localizationEquivLocalRing hZ.isIrreducible zQ)
+            (algebraMap B
+              (Localization.AtPrime (maximalIdealAt Z zQ)) b)) = _
+        congr 1
+        change localizationToLocal hZ.isIrreducible zQ
+            (algebraMap B
+              (Localization.AtPrime (maximalIdealAt Z zQ)) b) = _
+        rw [localizationToLocal, IsLocalization.lift_eq]
+        rfl
+      rw [heLoc,
+        localizationAtPrimeToFunctionField_algebraMap (k := k)]
+      apply eK.injective
+      rw [affineChart_localToFunctionField V hV hZ φ hφ Q,
+        localToFunctionField_coordToLocal hZ.isQuasiAffineVariety zQ b]
+      change coordToRational hZ.isIrreducible b =
+        eK (eK.symm (coordToRational hZ.isIrreducible b))
+      exact (eK.apply_symm_apply _).symm
+    exact DFunLike.congr_fun hfg a
+  have hcanonicalR :
+      IsDedekindDomain.HeightOneSpectrum.valuationSubringAtPrime
+          X.FunctionField p = R.toValuationSubring := by
+    calc
+      IsDedekindDomain.HeightOneSpectrum.valuationSubringAtPrime
+            X.FunctionField p =
+          IsDedekindDomain.HeightOneSpectrum.valuationSubringAtPrime
+            X.FunctionField (R.centerHeightOne hRB) := by
+              congr 1
+              apply IsDedekindDomain.HeightOneSpectrum.ext
+              exact hzQ
+      _ = R.toValuationSubring := R.localizationAtCenter_eq hRB
+  have hcanonicalS :
+      IsDedekindDomain.HeightOneSpectrum.valuationSubringAtPrime
+          X.FunctionField p = S.toValuationSubring := by
+    apply ValuationSubring.eq_of_le_of_ne_top _ _ S.toValuationSubring_ne_top
+    rintro q ⟨a, s, hs, rfl⟩
+    let aLoc : Localization.AtPrime (maximalIdealAt Z zQ) :=
+      IsLocalization.mk' _ a ⟨s, hs⟩
+    have hCa : locToK aLoc =
+        algebraMap B X.FunctionField a *
+          (algebraMap B X.FunctionField s)⁻¹ := by
+      change IsLocalization.lift _
+          (IsLocalization.mk'
+            (Localization.AtPrime (maximalIdealAt Z zQ)) a ⟨s, hs⟩) = _
+      apply (IsLocalization.lift_mk'_spec _ _ _ _).mpr
+      change algebraMap B X.FunctionField a =
+        algebraMap B X.FunctionField s *
+          (algebraMap B X.FunctionField a *
+            (algebraMap B X.FunctionField s)⁻¹)
+      have hs0 : algebraMap B X.FunctionField s ≠ 0 :=
+        IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors
+          (mem_nonZeroDivisors_of_ne_zero fun hszero ↦
+            hs (hszero ▸ (maximalIdealAt Z zQ).zero_mem))
+      rw [← mul_assoc, mul_comm (algebraMap B X.FunctionField s),
+        mul_assoc, mul_inv_cancel₀ hs0, mul_one]
+    have hqrange :
+        algebraMap B X.FunctionField a *
+            (algebraMap B X.FunctionField s)⁻¹ ∈
+          (X.localRingRange Q.1).toSubring :=
+      ⟨eLoc aLoc, (hloc aLoc).trans hCa⟩
+    change algebraMap B X.FunctionField a *
+        (algebraMap B X.FunctionField s)⁻¹ ∈
+      (hX.valuationSubringAt hcurve Q.1 (hns Q.1)).toSubring
+    rw [hX.valuationSubringAt_toSubring hcurve Q.1 (hns Q.1)]
+    exact hqrange
+  have hRS : R = S := by
+    apply Subtype.ext
+    exact hcanonicalR.symm.trans hcanonicalS
+  exact ⟨Q.1, hRS.symm⟩
+
 /-- The image of the local-ring map is open in the cofinite valuation space. -/
 theorem IsQuasiProjVariety.isOpen_range_localRingMap
     (hY : IsQuasiProjVariety Y)

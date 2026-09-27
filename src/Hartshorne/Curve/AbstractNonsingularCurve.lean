@@ -34,6 +34,22 @@ namespace ValuationSpace
 
 variable {k : Type u} {K : Type v} [Field k] [Field K] [Algebra k K]
 
+/-- The ambient variety on the full valuation space of a one-dimensional
+function field, before restriction to a chosen open subset. -/
+noncomputable def abstractNonsingularCurveAmbient [IsAlgClosed k]
+    [Algebra.EssFiniteType k K] (htrdeg : Algebra.trdeg k K = 1) : Variety k := by
+  let h := regularFunctions_axioms htrdeg
+  exact {
+    carrier := ValuationSpace k K
+    topology := inferInstance
+    irreducible := irreducibleSpace_of_trdeg_eq_one htrdeg
+    regular := fun V ↦ regularFunctions htrdeg (V : Set (ValuationSpace k K))
+    regular_restrict := h.regular_restrict
+    isClosed_zeroLocus := h.isClosed_zeroLocus
+    regular_div := h.regular_div
+    regular_of_locally := h.regular_of_locally
+  }
+
 /-- A nonempty open subset of the valuation space of a one-dimensional
 function field, equipped with its residue-valued regular functions, is an
 abstract nonsingular curve.
@@ -44,19 +60,8 @@ specific field. -/
 noncomputable def abstractNonsingularCurve [IsAlgClosed k]
     [Algebra.EssFiniteType k K] (htrdeg : Algebra.trdeg k K = 1)
     (U : Opens (ValuationSpace k K))
-    (hU : (U : Set (ValuationSpace k K)).Nonempty) : Variety k := by
-  let h := regularFunctions_axioms htrdeg
-  let C : Variety k := {
-    carrier := ValuationSpace k K
-    topology := inferInstance
-    irreducible := irreducibleSpace_of_trdeg_eq_one htrdeg
-    regular := fun V ↦ regularFunctions htrdeg (V : Set (ValuationSpace k K))
-    regular_restrict := h.regular_restrict
-    isClosed_zeroLocus := h.isClosed_zeroLocus
-    regular_div := h.regular_div
-    regular_of_locally := h.regular_of_locally
-  }
-  exact C.restrict U hU
+    (hU : (U : Set (ValuationSpace k K)).Nonempty) : Variety k :=
+  (abstractNonsingularCurveAmbient htrdeg).restrict U hU
 
 end ValuationSpace
 

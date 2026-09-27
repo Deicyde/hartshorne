@@ -173,4 +173,5 @@ import Hartshorne.Curve.ValuationSpaceFieldEquivalence
 import Hartshorne.Curve.ValuationSpaceFunctionField
 import Hartshorne.Curve.LocalRingMapOpen
 import Hartshorne.Curve.CurveToValuationSpaceIso
+import Hartshorne.Curve.TwoAffineChartCover
 import Hartshorne.Curve.Categories
