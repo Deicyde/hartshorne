@@ -146,6 +146,7 @@ import Hartshorne.Curve.FunctionFieldDVR
 import Hartshorne.Curve.DominatingDVR
 import Hartshorne.Curve.ValuationProjectivePivot
 import Hartshorne.Curve.ProjectiveExtension
+import Hartshorne.Curve.ProjectiveRationalMapExtension
 import Hartshorne.Curve.DedekindSubringLocalization
 import Hartshorne.Curve.Cofinite
 import Hartshorne.Curve.ValuationSpaceTopology
