@@ -6,8 +6,8 @@ article_id: af_becb3ae580c9c99e691ab5a6
 
 This 21-leaf milestone covers Hartshorne I.6, Proposition 6.8 through
 Corollary 6.12 (printed pp. 43--46), together with the parts of Exercise 3.3
-that Theorem 6.9 uses. Nine leaves are statement- and proof-formalized; the
-remaining 12 leaves are planned. The preceding 140 leaves remain complete.
+that Theorem 6.9 uses. Ten leaves are statement- and proof-formalized; the
+remaining 11 leaves are planned. The preceding 140 leaves remain complete.
 
 The source first extends a map from a punctured abstract nonsingular curve to
 a projective target.  It then embeds the complete valuation curve `C_K` in a
