@@ -3,6 +3,9 @@ article_id: af_7157364b8a6b0f58790df1e7
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-projective-model]
+statement: formalized
+proof: formalized
+lean: Hartshorne.ValuationSpace.exists_two_affine_model_cover
 ---
 
 # A two-chart affine cover of the valuation curve
