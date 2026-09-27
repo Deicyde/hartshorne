@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Curve.ValuationProjectivePivot
 import Hartshorne.Curve.ValuationSpaceFunctionField
 import Hartshorne.Morphism.OpenSubvariety
+import Hartshorne.Rational.AffineOpenBasis
 import Hartshorne.Rational.MorphismAgreement
 import Hartshorne.Rational.ProductVariety
 
@@ -533,6 +534,274 @@ theorem existsUnique_projective_extension
   have hFz := congrArg
     (fun H : VarietyHom (X.restrict D hD) (Variety.ofProjective hY) ↦ H zD) hFextends
   exact hGz.trans hFz.symm
+
+/-- Inclusion between abstract curves cut out by nested ambient valuation-space
+opens. -/
+private noncomputable def abstractCurveInclHom
+    (htrdeg : Algebra.trdeg k K = 1)
+    {V U : Opens (ValuationSpace k K)} (hVU : V ≤ U)
+    (hV : (V : Set (ValuationSpace k K)).Nonempty)
+    (hU : (U : Set (ValuationSpace k K)).Nonempty) :
+    VarietyHom (abstractNonsingularCurve htrdeg V hV)
+      (abstractNonsingularCurve htrdeg U hU) := by
+  change VarietyHom
+    ((abstractNonsingularCurveAmbient htrdeg).restrict V hV)
+    ((abstractNonsingularCurveAmbient htrdeg).restrict U hU)
+  exact (abstractNonsingularCurveAmbient htrdeg).inclHomOfLE hVU hV hU
+
+/-- Flatten an open restriction of an abstract curve back to an abstract curve
+on the corresponding ambient valuation-space open. -/
+private noncomputable def abstractCurveFlattenHom
+    (htrdeg : Algebra.trdeg k K = 1)
+    (U : Opens (ValuationSpace k K))
+    (hU : (U : Set (ValuationSpace k K)).Nonempty)
+    (D : Opens (abstractNonsingularCurve htrdeg U hU).carrier)
+    (hD : (D : Set (abstractNonsingularCurve htrdeg U hU).carrier).Nonempty) :
+    VarietyHom
+      ((abstractNonsingularCurve htrdeg U hU).restrict D hD)
+      (abstractNonsingularCurve htrdeg (pushOpens U D)
+        (Variety.pushOpens_nonempty
+          (X := abstractNonsingularCurveAmbient htrdeg)
+          (U := U) (hU := hU) hD)) := by
+  change VarietyHom
+    (((abstractNonsingularCurveAmbient htrdeg).restrict U hU).restrict D hD)
+    ((abstractNonsingularCurveAmbient htrdeg).restrict (pushOpens U D)
+      (Variety.pushOpens_nonempty
+        (X := abstractNonsingularCurveAmbient htrdeg)
+        (U := U) (hU := hU) hD))
+  exact Variety.flattenRestrictHom
+    (X := abstractNonsingularCurveAmbient htrdeg) U hU D hD
+
+/-- Unflatten an abstract curve on a pushed open into the corresponding open
+restriction. -/
+private noncomputable def abstractCurveUnflattenHom
+    (htrdeg : Algebra.trdeg k K = 1)
+    (U : Opens (ValuationSpace k K))
+    (hU : (U : Set (ValuationSpace k K)).Nonempty)
+    (D : Opens (abstractNonsingularCurve htrdeg U hU).carrier)
+    (hD : (D : Set (abstractNonsingularCurve htrdeg U hU).carrier).Nonempty) :
+    VarietyHom
+      (abstractNonsingularCurve htrdeg (pushOpens U D)
+        (Variety.pushOpens_nonempty
+          (X := abstractNonsingularCurveAmbient htrdeg)
+          (U := U) (hU := hU) hD))
+      ((abstractNonsingularCurve htrdeg U hU).restrict D hD) := by
+  change VarietyHom
+    ((abstractNonsingularCurveAmbient htrdeg).restrict (pushOpens U D)
+      (Variety.pushOpens_nonempty
+        (X := abstractNonsingularCurveAmbient htrdeg)
+        (U := U) (hU := hU) hD))
+    (((abstractNonsingularCurveAmbient htrdeg).restrict U hU).restrict D hD)
+  exact Variety.unflattenRestrictHom
+    (X := abstractNonsingularCurveAmbient htrdeg) U hU D hD
+
+/-- Existence of an extension between two ambient opens.  The explicit finite
+set is an induction parameter recording the points still missing from the
+domain. -/
+private theorem exists_projective_extension_between_ambient_opens_aux
+    {τ : Type u} [Finite τ] [Nonempty τ]
+    (htrdeg : Algebra.trdeg k K = 1)
+    {Z : Set (ProjectiveSpace k τ)} (hZ : IsProjVariety Z)
+    (S : Set (ValuationSpace k K)) (hS : S.Finite) :
+    ∀ (U V : Opens (ValuationSpace k K))
+      (hU : (U : Set (ValuationSpace k K)).Nonempty)
+      (hV : (V : Set (ValuationSpace k K)).Nonempty)
+      (hVU : V ≤ U),
+      (U : Set (ValuationSpace k K)) \ (V : Set (ValuationSpace k K)) = S →
+      ∀ φ : VarietyHom (abstractNonsingularCurve htrdeg V hV)
+          (Variety.ofProjective hZ),
+        ∃ Φ : VarietyHom (abstractNonsingularCurve htrdeg U hU)
+            (Variety.ofProjective hZ),
+          ∀ (x : ValuationSpace k K) (hx : x ∈ V),
+            Φ ⟨x, hVU hx⟩ = φ ⟨x, hx⟩ := by
+  classical
+  refine Set.Finite.induction_on
+    (motive := fun S _ =>
+      ∀ (U V : Opens (ValuationSpace k K))
+        (hU : (U : Set (ValuationSpace k K)).Nonempty)
+        (hV : (V : Set (ValuationSpace k K)).Nonempty)
+        (hVU : V ≤ U),
+        (U : Set (ValuationSpace k K)) \ (V : Set (ValuationSpace k K)) = S →
+        ∀ φ : VarietyHom (abstractNonsingularCurve htrdeg V hV)
+            (Variety.ofProjective hZ),
+          ∃ Φ : VarietyHom (abstractNonsingularCurve htrdeg U hU)
+              (Variety.ofProjective hZ),
+            ∀ (x : ValuationSpace k K) (hx : x ∈ V),
+              Φ ⟨x, hVU hx⟩ = φ ⟨x, hx⟩)
+    S hS ?_ ?_
+  · intro U V hU hV hVU hdiff φ
+    have hUV : U ≤ V := by
+      intro x hxU
+      by_contra hxV
+      have hx : x ∈ (U : Set (ValuationSpace k K)) \
+          (V : Set (ValuationSpace k K)) := ⟨hxU, hxV⟩
+      rw [hdiff] at hx
+      exact hx
+    let j : VarietyHom (abstractNonsingularCurve htrdeg U hU)
+        (abstractNonsingularCurve htrdeg V hV) :=
+      abstractCurveInclHom htrdeg hUV hU hV
+    refine ⟨φ.comp j, ?_⟩
+    intro x hxV
+    change φ (j ⟨x, hVU hxV⟩) = φ ⟨x, hxV⟩
+    apply congrArg φ
+    apply Subtype.ext
+    rfl
+  · intro p S hp hS ih U V hU hV hVU hdiff φ
+    have hpDiff : p ∈ (U : Set (ValuationSpace k K)) \
+        (V : Set (ValuationSpace k K)) := by
+      rw [hdiff]
+      simp
+    have hpU : p ∈ U := hpDiff.1
+    have hpV : p ∉ V := hpDiff.2
+    let A := abstractNonsingularCurve htrdeg U hU
+    let P : A.carrier := ⟨p, hpU⟩
+    let D : Opens A.carrier := puncturedOpen htrdeg U hU P
+    let hD : (D : Set A.carrier).Nonempty :=
+      puncturedOpen_nonempty htrdeg U hU P
+    let U' : Opens (ValuationSpace k K) := pushOpens U D
+    let hU' : (U' : Set (ValuationSpace k K)).Nonempty :=
+      Variety.pushOpens_nonempty
+        (X := abstractNonsingularCurveAmbient htrdeg)
+        (U := U) (hU := hU) hD
+    have hU'_mem (x : ValuationSpace k K) : x ∈ U' ↔ x ∈ U ∧ x ≠ p := by
+      constructor
+      · intro hx
+        refine ⟨hx.1, ?_⟩
+        intro hxp
+        have hne := (mem_puncturedOpen htrdeg U hU P ⟨x, hx.1⟩).mp
+          (hx.2 hx.1)
+        apply hne
+        apply Subtype.ext
+        exact hxp
+      · rintro ⟨hxU, hxp⟩
+        refine ⟨hxU, fun hxU' =>
+          (mem_puncturedOpen htrdeg U hU P ⟨x, hxU'⟩).mpr ?_⟩
+        intro heq
+        exact hxp (congrArg Subtype.val heq)
+    have hVU' : V ≤ U' := by
+      intro x hxV
+      apply (hU'_mem x).mpr
+      refine ⟨hVU hxV, ?_⟩
+      intro hxp
+      apply hpV
+      simpa [hxp] using hxV
+    have hdiff' : (U' : Set (ValuationSpace k K)) \
+        (V : Set (ValuationSpace k K)) = S := by
+      ext x
+      constructor
+      · intro hx
+        have hxDiff : x ∈ (U : Set (ValuationSpace k K)) \
+            (V : Set (ValuationSpace k K)) := ⟨((hU'_mem x).mp hx.1).1, hx.2⟩
+        have hxInsert : x = p ∨ x ∈ S := by
+          rw [hdiff] at hxDiff
+          simpa only [Set.mem_insert_iff] using hxDiff
+        exact hxInsert.resolve_left ((hU'_mem x).mp hx.1).2
+      · intro hxS
+        have hxInsert : x ∈ insert p S := Set.mem_insert_of_mem p hxS
+        have hxDiff : x ∈ (U : Set (ValuationSpace k K)) \
+            (V : Set (ValuationSpace k K)) := by
+          rw [hdiff]
+          exact hxInsert
+        have hxp : x ≠ p := by
+          intro hxp
+          apply hp
+          simpa [hxp] using hxS
+        exact ⟨(hU'_mem x).mpr ⟨hxDiff.1, hxp⟩, hxDiff.2⟩
+    obtain ⟨ψ, hψ⟩ := ih U' V hU' hV hVU' hdiff' φ
+    let φD : VarietyHom (A.restrict D hD) (Variety.ofProjective hZ) :=
+      ψ.comp (abstractCurveFlattenHom htrdeg U hU D hD)
+    obtain ⟨Φ, hΦ, _⟩ :=
+      existsUnique_projective_extension htrdeg U hU P hZ φD
+    refine ⟨Φ, ?_⟩
+    intro x hxV
+    have hxU : x ∈ U := hVU hxV
+    have hxU' : x ∈ U' := hVU' hxV
+    have hxD : (⟨x, hxU⟩ : A.carrier) ∈ D := by
+      exact (mem_puncturedOpen htrdeg U hU P ⟨x, hxU⟩).mpr
+        (fun heq => hpV (by
+          have hxp : x = p := congrArg Subtype.val heq
+          simpa [hxp] using hxV))
+    let xD : (A.restrict D hD).carrier := ⟨⟨x, hxU⟩, hxD⟩
+    have hΦx := congrArg
+      (fun q : VarietyHom (A.restrict D hD) (Variety.ofProjective hZ) => q xD) hΦ
+    change Φ ((A.inclHom D hD) xD) = φD xD at hΦx
+    calc
+      Φ ⟨x, hxU⟩ = Φ ((A.inclHom D hD) xD) := by
+        apply congrArg Φ
+        rfl
+      _ = φD xD := hΦx
+      _ = ψ ⟨x, hxU'⟩ := by rfl
+      _ = φ ⟨x, hxV⟩ := hψ x hxV
+
+/-- A morphism from any nonempty open part of an abstract nonsingular curve to
+a projective variety extends uniquely to the whole abstract curve. -/
+theorem existsUnique_projective_extension_of_open
+    {τ : Type u} [Finite τ] [Nonempty τ]
+    (htrdeg : Algebra.trdeg k K = 1)
+    (U : Opens (ValuationSpace k K))
+    (hU : (U : Set (ValuationSpace k K)).Nonempty)
+    (D : Opens (abstractNonsingularCurve htrdeg U hU).carrier)
+    (hD : (D : Set (abstractNonsingularCurve htrdeg U hU).carrier).Nonempty)
+    {Z : Set (ProjectiveSpace k τ)} (hZ : IsProjVariety Z)
+    (φ : VarietyHom
+      ((abstractNonsingularCurve htrdeg U hU).restrict D hD)
+      (Variety.ofProjective hZ)) :
+    ∃! Φ : VarietyHom (abstractNonsingularCurve htrdeg U hU)
+        (Variety.ofProjective hZ),
+      Φ.comp ((abstractNonsingularCurve htrdeg U hU).inclHom D hD) = φ := by
+  classical
+  let V : Opens (ValuationSpace k K) := pushOpens U D
+  let hV : (V : Set (ValuationSpace k K)).Nonempty :=
+    Variety.pushOpens_nonempty
+      (X := abstractNonsingularCurveAmbient htrdeg)
+      (U := U) (hU := hU) hD
+  let φV : VarietyHom (abstractNonsingularCurve htrdeg V hV)
+      (Variety.ofProjective hZ) :=
+    φ.comp (abstractCurveUnflattenHom htrdeg U hU D hD)
+  have hfinite : ((V : Set (ValuationSpace k K))ᶜ).Finite :=
+    (isOpen_iff_nonempty_imp_compl_finite k K).mp V.isOpen hV
+  have hdiff : ((U : Set (ValuationSpace k K)) \
+      (V : Set (ValuationSpace k K))).Finite :=
+    hfinite.subset (fun _ hx => hx.2)
+  obtain ⟨Φ, hΦ⟩ := exists_projective_extension_between_ambient_opens_aux
+    htrdeg hZ ((U : Set (ValuationSpace k K)) \ (V : Set (ValuationSpace k K)))
+      hdiff U V hU hV pushOpens_le rfl φV
+  have hΦcomp : Φ.comp
+      ((abstractNonsingularCurve htrdeg U hU).inclHom D hD) = φ := by
+    apply VarietyHom.ext
+    funext x
+    let xV : V := toPush x
+    have hx := hΦ x.1.1 xV.2
+    have hxleft :
+        (⟨x.1.1, pushOpens_le xV.2⟩ :
+          (abstractNonsingularCurve htrdeg U hU).carrier) = x.1 := by
+      apply Subtype.ext
+      rfl
+    have hxright : abstractCurveUnflattenHom htrdeg U hU D hD xV = x := by
+      apply Subtype.ext
+      apply Subtype.ext
+      rfl
+    calc
+      Φ x.1 = Φ ⟨x.1.1, pushOpens_le xV.2⟩ := congrArg Φ hxleft.symm
+      _ = φV xV := hx
+      _ = φ (abstractCurveUnflattenHom htrdeg U hU D hD xV) := rfl
+      _ = φ x := congrArg φ hxright
+  refine ⟨Φ, hΦcomp, ?_⟩
+  intro Ψ hΨ
+  apply isSeparated_ofQuasiProjective hZ.isQuasiProjVariety
+    (abstractNonsingularCurve htrdeg U hU) Ψ Φ (D : Set _)
+    D.isOpen hD
+  intro x hxD
+  let xD : (abstractNonsingularCurve htrdeg U hU).restrict D hD := ⟨x, hxD⟩
+  have hΨx := congrArg
+    (fun q : VarietyHom
+      ((abstractNonsingularCurve htrdeg U hU).restrict D hD)
+      (Variety.ofProjective hZ) => q xD) hΨ
+  have hΦx := congrArg
+    (fun q : VarietyHom
+      ((abstractNonsingularCurve htrdeg U hU).restrict D hD)
+      (Variety.ofProjective hZ) => q xD) hΦcomp
+  exact hΨx.trans hΦx.symm
 
 end ValuationSpace
 
