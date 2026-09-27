@@ -21,11 +21,11 @@ open Set TopologicalSpace
 
 noncomputable section
 
-universe u v w
+universe u v
 
 namespace ValuationSpace
 
-variable {k : Type u} {K : Type v} {L : Type w}
+variable {k : Type u} {K L : Type v}
   [Field k] [Field K] [Field L] [Algebra k K] [Algebra k L]
 
 /-- Push a valuation subring forward along a field equivalence. -/
@@ -266,8 +266,8 @@ noncomputable def abstractNonsingularCurveHomOfAlgEquiv [IsAlgClosed k]
       let z : V := ⟨h x.1, x.2⟩
       let S : pushOpens (⊤ : Opens (ValuationSpace k L)) V := toPush z
       have hqS := mem_regularRationalFunctions_iff.mp q.2 S
-      change q.1 ∈ transportDVR e
-        ((ValuationSpace.of k K).symm R.1).toValuationSubring at hqS
+      change q.1 ∈ (transportDVR e
+        ((ValuationSpace.of k K).symm R.1)).toValuationSubring at hqS
       exact (mem_transportDVR e ((ValuationSpace.of k K).symm R.1) q.1).mp hqS⟩
   refine ⟨p, ?_⟩
   funext R
@@ -360,7 +360,14 @@ theorem abstractNonsingularCurveIsoOfAlgEquiv [IsAlgClosed k]
     change FunctionFieldDVR.residueAt hL (transportDVR e R₀) ⟨e x, hy⟩ =
       FunctionFieldDVR.residueAt hK R₀ ⟨x, hx⟩
     have hres := residueAt_transportDVR hK hL e R₀ (⟨x, hx⟩ : R₀.toValuationSubring)
-    convert hres using 1
+    calc
+      FunctionFieldDVR.residueAt hL (transportDVR e R₀) ⟨e x, hy⟩ =
+          FunctionFieldDVR.residueAt hL (transportDVR e R₀)
+            (transportDVRAlgEquiv e R₀ ⟨x, hx⟩) := by
+        apply congrArg (FunctionFieldDVR.residueAt hL (transportDVR e R₀))
+        apply Subtype.ext
+        rfl
+      _ = FunctionFieldDVR.residueAt hK R₀ ⟨x, hx⟩ := hres
 
 end ValuationSpace
 
