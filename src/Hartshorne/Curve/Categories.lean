@@ -36,17 +36,28 @@ variable (k : Type u) [Field k]
 
 /-- A quasi-projective curve with a specified finite projective presentation.
 
-The ambient space is `P^ambient`; its homogeneous coordinates are consequently
-indexed by `Fin (ambient + 1)`. -/
+The coordinate type is stored in the same universe as the ground field.  This
+keeps the presentation compatible with the projective-variety and function-field
+APIs, while finiteness and nonemptiness say that it is an ordinary finite
+projective space. -/
 structure QuasiProjectiveCurveCat where
-  /-- The dimension of the ambient projective space. -/
-  ambient : ℕ
+  /-- The homogeneous-coordinate index type. -/
+  ι : Type u
+  /-- There are finitely many homogeneous coordinates. -/
+  [finite_ι : Finite ι]
+  /-- Projective coordinates have at least one slot. -/
+  [nonempty_ι : Nonempty ι]
+  /-- Coordinate equality is decidable. -/
+  [decidableEq_ι : DecidableEq ι]
   /-- The presented subset of the ambient projective space. -/
-  carrier : Set (ProjectiveSpace k (Fin (ambient + 1)))
+  carrier : Set (ProjectiveSpace k ι)
   /-- The presentation is quasi-projective. -/
   isQuasiProjective : IsQuasiProjVariety carrier
   /-- The presented variety has dimension one. -/
   isCurve : (Variety.ofQuasiProjective isQuasiProjective).IsCurve
+
+attribute [instance] QuasiProjectiveCurveCat.finite_ι
+  QuasiProjectiveCurveCat.nonempty_ι QuasiProjectiveCurveCat.decidableEq_ι
 
 namespace QuasiProjectiveCurveCat
 
@@ -82,19 +93,30 @@ theorem comp_def {X Y Z : QuasiProjectiveCurveCat k} (f : X ⟶ Y) (g : Y ⟶ Z)
 end QuasiProjectiveCurveCat
 
 /-- A nonsingular projective curve with a specified finite projective
-presentation.  Morphisms in its category are dominant morphisms of the
-represented varieties. -/
+presentation.  Its coordinate type lives in the ground-field universe and is
+stored together with the finiteness data needed by the projective API.
+Morphisms in its category are dominant morphisms of the represented varieties. -/
 structure ProjectiveNonsingularCurveCat where
-  /-- The dimension of the ambient projective space. -/
-  ambient : ℕ
+  /-- The homogeneous-coordinate index type. -/
+  ι : Type u
+  /-- There are finitely many homogeneous coordinates. -/
+  [finite_ι : Finite ι]
+  /-- Projective coordinates have at least one slot. -/
+  [nonempty_ι : Nonempty ι]
+  /-- Coordinate equality is decidable. -/
+  [decidableEq_ι : DecidableEq ι]
   /-- The presented subset of the ambient projective space. -/
-  carrier : Set (ProjectiveSpace k (Fin (ambient + 1)))
+  carrier : Set (ProjectiveSpace k ι)
   /-- The presentation is projective. -/
   isProjective : IsProjVariety carrier
   /-- The presented variety has dimension one. -/
   isCurve : (Variety.ofProjective isProjective).IsCurve
   /-- The presented curve is nonsingular. -/
   isNonsingular : (Variety.ofProjective isProjective).Nonsingular
+
+attribute [instance] ProjectiveNonsingularCurveCat.finite_ι
+  ProjectiveNonsingularCurveCat.nonempty_ι
+  ProjectiveNonsingularCurveCat.decidableEq_ι
 
 namespace ProjectiveNonsingularCurveCat
 
