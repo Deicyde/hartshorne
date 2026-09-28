@@ -177,3 +177,4 @@ import Hartshorne.Curve.CurveToValuationSpaceIso
 import Hartshorne.Curve.TwoAffineChartCover
 import Hartshorne.Curve.ProjectiveChartExtensions
 import Hartshorne.Curve.Categories
+import Hartshorne.Curve.QuasiProjectiveCurveFunctionFieldEquivalence
