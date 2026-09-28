@@ -3,6 +3,9 @@ article_id: af_7573872cfdef047cd2572bae
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-projective-model]
+statement: formalized
+proof: formalized
+lean: Hartshorne.ValuationSpace.exists_dense_projective_diagonal
 ---
 
 # The projective diagonal model
