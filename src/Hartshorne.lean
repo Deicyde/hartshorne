@@ -175,4 +175,5 @@ import Hartshorne.Curve.ValuationSpaceFunctionField
 import Hartshorne.Curve.LocalRingMapOpen
 import Hartshorne.Curve.CurveToValuationSpaceIso
 import Hartshorne.Curve.TwoAffineChartCover
+import Hartshorne.Curve.ProjectiveChartExtensions
 import Hartshorne.Curve.Categories

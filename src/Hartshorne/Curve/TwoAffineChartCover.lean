@@ -500,6 +500,65 @@ theorem contains_normalization_mem_range_embedding [IsAlgClosed k]
   obtain ⟨y, rfl⟩ := M.chartIso_isIso.bijective.surjective w
   exact ⟨y, hw⟩
 
+/-! The coordinate reindexing used to take the projective closure of a model. -/
+
+/-- Reindex an affine normalization model by the non-homogenizing coordinates
+of `Option M.ι`.  The extra coordinate `none` is reserved for homogenization. -/
+def projectiveReindex [IsAlgClosed k] [Algebra.EssFiniteType k K]
+    {htrdeg : Algebra.trdeg k K = 1}
+    {C : SeparableNormalizationChart k K}
+    (M : AffineNormalizationModel htrdeg C) :
+    Set ({j : Option M.ι // j ≠ none} → k) :=
+  optionReindex (k := k) M.Y
+
+/-- The coordinate reindexing of an affine normalization model is again an
+affine variety. -/
+theorem projectiveReindex_isAffineVariety [IsAlgClosed k]
+    [Algebra.EssFiniteType k K]
+    {htrdeg : Algebra.trdeg k K = 1}
+    {C : SeparableNormalizationChart k K}
+    (M : AffineNormalizationModel htrdeg C) :
+    IsAffineVariety M.projectiveReindex :=
+  optionReindex_isAffineVariety (k := k) M.isAffineVariety
+
+/-- The original affine model, with its coordinates reindexed for the
+projective-closure construction. -/
+noncomputable def toProjectiveReindex [IsAlgClosed k]
+    [Algebra.EssFiniteType k K]
+    {htrdeg : Algebra.trdeg k K = 1}
+    {C : SeparableNormalizationChart k K}
+    (M : AffineNormalizationModel htrdeg C) :
+    VarietyHom
+      (Variety.ofQuasiAffine M.isAffineVariety.isQuasiAffineVariety)
+      (Variety.ofQuasiAffine
+        M.projectiveReindex_isAffineVariety.isQuasiAffineVariety) := by
+  letI := M.finite_ι
+  exact originalToOptionReindexHom (k := k) M.isAffineVariety
+
+/-- Reindexing the affine coordinates does not change the affine variety up to
+isomorphism. -/
+theorem toProjectiveReindex_isIso [IsAlgClosed k]
+    [Algebra.EssFiniteType k K]
+    {htrdeg : Algebra.trdeg k K = 1}
+    {C : SeparableNormalizationChart k K}
+    (M : AffineNormalizationModel htrdeg C) :
+    M.toProjectiveReindex.IsIso := by
+  let _ := M.finite_ι
+  change (originalToOptionReindexHom (k := k) M.isAffineVariety).IsIso
+  refine ⟨optionReindexToOriginalHom (k := k) M.isAffineVariety, ?_, ?_⟩
+  · apply VarietyHom.ext
+    funext x
+    apply Subtype.ext
+    rw [VarietyHom.comp_apply, optionReindexToOriginalHom_apply,
+      originalToOptionReindexHom_apply, eraseNone_optionCoordinates]
+    rfl
+  · apply VarietyHom.ext
+    funext y
+    apply Subtype.ext
+    rw [VarietyHom.comp_apply, originalToOptionReindexHom_apply,
+      optionReindexToOriginalHom_apply, optionCoordinates_eraseNone]
+    rfl
+
 end AffineNormalizationModel
 
 private noncomputable def abstractNonsingularCurveInclHom
