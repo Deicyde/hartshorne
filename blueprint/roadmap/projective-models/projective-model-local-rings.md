@@ -3,6 +3,9 @@ article_id: af_23b2537cc3ff2433010bec6d
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-6-projective-model]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveDiagonal_localRingRange_eq
 ---
 
 # Local rings of the diagonal model
