@@ -180,5 +180,6 @@ import Hartshorne.Curve.ProjectiveDiagonal
 import Hartshorne.Curve.ProjectiveModelFunctionField
 import Hartshorne.Curve.ProjectiveModelLocalRings
 import Hartshorne.Curve.FunctionFieldProjectiveModel
+import Hartshorne.Curve.CurveProjectiveModel
 import Hartshorne.Curve.Categories
 import Hartshorne.Curve.QuasiProjectiveCurveFunctionFieldEquivalence
