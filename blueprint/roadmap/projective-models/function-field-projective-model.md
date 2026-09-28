@@ -3,6 +3,9 @@ article_id: af_78997ddb7372a8a01620fefa
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-6-projective-model]
+statement: formalized
+proof: formalized
+lean: Hartshorne.ValuationSpace.exists_nonsingular_projective_model
 ---
 
 # Nonsingular projective models of function fields
