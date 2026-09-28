@@ -178,5 +178,6 @@ import Hartshorne.Curve.TwoAffineChartCover
 import Hartshorne.Curve.ProjectiveChartExtensions
 import Hartshorne.Curve.ProjectiveDiagonal
 import Hartshorne.Curve.ProjectiveModelFunctionField
+import Hartshorne.Curve.ProjectiveModelLocalRings
 import Hartshorne.Curve.Categories
 import Hartshorne.Curve.QuasiProjectiveCurveFunctionFieldEquivalence
