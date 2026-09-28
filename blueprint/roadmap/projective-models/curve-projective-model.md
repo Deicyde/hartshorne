@@ -3,6 +3,9 @@ article_id: af_7ec2c8292f28cc6598a1a58e
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-6-projective-model]
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsQuasiProjVariety.birational_nonsingular_projective
 ---
 
 # Projective models of curves
