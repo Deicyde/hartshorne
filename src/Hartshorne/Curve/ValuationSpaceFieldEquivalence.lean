@@ -344,12 +344,26 @@ theorem abstractNonsingularCurveIsoOfAlgEquiv [IsAlgClosed k]
       funext R
       apply Subtype.ext
       change valuationSpaceEquiv e.symm (valuationSpaceEquiv e R.1) = R.1
-      simp [valuationSpaceEquiv, dvrEquiv]
+      change ValuationSpace.of k K
+          (transportDVR e.symm
+            ((ValuationSpace.of k L).symm
+              (ValuationSpace.of k L
+                (transportDVR e ((ValuationSpace.of k K).symm R.1))))) = R.1
+      rw [ValuationSpace.of_symm_apply_apply,
+        transportDVR_symm_transportDVR]
+      rfl
     · apply VarietyHom.ext
       funext R
       apply Subtype.ext
       change valuationSpaceEquiv e (valuationSpaceEquiv e.symm R.1) = R.1
-      simp [valuationSpaceEquiv, dvrEquiv]
+      change ValuationSpace.of k L
+          (transportDVR e
+            ((ValuationSpace.of k K).symm
+              (ValuationSpace.of k K
+                (transportDVR e.symm ((ValuationSpace.of k L).symm R.1))))) = R.1
+      rw [ValuationSpace.of_symm_apply_apply,
+        transportDVR_transportDVR_symm]
+      rfl
   · intro R x
     change e x ∈ (transportDVR e
         ((ValuationSpace.of k K).symm R.1)).toValuationSubring ↔
