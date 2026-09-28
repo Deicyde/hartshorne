@@ -380,7 +380,9 @@ private theorem abstractCurveLocalToAmbientAlgHom_mem
   apply (mem_valuationSubring_iff_exists_regular_neighborhood htrdeg R q.1).mpr
   refine ⟨pushOpens U r.U, ?_, q.2⟩
   have hP : P.1 ∈ pushOpens U r.U := (toPush (⟨P, r.mem_U⟩ : r.U)).2
-  simpa [R] using hP
+  have hR : ValuationSpace.of k K R = P.1 :=
+    ValuationSpace.of_apply_symm_apply k K P.1
+  rwa [hR]
 
 /-- **Hartshorne I.6.** The local ring at a point of an abstract nonsingular
 curve is canonically the valuation ring represented by that point. -/
