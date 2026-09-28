@@ -123,6 +123,8 @@ structure ProjectiveDiagonalModel [IsAlgClosed k]
   productSnd : VarietyHom
     (Variety.ofProjective productIsProjVariety)
     (Variety.ofProjective M₁.projectiveClosure_isProjVariety)
+  productFst_toFun : productFst.toFun = segreProductFst
+  productSnd_toFun : productSnd.toFun = segreProductSnd
   diagonal : VarietyHom
     (abstractNonsingularCurveOfFunctionField htrdeg)
     (Variety.ofProjective productIsProjVariety)
@@ -223,6 +225,14 @@ theorem exists_dense_projective_diagonal [IsAlgClosed k]
       (Variety.ofProjective M₁.projectiveClosure_isProjVariety) :=
     segreProductSndHom M₁.projectiveClosure_isProjVariety.isQuasiProjVariety
       hProd.isQuasiProjVariety
+  have hp₀fun : p₀.toFun = segreProductFst :=
+    segreProductFstHom_toFun
+      M₀.projectiveClosure_isProjVariety.isQuasiProjVariety
+      hProd.isQuasiProjVariety
+  have hp₁fun : p₁.toFun = segreProductSnd :=
+    segreProductSndHom_toFun
+      M₁.projectiveClosure_isProjVariety.isQuasiProjVariety
+      hProd.isQuasiProjVariety
   let diagonal : VarietyHom
       (abstractNonsingularCurveOfFunctionField htrdeg)
       (Variety.ofProjective hProd) :=
@@ -259,6 +269,8 @@ theorem exists_dense_projective_diagonal [IsAlgClosed k]
     productIsProjVariety := hProd
     productFst := p₀
     productSnd := p₁
+    productFst_toFun := hp₀fun
+    productSnd_toFun := hp₁fun
     diagonal := diagonal
     diagonal_toFun := hdiagonal
     productFst_comp_diagonal := hp₀
