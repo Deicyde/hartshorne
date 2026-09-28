@@ -1,7 +1,7 @@
 ---
 schema: autoform-coverage/v2
 artifact: sources/hartshorne.md
-artifact_sha256: ef02794594661833c5ca6ca2ff2a99b0e603e54cf88c5670e2d285e4314a801b
+artifact_sha256: f3fb789e1c5ca7544573e8865cc35bedb770343892124e121f4494a439fad65f
 ---
 
 # Coverage contract
@@ -31,7 +31,7 @@ has roadmap leaves; it does not mean that those leaves are proved.
 | chapter-i-section-6-local-structure | Local structure of nonsingular curves and point separation | 257-272 | Chapter I §6 after Theorem 6.3A through Lemma 6.4, book p. 41 | 449002e69a8a7a1a3cba7af6c3431990167071a14df73facf7f8b0a3fedfc2e3 | DECOMPOSED | [Curves](../roadmap/nonsingular-curves/curve.md), [The function field is the fraction field of every local ring](../roadmap/nonsingular-curves/local-ring-fraction-field.md), [Dimension of the local ring of a variety](../roadmap/nonsingular-curves/local-ring-dimension.md), [Local rings of nonsingular curves are DVRs](../roadmap/nonsingular-curves/nonsingular-curve-local-ring-dvr.md), [Nonsingular curve points define discrete valuations](../roadmap/nonsingular-curves/nonsingular-curve-valuation.md), [Linear fractions separate projective points](../roadmap/nonsingular-curves/projective-linear-separation.md), [Membership of a homogeneous fraction in a local ring](../roadmap/nonsingular-curves/homogeneous-fraction-local-membership.md), [The local ring determines the point](../roadmap/nonsingular-curves/local-ring-inclusion-determines-point.md) |
 | chapter-i-section-6-normalization | Normalization, finite poles, and affine DVR models | 273-291 | Chapter I §6, Lemma 6.5 and Corollary 6.6, book pp. 41–42 | fa8a7c43b84a8bc9188df4ff8485d455c3047445f73e7e3c9ee4dfecee6645b2 | DECOMPOSED | [Discrete valuation rings of a function field](../roadmap/curve-normalization/function-field-dvrs.md), [One-dimensional function fields have separating parameters](../roadmap/curve-normalization/separating-parameter.md), [The two separable normalization charts](../roadmap/curve-normalization/separable-normalization-charts.md), [A DVR containing a Dedekind subring is its localization](../roadmap/curve-normalization/dedekind-subring-localization.md), [Dedekind localizations occur on nonsingular affine curves](../roadmap/curve-normalization/dedekind-affine-model.md), [A rational function has finitely many poles](../roadmap/curve-normalization/finite-poles.md), [Every function-field DVR has a nonsingular affine model](../roadmap/curve-normalization/dvr-affine-model.md) |
 | chapter-i-section-6-abstract-curves | Valuation-space and abstract nonsingular curves | 292-315 | Chapter I §6, definitions and Proposition 6.7, book pp. 42–43 | 364f65bc543535d335016e2307173f2b5ad811d68b01251e81d6d3318182621c | DECOMPOSED | [Quasi-projective curves have the cofinite topology](../roadmap/curve-normalization/quasiprojective-curve-cofinite.md), [The cofinite valuation space](../roadmap/curve-normalization/valuation-space/valuation-space-topology.md), [The valuation space is infinite](../roadmap/curve-normalization/valuation-space/valuation-space-infinitude.md), [Residue fields of function-field DVRs](../roadmap/curve-normalization/valuation-residue-field.md), [Regular functions on the valuation space](../roadmap/curve-normalization/valuation-regular-functions.md), [The valuation-space regularity axioms](../roadmap/curve-normalization/valuation-regular-functions-local.md), [Abstract nonsingular curves](../roadmap/curve-normalization/abstract-nonsingular-curve.md), [The function field of an abstract nonsingular curve](../roadmap/curve-normalization/valuation-space-function-field.md), [Nonsingular affine curves have Dedekind coordinate rings](../roadmap/curve-normalization/nonsingular-affine-curve-dedekind.md), [The local-ring map has open image](../roadmap/curve-normalization/curve-local-ring-map-open.md), [Nonsingular curves are open subcurves of their valuation spaces](../roadmap/curve-normalization/curve-to-valuation-space-iso.md) |
-| chapter-i-section-6-projective-model | Extension across points and projective models | 316-340 | Chapter I §6, Proposition 6.8 through Corollary 6.12, book pp. 43–46 | ebefc8309e6d3b00c42332b5a6182ed3b1ea688c9cfae0a4288c1a90ce64aa67 | DECOMPOSED | [Regularity near a valuation](../roadmap/projective-models/regular-near-valuation.md), [The local ring of an abstract curve](../roadmap/projective-models/abstract-curve-local-ring.md), [Abstract valuation curves have dimension one](../roadmap/projective-models/abstract-curve-dimension.md), [Transporting valuation curves along a field equivalence](../roadmap/projective-models/valuation-space-field-equivalence.md), [A projective coordinate pivot](../roadmap/projective-models/valuation-projective-pivot.md), [Extension to a projective target](../roadmap/projective-models/projective-extension.md), [A two-chart affine cover](../roadmap/projective-models/two-affine-chart-cover.md), [Projective chart extensions](../roadmap/projective-models/projective-chart-extensions.md), [The projective diagonal model](../roadmap/projective-models/projective-diagonal.md), [Its function field](../roadmap/projective-models/projective-model-function-field.md), [Its local rings](../roadmap/projective-models/projective-model-local-rings.md), [A dominating function-field DVR](../roadmap/projective-models/dominating-dvr.md), [Nonsingular projective models of function fields](../roadmap/projective-models/function-field-projective-model.md), [Abstract curves are quasi-projective](../roadmap/projective-models/abstract-curve-quasiprojective.md), [Completion of a nonsingular curve](../roadmap/projective-models/nonsingular-curve-projective-open.md), [Projective models of curves](../roadmap/projective-models/curve-projective-model.md), [The three curve categories](../roadmap/projective-models/curve-categories.md), [Extension of dominant rational maps](../roadmap/projective-models/projective-rational-map-extension.md), [The curve/function-field category equivalence](../roadmap/projective-models/curve-category-equivalence.md) |
+| chapter-i-section-6-projective-model | Extension across points and projective models | 316-340 | Chapter I §6, Proposition 6.8 through Corollary 6.12, book pp. 43–46 | 7298a810773cda8b7a437aaede7938bbfd6699045a27a79973977529c89fbece | DECOMPOSED | [Regularity near a valuation](../roadmap/projective-models/regular-near-valuation.md), [The local ring of an abstract curve](../roadmap/projective-models/abstract-curve-local-ring.md), [Abstract valuation curves have dimension one](../roadmap/projective-models/abstract-curve-dimension.md), [Transporting valuation curves along a field equivalence](../roadmap/projective-models/valuation-space-field-equivalence.md), [A projective coordinate pivot](../roadmap/projective-models/valuation-projective-pivot.md), [Extension to a projective target](../roadmap/projective-models/projective-extension.md), [A two-chart affine cover](../roadmap/projective-models/two-affine-chart-cover.md), [Projective chart extensions](../roadmap/projective-models/projective-chart-extensions.md), [The projective diagonal model](../roadmap/projective-models/projective-diagonal.md), [Its function field](../roadmap/projective-models/projective-model-function-field.md), [Its local rings](../roadmap/projective-models/projective-model-local-rings.md), [A dominating function-field DVR](../roadmap/projective-models/dominating-dvr.md), [Nonsingular projective models of function fields](../roadmap/projective-models/function-field-projective-model.md), [Abstract curves are quasi-projective](../roadmap/projective-models/abstract-curve-quasiprojective.md), [Completion of a nonsingular curve](../roadmap/projective-models/nonsingular-curve-projective-open.md), [Projective models of curves](../roadmap/projective-models/curve-projective-model.md), [The three curve categories](../roadmap/projective-models/curve-categories.md), [Extension of dominant rational maps](../roadmap/projective-models/projective-rational-map-extension.md), [Projective and quasi-projective curve categories](../roadmap/projective-models/projective-quasiprojective-curve-equivalence.md), [Quasi-projective curves and function fields](../roadmap/projective-models/quasiprojective-curve-function-field-equivalence.md), [The curve/function-field category equivalence](../roadmap/projective-models/curve-category-equivalence.md) |
 | chapter-i-section-6-exercises | Exercises on curves and valuations | 341-346 | Chapter I, Exercises 6.1–6.7, book pp. 46–47 | 75ef55d17275e74c30a42767df0d4e799460fd6de6f993da682490c70135379b | OUT | No §6 exercise is used by the approved scope through Corollary 6.12 |
 | remaining-sections | Undecomposed remainder of the book | 347-360 | Chapter I §§7–8 and Chapters II–V, book pp. 47–420 | 00ceefe5dcbf4668bdc2abd0f2bfd445cf0e428435bffb0bfbd49e4bf6cd5ef6 | OUT | Explicitly outside the current scope; the inventory only locates these sections |
 | standing-conventions | Algebraically closed base field and irreducible varieties | 361-368 | Standing conventions for Chapter I | 32c55ea4bf211d1ee39edc51f124ebc7e3841b0728a82001ac113c4cff8be7df | DECOMPOSED | [Affine and quasi-affine varieties](../roadmap/affine-varieties/affine-variety.md), [Projective and quasi-projective varieties](../roadmap/projective-varieties/projective-variety.md), [Varieties](../roadmap/morphisms/variety.md) |
@@ -48,13 +48,13 @@ Corollary 6.12 (book pages 39–46), including the quoted Theorems 3.9A and
 | I.1 | Affine Varieties | 1–8 | [23 articles](../roadmap/affine-varieties/README.md) | done |
 | I.2 | Projective Varieties | 8–14 | [13 articles](../roadmap/projective-varieties/README.md) | done |
 | I.3 | Morphisms | 14–23 | [33 articles](../roadmap/morphisms/README.md) | done |
-| I.3, Ex. 3.3(b),(c) | Local-ring criteria used by Thm. 6.9 | 21 | [Dense morphisms inject on local rings](../roadmap/projective-models/dominant-morphism-local-ring.md), [isomorphisms from topology and local rings](../roadmap/projective-models/isomorphism-local-criterion.md) | planned |
+| I.3, Ex. 3.3(b),(c) | Local-ring criteria used by Thm. 6.9 | 21 | [Dense morphisms inject on local rings](../roadmap/projective-models/dominant-morphism-local-ring.md), [isomorphisms from topology and local rings](../roadmap/projective-models/isomorphism-local-criterion.md) | done |
 | I.4 | Rational Maps | 24–29 | [17 articles](../roadmap/rational-maps/README.md) | done |
 | I.4, Ex. 4.8(a) consequence | Infinitude used in §6 | 31 | [1 article](../roadmap/curve-normalization/quasiprojective-curve-cofinite.md) | done |
 | I.5 through Thm. 5.3 | Nonsingular Varieties | 31–33 | [16 articles](../roadmap/nonsingular-varieties/README.md) | done |
 | I.6 through Lem. 6.4, excluding Thm. 6.3A | Local Structure of Nonsingular Curves | 39–41 | [12 articles](../roadmap/nonsingular-curves/README.md) | done |
 | I.3.9A and I.6.3A–6.7 | Normalization and the Valuation-Space Curve | 20, 40–43 | [26 articles](../roadmap/curve-normalization/README.md) | done |
-| I.6.8–6.12 | Projective Models and Curve Categories | 43–46 | [19 further articles in the 21-leaf chapter](../roadmap/projective-models/README.md) | planned |
+| I.6.8–6.12 | Projective Models and Curve Categories | 43–46 | [21 further articles in the 23-leaf chapter](../roadmap/projective-models/README.md) | in progress (10/21) |
 
 All 86 main-text and previously adopted articles in §§1–4 are done: 85 are
 proved here and one was already in Mathlib. The §4 results include the
@@ -67,7 +67,7 @@ proved in this project and two are supplied by Mathlib.
 
 Exercise 3.3(a) is already among those completed articles under its corrected
 source provenance. Parts (b) and (c), newly adopted because Theorem 6.9 uses
-them, are the first two formalized leaves of the 21-leaf projective-model
+them, are the first two formalized leaves of the 23-leaf projective-model
 milestone.
 
 The approved opening of §6 adds 12 targets. Mathlib supplies the two clauses of
@@ -83,13 +83,13 @@ all complete: 136 project formalizations and four exact Mathlib results.
 The geometric branch uses two separable normalization charts, so it can advance
 independently of the harder exact Theorems 3.9A and 6.3A.
 
-The projective-model milestone adds 21 leaves: the two new Exercise 3.3
-criteria, now formalized, and 19 leaves for Proposition 6.8 through Corollary
+The projective-model milestone adds 23 leaves: the two new Exercise 3.3
+criteria, now formalized, and 21 leaves for Proposition 6.8 through Corollary
 6.12, of which the valuation-regularity, abstract-curve-dimension,
 field-equivalence, local-ring, dominating-DVR, and projective-pivot bridges,
 the curve-category definitions, Proposition 6.8, the two-chart affine cover,
 and extension of dominant rational maps are now formalized. Thus the roadmap
-has 161 leaves total, with 152 complete and nine not yet formalized.
+has 163 leaves total, with 152 complete and eleven not yet formalized.
 No planned leaf is counted as statement- or proof-formalized.
 
 The counts grow as the work goes on, almost always by splitting a node that
@@ -123,8 +123,7 @@ the main text of an in-scope section depends on it.** Nothing else is adopted.
   Its exact cardinality statement and part (b) remain outside the roadmap.
 - **Exercise 3.3(a)–(c)** because Theorem 6.9 explicitly uses functorial local
   rings, injectivity for a dense morphism, and the isomorphism criterion from a
-  homeomorphism with isomorphic local rings. Part (a) was already formalized;
-  parts (b) and (c) are planned here.
+  homeomorphism with isomorphic local rings. All three parts are formalized.
 
 **The two quoted integral-closure results are formalized.** Theorem 3.9A
 (finiteness of integral closure, p. 20) and Theorem 6.3A enter with Lemma 6.5.
@@ -141,11 +140,12 @@ and ends with Theorem 5.3, that the singular locus is a proper closed subset;
 that milestone is complete. The §6 milestone identifies the local rings of
 nonsingular curves as DVRs and proves Lemma 6.4, that inclusion of local rings
 inside the function field determines the point; it is complete as well. The
-current milestone proves finite poles, realizes every function-field DVR
-on a nonsingular affine curve, constructs the valuation-space regular-function
-structure, and ends with Proposition 6.7.  The next planned milestone extends
-morphisms over missing points, constructs nonsingular projective models, and
-ends with the equivalences of Corollary 6.12.
+completed normalization milestone proves finite poles, realizes every
+function-field DVR on a nonsingular affine curve, constructs the
+valuation-space regular-function structure, and ends with Proposition 6.7.
+The active projective-model milestone extends morphisms over missing points,
+constructs nonsingular projective models, and ends with the equivalences of
+Corollary 6.12.
 
 ## Deferred and out of scope
 
@@ -261,10 +261,11 @@ the section containing it is complete.
 ## What is not claimed
 
 No result after Corollary 6.12 is planned. Every roadmap commitment through
-Proposition 6.7 is completed; Proposition 6.8 through Corollary 6.12 and the
-two newly adopted clauses of Exercise 3.3 are planned but not formalized. The
+Proposition 6.7 and all three clauses of Exercise 3.3 are completed. Of the 21
+leaves for Proposition 6.8 through Corollary 6.12, ten are formalized and
+eleven remain planned. The
 completion material later in §5, the unadopted exercises, §7 onward, and
 Chapters II–V remain out or deferred.
 Nothing in this repository should be read as formalizing "Hartshorne" or
 "algebraic geometry" without the precise scope qualifier. Full progress means
-completion of the declared 161-leaf scope through Corollary 6.12.
+completion of the declared 163-leaf scope through Corollary 6.12.

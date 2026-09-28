@@ -7,9 +7,10 @@ source_units: [chapter-i-section-6-projective-model]
 
 # Local rings of the diagonal model
 
-For every `P ∈ C_K`, the map induced by the projective diagonal identifies
-the image of `𝒪_{φ(P),Y}` in the common function field `K` with the
-valuation ring `P`.  The sole main declaration is planned as
+For a `ProjectiveDiagonalModel` and every `P ∈ C_K`, the map induced by its
+projective diagonal identifies the image of `𝒪_{φ(P),Y}` in the common
+function field `K` with the valuation ring `P`.  The sole main declaration is
+planned as
 `Hartshorne.projectiveDiagonal_localRingRange_eq`.
 
 This records Hartshorne's sandwich
@@ -19,7 +20,9 @@ This records Hartshorne's sandwich
 inside `K`; the outer composite is an isomorphism on a chart, so both
 inclusions are equalities.  Abstract isomorphisms between the three rings are
 insufficient for the subsequent point argument.  Bijectivity of each induced
-local-ring map is a supporting consequence for Exercise 3.3(b).
+local-ring map is a supporting consequence for Exercise 3.3(b).  The range
+equality and bijectivity must use the same packaged field identification and
+projection identities as the preceding function-field leaf.
 
 ## Depends on
 

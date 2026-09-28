@@ -4,10 +4,10 @@ article_id: af_becb3ae580c9c99e691ab5a6
 
 # Projective models of curves
 
-This 21-leaf milestone covers Hartshorne I.6, Proposition 6.8 through
+This 23-leaf milestone covers Hartshorne I.6, Proposition 6.8 through
 Corollary 6.12 (printed pp. 43--46), together with the parts of Exercise 3.3
 that Theorem 6.9 uses. Twelve leaves are statement- and proof-formalized; the
-remaining nine leaves are planned. The preceding 140 leaves remain complete.
+remaining eleven leaves are planned. The preceding 140 leaves remain complete.
 
 The source first extends a map from a punctured abstract nonsingular curve to
 a projective target.  It then embeds the complete valuation curve `C_K` in a
@@ -59,13 +59,14 @@ isomorphisms.
 - [Projective models of curves](curve-projective-model.md)
 - [The three curve categories](curve-categories.md)
 - [Extension of dominant rational maps](projective-rational-map-extension.md)
+- [Projective and quasi-projective curve categories are equivalent](projective-quasiprojective-curve-equivalence.md)
+- [Quasi-projective curves and one-dimensional function fields are equivalent](quasiprojective-curve-function-field-equivalence.md)
 - [The curve/function-field category equivalence](curve-category-equivalence.md)
 
 ## Mathlib boundary
 
 The current APIs provide projective closure, the binary Segre product,
 function-field functoriality, local-ring maps, the valuation-space curve, and
-Krull--Akizuki.  Missing project-facing bridges are precisely the leaves above.
-The projective chart criterion and `VarietyHom.codRestrictProj` already exist
-but should be re-exported from an import-neutral module when Proposition 6.8
-is implemented.  No arbitrary heterogeneous finite product is required.
+Krull--Akizuki.  The remaining project-facing bridges are precisely the eleven
+planned leaves above. Proposition 6.8 now uses the existing projective-chart
+criterion directly. No arbitrary heterogeneous finite product is required.

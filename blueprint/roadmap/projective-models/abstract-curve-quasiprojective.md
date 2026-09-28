@@ -17,12 +17,15 @@ subcurve of `C_K`; transport that open through the projective model of `C_K`.
 ## Depends on
 
 - [Abstract nonsingular curves](../curve-normalization/abstract-nonsingular-curve.md)
+- [Curves](../nonsingular-curves/curve.md)
 - [Projective and quasi-projective varieties](../projective-varieties/projective-variety.md)
+- [Intrinsic nonsingularity](../nonsingular-varieties/intrinsic-nonsingularity.md)
 
 ## Proof depends on
 
 - [Nonsingular projective models of function fields](function-field-projective-model.md)
-- [Nonsingular curves are open subcurves of their valuation spaces](../curve-normalization/curve-to-valuation-space-iso.md)
+- [The local ring of an abstract curve](abstract-curve-local-ring.md)
+- [Local rings are unchanged on open neighbourhoods](../nonsingular-varieties/local-ring-open-invariance.md)
 
 ## Sources
 

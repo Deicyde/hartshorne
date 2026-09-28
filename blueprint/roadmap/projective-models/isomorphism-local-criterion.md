@@ -12,7 +12,7 @@ lean: Hartshorne.VarietyHom.isIso_iff_isHomeomorph_and_bijective_localRingHom
 
 Let `φ : X → Y` be a morphism. Then `φ` is an isomorphism of varieties if
 and only if its underlying map is a homeomorphism and every induced map
-`𝒪_{φ(P),Y} → 𝒪_{P,X}` is bijective. The sole main declaration is planned as
+`𝒪_{φ(P),Y} → 𝒪_{P,X}` is bijective. The sole main declaration is
 `Hartshorne.VarietyHom.isIso_iff_isHomeomorph_and_bijective_localRingHom`.
 
 This is exactly Exercise 3.3(b), not merely its difficult sufficient

@@ -4,12 +4,12 @@ A Lean 4 formalization project for classical variety theory in Robin Hartshorne,
 *Algebraic Geometry*, scoped to Chapter I §§1–4, the geometric core of §5
 through Theorem 5.3, and §6 through Corollary 6.12.
 
-The dependency graph has 161 targets. Of these, 152 are fully formalized:
+The dependency graph has 163 targets. Of these, 152 are fully formalized:
 148 are proved in this project and four are supplied by Mathlib. The first 114
 run from the definition of an algebraic set through the local structure of
 nonsingular curves through Lemma 6.4; the next 26 prove normalization and the
-valuation-space results through Proposition 6.7. Twelve leaves of the 21-leaf
-projective-model milestone are formalized, and the remaining nine are
+valuation-space results through Proposition 6.7. Twelve leaves of the 23-leaf
+projective-model milestone are formalized, and the remaining eleven are
 planned.
 
 The completed core of Sections 1 through 3 accounts for 69 of those targets,
@@ -53,7 +53,7 @@ and reaches Proposition 6.7. All 26 leaves are formalized, including the
 abstract curve's function field and the isomorphism from every nonsingular
 quasi-projective curve to its open valuation-space image.
 
-The planned 21-leaf milestone adopts Exercise 3.3(b),(c), exposes the
+The active 23-leaf milestone adopts Exercise 3.3(b),(c), exposes the
 valuation and local-ring bridges needed by Proposition 6.8, constructs the
 nonsingular projective model of a one-dimensional function field in Theorem
 6.9, and decomposes Corollaries 6.10–6.12. Its two-chart diagonal construction

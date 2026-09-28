@@ -12,7 +12,7 @@ lean: Hartshorne.Variety.HasAffineOpenBasis.exists_functionFieldDVR_dominating_l
 
 Let `Y` be a curve with an affine-open basis and `Q ∈ Y`.  There is a
 function-field DVR `R ⊆ K(Y)` dominating the image of `𝒪_{Q,Y}` in
-`K(Y)`.  The sole main declaration is planned as
+`K(Y)`.  The sole main declaration is
 `Hartshorne.Variety.HasAffineOpenBasis.exists_functionFieldDVR_dominating_localRing`.
 
 Hartshorne uses this assertion parenthetically to prove surjectivity of the

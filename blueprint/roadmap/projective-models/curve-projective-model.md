@@ -26,9 +26,7 @@ dimension; it may not assume separability.
 ## Proof depends on
 
 - [Nonsingular projective models of function fields](function-field-projective-model.md)
-- [The birational criterion](../rational-maps/birational-criterion.md)
 - [Birational varieties have isomorphic function fields](../rational-maps/birational-function-fields.md)
-- [Dimension of a finitely generated domain](../affine-varieties/dim-fg-domain.md)
 
 ## Sources
 

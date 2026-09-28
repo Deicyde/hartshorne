@@ -12,7 +12,7 @@ lean: Hartshorne.DominantRatMap.existsUnique_projectiveCurve_extension
 
 Every dominant rational map from a nonsingular projective curve to a
 projective variety extends to a unique morphism; when the target is a curve,
-the extension is dominant.  The sole main declaration is planned as
+the extension is dominant.  The sole main declaration is
 `Hartshorne.DominantRatMap.existsUnique_projectiveCurve_extension`.
 
 Choose a nonempty representative domain for the rational map and apply the

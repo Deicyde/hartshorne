@@ -21,12 +21,10 @@ reindexing is support code, not a second roadmap result.
 
 - [A two-chart affine cover of the valuation curve](two-affine-chart-cover.md)
 - [The projective closure of an affine variety](../rational-maps/projective-closure.md)
-- [Extension to a projective target](projective-extension.md)
 
 ## Proof depends on
 
-- [The charts are isomorphisms of varieties](../morphisms/projective-rings/chart-isomorphism.md)
-- [Morphisms agreeing on an open set](../rational-maps/morphism-agreement.md)
+- [Extension to a projective target](projective-extension.md)
 
 ## Sources
 

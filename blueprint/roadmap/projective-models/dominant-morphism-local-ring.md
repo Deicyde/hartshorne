@@ -16,7 +16,7 @@ Then the induced map
 `φ* : 𝒪_{φ(P),Y} → 𝒪_{P,X}`
 
 is injective.  This is Exercise 3.3(c), and the sole main declaration is
-planned as `Hartshorne.VarietyHom.injective_localRingHom_of_denseRange`.
+`Hartshorne.VarietyHom.injective_localRingHom_of_denseRange`.
 
 ## Depends on
 

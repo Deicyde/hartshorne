@@ -11,10 +11,10 @@ lean: Hartshorne.ProjectiveNonsingularCurveCat
 # The three curve categories
 
 Define the category of nonsingular projective curves with dominant morphisms.
-The sole main declaration is planned as
+The sole main declaration is
 `Hartshorne.ProjectiveNonsingularCurveCat`.
 
-The same implementation leaf may provide the supporting bundled categories
+The same implementation leaf also provides the supporting bundled categories
 of quasi-projective curves with dominant rational maps and of finitely
 generated one-dimensional function fields with `k`-homomorphisms.  Objects in
 the geometric categories must include actual finite quasi-projective or

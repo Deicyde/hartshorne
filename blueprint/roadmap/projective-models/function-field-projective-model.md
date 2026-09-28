@@ -22,19 +22,21 @@ isomorphism.  Its local DVRs make the projective model nonsingular.
 ## Depends on
 
 - [Abstract nonsingular curves](../curve-normalization/abstract-nonsingular-curve.md)
-- [Abstract valuation curves have dimension one](abstract-curve-dimension.md)
+- [Curves](../nonsingular-curves/curve.md)
 - [Projective and quasi-projective varieties](../projective-varieties/projective-variety.md)
 - [Intrinsic nonsingularity](../nonsingular-varieties/intrinsic-nonsingularity.md)
 
 ## Proof depends on
 
 - [The local ring of an abstract curve](abstract-curve-local-ring.md)
+- [Abstract valuation curves have dimension one](abstract-curve-dimension.md)
 - [Isomorphisms from topology and local rings](isomorphism-local-criterion.md)
 - [The projective diagonal model](projective-diagonal.md)
 - [The function field of the diagonal model](projective-model-function-field.md)
 - [Local rings of the diagonal model](projective-model-local-rings.md)
 - [A dominating function-field DVR](dominating-dvr.md)
 - [The local ring determines the point](../nonsingular-curves/local-ring-inclusion-determines-point.md)
+- [Quasi-projective curves have the cofinite topology](../curve-normalization/quasiprojective-curve-cofinite.md)
 
 ## Sources
 

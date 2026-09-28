@@ -13,7 +13,7 @@ lean: Hartshorne.FunctionFieldDVR.exists_projective_pivot
 For a nonzero finite family of homogeneous coordinates `f : ι → K` and a
 function-field DVR `R`, there is an index `j` whose valuation is minimal, so
 every ratio `f i / f j` lies in `R` and the `j`th ratio is one.  The sole main
-declaration is planned as
+declaration is
 `Hartshorne.FunctionFieldDVR.exists_projective_pivot`.
 
 This packages the coordinate calculation in Proposition 6.8.  It must retain

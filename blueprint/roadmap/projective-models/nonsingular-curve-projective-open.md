@@ -25,7 +25,6 @@ identifies that valuation curve with its nonsingular projective model.
 
 - [Nonsingular curves are open subcurves of their valuation spaces](../curve-normalization/curve-to-valuation-space-iso.md)
 - [Nonsingular projective models of function fields](function-field-projective-model.md)
-- [Local rings are unchanged on open neighbourhoods](../nonsingular-varieties/local-ring-open-invariance.md)
 
 ## Sources
 
