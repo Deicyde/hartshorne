@@ -3,6 +3,9 @@ article_id: af_b2943a5ecb081bae1a005ce2
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-6-projective-model]
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsQuasiProjVariety.exists_nonsingular_projective_open_model
 ---
 
 # Completion of a nonsingular curve
