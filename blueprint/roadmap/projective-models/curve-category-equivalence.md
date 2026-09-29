@@ -3,6 +3,9 @@ article_id: af_5bd96acb0a5232df552012b0
 declaration: def
 origin: cited
 source_units: [chapter-i-section-6-projective-model]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveCurveFunctionFieldEquivalence
 ---
 
 # The curve/function-field category equivalence
