@@ -7,15 +7,15 @@ Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 Sections I.1 through I.4, the geometric core of I.5 through Theorem I.5.3, and
 I.6 through Corollary I.6.12 are decomposed into a dependency graph of 163
 formalization targets. The completion, Cohen-structure, and analytic-isomorphism
-material later in §I.5 is deferred. Material after Corollary I.6.12, the
-unadopted exercises, §I.7 onward, and Chapters II through V are out of scope.
-See the
+material later in §I.5 is deferred. Sections I.7–8, Chapters II–V, and Appendices
+A–C now have a coarse whole-book map awaiting scope approval; they are not yet
+fine formalization commitments. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-**152 targets are complete; 11 remain planned.** Of the completed targets,
-148 are proved in this project and four are supplied by
-Mathlib. The first 114 targets run through Lemma I.6.4. Of the
+**All 163 currently approved targets are complete.** Of these, 159 are proved
+in this project and four are supplied by Mathlib. The first 114 targets run
+through Lemma I.6.4. Of the
 first 86 targets in §§I.1–I.4, 85 are proved here,
 sorry-free and depending only on Lean's three standard axioms, and one is
 already in Mathlib. Completed results include the
@@ -56,8 +56,7 @@ The 23-leaf projective-model milestone adopts the local-ring criteria in
 Exercise I.3.3 used by Theorem I.6.9, proves Proposition I.6.8, constructs the
 nonsingular projective model of Theorem I.6.9, and decomposes Corollaries
 I.6.10–6.12 through the contravariant equivalence with one-dimensional
-function fields. Twelve leaves are now formalized; the remaining 11 are
-planned.
+function fields. All 23 leaves are formalized.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 

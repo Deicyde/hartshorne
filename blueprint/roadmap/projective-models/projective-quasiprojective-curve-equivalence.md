@@ -12,7 +12,7 @@ lean: Hartshorne.projectiveQuasiProjectiveCurveEquivalence
 
 The functor from nonsingular projective curves with dominant morphisms to
 quasi-projective curves with dominant rational maps is an equivalence of
-categories.  The sole main declaration is planned as
+categories.  The sole main declaration is formalized as
 `Hartshorne.projectiveQuasiProjectiveCurveEquivalence`.
 
 The functor regards a projective presentation as quasi-projective and sends a

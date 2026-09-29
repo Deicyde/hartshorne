@@ -6,8 +6,8 @@ article_id: af_becb3ae580c9c99e691ab5a6
 
 This 23-leaf milestone covers Hartshorne I.6, Proposition 6.8 through
 Corollary 6.12 (printed pp. 43--46), together with the parts of Exercise 3.3
-that Theorem 6.9 uses. Twelve leaves are statement- and proof-formalized; the
-remaining eleven leaves are planned. The preceding 140 leaves remain complete.
+that Theorem 6.9 uses. All 23 leaves are statement- and proof-formalized, as
+are the preceding 140 leaves.
 
 The source first extends a map from a punctured abstract nonsingular curve to
 a projective target.  It then embeds the complete valuation curve `C_K` in a
@@ -67,6 +67,6 @@ isomorphisms.
 
 The current APIs provide projective closure, the binary Segre product,
 function-field functoriality, local-ring maps, the valuation-space curve, and
-Krull--Akizuki.  The remaining project-facing bridges are precisely the eleven
-planned leaves above. Proposition 6.8 now uses the existing projective-chart
-criterion directly. No arbitrary heterogeneous finite product is required.
+Krull--Akizuki. The project-facing bridges listed above are implemented.
+Proposition 6.8 uses the existing projective-chart criterion directly. No
+arbitrary heterogeneous finite product is required.

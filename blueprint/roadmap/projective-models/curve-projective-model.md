@@ -11,7 +11,7 @@ lean: Hartshorne.IsQuasiProjVariety.birational_nonsingular_projective
 # Projective models of curves
 
 Every curve is birational to a nonsingular projective curve.  The sole main
-declaration is planned as
+declaration is formalized as
 `Hartshorne.IsQuasiProjVariety.birational_nonsingular_projective`.
 
 This is Corollary 6.11.  Apply Theorem 6.9 to the curve's function field, then

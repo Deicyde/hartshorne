@@ -13,7 +13,7 @@ lean: Hartshorne.ValuationSpace.exists_dense_projective_diagonal
 The two extended maps `φ₀` and `φ₁` define a diagonal map from `C_K`
 to the Segre product `Y₀ × Y₁`.  Its image closure is an irreducible
 projective variety `Y`, and the diagonal corestricts to a dense morphism
-`φ : C_K → Y`.  The sole main declaration is planned as
+`φ : C_K → Y`.  The sole main declaration is formalized as
 `Hartshorne.ValuationSpace.exists_dense_projective_diagonal`.
 
 This is Hartshorne's product-and-closure construction with the finite index

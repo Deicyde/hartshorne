@@ -1,7 +1,7 @@
 ---
 schema: autoform-coverage/v2
 artifact: sources/hartshorne.md
-artifact_sha256: f3fb789e1c5ca7544573e8865cc35bedb770343892124e121f4494a439fad65f
+artifact_sha256: 1a6d70ee8b30b4350d23adcde0f595aaba9e065bda0b9e6f93d3d0baf4667129
 ---
 
 # Coverage contract
@@ -16,12 +16,12 @@ has roadmap leaves; it does not mean that those leaves are proved.
 
 | Unit | Area | Lines | Locator | Unit SHA-256 | Coverage | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| inventory-preamble | Bibliography and inventory policy | 1-18 | Source-notes preamble | 8d98162dd8fb915e5e074b351f6a0f8e3c3a415d3deb99c9c2dc7ae9c24723ec | OUT | Project-authored bibliographic metadata and roadmap policy, not a standalone mathematical target |
+| inventory-preamble | Bibliography and inventory policy | 1-18 | Source-notes preamble | 06a55218578c215cb988a903837572f9431c2ce7bd72305a6a86506357dad197 | OUT | Project-authored bibliographic metadata and roadmap policy, not a standalone mathematical target |
 | chapter-i-section-1 | Affine varieties | 19-49 | Chapter I §1, book pp. 1–8 | ce343b2db86774cdb86b8efcd433d223715fe44c0d2be865fe6d99ae864a1bfa | DECOMPOSED | [The affine coordinate ring](../roadmap/affine-varieties/affine-coordinate-ring.md), [Affine space is a Noetherian space](../roadmap/affine-varieties/affine-space-noetherian.md), [Affine and quasi-affine varieties](../roadmap/affine-varieties/affine-variety.md), [Algebraic sets](../roadmap/affine-varieties/algebraic-set.md), [Every finitely generated domain is a coordinate ring](../roadmap/affine-varieties/coordinate-ring-realization.md), [The dimension of affine space](../roadmap/affine-varieties/dim-affine-space.md), [Dimension is the dimension of the coordinate ring](../roadmap/affine-varieties/dim-eq-coordinate-ring-dim.md), [A finitely generated algebra over a field has finite dimension](../roadmap/affine-varieties/dim-fg-algebra-finite.md), [Dimension of a finitely generated domain](../roadmap/affine-varieties/dim-fg-domain.md), [The dimension formula for a finitely generated domain](../roadmap/affine-varieties/dim-formula-catenary.md), [One inequality of the dimension formula](../roadmap/affine-varieties/dim-formula-inequality.md), [Dimension of a quasi-affine variety](../roadmap/affine-varieties/dim-quasi-affine.md), [Dimension of a topological space and of a ring](../roadmap/affine-varieties/dimension.md), [Krull dimension is invariant under integral extensions](../roadmap/affine-varieties/dimension-integral-extension.md), [Height is preserved by contraction along an integral extension](../roadmap/affine-varieties/height-comap-integral.md), [Hypersurfaces and codimension one](../roadmap/affine-varieties/hypersurface-dimension.md), [Decomposition into irreducible components](../roadmap/affine-varieties/irreducible-decomposition.md), [Hilbert's Nullstellensatz](../roadmap/affine-varieties/nullstellensatz.md), [A hypersurface in affine space drops the transcendence degree by one](../roadmap/affine-varieties/polynomial-hypersurface-trdeg.md), [Algebraic sets and radical ideals](../roadmap/affine-varieties/radical-ideal-correspondence.md), [A height-one prime drops the transcendence degree by one](../roadmap/affine-varieties/trdeg-drop-height-one.md), [The vanishing ideal](../roadmap/affine-varieties/vanishing-ideal.md), [The Zariski topology on affine space](../roadmap/affine-varieties/zariski-topology.md) |
 | chapter-i-section-2 | Projective varieties | 50-77 | Chapter I §2, book pp. 8–14 | 7d1de7f5186c3c491bcde17d14773f8bfb013439247df789e36fa29fbe050ac9 | DECOMPOSED | [Varieties are covered by affine pieces](../roadmap/projective-varieties/affine-cover.md), [Dimension of the homogeneous coordinate ring](../roadmap/projective-varieties/homogeneous-coordinate-ring-dimension.md), [Homogeneous ideals](../roadmap/projective-varieties/homogeneous-ideal.md), [Algebraic sets and homogeneous radical ideals](../roadmap/projective-varieties/homogeneous-ideal-correspondence.md), [The homogeneous vanishing ideal](../roadmap/projective-varieties/homogeneous-vanishing-ideal.md), [Projective algebraic sets](../roadmap/projective-varieties/projective-algebraic-set.md), [Dimension in projective space](../roadmap/projective-varieties/projective-dimension.md), [The homogeneous Nullstellensatz](../roadmap/projective-varieties/projective-nullstellensatz.md), [Projective space](../roadmap/projective-varieties/projective-space.md), [Projective space is a Noetherian space](../roadmap/projective-varieties/projective-space-noetherian.md), [Projective and quasi-projective varieties](../roadmap/projective-varieties/projective-variety.md), [The Zariski topology on projective space](../roadmap/projective-varieties/projective-zariski-topology.md), [The standard affine charts](../roadmap/projective-varieties/standard-affine-charts.md) |
 | chapter-i-section-3 | Morphisms | 78-103 | Chapter I §3, book pp. 14–23, except Theorem 3.9A | f4da0c0a7240dbc99d6c481b930e8f40e9f55ed0caf8b3743f53724dec7e350d | DECOMPOSED | [Isomorphism via coordinate rings](../roadmap/morphisms/affine-iso-iff-algebra-iso.md), [Equivalence with finitely generated domains](../roadmap/morphisms/affine-variety-equivalence.md), [The local ring and function field of an affine variety](../roadmap/morphisms/affine-variety-rings.md), [The function field](../roadmap/morphisms/function-field.md), [The function field of an arbitrary variety](../roadmap/morphisms/function-field-abstract.md), [The function field is functorial for dominant morphisms](../roadmap/morphisms/function-field-functorial.md), [The underlying maps into germs and rational functions are injective](../roadmap/morphisms/function-field-injections.md), [The function field is the fraction field](../roadmap/morphisms/function-field-is-fraction-field.md), [The coordinate ring is the ring of regular functions](../roadmap/morphisms/global-regular-eq-coordinate-ring.md), [Global regular functions inside the function field](../roadmap/morphisms/global-functions/global-regular-in-function-field.md), [Global regular functions are the intersection of the local rings](../roadmap/morphisms/global-functions/global-regular-intersection-local-rings.md), [Morphisms into an affine variety](../roadmap/morphisms/hom-affine-bijection.md), [The local ring at a point](../roadmap/morphisms/local-ring.md), [The local ring is local](../roadmap/morphisms/local-ring-is-local.md), [The local ring is a localisation](../roadmap/morphisms/local-ring-is-localization.md), [Morphisms](../roadmap/morphisms/morphism.md), [Criterion for a morphism into an affine variety](../roadmap/morphisms/morphism-to-affine-criterion.md), [Points and maximal ideals](../roadmap/morphisms/points-eq-maximal-ideals.md), [The charts are isomorphisms of varieties](../roadmap/morphisms/projective-rings/chart-isomorphism.md), [Reading a global regular function on a chart](../roadmap/morphisms/projective-rings/chart-reading.md), [The degree bound](../roadmap/morphisms/projective-rings/degree-bound.md), [Graded localization](../roadmap/morphisms/projective-rings/graded-localization.md), [The homogeneous prime at a point](../roadmap/morphisms/projective-rings/point-ideal.md), [The function field of a projective variety](../roadmap/morphisms/projective-rings/projective-function-field.md), [The global regular functions of a projective variety](../roadmap/morphisms/projective-rings/projective-global-regular.md), [The local ring of a projective variety](../roadmap/morphisms/projective-rings/projective-local-ring.md), [An element stabilising a finite-dimensional subspace is integral](../roadmap/morphisms/projective-rings/stable-subspace.md), [Regular functions are continuous](../roadmap/morphisms/regular-function-continuous.md), [Regular functions on a quasi-affine variety](../roadmap/morphisms/regular-function-quasi-affine.md), [Regular functions on a quasi-projective variety](../roadmap/morphisms/regular-function-quasi-projective.md), [The ring of regular functions](../roadmap/morphisms/ring-of-regular-functions.md), [Varieties](../roadmap/morphisms/variety.md) |
 | theorem-i-3-9a | Finiteness of integral closure | 104-112 | Chapter I, Theorem 3.9A, book p. 20 | dbf88fdad7ff0a3dea5bdf61a56cd1dd38bf8e971a521877c053ac68e1be014e | DECOMPOSED | [Frobenius is finite on an affine algebra over a perfect field](../roadmap/curve-normalization/frobenius-finite-affine-algebra.md), [Purely inseparable normalizations are finite](../roadmap/curve-normalization/purely-inseparable-normalization-finite.md), [Normalizations of polynomial rings are finite](../roadmap/curve-normalization/polynomial-normalization-finite.md), [Finiteness of integral closure](../roadmap/curve-normalization/finite-integral-closure.md) |
-| exercise-i-3-3 | Local rings under morphisms | 113-125 | Chapter I, Exercise 3.3(a)–(c), book p. 21 | 5cb02ac5c3110b95afd867053f0800f53dc07533c2fb047a40feacf7e723e1e7 | DECOMPOSED | [The local ring is functorial](../roadmap/morphisms/local-ring-functorial.md), [Isomorphisms from topology and local rings](../roadmap/projective-models/isomorphism-local-criterion.md), [Dense morphisms inject on local rings](../roadmap/projective-models/dominant-morphism-local-ring.md) |
+| exercise-i-3-3 | Local rings under morphisms | 113-125 | Chapter I, Exercise 3.3(a)–(c), book p. 21 | 16d93e4718933d93850ad380233e479301742d5f21cf936c7f1cd995aa21d5e6 | DECOMPOSED | [The local ring is functorial](../roadmap/morphisms/local-ring-functorial.md), [Isomorphisms from topology and local rings](../roadmap/projective-models/isomorphism-local-criterion.md), [Dense morphisms inject on local rings](../roadmap/projective-models/dominant-morphism-local-ring.md) |
 | chapter-i-section-4 | Rational maps | 126-169 | Chapter I §4 running text and adopted prerequisites, book pp. 12, 13, 22, 24–29, 31 | 5e615fb1b35a06b273e6805caabd5d093a0f7569da356c7052f78485e1050ac1 | DECOMPOSED | [Open affine sets are a base for the topology](../roadmap/rational-maps/affine-base.md), [The birational criterion](../roadmap/rational-maps/birational-criterion.md), [Birational varieties have isomorphic open subsets](../roadmap/rational-maps/birational-open-subsets.md), [Birational varieties have isomorphic function fields](../roadmap/rational-maps/birational-function-fields.md), [Every variety is birational to a hypersurface](../roadmap/rational-maps/birational-hypersurface.md), [Birational maps](../roadmap/rational-maps/birational-map.md), [Blowing up a point](../roadmap/rational-maps/blowing-up.md), [The complement of a hypersurface is affine](../roadmap/rational-maps/hypersurface-complement.md), [The graph hypersurface has localized coordinate ring](../roadmap/rational-maps/principal-open-coordinate-ring.md), [Morphisms agreeing on an open set](../roadmap/rational-maps/morphism-agreement.md), [Products of varieties](../roadmap/rational-maps/product-variety.md), [The projective closure of an affine variety](../roadmap/rational-maps/projective-closure.md), [Composition of dominant rational maps](../roadmap/rational-maps/rational-map-composition.md), [Rational maps](../roadmap/rational-maps/rational-map.md), [Rational maps and function fields](../roadmap/rational-maps/rational-map-function-field.md), [The Segre embedding](../roadmap/rational-maps/segre-embedding.md), [Separably generated field extensions](../roadmap/rational-maps/separably-generated.md), [Quasi-projective curves have the cofinite topology](../roadmap/curve-normalization/quasiprojective-curve-cofinite.md) |
 | chapter-i-section-5-geometry | Nonsingular varieties through Theorem 5.3 | 170-199 | Chapter I §5 from the opening definition through Theorem 5.3, book pp. 31–33 | ee362a68be872eca0b37655a6f2e2bea693cafb5441af3b14f55e0acdd17a6f1 | DECOMPOSED | [Regular local rings](../roadmap/nonsingular-varieties/regular-local-rings.md), [The cotangent-dimension bound](../roadmap/nonsingular-varieties/cotangent-dimension-bound.md), [Local rings are unchanged on open neighbourhoods](../roadmap/nonsingular-varieties/local-ring-open-invariance.md), [The cotangent space of affine space](../roadmap/nonsingular-varieties/ambient-cotangent-space.md), [The defining ideal and the local cotangent space](../roadmap/nonsingular-varieties/defining-ideal-cotangent-sequence.md), [Jacobian rank is independent of generators](../roadmap/nonsingular-varieties/jacobian-rank-invariance.md), [Nonsingular points of an affine variety](../roadmap/nonsingular-varieties/affine-nonsingular-points.md), [The Jacobian criterion](../roadmap/nonsingular-varieties/jacobian-criterion.md), [Intrinsic nonsingularity](../roadmap/nonsingular-varieties/intrinsic-nonsingularity.md), [The Jacobian rank bound](../roadmap/nonsingular-varieties/jacobian-rank-upper-bound.md), [Rank-drop loci are determinantal](../roadmap/nonsingular-varieties/determinantal-rank-locus.md), [The affine singular locus is closed](../roadmap/nonsingular-varieties/affine-singular-locus-closed.md), [Closedness from affine charts](../roadmap/nonsingular-varieties/singular-locus-closed.md), [An irreducible polynomial has a nonzero partial derivative](../roadmap/nonsingular-varieties/irreducible-polynomial-nonzero-partial.md), [An irreducible hypersurface has a nonsingular point](../roadmap/nonsingular-varieties/hypersurface-singular-locus-proper.md), [The singular locus is proper and closed](../roadmap/nonsingular-varieties/singular-locus.md) |
 | chapter-i-section-5-completion | Completion and analytic local structure | 200-213 | Chapter I §5 after Theorem 5.3 through Examples 5.6.1–5.6.3, book pp. 33–35 | 16b6235edbcf411b8c62bddbc2c8662510e51d3c5d44c39fc756a20090eac7f2 | DEFERRED | Deferred pending a separately approved completion/Cohen milestone; these results are not needed for Theorems 5.1–5.3 |
@@ -33,10 +33,20 @@ has roadmap leaves; it does not mean that those leaves are proved.
 | chapter-i-section-6-abstract-curves | Valuation-space and abstract nonsingular curves | 292-315 | Chapter I §6, definitions and Proposition 6.7, book pp. 42–43 | 364f65bc543535d335016e2307173f2b5ad811d68b01251e81d6d3318182621c | DECOMPOSED | [Quasi-projective curves have the cofinite topology](../roadmap/curve-normalization/quasiprojective-curve-cofinite.md), [The cofinite valuation space](../roadmap/curve-normalization/valuation-space/valuation-space-topology.md), [The valuation space is infinite](../roadmap/curve-normalization/valuation-space/valuation-space-infinitude.md), [Residue fields of function-field DVRs](../roadmap/curve-normalization/valuation-residue-field.md), [Regular functions on the valuation space](../roadmap/curve-normalization/valuation-regular-functions.md), [The valuation-space regularity axioms](../roadmap/curve-normalization/valuation-regular-functions-local.md), [Abstract nonsingular curves](../roadmap/curve-normalization/abstract-nonsingular-curve.md), [The function field of an abstract nonsingular curve](../roadmap/curve-normalization/valuation-space-function-field.md), [Nonsingular affine curves have Dedekind coordinate rings](../roadmap/curve-normalization/nonsingular-affine-curve-dedekind.md), [The local-ring map has open image](../roadmap/curve-normalization/curve-local-ring-map-open.md), [Nonsingular curves are open subcurves of their valuation spaces](../roadmap/curve-normalization/curve-to-valuation-space-iso.md) |
 | chapter-i-section-6-projective-model | Extension across points and projective models | 316-340 | Chapter I §6, Proposition 6.8 through Corollary 6.12, book pp. 43–46 | 7298a810773cda8b7a437aaede7938bbfd6699045a27a79973977529c89fbece | DECOMPOSED | [Regularity near a valuation](../roadmap/projective-models/regular-near-valuation.md), [The local ring of an abstract curve](../roadmap/projective-models/abstract-curve-local-ring.md), [Abstract valuation curves have dimension one](../roadmap/projective-models/abstract-curve-dimension.md), [Transporting valuation curves along a field equivalence](../roadmap/projective-models/valuation-space-field-equivalence.md), [A projective coordinate pivot](../roadmap/projective-models/valuation-projective-pivot.md), [Extension to a projective target](../roadmap/projective-models/projective-extension.md), [A two-chart affine cover](../roadmap/projective-models/two-affine-chart-cover.md), [Projective chart extensions](../roadmap/projective-models/projective-chart-extensions.md), [The projective diagonal model](../roadmap/projective-models/projective-diagonal.md), [Its function field](../roadmap/projective-models/projective-model-function-field.md), [Its local rings](../roadmap/projective-models/projective-model-local-rings.md), [A dominating function-field DVR](../roadmap/projective-models/dominating-dvr.md), [Nonsingular projective models of function fields](../roadmap/projective-models/function-field-projective-model.md), [Abstract curves are quasi-projective](../roadmap/projective-models/abstract-curve-quasiprojective.md), [Completion of a nonsingular curve](../roadmap/projective-models/nonsingular-curve-projective-open.md), [Projective models of curves](../roadmap/projective-models/curve-projective-model.md), [The three curve categories](../roadmap/projective-models/curve-categories.md), [Extension of dominant rational maps](../roadmap/projective-models/projective-rational-map-extension.md), [Projective and quasi-projective curve categories](../roadmap/projective-models/projective-quasiprojective-curve-equivalence.md), [Quasi-projective curves and function fields](../roadmap/projective-models/quasiprojective-curve-function-field-equivalence.md), [The curve/function-field category equivalence](../roadmap/projective-models/curve-category-equivalence.md) |
 | chapter-i-section-6-exercises | Exercises on curves and valuations | 341-346 | Chapter I, Exercises 6.1–6.7, book pp. 46–47 | 75ef55d17275e74c30a42767df0d4e799460fd6de6f993da682490c70135379b | OUT | No §6 exercise is used by the approved scope through Corollary 6.12 |
-| remaining-sections | Undecomposed remainder of the book | 347-360 | Chapter I §§7–8 and Chapters II–V, book pp. 47–420 | 00ceefe5dcbf4668bdc2abd0f2bfd445cf0e428435bffb0bfbd49e4bf6cd5ef6 | OUT | Explicitly outside the current scope; the inventory only locates these sections |
-| standing-conventions | Algebraically closed base field and irreducible varieties | 361-368 | Standing conventions for Chapter I | 32c55ea4bf211d1ee39edc51f124ebc7e3841b0728a82001ac113c4cff8be7df | DECOMPOSED | [Affine and quasi-affine varieties](../roadmap/affine-varieties/affine-variety.md), [Projective and quasi-projective varieties](../roadmap/projective-varieties/projective-variety.md), [Varieties](../roadmap/morphisms/variety.md) |
+| remaining-book-inventory-policy | Coarse-pass and exercise policy | 347-360 | Remaining-book inventory policy | b536febfddfe8f434fccf324537a30b1c72bd54d3ce3b038f4be8c12e4782f96 | OUT | Project-authored inventory policy rather than a mathematical target |
+| chapter-i-section-7 | Intersections in projective space | 361-392 | Chapter I §7, book pp. 47–55 | 742732343fd84b0a4fb431ca8cd8fda1911caa6e431674403e5f671b21b4cd55 | MAPPED | [Coarse Chapter I completion milestones](../roadmap/remaining-book/README.md#chapter-i-completion), pending scope approval |
+| chapter-i-section-8-philosophy | What is algebraic geometry? | 393-402 | Chapter I §8, book pp. 55–59 | 2deeb611b2b9c2a1212229018124182335c55de6b3bff01a4228fbc455c39367 | MAPPED | [Coarse Chapter I completion milestones](../roadmap/remaining-book/README.md#chapter-i-completion), pending claim-by-claim disposition of its unnumbered survey assertions |
+| chapter-ii | Schemes | 403-422 | Chapter II, book pp. 60–200 | 5ab3025214dd544fe50ee9d154af607e1df78091a824264b15748826c7c543f7 | MAPPED | [Coarse Chapter II milestones](../roadmap/remaining-book/README.md#chapter-ii-schemes), pending scope approval and exact Mathlib matching |
+| chapter-iii | Cohomology | 423-437 | Chapter III, book pp. 201–292 | 0b23d7aabb70babbbdf4b92455c994740b40c84e4234ff0a99a05e960c4170b3 | MAPPED | [Coarse Chapter III milestones](../roadmap/remaining-book/README.md#chapter-iii-cohomology), pending scope approval and proof sources for quoted background |
+| chapter-iv | Curves | 438-452 | Chapter IV, book pp. 293–355 | 0aff55cb2f727f4b9f6a310b417e684c5654ecf92ff49d5ea80a1d1ff2adaa9f | MAPPED | [Coarse Chapter IV milestones](../roadmap/remaining-book/README.md#chapter-iv-curves), pending scope approval and analytic sources |
+| chapter-v | Surfaces | 453-468 | Chapter V, book pp. 356–423 | b3a07d18174cfae3e5c741125aaf214f7336ca50edff5b16b0c18763a18a81c5 | MAPPED | [Coarse Chapter V milestones](../roadmap/remaining-book/README.md#chapter-v-surfaces), pending scope approval and survey disposition |
+| appendix-a | Intersection theory | 469-484 | Appendix A, book pp. 424–437 | c272e216776da6794c43a4b564e7a43327f8b45e51161877d1b547d36789d1fb | MAPPED | [Coarse Appendix A milestones](../roadmap/remaining-book/README.md#appendices), pending scope approval and proof-level sources |
+| appendix-b | Transcendental methods | 485-499 | Appendix B, book pp. 438–448 | f81e1ac1d11e7d0d86bd85caedc5a2e1877ab4fea72a4313604db713ff4f6650 | MAPPED | [Coarse Appendix B milestones](../roadmap/remaining-book/README.md#appendices), pending scope approval and analytic sources |
+| appendix-c | The Weil conjectures | 500-515 | Appendix C, book pp. 449–458 | 070ba0efbef266000c770f47cb1b551306790ebf7a29338f75c3e80a646b27ef | MAPPED | [Coarse Appendix C milestones](../roadmap/remaining-book/README.md#appendices), pending scope approval and an étale-cohomology source stack |
+| back-matter | Bibliography and reference apparatus | 516-523 | Book pp. 459 onward | 1b1fd5ef5548c11d97cd83fd41557f43b4a51874da0e4edb83b9f4366f1df20c | OUT | Bibliography, algebra-reference list, glossary, and index rather than new theorem targets |
+| standing-conventions | Algebraically closed base field and irreducible varieties | 524-531 | Standing conventions for Chapter I | 32c55ea4bf211d1ee39edc51f124ebc7e3841b0728a82001ac113c4cff8be7df | DECOMPOSED | [Affine and quasi-affine varieties](../roadmap/affine-varieties/affine-variety.md), [Projective and quasi-projective varieties](../roadmap/projective-varieties/projective-variety.md), [Varieties](../roadmap/morphisms/variety.md) |
 
-## In scope
+## Approved fine scope
 
 Chapter I, sections 1 through 4 (book pages 1–29), the geometric core of
 section 5 through Theorem 5.3 (book pages 31–33), and section 6 through
@@ -54,7 +64,7 @@ Corollary 6.12 (book pages 39–46), including the quoted Theorems 3.9A and
 | I.5 through Thm. 5.3 | Nonsingular Varieties | 31–33 | [16 articles](../roadmap/nonsingular-varieties/README.md) | done |
 | I.6 through Lem. 6.4, excluding Thm. 6.3A | Local Structure of Nonsingular Curves | 39–41 | [12 articles](../roadmap/nonsingular-curves/README.md) | done |
 | I.3.9A and I.6.3A–6.7 | Normalization and the Valuation-Space Curve | 20, 40–43 | [26 articles](../roadmap/curve-normalization/README.md) | done |
-| I.6.8–6.12 | Projective Models and Curve Categories | 43–46 | [21 further articles in the 23-leaf chapter](../roadmap/projective-models/README.md) | in progress (10/21) |
+| I.6.8–6.12 | Projective Models and Curve Categories | 43–46 | [21 further articles in the 23-leaf chapter](../roadmap/projective-models/README.md) | done |
 
 All 86 main-text and previously adopted articles in §§1–4 are done: 85 are
 proved here and one was already in Mathlib. The §4 results include the
@@ -83,14 +93,10 @@ all complete: 136 project formalizations and four exact Mathlib results.
 The geometric branch uses two separable normalization charts, so it can advance
 independently of the harder exact Theorems 3.9A and 6.3A.
 
-The projective-model milestone adds 23 leaves: the two new Exercise 3.3
-criteria, now formalized, and 21 leaves for Proposition 6.8 through Corollary
-6.12, of which the valuation-regularity, abstract-curve-dimension,
-field-equivalence, local-ring, dominating-DVR, and projective-pivot bridges,
-the curve-category definitions, Proposition 6.8, the two-chart affine cover,
-and extension of dominant rational maps are now formalized. Thus the roadmap
-has 163 leaves total, with 152 complete and eleven not yet formalized.
-No planned leaf is counted as statement- or proof-formalized.
+The projective-model milestone adds 23 leaves: the two Exercise 3.3 criteria
+and 21 leaves for Proposition 6.8 through Corollary 6.12. All 23 are now
+formalized. The approved fine roadmap therefore has 163 leaves total: 159
+proved in this project and four supplied by Mathlib.
 
 The counts grow as the work goes on, almost always by splitting a node that
 turned out to hold more than one pull request's worth of Lean; where the scope
@@ -143,11 +149,11 @@ inside the function field determines the point; it is complete as well. The
 completed normalization milestone proves finite poles, realizes every
 function-field DVR on a nonsingular affine curve, constructs the
 valuation-space regular-function structure, and ends with Proposition 6.7.
-The active projective-model milestone extends morphisms over missing points,
+The completed projective-model milestone extends morphisms over missing points,
 constructs nonsingular projective models, and ends with the equivalences of
 Corollary 6.12.
 
-## Deferred and out of scope
+## Deferred, mapped, and out of scope
 
 **The rest of §5 after Theorem 5.3.** Completion, Theorems 5.4A and 5.5A, and
 analytic isomorphism through Examples 5.6.1–5.6.3 are deferred to a separately
@@ -157,10 +163,14 @@ introduced only for Exercise 5.15.
 **The exercises of Chapter I §6.** Proposition 6.8 through Corollary 6.12 are
 now decomposed; the §6 exercises remain out of scope.
 
-**Chapter I, sections 7 through 8, and Chapters II through V.** These are read
-and located in the source notes, but they carry no articles and nothing about
-them is claimed. They are located, not planned: no dependency analysis has
-been done and no decomposition exists.
+**The remaining mathematical body.** Section I.7, Chapters II–V, and
+Appendices A–C have a [coarse milestone map](../roadmap/remaining-book/README.md)
+and are `MAPPED`, not decomposed. Their section boundaries and broad dependency
+spine have been checked, but they carry no formalizable leaves and make no
+formalization-completeness claim pending approval. Section I.8 remains mapped
+for claim-by-claim disposition; Appendix C's historical material and the
+bibliography/reference apparatus are expository and will not generate theorem
+targets merely because they occur in the source.
 
 **The exercises of §§4–5, and every exercise not listed above.** Hartshorne has
 more than four hundred exercises. The ones adopted are adopted because the main
@@ -246,13 +256,10 @@ A section counts as finished when every article listed for it satisfies all of:
    convention that varieties are irreducible.
 
 A scoped section or partial section counts as finished when all its articles
-do. **The original scope through §§1–4, the approved part of §5, and the opening
-of §6 through Lemma 6.4 is finished. The 26-leaf normalization and
-valuation-space milestone through Proposition 6.7 is also finished.** The
-completed articles
-compile, no proof contains `sorry` or
-`native_decide`, every `#print axioms` is clean, and every statement has been
-read against its cited passage.
+do. **The entire approved 163-leaf scope through Corollary 6.12 is finished.**
+Its 159 project proofs compile, no proof contains `sorry` or `native_decide`,
+every `#print axioms` is clean, and every statement has been read against its
+cited passage; four further leaves are exact Mathlib results.
 
 Derived progress on the published site is computed from the dependency graph and
 is not a claim about scope: a green node means its Lean proof compiles, not that
@@ -260,12 +267,11 @@ the section containing it is complete.
 
 ## What is not claimed
 
-No result after Corollary 6.12 is planned. Every roadmap commitment through
-Proposition 6.7 and all three clauses of Exercise 3.3 are completed. Of the 21
-leaves for Proposition 6.8 through Corollary 6.12, ten are formalized and
-eleven remain planned. The
-completion material later in §5, the unadopted exercises, §7 onward, and
-Chapters II–V remain out or deferred.
+No result after Corollary 6.12 has yet been expanded into a fine DAG. The
+completion material later in §5 remains deferred; §§I.7–8, Chapters II–V, and
+Appendices A–C are only coarsely mapped; and unadopted exercises and reference
+apparatus remain out of scope unless a later approval changes their disposition.
 Nothing in this repository should be read as formalizing "Hartshorne" or
 "algebraic geometry" without the precise scope qualifier. Full progress means
-completion of the declared 163-leaf scope through Corollary 6.12.
+completion of the currently approved 163-leaf scope through Corollary 6.12;
+whole-book completeness cannot be claimed while any coverage unit is `MAPPED`.

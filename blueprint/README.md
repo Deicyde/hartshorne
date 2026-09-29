@@ -4,13 +4,12 @@ A Lean 4 formalization project for classical variety theory in Robin Hartshorne,
 *Algebraic Geometry*, scoped to Chapter I §§1–4, the geometric core of §5
 through Theorem 5.3, and §6 through Corollary 6.12.
 
-The dependency graph has 163 targets. Of these, 152 are fully formalized:
-148 are proved in this project and four are supplied by Mathlib. The first 114
-run from the definition of an algebraic set through the local structure of
-nonsingular curves through Lemma 6.4; the next 26 prove normalization and the
-valuation-space results through Proposition 6.7. Twelve leaves of the 23-leaf
-projective-model milestone are formalized, and the remaining eleven are
-planned.
+The accepted dependency graph has 163 targets, all fully formalized: 159 are
+proved in this project and four are supplied by Mathlib. The first 114 run from
+the definition of an algebraic set through the local structure of nonsingular
+curves through Lemma 6.4; the next 26 prove normalization and the
+valuation-space results through Proposition 6.7; the final 23 construct
+projective models and the curve/function-field category equivalence.
 
 The completed core of Sections 1 through 3 accounts for 69 of those targets,
 ending at Corollary I.3.8, the arrow-reversing equivalence between affine
@@ -53,7 +52,7 @@ and reaches Proposition 6.7. All 26 leaves are formalized, including the
 abstract curve's function field and the isomorphism from every nonsingular
 quasi-projective curve to its open valuation-space image.
 
-The active 23-leaf milestone adopts Exercise 3.3(b),(c), exposes the
+The completed 23-leaf milestone adopts Exercise 3.3(b),(c), exposes the
 valuation and local-ring bridges needed by Proposition 6.8, constructs the
 nonsingular projective model of a one-dimensional function field in Theorem
 6.9, and decomposes Corollaries 6.10–6.12. Its two-chart diagonal construction
@@ -61,15 +60,21 @@ uses the existing separable normalization charts but imposes no separability
 hypothesis on the function field.
 
 The completion, Cohen-structure, and analytic-isomorphism material later in
-§I.5 is deferred. Material after Corollary I.6.12, the unadopted exercises,
-§I.7 onward, and Chapters II–V are out of scope.
+§I.5 is deferred. Sections I.7–8, Chapters II–V, and Appendices A–C have a coarse
+milestone map and remain `MAPPED` pending approval; they do not yet add fine
+formalization targets. Reference apparatus and already-dispositioned
+non-target material remain out of scope; §I.8 stays mapped until its substantive
+unnumbered claims are reviewed individually.
 
 - [Roadmap](roadmap/README.md) — the book: chapters, statements, and their
   dependencies.
+- [Remaining-book roadmap](roadmap/remaining-book/README.md) — the proposed
+  coarse pass from §I.7 through Appendix C.
 - [Coverage](coverage/README.md) — what counts as done, and what is out of
   scope.
 
 Mathlib's algebraic geometry begins at `Spec` and builds schemes; Hartshorne
 begins with an affine variety as an irreducible closed subset of `𝔸ⁿ`. The
-classical layer has no counterpart upstream, which is why this project targets
-Chapter I rather than the scheme theory of Chapters II and III.
+classical layer has no counterpart upstream, which is why the completed scope
+starts in Chapter I. Any approved Chapter II–V expansion should reuse exact
+Mathlib scheme results instead of restating them.

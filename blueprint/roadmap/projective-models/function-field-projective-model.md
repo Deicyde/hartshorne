@@ -12,7 +12,7 @@ lean: Hartshorne.ValuationSpace.exists_nonsingular_projective_model
 
 Let `k` be algebraically closed and let `K/k` be a finitely generated field
 extension of transcendence degree exactly one.  Then the abstract nonsingular curve `C_K` is isomorphic to a
-nonsingular projective curve.  The sole main declaration is planned as
+nonsingular projective curve.  The sole main declaration is formalized as
 `Hartshorne.ValuationSpace.exists_nonsingular_projective_model`.
 
 This is Theorem 6.9.  No separability assumption is permitted.  The diagonal

@@ -7,8 +7,8 @@ The book is not redistributed with this repository. Locators below are **printed
 book page numbers**, which is the numbering the text itself uses in cross
 references. If you are reading a scan whose front matter is included, the
 1977 Springer printing has `pdf page index = book page + 15`, so book page 1
-(the first page of Chapter I) is the sixteenth page of the file. Checked
-against book pages 12, 13, 20–21, 22–24, 27, 30–31, and 39–46.
+(the first page of Chapter I) is the sixteenth page of the file. Detailed Chapter I
+passages and all remaining section and appendix boundaries were checked directly.
 
 Results Hartshorne numbers with a trailing `A` (1.3A, 1.8A, 1.11A, …) are
 commutative algebra he quotes without proof and attributes to Atiyah–Macdonald,
@@ -114,7 +114,7 @@ The choice and assembly of these sourced inputs, the spanning argument, and the 
 
 Exercise 3.3(a)–(c) is adopted because Hartshorne invokes it in the proof of
 Theorem 6.9.  Part (a) is the already-formalized contravariant map on local
-rings; parts (b) and (c) are new prerequisites of the projective-model
+rings; parts (b) and (c) were adopted and formalized in the projective-model
 milestone.
 
 | Locator | Statement | Page | Roadmap article |
@@ -344,19 +344,182 @@ dominant morphism `C_{K₁} → C_{K₂}`.
 | --- | --- | --- | --- |
 | Ex. 6.1–6.7 | Valuations, birational invariants, maps of curves, genus-zero and plane-curve applications | 46–47 | Out of scope; none is used through Corollary 6.12 |
 
-## Sections not decomposed
+## Remaining-book inventory policy
 
-These are read and located but carry no roadmap articles. See the
-[coverage contract](../coverage/README.md) for what that means.
+The rest of the book has now received a coarse source pass. The page ranges and
+section boundaries below were checked against the repository PDF. They are not
+yet a fine theorem DAG: mathematical units are marked `MAPPED` in the
+[coverage contract](../coverage/README.md) until the user approves their scope,
+source stack, and ordering. Chapter introductions and narrative surveys are
+recorded so that they cannot be mistaken for unread gaps.
 
-| Section | Title | Pages |
+The existing exercise policy remains the proposed default: adopt an exercise
+when later in-scope running text uses it, and otherwise leave it out. Any
+exception, especially a classical interpretation that depends on a chain of
+exercises, remains an explicit scope choice.
+
+## I.7 intersections in projective space
+
+Intersections in Projective Space, printed pp. 47–55. This section is a
+substantial new milestone: its intersection-dimension results feed a graded
+Hilbert-theory development, which in turn defines degree and proves the
+hypersurface and plane-curve forms of Bézout's theorem.
+
+| Locator | Statement | Pages |
 | --- | --- | --- |
-| I.7 | Intersections in Projective Space | 47–55 |
-| I.8 | What Is Algebraic Geometry? | 55–59 |
-| II | Schemes | 60–200 |
-| III | Cohomology | 201–259 |
-| IV | Curves | 293–349 |
-| V | Surfaces | 356–420 |
+| Prop. 7.1 | If affine varieties `Y,Z ⊆ 𝔸ⁿ` have dimensions `r,s`, every irreducible component `W` of `Y ∩ Z` has `dim W ≥ r+s−n` | 48 |
+| Thm. 7.2 | If projective varieties `Y,Z ⊆ ℙⁿ` have dimensions `r,s`, every irreducible component of `Y ∩ Z` has dimension at least `r+s−n`; if the bound is nonnegative, the intersection is nonempty | 48–49 |
+| Def.; Prop. 7.3 | Numerical polynomials; integral binomial-basis expansion; discrete antidifferentiation preserves eventual numerical-polynomial behaviour | 49–50 |
+| Def.; Prop. 7.4 | Graded modules and twists; homogeneous annihilators; finite homogeneous-prime filtrations; minimal primes and their localized lengths | 50–51 |
+| Def.; Thm. 7.5 | Hilbert functions and Hilbert–Serre: a finite graded module has an eventual numerical polynomial whose degree is `dim Z(Ann M)` | 51–52 |
+| Def.; Prop. 7.6 | Hilbert polynomial and degree of a projective algebraic set; positivity, additivity, `deg ℙⁿ = 1`, and the degree of a hypersurface | 52 |
+| Def.; Thm. 7.7 | Intersection multiplicity with a hypersurface and the degree formula `∑ᵢ i(Y,H;Zᵢ) deg Zᵢ = deg Y · deg H` | 53 |
+| Cor. 7.8; Rmks. 7.8.1–2 | Plane-curve Bézout, comparison with local multiplicity, and the reducible extension when there is no common component | 54 |
+
+The running proofs require Exercise 3.15(a),(d), p. 22: affine products are
+varieties and `dim(X×Y)=dim X+dim Y`; Exercise 2.10(a)–(c), p. 12: the affine
+cone is algebraic, is irreducible exactly when its base is, and has dimension
+one greater; and Exercise 2.8, p. 12: projective codimension one means a
+hypersurface. Exercise 7.4, pp. 54–55, gives the optional generic-line
+interpretation of degree but depends on Exercises 7.3, p. 54, and 5.4, p. 36.
+
+Pinned Mathlib has rational generating-function results named
+`Polynomial.hilbertPoly` and an ungraded prime-filtration theorem, but not the
+Hilbert polynomial of a finite graded module, Hartshorne's intersection-
+dimension theorems, or Bézout. The fine plan must also resolve integer-indexed
+twists against the project's current natural-number grading and translate
+bottom-valued dimensions and module lengths carefully.
+
+## I.8 what is algebraic geometry?
+
+Printed pp. 55–59. This is a philosophical survey and preview, with no numbered
+definition, proposition, or theorem. It nevertheless contains substantive
+claims about moduli dimensions, minimal surface models, and birational
+invariants, alongside previews of divisors, Picard groups, differentials,
+cohomology, arbitrary ground fields, abstract varieties, and schemes. Its curve
+statements recap §§I.4 and I.6; every remaining claim stays `MAPPED` for later
+claim-by-claim disposition rather than being silently discarded.
+
+## II schemes
+
+Chapter II, printed pp. 60–200. Its scheme-theoretic language is the main
+foundation for every later chapter. The coarse milestones follow mathematical
+dependencies rather than treating all nine source sections as one task.
+
+| Milestone | Sections and pages | Mathematical content |
+| --- | --- | --- |
+| II-A: scheme foundations | §§1–3, pp. 60–94 | Sheaves; `Spec` and `Proj`; schemes, morphisms, closed subschemes, fibre products, and first local/global properties |
+| II-B: separated and proper morphisms | §4, pp. 95–107 | Diagonals, separatedness, properness, and valuative criteria |
+| II-C: sheaves of modules | §5, pp. 108–128 | Quasi-coherent and coherent modules, exactness, finite presentation, and projective sheaf machinery |
+| II-D: divisors and projective geometry | §§6–7, pp. 129–171 | Weil and Cartier divisors, Picard groups, linear systems, ample and very ample sheaves, projective bundles, and blowups |
+| II-E: differentials and regularity | §8, pp. 172–189 | Kähler differentials, nonsingularity, tangent spaces, canonical sheaves, and Bertini-type results |
+| II-F: formal schemes | §9, pp. 190–200 | Completions and formal schemes, needed later by formal functions and surface resolution |
+
+The chapter introduction on p. 60 is editorial context and will be separated
+from the mathematical units during fine decomposition. Much of the basic scheme
+API exists in Mathlib, but exact theorem matching must be checked milestone by
+milestone before any leaf is marked as supplied upstream.
+
+## III cohomology
+
+Chapter III, printed pp. 201–292. The chapter begins with an overview on p. 201;
+its first section quotes homological-algebra results without proofs, so those
+will need either exact Mathlib matches or separately adopted proof sources.
+
+| Milestone | Sections and pages | Mathematical content |
+| --- | --- | --- |
+| III-A: cohomology foundations | §§1–4, pp. 202–224 | Derived functors, sheaf cohomology, affine vanishing, and Čech cohomology |
+| III-B: projective-space cohomology | §5, pp. 225–232 | Cohomology of twists on projective space and finiteness for coherent sheaves |
+| III-C: Ext and duality | §§6–7, pp. 233–249 | Global and sheaf Ext, dualizing sheaves, and Serre duality |
+| III-D: families and Hilbert polynomials | §§8–9, pp. 250–267 | Higher direct images, flat morphisms, Hilbert polynomials, and flat families |
+| III-E: smooth morphisms | §10, pp. 268–275 | Smoothness, generic smoothness, and Bertini |
+| III-F: formal functions and base change | §§11–12, pp. 276–292 | Formal functions, connectedness, Zariski's Main Theorem, Stein factorization, semicontinuity, and cohomology and base change |
+
+## IV curves
+
+Chapter IV, printed pp. 293–355, with an editorial introduction on p. 293.
+
+| Milestone | Sections and pages | Mathematical content |
+| --- | --- | --- |
+| IV-A: Riemann–Roch and ramification | §§1–2, pp. 294–306 | Divisors on curves, Riemann–Roch, morphisms of curves, ramification, and Hurwitz |
+| IV-B: projective embeddings | §3, pp. 307–315 | Linear systems, embeddings, and nodal plane models |
+| IV-C: elliptic curves | §4, pp. 316–339 | Genus-one curves, group laws, isogenies, and the classification of elliptic curves |
+| IV-D: canonical and space curves | §§5–6, pp. 340–355 | Canonical embeddings, Clifford's theorem, and curves in projective three-space |
+
+The analytic background labelled 4.12B–4.15B requires a separately adopted
+source before fine decomposition; Hartshorne states those results but does not
+provide their proofs.
+
+## V surfaces
+
+Chapter V, printed pp. 356–423, with an editorial introduction on p. 356.
+
+| Milestone | Sections and pages | Mathematical content |
+| --- | --- | --- |
+| V-A: intersection theory on surfaces | §1, pp. 357–368 | Intersection numbers, adjunction, Riemann–Roch, the Hodge index theorem, and the Nakai criterion |
+| V-B: ruled surfaces | §2, pp. 369–385 | Ruled surfaces, normalized bundles, sections, and classification over a curve |
+| V-C: monoidal transformations | §3, pp. 386–394 | Blowups, exceptional curves, and resolution steps |
+| V-D: cubic surfaces | §4, pp. 395–408 | Cubic surfaces, the 27 lines, and related birational constructions |
+| V-E: birational transformations | §5, pp. 409–420 | Factorization, contraction of exceptional curves, and minimal models |
+| V-F: classification survey | §6, pp. 421–423 | The Enriques–Kodaira classification and open directions, largely stated without proof |
+
+Section V.6 is primarily a survey. It remains mapped until its assertions are
+split between formalizable claims, external-source obligations, and exposition.
+
+## Appendix A intersection theory
+
+Printed pp. 424–437. Hartshorne presents a mathematical outline rather than
+full proofs of every deep result.
+
+| Milestone | Sections and pages | Mathematical content |
+| --- | --- | --- |
+| A-A: Chow groups and products | Overview and §§1–2, pp. 424–429 | Cycles, rational equivalence, Chow groups, functoriality, the axioms and uniqueness of intersection products, and the Chow ring |
+| A-B: Chern classes | §3, pp. 429–431 | Chern classes, the splitting principle, zero loci, and self-intersection |
+| A-C: Riemann–Roch and generalizations | §§4–5, pp. 431–437 | Chern character, Todd class, Hirzebruch–Riemann–Roch, Nakai–Moishezon, Hodge index, and Grothendieck–Riemann–Roch |
+
+Appendix C uses Exercise A.6.6's diagonal-self-intersection/top-Chern identity,
+so that exercise is a prospective dependency under the existing exercise
+policy. Fine planning for the deepest theorems needs the external sources that
+Hartshorne cites rather than this outline alone.
+
+## Appendix B transcendental methods
+
+Printed pp. 438–448. This appendix is explicitly a brief report, but it states
+precise comparison and algebraicity results.
+
+| Milestone | Sections and pages | Mathematical content |
+| --- | --- | --- |
+| B-A: analytification and GAGA | §§1–2, pp. 438–441 | Analytification of finite-type complex schemes and coherent sheaves, comparison maps, GAGA, and Chow's theorem |
+| B-B: algebraicity and Kähler criteria | §§3–4, pp. 441–446 | Riemann existence, Siegel and Chow–Kodaira criteria, Hironaka examples, Kodaira embedding, and Moishezon–Kähler algebraicity |
+| B-C: exponential sequence and Picard theory | §5, pp. 446–448 | The exponential sequence, Picard and Néron–Severi groups, Picard varieties, and Jacobians |
+
+Exercise B.6.6 supplies a projective-scheme morphism comparison that §B.2
+leaves to the reader and is therefore a prospective dependency. Fine planning
+requires adopted analytic, GAGA, and Hodge-theoretic proof sources.
+
+## Appendix C the Weil conjectures
+
+Printed pp. 449–458. This appendix states the conjectural package and sketches
+its cohomological proof architecture; it does not develop étale cohomology or
+Deligne's proof.
+
+| Milestone | Sections and pages | Mathematical content |
+| --- | --- | --- |
+| C-A: zeta functions and the Weil package | §1, pp. 449–451 | Zeta functions and Weil assertions 1.1–1.4 |
+| History | §2, pp. 451–453 | Historical survey of work on the Weil conjectures; no theorem-DAG target |
+| C-B: ℓ-adic cohomology interface | §3, pp. 453–454 | Functoriality, cup products, Poincaré duality, Lefschetz trace, smooth-proper invariance, comparison, and cycle classes |
+| C-C: Frobenius and Weil deductions | §4, pp. 454–458 | Frobenius point counting, trace and determinant lemmas, rationality, functional equation, and Deligne's theorem |
+
+Fine planning for §§C.3–C.4 requires an external étale/ℓ-adic source stack;
+Hartshorne deliberately supplies only the interface and deduction outline.
+
+## Back matter
+
+The bibliography begins on p. 459, the Results from Algebra reference list on
+p. 470, the glossary on p. 472, and the index on p. 478. These are reference
+apparatus rather than new theorem targets. Any algebra result used by an
+approved milestone must instead be attached to that milestone with its proof
+source or exact Mathlib declaration.
 
 ## Standing conventions
 

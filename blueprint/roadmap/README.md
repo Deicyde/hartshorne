@@ -52,16 +52,16 @@ Theorem 6.9 uses it, proves extension to projective targets, constructs
 nonsingular projective models, and reaches the category equivalences of
 Corollary 6.12. Exercise
 3.3(a) is the existing completed local-ring map; the 23 new leaves comprise
-two for Exercise 3.3(b),(c), which are now complete, and 21 for Proposition
-6.8 through Corollary 6.12. Ten of those 21 leaves, including Proposition
-6.8 itself, are now complete. The full roadmap therefore has 163 leaves, 152
-complete and eleven planned.
+two for Exercise 3.3(b),(c) and 21 for Proposition 6.8 through Corollary 6.12.
+All are now formalized. The accepted fine roadmap therefore has 163 complete
+leaves: 159 proved in this project and four supplied by Mathlib.
 
 Read the [coverage contract](../coverage/README.md) before reading progress off
 this book: §§1–4, the geometric core of §5 through Theorem 5.3, and §6 through
 Corollary 6.12 are decomposed here. The completion material later in §5 is
-deferred; the unadopted exercises, §7 onward, and Chapters II–V are out of
-scope. The complete source partition is recorded in the
+deferred; §§I.7–8, Chapters II–V, and Appendices A–C have a coarse map awaiting
+approval and are not yet fine theorem commitments. The complete source
+partition is recorded in the
 [source notes](../sources/hartshorne.md).
 
 ## Chapters
@@ -89,3 +89,6 @@ scope. The complete source partition is recorded in the
   I.3.3(a)–(c) as used by Theorem 6.9, Proposition I.6.8 through Corollary
   I.6.12, projective completions, and the contravariant function-field
   equivalence.
+- [Remaining-book roadmap](remaining-book/README.md) — coarse milestones for
+  §I.7, Chapters II–V, and Appendices A–C, pending approval before fine
+  decomposition.

@@ -14,7 +14,7 @@ The contravariant function-field functor gives an equivalence
 
 `(ProjectiveNonsingularCurveCat k)ᵒᵖ ≌ OneDimensionalFunctionFieldCat k`.
 
-The sole main declaration is planned as
+The sole main declaration is formalized as
 `Hartshorne.projectiveCurveFunctionFieldEquivalence`.  It is the composite of
 the opposite of the projective/quasi-projective comparison with the
 quasi-projective-curve/function-field equivalence.
