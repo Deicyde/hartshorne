@@ -183,4 +183,5 @@ import Hartshorne.Curve.FunctionFieldProjectiveModel
 import Hartshorne.Curve.CurveProjectiveModel
 import Hartshorne.Curve.AbstractCurveQuasiProjective
 import Hartshorne.Curve.Categories
+import Hartshorne.Curve.ProjectiveQuasiProjectiveCurveEquivalence
 import Hartshorne.Curve.QuasiProjectiveCurveFunctionFieldEquivalence
