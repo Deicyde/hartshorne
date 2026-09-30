@@ -56,12 +56,16 @@ two for Exercise 3.3(b),(c) and 21 for Proposition 6.8 through Corollary 6.12.
 All are now formalized. The accepted fine roadmap therefore has 163 complete
 leaves: 159 proved in this project and four supplied by Mathlib.
 
+The next fine milestone is Hartshorne §I.7. Its 42 planned leaves develop the
+affine and projective dimension theorems, integer-graded Hilbert theory,
+projective degree, and Bézout, bringing the graph to 205 formalizable leaves.
+
 Read the [coverage contract](../coverage/README.md) before reading progress off
 this book: §§1–4, the geometric core of §5 through Theorem 5.3, and §6 through
 Corollary 6.12 are decomposed here. The completion material later in §5 is
-deferred; §§I.7–8, Chapters II–V, and Appendices A–C have a coarse map awaiting
-approval and are not yet fine theorem commitments. The complete source
-partition is recorded in the
+deferred; §I.7 is now finely decomposed; §I.8, Chapters II–V, and Appendices
+A–C are approved coarse milestones deferred until their turn. The complete
+source partition is recorded in the
 [source notes](../sources/hartshorne.md).
 
 ## Chapters
@@ -89,6 +93,8 @@ partition is recorded in the
   I.3.3(a)–(c) as used by Theorem 6.9, Proposition I.6.8 through Corollary
   I.6.12, projective completions, and the contravariant function-field
   equivalence.
-- [Remaining-book roadmap](remaining-book/README.md) — coarse milestones for
-  §I.7, Chapters II–V, and Appendices A–C, pending approval before fine
-  decomposition.
+- [Intersections in projective space](intersections-projective-space/README.md)
+  — Hartshorne I.7, from dimension bounds through Hilbert polynomials and
+  Bézout.
+- [Remaining-book roadmap](remaining-book/README.md) — approved coarse
+  milestones for §I.8, Chapters II–V, and Appendices A–C.

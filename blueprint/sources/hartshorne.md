@@ -358,37 +358,58 @@ when later in-scope running text uses it, and otherwise leave it out. Any
 exception, especially a classical interpretation that depends on a chain of
 exercises, remains an explicit scope choice.
 
-## I.7 intersections in projective space
+## I.7 main text and required prerequisites
 
-Intersections in Projective Space, printed pp. 47–55. This section is a
-substantial new milestone: its intersection-dimension results feed a graded
-Hilbert-theory development, which in turn defines degree and proves the
-hypersurface and plane-curve forms of Bézout's theorem.
+Intersections in Projective Space, printed pp. 47–54. The adopted scope is the
+running mathematical text through Remark 7.8.2, together with the earlier
+exercises its proofs require. The generic-line interpretation delegated to
+Exercise 7.4 is separated below under the standing exercise policy.
 
 | Locator | Statement | Pages |
 | --- | --- | --- |
 | Prop. 7.1 | If affine varieties `Y,Z ⊆ 𝔸ⁿ` have dimensions `r,s`, every irreducible component `W` of `Y ∩ Z` has `dim W ≥ r+s−n` | 48 |
 | Thm. 7.2 | If projective varieties `Y,Z ⊆ ℙⁿ` have dimensions `r,s`, every irreducible component of `Y ∩ Z` has dimension at least `r+s−n`; if the bound is nonnegative, the intersection is nonempty | 48–49 |
 | Def.; Prop. 7.3 | Numerical polynomials; integral binomial-basis expansion; discrete antidifferentiation preserves eventual numerical-polynomial behaviour | 49–50 |
-| Def.; Prop. 7.4 | Graded modules and twists; homogeneous annihilators; finite homogeneous-prime filtrations; minimal primes and their localized lengths | 50–51 |
-| Def.; Thm. 7.5 | Hilbert functions and Hilbert–Serre: a finite graded module has an eventual numerical polynomial whose degree is `dim Z(Ann M)` | 51–52 |
+| Def.; Prop. 7.4 | Integer-graded modules and twists; homogeneous annihilators; finite homogeneous-prime filtrations; minimal primes and their localized lengths | 50–51 |
+| Def.; Thm. 7.5 | Hilbert functions and Hilbert–Serre: a finite graded module has a unique eventual numerical polynomial whose degree is `dim Z(Ann M)` | 51–52 |
 | Def.; Prop. 7.6 | Hilbert polynomial and degree of a projective algebraic set; positivity, additivity, `deg ℙⁿ = 1`, and the degree of a hypersurface | 52 |
 | Def.; Thm. 7.7 | Intersection multiplicity with a hypersurface and the degree formula `∑ᵢ i(Y,H;Zᵢ) deg Zᵢ = deg Y · deg H` | 53 |
-| Cor. 7.8; Rmks. 7.8.1–2 | Plane-curve Bézout, comparison with local multiplicity, and the reducible extension when there is no common component | 54 |
+| Cor. 7.8 | If distinct plane curves have degrees `d,e`, their pointwise intersection multiplicities sum to `de` | 54 |
+| Rmk. 7.8.2 | The plane-curve formula extends to pure one-dimensional algebraic sets with no common irreducible component | 54 |
 
-The running proofs require Exercise 3.15(a),(d), p. 22: affine products are
-varieties and `dim(X×Y)=dim X+dim Y`; Exercise 2.10(a)–(c), p. 12: the affine
-cone is algebraic, is irreducible exactly when its base is, and has dimension
-one greater; and Exercise 2.8, p. 12: projective codimension one means a
-hypersurface. Exercise 7.4, pp. 54–55, gives the optional generic-line
-interpretation of degree but depends on Exercises 7.3, p. 54, and 5.4, p. 36.
+| Required locator | Adopted statement | Page |
+| --- | --- | --- |
+| Ex. 2.8 | A projective variety in `ℙⁿ` has dimension `n−1` iff it is the zero set of one positive-degree irreducible homogeneous polynomial | 12 |
+| Ex. 2.10(a)–(c) | For a nonempty projective algebraic set `Y`, its affine cone is algebraic with ideal `J(Y)`, is irreducible iff `Y` is, and has dimension `dim Y+1` | 12 |
+| Ex. 3.15(a),(b),(d) | The affine product is a variety, its coordinate ring is `A(X) ⊗ₖ A(Y)`, and its dimension is `dim X+dim Y` | 22 |
 
-Pinned Mathlib has rational generating-function results named
-`Polynomial.hilbertPoly` and an ungraded prime-filtration theorem, but not the
-Hilbert polynomial of a finite graded module, Hartshorne's intersection-
-dimension theorems, or Bézout. The fine plan must also resolve integer-indexed
-twists against the project's current natural-number grading and translate
-bottom-valued dimensions and module lengths carefully.
+Pinned Mathlib supplies Krull's height theorem for finitely generated ideals,
+an ungraded prime filtration, associated-prime localization and length APIs,
+and rational generating-function polynomials named `Polynomial.hilbertPoly`.
+It explicitly does not supply Hilbert polynomials of finite graded modules, and
+it has no exact affine/projective intersection theorem or Bézout theorem.
+
+The fine roadmap uses a genuine `ℤ`-grading: polynomial pieces are extended by
+zero in negative degrees and `M(l)ₐ = Mₐ₊ₗ` is literal reindexing. Dimension
+bounds are stated additively because project dimensions use `WithBot ℕ∞`, and
+localized module multiplicities remain `ℕ∞` until finiteness is proved.
+
+## I.7 deferred local-multiplicity comparison
+
+Remark 7.8.1 on p. 54 says that the homogeneous-coordinate intersection
+multiplicity agrees, for plane curves, with the local-ring length defined in
+Exercise 5.4 on p. 36. Hartshorne gives no proof and Exercise 5.4 is not adopted
+by the current main-text exercise policy. This comparison is deferred until a
+local intersection-multiplicity milestone and proof source are approved.
+
+## I.7 unadopted classical-degree exercises
+
+Exercise 7.4 on pp. 54–55 proves that a nonempty open set of lines meets a
+degree-`d` plane curve in exactly `d` points. Its hint uses the dual-curve and
+tangent-line construction of Exercise 7.3 and the local multiplicity of
+Exercise 5.4. No later adopted running-text proof depends on this chain, so it
+remains outside the fine scope under the standing exercise policy. The other
+§7 exercises remain outside for the same reason.
 
 ## I.8 what is algebraic geometry?
 

@@ -1,7 +1,7 @@
 ---
 schema: autoform-coverage/v2
 artifact: sources/hartshorne.md
-artifact_sha256: 1a6d70ee8b30b4350d23adcde0f595aaba9e065bda0b9e6f93d3d0baf4667129
+artifact_sha256: c2bc8f7d7ac51726c34173062143818c5ecd3547f49360aa79339a1128902c71
 ---
 
 # Coverage contract
@@ -34,24 +34,28 @@ has roadmap leaves; it does not mean that those leaves are proved.
 | chapter-i-section-6-projective-model | Extension across points and projective models | 316-340 | Chapter I §6, Proposition 6.8 through Corollary 6.12, book pp. 43–46 | 7298a810773cda8b7a437aaede7938bbfd6699045a27a79973977529c89fbece | DECOMPOSED | [Regularity near a valuation](../roadmap/projective-models/regular-near-valuation.md), [The local ring of an abstract curve](../roadmap/projective-models/abstract-curve-local-ring.md), [Abstract valuation curves have dimension one](../roadmap/projective-models/abstract-curve-dimension.md), [Transporting valuation curves along a field equivalence](../roadmap/projective-models/valuation-space-field-equivalence.md), [A projective coordinate pivot](../roadmap/projective-models/valuation-projective-pivot.md), [Extension to a projective target](../roadmap/projective-models/projective-extension.md), [A two-chart affine cover](../roadmap/projective-models/two-affine-chart-cover.md), [Projective chart extensions](../roadmap/projective-models/projective-chart-extensions.md), [The projective diagonal model](../roadmap/projective-models/projective-diagonal.md), [Its function field](../roadmap/projective-models/projective-model-function-field.md), [Its local rings](../roadmap/projective-models/projective-model-local-rings.md), [A dominating function-field DVR](../roadmap/projective-models/dominating-dvr.md), [Nonsingular projective models of function fields](../roadmap/projective-models/function-field-projective-model.md), [Abstract curves are quasi-projective](../roadmap/projective-models/abstract-curve-quasiprojective.md), [Completion of a nonsingular curve](../roadmap/projective-models/nonsingular-curve-projective-open.md), [Projective models of curves](../roadmap/projective-models/curve-projective-model.md), [The three curve categories](../roadmap/projective-models/curve-categories.md), [Extension of dominant rational maps](../roadmap/projective-models/projective-rational-map-extension.md), [Projective and quasi-projective curve categories](../roadmap/projective-models/projective-quasiprojective-curve-equivalence.md), [Quasi-projective curves and function fields](../roadmap/projective-models/quasiprojective-curve-function-field-equivalence.md), [The curve/function-field category equivalence](../roadmap/projective-models/curve-category-equivalence.md) |
 | chapter-i-section-6-exercises | Exercises on curves and valuations | 341-346 | Chapter I, Exercises 6.1–6.7, book pp. 46–47 | 75ef55d17275e74c30a42767df0d4e799460fd6de6f993da682490c70135379b | OUT | No §6 exercise is used by the approved scope through Corollary 6.12 |
 | remaining-book-inventory-policy | Coarse-pass and exercise policy | 347-360 | Remaining-book inventory policy | b536febfddfe8f434fccf324537a30b1c72bd54d3ce3b038f4be8c12e4782f96 | OUT | Project-authored inventory policy rather than a mathematical target |
-| chapter-i-section-7 | Intersections in projective space | 361-392 | Chapter I §7, book pp. 47–55 | 742732343fd84b0a4fb431ca8cd8fda1911caa6e431674403e5f671b21b4cd55 | MAPPED | [Coarse Chapter I completion milestones](../roadmap/remaining-book/README.md#chapter-i-completion), pending scope approval |
-| chapter-i-section-8-philosophy | What is algebraic geometry? | 393-402 | Chapter I §8, book pp. 55–59 | 2deeb611b2b9c2a1212229018124182335c55de6b3bff01a4228fbc455c39367 | MAPPED | [Coarse Chapter I completion milestones](../roadmap/remaining-book/README.md#chapter-i-completion), pending claim-by-claim disposition of its unnumbered survey assertions |
-| chapter-ii | Schemes | 403-422 | Chapter II, book pp. 60–200 | 5ab3025214dd544fe50ee9d154af607e1df78091a824264b15748826c7c543f7 | MAPPED | [Coarse Chapter II milestones](../roadmap/remaining-book/README.md#chapter-ii-schemes), pending scope approval and exact Mathlib matching |
-| chapter-iii | Cohomology | 423-437 | Chapter III, book pp. 201–292 | 0b23d7aabb70babbbdf4b92455c994740b40c84e4234ff0a99a05e960c4170b3 | MAPPED | [Coarse Chapter III milestones](../roadmap/remaining-book/README.md#chapter-iii-cohomology), pending scope approval and proof sources for quoted background |
-| chapter-iv | Curves | 438-452 | Chapter IV, book pp. 293–355 | 0aff55cb2f727f4b9f6a310b417e684c5654ecf92ff49d5ea80a1d1ff2adaa9f | MAPPED | [Coarse Chapter IV milestones](../roadmap/remaining-book/README.md#chapter-iv-curves), pending scope approval and analytic sources |
-| chapter-v | Surfaces | 453-468 | Chapter V, book pp. 356–423 | b3a07d18174cfae3e5c741125aaf214f7336ca50edff5b16b0c18763a18a81c5 | MAPPED | [Coarse Chapter V milestones](../roadmap/remaining-book/README.md#chapter-v-surfaces), pending scope approval and survey disposition |
-| appendix-a | Intersection theory | 469-484 | Appendix A, book pp. 424–437 | c272e216776da6794c43a4b564e7a43327f8b45e51161877d1b547d36789d1fb | MAPPED | [Coarse Appendix A milestones](../roadmap/remaining-book/README.md#appendices), pending scope approval and proof-level sources |
-| appendix-b | Transcendental methods | 485-499 | Appendix B, book pp. 438–448 | f81e1ac1d11e7d0d86bd85caedc5a2e1877ab4fea72a4313604db713ff4f6650 | MAPPED | [Coarse Appendix B milestones](../roadmap/remaining-book/README.md#appendices), pending scope approval and analytic sources |
-| appendix-c | The Weil conjectures | 500-515 | Appendix C, book pp. 449–458 | 070ba0efbef266000c770f47cb1b551306790ebf7a29338f75c3e80a646b27ef | MAPPED | [Coarse Appendix C milestones](../roadmap/remaining-book/README.md#appendices), pending scope approval and an étale-cohomology source stack |
-| back-matter | Bibliography and reference apparatus | 516-523 | Book pp. 459 onward | 1b1fd5ef5548c11d97cd83fd41557f43b4a51874da0e4edb83b9f4366f1df20c | OUT | Bibliography, algebra-reference list, glossary, and index rather than new theorem targets |
-| standing-conventions | Algebraically closed base field and irreducible varieties | 524-531 | Standing conventions for Chapter I | 32c55ea4bf211d1ee39edc51f124ebc7e3841b0728a82001ac113c4cff8be7df | DECOMPOSED | [Affine and quasi-affine varieties](../roadmap/affine-varieties/affine-variety.md), [Projective and quasi-projective varieties](../roadmap/projective-varieties/projective-variety.md), [Varieties](../roadmap/morphisms/variety.md) |
+| chapter-i-section-7-main | Intersections, Hilbert polynomials, degree, and Bézout | 361-396 | Chapter I §7 running text through Remark 7.8.2 and required earlier exercises, book pp. 12, 22, 47–54 | 792f230ce1f21da4777e571d21d4cc4ac411cc76537b910c99a55781ea3fd7e6 | DECOMPOSED | [Affine components as minimal primes of a cut ideal](../roadmap/intersections-projective-space/dimension/affine-components-minimal-primes.md), [Dimension of the affine cone](../roadmap/intersections-projective-space/dimension/affine-cone-dimension.md), [The affine cone and its ideal](../roadmap/intersections-projective-space/dimension/affine-cone-ideal.md), [Irreducibility of the affine cone](../roadmap/intersections-projective-space/dimension/affine-cone-irreducible.md), [The diagonal section of an affine product](../roadmap/intersections-projective-space/dimension/affine-diagonal-section.md), [The affine dimension theorem](../roadmap/intersections-projective-space/dimension/affine-dimension-theorem.md), [The coordinate ring of an affine product](../roadmap/intersections-projective-space/dimension/affine-product-coordinate-ring.md), [Dimension of an affine product](../roadmap/intersections-projective-space/dimension/affine-product-dimension.md), [Affine products are varieties](../roadmap/intersections-projective-space/dimension/affine-product-variety.md), [Degree is additive across a top-dimensional union](../roadmap/intersections-projective-space/bezout/degree-union.md), [A finite set of equations lowers component dimension by at most its size](../roadmap/intersections-projective-space/dimension/finite-cut-component-dimension.md), [Finite-dimensional graded pieces](../roadmap/intersections-projective-space/hilbert/finite-graded-pieces.md), [Homogeneous annihilators and cyclic modules](../roadmap/intersections-projective-space/hilbert/graded-annihilator.md), [Integer-graded module twists](../roadmap/intersections-projective-space/hilbert/graded-module-twists.md), [Multiplicity in a graded prime filtration](../roadmap/intersections-projective-space/hilbert/graded-multiplicity.md), [Graded prime filtrations](../roadmap/intersections-projective-space/hilbert/graded-prime-filtration.md), [Integer-graded submodules and quotients](../roadmap/intersections-projective-space/hilbert/graded-submodules-and-quotients.md), [The Hilbert function](../roadmap/intersections-projective-space/hilbert/hilbert-function.md), [A nonempty projective algebraic set has positive integral degree](../roadmap/intersections-projective-space/bezout/hilbert-polynomial-positive-degree.md), [Hilbert polynomials of shifted prime quotients](../roadmap/intersections-projective-space/hilbert/hilbert-polynomial-prime-quotient.md), [Hilbert–Serre](../roadmap/intersections-projective-space/hilbert/hilbert-serre.md), [A degree-d hypersurface has degree d](../roadmap/intersections-projective-space/bezout/hypersurface-hilbert-polynomial.md), [The Hilbert polynomial of a hypersurface section is a difference](../roadmap/intersections-projective-space/bezout/hypersurface-section-hilbert-polynomial.md), [The integer grading on a polynomial ring](../roadmap/intersections-projective-space/hilbert/integer-polynomial-grading.md), [Discrete antidifferentiation of a numerical polynomial](../roadmap/intersections-projective-space/hilbert/numerical-antidifference.md), [Numerical polynomials have integral binomial expansions](../roadmap/intersections-projective-space/hilbert/numerical-binomial-expansion.md), [Numerical polynomials](../roadmap/intersections-projective-space/hilbert/numerical-polynomial.md), [Bézout's theorem for distinct plane curves](../roadmap/intersections-projective-space/bezout/plane-curve-bezout.md), [Minimal primes in a graded prime filtration](../roadmap/intersections-projective-space/hilbert/prime-filtration-support.md), [Projective codimension one is a hypersurface](../roadmap/intersections-projective-space/bezout/projective-codimension-one-hypersurface.md), [The projective dimension theorem for components](../roadmap/intersections-projective-space/dimension/projective-dimension-theorem.md), [Hilbert polynomials and degrees of projective algebraic sets](../roadmap/intersections-projective-space/hilbert/projective-hilbert-polynomial-and-degree.md), [Bézout for a projective variety and a hypersurface](../roadmap/intersections-projective-space/bezout/projective-hypersurface-bezout.md), [Projective intersection components on an affine chart](../roadmap/intersections-projective-space/dimension/projective-intersection-components.md), [Intersection multiplicity with a hypersurface](../roadmap/intersections-projective-space/bezout/projective-intersection-multiplicity.md), [Projective varieties of complementary dimension meet](../roadmap/intersections-projective-space/dimension/projective-intersection-nonempty.md), [A projective point has Hilbert polynomial and degree one](../roadmap/intersections-projective-space/bezout/projective-point-degree.md), [Projective space has degree one](../roadmap/intersections-projective-space/bezout/projective-space-hilbert-polynomial.md), [Bézout for reducible plane curves without a common component](../roadmap/intersections-projective-space/bezout/reducible-plane-curve-bezout.md), [Dimension of a tensor product of affine domains](../roadmap/intersections-projective-space/dimension/tensor-product-dimension.md), [The leading Hilbert coefficient is a sum over minimal primes](../roadmap/intersections-projective-space/bezout/top-dimensional-prime-filtration-leading-term.md), [The coordinate-ring sequence for a union is exact](../roadmap/intersections-projective-space/bezout/union-coordinate-ring-exact-sequence.md) |
+| chapter-i-section-7-local-comparison | Comparison with local plane-curve intersection multiplicity | 397-404 | Chapter I, Remark 7.8.1, book p. 54, referring to Exercise 5.4 on p. 36 | e2de19386bae45b3cc837a8a31b528b1177158d4e49e67065150aeff3f8895e4 | DEFERRED | Deferred to an explicit local intersection-multiplicity milestone because Hartshorne supplies neither the proof nor an adopted proof source |
+| chapter-i-section-7-classical-degree-exercises | Generic-line interpretation and unadopted §7 exercises | 405-413 | Chapter I, Exercises 5.4 and 7.1–7.8, book pp. 36, 54–55 | fdddcd78038ff2e067c585adf28aa3585a606104194a55918785f418c27ea2cd | OUT | Exercise 7.4's generic-line interpretation depends on unadopted Exercises 7.3 and 5.4, and no later adopted running-text proof uses this exercise chain |
+| chapter-i-section-8-philosophy | What is algebraic geometry? | 414-423 | Chapter I §8, book pp. 55–59 | 2deeb611b2b9c2a1212229018124182335c55de6b3bff01a4228fbc455c39367 | DEFERRED | [Chapter I survey-claim milestone](../roadmap/remaining-book/README.md#chapter-i-completion), deferred for claim-by-claim disposition after §I.7 |
+| chapter-ii | Schemes | 424-443 | Chapter II, book pp. 60–200 | 5ab3025214dd544fe50ee9d154af607e1df78091a824264b15748826c7c543f7 | DEFERRED | [Approved Chapter II milestones](../roadmap/remaining-book/README.md#chapter-ii-schemes), sequenced after the active §I.7 milestone and exact Mathlib matching |
+| chapter-iii | Cohomology | 444-458 | Chapter III, book pp. 201–292 | 0b23d7aabb70babbbdf4b92455c994740b40c84e4234ff0a99a05e960c4170b3 | DEFERRED | [Approved Chapter III milestones](../roadmap/remaining-book/README.md#chapter-iii-cohomology), sequenced after Chapter II and adoption of proof sources for quoted background |
+| chapter-iv | Curves | 459-473 | Chapter IV, book pp. 293–355 | 0aff55cb2f727f4b9f6a310b417e684c5654ecf92ff49d5ea80a1d1ff2adaa9f | DEFERRED | [Approved Chapter IV milestones](../roadmap/remaining-book/README.md#chapter-iv-curves), sequenced after Chapters II–III and adoption of analytic sources |
+| chapter-v | Surfaces | 474-489 | Chapter V, book pp. 356–423 | b3a07d18174cfae3e5c741125aaf214f7336ca50edff5b16b0c18763a18a81c5 | DEFERRED | [Approved Chapter V milestones](../roadmap/remaining-book/README.md#chapter-v-surfaces), sequenced after Chapters II–IV with survey claims separately sourced |
+| appendix-a | Intersection theory | 490-505 | Appendix A, book pp. 424–437 | c272e216776da6794c43a4b564e7a43327f8b45e51161877d1b547d36789d1fb | DEFERRED | [Approved Appendix A milestones](../roadmap/remaining-book/README.md#appendices), sequenced after the prerequisite scheme, cohomology, curve, and surface milestones |
+| appendix-b | Transcendental methods | 506-520 | Appendix B, book pp. 438–448 | f81e1ac1d11e7d0d86bd85caedc5a2e1877ab4fea72a4313604db713ff4f6650 | DEFERRED | [Approved Appendix B milestones](../roadmap/remaining-book/README.md#appendices), pending the recorded analytic and Hodge-theoretic source stack |
+| appendix-c | The Weil conjectures | 521-536 | Appendix C, book pp. 449–458 | 070ba0efbef266000c770f47cb1b551306790ebf7a29338f75c3e80a646b27ef | DEFERRED | [Approved Appendix C milestones](../roadmap/remaining-book/README.md#appendices), pending the recorded étale and ℓ-adic source stack |
+| back-matter | Bibliography and reference apparatus | 537-544 | Book pp. 459 onward | 1b1fd5ef5548c11d97cd83fd41557f43b4a51874da0e4edb83b9f4366f1df20c | OUT | Bibliography, algebra-reference list, glossary, and index rather than new theorem targets |
+| standing-conventions | Algebraically closed base field and irreducible varieties | 545-552 | Standing conventions for Chapter I | 32c55ea4bf211d1ee39edc51f124ebc7e3841b0728a82001ac113c4cff8be7df | DECOMPOSED | [Affine and quasi-affine varieties](../roadmap/affine-varieties/affine-variety.md), [Projective and quasi-projective varieties](../roadmap/projective-varieties/projective-variety.md), [Varieties](../roadmap/morphisms/variety.md) |
 
 ## Approved fine scope
 
 Chapter I, sections 1 through 4 (book pages 1–29), the geometric core of
 section 5 through Theorem 5.3 (book pages 31–33), and section 6 through
 Corollary 6.12 (book pages 39–46), including the quoted Theorems 3.9A and
-6.3A and Exercise 3.3(a)–(c), which Hartshorne uses in Theorem 6.9:
+6.3A and Exercise 3.3(a)–(c), which Hartshorne uses in Theorem 6.9. The active
+fine scope also includes §I.7's running text through Remark 7.8.2 and the
+earlier exercises required by its proofs:
 
 | Section | Title | Pages | Articles | State |
 | --- | --- | --- | --- | --- |
@@ -65,6 +69,7 @@ Corollary 6.12 (book pages 39–46), including the quoted Theorems 3.9A and
 | I.6 through Lem. 6.4, excluding Thm. 6.3A | Local Structure of Nonsingular Curves | 39–41 | [12 articles](../roadmap/nonsingular-curves/README.md) | done |
 | I.3.9A and I.6.3A–6.7 | Normalization and the Valuation-Space Curve | 20, 40–43 | [26 articles](../roadmap/curve-normalization/README.md) | done |
 | I.6.8–6.12 | Projective Models and Curve Categories | 43–46 | [21 further articles in the 23-leaf chapter](../roadmap/projective-models/README.md) | done |
+| I.7 main text and required prerequisites | Intersections, Hilbert Polynomials, Degree, and Bézout | 12, 22, 47–54 | [42 articles](../roadmap/intersections-projective-space/README.md) | planned |
 
 All 86 main-text and previously adopted articles in §§1–4 are done: 85 are
 proved here and one was already in Mathlib. The §4 results include the
@@ -95,8 +100,9 @@ independently of the harder exact Theorems 3.9A and 6.3A.
 
 The projective-model milestone adds 23 leaves: the two Exercise 3.3 criteria
 and 21 leaves for Proposition 6.8 through Corollary 6.12. All 23 are now
-formalized. The approved fine roadmap therefore has 163 leaves total: 159
-proved in this project and four supplied by Mathlib.
+formalized. The completed preceding roadmap therefore has 163 leaves: 159
+proved in this project and four supplied by Mathlib. The §I.7 fine roadmap adds
+42 planned leaves, for 205 formalizable leaves in the current graph.
 
 The counts grow as the work goes on, almost always by splitting a node that
 turned out to hold more than one pull request's worth of Lean; where the scope
@@ -153,7 +159,7 @@ The completed projective-model milestone extends morphisms over missing points,
 constructs nonsingular projective models, and ends with the equivalences of
 Corollary 6.12.
 
-## Deferred, mapped, and out of scope
+## Deferred and out of scope
 
 **The rest of §5 after Theorem 5.3.** Completion, Theorems 5.4A and 5.5A, and
 analytic isomorphism through Examples 5.6.1–5.6.3 are deferred to a separately
@@ -163,14 +169,12 @@ introduced only for Exercise 5.15.
 **The exercises of Chapter I §6.** Proposition 6.8 through Corollary 6.12 are
 now decomposed; the §6 exercises remain out of scope.
 
-**The remaining mathematical body.** Section I.7, Chapters II–V, and
-Appendices A–C have a [coarse milestone map](../roadmap/remaining-book/README.md)
-and are `MAPPED`, not decomposed. Their section boundaries and broad dependency
-spine have been checked, but they carry no formalizable leaves and make no
-formalization-completeness claim pending approval. Section I.8 remains mapped
-for claim-by-claim disposition; Appendix C's historical material and the
-bibliography/reference apparatus are expository and will not generate theorem
-targets merely because they occur in the source.
+**The later mathematical body.** Section I.8, Chapters II–V, and Appendices
+A–C have an [approved coarse milestone map](../roadmap/remaining-book/README.md)
+and are explicitly deferred while §I.7 is active. Their section boundaries and
+broad dependency spine have been checked, but they carry no formalizable leaves
+yet. Appendix C's historical material and the bibliography/reference apparatus
+will not generate theorem targets merely because they occur in the source.
 
 **The exercises of §§4–5, and every exercise not listed above.** Hartshorne has
 more than four hundred exercises. The ones adopted are adopted because the main
@@ -256,10 +260,11 @@ A section counts as finished when every article listed for it satisfies all of:
    convention that varieties are irreducible.
 
 A scoped section or partial section counts as finished when all its articles
-do. **The entire approved 163-leaf scope through Corollary 6.12 is finished.**
-Its 159 project proofs compile, no proof contains `sorry` or `native_decide`,
-every `#print axioms` is clean, and every statement has been read against its
-cited passage; four further leaves are exact Mathlib results.
+do. **The 163-leaf scope through Corollary 6.12 is finished.** Its 159 project
+proofs compile, no proof contains `sorry` or `native_decide`, every
+`#print axioms` is clean, and every statement has been read against its cited
+passage; four further leaves are exact Mathlib results. The 42 §I.7 leaves are
+planned and are not counted as formalized.
 
 Derived progress on the published site is computed from the dependency graph and
 is not a claim about scope: a green node means its Lean proof compiles, not that
@@ -267,11 +272,11 @@ the section containing it is complete.
 
 ## What is not claimed
 
-No result after Corollary 6.12 has yet been expanded into a fine DAG. The
-completion material later in §5 remains deferred; §§I.7–8, Chapters II–V, and
-Appendices A–C are only coarsely mapped; and unadopted exercises and reference
-apparatus remain out of scope unless a later approval changes their disposition.
+No result after Corollary 6.12 is yet formalized. Section I.7 now has a fine
+42-leaf DAG; the completion material later in §I.5, §I.8, Chapters II–V, and
+Appendices A–C remain deferred; and unadopted exercises and reference apparatus
+remain out of scope unless a later scope decision changes their disposition.
 Nothing in this repository should be read as formalizing "Hartshorne" or
-"algebraic geometry" without the precise scope qualifier. Full progress means
-completion of the currently approved 163-leaf scope through Corollary 6.12;
-whole-book completeness cannot be claimed while any coverage unit is `MAPPED`.
+"algebraic geometry" without the precise scope qualifier. The coverage
+contract is terminal, but that means every inventoried unit is dispositioned;
+it does not mean the 42 planned §I.7 leaves or any deferred milestone is proved.

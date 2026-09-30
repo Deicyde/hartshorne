@@ -11,6 +11,10 @@ curves through Lemma 6.4; the next 26 prove normalization and the
 valuation-space results through Proposition 6.7; the final 23 construct
 projective models and the curve/function-field category equivalence.
 
+The active §I.7 milestone adds 42 planned targets for intersection dimensions,
+graded Hilbert theory, projective degree, and Bézout. The current graph
+therefore has 205 formalizable leaves: 163 complete and 42 planned.
+
 The completed core of Sections 1 through 3 accounts for 69 of those targets,
 ending at Corollary I.3.8, the arrow-reversing equivalence between affine
 varieties over `k` and the finitely generated integral domains over `k`.
@@ -60,16 +64,15 @@ uses the existing separable normalization charts but imposes no separability
 hypothesis on the function field.
 
 The completion, Cohen-structure, and analytic-isomorphism material later in
-§I.5 is deferred. Sections I.7–8, Chapters II–V, and Appendices A–C have a coarse
-milestone map and remain `MAPPED` pending approval; they do not yet add fine
-formalization targets. Reference apparatus and already-dispositioned
-non-target material remain out of scope; §I.8 stays mapped until its substantive
-unnumbered claims are reviewed individually.
+§I.5 is deferred. Section I.7 now has a fine DAG; §I.8, Chapters II–V, and
+Appendices A–C retain approved coarse milestones and are deferred in that
+order. Reference apparatus and already-dispositioned non-target material
+remain out of scope.
 
 - [Roadmap](roadmap/README.md) — the book: chapters, statements, and their
   dependencies.
 - [Remaining-book roadmap](roadmap/remaining-book/README.md) — the proposed
-  coarse pass from §I.7 through Appendix C.
+  sequencing from §I.8 through Appendix C.
 - [Coverage](coverage/README.md) — what counts as done, and what is out of
   scope.
 

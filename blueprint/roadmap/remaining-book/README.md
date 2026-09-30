@@ -1,11 +1,15 @@
+---
+article_id: af_430a8af54e5b37e77bb4ac7d
+---
+
 # Remaining-book roadmap
 
-This is the coarse plan for a full pass over the rest of Hartshorne. It is a
-proposal for approval, not a fine theorem DAG and not a formalization
-commitment. The accepted fine roadmap currently ends at Corollary I.6.12, and
-all 163 of its leaves are formalized. The [coverage contract](../../coverage/README.md)
-therefore marks the mathematical units below `MAPPED` until their scope and
-source stack are approved.
+This is the approved coarse plan for a full pass over the rest of Hartshorne.
+The 163 leaves through Corollary I.6.12 are formalized, and §I.7 now has its own
+42-leaf [fine roadmap](../intersections-projective-space/README.md). Section
+I.8, Chapters II–V, and Appendices A–C remain explicit deferred milestones in
+the [coverage contract](../../coverage/README.md) until their turn for fine
+source and Mathlib work.
 
 The intended full-pass policy is to cover the running mathematical text, adopt
 exercises only when later included text depends on them, inventory expository
@@ -93,7 +97,7 @@ the appendices consolidate those chapters and add substantial external source
 obligations. The I.7 algebraic branch can proceed independently from most of
 the scheme-theoretic spine.
 
-Approval of this page would authorize the roadmap to decompose the entire
-approved `MAPPED` scope autonomously, working milestone by milestone and
-pausing only for a genuinely unresolved source or scope choice. It would not
-by itself approve every optional exercise or an unsourced deep theorem.
+The roadmap is authorized to continue through these milestones autonomously,
+working in dependency order and pausing only for a genuinely unresolved source
+or scope choice. The approved exercise policy does not silently adopt optional
+exercise chains or turn an unsourced deep theorem into a proof specification.

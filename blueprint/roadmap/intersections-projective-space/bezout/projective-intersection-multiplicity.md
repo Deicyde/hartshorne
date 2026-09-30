@@ -1,0 +1,29 @@
+---
+article_id: af_10beeea75107994712e1057d
+declaration: definition
+origin: cited
+source_units: [chapter-i-section-7-main]
+---
+
+# Intersection multiplicity with a hypersurface
+
+Let `Y ⊆ ℙⁿ` be a projective variety, let `H` be a hypersurface not containing
+`Y`, and let `Z` be an irreducible component of `Y ∩ H` with homogeneous prime
+ideal `p_Z`. Define
+
+`i(Y,H;Z) = μ_{p_Z}(S/(I(Y)+I(H)))`.
+
+The main artifact is a natural-valued intersection multiplicity together with
+the theorem that the underlying `ℕ∞` module length is finite. The component
+theorem identifies `p_Z` as a minimal prime of the quotient module, making the
+definition an instance of graded multiplicity.
+
+## Depends on
+
+- [Multiplicity in a graded prime filtration](../hilbert/graded-multiplicity.md)
+- [The projective dimension theorem](../dimension/projective-dimension-theorem.md)
+- [Algebraic sets and homogeneous radical ideals](../../projective-varieties/homogeneous-ideal-correspondence.md)
+
+## Sources
+
+- [Hartshorne I.7, definition before Theorem 7.7 (p. 53)](../../../sources/hartshorne.md#i7-main-text-and-required-prerequisites)
