@@ -3,6 +3,9 @@ article_id: af_2b64070bd52242f68017926b
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projective_dimension_theorem
 ---
 
 # The projective dimension theorem for components
