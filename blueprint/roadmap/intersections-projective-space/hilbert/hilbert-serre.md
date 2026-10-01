@@ -25,13 +25,28 @@ polynomial to `⊥`. This matches the project's `projDim` convention without an
 ad hoc cast between `Polynomial.degree : WithBot ℕ` and topological
 dimension.
 
-Apply Hilbert-function additivity along a graded prime filtration and sum the
-polynomials of its shifted prime quotients. The filtration-support theorem
-identifies `Z(Ann M)` with the union of the factor supports. Factors of maximal
-dimension have positive leading coefficient, so their contributions cannot
-cancel; lower-dimensional factors do not change the degree. Uniqueness follows
-because two rational polynomials agreeing at all sufficiently large integers
-agree on an infinite set.
+Prove the result simultaneously for all finite graded modules by strong
+induction on the dimension of their projective support, strengthening the
+induction claim with positivity of the leading coefficient whenever the
+support is nonempty. Apply Hilbert-function additivity along a graded prime
+filtration. A factor whose support has smaller dimension is covered directly
+by the induction hypothesis. For a
+maximal-dimensional shifted prime factor `(S/p)(l)`, choose a variable
+`x_i ∉ p`. Multiplication by `x_i` is injective and has cokernel
+`S/(p+(x_i))`, whose projective support has smaller dimension (or is empty in
+the zero-dimensional case). Crucially, `p+(x_i)` need not be prime or radical;
+the induction hypothesis applies because the cokernel is an arbitrary finite
+graded module. Degreewise exactness identifies its Hilbert function with the
+finite difference of the prime factor's Hilbert function, and discrete
+antidifferentiation produces the required numerical polynomial. The empty and
+zero-dimensional cases start the induction.
+
+Sum the factor polynomials to obtain the polynomial for `M`. The
+filtration-support theorem identifies `Z(Ann M)` with the union of the factor
+supports. Maximal-dimensional prime factors have positive leading coefficient,
+so their contributions cannot cancel; lower-dimensional factors do not change
+the degree. Uniqueness follows because two rational polynomials agreeing at all
+sufficiently large integers agree on an infinite set.
 
 Pinned Mathlib's `Polynomial.hilbertPoly` proves the eventual polynomial for a
 power series already presented as `p/(1-X)^d`; that file explicitly leaves
@@ -41,11 +56,11 @@ prior art rather than an exact match.
 ## Depends on
 
 - [Numerical polynomials have integral binomial expansions](numerical-binomial-expansion.md)
+- [Discrete antidifferentiation of a numerical polynomial](numerical-antidifference.md)
 - [Homogeneous annihilators and cyclic modules](graded-annihilator.md)
 - [Graded prime filtrations](graded-prime-filtration.md)
 - [Minimal primes in a graded prime filtration](prime-filtration-support.md)
 - [The Hilbert function](hilbert-function.md)
-- [Hilbert polynomials of shifted prime quotients](hilbert-polynomial-prime-quotient.md)
 
 ## Proof depends on
 

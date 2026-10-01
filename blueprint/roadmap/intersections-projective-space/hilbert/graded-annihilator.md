@@ -1,6 +1,6 @@
 ---
 article_id: af_a34d30b29e3edb0314f863e6
-declaration: theorem
+declaration: definition
 origin: cited
 source_units: [chapter-i-section-7-main]
 statement: formalized
