@@ -3,6 +3,9 @@ article_id: af_c1ad20c4747293c5e4936d68
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projective_codimension_one_iff_hypersurface
 ---
 
 # Projective codimension one is a hypersurface
