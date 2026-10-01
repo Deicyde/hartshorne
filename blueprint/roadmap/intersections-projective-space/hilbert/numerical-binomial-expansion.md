@@ -3,6 +3,9 @@ article_id: af_8f4533c12c01e96df3437796
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.isNumericalPolynomial_iff_exists_binomialExpansion
 ---
 
 # Numerical polynomials have integral binomial expansions
