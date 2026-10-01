@@ -3,6 +3,9 @@ article_id: af_c9b34d562bca7bd9350f8d51
 declaration: definition
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.integerHomogeneousSubmodule
 ---
 
 # The integer grading on a polynomial ring
