@@ -3,6 +3,9 @@ article_id: af_bb4d0c3b2bbb4d6b806f3089
 declaration: theorem
 origin: background
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.ringKrullDim_tensorProduct
 ---
 
 # Dimension of a tensor product of affine domains
@@ -19,17 +22,18 @@ domain hypothesis is supplied by irreducibility of the affine product.
 Choose Noether normalisations of `A` and `B`.  Tensor their injective maps,
 identify the tensor product of the two polynomial rings with the polynomial
 ring on the sum of their variables, and show that the target is integral over
-that polynomial ring by two base changes followed by transitivity.  Invariance
-of Krull dimension under injective integral extensions then reduces all three
+that polynomial ring: the two included factors are integral, hence so are pure
+tensors, sums of pure tensors, and therefore every tensor.  Invariance of
+Krull dimension under injective integral extensions then reduces all three
 dimensions to the corresponding numbers of variables.
 
 Pinned Mathlib supplies `MvPolynomial.tensorEquivSum`, tensor-map injectivity
-over a field, `Algebra.IsPushout.isIntegral`, and Noether normalisation.  It
-does not supply this tensor-product dimension theorem as a packaged result.
+over a field, tensor induction, and Noether normalisation.  It does not supply
+this tensor-product dimension theorem as a packaged result.
 
 ## Depends on
 
-- [Dimension of a finitely generated domain](../../affine-varieties/dim-fg-domain.md)
+- [Finite dimension of a finitely generated algebra](../../affine-varieties/dim-fg-algebra-finite.md)
 - [Krull dimension is invariant under integral extensions](../../affine-varieties/dimension-integral-extension.md)
 
 ## Sources
