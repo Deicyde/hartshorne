@@ -3,6 +3,9 @@ article_id: af_ca2bfce28489b72dde40649c
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_isNumericalPolynomial_eventuallyEq_of_diff
 ---
 
 # Discrete antidifferentiation of a numerical polynomial
