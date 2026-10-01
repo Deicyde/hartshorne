@@ -3,6 +3,9 @@ article_id: af_e751a901985e442f87371072
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.affine_dimension_theorem
 ---
 
 # The affine dimension theorem
