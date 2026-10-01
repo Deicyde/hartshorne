@@ -3,6 +3,9 @@ article_id: af_6ab332f43691470db2219d1f
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.isAffineVariety_affineProduct
 ---
 
 # Affine products are varieties
