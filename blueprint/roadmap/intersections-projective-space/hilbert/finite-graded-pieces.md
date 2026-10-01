@@ -3,6 +3,9 @@ article_id: af_e4e373a8fc28a4a63bcfb288
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.finite_gradedPiece
 ---
 
 # Finite-dimensional graded pieces
