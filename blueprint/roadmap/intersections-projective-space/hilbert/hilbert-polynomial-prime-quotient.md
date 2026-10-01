@@ -24,10 +24,10 @@ because its values are the eventually nonnegative Hilbert-function values, its
 leading coefficient is positive. The twist merely translates the eventual
 polynomial's argument and does not change its degree or leading coefficient.
 
-This packages the shifted-prime specialization of Hilbert–Serre for later use.
-The hyperplane-section induction belongs in the simultaneous proof of
-Hilbert–Serre: `p+(x_i)` need not be prime or radical, so its quotient must be
-handled by the induction hypothesis for arbitrary finite graded modules.
+This records the shifted-prime specialization of Hilbert–Serre as a named API
+corollary. The hyperplane-section induction belongs in the simultaneous proof
+of Hilbert–Serre: `p+(x_i)` need not be prime or radical, so its quotient must
+be handled by the induction hypothesis for arbitrary finite graded modules.
 
 ## Depends on
 

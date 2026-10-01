@@ -32,14 +32,21 @@ support is nonempty. Apply Hilbert-function additivity along a graded prime
 filtration. A factor whose support has smaller dimension is covered directly
 by the induction hypothesis. For a
 maximal-dimensional shifted prime factor `(S/p)(l)`, choose a variable
-`x_i ∉ p`. Multiplication by `x_i` is injective and has cokernel
-`S/(p+(x_i))`, whose projective support has smaller dimension (or is empty in
-the zero-dimensional case). Crucially, `p+(x_i)` need not be prime or radical;
-the induction hypothesis applies because the cokernel is an arbitrary finite
-graded module. Degreewise exactness identifies its Hilbert function with the
-finite difference of the prime factor's Hilbert function, and discrete
-antidifferentiation produces the required numerical polynomial. The empty and
-zero-dimensional cases start the induction.
+`x_i ∉ p`. Multiplication by `x_i`, viewed as a degree-zero map from the
+correspondingly shifted source, is injective and has cokernel
+`(S/(p+(x_i)))(l)`. Its projective support has smaller dimension (or is empty
+in the zero-dimensional case). Crucially, `p+(x_i)` need not be prime or
+radical; the induction hypothesis applies because the cokernel is an arbitrary
+finite graded module. Degreewise exactness identifies its Hilbert function
+with the finite difference of the prime factor's Hilbert function, and
+discrete antidifferentiation produces the required numerical polynomial.
+
+The empty-support case starts the induction. For a zero-dimensional nonempty
+prime support, the cokernel has empty support, so antidifferentiation gives an
+eventual constant. It is positive: `x_i ∉ p` and primeness imply
+`x_i^d ∉ p` for every `d`, hence the large-degree pieces of `S/p` do not
+vanish. This also supplies the positivity base case for the strengthened
+induction.
 
 Sum the factor polynomials to obtain the polynomial for `M`. The
 filtration-support theorem identifies `Z(Ann M)` with the union of the factor
@@ -65,6 +72,7 @@ prior art rather than an exact match.
 ## Proof depends on
 
 - [The projective dimension theorem](../dimension/projective-dimension-theorem.md)
+- [Algebraic sets and homogeneous radical ideals](../../projective-varieties/homogeneous-ideal-correspondence.md)
 
 ## Sources
 
