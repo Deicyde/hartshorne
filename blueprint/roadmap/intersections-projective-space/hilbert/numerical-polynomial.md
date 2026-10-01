@@ -3,6 +3,9 @@ article_id: af_e1172cc5a288e77e36d14b58
 declaration: definition
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsNumericalPolynomial
 ---
 
 # Numerical polynomials
