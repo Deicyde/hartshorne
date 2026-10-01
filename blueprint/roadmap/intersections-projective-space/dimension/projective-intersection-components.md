@@ -3,6 +3,9 @@ article_id: af_a47f6234405f4e478248f773
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveIntersectionComponent_chart
 ---
 
 # Projective intersection components on an affine chart
