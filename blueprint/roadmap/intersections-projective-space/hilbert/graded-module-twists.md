@@ -3,6 +3,9 @@ article_id: af_b50502a7621858814a6db862
 declaration: definition
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.gradedModuleTwist
 ---
 
 # Integer-graded module twists
