@@ -3,6 +3,9 @@ article_id: af_cbb14bbd237a44288abce54a
 declaration: def
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.affineDiagonalSectionHomeomorph
 ---
 
 # The diagonal section of an affine product
