@@ -187,3 +187,6 @@ import Hartshorne.Curve.Categories
 import Hartshorne.Curve.ProjectiveQuasiProjectiveCurveEquivalence
 import Hartshorne.Curve.QuasiProjectiveCurveFunctionFieldEquivalence
 import Hartshorne.Curve.CurveCategoryEquivalence
+import Hartshorne.Intersection.NumericalPolynomial
+import Hartshorne.Intersection.AffineConeIdeal
+import Hartshorne.Intersection.AffineComponents
