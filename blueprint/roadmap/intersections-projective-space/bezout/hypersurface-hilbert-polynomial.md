@@ -7,8 +7,8 @@ source_units: [chapter-i-section-7-main]
 
 # A degree-d hypersurface has degree d
 
-Let `f ∈ k[x₀,…,xₙ]` be an irreducible homogeneous polynomial of positive
-degree `d`, and let `H = Z(f) ⊆ ℙⁿ`. Then
+Assume `n > 0`. Let `f ∈ k[x₀,…,xₙ]` be an irreducible homogeneous
+polynomial of positive degree `d`, and let `H = Z(f) ⊆ ℙⁿ`. Then
 
 `P_H(z) = P_{ℙⁿ}(z) - P_{ℙⁿ}(z-d)`
 
@@ -19,7 +19,8 @@ sequence `0 → S(-d) → S → S/(f) → 0`; the Hilbert-function difference gi
 the polynomial identity, and the leading term is `d/(n-1)!`. Irreducibility
 is essential: it identifies the homogeneous vanishing ideal of `Z(f)` with
 `(f)`; without it, replacing `f` by a power would leave the zero set unchanged
-while changing `d`.
+while changing `d`. The positive ambient dimension excludes the degenerate
+case `Z(x₀) = ∅` in `ℙ⁰`, whose projective degree is zero.
 
 ## Depends on
 
