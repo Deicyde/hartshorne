@@ -3,6 +3,9 @@ article_id: af_b2e49b6cddfde95f6459d6d0
 declaration: definition
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveIntersectionComponentPrimeEquivMinimalPrimes
 ---
 
 # Projective intersection components correspond to minimal primes
