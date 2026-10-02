@@ -3,6 +3,9 @@ article_id: af_0f9b546532f105d1551796cb
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.gradedHilbertPolynomial_coeff_eq_sum_minimalPrimes
 ---
 
 # The leading Hilbert coefficient is a sum over minimal primes
