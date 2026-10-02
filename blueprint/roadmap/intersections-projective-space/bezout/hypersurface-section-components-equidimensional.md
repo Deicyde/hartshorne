@@ -24,14 +24,13 @@ components of the section.
 
 ## Depends on
 
-- [The projective dimension theorem for components](../dimension/projective-dimension-theorem.md)
 - [Projective intersection components on an affine chart](../dimension/projective-intersection-components.md)
-- [A degree-d hypersurface has degree d](hypersurface-hilbert-polynomial.md)
 
 ## Proof depends on
 
+- [The projective dimension theorem for components](../dimension/projective-dimension-theorem.md)
+- [Proper closed subsets of projective varieties have smaller dimension](../dimension/projective-proper-closed-dimension-drop.md)
 - [Projective codimension one is a hypersurface](../dimension/projective-codimension-one-hypersurface.md)
-- [Projective varieties of complementary dimension meet](../dimension/projective-intersection-nonempty.md)
 
 ## Sources
 

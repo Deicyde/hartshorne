@@ -12,10 +12,13 @@ Let `Y` be a projective variety and `H` a projective algebraic set. The map
 `Z ↦ J(projectiveComponentCarrier Z)`
 
 identifies the irreducible components of `Y ∩ H` with the homogeneous prime
-ideals minimal over `J(Y) + J(H)`. Equivalently, it identifies them with the
-minimal primes over the annihilator of the intersection module
-`S/(J(Y)+J(H))`. For each component, the projective zero set of its attached
-prime is exactly its component carrier.
+ideals minimal over `J(Y) + J(H)` whose projective zero sets are nonempty.
+Equivalently, it identifies them with the projectively relevant minimal primes
+over the annihilator of the intersection module `S/(J(Y)+J(H))`. For each
+component, the projective zero set of its attached prime is exactly its
+component carrier. The nonemptiness restriction is essential when `Y ∩ H` is
+empty: the irrelevant ideal may still be a minimal prime, but it represents no
+projective component.
 
 The main declaration is planned as a noncomputable equivalence
 `Hartshorne.projectiveIntersectionComponentPrimeEquivMinimalPrimes`, with the
