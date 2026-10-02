@@ -3,6 +3,9 @@ article_id: af_9c77bf72ef5a300f435d6619
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveDegree_eq_natCast_of_nonempty
 ---
 
 # A nonempty projective algebraic set has positive integral degree
@@ -20,6 +23,10 @@ function makes it positive because the polynomial is nonzero of degree `r`.
 
 - [Numerical polynomials have integral binomial expansions](../hilbert/numerical-binomial-expansion.md)
 - [Hilbert polynomials and degrees of projective algebraic sets](../hilbert/projective-hilbert-polynomial-and-degree.md)
+
+## Proof depends on
+
+- [Hilbert–Serre](../hilbert/hilbert-serre.md)
 
 ## Sources
 
