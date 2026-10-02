@@ -3,6 +3,9 @@ article_id: af_4ee23cb4a05987294f599913
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveSpace_hilbertPolynomial_and_degree
 ---
 
 # Projective space has degree one
@@ -22,6 +25,10 @@ coefficient `1/n!` from the binomial polynomial.
 - [Numerical polynomials](../hilbert/numerical-polynomial.md)
 - [Hilbert polynomials and degrees of projective algebraic sets](../hilbert/projective-hilbert-polynomial-and-degree.md)
 - [Projective space](../../projective-varieties/projective-space.md)
+
+## Proof depends on
+
+- [Projective and quasi-projective varieties](../../projective-varieties/projective-variety.md)
 
 ## Sources
 
