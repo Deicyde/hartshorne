@@ -17,7 +17,6 @@ plane curves.
 - [Intersection multiplicity with a hypersurface](projective-intersection-multiplicity.md)
 - [The Hilbert polynomial of a hypersurface section is a difference](hypersurface-section-hilbert-polynomial.md)
 - [Bézout for a projective variety and a hypersurface](projective-hypersurface-bezout.md)
-- [Projective codimension one is a hypersurface](projective-codimension-one-hypersurface.md)
 - [A projective point has Hilbert polynomial and degree one](projective-point-degree.md)
 - [Bézout's theorem for distinct plane curves](plane-curve-bezout.md)
 - [Bézout for reducible plane curves without a common component](reducible-plane-curve-bezout.md)

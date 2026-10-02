@@ -13,8 +13,9 @@ lean: Hartshorne.projective_codimension_one_iff_hypersurface
 Let `Y ⊆ ℙⁿ` be a projective variety. Then `dim Y = n-1` if and only if
 `Y = Z(f)` for one irreducible homogeneous polynomial `f` of positive degree.
 
-This is Exercise 2.8, adopted because Corollary 7.8 treats either plane curve
-as the hypersurface in Theorem 7.7. The proof translates dimension to the
+This dimension-theoretic prerequisite is Exercise 2.8, adopted because
+Corollary 7.8 treats either plane curve as the hypersurface in Theorem 7.7.
+The proof translates dimension to the
 height-one homogeneous prime `J(Y)` and uses principality in the polynomial
 UFD; the converse reads the quotient dimension back geometrically.
 

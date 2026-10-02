@@ -21,4 +21,5 @@ clauses of Theorem 7.2.
 - [The affine dimension theorem](affine-dimension-theorem.md)
 - [Projective intersection components on an affine chart](projective-intersection-components.md)
 - [The projective dimension theorem](projective-dimension-theorem.md)
+- [Projective codimension one is a hypersurface](projective-codimension-one-hypersurface.md)
 - [Projective varieties of complementary dimension meet](projective-intersection-nonempty.md)

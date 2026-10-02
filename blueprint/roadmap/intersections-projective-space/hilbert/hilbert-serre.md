@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
-lean: Hartshorne.hilbertSerre Hartshorne.gradedHilbertPolynomial
+lean: Hartshorne.hilbertSerre
 ---
 
 # Hilbert–Serre
@@ -76,7 +76,7 @@ prior art rather than an exact match.
 
 - [The projective dimension theorem](../dimension/projective-dimension-theorem.md)
 - [Projective varieties of complementary dimension meet](../dimension/projective-intersection-nonempty.md)
-- [Projective codimension one is a hypersurface](../bezout/projective-codimension-one-hypersurface.md)
+- [Projective codimension one is a hypersurface](../dimension/projective-codimension-one-hypersurface.md)
 - [Algebraic sets and homogeneous radical ideals](../../projective-varieties/homogeneous-ideal-correspondence.md)
 
 ## Sources

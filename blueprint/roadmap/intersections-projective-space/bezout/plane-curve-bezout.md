@@ -19,7 +19,7 @@ projective dimension theorem makes the components points, each of degree one.
 ## Depends on
 
 - [Bézout for a projective variety and a hypersurface](projective-hypersurface-bezout.md)
-- [Projective codimension one is a hypersurface](projective-codimension-one-hypersurface.md)
+- [Projective codimension one is a hypersurface](../dimension/projective-codimension-one-hypersurface.md)
 - [A projective point has Hilbert polynomial and degree one](projective-point-degree.md)
 - [The projective dimension theorem](../dimension/projective-dimension-theorem.md)
 
