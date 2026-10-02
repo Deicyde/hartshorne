@@ -204,6 +204,7 @@ import Hartshorne.Intersection.AffineDimensionTheorem
 import Hartshorne.Intersection.AffineConeDimension
 import Hartshorne.Intersection.ProjectiveDimensionTheorem
 import Hartshorne.Intersection.ProjectiveProperClosedDimensionDrop
+import Hartshorne.Intersection.HypersurfaceSectionComponentsEquidimensional
 import Hartshorne.Intersection.ProjectiveIntersectionNonempty
 import Hartshorne.Intersection.IntegerPolynomialGrading
 import Hartshorne.Intersection.GradedModuleTwist
