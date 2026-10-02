@@ -3,7 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Intersection.GradedMultiplicity
-import Hartshorne.Intersection.ProjectiveDimensionTheorem
+import Hartshorne.Intersection.ProjectiveIntersectionChart
 import Hartshorne.Projective.Correspondence
 
 /-!
@@ -196,8 +196,9 @@ theorem projectiveIntersectionMultiplicity_length_ne_top
       (projectiveIntersectionComponentPrime_isMinimalPrime_annihilator hY hH Z)
 
 /-- Hartshorne's natural-valued intersection multiplicity.  The construction
-works for any two projective varieties; the source applies it when the second
-is a hypersurface not containing the first. -/
+works for a projective variety and a projective algebraic set, including a
+reducible hypersurface; the source applies it when the hypersurface does not
+contain the variety. -/
 noncomputable def projectiveIntersectionMultiplicity
     {Y H : Set (ProjectiveSpace k σ)}
     (hY : IsProjVariety Y) (hH : IsProjAlgebraicSet H)

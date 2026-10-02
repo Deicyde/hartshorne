@@ -3,6 +3,9 @@ article_id: af_10beeea75107994712e1057d
 declaration: definition
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveIntersectionMultiplicity
 ---
 
 # Intersection multiplicity with a hypersurface
@@ -13,7 +16,8 @@ ideal `p_Z`. Define
 
 `i(Y,H;Z) = μ_{p_Z}(S/(I(Y)+I(H)))`.
 
-The main artifact is a natural-valued intersection multiplicity together with
+The main artifact is the natural-valued intersection multiplicity
+`Hartshorne.projectiveIntersectionMultiplicity`, together with
 the theorem that the underlying `ℕ∞` module length is finite. The component
 theorem identifies `p_Z` as a minimal prime of the quotient module, making the
 definition an instance of graded multiplicity.
@@ -21,7 +25,7 @@ definition an instance of graded multiplicity.
 ## Depends on
 
 - [Multiplicity in a graded prime filtration](../hilbert/graded-multiplicity.md)
-- [The projective dimension theorem](../dimension/projective-dimension-theorem.md)
+- [Projective intersection components on an affine chart](../dimension/projective-intersection-components.md)
 - [Algebraic sets and homogeneous radical ideals](../../projective-varieties/homogeneous-ideal-correspondence.md)
 
 ## Sources
