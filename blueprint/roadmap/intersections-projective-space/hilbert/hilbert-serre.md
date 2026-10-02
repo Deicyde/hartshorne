@@ -3,6 +3,9 @@ article_id: af_a52cb991e62958c97fc00e45
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.hilbertSerre Hartshorne.gradedHilbertPolynomial
 ---
 
 # Hilbert–Serre
@@ -72,6 +75,8 @@ prior art rather than an exact match.
 ## Proof depends on
 
 - [The projective dimension theorem](../dimension/projective-dimension-theorem.md)
+- [Projective varieties of complementary dimension meet](../dimension/projective-intersection-nonempty.md)
+- [Projective codimension one is a hypersurface](../bezout/projective-codimension-one-hypersurface.md)
 - [Algebraic sets and homogeneous radical ideals](../../projective-varieties/homogeneous-ideal-correspondence.md)
 
 ## Sources
