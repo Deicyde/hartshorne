@@ -3,6 +3,9 @@ article_id: af_c6af33de69690ddc1dd4ade6
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.existsUnique_hilbertPolynomial_primeQuotient
 ---
 
 # Hilbert polynomials of shifted prime quotients
