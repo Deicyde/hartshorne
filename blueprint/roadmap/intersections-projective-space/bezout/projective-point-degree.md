@@ -3,6 +3,9 @@ article_id: af_0f15654e6777c4f9136535e1
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectivePoint_hilbertPolynomial_and_degree
 ---
 
 # A projective point has Hilbert polynomial and degree one
@@ -18,7 +21,11 @@ dimension one.
 ## Depends on
 
 - [Hilbert polynomials and degrees of projective algebraic sets](../hilbert/projective-hilbert-polynomial-and-degree.md)
+
+## Proof depends on
+
 - [The homogeneous prime at a point](../../morphisms/projective-rings/point-ideal.md)
+- [Projective space](../../projective-varieties/projective-space.md)
 
 ## Sources
 
