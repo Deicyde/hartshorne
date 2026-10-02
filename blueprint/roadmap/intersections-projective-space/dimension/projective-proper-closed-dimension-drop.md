@@ -3,6 +3,9 @@ article_id: af_c32cfee507fdcd0696b127dd
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projDim_lt_of_closed_ssubset_isProjVariety Hartshorne.exists_projDim_eq_nat_of_isProjVariety
 ---
 
 # Proper closed subsets of projective varieties have smaller dimension
@@ -24,13 +27,14 @@ finitely generated coordinate ring.
 
 - [Dimension in projective space](../../projective-varieties/projective-dimension.md)
 - [Projective and quasi-projective varieties](../../projective-varieties/projective-variety.md)
-- [Dimension is the dimension of the coordinate ring](../../affine-varieties/dim-eq-coordinate-ring-dim.md)
-- [A finitely generated algebra over a field has finite dimension](../../affine-varieties/dim-fg-algebra-finite.md)
 
 ## Proof depends on
 
 - [Varieties are covered by affine pieces](../../projective-varieties/affine-cover.md)
+- [Dimension of the homogeneous coordinate ring](../../projective-varieties/homogeneous-coordinate-ring-dimension.md)
 - [Dimension of a topological space and of a ring](../../affine-varieties/dimension.md)
+- [Dimension is the dimension of the coordinate ring](../../affine-varieties/dim-eq-coordinate-ring-dim.md)
+- [A finitely generated algebra over a field has finite dimension](../../affine-varieties/dim-fg-algebra-finite.md)
 
 ## Sources
 
