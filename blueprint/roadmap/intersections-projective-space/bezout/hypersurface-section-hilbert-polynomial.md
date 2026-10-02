@@ -3,6 +3,9 @@ article_id: af_04d24636e86b8040a6664a1a
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.hypersurfaceSection_degreewise_exact_int Hartshorne.hypersurfaceSection_hilbertPolynomial_and_leadingCoeff
 ---
 
 # The Hilbert polynomial of a hypersurface section is a difference
@@ -26,6 +29,8 @@ degree `e`, the leading coefficient of `P_M` is `d·e/(r-1)!`.
 ## Proof depends on
 
 - [The homogeneous vanishing ideal](../../projective-varieties/homogeneous-vanishing-ideal.md)
+- [Dimension in projective space](../../projective-varieties/projective-dimension.md)
+- [The homogeneous prime at a point](../../morphisms/projective-rings/point-ideal.md)
 
 ## Sources
 
