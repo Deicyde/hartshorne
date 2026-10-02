@@ -158,6 +158,176 @@ theorem projectiveIntersectionComponentPrime_isMinimalPrime
   rw [hPQh]
   exact hQhQ
 
+/-- The projectively relevant homogeneous minimal primes over the ideal of an
+intersection.  The nonempty-zero-set condition excludes the irrelevant prime,
+which can be minimal when the projective intersection is empty. -/
+noncomputable def projectiveIntersectionMinimalPrimes
+    (Y H : Set (ProjectiveSpace k σ)) :
+    Set (PrimeSpectrum (MvPolynomial σ k)) :=
+  {P | IsHomogeneousIdeal P.1 ∧
+    (projectiveIntersectionIdeal Y H).IsMinimalPrime P.1 ∧
+    (projZeroSet (P.1 : Set (MvPolynomial σ k))).Nonempty}
+
+omit [IsAlgClosed k] [Finite σ] in
+/-- Membership in the projectively relevant minimal-prime locus. -/
+@[simp]
+theorem mem_projectiveIntersectionMinimalPrimes_iff
+    (Y H : Set (ProjectiveSpace k σ))
+    (P : PrimeSpectrum (MvPolynomial σ k)) :
+    P ∈ projectiveIntersectionMinimalPrimes Y H ↔
+      IsHomogeneousIdeal P.1 ∧
+      (projectiveIntersectionIdeal Y H).IsMinimalPrime P.1 ∧
+      (projZeroSet (P.1 : Set (MvPolynomial σ k))).Nonempty :=
+  Iff.rfl
+
+/-- The projective zero set of a component prime is its ambient component
+carrier. -/
+theorem projectiveIntersectionComponentPrime_projZeroSet
+    {Y H : Set (ProjectiveSpace k σ)}
+    (hY : IsProjVariety Y) (hH : IsProjAlgebraicSet H)
+    (Z : irreducibleComponents ↥(Y ∩ H)) :
+    projZeroSet
+        ((projectiveIntersectionComponentPrime hY hH Z).1 :
+          Set (MvPolynomial σ k)) =
+      projectiveComponentCarrier Z.1 := by
+  exact (isProjVariety_projectiveComponentCarrier
+    (hY.2.inter (isClosed_iff_isProjAlgebraicSet.2 hH)) Z).isProjAlgebraicSet
+      |>.projZeroSet_homogeneousVanishingIdeal_eq
+
+/-- A component, regarded as a projectively relevant homogeneous minimal
+prime. -/
+private noncomputable def projectiveIntersectionComponentMinimalPrime
+    {Y H : Set (ProjectiveSpace k σ)}
+    (hY : IsProjVariety Y) (hH : IsProjAlgebraicSet H) :
+    irreducibleComponents ↥(Y ∩ H) →
+      ↥(projectiveIntersectionMinimalPrimes Y H) :=
+  fun Z ↦
+    ⟨projectiveIntersectionComponentPrime hY hH Z,
+      isHomogeneousIdeal_homogeneousVanishingIdeal _,
+      projectiveIntersectionComponentPrime_isMinimalPrime hY hH Z,
+      by
+        rw [projectiveIntersectionComponentPrime_projZeroSet hY hH Z]
+        exact (isProjVariety_projectiveComponentCarrier
+          (hY.2.inter (isClosed_iff_isProjAlgebraicSet.2 hH)) Z).1.nonempty⟩
+
+private theorem projectiveIntersectionComponentMinimalPrime_injective
+    {Y H : Set (ProjectiveSpace k σ)}
+    (hY : IsProjVariety Y) (hH : IsProjAlgebraicSet H) :
+    Function.Injective (projectiveIntersectionComponentMinimalPrime hY hH) := by
+  intro Z W hZW
+  have hP : (projectiveIntersectionComponentPrime hY hH Z).1 =
+      (projectiveIntersectionComponentPrime hY hH W).1 := by
+    exact congrArg (fun P ↦ P.1.1) hZW
+  have hcarrier : projectiveComponentCarrier Z.1 =
+      projectiveComponentCarrier W.1 := by
+    rw [← projectiveIntersectionComponentPrime_projZeroSet hY hH Z,
+      ← projectiveIntersectionComponentPrime_projZeroSet hY hH W, hP]
+  apply Subtype.ext
+  exact Subtype.val_injective.image_injective hcarrier
+
+private theorem projectiveIntersectionComponentMinimalPrime_surjective
+    {Y H : Set (ProjectiveSpace k σ)}
+    (hY : IsProjVariety Y) (hH : IsProjAlgebraicSet H) :
+    Function.Surjective (projectiveIntersectionComponentMinimalPrime hY hH) := by
+  classical
+  let S := MvPolynomial σ k
+  let I : Ideal S := projectiveIntersectionIdeal Y H
+  intro P
+  let V : Set (ProjectiveSpace k σ) := projZeroSet (P.1.1 : Set S)
+  have hVY : V ⊆ Y := by
+    have h := projZeroSet_anti_mono
+      (show (homogeneousVanishingIdeal Y : Set S) ⊆ P.1.1 from
+        (le_sup_left : homogeneousVanishingIdeal Y ≤ I).trans P.2.2.1.le)
+    rwa [hY.isProjAlgebraicSet.projZeroSet_homogeneousVanishingIdeal_eq] at h
+  have hVH : V ⊆ H := by
+    have h := projZeroSet_anti_mono
+      (show (homogeneousVanishingIdeal H : Set S) ⊆ P.1.1 from
+        (le_sup_right : homogeneousVanishingIdeal H ≤ I).trans P.2.2.1.le)
+    rwa [hH.projZeroSet_homogeneousVanishingIdeal_eq] at h
+  have hVS : V ⊆ Y ∩ H := fun x hx ↦ ⟨hVY hx, hVH hx⟩
+  obtain ⟨T, hTspan⟩ :=
+    (Ideal.IsHomogeneous.iff_exists
+      (𝒜 := MvPolynomial.homogeneousSubmodule σ k) (I := P.1.1)).1 P.2.1
+  let U : Set S := ((↑) :
+    SetLike.homogeneousSubmonoid (MvPolynomial.homogeneousSubmodule σ k) → S) '' T
+  have hUhom : IsHomogeneousSet U := by
+    rintro f ⟨g, hg, rfl⟩
+    exact isHomogeneousElem_iff.mp g.property
+  have hVU : V = projZeroSet U := by
+    change projZeroSet (P.1.1 : Set S) = projZeroSet U
+    rw [hTspan, projZeroSet_span]
+  have hValg : IsProjAlgebraicSet V := ⟨U, hUhom, hVU⟩
+  have hJV : homogeneousVanishingIdeal V = P.1.1 := by
+    change homogeneousVanishingIdeal (projZeroSet (P.1.1 : Set S)) = P.1.1
+    rw [homogeneousVanishingIdeal_projZeroSet P.2.1 P.2.2.2, P.1.2.radical]
+  have hVirr : IsIrreducible V :=
+    (isIrreducible_iff_isPrime_homogeneousVanishingIdeal hValg).2
+      (hJV.symm ▸ P.1.2)
+  let f : V → ↥(Y ∩ H) := fun x ↦ ⟨x.1, hVS x.2⟩
+  let W : Set ↥(Y ∩ H) := Set.range f
+  have hfcont : Continuous f :=
+    continuous_subtype_val.subtype_mk fun x ↦ hVS x.2
+  have hWirr : IsIrreducible W := by
+    let _ : IrreducibleSpace V := Subtype.irreducibleSpace hVirr
+    simpa [W, Set.image_univ] using
+      (IrreducibleSpace.isIrreducible_univ V).image f hfcont.continuousOn
+  obtain ⟨C, hCmem, hWC⟩ :=
+    exists_mem_irreducibleComponents_subset_of_isIrreducible W hWirr
+  let Z : irreducibleComponents ↥(Y ∩ H) := ⟨C, hCmem⟩
+  have hVcarrier : V ⊆ projectiveComponentCarrier C := by
+    intro x hx
+    let v : V := ⟨x, hx⟩
+    exact ⟨f v, hWC ⟨v, rfl⟩, rfl⟩
+  have hQP : (projectiveIntersectionComponentPrime hY hH Z).1 ≤ P.1.1 := by
+    change homogeneousVanishingIdeal (projectiveComponentCarrier C) ≤ P.1.1
+    rw [← hJV]
+    exact homogeneousVanishingIdeal_anti_mono hVcarrier
+  have hQmin := projectiveIntersectionComponentPrime_isMinimalPrime hY hH Z
+  have hPQ : P.1.1 ≤ (projectiveIntersectionComponentPrime hY hH Z).1 :=
+    P.2.2.1.2 hQmin.1 hQP
+  have heq : (projectiveIntersectionComponentPrime hY hH Z).1 = P.1.1 :=
+    le_antisymm hQP hPQ
+  refine ⟨Z, ?_⟩
+  apply Subtype.ext
+  exact PrimeSpectrum.ext heq
+
+/-- Irreducible components of a projective intersection correspond to the
+homogeneous minimal primes over its defining ideal that have nonempty
+projective zero set.  This formulation also covers empty intersections: the
+projectively relevant minimal-prime subtype is then empty. -/
+noncomputable def projectiveIntersectionComponentPrimeEquivMinimalPrimes
+    {Y H : Set (ProjectiveSpace k σ)}
+    (hY : IsProjVariety Y) (hH : IsProjAlgebraicSet H) :
+    irreducibleComponents ↥(Y ∩ H) ≃
+      ↥(projectiveIntersectionMinimalPrimes Y H) :=
+  Equiv.ofBijective (projectiveIntersectionComponentMinimalPrime hY hH)
+    ⟨projectiveIntersectionComponentMinimalPrime_injective hY hH,
+      projectiveIntersectionComponentMinimalPrime_surjective hY hH⟩
+
+/-- The forward map of the component/minimal-prime equivalence is the
+component prime used to define intersection multiplicity. -/
+@[simp]
+theorem projectiveIntersectionComponentPrimeEquivMinimalPrimes_apply
+    {Y H : Set (ProjectiveSpace k σ)}
+    (hY : IsProjVariety Y) (hH : IsProjAlgebraicSet H)
+    (Z : irreducibleComponents ↥(Y ∩ H)) :
+    (projectiveIntersectionComponentPrimeEquivMinimalPrimes hY hH Z).1 =
+      projectiveIntersectionComponentPrime hY hH Z :=
+  rfl
+
+omit [IsAlgClosed k] [Finite σ] in
+/-- The projectively relevant minimal-prime condition can equivalently be
+stated over the annihilator of the intersection module. -/
+theorem mem_projectiveIntersectionMinimalPrimes_iff_annihilator
+    (Y H : Set (ProjectiveSpace k σ))
+    (P : PrimeSpectrum (MvPolynomial σ k)) :
+    P ∈ projectiveIntersectionMinimalPrimes Y H ↔
+      IsHomogeneousIdeal P.1 ∧
+      (Module.annihilator (MvPolynomial σ k)
+        (MvPolynomial σ k ⧸ projectiveIntersectionIdeal Y H)).IsMinimalPrime P.1 ∧
+      (projZeroSet (P.1 : Set (MvPolynomial σ k))).Nonempty := by
+  rw [mem_projectiveIntersectionMinimalPrimes_iff, Ideal.annihilator_quotient]
+
 /-- Equivalently, the component prime is minimal over the annihilator of the
 homogeneous coordinate module of the intersection. -/
 theorem projectiveIntersectionComponentPrime_isMinimalPrime_annihilator
