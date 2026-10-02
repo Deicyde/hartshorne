@@ -31,6 +31,7 @@ their points.
 
 - [A projective point has Hilbert polynomial and degree one](projective-point-degree.md)
 - [The homogeneous prime at a point](../../morphisms/projective-rings/point-ideal.md)
+- [Linear fractions separate projective points](../../nonsingular-curves/projective-linear-separation.md)
 
 ## Sources
 
