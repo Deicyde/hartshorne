@@ -220,4 +220,5 @@ import Hartshorne.Intersection.HilbertPolynomialPrimeQuotient
 import Hartshorne.Intersection.ProjectiveHilbertPolynomial
 import Hartshorne.Intersection.ProjectiveDegreePositive
 import Hartshorne.Intersection.ProjectiveSpaceHilbertPolynomial
+import Hartshorne.Intersection.ProjectivePointDegree
 import Hartshorne.Intersection.UnionCoordinateRingExact
