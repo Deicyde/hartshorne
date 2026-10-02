@@ -3,11 +3,13 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Intersection.ProjectiveSpaceHilbertPolynomial
+import Hartshorne.Projective.PointIdeal
 
 /-!
-# The Hilbert polynomial and degree of a hypersurface
+# Hilbert polynomials of hypersurfaces and hypersurface sections
 
-Hartshorne, *Algebraic Geometry*, Proposition I.7.6(d) (p. 52).
+Hartshorne, *Algebraic Geometry*, Proposition I.7.6(d) (p. 52) and the
+hypersurface-section calculation in the proof of Theorem I.7.7 (p. 53).
 -/
 
 namespace Hartshorne
@@ -506,6 +508,626 @@ theorem hypersurface_hilbertPolynomial_and_degree
   rw [hspace, hdata.1, hdata.2]
   have hfac : (((n - 1).factorial : Nat) : ℚ) ≠ 0 := by positivity
   field_simp
+
+private theorem integerProjVanishingIdeal_le_sup_left
+    {k : Type u} [Field k] {n : Nat}
+    (Y H : Set (ProjectiveSpace k (Fin (n + 1)))) :
+    (integerProjVanishingIdeal Y).toIdeal ≤
+      (integerProjVanishingIdeal Y ⊔ integerProjVanishingIdeal H).toIdeal := by
+  rw [HomogeneousIdeal.toIdeal_sup]
+  exact le_sup_left
+
+/-- The ambient polynomial-ring action respects the quotient grading on the
+nonreduced projective intersection module `S/(J(Y) + J(H))`. -/
+instance integerProjectiveIntersectionGradingGradedSMul
+    {k : Type u} [Field k] {n : Nat}
+    (Y H : Set (ProjectiveSpace k (Fin (n + 1)))) :
+    SetLike.GradedSMul (integerHomogeneousSubmodule k (Fin (n + 1)))
+      (quotGrading (integerHomogeneousSubmodule k (Fin (n + 1)))
+        (integerProjVanishingIdeal Y ⊔ integerProjVanishingIdeal H)) where
+  smul_mem {i j a q} ha hq := by
+    obtain ⟨b, hb, rfl⟩ := hq
+    refine ⟨a * b, SetLike.mul_mem_graded ha hb, ?_⟩
+    change Ideal.Quotient.mk
+        (integerProjVanishingIdeal Y ⊔ integerProjVanishingIdeal H).toIdeal
+        (a * b) =
+      a • Ideal.Quotient.mk
+        (integerProjVanishingIdeal Y ⊔ integerProjVanishingIdeal H).toIdeal b
+    exact Submodule.Quotient.mk_smul
+      (integerProjVanishingIdeal Y ⊔ integerProjVanishingIdeal H).toIdeal a b
+
+/-- Multiplication by a homogeneous degree-`d` equation on every integer
+graded piece of `S(Y)(-d)`. -/
+noncomputable def hypersurfaceSectionMulDegreeInt
+    {k : Type u} [Field k] {n d : Nat}
+    (Y : Set (ProjectiveSpace k (Fin (n + 1))))
+    (f : MvPolynomial (Fin (n + 1)) k) (hf : f.IsHomogeneous d)
+    (l : Int) :
+    ↑(gradedModuleTwist (integerProjCoordGrading Y) (-(d : Int)) l) →ₗ[k]
+      integerProjCoordGrading Y l where
+  toFun a := ⟨f • a.1, by
+    have hf' : f ∈ integerHomogeneousSubmodule k (Fin (n + 1)) (d : Int) := by
+      simpa using hf
+    have hmem := SetLike.GradedSMul.smul_mem
+      (A := integerHomogeneousSubmodule k (Fin (n + 1)))
+      (B := integerProjCoordGrading Y) hf' a.property
+    simpa [add_assoc, add_comm, add_left_comm] using hmem⟩
+  map_add' a b := by
+    apply Subtype.ext
+    exact smul_add f a.1 b.1
+  map_smul' r a := by
+    apply Subtype.ext
+    exact smul_comm f r a.1
+
+private theorem homogeneousComponent_mul_eq_zero_of_lt
+    {k : Type u} [Field k] {sigma : Type*}
+    (a f : MvPolynomial sigma k) {d l : Nat}
+    (hf : f.IsHomogeneous d) (hld : l < d) :
+    homogeneousComponent l (a * f) = 0 := by
+  induction a using MvPolynomial.induction_on' with
+  | add p q hp hq => simp only [add_mul, map_add, hp, hq, add_zero]
+  | monomial e c =>
+      rw [homogeneousComponent_of_mem
+        ((isHomogeneous_monomial c rfl).mul hf)]
+      split_ifs with h
+      · omega
+      · rfl
+
+/-- Multiplication by a homogeneous hypersurface equation, restricted from
+the degree-`l` piece of `S(Y)(-d)` to the degree-`l` piece of `S(Y)`. -/
+noncomputable def hypersurfaceSectionMulDegree
+    {k : Type u} [Field k] {n d l : Nat}
+    (Y : Set (ProjectiveSpace k (Fin (n + 1))))
+    (f : MvPolynomial (Fin (n + 1)) k) (hf : f.IsHomogeneous d)
+    (hdl : d ≤ l) :
+    ↑(gradedModuleTwist (integerProjCoordGrading Y)
+        (-(d : Int)) (l : Int)) →ₗ[k]
+      integerProjCoordGrading Y (l : Int) where
+  toFun a := ⟨a.1 * Ideal.Quotient.mk (homogeneousVanishingIdeal Y) f, by
+    obtain ⟨g, hg, hga⟩ := a.property
+    have hgHom : g.IsHomogeneous (l - d) := by
+      have hindex : (l : Int) + -(d : Int) = ((l - d : Nat) : Int) := by omega
+      have hg' : g ∈ integerHomogeneousSubmodule k (Fin (n + 1))
+          ((l - d : Nat) : Int) := by
+        rw [← hindex]
+        exact hg
+      simpa using hg'
+    refine ⟨g * f, by simpa [Nat.sub_add_cancel hdl] using hgHom.mul hf, ?_⟩
+    change Ideal.Quotient.mk (homogeneousVanishingIdeal Y) (g * f) =
+      a.1 * Ideal.Quotient.mk (homogeneousVanishingIdeal Y) f
+    change Ideal.Quotient.mk (homogeneousVanishingIdeal Y) g = a.1 at hga
+    rw [← hga]
+    rfl⟩
+  map_add' a b := by
+    apply Subtype.ext
+    exact add_mul a.1 b.1 (Ideal.Quotient.mk _ f)
+  map_smul' r a := by
+    apply Subtype.ext
+    exact smul_mul_assoc r a.1 (Ideal.Quotient.mk _ f)
+
+/-- The quotient map from the degree-`l` piece of `S(Y)` to the corresponding
+piece of the nonreduced intersection module `S/(J(Y) + J(H))`. -/
+noncomputable def hypersurfaceSectionQuotientDegree
+    {k : Type u} [Field k] {n : Nat}
+    (Y H : Set (ProjectiveSpace k (Fin (n + 1)))) (l : Int) :
+    integerProjCoordGrading Y l →ₗ[k]
+      quotGrading (integerHomogeneousSubmodule k (Fin (n + 1)))
+        (integerProjVanishingIdeal Y ⊔ integerProjVanishingIdeal H) l where
+  toFun a := ⟨Ideal.Quotient.factor
+      (integerProjVanishingIdeal_le_sup_left Y H) a.1, by
+    obtain ⟨g, hg, hga⟩ := a.property
+    refine ⟨g, hg, ?_⟩
+    change Ideal.Quotient.mk
+        (integerProjVanishingIdeal Y ⊔ integerProjVanishingIdeal H).toIdeal g =
+      Ideal.Quotient.factor (integerProjVanishingIdeal_le_sup_left Y H) a.1
+    rw [← hga]
+    rfl⟩
+  map_add' a b := by
+    apply Subtype.ext
+    exact map_add
+      (Ideal.Quotient.factorₐ k (integerProjVanishingIdeal_le_sup_left Y H)) a.1 b.1
+  map_smul' r a := by
+    apply Subtype.ext
+    exact map_smul
+      (Ideal.Quotient.factorₐ k (integerProjVanishingIdeal_le_sup_left Y H)) r a.1
+
+private theorem homogeneousVanishingIdeal_hypersurface
+    {k : Type u} [Field k] [IsAlgClosed k] {n d : Nat}
+    (hn : 0 < n) (f : MvPolynomial (Fin (n + 1)) k)
+    (hf : f.IsHomogeneous d) (hfirr : Irreducible f) :
+    homogeneousVanishingIdeal
+        (projZeroSet ({f} : Set (MvPolynomial (Fin (n + 1)) k))) =
+      Ideal.span ({f} : Set (MvPolynomial (Fin (n + 1)) k)) := by
+  let I : Ideal (MvPolynomial (Fin (n + 1)) k) := Ideal.span {f}
+  let H := projZeroSet ({f} : Set (MvPolynomial (Fin (n + 1)) k))
+  have hIhom : IsHomogeneousIdeal I :=
+    Ideal.homogeneous_span _ _ fun g hg => by
+      rw [Set.mem_singleton_iff] at hg
+      subst g
+      exact isHomogeneousElem_iff.mpr ⟨d, hf⟩
+  have hIprime : I.IsPrime :=
+    (Ideal.span_singleton_prime hfirr.ne_zero).2
+      (UniqueFactorizationMonoid.irreducible_iff_prime.mp hfirr)
+  have hZI : projZeroSet (I : Set (MvPolynomial (Fin (n + 1)) k)) = H :=
+    projZeroSet_span _
+  have hIne : (projZeroSet (I : Set (MvPolynomial (Fin (n + 1)) k))).Nonempty := by
+    rw [hZI]
+    exact projZeroSet_singleton_nonempty_of_irreducible hn f hf hfirr
+  change homogeneousVanishingIdeal H = I
+  rw [← hZI, homogeneousVanishingIdeal_projZeroSet hIhom hIne,
+    hIprime.radical]
+
+/-- If `H = Z(f)` does not contain the projective variety `Y`, multiplication
+by `f` followed by the quotient to `S/(J(Y) + J(H))` is short exact in every
+degree at least `d`.  The quotient is the nonreduced intersection module used
+by Hartshorne's intersection multiplicities. -/
+theorem hypersurfaceSection_degreewise_exact
+    {k : Type u} [Field k] [IsAlgClosed k] {n d l : Nat}
+    (hn : 0 < n)
+    (Y : Set (ProjectiveSpace k (Fin (n + 1)))) (hY : IsProjVariety Y)
+    (f : MvPolynomial (Fin (n + 1)) k)
+    (hf : f.IsHomogeneous d) (hfirr : Irreducible f)
+    (hproper : ¬Y ⊆ projZeroSet ({f} : Set (MvPolynomial (Fin (n + 1)) k)))
+    (hdl : d ≤ l) :
+    let H := projZeroSet ({f} : Set (MvPolynomial (Fin (n + 1)) k))
+    Function.Injective (hypersurfaceSectionMulDegree Y f hf hdl) ∧
+      LinearMap.range (hypersurfaceSectionMulDegree Y f hf hdl) =
+        LinearMap.ker (hypersurfaceSectionQuotientDegree Y H (l : Int)) ∧
+      Function.Surjective
+        (hypersurfaceSectionQuotientDegree Y H (l : Int)) := by
+  classical
+  dsimp only
+  let H := projZeroSet ({f} : Set (MvPolynomial (Fin (n + 1)) k))
+  let JY := homogeneousVanishingIdeal Y
+  have hJH : homogeneousVanishingIdeal H = Ideal.span ({f} : Set _) :=
+    homogeneousVanishingIdeal_hypersurface hn f hf hfirr
+  let _ : IsDomain (homogeneousCoordinateRing Y) :=
+    isDomain_homogeneousCoordinateRing hY
+  have hfquot : Ideal.Quotient.mk JY f ≠ 0 := by
+    intro hzero
+    have hfJ : f ∈ JY := Ideal.Quotient.eq_zero_iff_mem.1 hzero
+    apply hproper
+    intro P hPY g hg
+    rw [Set.mem_singleton_iff] at hg
+    subst g
+    exact homogeneousVanish_of_mem_homogeneousVanishingIdeal hfJ hPY
+  refine ⟨?_, ?_, ?_⟩
+  · intro a b hab
+    apply Subtype.ext
+    apply mul_right_cancel₀ hfquot
+    exact congrArg Subtype.val hab
+  · ext x
+    constructor
+    · rintro ⟨a, rfl⟩
+      apply Subtype.ext
+      obtain ⟨g, hg, hga⟩ := a.property
+      change Ideal.Quotient.factor
+          (integerProjVanishingIdeal_le_sup_left Y H)
+          ((hypersurfaceSectionMulDegree Y f hf hdl a).1) = 0
+      have haeq : (hypersurfaceSectionMulDegree Y f hf hdl a).1 =
+          Ideal.Quotient.mk (homogeneousVanishingIdeal Y) (g * f) := by
+        change a.1 * Ideal.Quotient.mk (homogeneousVanishingIdeal Y) f = _
+        rw [← hga]
+        rfl
+      rw [haeq]
+      change Ideal.Quotient.mk
+          (integerProjVanishingIdeal Y ⊔ integerProjVanishingIdeal H).toIdeal
+          (g * f) = 0
+      apply Ideal.Quotient.eq_zero_iff_mem.2
+      change g * f ∈ homogeneousVanishingIdeal Y ⊔ homogeneousVanishingIdeal H
+      rw [hJH]
+      exact (le_sup_right : Ideal.span ({f} : Set _) ≤
+        homogeneousVanishingIdeal Y ⊔ Ideal.span ({f} : Set _))
+          (Ideal.mem_span_singleton.2 ⟨g, mul_comm g f⟩)
+    · intro hx
+      obtain ⟨p, hp, hpx⟩ := x.property
+      have hxzero := congrArg Subtype.val hx
+      change Ideal.Quotient.factor
+          (integerProjVanishingIdeal_le_sup_left Y H) x.1 = 0 at hxzero
+      rw [← hpx] at hxzero
+      have hpSum : p ∈ homogeneousVanishingIdeal Y ⊔ homogeneousVanishingIdeal H := by
+        apply Ideal.Quotient.eq_zero_iff_mem.1
+        exact hxzero
+      rw [hJH] at hpSum
+      obtain ⟨j, hj, q, hq, hjq⟩ := Submodule.mem_sup.1 hpSum
+      obtain ⟨a, ha⟩ := Ideal.mem_span_singleton.mp hq
+      have hpaJ : p - a * f ∈ homogeneousVanishingIdeal Y := by
+        rw [mul_comm a f, ← ha, ← hjq]
+        simpa using hj
+      have hpHom : p.IsHomogeneous l := by
+        simpa using hp
+      let a' := homogeneousComponent (l - d) a
+      have ha'Hom : a'.IsHomogeneous (l - d) :=
+        homogeneousComponent_mem (l - d) a
+      have hcomp := MvPolynomial.homogeneousComponent_mem_of_mem
+        (isHomogeneousIdeal_homogeneousVanishingIdeal Y) hpaJ l
+      have hcompEq : homogeneousComponent l (p - a * f) = p - a' * f := by
+        rw [map_sub, homogeneousComponent_of_mem hpHom, if_pos rfl]
+        have hmul : homogeneousComponent l (a * f) = a' * f := by
+          change homogeneousComponent l (a * f) =
+            homogeneousComponent (l - d) a * f
+          simpa [Nat.sub_add_cancel hdl] using
+            homogeneousComponent_mul_of_isHomogeneous a f hf (l - d)
+        rw [hmul]
+      have hpa'J : p - a' * f ∈ homogeneousVanishingIdeal Y := by
+        rw [← hcompEq]
+        exact hcomp
+      have hindex : (l : Int) + -(d : Int) = ((l - d : Nat) : Int) := by omega
+      let a'' : ↑(gradedModuleTwist (integerProjCoordGrading Y)
+          (-(d : Int)) (l : Int)) :=
+        ⟨Ideal.Quotient.mk (homogeneousVanishingIdeal Y) a', by
+          refine ⟨a', ?_, rfl⟩
+          rw [hindex, integerHomogeneousSubmodule_ofNat]
+          exact ha'Hom⟩
+      refine ⟨a'', ?_⟩
+      apply Subtype.ext
+      rw [← hpx]
+      apply Ideal.Quotient.eq.2
+      simpa only [neg_sub] using
+        (homogeneousVanishingIdeal Y).neg_mem hpa'J
+  · intro q
+    obtain ⟨p, hp, hpq⟩ := q.property
+    let x : integerProjCoordGrading Y (l : Int) :=
+      ⟨Ideal.Quotient.mk (homogeneousVanishingIdeal Y) p, ⟨p, hp, rfl⟩⟩
+    refine ⟨x, ?_⟩
+    apply Subtype.ext
+    rw [← hpq]
+    rfl
+
+private theorem hypersurfaceSectionMulDegreeInt_ofNat
+    {k : Type u} [Field k] {n d l : Nat}
+    (Y : Set (ProjectiveSpace k (Fin (n + 1))))
+    (f : MvPolynomial (Fin (n + 1)) k) (hf : f.IsHomogeneous d)
+    (hdl : d ≤ l) :
+    hypersurfaceSectionMulDegreeInt Y f hf (l : Int) =
+      hypersurfaceSectionMulDegree Y f hf hdl := by
+  apply LinearMap.ext
+  intro a
+  apply Subtype.ext
+  change f • a.1 = a.1 * Ideal.Quotient.mk (homogeneousVanishingIdeal Y) f
+  change Ideal.Quotient.mk (homogeneousVanishingIdeal Y) f * a.1 = _
+  rw [mul_comm]
+
+/-- The multiplication/quotient sequence for a proper hypersurface section
+is exact in every integer degree.  This is the degreewise content of the
+graded short exact sequence
+`0 → S(Y)(-d) → S(Y) → S/(J(Y)+J(H)) → 0`. -/
+theorem hypersurfaceSection_degreewise_exact_int
+    {k : Type u} [Field k] [IsAlgClosed k] {n d : Nat}
+    (hn : 0 < n)
+    (Y : Set (ProjectiveSpace k (Fin (n + 1)))) (hY : IsProjVariety Y)
+    (f : MvPolynomial (Fin (n + 1)) k)
+    (hf : f.IsHomogeneous d) (hfirr : Irreducible f)
+    (hproper : ¬Y ⊆ projZeroSet ({f} : Set (MvPolynomial (Fin (n + 1)) k)))
+    (l : Int) :
+    let H := projZeroSet ({f} : Set (MvPolynomial (Fin (n + 1)) k))
+    Function.Injective (hypersurfaceSectionMulDegreeInt Y f hf l) ∧
+      LinearMap.range (hypersurfaceSectionMulDegreeInt Y f hf l) =
+        LinearMap.ker (hypersurfaceSectionQuotientDegree Y H l) ∧
+      Function.Surjective (hypersurfaceSectionQuotientDegree Y H l) := by
+  classical
+  dsimp only
+  let H := projZeroSet ({f} : Set (MvPolynomial (Fin (n + 1)) k))
+  let JY := homogeneousVanishingIdeal Y
+  have hJH : homogeneousVanishingIdeal H = Ideal.span ({f} : Set _) :=
+    homogeneousVanishingIdeal_hypersurface hn f hf hfirr
+  let _ : IsDomain (homogeneousCoordinateRing Y) :=
+    isDomain_homogeneousCoordinateRing hY
+  have hfquot : Ideal.Quotient.mk JY f ≠ 0 := by
+    intro hzero
+    have hfJ : f ∈ JY := Ideal.Quotient.eq_zero_iff_mem.1 hzero
+    apply hproper
+    intro P hPY g hg
+    rw [Set.mem_singleton_iff] at hg
+    subst g
+    exact homogeneousVanish_of_mem_homogeneousVanishingIdeal hfJ hPY
+  have hinj : Function.Injective
+      (hypersurfaceSectionMulDegreeInt Y f hf l) := by
+    intro a b hab
+    apply Subtype.ext
+    apply mul_left_cancel₀ hfquot
+    have hab' := congrArg Subtype.val hab
+    change f • a.1 = f • b.1 at hab'
+    exact hab'
+  have hsurj : Function.Surjective
+      (hypersurfaceSectionQuotientDegree Y H l) := by
+    intro q
+    obtain ⟨p, hp, hpq⟩ := q.property
+    let x : integerProjCoordGrading Y l :=
+      ⟨Ideal.Quotient.mk (homogeneousVanishingIdeal Y) p, ⟨p, hp, rfl⟩⟩
+    refine ⟨x, ?_⟩
+    apply Subtype.ext
+    rw [← hpq]
+    rfl
+  cases l with
+  | ofNat l =>
+      by_cases hdl : d ≤ l
+      · have htail := hypersurfaceSection_degreewise_exact
+          hn Y hY f hf hfirr hproper hdl
+        rw [← hypersurfaceSectionMulDegreeInt_ofNat Y f hf hdl] at htail
+        exact htail
+      · refine ⟨hinj, ?_, hsurj⟩
+        ext x
+        constructor
+        · rintro ⟨a, rfl⟩
+          apply Subtype.ext
+          obtain ⟨g, hg, hga⟩ := a.property
+          change Ideal.Quotient.factor
+              (integerProjVanishingIdeal_le_sup_left Y H)
+              ((hypersurfaceSectionMulDegreeInt Y f hf (l : Int) a).1) = 0
+          have haeq : (hypersurfaceSectionMulDegreeInt Y f hf (l : Int) a).1 =
+              Ideal.Quotient.mk (homogeneousVanishingIdeal Y) (f * g) := by
+            change f • a.1 = _
+            change Ideal.Quotient.mk (homogeneousVanishingIdeal Y) g = a.1 at hga
+            rw [← hga]
+            rfl
+          rw [haeq]
+          change Ideal.Quotient.mk
+              (integerProjVanishingIdeal Y ⊔ integerProjVanishingIdeal H).toIdeal
+              (f * g) = 0
+          apply Ideal.Quotient.eq_zero_iff_mem.2
+          change f * g ∈ homogeneousVanishingIdeal Y ⊔ homogeneousVanishingIdeal H
+          rw [hJH]
+          exact (le_sup_right : Ideal.span ({f} : Set _) ≤
+            homogeneousVanishingIdeal Y ⊔ Ideal.span ({f} : Set _))
+              (Ideal.mem_span_singleton.2 ⟨g, rfl⟩)
+        · intro hx
+          obtain ⟨p, hp, hpx⟩ := x.property
+          have hxzero := congrArg Subtype.val hx
+          change Ideal.Quotient.factor
+              (integerProjVanishingIdeal_le_sup_left Y H) x.1 = 0 at hxzero
+          rw [← hpx] at hxzero
+          have hpSum : p ∈ homogeneousVanishingIdeal Y ⊔
+              homogeneousVanishingIdeal H := by
+            apply Ideal.Quotient.eq_zero_iff_mem.1
+            exact hxzero
+          rw [hJH] at hpSum
+          obtain ⟨j, hj, q, hq, hjq⟩ := Submodule.mem_sup.1 hpSum
+          obtain ⟨a, ha⟩ := Ideal.mem_span_singleton.mp hq
+          have hpaJ : p - a * f ∈ homogeneousVanishingIdeal Y := by
+            rw [mul_comm a f, ← ha, ← hjq]
+            simpa using hj
+          have hpHom : p.IsHomogeneous l := by simpa using hp
+          have hcomp := MvPolynomial.homogeneousComponent_mem_of_mem
+            (isHomogeneousIdeal_homogeneousVanishingIdeal Y) hpaJ l
+          have hpfJ : p ∈ homogeneousVanishingIdeal Y := by
+            rw [map_sub, homogeneousComponent_of_mem hpHom, if_pos rfl,
+              homogeneousComponent_mul_eq_zero_of_lt a f hf (by omega), sub_zero]
+              at hcomp
+            exact hcomp
+          have hx0 : x = 0 := by
+            apply Subtype.ext
+            rw [← hpx]
+            exact Ideal.Quotient.eq_zero_iff_mem.2 hpfJ
+          subst x
+          exact ⟨0, map_zero _⟩
+  | negSucc l =>
+      refine ⟨hinj, ?_, hsurj⟩
+      ext x
+      constructor
+      · intro
+        apply LinearMap.mem_ker.2
+        have hx0 : x = 0 := by
+          obtain ⟨p, hp, hpx⟩ := x.property
+          have hp0 : p = 0 := by
+            simpa [integerHomogeneousSubmodule] using hp
+          apply Subtype.ext
+          rw [← hpx, hp0]
+          rfl
+        subst x
+        exact map_zero _
+      · intro
+        have hx0 : x = 0 := by
+          obtain ⟨p, hp, hpx⟩ := x.property
+          have hp0 : p = 0 := by
+            simpa [integerHomogeneousSubmodule] using hp
+          apply Subtype.ext
+          rw [← hpx, hp0]
+          rfl
+        subst x
+        exact ⟨0, map_zero _⟩
+
+private theorem polynomial_sub_taylor_natDegree_le
+    (P : ℚ[X]) {r : ℕ} (hr : P.natDegree = r) (hr0 : 0 < r)
+    (a : ℚ) :
+    (P - P.taylor a).natDegree ≤ r - 1 := by
+  have hP0 : P ≠ 0 := by
+    intro hP
+    simp [hP] at hr
+    omega
+  have hdegree : P.degree = (P.taylor a).degree := by
+    rw [Polynomial.degree_taylor]
+  have hlt : (P - P.taylor a).degree < P.degree :=
+    Polynomial.degree_sub_lt_left hdegree hP0
+      (Polynomial.leadingCoeff_taylor a P).symm
+  by_cases hQ : P - P.taylor a = 0
+  · simp [hQ]
+  · have hnatlt : (P - P.taylor a).natDegree < r := by
+      rw [Polynomial.degree_eq_natDegree hQ,
+        Polynomial.degree_eq_natDegree hP0, hr] at hlt
+      exact_mod_cast hlt
+    omega
+
+private theorem polynomial_sub_taylor_leadingCoeff
+    (P : ℚ[X]) {r d : ℕ} (hr : P.natDegree = r)
+    (hr0 : 0 < r) (hd : 0 < d) :
+    (P - P.taylor (-(d : ℚ))).natDegree = r - 1 ∧
+      (P - P.taylor (-(d : ℚ))).leadingCoeff =
+        (d : ℚ) * (r : ℚ) * P.leadingCoeff := by
+  let Q := P.hasseDeriv (r - 1)
+  have hQdeg : Q.natDegree ≤ 1 := by
+    dsimp [Q]
+    have h := P.natDegree_hasseDeriv_le (r - 1)
+    rw [hr] at h
+    omega
+  have hQeval : Q.eval (-(d : ℚ)) =
+      Q.coeff 0 + Q.coeff 1 * (-(d : ℚ)) := by
+    rw [Polynomial.eval_eq_sum_range' (n := 2) (by omega)]
+    simp [Finset.sum_range_succ]
+  have hrsub : r - 1 + 1 = r := by omega
+  have hQcoeff0 : Q.coeff 0 = P.coeff (r - 1) := by
+    simp [Q, Polynomial.hasseDeriv_coeff]
+  have hQcoeff1 : Q.coeff 1 = (r : ℚ) * P.leadingCoeff := by
+    rw [show Q.coeff 1 = ((1 + (r - 1)).choose (r - 1) : ℚ) *
+        P.coeff (1 + (r - 1)) by
+      exact Polynomial.hasseDeriv_coeff (r - 1) P 1]
+    rw [show 1 + (r - 1) = r by omega]
+    have hchoose : r.choose (r - 1) = r := by
+      calc
+        r.choose (r - 1) = ((r - 1) + 1).choose (r - 1) := by rw [hrsub]
+        _ = (r - 1) + 1 := Nat.choose_succ_self_right (r - 1)
+        _ = r := hrsub
+    have hPcoeff : P.coeff r = P.leadingCoeff := by
+      rw [← hr, Polynomial.coeff_natDegree]
+    rw [hchoose, hPcoeff]
+  have hcoeff : (P - P.taylor (-(d : ℚ))).coeff (r - 1) =
+      (d : ℚ) * (r : ℚ) * P.leadingCoeff := by
+    rw [Polynomial.coeff_sub, Polynomial.taylor_coeff, hQeval,
+      hQcoeff0, hQcoeff1]
+    ring
+  have hPleading : P.leadingCoeff ≠ 0 := by
+    exact Polynomial.leadingCoeff_ne_zero.mpr (by
+      intro hP
+      simp [hP] at hr
+      omega)
+  have hcoeff0 : (P - P.taylor (-(d : ℚ))).coeff (r - 1) ≠ 0 := by
+    rw [hcoeff]
+    positivity
+  have hdegree := polynomial_sub_taylor_natDegree_le P hr hr0 (-(d : ℚ))
+  have hnat : (P - P.taylor (-(d : ℚ))).natDegree = r - 1 :=
+    Polynomial.natDegree_eq_of_le_of_coeff_ne_zero hdegree hcoeff0
+  refine ⟨hnat, ?_⟩
+  rw [Polynomial.leadingCoeff, hnat, hcoeff]
+
+/-- **Hartshorne I.7.7, hypersurface-section calculation.**  If the
+positive-dimensional projective variety `Y` is not contained in the
+degree-`d` hypersurface `H = Z(f)`, the Hilbert polynomial of the nonreduced
+intersection module `S/(J(Y) + J(H))` is
+`P_Y(z) - P_Y(z-d)`.  It has degree `r - 1` and leading coefficient
+`d * deg(Y) / (r - 1)!`. -/
+theorem hypersurfaceSection_hilbertPolynomial_and_leadingCoeff
+    {k : Type u} [Field k] [IsAlgClosed k] {n d r : Nat}
+    (hd : 0 < d) (hr0 : 0 < r)
+    (Y : Set (ProjectiveSpace k (Fin (n + 1)))) (hY : IsProjVariety Y)
+    (hYdim : projDim Y = (r : WithBot ℕ∞))
+    (f : MvPolynomial (Fin (n + 1)) k)
+    (hf : f.IsHomogeneous d) (hfirr : Irreducible f)
+    (hproper : ¬Y ⊆ projZeroSet ({f} : Set (MvPolynomial (Fin (n + 1)) k))) :
+    let H := projZeroSet ({f} : Set (MvPolynomial (Fin (n + 1)) k))
+    let 𝒮 := integerHomogeneousSubmodule k (Fin (n + 1))
+    let I := integerProjVanishingIdeal Y ⊔ integerProjVanishingIdeal H
+    let ℳ := quotGrading 𝒮 I
+    let PM := gradedHilbertPolynomial
+      (k := k) (n := n) (M := MvPolynomial (Fin (n + 1)) k ⧸ I.toIdeal) ℳ
+    PM = projectiveHilbertPolynomial Y -
+        (projectiveHilbertPolynomial Y).taylor (-(d : ℚ)) ∧
+      PM.natDegree = r - 1 ∧
+      PM.leadingCoeff = (d : ℚ) * projectiveDegree Y *
+        (((r - 1).factorial : Nat) : ℚ)⁻¹ := by
+  classical
+  dsimp only
+  let H := projZeroSet ({f} : Set (MvPolynomial (Fin (n + 1)) k))
+  let 𝒮 := integerHomogeneousSubmodule k (Fin (n + 1))
+  let I := integerProjVanishingIdeal Y ⊔ integerProjVanishingIdeal H
+  let ℳ := quotGrading 𝒮 I
+  let P := projectiveHilbertPolynomial Y
+  let PM := gradedHilbertPolynomial
+    (k := k) (n := n) (M := MvPolynomial (Fin (n + 1)) k ⧸ I.toIdeal) ℳ
+  have hn : 0 < n := by
+    have hle : projDim Y ≤
+        projDim (Set.univ : Set (ProjectiveSpace k (Fin (n + 1)))) :=
+      (Topology.IsEmbedding.inclusion
+        (Set.subset_univ Y)).isInducing.topologicalKrullDim_le
+    rw [hYdim, projDim_univ_fin] at hle
+    have hrn : r ≤ n := by exact_mod_cast hle
+    omega
+  have hP := projectiveHilbertPolynomial_isHilbertPolynomial Y
+  have hPM : IsHilbertPolynomial (σ := Fin (n + 1)) ℳ PM :=
+    gradedHilbertPolynomial_isHilbertPolynomial
+      (k := k) (n := n) (M := MvPolynomial (Fin (n + 1)) k ⧸ I.toIdeal) ℳ
+  have hnum : IsNumericalPolynomial (P - P.taylor (-(d : ℚ))) := by
+    rw [IsNumericalPolynomial]
+    exact Filter.Eventually.of_forall fun z => by
+      obtain ⟨a, ha⟩ := hP.1.integerValued z
+      obtain ⟨b, hb⟩ := hP.1.integerValued (z - d)
+      change P.eval (z : ℚ) = (a : ℚ) at ha
+      change P.eval ((z - d : Int) : ℚ) = (b : ℚ) at hb
+      refine ⟨a - b, ?_⟩
+      simp only [Polynomial.eval_sub, Polynomial.taylor_eval]
+      push_cast at hb ⊢
+      rw [ha]
+      simpa only [sub_eq_add_neg] using
+        congrArg (fun q : ℚ ↦ (a : ℚ) - q) hb
+  have hPshift : ∀ᶠ z : Int in Filter.atTop,
+      P.eval ((z - d : Int) : ℚ) =
+        (hilbertFunction (σ := Fin (n + 1))
+          (integerProjCoordGrading Y) (z - d) : ℚ) := by
+    obtain ⟨N, hN⟩ := Filter.eventually_atTop.mp hP.2
+    exact Filter.eventually_atTop.mpr
+      ⟨N + d, fun z hz => hN (z - d) (by omega)⟩
+  have hevent : ∀ᶠ z : Int in Filter.atTop,
+      (P - P.taylor (-(d : ℚ))).eval (z : ℚ) =
+        (hilbertFunction (σ := Fin (n + 1)) ℳ z : ℚ) := by
+    filter_upwards [hP.2, hPshift,
+      Filter.eventually_ge_atTop (d : Int)] with z hzP hzPshift hzd
+    obtain ⟨l, rfl⟩ := Int.eq_ofNat_of_zero_le
+      (le_trans (Int.natCast_nonneg d) hzd)
+    obtain ⟨hinj, hexact, hsurj⟩ :=
+      hypersurfaceSection_degreewise_exact_int
+        hn Y hY f hf hfirr hproper (l : Int)
+    have hfun := hilbertFunction_add_of_degreewise_exact
+      (σ := Fin (n + 1))
+      (gradedModuleTwist (integerProjCoordGrading Y) (-(d : Int)))
+      (integerProjCoordGrading Y) ℳ (l : Int)
+      (hypersurfaceSectionMulDegreeInt Y f hf (l : Int))
+      (hypersurfaceSectionQuotientDegree Y H (l : Int))
+      hinj hexact hsurj
+    simp only [hilbertFunction_twist] at hfun
+    have hindex : (l : Int) + -(d : Int) = ((l - d : Nat) : Int) := by omega
+    have hindexSub : (l : Int) - (d : Int) = ((l - d : Nat) : Int) := by omega
+    have hqindex : (((l : Int) : ℚ) + -(d : ℚ)) =
+        (((l - d : Nat) : Int) : ℚ) := by
+      calc
+        ((l : Int) : ℚ) + -(d : ℚ) =
+            (((l : Int) - (d : Int)) : ℚ) := by
+          push_cast
+          ring
+        _ = (((l - d : Nat) : Int) : ℚ) := by
+          simpa only [Int.cast_sub, Int.cast_natCast] using
+            congrArg (fun z : Int ↦ (z : ℚ)) hindexSub
+    rw [hindex] at hfun
+    rw [hindexSub] at hzPshift
+    simp only [Polynomial.eval_sub, Polynomial.taylor_eval]
+    rw [hzP, hqindex, hzPshift]
+    have hfunQ := congrArg (fun m : Nat ↦ (m : ℚ)) hfun
+    push_cast at hfunQ ⊢
+    linarith
+  have hpolynomial : PM = P - P.taylor (-(d : ℚ)) :=
+    isHilbertPolynomial_unique ℳ hPM ⟨hnum, hevent⟩
+  have hPdeg : P.natDegree = r := by
+    have hdeg : hilbertPolynomialDegree P = (r : WithBot ℕ∞) := by
+      rw [show hilbertPolynomialDegree P = projDim Y by
+        simpa [P] using projectiveHilbertPolynomial_degree hY.isProjAlgebraicSet]
+      exact hYdim
+    by_cases hP0 : P = 0
+    · simp [hilbertPolynomialDegree, hP0] at hdeg
+    · simpa [hilbertPolynomialDegree, hP0] using hdeg
+  have hdata := polynomial_sub_taylor_leadingCoeff P hPdeg hr0 hd
+  refine ⟨hpolynomial, ?_, ?_⟩
+  · change PM.natDegree = r - 1
+    rw [hpolynomial, hdata.1]
+  · change PM.leadingCoeff = (d : ℚ) * projectiveDegree Y *
+      (((r - 1).factorial : Nat) : ℚ)⁻¹
+    rw [hpolynomial, hdata.2]
+    unfold projectiveDegree
+    change (d : ℚ) * (r : ℚ) * P.leadingCoeff =
+      (d : ℚ) * (P.natDegree.factorial * P.leadingCoeff) *
+        (((r - 1).factorial : Nat) : ℚ)⁻¹
+    rw [hPdeg]
+    have hfac : (((r - 1).factorial : Nat) : ℚ) ≠ 0 := by positivity
+    rw [← Nat.mul_factorial_pred (Nat.ne_of_gt hr0)]
+    push_cast
+    field_simp
 
 end
 
