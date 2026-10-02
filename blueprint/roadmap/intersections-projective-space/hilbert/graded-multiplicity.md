@@ -3,6 +3,9 @@ article_id: af_4b49ee4a3033d8c3e5250ee9
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.gradedPrimeFiltration_multiplicity_eq_count
 ---
 
 # Multiplicity in a graded prime filtration
@@ -13,7 +16,7 @@ For a prime `p` minimal over `Ann M`, define the multiplicity of `M` at `p` by
 
 Keep this value in Mathlib's `ℕ∞` until finiteness is proved. For every graded
 prime filtration of `M`, it is finite and equals the number of indices `i` for
-which the factor prime `pᵢ` is `p`. The sole main result is planned as
+which the factor prime `pᵢ` is `p`. The main result is
 `Hartshorne.gradedPrimeFiltration_multiplicity_eq_count`; the supporting
 definition is `Hartshorne.gradedMultiplicity`.
 
