@@ -23,6 +23,12 @@ module's Hilbert polynomial.
 - [The leading Hilbert coefficient is a sum over minimal primes](top-dimensional-prime-filtration-leading-term.md)
 - [Intersection multiplicity with a hypersurface](projective-intersection-multiplicity.md)
 - [The Hilbert polynomial of a hypersurface section is a difference](hypersurface-section-hilbert-polynomial.md)
+- [Projective intersection components correspond to minimal primes](projective-intersection-components-minimal-primes.md)
+- [Proper hypersurface sections are equidimensional](hypersurface-section-components-equidimensional.md)
+
+## Proof depends on
+
+- [A nonempty projective algebraic set has positive integral degree](hilbert-polynomial-positive-degree.md)
 
 ## Sources
 
