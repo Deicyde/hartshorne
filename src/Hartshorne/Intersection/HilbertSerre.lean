@@ -9,6 +9,7 @@ import Hartshorne.Intersection.AffineConeDimension
 import Hartshorne.Intersection.ProjectiveDimensionTheorem
 import Hartshorne.Intersection.ProjectiveIntersectionNonempty
 import Hartshorne.Intersection.ProjectiveCodimensionOne
+import Hartshorne.Intersection.ProjectiveProperClosedDimensionDrop
 import Hartshorne.Projective.Correspondence
 import Hartshorne.Projective.PointIdeal
 import Hartshorne.Projective.ProjSpaceDimension
@@ -867,64 +868,6 @@ private theorem exists_topologicalKrullDim_eq_of_finite_closed_iUnion
       exact ⟨t, htS, hx⟩
     exact (Topology.IsEmbedding.inclusion hsub).isInducing.topologicalKrullDim_le
 
-private theorem topologicalKrullDim_eq_height_of_irreducible_closed
-    {X : Type*} [TopologicalSpace X] {Y : Set X}
-    (hirr : IsIrreducible Y) (hclosed : IsClosed Y) :
-    topologicalKrullDim Y =
-      (Order.height
-        (⟨Y, hirr, hclosed⟩ : IrreducibleCloseds X) : WithBot ℕ∞) := by
-  rw [topologicalKrullDim_subtype_eq hclosed]
-  change Order.krullDim
-      (Set.Iic (⟨Y, hirr, hclosed⟩ : IrreducibleCloseds X)) = _
-  rw [← Order.height_eq_krullDim_Iic]
-
-/-- A proper closed subset of an irreducible projective algebraic set has
-strictly smaller dimension. -/
-private theorem projDim_lt_of_closed_ssubset_isProjVariety
-    {k : Type u} [Field k] [IsAlgClosed k]
-    {σ : Type} [Finite σ] [Nonempty σ]
-    {Y Z : Set (ProjectiveSpace k σ)} (hY : IsProjVariety Y)
-    (hZ : IsClosed Z) (hZY : Z ⊂ Y) : projDim Z < projDim Y := by
-  classical
-  let VY : IrreducibleCloseds (ProjectiveSpace k σ) := ⟨Y, hY.1, hY.2⟩
-  have hdimY : projDim Y = (Order.height VY : WithBot ℕ∞) := by
-    rw [projDim_def,
-      topologicalKrullDim_eq_height_of_irreducible_closed hY.1 hY.2]
-  obtain ⟨i⟩ := ‹Nonempty σ›
-  have hYle : projDim Y ≤
-      projDim (Set.univ : Set (ProjectiveSpace k σ)) :=
-    (Topology.IsEmbedding.inclusion (Set.subset_univ Y)).isInducing.topologicalKrullDim_le
-  have hheight_ne_top : Order.height VY ≠ ⊤ := by
-    have hdimfin : projDim Y < ⊤ := hYle.trans_lt <| by
-      rw [projDim_univ (k := k) i]
-      exact WithBot.coe_lt_coe.mpr (ENat.natCast_lt_top _)
-    rw [hdimY] at hdimfin
-    intro htop
-    rw [htop] at hdimfin
-    exact (lt_irrefl _ hdimfin)
-  obtain ⟨n, hn⟩ := ENat.ne_top_iff_exists.mp hheight_ne_top
-  have hn' : Order.height VY = n := hn.symm
-  change topologicalKrullDim Z < projDim Y
-  rw [topologicalKrullDim_subtype_eq hZ, hdimY, hn']
-  change Order.krullDim
-    {T : IrreducibleCloseds (ProjectiveSpace k σ) // (T : Set _) ⊆ Z} <
-      (n : WithBot ℕ∞)
-  rw [Order.krullDim_lt_coe_iff]
-  intro p
-  let q : LTSeries (IrreducibleCloseds (ProjectiveSpace k σ)) :=
-    p.map (fun T => T.1) (fun _ _ h => h)
-  have hqY : q.last < VY := by
-    change ((q.last : IrreducibleCloseds (ProjectiveSpace k σ)) : Set _) ⊂ Y
-    exact Set.ssubset_of_subset_of_ssubset p.last.2 hZY
-  have hlen := Order.length_le_height_last (p := q.snoc VY hqY)
-  have hlenV : ((q.snoc VY hqY).length : ℕ∞) ≤ Order.height VY := by
-    simpa using hlen
-  rw [hn'] at hlenV
-  have hlen' : p.length + 1 ≤ n := by
-    simp [q] at hlenV
-    exact_mod_cast hlenV
-  omega
-
 private theorem isProjVariety_projZeroSet_of_isHomogeneous_isPrime
     {k : Type u} [Field k] [IsAlgClosed k]
     {σ : Type*} [Finite σ]
@@ -992,27 +935,6 @@ private theorem coordinateHyperplane_data
   exact (projective_codimension_one_iff_hypersurface hH hn).mpr
     ⟨MvPolynomial.X i, 1, by omega, isHomogeneous_X k i,
       (UniqueFactorizationMonoid.irreducible_iff_prime).mpr MvPolynomial.X_prime, rfl⟩
-
-/-- The dimension of a projective variety is represented by a natural
-number. -/
-private theorem exists_projDim_eq_nat_of_isProjVariety
-    {k : Type u} [Field k] [IsAlgClosed k]
-    {σ : Type} [Finite σ] [Nonempty σ]
-    {Y : Set (ProjectiveSpace k σ)} (hY : IsProjVariety Y) :
-    ∃ r : ℕ, projDim Y = (r : WithBot ℕ∞) := by
-  classical
-  obtain ⟨P, hPY⟩ := hY.1.nonempty
-  obtain ⟨i, hi⟩ := exists_mem_standardChart P
-  have hne : (Y ∩ standardChart i).Nonempty := ⟨P, hPY, hi⟩
-  have hA : IsAffineVariety (chartMap i '' (Y ∩ standardChart i)) :=
-    isAffineVariety_chartMap_image i hY hne
-  letI : IsDomain (coordinateRing (chartMap i '' (Y ∩ standardChart i))) :=
-    isDomain_coordinateRing hA
-  obtain ⟨r, hr⟩ := exists_ringKrullDim_eq_natCast k
-    (coordinateRing (chartMap i '' (Y ∩ standardChart i)))
-  refine ⟨r, ?_⟩
-  rw [projDim_eq_dim_chart hY i hne,
-    dim_eq_ringKrullDim_coordinateRing hA.isAlgebraicSet, hr]
 
 /-- Cutting a positive-dimensional projective variety properly by a coordinate
 hyperplane lowers its dimension by exactly one. -/
