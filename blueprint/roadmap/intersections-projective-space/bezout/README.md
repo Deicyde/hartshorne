@@ -15,6 +15,7 @@ plane curves.
 - [A degree-d hypersurface has degree d](hypersurface-hilbert-polynomial.md)
 - [The leading Hilbert coefficient is a sum over minimal primes](top-dimensional-prime-filtration-leading-term.md)
 - [Intersection multiplicity with a hypersurface](projective-intersection-multiplicity.md)
+- [The hypersurface-section coordinate-ring sequence is exact](hypersurface-section-exact-sequence.md)
 - [The Hilbert polynomial of a hypersurface section is a difference](hypersurface-section-hilbert-polynomial.md)
 - [Bézout for a projective variety and a hypersurface](projective-hypersurface-bezout.md)
 - [A projective point has Hilbert polynomial and degree one](projective-point-degree.md)
