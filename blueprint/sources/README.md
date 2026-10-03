@@ -40,3 +40,4 @@ Detailed source and Mathlib audits for the active Chapter II milestones:
 - [Hartshorne V.2: ruled surfaces](hartshorne-v-2.md)
 - [Hartshorne V.3: monoidal transformations and curve resolution](hartshorne-v-3.md)
 - [Hartshorne V.4: cubic surfaces and the 27 lines](hartshorne-v-4.md)
+- [Hartshorne V.5: birational transformations and minimal models](hartshorne-v-5.md)

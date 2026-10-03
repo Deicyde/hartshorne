@@ -64,15 +64,16 @@ nonsingular projective model of a one-dimensional function field in Theorem
 uses the existing separable normalization charts but imposes no separability
 hypothesis on the function field.
 
-The completion, Cohen-structure, and analytic-isomorphism material later in
-§I.5 is deferred. Section I.7 has a fine DAG, §I.8 has a claim-by-claim
+Apart from the regularity-under-completion clause of Theorem I.5.4A used in
+V.5, the remaining completion, Cohen-structure, and analytic-isomorphism
+material later in §I.5 is deferred. Section I.7 has a fine DAG, §I.8 has a claim-by-claim
 survey disposition, and all of Chapter II has a 444-leaf fine DAG with 99 exact
 pinned-Mathlib results. All of Chapter III has a 288-leaf fine roadmap with
 nineteen exact Mathlib results. All of Chapter IV has a 201-leaf fine roadmap with
 two exact Mathlib results, plus five reactivated earlier-exercise prerequisites.
-Chapter V §§1–4 has a 165-leaf fine roadmap with one exact Mathlib result,
-plus two reactivated III.7 prerequisites, one II.8 prerequisite, one I.5
-prerequisite, and one forward Appendix A prerequisite; Chapter V §§5–6 and
+Chapter V §§1–5 has a 204-leaf fine roadmap with one exact Mathlib result,
+plus two reactivated III.7 prerequisites, one II.8 prerequisite, two I.5
+prerequisites, and one forward Appendix A prerequisite; Chapter V §6 and
 Appendices A–C retain approved
 coarse milestones and are deferred in that
 order. Reference apparatus and already-dispositioned non-target material

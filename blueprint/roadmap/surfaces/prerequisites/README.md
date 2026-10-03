@@ -15,6 +15,11 @@ classification of I Exercise 5.14(d):
 
 - [Analytic normal form of a plane-curve double point](plane-double-point-analytic-normal-form.md)
 
+The Castelnuovo contraction proof in V.5.7 reactivates the regularity clause
+of I Theorem 5.4A:
+
+- [Regularity is reflected by maximal-adic completion](regular-local-iff-completion-regular.md)
+
 The Noether formula in Remark V.1.6.1 is delegated forward to Appendix A:
 
 - [Hirzebruch–Riemann–Roch and the surface Noether formula](surface-noether-formula-hrr.md)
@@ -25,3 +30,4 @@ The Noether formula in Remark V.1.6.1 is delegated forward to Appendix A:
 - [Hartshorne V.1 source notes](../../../sources/hartshorne-v-1.md)
 - [Hartshorne V.2 source notes](../../../sources/hartshorne-v-2.md)
 - [Hartshorne V.3 source notes](../../../sources/hartshorne-v-3.md)
+- [Hartshorne V.5 source notes](../../../sources/hartshorne-v-5.md)

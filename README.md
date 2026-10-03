@@ -6,8 +6,9 @@ Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 
 Sections I.1 through I.4, the geometric core of I.5 through Theorem I.5.3, and
 I.6 through Corollary I.6.12 are decomposed into a dependency graph of 163
-formalization targets. The completion, Cohen-structure, and analytic-isomorphism
-material later in §I.5 is deferred. Chapter V §§5–6 and
+formalization targets. Apart from the regularity-under-completion clause of
+Theorem I.5.4A used in V.5, the remaining completion, Cohen-structure, and
+analytic-isomorphism material later in §I.5 is deferred. Chapter V §6 and
 Appendices A–C have an approved coarse whole-book map. Section I.7 is decomposed into 50 fine targets,
 47 formalized and three remaining; the §I.8 survey has been dispositioned claim
 by claim; and all of Chapter II now has a 444-leaf fine roadmap, including 99
@@ -29,10 +30,11 @@ embeddings, elliptic and canonical curves, Clifford's theorem, moduli,
 Castelnuovo's bound, and space-curve classifications. Five additional project
 leaves reactivate Exercises I.3.14(a), I.5.4, I.5.6(b), I.7.3, and II.6.4.
 
-Chapter V §§1–4 has a 165-leaf surface roadmap: one exact pinned-Mathlib result
-and 164 project targets for intersection theory, ruled surfaces, point
-blowups, embedded resolution, cubic surfaces, and the 27 lines. Four additional project leaves
-reactivate III Exercise 7.4(a),(c),(d), II Exercise 8.2, and I Exercise 5.14(d);
+Chapter V §§1–5 has a 204-leaf surface roadmap: one exact pinned-Mathlib result
+and 203 project targets for intersection theory, ruled and cubic surfaces,
+embedded resolution, birational factorization, contraction, and minimal
+models. Five additional project leaves reactivate III Exercise 7.4(a),(c),(d),
+II Exercise 8.2, I Exercise 5.14(d), and the regularity clause of Theorem I.5.4A;
 one forward Appendix A
 prerequisite records the HRR source of Noether's formula.
 

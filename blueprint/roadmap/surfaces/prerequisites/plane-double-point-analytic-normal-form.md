@@ -35,6 +35,6 @@ been adopted.
 
 ## Sources
 
-- [Hartshorne I.5, analytic-isomorphism definition in Examples 5.6.1–5.6.3, pp.34–35](../../../sources/hartshorne.md#i5-deferred-completion-and-analytic-material)
+- [Hartshorne I.5, analytic-isomorphism definition in Examples 5.6.1–5.6.3, pp.34–35](../../../sources/hartshorne.md#i5-completion-and-analytic-material)
 - [Hartshorne I.5, Exercise 5.14(d), pp.38–39](../../../sources/hartshorne.md#i5-exercises-and-exercise-only-prerequisite)
 - [Hartshorne V.3, Example 3.9.5, pp.393–394](../../../sources/hartshorne-v-3.md#infinitely-near-points-and-singularity-equivalence-printed-pp392394)

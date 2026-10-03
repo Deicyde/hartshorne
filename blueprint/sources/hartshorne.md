@@ -197,17 +197,17 @@ contradicting irreducibility. Proposition 5.2A is one of Hartshorne's quoted
 commutative-algebra results and is therefore background rather than a claim of
 the book's proof.
 
-## I.5 deferred completion and analytic material
+## I.5 completion and analytic material
 
-This contiguous portion of the running text follows Theorem 5.3 on printed
-p. 33 and ends before Theorem 5.7A on p. 35. It is deferred pending a separate
-completion scope and is not included in coverage unit
-`chapter-i-section-5-geometry`.
+This portion follows Theorem 5.3 on printed p.33 and ends before Theorem 5.7A
+on p.35. Only regularity under completion from Theorem 5.4A is now adopted,
+for V.5.7; all other completion, Cohen, and analytic material remains deferred
+under the existing scope.
 
 | Locator | Material | Pages | Disposition |
 | --- | --- | --- | --- |
 | After Thm. 5.3 | The `𝔪`-adic topology and completion `Â = lim← A/𝔪ⁿ` | 33 | Deferred pending a separate completion scope |
-| Thm. 5.4A | Completion of a Noetherian local ring: local structure and injectivity; completion of a finite module as tensor product; preservation of dimension and regularity | 34 | Deferred background |
+| Thm. 5.4A | Completion of a Noetherian local ring: local structure and injectivity; completion of a finite module as tensor product; preservation of dimension and regularity | 34 | The equivalence of regularity for a local ring and its completion is adopted for V.5.7; all other clauses remain deferred background |
 | Thm. 5.5A | A complete regular local ring of dimension `n` containing a field is isomorphic to `κ[[x₁,…,xₙ]]`, where `κ` is its residue field | 34 | Deferred background |
 | Def.; Ex. 5.6.1–5.6.3 | Analytically isomorphic points; dimension invariance; nonsingular points of equal dimension; the plane nodal cubic is analytically isomorphic to the crossing `xy = 0`, showing that completion need not preserve being a domain | 34–35 | Deferred pending a separate completion scope |
 

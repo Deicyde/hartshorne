@@ -12,6 +12,11 @@ whose intersection with the nonsingular locus of `X` is regular everywhere.
 Equivalently, the corresponding hyperplane section is regular at every one of
 its points.
 
+More generally, for any prescribed finite set `S` of closed projective
+points, hyperplanes avoiding every point of `S` form a dense open subset of
+the dual projective space. Thus on a regular projective variety, finite-point
+avoidance can be imposed simultaneously with the regular Bertini condition.
+
 ## Depends on
 
 - [Regular hyperplane sections](bertini-regular-hyperplane-section.md)
