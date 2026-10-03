@@ -451,7 +451,7 @@ will need either exact Mathlib matches or separately adopted proof sources.
 | --- | --- | --- |
 | III-A: cohomology foundations | §§1–4, pp. 202–225 | Derived functors, sheaf and supported cohomology, affine vanishing, local cohomology, and Čech comparison |
 | III-B: projective-space cohomology | §5, pp. 225–233 | Cohomology of twists on projective space, Serre finiteness/vanishing, ampleness, Hilbert polynomials, and later-used exercises |
-| III-C: Ext and duality | §§6–7, pp. 233–249 | Global and sheaf Ext, dualizing sheaves, and Serre duality |
+| III-C: Ext and duality | §§6–7, pp. 233–250 | Global and sheaf Ext, projective dimension, dualizing sheaves, Serre duality, residues, and Kodaira's theorem |
 | III-D: families and Hilbert polynomials | §§8–9, pp. 250–267 | Higher direct images, flat morphisms, Hilbert polynomials, and flat families |
 | III-E: smooth morphisms | §10, pp. 268–275 | Smoothness, generic smoothness, and Bertini |
 | III-F: formal functions and base change | §§11–12, pp. 276–292 | Formal functions, connectedness, Zariski's Main Theorem, Stein factorization, semicontinuity, and cohomology and base change |

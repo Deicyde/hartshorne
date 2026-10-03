@@ -1,0 +1,16 @@
+# Sheaf Ext
+
+1. [Sheaf Hom as a left-exact functor](module-sheaf-hom-left-exact.md)
+2. [Sheaf Ext](sheaf-ext.md)
+3. [The covariant long exact sequence of sheaf Ext](sheaf-ext-covariant-long-exact.md)
+4. [Injectives restrict to open subsets](open-restriction-injective.md)
+5. [Sheaf Ext restricts to open subsets](sheaf-ext-restrict-open.md)
+6. [Sheaf Ext from the structure sheaf](sheaf-ext-structure-sheaf.md)
+7. [The contravariant long exact sequence of sheaf Ext](sheaf-ext-contravariant-long-exact.md)
+8. [Locally free resolutions compute sheaf Ext](locally-free-resolution-sheaf-ext.md)
+9. [Locally free resolutions on quasi-projective schemes](quasiprojective-locally-free-resolution.md)
+10. [Tensoring an injective by a finite locally free sheaf](finite-locally-free-tensor-injective.md)
+11. [Tensor-dual compatibility for sheaf Ext](sheaf-ext-tensor-dual.md)
+12. [Stalks of sheaf Ext](sheaf-ext-stalk.md)
+13. [Coherence of sheaf Ext](coherent-sheaf-ext.md)
+14. [Quasi-coherence of sheaf Ext](quasicoherent-sheaf-ext.md)

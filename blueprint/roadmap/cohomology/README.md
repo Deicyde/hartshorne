@@ -27,8 +27,15 @@ Hartshorne's chosen model.
 - [Projective-space cohomology and Serre vanishing](projective-cohomology/README.md)
 - [Later-used projective-cohomology exercises](projective-cohomology-exercises/README.md)
 
+## Ext and duality
+
+- [Global and sheaf Ext](ext-groups/README.md)
+- [Dualizing sheaves and Serre duality](serre-duality/README.md)
+
 ## Sources
 
 - [Hartshorne III.1–2 source notes](../../sources/hartshorne-iii-1-2.md)
 - [Hartshorne III.3–4 source notes](../../sources/hartshorne-iii-3-4.md)
 - [Hartshorne III.5 source notes](../../sources/hartshorne-iii-5.md)
+- [Hartshorne III.6 source notes](../../sources/hartshorne-iii-6.md)
+- [Hartshorne III.7 source notes](../../sources/hartshorne-iii-7.md)
