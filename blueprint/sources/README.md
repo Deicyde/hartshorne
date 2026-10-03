@@ -21,3 +21,5 @@ Detailed source and Mathlib audits for the active Chapter II milestones:
 - [Hartshorne II.7: projective geometry](hartshorne-ii-7.md)
 - [Hartshorne II.8: differentials and regularity](hartshorne-ii-8.md)
 - [Hartshorne II.9: formal schemes](hartshorne-ii-9.md)
+- [Hartshorne III.1–2: derived functors and sheaf cohomology](hartshorne-iii-1-2.md)
+- [Hartshorne III.3–4: affine and Čech cohomology](hartshorne-iii-3-4.md)

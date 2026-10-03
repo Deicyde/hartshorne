@@ -100,5 +100,7 @@ until their turn. The complete source partition is recorded in the
   Bézout.
 - [Schemes](schemes/README.md) — Hartshorne Chapter II: schemes, modules,
   divisors, projective geometry, differentials, and formal schemes.
+- [Cohomology foundations](cohomology/README.md) — Hartshorne III.1–4:
+  derived functors, sheaf cohomology, affine vanishing, and Čech cohomology.
 - [Remaining-book roadmap](remaining-book/README.md) — approved coarse
   milestones for Chapters III–V and Appendices A–C.

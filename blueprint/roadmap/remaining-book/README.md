@@ -8,9 +8,11 @@ This is the approved coarse plan for a full pass over the rest of Hartshorne.
 The 163 leaves through Corollary I.6.12 are formalized, and §I.7 has a 50-leaf
 [fine roadmap](../intersections-projective-space/README.md), with 47 leaves
 formalized and three remaining. Section I.8 has been dispositioned claim by
-claim. Chapter II now has a 441-leaf
+claim. Chapter II now has a 442-leaf
 [fine roadmap](../schemes/README.md), with 99 exact pinned-Mathlib leaves and
-342 project targets. Chapters III–V and Appendices A–C remain
+343 project targets. Chapter III §§1–4 has a 72-leaf
+[fine roadmap](../cohomology/README.md), with 5 exact Mathlib leaves and 67
+project targets. Chapter III §§5–12, Chapters IV–V, and Appendices A–C remain
 explicit deferred milestones in the [coverage contract](../../coverage/README.md)
 until their turn for fine source and Mathlib work.
 
@@ -61,7 +63,7 @@ survey sentence alone is not used as a proof specification.
 
 | Milestone | Source | Goal | Primary prerequisites |
 | --- | --- | --- | --- |
-| III-A | §§III.1–4, pp. 202–224 | Derived functors, sheaf cohomology, affine vanishing, and Čech cohomology | II-A, II-C, and II-F; external source for quoted homological algebra |
+| III-A | §§III.1–4, pp. 202–225 | [Fine roadmap](../cohomology/README.md): derived functors, sheaf and supported cohomology, affine/local vanishing, and Čech comparison | Complete source/API pass: 5 exact Mathlib leaves, 67 project targets, and 12 explicit source-blocked nodes |
 | III-B | §III.5, pp. 225–232 | Projective-space cohomology and coherent finiteness | III-A and II-D |
 | III-C | §§III.6–7, pp. 233–249 | Ext and Serre duality | III-A and III-B |
 | III-D | §§III.8–9, pp. 250–267 | Higher direct images, flat families, and Hilbert polynomials | III-A, III-B, II-C, and II-F |

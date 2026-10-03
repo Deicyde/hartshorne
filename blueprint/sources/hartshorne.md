@@ -449,7 +449,7 @@ will need either exact Mathlib matches or separately adopted proof sources.
 
 | Milestone | Sections and pages | Mathematical content |
 | --- | --- | --- |
-| III-A: cohomology foundations | §§1–4, pp. 202–224 | Derived functors, sheaf cohomology, affine vanishing, and Čech cohomology |
+| III-A: cohomology foundations | §§1–4, pp. 202–225 | Derived functors, sheaf and supported cohomology, affine vanishing, local cohomology, and Čech comparison |
 | III-B: projective-space cohomology | §5, pp. 225–232 | Cohomology of twists on projective space and finiteness for coherent sheaves |
 | III-C: Ext and duality | §§6–7, pp. 233–249 | Global and sheaf Ext, dualizing sheaves, and Serre duality |
 | III-D: families and Hilbert polynomials | §§8–9, pp. 250–267 | Higher direct images, flat morphisms, Hilbert polynomials, and flat families |

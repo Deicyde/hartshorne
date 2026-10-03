@@ -7,13 +7,18 @@ Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 Sections I.1 through I.4, the geometric core of I.5 through Theorem I.5.3, and
 I.6 through Corollary I.6.12 are decomposed into a dependency graph of 163
 formalization targets. The completion, Cohen-structure, and analytic-isomorphism
-material later in §I.5 is deferred. Chapters III–V and Appendices A–C have an
-approved coarse whole-book map. Section I.7 is decomposed into 50 fine targets,
+material later in §I.5 is deferred. Chapter III §§5–12, Chapters IV–V, and
+Appendices A–C have an approved coarse whole-book map. Section I.7 is decomposed into 50 fine targets,
 47 formalized and three remaining; the §I.8 survey has been dispositioned claim
-by claim; and all of Chapter II now has a 441-leaf fine roadmap, including 99
+by claim; and all of Chapter II now has a 442-leaf fine roadmap, including 99
 exact pinned-Mathlib results. The later milestones remain deferred. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
+
+Chapter III §§1–4 has a 72-leaf cohomology-foundations roadmap: five exact
+pinned-Mathlib results and 67 project targets. It covers derived functors,
+sheaf and supported cohomology, affine vanishing, local cohomology, and Čech
+comparison through the later-used exercises on p. 225.
 
 **All 163 targets through Corollary I.6.12 are complete.** Of these, 159 are
 proved in this project and four are supplied by Mathlib. The active §I.7
@@ -68,12 +73,12 @@ reducible-curve leaves remain. It includes only the earlier exercises required
 by the running proofs; the optional generic-line exercise chain remains out of
 scope.
 
-The 441-leaf Chapter II milestone covers sheaves, spectra, schemes,
+The 442-leaf Chapter II milestone covers sheaves, spectra, schemes,
 projective spectra, the classical-variety comparison, first properties,
 subschemes, dimension, fibre products, separatedness, properness, projective
 morphisms, modules, divisors and Picard groups, linear systems, relative Proj,
 projective bundles, blowups, differentials, canonical sheaves, and lci geometry.
-Ninety-nine leaves are exact pinned-Mathlib results; the other 342 are planned
+Ninety-nine leaves are exact pinned-Mathlib results; the other 343 are planned
 project wrappers, representation bridges, or missing theorems.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
