@@ -8,9 +8,11 @@ This is the approved coarse plan for a full pass over the rest of Hartshorne.
 The 163 leaves through Corollary I.6.12 are formalized, and §I.7 has a 50-leaf
 [fine roadmap](../intersections-projective-space/README.md), with 47 leaves
 formalized and three remaining. Section I.8 has been dispositioned claim by
-claim. Chapters II–V and Appendices A–C remain explicit deferred milestones in
-the [coverage contract](../../coverage/README.md) until their turn for fine
-source and Mathlib work.
+claim. Chapter II §§1–3 now have a 137-leaf
+[fine roadmap](../schemes/README.md), with 70 exact pinned-Mathlib leaves and
+67 project targets. The rest of Chapters II–V and Appendices A–C remain
+explicit deferred milestones in the [coverage contract](../../coverage/README.md)
+until their turn for fine source and Mathlib work.
 
 The intended full-pass policy is to cover the running mathematical text, adopt
 exercises only when later included text depends on them, inventory expository
@@ -48,7 +50,7 @@ survey sentence alone is not used as a proof specification.
 
 | Milestone | Source | Goal | Primary prerequisites |
 | --- | --- | --- | --- |
-| II-A | §§II.1–3, pp. 60–94 | Sheaves, `Spec`, `Proj`, schemes, morphisms, subschemes, products, and first properties | Commutative algebra and topology; audit exact Mathlib scheme APIs |
+| II-A | §§II.1–3, pp. 60–95 | [Fine roadmap](../schemes/README.md): sheaves, `Spec`, `Proj`, schemes, morphisms, subschemes, products, and first properties | Complete source/API pass: 70 exact Mathlib leaves and 67 project targets |
 | II-B | §II.4, pp. 95–107 | Separated and proper morphisms and valuative criteria | II-A |
 | II-C | §II.5, pp. 108–128 | Quasi-coherent and coherent modules | II-A |
 | II-D | §§II.6–7, pp. 129–171 | Divisors, Picard groups, linear systems, ampleness, projective bundles, and blowups | II-B and II-C |

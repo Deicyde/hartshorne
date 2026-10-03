@@ -1,0 +1,24 @@
+---
+declaration: theorem
+origin: cited
+source_units: [chapter-ii-sections-1-3]
+---
+
+# Finite-type morphisms compose
+
+The composite of two morphisms of finite type is finite type.
+
+Compose the `LocallyOfFiniteType` instances and the `QuasiCompact` instances separately.
+
+## Depends on
+
+- [Morphisms of finite type](finite-type.md)
+
+## Proof depends on
+
+- Composition stability of finite-type ring maps and compact preimages.
+
+## Sources
+
+- [Hartshorne II.3 (finite-type-and-finite-morphisms)](../../../sources/hartshorne-ii-3.md#finite-type-and-finite-morphisms)
+

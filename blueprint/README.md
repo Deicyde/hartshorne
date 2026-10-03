@@ -65,10 +65,12 @@ uses the existing separable normalization charts but imposes no separability
 hypothesis on the function field.
 
 The completion, Cohen-structure, and analytic-isomorphism material later in
-§I.5 is deferred. Section I.7 has a fine DAG, and §I.8 has a claim-by-claim
-survey disposition. Chapters II–V and Appendices A–C retain approved coarse
-milestones and are deferred in that order. Reference apparatus and
-already-dispositioned non-target material remain out of scope.
+§I.5 is deferred. Section I.7 has a fine DAG, §I.8 has a claim-by-claim
+survey disposition, and Chapter II §§1–3 have a 137-leaf scheme-foundations
+DAG with 70 exact pinned-Mathlib results. The rest of Chapters II–V and
+Appendices A–C retain approved coarse milestones and are deferred in that
+order. Reference apparatus and already-dispositioned non-target material
+remain out of scope.
 
 - [Roadmap](roadmap/README.md) — the book: chapters, statements, and their
   dependencies.
