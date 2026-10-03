@@ -464,7 +464,7 @@ Chapter IV, printed pp. 293–355, with an editorial introduction on p. 293.
 | --- | --- | --- |
 | IV-A: Riemann–Roch and ramification | §§1–2, pp. 294–306 | Divisors on curves, Riemann–Roch, morphisms of curves, ramification, and Hurwitz |
 | IV-B: projective embeddings | §3, pp. 307–316 | Linear systems, embeddings, nodal plane models, and later-used exercises |
-| IV-C: elliptic curves | §4, pp. 316–339 | Genus-one curves, group laws, isogenies, and the classification of elliptic curves |
+| IV-C: elliptic curves | §4, pp. 316–340 | Genus-one curves, group laws, isogenies, Jacobians, analytic uniformization, Hasse invariants, rational points, and exercises |
 | IV-D: canonical and space curves | §§5–6, pp. 340–355 | Canonical embeddings, Clifford's theorem, and curves in projective three-space |
 
 The analytic background labelled 4.12B–4.15B requires a separately adopted

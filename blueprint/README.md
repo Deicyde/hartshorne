@@ -68,9 +68,9 @@ The completion, Cohen-structure, and analytic-isomorphism material later in
 §I.5 is deferred. Section I.7 has a fine DAG, §I.8 has a claim-by-claim
 survey disposition, and all of Chapter II has a 443-leaf fine DAG with 99 exact
 pinned-Mathlib results. All of Chapter III has a 286-leaf fine roadmap with
-nineteen exact Mathlib results. Chapter IV §§1–3 has a 77-leaf fine roadmap
-with one exact Mathlib result, plus five reactivated earlier-exercise
-prerequisites; Chapter IV §§4–6, Chapter V, and Appendices A–C retain approved
+nineteen exact Mathlib results. Chapter IV §§1–4 has a 152-leaf fine roadmap
+with two exact Mathlib results, plus five reactivated earlier-exercise
+prerequisites; Chapter IV §§5–6, Chapter V, and Appendices A–C retain approved
 coarse milestones and are deferred in that
 order. Reference apparatus and already-dispositioned non-target material
 remain out of scope.

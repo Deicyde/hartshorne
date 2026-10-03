@@ -12,9 +12,9 @@ claim. Chapter II now has a 443-leaf
 [fine roadmap](../schemes/README.md), with 99 exact pinned-Mathlib leaves and
 344 project targets. All of Chapter III has a 286-leaf
 [fine roadmap](../cohomology/README.md), with 19 exact Mathlib leaves and 267
-project targets. Chapter IV §§1–3 has a 77-leaf [fine roadmap](../curves/README.md),
-with one exact Mathlib leaf and 76 project targets, plus five reactivated
-earlier-exercise prerequisites. Chapter IV §§4–6, Chapter V, and Appendices A–C remain
+project targets. Chapter IV §§1–4 has a 152-leaf [fine roadmap](../curves/README.md),
+with two exact Mathlib leaves and 150 project targets, plus five reactivated
+earlier-exercise prerequisites. Chapter IV §§5–6, Chapter V, and Appendices A–C remain
 explicit deferred milestones in the [coverage contract](../../coverage/README.md)
 until their turn for fine source and Mathlib work.
 
@@ -78,7 +78,7 @@ survey sentence alone is not used as a proof specification.
 | --- | --- | --- | --- |
 | IV-A | §§IV.1–2, pp. 294–306 | [Fine roadmap](../curves/README.md): Riemann–Roch, morphisms of curves, ramification, Frobenius, and Hurwitz | Complete source/API pass: 46 project targets, one exact Mathlib target, three reactivated prerequisites, and one source-blocked node |
 | IV-B | §IV.3, pp. 307–316 | [Fine roadmap](../curves/projective-embeddings/README.md): linear systems, projections, strange curves, nodal plane models, and Severi loci | Complete source/API pass: 30 project targets, two reactivated prerequisites, and one Harris source blocker |
-| IV-C | §IV.4, pp. 316–339 | Elliptic curves, group laws, isogenies, and classification | IV-A; source the analytic results 4.12B–4.15B |
+| IV-C | §IV.4, pp. 316–340 | [Fine roadmap](../curves/elliptic-curves/README.md): elliptic curves, group laws, Jacobians, uniformization, complex multiplication, Hasse invariants, and rational points | Complete source/API pass: 74 project targets, one exact Mathlib target, and nine explicit source/representation blockers |
 | IV-D | §§IV.5–6, pp. 340–355 | Canonical curves, Clifford's theorem, and space curves | IV-A and IV-B |
 
 ## Chapter V: surfaces
