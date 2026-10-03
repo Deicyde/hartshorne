@@ -128,8 +128,8 @@ The exercises themselves are printed on pp. 79–82.
   affineness criterion on pp. 215–216.
 - **2.18(a,c):** `D(f)` is empty iff `f` is nilpotent, and a surjective ring map
   induces a closed immersion of spectra with surjective structure-sheaf map.
-  Used on pp. 82 and 85.  Parts (b),(d) are not adopted by the running-text
-  rule.
+  Used on pp. 82 and 85, and again for nilpotence in Proposition II.9.5 on
+  p. 197. Parts (b),(d) are not adopted by the running-text rule.
 - **2.19:** disconnected spectrum, a nontrivial orthogonal-idempotent
   decomposition, and a nontrivial product decomposition of the ring are
   equivalent.  Used in Theorem III.11.3 on p. 280, immediately before

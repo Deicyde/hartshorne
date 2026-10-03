@@ -8,9 +8,9 @@ This is the approved coarse plan for a full pass over the rest of Hartshorne.
 The 163 leaves through Corollary I.6.12 are formalized, and §I.7 has a 50-leaf
 [fine roadmap](../intersections-projective-space/README.md), with 47 leaves
 formalized and three remaining. Section I.8 has been dispositioned claim by
-claim. Chapter II §§1–8 now have a 401-leaf
-[fine roadmap](../schemes/README.md), with 95 exact pinned-Mathlib leaves and
-306 project targets. Chapter II §9, Chapters III–V, and Appendices A–C remain
+claim. Chapter II now has a 441-leaf
+[fine roadmap](../schemes/README.md), with 99 exact pinned-Mathlib leaves and
+342 project targets. Chapters III–V and Appendices A–C remain
 explicit deferred milestones in the [coverage contract](../../coverage/README.md)
 until their turn for fine source and Mathlib work.
 
@@ -55,16 +55,16 @@ survey sentence alone is not used as a proof specification.
 | II-C | §II.5, pp. 109–129 | [Fine roadmap](../schemes/README.md): quasi-coherent and coherent modules, projective sheaf machinery, relative Spec, and vector bundles | Complete source/API pass: 9 exact Mathlib leaves and 60 project targets |
 | II-D | §§II.6–7, pp. 129–172 | [Fine roadmap](../schemes/README.md): divisors, Picard groups, K-theory, ampleness, relative Proj, projective bundles, and blowups | Complete source/API pass: 87 project targets and explicit external-source obligations |
 | II-E | §II.8, pp. 172–190 | [Fine roadmap](../schemes/differentials/README.md): differentials, nonsingularity, Bertini, canonical sheaves, Cohen–Macaulay and lci geometry | Complete source/API pass: 5 exact Mathlib leaves, 68 project targets, and 5 explicit source-blocked nodes |
-| II-F | §II.9, pp. 190–200 | Completions and formal schemes | II-A and II-C; later needed by III-F and V-C |
+| II-F | §II.9, pp. 190–200 | [Fine roadmap](../schemes/formal-schemes/README.md): inverse systems, adic completions, formal neighborhoods, and coherent formal modules | Complete source/API pass: 4 exact Mathlib leaves, 36 project targets, and one source-blocked node |
 
 ## Chapter III: cohomology
 
 | Milestone | Source | Goal | Primary prerequisites |
 | --- | --- | --- | --- |
-| III-A | §§III.1–4, pp. 202–224 | Derived functors, sheaf cohomology, affine vanishing, and Čech cohomology | II-A and II-C; external source for quoted homological algebra |
+| III-A | §§III.1–4, pp. 202–224 | Derived functors, sheaf cohomology, affine vanishing, and Čech cohomology | II-A, II-C, and II-F; external source for quoted homological algebra |
 | III-B | §III.5, pp. 225–232 | Projective-space cohomology and coherent finiteness | III-A and II-D |
 | III-C | §§III.6–7, pp. 233–249 | Ext and Serre duality | III-A and III-B |
-| III-D | §§III.8–9, pp. 250–267 | Higher direct images, flat families, and Hilbert polynomials | III-A, III-B, and II-C |
+| III-D | §§III.8–9, pp. 250–267 | Higher direct images, flat families, and Hilbert polynomials | III-A, III-B, II-C, and II-F |
 | III-E | §III.10, pp. 268–275 | Smooth morphisms, generic smoothness, and Bertini | II-E and III-A |
 | III-F | §§III.11–12, pp. 276–292 | Formal functions, Zariski's Main Theorem, Stein factorization, semicontinuity, and base change | II-F and III-D |
 
@@ -83,7 +83,7 @@ survey sentence alone is not used as a proof specification.
 | --- | --- | --- | --- |
 | V-A | §V.1, pp. 357–368 | Surface intersection theory, adjunction, Riemann–Roch, Hodge index, and Nakai | II-D and III-C |
 | V-B | §V.2, pp. 369–385 | Ruled surfaces | V-A and IV curve theory |
-| V-C | §V.3, pp. 386–394 | Blowups and resolution steps | II-F and V-A |
+| V-C | §V.3, pp. 386–394 | Blowups and resolution steps | II-F, III-F, and V-A |
 | V-D | §V.4, pp. 395–408 | Cubic surfaces and the 27 lines | V-A and V-C |
 | V-E | §V.5, pp. 409–420 | Birational factorization, contraction, and minimal models | V-B through V-D |
 | V-F | §V.6, pp. 421–423 | Classification survey | Split proved claims from survey assertions and source each retained claim |

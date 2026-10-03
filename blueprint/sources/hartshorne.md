@@ -424,8 +424,8 @@ remains outside the fine scope under the standing exercise policy. The other
 ## II schemes
 
 Chapter II, printed pp. 60–200. Its scheme-theoretic language is the main
-foundation for every later chapter. Milestones II-A and II-B now have fine
-source/DAG passes; the remaining milestones retain dependency-ordered scope.
+foundation for every later chapter. All six dependency-ordered milestones now
+have fine source, pinned-Mathlib, and theorem-DAG passes.
 
 | Milestone | Sections and pages | Mathematical content |
 | --- | --- | --- |
@@ -434,9 +434,9 @@ source/DAG passes; the remaining milestones retain dependency-ordered scope.
 | II-C: sheaves of modules | §5, pp. 109–129 | Quasi-coherent and coherent modules, exactness, finite presentation, projective sheaf machinery, relative Spec, and vector bundles |
 | II-D: divisors and projective geometry | §§6–7, pp. 129–172 | Weil and Cartier divisors, Picard and class groups, K-theory, linear systems, ampleness, relative Proj, projective bundles, and blowups |
 | II-E: differentials and regularity | §8, pp. 172–190 | Kähler differentials, nonsingularity, Bertini, canonical sheaves, Cohen–Macaulay and lci geometry, and adopted later-used exercises |
-| II-F: formal schemes | §9, pp. 190–200 | Completions and formal schemes, needed later by formal functions and surface resolution |
+| II-F: formal schemes | §9, pp. 190–200 | Inverse systems, adic completions, formal neighborhoods and schemes, coherent formal modules, and later formal-functions prerequisites |
 
-The chapter introduction on p. 60 is editorial context. Detailed II.1–II.4
+The chapter introduction on p. 60 is editorial context. Detailed II.1–II.9
 notes record running text, later-used exercises, exact pinned-Mathlib matches,
 and representation gaps. Later milestones receive the same source audit before
 any leaf is marked as supplied upstream.
