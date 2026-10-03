@@ -1,7 +1,6 @@
 ---
 declaration: theorem
-origin: cited
-not_ready: true
+origin: bridged
 ---
 
 # Hirzebruch–Riemann–Roch and the surface Noether formula
@@ -19,16 +18,15 @@ and hence to the Noether formula
 
 `12*(1+p_a(X))=K^2+c_2(X)`.
 
-The node is deliberately untagged until Appendix A is finely inventoried.
+This is the surface specialization of the general Appendix A theorem; it is
+derivatively blocked until that HRR source root is ready.
 
 ## Depends on
 
-- No adopted proof-level Appendix A intersection-theory, Chern-class, and
-  Hirzebruch–Riemann–Roch stack is available yet.
+- [Hirzebruch–Riemann–Roch](../../intersection-theory/riemann-roch/characteristic-classes/hirzebruch-riemann-roch.md)
+- [Low-degree Chern-character and Todd expansions](../../intersection-theory/riemann-roch/characteristic-classes/chern-todd-low-degree-expansions.md)
 
 ## Sources
 
 - [Hartshorne V.1, Remark 1.6.1, p.363](../../../sources/hartshorne-v-1.md#surface-riemannroch-printed-pp362363)
-- Hartshorne Appendix A, Theorem 4.1 and Example 4.1.2, pp.432–433.
-- Borel–Serre [1], the algebraic generalized Riemann–Roch source cited by
-  Hartshorne.
+- [Hartshorne Appendix A, Theorem 4.1 and Example 4.1.2, pp.432–433](../../../sources/hartshorne-appendix-a-4-5.md#hirzebruchriemannroch-and-specializations-printed-pp432434)

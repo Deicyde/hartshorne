@@ -42,3 +42,6 @@ Detailed source and Mathlib audits for the active Chapter II milestones:
 - [Hartshorne V.4: cubic surfaces and the 27 lines](hartshorne-v-4.md)
 - [Hartshorne V.5: birational transformations and minimal models](hartshorne-v-5.md)
 - [Hartshorne V.6: numerical classification of surfaces](hartshorne-v-6.md)
+- [Hartshorne Appendix A §§1–2: Chow groups and intersection products](hartshorne-appendix-a-1-2.md)
+- [Hartshorne Appendix A §3: Chern classes](hartshorne-appendix-a-3.md)
+- [Hartshorne Appendix A §§4–5: Riemann–Roch and generalizations](hartshorne-appendix-a-4-5.md)

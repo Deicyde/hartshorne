@@ -17,7 +17,9 @@ with two exact Mathlib leaves and 199 project targets, plus five reactivated
 earlier-exercise prerequisites. All of Chapter V has a 230-leaf
 [fine roadmap](../surfaces/README.md), with one exact Mathlib leaf and 229 project
 targets, plus two reactivated III.7 prerequisites, one II.8 prerequisite,
-two I.5 prerequisites, and one forward Appendix A prerequisite. Appendices A–C remain
+two I.5 prerequisites, and one Appendix A HRR prerequisite. Appendix A has a
+72-leaf [fine roadmap](../intersection-theory/README.md), all project targets.
+Appendices B–C remain
 explicit deferred milestones in the [coverage contract](../../coverage/README.md)
 until their turn for fine source and Mathlib work.
 
@@ -88,7 +90,7 @@ survey sentence alone is not used as a proof specification.
 
 | Milestone | Source | Goal | Primary prerequisites |
 | --- | --- | --- | --- |
-| V-A | §V.1, pp. 357–368 | [Fine roadmap](../surfaces/README.md): surface intersection theory, adjunction, Riemann–Roch, Hodge index, and Nakai | Complete source/API pass: 42 project targets, one exact Mathlib target, two reactivated III.7 prerequisites, one forward Appendix A blocker, and two section source blockers |
+| V-A | §V.1, pp. 357–368 | [Fine roadmap](../surfaces/README.md): surface intersection theory, adjunction, Riemann–Roch, Hodge index, and Nakai | Complete source/API pass: 42 project targets, one exact Mathlib target, two reactivated III.7 prerequisites, one Appendix A HRR blocker, and two section source blockers |
 | V-B | §V.2, pp. 369–385 | [Fine roadmap](../surfaces/ruled-surfaces/README.md): ruled surfaces, normalized bundles, scrolls, and ample cones | Complete source/API pass: 48 project targets, one reactivated II.8 prerequisite, two explicit source blockers, and an inherited projective-bundle blocker |
 | V-C | §V.3, pp. 386–395 | [Fine roadmap](../surfaces/monoidal-transformations/README.md): point blowups, exceptional curves, strict transforms, and embedded curve resolution | Complete source/API pass: 32 project targets and one reactivated I.5 analytic-classification blocker |
 | V-D | §V.4, pp. 395–409 | [Fine roadmap](../surfaces/cubic-surfaces/README.md): assigned systems, Del Pezzo blowups, the 27 lines, and ample cones | Complete source/API pass: 42 project targets and four explicit source blockers |
@@ -99,9 +101,9 @@ survey sentence alone is not used as a proof specification.
 
 | Milestone | Source | Goal | Primary prerequisites or source obligations |
 | --- | --- | --- | --- |
-| A-A | Appendix A §§1–2, pp. 424–429 | Chow groups and intersection products | II-D; Hartshorne gives an outline, so adopt cited proof sources |
-| A-B | Appendix A §3, pp. 429–431 | Chern classes and self-intersection | A-A and II-E |
-| A-C | Appendix A §§4–5, pp. 431–437 | Hirzebruch–Riemann–Roch, positivity, Hodge index, and Grothendieck–Riemann–Roch | A-B, III, IV-A, and V-A; adopt external sources |
+| A-A | Appendix A §§1–2, pp. 424–429 | [Fine roadmap](../intersection-theory/README.md): cycles, rational equivalence, Chow groups, and intersection products | Complete source/API pass: 29 section targets plus Exercises 6.2–6.3 and explicit outline-source blockers |
+| A-B | Appendix A §3, pp. 429–431 | [Fine roadmap](../intersection-theory/chern-classes/README.md): Chern classes, zero loci, and self-intersection | Complete source/API pass: 15 section targets plus Exercise 6.6 and four explicit source blockers |
+| A-C | Appendix A §§4–5, pp. 431–437 | [Fine roadmap](../intersection-theory/README.md): HRR, positivity, Hodge index, K-theory, GRR, and generalizations | Complete source/API pass: 25 project targets and ten explicit source blockers |
 | B-A | Appendix B §§1–2, pp. 438–441 | Analytification, GAGA, and Chow's theorem | II and III-B; adopt analytic/GAGA sources |
 | B-B | Appendix B §§3–4, pp. 441–446 | Algebraicity and Kähler criteria | B-A, IV, and V; adopt analytic/Hodge sources |
 | B-C | Appendix B §5, pp. 446–448 | Exponential sequence and Picard theory | B-A, III, and IV-C |

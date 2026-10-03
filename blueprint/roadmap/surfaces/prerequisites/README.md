@@ -20,7 +20,7 @@ of I Theorem 5.4A:
 
 - [Regularity is reflected by maximal-adic completion](regular-local-iff-completion-regular.md)
 
-The Noether formula in Remark V.1.6.1 is delegated forward to Appendix A:
+The Noether formula in Remark V.1.6.1 is now sourced by Appendix A HRR:
 
 - [Hirzebruch–Riemann–Roch and the surface Noether formula](surface-noether-formula-hrr.md)
 
@@ -31,3 +31,4 @@ The Noether formula in Remark V.1.6.1 is delegated forward to Appendix A:
 - [Hartshorne V.2 source notes](../../../sources/hartshorne-v-2.md)
 - [Hartshorne V.3 source notes](../../../sources/hartshorne-v-3.md)
 - [Hartshorne V.5 source notes](../../../sources/hartshorne-v-5.md)
+- [Hartshorne Appendix A §§4–5 source notes](../../../sources/hartshorne-appendix-a-4-5.md)

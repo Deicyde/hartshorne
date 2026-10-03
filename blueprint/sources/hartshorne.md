@@ -498,10 +498,10 @@ full proofs of every deep result.
 | A-B: Chern classes | §3, pp. 429–431 | Chern classes, the splitting principle, zero loci, and self-intersection |
 | A-C: Riemann–Roch and generalizations | §§4–5, pp. 431–437 | Chern character, Todd class, Hirzebruch–Riemann–Roch, Nakai–Moishezon, Hodge index, and Grothendieck–Riemann–Roch |
 
-Appendix C uses Exercise A.6.6's diagonal-self-intersection/top-Chern identity,
-so that exercise is a prospective dependency under the existing exercise
-policy. Fine planning for the deepest theorems needs the external sources that
-Hartshorne cites rather than this outline alone.
+Exercises A.6.2, A.6.3, and A.6.6 are adopted for proper pushforward,
+projective-space Chow groups, and Appendix C's diagonal/top-Chern identity.
+The remaining exercises are out under the later-use policy. The deepest
+theorems retain the external sources Hartshorne cites rather than this outline.
 
 ## Appendix B transcendental methods
 

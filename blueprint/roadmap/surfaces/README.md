@@ -5,7 +5,7 @@ algebraically closed field. The fine roadmap covers all of Chapter V, printed
 pp.357–423: 230 section leaves, of which one real-quadratic-form result is
 exact pinned Mathlib and 229 are project targets. Two project prerequisites
 reactivate parts of III Exercise 7.4, one reactivates II Exercise 8.2, two
-reactivate I.5 results, and one forward Appendix A prerequisite records
+reactivate I.5 results, and one Appendix A HRR prerequisite records
 the HRR source of Noether's formula.
 
 - [Intersection theory and adjunction](intersection-theory/foundations/README.md)
