@@ -30,3 +30,5 @@ Detailed source and Mathlib audits for the active Chapter II milestones:
 - [Hartshorne III.9: flat families](hartshorne-iii-9.md)
 - [Hartshorne III.10: smooth morphisms and Bertini](hartshorne-iii-10.md)
 - [Hartshorne III.11–12: formal functions, semicontinuity, and base change](hartshorne-iii-11-12.md)
+- [Hartshorne IV.1: Riemann–Roch on curves](hartshorne-iv-1.md)
+- [Hartshorne IV.2: ramification and Riemann–Hurwitz](hartshorne-iv-2.md)

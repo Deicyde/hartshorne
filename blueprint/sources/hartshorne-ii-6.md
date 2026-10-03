@@ -124,6 +124,10 @@ text.
 - **Exercise 6.2(c), p.146.** Generalized Bezout gives
   `deg(V.X) = deg(V) deg(X)`. IV.3.3.2 uses the resulting equality between the
   degree of a very ample divisor and the degree of its image.
+- **Exercise 6.4, p.147.** If `char k != 2` and `f` is squarefree, the
+  quadratic hypersurface algebra `k[x_1,...,x_n,z]/(z^2-f)` is normal. IV
+  Exercise 2.2(b) uses this to construct the nonsingular double cover with six
+  prescribed branch points.
 - **Exercise 6.8(a), p.148.** Pullback of invertible sheaves induces
   `f* : Pic Y → Pic X`.
 - **Exercise 6.8(b), p.148.** For a finite morphism of nonsingular curves,
@@ -151,7 +155,7 @@ text.
 
 ## Excluded exercises and wider clauses
 
-Exercises 6.1, 6.3–6.7, and 6.9 are excluded: their later citations are
+Exercises 6.1, 6.3, 6.5–6.7, and 6.9 are excluded: their later citations are
 confined to exercises or they are not required by later running text.
 Exercise 6.2(b),(d) and the final class-group diagram are not separate targets;
 only the construction in (a) and Bezout calculation in (c) are adopted.

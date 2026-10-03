@@ -213,14 +213,14 @@ completion scope and is not included in coverage unit
 
 ## I.5 exercises and exercise-only prerequisite
 
-Theorem 5.7A is in the running text on printed p. 35, but Hartshorne introduces
-it only for Exercise 5.15. Neither that background result nor the exercises on
-printed pp. 35–39 are part of the approved scope.
+Theorem 5.7A is in the running text on p. 35, but only for Exercise 5.15.
+Neither it nor the other exercises on pp. 35–39 is in the original scope; only
+Exercise 5.4 is now adopted through the Chapter IV Gauss-map prerequisite.
 
 | Locator | Material | Pages | Disposition |
 | --- | --- | --- | --- |
 | Thm. 5.7A | Elimination theory for common nontrivial zeros of homogeneous polynomials with indeterminate coefficients | 35 | Out of scope; it is introduced only for Exercise 5.15 |
-| Ex. 5.1–5.15 | Singularities, multiplicities, intersection multiplicity, blow-ups, projective Jacobians, tangent spaces, quadrics, normality, analytic singularities, and families of plane curves | 35–39 | Out of scope; the exercises were not adopted |
+| Ex. 5.1–5.15 | Singularities, multiplicities, intersection multiplicity, blow-ups, projective Jacobians, tangent spaces, quadrics, normality, analytic singularities, and families of plane curves | 35–39 | Exercise 5.4's local plane-curve multiplicity is adopted for IV.2.3; all other clauses remain out |
 
 ## I.6 valuation and DVR background
 
@@ -394,22 +394,22 @@ zero in negative degrees and `M(l)ₐ = Mₐ₊ₗ` is literal reindexing. Dimen
 bounds are stated additively because project dimensions use `WithBot ℕ∞`, and
 localized module multiplicities remain `ℕ∞` until finiteness is proved.
 
-## I.7 deferred local-multiplicity comparison
+## I.7 local-multiplicity comparison adopted for Chapter IV
 
 Remark 7.8.1 on p. 54 says that the homogeneous-coordinate intersection
 multiplicity agrees, for plane curves, with the local-ring length defined in
-Exercise 5.4 on p. 36. Hartshorne gives no proof and Exercise 5.4 is not adopted
-by the current main-text exercise policy. This comparison is deferred until a
-local intersection-multiplicity milestone and proof source are approved.
+Exercise 5.4 on p. 36. The local plane-curve statement is now adopted because
+the Gauss-map branch of IV Exercise 2.3 uses it; broader analytic-isomorphism
+claims remain deferred until a proof source is adopted.
 
-## I.7 unadopted classical-degree exercises
+## I.7 adopted dual-curve exercise
 
-Exercise 7.4 on pp. 54–55 proves that a nonempty open set of lines meets a
-degree-`d` plane curve in exactly `d` points. Its hint uses the dual-curve and
-tangent-line construction of Exercise 7.3 and the local multiplicity of
-Exercise 5.4. No later adopted running-text proof depends on this chain, so it
-remains outside the fine scope under the standing exercise policy. The other
-§7 exercises remain outside for the same reason.
+Exercise 7.3 on p. 54 constructs the dual curve and tangent morphism. It is
+now adopted because the Gauss-map branch of IV Exercise 2.3 uses it together
+with the local multiplicity from Exercise 5.4.
+
+## I.7 remaining classical-degree exercises
+Exercises 7.1–7.2 and 7.4–7.8 remain outside the fine scope.
 
 ## I.8 what is algebraic geometry?
 

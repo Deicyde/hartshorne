@@ -8,11 +8,13 @@ This is the approved coarse plan for a full pass over the rest of Hartshorne.
 The 163 leaves through Corollary I.6.12 are formalized, and §I.7 has a 50-leaf
 [fine roadmap](../intersections-projective-space/README.md), with 47 leaves
 formalized and three remaining. Section I.8 has been dispositioned claim by
-claim. Chapter II now has a 442-leaf
+claim. Chapter II now has a 443-leaf
 [fine roadmap](../schemes/README.md), with 99 exact pinned-Mathlib leaves and
-343 project targets. All of Chapter III has a 286-leaf
+344 project targets. All of Chapter III has a 286-leaf
 [fine roadmap](../cohomology/README.md), with 19 exact Mathlib leaves and 267
-project targets. Chapters IV–V and Appendices A–C remain
+project targets. Chapter IV §§1–2 has a 47-leaf [fine roadmap](../curves/README.md),
+with one exact Mathlib leaf and 46 project targets, plus three reactivated
+earlier-exercise prerequisites. Chapter IV §§3–6, Chapter V, and Appendices A–C remain
 explicit deferred milestones in the [coverage contract](../../coverage/README.md)
 until their turn for fine source and Mathlib work.
 
@@ -55,7 +57,7 @@ survey sentence alone is not used as a proof specification.
 | II-A | §§II.1–3, pp. 60–95 | [Fine roadmap](../schemes/README.md): sheaves, `Spec`, `Proj`, schemes, morphisms, subschemes, products, and first properties | Complete source/API pass: 70 exact Mathlib leaves and 67 project targets |
 | II-B | §II.4, pp. 95–108 | [Fine roadmap](../schemes/README.md): separated, proper, and projective morphisms and valuative criteria | Complete source/API pass: 11 exact Mathlib leaves and 24 project targets |
 | II-C | §II.5, pp. 109–129 | [Fine roadmap](../schemes/README.md): quasi-coherent and coherent modules, projective sheaf machinery, relative Spec, and vector bundles | Complete source/API pass: 9 exact Mathlib leaves and 60 project targets |
-| II-D | §§II.6–7, pp. 129–172 | [Fine roadmap](../schemes/README.md): divisors, Picard groups, K-theory, ampleness, relative Proj, projective bundles, and blowups | Complete source/API pass: 87 project targets and explicit external-source obligations |
+| II-D | §§II.6–7, pp. 129–172 | [Fine roadmap](../schemes/README.md): divisors, Picard groups, K-theory, ampleness, relative Proj, projective bundles, and blowups | Complete source/API pass: 88 project targets and explicit external-source obligations |
 | II-E | §II.8, pp. 172–190 | [Fine roadmap](../schemes/differentials/README.md): differentials, nonsingularity, Bertini, canonical sheaves, Cohen–Macaulay and lci geometry | Complete source/API pass: 5 exact Mathlib leaves, 68 project targets, and 5 explicit source-blocked nodes |
 | II-F | §II.9, pp. 190–200 | [Fine roadmap](../schemes/formal-schemes/README.md): inverse systems, adic completions, formal neighborhoods, and coherent formal modules | Complete source/API pass: 4 exact Mathlib leaves, 36 project targets, and one source-blocked node |
 
@@ -74,7 +76,7 @@ survey sentence alone is not used as a proof specification.
 
 | Milestone | Source | Goal | Primary prerequisites |
 | --- | --- | --- | --- |
-| IV-A | §§IV.1–2, pp. 294–306 | Riemann–Roch, morphisms of curves, ramification, and Hurwitz | II-D, II-E, and III-C |
+| IV-A | §§IV.1–2, pp. 294–306 | [Fine roadmap](../curves/README.md): Riemann–Roch, morphisms of curves, ramification, Frobenius, and Hurwitz | Complete source/API pass: 46 project targets, one exact Mathlib target, three reactivated prerequisites, and one source-blocked node |
 | IV-B | §IV.3, pp. 307–315 | Linear systems, projective embeddings, and nodal plane models | IV-A |
 | IV-C | §IV.4, pp. 316–339 | Elliptic curves, group laws, isogenies, and classification | IV-A; source the analytic results 4.12B–4.15B |
 | IV-D | §§IV.5–6, pp. 340–355 | Canonical curves, Clifford's theorem, and space curves | IV-A and IV-B |

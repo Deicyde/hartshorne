@@ -65,8 +65,9 @@ Read the [coverage contract](../coverage/README.md) before reading progress off
 this book: §§1–4, the geometric core of §5 through Theorem 5.3, and §6 through
 Corollary 6.12 are decomposed here. The completion material later in §5 is
 deferred; §I.7 is finely decomposed, §I.8 is dispositioned claim by claim,
-Chapter II has a fine schemes DAG, and all of Chapter III has a fine
-cohomology DAG. Chapters IV–V and Appendices A–C are
+Chapter II has a fine schemes DAG, all of Chapter III has a fine cohomology
+DAG, and Chapter IV §§1–2 has a fine curves DAG. Chapter IV §§3–6, Chapter V,
+and Appendices A–C are
 approved coarse milestones deferred
 until their turn. The complete source partition is recorded in the
 [source notes](../sources/hartshorne.md).
@@ -104,5 +105,7 @@ until their turn. The complete source partition is recorded in the
 - [Cohomology](cohomology/README.md) — Hartshorne Chapter III: derived
   functors, sheaf and projective cohomology, duality, families, smoothness,
   formal functions, semicontinuity, and base change.
+- [Curves](curves/README.md) — Hartshorne IV.1–2: Riemann–Roch, ramification,
+  Riemann–Hurwitz, Frobenius, and later-used exercises.
 - [Remaining-book roadmap](remaining-book/README.md) — approved coarse
-  milestones for Chapters IV–V and Appendices A–C.
+  milestones for Chapter IV §§3–6, Chapter V, and Appendices A–C.
