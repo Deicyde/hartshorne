@@ -1,13 +1,13 @@
 # Scheme foundations
 
 Hartshorne Chapter II replaces embedded varieties by locally ringed spaces
-glued from affine spectra. This fine milestone covers §§II.1–7 (printed
-pp. 60–172): sheaves and stalks, `Spec` and `Proj`, schemes and their morphisms,
+glued from affine spectra. This fine milestone covers §§II.1–8 (printed
+pp. 60–190): sheaves and stalks, `Spec` and `Proj`, schemes and their morphisms,
 the first local and finiteness properties, subschemes, dimension, fibre
 products, separatedness, properness, projective morphisms, quasi-coherent and
 coherent modules, divisors, Picard groups, linear systems, projective bundles,
-blowups, base change, and the normalization prerequisites used later in the
-book.
+blowups, differentials, canonical sheaves, lci geometry, base change, and the
+normalization prerequisites used later in the book.
 
 The roadmap follows Mathlib's categorical representations rather than adding
 parallel foundations. Presheaves and sheaves are functors on opens, schemes are
@@ -56,6 +56,10 @@ than becoming artificial proof targets.
 - [Weil and Cartier divisors, Picard groups, and K-theory](divisors/README.md)
 - [Linear systems, ampleness, projective bundles, and blowups](projective-geometry/README.md)
 
+## Differentials and regularity
+
+- [Differentials, nonsingularity, canonical sheaves, and lci geometry](differentials/README.md)
+
 ## Sources
 
 - [Hartshorne II.1 source notes](../../sources/hartshorne-ii-1.md)
@@ -65,3 +69,4 @@ than becoming artificial proof targets.
 - [Hartshorne II.5 source notes](../../sources/hartshorne-ii-5.md)
 - [Hartshorne II.6 source notes](../../sources/hartshorne-ii-6.md)
 - [Hartshorne II.7 source notes](../../sources/hartshorne-ii-7.md)
+- [Hartshorne II.8 source notes](../../sources/hartshorne-ii-8.md)

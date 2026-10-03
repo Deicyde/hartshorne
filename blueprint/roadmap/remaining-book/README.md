@@ -8,9 +8,9 @@ This is the approved coarse plan for a full pass over the rest of Hartshorne.
 The 163 leaves through Corollary I.6.12 are formalized, and §I.7 has a 50-leaf
 [fine roadmap](../intersections-projective-space/README.md), with 47 leaves
 formalized and three remaining. Section I.8 has been dispositioned claim by
-claim. Chapter II §§1–7 now have a 328-leaf
-[fine roadmap](../schemes/README.md), with 90 exact pinned-Mathlib leaves and
-238 project targets. Chapter II §§8–9, Chapters III–V, and Appendices A–C remain
+claim. Chapter II §§1–8 now have a 401-leaf
+[fine roadmap](../schemes/README.md), with 95 exact pinned-Mathlib leaves and
+306 project targets. Chapter II §9, Chapters III–V, and Appendices A–C remain
 explicit deferred milestones in the [coverage contract](../../coverage/README.md)
 until their turn for fine source and Mathlib work.
 
@@ -54,7 +54,7 @@ survey sentence alone is not used as a proof specification.
 | II-B | §II.4, pp. 95–108 | [Fine roadmap](../schemes/README.md): separated, proper, and projective morphisms and valuative criteria | Complete source/API pass: 11 exact Mathlib leaves and 24 project targets |
 | II-C | §II.5, pp. 109–129 | [Fine roadmap](../schemes/README.md): quasi-coherent and coherent modules, projective sheaf machinery, relative Spec, and vector bundles | Complete source/API pass: 9 exact Mathlib leaves and 60 project targets |
 | II-D | §§II.6–7, pp. 129–172 | [Fine roadmap](../schemes/README.md): divisors, Picard groups, K-theory, ampleness, relative Proj, projective bundles, and blowups | Complete source/API pass: 87 project targets and explicit external-source obligations |
-| II-E | §II.8, pp. 172–189 | Differentials, regularity, canonical sheaves, and Bertini | II-B and II-C |
+| II-E | §II.8, pp. 172–190 | [Fine roadmap](../schemes/differentials/README.md): differentials, nonsingularity, Bertini, canonical sheaves, Cohen–Macaulay and lci geometry | Complete source/API pass: 5 exact Mathlib leaves, 68 project targets, and 5 explicit source-blocked nodes |
 | II-F | §II.9, pp. 190–200 | Completions and formal schemes | II-A and II-C; later needed by III-F and V-C |
 
 ## Chapter III: cohomology

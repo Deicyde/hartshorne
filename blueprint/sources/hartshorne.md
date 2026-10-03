@@ -433,7 +433,7 @@ source/DAG passes; the remaining milestones retain dependency-ordered scope.
 | II-B: separated and proper morphisms | §4, pp. 95–108 | Diagonals, separatedness, properness, projective morphisms, and valuative criteria |
 | II-C: sheaves of modules | §5, pp. 109–129 | Quasi-coherent and coherent modules, exactness, finite presentation, projective sheaf machinery, relative Spec, and vector bundles |
 | II-D: divisors and projective geometry | §§6–7, pp. 129–172 | Weil and Cartier divisors, Picard and class groups, K-theory, linear systems, ampleness, relative Proj, projective bundles, and blowups |
-| II-E: differentials and regularity | §8, pp. 172–189 | Kähler differentials, nonsingularity, tangent spaces, canonical sheaves, and Bertini-type results |
+| II-E: differentials and regularity | §8, pp. 172–190 | Kähler differentials, nonsingularity, Bertini, canonical sheaves, Cohen–Macaulay and lci geometry, and adopted later-used exercises |
 | II-F: formal schemes | §9, pp. 190–200 | Completions and formal schemes, needed later by formal functions and surface resolution |
 
 The chapter introduction on p. 60 is editorial context. Detailed II.1–II.4

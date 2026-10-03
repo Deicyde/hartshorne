@@ -19,3 +19,4 @@ Detailed source and Mathlib audits for the active Chapter II milestones:
 - [Hartshorne II.5: sheaves of modules](hartshorne-ii-5.md)
 - [Hartshorne II.6: divisors](hartshorne-ii-6.md)
 - [Hartshorne II.7: projective geometry](hartshorne-ii-7.md)
+- [Hartshorne II.8: differentials and regularity](hartshorne-ii-8.md)
