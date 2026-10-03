@@ -214,13 +214,13 @@ completion scope and is not included in coverage unit
 ## I.5 exercises and exercise-only prerequisite
 
 Theorem 5.7A is in the running text on p. 35, but only for Exercise 5.15.
-Neither it nor the other exercises on pp. 35–39 is in the original scope; only
-Exercise 5.4 is now adopted through the Chapter IV Gauss-map prerequisite.
+The later-use rule now adopts Exercise 5.4, the node clause of 5.6(b), and
+the characteristic-not-two analytic normal form of Exercise 5.14(d).
 
 | Locator | Material | Pages | Disposition |
 | --- | --- | --- | --- |
 | Thm. 5.7A | Elimination theory for common nontrivial zeros of homogeneous polynomials with indeterminate coefficients | 35 | Out of scope; it is introduced only for Exercise 5.15 |
-| Ex. 5.1–5.15 | Singularities, multiplicities, intersection multiplicity, blow-ups, projective Jacobians, tangent spaces, quadrics, normality, analytic singularities, and families of plane curves | 35–39 | Exercise 5.4 is adopted for IV.2.3 and the ordinary-node clause of Exercise 5.6(b) for IV.3; all other clauses remain out |
+| Ex. 5.1–5.15 | Singularities, multiplicities, intersection multiplicity, blow-ups, projective Jacobians, tangent spaces, quadrics, normality, analytic singularities, and families of plane curves | 35–39 | Exercise 5.4 is adopted for IV.2.3, the ordinary-node clause of Exercise 5.6(b) for IV.3, and Exercise 5.14(d) for V.3.9.5; all other clauses remain out |
 
 ## I.6 valuation and DVR background
 
@@ -479,7 +479,7 @@ Chapter V, printed pp. 356–423, with an editorial introduction on p. 356.
 | --- | --- | --- |
 | V-A: intersection theory on surfaces | §1, pp. 357–368 | Intersection numbers, adjunction, Riemann–Roch, the Hodge index theorem, and the Nakai criterion |
 | V-B: ruled surfaces | §2, pp. 369–385 | Ruled surfaces, normalized bundles, sections, and classification over a curve |
-| V-C: monoidal transformations | §3, pp. 386–394 | Blowups, exceptional curves, and resolution steps |
+| V-C: monoidal transformations | §3, pp. 386–395 | Blowups, exceptional curves, strict transforms, embedded resolution, and exercise dispositions |
 | V-D: cubic surfaces | §4, pp. 395–408 | Cubic surfaces, the 27 lines, and related birational constructions |
 | V-E: birational transformations | §5, pp. 409–420 | Factorization, contraction of exceptional curves, and minimal models |
 | V-F: classification survey | §6, pp. 421–423 | The Enriques–Kodaira classification and open directions, largely stated without proof |

@@ -70,9 +70,10 @@ survey disposition, and all of Chapter II has a 444-leaf fine DAG with 99 exact
 pinned-Mathlib results. All of Chapter III has a 288-leaf fine roadmap with
 nineteen exact Mathlib results. All of Chapter IV has a 201-leaf fine roadmap with
 two exact Mathlib results, plus five reactivated earlier-exercise prerequisites.
-Chapter V §§1–2 has a 91-leaf fine roadmap with one exact Mathlib result, plus
-two reactivated III.7 prerequisites, one II.8 prerequisite, and one forward
-Appendix A prerequisite; Chapter V §§3–6 and Appendices A–C retain approved
+Chapter V §§1–3 has a 123-leaf fine roadmap with one exact Mathlib result,
+plus two reactivated III.7 prerequisites, one II.8 prerequisite, one I.5
+prerequisite, and one forward Appendix A prerequisite; Chapter V §§4–6 and
+Appendices A–C retain approved
 coarse milestones and are deferred in that
 order. Reference apparatus and already-dispositioned non-target material
 remain out of scope.
