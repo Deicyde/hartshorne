@@ -23,6 +23,10 @@ projective dimension theorem makes the components points, each of degree one.
 - [A projective point has Hilbert polynomial and degree one](projective-point-degree.md)
 - [The projective dimension theorem](../dimension/projective-dimension-theorem.md)
 
+## Proof depends on
+
+- [A zero-dimensional projective variety is a point](projective-zero-dimensional-variety-point.md)
+
 ## Sources
 
 - [Hartshorne I.7, Corollary 7.8 (p. 54)](../../../sources/hartshorne.md#i7-main-text-and-required-prerequisites)
