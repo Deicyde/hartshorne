@@ -10,9 +10,9 @@ The 163 leaves through Corollary I.6.12 are formalized, and §I.7 has a 50-leaf
 formalized and three remaining. Section I.8 has been dispositioned claim by
 claim. Chapter II now has a 442-leaf
 [fine roadmap](../schemes/README.md), with 99 exact pinned-Mathlib leaves and
-343 project targets. Chapter III §§1–9 has a 228-leaf
-[fine roadmap](../cohomology/README.md), with 19 exact Mathlib leaves and 209
-project targets. Chapter III §§10–12, Chapters IV–V, and Appendices A–C remain
+343 project targets. Chapter III §§1–10 has a 257-leaf
+[fine roadmap](../cohomology/README.md), with 19 exact Mathlib leaves and 238
+project targets. Chapter III §§11–12, Chapters IV–V, and Appendices A–C remain
 explicit deferred milestones in the [coverage contract](../../coverage/README.md)
 until their turn for fine source and Mathlib work.
 
@@ -67,7 +67,7 @@ survey sentence alone is not used as a proof specification.
 | III-B | §III.5, pp. 225–233 | [Fine roadmap](../cohomology/README.md): projective-space cohomology, Serre finiteness/vanishing, ampleness, and Hilbert polynomials | Complete source/API pass: 34 project targets and 7 explicit source-blocked roots |
 | III-C | §§III.6–7, pp. 233–250 | [Fine roadmap](../cohomology/README.md): global and sheaf Ext, dualizing sheaves, Serre duality, residues, and Kodaira's theorem | Complete source/API pass: 5 exact Mathlib leaves, 60 project targets, and 9 explicit source-blocked nodes |
 | III-D | §§III.8–9, pp. 250–268 | [Fine roadmap](../cohomology/README.md): higher direct images, flatness, base change, Hilbert polynomials, families, and deformations | Complete source/API pass: 9 exact Mathlib leaves, 48 project targets, and 9 explicit source-blocked roots |
-| III-E | §III.10, pp. 268–275 | Smooth morphisms, generic smoothness, and Bertini | II-E and III-A |
+| III-E | §III.10, pp. 268–276 | [Fine roadmap](../cohomology/README.md): smooth morphisms, generic smoothness, homogeneous spaces, Kleiman transversality, and Bertini | Complete source/API pass: 29 project targets and one source-blocked PGL-action root |
 | III-F | §§III.11–12, pp. 276–292 | Formal functions, Zariski's Main Theorem, Stein factorization, semicontinuity, and base change | II-F and III-D |
 
 ## Chapter IV: curves

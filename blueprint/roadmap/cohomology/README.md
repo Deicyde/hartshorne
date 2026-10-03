@@ -2,8 +2,10 @@
 
 Hartshorne Chapter III begins by importing homological algebra, defining sheaf
 cohomology as derived global sections, proving affine and Čech comparison
-theorems, and computing projective-space cohomology. This milestone covers
-§§III.1–5 and the retained exercises through printed p.233.
+theorems, computing projective-space cohomology, developing duality and
+families, and reaching smooth morphisms and Bertini. The fine roadmap covers
+§§III.1–10 and the retained exercises through printed p.276: 257 leaves, of
+which 19 are exact pinned-Mathlib results and 238 are project targets.
 
 The roadmap keeps three coefficient categories distinct: abelian sheaves,
 modules over the structure sheaf, and quasi-coherent modules. It also records
@@ -37,6 +39,10 @@ Hartshorne's chosen model.
 - [Higher direct images](higher-direct-images/README.md)
 - [Flat families and Hilbert polynomials](flat-families/README.md)
 
+## Smoothness and Bertini
+
+- [Smooth morphisms, generic smoothness, and Bertini](smooth-morphisms/README.md)
+
 ## Sources
 
 - [Hartshorne III.1–2 source notes](../../sources/hartshorne-iii-1-2.md)
@@ -46,3 +52,4 @@ Hartshorne's chosen model.
 - [Hartshorne III.7 source notes](../../sources/hartshorne-iii-7.md)
 - [Hartshorne III.8 source notes](../../sources/hartshorne-iii-8.md)
 - [Hartshorne III.9 source notes](../../sources/hartshorne-iii-9.md)
+- [Hartshorne III.10 source notes](../../sources/hartshorne-iii-10.md)
