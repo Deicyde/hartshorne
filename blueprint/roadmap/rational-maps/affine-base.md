@@ -2,7 +2,7 @@
 article_id: af_dae717a792f8af7b8c1043d8
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-4]
+source_units: [chapter-i-section-4, chapter-i-section-8-recaps]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Variety.hasAffineOpenBasis_ofQuasiProjective Hartshorne.Variety.hasAffineOpenBasis_ofQuasiAffine Hartshorne.Variety.hasAffineOpenBasis_ofProjective

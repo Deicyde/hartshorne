@@ -2,7 +2,7 @@
 article_id: af_efc666120dfb5881de675ab4
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-4]
+source_units: [chapter-i-section-4, chapter-i-section-8-recaps]
 statement: formalized
 proof: formalized
 lean: Hartshorne.RationalMapFunctionField.bijective_functionFieldAlgHom_of_hasAffineOpenBasis Hartshorne.RationalMapFunctionField.functionFieldFunctor_isEquivalence

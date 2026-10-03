@@ -56,16 +56,17 @@ two for Exercise 3.3(b),(c) and 21 for Proposition 6.8 through Corollary 6.12.
 All are now formalized. The accepted fine roadmap therefore has 163 complete
 leaves: 159 proved in this project and four supplied by Mathlib.
 
-The next fine milestone is Hartshorne §I.7. Its 42 planned leaves develop the
-affine and projective dimension theorems, integer-graded Hilbert theory,
-projective degree, and Bézout, bringing the graph to 205 formalizable leaves.
+Hartshorne §I.7 has a 50-leaf fine roadmap developing the affine and projective
+dimension theorems, integer-graded Hilbert theory, projective degree, and
+Bézout. Forty-seven leaves are formalized and three remain; exact aggregate
+progress is derived from the graph.
 
 Read the [coverage contract](../coverage/README.md) before reading progress off
 this book: §§1–4, the geometric core of §5 through Theorem 5.3, and §6 through
 Corollary 6.12 are decomposed here. The completion material later in §5 is
-deferred; §I.7 is now finely decomposed; §I.8, Chapters II–V, and Appendices
-A–C are approved coarse milestones deferred until their turn. The complete
-source partition is recorded in the
+deferred; §I.7 is finely decomposed and §I.8 is dispositioned claim by claim.
+Chapters II–V and Appendices A–C are approved coarse milestones deferred until
+their turn. The complete source partition is recorded in the
 [source notes](../sources/hartshorne.md).
 
 ## Chapters

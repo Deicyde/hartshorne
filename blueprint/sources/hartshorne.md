@@ -347,11 +347,11 @@ dominant morphism `C_{K₁} → C_{K₂}`.
 ## Remaining-book inventory policy
 
 The rest of the book has now received a coarse source pass. The page ranges and
-section boundaries below were checked against the repository PDF. They are not
-yet a fine theorem DAG: mathematical units are marked `MAPPED` in the
-[coverage contract](../coverage/README.md) until the user approves their scope,
-source stack, and ordering. Chapter introductions and narrative surveys are
-recorded so that they cannot be mistaken for unread gaps.
+section boundaries below were checked against the repository PDF. Units not
+yet expanded into a fine theorem DAG are explicitly `DEFERRED` in the coverage
+contract, while completed source passes such as §I.8 split recaps, previews,
+source obligations, and exposition. Chapter introductions and narrative
+surveys are recorded so that they cannot be mistaken for unread gaps.
 
 The existing exercise policy remains the proposed default: adopt an exercise
 when later in-scope running text uses it, and otherwise leave it out. Any
@@ -375,7 +375,7 @@ Exercise 7.4 is separated below under the standing exercise policy.
 | Def.; Prop. 7.6 | Hilbert polynomial and degree of a projective algebraic set; positivity, additivity, `deg ℙⁿ = 1`, and the degree of a hypersurface | 52 |
 | Def.; Thm. 7.7 | Intersection multiplicity with a hypersurface and the degree formula `∑ᵢ i(Y,H;Zᵢ) deg Zᵢ = deg Y · deg H` | 53 |
 | Cor. 7.8 | If distinct plane curves have degrees `d,e`, their pointwise intersection multiplicities sum to `de` | 54 |
-| Rmk. 7.8.2 | The plane-curve formula extends to pure one-dimensional algebraic sets with no common irreducible component | 54 |
+| Rmk. 7.8.2 | The proof of Corollary 7.8 extends to "reducible curves," glossed as algebraic sets of dimension one in `ℙ²`, with no common irreducible component. The fine roadmap adopts the pure/equidimensional case: ambient dimension one and every irreducible component of dimension one. | 54 |
 
 | Required locator | Adopted statement | Page |
 | --- | --- | --- |
@@ -413,13 +413,13 @@ remains outside the fine scope under the standing exercise policy. The other
 
 ## I.8 what is algebraic geometry?
 
-Printed pp. 55–59. This is a philosophical survey and preview, with no numbered
-definition, proposition, or theorem. It nevertheless contains substantive
-claims about moduli dimensions, minimal surface models, and birational
-invariants, alongside previews of divisors, Picard groups, differentials,
-cohomology, arbitrary ground fields, abstract varieties, and schemes. Its curve
-statements recap §§I.4 and I.6; every remaining claim stays `MAPPED` for later
-claim-by-claim disposition rather than being silently discarded.
+- **Chapter I recaps (pp. 55–59):** birational classification via function fields; uniqueness of the nonsingular projective curve model; completion of curves by finitely many points; birational invariance of dimension; affine open covers; the affine-variety/domain equivalence; and the need to retain reducible intersections.
+- **Later curve previews (pp. 56–57):** genus, rational and elliptic curves, projective embeddings, differentials, and cohomological definitions of genus are deferred to Chapter IV and the relevant Chapter II–III foundations.
+- **Surface previews (pp. 56–57):** existence and ordering of nonsingular projective models, factorization by point blowups, ruled surfaces, and minimal models are deferred to Chapter V, preserving Hartshorne's stated rational/ruled exceptions and Zariski source obligation.
+- **Intrinsic and cohomological previews (pp. 57–58):** arithmetic genus, divisors, Picard groups, differential forms, coherent-sheaf cohomology, Zariski's Main Theorem, and Riemann–Roch are delegated to Chapters II–V and Appendix A.
+- **Foundational previews (pp. 58–59):** arbitrary ground fields, abstract varieties, non-quasi-projective examples, nilpotent/nonreduced structure, affine schemes, and gluing are delegated to the precise Chapter II milestones.
+- **Standalone source obligations:** a precise moduli statement for `M_g` and its dimension; an explicit witness that degree and Hilbert polynomial depend on the projective embedding; and a Noetherian ring whose affine spectrum has infinite dimension. Hartshorne supplies no proof specification here, so these remain deferred pending adopted statements and sources.
+- **Exposition:** the opening definition-of-the-subject discussion, classification-program rhetoric, Fermat motivation, historical remarks, cautions about generality, and chapter navigation are non-theorem material and out of scope. Every survey claim is now explicitly recapped, delegated, source-blocked, or excluded; none remains implicitly `MAPPED`.
 
 ## II schemes
 
@@ -484,7 +484,7 @@ Chapter V, printed pp. 356–423, with an editorial introduction on p. 356.
 | V-E: birational transformations | §5, pp. 409–420 | Factorization, contraction of exceptional curves, and minimal models |
 | V-F: classification survey | §6, pp. 421–423 | The Enriques–Kodaira classification and open directions, largely stated without proof |
 
-Section V.6 is primarily a survey. It remains mapped until its assertions are
+Section V.6 is primarily a survey. It remains deferred until its assertions are
 split between formalizable claims, external-source obligations, and exposition.
 
 ## Appendix A intersection theory

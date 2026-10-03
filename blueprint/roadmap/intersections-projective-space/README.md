@@ -4,11 +4,13 @@ article_id: af_21c9cb401d2047b3887059a4
 
 # Intersections in projective space
 
-This 42-leaf milestone covers Hartshorne I.7's running mathematical text
+This 50-leaf milestone covers Hartshorne I.7's running mathematical text
 through Remark 7.8.2 (printed pp. 47–54), together with Exercises 2.8,
 2.10(a)–(c), and 3.15(a),(b),(d), which its proofs require. It develops the
 dimension theorem for intersections, integer-graded Hilbert theory, projective
 degree, and the hypersurface and plane-curve forms of Bézout's theorem.
+Forty-seven leaves are formalized; the pure-curve degree and the two
+reducible-curve leaves remain.
 
 The dependency split follows Hartshorne's proof. The geometric branch reaches
 Theorem 7.2. The algebraic branch builds the missing `ℤ`-graded module and

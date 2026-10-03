@@ -2,7 +2,7 @@
 article_id: af_bee9a975db6a53592b5a0819
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-4]
+source_units: [chapter-i-section-4, chapter-i-section-8-recaps]
 statement: formalized
 proof: formalized
 lean: Hartshorne.birational_criterion

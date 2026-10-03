@@ -5,9 +5,10 @@ article_id: af_430a8af54e5b37e77bb4ac7d
 # Remaining-book roadmap
 
 This is the approved coarse plan for a full pass over the rest of Hartshorne.
-The 163 leaves through Corollary I.6.12 are formalized, and §I.7 now has its own
-42-leaf [fine roadmap](../intersections-projective-space/README.md). Section
-I.8, Chapters II–V, and Appendices A–C remain explicit deferred milestones in
+The 163 leaves through Corollary I.6.12 are formalized, and §I.7 has a 50-leaf
+[fine roadmap](../intersections-projective-space/README.md), with 47 leaves
+formalized and three remaining. Section I.8 has been dispositioned claim by
+claim. Chapters II–V and Appendices A–C remain explicit deferred milestones in
 the [coverage contract](../../coverage/README.md) until their turn for fine
 source and Mathlib work.
 
@@ -26,7 +27,22 @@ a deep result without proof. Exact locators are in the
 | I-7B | §I.7, Props. 7.3–7.6, pp. 49–52 | Numerical polynomials, graded prime filtrations, Hilbert–Serre, and degree | I-7A; choose an integer-indexed twist representation |
 | I-7C | §I.7, Thm. 7.7 and Cor. 7.8, pp. 53–54 | Intersection multiplicity and Bézout | I-7B and Exercise 2.8 |
 | I-7D | Exercise I.7.4, with Exercises I.7.3 and I.5.4 | Optional generic-line interpretation of degree | Decide whether to adopt this exercise chain |
-| I-8 | §I.8, pp. 55–59 | Inventory and disposition of substantive unnumbered survey claims | Decide claim by claim whether later chapters subsume, defer, or require a node |
+| I-8 | §I.8, pp. 55–59 | Survey claims dispositioned as Chapter I recaps, later previews, standalone source obligations, or exposition | Complete; the three standalone claims remain source-blocked rather than becoming underspecified nodes |
+
+### Section I.8 disposition
+
+The Chapter I survey has now been read claim by claim. Its birational,
+projective-model, dimension, affine-cover, and coordinate-ring claims point to
+existing Chapter I articles. Its substantive previews are assigned to the
+specific Chapter II–V or Appendix A milestones that develop them. Editorial,
+historical, and motivational passages are out of formalization scope.
+
+Three assertions are neither recaps nor sufficiently specified later targets:
+the existence and dimension of the moduli varieties `M_g`, a counterexample
+showing that degree and Hilbert polynomial depend on projective embedding, and
+a Noetherian affine scheme of infinite dimension. They remain deferred source
+obligations until a precise modern statement and proof source are adopted; the
+survey sentence alone is not used as a proof specification.
 
 ## Chapter II: schemes
 
