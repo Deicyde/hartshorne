@@ -514,9 +514,9 @@ precise comparison and algebraicity results.
 | B-B: algebraicity and Kähler criteria | §§3–4, pp. 441–446 | Riemann existence, Siegel and Chow–Kodaira criteria, Hironaka examples, Kodaira embedding, and Moishezon–Kähler algebraicity |
 | B-C: exponential sequence and Picard theory | §5, pp. 446–448 | The exponential sequence, Picard and Néron–Severi groups, Picard varieties, and Jacobians |
 
-Exercise B.6.6 supplies a projective-scheme morphism comparison that §B.2
-leaves to the reader and is therefore a prospective dependency. Fine planning
-requires adopted analytic, GAGA, and Hodge-theoretic proof sources.
+Exercise B.6.6 is adopted as the projective analytic-morphism comparison left
+to the reader by §B.2; Exercises B.6.1–6.5 are out under the later-use policy.
+The fine roadmap retains explicit analytic, GAGA, and Hodge proof sources.
 
 ## Appendix C the Weil conjectures
 

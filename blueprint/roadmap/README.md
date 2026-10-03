@@ -68,7 +68,8 @@ Theorem I.5.4A used in V.5, the remaining completion material is deferred;
 §I.7 is finely decomposed, §I.8 is dispositioned claim by claim,
 Chapter II has a fine schemes DAG, all of Chapter III has a fine cohomology
 DAG, all of Chapter IV has a fine curves DAG, all of Chapter V has a fine
-surfaces DAG, and Appendix A has a fine intersection-theory DAG. Appendices B–C are
+surfaces DAG, Appendix A has a fine intersection-theory DAG, and Appendix B
+has a fine transcendental-methods DAG. Appendix C is
 approved coarse milestones deferred
 until their turn. The complete source partition is recorded in the
 [source notes](../sources/hartshorne.md).
@@ -112,5 +113,7 @@ until their turn. The complete source partition is recorded in the
   ruled and cubic surfaces, birational geometry, and numerical classification.
 - [Intersection theory](intersection-theory/README.md) — Hartshorne Appendix A:
   Chow groups, Chern classes, positivity, and Riemann–Roch.
+- [Transcendental methods](transcendental-methods/README.md) — Hartshorne
+  Appendix B: analytification, GAGA, algebraicity, and Picard theory.
 - [Remaining-book roadmap](remaining-book/README.md) — approved coarse
-  milestones for Appendices B–C.
+  milestones for Appendix C.

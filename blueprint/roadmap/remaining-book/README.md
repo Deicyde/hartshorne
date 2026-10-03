@@ -19,7 +19,8 @@ earlier-exercise prerequisites. All of Chapter V has a 230-leaf
 targets, plus two reactivated III.7 prerequisites, one II.8 prerequisite,
 two I.5 prerequisites, and one Appendix A HRR prerequisite. Appendix A has a
 72-leaf [fine roadmap](../intersection-theory/README.md), all project targets.
-Appendices B–C remain
+Appendix B has a 69-leaf [fine roadmap](../transcendental-methods/README.md),
+all project targets. Appendix C remains
 explicit deferred milestones in the [coverage contract](../../coverage/README.md)
 until their turn for fine source and Mathlib work.
 
@@ -104,9 +105,9 @@ survey sentence alone is not used as a proof specification.
 | A-A | Appendix A §§1–2, pp. 424–429 | [Fine roadmap](../intersection-theory/README.md): cycles, rational equivalence, Chow groups, and intersection products | Complete source/API pass: 29 section targets plus Exercises 6.2–6.3 and explicit outline-source blockers |
 | A-B | Appendix A §3, pp. 429–431 | [Fine roadmap](../intersection-theory/chern-classes/README.md): Chern classes, zero loci, and self-intersection | Complete source/API pass: 15 section targets plus Exercise 6.6 and four explicit source blockers |
 | A-C | Appendix A §§4–5, pp. 431–437 | [Fine roadmap](../intersection-theory/README.md): HRR, positivity, Hodge index, K-theory, GRR, and generalizations | Complete source/API pass: 25 project targets and ten explicit source blockers |
-| B-A | Appendix B §§1–2, pp. 438–441 | Analytification, GAGA, and Chow's theorem | II and III-B; adopt analytic/GAGA sources |
-| B-B | Appendix B §§3–4, pp. 441–446 | Algebraicity and Kähler criteria | B-A, IV, and V; adopt analytic/Hodge sources |
-| B-C | Appendix B §5, pp. 446–448 | Exponential sequence and Picard theory | B-A, III, and IV-C |
+| B-A | Appendix B §§1–2, pp. 438–441 | [Fine roadmap](../transcendental-methods/README.md): analytic spaces, analytification, comparison, GAGA, and Chow | Complete source/API pass: 27 section targets plus Exercise 6.6 and twenty explicit blockers |
+| B-B | Appendix B §§3–4, pp. 441–446 | [Fine roadmap](../transcendental-methods/README.md): algebraicity, Moishezon, Kähler, and Hodge criteria | Complete source/API pass: 21 project targets and eleven explicit blockers |
+| B-C | Appendix B §5, pp. 446–448 | [Fine roadmap](../transcendental-methods/README.md): exponential sequence, Picard/NS, and Jacobian lattices | Complete source/API pass: 20 project targets and seven explicit blockers |
 | C-A | Appendix C §1, pp. 449–451 | Zeta functions and the Weil assertions | Finite-field scheme geometry |
 | C-B | Appendix C §3, pp. 453–454 | The ℓ-adic cohomology interface | II and III plus an external étale-cohomology source stack |
 | C-C | Appendix C §4, pp. 454–458 | Frobenius, trace formulas, rationality, functional equation, and Deligne's theorem | C-A, C-B, Appendix A, Appendix B, and IV-A; adopt proof-level sources |

@@ -74,7 +74,7 @@ two exact Mathlib results, plus five reactivated earlier-exercise prerequisites.
 All of Chapter V has a 230-leaf fine roadmap with one exact Mathlib result,
 plus two reactivated III.7 prerequisites, one II.8 prerequisite, two I.5
 prerequisites, and one Appendix A HRR prerequisite. Appendix A has a 72-leaf
-fine roadmap; Appendices B–C retain approved
+fine roadmap and Appendix B a 69-leaf fine roadmap; Appendix C retains approved
 coarse milestones and are deferred in that
 order. Reference apparatus and already-dispositioned non-target material
 remain out of scope.

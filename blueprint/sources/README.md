@@ -45,3 +45,6 @@ Detailed source and Mathlib audits for the active Chapter II milestones:
 - [Hartshorne Appendix A §§1–2: Chow groups and intersection products](hartshorne-appendix-a-1-2.md)
 - [Hartshorne Appendix A §3: Chern classes](hartshorne-appendix-a-3.md)
 - [Hartshorne Appendix A §§4–5: Riemann–Roch and generalizations](hartshorne-appendix-a-4-5.md)
+- [Hartshorne Appendix B §§1–2: analytification and GAGA](hartshorne-appendix-b-1-2.md)
+- [Hartshorne Appendix B §§3–4: algebraicity and Kähler criteria](hartshorne-appendix-b-3-4.md)
+- [Hartshorne Appendix B §5: exponential sequence and Picard theory](hartshorne-appendix-b-5.md)
