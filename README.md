@@ -7,10 +7,10 @@ Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 Sections I.1 through I.4, the geometric core of I.5 through Theorem I.5.3, and
 I.6 through Corollary I.6.12 are decomposed into a dependency graph of 163
 formalization targets. The completion, Cohen-structure, and analytic-isomorphism
-material later in §I.5 is deferred. Chapter V §§2–6 and
+material later in §I.5 is deferred. Chapter V §§3–6 and
 Appendices A–C have an approved coarse whole-book map. Section I.7 is decomposed into 50 fine targets,
 47 formalized and three remaining; the §I.8 survey has been dispositioned claim
-by claim; and all of Chapter II now has a 443-leaf fine roadmap, including 99
+by claim; and all of Chapter II now has a 444-leaf fine roadmap, including 99
 exact pinned-Mathlib results. The later milestones remain deferred. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
@@ -27,14 +27,13 @@ All of Chapter IV has a 201-leaf curve roadmap: two exact pinned-Mathlib
 results and 199 project targets for Riemann–Roch, ramification, projective
 embeddings, elliptic and canonical curves, Clifford's theorem, moduli,
 Castelnuovo's bound, and space-curve classifications. Five additional project
-leaves reactivate Exercises I.3.14(a), I.5.4, I.5.6(b), I.7.3, and II.6.4;
-one forward V.2 prerequisite records the delegated quadric-cone calculation.
+leaves reactivate Exercises I.3.14(a), I.5.4, I.5.6(b), I.7.3, and II.6.4.
 
-Chapter V §1 has a 43-leaf surface roadmap: one exact pinned-Mathlib result
-and 42 project targets for intersection theory, adjunction, surface
-Riemann–Roch, Hodge index, and Nakai–Moishezon. Two additional project leaves
-reactivate III Exercise 7.4(a),(c),(d), and one forward Appendix A prerequisite
-records the HRR source of Noether's formula.
+Chapter V §§1–2 has a 91-leaf surface roadmap: one exact pinned-Mathlib result
+and 90 project targets for intersection theory, Riemann–Roch, Hodge index,
+Nakai–Moishezon, and ruled surfaces. Three additional project leaves reactivate
+III Exercise 7.4(a),(c),(d) and II Exercise 8.2; one forward Appendix A
+prerequisite records the HRR source of Noether's formula.
 
 **All 163 targets through Corollary I.6.12 are complete.** Of these, 159 are
 proved in this project and four are supplied by Mathlib. The active §I.7
@@ -89,12 +88,12 @@ reducible-curve leaves remain. It includes only the earlier exercises required
 by the running proofs; the optional generic-line exercise chain remains out of
 scope.
 
-The 443-leaf Chapter II milestone covers sheaves, spectra, schemes,
+The 444-leaf Chapter II milestone covers sheaves, spectra, schemes,
 projective spectra, the classical-variety comparison, first properties,
 subschemes, dimension, fibre products, separatedness, properness, projective
 morphisms, modules, divisors and Picard groups, linear systems, relative Proj,
 projective bundles, blowups, differentials, canonical sheaves, and lci geometry.
-Ninety-nine leaves are exact pinned-Mathlib results; the other 344 are planned
+Ninety-nine leaves are exact pinned-Mathlib results; the other 345 are planned
 project wrappers, representation bridges, or missing theorems.
 
 **Site:** <https://deicyde.github.io/hartshorne/>

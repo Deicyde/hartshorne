@@ -21,7 +21,15 @@ Record the following existing families and their degree/genus formulas:
 - [Smooth hypersurfaces form a dense open family](../../../schemes/differentials/canonical-bertini/smooth-hypersurfaces-dense.md)
 - [Smooth complete intersections of prescribed degrees](../../../schemes/differentials/differential-exercises/smooth-complete-intersections-prescribed-degrees.md)
 - [Arithmetic genus on a quadric](../../../cohomology/projective-cohomology-exercises/quadric/quadric-curve-arithmetic-genus.md)
-- [Curves on a quadric cone: degree and genus](../prerequisites/quadric-cone-curve-degree-genus.md)
+
+## Forward source input
+
+The fourth family uses the later ruled-surface calculation
+[Curves on a quadric cone: degree and genus](../../../surfaces/ruled-surfaces/exercises/quadric-cone-curve-degree-genus.md)
+from V Exercise 2.9. It is recorded as a forward source input rather than a
+typed roadmap edge, because the V.2 surface branch necessarily depends on the
+earlier Chapter-IV curve theory and the reverse container edge would create a
+spurious rolled-up cycle.
 
 ## Sources
 

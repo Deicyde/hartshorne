@@ -7,7 +7,7 @@ classifications in projective three-space.
 - [Nonspecial embeddings and special hyperplane sections](halphen/README.md)
 - [Castelnuovo's bound and extremal curves](castelnuovo/README.md)
 - [Low-degree classifications](classification/README.md)
-- [Forward quadric-cone prerequisite](prerequisites/README.md)
+- [Ruled-surface calculation for curves on a quadric cone](../../surfaces/ruled-surfaces/exercises/quadric-cone-curve-degree-genus.md)
 
 ## Sources
 

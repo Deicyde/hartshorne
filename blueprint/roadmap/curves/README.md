@@ -5,8 +5,6 @@ algebraically closed field. The fine roadmap covers all of Chapter IV,
 printed pp.294–355: 201 Chapter IV leaves, of which two are exact
 pinned-Mathlib results and 199 are project targets. Five additional project prerequisites
 reactivate Exercises I.3.14(a), I.5.4, I.5.6(b), I.7.3, and II.6.4.
-One forward V.2 prerequisite records the quadric-cone calculation delegated by
-Remark IV.6.4.1(d).
 
 - [Riemann–Roch and its curve consequences](riemann-roch/README.md)
 - [Ramification, Riemann–Hurwitz, and Frobenius](ramification/README.md)

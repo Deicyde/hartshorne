@@ -96,8 +96,8 @@ cites IV Exercise 6.8, but this does not activate it under the standing rule.
 - The Gruson–Peskine proof of Halphen's existence classification is a separate
   source root.
 - Castelnuovo's theorem itself is proved in Hartshorne and is not blocked.
-- The quadric-cone formulas are a forward source blocker until V Exercise 2.9
-  and its singular-quadric divisor calculation are audited.
+- The quadric-cone formulas are now sourced by the adopted V Exercise 2.9
+  ruled-surface calculation; they are no longer a forward source blocker.
 
 ## Pinned Mathlib audit and false friends
 
@@ -136,4 +136,4 @@ No IV.6 article is an exact Mathlib leaf.
 | Degree-nine types | `curves/space-curves/classification/degree-nine-genus-ten-two-families.md` |
 | Semicontinuity separation | `curves/space-curves/classification/degree-nine-families-semicontinuity.md` |
 | Degree-nine exhaustivity | `curves/space-curves/classification/degree-nine-genus-ten-exhaustivity.md` |
-| Quadric-cone prerequisite | `curves/space-curves/prerequisites/quadric-cone-curve-degree-genus.md` |
+| Quadric-cone calculation | `surfaces/ruled-surfaces/exercises/quadric-cone-curve-degree-genus.md` |

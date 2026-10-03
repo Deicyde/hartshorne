@@ -15,14 +15,14 @@ requested through-p.189 boundary: it contains the conclusion of later-used
 Exercise 8.7 and all of later-used Exercise 8.8.
 
 The roadmap adopts every definition and assertion in the running text. Among
-the exercises it adopts only 8.3, 8.4, 8.6, 8.7, and 8.8, because the running
-text or later chapters cite or use them. Exercise 8.1 is an optional
-strengthening at nonclosed points and is not later cited. Exercise 8.2 gives an
-alternate route to a vector-bundle filtration result proved independently
-later. Exercise 8.5 gives alternate proofs and see-also comparisons for Picard
-groups and canonical classes of blowups after those results are obtained
-independently. Those three exercises are source notes, not formalization
-targets.
+the exercises it adopts 8.2–8.4 and 8.6–8.8, because the running text or later
+chapters cite or use them. Exercise 8.1 is an optional strengthening at
+nonclosed points and is not later cited. Exercise 8.2 is now adopted because
+V Exercise 2.3(a) explicitly uses its nowhere-vanishing-section construction
+to filter vector bundles on curves by invertible quotients. Exercise 8.5 gives
+alternate proofs and see-also comparisons for Picard groups and canonical
+classes of blowups after those results are obtained independently; it remains
+outside the formalization targets.
 
 ## Modules and sheaves of differentials
 
@@ -156,6 +156,10 @@ prerequisites rather than claims proved in the running text.
 
 ## Adopted exercises and later-use evidence
 
+- **Exercise 8.2, p.187.** A globally generated locally free sheaf of rank
+  greater than the dimension has a nowhere-vanishing section and a locally
+  free quotient. V Exercise 2.3(a) uses this to construct a filtration of a
+  vector bundle on a curve with invertible successive quotients.
 - **Exercise 8.3, pp.187–188.** Product differentials split as the sum of
   the two pullbacks, canonical sheaves tensor accordingly, and the product of
   a smooth plane cubic with itself has `p_g = 1` but `p_a = -1`. The canonical
@@ -175,10 +179,10 @@ prerequisites rather than claims proved in the running text.
 - **Exercise 8.8, p.190.** Plurigenera and the dimensions of spaces of
   regular `q`-forms are birational invariants. Chapter V cites the latter.
 
-Exercise 8.2 and Exercise 8.5 are intentionally excluded: their later mentions
-are alternate proofs or see-also references after independent results, not
-dependencies. Exercise 8.1 is also excluded because its strengthened
-nonclosed-point statements are not subsequently cited.
+Exercise 8.5 is intentionally excluded: its later mentions are alternate
+proofs or see-also references after independent results, not dependencies.
+Exercise 8.1 is also excluded because its strengthened nonclosed-point
+statements are not subsequently cited.
 
 ## Pinned Mathlib audit
 
