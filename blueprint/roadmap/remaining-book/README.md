@@ -14,10 +14,10 @@ claim. Chapter II now has a 444-leaf
 [fine roadmap](../cohomology/README.md), with 19 exact Mathlib leaves and 269
 project targets. All of Chapter IV has a 201-leaf [fine roadmap](../curves/README.md),
 with two exact Mathlib leaves and 199 project targets, plus five reactivated
-earlier-exercise prerequisites. Chapter V §§1–3 has a 123-leaf
-[fine roadmap](../surfaces/README.md), with one exact Mathlib leaf and 122 project
+earlier-exercise prerequisites. Chapter V §§1–4 has a 165-leaf
+[fine roadmap](../surfaces/README.md), with one exact Mathlib leaf and 164 project
 targets, plus two reactivated III.7 prerequisites, one II.8 prerequisite, one
-I.5 prerequisite, and one forward Appendix A prerequisite. Chapter V §§4–6 and
+I.5 prerequisite, and one forward Appendix A prerequisite. Chapter V §§5–6 and
 Appendices A–C remain
 explicit deferred milestones in the [coverage contract](../../coverage/README.md)
 until their turn for fine source and Mathlib work.
@@ -92,7 +92,7 @@ survey sentence alone is not used as a proof specification.
 | V-A | §V.1, pp. 357–368 | [Fine roadmap](../surfaces/README.md): surface intersection theory, adjunction, Riemann–Roch, Hodge index, and Nakai | Complete source/API pass: 42 project targets, one exact Mathlib target, two reactivated III.7 prerequisites, one forward Appendix A blocker, and two section source blockers |
 | V-B | §V.2, pp. 369–385 | [Fine roadmap](../surfaces/ruled-surfaces/README.md): ruled surfaces, normalized bundles, scrolls, and ample cones | Complete source/API pass: 48 project targets, one reactivated II.8 prerequisite, two explicit source blockers, and an inherited projective-bundle blocker |
 | V-C | §V.3, pp. 386–395 | [Fine roadmap](../surfaces/monoidal-transformations/README.md): point blowups, exceptional curves, strict transforms, and embedded curve resolution | Complete source/API pass: 32 project targets and one reactivated I.5 analytic-classification blocker |
-| V-D | §V.4, pp. 395–408 | Cubic surfaces and the 27 lines | V-A and V-C |
+| V-D | §V.4, pp. 395–409 | [Fine roadmap](../surfaces/cubic-surfaces/README.md): assigned systems, Del Pezzo blowups, the 27 lines, and ample cones | Complete source/API pass: 42 project targets and four explicit source blockers |
 | V-E | §V.5, pp. 409–420 | Birational factorization, contraction, and minimal models | V-B through V-D |
 | V-F | §V.6, pp. 421–423 | Classification survey | Split proved claims from survey assertions and source each retained claim |
 

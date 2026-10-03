@@ -1,9 +1,9 @@
 # Surfaces
 
 Hartshorne Chapter V studies nonsingular projective surfaces over an
-algebraically closed field. The current fine scope covers §§V.1–3, printed
-pp.357–395: 123 section leaves, of which one real-quadratic-form result is
-exact pinned Mathlib and 122 are project targets. Two project prerequisites
+algebraically closed field. The current fine scope covers §§V.1–4, printed
+pp.357–409: 165 section leaves, of which one real-quadratic-form result is
+exact pinned Mathlib and 164 are project targets. Two project prerequisites
 reactivate parts of III Exercise 7.4, one reactivates II Exercise 8.2, one
 reactivates I Exercise 5.14(d), and one forward Appendix A prerequisite records
 the HRR source of Noether's formula.
@@ -18,9 +18,11 @@ the HRR source of Noether's formula.
 - [Earlier and forward prerequisites](prerequisites/README.md)
 - [Ruled surfaces](ruled-surfaces/README.md)
 - [Monoidal transformations and curve resolution](monoidal-transformations/README.md)
+- [Cubic surfaces and the 27 lines](cubic-surfaces/README.md)
 
 ## Sources
 
 - [Hartshorne V.1 source notes](../../sources/hartshorne-v-1.md)
 - [Hartshorne V.2 source notes](../../sources/hartshorne-v-2.md)
 - [Hartshorne V.3 source notes](../../sources/hartshorne-v-3.md)
+- [Hartshorne V.4 source notes](../../sources/hartshorne-v-4.md)

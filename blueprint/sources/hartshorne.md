@@ -480,7 +480,7 @@ Chapter V, printed pp. 356–423, with an editorial introduction on p. 356.
 | V-A: intersection theory on surfaces | §1, pp. 357–368 | Intersection numbers, adjunction, Riemann–Roch, the Hodge index theorem, and the Nakai criterion |
 | V-B: ruled surfaces | §2, pp. 369–385 | Ruled surfaces, normalized bundles, sections, and classification over a curve |
 | V-C: monoidal transformations | §3, pp. 386–395 | Blowups, exceptional curves, strict transforms, embedded resolution, and exercise dispositions |
-| V-D: cubic surfaces | §4, pp. 395–408 | Cubic surfaces, the 27 lines, and related birational constructions |
+| V-D: cubic surfaces | §4, pp. 395–409 | Assigned basepoints, cubic and Del Pezzo surfaces, the 27 lines, ample cones, and exercise dispositions |
 | V-E: birational transformations | §5, pp. 409–420 | Factorization, contraction of exceptional curves, and minimal models |
 | V-F: classification survey | §6, pp. 421–423 | The Enriques–Kodaira classification and open directions, largely stated without proof |
 
