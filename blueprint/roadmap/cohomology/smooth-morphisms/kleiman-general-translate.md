@@ -23,7 +23,7 @@ dimension.
 - [The homogeneous action family is smooth](homogeneous-action-family-smooth.md)
 - [Fibres of the general-translate incidence scheme](general-translate-incidence-fiber.md)
 - [Generic smoothness for finitely many regular components](generic-smoothness-finite-components.md)
-- [Smoothness and regularity over an algebraically closed field](smooth-over-algebraically-closed-iff-regular.md)
+- [Smoothness and regularity over an algebraically closed field](criteria/smooth-over-algebraically-closed-iff-regular.md)
 
 ## Proof depends on
 

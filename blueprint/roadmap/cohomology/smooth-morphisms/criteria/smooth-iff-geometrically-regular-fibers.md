@@ -15,7 +15,7 @@ regular and equidimensional of dimension `n`.
 
 - [Smoothness and regularity over an algebraically closed field](smooth-over-algebraically-closed-iff-regular.md)
 - [Smooth relative-dimension calculus](smooth-relative-dimension-calculus.md)
-- [The fibre of a morphism](../../schemes/fiber-products/scheme-fiber.md)
+- [The fibre of a morphism](../../../schemes/fiber-products/scheme-fiber.md)
 
 ## Proof depends on
 
@@ -26,5 +26,5 @@ regular and equidimensional of dimension `n`.
 
 ## Sources
 
-- [Hartshorne III.10, Theorem 10.2, pp.269–270](../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)
-- [Stacks Project, Lemma 29.35.3, tag 01V8](../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)
+- [Hartshorne III.10, Theorem 10.2, pp.269–270](../../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)
+- [Stacks Project, Lemma 29.35.3, tag 01V8](../../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)

@@ -69,9 +69,8 @@ Theorem I.5.4A used in V.5, the remaining completion material is deferred;
 Chapter II has a fine schemes DAG, all of Chapter III has a fine cohomology
 DAG, all of Chapter IV has a fine curves DAG, all of Chapter V has a fine
 surfaces DAG, Appendix A has a fine intersection-theory DAG, and Appendix B
-has a fine transcendental-methods DAG. Appendix C is
-approved coarse milestones deferred
-until their turn. The complete source partition is recorded in the
+has a fine transcendental-methods DAG. Appendix C has a fine zeta-function,
+étale-cohomology, and Weil-theorem DAG. The complete source partition is recorded in the
 [source notes](../sources/hartshorne.md).
 
 ## Chapters
@@ -113,7 +112,13 @@ until their turn. The complete source partition is recorded in the
   ruled and cubic surfaces, birational geometry, and numerical classification.
 - [Intersection theory](intersection-theory/README.md) — Hartshorne Appendix A:
   Chow groups, Chern classes, positivity, and Riemann–Roch.
+- [Intersection comparisons](intersection-comparisons/README.md) — downstream
+  comparisons between Appendix A's Chow/cohomological products and the direct
+  surface intersection theories of Chapter V.
 - [Transcendental methods](transcendental-methods/README.md) — Hartshorne
   Appendix B: analytification, GAGA, algebraicity, and Picard theory.
-- [Remaining-book roadmap](remaining-book/README.md) — approved coarse
-  milestones for Appendix C.
+- [Zeta functions and the Weil conjectures](weil-conjectures/README.md) —
+  Hartshorne Appendix C: finite-field zeta functions, ℓ-adic cohomology,
+  Frobenius traces, and the Weil theorem package.
+- [Remaining-book roadmap](remaining-book/README.md) — the completed source
+  sequencing and milestone ledger for Chapters II–V and Appendices A–C.

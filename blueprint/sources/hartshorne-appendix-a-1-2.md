@@ -103,16 +103,18 @@ Hartshorne sends A9–A11 to Chevalley for proofs.
 
 ## Exercise disposition, printed pp.436–437
 
-- Exercise A.6.1 gives the `A^1`-family characterization of rational
-  equivalence. It is useful optional API but has no later running dependency.
-- Exercise A.6.2 proves the proper generically finite divisor-pushforward
-  clause explicitly needed for A3. It is retained as a source obligation for
-  proper pushforward, not as a separate exercise leaf in this milestone.
-- Exercise A.6.3 gives the optional direct proof of the projective-space Chow
-  ring. The A9–A10 induction avoids depending on it.
-- Exercises A.6.4–A.6.5 are optional ruled-surface and blowup calculations.
-- Exercises A.6.6–A.6.10 belong to later Chern/Riemann–Roch milestones.
-  A.6.6 is cited later in Appendix C and must be dispositioned there.
+- **Exercise A.6.1 — OUT.** Its `A^1`-family characterization is useful
+  optional API but has no later running dependency.
+- **Exercise A.6.2 — ADOPTED.** Its proper generically finite divisor norm
+  calculation is the codimension-one input explicitly needed for A3 and has
+  a separate exercise leaf feeding proper Chow pushforward.
+- **Exercise A.6.3 — ADOPTED.** The running projective-space Chow-ring
+  computation cites this direct projection argument; it is retained alongside
+  the A9–A10 induction.
+- **Exercises A.6.4–A.6.5 — OUT.** The ruled-surface and blowup computations
+  have no later running dependency.
+- **Exercise A.6.6 — ADOPTED.** Its diagonal/top-Chern identity is used by
+  Appendix C. Exercises A.6.7–A.6.10 are OUT.
 
 ## Proof sources and blockers
 

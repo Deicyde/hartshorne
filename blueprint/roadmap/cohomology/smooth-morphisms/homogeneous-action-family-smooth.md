@@ -21,7 +21,7 @@ is smooth everywhere, of relative dimension
 - [Algebraic group actions and homogeneous spaces](homogeneous-space-api.md)
 - [Homogeneous spaces are nonsingular](homogeneous-spaces-regular.md)
 - [Generic smoothness over the target](generic-smoothness-over-target.md)
-- [Smooth relative-dimension calculus](smooth-relative-dimension-calculus.md)
+- [Smooth relative-dimension calculus](criteria/smooth-relative-dimension-calculus.md)
 - [Products of nonsingular varieties](../../schemes/differentials/differential-exercises/product-of-nonsingular-varieties.md)
 
 ## Proof depends on

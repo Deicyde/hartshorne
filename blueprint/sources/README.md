@@ -10,7 +10,7 @@ file in the repository.
 - [Stacks Project: Nagata and Japanese rings](stacks-nagata.md) — the
   general-field integral-closure finiteness input used by Theorem II.5.19.
 
-Detailed source and Mathlib audits for the active Chapter II milestones:
+Detailed source and Mathlib audits for the fine roadmap:
 
 - [Hartshorne II.1: sheaves](hartshorne-ii-1.md)
 - [Hartshorne II.2: schemes](hartshorne-ii-2.md)
@@ -48,3 +48,6 @@ Detailed source and Mathlib audits for the active Chapter II milestones:
 - [Hartshorne Appendix B §§1–2: analytification and GAGA](hartshorne-appendix-b-1-2.md)
 - [Hartshorne Appendix B §§3–4: algebraicity and Kähler criteria](hartshorne-appendix-b-3-4.md)
 - [Hartshorne Appendix B §5: exponential sequence and Picard theory](hartshorne-appendix-b-5.md)
+- [Hartshorne Appendix C §1: zeta functions and the Weil theorem package](hartshorne-appendix-c-1.md)
+- [Hartshorne Appendix C §3: the étale and ℓ-adic cohomology interface](hartshorne-appendix-c-3.md)
+- [Hartshorne Appendix C §4: Frobenius and the cohomological deductions](hartshorne-appendix-c-4.md)

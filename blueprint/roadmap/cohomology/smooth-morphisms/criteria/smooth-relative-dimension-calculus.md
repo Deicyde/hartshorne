@@ -17,7 +17,7 @@ declarations and is not itself an exact upstream theorem.
 
 ## Depends on
 
-- [Schemes have fibre products](../../schemes/fiber-products/schemes-have-fiber-products.md)
+- [Schemes have fibre products](../../../schemes/fiber-products/schemes-have-fiber-products.md)
 
 ## Proof depends on
 
@@ -26,4 +26,4 @@ declarations and is not itself an exact upstream theorem.
 
 ## Sources
 
-- [Hartshorne III.10, Proposition 10.1, pp.268–269](../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)
+- [Hartshorne III.10, Proposition 10.1, pp.268–269](../../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)

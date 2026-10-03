@@ -15,10 +15,10 @@ closed field, and assume `dim X = dim Y + n`. The following are equivalent:
 
 ## Depends on
 
-- [Relative differentials of a smooth morphism](relative-differentials-rank-of-smooth.md)
+- [Relative differentials of a smooth morphism](criteria/relative-differentials-rank-of-smooth.md)
 - [The Zariski tangent map](zariski-tangent-map.md)
 - [The non-zero-divisor local criterion for flatness](local-flatness-nonzerodivisor-criterion.md)
-- [Smoothness and regularity over an algebraically closed field](smooth-over-algebraically-closed-iff-regular.md)
+- [Smoothness and regularity over an algebraically closed field](criteria/smooth-over-algebraically-closed-iff-regular.md)
 
 ## Proof depends on
 

@@ -1,6 +1,7 @@
 ---
 declaration: theorem
 origin: bridged
+source_units: [chapter-v-section-1]
 ---
 
 # Hirzebruch–Riemann–Roch and the surface Noether formula

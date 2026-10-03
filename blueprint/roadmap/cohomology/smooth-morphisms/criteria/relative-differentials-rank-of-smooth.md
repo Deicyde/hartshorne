@@ -22,8 +22,8 @@ smoothness predicate.
 
 ## Depends on
 
-- [The relative differential sheaf](../../schemes/differentials/scheme-differentials/relative-differentials.md)
-- [Locally free module sheaves](../../schemes/modules-and-quasicoherent/locally-free-and-invertible.md)
+- [The relative differential sheaf](../../../schemes/differentials/scheme-differentials/relative-differentials.md)
+- [Locally free module sheaves](../../../schemes/modules-and-quasicoherent/locally-free-and-invertible.md)
 
 ## Proof depends on
 
@@ -36,5 +36,5 @@ smoothness predicate.
 
 ## Sources
 
-- [Hartshorne III.10, Example 10.0.2, p.268](../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)
-- [Stacks Project, smooth morphisms, tag 01V4](../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)
+- [Hartshorne III.10, Example 10.0.2, p.268](../../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)
+- [Stacks Project, smooth morphisms, tag 01V4](../../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)

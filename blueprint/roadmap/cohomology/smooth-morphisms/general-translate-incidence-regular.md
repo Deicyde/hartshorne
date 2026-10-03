@@ -23,8 +23,8 @@ from regularity alone.
 ## Depends on
 
 - [The homogeneous action family is smooth](homogeneous-action-family-smooth.md)
-- [Smooth relative-dimension calculus](smooth-relative-dimension-calculus.md)
-- [Smoothness and regularity over an algebraically closed field](smooth-over-algebraically-closed-iff-regular.md)
+- [Smooth relative-dimension calculus](criteria/smooth-relative-dimension-calculus.md)
+- [Smoothness and regularity over an algebraically closed field](criteria/smooth-over-algebraically-closed-iff-regular.md)
 - [Base extension](../../schemes/fiber-products/base-extension.md)
 - [Dimension of a scheme](../../schemes/subschemes-and-dimension/scheme-dimension.md)
 

@@ -13,9 +13,7 @@ packages absent from the algebraic codebase remain explicit source blockers.
 - [GAGA exercise](gaga/exercises/README.md)
 - [Algebraicity and Moishezon manifolds](algebraicity/README.md)
 - [Kähler and Hodge manifolds](kahler/README.md)
-- [The exponential sequence](exponential-picard/exponential/README.md)
-- [Picard and Néron–Severi theory](exponential-picard/picard/README.md)
-- [Curves and Jacobian lattices](exponential-picard/curves/README.md)
+- [The exponential sequence, Picard groups, and Jacobians](exponential-picard/README.md)
 
 ## Sources
 

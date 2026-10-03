@@ -16,7 +16,7 @@ that hypothesis and is not erased from the source-facing corollary.
 
 ## Depends on
 
-- [Relative differentials of a smooth morphism](relative-differentials-rank-of-smooth.md)
+- [Relative differentials of a smooth morphism](criteria/relative-differentials-rank-of-smooth.md)
 - [Smoothness by tangent-map surjectivity](smooth-iff-tangent-surjective.md)
 - [The dense nonsingular locus](../../schemes/differentials/scheme-differentials/dense-nonsingular-locus.md)
 - [The free locus of a coherent sheaf](../../schemes/coherent-sheaves/coherent-free-locus.md)

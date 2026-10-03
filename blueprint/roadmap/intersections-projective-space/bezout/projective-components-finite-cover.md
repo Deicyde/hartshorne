@@ -5,7 +5,7 @@ origin: bridged
 source_units: [chapter-i-section-2, chapter-i-section-7-main]
 statement: formalized
 proof: formalized
-lean: Hartshorne.projectiveComponents Hartshorne.mem_projectiveComponents Hartshorne.iUnion_projectiveComponentCarrier_eq Hartshorne.iUnion_projectiveComponents_eq
+lean: Hartshorne.projectiveComponents
 ---
 
 # Projective algebraic sets are finite unions of their components

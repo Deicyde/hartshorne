@@ -8,11 +8,12 @@ Sections I.1 through I.4, the geometric core of I.5 through Theorem I.5.3, and
 I.6 through Corollary I.6.12 are decomposed into a dependency graph of 163
 formalization targets. Apart from the regularity-under-completion clause of
 Theorem I.5.4A used in V.5, the remaining completion, Cohen-structure, and
-analytic-isomorphism material later in §I.5 is deferred. Appendix C has
-an approved coarse whole-book map. Section I.7 is decomposed into 50 fine targets,
+analytic-isomorphism material later in §I.5 is deferred. The source-grounded
+fine-roadmap pass now reaches the end of Appendix C. Section I.7 is decomposed into 50 fine targets,
 47 formalized and three remaining; the §I.8 survey has been dispositioned claim
 by claim; and all of Chapter II now has a 444-leaf fine roadmap, including 99
-exact pinned-Mathlib results. The later milestones remain deferred. See the
+exact pinned-Mathlib results. Later-chapter roadmap targets are planned unless
+their own articles say otherwise. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
@@ -44,6 +45,11 @@ outline-level theorems retained as explicit proof-source obligations.
 Appendix B has a 69-leaf transcendental-methods roadmap covering
 analytification, GAGA, algebraicity, Kähler geometry, and Picard varieties.
 All are project targets with analytic/Hodge source roots recorded explicitly.
+
+Appendix C has a 69-leaf roadmap for finite-field zeta functions, the
+étale–ℓ-adic interface, Frobenius trace formulas, and the Weil theorem package:
+one exact pinned-Mathlib foundation and 68 project targets, with sixteen leaves
+explicitly blocked on a source or representation.
 
 **All 163 targets through Corollary I.6.12 are complete.** Of these, 159 are
 proved in this project and four are supplied by Mathlib. The active §I.7

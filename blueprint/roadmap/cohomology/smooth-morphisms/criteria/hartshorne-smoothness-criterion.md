@@ -22,17 +22,17 @@ between Hartshorne's definition and the adopted modern predicate.
 ## Depends on
 
 - [Relative differentials of a smooth morphism](relative-differentials-rank-of-smooth.md)
-- [The stalk criterion for flat morphisms](../flat-families/flatness/flat-morphism-stalk-criterion.md)
-- [Equidimensionality in a flat family](../flat-families/families-hilbert/flat-equidimensional-total-space-iff-fibers.md)
-- [The fibre of a morphism](../../schemes/fiber-products/scheme-fiber.md)
+- [The stalk criterion for flat morphisms](../../flat-families/flatness/flat-morphism-stalk-criterion.md)
+- [Equidimensionality in a flat family](../../flat-families/families-hilbert/flat-equidimensional-total-space-iff-fibers.md)
+- [The fibre of a morphism](../../../schemes/fiber-products/scheme-fiber.md)
 
 ## Proof depends on
 
 - The affine-local standard-smooth characterization of `Smooth` in pinned
   Mathlib and the fibre-dimension theorem for standard-smooth algebras.
-- [Dimension after extending the ground field](../../schemes/fiber-products/base-extension-component-dimension.md)
+- [Dimension after extending the ground field](../../../schemes/fiber-products/base-extension-component-dimension.md)
 
 ## Sources
 
-- [Hartshorne III.10, definition on p.268](../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)
-- [Hartshorne III.9, Corollary 9.6](../../../sources/hartshorne-iii-9.md#dimensions-associated-points-and-flat-limits-pp256261)
+- [Hartshorne III.10, definition on p.268](../../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)
+- [Hartshorne III.9, Corollary 9.6](../../../../sources/hartshorne-iii-9.md#dimensions-associated-points-and-flat-limits-pp256261)

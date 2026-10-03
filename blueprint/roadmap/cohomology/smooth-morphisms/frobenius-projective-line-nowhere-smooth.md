@@ -21,7 +21,7 @@ positive-characteristic failure of Bertini noted in Remark 10.9.3.
 
 - [Projective space is smooth](projective-space-smooth.md)
 - [The transitivity sequence for differential sheaves](../../schemes/differentials/scheme-differentials/relative-differentials-transitivity.md)
-- [Relative differentials of a smooth morphism](relative-differentials-rank-of-smooth.md)
+- [Relative differentials of a smooth morphism](criteria/relative-differentials-rank-of-smooth.md)
 
 ## Proof depends on
 

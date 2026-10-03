@@ -22,8 +22,8 @@ results and is not itself marked `mathlib: true`.
 
 ## Depends on
 
-- [The relative differential sheaf](../../schemes/differentials/scheme-differentials/relative-differentials.md)
-- [The stalk criterion for flat morphisms](../flat-families/flatness/flat-morphism-stalk-criterion.md)
+- [The relative differential sheaf](../../../schemes/differentials/scheme-differentials/relative-differentials.md)
+- [The stalk criterion for flat morphisms](../../flat-families/flatness/flat-morphism-stalk-criterion.md)
 
 ## Proof depends on
 
@@ -34,5 +34,5 @@ results and is not itself marked `mathlib: true`.
 
 ## Sources
 
-- [Hartshorne III.10, Exercise 10.3, p.275](../../../sources/hartshorne-iii-10.md#exercise-disposition-pp275276)
-- [Stacks Project, Lemma 29.37.15, tag 02GU](../../../sources/hartshorne-iii-10.md#exercise-disposition-pp275276)
+- [Hartshorne III.10, Exercise 10.3, p.275](../../../../sources/hartshorne-iii-10.md#exercise-disposition-pp275276)
+- [Stacks Project, Lemma 29.37.15, tag 02GU](../../../../sources/hartshorne-iii-10.md#exercise-disposition-pp275276)

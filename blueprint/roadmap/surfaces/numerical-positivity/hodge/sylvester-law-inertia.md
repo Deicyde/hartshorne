@@ -18,6 +18,11 @@ This is the exact pinned declaration
 signature declarations show that the numbers of positive and negative
 weights are invariant under equivalence.
 
+## Depends on
+
+No project-local prerequisites. The statement is supplied directly by the
+verified pinned-Mathlib declaration recorded in frontmatter.
+
 ## Sources
 
 - [Hartshorne V.1, linear-algebra input in Remark 1.9.1, p.364](../../../../sources/hartshorne-v-1.md)

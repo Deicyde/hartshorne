@@ -7,13 +7,9 @@ dimension, and tangent formulations by explicit comparison theorems.
 
 ## Smoothness foundations
 
-- [Relative differentials of a smooth morphism](relative-differentials-rank-of-smooth.md)
-- [Hartshorne's smoothness criterion](hartshorne-smoothness-criterion.md)
+- [Smoothness and étale criteria](criteria/README.md)
 - [Affine space is smooth](affine-space-smooth.md)
 - [Projective space is smooth](projective-space-smooth.md)
-- [Smoothness and regularity over an algebraically closed field](smooth-over-algebraically-closed-iff-regular.md)
-- [Smooth relative-dimension calculus](smooth-relative-dimension-calculus.md)
-- [Smoothness and geometrically regular fibres](smooth-iff-geometrically-regular-fibers.md)
 
 ## Tangent and generic-smoothness criteria
 
@@ -41,10 +37,6 @@ dimension, and tangent formulations by explicit comparison theorems.
 - [Kleiman's general-translate theorem](kleiman-general-translate.md)
 - [Bertini for a basepoint-free linear system](bertini-basepoint-free-linear-system.md)
 - [Bertini away from the base locus](bertini-away-from-base-locus.md)
-
-## Later-used exercise
-
-- [Étale, flat-unramified, and differential criteria](etale-flat-unramified-equivalences.md)
 
 Exercises 10.1–10.2 and 10.4–10.9 are outside the adopted fine scope. The
 positive-characteristic and imperfect-field warnings they motivate remain

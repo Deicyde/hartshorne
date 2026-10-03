@@ -74,20 +74,20 @@ two exact Mathlib results, plus five reactivated earlier-exercise prerequisites.
 All of Chapter V has a 230-leaf fine roadmap with one exact Mathlib result,
 plus two reactivated III.7 prerequisites, one II.8 prerequisite, two I.5
 prerequisites, and one Appendix A HRR prerequisite. Appendix A has a 72-leaf
-fine roadmap and Appendix B a 69-leaf fine roadmap; Appendix C retains approved
-coarse milestones and are deferred in that
-order. Reference apparatus and already-dispositioned non-target material
-remain out of scope.
+fine roadmap, Appendix B a 69-leaf fine roadmap, and Appendix C a 69-leaf fine
+roadmap with one exact pinned-Mathlib foundation. Reference apparatus,
+Appendix C's history and terminal exercises, and already-dispositioned
+non-target material remain out of scope.
 
 - [Roadmap](roadmap/README.md) — the book: chapters, statements, and their
   dependencies.
-- [Remaining-book roadmap](roadmap/remaining-book/README.md) — the proposed
-  sequencing from §I.8 through Appendix C.
+- [Remaining-book roadmap](roadmap/remaining-book/README.md) — the completed
+  source and dependency-DAG sequencing from §I.8 through Appendix C.
 - [Coverage](coverage/README.md) — what counts as done, and what is out of
   scope.
 
 Mathlib's algebraic geometry begins at `Spec` and builds schemes; Hartshorne
 begins with an affine variety as an irreducible closed subset of `𝔸ⁿ`. The
-classical layer has no counterpart upstream, which is why the completed scope
-starts in Chapter I. Any further Chapter V expansion should reuse exact
-Mathlib scheme results instead of restating them.
+classical layer has no counterpart upstream, which is why the completed Lean
+scope starts in Chapter I. Later formalization work should reuse exact Mathlib
+results recorded by the roadmap instead of restating them.

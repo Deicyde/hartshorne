@@ -21,7 +21,7 @@ single unresolved representation root for the III.10 Bertini branch.
 
 - [Algebraic group actions and homogeneous spaces](homogeneous-space-api.md)
 - [Projective space over a ring](../../schemes/projective-spectrum/projective-space-over-ring.md)
-- [Smooth relative-dimension calculus](smooth-relative-dimension-calculus.md)
+- [Smooth relative-dimension calculus](criteria/smooth-relative-dimension-calculus.md)
 
 ## Sources
 

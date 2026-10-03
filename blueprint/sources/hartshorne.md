@@ -200,16 +200,16 @@ the book's proof.
 ## I.5 completion and analytic material
 
 This portion follows Theorem 5.3 on printed p.33 and ends before Theorem 5.7A
-on p.35. Only regularity under completion from Theorem 5.4A is now adopted,
-for V.5.7; all other completion, Cohen, and analytic material remains deferred
-under the existing scope.
+on p.35. Regularity under completion from Theorem 5.4A is adopted for V.5.7,
+and the analytic-isomorphism definition is adopted for Exercise 5.14(d) in
+V.3; the remaining completion, Cohen, and analytic examples remain deferred.
 
 | Locator | Material | Pages | Disposition |
 | --- | --- | --- | --- |
 | After Thm. 5.3 | The `𝔪`-adic topology and completion `Â = lim← A/𝔪ⁿ` | 33 | Deferred pending a separate completion scope |
 | Thm. 5.4A | Completion of a Noetherian local ring: local structure and injectivity; completion of a finite module as tensor product; preservation of dimension and regularity | 34 | The equivalence of regularity for a local ring and its completion is adopted for V.5.7; all other clauses remain deferred background |
 | Thm. 5.5A | A complete regular local ring of dimension `n` containing a field is isomorphic to `κ[[x₁,…,xₙ]]`, where `κ` is its residue field | 34 | Deferred background |
-| Def.; Ex. 5.6.1–5.6.3 | Analytically isomorphic points; dimension invariance; nonsingular points of equal dimension; the plane nodal cubic is analytically isomorphic to the crossing `xy = 0`, showing that completion need not preserve being a domain | 34–35 | Deferred pending a separate completion scope |
+| Def.; Ex. 5.6.1–5.6.3 | Analytically isomorphic points; dimension invariance; nonsingular points of equal dimension; the plane nodal cubic is analytically isomorphic to the crossing `xy = 0`, showing that completion need not preserve being a domain | 34–35 | The definition is adopted for Exercise 5.14(d) and V.3; Examples 5.6.1–5.6.3 remain deferred |
 
 ## I.5 exercises and exercise-only prerequisite
 
@@ -346,11 +346,11 @@ dominant morphism `C_{K₁} → C_{K₂}`.
 
 ## Remaining-book inventory policy
 
-The rest of the book has now received a coarse source pass. The page ranges and
-section boundaries below were checked against the repository PDF. Units not
-yet expanded into a fine theorem DAG are explicitly `DEFERRED` in the coverage
-contract, while completed source passes such as §I.8 split recaps, previews,
-source obligations, and exposition. Chapter introductions and narrative
+The rest of the book has received a fine claim-level source and theorem-DAG
+pass through Appendix C. The page ranges and section boundaries below were
+checked against the repository PDF. Residual `DEFERRED` units are confined to
+the explicitly listed I.5 and I.8 source obligations. Section I.8 splits recaps,
+previews, source obligations, and exposition; introductions and narrative
 surveys are recorded so that they cannot be mistaken for unread gaps.
 
 The existing exercise policy remains the proposed default: adopt an exercise
@@ -414,8 +414,8 @@ Exercises 7.1–7.2 and 7.4–7.8 remain outside the fine scope.
 ## I.8 what is algebraic geometry?
 
 - **Chapter I recaps (pp. 55–59):** birational classification via function fields; uniqueness of the nonsingular projective curve model; completion of curves by finitely many points; birational invariance of dimension; affine open covers; the affine-variety/domain equivalence; and the need to retain reducible intersections.
-- **Later curve previews (pp. 56–57):** genus, rational and elliptic curves, projective embeddings, differentials, and cohomological definitions of genus are deferred to Chapter IV and the relevant Chapter II–III foundations.
-- **Surface previews (pp. 56–57):** existence and ordering of nonsingular projective models, factorization by point blowups, ruled surfaces, and minimal models are deferred to Chapter V, preserving Hartshorne's stated rational/ruled exceptions and Zariski source obligation.
+- **Later curve previews (pp. 56–57):** genus, rational and elliptic curves, projective embeddings, differentials, and cohomological definitions of genus are assigned to the fine Chapter IV roadmap and the relevant Chapter II–III foundations.
+- **Surface previews (pp. 56–57):** existence and ordering of nonsingular projective models, factorization by point blowups, ruled surfaces, and minimal models are assigned to the fine Chapter V roadmap, preserving Hartshorne's stated rational/ruled exceptions and Zariski source obligation.
 - **Intrinsic and cohomological previews (pp. 57–58):** arithmetic genus, divisors, Picard groups, differential forms, coherent-sheaf cohomology, Zariski's Main Theorem, and Riemann–Roch are delegated to Chapters II–V and Appendix A.
 - **Foundational previews (pp. 58–59):** arbitrary ground fields, abstract varieties, non-quasi-projective examples, nilpotent/nonreduced structure, affine schemes, and gluing are delegated to the precise Chapter II milestones.
 - **Standalone source obligations:** a precise moduli statement for `M_g` and its dimension; an explicit witness that degree and Hilbert polynomial depend on the projective embedding; and a Noetherian ring whose affine spectrum has infinite dimension. Hartshorne supplies no proof specification here, so these remain deferred pending adopted statements and sources.
@@ -438,8 +438,8 @@ have fine source, pinned-Mathlib, and theorem-DAG passes.
 
 The chapter introduction on p. 60 is editorial context. Detailed II.1–II.9
 notes record running text, later-used exercises, exact pinned-Mathlib matches,
-and representation gaps. Later milestones receive the same source audit before
-any leaf is marked as supplied upstream.
+and representation gaps. Every later milestone received the same source audit
+before any leaf was marked as supplied upstream.
 
 ## III cohomology
 
@@ -467,9 +467,9 @@ Chapter IV, printed pp. 293–355, with an editorial introduction on p. 293.
 | IV-C: elliptic curves | §4, pp. 316–340 | Genus-one curves, group laws, isogenies, Jacobians, analytic uniformization, Hasse invariants, rational points, and exercises |
 | IV-D: canonical and space curves | §§5–6, pp. 340–355 | Canonical embeddings, Clifford's theorem, and curves in projective three-space |
 
-The analytic background labelled 4.12B–4.15B requires a separately adopted
-source before fine decomposition; Hartshorne states those results but does not
-provide their proofs.
+The analytic background labelled 4.12B–4.15B is decomposed into eight fine
+leaves. Its exact Mathlib input is recorded, and its source-dependent root
+remains an explicit blocker because Hartshorne does not provide a proof.
 
 ## V surfaces
 
@@ -484,8 +484,8 @@ Chapter V, printed pp. 356–423, with an editorial introduction on p. 356.
 | V-E: birational transformations | §5, pp. 409–420 | Factorization, contraction of exceptional curves, and minimal models |
 | V-F: classification survey | §6, pp. 421–423 | The Enriques–Kodaira classification and open directions, largely stated without proof |
 
-Section V.6 is primarily a survey. It remains deferred until its assertions are
-split between formalizable claims, external-source obligations, and exposition.
+Section V.6's survey assertions are split into 26 project leaves, with thirteen
+explicit blockers separating external-source obligations from derived claims.
 
 ## Appendix A intersection theory
 
@@ -520,19 +520,19 @@ The fine roadmap retains explicit analytic, GAGA, and Hodge proof sources.
 
 ## Appendix C the Weil conjectures
 
-Printed pp. 449–458. This appendix states the conjectural package and sketches
-its cohomological proof architecture; it does not develop étale cohomology or
-Deligne's proof.
+Printed pp. 449–458. This appendix states the historically conjectural theorem
+package and sketches its cohomological proof architecture; it does not develop
+étale cohomology or Deligne's proof.
 
 | Milestone | Sections and pages | Mathematical content |
 | --- | --- | --- |
 | C-A: zeta functions and the Weil package | §1, pp. 449–451 | Zeta functions and Weil assertions 1.1–1.4 |
 | History | §2, pp. 451–453 | Historical survey of work on the Weil conjectures; no theorem-DAG target |
 | C-B: ℓ-adic cohomology interface | §3, pp. 453–454 | Functoriality, cup products, Poincaré duality, Lefschetz trace, smooth-proper invariance, comparison, and cycle classes |
-| C-C: Frobenius and Weil deductions | §4, pp. 454–458 | Frobenius point counting, trace and determinant lemmas, rationality, functional equation, and Deligne's theorem |
+| C-C: Frobenius and Weil deductions | §4, pp. 454–457 | Frobenius point counting, trace and determinant lemmas, rationality, functional equation, and Deligne's theorem |
 
-Fine planning for §§C.3–C.4 requires an external étale/ℓ-adic source stack;
-Hartshorne deliberately supplies only the interface and deduction outline.
+Exercises C.5.1–5.7, pp. 457–458, are out under the later-use policy. The fine
+roadmap retains the external sources behind Hartshorne's interface and outline.
 
 ## Back matter
 

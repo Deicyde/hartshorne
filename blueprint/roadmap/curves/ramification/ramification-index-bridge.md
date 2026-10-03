@@ -21,7 +21,7 @@ Ramification is tame in characteristic zero, or in characteristic `p` when
 
 - [Nonsingular curve local rings are DVRs](../../nonsingular-curves/nonsingular-curve-local-ring-dvr.md)
 - [Pullback of divisors along finite curve morphisms](../../schemes/divisors/curve-divisors/finite-curve-divisor-pullback.md)
-- [Étale, flat-unramified, and differential criteria](../../cohomology/smooth-morphisms/etale-flat-unramified-equivalences.md)
+- [Étale, flat-unramified, and differential criteria](../../cohomology/smooth-morphisms/criteria/etale-flat-unramified-equivalences.md)
 
 ## Proof depends on
 

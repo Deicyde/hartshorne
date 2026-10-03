@@ -68,7 +68,8 @@ birational-hypersurface proof for Theorem 5.3.
 
 ## Scope note
 
-This chapter stops with Theorem 5.3 on printed p. 33. Completion, the Cohen
-structure theorem, and analytic isomorphism are deferred to a separately
-approved milestone; Theorem 5.7A and the exercises are out of scope. See the
-[coverage contract](../../coverage/README.md).
+This chapter stops with Theorem 5.3 on printed p. 33. Outside this chapter,
+regularity under completion is adopted for V.5, and the analytic-isomorphism
+definition and Exercise 5.14(d) are adopted for V.3. The remaining completion,
+Cohen-structure, and analytic examples are deferred; Theorem 5.7A and the
+unadopted exercises are out of scope. See the [coverage contract](../../coverage/README.md).

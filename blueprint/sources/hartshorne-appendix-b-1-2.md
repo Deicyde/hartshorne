@@ -95,14 +95,12 @@ uniqueness assertion used at the start of §3.
 
 ## Exercise disposition, printed pp.447–448
 
-- Exercises B.6.1, B.6.3, and B.6.4 are explicit running-text counterexamples
-  to Q1, Q3, and Q5 and are strong later-use candidates.
-- Exercise B.6.6 is retained in this milestone because §2 explicitly leaves
-  projective Q2 to it and §3 uses the resulting uniqueness.
-- Exercises B.6.2 and B.6.5 are supplementary nonproper examples and affine-
-  curve rigidity; no later running dependency is visible.
-
-Only B.6.6 receives an exercise leaf in the present assignment.
+- **Exercises B.6.1–B.6.5 — OUT.** They provide counterexamples and affine-
+  curve rigidity but have no later included running-text consumer under the
+  final whole-book exercise policy.
+- **Exercise B.6.6 — ADOPTED.** Section 2 explicitly leaves projective Q2 to
+  it, and §3 uses the resulting uniqueness of algebraization. It has the sole
+  Appendix-B exercise leaf.
 
 ## Representation and source blockers
 

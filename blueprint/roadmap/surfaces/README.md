@@ -8,11 +8,8 @@ reactivate parts of III Exercise 7.4, one reactivates II Exercise 8.2, two
 reactivate I.5 results, and one Appendix A HRR prerequisite records
 the HRR source of Noether's formula.
 
-- [Intersection theory and adjunction](intersection-theory/foundations/README.md)
-- [Standard examples and adjunction](intersection-theory/examples-adjunction/README.md)
-- [Surface Riemann–Roch](numerical-positivity/surface-riemann-roch/README.md)
-- [Numerical equivalence and Hodge index](numerical-positivity/hodge/README.md)
-- [Nakai–Moishezon](numerical-positivity/nakai/README.md)
+- [Intersection theory and adjunction](intersection-theory/README.md)
+- [Numerical invariants and positivity](numerical-positivity/README.md)
 - [Later-used exercises](surface-exercises/README.md)
 - [Algebraic-equivalence prerequisites](equivalence-exercises/README.md)
 - [Earlier and forward prerequisites](prerequisites/README.md)

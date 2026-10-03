@@ -13,7 +13,7 @@ nontrivial connected finite étale covering.
 ## Depends on
 
 - [Riemann–Hurwitz](riemann-hurwitz.md)
-- [Étale, flat-unramified, and differential criteria](../../cohomology/smooth-morphisms/etale-flat-unramified-equivalences.md)
+- [Étale, flat-unramified, and differential criteria](../../cohomology/smooth-morphisms/criteria/etale-flat-unramified-equivalences.md)
 - [Projective space is smooth](../../cohomology/smooth-morphisms/projective-space-smooth.md)
 - [Finite morphisms](../../schemes/first-properties/finite-morphism.md)
 

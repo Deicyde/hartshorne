@@ -18,6 +18,11 @@ is an isomorphism.  The target is allowed to be singular.
 This definition is distinct from contraction only in the category of complex
 analytic spaces.
 
+## Depends on
+
+- [Surfaces and effective curves](../../intersection-theory/foundations/surface-curve-convention.md)
+- [Birational maps](../../../rational-maps/birational-map.md)
+
 ## Sources
 
 - [Hartshorne V.5, Remark 5.7.2, p.417](../../../../sources/hartshorne-v-5.md)
