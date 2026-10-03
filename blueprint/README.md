@@ -67,8 +67,8 @@ hypothesis on the function field.
 The completion, Cohen-structure, and analytic-isomorphism material later in
 §I.5 is deferred. Section I.7 has a fine DAG, §I.8 has a claim-by-claim
 survey disposition, and all of Chapter II has a 442-leaf fine DAG with 99 exact
-pinned-Mathlib results. Chapter III §§1–7 has a 171-leaf fine roadmap with ten
-exact Mathlib results; Chapter III §§8–12, Chapters IV–V, and Appendices A–C
+pinned-Mathlib results. Chapter III §§1–9 has a 228-leaf fine roadmap with
+nineteen exact Mathlib results; Chapter III §§10–12, Chapters IV–V, and Appendices A–C
 retain approved coarse milestones and are deferred in that
 order. Reference apparatus and already-dispositioned non-target material
 remain out of scope.

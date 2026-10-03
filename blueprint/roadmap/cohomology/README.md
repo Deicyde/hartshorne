@@ -32,6 +32,11 @@ Hartshorne's chosen model.
 - [Global and sheaf Ext](ext-groups/README.md)
 - [Dualizing sheaves and Serre duality](serre-duality/README.md)
 
+## Higher direct images and families
+
+- [Higher direct images](higher-direct-images/README.md)
+- [Flat families and Hilbert polynomials](flat-families/README.md)
+
 ## Sources
 
 - [Hartshorne III.1–2 source notes](../../sources/hartshorne-iii-1-2.md)
@@ -39,3 +44,5 @@ Hartshorne's chosen model.
 - [Hartshorne III.5 source notes](../../sources/hartshorne-iii-5.md)
 - [Hartshorne III.6 source notes](../../sources/hartshorne-iii-6.md)
 - [Hartshorne III.7 source notes](../../sources/hartshorne-iii-7.md)
+- [Hartshorne III.8 source notes](../../sources/hartshorne-iii-8.md)
+- [Hartshorne III.9 source notes](../../sources/hartshorne-iii-9.md)

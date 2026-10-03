@@ -26,3 +26,5 @@ Detailed source and Mathlib audits for the active Chapter II milestones:
 - [Hartshorne III.5: projective cohomology](hartshorne-iii-5.md)
 - [Hartshorne III.6: Ext](hartshorne-iii-6.md)
 - [Hartshorne III.7: duality](hartshorne-iii-7.md)
+- [Hartshorne III.8: higher direct images](hartshorne-iii-8.md)
+- [Hartshorne III.9: flat families](hartshorne-iii-9.md)

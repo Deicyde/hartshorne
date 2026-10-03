@@ -7,7 +7,7 @@ Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 Sections I.1 through I.4, the geometric core of I.5 through Theorem I.5.3, and
 I.6 through Corollary I.6.12 are decomposed into a dependency graph of 163
 formalization targets. The completion, Cohen-structure, and analytic-isomorphism
-material later in §I.5 is deferred. Chapter III §§8–12, Chapters IV–V, and
+material later in §I.5 is deferred. Chapter III §§10–12, Chapters IV–V, and
 Appendices A–C have an approved coarse whole-book map. Section I.7 is decomposed into 50 fine targets,
 47 formalized and three remaining; the §I.8 survey has been dispositioned claim
 by claim; and all of Chapter II now has a 442-leaf fine roadmap, including 99
@@ -15,11 +15,12 @@ exact pinned-Mathlib results. The later milestones remain deferred. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-Chapter III §§1–7 has a 171-leaf cohomology roadmap: ten exact pinned-Mathlib
-results and 161 project targets. It covers derived functors,
+Chapter III §§1–9 has a 228-leaf cohomology roadmap: nineteen exact pinned-Mathlib
+results and 209 project targets. It covers derived functors,
 sheaf and supported cohomology, affine vanishing, local cohomology, and Čech
 comparison, projective cohomology, Ext, dualizing sheaves, and Serre duality
-through p. 250.
+through higher direct images, flat families, Hilbert polynomials, and
+deformations on p. 268.
 
 **All 163 targets through Corollary I.6.12 are complete.** Of these, 159 are
 proved in this project and four are supplied by Mathlib. The active §I.7
