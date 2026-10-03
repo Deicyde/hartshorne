@@ -424,19 +424,19 @@ remains outside the fine scope under the standing exercise policy. The other
 ## II schemes
 
 Chapter II, printed pp. 60–200. Its scheme-theoretic language is the main
-foundation for every later chapter. Milestone II-A now has a fine source/DAG
-pass; the remaining milestones retain their dependency-ordered coarse scope.
+foundation for every later chapter. Milestones II-A and II-B now have fine
+source/DAG passes; the remaining milestones retain dependency-ordered scope.
 
 | Milestone | Sections and pages | Mathematical content |
 | --- | --- | --- |
 | II-A: scheme foundations | §§1–3, pp. 60–95 | Sheaves; `Spec` and `Proj`; schemes, morphisms, closed subschemes, fibre products, and first local/global properties |
-| II-B: separated and proper morphisms | §4, pp. 95–107 | Diagonals, separatedness, properness, and valuative criteria |
+| II-B: separated and proper morphisms | §4, pp. 95–108 | Diagonals, separatedness, properness, projective morphisms, and valuative criteria |
 | II-C: sheaves of modules | §5, pp. 108–128 | Quasi-coherent and coherent modules, exactness, finite presentation, and projective sheaf machinery |
 | II-D: divisors and projective geometry | §§6–7, pp. 129–171 | Weil and Cartier divisors, Picard groups, linear systems, ample and very ample sheaves, projective bundles, and blowups |
 | II-E: differentials and regularity | §8, pp. 172–189 | Kähler differentials, nonsingularity, tangent spaces, canonical sheaves, and Bertini-type results |
 | II-F: formal schemes | §9, pp. 190–200 | Completions and formal schemes, needed later by formal functions and surface resolution |
 
-The chapter introduction on p. 60 is editorial context. Detailed II.1–II.3
+The chapter introduction on p. 60 is editorial context. Detailed II.1–II.4
 notes record running text, later-used exercises, exact pinned-Mathlib matches,
 and representation gaps. Later milestones receive the same source audit before
 any leaf is marked as supplied upstream.

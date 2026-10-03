@@ -65,8 +65,8 @@ Read the [coverage contract](../coverage/README.md) before reading progress off
 this book: §§1–4, the geometric core of §5 through Theorem 5.3, and §6 through
 Corollary 6.12 are decomposed here. The completion material later in §5 is
 deferred; §I.7 is finely decomposed, §I.8 is dispositioned claim by claim, and
-Chapter II §§1–3 has a fine scheme-foundations DAG. The rest of Chapter II,
-Chapters III–V, and Appendices A–C are approved coarse milestones deferred
+Chapter II §§1–4 has a fine schemes DAG. Chapter II §§5–9, Chapters III–V,
+and Appendices A–C are approved coarse milestones deferred
 until their turn. The complete source partition is recorded in the
 [source notes](../sources/hartshorne.md).
 
@@ -98,7 +98,8 @@ until their turn. The complete source partition is recorded in the
 - [Intersections in projective space](intersections-projective-space/README.md)
   — Hartshorne I.7, from dimension bounds through Hilbert polynomials and
   Bézout.
-- [Scheme foundations](schemes/README.md) — Hartshorne II.1–3: sheaves,
-  `Spec`, `Proj`, schemes, subschemes, fibre products, and first properties.
+- [Scheme foundations](schemes/README.md) — Hartshorne II.1–4: sheaves,
+  `Spec`, `Proj`, schemes, subschemes, fibre products, separatedness, and
+  properness.
 - [Remaining-book roadmap](remaining-book/README.md) — approved coarse
   milestones for the rest of Chapter II, Chapters III–V, and Appendices A–C.
