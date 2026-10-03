@@ -66,8 +66,8 @@ this book: §§1–4, the geometric core of §5 through Theorem 5.3, and §6 thr
 Corollary 6.12 are decomposed here. The completion material later in §5 is
 deferred; §I.7 is finely decomposed, §I.8 is dispositioned claim by claim,
 Chapter II has a fine schemes DAG, all of Chapter III has a fine cohomology
-DAG, and all of Chapter IV has a fine curves DAG. Chapter V and Appendices
-A–C are
+DAG, all of Chapter IV has a fine curves DAG, and Chapter V §1 has a fine
+surfaces DAG. Chapter V §§2–6 and Appendices A–C are
 approved coarse milestones deferred
 until their turn. The complete source partition is recorded in the
 [source notes](../sources/hartshorne.md).
@@ -107,5 +107,7 @@ until their turn. The complete source partition is recorded in the
   formal functions, semicontinuity, and base change.
 - [Curves](curves/README.md) — Hartshorne Chapter IV: Riemann–Roch,
   ramification, elliptic and canonical curves, and space curves.
+- [Surfaces](surfaces/README.md) — Hartshorne V.1: intersection theory,
+  surface Riemann–Roch, Hodge index, and Nakai–Moishezon.
 - [Remaining-book roadmap](remaining-book/README.md) — approved coarse
-  milestones for Chapter V and Appendices A–C.
+  milestones for Chapter V §§2–6 and Appendices A–C.

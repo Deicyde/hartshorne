@@ -5,7 +5,7 @@ Chapter III, §7. The printed section boundary is pp.239–250 (zero-based PDF
 indices 253–264): the running text begins on p.239 and ends on p.249, the
 exercises continue through p.250, and §8 begins later on p.250. Page
 references below are printed pages. The adopted scope is the running text
-through p.249; no exercise is adopted in this chapter.
+through p.249 together with Exercise 7.4(a),(c),(d), now required by V.1.8(a).
 
 ## Scope and exercise dispositions
 
@@ -14,9 +14,10 @@ mathematically substantive remark through Remark 7.15. Exercise 7.1 is out:
 it is not cited later in the book. Exercise 7.2 is excluded under the strict
 exercise policy even though IV, Exercise 2.6(c), cites it, because its finite
 duality chain is conditional on the separately unadopted Exercise 6.10.
-Exercises 7.3 and 7.4 are also out. Exercise 7.4 continues beyond the requested
-running-text scope onto printed p.250, and its cohomology-class chain depends
-on Exercise 7.3. No claim about these exercises is made by this roadmap.
+Exercise 7.3 and Exercise 7.4(b) remain out. Exercise 7.4(a),(c),(d) are
+adopted for V Exercise 1.8(a): the `dlog` Picard class and the point-trace /
+codimension-one divisor-class comparison. Those parts do not require the
+excluded Exercise 7.3.
 
 ## Duality on projective space, pp.239–241
 

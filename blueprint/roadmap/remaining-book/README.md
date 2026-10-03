@@ -10,11 +10,14 @@ The 163 leaves through Corollary I.6.12 are formalized, and §I.7 has a 50-leaf
 formalized and three remaining. Section I.8 has been dispositioned claim by
 claim. Chapter II now has a 443-leaf
 [fine roadmap](../schemes/README.md), with 99 exact pinned-Mathlib leaves and
-344 project targets. All of Chapter III has a 286-leaf
-[fine roadmap](../cohomology/README.md), with 19 exact Mathlib leaves and 267
+344 project targets. All of Chapter III has a 288-leaf
+[fine roadmap](../cohomology/README.md), with 19 exact Mathlib leaves and 269
 project targets. All of Chapter IV has a 201-leaf [fine roadmap](../curves/README.md),
 with two exact Mathlib leaves and 199 project targets, plus five reactivated
-earlier-exercise prerequisites and one forward V.2 prerequisite. Chapter V and Appendices A–C remain
+earlier-exercise prerequisites and one forward V.2 prerequisite. Chapter V §1
+has a 43-leaf [fine roadmap](../surfaces/README.md), with one exact Mathlib leaf
+and 42 project targets, plus two reactivated III.7 prerequisites and one forward
+Appendix A prerequisite. Chapter V §§2–6 and Appendices A–C remain
 explicit deferred milestones in the [coverage contract](../../coverage/README.md)
 until their turn for fine source and Mathlib work.
 
@@ -67,7 +70,7 @@ survey sentence alone is not used as a proof specification.
 | --- | --- | --- | --- |
 | III-A | §§III.1–4, pp. 202–225 | [Fine roadmap](../cohomology/README.md): derived functors, sheaf and supported cohomology, affine/local vanishing, and Čech comparison | Complete source/API pass: 5 exact Mathlib leaves, 67 project targets, and 12 explicit source-blocked nodes |
 | III-B | §III.5, pp. 225–233 | [Fine roadmap](../cohomology/README.md): projective-space cohomology, Serre finiteness/vanishing, ampleness, and Hilbert polynomials | Complete source/API pass: 34 project targets and 7 explicit source-blocked roots |
-| III-C | §§III.6–7, pp. 233–250 | [Fine roadmap](../cohomology/README.md): global and sheaf Ext, dualizing sheaves, Serre duality, residues, and Kodaira's theorem | Complete source/API pass: 5 exact Mathlib leaves, 60 project targets, and 9 explicit source-blocked nodes |
+| III-C | §§III.6–7, pp. 233–250 | [Fine roadmap](../cohomology/README.md): global and sheaf Ext, dualizing sheaves, Serre duality, residues, and Kodaira's theorem | Complete source/API pass: 5 exact Mathlib leaves, 62 project targets, and 9 explicit source-blocked nodes |
 | III-D | §§III.8–9, pp. 250–268 | [Fine roadmap](../cohomology/README.md): higher direct images, flatness, base change, Hilbert polynomials, families, and deformations | Complete source/API pass: 9 exact Mathlib leaves, 48 project targets, and 9 explicit source-blocked roots |
 | III-E | §III.10, pp. 268–276 | [Fine roadmap](../cohomology/README.md): smooth morphisms, generic smoothness, homogeneous spaces, Kleiman transversality, and Bertini | Complete source/API pass: 29 project targets and one source-blocked PGL-action root |
 | III-F | §§III.11–12, pp. 276–292 | [Fine roadmap](../cohomology/README.md): formal functions, Zariski's Main Theorem, Stein factorization, semicontinuity, Grauert, and base change | Complete source/API pass: 29 project targets and one higher-direct-image representation blocker |
@@ -85,7 +88,7 @@ survey sentence alone is not used as a proof specification.
 
 | Milestone | Source | Goal | Primary prerequisites |
 | --- | --- | --- | --- |
-| V-A | §V.1, pp. 357–368 | Surface intersection theory, adjunction, Riemann–Roch, Hodge index, and Nakai | II-D and III-C |
+| V-A | §V.1, pp. 357–368 | [Fine roadmap](../surfaces/README.md): surface intersection theory, adjunction, Riemann–Roch, Hodge index, and Nakai | Complete source/API pass: 42 project targets, one exact Mathlib target, two reactivated III.7 prerequisites, one forward Appendix A blocker, and two section source blockers |
 | V-B | §V.2, pp. 369–385 | Ruled surfaces | V-A and IV curve theory |
 | V-C | §V.3, pp. 386–394 | Blowups and resolution steps | II-F, III-F, and V-A |
 | V-D | §V.4, pp. 395–408 | Cubic surfaces and the 27 lines | V-A and V-C |
