@@ -3,9 +3,10 @@
 Hartshorne Chapter III begins by importing homological algebra, defining sheaf
 cohomology as derived global sections, proving affine and Čech comparison
 theorems, computing projective-space cohomology, developing duality and
-families, and reaching smooth morphisms and Bertini. The fine roadmap covers
-§§III.1–10 and the retained exercises through printed p.276: 257 leaves, of
-which 19 are exact pinned-Mathlib results and 238 are project targets.
+families, smooth morphisms and Bertini, formal functions, semicontinuity, and
+base change. The fine roadmap covers all of Chapter III and the retained
+exercises through printed p.292: 286 leaves, of which 19 are exact
+pinned-Mathlib results and 267 are project targets.
 
 The roadmap keeps three coefficient categories distinct: abelian sheaves,
 modules over the structure sheaf, and quasi-coherent modules. It also records
@@ -43,6 +44,11 @@ Hartshorne's chosen model.
 
 - [Smooth morphisms, generic smoothness, and Bertini](smooth-morphisms/README.md)
 
+## Formal functions, semicontinuity, and base change
+
+- [Formal functions and its applications](formal-functions/README.md)
+- [Semicontinuity and cohomology and base change](semicontinuity/README.md)
+
 ## Sources
 
 - [Hartshorne III.1–2 source notes](../../sources/hartshorne-iii-1-2.md)
@@ -53,3 +59,4 @@ Hartshorne's chosen model.
 - [Hartshorne III.8 source notes](../../sources/hartshorne-iii-8.md)
 - [Hartshorne III.9 source notes](../../sources/hartshorne-iii-9.md)
 - [Hartshorne III.10 source notes](../../sources/hartshorne-iii-10.md)
+- [Hartshorne III.11–12 source notes](../../sources/hartshorne-iii-11-12.md)
