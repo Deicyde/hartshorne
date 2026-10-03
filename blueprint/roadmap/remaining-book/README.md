@@ -14,11 +14,10 @@ claim. Chapter II now has a 444-leaf
 [fine roadmap](../cohomology/README.md), with 19 exact Mathlib leaves and 269
 project targets. All of Chapter IV has a 201-leaf [fine roadmap](../curves/README.md),
 with two exact Mathlib leaves and 199 project targets, plus five reactivated
-earlier-exercise prerequisites. Chapter V §§1–5 has a 204-leaf
-[fine roadmap](../surfaces/README.md), with one exact Mathlib leaf and 203 project
+earlier-exercise prerequisites. All of Chapter V has a 230-leaf
+[fine roadmap](../surfaces/README.md), with one exact Mathlib leaf and 229 project
 targets, plus two reactivated III.7 prerequisites, one II.8 prerequisite,
-two I.5 prerequisites, and one forward Appendix A prerequisite. Chapter V §6 and
-Appendices A–C remain
+two I.5 prerequisites, and one forward Appendix A prerequisite. Appendices A–C remain
 explicit deferred milestones in the [coverage contract](../../coverage/README.md)
 until their turn for fine source and Mathlib work.
 
@@ -94,7 +93,7 @@ survey sentence alone is not used as a proof specification.
 | V-C | §V.3, pp. 386–395 | [Fine roadmap](../surfaces/monoidal-transformations/README.md): point blowups, exceptional curves, strict transforms, and embedded curve resolution | Complete source/API pass: 32 project targets and one reactivated I.5 analytic-classification blocker |
 | V-D | §V.4, pp. 395–409 | [Fine roadmap](../surfaces/cubic-surfaces/README.md): assigned systems, Del Pezzo blowups, the 27 lines, and ample cones | Complete source/API pass: 42 project targets and four explicit source blockers |
 | V-E | §V.5, pp. 409–420 | [Fine roadmap](../surfaces/birational-transformations/README.md): birational factorization, contraction, and minimal models | Complete source/API pass: 39 project targets, one reactivated I.5 completion blocker, and three explicit section blockers |
-| V-F | §V.6, pp. 421–423 | Classification survey | Split proved claims from survey assertions and source each retained claim |
+| V-F | §V.6, pp. 421–423 | [Fine roadmap](../surfaces/numerical-classification/README.md): canonical rings, Kodaira dimension, and numerical classification | Complete claim-by-claim source/API pass: 26 project targets and thirteen explicit source blockers |
 
 ## Appendices
 
