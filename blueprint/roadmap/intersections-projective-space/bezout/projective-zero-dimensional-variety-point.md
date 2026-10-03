@@ -3,6 +3,9 @@ article_id: af_ff73a1797a4821e2d824dc1d
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsProjVariety.eq_singleton_of_projDim_eq_zero
 ---
 
 # A zero-dimensional projective variety is a point
@@ -25,10 +28,10 @@ their points.
 ## Depends on
 
 - [Projective and quasi-projective varieties](../../projective-varieties/projective-variety.md)
-- [Proper closed subsets of projective varieties have smaller dimension](../dimension/projective-proper-closed-dimension-drop.md)
 
 ## Proof depends on
 
+- [Proper closed subsets of projective varieties have smaller dimension](../dimension/projective-proper-closed-dimension-drop.md)
 - [A projective point has Hilbert polynomial and degree one](projective-point-degree.md)
 - [The homogeneous prime at a point](../../morphisms/projective-rings/point-ideal.md)
 - [Linear fractions separate projective points](../../nonsingular-curves/projective-linear-separation.md)
