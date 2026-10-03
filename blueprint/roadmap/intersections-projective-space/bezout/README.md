@@ -22,4 +22,7 @@ plane curves.
 - [Bézout for a projective variety and a hypersurface](projective-hypersurface-bezout.md)
 - [A projective point has Hilbert polynomial and degree one](projective-point-degree.md)
 - [Bézout's theorem for distinct plane curves](plane-curve-bezout.md)
+- [Projective algebraic sets are finite unions of their components](projective-components-finite-cover.md)
+- [Degree of a pure projective curve is the sum of component degrees](pure-projective-curve-degree-components.md)
+- [Pointwise multiplicity for reducible plane curves](reducible-plane-curve-pointwise-multiplicity.md)
 - [Bézout for reducible plane curves without a common component](reducible-plane-curve-bezout.md)

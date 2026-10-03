@@ -13,15 +13,19 @@ multiplicities is
 
 `projectiveDegree Y · projectiveDegree Z`.
 
-This formalizes Remark 7.8.2. Decompose both algebraic sets into irreducible
-curves, apply the irreducible plane-curve theorem pairwise, and use additivity
-of degree and localized length.
+This formalizes Remark 7.8.2.  Expand the pointwise sum as the finite sum over
+pairs of irreducible components, apply the irreducible plane-curve theorem to
+each pair, and identify the two resulting component-degree sums with the
+degrees of `Y` and `Z`.
 
 ## Depends on
 
+- [Pointwise multiplicity for reducible plane curves](reducible-plane-curve-pointwise-multiplicity.md)
+- [Degree of a pure projective curve is the sum of component degrees](pure-projective-curve-degree-components.md)
+
+## Proof depends on
+
 - [Bézout's theorem for distinct plane curves](plane-curve-bezout.md)
-- [Degree is additive across a top-dimensional union](degree-union.md)
-- [Decomposition into irreducible components](../../affine-varieties/irreducible-decomposition.md)
 
 ## Sources
 
