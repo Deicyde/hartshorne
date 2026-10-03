@@ -197,6 +197,7 @@ import Hartshorne.Intersection.AffineProduct
 import Hartshorne.Intersection.AffineProductCoordinateRing
 import Hartshorne.Intersection.AffineDiagonalSection
 import Hartshorne.Intersection.ProjectiveIntersectionChart
+import Hartshorne.Intersection.ProjectiveComponents
 import Hartshorne.Intersection.FiniteCutDimension
 import Hartshorne.Intersection.TensorProductDimension
 import Hartshorne.Intersection.AffineProductDimension
