@@ -68,9 +68,9 @@ The completion, Cohen-structure, and analytic-isomorphism material later in
 §I.5 is deferred. Section I.7 has a fine DAG, §I.8 has a claim-by-claim
 survey disposition, and all of Chapter II has a 443-leaf fine DAG with 99 exact
 pinned-Mathlib results. All of Chapter III has a 286-leaf fine roadmap with
-nineteen exact Mathlib results. Chapter IV §§1–4 has a 152-leaf fine roadmap
-with two exact Mathlib results, plus five reactivated earlier-exercise
-prerequisites; Chapter IV §§5–6, Chapter V, and Appendices A–C retain approved
+nineteen exact Mathlib results. All of Chapter IV has a 201-leaf fine roadmap with
+two exact Mathlib results, plus five reactivated earlier-exercise prerequisites
+and one forward V.2 prerequisite; Chapter V and Appendices A–C retain approved
 coarse milestones and are deferred in that
 order. Reference apparatus and already-dispositioned non-target material
 remain out of scope.
@@ -85,5 +85,5 @@ remain out of scope.
 Mathlib's algebraic geometry begins at `Spec` and builds schemes; Hartshorne
 begins with an affine variety as an irreducible closed subset of `𝔸ⁿ`. The
 classical layer has no counterpart upstream, which is why the completed scope
-starts in Chapter I. Any further Chapter IV–V expansion should reuse exact
+starts in Chapter I. Any further Chapter V expansion should reuse exact
 Mathlib scheme results instead of restating them.

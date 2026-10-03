@@ -22,6 +22,10 @@ This node is not ready until those quotient and function-field
 representations, and their comparison with divisors on a compact Riemann
 surface, are fixed.
 
+## Depends on
+
+No project-local prerequisites. This is the analytic representation root.
+
 ## Proof depends on
 
 - `PeriodPair.weierstrassP`, `PeriodPair.derivWeierstrassP`, and their

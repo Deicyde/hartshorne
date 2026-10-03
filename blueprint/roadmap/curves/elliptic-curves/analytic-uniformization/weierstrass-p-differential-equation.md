@@ -18,6 +18,11 @@ This is the differential-equation part of Hartshorne's Theorem 4.12B. The
 separate claim that `P,P'` generate every elliptic function is not included in
 this Mathlib status.
 
+## Depends on
+
+No project-local prerequisites; the exact theorem is supplied by pinned
+Mathlib.
+
 ## Sources
 
 - [Hartshorne IV.4, Theorem 4.12B, p.327](../../../../sources/hartshorne-iv-4.md)

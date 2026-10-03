@@ -16,12 +16,12 @@ no three of those points are collinear.
 - [Secant and tangent incidence for an embedded curve](../linear-series/secant-tangent-incidence-api.md)
 - [Bad multisecant and coplanar-tangent loci](../nodal-models/bad-multisecant-coplanar-tangent-loci.md)
 - [Samuel's classification of strange curves](../nodal-models/samuel-strange-curve-classification.md)
-- [Bertini for a basepoint-free linear system](../../../cohomology/smooth-morphisms/bertini-basepoint-free-linear-system.md)
+- [Regular hyperplane sections](../../../schemes/differentials/canonical-bertini/bertini-regular-hyperplane-section.md)
 
 ## Proof depends on
 
-- Bertini and the embedded-degree calculation give `d` distinct intersection
-  points for a general plane.
+- The all-characteristic regular-hyperplane theorem and the embedded-degree
+  calculation give `d` distinct intersection points for a general plane.
 - The incidence of planes containing three collinear points of `X` has proper
   image in the dual projective space; the strange-curve branch rules out the
   degenerate case in arbitrary characteristic.

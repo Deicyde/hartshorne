@@ -34,3 +34,5 @@ Detailed source and Mathlib audits for the active Chapter II milestones:
 - [Hartshorne IV.2: ramification and Riemann–Hurwitz](hartshorne-iv-2.md)
 - [Hartshorne IV.3: projective embeddings and nodal plane models](hartshorne-iv-3.md)
 - [Hartshorne IV.4: elliptic curves](hartshorne-iv-4.md)
+- [Hartshorne IV.5: canonical curves and Clifford's theorem](hartshorne-iv-5.md)
+- [Hartshorne IV.6: space curves and Castelnuovo's bound](hartshorne-iv-6.md)

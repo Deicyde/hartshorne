@@ -20,6 +20,11 @@ the result over algebraically closed `k` from genus monotonicity. The pinned
 Mathlib declaration `RatFunc.Luroth.algEquiv` proves the stronger theorem over
 an arbitrary field and supplies the exact algebra equivalence.
 
+## Depends on
+
+No project-local prerequisites; the exact field-theoretic result is supplied
+by pinned Mathlib.
+
 ## Sources
 
 - [Hartshorne IV.2, Example 2.5.5, p.303](../../../sources/hartshorne-iv-2.md#consequences-pp302303)

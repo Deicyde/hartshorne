@@ -9,6 +9,11 @@ source_units: [chapter-iii-section-10]
 For every scheme `Y`, the projection `A^n_Y -> Y` is smooth of relative
 dimension `n`.
 
+## Depends on
+
+No project-local prerequisites; pinned Mathlib supplies the standard-smooth
+polynomial-algebra API.
+
 ## Proof depends on
 
 - Polynomial algebras are standard smooth of relative dimension equal to the

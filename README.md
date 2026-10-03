@@ -7,7 +7,7 @@ Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 Sections I.1 through I.4, the geometric core of I.5 through Theorem I.5.3, and
 I.6 through Corollary I.6.12 are decomposed into a dependency graph of 163
 formalization targets. The completion, Cohen-structure, and analytic-isomorphism
-material later in §I.5 is deferred. Chapter IV §§5–6, Chapter V, and
+material later in §I.5 is deferred. Chapter V and
 Appendices A–C have an approved coarse whole-book map. Section I.7 is decomposed into 50 fine targets,
 47 formalized and three remaining; the §I.8 survey has been dispositioned claim
 by claim; and all of Chapter II now has a 443-leaf fine roadmap, including 99
@@ -23,11 +23,12 @@ through higher direct images, flat families, Hilbert polynomials, deformations,
 smooth morphisms, generic smoothness, Bertini, formal functions, Stein
 factorization, semicontinuity, Grauert's theorem, and base change through p. 292.
 
-Chapter IV §§1–4 has a 152-leaf curve roadmap: two exact pinned-Mathlib results
-and 150 project targets for Riemann–Roch, ramification, projective embeddings,
-nodal plane models, elliptic curves, Jacobians, complex multiplication, Hasse
-invariants, and rational points. Five additional project leaves reactivate Exercises
-I.3.14(a), I.5.4, I.5.6(b), I.7.3, and II.6.4 as prerequisites.
+All of Chapter IV has a 201-leaf curve roadmap: two exact pinned-Mathlib
+results and 199 project targets for Riemann–Roch, ramification, projective
+embeddings, elliptic and canonical curves, Clifford's theorem, moduli,
+Castelnuovo's bound, and space-curve classifications. Five additional project
+leaves reactivate Exercises I.3.14(a), I.5.4, I.5.6(b), I.7.3, and II.6.4;
+one forward V.2 prerequisite records the delegated quadric-cone calculation.
 
 **All 163 targets through Corollary I.6.12 are complete.** Of these, 159 are
 proved in this project and four are supplied by Mathlib. The active §I.7
