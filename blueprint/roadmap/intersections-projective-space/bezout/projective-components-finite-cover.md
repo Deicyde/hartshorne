@@ -3,6 +3,9 @@ article_id: af_48c7c4f5e9b312d11ea4f08a
 declaration: definition
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveComponents Hartshorne.mem_projectiveComponents Hartshorne.iUnion_projectiveComponentCarrier_eq Hartshorne.iUnion_projectiveComponents_eq
 ---
 
 # Projective algebraic sets are finite unions of their components
@@ -21,7 +24,9 @@ theorems; the new content is their projective ambient-space packaging.
 
 - [Projective and quasi-projective varieties](../../projective-varieties/projective-variety.md)
 - [Decomposition into irreducible components](../../affine-varieties/irreducible-decomposition.md)
+- [Projective intersection components on an affine chart](../dimension/projective-intersection-components.md)
 
 ## Sources
 
-- [Hartshorne I.1, Proposition 1.5 and I.7, Remark 7.8.2](../../../sources/hartshorne.md#i7-main-text-and-required-prerequisites)
+- [Hartshorne I.1, Proposition 1.5 (p. 5)](../../../sources/hartshorne.md#i1)
+- [Hartshorne I.7, Remark 7.8.2 (p. 54)](../../../sources/hartshorne.md#i7-main-text-and-required-prerequisites)
