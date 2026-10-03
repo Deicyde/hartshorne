@@ -3,6 +3,9 @@ article_id: af_bbb21dc5b1213e119c6d8a5d
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.plane_curve_bezout
 ---
 
 # Bézout's theorem for distinct plane curves
@@ -19,13 +22,14 @@ projective dimension theorem makes the components points, each of degree one.
 ## Depends on
 
 - [Bézout for a projective variety and a hypersurface](projective-hypersurface-bezout.md)
-- [Projective codimension one is a hypersurface](../dimension/projective-codimension-one-hypersurface.md)
-- [A projective point has Hilbert polynomial and degree one](projective-point-degree.md)
-- [The projective dimension theorem](../dimension/projective-dimension-theorem.md)
 
 ## Proof depends on
 
+- [Projective codimension one is a hypersurface](../dimension/projective-codimension-one-hypersurface.md)
+- [Proper closed subsets of projective varieties have smaller dimension](../dimension/projective-proper-closed-dimension-drop.md)
+- [Hypersurface-section components are equidimensional](hypersurface-section-components-equidimensional.md)
 - [A zero-dimensional projective variety is a point](projective-zero-dimensional-variety-point.md)
+- [A projective point has Hilbert polynomial and degree one](projective-point-degree.md)
 
 ## Sources
 
