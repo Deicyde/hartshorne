@@ -32,3 +32,4 @@ Detailed source and Mathlib audits for the active Chapter II milestones:
 - [Hartshorne III.11–12: formal functions, semicontinuity, and base change](hartshorne-iii-11-12.md)
 - [Hartshorne IV.1: Riemann–Roch on curves](hartshorne-iv-1.md)
 - [Hartshorne IV.2: ramification and Riemann–Hurwitz](hartshorne-iv-2.md)
+- [Hartshorne IV.3: projective embeddings and nodal plane models](hartshorne-iv-3.md)

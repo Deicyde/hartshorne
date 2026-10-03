@@ -99,8 +99,8 @@ Morphisms, book pp. 14–23.
 | Thm. 3.4 | For `Y` projective: `𝒪(Y) = k`; `𝒪_P = S(Y)_(𝔪_P)`; `K(Y) ≅ S(Y)_((0))` | 18–19 | [(a)](../roadmap/morphisms/projective-rings/projective-global-regular.md), [(b)](../roadmap/morphisms/projective-rings/projective-local-ring.md), [(c)](../roadmap/morphisms/projective-rings/projective-function-field.md) |
 | Prop. 3.5 | `Hom(X, Y) ≅ Hom_{k-alg}(A(Y), 𝒪(X))` for `Y` affine, `X` any variety | 19 | [Morphisms into an affine variety](../roadmap/morphisms/hom-affine-bijection.md) |
 | Lem. 3.6 | `ψ : X → Y ⊆ 𝔸ⁿ` is a morphism iff each `xᵢ ∘ ψ` is regular | 20 | [Criterion for a morphism to an affine variety](../roadmap/morphisms/morphism-to-affine-criterion.md) |
-| Cor. 3.7 | Affine varieties `X`, `Y` are isomorphic iff `A(X) ≅ A(Y)` as `k`-algebras | 20 | [Isomorphism via coordinate rings](../roadmap/morphisms/affine-iso-iff-algebra-iso.md) |
-| Cor. 3.8 | `X ↦ A(X)` is an arrow-reversing equivalence between affine varieties over `k` and finitely generated integral domains over `k` | 20 | [Equivalence with finitely generated domains](../roadmap/morphisms/affine-variety-equivalence.md) |
+| Cor. 3.7–3.8 | Affine varieties are isomorphic iff their coordinate rings are, and `X ↦ A(X)` is an arrow-reversing equivalence with finitely generated integral domains | 20 | [Isomorphism via coordinate rings](../roadmap/morphisms/affine-iso-iff-algebra-iso.md), [equivalence with finitely generated domains](../roadmap/morphisms/affine-variety-equivalence.md) |
+| Ex. 3.14(a) | Projection from a point outside a projective variety is a morphism to a complementary hyperplane | 22 | [Projection from a point is a morphism](../roadmap/curves/projective-embeddings/prerequisites/projection-from-point-morphism.md) |
 | Thm. 3.9A | If `A` is a finitely generated `k`-algebra domain with fraction field `K` and `L/K` is finite algebraic, then the integral closure of `A` in `L` is finite over `A` and finitely generated over `k` | 20 | [Frobenius finiteness](../roadmap/curve-normalization/frobenius-finite-affine-algebra.md), [purely inseparable normalization](../roadmap/curve-normalization/purely-inseparable-normalization-finite.md), [polynomial normalization](../roadmap/curve-normalization/polynomial-normalization-finite.md), and [finiteness of integral closure](../roadmap/curve-normalization/finite-integral-closure.md) |
 
 ### Project-authored proof specification for Theorem I.3.9A
@@ -220,7 +220,7 @@ Exercise 5.4 is now adopted through the Chapter IV Gauss-map prerequisite.
 | Locator | Material | Pages | Disposition |
 | --- | --- | --- | --- |
 | Thm. 5.7A | Elimination theory for common nontrivial zeros of homogeneous polynomials with indeterminate coefficients | 35 | Out of scope; it is introduced only for Exercise 5.15 |
-| Ex. 5.1–5.15 | Singularities, multiplicities, intersection multiplicity, blow-ups, projective Jacobians, tangent spaces, quadrics, normality, analytic singularities, and families of plane curves | 35–39 | Exercise 5.4's local plane-curve multiplicity is adopted for IV.2.3; all other clauses remain out |
+| Ex. 5.1–5.15 | Singularities, multiplicities, intersection multiplicity, blow-ups, projective Jacobians, tangent spaces, quadrics, normality, analytic singularities, and families of plane curves | 35–39 | Exercise 5.4 is adopted for IV.2.3 and the ordinary-node clause of Exercise 5.6(b) for IV.3; all other clauses remain out |
 
 ## I.6 valuation and DVR background
 
@@ -463,7 +463,7 @@ Chapter IV, printed pp. 293–355, with an editorial introduction on p. 293.
 | Milestone | Sections and pages | Mathematical content |
 | --- | --- | --- |
 | IV-A: Riemann–Roch and ramification | §§1–2, pp. 294–306 | Divisors on curves, Riemann–Roch, morphisms of curves, ramification, and Hurwitz |
-| IV-B: projective embeddings | §3, pp. 307–315 | Linear systems, embeddings, and nodal plane models |
+| IV-B: projective embeddings | §3, pp. 307–316 | Linear systems, embeddings, nodal plane models, and later-used exercises |
 | IV-C: elliptic curves | §4, pp. 316–339 | Genus-one curves, group laws, isogenies, and the classification of elliptic curves |
 | IV-D: canonical and space curves | §§5–6, pp. 340–355 | Canonical embeddings, Clifford's theorem, and curves in projective three-space |
 
