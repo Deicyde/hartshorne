@@ -6,4 +6,6 @@ site does not carry them, and a statement's `## Sources` list resolves to the
 file in the repository.
 
 - [Hartshorne, *Algebraic Geometry* (GTM 52, 1977)](hartshorne.md) — the
-  project's only source. Locators are printed book page numbers.
+  primary source. Locators are printed book page numbers.
+- [Stacks Project: Nagata and Japanese rings](stacks-nagata.md) — the
+  general-field integral-closure finiteness input used by Theorem II.5.19.

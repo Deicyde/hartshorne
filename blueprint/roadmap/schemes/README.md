@@ -1,10 +1,11 @@
 # Scheme foundations
 
 Hartshorne Chapter II replaces embedded varieties by locally ringed spaces
-glued from affine spectra. This fine milestone covers §§II.1–4 (printed
-pp. 60–108): sheaves and stalks, `Spec` and `Proj`, schemes and their morphisms,
+glued from affine spectra. This fine milestone covers §§II.1–5 (printed
+pp. 60–129): sheaves and stalks, `Spec` and `Proj`, schemes and their morphisms,
 the first local and finiteness properties, subschemes, dimension, fibre
-products, separatedness, properness, projective morphisms, base change, and the
+products, separatedness, properness, projective morphisms, quasi-coherent and
+coherent modules, projective sheaf machinery, base change, and the
 normalization prerequisites used later in the book.
 
 The roadmap follows Mathlib's categorical representations rather than adding
@@ -42,9 +43,17 @@ than becoming artificial proof targets.
 - [Separated morphisms and valuation uniqueness](separated-morphisms/README.md)
 - [Proper and projective morphisms](proper-and-projective/README.md)
 
+## Sheaves of modules
+
+- [Modules and quasi-coherent sheaves](modules-and-quasicoherent/README.md)
+- [Coherent sheaves and support](coherent-sheaves/README.md)
+- [Projective sheaf machinery](projective-sheaves/README.md)
+- [Later-used module exercises](module-exercises/README.md)
+
 ## Sources
 
 - [Hartshorne II.1 source notes](../../sources/hartshorne-ii-1.md)
 - [Hartshorne II.2 source notes](../../sources/hartshorne-ii-2.md)
 - [Hartshorne II.3 source notes](../../sources/hartshorne-ii-3.md)
 - [Hartshorne II.4 source notes](../../sources/hartshorne-ii-4.md)
+- [Hartshorne II.5 source notes](../../sources/hartshorne-ii-5.md)
