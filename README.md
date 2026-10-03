@@ -7,10 +7,10 @@ Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
 Sections I.1 through I.4, the geometric core of I.5 through Theorem I.5.3, and
 I.6 through Corollary I.6.12 are decomposed into a dependency graph of 163
 formalization targets. The completion, Cohen-structure, and analytic-isomorphism
-material later in §I.5 is deferred. Chapter II §§6–9, Chapters III–V,
+material later in §I.5 is deferred. Chapter II §§8–9, Chapters III–V,
 and Appendices A–C have an approved coarse whole-book map. Section I.7 is decomposed into 50 fine targets,
 47 formalized and three remaining; the §I.8 survey has been dispositioned claim
-by claim; and Chapter II §§1–5 now have a 241-leaf fine roadmap, including 90
+by claim; and Chapter II §§1–7 now have a 328-leaf fine roadmap, including 90
 exact pinned-Mathlib results. The later milestones remain deferred. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
@@ -68,12 +68,12 @@ reducible-curve leaves remain. It includes only the earlier exercises required
 by the running proofs; the optional generic-line exercise chain remains out of
 scope.
 
-The 241-leaf Chapter II §§1–5 milestone covers sheaves, spectra, schemes,
+The 328-leaf Chapter II §§1–7 milestone covers sheaves, spectra, schemes,
 projective spectra, the classical-variety comparison, first properties,
 subschemes, dimension, fibre products, separatedness, properness, projective
-morphisms, quasi-coherent and coherent modules, projective sheaf machinery,
-and normalization prerequisites. Ninety leaves are exact pinned-Mathlib
-results; the other 151 are planned
+morphisms, modules, divisors and Picard groups, linear systems, relative Proj,
+projective bundles, blowups, and normalization prerequisites. Ninety leaves
+are exact pinned-Mathlib results; the other 238 are planned
 project wrappers, representation bridges, or missing theorems.
 
 **Site:** <https://deicyde.github.io/hartshorne/>

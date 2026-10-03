@@ -342,7 +342,7 @@ dominant morphism `C_{K₁} → C_{K₂}`.
 
 | Locator | Material | Pages | Disposition |
 | --- | --- | --- | --- |
-| Ex. 6.1–6.7 | Valuations, birational invariants, maps of curves, genus-zero and plane-curve applications | 46–47 | Out of scope; none is used through Corollary 6.12 |
+| Ex. 6.1–6.7 | Exercise 6.2's nonrationality criterion for a nonsingular plane cubic is adopted because Example II.6.10.2 uses it; Exercises 6.1 and 6.3–6.7 remain out of scope | 46–47 | Mixed: one later-used clause decomposed, all other exercise material excluded |
 
 ## Remaining-book inventory policy
 
@@ -432,7 +432,7 @@ source/DAG passes; the remaining milestones retain dependency-ordered scope.
 | II-A: scheme foundations | §§1–3, pp. 60–95 | Sheaves; `Spec` and `Proj`; schemes, morphisms, closed subschemes, fibre products, and first local/global properties |
 | II-B: separated and proper morphisms | §4, pp. 95–108 | Diagonals, separatedness, properness, projective morphisms, and valuative criteria |
 | II-C: sheaves of modules | §5, pp. 109–129 | Quasi-coherent and coherent modules, exactness, finite presentation, projective sheaf machinery, relative Spec, and vector bundles |
-| II-D: divisors and projective geometry | §§6–7, pp. 129–171 | Weil and Cartier divisors, Picard groups, linear systems, ample and very ample sheaves, projective bundles, and blowups |
+| II-D: divisors and projective geometry | §§6–7, pp. 129–172 | Weil and Cartier divisors, Picard and class groups, K-theory, linear systems, ampleness, relative Proj, projective bundles, and blowups |
 | II-E: differentials and regularity | §8, pp. 172–189 | Kähler differentials, nonsingularity, tangent spaces, canonical sheaves, and Bertini-type results |
 | II-F: formal schemes | §9, pp. 190–200 | Completions and formal schemes, needed later by formal functions and surface resolution |
 

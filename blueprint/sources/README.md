@@ -9,3 +9,13 @@ file in the repository.
   primary source. Locators are printed book page numbers.
 - [Stacks Project: Nagata and Japanese rings](stacks-nagata.md) — the
   general-field integral-closure finiteness input used by Theorem II.5.19.
+
+Detailed source and Mathlib audits for the active Chapter II milestones:
+
+- [Hartshorne II.1: sheaves](hartshorne-ii-1.md)
+- [Hartshorne II.2: schemes](hartshorne-ii-2.md)
+- [Hartshorne II.3: first properties](hartshorne-ii-3.md)
+- [Hartshorne II.4: separated and proper morphisms](hartshorne-ii-4.md)
+- [Hartshorne II.5: sheaves of modules](hartshorne-ii-5.md)
+- [Hartshorne II.6: divisors](hartshorne-ii-6.md)
+- [Hartshorne II.7: projective geometry](hartshorne-ii-7.md)
