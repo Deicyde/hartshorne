@@ -1,3 +1,7 @@
+---
+article_id: af_c13f2f629c5f6e7082f582f0
+---
+
 # Curves and the Riemann–Roch theorem
 
 This chapter covers Hartshorne IV.1, printed pp.294–298. It uses the

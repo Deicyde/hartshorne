@@ -1,3 +1,7 @@
+---
+article_id: af_2cc561a68e89085bc2371a7a
+---
+
 # Varieties as schemes
 
 This chapter decomposes Proposition II.2.6.  The project already has

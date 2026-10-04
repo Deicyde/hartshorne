@@ -1,3 +1,7 @@
+---
+article_id: af_10ea7e8af91a2e3e819e2761
+---
+
 # Canonical curves, Clifford's theorem, and moduli
 
 Hartshorne IV.5 studies canonical maps and embeddings, hyperelliptic curves,

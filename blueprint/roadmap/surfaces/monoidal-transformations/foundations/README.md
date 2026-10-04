@@ -1,3 +1,7 @@
+---
+article_id: af_93e324bba9a6965c0d3b49b7
+---
+
 # Monoidal transformations of surfaces
 
 This subchapter studies the blowup of one closed point on a Chapter-V

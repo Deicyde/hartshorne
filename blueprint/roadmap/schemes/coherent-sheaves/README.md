@@ -1,3 +1,7 @@
+---
+article_id: af_945cb79812a2a68b25a6532c
+---
+
 # Coherent sheaves, ideals, and support
 
 This milestone covers the ideal-sheaf consequences of Hartshorne II.5 and the

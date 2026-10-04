@@ -1,3 +1,7 @@
+---
+article_id: af_cf7b4ac88000b22afbaa2465
+---
+
 # Clifford's theorem
 
 This subchapter isolates the projective-linear-system lemma, inequality, and

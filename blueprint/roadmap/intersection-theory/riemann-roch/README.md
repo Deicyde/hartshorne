@@ -1,3 +1,7 @@
+---
+article_id: af_da8e5ddcb2a4cebce8ed291b
+---
+
 # Characteristic classes and Riemann–Roch
 
 This chapter covers Appendix A §§4–5, from the Chern character and Todd class

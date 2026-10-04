@@ -1,3 +1,7 @@
+---
+article_id: af_7f7dcf83432337cd9f0335cf
+---
+
 # Čech cohomology
 
 This chapter follows Hartshorne III.4 from the ordered open-cover complex to

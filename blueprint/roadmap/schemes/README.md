@@ -1,3 +1,7 @@
+---
+article_id: af_e2559b19f1edcda895c62136
+---
+
 # Schemes
 
 Hartshorne Chapter II replaces embedded varieties by locally ringed spaces

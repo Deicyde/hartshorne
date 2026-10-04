@@ -1,3 +1,7 @@
+---
+article_id: af_4eab05b7c5df78e61c9e7dd5
+---
+
 # Frobenius and fixed-point traces
 
 - [Hartshorne's finite-field q-power Frobenius](finite-field-geometric-frobenius.md)

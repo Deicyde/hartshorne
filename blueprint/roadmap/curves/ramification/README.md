@@ -1,3 +1,7 @@
+---
+article_id: af_ffc91203830bf22720738064
+---
+
 # Ramification and Riemann–Hurwitz
 
 This chapter covers the running text of Hartshorne IV.2, printed pp.299–303.

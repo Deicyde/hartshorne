@@ -1,3 +1,7 @@
+---
+article_id: af_09adc286dacbd9da015d216e
+---
+
 # Sheaf cohomology foundations
 1. [Module sheaves have enough injectives](module-sheaves-enough-injectives.md)
 2. [Abelian sheaves have enough injectives](abelian-sheaves-enough-injectives.md)

@@ -1,3 +1,7 @@
+---
+article_id: af_5bedf4c24edac9b645d92a08
+---
+
 # Later-used semicontinuity exercises
 
 These are the three exercises from Hartshorne III.12 retained because later

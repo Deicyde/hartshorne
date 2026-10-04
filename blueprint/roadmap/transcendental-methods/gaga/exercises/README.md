@@ -1,3 +1,7 @@
+---
+article_id: af_6c8cbb1c0704ac78cc9a4261
+---
+
 # Projective GAGA exercise
 
 - [Analytic morphisms between projective schemes algebraize uniquely](projective-analytic-morphism-algebraization.md)

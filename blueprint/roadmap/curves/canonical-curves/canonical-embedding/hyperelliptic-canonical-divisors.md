@@ -1,4 +1,5 @@
 ---
+article_id: af_0e8b1e979f64f69315993c23
 declaration: theorem
 origin: cited
 source_units: [chapter-iv-sections-5-6]

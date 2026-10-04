@@ -1,3 +1,7 @@
+---
+article_id: af_0125b8d0dbbde77db760db34
+---
+
 # The exponential sequence, Picard groups, and Jacobians
 
 This chapter covers Appendix B §5. It starts with the analytic exponential

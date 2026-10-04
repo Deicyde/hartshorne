@@ -1,3 +1,7 @@
+---
+article_id: af_b6f900fff476989866f023db
+---
+
 # Complex uniformization and complex multiplication
 
 This chapter covers Hartshorne IV.4, Theorems 4.16–4.20 and their examples.

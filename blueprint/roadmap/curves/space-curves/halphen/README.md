@@ -1,3 +1,7 @@
+---
+article_id: af_c5227ffee707dc8a35f9da6f
+---
+
 # Halphen's theorem and special hyperplane sections
 
 - [Parameter spaces of smooth space curves](space-curve-parameter-space.md)

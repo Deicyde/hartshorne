@@ -1,3 +1,7 @@
+---
+article_id: af_e8301b6ad91a8770dfd34e54
+---
+
 # Inverse systems and Mittag–Leffler exactness
 
 This milestone supplies the algebraic inverse-limit machinery used throughout

@@ -1,3 +1,7 @@
+---
+article_id: af_3e6600c01271924f7ec13704
+---
+
 # Cartier divisors and Picard groups
 
 This milestone builds Cartier divisors from the total quotient sheaf on an

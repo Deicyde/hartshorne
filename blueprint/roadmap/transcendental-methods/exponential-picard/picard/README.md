@@ -1,3 +1,7 @@
+---
+article_id: af_8c95e907b3512e1233a1affd
+---
+
 # Picard and Néron–Severi groups
 
 - [The topological first Chern class](topological-first-chern-class.md)

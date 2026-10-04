@@ -1,3 +1,7 @@
+---
+article_id: af_ead7cf643b7c9f2ace607440
+---
+
 # Fundamental loci of birational transformations
 
 This subchapter packages the maximal domain and graph of a birational

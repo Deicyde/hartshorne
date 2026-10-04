@@ -1,3 +1,7 @@
+---
+article_id: af_46fe4e9c94d0dc0362313409
+---
+
 # Curves
 
 Hartshorne Chapter IV studies complete nonsingular curves over an

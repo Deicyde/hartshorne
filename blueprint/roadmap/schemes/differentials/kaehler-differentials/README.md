@@ -1,3 +1,7 @@
+---
+article_id: af_d8fd1b66685cfa1145b83b62
+---
+
 # Kähler differentials and local regularity
 
 This subchapter covers the algebraic foundation of Hartshorne II.8, printed

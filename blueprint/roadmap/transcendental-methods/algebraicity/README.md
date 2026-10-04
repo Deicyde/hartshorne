@@ -1,3 +1,7 @@
+---
+article_id: af_013cc8ed0fd0d25537c45491
+---
+
 # Algebraicity of compact complex manifolds
 
 This chapter records Riemann existence, meromorphic-function criteria, and

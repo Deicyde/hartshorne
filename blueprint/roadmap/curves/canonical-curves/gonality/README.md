@@ -1,3 +1,7 @@
+---
+article_id: af_e6bdfe19f8431c8899f3c370
+---
+
 # Gonality and low-genus examples
 
 This subchapter covers the post-Clifford classification discussion in

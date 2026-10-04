@@ -1,3 +1,7 @@
+---
+article_id: af_7666fb3503d865fbadbcacb5
+---
+
 # Finite-free complexes and cohomology functors
 
 Fix Hartshorne's III.12 affine-base data: a Noetherian ring `A`,

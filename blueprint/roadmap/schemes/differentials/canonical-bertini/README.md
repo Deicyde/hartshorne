@@ -1,3 +1,7 @@
+---
+article_id: af_8bca24b5c9d0299f2b823e10
+---
+
 # Bertini, canonical sheaves, and adjunction
 
 This chapter covers Hartshorne II.8 from the incidence proof of Bertini's

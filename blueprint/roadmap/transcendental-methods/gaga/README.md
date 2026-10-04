@@ -1,3 +1,7 @@
+---
+article_id: af_4aac80c1f8021822b1d61a01
+---
+
 # Projective GAGA and Chow's theorem
 
 This subchapter records analytic projective-space cohomology, Serre's

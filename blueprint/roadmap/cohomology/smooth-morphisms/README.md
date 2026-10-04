@@ -1,3 +1,7 @@
+---
+article_id: af_7fb2f63d04aa061f555260b2
+---
+
 # Smooth morphisms and generic smoothness
 
 This chapter covers the running text of Hartshorne III.10, printed pp.268–275,

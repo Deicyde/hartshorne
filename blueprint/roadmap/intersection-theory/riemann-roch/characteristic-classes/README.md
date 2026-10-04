@@ -1,3 +1,7 @@
+---
+article_id: af_029b1f437caf179f8e950d28
+---
+
 # Chern character and Todd class
 
 These leaves package the rational characteristic classes used in

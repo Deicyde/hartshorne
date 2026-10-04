@@ -1,3 +1,7 @@
+---
+article_id: af_992e05c5d624f279eba5e582
+---
+
 # Classification of normalized ruled surfaces
 
 - [Decomposable normalized bundles](normalized-decomposable-bundles.md)

@@ -1,3 +1,7 @@
+---
+article_id: af_370288586984da4200eeeb36
+---
+
 # Formal functions
 
 Hartshorne III.11 compares completed higher-direct-image stalks with

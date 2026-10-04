@@ -1,3 +1,7 @@
+---
+article_id: af_ed041c52e51dad4ae3ef7839
+---
+
 # Formal neighbourhoods and formal spectra
 
 This milestone constructs Hartshorne's completions as locally ringed spaces,

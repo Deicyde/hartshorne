@@ -1,3 +1,7 @@
+---
+article_id: af_3fc9627992ecdad72bd31c54
+---
+
 # The Weil assertions for the projective line
 
 These elementary leaves complete Hartshorne's running verification for

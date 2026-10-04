@@ -1,3 +1,7 @@
+---
+article_id: af_85d2e718a9ff8a5280096388
+---
+
 # Rational ruled surfaces and scrolls
 
 - [Sections on a rational ruled surface](rational-section-existence.md)

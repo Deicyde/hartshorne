@@ -1,3 +1,7 @@
+---
+article_id: af_bd64b3965e5531fddfda3f7a
+---
+
 # Curves on a nonsingular quadric surface
 
 1. [Balanced H¹ vanishing](quadric-h1-balanced-vanishing.md)

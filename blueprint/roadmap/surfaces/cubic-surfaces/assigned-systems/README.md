@@ -1,3 +1,7 @@
+---
+article_id: af_ef7deaf5a1c624f4fffc1a9d
+---
+
 # Assigned-point systems on the plane
 
 This subchapter packages assigned and unassigned base points on iterated

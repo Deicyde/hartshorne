@@ -1,3 +1,7 @@
+---
+article_id: af_8e0b645852b0bc93a45aeaa2
+---
+
 # Fiber products, fibers, and base extension
 
 This chapter follows the seven-step construction of fiber products in Theorem

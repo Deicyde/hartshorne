@@ -1,3 +1,7 @@
+---
+article_id: af_24a8be7ce57f02637f908bc3
+---
+
 # Local complete intersections and smooth-center blowups
 
 This chapter covers the local algebra at the end of Hartshorne II.8,

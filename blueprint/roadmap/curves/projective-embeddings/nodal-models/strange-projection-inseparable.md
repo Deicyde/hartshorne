@@ -1,4 +1,5 @@
 ---
+article_id: af_7482bfa677b55eb9385c7def
 declaration: theorem
 origin: bridged
 source_units: [chapter-iv-section-3]

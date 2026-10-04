@@ -1,3 +1,7 @@
+---
+article_id: af_4af44175ddbb44a13058ced0
+---
+
 # Sheaf Ext
 
 1. [Sheaf Hom as a left-exact functor](module-sheaf-hom-left-exact.md)

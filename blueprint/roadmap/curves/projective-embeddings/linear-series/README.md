@@ -1,3 +1,7 @@
+---
+article_id: af_5dabf9627105ee0eb462155e
+---
+
 # Linear series and projection of curves
 
 This subchapter covers Hartshorne IV.3, printed pp.307–310, through the local

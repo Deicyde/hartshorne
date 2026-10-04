@@ -1,4 +1,5 @@
 ---
+article_id: af_c47721d962aee6f03f7dc4f0
 declaration: definition
 origin: bridged
 source_units: [chapter-ii-section-8]

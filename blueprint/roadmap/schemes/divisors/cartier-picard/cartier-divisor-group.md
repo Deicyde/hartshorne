@@ -1,4 +1,5 @@
 ---
+article_id: af_e7a329960aac05b71c31dfa5
 declaration: definition
 origin: cited
 source_units: [chapter-ii-sections-6-7]

@@ -1,3 +1,7 @@
+---
+article_id: af_5c16887e8b7c1dfeac5d7b25
+---
+
 # Contraction of curves on surfaces
 
 This chapter proves Castelnuovo's criterion for contracting a smooth rational

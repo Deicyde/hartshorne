@@ -1,3 +1,7 @@
+---
+article_id: af_0e6c580cf5acc91eb9bf9cca
+---
+
 # Space curves
 
 This chapter covers Hartshorne IV.6, printed pp.349–355: Halphen's

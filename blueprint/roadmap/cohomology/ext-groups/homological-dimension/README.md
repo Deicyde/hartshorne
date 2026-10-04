@@ -1,3 +1,7 @@
+---
+article_id: af_b754cd8e59bd7cea899e8e14
+---
+
 # Homological dimension
 
 1. [Projective-dimension bounds detected by Ext](projective-dimension-ext-criterion.md)

@@ -1,3 +1,7 @@
+---
+article_id: af_78a94d52a4063846c695e70b
+---
+
 # Consequences of the 27-line configuration
 
 This downstream chapter combines the line-incidence data with the adopted

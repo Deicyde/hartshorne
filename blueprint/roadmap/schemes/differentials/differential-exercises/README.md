@@ -1,3 +1,7 @@
+---
+article_id: af_b3f291cc728f385af7d88662
+---
+
 # Later-used differential exercises
 
 This chapter contains only the II.8 exercises cited by the running text or

@@ -1,3 +1,7 @@
+---
+article_id: af_75cdc1b29b4ccfed10514538
+---
+
 # Smoothness and étale criteria
 
 These leaves compare Hartshorne's fibre-dimension and differential definition

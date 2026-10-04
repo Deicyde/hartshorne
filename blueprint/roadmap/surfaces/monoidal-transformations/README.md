@@ -1,3 +1,7 @@
+---
+article_id: af_3728d74b914bd711779f93b4
+---
+
 # Monoidal transformations and curve resolution
 
 Hartshorne V.3 studies blowing up a point on a smooth surface, exceptional

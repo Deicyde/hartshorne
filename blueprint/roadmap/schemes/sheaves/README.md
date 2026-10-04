@@ -1,3 +1,7 @@
+---
+article_id: af_b7cd0f0799f32db50f28b544
+---
+
 # Sheaves: foundations and operations
 
 This chapter formalizes Hartshorne II.1's basic language of sheaves of abelian

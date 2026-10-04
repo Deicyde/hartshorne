@@ -1,3 +1,7 @@
+---
+article_id: af_d647e6cac791f06017bdd6df
+---
+
 # Hasse invariants and arithmetic examples
 
 This chapter defines Hartshorne's cohomological Hasse invariant, computes it

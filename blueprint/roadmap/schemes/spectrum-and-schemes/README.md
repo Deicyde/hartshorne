@@ -1,3 +1,7 @@
+---
+article_id: af_8fec9ab89768129f966417be
+---
+
 # Spectra, locally ringed spaces, and schemes
 
 This chapter maps Hartshorne II.2 from the Zariski topology on `Spec A`

@@ -1,3 +1,7 @@
+---
+article_id: af_942332ca835b7925d77bf1cc
+---
+
 # Embedded resolution of curves on surfaces
 
 - [Normal crossings and reduced total transforms](normal-crossings-reduced-total-transform.md)

@@ -1,3 +1,7 @@
+---
+article_id: af_d059bb3f097982c0c0ff7872
+---
+
 # The modern Weil theorem package
 
 For smooth projective geometrically connected varieties over finite fields,

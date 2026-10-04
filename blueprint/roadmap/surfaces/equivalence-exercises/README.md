@@ -1,3 +1,7 @@
+---
+article_id: af_45a97835bde459f737b7f9cc
+---
+
 # Algebraic equivalence prerequisites
 
 These clauses of Hartshorne V Exercise 1.7 are upstream of the

@@ -1,3 +1,7 @@
+---
+article_id: af_10a244d1447f75b49332ba04
+---
+
 # Cubic surfaces and the 27 lines
 
 Hartshorne V.4 develops assigned and infinitely-near basepoint systems,

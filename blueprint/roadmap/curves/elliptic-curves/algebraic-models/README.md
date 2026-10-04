@@ -1,3 +1,7 @@
+---
+article_id: af_29377b6168bce74091d08098
+---
+
 # Algebraic models and the j-invariant
 
 This subchapter covers the algebraic `j`-invariant branch of Hartshorne IV.4,

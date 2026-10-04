@@ -1,3 +1,7 @@
+---
+article_id: af_f9d90d0027d58216c06fccd7
+---
+
 # Weierstrass exercise retained from IV.4
 
 The coefficient formula for `j` is retained because the later moduli

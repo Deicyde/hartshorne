@@ -1,3 +1,7 @@
+---
+article_id: af_13c8cfefebb727e3d513a8b5
+---
+
 # Later-used curve exercises
 
 This chapter contains only the clauses of Hartshorne IV.2 exercises that are

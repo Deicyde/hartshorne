@@ -1,3 +1,7 @@
+---
+article_id: af_e28d3a4c57f484f46a3a8d9c
+---
+
 # The analytic exponential sequence
 
 - [The complex exponential exact sequence](complex-exponential-exact-sequence.md)

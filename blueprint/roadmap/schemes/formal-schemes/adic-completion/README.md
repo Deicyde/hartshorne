@@ -1,3 +1,7 @@
+---
+article_id: af_53061fc0328cd5bea7adb81b
+---
+
 # Adic completion
 
 This milestone separates the exact pinned Mathlib API from the remaining

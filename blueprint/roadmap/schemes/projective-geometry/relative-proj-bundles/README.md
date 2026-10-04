@@ -1,3 +1,7 @@
+---
+article_id: af_a994ea66df9c86712f3c491b
+---
+
 # Relative Proj and projective bundles
 
 - [Relative Proj](relative-proj.md)

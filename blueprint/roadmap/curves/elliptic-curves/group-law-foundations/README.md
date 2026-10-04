@@ -1,3 +1,7 @@
+---
+article_id: af_90392c4e25b34907297e93cb
+---
+
 # Algebraic group law on an elliptic curve
 
 This subchapter covers Hartshorne IV.4, printed pp.321–323, from the

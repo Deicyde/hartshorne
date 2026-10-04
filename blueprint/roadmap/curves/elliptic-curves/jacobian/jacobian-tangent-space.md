@@ -1,4 +1,5 @@
 ---
+article_id: af_9ffc559d0f10221ca620d545
 declaration: isomorphism
 origin: cited
 source_units: [chapter-iv-section-4]

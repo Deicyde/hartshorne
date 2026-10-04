@@ -1,3 +1,7 @@
+---
+article_id: af_2e02c4200d05fe89d331b90d
+---
+
 # Surfaces
 
 Hartshorne Chapter V studies nonsingular projective surfaces over an

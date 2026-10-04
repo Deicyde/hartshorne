@@ -1,3 +1,7 @@
+---
+article_id: af_683753703215f3d39f9a4419
+---
+
 # Linear algebra for Frobenius determinants
 
 - [Trace exponential equals reciprocal determinant](trace-exponential-determinant-identity.md)

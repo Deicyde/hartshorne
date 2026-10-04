@@ -1,3 +1,7 @@
+---
+article_id: af_e1b18f1da905e05a034a0cec
+---
+
 # Linear systems and ampleness
 
 - [Morphisms from generated invertible sheaves](morphism-from-generated-line-bundle.md)

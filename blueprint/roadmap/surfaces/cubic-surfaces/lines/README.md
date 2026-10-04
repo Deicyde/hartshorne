@@ -1,3 +1,7 @@
+---
+article_id: af_419cfbb6a30b12ecffa6c6b4
+---
+
 # Lines on a marked cubic surface
 
 Fix the cubic surface obtained from six points of the plane with no three

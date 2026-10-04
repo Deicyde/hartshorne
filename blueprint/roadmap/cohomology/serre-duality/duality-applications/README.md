@@ -1,3 +1,7 @@
+---
+article_id: af_b3abd4c2092f27e1c2291813
+---
+
 # Duality applications
 
 This milestone applies projective duality to depth-two vanishing and

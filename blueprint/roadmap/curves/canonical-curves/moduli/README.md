@@ -1,3 +1,7 @@
+---
+article_id: af_c6a6fdbf217142845ca4d7ee
+---
+
 # Moduli consequences of canonical curves
 
 This chapter records the moduli definitions and quoted existence theorems in

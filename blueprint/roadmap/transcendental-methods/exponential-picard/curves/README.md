@@ -1,3 +1,7 @@
+---
+article_id: af_39d48de0a5a919f2375aee66
+---
+
 # Curves, period lattices, and Jacobians
 
 - [Topology of a compact genus-g Riemann surface](compact-riemann-surface-topology.md)

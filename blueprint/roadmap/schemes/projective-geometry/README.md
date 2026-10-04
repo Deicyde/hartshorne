@@ -1,3 +1,7 @@
+---
+article_id: af_7cbf890b248df7ba549a7b3c
+---
+
 # Projective geometry of schemes
 
 This chapter covers Hartshorne II.7: morphisms defined by sections, ample and

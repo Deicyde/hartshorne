@@ -1,3 +1,7 @@
+---
+article_id: af_23f5592a03d43ba2e99b3576
+---
+
 # Formal properties of ℓ-adic cohomology
 
 - [Cohomological vanishing range](ell-adic-vanishing-range.md)

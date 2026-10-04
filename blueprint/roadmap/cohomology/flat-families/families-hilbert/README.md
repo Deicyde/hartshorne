@@ -1,3 +1,7 @@
+---
+article_id: af_4954ed0a831fcdb5c97f3f50
+---
+
 # Families and Hilbert polynomials
 
 These leaves cover cohomological flat base change, fibre

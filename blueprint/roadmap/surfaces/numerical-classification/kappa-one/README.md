@@ -1,3 +1,7 @@
+---
+article_id: af_bf8da0d5301ca1c85c28c0b8
+---
+
 # Kodaira dimension one
 
 Hartshorne identifies Kodaira-dimension-one surfaces with elliptic fibrations

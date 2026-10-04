@@ -1,3 +1,7 @@
+---
+article_id: af_1af3b0186b304c22f085db8f
+---
+
 # Kodaira dimension minus one and rationality
 
 This chapter records Hartshorne's classification of Kodaira-dimension-minus-one

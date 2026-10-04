@@ -1,3 +1,7 @@
+---
+article_id: af_96a29d12f151f65b2d79dd50
+---
+
 # Later-used cubic-surface exercises
 
 These are the clauses of Hartshorne V.4 exercises used by the running

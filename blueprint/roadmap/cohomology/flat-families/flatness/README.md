@@ -1,3 +1,7 @@
+---
+article_id: af_2fe2c903a92da4c6051cb497
+---
+
 # Flatness foundations
 
 These leaves cover Proposition 9.1A, Examples 9.1.1–3, the stalkwise

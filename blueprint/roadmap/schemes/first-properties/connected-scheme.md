@@ -1,4 +1,5 @@
 ---
+article_id: af_40a2b6a911ef476299d9e912
 declaration: class
 origin: cited
 source_units: [chapter-ii-sections-1-3]

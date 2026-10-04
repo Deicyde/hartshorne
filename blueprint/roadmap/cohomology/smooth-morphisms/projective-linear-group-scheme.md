@@ -1,4 +1,5 @@
 ---
+article_id: af_1a5f1331a3ec9ff99fbc985d
 declaration: structure
 origin: bridged
 source_units: [chapter-iii-section-10]

@@ -1,3 +1,7 @@
+---
+article_id: af_6d488fd79327e6f7b53c7d17
+---
+
 # Relative Picard functors and the Jacobian
 
 This branch packages Hartshorne's relative degree-zero Picard functor, the

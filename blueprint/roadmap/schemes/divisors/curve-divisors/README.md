@@ -1,3 +1,7 @@
+---
+article_id: af_0793519ab94699ee91ab7fe9
+---
+
 # Divisors on curves
 
 This milestone specializes divisors to nonsingular curves, constructs pullback

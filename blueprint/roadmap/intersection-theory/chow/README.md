@@ -1,3 +1,7 @@
+---
+article_id: af_a35c3006ce2c9d4f56f7e667
+---
+
 # Chow groups and the intersection product
 
 This chapter covers Appendix A §§1–2: cycles and rational equivalence, the

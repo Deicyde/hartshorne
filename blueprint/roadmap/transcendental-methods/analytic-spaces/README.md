@@ -1,3 +1,7 @@
+---
+article_id: af_42bb474f633b08cbb7e68f85
+---
+
 # Complex analytic spaces and coherent analytic sheaves
 
 This subchapter fixes the possibly nonreduced Grauert analytic-space

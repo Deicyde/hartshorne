@@ -1,3 +1,7 @@
+---
+article_id: af_c06a2fafe8fd2e3f0893f8b7
+---
+
 # Analytification of finite-type complex schemes
 
 This subchapter constructs affine analytification from polynomial equations,

@@ -1,4 +1,5 @@
 ---
+article_id: af_20ab49bacd0ec14038c8b653
 declaration: ring_hom
 origin: cited
 source_units: [appendix-c-section-3]

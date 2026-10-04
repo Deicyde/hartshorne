@@ -1,3 +1,7 @@
+---
+article_id: af_491f59a9b2b65eec6955efb5
+---
+
 # Ample cones of ruled surfaces
 
 - [Irreducible curves when the invariant is nonnegative](nonnegative-e-irreducible-curve-bound.md)

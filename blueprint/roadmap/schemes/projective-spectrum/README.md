@@ -1,3 +1,7 @@
+---
+article_id: af_feefe997749b789386eb85e8
+---
+
 # Projective spectrum
 
 This chapter covers Hartshorne's construction of `Proj S`, its affine charts,

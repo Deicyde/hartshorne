@@ -1,3 +1,7 @@
+---
+article_id: af_f4a87c3f4a05d1237cf652ce
+---
+
 # Later-used module exercises
 
 This milestone contains the adopted II.5 exercises not already represented by

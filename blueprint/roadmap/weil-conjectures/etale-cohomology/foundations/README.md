@@ -1,3 +1,7 @@
+---
+article_id: af_61f7e0bdcd924df88869ddcf
+---
+
 # Étale and ℓ-adic foundations
 
 - [The small étale site](small-etale-site.md)

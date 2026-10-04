@@ -1,3 +1,7 @@
+---
+article_id: af_3683900d1e3b3cfe4d36a304
+---
+
 # Cohomology on projective space
 
 This chapter follows Hartshorne III.5, Theorems 5.1–5.3. It computes all

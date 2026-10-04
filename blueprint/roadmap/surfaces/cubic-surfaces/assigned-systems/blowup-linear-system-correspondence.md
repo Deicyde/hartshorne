@@ -1,4 +1,5 @@
 ---
+article_id: af_7d5f5be23bdf6fa8c8dc087b
 declaration: equivalence
 origin: cited
 source_units: [chapter-v-section-4]

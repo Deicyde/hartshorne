@@ -1,3 +1,7 @@
+---
+article_id: af_95ebe1179a86d8f16fc29385
+---
+
 # Sheaf functors, supports, and gluing
 
 This chapter completes the §II.1 roadmap with operations associated to a

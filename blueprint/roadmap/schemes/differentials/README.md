@@ -1,3 +1,7 @@
+---
+article_id: af_bd9a228398511c7501f36546
+---
+
 # Differentials, regularity, and canonical sheaves
 
 Hartshorne II.8 develops Kähler differentials from their algebraic universal

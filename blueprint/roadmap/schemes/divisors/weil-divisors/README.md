@@ -1,3 +1,7 @@
+---
+article_id: af_2b31f794312b40010e170769
+---
+
 # Weil divisors and class groups
 
 This milestone constructs Weil divisors from codimension-one points, proves

@@ -1,4 +1,5 @@
 ---
+article_id: af_1dcafce5c7f05800910cd5f9
 declaration: homomorphism
 origin: cited
 source_units: [appendix-a-sections-1-2]

@@ -1,3 +1,7 @@
+---
+article_id: af_ee3cd342530f09a802737848
+---
+
 # Intersection theory and Riemann–Roch
 
 Hartshorne Appendix A outlines cycles and Chow groups, the intersection

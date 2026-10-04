@@ -1,3 +1,7 @@
+---
+article_id: af_711ebbf03e12a1bf70fbe5ba
+---
+
 # Hirzebruch–Riemann–Roch specializations
 
 - [The curve Riemann–Roch specialization](curve-hrr-specialization.md)

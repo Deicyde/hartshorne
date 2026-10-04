@@ -1,3 +1,7 @@
+---
+article_id: af_e64db17421c3332c9db25b9b
+---
+
 # Later-used exercises from surface geometry
 
 These are the clauses of Hartshorne V.1 exercises that are used by later

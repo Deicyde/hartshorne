@@ -1,3 +1,7 @@
+---
+article_id: af_e7675e5a3ad62cd89fb17908
+---
+
 # Global Ext
 
 1. [Global Ext groups](global-ext-groups.md)

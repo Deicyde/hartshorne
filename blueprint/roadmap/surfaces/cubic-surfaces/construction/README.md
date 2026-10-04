@@ -1,3 +1,7 @@
+---
+article_id: af_9a8be7a2153c1758e30d1828
+---
+
 # Del Pezzo and cubic-surface construction
 
 This subchapter applies the very ample cubic system to blowups of at most six

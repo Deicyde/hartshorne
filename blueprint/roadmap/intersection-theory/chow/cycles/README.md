@@ -1,3 +1,7 @@
+---
+article_id: af_d0952c77ef8f2a82cea59c3f
+---
+
 # Cycles, rational equivalence, and Chow groups
 
 This subchapter defines codimension-graded cycles on varieties, rational

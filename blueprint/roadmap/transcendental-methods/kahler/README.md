@@ -1,3 +1,7 @@
+---
+article_id: af_3acd05b7c19fb2a31554df6a
+---
+
 # Kähler, Hodge, and projective manifolds
 
 This chapter packages the differential-geometric notions used by Hartshorne

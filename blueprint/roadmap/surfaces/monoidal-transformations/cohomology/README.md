@@ -1,3 +1,7 @@
+---
+article_id: af_9ea622ec27af038dd423828b
+---
+
 # Cohomology of a point blowup
 
 This subchapter computes the infinitesimal neighborhoods of the exceptional

@@ -1,3 +1,7 @@
+---
+article_id: af_e4585c51b62347b163f2beb4
+---
+
 # Multiplication maps and torsion consequences
 
 These two leaves separate the remaining degree and kernel conclusions

@@ -1,3 +1,7 @@
+---
+article_id: af_132ef4bdf8721b1ba05d291a
+---
+
 # Numerical equivalence and the Hodge index theorem
 
 - [Numerical equivalence and the numerical divisor group](numerical-equivalence-num.md)

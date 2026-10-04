@@ -1,3 +1,7 @@
+---
+article_id: af_2a94a5a52bb965ea29697c9c
+---
+
 # Basic properties of the Chow ring
 
 This subchapter records Hartshorne's A8–A11: codimension-one classes,

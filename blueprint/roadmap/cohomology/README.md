@@ -1,3 +1,7 @@
+---
+article_id: af_745921269e7ba37a2d4c1731
+---
+
 # Cohomology foundations
 
 Hartshorne Chapter III begins by importing homological algebra, defining sheaf

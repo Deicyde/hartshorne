@@ -1,4 +1,5 @@
 ---
+article_id: af_c9fee8195837cc5ddc2a73dc
 declaration: isomorphism
 origin: bridged
 source_units: [chapter-iii-sections-8-9]

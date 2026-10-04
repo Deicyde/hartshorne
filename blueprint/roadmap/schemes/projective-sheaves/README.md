@@ -1,3 +1,7 @@
+---
+article_id: af_9c3af0aa09ded0dddeb23e4e
+---
+
 # Sheaves on projective schemes
 
 This milestone builds the graded-module layer over Mathlib's existing `Proj`,

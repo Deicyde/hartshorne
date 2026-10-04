@@ -1,3 +1,7 @@
+---
+article_id: af_a7b8d8429886a83162eff066
+---
+
 # Basic algebraic–analytic comparison properties
 
 For finite-type complex schemes, analytification compares separation,

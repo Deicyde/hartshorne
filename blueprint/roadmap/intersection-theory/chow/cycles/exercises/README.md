@@ -1,3 +1,7 @@
+---
+article_id: af_99eee13975d43174f2806270
+---
+
 # Pushforward exercise input
 
 Exercise A.6.2 supplies the codimension-one norm calculation used by proper

@@ -1,4 +1,5 @@
 ---
+article_id: af_6e65f145e033a68433e1565b
 declaration: class
 origin: bridged
 source_units: [chapter-ii-section-5]

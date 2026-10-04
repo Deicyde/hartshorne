@@ -1,3 +1,7 @@
+---
+article_id: af_c6b4694c8a669b634d331490
+---
+
 # Numerical classification of surfaces
 
 Hartshorne V.6 defines the canonical ring and Kodaira dimension, records

@@ -1,4 +1,5 @@
 ---
+article_id: af_c134acd46ff38429a1773ebf
 declaration: functor
 origin: cited
 source_units: [appendix-b-sections-1-2]

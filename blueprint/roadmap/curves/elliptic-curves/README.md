@@ -1,3 +1,7 @@
+---
+article_id: af_d13bab5c9af28a0194a2f40d
+---
+
 # Elliptic curves
 
 Hartshorne IV.4 develops degree-two and Weierstrass models, the algebraic

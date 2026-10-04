@@ -1,3 +1,7 @@
+---
+article_id: af_e1c1c884a190107046c9751d
+---
+
 # Reactivated and forward prerequisites for surface geometry
 
 Exercise V.1.8(a) reactivates the needed parts of III Exercise 7.4:

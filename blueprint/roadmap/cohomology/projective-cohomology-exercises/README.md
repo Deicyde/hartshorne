@@ -1,3 +1,7 @@
+---
+article_id: af_3911d57dbf30686336d92cfd
+---
+
 # Projective-cohomology exercises
 
 1. [Euler characteristic is additive](euler-characteristic-additive.md)

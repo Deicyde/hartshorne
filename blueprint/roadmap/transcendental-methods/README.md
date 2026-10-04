@@ -1,3 +1,7 @@
+---
+article_id: af_739e6ba91708dadd3458cfbf
+---
+
 # Transcendental methods
 
 Hartshorne Appendix B reports analytification, GAGA and Chow's theorem,

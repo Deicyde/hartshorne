@@ -1,3 +1,7 @@
+---
+article_id: af_e0872268866ec1618144da8f
+---
+
 # Numerical invariants and positivity on surfaces
 
 This chapter develops surface Riemann–Roch, numerical equivalence and the

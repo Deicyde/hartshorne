@@ -1,3 +1,7 @@
+---
+article_id: af_ed7f83f45885c546c7de5a69
+---
+
 # Later-used exercises on ruled surfaces
 
 The running text of V.2 uses the higher-rank filtration and stability clauses,

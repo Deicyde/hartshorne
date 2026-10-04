@@ -1,3 +1,7 @@
+---
+article_id: af_6e1ee2ef539acd0257b5b994
+---
+
 # Affineness, Picard, and dimension exercises
 
 These are the exercises in Hartshorne III.3–4 retained because later chapters

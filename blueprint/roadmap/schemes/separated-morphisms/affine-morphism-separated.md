@@ -1,4 +1,5 @@
 ---
+article_id: af_3f1a47b905324050aaee2347
 declaration: lemma
 origin: cited
 source_units: [chapter-ii-section-4]

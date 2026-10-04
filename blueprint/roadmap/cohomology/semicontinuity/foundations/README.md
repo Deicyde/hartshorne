@@ -1,3 +1,7 @@
+---
+article_id: af_e03909d211ad92c07ff1938d
+---
+
 # Semicontinuity foundations
 
 These two results turn finite-module fibre dimensions into upper

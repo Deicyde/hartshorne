@@ -1,3 +1,7 @@
+---
+article_id: af_52d0573baeebfa99b4132498
+---
+
 # Canonical rings and Kodaira dimension
 
 This subchapter defines the canonical section ring and Kodaira dimension for

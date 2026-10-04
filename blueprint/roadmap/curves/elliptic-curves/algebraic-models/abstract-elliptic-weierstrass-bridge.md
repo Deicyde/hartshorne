@@ -1,4 +1,5 @@
 ---
+article_id: af_f33af267019c3fc1df169030
 declaration: equivalence
 origin: bridged
 source_units: [chapter-iv-section-4]

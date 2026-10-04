@@ -1,4 +1,5 @@
 ---
+article_id: af_43c075991ef42c98863acc26
 declaration: bilinear_map
 origin: cited
 source_units: [appendix-a-sections-1-2]

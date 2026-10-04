@@ -1,4 +1,5 @@
 ---
+article_id: af_2c28732f9c0a1a1f981ca2e3
 declaration: isomorphism
 origin: background
 source_units: [appendix-c-section-3]

@@ -1,3 +1,7 @@
+---
+article_id: af_9f20b866550eff340b3491e3
+---
+
 # Strict transforms and curve resolution
 
 - [Strict transforms under a point blowup](strict-transform-api.md)
