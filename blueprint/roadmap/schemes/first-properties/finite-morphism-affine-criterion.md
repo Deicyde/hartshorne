@@ -3,6 +3,9 @@ article_id: af_9acfb9146e45984cacdd1007
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+mathlib: true
+mathlib_declaration: AlgebraicGeometry.HasAffineProperty.iff_of_iSup_eq_top
+mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Basic.lean
 ---
 
 # The affine-local criterion for finite morphisms
@@ -22,4 +25,3 @@ Use that `IsFinite` is a target-local affine morphism property and descend modul
 ## Sources
 
 - [Hartshorne II.3 (finite-type-and-finite-morphisms)](../../../sources/hartshorne-ii-3.md#finite-type-and-finite-morphisms)
-
