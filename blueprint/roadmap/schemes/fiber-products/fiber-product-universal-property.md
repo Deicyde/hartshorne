@@ -3,6 +3,9 @@ article_id: af_c5c28ba6c65a9a428ae30f3e
 declaration: def
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+mathlib: true
+mathlib_declaration: CategoryTheory.Limits.pullbackIsPullback
+mathlib_file: Mathlib/CategoryTheory/Limits/Shapes/Pullback/HasPullback.lean
 ---
 
 # The universal property of a fiber product
@@ -22,4 +25,3 @@ Use the categorical pullback in `Scheme`. Package the projection equation, lift 
 ## Sources
 
 - [Hartshorne II.3 (fiber-products-fibers-and-base-extension)](../../../sources/hartshorne-ii-3.md#fiber-products-fibers-and-base-extension)
-
