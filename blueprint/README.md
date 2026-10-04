@@ -11,10 +11,9 @@ curves through Lemma 6.4; the next 26 prove normalization and the
 valuation-space results through Proposition 6.7; the final 23 construct
 projective models and the curve/function-field category equivalence.
 
-The active §I.7 milestone has 50 targets for intersection dimensions, graded
-Hilbert theory, projective degree, and Bézout. Forty-seven are formalized; the
-pure-curve degree and two reducible-curve leaves remain. The derived progress
-views report the current aggregate without duplicating it here.
+The completed §I.7 milestone has 50 formalized targets for intersection
+dimensions, graded Hilbert theory, projective degree, and Bézout. The derived
+progress views report the current aggregate without duplicating it here.
 
 The completed core of Sections 1 through 3 accounts for 69 of those targets,
 ending at Corollary I.3.8, the arrow-reversing equivalence between affine

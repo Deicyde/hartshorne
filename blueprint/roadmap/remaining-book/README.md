@@ -7,9 +7,8 @@ article_id: af_430a8af54e5b37e77bb4ac7d
 This records the completed source and dependency-DAG pass over the approved
 remaining-book scope.
 The 163 leaves through Corollary I.6.12 are formalized, and §I.7 has a 50-leaf
-[fine roadmap](../intersections-projective-space/README.md), with 47 leaves
-formalized and three remaining. Section I.8 has been dispositioned claim by
-claim. Chapter II now has a 444-leaf
+[fine roadmap](../intersections-projective-space/README.md), all formalized.
+Section I.8 has been dispositioned claim by claim. Chapter II now has a 444-leaf
 [fine roadmap](../schemes/README.md), with 99 exact pinned-Mathlib leaves and
 345 project targets. All of Chapter III has a 288-leaf
 [fine roadmap](../cohomology/README.md), with 19 exact Mathlib leaves and 269

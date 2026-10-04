@@ -116,7 +116,7 @@ with the exercises used by later included running text:
 | I.6 through Lem. 6.4, excluding Thm. 6.3A | Local Structure of Nonsingular Curves | 39–41 | [12 articles](../roadmap/nonsingular-curves/README.md) | done |
 | I.3.9A and I.6.3A–6.7 | Normalization and the Valuation-Space Curve | 20, 40–43 | [26 articles](../roadmap/curve-normalization/README.md) | done |
 | I.6.8–6.12 | Projective Models and Curve Categories | 43–46 | [21 further articles in the 23-leaf chapter](../roadmap/projective-models/README.md) | done |
-| I.7 main text and required prerequisites | Intersections, Hilbert Polynomials, Degree, and Bézout | 12, 22, 47–54 | [50 articles](../roadmap/intersections-projective-space/README.md) | 47 done, 3 planned |
+| I.7 main text and required prerequisites | Intersections, Hilbert Polynomials, Degree, and Bézout | 12, 22, 47–54 | [50 articles](../roadmap/intersections-projective-space/README.md) | done |
 | I.5.4 and I.7.8.1 | Local Plane-Curve Intersection Multiplicity | 36, 54 | [1 article](../roadmap/curves/adopted-prerequisites/local-plane-curve-intersection-multiplicity.md) | planned |
 | I.5.6(b) | Ordinary Nodes and Their Branches | 37 | [1 article](../roadmap/curves/projective-embeddings/prerequisites/ordinary-node-local-criterion.md) | planned |
 | I.5.14(d) | Analytic Classification of Plane Double Points | 39 | [1 article](../roadmap/surfaces/prerequisites/plane-double-point-analytic-normal-form.md) | planned |
@@ -186,9 +186,9 @@ independently of the harder exact Theorems 3.9A and 6.3A.
 The projective-model milestone adds 23 leaves: the two Exercise 3.3 criteria
 and 21 leaves for Proposition 6.8 through Corollary 6.12. All 23 are now
 formalized. The completed preceding roadmap therefore has 163 leaves: 159
-proved in this project and four supplied by Mathlib. The §I.7 fine roadmap has
-50 leaves: 47 formalized and three remaining, for 213 formalizable leaves in
-the current graph.
+proved in this project and four supplied by Mathlib. The §I.7 fine roadmap adds
+50 project formalizations, all complete, for 213 formalizable Chapter I leaves
+in the current graph.
 
 The counts grow as the work goes on, almost always by splitting a node that
 turned out to hold more than one pull request's worth of Lean; where the scope
@@ -353,8 +353,8 @@ A scoped section or partial section counts as finished when all its articles
 do. **The 163-leaf scope through Corollary 6.12 is finished.** Its 159 project
 proofs compile, no proof contains `sorry` or `native_decide`, every
 `#print axioms` is clean, and every statement has been read against its cited
-passage; four further leaves are exact Mathlib results. Of the 50 §I.7 leaves,
-47 are formalized and three remain.
+passage; four further leaves are exact Mathlib results. All 50 §I.7 leaves are
+formalized as well.
 
 Derived progress on the published site is computed from the dependency graph and
 is not a claim about scope: a green node means its Lean proof compiles, not that
@@ -362,14 +362,12 @@ the section containing it is complete.
 
 ## What is not claimed
 
-Section I.7 is not yet complete: its pure-curve degree and two reducible-curve
-leaves remain. Section I.8 has been dispositioned claim by claim without
-turning survey prose into proof specifications. The unadopted completion and
-analytic material later in §I.5 remain deferred; unadopted exercises and
-reference apparatus remain out of scope unless a later scope decision changes
-their disposition.
+Section I.7 is complete. Section I.8 has been dispositioned claim by claim
+without turning survey prose into proof specifications. The unadopted
+completion and analytic material later in §I.5 remain deferred; unadopted
+exercises and reference apparatus remain out of scope unless a later scope
+decision changes their disposition.
 Nothing in this repository should be read as formalizing "Hartshorne" or
 "algebraic geometry" without the precise scope qualifier. The coverage
 contract is terminal, but that means every inventoried unit is dispositioned;
-it does not mean the three remaining §I.7 leaves or any deferred milestone is
-proved.
+it does not mean any deferred milestone is proved.

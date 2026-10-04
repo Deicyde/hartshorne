@@ -58,8 +58,8 @@ leaves: 159 proved in this project and four supplied by Mathlib.
 
 Hartshorne §I.7 has a 50-leaf fine roadmap developing the affine and projective
 dimension theorems, integer-graded Hilbert theory, projective degree, and
-Bézout. Forty-seven leaves are formalized and three remain; exact aggregate
-progress is derived from the graph.
+Bézout. All fifty leaves are formalized; exact aggregate progress is derived
+from the graph.
 
 Read the [coverage contract](../coverage/README.md) before reading progress off
 this book: §§1–4, the geometric core of §5 through Theorem 5.3, and §6 through
