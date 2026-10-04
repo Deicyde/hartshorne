@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.LocallyFiniteType
+import Mathlib.AlgebraicGeometry.Noetherian
 import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
 import Mathlib.AlgebraicGeometry.Morphisms.QuasiCompact
 
@@ -54,5 +55,14 @@ theorem finiteType_of_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
     (hf : QuasiCompact f) (hfg : FiniteType (f ≫ g)) : FiniteType f := by
   let _ : LocallyOfFiniteType (f ≫ g) := hfg.1
   exact ⟨locallyOfFiniteType_of_comp f g, hf⟩
+
+/-- The source of a finite-type morphism to a Noetherian scheme is Noetherian. -/
+theorem finiteType_isNoetherian {X Y : Scheme.{u}} (f : X ⟶ Y)
+    [IsNoetherian Y] (hf : FiniteType f) : IsNoetherian X := by
+  let _ : LocallyOfFiniteType f := hf.1
+  let _ : QuasiCompact f := hf.2
+  let _ : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f
+  let _ : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace f
+  exact {}
 
 end Hartshorne
