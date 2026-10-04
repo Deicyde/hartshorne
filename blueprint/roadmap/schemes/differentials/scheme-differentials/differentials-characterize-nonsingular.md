@@ -2,7 +2,7 @@
 article_id: af_4d439f866589bc1e692ad888
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
+source_units: [chapter-ii-section-8, chapter-i-section-8-decomposed-previews]
 ---
 
 # Differentials characterize nonsingular varieties

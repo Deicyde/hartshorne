@@ -2,7 +2,7 @@
 article_id: af_a07c63d890d5ffaed1388621
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-5]
+source_units: [chapter-iii-section-5, chapter-i-section-8-decomposed-previews]
 ---
 
 # Arithmetic genus and the embedded Hilbert polynomial

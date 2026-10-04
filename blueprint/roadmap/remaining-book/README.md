@@ -40,22 +40,31 @@ a deep result without proof. Exact locators are in the
 | I-7B | §I.7, Props. 7.3–7.6, pp. 49–52 | Numerical polynomials, graded prime filtrations, Hilbert–Serre, and degree | I-7A; choose an integer-indexed twist representation |
 | I-7C | §I.7, Thm. 7.7 and Cor. 7.8, pp. 53–54 | Intersection multiplicity and Bézout | I-7B and Exercise 2.8 |
 | I-7D | Exercise I.7.4, with Exercises I.7.3 and I.5.4 | Optional generic-line interpretation of degree | `OUT`: Exercise I.7.4 has no later consumer; I.7.3 and I.5.4 are independently adopted for IV.2.3 |
-| I-8 | §I.8, pp. 55–59 | Survey claims dispositioned as Chapter I recaps, later previews, standalone source obligations, or exposition | Complete; the three standalone claims remain source-blocked rather than becoming underspecified nodes |
+| I-8 | §I.8, pp. 55–59 | Survey claims dispositioned as Chapter I recaps, later previews, standalone source obligations, or exposition | Coverage complete; exact later previews are decomposed, while four narrowly defined source units remain deferred |
 
 ### Section I.8 disposition
 
-The Chapter I survey has now been read claim by claim. Its birational,
-projective-model, dimension, affine-cover, and coordinate-ring claims point to
-existing Chapter I articles. Its substantive previews are assigned to the
-specific Chapter II–V or Appendix A milestones that develop them. Editorial,
-historical, and motivational passages are out of formalization scope.
+The Chapter I survey has now been read claim by claim. Its Chapter I recaps—
+function-field classification, nonsingular curve-model uniqueness, dimension,
+affine covers, and the affine-variety/domain equivalence—point to exact Chapter
+I articles. Its `g ≥ 2` moduli, intrinsic, and cohomological previews are
+decomposed into exact Chapter II–V and Appendix A leaves. The curve, surface,
+and foundational preview groups remain explicitly deferred where the survey
+still lacks a precise formal target or adopted proof source: arbitrary-curve
+finite completion and the unpointed genus-one convention; smooth-projective
+surface models, their domination order, and the exceptional infinitude claim;
+the proof-level non-quasi-projective example; and arbitrary-ground-field
+generality. Editorial, historical, and motivational passages are out of
+formalization scope.
 
-Three assertions are neither recaps nor sufficiently specified later targets:
-the existence and dimension of the moduli varieties `M_g`, a counterexample
-showing that degree and Hilbert polynomial depend on projective embedding, and
-a Noetherian affine scheme of infinite dimension. They remain deferred source
-obligations until a precise modern statement and proof source are adopted; the
-survey sentence alone is not used as a proof specification.
+Four further assertions are neither recaps nor sufficiently specified later
+targets: the unpointed genus-one interpretation of `M_1` and its dimension, a
+counterexample showing that degree and Hilbert polynomial depend on projective
+embedding, characteristic-zero birational invariance of arithmetic genus for
+higher-dimensional nonsingular varieties, and a Noetherian affine scheme of
+infinite dimension. They remain deferred source obligations until a precise
+modern statement and proof source are adopted; the survey sentence alone is
+not used as a proof specification.
 
 ## Chapter II: schemes
 

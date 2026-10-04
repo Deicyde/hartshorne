@@ -2,7 +2,7 @@
 article_id: af_6d13455c92da585d27acc3ec
 declaration: definition
 origin: cited
-source_units: [chapter-ii-section-8]
+source_units: [chapter-ii-section-8, chapter-i-section-8-decomposed-previews]
 ---
 
 # Geometric genus

@@ -2,7 +2,7 @@
 article_id: af_d621423f0cf2957bd3b8ea1e
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-5]
+source_units: [chapter-iii-section-5, chapter-i-section-8-decomposed-previews]
 ---
 
 # Arithmetic genus and cohomology

@@ -2,7 +2,7 @@
 article_id: af_f963192c767a624272243075
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
+source_units: [chapter-v-section-5, chapter-i-section-8-decomposed-previews]
 ---
 
 # Arithmetic genus is a birational invariant of nonsingular projective surfaces

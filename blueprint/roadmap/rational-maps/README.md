@@ -61,6 +61,7 @@ See the [coverage contract](../../coverage/README.md).
 - [Birational varieties have isomorphic open subsets](birational-open-subsets.md)
 - [Birational varieties have isomorphic function fields](birational-function-fields.md)
 - [The birational criterion](birational-criterion.md)
+- [Dimension is a birational invariant](birational-dimension-invariant.md)
 
 ## Birational normal form
 

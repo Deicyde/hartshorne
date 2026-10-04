@@ -2,7 +2,7 @@
 article_id: af_8d2be8c21fece52c1133a2ff
 declaration: definition
 origin: cited
-source_units: [chapter-ii-sections-6-7]
+source_units: [chapter-ii-sections-6-7, chapter-i-section-8-decomposed-previews]
 ---
 
 # The Picard group of a ringed space
