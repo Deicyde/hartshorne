@@ -16,8 +16,8 @@ schemes, and the normalization prerequisites used later in the book.
 The roadmap follows Mathlib's categorical representations rather than adding
 parallel foundations. Presheaves and sheaves are functors on opens, schemes are
 Mathlib `Scheme`s, schemes over a base live in a slice category, and fibre
-products are categorical pullbacks. Source-shaped wrappers remain planned when
-Hartshorne's exact statement is not exposed by one stable declaration.
+products are categorical pullbacks. Source-shaped project wrappers are used
+when Hartshorne's exact statement is not exposed by one stable declaration.
 
 An exercise is adopted when running text in the approved whole-book scope
 cites or delegates to it, or when later running text uses it. Examples that

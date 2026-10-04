@@ -11,7 +11,7 @@ Theorem I.5.4A used in V.5, the remaining completion, Cohen-structure, and
 analytic-isomorphism material later in §I.5 is deferred. The source-grounded
 fine-roadmap pass now reaches the end of Appendix C. Section I.7 has 50 fine
 targets, all formalized; the §I.8 survey has been dispositioned claim by claim;
-and all of Chapter II now has a 444-leaf fine roadmap, including 99
+and all of Chapter II now has a 444-leaf fine roadmap, including 100
 exact pinned-Mathlib results. Later-chapter roadmap targets are planned unless
 their own articles say otherwise. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
@@ -100,18 +100,18 @@ function fields. All 23 leaves are formalized.
 
 The 50-leaf §I.7 milestone develops affine and projective intersection
 dimension, integer-graded Hilbert polynomials, projective degree, and Bézout's
-theorem. Forty-seven leaves are formalized; the pure-curve degree and two
-reducible-curve leaves remain. It includes only the earlier exercises required
-by the running proofs; the optional generic-line exercise chain remains out of
-scope.
+theorem. All fifty leaves are formalized. It includes only the earlier
+exercises required by the running proofs; the optional generic-line exercise
+chain remains out of scope.
 
 The 444-leaf Chapter II milestone covers sheaves, spectra, schemes,
 projective spectra, the classical-variety comparison, first properties,
 subschemes, dimension, fibre products, separatedness, properness, projective
 morphisms, modules, divisors and Picard groups, linear systems, relative Proj,
 projective bundles, blowups, differentials, canonical sheaves, and lci geometry.
-Ninety-nine leaves are exact pinned-Mathlib results; the other 345 are planned
-project wrappers, representation bridges, or missing theorems.
+One hundred leaves are exact pinned-Mathlib results. Three project leaves are
+formalized locally—two theorem proofs and one definition—and 341 project
+wrappers, representation bridges, or missing theorems remain.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 

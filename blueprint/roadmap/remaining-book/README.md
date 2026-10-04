@@ -9,8 +9,9 @@ remaining-book scope.
 The 163 leaves through Corollary I.6.12 are formalized, and §I.7 has a 50-leaf
 [fine roadmap](../intersections-projective-space/README.md), all formalized.
 Section I.8 has been dispositioned claim by claim. Chapter II now has a 444-leaf
-[fine roadmap](../schemes/README.md), with 99 exact pinned-Mathlib leaves and
-345 project targets. All of Chapter III has a 288-leaf
+[fine roadmap](../schemes/README.md), with 100 exact pinned-Mathlib leaves,
+three locally complete project leaves, and 341 remaining project leaves. All
+of Chapter III has a 288-leaf
 [fine roadmap](../cohomology/README.md), with 19 exact Mathlib leaves and 269
 project targets. All of Chapter IV has a 201-leaf [fine roadmap](../curves/README.md),
 with two exact Mathlib leaves and 199 project targets, plus five reactivated
@@ -60,7 +61,7 @@ survey sentence alone is not used as a proof specification.
 
 | Milestone | Source | Goal | Primary prerequisites |
 | --- | --- | --- | --- |
-| II-A | §§II.1–3, pp. 60–95 | [Fine roadmap](../schemes/README.md): sheaves, `Spec`, `Proj`, schemes, morphisms, subschemes, products, and first properties | Complete source/API pass: 70 exact Mathlib leaves and 67 project targets |
+| II-A | §§II.1–3, pp. 60–95 | [Fine roadmap](../schemes/README.md): sheaves, `Spec`, `Proj`, schemes, morphisms, subschemes, products, and first properties | Complete source/API pass: 71 exact Mathlib leaves, 3 locally formalized project leaves, and 63 remaining project targets |
 | II-B | §II.4, pp. 95–108 | [Fine roadmap](../schemes/README.md): separated, proper, and projective morphisms and valuative criteria | Complete source/API pass: 11 exact Mathlib leaves and 24 project targets |
 | II-C | §II.5, pp. 109–129 | [Fine roadmap](../schemes/README.md): quasi-coherent and coherent modules, projective sheaf machinery, relative Spec, and vector bundles | Complete source/API pass: 9 exact Mathlib leaves and 61 project targets |
 | II-D | §§II.6–7, pp. 129–172 | [Fine roadmap](../schemes/README.md): divisors, Picard groups, K-theory, ampleness, relative Proj, projective bundles, and blowups | Complete source/API pass: 88 project targets and explicit external-source obligations |

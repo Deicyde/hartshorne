@@ -122,7 +122,7 @@ with the exercises used by later included running text:
 | I.5.14(d) | Analytic Classification of Plane Double Points | 39 | [1 article](../roadmap/surfaces/prerequisites/plane-double-point-analytic-normal-form.md) | planned |
 | I.5.4A regularity clause | Regularity Is Detected by Completion | 34 | [1 article](../roadmap/surfaces/prerequisites/regular-local-iff-completion-regular.md) | planned |
 | I.7.3 | Dual Curves and the Tangent Morphism | 54 | [1 article](../roadmap/curves/adopted-prerequisites/plane-curve-dual-tangent-morphism.md) | planned |
-| II.1–3 and later-used exercises | Sheaves and Scheme Foundations | 60–95 | [137 articles](../roadmap/schemes/README.md) | 70 in Mathlib, 67 planned |
+| II.1–3 and later-used exercises | Sheaves and Scheme Foundations | 60–95 | [137 articles](../roadmap/schemes/README.md) | 71 in Mathlib, 3 formalized here, 63 remaining |
 | II.4 and later-used exercises | Separated and Proper Morphisms | 95–108 | [35 articles](../roadmap/schemes/README.md) | 11 in Mathlib, 24 planned |
 | II.5 and later-used exercises | Sheaves of Modules | 109–129 | [70 articles](../roadmap/schemes/README.md) | 9 in Mathlib, 61 planned |
 | II.6–7 and later-used exercises | Divisors and Projective Geometry | 129–172 | [88 articles](../roadmap/schemes/README.md) | planned |

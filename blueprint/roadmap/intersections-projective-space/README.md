@@ -9,8 +9,7 @@ through Remark 7.8.2 (printed pp. 47–54), together with Exercises 2.8,
 2.10(a)–(c), and 3.15(a),(b),(d), which its proofs require. It develops the
 dimension theorem for intersections, integer-graded Hilbert theory, projective
 degree, and the hypersurface and plane-curve forms of Bézout's theorem.
-Forty-seven leaves are formalized; the pure-curve degree and the two
-reducible-curve leaves remain.
+All fifty leaves are formalized.
 
 The dependency split follows Hartshorne's proof. The geometric branch reaches
 Theorem 7.2. The algebraic branch builds the missing `ℤ`-graded module and

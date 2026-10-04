@@ -51,9 +51,9 @@ Mathlib-compatible statement is restricted to nonempty opens.
   when the first map is quasi-compact; a finite-type scheme over a Noetherian
   scheme is Noetherian.
 
-Mathlib represents “finite type” by the conjunction `LocallyOfFiniteType f ∧
-QuasiCompact f`, not by a separate class. Roadmap statements must preserve that
-choice rather than introducing a competing predicate.
+Mathlib exposes `LocallyOfFiniteType f` and `QuasiCompact f` as the component
+predicates. The project uses the transparent, non-typeclass source-facing
+abbreviation `Hartshorne.FiniteType f := LocallyOfFiniteType f ∧ QuasiCompact f`.
 
 ## Subschemes and dimension
 
@@ -100,10 +100,10 @@ not.
 - **Exercise 3.10(a), p. 92.** The fiber's underlying space is homeomorphic to
   the set-theoretic inverse image with its induced topology.
 
-Mathlib has all scheme pullbacks through an anonymous `HasPullbacks Scheme`
-instance. Because that instance has no stable public declaration name, a
-source-shaped existence theorem needs a local wrapper rather than
-`mathlib: true` metadata.
+Mathlib's `CategoryTheory.Limits.pullbackIsPullback` exactly supplies the
+fiber-product universal property and is recorded as `mathlib: true`. The
+source-shaped existence theorem remains a separate local wrapper because the
+`HasPullbacks Scheme` instance itself is anonymous.
 
 ## Later-used exercises
 
