@@ -3,6 +3,8 @@ article_id: af_9c4d4fb277a1234fb29a6c06
 declaration: def
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+lean: Hartshorne.FiniteType
 ---
 
 # Morphisms of finite type
@@ -23,4 +25,3 @@ Use the conjunction `LocallyOfFiniteType f ∧ QuasiCompact f`; do not introduce
 ## Sources
 
 - [Hartshorne II.3 (finite-type-and-finite-morphisms)](../../../sources/hartshorne-ii-3.md#finite-type-and-finite-morphisms)
-
