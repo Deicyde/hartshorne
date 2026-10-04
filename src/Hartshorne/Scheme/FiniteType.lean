@@ -30,6 +30,14 @@ component properties supplied by Mathlib. -/
 def FiniteType {X Y : Scheme.{u}} (f : X ⟶ Y) : Prop :=
   LocallyOfFiniteType f ∧ QuasiCompact f
 
+/-- The closed points of a scheme of finite type over a field are dense. -/
+theorem closedPoints_dense_of_finiteType
+    {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
+    (hf : FiniteType f) : Dense (closedPoints X) := by
+  let _ : LocallyOfFiniteType f := hf.1
+  let _ : JacobsonSpace X := LocallyOfFiniteType.jacobsonSpace f
+  exact dense_iff_closure_eq.mpr closure_closedPoints
+
 /-- Every closed immersion is a morphism of finite type. -/
 theorem closedImmersion_finiteType {X Y : Scheme.{u}} (f : X ⟶ Y)
     [IsClosedImmersion f] : FiniteType f :=

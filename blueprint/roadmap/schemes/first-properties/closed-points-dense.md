@@ -3,6 +3,9 @@ article_id: af_57c8a849b2c90ab49dc2af1c
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.closedPoints_dense_of_finiteType
 ---
 
 # Closed points are dense over a field
