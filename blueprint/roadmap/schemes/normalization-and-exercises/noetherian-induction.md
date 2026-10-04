@@ -3,6 +3,9 @@ article_id: af_125a652c8b4feeacb57fa1d7
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.noetherianInduction
 ---
 
 # Noetherian induction
@@ -25,4 +28,3 @@ founded; apply well-founded induction.
 ## Sources
 
 - [Hartshorne II.3, Exercise 3.16 (p. 93)](../../../sources/hartshorne-ii-3.md#later-used-exercises)
-
