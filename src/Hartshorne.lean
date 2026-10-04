@@ -120,6 +120,7 @@ import Hartshorne.Rational.BirationalCriterion
 import Hartshorne.Rational.SeparablyGenerated
 import Hartshorne.Rational.ProjectiveClosure
 import Hartshorne.Rational.VarietyDimension
+import Hartshorne.Rational.BirationalDimension
 import Hartshorne.Rational.BirationalHypersurface
 import Hartshorne.Rational.SegreEmbedding
 import Hartshorne.Rational.ProductGeometry

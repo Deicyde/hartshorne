@@ -3,6 +3,9 @@ article_id: af_5df81cbf56c04ce019c9249d
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-8-recaps]
+statement: formalized
+proof: formalized
+lean: Hartshorne.birational_topologicalKrullDim_eq
 ---
 
 # Dimension is a birational invariant
