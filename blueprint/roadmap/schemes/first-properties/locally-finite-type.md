@@ -1,8 +1,11 @@
 ---
 article_id: af_1a29a305023b847c4951dee1
-declaration: class
+declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.locallyOfFiniteType_iff_affineCovers
 ---
 
 # Morphisms locally of finite type
@@ -23,4 +26,3 @@ Represent the property by Mathlib's every-affine-pair class `LocallyOfFiniteType
 ## Sources
 
 - [Hartshorne II.3 (finite-type-and-finite-morphisms)](../../../sources/hartshorne-ii-3.md#finite-type-and-finite-morphisms)
-
