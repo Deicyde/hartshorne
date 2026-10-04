@@ -3,6 +3,9 @@ article_id: af_b22063ac78ef7edd9e6fdd8c
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.dimension_at_closed_point
 ---
 
 # Dimension at a closed point
@@ -24,4 +27,3 @@ Reduce to an affine neighbourhood of `P`. Identify the local-ring dimension with
 ## Sources
 
 - [Hartshorne II.3 (later-used-exercises)](../../../sources/hartshorne-ii-3.md#later-used-exercises)
-
