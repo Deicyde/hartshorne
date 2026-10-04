@@ -7,6 +7,7 @@ import Mathlib.Topology.Constructions
 import Mathlib.Topology.Sets.Closeds
 import Mathlib.Topology.Irreducible
 import Mathlib.Topology.KrullDimension
+import Mathlib.Topology.NoetherianSpace
 
 /-!
 # Irreducible closed subsets of a closed subspace
@@ -26,6 +27,7 @@ closed subset of `↥Y` is closed in `X` and not merely closed in `Y`.
 
 * `IrreducibleCloseds.subtypeOrderIso`
 * `topologicalKrullDim_subtype_eq`
+* `topologicalKrullDim_lt_of_isClosed_ssubset`
 -/
 
 open TopologicalSpace Topology
@@ -102,3 +104,28 @@ theorem _root_.topologicalKrullDim_subtype_eq (hY : IsClosed Y) :
   Order.krullDim_eq_of_orderIso (subtypeOrderIso hY)
 
 end IrreducibleCloseds
+
+/-- A proper closed subset of a finite-dimensional irreducible Noetherian space
+has strictly smaller topological Krull dimension. -/
+theorem topologicalKrullDim_lt_of_isClosed_ssubset
+    {X : Type*} [TopologicalSpace X] [IrreducibleSpace X] [NoetherianSpace X]
+    {Y : Set X} (hY : IsClosed Y) (hYX : Y ⊂ Set.univ)
+    {n : ℕ} (hdim : topologicalKrullDim X = (n : WithBot ℕ∞)) :
+    topologicalKrullDim Y < (n : WithBot ℕ∞) := by
+  classical
+  rw [topologicalKrullDim_subtype_eq hY, Order.krullDim_lt_coe_iff]
+  intro p
+  let q : LTSeries (IrreducibleCloseds X) :=
+    p.map (fun T => T.1) (fun _ _ h => h)
+  let VX : IrreducibleCloseds X :=
+    ⟨Set.univ, IrreducibleSpace.isIrreducible_univ X, isClosed_univ⟩
+  have hqX : q.last < VX := by
+    change ((q.last : IrreducibleCloseds X) : Set X) ⊂ Set.univ
+    exact Set.ssubset_of_subset_of_ssubset p.last.2 hYX
+  have hlen := Order.LTSeries.length_le_krullDim (q.snoc VX hqX)
+  change ((q.snoc VX hqX).length : WithBot ℕ∞) ≤ topologicalKrullDim X at hlen
+  rw [hdim] at hlen
+  have hsucc : p.length + 1 ≤ n := by
+    simp [q] at hlen
+    exact_mod_cast hlen
+  omega
