@@ -3,6 +3,9 @@ article_id: af_e3015ceb0a02f086ffb69977
 declaration: theorem
 origin: cited
 source_units: [chapter-iii-sections-8-9]
+statement: formalized
+proof: formalized
+lean: Hartshorne.flat_of_isOpenImmersion
 ---
 
 # Open immersions are flat
