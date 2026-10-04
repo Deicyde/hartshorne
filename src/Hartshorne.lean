@@ -4,6 +4,7 @@ import Hartshorne.Scheme.LocallyFiniteType
 import Hartshorne.Scheme.FiniteType
 import Hartshorne.Scheme.FiberProductRestrictOpen
 import Hartshorne.Scheme.Normal
+import Hartshorne.Scheme.Codimension
 import Hartshorne.Topology.Subspace
 import Hartshorne.Topology.NoetherianInduction
 import Hartshorne.Affine.AlgebraicSet

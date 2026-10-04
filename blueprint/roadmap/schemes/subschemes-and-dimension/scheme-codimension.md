@@ -3,6 +3,8 @@ article_id: af_42effd85584b057e482049ca
 declaration: def
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+lean: Hartshorne.codim
 ---
 
 # Codimension in a scheme
