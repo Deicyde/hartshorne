@@ -3,6 +3,9 @@ article_id: af_04f823fdc3f938711c5a757f
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.finiteType_of_comp
 ---
 
 # Cancellation for finite type
@@ -23,4 +26,3 @@ The given quasi-compactness supplies one conjunct. Cancel local finite type from
 ## Sources
 
 - [Hartshorne II.3 (finite-type-and-finite-morphisms)](../../../sources/hartshorne-ii-3.md#finite-type-and-finite-morphisms)
-

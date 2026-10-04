@@ -43,4 +43,11 @@ theorem finiteType_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
   let _ : QuasiCompact g := hg.2
   exact ⟨locallyOfFiniteType_comp f g, quasiCompact_comp f g⟩
 
+/-- If `f` is quasi-compact and the composite `f ≫ g` is of finite type,
+then `f` is of finite type. -/
+theorem finiteType_of_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
+    (hf : QuasiCompact f) (hfg : FiniteType (f ≫ g)) : FiniteType f := by
+  let _ : LocallyOfFiniteType (f ≫ g) := hfg.1
+  exact ⟨locallyOfFiniteType_of_comp f g, hf⟩
+
 end Hartshorne
