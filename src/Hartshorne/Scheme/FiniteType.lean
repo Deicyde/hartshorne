@@ -28,4 +28,13 @@ component properties supplied by Mathlib. -/
 def FiniteType {X Y : Scheme.{u}} (f : X ⟶ Y) : Prop :=
   LocallyOfFiniteType f ∧ QuasiCompact f
 
+/-- The composite of two morphisms of finite type is of finite type. -/
+theorem finiteType_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
+    (hf : FiniteType f) (hg : FiniteType g) : FiniteType (f ≫ g) := by
+  let _ : LocallyOfFiniteType f := hf.1
+  let _ : LocallyOfFiniteType g := hg.1
+  let _ : QuasiCompact f := hf.2
+  let _ : QuasiCompact g := hg.2
+  exact ⟨locallyOfFiniteType_comp f g, quasiCompact_comp f g⟩
+
 end Hartshorne
