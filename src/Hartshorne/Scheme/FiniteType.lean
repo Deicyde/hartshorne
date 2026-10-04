@@ -34,6 +34,11 @@ theorem closedImmersion_finiteType {X Y : Scheme.{u}} (f : X ⟶ Y)
     [IsClosedImmersion f] : FiniteType f :=
   ⟨inferInstance, inferInstance⟩
 
+/-- Every quasi-compact open immersion is a morphism of finite type. -/
+theorem quasiCompactOpenImmersion_finiteType {X Y : Scheme.{u}} (f : X ⟶ Y)
+    [IsOpenImmersion f] [QuasiCompact f] : FiniteType f :=
+  ⟨inferInstance, inferInstance⟩
+
 /-- The composite of two morphisms of finite type is of finite type. -/
 theorem finiteType_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
     (hf : FiniteType f) (hg : FiniteType g) : FiniteType (f ≫ g) := by
