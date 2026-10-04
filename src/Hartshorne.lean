@@ -230,4 +230,5 @@ import Hartshorne.Intersection.TopDimensionalPrimeFiltrationLeadingTerm
 import Hartshorne.Intersection.HypersurfaceHilbertPolynomial
 import Hartshorne.Intersection.UnionCoordinateRingExact
 import Hartshorne.Intersection.DegreeUnion
+import Hartshorne.Intersection.PureProjectiveCurveDegree
 import Hartshorne.Intersection.ProjectiveHypersurfaceBezout

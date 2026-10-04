@@ -3,6 +3,9 @@ article_id: af_62bd92ce3f60f2c51058d115
 declaration: theorem
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveDegree_eq_sum_projectiveComponents
 ---
 
 # Degree of a pure projective curve is the sum of component degrees

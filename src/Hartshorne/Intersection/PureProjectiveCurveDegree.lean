@@ -123,11 +123,16 @@ private theorem projDim_inter_projectiveComponentUnion_lt_one
       obtain ⟨V, hVs, rfl⟩ := Finset.mem_image.mp hD
       exact (isProjVariety_projectiveComponentCarrier
         (isClosed_iff_isProjAlgebraicSet.2 hY) V).2
-    have hCU' : C ⊆ ⋃ D ∈ carriers, D := by
-      simpa [C, U, carriers, projectiveComponentUnion] using hCU
+    have hCU' : C ⊆ ⋃₀ (↑carriers : Set (Set (ProjectiveSpace k (Fin 3)))) := by
+      intro P hPC
+      have hPU := hCU hPC
+      simp only [U, projectiveComponentUnion, Set.mem_iUnion, exists_prop] at hPU
+      obtain ⟨V, hVs, hPV⟩ := hPU
+      have hVcarrier : projectiveComponentCarrier V.1 ∈ carriers := by
+        exact Finset.mem_image.mpr ⟨V, hVs, rfl⟩
+      exact Set.mem_sUnion_of_mem hPV hVcarrier
     obtain ⟨D, hD, hCD⟩ :=
-      IsIrreducible.exists_mem_subset_of_subset_biUnion
-        hCvar.1 carriers hclosed hCU'
+      isIrreducible_iff_sUnion_isClosed.mp hCvar.1 carriers hclosed hCU'
     obtain ⟨V, hVs, hDV⟩ := Finset.mem_image.mp hD
     subst D
     have hWV : W.1 ⊆ V.1 := by
