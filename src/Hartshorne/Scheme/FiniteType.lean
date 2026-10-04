@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.LocallyFiniteType
+import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
 import Mathlib.AlgebraicGeometry.Morphisms.QuasiCompact
 
 /-!
@@ -27,6 +28,11 @@ and quasi-compact. This is a proposition, not a competing typeclass for the two
 component properties supplied by Mathlib. -/
 def FiniteType {X Y : Scheme.{u}} (f : X ⟶ Y) : Prop :=
   LocallyOfFiniteType f ∧ QuasiCompact f
+
+/-- Every closed immersion is a morphism of finite type. -/
+theorem closedImmersion_finiteType {X Y : Scheme.{u}} (f : X ⟶ Y)
+    [IsClosedImmersion f] : FiniteType f :=
+  ⟨inferInstance, inferInstance⟩
 
 /-- The composite of two morphisms of finite type is of finite type. -/
 theorem finiteType_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
