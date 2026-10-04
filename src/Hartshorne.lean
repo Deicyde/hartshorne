@@ -244,6 +244,7 @@ import Hartshorne.Intersection.DegreeUnion
 import Hartshorne.Intersection.PureProjectiveCurveDegree
 import Hartshorne.Intersection.ProjectiveHypersurfaceBezout
 import Hartshorne.Intersection.ReduciblePlaneCurveBezout
+import Hartshorne.Cohomology.Flatness.FiniteFlatLocalModuleFree
 import Hartshorne.Cohomology.Flatness.OpenImmersionFlat
 import Hartshorne.Cohomology.Flatness.FlatModuleLocalOnPrimes
 import Hartshorne.Cohomology.SmoothMorphisms.AffineSpaceSmooth

@@ -3,6 +3,9 @@ article_id: af_32845d44d3ee74013b434f9f
 declaration: theorem
 origin: background
 source_units: [chapter-iii-sections-8-9]
+statement: formalized
+proof: formalized
+lean: Hartshorne.finiteFlat_iff_free
 ---
 
 # Finite flat modules over local rings are free
