@@ -3,6 +3,9 @@ article_id: af_e1d511e9a9e727ac4e14ccec
 declaration: theorem
 origin: background
 source_units: [chapter-iii-sections-8-9]
+statement: formalized
+proof: formalized
+lean: Hartshorne.flat_iff_localizedModule_atPrime
 ---
 
 # Flatness is local on prime localizations
