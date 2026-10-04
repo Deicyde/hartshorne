@@ -3,6 +3,9 @@ article_id: af_b501809e0faea306655db32d
 declaration: theorem
 origin: cited
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.reducible_plane_curve_bezout
 ---
 
 # Bézout for reducible plane curves without a common component
@@ -17,7 +20,7 @@ sense stated in the pointwise-multiplicity article. Then `Y ∩ Z` is finite and
 `= projectiveDegree Y * projectiveDegree Z`,
 
 where `toFinset` uses the finiteness theorem from the pointwise-multiplicity
-article. The unique main declaration is planned as
+article. The unique main declaration is
 `Hartshorne.reducible_plane_curve_bezout`.
 
 This formalizes the pure/equidimensional interpretation of Remark 7.8.2.

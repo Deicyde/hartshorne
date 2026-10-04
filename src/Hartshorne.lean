@@ -233,3 +233,4 @@ import Hartshorne.Intersection.UnionCoordinateRingExact
 import Hartshorne.Intersection.DegreeUnion
 import Hartshorne.Intersection.PureProjectiveCurveDegree
 import Hartshorne.Intersection.ProjectiveHypersurfaceBezout
+import Hartshorne.Intersection.ReduciblePlaneCurveBezout
