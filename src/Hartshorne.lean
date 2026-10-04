@@ -1,6 +1,7 @@
 import Hartshorne.Basic
 import Hartshorne.Scheme.LocallyFiniteType
 import Hartshorne.Scheme.FiniteType
+import Hartshorne.Scheme.FiberProductRestrictOpen
 import Hartshorne.Topology.Subspace
 import Hartshorne.Affine.AlgebraicSet
 import Hartshorne.Affine.Zariski

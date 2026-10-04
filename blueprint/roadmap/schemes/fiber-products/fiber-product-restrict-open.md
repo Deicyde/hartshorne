@@ -3,6 +3,9 @@ article_id: af_29b007474e7b2509a279e34c
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.isPullback_fiberProductRestrictOpen
 ---
 
 # Restricting a fiber product to an open subscheme
