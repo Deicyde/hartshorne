@@ -3,6 +3,9 @@ article_id: af_105e5c9ea0f8b6df2e6d90c7
 declaration: definition
 origin: bridged
 source_units: [chapter-i-section-7-main]
+statement: formalized
+proof: formalized
+lean: Hartshorne.reduciblePlaneCurveIntersectionMultiplicity
 ---
 
 # Pointwise multiplicity for reducible plane curves
@@ -30,8 +33,8 @@ that `Y ∩ Z` is finite, that every component `W` occurring above has singleton
 carrier, and that the sum of the pointwise multiplicities over the finite set
 `Y ∩ Z` equals the displayed finite triple sum with the indicators removed.
 This is a project-authored reindexing definition implementing the extension
-asserted, but not defined, in Remark 7.8.2. The eventual Lean statement will
-make the proof arguments implicit in the schematic multiplicity call precise.
+asserted, but not defined, in Remark 7.8.2. The Lean declaration makes the
+proof arguments implicit in the schematic multiplicity call precise.
 
 ## Depends on
 
