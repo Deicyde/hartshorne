@@ -9,6 +9,7 @@ import Hartshorne.Scheme.BaseExtension
 import Hartshorne.Scheme.FiniteTypeBaseChange
 import Hartshorne.Scheme.FiniteTypeProducts
 import Hartshorne.Scheme.Normal
+import Hartshorne.Scheme.ImageSubsheaf
 import Hartshorne.Scheme.SheafSupport
 import Hartshorne.Scheme.Codimension
 import Hartshorne.Scheme.CodimensionLocalDimension
