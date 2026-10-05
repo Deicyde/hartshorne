@@ -11,6 +11,7 @@ import Hartshorne.Scheme.Normal
 import Hartshorne.Scheme.Codimension
 import Hartshorne.Scheme.CodimensionLocalDimension
 import Hartshorne.Scheme.DimensionAtClosedPoint
+import Hartshorne.Scheme.AdicCompletionQuotient
 import Hartshorne.Scheme.Differentials.KaehlerFirstExactSequence
 import Hartshorne.Scheme.Differentials.KaehlerConormalExactSequence
 import Hartshorne.Topology.Subspace
