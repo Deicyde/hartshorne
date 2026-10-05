@@ -3,6 +3,9 @@ article_id: af_ebc1dcfd43a21c5bf2071417
 declaration: structure
 origin: bridged
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.SchemeVarietyCat
 ---
 
 # The scheme-variety source category
