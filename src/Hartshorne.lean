@@ -259,6 +259,7 @@ import Hartshorne.Intersection.PureProjectiveCurveDegree
 import Hartshorne.Intersection.ProjectiveHypersurfaceBezout
 import Hartshorne.Intersection.ReduciblePlaneCurveBezout
 import Hartshorne.Cohomology.AbelianPushforwardLeftExact
+import Hartshorne.Cohomology.HigherDirectImages
 import Hartshorne.Cohomology.Flatness.FiniteFlatLocalModuleFree
 import Hartshorne.Cohomology.Flatness.OpenImmersionFlat
 import Hartshorne.Cohomology.Flatness.FlatModuleLocalOnPrimes
