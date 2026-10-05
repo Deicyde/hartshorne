@@ -3,6 +3,9 @@ article_id: af_e4fcd8a2b244f4d54771fac6
 declaration: def
 origin: cited
 source_units: [chapter-ii-section-8]
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.IsRegularAt AlgebraicGeometry.Scheme.IsRegular
 ---
 
 # Regular points and nonsingular schemes
