@@ -3,6 +3,9 @@ article_id: af_89f3d075de6558df70213185
 declaration: theorem
 origin: background
 source_units: [chapter-iii-sections-8-9]
+statement: formalized
+proof: formalized
+lean: Hartshorne.flat_shortExact_calculus
 ---
 
 # Flat modules in short exact sequences
