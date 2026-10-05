@@ -3,6 +3,7 @@ import Hartshorne.Scheme.ProjectiveSpace
 import Hartshorne.Scheme.LocallyFiniteType
 import Hartshorne.Scheme.FiniteType
 import Hartshorne.Scheme.FiberProductRestrictOpen
+import Hartshorne.Scheme.SchemesHaveFiberProducts
 import Hartshorne.Scheme.Normal
 import Hartshorne.Scheme.Codimension
 import Hartshorne.Scheme.CodimensionLocalDimension
