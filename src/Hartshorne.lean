@@ -11,6 +11,7 @@ import Hartshorne.Scheme.FiniteTypeBaseChange
 import Hartshorne.Scheme.FiniteTypeProducts
 import Hartshorne.Scheme.Normal
 import Hartshorne.Scheme.Regular
+import Hartshorne.Scheme.RegularFunctionsSheaf
 import Hartshorne.Scheme.ImageSubsheaf
 import Hartshorne.Scheme.ConstantSheaf
 import Hartshorne.Scheme.ConstantSheafSections

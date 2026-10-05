@@ -3,6 +3,9 @@ article_id: af_5ab88e6586973fd7997b6527
 declaration: definition
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.Variety.regularSheaf
 ---
 
 # The sheaf of regular functions
@@ -28,4 +31,3 @@ introduce a second structure sheaf.
 ## Sources
 
 - [Hartshorne II.1, Example 1.0.1 (p. 62)](../../../sources/hartshorne-ii-1.md#basic-examples-printed-p-62)
-
