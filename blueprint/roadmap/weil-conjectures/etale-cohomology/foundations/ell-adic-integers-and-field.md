@@ -3,6 +3,9 @@ article_id: af_e3cca5b53e68a242841d754a
 declaration: structure
 origin: bridged
 source_units: [appendix-c-section-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.EllAdicCoefficientPackage
 ---
 
 # The ℓ-adic integers and coefficient field
