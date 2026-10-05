@@ -3,6 +3,9 @@ article_id: af_b4538b8d609b98cbdc71bc46
 declaration: instance
 origin: cited
 source_units: [chapter-iii-sections-8-9]
+statement: formalized
+proof: formalized
+lean: Hartshorne.abelianSheafPushforwardPreservesFiniteLimits
 ---
 
 # Abelian-sheaf pushforward is left exact
