@@ -3,6 +3,8 @@ article_id: af_59587fcdbdbf59174a4613a5
 declaration: def
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+lean: Hartshorne.baseExtension Hartshorne.baseExtensionProjection
 ---
 
 # Base extension
@@ -22,4 +24,3 @@ Use the existing pullback object and projection. Keep the term “base extension
 ## Sources
 
 - [Hartshorne II.3 (fiber-products-fibers-and-base-extension)](../../../sources/hartshorne-ii-3.md#fiber-products-fibers-and-base-extension)
-
