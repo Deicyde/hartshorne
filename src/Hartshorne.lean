@@ -5,6 +5,7 @@ import Hartshorne.Scheme.FiniteType
 import Hartshorne.Scheme.FiniteTypeAffineSource
 import Hartshorne.Scheme.FiberProductRestrictOpen
 import Hartshorne.Scheme.SchemesHaveFiberProducts
+import Hartshorne.Scheme.SmoothRelativeDimensionCalculus
 import Hartshorne.Scheme.BaseExtension
 import Hartshorne.Scheme.FiniteTypeBaseChange
 import Hartshorne.Scheme.FiniteTypeProducts
