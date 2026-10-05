@@ -251,5 +251,6 @@ import Hartshorne.Cohomology.Flatness.OpenImmersionFlat
 import Hartshorne.Cohomology.Flatness.FlatModuleLocalOnPrimes
 import Hartshorne.Cohomology.Flatness.LocalizationFlatModuleOverBase
 import Hartshorne.Cohomology.Flatness.ModuleSheafFlatOverBase
+import Hartshorne.Cohomology.Flatness.ModuleSheafFlatTransitivity
 import Hartshorne.Cohomology.FlatFamilies.AssociatedPoints
 import Hartshorne.Cohomology.SmoothMorphisms.AffineSpaceSmooth
