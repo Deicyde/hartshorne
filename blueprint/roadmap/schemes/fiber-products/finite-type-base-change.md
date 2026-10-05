@@ -3,6 +3,9 @@ article_id: af_613ad89782b11a573e70019d
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.finiteType_baseExtension
 ---
 
 # Finite type is stable under base extension
@@ -23,4 +26,3 @@ Stability of `LocallyOfFiniteType` and `QuasiCompact` under pullback gives the t
 ## Sources
 
 - [Hartshorne II.3 (finite-type-and-finite-morphisms)](../../../sources/hartshorne-ii-3.md#finite-type-and-finite-morphisms)
-
