@@ -3,6 +3,9 @@ article_id: af_7a7e7db275904105a90711a5
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.locallyOfFiniteType_iff_everyAffineTarget
 ---
 
 # The affine-target criterion for local finite type
@@ -26,4 +29,3 @@ other.
 ## Sources
 
 - [Hartshorne II.3, Exercise 3.1 (p. 90)](../../../sources/hartshorne-ii-3.md#finite-type-and-finite-morphisms)
-

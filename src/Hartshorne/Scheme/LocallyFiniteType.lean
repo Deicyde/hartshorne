@@ -93,6 +93,60 @@ theorem locallyOfFiniteType_iff_affineCovers
               (P := (@LocallyOfFiniteType : MorphismProperty Scheme.{u}))
               (f := 𝒰.openCover.pullbackHom f i) 𝒱.openCover).mpr h𝒱
 
+/-- Hartshorne's formulation of local finite type over every affine open of
+the target.
+
+For each affine open `U` of the target, the inverse image of `U` has an affine
+open cover on which the induced coordinate-ring maps are of finite type. -/
+def LocallyOfFiniteTypeOnEveryAffineTarget
+    {X Y : Scheme.{u}} (f : X ⟶ Y) : Prop :=
+  ∀ U : Y.affineOpens,
+    ∃ (𝒱 : ((f ⁻¹ᵁ (U : Y.Opens)).toScheme).AffineOpenCover.{u}), ∀ j,
+      ((𝒱.openCover.f j ≫ f ∣_ (U : Y.Opens)).appTop).hom.FiniteType
+
+/-- A scheme morphism is locally of finite type if and only if it satisfies
+Hartshorne's affine-target criterion. -/
+theorem locallyOfFiniteType_iff_everyAffineTarget
+    {X Y : Scheme.{u}} (f : X ⟶ Y) :
+    LocallyOfFiniteType f ↔ LocallyOfFiniteTypeOnEveryAffineTarget f := by
+  let _ : HasRingHomProperty
+      (@LocallyOfFiniteType : MorphismProperty Scheme.{u}) (@RingHom.FiniteType) :=
+    inferInstance
+  let _ : HasAffineProperty (@LocallyOfFiniteType : MorphismProperty Scheme.{u})
+      (sourceAffineLocally (@RingHom.FiniteType)) :=
+    HasRingHomProperty.HasAffineProperty
+      (@LocallyOfFiniteType : MorphismProperty Scheme.{u})
+  rw [HasAffineProperty.iff_of_iSup_eq_top
+    (P := (@LocallyOfFiniteType : MorphismProperty Scheme.{u}))
+    (Q := sourceAffineLocally (@RingHom.FiniteType))
+    (fun U : Y.affineOpens ↦ U) (iSup_affineOpens_eq_top Y)]
+  apply forall_congr'
+  intro U
+  let _ : IsAffine U := U.2
+  rw [← HasAffineProperty.iff_of_isAffine
+    (P := (@LocallyOfFiniteType : MorphismProperty Scheme.{u}))
+    (Q := sourceAffineLocally (@RingHom.FiniteType)) (f := f ∣_ (U : Y.Opens))]
+  constructor
+  · intro hf
+    let 𝒱 : ((f ⁻¹ᵁ (U : Y.Opens)).toScheme).AffineOpenCover.{u} :=
+      ((f ⁻¹ᵁ (U : Y.Opens)).toScheme).affineOpenCover
+    let _ : ∀ j, IsAffine (𝒱.openCover.X j) := fun j ↦ by
+      change IsAffine (Spec (𝒱.X j))
+      infer_instance
+    refine ⟨𝒱, ?_⟩
+    exact
+      (HasRingHomProperty.iff_of_source_openCover
+        (P := (@LocallyOfFiniteType : MorphismProperty Scheme.{u}))
+        (f := f ∣_ (U : Y.Opens)) 𝒱.openCover).mp hf
+  · rintro ⟨𝒱, h𝒱⟩
+    let _ : ∀ j, IsAffine (𝒱.openCover.X j) := fun j ↦ by
+      change IsAffine (Spec (𝒱.X j))
+      infer_instance
+    exact
+      (HasRingHomProperty.iff_of_source_openCover
+        (P := (@LocallyOfFiniteType : MorphismProperty Scheme.{u}))
+        (f := f ∣_ (U : Y.Opens)) 𝒱.openCover).mpr h𝒱
+
 end
 
 end Hartshorne
