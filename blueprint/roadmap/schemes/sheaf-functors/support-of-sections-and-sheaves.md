@@ -3,6 +3,9 @@ article_id: af_765586c14a163cbbdb9f9f40
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.sectionSupport Hartshorne.sheafSupport Hartshorne.isClosed_sectionSupport
 ---
 
 # The support of a section is closed
