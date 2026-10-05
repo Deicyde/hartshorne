@@ -13,6 +13,7 @@ import Hartshorne.Scheme.Normal
 import Hartshorne.Scheme.Regular
 import Hartshorne.Scheme.ImageSubsheaf
 import Hartshorne.Scheme.ConstantSheaf
+import Hartshorne.Scheme.ConstantSheafSections
 import Hartshorne.Scheme.SheafSupport
 import Hartshorne.Scheme.Codimension
 import Hartshorne.Scheme.CodimensionLocalDimension

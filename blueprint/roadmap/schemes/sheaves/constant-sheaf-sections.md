@@ -3,6 +3,9 @@ article_id: af_deb2840446acccc594f3bf7f
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.constantSheafSectionsEquivOfIsPreconnected Hartshorne.constantSheafSectionsEquivConnectedComponents
 ---
 
 # Sections of a constant sheaf
