@@ -3,6 +3,9 @@ article_id: af_af2bf5d05b56c3bddb7d1a51
 declaration: theorem
 origin: cited
 source_units: [chapter-iii-sections-1-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.artinRees_inducedTopology
 ---
 
 # Artin–Rees induced topology
@@ -26,4 +29,3 @@ No project-local prerequisites.
 ## Sources
 
 - [Hartshorne III, Proposition 3.1A (p.213)](../../../sources/hartshorne-iii-3-4.md#affine-cohomology)
-
