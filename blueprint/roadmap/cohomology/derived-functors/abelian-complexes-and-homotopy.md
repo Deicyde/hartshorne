@@ -3,6 +3,9 @@ article_id: af_6ed0b30597172cb2de1da5f3
 declaration: theorem
 origin: cited
 source_units: [chapter-iii-sections-1-4]
+mathlib: true
+mathlib_declaration: Homotopy.homologyMap_eq
+mathlib_file: Mathlib/Algebra/Homology/Homotopy.lean
 ---
 
 # Complexes, homotopies, and cohomology
