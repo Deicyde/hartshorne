@@ -3,6 +3,9 @@ article_id: af_87419a940773431b5efc1fd9
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.finiteType_iff_everyAffineTarget
 ---
 
 # The finite affine-cover criterion for finite type
@@ -27,4 +30,3 @@ that quasi-compactness is detected on affine target inverse images.
 ## Sources
 
 - [Hartshorne II.3, Exercise 3.3(b) (p. 91)](../../../sources/hartshorne-ii-3.md#finite-type-and-finite-morphisms)
-

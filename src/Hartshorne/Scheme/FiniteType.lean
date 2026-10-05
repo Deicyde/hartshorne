@@ -10,7 +10,7 @@ import Mathlib.AlgebraicGeometry.Morphisms.QuasiCompact
 /-!
 # Morphisms of finite type
 
-Hartshorne, *Algebraic Geometry*, II.3 (p. 84) and Exercise II.3.3(a) (p. 91).
+Hartshorne, *Algebraic Geometry*, II.3 (p. 84) and Exercise II.3.3(a)–(b) (p. 91).
 
 Hartshorne's finite-cover condition is represented by quasi-compactness, so a
 morphism is of finite type when it is locally of finite type and quasi-compact.
@@ -29,6 +29,63 @@ and quasi-compact. This is a proposition, not a competing typeclass for the two
 component properties supplied by Mathlib. -/
 def FiniteType {X Y : Scheme.{u}} (f : X ⟶ Y) : Prop :=
   LocallyOfFiniteType f ∧ QuasiCompact f
+
+/-- Hartshorne's finite affine-cover formulation of finite type over every
+affine open of the target.
+
+For each affine open `U` of the target, the inverse image of `U` has a finite
+affine open cover on which the induced coordinate-ring maps are of finite
+type. -/
+def FiniteTypeOnEveryAffineTarget
+    {X Y : Scheme.{u}} (f : X ⟶ Y) : Prop :=
+  ∀ U : Y.affineOpens,
+    ∃ (𝒱 : ((f ⁻¹ᵁ (U : Y.Opens)).toScheme).AffineOpenCover.{u}),
+      Finite 𝒱.I₀ ∧
+        ∀ j, ((𝒱.openCover.f j ≫ f ∣_ (U : Y.Opens)).appTop).hom.FiniteType
+
+/-- A scheme morphism is of finite type if and only if every affine open of
+the target has inverse image admitting a finite affine cover with finite-type
+coordinate-ring maps. -/
+theorem finiteType_iff_everyAffineTarget
+    {X Y : Scheme.{u}} (f : X ⟶ Y) :
+    FiniteType f ↔ FiniteTypeOnEveryAffineTarget f := by
+  constructor
+  · rintro ⟨hfiniteType, hquasiCompact⟩ U
+    obtain ⟨𝒱, h𝒱⟩ :=
+      (locallyOfFiniteType_iff_everyAffineTarget f).mp hfiniteType U
+    have hcompact : IsCompact (f ⁻¹ᵁ (U : Y.Opens) : Set X) :=
+      quasiCompact_iff_forall_isAffineOpen.mp hquasiCompact (U : Y.Opens) U.2
+    let _ : CompactSpace ((f ⁻¹ᵁ (U : Y.Opens)).toScheme) :=
+      isCompact_iff_compactSpace.mp hcompact
+    let 𝒲 : ((f ⁻¹ᵁ (U : Y.Opens)).toScheme).AffineOpenCover.{u} := {
+      I₀ := 𝒱.openCover.finiteSubcover.I₀
+      X i := 𝒱.X (𝒱.openCover.idx i.1)
+      f i := 𝒱.f (𝒱.openCover.idx i.1)
+      idx x := 𝒱.openCover.finiteSubcover.idx x
+      covers x := 𝒱.openCover.finiteSubcover.covers x
+      map_prop i := 𝒱.map_prop (𝒱.openCover.idx i.1) }
+    refine ⟨𝒲, ?_, ?_⟩
+    · dsimp [𝒲]
+      infer_instance
+    · intro j
+      change
+        ((𝒱.openCover.f (𝒱.openCover.idx j.1) ≫
+          f ∣_ (U : Y.Opens)).appTop).hom.FiniteType
+      exact h𝒱 (𝒱.openCover.idx j.1)
+  · intro h
+    refine ⟨(locallyOfFiniteType_iff_everyAffineTarget f).mpr ?_,
+      quasiCompact_iff_forall_isAffineOpen.mpr ?_⟩
+    · intro U
+      obtain ⟨𝒱, _, h𝒱⟩ := h U
+      exact ⟨𝒱, h𝒱⟩
+    · intro U hU
+      obtain ⟨𝒱, h𝒱finite, _⟩ := h ⟨U, hU⟩
+      let _ : Finite 𝒱.openCover.I₀ := h𝒱finite
+      let _ : ∀ i, CompactSpace (𝒱.openCover.X i) := fun i ↦ by
+        change CompactSpace (Spec (𝒱.X i))
+        infer_instance
+      rw [isCompact_iff_compactSpace]
+      exact 𝒱.openCover.compactSpace
 
 /-- The closed points of a scheme of finite type over a field are dense. -/
 theorem closedPoints_dense_of_finiteType
