@@ -3,6 +3,9 @@ article_id: af_83bb1eae9573b5bea8a6e259
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.finiteType_products
 ---
 
 # Products of finite-type schemes
@@ -23,4 +26,3 @@ The first projection is the base extension of `Y → S`, hence finite type; comp
 ## Sources
 
 - [Hartshorne II.3 (finite-type-and-finite-morphisms)](../../../sources/hartshorne-ii-3.md#finite-type-and-finite-morphisms)
-
