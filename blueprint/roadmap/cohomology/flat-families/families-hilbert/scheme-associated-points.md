@@ -3,6 +3,8 @@ article_id: af_bd803513c2cf8bb75a012817
 declaration: def
 origin: cited
 source_units: [chapter-iii-sections-8-9]
+statement: formalized
+lean: Hartshorne.associatedPoints Hartshorne.mem_associatedPoints_iff_maximalIdeal_subset_zeroDivisors
 ---
 
 # Associated points of a scheme

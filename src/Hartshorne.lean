@@ -249,4 +249,5 @@ import Hartshorne.Intersection.ReduciblePlaneCurveBezout
 import Hartshorne.Cohomology.Flatness.FiniteFlatLocalModuleFree
 import Hartshorne.Cohomology.Flatness.OpenImmersionFlat
 import Hartshorne.Cohomology.Flatness.FlatModuleLocalOnPrimes
+import Hartshorne.Cohomology.FlatFamilies.AssociatedPoints
 import Hartshorne.Cohomology.SmoothMorphisms.AffineSpaceSmooth
