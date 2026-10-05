@@ -3,6 +3,9 @@ article_id: af_fc70eb5399a62a671cf2435a
 declaration: definition
 origin: cited
 source_units: [chapter-ii-section-8]
+statement: formalized
+proof: formalized
+lean: Module.depth IsCohenMacaulayLocalRing AlgebraicGeometry.Scheme.IsCohenMacaulay
 ---
 
 # Cohen–Macaulay local rings and schemes
