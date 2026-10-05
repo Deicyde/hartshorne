@@ -8,6 +8,7 @@ import Hartshorne.Scheme.Codimension
 import Hartshorne.Scheme.CodimensionLocalDimension
 import Hartshorne.Scheme.DimensionAtClosedPoint
 import Hartshorne.Scheme.Differentials.KaehlerFirstExactSequence
+import Hartshorne.Scheme.Differentials.KaehlerConormalExactSequence
 import Hartshorne.Topology.Subspace
 import Hartshorne.Topology.NoetherianInduction
 import Hartshorne.Affine.AlgebraicSet
