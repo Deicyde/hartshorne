@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.constantSheafSectionsEquivOfIsPreconnected Hartshorne.constantSheafSectionsEquivConnectedComponents
+lean: Hartshorne.exists_constantSheafSectionsEquivOfIsPreconnected Hartshorne.exists_constantSheafSectionsEquivConnectedComponents
 ---
 
 # Sections of a constant sheaf

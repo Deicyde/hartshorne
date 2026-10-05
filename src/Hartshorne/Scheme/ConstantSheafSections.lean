@@ -36,6 +36,18 @@ def constantSheafSectionsEquivOfIsPreconnected
       right_inv := fun _ ↦ rfl
       map_add' := fun _ _ ↦ rfl }
 
+/-- On a nonempty preconnected open set, there is an additive equivalence from constant-sheaf
+sections to the value group which is evaluation at the chosen point. -/
+theorem exists_constantSheafSectionsEquivOfIsPreconnected
+    (X : TopCat.{u}) (A : AddCommGrpCat.{u}) (U : Opens X) (x : U)
+    (hU : IsPreconnected (U : Set X)) :
+    ∃ e : (constantSheaf X A).obj.obj (op U) ≃+ A,
+      ∀ s : (constantSheaf X A).obj.obj (op U),
+        e s = (show LocallyConstant U A from s) x := by
+  refine ⟨constantSheafSectionsEquivOfIsPreconnected X A U x hU, ?_⟩
+  intro s
+  rfl
+
 /-- If the connected components of an open set are open, constant-sheaf sections are the product
 of copies of the value group indexed by those components. -/
 def constantSheafSectionsEquivConnectedComponents
@@ -60,5 +72,17 @@ def constantSheafSectionsEquivConnectedComponents
       map_add' := fun f g ↦ funext fun c ↦ by
         obtain ⟨x, rfl⟩ := ConnectedComponents.surjective_coe c
         rfl }
+
+/-- If connected components are open, there is an additive equivalence from constant-sheaf
+sections to component-indexed values which recovers every section at every point. -/
+theorem exists_constantSheafSectionsEquivConnectedComponents
+    (X : TopCat.{u}) (A : AddCommGrpCat.{u}) (U : Opens X)
+    (hU : ∀ x : U, IsOpen (connectedComponent x)) :
+    ∃ e : (constantSheaf X A).obj.obj (op U) ≃+ (ConnectedComponents U → A),
+      ∀ (s : (constantSheaf X A).obj.obj (op U)) (x : U),
+        e s (ConnectedComponents.mk x) = (show LocallyConstant U A from s) x := by
+  refine ⟨constantSheafSectionsEquivConnectedComponents X A U hU, ?_⟩
+  intro s x
+  rfl
 
 end Hartshorne
