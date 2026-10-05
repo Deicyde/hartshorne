@@ -3,6 +3,9 @@ article_id: af_bb4d90561957ab97003d834b
 declaration: theorem
 origin: cited
 source_units: [chapter-iii-sections-8-9]
+statement: formalized
+proof: formalized
+lean: Hartshorne.localizedModule_flat_over_base
 ---
 
 # Localization of a flat module over its base
