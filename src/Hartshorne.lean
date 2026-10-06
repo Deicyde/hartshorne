@@ -2,6 +2,7 @@ import Hartshorne.Basic
 import Hartshorne.Scheme.AbelianSheafHom
 import Hartshorne.Scheme.ProjectiveSpace
 import Hartshorne.Scheme.ProjectiveSpaceOverScheme
+import Hartshorne.Scheme.ProjectiveSpaceProper
 import Hartshorne.Scheme.LocallyFiniteType
 import Hartshorne.Scheme.FiniteType
 import Hartshorne.Scheme.FiniteTypeAffineSource

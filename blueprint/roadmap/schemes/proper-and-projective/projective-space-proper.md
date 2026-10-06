@@ -3,6 +3,9 @@ article_id: af_7d438e5682951dd9d44615d5
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveSpaceOverSchemeProjection_isProper
 ---
 
 # Projective space is proper
