@@ -3,6 +3,9 @@ article_id: af_793552093819c4b5f36ad12d
 declaration: theorem
 origin: bridged
 source_units: [chapter-ii-section-9]
+statement: formalized
+proof: formalized
+lean: Hartshorne.completedIdealPowers
 ---
 
 # Completed ideals and their powers

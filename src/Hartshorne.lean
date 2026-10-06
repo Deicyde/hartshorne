@@ -41,6 +41,7 @@ import Hartshorne.Scheme.CodimensionLocalDimension
 import Hartshorne.Scheme.DimensionAtClosedPoint
 import Hartshorne.Scheme.CotangentSurjectivity
 import Hartshorne.Scheme.AdicCompletionQuotient
+import Hartshorne.Scheme.CompletedIdealPowers
 import Hartshorne.Scheme.InverseSystemMittagLeffler
 import Hartshorne.Scheme.InverseSystemMittagLefflerStableImage
 import Hartshorne.Scheme.InverseSystemMittagLefflerExact
