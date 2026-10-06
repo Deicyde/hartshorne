@@ -3,6 +3,9 @@ article_id: af_35119aefeffefa2be2819a3b
 declaration: theorem
 origin: cited
 source_units: [chapter-iii-section-5]
+statement: formalized
+proof: formalized
+lean: Hartshorne.isProper_iff_nilpotentThickening
 ---
 
 # Properness across a nilpotent thickening
