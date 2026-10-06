@@ -3,6 +3,9 @@ article_id: af_3c0528225a28ac3897059bd7
 declaration: theorem
 origin: cited
 source_units: [appendix-c-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.scaledPerfectPairing_determinantIdentity
 ---
 
 # Determinants under a scaled perfect pairing

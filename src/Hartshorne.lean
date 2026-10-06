@@ -311,6 +311,7 @@ import Hartshorne.Cohomology.Flatness.ModuleSheafFlatTransitivity
 import Hartshorne.Cohomology.FlatFamilies.AssociatedPoints
 import Hartshorne.Cohomology.SmoothMorphisms.AffineSpaceSmooth
 import Hartshorne.Weil.FiniteRationalPoints
+import Hartshorne.Weil.ScaledPerfectPairingDeterminant
 import Hartshorne.Weil.EllAdicCoefficients
 import Hartshorne.Weil.ConstantTorsionEtaleSheaf
 import Hartshorne.Transcendental.ComplexExponentialExactSequence
