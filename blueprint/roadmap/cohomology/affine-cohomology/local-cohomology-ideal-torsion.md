@@ -3,6 +3,9 @@ article_id: af_e2e9a698ad1531043af1a1cb
 declaration: theorem
 origin: cited
 source_units: [chapter-iii-sections-1-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.localCohomology_primaryComponent_eq_top
 ---
 
 # Local cohomology is ideal-power torsion
@@ -25,4 +28,3 @@ the ideal-power torsion submodule of `H_a^i(M)` is the whole module.
 ## Sources
 
 - [Hartshorne III, Exercise 3.3(c) (p.217)](../../../sources/hartshorne-iii-3-4.md#local-cohomology-exercises)
-
