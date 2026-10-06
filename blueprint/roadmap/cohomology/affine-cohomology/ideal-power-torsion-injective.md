@@ -3,6 +3,9 @@ article_id: af_e5014a9c3e68b574be1cd180
 declaration: theorem
 origin: cited
 source_units: [chapter-iii-sections-1-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.idealPowerTorsion_injective
 ---
 
 # Ideal-power torsion in an injective module
@@ -21,7 +24,7 @@ No project-local prerequisites.
 ## Proof depends on
 
 - [Artin–Rees induced topology](artin-rees-induced-topology.md)
-- `Submodule.primaryComponent` and `Submodule.primaryComponent_mem` from
+- `Ideal.primaryComponent` and `Ideal.primaryComponent_mem` from
   `Mathlib/Algebra/Module/Torsion/PrimaryComponent.lean` model `Γ_a`.
 - `Module.Baer.iff_injective` from
   `Mathlib/Algebra/Module/Injective.lean` supplies Baer's criterion.
