@@ -3,6 +3,9 @@ article_id: af_211f39a4ee5bfc6bdffb1831
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.isSeparated_iff_isClosed_range_diagonal
 ---
 
 # Closed range of the diagonal
@@ -28,6 +31,8 @@ and closedness of the range upgrades the preimmersion to a closed immersion.
 - [Affine morphisms are separated](affine-morphism-separated.md)
 - `IsClosedImmersion.iff_isPreimmersion` from
   `Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean`.
+- The unconditional `IsImmersion (pullback.diagonal f)` instance from
+  `Mathlib/AlgebraicGeometry/Morphisms/Immersion.lean`.
 - Affine neighborhoods form a basis.
 
 ## Sources
