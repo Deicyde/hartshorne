@@ -8,6 +8,7 @@ import Hartshorne.Scheme.FiniteTypeAffineSource
 import Hartshorne.Scheme.FiberProductRestrictOpen
 import Hartshorne.Scheme.SchemesHaveFiberProducts
 import Hartshorne.Scheme.DiagonalRangeClosed
+import Hartshorne.Scheme.SeparatedMorphismCalculus
 import Hartshorne.Scheme.SmoothRelativeDimensionCalculus
 import Hartshorne.Scheme.BaseExtension
 import Hartshorne.Scheme.FiniteTypeBaseChange

@@ -3,6 +3,9 @@ article_id: af_4148828d8cb4ae4679557610
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.separatedMorphismCalculus
 ---
 
 # Separated-morphism calculus
