@@ -27,6 +27,7 @@ import Hartshorne.Scheme.AffineTildeLocalization
 import Hartshorne.Scheme.AffineTildeCoproduct
 import Hartshorne.Scheme.QuasicoherentAffineLocalCriterion
 import Hartshorne.Scheme.NoetherianSpectrumCounterexample
+import Hartshorne.Scheme.TangentVectorsDualNumbers
 import Hartshorne.Scheme.RegularFunctionsSheaf
 import Hartshorne.Scheme.SchemeVarietyCategory
 import Hartshorne.Scheme.ImageSubsheaf
