@@ -42,6 +42,7 @@ import Hartshorne.Scheme.Codimension
 import Hartshorne.Scheme.RegularInCodimensionOne
 import Hartshorne.Scheme.CodimensionOneStalkDVR
 import Hartshorne.Scheme.WeilDivisor
+import Hartshorne.Scheme.PrincipalDivisor
 import Hartshorne.Scheme.CodimensionLocalDimension
 import Hartshorne.Scheme.DimensionAtClosedPoint
 import Hartshorne.Scheme.CotangentSurjectivity

@@ -3,6 +3,9 @@ article_id: af_7d9268752399c74032a1c3c3
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-6-7]
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.finite_support_ord_of_satisfiesConditionStar
 ---
 
 # Principal divisors have finite support
