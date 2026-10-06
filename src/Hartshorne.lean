@@ -13,6 +13,7 @@ import Hartshorne.Scheme.FiniteTypeProducts
 import Hartshorne.Scheme.Normal
 import Hartshorne.Scheme.AbsoluteNormalization
 import Hartshorne.Scheme.AbsoluteNormalizationDominant
+import Hartshorne.Scheme.AbsoluteNormalizationNormal
 import Hartshorne.Scheme.Regular
 import Hartshorne.Scheme.CohenMacaulay
 import Hartshorne.Scheme.AffineMorphismCriterion
