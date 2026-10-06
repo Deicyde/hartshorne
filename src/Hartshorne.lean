@@ -285,6 +285,7 @@ import Hartshorne.Cohomology.Flatness.FiniteFlatLocalModuleFree
 import Hartshorne.Cohomology.Flatness.OpenImmersionFlat
 import Hartshorne.Cohomology.Flatness.FlatModuleLocalOnPrimes
 import Hartshorne.Cohomology.Flatness.FlatModulesShortExactCalculus
+import Hartshorne.Cohomology.Flatness.BoundedFlatAcyclicComplex
 import Hartshorne.Cohomology.Flatness.LocalizationFlatModuleOverBase
 import Hartshorne.Cohomology.Flatness.ModuleSheafFlatOverBase
 import Hartshorne.Cohomology.Flatness.ModuleSheafFlatTransitivity
