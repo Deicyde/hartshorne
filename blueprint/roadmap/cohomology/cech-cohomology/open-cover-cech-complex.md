@@ -3,6 +3,8 @@ article_id: af_12230dca41ee47c4aefe7488
 declaration: definition
 origin: cited
 source_units: [chapter-iii-sections-1-4]
+statement: formalized
+lean: Hartshorne.OrderedCechIndex Hartshorne.orderedCechIntersection Hartshorne.orderedCechCochains Hartshorne.orderedCechCoface Hartshorne.orderedCechDifferential Hartshorne.orderedCechComplex Hartshorne.orderedCechCohomology
 ---
 
 # The ordered Čech complex
@@ -31,4 +33,3 @@ with the alternating restriction differential. Define
 
 - [Hartshorne III.4, definition and Remark 4.0.1 (pp.218–219)](../../../sources/hartshorne-iii-3-4.md#cech-construction-and-comparison)
 - [Čech representation choice](../../../sources/hartshorne-iii-3-4.md#project-authored-representation-choices)
-
