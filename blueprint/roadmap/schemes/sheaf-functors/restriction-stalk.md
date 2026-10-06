@@ -3,6 +3,9 @@ article_id: af_998ec5272223d187cf27ff4c
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_restrictionStalkIso
 ---
 
 # Restriction preserves stalks
