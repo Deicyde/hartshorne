@@ -3,6 +3,8 @@ article_id: af_0fa1175e2576c8992d008986
 declaration: definition
 origin: cited
 source_units: [chapter-ii-sections-6-7]
+statement: formalized
+lean: AlgebraicGeometry.Scheme.IsRegularInCodimensionOne AlgebraicGeometry.Scheme.SatisfiesConditionStar
 ---
 
 # Regularity in codimension one
