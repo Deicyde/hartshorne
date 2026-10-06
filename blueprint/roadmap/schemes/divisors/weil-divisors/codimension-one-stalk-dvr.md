@@ -3,6 +3,9 @@ article_id: af_f4ea32035ecabdcf1674e94f
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-6-7]
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.codimensionOneStalk_isDiscreteValuationRing AlgebraicGeometry.Scheme.functionField_isFractionRing_of_stalk_of_satisfiesConditionStar AlgebraicGeometry.Scheme.ordHom_eq_codimensionOneStalkValuation AlgebraicGeometry.Scheme.ord_eq_codimensionOneStalkValuation
 ---
 
 # Codimension-one stalks are DVRs
