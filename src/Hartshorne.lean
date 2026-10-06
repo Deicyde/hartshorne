@@ -19,6 +19,7 @@ import Hartshorne.Scheme.Regular
 import Hartshorne.Scheme.CohenMacaulay
 import Hartshorne.Scheme.AffineMorphismCriterion
 import Hartshorne.Scheme.AffineTildeLocalization
+import Hartshorne.Scheme.AffineTildeCoproduct
 import Hartshorne.Scheme.NoetherianSpectrumCounterexample
 import Hartshorne.Scheme.RegularFunctionsSheaf
 import Hartshorne.Scheme.SchemeVarietyCategory
