@@ -3,6 +3,9 @@ article_id: af_3232a70a7349c763871b3c37
 declaration: def
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.genericCompletionFunctor Hartshorne.genericCompletionAlpha Hartshorne.genericCompletionOpensOrderIso
 ---
 
 # The generic-completion functor
