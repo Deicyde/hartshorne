@@ -24,6 +24,7 @@ import Hartshorne.Scheme.NoetherianSpectrumCounterexample
 import Hartshorne.Scheme.RegularFunctionsSheaf
 import Hartshorne.Scheme.SchemeVarietyCategory
 import Hartshorne.Scheme.ImageSubsheaf
+import Hartshorne.Scheme.QuotientSheafStalks
 import Hartshorne.Scheme.ConstantSheaf
 import Hartshorne.Scheme.ConstantSheafSections
 import Hartshorne.Scheme.SheafSupport
