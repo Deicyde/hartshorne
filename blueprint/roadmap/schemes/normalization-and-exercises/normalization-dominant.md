@@ -3,6 +3,9 @@ article_id: af_a0bb7637a231a56ef17b4199
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.absoluteNormalizationMap_isDominant
 ---
 
 # The normalization morphism is dominant
@@ -28,4 +31,3 @@ requires the source-shaped wrapper.
 ## Sources
 
 - [Hartshorne II.3, Exercise 3.8 (p. 91)](../../../sources/hartshorne-ii-3.md#later-used-exercises)
-
