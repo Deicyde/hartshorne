@@ -43,6 +43,7 @@ import Hartshorne.Scheme.InverseSystemMittagLefflerStableImage
 import Hartshorne.Scheme.InverseSystemMittagLefflerQuotient
 import Hartshorne.Scheme.Differentials.KaehlerFirstExactSequence
 import Hartshorne.Scheme.Differentials.KaehlerConormalExactSequence
+import Hartshorne.Scheme.Differentials.LocalCotangentViaDifferentials
 import Hartshorne.Topology.Subspace
 import Hartshorne.Topology.NoetherianInduction
 import Hartshorne.Affine.AlgebraicSet

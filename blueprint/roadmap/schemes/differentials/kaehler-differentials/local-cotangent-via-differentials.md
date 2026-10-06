@@ -3,6 +3,9 @@ article_id: af_048e21ad7cfd7c73799155a6
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-section-8]
+statement: formalized
+proof: formalized
+lean: Hartshorne.localCotangentToDifferentials_bijective
 ---
 
 # The local cotangent space via differentials
