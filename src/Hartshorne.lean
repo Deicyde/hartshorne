@@ -10,6 +10,7 @@ import Hartshorne.Scheme.BaseExtension
 import Hartshorne.Scheme.FiniteTypeBaseChange
 import Hartshorne.Scheme.FiniteTypeProducts
 import Hartshorne.Scheme.Normal
+import Hartshorne.Scheme.AbsoluteNormalization
 import Hartshorne.Scheme.Regular
 import Hartshorne.Scheme.CohenMacaulay
 import Hartshorne.Scheme.AffineMorphismCriterion
