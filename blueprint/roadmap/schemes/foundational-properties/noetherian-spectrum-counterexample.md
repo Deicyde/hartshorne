@@ -3,6 +3,9 @@ article_id: af_28917bd176a2642f22a2c60b
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_not_isNoetherianRing_and_noetherianSpace_primeSpectrum
 ---
 
 # A non-Noetherian ring with Noetherian spectrum
