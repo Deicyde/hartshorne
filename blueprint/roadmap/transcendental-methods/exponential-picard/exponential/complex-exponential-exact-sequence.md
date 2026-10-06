@@ -3,6 +3,9 @@ article_id: af_668a566a007bbe6f3acd40f0
 declaration: theorem
 origin: cited
 source_units: [appendix-b-section-5]
+statement: formalized
+proof: formalized
+lean: Hartshorne.complexExponentialExactSequence
 ---
 
 # The complex exponential exact sequence

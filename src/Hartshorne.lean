@@ -305,3 +305,4 @@ import Hartshorne.Cohomology.SmoothMorphisms.AffineSpaceSmooth
 import Hartshorne.Weil.FiniteRationalPoints
 import Hartshorne.Weil.EllAdicCoefficients
 import Hartshorne.Weil.ConstantTorsionEtaleSheaf
+import Hartshorne.Transcendental.ComplexExponentialExactSequence
