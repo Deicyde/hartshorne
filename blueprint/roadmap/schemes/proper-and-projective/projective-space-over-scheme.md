@@ -3,6 +3,9 @@ article_id: af_02eeba4ecfe5ba1090a09b26
 declaration: def
 origin: cited
 source_units: [chapter-ii-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveSpaceOverScheme Hartshorne.projectiveSpaceOverSchemeProjection Hartshorne.projectiveSpaceOverSchemeBaseChangeIso
 ---
 
 # Projective space over a scheme
