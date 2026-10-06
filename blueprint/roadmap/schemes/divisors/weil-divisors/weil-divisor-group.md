@@ -3,6 +3,8 @@ article_id: af_df471aad9bbb8883f7e475b7
 declaration: definition
 origin: cited
 source_units: [chapter-ii-sections-6-7, chapter-i-section-8-decomposed-previews]
+statement: formalized
+lean: AlgebraicGeometry.Scheme.PrimeDivisor AlgebraicGeometry.Scheme.PrimeDivisor.irreducibleClosed AlgebraicGeometry.Scheme.primeDivisorEquivIrreducibleClosed AlgebraicGeometry.Scheme.weilDivisorAddSubgroup AlgebraicGeometry.Scheme.WeilDivisor AlgebraicGeometry.Scheme.WeilDivisor.IsEffective AlgebraicGeometry.Scheme.weilDivisorAddEquivFinsupp
 ---
 
 # The Weil divisor group
