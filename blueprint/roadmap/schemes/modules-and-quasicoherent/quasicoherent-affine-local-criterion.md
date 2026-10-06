@@ -3,6 +3,9 @@ article_id: af_0034b5758463326d85c5e9ba
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-section-5]
+statement: formalized
+proof: formalized
+lean: Hartshorne.HasAffineTildeCover Hartshorne.IsTildeOnEveryAffineOpen Hartshorne.quasicoherent_affine_local_tfae
 ---
 
 # The affine-local criterion for quasi-coherence
