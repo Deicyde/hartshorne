@@ -269,6 +269,7 @@ import Hartshorne.Cohomology.AbelianPushforwardLeftExact
 import Hartshorne.Cohomology.ArtinReesInducedTopology
 import Hartshorne.Cohomology.HigherDirectImages
 import Hartshorne.Cohomology.IdealPowerTorsionInjective
+import Hartshorne.Cohomology.InjectiveLocalization
 import Hartshorne.Cohomology.LocalCohomologyDerivedTorsion
 import Hartshorne.Cohomology.Flatness.FiniteFlatLocalModuleFree
 import Hartshorne.Cohomology.Flatness.OpenImmersionFlat

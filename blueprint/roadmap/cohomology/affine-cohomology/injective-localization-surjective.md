@@ -3,6 +3,9 @@ article_id: af_40231fde0010c4c5ac29c28f
 declaration: theorem
 origin: cited
 source_units: [chapter-iii-sections-1-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.injectiveLocalizationMap_surjective
 ---
 
 # Localization of an injective module is reached globally
@@ -24,4 +27,3 @@ No project-local prerequisites.
 ## Sources
 
 - [Hartshorne III, Lemma 3.3 (p.214)](../../../sources/hartshorne-iii-3-4.md#affine-cohomology)
-
