@@ -3,6 +3,9 @@ article_id: af_6f4cbbd12a16d3bece4d77df
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-section-9]
+statement: formalized
+proof: formalized
+lean: Hartshorne.InverseSystem.inverseLimit_exact_of_isMittagLeffler
 ---
 
 # Exactness of inverse limits under Mittag–Leffler

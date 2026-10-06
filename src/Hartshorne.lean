@@ -42,6 +42,7 @@ import Hartshorne.Scheme.CotangentSurjectivity
 import Hartshorne.Scheme.AdicCompletionQuotient
 import Hartshorne.Scheme.InverseSystemMittagLeffler
 import Hartshorne.Scheme.InverseSystemMittagLefflerStableImage
+import Hartshorne.Scheme.InverseSystemMittagLefflerExact
 import Hartshorne.Scheme.InverseSystemMittagLefflerQuotient
 import Hartshorne.Scheme.Differentials.KaehlerFirstExactSequence
 import Hartshorne.Scheme.Differentials.KaehlerConormalExactSequence
