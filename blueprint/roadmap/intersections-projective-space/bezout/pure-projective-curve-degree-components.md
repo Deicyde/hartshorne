@@ -15,9 +15,6 @@ irreducible components all have projective dimension one.  Then
 
 `projectiveDegree Y = ∑ C ∈ projectiveComponents Y, projectiveDegree C`.
 
-The unique main declaration is planned as
-`Hartshorne.projectiveDegree_eq_sum_projectiveComponents`.
-
 Induct over the finite component family.  Distinct irreducible components meet
 in dimension strictly below one, so the binary union formula applies at each
 step.  The explicit ambient dimension hypothesis is the Lean interface for the

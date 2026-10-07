@@ -14,8 +14,7 @@ Let `Y` be a projective variety and let `Z ⊊ Y` be a closed subset. Then
 
 `projDim Z < projDim Y`.
 
-The main declaration is planned as
-`Hartshorne.projDim_lt_of_closed_ssubset_isProjVariety`. A supporting theorem
+A supporting theorem
 records that the dimension of a nonempty projective variety is represented by
 a natural number. The proof identifies `projDim Y` with the height of the
 irreducible closed subset `Y`; adjoining `Y` to any strict chain inside `Z`

@@ -15,8 +15,7 @@ of `Y ∩ Z`.  Then
 
 `projDim Y + projDim Z ≤ projDim W + n`.
 
-The sole main declaration is planned as
-`Hartshorne.projective_dimension_theorem`.  For natural dimensions `r,s,t`,
+For natural dimensions `r,s,t`,
 this is the subtraction-free form of Theorem 7.2's assertion
 `t ≥ r + s - n`.
 

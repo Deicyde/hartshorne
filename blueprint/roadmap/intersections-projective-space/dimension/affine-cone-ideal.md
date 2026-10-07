@@ -14,8 +14,7 @@ For a nonempty projective algebraic set `Y ⊆ ℙ(k, σ)`, define its affine co
 as the origin together with all nonzero affine representatives of points of
 `Y`.  It is an affine algebraic set and its vanishing ideal is exactly the
 homogeneous ideal `J(Y)`, regarded as an ordinary ideal of
-`MvPolynomial σ k`.  The sole main declaration is planned as
-`Hartshorne.vanishingIdeal_affineCone`.
+`MvPolynomial σ k`.
 
 First identify the geometric cone with `zeroLocus k (J(Y))`: homogeneity makes
 vanishing independent of the chosen nonzero representative, and every

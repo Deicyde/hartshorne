@@ -11,8 +11,7 @@ lean: Hartshorne.isIrreducible_affineCone_iff
 # Irreducibility of the affine cone
 
 For a nonempty projective algebraic set `Y`, its affine cone is irreducible if
-and only if `Y` is irreducible.  The sole main declaration is planned as
-`Hartshorne.isIrreducible_affineCone_iff`.
+and only if `Y` is irreducible.
 
 Both sides have already been translated into primeness: the affine cone has
 vanishing ideal `J(Y)`, while the projective ideal correspondence says that

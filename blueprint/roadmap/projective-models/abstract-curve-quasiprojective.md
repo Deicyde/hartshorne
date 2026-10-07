@@ -11,8 +11,7 @@ lean: Hartshorne.ValuationSpace.abstractNonsingularCurve_isomorphic_quasiProject
 # Abstract curves are quasi-projective
 
 Every abstract nonsingular curve over the algebraically closed base field is
-isomorphic to a nonsingular quasi-projective curve. The sole main declaration is formalized as
-`Hartshorne.ValuationSpace.abstractNonsingularCurve_isomorphic_quasiProjective`.
+isomorphic to a nonsingular quasi-projective curve.
 
 This is the first assertion of Corollary 6.10.  An abstract curve is an open
 subcurve of `C_K`; transport that open through the projective model of `C_K`.

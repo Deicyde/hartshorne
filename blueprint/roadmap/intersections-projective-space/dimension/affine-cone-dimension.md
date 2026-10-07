@@ -14,7 +14,7 @@ For every nonempty projective algebraic set `Y`,
 
 `dim (affineCone Y) = projDim Y + 1`.
 
-The sole main declaration is planned as `Hartshorne.dim_affineCone`.  The
+The
 statement retains the full generality of Exercise I.2.10(c), rather than only
 the projective-variety specialization used in Theorem 7.2.
 

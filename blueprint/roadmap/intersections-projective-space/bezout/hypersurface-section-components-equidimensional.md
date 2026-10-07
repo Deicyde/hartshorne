@@ -17,8 +17,7 @@ component `Z` of `Y ∩ H` has
 
 `projDim (projectiveComponentCarrier Z) = r - 1`.
 
-The main declaration is planned as
-`Hartshorne.projectiveHypersurfaceSectionComponent_projDim_eq`. The projective
+The projective
 dimension theorem gives the lower bound `r-1`. The component carrier is a
 proper closed subset of the irreducible variety `Y`, so strict dimension drop
 gives the matching upper bound. This is the equidimensionality assertion used

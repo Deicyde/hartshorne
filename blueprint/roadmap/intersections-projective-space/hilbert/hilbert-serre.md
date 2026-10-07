@@ -20,7 +20,7 @@ with the zero polynomial assigned degree `-1`, is
 
 `dim Z(Ann M) ⊆ ℙⁿ`.
 
-The sole main declaration is planned as `Hartshorne.hilbertSerre`. A supporting
+A supporting
 canonical choice `Hartshorne.gradedHilbertPolynomial` exposes its unique
 polynomial to later definitions. Represent the common degree type by
 `WithBot ℕ∞`: map a nonzero polynomial to its natural degree and the zero

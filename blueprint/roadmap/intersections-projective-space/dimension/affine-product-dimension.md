@@ -15,7 +15,7 @@ field, then
 
 `dim (affineProduct X Y) = dim X + dim Y`.
 
-The sole main declaration is planned as `Hartshorne.dim_affineProduct`.  This
+This
 is Exercise I.3.15(d), which Hartshorne uses verbatim in Proposition 7.1.
 
 Pass from all three geometric dimensions to coordinate-ring dimensions.  The

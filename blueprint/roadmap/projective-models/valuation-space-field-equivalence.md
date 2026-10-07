@@ -13,8 +13,7 @@ lean: Hartshorne.ValuationSpace.abstractNonsingularCurveIsoOfAlgEquiv
 A `k`-algebra equivalence `e : K ≃ₐ[k] L` between one-dimensional function
 fields transports function-field DVRs and induces an isomorphism of their
 abstract valuation curves, compatible with residue evaluation and regular
-functions.  The sole main declaration is
-`Hartshorne.ValuationSpace.abstractNonsingularCurveIsoOfAlgEquiv`.
+functions.
 
 This bridge is required because Proposition 6.7 constructs the valuation curve
 of each affine model's own `FunctionField`, while Theorem 6.9 must compare both

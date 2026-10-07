@@ -13,9 +13,7 @@ lean: Hartshorne.ValuationSpace.exists_two_affine_model_cover
 For a one-dimensional function field `K/k`, the two fixed separable
 normalization charts determine nonsingular affine curves `U₀` and `U₁`,
 compatible embeddings of their function fields into `K`, and open embeddings
-of `U₀` and `U₁` into `C_K` whose images cover `C_K`.  The sole main
-declaration is
-`Hartshorne.ValuationSpace.exists_two_affine_model_cover`.
+of `U₀` and `U₁` into `C_K` whose images cover `C_K`.
 
 This is the finite affine cover selected in the first paragraph of the proof
 of Theorem 6.9.  Specializing Hartshorne's quasi-compactness argument to the

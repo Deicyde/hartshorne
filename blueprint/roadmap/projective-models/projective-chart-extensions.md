@@ -13,8 +13,7 @@ lean: Hartshorne.ValuationSpace.exists_two_projective_chart_extensions
 For the two affine models covering `C_K`, choose projective closures `Y₀`
 and `Y₁`.  Their open maps extend to morphisms
 `φᵢ : C_K → Yᵢ` agreeing with the original affine identifications on the
-corresponding chart.  The sole main declaration is formalized as
-`Hartshorne.ValuationSpace.exists_two_projective_chart_extensions`.
+corresponding chart.
 
 The implementation packages the harmless coordinate reindexing needed
 to feed each affine presentation to the existing projective-closure API.  That

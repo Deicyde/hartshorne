@@ -12,8 +12,7 @@ lean: Hartshorne.finite_gradedPiece
 
 Let `S = k[x₀,…,xₙ]` with finitely many variables, and let `M` be a finite
 integer-graded `S`-module. Every homogeneous piece `M_d` is a finite-dimensional
-`k`-vector space. The sole main declaration is planned as
-`Hartshorne.finite_gradedPiece`.
+`k`-vector space.
 
 Choose finitely many `S`-module generators and replace them by the finite
 collection of all their nonzero homogeneous components. For fixed degree `d`,

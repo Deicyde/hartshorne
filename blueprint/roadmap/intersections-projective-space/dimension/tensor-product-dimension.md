@@ -15,8 +15,7 @@ assume that `A ⊗[k] B` is a domain.  Then
 
 `ringKrullDim (A ⊗[k] B) = ringKrullDim A + ringKrullDim B`.
 
-The sole main declaration is planned as
-`Hartshorne.ringKrullDim_tensorProduct`.  In the geometric application the
+In the geometric application the
 domain hypothesis is supplied by irreducibility of the affine product.
 
 Choose Noether normalisations of `A` and `B`.  Tensor their injective maps,
