@@ -21,24 +21,6 @@ irreducible space is dense for the same reason the identity principle works. So
 `K(Y) ≅ K(X)` along an isomorphism, and `K(Y) ≅ K(Z)` for `Z` open in `Y`, are
 two instances of the same map.
 
-## Why this is easier than the germ version
-
-[The germ version](local-ring-functorial.md) had to be stated as bijectivity of
-one map rather than as an equation between inverse composites, because the map
-induced by the inverse morphism is indexed by `ψ(φ(P))` and not by `P`, and
-equating composites would need a rewrite inside the type of a ring hom.
-
-A rational function has no base point. Nothing is indexed by a point, the
-transport never arises, and the two statements come out directly. The one new
-obligation in each case is nonemptiness of a domain, and irreducibility
-discharges it: for injectivity of the open-inclusion map, the triple overlap of
-two domains with `Z` is nonempty because a variety is irreducible, where the
-germ argument had the point `P` sitting in all three.
-
-Surjectivity in the open-inclusion case reuses the germ machinery unchanged —
-the same `pullPoint`, the same regularity transfer — with only the nonemptiness
-clause added.
-
 ## Depends on
 
 - [The function field of an arbitrary variety](function-field-abstract.md)

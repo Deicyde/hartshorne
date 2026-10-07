@@ -30,14 +30,6 @@ chain, and going up walks it upward one step at a time. Injectivity enters
 exactly at lying over, and it is not decoration — `S → S/𝔪` is integral for
 every maximal ideal `𝔪`, and it takes any dimension to `0`.
 
-## Mathlib boundary
-
-Mathlib has both halves as ingredients and neither as a conclusion.
-`Ideal.IsIntegral.comap_lt_comap` is incomparability in the form needed;
-`Ideal.exists_ltSeries_of_hasGoingUp` is the chain induction, and
-`Algebra.HasGoingUp.of_isIntegral` supplies its hypothesis. What is missing is
-the passage to `ringKrullDim`, in both directions.
-
 ## Depends on
 
 - [Dimension of a topological space and of a ring](dimension.md)

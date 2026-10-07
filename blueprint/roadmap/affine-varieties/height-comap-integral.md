@@ -17,18 +17,6 @@ This is the step [the dimension formula](dim-formula-catenary.md) needs in order
 to move a prime of an affine domain down to a Noether normalisation, where it
 becomes a prime of a polynomial ring and unique factorisation applies.
 
-## Mathlib boundary
-
-This was expected to be the large missing prerequisite, and it is not missing at
-all: `Mathlib/RingTheory/IntegralClosure/GoingDown.lean` supplies exactly the
-instance, for `R ⊆ S` integral with `S` a domain and `R` integrally closed. An
-earlier search missed it because the instance is anonymous and lives under
-`IntegralClosure` rather than beside the `HasGoingDown` class.
-
-It applies to a Noether normalisation without any work: a polynomial ring over a
-field is a unique factorisation domain, hence integrally closed, and the
-normalisation is injective and integral.
-
 ## What was actually needed
 
 Only the height statement that going down was wanted for:

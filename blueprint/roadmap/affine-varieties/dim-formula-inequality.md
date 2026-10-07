@@ -21,17 +21,6 @@ It is split out because the two directions have nothing in common. This one is
 a one-line observation about chains; the reverse is the catenary property, which
 is false for general Noetherian rings and is [the open node](dim-formula-catenary.md).
 
-## Mathlib boundary
-
-The chain splicing is upstream, as
-`Order.krullDim_eq_iSup_height_add_coheight_of_nonempty`. What is missing is the
-ring-theoretic translation: `dim R/𝔭` has to be identified with the coheight of
-`𝔭` in the prime spectrum. That follows from
-`Ideal.primeSpectrumQuotientOrderIsoZeroLocus` together with the observation
-that the zero locus of a prime is exactly its up-set, and it is worth having on
-its own, since every statement comparing a quotient's dimension with a height
-needs it.
-
 ## Depends on
 
 - [Dimension of a topological space and of a ring](dimension.md)

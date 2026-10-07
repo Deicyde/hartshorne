@@ -33,14 +33,6 @@ field.
 - [Open affine sets are a base for the topology](affine-base.md)
 - [Dimension of a finitely generated domain](../affine-varieties/dim-fg-domain.md)
 
-## Local API
-
-The pinned project already contains the two substantive inputs:
-`Hartshorne.birational_iff_nonempty_functionField_algEquiv` and
-`Hartshorne.Variety.HasAffineOpenBasis.exists_dimension_eq_trdeg`.
-`AlgEquiv.trdeg_eq` supplies the intervening equality, so this leaf is a short
-packaging theorem rather than a new dimension-theory development.
-
 ## Sources
 
 - [Hartshorne I.8, birational invariance of dimension (p. 57)](../../sources/hartshorne.md#i8-what-is-algebraic-geometry)
