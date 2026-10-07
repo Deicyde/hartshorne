@@ -32,16 +32,6 @@ useful: the classification of varieties up to isomorphism is hopeless, while up
 to birational equivalence it becomes the classification of finitely generated
 field extensions of `k`, which is [Theorem 4.4](rational-map-function-field.md).
 
-## Lean shape and prior art
-
-The small project-native definition is an abbreviation
-`BirationalMap X Y := X ≅ Y` in the category of separated varieties, followed
-by `Birational X Y := Nonempty (BirationalMap X Y)`. The pinned Mathlib also
-has scheme-level `Scheme.PartialIso` and `Scheme.Birational`; those are useful
-design references but do not directly replace this project's classical
-`Variety` model. Before implementation, also recheck the open Mathlib pull
-request [#40871, “add birational maps”](https://github.com/leanprover-community/mathlib4/pull/40871).
-
 ## Depends on
 
 - [Composition of dominant rational maps](rational-map-composition.md)

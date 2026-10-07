@@ -37,18 +37,6 @@ and products intersect domains and the intersection must be nonempty;
 transitivity of the identification needs the triple overlap to be nonempty too.
 In the germ case all three were free, since every domain contained `P`.
 
-## The comparison with the affine construction
-
-For a quasi-affine `Y` the two are the same field
-(`Hartshorne.functionFieldEquivAffine`), and there is nothing in the proof: a
-representative is a nonempty open set carrying a regular function, `regular` on
-`Variety.ofQuasiAffine hY` is by definition `IsRegularVia` in the affine
-coordinates, and the only difference is how the open set is packaged.
-
-This is easier than the corresponding comparison for germs, which needed the
-point spelled `⟨P.1, P.2⟩` to get instance search to find the ring structure on
-both sides. With no point in the statement, that problem does not exist.
-
 ## Depends on
 
 - [The function field](function-field.md)

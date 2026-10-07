@@ -29,14 +29,6 @@ It is stated for a finitely generated algebra rather than a domain: neither
 Noether normalisation nor the integral-extension argument needs a domain, and
 the coordinate ring of a reducible algebraic set is not one.
 
-## Mathlib boundary
-
-Noether normalisation is `exists_integral_inj_algHom_of_fg`, and
-`MvPolynomial.ringKrullDim_of_isNoetherianRing` gives the polynomial ring. Note
-that `MvPolynomial.fin_ringKrullDim_eq_add_of_isNoetherianRing` in
-`RingTheory/KrullDimension/Basic.lean` is still a `proof_wanted`; the result is
-available under the other name, over an arbitrary finite index type.
-
 ## Depends on
 
 - [Krull dimension is invariant under integral extensions](dimension-integral-extension.md)

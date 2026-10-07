@@ -28,13 +28,6 @@ so the two have the same dimension, and it is algebraic over it, so they have
 the same transcendence degree. The fraction field is algebraic over `B`, so it
 does not move the transcendence degree either.
 
-## Statement shape
-
-`ringKrullDim` is valued in `WithBot ℕ∞` and `Algebra.trdeg` in `Cardinal`,
-which have no canonical map between them. The statement is therefore that one
-natural number `s` answers both questions, which is what the equation means and
-is strictly more informative, since it also records that both sides are finite.
-
 ## Depends on
 
 - [Dimension of a topological space and of a ring](dimension.md)

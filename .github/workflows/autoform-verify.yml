@@ -13,7 +13,7 @@ permissions:
 
 env:
   AUTOFORM_SOURCE: "https://github.com/facebookresearch/autoform-bot.git"
-  AUTOFORM_REF: "1cf2ca825fec5e6d3303e24374e218bf3e8ab5c1"
+  AUTOFORM_REF: "960629c0b800ce7d0e0616c899682adf3a29fec9"
 
 concurrency:
   group: autoform-verify-${{ github.ref }}
