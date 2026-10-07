@@ -3,6 +3,9 @@ article_id: af_1ef0710a237ef97d9883d6eb
 declaration: structure
 origin: bridged
 source_units: [chapter-iii-section-10]
+statement: formalized
+proof: formalized
+lean: Hartshorne.GroupVariety Hartshorne.AlgebraicGroupAction Hartshorne.HomogeneousSpace Hartshorne.AlgebraicGroupAction.translationIso Hartshorne.rationalPointEquivClosedPoint Hartshorne.HomogeneousSpace.transitive_closedPoints
 ---
 
 # Algebraic group actions and homogeneous spaces
