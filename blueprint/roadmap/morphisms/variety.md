@@ -33,46 +33,6 @@ proving that each of the four kinds satisfies the structure, which the two
 regular-function articles supply and which is why they are prerequisites for
 *stating* this definition rather than only for its proofs.
 
-## Status
-
-The structure exists (`Hartshorne.Variety`) and **all four of Hartshorne's cases
-are constructed**: `Variety.ofQuasiAffine` covers affine and quasi-affine,
-`Variety.ofQuasiProjective` and `Variety.ofProjective` cover the other two. Two
-refinements were needed along the way and are worth recording:
-
-- Regularity had to be generalised from a subtype inclusion to an arbitrary map
-  into affine space (`IsRegularVia`). An open subset of a subset reaches `𝔸ⁿ`
-  by a composite of two coercions, and without the generalisation every
-  restriction needs transport along `↥U ≃ ↥(val '' U)`.
-- Locality was dropped from the structure. Regularity here is defined pointwise,
-  so it is local automatically, and carrying it as a field would force
-  transporting functions back along inclusions at every construction.
-- Locality was then put back, together with two more fields, and the earlier
-  reasoning turned out to be the wrong way round. "Regularity is defined
-  pointwise, so locality is free" is true of every construction and useless for
-  an abstract variety, which has no definition to appeal to.
-  [Lemma 3.6](morphism-to-affine-criterion.md) forced the correction: it is
-  stated for an arbitrary source and needs three things a `Subalgebra` does not
-  give — closed zero loci, closure under division by a nowhere-zero regular
-  function, and locality. All three are Lemma 3.1 or the pointwise definition in
-  each of the four constructions, so the cost was small; the mistake was
-  reasoning about what the constructions satisfy instead of about what the
-  abstract structure exposes.
-
-The quasi-projective construction was blocked for a while by an elaboration
-divergence that also affected the affine one. The cause turned out to have
-nothing to do with the representation: restriction lemmas were applying a
-hypothesis as `hne _ hx`, and with a metavariable the elaborator cannot match
-the two subtype coercions syntactically, falls back on unfolding `eval` over
-`MvPolynomial`, and never terminates. Supplying the point explicitly,
-`hne ⟨x.1, hUV x.2⟩ hx`, makes the conclusion match by cheap definitional
-equality. The two forms are mathematically identical.
-
-So the bundled representation is fine after all, and the cost it charges is the
-four constructions, as originally estimated. The episode is recorded because the
-symptom pointed hard at the representation and at the projective quotient
-carrier, and both were red herrings.
-
 ## The identity principle, once instead of twice
 
 Remark 3.1.1 was proved separately in affine and in projective coordinates, each
