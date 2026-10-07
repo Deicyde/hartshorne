@@ -20,10 +20,9 @@ with the zero polynomial assigned degree `-1`, is
 
 `dim Z(Ann M) ⊆ ℙⁿ`.
 
-A supporting
-canonical choice `Hartshorne.gradedHilbertPolynomial` exposes its unique
-polynomial to later definitions. Represent the common degree type by
-`WithBot ℕ∞`: map a nonzero polynomial to its natural degree and the zero
+A supporting canonical choice `Hartshorne.gradedHilbertPolynomial` exposes
+its unique polynomial to later definitions. Represent the common degree type
+by `WithBot ℕ∞`: map a nonzero polynomial to its natural degree and the zero
 polynomial to `⊥`. This matches the project's `projDim` convention without an
 ad hoc cast between `Polynomial.degree : WithBot ℕ` and topological
 dimension.
