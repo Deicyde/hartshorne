@@ -318,6 +318,7 @@ import Hartshorne.Cohomology.Flatness.LocalizationFlatModuleOverBase
 import Hartshorne.Cohomology.Flatness.ModuleSheafFlatOverBase
 import Hartshorne.Cohomology.Flatness.ModuleSheafFlatTransitivity
 import Hartshorne.Cohomology.FlatFamilies.AssociatedPoints
+import Hartshorne.Cohomology.FlatFamilies.InfinitesimalDeformationDualNumbers
 import Hartshorne.Cohomology.SmoothMorphisms.AffineSpaceSmooth
 import Hartshorne.Weil.FiniteRationalPoints
 import Hartshorne.Weil.ScaledPerfectPairingDeterminant

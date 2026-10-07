@@ -3,6 +3,9 @@ article_id: af_3eef3cf7ecf8c4deb15fbf7b
 declaration: definition
 origin: cited
 source_units: [chapter-iii-sections-8-9]
+statement: formalized
+proof: formalized
+lean: Hartshorne.InfinitesimalDeformation Hartshorne.closedFiberBaseChangeIso Hartshorne.InfinitesimalDeformation.ofFamilyLift Hartshorne.InfinitesimalDeformation.ofFamilyTangent
 ---
 
 # Infinitesimal deformations over the dual numbers
