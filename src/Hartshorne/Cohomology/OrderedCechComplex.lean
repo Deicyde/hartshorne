@@ -68,6 +68,36 @@ def orderedCechCochains (U : ι → Opens X) (F : X.Sheaf AddCommGrpCat.{u})
   AddCommGrpCat.of (∀ a : OrderedCechIndex ι p,
     F.presheaf.obj (op (orderedCechIntersection U a)))
 
+/-- A morphism of sheaves acts componentwise on ordered Cech cochains. -/
+def orderedCechCochainsMap (U : ι → Opens X)
+    {F G : X.Sheaf AddCommGrpCat.{u}} (f : F ⟶ G) (p : ℕ) :
+    orderedCechCochains U F p ⟶ orderedCechCochains U G p :=
+  AddCommGrpCat.ofHom
+    { toFun := fun s a => f.hom.app _ (s a)
+      map_zero' := by
+        ext a
+        exact map_zero _
+      map_add' := by
+        intro s t
+        ext a
+        exact map_add _ _ _ }
+
+/-- Degree-`p` ordered Cech cochains, functorial in the sheaf. -/
+def orderedCechCochainsFunctor (U : ι → Opens X) (p : ℕ) :
+    X.Sheaf AddCommGrpCat.{u} ⥤ AddCommGrpCat.{u} where
+  obj F := orderedCechCochains U F p
+  map f := orderedCechCochainsMap U f p
+  map_id F := by
+    ext s
+    apply funext
+    intro a
+    rfl
+  map_comp f g := by
+    ext s
+    apply funext
+    intro a
+    rfl
+
 /-- The `q`th coface map: restrict from the intersection with the `q`th index deleted to the full
 intersection. -/
 def orderedCechCoface (U : ι → Opens X) (F : X.Sheaf AddCommGrpCat.{u})
@@ -85,10 +115,37 @@ def orderedCechCoface (U : ι → Opens X) (F : X.Sheaf AddCommGrpCat.{u})
         ext a
         exact map_add _ _ _ }
 
+@[reassoc]
+theorem orderedCechCoface_naturality (U : ι → Opens X)
+    {F G : X.Sheaf AddCommGrpCat.{u}} (f : F ⟶ G) (p : ℕ) (q : Fin (p + 2)) :
+    orderedCechCochainsMap U f p ≫ orderedCechCoface U G p q =
+      orderedCechCoface U F p q ≫ orderedCechCochainsMap U f (p + 1) := by
+  ext s
+  apply funext
+  intro a
+  change
+    G.presheaf.map _ (f.hom.app _ (s (a.remove q))) =
+      f.hom.app _ (F.presheaf.map _ (s (a.remove q)))
+  exact (ConcreteCategory.congr_hom
+    (f.hom.naturality
+      (homOfLE (orderedCechIntersection_le_remove U a q)).op)
+    (s (a.remove q))).symm
+
 /-- The alternating ordered Cech differential. -/
 def orderedCechDifferential (U : ι → Opens X) (F : X.Sheaf AddCommGrpCat.{u})
     (p : ℕ) : orderedCechCochains U F p ⟶ orderedCechCochains U F (p + 1) :=
   ∑ q : Fin (p + 2), (-1 : ℤ) ^ (q : ℕ) • orderedCechCoface U F p q
+
+@[reassoc]
+theorem orderedCechDifferential_naturality (U : ι → Opens X)
+    {F G : X.Sheaf AddCommGrpCat.{u}} (f : F ⟶ G) (p : ℕ) :
+    orderedCechCochainsMap U f p ≫ orderedCechDifferential U G p =
+      orderedCechDifferential U F p ≫ orderedCechCochainsMap U f (p + 1) := by
+  simp only [orderedCechDifferential, Preadditive.comp_sum, Preadditive.sum_comp,
+    Preadditive.comp_zsmul, Preadditive.zsmul_comp]
+  apply Finset.sum_congr rfl
+  intro q _
+  rw [orderedCechCoface_naturality]
 
 private theorem orderedCech_restrict_congr
     (U : ι → Opens X) (F : X.Sheaf AddCommGrpCat.{u}) {p : ℕ}
@@ -200,10 +257,43 @@ noncomputable def orderedCechComplex
   CochainComplex.of (orderedCechCochains U F)
     (orderedCechDifferential U F) (orderedCechDifferential_squared U F)
 
+/-- A morphism of sheaves induces a morphism of ordered Cech complexes. -/
+def orderedCechComplexMap (U : ι → Opens X)
+    {F G : X.Sheaf AddCommGrpCat.{u}} (f : F ⟶ G) :
+    orderedCechComplex U F ⟶ orderedCechComplex U G where
+  f p := orderedCechCochainsMap U f p
+  comm' p q hpq := by
+    have hpq' : p + 1 = q := by
+      simpa only [ComplexShape.up_Rel] using hpq
+    subst q
+    dsimp [orderedCechComplex]
+    rw [CochainComplex.of_d, CochainComplex.of_d]
+    exact orderedCechDifferential_naturality U f p
+
+/-- The ordered Cech complex, functorial in the sheaf. -/
+def orderedCechComplexFunctor (U : ι → Opens X) :
+    X.Sheaf AddCommGrpCat.{u} ⥤ CochainComplex AddCommGrpCat.{u} ℕ where
+  obj F := orderedCechComplex U F
+  map f := orderedCechComplexMap U f
+  map_id F := by
+    apply HomologicalComplex.hom_ext
+    intro p
+    exact (orderedCechCochainsFunctor U p).map_id F
+  map_comp f g := by
+    apply HomologicalComplex.hom_ext
+    intro p
+    exact (orderedCechCochainsFunctor U p).map_comp f g
+
 /-- Degree-`p` ordered Cech cohomology. -/
 noncomputable def orderedCechCohomology
     (U : ι → Opens X) (F : X.Sheaf AddCommGrpCat.{u}) (p : ℕ) :
     AddCommGrpCat.{u} :=
   (orderedCechComplex U F).homology p
+
+/-- Ordered Cech cohomology in degree `p`, functorial in the sheaf. -/
+def orderedCechCohomologyFunctor (U : ι → Opens X) (p : ℕ) :
+    X.Sheaf AddCommGrpCat.{u} ⥤ AddCommGrpCat.{u} :=
+  orderedCechComplexFunctor U ⋙
+    HomologicalComplex.homologyFunctor AddCommGrpCat.{u} (ComplexShape.up ℕ) p
 
 end Hartshorne
