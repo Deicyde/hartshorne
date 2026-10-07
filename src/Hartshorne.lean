@@ -12,6 +12,7 @@ import Hartshorne.Scheme.DiagonalRangeClosed
 import Hartshorne.Scheme.SeparatedMorphismCalculus
 import Hartshorne.Scheme.ProperMorphismCalculus
 import Hartshorne.Scheme.ProperImage
+import Hartshorne.Scheme.OneDimensionalLocalOverring
 import Hartshorne.Scheme.SmoothRelativeDimensionCalculus
 import Hartshorne.Scheme.BaseExtension
 import Hartshorne.Scheme.FiniteTypeBaseChange
