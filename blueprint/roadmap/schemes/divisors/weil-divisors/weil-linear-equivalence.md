@@ -4,7 +4,8 @@ declaration: definition
 origin: cited
 source_units: [chapter-ii-sections-6-7, chapter-i-section-8-decomposed-previews]
 statement: formalized
-lean: AlgebraicGeometry.Scheme.principalDivisorSubgroup AlgebraicGeometry.Scheme.WeilDivisor.LinearEquivalent AlgebraicGeometry.Scheme.WeilClassGroup AlgebraicGeometry.Scheme.weilDivisorClassHom
+proof: formalized
+lean: AlgebraicGeometry.Scheme.principalDivisorSubgroup AlgebraicGeometry.Scheme.WeilDivisor.LinearEquivalent AlgebraicGeometry.Scheme.WeilClassGroup AlgebraicGeometry.Scheme.weilDivisorClassHom AlgebraicGeometry.Scheme.WeilDivisor.linearEquivalent_iff AlgebraicGeometry.Scheme.weilDivisorClass_eq_iff
 ---
 
 # Linear equivalence and the Weil class group
