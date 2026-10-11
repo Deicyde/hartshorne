@@ -3,6 +3,9 @@ article_id: af_cf9947a2c272af7039551cf1
 declaration: def
 origin: cited
 source_units: [chapter-iv-sections-1-2]
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.IsCharP AlgebraicGeometry.Scheme.IsCharP.charP_stalk AlgebraicGeometry.Scheme.absoluteFrobenius AlgebraicGeometry.Scheme.absoluteFrobenius_apply AlgebraicGeometry.Scheme.absoluteFrobenius_app AlgebraicGeometry.Scheme.absoluteFrobenius_stalkMap_apply AlgebraicGeometry.Scheme.specFrobenius AlgebraicGeometry.Scheme.absoluteFrobenius_comp_structureMap AlgebraicGeometry.Scheme.frobeniusTwist AlgebraicGeometry.Scheme.frobeniusTwist_left AlgebraicGeometry.Scheme.frobeniusTwist_hom AlgebraicGeometry.Scheme.frobeniusTwistTo AlgebraicGeometry.Scheme.frobeniusTwistTo_left
 ---
 
 # Absolute Frobenius and Hartshorne's Frobenius twist
