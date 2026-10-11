@@ -4,7 +4,8 @@ declaration: def
 origin: cited
 source_units: [chapter-ii-sections-1-3]
 statement: formalized
-lean: Hartshorne.FiniteType
+proof: formalized
+lean: Hartshorne.FiniteType Hartshorne.FiniteTypeOnEveryAffineTarget Hartshorne.finiteType_iff_everyAffineTarget
 ---
 
 # Morphisms of finite type
