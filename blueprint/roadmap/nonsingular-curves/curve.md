@@ -4,7 +4,8 @@ declaration: def
 origin: cited
 source_units: [chapter-i-section-6-valuations, chapter-i-section-6-local-structure]
 statement: formalized
-lean: Hartshorne.Variety.IsCurve
+proof: formalized
+lean: Hartshorne.Variety.IsCurve Hartshorne.Variety.HasAffineOpenBasis.isCurve_iff_trdeg_eq_one
 ---
 
 # Curves
@@ -23,10 +24,6 @@ companion theorem, without building a second notion of dimension.
 ## Depends on
 
 - [Varieties](../morphisms/variety.md)
-
-## Proof depends on
-
-- [Every variety is birational to a hypersurface](../rational-maps/birational-hypersurface.md)
 
 ## Sources
 
