@@ -4,7 +4,8 @@ declaration: definition
 origin: cited
 source_units: [chapter-ii-sections-6-7]
 statement: formalized
-lean: AlgebraicGeometry.Scheme.IsRegularInCodimensionOne AlgebraicGeometry.Scheme.SatisfiesConditionStar
+proof: formalized
+lean: AlgebraicGeometry.Scheme.IsRegularInCodimensionOne AlgebraicGeometry.Scheme.SatisfiesConditionStar AlgebraicGeometry.Scheme.isRegularInCodimensionOne_iff_ringKrullDim
 ---
 
 # Regularity in codimension one
