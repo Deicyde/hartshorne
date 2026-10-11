@@ -20,7 +20,7 @@ Weil divisor locally principal.
 
 - [Principal divisors have finite support](../weil-divisors/principal-divisor-finite-support.md)
 - [Intersection of height-one localizations](../weil-divisors/height-one-localization-intersection.md)
-- [The Cartier divisor group](cartier-divisor-group.md)
+- [Principal Cartier divisors and the Cartier class group](cartier-class-group.md)
 - [Locally factorial schemes](locally-factorial-schemes.md)
 
 ## Proof depends on

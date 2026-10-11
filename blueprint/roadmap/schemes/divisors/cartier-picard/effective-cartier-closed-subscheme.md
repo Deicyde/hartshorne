@@ -18,7 +18,7 @@ arbitrary principal zero-divisor subscheme from being mislabeled Cartier.
 
 ## Depends on
 
-- [The Cartier divisor group](cartier-divisor-group.md)
+- [Local equations for Cartier divisors](cartier-local-equations.md)
 - [The invertible sheaf associated to a Cartier divisor](cartier-divisor-associated-sheaf.md)
 - [Ideal sheaves of closed immersions](../../coherent-sheaves/closed-immersion-ideal-sheaf.md)
 

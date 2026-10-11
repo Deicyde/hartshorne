@@ -19,7 +19,7 @@ isomorphism classes are handled in the following nodes.
 ## Depends on
 
 - [The total quotient sheaf](total-quotient-sheaf.md)
-- [The Cartier divisor group](cartier-divisor-group.md)
+- [Local equations for Cartier divisors](cartier-local-equations.md)
 - [The Picard group of a ringed space](invertible-sheaf-group.md)
 
 ## Proof depends on

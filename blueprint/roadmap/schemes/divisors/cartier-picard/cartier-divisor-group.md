@@ -5,19 +5,18 @@ origin: cited
 source_units: [chapter-ii-sections-6-7]
 statement: formalized
 proof: formalized
-lean: AlgebraicGeometry.Scheme.structureUnitsAddSheaf AlgebraicGeometry.Scheme.totalQuotientUnitsAddSheaf AlgebraicGeometry.Scheme.structureUnitsToTotalQuotientUnitsAdd AlgebraicGeometry.Scheme.cartierDivisorSheaf AlgebraicGeometry.Scheme.toCartierDivisorSheaf AlgebraicGeometry.Scheme.cartierDivisorSheafIsoSheafifiedCokernel AlgebraicGeometry.Scheme.CartierDivisor AlgebraicGeometry.Scheme.toCartierDivisorSheaf_apply_eq_iff_ratio AlgebraicGeometry.Scheme.CartierLocalEquations AlgebraicGeometry.Scheme.CartierLocalEquations.Represents AlgebraicGeometry.Scheme.CartierLocalEquations.existsUnique_represents AlgebraicGeometry.Scheme.CartierLocalEquations.exists_localEquations AlgebraicGeometry.Scheme.CartierLocalEquations.Refines AlgebraicGeometry.Scheme.CartierLocalEquations.SameDivisor AlgebraicGeometry.Scheme.CartierLocalEquations.HaveCommonRefinement AlgebraicGeometry.Scheme.CartierLocalEquations.sameDivisor_iff_commonRefinement AlgebraicGeometry.Scheme.principalCartierDivisorHom AlgebraicGeometry.Scheme.principalCartierDivisor AlgebraicGeometry.Scheme.principalCartierDivisorSubgroup AlgebraicGeometry.Scheme.CartierDivisor.LinearEquivalent AlgebraicGeometry.Scheme.CartierClassGroup AlgebraicGeometry.Scheme.cartierDivisorClassHom AlgebraicGeometry.Scheme.CartierDivisor.linearEquivalent_iff AlgebraicGeometry.Scheme.cartierDivisorClass_eq_iff
+lean: AlgebraicGeometry.Scheme.structureUnitsAddSheaf AlgebraicGeometry.Scheme.totalQuotientUnitsAddSheaf AlgebraicGeometry.Scheme.structureUnitsToTotalQuotientUnitsAdd AlgebraicGeometry.Scheme.cartierDivisorSheaf AlgebraicGeometry.Scheme.toCartierDivisorSheaf AlgebraicGeometry.Scheme.cartierDivisorSheafIsoSheafifiedCokernel AlgebraicGeometry.Scheme.CartierDivisor
 ---
 
 # The Cartier divisor group
 
-For an arbitrary scheme `X`, define the group of Cartier divisors as
-`Γ(X, K_X^* / O_X^*)`. Give the equivalent local-equation interface: an open
-cover `U_i` and `f_i ∈ K_X^*(U_i)` such that `f_i/f_j` is a regular unit on
-overlaps. Define principal Cartier divisors, linear equivalence, and the
-Cartier class group `CaCl X`.
+For an arbitrary scheme `X`, define the sheaf of Cartier divisors as the
+additive cokernel `K_X^* / O_X^*`, and define the Cartier divisor group as
+`Γ(X, K_X^* / O_X^*)`.
 
-Although local equations multiply, expose additive notation for the divisor
-group and its quotient, as in the source.
+Transport the multiplicative unit sheaves to additive commutative groups
+before taking the cokernel, as in the source. Verify that this categorical
+cokernel agrees with the explicit sheafified pointwise cokernel.
 
 ## Depends on
 
@@ -26,8 +25,10 @@ group and its quotient, as in the source.
 
 ## Proof depends on
 
-- Global sections of a quotient sheaf are represented locally by compatible
-  lifts, after refining an open cover.
+- Injectivity of `O_X^* -> K_X^*` follows from the monomorphism
+  `O_X -> K_X`.
+- Cokernels of additive sheaves are computed by sheafifying the pointwise
+  cokernel.
 
 ## Sources
 

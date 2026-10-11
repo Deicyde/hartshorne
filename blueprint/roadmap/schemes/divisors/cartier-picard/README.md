@@ -10,6 +10,8 @@ and identifies Cartier classes with invertible sheaves on integral schemes.
 
 - [The total quotient sheaf](total-quotient-sheaf.md)
 - [The Cartier divisor group](cartier-divisor-group.md)
+- [Local equations for Cartier divisors](cartier-local-equations.md)
+- [Principal Cartier divisors and the Cartier class group](cartier-class-group.md)
 - [Locally factorial schemes](locally-factorial-schemes.md)
 - [Weil and Cartier divisors on locally factorial schemes](locally-factorial-weil-cartier-equivalence.md)
 - [Regular schemes are locally factorial](regular-locally-factorial.md)

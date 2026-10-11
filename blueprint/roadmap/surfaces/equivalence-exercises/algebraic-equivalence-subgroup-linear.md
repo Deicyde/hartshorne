@@ -19,7 +19,7 @@ Every pair of linearly equivalent divisors is algebraically equivalent.
 ## Depends on
 
 - [Flat algebraic families of Cartier divisors](../../cohomology/flat-families/families-hilbert/cartier-divisor-family-flat-iff-defined.md)
-- [The Cartier divisor group](../../schemes/divisors/cartier-picard/cartier-divisor-group.md)
+- [Principal Cartier divisors and the Cartier class group](../../schemes/divisors/cartier-picard/cartier-class-group.md)
 
 ## Proof depends on
 
