@@ -4,7 +4,8 @@ declaration: def
 origin: cited
 source_units: [chapter-i-section-6-local-structure]
 statement: formalized
-lean: Hartshorne.Variety.HasAffineOpenBasis.valuationSubringAt
+proof: formalized
+lean: Hartshorne.Variety.HasAffineOpenBasis.valuationAt Hartshorne.Variety.HasAffineOpenBasis.valuationSubringAt Hartshorne.Variety.HasAffineOpenBasis.valuationAt_isRankOneDiscrete Hartshorne.Variety.HasAffineOpenBasis.valuationSubringAt_toSubring Hartshorne.Variety.HasAffineOpenBasis.isDiscreteValuationRing_valuationSubringAt Hartshorne.Variety.HasAffineOpenBasis.isFractionRing_valuationSubringAt Hartshorne.Variety.HasAffineOpenBasis.valuationAt_isTrivialOn Hartshorne.Variety.HasAffineOpenBasis.valuationSubringAt_valuation_isEquiv Hartshorne.Variety.HasAffineOpenBasis.valuationSubringAt_valuation_isTrivialOn
 ---
 
 # Nonsingular curve points define discrete valuations
