@@ -4,7 +4,8 @@ declaration: def
 origin: cited
 source_units: [chapter-i-section-5-geometry]
 statement: formalized
-lean: Hartshorne.IsAffineNonsingularAt Hartshorne.IsAffineNonsingular
+proof: formalized
+lean: Hartshorne.IsAffineNonsingularAt Hartshorne.IsAffineNonsingular Hartshorne.isAffineNonsingularAt_iff_of_dim_eq Hartshorne.isAffineNonsingularAt_iff_jacobianMatrix_rank Hartshorne.isAffineNonsingular_iff_of_dim_eq Hartshorne.IsAffineVariety.exists_dim_eq_natCast
 ---
 
 # Nonsingular points of an affine variety
@@ -37,7 +38,6 @@ then recovers Hartshorne's literal matrix definition for every presentation of
 
 - [Dimension is the dimension of the coordinate ring](../affine-varieties/dim-eq-coordinate-ring-dim.md)
 - [A finitely generated algebra over a field has finite dimension](../affine-varieties/dim-fg-algebra-finite.md)
-- [The dimension of affine space](../affine-varieties/dim-affine-space.md)
 
 ## Sources
 
