@@ -4,7 +4,8 @@ declaration: definition
 origin: cited
 source_units: [chapter-ii-sections-6-7, chapter-i-section-8-decomposed-previews]
 statement: formalized
-lean: AlgebraicGeometry.Scheme.PrimeDivisor AlgebraicGeometry.Scheme.PrimeDivisor.irreducibleClosed AlgebraicGeometry.Scheme.primeDivisorEquivIrreducibleClosed AlgebraicGeometry.Scheme.weilDivisorAddSubgroup AlgebraicGeometry.Scheme.WeilDivisor AlgebraicGeometry.Scheme.WeilDivisor.IsEffective AlgebraicGeometry.Scheme.weilDivisorAddEquivFinsupp
+proof: formalized
+lean: AlgebraicGeometry.Scheme.PrimeDivisor AlgebraicGeometry.Scheme.PrimeDivisor.irreducibleClosed AlgebraicGeometry.Scheme.primeDivisorEquivIrreducibleClosed AlgebraicGeometry.Scheme.weilDivisorAddSubgroup AlgebraicGeometry.Scheme.WeilDivisor AlgebraicGeometry.Scheme.WeilDivisor.IsEffective AlgebraicGeometry.Scheme.weilDivisorAddEquivFinsupp AlgebraicGeometry.Scheme.locallyFiniteSupport_iff_finite AlgebraicGeometry.Scheme.WeilDivisor.support_finite AlgebraicGeometry.Scheme.WeilDivisor.isEffective_iff
 ---
 
 # The Weil divisor group

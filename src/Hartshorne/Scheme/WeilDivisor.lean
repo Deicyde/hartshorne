@@ -102,13 +102,12 @@ theorem isEffective_iff {X : Scheme.{u}} (D : X.WeilDivisor) :
 
 end Scheme.WeilDivisor
 
-/-- On a scheme satisfying condition `(*)`, local finiteness of a support is
-equivalent to finiteness. -/
-theorem Scheme.locallyFiniteSupport_iff_finite_of_satisfiesConditionStar
-    {X : Scheme.{u}} (hX : X.SatisfiesConditionStar)
+/-- On a Noetherian scheme, local finiteness of a support is equivalent to
+finiteness. -/
+theorem Scheme.locallyFiniteSupport_iff_finite
+    {X : Scheme.{u}} [IsNoetherian X]
     {A : Type v} [Zero A] (f : X → A) :
     LocallyFiniteSupport f ↔ f.support.Finite := by
-  let _ : IsNoetherian X := hX.isNoetherian
   constructor
   · intro h
     have H := h.finite_inter_support_of_isCompact
@@ -117,28 +116,28 @@ theorem Scheme.locallyFiniteSupport_iff_finite_of_satisfiesConditionStar
   · intro h x
     exact ⟨Set.univ, univ_mem, by simpa using h⟩
 
-/-- Weil divisors on a scheme satisfying condition `(*)` have finite support. -/
+/-- Weil divisors on a Noetherian scheme have finite support. -/
 theorem Scheme.WeilDivisor.support_finite
-    {X : Scheme.{u}} (hX : X.SatisfiesConditionStar) (D : X.WeilDivisor) :
+    {X : Scheme.{u}} [IsNoetherian X] (D : X.WeilDivisor) :
     D.1.support.Finite :=
-  (X.locallyFiniteSupport_iff_finite_of_satisfiesConditionStar hX D.1).mp
+  (X.locallyFiniteSupport_iff_finite D.1).mp
     D.1.locallyFiniteSupport
 
 private noncomputable def weilDivisorToFinsupp
-    {X : Scheme.{u}} (hX : X.SatisfiesConditionStar) (D : X.WeilDivisor) :
+    {X : Scheme.{u}} [IsNoetherian X] (D : X.WeilDivisor) :
     X.PrimeDivisor →₀ ℤ := by
   classical
   have hpre : (Subtype.val ⁻¹' D.1.support : Set X.PrimeDivisor).Finite :=
-    (Scheme.WeilDivisor.support_finite hX D).preimage Subtype.val_injective.injOn
+    (Scheme.WeilDivisor.support_finite D).preimage Subtype.val_injective.injOn
   exact Finsupp.onFinset hpre.toFinset (fun P ↦ D.1 P.1) fun P hP ↦ by
     rw [hpre.mem_toFinset]
     exact hP
 
 @[simp]
 private theorem weilDivisorToFinsupp_apply
-    {X : Scheme.{u}} (hX : X.SatisfiesConditionStar)
+    {X : Scheme.{u}} [IsNoetherian X]
     (D : X.WeilDivisor) (P : X.PrimeDivisor) :
-    weilDivisorToFinsupp hX D P = D.1 P.1 := by
+    weilDivisorToFinsupp D P = D.1 P.1 := by
   classical
   simp [weilDivisorToFinsupp]
 
@@ -172,12 +171,12 @@ private theorem weilDivisorOfFinsupp_apply
   rw [Finsupp.extendDomain_apply
     (P := fun y : X ↦ Order.coheight y = 1)]
 
-/-- On a scheme satisfying condition `(*)`, Weil divisors form the free
-abelian group on prime divisors. -/
+/-- On a Noetherian scheme, Weil divisors form the free abelian group on prime
+divisors. -/
 noncomputable def Scheme.weilDivisorAddEquivFinsupp
-    {X : Scheme.{u}} (hX : X.SatisfiesConditionStar) :
+    (X : Scheme.{u}) [IsNoetherian X] :
     X.WeilDivisor ≃+ (X.PrimeDivisor →₀ ℤ) where
-  toFun := weilDivisorToFinsupp hX
+  toFun := weilDivisorToFinsupp
   invFun := weilDivisorOfFinsupp
   left_inv D := by
     apply Subtype.ext
