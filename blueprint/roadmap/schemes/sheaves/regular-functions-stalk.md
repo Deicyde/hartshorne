@@ -1,8 +1,11 @@
 ---
 article_id: af_137c79182a944202199147a5
-declaration: theorem
+declaration: def
 origin: cited
 source_units: [chapter-ii-sections-1-3]
+statement: formalized
+proof: formalized
+lean: Hartshorne.Variety.regularSheafStalkEquivLocalRing
 ---
 
 # The regular-functions stalk is the local ring
@@ -30,4 +33,3 @@ definition, is the main result.
 ## Sources
 
 - [Hartshorne II.1, identification of the regular-functions stalk with the local ring (p. 62)](../../../sources/hartshorne-ii-1.md#basic-examples-printed-p-62)
-

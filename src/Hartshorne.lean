@@ -32,6 +32,7 @@ import Hartshorne.Scheme.NoetherianSpectrumCounterexample
 import Hartshorne.Scheme.ConnectedSpectrumIdempotents
 import Hartshorne.Scheme.TangentVectorsDualNumbers
 import Hartshorne.Scheme.RegularFunctionsSheaf
+import Hartshorne.Scheme.RegularFunctionsStalk
 import Hartshorne.Scheme.SchemeVarietyCategory
 import Hartshorne.Scheme.ImageSubsheaf
 import Hartshorne.Scheme.RestrictionStalk
