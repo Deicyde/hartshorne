@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.FiniteType
+import Hartshorne.Weil.FiniteFieldExtensionTower
 
 /-!
 # Rational points of finite-type schemes over finite fields
@@ -102,5 +103,21 @@ theorem finite_rationalPoints_of_finiteType
   exact @Finite.of_injective _ (Spec (.of K) ⟶ X)
     (finite_hom_from_spec_of_finiteType k K X f hf) (fun p ↦ p.left)
       fun p q h ↦ Over.OverMorphism.ext h
+
+/-- The finite-extension point-count sequence of a finite-type scheme over a
+finite field. At `r : ℕ+`, this is the number of scheme-valued points over the
+canonical degree-`r` extension inside the fixed algebraic closure. -/
+noncomputable def pointCountSequence
+    (k : Type u) [Field k] [Finite k]
+    (X : Scheme.{u}) (f : X ⟶ Spec (.of k)) (hf : FiniteType f) :
+    ℕ+ → ℕ :=
+  fun r =>
+    letI : Finite
+        ((Over.mk (Spec.map (CommRingCat.ofHom
+          (algebraMap k (finiteFieldExtension k r))))) ⟶ Over.mk f) :=
+      finite_rationalPoints_of_finiteType k (finiteFieldExtension k r) X f hf
+    Nat.card
+      ((Over.mk (Spec.map (CommRingCat.ofHom
+        (algebraMap k (finiteFieldExtension k r))))) ⟶ Over.mk f)
 
 end Hartshorne

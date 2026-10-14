@@ -3,6 +3,9 @@ article_id: af_b49e8cf565a740bf11cf4dc1
 declaration: def
 origin: cited
 source_units: [appendix-c-section-1]
+statement: formalized
+proof: formalized
+lean: Hartshorne.pointCountSequence
 ---
 
 # The finite-extension point-count sequence
