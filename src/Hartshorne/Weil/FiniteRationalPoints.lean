@@ -163,4 +163,24 @@ theorem hasseWeilZetaSeries_constantCoeff
   rw [finsum_eq_single _ 0 (fun d hd => by simp [hd])]
   simp
 
+/-- Isomorphic finite-type schemes over a finite field have equal point-count
+sequences and equal Hasse–Weil zeta series. -/
+theorem pointCountSequence_eq_and_hasseWeilZetaSeries_eq_of_iso
+    (k : Type u) [Field k] [Finite k]
+    {X Y : Scheme.{u}}
+    {f : X ⟶ Spec (.of k)} {g : Y ⟶ Spec (.of k)}
+    (hf : FiniteType f) (hg : FiniteType g)
+    (e : Over.mk f ≅ Over.mk g) :
+    pointCountSequence k X f hf = pointCountSequence k Y g hg ∧
+      hasseWeilZetaSeries k X f hf = hasseWeilZetaSeries k Y g hg := by
+  have hcount : pointCountSequence k X f hf = pointCountSequence k Y g hg := by
+    funext r
+    rw [pointCountSequence, pointCountSequence]
+    exact Nat.card_congr ((Iso.refl _).homCongr e)
+  refine ⟨hcount, ?_⟩
+  have hlog : hasseWeilZetaLogSeries k X f hf =
+      hasseWeilZetaLogSeries k Y g hg := by
+    rw [hasseWeilZetaLogSeries, hasseWeilZetaLogSeries, hcount]
+  exact congrArg (fun S : PowerSeries ℚ => (PowerSeries.exp ℚ).subst S) hlog
+
 end Hartshorne
