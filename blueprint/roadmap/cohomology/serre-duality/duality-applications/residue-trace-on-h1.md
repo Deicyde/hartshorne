@@ -3,7 +3,6 @@ article_id: af_70d475ecdab192324f5a6983
 declaration: theorem
 origin: cited
 source_units: [chapter-iii-sections-6-7]
-not_ready: true
 ---
 
 # The residue trace on first cohomology
@@ -13,8 +12,8 @@ image of `Ω_(K/k)` and therefore descends to a `k`-linear map
 
 `tr_res : H¹(X,Ω_X) →ₗ k`.
 
-The node remains not ready with the global residue theorem on which the
-descent depends.
+The unresolved proof-source obligation is carried by the global residue
+theorem dependency on which the descent depends.
 
 ## Depends on
 

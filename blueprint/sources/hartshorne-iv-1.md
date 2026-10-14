@@ -1,10 +1,10 @@
 # Hartshorne IV.1, the Riemann–Roch theorem
 
 The primary source is the repository PDF, *Algebraic Geometry* (1977),
-Chapter IV, §1, printed pp.294–298. Printed p.299 begins Exercise 1.10 and §2;
-Exercise 1.10 is outside this source unit. The roadmap adopts every running
-claim, together with Exercises 1.5, 1.7, and 1.8 because later included text
-uses them.
+Chapter IV, §1, printed pp.294–299 through Exercise 1.10; §2 begins later on
+p.299. The roadmap adopts every running claim, together with Exercises 1.5,
+1.7, and 1.8 because later included text uses them. Exercise 1.10 is explicitly
+out because no later included running-text dependency was found.
 
 Throughout, `k` is algebraically closed. A *curve* means an integral proper
 regular one-dimensional `k`-scheme. A *point* means a closed point, so its
@@ -145,8 +145,13 @@ Exercises 1.1–1.4, 1.6, and 1.9 are **OUT** for this adopted fine scope: no
 later included proof dependency requiring them was found in the audit.
 Exercises 1.1–1.2 feed the exercise-only affineness chain 1.3–1.4. Exercise
 1.9 is the singular/Gorenstein extension of Riemann–Roch but has no later
-identified use here. Exercise 1.10 begins on printed p.299 and is outside the
-source boundary.
+identified use here.
+
+### Exercise 1.10, printed p.299
+
+Exercise 1.10 is **OUT**. It generalizes the pointed genus-one
+`X_reg(k) ≃ Pic⁰(X)` correspondence to an integral projective lci curve of
+arithmetic genus one, but has no later included consumer.
 
 For Exercise 1.8, let `nu : X_tilde -> X` be the normalization. There is an
 exact sequence

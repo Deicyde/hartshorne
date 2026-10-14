@@ -15,6 +15,31 @@ resolution computes `RⁱF`. Theorem 1.3A and Corollary 1.4 (p. 206) give the
 effaceability criterion for a universal delta functor and characterize derived
 functors by that universal property.
 
+### Opening examples and full-embedding convention, printed pp. 202–204
+
+Examples 1.0.1–1.0.4 identify abelian groups, modules, sheaves of abelian
+groups, and sheaves of modules as abelian categories. The first two are
+Mathlib foundations used by the [complexes and homotopy
+leaf](../roadmap/cohomology/derived-functors/abelian-complexes-and-homotopy.md);
+the sheaf examples reuse [sheaves of abelian
+groups](../roadmap/schemes/sheaves/sheaves-of-abelian-groups.md) and [sheaves
+of modules](../roadmap/schemes/modules-and-quasicoherent/sheaves-of-modules.md).
+
+Examples 1.0.5–1.0.6 assert that quasi-coherent sheaves, and coherent sheaves
+on a Noetherian scheme, form abelian categories; both are covered by [abelian
+closure of quasi-coherent
+sheaves](../roadmap/schemes/modules-and-quasicoherent/quasicoherent-abelian-closure.md).
+Example 1.0.7 is the formal-scheme analogue and is covered by [abelian closure
+of coherent formal
+modules](../roadmap/schemes/formal-schemes/coherent-formal-modules/coherent-formal-abelian-closure.md).
+Example 1.0.8 states that `Hom(A,-)` and `Hom(-,A)` are left exact; this is the
+standard categorical input to the existing [right-derived-functor
+leaf](../roadmap/cohomology/derived-functors/right-derived-functors.md), not a
+separate project theorem. Freyd's full-embedding theorem is retained as
+provenance for diagram chasing, while the roadmap uses Mathlib's intrinsic
+abelian-category API. Thus none of Examples 1.0.1–1.0.8 is left implicit or
+requires a duplicate leaf.
+
 Hartshorne explicitly presents this material without proofs. The following
 source stack, listed by Hartshorne on printed p. 202, is adopted for the quoted
 homological-algebra results; individual roadmap nodes route to the relevant

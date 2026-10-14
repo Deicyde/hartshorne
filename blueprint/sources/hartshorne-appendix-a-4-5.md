@@ -58,9 +58,10 @@ and at `D=0` one obtains the Noether formula
 
 `12*(1+p_a)=K^2+c_2`.
 
-This is the proof source of Remark V.1.6.1. The previously untagged surface
-HRR/Noether leaf is reconciled to this Appendix source unit and remains a
-source blocker.
+This is the proof source of Remark V.1.6.1. The V.1-tagged surface HRR bridge
+is derivatively blocked by this Appendix source root; the distinct Noether
+leaf derives the specialization at `D=0`, so neither is a duplicate source
+blocker.
 
 ## Surface in projective fourspace, printed pp.433–434
 

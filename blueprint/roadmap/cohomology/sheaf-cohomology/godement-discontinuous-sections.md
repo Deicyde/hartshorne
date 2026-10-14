@@ -1,11 +1,11 @@
 ---
 article_id: af_843eb1daa6fee504291d18dc
-declaration: theorem
+declaration: instance
 origin: cited
 source_units: [chapter-iii-sections-1-4]
 statement: formalized
 proof: formalized
-lean: Hartshorne.godementFunctor Hartshorne.toGodement Hartshorne.toGodement_app_comp_π Hartshorne.toGodement_mono Hartshorne.godementFunctor_obj_isFlasque
+lean: Hartshorne.toGodement_mono Hartshorne.godementFunctor_obj_isFlasque
 ---
 
 # The Godement flasque embedding

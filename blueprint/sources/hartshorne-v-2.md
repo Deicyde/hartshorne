@@ -1,7 +1,7 @@
 # Hartshorne V.2, ruled surfaces
 
 The primary source is the repository PDF, *Algebraic Geometry* (1977),
-Chapter V, §2, printed pp.369–385. The final Exercise 2.17 begins on p.385
+Chapter V, §2, printed pp.369–386. The final Exercise 2.17 begins on p.385
 and concludes at the top of p.386, immediately before §3; it is included in
 the exercise inventory below.
 

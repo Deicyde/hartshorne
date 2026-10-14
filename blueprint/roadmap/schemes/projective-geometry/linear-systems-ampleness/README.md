@@ -20,7 +20,7 @@ article_id: af_e1b18f1da905e05a034a0cec
 - [Tensoring very ample with globally generated](very-ample-tensor-globally-generated.md)
 - [Very ample linear systems and the Hilbert polynomial](very-ample-riemann-roch-hilbert-polynomial.md)
 - [Torsion divisor linear systems are periodic](torsion-divisor-linear-system-periodicity.md)
-- [Eventual polynomiality for ample divisors](ample-riemann-roch-eventual-polynomiality.md)
+- [Eventual polynomiality for ample divisors](../../../cohomology/projective-cohomology-exercises/ample-divisor-eventual-polynomiality.md)
 
 ## Sources
 

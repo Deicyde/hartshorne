@@ -1,11 +1,11 @@
 ---
 article_id: af_1cad7f1b7997a1ab9fac34b4
-declaration: definition
+declaration: abbrev
 origin: cited
 source_units: [chapter-ii-sections-6-7, chapter-i-section-8-decomposed-previews]
 statement: formalized
 proof: formalized
-lean: AlgebraicGeometry.Scheme.principalDivisorSubgroup AlgebraicGeometry.Scheme.WeilDivisor.LinearEquivalent AlgebraicGeometry.Scheme.WeilClassGroup AlgebraicGeometry.Scheme.weilDivisorClassHom AlgebraicGeometry.Scheme.WeilDivisor.linearEquivalent_iff AlgebraicGeometry.Scheme.weilDivisorClass_eq_iff
+lean: AlgebraicGeometry.Scheme.WeilClassGroup
 ---
 
 # Linear equivalence and the Weil class group

@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-i-section-6-normalization]
 statement: formalized
 proof: formalized
-lean: Hartshorne.FunctionFieldDVR Hartshorne.ValuationSubring.contains_algebraMap_iff_isTrivialOn Hartshorne.FunctionFieldDVR.HasPoleAt Hartshorne.FunctionFieldDVR.VanishesAt Hartshorne.FunctionFieldDVR.hasPoleAt_iff_valuation_one_lt Hartshorne.FunctionFieldDVR.vanishesAt_iff_valuation_lt_one Hartshorne.FunctionFieldDVR.vanishesAt_iff_exists_mem_maximalIdeal
+lean: Hartshorne.FunctionFieldDVR Hartshorne.FunctionFieldDVR.HasPoleAt Hartshorne.FunctionFieldDVR.VanishesAt
 ---
 
 # Discrete valuation rings of a function field

@@ -3,7 +3,6 @@ article_id: af_2e76af07b73d297644581398
 declaration: theorem
 origin: cited
 source_units: [chapter-iii-sections-1-4]
-not_ready: true
 ---
 
 # Grothendieck vanishing
@@ -14,8 +13,8 @@ every natural `i>n`, one has `Hⁱ(X,F)=0`.
 
 The unique main result assembles induction on the finite dimension `n`, the
 dimension-zero base case, reduction to irreducible components, and reduction
-to subsheaves of `Z_U`. It remains not ready because the generic
-trivialization input is not yet source-complete.
+to subsheaves of `Z_U`. Its source blockage is inherited from the generic
+trivialization dependency below.
 
 ## Depends on
 

@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-i-section-6-valuations, chapter-i-section-6-local-structure]
 statement: formalized
 proof: formalized
-lean: Hartshorne.Variety.IsCurve Hartshorne.Variety.HasAffineOpenBasis.isCurve_iff_trdeg_eq_one
+lean: Hartshorne.Variety.IsCurve
 ---
 
 # Curves

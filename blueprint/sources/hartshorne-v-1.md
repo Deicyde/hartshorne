@@ -160,12 +160,13 @@ classes in projective space, remains out.
   needs an adopted passage from Lang–Néron [1] or Hartshorne [6].
 - Mumford's strictly-nef square-zero example needs the cited proof from
   Hartshorne [5], I.10.6.
-- The Noether formula derives from the untagged, not-ready Appendix A
-  Hirzebruch–Riemann–Roch prerequisite. Hartshorne cites Borel–Serre [1] for
-  the algebraic theorem.
+- The surface Hirzebruch–Riemann–Roch bridge is tagged to V.1 and is
+  derivatively blocked by the explicit Appendix A HRR source root. The
+  separate Noether-formula leaf takes the `D=0` consequence. Hartshorne cites
+  Borel–Serre [1] for the algebraic theorem.
 
-Thus there are two source-tagged V.1 blockers and one untagged forward
-Appendix A blocker.
+Thus there are two source-tagged V.1 source roots and one derivatively blocked
+surface HRR bridge; the bridge is not an additional source root.
 
 ## Appendix A reconciliation
 

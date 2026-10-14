@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.DualNumberLift Hartshorne.RationalPointTangentSpace Hartshorne.dualNumberLiftEquivTangentSpace Hartshorne.dualNumberLiftToTangent Hartshorne.dualNumberLiftToTangent_bijective
+lean: Hartshorne.dualNumberLiftToTangent_bijective
 ---
 
 # Tangent vectors and the dual numbers

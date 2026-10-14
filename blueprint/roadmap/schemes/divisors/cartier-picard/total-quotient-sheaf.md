@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-ii-sections-6-7]
 statement: formalized
 proof: formalized
-lean: AlgebraicGeometry.Scheme.totalQuotientPresheaf AlgebraicGeometry.Scheme.totalQuotientSheaf AlgebraicGeometry.Scheme.toTotalQuotientSheaf AlgebraicGeometry.Scheme.totalQuotientSheaf_mono AlgebraicGeometry.Scheme.structureUnitsSheaf AlgebraicGeometry.Scheme.totalQuotientUnitsSheaf AlgebraicGeometry.Scheme.structureUnitsToTotalQuotientUnits AlgebraicGeometry.Scheme.totalQuotientPresheaf_isFractionRing_of_isAffineOpen
+lean: AlgebraicGeometry.Scheme.totalQuotientSheaf AlgebraicGeometry.Scheme.toTotalQuotientSheaf AlgebraicGeometry.Scheme.structureUnitsSheaf AlgebraicGeometry.Scheme.totalQuotientUnitsSheaf AlgebraicGeometry.Scheme.structureUnitsToTotalQuotientUnits
 ---
 
 # The total quotient sheaf

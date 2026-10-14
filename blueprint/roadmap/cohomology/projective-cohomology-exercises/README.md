@@ -24,3 +24,4 @@ article_id: af_3911d57dbf30686336d92cfd
 18. [Properness across a nilpotent thickening](nilpotent-thickening-proper.md)
 19. [A nonprojective infinitesimal thickening of the plane](projective-plane-infinitesimal-extension-nonprojective.md)
 20. [Eventual exactness of twisted global sections](eventual-exactness-twisted-global-sections.md)
+21. [Eventual polynomiality for ample divisors](ample-divisor-eventual-polynomiality.md)

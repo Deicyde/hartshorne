@@ -5,7 +5,7 @@ origin: bridged
 source_units: [chapter-iii-section-10]
 statement: formalized
 proof: formalized
-lean: Hartshorne.GroupVariety Hartshorne.AlgebraicGroupAction Hartshorne.HomogeneousSpace Hartshorne.AlgebraicGroupAction.translationIso Hartshorne.rationalPointEquivClosedPoint Hartshorne.HomogeneousSpace.transitive_closedPoints
+lean: Hartshorne.GroupVariety Hartshorne.AlgebraicGroupAction Hartshorne.HomogeneousSpace
 ---
 
 # Algebraic group actions and homogeneous spaces

@@ -1,11 +1,11 @@
 ---
 article_id: af_c40ccbe30e672e8f50d0163b
-declaration: definition
+declaration: abbrev
 origin: cited
 source_units: [chapter-ii-sections-6-7]
 statement: formalized
 proof: formalized
-lean: AlgebraicGeometry.Scheme.principalCartierDivisorHom AlgebraicGeometry.Scheme.principalCartierDivisor AlgebraicGeometry.Scheme.principalCartierDivisorSubgroup AlgebraicGeometry.Scheme.CartierDivisor.LinearEquivalent AlgebraicGeometry.Scheme.CartierClassGroup AlgebraicGeometry.Scheme.cartierDivisorClassHom AlgebraicGeometry.Scheme.CartierDivisor.linearEquivalent_iff AlgebraicGeometry.Scheme.cartierDivisorClass_eq_iff
+lean: AlgebraicGeometry.Scheme.CartierClassGroup
 ---
 
 # Principal Cartier divisors and the Cartier class group

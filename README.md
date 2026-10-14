@@ -11,14 +11,17 @@ Theorem I.5.4A used in V.5, the remaining completion, Cohen-structure, and
 analytic-isomorphism material later in §I.5 is deferred. The source-grounded
 fine-roadmap pass now reaches the end of Appendix C. Section I.7 has 50 fine
 targets, all formalized; the §I.8 survey has been dispositioned claim by claim;
-and all of Chapter II now has a 444-leaf fine roadmap, including 100
-exact pinned-Mathlib results. Later-chapter roadmap targets are planned unless
-their own articles say otherwise. See the
+and Chapter II now has a 444-leaf core fine roadmap: 103 exact pinned-Mathlib
+leaves, 73 locally complete project leaves, and 268 remaining project leaves.
+Two additional unformalized Chapter-II exercise leaves are reactivated in
+Chapters IV and V. Later-chapter roadmap targets are planned unless their own
+articles say otherwise. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-All of Chapter III has a 288-leaf cohomology roadmap: nineteen exact pinned-Mathlib
-results and 269 project targets. It covers derived functors,
+All of Chapter III has a 288-leaf cohomology roadmap: 20 exact pinned-Mathlib
+leaves, 28 locally complete project leaves, and 240 remaining project leaves.
+It covers derived functors,
 sheaf and supported cohomology, affine vanishing, local cohomology, and Čech
 comparison, projective cohomology, Ext, dualizing sheaves, and Serre duality
 through higher direct images, flat families, Hilbert polynomials, deformations,
@@ -53,8 +56,9 @@ explicitly blocked on a source or representation.
 
 **All 163 targets through Corollary I.6.12 are complete.** Of these, 159 are
 proved in this project and four are supplied by Mathlib. Section I.7 adds 50
-project results, all formalized, so the fine Chapter I roadmap has 213 complete
-targets: 209 project proofs and four Mathlib results. The first 114 completed
+project results, all formalized, and §I.8 adds the formalized birational-
+dimension leaf, so the fine Chapter I roadmap has 214 complete targets: 210
+project proofs and four Mathlib results. The first 114 completed
 targets run through Lemma I.6.4. Of the
 first 86 targets in §§I.1–I.4, 85 are proved here,
 sorry-free and depending only on Lean's three standard axioms, and one is
@@ -104,14 +108,15 @@ theorem. All fifty leaves are formalized. It includes only the earlier
 exercises required by the running proofs; the optional generic-line exercise
 chain remains out of scope.
 
-The 444-leaf Chapter II milestone covers sheaves, spectra, schemes,
+The 444-leaf Chapter II core covers sheaves, spectra, schemes,
 projective spectra, the classical-variety comparison, first properties,
 subschemes, dimension, fibre products, separatedness, properness, projective
 morphisms, modules, divisors and Picard groups, linear systems, relative Proj,
 projective bundles, blowups, differentials, canonical sheaves, and lci geometry.
-One hundred leaves are exact pinned-Mathlib results. Three project leaves are
-formalized locally—two theorem proofs and one definition—and 341 project
-wrappers, representation bridges, or missing theorems remain.
+Of those core leaves, 103 are exact pinned-Mathlib results, 73 are complete
+locally (68 proof-marked and five stated definitions or classes), and 268
+remain. Exercises II.6.4 and II.8.2 add two unformalized downstream-reactivated
+Chapter-II source leaves, so the coverage contract links 446 in total.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 

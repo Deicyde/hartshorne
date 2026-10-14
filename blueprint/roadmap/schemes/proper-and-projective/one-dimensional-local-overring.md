@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-ii-section-4]
 statement: formalized
 proof: formalized
-lean: Hartshorne.OneDimensionalLocalOverring Hartshorne.exists_oneDimensionalLocalOverring
+lean: Hartshorne.exists_oneDimensionalLocalOverring
 ---
 
 # A one-dimensional local overring

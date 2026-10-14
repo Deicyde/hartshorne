@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-iv-sections-1-2]
 statement: formalized
 proof: formalized
-lean: AlgebraicGeometry.Scheme.IsCharP AlgebraicGeometry.Scheme.absoluteFrobenius AlgebraicGeometry.Scheme.absoluteFrobenius_apply AlgebraicGeometry.Scheme.absoluteFrobenius_app AlgebraicGeometry.Scheme.absoluteFrobenius_stalkMap_apply AlgebraicGeometry.Scheme.specFrobenius AlgebraicGeometry.Scheme.absoluteFrobenius_comp_structureMap AlgebraicGeometry.Scheme.frobeniusTwist AlgebraicGeometry.Scheme.frobeniusTwist_left AlgebraicGeometry.Scheme.frobeniusTwist_hom AlgebraicGeometry.Scheme.frobeniusTwistTo AlgebraicGeometry.Scheme.frobeniusTwistTo_left
+lean: AlgebraicGeometry.Scheme.absoluteFrobenius AlgebraicGeometry.Scheme.specFrobenius AlgebraicGeometry.Scheme.frobeniusTwist AlgebraicGeometry.Scheme.frobeniusTwistTo
 ---
 
 # Absolute Frobenius and Hartshorne's Frobenius twist

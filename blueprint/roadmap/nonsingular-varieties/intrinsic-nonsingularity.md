@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-i-section-5-geometry]
 statement: formalized
 proof: formalized
-lean: Hartshorne.Variety.NonsingularAt Hartshorne.Variety.Nonsingular Hartshorne.Variety.SingularLocus Hartshorne.Variety.Singular Hartshorne.Variety.nonsingularAt_restrict_iff Hartshorne.Variety.nonsingularAt_iff_of_isIso Hartshorne.Variety.nonsingular_iff_of_isIso Hartshorne.nonsingularAt_affine_iff
+lean: Hartshorne.Variety.NonsingularAt Hartshorne.Variety.Nonsingular Hartshorne.Variety.SingularLocus Hartshorne.Variety.Singular
 ---
 
 # Intrinsic nonsingularity

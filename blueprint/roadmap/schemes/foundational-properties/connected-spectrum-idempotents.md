@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.IsSpectrumDisconnected Hartshorne.not_isSpectrumDisconnected_of_subsingleton Hartshorne.HasNontrivialOrthogonalIdempotents Hartshorne.HasNontrivialProductDecomposition Hartshorne.isSpectrumDisconnected_iff_orthogonalIdempotents Hartshorne.orthogonalIdempotents_iff_productDecomposition Hartshorne.disconnectedSpectrum_idempotents_products_tfae Hartshorne.isSpectrumDisconnected_iff_not_isConnected
+lean: Hartshorne.disconnectedSpectrum_idempotents_products_tfae
 ---
 
 # Connected spectra, idempotents, and products

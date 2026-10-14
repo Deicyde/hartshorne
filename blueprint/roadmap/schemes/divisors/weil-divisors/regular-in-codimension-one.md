@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-ii-sections-6-7]
 statement: formalized
 proof: formalized
-lean: AlgebraicGeometry.Scheme.IsRegularInCodimensionOne AlgebraicGeometry.Scheme.SatisfiesConditionStar AlgebraicGeometry.Scheme.isRegularInCodimensionOne_iff_ringKrullDim
+lean: AlgebraicGeometry.Scheme.IsRegularInCodimensionOne AlgebraicGeometry.Scheme.SatisfiesConditionStar
 ---
 
 # Regularity in codimension one

@@ -65,11 +65,15 @@ hypothesis on the function field.
 
 Apart from the regularity-under-completion clause of Theorem I.5.4A used in
 V.5, the remaining completion, Cohen-structure, and analytic-isomorphism
-material later in §I.5 is deferred. Section I.7 has a fine DAG, §I.8 has a claim-by-claim
-survey disposition, and all of Chapter II has a 444-leaf fine DAG with 100
-exact pinned-Mathlib results, three local formalizations, and 341 remaining
-project leaves. All of Chapter III has a 288-leaf fine roadmap with
-nineteen exact Mathlib results. All of Chapter IV has a 201-leaf fine roadmap with
+material later in §I.5 is deferred. Section I.7 has a fine DAG, and §I.8 has a
+claim-by-claim survey disposition. Chapter II has a 444-leaf core fine
+roadmap: 103 exact pinned-Mathlib leaves, 73 locally complete project leaves
+(68 proof-marked and five stated definitions or classes), and 268 remaining
+project leaves. Two additional unformalized Chapter-II source leaves are
+reactivated downstream, so coverage links 446 in total. Chapter III has a
+288-leaf fine roadmap: 20 exact Mathlib leaves, 28 locally complete project
+leaves (27 proof-marked and one stated definition), and 240 remaining project
+leaves. All of Chapter IV has a 201-leaf fine roadmap with
 two exact Mathlib results, plus five reactivated earlier-exercise prerequisites.
 All of Chapter V has a 230-leaf fine roadmap with one exact Mathlib result,
 plus two reactivated III.7 prerequisites, one II.8 prerequisite, two I.5

@@ -1,11 +1,11 @@
 ---
 article_id: af_df471aad9bbb8883f7e475b7
-declaration: definition
+declaration: abbrev
 origin: cited
 source_units: [chapter-ii-sections-6-7, chapter-i-section-8-decomposed-previews]
 statement: formalized
 proof: formalized
-lean: AlgebraicGeometry.Scheme.PrimeDivisor AlgebraicGeometry.Scheme.PrimeDivisor.irreducibleClosed AlgebraicGeometry.Scheme.primeDivisorEquivIrreducibleClosed AlgebraicGeometry.Scheme.weilDivisorAddSubgroup AlgebraicGeometry.Scheme.WeilDivisor AlgebraicGeometry.Scheme.WeilDivisor.IsEffective AlgebraicGeometry.Scheme.weilDivisorAddEquivFinsupp AlgebraicGeometry.Scheme.locallyFiniteSupport_iff_finite AlgebraicGeometry.Scheme.WeilDivisor.support_finite AlgebraicGeometry.Scheme.WeilDivisor.isEffective_iff
+lean: AlgebraicGeometry.Scheme.PrimeDivisor AlgebraicGeometry.Scheme.WeilDivisor
 ---
 
 # The Weil divisor group

@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-ii-sections-6-7]
 statement: formalized
 proof: formalized
-lean: Hartshorne.maximalIdealToCotangent Hartshorne.localRingHom_surjective_of_residueField_bijective_of_cotangent_surjective
+lean: Hartshorne.localRingHom_surjective_of_residueField_bijective_of_cotangent_surjective
 ---
 
 # A cotangent criterion for surjectivity of a local map

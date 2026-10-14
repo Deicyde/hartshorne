@@ -3,7 +3,6 @@ article_id: af_702716c82479811e1a71b787
 declaration: natural transformation
 origin: cited
 source_units: [chapter-iii-sections-11-12]
-not_ready: true
 ---
 
 # The formal-functions comparison map
@@ -35,9 +34,9 @@ makes no isomorphism claim.
   affine thickening with its module of global sections.
 - Finite-module completion as the inverse limit of maximal-ideal quotients.
 
-The existing higher-direct-image base-change-map node is not ready and pinned
-Mathlib has no replacement module-sheaf natural transformation. That missing
-representation determines this leaf's `not_ready` status.
+The higher-direct-image base-change-map dependency remains a representation
+root: pinned Mathlib has no replacement module-sheaf natural transformation.
+This leaf inherits that blockage instead of duplicating a `not_ready` root.
 
 ## Sources
 

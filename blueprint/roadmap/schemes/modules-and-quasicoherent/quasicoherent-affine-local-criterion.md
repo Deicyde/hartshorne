@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-ii-section-5]
 statement: formalized
 proof: formalized
-lean: Hartshorne.HasAffineTildeCover Hartshorne.IsTildeOnEveryAffineOpen Hartshorne.quasicoherent_affine_local_tfae
+lean: Hartshorne.quasicoherent_affine_local_tfae
 ---
 
 # The affine-local criterion for quasi-coherence

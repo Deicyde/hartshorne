@@ -17,7 +17,7 @@ than proving it in V.1.
 
 ## Depends on
 
-- [The surface Noether formula from Hirzebruch–Riemann–Roch](../../prerequisites/surface-noether-formula-hrr.md)
+- [Hirzebruch–Riemann–Roch for surfaces](../../prerequisites/surface-noether-formula-hrr.md)
 
 ## Sources
 

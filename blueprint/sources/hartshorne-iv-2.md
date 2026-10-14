@@ -142,6 +142,18 @@ ramification divisor defined above is unavailable.
 
 No exercise leaves are created in the IV.2 running-text chapter.
 
+### Adopted-exercise result map
+
+| Source claim | Roadmap article |
+|---|---|
+| Exercise 2.2(a), canonical genus-two double cover | `curves/adopted-exercises/genus-two-canonical-double-cover.md` |
+| Exercise 2.2(b), six-point quadratic cover | `curves/adopted-exercises/genus-two-double-cover-from-six-points.md` |
+| Exercise 2.2, branch-triple moduli description | `curves/adopted-exercises/genus-two-moduli-branch-triples.md` |
+| Exercise 2.3(a), Gauss pencil and ramification | `curves/adopted-exercises/plane-curve-gauss-ramification.md` |
+| Exercise 2.3(e),(g), flex count and cubic conclusion | `curves/adopted-exercises/plane-curve-inflection-count.md` |
+| Exercise 2.6(a), determinant formula for divisor pushforward | `curves/adopted-exercises/finite-curve-divisor-pushforward-determinant.md` |
+| Exercise 2.6(b), descent to Picard groups | `curves/adopted-exercises/finite-curve-divisor-pushforward-pic.md` |
+
 ## External proof sources
 
 - Stacks Project §53.12, tag `0C1B`, covers Riemann–Hurwitz. Exact useful

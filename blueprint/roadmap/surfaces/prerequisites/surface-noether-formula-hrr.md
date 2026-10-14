@@ -5,7 +5,7 @@ origin: bridged
 source_units: [chapter-v-section-1]
 ---
 
-# Hirzebruch–Riemann–Roch and the surface Noether formula
+# Hirzebruch–Riemann–Roch for surfaces
 
 For a nonsingular projective variety `X` and a finite locally free sheaf `E`,
 Hirzebruch–Riemann–Roch states
@@ -14,11 +14,7 @@ Hirzebruch–Riemann–Roch states
 
 For a Chapter-V surface this specializes to
 
-`chi(O_X(D)) = (D.(D-K))/2 + (K^2+c_2(X))/12`,
-
-and hence to the Noether formula
-
-`12*(1+p_a(X))=K^2+c_2(X)`.
+`chi(O_X(D)) = (D.(D-K))/2 + (K^2+c_2(X))/12`.
 
 This is the surface specialization of the general Appendix A theorem; it is
 derivatively blocked until that HRR source root is ready.

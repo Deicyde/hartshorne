@@ -6,8 +6,11 @@ article_id: af_ee3cd342530f09a802737848
 
 Hartshorne Appendix A outlines cycles and Chow groups, the intersection
 product, Chern classes, positivity criteria, and Riemann–Roch theorems. The
-fine roadmap has 72 project leaves; claims for which Hartshorne supplies only
-an outline remain explicit proof-source obligations.
+fine roadmap has 72 project leaves: 70 live in this subtree, while two
+[cross-chapter comparison leaves](../intersection-comparisons/README.md) sit
+downstream of both Appendix A and the direct Chapter V surface theory. Claims
+for which Hartshorne supplies only an outline remain explicit proof-source
+obligations.
 
 - [Chow groups and the intersection product](chow/README.md)
 - [Chern classes](chern-classes/README.md)

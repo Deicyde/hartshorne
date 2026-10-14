@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-i-section-5-geometry]
 statement: formalized
 proof: formalized
-lean: Hartshorne.IsAffineNonsingularAt Hartshorne.IsAffineNonsingular Hartshorne.isAffineNonsingularAt_iff_of_dim_eq Hartshorne.isAffineNonsingularAt_iff_jacobianMatrix_rank Hartshorne.isAffineNonsingular_iff_of_dim_eq Hartshorne.IsAffineVariety.exists_dim_eq_natCast
+lean: Hartshorne.IsAffineNonsingularAt Hartshorne.IsAffineNonsingular
 ---
 
 # Nonsingular points of an affine variety

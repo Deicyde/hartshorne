@@ -1,11 +1,11 @@
 ---
 article_id: af_9c4d4fb277a1234fb29a6c06
-declaration: def
+declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.FiniteType Hartshorne.FiniteTypeOnEveryAffineTarget Hartshorne.finiteType_iff_everyAffineTarget
+lean: Hartshorne.finiteType_iff_everyAffineTarget
 ---
 
 # Morphisms of finite type

@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-iii-sections-1-4]
 statement: formalized
 proof: formalized
-lean: Hartshorne.idealPowerTorsionFunctor Hartshorne.localCohomology Hartshorne.localCohomologyObject Hartshorne.localCohomologyZeroIso
+lean: Hartshorne.idealPowerTorsionFunctor Hartshorne.localCohomology Hartshorne.localCohomologyZeroIso
 ---
 
 # Algebraic local cohomology as derived torsion

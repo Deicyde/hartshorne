@@ -5,7 +5,7 @@ origin: cited
 source_units: [chapter-ii-section-9]
 statement: formalized
 proof: formalized
-lean: Hartshorne.InverseSystem.IsMittagLeffler Hartshorne.InverseSystem.isMittagLeffler_of_surjective Hartshorne.InverseSystem.isMittagLeffler_of_isArtinian
+lean: Hartshorne.InverseSystem.IsMittagLeffler
 ---
 
 # Inverse systems and the Mittag–Leffler condition
