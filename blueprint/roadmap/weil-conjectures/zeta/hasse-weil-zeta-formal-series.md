@@ -3,6 +3,9 @@ article_id: af_ae0396b22ab3d4fbec5f6850
 declaration: def
 origin: cited
 source_units: [appendix-c-section-1]
+statement: formalized
+proof: formalized
+lean: Hartshorne.hasseWeilZetaLogSeries Hartshorne.hasseWeilZetaSeries
 ---
 
 # The Hasse–Weil zeta function as a formal power series

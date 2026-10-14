@@ -4,6 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.FiniteType
 import Hartshorne.Weil.FiniteFieldExtensionTower
+import Mathlib.RingTheory.PowerSeries.Exp
+import Mathlib.RingTheory.PowerSeries.Substitution
 
 /-!
 # Rational points of finite-type schemes over finite fields
@@ -119,5 +121,46 @@ noncomputable def pointCountSequence
     Nat.card
       ((Over.mk (Spec.map (CommRingCat.ofHom
         (algebraMap k (finiteFieldExtension k r))))) ⟶ Over.mk f)
+
+/-- The logarithm series whose formal exponential is the Hasse–Weil zeta
+series. Its coefficient in positive degree `r` is `N_r / r`. -/
+noncomputable def hasseWeilZetaLogSeries
+    (k : Type u) [Field k] [Finite k]
+    (X : Scheme.{u}) (f : X ⟶ Spec (.of k)) (hf : FiniteType f) :
+    PowerSeries ℚ :=
+  PowerSeries.mk fun n =>
+    if h : n = 0 then 0
+    else (pointCountSequence k X f hf ⟨n, Nat.pos_of_ne_zero h⟩ : ℚ) / n
+
+theorem hasseWeilZetaLogSeries_constantCoeff
+    (k : Type u) [Field k] [Finite k]
+    (X : Scheme.{u}) (f : X ⟶ Spec (.of k)) (hf : FiniteType f) :
+    MvPowerSeries.constantCoeff (hasseWeilZetaLogSeries k X f hf) = 0 := by
+  change PowerSeries.constantCoeff (hasseWeilZetaLogSeries k X f hf) = 0
+  rw [hasseWeilZetaLogSeries, PowerSeries.constantCoeff_mk]
+  simp
+
+/-- The Hasse–Weil zeta function as a rational formal power series,
+`exp (∑_{r ≥ 1} N_r X^r / r)`. This definition does not assert rationality. -/
+noncomputable def hasseWeilZetaSeries
+    (k : Type u) [Field k] [Finite k]
+    (X : Scheme.{u}) (f : X ⟶ Spec (.of k)) (hf : FiniteType f) :
+    PowerSeries ℚ :=
+  (PowerSeries.exp ℚ).subst (hasseWeilZetaLogSeries k X f hf)
+
+/-- The Hasse–Weil zeta series has constant coefficient one. -/
+theorem hasseWeilZetaSeries_constantCoeff
+    (k : Type u) [Field k] [Finite k]
+    (X : Scheme.{u}) (f : X ⟶ Spec (.of k)) (hf : FiniteType f) :
+    PowerSeries.constantCoeff (hasseWeilZetaSeries k X f hf) = 1 := by
+  rw [hasseWeilZetaSeries]
+  change MvPowerSeries.constantCoeff
+    ((PowerSeries.exp ℚ).subst (hasseWeilZetaLogSeries k X f hf)) = 1
+  rw [PowerSeries.constantCoeff_subst
+    (PowerSeries.HasSubst.of_constantCoeff_zero'
+      (hasseWeilZetaLogSeries_constantCoeff k X f hf))]
+  simp only [map_pow, hasseWeilZetaLogSeries_constantCoeff]
+  rw [finsum_eq_single _ 0 (fun d hd => by simp [hd])]
+  simp
 
 end Hartshorne
