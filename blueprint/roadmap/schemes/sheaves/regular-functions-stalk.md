@@ -1,11 +1,11 @@
 ---
 article_id: af_137c79182a944202199147a5
-declaration: def
+declaration: theorem
 origin: cited
 source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
-lean: Hartshorne.Variety.regularSheafStalkEquivLocalRing
+lean: Hartshorne.Variety.exists_regularSheafStalkEquivLocalRing
 ---
 
 # The regular-functions stalk is the local ring

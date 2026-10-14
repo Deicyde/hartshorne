@@ -130,4 +130,17 @@ theorem regularSheafStalkEquivLocalRing_germ (U : Opens X.carrier) (hPU : P ∈ 
   rw [e.apply_symm_apply]
   rfl
 
+/-- **Hartshorne II.1, Example 1.0.1.** There is a ring equivalence from the
+categorical stalk of regular functions to the quotient-of-germs local ring,
+and it sends every categorical germ to its quotient representative. -/
+theorem exists_regularSheafStalkEquivLocalRing :
+    ∃ e : X.regularSheaf.presheaf.stalk P ≃+* X.LocalRingAt P,
+      ∀ (U : Opens X.carrier) (hPU : P ∈ U)
+        (s : X.regularSheaf.presheaf.obj (op U)),
+        e (X.regularSheaf.presheaf.germ U P hPU s) =
+          Quotient.mk (X.germSetoid P)
+            ({ U := U, mem_U := hPU, toFun := s.1, regular := s.2 } : X.GermRep P) := by
+  refine ⟨regularSheafStalkEquivLocalRing X P, ?_⟩
+  exact regularSheafStalkEquivLocalRing_germ X P
+
 end Hartshorne.Variety
