@@ -14,10 +14,8 @@ The contravariant function-field functor gives an equivalence
 
 `(ProjectiveNonsingularCurveCat k)ᵒᵖ ≌ OneDimensionalFunctionFieldCat k`.
 
-The sole main declaration is formalized as
-`Hartshorne.projectiveCurveFunctionFieldEquivalence`.  It is the composite of
-the opposite of the projective/quasi-projective comparison with the
-quasi-projective-curve/function-field equivalence.
+It is the composite of the opposite of the projective/quasi-projective
+comparison with the quasi-projective-curve/function-field equivalence.
 
 Contravariance is part of the type: a field homomorphism `K₂ → K₁` gives a
 map `C_{K₁} → C_{K₂}`.  Its forward functor is the pullback on function

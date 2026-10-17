@@ -39,30 +39,6 @@ two representatives agree on the overlap of their domains, which is dense in
 each, so each image lies in the closure of the other and the two closures agree.
 No separatedness is used.
 
-## Status
-
-The definition, the equivalence relation and dominance are formalized.
-
-Two pieces of infrastructure came first. An open subset of a variety is a
-variety (`Variety.restrict`), which Hartshorne asserts without comment and uses
-in every proof of the section; regularity on it is *defined* by transport along
-the identification of `V ⊆ ↥U` with its reading in `X`, so all four variety
-axioms are transports of the corresponding axioms for `X`. And separatedness is
-named as a property (`Variety.IsSeparated`) rather than carried as a
-quasi-projective presentation, so rational maps are defined once for any
-separated target; Lemma 4.1 says every quasi-projective variety is separated,
-hence every variety in Hartshorne's sense.
-
-Dominance is defined on representatives and shown independent of the choice
-(`RatMapRep.isDominant_congr`), which is the "for some, equivalently every" in
-the definition below. It does not need separatedness — two equivalent
-representatives agree on the overlap of their domains, which is dense in each,
-so each image lands in the closure of the other.
-
-Composition and the resulting category of varieties with dominant rational maps
-are tracked separately in
-[Composition of dominant rational maps](rational-map-composition.md).
-
 ## Depends on
 
 - [Morphisms agreeing on an open set](morphism-agreement.md)

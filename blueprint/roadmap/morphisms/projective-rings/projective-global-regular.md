@@ -22,32 +22,6 @@ That `𝒪(Y) = k` is the structural reason projective varieties need sheaf
 cohomology rather than global functions, and it is the motivation Hartshorne
 gives for Chapters II and III.
 
-## Status
-
-Independent of everything the other two parts needed. The argument has no affine
-analogue and no reduction to one chart: it uses the whole affine cover at once,
-and the finiteness it turns on is a statement about the graded pieces of `S(Y)`
-rather than about germs or fractions.
-
-The completed proof composes the ingredients below into
-`Hartshorne.exists_const_eq_globalRegular`.
-
-**The integrality core** and the finiteness it consumes are
-[their own node](stable-subspace.md): an element stabilising a nonzero
-finite-dimensional subspace is integral, hence constant over an algebraically
-closed field, and each graded piece of `S(Y)` is finite-dimensional.
-
-**The common home.** A global regular function and the graded pieces of `S(Y)`
-have nothing to do with each other until both sit inside `K(Y)`, so `𝒪(X)` has
-to embed in `K(X)` over the abstract structure; that too is
-[its own node](../global-functions/global-regular-in-function-field.md), along with the
-compatibilities that make readings on different charts comparable.
-
-**The chart reading** and **the degree bound** are each
-[their](chart-reading.md) [own](degree-bound.md) node: a global regular function
-is a ratio of forms on each chart that meets `Y`, and once it is, a large enough
-graded piece of `S(Y)` is carried into itself.
-
 ## Why the reading has to be pointwise
 
 The first attempt at the assembly failed, and the failure is worth recording,

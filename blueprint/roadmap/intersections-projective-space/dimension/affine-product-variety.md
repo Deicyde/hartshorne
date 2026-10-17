@@ -13,8 +13,7 @@ lean: Hartshorne.isAffineVariety_affineProduct
 For finite coordinate types `σ` and `τ`, define `affineProduct X Y` inside
 affine space on `σ ⊕ τ` by requiring its two coordinate restrictions to lie in
 `X` and `Y`.  If `X` and `Y` are affine varieties over an algebraically closed
-field, then `affineProduct X Y` is an affine variety.  The sole main
-declaration is planned as `Hartshorne.isAffineVariety_affineProduct`.
+field, then `affineProduct X Y` is an affine variety.
 
 This is Exercise I.3.15(a), adopted because Proposition 7.1 applies it to
 `Y × Z ⊆ 𝔸²ⁿ`.  The topology is the one induced from affine space, not the

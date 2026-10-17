@@ -41,18 +41,6 @@ a nowhere-zero regular function has a regular reciprocal, obtained by exchanging
 numerator and denominator, and the set where a regular function is nonzero is
 open, which is Lemma 3.1 applied to the pair `(f, 0)`.
 
-## The same, for an arbitrary variety
-
-Theorem 3.4 needs this for a projective `Y`, so it is proved again over the
-bundled `Variety` (`Hartshorne.Variety.instIsLocalRingLocalRingAt`).
-
-The two supporting facts that cost work in the affine case — a nowhere-zero
-regular function has a regular reciprocal, and the set where a regular function
-is nonzero is open — are `regular_div` and `isClosed_zeroLocus`, both fields of
-`Variety`. So the abstract proof really is Hartshorne's one line, with the
-polynomial arguments removed rather than repeated. That is the third time the
-fields Lemma 3.6 forced have paid for themselves.
-
 ## Depends on
 
 - [The local ring at a point](local-ring.md)

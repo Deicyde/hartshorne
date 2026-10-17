@@ -25,18 +25,7 @@ extracts leading coefficients and intersection multiplicities.
 - [Degree and Bézout](bezout/README.md) — Proposition 7.6, hypersurface
   intersection multiplicity, Theorem 7.7, Corollary 7.8, and Remark 7.8.2.
 
-## Representation and source boundary
-
-Polynomial rings are regraded over `ℤ`, with negative pieces zero, so the
-source's twist `M(l)ₐ = Mₐ₊ₗ` is represented literally. Dimension inequalities
-use additive, subtraction-free statements in `WithBot ℕ∞`; localized lengths
-remain `ℕ∞` until their finiteness is proved.
-
-Pinned Mathlib contains Krull's height theorem, ungraded prime filtrations,
-associated-prime localization, module length, homogeneous submodules, and
-rational generating-function Hilbert polynomials. It explicitly lacks Hilbert
-polynomials of finite graded modules and has no exact result corresponding to
-Proposition 7.1, Theorem 7.2, Theorem 7.7, or Corollary 7.8.
+## Source boundary
 
 Remark 7.8.1, comparing homogeneous and local intersection multiplicities, is
 deferred because its local definition comes from unadopted Exercise 5.4.

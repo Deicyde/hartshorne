@@ -14,9 +14,7 @@ Let `p` be a homogeneous prime ideal of `S = k[x₀,…,xₙ]` and let
 `l : ℤ`. There is a unique numerical polynomial `P ∈ ℚ[z]` whose value at
 every sufficiently large integer `d` is the Hilbert function of `(S/p)(l)`.
 If `Z(p)` is empty, then `P = 0`. If `projDim Z(p) = r`, then `P ≠ 0`,
-`P.natDegree = r`, and its leading coefficient is positive. The sole main
-declaration is planned as
-`Hartshorne.existsUnique_hilbertPolynomial_primeQuotient`.
+`P.natDegree = r`, and its leading coefficient is positive.
 
 Apply Hilbert–Serre to the finite graded module `(S/p)(l)`. Twisting does not
 change its annihilator, so the homogeneous ideal correspondence identifies its

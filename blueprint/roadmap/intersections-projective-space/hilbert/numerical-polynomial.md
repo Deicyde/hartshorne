@@ -11,8 +11,7 @@ lean: Hartshorne.IsNumericalPolynomial
 # Numerical polynomials
 
 A polynomial `P ∈ ℚ[z]` is numerical when `P(n)` is an integer for every
-sufficiently large integer `n`. The sole main declaration is planned as
-`Hartshorne.IsNumericalPolynomial`.
+sufficiently large integer `n`.
 
 Represent eventuality with the `atTop` filter on `ℤ`, and represent
 integer-valuedness by the existence of `m : ℤ` whose image in `ℚ` is the

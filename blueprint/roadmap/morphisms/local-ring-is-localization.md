@@ -28,17 +28,6 @@ a germ is an equivalence class for "agree on the whole overlap", and a global
 polynomial function with zero germ has domain all of `Y`, so it is zero
 everywhere on the nose.
 
-## What this does and does not give
-
-`dim 𝒪_P = height 𝔪_P` is then free, since Mathlib computes the dimension of a
-localisation at a prime as that prime's height
-(`IsLocalization.AtPrime.ringKrullDim_eq_height`).
-
-It is split from [the rest of 3.2(c) and (d)](affine-variety-rings.md) because
-the two halves have different obstructions: this one needs no dimension theory
-at all, while `height 𝔪_P = dim Y` needs
-[the dimension formula](../affine-varieties/dim-formula-catenary.md).
-
 ## Depends on
 
 - [The local ring at a point](local-ring.md)

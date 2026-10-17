@@ -39,13 +39,6 @@ open map and preimages along open maps commute with closure. Proposition 1.10
 says those two have the same dimension, and the previous node identifies the
 second with `dim Ȳ`.
 
-Proposition 1.10 had been stated for an ambient space `𝔸ᵐ` indexed by `Fin m`;
-the chart variables are indexed by `{j : σ // j ≠ i}` instead, so it was
-restated over an arbitrary finite index type. The index type has to sit in
-universe zero for the dimension formula, whose ring and base field must share a
-universe — the same restriction every other dimension result in the chapter
-carries.
-
 ## Depends on
 
 - [Projective and quasi-projective varieties](projective-variety.md)

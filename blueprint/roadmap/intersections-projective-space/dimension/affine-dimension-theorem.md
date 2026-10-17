@@ -15,7 +15,6 @@ Let `Y,Z ⊆ 𝔸^σ` be affine varieties and let `W` be an irreducible componen
 
 `dim Y + dim Z ≤ dim W + Nat.card σ`.
 
-The sole main declaration is planned as `Hartshorne.affine_dimension_theorem`.
 For `σ = Fin n` and natural dimensions `r,s,t`, this is exactly the
 subtraction-free form `r + s ≤ t + n` of Proposition 7.1's
 `t ≥ r + s - n`.

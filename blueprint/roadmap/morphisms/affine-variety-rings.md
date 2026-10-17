@@ -31,23 +31,6 @@ Together with the first two parts this is the main theorem of the section: the
 coordinate ring already knows everything about an affine variety, and that is
 what makes the equivalence of categories at the end of the chapter possible.
 
-## Status
-
-Complete. The localisation clause of (c) is
-[its own node](local-ring-is-localization.md), together with
-`dim 𝒪_P = height 𝔪_P`, and part (d) is
-[another](function-field-is-fraction-field.md).
-
-The clause that stayed open longest was `height 𝔪_P = dim Y`, which is
-[the dimension formula](../affine-varieties/dim-formula-catenary.md) applied to
-a maximal ideal: the quotient by a maximal ideal is a field, so it contributes
-nothing to the formula and the height absorbs the whole dimension. Proposition
-1.7 then turns `dim A(Y)` into `dim Y`.
-
-That the last piece of §3 to fall was a clause of Theorem 1.8A, quoted by
-Hartshorne without proof, is worth noting: the geometry of the section was
-finished well before the commutative algebra it rests on.
-
 ## Depends on
 
 - [The local ring at a point](local-ring.md)

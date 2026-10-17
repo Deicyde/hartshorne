@@ -12,8 +12,7 @@ lean: Hartshorne.ValuationSpace.existsUnique_projective_extension
 
 Let `X` be an abstract nonsingular curve, `P ∈ X`, and `Y` a projective
 variety.  Every morphism `X \ {P} → Y` extends to a unique morphism `X → Y`.
-This is Proposition 6.8.  The sole main declaration is
-`Hartshorne.ValuationSpace.existsUnique_projective_extension`.
+This is Proposition 6.8.
 
 The proof also establishes simultaneous extension from an arbitrary
 nonempty open subset, which is what Theorem 6.9 consumes, but the public

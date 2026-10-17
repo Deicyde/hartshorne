@@ -11,8 +11,7 @@ lean: Hartshorne.IsQuasiProjVariety.exists_nonsingular_projective_open_model
 # Completion of a nonsingular curve
 
 Every nonsingular quasi-projective curve is isomorphic to an open subcurve of
-a nonsingular projective curve.  The sole main declaration is formalized as
-`Hartshorne.IsQuasiProjVariety.exists_nonsingular_projective_open_model`.
+a nonsingular projective curve.
 
 This is the second assertion of Corollary 6.10.  Proposition 6.7 identifies
 the original curve with an open of its valuation curve, and Theorem 6.9
