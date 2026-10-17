@@ -102,4 +102,13 @@ theorem affineSpace_smooth
   let _ := affineSpace_smoothOfRelativeDimension S ι
   exact SmoothOfRelativeDimension.smooth (Nat.card ι) _
 
+/-- **Hartshorne III.10, Example 10.0.1.** Affine space over a scheme of finite type over a
+field is smooth of relative dimension equal to the number of coordinates. -/
+theorem affineSpace_smoothOfRelativeDimension_finiteTypeOverField
+    (k : Type u) [Field k] (Y : Over (Spec (CommRingCat.of k)))
+    (hY : LocallyOfFiniteType Y.hom ∧ QuasiCompact Y.hom) (n : ℕ) :
+    SmoothOfRelativeDimension n (𝔸(ULift.{u} (Fin n); Y.left) ↘ Y.left) := by
+  simpa only [Nat.card_ulift, Nat.card_fin] using
+    (affineSpace_smoothOfRelativeDimension Y.left (ULift.{u} (Fin n)))
+
 end Hartshorne
