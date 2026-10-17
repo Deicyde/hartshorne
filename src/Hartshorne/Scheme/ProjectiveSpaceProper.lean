@@ -76,4 +76,14 @@ theorem projectiveSpaceOverSchemeProjection_isProper (n : ℕ) (Y : Scheme.{u}) 
     projectiveSpaceOverIntegersMap_isProper n
   infer_instance
 
+/-- A projective morphism of arbitrary schemes is proper, strengthening the first assertion of
+Hartshorne II.4.9. -/
+theorem Projective.isProper {X Y : Scheme.{u}} {f : X ⟶ Y} (hf : Projective f) :
+    IsProper f := by
+  obtain ⟨n, i, hi, rfl⟩ := hf
+  let _ : IsClosedImmersion i := hi
+  let _ : IsProper (projectiveSpaceOverSchemeProjection n Y) :=
+    projectiveSpaceOverSchemeProjection_isProper n Y
+  infer_instance
+
 end Hartshorne
