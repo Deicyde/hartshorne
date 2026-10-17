@@ -226,9 +226,11 @@ class.
 ## External proof sources and unresolved obligations
 
 - The scheme differential construction and sequences are covered by the
-  Stacks Project, §29.33, tag `01UM`; exact useful tags are `08S2` (diagonal
-  conormal), `01UX` (transitivity), `01V0` (base change), `01V1` (products),
-  and `01UZ` (immersion conormal).
+  Stacks Project, §§29.32–29.33, tags `01R1`–`01R3` (the conormal sheaf of an
+  immersion), `01KJ` (the diagonal is an immersion), and `01UM`; exact useful
+  differential tags are `08S2` (diagonal conormal), `01UX` (transitivity),
+  `01V0` (base change), `01V1` (products), and `01UZ` (immersion conormal
+  sequence).
 - The field-differential dimension theorem is Matsumura [2], Theorem 59,
   p.191, as cited by Hartshorne.
 - Localization of regular local rings is Stacks tag `0AFS`, matching

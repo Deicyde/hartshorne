@@ -13,6 +13,10 @@ comparison theorems.
 ## Differential sheaves
 
 - [The relative differential sheaf](relative-differentials.md)
+- [The universal property of the relative differential sheaf](relative-differentials-universal.md)
+- [The conormal sheaf of an immersion](immersion-conormal-sheaf.md)
+- [The conormal sheaf is independent of the closed neighbourhood](immersion-conormal-sheaf-independence.md)
+- [Relative differentials are the conormal sheaf of the diagonal](relative-differentials-diagonal-conormal.md)
 - [Differentials on affine schemes](affine-relative-differentials.md)
 - [Quasi-coherence and coherence of differentials](relative-differentials-quasicoherent.md)
 - [Base change for differential sheaves](relative-differentials-base-change.md)

@@ -66,19 +66,19 @@ hypothesis on the function field.
 Apart from the regularity-under-completion clause of Theorem I.5.4A used in
 V.5, the remaining completion, Cohen-structure, and analytic-isomorphism
 material later in §I.5 is deferred. Section I.7 has a fine DAG, and §I.8 has a
-claim-by-claim survey disposition. Chapter II has a 444-leaf core fine
-roadmap: 103 exact pinned-Mathlib leaves, 73 locally complete project leaves
-(68 proof-marked and five stated definitions or classes), and 268 remaining
+claim-by-claim survey disposition. Chapter II has a 450-leaf core fine
+roadmap: 103 exact pinned-Mathlib leaves, 75 locally complete project leaves
+(70 proof-marked and five stated definitions or classes), and 272 remaining
 project leaves. Two additional unformalized Chapter-II source leaves are
-reactivated downstream, so coverage links 446 in total. Chapter III has a
-288-leaf fine roadmap: 20 exact Mathlib leaves, 28 locally complete project
-leaves (27 proof-marked and one stated definition), and 240 remaining project
+reactivated downstream, so coverage links 452 in total. Chapter III has a
+291-leaf fine roadmap: 20 exact Mathlib leaves, 28 locally complete project
+leaves (27 proof-marked and one stated definition), and 243 remaining project
 leaves. All of Chapter IV has a 201-leaf fine roadmap with
 two exact Mathlib results, plus five reactivated earlier-exercise prerequisites.
 All of Chapter V has a 230-leaf fine roadmap with one exact Mathlib result,
 plus two reactivated III.7 prerequisites, one II.8 prerequisite, two I.5
 prerequisites, and one Appendix A HRR prerequisite. Appendix A has a 72-leaf
-fine roadmap, Appendix B a 69-leaf fine roadmap, and Appendix C a 69-leaf fine
+fine roadmap, Appendix B a 69-leaf fine roadmap, and Appendix C a 71-leaf fine
 roadmap with one exact pinned-Mathlib foundation. Reference apparatus,
 Appendix C's history and terminal exercises, and already-dispositioned
 non-target material remain out of scope.

@@ -1,14 +1,14 @@
 ---
 article_id: af_96e5110c49ccdf5d1fd45eac
 declaration: theorem
-origin: cited
+origin: bridged
 source_units: [chapter-iii-section-10]
 statement: formalized
 proof: formalized
 lean: Hartshorne.openImmersion_smoothOfRelativeDimension_zero Hartshorne.smoothOfRelativeDimension_baseChange Hartshorne.smoothOfRelativeDimension_comp Hartshorne.smoothOfRelativeDimension_product
 ---
 
-# Smooth relative-dimension calculus
+# Smooth relative-dimension calculus over arbitrary schemes
 
 Open immersions are smooth of relative dimension zero. Smoothness of relative
 dimension `n` is preserved by arbitrary base change. If `f` and `g` are smooth
@@ -30,4 +30,4 @@ declarations and is not itself an exact upstream theorem.
 
 ## Sources
 
-- [Hartshorne III.10, Proposition 10.1, pp.268–269](../../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)
+- [Modern arbitrary-base strengthening of Hartshorne III.10, Proposition 10.1, pp.268–269](../../../../sources/hartshorne-iii-10.md#smoothness-and-geometric-fibres-pp268270)

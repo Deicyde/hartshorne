@@ -3,8 +3,6 @@ article_id: af_ae0396b22ab3d4fbec5f6850
 declaration: def
 origin: cited
 source_units: [appendix-c-section-1]
-statement: formalized
-proof: formalized
 lean: Hartshorne.hasseWeilZetaLogSeries Hartshorne.hasseWeilZetaSeries
 ---
 
@@ -14,9 +12,8 @@ For a finite-type `F_q`-scheme `X`, define
 
 `Z(X,t)=exp(sum_(r>=1) N_r(X)*t^r/r)`
 
-in `Q[[t]]`, using the formal exponential. The constant coefficient is one.
-This definition does not assert that the series is represented by a rational
-function.
+in `Q[[t]]`, using the formal exponential. This definition does not assert
+that the series is represented by a rational function.
 
 ## Depends on
 

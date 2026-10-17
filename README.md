@@ -11,16 +11,16 @@ Theorem I.5.4A used in V.5, the remaining completion, Cohen-structure, and
 analytic-isomorphism material later in §I.5 is deferred. The source-grounded
 fine-roadmap pass now reaches the end of Appendix C. Section I.7 has 50 fine
 targets, all formalized; the §I.8 survey has been dispositioned claim by claim;
-and Chapter II now has a 444-leaf core fine roadmap: 103 exact pinned-Mathlib
-leaves, 73 locally complete project leaves, and 268 remaining project leaves.
+and Chapter II now has a 450-leaf core fine roadmap: 103 exact pinned-Mathlib
+leaves, 75 locally complete project leaves, and 272 remaining project leaves.
 Two additional unformalized Chapter-II exercise leaves are reactivated in
 Chapters IV and V. Later-chapter roadmap targets are planned unless their own
 articles say otherwise. See the
 [coverage contract](blueprint/coverage/README.md) for exactly what is and is not
 claimed.
 
-All of Chapter III has a 288-leaf cohomology roadmap: 20 exact pinned-Mathlib
-leaves, 28 locally complete project leaves, and 240 remaining project leaves.
+All of Chapter III has a 291-leaf cohomology roadmap: 20 exact pinned-Mathlib
+leaves, 28 locally complete project leaves, and 243 remaining project leaves.
 It covers derived functors,
 sheaf and supported cohomology, affine vanishing, local cohomology, and Čech
 comparison, projective cohomology, Ext, dualizing sheaves, and Serre duality
@@ -49,9 +49,9 @@ Appendix B has a 69-leaf transcendental-methods roadmap covering
 analytification, GAGA, algebraicity, Kähler geometry, and Picard varieties.
 All are project targets with analytic/Hodge source roots recorded explicitly.
 
-Appendix C has a 69-leaf roadmap for finite-field zeta functions, the
+Appendix C has a 71-leaf roadmap for finite-field zeta functions, the
 étale–ℓ-adic interface, Frobenius trace formulas, and the Weil theorem package:
-one exact pinned-Mathlib foundation and 68 project targets, with sixteen leaves
+one exact pinned-Mathlib foundation and 70 project targets, with sixteen leaves
 explicitly blocked on a source or representation.
 
 **All 163 targets through Corollary I.6.12 are complete.** Of these, 159 are
@@ -108,15 +108,15 @@ theorem. All fifty leaves are formalized. It includes only the earlier
 exercises required by the running proofs; the optional generic-line exercise
 chain remains out of scope.
 
-The 444-leaf Chapter II core covers sheaves, spectra, schemes,
+The 450-leaf Chapter II core covers sheaves, spectra, schemes,
 projective spectra, the classical-variety comparison, first properties,
 subschemes, dimension, fibre products, separatedness, properness, projective
 morphisms, modules, divisors and Picard groups, linear systems, relative Proj,
 projective bundles, blowups, differentials, canonical sheaves, and lci geometry.
-Of those core leaves, 103 are exact pinned-Mathlib results, 73 are complete
-locally (68 proof-marked and five stated definitions or classes), and 268
+Of those core leaves, 103 are exact pinned-Mathlib results, 75 are complete
+locally (70 proof-marked and five stated definitions or classes), and 272
 remain. Exercises II.6.4 and II.8.2 add two unformalized downstream-reactivated
-Chapter-II source leaves, so the coverage contract links 446 in total.
+Chapter-II source leaves, so the coverage contract links 452 in total.
 
 **Site:** <https://deicyde.github.io/hartshorne/>
 

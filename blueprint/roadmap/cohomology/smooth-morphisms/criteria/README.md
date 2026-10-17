@@ -13,7 +13,8 @@ criterion from Exercise 10.3.
 - [Constant fibre dimension of relative differentials](relative-differentials-rank-of-smooth.md)
 - [Hartshorne's smoothness criterion](hartshorne-smoothness-criterion.md)
 - [Smoothness and regularity over an algebraically closed field](smooth-over-algebraically-closed-iff-regular.md)
-- [Smooth relative-dimension calculus](smooth-relative-dimension-calculus.md)
+- [Smooth relative-dimension calculus over arbitrary schemes](smooth-relative-dimension-calculus.md)
+- [Smooth relative-dimension calculus in Hartshorne's setting](smooth-relative-dimension-calculus-finite-type-over-field.md)
 - [Smoothness and geometrically regular fibres](smooth-iff-geometrically-regular-fibers.md)
 - [Étale, flat-unramified, and differential criteria](etale-flat-unramified-equivalences.md)
 

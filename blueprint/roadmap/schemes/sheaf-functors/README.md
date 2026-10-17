@@ -16,7 +16,9 @@ continuous map and with the adopted exercises used later in Chapter II.
 7. [The sheaf of local morphisms](sheaf-hom.md)
 8. [Closed extension by zero](closed-extension-by-zero.md)
 9. [Open extension by zero](open-extension-by-zero.md)
-10. [Gluing sheaves on an open cover](gluing-sheaves.md)
+10. [Open extension by zero is left adjoint to restriction](open-extension-by-zero-adjunction.md)
+11. [Restriction, stalks, and characterization of open extension by zero](open-extension-by-zero-properties.md)
+12. [Gluing sheaves on an open cover](gluing-sheaves.md)
 
 These nodes depend on the foundational material in
 [Sheaves: foundations and operations](../sheaves/README.md).

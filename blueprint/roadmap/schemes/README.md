@@ -13,12 +13,12 @@ coherent modules, divisors, Picard groups, linear systems, projective bundles,
 blowups, differentials, canonical sheaves, lci geometry, completions, formal
 schemes, and the normalization prerequisites used later in the book.
 
-The Chapter II core contains 444 leaves: 103 exact pinned-Mathlib leaves, 73
-locally complete project leaves (68 proof-marked and five stated definitions
-or classes), and 268 remaining project leaves. Two additional unformalized
+The Chapter II core contains 450 leaves: 103 exact pinned-Mathlib leaves, 75
+locally complete project leaves (70 proof-marked and five stated definitions
+or classes), and 272 remaining project leaves. Two additional unformalized
 Chapter-II source leaves are reactivated downstream—Exercise II.6.4 for
 Chapter IV and Exercise II.8.2 for Chapter V—so the coverage contract links
-446 Chapter-II-source-associated leaves in total.
+452 Chapter-II-source-associated leaves in total.
 
 The roadmap follows Mathlib's categorical representations rather than adding
 parallel foundations. Presheaves and sheaves are functors on opens, schemes are

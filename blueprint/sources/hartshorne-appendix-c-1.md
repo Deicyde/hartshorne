@@ -147,7 +147,9 @@ leaf in this package is an exact Mathlib result.
 | Finiteness of rational points | `weil-conjectures/zeta/finite-type-scheme-rational-points-finite.md` |
 | Point-count sequence | `weil-conjectures/zeta/point-count-sequence.md` |
 | Formal zeta series | `weil-conjectures/zeta/hasse-weil-zeta-formal-series.md` |
-| Isomorphism invariance | `weil-conjectures/zeta/zeta-isomorphism-invariant.md` |
+| Constant coefficient one (definition consequence) | `weil-conjectures/zeta/hasse-weil-zeta-constant-coefficient.md` |
+| Isomorphism invariance (definition consequence) | `weil-conjectures/zeta/zeta-isomorphism-invariant.md` |
+| Scheme-valued/classical projective-line point bridge | `weil-conjectures/zeta/projective-line-scheme-points.md` |
 | `P^1` point count | `weil-conjectures/zeta/projective-line-point-count.md` |
 | `P^1` zeta formula | `weil-conjectures/zeta/projective-line-zeta-function.md` |
 | Weil hypotheses | `weil-conjectures/weil/geometrically-connected-smooth-projective-convention.md` |

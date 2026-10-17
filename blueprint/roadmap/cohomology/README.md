@@ -9,9 +9,9 @@ cohomology as derived global sections, proving affine and Čech comparison
 theorems, computing projective-space cohomology, developing duality and
 families, smooth morphisms and Bertini, formal functions, semicontinuity, and
 base change. The fine roadmap covers all of Chapter III and the retained
-exercises through printed p.292: 288 leaves, of which 20 are exact
+exercises through printed p.292: 291 leaves, of which 20 are exact
 pinned-Mathlib results, 28 are locally complete project leaves (27
-proof-marked and one stated definition), and 240 are remaining project leaves.
+proof-marked and one stated definition), and 243 are remaining project leaves.
 
 The roadmap keeps three coefficient categories distinct: abelian sheaves,
 modules over the structure sheaf, and quasi-coherent modules. It also records

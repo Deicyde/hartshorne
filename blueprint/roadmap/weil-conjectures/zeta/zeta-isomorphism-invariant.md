@@ -1,7 +1,7 @@
 ---
 article_id: af_123ed946eb7e6b9d85dba656
 declaration: theorem
-origin: cited
+origin: bridged
 source_units: [appendix-c-section-1]
 statement: formalized
 proof: formalized
@@ -20,4 +20,4 @@ series.
 
 ## Sources
 
-- [Hartshorne Appendix C.1, point-count and zeta definitions, pp.449–450](../../../sources/hartshorne-appendix-c-1.md)
+- [Consequence of Hartshorne Appendix C.1's point-count and zeta definitions, pp.449–450](../../../sources/hartshorne-appendix-c-1.md#point-counts-and-the-formal-zeta-series-printed-pp449450)

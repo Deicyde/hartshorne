@@ -12,9 +12,11 @@ part of the definition.
 2. [Finiteness of rational points](finite-type-scheme-rational-points-finite.md)
 3. [The point-count sequence](point-count-sequence.md)
 4. [The formal Hasse–Weil zeta series](hasse-weil-zeta-formal-series.md)
-5. [Isomorphism invariance of zeta functions](zeta-isomorphism-invariant.md)
-6. [Point counts on the projective line](projective-line-point-count.md)
-7. [The zeta function of the projective line](projective-line-zeta-function.md)
+5. [The Hasse–Weil zeta series has constant coefficient one](hasse-weil-zeta-constant-coefficient.md)
+6. [Isomorphism invariance of zeta functions](zeta-isomorphism-invariant.md)
+7. [Scheme-valued points of the projective line](projective-line-scheme-points.md)
+8. [Point counts on the projective line](projective-line-point-count.md)
+9. [The zeta function of the projective line](projective-line-zeta-function.md)
 
 ## Sources
 

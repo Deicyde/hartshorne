@@ -9,14 +9,13 @@ source_units: [chapter-ii-section-8, chapter-i-section-8-decomposed-previews]
 
 For a scheme morphism `f : X → Y`, construct an `𝒪_X`-module `Ω[X/Y]` and a
 map of sheaves of abelian groups `d : 𝒪_X → Ω[X/Y]` satisfying the Leibniz
-rule, universal among derivations that vanish on the image of
-`f⁻¹𝒪_Y → 𝒪_X`.  The derivation is not an `𝒪_X`-linear morphism.
+rule and vanishing on the image of `f⁻¹𝒪_Y → 𝒪_X`. The derivation is not an
+`𝒪_X`-linear morphism.
 
-Use an affine-local construction and glue it, or construct the universal
-sheaf directly.  Prove the canonical comparison with the conormal sheaf of
-the diagonal `Δ : X → X ×_Y X`.  For a general morphism the diagonal is an
-immersion rather than necessarily a closed immersion, so this comparison must
-also prove independence of the open neighborhood in which `Δ` is closed.
+Construct the sheaf directly from the presheaf of relative differentials and
+sheafification. Its universal property and the comparison with Hartshorne's
+conormal-sheaf definition are recorded separately, so this definition does not
+presuppose a theory of conormal sheaves for arbitrary immersions.
 
 ## Depends on
 
@@ -27,11 +26,8 @@ also prove independence of the open neighborhood in which `Δ` is closed.
 
 ## Proof depends on
 
-- Gluing sheaves of modules and their morphisms over an affine-open basis.
-- The pinned presheaf-differentials API, whose general-morphism construction
-  is currently marked TODO, is only partial prior art.
-- Stacks Project, Lemma 29.33.7, tag `08S2`, for the general diagonal
-  conormal comparison and its independence of auxiliary choices.
+- The pinned `PresheafOfModules.DifferentialsConstruction.relativeDifferentials'`
+  construction followed by sheafification.
 
 ## Sources
 

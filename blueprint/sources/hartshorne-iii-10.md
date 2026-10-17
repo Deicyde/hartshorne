@@ -26,6 +26,12 @@ smooth affine charts. The roadmap adopts that implementation notion and
 requires an explicit equivalence with Hartshorne's three clauses. It does not
 silently treat the two definitions as definitional equalities.
 
+For affine space, projective space, and the relative-dimension calculus, the
+roadmap separates reusable arbitrary-base bridge theorems from cited
+corollaries in this section's fixed-field, finite-type setting. This prevents
+the stronger modern implementation statements from being attributed directly
+to Hartshorne's narrower standing convention.
+
 Proposition 10.1 proves smoothness of open immersions and stability under base
 change, composition, and products, with the stated relative dimensions.
 Theorem 10.2 characterizes a smooth morphism as a flat morphism whose

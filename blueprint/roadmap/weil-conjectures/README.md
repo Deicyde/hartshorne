@@ -9,8 +9,9 @@ finite field, states the Weil theorem package, lists the étale–ℓ-adic inter
 and derives rationality and the functional equation from Frobenius traces and
 Poincaré duality before quoting Deligne's weight theorem.
 
-The fine roadmap has 69 leaves: one exact pinned-Mathlib foundation and 68
-project targets. Sixteen leaves are explicitly marked not ready for a
+The fine roadmap has 71 leaves: one exact pinned-Mathlib foundation and 70
+project targets. Eight project leaves are complete locally, and sixteen leaves
+are explicitly marked not ready for a
 representation or proof source. In particular, Mathlib's pro-étale `Z_ℓ`
 construction is not treated
 as the missing comparison with classical `Q_ℓ` cohomology. Hartshorne's

@@ -12,8 +12,7 @@ dimension, and tangent formulations by explicit comparison theorems.
 ## Smoothness foundations
 
 - [Smoothness and étale criteria](criteria/README.md)
-- [Affine space is smooth](affine-space-smooth.md)
-- [Projective space is smooth](projective-space-smooth.md)
+- [Smooth affine and projective spaces](space-examples/README.md)
 
 ## Tangent and generic-smoothness criteria
 

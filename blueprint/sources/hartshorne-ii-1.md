@@ -115,6 +115,13 @@ original stalk.
 | 1.19(a,b) | Closed and open extension by zero and their stalks | 68 | Example 5.2.3, p. 111; formal schemes, p. 196 |
 | 1.22 | Compatible sheaves on an open cover glue uniquely | 69 | Reduced induced subschemes, p. 86; gluing morphisms, p. 88 |
 
+Exercise 1.19(b) supplies the open-extension construction, its restriction and
+stalk calculations, and its uniqueness claim. The roadmap makes the precise
+categorical reading explicit: a candidate sheaf carries a fixed restriction
+isomorphism `ρ : j^*G ≅ F`, and the unique isomorphism from `j_!F` must commute
+with `ρ`. A separate left-adjoint bridge supplies the universal property used
+to prove this source-stated characterization.
+
 ## Excluded and deferred exercises
 
 Exercises 1.1, 1.3(b), 1.5–1.7, 1.11, 1.13, 1.17, 1.19(c), and

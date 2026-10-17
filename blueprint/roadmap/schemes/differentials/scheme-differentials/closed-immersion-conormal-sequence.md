@@ -21,6 +21,7 @@ claim that its first map is injective.
 ## Depends on
 
 - [The relative differential sheaf](relative-differentials.md)
+- [The conormal sheaf of an immersion](immersion-conormal-sheaf.md)
 - [The conormal exact sequence](../kaehler-differentials/kahler-conormal-exact-sequence.md)
 - [Closed immersions and closed subschemes](../../subschemes-and-dimension/closed-immersions.md)
 - [Tensor products of module sheaves](../../modules-and-quasicoherent/module-tensor-product.md)
