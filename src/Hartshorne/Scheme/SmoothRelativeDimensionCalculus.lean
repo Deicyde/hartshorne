@@ -57,4 +57,51 @@ theorem smoothOfRelativeDimension_product
       (IsPullback.of_hasPullback f g) hf
   infer_instance
 
+/-- Hartshorne III.10.1(a), for schemes of finite type over a fixed field. -/
+theorem openImmersion_smoothOfRelativeDimension_zero_finiteTypeOverField
+    {k : Type u} [Field k] {X Y : Over (Spec (CommRingCat.of k))}
+    (hX : LocallyOfFiniteType X.hom ∧ QuasiCompact X.hom)
+    (hY : LocallyOfFiniteType Y.hom ∧ QuasiCompact Y.hom)
+    (f : X ⟶ Y) [IsOpenImmersion f.left] :
+    SmoothOfRelativeDimension 0 f.left :=
+  openImmersion_smoothOfRelativeDimension_zero f.left
+
+/-- Hartshorne III.10.1(b), for schemes of finite type over a fixed field. -/
+theorem smoothOfRelativeDimension_baseChange_finiteTypeOverField
+    {k : Type u} [Field k] {n : ℕ}
+    {X Y X' Y' : Over (Spec (CommRingCat.of k))}
+    (hX : LocallyOfFiniteType X.hom ∧ QuasiCompact X.hom)
+    (hY : LocallyOfFiniteType Y.hom ∧ QuasiCompact Y.hom)
+    (hX' : LocallyOfFiniteType X'.hom ∧ QuasiCompact X'.hom)
+    (hY' : LocallyOfFiniteType Y'.hom ∧ QuasiCompact Y'.hom)
+    {f : X ⟶ Y} {f' : X' ⟶ Y'} {i : X' ⟶ X} {j : Y' ⟶ Y}
+    (sq : IsPullback i.left f'.left f.left j.left)
+    [SmoothOfRelativeDimension n f.left] :
+    SmoothOfRelativeDimension n f'.left :=
+  smoothOfRelativeDimension_baseChange sq
+
+/-- Hartshorne III.10.1(c), for schemes of finite type over a fixed field. -/
+theorem smoothOfRelativeDimension_comp_finiteTypeOverField
+    {k : Type u} [Field k] {n m : ℕ}
+    {X Y Z : Over (Spec (CommRingCat.of k))}
+    (hX : LocallyOfFiniteType X.hom ∧ QuasiCompact X.hom)
+    (hY : LocallyOfFiniteType Y.hom ∧ QuasiCompact Y.hom)
+    (hZ : LocallyOfFiniteType Z.hom ∧ QuasiCompact Z.hom)
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    [SmoothOfRelativeDimension n f.left] [SmoothOfRelativeDimension m g.left] :
+    SmoothOfRelativeDimension (n + m) (f ≫ g).left :=
+  smoothOfRelativeDimension_comp f.left g.left
+
+/-- Hartshorne III.10.1(d), over a common scheme of finite type over a fixed field. -/
+theorem smoothOfRelativeDimension_product_finiteTypeOverField
+    {k : Type u} [Field k] {n m : ℕ}
+    {X Y S : Over (Spec (CommRingCat.of k))}
+    (hX : LocallyOfFiniteType X.hom ∧ QuasiCompact X.hom)
+    (hY : LocallyOfFiniteType Y.hom ∧ QuasiCompact Y.hom)
+    (hS : LocallyOfFiniteType S.hom ∧ QuasiCompact S.hom)
+    (f : X ⟶ S) (g : Y ⟶ S)
+    [SmoothOfRelativeDimension n f.left] [SmoothOfRelativeDimension m g.left] :
+    SmoothOfRelativeDimension (n + m) (pullback.fst f.left g.left ≫ f.left) :=
+  smoothOfRelativeDimension_product f.left g.left
+
 end Hartshorne
