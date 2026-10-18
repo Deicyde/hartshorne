@@ -37,6 +37,7 @@ import Hartshorne.Scheme.SchemeVarietyCategory
 import Hartshorne.Scheme.ImageSubsheaf
 import Hartshorne.Scheme.RestrictionStalk
 import Hartshorne.Scheme.ClosedExtensionByZero
+import Hartshorne.Scheme.OpenExtensionByZero
 import Hartshorne.Scheme.GenericCompletion
 import Hartshorne.Scheme.QuotientSheafStalks
 import Hartshorne.Scheme.TotalQuotientSheaf
