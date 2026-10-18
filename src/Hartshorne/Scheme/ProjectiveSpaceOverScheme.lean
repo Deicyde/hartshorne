@@ -358,4 +358,46 @@ end Projective
 
 end ProjectiveMorphism
 
+/-- A morphism is quasi-projective when it factors as an open immersion followed by a
+projective morphism. -/
+def QuasiProjective : MorphismProperty Scheme.{u} :=
+  fun X Y f => ∃ (Z : Scheme.{u}) (j : X ⟶ Z) (g : Z ⟶ Y),
+    IsOpenImmersion j ∧ Projective g ∧ j ≫ g = f
+
+namespace QuasiProjective
+
+/-- Construct a quasi-projective morphism from an open immersion followed by a projective
+morphism. -/
+theorem mk {X Y Z : Scheme.{u}} {f : X ⟶ Y} (j : X ⟶ Z) (g : Z ⟶ Y)
+    [IsOpenImmersion j] (hg : Projective g) (h : j ≫ g = f) : QuasiProjective f :=
+  ⟨Z, j, g, inferInstance, hg, h⟩
+
+/-- Every projective morphism is quasi-projective via the identity open immersion. -/
+theorem of_projective {X Y : Scheme.{u}} {f : X ⟶ Y} (hf : Projective f) :
+    QuasiProjective f :=
+  mk (𝟙 X) f hf (Category.id_comp f)
+
+/-- Quasi-projectivity respects isomorphisms of arrows. -/
+instance respectsIso : MorphismProperty.RespectsIso
+    (QuasiProjective : MorphismProperty Scheme.{u}) := by
+  apply MorphismProperty.RespectsIso.mk
+  · intro X Y Z e f hf
+    obtain ⟨W, j, g, hj, hg, hfac⟩ := hf
+    let _ : IsOpenImmersion j := hj
+    exact mk (e.hom ≫ j) g hg (by rw [Category.assoc, hfac])
+  · intro X Y Z e f hf
+    obtain ⟨W, j, g, hj, hg, hfac⟩ := hf
+    let _ : IsOpenImmersion j := hj
+    have hg' : Projective (g ≫ e.hom) :=
+      MorphismProperty.RespectsIso.postcomp Projective e.hom g hg
+    exact mk j (g ≫ e.hom) hg' (by rw [← Category.assoc, hfac])
+
+/-- Arrow-isomorphic morphisms have equivalent quasi-projectivity. -/
+theorem arrow_iso_iff {W X Y Z : Scheme.{u}}
+    {f : W ⟶ X} {g : Y ⟶ Z} (e : Arrow.mk f ≅ Arrow.mk g) :
+    QuasiProjective f ↔ QuasiProjective g :=
+  MorphismProperty.arrow_mk_iso_iff QuasiProjective e
+
+end QuasiProjective
+
 end Hartshorne
