@@ -303,6 +303,7 @@ import Hartshorne.Intersection.PureProjectiveCurveDegree
 import Hartshorne.Intersection.ProjectiveHypersurfaceBezout
 import Hartshorne.Intersection.ReduciblePlaneCurveBezout
 import Hartshorne.Cohomology.GodementDiscontinuousSections
+import Hartshorne.Cohomology.ModuleSheavesEnoughInjectives
 import Hartshorne.Cohomology.OrderedCechComplex
 import Hartshorne.Cohomology.CechZeroGlobalSections
 import Hartshorne.Cohomology.AbelianPushforwardLeftExact

@@ -2,6 +2,9 @@
 article_id: af_572e68b826e8320afd8b7c41
 declaration: theorem
 origin: cited
+lean: Hartshorne.moduleSheaves_enoughInjectives
+statement: formalized
+proof: formalized
 source_units: [chapter-iii-sections-1-4]
 ---
 
