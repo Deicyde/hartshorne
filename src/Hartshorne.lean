@@ -306,6 +306,7 @@ import Hartshorne.Intersection.ReduciblePlaneCurveBezout
 import Hartshorne.Cohomology.GodementDiscontinuousSections
 import Hartshorne.Cohomology.NoetherianFilteredColimits
 import Hartshorne.Cohomology.ModuleSheavesEnoughInjectives
+import Hartshorne.Cohomology.ModuleSectionsRepresentable
 import Hartshorne.Cohomology.OrderedCechComplex
 import Hartshorne.Cohomology.CechZeroGlobalSections
 import Hartshorne.Cohomology.AbelianPushforwardLeftExact

@@ -1,6 +1,9 @@
 ---
 article_id: af_3aee8376bb8ad4560fb74e3e
 declaration: isomorphism
+lean: Hartshorne.moduleSectionsIso
+statement: formalized
+proof: formalized
 origin: cited
 source_units: [chapter-iii-sections-1-4]
 ---
