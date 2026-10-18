@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.ProjectiveSpaceOverScheme
+import Mathlib.AlgebraicGeometry.Noetherian
 import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Proper
 
 /-!
@@ -85,5 +86,24 @@ theorem Projective.isProper {X Y : Scheme.{u}} {f : X ⟶ Y} (hf : Projective f)
   let _ : IsProper (projectiveSpaceOverSchemeProjection n Y) :=
     projectiveSpaceOverSchemeProjection_isProper n Y
   infer_instance
+
+/-- A quasi-projective morphism to a locally Noetherian scheme is finite type and separated. -/
+theorem QuasiProjective.finiteType_and_isSeparated_of_isLocallyNoetherian
+    {X Y : Scheme.{u}} [IsLocallyNoetherian Y] {f : X ⟶ Y} (hf : QuasiProjective f) :
+    (LocallyOfFiniteType f ∧ QuasiCompact f) ∧ IsSeparated f := by
+  obtain ⟨Z, j, g, hj, hg, rfl⟩ := hf
+  let _ : IsOpenImmersion j := hj
+  let _ : IsProper g := Projective.isProper hg
+  let _ : IsLocallyNoetherian Z := LocallyOfFiniteType.isLocallyNoetherian g
+  exact ⟨⟨inferInstance, inferInstance⟩, inferInstance⟩
+
+/-- Hartshorne II.4.9: a quasi-projective morphism of Noetherian schemes is finite type
+and separated. -/
+theorem QuasiProjective.finiteType_and_isSeparated
+    {X Y : Scheme.{u}} [hX : IsNoetherian X] [hY : IsNoetherian Y]
+    {f : X ⟶ Y} (hf : QuasiProjective f) :
+    (LocallyOfFiniteType f ∧ QuasiCompact f) ∧ IsSeparated f := by
+  let _ : IsLocallyNoetherian Y := hY.toIsLocallyNoetherian
+  exact QuasiProjective.finiteType_and_isSeparated_of_isLocallyNoetherian hf
 
 end Hartshorne

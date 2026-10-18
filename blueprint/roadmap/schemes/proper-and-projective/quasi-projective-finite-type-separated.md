@@ -3,6 +3,9 @@ article_id: af_50efedaea918279cc0a904e9
 declaration: theorem
 origin: cited
 source_units: [chapter-ii-section-4]
+statement: formalized
+proof: formalized
+lean: Hartshorne.QuasiProjective.finiteType_and_isSeparated Hartshorne.QuasiProjective.finiteType_and_isSeparated_of_isLocallyNoetherian
 ---
 
 # Quasi-projective morphisms are finite type and separated
@@ -18,6 +21,10 @@ Composition gives both conclusions for `f`.
 
 Keep the Noetherian hypothesis visible: an arbitrary open immersion need not
 be quasi-compact, so Hartshorne's finite-type conclusion is not unconditional.
+
+The hypothesis that `X` is Noetherian is retained to match Hartshorne's source
+statement, although the separate generalization proves both conclusions for
+an arbitrary `X` over a locally Noetherian `Y`.
 
 ## Depends on
 
