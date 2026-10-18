@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.ProjectiveSpaceOverScheme
 import Mathlib.AlgebraicGeometry.Noetherian
 import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Proper
+import Mathlib.AlgebraicGeometry.ZariskisMainTheorem
 
 /-!
 # Properness of projective space
@@ -105,5 +106,22 @@ theorem QuasiProjective.finiteType_and_isSeparated
     (LocallyOfFiniteType f ∧ QuasiCompact f) ∧ IsSeparated f := by
   let _ : IsLocallyNoetherian Y := hY.toIsLocallyNoetherian
   exact QuasiProjective.finiteType_and_isSeparated_of_isLocallyNoetherian hf
+
+/-- A projective morphism of arbitrary schemes with finite point fibres is finite. -/
+theorem Projective.isFinite_of_finite_preimage_singleton
+    {X Y : Scheme.{u}} {f : X ⟶ Y} (hf : Projective f)
+    (hfin : ∀ y : Y, (f ⁻¹' {y}).Finite) : IsFinite f := by
+  let _ : IsProper f := Projective.isProper hf
+  let _ : LocallyQuasiFinite f :=
+    (locallyQuasiFinite_iff_finite_preimage_singleton (f := f)).mpr hfin
+  exact IsFinite.of_isProper_of_locallyQuasiFinite f
+
+/-- Hartshorne III.11, Exercise 11.2: a projective morphism of Noetherian schemes with
+finite fibres is finite. -/
+theorem Projective.isFinite_of_finite_fibres
+    {X Y : Scheme.{u}} [hX : IsNoetherian X] [hY : IsNoetherian Y]
+    {f : X ⟶ Y} (hf : Projective f)
+    (hfin : ∀ y : Y, (f ⁻¹' {y}).Finite) : IsFinite f := by
+  exact Projective.isFinite_of_finite_preimage_singleton hf hfin
 
 end Hartshorne
