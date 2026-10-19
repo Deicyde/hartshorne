@@ -3,6 +3,9 @@ article_id: af_813ed5a3017d80bd70095202
 declaration: theorem
 origin: bridged
 source_units: [chapter-ii-sections-1-3]
+lean: Hartshorne.openExtensionByZero_adjunction_canonical
+statement: formalized
+proof: formalized
 ---
 
 # Open extension by zero is left adjoint to restriction
