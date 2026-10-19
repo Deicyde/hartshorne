@@ -7,6 +7,7 @@ import Mathlib.Topology.Sheaves.AddCommGrpCat
 import Mathlib.CategoryTheory.Limits.FilteredColimitCommutesFiniteLimit
 import Mathlib.CategoryTheory.Limits.Preserves.FunctorCategory
 import Mathlib.Topology.Sheaves.SheafCondition.UniqueGluing
+import Mathlib.Topology.Sheaves.Flasque
 
 /-!
 # Filtered colimits on Noetherian spaces
@@ -198,5 +199,28 @@ theorem noetherianFilteredColimit_sections_isIso
   let : PreservesColimitsOfShape I (TopCat.Sheaf.forget AddCommGrpCat.{u} X ⋙
       (evaluation (Opens X)ᵒᵖ AddCommGrpCat.{u}).obj (op U)) := inferInstance
   infer_instance
+
+/-- Hartshorne III.2, Lemma 2.8: a filtered colimit of flasque abelian sheaves on a
+Noetherian space is flasque. -/
+theorem filteredColimit_isFlasque
+    (X : TopCat.{u}) [hX : NoetherianSpace X] {I : Type u} [SmallCategory I] [IsFiltered I]
+    (F : I ⥤ TopCat.Sheaf AddCommGrpCat.{u} X) (hF : ∀ i, (F.obj i).IsFlasque) :
+    (colimit F).IsFlasque := by
+  let G := F ⋙ TopCat.Sheaf.forget AddCommGrpCat.{u} X
+  let e : G.flip ⋙ colim ≅ (colimit F).obj :=
+    (colimitIsoFlipCompColim G).symm ≪≫ (noetherianFilteredColimitIso X I).app F
+  let _ (i : I) : (F.obj i).IsFlasque := hF i
+  refine ⟨?_⟩
+  intro U V r
+  let _ (i : I) : Epi ((G.flip.map r).app i) := by
+    change Epi ((F.obj i).obj.map r)
+    infer_instance
+  have : Epi ((G.flip ⋙ colim).map r) := by
+    change Epi (colimMap (G.flip.map r))
+    infer_instance
+  have : Epi (e.hom.app U ≫ (colimit F).obj.map r) := by
+    rw [← e.hom.naturality r]
+    infer_instance
+  exact epi_of_epi (e.hom.app U) ((colimit F).obj.map r)
 
 end Hartshorne
