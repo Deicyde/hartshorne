@@ -1,6 +1,9 @@
 ---
 article_id: af_0bfcbd42273250dba6a2230e
 declaration: theorem
+lean: Hartshorne.openExtensionByZero_properties
+statement: formalized
+proof: formalized
 origin: cited
 source_units: [chapter-ii-sections-1-3]
 ---
