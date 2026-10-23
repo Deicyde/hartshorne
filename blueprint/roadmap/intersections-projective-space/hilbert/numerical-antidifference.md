@@ -15,8 +15,7 @@ Let `f : ℤ → ℤ`. If a numerical polynomial `Q ∈ ℚ[z]` satisfies
 `f(n+1) - f(n) = Q(n)`
 
 for all sufficiently large `n`, then there is a numerical polynomial `P` such
-that `f(n) = P(n)` for all sufficiently large `n`. The sole main declaration
-is planned as `Hartshorne.exists_isNumericalPolynomial_eventuallyEq_of_diff`.
+that `f(n) = P(n)` for all sufficiently large `n`.
 
 Expand `Q` in the integral binomial basis and raise every basis index by one;
 Pascal's identity makes the forward difference of the resulting polynomial

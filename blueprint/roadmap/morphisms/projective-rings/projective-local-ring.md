@@ -54,12 +54,6 @@ exactly when `g ∈ 𝔪_P`, which is exactly when `g` vanishes at `P`, which by
 dehomogenisation dictionary is exactly when `α(g)` vanishes at `φᵢ(P)`. Each
 "exactly when" is a lemma proved for another purpose.
 
-One consequence comes free: `dim 𝒪_P = height 𝔪`
-(`Hartshorne.ringKrullDim_projLocalRing`), since Mathlib computes the dimension
-of a localisation at a prime as that prime's height. Turning the right side into
-`dim Y` needs the same missing clause of Theorem 1.8A as the affine case does,
-and is the one part of 3.2 and 3.4 still blocked behind it.
-
 ## Depends on
 
 - [The local ring at a point](../local-ring.md)

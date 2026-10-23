@@ -14,9 +14,7 @@ Let `Y` be a projective variety. If
 
 `projDim Y = 0`,
 
-then there is a projective point `P` such that `Y = {P}`. The main
-declaration is planned as
-`Hartshorne.IsProjVariety.eq_singleton_of_projDim_eq_zero`.
+then there is a projective point `P` such that `Y = {P}`.
 
 Choose `P ∈ Y`. The singleton `{P}` is a projective variety of dimension zero.
 If it were a proper closed subset of `Y`, strict dimension drop would force

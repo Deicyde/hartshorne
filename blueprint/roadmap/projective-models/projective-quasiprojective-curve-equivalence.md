@@ -12,8 +12,7 @@ lean: Hartshorne.projectiveQuasiProjectiveCurveEquivalence
 
 The functor from nonsingular projective curves with dominant morphisms to
 quasi-projective curves with dominant rational maps is an equivalence of
-categories.  The sole main declaration is formalized as
-`Hartshorne.projectiveQuasiProjectiveCurveEquivalence`.
+categories.
 
 The functor regards a projective presentation as quasi-projective and sends a
 dominant morphism to its full-domain rational map.  Full faithfulness is the

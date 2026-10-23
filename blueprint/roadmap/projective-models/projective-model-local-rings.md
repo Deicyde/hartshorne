@@ -12,9 +12,7 @@ lean: Hartshorne.projectiveDiagonal_localRingRange_eq
 
 For a `ProjectiveDiagonalModel` and every `P ∈ C_K`, the map induced by its
 projective diagonal identifies the image of `𝒪_{φ(P),Y}` in the common
-function field `K` with the valuation ring `P`.  The sole main declaration is
-formalized as
-`Hartshorne.projectiveDiagonal_localRingRange_eq`.
+function field `K` with the valuation ring `P`.
 
 This records Hartshorne's sandwich
 

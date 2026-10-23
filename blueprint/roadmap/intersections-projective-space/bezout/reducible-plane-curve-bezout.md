@@ -20,8 +20,7 @@ sense stated in the pointwise-multiplicity article. Then `Y ∩ Z` is finite and
 `= projectiveDegree Y * projectiveDegree Z`,
 
 where `toFinset` uses the finiteness theorem from the pointwise-multiplicity
-article. The unique main declaration is
-`Hartshorne.reducible_plane_curve_bezout`.
+article.
 
 This formalizes the pure/equidimensional interpretation of Remark 7.8.2.
 Expand the pointwise sum into the finite triple sum, apply the irreducible

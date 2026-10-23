@@ -15,9 +15,8 @@ For affine varieties `X ⊆ 𝔸^σ` and `Y ⊆ 𝔸^τ`, there is a canonical
 
 `A(X × Y) ≃ₐ[k] A(X) ⊗[k] A(Y)`.
 
-The sole main declaration is planned as
-`Hartshorne.coordinateRing_affineProductEquiv`.  This is Exercise I.3.15(b),
-adopted as the algebraic input to the dimension assertion in part (d).
+This is Exercise I.3.15(b), adopted as the algebraic input to the
+dimension assertion in part (d).
 
 Under `MvPolynomial.tensorEquivSum`, tensoring the two quotient maps gives a
 surjective map from the polynomial ring on `σ ⊕ τ` to

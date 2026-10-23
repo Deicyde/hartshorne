@@ -24,38 +24,6 @@ transitivity of the relation needs that two regular functions agreeing on a
 nonempty open set agree on the overlap of their domains — which is why the
 continuity node is a proof prerequisite rather than an aside.
 
-## The same construction for an arbitrary variety
-
-The version above is built from `IsRegularVia`, in affine coordinates.
-Theorem 3.4 is about `𝒪_P` for a *projective* variety, so it needs the
-construction over the abstract `Variety` instead
-(`Hartshorne.Variety.LocalRingAt`).
-
-Over the abstract structure it is shorter, not longer: restriction is a field,
-and the transitivity argument is the same one with
-[the general identity principle](variety.md) in place of the affine Lemma 3.1.
-Nothing about polynomials survives into it.
-
-Both constructions are kept. The affine one is what §3's earlier results are
-stated over and what carries the local-ring and localisation theorems; the
-general one is what §3's projective results are stated over.
-
-For a quasi-affine `Y` they are the same ring
-(`Hartshorne.localRingEquivAffine`), which is what Theorem 3.4(b) needs in order
-to reach Theorem 3.2(c) from the projective side. There is no mathematics in it:
-a representative is an open neighbourhood carrying a regular function, and
-`regular` on `Variety.ofQuasiAffine hY` is by definition `IsRegularVia` in the
-affine coordinates. The only difference is that one side packages the
-neighbourhood as a set plus a proof and the other as an `Opens`, so both
-directions and all four ring-map obligations are `rfl` on representatives.
-
-Writing it down still needed one trick. Instance search will not unfold
-`Variety.ofQuasiAffine` to see that its carrier is `↥Y`, so with the point typed
-on one side the ring structure on the other is not found, and the two sides
-cannot both be satisfied by one variable. Spelling the point as `⟨P.1, P.2⟩` on
-the affine side, which is `P` by eta, gives instance search a term of the type
-it expects.
-
 ## Functoriality
 
 Hartshorne never says `𝒪_P` is a functor, because he never needs to move a local

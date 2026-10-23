@@ -11,9 +11,7 @@ lean: Hartshorne.projectiveDiagonal_functionFieldAlgHom_bijective
 # The function field of the diagonal model
 
 For a `ProjectiveDiagonalModel` and its dense map `φ : C_K → Y`, the induced
-map `φ* : K(Y) → K(C_K)` on function fields is bijective.  The sole main
-declaration is formalized as
-`Hartshorne.projectiveDiagonal_functionFieldAlgHom_bijective`.
+map `φ* : K(Y) → K(C_K)` on function fields is bijective.
 
 The proof restricts to either affine chart, where the map is already the
 chosen compatible function-field equivalence.  Projection identities and

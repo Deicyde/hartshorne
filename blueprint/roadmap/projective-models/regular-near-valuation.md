@@ -12,9 +12,7 @@ lean: Hartshorne.ValuationSpace.mem_valuationSubring_iff_exists_regular_neighbor
 
 Let `K/k` be a one-dimensional function field, `R : FunctionFieldDVR k K`,
 and `q : K`.  Then `q ∈ R` if and only if there is an open neighbourhood
-`U` of `R` in `C_K` on which `q` is a regular function.  The sole main
-declaration is
-`Hartshorne.ValuationSpace.mem_valuationSubring_iff_exists_regular_neighborhood`.
+`U` of `R` in `C_K` on which `q` is a regular function.
 
 This exposes the local fact used in Proposition 6.8: nonnegative valuation is
 exactly regularity near the missing point.  Its implementation publicizes and

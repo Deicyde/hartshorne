@@ -51,12 +51,6 @@ what dehomogenising computes with.
 Treating `Uᵢ` as a variety at all needs `ℙⁿ` to be irreducible; see
 [projective and quasi-projective varieties](../../projective-varieties/projective-variety.md).
 
-The elaboration pathology recorded on [Varieties](../variety.md) recurred here, in
-the same form and with the same fix: a hypothesis applied as `hne _ hx` leaves a
-metavariable, the elaborator falls back on unfolding `eval` over `MvPolynomial`,
-and the proof times out. Naming the point makes it match by cheap definitional
-equality.
-
 ## Depends on
 
 - [Morphisms](../morphism.md)

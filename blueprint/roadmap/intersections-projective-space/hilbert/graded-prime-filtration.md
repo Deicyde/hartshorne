@@ -18,8 +18,7 @@ homogeneous submodules
 
 such that, for every `i`, the graded quotient `Mᵢ/Mᵢ₋₁` is
 graded-equivalent to `(S/pᵢ)(lᵢ)` for a homogeneous prime ideal `pᵢ` and an
-integer `lᵢ`. The sole main declaration is planned as
-`Hartshorne.exists_gradedPrimeFiltration`.
+integer `lᵢ`.
 
 Package the filtration as a finite relational series whose steps contain the
 prime, shift, and graded equivalence. This lets later nodes inspect factors

@@ -14,8 +14,7 @@ Let `W` be an irreducible component of `Y ∩ Z` in projective space, and choose
 a standard chart `U_i` meeting `W`.  Under the standard chart homeomorphism,
 `W ∩ U_i` is an irreducible component of the intersection of the affine chart
 pieces of `Y` and `Z`; moreover the dimensions of `Y`, `Z`, and `W` agree with
-the dimensions of their respective chart pieces.  The sole main declaration
-is planned as `Hartshorne.projectiveIntersectionComponent_chart`.
+the dimensions of their respective chart pieces.
 
 Restriction along the open embedding into `Y ∩ Z` transports an irreducible
 component that meets the chart to an irreducible component of the open

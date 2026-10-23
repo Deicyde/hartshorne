@@ -53,22 +53,6 @@ The pieces, all separate nodes:
 - and the step lemma, that a consecutive pair of a chain has height one in the
   quotient, which lives here.
 
-## Mathlib boundary
-
-The pinned Mathlib has no `IsCatenary` and no dimension formula. It does have
-more of the surrounding machinery than expected: `Algebra.HasGoingDown` and, in
-particular, `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`, which is
-exactly the height comparison the argument needs.
-
-It also has the going-down instance for an integral extension of an integrally
-closed domain, in `IntegralClosure/GoingDown.lean` — which an earlier survey of
-this node reported as missing. That was wrong: the instance is anonymous and
-sits away from the `HasGoingDown` class, and the search that produced the claim
-did not reach it. Nothing about going down needs to be built.
-
-The transcendence-degree clause is available and does not depend on this one, so
-work that only needs `dim B = trdeg_k K(B)` should not be blocked behind it.
-
 ## Depends on
 
 - [Dimension of a topological space and of a ring](dimension.md)

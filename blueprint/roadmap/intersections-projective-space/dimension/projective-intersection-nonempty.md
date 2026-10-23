@@ -11,8 +11,7 @@ lean: Hartshorne.projective_inter_nonempty_of_dim
 # Projective varieties of complementary dimension meet
 
 Let `Y,Z ⊆ ℙⁿ` be projective varieties of natural dimensions `r,s`.  If
-`n ≤ r + s`, then `Y ∩ Z` is nonempty.  The sole main declaration is planned
-as `Hartshorne.projective_inter_nonempty_of_dim`.
+`n ≤ r + s`, then `Y ∩ Z` is nonempty.
 
 The cones `C(Y)` and `C(Z)` are affine varieties of dimensions `r+1` and
 `s+1` in `𝔸ⁿ⁺¹`, and both contain the origin.  Apply the affine dimension

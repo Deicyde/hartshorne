@@ -15,12 +15,11 @@ Fix a graded prime filtration of `M` with factor primes
 
 `Ann M ⊆ p ⟺ ∃ i, pᵢ ⊆ p`.
 
-The main declaration is
-`Hartshorne.gradedPrimeFiltration_annihilator_le_iff`. Its formalized statement
-is slightly stronger than the source because `p` need not be homogeneous.
-The corollary `Hartshorne.gradedPrimeFiltration_minimal_factor_iff` identifies
-the minimal elements of the finite set of factor primes with the primes
-minimal over `Ann M`.
+Its formalized statement is slightly stronger than the source because `p` need
+not be homogeneous. The corollary
+`Hartshorne.gradedPrimeFiltration_minimal_factor_iff` identifies the minimal
+elements of the finite set of factor primes with the primes minimal over
+`Ann M`.
 
 For one filtration step, the annihilator of the quotient factor is its
 recorded prime `pᵢ`, while the product of the annihilator of the preceding term
