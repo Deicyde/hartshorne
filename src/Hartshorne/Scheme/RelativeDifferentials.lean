@@ -79,3 +79,110 @@ theorem relativeDifferentialsD_vanishes {X Y : Scheme.{u}} (f : X ⟶ Y)
   (relativeDifferentialsDerivation f).d_app a
 
 end AlgebraicGeometry.Scheme
+
+namespace AlgebraicGeometry.Scheme
+
+universe u
+
+/-- Module-sheaf morphisms from the relative differentials correspond to relative derivations. -/
+noncomputable def relativeDifferentialsHomEquiv {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (M : X.Modules) : (relativeDifferentials f ⟶ M) ≃
+      M.val.Derivation' (inverseImageStructureSheafMap f).hom := by
+  let φ := (inverseImageStructureSheafMap f).hom
+  let δ := PresheafOfModules.DifferentialsConstruction.derivation' φ
+  let hδ := PresheafOfModules.DifferentialsConstruction.isUniversal' φ
+  exact (PresheafOfModules.sheafificationHomEquiv (𝟙 X.ringCatSheaf.obj)).trans
+    { toFun := δ.postcomp
+      invFun := hδ.desc
+      left_inv := by
+        intro α
+        apply hδ.postcomp_injective
+        exact hδ.fac (δ.postcomp α)
+      right_inv := fun d => hδ.fac d }
+
+/-- The universal bijection is composition with the already constructed canonical derivation. -/
+theorem relativeDifferentialsHomEquiv_apply {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (M : X.Modules) (α : relativeDifferentials f ⟶ M) :
+    relativeDifferentialsHomEquiv f M α =
+      (relativeDifferentialsDerivation f).postcomp α.val := by
+  ext U a
+  rfl
+
+/-- The universal bijection is natural in the target module sheaf. -/
+theorem relativeDifferentialsHomEquiv_naturality {X Y : Scheme.{u}} (f : X ⟶ Y)
+    {M N : X.Modules} (α : relativeDifferentials f ⟶ M) (τ : M ⟶ N) :
+    relativeDifferentialsHomEquiv f N (α ≫ τ) =
+      (relativeDifferentialsHomEquiv f M α).postcomp τ.val := by
+  rw [relativeDifferentialsHomEquiv_apply, relativeDifferentialsHomEquiv_apply]
+  ext U a
+  rfl
+
+/-- Relative derivations with values in actual module sheaves, functorial by postcomposition. -/
+noncomputable def relativeDerivationsFunctor {X Y : Scheme.{u}} (f : X ⟶ Y) :
+    X.Modules ⥤ Type u where
+  obj M := M.val.Derivation' (inverseImageStructureSheafMap f).hom
+  map τ := ↾fun d => d.postcomp τ.val
+  map_id M := by
+    ext d U a
+    rfl
+  map_comp τ σ := by
+    ext d U a
+    rfl
+
+/-- The constructed differential sheaf corepresents the concrete relative-derivation functor. -/
+noncomputable def relativeDifferentialsCorepresentable {X Y : Scheme.{u}} (f : X ⟶ Y) :
+    (relativeDerivationsFunctor f).CorepresentableBy (relativeDifferentials f) where
+  homEquiv := relativeDifferentialsHomEquiv f _
+  homEquiv_comp τ α := relativeDifferentialsHomEquiv_naturality f α τ
+
+/-- The universal element of this representation is the original canonical derivation. -/
+theorem relativeDifferentialsCorepresentable_id {X Y : Scheme.{u}} (f : X ⟶ Y) :
+    (relativeDifferentialsCorepresentable f).homEquiv (𝟙 (relativeDifferentials f)) =
+      relativeDifferentialsDerivation f := by
+  change relativeDifferentialsHomEquiv f (relativeDifferentials f) _ = _
+  rw [relativeDifferentialsHomEquiv_apply]
+  ext U a
+  rfl
+
+/-- Every relative derivation into a module sheaf has a unique linear factorization. -/
+theorem relativeDifferentials_existsUnique {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (M : X.Modules) (d : M.val.Derivation' (inverseImageStructureSheafMap f).hom) :
+    ∃! α : relativeDifferentials f ⟶ M,
+      (relativeDifferentialsDerivation f).postcomp α.val = d := by
+  refine ⟨(relativeDifferentialsHomEquiv f M).symm d, ?_, ?_⟩
+  · exact (relativeDifferentialsHomEquiv_apply f M _).symm.trans
+      ((relativeDifferentialsHomEquiv f M).apply_symm_apply d)
+  · intro α hα
+    apply (relativeDifferentialsHomEquiv f M).injective
+    exact (relativeDifferentialsHomEquiv_apply f M α).trans
+      (hα.trans ((relativeDifferentialsHomEquiv f M).apply_symm_apply d).symm)
+
+/-- Another universal module-sheaf pair admits a unique derivation-compatible isomorphism. -/
+theorem relativeDifferentials_uniqueUpToIso {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (N : X.Modules) (r : (relativeDerivationsFunctor f).CorepresentableBy N) :
+    ∃! e : relativeDifferentials f ≅ N,
+      (relativeDifferentialsDerivation f).postcomp e.hom.val = r.homEquiv (𝟙 N) := by
+  let e := (relativeDifferentialsCorepresentable f).uniqueUpToIso r
+  have he : relativeDifferentialsHomEquiv f N e.hom = r.homEquiv (𝟙 N) := by
+    change (relativeDifferentialsHomEquiv f N)
+      ((relativeDifferentialsHomEquiv f N).symm (r.homEquiv (𝟙 N))) = _
+    exact (relativeDifferentialsHomEquiv f N).apply_symm_apply _
+  refine ⟨e, ?_, ?_⟩
+  · exact (relativeDifferentialsHomEquiv_apply f N e.hom).symm.trans he
+  · intro e' he'
+    apply Iso.ext
+    apply (relativeDifferentialsHomEquiv f N).injective
+    exact (relativeDifferentialsHomEquiv_apply f N e'.hom).trans (he'.trans he.symm)
+
+/-- The canonical differential pair represents relative derivations naturally and is unique
+up to the unique isomorphism carrying its specified universal derivation. -/
+theorem relativeDifferentials_universal {X Y : Scheme.{u}} (f : X ⟶ Y) :
+    ∃ r : (relativeDerivationsFunctor f).CorepresentableBy (relativeDifferentials f),
+      r.homEquiv (𝟙 (relativeDifferentials f)) = relativeDifferentialsDerivation f ∧
+      ∀ (N : X.Modules) (r' : (relativeDerivationsFunctor f).CorepresentableBy N),
+        ∃! e : relativeDifferentials f ≅ N,
+          (relativeDifferentialsDerivation f).postcomp e.hom.val = r'.homEquiv (𝟙 N) :=
+  ⟨relativeDifferentialsCorepresentable f, relativeDifferentialsCorepresentable_id f,
+    relativeDifferentials_uniqueUpToIso f⟩
+
+end AlgebraicGeometry.Scheme
