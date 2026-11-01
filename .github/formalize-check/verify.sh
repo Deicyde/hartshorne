@@ -38,8 +38,8 @@ stage exact-root-pack-scope python "$controls/checks.py" pack-scope "$evidence/r
 stage prepare-root-audit python .github/autoform_audit.py "$root_package" "$evidence/root-build.tgz" "$evidence/WholeRoot.lean"
 stage whole-root-safety-axioms lake env lean "$evidence/WholeRoot.lean"
 stage blueprint-check autoform check blueprint --lean-root .
-stage blueprint-audit autoform audit blueprint --lean-root .
 
+# Validate the blueprint with the repository's original immutable CI pin.
 stage immutable-blueprint-check env -u PYTHONPATH uvx --from git+https://github.com/facebookresearch/autoform-bot.git@1cf2ca825fec5e6d3303e24374e218bf3e8ab5c1 autoform check blueprint --lean-root .
 stage immutable-blueprint-audit env -u PYTHONPATH uvx --from git+https://github.com/facebookresearch/autoform-bot.git@1cf2ca825fec5e6d3303e24374e218bf3e8ab5c1 autoform audit blueprint --lean-root .
 
