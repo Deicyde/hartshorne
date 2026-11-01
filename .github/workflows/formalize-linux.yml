@@ -1,0 +1,58 @@
+name: Hartshorne bounded Linux verification
+
+on:
+  push:
+    branches: ['scratch/hartshorne-formalize-01a13829-*']
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out the exact candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9
+        with:
+          version: '0.12.1'
+
+      - name: Install pinned elan
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -sSfL https://github.com/leanprover/elan/releases/download/v4.2.3/elan-x86_64-unknown-linux-gnu.tar.gz -o "$RUNNER_TEMP/elan.tar.gz"
+          printf '%s  %s\n' 'df0b2b3a439961ffcbb3985214365ffe40f49bc871df04dff268c7d8e21ca8b2' "$RUNNER_TEMP/elan.tar.gz" | sha256sum --check --strict
+          tar xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP"
+          "$RUNNER_TEMP/elan-init" -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Install immutable legacy extraction CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          verifier_cli="$RUNNER_TEMP/autoform-legacy"
+          git clone --no-checkout https://github.com/facebookresearch/autoform-bot.git "$verifier_cli"
+          git -C "$verifier_cli" checkout --detach f169a4d305b49312024e47562a7da4a6041da9fb
+          test "$(git -C "$verifier_cli" rev-parse HEAD)" = f169a4d305b49312024e47562a7da4a6041da9fb
+          git -C "$verifier_cli" apply "$GITHUB_WORKSPACE/.github/formalize-check/legacy-source-units.patch"
+          uv sync --project "$verifier_cli" --frozen --no-dev --python 3.13
+          echo "$verifier_cli/.venv/bin" >> "$GITHUB_PATH"
+          echo "PYTHONPATH=$verifier_cli" >> "$GITHUB_ENV"
+          echo 'PYTHONDONTWRITEBYTECODE=1' >> "$GITHUB_ENV"
+
+      - name: Verify cached candidate with bounded stages
+        shell: bash
+        run: bash .github/formalize-check/verify.sh
+
+      - name: Preserve verification evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: hartshorne-formalize-${{ github.sha }}
+          path: ${{ runner.temp }}/hartshorne-formalize-evidence
+          if-no-files-found: warn
+          retention-days: 14
