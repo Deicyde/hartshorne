@@ -8,6 +8,7 @@ on:
       - "**.lean"
       - "mkdocs.yml"
       - "theme/**"
+      - ".github/autoform-ref"
       - ".github/workflows/blueprint-pages.yml"
   pull_request:
     paths:
@@ -15,23 +16,63 @@ on:
       - "**.lean"
       - "mkdocs.yml"
       - "theme/**"
+      - ".github/autoform-ref"
       - ".github/workflows/blueprint-pages.yml"
   workflow_dispatch:
+    inputs:
+      newest:
+        description: Try autoform-bot's newest main commit
+        type: boolean
+        default: false
+  schedule:
+    - cron: "23 7 * * *"
 
 permissions:
   contents: read
 
 env:
   AUTOFORM_SOURCE: "https://github.com/facebookresearch/autoform-bot.git"
-  AUTOFORM_REF: "ea30c115502ecaf03304702004928bd76789623b"
 
 concurrency:
   group: blueprint-pages
   cancel-in-progress: false
 
 jobs:
-  build:
+  # The site builds with the Autoform commit in .github/autoform-ref. The daily
+  # run, or a run started with "newest", tries autoform-bot's newest main commit
+  # instead, and the pin job records it once the site builds. A commit that
+  # fails leaves the pin and the published site as they were.
+  pick:
     runs-on: ubuntu-latest
+    outputs:
+      ref: ${{ steps.pick.outputs.ref }}
+      new: ${{ steps.pick.outputs.new }}
+    steps:
+      - name: Check out project
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Choose the Autoform commit
+        id: pick
+        env:
+          NEWEST: ${{ github.event_name == 'schedule' || inputs.newest }}
+        run: |
+          ref="$(cat .github/autoform-ref)"
+          if [ "$NEWEST" = true ]; then
+            newest="$(git ls-remote "$AUTOFORM_SOURCE" refs/heads/main | cut -f1)"
+            if [ "$newest" != "$ref" ]; then
+              ref="$newest"
+              echo "new=true" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: pick
+    # A daily run with nothing new to try builds nothing.
+    if: github.event_name != 'schedule' || needs.pick.outputs.new == 'true'
+    runs-on: ubuntu-latest
+    env:
+      AUTOFORM_REF: ${{ needs.pick.outputs.ref }}
     steps:
       - name: Check out project
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -81,6 +122,31 @@ jobs:
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: site
+
+  pin:
+    needs: [pick, build]
+    if: needs.pick.outputs.new == 'true' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out project
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # A push made with this token starts no workflow, so this commit does not
+      # rebuild the site it records.
+      - name: Pin the Autoform commit the site was built with
+        env:
+          REF: ${{ needs.pick.outputs.ref }}
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        run: |
+          echo "$REF" > .github/autoform-ref
+          git commit --quiet -m "Build the site with Autoform ${REF:0:8}" .github/autoform-ref
+          git pull --quiet --rebase origin main
+          git push --quiet origin HEAD:main
 
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
