@@ -2,7 +2,6 @@
 article_id: af_476ce91f67dd82c20e6495bd
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-5]
 ---
 
 # Euler characteristic is additive

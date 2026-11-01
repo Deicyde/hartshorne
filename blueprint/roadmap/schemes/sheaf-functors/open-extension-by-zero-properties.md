@@ -5,7 +5,6 @@ lean: Hartshorne.openExtensionByZero_properties
 statement: formalized
 proof: formalized
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 ---
 
 # Restriction, stalks, and characterization of open extension by zero

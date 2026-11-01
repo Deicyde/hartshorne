@@ -2,7 +2,6 @@
 article_id: af_df471aad9bbb8883f7e475b7
 declaration: abbrev
 origin: cited
-source_units: [chapter-ii-sections-6-7, chapter-i-section-8-decomposed-previews]
 statement: formalized
 proof: formalized
 lean: AlgebraicGeometry.Scheme.PrimeDivisor AlgebraicGeometry.Scheme.WeilDivisor

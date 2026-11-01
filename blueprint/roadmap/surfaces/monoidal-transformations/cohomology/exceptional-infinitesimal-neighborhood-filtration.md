@@ -2,7 +2,6 @@
 article_id: af_548ac7b8dbb17035e50a4c42
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-3]
 ---
 
 # The exceptional infinitesimal-neighborhood filtration

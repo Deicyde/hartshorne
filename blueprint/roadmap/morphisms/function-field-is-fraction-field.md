@@ -2,7 +2,6 @@
 article_id: af_dd1cbde9cdbfd8ab2b1cd243
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.isFractionRing_functionField Hartshorne.exists_dim_eq_trdeg_functionField

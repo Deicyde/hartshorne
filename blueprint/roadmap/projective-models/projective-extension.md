@@ -2,7 +2,6 @@
 article_id: af_c7a69237e8196e17b7390436
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-6-projective-model]
 statement: formalized
 proof: formalized
 lean: Hartshorne.ValuationSpace.existsUnique_projective_extension

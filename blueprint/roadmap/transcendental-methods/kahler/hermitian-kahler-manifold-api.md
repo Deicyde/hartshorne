@@ -2,7 +2,6 @@
 article_id: af_c603d35f9687983fa680a5c5
 declaration: structure
 origin: cited
-source_units: [appendix-b-sections-3-4]
 ---
 
 # Hermitian and Kähler manifolds

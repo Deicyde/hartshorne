@@ -2,7 +2,6 @@
 article_id: af_b82444a6a9180ba0d7b4646b
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 statement: formalized
 proof: formalized
 lean: Hartshorne.localRingHom_surjective_of_residueField_bijective_of_cotangent_surjective

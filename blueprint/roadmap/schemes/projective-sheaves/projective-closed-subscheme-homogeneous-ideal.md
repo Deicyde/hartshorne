@@ -2,7 +2,6 @@
 article_id: af_511d6546eb658c67f5a07753
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Homogeneous ideals define projective closed subschemes

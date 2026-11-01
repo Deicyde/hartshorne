@@ -2,7 +2,6 @@
 article_id: af_e1eda74acb08a146e3482be5
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-10]
 statement: formalized
 proof: formalized
 lean: Hartshorne.affineSpace_smoothOfRelativeDimension_finiteTypeOverField

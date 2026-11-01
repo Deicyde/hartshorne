@@ -2,7 +2,6 @@
 article_id: af_0a85053c2012b17661490eb8
 declaration: isomorphism
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Pullback of twisting sheaves

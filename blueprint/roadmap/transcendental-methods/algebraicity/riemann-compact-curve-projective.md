@@ -2,7 +2,6 @@
 article_id: af_d4e342a32217ef562d964528
 declaration: theorem
 origin: cited
-source_units: [appendix-b-sections-3-4]
 ---
 
 # Every compact Riemann surface is projective algebraic

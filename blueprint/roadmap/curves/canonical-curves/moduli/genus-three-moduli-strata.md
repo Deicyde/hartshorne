@@ -2,7 +2,6 @@
 article_id: af_26e164f23127b05fa632ca56
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # The genus-three moduli strata

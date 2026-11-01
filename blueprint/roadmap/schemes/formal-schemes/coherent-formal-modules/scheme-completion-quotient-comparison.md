@@ -2,7 +2,6 @@
 article_id: af_fd3f8843d61d7ea77d575edd
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-9]
 ---
 
 # Quotients of completed coherent modules

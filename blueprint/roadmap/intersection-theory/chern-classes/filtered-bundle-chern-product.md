@@ -2,7 +2,6 @@
 article_id: af_80b0bc292401a68e56040b42
 declaration: theorem
 origin: cited
-source_units: [appendix-a-section-3]
 ---
 
 # Chern classes of a bundle filtered by line bundles

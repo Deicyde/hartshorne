@@ -2,7 +2,6 @@
 article_id: af_c1f0eb64f03403a0fa846bde
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.mul_mem_gradedImage

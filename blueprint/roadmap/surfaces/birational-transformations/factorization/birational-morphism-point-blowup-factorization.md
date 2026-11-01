@@ -2,7 +2,6 @@
 article_id: af_f07d82265d84c18a6b89adc9
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # A birational morphism factors into exactly its contracted-curve count of point blowups

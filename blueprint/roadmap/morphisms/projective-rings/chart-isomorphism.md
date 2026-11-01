@@ -2,7 +2,6 @@
 article_id: af_0f2fc7f66b84519f39d31cf5
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.isIso_chartHom

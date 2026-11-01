@@ -2,7 +2,6 @@
 article_id: af_e7855d30b528371d2b2b6b45
 declaration: theorem
 origin: background
-source_units: [theorem-i-6-3a]
 statement: formalized
 proof: formalized
 lean: Hartshorne.krullAkizuki_principalQuotient_isFiniteLength

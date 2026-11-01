@@ -2,7 +2,6 @@
 article_id: af_19d60f2771966213b31a5852
 declaration: theorem
 origin: background
-source_units: [chapter-iv-analytic-background]
 ---
 
 # Every complex elliptic curve comes from a period lattice

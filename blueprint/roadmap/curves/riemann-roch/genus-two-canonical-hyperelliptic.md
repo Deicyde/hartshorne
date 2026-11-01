@@ -2,7 +2,6 @@
 article_id: af_2ec6a94da349817e80bbf56a
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # Genus-two curves are canonically hyperelliptic

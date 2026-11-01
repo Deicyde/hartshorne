@@ -2,7 +2,6 @@
 article_id: af_126b2677e599617eaf60af08
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # The projective section ring is the integral closure

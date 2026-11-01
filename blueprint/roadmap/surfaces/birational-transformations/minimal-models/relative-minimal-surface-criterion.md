@@ -2,7 +2,6 @@
 article_id: af_7a3b18f92e5bc02037190e6c
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Relative minimality and exceptional curves

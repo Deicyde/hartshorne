@@ -2,7 +2,6 @@
 article_id: af_4d390f0993f2c69e8e37f37c
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.blowing_up

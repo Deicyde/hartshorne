@@ -2,7 +2,6 @@
 article_id: af_de27583d46290d8f47e3c89b
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-4]
 ---
 
 # Frobenius determinant factorization of the zeta function

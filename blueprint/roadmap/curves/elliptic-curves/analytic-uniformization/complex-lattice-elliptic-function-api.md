@@ -2,7 +2,6 @@
 article_id: af_6cb1d28505a530502db016bf
 declaration: structure
 origin: background
-source_units: [chapter-iv-analytic-background]
 not_ready: true
 ---
 

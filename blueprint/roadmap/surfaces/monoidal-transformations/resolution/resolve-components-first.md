@@ -2,7 +2,6 @@
 article_id: af_81d8932d41f0b674225fb547
 declaration: theorem
 origin: bridged
-source_units: [chapter-v-section-3]
 ---
 
 # Resolve the irreducible components first

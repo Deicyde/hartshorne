@@ -2,7 +2,6 @@
 article_id: af_7f72b799e2afed7baf6fdd39
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-4-5]
 ---
 
 # Pullback on K0

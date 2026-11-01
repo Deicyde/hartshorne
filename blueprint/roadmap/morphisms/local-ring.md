@@ -2,7 +2,6 @@
 article_id: af_2ee7948708b181e79fc71226
 declaration: def
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.LocalRingAt Hartshorne.Variety.LocalRingAt Hartshorne.localRingEquivAffine

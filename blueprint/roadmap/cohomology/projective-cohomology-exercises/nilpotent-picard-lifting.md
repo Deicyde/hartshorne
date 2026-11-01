@@ -2,7 +2,6 @@
 article_id: af_9655f2e3e6860f997934f962
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-5]
 ---
 
 # Picard lifting through a nilpotent thickening

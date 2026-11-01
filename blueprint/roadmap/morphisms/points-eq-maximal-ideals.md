@@ -2,7 +2,6 @@
 article_id: af_afdae7c93f1d1ddc7a1894cb
 declaration: def
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.pointsEquivMaximalIdeals

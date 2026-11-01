@@ -2,7 +2,6 @@
 article_id: af_7e05e1ff40009e30ed043232
 declaration: theorem
 origin: background
-source_units: [chapter-iii-sections-8-9]
 mathlib: true
 mathlib_declaration: Module.Flat.iff_lift_lsmul_comp_subtype_injective
 mathlib_file: Mathlib/RingTheory/Flat/Tensor.lean

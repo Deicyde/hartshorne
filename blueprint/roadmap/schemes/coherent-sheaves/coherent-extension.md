@@ -2,7 +2,6 @@
 article_id: af_e6085b5482d318aaf9e1af13
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Extension of coherent sheaves

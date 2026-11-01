@@ -2,7 +2,6 @@
 article_id: af_5b5223e84c6437d42d3f2ba4
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-9]
 ---
 
 # Completion at a closed point

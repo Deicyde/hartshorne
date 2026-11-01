@@ -2,7 +2,6 @@
 article_id: af_902a94b792274e4598bf7de3
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7, chapter-i-section-6-exercises]
 ---
 
 # Degree-zero classes on a nonsingular plane cubic

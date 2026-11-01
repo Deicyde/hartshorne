@@ -2,7 +2,6 @@
 article_id: af_059bb65e4895179003b4a3ae
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Flat.isStableUnderBaseChange
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Flat.lean

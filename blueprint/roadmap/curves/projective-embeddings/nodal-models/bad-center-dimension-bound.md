@@ -2,7 +2,6 @@
 article_id: af_8950ea1318af39e6f4bac5fc
 declaration: theorem
 origin: bridged
-source_units: [chapter-iv-section-3]
 ---
 
 # The bad projection centers have dimension at most two

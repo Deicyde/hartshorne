@@ -2,7 +2,6 @@
 article_id: af_cba4a4dc3f974d85da27fa30
 declaration: theorem
 origin: bridged
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Dimension of the bad special-divisor locus

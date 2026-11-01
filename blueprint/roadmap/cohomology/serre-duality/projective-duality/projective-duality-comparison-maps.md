@@ -2,7 +2,6 @@
 article_id: af_42aca34fba96fecc0e9661b7
 declaration: definition
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # The projective duality comparison maps

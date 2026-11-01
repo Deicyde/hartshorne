@@ -2,7 +2,6 @@
 article_id: af_9b610e24170abc06369e25d0
 declaration: abbrev
 origin: cited
-source_units: [chapter-i-section-4]
 statement: formalized
 lean: Hartshorne.BirationalMap
 ---

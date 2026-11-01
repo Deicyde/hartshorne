@@ -2,7 +2,6 @@
 article_id: af_fa7f9e14f40cda30612f5de1
 declaration: def
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projPointIdeal

@@ -2,7 +2,6 @@
 article_id: af_32a637f34229b64527d88ce3
 declaration: theorem
 origin: cited
-source_units: [appendix-b-section-5]
 ---
 
 # Integral cohomology of a compact Riemann surface

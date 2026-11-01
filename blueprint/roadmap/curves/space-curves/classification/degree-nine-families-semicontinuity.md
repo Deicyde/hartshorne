@@ -2,7 +2,6 @@
 article_id: af_e2d02c602ae9d3d853624777
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # The two families do not specialize to each other

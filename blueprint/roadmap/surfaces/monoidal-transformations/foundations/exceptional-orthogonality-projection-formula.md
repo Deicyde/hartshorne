@@ -2,7 +2,6 @@
 article_id: af_d695a833291f0f8b8a466e3c
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-3]
 ---
 
 # Exceptional orthogonality and the blowup projection formula

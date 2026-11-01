@@ -2,7 +2,6 @@
 article_id: af_6b9202da3e546beacdc064d8
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Curves of degree five and six

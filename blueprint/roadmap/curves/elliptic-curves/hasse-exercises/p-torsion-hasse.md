@@ -2,7 +2,6 @@
 article_id: af_8e7bbf83de47b4c0ee3a050e
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # The p-torsion subgroup and the Hasse invariant

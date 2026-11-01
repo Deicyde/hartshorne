@@ -2,7 +2,6 @@
 article_id: af_8a57570ef4ec1d7a4d6b19c4
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Finite pushforward preserves coherence

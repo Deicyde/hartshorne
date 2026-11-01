@@ -2,7 +2,6 @@
 article_id: af_8a23550adc95c85f476bbe2e
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Locally free resolutions on quasi-projective schemes

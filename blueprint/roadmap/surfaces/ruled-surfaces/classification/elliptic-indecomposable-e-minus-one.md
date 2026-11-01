@@ -2,7 +2,6 @@
 article_id: af_ce6afc9ac7cab97ff8bfce52
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # The elliptic indecomposable case with invariant minus one

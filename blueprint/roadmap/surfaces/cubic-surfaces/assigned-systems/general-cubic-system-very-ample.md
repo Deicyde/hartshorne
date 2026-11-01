@@ -2,7 +2,6 @@
 article_id: af_537bd3ade4791bb333c59595
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # The transformed cubic system through at most six general points is very ample

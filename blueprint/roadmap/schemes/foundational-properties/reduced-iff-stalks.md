@@ -2,7 +2,6 @@
 article_id: af_fd9faf4b83e613d588358c6c
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.isReduced_of_isReduced_stalk
 mathlib_file: Mathlib/AlgebraicGeometry/Properties.lean

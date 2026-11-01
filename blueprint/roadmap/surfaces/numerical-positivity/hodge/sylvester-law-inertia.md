@@ -2,7 +2,6 @@
 article_id: af_be695ab22ad51676deaa22cf
 declaration: theorem
 origin: background
-source_units: [chapter-v-section-1]
 mathlib: true
 mathlib_declaration: QuadraticForm.equivalent_one_neg_one_weighted_sum_squared
 mathlib_file: Mathlib/LinearAlgebra/QuadraticForm/Real.lean

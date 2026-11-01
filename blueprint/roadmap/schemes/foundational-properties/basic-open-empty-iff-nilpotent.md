@@ -2,7 +2,6 @@
 article_id: af_3cc07813acd961f269cce0e1
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: PrimeSpectrum.basicOpen_eq_bot_iff
 mathlib_file: Mathlib/RingTheory/Spectrum/Prime/Topology.lean

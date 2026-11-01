@@ -2,7 +2,6 @@
 article_id: af_5558102e2808607ba7240870
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # The cubic ruled surface from conics through a point

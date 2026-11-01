@@ -2,7 +2,6 @@
 article_id: af_27f35d9b8908d59f68689bd5
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-6-projective-model]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projectiveDiagonal_functionFieldAlgHom_bijective

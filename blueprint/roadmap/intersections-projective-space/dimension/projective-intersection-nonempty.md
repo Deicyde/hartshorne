@@ -2,7 +2,6 @@
 article_id: af_1f107512e01c4032a330c528
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projective_inter_nonempty_of_dim

@@ -2,7 +2,6 @@
 article_id: af_adb237b8ff02cd887b2b06a4
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # The Castelnuovo–Severi product inequality

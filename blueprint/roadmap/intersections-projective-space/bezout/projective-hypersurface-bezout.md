@@ -2,7 +2,6 @@
 article_id: af_ebfe1efe16cc411a6325bf8f
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projective_hypersurface_bezout

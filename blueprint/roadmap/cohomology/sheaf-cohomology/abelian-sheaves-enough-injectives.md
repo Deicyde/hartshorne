@@ -2,7 +2,6 @@
 article_id: af_5ddce4f07a05e48ab6f2631d
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 mathlib: true
 mathlib_declaration: CategoryTheory.IsGrothendieckAbelian.enoughInjectives
 mathlib_file: Mathlib/CategoryTheory/Abelian/GrothendieckCategory/EnoughInjectives.lean

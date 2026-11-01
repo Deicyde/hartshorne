@@ -2,7 +2,6 @@
 article_id: af_b34fd5f14e95971801eb8c21
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # The projective closed-immersion chart criterion

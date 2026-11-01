@@ -2,7 +2,6 @@
 article_id: af_a5a1f9b93d3301702a63c835
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # The plane-cubic coefficient criterion

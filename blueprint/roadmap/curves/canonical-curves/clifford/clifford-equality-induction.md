@@ -2,7 +2,6 @@
 article_id: af_2eb3e90cd14f3d6950a47352
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Equality forces hyperellipticity

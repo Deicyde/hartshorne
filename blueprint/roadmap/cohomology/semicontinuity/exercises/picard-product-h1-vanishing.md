@@ -2,7 +2,6 @@
 article_id: af_6529eecc05e492dff53a5801
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # The Picard group of a product when H¹ vanishes

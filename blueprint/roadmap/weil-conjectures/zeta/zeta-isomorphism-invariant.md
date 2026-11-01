@@ -2,7 +2,6 @@
 article_id: af_123ed946eb7e6b9d85dba656
 declaration: theorem
 origin: bridged
-source_units: [appendix-c-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.pointCountSequence_eq_and_hasseWeilZetaSeries_eq_of_iso

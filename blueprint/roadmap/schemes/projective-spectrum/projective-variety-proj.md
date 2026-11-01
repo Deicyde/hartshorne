@@ -2,7 +2,6 @@
 article_id: af_a4de4cbc424f0fbad187747f
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 ---
 
 # A projective variety completes to Proj

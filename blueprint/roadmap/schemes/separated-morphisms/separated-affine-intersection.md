@@ -2,7 +2,6 @@
 article_id: af_9c9930d44cbc4c262ab0f578
 declaration: lemma
 origin: cited
-source_units: [chapter-ii-section-4]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.IsAffineOpen.inf
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Affine.lean

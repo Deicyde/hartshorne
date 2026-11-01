@@ -2,7 +2,6 @@
 article_id: af_d6cccb607692a9f472bed44f
 declaration: def
 origin: cited
-source_units: [chapter-iv-section-3]
 ---
 
 # Strange curves and the basic examples

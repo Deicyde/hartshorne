@@ -2,7 +2,6 @@
 article_id: af_1fb2908d8c7fdee62ee6d20a
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # General position is preserved and admits dense extensions

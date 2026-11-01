@@ -2,7 +2,6 @@
 article_id: af_bfda446a7ab93cf495b276ef
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # The domain of a birational map has codimension-two complement

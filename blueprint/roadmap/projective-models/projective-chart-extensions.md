@@ -2,7 +2,6 @@
 article_id: af_07babcb2c7e4ec6fd15296d9
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-6-projective-model]
 statement: formalized
 proof: formalized
 lean: Hartshorne.ValuationSpace.exists_two_projective_chart_extensions

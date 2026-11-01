@@ -2,7 +2,6 @@
 article_id: af_de36af0b3bcf4daf571b0c25
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # The relative twisting sheaf

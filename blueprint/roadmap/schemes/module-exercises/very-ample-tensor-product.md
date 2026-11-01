@@ -2,7 +2,6 @@
 article_id: af_17c374a22a06e920ae8bc56f
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Tensor products of very ample sheaves

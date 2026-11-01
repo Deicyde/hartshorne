@@ -2,7 +2,6 @@
 article_id: af_f5af5ac873c8d42f918a59ee
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Relative Proj is proper

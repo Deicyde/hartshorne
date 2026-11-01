@@ -2,7 +2,6 @@
 article_id: af_8f6138bf2fe5b6c07b89763d
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # The Jacobian is proper

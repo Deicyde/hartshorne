@@ -2,7 +2,6 @@
 article_id: af_dc5982b092e4e926deb8025c
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # The summed Castelnuovo bound

@@ -2,7 +2,6 @@
 article_id: af_a4edaa211819720320089adc
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # Line positivity, ampleness, and very ampleness

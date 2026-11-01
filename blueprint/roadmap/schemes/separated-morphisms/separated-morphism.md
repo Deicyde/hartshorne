@@ -2,7 +2,6 @@
 article_id: af_f36463cd8b128458d64f56d7
 declaration: class
 origin: cited
-source_units: [chapter-ii-section-4]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.IsSeparated
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Separated.lean

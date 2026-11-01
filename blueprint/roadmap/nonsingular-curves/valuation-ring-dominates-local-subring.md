@@ -2,7 +2,6 @@
 article_id: af_dc1c548ddbcb3dffbb3f947e
 declaration: lemma
 origin: background
-source_units: [chapter-i-section-6-valuations]
 mathlib: true
 mathlib_declaration: LocalSubring.exists_le_valuationSubring
 mathlib_file: Mathlib/RingTheory/Valuation/LocalSubring.lean

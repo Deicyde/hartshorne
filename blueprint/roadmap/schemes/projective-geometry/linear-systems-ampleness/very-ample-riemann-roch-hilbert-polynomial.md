@@ -2,7 +2,6 @@
 article_id: af_65a92cc584948964142a20b3
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Very ample linear systems and the Hilbert polynomial

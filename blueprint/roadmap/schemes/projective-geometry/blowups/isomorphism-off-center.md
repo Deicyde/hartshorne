@@ -2,7 +2,6 @@
 article_id: af_adddc0049c24204ca01d8ca6
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # A blowup is an isomorphism off its center

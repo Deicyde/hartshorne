@@ -2,7 +2,6 @@
 article_id: af_2d214d3484d1c181641d7b12
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Reduction to subsheaves of `Z_U`

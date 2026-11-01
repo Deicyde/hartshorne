@@ -2,7 +2,6 @@
 article_id: af_0f5b64d10c5dd8ceb550ec55
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # Regular hyperplane sections

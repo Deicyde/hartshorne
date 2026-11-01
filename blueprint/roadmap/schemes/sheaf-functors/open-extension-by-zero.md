@@ -5,7 +5,6 @@ origin: cited
 lean: Hartshorne.openExtensionByZero
 statement: formalized
 proof: formalized
-source_units: [chapter-ii-sections-1-3]
 ---
 
 # Open extension by zero

@@ -2,7 +2,6 @@
 article_id: af_2582575ac95299bd630af302
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # Adjunction via the determinant of the normal bundle

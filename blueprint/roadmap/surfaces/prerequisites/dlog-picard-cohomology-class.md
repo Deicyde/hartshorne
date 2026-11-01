@@ -2,7 +2,6 @@
 article_id: af_6d5f8a2a7d403b31408dd972
 declaration: definition
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # The dlog Picard cohomology class

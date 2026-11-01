@@ -2,7 +2,6 @@
 article_id: af_928212c9f24f9da2db1dfce2
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # Exactness of a cohomology functor

@@ -2,7 +2,6 @@
 article_id: af_a7e4d117c773b13c4ebad099
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # The hyperelliptic pencil is unique

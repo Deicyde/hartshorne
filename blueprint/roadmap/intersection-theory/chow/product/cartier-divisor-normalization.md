@@ -2,7 +2,6 @@
 article_id: af_26f4a3f6dafed6527b1fd538
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-1-2]
 ---
 
 # Intersection with a Cartier divisor is its restricted fundamental cycle

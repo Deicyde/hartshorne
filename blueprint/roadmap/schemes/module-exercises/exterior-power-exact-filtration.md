@@ -2,7 +2,6 @@
 article_id: af_3fbc46711bd77afee0c430be
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Exterior powers of an exact sequence

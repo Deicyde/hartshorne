@@ -2,7 +2,6 @@
 article_id: af_7c2fc3456491984ed097eb91
 declaration: equivalence
 origin: bridged
-source_units: [appendix-c-section-1]
 ---
 
 # Scheme-valued points of the projective line

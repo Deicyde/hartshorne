@@ -2,7 +2,6 @@
 article_id: af_966f62a092f0617660dbb349
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-4-5]
 ---
 
 # The numerical relation for a smooth surface in projective four-space

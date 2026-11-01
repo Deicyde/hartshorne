@@ -2,7 +2,6 @@
 article_id: af_ba8f510c02121596c0d86815
 declaration: def
 origin: cited
-source_units: [chapter-v-section-3]
 ---
 
 # Normal crossings and reduced total transforms

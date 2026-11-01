@@ -2,7 +2,6 @@
 article_id: af_e99f34cf2b39e2cf8b706c11
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-4]
 ---
 
 # The zeta logarithm as a Frobenius trace series

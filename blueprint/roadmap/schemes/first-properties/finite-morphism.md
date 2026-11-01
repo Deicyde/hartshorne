@@ -2,7 +2,6 @@
 article_id: af_6f4cedce9dd6f4d6acb39f77
 declaration: class
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.IsFinite
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Finite.lean

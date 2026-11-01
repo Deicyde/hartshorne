@@ -2,7 +2,6 @@
 article_id: af_f3339fa394dd23ef208455fc
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # The exceptional ideal is invertible

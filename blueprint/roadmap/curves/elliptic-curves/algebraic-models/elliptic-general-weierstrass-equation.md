@@ -2,7 +2,6 @@
 article_id: af_36c89af3f8f7812ba7d0cdb8
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # The general Weierstrass equation from a genus-one curve

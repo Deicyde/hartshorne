@@ -2,7 +2,6 @@
 article_id: af_a974de2eff6495f870b81ede
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-9]
 ---
 
 # Extensions of coherent formal modules

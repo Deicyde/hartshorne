@@ -2,7 +2,6 @@
 article_id: af_6da0125301381a989e8810ef
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # Canonical self-intersection of a smooth hypersurface

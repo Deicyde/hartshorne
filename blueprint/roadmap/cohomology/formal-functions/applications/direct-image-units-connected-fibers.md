@@ -2,7 +2,6 @@
 article_id: af_44162530bf2011ebfb173818
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # Direct image of the structure sheaf forces connected fibres

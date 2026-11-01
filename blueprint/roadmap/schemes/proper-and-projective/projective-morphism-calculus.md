@@ -2,7 +2,6 @@
 article_id: af_bed4216d10a1747d063901f2
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-4]
 ---
 
 # Projective-morphism calculus

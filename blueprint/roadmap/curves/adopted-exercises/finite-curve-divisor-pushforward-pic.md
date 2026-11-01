@@ -2,7 +2,6 @@
 article_id: af_43f22301ca1b6091b09a1892
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # Divisor pushforward descends to Picard groups

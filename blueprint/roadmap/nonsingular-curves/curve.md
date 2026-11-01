@@ -2,7 +2,6 @@
 article_id: af_c9ec3c715008de92212224d1
 declaration: def
 origin: cited
-source_units: [chapter-i-section-6-valuations, chapter-i-section-6-local-structure]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Variety.IsCurve

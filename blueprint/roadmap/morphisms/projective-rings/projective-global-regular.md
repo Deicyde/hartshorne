@@ -2,7 +2,6 @@
 article_id: af_8994ed8cb0812948eff0e5f2
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_const_eq_globalRegular Hartshorne.eval_eq_zero_of_eval_eq_zero_on_open Hartshorne.inter_inter_nonempty Hartshorne.mk_cross_eq Hartshorne.mk_X_pow_ne_zero

@@ -2,7 +2,6 @@
 article_id: af_13b9595707683ca9d52c5e69
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: specializes_iff_mem_closure
 mathlib_file: Mathlib/Topology/Inseparable.lean

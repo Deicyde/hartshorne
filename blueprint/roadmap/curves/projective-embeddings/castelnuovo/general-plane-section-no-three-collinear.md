@@ -2,7 +2,6 @@
 article_id: af_a8ccf492e5e228b5b1158baf
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-3]
 ---
 
 # A general plane section has no three collinear points

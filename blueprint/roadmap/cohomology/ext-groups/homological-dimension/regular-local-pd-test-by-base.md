@@ -2,7 +2,6 @@
 article_id: af_e388e8e2f17dadc6c9fa2043
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Projective dimension detected by Ext against the base ring

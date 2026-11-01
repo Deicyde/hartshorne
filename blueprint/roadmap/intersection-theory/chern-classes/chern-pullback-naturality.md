@@ -2,7 +2,6 @@
 article_id: af_f81e55ec00ccd41a8d8ad98b
 declaration: theorem
 origin: cited
-source_units: [appendix-a-section-3]
 ---
 
 # Chern classes are natural under pullback

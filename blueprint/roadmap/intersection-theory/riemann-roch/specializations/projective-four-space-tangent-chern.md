@@ -2,7 +2,6 @@
 article_id: af_d0a1373dcc7bd7f9f22cf28d
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-4-5]
 ---
 
 # The tangent Chern classes of projective four-space

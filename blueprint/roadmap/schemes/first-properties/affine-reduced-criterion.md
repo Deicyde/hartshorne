@@ -2,7 +2,6 @@
 article_id: af_e8a03c60351ef112a6e45b5e
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.affine_isReduced_iff
 mathlib_file: Mathlib/AlgebraicGeometry/Properties.lean

@@ -2,7 +2,6 @@
 article_id: af_6377c466a842353e4c12b4e2
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # An algebraically contracted curve has negative self-intersection

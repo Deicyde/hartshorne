@@ -2,7 +2,6 @@
 article_id: af_cf9947a2c272af7039551cf1
 declaration: def
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 statement: formalized
 proof: formalized
 lean: AlgebraicGeometry.Scheme.absoluteFrobenius AlgebraicGeometry.Scheme.specFrobenius AlgebraicGeometry.Scheme.frobeniusTwist AlgebraicGeometry.Scheme.frobeniusTwistTo

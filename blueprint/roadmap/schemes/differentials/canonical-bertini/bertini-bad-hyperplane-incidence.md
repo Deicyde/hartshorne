@@ -2,7 +2,6 @@
 article_id: af_b0aec91c31bd340fb59fa8fb
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # The bad-hyperplane incidence correspondence

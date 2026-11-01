@@ -2,7 +2,6 @@
 article_id: af_f2cb5dcdc3a20e91797c3dee
 declaration: def
 origin: cited
-source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
 lean: Hartshorne.homogeneousVanishingIdeal

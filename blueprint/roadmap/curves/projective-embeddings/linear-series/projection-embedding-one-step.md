@@ -2,7 +2,6 @@
 article_id: af_7bf2cffeb4c3cf5e1e525dc6
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-3]
 ---
 
 # One projection lowers the ambient dimension

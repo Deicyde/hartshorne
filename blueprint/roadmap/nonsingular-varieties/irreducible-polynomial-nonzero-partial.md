@@ -2,7 +2,6 @@
 article_id: af_4c4647da1060e1836668271e
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-5-geometry]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_pderiv_ne_zero_of_irreducible

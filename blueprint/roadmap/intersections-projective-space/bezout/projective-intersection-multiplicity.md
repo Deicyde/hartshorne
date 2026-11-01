@@ -2,7 +2,6 @@
 article_id: af_10beeea75107994712e1057d
 declaration: definition
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projectiveIntersectionMultiplicity

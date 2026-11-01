@@ -2,7 +2,6 @@
 article_id: af_ee82ef77b748c1c8318a3a0f
 declaration: theorem
 origin: cited
-source_units: [appendix-a-section-3]
 ---
 
 # The first Chern class of a line bundle

@@ -2,7 +2,6 @@
 article_id: af_7e0228ae084f86cc4b11a57e
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Hom into top sheaf Ext

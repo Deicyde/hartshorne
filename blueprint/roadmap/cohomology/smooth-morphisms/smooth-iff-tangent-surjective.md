@@ -2,7 +2,6 @@
 article_id: af_0463158229157ce9dfe951a4
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-10]
 ---
 
 # Smoothness by tangent-map surjectivity

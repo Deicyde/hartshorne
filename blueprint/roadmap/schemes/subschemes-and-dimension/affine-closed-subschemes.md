@@ -2,7 +2,6 @@
 article_id: af_784fde36202d6caa05445aeb
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.IsClosedImmersion.Spec_iff
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean

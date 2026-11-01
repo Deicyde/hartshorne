@@ -2,7 +2,6 @@
 article_id: af_8074121fbfe5b41e473923a8
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: TopCat.Sheaf.exact_iff_stalkFunctor_map_exact
 mathlib_file: Mathlib/Topology/Sheaves/Abelian.lean

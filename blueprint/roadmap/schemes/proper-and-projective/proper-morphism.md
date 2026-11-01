@@ -2,7 +2,6 @@
 article_id: af_34d8604346ef4939f63ecaf9
 declaration: class
 origin: cited
-source_units: [chapter-ii-section-4]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.IsProper
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Proper.lean

@@ -2,7 +2,6 @@
 article_id: af_698047ca13215ffae1ff86c3
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # The principal-parts resolution on `P¹`

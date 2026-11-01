@@ -2,7 +2,6 @@
 article_id: af_c1c77f984dc0563442bc221d
 declaration: def
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # Transverse intersection of curves

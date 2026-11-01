@@ -2,7 +2,6 @@
 article_id: af_f49474e068f3dc1f8626babc
 declaration: definition
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: TopCat.Sheaf
 mathlib_file: Mathlib/Topology/Sheaves/Sheaf.lean

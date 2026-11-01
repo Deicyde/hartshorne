@@ -2,7 +2,6 @@
 article_id: af_bb9af72af59e0f47e80eb205
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-4-5]
 ---
 
 # Chern classes on K0

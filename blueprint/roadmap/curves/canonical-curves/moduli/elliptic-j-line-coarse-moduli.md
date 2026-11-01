@@ -2,7 +2,6 @@
 article_id: af_10c6d13e1fbb756674261bd0
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # The j-line as coarse moduli for pointed elliptic curves

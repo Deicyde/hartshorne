@@ -2,7 +2,6 @@
 article_id: af_55b8c86bcc2c8519a9ba64c9
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Very ampleness over a composite base

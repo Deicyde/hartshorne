@@ -2,7 +2,6 @@
 article_id: af_a25b6c55524736215d373167
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Projective iff proper and very ample

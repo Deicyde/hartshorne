@@ -2,7 +2,6 @@
 article_id: af_7c9c3c7ed2d4d570c9c104cc
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Closed pushforward preserves cohomology

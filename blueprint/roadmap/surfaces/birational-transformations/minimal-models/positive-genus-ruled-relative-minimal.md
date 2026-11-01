@@ -2,7 +2,6 @@
 article_id: af_3cb257341cc6aa9bfd6e385e
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Positive-genus ruled surfaces are relatively minimal

@@ -2,7 +2,6 @@
 article_id: af_bb4d0c3b2bbb4d6b806f3089
 declaration: theorem
 origin: background
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.ringKrullDim_tensorProduct

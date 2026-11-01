@@ -2,7 +2,6 @@
 article_id: af_0284303ce744725599fae034
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Negative rational curves contract projectively

@@ -2,7 +2,6 @@
 article_id: af_e03601f81955f10d1dd371ca
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # The involution attached to two points

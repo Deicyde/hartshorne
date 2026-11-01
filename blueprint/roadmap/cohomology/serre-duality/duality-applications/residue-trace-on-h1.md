@@ -2,7 +2,6 @@
 article_id: af_70d475ecdab192324f5a6983
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # The residue trace on first cohomology

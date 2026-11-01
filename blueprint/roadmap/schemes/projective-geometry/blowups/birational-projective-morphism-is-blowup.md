@@ -2,7 +2,6 @@
 article_id: af_9d9a51d58b3737f4409894f8
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # A birational projective morphism is a blowup

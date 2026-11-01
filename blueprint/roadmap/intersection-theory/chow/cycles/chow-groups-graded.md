@@ -2,7 +2,6 @@
 article_id: af_2e3f234e38bdd94f0004e982
 declaration: def
 origin: cited
-source_units: [appendix-a-sections-1-2]
 ---
 
 # The graded Chow groups

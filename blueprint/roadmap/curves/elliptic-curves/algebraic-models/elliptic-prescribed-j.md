@@ -2,7 +2,6 @@
 article_id: af_562e0b97cdffd4e59c2ff339
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Elliptic curves with prescribed j-invariant

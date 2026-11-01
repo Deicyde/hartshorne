@@ -2,7 +2,6 @@
 article_id: af_bfdef3fe78af03a0a9f3c667
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 ---
 
 # Numerical invariants in a flat projective family

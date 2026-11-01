@@ -2,7 +2,6 @@
 article_id: af_9100c83de0b845078bf4561b
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.componentIdeal_mem_minimalPrimes

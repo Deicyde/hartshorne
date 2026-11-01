@@ -2,7 +2,6 @@
 article_id: af_1eecabb596c53fe42e9869c3
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-3]
 ---
 
 # A curve divisor is ample exactly when its degree is positive

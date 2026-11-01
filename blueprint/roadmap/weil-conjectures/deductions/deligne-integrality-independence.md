@@ -2,7 +2,6 @@
 article_id: af_ed9689204de35acb94adab0f
 declaration: theorem
 origin: background
-source_units: [appendix-c-section-4]
 not_ready: true
 ---
 

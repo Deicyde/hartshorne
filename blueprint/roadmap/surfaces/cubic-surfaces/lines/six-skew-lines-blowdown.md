@@ -2,7 +2,6 @@
 article_id: af_0a622b649044ddcb5430ef9b
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # Six mutually skew lines give another plane blowup marking

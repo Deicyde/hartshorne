@@ -2,7 +2,6 @@
 article_id: af_c90e334f598dc5c7509226a3
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # The ramification divisor has even degree

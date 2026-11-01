@@ -2,7 +2,6 @@
 article_id: af_10042b25581c3b02ce260a77
 declaration: abbrev
 origin: cited
-source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
 lean: Hartshorne.ProjectiveSpace

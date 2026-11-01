@@ -2,7 +2,6 @@
 article_id: af_87a92914ed8bd90099786800
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # Fibres of a ruled surface are algebraically equivalent

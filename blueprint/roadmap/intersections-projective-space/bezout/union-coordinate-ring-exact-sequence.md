@@ -2,7 +2,6 @@
 article_id: af_82927206aa5b303a075e9d11
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.unionCoordinateRing_exact

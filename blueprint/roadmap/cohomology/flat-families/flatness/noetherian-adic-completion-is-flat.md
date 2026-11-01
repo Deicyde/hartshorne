@@ -2,7 +2,6 @@
 article_id: af_e2d149f475a967b1dbe30f4c
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 mathlib: true
 mathlib_declaration: AdicCompletion.flat_of_isNoetherian
 mathlib_file: Mathlib/RingTheory/AdicCompletion/AsTensorProduct.lean

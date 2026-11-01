@@ -2,7 +2,6 @@
 article_id: af_345a31da80fa742b499d6792
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-10]
 ---
 
 # Bertini away from the base locus

@@ -2,7 +2,6 @@
 article_id: af_ce0a815d2f2480c678c4aa42
 declaration: isomorphism
 origin: bridged
-source_units: [appendix-c-section-3]
 ---
 
 # ℓ-adic étale cohomology compares with ℓ-adic singular cohomology

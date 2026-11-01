@@ -2,7 +2,6 @@
 article_id: af_363afc5bb951feaadf99ac85
 declaration: short exact sequence
 origin: cited
-source_units: [chapter-iii-section-5]
 ---
 
 # The hyperplane exact-sequence bridge

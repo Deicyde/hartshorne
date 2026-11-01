@@ -2,7 +2,6 @@
 article_id: af_f4fd9a2b5afb357b2ea0fe1f
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-5]
 ---
 
 # Eventual exactness of twisted global sections

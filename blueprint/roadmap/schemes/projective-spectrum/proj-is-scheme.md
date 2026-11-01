@@ -2,7 +2,6 @@
 article_id: af_73448e0739768435c19df66b
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Proj
 mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Scheme.lean

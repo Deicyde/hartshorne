@@ -2,7 +2,6 @@
 article_id: af_46b488e3a21cd228d6965fe7
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Clearing denominators with an invertible section

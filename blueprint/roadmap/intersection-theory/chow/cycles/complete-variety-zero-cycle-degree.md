@@ -2,7 +2,6 @@
 article_id: af_b90cf9b0948024c4b6a29ece
 declaration: homomorphism
 origin: cited
-source_units: [appendix-a-sections-1-2]
 ---
 
 # Degree of zero-cycles on a complete variety

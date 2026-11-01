@@ -2,7 +2,6 @@
 article_id: af_1c551cbfa54d20b0877b5c0d
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-9]
 ---
 
 # Exactness of affine formal global sections

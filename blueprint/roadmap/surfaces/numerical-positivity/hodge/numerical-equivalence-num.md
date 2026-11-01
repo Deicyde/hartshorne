@@ -2,7 +2,6 @@
 article_id: af_8265ea35a06e19e9f2bd6644
 declaration: def
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # Numerical equivalence and the numerical divisor group

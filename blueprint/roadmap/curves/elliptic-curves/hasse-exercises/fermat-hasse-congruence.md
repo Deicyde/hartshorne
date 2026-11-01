@@ -2,7 +2,6 @@
 article_id: af_6f1a80c7229c9bf33edb4c1c
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # The Fermat cubic Hasse congruence

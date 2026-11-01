@@ -2,7 +2,6 @@
 article_id: af_09426dc441c92bf1aaec50d6
 declaration: def
 origin: cited
-source_units: [appendix-a-sections-1-2]
 statement: formalized
 lean: Hartshorne.codimensionCycles
 ---

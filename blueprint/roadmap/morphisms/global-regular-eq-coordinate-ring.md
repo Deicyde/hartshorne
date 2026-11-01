@@ -2,7 +2,6 @@
 article_id: af_00f356814aa13851cf5257ea
 declaration: def
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.coordinateRingEquivGlobalRegular

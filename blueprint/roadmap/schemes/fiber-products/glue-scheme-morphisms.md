@@ -2,7 +2,6 @@
 article_id: af_1dc9a0a215615df771005773
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Scheme.Cover.glueMorphisms
 mathlib_file: Mathlib/AlgebraicGeometry/Gluing.lean

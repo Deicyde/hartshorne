@@ -2,7 +2,6 @@
 article_id: af_42de77499f808ebd72313434
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # Replacing a bounded-above complex by finite free modules

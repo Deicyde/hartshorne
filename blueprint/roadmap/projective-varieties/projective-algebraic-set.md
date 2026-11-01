@@ -2,7 +2,6 @@
 article_id: af_db1104282c693bcd83a273b9
 declaration: def
 origin: cited
-source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projZeroSet Hartshorne.IsProjAlgebraicSet Hartshorne.IsHomogeneousSet

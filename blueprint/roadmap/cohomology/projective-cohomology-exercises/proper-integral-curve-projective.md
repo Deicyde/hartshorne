@@ -2,7 +2,6 @@
 article_id: af_837d414d7e691ae0008b76af
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-5]
 ---
 
 # Proper integral curves are projective

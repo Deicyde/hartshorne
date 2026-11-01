@@ -2,7 +2,6 @@
 article_id: af_7efdf75914353df085783bce
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # A line can be moved to an exceptional curve

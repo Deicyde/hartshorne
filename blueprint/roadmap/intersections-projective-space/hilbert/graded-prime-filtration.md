@@ -2,7 +2,6 @@
 article_id: af_cf06bb1e31416a59c82e0a20
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_gradedPrimeFiltration

@@ -2,7 +2,6 @@
 article_id: af_f101299fd2a4b4f3814575c5
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 ---
 
 # The twisted-cubic projection degeneration

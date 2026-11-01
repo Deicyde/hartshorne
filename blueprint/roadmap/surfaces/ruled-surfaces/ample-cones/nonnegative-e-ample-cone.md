@@ -2,7 +2,6 @@
 article_id: af_a33b1d47b3c22283f9aa8876
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # The ample cone when the invariant is nonnegative

@@ -2,7 +2,6 @@
 article_id: af_d222888a4429ec3f3066f168
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-6-projective-model]
 statement: formalized
 proof: formalized
 lean: Hartshorne.FunctionFieldDVR.exists_projective_pivot

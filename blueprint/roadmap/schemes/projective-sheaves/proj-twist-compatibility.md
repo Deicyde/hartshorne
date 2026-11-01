@@ -2,7 +2,6 @@
 article_id: af_5ec864a9cd13979d152f55ff
 declaration: isomorphism
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Twists and graded shifts

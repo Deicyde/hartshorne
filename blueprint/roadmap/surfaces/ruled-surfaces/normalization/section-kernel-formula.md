@@ -2,7 +2,6 @@
 article_id: af_3768c5fc2b317a2f201b81f2
 declaration: isomorphism
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # The kernel formula for a section of a projective bundle

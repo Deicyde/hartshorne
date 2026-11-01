@@ -2,7 +2,6 @@
 article_id: af_734981d3d00efaaef5fe0a23
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Reduction to irreducible components

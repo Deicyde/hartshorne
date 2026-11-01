@@ -2,7 +2,6 @@
 article_id: af_30ba0ad4243e81ed0f615337
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Ext from the structure sheaf is cohomology

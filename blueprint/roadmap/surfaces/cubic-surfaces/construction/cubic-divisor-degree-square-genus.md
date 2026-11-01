@@ -2,7 +2,6 @@
 article_id: af_2c9434e6901f3ed91d2b136e
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # Degree, self-intersection, and arithmetic genus on a cubic surface

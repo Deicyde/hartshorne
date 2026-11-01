@@ -2,7 +2,6 @@
 article_id: af_643f0eec13f6ade501e2343b
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.orderedCechCochainsMap Hartshorne.orderedCechComplexFunctor Hartshorne.orderedCechCohomologyFunctor Hartshorne.orderedCechH0NatIsoGlobalSections Hartshorne.orderedCechH0IsoGlobalSections Hartshorne.orderedCechH0IsoGlobalSections_naturality

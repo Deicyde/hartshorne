@@ -2,7 +2,6 @@
 article_id: af_3122495be6d2ec287ac6e2a2
 declaration: def
 origin: bridged
-source_units: [chapter-v-section-6]
 ---
 
 # Pluricanonical rational maps and their image dimensions

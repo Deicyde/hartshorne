@@ -2,7 +2,6 @@
 article_id: af_6a75c9941006691666969075
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 ---
 
 # Restriction of higher direct images to an open base

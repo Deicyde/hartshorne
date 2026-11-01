@@ -2,7 +2,6 @@
 article_id: af_81c10fb1e90a0ecf4e9aacdd
 declaration: def
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projLocalRingEquivGraded

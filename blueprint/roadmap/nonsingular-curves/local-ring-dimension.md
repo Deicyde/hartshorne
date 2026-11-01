@@ -2,7 +2,6 @@
 article_id: af_2be48af475bcbe3565ef8435
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-6-local-structure]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Variety.HasAffineOpenBasis.ringKrullDim_localRingAt_eq

@@ -2,7 +2,6 @@
 article_id: af_9f7facbd41ed258a17f746d7
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Trigonal systems in genus four

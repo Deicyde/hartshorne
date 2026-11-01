@@ -2,7 +2,6 @@
 article_id: af_0a0b46fa1c07ad0c16df634e
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-dual-curve-exercise]
 ---
 
 # The tangent morphism and dual plane curve

@@ -2,7 +2,6 @@
 article_id: af_79cd1314b29e05ddc2dce9b8
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # Genus-two curves are parametrized by branch triples

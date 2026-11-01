@@ -2,7 +2,6 @@
 article_id: af_5ba96d53e0188ebaf1029708
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Integer endomorphisms are injective and finite

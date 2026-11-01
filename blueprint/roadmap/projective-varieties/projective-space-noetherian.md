@@ -2,7 +2,6 @@
 article_id: af_a420ae851727966a108fdfc0
 declaration: instance
 origin: cited
-source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
 lean: Hartshorne.instNoetherianSpaceProjectiveSpace

@@ -2,7 +2,6 @@
 article_id: af_7f67904375d40f5cc798cff3
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # Positive square gives eventual effectivity

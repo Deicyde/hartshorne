@@ -2,7 +2,6 @@
 article_id: af_40a97cd08eeda2135243a387
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # The free locus of a coherent sheaf

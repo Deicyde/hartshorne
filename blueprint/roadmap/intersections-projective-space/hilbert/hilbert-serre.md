@@ -2,7 +2,6 @@
 article_id: af_a52cb991e62958c97fc00e45
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.hilbertSerre

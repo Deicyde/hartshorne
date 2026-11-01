@@ -2,7 +2,6 @@
 article_id: af_a491147e60c62a514ef4bcda
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # Frobenius is ramified everywhere

@@ -2,7 +2,6 @@
 article_id: af_ead6e18dfe722964d8637cbe
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Proj.basicOpenIsoSpec
 mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean

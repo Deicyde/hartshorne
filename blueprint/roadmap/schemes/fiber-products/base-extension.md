@@ -2,7 +2,6 @@
 article_id: af_59587fcdbdbf59174a4613a5
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 statement: formalized
 lean: Hartshorne.baseExtension Hartshorne.baseExtensionProjection
 ---

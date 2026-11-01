@@ -2,7 +2,6 @@
 article_id: af_b037e5a1382243be0f09313a
 declaration: structure
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # The endomorphism ring

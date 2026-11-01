@@ -2,7 +2,6 @@
 article_id: af_300dd006c62e894e27ba7e7b
 declaration: structure
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.VarietyHom

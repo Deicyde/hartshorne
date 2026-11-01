@@ -2,7 +2,6 @@
 article_id: af_cef8e93f063b5cf5e3cd4e21
 declaration: theorem
 origin: cited
-source_units: [appendix-b-section-5]
 ---
 
 # The analytic exponential sheaf sequence

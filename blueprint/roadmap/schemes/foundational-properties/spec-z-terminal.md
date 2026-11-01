@@ -2,7 +2,6 @@
 article_id: af_63e19c88f95370a6c3bfb514
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.specZIsTerminal
 mathlib_file: Mathlib/AlgebraicGeometry/Limits.lean

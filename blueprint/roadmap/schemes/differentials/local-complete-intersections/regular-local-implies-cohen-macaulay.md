@@ -2,7 +2,6 @@
 article_id: af_82d0cf0c3b89ae8a0f4cd091
 declaration: theorem
 origin: background
-source_units: [chapter-ii-section-8]
 ---
 
 # Regular local rings are Cohen–Macaulay

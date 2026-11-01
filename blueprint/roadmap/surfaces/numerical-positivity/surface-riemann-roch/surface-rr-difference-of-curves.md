@@ -2,7 +2,6 @@
 article_id: af_c643038a38c123d7df8f5372
 declaration: theorem
 origin: bridged
-source_units: [chapter-v-section-1]
 ---
 
 # Riemann–Roch for a difference of smooth curves

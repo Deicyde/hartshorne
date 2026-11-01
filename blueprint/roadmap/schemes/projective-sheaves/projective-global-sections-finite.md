@@ -2,7 +2,6 @@
 article_id: af_0ad985442b8cad5d403b98b0
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Finiteness of projective global sections

@@ -2,7 +2,6 @@
 article_id: af_506417686fa10d6aee3f1db8
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # The long exact sequence of right derived functors

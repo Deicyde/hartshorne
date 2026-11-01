@@ -2,7 +2,6 @@
 article_id: af_40c66ab41bbe07ce869cabe3
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Dual Frobenius detects the Hasse invariant

@@ -2,7 +2,6 @@
 article_id: af_48d847ea51110e7a17d28bf9
 declaration: definition
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
 lean: TopCat.Sheaf.abelianSheafHom TopCat.Sheaf.abelianSheafHomForgetIso

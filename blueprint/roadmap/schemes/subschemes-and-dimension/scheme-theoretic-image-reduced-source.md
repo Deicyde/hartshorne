@@ -2,7 +2,6 @@
 article_id: af_d025599c8fd888815a2f19dd
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 ---
 
 # The scheme-theoretic image of a reduced source

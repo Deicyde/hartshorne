@@ -2,7 +2,6 @@
 article_id: af_d35622e737f7899002be2be0
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # The Gauss pencil and ramification at flexes

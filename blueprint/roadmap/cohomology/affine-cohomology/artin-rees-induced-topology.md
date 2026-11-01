@@ -2,7 +2,6 @@
 article_id: af_af2bf5d05b56c3bddb7d1a51
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.artinRees_inducedTopology

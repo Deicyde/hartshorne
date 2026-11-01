@@ -2,7 +2,6 @@
 article_id: af_d0eb9f3cd8aa2aeb54f741fb
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # The projective-normality criterion

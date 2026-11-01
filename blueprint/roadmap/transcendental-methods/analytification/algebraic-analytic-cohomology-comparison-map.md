@@ -2,7 +2,6 @@
 article_id: af_1c0f1e606c39613868b3236f
 declaration: morphism
 origin: cited
-source_units: [appendix-b-sections-1-2]
 ---
 
 # Natural algebraic-to-analytic cohomology comparison maps

@@ -2,7 +2,6 @@
 article_id: af_0f15654e6777c4f9136535e1
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projectivePoint_hilbertPolynomial_and_degree

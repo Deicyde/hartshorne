@@ -2,7 +2,6 @@
 article_id: af_ad0d5e883dcd87b9bf63ef57
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-10]
 ---
 
 # Homogeneous spaces are nonsingular

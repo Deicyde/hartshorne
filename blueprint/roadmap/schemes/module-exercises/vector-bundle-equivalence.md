@@ -2,7 +2,6 @@
 article_id: af_61f9f77949678f30b3bba622
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Vector bundles and locally free sheaves

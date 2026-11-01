@@ -2,7 +2,6 @@
 article_id: af_3dc9d7e552f03f56d925abe6
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Degree-seven embeddings of genus-five curves

@@ -2,7 +2,6 @@
 article_id: af_9a159c80e32616dec86713f5
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Necessity of Halphen's degree bound

@@ -2,7 +2,6 @@
 article_id: af_d3eb17c92f012d2fe76cdda5
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Characteristic-zero torsion has d² points

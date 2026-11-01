@@ -2,7 +2,6 @@
 article_id: af_90e1910f5b54c77212d34bdb
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-1]
 ---
 
 # The zeta functional equation

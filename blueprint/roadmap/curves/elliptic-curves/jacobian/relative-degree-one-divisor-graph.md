@@ -2,7 +2,6 @@
 article_id: af_c5cd9cbb59ec5e888ee944e2
 declaration: theorem
 origin: bridged
-source_units: [chapter-iv-section-4]
 ---
 
 # A relative degree-one divisor is a graph

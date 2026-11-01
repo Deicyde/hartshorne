@@ -2,7 +2,6 @@
 article_id: af_51b90c3b5c04ae97c6d873cb
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Automorphisms act transitively on an elliptic curve

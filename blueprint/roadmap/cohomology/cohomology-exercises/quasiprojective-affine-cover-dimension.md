@@ -2,7 +2,6 @@
 article_id: af_b9401e961db0564c514fd4a6
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 not_ready: true
 ---
 

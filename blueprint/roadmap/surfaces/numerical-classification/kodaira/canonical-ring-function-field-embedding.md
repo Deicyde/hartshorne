@@ -2,7 +2,6 @@
 article_id: af_0f97d9366f82584efe3518bd
 declaration: theorem
 origin: bridged
-source_units: [chapter-v-section-6]
 ---
 
 # Section rings embed in a polynomial ring over the function field

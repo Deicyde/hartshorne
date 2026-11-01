@@ -2,7 +2,6 @@
 article_id: af_3593c3d595b41d9e85977241
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # Higher direct images vanish above the fibre dimension

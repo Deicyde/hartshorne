@@ -2,7 +2,6 @@
 article_id: af_3d891fd4dc27c7d35fb269fe
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Twisting sheaves are invertible

@@ -2,7 +2,6 @@
 article_id: af_49d02c3c5e4afeb0294bece2
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # Irreducible curves when the invariant is negative

@@ -2,7 +2,6 @@
 article_id: af_0047853787bc9451067d42a3
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Ampleness and tensor powers

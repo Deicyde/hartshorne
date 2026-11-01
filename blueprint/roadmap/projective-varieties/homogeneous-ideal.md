@@ -2,7 +2,6 @@
 article_id: af_16f6490478043b77ce02d99f
 declaration: abbrev
 origin: background
-source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
 lean: Hartshorne.IsHomogeneousIdeal

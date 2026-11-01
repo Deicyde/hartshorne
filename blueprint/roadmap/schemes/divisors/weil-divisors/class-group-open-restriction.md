@@ -2,7 +2,6 @@
 article_id: af_af78109c23021852fb9a08c2
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Restriction of class groups to open complements

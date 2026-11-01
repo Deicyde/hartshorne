@@ -2,7 +2,6 @@
 article_id: af_0039964240f0dad2efb2c24e
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Pointed morphisms are homomorphisms

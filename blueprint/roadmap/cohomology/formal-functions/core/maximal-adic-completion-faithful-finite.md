@@ -2,7 +2,6 @@
 article_id: af_b158683b98fc932189c4cb8b
 declaration: theorem
 origin: background
-source_units: [chapter-iii-sections-11-12]
 statement: formalized
 proof: formalized
 lean: Hartshorne.surjective_of_maximalAdicCompletionMap_surjective

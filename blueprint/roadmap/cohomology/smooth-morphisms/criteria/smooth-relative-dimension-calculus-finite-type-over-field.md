@@ -2,7 +2,6 @@
 article_id: af_3e2d238148acf0d62052e212
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-10]
 statement: formalized
 proof: formalized
 lean: Hartshorne.openImmersion_smoothOfRelativeDimension_zero_finiteTypeOverField Hartshorne.smoothOfRelativeDimension_baseChange_finiteTypeOverField Hartshorne.smoothOfRelativeDimension_comp_finiteTypeOverField Hartshorne.smoothOfRelativeDimension_product_finiteTypeOverField

@@ -2,7 +2,6 @@
 article_id: af_6f38afec9cb9209df5c3d078
 declaration: definition
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # The global-to-sheaf Ext map

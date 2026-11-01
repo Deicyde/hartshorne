@@ -2,7 +2,6 @@
 article_id: af_0bc2c79acfbc5253536624b0
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 statement: formalized
 proof: formalized
 lean: AlgebraicGeometry.Scheme.toCartierDivisorSheaf_apply_eq_iff_ratio AlgebraicGeometry.Scheme.CartierLocalEquations.existsUnique_represents AlgebraicGeometry.Scheme.CartierLocalEquations.exists_localEquations AlgebraicGeometry.Scheme.CartierLocalEquations.sameDivisor_iff_commonRefinement

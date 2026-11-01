@@ -2,7 +2,6 @@
 article_id: af_bd43637b64a7306880f81a2d
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # The graded symmetric-algebra sheaf

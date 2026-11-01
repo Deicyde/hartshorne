@@ -2,7 +2,6 @@
 article_id: af_4385eae4c6f0422daac639dc
 declaration: def
 origin: cited
-source_units: [chapter-ii-section-8]
 mathlib: true
 mathlib_declaration: KaehlerDifferential.mvPolynomialBasis
 mathlib_file: Mathlib/RingTheory/Kaehler/Polynomial.lean

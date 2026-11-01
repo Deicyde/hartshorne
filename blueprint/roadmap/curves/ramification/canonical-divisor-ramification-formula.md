@@ -2,7 +2,6 @@
 article_id: af_ba6c397a753afad1130d3251
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # The canonical-divisor ramification formula

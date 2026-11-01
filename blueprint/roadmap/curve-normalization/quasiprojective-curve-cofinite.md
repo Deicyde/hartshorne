@@ -2,7 +2,6 @@
 article_id: af_ce39f8914d2433976bdb3455
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-4, chapter-i-section-6-abstract-curves]
 statement: formalized
 proof: formalized
 lean: Hartshorne.IsQuasiProjVariety.isCurve_infinite_and_isClosed_iff

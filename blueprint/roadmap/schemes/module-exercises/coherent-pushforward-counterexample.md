@@ -2,7 +2,6 @@
 article_id: af_ae2f3f77382fd38d7e6b7097
 declaration: example
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # A coherent pushforward counterexample

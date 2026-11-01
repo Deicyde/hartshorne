@@ -2,7 +2,6 @@
 article_id: af_35a2a80fd345185a541aa4ab
 declaration: def
 origin: cited
-source_units: [appendix-b-sections-3-4]
 ---
 
 # The meromorphic-function field of a compact complex manifold

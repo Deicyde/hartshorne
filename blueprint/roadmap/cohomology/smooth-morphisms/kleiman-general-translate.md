@@ -2,7 +2,6 @@
 article_id: af_839950afb5ef3e558ee775a5
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-10]
 ---
 
 # Kleiman's general-translate theorem

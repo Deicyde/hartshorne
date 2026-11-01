@@ -2,7 +2,6 @@
 article_id: af_1a74e5d0667c096b8cd95fd1
 declaration: definition
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Tensor products of module sheaves

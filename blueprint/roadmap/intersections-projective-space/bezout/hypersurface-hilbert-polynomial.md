@@ -2,7 +2,6 @@
 article_id: af_cfa44c986c3be95861967648
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.hypersurface_hilbertPolynomial_and_degree

@@ -2,7 +2,6 @@
 article_id: af_06e9acaca163bf53920d3e2e
 declaration: theorem
 origin: bridged
-source_units: [chapter-ii-section-8]
 lean: AlgebraicGeometry.Scheme.relativeDifferentials_universal
 statement: formalized
 proof: formalized

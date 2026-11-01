@@ -2,7 +2,6 @@
 article_id: af_98f5a9ebe6d2ee0d7943b38e
 declaration: exact sequence
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # The differential sequence of a separable curve morphism

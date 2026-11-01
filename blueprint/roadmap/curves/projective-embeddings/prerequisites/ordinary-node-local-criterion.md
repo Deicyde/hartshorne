@@ -2,7 +2,6 @@
 article_id: af_85b8c912e45f2b2c152b9ce5
 declaration: definition
 origin: cited
-source_units: [chapter-i-section-5-exercises]
 ---
 
 # Ordinary nodes and their two branches

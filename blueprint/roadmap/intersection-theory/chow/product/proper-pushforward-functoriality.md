@@ -2,7 +2,6 @@
 article_id: af_31f726708a7e9e3ed6ed0458
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-1-2]
 ---
 
 # Proper pushforward is functorial on Chow groups

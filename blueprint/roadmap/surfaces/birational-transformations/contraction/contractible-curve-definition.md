@@ -2,7 +2,6 @@
 article_id: af_865c9bf4c43ed692cc5dfe48
 declaration: def
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Contractible curves

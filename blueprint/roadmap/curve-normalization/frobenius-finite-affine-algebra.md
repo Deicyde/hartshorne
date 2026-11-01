@@ -2,7 +2,6 @@
 article_id: af_c443fb28d7ae4626b5a146aa
 declaration: theorem
 origin: bridged
-source_units: [theorem-i-3-9a]
 statement: formalized
 proof: formalized
 lean: Hartshorne.moduleFinite_frobeniusPowerSubalgebra Hartshorne.frobeniusPowerHom_finite Hartshorne.iterateFrobenius_finite

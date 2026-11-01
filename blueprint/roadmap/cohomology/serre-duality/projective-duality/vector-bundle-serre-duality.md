@@ -2,7 +2,6 @@
 article_id: af_bfb8a81e0f80e28e9a4bd1a3
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Vector-bundle Serre duality

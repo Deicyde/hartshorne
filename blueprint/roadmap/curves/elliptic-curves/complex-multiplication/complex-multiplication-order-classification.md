@@ -2,7 +2,6 @@
 article_id: af_427839755df16337bb053fa0
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Classification of complex multiplication orders

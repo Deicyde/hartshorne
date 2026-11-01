@@ -2,7 +2,6 @@
 article_id: af_d551d55a6e1ffbb7c3e46a45
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Scheme.Hom.isoOpensRange
 mathlib_file: Mathlib/AlgebraicGeometry/Restrict.lean

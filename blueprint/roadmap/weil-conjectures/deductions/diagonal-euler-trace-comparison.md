@@ -2,7 +2,6 @@
 article_id: af_23a2da8096e18fc2e0d9e0e2
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-4]
 ---
 
 # Diagonal self-intersection and cohomological Euler characteristic

@@ -2,7 +2,6 @@
 article_id: af_856d7764bb368a3d797bf06a
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Proj.stalkIso
 mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean

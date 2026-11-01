@@ -23,7 +23,7 @@ permissions:
 
 env:
   AUTOFORM_SOURCE: "https://github.com/facebookresearch/autoform-bot.git"
-  AUTOFORM_REF: "1cf2ca825fec5e6d3303e24374e218bf3e8ab5c1"
+  AUTOFORM_REF: "ea30c115502ecaf03304702004928bd76789623b"
 
 concurrency:
   group: blueprint-pages
@@ -61,10 +61,20 @@ jobs:
       - name: Build the Markdown site
         run: >-
           uvx --from mkdocs==1.6.1
-          --with mkdocs-material==9.6.21
+          --with mkdocs-material==9.7.7
           --with mkdocs-literate-nav==0.6.2
-          --with pymdown-extensions==10.21.3
+          --with markdown==3.10.3
+          --with pymdown-extensions==11.0.1
           mkdocs build --strict
+
+      # Lists internal links and anchors that lead nowhere, which `--strict`
+      # never checks in render's raw HTML, and statement cards the build
+      # dropped. It never fails the build or stops a deploy.
+      - name: Check the built site (report only)
+        continue-on-error: true
+        run: >-
+          uvx --from "git+${AUTOFORM_SOURCE}@${AUTOFORM_REF}"
+          autoform site check site --source site-src
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

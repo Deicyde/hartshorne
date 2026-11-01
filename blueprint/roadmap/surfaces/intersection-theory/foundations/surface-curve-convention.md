@@ -2,7 +2,6 @@
 article_id: af_6d50e5f7c7b823d362fa0aa2
 declaration: structure
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # Surfaces and effective curves

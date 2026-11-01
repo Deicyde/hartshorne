@@ -2,7 +2,6 @@
 article_id: af_7f970480f09db79d7e43f026
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim
 mathlib_file: Mathlib/RingTheory/Spectrum/Prime/Topology.lean

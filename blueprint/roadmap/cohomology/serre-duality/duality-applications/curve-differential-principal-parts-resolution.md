@@ -2,7 +2,6 @@
 article_id: af_feca80dc54e856ab0cad99fd
 declaration: short exact sequence
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # The differential principal-parts resolution

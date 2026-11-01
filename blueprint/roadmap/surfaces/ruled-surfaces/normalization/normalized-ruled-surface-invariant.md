@@ -2,7 +2,6 @@
 article_id: af_b25487005e19b075b7a1a92a
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # The normalized degree is an invariant of a ruled surface

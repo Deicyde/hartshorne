@@ -2,7 +2,6 @@
 article_id: af_9beba574a4fcba63ef574292
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Affineness of reduced irreducible components

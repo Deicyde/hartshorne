@@ -2,7 +2,6 @@
 article_id: af_82b63943cf8eb3b9f988705c
 declaration: def
 origin: cited
-source_units: [chapter-i-section-6-local-structure]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Variety.HasAffineOpenBasis.valuationAt Hartshorne.Variety.HasAffineOpenBasis.valuationSubringAt

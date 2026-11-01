@@ -2,7 +2,6 @@
 article_id: af_2da44b71de029b108893523a
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # The geometric genus of a smooth hypersurface

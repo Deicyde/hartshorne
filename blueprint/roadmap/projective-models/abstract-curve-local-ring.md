@@ -2,7 +2,6 @@
 article_id: af_53c37b8474739d7a3ebebb55
 declaration: def
 origin: bridged
-source_units: [chapter-i-section-6-projective-model]
 statement: formalized
 proof: formalized
 lean: Hartshorne.ValuationSpace.abstractNonsingularCurveLocalRingAlgEquiv

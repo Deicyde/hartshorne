@@ -2,7 +2,6 @@
 article_id: af_9f88c82081eeca47966b8137
 declaration: def
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # Local intersection multiplicity

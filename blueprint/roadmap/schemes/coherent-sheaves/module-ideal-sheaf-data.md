@@ -2,7 +2,6 @@
 article_id: af_8763f99884b849b82e0825eb
 declaration: equiv
 origin: bridged
-source_units: [chapter-ii-section-5]
 ---
 
 # Module ideal sheaves and ideal data

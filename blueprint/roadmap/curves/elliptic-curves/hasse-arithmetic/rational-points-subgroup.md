@@ -2,7 +2,6 @@
 article_id: af_35e47118105b2568fa6c75c8
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Rational points form a subgroup

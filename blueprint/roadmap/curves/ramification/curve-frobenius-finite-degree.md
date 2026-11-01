@@ -2,7 +2,6 @@
 article_id: af_76415c5d26a56f511de69176
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # Degree of Frobenius on a curve

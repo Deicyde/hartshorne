@@ -2,7 +2,6 @@
 article_id: af_ca1b9e9dbbc49be95e644d1a
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # Degree and flatness of a finite curve morphism

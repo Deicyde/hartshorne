@@ -2,7 +2,6 @@
 article_id: af_2676126077d19db346a29821
 declaration: lemma
 origin: background
-source_units: [chapter-i-section-6-valuations]
 mathlib: true
 mathlib_declaration: LocalSubring.isMax_iff
 mathlib_file: Mathlib/RingTheory/Valuation/LocalSubring.lean

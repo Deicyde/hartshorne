@@ -2,7 +2,6 @@
 article_id: af_8329279da82a12fa27f3a310
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # An ample twist makes relative Proj projective

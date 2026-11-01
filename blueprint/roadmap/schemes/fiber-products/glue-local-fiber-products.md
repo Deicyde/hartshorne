@@ -2,7 +2,6 @@
 article_id: af_328d48a36735372ccbdec00c
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Scheme.Pullback.hasPullback_of_cover
 mathlib_file: Mathlib/AlgebraicGeometry/Pullbacks.lean

@@ -2,7 +2,6 @@
 article_id: af_881bbb9581972ab339f0acfd
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-5-geometry]
 statement: formalized
 lean: Hartshorne.SeparatedVariety.exists_nonsingularAt Hartshorne.SeparatedVariety.singularLocus_isProper Hartshorne.Variety.HasAffineOpenBasis.singularLocus_isProper
 proof: formalized

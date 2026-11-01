@@ -2,7 +2,6 @@
 article_id: af_aa6eae6efa55413158c70c5a
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # The twenty-seven candidate lines

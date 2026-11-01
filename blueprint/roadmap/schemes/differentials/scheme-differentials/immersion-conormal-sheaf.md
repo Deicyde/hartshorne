@@ -2,7 +2,6 @@
 article_id: af_16b35b95a8072241ce2a54a1
 declaration: def
 origin: bridged
-source_units: [chapter-ii-section-8]
 ---
 
 # The conormal sheaf of an immersion

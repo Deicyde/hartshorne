@@ -2,7 +2,6 @@
 article_id: af_2b57f3b6f4fdb121fb067460
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-3]
 ---
 
 # Projection is an embedding away from secants and tangents

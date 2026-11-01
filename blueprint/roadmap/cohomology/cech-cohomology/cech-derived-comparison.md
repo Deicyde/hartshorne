@@ -2,7 +2,6 @@
 article_id: af_192f0b8ffad7754e68bb629c
 declaration: def
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Comparison from Čech to sheaf cohomology

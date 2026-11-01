@@ -2,7 +2,6 @@
 article_id: af_3ba438db4aaadf9e7dbd4162
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-5-geometry]
 statement: formalized
 proof: formalized
 lean: Hartshorne.ambientCotangentEquiv_toCotangent Hartshorne.aeval_pderiv_eq_zero_of_mem_affinePointIdeal_sq Hartshorne.ambientCotangentEquiv_generator

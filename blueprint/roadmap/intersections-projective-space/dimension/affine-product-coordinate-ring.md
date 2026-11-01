@@ -2,7 +2,6 @@
 article_id: af_e2b12c96da8249f2a9c75798
 declaration: def
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.coordinateRing_affineProductEquiv

@@ -2,7 +2,6 @@
 article_id: af_575e619ae8ec073c42a7444a
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.isClosed_eqLocus Hartshorne.eq_of_eqOn_isOpen

@@ -2,7 +2,6 @@
 article_id: af_1ead9758110d121889ff1b66
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Blowups are invariant under powers of the center

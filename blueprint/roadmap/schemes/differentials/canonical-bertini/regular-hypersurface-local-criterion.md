@@ -2,7 +2,6 @@
 article_id: af_d8128a5cb18969009efd1f45
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # Regular hypersurface quotients of a regular local ring

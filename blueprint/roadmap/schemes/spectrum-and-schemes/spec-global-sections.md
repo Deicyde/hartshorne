@@ -2,7 +2,6 @@
 article_id: af_24d8990eaadc41fbce519b65
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.StructureSheaf.globalSectionsIso
 mathlib_file: Mathlib/AlgebraicGeometry/StructureSheaf.lean

@@ -2,7 +2,6 @@
 article_id: af_0df050d2390884e2b006ce27
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Variety.globalRegularRange_eq_iInf_localRingRange

@@ -2,7 +2,6 @@
 article_id: af_bd9cf43e2cf8441147189992
 declaration: def
 origin: bridged
-source_units: [chapter-i-section-6-projective-model]
 statement: formalized
 proof: formalized
 lean: Hartshorne.quasiProjectiveCurveFunctionFieldEquivalence

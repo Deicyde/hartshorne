@@ -2,7 +2,6 @@
 article_id: af_a28ad959d1cb4b78bc7ab801
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.isIrreducible_affineCone_iff

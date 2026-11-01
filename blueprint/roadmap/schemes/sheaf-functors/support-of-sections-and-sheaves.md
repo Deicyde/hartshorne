@@ -2,7 +2,6 @@
 article_id: af_765586c14a163cbbdb9f9f40
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.isClosed_sectionSupport

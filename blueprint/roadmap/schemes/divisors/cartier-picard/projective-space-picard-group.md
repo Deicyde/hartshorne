@@ -2,7 +2,6 @@
 article_id: af_341d134f58a4a6e58ce14c1c
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # The Picard group of projective space

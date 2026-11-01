@@ -2,7 +2,6 @@
 article_id: af_9580fea2449e7376bca1ba58
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projectiveHypersurfaceSectionComponent_projDim_eq

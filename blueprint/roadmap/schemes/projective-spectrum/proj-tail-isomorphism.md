@@ -2,7 +2,6 @@
 article_id: af_0b1b24f36f44756106b92d98
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 ---
 
 # Proj is invariant under an eventual graded isomorphism

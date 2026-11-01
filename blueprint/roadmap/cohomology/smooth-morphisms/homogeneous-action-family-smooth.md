@@ -2,7 +2,6 @@
 article_id: af_b706b675a635d0b7e1242cf7
 declaration: theorem
 origin: bridged
-source_units: [chapter-iii-section-10]
 ---
 
 # The homogeneous action family is smooth

@@ -2,7 +2,6 @@
 article_id: af_6fcb9ec05f4b4d2a25418790
 declaration: def
 origin: cited
-source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.dim

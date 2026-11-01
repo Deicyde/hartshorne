@@ -5,7 +5,6 @@ lean: Hartshorne.moduleSectionsIso
 statement: formalized
 proof: formalized
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Sections of module sheaves are representable

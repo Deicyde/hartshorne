@@ -2,7 +2,6 @@
 article_id: af_42004335b0a38d8bb41d9b2a
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # The Hodge-index Cauchy–Schwarz inequality

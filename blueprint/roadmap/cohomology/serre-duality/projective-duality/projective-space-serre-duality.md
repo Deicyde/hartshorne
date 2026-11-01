@@ -2,7 +2,6 @@
 article_id: af_abfcf979527f856d5fb1d7d0
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Serre duality on projective space

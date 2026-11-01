@@ -2,7 +2,6 @@
 article_id: af_3d9205412938cca078b5120b
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-5-geometry]
 mathlib: true
 mathlib_declaration: IsRegularLocalRing.iff_finrank_cotangentSpace
 mathlib_file: Mathlib/RingTheory/RegularLocalRing/Defs.lean

@@ -2,7 +2,6 @@
 article_id: af_b788bfcd173aff95570bd3a8
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.homogeneousVanishingIdeal_projectiveClosure Hartshorne.projectiveClosure_isProjVariety Hartshorne.chartMap_image_projectiveClosure_inter_standardChart Hartshorne.birational_projectiveClosure

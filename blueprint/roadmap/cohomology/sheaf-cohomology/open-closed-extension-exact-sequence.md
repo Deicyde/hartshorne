@@ -2,7 +2,6 @@
 article_id: af_51775dda22df3e41da103fae
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # The open–closed extension exact sequence

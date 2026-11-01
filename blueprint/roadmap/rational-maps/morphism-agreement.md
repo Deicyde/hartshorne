@@ -2,7 +2,6 @@
 article_id: af_daad9faeda5a941ac86e9d79
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.eq_of_eqOn_isOpen_hom

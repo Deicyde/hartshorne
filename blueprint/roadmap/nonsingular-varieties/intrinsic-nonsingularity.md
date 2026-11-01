@@ -2,7 +2,6 @@
 article_id: af_2ff2bb8fe76379abcf802044
 declaration: def
 origin: cited
-source_units: [chapter-i-section-5-geometry]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Variety.NonsingularAt Hartshorne.Variety.Nonsingular Hartshorne.Variety.SingularLocus Hartshorne.Variety.Singular

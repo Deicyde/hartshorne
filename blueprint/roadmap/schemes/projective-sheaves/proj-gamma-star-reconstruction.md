@@ -2,7 +2,6 @@
 article_id: af_b1f191530efdad41750722bd
 declaration: isomorphism
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Reconstruction from graded global sections

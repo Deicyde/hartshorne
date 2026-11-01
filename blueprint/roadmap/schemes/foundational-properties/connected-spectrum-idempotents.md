@@ -2,7 +2,6 @@
 article_id: af_9320492f02cd29177eca029f
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.disconnectedSpectrum_idempotents_products_tfae

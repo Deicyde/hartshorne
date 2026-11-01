@@ -2,7 +2,6 @@
 article_id: af_eb041e7dd513f21c1f08e47c
 declaration: abbrev
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Scheme.Over
 mathlib_file: Mathlib/AlgebraicGeometry/Over.lean

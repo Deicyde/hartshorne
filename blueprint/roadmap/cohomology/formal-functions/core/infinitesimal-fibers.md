@@ -2,7 +2,6 @@
 article_id: af_765c0204b1db21f247c49009
 declaration: def
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # Infinitesimal fibres

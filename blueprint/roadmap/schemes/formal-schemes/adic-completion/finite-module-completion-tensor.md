@@ -2,7 +2,6 @@
 article_id: af_5b194d5c093d9edcf997fc6c
 declaration: equivalence
 origin: background
-source_units: [chapter-ii-section-9]
 mathlib: true
 mathlib_declaration: AdicCompletion.ofTensorProductEquivOfFiniteNoetherian
 mathlib_file: Mathlib/RingTheory/AdicCompletion/AsTensorProduct.lean

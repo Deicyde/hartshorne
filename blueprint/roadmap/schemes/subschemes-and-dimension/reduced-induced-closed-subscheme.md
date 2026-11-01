@@ -2,7 +2,6 @@
 article_id: af_4125aa4e28c21fd436d3a767
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 ---
 
 # The reduced induced closed subscheme

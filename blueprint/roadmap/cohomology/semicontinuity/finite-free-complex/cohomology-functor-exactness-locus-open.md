@@ -2,7 +2,6 @@
 article_id: af_a58ce8b48823b2508bf38eb3
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # The exactness loci are open

@@ -2,7 +2,6 @@
 article_id: af_af002c6c55b279781ec7601e
 declaration: def
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # The maximal domain of a birational transformation

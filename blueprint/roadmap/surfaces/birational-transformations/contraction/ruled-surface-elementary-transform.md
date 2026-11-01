@@ -2,7 +2,6 @@
 article_id: af_314aaf6ad470aa80a33f386d
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Elementary transformations of ruled surfaces

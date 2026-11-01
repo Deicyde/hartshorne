@@ -2,7 +2,6 @@
 article_id: af_57d1e0d21cc249bf8c29e656
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-10]
 ---
 
 # Frobenius on the projective line is nowhere smooth

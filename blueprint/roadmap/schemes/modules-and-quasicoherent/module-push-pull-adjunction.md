@@ -2,7 +2,6 @@
 article_id: af_a10e68c7ff360c43ea9f3e53
 declaration: def
 origin: cited
-source_units: [chapter-ii-section-5]
 mathlib: true
 mathlib_declaration: SheafOfModules.pullbackPushforwardAdjunction
 mathlib_file: Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackContinuous.lean

@@ -2,7 +2,6 @@
 article_id: af_ec149a8ae82610ce8e1a0129
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Quasi-coherence of sections with support

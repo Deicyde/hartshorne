@@ -2,7 +2,6 @@
 article_id: af_90bc230b641c7c0c74c4e077
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Flat.iff_flat_stalkMap
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Flat.lean

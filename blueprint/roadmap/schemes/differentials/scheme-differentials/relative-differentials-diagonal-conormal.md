@@ -2,7 +2,6 @@
 article_id: af_2a8ac3af6149ed66e0a221bd
 declaration: theorem
 origin: bridged
-source_units: [chapter-ii-section-8]
 ---
 
 # Relative differentials are the conormal sheaf of the diagonal

@@ -2,7 +2,6 @@
 article_id: af_b48458c72585715ffb3969b0
 declaration: def
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # The relative degree-zero Picard functor

@@ -2,7 +2,6 @@
 article_id: af_dd034000c631c57fe0cb6091
 declaration: structure
 origin: cited
-source_units: [appendix-c-section-1]
 ---
 
 # Smooth projective geometrically connected varieties over a finite field

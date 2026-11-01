@@ -2,7 +2,6 @@
 article_id: af_74bc0484941b78f4f0b2e23c
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # The standard basepoint-free basis

@@ -2,7 +2,6 @@
 article_id: af_05b97d6063299d8b607ae5ae
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # Tame and wild different exponents

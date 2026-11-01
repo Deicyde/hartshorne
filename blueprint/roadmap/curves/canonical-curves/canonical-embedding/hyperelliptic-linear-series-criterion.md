@@ -2,7 +2,6 @@
 article_id: af_6db2de4616aee3434e0068bf
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Hyperelliptic curves and degree-two linear systems

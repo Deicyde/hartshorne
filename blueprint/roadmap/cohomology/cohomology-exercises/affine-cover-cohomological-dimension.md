@@ -2,7 +2,6 @@
 article_id: af_601f4f9c174c5f501bae1fe4
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Cohomological dimension from an affine cover

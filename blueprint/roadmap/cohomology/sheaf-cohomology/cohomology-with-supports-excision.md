@@ -2,7 +2,6 @@
 article_id: af_44adccb6cea98fcc33a4f6ee
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Excision for cohomology with supports

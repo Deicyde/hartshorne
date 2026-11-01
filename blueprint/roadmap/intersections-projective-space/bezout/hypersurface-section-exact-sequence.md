@@ -2,7 +2,6 @@
 article_id: af_d1b9ce8ff30814a78d9c8131
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.hypersurfaceSection_degreewise_exact_int

@@ -2,7 +2,6 @@
 article_id: af_9acfb9146e45984cacdd1007
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.HasAffineProperty.iff_of_iSup_eq_top
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Basic.lean

@@ -2,7 +2,6 @@
 article_id: af_01b34428bd087a4d13d151be
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.height_maximalIdealAt_eq Hartshorne.ringKrullDim_localRingAt_eq_dim

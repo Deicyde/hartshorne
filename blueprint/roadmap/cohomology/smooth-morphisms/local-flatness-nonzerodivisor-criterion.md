@@ -2,7 +2,6 @@
 article_id: af_e7796a770635c750fe8f5d98
 declaration: theorem
 origin: background
-source_units: [chapter-iii-section-10]
 ---
 
 # The non-zero-divisor local criterion for flatness

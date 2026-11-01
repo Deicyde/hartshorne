@@ -2,7 +2,6 @@
 article_id: af_587b17aed059f23afaa1a20d
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Factoring through one point blowup lowers the contracted-curve count by one

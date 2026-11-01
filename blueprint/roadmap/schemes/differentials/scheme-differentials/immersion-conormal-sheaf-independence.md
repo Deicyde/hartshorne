@@ -2,7 +2,6 @@
 article_id: af_e270dcd9c883d0a770b48853
 declaration: theorem
 origin: bridged
-source_units: [chapter-ii-section-8]
 ---
 
 # The conormal sheaf is independent of the closed neighbourhood

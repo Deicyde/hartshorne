@@ -2,7 +2,6 @@
 article_id: af_7a8becaeaedc249b0cce3a12
 declaration: theorem
 origin: cited
-source_units: [appendix-b-sections-1-2]
 ---
 
 # Affine analytifications glue to the analytification of a scheme

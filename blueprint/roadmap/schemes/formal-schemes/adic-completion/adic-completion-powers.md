@@ -2,7 +2,6 @@
 article_id: af_cbdf227317053eb5051629df
 declaration: theorem
 origin: background
-source_units: [chapter-ii-section-9]
 mathlib: true
 mathlib_declaration: AdicCompletion.pow_smul_top_eq_ker_eval
 mathlib_file: Mathlib/RingTheory/AdicCompletion/Completeness.lean

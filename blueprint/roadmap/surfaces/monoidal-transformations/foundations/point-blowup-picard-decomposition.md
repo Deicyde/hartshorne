@@ -2,7 +2,6 @@
 article_id: af_bddc667ee73c34544588f951
 declaration: isomorphism
 origin: cited
-source_units: [chapter-v-section-3]
 ---
 
 # The Picard group of a point blowup

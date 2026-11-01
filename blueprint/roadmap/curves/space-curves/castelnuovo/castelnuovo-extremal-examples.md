@@ -2,7 +2,6 @@
 article_id: af_bdd4f55743e7bfb4dc36dfd9
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Extremal curves on a smooth quadric

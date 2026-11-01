@@ -2,7 +2,6 @@
 article_id: af_58ce640788f701235bcea0f8
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-1-2]
 ---
 
 # The Chow projection formula

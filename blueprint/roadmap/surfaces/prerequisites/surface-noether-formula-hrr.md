@@ -2,7 +2,6 @@
 article_id: af_f2bbab9f3ce7bb526ef09d7c
 declaration: theorem
 origin: bridged
-source_units: [chapter-v-section-1]
 ---
 
 # Hirzebruch–Riemann–Roch for surfaces

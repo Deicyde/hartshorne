@@ -2,7 +2,6 @@
 article_id: af_dabc764964a1cfa1bb182121
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # Every ruled surface is birationally ruled

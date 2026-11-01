@@ -2,7 +2,6 @@
 article_id: af_e10ae9ded178ecb27cb22707
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-9]
 ---
 
 # Abelian closure of coherent formal modules

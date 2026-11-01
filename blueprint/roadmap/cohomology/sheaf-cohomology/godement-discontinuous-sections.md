@@ -2,7 +2,6 @@
 article_id: af_843eb1daa6fee504291d18dc
 declaration: instance
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.toGodement_mono Hartshorne.godementFunctor_obj_isFlasque

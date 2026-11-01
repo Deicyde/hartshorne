@@ -2,7 +2,6 @@
 article_id: af_f569e5ff0fa1a70bd43181a6
 declaration: theorem
 origin: cited
-source_units: [appendix-a-section-3]
 ---
 
 # Symmetric expressions in formal Chern roots descend to Chern classes

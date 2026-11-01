@@ -2,7 +2,6 @@
 article_id: af_52d78feae473fb8ec99e76dd
 declaration: theorem
 origin: cited
-source_units: [appendix-a-section-3]
 ---
 
 # The line, naturality, and Whitney axioms determine Chern classes

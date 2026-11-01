@@ -2,7 +2,6 @@
 article_id: af_72f51b519fff302ff45444ad
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Projection formula for finite locally free sheaves

@@ -2,7 +2,6 @@
 article_id: af_49afe04b8aacd5833ce44137
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_isAffineVariety_coordinateRing_equiv Hartshorne.isAffineVariety_zeroLocus_of_isPrime Hartshorne.vanishingIdeal_zeroLocus_of_isPrime

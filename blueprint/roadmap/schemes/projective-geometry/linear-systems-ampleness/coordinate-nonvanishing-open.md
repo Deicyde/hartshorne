@@ -2,7 +2,6 @@
 article_id: af_a933157095e6b109ea006613
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Coordinate nonvanishing opens

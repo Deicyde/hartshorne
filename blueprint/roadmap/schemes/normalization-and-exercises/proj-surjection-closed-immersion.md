@@ -2,7 +2,6 @@
 article_id: af_e0b7dccf69594036648fa59f
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 ---
 
 # A graded quotient induces a closed immersion of Proj

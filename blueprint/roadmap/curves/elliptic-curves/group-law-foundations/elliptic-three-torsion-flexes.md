@@ -2,7 +2,6 @@
 article_id: af_f82ae520e056d8233077cd80
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Three-torsion and flexes

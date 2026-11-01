@@ -2,7 +2,6 @@
 article_id: af_bb7b4ac0f38ded823a03c14d
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-4]
 ---
 
 # Identification of the Weil polynomials

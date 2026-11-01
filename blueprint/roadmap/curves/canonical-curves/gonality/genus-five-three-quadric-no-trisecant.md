@@ -2,7 +2,6 @@
 article_id: af_6c91e060c36a0aafe219d211
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # A genus-five complete intersection with no trigonal system

@@ -2,7 +2,6 @@
 article_id: af_e34d485edeb7eceab81a2fe4
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Global generation of the Castelnuovo contraction bundle

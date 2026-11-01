@@ -2,7 +2,6 @@
 article_id: af_a2d3ed50484798c310154ddd
 declaration: theorem
 origin: bridged
-source_units: [chapter-iv-section-4]
 ---
 
 # Variable changes induce Weierstrass scheme isomorphisms

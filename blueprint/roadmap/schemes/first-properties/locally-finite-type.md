@@ -2,7 +2,6 @@
 article_id: af_1a29a305023b847c4951dee1
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.locallyOfFiniteType_iff_affineCovers

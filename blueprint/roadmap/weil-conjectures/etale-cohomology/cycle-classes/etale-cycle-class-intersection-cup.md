@@ -2,7 +2,6 @@
 article_id: af_3b7d7e3b40859ae3eafd05b7
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-3]
 ---
 
 # Intersection of cycles becomes cup product

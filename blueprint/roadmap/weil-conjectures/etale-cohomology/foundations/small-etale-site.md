@@ -2,7 +2,6 @@
 article_id: af_6996e552979983497d8c0cea
 declaration: def
 origin: cited
-source_units: [appendix-c-section-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Scheme.smallEtaleTopology
 mathlib_file: Mathlib/AlgebraicGeometry/Sites/Etale.lean

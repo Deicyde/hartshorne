@@ -2,7 +2,6 @@
 article_id: af_745add23b22fd55feacf5a5d
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Addition is a morphism

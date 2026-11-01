@@ -2,7 +2,6 @@
 article_id: af_282371bb38115fa34ae6b5a5
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_birational_projective_hypersurface

@@ -2,7 +2,6 @@
 article_id: af_f62d48a7ce9e8a67001ffe80
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-3]
 ---
 
 # Arithmetic genus is invariant under a point blowup

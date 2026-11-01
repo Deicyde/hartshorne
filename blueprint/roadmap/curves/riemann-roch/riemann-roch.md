@@ -2,7 +2,6 @@
 article_id: af_cdbea3a99cad059dae2102b0
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # The Riemann–Roch theorem

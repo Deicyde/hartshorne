@@ -2,7 +2,6 @@
 article_id: af_20bb708fcbe056188c33a53a
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-6-local-structure]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Variety.HasAffineOpenBasis.isFractionRing_localRingAt

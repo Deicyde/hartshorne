@@ -2,7 +2,6 @@
 article_id: af_c25452c2234849d3af094f90
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-1]
 ---
 
 # The projective line has `q^r+1` points over `F_(q^r)`

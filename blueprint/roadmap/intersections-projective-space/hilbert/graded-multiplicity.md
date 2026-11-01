@@ -2,7 +2,6 @@
 article_id: af_4b49ee4a3033d8c3e5250ee9
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.gradedPrimeFiltration_multiplicity_eq_count
