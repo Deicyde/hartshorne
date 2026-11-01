@@ -3,6 +3,7 @@
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -114,6 +115,20 @@ def main():
             }, indent=2) + "\n")
         elif mode == "contract":
             destination.write_text(CONTRACT)
+        elif mode == "seed":
+            seed = Path(os.environ["HARTSHORNE_SOURCE_SEED"])
+            archive = seed / "root-build-seed.tgz"
+            digest = hashlib.sha256()
+            with archive.open("rb") as saved:
+                for block in iter(lambda: saved.read(1024 * 1024), b""):
+                    digest.update(block)
+            expected = "a59dd76dde397d3b20186c36524c003b195b7198da1e30fac9a581c46a90cf2e"
+            require(digest.hexdigest() == expected, "saved root seed hash differs")
+            inventory = json.loads((seed / "source-inventory.json").read_text())
+            require(inventory["source_revision"] == capture.revision, "saved seed source differs")
+            require(inventory["frozen"] == FROZEN, "saved seed project controls differ")
+            destination.write_text(json.dumps({"schema": "hartshorne-build-seed/v1", "sha256": expected,
+                                               "source_revision": capture.revision, "acceptance": None}) + "\n")
         elif mode == "controls":
             forbidden = "skip" + "KernelTC"
             result = subprocess.run(["git", "grep", "-n", "-I", forbidden, "--", "."],

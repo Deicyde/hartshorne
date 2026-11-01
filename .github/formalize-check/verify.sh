@@ -3,6 +3,7 @@ set -euo pipefail
 
 controls="$PWD/.github/formalize-check"
 evidence="${RUNNER_TEMP:?}/hartshorne-formalize-evidence"
+export HARTSHORNE_SOURCE_SEED="$RUNNER_TEMP/hartshorne-source-seed"
 mkdir "$evidence"
 mkdir "$evidence/stages"
 stage() {
@@ -19,6 +20,9 @@ test "${#mathlib_targets[@]}" -gt 0
 stage prebuilt-cache lake exe cache get
 stage pinned-packages python "$controls/checks.py" packages "$evidence/package-pins.json"
 stage cached-theory-freshness lake --rehash --no-build build "${mathlib_targets[@]}"
+stage source-matched-build-seed python "$controls/checks.py" seed "$evidence/source-matched-seed.json"
+stage restore-root-build-seed lake unpack "$HARTSHORNE_SOURCE_SEED/root-build-seed.tgz"
+stage restored-root-freshness lake --rehash --no-build build
 stage focused-build lake build Hartshorne.Scheme.ModuleSheafHom
 mapfile -t project_modules < <(python -c 'import json,sys; print("\n".join(json.load(open(sys.argv[1]))["local_build_order"]))' "$evidence/source-inventory.json")
 test "${#project_modules[@]}" -gt 0

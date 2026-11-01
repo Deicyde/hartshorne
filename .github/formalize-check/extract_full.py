@@ -140,8 +140,14 @@ run_cmd do
 
     def fresh(probe, lean_root, **options):
         require(lean_root.resolve(strict=True) == root, "native run root changed")
-        imports = "\n".join(line for line in probe.splitlines() if line.startswith("import "))
-        meta = original_runner(imports + "\n" + metadata_program, lean_root, **options)
+        project_imports = sk._probe_modules(probe)
+        leading = "\n".join(f"import {name}" for name in project_imports)
+        support = "\n".join(line for line in probe.splitlines()
+                            if line.startswith("import ") and line.removeprefix("import ").strip() not in project_imports)
+        # Stock freshness checks exactly the leading project imports, while
+        # metadata loads all of the actual probe's toolchain support modules.
+        meta = original_runner(leading + "\n-- Metadata support modules\n" + support +
+                               "\n" + metadata_program, lean_root, **options)
         matches = re.findall(r"^ARTIFACT_MODULES (.+)$", meta, re.M)
         require(len(matches) == 1 and "error:" not in meta, "invalid native module metadata")
         rows = json.loads(matches[0])

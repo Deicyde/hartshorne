@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 env:
   LEAN_NUM_THREADS: '1'
@@ -46,6 +47,14 @@ jobs:
           echo "$verifier_cli/.venv/bin" >> "$GITHUB_PATH"
           echo "PYTHONPATH=$verifier_cli" >> "$GITHUB_ENV"
           echo 'PYTHONDONTWRITEBYTECODE=1' >> "$GITHUB_ENV"
+
+      - name: Restore exact saved root build as a cache seed
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ github.token }}
+          run-id: 41289542020
+          name: hartshorne-formalize-b3b46b27db569a4c09304d20287b3e8ad2e71e15
+          path: ${{ runner.temp }}/hartshorne-source-seed
 
       - name: Verify cached candidate with bounded stages
         shell: bash
