@@ -30,6 +30,7 @@ done
 stage default-build lake build
 stage final-default-freshness lake --rehash --no-build build
 stage final-pinned-packages python "$controls/checks.py" packages "$evidence/final-package-pins.json"
+stage saved-root-build-seed lake pack "$evidence/root-build-seed.tgz"
 stage root-import-scope autoform work import-impact schemes/modules-and-quasicoherent/module-sheaf-hom Hartshorne . --lean-root . --json
 stage hom-import-scope autoform work import-impact schemes/modules-and-quasicoherent/module-sheaf-hom Hartshorne.Scheme.ModuleSheafHom . --lean-root . --json
 

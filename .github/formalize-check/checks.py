@@ -27,7 +27,7 @@ CONTRACT = """import Hartshorne.Scheme.ModuleSheafHom
 open CategoryTheory Opposite TopologicalSpace AlgebraicGeometry
 universe u
 namespace Hartshorne
-example (X : Scheme.{u}) : ModuleSheafHomData X := moduleSheafHomData X
+noncomputable example (X : Scheme.{u}) : ModuleSheafHomData X := moduleSheafHomData X
 example (X : Scheme.{u}) (d : ModuleSheafHomData X) (F G : X.Modules)
     (σ : Γ(d.obj F G, ⊤)) (V : X.Opens) (x : Γ(F, V)) :
     (d.globalSections F G σ).val.app (op V) x =
