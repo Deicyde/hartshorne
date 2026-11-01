@@ -20,9 +20,18 @@ stage prebuilt-cache lake exe cache get
 stage pinned-packages python "$controls/checks.py" packages "$evidence/package-pins.json"
 stage cached-theory-freshness lake --rehash --no-build build "${mathlib_targets[@]}"
 stage focused-build lake build Hartshorne.Scheme.ModuleSheafHom
+mapfile -t project_modules < <(python -c 'import json,sys; print("\n".join(json.load(open(sys.argv[1]))["local_build_order"]))' "$evidence/source-inventory.json")
+test "${#project_modules[@]}" -gt 0
+# Compile every captured project module in dependency order within bounded
+# batches; the unqualified default build and exact root-pack audit still follow.
+for ((module_offset=0; module_offset<${#project_modules[@]}; module_offset+=10)); do
+  stage "project-build-$module_offset" lake build "${project_modules[@]:module_offset:10}"
+done
 stage default-build lake build
 stage final-default-freshness lake --rehash --no-build build
 stage final-pinned-packages python "$controls/checks.py" packages "$evidence/final-package-pins.json"
+stage root-import-scope autoform work import-impact schemes/modules-and-quasicoherent/module-sheaf-hom Hartshorne . --lean-root . --json
+stage hom-import-scope autoform work import-impact schemes/modules-and-quasicoherent/module-sheaf-hom Hartshorne.Scheme.ModuleSheafHom . --lean-root . --json
 
 stage exact-contract-source python "$controls/checks.py" contract "$evidence/Contract.lean"
 stage exact-contract lake env lean "$evidence/Contract.lean"

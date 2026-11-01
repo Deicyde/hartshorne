@@ -78,6 +78,7 @@ def main():
     cleanup_errors = []
     survivors = []
     peak = samples = 0
+    peak_partial = 0
     process = None
     gate_read = gate_write = None
     interrupted = []
@@ -129,8 +130,13 @@ def main():
                     continue
 
     def limits(total):
+        nonlocal peak_partial
+        peak_partial = max(peak_partial, total)
         if total > RSS_LIMIT:
-            raise RuntimeError("aggregate owned-process RSS exceeded 6 GiB")
+            failure = RuntimeError("aggregate owned-process RSS exceeded 6 GiB")
+            failure.owned_diagnostic = {"operation": "rss-limit", "observed_rss_lower_bound": total,
+                                        "rss_limit": RSS_LIMIT}
+            raise failure
         if stdout.stat().st_size + stderr.stat().st_size > OUTPUT_LIMIT:
             raise RuntimeError("combined output exceeded 256 MiB")
         if time.monotonic() - start > DEADLINE_SECONDS:
@@ -273,19 +279,34 @@ def main():
                     cleanup_errors.append(f"late KILL {candidate.pid}: {type(exc).__name__}: {exc}")
             time.sleep(0.05)
         survivors = [list(expected) for _candidate, expected in check_remaining()]
-        # Reap adopted direct children individually. Popen owns its worker reap.
-        for candidate, expected in refresh_cleanup():
-            if process is not None and candidate.pid == process.pid:
-                continue
-            try:
-                if identity(candidate) == expected and psutil.Process(candidate.pid).ppid() == os.getpid():
-                    result, _status = os.waitpid(candidate.pid, os.WNOHANG)
-                    if result == 0:
-                        cleanup_errors.append(f"adopted child {candidate.pid} was not reaped")
-            except (psutil.NoSuchProcess, ChildProcessError):
-                pass
-            except BaseException as exc:
-                cleanup_errors.append(f"adopted reap {candidate.pid}: {type(exc).__name__}: {exc}")
+        # Linux can expose a zombie before waitpid reports it waitable. Reap
+        # adopted direct children under one fixed cleanup deadline.
+        reap_deadline = time.monotonic() + 2
+        reaped = set()
+        while True:
+            pending = []
+            for candidate, expected in refresh_cleanup():
+                if expected in reaped or (process is not None and candidate.pid == process.pid):
+                    continue
+                try:
+                    if identity(candidate, expected) == expected and psutil.Process(candidate.pid).ppid() == os.getpid():
+                        result, _status = os.waitpid(candidate.pid, os.WNOHANG)
+                        if result == candidate.pid:
+                            reaped.add(expected)
+                        elif result == 0:
+                            pending.append(expected)
+                        else:
+                            raise RuntimeError("waitpid returned an unexpected owned child")
+                except (psutil.NoSuchProcess, ChildProcessError):
+                    pass
+                except BaseException as exc:
+                    cleanup_errors.append(f"adopted reap {candidate.pid}: {type(exc).__name__}: {exc}")
+            if not pending:
+                break
+            if time.monotonic() >= reap_deadline:
+                cleanup_errors.extend(f"adopted child {expected[0]} was not reaped" for expected in pending)
+                break
+            time.sleep(0.01)
         survivors = [list(expected) for _candidate, expected in check_remaining()]
         try:
             if stdout.stat().st_size + stderr.stat().st_size > OUTPUT_LIMIT:
@@ -302,6 +323,7 @@ def main():
         "command": command, "elapsed_seconds": time.monotonic() - start,
         "limits": {"rss_bytes": RSS_LIMIT, "output_bytes": OUTPUT_LIMIT, "seconds": DEADLINE_SECONDS},
         "peak_rss_bytes": peak, "samples": samples, "exit_code": None if process is None else process.returncode,
+        "peak_partial_rss_bytes": peak_partial,
         "owned_identities": [list(pair[1]) for pair in owned.values()],
         "errors": errors, "cleanup_errors": cleanup_errors, "survivors": survivors,
         "first_failure": first_failure,

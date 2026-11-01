@@ -70,23 +70,47 @@ def main():
             libraries = sk.lean_libraries(root)
             modules = []
             mathlib = set()
+            imports = {}
             for path, content in capture.source_files:
                 module = sk.module_of(root / path, libraries)
                 if module is None:
                     continue
                 modules.append(module)
+                imports[module] = []
                 for line in content.decode("utf-8").splitlines():
                     if not line.lstrip().startswith("import "):
                         continue
                     match = re.fullmatch(r"\s*import\s+([A-Za-z0-9_'.]+)\s*(?:--.*)?", line)
                     require(match is not None, f"unsupported import syntax in {path}")
+                    imports[module].append(match[1])
                     if match[1] == "Mathlib" or match[1].startswith("Mathlib."):
                         mathlib.add(match[1])
             require(modules and mathlib and len(modules) == len(set(modules)), "invalid source import inventory")
+            local = set(modules)
+            ordered = []
+            visiting = set()
+            visited = set()
+
+            def visit(module):
+                require(module not in visiting, "local module import cycle")
+                if module in visited:
+                    return
+                visiting.add(module)
+                for dependency in imports[module]:
+                    if dependency in local:
+                        visit(dependency)
+                visiting.remove(module)
+                visited.add(module)
+                ordered.append(module)
+
+            for module in sorted(local):
+                visit(module)
+            require(set(ordered) == local and len(ordered) == len(local), "incomplete module build order")
             destination.write_text(json.dumps({
                 "schema": "hartshorne-source-inventory/v1", "source_revision": capture.revision,
                 "generation": capture.generation_revision, "local_modules": sorted(modules),
                 "mathlib_imports": sorted(mathlib), "frozen": FROZEN,
+                "local_build_order": ordered,
             }, indent=2) + "\n")
         elif mode == "contract":
             destination.write_text(CONTRACT)
