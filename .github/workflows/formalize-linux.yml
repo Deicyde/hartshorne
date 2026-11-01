@@ -2,7 +2,7 @@ name: Hartshorne bounded Linux verification
 
 on:
   push:
-    branches: ['scratch/hartshorne-formalize-01a13829-*']
+    branches: ['codex/formalize-module-hom-pass9-01a13829']
 
 permissions:
   contents: read

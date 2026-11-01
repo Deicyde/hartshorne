@@ -17,17 +17,32 @@ OUTPUT_LIMIT = 256 * 1024**2
 DEADLINE_SECONDS = 600
 
 
-def identity(process):
-    fresh = psutil.Process(process.pid)
-    return (fresh.pid, fresh.create_time())
+def inspect(operation, pid, expected, action):
+    try:
+        return action()
+    except BaseException as exc:
+        if not hasattr(exc, "owned_diagnostic"):
+            exc.owned_diagnostic = {"operation": operation, "pid": pid,
+                                    "expected_identity": None if expected is None else list(expected)}
+        raise
+
+
+def identity(process, expected=None):
+    def read():
+        fresh = psutil.Process(process.pid)
+        return (fresh.pid, fresh.create_time())
+    return inspect("identity", process.pid, expected, read)
 
 
 def live(process, expected):
     try:
-        if identity(process) != expected:
+        if identity(process, expected) != expected:
             return False
-        return psutil.Process(process.pid).status() not in (psutil.STATUS_ZOMBIE, psutil.STATUS_DEAD)
-    except psutil.NoSuchProcess:
+        status = inspect("status", process.pid, expected, lambda: psutil.Process(process.pid).status())
+        return status not in (psutil.STATUS_ZOMBIE, psutil.STATUS_DEAD)
+    except psutil.NoSuchProcess as exc:
+        if exc.pid != process.pid:
+            raise
         return False
 
 
@@ -59,6 +74,7 @@ def main():
     start = time.monotonic()
     owned = {}
     errors = []
+    first_failure = None
     cleanup_errors = []
     survivors = []
     peak = samples = 0
@@ -84,10 +100,20 @@ def main():
             if parent.pid in visited or not live(parent, parent_identity):
                 continue
             visited.add(parent.pid)
-            for child in psutil.Process(parent.pid).children(recursive=False):
+            try:
+                children = inspect("children", parent.pid, parent_identity,
+                                   lambda: psutil.Process(parent.pid).children(recursive=False))
+            except psutil.NoSuchProcess as exc:
+                if exc.pid != parent.pid:
+                    raise
+                if not live(parent, parent_identity):
+                    continue
+                raise
+            for child in children:
                 try:
                     child_identity = identity(child)
-                    child_parent = psutil.Process(child.pid).ppid()
+                    child_parent = inspect("register-parent", child.pid, child_identity,
+                                           lambda: psutil.Process(child.pid).ppid())
                     if not live(parent, parent_identity):
                         raise RuntimeError("parent disappeared during descendant registration")
                     if child_parent != parent.pid or identity(child) != child_identity:
@@ -96,7 +122,9 @@ def main():
                     if owned[child.pid][1] != child_identity:
                         raise RuntimeError("descendant identity changed during registration")
                     pending.append(owned[child.pid])
-                except psutil.NoSuchProcess:
+                except psutil.NoSuchProcess as exc:
+                    if exc.pid != child.pid:
+                        raise
                     # A disappeared PID is not retained or signaled.
                     continue
 
@@ -109,8 +137,10 @@ def main():
             if not live(candidate, expected):
                 continue
             try:
-                resident = candidate.memory_info().rss
-            except psutil.NoSuchProcess:
+                resident = inspect("rss", candidate.pid, expected, lambda: candidate.memory_info().rss)
+            except psutil.NoSuchProcess as exc:
+                if exc.pid != candidate.pid:
+                    raise
                 if not live(candidate, expected):
                     continue
                 raise
@@ -160,6 +190,7 @@ def main():
                 raise RuntimeError(f"verification command exited {process.returncode}")
     except BaseException as exc:
         errors.append(f"{type(exc).__name__}: {exc}")
+        first_failure = getattr(exc, "owned_diagnostic", None)
     finally:
         for descriptor in (gate_read, gate_write):
             if descriptor is not None:
@@ -250,6 +281,7 @@ def main():
         "peak_rss_bytes": peak, "samples": samples, "exit_code": None if process is None else process.returncode,
         "owned_identities": [list(pair[1]) for pair in owned.values()],
         "errors": errors, "cleanup_errors": cleanup_errors, "survivors": survivors,
+        "first_failure": first_failure,
     }, indent=2) + "\n")
     print(receipt.read_text())
     return 0 if passed else 1
