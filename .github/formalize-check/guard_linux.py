@@ -15,6 +15,7 @@ import psutil
 RSS_LIMIT = 6 * 1024**3
 OUTPUT_LIMIT = 256 * 1024**2
 DEADLINE_SECONDS = 600
+RSS_RESAMPLE_SECONDS = 0.25
 
 
 def inspect(operation, pid, expected, action):
@@ -165,7 +166,7 @@ def main():
                 continue
             if resident <= 0:
                 if retry_deadline is None:
-                    retry_deadline = time.monotonic() + 0.1
+                    retry_deadline = time.monotonic() + RSS_RESAMPLE_SECONDS
                 limits(total)
                 retry_context = {"operation": "rss-zero", "pid": candidate.pid,
                                  "expected_identity": list(expected), "observed_rss": resident}
@@ -176,14 +177,14 @@ def main():
                     return sample(retry_deadline, retry_count + 1, retry_context)
                 failure = RuntimeError("live owned process has no positive RSS reading after bounded resampling")
                 failure.owned_diagnostic = dict(retry_context, retry_count=retry_count,
-                                                retry_duration_seconds=time.monotonic() - (retry_deadline - 0.1))
+                                                retry_duration_seconds=time.monotonic() - (retry_deadline - RSS_RESAMPLE_SECONDS))
                 raise failure
             total += resident
             limits(total)
         if retry_deadline is not None and time.monotonic() > retry_deadline:
-            failure = RuntimeError("complete positive RSS resample exceeded its 100ms budget")
+            failure = RuntimeError("complete positive RSS resample exceeded its 250ms budget")
             failure.owned_diagnostic = dict(retry_context, retry_count=retry_count,
-                                            retry_duration_seconds=time.monotonic() - (retry_deadline - 0.1))
+                                            retry_duration_seconds=time.monotonic() - (retry_deadline - RSS_RESAMPLE_SECONDS))
             raise failure
         peak = max(peak, total)
         samples += 1
