@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import stat
 import sys
+import time
 
 from autoform_cli import __main__ as entrypoint
 from autoform_cli import skeleton as sk
@@ -92,6 +93,13 @@ def main():
     require(output.is_absolute() and not output.exists(), "output must be a fresh absolute directory")
     require(root not in output.parents and output not in root.parents, "output must be outside the Lean source root")
     output.mkdir(parents=True)
+    current_phase = "initialization"
+
+    def phase(name, command=None):
+        nonlocal current_phase
+        current_phase = name
+        (output / "phase.json").write_text(json.dumps({"phase": name, "pid": os.getpid(),
+                                                       "monotonic": time.monotonic(), "command": command}) + "\n")
     original_runner = sk.run_probe
     original_command = sk._run_bounded_command
     original_parser = sk.parse_probe_output
@@ -102,6 +110,7 @@ def main():
     @functools.wraps(original_command)
     def bounded(command, **options):
         nonlocal native_bytes
+        phase(current_phase.split(":", 1)[0] + ":" + ("freshness" if "--no-build" in command else "native-command"), command)
         remaining = OUTPUT_LIMIT - native_bytes
         require(remaining > 0, "cumulative native output budget exhausted")
         options.setdefault("output_limit", remaining)
@@ -146,6 +155,7 @@ run_cmd do
                             if line.startswith("import ") and line.removeprefix("import ").strip() not in project_imports)
         # Stock freshness checks exactly the leading project imports, while
         # metadata loads all of the actual probe's toolchain support modules.
+        phase("metadata")
         meta = original_runner(leading + "\n-- Metadata support modules\n" + support +
                                "\n" + metadata_program, lean_root, **options)
         matches = re.findall(r"^ARTIFACT_MODULES (.+)$", meta, re.M)
@@ -170,8 +180,11 @@ run_cmd do
                                ("olean.private", Path(str(native) + ".private"))):
                 captures.append({"module": name, "kind": kind, "path": str(path)})
                 native_paths.add((name, kind, str(path.resolve(strict=False))))
+        phase("artifact-binding-before")
         before = current_artifacts()
+        phase("native")
         raw = original_runner(probe, lean_root, **options)
+        phase("artifact-binding-after")
         require(current_artifacts() == before, "native artifacts changed during extraction")
         artifacts.extend(before)
         (output / "native-modules.json").write_text(json.dumps(rows, indent=2))
@@ -180,7 +193,9 @@ run_cmd do
 
     @functools.wraps(original_parser)
     def parse(raw, **options):
+        phase("strict-parsing")
         records = original_parser(raw, **options)
+        phase("strict-parsing-complete")
         for record in records.values():
             if not record.get("found"):
                 continue
@@ -201,6 +216,7 @@ run_cmd do
             "--packets", str(output / "packets"), "--passages", str(output / "passages"),
         ])
         require(result == 0 and artifacts, "full original extraction was incomplete")
+        phase("final-binding")
         require(current_artifacts() == artifacts, "artifacts changed during strict parse or publication")
         recapture = bound.capture()
         require((source.revision, source.generation_revision) ==
@@ -217,6 +233,7 @@ run_cmd do
         "report_sha256": hash_file(output / "report.json"), "artifacts": artifacts,
         "cumulative_native_output_bytes": native_bytes,
     }, indent=2) + "\n")
+    phase("complete")
 
 
 if __name__ == "__main__":

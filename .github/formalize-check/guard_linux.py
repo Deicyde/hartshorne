@@ -80,6 +80,7 @@ def main():
     survivors = []
     peak = samples = 0
     peak_partial = 0
+    current_rss = []
     process = None
     gate_read = gate_write = None
     interrupted = []
@@ -136,7 +137,7 @@ def main():
         if total > RSS_LIMIT:
             failure = RuntimeError("aggregate owned-process RSS exceeded 6 GiB")
             failure.owned_diagnostic = {"operation": "rss-limit", "observed_rss_lower_bound": total,
-                                        "rss_limit": RSS_LIMIT}
+                                        "rss_limit": RSS_LIMIT, "owned_rss_readings": list(current_rss)}
             raise failure
         if stdout.stat().st_size + stderr.stat().st_size > OUTPUT_LIMIT:
             raise RuntimeError("combined output exceeded 256 MiB")
@@ -147,6 +148,7 @@ def main():
 
     def sample(retry_deadline=None, retry_count=0, retry_context=None):
         nonlocal peak, samples
+        current_rss.clear()
         limits(0)
         # Discover only descendants of positively identified owned processes.
         discover()
@@ -180,6 +182,7 @@ def main():
                                                 retry_duration_seconds=time.monotonic() - (retry_deadline - RSS_RESAMPLE_SECONDS))
                 raise failure
             total += resident
+            current_rss.append({"pid": candidate.pid, "identity": list(expected), "rss": resident})
             limits(total)
         if retry_deadline is not None and time.monotonic() > retry_deadline:
             failure = RuntimeError("complete positive RSS resample exceeded its 250ms budget")

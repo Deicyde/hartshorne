@@ -41,7 +41,6 @@ stage hom-import-scope autoform work import-impact schemes/modules-and-quasicohe
 stage exact-contract-source python "$controls/checks.py" contract "$evidence/Contract.lean"
 stage exact-contract lake env lean "$evidence/Contract.lean"
 stage all-public-unused python "$controls/checks.py" unused "$evidence/all-public-unused.json"
-stage full-extraction python "$controls/extract_full.py" "$evidence/full-extraction"
 
 stage evaluate-config lake translate-config toml "$evidence/lake-config.toml"
 stage root-package python .github/autoform_audit.py --root-package "$evidence/lake-config.toml"
@@ -56,6 +55,7 @@ stage blueprint-check autoform check blueprint --lean-root .
 # Validate the blueprint with the repository's original immutable CI pin.
 stage immutable-blueprint-check env -u PYTHONPATH uvx --from git+https://github.com/facebookresearch/autoform-bot.git@1cf2ca825fec5e6d3303e24374e218bf3e8ab5c1 autoform check blueprint --lean-root .
 stage immutable-blueprint-audit env -u PYTHONPATH uvx --from git+https://github.com/facebookresearch/autoform-bot.git@1cf2ca825fec5e6d3303e24374e218bf3e8ab5c1 autoform audit blueprint --lean-root .
+stage full-extraction python "$controls/extract_full.py" "$evidence/full-extraction"
 
 python - "$evidence" <<'PY'
 import hashlib, json, pathlib, sys
