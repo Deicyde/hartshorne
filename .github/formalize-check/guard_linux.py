@@ -128,8 +128,19 @@ def main():
                     # A disappeared PID is not retained or signaled.
                     continue
 
-    def sample():
+    def limits(total):
+        if total > RSS_LIMIT:
+            raise RuntimeError("aggregate owned-process RSS exceeded 6 GiB")
+        if stdout.stat().st_size + stderr.stat().st_size > OUTPUT_LIMIT:
+            raise RuntimeError("combined output exceeded 256 MiB")
+        if time.monotonic() - start > DEADLINE_SECONDS:
+            raise RuntimeError("verification stage exceeded 600 seconds")
+        if interrupted:
+            raise RuntimeError("verification stage interrupted")
+
+    def sample(retry_deadline=None, retry_count=0, retry_context=None):
         nonlocal peak, samples
+        limits(0)
         # Discover only descendants of positively identified owned processes.
         discover()
         total = 0
@@ -147,18 +158,30 @@ def main():
             if not live(candidate, expected):
                 continue
             if resident <= 0:
-                raise RuntimeError("live owned process has no positive RSS reading")
+                if retry_deadline is None:
+                    retry_deadline = time.monotonic() + 0.1
+                limits(total)
+                retry_context = {"operation": "rss-zero", "pid": candidate.pid,
+                                 "expected_identity": list(expected), "observed_rss": resident}
+                if time.monotonic() < retry_deadline:
+                    time.sleep(0.005)
+                    # Discard the incomplete cohort and freshly inspect all owned
+                    # identities again. A zero reading never contributes to a sample.
+                    return sample(retry_deadline, retry_count + 1, retry_context)
+                failure = RuntimeError("live owned process has no positive RSS reading after bounded resampling")
+                failure.owned_diagnostic = dict(retry_context, retry_count=retry_count,
+                                                retry_duration_seconds=time.monotonic() - (retry_deadline - 0.1))
+                raise failure
             total += resident
+            limits(total)
+        if retry_deadline is not None and time.monotonic() > retry_deadline:
+            failure = RuntimeError("complete positive RSS resample exceeded its 100ms budget")
+            failure.owned_diagnostic = dict(retry_context, retry_count=retry_count,
+                                            retry_duration_seconds=time.monotonic() - (retry_deadline - 0.1))
+            raise failure
         peak = max(peak, total)
         samples += 1
-        if total > RSS_LIMIT:
-            raise RuntimeError("aggregate owned-process RSS exceeded 6 GiB")
-        if stdout.stat().st_size + stderr.stat().st_size > OUTPUT_LIMIT:
-            raise RuntimeError("combined output exceeded 256 MiB")
-        if time.monotonic() - start > DEADLINE_SECONDS:
-            raise RuntimeError("verification stage exceeded 600 seconds")
-        if interrupted:
-            raise RuntimeError("verification stage interrupted")
+        limits(total)
 
     try:
         for signum in (signal.SIGINT, signal.SIGTERM):
