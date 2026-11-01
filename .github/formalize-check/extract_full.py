@@ -18,6 +18,7 @@ from autoform_cli.graph import load_graph
 from autoform_cli.lean import bind_project_sources
 from checks import frozen
 from json_storage import SharedNameJSON
+import stream_publication
 
 NODE = "schemes/modules-and-quasicoherent/module-sheaf-hom"
 ORIGINAL_DECODER = "4fd33f54f4863e4c342b5fea942f7a18c5199323f069ff40215913ff868021ff"
@@ -116,7 +117,8 @@ def main():
     original_command = sk._run_bounded_command
     original_parser = sk.parse_probe_output
     original_declaration = sk._declaration
-    original_packets = entrypoint.write_packets
+    stream_publication.install()
+    original_packets = stream_publication.write_packets
     sk.DEFAULT_PROBE_OUTPUT_LIMIT = OUTPUT_LIMIT
     sk._PROBE_MATERIAL_LIMIT = 1024**3
     # All original schema/material guards run over complete dict/list values.
