@@ -23,7 +23,7 @@ permissions:
 
 env:
   AUTOFORM_SOURCE: "https://github.com/facebookresearch/autoform-bot.git"
-  AUTOFORM_REF: "25f7df670ed3abf931f028010d539850631263df"
+  AUTOFORM_REF: "1cf2ca825fec5e6d3303e24374e218bf3e8ab5c1"
 
 concurrency:
   group: blueprint-pages
