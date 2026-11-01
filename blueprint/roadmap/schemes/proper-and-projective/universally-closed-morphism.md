@@ -2,7 +2,6 @@
 article_id: af_4e295bffa818324292803ca3
 declaration: class
 origin: cited
-source_units: [chapter-ii-section-4]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.UniversallyClosed
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/UniversallyClosed.lean

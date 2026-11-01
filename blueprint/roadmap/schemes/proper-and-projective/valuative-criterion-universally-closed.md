@@ -2,7 +2,6 @@
 article_id: af_6d8e8e0d65cf4d54a564f62b
 declaration: lemma
 origin: cited
-source_units: [chapter-ii-section-4]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.UniversallyClosed.eq_valuativeCriterion
 mathlib_file: Mathlib/AlgebraicGeometry/ValuativeCriterion.lean

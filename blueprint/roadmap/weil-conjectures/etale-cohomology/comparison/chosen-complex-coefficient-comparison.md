@@ -2,7 +2,6 @@
 article_id: af_4507a0b1e054c61ebe41712e
 declaration: isomorphism
 origin: bridged
-source_units: [appendix-c-section-3]
 ---
 
 # Complex comparison after choosing an embedding of coefficient fields

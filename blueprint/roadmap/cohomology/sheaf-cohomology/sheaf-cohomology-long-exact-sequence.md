@@ -2,7 +2,6 @@
 article_id: af_acc41f7e6e3920d05b1ce349
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 mathlib: true
 mathlib_declaration: CategoryTheory.Abelian.Ext.covariantSequence_exact
 mathlib_file: Mathlib/Algebra/Homology/DerivedCategory/Ext/ExactSequences.lean

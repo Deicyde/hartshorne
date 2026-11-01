@@ -2,7 +2,6 @@
 article_id: af_2859d187d0dccb6a619cb333
 declaration: definition
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: CategoryTheory.sheafificationAdjunction
 mathlib_file: Mathlib/CategoryTheory/Sites/Sheafification.lean

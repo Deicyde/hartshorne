@@ -2,7 +2,6 @@
 article_id: af_c7b60a841d6ee585d274ef48
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: topologicalKrullDim
 mathlib_file: Mathlib/Topology/KrullDimension.lean

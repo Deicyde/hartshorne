@@ -2,7 +2,6 @@
 article_id: af_96269be1dc0a6983dffac4c4
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # The numerical intersection lattice of a ruled surface

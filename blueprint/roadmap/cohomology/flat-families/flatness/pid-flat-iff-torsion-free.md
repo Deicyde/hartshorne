@@ -2,7 +2,6 @@
 article_id: af_d33d9084b1d39260a103d67c
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 mathlib: true
 mathlib_declaration: Module.Flat.flat_iff_torsion_eq_bot_of_isBezout
 mathlib_file: Mathlib/RingTheory/Flat/TorsionFree.lean

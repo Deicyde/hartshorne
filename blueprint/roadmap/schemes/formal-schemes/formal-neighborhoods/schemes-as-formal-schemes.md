@@ -2,7 +2,6 @@
 article_id: af_5e11f59764aa47dd15042c9a
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-9]
 ---
 
 # Schemes as formal schemes

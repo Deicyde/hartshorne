@@ -2,7 +2,6 @@
 article_id: af_f3652769c3a7409118ffe47b
 declaration: example
 origin: background
-source_units: [appendix-b-sections-1-2]
 not_ready: true
 ---
 

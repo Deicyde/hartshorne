@@ -2,7 +2,6 @@
 article_id: af_8fe9a9502640b57b17d55495
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # The lci dualizing-sheaf formula

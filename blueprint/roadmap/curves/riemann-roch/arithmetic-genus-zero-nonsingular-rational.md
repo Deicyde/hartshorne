@@ -2,7 +2,6 @@
 article_id: af_aa83cbf389d27de5ef061c0f
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # Arithmetic genus zero forces nonsingularity and rationality

@@ -2,7 +2,6 @@
 article_id: af_d7fdb8737852935db8457013
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-4-5]
 ---
 
 # The curve Riemann–Roch specialization

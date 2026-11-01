@@ -2,7 +2,6 @@
 article_id: af_137c79182a944202199147a5
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Variety.exists_regularSheafStalkEquivLocalRing

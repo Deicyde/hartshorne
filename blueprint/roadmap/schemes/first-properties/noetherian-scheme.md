@@ -2,7 +2,6 @@
 article_id: af_3e20fae8ae51931559b4fa76
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.isNoetherian_iff_of_finite_affine_openCover
 mathlib_file: Mathlib/AlgebraicGeometry/Noetherian.lean

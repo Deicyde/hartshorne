@@ -2,7 +2,6 @@
 article_id: af_30bf08e6f3984c163844102c
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Relatively minimal rational examples

@@ -2,7 +2,6 @@
 article_id: af_cebe419d811e1ddbb4cf18e4
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 ---
 
 # Coherence of projective higher direct images

@@ -2,7 +2,6 @@
 article_id: af_2bdc317ffaca82cacb1f9af2
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-4-5]
 ---
 
 # Proper pushforward on K0

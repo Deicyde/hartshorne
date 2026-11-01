@@ -2,7 +2,6 @@
 article_id: af_406823956960a3ab123d308a
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Pullback preserves quasi-coherence

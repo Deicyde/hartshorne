@@ -2,7 +2,6 @@
 article_id: af_8d78c10a97777829b9f0345f
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 ---
 
 # Čech complexes compute higher direct images

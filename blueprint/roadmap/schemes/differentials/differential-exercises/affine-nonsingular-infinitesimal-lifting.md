@@ -2,7 +2,6 @@
 article_id: af_84d5f368413d6cf560e50055
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # Infinitesimal lifting for a nonsingular affine scheme

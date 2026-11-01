@@ -2,7 +2,6 @@
 article_id: af_9151d1a05185ce97d9df7ad5
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_awayToAtPrime_eq_of_globalRegular Hartshorne.exists_homogeneous_repr_of_globalRegular

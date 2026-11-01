@@ -2,7 +2,6 @@
 article_id: af_05a615e7cdc6a96bd7a4a93e
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Codimension-one classes and the point trace

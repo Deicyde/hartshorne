@@ -2,7 +2,6 @@
 article_id: af_07befeaa968365b20f7a54ea
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.quasiCompact_iff_forall_isAffineOpen
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/QuasiCompact.lean

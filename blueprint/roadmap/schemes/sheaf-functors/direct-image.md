@@ -2,7 +2,6 @@
 article_id: af_4a417e63d714ab6f6e4c4aa5
 declaration: definition
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: TopCat.Sheaf.pushforward
 mathlib_file: Mathlib/Topology/Sheaves/Functors.lean

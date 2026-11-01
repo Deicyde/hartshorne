@@ -2,7 +2,6 @@
 article_id: af_b9b8009380606faa4d738370
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Enriques–Severi–Zariski for normal projective schemes

@@ -2,7 +2,6 @@
 article_id: af_d15239e64c87122975f4ca4a
 declaration: def
 origin: background
-source_units: [chapter-ii-section-8]
 mathlib: true
 mathlib_declaration: KaehlerDifferential.tensorKaehlerEquiv
 mathlib_file: Mathlib/RingTheory/Kaehler/TensorProduct.lean

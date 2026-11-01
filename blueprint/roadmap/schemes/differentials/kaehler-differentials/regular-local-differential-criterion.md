@@ -2,7 +2,6 @@
 article_id: af_58bc07c9d789c1d638b2c07f
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # The regular-local differential criterion

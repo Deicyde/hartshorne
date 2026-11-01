@@ -2,7 +2,6 @@
 article_id: af_bf77451d629d8a963527ef0e
 declaration: theorem
 origin: bridged
-source_units: [chapter-iii-section-10]
 ---
 
 # Constructible tangent-rank strata

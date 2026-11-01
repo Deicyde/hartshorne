@@ -2,7 +2,6 @@
 article_id: af_50efedaea918279cc0a904e9
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.QuasiProjective.finiteType_and_isSeparated Hartshorne.QuasiProjective.finiteType_and_isSeparated_of_isLocallyNoetherian

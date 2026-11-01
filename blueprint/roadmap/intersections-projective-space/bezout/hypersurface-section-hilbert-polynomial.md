@@ -2,7 +2,6 @@
 article_id: af_04d24636e86b8040a6664a1a
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.hypersurfaceSection_hilbertPolynomial_and_leadingCoeff

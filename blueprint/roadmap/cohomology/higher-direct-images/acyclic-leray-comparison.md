@@ -2,7 +2,6 @@
 article_id: af_141b8fdd3c8a954816bedfd4
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 ---
 
 # The acyclic Leray comparison

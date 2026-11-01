@@ -2,7 +2,6 @@
 article_id: af_b22063ac78ef7edd9e6fdd8c
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.dimension_at_closed_point

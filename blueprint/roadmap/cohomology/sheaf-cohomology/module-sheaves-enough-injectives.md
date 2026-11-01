@@ -5,7 +5,6 @@ origin: cited
 lean: Hartshorne.moduleSheaves_enoughInjectives
 statement: formalized
 proof: formalized
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Module sheaves have enough injectives

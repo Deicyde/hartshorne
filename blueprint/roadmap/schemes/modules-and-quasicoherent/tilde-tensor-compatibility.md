@@ -2,7 +2,6 @@
 article_id: af_02e151839e4bfd37f77bdaf5
 declaration: isomorphism
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Tilde commutes with tensor products

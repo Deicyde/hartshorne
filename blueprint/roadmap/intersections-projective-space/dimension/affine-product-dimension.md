@@ -2,7 +2,6 @@
 article_id: af_7235a2f155374776b41b4872
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.dim_affineProduct

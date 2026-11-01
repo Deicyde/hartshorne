@@ -2,7 +2,6 @@
 article_id: af_a962c87923e06f628003d143
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # Sections on a rational ruled surface

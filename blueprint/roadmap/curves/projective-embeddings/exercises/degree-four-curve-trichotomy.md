@@ -2,7 +2,6 @@
 article_id: af_f9329786cc5ce68db65d2b2b
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-3]
 ---
 
 # The degree-four curve trichotomy

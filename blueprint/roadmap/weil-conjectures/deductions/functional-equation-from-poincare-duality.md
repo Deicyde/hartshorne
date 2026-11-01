@@ -2,7 +2,6 @@
 article_id: af_1599f798322d6b59744dfbf8
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-4]
 ---
 
 # The functional equation from Poincaré duality

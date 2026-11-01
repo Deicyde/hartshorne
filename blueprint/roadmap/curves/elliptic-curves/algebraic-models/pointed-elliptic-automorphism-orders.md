@@ -2,7 +2,6 @@
 article_id: af_e20d24671743f015664b47a2
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Pointed automorphism groups

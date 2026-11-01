@@ -2,7 +2,6 @@
 article_id: af_9375da07778d4103520bdd14
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # The hyperelliptic canonical map factors through a rational normal curve

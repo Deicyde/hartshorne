@@ -2,7 +2,6 @@
 article_id: af_4e42dcd4bd8198090a5fcd96
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-9]
 ---
 
 # Powers of an ideal of definition

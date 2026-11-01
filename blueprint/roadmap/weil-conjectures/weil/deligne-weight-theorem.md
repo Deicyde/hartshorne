@@ -2,7 +2,6 @@
 article_id: af_95b213b192b9fd4d2cbdcc14
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-1]
 ---
 
 # Deligne's weight theorem

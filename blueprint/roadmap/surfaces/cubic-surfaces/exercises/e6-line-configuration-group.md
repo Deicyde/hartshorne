@@ -2,7 +2,6 @@
 article_id: af_c39df20a5461a0569674f96d
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # The E6 presentation of the line-configuration group

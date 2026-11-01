@@ -2,7 +2,6 @@
 article_id: af_c32cfee507fdcd0696b127dd
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projDim_lt_of_closed_ssubset_isProjVariety Hartshorne.exists_projDim_eq_nat_of_isProjVariety

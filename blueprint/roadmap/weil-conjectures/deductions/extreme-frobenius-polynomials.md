@@ -2,7 +2,6 @@
 article_id: af_3bd48263ff576507bf667ebf
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-4]
 ---
 
 # The extreme Frobenius polynomials

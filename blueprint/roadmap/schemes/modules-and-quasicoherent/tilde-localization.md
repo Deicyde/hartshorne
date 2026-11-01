@@ -2,7 +2,6 @@
 article_id: af_e50bd55d0e4eeadcb033ff3f
 declaration: def
 origin: cited
-source_units: [chapter-ii-section-5]
 statement: formalized
 proof: formalized
 lean: Hartshorne.affineTildeBasicOpenIso

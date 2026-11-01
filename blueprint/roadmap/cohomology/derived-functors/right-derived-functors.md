@@ -2,7 +2,6 @@
 article_id: af_8e36413bda07e664a6477f0f
 declaration: definition
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 mathlib: true
 mathlib_declaration: CategoryTheory.Functor.rightDerived
 mathlib_file: Mathlib/CategoryTheory/Abelian/RightDerived.lean

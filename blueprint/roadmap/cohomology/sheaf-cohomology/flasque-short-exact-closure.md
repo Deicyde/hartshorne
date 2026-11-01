@@ -2,7 +2,6 @@
 article_id: af_715fb5ec66f4afe0a1b18ada
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 mathlib: true
 mathlib_declaration: TopCat.Sheaf.IsFlasque.of_shortExact_of_isFlasque₁₂
 mathlib_file: Mathlib/Topology/Sheaves/Flasque.lean

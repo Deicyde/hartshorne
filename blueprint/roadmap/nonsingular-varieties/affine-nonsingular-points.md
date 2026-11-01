@@ -2,7 +2,6 @@
 article_id: af_2136720d3c5831f8df18c545
 declaration: def
 origin: cited
-source_units: [chapter-i-section-5-geometry]
 statement: formalized
 proof: formalized
 lean: Hartshorne.IsAffineNonsingularAt Hartshorne.IsAffineNonsingular

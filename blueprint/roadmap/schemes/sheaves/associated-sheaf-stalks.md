@@ -2,7 +2,6 @@
 article_id: af_033b202f183a3edc6e56c011
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: TopCat.Presheaf.stalkFunctor_map_unit_toSheafify_isIso
 mathlib_file: Mathlib/Topology/Sheaves/Sheafify.lean

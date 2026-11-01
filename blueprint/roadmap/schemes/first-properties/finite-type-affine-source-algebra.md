@@ -2,7 +2,6 @@
 article_id: af_58af7832c8e46634704bb4df
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.finiteType_affineSource_algebra

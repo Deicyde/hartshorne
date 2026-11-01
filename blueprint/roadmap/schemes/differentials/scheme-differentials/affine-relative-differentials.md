@@ -2,7 +2,6 @@
 article_id: af_51fc36838ea41b9f10d277d9
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # Differentials on affine schemes

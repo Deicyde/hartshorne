@@ -2,7 +2,6 @@
 article_id: af_7784104b5370425681c0fc40
 declaration: def
 origin: cited
-source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.zeroSet Hartshorne.IsAlgebraicSet

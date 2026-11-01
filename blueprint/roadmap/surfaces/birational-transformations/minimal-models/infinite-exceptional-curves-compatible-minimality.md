@@ -2,7 +2,6 @@
 article_id: af_4192213f516c995a7dd51170
 declaration: example
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Infinite exceptional curves do not prevent termination

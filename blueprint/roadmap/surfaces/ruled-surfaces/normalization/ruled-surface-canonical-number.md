@@ -2,7 +2,6 @@
 article_id: af_54d728be6884be7c5b7dfbed
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # The canonical numerical class and square of a ruled surface

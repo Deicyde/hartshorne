@@ -2,7 +2,6 @@
 article_id: af_c4d1f0593a727c972632e4f6
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # The affine UFD class-group criterion

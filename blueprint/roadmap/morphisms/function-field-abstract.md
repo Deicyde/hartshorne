@@ -2,7 +2,6 @@
 article_id: af_c5aaa0cd7091b530bdb5a3c7
 declaration: def
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Variety.FunctionField

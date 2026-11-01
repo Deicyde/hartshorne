@@ -2,7 +2,6 @@
 article_id: af_01401eb12d08343aa0564e1e
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Affine covers compute quasi-coherent cohomology

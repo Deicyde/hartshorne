@@ -2,7 +2,6 @@
 article_id: af_dddc3e684133ba9c97f4a783
 declaration: def
 origin: cited
-source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
 lean: Hartshorne.chartHomeomorph Hartshorne.chartEquiv Hartshorne.awayChartEquiv

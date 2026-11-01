@@ -2,7 +2,6 @@
 article_id: af_0b2355b27d83d899bb63817b
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Stalks of sheaf Ext

@@ -2,7 +2,6 @@
 article_id: af_52d85accfe670b9bbc2c4cb1
 declaration: theorem
 origin: cited
-source_units: [appendix-a-section-3]
 ---
 
 # The Chern polynomial of a tensor product

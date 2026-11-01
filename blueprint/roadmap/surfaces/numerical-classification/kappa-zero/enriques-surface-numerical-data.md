@@ -2,7 +2,6 @@
 article_id: af_157e1f91eab33ef938e3611e
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-6]
 ---
 
 # Numerical data of an Enriques surface

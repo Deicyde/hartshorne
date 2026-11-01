@@ -2,7 +2,6 @@
 article_id: af_de59d13f77cc40e1ae7b206d
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.vanishingIdeal_affineCone

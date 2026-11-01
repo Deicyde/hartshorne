@@ -2,7 +2,6 @@
 article_id: af_d0c64760a66d7244f743b67c
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # A pointed elliptic curve is a group variety

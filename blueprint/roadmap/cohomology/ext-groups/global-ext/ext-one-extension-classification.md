@@ -2,7 +2,6 @@
 article_id: af_052d2f1600357bdd3ecb1208
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Extensions are classified by Ext one

@@ -2,7 +2,6 @@
 article_id: af_0821974dfa58620481bf4baa
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # Every line on the cubic surface has self-intersection minus one

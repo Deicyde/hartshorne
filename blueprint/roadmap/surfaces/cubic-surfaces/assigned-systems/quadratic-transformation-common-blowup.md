@@ -2,7 +2,6 @@
 article_id: af_16f6a4a6876cf2395cf5917a
 declaration: isomorphism
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # The graph of the quadratic transformation is a common three-point blowup

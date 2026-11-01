@@ -2,7 +2,6 @@
 article_id: af_3d3843d1e6c14bc20aa440c3
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_oneDimensionalLocalOverring

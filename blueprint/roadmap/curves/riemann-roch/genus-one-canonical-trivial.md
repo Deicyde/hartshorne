@@ -2,7 +2,6 @@
 article_id: af_9c7ee902cb5d662b872057db
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # The canonical divisor of a genus-one curve is trivial

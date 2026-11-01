@@ -2,7 +2,6 @@
 article_id: af_406add44cd9d1a865d86f160
 declaration: def
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # The graph and set-theoretic total transform of a birational transformation

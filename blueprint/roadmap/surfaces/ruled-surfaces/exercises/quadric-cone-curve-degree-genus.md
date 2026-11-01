@@ -2,7 +2,6 @@
 article_id: af_61c5c0ca06c160f3261905d3
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # Curves on a quadric cone

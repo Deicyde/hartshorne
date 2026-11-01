@@ -2,7 +2,6 @@
 article_id: af_2083bac423a66fdd008a0280
 declaration: def
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projFunctionFieldEquivGraded

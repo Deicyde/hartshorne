@@ -2,7 +2,6 @@
 article_id: af_22776d0fa8f18f49063c6e2d
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-1]
 ---
 
 # The zeta function of the projective line

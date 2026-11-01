@@ -2,7 +2,6 @@
 article_id: af_6419a3b53adfd67b778e0e9d
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Arithmetic of associated divisor sheaves

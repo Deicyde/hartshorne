@@ -2,7 +2,6 @@
 article_id: af_81dbc7a4e0db6808ddcfb8a4
 declaration: structure
 origin: bridged
-source_units: [chapter-iii-section-10]
 ---
 
 # Finite-dimensional linear systems on an arbitrary variety

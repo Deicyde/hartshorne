@@ -2,7 +2,6 @@
 article_id: af_b59d36c8e1d5c5fcf943deb1
 declaration: theorem
 origin: background
-source_units: [chapter-ii-section-8]
 ---
 
 # Localization of Cohen–Macaulay rings

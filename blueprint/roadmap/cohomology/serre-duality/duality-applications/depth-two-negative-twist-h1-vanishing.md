@@ -2,7 +2,6 @@
 article_id: af_f67c181d14215539d2994c2e
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Depth-two negative-twist vanishing

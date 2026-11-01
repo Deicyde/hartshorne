@@ -2,7 +2,6 @@
 article_id: af_f0e771c2f787c06e6215db4a
 declaration: def
 origin: cited
-source_units: [chapter-ii-section-8]
 mathlib: true
 mathlib_declaration: KaehlerDifferential.linearMapEquivDerivation
 mathlib_file: Mathlib/RingTheory/Kaehler/Basic.lean

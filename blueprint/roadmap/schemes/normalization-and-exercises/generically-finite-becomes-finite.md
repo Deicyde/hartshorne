@@ -2,7 +2,6 @@
 article_id: af_2217eb9deafef6d890207798
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 ---
 
 # A generically finite morphism is finite over a dense open

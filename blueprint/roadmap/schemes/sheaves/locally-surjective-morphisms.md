@@ -2,7 +2,6 @@
 article_id: af_086741f04b12f875a3c34599
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: TopCat.Sheaf.isLocallySurjective_iff_epi
 mathlib_file: Mathlib/Topology/Sheaves/LocallySurjective.lean

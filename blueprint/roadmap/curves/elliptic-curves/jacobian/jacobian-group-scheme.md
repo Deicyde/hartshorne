@@ -2,7 +2,6 @@
 article_id: af_5cc880294e1e3bc7bfb6775f
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # The Jacobian is a commutative group scheme

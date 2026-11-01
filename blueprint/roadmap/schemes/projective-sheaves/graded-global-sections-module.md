@@ -2,7 +2,6 @@
 article_id: af_238f8cf474ceb885acdb0312
 declaration: def
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # The graded global-sections module

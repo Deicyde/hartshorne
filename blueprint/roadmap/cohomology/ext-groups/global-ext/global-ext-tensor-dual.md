@@ -2,7 +2,6 @@
 article_id: af_8486b80789bd9c790b62f666
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Tensor-dual compatibility for global Ext

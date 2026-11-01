@@ -2,7 +2,6 @@
 article_id: af_a8a006b5b8adef644af67dad
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 mathlib: true
 mathlib_declaration: CategoryTheory.InjectiveResolution.extAddEquivCohomologyClass
 mathlib_file: Mathlib/CategoryTheory/Abelian/Injective/Ext.lean

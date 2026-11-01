@@ -2,7 +2,6 @@
 article_id: af_e7551dc3d493bef0e44aafab
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # Left exact cohomology functors are finitely represented

@@ -2,7 +2,6 @@
 article_id: af_d200148a6e4ca681692071e6
 declaration: def
 origin: cited
-source_units: [appendix-b-sections-3-4]
 ---
 
 # Finite morphisms of complex analytic spaces

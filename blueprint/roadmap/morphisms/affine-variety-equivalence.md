@@ -2,7 +2,6 @@
 article_id: af_f801b5bc0f2a08bbd4e42e42
 declaration: def
 origin: cited
-source_units: [chapter-i-section-3, chapter-i-section-8-recaps]
 statement: formalized
 proof: formalized
 lean: Hartshorne.coordEquivalence

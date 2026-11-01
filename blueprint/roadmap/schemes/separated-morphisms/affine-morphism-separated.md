@@ -2,7 +2,6 @@
 article_id: af_3f1a47b905324050aaee2347
 declaration: lemma
 origin: cited
-source_units: [chapter-ii-section-4]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.IsSeparated.of_isAffineHom
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Separated.lean

@@ -2,7 +2,6 @@
 article_id: af_c7ac0a5fa52ef3a39637f1b5
 declaration: structure
 origin: bridged
-source_units: [chapter-i-section-6-projective-model]
 statement: formalized
 proof: formalized
 lean: Hartshorne.ProjectiveNonsingularCurveCat

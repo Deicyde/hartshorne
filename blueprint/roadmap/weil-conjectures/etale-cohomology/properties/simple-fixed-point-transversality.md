@@ -2,7 +2,6 @@
 article_id: af_6dde09ee9211b4d76f7e8c8b
 declaration: theorem
 origin: bridged
-source_units: [appendix-c-section-3]
 ---
 
 # The tangent criterion for a simple fixed point

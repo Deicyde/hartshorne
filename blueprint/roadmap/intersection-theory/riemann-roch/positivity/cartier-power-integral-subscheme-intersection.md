@@ -2,7 +2,6 @@
 article_id: af_5a8980323ba921affcd70298
 declaration: definition
 origin: cited
-source_units: [appendix-a-sections-4-5]
 not_ready: true
 ---
 

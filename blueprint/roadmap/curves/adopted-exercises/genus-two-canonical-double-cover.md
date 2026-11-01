@@ -2,7 +2,6 @@
 article_id: af_54eadb9e8415dae30ca8ba4a
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # The canonical double cover of a genus-two curve

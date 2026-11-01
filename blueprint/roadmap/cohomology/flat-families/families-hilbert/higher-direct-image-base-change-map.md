@@ -2,7 +2,6 @@
 article_id: af_f12d43eddb15d40dadcd429d
 declaration: natural transformation
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 not_ready: true
 ---
 

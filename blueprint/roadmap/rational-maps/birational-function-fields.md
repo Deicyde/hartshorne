@@ -2,7 +2,6 @@
 article_id: af_35d6b1a76e6551ec3a67f837
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.birational_iff_nonempty_functionField_algEquiv

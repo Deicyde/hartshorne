@@ -2,7 +2,6 @@
 article_id: af_8096b27c624b16bd2619b652
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # Normality of a local complete intersection

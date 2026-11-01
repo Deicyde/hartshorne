@@ -2,7 +2,6 @@
 article_id: af_d5a015a131f44b4ff7a0d5e4
 declaration: structure
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Scheme
 mathlib_file: Mathlib/AlgebraicGeometry/Scheme.lean

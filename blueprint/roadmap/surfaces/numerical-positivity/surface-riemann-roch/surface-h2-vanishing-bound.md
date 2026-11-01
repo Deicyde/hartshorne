@@ -2,7 +2,6 @@
 article_id: af_466c8a767d4be85c13f91132
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # A numerical bound for second-cohomology vanishing

@@ -2,7 +2,6 @@
 article_id: af_d0d7a6b55a03a721e62350f4
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-10]
 ---
 
 # Smoothness and geometrically regular fibres

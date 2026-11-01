@@ -2,7 +2,6 @@
 article_id: af_e768b7239156131f1db3ab0b
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # Algebraic equivalence implies numerical equivalence

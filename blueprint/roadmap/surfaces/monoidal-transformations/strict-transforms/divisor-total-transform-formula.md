@@ -2,7 +2,6 @@
 article_id: af_277a6c9700343049ece94cd2
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-3]
 ---
 
 # The total-transform formula

@@ -2,7 +2,6 @@
 article_id: af_5a4264a01d516d7b48449993
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: PrimeSpectrum.irreducibleSpace_iff_isPrime_nilradical
 mathlib_file: Mathlib/RingTheory/Spectrum/Prime/Topology.lean

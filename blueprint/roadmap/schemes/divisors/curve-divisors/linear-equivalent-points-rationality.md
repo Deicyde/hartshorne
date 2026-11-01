@@ -2,7 +2,6 @@
 article_id: af_35567688bb0f79c2babb440b
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Linear equivalence of points detects rational curves

@@ -2,7 +2,6 @@
 article_id: af_9c77bf72ef5a300f435d6619
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projectiveDegree_eq_natCast_of_nonempty

@@ -2,7 +2,6 @@
 article_id: af_04772206f2f9ff79f9a593ac
 declaration: class
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.IsLocallyNoetherian
 mathlib_file: Mathlib/AlgebraicGeometry/Noetherian.lean

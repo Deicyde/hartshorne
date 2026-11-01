@@ -2,7 +2,6 @@
 article_id: af_e295c354da9736c896768fed
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Degree-two maps are equivalent

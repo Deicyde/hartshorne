@@ -2,7 +2,6 @@
 article_id: af_7b82f963dca3fff196678fde
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Ideal sheaves of closed immersions

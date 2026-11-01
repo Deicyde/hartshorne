@@ -2,7 +2,6 @@
 article_id: af_743d1a15c7f1fd1fc59e35c2
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 ---
 
 # Classical points are the closed points

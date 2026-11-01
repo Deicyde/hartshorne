@@ -2,7 +2,6 @@
 article_id: af_b1f590b6e9f03bcd999f1df2
 declaration: structure
 origin: cited
-source_units: [chapter-ii-section-4]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.ValuativeCommSq
 mathlib_file: Mathlib/AlgebraicGeometry/ValuativeCriterion.lean

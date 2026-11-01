@@ -2,7 +2,6 @@
 article_id: af_b0a9f8663126bb305caef6ff
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # Stein factorization

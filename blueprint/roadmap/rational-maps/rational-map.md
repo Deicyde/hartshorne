@@ -2,7 +2,6 @@
 article_id: af_99a287d25bb1d1989e451bf8
 declaration: definition
 origin: cited
-source_units: [chapter-i-section-4]
 statement: formalized
 lean: Hartshorne.RatMap Hartshorne.RatMapRep.IsDominant
 ---

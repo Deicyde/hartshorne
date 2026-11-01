@@ -2,7 +2,6 @@
 article_id: af_36ff6f8309143f85f6007e34
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # The Euler sequence on projective space

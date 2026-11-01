@@ -2,7 +2,6 @@
 article_id: af_92cb536140f719e636e5cd56
 declaration: morphism
 origin: background
-source_units: [appendix-b-sections-1-2]
 not_ready: true
 ---
 

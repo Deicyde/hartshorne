@@ -2,7 +2,6 @@
 article_id: af_66125d60d978c9100ccb0df8
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # An elliptic ruled surface with invariant minus one

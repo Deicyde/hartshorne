@@ -2,7 +2,6 @@
 article_id: af_f0ee017b12507b77a218cfce
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-3]
 ---
 
 # Dimension criteria for generated and very ample curve divisors

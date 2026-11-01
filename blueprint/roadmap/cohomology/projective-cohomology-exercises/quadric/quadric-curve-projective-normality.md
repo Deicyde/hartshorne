@@ -2,7 +2,6 @@
 article_id: af_cb0c04b583ce802af9e11e42
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-5]
 ---
 
 # Projective normality on a quadric

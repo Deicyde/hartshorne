@@ -2,7 +2,6 @@
 article_id: af_4c750d75c9abbf05e8b839b5
 declaration: instance
 origin: cited
-source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projZariskiTopology

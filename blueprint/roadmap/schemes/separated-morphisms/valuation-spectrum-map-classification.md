@@ -2,7 +2,6 @@
 article_id: af_436941c8814fd3a1df66a43d
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-4]
 ---
 
 # Maps from spectra of valuation rings

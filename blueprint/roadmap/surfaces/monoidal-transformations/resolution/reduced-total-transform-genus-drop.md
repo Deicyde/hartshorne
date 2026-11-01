@@ -2,7 +2,6 @@
 article_id: af_c17371859f0e0bfcf7d7b5f9
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-3]
 ---
 
 # Genus drop for a reduced total transform

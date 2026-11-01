@@ -2,7 +2,6 @@
 article_id: af_7e7c8bfc45525013c0d6b59b
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Proj.toLocallyRingedSpace
 mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/StructureSheaf.lean

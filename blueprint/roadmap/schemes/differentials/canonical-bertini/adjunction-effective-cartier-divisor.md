@@ -2,7 +2,6 @@
 article_id: af_16f5867968e88deb67584246
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # Adjunction for an effective Cartier divisor

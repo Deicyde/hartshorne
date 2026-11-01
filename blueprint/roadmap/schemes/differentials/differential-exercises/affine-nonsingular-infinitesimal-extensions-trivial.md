@@ -2,7 +2,6 @@
 article_id: af_8d779e3d58dffdd26009eac1
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # Infinitesimal extensions of a nonsingular affine scheme

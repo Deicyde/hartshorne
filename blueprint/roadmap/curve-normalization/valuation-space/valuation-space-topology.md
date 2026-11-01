@@ -2,7 +2,6 @@
 article_id: af_83a64170587955ab5c10023b
 declaration: abbrev
 origin: cited
-source_units: [chapter-i-section-6-abstract-curves]
 statement: formalized
 proof: formalized
 lean: Hartshorne.ValuationSpace

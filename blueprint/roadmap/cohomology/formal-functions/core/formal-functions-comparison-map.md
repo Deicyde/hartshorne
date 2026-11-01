@@ -2,7 +2,6 @@
 article_id: af_702716c82479811e1a71b787
 declaration: natural transformation
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # The formal-functions comparison map

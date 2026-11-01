@@ -2,7 +2,6 @@
 article_id: af_f870900e08d1661c57a28744
 declaration: equivalence
 origin: background
-source_units: [appendix-b-sections-3-4]
 not_ready: true
 ---
 

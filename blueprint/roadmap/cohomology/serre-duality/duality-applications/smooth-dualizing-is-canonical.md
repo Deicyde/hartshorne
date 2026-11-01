@@ -2,7 +2,6 @@
 article_id: af_fc483eeacb213b975da54846
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # The dualizing sheaf is canonical in the nonsingular case

@@ -2,7 +2,6 @@
 article_id: af_c6ff9d0799602be5f5795566
 declaration: definition
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 statement: formalized
 proof: formalized
 lean: Hartshorne.abelianHigherDirectImage Hartshorne.abelianHigherDirectImageZeroIso

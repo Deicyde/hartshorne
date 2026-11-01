@@ -2,7 +2,6 @@
 article_id: af_a8ee1ddb785bf1a69b69a59d
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Ample invertible sheaves

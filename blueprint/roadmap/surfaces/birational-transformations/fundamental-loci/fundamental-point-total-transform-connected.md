@@ -2,7 +2,6 @@
 article_id: af_bbafdbc7526e9d2cb978d052
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # The total transform of a fundamental point is connected

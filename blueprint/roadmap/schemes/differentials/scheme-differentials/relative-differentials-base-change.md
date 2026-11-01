@@ -2,7 +2,6 @@
 article_id: af_5eb05ef8388c7140be706e3a
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # Base change for differential sheaves

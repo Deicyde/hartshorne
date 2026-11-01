@@ -2,7 +2,6 @@
 article_id: af_825ef572771ee5458450696d
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-3]
 ---
 
 # The ℓ-adic cycle class of a closed point is nonzero

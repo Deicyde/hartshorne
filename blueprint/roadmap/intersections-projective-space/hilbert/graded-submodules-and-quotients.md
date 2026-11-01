@@ -2,7 +2,6 @@
 article_id: af_00d868cf7f23d86aaa14cd83
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.gradedSubquotient_exact

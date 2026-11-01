@@ -2,7 +2,6 @@
 article_id: af_fd6237e40274d9342ff299cf
 declaration: structure
 origin: cited
-source_units: [chapter-i-section-3, standing-conventions]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Variety

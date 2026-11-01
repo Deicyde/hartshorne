@@ -2,7 +2,6 @@
 article_id: af_f9c2e915fe2bf75c96744ae8
 declaration: isomorphism
 origin: cited
-source_units: [chapter-v-section-6]
 ---
 
 # Birational nonsingular projective varieties have isomorphic canonical rings

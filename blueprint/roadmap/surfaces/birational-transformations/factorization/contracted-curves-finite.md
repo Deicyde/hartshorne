@@ -2,7 +2,6 @@
 article_id: af_1a6475a7209b134c37f98148
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # A birational morphism of smooth projective surfaces contracts finitely many curves

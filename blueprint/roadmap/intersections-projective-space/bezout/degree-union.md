@@ -2,7 +2,6 @@
 article_id: af_2bbb46bd7eb09b087128b5f9
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projectiveDegree_union

@@ -2,7 +2,6 @@
 article_id: af_90818c4c3f8c5cdc256259f3
 declaration: abbrev
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.gradedLocalization Hartshorne.gradedLocalizationAway

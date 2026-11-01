@@ -2,7 +2,6 @@
 article_id: af_f8921401797445306d9c2503
 declaration: def
 origin: bridged
-source_units: [appendix-c-section-3]
 statement: formalized
 proof: formalized
 lean: AlgebraicGeometry.Scheme.constantTorsionEtaleSheaf

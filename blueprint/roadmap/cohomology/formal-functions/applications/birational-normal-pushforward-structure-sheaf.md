@@ -2,7 +2,6 @@
 article_id: af_e9d7f73eeb81be8dbd2f558c
 declaration: isomorphism
 origin: bridged
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # Normal birational targets recover the structure sheaf

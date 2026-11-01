@@ -2,7 +2,6 @@
 article_id: af_059d05b4cdfaf27a571796f5
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-5]
 ---
 
 # An ample power descends from a curve normalization

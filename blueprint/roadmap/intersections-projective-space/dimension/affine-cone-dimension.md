@@ -2,7 +2,6 @@
 article_id: af_9d9300915c4c47e6aac793b5
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.dim_affineCone

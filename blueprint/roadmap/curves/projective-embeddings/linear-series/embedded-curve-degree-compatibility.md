@@ -2,7 +2,6 @@
 article_id: af_234103a9ef1ae9b83320ab5d
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-3]
 ---
 
 # Embedded degree equals divisor degree

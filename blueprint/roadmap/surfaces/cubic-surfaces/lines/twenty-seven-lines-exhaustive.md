@@ -2,7 +2,6 @@
 article_id: af_90b52bfcdf2b784e10b94667
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # The twenty-seven candidate lines exhaust all lines

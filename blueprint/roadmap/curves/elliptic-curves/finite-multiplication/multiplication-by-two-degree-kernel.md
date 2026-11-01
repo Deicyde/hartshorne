@@ -2,7 +2,6 @@
 article_id: af_86dff118c62f6c4032b33b54
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Multiplication by two

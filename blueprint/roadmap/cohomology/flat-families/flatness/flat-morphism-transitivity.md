@@ -2,7 +2,6 @@
 article_id: af_76bb539c445b8f9bba4ed05c
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Flat.comp
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Flat.lean

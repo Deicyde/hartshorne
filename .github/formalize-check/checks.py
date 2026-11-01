@@ -18,7 +18,7 @@ FROZEN = {
     MODULE: "709c2b4a95e6d17039c6300037e81f811e1fa834f031ffc0502a55324069e44d",
     "src/Hartshorne.lean": "351bc03697a839df42f090408e593e01b8f2bb352dcaee421b24c02533464db7",
     "blueprint/roadmap/schemes/modules-and-quasicoherent/module-sheaf-hom.md":
-        "6b20cc8e59cab0d5d39f6833321ac815a5032238ae8df0f04d60c4adb9b6919f",
+        "3bf7850e67dde2c6e60ecbd9353559b2d2af883c5d8c4d56722b8a2b9d122a8e",
     "lakefile.toml": "b6d19119e408264abfa097303402b430851c2a8ee6ee6d081055f2dcbb3458b9",
     "lake-manifest.json": "9c57ac5bbc6130385b19572b003bbe91161040f432cb0cb9f99a903bd6ccbd31",
     "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71",
@@ -126,7 +126,11 @@ def main():
             require(digest.hexdigest() == expected, "saved root seed hash differs")
             inventory = json.loads((seed / "source-inventory.json").read_text())
             require(inventory["source_revision"] == capture.revision, "saved seed source differs")
-            require(inventory["frozen"] == FROZEN, "saved seed project controls differ")
+            # Markdown assertions are checked by frozen() on the current
+            # candidate; they are not inputs to these compiled Lean artifacts.
+            compiled = {key: value for key, value in FROZEN.items() if not key.endswith(".md")}
+            saved_compiled = {key: value for key, value in inventory["frozen"].items() if not key.endswith(".md")}
+            require(saved_compiled == compiled, "saved seed compiled project controls differ")
             destination.write_text(json.dumps({"schema": "hartshorne-build-seed/v1", "sha256": expected,
                                                "source_revision": capture.revision, "acceptance": None}) + "\n")
         elif mode == "controls":

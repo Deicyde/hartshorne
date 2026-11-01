@@ -2,7 +2,6 @@
 article_id: af_1f79dc57d1611e08e4dcdb41
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # The contravariant long exact sequence of sheaf Ext

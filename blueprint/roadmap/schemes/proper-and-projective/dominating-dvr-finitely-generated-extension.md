@@ -2,7 +2,6 @@
 article_id: af_f3a7028c4c4728ad41df66fb
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-4]
 ---
 
 # A dominating DVR in a finitely generated extension

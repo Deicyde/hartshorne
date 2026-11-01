@@ -2,7 +2,6 @@
 article_id: af_fc057601bafeb0de917d756b
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.IsClosedImmersion.iff_isFinite_and_mono
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Finite.lean

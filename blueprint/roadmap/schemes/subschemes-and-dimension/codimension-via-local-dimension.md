@@ -2,7 +2,6 @@
 article_id: af_44b83243fe293608bea01657
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.codim_eq_iInf_ringKrullDim_stalk

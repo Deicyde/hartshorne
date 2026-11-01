@@ -2,7 +2,6 @@
 article_id: af_df4c4a289cd81c0cfbc23bd6
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # Arithmetic genus under normalization

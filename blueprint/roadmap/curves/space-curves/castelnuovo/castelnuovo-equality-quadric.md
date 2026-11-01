@@ -2,7 +2,6 @@
 article_id: af_dc2cc25d3cbd405b373ccda5
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Equality forces a containing quadric

@@ -2,7 +2,6 @@
 article_id: af_1fcc82c3d026ad931d56e333
 declaration: theorem
 origin: cited
-source_units: [appendix-a-exercises]
 ---
 
 # Projective cycles are rationally equivalent to degree times a linear space

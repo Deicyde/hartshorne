@@ -2,7 +2,6 @@
 article_id: af_594fa0f34d0755c3b943e07c
 declaration: isomorphism
 origin: cited
-source_units: [appendix-b-section-5]
 ---
 
 # Analytic Pic0 of a curve

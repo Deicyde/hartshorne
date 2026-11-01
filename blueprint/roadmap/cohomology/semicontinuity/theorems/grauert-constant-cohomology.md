@@ -2,7 +2,6 @@
 article_id: af_257b099cc387c9d290e8e2e7
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # Grauert's constant-cohomology theorem

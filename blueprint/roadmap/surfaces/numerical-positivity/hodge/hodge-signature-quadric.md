@@ -2,7 +2,6 @@
 article_id: af_f3e8cde7e66795320e685af7
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # The Hodge signature and the quadric example

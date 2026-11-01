@@ -2,7 +2,6 @@
 article_id: af_0ebb1feadab23251442f2c8e
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # High-degree divisors are nonspecial

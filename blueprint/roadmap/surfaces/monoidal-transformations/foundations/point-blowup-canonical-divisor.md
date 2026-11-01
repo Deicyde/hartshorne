@@ -2,7 +2,6 @@
 article_id: af_a371c8706fe82d662f61bddb
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-3]
 ---
 
 # The canonical divisor of a point blowup

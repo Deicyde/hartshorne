@@ -2,7 +2,6 @@
 article_id: af_35ab5f2f11a618a550cc6e45
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Serre's affineness criterion

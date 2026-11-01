@@ -2,7 +2,6 @@
 article_id: af_5dbe2fc522ca43b05f3a1f6b
 declaration: isomorphism
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # The section ring of projective space

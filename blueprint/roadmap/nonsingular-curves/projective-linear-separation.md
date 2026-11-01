@@ -2,7 +2,6 @@
 article_id: af_53cc18015910ca620822fa44
 declaration: lemma
 origin: bridged
-source_units: [chapter-i-section-6-local-structure]
 statement: formalized
 proof: formalized
 lean: Hartshorne.exists_linear_forms_separating_projective_points

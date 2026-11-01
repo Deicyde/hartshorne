@@ -2,7 +2,6 @@
 article_id: af_10e88fa14cc02e882980a4bd
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # The canonical divisor of a ruled surface

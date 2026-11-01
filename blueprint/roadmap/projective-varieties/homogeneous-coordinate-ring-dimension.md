@@ -2,7 +2,6 @@
 article_id: af_fa06185e80961e6f07a43fc0
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
 lean: Hartshorne.ringKrullDim_homogeneousCoordinateRing_eq_projDim_add_one

@@ -2,7 +2,6 @@
 article_id: af_b501809e0faea306655db32d
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.reducible_plane_curve_bezout

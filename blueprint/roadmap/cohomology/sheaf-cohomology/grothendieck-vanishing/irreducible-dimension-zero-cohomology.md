@@ -2,7 +2,6 @@
 article_id: af_0f74f3234bb2bd33998e6fd1
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # The irreducible dimension-zero base case

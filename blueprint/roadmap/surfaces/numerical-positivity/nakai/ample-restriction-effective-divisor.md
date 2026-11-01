@@ -2,7 +2,6 @@
 article_id: af_563e938ecbb3df1d3d34ab9e
 declaration: theorem
 origin: bridged
-source_units: [chapter-v-section-1]
 ---
 
 # Ampleness on an effective divisor

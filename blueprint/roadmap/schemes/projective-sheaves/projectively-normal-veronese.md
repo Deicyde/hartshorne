@@ -2,7 +2,6 @@
 article_id: af_b83793cbddc5ebfa01ddcafe
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Projectively normal Veronese embeddings

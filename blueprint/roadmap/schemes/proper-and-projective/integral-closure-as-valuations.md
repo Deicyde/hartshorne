@@ -2,7 +2,6 @@
 article_id: af_bb6862dce79ab9993fdca2a4
 declaration: lemma
 origin: cited
-source_units: [chapter-ii-section-4]
 mathlib: true
 mathlib_declaration: iInf_valuationSubring_superset
 mathlib_file: Mathlib/RingTheory/Valuation/LocalSubring.lean

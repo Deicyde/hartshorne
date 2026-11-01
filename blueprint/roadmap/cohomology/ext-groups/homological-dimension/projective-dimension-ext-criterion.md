@@ -2,7 +2,6 @@
 article_id: af_95ed156bd0241f4391ff6e6e
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 mathlib: true
 mathlib_declaration: CategoryTheory.hasProjectiveDimensionLT_iff
 mathlib_file: Mathlib/CategoryTheory/Abelian/Projective/Dimension.lean

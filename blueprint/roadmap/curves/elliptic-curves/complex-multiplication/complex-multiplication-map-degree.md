@@ -2,7 +2,6 @@
 article_id: af_051004e401e22b736e81c4db
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Degree of multiplication on a complex elliptic curve

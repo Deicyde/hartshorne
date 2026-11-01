@@ -2,7 +2,6 @@
 article_id: af_a698257cd270977b8a1da05f
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-1-2]
 ---
 
 # On a normal variety codimension-one rational equivalence is linear equivalence

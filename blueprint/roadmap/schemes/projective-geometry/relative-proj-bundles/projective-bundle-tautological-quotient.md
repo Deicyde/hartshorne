@@ -2,7 +2,6 @@
 article_id: af_fd293f974536e4abe8f4da0a
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # The tautological quotient and functor of points

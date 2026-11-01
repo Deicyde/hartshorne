@@ -2,7 +2,6 @@
 article_id: af_043a870bc1a0d1140e2768b2
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # The genus of a smooth plane curve

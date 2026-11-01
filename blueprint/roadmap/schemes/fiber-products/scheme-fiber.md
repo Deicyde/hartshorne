@@ -2,7 +2,6 @@
 article_id: af_c95901dee504501d1eb554dd
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Scheme.Hom.fiber
 mathlib_file: Mathlib/AlgebraicGeometry/Fiber.lean

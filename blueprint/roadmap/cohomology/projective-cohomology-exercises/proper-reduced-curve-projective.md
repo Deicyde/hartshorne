@@ -2,7 +2,6 @@
 article_id: af_bfd7cf93a9e68944afe9f30d
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-5]
 ---
 
 # Proper reduced curves are projective

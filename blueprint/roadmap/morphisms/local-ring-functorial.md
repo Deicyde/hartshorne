@@ -2,7 +2,6 @@
 article_id: af_59bf5c5a065cb7280464d06c
 declaration: def
 origin: cited
-source_units: [exercise-i-3-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.VarietyHom.localRingHom

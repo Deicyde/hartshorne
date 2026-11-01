@@ -2,7 +2,6 @@
 article_id: af_428fd8a4532036247e4153ec
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: irreducibleSetEquivPoints
 mathlib_file: Mathlib/Topology/Sober.lean

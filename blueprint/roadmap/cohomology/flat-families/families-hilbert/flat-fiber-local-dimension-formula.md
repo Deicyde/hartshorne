@@ -2,7 +2,6 @@
 article_id: af_59760d66dd7b9c8115b91761
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 ---
 
 # The local dimension formula for a flat fibre

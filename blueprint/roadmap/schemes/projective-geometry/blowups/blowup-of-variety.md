@@ -2,7 +2,6 @@
 article_id: af_b00e2a99d738dfdf6b9cd5b7
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Blowing up a variety

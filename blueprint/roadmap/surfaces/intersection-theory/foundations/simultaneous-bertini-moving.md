@@ -2,7 +2,6 @@
 article_id: af_0f0ff640b4c5519b7c31c140
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # Simultaneous Bertini moving

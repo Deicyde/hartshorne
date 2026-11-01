@@ -2,7 +2,6 @@
 article_id: af_6344590cb96ba27cc910e6bc
 declaration: isomorphism
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # The Picard group as first unit-sheaf cohomology

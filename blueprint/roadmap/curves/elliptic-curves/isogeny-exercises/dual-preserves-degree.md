@@ -2,7 +2,6 @@
 article_id: af_318ee17ce6b6934795847bc1
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Dual morphisms preserve degree

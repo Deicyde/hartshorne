@@ -2,7 +2,6 @@
 article_id: af_165cb62f9400411061e1bfca
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Locally free resolutions compute sheaf Ext

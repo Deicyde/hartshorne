@@ -2,7 +2,6 @@
 article_id: af_fc163557346aca575b9a0fd2
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-6-local-structure]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projRatClass_mem_localRingRange_iff

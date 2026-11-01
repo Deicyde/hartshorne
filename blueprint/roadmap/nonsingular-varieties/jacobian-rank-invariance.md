@@ -2,7 +2,6 @@
 article_id: af_dfbfb056049d16cdd33cb367
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-5-geometry]
 statement: formalized
 proof: formalized
 lean: Hartshorne.definingIdealGradientSpace_eq_jacobianRowSpace_of_span_eq Hartshorne.jacobianMatrix_rank_eq_jacobianRank Hartshorne.jacobianMatrix_rank_eq_of_span_eq Hartshorne.exists_fin_jacobianMatrix_rank_eq_jacobianRank

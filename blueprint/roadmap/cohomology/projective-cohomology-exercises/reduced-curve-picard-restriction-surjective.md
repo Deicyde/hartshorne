@@ -2,7 +2,6 @@
 article_id: af_c4818b258487c62f0653e5ec
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-5]
 ---
 
 # Picard restriction to the components of a reduced curve

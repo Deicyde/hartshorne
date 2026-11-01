@@ -2,7 +2,6 @@
 article_id: af_c40ccbe30e672e8f50d0163b
 declaration: abbrev
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 statement: formalized
 proof: formalized
 lean: AlgebraicGeometry.Scheme.CartierClassGroup

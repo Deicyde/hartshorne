@@ -2,7 +2,6 @@
 article_id: af_b4066f7672f1b433e5cf33e5
 declaration: structure
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # Geometrically ruled surfaces

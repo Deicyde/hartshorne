@@ -2,7 +2,6 @@
 article_id: af_9b964585ab9b820ca0a05f6b
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Hironaka's negative elliptic curve is not algebraically contractible

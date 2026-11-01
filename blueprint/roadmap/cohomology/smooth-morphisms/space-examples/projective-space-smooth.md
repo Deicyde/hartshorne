@@ -2,7 +2,6 @@
 article_id: af_6572c1c9f15a2e6280655f06
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-10]
 ---
 
 # Projective space is smooth

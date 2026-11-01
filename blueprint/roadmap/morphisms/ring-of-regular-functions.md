@@ -2,7 +2,6 @@
 article_id: af_93d17cf8e41f0ee7a7cf9564
 declaration: def
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.globalRegular Hartshorne.VarietyHom.pullback

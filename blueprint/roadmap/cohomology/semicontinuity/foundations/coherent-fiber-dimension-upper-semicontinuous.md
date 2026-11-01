@@ -2,7 +2,6 @@
 article_id: af_7f3b0d6a9bc1810746558a00
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # Fibre dimension of a coherent sheaf is upper semicontinuous

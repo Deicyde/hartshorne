@@ -2,7 +2,6 @@
 article_id: af_988ffcee9c967e9494cbaeeb
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Injectives restrict to open subsets

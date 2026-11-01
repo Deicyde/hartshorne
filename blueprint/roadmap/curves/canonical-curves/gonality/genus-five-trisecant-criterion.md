@@ -2,7 +2,6 @@
 article_id: af_99d4c936932e3f99dbaa6039
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Trisecants and trigonal genus-five curves

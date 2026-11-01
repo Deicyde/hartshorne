@@ -2,7 +2,6 @@
 article_id: af_c16acb0841cb03f81d74d14f
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # Decomposable normalized bundles

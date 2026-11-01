@@ -2,7 +2,6 @@
 article_id: af_b68156c114d04440f9ad68bd
 declaration: def
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Geometric vector bundles from locally free sheaves

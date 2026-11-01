@@ -2,7 +2,6 @@
 article_id: af_14fee3280346649e1534e398
 declaration: theorem
 origin: cited
-source_units: [appendix-a-section-3]
 ---
 
 # The Chern polynomial of a dual bundle

@@ -2,7 +2,6 @@
 article_id: af_1e9d4bdad81055ea4c74403b
 declaration: structure
 origin: cited
-source_units: [appendix-b-sections-1-2]
 not_ready: true
 ---
 

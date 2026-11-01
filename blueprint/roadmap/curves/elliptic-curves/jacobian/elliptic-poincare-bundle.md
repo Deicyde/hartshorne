@@ -2,7 +2,6 @@
 article_id: af_575b12944daa8058726e5f48
 declaration: def
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # The normalized Poincaré class of an elliptic curve

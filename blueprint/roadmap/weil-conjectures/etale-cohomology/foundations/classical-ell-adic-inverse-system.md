@@ -2,7 +2,6 @@
 article_id: af_bf9a7cd3954a8ae39f1a8b34
 declaration: def
 origin: cited
-source_units: [appendix-c-section-3]
 ---
 
 # The classical inverse system of torsion étale cohomology

@@ -2,7 +2,6 @@
 article_id: af_782acfedef3c273801b29df6
 declaration: isomorphism
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Veronese Proj and twists

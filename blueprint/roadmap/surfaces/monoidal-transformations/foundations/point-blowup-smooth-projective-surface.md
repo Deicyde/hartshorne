@@ -2,7 +2,6 @@
 article_id: af_c0963bd7214310417f6834e9
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-3]
 ---
 
 # Blowing up a point preserves smooth projective surfaces

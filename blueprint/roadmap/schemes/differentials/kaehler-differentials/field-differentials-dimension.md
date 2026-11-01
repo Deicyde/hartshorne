@@ -2,7 +2,6 @@
 article_id: af_cf4f6dcab1d7c69117f2c98e
 declaration: theorem
 origin: background
-source_units: [chapter-ii-section-8]
 ---
 
 # Differentials of finitely generated field extensions

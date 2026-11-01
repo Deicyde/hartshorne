@@ -2,7 +2,6 @@
 article_id: af_75252423265930a00209b0e9
 declaration: theorem
 origin: background
-source_units: [chapter-iii-sections-8-9]
 mathlib: true
 mathlib_declaration: Module.Flat.baseChange
 mathlib_file: Mathlib/RingTheory/Flat/Stability.lean

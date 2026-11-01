@@ -2,7 +2,6 @@
 article_id: af_5ffc461f2f07008cebf36805
 declaration: definition
 origin: cited
-source_units: [chapter-i-section-5-exercises, chapter-i-section-7-local-comparison]
 ---
 
 # Local intersection multiplicity of plane curves

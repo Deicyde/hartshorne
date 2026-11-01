@@ -2,7 +2,6 @@
 article_id: af_34c43c65d503d0d7672be7cd
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-10]
 ---
 
 # Bertini for a basepoint-free linear system

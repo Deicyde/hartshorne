@@ -2,7 +2,6 @@
 article_id: af_d698b877b48593d5c5ce14ee
 declaration: structure
 origin: cited
-source_units: [chapter-ii-section-5]
 mathlib: true
 mathlib_declaration: SheafOfModules
 mathlib_file: Mathlib/Algebra/Category/ModuleCat/Sheaf.lean

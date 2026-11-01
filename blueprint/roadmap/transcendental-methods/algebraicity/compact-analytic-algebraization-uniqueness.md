@@ -2,7 +2,6 @@
 article_id: af_210e09f6dc9f6e6c02e8a6b5
 declaration: theorem
 origin: cited
-source_units: [appendix-b-sections-3-4]
 ---
 
 # A compact complex manifold has at most one algebraization

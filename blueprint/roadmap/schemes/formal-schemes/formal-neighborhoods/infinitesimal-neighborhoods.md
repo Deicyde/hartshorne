@@ -2,7 +2,6 @@
 article_id: af_0054399084d8fcffca7fc1f8
 declaration: def
 origin: cited
-source_units: [chapter-ii-section-9]
 ---
 
 # Infinitesimal neighbourhoods

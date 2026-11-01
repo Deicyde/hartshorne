@@ -2,7 +2,6 @@
 article_id: af_250fea92495f2285d2e325da
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-3-projection-exercise]
 ---
 
 # Projection from a point is a morphism

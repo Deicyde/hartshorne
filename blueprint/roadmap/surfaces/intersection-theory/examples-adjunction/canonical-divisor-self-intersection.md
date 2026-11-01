@@ -2,7 +2,6 @@
 article_id: af_a4bd0dc135d1611f4115877f
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # The canonical self-intersection

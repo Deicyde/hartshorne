@@ -2,7 +2,6 @@
 article_id: af_57089588ba2c404e80de35a7
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-10]
 ---
 
 # Dominant maps are generically smooth on the source in characteristic zero

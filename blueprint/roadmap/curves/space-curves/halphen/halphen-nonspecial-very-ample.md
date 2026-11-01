@@ -2,7 +2,6 @@
 article_id: af_32a3231b7d0960c8d550b4f9
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Halphen's nonspecial very-ample theorem

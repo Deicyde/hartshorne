@@ -2,7 +2,6 @@
 article_id: af_ffd200b1b4497886af265708
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Hyperosculation points

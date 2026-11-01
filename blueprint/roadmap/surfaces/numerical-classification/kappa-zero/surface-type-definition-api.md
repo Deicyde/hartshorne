@@ -2,7 +2,6 @@
 article_id: af_f1dc2d1ecea71624686b695a
 declaration: structure
 origin: bridged
-source_units: [chapter-v-section-6]
 ---
 
 # Distinct interfaces for the four Kodaira-dimension-zero surface types

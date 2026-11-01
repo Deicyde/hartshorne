@@ -2,7 +2,6 @@
 article_id: af_e3d042f4e96391509093d64b
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-4-5]
 ---
 
 # Formal Chern-root calculus

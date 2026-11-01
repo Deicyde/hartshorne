@@ -2,7 +2,6 @@
 article_id: af_d6f2248176f39fcc6347ef2c
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 ---
 
 # Normal algebraic families over a smooth curve are flat

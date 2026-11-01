@@ -2,7 +2,6 @@
 article_id: af_bda47588979c84d023027a74
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 ---
 
 # Flatness over a regular curve

@@ -2,7 +2,6 @@
 article_id: af_3f6ebf4555248edb9ac0b577
 declaration: def
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.IsRegularAtProjVia Hartshorne.IsRegularProjVia Hartshorne.IsRegularProj

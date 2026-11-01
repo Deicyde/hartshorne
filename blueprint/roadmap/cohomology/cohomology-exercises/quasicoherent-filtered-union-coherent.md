@@ -2,7 +2,6 @@
 article_id: af_a5beb3c9ba1e532bb2a22aaa
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5, chapter-iii-sections-1-4]
 ---
 
 # Quasi-coherent sheaves are filtered unions of coherent subsheaves

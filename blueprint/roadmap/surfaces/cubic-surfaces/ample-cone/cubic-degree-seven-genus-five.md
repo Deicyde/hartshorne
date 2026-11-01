@@ -2,7 +2,6 @@
 article_id: af_62e253c609ba85c3df442f90
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # A smooth curve of degree seven and genus five

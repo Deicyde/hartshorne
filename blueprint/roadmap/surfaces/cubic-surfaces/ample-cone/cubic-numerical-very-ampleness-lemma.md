@@ -2,7 +2,6 @@
 article_id: af_e51710a668272c4dee10196e
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-4]
 ---
 
 # A numerical very-ampleness lemma

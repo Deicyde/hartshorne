@@ -2,7 +2,6 @@
 article_id: af_91a0f080123194cb07e65227
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # Genus zero characterizes the projective line

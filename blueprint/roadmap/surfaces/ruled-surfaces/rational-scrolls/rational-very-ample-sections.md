@@ -2,7 +2,6 @@
 article_id: af_832f210386701e31eb748953
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # Very ample section systems

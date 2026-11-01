@@ -2,7 +2,6 @@
 article_id: af_ee708c56a9d1c21e6fd3eca4
 declaration: def
 origin: bridged
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Variety.globalToFunctionField

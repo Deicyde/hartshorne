@@ -2,7 +2,6 @@
 article_id: af_35b6ef090fc3547a937e338c
 declaration: lemma
 origin: cited
-source_units: [chapter-ii-section-4]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.IsProper.eq_valuativeCriterion
 mathlib_file: Mathlib/AlgebraicGeometry/ValuativeCriterion.lean

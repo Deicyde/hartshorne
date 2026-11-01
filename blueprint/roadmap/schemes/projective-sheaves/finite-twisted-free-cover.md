@@ -2,7 +2,6 @@
 article_id: af_af1e2ae4cfbebae9dc657103
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Finite twisted free covers

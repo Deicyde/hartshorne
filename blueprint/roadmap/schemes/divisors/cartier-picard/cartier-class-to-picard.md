@@ -2,7 +2,6 @@
 article_id: af_4b67949886ef359c3cdc8da0
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Cartier classes inject into the Picard group

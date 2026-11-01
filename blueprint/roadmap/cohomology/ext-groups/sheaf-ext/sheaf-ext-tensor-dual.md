@@ -2,7 +2,6 @@
 article_id: af_75aaea6de0d5953db989eba8
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Tensor-dual compatibility for sheaf Ext

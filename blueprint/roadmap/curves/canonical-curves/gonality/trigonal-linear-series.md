@@ -2,7 +2,6 @@
 article_id: af_f5d9d1ebb4e2f90a16f44a31
 declaration: def
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Linear series and trigonal curves

@@ -2,7 +2,6 @@
 article_id: af_1264b3b942e153cce1a77b1d
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Projective.isProper

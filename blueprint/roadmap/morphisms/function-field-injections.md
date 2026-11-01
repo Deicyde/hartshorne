@@ -2,7 +2,6 @@
 article_id: af_a7d1a97e3f9969001b1d67d0
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.globalToLocal_injective Hartshorne.localToFunctionField_injective

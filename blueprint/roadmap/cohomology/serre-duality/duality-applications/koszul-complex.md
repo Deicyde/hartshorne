@@ -2,7 +2,6 @@
 article_id: af_98097ebb6a196e47a684358a
 declaration: definition
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # The Koszul complex

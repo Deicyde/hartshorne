@@ -2,7 +2,6 @@
 article_id: af_3ab16e81128c32e2228b79f1
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-4-5]
 ---
 
 # The normal-bundle Chern classes of a surface in projective four-space

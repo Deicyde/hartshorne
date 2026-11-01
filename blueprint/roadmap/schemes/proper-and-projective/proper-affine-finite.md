@@ -2,7 +2,6 @@
 article_id: af_29370f50e5f19d96a4c1293c
 declaration: lemma
 origin: cited
-source_units: [chapter-ii-section-4]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.IsFinite.iff_isProper_and_isAffineHom
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Proper.lean

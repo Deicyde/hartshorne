@@ -2,7 +2,6 @@
 article_id: af_91f958a749d627857e3f31bf
 declaration: isomorphism
 origin: cited
-source_units: [appendix-b-section-5]
 not_ready: true
 ---
 

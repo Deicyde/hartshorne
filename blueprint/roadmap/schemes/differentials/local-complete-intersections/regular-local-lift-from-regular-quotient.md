@@ -2,7 +2,6 @@
 article_id: af_daaa5dd40d2cb9028e72a7a8
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # Lifting regularity from a regular hypersurface quotient

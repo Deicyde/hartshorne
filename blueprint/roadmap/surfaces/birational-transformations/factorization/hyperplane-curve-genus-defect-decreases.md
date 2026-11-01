@@ -2,7 +2,6 @@
 article_id: af_1ef8d4d758eff98e0bb3e653
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # The hyperplane-section genus defect decreases under blowup

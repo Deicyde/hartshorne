@@ -2,7 +2,6 @@
 article_id: af_b4d91bb67617d98c47375cc5
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Every birational surface transformation has a common resolution and monoidal factorization

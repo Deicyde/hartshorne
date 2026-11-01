@@ -2,7 +2,6 @@
 article_id: af_83c19bbae744f9c601aa7adf
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Collinearity and the point-group law

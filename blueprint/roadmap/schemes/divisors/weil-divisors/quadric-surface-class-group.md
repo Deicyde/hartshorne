@@ -2,7 +2,6 @@
 article_id: af_f40ca5db49f3d45395b96926
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # The class group of a nonsingular quadric surface

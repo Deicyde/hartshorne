@@ -2,7 +2,6 @@
 article_id: af_0a1a6b630df528c46f52f932
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-section-3]
 ---
 
 # Severi parameters, genus, and the extreme cases

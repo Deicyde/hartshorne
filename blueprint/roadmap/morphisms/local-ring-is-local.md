@@ -2,7 +2,6 @@
 article_id: af_768cb27118c861e6835ad334
 declaration: instance
 origin: cited
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.instIsLocalRingLocalRingAt Hartshorne.Variety.instIsLocalRingLocalRingAt

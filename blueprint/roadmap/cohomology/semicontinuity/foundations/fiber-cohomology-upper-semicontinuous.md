@@ -2,7 +2,6 @@
 article_id: af_32a7f76246d2503d86de96d7
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-11-12]
 ---
 
 # Fibre cohomology dimension is upper semicontinuous

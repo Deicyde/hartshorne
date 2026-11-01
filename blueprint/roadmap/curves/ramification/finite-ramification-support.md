@@ -2,7 +2,6 @@
 article_id: af_4f1ec4e37c523c00054c13fa
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # Ramification has finite support

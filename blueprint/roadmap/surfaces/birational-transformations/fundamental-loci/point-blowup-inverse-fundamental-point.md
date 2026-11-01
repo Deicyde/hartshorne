@@ -2,7 +2,6 @@
 article_id: af_b32b1cace25e021fd314ca17
 declaration: example
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # The inverse of a point blowup has the center as a fundamental point

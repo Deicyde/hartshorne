@@ -2,7 +2,6 @@
 article_id: af_47ddc8c1c5ad90500da8b0d7
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.gradedPrimeFiltration_annihilator_le_iff

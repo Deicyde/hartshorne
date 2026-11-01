@@ -2,7 +2,6 @@
 article_id: af_33b90b744269da1932fb678d
 declaration: theorem
 origin: bridged
-source_units: [appendix-c-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.hasseWeilZetaSeries_constantCoeff

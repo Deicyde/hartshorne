@@ -2,7 +2,6 @@
 article_id: af_c54cfeb67dc9df26fbee97f7
 declaration: definition
 origin: cited
-source_units: [chapter-iv-section-4]
 ---
 
 # Frobenius on first cohomology and the Hasse invariant

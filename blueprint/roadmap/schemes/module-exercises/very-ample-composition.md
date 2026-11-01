@@ -2,7 +2,6 @@
 article_id: af_0257f6cf84d2c46eee5f8c18
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Composition of very ample sheaves

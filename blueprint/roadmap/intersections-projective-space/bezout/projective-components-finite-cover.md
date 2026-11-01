@@ -2,7 +2,6 @@
 article_id: af_48c7c4f5e9b312d11ea4f08a
 declaration: definition
 origin: bridged
-source_units: [chapter-i-section-2, chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.projectiveComponents

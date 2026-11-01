@@ -2,7 +2,6 @@
 article_id: af_11517fdb88efa2ce0d084d82
 declaration: theorem
 origin: cited
-source_units: [appendix-b-section-5]
 ---
 
 # The Néron–Severi group embeds in integral cohomology

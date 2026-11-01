@@ -2,7 +2,6 @@
 article_id: af_fee62ec99afff5f65d12af06
 declaration: exact sequence
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # The normalization defect quotient

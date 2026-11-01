@@ -2,7 +2,6 @@
 article_id: af_8f10ec4eab25b1087868de48
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-4]
 ---
 
 # Proper schemes have valuation centers

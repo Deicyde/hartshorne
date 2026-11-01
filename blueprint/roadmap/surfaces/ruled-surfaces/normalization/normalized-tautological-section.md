@@ -2,7 +2,6 @@
 article_id: af_2436fb6d02cdba56439bfed1
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-2]
 ---
 
 # A normalized bundle has a distinguished tautological section

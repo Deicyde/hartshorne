@@ -2,7 +2,6 @@
 article_id: af_4a47c5077a5ceb83f9e2d0ba
 declaration: def
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 statement: formalized
 lean: AlgebraicGeometry.Scheme.Modules.FlatOverAt AlgebraicGeometry.Scheme.Modules.FlatOver
 ---

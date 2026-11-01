@@ -2,7 +2,6 @@
 article_id: af_f6d6f05890ab0e997580cf38
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # The Castelnuovo morphism contracts exactly the minus-one curve

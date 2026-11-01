@@ -2,7 +2,6 @@
 article_id: af_dc6feac9cb3e2d0a0bbd53e9
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Mayer–Vietoris with supports

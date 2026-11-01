@@ -2,7 +2,6 @@
 article_id: af_a68f791ef13df22840d60247
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-1]
 ---
 
 # The projective-line zeta function satisfies its functional equation

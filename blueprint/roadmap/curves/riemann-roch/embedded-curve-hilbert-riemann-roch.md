@@ -2,7 +2,6 @@
 article_id: af_178fb38684a19a98cd5ffda9
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # Compatibility with the embedded Hilbert polynomial

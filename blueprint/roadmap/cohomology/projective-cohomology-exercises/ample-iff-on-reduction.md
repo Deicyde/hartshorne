@@ -2,7 +2,6 @@
 article_id: af_5aa7a1c5b1f49c57bead44c1
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-5]
 ---
 
 # Ampleness and reduction

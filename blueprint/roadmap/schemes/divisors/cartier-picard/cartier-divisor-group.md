@@ -2,7 +2,6 @@
 article_id: af_e7a329960aac05b71c31dfa5
 declaration: abbrev
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 statement: formalized
 proof: formalized
 lean: AlgebraicGeometry.Scheme.structureUnitsAddSheaf AlgebraicGeometry.Scheme.totalQuotientUnitsAddSheaf AlgebraicGeometry.Scheme.structureUnitsToTotalQuotientUnitsAdd AlgebraicGeometry.Scheme.cartierDivisorSheaf AlgebraicGeometry.Scheme.toCartierDivisorSheaf AlgebraicGeometry.Scheme.CartierDivisor

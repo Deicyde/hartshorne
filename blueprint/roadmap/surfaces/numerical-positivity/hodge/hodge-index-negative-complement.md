@@ -2,7 +2,6 @@
 article_id: af_02e7a1b4857369683ac879c8
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # The Hodge index theorem

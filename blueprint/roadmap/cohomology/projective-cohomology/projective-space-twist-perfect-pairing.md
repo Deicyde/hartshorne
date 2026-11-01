@@ -2,7 +2,6 @@
 article_id: af_4f4c0521636cffbdd3a76d94
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-section-5]
 ---
 
 # The perfect twist pairing

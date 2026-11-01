@@ -2,7 +2,6 @@
 article_id: af_f284d803cddd1b72a2d8763e
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # A canonical genus-four curve is a quadric-cubic complete intersection

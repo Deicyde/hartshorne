@@ -2,7 +2,6 @@
 article_id: af_a583b15ad8a2e84459d9b21c
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-1]
 statement: formalized
 proof: formalized
 lean: Hartshorne.dim_eq_dim_closure

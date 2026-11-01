@@ -2,7 +2,6 @@
 article_id: af_014f9716253d0e342f44da4a
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # A canonical genus-four curve lies on a unique quadric

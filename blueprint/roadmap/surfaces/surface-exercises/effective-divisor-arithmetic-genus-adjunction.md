@@ -2,7 +2,6 @@
 article_id: af_036d35463abcdd885dfdf77f
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # Arithmetic genus and adjunction for an effective divisor

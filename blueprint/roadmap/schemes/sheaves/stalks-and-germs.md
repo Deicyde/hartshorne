@@ -2,7 +2,6 @@
 article_id: af_f6b00ffd802f94ba2fdc9a07
 declaration: definition
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: TopCat.Presheaf.stalk
 mathlib_file: Mathlib/Topology/Sheaves/Stalks.lean

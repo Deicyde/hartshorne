@@ -2,7 +2,6 @@
 article_id: af_6e65f145e033a68433e1565b
 declaration: class
 origin: bridged
-source_units: [chapter-ii-section-5]
 mathlib: true
 mathlib_declaration: SheafOfModules.IsFinitePresentation
 mathlib_file: Mathlib/Algebra/Category/ModuleCat/Sheaf/Quasicoherent.lean

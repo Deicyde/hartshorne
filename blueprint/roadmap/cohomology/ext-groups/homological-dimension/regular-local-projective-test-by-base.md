@@ -2,7 +2,6 @@
 article_id: af_d58223e3be3ec575072b3251
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # Projectivity detected by Ext against the base ring

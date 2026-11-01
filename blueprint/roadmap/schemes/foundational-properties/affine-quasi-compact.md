@@ -2,7 +2,6 @@
 article_id: af_88d80c1a4a693b5b4a6cb07f
 declaration: instance
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Scheme.compactSpace_of_isAffine
 mathlib_file: Mathlib/AlgebraicGeometry/AffineScheme.lean

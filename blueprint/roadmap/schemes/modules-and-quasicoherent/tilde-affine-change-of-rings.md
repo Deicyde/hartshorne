@@ -2,7 +2,6 @@
 article_id: af_a114ce1b2fcf4b3fda7cf09c
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Tilde under affine change of rings

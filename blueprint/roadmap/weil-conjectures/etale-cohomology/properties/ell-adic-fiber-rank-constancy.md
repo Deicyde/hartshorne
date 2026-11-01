@@ -2,7 +2,6 @@
 article_id: af_6a489d0c7084c19a6578367e
 declaration: theorem
 origin: cited
-source_units: [appendix-c-section-3]
 ---
 
 # ℓ-adic fibre dimensions are locally constant in a smooth proper family

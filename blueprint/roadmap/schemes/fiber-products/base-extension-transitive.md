@@ -2,7 +2,6 @@
 article_id: af_2b6de44fda6e34c2cdbf9764
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: CategoryTheory.Limits.pullbackAssoc
 mathlib_file: Mathlib/CategoryTheory/Limits/Shapes/Pullback/Assoc.lean

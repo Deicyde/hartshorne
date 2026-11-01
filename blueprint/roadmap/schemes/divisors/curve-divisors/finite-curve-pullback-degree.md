@@ -2,7 +2,6 @@
 article_id: af_d9fed0b1efd863e463100dd1
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Degree of a pulled-back curve divisor

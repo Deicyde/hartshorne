@@ -2,7 +2,6 @@
 article_id: af_a7f66c5afe47b2caf8819ce0
 declaration: def
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # The local differential ratio

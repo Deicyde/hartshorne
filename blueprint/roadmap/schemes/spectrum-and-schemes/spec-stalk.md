@@ -2,7 +2,6 @@
 article_id: af_583dcab868656eea7ba3f8e6
 declaration: abbrev
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.StructureSheaf.stalkIso
 mathlib_file: Mathlib/AlgebraicGeometry/StructureSheaf.lean

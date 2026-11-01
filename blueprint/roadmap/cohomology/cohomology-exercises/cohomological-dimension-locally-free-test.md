@@ -2,7 +2,6 @@
 article_id: af_ee6ec8a649eb39735e86ae69
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Testing cohomological dimension on vector bundles

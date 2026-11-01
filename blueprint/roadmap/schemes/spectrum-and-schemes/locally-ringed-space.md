@@ -2,7 +2,6 @@
 article_id: af_fb83feaf3283e2c3a9e7c4e9
 declaration: structure
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.LocallyRingedSpace
 mathlib_file: Mathlib/Geometry/RingedSpace/LocallyRingedSpace.lean

@@ -2,7 +2,6 @@
 article_id: af_9a85f92e6194c64e719a9fdd
 declaration: definition
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Ambient hypersurfaces cut divisors

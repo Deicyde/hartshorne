@@ -2,7 +2,6 @@
 article_id: af_87756b03c53d40cd10c6801e
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: TopCat.Presheaf.isIso_iff_stalkFunctor_map_iso
 mathlib_file: Mathlib/Topology/Sheaves/Stalks.lean

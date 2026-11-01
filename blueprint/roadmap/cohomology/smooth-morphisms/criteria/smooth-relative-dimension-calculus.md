@@ -2,7 +2,6 @@
 article_id: af_96e5110c49ccdf5d1fd45eac
 declaration: theorem
 origin: bridged
-source_units: [chapter-iii-section-10]
 statement: formalized
 proof: formalized
 lean: Hartshorne.openImmersion_smoothOfRelativeDimension_zero Hartshorne.smoothOfRelativeDimension_baseChange Hartshorne.smoothOfRelativeDimension_comp Hartshorne.smoothOfRelativeDimension_product

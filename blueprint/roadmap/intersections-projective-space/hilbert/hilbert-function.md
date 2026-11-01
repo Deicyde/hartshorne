@@ -2,7 +2,6 @@
 article_id: af_7641a33cab715c6d10fcd498
 declaration: definition
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.hilbertFunction

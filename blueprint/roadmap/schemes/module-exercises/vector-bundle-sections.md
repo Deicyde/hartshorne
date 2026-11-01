@@ -2,7 +2,6 @@
 article_id: af_0754912666b82a9d3d2e387d
 declaration: isomorphism
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Sections of a geometric vector bundle

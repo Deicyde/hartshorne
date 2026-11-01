@@ -2,7 +2,6 @@
 article_id: af_5ab88e6586973fd7997b6527
 declaration: definition
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.Variety.regularSheaf

@@ -2,7 +2,6 @@
 article_id: af_bb9b0fe921c4acb3062c9544
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-1]
 ---
 
 # Self-intersection and the normal bundle

@@ -2,7 +2,6 @@
 article_id: af_50d38585932c26a7be65604d
 declaration: definition
 origin: bridged
-source_units: [chapter-i-section-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.DominantRatMap.comp

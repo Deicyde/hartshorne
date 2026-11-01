@@ -2,7 +2,6 @@
 article_id: af_c28b5fc3e73512702bca1d6e
 declaration: def
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # The ramification divisor

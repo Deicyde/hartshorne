@@ -2,7 +2,6 @@
 article_id: af_f44c38ec3ee73430940f4f25
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Flasque sheaves are acyclic

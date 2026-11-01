@@ -2,7 +2,6 @@
 article_id: af_7a7e7db275904105a90711a5
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.locallyOfFiniteType_iff_everyAffineTarget

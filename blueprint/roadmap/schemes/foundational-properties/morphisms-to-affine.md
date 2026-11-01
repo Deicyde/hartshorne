@@ -2,7 +2,6 @@
 article_id: af_28fa997940eb0b698a2291fd
 declaration: def
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.ΓSpec.adjunction
 mathlib_file: Mathlib/AlgebraicGeometry/GammaSpecAdjunction.lean

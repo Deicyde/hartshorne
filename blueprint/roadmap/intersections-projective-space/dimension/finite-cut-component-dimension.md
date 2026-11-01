@@ -2,7 +2,6 @@
 article_id: af_5c5ee420136d4443997b71a7
 declaration: theorem
 origin: bridged
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.dim_component_inter_zeroLocus_add_ncard

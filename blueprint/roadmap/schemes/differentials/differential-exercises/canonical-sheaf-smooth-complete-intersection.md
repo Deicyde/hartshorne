@@ -2,7 +2,6 @@
 article_id: af_c5efe51134bd2a5cda8c71bf
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-8]
 ---
 
 # The canonical sheaf of a smooth complete intersection

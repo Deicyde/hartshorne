@@ -2,7 +2,6 @@
 article_id: af_944457c173b01cba681de033
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-1-4]
 ---
 
 # Affineness is invariant under reduction

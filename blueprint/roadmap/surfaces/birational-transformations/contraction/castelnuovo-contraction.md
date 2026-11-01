@@ -2,7 +2,6 @@
 article_id: af_04df86bafed55610a72b5ba6
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Castelnuovo's contraction theorem

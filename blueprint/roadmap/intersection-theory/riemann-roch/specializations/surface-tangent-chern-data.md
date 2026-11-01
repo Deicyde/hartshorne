@@ -2,7 +2,6 @@
 article_id: af_39dc0c62390a36b3cc2aea9e
 declaration: theorem
 origin: cited
-source_units: [appendix-a-sections-4-5]
 ---
 
 # Surface tangent Chern data

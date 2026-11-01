@@ -2,7 +2,6 @@
 article_id: af_725249038f35aab4717e6cb1
 declaration: isomorphism
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Affine sections with support

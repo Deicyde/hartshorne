@@ -2,7 +2,6 @@
 article_id: af_0e77b22f571f2b7eaeff25ed
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-2]
 statement: formalized
 proof: formalized
 lean: Hartshorne.homogeneousVanishingIdeal_projZeroSet Hartshorne.isIrreducible_iff_isPrime_homogeneousVanishingIdeal

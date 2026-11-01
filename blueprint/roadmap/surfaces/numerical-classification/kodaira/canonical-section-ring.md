@@ -2,7 +2,6 @@
 article_id: af_dafd958e44d3a633b1b25e55
 declaration: def
 origin: cited
-source_units: [chapter-v-section-6]
 ---
 
 # The canonical section ring

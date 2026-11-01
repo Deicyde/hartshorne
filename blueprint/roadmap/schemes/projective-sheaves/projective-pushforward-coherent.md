@@ -2,7 +2,6 @@
 article_id: af_28e4d896c7840d0127c7184f
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-section-5]
 ---
 
 # Coherence of projective pushforward

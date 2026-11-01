@@ -2,7 +2,6 @@
 article_id: af_3bfd873df32de1e7b9c89d8a
 declaration: def
 origin: bridged
-source_units: [chapter-i-section-3]
 statement: formalized
 proof: formalized
 lean: Hartshorne.VarietyHom.functionFieldHom

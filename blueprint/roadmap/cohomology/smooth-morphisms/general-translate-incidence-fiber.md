@@ -2,7 +2,6 @@
 article_id: af_d2de0d0cc6e15382788fcfa7
 declaration: theorem
 origin: bridged
-source_units: [chapter-iii-section-10]
 ---
 
 # Fibres of the general-translate incidence scheme

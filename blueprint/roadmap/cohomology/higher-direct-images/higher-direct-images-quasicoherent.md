@@ -2,7 +2,6 @@
 article_id: af_3b9b2ef531c10312c44f31f9
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-8-9]
 ---
 
 # Higher direct images preserve quasi-coherence

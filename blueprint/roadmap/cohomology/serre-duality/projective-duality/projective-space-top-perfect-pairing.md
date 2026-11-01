@@ -2,7 +2,6 @@
 article_id: af_00d764085d181071fc5965c4
 declaration: theorem
 origin: cited
-source_units: [chapter-iii-sections-6-7]
 ---
 
 # The top perfect pairing on projective space

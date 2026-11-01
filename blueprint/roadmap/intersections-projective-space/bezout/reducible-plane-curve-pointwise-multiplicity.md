@@ -2,7 +2,6 @@
 article_id: af_105e5c9ea0f8b6df2e6d90c7
 declaration: definition
 origin: bridged
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.reduciblePlaneCurveIntersectionMultiplicity

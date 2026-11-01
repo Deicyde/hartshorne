@@ -2,7 +2,6 @@
 article_id: af_5b6ab4774e96f1607c608a58
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 mathlib: true
 mathlib_declaration: TopologicalSpace.noetherianSpace_iff_opens
 mathlib_file: Mathlib/Topology/NoetherianSpace.lean

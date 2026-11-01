@@ -2,7 +2,6 @@
 article_id: af_71c31784b121f118b423a44a
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # The section-algebra model of a birational projective morphism

@@ -2,7 +2,6 @@
 article_id: af_0fd218249869442782bbc3b6
 declaration: theorem
 origin: cited
-source_units: [chapter-v-section-5]
 ---
 
 # Normalization of the Castelnuovo contraction image

@@ -2,7 +2,6 @@
 article_id: af_23baadb1329327bb38ba2ae5
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-6-7]
 ---
 
 # Linear equivalence is isomorphism of divisor sheaves

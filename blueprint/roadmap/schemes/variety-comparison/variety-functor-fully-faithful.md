@@ -2,7 +2,6 @@
 article_id: af_a896c68bfa7d7ac69130a777
 declaration: theorem
 origin: cited
-source_units: [chapter-ii-sections-1-3]
 ---
 
 # The variety-to-scheme functor is fully faithful

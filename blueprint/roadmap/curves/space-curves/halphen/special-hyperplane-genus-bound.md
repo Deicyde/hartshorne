@@ -2,7 +2,6 @@
 article_id: af_1144c03b7af55e174c357bf6
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # The genus bound for a special hyperplane section

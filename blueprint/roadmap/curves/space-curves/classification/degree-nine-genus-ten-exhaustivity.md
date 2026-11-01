@@ -2,7 +2,6 @@
 article_id: af_c6d122ad20bdb99b6df92d27
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-5-6]
 ---
 
 # Exhaustivity in degree nine and genus ten

@@ -2,7 +2,6 @@
 article_id: af_bbb21dc5b1213e119c6d8a5d
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-7-main]
 statement: formalized
 proof: formalized
 lean: Hartshorne.plane_curve_bezout

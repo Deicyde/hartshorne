@@ -2,7 +2,6 @@
 article_id: af_66e36fc9e3926617642cdd2d
 declaration: theorem
 origin: cited
-source_units: [chapter-i-section-4]
 statement: formalized
 proof: formalized
 lean: Hartshorne.birational_iff_hasIsomorphicOpenSubsets

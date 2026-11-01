@@ -2,7 +2,6 @@
 article_id: af_7953103f4995d539c6989e34
 declaration: theorem
 origin: cited
-source_units: [chapter-iv-sections-1-2]
 ---
 
 # The projective line is étale simply connected
