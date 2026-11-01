@@ -1,6 +1,8 @@
 """Fresh original Autoform extraction with approved limits and complete artifact binding."""
 
 import functools
+import ctypes
+import gc
 import hashlib
 import json
 import os
@@ -101,9 +103,20 @@ def main():
         current_phase = name
         (output / "phase.json").write_text(json.dumps({"phase": name, "pid": os.getpid(),
                                                        "monotonic": time.monotonic(), "command": command}) + "\n")
+
+    def release_unused_heap():
+        gc.collect()
+        libc = ctypes.CDLL(None)
+        trim = getattr(libc, "malloc_trim", None)
+        if trim is not None:
+            trim.argtypes = (ctypes.c_size_t,)
+            trim.restype = ctypes.c_int
+            trim(0)
     original_runner = sk.run_probe
     original_command = sk._run_bounded_command
     original_parser = sk.parse_probe_output
+    original_declaration = sk._declaration
+    original_packets = entrypoint.write_packets
     sk.DEFAULT_PROBE_OUTPUT_LIMIT = OUTPUT_LIMIT
     sk._PROBE_MATERIAL_LIMIT = 1024**3
     # All original schema/material guards run over complete dict/list values.
@@ -199,6 +212,7 @@ run_cmd do
     def parse(raw, **options):
         phase("strict-parsing")
         records = original_parser(raw, **options)
+        release_unused_heap()
         phase("strict-parsing-complete")
         for record in records.values():
             if not record.get("found"):
@@ -208,8 +222,21 @@ run_cmd do
                 require((name, kind, str(path)) in native_paths, "native boundary escaped the captured module closure")
         return records
 
+    @functools.wraps(original_declaration)
+    def declaration(record, **options):
+        phase("declaration-binding")
+        return original_declaration(record, **options)
+
+    @functools.wraps(original_packets)
+    def packets(*args, **options):
+        phase("packet-publication")
+        release_unused_heap()
+        return original_packets(*args, **options)
+
     sk.run_probe = entrypoint.run_probe = fresh
     sk.parse_probe_output = parse
+    sk._declaration = declaration
+    entrypoint.write_packets = packets
     graph = load_graph(root / "blueprint")
     controls = sk.snapshot_inputs(graph, root)
     with bind_project_sources(root) as bound:
