@@ -25,8 +25,7 @@ this height with $\dim Y$. The function-field statement follows from
 the fraction-field construction and the dimension theorem for finitely
 generated domains.
 
-The other two clauses are [global regular functions and the coordinate
-ring](global-regular-eq-coordinate-ring.md) and
+The other two clauses are [global regular functions and the coordinate ring](global-regular-eq-coordinate-ring.md) and
 [points and maximal ideals](points-eq-maximal-ideals.md).
 
 ## Depends on
