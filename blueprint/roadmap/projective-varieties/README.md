@@ -4,24 +4,22 @@ article_id: af_ecb013ebbdc908ad91523f98
 
 # Projective varieties
 
-Hartshorne rebuilds §1 over projective `n`-space, and the point of the exercise
-is that almost nothing changes. Homogeneous polynomials are not functions on
-`ℙⁿ`, but their vanishing is well defined, so `Z` and `J` still make sense and
-still form the same order-reversing pair. The grading is the only new ingredient,
-and it costs exactly one wrinkle: the irrelevant ideal `S₊ = ⨁_{d>0} S_d` cuts
-out the empty set, so it has to be excluded from the correspondence by hand.
+Projective geometry uses homogeneous equations in projective `n`-space
+`ℙⁿ`. Homogeneous polynomials are not functions on `ℙⁿ`, but their
+vanishing is well defined. The maps `Z` and `J` therefore retain the
+order-reversing correspondence of the affine case. The grading introduces
+the irrelevant ideal `S₊ = ⨁_{d>0} S_d`, which cuts out the empty set and
+must be excluded from the correspondence.
 
-The section's real content is Proposition 2.2, which says `ℙⁿ` is covered by
-`n + 1` copies of `𝔸ⁿ`, glued along the standard charts `φᵢ`. That is what makes
-projective geometry locally affine, and it is the mechanism by which §3 computes
-the local rings and function field of a projective variety from the affine case
-it already knows. Everything in Chapter I after this point uses it.
+Proposition 2.2 supplies the local description: `ℙⁿ` is covered by
+`n + 1` copies of `𝔸ⁿ` through the standard charts `φᵢ`. These charts
+make projective geometry locally affine and allow Section 3 to compute local
+rings and function fields from the affine case.
 
-A note on where the mathematics lives: Hartshorne states only 2.1, 2.2 and 2.3
-in the running text and leaves the homogeneous Nullstellensatz, the ideal
-correspondence, and both dimension computations to Exercises 2.1–2.7. Those
-results are used later in the book, so this chapter formalizes them as source
-targets rather than skipping them.
+Hartshorne states results 2.1, 2.2, and 2.3 in the running text. The
+homogeneous Nullstellensatz, ideal correspondence, and dimension computations
+are developed in Exercises 2.1–2.7. Their later use in the book brings them
+into the adopted roadmap.
 
 ## The projective dictionary
 

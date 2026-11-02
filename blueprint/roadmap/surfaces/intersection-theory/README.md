@@ -4,11 +4,14 @@ article_id: af_8e37f63451ac1ab6cf9503d9
 
 # Intersection theory and adjunction on surfaces
 
-This chapter constructs Hartshorne's direct intersection pairing on a smooth
-projective surface and applies it to standard surfaces and the adjunction
-formula. The construction works over the standing algebraically closed field
-in arbitrary characteristic and does not depend on Appendix A's Chow-ring
-machinery.
+The direct intersection pairing on a smooth projective surface provides the
+foundation for Hartshorne's surface theory. This chapter constructs the
+pairing, computes it on standard surfaces, and develops the adjunction formula.
+
+The standing field is algebraically closed, with arbitrary characteristic.
+This construction is independent of Appendix A's Chow-ring approach.
+
+## Topics
 
 1. [Foundations of the surface intersection pairing](foundations/README.md)
 2. [Standard intersection forms and adjunction](examples-adjunction/README.md)

@@ -4,26 +4,24 @@ article_id: af_8c0bb06941286b62e3549f9e
 
 # Morphisms
 
-The first two sections produced objects with no maps between them, so there was
-no way to say when two varieties are the same. This section fixes that. A
-regular function is one that is locally a quotient of polynomials, a morphism is
-a continuous map that pulls regular functions back to regular functions, and the
-four kinds of variety from §§1–2 become a single category.
+Regular functions and morphisms connect the varieties constructed in the
+first two sections. A regular function is locally a quotient of polynomials;
+a morphism is a continuous map that pulls regular functions back to regular
+functions. The four kinds of variety from Sections 1–2 then form a single
+category.
 
-Three rings come with each variety: the global regular functions `𝒪(Y)`, the
-local ring `𝒪_{P,Y}` of germs at a point, and the function field `K(Y)`.
-Hartshorne identifies them as subrings of `K(Y)` and proves that the first is
-the intersection of all the local rings. The injections, bundled algebra maps,
-and intersection formula are all formalized.
+Three rings describe a variety: its global regular functions `𝒪(Y)`, the
+local ring `𝒪_{P,Y}` of germs at a point, and its function field `K(Y)`.
+Hartshorne identifies the global and local rings as subrings of `K(Y)`
+and proves that the global ring is the intersection of all the local rings.
+The injections, bundled algebra maps, and intersection formula are
+formalized in this project.
 
-The section then computes them. For an affine variety, Theorem 3.2 identifies
-all three with `A(Y)` and its localizations, which says the coordinate ring loses
-nothing. For a projective variety, Theorem 3.4 says the opposite: `𝒪(Y) = k`, so
-the global functions see nothing at all, and the local data lives in graded
-localizations of `S(Y)`. The chapter's payoff is Corollary 3.8, an
-arrow-reversing equivalence between affine varieties over `k` and finitely
-generated integral domains over `k`, which is the precise sense in which affine
-geometry and commutative algebra are the same subject.
+For an affine variety, Theorem 3.2 computes these rings from `A(Y)` and its
+localizations. For a projective variety, Theorem 3.4 gives `𝒪(Y) = k`;
+the local data is described through graded localizations of `S(Y)`.
+Corollary 3.8 concludes with an arrow-reversing equivalence between affine
+varieties over `k` and finitely generated integral domains over `k`.
 
 ## Regular functions
 

@@ -4,21 +4,20 @@ article_id: af_57e7a327fd202f9b1729e50f
 
 # Affine varieties
 
-Hartshorne opens over a fixed algebraically closed field `k` and builds the
-whole chapter out of one correspondence: subsets of affine `n`-space `𝔸ⁿ` on one
-side, ideals of the polynomial ring `A = k[x₁,…,xₙ]` on the other. The zero-set
-map `Z` and the vanishing-ideal map `I` are order-reversing and almost inverse
-to each other; Hilbert's Nullstellensatz says exactly how far from inverse they
-are, and everything else in the section is a consequence.
+Hartshorne begins over a fixed algebraically closed field `k`. The basic
+dictionary relates subsets of affine `n`-space `𝔸ⁿ` to ideals of the
+polynomial ring `A = k[x₁,…,xₙ]`. The zero-set map `Z` and the
+vanishing-ideal map `I` reverse inclusion. Hilbert's Nullstellensatz
+describes their relation and establishes the correspondence used throughout
+the section.
 
-The section then closes the loop between geometry and algebra twice. First
-topologically: the algebraic sets are the closed sets of a topology, that
-topology is Noetherian, and so every algebraic set breaks uniquely into
-irreducible pieces. Second dimensionally: the topological dimension of a variety
-is the Krull dimension of its coordinate ring, which by a quoted theorem of
-commutative algebra is the transcendence degree of its function field. That
-chain is what makes `dim 𝔸ⁿ = n` a theorem rather than a definition, and it is
-what the rest of Chapter I computes with.
+The Zariski topology gives this dictionary a geometric setting. Its
+Noetherian property leads to the unique decomposition of an algebraic set
+into irreducible components. Dimension then connects the topological
+dimension of a variety with the Krull dimension of its coordinate ring and,
+through the cited commutative-algebra result, the transcendence degree of its
+function field. These comparisons establish `dim 𝔸ⁿ = n` and supply the
+dimension calculations used later in Chapter I.
 
 ## The affine dictionary
 

@@ -4,13 +4,17 @@ article_id: af_c13f2f629c5f6e7082f582f0
 
 # Curves and the Riemann–Roch theorem
 
-This chapter covers Hartshorne IV.1, printed pp.294–298. It uses the
-scheme-level convention that a curve over an algebraically closed field is
-integral, proper, regular, and one-dimensional. It reuses the existing
-Chapter III genus equality and quadric existence articles rather than
-duplicating them.
+Riemann–Roch connects divisor degree and Euler characteristic with the
+geometry of linear systems. This chapter covers Hartshorne IV.1, printed
+pp. 294–298, and develops its consequences for canonical divisors and curves
+of small genus.
 
-## Curve and divisor API
+The scheme-level curve convention is fixed throughout: a curve over an
+algebraically closed field is integral, proper, regular, and one-dimensional.
+The existing Chapter III genus equality and quadric existence articles supply
+the earlier results used here.
+
+## Curves and divisors
 
 - [The Chapter IV curve convention](curve-convention.md)
 - [Divisor sections and complete linear systems](curve-divisor-sections.md)

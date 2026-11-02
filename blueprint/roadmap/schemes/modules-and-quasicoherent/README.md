@@ -4,11 +4,18 @@ article_id: af_cef7a5b34bf9a0c78dc51155
 
 # Modules and quasi-coherent sheaves
 
-This chapter covers the foundational half of Hartshorne II.5, from modules on
-ringed spaces through Proposition 5.8 for schemes.  It stops when ideal
-sheaves begin on printed p. 115.  Mathlib's local-presentation definition of
-quasi-coherence is related explicitly to Hartshorne's local affine `M̃`
-definition before either is used as a replacement for the other.
+Sheaves of modules provide the linear algebra used on ringed spaces and
+schemes. Tensor products, sheaf Hom, and direct and inverse image operations
+are followed by the affine tilde construction and the local criteria for
+quasi-coherence and coherence.
+
+This chapter covers the foundational half of Hartshorne II.5 through
+Proposition 5.8 for schemes. It ends where ideal sheaves begin on printed p. 115.
+The roadmap explicitly relates Mathlib's local-presentation definition of
+quasi-coherence to Hartshorne's local affine `M̃` definition before using
+one in place of the other.
+
+## Modules and their operations
 
 1. [Sheaves of modules](sheaves-of-modules.md)
 2. [Tensor products of module sheaves](module-tensor-product.md)
@@ -17,12 +24,18 @@ definition before either is used as a replacement for the other.
 5. [Locally free and invertible module sheaves](locally-free-and-invertible.md)
 6. [Duality for finite locally free sheaves](finite-locally-free-duality.md)
 7. [Projection formula for finite locally free sheaves](finite-locally-free-projection-formula.md)
+
+## The affine tilde construction
+
 8. [The affine tilde sheaf and localization](tilde-localization.md)
 9. [The tilde–global-sections adjunction](tilde-gamma-adjunction.md)
 10. [Exactness of the tilde functor](tilde-exactness.md)
 11. [Tilde commutes with tensor products](tilde-tensor-compatibility.md)
 12. [Tilde commutes with direct sums](tilde-direct-sum-compatibility.md)
 13. [Tilde under affine change of rings](tilde-affine-change-of-rings.md)
+
+## Quasi-coherence, coherence, and exactness
+
 14. [Quasi-coherence by local presentations](quasicoherent-local-presentations.md)
 15. [Finite type and finite presentation for module sheaves](finite-type-and-finite-presentation.md)
 16. [Quasi-coherent sections on principal opens](quasicoherent-principal-open-localization.md)
