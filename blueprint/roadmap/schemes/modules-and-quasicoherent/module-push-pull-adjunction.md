@@ -11,7 +11,7 @@ mathlib_file: Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackContinuous.lean
 
 For a morphism of ringed spaces $f : (X,\mathcal{O}_X) \longrightarrow (Y,\mathcal{O}_Y)$, define the module
 pushforward $f_*$ by giving the ordinary direct image its $\mathcal{O}_Y$-action through
-$f#$.  Define module pullback by extension of scalars,
+$f^{\#}$.  Define module pullback by extension of scalars,
 $f^*G=f^{-1}G\otimes_{f^{-1}\mathcal{O}_Y}\mathcal{O}_X$, and prove the natural adjunction
 
 $\operatorname{Hom} _X(f^* G, F) \simeq \operatorname{Hom} _Y(G, f_*F)$.

@@ -14,7 +14,7 @@ following conditions:
 2. every irreducible component of every scheme-theoretic fibre has dimension
    $n$; and
 3. for every $x \in X$, the $k(x)$-dimension of
-   $\Omega_{X/Y}_x \otimes k(x)$ is $n$.
+   $(\Omega_{X/Y})_x \otimes k(x)$ is $n$.
 
 The fibre formulation of clause 2 is equivalent to Hartshorne's formulation
 using corresponding components by III.9.6. This theorem is the sole bridge

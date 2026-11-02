@@ -11,7 +11,7 @@ mathlib_file: Mathlib/Geometry/RingedSpace/LocallyRingedSpace.lean
 
 A locally ringed space is a topological space with a sheaf of commutative
 rings whose stalks are local rings.  A morphism is a ringed-space morphism
-$(f,f#)$ for which every contravariant stalk map
+$(f,f^{\#})$ for which every contravariant stalk map
 $\mathcal{O} _{Y,f(x)} \to \mathcal{O} _{X,x}$ is local.
 
 The locality condition excludes Hartshorne's cautionary map from

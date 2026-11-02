@@ -12,7 +12,7 @@ lean: Hartshorne.artinRees_inducedTopology
 Let $A$ be Noetherian, $a$ an ideal, and $M \subseteq N$ finite $A$-modules. For
 every $n$ there is $n' \ge n$ such that
 
-$a^n M \supseteq M \cap a^n' N$.
+$a^n M \supseteq M \cap a^{n'} N$.
 
 Thus the $a$-adic topology on $M$ is induced by that on $N$.
 

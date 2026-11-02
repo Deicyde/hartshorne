@@ -9,7 +9,7 @@ origin: cited
 Let $f : X \to Y$ be a morphism of finite-type schemes over a field, with $X$
 integral. Hartshorne's third smoothness clause,
 
-$\dim _k(x) (\Omega_{X/Y}_x \otimes k(x)) = n$ for every $x \in X$,
+$\dim _{k(x)} ((\Omega_{X/Y})_x \otimes k(x)) = n$ for every $x \in X$,
 
 is equivalent to $\Omega_{X/Y}$ being locally free of constant rank $n$. No
 smoothness assumption is made. As a corollary, for a morphism already known to
