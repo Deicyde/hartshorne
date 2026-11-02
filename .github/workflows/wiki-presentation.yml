@@ -2,7 +2,7 @@ name: Wiki presentation
 
 on:
   push:
-    branches: [main]
+    branches: [main, "codex/hartshorne-wiki-tex-*"]
     paths: ["blueprint/**", ".github/wiki_math.*", ".github/workflows/wiki-presentation.yml", ".github/autoform-ref"]
   pull_request:
     paths: ["blueprint/**", ".github/wiki_math.*", ".github/workflows/wiki-presentation.yml", ".github/autoform-ref"]
