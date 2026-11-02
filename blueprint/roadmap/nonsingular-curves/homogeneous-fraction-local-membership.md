@@ -9,19 +9,19 @@ lean: Hartshorne.projRatClass_mem_localRingRange_iff
 
 # Membership of a homogeneous fraction in a local ring
 
-Let `Y` be quasi-projective, `P ∈ Y`, and let `g,h` be homogeneous polynomials
-of the same degree whose fraction defines an element `[g/h] ∈ K(Y)`. If
-`g(P) ≠ 0`, then
+Let $Y$ be a quasi-projective variety, let $P\in Y$, and let $g,h$ be
+homogeneous polynomials of the same degree whose fraction defines a class
+$[g/h]\in K(Y)$. If $g(P)\ne 0$, then
 
-`[g/h] ∈ Y.localRingRange P ↔ h(P) ≠ 0`.
+$$[g/h]\in\mathcal{O}_{P,Y}\quad\Longleftrightarrow\quad h(P)\ne 0,$$
 
-The forward direction says a fraction with nonvanishing numerator and zero
-denominator cannot represent a regular germ at `P`; the reverse direction uses
-`g/h` itself on the projective open where `h` is nonzero. The hypothesis on
-`g(P)` rules out cancellation, which is essential for the biconditional.
+where the local ring is viewed inside $K(Y)$ through its canonical injection.
 
-Use the existing `projRatOfFraction` representation of projective rational
-functions and identify its germ through the canonical map into `K(Y)`.
+The forward direction says that a fraction with a nonvanishing numerator
+and a vanishing denominator cannot represent a regular germ at $P$. For
+the reverse direction, $g/h$ is regular on the projective open where $h$
+is nonzero. The hypothesis $g(P)\ne 0$ rules out cancellation and is
+essential for the equivalence.
 
 ## Depends on
 

@@ -9,16 +9,14 @@ mathlib_file: Mathlib/RingTheory/Valuation/LocalSubring.lean
 
 # Valuation rings are maximal local subrings
 
-Let `K` be a field and `A : LocalSubring K`. Then `A` is maximal among local
-subrings for the domination order if and only if it is the local subring
-underlying some `ValuationSubring K`:
+Let $K$ be a field and let $A$ be a local subring of $K$. Then $A$ is maximal
+among local subrings under domination if and only if it is a valuation ring
+of $K$.
 
-`IsMax A ↔ ∃ B : ValuationSubring K, B.toLocalSubring = A`.
-
-This is the first clause of Theorem 6.1A. Mathlib's order on `LocalSubring K`
-is exactly Hartshorne's domination relation: `LocalSubring.le_def` expands
-`A ≤ B` into inclusion of the underlying subrings together with the induced
-map being local, equivalently contraction of the maximal ideal.
+A local subring $B$ dominates $A$ when $A\subseteq B$ and
+$\mathfrak{m}_B\cap A=\mathfrak{m}_A$, where $\mathfrak{m}_A$ and
+$\mathfrak{m}_B$ are their maximal ideals. Thus domination requires the
+inclusion to be a local homomorphism. This is the first clause of Theorem 6.1A.
 
 ## Depends on
 

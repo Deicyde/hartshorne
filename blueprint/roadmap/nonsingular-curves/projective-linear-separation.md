@@ -9,19 +9,18 @@ lean: Hartshorne.exists_linear_forms_separating_projective_points
 
 # Linear fractions separate projective points
 
-Let `P ≠ Q` be points of projective space over the algebraically closed field
-`k`. There are degree-one homogeneous polynomials `g` and `h` such that
+Let $P\ne Q$ be points of projective space over the algebraically closed
+field $k$. There are degree-one homogeneous polynomials $g$ and $h$ such that
 
-`g(P) ≠ 0`, `g(Q) ≠ 0`, `h(P) = 0`, and `h(Q) ≠ 0`.
+$$g(P)\ne 0,\qquad g(Q)\ne 0,\qquad h(P)=0,\qquad h(Q)\ne 0.$$
 
-Thus the homogeneous fraction `g/h` is regular at `Q` but has a genuine pole at
-`P`. Construct `h` as a linear form separating the two projective lines, then
-construct a second linear form with the opposite vanishing pattern and add the
-two forms to obtain `g`. The argument works over every field.
+Thus the homogeneous fraction $g/h$ is regular at $Q$ but has a pole at $P$.
+Choose $h$ as a linear form separating the two projective lines. Choose a
+second linear form with the opposite vanishing pattern, then add the two
+forms to obtain $g$. The argument works over every field.
 
-This is the projective-coordinate content of Hartshorne's preliminary linear
-change of coordinates in Lemma 6.4, isolated so the local-ring argument does
-not need a general projective automorphism API.
+This is the projective-coordinate step in Hartshorne's preliminary linear
+change of coordinates in the proof of Lemma 6.4.
 
 ## Depends on
 

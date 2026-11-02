@@ -9,21 +9,14 @@ lean: Hartshorne.Variety.HasAffineOpenBasis.valuationAt Hartshorne.Variety.HasAf
 
 # Nonsingular curve points define discrete valuations
 
-For a nonsingular point `P` on a curve `X`, package the image of its local ring
-inside the function field as a valuation subring
+Let $X$ be a curve over $k$ with an affine-open basis, and let $P$ be a
+nonsingular point of $X$. The image of the local ring $\mathcal{O}_{P,X}$ in
+the function field $K(X)$ is a discrete valuation ring with fraction field
+$K(X)$.
 
-`valuationSubringAt P : ValuationSubring X.FunctionField`.
-
-Its underlying subring is `X.localRingRange P`; its fraction field is `K(X)`;
-and the corresponding valuation is discrete and trivial on the embedded base
-field `k`. This is the precise Lean form of Hartshorne's statement that
-`𝒪_{P,X}` is a valuation ring of `K(X)/k`.
-
-The pinned Mathlib can construct the valuation subring from a valuation-ring
-structure, but does not yet directly transport discreteness to the associated
-valuation. Record the discreteness at the ring/subring level and expose any
-valuation-valued corollary that the pinned API supports; do not rely on open PR
-#43655.
+The corresponding discrete valuation is trivial on the embedded base field
+$k$. Thus $\mathcal{O}_{P,X}$, viewed inside $K(X)$, is a valuation ring of
+$K(X)/k$.
 
 ## Depends on
 
@@ -36,4 +29,4 @@ valuation-valued corollary that the pinned API supports; do not rely on open PR
 
 ## Sources
 
-- [Hartshorne I.6, local rings as valuation rings of `K(Y)/k` (p. 41)](../../sources/hartshorne.md#i6-local-structure-and-point-separation)
+- [Hartshorne I.6, local rings as valuation rings of $K(Y)/k$ (p. 41)](../../sources/hartshorne.md#i6-local-structure-and-point-separation)

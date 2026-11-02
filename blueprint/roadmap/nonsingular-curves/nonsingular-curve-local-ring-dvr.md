@@ -9,14 +9,14 @@ lean: Hartshorne.Variety.HasAffineOpenBasis.isDiscreteValuationRing_localRingAt_
 
 # Local rings of nonsingular curves are DVRs
 
-Let `X` be a curve with an affine-open basis and let `P` be a nonsingular point.
-Then the local ring `𝒪_{P,X}` is a discrete valuation ring.
+Let $X$ be a curve with an affine-open basis and let $P$ be a nonsingular
+point. Then the local ring $\mathcal{O}_{P,X}$ is a discrete valuation ring.
 
-The proof is the one-line deduction in Hartshorne. The local ring is a
-Noetherian local domain; its Krull dimension is one because `X` is a curve; and
-nonsingularity says it is regular local. Theorem 6.2A then gives the DVR
-structure. State both the pointwise theorem and the immediate version for a
-nonsingular curve, with the pointwise result as the headline completion target.
+The proof is Hartshorne's short deduction. The local ring is a Noetherian
+local domain; its Krull dimension is one because $X$ is a curve; and
+nonsingularity means that it is regular. Theorem 6.2A therefore applies.
+In particular, every local ring of a nonsingular curve is a discrete
+valuation ring.
 
 ## Depends on
 

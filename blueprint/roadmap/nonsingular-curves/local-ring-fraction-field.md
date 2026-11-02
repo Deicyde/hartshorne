@@ -9,20 +9,19 @@ lean: Hartshorne.Variety.HasAffineOpenBasis.isFractionRing_localRingAt
 
 # The function field is the fraction field of every local ring
 
-Let `X` be a variety with an affine-open basis and `P : X`. The canonical
-injection
+Let $X$ be a variety over $k$ with an affine-open basis and let $P\in X$.
+The canonical injection of $k$-algebras
 
-`𝒪_{P,X} →ₐ[k] K(X)`
+$$\mathcal{O}_{P,X} \hookrightarrow K(X)$$
 
-exhibits `K(X)` as a fraction field of `𝒪_{P,X}`. In particular the local ring
-is a domain, and its image is the subalgebra `X.localRingRange P` already used
-to state intersections of local rings inside the function field.
+exhibits $K(X)$ as the fraction field of $\mathcal{O}_{P,X}$. In particular,
+the local ring is a domain. Through this injection, it can be regarded as a
+subalgebra of the function field.
 
-Choose an affine open neighbourhood of `P`. Local rings are unchanged by
-restriction to that neighbourhood, its function field is canonically `K(X)`,
-and in affine coordinates both rings embed in the fraction field of the
-coordinate ring. The same pull request should install the supporting
-`IsDomain (X.LocalRingAt P)` instance from the injective canonical map.
+Choose an affine open neighbourhood of $P$. Restricting to this neighbourhood
+preserves the local ring at $P$ and the function field. In affine coordinates,
+the local ring is a localization of the coordinate ring, so both have the
+same fraction field.
 
 ## Depends on
 

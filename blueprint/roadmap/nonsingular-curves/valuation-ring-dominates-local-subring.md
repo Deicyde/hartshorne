@@ -9,14 +9,13 @@ mathlib_file: Mathlib/RingTheory/Valuation/LocalSubring.lean
 
 # Every local subring is dominated by a valuation ring
 
-For every local subring `A` of a field `K`, there is a valuation subring `B`
-which dominates it:
+For every local subring $A$ of a field $K$, there is a valuation ring $B$ of
+$K$ which dominates it:
 
-`∃ B : ValuationSubring K, A ≤ B.toLocalSubring`.
+$$A\subseteq B,\qquad \mathfrak{m}_B\cap A=\mathfrak{m}_A.$$
 
-This is the second clause of Theorem 6.1A. The order relation includes both
-subring inclusion and locality of the inclusion, so the upstream statement is
-an exact match rather than merely an existence theorem for a larger subring.
+This is the second clause of Theorem 6.1A. The maximal-ideal condition says
+that the inclusion is a local homomorphism.
 
 ## Depends on
 

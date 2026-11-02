@@ -9,19 +9,17 @@ lean: Hartshorne.Variety.HasAffineOpenBasis.ringKrullDim_localRingAt_eq
 
 # Dimension of the local ring of a variety
 
-Let `X` be a variety with an affine-open basis and `P : X`. Then
+Let $X$ be a variety with an affine-open basis and let $P\in X$. Then
 
-`ringKrullDim (𝒪_{P,X}) = topologicalKrullDim X.carrier`.
+$$\dim \mathcal{O}_{P,X} = \dim X.$$
 
-This is Theorem 3.2(c), already proved for affine varieties, transported to the
-abstract interface needed in §6. Choose an affine open neighbourhood of `P`.
-Its local ring is isomorphic to `𝒪_{P,X}`; its dimension equals its coordinate-
-ring dimension. Comparing the function fields of the affine open and ambient
-variety identifies their transcendence degrees, hence their dimensions.
+This extends Theorem 3.2(c) from affine varieties to the setting needed in §6.
+Choose an affine open neighbourhood of $P$. Its local ring at $P$ is
+isomorphic to $\mathcal{O}_{P,X}$, and the affine theorem identifies its
+dimension with that of the coordinate ring. The affine open and the ambient
+variety have the same function field, so their dimensions agree.
 
-The finite-dimensionality witness should remain explicit so the conclusion can
-be rewritten to a natural number. In particular, if `X.IsCurve`, every local
-ring has Krull dimension one.
+In particular, every local ring of a curve has Krull dimension one.
 
 ## Depends on
 

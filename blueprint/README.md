@@ -31,6 +31,15 @@ The dependency map offers another way through the material: select a topic,
 open its chapter, then inspect a statement and its immediate prerequisites.
 The book and the map describe the same Markdown roadmap.
 
+## Writing a statement
+
+Write the mathematical exposition in plain English, with TeX for symbols and
+formulas. Introduce the objects and hypotheses before stating the result.
+Use conventional mathematical notation in the text; keep Lean declaration
+names in the article metadata so readers can follow the generated source
+links. Development instructions, library compatibility notes, and
+pull-request references belong in internal working notes.
+
 ## Understand the progress
 
 Progress summaries are generated from the current declarations and dependency

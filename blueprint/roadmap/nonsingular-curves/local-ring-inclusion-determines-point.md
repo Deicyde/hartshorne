@@ -9,20 +9,18 @@ lean: Hartshorne.IsQuasiProjVariety.eq_of_localRingRange_le
 
 # The local ring determines the point
 
-Let `Y` be a quasi-projective variety and `P,Q ∈ Y`. Regard both local rings as
-subalgebras of `K(Y)` using `localRingRange`. Then
+Let $Y$ be a quasi-projective variety and let $P,Q\in Y$. Regard both local
+rings as subalgebras of $K(Y)$ through their canonical injections. Then
 
-`𝒪_{Q,Y} ⊆ 𝒪_{P,Y}  →  P = Q`.
+$$\mathcal{O}_{Q,Y}\subseteq\mathcal{O}_{P,Y}\quad\Longrightarrow\quad P=Q.$$
 
-This is Lemma 6.4, with the inclusion orientation exactly as in the source. If
-`P ≠ Q`, choose linear forms `g,h` with `g(P) ≠ 0`, `g(Q) ≠ 0`,
-`h(P) = 0`, and `h(Q) ≠ 0`. The class `[g/h]` belongs to `𝒪_{Q,Y}` but not to
-`𝒪_{P,Y}`, contradicting the assumed inclusion.
+This is Lemma 6.4. If $P\ne Q$, choose linear forms $g,h$ with
+$g(P)\ne 0$, $g(Q)\ne 0$, $h(P)=0$, and $h(Q)\ne 0$. The class $[g/h]$
+belongs to $\mathcal{O}_{Q,Y}$ but not to $\mathcal{O}_{P,Y}$, contradicting
+the assumed inclusion.
 
-Hartshorne reaches the same contradiction after moving both points into one
-affine chart and comparing localizations. The homogeneous-fraction proof avoids
-formalizing a general coordinate-change theorem solely for this lemma and
-retains the full quasi-projective statement.
+Hartshorne reaches the same contradiction by moving both points into a
+common affine chart and comparing their localizations.
 
 ## Depends on
 

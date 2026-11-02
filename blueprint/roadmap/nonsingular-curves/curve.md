@@ -9,16 +9,16 @@ lean: Hartshorne.Variety.IsCurve
 
 # Curves
 
-A curve is a variety of dimension one. For the abstract variety interface used
-after §4, define `X.IsCurve` by
+A curve is a variety $X$ of dimension one:
 
-`topologicalKrullDim X.carrier = 1`.
+$$\dim X = 1.$$
 
-For a variety with an affine-open basis, the existing dimension theorem then
-identifies this condition with
-`Algebra.trdeg k X.FunctionField = 1`, matching Hartshorne's phrase “function
-field of dimension one.” Record these two formulations as an equivalence or a
-companion theorem, without building a second notion of dimension.
+For a variety over $k$ with an affine-open basis, this is equivalent to its
+function field having transcendence degree one over $k$:
+
+$$\operatorname{trdeg}_k K(X) = 1.$$
+
+This is the meaning of Hartshorne's phrase “function field of dimension one.”
 
 ## Depends on
 

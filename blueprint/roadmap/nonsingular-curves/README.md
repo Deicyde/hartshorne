@@ -4,35 +4,27 @@ article_id: af_ed89215a4d06659a130c6da1
 
 # Local structure of nonsingular curves
 
-Hartshorne's study of curves starts with a valuation-theoretic description of
-their local rings. A curve is a variety of dimension one. At a nonsingular
-point its local ring is Noetherian, local, a domain, regular, and one-
-dimensional; Theorem 6.2A says precisely that such a ring is a discrete
-valuation ring. Its image in the function field is therefore a valuation ring
-of `K(Y)/k`.
+Hartshorne's study of curves starts with a description of their local rings
+in terms of valuations. A curve is a variety of dimension one. At a
+nonsingular point, its local ring is a Noetherian regular local domain of
+dimension one. By Theorem 6.2A, this ring is a discrete valuation ring. Its
+image in the function field is therefore a valuation ring of $K(Y)/k$.
 
-The second result in this milestone is Lemma 6.4. For a quasi-projective variety
-`Y`, inclusion `𝒪_{Q,Y} ⊆ 𝒪_{P,Y}` inside `K(Y)` forces `P = Q`. Hartshorne
-puts the two points into a common affine chart. The Lean proof uses an equivalent
-projective separation argument: choose a homogeneous linear fraction regular at
-`Q` but not at `P`. This keeps the full source statement while fitting the
-project's existing projective function-field API.
+Lemma 6.4 then shows that local rings distinguish points. For a
+quasi-projective variety $Y$, an inclusion
+$\mathcal{O}_{Q,Y} \subseteq \mathcal{O}_{P,Y}$ inside $K(Y)$ forces $P=Q$.
+Hartshorne puts the two points into a common affine chart. An equivalent
+projective argument chooses a homogeneous linear fraction regular at $Q$
+but with a pole at $P$, contradicting the inclusion when the points differ.
 
-## Mathlib boundary
+## Algebraic background
 
-The pinned Mathlib exactly proves both clauses of Theorem 6.1A as
-`LocalSubring.isMax_iff` and `LocalSubring.exists_le_valuationSubring`.
-Its `IsDiscreteValuationRing.TFAE` contains most of Theorem 6.2A, but not the
-source's exact four-way statement involving `IsRegularLocalRing` under an
-explicit dimension-one hypothesis, so that theorem remains a small project
-wrapper.
-
-Open Mathlib PR
-[#43655](https://github.com/leanprover-community/mathlib4/pull/43655) develops
-discreteness for equivalent valuations and may later simplify the valuation-
-subring packaging. Open PRs #28683 and #29574 overlap the missing generic fact
-that a regular local ring is a domain. The roadmap targets only the pinned
-checkout and does not assume any of these PRs merge.
+Theorem 6.1A characterizes valuation rings as maximal local subrings under
+domination and shows that every local subring of a field is dominated by a
+valuation ring. Theorem 6.2A connects this general theory to nonsingular
+curves: for a Noetherian local domain of dimension one, being a discrete
+valuation ring, being integrally closed, being regular, and having a
+principal maximal ideal are equivalent.
 
 ## Valuation and DVR background
 
