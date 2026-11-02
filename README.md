@@ -1,127 +1,65 @@
 # Hartshorne, Algebraic Geometry
 
-A Lean 4 formalization of the classical variety theory in Chapter I of Robin
-Hartshorne, *Algebraic Geometry* (Springer, Graduate Texts in Mathematics 52,
-1977), built on Mathlib.
+A Lean 4 and Mathlib formalization project with a mathematical wiki covering
+Robin Hartshorne's *Algebraic Geometry* (Springer, Graduate Texts in Mathematics
+52, 1977). The roadmap spans Chapters I–V and Appendices A–C.
 
-Sections I.1 through I.4, the geometric core of I.5 through Theorem I.5.3, and
-I.6 through Corollary I.6.12 are decomposed into a dependency graph of 163
-formalization targets. Apart from the regularity-under-completion clause of
-Theorem I.5.4A used in V.5, the remaining completion, Cohen-structure, and
-analytic-isomorphism material later in §I.5 is deferred. The source-grounded
-fine-roadmap pass now reaches the end of Appendix C. Section I.7 has 50 fine
-targets, all formalized; the §I.8 survey has been dispositioned claim by claim;
-and Chapter II now has a 450-leaf core fine roadmap: 103 exact pinned-Mathlib
-leaves, 75 locally complete project leaves, and 272 remaining project leaves.
-Two additional unformalized Chapter-II exercise leaves are reactivated in
-Chapters IV and V. Later-chapter roadmap targets are planned unless their own
-articles say otherwise. See the
-[coverage contract](blueprint/coverage/README.md) for exactly what is and is not
-claimed.
+**[Read the wiki](https://deicyde.github.io/hartshorne/)** ·
+**[Explore the dependency map](https://deicyde.github.io/hartshorne/dependencies/map/index.html)** ·
+**[Check the source coverage](blueprint/coverage/README.md)**
 
-All of Chapter III has a 291-leaf cohomology roadmap: 20 exact pinned-Mathlib
-leaves, 28 locally complete project leaves, and 243 remaining project leaves.
-It covers derived functors,
-sheaf and supported cohomology, affine vanishing, local cohomology, and Čech
-comparison, projective cohomology, Ext, dualizing sheaves, and Serre duality
-through higher direct images, flat families, Hilbert polynomials, deformations,
-smooth morphisms, generic smoothness, Bertini, formal functions, Stein
-factorization, semicontinuity, Grauert's theorem, and base change through p. 292.
+## About the project
 
-All of Chapter IV has a 201-leaf curve roadmap: two exact pinned-Mathlib
-results and 199 project targets for Riemann–Roch, ramification, projective
-embeddings, elliptic and canonical curves, Clifford's theorem, moduli,
-Castelnuovo's bound, and space-curve classifications. Five additional project
-leaves reactivate Exercises I.3.14(a), I.5.4, I.5.6(b), I.7.3, and II.6.4.
+The wiki presents the book as linked definitions, theorems, and proof
+prerequisites. Each statement points to its source, and formalized statements
+link to the corresponding Lean declarations. The dependency map shows how the
+pieces fit together and which prerequisites remain to be completed.
 
-All of Chapter V has a 230-leaf surface roadmap: one exact pinned-Mathlib result
-and 229 project targets for intersection theory, ruled and cubic surfaces,
-embedded resolution, birational factorization, contraction, and minimal
-models. Five additional project leaves reactivate III Exercise 7.4(a),(c),(d),
-II Exercise 8.2, I Exercise 5.14(d), and the regularity clause of Theorem I.5.4A;
-one Appendix A HRR prerequisite records the source of Noether's formula.
+The classical development in Chapter I includes affine and projective
+varieties, regular functions, morphisms, dimension, normalization, nonsingular
+curve models, and intersection theory. Later chapters build on Mathlib's
+schemes and sheaves to develop cohomology, curves, and surfaces. The appendices
+provide the intersection-theoretic, analytic, and étale-cohomological context.
 
-Appendix A has a 72-leaf intersection-theory roadmap covering Chow groups,
-Chern classes, positivity, and Riemann–Roch. All are project targets, with
-outline-level theorems retained as explicit proof-source obligations.
+Formalization is ongoing. The wiki's generated progress summaries give the
+current state of each area; the [coverage contract](blueprint/coverage/README.md)
+records the adopted material, exclusions, and deferred source obligations.
 
-Appendix B has a 69-leaf transcendental-methods roadmap covering
-analytification, GAGA, algebraicity, Kähler geometry, and Picard varieties.
-All are project targets with analytic/Hodge source roots recorded explicitly.
+## Find your way around
 
-Appendix C has a 71-leaf roadmap for finite-field zeta functions, the
-étale–ℓ-adic interface, Frobenius trace formulas, and the Weil theorem package:
-one exact pinned-Mathlib foundation and 70 project targets, with sixteen leaves
-explicitly blocked on a source or representation.
+| Area | Topics | Entry point |
+| --- | --- | --- |
+| Chapter I | Classical varieties, morphisms, dimension, and nonsingular curves | [Book roadmap](blueprint/roadmap/README.md) |
+| Chapter II | Schemes, sheaves, modules, divisors, and projective geometry | [Schemes](blueprint/roadmap/schemes/README.md) |
+| Chapter III | Cohomology, duality, families, and base change | [Cohomology](blueprint/roadmap/cohomology/README.md) |
+| Chapter IV | Riemann–Roch, ramification, elliptic curves, and projective embeddings | [Curves](blueprint/roadmap/curves/README.md) |
+| Chapter V | Intersection theory, birational geometry, and surface classification | [Surfaces](blueprint/roadmap/surfaces/README.md) |
+| Appendix A | Chow groups, Chern classes, and Riemann–Roch | [Intersection theory](blueprint/roadmap/intersection-theory/README.md) |
+| Appendix B | Analytification, GAGA, and transcendental methods | [Transcendental methods](blueprint/roadmap/transcendental-methods/README.md) |
+| Appendix C | Zeta functions, étale cohomology, and the Weil conjectures | [Zeta functions](blueprint/roadmap/weil-conjectures/README.md) |
 
-**All 163 targets through Corollary I.6.12 are complete.** Of these, 159 are
-proved in this project and four are supplied by Mathlib. Section I.7 adds 50
-project results, all formalized, and §I.8 adds the formalized birational-
-dimension leaf, so the fine Chapter I roadmap has 214 complete targets: 210
-project proofs and four Mathlib results. The first 114 completed
-targets run through Lemma I.6.4. Of the
-first 86 targets in §§I.1–I.4, 85 are proved here,
-sorry-free and depending only on Lean's three standard axioms, and one is
-already in Mathlib. Completed results include the
-Nullstellensatz correspondence, irreducible decomposition, the dimension of a
-variety as the Krull dimension of its coordinate ring, both clauses of Theorem
-1.8A including the dimension formula `height 𝔭 + dim B/𝔭 = dim B` that
-Hartshorne quotes from Matsumura and that the pinned Mathlib has in no form,
-Proposition 1.10 and Proposition 1.13, the projective Nullstellensatz and the
-standard affine charts, `dim ℙⁿ = n` and `dim S(Y) = dim Y + 1`, regular
-functions and the identity principle, morphisms of varieties, the local ring at
-a point with its `IsLocalRing` instance and its dimension, all four parts of
-Theorem 3.2, all three parts of Theorem 3.4, Corollary 3.8, rational maps and
-their composition, the function-field classification up to birational
-equivalence, the hypersurface normal form, and blowing up a point.
+Start with a chapter overview, then follow a statement's dependencies to its
+definitions and supporting results. Use the map to explore connections across
+chapters, and the [source notes](blueprint/sources/README.md) for exact book
+locators and adopted supporting references.
 
-The geometric core of §I.5 contributes 16 further roadmap leaves. Its
-regular-local/cotangent-space criterion is an exact Mathlib result and the
-other 15 are proved here, culminating in the properness and closedness of the
-singular locus. Thus all 102 roadmap leaves are complete: 100 are proved in
-this project and two are supplied by Mathlib.
+## Reading the progress summaries
 
-The §I.6 opening adds 12 leaves: two clauses of Theorem 6.1A already in Mathlib
-and ten project targets leading to DVR local rings for nonsingular curves and
-Lemma 6.4, that the local ring determines the point. All 12 are complete. The
-completed 114-leaf portion therefore consists of 110 targets formalized here
-and four supplied by Mathlib.
+The site derives progress from the roadmap's recorded Lean declarations and
+dependency links. A planned statement has not yet been formalized; a fully
+proved target is complete together with its prerequisites. Any conditional
+proof is labelled separately and lists the open statements it assumes.
 
-The completed 26-leaf normalization milestone covers the exact nonseparable integral-closure
-Theorems 3.9A and 6.3A, finite poles and affine models for function-field DVRs,
-and the valuation-space construction through Proposition 6.7. A separable
-two-chart route lets the geometric branch proceed independently of the harder
-background normalization theorems. All 26 leaves are formalized, including the
-nonseparable normalization theorems, the full valuation-space regular-function
-structure, and the isomorphism of a nonsingular curve with its open image in
-the valuation space.
+The fully proved percentage measures formalizable leaf targets. Source
+coverage is recorded separately: decomposing an area into statements does not
+mean all of those statements have been proved.
 
-The 23-leaf projective-model milestone adopts the local-ring criteria in
-Exercise I.3.3 used by Theorem I.6.9, proves Proposition I.6.8, constructs the
-nonsingular projective model of Theorem I.6.9, and decomposes Corollaries
-I.6.10–6.12 through the contravariant equivalence with one-dimensional
-function fields. All 23 leaves are formalized.
+## Toolchain and project files
 
-The 50-leaf §I.7 milestone develops affine and projective intersection
-dimension, integer-graded Hilbert polynomials, projective degree, and Bézout's
-theorem. All fifty leaves are formalized. It includes only the earlier
-exercises required by the running proofs; the optional generic-line exercise
-chain remains out of scope.
+The project uses Lean 4 `v4.33.1` and Mathlib `v4.33.1`.
 
-The 450-leaf Chapter II core covers sheaves, spectra, schemes,
-projective spectra, the classical-variety comparison, first properties,
-subschemes, dimension, fibre products, separatedness, properness, projective
-morphisms, modules, divisors and Picard groups, linear systems, relative Proj,
-projective bundles, blowups, differentials, canonical sheaves, and lci geometry.
-Of those core leaves, 103 are exact pinned-Mathlib results, 75 are complete
-locally (70 proof-marked and five stated definitions or classes), and 272
-remain. Exercises II.6.4 and II.8.2 add two unformalized downstream-reactivated
-Chapter-II source leaves, so the coverage contract links 452 in total.
-
-**Site:** <https://deicyde.github.io/hartshorne/>
-
-[Browse the formalization blueprint](blueprint/README.md).
-
-Built with Lean 4 `v4.33.1` and Mathlib `v4.33.1`.
+- [Blueprint vault](blueprint/README.md): the source of the wiki and roadmap.
+- [Lean development](src/Hartshorne.lean): the library's main import file.
+- [Source coverage](blueprint/coverage/README.md): the boundary of the project.
 
 Developed with [AutoformBot](https://github.com/facebookresearch/autoform-bot).

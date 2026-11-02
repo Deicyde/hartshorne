@@ -2,37 +2,23 @@
 article_id: af_430a8af54e5b37e77bb4ac7d
 ---
 
-# Remaining-book roadmap
+# Source and milestone ledger
 
-This records the completed source and dependency-DAG pass over the approved
-remaining-book scope.
-The 163 leaves through Corollary I.6.12 are formalized, and §I.7 has a 50-leaf
-[fine roadmap](../intersections-projective-space/README.md), all formalized.
-Section I.8 has been dispositioned claim by claim. Chapter II now has a
-450-leaf core [fine roadmap](../schemes/README.md): 103 exact pinned-Mathlib
-leaves, 75 locally complete project leaves (70 proof-marked and five stated
-definitions or classes), and 272 remaining project leaves. Two additional
-unformalized Chapter-II source leaves are reactivated downstream, so coverage
-links 452 in total. Chapter III has a 291-leaf
-[fine roadmap](../cohomology/README.md): 20 exact Mathlib leaves, 28 locally
-complete project leaves (27 proof-marked and one stated definition), and 243
-remaining project leaves. All of Chapter IV has a 201-leaf [fine roadmap](../curves/README.md),
-with two exact Mathlib leaves and 199 project targets, plus five reactivated
-earlier-exercise prerequisites. All of Chapter V has a 230-leaf
-[fine roadmap](../surfaces/README.md), with one exact Mathlib leaf and 229 project
-targets, plus two reactivated III.7 prerequisites, one II.8 prerequisite,
-two I.5 prerequisites, and one Appendix A HRR prerequisite. Appendix A has a
-72-leaf [fine roadmap](../intersection-theory/README.md), all project targets.
-Appendix B has a 69-leaf [fine roadmap](../transcendental-methods/README.md),
-all project targets. Appendix C has a 71-leaf
-[fine roadmap](../weil-conjectures/README.md), with one exact pinned-Mathlib
-foundation and 70 project targets, eight complete locally.
+This ledger organizes the adopted book passages into milestones and records
+their prerequisites and source obligations. It describes the structure of the
+roadmap; the linked chapter pages show current formalization progress.
 
-The intended full-pass policy is to cover the running mathematical text, adopt
-exercises only when later included text depends on them, inventory expository
-material explicitly, and attach a proof-level source whenever Hartshorne states
-a deep result without proof. Exact locators are in the
-[source inventory](../../sources/hartshorne.md).
+The roadmap reaches the end of Appendix C. It covers the running mathematical
+text, adopts exercises when later included material depends on them, and
+records expository passages separately. Results stated without a proof need an
+adopted proof-level source before formalization. Exact locators and the full
+source boundary are in the [source inventory](../../sources/hartshorne.md).
+
+Read the chapter overviews for the mathematical narrative. Use the tables below
+to locate a passage, find the milestone that covers it, and follow the relevant
+prerequisites. The earlier Chapter I development and the Section I.7
+intersection-theory milestone are recorded in the
+[book roadmap](../README.md) and their own chapter pages.
 
 ## Chapter I completion
 
@@ -74,57 +60,57 @@ not used as a proof specification.
 
 | Milestone | Source | Goal | Primary prerequisites |
 | --- | --- | --- | --- |
-| II-A | §§II.1–3, pp. 60–95 | [Fine roadmap](../schemes/README.md): sheaves, `Spec`, `Proj`, schemes, morphisms, subschemes, products, and first properties | Current core status: 74 exact Mathlib, 40 locally complete, 25 remaining |
-| II-B | §II.4, pp. 95–108 | [Fine roadmap](../schemes/README.md): separated, proper, and projective morphisms and valuative criteria | Current core status: 11 exact Mathlib, 8 locally complete, 16 remaining |
-| II-C | §II.5, pp. 109–129 | [Fine roadmap](../schemes/README.md): quasi-coherent and coherent modules, projective sheaf machinery, relative Spec, and vector bundles | Current core status: 9 exact Mathlib, 4 locally complete, 57 remaining |
-| II-D | §§II.6–7, pp. 129–172 | [Fine roadmap](../schemes/README.md): divisors, Picard groups, K-theory, ampleness, relative Proj, projective bundles, and blowups | Current core status: 11 locally complete, 78 remaining; Exercise II.6.4 adds one downstream-reactivated leaf |
-| II-E | §II.8, pp. 172–190 | [Fine roadmap](../schemes/differentials/README.md): differentials, nonsingularity, Bertini, canonical sheaves, Cohen–Macaulay and lci geometry | Current core status: 5 exact Mathlib, 6 locally complete, 66 remaining; Exercise II.8.2 adds one downstream-reactivated leaf |
-| II-F | §II.9, pp. 190–200 | [Fine roadmap](../schemes/formal-schemes/README.md): inverse systems, adic completions, formal neighborhoods, and coherent formal modules | Current core status: 4 exact Mathlib, 6 locally complete, 30 remaining |
+| II-A | §§II.1–3, pp. 60–95 | [Fine roadmap](../schemes/README.md): sheaves, `Spec`, `Proj`, schemes, morphisms, subschemes, products, and first properties | See the linked chapter for current formalization progress. |
+| II-B | §II.4, pp. 95–108 | [Fine roadmap](../schemes/README.md): separated, proper, and projective morphisms and valuative criteria | See the linked chapter for current formalization progress. |
+| II-C | §II.5, pp. 109–129 | [Fine roadmap](../schemes/README.md): quasi-coherent and coherent modules, projective sheaf machinery, relative Spec, and vector bundles | See the linked chapter for current formalization progress. |
+| II-D | §§II.6–7, pp. 129–172 | [Fine roadmap](../schemes/README.md): divisors, Picard groups, K-theory, ampleness, relative Proj, projective bundles, and blowups | See the linked chapter for current formalization progress; Exercise II.6.4 adds one downstream-reactivated leaf |
+| II-E | §II.8, pp. 172–190 | [Fine roadmap](../schemes/differentials/README.md): differentials, nonsingularity, Bertini, canonical sheaves, Cohen–Macaulay and lci geometry | See the linked chapter for current formalization progress; Exercise II.8.2 adds one downstream-reactivated leaf |
+| II-F | §II.9, pp. 190–200 | [Fine roadmap](../schemes/formal-schemes/README.md): inverse systems, adic completions, formal neighborhoods, and coherent formal modules | See the linked chapter for current formalization progress. |
 
 ## Chapter III: cohomology
 
 | Milestone | Source | Goal | Primary prerequisites |
 | --- | --- | --- | --- |
-| III-A | §§III.1–4, pp. 202–225 | [Fine roadmap](../cohomology/README.md): derived functors, sheaf and supported cohomology, affine/local vanishing, and Čech comparison | Current status: 6 exact Mathlib, 10 locally complete, 56 remaining |
-| III-B | §III.5, pp. 225–233 | [Fine roadmap](../cohomology/README.md): projective-space cohomology, Serre finiteness/vanishing, ampleness, and Hilbert polynomials | Current status: 1 locally complete, 33 remaining |
-| III-C | §§III.6–7, pp. 233–250 | [Fine roadmap](../cohomology/README.md): global and sheaf Ext, dualizing sheaves, Serre duality, residues, and Kodaira's theorem | Current status: 5 exact Mathlib, 62 remaining |
-| III-D | §§III.8–9, pp. 250–268 | [Fine roadmap](../cohomology/README.md): higher direct images, flatness, base change, Hilbert polynomials, families, and deformations | Current status: 9 exact Mathlib, 13 locally complete, 35 remaining |
-| III-E | §III.10, pp. 268–276 | [Fine roadmap](../cohomology/README.md): smooth morphisms, generic smoothness, homogeneous spaces, Kleiman transversality, and Bertini | Current status: 3 locally complete, 29 remaining |
-| III-F | §§III.11–12, pp. 276–292 | [Fine roadmap](../cohomology/README.md): formal functions, Zariski's Main Theorem, Stein factorization, semicontinuity, Grauert, and base change | Current status: 1 locally complete, 28 remaining |
+| III-A | §§III.1–4, pp. 202–225 | [Fine roadmap](../cohomology/README.md): derived functors, sheaf and supported cohomology, affine/local vanishing, and Čech comparison | See the linked chapter for current formalization progress. |
+| III-B | §III.5, pp. 225–233 | [Fine roadmap](../cohomology/README.md): projective-space cohomology, Serre finiteness/vanishing, ampleness, and Hilbert polynomials | See the linked chapter for current formalization progress. |
+| III-C | §§III.6–7, pp. 233–250 | [Fine roadmap](../cohomology/README.md): global and sheaf Ext, dualizing sheaves, Serre duality, residues, and Kodaira's theorem | See the linked chapter for current formalization progress. |
+| III-D | §§III.8–9, pp. 250–268 | [Fine roadmap](../cohomology/README.md): higher direct images, flatness, base change, Hilbert polynomials, families, and deformations | See the linked chapter for current formalization progress. |
+| III-E | §III.10, pp. 268–276 | [Fine roadmap](../cohomology/README.md): smooth morphisms, generic smoothness, homogeneous spaces, Kleiman transversality, and Bertini | See the linked chapter for current formalization progress. |
+| III-F | §§III.11–12, pp. 276–292 | [Fine roadmap](../cohomology/README.md): formal functions, Zariski's Main Theorem, Stein factorization, semicontinuity, Grauert, and base change | See the linked chapter for current formalization progress. |
 
 ## Chapter IV: curves
 
 | Milestone | Source | Goal | Primary prerequisites |
 | --- | --- | --- | --- |
-| IV-A | §§IV.1–2, pp. 294–306 | [Fine roadmap](../curves/README.md): Riemann–Roch, morphisms of curves, ramification, Frobenius, and Hurwitz | Complete source/API pass: 46 project targets, one exact Mathlib target, three reactivated prerequisites, and one source-blocked node |
-| IV-B | §IV.3, pp. 307–316 | [Fine roadmap](../curves/projective-embeddings/README.md): linear systems, projections, strange curves, nodal plane models, and Severi loci | Complete source/API pass: 30 project targets, two reactivated prerequisites, and one Harris source blocker |
-| IV-C | §IV.4, pp. 316–340 | [Fine roadmap](../curves/elliptic-curves/README.md): elliptic curves, group laws, Jacobians, uniformization, complex multiplication, Hasse invariants, and rational points | Complete source/API pass: 74 project targets, one exact Mathlib target, and nine explicit source/representation blockers |
-| IV-D | §§IV.5–6, pp. 340–355 | [Fine roadmap](../curves/README.md): canonical curves, Clifford's theorem, curve moduli, Castelnuovo's bound, and space-curve classifications | Complete source/API pass: 49 project targets and six explicit source blockers |
+| IV-A | §§IV.1–2, pp. 294–306 | [Fine roadmap](../curves/README.md): Riemann–Roch, morphisms of curves, ramification, Frobenius, and Hurwitz | Roadmap: 46 project targets, one exact Mathlib target, three reactivated prerequisites, and one source-blocked node |
+| IV-B | §IV.3, pp. 307–316 | [Fine roadmap](../curves/projective-embeddings/README.md): linear systems, projections, strange curves, nodal plane models, and Severi loci | Roadmap: 30 project targets, two reactivated prerequisites, and one Harris source blocker |
+| IV-C | §IV.4, pp. 316–340 | [Fine roadmap](../curves/elliptic-curves/README.md): elliptic curves, group laws, Jacobians, uniformization, complex multiplication, Hasse invariants, and rational points | Roadmap: 74 project targets, one exact Mathlib target, and nine explicit source/representation blockers |
+| IV-D | §§IV.5–6, pp. 340–355 | [Fine roadmap](../curves/README.md): canonical curves, Clifford's theorem, curve moduli, Castelnuovo's bound, and space-curve classifications | Roadmap: 49 project targets and six explicit source blockers |
 
 ## Chapter V: surfaces
 
 | Milestone | Source | Goal | Primary prerequisites |
 | --- | --- | --- | --- |
-| V-A | §V.1, pp. 357–368 | [Fine roadmap](../surfaces/README.md): surface intersection theory, adjunction, Riemann–Roch, Hodge index, and Nakai | Complete source/API pass: 42 project targets, one exact Mathlib target, two reactivated III.7 prerequisites, one Appendix A HRR blocker, and two section source blockers |
-| V-B | §V.2, pp. 369–386 | [Fine roadmap](../surfaces/ruled-surfaces/README.md): ruled surfaces, normalized bundles, scrolls, and ample cones | Complete source/API pass: 48 project targets, one reactivated II.8 prerequisite, two explicit source blockers, and an inherited projective-bundle blocker |
-| V-C | §V.3, pp. 386–395 | [Fine roadmap](../surfaces/monoidal-transformations/README.md): point blowups, exceptional curves, strict transforms, and embedded curve resolution | Complete source/API pass: 32 project targets and one reactivated I.5 analytic-classification blocker |
-| V-D | §V.4, pp. 395–409 | [Fine roadmap](../surfaces/cubic-surfaces/README.md): assigned systems, Del Pezzo blowups, the 27 lines, and ample cones | Complete source/API pass: 42 project targets and four explicit source blockers |
-| V-E | §V.5, pp. 409–420 | [Fine roadmap](../surfaces/birational-transformations/README.md): birational factorization, contraction, and minimal models | Complete source/API pass: 39 project targets, one reactivated I.5 completion blocker, and three explicit section blockers |
-| V-F | §V.6, pp. 421–423 | [Fine roadmap](../surfaces/numerical-classification/README.md): canonical rings, Kodaira dimension, and numerical classification | Complete claim-by-claim source/API pass: 26 project targets and thirteen explicit source blockers |
+| V-A | §V.1, pp. 357–368 | [Fine roadmap](../surfaces/README.md): surface intersection theory, adjunction, Riemann–Roch, Hodge index, and Nakai | Roadmap: 42 project targets, one exact Mathlib target, two reactivated III.7 prerequisites, one Appendix A HRR blocker, and two section source blockers |
+| V-B | §V.2, pp. 369–386 | [Fine roadmap](../surfaces/ruled-surfaces/README.md): ruled surfaces, normalized bundles, scrolls, and ample cones | Roadmap: 48 project targets, one reactivated II.8 prerequisite, two explicit source blockers, and an inherited projective-bundle blocker |
+| V-C | §V.3, pp. 386–395 | [Fine roadmap](../surfaces/monoidal-transformations/README.md): point blowups, exceptional curves, strict transforms, and embedded curve resolution | Roadmap: 32 project targets and one reactivated I.5 analytic-classification blocker |
+| V-D | §V.4, pp. 395–409 | [Fine roadmap](../surfaces/cubic-surfaces/README.md): assigned systems, Del Pezzo blowups, the 27 lines, and ample cones | Roadmap: 42 project targets and four explicit source blockers |
+| V-E | §V.5, pp. 409–420 | [Fine roadmap](../surfaces/birational-transformations/README.md): birational factorization, contraction, and minimal models | Roadmap: 39 project targets, one reactivated I.5 completion blocker, and three explicit section blockers |
+| V-F | §V.6, pp. 421–423 | [Fine roadmap](../surfaces/numerical-classification/README.md): canonical rings, Kodaira dimension, and numerical classification | Roadmap: 26 project targets and thirteen explicit source blockers |
 
 ## Appendices
 
 | Milestone | Source | Goal | Primary prerequisites or source obligations |
 | --- | --- | --- | --- |
-| A-A | Appendix A §§1–2, pp. 424–429 | [Fine roadmap](../intersection-theory/README.md): cycles, rational equivalence, Chow groups, and intersection products | Complete source/API pass: 29 section targets plus Exercises 6.2–6.3 and explicit outline-source blockers |
-| A-B | Appendix A §3, pp. 429–431 | [Fine roadmap](../intersection-theory/chern-classes/README.md): Chern classes, zero loci, and self-intersection | Complete source/API pass: 15 section targets plus Exercise 6.6 and four explicit source blockers |
-| A-C | Appendix A §§4–5, pp. 431–437 | [Fine roadmap](../intersection-theory/README.md): HRR, positivity, Hodge index, K-theory, GRR, and generalizations | Complete source/API pass: 25 project targets and ten explicit source blockers |
-| B-A | Appendix B §§1–2, pp. 438–441 | [Fine roadmap](../transcendental-methods/README.md): analytic spaces, analytification, comparison, GAGA, and Chow | Complete source/API pass: 27 section targets plus Exercise 6.6 and twenty explicit blockers |
-| B-B | Appendix B §§3–4, pp. 441–446 | [Fine roadmap](../transcendental-methods/README.md): algebraicity, Moishezon, Kähler, and Hodge criteria | Complete source/API pass: 21 project targets and eleven explicit blockers |
-| B-C | Appendix B §5, pp. 446–448 | [Fine roadmap](../transcendental-methods/README.md): exponential sequence, Picard/NS, and Jacobian lattices | Complete source/API pass: 20 project targets and seven explicit blockers |
-| C-A | Appendix C §1, pp. 449–451 | [Fine roadmap](../weil-conjectures/README.md): zeta functions and the Weil theorem package | Complete source/API pass: 22 project targets, 5 complete locally and 17 remaining, inheriting the explicit §§3–4 source blockers |
-| C-B | Appendix C §3, pp. 453–454 | [Fine roadmap](../weil-conjectures/etale-cohomology/README.md): the étale–ℓ-adic cohomology interface | Complete source/API pass: one exact Mathlib target, 28 project targets, and eleven explicit blockers |
-| C-C | Appendix C §4, pp. 454–457 | [Fine roadmap](../weil-conjectures/deductions/README.md): Frobenius, trace formulas, rationality, functional equation, and Deligne's theorem | Complete source/API pass: 20 project targets and five explicit blockers |
+| A-A | Appendix A §§1–2, pp. 424–429 | [Fine roadmap](../intersection-theory/README.md): cycles, rational equivalence, Chow groups, and intersection products | Roadmap: 29 section targets plus Exercises 6.2–6.3 and explicit outline-source blockers |
+| A-B | Appendix A §3, pp. 429–431 | [Fine roadmap](../intersection-theory/chern-classes/README.md): Chern classes, zero loci, and self-intersection | Roadmap: 15 section targets plus Exercise 6.6 and four explicit source blockers |
+| A-C | Appendix A §§4–5, pp. 431–437 | [Fine roadmap](../intersection-theory/README.md): HRR, positivity, Hodge index, K-theory, GRR, and generalizations | Roadmap: 25 project targets and ten explicit source blockers |
+| B-A | Appendix B §§1–2, pp. 438–441 | [Fine roadmap](../transcendental-methods/README.md): analytic spaces, analytification, comparison, GAGA, and Chow | Roadmap: 27 section targets plus Exercise 6.6 and twenty explicit blockers |
+| B-B | Appendix B §§3–4, pp. 441–446 | [Fine roadmap](../transcendental-methods/README.md): algebraicity, Moishezon, Kähler, and Hodge criteria | Roadmap: 21 project targets and eleven explicit blockers |
+| B-C | Appendix B §5, pp. 446–448 | [Fine roadmap](../transcendental-methods/README.md): exponential sequence, Picard/NS, and Jacobian lattices | Roadmap: 20 project targets and seven explicit blockers |
+| C-A | Appendix C §1, pp. 449–451 | [Fine roadmap](../weil-conjectures/README.md): zeta functions and the Weil theorem package | Roadmap: 22 project targets, 5 complete locally and 17 remaining, inheriting the explicit §§3–4 source blockers |
+| C-B | Appendix C §3, pp. 453–454 | [Fine roadmap](../weil-conjectures/etale-cohomology/README.md): the étale–ℓ-adic cohomology interface | Roadmap: one exact Mathlib target, 28 project targets, and eleven explicit blockers |
+| C-C | Appendix C §4, pp. 454–457 | [Fine roadmap](../weil-conjectures/deductions/README.md): Frobenius, trace formulas, rationality, functional equation, and Deligne's theorem | Roadmap: 20 project targets and five explicit blockers |
 
 Appendix C §2 is historical exposition and Exercises C.5.1–5.7 have no later
 consumer. Appendix A Exercise 6.6 is adopted for Appendix C's diagonal/top-

@@ -5,31 +5,29 @@ article_id: af_e2559b19f1edcda895c62136
 # Schemes
 
 Hartshorne Chapter II replaces embedded varieties by locally ringed spaces
-glued from affine spectra. This fine roadmap covers Chapter II, §§1–9 (printed
-pp. 60–200): sheaves and stalks, `Spec` and `Proj`, schemes and their morphisms,
-the first local and finiteness properties, subschemes, dimension, fibre
-products, separatedness, properness, projective morphisms, quasi-coherent and
-coherent modules, divisors, Picard groups, linear systems, projective bundles,
-blowups, differentials, canonical sheaves, lci geometry, completions, formal
-schemes, and the normalization prerequisites used later in the book.
+glued from affine spectra. Sheaves, `Spec`, and `Proj` establish the language;
+subschemes, dimension, fibre products, and finiteness properties develop the
+geometry. The later sections treat separated and proper morphisms, sheaves of
+modules, divisors, projective geometry, differentials, and formal schemes.
 
-The Chapter II core contains 450 leaves: 103 exact pinned-Mathlib leaves, 75
-locally complete project leaves (70 proof-marked and five stated definitions
-or classes), and 272 remaining project leaves. Two additional unformalized
-Chapter-II source leaves are reactivated downstream—Exercise II.6.4 for
-Chapter IV and Exercise II.8.2 for Chapter V—so the coverage contract links
-452 Chapter-II-source-associated leaves in total.
+The roadmap covers §§1–9 (printed pp. 60–200), including quasi-coherent and
+coherent modules, Picard groups, linear systems, projective bundles, blowups,
+canonical sheaves, lci geometry, completions, and the normalization prerequisites
+used later in the book. Its core has 450 targets. Two further targets adopt
+Exercise II.6.4 for Chapter IV and Exercise II.8.2 for Chapter V, so the
+coverage contract links 452 targets associated with Chapter II sources.
+For current formalization status, use this page's progress summary and the
+status on each statement.
 
-The roadmap follows Mathlib's categorical representations rather than adding
-parallel foundations. Presheaves and sheaves are functors on opens, schemes are
-Mathlib `Scheme`s, schemes over a base live in a slice category, and fibre
-products are categorical pullbacks. Source-shaped project wrappers are used
-when Hartshorne's exact statement is not exposed by one stable declaration.
+The formalization uses Mathlib's categorical representations: presheaves and
+sheaves are functors on opens, schemes are Mathlib `Scheme`s, schemes over a
+base live in a slice category, and fibre products are categorical pullbacks.
+Project declarations provide Hartshorne's exact statements when an existing
+Mathlib declaration does not expose them directly.
 
 An exercise is adopted when running text in the approved whole-book scope
 cites or delegates to it, or when later running text uses it. Examples that
-merely illustrate an existing construction stay in the source notes rather
-than becoming artificial proof targets.
+illustrate an existing construction remain in the source notes.
 
 ## Sheaves
 

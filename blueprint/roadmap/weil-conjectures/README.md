@@ -5,18 +5,18 @@ article_id: af_66a07da32afd333d65c202d4
 # Zeta functions and the Weil conjectures
 
 Hartshorne Appendix C defines the zeta function of a finite-type scheme over a
-finite field, states the Weil theorem package, lists the étale–ℓ-adic interface,
-and derives rationality and the functional equation from Frobenius traces and
-Poincaré duality before quoting Deligne's weight theorem.
+finite field and states the Weil theorem package. The étale–ℓ-adic interface,
+Frobenius traces, and Poincaré duality lead to rationality and the functional
+equation; Deligne's weight theorem supplies the final ingredient.
 
-The fine roadmap has 71 leaves: one exact pinned-Mathlib foundation and 70
-project targets. Eight project leaves are complete locally, and sixteen leaves
-are explicitly marked not ready for a
-representation or proof source. In particular, Mathlib's pro-étale `Z_ℓ`
-construction is not treated
-as the missing comparison with classical `Q_ℓ` cohomology. Hartshorne's
-suppressed Tate twists, connectedness conditions, fixed-point transversality,
-Frobenius convention, and good-reduction hypotheses are restored.
+The roadmap contains 71 targets. Targets needing an additional representation
+or proof source are marked explicitly. For current formalization status, use
+this page's progress summary and the status on each statement.
+
+Mathlib's pro-étale `Z_ℓ` construction is kept distinct from the comparison
+with classical `Q_ℓ` cohomology. The statements record Hartshorne's suppressed
+Tate twists, connectedness conditions, fixed-point transversality, Frobenius
+convention, and good-reduction hypotheses.
 
 - [Zeta functions over finite fields](zeta/README.md)
 - [Foundations of étale and ℓ-adic cohomology](etale-cohomology/foundations/README.md)

@@ -4,13 +4,15 @@ article_id: af_ee3cd342530f09a802737848
 
 # Intersection theory and Riemann–Roch
 
-Hartshorne Appendix A outlines cycles and Chow groups, the intersection
-product, Chern classes, positivity criteria, and Riemann–Roch theorems. The
-fine roadmap has 72 project leaves: 70 live in this subtree, while two
-[cross-chapter comparison leaves](../intersection-comparisons/README.md) sit
-downstream of both Appendix A and the direct Chapter V surface theory. Claims
-for which Hartshorne supplies only an outline remain explicit proof-source
-obligations.
+Hartshorne Appendix A develops cycles and Chow groups, the intersection
+product, Chern classes, positivity criteria, and Riemann–Roch theorems in
+outline form. The roadmap contains 72 targets: 70 in this chapter and two
+[cross-chapter comparison leaves](../intersection-comparisons/README.md)
+that depend on both Appendix A and the direct surface theory of Chapter V.
+
+Where Hartshorne supplies only an outline, the corresponding targets retain
+an explicit obligation to provide a proof source. For current formalization
+status, use this page's progress summary and the status on each statement.
 
 - [Chow groups and the intersection product](chow/README.md)
 - [Chern classes](chern-classes/README.md)

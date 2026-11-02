@@ -5,12 +5,16 @@ article_id: af_2e02c4200d05fe89d331b90d
 # Surfaces
 
 Hartshorne Chapter V studies nonsingular projective surfaces over an
-algebraically closed field. The fine roadmap covers all of Chapter V, printed
-pp.357–423: 230 section leaves, of which one real-quadratic-form result is
-exact pinned Mathlib and 229 are project targets. Two project prerequisites
-reactivate parts of III Exercise 7.4, one reactivates II Exercise 8.2, two
-reactivate I.5 results, and one Appendix A HRR prerequisite records
-the HRR source of Noether's formula.
+algebraically closed field. Intersection theory and numerical invariants
+lead to ruled and cubic surfaces, curve resolution, birational
+transformations, minimal models, and the numerical classification of
+surfaces by Kodaira dimension.
+
+The roadmap covers printed pp. 357–423 with 230 section targets. Its earlier
+prerequisites include two targets from parts of III Exercise 7.4, one from
+II Exercise 8.2, and two from I.5. An Appendix A HRR prerequisite records the
+source of Noether's formula. For current formalization status, use this
+page's progress summary and the status on each statement.
 
 - [Intersection theory and adjunction](intersection-theory/README.md)
 - [Numerical invariants and positivity](numerical-positivity/README.md)

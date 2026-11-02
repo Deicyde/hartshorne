@@ -4,20 +4,21 @@ article_id: af_745921269e7ba37a2d4c1731
 
 # Cohomology foundations
 
-Hartshorne Chapter III begins by importing homological algebra, defining sheaf
-cohomology as derived global sections, proving affine and Čech comparison
-theorems, computing projective-space cohomology, developing duality and
-families, smooth morphisms and Bertini, formal functions, semicontinuity, and
-base change. The fine roadmap covers all of Chapter III and the retained
-exercises through printed p.292: 291 leaves, of which 20 are exact
-pinned-Mathlib results, 28 are locally complete project leaves (27
-proof-marked and one stated definition), and 243 are remaining project leaves.
+Hartshorne Chapter III defines sheaf cohomology through derived global
+sections. Affine vanishing and Čech comparison lead to the cohomology of
+projective space. The chapter then treats Ext and Serre duality, higher direct
+images and families, smooth morphisms, and Bertini. Formal functions,
+semicontinuity, and base change complete the chapter.
 
-The roadmap keeps three coefficient categories distinct: abelian sheaves,
-modules over the structure sheaf, and quasi-coherent modules. It also records
-explicit comparison problems where Mathlib's Ext-based site cohomology,
-local-cohomology colimit, or categorical Čech nerve is not definitionally
-Hartshorne's chosen model.
+The roadmap covers all of Chapter III and the retained exercises through
+printed p. 292, with 291 targets. For current formalization status, use this
+page's progress summary and the status on each statement.
+
+Three coefficient categories remain distinct throughout: abelian sheaves,
+modules over the structure sheaf, and quasi-coherent modules. Explicit
+comparison tasks record where Mathlib's Ext-based site cohomology,
+local-cohomology colimit, or categorical Čech nerve differs from Hartshorne's
+chosen model.
 
 ## Derived and sheaf cohomology
 

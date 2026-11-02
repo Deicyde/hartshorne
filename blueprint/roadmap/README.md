@@ -4,74 +4,47 @@ article_id: af_d30e42b7fc6d70a061a0fd65
 
 # Hartshorne, Algebraic Geometry
 
-A Lean 4 formalization of the classical variety theory in Chapter I of Robin
-Hartshorne's *Algebraic Geometry*, built on Mathlib.
+An ordered guide to the definitions, theorems, and proof prerequisites in
+Hartshorne's *Algebraic Geometry*, with links to their Lean 4 formalizations.
 
-Chapter I develops algebraic geometry over a fixed algebraically closed field
-with as little machinery as possible: no schemes, no sheaves, no cohomology.
-That makes it the part of the book a formalization can attack directly, and it
-is also the part Mathlib has not built. Mathlib's algebraic geometry starts at
-`Spec` and works upward through schemes; the classical objects Hartshorne begins
-with — an affine variety as an irreducible closed subset of `𝔸ⁿ`, its coordinate
-ring, its regular functions — have no counterpart there.
+Chapter I begins with affine and projective varieties over a fixed
+algebraically closed field. Coordinate rings, regular functions, and local
+rings connect polynomial equations with geometry; rational maps and function
+fields lead to birational equivalence and nonsingular curve models.
 
-The first destination is Corollary I.3.8: the functor sending an affine variety
-to its coordinate ring is an arrow-reversing equivalence onto the finitely
-generated integral domains over `k`. Getting there requires the `Z`/`I`
-correspondence and the Nullstellensatz (§1), the same correspondence made
-homogeneous together with the affine charts on `ℙⁿ` (§2), and the three rings
-attached to a variety with their computation in the affine and projective cases
-(§3). Section 4 then loosens isomorphism to birational equivalence and proves
-the coarser classification: the function field determines a variety up to
-birational equivalence.
+Chapters II and III introduce schemes, sheaves, and cohomology. They provide
+the language used to study the curves and surfaces of Chapters IV and V.
+The appendices develop intersection theory and Riemann–Roch, transcendental
+methods, and the zeta-function and étale-cohomology framework of the Weil
+conjectures.
 
-The original I.1–I.4 scope is complete: 85 of its 86 leaves are proved in this
-project and one is supplied by Mathlib. The geometric core of §I.5 through
-Theorem 5.3 is complete as well: its regular-local/cotangent-space criterion is
-an exact Mathlib result and the other 15 leaves are proved here. Across that
-completed scope, all 102 formalization leaves are done: 100 in this project and
-two in Mathlib. Theorem I.3.9A and the needed consequence of Exercise I.4.8(a)
-enter only in the new milestone below.
+## How to read this book
 
-The opening of §I.6 through Lemma 6.4 contributes 12 more leaves. They develop
-valuation and DVR background, identify local rings of nonsingular curves as
-discrete valuation rings in their function fields, and prove that the local
-ring determines the point. All are complete: ten are proved in this project and
-two are exact Mathlib results. Thus the completed 114-leaf portion contains 110
-project formalizations and four Mathlib results.
+Choose a chapter below and start with its introduction. Individual statement
+cards show the mathematics, source references, and current formalization
+status. Follow **Depends on** for the definitions needed to understand a
+statement, and **Proof depends on** for the additional results used to prove it.
 
-The completed 26-leaf milestone has two independent fronts. One proves the exact
-nonseparable integral-closure Theorems 3.9A and 6.3A. The other uses two
-separable normalization charts to prove finite poles, construct affine models
-of function-field DVRs, and build the abstract valuation-space curve through
-Proposition 6.7. Both fronts are complete. The expanded roadmap therefore has
-140 leaves, all formalized: 136 in this project and four in Mathlib.
+The dependency map complements this reading order by showing connections
+between topics and statements. A chapter's generated progress summary reports
+its current formalization state without duplicating counts in the prose.
 
-The 23-leaf projective-model milestone adopts Exercise 3.3(a)–(c) where
-Theorem 6.9 uses it, proves extension to projective targets, constructs
-nonsingular projective models, and reaches the category equivalences of
-Corollary 6.12. Exercise
-3.3(a) is the existing completed local-ring map; the 23 new leaves comprise
-two for Exercise 3.3(b),(c) and 21 for Proposition 6.8 through Corollary 6.12.
-All are now formalized. The accepted fine roadmap therefore has 163 complete
-leaves: 159 proved in this project and four supplied by Mathlib.
+## Scope and progress
 
-Hartshorne §I.7 has a 50-leaf fine roadmap developing the affine and projective
-dimension theorems, integer-graded Hilbert theory, projective degree, and
-Bézout. All fifty leaves are formalized; exact aggregate progress is derived
-from the graph.
+The [coverage contract](../coverage/README.md) records the adopted running
+text, the exercises needed by later material, and the explicit exclusions and
+deferred source obligations. Exact locators and supporting references are in
+the [source notes](../sources/hartshorne.md).
 
-Read the [coverage contract](../coverage/README.md) before reading progress off
-this book: §§1–4, the geometric core of §5 through Theorem 5.3, and §6 through
-Corollary 6.12 are decomposed here. Apart from the regularity clause of
-Theorem I.5.4A used in V.5, the remaining completion material is deferred;
-§I.7 is finely decomposed, §I.8 is dispositioned claim by claim,
-Chapter II has a fine schemes DAG, all of Chapter III has a fine cohomology
-DAG, all of Chapter IV has a fine curves DAG, all of Chapter V has a fine
-surfaces DAG, Appendix A has a fine intersection-theory DAG, and Appendix B
-has a fine transcendental-methods DAG. Appendix C has a fine zeta-function,
-étale-cohomology, and Weil-theorem DAG. The complete source partition is recorded in the
-[source notes](../sources/hartshorne.md).
+Completed Chapter I milestones include the variety and coordinate-ring
+correspondence, normalization and projective models of nonsingular curves,
+and the intersection-theory development of Section I.7. Further results are
+formalized in the later chapters. The individual cards and generated summaries
+are the current record of what is proved and what remains.
+
+A decomposed source area has explicit roadmap statements; it need not be
+fully formalized. The fully proved percentage counts formalizable leaf
+targets, while source coverage is tracked separately.
 
 ## Chapters
 
@@ -120,5 +93,5 @@ has a fine transcendental-methods DAG. Appendix C has a fine zeta-function,
 - [Zeta functions and the Weil conjectures](weil-conjectures/README.md) —
   Hartshorne Appendix C: finite-field zeta functions, ℓ-adic cohomology,
   Frobenius traces, and the Weil theorem package.
-- [Remaining-book roadmap](remaining-book/README.md) — the completed source
-  sequencing and milestone ledger for Chapters II–V and Appendices A–C.
+- [Source and milestone ledger](remaining-book/README.md) — book passages,
+  prerequisites, and source obligations for Chapters II–V and Appendices A–C.

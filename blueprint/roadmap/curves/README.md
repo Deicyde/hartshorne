@@ -5,10 +5,14 @@ article_id: af_46fe4e9c94d0dc0362313409
 # Curves
 
 Hartshorne Chapter IV studies complete nonsingular curves over an
-algebraically closed field. The fine roadmap covers all of Chapter IV,
-printed pp.294–355: 201 Chapter IV leaves, of which two are exact
-pinned-Mathlib results and 199 are project targets. Five additional project prerequisites
-reactivate Exercises I.3.14(a), I.5.4, I.5.6(b), I.7.3, and II.6.4.
+algebraically closed field. Riemann–Roch and ramification provide the
+foundations for projective embeddings, elliptic and canonical curves,
+Clifford's theorem, moduli, and the geometry of space curves.
+
+The roadmap covers printed pp. 294–355 with 201 Chapter IV targets. Five
+additional prerequisites adopt Exercises I.3.14(a), I.5.4, I.5.6(b), I.7.3,
+and II.6.4 where the later theory needs them. For current formalization
+status, use this page's progress summary and the status on each statement.
 
 - [Riemann–Roch and its curve consequences](riemann-roch/README.md)
 - [Ramification, Riemann–Hurwitz, and Frobenius](ramification/README.md)
