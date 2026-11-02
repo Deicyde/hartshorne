@@ -7,12 +7,12 @@ origin: cited
 # The inflection count and the nine flexes of a cubic
 
 In the setting of the Gauss-pencil morphism for a nonsingular plane curve of
-degree `d >= 2` in characteristic zero, the morphism has degree `d(d-1)` and
+degree $d \ge 2$ in characteristic zero, the morphism has degree $d(d-1)$ and
 the weighted number of inflection points is
 
-`3*d*(d-2)`,
+$3\cdot d\cdot (d-2)$,
 
-where tangent contact of order `r` contributes `r-2`. An ordinary inflection
+where tangent contact of order $r$ contributes $r-2$. An ordinary inflection
 point maps to an ordinary cusp of the dual curve. In particular, a
 nonsingular plane cubic has exactly nine inflection points, all ordinary.
 

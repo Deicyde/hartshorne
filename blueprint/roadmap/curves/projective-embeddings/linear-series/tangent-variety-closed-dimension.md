@@ -6,8 +6,8 @@ origin: cited
 
 # The tangent variety is closed of dimension at most two
 
-For an embedded Chapter IV curve `X -> P^n`, the union `Tan(X)` of embedded
-tangent lines is a closed subset of `P^n` of dimension at most two.
+For an embedded Chapter IV curve $X \to \mathbb{P}^n$, the union $\operatorname{Tan}(X)$ of embedded
+tangent lines is a closed subset of $\mathbb{P}^n$ of dimension at most two.
 
 ## Depends on
 
@@ -18,8 +18,8 @@ tangent lines is a closed subset of `P^n` of dimension at most two.
 ## Proof depends on
 
 - The tangent incidence is a projective-line bundle over the proper curve
-  `X`, hence is proper and has dimension at most two.
-- Its evaluation map to `P^n` has closed image and cannot increase dimension.
+  $X$, hence is proper and has dimension at most two.
+- Its evaluation map to $\mathbb{P}^n$ has closed image and cannot increase dimension.
 
 ## Sources
 

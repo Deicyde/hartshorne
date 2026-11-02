@@ -7,11 +7,11 @@ not_ready: true
 
 # Separable generically finite maps descend surface invariants
 
-Let `F:X dashedrightarrow Y` be a dominant generically finite separable
+Let $F:X \dashrightarrow Y$ be a dominant generically finite separable
 rational map between nonsingular projective surfaces over an algebraically
 closed field.  Then
 
-`p_g(Y)<=p_g(X)`, `P_2(Y)<=P_2(X)`, and `q(Y)<=q(X)`.
+$p_g(Y)\le p_g(X)$, $P_2(Y)\le P_2(X)$, and $q(Y)\le q(X)$.
 
 The first two inequalities come from injective pullback of canonical and
 bicanonical forms on the common regular domain.  The irregularity inequality
@@ -19,9 +19,6 @@ uses the separable pullback on the Picard/Albanese tangent space.  It is not a
 trace-splitting argument requiring the degree to be invertible in the ground
 field.
 
-This node is not ready: the characteristic-aware Picard/Albanese theorem
-giving finite kernel and injective tangent pullback has no adopted exact
-source or project API.
 
 ## Depends on
 
@@ -35,7 +32,7 @@ source or project API.
 - Separability makes the generic pullback of top differential forms
   injective; extension across codimension two produces global pullbacks.
 - The Picard/Albanese pullback for a generically finite separable map has
-  finite kernel and injective tangent map, yielding the inequality for `q`.
+  finite kernel and injective tangent map, yielding the inequality for $q$.
 
 ## Sources
 

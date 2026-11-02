@@ -4,15 +4,15 @@ article_id: af_ecb013ebbdc908ad91523f98
 
 # Projective varieties
 
-Projective geometry uses homogeneous equations in projective `n`-space
-`ℙⁿ`. Homogeneous polynomials are not functions on `ℙⁿ`, but their
-vanishing is well defined. The maps `Z` and `J` therefore retain the
+Projective geometry uses homogeneous equations in projective $n$-space
+$\mathbb{P} ^{n}$. Homogeneous polynomials are not functions on $\mathbb{P} ^{n}$, but their
+vanishing is well defined. The maps $Z$ and $J$ therefore retain the
 order-reversing correspondence of the affine case. The grading introduces
-the irrelevant ideal `S₊ = ⨁_{d>0} S_d`, which cuts out the empty set and
+the irrelevant ideal $S_{+} = \bigoplus _{d>0} S_d$, which cuts out the empty set and
 must be excluded from the correspondence.
 
-Proposition 2.2 supplies the local description: `ℙⁿ` is covered by
-`n + 1` copies of `𝔸ⁿ` through the standard charts `φᵢ`. These charts
+[Proposition I.2.2](standard-affine-charts.md) supplies the local description: $\mathbb{P} ^{n}$ is covered by
+$n + 1$ copies of $\mathbb{A} ^{n}$ through the standard charts $\varphi _{i}$. These charts
 make projective geometry locally affine and allow Section 3 to compute local
 rings and function fields from the affine case.
 

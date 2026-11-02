@@ -6,11 +6,11 @@ origin: cited
 
 # Every line on the cubic surface has self-intersection minus one
 
-If `L` is a line on the marked cubic surface `X` in `P^3`, then
+If $L$ is a line on the marked cubic surface $X$ in $\mathbb{P}^3$, then
 
-`L^2 = -1`.
+$L^2 = -1$.
 
-Indeed `deg L=1` and `p_a(L)=0`, so the cubic-surface genus formula gives the
+Indeed $\deg L=1$ and $p_a(L)=0$, so the cubic-surface genus formula gives the
 claim.
 
 ## Depends on

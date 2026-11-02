@@ -6,16 +6,16 @@ origin: cited
 
 # Samuel's Hurwitz calculation
 
-Let `X subset P^3` be a nonline strange curve of degree `d` and genus `g`,
-with Samuel's coordinates and strange point `A`. The projection to the line at
-infinity in the `xy`-plane is a separable morphism of degree `d`. At each
-finite point `P_i` of `X` in the `xz`-plane its different exponent is
-`v_(P_i)(y)`, and Riemann–Hurwitz gives
+Let $X \subset \mathbb{P}^3$ be a nonline strange curve of degree $d$ and genus $g$,
+with Samuel's coordinates and strange point $A$. The projection to the line at
+infinity in the $xy$-plane is a separable morphism of degree $d$. At each
+finite point $P_i$ of $X$ in the $xz$-plane its different exponent is
+$v_{(P_i)}(y)$, and Riemann–Hurwitz gives
 
-`2*g-2 = -2*d + sum_i v_(P_i)(y)`.
+$2\cdot g-2 = -2\cdot d + \sum _i v_{(P_i)}(y)$.
 
-If `A` is not on `X`, this forces `(g,d)=(0,2)` and characteristic two. If
-`A` is on `X`, it forces `(g,d)=(0,1)`.
+If $A$ is not on $X$, this forces $(g,d)=(0,2)$ and characteristic two. If
+$A$ is on $X$, it forces $(g,d)=(0,1)$.
 
 ## Depends on
 
@@ -27,15 +27,15 @@ If `A` is not on `X`, this forces `(g,d)=(0,2)` and characteristic two. If
 
 ## Proof depends on
 
-- With `u=x-a` and `t=y/x`, the `p`th-power property gives
-  `dt/du=-y*(u+a)^(-2)`.
-- Intersecting with the `xz`-plane computes `sum v_P(y)` as `d`, or `d-1`
+- With $u=x-a$ and $t=y/x$, the $p$th-power property gives
+  $dt/du=-y\cdot (u+a)^{-2}$.
+- Intersecting with the $xz$-plane computes $\sum v_P(y)$ as $d$, or $d-1$
   when the strange point contributes one transverse intersection.
-- Riemann–Roch on `P^1` identifies degree-one and degree-two embeddings with
+- Riemann–Roch on $\mathbb{P}^1$ identifies degree-one and degree-two embeddings with
   a line and a plane conic.
 - For the degree-two case, the common-tangent-point condition for a smooth
   conic holds exactly in characteristic two; the Hurwitz equation alone only
-  yields `(g,d)=(0,2)`.
+  yields $(g,d)=(0,2)$.
 
 ## Sources
 

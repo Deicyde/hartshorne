@@ -9,16 +9,12 @@ not_ready: true
 
 For a short exact sequence of locally free sheaves
 
-`0 -> E' -> E -> E'' -> 0`
+$0 \to E' \to E \to E'' \to 0$
 
 on a nonsingular quasi-projective variety,
 
-`c_t(E)=c_t(E')c_t(E'')`.
+$c_t(E)=c_t(E')c_t(E'')$.
 
-This node is not ready.  Hartshorne quotes C3 and refers to the splitting
-principle, but gives no noncircular proof that the projective-bundle
-definition satisfies Whitney sum.  A source must prove C3 without assuming
-the filtered-product consequence C4 that C3 itself supplies.
 
 ## Depends on
 

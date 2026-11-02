@@ -4,9 +4,8 @@ article_id: af_8fec9ab89768129f966417be
 
 # Spectra, locally ringed spaces, and schemes
 
-This chapter maps Hartshorne II.2 from the Zariski topology on `Spec A`
-through the definition and gluing of schemes.  Every leaf here is an exact
-match in the pinned Mathlib checkout.
+Hartshorne II.2 passes from the Zariski topology on $\operatorname{Spec} A$
+to the structure sheaf, locally ringed spaces, schemes, and gluing.
 
 - [The Zariski topology on Spec](spec-zero-loci.md)
 - [The structure sheaf on Spec](spec-structure-sheaf.md)

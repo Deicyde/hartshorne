@@ -6,8 +6,8 @@ origin: cited
 
 # Chevalley's affine descent theorem
 
-Let `f : X ⟶ Y` be a finite surjective morphism of Noetherian separated
-schemes. If `X` is affine, then `Y` is affine.
+Let $f : X \longrightarrow Y$ be a finite surjective morphism of Noetherian separated
+schemes. If $X$ is affine, then $Y$ is affine.
 
 ## Depends on
 

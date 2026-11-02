@@ -6,13 +6,10 @@ origin: cited
 
 # Sheaf Hom as a left-exact functor
 
-For a ringed space `(X,O_X)` and an `O_X`-module `F`, package
-`𝓗om_X(F,-)` as an additive endofunctor of `X.Modules` and prove that it is
-left exact. Its global sections identify naturally with global module
-morphisms from `F`.
-
-The unique main result is left exactness of the endofunctor; the functorial
-packaging and global-sections identification are supporting API.
+For a ringed space $(X,\mathcal{O}_X)$ and a module sheaf $F$,
+the sheaf Hom functor $\mathcal{H}om_X(F,-)$ is additive and left
+exact on the category of $\mathcal{O}_X$-modules. Its global
+sections identify with global module morphisms from $F$.
 
 ## Depends on
 

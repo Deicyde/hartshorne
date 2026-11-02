@@ -8,14 +8,14 @@ origin: cited
 
 For an Enriques surface in characteristic different from two and three,
 
-`K_X` is nontrivial, `2K_X~0`, and
+$K_X$ is nontrivial, $2K_X\sim 0$, and
 
-`q(X)=p_g(X)=p_a(X)=0`.
+$q(X)=p_g(X)=p_a(X)=0$.
 
 If the nontrivial torsion canonical class had a nonzero section, its effective
 divisor would become linearly trivial after multiplication by two and hence
-would be zero; this would trivialize `K_X`.  Thus `p_g=0`, and the
-irregularity formula gives `p_a=0`.
+would be zero; this would trivialize $K_X$.  Thus $p_g=0$, and the
+irregularity formula gives $p_a=0$.
 
 ## Depends on
 

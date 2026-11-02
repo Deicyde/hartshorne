@@ -9,21 +9,18 @@ lean: Hartshorne.Variety.bijective_localRingHom_inclHom Hartshorne.Variety.HasAf
 
 # Local rings are unchanged on open neighbourhoods
 
-Let `U` be a nonempty open subvariety of a variety `X`, and let `P ∈ U`.
+Let $U$ be a nonempty open subvariety of a variety $X$, and let $P \in U$.
 The inclusion induces a ring isomorphism
 
-`𝒪_{P,U} ≃ 𝒪_{P,X}`.
+$\mathcal O_{P,U}\cong\mathcal O_{P,X}$.
 
 This is the local statement used when Hartshorne says that closedness of the
-singular locus may be checked on an affine open cover. A germ at `P` has a
-representative on a neighbourhood already contained in `U`, and pushing or
-restricting that representative gives the two inverse maps. The proof follows
-the same quotient-of-germs pattern as the existing affine comparison
-`localRingEquivAffine`.
+singular locus may be checked on an affine open cover. A germ at $P$ has a
+representative on a neighbourhood already contained in $U$, and pushing or
+restricting that representative gives the two inverse maps.
 
-The same pull request also records the corollary needed by the local-algebra
-nodes: if `X` has the affine-open-basis witness of Proposition 4.3, every
-`𝒪_{P,X}` is Noetherian. Choose an affine open neighbourhood of `P`, use
+Consequently, if $X$ has the affine-open-basis witness of [Proposition I.4.3](../rational-maps/affine-base.md), every
+$\mathcal{O} _{P,X}$ is Noetherian. Choose an affine open neighbourhood of $P$, use
 the displayed equivalence, identify its local ring with the localization of
 its coordinate ring, and transfer Noetherianity across the ring equivalences.
 

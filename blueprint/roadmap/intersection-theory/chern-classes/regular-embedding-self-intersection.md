@@ -7,16 +7,12 @@ not_ready: true
 
 # The regular-embedding self-intersection formula
 
-Let `i:Y->X` be a nonsingular closed subvariety of codimension `r` in a
-nonsingular quasi-projective variety, and let `N_(Y/X)` be its rank-`r`
+Let $i:Y\to X$ be a nonsingular closed subvariety of codimension $r$ in a
+nonsingular quasi-projective variety, and let $N_{(Y/X)}$ be its rank-$r$
 normal bundle.  Then
 
-`i^* i_*(1_Y)=c_r(N_(Y/X)) in A^r(Y)`.
+$i^* i_*(1_Y)=c_r(N_{(Y/X)}) \in A^r(Y)$.
 
-This node is not ready.  Hartshorne quotes Mumford's self-intersection theorem
-and cites Lascu–Mumford–Scott.  The roadmap needs a proof-level refined-Gysin
-or deformation-to-the-normal-cone source compatible with its Chow pullback
-and pushforward conventions.
 
 ## Depends on
 

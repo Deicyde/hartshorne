@@ -9,9 +9,9 @@ lean: AlgebraicGeometry.Scheme.PrimeDivisor AlgebraicGeometry.Scheme.WeilDivisor
 
 # The Weil divisor group
 
-For a scheme `X` satisfying `(*)`, define a prime divisor as an integral
+For a scheme $X$ satisfying $(\cdot )$, define a prime divisor as an integral
 closed subscheme of codimension one and identify it with its codimension-one
-generic point. Define `Div X` as the additive group of integer-valued
+generic point. Define $\operatorname{Div} X$ as the additive group of integer-valued
 algebraic cycles supported on those points, and define effectiveness by
 coefficientwise nonnegativity.
 
@@ -27,8 +27,7 @@ to the finite support used by Hartshorne.
 
 ## Proof depends on
 
-- `AlgebraicGeometry.AlgebraicCycle` from
-  `Mathlib/AlgebraicGeometry/AlgebraicCycle/Basic.lean`.
+- The free abelian group on irreducible closed subsets of the specified codimension.
 - A locally finite family in a quasi-compact space has finite support.
 
 ## Sources

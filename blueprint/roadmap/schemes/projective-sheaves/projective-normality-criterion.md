@@ -6,11 +6,11 @@ origin: cited
 
 # The projective-normality criterion
 
-Let `k` be algebraically closed. A closed subscheme `X ⊆ P_k^r` is
-projectively normal if and only if `X` is normal and, for every `n ≥ 0`, the
+Let $k$ be algebraically closed. A closed subscheme $X \subseteq \mathbb{P}^r_{k}$ is
+projectively normal if and only if $X$ is normal and, for every $n \ge 0$, the
 restriction map
 
-`Γ(P_k^r,O(n)) → Γ(X,O_X(n))`
+$\Gamma (\mathbb{P}^r_{k},\mathcal{O}(n)) \to \Gamma (X,\mathcal{O}_X(n))$
 
 is surjective.
 

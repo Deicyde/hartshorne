@@ -6,10 +6,10 @@ origin: cited
 
 # The ℓ-adic cycle class of a closed point is nonzero
 
-Let `X` be connected, smooth, and proper of dimension `n` over an
-algebraically closed field.  For a closed point `P`,
+Let $X$ be connected, smooth, and proper of dimension $n$ over an
+algebraically closed field.  For a closed point $P$,
 
-`cl(P) in H^(2n)_et(X,Q_ell(n))`
+$cl(P) \in H^{2n}_{\mathrm{et}}(X,\mathbb{Q}_\ell(n))$
 
 has trace one.  In particular it is nonzero and generates the one-dimensional
 top cohomology after trace identification.

@@ -6,10 +6,10 @@ origin: cited
 
 # The ample cone when the invariant is negative
 
-Under the hypotheses `e<0` and either `char k=0` or `g<=1`, a divisor
-`D=a*C0+b*f` is ample if and only if
+Under the hypotheses $e<0$ and either $\operatorname{char} k=0$ or $g\le 1$, a divisor
+$D=a\cdot C_0+b\cdot f$ is ample if and only if
 
-`a>0` and `2*b>a*e`.
+$a>0$ and $2\cdot b>a\cdot e$.
 
 ## Depends on
 
@@ -20,8 +20,8 @@ Under the hypotheses `e<0` and either `char k=0` or `g<=1`, a divisor
 ## Proof depends on
 
 - Necessity uses intersection with a fibre and positive self-intersection.
-  Conversely the inequalities give `D^2>0`, positive intersection with
-  `C0,f`, and positivity against every other irreducible curve by the two
+  Conversely the inequalities give $D^2>0$, positive intersection with
+  $C_0,f$, and positivity against every other irreducible curve by the two
   cases in the preceding bound.
 
 ## Sources

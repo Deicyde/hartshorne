@@ -7,15 +7,10 @@ not_ready: true
 
 # Proper ℓ-adic cohomology is finite-dimensional
 
-If `X` is proper and finite type over an algebraically closed field and
-`ell` is invertible on `X`, then every `H^i_et(X,Q_ell)` is a
-finite-dimensional `Q_ell`-vector space.
+If $X$ is proper and finite type over an algebraically closed field and
+$\ell$ is invertible on $X$, then every $H^i_{\mathrm{et}}(X,\mathbb Q_\ell)$ is a
+finite-dimensional $\mathbb Q_\ell$-vector space.
 
-This node is not ready.  Hartshorne records proper finiteness but gives no
-proof.  The adopted source must provide finite torsion cohomology,
-constructibility, and compatibility with the inverse-limit/rationalization
-model.  General nonproper finiteness is a later strengthening, not part of
-this leaf.
 
 ## Depends on
 

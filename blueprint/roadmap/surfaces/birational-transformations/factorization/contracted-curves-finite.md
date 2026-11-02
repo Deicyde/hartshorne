@@ -6,8 +6,8 @@ origin: cited
 
 # A birational morphism of smooth projective surfaces contracts finitely many curves
 
-For a birational morphism `f:X'->X` of nonsingular projective surfaces, only
-finitely many irreducible curves of `X'` map to points. Define `n(f)` to be
+For a birational morphism $f:X'\to X$ of nonsingular projective surfaces, only
+finitely many irreducible curves of $X'$ map to points. Define $n(f)$ to be
 their number.
 
 ## Depends on
@@ -17,7 +17,7 @@ their number.
 ## Proof depends on
 
 - Every contracted curve lies in the inverse image of a fundamental point of
-  `f^(-1)`. There are finitely many such points, and each Noetherian fibre has
+  $f^{-1}$. There are finitely many such points, and each Noetherian fibre has
   finitely many irreducible components.
 
 ## Sources

@@ -6,13 +6,13 @@ origin: bridged
 
 # Ampleness on an effective divisor
 
-Let `D` be an effective, possibly singular, reducible, or nonreduced divisor
-on a Chapter V surface and put `L=O_X(D)`. If
+Let $D$ be an effective, possibly singular, reducible, or nonreduced divisor
+on a Chapter V surface and put $L=\mathcal{O}_X(D)$. If
 
-`D*C>0`
+$D\cdot C >0$
 
-for every irreducible component `C` of `D`, then `L|_D` is ample on the
-scheme `D`.
+for every irreducible component $C$ of $D$, then $L|_D$ is ample on the
+scheme $D$.
 
 ## Depends on
 
@@ -24,8 +24,8 @@ scheme `D`.
 
 ## Proof depends on
 
-- Pass from `D` to its reduction, then to irreducible components and their
-  finite normalizations. The pulled-back restriction has degree `D*C>0` and
+- Pass from $D$ to its reduction, then to irreducible components and their
+  finite normalizations. The pulled-back restriction has degree $D\cdot C >0$ and
   is therefore ample on each nonsingular normalized curve.
 
 ## Sources

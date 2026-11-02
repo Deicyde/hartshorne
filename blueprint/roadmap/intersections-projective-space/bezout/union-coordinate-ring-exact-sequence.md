@@ -9,20 +9,17 @@ lean: Hartshorne.unionCoordinateRing_exact
 
 # The coordinate-ring sequence for a union is exact
 
-For homogeneous ideals `I₁,I₂ ⊆ S`, the canonical sequence
+For homogeneous ideals $I_{1},I_{2} \subseteq S$, the canonical sequence
 
-`0 → S/(I₁ ∩ I₂) → S/I₁ ⊕ S/I₂ → S/(I₁ + I₂) → 0`
+$0 \to S/(I_{1} \cap I_{2}) \to S/I_{1} \oplus S/I_{2} \to S/(I_{1} + I_{2}) \to 0$
 
-is an exact sequence of integer-graded `S`-modules. Applied to projective
-algebraic sets `Y₁,Y₂`, the first three terms are the coordinate modules of
-`Y₁ ∪ Y₂` and the two pieces. The final quotient is supported on
-`Y₁ ∩ Y₂`; it need not be the reduced homogeneous coordinate ring of that
+is an exact sequence of integer-graded $S$-modules. Applied to projective
+algebraic sets $Y_{1},Y_{2}$, the first three terms are the coordinate modules of
+$Y_{1} \cup Y_{2}$ and the two pieces. The final quotient is supported on
+$Y_{1} \cap Y_{2}$; it need not be the reduced homogeneous coordinate ring of that
 intersection.
 
-This is the exact sequence used in Proposition 7.6(b). The main declaration
-packages exactness together with compatibility of the induced gradings, so
-Hilbert-function additivity applies without later transport lemmas.
-
+This is the exact sequence used in Proposition 7.6(b).
 ## Depends on
 
 - [Integer-graded submodules and quotients](../hilbert/graded-submodules-and-quotients.md)

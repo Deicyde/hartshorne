@@ -6,8 +6,8 @@ origin: cited
 
 # Pointed morphisms are homomorphisms
 
-Let `f : (X,P_0) -> (X',P'_0)` be a morphism of pointed elliptic curves.
-Then `f(P+Q)=f(P)+f(Q)` for all points, and this equality is one of scheme
+Let $f : (X,P_0) \to (X',P'_0)$ be a morphism of pointed elliptic curves.
+Then $f(P+Q)=f(P)+f(Q)$ for all points, and this equality is one of scheme
 morphisms.
 
 ## Depends on
@@ -18,8 +18,8 @@ morphisms.
 
 ## Proof depends on
 
-- If `f` is constant the statement is immediate. Otherwise it is finite, and
-  pushing forward `P+Q~R+P_0` gives the corresponding relation on `X'`.
+- If $f$ is constant the statement is immediate. Otherwise it is finite, and
+  pushing forward $P+Q\sim R+P_0$ gives the corresponding relation on $X'$.
 - Density of closed points promotes the pointwise equality to morphisms.
 
 ## Sources

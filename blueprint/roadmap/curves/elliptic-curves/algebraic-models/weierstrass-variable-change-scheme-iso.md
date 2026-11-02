@@ -6,7 +6,7 @@ origin: bridged
 
 # Variable changes induce Weierstrass scheme isomorphisms
 
-A Mathlib `WeierstrassCurve.VariableChange` carrying one elliptic
+A Weierstrass change of variables carrying one elliptic
 Weierstrass equation to another induces an isomorphism of their projective
 cubic schemes, preserves the point at infinity, and transports the associated
 abstract pointed elliptic curves.

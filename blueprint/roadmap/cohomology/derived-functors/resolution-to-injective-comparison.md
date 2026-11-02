@@ -9,8 +9,8 @@ lean: Hartshorne.resolutionToInjectiveComparison_exists_uniqueUpToHomotopy
 
 # Comparison with an injective resolution
 
-Let `A ⟶ C•` be a resolution and `A ⟶ I•` an injective resolution in an
-abelian category. There is a cochain map `C• ⟶ I•` commuting with the
+Let $A \longrightarrow C^{\bullet}$ be a resolution and $A \longrightarrow I^{\bullet}$ an injective resolution in an
+abelian category. There is a cochain map $C^{\bullet} \longrightarrow I^{\bullet}$ commuting with the
 augmentations, and any two such maps are cochain-homotopic.
 
 The unique main result is the augmentation-preserving comparison, including

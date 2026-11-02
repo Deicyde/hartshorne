@@ -7,10 +7,10 @@ not_ready: true
 
 # Continuous functions on the circle are acyclic
 
-Let `C⁰_R` be the sheaf of germs of continuous real-valued functions on the
-usual circle. Then `H¹(S¹,C⁰_R)=0`.
+Let $C ^{0}_R$ be the sheaf of germs of continuous real-valued functions on the
+usual circle. Then $H^{1}(S^{1},C ^{0}_R)=0$.
 
-The sheaf `C⁰_R` and the partition-of-unity or explicit-resolution argument
+The sheaf $C ^{0}_R$ and the partition-of-unity or explicit-resolution argument
 are supporting constructions; the unique main result is the degree-one
 vanishing. Keep this node separate from the constant-sheaf computation,
 because its analytic prerequisites and coefficient sheaf are different.

@@ -6,16 +6,17 @@ origin: cited
 
 # Linear systems
 
-Package complete linear systems, linear subsystems, their projective
-dimensions, base points, and the trace of a system along a closed immersion
-`i : Y -> X` of nonsingular projective varieties. The representation is a
-finite-dimensional subspace of global sections modulo nonzero scalars, with
-the corresponding effective divisors exposed by the API.
+A linear system is a finite-dimensional subspace of global
+sections, considered modulo nonzero scalars, together with its
+corresponding effective divisors. This describes complete systems,
+linear subsystems, their projective dimensions, and base points.
+Restriction along a closed immersion $i:Y\to X$ defines the trace
+of a system on nonsingular projective varieties.
 
-Geometrically, the trace contains `D.Y` only for divisors `D` in the system
-whose support does not contain `Y`; it is the system obtained from the images
-of the sections under `Gamma(X,L) -> Gamma(Y,i^*L)`. No intersection divisor
-is assigned when `Y` lies in the support of `D`.
+Geometrically, the trace contains $D\cdot Y$ only for divisors $D$ in the system
+whose support does not contain $Y$; it is the system obtained from the images
+of the sections under $\Gamma (X,L) \to \Gamma (Y,i^*L)$. No intersection divisor
+is assigned when $Y$ lies in the support of $D$.
 
 ## Depends on
 

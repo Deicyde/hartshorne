@@ -6,10 +6,10 @@ origin: cited
 
 # Smooth complete intersections of prescribed degrees
 
-Let `d_1, ..., d_r >= 1` with `r < n`. Over an algebraically closed field
-there are nonsingular hypersurfaces `H_i subset P^n` of degree `d_i` whose
+Let $d_1, \ldots , d_r \ge 1$ with $r < n$. Over an algebraically closed field
+there are nonsingular hypersurfaces $H_i \subset \mathbb{P}^n$ of degree $d_i$ whose
 scheme-theoretic intersection is an irreducible nonsingular subvariety of
-codimension `r`.
+codimension $r$.
 
 ## Depends on
 

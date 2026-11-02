@@ -9,17 +9,16 @@ lean: Hartshorne.projectiveSpaceOverSchemeProjection_isProper
 
 # Projective space is proper
 
-For every Noetherian scheme `Y` and every `n`, the projection
-`ℙⁿ_Y ⟶ Y` is proper. In fact, the pinned Mathlib proof of the `Proj`
-structure morphism and stability under base change remove the unnecessary
-Noetherian restriction once relative projective space has been identified with
-the corresponding base change.
+For every Noetherian scheme $Y$ and every $n$, the projection
+$\mathbb{P}^n_Y\to Y$ is proper. The same conclusion holds for an
+arbitrary base scheme after identifying relative projective space
+with its base-change construction.
 
-First identify `ℙⁿ_ℤ` with `Proj ℤ[x₀,…,xₙ]`. The polynomial ring is a
-finite-type graded algebra generated in degree one, so Mathlib's
-`Proj.valuativeCriterion_existence` and `Proj.toSpecZero` proper instance apply.
-Base-change properness along `Y ⟶ Spec ℤ` and the defining pullback
-isomorphism give the result over `Y`.
+Identify projective space over $\mathbb Z$ with
+$\operatorname{Proj}\mathbb Z[x_0,\ldots,x_n]$. The homogeneous
+coordinate algebra is finitely generated in degree one, so the
+valuative criterion proves properness. Stability under base change
+then gives the projection over $Y$.
 
 ## Depends on
 
@@ -30,9 +29,7 @@ isomorphism give the result over `Y`.
 
 - [Proper-morphism calculus](proper-morphism-calculus.md)
 - [Projective space over a ring](../projective-spectrum/projective-space-over-ring.md)
-- `AlgebraicGeometry.Proj.valuativeCriterion_existence` and the proper
-  `Proj.toSpecZero` instance from
-  `Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Proper.lean`.
+- The valuative criterion for the structure morphism of Proj.
 
 ## Sources
 

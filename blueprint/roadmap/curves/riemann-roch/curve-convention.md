@@ -6,18 +6,18 @@ origin: cited
 
 # The Chapter IV curve convention
 
-Over an algebraically closed field `k`, package a Chapter IV curve as an
-integral `k`-scheme that is proper, regular, and one-dimensional. Prove that
-it is projective. Its unqualified points are closed points and hence have
-residue field `k`.
+Over an algebraically closed field $k$, a Chapter IV curve is an integral
+$k$-scheme that is proper, regular, and one-dimensional. Such a curve is
+projective. Its unqualified points are closed points and hence have residue
+field $k$.
 
 Define its genus by
 
-`g(X) = finrank k H^1(X,O_X)`.
+$$g(X)=\dim_k H^1(X,\mathcal{O}_X).$$
 
-Expose the existing equality with arithmetic and geometric genus. Also give
-an explicit bridge, rather than a definitional identification, to the existing
-classical `ProjectiveNonsingularCurveCat` representation.
+This agrees with its arithmetic and geometric genus. The associated-scheme
+construction relates this convention to classical nonsingular projective
+curves.
 
 ## Depends on
 

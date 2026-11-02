@@ -6,13 +6,11 @@ origin: bridged
 
 # Projective space is smooth over an arbitrary base
 
-For every scheme `Y`, the projection `P^n_Y → Y` is smooth of relative
-dimension `n`.
+For every scheme $Y$, the projection $\mathbb{P}^n_Y \to Y$ is smooth of relative
+dimension $n$.
 
-This modern arbitrary-base theorem is the reusable strengthening from which
-Hartshorne's fixed-field, finite-type example follows. Keeping it separate
-prevents the stronger implementation statement from being attributed to a
-source section whose standing convention is finite type over a field.
+The theorem over an arbitrary base specializes to Hartshorne's
+example over a fixed field.
 
 ## Depends on
 
@@ -23,10 +21,10 @@ source section whose standing convention is finite type over a field.
 
 ## Proof depends on
 
-- The coordinate opens `D₊(Xᵢ)` cover projective space, and dehomogenization
-  identifies each coordinate chart with affine `n`-space over the base.
+- The coordinate opens $D_{+}(X_{i})$ cover projective space, and dehomogenization
+  identifies each coordinate chart with affine $n$-space over the base.
 - Smoothness and relative dimension are local on the source.
-- Smoothness of relative dimension `n` is stable under base change.
+- Smoothness of relative dimension $n$ is stable under base change.
 
 ## Sources
 

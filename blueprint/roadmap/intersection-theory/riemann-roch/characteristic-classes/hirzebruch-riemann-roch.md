@@ -7,14 +7,10 @@ not_ready: true
 
 # Hirzebruch–Riemann–Roch
 
-For a nonsingular projective variety `X` and a finite locally free sheaf `E`,
+For a nonsingular projective variety $X$ and a finite locally free sheaf $E$,
 
-`chi(E)=deg(ch(E)*td(T_X))_(dim X)`.
+$\chi (E)=\deg (ch(E)\cdot td(T_X))_{(\dim X)}$.
 
-This node is not ready. Hartshorne states HRR but delegates its proof to
-Hirzebruch and the algebraic Grothendieck/Borel–Serre theory; an exact
-proof-level source and characteristic-class integration formalism are still
-required.
 
 ## Depends on
 

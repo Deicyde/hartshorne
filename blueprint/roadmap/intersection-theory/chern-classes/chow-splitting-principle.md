@@ -7,19 +7,14 @@ not_ready: true
 
 # The Chow splitting principle
 
-For a locally free sheaf `E` on a nonsingular quasi-projective variety `X`,
-there is a nonsingular quasi-projective variety `X'` and a morphism
-`f:X'->X` such that
+For a locally free sheaf $E$ on a nonsingular quasi-projective variety $X$,
+there is a nonsingular quasi-projective variety $X'$ and a morphism
+$f:X'\to X$ such that
 
-- `f^*:A(X)->A(X')` is injective; and
-- `f^*E` has a finite filtration whose successive quotients are invertible
+- $f^*:A(X)\to A(X')$ is injective; and
+- $f^*E$ has a finite filtration whose successive quotients are invertible
   sheaves.
 
-This node is not ready.  Hartshorne states the splitting principle without
-constructing the complete flag bundle or proving injectivity of its Chow
-pullback.  An exact proof-level source, compatible with the roadmap's quotient
-projective-bundle convention and iterated projective-bundle formula, must be
-adopted.
 
 ## Depends on
 

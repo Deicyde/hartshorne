@@ -6,9 +6,9 @@ origin: cited
 
 # The Picard group of a ringed space
 
-For a ringed space `X`, define `Pic X` to be the group of isomorphism classes
-of invertible `O_X`-modules. Multiplication is tensor product, the identity is
-`O_X`, and inversion is the dual `Hom(L,O_X)`.
+For a ringed space $X$, define $\operatorname{Pic} X$ to be the group of isomorphism classes
+of invertible $\mathcal{O}_X$-modules. Multiplication is tensor product, the identity is
+$\mathcal{O}_X$, and inversion is the dual $\operatorname{Hom} (L,\mathcal{O}_X)$.
 
 Prove Proposition 6.12: tensor products of invertible sheaves are invertible,
 and evaluation identifies an invertible sheaf tensored with its dual with the

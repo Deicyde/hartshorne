@@ -6,9 +6,9 @@ origin: cited
 
 # The affine formal module equivalence
 
-Let `A` be Noetherian and complete for an ideal `I`. Completion and global
-sections give inverse exact equivalences between finite `A`-modules and
-coherent modules on `Spf_I(A)`.
+Let $A$ be Noetherian and complete for an ideal $I$. Completion and global
+sections give inverse exact equivalences between finite $A$-modules and
+coherent modules on $\operatorname{Spf} _I(A)$.
 
 The categorical equivalence is the unique main result. Exactness of both
 functors is included as structure transported by that equivalence.

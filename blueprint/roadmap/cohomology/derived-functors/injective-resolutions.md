@@ -13,12 +13,8 @@ In an abelian category with enough injectives, every object admits an
 injective resolution, and any two injective resolutions of the same object are
 homotopy equivalent compatibly with their augmentations.
 
-The unique main result is the comparison homotopy equivalence. Mathlib's
-`InjectiveResolution.homotopyEquiv` is the exact pinned result; existence is
-supplied by the resolution instances in the same file. The augmentation is
-`InjectiveResolution.ι`, and compatibility of the comparison with it is
-recorded by `InjectiveResolution.homotopyEquiv_hom_ι` and
-`InjectiveResolution.homotopyEquiv_inv_ι`.
+The comparison homotopy equivalence respects the augmentations
+from the original object into the two resolutions.
 
 ## Depends on
 

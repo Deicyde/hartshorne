@@ -9,16 +9,13 @@ lean: Hartshorne.constantSheaf
 
 # The constant sheaf
 
-For an abelian group `A`, define the constant sheaf on `X` by assigning to an
-open `U` the additive group of continuous maps from `U` to `A` with the
+For an abelian group $A$, define the constant sheaf on $X$ by assigning to an
+open $U$ the additive group of continuous maps from $U$ to $A$ with the
 discrete topology. Restrictions are precomposition with inclusions, and
 continuous maps glue pointwise.
 
-Mathlib's `CategoryTheory.constantSheaf` is the sheafification of the constant
-presheaf, while `TopCat.sheafToTop` provides the underlying Type-valued
-continuous-map sheaf. The main project declaration supplies Hartshorne's
-explicit AddCommGrp-valued presentation; it should not claim an upstream exact
-match until a comparison with the abstract constant sheaf is proved.
+This sheaf is canonically isomorphic to the sheafification of the
+constant presheaf.
 
 ## Depends on
 
@@ -26,7 +23,7 @@ match until a comparison with the abstract constant sheaf is proved.
 
 ## Proof depends on
 
-- Mathlib's sheaf of continuous maps and algebraic structure on locally constant functions.
+- Continuous maps to a discrete abelian group form a sheaf with pointwise group operations.
 
 ## Sources
 

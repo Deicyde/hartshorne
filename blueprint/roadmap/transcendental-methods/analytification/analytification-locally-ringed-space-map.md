@@ -9,14 +9,12 @@ not_ready: true
 
 The closed-point map carries a natural local morphism of sheaves
 
-`phi^(-1)O_X -> O_(X^h)`,
+$\phi ^{-1}\mathcal{O}_X \to \mathcal{O}_{(X^h)}$,
 
-making `phi:X^h->X` a morphism of locally ringed spaces. On affine charts it
+making $\phi :X^h\to X$ a morphism of locally ringed spaces. On affine charts it
 sends a regular function to the same polynomial or rational expression as a
 holomorphic function.
 
-This node is not ready until the analytic stalks and localization comparison
-are constructed and the induced stalk maps are proved local.
 
 ## Depends on
 

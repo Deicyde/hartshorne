@@ -8,13 +8,13 @@ origin: cited
 
 For a smooth projective variety, put
 
-`B_i=dim_(Q_ell) H^i(X_bar,Q_ell)`
+$B_i=\dim _{(\mathbb{Q}_\ell)} H^i(\overline{X},\mathbb{Q}_\ell)$
 
 and define
 
-`chi_ell(X)=sum_i (-1)^i B_i`.
+$\chi _\ell (X)=\sum _i (-1)^i B_i$.
 
-The degree of `P_i(t)` is `B_i`.
+The degree of $P_i(t)$ is $B_i$.
 
 ## Depends on
 
@@ -24,8 +24,8 @@ The degree of `P_i(t)` is `B_i`.
 
 ## Proof depends on
 
-- Since `F^*` is invertible, the leading coefficient of
-  `det(1-tF^*|H^i)` is nonzero, so its degree is exactly `dim H^i`.
+- Since $F^*$ is invertible, the leading coefficient of
+  $\det (1-tF^*|H^i)$ is nonzero, so its degree is exactly $\dim H^i$.
 
 ## Sources
 

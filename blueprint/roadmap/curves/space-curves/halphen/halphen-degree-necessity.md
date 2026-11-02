@@ -6,10 +6,10 @@ origin: cited
 
 # Necessity of Halphen's degree bound
 
-Let `X` be a curve of genus `g>=2`. If `D` is nonspecial and very ample of
-degree `d`, then
+Let $X$ be a curve of genus $g\ge 2$. If $D$ is nonspecial and very ample of
+degree $d$, then
 
-`d >= g+3`.
+$d \ge g+3$.
 
 ## Depends on
 
@@ -20,8 +20,8 @@ degree `d`, then
 
 ## Proof depends on
 
-- Nonspecial Riemann–Roch gives `dim|D|=d-g`. If `d=g+2`, the embedding is
-  planar; adjunction for a plane degree-`d` curve makes its hyperplane divisor
+- Nonspecial Riemann–Roch gives $\dim |D|=d-g$. If $d=g+2$, the embedding is
+  planar; adjunction for a plane degree-$d$ curve makes its hyperplane divisor
   special unless the genus is zero or one.
 
 ## Sources

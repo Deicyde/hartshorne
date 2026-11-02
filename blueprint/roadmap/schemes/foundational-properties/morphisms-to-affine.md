@@ -9,13 +9,13 @@ mathlib_file: Mathlib/AlgebraicGeometry/GammaSpecAdjunction.lean
 
 # Morphisms to an affine scheme
 
-For a scheme `X` and a commutative ring `A`, there is a natural equivalence
+For a scheme $X$ and a commutative ring $A$, there is a natural equivalence
 
-`Hom_Sch(X, Spec A) ≃ Hom_CommRing(A, Γ(X,𝒪_X))`.
+$\operatorname{Hom}_{\mathrm{Sch}}(X,\operatorname{Spec}A)\cong\operatorname{Hom}_{\mathrm{CRing}}(A,\Gamma(X,\mathcal{O}_X))$.
 
-This is Exercise 2.4.  Mathlib packages it as the Gamma–Spec adjunction; its
-unit is `X → Spec Γ(X,𝒪_X)` and its counit is the global-section isomorphism
-for a spectrum.
+This is Hartshorne's Exercise II.2.4, the global-sections–spectrum
+adjunction. Its unit is $X\to\operatorname{Spec}\Gamma(X,\mathcal{O}_X)$,
+and its counit is the global-sections isomorphism for an affine spectrum.
 
 ## Depends on
 

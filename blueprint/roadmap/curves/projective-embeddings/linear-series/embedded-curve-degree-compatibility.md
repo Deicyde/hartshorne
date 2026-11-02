@@ -6,9 +6,9 @@ origin: cited
 
 # Embedded degree equals divisor degree
 
-Let a very ample divisor `D` define a closed immersion
-`phi : X -> P^n` of a Chapter IV curve. Then the projective degree of
-`phi(X)` equals the divisor degree `deg D`.
+Let a very ample divisor $D$ define a closed immersion
+$\phi : X \to \mathbb{P}^n$ of a Chapter IV curve. Then the projective degree of
+$\phi (X)$ equals the divisor degree $\deg D$.
 
 This is the comparison needed whenever positivity of an embedded hyperplane
 section is translated into positivity of a curve divisor.
@@ -21,7 +21,7 @@ section is translated into positivity of a curve divisor.
 
 ## Proof depends on
 
-- Pullback identifies `O_(P^n)(1)` with `O_X(D)`, and a general hyperplane
+- Pullback identifies $\mathcal{O}_{(\mathbb{P}^n)}(1)$ with $\mathcal{O}_X(D)$, and a general hyperplane
   cuts an effective divisor whose number of points with multiplicity is both
   degrees.
 

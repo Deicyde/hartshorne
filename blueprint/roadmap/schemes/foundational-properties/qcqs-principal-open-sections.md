@@ -9,21 +9,21 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/QuasiSeparated.lean
 
 # The qcqs principal-open lemma
 
-Let `U` be a quasi-compact, quasi-separated open of a scheme `X` and
-`f ∈ Γ(U,𝒪_X)`.  Define
+Let $U$ be a quasi-compact, quasi-separated open of a scheme $X$ and
+$f \in \Gamma (U,\mathcal{O} _X)$.  Define
 
-`U_f = {x ∈ U | f_x ∉ 𝔪_x}`,
+$U_f = \{x \in U | f_x \notin \mathfrak{m} _x\}$,
 
-where `f_x` is the germ and `𝔪_x` the maximal ideal of the local ring.  This
-is the principal open `X.basicOpen f`.  Restriction exhibits its sections as
+where $f_x$ is the germ and $\mathfrak{m} _x$ the maximal ideal of the local ring.  This
+is the principal open determined by $f$.  Restriction exhibits its sections as
 the localization
 
-`Γ(U_f,𝒪_X) ≅ Γ(U,𝒪_X)_f`.
+$\Gamma (U_f,\mathcal{O} _X) \cong \Gamma (U,\mathcal{O} _X)_f$.
 
-Mathlib's qcqs theorem is the exact modern packaging of Exercise 2.16(b–d).
-Its injectivity clause is the power-torsion statement requiring only
-quasi-compactness; surjectivity glues common-power multiples over a finite
-affine cover.  The open-locus identity in part (a) is `Scheme.basicOpen`.
+This is the quasi-compact, quasi-separated form of Hartshorne's
+Exercise II.2.16(b–d). Injectivity is the power-torsion statement,
+which requires only quasi-compactness. Surjectivity follows by
+gluing common-power multiples over a finite affine cover.
 
 ## Depends on
 

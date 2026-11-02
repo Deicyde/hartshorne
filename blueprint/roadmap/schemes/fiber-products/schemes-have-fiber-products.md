@@ -20,7 +20,7 @@ Construct affine pullbacks by tensor products. Glue first across an affine cover
 
 ## Proof depends on
 
-- Hartshorne's seven-step construction; Mathlib's anonymous `HasPullbacks Scheme` instance verifies the result but cannot supply stable `lean:` metadata.
+- Hartshorne's construction by affine tensor products and successive gluing.
 
 ## Sources
 

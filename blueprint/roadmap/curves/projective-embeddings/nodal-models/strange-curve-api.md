@@ -6,12 +6,11 @@ origin: cited
 
 # Strange curves and the basic examples
 
-An embedded curve `X subset P^n` is strange when there is a point `A` lying
-on every embedded tangent line. Package a strange point together with this
-incidence property.
+An embedded curve $X \subset \mathbb{P}^n$ is strange when there is a point $A$ lying
+on every embedded tangent line. Such an $A$ is called a strange point of $X$.
 
 Every line is strange. A smooth conic in characteristic two is strange; for
-the affine model `y=x^2`, all tangent lines pass through the appropriate
+the affine model $y=x^2$, all tangent lines pass through the appropriate
 point at infinity.
 
 ## Depends on

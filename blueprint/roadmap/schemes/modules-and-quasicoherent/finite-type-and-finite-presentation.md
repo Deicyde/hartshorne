@@ -9,16 +9,15 @@ mathlib_file: Mathlib/Algebra/Category/ModuleCat/Sheaf/Quasicoherent.lean
 
 # Finite type and finite presentation for module sheaves
 
-For a sheaf of modules, distinguish the Mathlib predicates
-`SheafOfModules.IsFiniteType` and `SheafOfModules.IsFinitePresentation`.
-Finite type means locally finitely many generators; finite presentation means
-locally finitely many generators and relations.  Prove that finite presentation
-implies both finite type and quasi-coherence, and preserve these implications
-under isomorphism.
+A sheaf of modules is of finite type when it is locally finitely
+generated, and of finite presentation when it locally has finitely
+many generators and relations. Finite presentation implies finite
+type and quasi-coherence, and these properties are invariant under
+isomorphism.
 
-This leaf fixes the representation needed later: Hartshorne coherence will be
-identified with finite presentation only after imposing locally Noetherian
-hypotheses.  It does not make that identification globally.
+On a locally Noetherian scheme, coherence is equivalent to finite
+presentation. The locally Noetherian hypothesis is essential for
+this identification.
 
 ## Depends on
 

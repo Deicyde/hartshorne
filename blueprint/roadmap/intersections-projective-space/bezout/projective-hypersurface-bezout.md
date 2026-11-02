@@ -9,12 +9,12 @@ lean: Hartshorne.projective_hypersurface_bezout
 
 # Bézout for a projective variety and a hypersurface
 
-Let `Y ⊆ ℙⁿ` be a projective variety of dimension at least one, and let `H`
-be a hypersurface not containing `Y`. If `Z₁,…,Zₛ` are the irreducible
-components of `Y ∩ H`, then
+Let $Y \subseteq \mathbb{P} ^{n}$ be a projective variety of dimension at least one, and let $H$
+be a hypersurface not containing $Y$. If $Z_{1},\ldots ,Z_{s}$ are the irreducible
+components of $Y \cap H$, then
 
-`∑ j, i(Y,H;Z_j) · projectiveDegree Z_j`
-`= projectiveDegree Y · projectiveDegree H`.
+$\sum_j i(Y,H;Z_j)\deg Z_j$
+$= \deg Y \cdot \deg H$.
 
 This is Theorem 7.7. Compare the leading coefficient of the hypersurface-
 section difference with the minimal-prime expansion of the same quotient

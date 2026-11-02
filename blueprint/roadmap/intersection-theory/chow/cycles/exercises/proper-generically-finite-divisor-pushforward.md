@@ -7,14 +7,13 @@ not_ready: true
 
 # Proper generically finite pushforward preserves linear equivalence
 
-Let `f:X->X'` be a proper generically finite morphism of normal varieties.
-If Weil divisors `D_1,D_2` on `X` are linearly equivalent, then their cycle
-pushforwards `f_*D_1,f_*D_2` are linearly equivalent on `X'`.
+Let $f:X\to X'$ be a proper generically finite morphism of normal varieties.
+If Weil divisors $D_1,D_2$ on $X$ are linearly equivalent, then their cycle
+pushforwards $f_*D_1,f_*D_2$ are linearly equivalent on $X'$.
 
 This is the codimension-one input needed for proper pushforward to descend
-from raw cycles to Chow groups. It is not ready: the existing finite-curve
-pushforward theorem does not provide the higher-dimensional finite-flat norm
-and divisor formula required here.
+from raw cycles to Chow groups. The higher-dimensional norm and divisor
+formula gives the required compatibility with principal divisors.
 
 ## Depends on
 

@@ -6,9 +6,9 @@ origin: cited
 
 # Coherent projective cohomology is finite
 
-Let `X` be projective over a Noetherian ring `A`, with a chosen very ample
-`O_X(1)`, and let `F` be coherent. For every `i≥0`, `Hⁱ(X,F)` is a finitely
-generated `A`-module.
+Let $X$ be projective over a Noetherian ring $A$, with a chosen very ample
+$\mathcal{O}_X(1)$, and let $F$ be coherent. For every $i\ge 0$, $H^{i}(X,F)$ is a finitely
+generated $A$-module.
 
 ## Depends on
 

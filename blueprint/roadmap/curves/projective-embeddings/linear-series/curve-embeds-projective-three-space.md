@@ -6,7 +6,7 @@ origin: cited
 
 # Every curve embeds in projective three-space
 
-Every Chapter IV curve admits a closed immersion into `P^3`.
+Every Chapter IV curve admits a closed immersion into $\mathbb{P}^3$.
 
 ## Depends on
 
@@ -15,11 +15,11 @@ Every Chapter IV curve admits a closed immersion into `P^3`.
 
 ## Proof depends on
 
-- A divisor of degree at least `2g+1` first embeds the curve in some finite
+- A divisor of degree at least $2g+1$ first embeds the curve in some finite
   projective space.
 - If the ambient dimension exceeds three, repeatedly project from centres
   supplied by the one-step theorem; if it is smaller, compose with a linear
-  inclusion into `P^3`.
+  inclusion into $\mathbb{P}^3$.
 
 ## Sources
 

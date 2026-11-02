@@ -6,8 +6,8 @@ origin: cited
 
 # Functoriality of blowups
 
-For `f : Y -> X`, blowing up `Y` along the inverse-image ideal gives a unique
-map to `Bl_I(X)` over `f`. If `f` is a closed immersion, the induced map of
+For $f : Y \to X$, blowing up $Y$ along the inverse-image ideal gives a unique
+map to $Bl_I(X)$ over $f$. If $f$ is a closed immersion, the induced map of
 blowups is a closed immersion.
 
 ## Depends on
@@ -17,7 +17,7 @@ blowups is a closed immersion.
 
 ## Proof depends on
 
-- The surjection from the restricted Rees algebra of `I` to the Rees algebra
+- The surjection from the restricted Rees algebra of $I$ to the Rees algebra
   of the inverse-image ideal.
 
 ## Sources

@@ -6,9 +6,9 @@ origin: cited
 
 # Very ampleness over a composite base
 
-Let `X -> Y` be of finite type, let `L` be ample on `X`, and let
-`P = Proj_X S`. For all sufficiently large `n`,
-`O_P(1) tensor pi^* L^n` is very ample on `P` relative to `Y`.
+Let $X \to Y$ be of finite type, let $L$ be ample on $X$, and let
+$P = \operatorname{Proj} _X S$. For all sufficiently large $n$,
+$\mathcal{O}_P(1) \otimes \pi ^* L^n$ is very ample on $P$ relative to $Y$.
 
 ## Depends on
 

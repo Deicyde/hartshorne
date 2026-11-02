@@ -6,12 +6,12 @@ origin: cited
 
 # Existence with nonspecial hyperplane section in projective three-space
 
-There is a degree-`d`, genus-`g` curve in `P^3` whose hyperplane divisor is
+There is a degree-$d$, genus-$g$ curve in $\mathbb{P}^3$ whose hyperplane divisor is
 nonspecial if and only if one of the following holds:
 
-1. `g=0` and `d>=1`;
-2. `g=1` and `d>=3`;
-3. `g>=2` and `d>=g+3`.
+1. $g=0$ and $d\ge 1$;
+2. $g=1$ and $d\ge 3$;
+3. $g\ge 2$ and $d\ge g+3$.
 
 ## Depends on
 
@@ -23,7 +23,7 @@ nonspecial if and only if one of the following holds:
 ## Proof depends on
 
 - Embed by the complete linear system and repeatedly project isomorphically
-  down to `P^3`; the pulled-back hyperplane divisor remains the original `D`.
+  down to $\mathbb{P}^3$; the pulled-back hyperplane divisor remains the original $D$.
 
 ## Sources
 

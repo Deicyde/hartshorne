@@ -6,12 +6,12 @@ origin: cited
 
 # The tangent-rank image-dimension bound
 
-Let `f : X -> Y` be a morphism of finite-type schemes over an algebraically
+Let $f : X \to Y$ be a morphism of finite-type schemes over an algebraically
 closed field of characteristic zero. For the closed-point subset
 
-`X_r = {x | rank(Tf_x) <= r}`,
+$X_r = \{x | \operatorname{rank} (Tf_x) \le r\}$,
 
-the closure of `f(X_r)` has dimension at most `r`.
+the closure of $f(X_r)$ has dimension at most $r$.
 
 ## Depends on
 

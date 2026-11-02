@@ -8,7 +8,7 @@ origin: cited
 
 For every ordered sextuple of mutually skew lines among the twenty-seven,
 there is exactly one incidence-preserving permutation carrying the ordered
-standard sextuple `(E_1,...,E_6)` to it.
+standard sextuple $(E_1,\ldots ,E_6)$ to it.
 
 Existence comes from the new blowup marking supplied by Proposition 4.10;
 uniqueness is purely combinatorial.

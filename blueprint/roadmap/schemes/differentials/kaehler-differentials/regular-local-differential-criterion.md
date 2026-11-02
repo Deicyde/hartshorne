@@ -6,14 +6,14 @@ origin: cited
 
 # The regular-local differential criterion
 
-Let `(B, 𝔪)` be a localization of a finitely generated algebra over a perfect
-field `k`, and assume that `k → B/𝔪` is an isomorphism.  Then `B` is a regular
-local ring of dimension `r` if and only if `Ω[B⁄k]` is a free `B`-module of
-rank `r`.
+Let $(B, \mathfrak{m} )$ be a localization of a finitely generated algebra over a perfect
+field $k$, and assume that $k \to B/\mathfrak{m}$ is an isomorphism.  Then $B$ is a regular
+local ring of dimension $r$ if and only if $\Omega_{B/ k}$ is a free $B$-module of
+rank $r$.
 
 As a supporting lemma, prove Hartshorne 8.9: if a finite module over a
-Noetherian local domain has the same finite dimension `r` after tensoring with
-the residue field and the fraction field, then it is free of rank `r`.
+Noetherian local domain has the same finite dimension $r$ after tensoring with
+the residue field and the fraction field, then it is free of rank $r$.
 
 ## Depends on
 
@@ -24,7 +24,7 @@ the residue field and the fraction field, then it is free of rank `r`.
 
 ## Proof depends on
 
-- Perfectness makes the fraction field separably generated over `k`.
+- Perfectness makes the fraction field separably generated over $k$.
 - Nakayama's lemma and localization into the fraction field.
 
 ## Sources

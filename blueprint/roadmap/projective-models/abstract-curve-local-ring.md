@@ -9,15 +9,13 @@ lean: Hartshorne.ValuationSpace.abstractNonsingularCurveLocalRingAlgEquiv
 
 # The local ring of an abstract curve
 
-For an abstract nonsingular open curve `X ⊆ C_K` and `R ∈ X`, the local
-ring at `R` is canonically isomorphic, as a local `k`-algebra embedded in `K`,
-to the valuation ring represented by `R`.  The sole main declaration is
-`Hartshorne.ValuationSpace.abstractNonsingularCurveLocalRingAlgEquiv`.
+Let $X\subseteq C_K$ be an abstract nonsingular open curve and let $R\in X$.
+The local ring at $R$ is canonically isomorphic to the valuation ring
+represented by $R$, as a local $k$-algebra embedded in $K$.
 
-The compatibility with the two maps into `K` is part of the conclusion.  It
-must not be weakened to an abstract ring equivalence.  Regularity of this DVR
-also supplies the nonsingularity instance used in Theorem 6.9 as a supporting
-consequence of the same implementation leaf.
+The isomorphism commutes with both maps into $K$. Since the valuation ring
+is a discrete valuation ring, it is regular; thus the abstract curve is
+nonsingular at $R$.
 
 ## Depends on
 

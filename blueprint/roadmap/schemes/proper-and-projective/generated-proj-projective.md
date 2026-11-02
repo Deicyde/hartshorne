@@ -6,13 +6,13 @@ origin: cited
 
 # Degree-one-generated Proj is projective
 
-Let `S` be a graded ring with `S₀ = A`, finitely generated as an `A`-algebra
-by `S₁`. Then the structure morphism `Proj S ⟶ Spec A` is projective.
+Let $S$ be a graded ring with $S_{0} = A$, finitely generated as an $A$-algebra
+by $S_{1}$. Then the structure morphism $\operatorname{Proj} S \longrightarrow \operatorname{Spec} A$ is projective.
 
 Choose finitely many degree-one algebra generators. They give a surjective
-graded map from a standard polynomial ring `A[x₀,…,xₙ]` to `S`. The induced
-map on `Proj` is a closed immersion, defined on the whole source, and its
-target is relative projective space over `Spec A`. The factorization through
+graded map from a standard polynomial ring $A[x_{0},\ldots ,x_{n}]$ to $S$. The induced
+map on $\operatorname{Proj}$ is a closed immersion, defined on the whole source, and its
+target is relative projective space over $\operatorname{Spec} A$. The factorization through
 the projective-space projection is the structure morphism.
 
 ## Depends on

@@ -6,9 +6,9 @@ origin: cited
 
 # Products of nonsingular varieties
 
-Let `k` be algebraically closed. If `X` and `Y` are nonsingular varieties over
-`k`, then `X times_k Y` is a nonsingular variety of dimension
-`dim X + dim Y`.
+Let $k$ be algebraically closed. If $X$ and $Y$ are nonsingular varieties over
+$k$, then $X \times _k Y$ is a nonsingular variety of dimension
+$\dim X + \dim Y$.
 
 ## Depends on
 

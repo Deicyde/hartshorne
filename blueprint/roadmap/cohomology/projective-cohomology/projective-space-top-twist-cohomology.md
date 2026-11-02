@@ -6,14 +6,14 @@ origin: cited
 
 # Top cohomology and negative monomials
 
-For `A`, `S`, and `X=Pʳ_A` as above, the graded `S`-module
+For $A$, $S$, and $X=\mathbb{P}^{r}_A$ as above, the graded $S$-module
 
-`⊕_(n:Z) Hʳ(X,O_X(n))`
+$\bigoplus_{n\in\mathbb{Z}} H^{r}(X,\mathcal{O}_X(n))$
 
-is the free `A`-module on Laurent monomials `x₀^l₀⋯xᵣ^lᵣ` with every
-`lᵢ<0`, graded by `Σlᵢ`. In particular it vanishes in degrees greater than
-`-r-1`, and the class of `(x₀⋯xᵣ)⁻¹` gives
-`Hʳ(X,O_X(-r-1))≅A`.
+is the free $A$-module on Laurent monomials $x_{0}^{l_{0}}\cdots x_{r}^{l_{r}}$ with every
+$l_{i}<0$, graded by $\sum l_{i}$. In particular it vanishes in degrees greater than
+$-r-1$, and the class of $(x_{0}\cdots x_{r})^{-1}$ gives
+$H^{r}(X,\mathcal{O}_X(-r-1))\cong A$.
 
 ## Depends on
 

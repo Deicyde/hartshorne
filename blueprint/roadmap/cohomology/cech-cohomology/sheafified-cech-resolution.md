@@ -6,11 +6,11 @@ origin: cited
 
 # The sheafified Čech resolution
 
-For an open cover `U` and abelian sheaf `F`, let the degree-`p` term be the
-product, over increasing tuples, of the direct image of `F` restricted to the
+For an open cover $U$ and abelian sheaf $F$, let the degree-$p$ term be the
+product, over increasing tuples, of the direct image of $F$ restricted to the
 corresponding intersection. The augmented sheaf complex
 
-`0 ⟶ F ⟶ Ccal^0(U,F) ⟶ Ccal^1(U,F) ⟶ ...`
+$0\longrightarrow F\longrightarrow\mathcal{C}^0(U,F)\longrightarrow\mathcal{C}^1(U,F)\longrightarrow\cdots$
 
 is exact, and its global sections recover the ordered Čech complex.
 

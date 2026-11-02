@@ -4,28 +4,27 @@ article_id: af_becb3ae580c9c99e691ab5a6
 
 # Projective models of curves
 
-This 23-leaf milestone covers Hartshorne I.6, Proposition 6.8 through
-Corollary 6.12 (printed pp. 43--46), together with the parts of Exercise 3.3
-that Theorem 6.9 uses. All 23 leaves are statement- and proof-formalized, as
-are the preceding 140 leaves.
+This 23-leaf milestone covers Hartshorne I.6, [Proposition I.6.8](projective-extension.md) through
+[Corollary I.6.12](curve-category-equivalence.md) (printed pp. 43--46), together with the parts of Exercise 3.3
+that [Theorem I.6.9](function-field-projective-model.md) uses.
 
 The source first extends a map from a punctured abstract nonsingular curve to
-a projective target.  It then embeds the complete valuation curve `C_K` in a
+a projective target.  It then embeds the complete valuation curve $C _K$ in a
 product of projective closures of affine models, proves that the resulting
 model has exactly the same points, local rings, and function field, and derives
 the projective completion and category-equivalence corollaries.
 
 ## Source-faithful proof organization
 
-Hartshorne chooses finitely many affine models covering `C_K`.  The existing
+Hartshorne chooses finitely many affine models covering $C _K$.  The existing
 normalization milestone already constructed two compatible affine models,
-from `k[t]` and `k[t⁻¹]`, whose opens cover `C_K`.  This chapter uses those two
+from $k[t]$ and $k[t^{-1}]$, whose opens cover $C _K$.  This chapter uses those two
 models and the existing binary Segre product.  It is the same finite-cover and
 diagonal-closure proof, specialized to a cover already present in the project;
 it does not add a separability hypothesis to Theorem 6.9.
 
 Several bridges are intentionally separate leaves: local rings and dimension
-of the abstract curve, transport along a `k`-algebra equivalence, the exact
+of the abstract curve, transport along a $k$-algebra equivalence, the exact
 Exercise 3.3 criteria, and existence of a function-field DVR dominating a
 curve local ring.  In particular, the local-ring comparison is made inside a
 common function field rather than replacing inclusions by abstract
@@ -41,7 +40,7 @@ isomorphisms.
 - [Isomorphisms from topology and local rings](isomorphism-local-criterion.md)
 - [A projective coordinate pivot](valuation-projective-pivot.md)
 
-## Proposition 6.8 and Theorem 6.9
+## [Proposition I.6.8](projective-extension.md) and [Theorem I.6.9](function-field-projective-model.md)
 
 - [Extension to a projective target](projective-extension.md)
 - [A two-chart affine cover of the valuation curve](two-affine-chart-cover.md)
@@ -62,11 +61,3 @@ isomorphisms.
 - [Projective and quasi-projective curve categories are equivalent](projective-quasiprojective-curve-equivalence.md)
 - [Quasi-projective curves and one-dimensional function fields are equivalent](quasiprojective-curve-function-field-equivalence.md)
 - [The curve/function-field category equivalence](curve-category-equivalence.md)
-
-## Mathlib boundary
-
-The current APIs provide projective closure, the binary Segre product,
-function-field functoriality, local-ring maps, the valuation-space curve, and
-Krull--Akizuki. The project-facing bridges listed above are implemented.
-Proposition 6.8 uses the existing projective-chart criterion directly. No
-arbitrary heterogeneous finite product is required.

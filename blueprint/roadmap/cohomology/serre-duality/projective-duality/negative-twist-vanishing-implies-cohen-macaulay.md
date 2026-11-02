@@ -6,11 +6,11 @@ origin: cited
 
 # Negative-twist vanishing detects Cohen–Macaulayness
 
-Let `X` be an arbitrary projective scheme of dimension `n` over an
-algebraically closed field `k`, equipped with a dualizing sheaf and a fixed
-very ample `O_X(1)`. If every finite locally free `E` satisfies
-`Hⁱ(X,E(-q))=0` for `i<n` and `q≫0`, then `X` is Cohen–Macaulay and
-equidimensional of dimension `n`.
+Let $X$ be an arbitrary projective scheme of dimension $n$ over an
+algebraically closed field $k$, equipped with a dualizing sheaf and a fixed
+very ample $\mathcal{O}_X(1)$. If every finite locally free $E$ satisfies
+$H^{i}(X,E(-q))=0$ for $i<n$ and $q\mathbin{\gg} 0$, then $X$ is Cohen–Macaulay and
+equidimensional of dimension $n$.
 
 ## Depends on
 

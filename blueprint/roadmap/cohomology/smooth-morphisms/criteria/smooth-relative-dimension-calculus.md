@@ -10,13 +10,10 @@ lean: Hartshorne.openImmersion_smoothOfRelativeDimension_zero Hartshorne.smoothO
 # Smooth relative-dimension calculus over arbitrary schemes
 
 Open immersions are smooth of relative dimension zero. Smoothness of relative
-dimension `n` is preserved by arbitrary base change. If `f` and `g` are smooth
-of relative dimensions `n` and `m`, their composite is smooth of relative
-dimension `n+m`; consequently the product over a common base has relative
-dimension `n+m`.
-
-This source proposition is a wrapper around several pinned morphism-property
-declarations and is not itself an exact upstream theorem.
+dimension $n$ is preserved by arbitrary base change. If $f$ and $g$ are smooth
+of relative dimensions $n$ and $m$, their composite is smooth of relative
+dimension $n+m$; consequently the product over a common base has relative
+dimension $n+m$.
 
 ## Depends on
 
@@ -24,8 +21,7 @@ declarations and is not itself an exact upstream theorem.
 
 ## Proof depends on
 
-- `AlgebraicGeometry.smoothOfRelativeDimension_isStableUnderBaseChange` and
-  `AlgebraicGeometry.smoothOfRelativeDimension_comp` in pinned Mathlib.
+- Smoothness of fixed relative dimension is preserved by base change, and relative dimensions add under composition.
 
 ## Sources
 

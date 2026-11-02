@@ -6,13 +6,13 @@ origin: cited
 
 # A normalized bundle has a distinguished tautological section
 
-Let `E` be normalized. A nonzero global section induces an exact sequence
+Let $E$ be normalized. A nonzero global section induces an exact sequence
 
-`0 -> O_C -> E -> L -> 0`
+$0 \to \mathcal{O}_C \to E \to L \to 0$
 
-with `L` invertible. The corresponding section has image `C0` satisfying
+with $L$ invertible. The corresponding section has image $C_0$ satisfying
 
-`O_X(C0) ~= O_P(E)(1)`.
+$\mathcal{O}_X(C_0) \simeq \mathcal{O}_{\mathbb{P}(E)}(1)$.
 
 ## Depends on
 

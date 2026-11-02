@@ -9,7 +9,7 @@ origin: cited
 As both a formal series at the origin and its displayed rational
 representative,
 
-`Z(P^1,t)=1/((1-t)*(1-q*t))`.
+$Z(\mathbb{P}^1,t)=1/((1-t)\cdot (1-q\cdot t))$.
 
 ## Depends on
 
@@ -18,8 +18,8 @@ representative,
 
 ## Proof depends on
 
-- Use `sum_(r>=1) a^r*t^r/r=-log(1-a*t)` in rational formal power series and
-  exponentiate the contributions for `a=1` and `a=q`.
+- Use $\sum _{(r\ge 1)} a^r\cdot t^r/r=-\log (1-a\cdot t)$ in rational formal power series and
+  exponentiate the contributions for $a=1$ and $a=q$.
 
 ## Sources
 

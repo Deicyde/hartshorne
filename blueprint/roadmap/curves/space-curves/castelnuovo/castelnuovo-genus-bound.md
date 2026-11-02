@@ -6,13 +6,13 @@ origin: cited
 
 # The summed Castelnuovo bound
 
-Let `X subset P^3` be a nonplanar curve of degree `d` and genus `g`. Then
-`d>=3`. Put `r=floor((d-1)/2)`. One has
+Let $X \subset \mathbb{P}^3$ be a nonplanar curve of degree $d$ and genus $g$. Then
+$d\ge 3$. Put $r=\lfloor(d-1)/2\rfloor$. One has
 
-`g <= r*d - r*(r+2)`.
+$g \le r\cdot d - r\cdot (r+2)$.
 
-Equivalently, if `d=2s` then `g<=(s-1)^2`, while if `d=2s+1` then
-`g<=s*(s-1)`.
+Equivalently, if $d=2s$ then $g\le (s-1)^2$, while if $d=2s+1$ then
+$g\le s\cdot (s-1)$.
 
 ## Depends on
 
@@ -21,8 +21,8 @@ Equivalently, if `d=2s` then `g<=(s-1)^2`, while if `d=2s+1` then
 
 ## Proof depends on
 
-- Sum the increment estimates through `n`, then for large `n` compare with
-  nonspecial Riemann–Roch: `dim|nD|=n*d-g`.
+- Sum the increment estimates through $n$, then for large $n$ compare with
+  nonspecial Riemann–Roch: $\dim |nD|=n\cdot d-g$.
 
 ## Sources
 

@@ -7,8 +7,8 @@ not_ready: true
 
 # A dimension-sized affine cover
 
-A quasi-projective scheme of dimension `r` over a field admits a cover by
-`r+1` affine opens. Consequently `cd(X) ≤ dim X`.
+A quasi-projective scheme of dimension $r$ over a field admits a cover by
+$r+1$ affine opens. Consequently $cd(X) \le \dim X$.
 
 ## Depends on
 
@@ -21,8 +21,8 @@ A quasi-projective scheme of dimension `r` over a field admits a cover by
 - [Cohomological dimension from an affine cover](affine-cover-cohomological-dimension.md)
 - [Projective space over a scheme](../../schemes/proper-and-projective/projective-space-over-scheme.md)
 - [A standard Proj chart is affine](../../schemes/projective-spectrum/proj-basic-open.md)
-- Adopt a scheme-level source constructing `r+1` affine opens for an
-  arbitrary dimension-`r` quasi-projective scheme. A variety-only argument
+- Adopt a scheme-level source constructing $r+1$ affine opens for an
+  arbitrary dimension-$r$ quasi-projective scheme. A variety-only argument
   with closed points or reduced hyperplane sections is insufficient.
 
 ## Sources

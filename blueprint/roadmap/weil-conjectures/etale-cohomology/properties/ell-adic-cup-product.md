@@ -9,14 +9,12 @@ not_ready: true
 
 There are natural bilinear products
 
-`H^i_et(X,Q_ell) times H^j_et(X,Q_ell) -> H^(i+j)_et(X,Q_ell)`
+$H^i_{\mathrm{et}}(X,\mathbb Q_\ell)\times H^j_{\mathrm{et}}(X,\mathbb Q_\ell)\to H^{i+j}_{\mathrm{et}}(X,\mathbb Q_\ell)$
 
 which are associative, unital, graded-commutative, and compatible with
 pullback.  The same construction works with Tate-twisted coefficients and
 adds twists.
 
-This node is not ready.  It needs a sourced derived tensor/cup construction
-for torsion étale sheaves and compatibility with the `ell`-adic inverse limit.
 
 ## Depends on
 

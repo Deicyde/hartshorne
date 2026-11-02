@@ -7,15 +7,11 @@ not_ready: true
 
 # Kodaira dimension is the maximal pluricanonical image dimension
 
-For a nonsingular projective integral variety `X`, every positive
-pluricanonical system is empty exactly when `kappa(X)=-1`. Otherwise
+For a nonsingular projective integral variety $X$, every positive
+pluricanonical system is empty exactly when $\kappa (X)=-1$. Otherwise
 
-`kappa(X)=max_(n>0) dim closure(image(phi_n))`.
+$\kappa (X)=\max _{(n>0)} \dim \operatorname{closure} (\operatorname{image} (\phi _n))$.
 
-This node is not ready. Hartshorne states the equivalence without proof, and
-the project has not adopted a proof-level Iitaka-dimension source connecting
-transcendence degree of the graded canonical ring with the eventual image
-dimensions of its Veronese linear systems.
 
 ## Depends on
 

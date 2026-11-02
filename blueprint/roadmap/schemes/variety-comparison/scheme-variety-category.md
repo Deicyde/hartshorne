@@ -9,15 +9,13 @@ lean: Hartshorne.SchemeVarietyCat
 
 # The scheme-variety source category
 
-Define the source category for Proposition 2.6 to have objects consisting of a
-project `Variety k` together with its existing `Variety.HasAffineOpenBasis`
-witness, and morphisms the existing `VarietyHom`s.
+The category used in Hartshorne's Proposition II.2.6 has varieties
+over $k$ with an affine-open basis as its objects and the usual
+morphisms of varieties as its morphisms.
 
-Hartshorne's varieties are affine, quasi-affine, projective, or
-quasi-projective, and the project has already proved this affine-basis property
-for each constructor.  The extra field prevents a false generalization: the
-bare project `Variety` axioms describe regular functions but do not imply local
-affineness.
+Affine, quasi-affine, projective, and quasi-projective varieties all
+have an affine-open basis. This hypothesis supplies the local
+affineness needed to construct their associated schemes.
 
 ## Depends on
 

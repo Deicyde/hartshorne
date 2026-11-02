@@ -6,8 +6,8 @@ origin: cited
 
 # Trisecants and trigonal genus-five curves
 
-Let `X subset P^4` be the canonical embedding of a nonhyperelliptic
-genus-five curve. Then `X` has a `g^1_3` if and only if the canonical image
+Let $X \subset \mathbb{P}^4$ be the canonical embedding of a nonhyperelliptic
+genus-five curve. Then $X$ has a $g^1_3$ if and only if the canonical image
 has a trisecant line. When one exists, the trisecants occur in a
 one-dimensional family.
 
@@ -20,7 +20,7 @@ one-dimensional family.
 
 ## Proof depends on
 
-- Riemann–Roch identifies `dim|P+Q+R|=1` with the condition that the three
+- Riemann–Roch identifies $\dim |P+Q+R|=1$ with the condition that the three
   canonical points impose only two independent hyperplane conditions,
   equivalently are collinear.
 

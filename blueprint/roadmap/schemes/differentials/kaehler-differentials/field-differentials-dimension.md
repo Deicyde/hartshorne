@@ -6,12 +6,12 @@ origin: background
 
 # Differentials of finitely generated field extensions
 
-Let `K/k` be a finitely generated field extension.  Prove
+Let $K/k$ be a finitely generated field extension.  Prove
 
-`trdeg_k K ≤ dim_K Ω[K⁄k]`,
+$\operatorname{trdeg} _k K \le \dim _K \Omega_{K/ k}$,
 
-with equality if and only if `K/k` is separably generated.  In particular, for
-a finite algebraic extension, `Ω[K⁄k] = 0` exactly when the extension is
+with equality if and only if $K/k$ is separably generated.  In particular, for
+a finite algebraic extension, $\Omega_{K/ k} = 0$ exactly when the extension is
 separable.
 
 ## Depends on
@@ -20,10 +20,9 @@ separable.
 
 ## Proof depends on
 
-- Transcendence bases and the exact sequence for the tower from `k` through
-  the corresponding rational function field to `K`.
-- Mathlib's separably-generated-field infrastructure; no exact upstream
-  dimension theorem was found.
+- Transcendence bases and the exact sequence for the tower from $k$ through
+  the corresponding rational function field to $K$.
+- Differentials of separably generated field extensions.
 - Matsumura [2], Theorem 59, p. 191, as cited by Hartshorne.
 
 ## Sources

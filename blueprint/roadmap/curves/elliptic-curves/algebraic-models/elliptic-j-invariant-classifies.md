@@ -7,7 +7,7 @@ origin: cited
 # The j-invariant classifies elliptic curves
 
 Over an algebraically closed field of characteristic different from two, two
-elliptic curves are isomorphic if and only if their `j`-invariants are equal.
+elliptic curves are isomorphic if and only if their $j$-invariants are equal.
 
 ## Depends on
 
@@ -17,10 +17,10 @@ elliptic curves are isomorphic if and only if their `j`-invariants are equal.
 
 ## Proof depends on
 
-- The map `lambda |-> j(lambda)` has degree six and its fibres are precisely
-  the `S_3` orbits.
-- Pinned Mathlib's `WeierstrassCurve.exists_variableChange_of_j_eq` supplies
-  equation-level prior art after passing through the scheme bridge.
+- The map $\lambda\mapsto j(\lambda)$ has degree six and its fibres are precisely
+  the $S_3$ orbits.
+- Equality of the $j$-invariants gives a Weierstrass change of variables,
+  which induces an isomorphism of the corresponding pointed curves.
 
 ## Sources
 

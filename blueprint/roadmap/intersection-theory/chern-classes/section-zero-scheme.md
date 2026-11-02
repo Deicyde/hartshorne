@@ -6,11 +6,11 @@ origin: cited
 
 # The zero scheme of a section of a locally free sheaf
 
-For a section `s in Gamma(X,E)` of a locally free sheaf, let
-`s^dual:E^dual->O_X` be the dual map.  Define its zero scheme `Z(s)` by the
-ideal sheaf `image(s^dual)`, equivalently by the right-exact sequence
+For a section $s \in \Gamma (X,E)$ of a locally free sheaf, let
+$s^\vee :E^\vee \to \mathcal{O}_X$ be the dual map.  Define its zero scheme $Z(s)$ by the
+ideal sheaf $\operatorname{image} (s^\vee )$, equivalently by the right-exact sequence
 
-`E^dual -> O_X -> O_(Z(s)) -> 0`.
+$E^\vee \to \mathcal{O}_X \to \mathcal{O}_{(Z(s))} \to 0$.
 
 This is a scheme-theoretic zero locus.  Its associated cycle uses the generic
 local lengths of its irreducible components and is not replaced by the

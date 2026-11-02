@@ -8,10 +8,10 @@ origin: cited
 
 For a K3 surface in the roadmap interface,
 
-`q(X)=0`, `p_g(X)=1`, and `p_a(X)=1`.
+$q(X)=0$, $p_g(X)=1$, and $p_a(X)=1$.
 
-Indeed `K_X~0` identifies canonical sections with global regular functions,
-so `p_g=1`; the surface irregularity formula then gives `p_a=p_g-q=1`.
+Indeed $K_X\sim 0$ identifies canonical sections with global regular functions,
+so $p_g=1$; the surface irregularity formula then gives $p_a=p_g-q=1$.
 This deduction is valid in arbitrary characteristic whenever the stated K3
 interface is available.
 

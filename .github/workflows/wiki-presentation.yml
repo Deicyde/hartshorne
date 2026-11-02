@@ -1,0 +1,49 @@
+name: Wiki presentation
+
+on:
+  push:
+    branches: [main]
+    paths: ["blueprint/**", ".github/wiki_math.*", ".github/workflows/wiki-presentation.yml", ".github/autoform-ref"]
+  pull_request:
+    paths: ["blueprint/**", ".github/wiki_math.*", ".github/workflows/wiki-presentation.yml", ".github/autoform-ref"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mathematics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "22.23.2"
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.1"
+      - name: Render and build the book
+        run: |
+          wiki_ref="$(cat .github/autoform-ref)"
+          wiki_package="git+https://github.com/facebookresearch/autoform-bot.git@${wiki_ref}"
+          uvx --from "$wiki_package" autoform doctor blueprint --lean-root .
+          uvx --from "$wiki_package" autoform render blueprint --output site-src --lean-root . --require-declarations
+          uvx --from mkdocs==1.6.1 --with mkdocs-material==9.7.7 --with mkdocs-literate-nav==0.6.2 \
+            --with markdown==3.10.3 --with pymdown-extensions==11.0.1 mkdocs build --strict
+      - name: Install the site's MathJax release
+        run: npm install --ignore-scripts --no-audit --no-fund --prefix "$RUNNER_TEMP/wiki-mathjax" mathjax-full@3.2.2
+      - name: Verify mathematical prose and typeset every formula
+        run: |
+          python3 .github/wiki_math.py site > "$RUNNER_TEMP/wiki-formulas.json"
+          WIKI_MATHJAX_ROOT="$RUNNER_TEMP/wiki-mathjax/node_modules/mathjax-full" \
+          WIKI_MATH_REPORT="$RUNNER_TEMP/wiki-math-report.json" \
+          node .github/wiki_math.cjs "$RUNNER_TEMP/wiki-formulas.json"
+      - name: Preserve formula diagnostics
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: wiki-formula-diagnostics
+          path: ${{ runner.temp }}/wiki-math-report.json
+          if-no-files-found: ignore
+          retention-days: 7

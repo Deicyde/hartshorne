@@ -6,10 +6,10 @@ origin: cited
 
 # Pushforward in nonnegative fibre degree
 
-Let `pi : X -> C` be a ruled surface and let `D` be a divisor with
-`D.f = n >= 0`. Then `pi_* O_X(D)` is locally free of rank `n+1`, and its
+Let $\pi : X \to C$ be a ruled surface and let $D$ be a divisor with
+$D\cdot f=n\ge0$. Then $\pi _* \mathcal{O}_X(D)$ is locally free of rank $n+1$, and its
 residue-field base-change map identifies each fibre with
-`H^0(P^1,O(n))`.
+$H^0(\mathbb{P}^1,\mathcal{O}(n))$.
 
 ## Depends on
 
@@ -19,8 +19,8 @@ residue-field base-change map identifies each fibre with
 
 ## Proof depends on
 
-- The restriction `O_X(D)|_f` has degree `D.f=n`, hence is `O_P1(n)` and
-  has `n+1` global sections.
+- The restriction $\mathcal{O}_X(D)|_f$ has degree $D\cdot f=n$, hence is $\mathcal O_{\mathbb P^1}(n)$ and
+  has $n+1$ global sections.
 
 ## Sources
 

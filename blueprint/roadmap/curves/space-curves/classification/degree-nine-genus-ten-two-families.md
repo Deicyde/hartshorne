@@ -6,12 +6,12 @@ origin: cited
 
 # The two degree-nine genus-ten families
 
-There are two distinct types of degree-nine, genus-ten curves in `P^3`:
+There are two distinct types of degree-nine, genus-ten curves in $\mathbb{P}^3$:
 
 1. a complete intersection of two cubic surfaces, with
-   `omega_X~=O_X(2)`, `h^0(O_X(2))=10`, and no containing quadric;
-2. a type-`(3,6)` curve on a nonsingular quadric, with
-   `h^0(O_X(2))=9` and a unique containing quadric.
+   $\omega _X\simeq \mathcal{O}_X(2)$, $h^0(\mathcal{O}_X(2))=10$, and no containing quadric;
+2. a type-$(3,6)$ curve on a nonsingular quadric, with
+   $h^0(\mathcal{O}_X(2))=9$ and a unique containing quadric.
 
 ## Depends on
 
@@ -22,9 +22,9 @@ There are two distinct types of degree-nine, genus-ten curves in `P^3`:
 
 ## Proof depends on
 
-- The projectively normal `(3,3)` complete intersection has the same ten
-  quadratic sections as `P^3`, so its quadratic ideal is zero.
-- Quadric cohomology computes nine quadratic sections for type `(3,6)`; two
+- The projectively normal $(3,3)$ complete intersection has the same ten
+  quadratic sections as $\mathbb{P}^3$, so its quadratic ideal is zero.
+- Quadric cohomology computes nine quadratic sections for type $(3,6)$; two
   distinct containing quadrics would intersect in degree four and cannot
   contain the degree-nine curve.
 

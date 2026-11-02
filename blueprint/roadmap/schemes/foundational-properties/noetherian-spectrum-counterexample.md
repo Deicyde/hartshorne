@@ -9,13 +9,13 @@ lean: Hartshorne.exists_not_isNoetherianRing_and_noetherianSpace_primeSpectrum
 
 # A non-Noetherian ring with Noetherian spectrum
 
-There exists a commutative ring `A` which is not Noetherian but whose prime
+There exists a commutative ring $A$ which is not Noetherian but whose prime
 spectrum is a Noetherian topological space.
 
-Use a field `k` and an infinite-dimensional square-zero `k`-vector space `M`.
-For the trivial square-zero extension `A = k ⊕ M`, every prime contains the
-nilpotent ideal `M`, so `Spec A` is homeomorphic to the one-point spectrum of
-`k`; but the ideals coming from finite-dimensional subspaces of `M` form a
+Use a field $k$ and an infinite-dimensional square-zero $k$-vector space $M$.
+For the trivial square-zero extension $A = k \oplus M$, every prime contains the
+nilpotent ideal $M$, so $\operatorname{Spec} A$ is homeomorphic to the one-point spectrum of
+$k$; but the ideals coming from finite-dimensional subspaces of $M$ form a
 strictly increasing chain.  This realizes Exercise 2.13(d) and the caution on
 p. 83.
 

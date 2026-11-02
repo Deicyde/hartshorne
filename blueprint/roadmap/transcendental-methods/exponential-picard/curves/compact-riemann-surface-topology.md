@@ -7,12 +7,10 @@ not_ready: true
 
 # Topology of a compact genus-g Riemann surface
 
-The analytification of a smooth projective complex genus-`g` curve is a
+The analytification of a smooth projective complex genus-$g$ curve is a
 compact connected oriented real two-manifold homeomorphic to a sphere with
-`g` handles.
+$g$ handles.
 
-This node is not ready until an exact Riemann-surface classification and
-algebraic-genus/topological-genus comparison source is adopted.
 
 ## Depends on
 

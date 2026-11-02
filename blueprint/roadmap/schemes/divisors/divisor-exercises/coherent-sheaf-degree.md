@@ -6,11 +6,11 @@ origin: cited
 
 # Degree of a coherent sheaf on a curve
 
-Let `X` be a complete nonsingular curve. Prove that there is a unique integer
+Let $X$ be a complete nonsingular curve. Prove that there is a unique integer
 degree for every coherent sheaf such that:
 
-1. `deg O_X(D) = deg D` for every divisor `D`;
-2. for a torsion sheaf `T`, `deg T` is the sum of the stalk lengths;
+1. $\deg \mathcal{O}_X(D) = \deg D$ for every divisor $D$;
+2. for a torsion sheaf $T$, $\deg T$ is the sum of the stalk lengths;
 3. degree is additive in short exact sequences.
 
 Construct it from the determinant homomorphism and prove the torsion formula
@@ -27,7 +27,7 @@ by filtering a finite-length sheaf by skyscraper sheaves. This is Exercise
 
 - Finite-length modules over DVRs have composition series with residue-field
   factors.
-- Every coherent sheaf on a nonsingular curve splits in `K(X)` into its
+- Every coherent sheaf on a nonsingular curve splits in $K(X)$ into its
   torsion contribution and a locally free contribution.
 
 ## Sources

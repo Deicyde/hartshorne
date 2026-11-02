@@ -6,10 +6,10 @@ origin: cited
 
 # Point counts as ℓ-adic Frobenius traces
 
-Let `X/F_q` be smooth projective of dimension `n`, and let `ell` differ from
-the characteristic. For every `r>=1`,
+Let $X/\mathbb{F}_q$ be smooth projective of dimension $n$, and let $\ell$ differ from
+the characteristic. For every $r\ge 1$,
 
-`N_r = sum_(i=0)^(2n) (-1)^i Tr((F^r)^* | H^i(X_bar,Q_ell))`.
+$N_r = \sum _{(i=0)}^{2n} (-1)^i Tr((F^r)^* | H^i(\overline{X},\mathbb{Q}_\ell))$.
 
 ## Depends on
 

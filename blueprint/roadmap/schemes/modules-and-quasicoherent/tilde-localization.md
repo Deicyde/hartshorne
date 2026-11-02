@@ -9,17 +9,14 @@ lean: Hartshorne.affineTildeBasicOpenIso
 
 # The affine tilde sheaf and localization
 
-For a ring `A` and an `A`-module `M`, construct the `𝒪_{Spec A}`-module
-`M̃` whose local sections are locally fractions.  The canonical maps exhibit
+For a ring $A$ and an $A$-module $M$, construct the $\mathcal{O} _{\operatorname{Spec} A}$-module
+$\widetilde{M}$ whose local sections are locally fractions.  The canonical maps exhibit
 
-- `Γ(D(f), M̃)` as the localization `M_f`;
-- the stalk `M̃_𝔭` as the localization `M_𝔭`; and
-- `Γ(Spec A,M̃)` as `M`.
+- $\Gamma (D(f), \widetilde{M})$ as the localization $M_f$;
+- the stalk $\widetilde{M}_{\mathfrak{p}}$ as the localization $M_{\mathfrak{p}}$; and
+- $\Gamma (\operatorname{Spec} A,\widetilde{M})$ as $M$.
 
-These universal-property formulations are Proposition 5.1.  Pinned Mathlib
-implements them through `AlgebraicGeometry.tilde.toOpen`, `toStalk`, and
-`isoTop`, but the localized-module facts are instances rather than one stable
-named theorem, so this page records no single-result Mathlib metadata.
+These localization descriptions are Hartshorne's Proposition II.5.1.
 
 ## Depends on
 
@@ -31,7 +28,7 @@ named theorem, so this page records no single-result Mathlib metadata.
 ## Proof depends on
 
 - Localization of a module at a prime and away from one element.
-- Principal opens form a basis of `Spec A`.
+- Principal opens form a basis of $\operatorname{Spec} A$.
 
 ## Sources
 

@@ -6,14 +6,14 @@ origin: cited
 
 # Affine-line invariance of the class group
 
-If `X` satisfies `(*)`, then its relative affine line
-`X × Spec Z[t]` also satisfies `(*)`, and pullback along the projection
+If $X$ satisfies $(\cdot )$, then its relative affine line
+$X \times \operatorname{Spec} Z[t]$ also satisfies $(\cdot )$, and pullback along the projection
 induces an isomorphism
-`Cl X ≅ Cl(X × A^1)`.
+$Cl X \cong Cl(X \times A^1)$.
 
-Distinguish vertical codimension-one points pulled back from `X` from
+Distinguish vertical codimension-one points pulled back from $X$ from
 horizontal points over the generic point. A horizontal prime becomes
-principal over `K(X)[t]`, which proves surjectivity; comparison of horizontal
+principal over $K(X)[t]$, which proves surjectivity; comparison of horizontal
 components of a principal divisor proves injectivity.
 
 ## Depends on
@@ -23,7 +23,7 @@ components of a principal divisor proves injectivity.
 
 ## Proof depends on
 
-- Classification of height-one primes after base change to `K(X)[t]`.
+- Classification of height-one primes after base change to $K(X)[t]$.
 - Polynomial rings over fields are principal ideal domains in one variable.
 
 ## Sources

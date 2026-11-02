@@ -7,9 +7,9 @@ not_ready: true
 
 # Mumford's coarse moduli variety of curves
 
-For every `g>=2`, there is a coarse moduli variety `M_g` whose closed points
-are isomorphism classes of genus-`g` curves. Every flat finite-type family of
-genus-`g` curves over `T` induces a morphism `T -> M_g` sending each closed
+For every $g\ge 2$, there is a coarse moduli variety $M_g$ whose closed points
+are isomorphism classes of genus-$g$ curves. Every flat finite-type family of
+genus-$g$ curves over $T$ induces a morphism $T \to M_g$ sending each closed
 point to the isomorphism class of its fibre.
 
 ## Depends on

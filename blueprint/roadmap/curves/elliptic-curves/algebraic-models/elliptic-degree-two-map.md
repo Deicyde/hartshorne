@@ -6,11 +6,11 @@ origin: cited
 
 # The degree-two map attached to a pointed elliptic curve
 
-Let `X` be a genus-one Chapter IV curve over an algebraically closed field of
-characteristic different from two, and choose `P_0 : X`. The complete linear
-system `|2P_0|` is basepoint-free of dimension one and defines a finite
-separable morphism `X -> P^1` of degree two. After a target automorphism it
-sends `P_0` to infinity and is ramified at exactly four points.
+Let $X$ be a genus-one Chapter IV curve over an algebraically closed field of
+characteristic different from two, and choose $P_0 \in X$. The complete linear
+system $|2P_0|$ is basepoint-free of dimension one and defines a finite
+separable morphism $X \to \mathbb{P}^1$ of degree two. After a target automorphism it
+sends $P_0$ to infinity and is ramified at exactly four points.
 
 ## Depends on
 

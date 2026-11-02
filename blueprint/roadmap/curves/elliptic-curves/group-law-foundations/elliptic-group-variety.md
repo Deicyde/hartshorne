@@ -6,10 +6,10 @@ origin: cited
 
 # A pointed elliptic curve is a group variety
 
-The identity section `P_0`, inversion, and addition make a pointed elliptic
-curve a commutative group object over `Spec k`. On closed points this group
+The identity section $P_0$, inversion, and addition make a pointed elliptic
+curve a commutative group object over $\operatorname{Spec} k$. On closed points this group
 object induces exactly the divisor-class group law transported from
-`Pic^0(X)`.
+$\operatorname{Pic} ^0(X)$.
 
 ## Depends on
 

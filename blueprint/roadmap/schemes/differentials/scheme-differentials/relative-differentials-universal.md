@@ -9,14 +9,14 @@ proof: formalized
 
 # The universal property of the relative differential sheaf
 
-For a scheme morphism `f : X → Y` and an `𝒪_X`-module `M`, composition with
+For a scheme morphism $f : X \to Y$ and an $\mathcal{O} _X$-module $M$, composition with
 the canonical derivation gives a natural equivalence between
-`𝒪_X`-linear morphisms
+$\mathcal{O} _X$-linear morphisms
 
-`Ω[X/Y] → M`
+$\Omega_{X/Y} \to M$
 
-and derivations `𝒪_X → M` that vanish on the image of
-`f⁻¹𝒪_Y → 𝒪_X`. This equivalence is natural in `M` and uniquely characterizes
+and derivations $\mathcal{O} _X \to M$ that vanish on the image of
+$f^{-1}\mathcal{O} _Y \to \mathcal{O} _X$. This equivalence is natural in $M$ and uniquely characterizes
 the relative differential sheaf together with its derivation.
 
 ## Depends on
@@ -26,8 +26,7 @@ the relative differential sheaf together with its derivation.
 
 ## Proof depends on
 
-- The sheafification adjunction composed with the universal property of
-  `PresheafOfModules.DifferentialsConstruction.relativeDifferentials'`.
+- The sheafification adjunction and the universal property of relative presheaf differentials.
 
 ## Sources
 

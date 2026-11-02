@@ -6,10 +6,10 @@ origin: cited
 
 # Degree-two maps are equivalent
 
-If `f_1,f_2 : X -> P^1` are degree-two morphisms from one elliptic curve,
-there are automorphisms `sigma : X ~= X` and `tau : P^1 ~= P^1` such that
+If $f_1,f_2 : X \to \mathbb{P}^1$ are degree-two morphisms from one elliptic curve,
+there are automorphisms $\sigma : X \simeq X$ and $\tau : \mathbb{P}^1 \simeq \mathbb{P}^1$ such that
 
-`f_2 after sigma = tau after f_1`.
+$f_2\circ\sigma=\tau\circ f_1$.
 
 ## Depends on
 
@@ -18,7 +18,7 @@ there are automorphisms `sigma : X ~= X` and `tau : P^1 ~= P^1` such that
 
 ## Proof depends on
 
-- Move a ramification point of `f_1` to one of `f_2`; the two maps then arise
+- Move a ramification point of $f_1$ to one of $f_2$; the two maps then arise
   from the same complete linear system and differ by a target automorphism.
 
 ## Sources

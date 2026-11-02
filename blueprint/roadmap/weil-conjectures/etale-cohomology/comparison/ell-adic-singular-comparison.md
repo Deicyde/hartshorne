@@ -6,13 +6,13 @@ origin: bridged
 
 # ℓ-adic étale cohomology compares with ℓ-adic singular cohomology
 
-For smooth proper `X/C`, compatible torsion comparison isomorphisms induce
+For smooth proper $X/\mathbb{C}$, compatible torsion comparison isomorphisms induce
 
-`H^i_et(X,Z_ell) ~= inverse-limit_r H^i_sing(X^h,Z/ell^r Z)`
+$H^i_{\mathrm{et}}(X,\mathbb Z_\ell)\simeq\varprojlim_r H^i_{\mathrm{sing}}(X^h,\mathbb{Z}/\ell^r\mathbb{Z})$
 
 and, after scalar extension,
 
-`H^i_et(X,Q_ell) ~= H^i_sing(X^h,Q_ell)`.
+$H^i_{\mathrm{et}}(X,\mathbb{Q}_\ell) \simeq H^i_\mathrm{sing} (X^h,\mathbb{Q}_\ell)$.
 
 The passage through inverse limits is conditional on the derived-limit and
 Mittag–Leffler comparisons recorded in the classical ℓ-adic foundation.

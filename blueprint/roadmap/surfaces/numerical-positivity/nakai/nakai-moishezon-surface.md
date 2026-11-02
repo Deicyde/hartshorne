@@ -6,11 +6,11 @@ origin: cited
 
 # The Nakai–Moishezon criterion
 
-A divisor `D` on a Chapter V surface is ample if and only if
+A divisor $D$ on a Chapter V surface is ample if and only if
 
-`D^2>0`
+$D^2>0$
 
-and `D*C>0` for every irreducible curve `C` on the surface.
+and $D\cdot C >0$ for every irreducible curve $C$ on the surface.
 
 The statement and Hartshorne's algebraic proof are valid over an
 algebraically closed field of arbitrary characteristic.
@@ -28,10 +28,10 @@ algebraically closed field of arbitrary characteristic.
 
 ## Proof depends on
 
-- Represent a very ample class by an irreducible curve to obtain `D*H>0`,
-  then replace `D` by an effective positive multiple using eventual effectivity.
+- Represent a very ample class by an irreducible curve to obtain $D\cdot H>0$,
+  then replace $D$ by an effective positive multiple using eventual effectivity.
   The restriction, global-generation, and finiteness leaves produce a finite
-  morphism with `O_X(nD)` pulled back from `O(1)` on its image; finite pullback
+  morphism with $\mathcal{O}_X(nD)$ pulled back from $\mathcal{O}(1)$ on its image; finite pullback
   preserves ampleness, and ampleness descends from the positive tensor power.
 
 ## Sources

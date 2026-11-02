@@ -6,8 +6,8 @@ origin: cited
 
 # Automorphism groups of higher-genus curves are finite
 
-Let `X` be a curve of genus at least two over an algebraically closed field of
-characteristic zero. Then `Aut X` is finite.
+Let $X$ be a curve of genus at least two over an algebraically closed field of
+characteristic zero. Then $\operatorname{Aut} X$ is finite.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ characteristic zero. Then `Aut X` is finite.
 ## Proof depends on
 
 - In the hyperelliptic case, automorphisms permute the finite branch set of
-  the unique double cover of `P^1`.
+  the unique double cover of $\mathbb{P}^1$.
 - In the nonhyperelliptic case, the canonical embedding makes automorphisms
   act faithfully on its finite inflection set in genus three and its finite
   hyperosculation set in higher genus.

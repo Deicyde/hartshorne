@@ -6,14 +6,14 @@ origin: cited
 
 # Dimensions are superadditive under addition of linear systems
 
-For effective divisors `D,E` on a Chapter IV curve, addition of divisors
+For effective divisors $D,E$ on a Chapter IV curve, addition of divisors
 defines a finite-to-one morphism
 
-`|D| times |E| -> |D+E|`,  `(D',E') |-> D'+E'`.
+$|D| \times |E| \to |D+E|$,  $(D',E')\mapsto D'+E'$.
 
 Consequently
 
-`dim|D| + dim|E| <= dim|D+E|`.
+$\dim |D| + \dim |E| \le \dim |D+E|$.
 
 ## Depends on
 

@@ -6,7 +6,7 @@ origin: cited
 
 # DVR-valuative criterion for properness
 
-Let `f : X ⟶ Y` be a finite-type morphism of Noetherian schemes. Then `f`
+Let $f : X \longrightarrow Y$ be a finite-type morphism of Noetherian schemes. Then $f$
 is proper if and only if every valuative commutative square whose valuation
 ring is a discrete valuation ring has a unique lift.
 

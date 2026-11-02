@@ -6,12 +6,12 @@ origin: cited
 
 # Elliptic surface fibrations
 
-An elliptic surface in Hartshorne V.6 is a Chapter-V surface `X` equipped
+An elliptic surface in Hartshorne V.6 is a Chapter-V surface $X$ equipped
 with a morphism
 
-`pi:X -> C`
+$\pi :X \to C$
 
-to a nonsingular curve such that the fibres over a dense open subset of `C`
+to a nonsingular curve such that the fibres over a dense open subset of $C$
 are nonsingular genus-one curves.
 
 This is a fibration notion and does not require a chosen section; it should

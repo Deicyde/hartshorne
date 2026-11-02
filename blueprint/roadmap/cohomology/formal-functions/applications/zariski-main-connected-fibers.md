@@ -6,13 +6,11 @@ origin: cited
 
 # Zariski's Main Theorem: connected fibres
 
-Let `f : X -> Y` be a birational projective morphism of Noetherian integral
-schemes, and assume that `Y` is normal. Then every fibre `X_y` is connected.
+Let $f : X \to Y$ be a birational projective morphism of Noetherian integral
+schemes, and assume that $Y$ is normal. Then every fibre $X_y$ is connected.
 
-This is the theorem Hartshorne calls Zariski's Main Theorem in III.11.4. It is
-not the modern theorem factoring a quasi-finite separated morphism as an open
-immersion followed by an integral morphism, and it is not identified with
-Mathlib's theorem of that form.
+This is the connected-fiber statement called Zariski's Main
+Theorem in Hartshorne's Corollary III.11.4.
 
 ## Depends on
 
@@ -22,7 +20,7 @@ Mathlib's theorem of that form.
 ## Proof depends on
 
 - Apply the connected-fibre criterion to the isomorphism
-  `O_Y ~= f_*O_X` supplied by normality and birationality.
+  $\mathcal{O}_Y \simeq f_*\mathcal{O}_X$ supplied by normality and birationality.
 
 ## Sources
 

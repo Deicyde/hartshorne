@@ -6,12 +6,12 @@ origin: cited
 
 # Birational invariance of regular q-forms
 
-For a nonsingular projective variety `X` and `0 <= q <= dim X`, define
+For a nonsingular projective variety $X$ and $0 \le q \le \dim X$, define
 
-`h^(q,0)(X) = dim_k Gamma(X, exterior^q Omega_(X/k))`.
+$h^{q,0}(X)=\dim_k\Gamma(X,\bigwedge^q\Omega_{X/k})$.
 
-If `X` and `X'` are birationally equivalent nonsingular projective varieties,
-then `h^(q,0)(X) = h^(q,0)(X')` for every `q`.
+If $X$ and $X'$ are birationally equivalent nonsingular projective varieties,
+then $h^{q,0}(X) = h^{q,0}(X')$ for every $q$.
 
 ## Depends on
 

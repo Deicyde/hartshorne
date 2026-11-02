@@ -6,9 +6,9 @@ origin: cited
 
 # The inverse of a point blowup has the center as a fundamental point
 
-For a monoidal transformation `pi:X_tilde->X` with center `P`, the morphism
-`pi` is defined everywhere, while the inverse birational transformation is
-defined exactly away from `P`; thus `P` is its fundamental point and its
+For a monoidal transformation $\pi:\widetilde X\to X$ with center $P$, the morphism
+$\pi$ is defined everywhere, while the inverse birational transformation is
+defined exactly away from $P$; thus $P$ is its fundamental point and its
 graph total transform is the exceptional curve.
 
 ## Depends on

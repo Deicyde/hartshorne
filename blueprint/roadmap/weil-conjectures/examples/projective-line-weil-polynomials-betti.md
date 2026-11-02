@@ -6,16 +6,16 @@ origin: cited
 
 # Weil polynomials and Betti numbers of the projective line
 
-For `P^1/F_q`, the Weil polynomials are
+For $\mathbb P^1/\mathbb{F}_q$, the Weil polynomials are
 
-`P_0(t)=1-t`, `P_1(t)=1`, and `P_2(t)=1-q*t`.
+$P_0(t)=1-t$, $P_1(t)=1$, and $P_2(t)=1-q\cdot t$.
 
 Hence
 
-`B_0=1`, `B_1=0`, and `B_2=1`.
+$B_0=1$, $B_1=0$, and $B_2=1$.
 
 These agree with the ordinary integral Betti numbers of the complex Riemann
-sphere, and `E=1-0+1=2`.
+sphere, and $E=1-0+1=2$.
 
 ## Depends on
 

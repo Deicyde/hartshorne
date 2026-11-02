@@ -8,10 +8,10 @@ origin: cited
 
 For a monoidal transformation,
 
-`K_X_tilde^2 = K_X^2-1`.
+$K_{\widetilde X}^2=K_X^2-1$.
 
-Thus `K^2` is not a birational invariant; concretely, `P^2` has canonical
-square nine while its one-point blowup, the ruled surface `X_1`, has square
+Thus $K^2$ is not a birational invariant; concretely, $\mathbb{P}^2$ has canonical
+square nine while its one-point blowup, the ruled surface $X_1$, has square
 eight.
 
 ## Depends on

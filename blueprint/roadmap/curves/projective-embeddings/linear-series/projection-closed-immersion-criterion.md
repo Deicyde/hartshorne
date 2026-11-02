@@ -6,14 +6,14 @@ origin: cited
 
 # Projection is an embedding away from secants and tangents
 
-Let `X -> P^n` be an embedded Chapter IV curve and let `O` be a point outside
-`X`. Construct projection from `O` as the morphism
+Let $X \to \mathbb{P}^n$ be an embedded Chapter IV curve and let $O$ be a point outside
+$X$. Construct projection from $O$ as the morphism
 
-`pi_O : X -> P^(n-1)`
+$\pi _O : X \to \mathbb{P}^{n-1}$
 
-defined by the subsystem of hyperplanes through `O`. Then `pi_O` is a closed
-immersion if and only if `O` lies on no secant line and no embedded tangent
-line of `X`.
+defined by the subsystem of hyperplanes through $O$. Then $\pi _O$ is a closed
+immersion if and only if $O$ lies on no secant line and no embedded tangent
+line of $X$.
 
 ## Depends on
 
@@ -25,9 +25,9 @@ line of `X`.
 ## Proof depends on
 
 - Hartshorne I Exercise 3.14 constructs projective projection from a point.
-- Hyperplanes through `O` fail to separate `P,Q` exactly when `O` lies on
-  their secant, and fail to separate the tangent direction at `P` exactly
-  when `O` lies on the embedded tangent line.
+- Hyperplanes through $O$ fail to separate $P,Q$ exactly when $O$ lies on
+  their secant, and fail to separate the tangent direction at $P$ exactly
+  when $O$ lies on the embedded tangent line.
 
 ## Sources
 

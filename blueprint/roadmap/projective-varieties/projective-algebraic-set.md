@@ -9,19 +9,19 @@ lean: Hartshorne.projZeroSet Hartshorne.IsProjAlgebraicSet Hartshorne.IsHomogene
 
 # Projective algebraic sets
 
-A homogeneous `f ∈ S` of degree `d` satisfies `f(λa) = λᵈ f(a)`, so whether
-`f` vanishes at a point of `ℙⁿ` is well defined even though `f` is not a
-function on `ℙⁿ`. For a set `T` of homogeneous elements put
-`Z(T) = { P ∈ ℙⁿ : f(P) = 0 for all f ∈ T }`, and for a homogeneous ideal `𝔞`
-put `Z(𝔞) = Z(T)` with `T` the homogeneous elements of `𝔞`. A subset of `ℙⁿ` is
-an *algebraic set* when it is such a `Z(T)`.
+A homogeneous $f \in S$ of degree $d$ satisfies $f(\lambda a) = \lambda ^{d} f(a)$, so whether
+$f$ vanishes at a point of $\mathbb{P} ^{n}$ is well defined even though $f$ is not a
+function on $\mathbb{P} ^{n}$. For a set $T$ of homogeneous elements put
+$Z(T)=\{P\in\mathbb P^n:f(P)=0\text{ for all }f\in T\}$, and for a homogeneous ideal $\mathfrak{a}$
+put $Z(\mathfrak{a} ) = Z(T)$ with $T$ the homogeneous elements of $\mathfrak{a}$. A subset of $\mathbb{P} ^{n}$ is
+an *algebraic set* when it is such a $Z(T)$.
 
 Proposition 2.1 records the closure properties: finite unions and arbitrary
-intersections of algebraic sets are algebraic, and `∅` and `ℙⁿ` are algebraic.
+intersections of algebraic sets are algebraic, and $\varnothing$ and $\mathbb{P} ^{n}$ are algebraic.
 Hartshorne leaves the proof to the reader as it copies Proposition 1.1.
 
-Since `S` is Noetherian, every `Z(T)` is `Z(f₁,…,f_r)` for finitely many
-homogeneous `fᵢ`; that reduction is used whenever a hypersurface argument needs
+Since $S$ is Noetherian, every $Z(T)$ is $Z(f_{1},\ldots ,f_r)$ for finitely many
+homogeneous $f_{i}$; that reduction is used whenever a hypersurface argument needs
 a single equation.
 
 ## Depends on

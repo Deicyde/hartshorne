@@ -9,15 +9,14 @@ mathlib_file: Mathlib/Algebra/Category/ModuleCat/Sheaf/Quasicoherent.lean
 
 # Quasi-coherence by local presentations
 
-Define an `𝒪_X`-module to be quasi-coherent in the Mathlib representation when
-locally it is the cokernel of a morphism between free module sheaves.  Record
-the restriction and gluing calculus for this predicate, including locality on
-an open cover.
+A sheaf of $\mathcal{O}_X$-modules has local presentations when
+locally it is the cokernel of a morphism between free module sheaves.
+This property is preserved by restriction and can be checked on an
+open cover.
 
-Hartshorne gives this formulation in Exercise 5.4 as the original definition,
-not as a cited or later-used exercise.  This leaf is therefore a representation
-bridge: it fixes the implementation predicate but does not yet assert that it
-is equivalent to Hartshorne's running local-tilde definition.
+Hartshorne's Exercise II.5.4 gives this formulation of quasi-coherence.
+The equivalence with the local affine tilde description is proved
+in [the affine-local criterion](quasicoherent-affine-local-criterion.md).
 
 ## Depends on
 

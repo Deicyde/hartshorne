@@ -7,12 +7,12 @@ not_ready: true
 
 # Scheme-theoretic invariants from the fibre Hilbert polynomial
 
-Let `K` be a field and let `Z` be a closed subscheme of `P^n_K`. For the
-coherent-sheaf Hilbert polynomial `P_Z` of `O_Z`, the Krull dimension of `Z`
-is the degree of `P_Z`; if this common dimension is `r`, the
-scheme-theoretic degree of `Z` is `r!` times the leading coefficient; and
+Let $K$ be a field and let $Z$ be a closed subscheme of $\mathbb{P}^n_K$. For the
+coherent-sheaf Hilbert polynomial $P_Z$ of $\mathcal{O}_Z$, the Krull dimension of $Z$
+is the degree of $P_Z$; if this common dimension is $r$, the
+scheme-theoretic degree of $Z$ is $r!$ times the leading coefficient; and
 
-`p_a(Z)=(-1)^r(P_Z(0)-1)`.
+$p_a(Z)=(-1)^r(P_Z(0)-1)$.
 
 ## Depends on
 

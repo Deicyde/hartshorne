@@ -4,11 +4,11 @@ declaration: theorem
 origin: cited
 ---
 
-# The projective line has `q^r+1` points over `F_(q^r)`
+# The projective line has $q^r+1$ points over $\mathbb F_{q^r}$
 
-For every `r>=1`,
+For every $r\ge 1$,
 
-`N_r(P^1/F_q)=q^r+1`.
+$N_r(\mathbb P^1/\mathbb{F}_q)=q^r+1$.
 
 ## Depends on
 
@@ -18,12 +18,11 @@ For every `r>=1`,
 
 ## Proof depends on
 
-- The standard affine chart contributes `q^r` points and the hyperplane at
+- The standard affine chart contributes $q^r$ points and the hyperplane at
   infinity contributes one point.
-- `Projectivization.card_of_finrank_two` counts the corresponding classical
-  projective lines over the finite extension field.
-- `Hartshorne.finiteFieldExtension_natCard` identifies that field's cardinality
-  with `q^r`.
+- The corresponding classical projective lines are counted over the finite
+  extension field.
+- That extension field has cardinality $q^r$.
 
 ## Sources
 

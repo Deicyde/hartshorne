@@ -9,24 +9,17 @@ lean: Hartshorne.IsAffineNonsingularAt Hartshorne.IsAffineNonsingular
 
 # Nonsingular points of an affine variety
 
-Let `Y ⊆ 𝔸ⁿ` be an affine variety of dimension `r`. A point `P ∈ Y`
-is *nonsingular in affine coordinates* when
+Let $Y\subseteq\mathbb A^n$ be an affine variety of dimension $r$.
+A point $P\in Y$ is *nonsingular in affine coordinates* if its Jacobian
+matrix has rank $n-r$ at $P$.
 
-`jacobianRank(Y,P) = n − r`.
+Equivalently,
 
-The variety is nonsingular in affine coordinates when every point is. To avoid
-subtraction in `WithBot ℕ∞`, define the Lean predicate by the equivalent
-existential condition
+$$\operatorname{rank}J(P)+\dim Y=n.$$
 
-`∃ r : ℕ, dim Y = (r : WithBot ℕ∞) ∧ jacobianRank(Y,P) + r = n`.
-
-Finite dimensionality of an affine coordinate ring supplies the witness, and
-the Jacobian rank bound later recovers Hartshorne's literal `n − r` form.
-
-Using the intrinsic row space from the preceding node makes this a predicate of
-`Y` and `P`, not of a chosen list of equations. The finite-generator theorem
-then recovers Hartshorne's literal matrix definition for every presentation of
-`I(Y)`.
+The variety is nonsingular if this holds at every point. The intrinsic
+Jacobian row space makes the condition independent of a generating family
+for $I(Y)$; every finite generating family gives the same matrix rank.
 
 ## Depends on
 

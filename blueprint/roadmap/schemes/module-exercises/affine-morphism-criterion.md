@@ -9,14 +9,13 @@ lean: Hartshorne.exists_affine_open_cover_iff_forall_isAffineOpen_preimage
 
 # The affine-morphism criterion
 
-A morphism `f : X → Y` is affine when there exists an affine open cover
-`{V_i}` of `Y` such that every `f⁻¹(V_i)` is affine. Exercise 5.17(a) proves
-that this is equivalent to requiring `f⁻¹(V)` affine for every affine open
-`V ⊆ Y`. Every affine morphism is quasi-compact and separated, and every
+A morphism $f : X \to Y$ is affine when there exists an affine open cover
+$\{V_i\}$ of $Y$ such that every $f^{-1}(V_i)$ is affine. Exercise 5.17(a) proves
+that this is equivalent to requiring $f^{-1}(V)$ affine for every affine open
+$V \subseteq Y$. Every affine morphism is quasi-compact and separated, and every
 finite morphism is affine.
 
-The biconditional is the unique main result; the three permanence statements
-are its immediate API consequences.
+The three permanence statements follow from the affine criterion.
 
 ## Depends on
 
@@ -26,8 +25,7 @@ are its immediate API consequences.
 
 ## Proof depends on
 
-- The existing Mathlib predicate `AlgebraicGeometry.IsAffineHom` and its
-  target-locality and separatedness instances.
+- Affineness is local on the target, and affine morphisms are separated.
 
 ## Sources
 

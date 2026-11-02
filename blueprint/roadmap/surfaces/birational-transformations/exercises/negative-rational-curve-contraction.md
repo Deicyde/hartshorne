@@ -6,10 +6,10 @@ origin: cited
 
 # Negative rational curves contract projectively
 
-Let `Y ~= P^1` be a curve on a nonsingular projective surface `X`. If
-`Y^2<0`, then there is a birational morphism to a projective surface, possibly
-singular, which contracts exactly `Y` to a point and is an isomorphism away
-from `Y`.
+Let $Y \simeq \mathbb{P}^1$ be a curve on a nonsingular projective surface $X$. If
+$Y^2<0$, then there is a birational morphism to a projective surface, possibly
+singular, which contracts exactly $Y$ to a point and is an isomorphism away
+from $Y$.
 
 ## Depends on
 
@@ -21,12 +21,12 @@ from `Y`.
 
 ## Proof depends on
 
-- Write `Y^2=-n`, choose a very ample `H` with `H.Y` a positive multiple
-  `k*n`, and run the restriction-sequence cohomology ladder for
-  `O_X(H+iY)` through `i=k`.
-- The bundle `O_X(H+kY)` is globally generated, trivial on `Y`, and separates
-  points and tangent vectors away from `Y`; its morphism contracts exactly
-  `Y`. No regularity of the image point is asserted.
+- Write $Y^2=-n$, choose a very ample $H$ with $H\cdot Y$ a positive multiple
+  $k\cdot n$, and run the restriction-sequence cohomology ladder for
+  $\mathcal{O}_X(H+iY)$ through $i=k$.
+- The bundle $\mathcal{O}_X(H+kY)$ is globally generated, trivial on $Y$, and separates
+  points and tangent vectors away from $Y$; its morphism contracts exactly
+  $Y$. No regularity of the image point is asserted.
 
 ## Sources
 

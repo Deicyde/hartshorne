@@ -6,13 +6,13 @@ origin: cited
 
 # Trace exponential equals reciprocal determinant
 
-Let `phi` be an endomorphism of a finite-dimensional vector space `V` over a
+Let $\phi$ be an endomorphism of a finite-dimensional vector space $V$ over a
 field of characteristic zero. As formal power series,
 
-`exp(sum_(r>=1) Tr(phi^r)*t^r/r) = det(1-t*phi)^(-1)`.
+$\exp (\sum _{(r\ge 1)} Tr(\phi ^r)\cdot t^r/r) = \det (1-t\cdot \phi )^{-1}$.
 
-The characteristic-zero hypothesis makes the denominators `1/r` and the
-formal exponential meaningful; the application is over `Q_ell`.
+The characteristic-zero hypothesis makes the denominators $1/r$ and the
+formal exponential meaningful; the application is over $\mathbb Q_\ell$.
 
 ## Depends on
 

@@ -7,12 +7,10 @@ not_ready: true
 
 # A finite-type complex scheme is smooth iff its analytification is a complex manifold
 
-For a finite-type complex scheme `X`, smoothness over `C` is equivalent to
-`X^h` being locally isomorphic to a complex polydisc with no nilpotent
+For a finite-type complex scheme $X$, smoothness over $\mathbb{C}$ is equivalent to
+$X^h$ being locally isomorphic to a complex polydisc with no nilpotent
 structure, hence a complex manifold.
 
-This node is not ready pending the analytic Jacobian/implicit-function
-theorem and comparison with algebraic smoothness.
 
 ## Depends on
 

@@ -6,9 +6,9 @@ origin: cited
 
 # The degree of a canonical divisor
 
-On a Chapter IV curve of genus `g`, every canonical divisor `K` has degree
+On a Chapter IV curve of genus $g$, every canonical divisor $K$ has degree
 
-`deg K = 2*g - 2`
+$\deg K = 2\cdot g - 2$
 
 as an integer equality.
 
@@ -19,7 +19,7 @@ as an integer equality.
 
 ## Proof depends on
 
-- Apply Riemann–Roch to `D=K`, using `l(K)=g` and `l(0)=1`.
+- Apply Riemann–Roch to $D=K$, using $l(K)=g$ and $l(0)=1$.
 
 ## Sources
 

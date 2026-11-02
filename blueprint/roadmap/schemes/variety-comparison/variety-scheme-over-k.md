@@ -6,13 +6,13 @@ origin: cited
 
 # The associated scheme is a scheme over the base field
 
-For a variety `V` over `k`, the inclusion of constant regular functions
-`k → Γ(t(V),𝒪)` determines a canonical structure morphism
+For a variety $V$ over $k$, the inclusion of constant regular functions
+$k \to \Gamma (t(V),\mathcal{O} )$ determines a canonical structure morphism
 
-`t(V) → Spec k`.
+$t(V) \to \operatorname{Spec} k$.
 
-Package the associated scheme as an object of `Over (Spec k)`.  The
-Gamma–Spec adjunction gives the unique morphism with the prescribed map on
+This makes the associated scheme a scheme over $k$. The global-sections–
+spectrum adjunction gives the unique morphism with the prescribed map on
 global sections.
 
 ## Depends on

@@ -9,23 +9,15 @@ lean: Hartshorne.IsNumericalPolynomial
 
 # Numerical polynomials
 
-A polynomial `P ∈ ℚ[z]` is numerical when `P(n)` is an integer for every
-sufficiently large integer `n`. The sole main declaration is planned as
-`Hartshorne.IsNumericalPolynomial`.
+A polynomial $P\in\mathbb Q[z]$ is *numerical* if $P(n)$ is an integer
+for every sufficiently large integer $n$. Its values at negative integers
+are not part of the definition.
 
-Represent eventuality with the `atTop` filter on `ℤ`, and represent
-integer-valuedness by the existence of `m : ℤ` whose image in `ℚ` is the
-evaluation. This records Hartshorne's quantifier `n ≫ 0` literally and leaves
-negative evaluations as the conclusion of Proposition 7.3(a), not part of the
-definition.
+The binomial polynomials
 
-The supporting binomial polynomial
+$$\binom zr=\frac{z(z-1)\cdots(z-r+1)}{r!}\qquad(r\geq0)$$
 
-`numericalBinomial r = (r!)⁻¹ • Polynomial.descPochhammer ℚ r`
-
-represents `z(z-1)⋯(z-r+1)/r!`. Pinned Mathlib supplies
-`Polynomial.descPochhammer`, `Ring.choose`, and their evaluation identity, but
-does not define Hartshorne's numerical-polynomial predicate.
+provide the basis used in [the integral expansion theorem](numerical-binomial-expansion.md).
 
 ## Depends on
 

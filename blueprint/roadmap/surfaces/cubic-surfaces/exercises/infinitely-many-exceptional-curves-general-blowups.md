@@ -7,8 +7,8 @@ origin: cited
 # At least nine general blowups have infinitely many exceptional curves
 
 Assume the algebraically closed ground field is uncountable. Blow up
-`r>=9` points of `P^2` in general position. The resulting surface contains
-infinitely many distinct smooth rational curves of self-intersection `-1`.
+$r\ge 9$ points of $\mathbb{P}^2$ in general position. The resulting surface contains
+infinitely many distinct smooth rational curves of self-intersection $-1$.
 
 ## Depends on
 
@@ -19,14 +19,14 @@ infinitely many distinct smooth rational curves of self-intersection `-1`.
 
 ## Proof depends on
 
-- For `r=9`, apply suitable sequences of admissible quadratic
+- For $r=9$, apply suitable sequences of admissible quadratic
   transformations so that the strict transform of the line through the first
-  two points remains a smooth rational curve of self-intersection `-1` and
+  two points remains a smooth rational curve of self-intersection $-1$ and
   acquires arbitrarily large plane degree. These unbounded degrees distinguish
   infinitely many such strict transforms on the original blowup.
-- For `r>9`, use the dense-extension theorem recursively and choose every
+- For $r>9$, use the dense-extension theorem recursively and choose every
   additional point outside the countable union of the already-produced
-  curves. Their strict transforms remain smooth rational `(-1)`-curves, while
+  curves. Their strict transforms remain smooth rational $(-1)$-curves, while
   the full point set remains in general position.
 
 ## Sources

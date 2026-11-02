@@ -9,19 +9,15 @@ not_ready: true
 
 For the open polydisc
 
-`U={z in C^n | |z_i|<1 for every i}`,
+$U=\{z \in \mathbb{C}^n | |z_i|<1 \text{for} \text{every} i\}$,
 
-define the sheaf `O_U` of germs of holomorphic complex-valued functions,
+define the sheaf $\mathcal{O}_U$ of germs of holomorphic complex-valued functions,
 with its local-ring stalks and restriction maps.
 
-Translated and rescaled polydiscs form a compatible atlas on `C^n`; gluing
-their sheaves defines the holomorphic structure sheaf on `C^n` and on its
+Translated and rescaled polydiscs form a compatible atlas on $\mathbb{C}^n$; gluing
+their sheaves defines the holomorphic structure sheaf on $\mathbb{C}^n$ and on its
 open subsets.
 
-This representation root is not ready. Pinned Mathlib has analytic functions
-on normed spaces but no sheaf of holomorphic germs on complex domains or the
-locally ringed-space package required here. An analytic-geometry foundation
-must be adopted or developed.
 
 ## Depends on
 

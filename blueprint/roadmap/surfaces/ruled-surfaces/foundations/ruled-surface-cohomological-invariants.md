@@ -6,10 +6,10 @@ origin: cited
 
 # Cohomological invariants of a ruled surface
 
-Let `X -> C` be a ruled surface over a curve of genus `g`. With Hartshorne's
+Let $X \to C$ be a ruled surface over a curve of genus $g$. With Hartshorne's
 integer-valued conventions,
 
-`p_a(X) = -g`, `p_g(X) = 0`, and `q(X) = g`.
+$p_a(X) = -g$, $p_g(X) = 0$, and $q(X) = g$.
 
 ## Depends on
 
@@ -19,8 +19,8 @@ integer-valued conventions,
 
 ## Proof depends on
 
-- `H^0(X,O_X)`, `H^1(X,O_X)`, and `H^2(X,O_X)` have dimensions `1`, `g`,
-  and `0`; use `1+p_a=chi(O_X)` and the definitions of `p_g` and `q`.
+- $H^0(X,\mathcal{O}_X)$, $H^1(X,\mathcal{O}_X)$, and $H^2(X,\mathcal{O}_X)$ have dimensions $1$, $g$,
+  and $0$; use $1+p_a=\chi (\mathcal{O}_X)$ and the definitions of $p_g$ and $q$.
 
 ## Sources
 

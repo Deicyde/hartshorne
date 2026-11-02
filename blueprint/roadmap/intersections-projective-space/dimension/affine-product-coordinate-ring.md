@@ -9,23 +9,18 @@ lean: Hartshorne.coordinateRing_affineProductEquiv
 
 # The coordinate ring of an affine product
 
-For affine varieties `X ⊆ 𝔸^σ` and `Y ⊆ 𝔸^τ`, there is a canonical
-`k`-algebra equivalence
+For affine varieties $X\subseteq\mathbb A^m$ and
+$Y\subseteq\mathbb A^n$, there is a canonical isomorphism of $k$-algebras
 
-`A(X × Y) ≃ₐ[k] A(X) ⊗[k] A(Y)`.
+$$A(X\times Y)\cong A(X)\otimes_k A(Y).$$
 
-The sole main declaration is planned as
-`Hartshorne.coordinateRing_affineProductEquiv`.  This is Exercise I.3.15(b),
-adopted as the algebraic input to the dimension assertion in part (d).
-
-Under `MvPolynomial.tensorEquivSum`, tensoring the two quotient maps gives a
-surjective map from the polynomial ring on `σ ⊕ τ` to
-`A(X) ⊗[k] A(Y)`.  Point evaluations separate each coordinate ring and,
-after choosing a basis in one factor, jointly separate their tensor product.
-The kernel is therefore exactly the polynomials vanishing on the affine
-product.  Quotienting by that kernel gives the displayed equivalence.  This
-direct argument works for arbitrary subsets over any field and does not need
-the Nullstellensatz.
+This is Hartshorne's Exercise I.3.15(b). Tensoring the two coordinate-ring
+quotient maps gives a surjective map from the polynomial ring in the two
+coordinate blocks. Point evaluations separate the elements of each
+coordinate ring and, after choosing a basis in one factor, those of their
+tensor product. Its kernel is therefore the vanishing ideal of $X\times Y$.
+Quotienting gives the isomorphism. This evaluation argument works for
+arbitrary subsets over any field and does not need the Nullstellensatz.
 
 ## Depends on
 

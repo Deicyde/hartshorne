@@ -9,30 +9,18 @@ lean: Hartshorne.globalToLocal_injective Hartshorne.localToFunctionField_injecti
 
 # The underlying maps into germs and rational functions are injective
 
-In the concrete subset-of-affine-space model used to construct the objects of
-§3, forgetting domain information gives injective functions
+For a quasi-affine variety $Y$ and a point $P\in Y$, passing from a
+global regular function to its germ and then forgetting the base point
+gives injective maps of sets
 
-`𝒪(Y) ↪ 𝒪_{P,Y} ↪ K(Y)`.
+$$\mathcal O(Y)\hookrightarrow\mathcal O_{P,Y}\hookrightarrow K(Y).$$
 
-This article records exactly the two statements currently proved in Lean:
-`globalToLocal_injective` and `localToFunctionField_injective`. The maps here
-are functions between quotient types, not yet bundled `k`-algebra
-homomorphisms. Consequently this node does **not** identify the three objects as
-subalgebras of one ambient field and does not prove Hartshorne's intersection
-formula.
+These injectivity statements follow from the agreement relations on
+representatives. The identity principle identifies agreement on the whole
+overlap with agreement on some neighbourhood of $P$.
 
-The missing algebraic maps and the equality
-`𝒪(Y) = ⋂_{P ∈ Y} 𝒪_{P,Y}` inside `K(Y)` are tracked separately in
-[Global regular functions are the intersection of the local rings](global-functions/global-regular-intersection-local-rings.md).
-
-Injectivity is immediate for Hartshorne's representatives. Two global
-functions have the same germ exactly when they agree on the whole overlap,
-which is all of `Y`; and the local-to-rational map uses the same agreement
-relation after forgetting the distinguished point.
-
-The identity principle still matters: `GermRep.rel_iff_eventually` proves that
-Hartshorne's whole-overlap relation agrees with the usual germ relation of
-agreement on some neighbourhood of `P`.
+The algebra homomorphisms and the intersection formula inside $K(Y)$ are
+proved separately in [the global intersection theorem](global-functions/global-regular-intersection-local-rings.md).
 
 ## Depends on
 
@@ -46,4 +34,4 @@ agreement on some neighbourhood of `P`.
 
 ## Sources
 
-- [Hartshorne I.3, the injections `𝒪(Y) → 𝒪_P → K(Y)` (p. 16)](../../sources/hartshorne.md#i3)
+- [Hartshorne I.3, the injections $\mathcal{O} (Y) \to \mathcal{O} _P \to K(Y)$ (p. 16)](../../sources/hartshorne.md#i3)

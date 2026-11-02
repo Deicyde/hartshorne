@@ -6,14 +6,15 @@ origin: cited
 
 # The variety-to-scheme functor
 
-A variety morphism `f : V → W` sends an irreducible closed subset `Z` to the
-closure of `f(Z)` and pulls regular functions back.  These maps define a
+A variety morphism $f : V \to W$ sends an irreducible closed subset $Z$ to the
+closure of $f(Z)$ and pulls regular functions back.  These maps define a
 morphism of the associated locally ringed spaces, local on every stalk, and
-commute with the structure maps to `Spec k`.
+commute with the structure maps to $\operatorname{Spec} k$.
 
 Identity and composition hold on both the generic-completion point maps and
 the transported sheaf maps.  Thus the construction defines a functor from the
-scheme-variety source category to `Over (Spec k)`.
+category of varieties with an affine-open basis to the category of schemes
+over $k$.
 
 ## Depends on
 

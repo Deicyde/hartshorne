@@ -6,13 +6,13 @@ origin: cited
 
 # Principal curve divisors have degree zero
 
-On a complete nonsingular curve `X`, every principal divisor has degree zero.
+On a complete nonsingular curve $X$, every principal divisor has degree zero.
 Consequently the sum of coefficients descends to a surjective homomorphism
-`deg : Cl X → Z`.
+$\deg : Cl X \to Z$.
 
-For a nonconstant rational function `f`, extend the induced rational map to a
-finite morphism `X → P^1` and identify `(f)` with the pullback of
-`{0} - {infinity}`. Surjectivity follows because a closed point has degree one
+For a nonconstant rational function $f$, extend the induced rational map to a
+finite morphism $X \to \mathbb{P}^1$ and identify $(f)$ with the pullback of
+$\{0\} - \{\infty \}$. Surjectivity follows because a closed point has degree one
 over the algebraically closed base field.
 
 ## Depends on

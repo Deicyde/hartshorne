@@ -9,23 +9,18 @@ lean: Hartshorne.projectiveDegree_eq_sum_projectiveComponents
 
 # Degree of a pure projective curve is the sum of component degrees
 
-Let `Y ⊆ ℙ²` be a projective algebraic set with `projDim Y = 1` whose
-irreducible components all have projective dimension one.  Then
+Let $Y\subseteq\mathbb P^2$ be a projective algebraic set of dimension
+one whose irreducible components $C$ all have dimension one. Then
 
-`projectiveDegree Y = ∑ C ∈ projectiveComponents Y, projectiveDegree C`.
+$$\deg Y=\sum_C\deg C.$$
 
-The unique main declaration is planned as
-`Hartshorne.projectiveDegree_eq_sum_projectiveComponents`.
+Induct on the finite family of components. Distinct components meet in
+dimension below one, so the binary union formula applies at each step.
+The purity hypothesis ensures that every nonempty partial union has
+dimension one and excludes isolated zero-dimensional components.
 
-Induct over the finite component family.  Distinct irreducible components meet
-in dimension strictly below one, so the binary union formula applies at each
-step.  The explicit ambient dimension hypothesis is the Lean interface for the
-phrase *pure one-dimensional* and makes every nonempty partial union have
-dimension one by monotonicity. Hartshorne's Remark 7.8.2 literally says
-"algebraic sets of dimension one." The componentwise degree identity needs the
-stated purity hypothesis to exclude isolated zero-dimensional components, so
-this article records an explicit bridged strengthening rather than attributing
-that wording verbatim to Hartshorne.
+This states the pure one-dimensional interpretation of Hartshorne's
+Remark I.7.8.2, which says “algebraic sets of dimension one.”
 
 ## Depends on
 

@@ -9,12 +9,12 @@ mathlib_file: Mathlib/AlgebraicGeometry/Restrict.lean
 
 # A principal open is an affine localization
 
-For a commutative ring `A` and `f : A`, the induced open subscheme on
-`D(f) ⊆ Spec A` is canonically isomorphic to `Spec A_f`, compatibly with the
-open immersion into `Spec A` and the localization map `A → A_f`.
+For a commutative ring $A$ and $f \in A$, the induced open subscheme on
+$D(f) \subseteq \operatorname{Spec} A$ is canonically isomorphic to $\operatorname{Spec} A_f$, compatibly with the
+open immersion into $\operatorname{Spec} A$ and the localization map $A \to A_f$.
 
 The point map is inverse image of primes under localization, whose range is
-exactly `D(f)`; the structure-sheaf map follows from the affine Spec
+exactly $D(f)$; the structure-sheaf map follows from the affine Spec
 correspondence.  This is Exercise 2.1.
 
 ## Depends on

@@ -11,11 +11,11 @@ irreducible component is nonsingular and, at every intersection point, the
 local equations of the components through that point form part of a regular
 system of parameters.
 
-For a composite `f : X' -> X` of point blowups and a curve `Y`, define the
-reduced total transform `f^(-1)(Y)` as the sum with coefficient one of all
+For a composite $f : X' \to X$ of point blowups and a curve $Y$, define the
+reduced total transform $f^{-1}(Y)$ as the sum with coefficient one of all
 irreducible components in the scheme-theoretic inverse-image divisor. It
 contains the strict transforms and every exceptional component lying above
-`Y`.
+$Y$.
 
 ## Depends on
 

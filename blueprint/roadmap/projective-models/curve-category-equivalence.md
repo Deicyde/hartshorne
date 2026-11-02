@@ -9,20 +9,15 @@ lean: Hartshorne.projectiveCurveFunctionFieldEquivalence
 
 # The curve/function-field category equivalence
 
-The contravariant function-field functor gives an equivalence
+The function-field construction gives a contravariant equivalence between
+nonsingular projective curves with dominant morphisms and finitely generated
+function fields of transcendence degree one over $k$.
 
-`(ProjectiveNonsingularCurveCat k)ᵒᵖ ≌ OneDimensionalFunctionFieldCat k`.
-
-The sole main declaration is formalized as
-`Hartshorne.projectiveCurveFunctionFieldEquivalence`.  It is the composite of
-the opposite of the projective/quasi-projective comparison with the
-quasi-projective-curve/function-field equivalence.
-
-Contravariance is part of the type: a field homomorphism `K₂ → K₁` gives a
-map `C_{K₁} → C_{K₂}`.  Its forward functor is the pullback on function
-fields; no definitional choice of quasi-inverse is asserted.  Keeping the two
-component equivalences separate makes each construction independently
-reviewable; this leaf is their small source-facing composite.
+This is the composite of the projective/quasi-projective comparison with the
+quasi-projective-curve/function-field equivalence. A field homomorphism
+$K_2\to K_1$ induces a map $C_{K_1}\to C_{K_2}$, so the direction of
+morphisms is reversed. The forward construction on curves is pullback of
+rational functions.
 
 ## Depends on
 

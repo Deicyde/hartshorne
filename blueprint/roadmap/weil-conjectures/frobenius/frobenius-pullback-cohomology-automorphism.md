@@ -7,22 +7,19 @@ not_ready: true
 
 # Frobenius pullback is an automorphism of ℓ-adic cohomology
 
-Let `X/F_q` be finite type, let `X_bar` be its base change to an algebraic
-closure, and let `F:X_bar->X_bar` be Hartshorne's `q`-power point-map
-Frobenius. For `ell` different from the characteristic, pullback
+Let $X/\mathbb{F}_q$ be finite type, let $\overline X$ be its base change to an algebraic
+closure, and let $F:\overline{X}\to \overline{X}$ be Hartshorne's $q$-power point-map
+Frobenius. For $\ell$ different from the characteristic, pullback
 
-`F^*:H^i_et(X_bar,Q_ell)->H^i_et(X_bar,Q_ell)`
+$F^*:H^i_{\mathrm{et}}(\overline{X},\mathbb{Q}_\ell)\to H^i_{\mathrm{et}}(\overline{X},\mathbb{Q}_\ell)$
 
-is an automorphism for every `i`.
+is an automorphism for every $i$.
 
-The `q`-power Frobenius is a finite universal homeomorphism. Invariance of
+The $q$-power Frobenius is a finite universal homeomorphism. Invariance of
 the small étale topos under universal homeomorphisms gives the result first
-for torsion coefficients and then for the classical `ell`-adic inverse
+for torsion coefficients and then for the classical $\ell$-adic inverse
 system.
 
-This node is not ready. It needs a proof-level universal-homeomorphism
-invariance theorem and compatibility with the roadmap's classical, rather
-than only pro-étale, `Q_ell` representation.
 
 ## Depends on
 

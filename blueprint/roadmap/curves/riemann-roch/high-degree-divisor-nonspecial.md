@@ -6,12 +6,12 @@ origin: cited
 
 # High-degree divisors are nonspecial
 
-Define the index of speciality of a divisor `D` to be `l(K-D)` and call `D`
-nonspecial when this number is zero. On a Chapter IV curve of genus `g`,
+Define the index of speciality of a divisor $D$ to be $l(K-D)$ and call $D$
+nonspecial when this number is zero. On a Chapter IV curve of genus $g$,
 
-`deg D > 2*g-2`
+$\deg D > 2\cdot g-2$
 
-implies that `D` is nonspecial.
+implies that $D$ is nonspecial.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ implies that `D` is nonspecial.
 
 ## Proof depends on
 
-- `K-D` has negative degree and therefore has no nonzero global section.
+- $K-D$ has negative degree and therefore has no nonzero global section.
 
 ## Sources
 

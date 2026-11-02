@@ -6,9 +6,9 @@ origin: cited
 
 # Structure-sheaf first cohomology of a curve
 
-For a smooth projective complex curve of genus `g`,
+For a smooth projective complex curve of genus $g$,
 
-`H^1(C,O_C) ~= C^g`
+$H^1(C,\mathcal O_C)\simeq\mathbb{C}^g$
 
 as a complex vector space; GAGA identifies this with analytic coherent
 cohomology.

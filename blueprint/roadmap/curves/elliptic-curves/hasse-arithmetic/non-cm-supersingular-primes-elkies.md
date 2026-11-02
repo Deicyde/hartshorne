@@ -7,12 +7,12 @@ not_ready: true
 
 # Non-CM supersingular primes
 
-Let `E/Q` be an elliptic curve without complex multiplication, given by an
+Let $E/Q$ be an elliptic curve without complex multiplication, given by an
 integral Weierstrass model. Among rational primes of good reduction, the
 supersingular primes have density zero but form an infinite set.
 
 The Lang–Trotter prediction that their counting function is asymptotic to
-`c*sqrt(x)/log(x)` is recorded only as a conjectural source note, not as part
+$c\cdot \sqrt{x}/\log (x)$ is recorded only as a conjectural source note, not as part
 of the theorem conclusion.
 
 ## Depends on

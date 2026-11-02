@@ -9,23 +9,19 @@ lean: Hartshorne.gradedSubquotient_exact
 
 # Integer-graded submodules and quotients
 
-Let `M = ⊕ d, M_d` be an integer-graded `S`-module and let `N ⊆ M` be a
-homogeneous submodule. Intersecting `N` with each `M_d` grades `N`, and mapping
-each `M_d` through `M → M/N` grades the quotient. In every degree the
-canonical sequence
+Let $M=\bigoplus_{d\in\mathbb Z}M_d$ be an integer-graded $S$-module
+and let $N\subseteq M$ be a homogeneous submodule. Intersections with
+$M_d$ grade $N$, and the images of $M_d$ grade $M/N$. In every degree,
 
-`0 → N_d → M_d → (M/N)_d → 0`
+$$0\longrightarrow N_d\longrightarrow M_d\longrightarrow(M/N)_d
+\longrightarrow0$$
 
-is exact. The sole main result is planned as
-`Hartshorne.gradedSubquotient_exact`, packaging both induced decompositions,
-their graded scalar actions, and this componentwise exactness. The same package
-applies to `N₁ ⊆ N₂ ⊆ M`, giving the grading on `N₂/N₁` used in a prime
-filtration.
+is exact. The same construction grades $N_2/N_1$ when
+$N_1\subseteq N_2\subseteq M$ are homogeneous submodules.
 
-Mathlib defines `HomogeneousSubmodule` but does not supply these quotient
-decompositions or their degreewise exact sequence. The construction should
-follow the already-formalized quotient-grading argument for homogeneous ideals,
-with well-definedness supplied by homogeneity of `N`.
+Homogeneity ensures that the quotient decomposition is well defined.
+Exactness follows by taking homogeneous components of the ordinary
+submodule and quotient maps.
 
 ## Depends on
 

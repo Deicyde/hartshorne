@@ -6,10 +6,10 @@ origin: cited
 
 # Minimal-degree curves are rational normal
 
-Let `X` be a Chapter-IV curve of projective degree `d` in `P^n`, not
-contained in a hyperplane. If `d <= n`, then `d=n`, the genus of `X` is zero,
-and an automorphism of `P^d` carries `X` to the rational normal curve given by
-the `d`-uple embedding of `P^1`.
+Let $X$ be a Chapter-IV curve of projective degree $d$ in $\mathbb{P}^n$, not
+contained in a hyperplane. If $d \le n$, then $d=n$, the genus of $X$ is zero,
+and an automorphism of $\mathbb{P}^d$ carries $X$ to the rational normal curve given by
+the $d$-uple embedding of $\mathbb{P}^1$.
 
 ## Depends on
 
@@ -19,9 +19,9 @@ the `d`-uple embedding of `P^1`.
 
 ## Proof depends on
 
-- The hyperplane system has dimension at least `n`; the divisor-dimension
+- The hyperplane system has dimension at least $n$; the divisor-dimension
   bound forces equality throughout and genus zero.
-- Two bases of the complete degree-`d` system on `P^1` differ by a projective
+- Two bases of the complete degree-$d$ system on $\mathbb{P}^1$ differ by a projective
   automorphism.
 
 ## Sources

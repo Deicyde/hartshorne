@@ -7,15 +7,15 @@ not_ready: true
 
 # The Picard group of a projective bundle
 
-If `X` is regular Noetherian and `E` is finite locally free of rank at least
+If $X$ is regular Noetherian and $E$ is finite locally free of rank at least
 two on every connected component, pullback and componentwise tensor powers of
-`O(1)` induce an isomorphism
+$\mathcal{O}(1)$ induce an isomorphism
 
-`Pic(X) x LC(X, Z) ≅ Pic(P(E))`,
+$\operatorname{Pic} (X) x LC(X, Z) \cong \operatorname{Pic} (P(E))$,
 
-where `LC(X,Z)` is the group of locally constant integer-valued functions on
-`X`. If `X` is connected, this specializes to Hartshorne's
-`Pic(X) x Z ≅ Pic(P(E))`.
+where $LC(X,Z)$ is the group of locally constant integer-valued functions on
+$X$. If $X$ is connected, this specializes to Hartshorne's
+$\operatorname{Pic} (X) x Z \cong \operatorname{Pic} (P(E))$.
 
 This node is not ready until a proof-level source for Exercise 7.9(a), with
 the disconnected correction above, is adopted.

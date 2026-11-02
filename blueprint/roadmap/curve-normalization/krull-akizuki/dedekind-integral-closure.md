@@ -9,18 +9,15 @@ lean: Hartshorne.integralClosure_isDedekindDomain_of_finite_extension Hartshorne
 
 # Integral closures of Dedekind domains
 
-Let `A` be an integrally closed Noetherian domain of Krull dimension one with
-fraction field `K`, and let `L/K` be a finite field extension.  Then the
-integral closure `B` of `A` in `L` is an integrally closed Noetherian domain of
+Let $A$ be an integrally closed Noetherian domain of Krull dimension one with
+fraction field $K$, and let $L/K$ be a finite field extension.  Then the
+integral closure $B$ of $A$ in $L$ is an integrally closed Noetherian domain of
 Krull dimension one: a Dedekind domain in Hartshorne's sense.
 
-This is Theorem 6.3A with no separability assumption.  The pinned Mathlib
-already supplies, without separability, that `B` is a domain, is integrally
-closed, is integral over `A`, and has fraction field `L`.  Krull--Akizuki gives
-Noetherianity.  Integral extensions preserve dimension, so the source's exact
-dimension-one conclusion should be retained in addition to Mathlib's
-`IsDedekindDomain` class, which permits fields and records only dimension at
-most one.
+This is Hartshorne's Theorem I.6.3A, with no separability assumption.
+The ring $B$ is a domain, is integrally closed, is integral over $A$, and
+has fraction field $L$. Krull–Akizuki gives Noetherianity, and invariance
+of dimension under integral extensions gives dimension exactly one.
 
 ## Depends on
 

@@ -9,28 +9,27 @@ lean: Hartshorne.IsQuasiProjVariety.localRingMapAbstractCurveHom_isIso
 
 # Nonsingular curves are open subcurves of their valuation spaces
 
-Let `Y` be a nonsingular quasi-projective curve, let `K = K(Y)`, and let `U`
-be the image of the point-to-local-ring map `Y → C_K`.  Then the resulting
+Let $Y$ be a nonsingular quasi-projective curve, let $K = K(Y)$, and let $U$
+be the image of the point-to-local-ring map $Y \to C _K$.  Then the resulting
 homeomorphism
 
-`Y ≃ U`
+$Y\cong U$
 
-is an isomorphism from `Y` to the abstract nonsingular curve associated to the
-open subset `U`.  This is Proposition 6.7.
+is an isomorphism from $Y$ to the abstract nonsingular curve associated to the
+open subset $U$.  This is Proposition 6.7.
 
-It remains only to compare regular functions.  For every open `V ⊆ Y`, the
-existing intersection theorem identifies its regular functions inside `K(Y)`
+It remains only to compare regular functions.  For every open $V \subseteq Y$, the
+existing intersection theorem identifies its regular functions inside $K(Y)$
 with
 
-`⋂_{P ∈ V} 𝒪_{P,Y}`.
+$\bigcap _{P \in V} \mathcal{O} _{P,Y}$.
 
 Under the point-to-local-ring homeomorphism this is exactly the definition of
-regular functions on the corresponding open subset of `U`.  Residue
-evaluation agrees with evaluation of a germ at `P`, so the homeomorphism and
+regular functions on the corresponding open subset of $U$.  Residue
+evaluation agrees with evaluation of a germ at $P$, so the homeomorphism and
 its inverse both pull regular functions back to regular functions.
 
-State the conclusion using `VarietyHom.IsIso`; do not weaken it to a
-homeomorphism or a bare bijection.
+
 
 ## Depends on
 

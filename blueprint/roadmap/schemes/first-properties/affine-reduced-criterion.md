@@ -9,10 +9,10 @@ mathlib_file: Mathlib/AlgebraicGeometry/Properties.lean
 
 # Reducedness of an affine scheme
 
-For a commutative ring `A`, `Spec A` is reduced if and only if `A` is reduced,
+For a commutative ring $A$, $\operatorname{Spec} A$ is reduced if and only if $A$ is reduced,
 equivalently if and only if its nilradical is zero.
 
-Use the global-sections isomorphism for `Spec A` together with the ring-level
+Use the global-sections isomorphism for $\operatorname{Spec} A$ together with the ring-level
 nilradical criterion.
 
 ## Depends on
@@ -22,7 +22,7 @@ nilradical criterion.
 
 ## Proof depends on
 
-- The ring theorem `nilradical_eq_bot_iff`.
+- A ring is reduced exactly when its nilradical is zero.
 
 ## Sources
 

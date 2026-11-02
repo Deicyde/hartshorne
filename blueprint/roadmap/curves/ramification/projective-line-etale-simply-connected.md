@@ -6,8 +6,8 @@ origin: cited
 
 # The projective line is étale simply connected
 
-Over an algebraically closed field, every finite étale covering of `P^1` is a
-finite disjoint union of copies of `P^1`. Equivalently, `P^1` has no
+Over an algebraically closed field, every finite étale covering of $\mathbb{P}^1$ is a
+finite disjoint union of copies of $\mathbb{P}^1$. Equivalently, $\mathbb{P}^1$ has no
 nontrivial connected finite étale covering.
 
 ## Depends on
@@ -19,11 +19,11 @@ nontrivial connected finite étale covering.
 
 ## Proof depends on
 
-- A connected finite étale cover of `P^1` is a proper regular connected curve
+- A connected finite étale cover of $\mathbb{P}^1$ is a proper regular connected curve
   and hence integral.
-- Étaleness gives separability and `R_f=0`; Riemann–Hurwitz forces degree one
+- Étaleness gives separability and $R_f=0$; Riemann–Hurwitz forces degree one
   and genus zero.
-- A finite degree-one morphism to the normal curve `P^1` is an isomorphism.
+- A finite degree-one morphism to the normal curve $\mathbb{P}^1$ is an isomorphism.
 
 ## Sources
 

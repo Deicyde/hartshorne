@@ -9,8 +9,8 @@ lean: Hartshorne.affineSpace_smoothOfRelativeDimension_finiteTypeOverField
 
 # Affine space is smooth in Hartshorne's setting
 
-Let `k` be a field and let `Y` be a scheme of finite type over `Spec k`. For
-every `n`, the projection `A^n_Y → Y` is smooth of relative dimension `n`.
+Let $k$ be a field and let $Y$ be a scheme of finite type over $\operatorname{Spec} k$. For
+every $n$, the projection $A^n_Y \to Y$ is smooth of relative dimension $n$.
 
 The finite-type hypothesis is retained to match Hartshorne's standing convention;
 the arbitrary-base theorem proves the conclusion independently of that hypothesis.

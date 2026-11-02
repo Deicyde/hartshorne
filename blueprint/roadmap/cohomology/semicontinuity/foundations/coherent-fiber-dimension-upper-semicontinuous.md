@@ -6,13 +6,13 @@ origin: cited
 
 # Fibre dimension of a coherent sheaf is upper semicontinuous
 
-Let `Y` be a Noetherian scheme and `G` a coherent `O_Y`-module. The function
+Let $Y$ be a Noetherian scheme and $G$ a coherent $\mathcal{O}_Y$-module. The function
 
-`y |-> dim_(k(y)) (G_y tensor_(O_(Y,y)) k(y))`
+$y\mapsto\dim_{k(y)}\left(G_y\otimes_{\mathcal{O}_{Y,y}}k(y)\right)$
 
-is upper semicontinuous: for every `y` there is an open neighbourhood `U`
-such that its value at every `y' in U` is at most its value at `y`.
-Equivalently, for every integer `n`, the locus where the value is at least `n`
+is upper semicontinuous: for every $y$ there is an open neighbourhood $U$
+such that its value at every $y' \in U$ is at most its value at $y$.
+Equivalently, for every integer $n$, the locus where the value is at least $n$
 is closed.
 
 ## Depends on
@@ -22,8 +22,8 @@ is closed.
 ## Proof depends on
 
 - Nakayama's lemma identifies the fibre dimension with the minimal number of
-  generators of `G_y`; a minimal generating set extends and generates on a
-  neighbourhood because `G` is coherent.
+  generators of $G_y$; a minimal generating set extends and generates on a
+  neighbourhood because $G$ is coherent.
 
 ## Sources
 

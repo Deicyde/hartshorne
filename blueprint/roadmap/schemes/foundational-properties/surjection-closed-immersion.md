@@ -9,15 +9,14 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean
 
 # Surjections induce closed immersions
 
-If `φ : A → B` is a surjective ring homomorphism, then
-`Spec B → Spec A` is a homeomorphism onto the closed subset
-`V(ker φ)`, and the induced structure-sheaf map is surjective.  Thus it is a
+If $\varphi : A \to B$ is a surjective ring homomorphism, then
+$\operatorname{Spec} B \to \operatorname{Spec} A$ is a homeomorphism onto the closed subset
+$V(\ker \varphi )$, and the induced structure-sheaf map is surjective.  Thus it is a
 closed immersion.
 
-Prime ideals of `B` correspond to primes of `A` containing the kernel.
-Localization preserves the required quotient surjections on stalks.  This is
-Exercise 2.18(c); `IsClosedImmersion.Spec_iff` records the corresponding affine
-classification.
+Prime ideals of $B$ correspond to prime ideals of $A$ containing
+the kernel. Localization preserves quotient surjections, giving
+surjectivity on stalks. This is Hartshorne's Exercise II.2.18(c).
 
 ## Depends on
 

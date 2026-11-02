@@ -6,13 +6,13 @@ origin: cited
 
 # ℓ-adic Betti numbers are invariant under algebraically closed base extension
 
-Let `K/k` be an extension of algebraically closed fields, let `X` be smooth
-and proper over `k`, and let `ell` differ from the characteristic.  Then
+Let $K/k$ be an extension of algebraically closed fields, let $X$ be smooth
+and proper over $k$, and let $\ell$ differ from the characteristic.  Then
 
-`dim_(Q_ell) H^i_et(X,Q_ell) =`
-`dim_(Q_ell) H^i_et(X base-change K,Q_ell)`
+$\dim _{(\mathbb{Q}_\ell)} H^i_{\mathrm{et}}(X,\mathbb{Q}_\ell) =$
+$\dim_{\mathbb Q_\ell}H^i_{\mathrm{et}}(X\times_{\operatorname{Spec} k}\operatorname{Spec} K,\mathbb Q_\ell)$
 
-for every `i`.
+for every $i$.
 
 Only equality of dimensions is asserted here, matching Hartshorne.  A
 canonical group isomorphism is a stronger base-change theorem and should be

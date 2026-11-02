@@ -4,10 +4,9 @@ article_id: af_b7cd0f0799f32db50f28b544
 
 # Sheaves: foundations and operations
 
-This chapter formalizes Hartshorne II.1's basic language of sheaves of abelian
-groups. It uses pinned Mathlib sheaf categories wherever the source statement
-already exists exactly, and adds only the source-facing comparisons needed by
-the project's Chapter I model of varieties.
+Hartshorne II.1 introduces sheaves of abelian groups, their stalks,
+and the operations used throughout the theory of schemes. Regular
+functions and constant sheaves provide the first examples.
 
 Read the nodes in this order:
 

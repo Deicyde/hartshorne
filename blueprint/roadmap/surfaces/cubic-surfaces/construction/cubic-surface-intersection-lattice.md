@@ -6,12 +6,12 @@ origin: cited
 
 # The intersection lattice of a marked cubic surface
 
-In the Picard basis `l,e_1,...,e_6`,
+In the Picard basis $l,e_1,\ldots ,e_6$,
 
-`l^2=1`, `e_i^2=-1`, `l.e_i=0`, and `e_i.e_j=0` for `i!=j`.
+$l^2=1$, $e_i^2=-1$, $l\cdot e_i=0$, and $e_i\cdot e_j=0$ for $i\ne j$.
 
 Thus the intersection form is the diagonal integral form
-`diag(1,-1,-1,-1,-1,-1,-1)`.
+$\operatorname{diag}(1,-1,-1,-1,-1,-1,-1)$.
 
 ## Depends on
 

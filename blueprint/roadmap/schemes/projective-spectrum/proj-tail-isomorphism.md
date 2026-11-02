@@ -6,11 +6,11 @@ origin: cited
 
 # Proj is invariant under an eventual graded isomorphism
 
-Let `φ : S → T` be a degree-preserving homomorphism.  If there is `d₀` such
-that `φ_d : S_d → T_d` is an isomorphism for every `d ≥ d₀`, then the natural
-domain is all of `Proj T` and the induced morphism
+Let $\varphi : S \to T$ be a degree-preserving homomorphism.  If there is $d_{0}$ such
+that $\varphi _d : S_d \to T_d$ is an isomorphism for every $d \ge d_{0}$, then the natural
+domain is all of $\operatorname{Proj} T$ and the induced morphism
 
-`Proj T → Proj S`
+$\operatorname{Proj} T \to \operatorname{Proj} S$
 
 is an isomorphism.
 

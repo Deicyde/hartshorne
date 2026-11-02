@@ -6,12 +6,12 @@ origin: bridged
 
 # Local charts of a point blowup
 
-Choose regular parameters `x,y` at the center of a surface point blowup. On
-the two standard charts the blowup is given by `y=t*x` and `x=s*y`, and the
-exceptional curve is respectively `x=0` and `y=0`.
+Choose regular parameters $x,y$ at the center of a surface point blowup. On
+the two standard charts the blowup is given by $y=t\cdot x$ and $x=s\cdot y$, and the
+exceptional curve is respectively $x=0$ and $y=0$.
 
-If a curve has local equation of multiplicity `r`, substitution factors out
-the `r`th power of the exceptional parameter; the remaining equation defines
+If a curve has local equation of multiplicity $r$, substitution factors out
+the $r$th power of the exceptional parameter; the remaining equation defines
 the strict transform. Its intersection with the exceptional curve is the
 projectivized tangent cone, counted with multiplicity.
 
@@ -23,7 +23,7 @@ projectivized tangent cone, counted with multiplicity.
 
 ## Proof depends on
 
-- The affine Rees-algebra charts of the ideal `(x,y)`.
+- The affine Rees-algebra charts of the ideal $(x,y)$.
 
 ## Sources
 

@@ -9,13 +9,13 @@ lean: Hartshorne.moduleSheafHomData
 
 # The sheaf Hom of module sheaves
 
-For `𝒪_X`-modules `F` and `G`, make the sheaf
-`U ↦ Hom_{𝒪_U}(F|_U, G|_U)` into an `𝒪_X`-module by pointwise scalar
-multiplication.  Its global sections are naturally the morphisms `F ⟶ G` in
-`X.Modules`, and restriction is induced by restricting module morphisms.
+For $\mathcal{O} _X$-modules $F$ and $G$, make the sheaf
+$U \mapsto \operatorname{Hom} _{\mathcal{O} _U}(F|_U, G|_U)$ into an $\mathcal{O} _X$-module by pointwise scalar
+multiplication.  Its global sections are naturally the morphisms $F \longrightarrow G$ in
+the category of $\mathcal{O}_X$-modules, and restriction is induced by restricting module morphisms.
 
-The existing sheaf-Hom leaf proves the underlying sheaf-of-types statement;
-the completion criterion here is the compatible additive and module structure.
+Pointwise addition and scalar multiplication make the sheaf of
+local morphisms into a sheaf of modules.
 
 ## Depends on
 

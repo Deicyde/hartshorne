@@ -6,10 +6,10 @@ origin: cited
 
 # Hartshorne's finite-field q-power Frobenius
 
-Let `X` be a scheme over `F_q` and `X_bar=X base-change Fbar_q`. Using the
-descent identification of the `q`-Frobenius twist with `X_bar`, define the
-endomorphism `F:X_bar->X_bar` whose action on geometric points sends
-coordinates `a_i` to `a_i^q`.
+Let $X$ be a scheme over $\mathbb{F}_q$ and $\overline X=X\times_{\operatorname{Spec}\mathbb{F}_q}\operatorname{Spec}\overline{\mathbb F}_q$. Using the
+descent identification of the $q$-Frobenius twist with $\overline X$, define the
+endomorphism $F:\overline{X}\to \overline{X}$ whose action on geometric points sends
+coordinates $a_i$ to $a_i^q$.
 
 The roadmap fixes this q-power point-action convention explicitly rather
 than assigning it an unqualified arithmetic/geometric name. When comparing

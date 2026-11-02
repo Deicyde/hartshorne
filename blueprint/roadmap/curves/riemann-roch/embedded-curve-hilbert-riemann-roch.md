@@ -6,13 +6,13 @@ origin: cited
 
 # Compatibility with the embedded Hilbert polynomial
 
-Let `X` be a Chapter IV curve embedded in projective space with projective
-degree `d`, and let `H` be a hyperplane-section divisor. Then
+Let $X$ be a Chapter IV curve embedded in projective space with projective
+degree $d$, and let $H$ be a hyperplane-section divisor. Then
 
-`chi(O_X(H)) = d + 1 - p_a(X)`.
+$\chi (\mathcal{O}_X(H)) = d + 1 - p_a(X)$.
 
-Under the genus equality `p_a(X)=g(X)` and `deg H=d`, this is exactly the
-Riemann–Roch Euler-characteristic formula for `H`.
+Under the genus equality $p_a(X)=g(X)$ and $\deg H=d$, this is exactly the
+Riemann–Roch Euler-characteristic formula for $H$.
 
 ## Depends on
 
@@ -23,7 +23,7 @@ Riemann–Roch Euler-characteristic formula for `H`.
 
 ## Proof depends on
 
-- The Hilbert polynomial evaluates the Euler characteristic of `O_X(1)` and
+- The Hilbert polynomial evaluates the Euler characteristic of $\mathcal{O}_X(1)$ and
   its leading coefficient gives the projective degree of the curve.
 
 ## Sources

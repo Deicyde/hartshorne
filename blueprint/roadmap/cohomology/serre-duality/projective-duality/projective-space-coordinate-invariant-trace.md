@@ -7,12 +7,12 @@ not_ready: true
 
 # The coordinate-invariant trace normalization
 
-For `X=Pⁿ_k`, normalize the chosen trace so that the class of the standard
+For $X=\mathbb{P}^{n}_k$, normalize the chosen trace so that the class of the standard
 Čech cocycle
 
-`(x₁⋯xₙ)⁻¹ d(x₁/x₀)∧⋯∧d(xₙ/x₀)`
+$(x_{1}\cdots x_{n})^{-1} d(x_{1}/x_{0})\wedge \cdots \wedge d(x_{n}/x_{0})$
 
-maps to `1`. This normalized trace is independent of the homogeneous
+maps to $1$. This normalized trace is independent of the homogeneous
 coordinates and hence invariant under automorphisms of projective space.
 
 The statement remains not ready until the change-of-variables determinant

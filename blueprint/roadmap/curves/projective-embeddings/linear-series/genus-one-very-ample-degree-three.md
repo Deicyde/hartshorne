@@ -6,9 +6,9 @@ origin: cited
 
 # Very ample divisors on a genus-one curve
 
-Let `X` be a Chapter IV curve of genus one. A divisor `D` is very ample if
-and only if `deg D >= 3`. Every degree-three divisor has
-`dim|D|=2` and embeds `X` as a nonsingular plane cubic. Conversely, a
+Let $X$ be a Chapter IV curve of genus one. A divisor $D$ is very ample if
+and only if $\deg D \ge 3$. Every degree-three divisor has
+$\dim |D|=2$ and embeds $X$ as a nonsingular plane cubic. Conversely, a
 nonsingular plane cubic has genus one.
 
 Hartshorne's genus-one curve is not assumed to carry a chosen origin.
@@ -25,7 +25,7 @@ Hartshorne's genus-one curve is not assumed to carry a chosen origin.
 ## Proof depends on
 
 - Positive-degree divisors on a genus-one curve are nonspecial, so
-  Riemann–Roch gives `dim|D|=deg D-1`.
+  Riemann–Roch gives $\dim |D|=\deg D-1$.
 - Degree one or two cannot give a closed immersion; degree at least three is
   covered by the high-degree criterion.
 

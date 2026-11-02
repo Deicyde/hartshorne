@@ -6,12 +6,12 @@ origin: cited
 
 # Euler characteristic is additive
 
-For a coherent sheaf `F` on a projective scheme over a field `k`, define
+For a coherent sheaf $F$ on a projective scheme over a field $k$, define
 
-`χ(F)=Σ_i (-1)^i dim_k Hⁱ(X,F)`.
+$\chi (F)=\sum _i (-1)^i \dim _k H^{i}(X,F)$.
 
 This is a finite sum. Every short exact sequence
-`0→F'→F→F''→0` satisfies `χ(F)=χ(F')+χ(F'')`.
+$0\to F'\to F\to F''\to 0$ satisfies $\chi (F)=\chi (F')+\chi (F'')$.
 
 ## Depends on
 
@@ -23,8 +23,7 @@ This is a finite sum. Every short exact sequence
 - [The long exact sequence of sheaf cohomology](../sheaf-cohomology/sheaf-cohomology-long-exact-sequence.md)
 - Alternating dimension in a finite exact sequence of finite-dimensional
   vector spaces.
-- `Module.sum_neg_one_pow_finrank_eq_zero_of_exact` is exact generic Mathlib
-  prior art; the coherent-sheaf Euler characteristic remains project-specific.
+- The alternating sum of dimensions in a finite exact sequence is zero.
 
 ## Sources
 

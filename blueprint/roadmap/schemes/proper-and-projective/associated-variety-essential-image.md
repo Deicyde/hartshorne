@@ -6,15 +6,15 @@ origin: cited
 
 # Classical varieties are the quasi-projective integral schemes
 
-Let `k` be algebraically closed. The essential image of the existing
+Let $k$ be algebraically closed. The essential image of the existing
 variety-to-scheme functor consists exactly of the quasi-projective integral
-schemes over `k`; its restriction to projective varieties has essential image
+schemes over $k$; its restriction to projective varieties has essential image
 the projective integral schemes.
 
 A classical variety is locally closed in projective space, so its associated
 scheme is quasi-projective, integral, and finite type. Conversely, first treat
-a projective integral scheme `Y ⊆ ℙⁿ_k`: its closed points form an
-irreducible projective variety, dense in `Y`; the associated scheme and `Y`
+a projective integral scheme $Y \subseteq \mathbb{P} ^{n}_k$: its closed points form an
+irreducible projective variety, dense in $Y$; the associated scheme and $Y$
 are reduced closed subschemes of projective space with the same support, hence
 agree. For a quasi-projective scheme, restrict this comparison to the
 corresponding open subvariety. Full faithfulness identifies the morphisms.

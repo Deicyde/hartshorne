@@ -5,12 +5,12 @@ origin: cited
 not_ready: true
 ---
 
-# Generic trivialization inside `Z_U`
+# Generic trivialization inside $Z_U$
 
-Let `X` be irreducible, let `U ⊆ X` be open, and let `0 ≠ M ⊆ Z_U` be a
-subsheaf. There are a nonempty open `V ⊆ U` and a positive integer `d` such
-that `M|_V = dZ|_V ≅ Z|_V`; moreover `M/Z_V` is supported on the proper
-closed subset `closure(U \\ V)`.
+Let $X$ be irreducible, let $U \subseteq X$ be open, and let $0 \ne M \subseteq Z_U$ be a
+subsheaf. There are a nonempty open $V \subseteq U$ and a positive integer $d$ such
+that $M|_V = dZ|_V \cong Z|_V$; moreover $M/Z_V$ is supported on the proper
+closed subset $\operatorname{closure} (U \setminus V)$.
 
 This node is not ready. Hartshorne's printed proof only says to choose the
 least positive integer occurring in a stalk and does not supply enough detail

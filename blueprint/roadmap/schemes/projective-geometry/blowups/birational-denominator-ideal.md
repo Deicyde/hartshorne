@@ -6,10 +6,10 @@ origin: cited
 
 # The denominator ideal of a birational line bundle
 
-For the line bundle `L` in a projective birational morphism `f : Z -> X`, view
-`f_*L` as a coherent fractional ideal in the common function field. If `A` is
-ample on the quasi-projective target, then for some `n > 0` the twist
-`A^{-n} tensor f_*L` embeds as a coherent ideal of `O_X`.
+For the line bundle $L$ in a projective birational morphism $f : Z \to X$, view
+$f_*L$ as a coherent fractional ideal in the common function field. If $A$ is
+ample on the quasi-projective target, then for some $n > 0$ the twist
+$A^{-n} \otimes f_*L$ embeds as a coherent ideal of $\mathcal{O}_X$.
 
 ## Depends on
 

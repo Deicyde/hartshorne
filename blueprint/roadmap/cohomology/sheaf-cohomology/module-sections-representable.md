@@ -9,12 +9,12 @@ origin: cited
 
 # Sections of module sheaves are representable
 
-Let `(X,O_X)` be a ringed space and `j : U ↪ X` an open inclusion. Write
-`O_U` for `j_!(O_X|_U)`, regarded as an `O_X`-module. For every
-`O_X`-module sheaf `F`, evaluation at `1` gives a natural additive
+Let $(X,\mathcal{O}_X)$ be a ringed space and $j : U \hookrightarrow X$ an open inclusion. Write
+$\mathcal{O}_U$ for $j_!(\mathcal{O}_X|_U)$, regarded as an $\mathcal{O}_X$-module. For every
+$\mathcal{O}_X$-module sheaf $F$, evaluation at $1$ gives a natural additive
 isomorphism
 
-`Hom_{O_X}(O_U,F) ≅ F(U)`.
+$\operatorname{Hom} _{\mathcal{O}_X}(\mathcal{O}_U,F) \cong F(U)$.
 
 This representability bridge is the unique main result needed to translate
 injectivity into surjectivity of restriction maps.

@@ -7,16 +7,10 @@ not_ready: true
 
 # The Auslander–Buchsbaum formula
 
-Let `A` be a Noetherian regular local ring and `M` a nonzero finitely
-generated `A`-module. Then
+Let $A$ be a Noetherian regular local ring and $M$ a nonzero finitely
+generated $A$-module. Then
 
-`pd_A(M)+depth_A(M)=dim A`.
-
-The convention for the zero module and the conversion between Mathlib's
-extended projective dimension and the finite natural-number equality must be
-made explicit in the Lean statement. This node remains not ready until one of
-Hartshorne's cited passages is inspected directly for its precise nonzero,
-finiteness, and finite-projective-dimension hypotheses.
+$pd_A(M)+\operatorname{depth} _A(M)=\dim A$.
 
 ## Depends on
 

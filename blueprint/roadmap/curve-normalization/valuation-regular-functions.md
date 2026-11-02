@@ -9,31 +9,24 @@ lean: Hartshorne.ValuationSpace.regularFunctions
 
 # Regular functions on the valuation space
 
-Let `k` be algebraically closed, let `K/k` be an essentially finite-type field
-extension with `Algebra.trdeg k K = 1`, and let `U` be an open subset of the
-valuation space `C_K`.  Define the algebra of rational functions regular on
-`U` by
+Let $k$ be algebraically closed, let $K/k$ be a finitely generated field
+extension of transcendence degree one, and let $U\subseteq C_K$ be open.
+The algebra of rational functions regular on $U$ is
 
-`𝒪_K(U) = ⋂_{R ∈ U} R ⊆ K`.
+$$\mathcal O_K(U)=\bigcap_{R\in U}R\subseteq K.$$
 
-For `f ∈ 𝒪_K(U)`, evaluate its residue at every `R ∈ U` to obtain a
-function `U → k`.  Define the regular functions on `U` to be the image of
-this evaluation map, as a `k`-subalgebra of `U → k`.
+Residue evaluation at each $R\in U$ gives a $k$-valued function on $U$.
+The regular functions on $U$ form the image of this evaluation map.
 
-On every nonempty open `U`, the evaluation map is injective.  Indeed, if two
-rational functions have equal residues, their difference lies in `𝔪_R` for
-every `R ∈ U`; the finite-zero form of Lemma 6.5 and infinitude of a
-nonempty cofinite open force that difference to be zero.
+For nonempty $U$, evaluation is injective. If two rational functions have
+equal residues everywhere, their difference belongs to $\mathfrak m_R$
+for every $R\in U$. A nonzero rational function can vanish at only finitely
+many valuations, while a nonempty cofinite open is infinite, so the
+difference must be zero.
 
-Keep both the intersection subalgebra inside `K` and its faithful image inside
-the function algebra.  Later proofs use the former for field arithmetic and
-the latter for the `Variety.regular` field.
-
-For the empty open, the intersection inside `K` is the top subalgebra and the
-evaluation map lands in the unique function `∅ → k`; its image is therefore
-the full function algebra. Do not assert injectivity in this case. The
-injectivity statement, and every later choice of a rational representative,
-is restricted to nonempty opens.
+For $U=\varnothing$, the intersection is all of $K$ and evaluation gives
+the unique empty function. Its image is the full function algebra on the
+empty set; injectivity is not asserted in this case.
 
 ## Depends on
 
@@ -47,4 +40,4 @@ is restricted to nonempty opens.
 
 ## Sources
 
-- [Hartshorne I.6, regular functions on open subsets of `C_K` (p. 42)](../../sources/hartshorne.md#i6-abstract-nonsingular-curves)
+- [Hartshorne I.6, regular functions on open subsets of $C _K$ (p. 42)](../../sources/hartshorne.md#i6-abstract-nonsingular-curves)

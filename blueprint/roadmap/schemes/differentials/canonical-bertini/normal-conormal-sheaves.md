@@ -6,9 +6,9 @@ origin: cited
 
 # Normal and conormal sheaves
 
-For a nonsingular closed subvariety `Y` of a nonsingular variety `X`, define
-the conormal sheaf by `N^*_(Y/X) = J/J^2` and the normal sheaf by its dual
-`N_(Y/X)`. The latter is locally free of rank `codim(Y,X)`.
+For a nonsingular closed subvariety $Y$ of a nonsingular variety $X$, define
+the conormal sheaf by $N^*_{(Y/X)} = J/J^2$ and the normal sheaf by its dual
+$N_{(Y/X)}$. The latter is locally free of rank $\operatorname{codim} (Y,X)$.
 
 ## Depends on
 

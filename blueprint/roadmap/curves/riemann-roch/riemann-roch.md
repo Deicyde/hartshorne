@@ -6,12 +6,12 @@ origin: cited
 
 # The Riemann–Roch theorem
 
-Let `D` be a divisor on a Chapter IV curve `X` of genus `g`, and let `K` be a
+Let $D$ be a divisor on a Chapter IV curve $X$ of genus $g$, and let $K$ be a
 canonical divisor. Then
 
-`l(D) - l(K-D) = deg D + 1 - g`.
+$l(D) - l(K-D) = \deg D + 1 - g$.
 
-The equality is in the integers, even though each `l` is a natural-number
+The equality is in the integers, even though each $l$ is a natural-number
 dimension.
 
 ## Depends on
@@ -23,8 +23,8 @@ dimension.
 
 ## Proof depends on
 
-- Serre duality identifies `H^1(X,O_X(D))` with the dual of
-  `H^0(X,omega_X tensor O_X(-D))`, which is `H^0(X,O_X(K-D))` after choosing
+- Serre duality identifies $H^1(X,\mathcal{O}_X(D))$ with the dual of
+  $H^0(X,\omega _X \otimes \mathcal{O}_X(-D))$, which is $H^0(X,\mathcal{O}_X(K-D))$ after choosing
   the canonical divisor.
 
 ## Sources

@@ -9,19 +9,18 @@ lean: Hartshorne.disconnectedSpectrum_idempotents_products_tfae
 
 # Connected spectra, idempotents, and products
 
-For a commutative ring `A`, the following are equivalent:
+For a commutative ring $A$, the following are equivalent:
 
-1. `Spec A` is disconnected;
-2. `1 = e₁ + e₂` for nonzero orthogonal idempotents `e₁,e₂`;
-3. `A` is isomorphic to a product `A₁ × A₂` of two nonzero rings.
+1. $\operatorname{Spec} A$ is disconnected;
+2. $1 = e_{1} + e_{2}$ for nonzero orthogonal idempotents $e_{1},e_{2}$;
+3. $A$ is isomorphic to a product $A_{1} \times A_{2}$ of two nonzero rings.
 
-Here “disconnected” means that the spectrum admits a separation, encoded in
-Mathlib as `¬ IsPreconnected univ`.  Thus the empty spectrum of the zero ring
-is not disconnected, and all three clauses remain false for that ring.  The
-pinned clopen/idempotent correspondence gives the first equivalence directly.
-Conversely an idempotent splits the spectrum into the two clopen principal
-opens `D(e)` and `D(1-e)`, and complementary idempotents give the ring product
-decomposition.  This is Exercise 2.19.
+Here “disconnected” means that the spectrum admits a separation
+into two nonempty open-and-closed subsets. The empty spectrum of
+the zero ring is therefore not disconnected, and all three clauses
+are false for that ring. An idempotent gives the complementary
+principal opens $D(e)$ and $D(1-e)$; complementary idempotents also
+give the product decomposition. This is Hartshorne's Exercise II.2.19.
 
 ## Depends on
 

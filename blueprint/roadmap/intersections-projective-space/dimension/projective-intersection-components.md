@@ -9,18 +9,16 @@ lean: Hartshorne.projectiveIntersectionComponent_chart
 
 # Projective intersection components on an affine chart
 
-Let `W` be an irreducible component of `Y ∩ Z` in projective space, and choose
-a standard chart `U_i` meeting `W`.  Under the standard chart homeomorphism,
-`W ∩ U_i` is an irreducible component of the intersection of the affine chart
-pieces of `Y` and `Z`; moreover the dimensions of `Y`, `Z`, and `W` agree with
-the dimensions of their respective chart pieces.  The sole main declaration
-is planned as `Hartshorne.projectiveIntersectionComponent_chart`.
+Let $W$ be an irreducible component of the intersection of projective
+varieties $Y$ and $Z$, and choose a standard affine chart $U_i$ meeting
+$W$. The chart image of $W\cap U_i$ is an irreducible component of the
+intersection of the chart pieces of $Y$ and $Z$. The dimensions of $Y$,
+$Z$, and $W$ agree with those of their respective chart pieces.
 
-Restriction along the open embedding into `Y ∩ Z` transports an irreducible
-component that meets the chart to an irreducible component of the open
-subspace.  The chart homeomorphism then transports it to affine space.
-Existing chart-dimension results identify the three dimensions because the
-chosen chart meets all three varieties.
+Restriction to an open subset transports any irreducible component meeting
+it to a component of the open subspace. The chart homeomorphism then
+transports the component to affine space. The dimensions agree because
+the chosen chart meets all three varieties.
 
 ## Depends on
 

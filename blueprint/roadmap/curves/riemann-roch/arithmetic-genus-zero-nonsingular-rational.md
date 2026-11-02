@@ -6,11 +6,11 @@ origin: cited
 
 # Arithmetic genus zero forces nonsingularity and rationality
 
-Let `X` be an integral projective one-dimensional scheme over an
-algebraically closed field. If `p_a(X)=0`, then every normalization defect
-`delta_P` is zero, the normalization map is an isomorphism, and
+Let $X$ be an integral projective one-dimensional scheme over an
+algebraically closed field. If $p_a(X)=0$, then every normalization defect
+$\delta _P$ is zero, the normalization map is an isomorphism, and
 
-`X ~= P^1_k`.
+$X \simeq \mathbb{P}^1_k$.
 
 ## Depends on
 
@@ -24,7 +24,7 @@ algebraically closed field. If `p_a(X)=0`, then every normalization defect
 - Nonnegativity of the arithmetic genus of the regular normalization and of
   every finite module length forces every summand in the genus formula to be
   zero.
-- Vanishing of all quotient stalks makes `O_X -> nu_*O_X_tilde` an
+- Vanishing of all quotient stalks makes $\mathcal{O}_X \to \nu _*\mathcal{O}_\widetilde{X}$ an
   isomorphism, hence normalization itself an isomorphism.
 
 ## Sources

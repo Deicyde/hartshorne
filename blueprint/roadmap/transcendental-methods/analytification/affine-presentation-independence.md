@@ -11,9 +11,6 @@ Any two finite polynomial presentations of a finite-type complex algebra
 produce canonically isomorphic complex analytic spaces, compatibly with
 algebra homomorphisms and further changes of presentation.
 
-This node is not ready. Hartshorne suppresses the proof, which requires the
-analytic universal property of closed subspaces and invariance under adding
-generators and relations.
 
 ## Depends on
 

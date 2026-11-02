@@ -6,14 +6,14 @@ origin: bridged
 
 # Riemann–Roch for a difference of smooth curves
 
-Let `D` be linearly equivalent to `C-E`, where `C,E` are nonsingular curves
+Let $D$ be linearly equivalent to $C -E$, where $C ,E$ are nonsingular curves
 on a Chapter V surface. Then
 
-`chi(O_X(D)) = (D*(D-K))/2 + 1 + p_a(X)`.
+$\chi (\mathcal{O}_X(D)) = (D\cdot (D-K))/2 + 1 + p_a(X)$.
 
 Equivalently, without division,
 
-`2*chi(O_X(D)) = D*(D-K)+2*(1+p_a(X))`.
+$2\cdot \chi (\mathcal{O}_X(D)) = D\cdot (D-K)+2\cdot (1+p_a(X))$.
 
 ## Depends on
 
@@ -25,7 +25,7 @@ Equivalently, without division,
 
 ## Proof depends on
 
-- The ideal-sheaf sequences for `C` and `E`, additivity of Euler
+- The ideal-sheaf sequences for $C$ and $E$, additivity of Euler
   characteristic, curve Riemann–Roch on the restrictions, and adjunction.
 
 ## Sources

@@ -9,24 +9,22 @@ lean: Hartshorne.moduleFinite_integralClosure_of_isPurelyInseparable Hartshorne.
 
 # Purely inseparable normalizations are finite
 
-Let `k` be an algebraically closed field, let `A` be a finitely generated,
-integrally closed `k`-algebra domain with fraction field `K`, and let `L/K` be
+Let $k$ be an algebraically closed field, let $A$ be a finitely generated,
+integrally closed $k$-algebra domain with fraction field $K$, and let $L/K$ be
 a finite purely inseparable field extension.  Then the integral closure of
-`A` in `L` is a finite `A`-module.
+$A$ in $L$ is a finite $A$-module.
 
-This is the inseparable step missing from Mathlib's integral-closure
-finiteness theorem. In characteristic zero the extension is trivial. In
-characteristic `p`, choose `q = p^e` with `L^q ⊆ K`. If `B` is the integral
-closure and `z ∈ B`, then `z^q ∈ K` is integral over `A`, hence belongs to `A`
-by normality. Because `k` is perfect and `A` is finite type, `A` is finite over
-its Frobenius image `A^q`. Thus the `A^q`-submodule `B^q ⊆ A` is finitely
-generated, say by `b₁^q,…,bₙ^q`. Every `b ∈ B` then satisfies
-`b^q = ∑ aᵢ^q bᵢ^q = (∑ aᵢ bᵢ)^q`; injectivity of Frobenius in the field `L`
-shows that the `bᵢ` span `B` over `A`.
+This is the purely inseparable step in the integral-closure finiteness theorem. In characteristic zero the extension is trivial. In
+characteristic $p$, choose $q = p^e$ with $L^q \subseteq K$. If $B$ is the integral
+closure and $z \in B$, then $z^q \in K$ is integral over $A$, hence belongs to $A$
+by normality. Because $k$ is perfect and $A$ is finite type, $A$ is finite over
+its Frobenius image $A^q$. Thus the $A^q$-submodule $B^q\subseteq A$ is finitely
+generated, say by $b_{1}^q,\ldots ,b_{n}^q$. Every $b \in B$ then satisfies
+$b^q=\sum_i a_i^q b_i^q=\left(\sum_i a_i b_i\right)^q$; injectivity of Frobenius in the field $L$
+shows that the $b_{i}$ span $B$ over $A$.
 
-Keep the exponent and the finite spanning family explicit.  They are needed
-when the result is applied after taking the maximal separable subextension of
-an arbitrary finite extension.
+The exponent and spanning family can be used after taking the maximal
+separable subextension of an arbitrary finite extension.
 
 ## Provenance
 

@@ -6,10 +6,10 @@ origin: cited
 
 # The Hodge-index Cauchy–Schwarz inequality
 
-Let `H` be an ample divisor on a Chapter-V surface and let `D` be any divisor.
+Let $H$ be an ample divisor on a Chapter-V surface and let $D$ be any divisor.
 Then
 
-`D^2 * H^2 <= (D.H)^2`.
+$D^2 H^2\le(D\cdot H)^2$.
 
 ## Depends on
 
@@ -18,7 +18,7 @@ Then
 ## Proof depends on
 
 - Apply the Hodge index theorem to
-  `(H^2)*D-(D.H)*H`, which is orthogonal to `H`.
+  $H^2 D-(D\cdot H)H$, which is orthogonal to $H$.
 
 ## Sources
 

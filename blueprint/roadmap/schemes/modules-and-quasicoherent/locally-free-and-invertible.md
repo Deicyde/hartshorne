@@ -6,14 +6,10 @@ origin: cited
 
 # Locally free and invertible module sheaves
 
-Define free and locally free `𝒪_X`-modules, locally free modules of a specified
+Define free and locally free $\mathcal{O} _X$-modules, locally free modules of a specified
 finite rank, and invertible modules as the rank-one case.  Show that the rank
-of a locally free module is locally constant, hence constant when `X` is
+of a locally free module is locally constant, hence constant when $X$ is
 connected.
-
-Pinned Mathlib provides `SheafOfModules.IsLocallyFree`, but does not yet expose
-the fixed-rank and invertible-sheaf API required by Hartshorne, so the full
-source statement remains a project leaf.
 
 ## Depends on
 

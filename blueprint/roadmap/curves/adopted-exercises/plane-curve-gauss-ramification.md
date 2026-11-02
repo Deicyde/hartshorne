@@ -6,14 +6,14 @@ origin: cited
 
 # The Gauss pencil and ramification at flexes
 
-Let `X` be a nonsingular plane curve over an algebraically closed field of
-characteristic zero, and let `L` be a line not tangent to `X`. The assignment
+Let $X$ be a nonsingular plane curve over an algebraically closed field of
+characteristic zero, and let $L$ be a line not tangent to $X$. The assignment
 
-`P |-> T_P(X) intersect L`
+$P\mapsto T_P(X)\cap L$
 
-defines a morphism `phi : X -> L`. It is ramified at `P` exactly when either
-`P` lies on `L`, or the tangent line has local intersection multiplicity at
-least three with `X` at `P`. In particular, `X` has only finitely many
+defines a morphism $\phi : X \to L$. It is ramified at $P$ exactly when either
+$P$ lies on $L$, or the tangent line has local intersection multiplicity at
+least three with $X$ at $P$. In particular, $X$ has only finitely many
 inflection points.
 
 ## Depends on
@@ -23,7 +23,7 @@ inflection points.
 
 ## Proof depends on
 
-- A local parameter calculation identifies the differential of `phi` with
+- A local parameter calculation identifies the differential of $\phi$ with
   first-order variation of the tangent line.
 
 ## Sources

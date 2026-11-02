@@ -6,12 +6,12 @@ origin: cited
 
 # Analytic morphisms between projective analytifications algebraize uniquely
 
-Let `X,Y` be projective schemes over `C`. Every morphism of complex analytic
+Let $X,Y$ be projective schemes over $\mathbb{C}$. Every morphism of complex analytic
 spaces
 
-`f_h:X^h->Y^h`
+$f_h:X^h\to Y^h$
 
-is the analytification of a unique algebraic morphism `f:X->Y`.
+is the analytification of a unique algebraic morphism $f:X\to Y$.
 
 ## Depends on
 
@@ -22,10 +22,10 @@ is the analytification of a unique algebraic morphism `f:X->Y`.
 
 ## Proof depends on
 
-- First algebraize `f_h^*O(1)` and its generating coordinate sections to
-  obtain the unique morphism to projective space. When `Y` is a closed
-  projective subscheme, analytic factorization through `Y^h` and GAGA full
-  faithfulness force the algebraic morphism to factor through `Y`.
+- First algebraize $f_h^*\mathcal{O}(1)$ and its generating coordinate sections to
+  obtain the unique morphism to projective space. When $Y$ is a closed
+  projective subscheme, analytic factorization through $Y^h$ and GAGA full
+  faithfulness force the algebraic morphism to factor through $Y$.
 
 ## Sources
 

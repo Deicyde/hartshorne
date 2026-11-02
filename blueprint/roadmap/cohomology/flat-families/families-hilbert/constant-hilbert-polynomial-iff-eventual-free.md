@@ -6,10 +6,10 @@ origin: cited
 
 # Constant Hilbert polynomial and eventual free sections
 
-Let `A` be a local Noetherian domain, `X=P^n_A`, and `F` coherent. The
-Hilbert polynomial of `F_t` is independent of `t : Spec A` if and only if
-there is `m0` such that `H^0(X,F(m))` is finite free over `A` for every
-integer `m >= m0`.
+Let $A$ be a local Noetherian domain, $X=\mathbb{P}^n_A$, and $F$ coherent. The
+Hilbert polynomial of $F_t$ is independent of $t : \operatorname{Spec} A$ if and only if
+there is $m0$ such that $H^0(X,F(m))$ is finite free over $A$ for every
+integer $m \ge m0$.
 
 ## Depends on
 

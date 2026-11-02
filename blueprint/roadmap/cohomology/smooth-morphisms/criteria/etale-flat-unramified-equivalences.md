@@ -6,19 +6,16 @@ origin: cited
 
 # Étale, flat-unramified, and differential criteria
 
-Let `f : X -> Y` be a morphism of schemes of finite type over a field. Define
-Hartshorne-unramified to mean that for every `x : X`, with `y=f(x)`,
+Let $f : X \to Y$ be a morphism of schemes of finite type over a field. Define
+Hartshorne-unramified to mean that for every $x \in X$, with $y=f(x)$,
 
-`m_y O_{X,x} = m_x`
+$m_y \mathcal{O}_{X,x} = m_x$
 
-and `k(x)/k(y)` is separable algebraic. Then the following are equivalent:
+and $k(x)/k(y)$ is separable algebraic. Then the following are equivalent:
 
-1. `f` is étale, equivalently smooth of relative dimension zero;
-2. `f` is flat and `Omega[X/Y]=0`;
-3. `f` is flat and Hartshorne-unramified.
-
-This source-shaped TFAE is a project wrapper around several exact Mathlib
-results and is not itself marked `mathlib: true`.
+1. $f$ is étale, equivalently smooth of relative dimension zero;
+2. $f$ is flat and $\Omega_{X/Y}=0$;
+3. $f$ is flat and Hartshorne-unramified.
 
 ## Depends on
 
@@ -27,10 +24,8 @@ results and is not itself marked `mathlib: true`.
 
 ## Proof depends on
 
-- `AlgebraicGeometry.Etale.iff_smoothOfRelativeDimension_zero` and
-  `Etale.iff_flat_and_formallyUnramified` in pinned Mathlib.
-- `Algebra.FormallyUnramified.iff_map_maximalIdeal_eq`, including residue-field
-  separability, applied to every stalk map.
+- Étale morphisms are smooth of relative dimension zero and equivalently flat and formally unramified.
+- The stalkwise criterion for formal unramifiedness, including residue-field separability.
 
 ## Sources
 

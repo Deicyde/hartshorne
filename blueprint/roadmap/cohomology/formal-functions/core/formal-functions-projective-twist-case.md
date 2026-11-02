@@ -6,11 +6,11 @@ origin: cited
 
 # Formal functions for projective twists
 
-Let `A` be a Noetherian local ring with maximal ideal `m`, let
-`X = P^r_A`, and let `F` be a finite direct sum of twisting sheaves `O(q_j)`.
-For every `i`, the formal-functions comparison map is an isomorphism:
+Let $A$ be a Noetherian local ring with maximal ideal $m$, let
+$X = \mathbb{P}^r_A$, and let $F$ be a finite direct sum of twisting sheaves $\mathcal{O}(q_j)$.
+For every $i$, the formal-functions comparison map is an isomorphism:
 
-`completion_m H^i(X,F) ~= lim_n H^i(P^r_(A/m^(n+1)), F_n)`.
+$\widehat{H^i(X,F)}\cong\varprojlim_n H^i(\mathbb{P}^r_{A/m^{n+1}},F_n)$.
 
 The completion is ordinary algebraic maximal-adic completion. No cohomology
 theory on a formal scheme is introduced in this leaf.
@@ -26,7 +26,7 @@ theory on a formal scheme is introduced in this leaf.
 ## Proof depends on
 
 - The explicit projective-space cohomology calculation commutes with the
-  quotient maps `A -> A/m^(n+1)`.
+  quotient maps $A \to A/m^{n+1}$.
 - Completion and inverse limits commute with finite direct sums.
 
 ## Sources

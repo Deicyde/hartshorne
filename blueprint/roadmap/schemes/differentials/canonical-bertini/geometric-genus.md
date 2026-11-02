@@ -6,10 +6,10 @@ origin: cited
 
 # Geometric genus
 
-For a nonsingular projective variety `X` over `k`, define its geometric genus
+For a nonsingular projective variety $X$ over $k$, define its geometric genus
 by
 
-`p_g(X) = dim_k Gamma(X, omega_X)`.
+$p_g(X) = \dim _k \Gamma (X, \omega _X)$.
 
 ## Depends on
 

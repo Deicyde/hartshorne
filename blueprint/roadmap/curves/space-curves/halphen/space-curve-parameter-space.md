@@ -7,14 +7,10 @@ not_ready: true
 
 # Parameter spaces of smooth space curves
 
-For fixed integers `d,g`, nonsingular curves of degree `d` and genus `g` in
-`P^3` are parametrized naturally by a finite union of quasi-projective
+For fixed integers $d,g$, nonsingular curves of degree $d$ and genus $g$ in
+$\mathbb{P}^3$ are parametrized naturally by a finite union of quasi-projective
 schemes, obtained from the appropriate Hilbert- or Chow-scheme loci.
 
-This contextual node is not ready. Hartshorne quotes the Hilbert/Chow
-parameter-space machinery without constructing it, and the current roadmap
-has no adopted scheme-level Hilbert or Chow representation with the required
-smooth connected components and fixed Hilbert polynomial loci.
 
 ## Depends on
 

@@ -9,7 +9,7 @@ origin: cited
 For a projective complex variety, the topological first Chern class descends
 to an injective homomorphism
 
-`NS(X) -> H^2(X^h,Z)`.
+$\operatorname{NS} (X) \to H^2(X^h,\mathbb{Z})$.
 
 ## Depends on
 
@@ -18,8 +18,8 @@ to an injective homomorphism
 
 ## Proof depends on
 
-- The kernel of the topological Chern class on `Pic(X)` is exactly the
-  identity component `Pic^0(X)`, whose divisor classes are algebraically
+- The kernel of the topological Chern class on $\operatorname{Pic} (X)$ is exactly the
+  identity component $\operatorname{Pic} ^0(X)$, whose divisor classes are algebraically
   trivial.
 
 ## Sources

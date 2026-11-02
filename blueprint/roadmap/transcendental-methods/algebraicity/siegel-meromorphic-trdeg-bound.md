@@ -7,16 +7,13 @@ not_ready: true
 
 # Siegel's bound on meromorphic functions
 
-If `M` is a connected compact complex manifold of dimension `n`, then
+If $M$ is a connected compact complex manifold of dimension $n$, then
 
-`trdeg_C K(M)<=n`.
+$\operatorname{trdeg} _\mathbb{C} K(M)\le n$.
 
-When equality holds, `K(M)` is a finitely generated extension of `C`.
+When equality holds, $K(M)$ is a finitely generated extension of $\mathbb{C}$.
 No finite-generation claim in smaller transcendence degree is included.
 
-This node is not ready.  Hartshorne cites Siegel without proof, and the
-project lacks analytic meromorphic fields and the analytic-dependence theorem
-needed for the bound.
 
 ## Depends on
 

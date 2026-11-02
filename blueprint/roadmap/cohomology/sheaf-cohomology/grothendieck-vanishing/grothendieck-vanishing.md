@@ -6,22 +6,21 @@ origin: cited
 
 # Grothendieck vanishing
 
-Let `X` be a noetherian topological space with
-`topologicalKrullDim X = n` in `WithBot ℕ∞`. For every abelian sheaf `F` and
-every natural `i>n`, one has `Hⁱ(X,F)=0`.
+Let $X$ be a Noetherian topological space of finite dimension
+$n$. For every abelian sheaf $F$ and every integer $i>n$,
+$H^i(X,F)=0$.
 
-The unique main result assembles induction on the finite dimension `n`, the
-dimension-zero base case, reduction to irreducible components, and reduction
-to subsheaves of `Z_U`. Its source blockage is inherited from the generic
-trivialization dependency below.
+The proof inducts on dimension, starting with the dimension-zero
+case, reducing to irreducible components, and then to subsheaves
+of the constant sheaf extended by zero from an open subset.
 
 ## Depends on
 
 - [The irreducible dimension-zero base case](irreducible-dimension-zero-cohomology.md)
 - [Reduction to irreducible components](irreducible-component-reduction.md)
-- [Reduction to subsheaves of `Z_U`](finitely-generated-subsheaf-reduction.md)
-- [Generic trivialization inside `Z_U`](subsheaf-of-zu-generic-trivialization.md)
-- [Vanishing for `Z_U`](constant-open-extension-vanishing.md)
+- [Reduction to subsheaves of $Z_U$](finitely-generated-subsheaf-reduction.md)
+- [Generic trivialization inside $Z_U$](subsheaf-of-zu-generic-trivialization.md)
+- [Vanishing for $Z_U$](constant-open-extension-vanishing.md)
 
 ## Sources
 

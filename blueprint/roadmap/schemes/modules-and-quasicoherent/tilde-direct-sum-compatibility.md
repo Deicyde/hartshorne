@@ -9,9 +9,9 @@ lean: Hartshorne.affineTildeCoproductNatIso Hartshorne.affineTildeCoproductIso
 
 # Tilde commutes with direct sums
 
-For every family of `A`-modules `Mᵢ`, construct the natural isomorphism
+For every family of $A$-modules $M_{i}$, construct the natural isomorphism
 
-`(⨁ i, Mᵢ)̃ ≅ ⨁ i, M̃ᵢ`.
+$\widetilde{\bigoplus_i M_i}\cong\bigoplus_i\widetilde{M_i}$.
 
 This is Proposition 5.2(c).  It is separated from tensor compatibility because
 its proof and completion criterion are purely cocontinuous: tilde, as a left

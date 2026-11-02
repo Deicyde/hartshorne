@@ -9,13 +9,13 @@ mathlib_file: Mathlib/AlgebraicGeometry/Modules/Tilde.lean
 
 # Modules and quasi-coherent sheaves on an affine scheme
 
-For `X = Spec A`, the tilde and global-sections functors give an equivalence
-between `A`-modules and quasi-coherent `𝒪_X`-modules.  Its counit is the
-canonical morphism `Γ(X,F)̃ ⟶ F`; consequently an affine module sheaf is
+For $X = \operatorname{Spec} A$, the tilde and global-sections functors give an equivalence
+between $A$-modules and quasi-coherent $\mathcal{O} _X$-modules.  Its counit is the
+canonical morphism $\widetilde{\Gamma(X,F)}\longrightarrow F$; consequently an affine module sheaf is
 quasi-coherent exactly when this morphism is an isomorphism.
 
-This is Corollary 5.5 together with the affine case of Proposition 5.4.  It is
-exactly `AlgebraicGeometry.tildeEquiv` in pinned Mathlib.
+This is Hartshorne's Corollary II.5.5 together with the affine
+case of Proposition II.5.4.
 
 ## Depends on
 

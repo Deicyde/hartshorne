@@ -48,10 +48,10 @@ targets, while source coverage is tracked separately.
 
 ## Chapters
 
-- [Affine varieties](affine-varieties/README.md) — Hartshorne I.1. The `Z`/`I`
+- [Affine varieties](affine-varieties/README.md) — Hartshorne I.1. The $Z$/$I$
   correspondence, the Nullstellensatz, irreducible decomposition, and dimension.
 - [Projective varieties](projective-varieties/README.md) — Hartshorne I.2. The
-  same dictionary made homogeneous, and the affine charts that make `ℙⁿ`
+  same dictionary made homogeneous, and the affine charts that make $\mathbb{P} ^{n}$
   locally affine.
 - [Morphisms](morphisms/README.md) — Hartshorne I.3. Regular functions, the
   category of varieties, and the equivalence with finitely generated domains.
@@ -59,17 +59,24 @@ targets, while source coverage is tracked separately.
   on an open set, birational equivalence, and the classification of varieties by
   their function fields.
 - [Nonsingular varieties](nonsingular-varieties/README.md) — Hartshorne I.5
-  through Theorem 5.3. Regular local rings, the Jacobian criterion, and the
+  through [Theorem I.5.3](nonsingular-varieties/singular-locus.md). Regular local rings, the Jacobian criterion, and the
   proper closed singular locus.
 - [Local structure of nonsingular curves](nonsingular-curves/README.md) — the
-  opening of Hartshorne I.6 through Lemma 6.4. Valuation rings, DVRs, and the
+  opening of Hartshorne I.6 through
+  [Lemma I.6.4](nonsingular-curves/local-ring-inclusion-determines-point.md).
+  Valuation rings, DVRs, and the
   determination of a point by its local ring.
 - [Normalization and the valuation-space curve](curve-normalization/README.md)
-  — Theorems 3.9A and 6.3A, Hartshorne I.6.5–6.7, finite poles, affine DVR
+  — [Theorem I.3.9A](curve-normalization/finite-integral-closure.md) and
+  [Theorem I.6.3A](curve-normalization/krull-akizuki/dedekind-integral-closure.md),
+  Hartshorne I.6.5–6.7, finite poles, affine DVR
   models, and abstract nonsingular curves.
 - [Projective models of curves](projective-models/README.md) — Exercise
-  I.3.3(a)–(c) as used by Theorem 6.9, Proposition I.6.8 through Corollary
-  I.6.12, projective completions, and the contravariant function-field
+  I.3.3(a)–(c) as used by
+  [Theorem I.6.9](projective-models/function-field-projective-model.md),
+  [Proposition I.6.8](projective-models/projective-extension.md) through
+  [Corollary I.6.12](projective-models/curve-category-equivalence.md),
+  projective completions, and the contravariant function-field
   equivalence.
 - [Intersections in projective space](intersections-projective-space/README.md)
   — Hartshorne I.7, from dimension bounds through Hilbert polynomials and

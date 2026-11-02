@@ -6,15 +6,11 @@ origin: cited
 
 # The long exact sequence of right derived functors
 
-Let `F : A ⥤ B` be additive and left exact, with `A` an abelian category
+Let $F : A \longrightarrow B$ be additive and left exact, with $A$ an abelian category
 having enough injectives. Every short exact sequence
-`0 ⟶ A' ⟶ A ⟶ A'' ⟶ 0` induces natural connecting morphisms
-`RⁿF(A'') ⟶ Rⁿ⁺¹F(A')` and a long exact sequence, natural in morphisms of
+$0 \longrightarrow A' \longrightarrow A \longrightarrow A'' \longrightarrow 0$ induces natural connecting morphisms
+$R^{n}F(A'') \longrightarrow R^{n+1}F(A')$ and a long exact sequence, natural in morphisms of
 short exact sequences.
-
-The pinned checkout has long exact homology sequences and Ext exact sequences,
-but no exact packaged theorem for `Functor.rightDerived`; this node supplies
-that comparison and naturality.
 
 ## Depends on
 

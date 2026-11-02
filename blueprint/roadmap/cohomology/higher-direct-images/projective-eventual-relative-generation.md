@@ -6,11 +6,11 @@ origin: cited
 
 # Eventual relative generation
 
-Let `f : X -> Y` be a projective morphism of Noetherian schemes, let
-`O_X(1)` be very ample over `Y`, and let `F` be coherent. There is an integer
-`n0` such that for every `n >= n0`, the adjunction map
+Let $f : X \to Y$ be a projective morphism of Noetherian schemes, let
+$\mathcal{O}_X(1)$ be very ample over $Y$, and let $F$ be coherent. There is an integer
+$n0$ such that for every $n \ge n0$, the adjunction map
 
-`f^* f_* F(n) -> F(n)`
+$f^* f_* F(n) \to F(n)$
 
 is an epimorphism.
 

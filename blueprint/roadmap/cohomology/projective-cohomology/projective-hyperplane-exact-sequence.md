@@ -6,14 +6,14 @@ origin: cited
 
 # The hyperplane exact-sequence bridge
 
-Let `H=V₊(xᵣ)⊆Pʳ_A`, identified with `Pʳ⁻¹_A`, and let `i:H→Pʳ_A`
-be the closed immersion. Multiplication by `xᵣ`, restriction, and the chosen
+Let $H=V_{+}(x_{r})\subseteq \mathbb{P}^{r}_A$, identified with $\mathbb{P}^{r-1}_A$, and let $i:H\to \mathbb{P}^{r}_A$
+be the closed immersion. Multiplication by $x_{r}$, restriction, and the chosen
 twist identifications form a natural graded short exact sequence
 
-`0 ⟶ ⊕_n O_X(n-1) ⟶ ⊕_n O_X(n) ⟶ i_*(⊕_n O_H(n)) ⟶ 0`.
+$0\longrightarrow\bigoplus_n\mathcal{O}_X(n-1)\longrightarrow\bigoplus_n\mathcal{O}_X(n)\longrightarrow i_*\left(\bigoplus_n\mathcal{O}_H(n)\right)\longrightarrow0$.
 
 The first map is degree zero after shifting, and the resulting cohomology map
-is multiplication by `xᵣ` under the graded Čech identifications.
+is multiplication by $x_{r}$ under the graded Čech identifications.
 
 ## Depends on
 
@@ -24,7 +24,7 @@ is multiplication by `xᵣ` under the graded Čech identifications.
 
 - [The long exact sequence of sheaf cohomology](../sheaf-cohomology/sheaf-cohomology-long-exact-sequence.md)
 - [Closed pushforward preserves cohomology](../sheaf-cohomology/closed-pushforward-cohomology.md)
-- Exactness of sheafification of `0→S(-1)→S→S/(xᵣ)→0`.
+- Exactness of sheafification of $0\to S(-1)\to S\to S/(x_{r})\to 0$.
 
 ## Sources
 

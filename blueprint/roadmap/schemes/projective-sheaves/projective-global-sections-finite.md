@@ -6,9 +6,9 @@ origin: cited
 
 # Finiteness of projective global sections
 
-Let `k` be a field, `A` a finitely generated `k`-algebra, `X` projective over
-`A`, and `F` coherent on `X`. Then `Γ(X,F)` is a finitely generated
-`A`-module. In particular, over `k` it is finite-dimensional.
+Let $k$ be a field, $A$ a finitely generated $k$-algebra, $X$ projective over
+$A$, and $F$ coherent on $X$. Then $\Gamma (X,F)$ is a finitely generated
+$A$-module. In particular, over $k$ it is finite-dimensional.
 
 ## Depends on
 

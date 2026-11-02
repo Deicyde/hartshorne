@@ -4,8 +4,8 @@ article_id: af_53061fc0328cd5bea7adb81b
 
 # Adic completion
 
-This milestone separates the exact pinned Mathlib API from the remaining
-Noetherian algebra quoted by Hartshorne as Theorem 9.3A.
+The completion constructions and their algebraic properties are
+the background used in Hartshorne's Theorem II.9.3A.
 
 1. [Adic completion of rings and modules](adic-completion.md)
 2. [Powers in an adic completion](adic-completion-powers.md)

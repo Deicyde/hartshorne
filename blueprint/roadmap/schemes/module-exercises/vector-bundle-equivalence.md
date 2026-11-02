@@ -7,12 +7,12 @@ origin: cited
 # Vector bundles and locally free sheaves
 
 There is a bijection between isomorphism classes of geometric vector bundles
-of rank `n` over `Y`, with linear transition maps, and isomorphism classes of
-locally free `O_Y`-modules of rank `n`.
+of rank $n$ over $Y$, with linear transition maps, and isomorphism classes of
+locally free $\mathcal{O}_Y$-modules of rank $n$.
 
-Under Hartshorne's convention, the forward construction sends `E` to `V(E)`,
+Under Hartshorne's convention, the forward construction sends $E$ to $V(E)$,
 while the reverse construction sends a bundle to the dual of its sheaf of
-sections. The preceding `Sections(V(E)/Y) ≅ E^dual` proves that these maps on
+sections. The preceding $\operatorname{Sections}(V(E)/Y)\cong E^\vee$ proves that these maps on
 isomorphism classes are inverse. No equivalence of categories is claimed.
 
 ## Depends on

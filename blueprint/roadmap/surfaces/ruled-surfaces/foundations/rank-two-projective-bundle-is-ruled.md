@@ -6,9 +6,9 @@ origin: cited
 
 # A rank-two projective bundle over a curve is ruled
 
-Let `C` be a nonsingular projective curve and `E` a rank-two locally free
-sheaf. In the quotient-line convention, `P_C(E)` is a nonsingular projective
-surface with every fibre isomorphic to `P^1`, and its projection admits a
+Let $C$ be a nonsingular projective curve and $E$ a rank-two locally free
+sheaf. In the quotient-line convention, $P_C (E)$ is a nonsingular projective
+surface with every fibre isomorphic to $\mathbb{P}^1$, and its projection admits a
 section. Thus it is a geometrically ruled surface.
 
 ## Depends on
@@ -19,8 +19,8 @@ section. Thus it is a geometrically ruled surface.
 
 ## Proof depends on
 
-- A trivialization of `E` over a nonempty open subset gives a local section;
-  properness extends it uniquely across the missing closed points of `C`.
+- A trivialization of $E$ over a nonempty open subset gives a local section;
+  properness extends it uniquely across the missing closed points of $C$.
 
 ## Sources
 

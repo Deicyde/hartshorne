@@ -8,12 +8,12 @@ origin: cited
 
 For each Weil polynomial,
 
-`P_i(t)=product_j (1-alpha_(i,j)*t)`,
+$P_i(t)=\prod _j (1-\alpha _{(i,j)}\cdot t)$,
 
-where every `alpha_(i,j)` is an algebraic integer and every complex embedding
+where every $\alpha _{(i,j)}$ is an algebraic integer and every complex embedding
 has absolute value
 
-`|alpha_(i,j)|=q^(i/2)`.
+$|\alpha _{(i,j)}|=q^{i/2}$.
 
 ## Depends on
 

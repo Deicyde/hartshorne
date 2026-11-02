@@ -6,16 +6,16 @@ origin: cited
 
 # Equality forces hyperellipticity
 
-Let `D` be an effective special divisor, linearly equivalent to neither zero
-nor `K`, and
+Let $D$ be an effective special divisor, linearly equivalent to neither zero
+nor $K$, and
 
-`2 * dim|D| = deg D`.
+$2 \cdot \dim |D| = \deg D$.
 
 Then the curve is hyperelliptic. More precisely, the induction in Hartshorne's
-proof constructs a nonzero proper common subdivisor `D'` of suitable
-representatives of `|D|` and `|K-D|`, with
+proof constructs a nonzero proper common subdivisor $D'$ of suitable
+representatives of $|D|$ and $|K-D|$, with
 
-`2 * dim|D'| = deg D'`.
+$2 \cdot \dim |D'| = \deg D'$.
 
 ## Depends on
 
@@ -25,12 +25,12 @@ representatives of `|D|` and `|K-D|`, with
 
 ## Proof depends on
 
-- Construct the coefficientwise intersection `D'=D_0 intersect E` after
-  choosing `E in |K-D|` and a representative `D_0 in |D|` through one point
-  of `E` and one outside it.
+- Construct the coefficientwise intersection $D'=D_0 \cap E$ after
+  choosing $E \in |K-D|$ and a representative $D_0 \in |D|$ through one point
+  of $E$ and one outside it.
 - The exact sequence of rational-function section spaces for
-  `D'`, `D_0`, `E`, and `D_0+E-D'` forces equality for `D'`; descend on degree
-  to the base case `deg D'=2`.
+  $D'$, $D_0$, $E$, and $D_0+E-D'$ forces equality for $D'$; descend on degree
+  to the base case $\deg D'=2$.
 
 ## Sources
 

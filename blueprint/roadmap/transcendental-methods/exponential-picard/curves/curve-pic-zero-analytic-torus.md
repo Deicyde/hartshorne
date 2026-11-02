@@ -6,9 +6,9 @@ origin: cited
 
 # Analytic Pic0 of a curve
 
-For a smooth projective complex genus-`g` curve,
+For a smooth projective complex genus-$g$ curve,
 
-`Pic^0(C) ~= C^g/Z^(2g)`
+$\operatorname{Pic}^0(C)\simeq\mathbb{C}^g/\mathbb{Z}^{2g}$
 
 as a complex torus, with the lattice understood through the exponential
 sequence rather than as an unspecified abstract subgroup.

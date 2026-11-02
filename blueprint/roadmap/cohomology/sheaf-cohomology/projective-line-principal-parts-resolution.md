@@ -4,12 +4,12 @@ declaration: theorem
 origin: cited
 ---
 
-# The principal-parts resolution on `P¹`
+# The principal-parts resolution on $\mathbb{P}^{1}$
 
-Let `X=P¹` over an algebraically closed field, `K` its function field, and
-`K_X` the constant sheaf. There is a natural short exact sequence
+Let $X=\mathbb{P}^{1}$ over an algebraically closed field, $K$ its function field, and
+$K_X$ the constant sheaf. There is a natural short exact sequence
 
-`0 ⟶ O_X ⟶ K_X ⟶ ⨁_{P∈X} i_{P,*}(K/O_{X,P}) ⟶ 0`,
+$0\longrightarrow\mathcal{O}_X\longrightarrow K_X\longrightarrow\bigoplus_{P\in X}i_{P,*}\left(K/\mathcal{O}_{X,P}\right)\longrightarrow0$,
 
 and the final map is surjective on global sections. The unique main result is
 this augmented principal-parts resolution, including global surjectivity.

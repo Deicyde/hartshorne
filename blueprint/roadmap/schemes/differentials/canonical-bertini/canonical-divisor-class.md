@@ -6,13 +6,13 @@ origin: bridged
 
 # The canonical divisor class
 
-Let `X` be a nonsingular integral variety. The invertible canonical sheaf
-`omega_X` determines a Cartier divisor class whose associated invertible sheaf
-is isomorphic to `omega_X`. Define this class to be the canonical divisor
-class of `X`.
+Let $X$ be a nonsingular integral variety. The invertible canonical sheaf
+$\omega _X$ determines a Cartier divisor class whose associated invertible sheaf
+is isomorphic to $\omega _X$. Define this class to be the canonical divisor
+class of $X$.
 
 The result is a class modulo linear equivalence. Choosing an actual divisor
-`K_X` requires choosing a nonzero rational top form, so no preferred divisor
+$K_X$ requires choosing a nonzero rational top form, so no preferred divisor
 representative is asserted.
 
 ## Depends on

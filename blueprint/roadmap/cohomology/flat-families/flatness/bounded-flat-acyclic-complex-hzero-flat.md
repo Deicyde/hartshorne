@@ -9,9 +9,9 @@ lean: Hartshorne.boundedFlatAcyclicComplex_homology_zero_flat
 
 # Zeroth cohomology of a bounded flat acyclic complex
 
-Let `C` be a bounded cochain complex of flat modules over a ring `A`,
-concentrated in degrees greater than or equal to zero. If `H^i(C)=0` for every
-positive degree, then `H^0(C)` is flat over `A`.
+Let $C$ be a bounded cochain complex of flat modules over a ring $A$,
+concentrated in degrees greater than or equal to zero. If $H^i(C )=0$ for every
+positive degree, then $H^0(C )$ is flat over $A$.
 
 ## Depends on
 
@@ -23,7 +23,7 @@ positive degree, then `H^0(C)` is flat over `A`.
 - Split the bounded exact positive-degree tail into short exact sequences of
   cycles, boundaries, and terms, and descend from the final nonzero degree.
 
-The nonnegative concentration is essential: it identifies `H^0(C)` with the
+The nonnegative concentration is essential: it identifies $H^0(C )$ with the
 kernel of the first differential, as in the Cech resolution used by
 Hartshorne.
 

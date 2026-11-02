@@ -6,14 +6,14 @@ origin: cited
 
 # The classical inverse system of torsion étale cohomology
 
-For fixed `i`, the reduction morphisms of coefficient sheaves define an
+For fixed $i$, the reduction morphisms of coefficient sheaves define an
 inverse system
 
-`... -> H^i_et(X,Z/ell^(r+1)Z) -> H^i_et(X,Z/ell^r Z) -> ...`.
+$\ldots \to H^i_{\mathrm{et}}(X,\mathbb{Z}/\ell ^{r+1}\mathbb{Z}) \to H^i_{\mathrm{et}}(X,\mathbb{Z}/\ell ^r\mathbb{Z}) \to \ldots$.
 
 Define the classical integral ℓ-adic group by the ordinary inverse limit
 
-`H^i_classical(X,Z_ell)=inverse-limit_r H^i_et(X,Z/ell^r Z)`.
+$H^i_{\mathrm{classical}}(X,\mathbb Z_\ell)=\varprojlim_r H^i_{\mathrm{et}}(X,\mathbb{Z}/\ell^r\mathbb{Z})$.
 
 This definition records, rather than suppresses, the later obligation to
 compare ordinary inverse limits with derived limits.  No automatic

@@ -6,9 +6,9 @@ origin: cited
 
 # Flat closed projective families and Hilbert polynomials
 
-Let `T` be an integral Noetherian scheme and `X` a closed subscheme of
-`P^n_T`. The morphism `X -> T` is flat if and only if the Hilbert polynomial
-of the scheme-theoretic fibre `X_t` is independent of `t`.
+Let $T$ be an integral Noetherian scheme and $X$ a closed subscheme of
+$\mathbb{P}^n_T$. The morphism $X \to T$ is flat if and only if the Hilbert polynomial
+of the scheme-theoretic fibre $X_t$ is independent of $t$.
 
 ## Depends on
 
@@ -20,9 +20,9 @@ of the scheme-theoretic fibre `X_t` is independent of `t`.
 
 - [Projective flatness and eventual free sections](projective-flat-iff-eventual-sections-free.md)
   and [constant Hilbert polynomial and eventual free sections](constant-hilbert-polynomial-iff-eventual-free.md)
-  give the coherent-sheaf three-way criterion after localization on `T`.
-- Identify flatness of `O_X` over `T` with flatness of `X -> T`, not with
-  local freeness of `O_X` over itself.
+  give the coherent-sheaf three-way criterion after localization on $T$.
+- Identify flatness of $\mathcal{O}_X$ over $T$ with flatness of $X \to T$, not with
+  local freeness of $\mathcal{O}_X$ over itself.
 
 ## Sources
 

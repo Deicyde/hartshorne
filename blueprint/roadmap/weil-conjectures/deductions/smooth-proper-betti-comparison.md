@@ -6,14 +6,14 @@ origin: cited
 
 # Smooth-proper Betti-number comparison
 
-Let `R` be a localization of a number ring and let `Y->Spec R` be smooth and
-proper. Suppose a closed fibre is `X/F_q`, and choose an embedding of the
-fraction field into `C` with complex fibre `Y_C`. Smooth-proper base change
+Let $R$ be a localization of a number ring and let $Y\to \operatorname{Spec} R$ be smooth and
+proper. Suppose a closed fibre is $X/\mathbb{F}_q$, and choose an embedding of the
+fraction field into $\mathbb{C}$ with complex fibre $Y_\mathbb{C}$. Smooth-proper base change
 and the ℓ-adic/singular comparison give
 
-`dim_(Q_ell) H^i(X_bar,Q_ell)=rank_Z H^i(Y_C^h,Z)`
+$\dim _{(\mathbb{Q}_\ell)} H^i(\overline{X},\mathbb{Q}_\ell)=\operatorname{rank}_{\mathbb Z} H^i(Y_\mathbb{C} ^h,\mathbb{Z})$
 
-for every `i`, after the usual rational coefficient comparison. This is the
+for every $i$, after the usual rational coefficient comparison. This is the
 good-reduction hypothesis implicit in Hartshorne's phrase “obtained by
 reduction.”
 

@@ -9,22 +9,22 @@ lean: Hartshorne.exists_pow_mem_of_forall_homogeneousVanish Hartshorne.zeroSet_s
 
 # The homogeneous Nullstellensatz
 
-Let `𝔞 ⊆ S` be a homogeneous ideal and `f ∈ S` homogeneous with `deg f > 0`. If
-`f(P) = 0` for every `P ∈ Z(𝔞)` then `f^q ∈ 𝔞` for some `q > 0` (Exercise 2.1).
+Let $\mathfrak{a} \subseteq S$ be a homogeneous ideal and $f \in S$ homogeneous with $\deg f > 0$. If
+$f(P) = 0$ for every $P \in Z(\mathfrak{a} )$ then $f^q \in \mathfrak{a}$ for some $q > 0$ (Exercise 2.1).
 
-The proof reduces to the affine Nullstellensatz through the cone: interpret `S`
-as the coordinate ring of `𝔸ⁿ⁺¹` and observe that the affine zero set of `𝔞` is
-the cone over `Z(𝔞)` together with the origin. The degree hypothesis is what
+The proof reduces to the affine Nullstellensatz through the cone: interpret $S$
+as the coordinate ring of $\mathbb{A} ^{n+1}$ and observe that the affine zero set of $\mathfrak{a}$ is
+the cone over $Z(\mathfrak{a} )$ together with the origin. The degree hypothesis is what
 handles the origin, and it is also why the statement must fail for degree-zero
-`f`.
+$f$.
 
 The step that makes the reduction work, and that Hartshorne's hint leaves
 implicit, is that the affine zero set of a homogeneous ideal is stable under
-scaling. Without it a nonzero affine zero cannot be read as a point of `Z(𝔞)`,
+scaling. Without it a nonzero affine zero cannot be read as a point of $Z(\mathfrak{a} )$,
 because the projective point carries an arbitrary representative rather than the
 affine point one started with.
 
-Exercise 2.2, which characterises when `Z(𝔞) = ∅` in terms of the irrelevant
+Exercise 2.2, which characterises when $Z(\mathfrak{a} ) = \varnothing$ in terms of the irrelevant
 ideal, is not proved here. It is needed only to decide which homogeneous radical
 ideals the correspondence must exclude, so it belongs with
 [that article](homogeneous-ideal-correspondence.md) and is recorded there.

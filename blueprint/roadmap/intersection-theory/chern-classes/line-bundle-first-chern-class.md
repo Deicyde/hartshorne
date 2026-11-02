@@ -6,13 +6,13 @@ origin: cited
 
 # The first Chern class of a line bundle
 
-For a Cartier divisor `D` on a nonsingular quasi-projective variety,
+For a Cartier divisor $D$ on a nonsingular quasi-projective variety,
 
-`c_t(O_X(D))=1+[D]t`.
+$c_t(\mathcal{O}_X(D))=1+[D]t$.
 
-Equivalently `c_1(O_X(D))=[D]` in `A^1(X)` and all higher Chern classes
-vanish.  This uses the quotient convention, for which `P(O_X(D))=X` and the
-tautological `O(1)` is `O_X(D)`.
+Equivalently $c_1(\mathcal{O}_X(D))=[D]$ in $A^1(X)$ and all higher Chern classes
+vanish.  This uses the quotient convention, for which $P(\mathcal{O}_X(D))=X$ and the
+tautological $\mathcal{O}(1)$ is $\mathcal{O}_X(D)$.
 
 ## Depends on
 

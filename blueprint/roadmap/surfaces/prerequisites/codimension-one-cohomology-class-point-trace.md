@@ -6,14 +6,14 @@ origin: cited
 
 # Codimension-one classes and the point trace
 
-Let `X` be a nonsingular projective `n`-fold over an algebraically closed
-field. The cohomology class `eta(P) in H^n(X,Omega_X^n)` of a closed point
+Let $X$ be a nonsingular projective $n$-fold over an algebraically closed
+field. The cohomology class $\eta (P) \in H^n(X,\Omega _X^n)$ of a closed point
 has trace one.
 
-If `Y subset X` is a nonsingular prime divisor, its codimension-one
+If $Y \subset X$ is a nonsingular prime divisor, its codimension-one
 cohomology class is the logarithmic Picard class:
 
-`eta(Y)=c(O_X(Y)) in H^1(X,Omega_X)`.
+$\eta (Y)=c(\mathcal{O}_X(Y)) \in H^1(X,\Omega _X)$.
 
 ## Depends on
 
@@ -24,9 +24,9 @@ cohomology class is the logarithmic Picard class:
 
 ## Proof depends on
 
-- Construct `eta(Y)` by restricting complementary differential forms to
-  `Y` and composing with the dualizing trace.
-- Compare the connecting cocycle of the divisor with `dlog` of its transition
+- Construct $\eta (Y)$ by restricting complementary differential forms to
+  $Y$ and composing with the dualizing trace.
+- Compare the connecting cocycle of the divisor with $\operatorname{dlog}$ of its transition
   functions; the point case fixes the trace normalization.
 
 ## Sources

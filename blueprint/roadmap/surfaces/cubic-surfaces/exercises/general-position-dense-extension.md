@@ -6,14 +6,14 @@ origin: cited
 
 # General position is preserved and admits dense extensions
 
-Call a finite ordered set of points of `P^2` in general position when no
+Call a finite ordered set of points of $\mathbb{P}^2$ in general position when no
 three are collinear and every finite sequence of admissible quadratic
 transformations again produces a set with no three collinear.
 
 General position is preserved by any finite sequence of admissible
 transformations. If the algebraically closed ground field is uncountable and
-`P_1,...,P_r` are in general position, there is a dense subset
-`V subset P^2` such that adjoining any `P_(r+1) in V` preserves general
+$P_1,\ldots ,P_r$ are in general position, there is a dense subset
+$V \subset \mathbb{P}^2$ such that adjoining any $P_{(r+1)} \in V$ preserves general
 position.
 
 ## Depends on

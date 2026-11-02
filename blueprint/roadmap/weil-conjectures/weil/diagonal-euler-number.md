@@ -6,13 +6,13 @@ origin: cited
 
 # The diagonal Euler number
 
-For a smooth projective geometrically connected `n`-fold `X/F_q`, define
+For a smooth projective geometrically connected $n$-fold $X/\mathbb{F}_q$, define
 
-`E(X)=deg(Delta_X.Delta_X)`.
+$E(X)=\deg(\Delta_X\cdot\Delta_X)$.
 
-After identifying the diagonal with `X`, Appendix A Exercise A.6.6 gives
+After identifying the diagonal with $X$, Appendix A Exercise A.6.6 gives
 
-`E(X)=deg c_n(T_X)`.
+$E(X)=\deg c_n(T_X)$.
 
 ## Depends on
 

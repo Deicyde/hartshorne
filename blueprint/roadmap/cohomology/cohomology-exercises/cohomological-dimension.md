@@ -6,10 +6,12 @@ origin: bridged
 
 # Cohomological dimension
 
-For a Noetherian separated scheme `X`, define `cd(X) : WithTop Nat` as the
-infimum of the extended natural numbers `n` such that, for every
-quasi-coherent `F` and every natural degree `i` with `n < i`,
-`H^i(X,F)=0`. Thus `cd(X)=top` exactly when no finite bound exists.
+For a Noetherian separated scheme $X$, its cohomological dimension
+$\operatorname{cd}(X)$ is the infimum of the bounds
+$n\in\mathbb N\cup\{\infty\}$ such that
+$H^i(X,F)=0$ for every quasi-coherent sheaf $F$ and every
+integer $i>n$. Its value is $\infty$ exactly when no finite
+bound exists.
 
 When a finite least bound exists, this agrees with Hartshorne's definition in
 Exercise 4.8.
@@ -22,8 +24,7 @@ Exercise 4.8.
 
 ## Proof depends on
 
-- `top` is always a bound vacuously, so the defining infimum is over a
-  nonempty set.
+- The value $\infty$ is always a bound, so the defining set is nonempty.
 
 ## Sources
 

@@ -6,13 +6,13 @@ origin: cited
 
 # Complete nonsingular curves are projective
 
-Let `X` be a nonsingular curve over an algebraically closed field `k`, with
-function field `K`. Prove the equivalence:
+Let $X$ be a nonsingular curve over an algebraically closed field $k$, with
+function field $K$. Prove the equivalence:
 
-1. `X` is projective over `k`;
-2. `X` is proper over `k`;
-3. `X` is isomorphic to the scheme associated to Hartshorne's abstract
-   nonsingular curve with function field `K`.
+1. $X$ is projective over $k$;
+2. $X$ is proper over $k$;
+3. $X$ is isomorphic to the scheme associated to Hartshorne's abstract
+   nonsingular curve with function field $K$.
 
 This is Proposition 6.7. Completeness is represented by properness of the
 structure morphism.

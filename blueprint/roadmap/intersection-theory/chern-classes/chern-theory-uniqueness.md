@@ -6,10 +6,10 @@ origin: cited
 
 # The line, naturality, and Whitney axioms determine Chern classes
 
-A theory assigning classes `c_i(E) in A^i(X)` to locally free sheaves on
+A theory assigning classes $c_i(E) \in A^i(X)$ to locally free sheaves on
 nonsingular quasi-projective varieties is uniquely determined by:
 
-1. `c_t(O_X(D))=1+[D]t`;
+1. $c_t(\mathcal{O}_X(D))=1+[D]t$;
 2. naturality under pullback; and
 3. the Whitney sum formula.
 
@@ -24,7 +24,7 @@ nonsingular quasi-projective varieties is uniquely determined by:
 
 - Pull both candidate theories to a common splitting space.  Whitney sum and
   the line-bundle formula make them equal there; injectivity of Chow pullback
-  makes them equal on `X`.
+  makes them equal on $X$.
 
 ## Sources
 

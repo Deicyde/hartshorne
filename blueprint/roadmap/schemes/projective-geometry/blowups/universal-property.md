@@ -6,8 +6,8 @@ origin: cited
 
 # The universal property of a blowup
 
-If `f : Z -> X` makes the inverse-image ideal `f^{-1}I · O_Z` invertible,
-there is a unique factorization `Z -> Bl_I(X) -> X`. As a supporting lemma,
+If $f : Z \to X$ makes the inverse-image ideal $f^{-1}I \cdot \mathcal{O}_Z$ invertible,
+there is a unique factorization $Z \to Bl_I(X) \to X$. As a supporting lemma,
 a surjective morphism between invertible sheaves is an isomorphism.
 
 ## Depends on
@@ -17,7 +17,7 @@ a surjective morphism between invertible sheaves is an isomorphism.
 
 ## Proof depends on
 
-- Local finite generators of `I` and the resulting closed immersion of its
+- Local finite generators of $I$ and the resulting closed immersion of its
   Rees Proj into projective space.
 
 ## Sources

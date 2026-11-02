@@ -9,11 +9,11 @@ lean: Hartshorne.abelianQuotientSheaf_stalkAddEquiv_exists
 
 # Stalks of quotient sheaves
 
-If `F'` is a subsheaf of a sheaf of abelian groups `F`, define `F/F'` by
-sheafifying the presheaf `U ↦ F(U)/F'(U)`. For every point `x`, the canonical
+If $F'$ is a subsheaf of a sheaf of abelian groups $F$, define $F/F'$ by
+sheafifying the presheaf $U \mapsto F(U)/F'(U)$. For every point $x$, the canonical
 map induces an additive equivalence
 
-`(F/F')ₓ ≃+ Fₓ/F'ₓ`.
+$(F/F')_x\cong F_x/F'_x$.
 
 The same construction identifies the cokernel of a sheaf morphism with the
 sheafification of its pointwise cokernel. The source-facing stalk equivalence

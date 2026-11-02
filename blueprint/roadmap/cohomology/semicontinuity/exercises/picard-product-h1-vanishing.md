@@ -6,12 +6,12 @@ origin: cited
 
 # The Picard group of a product when H¹ vanishes
 
-Let `X` be an integral projective scheme over an algebraically closed field
-with `H^1(X,O_X)=0`, and let `T` be a connected finite-type scheme over that
+Let $X$ be an integral projective scheme over an algebraically closed field
+with $H^1(X,\mathcal{O}_X)=0$, and let $T$ be a connected finite-type scheme over that
 field, not necessarily reduced. The restrictions of any invertible sheaf on
-`X times T` to the closed fibres over `T` are mutually isomorphic, and the map
+$X \times T$ to the closed fibres over $T$ are mutually isomorphic, and the map
 
-`Pic(X) times Pic(T) -> Pic(X times T)`
+$\operatorname{Pic} (X) \times \operatorname{Pic} (T) \to \operatorname{Pic} (X \times T)$
 
 given by pullback from the two factors and tensor product is an isomorphism.
 
@@ -23,11 +23,11 @@ given by pullback from the two factors and tensor product is an isomorphism.
 
 ## Proof depends on
 
-- Vanishing of `H^1(X,O_X)` makes infinitesimal variation of a line bundle on
-  the fibres trivial; the argument must include nilpotent thickenings of `T`
+- Vanishing of $H^1(X,\mathcal{O}_X)$ makes infinitesimal variation of a line bundle on
+  the fibres trivial; the argument must include nilpotent thickenings of $T$
   and cannot be reduced to its closed-point set.
 - Use the base-change theorem directly to make the fibre class locally
-  constant over all of connected `T`, then construct the descended line
+  constant over all of connected $T$, then construct the descended line
   bundle from the pushforward and evaluation map on the whole scheme before
   normalizing at one closed fibre.
 

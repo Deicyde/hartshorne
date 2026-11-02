@@ -6,7 +6,7 @@ article_id: af_c6b4694c8a669b634d331490
 
 Hartshorne V.6 defines the canonical ring and Kodaira dimension, records
 their birational behavior, and surveys the classification for Kodaira
-dimensions `-1`, `0`, `1`, and `2`. The fine roadmap has 26 project leaves;
+dimensions $-1$, $0$, $1$, and $2$. The fine roadmap has 26 project leaves;
 quoted classification theorems remain explicit source obligations.
 
 - [Canonical rings and Kodaira dimension](kodaira/README.md)

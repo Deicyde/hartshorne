@@ -9,29 +9,19 @@ lean: Hartshorne.isIntegral_of_mul_mem Hartshorne.exists_algebraMap_eq_of_isInte
 
 # An element stabilising a finite-dimensional subspace is integral
 
-If `K` is a `k`-algebra domain, `V ⊆ K` a nonzero finite-dimensional
-`k`-subspace, and `f ∈ K` satisfies `f · V ⊆ V`, then `f` is integral over `k`;
-and if `k` is algebraically closed, `f` lies in `k`.
+Let $K$ be a $k$-algebra domain, let $V\subseteq K$ be a nonzero
+finite-dimensional $k$-subspace, and let $f\in K$ satisfy $fV\subseteq V$.
+Then $f$ is integral over $k$. If $k$ is algebraically closed, then $f\in k$.
 
-This is the content of [Theorem 3.4(a)](projective-global-regular.md) with the
-geometry removed. Hartshorne's argument for `𝒪(Y) = k` is that a global regular
-function multiplies some graded piece `S(Y)_N` into itself, that piece is a
-finite-dimensional `k`-vector space, and `k` is algebraically closed. Only the
-first two clauses are about projective varieties.
+The determinant trick applied to multiplication by $f$ on $V$ gives a
+monic polynomial relation. Equivalently, for nonzero $v\in V$, the map
+$a\mapsto av$ injects $k[f]$ into $V$, so $k[f]$ is finite-dimensional.
+Over an algebraically closed field the minimal polynomial is linear,
+making $f$ a constant.
 
-What makes `f · V ⊆ V` give integrality rather than merely algebraicity is the
-determinant trick, and Mathlib supplies it as `IsIntegral.of_mem_of_fg`: it is
-enough that `k[f]` be finitely generated as a `k`-module. That holds because
-`a ↦ a · v` embeds `k[f]` into `V` for any nonzero `v ∈ V`, injectively because
-`K` is a domain. The passage from integral to constant is the minimal polynomial
-being irreducible, hence linear over an algebraically closed field.
-
-## The finiteness that feeds it
-
-Each graded piece of `S(Y)` is a finite-dimensional `k`-vector space
-(`Hartshorne.finiteDimensional_projCoordGrading`), being the image of a graded
-piece of the polynomial ring, and those are finitely generated when there are
-finitely many variables.
+Each homogeneous piece of $S(Y)$ is finite-dimensional: it is the image
+of a finite-dimensional homogeneous polynomial piece. This is the
+finiteness used in [Theorem I.3.4(a)](projective-global-regular.md).
 
 ## Depends on
 

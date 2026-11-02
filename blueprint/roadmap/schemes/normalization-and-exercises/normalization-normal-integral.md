@@ -9,13 +9,11 @@ lean: Hartshorne.absoluteNormalization_isNormal_and_isIntegral
 
 # The normalization is normal and integral
 
-The normalization `X̃` of an integral scheme is a normal integral scheme.
+The normalization $\widetilde{X}$ of an integral scheme is a normal integral scheme.
 
-Each affine chart is the spectrum of an integrally closed domain inside
-`K(X)`, hence normal and integral. Descend these local properties through the
-glued affine cover. Mathlib's relative-normalization API supplies reduced and
-integral instances under source hypotheses, but normality and this absolute
-specialization remain project wrappers.
+Each affine chart is the spectrum of an integrally closed domain
+inside $K(X)$, hence normal and integral. These local properties
+descend through the glued affine cover.
 
 ## Depends on
 

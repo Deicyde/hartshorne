@@ -6,12 +6,12 @@ origin: bridged
 
 # The conormal sheaf of an immersion
 
-Let `i : Z → X` be an immersion. Use its canonical factorization
-`Z → U ↪ X` as a closed immersion `i'` followed by an open immersion. If `I`
-is the ideal sheaf of `i'`, define the conormal sheaf `N^*_i` on `Z` to be
-`i'^*I`. Expose its canonical identification with `I/I²` after pushforward:
+Let $i : Z \to X$ be an immersion. Use its canonical factorization
+$Z \to U \hookrightarrow X$ as a closed immersion $i'$ followed by an open immersion. If $I$
+is the ideal sheaf of $i'$, define the conormal sheaf $N^*_i$ on $Z$ to be
+$i'^*I$. Expose its canonical identification with $I/I^{2}$ after pushforward:
 
-`i'_*N^*_i ≅ I/I²`.
+$i'_*N^*_i \cong I/I^{2}$.
 
 The construction must use the actual ideal sheaf; it may not define the
 diagonal conormal sheaf to be the relative differential sheaf.
@@ -26,8 +26,8 @@ diagonal conormal sheaf to be the relative differential sheaf.
 ## Proof depends on
 
 - Restriction and quotient compatibility for module sheaves.
-- Stacks Project, Section 29.32, tags `01R1`–`01R3`, for the conormal sheaf
-  and its `I/I²` description.
+- Stacks Project, Section 29.32, tags $01R1$–$01R3$, for the conormal sheaf
+  and its $I/I^{2}$ description.
 
 ## Sources
 

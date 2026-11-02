@@ -6,15 +6,15 @@ origin: cited
 
 # Finite pushforward preserves coherence
 
-Let `f : X ⟶ Y` be a finite morphism of locally Noetherian schemes.  If `F`
-is coherent on `X`, then `f_*F` is coherent on `Y`.  This is the positive
+Let $f : X \longrightarrow Y$ be a finite morphism of locally Noetherian schemes.  If $F$
+is coherent on $X$, then $f_*F$ is coherent on $Y$.  This is the positive
 conclusion of Exercise 5.5(c), cited in Caution 5.8.1 and later in the proof of
 Serre's theorem.  Exercise 5.5(a)'s counterexample remains explanatory rather
 than a second completion target.
 
-On an affine `V = Spec A` in `Y`, write `f⁻¹(V) = Spec B` with `B` finite over
-`A`.  A finite `B`-module is finite over `A`; affine change of rings identifies
-its tilde sheaf with the restriction of `f_*F` to `V`.
+On an affine $V = \operatorname{Spec} A$ in $Y$, write $f^{-1}(V) = \operatorname{Spec} B$ with $B$ finite over
+$A$.  A finite $B$-module is finite over $A$; affine change of rings identifies
+its tilde sheaf with the restriction of $f_*F$ to $V$.
 
 ## Depends on
 

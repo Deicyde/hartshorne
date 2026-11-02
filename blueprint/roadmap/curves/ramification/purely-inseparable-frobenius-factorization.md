@@ -6,15 +6,15 @@ origin: cited
 
 # Purely inseparable curve maps are iterated Frobenius
 
-Let `f : X -> Y` be a finite morphism of curves over an algebraically closed
-field of characteristic `p>0`. If `K(X)/K(Y)` is purely inseparable of degree
-`p^r`, then `f`, after the function-field-model identification of its source,
-is the composite of `r` Hartshorne-oriented `k`-linear Frobenius morphisms
+Let $f : X \to Y$ be a finite morphism of curves over an algebraically closed
+field of characteristic $p>0$. If $K(X)/K(Y)$ is purely inseparable of degree
+$p^r$, then $f$, after the function-field-model identification of its source,
+is the composite of $r$ Hartshorne-oriented $k$-linear Frobenius morphisms
 
-`Y^(p^r) -> ... -> Y^p -> Y`.
+$Y^{p^r} \to \ldots \to Y^p \to Y$.
 
-Equivalently, `X` is isomorphic to `Y^(p^r)` as a `k`-scheme compatibly with
-the maps to `Y`.
+Equivalently, $X$ is isomorphic to $Y^{p^r}$ as a $k$-scheme compatibly with
+the maps to $Y$.
 
 ## Depends on
 
@@ -23,8 +23,8 @@ the maps to `Y`.
 
 ## Proof depends on
 
-- If the extension degree is `p^r`, then
-  `K(X)^(p^r) subset K(Y)` and comparison with `K(Y)^(1/p^r)` forces equality
+- If the extension degree is $p^r$, then
+  $K(X)^{p^r} \subset K(Y)$ and comparison with $K(Y)^{1/p^r}$ forces equality
   by degree.
 - The complete nonsingular curve model of a one-dimensional function field is
   unique.

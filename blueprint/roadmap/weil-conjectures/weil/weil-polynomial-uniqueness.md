@@ -7,7 +7,7 @@ origin: cited
 # The weights uniquely determine the Weil polynomials
 
 Given the rational zeta function and a factorization whose reciprocal roots
-have the prescribed distinct weights `0,...,2n`, the polynomials `P_i` are
+have the prescribed distinct weights $0,\ldots ,2n$, the polynomials $P_i$ are
 unique.
 
 ## Depends on

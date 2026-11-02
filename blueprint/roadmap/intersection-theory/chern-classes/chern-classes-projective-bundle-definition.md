@@ -6,22 +6,22 @@ origin: cited
 
 # Chern classes from the projective-bundle relation
 
-Let `E` be locally free of positive rank `r` on a nonsingular quasi-projective variety
-`X`.  In Hartshorne's quotient convention, let `pi:P(E)->X` and put
-`xi=[O_(P(E))(1)] in A^1(P(E))`, using `A^1(P(E))~=Pic(P(E))`. Define the classes
+Let $E$ be locally free of positive rank $r$ on a nonsingular quasi-projective variety
+$X$.  In Hartshorne's quotient convention, let $\pi :\mathbb{P}(E)\to X$ and put
+$\xi =[\mathcal{O}_{\mathbb{P}(E)}(1)] \in A^1(\mathbb{P}(E))$, using $A^1(\mathbb{P}(E))\simeq \operatorname{Pic} (\mathbb{P}(E))$. Define the classes
 
-`c_i(E) in A^i(X)`, `0<=i<=r`,
+$c_i(E) \in A^i(X)$, $0\le i\le r$,
 
-by `c_0(E)=1` and the relation
+by $c_0(E)=1$ and the relation
 
-`sum_(i=0)^r (-1)^i pi^*c_i(E) xi^(r-i)=0`
+$\sum _{(i=0)}^r (-1)^i \pi ^*c_i(E) \xi ^{r-i}=0$
 
-in `A^r(P(E))`.  The Chow projective-bundle formula gives existence and
+in $A^r(\mathbb{P}(E))$.  The Chow projective-bundle formula gives existence and
 uniqueness of the coefficients.  Define
 
-`c_t(E)=sum_(i=0)^r c_i(E)t^i`.
+$c_t(E)=\sum _{(i=0)}^r c_i(E)t^i$.
 
-The later line-bundle axiom proves `xi=c_1(O(1))`; that equality is not used
+The later line-bundle axiom proves $\xi =c_1(\mathcal{O}(1))$; that equality is not used
 circularly in this definition.
 
 ## Depends on

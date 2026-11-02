@@ -7,13 +7,13 @@ origin: cited
 # Hodge manifolds have an integral Kähler class
 
 A Hodge manifold is a compact complex manifold equipped with a Kähler form
-`omega` whose class in `H^2(M,C)` lies in the image of
+$\omega$ whose class in $H^2(M,\mathbb{C} )$ lies in the image of
 
-`H^2(M,Z) -> H^2(M,C)`.
+$H^2(M,\mathbb{Z}) \to H^2(M,\mathbb{C} )$.
 
 This is an existence structure: a manifold may have nonintegral Kähler
 metrics as well.  The normalization of the de Rham/singular comparison and
-any `2*pi` factor must be fixed once for the project.
+any $2\cdot \pi$ factor must be fixed once for the project.
 
 ## Depends on
 

@@ -6,9 +6,9 @@ origin: cited
 
 # Relatively minimal rational examples
 
-The projective plane and every rational ruled surface `X_e` with `e>=0` and
-`e!=1` are relatively minimal. The surface `X_1`, isomorphic to the blowup of
-`P^2` at one point, is not relatively minimal.
+The projective plane and every rational ruled surface $X_e$ with $e\ge 0$ and
+$e\ne 1$ are relatively minimal. The surface $X_1$, isomorphic to the blowup of
+$\mathbb{P}^2$ at one point, is not relatively minimal.
 
 ## Depends on
 

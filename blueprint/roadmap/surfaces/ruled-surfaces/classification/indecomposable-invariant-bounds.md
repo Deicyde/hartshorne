@@ -6,10 +6,10 @@ origin: cited
 
 # Bounds for the invariant of an indecomposable bundle
 
-Let `E` be a normalized indecomposable rank-two bundle on a genus-`g` curve.
+Let $E$ be a normalized indecomposable rank-two bundle on a genus-$g$ curve.
 Its ruled-surface invariant satisfies
 
-`-2*g <= e <= 2*g-2`.
+$-2\cdot g \le e \le 2\cdot g-2$.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ Its ruled-surface invariant satisfies
 
 ## Proof depends on
 
-- The nonsplit extension class lies in `H^1(L^(-1))`, giving the upper bound.
+- The nonsplit extension class lies in $H^1(L^{-1})$, giving the upper bound.
 - Tensor by every degree-minus-one line bundle and use normalizedness and
   Riemann–Roch to obtain the lower bound.
 

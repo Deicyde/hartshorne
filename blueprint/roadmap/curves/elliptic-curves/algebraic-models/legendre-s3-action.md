@@ -6,11 +6,11 @@ origin: cited
 
 # The Legendre S3 action
 
-Permuting the branch points `0,1,lambda` and renormalizing the first two to
-`0,1` defines an `S_3` action on `k minus {0,1}`. The orbit of `lambda` is
+Permuting the branch points $0,1,\lambda$ and renormalizing the first two to
+$0,1$ defines an $S_3$ action on $k\setminus\{0,1\}$. The orbit of $\lambda$ is
 
-`lambda`, `1/lambda`, `1-lambda`, `1/(1-lambda)`,
-`lambda/(lambda-1)`, and `(lambda-1)/lambda`.
+$\lambda$, $1/\lambda$, $1-\lambda$, $1/(1-\lambda )$,
+$\lambda /(\lambda -1)$, and $(\lambda -1)/\lambda$.
 
 ## Depends on
 
@@ -18,8 +18,8 @@ Permuting the branch points `0,1,lambda` and renormalizing the first two to
 
 ## Proof depends on
 
-- The unique affine coordinate sending distinct `a,b` to `0,1` is
-  `(x-a)/(b-a)`.
+- The unique affine coordinate sending distinct $a,b$ to $0,1$ is
+  $(x-a)/(b-a)$.
 
 ## Sources
 

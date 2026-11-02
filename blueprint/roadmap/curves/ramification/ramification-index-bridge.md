@@ -6,16 +6,17 @@ origin: bridged
 
 # The ramification-index bridge
 
-Let `f : X -> Y` be a finite morphism of curves, let `P : X`, and put
-`Q=f(P)`. For a uniformizer `t` of the DVR `O_(Y,Q)`, define
+Let $f : X \to Y$ be a finite morphism of curves, let $P \in X$, and put
+$Q=f(P)$. For a uniformizer $t$ of the DVR $\mathcal{O}_{(Y,Q)}$, define
 
-`e_P = v_P(f^#t)`.
+$e_P=v_P(f^\#t)$.
 
-Prove independence of `t`, identify `e_P` with the coefficient of `P` in
-`f^*Q` and with Mathlib's ideal-theoretic ramification index for the induced
-extension of DVRs, and show `e_P=1` exactly when `f` is unramified at `P`.
-Ramification is tame in characteristic zero, or in characteristic `p` when
-`p` does not divide `e_P`; otherwise it is wild.
+The value $e_P$ is independent of $t$. It equals the coefficient of $P$ in
+$f^*Q$ and the ideal-theoretic ramification index for the induced extension
+of discrete valuation rings. Moreover, $e_P=1$ exactly when $f$ is
+unramified at $P$.
+Ramification is tame in characteristic zero, or in characteristic $p$ when
+$p$ does not divide $e_P$; otherwise it is wild.
 
 ## Depends on
 
@@ -26,8 +27,8 @@ Ramification is tame in characteristic zero, or in characteristic `p` when
 ## Proof depends on
 
 - Uniformizers differ by units and local ring maps preserve units.
-- `Ideal.ramificationIdx` for the corresponding prime ideals in affine DVR
-  neighbourhoods.
+- The ideal-theoretic ramification index for the corresponding prime ideals
+  in affine discrete-valuation neighbourhoods.
 
 ## Sources
 

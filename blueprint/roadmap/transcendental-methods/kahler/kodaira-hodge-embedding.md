@@ -8,12 +8,8 @@ not_ready: true
 # Kodaira's embedding theorem
 
 Every Hodge manifold is isomorphic to the analytification of a smooth
-projective algebraic variety over `C`.
+projective algebraic variety over $\mathbb{C}$.
 
-This node is not ready.  Hartshorne quotes Kodaira's theorem without proof.
-The proof requires construction of a positive holomorphic line bundle from
-the integral Kähler class, analytic vanishing and section-generation, and a
-holomorphic projective embedding, none of which has a project representation.
 
 ## Depends on
 

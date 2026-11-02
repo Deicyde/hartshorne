@@ -9,13 +9,13 @@ mathlib_file: Mathlib/CategoryTheory/Abelian/Injective/Ext.lean
 
 # Global Ext from an injective resolution
 
-If `G ⟶ I•` is an injective resolution in an abelian category, then
-`Ext^n(F,G)` is naturally additively equivalent to the degree-`n` cohomology
-classes of the Hom complex `Hom(F,I•)`.
+If $G \longrightarrow I^{\bullet}$ is an injective resolution in an abelian category, then
+$\operatorname{Ext} ^n(F,G)$ is naturally additively equivalent to the degree-$n$ cohomology
+classes of the Hom complex $\operatorname{Hom} (F,I^{\bullet} )$.
 
-This identifies Hartshorne's right-derived-functor computation with Mathlib's
-shifted-morphism definition of global Ext. It is not a construction of the
-sheaf `𝓔xt` or of an internal `R𝓗om` object.
+This identifies the right-derived-functor computation with global
+Ext defined by shifted morphisms. It concerns global Ext groups;
+the sheaves $\mathcal{E}xt$ are constructed separately.
 
 ## Depends on
 

@@ -6,7 +6,7 @@ origin: cited
 
 # Testing cohomological dimension on coherent sheaves
 
-For a Noetherian separated scheme `X`, the extended cohomological dimension
+For a Noetherian separated scheme $X$, the extended cohomological dimension
 is unchanged if its vanishing bound is tested only on coherent modules.
 
 ## Depends on

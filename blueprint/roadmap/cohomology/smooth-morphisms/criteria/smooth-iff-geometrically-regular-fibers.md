@@ -6,10 +6,10 @@ origin: cited
 
 # Smoothness and geometrically regular fibres
 
-Let `f : X -> Y` be a morphism of finite-type schemes over a field. Then `f`
-is smooth of relative dimension `n` if and only if it is flat and, for every
-`y : Y`, the fibre after base change to an algebraic closure of `k(y)` is
-regular and equidimensional of dimension `n`.
+Let $f : X \to Y$ be a morphism of finite-type schemes over a field. Then $f$
+is smooth of relative dimension $n$ if and only if it is flat and, for every
+$y \in Y$, the fibre after base change to an algebraic closure of $k(y)$ is
+regular and equidimensional of dimension $n$.
 
 ## Depends on
 
@@ -19,8 +19,7 @@ regular and equidimensional of dimension `n`.
 
 ## Proof depends on
 
-- `AlgebraicGeometry.Smooth.of_smooth_fiberToSpecResidueField` from pinned
-  Mathlib, after comparing smooth fibres with geometrically regular fibres.
+- Smoothness can be checked on fibers under the stated flatness and finiteness hypotheses.
 - Faithfully flat descent of local freeness of Kähler differentials along an
   algebraic closure of a residue field.
 

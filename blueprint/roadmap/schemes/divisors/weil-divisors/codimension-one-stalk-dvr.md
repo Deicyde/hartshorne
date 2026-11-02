@@ -9,24 +9,23 @@ lean: AlgebraicGeometry.Scheme.codimensionOneStalk_isDiscreteValuationRing Algeb
 
 # Codimension-one stalks are DVRs
 
-If `X` satisfies `(*)` and `x : X` has `coheight x = 1`, then the local ring
-`O_{X,x}` is a discrete valuation ring. Its fraction field identifies with
-`X.functionField`, so its normalized valuation is the valuation attached to
-the prime divisor whose generic point is `x`.
+If $X$ satisfies $(*)$ and $x\in X$ is a point of codimension one,
+then $\mathcal{O}_{X,x}$ is a discrete valuation ring with fraction
+field $K(X)$. Its normalized valuation is the valuation attached to
+the prime divisor with generic point $x$.
 
-This theorem supplies the precise hypothesis under which Mathlib's
-`Scheme.ord` agrees with Hartshorne's DVR valuation.
+Thus the order of vanishing along that divisor is the corresponding
+discrete valuation.
 
 ## Depends on
 
 - [Regularity in codimension one](regular-in-codimension-one.md)
-- [Affine opens have fraction field `K(X)`](../../normalization-and-exercises/function-field-integral-scheme.md)
+- [Affine opens have fraction field $K(X)$](../../normalization-and-exercises/function-field-integral-scheme.md)
 - [Characterizations of discrete valuation rings](../../../nonsingular-curves/dvr-characterizations.md)
 
 ## Proof depends on
 
-- `Scheme.functionField_isFractionRing_of_stalk` and localization of the
-  function field at a point.
+- The function field is the fraction field of the local ring.
 
 ## Sources
 

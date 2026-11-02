@@ -9,17 +9,18 @@ lean: Hartshorne.dualNumberLiftToTangent_bijective
 
 # Tangent vectors and the dual numbers
 
-Let `X` be a scheme over a field `k`, and let `x : X` be `k`-rational.  If
-`D = k[ε]/(ε²)`, then `k`-morphisms `Spec D → X` whose closed point maps to
-`x` correspond bijectively to the Zariski tangent space
+Let $X$ be a scheme over a field $k$, and let $x \in X$ be $k$-rational.  If
+$D = k[\varepsilon ]/(\varepsilon ^{2})$, then $k$-morphisms $\operatorname{Spec} D \to X$ whose closed point maps to
+$x$ correspond bijectively to the Zariski tangent space
 
-`T_xX = Hom_k(𝔪_x/𝔪_x², k)`.
+$T_{xX} = \operatorname{Hom} _k(\mathfrak{m} _x/\mathfrak{m} _x^{2}, k)$.
 
-Use the field-valued-point classification to fix `x`, then identify the local
-maps `𝒪_{X,x} → D` reducing to the residue map with `k`-derivations to `k`.
-Such derivations vanish on `𝔪_x²` and are uniquely linear maps from
-`𝔪_x/𝔪_x²`; conversely a linear functional defines the `ε` coefficient.
-Mathlib supplies `DualNumber`, but no exact scheme-level equivalence was found.
+Fix the residue-field map at $x$. Local homomorphisms
+$\mathcal{O}_{X,x}\to D$ reducing to it correspond to
+$k$-derivations into $k$. Such derivations vanish on
+$\mathfrak m_x^2$, so they correspond to linear maps from
+$\mathfrak m_x/\mathfrak m_x^2$. Conversely, a linear functional
+determines the coefficient of $\varepsilon$.
 
 ## Depends on
 

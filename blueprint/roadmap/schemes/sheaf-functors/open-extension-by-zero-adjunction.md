@@ -9,12 +9,12 @@ proof: formalized
 
 # Open extension by zero is left adjoint to restriction
 
-Let `j : U ↪ X` be an open immersion. The conditional-presheaf construction
-of `j_!` is left adjoint to restriction along `j`:
+Let $j : U \hookrightarrow X$ be an open immersion. The conditional-presheaf construction
+of $j_!$ is left adjoint to restriction along $j$:
 
-`Hom_X(j_!F,G) ≃ Hom_U(F,j^*G)`.
+$\operatorname{Hom} _X(j_!F,G) \simeq \operatorname{Hom} _U(F,j^*G)$.
 
-The equivalence is natural in `F` and `G` and agrees with the canonical map
+The equivalence is natural in $F$ and $G$ and agrees with the canonical map
 from the conditional presheaf construction. This is the ordinary sheaf
 adjunction, not a statement about derived extraordinary functors.
 

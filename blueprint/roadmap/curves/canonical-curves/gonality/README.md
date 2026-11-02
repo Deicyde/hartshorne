@@ -7,7 +7,7 @@ article_id: af_e6bdfe19f8431c8899f3c370
 This subchapter covers the post-Clifford classification discussion in
 Hartshorne IV.5, excluding the moduli-space claims. Linear series are stored
 as an invertible sheaf together with a finite-dimensional section subspace;
-the notation `g^r_d` records degree `d` and projective dimension `r`.
+the notation $g^r_d$ records degree $d$ and projective dimension $r$.
 
 1. [Linear series and trigonal curves](trigonal-linear-series.md)
 2. [The Kleiman–Laksov gonality threshold](kleiman-laksov-gonality-threshold.md)

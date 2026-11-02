@@ -6,9 +6,9 @@ origin: cited
 
 # Trigonal systems in genus three
 
-Every genus-three curve has a `g^1_3`. For a hyperelliptic curve, add one
-point to its `g^1_2`. For a nonhyperelliptic curve, projection of its canonical
-plane quartic from any point of the curve gives a `g^1_3`; consequently it has
+Every genus-three curve has a $g^1_3$. For a hyperelliptic curve, add one
+point to its $g^1_2$. For a nonhyperelliptic curve, projection of its canonical
+plane quartic from any point of the curve gives a $g^1_3$; consequently it has
 infinitely many such systems.
 
 ## Depends on

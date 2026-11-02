@@ -6,12 +6,12 @@ origin: cited
 
 # A generic finite-module frame
 
-Let `f : X ⟶ Y` be a finite surjective morphism of integral Noetherian
-schemes. There are a coherent module `M` on `X`, an integer `r>0`, and a map
+Let $f : X \longrightarrow Y$ be a finite surjective morphism of integral Noetherian
+schemes. There are a coherent module $M$ on $X$, an integer $r>0$, and a map
 
-`O_Y^r ⟶ f_*M`
+$\mathcal{O}_Y^r \longrightarrow f_*M$
 
-which is an isomorphism at the generic point of `Y`.
+which is an isomorphism at the generic point of $Y$.
 
 ## Depends on
 

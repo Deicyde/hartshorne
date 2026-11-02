@@ -6,10 +6,10 @@ origin: background
 
 # Regular sequences and Cohen–Macaulay quotients
 
-Let `A` be a Noetherian Cohen–Macaulay local ring and let
-`x_1, ..., x_r` lie in its maximal ideal. The sequence is regular exactly when
+Let $A$ be a Noetherian Cohen–Macaulay local ring and let
+$x_1, \ldots , x_r$ lie in its maximal ideal. The sequence is regular exactly when
 
-`dim A/(x_1, ..., x_r) = dim A - r`.
+$\dim A/(x_1, \ldots , x_r) = \dim A - r$.
 
 When these equivalent conditions hold, the quotient is Cohen–Macaulay.
 

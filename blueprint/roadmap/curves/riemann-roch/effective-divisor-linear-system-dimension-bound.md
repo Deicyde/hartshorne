@@ -6,11 +6,11 @@ origin: cited
 
 # The dimension bound for an effective divisor
 
-Let `D` be an effective divisor on a Chapter IV curve of genus `g`. Then
+Let $D$ be an effective divisor on a Chapter IV curve of genus $g$. Then
 
-`dim|D| <= deg D`.
+$\dim |D| \le \deg D$.
 
-Equality holds if and only if `D=0` or `g=0`. The dimension is integer-valued;
+Equality holds if and only if $D=0$ or $g=0$. The dimension is integer-valued;
 for an effective divisor the system is nonempty, so no truncation ambiguity
 occurs in the displayed inequality.
 
@@ -24,7 +24,7 @@ occurs in the displayed inequality.
 ## Proof depends on
 
 - Induction on the degree using the point-divisor exact sequence bounds the
-  increase of `l(D)` by one at each point.
+  increase of $l(D)$ by one at each point.
 - Analyze equality using Riemann–Roch and the genus-zero classification.
 
 ## Sources

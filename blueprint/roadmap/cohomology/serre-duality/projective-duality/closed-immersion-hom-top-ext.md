@@ -7,10 +7,10 @@ origin: cited
 # Hom into top sheaf Ext
 
 Under the hypotheses of the ambient vanishing theorem, set
-`ω°_X=𝓔xtʳ_P(i_*O_X,ω_P)`. For every `O_X`-module `G` there is a
+$\omega ^{\circ} _X=\mathcal{E}xt^{r}_P(i_*\mathcal{O}_X,\omega _P)$. For every $\mathcal{O}_X$-module $G$ there is a
 functorial isomorphism
 
-`Hom_X(G,ω°_X) ≃ Extʳ_P(i_*G,ω_P)`.
+$\operatorname{Hom} _X(G,\omega ^{\circ} _X) \simeq \operatorname{Ext} ^{r}_P(i_*G,\omega _P)$.
 
 ## Depends on
 
@@ -21,8 +21,8 @@ functorial isomorphism
 ## Proof depends on
 
 - [Injective resolutions](../../derived-functors/injective-resolutions.md)
-- The right adjunction between restriction of scalars along `O_P→i_*O_X`
-  and sheaf Hom from `i_*O_X`.
+- The right adjunction between restriction of scalars along $\mathcal{O}_P\to i_*\mathcal{O}_X$
+  and sheaf Hom from $i_*\mathcal{O}_X$.
 - Splitting a bounded exact initial segment of a complex of injectives.
 
 ## Sources

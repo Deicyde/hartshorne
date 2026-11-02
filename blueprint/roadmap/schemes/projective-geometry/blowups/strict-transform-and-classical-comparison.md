@@ -6,12 +6,12 @@ origin: cited
 
 # Strict transforms and the classical affine blowup
 
-Define the strict transform of a closed subscheme `Y -> X` as its blowup along
-the inverse-image center, embedded in `Bl_I(X)`. In the source's comparison
-case, let `X = A^n`, let the center be the origin `P`, and let `Y` be an
-integral closed subvariety through `P` with `Y != {P}`. Identify its strict
-transform with the scheme-theoretic closure of `pi^{-1}(Y - {P})` and with
-Hartshorne's Chapter-I incidence blowup of `Y` at `P`.
+Define the strict transform of a closed subscheme $Y \to X$ as its blowup along
+the inverse-image center, embedded in $Bl_I(X)$. In the source's comparison
+case, let $X = A^n$, let the center be the origin $P$, and let $Y$ be an
+integral closed subvariety through $P$ with $Y \ne \{P\}$. Identify its strict
+transform with the scheme-theoretic closure of $\pi ^{-1}(Y - \{P\})$ and with
+Hartshorne's Chapter-I incidence blowup of $Y$ at $P$.
 
 ## Depends on
 
@@ -21,7 +21,7 @@ Hartshorne's Chapter-I incidence blowup of `Y` at `P`.
 
 ## Proof depends on
 
-- Density of `Y - {P}` in the integral positive-dimensional variety `Y`.
+- Density of $Y - \{P\}$ in the integral positive-dimensional variety $Y$.
 
 ## Sources
 

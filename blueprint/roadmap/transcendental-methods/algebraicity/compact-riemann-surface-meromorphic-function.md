@@ -10,10 +10,6 @@ not_ready: true
 Every connected compact complex manifold of dimension one admits a global
 nonconstant meromorphic function.
 
-This node is not ready.  Hartshorne identifies it as the hard analytic step
-in Riemann's theorem and cites Weyl's Dirichlet-principle proof and Gunning's
-distribution/cohomology proof.  The project has neither global analytic
-meromorphic functions on manifolds nor either proof package.
 
 ## Depends on
 

@@ -6,9 +6,9 @@ origin: cited
 
 # Multisecants force coplanar tangents
 
-Let `X subset P^3` be a nonplanar curve. If every secant of `X` is a
-multisecant, then for every pair of points `P,Q`, the tangent lines `L_P` and
-`L_Q` are coplanar.
+Let $X \subset \mathbb{P}^3$ be a nonplanar curve. If every secant of $X$ is a
+multisecant, then for every pair of points $P,Q$, the tangent lines $L_P$ and
+$L_Q$ are coplanar.
 
 ## Depends on
 
@@ -18,9 +18,9 @@ multisecant, then for every pair of points `P,Q`, the tangent lines `L_P` and
 
 ## Proof depends on
 
-- Project from a fixed `R in X`. If the induced function-field map is
+- Project from a fixed $R \in X$. If the induced function-field map is
   inseparable, its differential vanishes and every tangent passes through
-  `R`. If it is separable, choose an unramified smooth image point with at
+  $R$. If it is separable, choose an unramified smooth image point with at
   least two preimages; their tangents project to the same tangent line.
 - Extend the coplanarity statement from a dense open set of pairs using the
   closed coplanar-tangent locus.

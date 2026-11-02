@@ -6,12 +6,12 @@ origin: cited
 
 # The Hodge index theorem
 
-Let `H` be ample on a Chapter V surface. If `D` is not numerically trivial
+Let $H$ be ample on a Chapter V surface. If $D$ is not numerically trivial
 and
 
-`D*H=0`,
+$D\cdot H=0$,
 
-then `D^2<0`.
+then $D^2<0$.
 
 This algebraic proof is valid over an algebraically closed field of arbitrary
 characteristic.
@@ -24,10 +24,10 @@ characteristic.
 
 ## Proof depends on
 
-- If `D^2>0`, apply eventual effectivity to `D` after replacing the ample
-  class by `D+nH`, contradicting `D*H=0`.
-- If `D^2=0`, choose `E` with `D*E!=0`, replace it by an integral class
-  orthogonal to `H`, and choose `n` so `(nD+E)^2>0`, reducing to the first
+- If $D^2>0$, apply eventual effectivity to $D$ after replacing the ample
+  class by $D+nH$, contradicting $D\cdot H=0$.
+- If $D^2=0$, choose $E$ with $D\cdot E\ne 0$, replace it by an integral class
+  orthogonal to $H$, and choose $n$ so $(nD+E)^2>0$, reducing to the first
   case.
 
 ## Sources

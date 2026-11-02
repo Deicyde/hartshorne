@@ -7,11 +7,11 @@ origin: cited
 # Geometrically ruled surfaces
 
 Over an algebraically closed field, package a geometrically ruled surface as
-a Chapter-V surface `X`, a nonsingular projective curve `C`, a surjective
-morphism `pi : X -> C`, an identification of every fibre with `P^1`, and a
-section `sigma : C -> X` of `pi`.
+a Chapter-V surface $X$, a nonsingular projective curve $C$, a surjective
+morphism $\pi : X \to C$, an identification of every fibre with $\mathbb{P}^1$, and a
+section $\sigma : C \to X$ of $\pi$.
 
-The product `C x P^1` with its first projection is ruled. In particular, a
+The product $C x \mathbb{P}^1$ with its first projection is ruled. In particular, a
 smooth quadric surface has two ruled-surface structures, one from each ruling.
 
 ## Depends on

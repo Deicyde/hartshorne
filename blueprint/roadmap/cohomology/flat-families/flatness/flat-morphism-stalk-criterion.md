@@ -9,8 +9,8 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Flat.lean
 
 # The stalk criterion for flat morphisms
 
-A scheme morphism `f : X -> Y` is flat if and only if every stalk map
-`O_{Y,f(x)} -> O_{X,x}` is flat.
+A scheme morphism $f : X \to Y$ is flat if and only if every stalk map
+$\mathcal{O}_{Y,f(x)} \to \mathcal{O}_{X,x}$ is flat.
 
 ## Depends on
 
@@ -18,7 +18,7 @@ A scheme morphism `f : X -> Y` is flat if and only if every stalk map
 
 ## Proof depends on
 
-- The exact pinned declaration named in the metadata.
+No additional project-local results.
 
 ## Sources
 

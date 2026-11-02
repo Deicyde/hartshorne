@@ -9,12 +9,12 @@ lean: Hartshorne.finiteType_affineSource_algebra
 
 # Affine source opens of a finite-type morphism
 
-Let `f : X → Y` be finite type, let `V = Spec B` be affine in `Y`, and let
-`U = Spec A` be any affine open contained in `f⁻¹(V)`. Then `A` is a finitely
-generated `B`-algebra.
+Let $f : X \to Y$ be finite type, let $V = \operatorname{Spec} B$ be affine in $Y$, and let
+$U = \operatorname{Spec} A$ be any affine open contained in $f^{-1}(V)$. Then $A$ is a finitely
+generated $B$-algebra.
 
-Cover `f⁻¹(V)` by finitely many affine opens of finite type and apply the
-locality theorem for finite-type algebras to the affine open `U`.
+Cover $f^{-1}(V)$ by finitely many affine opens of finite type and apply the
+locality theorem for finite-type algebras to the affine open $U$.
 
 ## Depends on
 

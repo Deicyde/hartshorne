@@ -6,10 +6,10 @@ origin: cited
 
 # Universality characterizes derived functors
 
-If an abelian category has enough injectives and `F` is left exact, the right
-derived functors `RⁿF` form a universal delta functor with degree zero `F`.
-Conversely, any universal delta functor `T` has left exact `T⁰` and natural
-isomorphisms `Tⁿ ≅ RⁿT⁰`.
+If an abelian category has enough injectives and $F$ is left exact, the right
+derived functors $R^{n}F$ form a universal delta functor with degree zero $F$.
+Conversely, any universal delta functor $T$ has left exact $T^{0}$ and natural
+isomorphisms $T^{n} \cong R^{n}T^{0}$.
 
 The unique main result is the two-way characterization, including naturality
 of the comparison.

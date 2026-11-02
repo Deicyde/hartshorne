@@ -8,19 +8,9 @@ not_ready: true
 # Classical inverse-limit and pro-étale ℓ-adic cohomology agree
 
 Under the standard finite-type and constructibility hypotheses, compare the
-classical ordinary inverse-limit `Z_ell` group with pro-étale cohomology of
-the continuous `Z_ell` sheaf, after proving the derived-limit and `lim^1`
+classical ordinary inverse-limit $\mathbb Z_\ell$ group with pro-étale cohomology of
+the continuous $\mathbb Z_\ell$ sheaf, after proving the derived-limit and $\lim ^1$
 conditions that make this comparison valid.
-
-The pinned declarations
-`AlgebraicGeometry.Scheme.ellAdicSheaf` and
-`AlgebraicGeometry.Scheme.EllAdicCohomology` provide the pro-étale side, but
-their source file explicitly leaves comparison with the classical definition
-for future work.
-
-This node is not ready.  It needs a precise derived-completion theorem,
-control of `lim^1`, constructibility/finiteness assumptions, and a universe-
-smallness comparison.
 
 ## Depends on
 

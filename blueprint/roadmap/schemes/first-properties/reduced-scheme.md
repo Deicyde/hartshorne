@@ -9,11 +9,10 @@ mathlib_file: Mathlib/AlgebraicGeometry/Properties.lean
 
 # Reduced schemes
 
-A scheme `X` is reduced when every ring `Γ(X,U)` is reduced.
+A scheme $X$ is reduced when every ring $\Gamma (X,U)$ is reduced.
 
-This leaf records Hartshorne's definition using Mathlib's `IsReduced` class.
-Detection on stalks is already a separate II.2 result and is not bundled into
-this declaration.
+Reducedness can also be detected on stalks, as proved in
+[Reduced schemes are detected on stalks](../foundational-properties/reduced-iff-stalks.md).
 
 ## Depends on
 
@@ -21,7 +20,7 @@ this declaration.
 
 ## Proof depends on
 
-- The ring-level predicate `IsReduced`.
+- Reduced rings have no nonzero nilpotents.
 
 ## Sources
 

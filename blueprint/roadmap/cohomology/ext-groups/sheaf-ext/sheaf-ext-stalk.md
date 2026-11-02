@@ -6,16 +6,16 @@ origin: cited
 
 # Stalks of sheaf Ext
 
-Let `X` be locally Noetherian, let `F` be coherent (hence locally finitely
-presented), let `G` be any `O_X`-module, and let `x ∈ X`. For every `i ≥ 0`,
+Let $X$ be locally Noetherian, let $F$ be coherent (hence locally finitely
+presented), let $G$ be any $\mathcal{O}_X$-module, and let $x \in X$. For every $i \ge 0$,
 construct natural isomorphisms
 
-`𝓔xt^i_X(F,G)_x ≅ Ext^i_{O_{X,x}}(F_x,G_x)`.
+$\mathcal{E}xt^i_X(F,G)_x \cong \operatorname{Ext} ^i_{\mathcal{O}_{X,x}}(F_x,G_x)$.
 
-The local finite-presentation hypothesis on `F` is essential even in degree
-zero. On an affine neighborhood of `x`, choose a possibly infinite free
+The local finite-presentation hypothesis on $F$ is essential even in degree
+zero. On an affine neighborhood of $x$, choose a possibly infinite free
 resolution whose individual terms have finite rank; its stalk is a projective
-resolution over `O_{X,x}`.
+resolution over $\mathcal{O}_{X,x}$.
 
 ## Depends on
 

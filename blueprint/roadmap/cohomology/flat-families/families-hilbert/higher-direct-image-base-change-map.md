@@ -7,25 +7,25 @@ not_ready: true
 
 # The higher-direct-image base-change map
 
-Let `f : X -> Y` be a separated finite-type morphism of Noetherian schemes,
-let `F` be a quasicoherent `O_X`-module, and let `u : Y' -> Y` be a morphism
-with `Y'` Noetherian. For the cartesian square
+Let $f : X \to Y$ be a separated finite-type morphism of Noetherian schemes,
+let $F$ be a quasicoherent $\mathcal{O}_X$-module, and let $u : Y' \to Y$ be a morphism
+with $Y'$ Noetherian. For the cartesian square
 
-`X' --v--> X`
+$X' --v-\to X$
 
-` |          |`
+$| |$
 
-`g           f`
+$g f$
 
-` |          |`
+$| |$
 
-`Y' --u--> Y`
+$Y' --u-\to Y$
 
-and a quasicoherent `O_X`-module `F`, construct the natural comparison map
+and a quasicoherent $\mathcal{O}_X$-module $F$, construct the natural comparison map
 
-`u^* R^i f_* F -> R^i g_* (v^* F)`
+$u^* R^i f_* F \to R^i g_* (v^* F)$
 
-for every `i`.
+for every $i$.
 
 ## Depends on
 
@@ -40,9 +40,6 @@ for every `i`.
   module sheaves and its functorial comparison under a cartesian square.
 - [Sheaf cohomology](../../sheaf-cohomology/sheaf-cohomology.md) and the
   degreewise derived-functor comparison.
-
-Pinned Mathlib has site cohomology but no higher-direct-image module-sheaf API
-that determines this map, so this representation root is not ready.
 
 ## Sources
 

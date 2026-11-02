@@ -12,9 +12,9 @@ lean: Hartshorne.residueFieldAlgEquivOfLocalAlgHom Hartshorne.differentialFiberR
 Under the hypotheses of the local cotangent comparison, identify the Zariski
 tangent space with both
 
-`Hom_k(Ω[B⁄k] ⊗[B] k, k)`
+$\operatorname{Hom}_k(\Omega_{B/k}\otimes_B k,k)$
 
-and the `k`-derivations `B → k`.  Composing this equivalence with the existing
+and the $k$-derivations $B \to k$.  Composing this equivalence with the existing
 dual-number classification identifies these linear functionals with pointed
 maps from the dual numbers.  This node concerns a tangent space at one point,
 not the tangent sheaf introduced later in II.8.

@@ -6,8 +6,8 @@ origin: cited
 
 # A general plane section has no three collinear points
 
-Let `X subset P^3` be a nonplanar Chapter IV curve of degree `d`. A nonempty
-open set of planes `H subset P^3` cuts `X` in exactly `d` distinct points, and
+Let $X \subset \mathbb{P}^3$ be a nonplanar Chapter IV curve of degree $d$. A nonempty
+open set of planes $H \subset \mathbb{P}^3$ cuts $X$ in exactly $d$ distinct points, and
 no three of those points are collinear.
 
 ## Depends on
@@ -21,8 +21,8 @@ no three of those points are collinear.
 ## Proof depends on
 
 - The all-characteristic regular-hyperplane theorem and the embedded-degree
-  calculation give `d` distinct intersection points for a general plane.
-- The incidence of planes containing three collinear points of `X` has proper
+  calculation give $d$ distinct intersection points for a general plane.
+- The incidence of planes containing three collinear points of $X$ has proper
   image in the dual projective space; the strange-curve branch rules out the
   degenerate case in arbitrary characteristic.
 

@@ -6,9 +6,9 @@ origin: cited
 
 # Canonical self-intersection of a smooth hypersurface
 
-If `X subset P^3` is a smooth surface of degree `d`, then
+If $X \subset \mathbb{P}^3$ is a smooth surface of degree $d$, then
 
-`K_X^2 = d*(d-4)^2`.
+$K_X^2 = d\cdot (d-4)^2$.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ If `X subset P^3` is a smooth surface of degree `d`, then
 
 ## Proof depends on
 
-- Adjunction gives `K_X~(d-4)H`, while `H^2=d`.
+- Adjunction gives $K_X\sim (d-4)H$, while $H^2=d$.
 
 ## Sources
 

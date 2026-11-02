@@ -6,15 +6,15 @@ origin: cited
 
 # Frobenius on the projective line is nowhere smooth
 
-Let `k` be algebraically closed of characteristic `p>0`. The Frobenius
-morphism `P^1_k -> P^1_k` has relative dimension zero but is smooth on no
+Let $k$ be algebraically closed of characteristic $p>0$. The Frobenius
+morphism $\mathbb{P}^1_k \to \mathbb{P}^1_k$ has relative dimension zero but is smooth on no
 nonempty open subset. Its map on absolute differentials is zero, while its
 relative differential sheaf is locally free of rank one.
 
 This is the explicit obstruction to extending the characteristic-zero generic
 smoothness results to arbitrary positive characteristic. The linear system
 obtained by pulling back the point hyperplanes on the target consists of the
-nonreduced divisors `p P`; every member is nonregular. This also records the
+nonreduced divisors $p P$; every member is nonregular. This also records the
 positive-characteristic failure of Bertini noted in Remark 10.9.3.
 
 ## Depends on
@@ -25,8 +25,8 @@ positive-characteristic failure of Bertini noted in Remark 10.9.3.
 
 ## Proof depends on
 
-- The projective Frobenius morphism and the identity `d(a^p)=0` in
-  characteristic `p`.
+- The projective Frobenius morphism and the identity $d(a^p)=0$ in
+  characteristic $p$.
 
 ## Sources
 

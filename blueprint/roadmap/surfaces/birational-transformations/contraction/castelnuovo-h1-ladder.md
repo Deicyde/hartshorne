@@ -6,16 +6,16 @@ origin: cited
 
 # The cohomology ladder in Castelnuovo's proof
 
-Let `Y` be an exceptional curve of the first kind on `X`.  Choose a very
-ample divisor `H` with `H^1(X,O_X(H))=0`, and, after replacing `H` by a
-positive multiple, put `k=H.Y>=2`.  Then
+Let $Y$ be an exceptional curve of the first kind on $X$.  Choose a very
+ample divisor $H$ with $H^1(X,\mathcal{O}_X(H))=0$, and, after replacing $H$ by a
+positive multiple, put $k=H\cdot Y\ge2$.  Then
 
-`H^1(X,O_X(H+iY))=0`
+$H^1(X,\mathcal{O}_X(H+iY))=0$
 
-for every integer `0<=i<=k`.
+for every integer $0\le i\le k$.
 
-The induction uses the restriction sequence to `Y`.  Since `Y^2=-1`, its
-last term is `O_(P^1)(k-i)`, whose first cohomology vanishes in this range.
+The induction uses the restriction sequence to $Y$.  Since $Y^2=-1$, its
+last term is $\mathcal{O}_{(\mathbb{P}^1)}(k-i)$, whose first cohomology vanishes in this range.
 
 ## Depends on
 

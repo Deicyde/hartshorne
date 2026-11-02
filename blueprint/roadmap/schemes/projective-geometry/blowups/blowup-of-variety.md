@@ -6,8 +6,8 @@ origin: cited
 
 # Blowing up a variety
 
-If `X` is a variety and `I` is a nonzero coherent ideal, then `Bl_I(X)` is a
-variety and its projection is birational, proper, and surjective. If `X` is
+If $X$ is a variety and $I$ is a nonzero coherent ideal, then $Bl_I(X)$ is a
+variety and its projection is birational, proper, and surjective. If $X$ is
 quasi-projective or projective, so is its blowup, and the projection is
 projective.
 
@@ -19,7 +19,7 @@ projective.
 
 ## Proof depends on
 
-- Integrality of the Rees algebra inside `O_X[T]`.
+- Integrality of the Rees algebra inside $\mathcal{O}_X[T]$.
 - Closedness of a proper morphism's image and density of the complement.
 - [Projective-morphism calculus](../../proper-and-projective/projective-morphism-calculus.md)
 

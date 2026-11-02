@@ -9,14 +9,14 @@ lean: Hartshorne.gradedHilbertPolynomial_coeff_eq_sum_minimalPrimes
 
 # The leading Hilbert coefficient is a sum over minimal primes
 
-Let `M` be a finite integer-graded module over `S = k[x₀,…,xₙ]`, and suppose
-its projective support has dimension `r`. The coefficient of `z^r` in `P_M`
+Let $M$ be a finite integer-graded module over $S = k[x_{0},\ldots ,x_{n}]$, and suppose
+its projective support has dimension $r$. The coefficient of $z^r$ in $P_M$
 is
 
-`(1/r!) · ∑ p, μ_p(M) · projectiveDegree (Z(p))`,
+$\frac1{r!}\sum_{\mathfrak p}\mu_{\mathfrak p}(M)\deg Z(\mathfrak p)$,
 
-where the sum ranges over the minimal primes of `Ann M` whose projective zero
-sets have dimension `r`. Terms of smaller dimension do not affect the leading
+where the sum ranges over the minimal primes of $\operatorname{Ann}M$ whose projective zero
+sets have dimension $r$. Terms of smaller dimension do not affect the leading
 coefficient.
 
 This isolates the filtration calculation in Hartshorne's proof of Theorem 7.7.

@@ -6,12 +6,12 @@ origin: cited
 
 # Adjunction for a smooth curve on a surface
 
-Let `C` be a smooth curve of genus `g` on a Chapter V surface with canonical
-divisor `K`. Then
+Let $C$ be a smooth curve of genus $g$ on a Chapter V surface with canonical
+divisor $K$. Then
 
-`2*g-2 = C.(C+K)`.
+$2\cdot g-2 = C\cdot(C+K)$.
 
-The equality is integer-valued and independent of the representative of `K`.
+The equality is integer-valued and independent of the representative of $K$.
 
 ## Depends on
 
@@ -24,8 +24,8 @@ The equality is integer-valued and independent of the representative of `K`.
 ## Proof depends on
 
 - Sheaf adjunction gives
-  `omega_C ~= (omega_X tensor O_X(C))|_C`; restriction degree translates the
-  right side to `C.(K+C)` and curve adjunction gives degree `2g-2`.
+  $\omega _C \simeq (\omega _X \otimes \mathcal{O}_X(C ))|_C$; restriction degree translates the
+  right side to $C\cdot(K+C)$ and curve adjunction gives degree $2g-2$.
 
 ## Sources
 

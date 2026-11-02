@@ -6,12 +6,12 @@ origin: cited
 
 # Sheaf Ext restricts to open subsets
 
-For an open inclusion `j : U ↪ X`, `O_X`-modules `F,G`, and every `i`,
+For an open inclusion $j : U \hookrightarrow X$, $\mathcal{O}_X$-modules $F,G$, and every $i$,
 construct natural isomorphisms
 
-`𝓔xt^i_X(F,G)|_U ≅ 𝓔xt^i_U(F|_U,G|_U)`.
+$\mathcal{E}xt^i_X(F,G)|_U \cong \mathcal{E}xt^i_U(F|_U,G|_U)$.
 
-This statement is for arbitrary module sheaves `F,G`; finite presentation is
+This statement is for arbitrary module sheaves $F,G$; finite presentation is
 needed only for the later stalk comparison, not for open restriction.
 
 ## Depends on

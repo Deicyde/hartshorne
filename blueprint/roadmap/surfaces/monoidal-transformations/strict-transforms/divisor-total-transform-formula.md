@@ -6,12 +6,12 @@ origin: cited
 
 # The total-transform formula
 
-Let `D` be an effective divisor of multiplicity `r` at the center of a point
+Let $D$ be an effective divisor of multiplicity $r$ at the center of a point
 blowup. Then
 
-`pi^*D = D_tilde + r*E`,
+$\pi ^*D = \widetilde{D} + r\cdot E$,
 
-where `D_tilde` is the strict transform and `E` the exceptional curve.
+where $\widetilde{D}$ is the strict transform and $E$ the exceptional curve.
 
 ## Depends on
 
@@ -22,8 +22,8 @@ where `D_tilde` is the strict transform and `E` the exceptional curve.
 
 ## Proof depends on
 
-- The local chart factorization extracts exactly `r` copies of the
-  exceptional equation; equality away from `E` fixes the remaining divisor.
+- The local chart factorization extracts exactly $r$ copies of the
+  exceptional equation; equality away from $E$ fixes the remaining divisor.
 
 ## Sources
 

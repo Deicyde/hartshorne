@@ -6,9 +6,9 @@ origin: cited
 
 # Finite étale covers correspond to finite topological covers
 
-Let `X` be a connected normal finite-type `C`-scheme.  Analytification gives
-an equivalence between finite étale algebraic covers of `X` and finite
-unramified topological covering spaces of `X^h`, equipped with their natural
+Let $X$ be a connected normal finite-type $\mathbb{C}$-scheme.  Analytification gives
+an equivalence between finite étale algebraic covers of $X$ and finite
+unramified topological covering spaces of $X^h$, equipped with their natural
 normal analytic-space structures.
 
 ## Depends on

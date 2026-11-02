@@ -9,32 +9,18 @@ lean: Hartshorne.Variety.globalToFunctionField
 
 # Global regular functions inside the function field
 
-An injective ring homomorphism `𝒪(X) →+* K(X)` for an arbitrary variety,
-together with the fact that it commutes with pullback along a dominant
-morphism.
+For a variety $X$, viewing a global regular function as a rational
+function gives an injective ring homomorphism
 
-A global regular function is a rational function whose domain happens to be
-everything, so the map is nothing but forgetting that, and injectivity is
-likewise free: two global functions with the same class agree on the overlap of
-their domains, and that overlap is the whole variety. The earlier
-[injections node](../function-field-injections.md) contains only the underlying
-set map for the concrete subset model; what is new is the bundled ring map over
-the abstract structure. Upgrading the local maps to `k`-algebra homomorphisms is
-part of the [intersection node](global-regular-intersection-local-rings.md).
+$$\mathcal O(X)\hookrightarrow K(X).$$
 
-## Why it is needed
+The embedding commutes with pullback along dominant morphisms. On an
+affine variety, the embedding from $A(X)$ into $K(X)$ agrees with the
+composite through the identification $A(X)\cong\mathcal O(X)$.
 
-Theorem 3.4(a) compares a global regular function with the graded pieces of
-`S(Y)`, and those two things have no common home until both are inside `K(Y)`.
-Parts (b) and (c) of that theorem never needed this, because they worked one
-chart at a time and a chart supplies its own ambient ring.
-
-Two compatibilities come with it, and they are what make the readings on
-different charts comparable: the embedding commutes with pullback along a
-dominant morphism, and on an affine variety the two routes from `A(Y)` into
-`K(Y)` — through Theorem 3.2(a) as a global regular function, or directly as a
-rational function — agree. Both are `Quotient.sound` on representatives that are
-literally the same function.
+A global regular function has domain all of $X$. Two such functions with
+the same rational class agree on a nonempty open subset and hence
+everywhere by the identity principle.
 
 ## Depends on
 

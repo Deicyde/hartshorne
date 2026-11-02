@@ -6,11 +6,11 @@ origin: cited
 
 # Genus zero characterizes the projective line
 
-For a Chapter IV curve `X`, the following are equivalent:
+For a Chapter IV curve $X$, the following are equivalent:
 
-1. `g(X)=0`;
-2. `X` is rational;
-3. `X` is isomorphic to `P^1_k`.
+1. $g(X)=0$;
+2. $X$ is rational;
+3. $X$ is isomorphic to $\mathbb{P}^1_k$.
 
 ## Depends on
 
@@ -21,10 +21,10 @@ For a Chapter IV curve `X`, the following are equivalent:
 
 ## Proof depends on
 
-- Choose distinct closed points `P,Q`. When `g=0`, Riemann–Roch applied to
-  `P-Q` gives a nonzero section; its degree is zero, so `P~Q`, which detects
+- Choose distinct closed points $P,Q$. When $g=0$, Riemann–Roch applied to
+  $P-Q$ gives a nonzero section; its degree is zero, so $P\sim Q$, which detects
   rationality.
-- A rational complete nonsingular curve is isomorphic to `P^1`.
+- A rational complete nonsingular curve is isomorphic to $\mathbb{P}^1$.
 
 ## Sources
 

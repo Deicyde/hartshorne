@@ -6,12 +6,12 @@ origin: cited
 
 # Sections of a projective bundle are quotient line bundles
 
-Let `E` be a rank-two locally free sheaf on a nonsingular projective curve
-`C`, let `X=P_C(E)` in the quotient-line convention, and let `pi:X->C` be
-the projection. There is a bijection between sections `sigma:C->X` and
-surjections `E -> L -> 0` onto invertible sheaves, characterized by
+Let $E$ be a rank-two locally free sheaf on a nonsingular projective curve
+$C$, let $X=P_C (E)$ in the quotient-line convention, and let $\pi :X\to C$ be
+the projection. There is a bijection between sections $\sigma :C \to X$ and
+surjections $E \to L \to 0$ onto invertible sheaves, characterized by
 
-`L ~= sigma^* O_X(1)`.
+$L \simeq \sigma ^* \mathcal{O}_X(1)$.
 
 ## Depends on
 

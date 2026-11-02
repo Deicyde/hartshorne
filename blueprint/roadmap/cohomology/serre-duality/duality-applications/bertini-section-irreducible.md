@@ -6,7 +6,7 @@ origin: cited
 
 # Irreducibility of regular Bertini sections
 
-Let `X` be a nonsingular projective variety of dimension at least two over an
+Let $X$ be a nonsingular projective variety of dimension at least two over an
 algebraically closed field. A hyperplane section belonging simultaneously to
 the regular Bertini open set and the connectedness conclusion for its ample
 divisor is irreducible and nonsingular.

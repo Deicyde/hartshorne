@@ -14,9 +14,8 @@ neighbourhood isomorphic to the spectrum of a commutative ring.  Its morphisms
 are morphisms of the underlying locally ringed spaces.  A scheme is affine
 when it is isomorphic to a spectrum.
 
-Mathlib stores the local-affineness witness in `Scheme`; `IsAffine X` is the
-equivalent condition that the canonical map `X → Spec Γ(X,𝒪_X)` is an
-isomorphism, with `essImage_Spec` identifying it with Hartshorne's definition.
+Equivalently, $X$ is affine when the canonical morphism
+$X\to\operatorname{Spec}\Gamma(X,\mathcal{O}_X)$ is an isomorphism.
 
 ## Depends on
 

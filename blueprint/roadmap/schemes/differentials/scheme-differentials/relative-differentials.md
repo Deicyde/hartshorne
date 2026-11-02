@@ -9,10 +9,10 @@ proof: formalized
 
 # The relative differential sheaf
 
-For a scheme morphism `f : X → Y`, construct an `𝒪_X`-module `Ω[X/Y]` and a
-map of sheaves of abelian groups `d : 𝒪_X → Ω[X/Y]` satisfying the Leibniz
-rule and vanishing on the image of `f⁻¹𝒪_Y → 𝒪_X`. The derivation is not an
-`𝒪_X`-linear morphism.
+For a scheme morphism $f : X \to Y$, construct an $\mathcal{O} _X$-module $\Omega_{X/Y}$ and a
+map of sheaves of abelian groups $d:\mathcal{O}_X\longrightarrow\Omega_{X/Y}$ satisfying the Leibniz
+rule and vanishing on the image of $f^{-1}\mathcal{O} _Y \to \mathcal{O} _X$. The derivation is not an
+$\mathcal{O} _X$-linear morphism.
 
 Construct the sheaf directly from the presheaf of relative differentials and
 sheafification. Its universal property and the comparison with Hartshorne's
@@ -28,8 +28,7 @@ presuppose a theory of conormal sheaves for arbitrary immersions.
 
 ## Proof depends on
 
-- The pinned `PresheafOfModules.DifferentialsConstruction.relativeDifferentials'`
-  construction followed by sheafification.
+- Sheafification of the relative differential presheaf.
 
 ## Sources
 

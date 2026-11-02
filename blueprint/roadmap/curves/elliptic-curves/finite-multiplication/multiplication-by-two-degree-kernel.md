@@ -7,8 +7,8 @@ origin: cited
 # Multiplication by two
 
 Over an algebraically closed field of characteristic different from two, the
-multiplication morphism `[2] : X -> X` is finite of degree four and its group
-of closed kernel points is isomorphic to `(Z/2Z)^2`.
+multiplication morphism $[2] : X \to X$ is finite of degree four and its group
+of closed kernel points is isomorphic to $(\mathbb{Z}/2\mathbb{Z})^2$.
 
 ## Depends on
 
@@ -17,7 +17,7 @@ of closed kernel points is isomorphic to `(Z/2Z)^2`.
 
 ## Proof depends on
 
-- The four two-torsion points are one fibre of the group homomorphism `[2]`;
+- The four two-torsion points are one fibre of the group homomorphism $[2]$;
   translation identifies all fibres, and separability makes the degree their
   cardinality.
 

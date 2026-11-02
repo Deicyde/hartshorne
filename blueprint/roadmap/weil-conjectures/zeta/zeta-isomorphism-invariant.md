@@ -9,8 +9,8 @@ lean: Hartshorne.pointCountSequence_eq_and_hasseWeilZetaSeries_eq_of_iso
 
 # The zeta function is invariant under scheme isomorphism
 
-An isomorphism of finite-type `F_q`-schemes induces bijections on all
-`F_(q^r)`-valued points and hence equality of point-count sequences and zeta
+An isomorphism of finite-type $\mathbb{F}_q$-schemes induces bijections on all
+$\mathbb F_{q^r}$-valued points and hence equality of point-count sequences and zeta
 series.
 
 ## Depends on

@@ -8,10 +8,10 @@ origin: cited
 
 The twelve lines
 
-`E_1,...,E_6,G_1,...,G_6`
+$E_1,\ldots ,E_6,G_1,\ldots ,G_6$
 
-form a Schläfli double-six: the `E_i` are pairwise skew, the `G_i` are
-pairwise skew, and `E_i` meets `G_j` exactly when `i != j`.
+form a Schläfli double-six: the $E_i$ are pairwise skew, the $G_i$ are
+pairwise skew, and $E_i$ meets $G_j$ exactly when $i \ne j$.
 
 This is only the incidence assertion for the twelve lines already constructed
 on the marked cubic surface; it does not include the classical reconstruction

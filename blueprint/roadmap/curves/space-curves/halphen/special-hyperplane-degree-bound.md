@@ -6,9 +6,9 @@ origin: cited
 
 # The degree bound for a special hyperplane section
 
-Let `X subset P^3` be a nonplanar curve and let `D=O_X(1)` be special. Then
+Let $X \subset \mathbb{P}^3$ be a nonplanar curve and let $D=\mathcal{O}_X(1)$ be special. Then
 
-`d=deg D >= 6`.
+$d=\deg D \ge 6$.
 
 ## Depends on
 
@@ -17,8 +17,8 @@ Let `X subset P^3` be a nonplanar curve and let `D=O_X(1)` be special. Then
 
 ## Proof depends on
 
-- Clifford gives `dim|D|<=d/2`; nonplanarity and very ampleness give
-  `dim|D|>=3`.
+- Clifford gives $\dim |D|\le d/2$; nonplanarity and very ampleness give
+  $\dim |D|\ge 3$.
 
 ## Sources
 

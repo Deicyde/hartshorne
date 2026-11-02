@@ -9,17 +9,15 @@ lean: Hartshorne.ValuationSpace.exists_two_affine_model_cover
 
 # A two-chart affine cover of the valuation curve
 
-For a one-dimensional function field `K/k`, the two fixed separable
-normalization charts determine nonsingular affine curves `U₀` and `U₁`,
-compatible embeddings of their function fields into `K`, and open embeddings
-of `U₀` and `U₁` into `C_K` whose images cover `C_K`.  The sole main
-declaration is
-`Hartshorne.ValuationSpace.exists_two_affine_model_cover`.
+For a one-dimensional function field $K/k$, the two fixed separable
+normalization charts determine nonsingular affine curves $U_{0}$ and $U_{1}$,
+compatible embeddings of their function fields into $K$, and open embeddings
+of $U_{0}$ and $U_{1}$ into $C _K$ whose images cover $C _K$.
 
 This is the finite affine cover selected in the first paragraph of the proof
 of Theorem 6.9.  Specializing Hartshorne's quasi-compactness argument to the
-already-formalized `k[t]` and `k[t⁻¹]` models avoids a new heterogeneous
-finite-product API without imposing separability on `K/k`.
+$k[t]$ and $k[t^{-1}]$ models gives a two-chart construction
+without imposing separability on $K/k$.
 
 ## Depends on
 

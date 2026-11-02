@@ -7,12 +7,10 @@ not_ready: true
 
 # Algebraic properness agrees with topological properness after analytification
 
-For a morphism `f:X->Y` of finite-type complex schemes, `f` is proper if and
-only if the continuous map `f^h:X^h->Y^h` is topologically proper, meaning
+For a morphism $f:X\to Y$ of finite-type complex schemes, $f$ is proper if and
+only if the continuous map $f^h:X^h\to Y^h$ is topologically proper, meaning
 that inverse images of compact subsets are compact.
 
-This node is not ready pending Serre's properness comparison in both
-directions and its hypotheses for possibly nonreduced analytic spaces.
 
 ## Depends on
 

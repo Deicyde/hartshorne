@@ -6,13 +6,13 @@ origin: cited
 
 # The class group of projective space
 
-Let `k` be a field and `n ≥ 1`. For a Weil divisor on `P^n_k`, define its
+Let $k$ be a field and $n \ge 1$. For a Weil divisor on $\mathbb{P}^n_k$, define its
 degree by weighting each prime divisor by the degree of its hypersurface.
-If `H` is a hyperplane, prove `D ~ deg(D) H`, every principal divisor has
-degree zero, and degree induces an isomorphism `Cl(P^n_k) ≅ Z` sending `H`
-to `1`.
+If $H$ is a hyperplane, then $D\sim\deg(D)H$. Every principal divisor has
+degree zero, and degree induces an isomorphism $\operatorname{Cl}(\mathbb{P}^n_k)\cong\mathbb{Z}$ sending $H$
+to $1$.
 
-The positive-dimension hypothesis is explicit: `P^0` does not have the stated
+The positive-dimension hypothesis is explicit: $\mathbb{P}^0$ does not have the stated
 class group.
 
 ## Depends on

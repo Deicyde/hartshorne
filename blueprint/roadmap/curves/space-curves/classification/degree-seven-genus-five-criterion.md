@@ -6,11 +6,11 @@ origin: cited
 
 # Degree-seven embeddings of genus-five curves
 
-Let `X` be a genus-five curve. It admits a very ample divisor of degree seven
-and projective dimension three if and only if `X` has no `g^1_3`.
+Let $X$ be a genus-five curve. It admits a very ample divisor of degree seven
+and projective dimension three if and only if $X$ has no $g^1_3$.
 
-For a point `P`, the candidate is `D=K-P`. Riemann–Roch translates very
-ampleness into the condition that every effective divisor `P+Q+R` have
+For a point $P$, the candidate is $D=K-P$. Riemann–Roch translates very
+ampleness into the condition that every effective divisor $P+Q+R$ have
 projective dimension zero.
 
 ## Depends on
@@ -23,9 +23,9 @@ projective dimension zero.
 
 ## Proof depends on
 
-- A degree-three moving divisor is a `g^1_3`; without one every effective
+- A degree-three moving divisor is a $g^1_3$; without one every effective
   degree-three divisor has projective dimension zero.
-- A smooth complete intersection of three quadrics in `P^4` supplies a
+- A smooth complete intersection of three quadrics in $\mathbb{P}^4$ supplies a
   nontrigonal genus-five curve.
 
 ## Sources

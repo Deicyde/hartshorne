@@ -6,10 +6,10 @@ origin: cited
 
 # Flasque sheaves are acyclic
 
-If `F` is a flasque abelian sheaf on `X`, then `Hⁿ(X,F)=0` for every
-positive degree `n`.
+If $F$ is a flasque abelian sheaf on $X$, then $H^{n}(X,F)=0$ for every
+positive degree $n$.
 
-Embed `F` into an injective abelian sheaf, use the flasque quotient lemma and
+Embed $F$ into an injective abelian sheaf, use the flasque quotient lemma and
 surjectivity on global sections, and dimension-shift along the long exact
 cohomology sequence. This is the unique main vanishing result.
 

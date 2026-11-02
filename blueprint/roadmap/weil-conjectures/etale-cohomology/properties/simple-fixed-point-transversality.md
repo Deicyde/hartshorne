@@ -6,10 +6,10 @@ origin: bridged
 
 # The tangent criterion for a simple fixed point
 
-Let `X` be smooth and `f:X->X`.  At a fixed closed point `x`, the graph of
-`f` meets the diagonal transversally exactly when
+Let $X$ be smooth and $f:X\to X$.  At a fixed closed point $x$, the graph of
+$f$ meets the diagonal transversally exactly when
 
-`1-df_x:T_xX->T_xX`
+$1-df_x:T_{xX}\to T_{xX}$
 
 is invertible.  In that case the scheme-theoretic fixed point is reduced and
 has local intersection multiplicity one.
@@ -25,8 +25,8 @@ Isolation without this tangent condition does not imply multiplicity one.
 
 ## Proof depends on
 
-- Identify the tangent map of `(id,f):X->X times X` modulo the diagonal with
-  `1-df_x`; invertibility makes graph and diagonal complementary regular
+- Identify the tangent map of $(id,f):X\to X \times X$ modulo the diagonal with
+  $1-df_x$; invertibility makes graph and diagonal complementary regular
   embeddings and gives local length one.
 
 ## Sources

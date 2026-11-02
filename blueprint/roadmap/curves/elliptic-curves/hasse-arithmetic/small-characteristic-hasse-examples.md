@@ -7,11 +7,11 @@ origin: cited
 # Small-characteristic Hasse examples
 
 Compute the Legendre Hasse polynomials in characteristics three, five, and
-seven and their supersingular `j`-values:
+seven and their supersingular $j$-values:
 
-- in characteristic three, the unique value is `j=0=1728`;
-- in characteristic five, the roots yield `j=0`;
-- in characteristic seven, the roots yield `j=1728`.
+- in characteristic three, the unique value is $j=0=1728$;
+- in characteristic five, the roots yield $j=0$;
+- in characteristic seven, the roots yield $j=1728$.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ seven and their supersingular `j`-values:
 
 ## Proof depends on
 
-- Direct finite-field polynomial and `j(lambda)` calculations.
+- Direct finite-field polynomial and $j(\lambda )$ calculations.
 
 ## Sources
 

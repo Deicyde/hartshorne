@@ -6,11 +6,11 @@ origin: bridged
 
 # The conormal sheaf is independent of the closed neighbourhood
 
-Let an immersion `i : Z → X` be factored through two open subschemes as closed
-immersions. The two pullbacks of their ideal sheaves to `Z` are canonically
+Let an immersion $i : Z \to X$ be factored through two open subschemes as closed
+immersions. The two pullbacks of their ideal sheaves to $Z$ are canonically
 isomorphic. These comparison isomorphisms are the identity for one
 factorization and satisfy the cocycle law for three factorizations; hence they
-identify either construction with the canonical conormal sheaf `N^*_i`.
+identify either construction with the canonical conormal sheaf $N^*_i$.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ identify either construction with the canonical conormal sheaf `N^*_i`.
 
 - Compatibility of closed-immersion ideal sheaves and module pullback under
   restriction to a smaller open neighbourhood.
-- Stacks Project, Section 29.32, tags `01R1`–`01R3`.
+- Stacks Project, Section 29.32, tags $01R1$–$01R3$.
 
 ## Sources
 

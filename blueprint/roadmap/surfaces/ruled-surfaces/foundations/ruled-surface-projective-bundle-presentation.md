@@ -6,14 +6,14 @@ origin: cited
 
 # A ruled surface is a rank-two projective bundle
 
-Let `pi : X -> C` be a ruled surface and let `D` be the image of a section.
-Then `E = pi_* O_X(D)` is locally free of rank two, evaluation is a
-surjection `pi^* E -> O_X(D)`, and the resulting quotient-line morphism is
+Let $\pi : X \to C$ be a ruled surface and let $D$ be the image of a section.
+Then $E = \pi _* \mathcal{O}_X(D)$ is locally free of rank two, evaluation is a
+surjection $\pi ^* E \to \mathcal{O}_X(D)$, and the resulting quotient-line morphism is
 an isomorphism
 
-`X ~= P_C(E)`
+$X \simeq P_C (E)$
 
-over `C`.
+over $C$.
 
 ## Depends on
 
@@ -23,10 +23,10 @@ over `C`.
 
 ## Proof depends on
 
-- The evaluation map is fibrewise the globally generated `O_P1(1)`.
+- The evaluation map is fibrewise the globally generated $\mathcal O_{\mathbb P^1}(1)$.
 - The quotient-line morphism restricts to an isomorphism on every fibre;
   the proper fibrewise-isomorphism criterion makes it an isomorphism over
-  `C`.
+  $C$.
 
 ## Sources
 

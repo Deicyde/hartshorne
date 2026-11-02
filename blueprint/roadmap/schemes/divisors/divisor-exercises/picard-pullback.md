@@ -6,13 +6,13 @@ origin: cited
 
 # Pullback on Picard groups
 
-For every scheme morphism `f : X → Y`, prove that module-sheaf pullback sends
+For every scheme morphism $f : X \to Y$, prove that module-sheaf pullback sends
 invertible sheaves to invertible sheaves and induces a group homomorphism
 
-`f* : Pic Y → Pic X`.
+$f^* : \operatorname{Pic} Y \to \operatorname{Pic} X$.
 
-Prove compatibility with identities, composition, tensor products, and duals.
-The unique main result is the homomorphism; functoriality is its required API.
+Pullback is compatible with identities, composition, tensor products,
+and duals, so these homomorphisms are functorial.
 
 ## Depends on
 
@@ -21,7 +21,7 @@ The unique main result is the homomorphism; functoriality is its required API.
 
 ## Proof depends on
 
-- `Scheme.Modules.pullback`, `pullbackId`, and `pullbackComp`.
+- Pullback of module sheaves respects identities and composition.
 - Pullback of a locally free rank-one module is locally free of rank one.
 
 ## Sources

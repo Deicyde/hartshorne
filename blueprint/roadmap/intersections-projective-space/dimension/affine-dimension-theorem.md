@@ -9,20 +9,18 @@ lean: Hartshorne.affine_dimension_theorem
 
 # The affine dimension theorem
 
-Let `Y,Z ⊆ 𝔸^σ` be affine varieties and let `W` be an irreducible component of
-`Y ∩ Z`.  Then
+Let $Y,Z\subseteq\mathbb A^n$ be affine varieties and let $W$ be an
+irreducible component of $Y\cap Z$. Then
 
-`dim Y + dim Z ≤ dim W + Nat.card σ`.
+$$\dim Y+\dim Z\leq\dim W+n.$$
 
-The sole main declaration is planned as `Hartshorne.affine_dimension_theorem`.
-For `σ = Fin n` and natural dimensions `r,s,t`, this is exactly the
-subtraction-free form `r + s ≤ t + n` of Proposition 7.1's
-`t ≥ r + s - n`.
+This is Hartshorne's Proposition I.7.1, equivalently
+$\dim W\geq\dim Y+\dim Z-n$.
 
-Apply the finite-cut dimension theorem to `Y × Z`.  Its dimension is the sum
-of the dimensions of the factors; the diagonal is cut out by at most
-`Nat.card σ` equations; and the diagonal-section homeomorphism identifies its
-components and their dimensions with those of `Y ∩ Z`.
+The affine product $Y\times Z$ has dimension $\dim Y+\dim Z$.
+Its diagonal section is cut out by at most $n$ equations, so the finite-cut
+dimension bound applies. The diagonal homeomorphism identifies its
+components with those of $Y\cap Z$ and preserves their dimensions.
 
 ## Depends on
 

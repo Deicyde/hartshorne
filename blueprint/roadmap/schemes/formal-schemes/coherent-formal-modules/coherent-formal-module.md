@@ -6,10 +6,10 @@ origin: cited
 
 # Coherent modules on a Noetherian formal scheme
 
-Let `Xhat` be a Noetherian formal scheme. Define an `O_Xhat`-module `F` to be
+Let $\widehat{X}$ be a Noetherian formal scheme. Define an $\mathcal{O}_{\widehat{X}}$-module $F$ to be
 coherent when there is a finite formal-affine cover by charts obtained from
-Noetherian schemes `X i`, and on every chart `F` is isomorphic to the
-completion of a coherent `O_(X i)`-module.
+Noetherian schemes $X i$, and on every chart $F$ is isomorphic to the
+completion of a coherent $\mathcal{O}_{(X i)}$-module.
 
 This is a property of an actual sheaf of modules on Hartshorne's plain locally
 ringed space. It is not defined through topological modules or affine-open

@@ -9,12 +9,12 @@ lean: Hartshorne.idealPowerTorsionFunctor Hartshorne.localCohomology Hartshorne.
 
 # Algebraic local cohomology as derived torsion
 
-For a Noetherian ring `A` and ideal `a`, the ideal-power torsion functor
+For a Noetherian ring $A$ and ideal $a$, the ideal-power torsion functor
 
-`Γ_a(M) = {m | a^n m = 0 for some n}`
+$\Gamma _a(M) = \{m | a^n m = 0 \text{for} \text{some} n\}$
 
-is left exact. Define `H_a^i(M)` to be its right derived functors in
-`A`-modules.
+is left exact. Define $H_a^i(M)$ to be its right derived functors in
+$A$-modules.
 
 ## Depends on
 
@@ -22,9 +22,7 @@ is left exact. Define `H_a^i(M)` to be its right derived functors in
 
 ## Proof depends on
 
-- `Submodule.primaryComponent` models the degree-zero functor.
-- Mathlib's Ext-colimit local cohomology is only a partial primitive and is
-  not used definitionally.
+- The degree-zero functor is the ideal-power torsion submodule.
 
 ## Sources
 

@@ -6,16 +6,16 @@ origin: cited
 
 # Cohomology after tensor is a delta functor
 
-Let `A` be Noetherian, `Y = Spec A`, `f : X -> Y` projective, and `F` a
-coherent `O_X`-module flat over `Y`. For an `A`-module `M`, set
+Let $A$ be Noetherian, $Y = \operatorname{Spec} A$, $f : X \to Y$ projective, and $F$ a
+coherent $\mathcal{O}_X$-module flat over $Y$. For an $A$-module $M$, set
 
-`T^i(M) = H^i(X, F tensor_A M)`.
+$T^i(M) = H^i(X, F \otimes _A M)$.
 
-Here `M` is first associated to a quasicoherent module on `Y`, pulled back to
-`X`, and tensored with `F`. Each `T^i` is additive and covariant, every short
-exact sequence of `A`-modules gives the natural long exact cohomology
-sequence, and the collection `(T^i)_(i >= 0)` is a covariant delta functor.
-In particular, every `T^i` is exact in the middle.
+Here $M$ is first associated to a quasicoherent module on $Y$, pulled back to
+$X$, and tensored with $F$. Each $T^i$ is additive and covariant, every short
+exact sequence of $A$-modules gives the natural long exact cohomology
+sequence, and the collection $(T^i)_{(i \ge 0)}$ is a covariant delta functor.
+In particular, every $T^i$ is exact in the middle.
 
 ## Depends on
 
@@ -26,7 +26,7 @@ In particular, every `T^i` is exact in the middle.
 
 ## Proof depends on
 
-- Flatness of `F` over `Y` makes tensoring the associated short exact sequence
+- Flatness of $F$ over $Y$ makes tensoring the associated short exact sequence
   of module sheaves exact.
 
 ## Sources

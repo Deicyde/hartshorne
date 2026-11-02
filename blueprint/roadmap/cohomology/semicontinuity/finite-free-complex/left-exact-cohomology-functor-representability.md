@@ -6,18 +6,18 @@ origin: cited
 
 # Left exact cohomology functors are finitely represented
 
-Let `L` be the finite-free model and put
+Let $L$ be the finite-free model and put
 
-`W^i = coker(L^(i-1) -> L^i)`.
+$W^i = \operatorname{coker} (L^{i-1} \to L^i)$.
 
-For a fixed `i`, the following are equivalent:
+For a fixed $i$, the following are equivalent:
 
-1. `T^i` is left exact;
-2. `W^i` is a projective `A`-module;
-3. there is a finitely generated `A`-module `Q` and a natural isomorphism
-   `T^i(M) ~= Hom_A(Q,M)` for every `A`-module `M`.
+1. $T^i$ is left exact;
+2. $W^i$ is a projective $A$-module;
+3. there is a finitely generated $A$-module $Q$ and a natural isomorphism
+   $T^i(M) \simeq \operatorname{Hom} _A(Q,M)$ for every $A$-module $M$.
 
-The representing module `Q` is unique up to the canonical isomorphism induced
+The representing module $Q$ is unique up to the canonical isomorphism induced
 by the two representing natural isomorphisms.
 
 ## Depends on
@@ -26,9 +26,9 @@ by the two representing natural isomorphisms.
 
 ## Proof depends on
 
-- The exact sequence `0 -> T^i(M) -> W^i tensor M -> L^(i+1) tensor M`.
+- The exact sequence $0 \to T^i(M) \to W^i \otimes M \to L^{i+1} \otimes M$.
 - A finitely generated flat module is projective, and duality for finite
-  projective modules identifies the displayed kernel with `Hom_A(Q,M)`.
+  projective modules identifies the displayed kernel with $\operatorname{Hom} _A(Q,M)$.
 
 ## Sources
 

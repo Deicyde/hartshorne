@@ -9,11 +9,11 @@ lean: Hartshorne.hasseWeilZetaLogSeries Hartshorne.hasseWeilZetaSeries
 
 # The Hasse–Weil zeta function as a formal power series
 
-For a finite-type `F_q`-scheme `X`, define
+For a finite-type $\mathbb{F}_q$-scheme $X$, define
 
-`Z(X,t)=exp(sum_(r>=1) N_r(X)*t^r/r)`
+$Z(X,t)=\exp (\sum _{(r\ge 1)} N_r(X)\cdot t^r/r)$
 
-in `Q[[t]]`, using the formal exponential. This definition does not assert
+in $\mathbb{Q}[[t]]$, using the formal exponential. This definition does not assert
 that the series is represented by a rational function.
 
 ## Depends on

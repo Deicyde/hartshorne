@@ -8,11 +8,11 @@ origin: cited
 
 For the cubic embedding of the marked blowup,
 
-`h = 3*l-sum_i e_i`
+$h = 3\cdot l-\sum _i e_i$
 
 is the hyperplane class and
 
-`K_X = -h = -3*l+sum_i e_i`.
+$K_X = -h = -3\cdot l+\sum _i e_i$.
 
 ## Depends on
 

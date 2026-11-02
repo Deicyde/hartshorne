@@ -6,15 +6,15 @@ origin: cited
 
 # The top perfect pairing on projective space
 
-For `X=Pⁿ_k` and every coherent `O_X`-module `F`, composition with the
-chosen trace gives a perfect pairing of finite-dimensional `k`-vector
+For $X=\mathbb{P}^{n}_k$ and every coherent $\mathcal{O}_X$-module $F$, composition with the
+chosen trace gives a perfect pairing of finite-dimensional $k$-vector
 spaces
 
-`Hom_X(F,ω_X) × Hⁿ(X,F) ⟶ k`.
+$\operatorname{Hom} _X(F,\omega _X) \times H^{n}(X,F) \longrightarrow k$.
 
 Equivalently, the induced map
-`Hom_X(F,ω_X) →ₗ Dual k (Hⁿ(X,F))` is a linear equivalence. Perfectness is
-recorded with `LinearMap.IsPerfPair`, not merely as nondegeneracy on one side.
+$\operatorname{Hom}_X(F,\omega_X)\longrightarrow H^n(X,F)^\vee$
+is a linear isomorphism. The pairing is perfect.
 
 ## Depends on
 

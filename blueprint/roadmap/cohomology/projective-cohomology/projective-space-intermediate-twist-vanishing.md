@@ -6,9 +6,9 @@ origin: cited
 
 # Intermediate twist cohomology vanishes
 
-Let `A` be Noetherian and `r≥1`. For every `n:Z` and `0<i<r`,
+Let $A$ be Noetherian and $r\ge 1$. For every $n \in Z$ and $0<i<r$,
 
-`Hⁱ(Pʳ_A,O(n))=0`.
+$H^{i}(\mathbb{P}^{r}_A,\mathcal{O}(n))=0$.
 
 The quantifier over all integer twists is part of the result.
 
@@ -23,8 +23,8 @@ The quantifier over all integer twists is part of the result.
 - [The hyperplane exact-sequence bridge](projective-hyperplane-exact-sequence.md)
 - [Top cohomology and negative monomials](projective-space-top-twist-cohomology.md)
 - [Affine quasi-coherent sheaves are acyclic](../affine-cohomology/affine-quasicoherent-acyclic.md)
-- Induction on `r`: localization makes positive cohomology `xᵣ`-power
-  torsion, while the hyperplane sequence makes multiplication by `xᵣ`
+- Induction on $r$: localization makes positive cohomology $x_{r}$-power
+  torsion, while the hyperplane sequence makes multiplication by $x_{r}$
   bijective in intermediate degrees.
 
 ## Sources

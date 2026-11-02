@@ -6,17 +6,17 @@ origin: cited
 
 # The completed local ring at the contraction point is regular
 
-For the normalized contraction `f:X->X_0` and `P=f(Y)`, one has
+For the normalized contraction $f:X\to X_0$ and $P=f(Y)$, one has
 
-`completion(O_(X_0,P)) ~= k[[x,y]]`.
+$\text{completion} (\mathcal{O}_{(X_0,P)}) \simeq k[[x,y]]$.
 
-Consequently `O_(X_0,P)` is a two-dimensional regular local ring, so `P` is
-a nonsingular point of `X_0`.
+Consequently $\mathcal{O}_{(X_0,P)}$ is a two-dimensional regular local ring, so $P$ is
+a nonsingular point of $X_0$.
 
 Formal functions identifies the completion with the inverse limit of global
-sections on the scheme-theoretic fibres cut out by powers of `m_P O_X`.
-Because the fibre has support `Y`, those ideals are cofinal with the powers of
-`I_Y`, and the infinitesimal-neighborhood calculation identifies the limit.
+sections on the scheme-theoretic fibres cut out by powers of $m_P \mathcal{O}_X$.
+Because the fibre has support $Y$, those ideals are cofinal with the powers of
+$I_Y$, and the infinitesimal-neighborhood calculation identifies the limit.
 
 ## Depends on
 

@@ -9,9 +9,9 @@ lean: Hartshorne.isPullback_fiberProductRestrictOpen
 
 # Restricting a fiber product to an open subscheme
 
-If `P = X ×_S Y` and `U ⊆ X` is open, the inverse image of `U` under the first projection, with its open-subscheme structure, represents `U ×_S Y`.
+If $P = X \times _S Y$ and $U \subseteq X$ is open, the inverse image of $U$ under the first projection, with its open-subscheme structure, represents $U \times _S Y$.
 
-Pull back the open immersion `U → X` along `P → X`. Its range is exactly the inverse image of `U`, and pullback pasting supplies the required universal property.
+Pull back the open immersion $U \to X$ along $P \to X$. Its range is exactly the inverse image of $U$, and pullback pasting supplies the required universal property.
 
 ## Depends on
 

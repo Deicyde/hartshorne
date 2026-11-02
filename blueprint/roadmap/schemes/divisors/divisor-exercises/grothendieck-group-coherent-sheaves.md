@@ -6,13 +6,13 @@ origin: cited
 
 # The Grothendieck group of coherent sheaves
 
-For a Noetherian scheme `X`, define `K(X)` as the quotient of the free
-abelian group on isomorphism classes of coherent `O_X`-modules by the
+For a Noetherian scheme $X$, define $K(X)$ as the quotient of the free
+abelian group on isomorphism classes of coherent $\mathcal{O}_X$-modules by the
 relations
 
-`[F] = [F'] + [F'']`
+$[F] = [F'] + [F'']$
 
-for every short exact sequence `0 → F' → F → F'' → 0`.
+for every short exact sequence $0 \to F' \to F \to F'' \to 0$.
 
 This leaf adopts only the definition at the start of Exercise 6.10. The
 affine-space computation, rank map, and closed-open localization sequence are

@@ -6,11 +6,11 @@ origin: cited
 
 # Closed analytic subspaces of a polydisc
 
-For holomorphic functions `f_1,...,f_q` on a polydisc `U`, define their
+For holomorphic functions $f_1,\ldots ,f_q$ on a polydisc $U$, define their
 closed analytic zero subspace to have the common zero set with structure
 sheaf
 
-`O_U/(f_1,...,f_q)`.
+$\mathcal{O}_U/(f_1,\ldots ,f_q)$.
 
 The quotient sheaf is retained scheme-theoretically and may contain
 nilpotents; this is not merely the reduced common zero set.

@@ -9,13 +9,14 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean
 
 # Closed subschemes of an affine scheme
 
-For a morphism `f : X → Spec A`, `f` is a closed immersion if and only if
-there is an ideal `I ⊆ A` and an isomorphism
-`X ≅ Spec(A/I)` over `Spec A`.
+For a morphism $f : X \to \operatorname{Spec} A$, $f$ is a closed immersion if and only if
+there is an ideal $I \subseteq A$ and an isomorphism
+$X \cong \operatorname{Spec} (A/I)$ over $\operatorname{Spec} A$.
 
-This is exactly `IsClosedImmersion.Spec_iff`. The supporting exact lemma
-`IsClosedImmersion.spec_of_quotient_mk` supplies the forward construction from
-an ideal: the quotient map is surjective and its spectrum has image `V(I)`.
+The quotient map is surjective, and its spectrum has image $V(I)$.
+Conversely, a closed immersion into an affine scheme gives a
+surjection on global sections, identifying the source with the
+spectrum of the quotient.
 
 ## Depends on
 
@@ -24,8 +25,7 @@ an ideal: the quotient map is surjective and its spectrum has image `V(I)`.
 
 ## Proof depends on
 
-- `IsClosedImmersion.spec_of_quotient_mk`, surjectivity on affine global
-  sections, and the first isomorphism theorem.
+- Surjectivity on affine global sections and the first isomorphism theorem.
 
 ## Sources
 

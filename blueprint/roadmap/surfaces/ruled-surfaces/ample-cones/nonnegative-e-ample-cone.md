@@ -6,10 +6,10 @@ origin: cited
 
 # The ample cone when the invariant is nonnegative
 
-Let `X` be a ruled surface with `e>=0`. A divisor `D=a*C0+b*f` is ample if
+Let $X$ be a ruled surface with $e\ge 0$. A divisor $D=a\cdot C_0+b\cdot f$ is ample if
 and only if
 
-`a>0` and `b>a*e`.
+$a>0$ and $b>a\cdot e$.
 
 ## Depends on
 
@@ -19,8 +19,8 @@ and only if
 
 ## Proof depends on
 
-- The inequalities are necessary from intersections with `f,C0`. Conversely
-  they make `D^2>0` and give positive intersection with every irreducible
+- The inequalities are necessary from intersections with $f,C_0$. Conversely
+  they make $D^2>0$ and give positive intersection with every irreducible
   curve using the preceding numerical bound.
 
 ## Sources

@@ -8,7 +8,7 @@ origin: cited
 
 The divisor class
 
-`7l-3e_1-3e_2-2e_3-2e_4-2e_5-2e_6`
+$7l-3e_1-3e_2-2e_3-2e_4-2e_5-2e_6$
 
 on the marked cubic surface contains an irreducible nonsingular curve.  In the
 cubic embedding that curve has degree seven and arithmetic, hence geometric,

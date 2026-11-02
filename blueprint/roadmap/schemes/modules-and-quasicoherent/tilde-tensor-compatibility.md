@@ -6,9 +6,9 @@ origin: cited
 
 # Tilde commutes with tensor products
 
-For `A`-modules `M` and `N`, construct the natural isomorphism
+For $A$-modules $M$ and $N$, construct the natural isomorphism
 
-`(M ⊗[A] N)̃ ≅ M̃ ⊗[O_{Spec A}] Ñ`.
+$\widetilde{M\otimes_A N}\cong\widetilde{M}\otimes_{\mathcal{O}_{\operatorname{Spec}A}}\widetilde{N}$.
 
 This is Proposition 5.2(b).  It is independent of preservation of direct sums
 and has the single completion criterion that the tilde functor is strong

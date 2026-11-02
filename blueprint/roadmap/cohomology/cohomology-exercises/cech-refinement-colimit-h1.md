@@ -7,13 +7,13 @@ not_ready: true
 
 # First cohomology as the refinement colimit
 
-For every topological space `X`, choose a small refinement category whose
+For every topological space $X$, choose a small refinement category whose
 objects are indexed open covers and whose morphisms are refinement functions
-with their containment proofs. For every abelian sheaf `F`, the induced maps
+with their containment proofs. For every abelian sheaf $F$, the induced maps
 on first Čech cohomology define a diagram, and the natural comparison is an
 isomorphism
 
-`colim_U CechH^1(U,F) ≅ H^1(X,F)`.
+$\varinjlim_U\check{H}^1(U,F)\cong H^1(X,F)$.
 
 ## Depends on
 
@@ -24,10 +24,10 @@ isomorphism
 - [Flasque sheaves are Čech-acyclic](../cech-cohomology/flasque-cech-acyclic.md)
 - Construct refinement maps and prove independence of the chosen refinement
   function after passage to a common refinement; parallel refinement
-  functions must induce the same map in `H^1` after further refinement.
+  functions must induce the same map in $H^1$ after further refinement.
 - Prove that the chosen small category is filtered, or exhibit a small
   cofinal replacement of the large category of all indexed covers.
-- Embed `F` in a flasque sheaf and compare cokernel complexes.
+- Embed $F$ in a flasque sheaf and compare cokernel complexes.
 
 ## Sources
 

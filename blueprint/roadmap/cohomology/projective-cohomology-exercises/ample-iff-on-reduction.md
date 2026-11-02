@@ -6,9 +6,9 @@ origin: cited
 
 # Ampleness and reduction
 
-Let `X` be proper over a Noetherian ring, let `i:X_red→X` be its reduction,
-and let `L` be invertible on `X`. Then `L` is ample on `X` if and only if
-`i^*L` is ample on `X_red`.
+Let $X$ be proper over a Noetherian ring, let $i:X_{\mathrm{red}}\to X$ be its reduction,
+and let $L$ be invertible on $X$. Then $L$ is ample on $X$ if and only if
+$i^*L$ is ample on $X_{\mathrm{red}}$.
 
 ## Depends on
 

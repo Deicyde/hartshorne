@@ -10,14 +10,13 @@ mathlib_file: Mathlib/Topology/Sheaves/Flasque.lean
 # Flasque closure in short exact sequences
 
 In a short exact sequence of abelian sheaves
-`0 ⟶ F' ⟶ F ⟶ F'' ⟶ 0`, if `F'` and `F` are flasque, then `F''` is
+$0 \longrightarrow F' \longrightarrow F \longrightarrow F'' \longrightarrow 0$, if $F'$ and $F$ are flasque, then $F''$ is
 flasque.
 
-The unique main result is quotient closure. Supporting clauses from II.1.16
-say that a constant sheaf on an irreducible space is flasque, pushforward
-preserves flasqueness, products of flasques are flasque, and global sections
-surject onto `F''` when `F'` is flasque. The quotient and section-surjectivity
-clauses are exact pinned results in `Mathlib/Topology/Sheaves/Flasque.lean`.
+Hartshorne's Exercise II.1.16 also shows that a constant sheaf on an
+irreducible space is flasque, direct image preserves flasqueness,
+and products of flasque sheaves are flasque. In a short exact
+sequence, global sections surject onto $F''$ when $F'$ is flasque.
 
 ## Depends on
 

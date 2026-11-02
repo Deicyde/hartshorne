@@ -6,13 +6,13 @@ origin: cited
 
 # Normalization of the Castelnuovo contraction image
 
-Let `X_0` be the normalization of `X_1`.  The morphism from the nonsingular,
-hence normal, surface `X` factors through a projective birational morphism
+Let $X_0$ be the normalization of $X_1$.  The morphism from the nonsingular,
+hence normal, surface $X$ factors through a projective birational morphism
 
-`f:X -> X_0`.
+$f:X \to X_0$.
 
-It maps `Y` to a point `P` and is an isomorphism from `X-Y` to `X_0-P`.
-Moreover `O_(X_0) ~= f_*O_X`.
+It maps $Y$ to a point $P$ and is an isomorphism from $X-Y$ to $X_0-P$.
+Moreover $\mathcal{O}_{(X_0)} \simeq f_*\mathcal{O}_X$.
 
 ## Depends on
 

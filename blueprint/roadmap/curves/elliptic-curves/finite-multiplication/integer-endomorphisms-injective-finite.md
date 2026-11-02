@@ -9,9 +9,9 @@ origin: cited
 For a pointed elliptic curve over an algebraically closed field of
 characteristic different from two, the map
 
-`Z -> End(X,P_0)`,  `n |-> [n]`
+$Z \to \operatorname{End} (X,P_0)$,  $n\mapsto[n]$
 
-is an injective ring homomorphism. For every nonzero integer `n`, `[n]` is a
+is an injective ring homomorphism. For every nonzero integer $n$, $[n]$ is a
 nonconstant finite curve morphism.
 
 ## Depends on
@@ -23,9 +23,9 @@ nonconstant finite curve morphism.
 
 ## Proof depends on
 
-- Induct on positive `n`. For odd `n=2r+1`, `[n]=0` would make `[2r]`
-  inversion, contradicting the degree of its factor `[2]`; the even case
-  factors through `[2]`. Negative integers follow by inversion.
+- Induct on positive $n$. For odd $n=2r+1$, $[n]=0$ would make $[2r]$
+  inversion, contradicting the degree of its factor $[2]$; the even case
+  factors through $[2]$. Negative integers follow by inversion.
 
 ## Sources
 

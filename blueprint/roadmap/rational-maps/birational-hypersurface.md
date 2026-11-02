@@ -9,9 +9,9 @@ lean: Hartshorne.exists_birational_projective_hypersurface
 
 # Every variety is birational to a hypersurface
 
-Any variety `X` of dimension `r` in Hartshorne's four concrete classes — hence
+Any variety $X$ of dimension $r$ in Hartshorne's four concrete classes — hence
 carrying the affine-open-basis and separatedness witnesses used by §4 — is
-birational to a hypersurface `Y` in `ℙ^{r+1}` (Proposition 4.9).
+birational to a hypersurface $Y$ in $\mathbb{P} ^{r+1}$ (Proposition 4.9).
 
 This is as much of a normal form as birational geometry provides, and it is a
 clean illustration of what [Theorem 4.4](rational-map-function-field.md) buys:
@@ -20,32 +20,31 @@ ends.
 
 ## The proof
 
-`K = K(X)` is a finitely generated extension of `k` of transcendence degree `r`,
-by Theorem 3.2(d) and Proposition 1.7. Then:
+$K = K(X)$ is a finitely generated extension of $k$ of transcendence degree $r$,
+by [Theorem I.3.2(d)](../morphisms/function-field-is-fraction-field.md) and Proposition 1.7. Then:
 
-- `k` is algebraically closed, hence perfect, so `K/k` is separably generated
+- $k$ is algebraically closed, hence perfect, so $K/k$ is separably generated
   ([Theorem 4.8A](separably-generated.md)); take a separating transcendence base
-  `x₁,…,x_r`, so `K` is a finite separable extension of `k(x₁,…,x_r)`;
-- by the primitive element theorem there is a single `y` with
-  `K = k(x₁,…,x_r, y)`;
-- `y` is algebraic over `k(x₁,…,x_r)`, so it satisfies a polynomial relation
-  whose coefficients are rational functions in the `xᵢ`. Clearing denominators
-  gives an irreducible `f(x₁,…,x_r, y) = 0`;
-- `f` cuts out a hypersurface in `𝔸^{r+1}` whose function field is `K`, so by
-  [Corollary 4.5](birational-criterion.md) it is birational to `X`;
-- its [projective closure](projective-closure.md) in `ℙ^{r+1}` is the required
-  `Y`, birational to the affine hypersurface and hence to `X`.
+  $x_{1},\ldots ,x_r$, so $K$ is a finite separable extension of $k(x_{1},\ldots ,x_r)$;
+- by the primitive element theorem there is a single $y$ with
+  $K = k(x_{1},\ldots ,x_r, y)$;
+- $y$ is algebraic over $k(x_{1},\ldots ,x_r)$, so it satisfies a polynomial relation
+  whose coefficients are rational functions in the $x_{i}$. Clearing denominators
+  gives an irreducible $f(x_{1},\ldots ,x_r, y) = 0$;
+- $f$ cuts out a hypersurface in $\mathbb{A} ^{r+1}$ whose function field is $K$, so by
+  [Corollary 4.5](birational-criterion.md) it is birational to $X$;
+- its [projective closure](projective-closure.md) in $\mathbb{P} ^{r+1}$ is the required
+  $Y$, birational to the affine hypersurface and hence to $X$.
 
 Two small things are worth pinning down. Classically, irreducibility after
 clearing denominators is the Gauss-lemma step from
-`k(x₁,…,x_r)[y]` to `k[x₁,…,x_r,y]`. The formal proof packages the same
-argument through ideals: evaluation at `x₁,…,x_r,y` has prime kernel, the
+$k(x_{1},\ldots ,x_r)[y]$ to $k[x_{1},\ldots ,x_r,y]$. The same argument can be expressed through ideals: evaluation at $x_{1},\ldots ,x_r,y$ has prime kernel, the
 dimension formula makes that kernel height one, and the height-one prime
-theorem for a polynomial UFD supplies an irreducible generator `f`. The
-quotient is then shown to have fraction field `K`; the coordinate-ring
-dimension theorem computes the dimension of `Z(f)` from this identification.
+theorem for a polynomial UFD supplies an irreducible generator $f$. The
+quotient is then shown to have fraction field $K$; the coordinate-ring
+dimension theorem computes the dimension of $Z(f)$ from this identification.
 Finally, the projective-closure theorem identifies its closure literally with
-the projective zero set of the homogenisation of `f`.
+the projective zero set of the homogenisation of $f$.
 
 ## Depends on
 

@@ -6,12 +6,12 @@ origin: cited
 
 # Module and abelian-sheaf cohomology agree
 
-For a ringed space `(X,O_X)`, the right derived functors of global sections
-computed in `SheafOfModules O_X` are naturally isomorphic, after forgetting
+For a ringed space $(X,\mathcal{O}_X)$, the right derived functors of global sections
+computed in the category of $\mathcal{O}_X$-modules are naturally isomorphic, after forgetting
 module structure, to the cohomology of the underlying abelian sheaf.
 
-The comparison also equips every `Hⁿ(X,F)` with its natural
-`Γ(X,O_X)`-module structure, functorially and compatibly with exact sequences;
+The comparison also equips every $H^{n}(X,F)$ with its natural
+$\Gamma (X,\mathcal{O}_X)$-module structure, functorially and compatibly with exact sequences;
 the unique main result is the comparison isomorphism.
 
 ## Depends on

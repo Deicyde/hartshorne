@@ -24,4 +24,4 @@ The nonsingular curves of degree at most four in projective three-space are:
 
 ## Sources
 
-- [Hartshorne IV.6, Example 6.4.2 for `d<=4`, p.353](../../../../sources/hartshorne-iv-6.md)
+- [Hartshorne IV.6, Example 6.4.2 for $d\le 4$, p.353](../../../../sources/hartshorne-iv-6.md)

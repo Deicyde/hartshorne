@@ -7,8 +7,8 @@ not_ready: true
 
 # Ruling-direction quadric H¹ nonvanishing
 
-For the split nonsingular quadric `Q`, if `a≤-2`, then
-`H¹(Q,O_Q(a,0))≠0`.
+For the split nonsingular quadric $Q$, if $a\le -2$, then
+$H^{1}(Q,\mathcal{O}_Q(a,0))\ne 0$.
 
 ## Depends on
 

@@ -8,7 +8,7 @@ origin: cited
 
 A nonhyperelliptic genus-three curve is canonically embedded as a nonsingular
 plane quartic. Conversely, every nonsingular plane quartic has
-`omega_X~=O_X(1)`, hence is a canonical nonhyperelliptic genus-three curve.
+$\omega _X\simeq \mathcal{O}_X(1)$, hence is a canonical nonhyperelliptic genus-three curve.
 
 Consequently nonhyperelliptic genus-three curves exist over every
 algebraically closed field.
@@ -21,7 +21,7 @@ algebraically closed field.
 
 ## Proof depends on
 
-- The canonical image lies in `P^2` and has degree `2g-2=4`; adjunction gives
+- The canonical image lies in $\mathbb{P}^2$ and has degree $2g-2=4$; adjunction gives
   the converse canonical-sheaf calculation.
 
 ## Sources

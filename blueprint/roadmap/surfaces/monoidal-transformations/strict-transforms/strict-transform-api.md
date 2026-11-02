@@ -6,16 +6,16 @@ origin: cited
 
 # Strict transforms under a point blowup
 
-Let `pi : X_tilde -> X` be the blowup of a Chapter V surface at a closed
-point `P`, with exceptional curve `E`. For an effective divisor or integral
-curve `C`, define its strict transform as the closure in `X_tilde` of
+Let $\pi:\widetilde X\to X$ be the blowup of a Chapter V surface at a closed
+point $P$, with exceptional curve $E$. For an effective divisor or integral
+curve $C$, define its strict transform as the closure in $\widetilde X$ of
 
-`pi^(-1)(C minus {P})`.
+$\pi^{-1}(C\setminus\{P\})$.
 
-Expose strict transforms componentwise for divisors and prove that no
+Strict transforms are taken componentwise for divisors. No
 exceptional component is included unless it was already a component away
-from the center. Away from `E`, `pi` identifies the strict transform with
-`C minus {P}`.
+from the center. Away from $E$, $\pi$ identifies the strict transform with
+$C\setminus\{P\}$.
 
 ## Depends on
 

@@ -4,11 +4,10 @@ article_id: af_9c3af0aa09ded0dddeb23e4e
 
 # Sheaves on projective schemes
 
-This milestone builds the graded-module layer over Mathlib's existing `Proj`,
-then twisting sheaves, graded global sections, reconstruction, very ampleness,
-and projective finiteness. The order is intentional: no twist or `Gamma_*`
-claim precedes the standard-chart and stalk formulas for the associated
-graded-module sheaf.
+Graded modules over $\operatorname{Proj}S$ lead to twisting sheaves,
+graded global sections, reconstruction, very ampleness, and
+projective finiteness. The associated graded-module sheaf and its
+chart and stalk descriptions come first.
 
 - [The sheaf of a graded module on Proj](proj-graded-module-sheaf.md)
 - [Twisting sheaves are invertible](proj-twisting-sheaf.md)

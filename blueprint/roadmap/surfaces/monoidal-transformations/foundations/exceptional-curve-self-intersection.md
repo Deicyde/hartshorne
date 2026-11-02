@@ -8,7 +8,7 @@ origin: cited
 
 For the exceptional curve of a monoidal transformation,
 
-`E^2 = -1`.
+$E^2 = -1$.
 
 ## Depends on
 

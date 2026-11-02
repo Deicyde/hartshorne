@@ -6,8 +6,8 @@ origin: cited
 
 # Powers of an ideal of definition
 
-If `J` is an ideal of definition on a Noetherian formal scheme, then
-`J^(n+1)` is an ideal of definition for every `n : Nat`.
+If $J$ is an ideal of definition on a Noetherian formal scheme, then
+$J^{n+1}$ is an ideal of definition for every nonnegative integer $n$.
 
 ## Depends on
 

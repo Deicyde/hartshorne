@@ -6,9 +6,9 @@ origin: cited
 
 # The free locus of a coherent sheaf
 
-Let `X` be Noetherian and `F` coherent. If `F_x` is a free `O_{X,x}`-module,
-then `F` is free on some open neighbourhood of `x`. Hence `F` is locally free
-if and only if every stalk `F_x` is free.
+Let $X$ be Noetherian and $F$ coherent. If $F_x$ is a free $\mathcal{O}_{X,x}$-module,
+then $F$ is free on some open neighbourhood of $x$. Hence $F$ is locally free
+if and only if every stalk $F_x$ is free.
 
 No fixed rank is built into the theorem. Rank-constancy on connected
 components belongs to the locally-free infrastructure.
@@ -20,8 +20,7 @@ components belongs to the locally-free infrastructure.
 
 ## Proof depends on
 
-- `Module.freeLocus`, `Module.isOpen_freeLocus`, and finite-presentation
-  localization from pinned Mathlib.
+- The free locus of a finitely presented module is open, and finite presentation is preserved by localization.
 
 ## Sources
 

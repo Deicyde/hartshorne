@@ -14,11 +14,6 @@ of the target lifts after passing to an open cover. Equivalently, every induced
 map on stalks is surjective. This is the form used in the proof of Proposition
 5.6 on printed p. 113.
 
-Pinned Mathlib gives the cover formulation as
-`TopCat.Presheaf.isLocallySurjective_iff`, its equivalence with stalkwise
-surjectivity as `locally_surjective_iff_surjective_on_stalks`, and the epi
-characterization as the main declaration above.
-
 ## Depends on
 
 - [Sheaves of abelian groups](sheaves-of-abelian-groups.md)

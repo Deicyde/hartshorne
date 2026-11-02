@@ -6,18 +6,18 @@ origin: cited
 
 # Cohomology and base change
 
-Let `f : X -> Y` be projective between Noetherian schemes and let `F` be a
-coherent `O_X`-module flat over `Y`. Fix `y : Y` and `i >= 0`. If
+Let $f : X \to Y$ be projective between Noetherian schemes and let $F$ be a
+coherent $\mathcal{O}_X$-module flat over $Y$. Fix $y \in Y$ and $i \ge 0$. If
 
-`phi^i(y) : (R^i f_* F) tensor k(y) -> H^i(X_y,F_y)`
+$\phi ^i(y) : (R^i f_* F) \otimes k(y) \to H^i(X_y,F_y)$
 
 is surjective, then it is an isomorphism, and after shrinking to a
-neighbourhood `U` of `y`, every `phi^i(y')` for `y' : U` is an isomorphism.
+neighbourhood $U$ of $y$, every $\phi ^i(y')$ for $y' : U$ is an isomorphism.
 
-If `i > 0` and `phi^i(y)` is surjective, the following are equivalent:
+If $i > 0$ and $\phi ^i(y)$ is surjective, the following are equivalent:
 
-1. `phi^(i-1)(y)` is surjective;
-2. `R^i f_* F` is locally free on a neighbourhood of `y`.
+1. $\phi ^{i-1}(y)$ is surjective;
+2. $R^i f_* F$ is locally free on a neighbourhood of $y$.
 
 ## Depends on
 
@@ -28,7 +28,7 @@ If `i > 0` and `phi^i(y)` is surjective, the following are equivalent:
 
 ## Proof depends on
 
-- Localize at `y`, translate residue-field surjectivity into right exactness,
+- Localize at $y$, translate residue-field surjectivity into right exactness,
   and use the finite-free complex criteria to spread the condition over an
   open neighbourhood.
 

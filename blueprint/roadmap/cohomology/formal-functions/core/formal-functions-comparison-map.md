@@ -6,16 +6,18 @@ origin: cited
 
 # The formal-functions comparison map
 
-For a projective morphism `f : X -> Y` of Noetherian schemes, a coherent
-`O_X`-module `F`, a point `y : Y`, and `i : Nat`, construct the natural map
+For a projective morphism $f : X \to Y$ of Noetherian schemes, a coherent
+$\mathcal{O}_X$-module $F$, a point $y \in Y$, and nonnegative integer $i$, construct the natural map
 
-`completion_(m_y) ((R^i f_* F)_y) -> lim_n H^i(X_n,F_n)`.
+$\widehat{(R^i f_*F)_y}\longrightarrow\varprojlim_n H^i(X_n,F_n)$.
 
-At stage `n`, the map is the residue-thickening base-change comparison
+The completion is taken with respect to the maximal ideal $m_y$ of
+$\mathcal{O}_{Y,y}$. At stage $n$, the map is the residue-thickening
+base-change comparison
 
-`(R^i f_*F)_y tensor O_(Y,y)/m_y^(n+1) -> H^i(X_n,F_n)`.
+$(R^i f_*F)_y\otimes_{\mathcal{O}_{Y,y}}(\mathcal{O}_{Y,y}/m_y^{n+1})\longrightarrow H^i(X_n,F_n)$.
 
-Prove compatibility with transition maps, functoriality in `F`, and agreement
+Prove compatibility with transition maps, functoriality in $F$, and agreement
 in degree zero with restriction of sections. This leaf constructs the map and
 makes no isomorphism claim.
 
@@ -32,10 +34,6 @@ makes no isomorphism claim.
 - Identification of the pulled-back higher direct image on each one-point
   affine thickening with its module of global sections.
 - Finite-module completion as the inverse limit of maximal-ideal quotients.
-
-The higher-direct-image base-change-map dependency remains a representation
-root: pinned Mathlib has no replacement module-sheaf natural transformation.
-This leaf inherits that blockage instead of duplicating a `not_ready` root.
 
 ## Sources
 

@@ -9,9 +9,9 @@ lean: Hartshorne.finiteType_products
 
 # Products of finite-type schemes
 
-If `X → S` and `Y → S` are finite type, then `X ×_S Y → S` is finite type.
+If $X \to S$ and $Y \to S$ are finite type, then $X \times _S Y \to S$ is finite type.
 
-The first projection is the base extension of `Y → S`, hence finite type; compose it with `X → S`.
+The first projection is the base extension of $Y \to S$, hence finite type; compose it with $X \to S$.
 
 ## Depends on
 

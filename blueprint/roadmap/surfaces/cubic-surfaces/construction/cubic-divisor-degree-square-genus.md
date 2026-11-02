@@ -6,18 +6,18 @@ origin: cited
 
 # Degree, self-intersection, and arithmetic genus on a cubic surface
 
-For an effective divisor `D` of class `a*l-sum_i b_i*e_i`, its degree in
-`P^3`, self-intersection, and arithmetic genus are
+For an effective divisor $D$ of class $al-\sum_i b_i e_i$, its degree in
+$\mathbb{P}^3$, self-intersection, and arithmetic genus are
 
-`deg(D)=3*a-sum_i b_i`,
+$\deg (D)=3\cdot a-\sum _i b_i$,
 
-`D^2=a^2-sum_i b_i^2`,
+$D^2=a^2-\sum _i b_i^2$,
 
-`p_a(D)=(D^2-deg(D))/2+1`
+$p_a(D)=(D^2-\deg (D))/2+1$
 
-`=((a-1)*(a-2)-sum_i b_i*(b_i-1))/2`.
+$=((a-1)\cdot (a-2)-\sum _i b_i\cdot (b_i-1))/2$.
 
-These are integer-valued equalities; the coefficients `b_i` in an arbitrary
+These are integer-valued equalities; the coefficients $b_i$ in an arbitrary
 effective class are integers and are not assumed nonnegative here.
 
 ## Depends on

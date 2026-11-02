@@ -8,17 +8,15 @@ lean: Hartshorne.projectiveSpaceScheme
 
 # Projective space over a ring
 
-For a commutative ring `A` and a finite coordinate type with `n + 1` elements,
+For a commutative ring $A$ and a finite coordinate type with $n + 1$ elements,
 define the scheme projective space
 
-`ℙⁿ_A := Proj A[x₀,…,xₙ]`
+$\mathbb{P}^n_A=\operatorname{Proj}A[x_0,\ldots,x_n]$
 
-using the standard total-degree grading.  Its name must remain distinct from
-the project's existing classical-point `Hartshorne.ProjectiveSpace`.
+using the standard total-degree grading.
 
-The implementation should expose the standard `D₊(xᵢ)` affine cover and the
-structure morphism to `Spec A`, but the unique completion criterion for this
-node is the definition of the scheme itself.
+The standard opens $D_+(x_i)$ give an affine cover, and projective
+space has its structure morphism to $\operatorname{Spec}A$.
 
 ## Depends on
 

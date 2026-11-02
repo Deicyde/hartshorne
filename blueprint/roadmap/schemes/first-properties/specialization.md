@@ -9,11 +9,7 @@ mathlib_file: Mathlib/Topology/Inseparable.lean
 
 # Specialization and generization
 
-A point `x₁` specializes to `x₀` exactly when `x₀ ∈ closure {x₁}`. Closed subsets are stable under specialization, and open subsets are stable under generization.
-
-The exact upstream main theorem is `specializes_iff_mem_closure`. The supporting
-exact lemmas `IsClosed.stableUnderSpecialization` and
-`IsOpen.stableUnderGeneralization` give the two stability statements.
+A point $x_{1}$ specializes to $x_{0}$ exactly when $x_{0} \in \operatorname{closure} \{x_{1}\}$. Closed subsets are stable under specialization, and open subsets are stable under generization.
 
 ## Depends on
 
@@ -21,8 +17,7 @@ exact lemmas `IsClosed.stableUnderSpecialization` and
 
 ## Proof depends on
 
-- `IsClosed.stableUnderSpecialization` and
-  `IsOpen.stableUnderGeneralization` from `Mathlib/Topology/Inseparable.lean`.
+- Closed sets are stable under specialization, and open sets are stable under generization.
 
 ## Sources
 

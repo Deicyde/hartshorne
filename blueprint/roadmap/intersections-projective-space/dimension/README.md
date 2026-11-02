@@ -5,7 +5,7 @@ article_id: af_48b041f35fe4bfa4e7246d86
 # Affine and projective dimension theorems
 
 This chapter supplies the geometric branch of Hartshorne I.7: affine products,
-affine cones, the finite-equation height bound, Proposition 7.1, and both
+affine cones, the finite-equation height bound, [Proposition I.7.1](affine-dimension-theorem.md), and both
 clauses of Theorem 7.2.
 
 - [Affine products are varieties](affine-product-variety.md)

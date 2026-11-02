@@ -6,12 +6,12 @@ origin: cited
 
 # Classification of rational ruled surfaces
 
-Every normalized rank-two bundle on `P^1` is
+Every normalized rank-two bundle on $\mathbb{P}^1$ is
 
-`O direct-sum O(-e)`
+$\mathcal{O}\oplus\mathcal{O}(-e)$
 
-for a unique integer `e>=0`. Consequently there is exactly one rational ruled
-surface `X_e` for each `e>=0`, and every rank-two bundle on `P^1` is
+for a unique integer $e\ge 0$. Consequently there is exactly one rational ruled
+surface $X_e$ for each $e\ge 0$, and every rank-two bundle on $\mathbb{P}^1$ is
 decomposable after twisting.
 
 ## Depends on
@@ -22,8 +22,8 @@ decomposable after twisting.
 
 ## Proof depends on
 
-- The indecomposable bounds are inconsistent when `g=0`, and every line
-  bundle on `P^1` is `O(n)`.
+- The indecomposable bounds are inconsistent when $g=0$, and every line
+  bundle on $\mathbb{P}^1$ is $\mathcal{O}(n)$.
 - Twisting an arbitrary rank-two bundle to a normalized one gives the
   rank-two Birkhoff–Grothendieck conclusion used here.
 

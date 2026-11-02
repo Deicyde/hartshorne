@@ -6,10 +6,10 @@ origin: cited
 
 # The algebraic fundamental group is the profinite completion of the topological one
 
-For a connected normal finite-type `C`-scheme `X` and compatible algebraic
+For a connected normal finite-type $\mathbb{C}$-scheme $X$ and compatible algebraic
 and analytic basepoints,
 
-`pi_1^alg(X) ~= profiniteCompletion(pi_1^top(X^h))`.
+$\pi_1^{\mathrm{alg}}(X)\simeq\widehat{\pi_1^{\mathrm{top}}(X^h)}$.
 
 The algebraic group is defined from pointed finite étale covers, and the
 completion on the right is with respect to finite-index subgroups.  The

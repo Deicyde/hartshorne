@@ -7,10 +7,10 @@ not_ready: true
 
 # A nontrivial projective-line family
 
-Construct a proper flat morphism `f : X -> A^2` over an algebraically closed
-field such that the fibre over the origin is isomorphic to `P^1`, but no open
-neighbourhood `U` of the origin admits an isomorphism
-`f^-1(U) ≅ U times P^1` over `U`.
+Construct a proper flat morphism $f : X \to A^2$ over an algebraically closed
+field such that the fibre over the origin is isomorphic to $\mathbb{P}^1$, but no open
+neighbourhood $U$ of the origin admits an isomorphism
+$f^-1(U) \cong U \times \mathbb{P}^1$ over $U$.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ neighbourhood `U` of the origin admits an isomorphism
 
 - Adopt and verify an explicit construction; Hartshorne gives this only as an
   exercise.
-- Determine whether the construction has every fibre isomorphic to `P^1`.
+- Determine whether the construction has every fibre isomorphic to $\mathbb{P}^1$.
   The later text in IV p.347 cites Exercise 9.10 for that stronger isotrivial
   assertion, but the printed part (b) explicitly mentions only the central
   fibre. The roadmap does not strengthen the theorem until this mismatch is

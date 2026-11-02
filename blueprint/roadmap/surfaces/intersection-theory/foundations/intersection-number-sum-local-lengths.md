@@ -6,10 +6,10 @@ origin: cited
 
 # Intersection number as a sum of local lengths
 
-If effective curves `C,D` on a Chapter V surface have no common irreducible
+If effective curves $C ,D$ on a Chapter V surface have no common irreducible
 component, then
 
-`C.D = sum_(P in C intersect D) (C.D)_P`.
+$C\cdot D=\sum_{P\in C\cap D}(C\cdot D)_P$.
 
 The sum is finite and uses scheme-theoretic local intersection lengths.
 
@@ -21,7 +21,7 @@ The sum is finite and uses scheme-theoretic local intersection lengths.
 
 ## Proof depends on
 
-- Restrict the divisor sequence of `D` to `C`. The zero-dimensional
+- Restrict the divisor sequence of $D$ to $C$. The zero-dimensional
   intersection sheaf has global-section dimension equal to the sum of its
   stalk lengths.
 - Euler-characteristic differences show the sum is invariant under linear

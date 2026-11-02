@@ -6,13 +6,13 @@ origin: cited
 
 # The relative degree-zero Picard functor
 
-For a Chapter IV curve `X` and a finite-type scheme `T` over the base field,
-let `Pic^0(X times T)` be the subgroup of line bundles whose restriction to
-every fibre over `T` has degree zero. Define
+For a Chapter IV curve $X$ and a finite-type scheme $T$ over the base field,
+let $\operatorname{Pic} ^0(X \times T)$ be the subgroup of line bundles whose restriction to
+every fibre over $T$ has degree zero. Define
 
-`Pic^0(X/T) = Pic^0(X times T) / p_T^* Pic(T)`.
+$\operatorname{Pic} ^0(X/T) = \operatorname{Pic} ^0(X \times T) / p_T^* \operatorname{Pic} (T)$.
 
-Pullback in `T` makes this a contravariant functor to abelian groups. The
+Pullback in $T$ makes this a contravariant functor to abelian groups. The
 quotient is part of the representation: two families that differ by a line
 bundle from the parameter scheme define the same relative class.
 

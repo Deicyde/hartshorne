@@ -9,7 +9,7 @@ mathlib_file: Mathlib/AlgebraicGeometry/Properties.lean
 
 # Integrality of an affine scheme
 
-For a commutative ring `A`, `Spec A` is integral if and only if `A` is a
+For a commutative ring $A$, $\operatorname{Spec} A$ is integral if and only if $A$ is a
 domain.
 
 Use the global-sections equivalence and the affine characterization of

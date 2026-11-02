@@ -6,9 +6,9 @@ origin: cited
 
 # The two dual composites are multiplication
 
-Let `f : X -> X'` preserve the origins and have degree `n`. Then
+Let $f : X \to X'$ preserve the origins and have degree $n$. Then
 
-`f_dual comp f = [n]_X`  and  `f comp f_dual = [n]_(X')`.
+$f^{\vee} \circ f = [n]_X$  and  $f \circ f^{\vee} = [n]_{(X')}$.
 
 The proof applies divisor pushforward and pullback separately in the
 separable and purely inseparable cases, then combines them.

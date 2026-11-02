@@ -9,13 +9,11 @@ mathlib_file: Mathlib/CategoryTheory/Abelian/GrothendieckCategory/EnoughInjectiv
 
 # Abelian sheaves have enough injectives
 
-For every topological space `X`, the abelian category of sheaves of abelian
-groups on `X` has enough injectives.
+For every topological space $X$, the abelian category of sheaves of abelian
+groups on $X$ has enough injectives.
 
-Pinned Mathlib makes `TopCat.Sheaf AddCommGrpCat X` a Grothendieck abelian
-category in `Mathlib/Topology/Sheaves/Abelian.lean`; the generic instance
-`CategoryTheory.IsGrothendieckAbelian.enoughInjectives` then supplies this
-exact result. This route does not identify abelian sheaves with module sheaves.
+The category of abelian sheaves is a Grothendieck abelian category,
+so it has enough injectives.
 
 ## Depends on
 

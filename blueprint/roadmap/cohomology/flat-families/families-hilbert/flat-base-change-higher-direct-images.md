@@ -6,13 +6,13 @@ origin: cited
 
 # Flat base change for higher direct images
 
-Let `f : X -> Y` be separated and finite type between Noetherian schemes,
-let `F` be quasicoherent, and let `u : Y' -> Y` be a flat morphism with `Y'`
+Let $f : X \to Y$ be separated and finite type between Noetherian schemes,
+let $F$ be quasicoherent, and let $u : Y' \to Y$ be a flat morphism with $Y'$
 Noetherian. In the cartesian base-change square, the natural maps
 
-`u^* R^i f_* F -> R^i g_* (v^* F)`
+$u^* R^i f_* F \to R^i g_* (v^* F)$
 
-are isomorphisms for all `i >= 0`.
+are isomorphisms for all $i \ge 0$.
 
 ## Depends on
 
@@ -25,8 +25,7 @@ are isomorphisms for all `i >= 0`.
 - [Affine covers compute quasicoherent cohomology](../../cech-cohomology/affine-cover-comparison.md)
 - [The ordered Cech complex](../../cech-cohomology/open-cover-cech-complex.md)
 - [Flat modules remain flat after base change](../flatness/flat-module-base-change.md)
-- `Module.Flat.iff_lTensor_exact`: tensoring the Cech complex by the flat base
-  algebra commutes with kernels, images, and cohomology.
+- Tensoring the Čech complex with a flat base algebra commutes with kernels, images, and cohomology.
 - [Flat morphisms are stable under base change](../flatness/flat-morphism-base-change.md),
   together with preservation of separatedness and finite type.
 

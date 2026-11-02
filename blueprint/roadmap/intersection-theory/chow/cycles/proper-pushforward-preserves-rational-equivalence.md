@@ -7,16 +7,12 @@ not_ready: true
 
 # Proper pushforward preserves rational equivalence
 
-For a proper morphism of varieties `f:X->X'`, raw cycle pushforward sends
+For a proper morphism of varieties $f:X\to X'$, raw cycle pushforward sends
 rationally equivalent cycles to rationally equivalent cycles and therefore
 descends to homomorphisms
 
-`f_* : A^r(X) -> A^(r+dim X'-dim X)(X')`.
+$f_* : A^r(X) \to A^{r+\dim X'-\dim X}(X')$.
 
-This node is not ready. Hartshorne makes the descent part of A3 and delegates
-the generically finite divisor case to Exercise A.6.2. An exact proof source
-covering the norm/principal-divisor calculation and dimension-dropping cases
-must be adopted.
 
 ## Depends on
 

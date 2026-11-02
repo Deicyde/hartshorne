@@ -6,13 +6,13 @@ origin: cited
 
 # Veronese Proj and twists
 
-Let `S` be generated in degree one and `S^(d)=direct-sum_n S_{nd}` for
-`d>0`. There is a canonical isomorphism
+Let $S$ be generated in degree one and $S^{(d)}=\bigoplus_n S_{nd}$ for
+$d>0$. There is a canonical isomorphism
 
-`Proj S^(d) ≅ Proj S`
+$\operatorname{Proj} S^{d} \cong \operatorname{Proj} S$
 
-under which `O_{Proj S^(d)}(1)` corresponds to `O_{Proj S}(d)`. For a
-polynomial presentation this isomorphism realizes the `d`-uple embedding.
+under which $\mathcal{O}_{\operatorname{Proj} S^{d}}(1)$ corresponds to $\mathcal{O}_{\operatorname{Proj} S}(d)$. For a
+polynomial presentation this isomorphism realizes the $d$-uple embedding.
 
 ## Depends on
 
@@ -21,9 +21,9 @@ polynomial presentation this isomorphism realizes the `d`-uple embedding.
 ## Proof depends on
 
 - [A standard Proj chart is affine](../projective-spectrum/proj-basic-open.md)
-- The degree-`d` monomial description of the Veronese embedding from
+- The degree-$d$ monomial description of the Veronese embedding from
   Hartshorne I, Exercise 2.12.
-- The canonical chartwise identification of `Proj S^(d)` with `Proj S`.
+- The canonical chartwise identification of $\operatorname{Proj} S^{d}$ with $\operatorname{Proj} S$.
 
 ## Sources
 

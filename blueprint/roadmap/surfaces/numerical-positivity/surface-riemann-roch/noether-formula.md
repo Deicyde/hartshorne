@@ -6,10 +6,10 @@ origin: background
 
 # Noether's Chern-number formula
 
-For a Chapter V surface with canonical class `K` and second tangent-sheaf
-Chern number `c_2`,
+For a Chapter V surface with canonical class $K$ and second tangent-sheaf
+Chern number $c_2$,
 
-`12*(1+p_a(X)) = K^2+c_2`.
+$12\cdot (1+p_a(X)) = K^2+c_2$.
 
 Hartshorne records this as a generalized Riemann–Roch consequence rather
 than proving it in V.1.

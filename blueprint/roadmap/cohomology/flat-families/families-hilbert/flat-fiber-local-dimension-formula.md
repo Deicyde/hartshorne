@@ -6,10 +6,10 @@ origin: cited
 
 # The local dimension formula for a flat fibre
 
-Let `f : X -> Y` be a flat morphism of schemes of finite type over a field.
-For `x : X`, with `y=f(x)`, the scheme-theoretic fibre satisfies
+Let $f : X \to Y$ be a flat morphism of schemes of finite type over a field.
+For $x \in X$, with $y=f(x)$, the scheme-theoretic fibre satisfies
 
-`dim O_{X_y,x} = dim O_{X,x} - dim O_{Y,y}`.
+$\dim \mathcal{O}_{X_y,x} = \dim \mathcal{O}_{X,x} - \dim \mathcal{O}_{Y,y}$.
 
 ## Depends on
 

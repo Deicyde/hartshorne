@@ -6,13 +6,13 @@ origin: cited
 
 # The Chern polynomial of a dual bundle
 
-If `E` has formal Chern roots `a_1,...,a_r`, then
+If $E$ has formal Chern roots $a_1,\ldots ,a_r$, then
 
-`c_t(E^dual)=product_i(1-a_i*t)`.
+$c_t(E^\vee )=\prod _i(1-a_i\cdot t)$.
 
 Equivalently,
 
-`c_i(E^dual)=(-1)^i c_i(E)`.
+$c_i(E^\vee )=(-1)^i c_i(E)$.
 
 ## Depends on
 

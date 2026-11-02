@@ -6,9 +6,9 @@ origin: cited
 
 # The Chow ring of projective space
 
-For projective `n`-space and the hyperplane class `h in A^1(P^n)`,
+For projective $n$-space and the hyperplane class $h \in A^1(\mathbb{P}^n)$,
 
-`A(P^n) ~= Z[h]/(h^(n+1))`
+$A(\mathbb{P}^n) \simeq Z[h]/(h^{n+1})$
 
 as graded rings.
 
@@ -22,9 +22,9 @@ as graded rings.
 
 ## Proof depends on
 
-- Induct on `n` using `P^n-P^(n-1)~=A^n`, localization, and homotopy
-  invariance. Multiplication by `h` identifies the successive linear-subspace
-  classes, and dimension gives `h^(n+1)=0`.
+- Induct on $n$ using $\mathbb{P}^n-\mathbb{P}^{n-1}\simeq A^n$, localization, and homotopy
+  invariance. Multiplication by $h$ identifies the successive linear-subspace
+  classes, and dimension gives $h^{n+1}=0$.
 
 ## Sources
 

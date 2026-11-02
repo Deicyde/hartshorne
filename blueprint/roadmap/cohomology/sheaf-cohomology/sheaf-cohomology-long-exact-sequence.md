@@ -9,15 +9,12 @@ mathlib_file: Mathlib/Algebra/Homology/DerivedCategory/Ext/ExactSequences.lean
 
 # The long exact sequence of sheaf cohomology
 
-Under the Ext model of sheaf cohomology, every short exact sequence of
-abelian sheaves gives successive six-term (five-arrow) windows in the cohomology
-sequence. These windows are exactly Mathlib's
-`Abelian.Ext.covariantSequence`, whose exactness is
-`Abelian.Ext.covariantSequence_exact`.
+Under the Ext model of sheaf cohomology, every short exact sequence
+of abelian sheaves gives exact six-term windows in the cohomology
+sequence, each containing five successive arrows.
 
-The unique main result is exactness of these windows. Assembly into a single
-long exact sequence and naturality belong to the project comparison wrapper
-and are not asserted by the `mathlib: true` declaration here.
+Compatibility with connecting morphisms assembles these windows
+into the [long exact sequence of derived functors](../derived-functors/right-derived-long-exact-sequence.md).
 
 ## Depends on
 

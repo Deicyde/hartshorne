@@ -12,7 +12,6 @@ fibres, and the monodromy action on ℓ-adic cohomology. This node records the
 proof architecture needed to connect the SGA7 monodromy package to the weight
 theorem; it is not itself a substitute for Deligne's theorem.
 
-This node is not ready pending exact SGA7 and *Weil I* theorem passages.
 
 ## Depends on
 

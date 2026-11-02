@@ -6,17 +6,17 @@ origin: cited
 
 # Determinants and pushforward of curve divisors
 
-Let `f : X -> Y` be a finite morphism of curves of degree `n`. Define
+Let $f : X \to Y$ be a finite morphism of curves of degree $n$. Define
 pushforward on divisors by
 
-`f_*(sum_P n_P P) = sum_P n_P f(P)`.
+$f_*(\sum _P n_P P) = \sum _P n_P f(P)$.
 
-For every divisor `D` on `X`, the finite direct image `f_*O_X(D)` is locally
-free of rank `n`, and there is a natural isomorphism
+For every divisor $D$ on $X$, the finite direct image $f_*\mathcal{O}_X(D)$ is locally
+free of rank $n$, and there is a natural isomorphism
 
-`det(f_*O_X(D)) ~= det(f_*O_X) tensor O_Y(f_*D)`.
+$\det (f_*\mathcal{O}_X(D)) \simeq \det (f_*\mathcal{O}_X) \otimes \mathcal{O}_Y(f_*D)$.
 
-This is divisor pushforward from `X` to `Y`, not the ramification-weighted
+This is divisor pushforward from $X$ to $Y$, not the ramification-weighted
 divisor pullback in the opposite direction.
 
 ## Depends on

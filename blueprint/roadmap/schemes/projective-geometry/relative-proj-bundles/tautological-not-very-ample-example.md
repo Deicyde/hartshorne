@@ -6,11 +6,11 @@ origin: cited
 
 # The tautological sheaf need not be very ample
 
-Take `X = P^1` and `E = O_X(-1)`. Since `E` has rank one, the quotient
-functor gives `P(E) ≅ X` over `X`, and under this isomorphism the tautological
-sheaf satisfies `O_{P(E)}(1) ≅ E`. It is not relatively very ample: a relative
+Take $X = \mathbb{P}^1$ and $E = \mathcal{O}_X(-1)$. Since $E$ has rank one, the quotient
+functor gives $P(E) \cong X$ over $X$, and under this isomorphism the tautological
+sheaf satisfies $\mathcal{O}_{P(E)}(1) \cong E$. It is not relatively very ample: a relative
 projective-space immersion would make it a quotient of a finite free sheaf,
-hence globally generated, whereas `O_{P^1}(-1)` has no nonzero global
+hence globally generated, whereas $\mathcal{O}_{\mathbb{P}^1}(-1)$ has no nonzero global
 sections.
 
 ## Depends on
@@ -22,7 +22,7 @@ sections.
 ## Proof depends on
 
 - [The Picard group of projective space](../../divisors/cartier-picard/projective-space-picard-group.md)
-- The calculation `Gamma(P^1,O(-1)) = 0`.
+- The calculation $\Gamma (\mathbb{P}^1,\mathcal{O}(-1)) = 0$.
 
 ## Sources
 

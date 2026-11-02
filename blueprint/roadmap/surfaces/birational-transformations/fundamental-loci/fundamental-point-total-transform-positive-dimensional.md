@@ -6,10 +6,10 @@ origin: cited
 
 # The total transform of a fundamental point is positive-dimensional
 
-Under the hypotheses of the connected-total-transform theorem, if `P` is a
+Under the hypotheses of the connected-total-transform theorem, if $P$ is a
 fundamental point then
 
-`dim T(P) >= 1`.
+$\dim T(P) \ge 1$.
 
 ## Depends on
 
@@ -21,7 +21,7 @@ fundamental point then
 ## Proof depends on
 
 - If the graph fibre were zero-dimensional, fibre dimension would remain
-  zero near `P`; the restricted graph projection would be projective and
+  zero near $P$; the restricted graph projection would be projective and
   quasi-finite, hence finite. A finite birational morphism to the normal
   neighborhood would be an isomorphism, contradicting fundamentality.
 

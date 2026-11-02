@@ -6,13 +6,13 @@ origin: cited
 
 # Every birational surface transformation has a common resolution and monoidal factorization
 
-Let `T:X dashedrightarrow X'` be a birational transformation of nonsingular
-projective surfaces. There is a nonsingular projective surface `X''` and
+Let $T:X \dashrightarrow X'$ be a birational transformation of nonsingular
+projective surfaces. There is a nonsingular projective surface $X''$ and
 birational morphisms
 
-`f:X''->X`, `g:X''->X'`
+$f:X''\to X$, $g:X''\to X'$
 
-such that `T=g after f^(-1)`. Consequently `T` factors as a finite sequence
+such that $T=g\circ f^{-1}$. Consequently $T$ factors as a finite sequence
 of monoidal transformations and their inverses.
 
 ## Depends on
@@ -26,9 +26,9 @@ of monoidal transformations and their inverses.
 ## Proof depends on
 
 - At defect zero, a remaining fundamental point would have a curve in its
-  total transform. A general `C'` in `|2H'|` meets that curve transversally
+  total transform. A general $C '$ in $|2H'|$ meets that curve transversally
   in at least two points, forcing a double point in its image and positive
-  defect. Thus the transformed map is the morphism `g`; factor `f` and `g`
+  defect. Thus the transformed map is the morphism $g$; factor $f$ and $g$
   by the birational-morphism theorem.
 
 ## Sources

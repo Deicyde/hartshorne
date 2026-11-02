@@ -6,9 +6,9 @@ origin: cited
 
 # A contracted curve has negative self-intersection
 
-Let `f:X -> X_0` be a morphism from a nonsingular projective surface to a
-projective surface of dimension two. If an irreducible curve `Y` is exactly
-the fibre over a point, then `Y^2<0`.
+Let $f:X \to X_0$ be a morphism from a nonsingular projective surface to a
+projective surface of dimension two. If an irreducible curve $Y$ is exactly
+the fibre over a point, then $Y^2<0$.
 
 ## Depends on
 

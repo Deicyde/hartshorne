@@ -7,16 +7,12 @@ not_ready: true
 
 # Castelnuovo's rationality criterion
 
-For a Chapter-V surface `X` over an algebraically closed field,
+For a Chapter-V surface $X$ over an algebraically closed field,
 
-`X is rational` if and only if `p_a(X)=0` and `P_2(X)=0`,
+$X \text{is} \text{rational}$ if and only if $p_a(X)=0$ and $P_2(X)=0$,
 
-where `P_2(X)=dim_k H^0(X,O_X(2K_X))` is the second plurigenus.
+where $P_2(X)=\dim _k H^0(X,\mathcal{O}_X(2K_X))$ is the second plurigenus.
 
-This node is not ready.  Hartshorne cites Kodaira's proof over `C` through
-Serre and Zariski's proof in positive characteristic.  Exact proof-level
-passages, including descent from `C` to an arbitrary algebraically closed
-field of characteristic zero, remain to be adopted.
 
 ## Depends on
 

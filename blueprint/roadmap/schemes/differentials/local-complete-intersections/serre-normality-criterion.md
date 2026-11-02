@@ -8,8 +8,8 @@ origin: background
 
 A Noetherian ring is normal exactly when it satisfies both:
 
-- `(R1)`: every localization at a prime of height at most one is regular;
-- `(S2)`: every localization at a prime of height at least two has depth at
+- $(R1)$: every localization at a prime of height at most one is regular;
+- $(S2)$: every localization at a prime of height at least two has depth at
   least two.
 
 Here normality is the local condition used for possibly disconnected
@@ -24,7 +24,7 @@ domains.
 
 ## Proof depends on
 
-- Associated primes and the depth characterization of `(S2)`.
+- Associated primes and the depth characterization of $(S2)$.
 - Intersection of height-one localizations in a Noetherian normal domain.
 
 ## Sources

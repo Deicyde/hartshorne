@@ -6,10 +6,10 @@ origin: cited
 
 # Adjunction via the determinant of the normal bundle
 
-Let `Y` be a nonsingular codimension-`r` subvariety of a nonsingular variety
-`X`. There is a natural isomorphism of invertible sheaves on `Y`
+Let $Y$ be a nonsingular codimension-$r$ subvariety of a nonsingular variety
+$X$. There is a natural isomorphism of invertible sheaves on $Y$
 
-`omega_Y ~= omega_X|_Y tensor exterior^r N_(Y/X)`.
+$\omega_Y\simeq\omega_X|_Y\otimes\bigwedge^r N_{Y/X}$.
 
 ## Depends on
 

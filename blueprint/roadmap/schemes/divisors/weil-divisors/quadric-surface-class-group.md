@@ -6,10 +6,10 @@ origin: cited
 
 # The class group of a nonsingular quadric surface
 
-Let `Q ⊆ P^3_k` be the split nonsingular quadric `xy = zw`, identified with
-`P^1_k × P^1_k`. Prove that pullback from the two factors gives
-`Cl Q ≅ Z × Z`; the two ruling classes are `(1,0)` and `(0,1)`, and the
-hyperplane class is `(1,1)`.
+Let $Q \subseteq \mathbb{P}^3_k$ be the split nonsingular quadric $xy = zw$, identified with
+$\mathbb{P}^1_k \times \mathbb{P}^1_k$. Prove that pullback from the two factors gives
+$Cl Q \cong Z \times Z$; the two ruling classes are $(1,0)$ and $(0,1)$, and the
+hyperplane class is $(1,1)$.
 
 The class-group isomorphism is the unique main result. The ruling and
 hyperplane formulas are its source-facing normalization and are used by later
@@ -24,7 +24,7 @@ linear-system, curve, and surface calculations.
 
 ## Proof depends on
 
-- The hyperplane section `w = 0` is the sum of one line from each ruling.
+- The hyperplane section $w = 0$ is the sum of one line from each ruling.
 
 ## Sources
 

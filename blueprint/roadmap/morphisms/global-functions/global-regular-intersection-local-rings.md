@@ -9,25 +9,21 @@ lean: Hartshorne.Variety.globalRegularRange_eq_iInf_localRingRange
 
 # Global regular functions are the intersection of the local rings
 
-For a variety `X` over `k`, restriction to a germ and forgetting its base point
-give injective `k`-algebra homomorphisms
+For a variety $X$ over $k$ and every point $P\in X$, restriction to a
+germ and forgetting its base point give injective $k$-algebra maps
 
-`𝒪(X) →ₐ[k] 𝒪_{P,X} →ₐ[k] K(X)`
+$$\mathcal O(X)\hookrightarrow\mathcal O_{P,X}\hookrightarrow K(X).$$
 
-for every `P : X`, and their composite is the canonical map from global regular
-functions to rational functions. After identifying their ranges as
-`k`-subalgebras of `K(X)`, the main theorem is
+Their composite is the canonical embedding of global regular functions
+into the function field. Identifying all rings with their images gives
 
-`range(𝒪(X) → K(X)) = ⨅ P, range(𝒪_{P,X} → K(X))`.
+$$\mathcal O(X)=\bigcap_{P\in X}\mathcal O_{P,X}\quad\text{inside }K(X).$$
 
-The inclusion from left to right is restriction. In the other direction, a
-rational function lying in every local ring is regular near every point; the
-locality axiom `Variety.regular_of_locally` then makes it globally regular.
-
-This is the structural statement Hartshorne uses when he silently treats all
-three rings as subrings of `K(X)`. The earlier
-[underlying-injections node](../function-field-injections.md) proves only the
-set-level injectivity in the concrete model and is not a proof of this equality.
+One inclusion is restriction. Conversely, a rational function in every
+local ring is regular near every point, so locality makes it globally regular.
+The earlier [underlying injectivity statements](../function-field-injections.md)
+concern only maps of sets; the present result includes their algebraic
+structure and the intersection identity.
 
 ## Depends on
 

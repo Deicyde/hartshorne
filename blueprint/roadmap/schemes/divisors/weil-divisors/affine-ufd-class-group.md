@@ -6,12 +6,12 @@ origin: cited
 
 # The affine UFD class-group criterion
 
-For a Noetherian domain `A`, prove that `A` is a unique factorization domain
-if and only if `Spec A` is normal and `Cl(Spec A)` is trivial.
+For a Noetherian domain $A$, prove that $A$ is a unique factorization domain
+if and only if $\operatorname{Spec} A$ is normal and $Cl(\operatorname{Spec} A)$ is trivial.
 
 In the reverse direction, a height-one prime has divisor class zero; the
 height-one intersection theorem turns its rational generator into an element
-of `A` and proves that the prime ideal is principal.
+of $A$ and proves that the prime ideal is principal.
 
 ## Depends on
 
@@ -21,8 +21,7 @@ of `A` and proves that the prime ideal is principal.
 
 ## Proof depends on
 
-- `UniqueFactorizationMonoid.iff_forall_isPrincipal_of_height_eq_one` in
-  `Mathlib/RingTheory/Ideal/UFD.lean`.
+- In a unique factorization domain, every height-one prime ideal is principal.
 - A UFD is integrally closed.
 
 ## Sources

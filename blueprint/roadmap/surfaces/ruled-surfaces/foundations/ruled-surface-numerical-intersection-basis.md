@@ -6,11 +6,11 @@ origin: cited
 
 # The numerical intersection lattice of a ruled surface
 
-For a ruled surface with a section `C0` and fibre `f`,
+For a ruled surface with a section $C_0$ and fibre $f$,
 
-`Num(X) ~= Z[C0] direct-sum Z[f]`,
+$\operatorname{Num}(X)\simeq\mathbb Z[C_0]\oplus\mathbb Z[f]$,
 
-with `C0.f=1` and `f^2=0`. The second coordinate of a pulled-back divisor
+with $C_0\cdot f=1$ and $f^2=0$. The second coordinate of a pulled-back divisor
 class is its degree on the base curve.
 
 ## Depends on

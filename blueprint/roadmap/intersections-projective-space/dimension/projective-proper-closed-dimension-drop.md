@@ -9,18 +9,15 @@ lean: Hartshorne.projDim_lt_of_closed_ssubset_isProjVariety Hartshorne.exists_pr
 
 # Proper closed subsets of projective varieties have smaller dimension
 
-Let `Y` be a projective variety and let `Z ⊊ Y` be a closed subset. Then
+Let $Y$ be a projective variety and let $Z\subsetneq Y$ be a closed
+subset. Then
 
-`projDim Z < projDim Y`.
+$$\dim Z<\dim Y.$$
 
-The main declaration is planned as
-`Hartshorne.projDim_lt_of_closed_ssubset_isProjVariety`. A supporting theorem
-records that the dimension of a nonempty projective variety is represented by
-a natural number. The proof identifies `projDim Y` with the height of the
-irreducible closed subset `Y`; adjoining `Y` to any strict chain inside `Z`
-increases its length by one. Natural finiteness follows by passing to a
-nonempty standard affine chart and using finite Krull dimension of its
-finitely generated coordinate ring.
+Adjoining the irreducible closed set $Y$ to a chain inside $Z$ increases
+its length by one. The dimension of $Y$ is finite: a nonempty standard
+affine chart has a finitely generated coordinate ring of finite Krull
+dimension. Thus the chain argument gives a strict dimension drop.
 
 ## Depends on
 

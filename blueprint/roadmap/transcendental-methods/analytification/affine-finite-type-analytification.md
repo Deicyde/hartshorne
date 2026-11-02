@@ -8,9 +8,9 @@ origin: cited
 
 Given a presentation
 
-`A=C[x_1,...,x_n]/(f_1,...,f_q)`,
+$A=\mathbb{C} [x_1,\ldots ,x_n]/(f_1,\ldots ,f_q)$,
 
-define `(Spec A)^h` to be the closed analytic subspace of `C^n` cut out by
+define $(\operatorname{Spec} A)^h$ to be the closed analytic subspace of $\mathbb{C}^n$ cut out by
 the same polynomials, regarded as holomorphic functions. Retain the quotient
 analytic structure sheaf and all algebraic nilpotents.
 

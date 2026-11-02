@@ -9,23 +9,21 @@ lean: Hartshorne.vanishingIdeal_union Hartshorne.zeroLocus_vanishingIdeal_eq_clo
 
 # The vanishing ideal
 
-For `Y ⊆ 𝔸ⁿ` set `I(Y) = { f ∈ A : f(P) = 0 for all P ∈ Y }`, an ideal of `A`.
-Proposition 1.2 records how `Z` and `I` interact:
+For $Y\subseteq\mathbb A^n$, its *vanishing ideal* is
 
-- `T₁ ⊆ T₂` implies `Z(T₁) ⊇ Z(T₂)`;
-- `Y₁ ⊆ Y₂` implies `I(Y₁) ⊇ I(Y₂)`;
-- `I(Y₁ ∪ Y₂) = I(Y₁) ∩ I(Y₂)`;
-- `Z(I(Y)) = Ȳ`, the Zariski closure of `Y`.
+$$I(Y)=\{f\in k[x_1,\ldots,x_n]: f(P)=0\text{ for every }P\in Y\}.$$
 
-The main result is that `Z` and `I` form an antitone Galois connection between
-ideals of `A` and subsets of `𝔸ⁿ`, with `Z ∘ I` the closure operator. Part (d)
-of Hartshorne's Proposition 1.2, `I(Z(𝔞)) = √𝔞`, is the Nullstellensatz and is
-stated separately.
+Hartshorne's Proposition I.1.2 records the following identities:
 
-Mathlib has `MvPolynomial.vanishingIdeal` and
-`MvPolynomial.zeroLocus_vanishingIdeal_galoisConnection`. The part not yet
-present in that form is `Z(I(Y)) = Ȳ`, which needs the topology from this
-chapter.
+- $T_1\subseteq T_2$ implies $Z(T_1)\supseteq Z(T_2)$;
+- $Y_1\subseteq Y_2$ implies $I(Y_1)\supseteq I(Y_2)$;
+- $I(Y_1\cup Y_2)=I(Y_1)\cap I(Y_2)$;
+- $Z(I(Y))=\overline Y$, the Zariski closure of $Y$.
+
+The assignments $Z$ and $I$ form an inclusion-reversing Galois connection
+between ideals of the polynomial ring and subsets of affine space.
+The remaining identity $I(Z(\mathfrak a))=\sqrt{\mathfrak a}$ is
+[the Nullstellensatz](nullstellensatz.md).
 
 ## Depends on
 
@@ -34,4 +32,4 @@ chapter.
 
 ## Sources
 
-- [Hartshorne I.1, definition of `I(Y)` and Proposition 1.2 (p. 3)](../../sources/hartshorne.md#i1)
+- [Hartshorne I.1, definition of $I(Y)$ and Proposition 1.2 (p. 3)](../../sources/hartshorne.md#i1)

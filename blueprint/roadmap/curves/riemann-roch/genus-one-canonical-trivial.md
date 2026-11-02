@@ -6,8 +6,8 @@ origin: cited
 
 # The canonical divisor of a genus-one curve is trivial
 
-Let `X` be a Chapter IV curve of genus one. Every canonical divisor `K` has
-degree zero and satisfies `K~0`; equivalently `omega_X~=O_X`.
+Let $X$ be a Chapter IV curve of genus one. Every canonical divisor $K$ has
+degree zero and satisfies $K\sim 0$; equivalently $\omega _X\simeq \mathcal{O}_X$.
 
 This uses Hartshorne's unpointed meaning of “elliptic curve.” No base point or
 Weierstrass presentation is part of the statement.
@@ -20,7 +20,7 @@ Weierstrass presentation is part of the statement.
 
 ## Proof depends on
 
-- `l(K)=g=1`, so Lemma 1.2 applies to the degree-zero canonical divisor.
+- $l(K)=g=1$, so Lemma 1.2 applies to the degree-zero canonical divisor.
 
 ## Sources
 

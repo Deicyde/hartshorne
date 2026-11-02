@@ -7,12 +7,10 @@ not_ready: true
 
 # Pic0 is a complex torus
 
-For a smooth projective complex variety, the image of `H^1(X^h,Z)` in the
-finite-dimensional complex vector space `H^1(X,O_X)` is a discrete cocompact
-lattice. Hence the quotient describing `Pic^0(X)` is a compact complex torus.
+For a smooth projective complex variety, the image of $H^1(X^h,\mathbb{Z})$ in the
+finite-dimensional complex vector space $H^1(X,\mathcal{O}_X)$ is a discrete cocompact
+lattice. Hence the quotient describing $\operatorname{Pic} ^0(X)$ is a compact complex torus.
 
-This node is not ready until an exact Hodge/Picard source proves discreteness
-and cocompactness of the integral-cohomology image.
 
 ## Depends on
 

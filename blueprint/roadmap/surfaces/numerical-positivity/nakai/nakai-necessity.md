@@ -6,11 +6,11 @@ origin: cited
 
 # Necessity of the numerical conditions
 
-If `D` is ample on a Chapter V surface, then
+If $D$ is ample on a Chapter V surface, then
 
-`D^2>0`
+$D^2>0$
 
-and `D*C>0` for every irreducible curve `C`.
+and $D\cdot C >0$ for every irreducible curve $C$.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ and `D*C>0` for every irreducible curve `C`.
 
 ## Proof depends on
 
-- For a very ample multiple `mD`, the numbers `(mD)^2` and `(mD)*C` are
+- For a very ample multiple $mD$, the numbers $(mD)^2$ and $(mD)\cdot C$ are
   respectively the projective degrees of the surface and the curve.
 
 ## Sources

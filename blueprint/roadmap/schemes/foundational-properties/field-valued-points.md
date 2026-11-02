@@ -9,13 +9,13 @@ mathlib_file: Mathlib/AlgebraicGeometry/ResidueField.lean
 
 # Field-valued points of a scheme
 
-For a scheme `X` and a field `K`, morphisms `Spec K → X` correspond
-bijectively to pairs consisting of a point `x : X` and an embedding of residue
-fields `κ(x) → K`.
+For a scheme $X$ and a field $K$, morphisms $\operatorname{Spec} K \to X$ correspond
+bijectively to pairs consisting of a point $x \in X$ and an embedding of residue
+fields $\kappa (x) \to K$.
 
 A morphism supplies its image point and a local stalk map, which factors
-through the residue field.  Conversely compose `Spec K → Spec κ(x)` with the
-canonical morphism `Spec κ(x) → X`.  This is Exercise 2.7.
+through the residue field.  Conversely compose $\operatorname{Spec} K \to \operatorname{Spec} \kappa (x)$ with the
+canonical morphism $\operatorname{Spec} \kappa (x) \to X$.  This is Exercise 2.7.
 
 ## Depends on
 

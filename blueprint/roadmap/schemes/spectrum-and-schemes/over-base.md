@@ -9,13 +9,9 @@ mathlib_file: Mathlib/AlgebraicGeometry/Over.lean
 
 # Schemes over a base
 
-A scheme over `S` is a scheme `X` with a structure morphism `X → S`.  A
-morphism of `S`-schemes is a scheme morphism commuting with the two structure
-maps.  These are the objects and morphisms of the slice category `Over S`.
-
-Mathlib provides the categorical slice and the wrappers `Scheme.Over` and
-`Scheme.Hom.IsOver`; `Scheme.Hom.isOver_iff` is the commuting-triangle
-condition.
+A scheme over $S$ is a scheme $X$ with a structure morphism $X \to S$.  A
+morphism of $S$-schemes is a scheme morphism commuting with the two structure
+maps.  These are the objects and morphisms of the slice category of schemes over $S$.
 
 ## Depends on
 

@@ -6,11 +6,11 @@ origin: cited
 
 # A trace isomorphism on projective space
 
-Let `X=Pⁿ_k`. Choose a `k`-linear isomorphism
+Let $X=\mathbb{P}^{n}_k$. Choose a $k$-linear isomorphism
 
-`tr_X : Hⁿ(X,ω_X) ≃ k`
+$tr_X : H^{n}(X,\omega _X) \simeq k$
 
-using `ω_X≃O_X(-n-1)` and the one-dimensional top-twist calculation. The
+using $\omega _X\simeq \mathcal{O}_X(-n-1)$ and the one-dimensional top-twist calculation. The
 unique main result is existence of this chosen trace; no coordinate-invariant
 normalization is asserted here.
 

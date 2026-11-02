@@ -14,7 +14,7 @@ point. Then the local ring $\mathcal{O}_{P,X}$ is a discrete valuation ring.
 
 The proof is Hartshorne's short deduction. The local ring is a Noetherian
 local domain; its Krull dimension is one because $X$ is a curve; and
-nonsingularity means that it is regular. Theorem 6.2A therefore applies.
+nonsingularity means that it is regular. [Theorem I.6.2A](dvr-characterizations.md) therefore applies.
 In particular, every local ring of a nonsingular curve is a discrete
 valuation ring.
 

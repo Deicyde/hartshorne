@@ -6,9 +6,9 @@ origin: cited
 
 # Surface tangent Chern data
 
-For a smooth projective surface with canonical class `K`,
+For a smooth projective surface with canonical class $K$,
 
-`c_1(T_X)=-K`, and `td(T_X)=1-K/2+(K^2+c_2(X))/12`.
+$c_1(T_X)=-K$, and $td(T_X)=1-K/2+(K^2+c_2(X))/12$.
 
 ## Depends on
 

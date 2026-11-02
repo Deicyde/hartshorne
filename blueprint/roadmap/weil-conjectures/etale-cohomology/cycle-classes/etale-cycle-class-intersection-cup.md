@@ -6,12 +6,12 @@ origin: cited
 
 # Intersection of cycles becomes cup product
 
-For cycles `alpha` and `beta` of codimensions `q` and `r` on a smooth proper
+For cycles $\alpha$ and $\beta$ of codimensions $q$ and $r$ on a smooth proper
 variety,
 
-`cl(alpha.beta)=cl(alpha) cup cl(beta)`
+$\operatorname{cl}(\alpha\cdot\beta)=\operatorname{cl}(\alpha)\smile\operatorname{cl}(\beta)$
 
-in `H^(2q+2r)_et(X,Q_ell(q+r))`.
+in $H^{2q+2r}_{\mathrm{et}}(X,\mathbb{Q}_\ell(q+r))$.
 
 ## Depends on
 

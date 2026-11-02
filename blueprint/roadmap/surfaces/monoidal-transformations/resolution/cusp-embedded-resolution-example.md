@@ -6,7 +6,7 @@ origin: cited
 
 # Embedded resolution of a cusp
 
-For the plane cusp `y^2=x^3`, one point blowup makes the strict transform
+For the plane cusp $y^2=x^3$, one point blowup makes the strict transform
 nonsingular, but three successive point blowups are required before the
 reduced total transform has normal crossings.
 

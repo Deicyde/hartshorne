@@ -7,7 +7,7 @@ article_id: af_2cc561a68e89085bc2371a7a
 This chapter decomposes Proposition II.2.6.  The project already has
 Hartshorne's classical-point varieties and their morphisms; the work here adds
 generic points, transports the regular-function sheaf, proves the affine
-comparison with `Spec`, and packages the resulting fully faithful functor to
+comparison with $\operatorname{Spec}$, and packages the resulting fully faithful functor to
 schemes over an algebraically closed field.
 
 - [The scheme-variety source category](scheme-variety-category.md)

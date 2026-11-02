@@ -6,19 +6,16 @@ origin: cited
 
 # Tilde under affine change of rings
 
-Let `A ⟶ B` induce `f : Spec B ⟶ Spec A`.  For a `B`-module `N` and an
-`A`-module `M`, prove natural isomorphisms
+Let $A \longrightarrow B$ induce $f : \operatorname{Spec} B \longrightarrow \operatorname{Spec} A$.  For a $B$-module $N$ and an
+$A$-module $M$, prove natural isomorphisms
 
-`f_*(Ñ) ≅ (N restricted to A)̃`
+$f_*(\widetilde{N})\cong\widetilde{\operatorname{Res}_A^B N}$
 
 and
 
-`f*(M̃) ≅ (M ⊗[A] B)̃`.
+$f^*(\widetilde{M})\cong\widetilde{M\otimes_A B}$.
 
-This is Proposition 5.2(d,e).  Pinned Mathlib contains the affine pushforward
-localization theorem `isIso_fromTildeΓ_pushforward`, but not stable named
-isomorphisms giving both source-shaped formulas, so this remains one project
-comparison leaf.
+These are the two formulas in Hartshorne's Proposition II.5.2(d,e).
 
 ## Depends on
 

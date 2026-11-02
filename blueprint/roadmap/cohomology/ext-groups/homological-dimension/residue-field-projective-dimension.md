@@ -7,9 +7,9 @@ not_ready: true
 
 # Projective dimension of the residue field
 
-Let `(A,m,k)` be a Noetherian regular local ring. Then
+Let $(A,m,k)$ be a Noetherian regular local ring. Then
 
-`pd_A(k)=dim A`.
+$pd_A(k)=\dim A$.
 
 This equality is the sharpness clause in the regular-local global-dimension
 theorem and is kept separate because later depth arguments use it as a

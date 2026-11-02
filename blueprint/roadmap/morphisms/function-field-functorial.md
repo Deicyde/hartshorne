@@ -9,34 +9,20 @@ lean: Hartshorne.VarietyHom.functionFieldHom
 
 # The function field is functorial for dominant morphisms
 
-A rational function cannot be pulled back along an arbitrary morphism: the
-preimage of a nonempty open set can be empty, and then there is no
-representative left. It can be pulled back along a *dominant* one, and dominance
-is exactly the condition that makes the preimage nonempty.
+A dominant morphism $\varphi:X\to Y$ induces a pullback homomorphism
 
-One construction then covers both cases Theorem 3.4(c) needs. An isomorphism is
-surjective, so its range is dense. The inclusion of a nonempty open subset of an
-irreducible space is dense for the same reason the identity principle works. So
-`K(Y) ≅ K(X)` along an isomorphism, and `K(Y) ≅ K(Z)` for `Z` open in `Y`, are
-two instances of the same map.
+$$\varphi^*:K(Y)\longrightarrow K(X).$$
 
-## Why this is easier than the germ version
+Dominance ensures that the inverse image of every nonempty open subset
+of $Y$ is nonempty, so pulling back a rational representative is defined.
+These maps respect identity and composition, reversing the direction of
+morphisms.
 
-[The germ version](local-ring-functorial.md) had to be stated as bijectivity of
-one map rather than as an equation between inverse composites, because the map
-induced by the inverse morphism is indexed by `ψ(φ(P))` and not by `P`, and
-equating composites would need a rewrite inside the type of a ring hom.
-
-A rational function has no base point. Nothing is indexed by a point, the
-transport never arises, and the two statements come out directly. The one new
-obligation in each case is nonemptiness of a domain, and irreducibility
-discharges it: for injectivity of the open-inclusion map, the triple overlap of
-two domains with `Z` is nonempty because a variety is irreducible, where the
-germ argument had the point `P` sitting in all three.
-
-Surjectivity in the open-inclusion case reuses the germ machinery unchanged —
-the same `pullPoint`, the same regularity transfer — with only the nonemptiness
-clause added.
+An isomorphism of varieties induces an isomorphism of function fields.
+The inclusion of a nonempty open subvariety also induces an isomorphism:
+restriction is injective by the identity principle, and a rational
+representative on the open subvariety is also a representative on an
+open subset of the ambient variety.
 
 ## Depends on
 

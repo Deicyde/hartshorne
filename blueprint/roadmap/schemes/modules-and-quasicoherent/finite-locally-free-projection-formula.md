@@ -6,10 +6,10 @@ origin: cited
 
 # Projection formula for finite locally free sheaves
 
-For a morphism of ringed spaces `f : X ⟶ Y`, an `𝒪_X`-module `F`, and a
-finite locally free `𝒪_Y`-module `E`, prove the natural isomorphism
+For a morphism of ringed spaces $f : X \longrightarrow Y$, an $\mathcal{O} _X$-module $F$, and a
+finite locally free $\mathcal{O} _Y$-module $E$, prove the natural isomorphism
 
-`f_*(F ⊗ f*E) ≅ f_*F ⊗ E`.
+$f_*(F \otimes f^* E) \cong f_*F \otimes E$.
 
 Use finite locally free duality and the two adjunctions to show that both sides
 represent the same functor.  This is Exercise 5.1(d), later invoked explicitly

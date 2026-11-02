@@ -7,10 +7,10 @@ not_ready: true
 
 # Comparison with the graded-module Hilbert polynomial
 
-Let `X=Pʳ_k`, `S=k[x₀,…,xᵣ]`, `F` coherent, and
-`M=Γ_*(F)=⊕_(n:Z)H⁰(X,F(n))`. There is an integer `n₀` such that the
-high-degree tail `M_≥n₀=⊕_(n≥n₀)H⁰(X,F(n))` is a finite graded
-`S`-module. The coherent-sheaf Hilbert polynomial of `F` equals the
+Let $X=\mathbb{P}^{r}_k$, $S=k[x_{0},\ldots ,x_{r}]$, $F$ coherent, and
+$M=\Gamma _*(F)=\bigoplus_{n\in\mathbb{Z}}H^{0}(X,F(n))$. There is an integer $n_{0}$ such that the
+high-degree tail $M_{\ge n_0}=\bigoplus_{n\ge n_0}H^{0}(X,F(n))$ is a finite graded
+$S$-module. The coherent-sheaf Hilbert polynomial of $F$ equals the
 graded-module Hilbert polynomial of this tail, hence is independent of the
 chosen sufficiently high truncation.
 
@@ -25,10 +25,8 @@ chosen sufficiently high truncation.
 - [Serre vanishing](../projective-cohomology/serre-vanishing.md)
 - [Eventual recovery from graded sections](../../schemes/projective-sheaves/proj-eventual-section-recovery.md)
 - [Serre global generation](../../schemes/projective-sheaves/serre-global-generation.md)
-- For large `n`, `χ(F(n))=dim_k H⁰(X,F(n))`.
-- Finite generation of a high tail, as in Stacks Lemma 30.14.1, must be
-  reconciled with the project's integer-graded truncation API; until then the
-  comparison remains not ready.
+- For large $n$, $\chi (F(n))=\dim _k H^{0}(X,F(n))$.
+- Finite generation of a sufficiently high graded tail, as in Stacks Project Lemma 30.14.1.
 
 ## Sources
 

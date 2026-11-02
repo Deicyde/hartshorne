@@ -8,12 +8,12 @@ origin: cited
 
 For a nonsingular Weierstrass plane cubic
 
-`y^2+a_1*x*y+a_3*y = x^3+a_2*x^2+a_4*x+a_6`,
+$y^2+a_1\cdot x\cdot y+a_3\cdot y = x^3+a_2\cdot x^2+a_4\cdot x+a_6$,
 
-the `j`-invariant is a rational function of the coefficients `a_i` with
-rational coefficients. Hence a model over a subfield `k_0` has `j in k_0`.
-Conversely, for every `j_0 in k_0` there is a nonsingular Weierstrass cubic
-defined over `k_0` with `j`-invariant `j_0`.
+the $j$-invariant is a rational function of the coefficients $a_i$ with
+rational coefficients. Hence a model over a subfield $k_0$ has $j \in k_0$.
+Conversely, for every $j_0 \in k_0$ there is a nonsingular Weierstrass cubic
+defined over $k_0$ with $j$-invariant $j_0$.
 
 ## Depends on
 
@@ -22,8 +22,8 @@ defined over `k_0` with `j`-invariant `j_0`.
 
 ## Proof depends on
 
-- The standard `c_4^3/Delta` formula and the explicit exceptional models at
-  `j=0,1728`. Pinned prior art includes `WeierstrassCurve.ofJ_j`.
+- The standard $c_4^3/\Delta$ formula and the explicit exceptional models at
+  $j=0,1728$.
 
 ## Sources
 

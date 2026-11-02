@@ -9,14 +9,12 @@ mathlib_file: Mathlib/RingTheory/Spectrum/Prime/Noetherian.lean
 
 # Spectra of Noetherian rings are Noetherian
 
-If `A` is a Noetherian commutative ring, then the topological space `Spec A`
+If $A$ is a Noetherian commutative ring, then the topological space $\operatorname{Spec} A$
 is Noetherian.
 
-Every ideal of `A` is finitely generated, so every closed set is cut out by
-finitely many elements; equivalently ascending chains of opens stabilize.
-This is precisely the forward implication in Exercise 2.13(c).  The stronger
-scheme-level equivalence `isNoetherian_Spec` is upstream too, but is not the
-main result of this leaf.
+Every ideal of $A$ is finitely generated, so ascending chains of
+open subsets of its spectrum stabilize. This is the forward
+implication in Hartshorne's Exercise II.2.13(c).
 
 ## Depends on
 

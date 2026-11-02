@@ -9,31 +9,31 @@ lean: Hartshorne.isAffineVariety_chartMap_image Hartshorne.isQuasiAffineVariety_
 
 # Varieties are covered by affine pieces
 
-If `Y` is a projective variety then the sets `Y ∩ Uᵢ` for `i = 0,…,n` form an
-open cover of `Y`, and each is carried by `φᵢ` to an affine variety. If `Y` is
+If $Y$ is a projective variety then the sets $Y \cap U_{i}$ for $i = 0,\ldots ,n$ form an
+open cover of $Y$, and each is carried by $\varphi _{i}$ to an affine variety. If $Y$ is
 quasi-projective the same holds with quasi-affine varieties (Corollary 2.3).
 
 The cover is immediate — some homogeneous coordinate of any point is nonzero —
 and the identification of the pieces is the chart homeomorphism restricted to
-`Y`. The content is that irreducibility and the appropriate closedness survive
-the restriction: `Y ∩ Uᵢ` is a nonempty open subset of an irreducible space,
-hence irreducible, and its image is closed in `𝔸ⁿ` when `Y` is closed in `ℙⁿ`.
+$Y$. The content is that irreducibility and the appropriate closedness survive
+the restriction: $Y \cap U_{i}$ is a nonempty open subset of an irreducible space,
+hence irreducible, and its image is closed in $\mathbb{A} ^{n}$ when $Y$ is closed in $\mathbb{P} ^{n}$.
 
 Together with the previous node this is the statement that projective geometry
 is locally affine, which is the organising idea of the rest of the book.
 
 ## The cover at the level of ideals
 
-Theorem 3.4 needs the piece the topological statement leaves out: how `J(Y)` and
-`I(Yᵢ)` correspond. It is not that `α` carries one onto the other — it does not,
-since `xᵢ − 1` and its multiples are killed by `α` for free. What holds, for
-homogeneous `g`, is
+Theorem 3.4 needs the piece the topological statement leaves out: how $J(Y)$ and
+$I(Y_{i})$ correspond. It is not that $\alpha$ carries one onto the other — it does not,
+since $x_{i} - 1$ and its multiples are killed by $\alpha$ for free. What holds, for
+homogeneous $g$, is
 
-`α(g) ∈ I(Yᵢ) ↔ xᵢ · g ∈ J(Y)`,
+$\alpha (g) \in I(Y_{i}) \Longleftrightarrow x_{i} \cdot g \in J(Y)$,
 
-and with a single power of `xᵢ`, not an unspecified one. The single power is the
-geometry: `xᵢ · g` vanishes off the chart because `xᵢ` does, and on the chart
-because `g` does. That is the shape a localisation at `xᵢ` wants, which is why
+and with a single power of $x_{i}$, not an unspecified one. The single power is the
+geometry: $x_{i} \cdot g$ vanishes off the chart because $x_{i}$ does, and on the chart
+because $g$ does. That is the shape a localisation at $x_{i}$ wants, which is why
 it is the form recorded.
 
 ## Depends on

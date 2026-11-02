@@ -6,18 +6,19 @@ origin: cited
 
 # Points of a genus-one curve and its degree-zero Picard group
 
-Let `X` be a Chapter IV curve of genus one and choose a closed point `P_0`.
+Let $X$ be a Chapter IV curve of genus one and choose a closed point $P_0$.
 The map
 
-`P |-> O_X(P-P_0)`
+$P\mapsto\mathcal O_X(P-P_0)$
 
-is a bijection from the closed points of `X` to the subgroup `Pic^0(X)` of
+is a bijection from the closed points of $X$ to the subgroup $\operatorname{Pic} ^0(X)$ of
 degree-zero invertible-sheaf classes. Transporting addition gives a group
-structure on the point set with identity `P_0`.
+structure on the point set with identity $P_0$.
 
-This is an equivalence of sets with a transported group structure. It does
-not yet construct scheme morphisms for addition and inverse, and `Pic^0` is
-the kernel of degree rather than a Picard-scheme component.
+This is an equivalence of sets with a transported group structure.
+Here $\operatorname{Pic}^0(X)$ means the kernel of the degree homomorphism.
+The algebraic morphisms for addition and inversion are treated in the
+[group-law foundations](../elliptic-curves/group-law-foundations/README.md).
 
 ## Depends on
 
@@ -28,7 +29,7 @@ the kernel of degree rather than a Picard-scheme component.
 
 ## Proof depends on
 
-- For every degree-zero divisor `D`, Riemann–Roch gives `l(D+P_0)=1`, so its
+- For every degree-zero divisor $D$, Riemann–Roch gives $l(D+P_0)=1$, so its
   unique effective representative of degree one is a single closed point.
 - Uniqueness proves injectivity and permits transport of the group laws.
 

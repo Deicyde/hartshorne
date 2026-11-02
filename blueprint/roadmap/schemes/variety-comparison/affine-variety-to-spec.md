@@ -6,16 +6,16 @@ origin: cited
 
 # An affine variety completes to its spectrum
 
-Let `V` be an affine variety over an algebraically closed field `k`, with
-coordinate ring `A(V)`.  There is a canonical isomorphism of locally ringed
+Let $V$ be an affine variety over an algebraically closed field $k$, with
+coordinate ring $A(V)$.  There is a canonical isomorphism of locally ringed
 spaces
 
-`(t(V), α_{V*}𝒪_V) ≅ Spec A(V)`.
+$(t(V), \alpha _{V\cdot }\mathcal{O} _V) \cong \operatorname{Spec} A(V)$.
 
 On points, send an irreducible closed subset to its prime vanishing ideal; the
 Chapter I radical-ideal correspondence supplies the inverse and proves the
 homeomorphism.  On opens, identify regular functions with the locally
-fractional structure-sheaf sections, using `A(V) ≅ 𝒪(V)` on affine charts.
+fractional structure-sheaf sections, using $A(V) \cong \mathcal{O} (V)$ on affine charts.
 
 ## Depends on
 

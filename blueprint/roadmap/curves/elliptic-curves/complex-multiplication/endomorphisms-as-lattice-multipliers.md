@@ -7,20 +7,19 @@ not_ready: true
 
 # Endomorphisms as lattice multipliers
 
-Let `X(C) ~= C/Lambda` be a uniformized elliptic curve. Pointed algebraic
-endomorphisms of `X` correspond bijectively to complex numbers `alpha`
+Let $X(\mathbb C)\simeq\mathbb C/\Lambda$ be a uniformized elliptic curve. Pointed algebraic
+endomorphisms of $X$ correspond bijectively to complex numbers $\alpha$
 satisfying
 
-`alpha*Lambda subset Lambda`.
+$\alpha \cdot \Lambda \subset \Lambda$.
 
 This correspondence is an injective ring homomorphism
-`End(X,P0) -> C`.
+$\operatorname{End} (X,P_0) \to \mathbb{C}$.
 
 The analytic lift of an algebraic group homomorphism is additive and
 holomorphic, hence multiplication by one complex number. The converse turns
 a holomorphic quotient-torus map into an algebraic morphism and requires
-GAGA. This node is not ready until the deferred GAGA comparison has an
-adopted proof-level representation.
+GAGA.
 
 ## Depends on
 
@@ -29,7 +28,7 @@ adopted proof-level representation.
 
 ## Proof depends on
 
-- Additive holomorphic maps `C -> C` are complex-linear.
+- Additive holomorphic maps $\mathbb{C} \to \mathbb{C}$ are complex-linear.
 - Serre's GAGA, as cited by Hartshorne through Appendix B Exercise 6.6.
 
 ## Sources

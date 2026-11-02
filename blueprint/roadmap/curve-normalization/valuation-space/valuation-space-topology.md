@@ -9,17 +9,12 @@ lean: Hartshorne.ValuationSpace
 
 # The cofinite valuation space
 
-For a field extension `K/k`, define the valuation space to be
+For a field extension $K/k$, equip the set $C_K$ of discrete valuation
+rings of $K/k$ with the *cofinite topology*. A subset is closed if and
+only if it is finite or is all of $C_K$.
 
-`C_K = CofiniteTopology (FunctionFieldDVR k K)`.
-
-Thus a subset is closed exactly when it is finite or is all of `C_K`.  Expose
-the identity equivalence with `FunctionFieldDVR k K` and the resulting
-open-set and closed-set characterizations used downstream.  This definition
-does not require finite generation or a dimension hypothesis.
-
-Use Mathlib's `CofiniteTopology` rather than defining a second topology with
-the same closed sets.
+This definition requires neither finite generation nor a dimension
+hypothesis on $K/k$.
 
 ## Depends on
 
@@ -27,4 +22,4 @@ the same closed sets.
 
 ## Sources
 
-- [Hartshorne I.6, the cofinite topology on `C_K` (p. 42)](../../../sources/hartshorne.md#i6-abstract-nonsingular-curves)
+- [Hartshorne I.6, the cofinite topology on $C _K$ (p. 42)](../../../sources/hartshorne.md#i6-abstract-nonsingular-curves)

@@ -10,7 +10,7 @@ In the setting of the ambient intersection divisor, prove that its valuation
 multiplicity along each component is the local intersection multiplicity.
 Consequently generalized Bezout gives
 
-`deg(V.X) = deg(V) * deg(X)`.
+$\deg(V\cdot X)=\deg(V)\deg(X)$.
 
 This is the adopted content of Exercise 6.2(c). The wider conclusions in
 parts (b),(d), including descent to class groups and their diagram, remain

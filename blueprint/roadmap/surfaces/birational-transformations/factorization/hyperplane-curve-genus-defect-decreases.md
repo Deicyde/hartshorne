@@ -6,17 +6,17 @@ origin: cited
 
 # The hyperplane-section genus defect decreases under blowup
 
-Let `T:X dashedrightarrow X'` be a birational transformation of nonsingular
-projective surfaces and let `H'` be very ample. Choose a smooth irreducible
-curve `C'` in `|2H'|` avoiding the fundamental points of `T^(-1)`, and let
-`C` be its image. Then
+Let $T:X \dashrightarrow X'$ be a birational transformation of nonsingular
+projective surfaces and let $H'$ be very ample. Choose a smooth irreducible
+curve $C '$ in $|2H'|$ avoiding the fundamental points of $T^{-1}$, and let
+$C$ be its image. Then
 
-`m(T,H')=p_a(C)-p_a(C')`
+$m(T,H')=p_a(C )-p_a(C ')$
 
-is a nonnegative integer independent of the chosen admissible member `C'`.
-If it is positive, blowing up a singular point of `C` strictly lowers it.
-After finitely many point blowups `f:X''->X`, the transformed map
-`T after f` has defect zero.
+is a nonnegative integer independent of the chosen admissible member $C '$.
+If it is positive, blowing up a singular point of $C$ strictly lowers it.
+After finitely many point blowups $f:X''\to X$, the transformed map
+$T\circ f$ has defect zero.
 
 ## Depends on
 
@@ -29,9 +29,9 @@ After finitely many point blowups `f:X''->X`, the transformed map
 
 ## Proof depends on
 
-- The restriction `C'->C` is finite and birational, so the normalization
+- The restriction $C '\to C$ is finite and birational, so the normalization
   defect gives nonnegativity and characterizes zero. Images of linearly
-  equivalent admissible members remain linearly equivalent, making `m`
+  equivalent admissible members remain linearly equivalent, making $m$
   independent of the member. Every singular image point has multiplicity at
   least two, so its blowup strictly lowers arithmetic genus.
 

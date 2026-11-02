@@ -6,11 +6,11 @@ origin: bridged
 
 # Projection from a strange point is inseparable
 
-Let `X subset P^3` be strange with strange point `A`. Projection from `A` is
-either constant, in which case `X` is a line, or its induced extension of
+Let $X \subset \mathbb{P}^3$ be strange with strange point $A$. Projection from $A$ is
+either constant, in which case $X$ is a line, or its induced extension of
 function fields is inseparable. In the nonconstant case the characteristic is
-`p>0`; after choosing Samuel's affine coordinates, the coordinate functions
-`y,z` on `X` belong to `K(X)^p`.
+$p>0$; after choosing Samuel's affine coordinates, the coordinate functions
+$y,z$ on $X$ belong to $K(X)^p$.
 
 ## Depends on
 
@@ -20,11 +20,11 @@ function fields is inseparable. In the nonconstant case the characteristic is
 
 ## Proof depends on
 
-- Every tangent direction is killed by projection from `A`, so a nonconstant
+- Every tangent direction is killed by projection from $A$, so a nonconstant
   separable projection would be ramified everywhere, contradicting finite
   ramification support after normalizing the image.
-- For a one-dimensional function field over the perfect field `k`, the kernel
-  of the universal derivation is `K(X)^p`.
+- For a one-dimensional function field over the perfect field $k$, the kernel
+  of the universal derivation is $K(X)^p$.
 
 ## Sources
 

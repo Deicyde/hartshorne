@@ -9,8 +9,8 @@ mathlib_file: Mathlib/RingTheory/Flat/Stability.lean
 
 # Flat modules remain flat after base change
 
-If `M` is flat over a commutative ring `R` and `S` is an `R`-algebra, then
-`S tensor_R M` is flat as an `S`-module.
+If $M$ is flat over a commutative ring $R$ and $S$ is an $R$-algebra, then
+$S \otimes _R M$ is flat as an $S$-module.
 
 ## Depends on
 
@@ -18,7 +18,6 @@ If `M` is flat over a commutative ring `R` and `S` is an `R`-algebra, then
 
 ## Proof depends on
 
-- The exact pinned declaration named in the metadata.
 - [The finitely generated ideal criterion for flatness](flat-module-fg-ideal-criterion.md)
   gives the source proof.
 

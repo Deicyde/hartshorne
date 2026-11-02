@@ -9,7 +9,7 @@ lean: Hartshorne.closedPoints_dense_of_finiteType
 
 # Closed points are dense over a field
 
-If `X` is finite type over a field, the closed points of `X` are dense.
+If $X$ is finite type over a field, the closed points of $X$ are dense.
 
 A field spectrum is Jacobson, and local finite type preserves the Jacobson-space property. In a Jacobson space the closure of the closed points is the whole space.
 
@@ -19,7 +19,7 @@ A field spectrum is Jacobson, and local finite type preserves the Jacobson-space
 
 ## Proof depends on
 
-- `LocallyOfFiniteType.jacobsonSpace` and `closure_closedPoints`.
+- Finite type over a field gives a Jacobson space, whose closed points are dense.
 
 ## Sources
 

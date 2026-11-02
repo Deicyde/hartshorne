@@ -6,10 +6,10 @@ origin: cited
 
 # Projective flatness and eventual free sections
 
-Let `A` be a local Noetherian domain, `X=P^n_A`, and `F` a coherent
-`O_X`-module. Then `F` is flat over `Spec A` if and only if
-there is `m0` such that `H^0(X,F(m))` is a finite free `A`-module for every
-integer `m >= m0`.
+Let $A$ be a local Noetherian domain, $X=\mathbb{P}^n_A$, and $F$ a coherent
+$\mathcal{O}_X$-module. Then $F$ is flat over $\operatorname{Spec} A$ if and only if
+there is $m0$ such that $H^0(X,F(m))$ is a finite free $A$-module for every
+integer $m \ge m0$.
 
 ## Depends on
 

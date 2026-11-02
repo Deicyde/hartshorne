@@ -6,13 +6,13 @@ origin: cited
 
 # The irregularity formula for a nonsingular surface
 
-For a nonsingular projective surface `X` over an algebraically closed field
-`k`, define
-`q(X)=dim_k H¹(X,O_X)`. Then
+For a nonsingular projective surface $X$ over an algebraically closed field
+$k$, define
+$q(X)=\dim _k H^{1}(X,\mathcal{O}_X)$. Then
 
-`p_g(X)-p_a(X)=q(X)`,
+$p_g(X)-p_a(X)=q(X)$,
 
-so in particular `p_g(X)≥p_a(X)`.
+so in particular $p_g(X)\ge p_a(X)$.
 
 ## Depends on
 

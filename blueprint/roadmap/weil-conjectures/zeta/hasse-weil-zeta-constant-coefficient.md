@@ -9,12 +9,12 @@ lean: Hartshorne.hasseWeilZetaSeries_constantCoeff
 
 # The Hasse–Weil zeta series has constant coefficient one
 
-For every finite-type scheme `X` over a finite field,
+For every finite-type scheme $X$ over a finite field,
 
-`constantCoeff (Z(X,t)) = 1`.
+$[t^0]Z(X,t)=1$.
 
-This records as a separately checkable theorem the immediate formal-series
-consequence of the defining exponential formula.
+This is the immediate formal-series consequence of the defining exponential
+formula.
 
 ## Depends on
 

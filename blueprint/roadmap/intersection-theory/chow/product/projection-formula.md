@@ -6,9 +6,9 @@ origin: cited
 
 # The Chow projection formula
 
-For a proper morphism `f:X->X'`, `x in A(X)`, and `y in A(X')`,
+For a proper morphism $f:X\to X'$, $x \in A(X)$, and $y \in A(X')$,
 
-`f_*(x . f^*y)=f_*x . y`.
+$f_*(x\cdot f^*y)=f_*x\cdot y$.
 
 ## Depends on
 

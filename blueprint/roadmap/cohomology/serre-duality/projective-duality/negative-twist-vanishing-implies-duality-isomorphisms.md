@@ -6,14 +6,14 @@ origin: cited
 
 # Negative-twist vanishing implies duality
 
-Let `X` be an arbitrary projective scheme of dimension `n` over an
-algebraically closed field `k`, equipped with a dualizing sheaf and a fixed
-very ample `O_X(1)`. If every finite locally free `E` satisfies
-`Hⁱ(X,E(-q))=0` for `i<n` and `q≫0`, then every comparison map
+Let $X$ be an arbitrary projective scheme of dimension $n$ over an
+algebraically closed field $k$, equipped with a dualizing sheaf and a fixed
+very ample $\mathcal{O}_X(1)$. If every finite locally free $E$ satisfies
+$H^{i}(X,E(-q))=0$ for $i<n$ and $q\mathbin{\gg} 0$, then every comparison map
 
-`θᵢ(F) : Extⁱ_X(F,ω°_X) →ₗ Dual k (HBelow n i F)`
+$$\theta_i(F):\operatorname{Ext}^i_X(F,\omega_X^{\circ})\longrightarrow H^{n-i}(X,F)^\vee$$
 
-is an isomorphism for every coherent `F` and every `i`.
+is an isomorphism for every coherent $F$ and every $i$, where cohomology in negative degrees is zero.
 
 ## Depends on
 

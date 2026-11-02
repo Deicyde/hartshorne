@@ -9,7 +9,7 @@ article_id: af_942ecec453a16314802263b4
 - [Complex coefficients after choosing an embedding](chosen-complex-coefficient-comparison.md)
 
 The first comparison is canonical.  Hartshorne's displayed tensor product
-with `C` is not canonical until an abstract embedding `Q_ell->C` is chosen.
+with $\mathbb{C}$ is not canonical until an abstract embedding $\mathbb{Q}_\ell\to \mathbb{C}$ is chosen.
 
 ## Sources
 

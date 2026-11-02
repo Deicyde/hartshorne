@@ -45,7 +45,7 @@ the earlier results used here.
 - [Nodes and ordinary cusps have defect one](node-cusp-delta-one.md)
 
 The dimension of an empty complete linear system is represented by the
-integer `-1`, not by truncated natural subtraction.
+integer $-1$, not by truncated natural subtraction.
 
 ## Sources
 

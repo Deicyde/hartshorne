@@ -6,9 +6,9 @@ origin: cited
 
 # Smooth irreducible curves on a quadric
 
-Let `k` be algebraically closed and let `a,b>0`. On the split nonsingular
-quadric surface `Q`, there exists an irreducible nonsingular effective Cartier
-divisor of type `(a,b)`.
+Let $k$ be algebraically closed and let $a,b>0$. On the split nonsingular
+quadric surface $Q$, there exists an irreducible nonsingular effective Cartier
+divisor of type $(a,b)$.
 
 ## Depends on
 
@@ -17,7 +17,7 @@ divisor of type `(a,b)`.
 
 ## Proof depends on
 
-- Hartshorne II.7.6.2 embeds `Q` by the very ample sheaf `O_Q(a,b)`.
+- Hartshorne II.7.6.2 embeds $Q$ by the very ample sheaf $\mathcal{O}_Q(a,b)$.
 - [Regular hyperplane sections](../../../schemes/differentials/canonical-bertini/bertini-regular-hyperplane-section.md)
   supplies a regular general hyperplane section in that embedding.
 - [Connected positive-type quadric divisors](quadric-divisor-connected.md)

@@ -10,18 +10,18 @@ a morphism is a continuous map that pulls regular functions back to regular
 functions. The four kinds of variety from Sections 1–2 then form a single
 category.
 
-Three rings describe a variety: its global regular functions `𝒪(Y)`, the
-local ring `𝒪_{P,Y}` of germs at a point, and its function field `K(Y)`.
-Hartshorne identifies the global and local rings as subrings of `K(Y)`
+Three rings describe a variety: its global regular functions $\mathcal{O} (Y)$, the
+local ring $\mathcal{O} _{P,Y}$ of germs at a point, and its function field $K(Y)$.
+Hartshorne identifies the global and local rings as subrings of $K(Y)$
 and proves that the global ring is the intersection of all the local rings.
 The injections, bundled algebra maps, and intersection formula are
 formalized in this project.
 
-For an affine variety, Theorem 3.2 computes these rings from `A(Y)` and its
-localizations. For a projective variety, Theorem 3.4 gives `𝒪(Y) = k`;
-the local data is described through graded localizations of `S(Y)`.
-Corollary 3.8 concludes with an arrow-reversing equivalence between affine
-varieties over `k` and finitely generated integral domains over `k`.
+For an affine variety, Theorem 3.2 computes these rings from $A(Y)$ and its
+localizations. For a projective variety, Theorem 3.4 gives $\mathcal{O} (Y) = k$;
+the local data is described through graded localizations of $S(Y)$.
+[Corollary I.3.8](affine-variety-equivalence.md) concludes with an arrow-reversing equivalence between affine
+varieties over $k$ and finitely generated integral domains over $k$.
 
 ## Regular functions
 

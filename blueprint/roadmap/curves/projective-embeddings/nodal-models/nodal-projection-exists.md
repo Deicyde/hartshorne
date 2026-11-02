@@ -6,13 +6,13 @@ origin: cited
 
 # A nodal plane projection exists
 
-Let `X` be a curve embedded in `P^3`. There is a point `O notin X` such that
-projection from `O` is birational onto its plane image and that image has no
+Let $X$ be a curve embedded in $\mathbb{P}^3$. There is a point $O \notin X$ such that
+projection from $O$ is birational onto its plane image and that image has no
 singularities other than ordinary nodes.
 
 This theorem is valid in every characteristic. The proof retains the
 inseparable strange-curve branch used to establish the required good secants.
-If `X` lies in a plane, choose `O` outside that plane; projection restricts
+If $X$ lies in a plane, choose $O$ outside that plane; projection restricts
 to an isomorphism from the plane onto the target plane, so the image is the
 original nonsingular curve. The incidence argument handles the nonplanar case.
 
@@ -27,7 +27,7 @@ original nonsingular curve. The incidence argument handles the nonplanar case.
 
 - Separate the planar case by the projection isomorphism just described.
 - Build the projective-line bundle of points on secants over
-  `X times X minus diagonal`; it is not globally a chosen product with `P^1`.
+  $(X\times X)\setminus\Delta_X$; it is not globally a chosen product with $\mathbb{P}^1$.
 - If its evaluation image has dimension three, generic finiteness gives an
   open set of centers lying on only finitely many secants; otherwise a center
   outside the image lies on none.

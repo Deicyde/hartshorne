@@ -6,9 +6,9 @@ origin: cited
 
 # The reduced induced closed subscheme
 
-For a closed set `Z ⊆ X`, the vanishing ideal sheaf defines a closed subscheme supported exactly on `Z`; this subscheme is reduced.
+For a closed set $Z \subseteq X$, the vanishing ideal sheaf defines a closed subscheme supported exactly on $Z$; this subscheme is reduced.
 
-On each affine open use the intersection of all prime ideals lying in `Z`, equivalently the radical vanishing ideal, and quotient. Show localization preserves this construction, glue the affine quotients, and prove their section rings are reduced.
+On each affine open use the intersection of all prime ideals lying in $Z$, equivalently the radical vanishing ideal, and quotient. Show localization preserves this construction, glue the affine quotients, and prove their section rings are reduced.
 
 ## Depends on
 

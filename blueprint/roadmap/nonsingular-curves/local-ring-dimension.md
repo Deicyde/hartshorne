@@ -13,7 +13,7 @@ Let $X$ be a variety with an affine-open basis and let $P\in X$. Then
 
 $$\dim \mathcal{O}_{P,X} = \dim X.$$
 
-This extends Theorem 3.2(c) from affine varieties to the setting needed in §6.
+This extends [Theorem I.3.2(c)](../morphisms/affine-variety-rings.md) from affine varieties to the setting needed in §6.
 Choose an affine open neighbourhood of $P$. Its local ring at $P$ is
 isomorphic to $\mathcal{O}_{P,X}$, and the affine theorem identifies its
 dimension with that of the coordinate ring. The affine open and the ambient

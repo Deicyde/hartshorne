@@ -6,11 +6,11 @@ origin: cited
 
 # Smoothness and regularity over an algebraically closed field
 
-Let `X` be an equidimensional finite-type scheme of dimension `n` over an
-algebraically closed field `k`. Then `X -> Spec k` is smooth of relative
-dimension `n` if and only if every local ring of `X` is regular.
+Let $X$ be an equidimensional finite-type scheme of dimension $n$ over an
+algebraically closed field $k$. Then $X \to \operatorname{Spec} k$ is smooth of relative
+dimension $n$ if and only if every local ring of $X$ is regular.
 
-For an integral separated `X`, this identifies smoothness with Hartshorne's
+For an integral separated $X$, this identifies smoothness with Hartshorne's
 nonsingularity predicate from II.8. The algebraically closed, hence perfect,
 hypothesis is essential; no nonperfect-field generalization is asserted.
 

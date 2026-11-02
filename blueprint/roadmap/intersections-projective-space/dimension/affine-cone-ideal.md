@@ -9,18 +9,19 @@ lean: Hartshorne.vanishingIdeal_affineCone
 
 # The affine cone and its ideal
 
-For a nonempty projective algebraic set `Y ⊆ ℙ(k, σ)`, define its affine cone
-as the origin together with all nonzero affine representatives of points of
-`Y`.  It is an affine algebraic set and its vanishing ideal is exactly the
-homogeneous ideal `J(Y)`, regarded as an ordinary ideal of
-`MvPolynomial σ k`.  The sole main declaration is planned as
-`Hartshorne.vanishingIdeal_affineCone`.
+Let $Y\subseteq\mathbb P^n$ be a nonempty projective algebraic set.
+Its *affine cone* $C(Y)\subseteq\mathbb A^{n+1}$ consists of the origin
+and all nonzero homogeneous-coordinate representatives of points of $Y$.
+It is an affine algebraic set and
 
-First identify the geometric cone with `zeroLocus k (J(Y))`: homogeneity makes
-vanishing independent of the chosen nonzero representative, and every
-positive-degree homogeneous equation vanishes at the origin.  The homogeneous
-ideal correspondence makes `J(Y)` radical, so the affine Nullstellensatz
-recovers it exactly rather than only up to radical.
+$$I(C(Y))=J(Y),$$
+
+where the homogeneous ideal on the right is viewed as an ordinary ideal
+of $k[x_0,\ldots,x_n]$.
+
+Homogeneity identifies the cone with the affine zero set of $J(Y)$,
+including the origin. The ideal $J(Y)$ is radical, so the affine
+Nullstellensatz recovers it exactly.
 
 ## Depends on
 

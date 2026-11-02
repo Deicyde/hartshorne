@@ -7,13 +7,10 @@ not_ready: true
 
 # Smooth proper higher direct images are lisse
 
-Under a smooth proper morphism `f:X->Y`, each torsion sheaf
-`R^i f_*(Z/ell^r Z)` is finite locally constant on the small étale site, and
-the compatible inverse system defines a lisse `Z_ell`-sheaf of finite rank.
+Under a smooth proper morphism $f:X\to Y$, each torsion sheaf
+$R^i f_*(\mathbb{Z}/\ell ^r\mathbb{Z})$ is finite locally constant on the small étale site, and
+the compatible inverse system defines a lisse $\mathbb Z_\ell$-sheaf of finite rank.
 
-This node is not ready.  Hartshorne omits constructible/lisse sheaves and
-higher direct images entirely; exact SGA 4 finiteness and smooth-proper
-passages must be adopted.
 
 ## Depends on
 

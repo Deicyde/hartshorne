@@ -9,14 +9,14 @@ mathlib_file: Mathlib/AlgebraicGeometry/IdealSheaf/Subscheme.lean
 
 # The scheme-theoretic image
 
-For every morphism `f : Z → X`, there is a closed subscheme
-`f.image → X` through which `f` factors, and it is initial among closed
-subschemes with that property.
+For every morphism $f:Z\to X$, there is a closed subscheme
+$Y\hookrightarrow X$ through which $f$ factors, initial among
+closed subschemes with this property.
 
-Reuse Mathlib's current API: `Scheme.Hom.image` is the subscheme defined by
-`f.ker`, `Scheme.Hom.imageι` is its closed immersion, and
-`Scheme.Hom.toImage_imageι` is the factorization. The `kerAdjunction` supplies
-the universal comparison to every other closed factorization.
+The image is defined by the kernel ideal sheaf of the map
+$\mathcal{O}_X\to f_*\mathcal{O}_Z$. The kernel gives both the
+factorization and the universal comparison with any other closed
+factorization.
 
 ## Depends on
 
@@ -24,8 +24,7 @@ the universal comparison to every other closed factorization.
 
 ## Proof depends on
 
-- `Scheme.Hom.image`, `Scheme.Hom.imageι`, `Scheme.Hom.toImage`, and
-  `Scheme.kerAdjunction` from `Mathlib/AlgebraicGeometry/IdealSheaf/Subscheme.lean`.
+- The kernel ideal sheaf defines the universal closed factorization.
 
 ## Sources
 

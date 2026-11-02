@@ -6,14 +6,14 @@ origin: cited
 
 # A proper intersection expands with local multiplicities
 
-If irreducible subvarieties `Y,Z subset X` meet properly, every irreducible
-component `W_i` of their intersection has codimension
-`codim Y+codim Z`, and
+If irreducible subvarieties $Y,Z \subset X$ meet properly, every irreducible
+component $W_i$ of their intersection has codimension
+$\operatorname{codim} Y+\operatorname{codim} Z$, and
 
-`[Y].[Z]=sum_i i(Y,Z;W_i)[W_i]`.
+$[Y]\cdot[Z]=\sum_i i(Y,Z;W_i)[W_i]$.
 
-The integer `i(Y,Z;W_i)` depends only on a neighborhood of the generic point
-of `W_i` in `X`.
+The integer $i(Y,Z;W_i)$ depends only on a neighborhood of the generic point
+of $W_i$ in $X$.
 
 ## Depends on
 

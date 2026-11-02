@@ -6,12 +6,12 @@ origin: cited
 
 # Degree and flatness of a finite curve morphism
 
-Let `f : X -> Y` be a finite morphism of curves over an algebraically closed
+Let $f : X \to Y$ be a finite morphism of curves over an algebraically closed
 field. Define
 
-`deg f = [K(X) : K(Y)]`.
+$\deg f = [K(X) : K(Y)]$.
 
-Then `f` is finite flat, hence finite locally free of constant rank `deg f`.
+Then $f$ is finite flat, hence finite locally free of constant rank $\deg f$.
 
 ## Depends on
 

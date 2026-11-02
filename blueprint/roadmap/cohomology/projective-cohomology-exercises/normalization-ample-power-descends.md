@@ -6,13 +6,13 @@ origin: cited
 
 # An ample power descends from a curve normalization
 
-Let `X` be a proper integral one-dimensional scheme over an algebraically
-closed field, let `ν:X̃→X` be its normalization, and let `L` be very ample on
-`X̃`. There are `m>0` and an invertible sheaf `L₀` on `X` such that
-`ν^*L₀≅L^m`.
+Let $X$ be a proper integral one-dimensional scheme over an algebraically
+closed field, let $\nu :\widetilde{X}\to X$ be its normalization, and let $L$ be very ample on
+$\widetilde{X}$. There are $m>0$ and an invertible sheaf $L_{0}$ on $X$ such that
+$\nu ^*L_{0}\cong L^m$.
 
 The descended power is obtained from an effective divisor representing
-`L^m` whose support lies over the nonsingular locus of `X`.
+$L^m$ whose support lies over the nonsingular locus of $X$.
 
 ## Depends on
 
@@ -24,7 +24,7 @@ The descended power is obtained from an effective divisor representing
 - [Finiteness of normalization over a field](../../schemes/normalization-and-exercises/normalization-finite-type-field.md)
 - The normalization is an isomorphism over the nonsingular locus of an
   integral curve.
-- A sufficiently positive divisor in `|L^m|` can be chosen away from the
+- A sufficiently positive divisor in $|L^m|$ can be chosen away from the
   finite exceptional locus and therefore descends point by point.
 
 ## Sources

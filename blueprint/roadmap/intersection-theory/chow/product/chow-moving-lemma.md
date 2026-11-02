@@ -7,14 +7,11 @@ not_ready: true
 
 # Chow's moving lemma
 
-Let `X` be a nonsingular quasi-projective variety over the algebraically
-closed field. For cycles `Y,Z`, there is a cycle `Z'` rationally equivalent
-to `Z` which meets `Y` properly. If `Z''` is another such representative,
-the properly computed cycles `Y.Z'` and `Y.Z''` are rationally equivalent.
+Let $X$ be a nonsingular quasi-projective variety over the algebraically
+closed field. For cycles $Y,Z$, there is a cycle $Z'$ rationally equivalent
+to $Z$ which meets $Y$ properly. If $Z''$ is another such representative,
+the properly computed cycles $Y\cdot Z'$ and $Y\cdot Z''$ are rationally equivalent.
 
-This node is not ready. Hartshorne cites Chevalley and Roberts without a
-proof. An exact source must include the quasi-projective and arbitrary-
-characteristic hypotheses and independence of the moved representative.
 
 ## Depends on
 

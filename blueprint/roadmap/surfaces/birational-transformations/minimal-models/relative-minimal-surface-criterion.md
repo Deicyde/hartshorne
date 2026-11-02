@@ -6,13 +6,13 @@ origin: cited
 
 # Relative minimality and exceptional curves
 
-A nonsingular projective surface `X` is relatively minimal when every
-birational morphism from `X` to another nonsingular projective surface is an
+A nonsingular projective surface $X$ is relatively minimal when every
+birational morphism from $X$ to another nonsingular projective surface is an
 isomorphism. It is a minimal model when it is the unique relatively minimal
 model in its birational class.
 
-The surface `X` is relatively minimal exactly when it contains no exceptional
-curve of the first kind, meaning no curve `Y ~= P^1` with `Y^2=-1`.
+The surface $X$ is relatively minimal exactly when it contains no exceptional
+curve of the first kind, meaning no curve $Y \simeq \mathbb{P}^1$ with $Y^2=-1$.
 
 ## Depends on
 

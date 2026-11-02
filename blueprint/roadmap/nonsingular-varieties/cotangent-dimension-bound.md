@@ -9,24 +9,14 @@ lean: Hartshorne.ringKrullDim_le_finrank_cotangentSpace
 
 # The cotangent-dimension bound
 
-If `A` is a Noetherian local ring with maximal ideal `𝔪` and residue field
-`κ`, then
+Let $A$ be a Noetherian local ring with maximal ideal $\mathfrak m$
+and residue field $\kappa$. Then
 
-`dim A ≤ dim_κ(𝔪/𝔪²)`.
+$$\dim A\leq\dim_\kappa(\mathfrak m/\mathfrak m^2).$$
 
-This is Proposition 5.2A. The pinned Mathlib has both ingredients but not this
-exact cotangent-space spelling as one declaration:
-
-- `ringKrullDim_le_spanFinrank_maximalIdeal` proves
-  `ringKrullDim A ≤ 𝔪.spanFinrank`;
-- `IsLocalRing.spanFinrank_maximalIdeal_eq_finrank_cotangentSpace` identifies
-  the right side with
-  `Module.finrank (IsLocalRing.ResidueField A) (IsLocalRing.CotangentSpace A)`
-  for a Noetherian local ring.
-
-The project theorem is the direct rewrite joining those results. Keeping the
-wrapper explicit lets the Jacobian argument cite Hartshorne's inequality in
-the same form in which it is used.
+This is Hartshorne's Proposition I.5.2A. The number of generators of the
+maximal ideal bounds the ring dimension, and for a Noetherian local ring
+this number equals the dimension of the cotangent space.
 
 ## Depends on
 

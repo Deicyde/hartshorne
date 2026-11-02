@@ -9,14 +9,14 @@ lean: Hartshorne.Variety.regularSheaf
 
 # The sheaf of regular functions
 
-For a project `Variety X`, package `X.regular U` on every open `U` and the
-restriction maps `X.regular_restrict` as a sheaf of commutative rings
-`X.regularSheaf`. The sheaf gluing condition is exactly the locality field
-`X.regular_of_locally`; pointwise equality gives uniqueness.
+For a variety $X$, assign to each open subset $U$ the ring of
+regular functions on $U$, with the usual restriction maps. These
+rings form the sheaf of regular functions $\mathcal{O}_X$: local
+regularity gives existence of glued sections, and pointwise equality
+gives uniqueness.
 
-The main result is the sheaf definition. It must reuse the Chapter I notion of
-regularity so that the comparison of a variety with a scheme on p. 78 does not
-introduce a second structure sheaf.
+This uses the notion of regularity from Chapter I and provides the
+structure sheaf used to associate a scheme to a variety.
 
 ## Depends on
 
@@ -25,7 +25,7 @@ introduce a second structure sheaf.
 
 ## Proof depends on
 
-- The locality axiom `Hartshorne.Variety.regular_of_locally` carried by the existing variety structure.
+- Regularity of functions is local on an open cover.
 
 ## Sources
 

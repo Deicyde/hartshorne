@@ -9,14 +9,14 @@ proof: formalized
 
 # Open extension by zero
 
-Let `j : U ↪ X` be the inclusion of an open subspace and `F` a sheaf on `U`.
-Define `j_!F` by sheafifying the presheaf which is `F(V)` when `V ⊆ U` and
+Let $j : U \hookrightarrow X$ be the inclusion of an open subspace and $F$ a sheaf on $U$.
+Define $j_!F$ by sheafifying the presheaf which is $F(V)$ when $V \subseteq U$ and
 zero otherwise.
 
-For `V ⊆ U`, the inverse-image open `j⁻¹V` is `V` regarded as an open of
-`U`, so the formal value `F(j⁻¹V)` is canonically the source value `F(V)`.
+For $V \subseteq U$, the inverse-image open $j^{-1}V$ is $V$ regarded as an open of
+$U$, so the formal value $F(j^{-1}V)$ is canonically the source value $F(V)$.
 The zero branch is the zero additive subgroup; restrictions are inherited
-from `F`.
+from $F$.
 
 This is ordinary extension by zero for abelian sheaves, not the later derived
 extraordinary functor. Its adjunction and its source-stated restriction, stalk,

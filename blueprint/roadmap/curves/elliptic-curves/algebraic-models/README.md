@@ -4,11 +4,11 @@ article_id: af_29377b6168bce74091d08098
 
 # Algebraic models and the j-invariant
 
-This subchapter covers the algebraic `j`-invariant branch of Hartshorne IV.4,
+This subchapter covers the algebraic $j$-invariant branch of Hartshorne IV.4,
 printed pp.317–321. The ground field is algebraically closed and has
-characteristic different from two. The bridge to Mathlib's explicit
-Weierstrass data is always stated explicitly; equation data is not identified
-definitionally with an abstract proper regular genus-one scheme.
+characteristic different from two. Explicit Weierstrass equations describe
+the abstract proper regular genus-one curves through pointed scheme
+isomorphisms.
 
 1. [The degree-two map attached to a pointed elliptic curve](elliptic-degree-two-map.md)
 2. [The involution attached to two points](elliptic-degree-two-involution.md)

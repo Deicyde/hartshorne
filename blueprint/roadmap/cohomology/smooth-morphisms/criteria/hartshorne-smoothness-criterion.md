@@ -6,14 +6,15 @@ origin: bridged
 
 # Hartshorne's smoothness criterion
 
-For a morphism `f : X -> Y` of schemes of finite type over a field, Mathlib's
-predicate `SmoothOfRelativeDimension n f` is equivalent to the conjunction:
+For a morphism $f:X\to Y$ of schemes of finite type over a field,
+smoothness of relative dimension $n$ is equivalent to the
+following conditions:
 
-1. `f` is flat;
+1. $f$ is flat;
 2. every irreducible component of every scheme-theoretic fibre has dimension
-   `n`; and
-3. for every `x : X`, the `k(x)`-dimension of
-   `Omega[X/Y]_x tensor k(x)` is `n`.
+   $n$; and
+3. for every $x \in X$, the $k(x)$-dimension of
+   $\Omega_{X/Y}_x \otimes k(x)$ is $n$.
 
 The fibre formulation of clause 2 is equivalent to Hartshorne's formulation
 using corresponding components by III.9.6. This theorem is the sole bridge
@@ -28,8 +29,7 @@ between Hartshorne's definition and the adopted modern predicate.
 
 ## Proof depends on
 
-- The affine-local standard-smooth characterization of `Smooth` in pinned
-  Mathlib and the fibre-dimension theorem for standard-smooth algebras.
+- The affine-local standard-smooth characterization and the fiber-dimension theorem for standard-smooth algebras.
 - [Dimension after extending the ground field](../../../schemes/fiber-products/base-extension-component-dimension.md)
 
 ## Sources

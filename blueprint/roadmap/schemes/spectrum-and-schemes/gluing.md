@@ -9,14 +9,13 @@ mathlib_file: Mathlib/AlgebraicGeometry/Gluing.lean
 
 # Gluing schemes
 
-Given schemes `Xᵢ`, open subschemes `Uᵢⱼ ⊆ Xᵢ`, inverse transition
-isomorphisms satisfying the triple-overlap cocycle, there is a scheme `X`
-with open immersions `Xᵢ → X` that cover `X` and identify precisely along the
+Given schemes $X_{i}$, open subschemes $U_{ij} \subseteq X_{i}$, inverse transition
+isomorphisms satisfying the triple-overlap cocycle, there is a scheme $X$
+with open immersions $X_{i} \to X$ that cover $X$ and identify precisely along the
 specified overlaps.
 
-This is the family form of Example 2.3.5 and Exercise 2.12.  Mathlib constructs
-`Scheme.GlueData.glued` as a multicoequalizer; `ι_isOpenImmersion`,
-`ι_jointly_surjective`, and `vPullbackConeIsLimit` give the source clauses.
+This is the family form of Hartshorne's Example II.2.3.5 and
+Exercise II.2.12.
 
 ## Depends on
 

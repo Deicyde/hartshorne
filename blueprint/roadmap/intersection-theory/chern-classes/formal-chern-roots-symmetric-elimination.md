@@ -8,15 +8,15 @@ origin: cited
 
 After an injective splitting pullback, write
 
-`c_t(E)=product_i(1+a_i*t)`.
+$c_t(E)=\prod _i(1+a_i\cdot t)$.
 
-Any polynomial expression symmetric in the formal symbols `a_i` is a unique
+Any polynomial expression symmetric in the formal symbols $a_i$ is a unique
 polynomial in their elementary symmetric functions, hence in the pulled-back
-Chern classes of `E`.  Injectivity of Chow pullback makes the resulting class
-on `X` independent of the splitting space.  For two bundles, use expressions
+Chern classes of $E$.  Injectivity of Chow pullback makes the resulting class
+on $X$ independent of the splitting space.  For two bundles, use expressions
 symmetric separately in the two root families.
 
-The `a_i` are formal symbols; the statement does not adjoin actual roots to
+The $a_i$ are formal symbols; the statement does not adjoin actual roots to
 the original Chow ring.
 
 ## Depends on
@@ -26,9 +26,8 @@ the original Chow ring.
 
 ## Proof depends on
 
-- The fundamental theorem of symmetric polynomials.  The pinned declaration
-  `MvPolynomial.esymmAlgHom_surjective` is supporting algebra, not a complete
-  Chern-class theorem.
+- The fundamental theorem of symmetric polynomials, expressing every
+  symmetric polynomial in the elementary symmetric polynomials.
 
 ## Sources
 

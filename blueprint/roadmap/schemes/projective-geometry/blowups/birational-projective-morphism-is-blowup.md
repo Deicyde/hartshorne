@@ -6,9 +6,9 @@ origin: cited
 
 # A birational projective morphism is a blowup
 
-Every birational projective morphism `f : Z -> X` from a variety to a
-quasi-projective variety is isomorphic over `X` to the blowup of a coherent
-ideal sheaf on `X`.
+Every birational projective morphism $f : Z \to X$ from a variety to a
+quasi-projective variety is isomorphic over $X$ to the blowup of a coherent
+ideal sheaf on $X$.
 
 ## Depends on
 

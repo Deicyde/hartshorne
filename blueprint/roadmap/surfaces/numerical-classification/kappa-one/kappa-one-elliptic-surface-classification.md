@@ -11,13 +11,10 @@ Assume the algebraically closed ground field has characteristic different
 from two and three. Every Chapter-V surface of Kodaira dimension one admits
 an elliptic-surface fibration.
 
-This node is not ready. Hartshorne quotes the classification without proof;
-an exact characteristic-aware theorem and its comparison with the roadmap's
-canonical-ring definition remain to be adopted.
 
 No converse is claimed: rational elliptic surfaces, elliptic K3 surfaces, and
 Kodaira-dimension-zero hyperelliptic surfaces show that an elliptic fibration
-alone does not force `kappa=1`.
+alone does not force $\kappa =1$.
 
 ## Depends on
 

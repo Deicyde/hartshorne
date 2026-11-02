@@ -6,8 +6,8 @@ origin: cited
 
 # Blowups are invariant under powers of the center
 
-For every coherent ideal `I` and positive integer `d`, the blowup along `I^d`
-is canonically isomorphic over `X` to the blowup along `I`.
+For every coherent ideal $I$ and positive integer $d$, the blowup along $I^d$
+is canonically isomorphic over $X$ to the blowup along $I$.
 
 ## Depends on
 
@@ -16,8 +16,8 @@ is canonically isomorphic over `X` to the blowup along `I`.
 
 ## Proof depends on
 
-- Identification of the Rees algebra of `I^d` with the `d`th Veronese
-  subalgebra of the Rees algebra of `I`.
+- Identification of the Rees algebra of $I^d$ with the $d$th Veronese
+  subalgebra of the Rees algebra of $I$.
 
 ## Sources
 

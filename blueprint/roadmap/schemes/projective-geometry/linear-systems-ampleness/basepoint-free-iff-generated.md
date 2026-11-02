@@ -6,9 +6,9 @@ origin: cited
 
 # Base-point-freeness and global generation
 
-A point is a base point of the linear system represented by `V` exactly when
-every section in `V` vanishes in its fibre. Consequently the system is
-base-point-free exactly when `V` generates the associated invertible sheaf.
+A point is a base point of the linear system represented by $V$ exactly when
+every section in $V$ vanishes in its fibre. Consequently the system is
+base-point-free exactly when $V$ generates the associated invertible sheaf.
 Expose the induced morphism and closed-immersion criteria as corollaries.
 
 ## Depends on

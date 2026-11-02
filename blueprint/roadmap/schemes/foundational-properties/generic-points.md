@@ -9,14 +9,13 @@ mathlib_file: Mathlib/Topology/Sober.lean
 
 # Irreducible closed subsets have unique generic points
 
-Every nonempty irreducible closed subset `Z` of a scheme `X` has a unique point
-`η` with `closure {η} = Z`.
+Every nonempty irreducible closed subset $Z$ of a scheme $X$ has a unique point
+$\eta$ with $\operatorname{closure} \{\eta \} = Z$.
 
-The stable upstream declaration `irreducibleSetEquivPoints` gives an order
-equivalence between irreducible closed subsets and points in any quasi-sober
-`T₀` space.  Schemes have both instances: quasi-sobriety is proved locally
-from affine spectra and uniqueness follows from `T₀`.  Specializing that
-stable declaration is exactly Exercise 2.9.
+A scheme is sober: every nonempty irreducible closed subset has a
+generic point, and the $T_0$ property makes it unique. Existence can
+be checked on affine opens, where it follows from the corresponding
+prime ideal. This is Hartshorne's Exercise II.2.9.
 
 ## Depends on
 

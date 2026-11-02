@@ -6,7 +6,7 @@ origin: cited
 
 # Frobenius fixed points are simple
 
-If `X/F_q` is smooth, every fixed point of every iterate `F^r` is isolated
+If $X/\mathbb{F}_q$ is smooth, every fixed point of every iterate $F^r$ is isolated
 and has local Lefschetz multiplicity one. Thus the Lefschetz number is the
 ordinary cardinality of the fixed-point set.
 
@@ -18,7 +18,7 @@ ordinary cardinality of the fixed-point set.
 ## Proof depends on
 
 - The tangent map of positive-characteristic Frobenius is zero, so
-  `1-d(F^r)` is invertible at a fixed point.
+  $1-d(F^r)$ is invertible at a fixed point.
 
 ## Sources
 

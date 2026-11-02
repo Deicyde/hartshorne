@@ -8,11 +8,9 @@ not_ready: true
 # Classification of relatively minimal rational and ruled surfaces
 
 Every relatively minimal rational or ruled surface is one of the models
-listed in Examples 5.8.2–5.8.3: `P^2`, a rational `X_e` with `e!=1`, or a
+listed in Examples 5.8.2–5.8.3: $\mathbb{P}^2$, a rational $X_e$ with $e\ne 1$, or a
 geometrically ruled surface over a positive-genus curve.
 
-This node is not ready until the exact Nagata or Hartshorne classification
-passage and its hypotheses are adopted.
 
 ## Depends on
 

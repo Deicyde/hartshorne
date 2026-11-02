@@ -6,12 +6,12 @@ origin: cited
 
 # Pushforward under Hartshorne's finiteness hypotheses
 
-Let `f : X ⟶ Y` be a scheme morphism.  Assume either that `X` is Noetherian,
-or that `f` is quasi-compact and separated.  Then `f_*` sends quasi-coherent
-`O_X`-modules to quasi-coherent `O_Y`-modules.
+Let $f : X \longrightarrow Y$ be a scheme morphism.  Assume either that $X$ is Noetherian,
+or that $f$ is quasi-compact and separated.  Then $f_*$ sends quasi-coherent
+$\mathcal{O}_X$-modules to quasi-coherent $\mathcal{O}_Y$-modules.
 
-Over an affine open of `Y`, choose a finite affine cover of its inverse image
-and finite affine covers of all pairwise intersections.  Express `f_*F` as the
+Over an affine open of $Y$, choose a finite affine cover of its inverse image
+and finite affine covers of all pairwise intersections.  Express $f_*F$ as the
 kernel of the difference map between finite sums of affine pushforwards and
 apply abelian closure of quasi-coherent modules.
 

@@ -6,13 +6,13 @@ origin: cited
 
 # The graph and set-theoretic total transform of a birational transformation
 
-Let `Gamma_T` be the scheme-theoretic closure in `X times Y` of the graph of
-`T` over `Dom(T)`, with projections `p_1,p_2`. For a subset `Z subset X`,
+Let $\Gamma _T$ be the scheme-theoretic closure in $X \times Y$ of the graph of
+$T$ over $\operatorname{Dom}(T)$, with projections $p_1,p_2$. For a subset $Z \subset X$,
 define Hartshorne's graph total transform by
 
-`T(Z)=p_2(p_1^(-1)(Z))`.
+$T(Z)=p_2(p_1^{-1}(Z))$.
 
-At a point where `T` is defined this is its ordinary image point; at a
+At a point where $T$ is defined this is its ordinary image point; at a
 fundamental point it may be a positive-dimensional subset. This construction
 is distinct from pullback or total transform of a Cartier divisor.
 

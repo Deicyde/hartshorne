@@ -9,21 +9,21 @@ lean: Hartshorne.hypersurfaceSection_degreewise_exact_int
 
 # The hypersurface-section coordinate-ring sequence is exact
 
-Assume `n > 0`. Let `Y ⊆ ℙⁿ` be a projective variety, let `f` be an
-irreducible homogeneous polynomial of positive degree `d`, and put
-`H = Z(f)`. If `Y` is not contained in `H`, multiplication by `f` and the
+Assume $n > 0$. Let $Y \subseteq \mathbb{P} ^{n}$ be a projective variety, let $f$ be an
+irreducible homogeneous polynomial of positive degree $d$, and put
+$H = Z(f)$. If $Y$ is not contained in $H$, multiplication by $f$ and the
 quotient map give the graded short exact sequence
 
-`0 → S(Y)(-d) → S(Y) → S/(J(Y) + J(H)) → 0`.
+$0 \to S(Y)(-d) \to S(Y) \to S/(J(Y) + J(H)) \to 0$.
 
-Equivalently, in every integer degree `l`, multiplication by `f` is
+Equivalently, in every integer degree $l$, multiplication by $f$ is
 injective, its range is the kernel of the quotient map, and that quotient map
 is surjective. The last module is deliberately nonreduced: it is the module
 used for hypersurface intersection multiplicities, not generally the reduced
-coordinate ring of `Y ∩ H`.
+coordinate ring of $Y \cap H$.
 
-The proof uses that `J(H) = (f)` and that `S(Y)` is a domain. Noncontainment
-is exactly the assertion that the class of `f` in `S(Y)` is nonzero, so
+The proof uses that $J(H) = (f)$ and that $S(Y)$ is a domain. Noncontainment
+is exactly the assertion that the class of $f$ in $S(Y)$ is nonzero, so
 multiplication is injective. Homogeneous-component extraction supplies a
 preimage in the shifted degree for kernel elements, including the negative
 and low-degree cases.

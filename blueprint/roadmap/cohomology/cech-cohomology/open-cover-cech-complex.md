@@ -9,13 +9,13 @@ lean: Hartshorne.OrderedCechIndex Hartshorne.orderedCechIntersection Hartshorne.
 
 # The ordered Čech complex
 
-For a well-ordered open cover `U = (U_i)` and an abelian sheaf `F`, define
+For a well-ordered open cover $U = (U_i)$ and an abelian sheaf $F$, define
 the cochain complex
 
-`C^p(U,F) = product_(i_0 < ... < i_p) F(U_i0 ∩ ... ∩ U_ip)`
+$C ^p(U,F) = \prod _{(i_0 < \ldots < i_p)} F(U_i0 \cap \ldots \cap U_{ip})$
 
 with the alternating restriction differential. Define
-`CechH^p(U,F)` as its `p`th cohomology.
+$\check{H}^p(U,F)$ as its $p$th cohomology.
 
 ## Depends on
 
@@ -24,10 +24,8 @@ with the alternating restriction differential. Define
 
 ## Proof depends on
 
-- The alternating-face identity gives `d^2=0`.
-- `CategoryTheory.cechComplexFunctor` in
-  `Mathlib/CategoryTheory/Sites/SheafCohomology/Cech.lean` is partial prior
-  art: a normalization comparison is required because it retains all tuples.
+- The alternating-face identity gives $d^2=0$.
+- The comparison between the ordered Čech complex and the complex retaining all index tuples.
 
 ## Sources
 

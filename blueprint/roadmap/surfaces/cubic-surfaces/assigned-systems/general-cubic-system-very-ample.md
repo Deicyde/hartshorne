@@ -6,11 +6,11 @@ origin: cited
 
 # The transformed cubic system through at most six general points is very ample
 
-Let `P_1,...,P_r`, `r<=6`, be ordinary points of `P^2`, with no three
+Let $P_1,\ldots ,P_r$, $r\le 6$, be ordinary points of $\mathbb{P}^2$, with no three
 collinear and no six on a conic. On their iterated blowup, the complete
 system
 
-`|3*l-E_1-...-E_r|`
+$|3\cdot l-E_1-\ldots -E_r|$
 
 is very ample.
 

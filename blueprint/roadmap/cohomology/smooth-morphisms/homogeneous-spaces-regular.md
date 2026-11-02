@@ -25,8 +25,7 @@ on nonclosed scheme points.
 
 - Invariance of local-ring regularity under scheme isomorphisms.
 - Finite-type schemes over a field are Jacobson.
-- `AlgebraicGeometry.smooth_of_grpObj` is alternative pinned prior art for the
-  special case of the group acting on itself.
+- A finite-type group scheme over a field of characteristic zero is smooth, providing the special case of the group acting on itself.
 
 ## Sources
 

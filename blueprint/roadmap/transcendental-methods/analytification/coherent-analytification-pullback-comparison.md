@@ -7,15 +7,13 @@ not_ready: true
 
 # Coherent analytification is analytic scalar extension
 
-For every coherent algebraic sheaf `F` on `X`, there is a natural isomorphism
+For every coherent algebraic sheaf $F$ on $X$, there is a natural isomorphism
 
-`F^h ~= phi^*F`
+$F^h \simeq \phi ^*F$
 
 of coherent analytic sheaves, where pullback uses
-`phi^(-1)O_X->O_(X^h)`.
+$\phi ^{-1}\mathcal{O}_X\to \mathcal{O}_{(X^h)}$.
 
-This node is not ready pending exactness/coherence of analytic extension of
-scalars and independence from a finite free presentation.
 
 ## Depends on
 
@@ -26,9 +24,9 @@ scalars and independence from a finite free presentation.
 
 ## Proof depends on
 
-- Form `phi^-1 F tensor_[phi^-1 O_X] O_(X^h)` using the analytic ring map;
-  compare its local finite-presentation cokernel with `F^h`.
+- Form $\phi ^-1 F \otimes _[\phi ^-1 \mathcal{O}_X] \mathcal{O}_{(X^h)}$ using the analytic ring map;
+  compare its local finite-presentation cokernel with $F^h$.
 
 ## Sources
 
-- [Hartshorne Appendix B.1, `F^h ~= phi^*F`, p.439](../../../sources/hartshorne-appendix-b-1-2.md)
+- [Hartshorne Appendix B.1, $F^h \simeq \phi ^*F$, p.439](../../../sources/hartshorne-appendix-b-1-2.md)

@@ -7,17 +7,15 @@ not_ready: true
 
 # Top ℓ-adic cohomology and the trace map
 
-Let `X` be connected, smooth, and proper of pure dimension `n` over an
+Let $X$ be connected, smooth, and proper of pure dimension $n$ over an
 algebraically closed field.  There is a normalized trace isomorphism
 
-`Tr_X:H^(2n)_et(X,Q_ell(n)) ~= Q_ell`.
+$Tr_X:H^{2n}_{\mathrm{et}}(X,\mathbb{Q}_\ell(n)) \simeq \mathbb{Q}_\ell$.
 
-Equivalently, untwisted top cohomology is `Q_ell(-n)`.  For a disconnected
+Equivalently, untwisted top cohomology is $\mathbb Q_\ell(-n)$.  For a disconnected
 smooth proper scheme, top cohomology has one summand for each connected
 component rather than being one-dimensional.
 
-This node is not ready.  It requires the étale trace/fundamental-class
-construction and its normalization on degree-one points.
 
 ## Depends on
 

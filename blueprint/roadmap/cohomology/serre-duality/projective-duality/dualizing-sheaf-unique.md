@@ -6,10 +6,10 @@ origin: cited
 
 # Uniqueness of a dualizing sheaf with trace
 
-If `(ω,t)` and `(ω',t')` are dualizing sheaves on the same proper
-`n`-dimensional scheme, there is a unique isomorphism `φ:ω≃ω'` satisfying
+If $(\omega ,t)$ and $(\omega ',t')$ are dualizing sheaves on the same proper
+$n$-dimensional scheme, there is a unique isomorphism $\varphi :\omega \simeq \omega '$ satisfying
 
-`t = t' ∘ Hⁿ(φ)`.
+$t = t' \circ H^{n}(\varphi )$.
 
 Thus uniqueness includes the normalization of the trace, not only the
 underlying coherent sheaf.

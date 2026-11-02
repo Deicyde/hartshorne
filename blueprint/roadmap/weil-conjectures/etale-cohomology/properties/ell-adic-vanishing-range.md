@@ -7,16 +7,13 @@ not_ready: true
 
 # ℓ-adic cohomology vanishes above twice the dimension
 
-Let `X` be finite type of dimension `n` over an algebraically closed field,
-and let `ell` differ from the characteristic.  Then
+Let $X$ be finite type of dimension $n$ over an algebraically closed field,
+and let $\ell$ differ from the characteristic.  Then
 
-`H^i_et(X,Q_ell)=0`
+$H^i_{\mathrm{et}}(X,\mathbb{Q}_\ell)=0$
 
-for `i>2n` (and for negative degrees by convention).
+for $i>2n$ (and for negative degrees by convention).
 
-This node is not ready.  Hartshorne lists the cohomological-dimension bound
-without proof.  An exact SGA 4 or modern source must match ordinary, rather
-than compactly supported, cohomology and the finite-type hypotheses.
 
 ## Depends on
 

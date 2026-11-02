@@ -6,11 +6,11 @@ origin: bridged
 
 # The globally generated morphism is finite
 
-Let `D` be a divisor with `D*C>0` for every irreducible curve `C`, and assume
-some positive power `L^n=O_X(nD)` is globally generated. The associated
+Let $D$ be a divisor with $D\cdot C >0$ for every irreducible curve $C$, and assume
+some positive power $L^n=\mathcal{O}_X(nD)$ is globally generated. The associated
 projective morphism
 
-`phi : X -> P^N`
+$\phi : X \to \mathbb{P}^N$
 
 has finite fibres and is therefore finite onto its scheme-theoretic image.
 
@@ -22,9 +22,9 @@ has finite fibres and is therefore finite onto its scheme-theoretic image.
 
 ## Proof depends on
 
-- A positive-dimensional fibre would contain an irreducible curve `C`.
+- A positive-dimensional fibre would contain an irreducible curve $C$.
   Pulling back a hyperplane missing its image point gives an effective divisor
-  linearly equivalent to `nD` and disjoint from `C`, contradicting `D*C>0`.
+  linearly equivalent to $nD$ and disjoint from $C$, contradicting $D\cdot C >0$.
 
 ## Sources
 

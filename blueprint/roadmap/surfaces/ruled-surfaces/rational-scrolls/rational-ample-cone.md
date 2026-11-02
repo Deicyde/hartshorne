@@ -6,11 +6,11 @@ origin: cited
 
 # The ample cone of a rational ruled surface
 
-For `D=a*C0+b*f` on `X_e`, the following are equivalent:
+For $D=a\cdot C_0+b\cdot f$ on $X_e$, the following are equivalent:
 
-1. `D` is ample;
-2. `D` is very ample;
-3. `a>0` and `b>a*e`.
+1. $D$ is ample;
+2. $D$ is very ample;
+3. $a>0$ and $b>a\cdot e$.
 
 ## Depends on
 
@@ -21,8 +21,8 @@ For `D=a*C0+b*f` on `X_e`, the following are equivalent:
 
 ## Proof depends on
 
-- Ampleness forces positive intersection with `f` and `C0`. Conversely,
-  decompose `D` into copies of the generated class `C0+e*f` plus one
+- Ampleness forces positive intersection with $f$ and $C_0$. Conversely,
+  decompose $D$ into copies of the generated class $C_0+e\cdot f$ plus one
   very ample section class.
 
 ## Sources

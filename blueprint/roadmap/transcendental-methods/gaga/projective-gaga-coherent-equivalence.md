@@ -7,18 +7,15 @@ not_ready: true
 
 # Projective GAGA is an equivalence on coherent sheaves
 
-For every projective scheme `X` over `C`, analytification induces an
+For every projective scheme $X$ over $\mathbb{C}$, analytification induces an
 equivalence of categories
 
-`Coh(X) ~= Coh_an(X^h)`.
+$\operatorname{Coh}(X)\simeq\operatorname{Coh}_{\mathrm{an}}(X^h)$.
 
 The theorem includes full faithfulness and essential surjectivity for all
 coherent sheaves on arbitrary projective schemes; neither reducedness nor
 smoothness is assumed.
 
-This node is not ready pending Serre's exact GAGA proof and the analytic
-coherent-sheaf representation. The projective-space twist calculation and
-finite twisted-free resolutions are the main proof inputs.
 
 ## Depends on
 

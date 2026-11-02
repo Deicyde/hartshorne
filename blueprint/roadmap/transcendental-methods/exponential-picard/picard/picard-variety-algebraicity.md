@@ -7,11 +7,9 @@ not_ready: true
 
 # The Picard torus is algebraic
 
-For a smooth projective complex variety, the complex torus `Pic^0(X)` is the
-analytification of an abelian variety, the Picard variety of `X`.
+For a smooth projective complex variety, the complex torus $\operatorname{Pic} ^0(X)$ is the
+analytification of an abelian variety, the Picard variety of $X$.
 
-This node is not ready. Hartshorne says only “one shows”; a proof-level
-Picard-variety representability and GAGA comparison source is required.
 
 ## Depends on
 

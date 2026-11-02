@@ -6,8 +6,8 @@ origin: cited
 
 # Tensor products of very ample sheaves
 
-If `L` and `M` are invertible sheaves very ample relative to `Y` on the same
-`Y`-scheme `X`, then `L tensor M` is very ample relative to `Y`.
+If $L$ and $M$ are invertible sheaves very ample relative to $Y$ on the same
+$Y$-scheme $X$, then $L \otimes M$ is very ample relative to $Y$.
 
 ## Depends on
 

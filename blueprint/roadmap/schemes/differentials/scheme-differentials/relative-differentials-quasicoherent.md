@@ -6,11 +6,11 @@ origin: cited
 
 # Quasi-coherence and coherence of differentials
 
-For every scheme morphism `f : X → Y`, the relative differential sheaf
-`Ω[X/Y]` is quasi-coherent.  If `Y` is Noetherian and `f` is of finite type,
-then `Ω[X/Y]` is coherent.
+For every scheme morphism $f : X \to Y$, the relative differential sheaf
+$\Omega_{X/Y}$ is quasi-coherent.  If $Y$ is Noetherian and $f$ is of finite type,
+then $\Omega_{X/Y}$ is coherent.
 
-The coherent conclusion uses that `X` is Noetherian under these hypotheses
+The coherent conclusion uses that $X$ is Noetherian under these hypotheses
 and that the affine Kähler modules are finite.
 
 ## Depends on

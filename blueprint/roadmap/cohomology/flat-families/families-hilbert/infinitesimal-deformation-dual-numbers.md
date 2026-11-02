@@ -9,14 +9,14 @@ lean: Hartshorne.InfinitesimalDeformation
 
 # Infinitesimal deformations over the dual numbers
 
-For `D=k[t]/(t^2)`, define an infinitesimal deformation of a finite-type
-`k`-scheme `X` to consist of a `D`-scheme `X'`, a proof that `X' -> Spec D`
+For $D=k[t]/(t^2)$, define an infinitesimal deformation of a finite-type
+$k$-scheme $X$ to consist of a $D$-scheme $X'$, a proof that $X' \to \operatorname{Spec} D$
 is flat, and a chosen isomorphism from the closed fibre
-`X' times_(Spec D) Spec k` to `X`. The closed-fibre isomorphism is part of the
+$X' \times _{(\operatorname{Spec} D)} \operatorname{Spec} k$ to $X$. The closed-fibre isomorphism is part of the
 structure, not an unrecorded existence proposition.
 
-If `W -> T` is a flat global family, `t : T`, and the marked fibre `W_t` is
-identified with `X`, then a tangent vector `Spec D -> T` based at `t` gives an
+If $W \to T$ is a flat global family, $t \in T$, and the marked fibre $W_t$ is
+identified with $X$, then a tangent vector $\operatorname{Spec} D \to T$ based at $t$ gives an
 infinitesimal deformation with its induced closed-fibre marking.
 
 ## Depends on
@@ -27,9 +27,9 @@ infinitesimal deformation with its induced closed-fibre marking.
 
 ## Proof depends on
 
-- The dual-number ring in `Mathlib/RingTheory/DualNumber.lean`.
+- The dual-number ring $k[\varepsilon]/(\varepsilon^2)$.
 - [Flat morphisms are stable under base change](../flatness/flat-morphism-base-change.md).
-- Compatibility of the fibre pullback with the composite `Spec k -> Spec D -> T`.
+- Compatibility of the fibre pullback with the composite $\operatorname{Spec} k \to \operatorname{Spec} D \to T$.
 
 ## Sources
 

@@ -6,10 +6,10 @@ origin: cited
 
 # One projection lowers the ambient dimension
 
-Let `X -> P^n` be an embedded Chapter IV curve with `n>=4`. There exists a
-point `O` outside `X` such that projection from `O` is a closed immersion
+Let $X \to \mathbb{P}^n$ be an embedded Chapter IV curve with $n\ge 4$. There exists a
+point $O$ outside $X$ such that projection from $O$ is a closed immersion
 
-`X -> P^(n-1)`.
+$X \to \mathbb{P}^{n-1}$.
 
 The statement is valid over every algebraically closed field, with no
 separability or characteristic-zero hypothesis.
@@ -24,7 +24,7 @@ separability or characteristic-zero hypothesis.
 ## Proof depends on
 
 - The union of the secant and tangent loci has dimension at most three and
-  therefore cannot fill `P^n` when `n>=4`.
+  therefore cannot fill $\mathbb{P}^n$ when $n\ge 4$.
 
 ## Sources
 

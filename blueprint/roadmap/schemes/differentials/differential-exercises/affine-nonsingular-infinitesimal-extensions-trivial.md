@@ -6,11 +6,11 @@ origin: cited
 
 # Infinitesimal extensions of a nonsingular affine scheme
 
-Let `k` be algebraically closed, let `X` be an affine nonsingular finite-type
-scheme over `k`, and let `F` be a
-coherent sheaf on `X`. Every square-zero infinitesimal extension of `X` by
-`F` is isomorphic to the trivial extension whose structure sheaf is
-`O_X direct-sum F` with square-zero multiplication on `F`.
+Let $k$ be algebraically closed, let $X$ be an affine nonsingular finite-type
+scheme over $k$, and let $F$ be a
+coherent sheaf on $X$. Every square-zero infinitesimal extension of $X$ by
+$F$ is isomorphic to the trivial extension whose structure sheaf is
+$\mathcal{O}_X\oplus F$ with square-zero multiplication on $F$.
 
 ## Depends on
 

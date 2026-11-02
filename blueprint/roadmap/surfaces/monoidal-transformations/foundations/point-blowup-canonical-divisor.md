@@ -6,9 +6,9 @@ origin: cited
 
 # The canonical divisor of a point blowup
 
-If `K_X` and `K_X_tilde` are canonical divisors, then
+If $K_X$ and $K_{\widetilde X}$ are canonical divisors, then
 
-`K_X_tilde ~ pi^*K_X + E`.
+$K_{\widetilde X}\sim\pi^*K_X+E$.
 
 ## Depends on
 
@@ -18,8 +18,8 @@ If `K_X` and `K_X_tilde` are canonical divisors, then
 
 ## Proof depends on
 
-- The canonical sheaves agree off `E`, so their difference is `nE`.
-  Adjunction on `E~=P^1`, together with `E^2=-1`, gives `n=1`.
+- The canonical sheaves agree off $E$, so their difference is $nE$.
+  Adjunction on $E\simeq \mathbb{P}^1$, together with $E^2=-1$, gives $n=1$.
 
 ## Sources
 

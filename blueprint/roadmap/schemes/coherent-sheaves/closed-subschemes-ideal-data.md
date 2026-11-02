@@ -9,15 +9,16 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean
 
 # Closed subschemes and ideal data
 
-For a scheme `X`, closed immersions into `X`, up to isomorphism over `X`, are
-contravariantly equivalent to `X.IdealSheafData`. The subscheme attached to
-`I` is locally `Spec(Γ(X,U)/I(U))`, and its inclusion has kernel data exactly
-`I`.
+For a scheme $X$, closed immersions into $X$, up to isomorphism
+over $X$, correspond contravariantly to compatible ideal data on
+affine opens. The subscheme attached to $I$ is locally
+$\operatorname{Spec}(\Gamma(U,\mathcal{O}_X)/I(U))$, and its inclusion
+has kernel ideal $I$.
 
 Together with the module/data bridge, this gives Hartshorne's unique closed
-subscheme associated to a quasi-coherent ideal sheaf. For affine `X = Spec A`
-it specializes to the correspondence between ideals of `A` and closed
-subschemes of `X`.
+subscheme associated to a quasi-coherent ideal sheaf. For affine $X = \operatorname{Spec} A$
+it specializes to the correspondence between ideals of $A$ and closed
+subschemes of $X$.
 
 ## Depends on
 

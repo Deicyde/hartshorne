@@ -6,9 +6,9 @@ origin: cited
 
 # Embedded resolution of curves on surfaces
 
-Let `Y` be any effective curve on a Chapter V surface. There is a finite
-succession of point blowups `f : X' -> X` such that the reduced total inverse
-image `f^(-1)(Y)` is a normal-crossings divisor.
+Let $Y$ be any effective curve on a Chapter V surface. There is a finite
+succession of point blowups $f : X' \to X$ such that the reduced total inverse
+image $f^{-1}(Y)$ is a normal-crossings divisor.
 
 The theorem is valid over an algebraically closed field of arbitrary
 characteristic.

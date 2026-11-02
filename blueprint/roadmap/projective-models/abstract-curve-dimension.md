@@ -9,14 +9,11 @@ lean: Hartshorne.ValuationSpace.abstractNonsingularCurve_isCurve
 
 # Abstract valuation curves have dimension one
 
-Every nonempty abstract nonsingular open curve in `C_K` is a curve: its
-topological dimension is exactly one.  The sole main declaration is
-`Hartshorne.ValuationSpace.abstractNonsingularCurve_isCurve`.
+Every nonempty abstract nonsingular open curve in $C_K$ has topological
+dimension exactly one.
 
-The word "curve" here must retain the project's exact `IsCurve` contract; a
-bound `dim ≤ 1` is not source-faithful.  The proof uses that a nonempty open
-subset of the infinite cofinite space is infinite and has exactly the generic
-point/closed-point chain length encoded by the current variety dimension.
+A nonempty open subset of the infinite cofinite valuation space is infinite.
+The dimension calculation gives one, rather than only an upper bound by one.
 
 ## Depends on
 

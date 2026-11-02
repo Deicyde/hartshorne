@@ -6,10 +6,10 @@ origin: cited
 
 # Affine sections of a formal completion
 
-Let `U = Spec A` be an affine open in `X`, and let `I(U)` correspond to the
-closed subscheme on `U`. Then
+Let $U = \operatorname{Spec} A$ be an affine open in $X$, and let $I(U)$ correspond to the
+closed subscheme on $U$. Then
 
-`Γ(U ∩ |Y|, O_(Xhat_Y)) ≅ AdicCompletion I(U) A`.
+$$\Gamma(U\cap |Y|,\mathcal{O}_{\widehat X_Y})\cong\varprojlim_n A/I(U)^{n+1}.$$
 
 The isomorphism respects restriction to smaller affine opens and the canonical
 map from ordinary functions.

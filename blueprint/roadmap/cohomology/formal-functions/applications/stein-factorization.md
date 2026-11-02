@@ -6,16 +6,16 @@ origin: cited
 
 # Stein factorization
 
-Let `f : X -> Y` be a projective morphism of Noetherian schemes. With
+Let $f : X \to Y$ be a projective morphism of Noetherian schemes. With
 
-`Y' = Spec_Y(f_* O_X)`,
+$Y' = \operatorname{Spec} _Y(f_* \mathcal{O}_X)$,
 
 there is a factorization
 
-`X -> Y' -> Y`
+$X \to Y' \to Y$
 
 whose first morphism is projective and has connected fibres and whose second
-morphism is finite. The construction satisfies `f'_*O_X ~= O_(Y')`.
+morphism is finite. The construction satisfies $f'_*\mathcal{O}_X \simeq \mathcal{O}_{(Y')}$.
 
 ## Depends on
 
@@ -27,10 +27,10 @@ morphism is finite. The construction satisfies `f'_*O_X ~= O_(Y')`.
 
 ## Proof depends on
 
-- Coherence of `f_*O_X` makes its relative spectrum finite over `Y`.
-- The adjunction map factors `f` through `Y'`; since the finite map `Y' -> Y`
-  is separated, projectivity cancels from the composite to `X -> Y'`.
-- The relative-Spec construction identifies `f'_*O_X` with `O_(Y')`, so the
+- Coherence of $f_*\mathcal{O}_X$ makes its relative spectrum finite over $Y$.
+- The adjunction map factors $f$ through $Y'$; since the finite map $Y' \to Y$
+  is separated, projectivity cancels from the composite to $X \to Y'$.
+- The relative-Spec construction identifies $f'_*\mathcal{O}_X$ with $\mathcal{O}_{(Y')}$, so the
   connected-fibre criterion applies.
 
 ## Sources

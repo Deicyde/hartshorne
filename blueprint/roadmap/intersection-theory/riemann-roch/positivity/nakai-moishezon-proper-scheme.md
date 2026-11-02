@@ -7,16 +7,14 @@ not_ready: true
 
 # The Nakai–Moishezon criterion
 
-Let `X` be proper over an algebraically closed field and `D` a Cartier
-divisor. Then `D` is ample exactly when
+Let $X$ be proper over an algebraically closed field and $D$ a Cartier
+divisor. Then $D$ is ample exactly when
 
-`D^(dim Y).Y>0`
+$D^{\dim Y}\cdot Y>0$
 
-for every positive-dimensional closed integral subscheme `Y subset X`,
-including `Y=X` when `X` is integral.
+for every positive-dimensional closed integral subscheme $Y \subset X$,
+including $Y=X$ when $X$ is integral.
 
-This node is not ready until the adopted Nakai/Moishezon/Kleiman proof passage
-and its restricted intersection theory are made explicit.
 
 ## Depends on
 

@@ -6,11 +6,11 @@ origin: cited
 
 # Arithmetic of associated divisor sheaves
 
-For Cartier divisors `D_1,D_2`, prove
+For Cartier divisors $D_1,D_2$, prove
 
-`O_X(D_1-D_2) ≅ O_X(D_1) tensor O_X(D_2)^{-1}`
+$\mathcal{O}_X(D_1-D_2) \cong \mathcal{O}_X(D_1) \otimes \mathcal{O}_X(D_2)^{-1}$
 
-compatibly with the embedded-submodule product inside `K_X`. This is
+compatibly with the embedded-submodule product inside $K_X$. This is
 Proposition 6.13(b); its unique completion criterion is compatibility of
 divisor subtraction with tensor product and duality.
 

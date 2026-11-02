@@ -9,16 +9,12 @@ mathlib_file: Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackContinuous.lean
 
 # Pushforward, pullback, and their adjunction
 
-For a morphism of ringed spaces `f : (X,O_X) ⟶ (Y,O_Y)`, define the module
-pushforward `f_*` by giving the ordinary direct image its `O_Y`-action through
-`f#`.  Define module pullback by extension of scalars,
-`f*G = f⁻¹G ⊗[f⁻¹𝒪_Y] 𝒪_X`, and prove the natural adjunction
+For a morphism of ringed spaces $f : (X,\mathcal{O}_X) \longrightarrow (Y,\mathcal{O}_Y)$, define the module
+pushforward $f_*$ by giving the ordinary direct image its $\mathcal{O}_Y$-action through
+$f#$.  Define module pullback by extension of scalars,
+$f^*G=f^{-1}G\otimes_{f^{-1}\mathcal{O}_Y}\mathcal{O}_X$, and prove the natural adjunction
 
-`Hom_X(f*G, F) ≃ Hom_Y(G, f_*F)`.
-
-Mathlib's site-level `SheafOfModules.pullback`, `pushforward`, and named
-adjunction are the exact categorical realization; scheme morphisms specialize
-that construction.
+$\operatorname{Hom} _X(f^* G, F) \simeq \operatorname{Hom} _Y(G, f_*F)$.
 
 ## Depends on
 

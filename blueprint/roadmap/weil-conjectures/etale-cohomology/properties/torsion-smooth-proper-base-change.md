@@ -7,17 +7,14 @@ not_ready: true
 
 # Torsion smooth proper base change
 
-Let `f:X->Y` be smooth and proper, let `ell` be invertible on `Y`, and let
-`y_bar` be a geometric point of `Y`.  For every `r>=1`, formation of
+Let $f:X\to Y$ be smooth and proper, let $\ell$ be invertible on $Y$, and let
+$\overline{y}$ be a geometric point of $Y$.  For every $r\ge 1$, formation of
 
-`H^i_et(X_(y_bar),Z/ell^r Z)`
+$H^i_{\mathrm{et}}(X_{(\overline{y})},\mathbb{Z}/\ell ^r\mathbb{Z})$
 
 commutes with base change, equivalently the geometric stalk of
-`R^i f_*(Z/ell^r Z)` is the cohomology of the geometric fibre.
+$R^i f_*(\mathbb{Z}/\ell ^r\mathbb{Z})$ is the cohomology of the geometric fibre.
 
-This node is not ready.  It requires étale higher direct images,
-constructibility, and the proper-smooth base-change theorem omitted from
-Hartshorne's survey.
 
 ## Depends on
 

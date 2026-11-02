@@ -6,17 +6,20 @@ origin: cited
 
 # Mayer–Vietoris with supports
 
-For closed subsets `Y₁,Y₂ ⊆ X` and an abelian sheaf `F`, there is a natural
+For closed subsets $Y_{1},Y_{2} \subseteq X$ and an abelian sheaf $F$, there is a natural
 long exact sequence
 
-`⋯ ⟶ Hⁿ_{Y₁∩Y₂}(X,F) ⟶ Hⁿ_{Y₁}(X,F) ⊕ Hⁿ_{Y₂}(X,F)
- ⟶ Hⁿ_{Y₁∪Y₂}(X,F) ⟶ Hⁿ⁺¹_{Y₁∩Y₂}(X,F) ⟶ ⋯`.
+$$
+\cdots\longrightarrow H^n_{Y_1\cap Y_2}(X,F)
+\longrightarrow H^n_{Y_1}(X,F)\oplus H^n_{Y_2}(X,F)
+\longrightarrow H^n_{Y_1\cup Y_2}(X,F)
+\longrightarrow H^{n+1}_{Y_1\cap Y_2}(X,F)\longrightarrow\cdots.
+$$
 
-This closed-support statement is not the open-cover Mayer–Vietoris sequence
-already available in pinned Mathlib. Its supporting input is the natural exact
-sequence of support functors
+The supporting input is the natural exact sequence of closed-
+support functors
 
-`0 ⟶ Γ_{Y₁∩Y₂} ⟶ Γ_{Y₁} ⊕ Γ_{Y₂} ⟶ Γ_{Y₁∪Y₂}`,
+$0 \longrightarrow \Gamma _{Y_{1}\cap Y_{2}} \longrightarrow \Gamma _{Y_{1}} \oplus \Gamma _{Y_{2}} \longrightarrow \Gamma _{Y_{1}\cup Y_{2}}$,
 
 with the sign convention chosen so consecutive maps compose to zero.
 

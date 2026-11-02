@@ -6,8 +6,8 @@ origin: cited
 
 # Pullback preserves quasi-coherence
 
-For every scheme morphism `f : X ⟶ Y`, pullback sends quasi-coherent
-`𝒪_Y`-modules to quasi-coherent `𝒪_X`-modules.  If `X` and `Y` are locally
+For every scheme morphism $f : X \longrightarrow Y$, pullback sends quasi-coherent
+$\mathcal{O} _Y$-modules to quasi-coherent $\mathcal{O} _X$-modules.  If $X$ and $Y$ are locally
 Noetherian, it sends coherent modules to coherent modules.
 
 This is Proposition 5.8(a,b).  Reduce locally to a morphism of affine schemes,

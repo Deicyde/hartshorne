@@ -6,12 +6,12 @@ origin: cited
 
 # Smoothness by tangent-map surjectivity
 
-Let `f : X -> Y` be a morphism of nonsingular varieties over an algebraically
-closed field, and assume `dim X = dim Y + n`. The following are equivalent:
+Let $f : X \to Y$ be a morphism of nonsingular varieties over an algebraically
+closed field, and assume $\dim X = \dim Y + n$. The following are equivalent:
 
-1. `f` is smooth of relative dimension `n`;
-2. `Omega[X/Y]` is locally free of rank `n`;
-3. for every closed `x : X`, the Zariski tangent map at `x` is surjective.
+1. $f$ is smooth of relative dimension $n$;
+2. $\Omega_{X/Y}$ is locally free of rank $n$;
+3. for every closed $x \in X$, the Zariski tangent map at $x$ is surjective.
 
 ## Depends on
 

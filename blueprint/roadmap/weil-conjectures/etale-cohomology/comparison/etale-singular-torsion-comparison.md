@@ -7,16 +7,13 @@ not_ready: true
 
 # Torsion étale cohomology compares canonically with singular cohomology
 
-Let `X` be smooth and proper over `C`.  For every `r>=1` and `i>=0`, there is
+Let $X$ be smooth and proper over $\mathbb{C}$.  For every $r\ge 1$ and $i\ge 0$, there is
 a natural isomorphism
 
-`H^i_et(X,Z/ell^r Z) ~= H^i_sing(X^h,Z/ell^r Z)`
+$H^i_{\mathrm{et}}(X,\mathbb{Z}/\ell ^r\mathbb{Z}) \simeq H^i_\mathrm{sing} (X^h,\mathbb{Z}/\ell ^r\mathbb{Z})$
 
 compatible with coefficient reduction, pullback, and cup product.
 
-This node is not ready.  It requires Artin's comparison theorem and a
-singular-cohomology/sheaf comparison on the classical analytification.  It is
-the canonical content hidden behind Hartshorne's complex-coefficient formula.
 
 ## Depends on
 

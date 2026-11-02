@@ -6,15 +6,15 @@ origin: cited
 
 # The sheaf of a graded module on Proj
 
-For a graded ring `S` and graded `S`-module `M`, construct an
-`O_{Proj S}`-module `M~` whose germ at a homogeneous prime `p` is the
-degree-zero part `M_(p)` of the homogeneous localization. For every positive-
-degree homogeneous `f`, identify
+For a graded ring $S$ and graded $S$-module $M$, construct an
+$\mathcal{O}_{\operatorname{Proj} S}$-module $\widetilde{M}$ whose germ at a homogeneous prime $p$ is the
+degree-zero part $M_{(p)}$ of the homogeneous localization. For every positive-
+degree homogeneous $f$, identify
 
-`M~|_{D₊(f)} ≅ (M_(f))~`
+$\widetilde{M}|_{D_{+}(f)} \cong \widetilde{M_{(f)}}$
 
-under `D₊(f) ≅ Spec S_(f)`. Deduce that `M~` is quasi-coherent and, when `S`
-is Noetherian and `M` finite, coherent.
+under $D_{+}(f) \cong \operatorname{Spec} S_{(f)}$. Deduce that $\widetilde{M}$ is quasi-coherent and, when $S$
+is Noetherian and $M$ finite, coherent.
 
 The chart and stalk formulas characterize the construction and are bundled
 with it so subsequent nodes do not depend on an underspecified sheaf.
@@ -29,8 +29,7 @@ with it so subsequent nodes do not depend on an underspecified sheaf.
 ## Proof depends on
 
 - [Affine quasi-coherent equivalence](../modules-and-quasicoherent/affine-quasicoherent-equivalence.md)
-- Degree-zero homogeneous localization of graded modules, which is not yet
-  packaged in pinned Mathlib.
+- Degree-zero homogeneous localization of graded modules.
 
 ## Sources
 

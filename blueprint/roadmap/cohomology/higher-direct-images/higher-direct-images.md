@@ -9,16 +9,13 @@ lean: Hartshorne.abelianHigherDirectImage Hartshorne.abelianHigherDirectImageZer
 
 # Higher direct images of abelian sheaves
 
-For a continuous map `f : X -> Y` and `i : N`, define the higher direct
+For a continuous map $f : X \to Y$ and $i \in N$, define the higher direct
 image functor on abelian sheaves by
 
-`R^i f_* = (TopCat.Sheaf.pushforward AddCommGrpCat f).rightDerived i`.
+$$R^i f_* = R^i(f_*).$$
 
-The degree-zero comparison identifies `R^0 f_*` naturally with ordinary
-direct image. The pinned declarations `TopCat.Sheaf.pushforward`,
-`Functor.rightDerived`, and `Functor.rightDerivedZeroIsoSelf` are exact prior
-art, but their specialization and packaged higher-direct-image interface are
-not yet in Mathlib.
+In degree zero, the higher direct image is naturally isomorphic
+to ordinary direct image.
 
 ## Depends on
 

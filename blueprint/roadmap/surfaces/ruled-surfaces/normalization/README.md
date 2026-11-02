@@ -6,9 +6,9 @@ article_id: af_99c81b5542eab10322cc973d
 
 This subchapter develops the quotient-line description of sections and
 Hartshorne's normalization of the rank-two bundle presenting a ruled surface.
-For normalized `E`, write `det(E) = O_C(eps)` and
-`e = -deg(E) = -deg(eps)`. The divisor `b*f` means `pi^*b`; it must not be
-confused with the integer coefficient `deg(b)` after passage to `Num(X)`.
+For normalized $E$, write $\det (E) = \mathcal{O}_C (\varepsilon )$ and
+$e = -\deg (E) = -\deg (\varepsilon )$. The divisor $b\cdot f$ means $\pi ^*b$; it must not be
+confused with the integer coefficient $\deg (b)$ after passage to $\operatorname{Num} (X)$.
 
 1. [Sections and quotient line bundles](projective-bundle-sections-quotient-lines.md)
 2. [The kernel formula for a section](section-kernel-formula.md)

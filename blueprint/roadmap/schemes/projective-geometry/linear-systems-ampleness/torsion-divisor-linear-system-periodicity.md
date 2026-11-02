@@ -6,9 +6,9 @@ origin: cited
 
 # Torsion divisor linear systems are periodic
 
-If the class of a divisor `D` has finite order `r` in `Pic X`, then
-`dim |nD| = 0` when `r` divides `n` and `dim |nD| = -1` otherwise. Thus this
-dimension function is periodic of period `r`.
+If the class of a divisor $D$ has finite order $r$ in $\operatorname{Pic} X$, then
+$\dim |nD| = 0$ when $r$ divides $n$ and $\dim |nD| = -1$ otherwise. Thus this
+dimension function is periodic of period $r$.
 
 ## Depends on
 

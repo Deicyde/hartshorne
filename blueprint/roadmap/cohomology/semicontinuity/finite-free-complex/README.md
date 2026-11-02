@@ -4,10 +4,10 @@ article_id: af_7666fb3503d865fbadbcacb5
 
 # Finite-free complexes and cohomology functors
 
-Fix Hartshorne's III.12 affine-base data: a Noetherian ring `A`,
-`Y = Spec A`, a projective morphism `f : X -> Y`, and a coherent module
-sheaf `F` on `X` that is flat over `Y`. This chapter models the functors
-`M |-> H^i(X, F tensor_A M)` by one bounded-above finite-free complex and
+Fix Hartshorne's III.12 affine-base data: a Noetherian ring $A$,
+$Y = \operatorname{Spec} A$, a projective morphism $f : X \to Y$, and a coherent module
+sheaf $F$ on $X$ that is flat over $Y$. This chapter models the functors
+$M \mapsto H^i(X, F \otimes _A M)$ by one bounded-above finite-free complex and
 derives the exactness criteria used in semicontinuity and base change.
 
 1. [Cohomology after tensor is a delta functor](cohomology-tensor-delta-functors.md)

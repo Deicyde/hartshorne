@@ -6,13 +6,13 @@ origin: cited
 
 # Extremal curves on a smooth quadric
 
-The Castelnuovo bound is attained for every `d>=3`. On a nonsingular quadric
+The Castelnuovo bound is attained for every $d\ge 3$. On a nonsingular quadric
 surface take a smooth curve
 
-- of type `(s,s)` when `d=2s`;
-- of type `(s,s+1)` when `d=2s+1`.
+- of type $(s,s)$ when $d=2s$;
+- of type $(s,s+1)$ when $d=2s+1$.
 
-These curves have the required degree and genera `(s-1)^2` and `s(s-1)`.
+These curves have the required degree and genera $(s-1)^2$ and $s(s-1)$.
 
 ## Depends on
 

@@ -6,10 +6,10 @@ origin: cited
 
 # Extension of coherent sheaves
 
-Let `X` be Noetherian, `U ⊆ X` open, and `F` coherent on `U`. There exists a
-coherent sheaf `F'` on `X` with `F'|_U ≅ F`. If `F` is already identified with
-the restriction of a quasi-coherent `G` on `X`, `F'` may be chosen as a
-coherent subsheaf of `G`.
+Let $X$ be Noetherian, $U \subseteq X$ open, and $F$ coherent on $U$. There exists a
+coherent sheaf $F'$ on $X$ with $F'|_U \cong F$. If $F$ is already identified with
+the restriction of a quasi-coherent $G$ on $X$, $F'$ may be chosen as a
+coherent subsheaf of $G$.
 
 ## Depends on
 

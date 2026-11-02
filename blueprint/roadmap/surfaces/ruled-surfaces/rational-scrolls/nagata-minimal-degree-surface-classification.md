@@ -7,16 +7,12 @@ not_ready: true
 
 # Nagata's classification of minimal-degree surfaces
 
-Every nonsingular nondegenerate surface of degree `d` in `P^(d+1)` is one of:
+Every nonsingular nondegenerate surface of degree $d$ in $\mathbb{P}^{d+1}$ is one of:
 
 - a rational scroll;
-- `P^2` in degree one;
-- the Veronese surface in `P^5` in degree four.
+- $\mathbb{P}^2$ in degree one;
+- the Veronese surface in $\mathbb{P}^5$ in degree four.
 
-This node is not ready. Hartshorne quotes the classification and points to
-Nagata without proof. The exact theorem passage, its hypotheses, and the
-scheme-theoretic comparison with the roadmap's scroll embeddings must be
-adopted.
 
 ## Depends on
 

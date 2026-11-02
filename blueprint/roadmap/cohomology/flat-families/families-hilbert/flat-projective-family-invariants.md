@@ -6,9 +6,9 @@ origin: cited
 
 # Numerical invariants in a flat projective family
 
-Let `T` be connected and Noetherian and `X` a closed subscheme of `P^n_T`
-flat over `T`. The dimension, degree, and arithmetic genus of every
-scheme-theoretic fibre `X_t` are independent of `t`.
+Let $T$ be connected and Noetherian and $X$ a closed subscheme of $\mathbb{P}^n_T$
+flat over $T$. The dimension, degree, and arithmetic genus of every
+scheme-theoretic fibre $X_t$ are independent of $t$.
 
 ## Depends on
 

@@ -9,12 +9,12 @@ lean: Hartshorne.kaehlerConormal_rightExact
 
 # The conormal exact sequence
 
-Let `B` be an `A`-algebra, let `I ⊆ B`, and put `C = B/I`.  The canonical
+Let $B$ be an $A$-algebra, let $I \subseteq B$, and put $C = B/I$.  The canonical
 sequence
 
-`I/I² → C ⊗[B] Ω[B⁄A] → Ω[C⁄A] → 0`
+$I/I^2\longrightarrow C\otimes_B\Omega_{B/A}\longrightarrow\Omega_{C/A}\longrightarrow0$
 
-is exact, with the first map carrying the class of `b ∈ I` to `1 ⊗ db`.
+is exact, with the first map carrying the class of $b \in I$ to $1 \otimes db$.
 No injectivity assertion is made at the left end.
 
 ## Depends on
@@ -23,12 +23,8 @@ No injectivity assertion is made at the left end.
 
 ## Proof depends on
 
-- `KaehlerDifferential.exact_kerCotangentToTensor_mapBaseChange` proves
-  exactness at `C ⊗[B] Ω[B⁄A]`.
-- `KaehlerDifferential.mapBaseChange_surjective` proves surjectivity onto
-  `Ω[C⁄A]`.
-- Both primitives are in `Mathlib/RingTheory/Kaehler/Basic.lean`; the full
-  source-shaped right-exact sequence is the project wrapper.
+- The universal property of differentials gives exactness at the middle term.
+- Every differential in the quotient algebra lifts, giving surjectivity of the final map.
 
 ## Sources
 

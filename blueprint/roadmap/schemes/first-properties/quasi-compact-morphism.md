@@ -9,11 +9,11 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/QuasiCompact.lean
 
 # Quasi-compact morphisms
 
-For a morphism `f : X → Y`, `QuasiCompact f` holds if and only if the inverse
-image of every affine open of `Y` is quasi-compact.
+For a morphism $f : X \to Y$, $f$ is quasi-compact if and only if the inverse
+image of every affine open of $Y$ is quasi-compact.
 
 The forward implication is immediate because affine opens are quasi-compact.
-For the converse, cover a quasi-compact open of `Y` by finitely many affine
+For the converse, cover a quasi-compact open of $Y$ by finitely many affine
 opens and use stability of compactness under finite unions.
 
 ## Depends on

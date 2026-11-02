@@ -6,15 +6,15 @@ origin: cited
 
 # Right exactness and the cohomology-tensor comparison
 
-For every `A`-module `M`, functoriality gives a natural map
+For every $A$-module $M$, functoriality gives a natural map
 
-`phi_M : T^i(A) tensor_A M -> T^i(M)`.
+$\phi _M : T^i(A) \otimes _A M \to T^i(M)$.
 
-For a fixed `i`, the following are equivalent:
+For a fixed $i$, the following are equivalent:
 
-1. `T^i` is right exact;
-2. `phi_M` is an isomorphism for every `M`;
-3. `phi_M` is surjective for every `M`.
+1. $T^i$ is right exact;
+2. $\phi _M$ is an isomorphism for every $M$;
+3. $\phi _M$ is surjective for every $M$.
 
 ## Depends on
 
@@ -26,7 +26,7 @@ For a fixed `i`, the following are equivalent:
 
 - Finite free presentations prove the isomorphism for finitely generated
   modules under right exactness; direct limits extend it to every module.
-- Exactness in the middle of `T^i` turns surjectivity of every `phi_M` into
+- Exactness in the middle of $T^i$ turns surjectivity of every $\phi _M$ into
   right exactness.
 
 ## Sources

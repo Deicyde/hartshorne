@@ -7,14 +7,14 @@ origin: bridged
 # Abstract elliptic curves and Weierstrass scheme models
 
 From the general Weierstrass equation of a pointed abstract elliptic curve,
-construct Mathlib `WeierstrassCurve` data with invertible discriminant and a
+construct a Weierstrass equation with invertible discriminant and a
 scheme isomorphism from the original curve to the associated projective cubic,
 carrying the base point to infinity. Conversely, recover a Chapter IV pointed
 elliptic curve from an elliptic Weierstrass model over an algebraically closed
 field.
 
-This is a representation bridge; equation data, projective point types, and
-the scheme are not treated as definitionally equal.
+The equation describes a projective cubic isomorphic to the original pointed
+curve; this isomorphism identifies their geometric structures.
 
 ## Depends on
 
@@ -24,7 +24,7 @@ the scheme are not treated as definitionally equal.
 
 ## Proof depends on
 
-- The pinned `WeierstrassCurve` discriminant and nonsingularity criteria.
+- The discriminant and nonsingularity criteria for Weierstrass equations.
 - Compatibility of the affine and projective Weierstrass coordinate models.
 
 ## Sources

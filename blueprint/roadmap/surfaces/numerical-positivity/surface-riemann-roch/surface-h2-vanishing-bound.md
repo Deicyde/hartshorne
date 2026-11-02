@@ -6,12 +6,12 @@ origin: cited
 
 # A numerical bound for second-cohomology vanishing
 
-Let `H` be ample and `K` canonical on a Chapter V surface. For every divisor
-`D`,
+Let $H$ be ample and $K$ canonical on a Chapter V surface. For every divisor
+$D$,
 
-`D*H > K*H  ->  H^2(X,O_X(D))=0`.
+$D\cdot H > K\cdot H \to H^2(X,\mathcal{O}_X(D))=0$.
 
-Thus Hartshorne may take `n_0=K*H` in Lemma 1.7.
+Thus Hartshorne may take $n_0=K\cdot H$ in Lemma 1.7.
 
 ## Depends on
 
@@ -20,8 +20,8 @@ Thus Hartshorne may take `n_0=K*H` in Lemma 1.7.
 
 ## Proof depends on
 
-- Serre duality identifies the group with sections of `K-D`; a nonzero
-  effective representative has nonnegative intersection with `H`, contradicting
+- Serre duality identifies the group with sections of $K-D$; a nonzero
+  effective representative has nonnegative intersection with $H$, contradicting
   the strict inequality.
 
 ## Sources

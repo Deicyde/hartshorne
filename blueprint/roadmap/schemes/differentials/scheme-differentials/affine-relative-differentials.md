@@ -6,14 +6,14 @@ origin: cited
 
 # Differentials on affine schemes
 
-For a ring map `A → B`, identify the relative differential sheaf on the
+For a ring map $A \to B$, identify the relative differential sheaf on the
 induced affine morphism with the sheaf associated to the Kähler module:
 
-`Ω[Spec B/Spec A] ≅ Ω[B⁄A]̃`.
+$\Omega_{\operatorname{Spec}B/\operatorname{Spec}A}\cong\widetilde{\Omega_{B/A}}$.
 
 Under this isomorphism the sheaf derivation is induced by the universal ring
-derivation.  As a corollary, the differential sheaf of affine `n`-space over
-`A` is free on `dx₁,…,dxₙ`.
+derivation.  As a corollary, the differential sheaf of affine $n$-space over
+$A$ is free on $dx_{1},\ldots ,dx_{n}$.
 
 ## Depends on
 

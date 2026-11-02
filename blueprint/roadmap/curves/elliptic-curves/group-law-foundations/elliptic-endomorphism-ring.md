@@ -8,7 +8,7 @@ origin: cited
 
 For a pointed elliptic curve, equip the pointed scheme endomorphisms with
 pointwise addition and composition. These operations make
-`End(X,P_0)` a ring, with zero the constant map to `P_0`, one the identity,
+$\operatorname{End} (X,P_0)$ a ring, with zero the constant map to $P_0$, one the identity,
 and additive inverse given by postcomposition with inversion. Its unit group
 is the pointed automorphism group.
 

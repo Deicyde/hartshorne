@@ -6,14 +6,14 @@ origin: cited
 
 # Ambient hypersurfaces cut divisors
 
-Let `k` be algebraically closed, let `X ⊆ P^n_k` be a closed variety
-nonsingular in codimension one, and let `V ⊆ P^n_k` be an irreducible
-hypersurface not containing `X`. For every codimension-one component `Y_i` of
-`V ∩ X`, use a local equation of `V` to define its multiplicity
-`ord_{Y_i}(f|_X)`, and define the Weil divisor `V.X` as their weighted sum.
+Let $k$ be algebraically closed, let $X \subseteq \mathbb{P}^n_k$ be a closed variety
+nonsingular in codimension one, and let $V \subseteq \mathbb{P}^n_k$ be an irreducible
+hypersurface not containing $X$. For every codimension-one component $Y_i$ of
+$V \cap X$, use a local equation of $V$ to define its multiplicity
+$\operatorname{ord} _{Y_i}(f|_X)$, and define the Weil divisor $V\cdot X$ as their weighted sum.
 
 Prove independence of all local equations and extend linearly to ambient
-divisors none of whose components contain `X`. This is precisely Exercise
+divisors none of whose components contain $X$. This is precisely Exercise
 6.2(a); descent to class groups from part (b) is not part of this node.
 
 ## Depends on

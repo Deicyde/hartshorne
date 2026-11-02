@@ -6,10 +6,10 @@ origin: cited
 
 # Base change for differential sheaves
 
-Let `X' = X ×_Y Y'`, with projections `g' : X' → X` and `f' : X' → Y'`.
-There is a canonical isomorphism of `𝒪_{X'}`-modules
+Let $X' = X \times _Y Y'$, with projections $g' : X' \to X$ and $f' : X' \to Y'$.
+There is a canonical isomorphism of $\mathcal{O} _{X'}$-modules
 
-`Ω[X'/Y'] ≅ g'^* Ω[X/Y]`,
+$\Omega_{X'/Y'} \cong g'^* \Omega_{X/Y}$,
 
 compatible with the universal derivations.
 

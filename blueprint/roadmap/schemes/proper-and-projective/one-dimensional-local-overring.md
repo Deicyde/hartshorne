@@ -9,17 +9,17 @@ lean: Hartshorne.exists_oneDimensionalLocalOverring
 
 # A one-dimensional local overring
 
-Let `(A,𝔪)` be a Noetherian local domain with nonzero maximal ideal and
-fraction field `K`. There is a one-dimensional Noetherian local domain `B`
-with fraction field `K` which dominates `A`.
+Let $(A,\mathfrak{m} )$ be a Noetherian local domain with nonzero maximal ideal and
+fraction field $K$. There is a one-dimensional Noetherian local domain $B$
+with fraction field $K$ which dominates $A$.
 
-Choose generators `x₁,…,xₙ` of `𝔪` with `x₁ ≠ 0`; this does not assert
-that `𝔪` is principal. After a suitable choice of the generators, the ideal
-`(x₁)` is proper in the affine blow-up chart
-`A' = A[x₂/x₁,…,xₙ/x₁]`. Let `𝔭` be a prime minimal above `(x₁)`
-whose contraction is `𝔪`. Then `B = A'_𝔭` dominates `A`, has the same
+Choose generators $x_{1},\ldots ,x_{n}$ of $\mathfrak{m}$ with $x_{1} \ne 0$; this does not assert
+that $\mathfrak{m}$ is principal. After a suitable choice of the generators, the ideal
+$(x_{1})$ is proper in the affine blow-up chart
+$A' = A[x_{2}/x_{1},\ldots ,x_{n}/x_{1}]$. Let $\mathfrak{p}$ be a prime minimal above $(x_{1})$
+whose contraction is $\mathfrak{m}$. Then $B = A'_{\mathfrak{p}}$ dominates $A$, has the same
 fraction field, and is Noetherian. The principal ideal theorem and minimality
-of `𝔭` give dimension one.
+of $\mathfrak{p}$ give dimension one.
 
 This is the birational local-algebra step isolated from the later finite field
 extension and integral-closure argument.

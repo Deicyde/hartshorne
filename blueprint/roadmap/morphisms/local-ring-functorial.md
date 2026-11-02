@@ -9,58 +9,18 @@ lean: Hartshorne.VarietyHom.localRingHom
 
 # The local ring is functorial
 
-A morphism `φ : X → Y` induces a ring map `𝒪_{φ(P),Y} → 𝒪_{P,X}`,
-contravariantly. This is Exercise 3.3(a), later used explicitly in Theorem
-6.9. Two consequences are what Theorem 3.4 consumes: an
-isomorphism of varieties induces an isomorphism of local rings, and the
-inclusion of an open subvariety does too.
+A morphism $\varphi:X\to Y$ induces a contravariant ring map
 
-The induced map itself is Hartshorne's Exercise 3.3(a); the two specialized
-isomorphism lemmas below are project infrastructure. Theorem 3.4(b) needs both:
-it is about `𝒪_P` for a projective `Y`, every affine result
-is stated on the chart, and the chart is `Yᵢ = Y ∩ Uᵢ`, not `Y`. So the local
-ring has to travel twice, once along the open inclusion `Yᵢ ⊆ Y` and once along
-the chart isomorphism `Yᵢ ≅ φᵢ(Yᵢ)`.
+$$\mathcal O_{\varphi(P),Y}\longrightarrow\mathcal O_{P,X}.$$
 
-## The construction is free; the isomorphism statement is not
+This is Hartshorne's Exercise I.3.3(a). The map pulls back representatives
+of germs. It respects identity and composition.
 
-Pulling back a germ is pulling back a representative, and that a morphism pulls
-regular functions back to regular functions is what a morphism is. Functoriality
-is then three lines of `Quotient.sound`.
-
-What cost something is the isomorphism, for a reason with no mathematical
-content. The inverse morphism `ψ` gives a map indexed by `ψ(φ(P))`, not by `P`,
-so composing the two ring maps means transporting along `ψ(φ(P)) = P` — a
-rewrite inside the *type* of a ring hom, which Lean will not do. Stating the
-conclusion as bijectivity of one map instead of an equation between two
-composites removes the transport: injectivity then needs only that `φ` is
-surjective on points, and surjectivity pushes a germ forward along `ψ` by hand.
-
-That is the general lesson wherever a point index appears in a type. State a
-property of one map, not an equation between composites.
-
-## The open inclusion
-
-For `Z ⊆ Y` quasi-projective with `Z` open in `Y`, the inclusion is a morphism —
-regularity is a condition on the map to projective space, and that map is the
-same on both sides — and it induces an isomorphism on local rings at every
-point of `Z`.
-
-Both halves reuse machinery already built. Injectivity is
-[the identity principle](variety.md): two germs whose restrictions to `Z` agree
-agree on the whole overlap of their domains, because `Z` meets that overlap in a
-nonempty open set and a variety is irreducible. Surjectivity pushes a germ
-forward, which needs only that an open subset of `Z` is an open subset of `Y`.
-
-One Lean obstacle is worth recording, because it is not mathematics and cost
-more than the proof did. Naming the pushed-forward open set as a definition
-makes `Continuous` unstatable on it: instance search runs at reducible
-transparency and will not unfold a definition far enough to see that `↥V` is a
-subtype, so the topology on the domain is never found. Marking the definition
-`@[reducible]` does not help. Carrying the open set as a variable together with
-a hypothesis describing it sidesteps the problem entirely. The same failure will
-recur for any construction that produces an `Opens` and then quantifies over its
-points.
+An isomorphism of varieties induces an isomorphism of the corresponding
+local rings. The inclusion of an open subvariety also induces an isomorphism
+at each of its points. Injectivity follows from the identity principle,
+and surjectivity follows because an open neighbourhood inside the open
+subvariety is also open in the ambient variety.
 
 ## Depends on
 

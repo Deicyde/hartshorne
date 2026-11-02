@@ -9,25 +9,17 @@ lean: Hartshorne.projectiveDegree Hartshorne.projectiveHilbertPolynomial
 
 # Hilbert polynomials and degrees of projective algebraic sets
 
-For a projective algebraic set `Y ⊆ ℙⁿ`, define its Hilbert polynomial
-`P_Y` to be the Hilbert polynomial of its homogeneous coordinate module
-`S(Y) = S/J(Y)`. If `P_Y` has degree `r`, define
+For a projective algebraic set $Y\subseteq\mathbb P^n$, its *Hilbert
+polynomial* $P_Y$ is the Hilbert polynomial of the homogeneous coordinate
+module $S(Y)=S/J(Y)$. If $P_Y$ has degree $r$, define
 
-`projectiveDegree Y = r! · P_Y.leadingCoeff`.
+$$\deg Y=r!\,\operatorname{lc}(P_Y).$$
 
-The sole main declaration is planned as `Hartshorne.projectiveDegree`; its
-required supporting definition is
-`Hartshorne.projectiveHilbertPolynomial`. The formula is implemented uniformly
-as `P_Y.natDegree.factorial · P_Y.leadingCoeff`, which also assigns degree zero
-to the empty set because its Hilbert polynomial is zero. For nonempty `Y`,
-Hilbert–Serre identifies `P_Y.natDegree` with the natural dimension of `Y`, so
-this is exactly Hartshorne's `r!` times the leading coefficient.
-
-Use the integer grading induced on the quotient by the homogeneous ideal
-`J(Y)`. The projective ideal correspondence identifies
-`Z(Ann S(Y)) = Z(J(Y))` with `Y`, so the module theorem gives the required
-geometric degree statement. Integrality and positivity are deliberately left
-to Proposition 7.6(a), rather than being built into this definition.
+The empty set has Hilbert polynomial zero and is assigned degree zero.
+For nonempty $Y$, [Hilbert–Serre](hilbert-serre.md) identifies $r$ with
+$\dim Y$. The grading is induced by the homogeneous ideal $J(Y)$, and
+$Z(\operatorname{Ann}S(Y))=Y$. Integrality and positivity of the degree
+are proved in [Hartshorne's Proposition I.7.6(a)](../bezout/hilbert-polynomial-positive-degree.md).
 
 ## Depends on
 

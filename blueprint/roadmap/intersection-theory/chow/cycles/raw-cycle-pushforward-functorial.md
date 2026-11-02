@@ -9,7 +9,7 @@ origin: cited
 For composable morphisms of varieties for which the raw cycle pushforwards
 are defined,
 
-`(g after f)_* = g_* after f_*`.
+$(g\circ f)_*=g_*\circ f_*$.
 
 Identity morphisms act identically. Dimension drop is absorbing, while in the
 dimension-preserving case functoriality is multiplication of tower degrees of

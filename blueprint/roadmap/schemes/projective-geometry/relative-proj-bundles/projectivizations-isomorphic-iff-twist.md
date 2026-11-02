@@ -6,9 +6,9 @@ origin: cited
 
 # Isomorphic projectivizations differ by a line-bundle twist
 
-For finite locally free sheaves `E` and `E'` of the same constant rank at
-least two on a regular Noetherian scheme, `P(E) ≅ P(E')` over `X` if and only
-if `E' ≅ E tensor L` for some invertible sheaf `L` on `X`.
+For finite locally free sheaves $E$ and $E'$ of the same constant rank at
+least two on a regular Noetherian scheme, $P(E) \cong P(E')$ over $X$ if and only
+if $E' \cong E \otimes L$ for some invertible sheaf $L$ on $X$.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ if `E' ≅ E tensor L` for some invertible sheaf `L` on `X`.
 
 - Fibrewise restriction forces the transported tautological twist to have
   exponent one on every connected component.
-- Pushforward of the transported tautological sheaf recovers `E` and `E'`.
+- Pushforward of the transported tautological sheaf recovers $E$ and $E'$.
 
 ## Sources
 

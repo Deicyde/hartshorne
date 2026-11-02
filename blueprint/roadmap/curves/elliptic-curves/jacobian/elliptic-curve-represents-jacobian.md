@@ -6,14 +6,14 @@ origin: cited
 
 # A pointed elliptic curve represents its Jacobian
 
-For a pointed elliptic curve `(X,P_0)`, Hartshorne's Poincaré relative class
-on `X times X` induces a natural bijection
+For a pointed elliptic curve $(X,P_0)$, Hartshorne's Poincaré relative class
+on $X \times X$ induces a natural bijection
 
-`Hom(T,X) ~= Pic^0(X/T)`
+$\operatorname{Hom} (T,X) \simeq \operatorname{Pic} ^0(X/T)$
 
-for every finite-type parameter scheme `T`. Hence `X` is its own Jacobian.
+for every finite-type parameter scheme $T$. Hence $X$ is its own Jacobian.
 The induced group-scheme law agrees on closed points with the divisor-class
-group law transported through `P |-> O(P-P_0)`.
+group law transported through $P\mapsto\mathcal O(P-P_0)$.
 
 ## Depends on
 

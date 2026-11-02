@@ -6,9 +6,9 @@ origin: cited
 
 # Dual Frobenius detects the Hasse invariant
 
-Let `F : X^p -> X` be the `k`-linear Frobenius of an elliptic curve in
-characteristic `p`, and let `F_dual : X -> X^p` be its dual morphism. Then
-`F_dual` is separable if and only if `X` has Hasse invariant one.
+Let $F : X^p \to X$ be the $k$-linear Frobenius of an elliptic curve in
+characteristic $p$, and let $F^{\vee} : X \to X^p$ be its dual morphism. Then
+$F^{\vee}$ is separable if and only if $X$ has Hasse invariant one.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ characteristic `p`, and let `F_dual : X -> X^p` be its dual morphism. Then
 ## Proof depends on
 
 - The tangent map of the Picard/Jacobian dual is the pullback map on
-  `H^1(O_X)`.
+  $H^1(\mathcal{O}_X)$.
 
 ## Sources
 

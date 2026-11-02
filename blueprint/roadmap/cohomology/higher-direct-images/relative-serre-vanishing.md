@@ -6,11 +6,11 @@ origin: cited
 
 # Relative Serre vanishing
 
-Let `f : X -> Y` be a projective morphism of Noetherian schemes, let
-`O_X(1)` be very ample over `Y`, and let `F` be coherent. There is an integer
-`n0` such that for every `n >= n0` and every `i>0`,
+Let $f : X \to Y$ be a projective morphism of Noetherian schemes, let
+$\mathcal{O}_X(1)$ be very ample over $Y$, and let $F$ be coherent. There is an integer
+$n0$ such that for every $n \ge n0$ and every $i>0$,
 
-`R^i f_* F(n) = 0`.
+$R^i f_* F(n) = 0$.
 
 This is the unique result of Theorem 8.8(c). The integer is uniform in both
 the target and the positive cohomological degree.

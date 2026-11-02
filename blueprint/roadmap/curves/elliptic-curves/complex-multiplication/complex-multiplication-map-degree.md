@@ -6,12 +6,12 @@ origin: cited
 
 # Degree of multiplication on a complex elliptic curve
 
-Let `X` be an elliptic curve over `C` and let `n` be a nonzero integer. The
+Let $X$ be an elliptic curve over $\mathbb{C}$ and let $n$ be a nonzero integer. The
 multiplication morphism
 
-`[n] : X -> X`
+$[n] : X \to X$
 
-is finite separable of degree `n^2`.
+is finite separable of degree $n^2$.
 
 ## Depends on
 

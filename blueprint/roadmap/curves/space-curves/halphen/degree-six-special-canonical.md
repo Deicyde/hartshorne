@@ -6,8 +6,8 @@ origin: cited
 
 # The degree-six special curve is canonical
 
-Let `X subset P^3` be nonplanar with special hyperplane divisor and degree
-six. Then `g=4`, `O_X(1)=omega_X`, and `X` is the canonical genus-four curve,
+Let $X \subset \mathbb{P}^3$ be nonplanar with special hyperplane divisor and degree
+six. Then $g=4$, $\mathcal{O}_X(1)=\omega _X$, and $X$ is the canonical genus-four curve,
 a complete intersection of an irreducible quadric and a cubic surface.
 
 ## Depends on
@@ -19,7 +19,7 @@ a complete intersection of an irreducible quadric and a cubic surface.
 
 ## Proof depends on
 
-- Equality in Clifford leaves `D=K` or the hyperelliptic multiple-pencil
+- Equality in Clifford leaves $D=K$ or the hyperelliptic multiple-pencil
   case; the latter cannot be very ample because it fails to separate the
   hyperelliptic pairs.
 

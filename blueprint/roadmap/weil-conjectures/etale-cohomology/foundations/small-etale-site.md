@@ -9,15 +9,11 @@ mathlib_file: Mathlib/AlgebraicGeometry/Sites/Etale.lean
 
 # The small étale site of a scheme
 
-For a scheme `X`, the small étale site has schemes étale over `X` as objects
-and jointly surjective families of étale `X`-morphisms as covering families.
-The associated Grothendieck topology is
-`AlgebraicGeometry.Scheme.smallEtaleTopology X`.
-
-The pinned library also supplies `smallEtalePretopology` and identifies an
-arrow-family cover by
-`ofArrows_mem_smallEtaleTopology_iff`.  This is the small site, not the big
-étale or pro-étale site.
+For a scheme $X$, the small étale site has schemes étale over $X$ as objects
+and jointly surjective families of étale $X$-morphisms as covering families.
+These covering families determine its Grothendieck topology. Its objects
+are schemes étale over $X$, which distinguishes it from the big étale and
+pro-étale sites.
 
 ## Depends on
 

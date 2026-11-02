@@ -6,7 +6,7 @@ article_id: af_1f8606b31289aa70a6a6a5fe
 
 This chapter expands Hartshorne Appendix C §3 into the étale-site,
 coefficient, duality, trace, base-change, comparison, and cycle-class
-interfaces needed by the Weil-conjecture roadmap.  The prime `ell` is always
+interfaces needed by the Weil-conjecture roadmap.  The prime $\ell$ is always
 different from the characteristic of the algebraically closed ground field.
 
 - [Foundations](foundations/README.md)

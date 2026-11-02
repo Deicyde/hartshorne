@@ -9,23 +9,15 @@ mathlib_file: Mathlib/RingTheory/RegularLocalRing/Defs.lean
 
 # Regular local rings
 
-Let `A` be a Noetherian local ring, `𝔪` its maximal ideal, and
-`κ = A/𝔪` its residue field. Hartshorne calls `A` *regular* when
+Let $A$ be a Noetherian local ring, let $\mathfrak m$ be its maximal
+ideal, and let $\kappa=A/\mathfrak m$ be its residue field. The ring is
+*regular* if
 
-`dim_κ(𝔪/𝔪²) = dim A`.
+$$\dim_\kappa(\mathfrak m/\mathfrak m^2)=\dim A.$$
 
-This is already the notion `IsRegularLocalRing A` in the pinned Mathlib.
-Mathlib represents `𝔪/𝔪²` by `IsLocalRing.CotangentSpace A`; the class is
-defined using the equivalent minimal-number-of-generators invariant
-`(IsLocalRing.maximalIdeal A).spanFinrank`. The exact source-facing statement
-is the verified theorem `IsRegularLocalRing.iff_finrank_cotangentSpace`, which
-identifies the class with Hartshorne's equality. The same file's
-`IsRegularLocalRing.of_ringEquiv` supplies the invariance under local-ring
-isomorphisms needed below.
-
-No project-specific replacement definition should be introduced: subsequent
-nodes use the Mathlib class and transport its cotangent-space formulation along
-the project's residue-field equivalences.
+Equivalently, the minimal number of generators of the maximal ideal is
+the dimension of the ring. Regularity is invariant under ring
+isomorphisms, as used in the comparison of local rings on different charts.
 
 ## Depends on
 

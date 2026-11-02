@@ -6,8 +6,8 @@ origin: cited
 
 # Finite twisted free covers
 
-Let `X` be projective over a Noetherian ring. Every coherent `O_X`-module is
-the quotient of a finite direct sum of twisted structure sheaves `O_X(n_i)`.
+Let $X$ be projective over a Noetherian ring. Every coherent $\mathcal{O}_X$-module is
+the quotient of a finite direct sum of twisted structure sheaves $\mathcal{O}_X(n_i)$.
 
 ## Depends on
 

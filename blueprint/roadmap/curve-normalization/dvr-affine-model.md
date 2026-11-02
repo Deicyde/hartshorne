@@ -9,32 +9,22 @@ lean: Hartshorne.FunctionFieldDVR.exists_nonsingular_affine_model
 
 # Every function-field DVR has a nonsingular affine model
 
-Let `k` be algebraically closed, let `K/k` be an essentially finite-type field
-extension with `Algebra.trdeg k K = 1`, and let `R ∈ C_K`. There are a
-nonsingular affine curve `Y` with affine-variety witness `hY`, a point `P ∈ Y`,
-and compatible `k`-algebra equivalences
+Let $k$ be algebraically closed, let $K/k$ be a finitely generated field
+extension of transcendence degree one, and let $R\in C_K$. There are a
+nonsingular affine curve $Y$, a point $P\in Y$, and compatible isomorphisms
 
-`e_K : Hartshorne.FunctionField hY.isIrreducible ≃ₐ[k] K` and
-`e_R : Hartshorne.LocalRingAt hY.isIrreducible P ≃ₐ[k]
-  R.toValuationSubring`.
+$$e_K:K(Y)\cong K,\qquad e_R:\mathcal O_{P,Y}\cong R.$$
 
-This is Corollary 6.6. Choose a separating parameter `t`. The valuation-ring
-property says that `R` contains `t` or `t⁻¹`; use the corresponding one of
-the two finite Dedekind normalization charts. Its center at `R` is a maximal
-ideal, and the localization at that center is `R`. The affine-model theorem
-turns precisely this localization into the local ring of a point on a
-nonsingular affine curve.
+The isomorphisms are over $k$ and commute with the embeddings of the local
+rings into the function fields. For every germ $z$, the image of $z$ in
+$K(Y)$ is carried by $e_K$ to the image of $e_R(z)$ in $K$.
 
-Retain compatibility with the embeddings into `K`, not merely an abstract
-ring equivalence. Require the pointwise equation
-
-`e_K (localToFunctionField hY.isIrreducible P z) = (e_R z : K)`
-
-for every `z : Hartshorne.LocalRingAt hY.isIrreducible P`. Proposition 6.7
-uses this compatibility to identify residue maps and points of the valuation
-space. This commuting square strengthens Corollary 6.6's stated abstract
-isomorphism for downstream use; it does not change the source-facing
-conclusion.
+This is Hartshorne's Corollary I.6.6. Choose a separating parameter $t$.
+The valuation-ring property says that $R$ contains $t$ or $t^{-1}$.
+The corresponding Dedekind normalization chart has a maximal centre at
+$R$, and localization at that centre is $R$. The affine-model theorem
+realizes this localization as the local ring of a nonsingular curve point.
+The compatibility is used to compare residue maps in Proposition I.6.7.
 
 ## Depends on
 

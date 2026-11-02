@@ -6,10 +6,10 @@ origin: bridged
 
 # A positive-degree curve section ring has transcendence degree two
 
-Let `C` be a nonsingular projective curve and let `L` be an invertible sheaf
+Let $C$ be a nonsingular projective curve and let $L$ be an invertible sheaf
 of positive degree. Its section ring
 
-`direct-sum_(n>=0) H^0(C,L^n)`
+$\bigoplus_{n\ge0}H^0(C,L^n)$
 
 is a domain of transcendence degree two over the ground field.
 
@@ -23,7 +23,7 @@ is a domain of transcendence degree two over the ground field.
 
 - Riemann–Roch gives linear growth of the graded pieces and nonzero sections
   in all sufficiently large degrees.
-- Ratios of same-degree sections recover a nonconstant element of `K(C)`;
+- Ratios of same-degree sections recover a nonconstant element of $K(C )$;
   together with one positive-degree homogeneous element this gives the lower
   bound two, while the function-field embedding gives the upper bound.
 

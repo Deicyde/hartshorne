@@ -6,12 +6,12 @@ origin: cited
 
 # Arithmetic genus and adjunction for an effective divisor
 
-Let `D` be an effective divisor on a Chapter-V surface `X`, regarded as a
-projective one-dimensional scheme, and let `K` be a canonical divisor. Then
+Let $D$ be an effective divisor on a Chapter-V surface $X$, regarded as a
+projective one-dimensional scheme, and let $K$ be a canonical divisor. Then
 
-`2*p_a(D)-2 = D.(D+K)`.
+$2\cdot p_a(D)-2 = D\cdot(D+K)$.
 
-In particular `p_a(D)` depends only on the linear-equivalence class of `D`.
+In particular $p_a(D)$ depends only on the linear-equivalence class of $D$.
 
 ## Depends on
 
@@ -23,7 +23,7 @@ In particular `p_a(D)` depends only on the linear-equivalence class of `D`.
 ## Proof depends on
 
 - Apply surface Riemann–Roch to the ideal sequence
-  `0 -> O_X(-D) -> O_X -> O_D -> 0`.
+  $0 \to \mathcal{O}_X(-D) \to \mathcal{O}_X \to \mathcal{O}_D \to 0$.
 
 ## Sources
 

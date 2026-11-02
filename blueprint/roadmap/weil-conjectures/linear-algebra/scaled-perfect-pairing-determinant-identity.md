@@ -9,19 +9,19 @@ lean: Hartshorne.scaledPerfectPairing_determinantIdentity
 
 # Determinants under a scaled perfect pairing
 
-Let `V` and `W` be `r`-dimensional vector spaces with a perfect pairing, a
-nonzero scalar `A`, and endomorphisms `phi,psi` satisfying
+Let $V$ and $W$ be $r$-dimensional vector spaces with a perfect pairing, a
+nonzero scalar $A$, and endomorphisms $\phi ,\psi$ satisfying
 
-`<phi(v),psi(w)>=A*<v,w>`.
+$<\phi (v),\psi (w)\ge A\cdot <v,w>$.
 
-The condition with `A!=0` forces both endomorphisms to be invertible.
+The condition with $A\ne 0$ forces both endomorphisms to be invertible.
 
-Then `psi` is the scaled contragredient of `phi`; in particular its
+Then $\psi$ is the scaled contragredient of $\phi$; in particular its
 characteristic determinant polynomial and determinant are
 
-`det(1-t*psi)=(-1)^r*A^r*t^r/det(phi) * det(1-phi/(A*t))`,
+$\det (1-t\cdot \psi )=(-1)^r\cdot A^r\cdot t^r/\det (\phi ) \cdot \det (1-\phi /(A\cdot t))$,
 
-`det(psi)=A^r/det(phi)`.
+$\det (\psi )=A^r/\det (\phi )$.
 
 ## Depends on
 

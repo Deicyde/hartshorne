@@ -7,24 +7,20 @@ not_ready: true
 
 # The ℓ-adic Künneth theorem and the diagonal coevaluation class
 
-Let `X` be connected, smooth, and proper over an algebraically closed field.
+Let $X$ be connected, smooth, and proper over an algebraically closed field.
 The exterior cup product gives Künneth isomorphisms
 
-`direct-sum_(a+b=m) H^a_et(X,Q_ell) tensor H^b_et(X,Q_ell)`
+$\bigoplus_{a+b=m}H^a_{\mathrm{et}}(X,\mathbb Q_\ell)\otimes H^b_{\mathrm{et}}(X,\mathbb Q_\ell)$
 
-`~= H^m_et(X times X,Q_ell)`,
+$\simeq H^m_{\mathrm{et}}(X \times X,\mathbb{Q}_\ell)$,
 
-with the analogous Tate-twisted statements. Under the degree-`2n`, twist-`n`
+with the analogous Tate-twisted statements. Under the degree-$2n$, twist-$n$
 isomorphism and Poincaré duality, the cycle class of the diagonal is the
 graded coevaluation element. Consequently its correspondence action on
-`H^*(X,Q_ell)` is the identity and its graded trace is
+$H^*(X,\mathbb{Q}_\ell)$ is the identity and its graded trace is
 
-`sum_i (-1)^i dim_(Q_ell) H^i_et(X,Q_ell)`.
+$\sum _i (-1)^i \dim _{(\mathbb{Q}_\ell)} H^i_{\mathrm{et}}(X,\mathbb{Q}_\ell)$.
 
-This node is not ready. Hartshorne uses the conclusion in the Euler-number
-discussion without listing Künneth among §3's properties. An exact SGA 4–5
-source must supply exterior products, the Künneth isomorphism, compatibility
-with the diagonal cycle class, and the graded sign convention.
 
 ## Depends on
 

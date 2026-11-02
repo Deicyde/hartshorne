@@ -9,10 +9,10 @@ proof: formalized
 
 # Module sheaves have enough injectives
 
-For a ringed space `(X,O_X)`, every sheaf of `O_X`-modules admits a
-monomorphism into an injective object of `SheafOfModules O_X`.
+For a ringed space $(X,\mathcal{O}_X)$, every sheaf of $\mathcal{O}_X$-modules admits a
+monomorphism into an injective object of the category of $\mathcal{O}_X$-modules.
 
-The construction embeds each stalk into an injective `O_{X,x}`-module and
+The construction embeds each stalk into an injective $\mathcal{O}_{X,x}$-module and
 maps the sheaf into the product of the corresponding skyscraper module
 sheaves. The main result is enough injectives for the module-sheaf category;
 the stalkwise construction is proof data.

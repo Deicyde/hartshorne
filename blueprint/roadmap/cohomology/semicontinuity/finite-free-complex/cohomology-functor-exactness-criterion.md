@@ -6,8 +6,8 @@ origin: cited
 
 # Exactness of a cohomology functor
 
-For a fixed `i`, the functor `T^i` is exact if and only if it is right exact
-and the finitely generated module `T^i(A)` is projective over `A`.
+For a fixed $i$, the functor $T^i$ is exact if and only if it is right exact
+and the finitely generated module $T^i(A)$ is projective over $A$.
 
 ## Depends on
 
@@ -16,8 +16,8 @@ and the finitely generated module `T^i(A)` is projective over `A`.
 
 ## Proof depends on
 
-- Under right exactness, `T^i(M) ~= T^i(A) tensor_A M`; this functor is exact
-  exactly when the finite module `T^i(A)` is flat, equivalently projective.
+- Under right exactness, $T^i(M) \simeq T^i(A) \otimes _A M$; this functor is exact
+  exactly when the finite module $T^i(A)$ is flat, equivalently projective.
 
 ## Sources
 

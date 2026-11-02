@@ -6,10 +6,10 @@ origin: cited
 
 # Equidimensionality in a flat family
 
-Let `f : X -> Y` be flat and finite type over a field, with `Y` irreducible.
-Every irreducible component of `X` has dimension `dim Y+n` if and only if,
-for every point `y`, every irreducible component of the scheme-theoretic fibre
-`X_y` has dimension `n`.
+Let $f : X \to Y$ be flat and finite type over a field, with $Y$ irreducible.
+Every irreducible component of $X$ has dimension $\dim Y+n$ if and only if,
+for every point $y$, every irreducible component of the scheme-theoretic fibre
+$X_y$ has dimension $n$.
 
 ## Depends on
 

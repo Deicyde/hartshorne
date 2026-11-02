@@ -9,17 +9,13 @@ lean: TopCat.Sheaf.abelianSheafHom TopCat.Sheaf.abelianSheafHomForgetIso
 
 # The sheaf of local morphisms
 
-For sheaves of abelian groups `F` and `G` on `X`, define a presheaf by
+For sheaves of abelian groups $F$ and $G$ on $X$, define a presheaf by
 
-`U ↦ Hom(F|U, G|U)`
+$U \mapsto \operatorname{Hom} (F|U, G|U)$
 
 with restriction by restricting natural transformations, give these sets their
 pointwise abelian-group structure, and prove that the result is a sheaf. This
 is the additive sheaf Hom used for sheaves of modules on printed p. 109.
-
-Mathlib's `CategoryTheory.sheafHom` proves the corresponding exact Type-valued
-statement, but it does not expose Hartshorne's AddCommGrp-valued object, so the
-source-shaped definition remains a project leaf.
 
 ## Depends on
 

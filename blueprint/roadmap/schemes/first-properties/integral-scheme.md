@@ -9,9 +9,10 @@ mathlib_file: Mathlib/AlgebraicGeometry/Properties.lean
 
 # Integral schemes
 
-A scheme `X` is integral when it is nonempty and `Γ(X,U)` is a domain for every nonempty open `U`.
+A scheme $X$ is integral when it is nonempty and $\Gamma (X,U)$ is a domain for every nonempty open $U$.
 
-Adopt Mathlib's nonempty-open formulation. It is the consistent reading of Hartshorne because the section ring on the empty open is the zero ring.
+The nonempty-open condition is necessary because the section ring
+on the empty open is the zero ring.
 
 ## Depends on
 

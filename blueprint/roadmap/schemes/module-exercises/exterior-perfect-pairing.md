@@ -6,14 +6,14 @@ origin: cited
 
 # The perfect exterior-power pairing
 
-For a finite locally free sheaf `F` of rank `n`, multiplication induces a
+For a finite locally free sheaf $F$ of rank $n$, multiplication induces a
 perfect pairing
 
-`exterior^r F tensor exterior^(n-r) F → exterior^n F`.
+$\bigwedge^r F\otimes\bigwedge^{n-r}F\longrightarrow\bigwedge^n F$.
 
 Equivalently,
 
-`exterior^r F ≅ (exterior^(n-r) F)^dual tensor exterior^n F`.
+$\bigwedge^r F\cong(\bigwedge^{n-r}F)^\vee\otimes\bigwedge^n F$.
 
 ## Depends on
 
@@ -23,8 +23,7 @@ Equivalently,
 
 ## Proof depends on
 
-- `ModuleCat.exteriorPower` and the perfect exterior pairing for a finite free
-  module, transported across local trivializations.
+- The perfect exterior pairing for a finite free module, transported through local trivializations.
 
 ## Sources
 

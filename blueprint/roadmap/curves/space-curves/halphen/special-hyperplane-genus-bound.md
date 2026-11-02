@@ -8,9 +8,9 @@ origin: cited
 
 Under the same hypotheses,
 
-`d <= 2*g-2`.
+$d \le 2\cdot g-2$.
 
-Equivalently, as a rational inequality, `g >= d/2+1`; the formal statement
+Equivalently, as a rational inequality, $g \ge d/2+1$; the formal statement
 does not use truncated natural-number division.
 
 ## Depends on
@@ -20,7 +20,7 @@ does not use truncated natural-number division.
 
 ## Proof depends on
 
-- Speciality gives a nonzero section of `K-D`, hence `deg(K-D)>=0`.
+- Speciality gives a nonzero section of $K-D$, hence $\deg (K-D)\ge 0$.
 
 ## Sources
 

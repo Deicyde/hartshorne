@@ -6,12 +6,12 @@ origin: cited
 
 # The Weil polynomial factorization
 
-Let `X/F_q` be smooth, projective, geometrically connected, and pure of
-dimension `n`. There are polynomials `P_i(t) in Z[t]`, `0<=i<=2n`, such that
+Let $X/\mathbb{F}_q$ be smooth, projective, geometrically connected, and pure of
+dimension $n$. There are polynomials $P_i(t) \in \mathbb{Z}[t]$, $0\le i\le 2n$, such that
 
-`Z(X,t)=product_(i odd) P_i(t) / product_(i even) P_i(t)`,
+$Z(X,t)=\frac{\prod_{i\,\mathrm{odd}}P_i(t)}{\prod_{i\,\mathrm{even}}P_i(t)}$,
 
-with `P_0(t)=1-t` and `P_(2n)(t)=1-q^n*t`.
+with $P_0(t)=1-t$ and $P_{(2n)}(t)=1-q^n\cdot t$.
 
 ## Depends on
 

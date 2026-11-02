@@ -6,11 +6,11 @@ origin: cited
 
 # Raw pushforward of cycles
 
-For a morphism `f:X->X'` and an irreducible subvariety `Y` of `X`, define
+For a morphism $f:X\to X'$ and an irreducible subvariety $Y$ of $X$, define
 
-- `f_*[Y]=0` if `dim closure(f(Y))<dim Y`;
+- $f_*[Y]=0$ if $\dim \operatorname{closure} (f(Y))<\dim Y$;
 - otherwise
-  `f_*[Y]=[K(Y):K(closure(f(Y)))] [closure(f(Y))]`.
+  $f_*[Y]=[K(Y):K(\operatorname{closure} (f(Y)))] [\operatorname{closure} (f(Y))]$.
 
 Extend linearly to raw cycles, with codimension reindexed according to the
 dimensions of source and target. This definition does not yet assert descent

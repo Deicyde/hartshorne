@@ -6,13 +6,13 @@ origin: background
 
 # Good reduction preserves the Betti numbers
 
-Let `R` be a localization of a number ring and let `Y->Spec R` be smooth and
-proper. Suppose a closed fibre is `X/F_q`, and choose an embedding of the
-fraction field into `C` with complex fibre `Y_C`. Then
+Let $R$ be a localization of a number ring and let $Y\to \operatorname{Spec} R$ be smooth and
+proper. Suppose a closed fibre is $X/\mathbb{F}_q$, and choose an embedding of the
+fraction field into $\mathbb{C}$ with complex fibre $Y_\mathbb{C}$. Then
 
-`B_i(X)=rank_Z H^i(Y_C^h,Z)`
+$B_i(X)=\operatorname{rank}_{\mathbb Z} H^i(Y_\mathbb{C} ^h,\mathbb{Z})$
 
-for every `i`.
+for every $i$.
 
 Hartshorne states the comparison informally. The precise smooth-proper model,
 base-change, ℓ-adic/singular comparison, and torsion obligations are isolated

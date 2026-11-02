@@ -8,12 +8,11 @@ not_ready: true
 # Coherent analytic sheaves
 
 On a complex analytic space, define a coherent analytic module sheaf to be a
-sheaf of `O_X`-modules locally admitting finite presentations by finite free
+sheaf of $\mathcal{O}_X$-modules locally admitting finite presentations by finite free
 analytic module sheaves, with kernels again locally finitely generated.
-Package their abelian category, pullbacks, tensor products, and cokernels.
+Coherent analytic sheaves form an abelian category, with the usual
+pullbacks, tensor products, and cokernels.
 
-This node is not ready. Algebraic coherent-sheaf APIs do not supply coherence
-for holomorphic local rings or the analytic abelian category used by GAGA.
 
 ## Depends on
 

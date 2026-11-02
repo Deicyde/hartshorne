@@ -6,10 +6,10 @@ origin: cited
 
 # The graded symmetric-algebra sheaf
 
-For a Noetherian scheme `X` and a finite locally free `O_X`-module `E`,
+For a Noetherian scheme $X$ and a finite locally free $\mathcal{O}_X$-module $E$,
 construct the quasi-coherent graded algebra
-`Sym(E) = direct-sum_d Sym^d(E)`, generated in degree one, and identify it
-locally with a polynomial algebra when `E` is free. Its degree-one term and
+$\operatorname{Sym}(E)=\bigoplus_d\operatorname{Sym}^d(E)$, generated in degree one, and identify it
+locally with a polynomial algebra when $E$ is free. Its degree-one term and
 all homogeneous pieces are coherent.
 
 ## Depends on
@@ -19,8 +19,7 @@ all homogeneous pieces are coherent.
 
 ## Proof depends on
 
-- `SymmetricAlgebra.ι`, `SymmetricAlgebra.lift`, and
-  `SymmetricAlgebra.equivMvPolynomial` on affine trivializations.
+- The universal property of the symmetric algebra and its polynomial-algebra description on affine trivializations.
 
 ## Sources
 

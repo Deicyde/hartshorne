@@ -7,13 +7,10 @@ not_ready: true
 
 # Compact analytic subspaces of projective space are algebraic
 
-Let `Z` be a compact complex analytic subspace of `(P_C^n)^h`. There is a
-closed algebraic subscheme `Z_alg subset P_C^n` whose analytification is
-isomorphic to `Z`, including its possibly nonreduced analytic structure.
+Let $\mathbb{Z}$ be a compact complex analytic subspace of $(\mathbb{P}_\mathbb{C}^n)^h$. There is a
+closed algebraic subscheme $Z_{\mathrm{alg}} \subset \mathbb{P}_\mathbb{C}^n$ whose analytification is
+isomorphic to $\mathbb{Z}$, including its possibly nonreduced analytic structure.
 
-This node is not ready pending Chow's theorem or its GAGA proof. The proof
-must algebraize the coherent analytic ideal sheaf and identify the resulting
-scheme-theoretic analytic zero subspace.
 
 ## Depends on
 

@@ -9,14 +9,13 @@ mathlib_file: Mathlib/Topology/Sheaves/Functors.lean
 
 # Direct image of a sheaf
 
-For a continuous map `f : X → Y` and a sheaf `F` on `X`, define the direct
-image sheaf on `Y` by
+For a continuous map $f : X \to Y$ and a sheaf $F$ on $X$, define the direct
+image sheaf on $Y$ by
 
-`(f_*F)(V) = F(f⁻¹(V))`.
+$(f_*F)(V) = F(f^{-1}(V))$.
 
-The restrictions are those of `F`, and the sheaf condition pulls back along
-preimages of open covers. This is exactly `TopCat.Sheaf.pushforward`; the
-section formula is `TopCat.Sheaf.pushforward_obj_val`.
+The restrictions are those of $F$, and the sheaf condition follows
+by taking inverse images of open covers.
 
 ## Depends on
 

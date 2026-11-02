@@ -9,15 +9,12 @@ lean: Hartshorne.FunctionFieldDVR.exists_projective_pivot
 
 # A projective coordinate pivot
 
-For a nonzero finite family of homogeneous coordinates `f : ι → K` and a
-function-field DVR `R`, there is an index `j` whose valuation is minimal, so
-every ratio `f i / f j` lies in `R` and the `j`th ratio is one.  The sole main
-declaration is
-`Hartshorne.FunctionFieldDVR.exists_projective_pivot`.
+For a nonzero finite family of homogeneous coordinates $f : \iota \to K$ and a
+function-field DVR $R$, there is an index $j$ whose valuation is minimal, so
+every ratio $f_i/f_j$ lies in $R$ and the $j$th ratio is one.
 
-This packages the coordinate calculation in Proposition 6.8.  It must retain
-the nonvanishing conclusion needed to define a projective point after residue
-evaluation.
+This is the coordinate calculation in Proposition 6.8.  The pivot coordinate is nonzero, so its residue-normalized ratios
+define a projective point.
 
 ## Depends on
 

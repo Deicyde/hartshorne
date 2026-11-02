@@ -6,9 +6,9 @@ origin: cited
 
 # Coherence of projective higher direct images
 
-Let `f : X -> Y` be a projective morphism of Noetherian schemes and let `F`
-be coherent on `X`. For every `i`, the module `R^i f_* F` is coherent on
-`Y`.
+Let $f : X \to Y$ be a projective morphism of Noetherian schemes and let $F$
+be coherent on $X$. For every $i$, the module $R^i f_* F$ is coherent on
+$Y$.
 
 This is exactly Theorem 8.8(b). It does not assert the stronger proper
 pushforward theorem mentioned in Remark 8.8.1.

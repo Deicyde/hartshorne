@@ -6,10 +6,10 @@ origin: cited
 
 # Differentials and canonical divisors on a curve
 
-For a Chapter IV curve `X`, the relative differential sheaf `Omega[X/k]` is
-invertible and is canonically isomorphic to the canonical sheaf `omega_X`.
-Consequently there exists a divisor `K`, unique up to linear equivalence,
-with `O_X(K)~=omega_X`; such a representative is a canonical divisor.
+For a Chapter IV curve $X$, the relative differential sheaf $\Omega [X/k]$ is
+invertible and is canonically isomorphic to the canonical sheaf $\omega _X$.
+Consequently there exists a divisor $K$, unique up to linear equivalence,
+with $\mathcal{O}_X(K)\simeq \omega _X$; such a representative is a canonical divisor.
 
 The theorem distinguishes the canonical sheaf and its class from any chosen
 divisor representative.

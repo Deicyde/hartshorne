@@ -6,9 +6,9 @@ origin: cited
 
 # The global-to-sheaf Ext map
 
-For `O_X`-modules `F,G` and every `i`, construct the natural edge map
+For $\mathcal{O}_X$-modules $F,G$ and every $i$, construct the natural edge map
 
-`Ext^i_X(F,G) ⟶ Γ(X,𝓔xt^i_X(F,G))`.
+$\operatorname{Ext} ^i_X(F,G) \longrightarrow \Gamma (X,\mathcal{E}xt^i_X(F,G))$.
 
 The construction must use compatible global-Hom and sheaf-Hom complexes for
 one injective resolution, agree with the global-sections identification in

@@ -6,10 +6,10 @@ origin: cited
 
 # The open–closed extension exact sequence
 
-Let `i : Y ↪ X` be closed, let `j : U ↪ X` be its open complement, and let
-`F` be an abelian sheaf on `X`. There is a natural short exact sequence
+Let $i : Y \hookrightarrow X$ be closed, let $j : U \hookrightarrow X$ be its open complement, and let
+$F$ be an abelian sheaf on $X$. There is a natural short exact sequence
 
-`0 ⟶ j_!(F|_U) ⟶ F ⟶ i_*(F|_Y) ⟶ 0`.
+$0 \longrightarrow j_!(F|_U) \longrightarrow F \longrightarrow i_*(F|_Y) \longrightarrow 0$.
 
 This is the supporting result deferred from II.1.19(c); the main artifact is
 the natural short exact sequence, proved stalkwise.

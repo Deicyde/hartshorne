@@ -8,11 +8,11 @@ origin: cited
 
 Over an algebraically closed field of characteristic different from two:
 
-- the nonsingular curve `y^2=x^3-x` has `j=1728`;
+- the nonsingular curve $y^2=x^3-x$ has $j=1728$;
 - when the characteristic is also different from three, the Fermat cubic
-  `x^3+y^3=z^3` has `j=0`.
+  $x^3+y^3=z^3$ has $j=0$.
 
-In characteristic three the field elements `0` and `1728` coincide; no
+In characteristic three the field elements $0$ and $1728$ coincide; no
 disjoint-case interpretation is used there.
 
 ## Depends on
@@ -23,7 +23,7 @@ disjoint-case interpretation is used there.
 ## Proof depends on
 
 - Explicit coordinate changes to Legendre form and substitution in the
-  rational formula for `j`.
+  rational formula for $j$.
 
 ## Sources
 

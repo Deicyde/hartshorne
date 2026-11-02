@@ -9,12 +9,12 @@ mathlib_file: Mathlib/AlgebraicGeometry/StructureSheaf.lean
 
 # Global sections of Spec
 
-For every commutative ring `A`, the canonical constant-section map is a ring
+For every commutative ring $A$, the canonical constant-section map is a ring
 isomorphism
 
-`A ≅ Γ(Spec A, 𝒪_{Spec A})`.
+$A \cong \Gamma (\operatorname{Spec} A, \mathcal{O} _{\operatorname{Spec} A})$.
 
-This is Proposition 2.2(c), the `f = 1` case of the principal-open calculation.
+This is Proposition 2.2(c), the $f = 1$ case of the principal-open calculation.
 
 ## Depends on
 

@@ -9,17 +9,17 @@ mathlib_file: Mathlib/AlgebraicGeometry/Modules/Tilde.lean
 
 # Quasi-coherent sections on principal opens
 
-For an `𝒪_{Spec A}`-module `F`, the canonical map
-`Γ(Spec A,F)̃ ⟶ F` is an isomorphism exactly when every restriction map
-`Γ(Spec A,F) ⟶ Γ(D(f),F)` exhibits the target as localization away from
-`f`.  In particular, a quasi-coherent `F` satisfies Hartshorne's Lemma 5.3:
+For an $\mathcal{O} _{\operatorname{Spec} A}$-module $F$, the canonical map
+$\widetilde{\Gamma(\operatorname{Spec}A,F)}\longrightarrow F$ is an isomorphism exactly when every restriction map
+$\Gamma (\operatorname{Spec} A,F) \longrightarrow \Gamma (D(f),F)$ exhibits the target as localization away from
+$f$.  In particular, a quasi-coherent $F$ satisfies Hartshorne's Lemma 5.3:
 
-- a global section vanishing on `D(f)` is killed by some power of `f`; and
-- after multiplying by a power of `f`, every section on `D(f)` extends
+- a global section vanishing on $D(f)$ is killed by some power of $f$; and
+- after multiplying by a power of $f$, every section on $D(f)$ extends
   globally.
 
-The named Mathlib theorem states the localization equivalence; the two source
-clauses are its elementwise consequences.
+The two elementwise clauses follow directly from the localization
+description.
 
 ## Depends on
 

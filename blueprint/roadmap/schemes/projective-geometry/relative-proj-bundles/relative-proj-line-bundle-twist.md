@@ -6,9 +6,9 @@ origin: cited
 
 # Twisting a graded algebra by a line bundle
 
-For an invertible sheaf `L` on `X`, put `(S * L)_d = S_d tensor L^d`. There is
-a natural `X`-isomorphism `phi : Proj_X(S * L) ≅ Proj_X(S)` satisfying
-`O_{Proj(S*L)}(1) ≅ phi^* O_{Proj(S)}(1) tensor pi^* L`.
+For an invertible sheaf $L$ on $X$, put $(S \cdot L)_d = S_d \otimes L^d$. There is
+a natural $X$-isomorphism $\phi : \operatorname{Proj} _X(S \cdot L) \cong \operatorname{Proj} _X(S)$ satisfying
+$\mathcal{O}_{\operatorname{Proj} (S\cdot L)}(1) \cong \phi ^* \mathcal{O}_{\operatorname{Proj} (S)}(1) \otimes \pi ^* L$.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ a natural `X`-isomorphism `phi : Proj_X(S * L) ≅ Proj_X(S)` satisfying
 ## Proof depends on
 
 - Independence of the local Proj isomorphism from the chosen trivialization of
-  `L`, while retaining its transition factor on `O(1)`.
+  $L$, while retaining its transition factor on $\mathcal{O}(1)$.
 
 ## Sources
 

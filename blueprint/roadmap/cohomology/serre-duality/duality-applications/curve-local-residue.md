@@ -7,17 +7,17 @@ not_ready: true
 
 # Local residues on a nonsingular curve
 
-Let `X` be a complete nonsingular curve over an algebraically closed field
-`k`, with function field `K`. For every closed point `P` there is a unique
-`k`-linear map
+Let $X$ be a complete nonsingular curve over an algebraically closed field
+$k$, with function field $K$. For every closed point $P$ there is a unique
+$k$-linear map
 
-`res_P : Ω_(K/k) →ₗ k`
+$\operatorname{res}_P:\Omega_{K/k}\longrightarrow k$
 
-which vanishes on regular differentials, sends `fⁿ df` to zero for
-`n≠-1`, and sends `f⁻¹df` to `v_P(f)·1_k`. Equivalently, with a
-uniformizer `t`, write the finite negative Laurent principal part as
-`Σ_(i<0) a_i t^i dt`, with only finitely many nonzero `a_i`, plus a regular
-differential. Its residue is `a_(-1)`.
+which vanishes on regular differentials, sends $f^{n} df$ to zero for
+$n\ne -1$, and sends $f^{-1}df$ to $v_P(f)\cdot 1_k$. Equivalently, with a
+uniformizer $t$, write the finite negative Laurent principal part as
+$\sum _{(i<0)} a_i t^i dt$, with only finitely many nonzero $a_i$, plus a regular
+differential. Its residue is $a_{(-1)}$.
 
 This remains not ready until parameter independence, especially in positive
 characteristic, is fixed in an implementable construction.
@@ -32,7 +32,7 @@ characteristic, is fixed in an implementable construction.
 ## Proof depends on
 
 - A precise Laurent principal-part decomposition in the completed DVR.
-- Parameter independence of the coefficient of `t⁻¹dt`.
+- Parameter independence of the coefficient of $t^{-1}dt$.
 
 ## Sources
 

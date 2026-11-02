@@ -6,12 +6,12 @@ origin: cited
 
 # The tangent space of the Jacobian
 
-For a Jacobian `J` of `X`, the tangent space at the identity is naturally
+For a Jacobian $J$ of $X$, the tangent space at the identity is naturally
 isomorphic to
 
-`H^1(X,O_X)`.
+$H^1(X,\mathcal{O}_X)$.
 
-Thus its tangent dimension is the genus of `X`.
+Thus its tangent dimension is the genus of $X$.
 
 ## Depends on
 

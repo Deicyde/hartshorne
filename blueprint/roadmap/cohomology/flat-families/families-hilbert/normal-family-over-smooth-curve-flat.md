@@ -6,14 +6,14 @@ origin: cited
 
 # Normal algebraic families over a smooth curve are flat
 
-Define an algebraic family of varieties `X^(t)` parametrized by a variety `T`
+Define an algebraic family of varieties $X^{t}$ parametrized by a variety $T$
 to be a surjective morphism of varieties whose reduced closed fibres are
-irreducible of dimension `dim X-dim T` and whose scheme-theoretic fibres are
-reduced at their generic points. If all `X^(t)` are normal and `T` is a
-nonsingular curve, then every scheme-theoretic fibre equals `X^(t)` and the
+irreducible of dimension $\dim X-\dim T$ and whose scheme-theoretic fibres are
+reduced at their generic points. If all $X^{t}$ are normal and $T$ is a
+nonsingular curve, then every scheme-theoretic fibre equals $X^{t}$ and the
 family is flat as a morphism of schemes.
 
-The definition's reduced variety `X^(t)` and scheme-theoretic fibre `X_t` are
+The definition's reduced variety $X^{t}$ and scheme-theoretic fibre $X_t$ are
 separate objects until the theorem proves their equality.
 
 ## Depends on

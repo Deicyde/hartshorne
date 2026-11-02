@@ -6,15 +6,15 @@ origin: cited
 
 # Genus-two curves are parametrized by branch triples
 
-Every ordered triple of distinct points of `P^1` is carried uniquely to
-`0,1,infinity` by an automorphism of `P^1`. Consequently every genus-two
+Every ordered triple of distinct points of $\mathbb{P}^1$ is carried uniquely to
+$0,1,\infty$ by an automorphism of $\mathbb{P}^1$. Consequently every genus-two
 curve over an algebraically closed field of characteristic different from two
 is represented by a branch set
 
-`{0,1,infinity,beta_1,beta_2,beta_3}`
+$\{0,1,\infty ,\beta _1,\beta _2,\beta _3\}$
 
-with the `beta_i` distinct and different from `0,1`. Reordering the six branch
-points and renormalizing defines the stated `S_6` action on branch triples,
+with the $\beta _i$ distinct and different from $0,1$. Reordering the six branch
+points and renormalizing defines the stated $S_6$ action on branch triples,
 and isomorphism classes of genus-two curves are in bijection with its orbits.
 Thus genus-two curves depend on three parameters.
 
@@ -25,8 +25,8 @@ Thus genus-two curves depend on three parameters.
 
 ## Proof depends on
 
-- Three-transitivity of `PGL(2,k)` and uniqueness after fixing
-  `0,1,infinity`.
+- Three-transitivity of $\operatorname{PGL} (2,k)$ and uniqueness after fixing
+  $0,1,\infty$.
 - Isomorphisms of the quadratic covers correspond to projective
   transformations of their branch sets.
 

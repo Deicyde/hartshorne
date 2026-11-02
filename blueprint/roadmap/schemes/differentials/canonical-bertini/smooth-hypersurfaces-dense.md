@@ -6,9 +6,9 @@ origin: cited
 
 # Smooth hypersurfaces form a dense open family
 
-Let `k` be algebraically closed, `n >= 2`, and `d >= 1`. The degree-`d`
-hypersurfaces in `P^n_k` that are nonsingular varieties form a dense open
-subset of the complete linear system `|dH|`.
+Let $k$ be algebraically closed, $n \ge 2$, and $d \ge 1$. The degree-$d$
+hypersurfaces in $\mathbb{P}^n_k$ that are nonsingular varieties form a dense open
+subset of the complete linear system $|dH|$.
 
 ## Depends on
 
@@ -21,7 +21,7 @@ subset of the complete linear system `|dH|`.
 - A regular hypersurface cannot have two irreducible components meeting at a
   point.
 - The dimension theorem forces distinct positive-dimensional hypersurface
-  components in `P^n`, `n >= 2`, to meet.
+  components in $\mathbb{P}^n$, $n \ge 2$, to meet.
 
 ## Sources
 

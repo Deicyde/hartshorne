@@ -6,8 +6,8 @@ origin: cited
 
 # On a normal variety codimension-one rational equivalence is linear equivalence
 
-If `X` is normal, rational equivalence on `Z^1(X)` coincides with linear
-equivalence of Weil divisors. Consequently `A^1(X)` is the Weil divisor class
+If $X$ is normal, rational equivalence on $\mathbb{Z}^1(X)$ coincides with linear
+equivalence of Weil divisors. Consequently $A^1(X)$ is the Weil divisor class
 group.
 
 ## Depends on

@@ -7,14 +7,13 @@ not_ready: true
 
 # Deligne integrality and ℓ-independence
 
-For smooth projective `X/F_q`, every Frobenius polynomial
+For smooth projective $X/\mathbb{F}_q$, every Frobenius polynomial
 
-`P_i(t)=det(1-tF^*|H^i(X_bar,Q_ell))`
+$P_i(t)=\det (1-tF^*|H^i(\overline{X},\mathbb{Q}_\ell))$
 
-has integer coefficients and is independent of the auxiliary prime `ell`.
+has integer coefficients and is independent of the auxiliary prime $\ell$.
 
-This is part of Deligne's theorem and remains not ready pending an exact proof
-stack from SGA4/5/7 and *Weil I*.
+This is the integrality and independence part of Deligne's theorem.
 
 ## Depends on
 

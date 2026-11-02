@@ -6,10 +6,10 @@ origin: cited
 
 # A non-CM Hasse example
 
-For `X : y^2=x(x-1)(x+2)`, the model is nonsingular away from two and three,
-its `j`-invariant is not an integer and hence it has no complex
-multiplication, and among primes at most `73` the only supersingular prime is
-`23`.
+For $X : y^2=x(x-1)(x+2)$, the model is nonsingular away from two and three,
+its $j$-invariant is not an integer and hence it has no complex
+multiplication, and among primes at most $73$ the only supersingular prime is
+$23$.
 
 ## Depends on
 

@@ -7,7 +7,7 @@ origin: cited
 # Elliptic curves with prescribed j-invariant
 
 Over an algebraically closed field of characteristic different from two,
-every `j : k` is the `j`-invariant of an elliptic curve.
+every $j \in k$ is the $j$-invariant of an elliptic curve.
 
 ## Depends on
 
@@ -16,10 +16,10 @@ every `j : k` is the `j`-invariant of an elliptic curve.
 
 ## Proof depends on
 
-- Solve the degree-six Legendre equation for `lambda`; a solution cannot be
-  `0` or `1`, and its Legendre cubic is nonsingular.
-- `WeierstrassCurve.ofJ` and `ofJ_j` are stronger equation-level pinned prior
-  art, including the excluded characteristic-two case.
+- Solve the degree-six Legendre equation for $\lambda$; a solution cannot be
+  $0$ or $1$, and its Legendre cubic is nonsingular.
+- Explicit Weierstrass equations realize prescribed $j$-invariants, with
+  separate formulas in characteristic two.
 
 ## Sources
 

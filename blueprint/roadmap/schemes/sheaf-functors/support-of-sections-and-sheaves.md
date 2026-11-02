@@ -9,15 +9,12 @@ lean: Hartshorne.isClosed_sectionSupport
 
 # The support of a section is closed
 
-For a section `s ∈ F(U)`, its support
-`{x ∈ U | germ_x(s) ≠ 0}` is closed in `U`.
+For a section $s \in F(U)$, its support
+$\{x\in U\mid s_x\ne0\}$ is closed in $U$.
 
-The section-support and sheaf-support definitions are supporting declarations:
-the latter is `{x ∈ X | Fₓ ≠ 0}` and need not be closed in general.
-Proposition 5.9 later uses that definition for `O_X/F`. The unique main
-artifact of this node is the closedness theorem for a section's support.
-Focused search found only specialized Mathlib supports, not this generic
-sheaf API.
+The support of a sheaf is $\{x\in X\mid F_x\ne 0\}$, which need
+not be closed. Hartshorne's Proposition II.5.9 later applies this
+notion to $\mathcal{O}_X/F$.
 
 ## Depends on
 

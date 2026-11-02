@@ -11,7 +11,7 @@ mathlib_file: Mathlib/AlgebraicGeometry/AffineScheme.lean
 
 The underlying topological space of every affine scheme is quasi-compact.
 
-For `Spec A`, a cover may be refined by principal opens.  If these principal
+For $\operatorname{Spec} A$, a cover may be refined by principal opens.  If these principal
 opens cover, their defining elements generate the unit ideal, and a finite
 subfamily already does so.  Transport the result across an affine-scheme
 isomorphism.  This is Exercise 2.13(b).

@@ -6,13 +6,13 @@ origin: cited
 
 # An elliptic ruled surface with invariant minus one
 
-Let `C` be an elliptic curve and `P` a point. Up to isomorphism there is a
+Let $C$ be an elliptic curve and $P$ a point. Up to isomorphism there is a
 unique nonsplit extension
 
-`0 -> O_C -> E -> O_C(P) -> 0`.
+$0 \to \mathcal{O}_C \to E \to \mathcal{O}_C (P) \to 0$.
 
-The bundle `E` is normalized, and `P_C(E)` is a ruled surface with
-`e=-1`. This construction is valid in arbitrary characteristic.
+The bundle $E$ is normalized, and $P_C (E)$ is a ruled surface with
+$e=-1$. This construction is valid in arbitrary characteristic.
 
 ## Depends on
 
@@ -24,9 +24,9 @@ The bundle `E` is normalized, and `P_C(E)` is a ruled surface with
 
 ## Proof depends on
 
-- `Ext^1(O(P),O)` is one-dimensional. For every negative-degree line
-  bundle `A`, the extension sequence after tensoring by `A` has no global
-  sections; when `A=O(-P)`, its connecting map sends `1` to the nonzero
+- $\operatorname{Ext} ^1(\mathcal{O}(P),O)$ is one-dimensional. For every negative-degree line
+  bundle $A$, the extension sequence after tensoring by $A$ has no global
+  sections; when $A=\mathcal{O}(-P)$, its connecting map sends $1$ to the nonzero
   extension class.
 
 ## Sources

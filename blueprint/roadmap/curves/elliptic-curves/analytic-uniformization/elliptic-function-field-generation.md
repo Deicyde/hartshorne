@@ -6,9 +6,9 @@ origin: background
 
 # Generation of the elliptic-function field
 
-For a complex lattice `Lambda`, every elliptic function with periods in
-`Lambda` is a rational function of the Weierstrass functions `P` and `P'`.
-Equivalently, its elliptic-function field is `C(P,P')`, subject to the
+For a complex lattice $\Lambda$, every elliptic function with periods in
+$\Lambda$ is a rational function of the Weierstrass functions $\wp$ and $\wp'$.
+Equivalently, its elliptic-function field is $\mathbb{C} (\wp,\wp')$, subject to the
 Weierstrass differential equation.
 
 ## Depends on

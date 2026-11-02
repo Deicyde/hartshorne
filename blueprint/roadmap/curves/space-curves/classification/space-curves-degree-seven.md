@@ -9,9 +9,9 @@ origin: cited
 The degree-seven possibilities recorded in Hartshorne are:
 
 - the plane septic of genus fifteen;
-- nonplanar nonspecial curves of genus `0` through `4`;
+- nonplanar nonspecial curves of genus $0$ through $4$;
 - degree-seven genus-five curves arising from nontrigonal genus-five curves;
-- type-`(3,4)` curves on a nonsingular quadric, of genus six.
+- type-$(3,4)$ curves on a nonsingular quadric, of genus six.
 
 Genus six is the Castelnuovo maximum, and every curve attaining it lies on a
 quadric.
@@ -26,4 +26,4 @@ quadric.
 
 ## Sources
 
-- [Hartshorne IV.6, Example 6.4.2 for `d=7`, pp.353–354](../../../../sources/hartshorne-iv-6.md)
+- [Hartshorne IV.6, Example 6.4.2 for $d=7$, pp.353–354](../../../../sources/hartshorne-iv-6.md)

@@ -5,7 +5,7 @@ article_id: af_8397f8aa1285be2494a7095e
 # Birational transformations and minimal models
 
 Hartshorne V.5 proves factorization of birational maps of smooth projective
-surfaces into point blowups, Castelnuovo contraction of `(-1)`-curves,
+surfaces into point blowups, Castelnuovo contraction of $(-1)$-curves,
 elementary transformations, and existence and uniqueness results for minimal
 models. The fine roadmap has 39 project leaves.
 

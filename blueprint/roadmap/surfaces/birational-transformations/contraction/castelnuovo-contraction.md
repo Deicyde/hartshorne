@@ -6,14 +6,14 @@ origin: cited
 
 # Castelnuovo's contraction theorem
 
-Let `Y` be a curve on a nonsingular projective surface `X` over an
+Let $Y$ be a curve on a nonsingular projective surface $X$ over an
 algebraically closed field.  If
 
-`Y ~= P^1` and `Y^2=-1`,
+$Y \simeq \mathbb{P}^1$ and $Y^2=-1$,
 
-then there are a nonsingular projective surface `X_0`, a point `P` of `X_0`,
-and a morphism `f:X->X_0` identifying `X` with the blowup of `X_0` at `P`
-and `Y` with its exceptional curve.
+then there are a nonsingular projective surface $X_0$, a point $P$ of $X_0$,
+and a morphism $f:X\to X_0$ identifying $X$ with the blowup of $X_0$ at $P$
+and $Y$ with its exceptional curve.
 
 This statement and Hartshorne's proof are valid in arbitrary characteristic.
 Together with birational-morphism factorization, it also gives the exact

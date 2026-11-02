@@ -9,23 +9,23 @@ lean: Hartshorne.definingIdealGradientSpace_eq_jacobianRowSpace_of_span_eq Harts
 
 # Jacobian rank is independent of generators
 
-For an affine variety `Y ⊆ 𝔸ⁿ` and `P ∈ Y`, define its intrinsic
-*Jacobian row space at `P`* to be
+For an affine variety $Y \subseteq \mathbb{A} ^{n}$ and $P \in Y$, define its intrinsic
+*Jacobian row space at $P$* to be
 
-`J_P(Y) = span_k {∇f(P) | f ∈ I(Y)} ⊆ kⁿ`,
+$J_P(Y)=\operatorname{span}_k\{\nabla f(P):f\in I(Y)\}\subseteq k^n$,
 
-and define `jacobianRank(Y,P) = dim_k J_P(Y)`. If
-`f₁,…,fₜ` is any finite generating family for `I(Y)`, then `J_P(Y)` is
+and define $\operatorname{rank} J(P) = \dim _k J_P(Y)$. If
+$f_{1},\ldots ,f_{t}$ is any finite generating family for $I(Y)$, then $J_P(Y)$ is
 already spanned by the rows
 
-`((∂fᵢ/∂xⱼ)(P))_j`.
+$\left(\frac{\partial f_i}{\partial x_j}(P)\right)_j$.
 
-Thus `jacobianRank(Y,P)` is the rank of Hartshorne's displayed Jacobian
+Thus $\operatorname{rank} J(P)$ is the rank of Hartshorne's displayed Jacobian
 matrix, and any two finite generating families give the same rank.
 
-For the nontrivial containment, write an arbitrary `f ∈ I(Y)` as
-`∑ gᵢ fᵢ`. The product rule and `fᵢ(P)=0` show
-`∇f(P)=∑ gᵢ(P)∇fᵢ(P)`. The reverse containment is immediate. The
+For the nontrivial containment, write an arbitrary $f \in I(Y)$ as
+$\sum_i g_i f_i$. The product rule and $f_{i}(P)=0$ show
+$\nabla f(P)=\sum_i g_i(P)\nabla f_i(P)$. The reverse containment is immediate. The
 finite-generation input is available because the polynomial ring has finitely
 many variables and is Noetherian.
 

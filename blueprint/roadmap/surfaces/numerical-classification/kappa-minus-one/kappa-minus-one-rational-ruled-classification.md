@@ -9,13 +9,10 @@ not_ready: true
 
 Over an algebraically closed field of arbitrary characteristic, a Chapter-V
 surface has Kodaira dimension minus one if and only if it is rational or
-birationally ruled.  Here rational means birational to `P^2`, while
-birationally ruled means birational to `C times P^1` for a nonsingular
-projective curve `C`.
+birationally ruled.  Here rational means birational to $\mathbb{P}^2$, while
+birationally ruled means birational to $C \times \mathbb{P}^1$ for a nonsingular
+projective curve $C$.
 
-This node is not ready.  Hartshorne quotes the classification and gives no
-proof-level source.  In particular, it must not be inferred merely from the
-classification of already-given geometrically ruled surfaces.
 
 ## Depends on
 

@@ -8,10 +8,10 @@ origin: cited
 
 For the marked cubic surface,
 
-`Pic(X) ~= Z*l direct-sum direct-sum_(i=1)^6 Z*e_i`.
+$\operatorname{Pic}(X)\simeq\mathbb Zl\oplus\bigoplus_{i=1}^6\mathbb Ze_i$.
 
 Every divisor class therefore has a unique expression
-`a*l-sum_i b_i*e_i` with integer coefficients.
+$al-\sum_i b_i e_i$ with integer coefficients.
 
 ## Depends on
 

@@ -6,10 +6,10 @@ origin: cited
 
 # Arithmetic-genus drop under blowup
 
-Let `C` be an effective divisor on a smooth surface with multiplicity `r` at
-the center of a point blowup, and let `C_tilde` be its strict transform. Then
+Let $C$ be an effective divisor on a smooth surface with multiplicity $r$ at
+the center of a point blowup, and let $\widetilde{C }$ be its strict transform. Then
 
-`p_a(C_tilde) = p_a(C) - r*(r-1)/2`.
+$p_a(\widetilde{C }) = p_a(C ) - r\cdot (r-1)/2$.
 
 The formal equality is integer-valued.
 
@@ -22,8 +22,8 @@ The formal equality is integer-valued.
 
 ## Proof depends on
 
-- Substitute `C_tilde=pi^*C-rE` and
-  `K_Xtilde=pi^*K_X+E` into adjunction, using pullback isometry and exceptional
+- Substitute $\widetilde{C }=\pi ^*C -rE$ and
+  $K_\widetilde{X} =\pi ^*K_X+E$ into adjunction, using pullback isometry and exceptional
   orthogonality.
 
 ## Sources

@@ -6,8 +6,8 @@ origin: cited
 
 # Exhaustivity in degree nine and genus ten
 
-Every degree-nine, genus-ten curve in `P^3` is exactly one of the two types:
-a `(3,3)` complete intersection or a type-`(3,6)` curve on a nonsingular
+Every degree-nine, genus-ten curve in $\mathbb{P}^3$ is exactly one of the two types:
+a $(3,3)$ complete intersection or a type-$(3,6)$ curve on a nonsingular
 quadric.
 
 ## Depends on
@@ -19,12 +19,12 @@ quadric.
 
 ## Proof depends on
 
-- If `O_X(2)` is nonspecial, Riemann–Roch gives nine sections, forcing a
-  containing quadric; the degree/genus inventory identifies type `(3,6)`.
-- If `O_X(2)` is special, no quadric contains `X`. Since `O_X(3)` is
+- If $\mathcal{O}_X(2)$ is nonspecial, Riemann–Roch gives nine sections, forcing a
+  containing quadric; the degree/genus inventory identifies type $(3,6)$.
+- If $\mathcal{O}_X(2)$ is special, no quadric contains $X$. Since $\mathcal{O}_X(3)$ is
   nonspecial, dimension counting produces two independent cubic equations.
   They are irreducible, and their degree-nine complete intersection equals
-  `X`.
+  $X$.
 
 ## Sources
 

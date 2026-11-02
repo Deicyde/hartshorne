@@ -7,14 +7,12 @@ not_ready: true
 
 # Pluricanonical birationality in Kodaira dimension two
 
-For a Chapter-V surface `X`, the following are equivalent:
+For a Chapter-V surface $X$, the following are equivalent:
 
-1. `kappa(X)=2`;
-2. for some integer `n>0`, the complete pluricanonical system `|nK_X|`
-   determines a birational morphism of `X` onto its image in projective space.
+1. $\kappa (X)=2$;
+2. for some integer $n>0$, the complete pluricanonical system $|nK_X|$
+   determines a birational morphism of $X$ onto its image in projective space.
 
-This node is not ready. Hartshorne quotes the Iitaka/Bombieri theorem without
-a proof-level passage or an effective choice of pluricanonical multiple.
 
 ## Depends on
 

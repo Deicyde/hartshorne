@@ -6,13 +6,13 @@ origin: cited
 
 # The lci dualizing-sheaf formula
 
-Let `X⟶Pᴺ_k` be a codimension-`r` local complete intersection with
-ideal sheaf `I`. Its projective dualizing sheaf satisfies
+Let $X\longrightarrow \mathbb{P}^{N}_k$ be a codimension-$r$ local complete intersection with
+ideal sheaf $I$. Its projective dualizing sheaf satisfies
 
-`ω°_X ≃ ω_P|_X ⊗ (∧ʳ(I/I²))ᵛ`.
+$\omega ^{\circ} _X \simeq \omega _P|_X \otimes (\bigwedge ^{r}(I/I^{2}))^{\vee}$.
 
-In particular `ω°_X` is invertible. This is a dualizing-sheaf statement,
-not an assumption that `X` is Gorenstein introduced upstream.
+In particular $\omega ^{\circ} _X$ is invertible. This is a dualizing-sheaf statement,
+not an assumption that $X$ is Gorenstein introduced upstream.
 
 ## Depends on
 
@@ -22,7 +22,7 @@ not an assumption that `X` is Gorenstein introduced upstream.
 
 ## Proof depends on
 
-- The ambient definition `ω°_X=𝓔xtʳ_P(O_X,ω_P)`.
+- The ambient definition $\omega ^{\circ} _X=\mathcal{E}xt^{r}_P(\mathcal{O}_X,\omega _P)$.
 
 ## Sources
 

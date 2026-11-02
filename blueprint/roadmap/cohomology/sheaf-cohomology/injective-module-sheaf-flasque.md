@@ -10,12 +10,12 @@ lean: Hartshorne.injectiveModuleSheaf_isFlasque
 # Injective module sheaves are flasque
 
 Every injective sheaf of modules on a ringed space is flasque as an underlying
-sheaf: for every inclusion of opens `V ⊆ U`, restriction from `U` to `V` is
+sheaf: for every inclusion of opens $V \subseteq U$, restriction from $U$ to $V$ is
 surjective.
 
 Following Hartshorne, represent sections over an open by morphisms from the
 structure sheaf restricted and extended by zero, then lift across the
-monomorphism attached to `V ⊆ U`.
+monomorphism attached to $V \subseteq U$.
 
 ## Depends on
 

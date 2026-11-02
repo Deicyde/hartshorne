@@ -14,11 +14,6 @@ every point is exact. Consequently stalks commute with kernels and images, and
 a sheaf morphism is monic or epic exactly when every stalk map is injective or
 surjective, respectively.
 
-The main statement is exactly
-`TopCat.Sheaf.exact_iff_stalkFunctor_map_exact` in pinned Mathlib. The mono
-clause is also supplied by `TopCat.Presheaf.mono_iff_stalk_mono`; the epi
-clause follows from the locally-surjective API.
-
 ## Depends on
 
 - [Stalks and germs](stalks-and-germs.md)

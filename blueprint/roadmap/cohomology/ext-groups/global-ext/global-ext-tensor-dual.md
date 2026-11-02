@@ -6,12 +6,12 @@ origin: cited
 
 # Tensor-dual compatibility for global Ext
 
-For a finite-rank locally free `O_X`-module `L`, its dual `L∨`, and arbitrary
-module sheaves `F,G`, construct natural isomorphisms
+For a finite-rank locally free $\mathcal{O}_X$-module $L$, its dual $L^{\vee}$, and arbitrary
+module sheaves $F,G$, construct natural isomorphisms
 
-`Ext^i_X(F⊗L,G) ≅ Ext^i_X(F,L∨⊗G)`
+$\operatorname{Ext} ^i_X(F\otimes L,G) \cong \operatorname{Ext} ^i_X(F,L^{\vee} \otimes G)$
 
-for every `i ≥ 0`.
+for every $i \ge 0$.
 
 ## Depends on
 

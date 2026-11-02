@@ -9,15 +9,15 @@ lean: Hartshorne.complexExponentialExactSequence
 
 # The complex exponential exact sequence
 
-With `C` additive and `C^*` multiplicative, the map
+With $\mathbb{C}$ additive and $\mathbb{C}^\times$ multiplicative, the map
 
-`z |-> exp(2*pi*i*z)`
+$z\mapsto\exp(2\pi i z)$
 
 fits into an exact sequence of abelian groups
 
-`0 -> Z -> C -> C^* -> 0`,
+$0\to\mathbb Z\to\mathbb{C}\to\mathbb{C}^\times\to0$,
 
-where `Z -> C` is the standard inclusion.
+where $\mathbb{Z} \to \mathbb{C}$ is the standard inclusion.
 
 ## Depends on
 

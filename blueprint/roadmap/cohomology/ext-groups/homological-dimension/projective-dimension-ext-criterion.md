@@ -9,18 +9,17 @@ mathlib_file: Mathlib/CategoryTheory/Abelian/Projective/Dimension.lean
 
 # Projective-dimension bounds detected by Ext
 
-For an object `M` in an abelian category with `HasExt` and a natural number
-`n`, Mathlib's predicate `HasProjectiveDimensionLT M n` is equivalent to
+For an object $M$ in an abelian category in which Ext groups exist,
+and a natural number $n$, having projective dimension less than
+$n$ is equivalent to
 
-`∀ i ≥ n, ∀ N, Ext^i(M,N)=0`.
+$\forall i \ge n, \forall N, \operatorname{Ext} ^i(M,N)=0$.
 
-Consequently `HasProjectiveDimensionLE M n`, which abbreviates the preceding
-predicate at `n+1`, is equivalent to vanishing in every degree `i>n`. For
-modules this is Hartshorne's condition `pd(M)≤n`; the case `n=0` recovers that
-`M` is projective iff `Ext^1(M,N)=0` for every `N`.
-
-The exact main result is `hasProjectiveDimensionLT_iff`; the weak inequality
-and projective criteria are stated consequences, not alternative definitions.
+Consequently, projective dimension at most $n$ is equivalent to
+vanishing in every degree $i>n$. For modules this is Hartshorne's
+condition $\operatorname{pd}(M)\le n$. The case $n=0$ says that
+$M$ is projective exactly when $\operatorname{Ext}^1(M,N)=0$ for
+every $N$.
 
 ## Depends on
 

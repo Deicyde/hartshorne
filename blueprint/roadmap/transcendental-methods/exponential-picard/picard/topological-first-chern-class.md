@@ -9,7 +9,7 @@ origin: cited
 For a projective complex scheme, the connecting map in the analytic
 exponential sequence gives a homomorphism
 
-`c_1^top:Pic(X) -> H^2(X^h,Z)`.
+$c_1^\top :\operatorname{Pic} (X) \to H^2(X^h,\mathbb{Z})$.
 
 It is defined after identifying algebraic and analytic Picard groups by GAGA.
 

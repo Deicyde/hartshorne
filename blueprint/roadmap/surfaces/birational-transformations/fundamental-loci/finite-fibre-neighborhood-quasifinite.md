@@ -6,11 +6,11 @@ origin: bridged
 
 # A finite projective fibre has a quasi-finite neighbourhood
 
-Let `f : Z -> X` be a projective finite-type morphism of Noetherian schemes.
-If the fibre over `P : X` is zero-dimensional, then there is an open
-neighbourhood `U` of `P` such that
+Let $f : Z \to X$ be a projective finite-type morphism of Noetherian schemes.
+If the fibre over $P \in X$ is zero-dimensional, then there is an open
+neighbourhood $U$ of $P$ such that
 
-`f^-1(U) -> U`
+$f^-1(U) \to U$
 
 is quasi-finite.
 

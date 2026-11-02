@@ -6,12 +6,12 @@ origin: cited
 
 # Every ruled surface has a normalized projective-bundle presentation
 
-For every ruled surface `X->C`, there is a rank-two locally free sheaf `E`
-with `X ~= P_C(E)` such that `H^0(C,E)` is nonzero but
+For every ruled surface $X\to C$, there is a rank-two locally free sheaf $E$
+with $X \simeq P_C (E)$ such that $H^0(C ,E)$ is nonzero but
 
-`H^0(C,E tensor L)=0`
+$H^0(C ,E \otimes L)=0$
 
-for every invertible sheaf `L` of negative degree. Such an `E` is called
+for every invertible sheaf $L$ of negative degree. Such an $E$ is called
 normalized.
 
 ## Depends on

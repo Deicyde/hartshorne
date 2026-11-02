@@ -9,27 +9,19 @@ lean: Hartshorne.existsUnique_hilbertPolynomial_primeQuotient
 
 # Hilbert polynomials of shifted prime quotients
 
-Let `p` be a homogeneous prime ideal of `S = k[x₀,…,xₙ]` and let
-`l : ℤ`. There is a unique numerical polynomial `P ∈ ℚ[z]` whose value at
-every sufficiently large integer `d` is the Hilbert function of `(S/p)(l)`.
-If `Z(p)` is empty, then `P = 0`. If `projDim Z(p) = r`, then `P ≠ 0`,
-`P.natDegree = r`, and its leading coefficient is positive. The sole main
-declaration is planned as
-`Hartshorne.existsUnique_hilbertPolynomial_primeQuotient`.
+Let $\mathfrak p$ be a homogeneous prime ideal of
+$S=k[x_0,\ldots,x_n]$ and let $l\in\mathbb Z$. There is a unique
+numerical polynomial $P\in\mathbb Q[z]$ which agrees, for all sufficiently
+large integer $d$, with the Hilbert function of $(S/\mathfrak p)(l)$.
+If $Z(\mathfrak p)$ is empty, then $P=0$. If
+$\dim Z(\mathfrak p)=r$, then $P$ is nonzero of degree $r$ and has
+positive leading coefficient.
 
-Apply Hilbert–Serre to the finite graded module `(S/p)(l)`. Twisting does not
-change its annihilator, so the homogeneous ideal correspondence identifies its
-projective support with `Z(p)`. Hilbert–Serre therefore supplies the unique
-numerical polynomial, gives zero in the empty case, and identifies its degree
-with `projDim Z(p)` otherwise. In the nonempty case the polynomial is nonzero;
-because its values are the eventually nonnegative Hilbert-function values, its
-leading coefficient is positive. The twist merely translates the eventual
-polynomial's argument and does not change its degree or leading coefficient.
-
-This records the shifted-prime specialization of Hilbert–Serre as a named API
-corollary. The hyperplane-section induction belongs in the simultaneous proof
-of Hilbert–Serre: `p+(x_i)` need not be prime or radical, so its quotient must
-be handled by the induction hypothesis for arbitrary finite graded modules.
+Apply [Hilbert–Serre](hilbert-serre.md) to the shifted prime quotient.
+Twisting preserves its annihilator and translates the polynomial's
+argument, so it changes neither degree nor leading coefficient. In the
+nonempty case, eventual nonnegativity of the Hilbert function gives a
+positive leading coefficient.
 
 ## Depends on
 

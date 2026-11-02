@@ -9,20 +9,18 @@ lean: Hartshorne.affineDiagonalSectionHomeomorph
 
 # The diagonal section of an affine product
 
-For `Y,Z ⊆ 𝔸^σ`, let the diagonal equations in the affine product on
-`σ ⊕ σ` be
+Let $Y,Z\subseteq\mathbb A^n$. In $\mathbb A^{2n}$, with coordinate
+blocks $x_1,\ldots,x_n$ and $y_1,\ldots,y_n$, the equations
 
-`X_(inl i) - X_(inr i) = 0` for `i : σ`.
+$$x_i-y_i=0\qquad(1\leq i\leq n)$$
 
-There is a canonical homeomorphism from `Y ∩ Z` to the intersection of
-`affineProduct Y Z` with their common zero locus.  The sole main declaration
-is planned as `Hartshorne.affineDiagonalSectionHomeomorph`.
+cut out the diagonal. The map $P\mapsto(P,P)$ is a canonical
+homeomorphism from $Y\cap Z$ to the intersection of $Y\times Z$ with
+this diagonal. Its inverse restricts to either coordinate block.
 
-The forward map sends `P` to the pair `P × P`; the inverse restricts either
-coordinate block.  Record alongside the construction that the diagonal family
-is finite with cardinality at most `Nat.card σ`, that the homeomorphism
-preserves dimension, and that it transports irreducible components.  These
-facts are the precise interface needed by Proposition 7.1.
+The diagonal is cut out by at most $n$ equations. The homeomorphism
+preserves dimension and transports irreducible components, as needed in
+[Hartshorne's Proposition I.7.1](affine-dimension-theorem.md).
 
 ## Depends on
 

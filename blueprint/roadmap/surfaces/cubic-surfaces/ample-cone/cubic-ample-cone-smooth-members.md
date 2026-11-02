@@ -6,19 +6,19 @@ origin: cited
 
 # Coordinate inequalities for the ample cone and smooth members
 
-For `D ~ a*l-sum_i b_i*e_i` on the marked cubic surface, the following are
+For $D\sim al-\sum_i b_i e_i$ on the marked cubic surface, the following are
 equivalent:
 
-- `D` is ample;
-- `D` is very ample;
-- `b_i>0` for every `i`, `a>b_i+b_j` for every pair `i != j`, and
-  `2a>sum_(i != j)b_i` for every `j`.
+- $D$ is ample;
+- $D$ is very ample;
+- $b_i>0$ for every $i$, $a>b_i+b_j$ for every pair $i \ne j$, and
+  $2a>\sum _{(i \ne j)}b_i$ for every $j$.
 
 Every class satisfying these inequalities contains an irreducible nonsingular
 curve.
 
-The inequalities are precisely positivity against `E_i`, `F_ij`, and `G_j`.
-For existence, embed by `|D|`, use the all-characteristic regular hyperplane
+The inequalities are precisely positivity against $E_i$, $F_{ij}$, and $G_j$.
+For existence, embed by $|D|$, use the all-characteristic regular hyperplane
 Bertini theorem, and use connectedness of an ample divisor; a regular connected
 curve over the algebraically closed field is irreducible.
 

@@ -6,13 +6,15 @@ origin: cited
 
 # The theorem on formal functions
 
-Let `f : X -> Y` be a projective morphism of Noetherian schemes, let `F` be a
-coherent `O_X`-module, let `y : Y`, and let `i : Nat`. The natural map is an
+Let $f : X \to Y$ be a projective morphism of Noetherian schemes, let $F$ be a
+coherent $\mathcal{O}_X$-module, let $y\in Y$, and let $i$ be a
+nonnegative integer. The natural map is an
 isomorphism
 
-`completion_(m_y) ((R^i f_*F)_y) ~= lim_n H^i(X_n,F_n)`.
+$\widehat{(R^i f_*F)_y}\cong\varprojlim_n H^i(X_n,F_n)$.
 
-This is the projective theorem stated by Hartshorne. The proper generalization
+The completion is taken with respect to the maximal ideal $m_y$ of
+$\mathcal{O}_{Y,y}$. This is the projective theorem stated by Hartshorne. The proper generalization
 in EGA and Stacks is recorded as external prior art, not substituted into the
 main statement.
 

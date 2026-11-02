@@ -6,16 +6,16 @@ origin: cited
 
 # Dimension criteria for generated and very ample curve divisors
 
-Let `D` be a divisor on a Chapter IV curve. Then:
+Let $D$ be a divisor on a Chapter IV curve. Then:
 
-1. `|D|` has no base points if and only if, for every closed point `P`,
-   `dim|D-P| = dim|D|-1`;
-2. `D` is very ample if and only if, for every pair of closed points `P,Q`,
-   including `P=Q`,
-   `dim|D-P-Q| = dim|D|-2`.
+1. $|D|$ has no base points if and only if, for every closed point $P$,
+   $\dim |D-P| = \dim |D|-1$;
+2. $D$ is very ample if and only if, for every pair of closed points $P,Q$,
+   including $P=Q$,
+   $\dim |D-P-Q| = \dim |D|-2$.
 
 The dimensions lie in the integers. In the repeated-point case the divisor is
-`D-2P`, and the condition detects separation of tangent vectors rather than
+$D-2P$, and the condition detects separation of tangent vectors rather than
 only separation of distinct points.
 
 ## Depends on

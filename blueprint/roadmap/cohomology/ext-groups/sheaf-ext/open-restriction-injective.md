@@ -6,8 +6,8 @@ origin: cited
 
 # Injectives restrict to open subsets
 
-Let `j : U ↪ X` be an open inclusion. If `J` is injective in `X.Modules`,
-then its restriction `J|_U` is injective in `U.Modules`.
+Let $j : U \hookrightarrow X$ be an open inclusion. If $J$ is injective in the category of $\mathcal{O}_X$-modules,
+then its restriction $J|_U$ is injective in the category of $\mathcal{O}_U$-modules.
 
 No coherence or finite-presentation hypothesis is imposed. Restriction is the
 module-sheaf functor along the restricted structure sheaf, not merely

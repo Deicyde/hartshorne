@@ -6,8 +6,8 @@ origin: cited
 
 # Quasi-coherence of sheaf Ext
 
-Let `X` be Noetherian, let `F` be coherent, and let `G` be quasi-coherent.
-Then `𝓔xt^i_X(F,G)` is quasi-coherent for every `i ≥ 0`.
+Let $X$ be Noetherian, let $F$ be coherent, and let $G$ be quasi-coherent.
+Then $\mathcal{E}xt^i_X(F,G)$ is quasi-coherent for every $i \ge 0$.
 
 ## Depends on
 

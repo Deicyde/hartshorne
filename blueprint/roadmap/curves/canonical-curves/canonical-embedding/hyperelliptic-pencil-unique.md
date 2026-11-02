@@ -6,7 +6,7 @@ origin: cited
 
 # The hyperelliptic pencil is unique
 
-A hyperelliptic Chapter IV curve has exactly one `g^1_2`.
+A hyperelliptic Chapter IV curve has exactly one $g^1_2$.
 
 ## Depends on
 

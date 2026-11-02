@@ -6,9 +6,9 @@ origin: cited
 
 # Arithmetic genus on a quadric
 
-If `Y⊆Q` is a locally principal closed subscheme of type `(a,b)`, then
+If $Y\subseteq Q$ is a locally principal closed subscheme of type $(a,b)$, then
 
-`p_a(Y)=ab-a-b+1=(a-1)(b-1)`.
+$p_a(Y)=ab-a-b+1=(a-1)(b-1)$.
 
 ## Depends on
 

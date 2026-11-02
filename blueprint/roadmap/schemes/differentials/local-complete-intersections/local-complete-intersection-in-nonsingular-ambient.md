@@ -6,9 +6,9 @@ origin: cited
 
 # Local complete intersections in a nonsingular ambient variety
 
-Let `Y` be a closed subscheme of a nonsingular variety `X`. Define `Y` to be a
-local complete intersection in `X` when its ideal sheaf can be generated at
-every point by `codim(Y,X)` local sections.
+Let $Y$ be a closed subscheme of a nonsingular variety $X$. Define $Y$ to be a
+local complete intersection in $X$ when its ideal sheaf can be generated at
+every point by $\operatorname{codim} (Y,X)$ local sections.
 
 This is an ambient definition. Hartshorne's unproved remark that it is
 intrinsic uses the cotangent complex; that assertion is source-blocked and is

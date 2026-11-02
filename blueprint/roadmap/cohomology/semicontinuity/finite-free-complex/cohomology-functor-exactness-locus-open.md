@@ -6,13 +6,13 @@ origin: cited
 
 # The exactness loci are open
 
-Let `y_0` correspond to `p : Spec A`. Restrict `T^i` to `A_p`-modules by
+Let $y_0$ correspond to $p : \operatorname{Spec} A$. Restrict $T^i$ to $A_p$-modules by
 
-`T^i_p(N) = H^i(L_p tensor_(A_p) N)`.
+$T^i_p(N) = H^i(L_p \otimes _{(A_p)} N)$.
 
-If `T^i_p` is left exact, respectively right exact or exact, then there is an
-open neighbourhood `U` of `y_0` such that the corresponding localized functor
-has the same property at every `y in U`.
+If $T^i_p$ is left exact, respectively right exact or exact, then there is an
+open neighbourhood $U$ of $y_0$ such that the corresponding localized functor
+has the same property at every $y \in U$.
 
 ## Depends on
 
@@ -23,11 +23,11 @@ has the same property at every `y in U`.
 
 ## Proof depends on
 
-- Left exactness is openness of the free locus of `W^i`; right exactness of
-  `T^i` is left exactness of `T^(i+1)` by the long exact sequence; exactness is
+- Left exactness is openness of the free locus of $W^i$; right exactness of
+  $T^i$ is left exactness of $T^{i+1}$ by the long exact sequence; exactness is
   their conjunction.
 - Flat base change identifies the localized complex functor with the functor
-  attached to `X times_Y Spec O_(Y,y) -> Spec O_(Y,y)`.
+  attached to $X \times _Y \operatorname{Spec} \mathcal{O}_{(Y,y)} \to \operatorname{Spec} \mathcal{O}_{(Y,y)}$.
 
 ## Sources
 

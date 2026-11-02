@@ -9,18 +9,18 @@ lean: AlgebraicGeometry.Scheme.absoluteFrobenius AlgebraicGeometry.Scheme.specFr
 
 # Absolute Frobenius and Hartshorne's Frobenius twist
 
-For a scheme `X` whose local rings have characteristic `p`, construct the
+For a scheme $X$ whose local rings have characteristic $p$, the
 absolute Frobenius: it is the identity on the underlying space and raises
-local sections to their `p`th powers.
+local sections to their $p$th powers.
 
-For a `k`-scheme `X` in characteristic `p`, define Hartshorne's `X^p` to be
+For a $k$-scheme $X$ in characteristic $p$, define Hartshorne's $X^p$ to be
 the same abstract scheme with structural morphism twisted by Frobenius on
-`k`. Package absolute Frobenius as the `k`-linear morphism
+$k$. Absolute Frobenius gives the $k$-linear morphism
 
-`F' : X^p -> X`
+$F' : X^p \to X$
 
-and prove the displayed square with Frobenius on `Spec k`. This direction is
-part of the API and must not be silently replaced by the opposite modern
+in the commuting square with Frobenius on $\operatorname{Spec} k$. This is
+Hartshorne's direction for the twisted morphism; it differs from the modern
 relative-Frobenius convention.
 
 ## Depends on

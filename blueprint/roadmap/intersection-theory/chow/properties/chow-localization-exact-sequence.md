@@ -7,20 +7,17 @@ not_ready: true
 
 # Localization exact sequence for Chow groups
 
-Let `i:Y->X` be a nonsingular closed subvariety of a nonsingular
-quasi-projective variety, and let `j:U=X-Y->X` be the open complement. Then
+Let $i:Y\to X$ be a nonsingular closed subvariety of a nonsingular
+quasi-projective variety, and let $j:U=X-Y\to X$ be the open complement. Then
 
-`A(Y) --i_*--> A(X) --j^*--> A(U) -> 0`
+$A(Y) --i_*-\to A(X) --j^*-\to A(U) \to 0$
 
-is exact. If `Y` has codimension `c`, its graded component is
+is exact. If $Y$ has codimension $c$, its graded component is
 
-`i_* : A^r(Y) -> A^(r+c)(X)`.
+$i_* : A^r(Y) \to A^{r+c}(X)$.
 
-No injectivity of `i_*` is asserted.
+No injectivity of $i_*$ is asserted.
 
-This node is not ready. Hartshorne states A10 and only compares its proof to
-divisor localization. A proof-level source for cycle closure, rational
-equivalence, and exactness must be adopted.
 
 ## Depends on
 

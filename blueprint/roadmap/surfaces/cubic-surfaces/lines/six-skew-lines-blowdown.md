@@ -6,9 +6,9 @@ origin: cited
 
 # Six mutually skew lines give another plane blowup marking
 
-Let `E'_1,...,E'_6` be any six mutually skew lines among the twenty-seven.
-There is a morphism `pi' : X -> P^2` identifying `X` with the blowup of six
-points, no three collinear and not all six on a conic, such that the `E'_i`
+Let $E'_1,\ldots ,E'_6$ be any six mutually skew lines among the twenty-seven.
+There is a morphism $\pi ' : X \to \mathbb{P}^2$ identifying $X$ with the blowup of six
+points, no three collinear and not all six on a conic, such that the $E'_i$
 are its exceptional curves.
 
 The construction moves the lines successively by quadratic transformations

@@ -6,8 +6,8 @@ origin: cited
 
 # A very ample power implies ampleness
 
-Let `X` be of finite type over a Noetherian ring. If some positive power of
-`L` is very ample over the base, then `L` is ample.
+Let $X$ be of finite type over a Noetherian ring. If some positive power of
+$L$ is very ample over the base, then $L$ is ample.
 
 ## Depends on
 

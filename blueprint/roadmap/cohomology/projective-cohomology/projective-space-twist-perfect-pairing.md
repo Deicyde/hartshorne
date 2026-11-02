@@ -6,13 +6,13 @@ origin: cited
 
 # The perfect twist pairing
 
-For every `n:Z`, multiplication followed by the negative-monomial trace gives
-a perfect pairing of finite free `A`-modules
+For every $n \in Z$, multiplication followed by the negative-monomial trace gives
+a perfect pairing of finite free $A$-modules
 
-`H⁰(Pʳ_A,O(n)) × Hʳ(Pʳ_A,O(-n-r-1)) ⟶ A`.
+$H^0(\mathbb{P}^r_A,\mathcal{O}(n))\times H^r(\mathbb{P}^r_A,\mathcal{O}(-n-r-1))\longrightarrow A$.
 
-For `n≥0`, the monomial dual to `x₀^m₀⋯xᵣ^mᵣ` is
-`x₀^(-m₀-1)⋯xᵣ^(-mᵣ-1)`; for `n<0`, both relevant modules vanish.
+For $n\ge 0$, the monomial dual to $x_{0}^{m_{0}}\cdots x_{r}^{m_{r}}$ is
+$x_{0}^{-m_{0}-1}\cdots x_{r}^{-m_{r}-1}$; for $n<0$, both relevant modules vanish.
 
 ## Depends on
 

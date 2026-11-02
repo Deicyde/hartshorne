@@ -6,14 +6,13 @@ origin: cited
 
 # Infinitesimal neighbourhoods
 
-Let `X` be a Noetherian scheme and let `Y ↪ X` be a closed subscheme with
-module ideal sheaf `I ↪ O_X`. For `n : Nat`, define the `n`th infinitesimal
-neighbourhood `Y n` to be the closed subscheme cut out by `I^(n+1)`.
-In particular `Y 0 = Y`; there is no artificial quotient by `I^0`.
+Let $X$ be a Noetherian scheme and let $Y \hookrightarrow X$ be a closed subscheme with
+module ideal sheaf $I \hookrightarrow \mathcal{O}_X$. For nonnegative integer $n$, define the $n$th infinitesimal
+neighbourhood $Y n$ to be the closed subscheme cut out by $I^{n+1}$.
+In particular $Y 0 = Y$; there is no artificial quotient by $I^0$.
 
-The definition is made on the module ideal sheaf. It is transported to and
-from Mathlib's affine-open `IdealSheafData` through the existing bridge; these
-representations are not treated as definitionally equal.
+The powers are taken in the ideal sheaf. On affine opens, this
+agrees with taking powers of the corresponding ideals.
 
 ## Depends on
 

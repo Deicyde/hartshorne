@@ -6,12 +6,12 @@ origin: cited
 
 # Sections on a complete intersection
 
-Let `Y` be a positive-dimensional normal complete intersection in `P^n_k`.
-For every `l >= 0`, restriction is surjective:
+Let $Y$ be a positive-dimensional normal complete intersection in $\mathbb{P}^n_k$.
+For every $l \ge 0$, restriction is surjective:
 
-`Gamma(P^n, O(l)) -> Gamma(Y, O_Y(l))`.
+$\Gamma (\mathbb{P}^n, \mathcal{O}(l)) \to \Gamma (Y, \mathcal{O}_Y(l))$.
 
-In degree zero this implies that `Y` is connected.
+In degree zero this implies that $Y$ is connected.
 
 ## Depends on
 

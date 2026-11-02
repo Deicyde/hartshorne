@@ -7,9 +7,9 @@ origin: cited
 # The largest ideal of definition
 
 Every Noetherian formal scheme has a unique largest ideal of definition
-`J_red`. It is characterized by the quotient scheme
+$J_{\mathrm{red}}$. It is characterized by the quotient scheme
 
-`(Xhat, O_Xhat / J_red)`
+$(\widehat{X} , \mathcal{O}_{\widehat{X}} / J_{\mathrm{red}})$
 
 being reduced.
 

@@ -9,51 +9,43 @@ lean: Hartshorne.ringKrullDim_homogeneousCoordinateRing_eq_projDim_add_one
 
 # Dimension of the homogeneous coordinate ring
 
-For a projective variety `Y ⊆ ℙⁿ`, `dim S(Y) = dim Y + 1` (Exercise 2.6).
+For a projective variety $Y \subseteq \mathbb{P} ^{n}$, $\dim S(Y) = \dim Y + 1$ (Exercise 2.6).
 
-Hartshorne's hint is to identify `A(Yᵢ)` with the degree-zero part of the
-localization `S(Y)_{xᵢ}` and then show `S(Y)_{xᵢ} ≅ A(Yᵢ)[xᵢ, xᵢ⁻¹]`, comparing
-transcendence degrees to get the `+1`.
+Hartshorne's hint is to identify $A(Y_{i})$ with the degree-zero part of the
+localization $S(Y)_{x_i}$ and then show $S(Y)_{x_i}\cong A(Y_i)[x_i,x_i^{-1}]$, comparing
+transcendence degrees to get the $+1$.
 
-## Status
+## Proof by an affine-cone section
 
-Proved, by the quotient rather than the localization.
+The $+1$ is the dimension of the affine cone over $Y$, and the cheapest way to
+see it is that $Y_{i}$ is a *hyperplane section* of that cone:
 
-The `+1` is the dimension of the affine cone over `Y`, and the cheapest way to
-see it is that `Yᵢ` is a *hyperplane section* of that cone:
-
-`S(Y)/(xᵢ − 1) ≅ A(Yᵢ)`.
+$S(Y)/(x_{i} - 1) \cong A(Y_{i})$.
 
 That is the same identification Hartshorne's hint makes, read on the quotient
 instead of the localization, and it avoids the Laurent-polynomial ring entirely.
-Dehomogenisation is surjective onto `A(Yᵢ)`, and its kernel is `(xᵢ − 1)` on the
-nose: upstairs the kernel of `α` on the polynomial ring is `(xᵢ − 1)`, by an
-induction on monomials, and the ideal dictionary
-(`dehomogenize_mem_vanishingIdeal_iff`) converts a polynomial killed modulo
-`I(Yᵢ)` into one killed modulo `J(Y)` after subtracting a multiple of `xᵢ − 1`.
+Dehomogenisation is surjective onto $A(Y_{i})$, and its kernel is $(x_{i} - 1)$ on the
+nose: upstairs the kernel of $\alpha$ on the polynomial ring is $(x_{i} - 1)$, by an
+induction on monomials, and the ideal correspondence converts a polynomial killed modulo
+$I(Y_{i})$ into one killed modulo $J(Y)$ after subtracting a multiple of $x_{i} - 1$.
 
-The dimension then drops by exactly one because `(xᵢ − 1)` has height one: at
-least one since `S(Y)` is a domain and `xᵢ − 1` is nonzero, at most one by
-Krull's principal ideal theorem, which is in Mathlib. Theorem 1.8A(b) converts
+The dimension then drops by exactly one because $(x_{i} - 1)$ has height one: at
+least one since $S(Y)$ is a domain and $x_{i} - 1$ is nonzero, at most one by
+Krull's principal ideal theorem. [Theorem I.1.8A(b)](../affine-varieties/dim-formula-catenary.md) converts
 the height into the drop. Transcendence degrees are never mentioned, though they
 are still there inside 1.8A(b).
 
-Nonvanishing of `xᵢ − 1` in `S(Y)` is the one place the grading is used: `xᵢ` is
-homogeneous of degree one and `1` of degree zero, so they can agree only in the
+Nonvanishing of $x_{i} - 1$ in $S(Y)$ is the one place the grading is used: $x_{i}$ is
+homogeneous of degree one and $1$ of degree zero, so they can agree only in the
 zero ring.
 
-The geometric half, `dim Y = dim Yᵢ`, is the reverse inequality of Proposition
-1.10 again, and again the easy direction is that a subspace has no larger
-dimension. A chain of irreducible closed subsets of `Y` need not meet a *given*
-chart — its bottom term can be a point outside `Uᵢ` — but it meets some chart,
-since the charts cover `ℙⁿ` and every term contains the bottom one. Each chain is
-therefore bounded by `dim Y_j` for a `j` depending on the chain, and the
+The geometric half, $\dim Y = \dim Y_{i}$, is the reverse inequality of [Proposition I.1.10](../affine-varieties/dim-quasi-affine.md) again, and again the easy direction is that a subspace has no larger
+dimension. A chain of irreducible closed subsets of $Y$ need not meet a *given*
+chart — its bottom term can be a point outside $U_{i}$ — but it meets some chart,
+since the charts cover $\mathbb{P} ^{n}$ and every term contains the bottom one. Each chain is
+therefore bounded by $\dim Y_j$ for a $j$ depending on the chain, and the
 algebraic half is what says all those bounds are the same number.
 
-Mathlib supplies the step that would otherwise be the work here:
-`IrreducibleCloseds.orderIsoOfIsOpenEmbedding` matches the irreducible closed
-subsets of an open subspace with those of the ambient space that meet it, which
-is exactly restricting a chain and taking closures back.
 
 ## Depends on
 

@@ -9,14 +9,11 @@ lean: Hartshorne.IsQuasiProjVariety.birational_nonsingular_projective
 
 # Projective models of curves
 
-Every curve is birational to a nonsingular projective curve.  The sole main
-declaration is formalized as
-`Hartshorne.IsQuasiProjVariety.birational_nonsingular_projective`.
+Every curve is birational to a nonsingular projective curve.
 
-This is Corollary 6.11.  Apply Theorem 6.9 to the curve's function field, then
-use the function-field criterion for birationality.  The proof must transport
-the exact transcendence-degree-one hypothesis obtained from the curve
-dimension; it may not assume separability.
+This is Corollary 6.11.  Apply [Theorem I.6.9](function-field-projective-model.md) to the curve's function field, then
+use the function-field criterion for birationality.  The curve-dimension theorem gives transcendence degree one. No
+separability hypothesis is required.
 
 ## Depends on
 

@@ -6,10 +6,10 @@ origin: cited
 
 # The normalized degree is an invariant of a ruled surface
 
-If `E` is a normalized rank-two bundle presenting a ruled surface
-`X ~= P_C(E)`, then
+If $E$ is a normalized rank-two bundle presenting a ruled surface
+$X \simeq P_C (E)$, then
 
-`e(X) = -deg(E) = -deg(det(E))`
+$e(X) = -\deg (E) = -\deg (\det (E))$
 
 is independent of the normalized presentation. The normalized bundle itself
 need not be unique.

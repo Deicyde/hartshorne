@@ -6,12 +6,12 @@ origin: cited
 
 # Inflection points on nodal plane models
 
-Let a genus-`g` curve be mapped birationally to a degree-`d` plane curve
-whose only singularities are `r` nodes, over a field of characteristic zero.
+Let a genus-$g$ curve be mapped birationally to a degree-$d$ plane curve
+whose only singularities are $r$ nodes, over a field of characteristic zero.
 Then its nonsingular inflection points, counted with contact multiplicity,
 number
 
-`6*(g-1)+3*d`.
+$6\cdot (g-1)+3\cdot d$.
 
 Nodes are not counted as inflection points.
 

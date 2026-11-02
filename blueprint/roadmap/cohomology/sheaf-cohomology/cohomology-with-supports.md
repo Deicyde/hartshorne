@@ -6,16 +6,16 @@ origin: cited
 
 # The localization sequence for cohomology with supports
 
-For a closed subset `Y ⊆ X`, the functor `Γ_Y(X,-)` of global sections
-supported in `Y` is left exact. Define `H_Yⁿ(X,-)` as its right derived
-functors. If `U=X\Y`, there is a natural localization long exact sequence
+For a closed subset $Y \subseteq X$, the functor $\Gamma _Y(X,-)$ of global sections
+supported in $Y$ is left exact. Define $H_Y^{n}(X,-)$ as its right derived
+functors. If $U=X\setminus Y$, there is a natural localization long exact sequence
 
-`0 ⟶ H_Y⁰(X,F) ⟶ H⁰(X,F) ⟶ H⁰(U,F|_U) ⟶ H_Y¹(X,F) ⟶ ⋯`.
+$0 \longrightarrow H_Y^{0}(X,F) \longrightarrow H^{0}(X,F) \longrightarrow H^{0}(U,F|_U) \longrightarrow H_Y^{1}(X,F) \longrightarrow \cdots$.
 
 The unique main result is the localization sequence. Supporting clauses prove
-that `Γ_Y(X,-)` is left exact, identify the degree-zero kernel using the
+that $\Gamma _Y(X,-)$ is left exact, identify the degree-zero kernel using the
 subsheaf with support from II.1.20, and show that flasques are
-`Γ_Y`-acyclic.
+$\Gamma _Y$-acyclic.
 
 ## Depends on
 

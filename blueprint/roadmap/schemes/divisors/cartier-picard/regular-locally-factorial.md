@@ -6,13 +6,12 @@ origin: cited
 
 # Regular schemes are locally factorial
 
-Let `X` be a scheme whose local rings are regular local rings. Then every
-local ring of `X` is a UFD, so `X` is locally factorial.
+Let $X$ be a scheme whose local rings are regular local rings. Then every
+local ring of $X$ is a UFD, so $X$ is locally factorial.
 
-The algebraic implication “regular local ring implies UFD” is not available
-in the pinned Mathlib checkout. It remains a sourced prerequisite rather than
-an asserted upstream fact. The later Weil–Cartier comparison is deliberately
-not part of this node.
+The proof uses the algebraic theorem that every regular local ring
+is a unique factorization domain. The resulting comparison of Weil
+and Cartier divisors is treated separately.
 
 ## Depends on
 

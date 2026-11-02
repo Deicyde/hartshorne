@@ -6,12 +6,12 @@ origin: cited
 
 # Weil's Riemann-hypothesis bound for curves
 
-Let `C` be a nonsingular projective genus-`g` curve over `F_q`, and let `N`
-be the number of `F_q`-rational points. Write `N=1-a+q`. Then
+Let $C$ be a nonsingular projective genus-$g$ curve over $\mathbb F_q$, and let $N$
+be the number of $\mathbb F_q$-rational points. Write $N=1-a+q$. Then
 
-`|a| <= 2*g*sqrt(q)`.
+$|a| \le 2\cdot g\cdot \sqrt{q}$.
 
-Equivalently, `|N-(q+1)| <= 2*g*sqrt(q)`.
+Equivalently, $|N-(q+1)| \le 2\cdot g\cdot \sqrt{q}$.
 
 ## Depends on
 
@@ -24,11 +24,11 @@ Equivalently, `|N-(q+1)| <= 2*g*sqrt(q)`.
 
 ## Proof depends on
 
-- On `C times C`, the diagonal satisfies `Delta^2=2-2*g`. The graph `Gamma`
-  of `q`-power Frobenius satisfies `Gamma^2=q*(2-2*g)` and
-  `Gamma.Delta=N`, the last equality by fixed-point intersection lengths.
+- On $C \times C$, the diagonal satisfies $\Delta ^2=2-2\cdot g$. The graph $\Gamma$
+  of $q$-power Frobenius satisfies $\Gamma ^2=q\cdot (2-2\cdot g)$ and
+  $\Gamma\cdot\Delta=N$, the last equality by fixed-point intersection lengths.
 - Apply the product inequality to every integral combination
-  `r*Gamma+s*Delta` and require the resulting binary quadratic form to have
+  $r\cdot \Gamma +s\cdot \Delta$ and require the resulting binary quadratic form to have
   nonpositive discriminant.
 
 ## Sources

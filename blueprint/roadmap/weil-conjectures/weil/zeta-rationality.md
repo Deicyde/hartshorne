@@ -6,14 +6,14 @@ origin: cited
 
 # Rationality of the zeta function
 
-For a smooth projective geometrically connected variety `X/F_q`, the formal
-series `Z(X,t)` is the Taylor expansion at the origin of a rational function
-in `Q(t)`.
+For a smooth projective geometrically connected variety $X/\mathbb{F}_q$, the formal
+series $Z(X,t)$ is the Taylor expansion at the origin of a rational function
+in $\mathbb{Q}(t)$.
 
 ## Depends on
 
 - [The formal Hasse–Weil zeta series](../zeta/hasse-weil-zeta-formal-series.md)
-- [Rationality descends to `Q`](../deductions/rationality-descends-to-q.md)
+- [Rationality descends to $Q$](../deductions/rationality-descends-to-q.md)
 
 ## Sources
 

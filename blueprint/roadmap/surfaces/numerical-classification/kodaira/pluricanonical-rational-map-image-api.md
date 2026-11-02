@@ -6,17 +6,17 @@ origin: bridged
 
 # Pluricanonical rational maps and their image dimensions
 
-For `n>0` with `H^0(X,omega_X^n)` nonzero, define the pluricanonical rational
+For $n>0$ with $H^0(X,\omega _X^n)$ nonzero, define the pluricanonical rational
 map
 
-`phi_n : X dashedrightarrow P(H^0(X,omega_X^n))`
+$\phi _n : X \dashrightarrow P(H^0(X,\omega _X^n))$
 
 in the project's quotient-projective-space convention, on the complement of
-the base locus of `|nK|`. Define its image as the
+the base locus of $|nK|$. Define its image as the
 closure of the image of that domain, and record its dimension. Removing a
 fixed divisorial part does not change the rational map or image.
 
-If the section space is zero, record that `|nK|` is empty and do not invent a
+If the section space is zero, record that $|nK|$ is empty and do not invent a
 map to an empty projective space. If it is one-dimensional, the image has
 dimension zero.
 

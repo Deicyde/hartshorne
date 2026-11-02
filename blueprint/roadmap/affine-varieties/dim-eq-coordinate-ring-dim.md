@@ -9,19 +9,15 @@ lean: Hartshorne.dim_eq_ringKrullDim_coordinateRing
 
 # Dimension is the dimension of the coordinate ring
 
-For an affine algebraic set `Y`, the dimension of `Y` as a topological space
-equals the Krull dimension of `A(Y)` (Proposition 1.7).
+For an affine algebraic set $Y$, the dimension of $Y$ as a topological
+space equals the Krull dimension of its coordinate ring:
 
-The proof is a chain of order isomorphisms rather than a computation: closed
-irreducible subsets of `Y` correspond to primes of `A` containing `I(Y)`, which
-correspond to primes of `A(Y)`. Both correspondences reverse inclusion, so
-chains of length `n` match chains of length `n`, and the suprema agree.
+$$\dim Y=\dim A(Y).$$
 
-This is the bridge that lets every dimension statement about varieties be
-answered by commutative algebra, and every later dimension result in the chapter
-routes through it. In Lean the cleanest route is likely an order isomorphism
-between `IrreducibleCloseds Y` and `PrimeSpectrum (A(Y))`, after which
-`topologicalKrullDim` and `ringKrullDim` agree by transport.
+This is Hartshorne's Proposition I.1.7. Irreducible closed subsets of $Y$
+correspond to prime ideals of the polynomial ring containing $I(Y)$, and
+hence to prime ideals of $A(Y)$. The correspondence reverses inclusion,
+so chains of the same length correspond and their suprema agree.
 
 ## Depends on
 

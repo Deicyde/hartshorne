@@ -6,11 +6,11 @@ origin: cited
 
 # The section-algebra model of a birational projective morphism
 
-Let `f : Z -> X` be a projective birational morphism of varieties and choose a
-projective embedding with associated line bundle `L`. After replacing `L` by
+Let $f : Z \to X$ be a projective birational morphism of varieties and choose a
+projective embedding with associated line bundle $L$. After replacing $L$ by
 a sufficiently high power, the graded algebra
-`O_X + direct-sum_{d >= 1} f_*L^d` is generated in degree one and its relative
-Proj is isomorphic to `Z`.
+$\mathcal{O}_X\oplus\bigoplus_{d\ge1}f_*L^d$ is generated in degree one and its relative
+Proj is isomorphic to $Z$.
 
 ## Depends on
 

@@ -9,17 +9,15 @@ lean: Hartshorne.ProjectiveNonsingularCurveCat
 
 # The three curve categories
 
-Define the category of nonsingular projective curves with dominant morphisms.
-The sole main declaration is
-`Hartshorne.ProjectiveNonsingularCurveCat`.
+Consider the following three categories over $k$:
 
-The same implementation leaf also provides the supporting bundled categories
-of quasi-projective curves with dominant rational maps and of finitely
-generated one-dimensional function fields with `k`-homomorphisms.  Objects in
-the geometric categories must include actual finite quasi-projective or
-projective presentations, not merely predicates detached from the existing
-variety API.  Dominance is part of each morphism type and is preserved by
-identity and composition.
+- nonsingular projective curves with dominant morphisms;
+- quasi-projective curves with dominant rational maps;
+- finitely generated function fields of transcendence degree one with
+  $k$-homomorphisms.
+
+Identity and composition preserve dominance in the geometric categories.
+The geometric objects carry their projective or quasi-projective presentations.
 
 ## Depends on
 

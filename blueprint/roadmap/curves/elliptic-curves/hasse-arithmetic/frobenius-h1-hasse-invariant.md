@@ -6,12 +6,12 @@ origin: cited
 
 # Frobenius on first cohomology and the Hasse invariant
 
-Let `X` be an elliptic curve over an algebraically closed field `k` of
-characteristic `p>2`. Absolute Frobenius induces a `p`-semilinear map
+Let $X$ be an elliptic curve over an algebraically closed field $k$ of
+characteristic $p>2$. Absolute Frobenius induces a $p$-semilinear map
 
-`F^* : H^1(X,O_X) -> H^1(X,O_X)`.
+$F^* : H^1(X,\mathcal{O}_X) \to H^1(X,\mathcal{O}_X)$.
 
-The space is one-dimensional and `k` is perfect, so the map is either zero or
+The space is one-dimensional and $k$ is perfect, so the map is either zero or
 bijective. Define the Hasse invariant to be zero in the first case and one in
 the second; the first case is also called supersingular.
 
@@ -23,7 +23,7 @@ the second; the first case is also called supersingular.
 ## Proof depends on
 
 - Functorial pullback on structure-sheaf cohomology and semilinearity of the
-  `p`th-power map.
+  $p$th-power map.
 
 ## Sources
 

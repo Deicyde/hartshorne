@@ -6,16 +6,16 @@ origin: cited
 
 # The Legendre Hasse polynomial
 
-Assume `p != 2`, put `m=(p-1)/2`, and let
+Assume $p \ne 2$, put $m=(p-1)/2$, and let
 
-`X_lambda : y^2 z = x(x-z)(x-lambda*z)`
+$X_\lambda : y^2 z = x(x-z)(x-\lambda \cdot z)$
 
-with `lambda != 0,1`. Define
+with $\lambda \ne 0,1$. Define
 
-`h_p(lambda) = sum_(i=0)^m binom(m,i)^2 * lambda^i`.
+$h_p(\lambda)=\sum_{i=0}^{m}\binom{m}{i}^{2}\lambda^i$.
 
-Then `X_lambda` has Hasse invariant zero exactly when
-`h_p(lambda)=0`.
+Then $X_\lambda$ has Hasse invariant zero exactly when
+$h_p(\lambda )=0$.
 
 ## Depends on
 
@@ -23,8 +23,8 @@ Then `X_lambda` has Hasse invariant zero exactly when
 
 ## Proof depends on
 
-- Extract the coefficient of `(xyz)^(p-1)` from the two factors
-  `(y^2z)^m` and `(x(x-z)(x-lambda*z))^m`.
+- Extract the coefficient of $(xyz)^{p-1}$ from the two factors
+  $(y^2z)^m$ and $(x(x-z)(x-\lambda \cdot z))^m$.
 
 ## Sources
 

@@ -7,17 +7,14 @@ not_ready: true
 
 # Surface Lüroth fails without separability
 
-In positive characteristic there are algebraically closed fields `k` and
+In positive characteristic there are algebraically closed fields $k$ and
 intermediate fields
 
-`k subset L subset k(t,u)`
+$k \subset L \subset k(t,u)$
 
-for which `k(t,u)/L` is finite and inseparable but `L` is not purely
-transcendental over `k`.
+for which $k(t,u)/L$ is finite and inseparable but $L$ is not purely
+transcendental over $k$.
 
-This node is not ready.  Hartshorne only cites Zariski and Shioda.  An exact
-counterexample, its inseparability degree, and a proof of nonrationality must
-be adopted before formalization.
 
 ## Depends on
 

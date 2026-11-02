@@ -6,13 +6,13 @@ origin: cited
 
 # The dense nonsingular locus
 
-If `X` is a variety over an algebraically closed field `k`, then the regular
-points contain a nonempty open dense subset of `X`.
+If $X$ is a variety over an algebraically closed field $k$, then the regular
+points contain a nonempty open dense subset of $X$.
 
-The generic fiber of `Ω[X/k]` has dimension `dim X` because the function field
-is finitely generated and separably generated over the perfect field `k`.
-The free locus then gives a neighborhood of the generic point.  Equivalently,
-after the smooth/regular comparison, one may use Mathlib's dense smooth locus.
+The generic fiber of $\Omega_{X/k}$ has dimension $\dim X$ because
+the function field is finitely generated and separably generated
+over the perfect field $k$. The free locus then gives an open
+neighbourhood of the generic point.
 
 ## Depends on
 

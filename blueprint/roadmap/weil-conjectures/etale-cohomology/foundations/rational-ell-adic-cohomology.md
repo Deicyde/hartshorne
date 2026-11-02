@@ -6,13 +6,13 @@ origin: cited
 
 # Rational ℓ-adic cohomology
 
-For `ell` invertible on `X`, define Hartshorne's rational ℓ-adic cohomology by
+For $\ell$ invertible on $X$, define Hartshorne's rational ℓ-adic cohomology by
 
-`H^i_et(X,Q_ell) = H^i_classical(X,Z_ell) tensor_(Z_ell) Q_ell`.
+$H^i_{\mathrm{et}}(X,\mathbb Q_\ell)=H^i_{\mathrm{classical}}(X,\mathbb Z_\ell)\otimes_{\mathbb Z_\ell}\mathbb Q_\ell$.
 
-This is ordinary étale cohomology, not compactly supported cohomology.  The
-definition is source-shaped; comparison with Mathlib's pro-étale integral
-group remains the separate blocked leaf.
+This is ordinary étale cohomology. Comparison of the classical integral
+group with pro-étale cohomology is a
+[separate result](classical-proetale-ell-adic-comparison.md).
 
 ## Depends on
 

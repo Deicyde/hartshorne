@@ -9,15 +9,15 @@ lean: Hartshorne.hypersurfaceSection_hilbertPolynomial_and_leadingCoeff
 
 # The Hilbert polynomial of a hypersurface section is a difference
 
-Let `Y` be a projective variety and let `H = Z(f)` be a degree-`d`
-hypersurface not containing `Y`. Put `M = S/(I(Y)+I(H))`. The
+Let $Y$ be a projective variety and let $H = Z(f)$ be a degree-$d$
+hypersurface not containing $Y$. Put $M = S/(I(Y)+I(H))$. The
 [hypersurface-section exact sequence](hypersurface-section-exact-sequence.md)
 gives
 
-`P_M(z) = P_Y(z) - P_Y(z-d)`.
+$P_M(z) = P_Y(z) - P_Y(z-d)$.
 
-If `Y` has dimension `r ≥ 1` and degree `e`, the leading coefficient of
-`P_M` is `d·e/(r-1)!`.
+If $Y$ has dimension $r \ge 1$ and degree $e$, the leading coefficient of
+$P_M$ is $d\cdot e/(r-1)!$.
 
 ## Depends on
 

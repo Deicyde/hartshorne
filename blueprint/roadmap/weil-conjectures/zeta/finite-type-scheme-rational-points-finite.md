@@ -9,9 +9,9 @@ lean: Hartshorne.finite_rationalPoints_of_finiteType
 
 # A finite-type scheme over a finite field has finitely many rational points
 
-Let `X` be finite type over `F_q`. For every `r>=1`, the set
+Let $X$ be finite type over $\mathbb{F}_q$. For every $r\ge 1$, the set
 
-`X(F_(q^r))=Hom_(Spec F_q)(Spec F_(q^r),X)`
+$X(\mathbb{F}_{q^r})=\operatorname{Hom} _{(\operatorname{Spec} \mathbb{F}_q)}(\operatorname{Spec} \mathbb{F}_{q^r},X)$
 
 is finite.
 
@@ -27,4 +27,4 @@ is finite.
 
 ## Sources
 
-- [Hartshorne Appendix C.1, definition of `N_r`, p.449](../../../sources/hartshorne-appendix-c-1.md)
+- [Hartshorne Appendix C.1, definition of $N_r$, p.449](../../../sources/hartshorne-appendix-c-1.md)

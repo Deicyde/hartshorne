@@ -6,8 +6,8 @@ origin: cited
 
 # Affine quasi-coherent sheaves are acyclic
 
-Let `X = Spec A` for a Noetherian ring `A`, and let `F` be a quasi-coherent
-`O_X`-module. Then `H^i(X,F)=0` for every `i>0`.
+Let $X = \operatorname{Spec} A$ for a Noetherian ring $A$, and let $F$ be a quasi-coherent
+$\mathcal{O}_X$-module. Then $H^i(X,F)=0$ for every $i>0$.
 
 Here cohomology means derived global sections of the underlying abelian
 sheaf, not a derived functor internal to quasi-coherent modules.
@@ -22,7 +22,7 @@ sheaf, not a derived functor internal to quasi-coherent modules.
 - [Modules and quasi-coherent sheaves on an affine scheme](../../schemes/modules-and-quasicoherent/affine-quasicoherent-equivalence.md)
 - [Flasque sheaves are acyclic](../sheaf-cohomology/flasque-sheaf-acyclic.md)
 - [Exactness of the tilde functor](../../schemes/modules-and-quasicoherent/tilde-exactness.md)
-- Enough injectives in `ModuleCat`.
+- The category of modules over the affine coordinate ring has enough injectives.
 
 ## Sources
 

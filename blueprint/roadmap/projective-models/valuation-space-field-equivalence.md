@@ -9,15 +9,13 @@ lean: Hartshorne.ValuationSpace.abstractNonsingularCurveIsoOfAlgEquiv
 
 # Transporting valuation curves along a field equivalence
 
-A `k`-algebra equivalence `e : K ≃ₐ[k] L` between one-dimensional function
-fields transports function-field DVRs and induces an isomorphism of their
-abstract valuation curves, compatible with residue evaluation and regular
-functions.  The sole main declaration is
-`Hartshorne.ValuationSpace.abstractNonsingularCurveIsoOfAlgEquiv`.
+An isomorphism of $k$-algebras $K\cong L$ between one-dimensional
+function fields transports their discrete valuation rings and induces an
+isomorphism $C_K\cong C_L$, compatible with residue evaluation and
+regular functions.
 
-This bridge is required because Proposition 6.7 constructs the valuation curve
-of each affine model's own `FunctionField`, while Theorem 6.9 must compare both
-models inside the originally fixed field `K`.
+This lets affine models' valuation curves be compared inside a common
+function field, as required in Hartshorne's Theorem I.6.9.
 
 ## Depends on
 

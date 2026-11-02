@@ -9,13 +9,13 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Affine.lean
 
 # Affine intersections in a separated scheme
 
-If the diagonal of a scheme `X` is affine, the intersection `U ⊓ V` of two
-affine opens is affine. In particular this holds when `X` is separated, because
+If the diagonal of a scheme $X$ is affine, the intersection $U \cap V$ of two
+affine opens is affine. In particular this holds when $X$ is separated, because
 a closed immersion is affine.
 
-Identify the intersection with the pullback of `U → X ← V`. This pullback
-is also obtained from the diagonal of `X` by base change along
-`U × V → X × X`. Affineness is stable under base change, so the pullback
+Identify the intersection with the pullback of $U \to X \leftarrow V$. This pullback
+is also obtained from the diagonal of $X$ by base change along
+$U \times V \to X \times X$. Affineness is stable under base change, so the pullback
 is affine. This is the form later used to make all finite intersections in an
 affine cover affine.
 

@@ -9,19 +9,19 @@ lean: Hartshorne.isAffineNonsingularAt_iff_isRegularLocalRing
 
 # The Jacobian criterion
 
-Let `Y ⊆ 𝔸ⁿ` be an affine variety and `P ∈ Y`. Then `P` is
+Let $Y \subseteq \mathbb{A} ^{n}$ be an affine variety and $P \in Y$. Then $P$ is
 nonsingular in the Jacobian sense if and only if its local ring
-`𝒪_{P,Y}` is a regular local ring.
+$\mathcal{O} _{P,Y}$ is a regular local ring.
 
-This is Theorem 5.1. Choose the unique natural number `r` with
-`dim Y = r`. Theorem 3.2(c) gives
-`dim 𝒪_{P,Y} = r`, while the cotangent comparison gives
+This is Theorem 5.1. Choose the unique natural number $r$ with
+$\dim Y = r$. [Theorem I.3.2(c)](../morphisms/affine-variety-rings.md) gives
+$\dim \mathcal{O} _{P,Y} = r$, while the cotangent comparison gives
 
-`dim_k(𝔪_P/𝔪_P²) + jacobianRank(Y,P) = n`.
+$\dim _k(\mathfrak{m} _P/\mathfrak{m} _P^{2}) + \operatorname{rank} J(P) = n$.
 
-After transporting the residue field of `𝒪_{P,Y}` to `k`, regularity says
-that the first summand is `r`; elementary finite-dimensional arithmetic then
-says exactly that the Jacobian rank is `n − r`. Both implications use the
+After transporting the residue field of $\mathcal{O} _{P,Y}$ to $k$, regularity says
+that the first summand is $r$; elementary finite-dimensional arithmetic then
+says exactly that the Jacobian rank is $n - r$. Both implications use the
 same equality, so no characteristic assumption enters Theorem 5.1.
 
 ## Depends on

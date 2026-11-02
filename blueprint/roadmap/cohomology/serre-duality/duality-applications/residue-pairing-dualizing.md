@@ -7,17 +7,14 @@ not_ready: true
 
 # The residue pairing is perfect
 
-For a complete nonsingular curve `X`, composition followed by the residue
+For a complete nonsingular curve $X$, composition followed by the residue
 trace gives a perfect pairing
 
-`Hom_X(F,Ω_X) × H¹(X,F) ⟶ k`
+$\operatorname{Hom} _X(F,\Omega _X) \times H^{1}(X,F) \longrightarrow k$
 
-for every coherent `F`. Consequently `(Ω_X,tr_res)` is a dualizing sheaf,
+for every coherent $F$. Consequently $(\Omega _X,\operatorname{tr}_{\mathrm{res}} )$ is a dualizing sheaf,
 and trace-compatible uniqueness identifies it with the projectively
 constructed dualizing sheaf, carrying the residue trace to the Serre trace.
-
-This remains not ready until the Weil-repartition proof of perfectness is
-specified in a formalization-ready form.
 
 ## Depends on
 

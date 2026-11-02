@@ -6,9 +6,9 @@ origin: cited
 
 # Regular hyperplane sections
 
-Let `X` be a nonsingular closed subvariety of `P^n_k`, with `k` algebraically
-closed. The hyperplanes `H` not containing `X` for which the scheme
-`H intersect X` is regular at every point form an open dense subset of the
+Let $X$ be a nonsingular closed subvariety of $\mathbb{P}^n_k$, with $k$ algebraically
+closed. The hyperplanes $H$ not containing $X$ for which the scheme
+$H \cap X$ is regular at every point form an open dense subset of the
 complete linear system of hyperplanes.
 
 This theorem asserts regularity only. Connectedness and hence irreducibility

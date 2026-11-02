@@ -4,10 +4,10 @@ article_id: af_2fe2c903a92da4c6051cb497
 
 # Flatness foundations
 
-These leaves cover Proposition 9.1A, Examples 9.1.1–3, the stalkwise
-definition of flatness over a base, and Proposition 9.2. Exact upstream
-results remain separate from project wrappers so that `mathlib: true` makes
-only whole-statement claims.
+Hartshorne's Proposition III.9.1A and Examples III.9.1.1–3 describe
+the algebraic foundations of flatness. The following statements
+give the stalkwise definition of flatness over a base and the
+geometric consequences in Proposition III.9.2.
 
 ## Algebraic flatness
 

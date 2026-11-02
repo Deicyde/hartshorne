@@ -6,14 +6,14 @@ origin: cited
 
 # The dlog Picard cohomology class
 
-For a finite-type scheme `X` over `k`, logarithmic differentiation
+For a finite-type scheme $X$ over $k$, logarithmic differentiation
 
-`dlog : O_X^* -> Omega_X`, `f |-> f^(-1) df`,
+$\operatorname{dlog}:\mathcal O_X^*\to\Omega_X$, $f \mapsto f^{-1} df$,
 
 is a homomorphism of sheaves of abelian groups. Together with
-`Pic X ~= H^1(X,O_X^*)`, it induces a group homomorphism
+$\operatorname{Pic} X \simeq H^1(X,\mathcal{O}_X^*)$, it induces a group homomorphism
 
-`c : Pic X -> H^1(X,Omega_X)`.
+$c : \operatorname{Pic} X \to H^1(X,\Omega _X)$.
 
 ## Depends on
 

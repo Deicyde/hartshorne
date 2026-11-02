@@ -9,27 +9,20 @@ lean: Hartshorne.ambientCotangentEquiv_toCotangent Hartshorne.aeval_pderiv_eq_ze
 
 # The cotangent space of affine space
 
-For `P = (a₁,…,aₙ) ∈ 𝔸ⁿ`, let
-`𝔫_P = ker(eval_P) ⊆ k[x₁,…,xₙ]`. The derivative map
+For $P=(a_1,\ldots,a_n)\in\mathbb A^n$, let $\mathfrak n_P$ be
+the kernel of evaluation at $P$ in $k[x_1,\ldots,x_n]$. The derivative map
 
-`θ_P(f) = ((∂f/∂x₁)(P),…,(∂f/∂xₙ)(P))`
+$$\theta_P(f)=\left(\frac{\partial f}{\partial x_1}(P),\ldots,
+\frac{\partial f}{\partial x_n}(P)\right)$$
 
-vanishes on `𝔫_P²` and induces a linear equivalence
+vanishes on $\mathfrak n_P^2$ and induces an isomorphism of vector spaces
 
-`𝔫_P/𝔫_P² ≃ₗ[k] kⁿ`.
+$$\mathfrak n_P/\mathfrak n_P^2\cong k^n.$$
 
-Under this equivalence the class of `xᵢ − aᵢ` is the `i`th standard basis
-vector, and the class of any `f ∈ 𝔫_P` is sent to its gradient at `P`.
-This is Hartshorne's map `θ'` in the proof of Theorem 5.1.
-
-Mathlib supplies `MvPolynomial.pderiv`, the Leibniz rule, and the canonical
-basis for polynomial Kähler differentials. In particular,
-`Algebra.Generators.cotangentSpaceBasis` and
-`Algebra.Generators.cotangentSpaceBasis_repr_one_tmul` are close to the desired
-coordinate calculation. The missing project bridge is the point-evaluation
-formulation and its identification with `Ideal.Cotangent 𝔫_P`; proving it
-directly on the generators `xᵢ − aᵢ` also keeps the
-characteristic-independent argument visible.
+It sends the class of $x_i-a_i$ to the $i$th standard basis vector and
+the class of $f\in\mathfrak n_P$ to its gradient at $P$. This is
+Hartshorne's map $\theta'$ in the proof of [Theorem I.5.1](jacobian-criterion.md) and works in every
+characteristic.
 
 ## Depends on
 

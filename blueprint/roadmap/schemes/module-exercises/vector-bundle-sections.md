@@ -6,14 +6,14 @@ origin: cited
 
 # Sections of a geometric vector bundle
 
-The sections of a geometric vector bundle `V → Y` form a locally free
-`O_Y`-module of the same rank. For Hartshorne's bundle
-`V(E)=Spec_Y Sym(E)`, there is a natural isomorphism
+The sections of a geometric vector bundle $V \to Y$ form a locally free
+$\mathcal{O}_Y$-module of the same rank. For Hartshorne's bundle
+$V(E)=\operatorname{Spec} _Y \operatorname{Sym} (E)$, there is a natural isomorphism
 
-`Sections(V(E)/Y) ≅ E^dual`.
+$\operatorname{Sections}(V(E)/Y)\cong E^\vee$.
 
-This dual is essential: an algebra map `Sym(E) → O_Y` is determined by an
-`O_Y`-linear map `E → O_Y`.
+This dual is essential: an algebra map $\operatorname{Sym} (E) \to \mathcal{O}_Y$ is determined by an
+$\mathcal{O}_Y$-linear map $E \to \mathcal{O}_Y$.
 
 ## Depends on
 

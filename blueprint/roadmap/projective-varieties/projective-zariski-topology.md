@@ -9,15 +9,14 @@ lean: Hartshorne.projZariskiTopology
 
 # The Zariski topology on projective space
 
-Taking the algebraic sets of `ℙⁿ` as the closed sets defines the *Zariski
-topology* on `ℙⁿ`. Irreducibility and dimension are then the notions already
+Taking the algebraic sets of $\mathbb{P} ^{n}$ as the closed sets defines the *Zariski
+topology* on $\mathbb{P} ^{n}$. Irreducibility and dimension are then the notions already
 defined for topological spaces in §1, applied to this space.
 
-The instance is immediate from the closure properties in the previous node. It
+The topology is justified from the closure properties in the previous node. It
 is separated out because everything downstream — varieties, charts, the
 Noetherian property, dimension — is stated against the topology rather than
-against the algebraic sets, and because the chart homeomorphism of Proposition
-2.2 is a statement about two topologies at once.
+against the algebraic sets, and because the chart homeomorphism of [Proposition I.2.2](standard-affine-charts.md) is a statement about two topologies at once.
 
 ## Depends on
 
@@ -25,4 +24,4 @@ against the algebraic sets, and because the chart homeomorphism of Proposition
 
 ## Sources
 
-- [Hartshorne I.2, definition of the Zariski topology on `ℙⁿ` (p. 10)](../../sources/hartshorne.md#i2)
+- [Hartshorne I.2, definition of the Zariski topology on $\mathbb{P} ^{n}$ (p. 10)](../../sources/hartshorne.md#i2)

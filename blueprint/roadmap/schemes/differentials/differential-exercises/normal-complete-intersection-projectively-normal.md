@@ -6,8 +6,8 @@ origin: cited
 
 # Normal complete intersections are projectively normal
 
-Let `Y` be a positive-dimensional normal global complete intersection in
-`P^n_k`. Then `Y` is projectively normal.
+Let $Y$ be a positive-dimensional normal global complete intersection in
+$\mathbb{P}^n_k$. Then $Y$ is projectively normal.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ Let `Y` be a positive-dimensional normal global complete intersection in
 
 - The affine cone of a global complete intersection is a local complete
   intersection.
-- Normality away from the cone vertex follows from normality of `Y`; the
+- Normality away from the cone vertex follows from normality of $Y$; the
   vertex has codimension at least two.
 
 ## Sources

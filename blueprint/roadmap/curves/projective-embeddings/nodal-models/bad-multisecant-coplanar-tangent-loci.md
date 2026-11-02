@@ -6,12 +6,12 @@ origin: bridged
 
 # Bad multisecant and coplanar-tangent loci
 
-Let `X` be a curve embedded in `P^3`. On the distinct-pair locus in
-`X times X`, construct the incidence conditions saying that the secant
-through `(P,Q)` is a multisecant and that the tangent lines at `P,Q` are
-coplanar. The coplanar-tangent condition is closed. Package the failure of
-both conditions as an open good-pair locus, and show that once one good pair
-exists its complement has dimension at most one.
+Let $X$ be a curve embedded in $\mathbb{P}^3$. On the distinct-pair locus in
+$X\times X$, consider the conditions that the secant through $(P,Q)$ is a
+multisecant and that the tangent lines at $P,Q$ are coplanar. The
+coplanar-tangent condition is closed. Pairs for which both conditions fail
+form an open good-pair locus. Once one good pair exists, its complement has
+dimension at most one.
 
 The multisecant condition is constructed through the proper collinearity
 incidence, with collision strata separated from genuinely distinct third
@@ -26,7 +26,7 @@ an open triple-point locus.
 ## Proof depends on
 
 - Plücker-coordinate closedness of the condition that two projective lines
-  meet, equivalently are coplanar in `P^3`.
+  meet, equivalently are coplanar in $\mathbb{P}^3$.
 - Proper incidence and upper semicontinuity of fibre length for intersections
   of a line with the projective curve.
 

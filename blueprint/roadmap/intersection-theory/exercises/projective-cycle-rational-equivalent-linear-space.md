@@ -6,12 +6,12 @@ origin: cited
 
 # Projective cycles are rationally equivalent to degree times a linear space
 
-Let `Y subset P^n` be an integral subvariety of degree `d` and dimension
-`m`. Then its Chow class is
+Let $Y \subset \mathbb{P}^n$ be an integral subvariety of degree $d$ and dimension
+$m$. Then its Chow class is
 
-`[Y]=d*[P^m]`.
+$[Y]=d\cdot [\mathbb{P}^m]$.
 
-Equivalently, `Y` is rationally equivalent to `d` times a linear subspace of
+Equivalently, $Y$ is rationally equivalent to $d$ times a linear subspace of
 the same dimension.
 
 ## Depends on
@@ -23,7 +23,7 @@ the same dimension.
 ## Proof depends on
 
 - Project from a general complementary linear centre and compare the generic
-  finite degree with the family joining `Y` to its projected linear limit.
+  finite degree with the family joining $Y$ to its projected linear limit.
 
 ## Sources
 

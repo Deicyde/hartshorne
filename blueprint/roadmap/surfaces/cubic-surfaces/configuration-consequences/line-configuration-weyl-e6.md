@@ -8,15 +8,13 @@ not_ready: true
 # The line-configuration group is the Weyl group of type E6
 
 The automorphism group of the incidence configuration of the twenty-seven
-lines is isomorphic to the Weyl group `W(E6)`.  It has a normal subgroup of
-index two which is simple and has order `25920`.
+lines is isomorphic to the Weyl group $W(E6)$.  It has a normal subgroup of
+index two which is simple and has order $25920$.
 
-The adopted Exercise 4.11 leaf supplies the Coxeter presentation, faithful
-configuration action, order comparison, and the isomorphism with `W(E6)`.
-This combined node remains not ready only for the assertion that the
-index-two subgroup is simple, which needs the exact Manin passage or another
-proof-level group-theoretic source. This classical consequence is not used by
-the ample-cone proof.
+The [Coxeter presentation](../exercises/e6-line-configuration-group.md)
+identifies the configuration group with $W(E_6)$. The simplicity assertion
+is a further classical consequence, independent of the ample-cone argument.
+
 
 ## Depends on
 

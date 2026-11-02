@@ -6,8 +6,8 @@ origin: cited
 
 # Projectively normal Veronese embeddings
 
-Let `k` be algebraically closed and let `X ⊆ P_k^r` be connected and normal.
-For all sufficiently large `d`, the `d`-uple embedding of `X` is projectively
+Let $k$ be algebraically closed and let $X \subseteq \mathbb{P}^r_{k}$ be connected and normal.
+For all sufficiently large $d$, the $d$-uple embedding of $X$ is projectively
 normal.
 
 The proof first uses eventual recovery to show equality between the

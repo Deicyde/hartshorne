@@ -6,9 +6,9 @@ origin: cited
 
 # Finite-surjective descent of ampleness
 
-Let `f:X→Y` be a finite surjective morphism of proper schemes over a
-Noetherian ring and let `L` be invertible on `Y`. Then `L` is ample if and only
-if `f^*L` is ample.
+Let $f:X\to Y$ be a finite surjective morphism of proper schemes over a
+Noetherian ring and let $L$ be invertible on $Y$. Then $L$ is ample if and only
+if $f^*L$ is ample.
 
 ## Depends on
 

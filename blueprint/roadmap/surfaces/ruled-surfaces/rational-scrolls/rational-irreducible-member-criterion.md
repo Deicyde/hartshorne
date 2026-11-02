@@ -6,13 +6,13 @@ origin: cited
 
 # Irreducible members of rational ruled linear systems
 
-For `D=a*C0+b*f` on `X_e`, the following are equivalent:
+For $D=a\cdot C_0+b\cdot f$ on $X_e$, the following are equivalent:
 
-- `|D|` contains an irreducible curve;
-- `|D|` contains an irreducible nonsingular curve;
+- $|D|$ contains an irreducible curve;
+- $|D|$ contains an irreducible nonsingular curve;
 - one of these numerical cases holds:
-  `(a,b)=(0,1)`, `(a,b)=(1,0)`, `a>0` and `b>a*e`, or
-  `e>0`, `a>0`, and `b=a*e`.
+  $(a,b)=(0,1)$, $(a,b)=(1,0)$, $a>0$ and $b>a\cdot e$, or
+  $e>0$, $a>0$, and $b=a\cdot e$.
 
 ## Depends on
 
@@ -23,9 +23,9 @@ For `D=a*C0+b*f` on `X_e`, the following are equivalent:
 
 ## Proof depends on
 
-- Intersections with `f,C0` give the necessary inequalities.
+- Intersections with $f,C_0$ give the necessary inequalities.
 - The strict inequality case is very ample. In the boundary case, use a
-  general degree-`a` hypersurface section of the cone avoiding its vertex and
+  general degree-$a$ hypersurface section of the cone avoiding its vertex and
   take its smooth strict transform.
 
 ## Sources

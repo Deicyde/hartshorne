@@ -6,11 +6,11 @@ origin: cited
 
 # Higher direct images of the point-blowup structure sheaf vanish
 
-For the monoidal transformation `pi:X_tilde->X`,
+For the monoidal transformation $\pi:\widetilde X\to X$,
 
-`R^i pi_* O_X_tilde = 0`
+$R^i \pi _* \mathcal{O}_\widetilde{X} = 0$
 
-for every `i>0`.
+for every $i>0$.
 
 ## Depends on
 
@@ -22,11 +22,11 @@ for every `i>0`.
 
 ## Proof depends on
 
-- The filtration and `H^i(P^1,O(n))=0` for `i>0,n>=0` give
-  `H^i(E_n,O_(E_n))=0` by induction.
-- Formal functions makes the completed stalk at `P` zero. The higher direct
-  image is coherent and supported at `P`, so faithful completion makes it
-  zero; it already vanishes off `P`, where `pi` is an isomorphism.
+- The filtration and $H^i(\mathbb{P}^1,\mathcal{O}(n))=0$ for $i>0,n\ge 0$ give
+  $H^i(E_n,\mathcal{O}_{(E_n)})=0$ by induction.
+- Formal functions makes the completed stalk at $P$ zero. The higher direct
+  image is coherent and supported at $P$, so faithful completion makes it
+  zero; it already vanishes off $P$, where $\pi$ is an isomorphism.
 
 ## Sources
 

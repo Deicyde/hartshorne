@@ -6,12 +6,12 @@ origin: cited
 
 # Hyperosculation points
 
-Let a genus-`g` curve be embedded nondegenerately with degree `d` in
-`P^n`, `n>=3`, over a field of characteristic zero. A point is
-hyperosculating when its osculating hyperplane has contact at least `n+1`.
+Let a genus-$g$ curve be embedded nondegenerately with degree $d$ in
+$\mathbb{P}^n$, $n\ge 3$, over a field of characteristic zero. A point is
+hyperosculating when its osculating hyperplane has contact at least $n+1$.
 The weighted number of hyperosculation points is
 
-`n*(n+1)*(g-1)+(n+1)*d`.
+$n\cdot (n+1)\cdot (g-1)+(n+1)\cdot d$.
 
 ## Depends on
 

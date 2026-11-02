@@ -9,16 +9,15 @@ lean: Hartshorne.nonempty_isIso_iff_nonempty_algEquiv
 
 # Isomorphism via coordinate rings
 
-Two affine varieties `X` and `Y` are isomorphic if and only if `A(X)` and `A(Y)`
-are isomorphic as `k`-algebras (Corollary 3.7).
+Two affine varieties $X$ and $Y$ are isomorphic if and only if $A(X)$ and $A(Y)$
+are isomorphic as $k$-algebras (Corollary 3.7).
 
 Immediate from the bijection of the previous node applied in both directions,
-together with the fact that `α` respects composition and identities, so it
+together with the fact that $\alpha$ respects composition and identities, so it
 carries inverse pairs to inverse pairs.
 
-Making "respects composition" precise is the only work. The map of Proposition
-3.5 factors as pullback of regular functions precomposed with `A(Y) ≅ 𝒪(Y)`
-(`homToAlgHom_eq_pullback_comp`), and pullback is contravariantly functorial, so
+Making "respects composition" precise is the only work. The map of [Proposition I.3.5](hom-affine-bijection.md) factors as pullback of regular functions precomposed with $A(Y) \cong \mathcal{O} (Y)$
+and pullback is contravariantly functorial, so
 functoriality of the bijection is functoriality of pullback. Forward, that turns
 a two-sided inverse pair of morphisms into one of algebras directly. Backward, it
 lets the two composites be recognised as identities by comparing their images
@@ -27,12 +26,12 @@ under an injective map.
 That backward direction is where the definition of isomorphism earns its
 awkwardness. Exercise 3.2 shows a bijective bicontinuous morphism need not be an
 isomorphism, so what has to be produced is a two-sided *inverse morphism*, and
-Proposition 3.5 is what produces one.
+[Proposition I.3.5](hom-affine-bijection.md) is what produces one.
 
 Worth stating separately because it is the concrete form the equivalence takes
 in practice, and because it is the statement Hartshorne's exercises invoke — for
-instance to distinguish the conics `y = x²` and `xy = 1`, whose coordinate rings
-are `k[t]` and `k[t, t⁻¹]`.
+instance to distinguish the conics $y = x^{2}$ and $xy = 1$, whose coordinate rings
+are $k[t]$ and $k[t, t^{-1}]$.
 
 ## Depends on
 

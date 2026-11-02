@@ -6,12 +6,12 @@ origin: cited
 
 # Collinearity and the point-group law
 
-Choose `P_0` on an elliptic curve and transport the group structure of
-`Pic^0(X)` across `P |-> O_X(P-P_0)`. In the plane cubic embedding defined
-by `|3P_0|`, three points `P,Q,R`, counted with intersection multiplicity,
+Choose $P_0$ on an elliptic curve and transport the group structure of
+$\operatorname{Pic} ^0(X)$ across $P\mapsto\mathcal O_X(P-P_0)$. In the plane cubic embedding defined
+by $|3P_0|$, three points $P,Q,R$, counted with intersection multiplicity,
 are collinear if and only if
 
-`P+Q+R=0`.
+$P+Q+R=0$.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ are collinear if and only if
 
 ## Proof depends on
 
-- A line cuts a divisor linearly equivalent to `3P_0`; translate this
+- A line cuts a divisor linearly equivalent to $3P_0$; translate this
   divisor relation through the point–Picard bijection.
 
 ## Sources

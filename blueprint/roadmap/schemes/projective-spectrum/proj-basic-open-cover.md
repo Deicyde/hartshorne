@@ -9,13 +9,13 @@ mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean
 
 # Positive-degree basic opens form an affine cover
 
-For every relevant homogeneous prime of `S`, some positive-degree homogeneous
-element lies outside it.  Consequently the opens `D₊(f)`, for homogeneous
-`f ∈ S₊`, cover `Proj S`, and every member of this cover is affine.
+For every relevant homogeneous prime of $S$, some positive-degree homogeneous
+element lies outside it.  Consequently the opens $D_{+}(f)$, for homogeneous
+$f \in S_{+}$, cover $\operatorname{Proj} S$, and every member of this cover is affine.
 
-The unique main artifact is Mathlib's bundled `Proj.affineOpenCover`.  Coverage
-is the defining relevance condition; affineness is supplied by the standard
-chart isomorphism `D₊(f) ≅ Spec S_(f)`.
+The basic opens cover $\operatorname{Proj}S$ by the defining
+irrelevant-ideal condition. Each chart is affine through the
+isomorphism $D_+(f)\cong\operatorname{Spec}S_{(f)}$.
 
 ## Depends on
 

@@ -6,9 +6,9 @@ origin: cited
 
 # Quadric-cubic complete intersections are canonical genus-four curves
 
-Let `X subset P^3` be a nonsingular complete intersection of an irreducible
-quadric and an irreducible cubic. Then `deg X=6`,
-`omega_X~=O_X(1)`, and `X` is a canonical genus-four curve. Such smooth
+Let $X \subset \mathbb{P}^3$ be a nonsingular complete intersection of an irreducible
+quadric and an irreducible cubic. Then $\deg X=6$,
+$\omega _X\simeq \mathcal{O}_X(1)$, and $X$ is a canonical genus-four curve. Such smooth
 complete intersections exist over every algebraically closed field.
 
 ## Depends on
@@ -20,8 +20,8 @@ complete intersections exist over every algebraically closed field.
 
 ## Proof depends on
 
-- Adjunction gives `omega_X=O_X(2+3-4)=O_X(1)`; its four sections make
-  `g=4` and recover the given embedding.
+- Adjunction gives $\omega _X=\mathcal{O}_X(2+3-4)=\mathcal{O}_X(1)$; its four sections make
+  $g=4$ and recover the given embedding.
 
 ## Sources
 

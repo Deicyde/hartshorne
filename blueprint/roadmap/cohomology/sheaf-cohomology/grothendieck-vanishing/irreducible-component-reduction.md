@@ -6,10 +6,10 @@ origin: cited
 
 # Reduction to irreducible components
 
-Fix a natural bound `n`. Suppose every irreducible noetherian closed subspace
-`Z` with `topologicalKrullDim Z ≤ n` satisfies
-`Hⁱ(Z,G)=0` for all abelian sheaves `G` and all `i>n`. Then every noetherian
-space `X` with `topologicalKrullDim X ≤ n` satisfies the same vanishing.
+Fix a natural bound $n$. Suppose every irreducible noetherian closed subspace
+$Z$ with $\dim Z\le n$ satisfies
+$H^{i}(Z,G)=0$ for all abelian sheaves $G$ and all $i>n$. Then every noetherian
+space $X$ with $\dim X\le n$ satisfies the same vanishing.
 
 The unique main result is this parameterized reduction, proved by induction on
 the finite number of irreducible components and the open–closed exact sequence.

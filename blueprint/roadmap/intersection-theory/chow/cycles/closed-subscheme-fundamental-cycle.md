@@ -6,11 +6,11 @@ origin: cited
 
 # The fundamental cycle of a closed subscheme
 
-Let `Z` be a closed subscheme of `X` of codimension `r`. For each irreducible
-component `Y_i` of codimension exactly `r`, let `n_i` be the length of the
-local ring of `Z` at the generic point of `Y_i`. Define
+Let $Z$ be a closed subscheme of $X$ of codimension $r$. For each irreducible
+component $Y_i$ of codimension exactly $r$, let $n_i$ be the length of the
+local ring of $Z$ at the generic point of $Y_i$. Define
 
-`[Z]_r=sum_i n_i[Y_i]` in `Z^r(X)`.
+$[Z]_r=\sum _i n_i[Y_i]$ in $\mathbb{Z}^r(X)$.
 
 Components of larger codimension do not contribute to this cycle.
 

@@ -6,12 +6,12 @@ origin: cited
 
 # Duality is additive and multiplication is self-dual
 
-For origin-preserving morphisms `f,g : X -> X'`,
+For origin-preserving morphisms $f,g : X \to X'$,
 
-`(f+g)_dual = f_dual + g_dual`.
+$(f+g)_\vee = f^{\vee} + g^{\vee}$.
 
-Consequently the dual of multiplication by any integer `n` is multiplication
-by `n`, and `[n] : X -> X` has degree `n^2` for `n != 0`.
+Consequently the dual of multiplication by any integer $n$ is multiplication
+by $n$, and $[n] : X \to X$ has degree $n^2$ for $n \ne 0$.
 
 ## Depends on
 
@@ -21,7 +21,7 @@ by `n`, and `[n] : X -> X` has degree `n^2` for `n != 0`.
 
 ## Proof depends on
 
-- Interpret morphisms as normalized Poincare line bundles on `X times X'`;
+- Interpret morphisms as normalized Poincare line bundles on $X \times X'$;
   tensor product represents addition.
 
 ## Sources

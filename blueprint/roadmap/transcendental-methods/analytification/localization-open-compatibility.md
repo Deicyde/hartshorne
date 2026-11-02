@@ -7,13 +7,11 @@ not_ready: true
 
 # Analytification is compatible with principal localization and open overlaps
 
-For a finite-type complex algebra `A` and `f in A`, analytification identifies
-`(Spec A_f)^h` with the analytic open subspace of `(Spec A)^h` where the
-holomorphic function induced by `f` is nonzero. These identifications commute
+For a finite-type complex algebra $A$ and $f \in A$, analytification identifies
+$(\operatorname{Spec} A_f)^h$ with the analytic open subspace of $(\operatorname{Spec} A)^h$ where the
+holomorphic function induced by $f$ is nonzero. These identifications commute
 with iterated localization and give the overlap maps needed for gluing.
 
-This node is not ready pending an exact analytic localization theorem and its
-compatibility with quotient holomorphic sheaves.
 
 ## Depends on
 

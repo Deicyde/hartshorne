@@ -9,23 +9,17 @@ lean: Hartshorne.Variety.NonsingularAt Hartshorne.Variety.Nonsingular Hartshorne
 
 # Intrinsic nonsingularity
 
-For a variety `X` and a point `P`, define
+A variety $X$ is *nonsingular at* $P$ if its local ring
+$\mathcal O_{P,X}$ is regular. It is nonsingular if this holds at every
+point. Its *singular locus* is the set of points where the local ring is
+not regular.
 
-`NonsingularAt X P :⇔ IsRegularLocalRing (𝒪_{P,X})`.
-
-Define `Nonsingular X` by requiring this at every point, define
-`SingularLocus X = {P | ¬ NonsingularAt X P}`, and call `X` singular when it
-is not nonsingular. These are Hartshorne's intrinsic definitions immediately
-after Theorem 5.1.
-
-The node also proves the two compatibility statements that make the definitions
-usable. For an affine variety the intrinsic predicate agrees with the Jacobian
-predicate by Theorem 5.1 and `localRingEquivAffine`. If `U` is an open
-neighbourhood of `P`, then `P` is nonsingular in `U` exactly when it is
-nonsingular in `X`, because their local rings are isomorphic and regularity is
-invariant under ring equivalence. Likewise, an isomorphism of varieties carries
-nonsingular points to nonsingular points; this is the form used in the
-birational reduction for Theorem 5.3.
+These are Hartshorne's intrinsic definitions after Theorem I.5.1.
+For an affine variety, the Jacobian criterion gives the equivalent
+coordinate definition. Passing to an open neighbourhood leaves the
+local ring unchanged, so nonsingularity is local. An isomorphism of
+varieties carries nonsingular points to nonsingular points because it
+induces isomorphisms of local rings.
 
 ## Depends on
 

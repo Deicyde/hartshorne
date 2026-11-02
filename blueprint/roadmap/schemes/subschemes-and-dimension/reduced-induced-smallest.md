@@ -6,9 +6,9 @@ origin: cited
 
 # The smallest structure on a closed subset
 
-If `Z_red → X` is the reduced induced closed subscheme on `Z` and `Z' → X` is any other closed subscheme with the same underlying set, then `Z_red → X` factors uniquely through `Z' → X`.
+If $Z_{\mathrm{red}} \to X$ is the reduced induced closed subscheme on $Z$ and $Z' \to X$ is any other closed subscheme with the same underlying set, then $Z_{\mathrm{red}} \to X$ factors uniquely through $Z' \to X$.
 
-The ideal sheaf of `Z'` is bounded above by the vanishing ideal of its support. Reverse ideal inclusion gives the factorization of closed subschemes; uniqueness follows because a closed immersion is a monomorphism.
+The ideal sheaf of $Z'$ is bounded above by the vanishing ideal of its support. Reverse ideal inclusion gives the factorization of closed subschemes; uniqueness follows because a closed immersion is a monomorphism.
 
 ## Depends on
 

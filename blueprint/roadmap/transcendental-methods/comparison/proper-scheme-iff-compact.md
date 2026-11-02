@@ -7,8 +7,8 @@ not_ready: true
 
 # A finite-type complex scheme is proper iff its analytification is compact
 
-For a finite-type complex scheme `X`, `X` is proper over `C` exactly when
-the underlying analytic space `X^h` is compact.
+For a finite-type complex scheme $X$, $X$ is proper over $\mathbb{C}$ exactly when
+the underlying analytic space $X^h$ is compact.
 
 ## Depends on
 

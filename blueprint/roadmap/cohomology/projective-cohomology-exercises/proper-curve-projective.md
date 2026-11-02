@@ -18,7 +18,7 @@ projective.
 - [Proper reduced curves are projective](proper-reduced-curve-projective.md)
 - [Picard lifting through a nilpotent thickening](nilpotent-picard-lifting.md)
 - [Ampleness and reduction](ample-iff-on-reduction.md)
-- Lift an ample invertible sheaf from `X_red`, use nilpotent invariance of
+- Lift an ample invertible sheaf from $X_{\mathrm{red}}$, use nilpotent invariance of
   ampleness, then take a very ample power.
 - [An ample sheaf has a very ample power](../../schemes/projective-geometry/linear-systems-ampleness/ample-has-very-ample-power.md)
 - [Projective iff proper and very ample](../../schemes/projective-sheaves/projective-iff-proper-very-ample.md)

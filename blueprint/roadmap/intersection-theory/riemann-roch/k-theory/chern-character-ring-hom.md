@@ -6,9 +6,9 @@ origin: cited
 
 # The Chern character is a ring homomorphism
 
-Tensor product makes `K0(X)` a ring for smooth `X`, and
+Tensor product makes $K0(X)$ a ring for smooth $X$, and
 
-`ch:K0(X) -> A(X) tensor Q`
+$ch:K0(X) \to A(X) \otimes Q$
 
 is a ring homomorphism.
 

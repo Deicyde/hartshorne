@@ -6,11 +6,11 @@ origin: cited
 
 # The Todd class
 
-For a finite locally free sheaf `E` with formal Chern roots `a_i`, define
+For a finite locally free sheaf $E$ with formal Chern roots $a_i$, define
 
-`td(E)=prod_i a_i/(1-exp(-a_i))`
+$td(E)=\prod _i a_i/(1-\exp (-a_i))$
 
-in `A(X) tensor Q`. The constant term is one, and formal Chern-root
+in $A(X) \otimes Q$. The constant term is one, and formal Chern-root
 elimination makes the class intrinsic.
 
 ## Depends on

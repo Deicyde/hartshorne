@@ -9,31 +9,31 @@ lean: Hartshorne.IsQuasiProjVariety.localRingMap_injective_open_homeomorph
 
 # The local-ring map has open image
 
-Let `Y` be a nonsingular quasi-projective curve with function field `K(Y)`.
+Let $Y$ be a nonsingular quasi-projective curve with function field $K(Y)$.
 Sending a point to the image of its local ring defines a map
 
-`P ↦ 𝒪_{P,Y} : Y → C_{K(Y)}`.
+$P \mapsto \mathcal{O} _{P,Y} : Y \to C _{K(Y)}$.
 
-This map is injective, and its image `U` is open in the cofinite valuation
-space.  Moreover it is a homeomorphism from `Y` to `U`.
+This map is injective, and its image $U$ is open in the cofinite valuation
+space.  Moreover it is a homeomorphism from $Y$ to $U$.
 
 Injectivity is Lemma 6.4.  For openness, it is enough to find a nonempty open
-subset of `C_K` contained in the image.  Replace `Y` by a nonempty affine open
-with coordinate ring `A`, which is Dedekind.  Its points correspond exactly to
-the DVRs containing `A`: one direction is immediate from germs, and the other
-uses the center-localization theorem.  If `x_1,…,x_n` generate `A` over `k`,
+subset of $C _K$ contained in the image.  Replace $Y$ by a nonempty affine open
+with coordinate ring $A$, which is Dedekind.  Its points correspond exactly to
+the DVRs containing $A$: one direction is immediate from germs, and the other
+uses the center-localization theorem.  If $x_1,\ldots ,x_n$ generate $A$ over $k$,
 this set is
 
-`⋂_i {R ∈ C_K | x_i ∈ R}`,
+$\bigcap_i\{R\in C_K:x_i\in R\}$,
 
-whose complement is finite by Lemma 6.5.  Finally both `Y` and `U` carry the
+whose complement is finite by Lemma 6.5.  Finally both $Y$ and $U$ carry the
 cofinite topology, so the resulting bijection is a homeomorphism.
 
 Make the affine reduction compatible with the ambient function field: use the
 canonical equivalence between the function fields of a variety and a nonempty
 open subvariety, and the local-ring equivalence at every point of that open.
 Under those transports, the coordinate-ring inclusion, localization at a
-point, and resulting valuation subring of `K(Y)` must form commuting triangles.
+point, and resulting valuation subring of $K(Y)$ must form commuting triangles.
 This is what lets the center computation on the affine open describe the
 original point-to-local-ring map.
 

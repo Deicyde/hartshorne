@@ -6,14 +6,14 @@ origin: cited
 
 # Exactness of affine global sections
 
-Let `X` be affine and let
-`0 ⟶ F' ⟶ F ⟶ F'' ⟶ 0` be an exact sequence of `𝒪_X`-modules.  If `F'`
+Let $X$ be affine and let
+$0 \longrightarrow F' \longrightarrow F \longrightarrow F'' \longrightarrow 0$ be an exact sequence of $\mathcal{O} _X$-modules.  If $F'$
 is quasi-coherent, then
 
-`0 ⟶ Γ(X,F') ⟶ Γ(X,F) ⟶ Γ(X,F'') ⟶ 0`
+$0 \longrightarrow \Gamma (X,F') \longrightarrow \Gamma (X,F) \longrightarrow \Gamma (X,F'') \longrightarrow 0$
 
 is exact.  This is Proposition 5.6; unlike the later affine-vanishing theorem,
-it does not assume that `F` or `F''` is quasi-coherent.
+it does not assume that $F$ or $F''$ is quasi-coherent.
 
 ## Depends on
 

@@ -6,10 +6,10 @@ origin: cited
 
 # The domain of a birational map has codimension-two complement
 
-Let `X` be a nonsingular variety and `X'` a proper variety over `k`. For a
-birational map `f : X dashedrightarrow X'`, let `V` be its maximal domain of
-definition. Then every codimension-one point of `X` belongs to `V`; hence
-`X \ V` has codimension at least two.
+Let $X$ be a nonsingular variety and $X'$ a proper variety over $k$. For a
+birational map $f : X \dashrightarrow X'$, let $V$ be its maximal domain of
+definition. Then every codimension-one point of $X$ belongs to $V$; hence
+$X \setminus V$ has codimension at least two.
 
 ## Depends on
 

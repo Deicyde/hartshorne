@@ -6,13 +6,13 @@ origin: cited
 
 # The Zariski tangent map
 
-For `f : X -> Y`, `x : X`, and `y=f(x)`, construct the natural residue-field
+For $f : X \to Y$, $x \in X$, and $y=f(x)$, construct the natural residue-field
 linear map
 
-`T_x X -> T_y Y tensor_[k(y)] k(x)`.
+$T_x X \to T_y Y \otimes _[k(y)] k(x)$.
 
-It is dual to the map from the cotangent space at `y`, after scalar extension,
-to the cotangent space at `x`. Prove functoriality under composition and
+It is dual to the map from the cotangent space at $y$, after scalar extension,
+to the cotangent space at $x$. Prove functoriality under composition and
 compatibility with the map on local rings.
 
 ## Depends on

@@ -6,10 +6,10 @@ origin: cited
 
 # The exceptional curve of a point blowup is a projective line
 
-For the monoidal transformation of a surface at `P`, the exceptional divisor
+For the monoidal transformation of a surface at $P$, the exceptional divisor
 is canonically
 
-`E ~= P(m_P/m_P^2) ~= P^1_k`.
+$E \simeq P(m_P/m_P^2) \simeq \mathbb{P}^1_k$.
 
 The first projectivization uses Hartshorne's quotient convention.
 

@@ -6,9 +6,9 @@ origin: cited
 
 # Arithmetic genus is invariant under a point blowup
 
-For a monoidal transformation `pi:X_tilde->X`,
+For a monoidal transformation $\pi:\widetilde X\to X$,
 
-`p_a(X_tilde)=p_a(X)`.
+$p_a(\widetilde{X})=p_a(X)$.
 
 ## Depends on
 
@@ -18,7 +18,7 @@ For a monoidal transformation `pi:X_tilde->X`,
 ## Proof depends on
 
 - Structure-sheaf cohomology identifies the dimensions entering
-  `p_a=h^2(O_X)-h^1(O_X)` for a projective surface.
+  $p_a=h^2(\mathcal{O}_X)-h^1(\mathcal{O}_X)$ for a projective surface.
 
 ## Sources
 

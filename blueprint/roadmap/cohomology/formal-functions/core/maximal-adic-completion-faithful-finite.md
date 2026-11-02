@@ -9,10 +9,10 @@ lean: Hartshorne.surjective_of_maximalAdicCompletionMap_surjective
 
 # Faithfulness of maximal-adic completion on finite modules
 
-Let `(A,m)` be a Noetherian local ring and let `u : M -> N` be a map of
-finite `A`-modules. If the induced map on maximal-adic completions is
-surjective, then `u` is surjective. In particular, if the completion of a
-finite module `M` is zero, then `M=0`.
+Let $(A,m)$ be a Noetherian local ring and let $u : M \to N$ be a map of
+finite $A$-modules. If the induced map on maximal-adic completions is
+surjective, then $u$ is surjective. In particular, if the completion of a
+finite module $M$ is zero, then $M=0$.
 
 The unique main result is reflection of surjectivity. Reflection of zero is
 its cokernel specialization and is the form used after formal functions.
@@ -25,10 +25,10 @@ its cokernel specialization and is the form used after formal functions.
 
 ## Proof depends on
 
-- Exact completion identifies the completed cokernel of `u` with the
+- Exact completion identifies the completed cokernel of $u$ with the
   cokernel of the completed map.
-- Reduction of a zero completion modulo `m` gives `Q/mQ=0`; Nakayama's lemma
-  gives `Q=0` for the finite cokernel `Q`.
+- Reduction of a zero completion modulo $m$ gives $Q/mQ=0$; Nakayama's lemma
+  gives $Q=0$ for the finite cokernel $Q$.
 
 ## Sources
 

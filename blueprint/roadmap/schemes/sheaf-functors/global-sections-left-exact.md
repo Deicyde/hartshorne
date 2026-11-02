@@ -9,14 +9,12 @@ mathlib_file: Mathlib/Topology/Sheaves/AddCommGrpCat.lean
 
 # Global sections are left exact
 
-For every open `U`, if `0 ⟶ F' ⟶ F ⟶ F''` is exact as a sequence of
+For every open $U$, if $0 \longrightarrow F' \longrightarrow F \longrightarrow F''$ is exact as a sequence of
 sheaves of abelian groups, then
 
-`0 ⟶ F'(U) ⟶ F(U) ⟶ F''(U)`
+$0 \longrightarrow F'(U) \longrightarrow F(U) \longrightarrow F''(U)$
 
-is exact. This is exactly
-`TopCat.Sheaf.sections_exact_of_left_exact` in the pinned checkout and is the
-input Hartshorne cites in Proposition 5.6.
+is exact. This is the result cited in Hartshorne's Proposition II.5.6.
 
 ## Depends on
 

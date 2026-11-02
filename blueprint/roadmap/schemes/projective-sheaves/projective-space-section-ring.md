@@ -6,10 +6,10 @@ origin: cited
 
 # The section ring of projective space
 
-Let `S = A[x₀,...,xᵣ]` with `r ≥ 1` and `X = Proj S`. The natural graded
+Let $S = A[x_{0},\ldots ,x_{r}]$ with $r \ge 1$ and $X = \operatorname{Proj} S$. The natural graded
 ring homomorphism
 
-`S → Γ_*(O_X)`
+$S \to \Gamma _*(\mathcal{O}_X)$
 
 is an isomorphism.
 
@@ -21,7 +21,7 @@ is an isomorphism.
 
 - [The standard opens cover Proj](../projective-spectrum/proj-basic-open-cover.md)
 - Injectivity of the coordinate localizations and computation of their
-  intersection inside `S[x₀⁻¹...xᵣ⁻¹]`.
+  intersection inside $S[x_{0}^{-1}\ldots x_{r}^{-1}]$.
 
 ## Sources
 

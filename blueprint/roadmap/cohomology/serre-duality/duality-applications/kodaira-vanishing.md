@@ -7,14 +7,14 @@ not_ready: true
 
 # Kodaira vanishing
 
-Let `X` be a nonsingular projective complex variety of dimension `n`, and
-let `L` be ample. Then
+Let $X$ be a nonsingular projective complex variety of dimension $n$, and
+let $L$ be ample. Then
 
-`Hⁱ(X,L⊗ω_X)=0` for `i>0`,
+$H^{i}(X,L\otimes \omega _X)=0$ for $i>0$,
 
 equivalently by Serre duality,
 
-`Hⁱ(X,L⁻¹)=0` for `i<n`.
+$H^{i}(X,L^{-1})=0$ for $i<n$.
 
 The node remains not ready. The project has not chosen between an analytic
 Dolbeault/Hodge proof and a modern algebraic proof, and no required
@@ -36,6 +36,5 @@ comparison infrastructure is currently in scope.
 - Kodaira, “On a differential-geometric method in the theory of analytic stacks,” 1953
 - Wells, *Differential Analysis on Complex Manifolds*, Chapter VI, §2
 - Mumford, “Pathologies III,” *American Journal of Mathematics* 89 (1967),
-  94–104; retained as Hartshorne's historical citation and pathology context,
-  not as the selected implementation proof
+  94–104; Hartshorne's historical citation for the pathology context
 - Ramanujam, “Remarks on the Kodaira vanishing theorem,” 1972

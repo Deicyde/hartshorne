@@ -6,12 +6,12 @@ origin: cited
 
 # Projective space is smooth
 
-Let `k` be a field and let `Y` be a scheme of finite type over `Spec k`.
-For every `n`, the projection
+Let $k$ be a field and let $Y$ be a scheme of finite type over $\operatorname{Spec} k$.
+For every $n$, the projection
 
-`P^n_k ×_(Spec k) Y → Y`,
+$\mathbb{P}^n_k \times _{(\operatorname{Spec} k)} Y \to Y$,
 
-canonically identified with `P^n_Y → Y`, is smooth of relative dimension `n`.
+canonically identified with $\mathbb{P}^n_Y \to Y$, is smooth of relative dimension $n$.
 
 ## Depends on
 

@@ -7,19 +7,16 @@ not_ready: true
 
 # Range and realization of Kodaira dimension
 
-For a nonsingular projective integral variety of dimension `d`,
+For a nonsingular projective integral variety of dimension $d$,
 
-`-1 <= kappa(X) <= d`.
+$-1 \le \kappa (X) \le d$.
 
-Moreover, for every `d>=1` and every integer `r` with `-1<=r<=d`, there is
-a nonsingular projective `d`-fold of Kodaira dimension `r`.
+Moreover, for every $d\ge 1$ and every integer $r$ with $-1\le r\le d$, there is
+a nonsingular projective $d$-fold of Kodaira dimension $r$.
 
-For `d=0`, a smooth projective integral variety over the algebraically closed
-ground field is a point and has Kodaira dimension zero; `-1` is not realized.
+For $d=0$, a smooth projective integral variety over the algebraically closed
+ground field is a point and has Kodaira dimension zero; $-1$ is not realized.
 
-This node is not ready. The upper bound can be derived from the
-pluricanonical-image characterization, but Hartshorne supplies neither the
-every-value constructions nor a proof-level reference for them.
 
 ## Depends on
 

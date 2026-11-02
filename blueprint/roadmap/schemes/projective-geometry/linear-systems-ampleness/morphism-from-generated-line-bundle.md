@@ -6,10 +6,10 @@ origin: cited
 
 # Morphisms from generated invertible sheaves
 
-Let `X` be an `A`-scheme. Pullback of `O(1)` and its coordinate sections sends
-an `A`-morphism `X -> P^n_A` to an invertible sheaf with `n + 1` global
+Let $X$ be an $A$-scheme. Pullback of $\mathcal{O}(1)$ and its coordinate sections sends
+an $A$-morphism $X \to \mathbb{P}^n_A$ to an invertible sheaf with $n + 1$ global
 generators. Conversely, such a sheaf and ordered generators determine a unique
-`A`-morphism with the specified pullback data.
+$A$-morphism with the specified pullback data.
 
 Use the quotient convention: the sections define a surjection from the free
 sheaf to the invertible sheaf.
@@ -22,7 +22,7 @@ sheaf to the invertible sheaf.
 
 ## Proof depends on
 
-- `AlgebraicGeometry.Proj.fromOfGlobalSections` on local trivializations.
+- A generating family of sections defines a projective-space morphism on each local trivialization.
 - Gluing scheme morphisms and uniqueness on the standard affine cover.
 
 ## Sources

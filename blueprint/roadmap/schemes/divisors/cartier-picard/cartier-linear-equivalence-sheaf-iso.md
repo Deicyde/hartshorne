@@ -6,16 +6,16 @@ origin: cited
 
 # Linear equivalence is isomorphism of divisor sheaves
 
-For Cartier divisors `D_1,D_2` on a scheme `X`, prove that
+For Cartier divisors $D_1,D_2$ on a scheme $X$,
 
-`D_1 ~ D_2` if and only if `O_X(D_1) ≅ O_X(D_2)`
+$D_1\sim D_2$ if and only if $\mathcal{O}_X(D_1) \cong \mathcal{O}_X(D_2)$
 
 as abstract invertible sheaves, after forgetting their embeddings in the
 total quotient sheaf.
 
-This is Proposition 6.13(c). After reducing by the associated-sheaf arithmetic
-to `D=D_1-D_2`, a trivialization of `O_X(D)` supplies a nowhere-vanishing
-global rational section whose inverse represents `D` as principal.
+This is Hartshorne's Proposition II.6.13(c). After reducing by the associated-sheaf arithmetic
+to $D=D_1-D_2$, a trivialization of $\mathcal{O}_X(D)$ supplies a nowhere-vanishing
+global rational section whose inverse represents $D$ as principal.
 
 ## Depends on
 
@@ -23,7 +23,7 @@ global rational section whose inverse represents `D` as principal.
 
 ## Proof depends on
 
-- A trivialization of an embedded invertible subsheaf of `K_X` is a global
+- A trivialization of an embedded invertible subsheaf of $K_X$ is a global
   rational unit exactly when the associated divisor is principal.
 
 ## Sources

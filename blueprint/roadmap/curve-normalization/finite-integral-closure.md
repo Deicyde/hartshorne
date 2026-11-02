@@ -9,25 +9,20 @@ lean: Hartshorne.moduleFinite_integralClosure_of_finiteType Hartshorne.finiteTyp
 
 # Finiteness of integral closure
 
-Let `A` be a finitely generated algebra domain over the algebraically closed
-field `k`, let `K` be its fraction field, and let `L/K` be a finite algebraic
-extension.  If `A'` is the integral closure of `A` in `L`, then `A'` is a
-finite `A`-module and therefore a finitely generated `k`-algebra.
+Let $A$ be a finitely generated algebra domain over the algebraically closed
+field $k$, let $K$ be its fraction field, and let $L/K$ be a finite algebraic
+extension.  If $A'$ is the integral closure of $A$ in $L$, then $A'$ is a
+finite $A$-module and therefore a finitely generated $k$-algebra.
 
-This is Theorem 3.9A under the standing hypothesis on `k`, with no
-separability assumption on `L/K`. Choose a finite injective Noether
-normalization `P = k[X_1,\ldots,X_n] → A` using
-`exists_finite_inj_algHom_of_fg`. Localizing this finite map makes
-`Frac(A)/Frac(P)` finite-dimensional; combining it with the given finite
-extension `L/Frac(A)` makes `L/Frac(P)` finite-dimensional by the tower law.
-The integral elements of `L` over `A` and over `P` coincide. Finiteness of the
-normalization over `P` therefore gives a finite `P`-spanning family, and the
-same family spans over the larger ring `A`.
+This is Theorem 3.9A under the standing hypothesis on $k$, with no
+separability assumption on $L/K$. Choose a finite injective Noether
+normalization $P = k[X_1,\ldots,X_n] \to A$. Localizing this finite map makes
+$\operatorname{Frac}(A)/\operatorname{Frac}(P)$ finite-dimensional; combining it with the given finite
+extension $L/\operatorname{Frac}(A)$ makes $L/\operatorname{Frac}(P)$ finite-dimensional by the tower law.
+The integral elements of $L$ over $A$ and over $P$ coincide. Finiteness of the
+normalization over $P$ therefore gives a finite $P$-spanning family, and the
+same family spans over the larger ring $A$.
 
-The finite-type conclusion over `k` should be exposed as a companion theorem
-or instance. Hartshorne uses it in the proof of Corollary 6.6 to realize `A'`
-as an affine coordinate ring; the independent two-chart implementation obtains
-the corresponding finite-type fact from Mathlib's separable theorem instead.
 
 ## Depends on
 

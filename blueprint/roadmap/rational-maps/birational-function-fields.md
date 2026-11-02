@@ -9,19 +9,19 @@ lean: Hartshorne.birational_iff_nonempty_functionField_algEquiv
 
 # Birational varieties have isomorphic function fields
 
-For separated varieties `X` and `Y` carrying affine-open-basis witnesses, the
+For separated varieties $X$ and $Y$ carrying affine-open-basis witnesses, the
 following are equivalent:
 
-- `X` and `Y` are birationally equivalent;
-- `K(X) ≃ₐ[k] K(Y)`.
+- $X$ and $Y$ are birationally equivalent;
+- $K(X)\cong_k K(Y)$.
 
 A birational map and its inverse induce inverse pullbacks on function fields.
 In the other direction, an algebra equivalence and its inverse correspond by
-Theorem 4.4 to dominant rational maps in opposite directions.  Faithfulness of
+[Theorem I.4.4](rational-map-function-field.md) to dominant rational maps in opposite directions.  Faithfulness of
 that correspondence turns the two inverse identities on function fields into
 the two inverse identities of rational maps.
 
-This is the function-field `(i) ⇔ (iii)` part of Corollary 4.5.
+This is the function-field $\mathrm{(i)}\Longleftrightarrow\mathrm{(iii)}$ part of Corollary 4.5.
 
 ## Depends on
 

@@ -7,19 +7,16 @@ not_ready: true
 
 # Sheaf cohomology and the Ext model
 
-For an abelian sheaf `F` on a topological space `X`, define Hartshorne
-cohomology by `RⁿΓ(X,F)`. Construct natural isomorphisms between this model and
-Mathlib's `CategoryTheory.Sheaf.H F n`, defined as Ext from the constant
-integral sheaf, and identify degree zero with global sections.
+For an abelian sheaf $F$ on a topological space $X$, sheaf
+cohomology is the right derived functor $R^n\Gamma(X,F)$. There
+are natural isomorphisms with the groups
+$\operatorname{Ext}^n(\mathbb Z_X,F)$, where $\mathbb Z_X$ is the
+constant integral sheaf. In degree zero, these identify with global
+sections.
 
-The unique main result is a natural isomorphism of graded functors between
-Hartshorne's `RⁿΓ(X,-)` and Mathlib's Ext model. It must be induced from the
-degree-zero natural isomorphism `Hom(Z_X,F) ≅ Γ(X,F)` and be compatible with
-connecting maps. `Sheaf.H`, `Sheaf.functorH`, `Sheaf.H.map`, and `Sheaf.H.equiv₀` in
-`Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean` are exact pinned
-primitives, not a definitional identification with `RΓ`. This node remains
-not ready until that derived comparison is specified against Mathlib's two
-constructions.
+The comparison is induced by the degree-zero isomorphism
+$\operatorname{Hom}(\mathbb Z_X,F)\cong\Gamma(X,F)$ and is
+compatible with connecting homomorphisms.
 
 ## Depends on
 

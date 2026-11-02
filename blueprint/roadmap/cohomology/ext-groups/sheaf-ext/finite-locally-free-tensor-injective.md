@@ -6,8 +6,8 @@ origin: cited
 
 # Tensoring an injective by a finite locally free sheaf
 
-If `L` is a finite-rank locally free `O_X`-module and `J` is injective in
-`X.Modules`, then `L ⊗ J` is injective.
+If $L$ is a finite-rank locally free $\mathcal{O}_X$-module and $J$ is injective in
+the category of $\mathcal{O}_X$-modules, then $L \otimes J$ is injective.
 
 ## Depends on
 
@@ -16,8 +16,8 @@ If `L` is a finite-rank locally free `O_X`-module and `J` is injective in
 
 ## Proof depends on
 
-- Exactness of tensoring by `L∨`.
-- The natural adjunction `Hom(-,L⊗J) ≅ Hom(-⊗L∨,J)`.
+- Exactness of tensoring by $L^{\vee}$.
+- The natural adjunction $\operatorname{Hom} (-,L\otimes J) \cong \operatorname{Hom} (-\otimes L^{\vee} ,J)$.
 
 ## Sources
 

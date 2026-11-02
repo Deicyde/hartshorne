@@ -6,14 +6,13 @@ origin: cited
 
 # Surfaces and effective curves
 
-Over an algebraically closed field `k`, package a Chapter V surface as an
-integral regular projective `k`-scheme of dimension two. A curve on the
+Over an algebraically closed field $k$, a Chapter V surface is an
+integral regular projective $k$-scheme of dimension two. A curve on the
 surface is an effective divisor; it may be singular, reducible, nonreduced,
 or have repeated components. An unqualified point is closed.
 
-Use regular local factoriality to identify Weil and Cartier divisors and to
-identify divisor classes with `Pic(X)`. This is a representation bridge, not
-a second divisor theory.
+Regular local factoriality identifies Weil and Cartier divisors, and hence
+identifies divisor classes with $\operatorname{Pic}(X)$.
 
 ## Depends on
 

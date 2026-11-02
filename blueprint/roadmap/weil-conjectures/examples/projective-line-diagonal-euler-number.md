@@ -6,9 +6,9 @@ origin: cited
 
 # The diagonal Euler number of the projective line is two
 
-For `P^1/F_q`,
+For $\mathbb P^1/\mathbb{F}_q$,
 
-`E(P^1)=deg c_1(T_(P^1))=2`.
+$E(\mathbb{P}^1)=\deg c_1(T_{(\mathbb{P}^1)})=2$.
 
 ## Depends on
 

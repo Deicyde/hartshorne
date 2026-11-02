@@ -10,9 +10,6 @@ not_ready: true
 Every compact complex manifold of dimension two with two algebraically
 independent meromorphic functions is projective algebraic.
 
-This node is not ready.  Hartshorne quotes the Chow–Kodaira theorem without
-proof.  An exact source must connect the analytic meromorphic-function
-criterion to a projective algebraization and preserve smoothness.
 
 ## Depends on
 

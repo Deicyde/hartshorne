@@ -9,17 +9,17 @@ lean: Hartshorne.projectiveDiagonal_functionFieldAlgHom_bijective
 
 # The function field of the diagonal model
 
-For a `ProjectiveDiagonalModel` and its dense map `φ : C_K → Y`, the induced
-map `φ* : K(Y) → K(C_K)` on function fields is bijective.  The sole main
-declaration is formalized as
-`Hartshorne.projectiveDiagonal_functionFieldAlgHom_bijective`.
+For the dense diagonal morphism $\varphi:C_K\to Y$ of the projective
+model, the induced map
 
-The proof restricts to either affine chart, where the map is already the
-chosen compatible function-field equivalence.  Projection identities and
-functoriality then identify the global map.  As a supporting consequence, the
-resulting algebra equivalence, composed with the canonical identification
-`K(C_K) ≃ₐ[k] K`, identifies `K(Y)` with `K`, and the image closure has
-dimension exactly one rather than merely dimension at most one.
+$$\varphi^*:K(Y)\longrightarrow K(C_K)$$
+
+is bijective. Composing its inverse identification with the canonical
+isomorphism $K(C_K)\cong K$ identifies $K(Y)$ with $K$.
+
+On either affine chart, the pullback is already the chosen function-field
+isomorphism. Projection identities and functoriality identify this chart
+map with the global pullback. Consequently $Y$ has dimension exactly one.
 
 ## Depends on
 

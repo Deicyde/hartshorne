@@ -9,16 +9,15 @@ lean: Hartshorne.GroupVariety Hartshorne.AlgebraicGroupAction Hartshorne.Homogen
 
 # Algebraic group actions and homogeneous spaces
 
-Over `S = Spec k`, package a group variety as an integral separated
-finite-type group object `G` in `Over S`. Package an action on `X` by a
-morphism `G times_S X -> X` satisfying the unit and associativity diagrams.
-A homogeneous space is such an action for which `G(k)` acts transitively on
-`X(k)`.
+Over $S=\operatorname{Spec}k$, a group variety is an integral separated
+group scheme $G$ of finite type over $S$. An action on $X$ is a morphism
+$G\times_S X\to X$ satisfying the unit and associativity identities.
+A homogeneous space is such an action for which $G(k)$ acts transitively
+on $X(k)$.
 
-Construct translation automorphisms from `k`-point sections and prove their
-compatibility with the action morphism. Over algebraically closed `k`, expose
-the equivalence between `k`-points and closed points. The API uses genuine
-scheme morphisms; an abstract `MulAction` is not sufficient.
+Rational points of the group give translation automorphisms,
+compatible with the scheme action. Over an algebraically closed
+field $k$, $k$-rational points correspond to closed points.
 
 ## Depends on
 
@@ -28,7 +27,7 @@ scheme morphisms; an abstract `MulAction` is not sufficient.
 
 ## Proof depends on
 
-- Mathlib's `GrpObj (Over S)` and finite-product infrastructure.
+- Group objects and their actions in the category of schemes over the base.
 - The scheme-point/closed-point comparison over an algebraically closed field.
 
 ## Sources

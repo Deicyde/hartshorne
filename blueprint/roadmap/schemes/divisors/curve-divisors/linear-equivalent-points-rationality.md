@@ -6,13 +6,13 @@ origin: cited
 
 # Linear equivalence of points detects rational curves
 
-For a complete nonsingular curve `X` over an algebraically closed field, prove
-that `X` is rational if and only if it contains distinct closed points `P,Q`
-with `P ~ Q`.
+A complete nonsingular curve $X$ over an algebraically closed field is
+rational if and only if it contains distinct closed points $P,Q$ with
+$P\sim Q$.
 
-If `(f)=P-Q`, the corresponding finite morphism `X → P^1` has degree one and
+If $(f)=P-Q$, the corresponding finite morphism $X \to \mathbb{P}^1$ has degree one and
 is birational. Conversely, a rational complete nonsingular curve is
-isomorphic to `P^1`, where any two closed points are linearly equivalent.
+isomorphic to $\mathbb{P}^1$, where any two closed points are linearly equivalent.
 
 ## Depends on
 

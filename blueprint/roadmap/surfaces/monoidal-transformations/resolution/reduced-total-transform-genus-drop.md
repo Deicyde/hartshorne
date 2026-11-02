@@ -6,14 +6,14 @@ origin: cited
 
 # Genus drop for a reduced total transform
 
-Let `Y` be a reduced connected curve on a smooth surface, let `P` lie on
-`Y`, and let `r=mu_P(Y)>=1`. After blowing up `P`, the reduced total transform is
+Let $Y$ be a reduced connected curve on a smooth surface, let $P$ lie on
+$Y$, and let $r=\mu _P(Y)\ge 1$. After blowing up $P$, the reduced total transform is
 
-`Y_tilde+E = pi^*Y-(r-1)E`,
+$\widetilde{Y}+E = \pi ^*Y-(r-1)E$,
 
 and
 
-`p_a(Y_tilde+E)=p_a(Y)-(r-1)*(r-2)/2`.
+$p_a(\widetilde{Y}+E)=p_a(Y)-(r-1)\cdot (r-2)/2$.
 
 ## Depends on
 
@@ -24,8 +24,8 @@ and
 
 ## Proof depends on
 
-- Apply adjunction to `pi^*Y-(r-1)E`, using pullback isometry,
-  exceptional orthogonality, and `E^2=-1`.
+- Apply adjunction to $\pi ^*Y-(r-1)E$, using pullback isometry,
+  exceptional orthogonality, and $E^2=-1$.
 
 ## Sources
 

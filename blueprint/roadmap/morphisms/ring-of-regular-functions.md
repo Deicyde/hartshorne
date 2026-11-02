@@ -9,23 +9,16 @@ lean: Hartshorne.globalRegular Hartshorne.VarietyHom.pullback
 
 # The ring of regular functions
 
-For a variety `Y`, `𝒪(Y)` is the ring of regular functions `Y → k`. It is a
-`k`-algebra under pointwise operations, and an isomorphism of varieties induces
-an isomorphism of `k`-algebras, so `𝒪(Y)` is an invariant of `Y`.
+For a variety $Y$, the ring $\mathcal O(Y)$ of regular functions $Y\to k$
+is a $k$-algebra under pointwise operations. A morphism $\varphi:X\to Y$
+induces pullback
 
-The ring structure is routine; the substance is functoriality, since Proposition
-3.5 is stated in terms of the induced map `𝒪(Y) → 𝒪(X)` for a morphism
-`φ : X → Y`. That map is `VarietyHom.pullback`, and it is contravariantly
-functorial.
+$$\varphi^*:\mathcal O(Y)\longrightarrow\mathcal O(X),\qquad
+f\longmapsto f\circ\varphi.$$
 
-One wrinkle is worth recording. `Variety` indexes regular functions by open
-subsets, so its `𝒪(Y)` consists of functions on `↥(⊤ : Opens Y)` rather than on
-`Y`. The two readings agree, but not definitionally: they differ by the
-homeomorphism between a space and its top open subset.
-`Hartshorne.isRegular_iff_top` converts between them, and it is a corollary of
-the general fact that regularity survives any homeomorphism commuting with the
-map to affine space. Statements that mention both a concrete `Y ⊆ 𝔸ⁿ` and a
-bundled variety need it.
+Pullback respects identity and reverses composition. An isomorphism of
+varieties therefore induces an isomorphism of their regular-function
+algebras, making $\mathcal O(Y)$ an invariant of the variety.
 
 ## Depends on
 
@@ -34,4 +27,4 @@ bundled variety need it.
 
 ## Sources
 
-- [Hartshorne I.3, definition of `𝒪(Y)` (p. 16)](../../sources/hartshorne.md#i3)
+- [Hartshorne I.3, definition of $\mathcal{O} (Y)$ (p. 16)](../../sources/hartshorne.md#i3)

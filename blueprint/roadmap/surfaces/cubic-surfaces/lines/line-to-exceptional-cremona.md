@@ -6,13 +6,13 @@ origin: cited
 
 # A line can be moved to an exceptional curve
 
-For any one of the twenty-seven lines `L` on the marked cubic surface, there
-is a marking of `X` as a blowup of the plane for which `L` is an exceptional
+For any one of the twenty-seven lines $L$ on the marked cubic surface, there
+is a marking of $X$ as a blowup of the plane for which $L$ is an exceptional
 curve.
 
-Exceptional lines require only relabeling.  For `F_ij`, apply the quadratic
-transformation centered at `P_i,P_j` and a third marked point.  For `G_i`, one
-quadratic transformation changes the conic into an `F`-type line, reducing to
+Exceptional lines require only relabeling.  For $F_{ij}$, apply the quadratic
+transformation centered at $P_i,P_j$ and a third marked point.  For $G_i$, one
+quadratic transformation changes the conic into an $F$-type line, reducing to
 the preceding case.
 
 ## Depends on

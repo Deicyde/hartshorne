@@ -11,9 +11,8 @@ There is a Riemann–Roch transformation for singular varieties extending the
 smooth Grothendieck–Riemann–Roch formalism to coherent K-theory and Chow
 homology.
 
-Hartshorne records only the existence of this recent generalization. The node
-is not ready until a precise Baum–Fulton–MacPherson/Fulton theorem and its
-categorical representation are adopted.
+Hartshorne records the existence of this generalization without stating its
+full formula.
 
 ## Depends on
 

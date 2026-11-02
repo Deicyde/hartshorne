@@ -6,9 +6,9 @@ origin: cited
 
 # GAGA comparison of analytic and algebraic Picard groups
 
-For a projective scheme `X` over `C`, analytification induces an isomorphism
+For a projective scheme $X$ over $\mathbb{C}$, analytification induces an isomorphism
 
-`Pic(X) ~= Pic(X^h)`.
+$\operatorname{Pic} (X) \simeq \operatorname{Pic} (X^h)$.
 
 Analytic line bundles are coherent locally free analytic sheaves of rank one;
 essential surjectivity and full faithfulness of projective GAGA algebraize them

@@ -9,9 +9,10 @@ lean: Hartshorne.locallyOfFiniteType_iff_affineCovers
 
 # Morphisms locally of finite type
 
-A morphism `f : X → Y` is locally of finite type when an affine cover of `Y` pulls back to affine covers `Spec Aᵢⱼ` for which each `Aᵢⱼ` is a finitely generated algebra over the corresponding target ring.
+A morphism $f : X \to Y$ is locally of finite type when an affine cover of $Y$ pulls back to affine covers $\operatorname{Spec} A_{ij}$ for which each $A_{ij}$ is a finitely generated algebra over the corresponding target ring.
 
-Represent the property by Mathlib's every-affine-pair class `LocallyOfFiniteType`. Prove once that target-locality converts Hartshorne's existential cover into this API.
+Equivalently, the finite-generation condition holds for every
+compatible pair of affine opens in the source and target.
 
 ## Depends on
 

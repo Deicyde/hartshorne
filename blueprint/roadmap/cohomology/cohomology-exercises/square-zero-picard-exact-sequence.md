@@ -6,14 +6,14 @@ origin: cited
 
 # The Picard sequence of a square-zero thickening
 
-Let `J ⊆ O_X` satisfy `J^2=0`, and let `X_0=(X,O_X/J)`. The map
-`a ↦ 1+a` gives an exact sequence of abelian sheaves
+Let $J \subseteq \mathcal{O}_X$ satisfy $J^2=0$, and let $X_0=(X,\mathcal{O}_X/J)$. The map
+$a \mapsto 1+a$ gives an exact sequence of abelian sheaves
 
-`0 ⟶ J ⟶ O_X^* ⟶ O_X0^* ⟶ 0`,
+$0 \longrightarrow J \longrightarrow \mathcal{O}_X^* \longrightarrow \mathcal{O}_X0^* \longrightarrow 0$,
 
 and hence an exact segment
 
-`H^1(X,J) ⟶ Pic X ⟶ Pic X_0 ⟶ H^2(X,J)`.
+$H^1(X,J) \longrightarrow \operatorname{Pic} X \longrightarrow \operatorname{Pic} X_0 \longrightarrow H^2(X,J)$.
 
 ## Depends on
 
@@ -22,7 +22,7 @@ and hence an exact segment
 
 ## Proof depends on
 
-- Square-zero multiplication identifies the additive group of `J` with the
+- Square-zero multiplication identifies the additive group of $J$ with the
   kernel of the map on unit sheaves.
 
 ## Sources

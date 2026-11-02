@@ -8,12 +8,11 @@ lean: AlgebraicGeometry.Scheme.Modules.FlatOverAt AlgebraicGeometry.Scheme.Modul
 
 # A module sheaf flat over a base
 
-For `f : X -> Y`, an `O_X`-module `F` is flat over `Y` at `x : X` when
-`F_x` is flat as an `O_{Y,f(x)}`-module through the stalk map of `f`. It is
-flat over `Y` when this holds at every point.
+For $f : X \to Y$, an $\mathcal{O}_X$-module $F$ is flat over $Y$ at $x \in X$ when
+$F_x$ is flat as an $\mathcal{O}_{Y,f(x)}$-module through the stalk map of $f$. It is
+flat over $Y$ when this holds at every point.
 
-This predicate is distinct from Mathlib's `AlgebraicGeometry.Flat f`, which
-is a property of the morphism and corresponds to taking `F=O_X`.
+Taking $F=\mathcal{O}_X$ recovers flatness of the morphism $f$.
 
 ## Depends on
 

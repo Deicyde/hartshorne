@@ -6,13 +6,13 @@ origin: cited
 
 # Intersection with an ample divisor is positive degree
 
-Let `H` be ample on a Chapter V surface and let `C` be a nonzero irreducible
+Let $H$ be ample on a Chapter V surface and let $C$ be a nonzero irreducible
 curve. Then
 
-`C*H > 0`.
+$C \cdot H > 0$.
 
-If `H` is very ample, this intersection number is exactly the projective
-degree of `C` in the embedding determined by `H`.
+If $H$ is very ample, this intersection number is exactly the projective
+degree of $C$ in the embedding determined by $H$.
 
 ## Depends on
 

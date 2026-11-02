@@ -6,13 +6,13 @@ origin: cited
 
 # Divisors in a nonpencil linear system are connected
 
-Let `X` be a normal projective variety over an algebraically closed field and
-let `b` be a basepoint-free linear system of effective Cartier divisors. Let
-`f : X -> P^n` be the morphism determined by `b`. If
+Let $X$ be a normal projective variety over an algebraically closed field and
+let $b$ be a basepoint-free linear system of effective Cartier divisors. Let
+$f : X \to \mathbb{P}^n$ be the morphism determined by $b$. If
 
-`dim f(X) >= 2`,
+$\dim f(X) \ge 2$,
 
-then every divisor belonging to `b` is connected.
+then every divisor belonging to $b$ is connected.
 
 The dimension hypothesis is Hartshorne's meaning of “not composite with a
 pencil.” This is the connectedness promised in III Remark 10.9.1; it does not
@@ -31,8 +31,8 @@ assert smoothness or irreducibility of every member.
 
 ## Proof depends on
 
-- In the Stein factorization of `f`, the finite intermediate variety is
-  integral, normal, projective, and has dimension `dim f(X)`.
+- In the Stein factorization of $f$, the finite intermediate variety is
+  integral, normal, projective, and has dimension $\dim f(X)$.
 - Pullback of a hyperplane to that intermediate variety is an effective ample
   Cartier divisor and hence has connected support.
 - A proper surjective map with connected fibres has connected inverse image

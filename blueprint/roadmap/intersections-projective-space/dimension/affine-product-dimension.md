@@ -9,18 +9,18 @@ lean: Hartshorne.dim_affineProduct
 
 # Dimension of an affine product
 
-If `X ⊆ 𝔸^σ` and `Y ⊆ 𝔸^τ` are affine varieties over an algebraically closed
-field, then
+If $X\subseteq\mathbb A^m$ and $Y\subseteq\mathbb A^n$ are affine
+varieties over an algebraically closed field, then
 
-`dim (affineProduct X Y) = dim X + dim Y`.
+$$\dim(X\times Y)=\dim X+\dim Y.$$
 
-The sole main declaration is planned as `Hartshorne.dim_affineProduct`.  This
-is Exercise I.3.15(d), which Hartshorne uses verbatim in Proposition 7.1.
+This is Hartshorne's Exercise I.3.15(d), used in
+[Proposition I.7.1](affine-dimension-theorem.md).
 
-Pass from all three geometric dimensions to coordinate-ring dimensions.  The
-coordinate ring of the product is the tensor product of the coordinate rings,
-and it is a domain because the affine product is a variety.  The tensor-product
-dimension theorem then gives the equality.
+The coordinate ring of the product is $A(X)\otimes_k A(Y)$ and is a
+domain because the affine product is a variety. Apply the tensor-product
+dimension theorem and identify geometric dimensions with coordinate-ring
+dimensions.
 
 ## Depends on
 

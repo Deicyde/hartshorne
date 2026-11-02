@@ -6,15 +6,15 @@ origin: cited
 
 # Extensions are classified by Ext one
 
-For two `O_X`-modules `F'` and `F''`, sending a short exact extension
+For two $\mathcal{O}_X$-modules $F'$ and $F''$, sending a short exact extension
 
-`0 ⟶ F' ⟶ F ⟶ F'' ⟶ 0`
+$0 \longrightarrow F' \longrightarrow F \longrightarrow F'' \longrightarrow 0$
 
-to the connecting image of `𝟙 F''` induces a bijection between isomorphism
-classes of extensions and `Ext^1_X(F'',F')`.
+to the connecting image of $\operatorname{id}_{F''}$ induces a bijection between isomorphism
+classes of extensions and $\operatorname{Ext} ^1_X(F'',F')$.
 
 Here an extension is a short exact short complex with ends identified with
-`F'` and `F''`; two extensions are equivalent when an isomorphism of the
+$F'$ and $F''$; two extensions are equivalent when an isomorphism of the
 middle objects makes the endpoint-identity diagram commute. The main result
 is the resulting set-level bijection. No Baer-sum compatibility is asserted.
 
@@ -25,8 +25,8 @@ is the resulting set-level bijection. No Baer-sum compatibility is asserted.
 
 ## Proof depends on
 
-- Pinned Mathlib's `CategoryTheory.ShortComplex.ShortExact.extClass`.
-- The extension setoid above and invariance of `extClass` under its relation.
+- The connecting homomorphism associates an Ext class to a short exact extension.
+- The Ext class is invariant under isomorphisms of extensions fixing both ends.
 
 ## Sources
 

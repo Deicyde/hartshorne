@@ -6,12 +6,12 @@ origin: cited
 
 # Vector-bundle Serre duality
 
-Let `X` be a projective Cohen–Macaulay scheme, equidimensional of dimension
-`n`, over an algebraically closed field `k`, with dualizing sheaf `ω°_X`.
-For a finite locally free module `E` and `0≤i≤n`, there is a natural
+Let $X$ be a projective Cohen–Macaulay scheme, equidimensional of dimension
+$n$, over an algebraically closed field $k$, with dualizing sheaf $\omega ^{\circ} _X$.
+For a finite locally free module $E$ and $0\le i\le n$, there is a natural
 perfect-pairing equivalence
 
-`Hⁱ(X,E) ≃ Dual k (H^(n-i)(X,Eᵛ⊗ω°_X))`.
+$$H^i(X,E)\cong H^{n-i}(X,E^\vee\otimes\omega_X^{\circ})^\vee.$$
 
 ## Depends on
 

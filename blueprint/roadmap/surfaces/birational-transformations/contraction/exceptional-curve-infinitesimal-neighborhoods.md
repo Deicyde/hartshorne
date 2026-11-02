@@ -6,17 +6,17 @@ origin: cited
 
 # Infinitesimal neighborhoods of a minus-one curve
 
-Let `I` be the ideal sheaf of an exceptional curve of the first kind `Y`,
-and let `Y_n` be cut out by `I^n`.  Then
+Let $I$ be the ideal sheaf of an exceptional curve of the first kind $Y$,
+and let $Y_n$ be cut out by $I^n$.  Then
 
-`I^n/I^(n+1) ~= O_(P^1)(n)`.
+$I^n/I^{n+1} \simeq \mathcal{O}_{(\mathbb{P}^1)}(n)$.
 
-After choosing a basis `x,y` of `H^0(P^1,O(1))` and compatible lifts, there
+After choosing a basis $x,y$ of $H^0(\mathbb{P}^1,\mathcal{O}(1))$ and compatible lifts, there
 are compatible, noncanonical ring isomorphisms
 
-`H^0(Y_n,O_(Y_n)) ~= k[[x,y]]/(x,y)^n`.
+$H^0(Y_n,\mathcal{O}_{(Y_n)}) \simeq k[[x,y]]/(x,y)^n$.
 
-The indexing has `Y_1=Y`; no assertion of a canonical coordinate choice is
+The indexing has $Y_1=Y$; no assertion of a canonical coordinate choice is
 made.
 
 ## Depends on
@@ -28,9 +28,9 @@ made.
 
 ## Proof depends on
 
-- The conormal bundle is `I/I^2 ~= O_(P^1)(1)`.  Use the exact sequences
-  `0 -> I^n/I^(n+1) -> O_(Y_(n+1)) -> O_(Y_n) -> 0`, the vanishing of
-  `H^1(P^1,O(n))`, and induction on `n`, preserving multiplication of the
+- The conormal bundle is $I/I^2 \simeq \mathcal{O}_{(\mathbb{P}^1)}(1)$.  Use the exact sequences
+  $0 \to I^n/I^{n+1} \to \mathcal{O}_{(Y_{(n+1)})} \to \mathcal{O}_{(Y_n)} \to 0$, the vanishing of
+  $H^1(\mathbb{P}^1,\mathcal{O}(n))$, and induction on $n$, preserving multiplication of the
   lifted parameters.
 
 ## Sources

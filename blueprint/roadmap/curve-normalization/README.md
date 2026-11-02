@@ -4,57 +4,39 @@ article_id: af_b9a7e8ef4ead61f0fe3a8d41
 
 # Normalization and the valuation-space curve
 
-This milestone continues Hartshorne I.6 from Lemma 6.5 through Proposition
+This milestone continues Hartshorne I.6 from [Lemma I.6.5](finite-poles.md) through Proposition
 6.7.  It first proves the two quoted integral-closure results used in the
-construction: Theorem 3.9A, finiteness of normalization for a finitely
-generated domain over a field, and Theorem 6.3A, preservation of the Dedekind
+construction: [Theorem I.3.9A](finite-integral-closure.md), finiteness of normalization for a finitely
+generated domain over a field, and [Theorem I.6.3A](krull-akizuki/dedekind-integral-closure.md), preservation of the Dedekind
 property in a finite extension of the fraction field.
 
-For a one-dimensional function field `K/k`, let `C_K` be the discrete
-valuation rings of `K` containing `k`.  Lemma 6.5 says that every element of
-`K` has only finitely many poles on `C_K`.  Corollary 6.6 realizes each point
-of `C_K` as the local ring of a point on a nonsingular affine curve.
+For a one-dimensional function field $K/k$, let $C _K$ be the discrete
+valuation rings of $K$ containing $k$.  [Lemma I.6.5](finite-poles.md) says that every element of
+$K$ has only finitely many poles on $C _K$.  [Corollary I.6.6](dvr-affine-model.md) realizes each point
+of $C _K$ as the local ring of a point on a nonsingular affine curve.
 
 All 26 leaves in this milestone are formalized. They include the nonseparable
 normalization theorems, finite poles and affine DVR models, the complete
 regular-function structure on the valuation space, the abstract curve and its
-function field, and Proposition 6.7 as an isomorphism of varieties.
+function field, and [Proposition I.6.7](curve-to-valuation-space-iso.md) as an isomorphism of varieties.
 
-The second phase equips `C_K` with its cofinite topology and defines regular
-functions on an open set `U` by the intersection of its valuation rings.
-Proposition 6.7 then identifies every nonsingular quasi-projective curve with
+The second phase equips $C _K$ with its cofinite topology and defines regular
+functions on an open set $U$ by the intersection of its valuation rings.
+[Proposition I.6.7](curve-to-valuation-space-iso.md) then identifies every nonsingular quasi-projective curve with
 an open subcurve of this valuation space.
 
-## Mathlib boundary
 
-The pinned Mathlib proves finiteness and the Dedekind property of an integral
-closure only for a finite *separable* extension, through
-`IsIntegralClosure.finite` and
-`IsIntegralClosure.isDedekindDomain`.  Hartshorne imposes no separability
-hypothesis.  The roadmap therefore isolates the purely inseparable
-normalization argument and the Krull--Akizuki theorem instead of marking
-either source theorem as already formalized upstream.
+## Two affine charts and the algebraic background
 
-Mathlib does provide the remaining algebraic and topological primitives:
-integral closures are integrally closed and have the expected fraction field
-without a separability assumption, ideals in a Dedekind domain have finite
-support, and `CofiniteTopology` is irreducible on an infinite type.
+A separating parameter $t$ makes $K/k(t)$ finite and separable.
+The integral closures of $k[t]$ and $k[t^{-1}]$ give two Dedekind affine
+models. Every valuation ring contains $t$ or $t^{-1}$, so these models
+cover the valuation space. They suffice for the finite-pole theorem,
+local affine models, and the open-subcurve comparison.
 
-The geometric branch below does not wait for the two exact nonseparable
-background theorems. A fixed separating parameter `t` makes `K/k(t)` finite
-separable, so Mathlib constructs finite Dedekind normalizations for both
-`k[t]` and `k[t⁻¹]`. Every valuation ring contains one of `t` and `t⁻¹`, and
-these two affine charts suffice for Lemma 6.5, Corollary 6.6, and Proposition
-6.7. Theorems 3.9A and 6.3A remain in scope as independent source-facing
-branches.
-
-The fixed two-chart organization and the nonempty-open `Hartshorne.Variety`
-packaging are project-authored representation choices. The Frobenius and
-maximal-separable-subextension route for Theorem 3.9A is an adopted
-project-authored proof decomposition. Its three support leaves retain
-`origin: bridged`: they are intermediate results, not direct Hartshorne
-targets. Their externally sourced ingredients and project-authored steps are
-distinguished in the individual provenance notes.
+The general normalization theorems remain separate: Hartshorne's
+Theorems I.3.9A and I.6.3A do not impose separability. Their proofs use the
+purely inseparable normalization argument and Krull–Akizuki.
 
 ## Finiteness of normalization
 
@@ -92,8 +74,8 @@ distinguished in the individual provenance notes.
 
 ## Scope note
 
-This milestone stops at Proposition 6.7 on printed p. 43.  Proposition 6.8,
+This milestone stops at [Proposition I.6.7](curve-to-valuation-space-iso.md) on printed p. 43.  [Proposition I.6.8](../projective-models/projective-extension.md),
 extension of morphisms across a missing point, begins the separate projective-
-model milestone, now decomposed through Theorem 6.9 and Corollaries
+model milestone, now decomposed through [Theorem I.6.9](../projective-models/function-field-projective-model.md) and Corollaries
 6.10--6.12.  The exercises remain out of scope except for the weak infinitude
-consequence of Exercise 4.8 used in Hartshorne's construction of `C_K`.
+consequence of Exercise 4.8 used in Hartshorne's construction of $C _K$.

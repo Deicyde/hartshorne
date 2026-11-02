@@ -6,16 +6,21 @@ origin: bridged
 
 # Support of a quasi-coherent module
 
-Define the support of `F : X.Modules` by
-`Supp(F) = {x | F_x is nonzero}`. If `X = Spec A` and `F = M~`, this set is
-`Module.support A M`. Consequently, for finite `M`,
-`Supp(M~) = V(ann_A M)`, and the support of a coherent sheaf on a Noetherian
-scheme is closed.
+For a sheaf of $\mathcal{O}_X$-modules $F$, define
+
+$$\operatorname{Supp}(F)=\{x\in X\mid F_x\ne 0\}.$$
+
+If $X=\operatorname{Spec}A$ and $F=\widetilde M$, this is the set
+of primes $\mathfrak p$ for which $M_{\mathfrak p}\ne 0$. For a
+finitely generated module $M$,
+$\operatorname{Supp}(\widetilde M)=V(\operatorname{ann}_A M)$.
+Consequently the support of a coherent sheaf on a Noetherian scheme
+is closed.
 
 This node packages the internal support lemmas needed by the adopted parts of
 Exercise 5.6; parts (a)–(c) are not independently adopted targets. The
 analogous formula for a single global section,
-`Supp(m) = V(ann_A m)`, is a supporting lemma rather than another main
+$\operatorname{Supp}(m)=V(\operatorname{ann}_A m)$, is a supporting lemma rather than another main
 artifact.
 
 ## Depends on
@@ -26,8 +31,7 @@ artifact.
 
 ## Proof depends on
 
-- `Module.mem_support_iff_exists_annihilator`, `Module.support_eq_zeroLocus`,
-  and `Module.isClosed_support` from pinned Mathlib.
+- The description of module support by annihilators and its closedness for finitely generated modules.
 
 ## Sources
 

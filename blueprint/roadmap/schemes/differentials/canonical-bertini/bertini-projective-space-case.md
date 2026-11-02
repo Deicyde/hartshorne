@@ -6,12 +6,12 @@ origin: cited
 
 # The projective-space case of Bertini
 
-For `n >= 1` and `X = P^n_k`, every hyperplane section is a projective space
-`P^(n-1)_k` and hence is regular. Thus the good set in the complete linear
-system is all of `|H|`.
+For $n \ge 1$ and $X = \mathbb{P}^n_k$, every hyperplane section is a projective space
+$\mathbb{P}^{n-1}_k$ and hence is regular. Thus the good set in the complete linear
+system is all of $|H|$.
 
-This separates the case `dim X = n`, in which the source's expression
-`P^(n-r-1)` would have dimension `-1`, from the incidence calculation for a
+This separates the case $\dim X = n$, in which the source's expression
+$\mathbb{P}^{n-r-1}$ would have dimension $-1$, from the incidence calculation for a
 proper closed subvariety.
 
 ## Depends on

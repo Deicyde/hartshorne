@@ -6,7 +6,7 @@ origin: cited
 
 # Positive-genus ruled surfaces are relatively minimal
 
-Let `C` have genus `g>0`. Every geometrically ruled surface over `C` is
+Let $C$ have genus $g>0$. Every geometrically ruled surface over $C$ is
 relatively minimal.
 
 ## Depends on
@@ -18,7 +18,7 @@ relatively minimal.
 ## Proof depends on
 
 - A rational curve on the ruled surface maps constantly to the positive-genus
-  base, hence is a fibre and has square zero; therefore no `(-1)`-curve exists.
+  base, hence is a fibre and has square zero; therefore no $(-1)$-curve exists.
 
 ## Sources
 

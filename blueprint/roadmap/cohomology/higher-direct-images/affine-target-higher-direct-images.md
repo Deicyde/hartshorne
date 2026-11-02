@@ -6,15 +6,15 @@ origin: cited
 
 # Higher direct images over an affine target
 
-Let `X` be Noetherian, let `f : X -> Spec A` be a morphism, and let `F` be a
-quasi-coherent module on `X`. For every `i`, construct the natural
+Let $X$ be Noetherian, let $f : X \to \operatorname{Spec} A$ be a morphism, and let $F$ be a
+quasi-coherent module on $X$. For every $i$, construct the natural
 isomorphism
 
-`R^i f_* F ~= (H^i(X,F))~`.
+$R^i f_*F\cong\widetilde{H^i(X,F)}$.
 
-The cohomology group carries its natural `A`-module structure through `f`.
-The unique main result is the isomorphism as an `O_(Spec A)`-module,
-functorial in `F` and compatible with connecting morphisms.
+The cohomology group carries its natural $A$-module structure through $f$.
+The comparison is an isomorphism of $\mathcal{O}_{\operatorname{Spec}A}$-modules,
+functorial in $F$ and compatible with connecting morphisms.
 
 ## Depends on
 

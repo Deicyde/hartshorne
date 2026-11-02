@@ -5,7 +5,7 @@ article_id: af_13eb10a276b90ab96c2b0c8a
 # Differential sheaves, regularity, and nonsingularity
 
 This subchapter globalizes Kähler differentials to scheme morphisms and covers
-Hartshorne II.8 through Theorem 8.17.  The differential sheaf `Ω[X/Y]`, the
+Hartshorne II.8 through Theorem 8.17.  The differential sheaf $\Omega_{X/Y}$, the
 cotangent space at a point, the tangent space, smoothness over a base, and
 regularity of local rings remain separate notions, connected only by explicit
 comparison theorems.

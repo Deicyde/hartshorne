@@ -6,12 +6,12 @@ origin: cited
 
 # Integer multiplication is a morphism
 
-For every integer `n`, iterated addition and inversion define a group-scheme
+For every integer $n$, iterated addition and inversion define a group-scheme
 endomorphism
 
-`[n] : X -> X`
+$[n] : X \to X$
 
-whose action on closed points is multiplication by `n`.
+whose action on closed points is multiplication by $n$.
 
 This leaf asserts only morphism structure. Degree, kernel size, and finiteness
 are separated into the consequence subchapter.

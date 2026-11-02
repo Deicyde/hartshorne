@@ -6,18 +6,18 @@ origin: cited
 
 # Stability of normalized rank-two bundles
 
-For a locally free sheaf `E` on a curve, use Hartshorne's quotient convention:
-`E` is stable (respectively semistable) when every nonzero proper locally
-free quotient `E -> F` satisfies
+For a locally free sheaf $E$ on a curve, use Hartshorne's quotient convention:
+$E$ is stable (respectively semistable) when every nonzero proper locally
+free quotient $E \to F$ satisfies
 
-`deg(F)/rank(F) > deg(E)/rank(E)`
+$\deg (F)/\operatorname{rank} (F) > \deg (E)/\operatorname{rank} (E)$
 
-(respectively `>=`). A decomposable bundle is never stable.
+(respectively $\ge$). A decomposable bundle is never stable.
 
-If `E` has rank two and is normalized in the sense of Proposition V.2.8,
-then `E` is stable exactly when `deg(E)>0`, and semistable exactly when
-`deg(E)>=0`. Equivalently for the ruled invariant `e=-deg(E)`, stability is
-`e<0` and semistability is `e<=0`.
+If $E$ has rank two and is normalized in the sense of Proposition V.2.8,
+then $E$ is stable exactly when $\deg (E)>0$, and semistable exactly when
+$\deg (E)\ge 0$. Equivalently for the ruled invariant $e=-\deg (E)$, stability is
+$e<0$ and semistability is $e\le 0$.
 
 ## Depends on
 

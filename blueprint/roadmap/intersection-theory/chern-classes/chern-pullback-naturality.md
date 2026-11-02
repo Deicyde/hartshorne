@@ -6,12 +6,12 @@ origin: cited
 
 # Chern classes are natural under pullback
 
-Let `f:X'->X` be a morphism of nonsingular quasi-projective varieties and
-let `E` be locally free on `X`.  Then
+Let $f:X'\to X$ be a morphism of nonsingular quasi-projective varieties and
+let $E$ be locally free on $X$.  Then
 
-`c_i(f^*E)=f^*c_i(E)`
+$c_i(f^*E)=f^*c_i(E)$
 
-for every `i`, equivalently `c_t(f^*E)=f^*c_t(E)`.
+for every $i$, equivalently $c_t(f^*E)=f^*c_t(E)$.
 
 ## Depends on
 
@@ -20,8 +20,8 @@ for every `i`, equivalently `c_t(f^*E)=f^*c_t(E)`.
 
 ## Proof depends on
 
-- Base change identifies `P(f^*E)` with `X' times_X P(E)` and carries the
-  tautological quotient bundle, hence `xi`, to its pullback.  Uniqueness of
+- Base change identifies $P(f^*E)$ with $X' \times _X \mathbb{P}(E)$ and carries the
+  tautological quotient bundle, hence $\xi$, to its pullback.  Uniqueness of
   the projective-bundle coefficients gives the formula.
 
 ## Sources

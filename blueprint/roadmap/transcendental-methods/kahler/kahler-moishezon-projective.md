@@ -10,9 +10,6 @@ not_ready: true
 If a connected compact complex manifold is both Kähler and Moishezon, then
 it is projective algebraic.
 
-This node is not ready.  Hartshorne quotes Moishezon without proof.  The
-theorem requires analytic modification theory and the interaction of Kähler
-classes with the Moishezon projective modification; neither is represented.
 
 ## Depends on
 

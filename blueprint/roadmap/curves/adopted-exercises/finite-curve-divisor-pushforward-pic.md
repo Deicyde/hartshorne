@@ -6,16 +6,16 @@ origin: cited
 
 # Divisor pushforward descends to Picard groups
 
-For a finite morphism `f : X -> Y` of curves of degree `n`, divisor
+For a finite morphism $f : X \to Y$ of curves of degree $n$, divisor
 pushforward preserves linear equivalence. It therefore induces a norm
 homomorphism
 
-`f_* : Pic X -> Pic Y`.
+$f_* : \operatorname{Pic} X \to \operatorname{Pic} Y$.
 
-Together with divisor pullback, its composite on `Pic Y` is multiplication
-by `n`:
+Together with divisor pullback, its composite on $\operatorname{Pic} Y$ is multiplication
+by $n$:
 
-`f_* (f^* L) = L^n`.
+$f_* (f^* L) = L^n$.
 
 No duality formula or branch-divisor determinant formula from Exercise
 2.6(c,d) is asserted.
@@ -30,8 +30,8 @@ No duality formula or branch-divisor determinant formula from Exercise
 ## Proof depends on
 
 - The determinant formula sends principal divisors to trivial classes.
-- For a closed point of `Y`, the sum of ramification indices in its pullback
-  equals `n` because all residue degrees are one.
+- For a closed point of $Y$, the sum of ramification indices in its pullback
+  equals $n$ because all residue degrees are one.
 
 ## Sources
 

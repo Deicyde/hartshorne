@@ -6,9 +6,9 @@ origin: cited
 
 # Completion at a closed point
 
-Let `P` be a closed point of a Noetherian scheme `X`. The completion of `X`
-along `P` is isomorphic to the one-point locally ringed space whose structure
-ring is the completion of the local ring `O_(X,P)` at its maximal ideal.
+Let $P$ be a closed point of a Noetherian scheme $X$. The completion of $X$
+along $P$ is isomorphic to the one-point locally ringed space whose structure
+ring is the completion of the local ring $\mathcal{O}_{(X,P)}$ at its maximal ideal.
 
 The one-point locally ringed-space comparison is the unique main result. The
 classification of its coherent modules by finite completed-local-ring modules
@@ -21,7 +21,7 @@ is supplied later by the affine formal module equivalence.
 
 ## Proof depends on
 
-- Affine localization near `P` and invariance of completion under replacing
+- Affine localization near $P$ and invariance of completion under replacing
   the affine ring by its local ring at the corresponding maximal ideal.
 - [Affine sections of a formal completion](formal-completion-affine-sections.md)
 - [The project formal-spectrum bridge](formal-spectrum.md)

@@ -6,15 +6,15 @@ origin: cited
 
 # Trigonal systems in genus four
 
-Let `X` be a nonhyperelliptic genus-four canonical curve on its unique
-irreducible quadric `Q`.
+Let $X$ be a nonhyperelliptic genus-four canonical curve on its unique
+irreducible quadric $Q$.
 
-- If `Q` is smooth, `X` has type `(3,3)` and the two rulings cut out exactly
-  two `g^1_3` systems.
-- If `Q` is a quadric cone, its unique ruling cuts out the unique `g^1_3`.
+- If $Q$ is smooth, $X$ has type $(3,3)$ and the two rulings cut out exactly
+  two $g^1_3$ systems.
+- If $Q$ is a quadric cone, its unique ruling cuts out the unique $g^1_3$.
 
 Thus every genus-four curve is trigonal, with the hyperelliptic case obtained
-by adding a point to its `g^1_2`.
+by adding a point to its $g^1_2$.
 
 ## Depends on
 

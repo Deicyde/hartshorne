@@ -8,7 +8,7 @@ origin: cited
 
 There is a unique pairing
 
-`Div(X) times Div(X) -> Z`,  `(C,D) |-> C.D`,
+$\operatorname{Div} (X) \times \operatorname{Div} (X) \to Z$,  $(C,D)\mapsto C\cdot D$,
 
 which is symmetric, additive in each argument, invariant under linear
 equivalence, and counts points for nonsingular curves meeting transversally.
@@ -25,8 +25,8 @@ is used.
 
 ## Proof depends on
 
-- For a fixed ample `H` and arbitrary `C,D`, sufficiently large translates
-  `C+nH`, `D+nH`, and `nH` are very ample.
+- For a fixed ample $H$ and arbitrary $C ,D$, sufficiently large translates
+  $C +nH$, $D+nH$, and $nH$ are very ample.
 - Expand differences bilinearly and use the cone pairing to prove independence
   of every chosen expression; the same expansion proves uniqueness.
 

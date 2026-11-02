@@ -9,8 +9,8 @@ lean: Hartshorne.flat_iff_localizedModule_atPrime
 
 # Flatness is local on prime localizations
 
-An `R`-module `M` is flat if and only if `M_p` is flat over `R_p` for every
-prime ideal `p` of `R`.
+An $R$-module $M$ is flat if and only if $M_p$ is flat over $R_p$ for every
+prime ideal $p$ of $R$.
 
 ## Depends on
 
@@ -18,8 +18,7 @@ prime ideal `p` of `R`.
 
 ## Proof depends on
 
-- `Module.flat_iff_of_isLocalization` and
-  `Module.flat_of_localized_maximal` from pinned Mathlib.
+- Flatness is equivalent to flatness of the localizations at all maximal ideals.
 - [The finitely generated ideal criterion for flatness](flat-module-fg-ideal-criterion.md)
   to detect injectivity locally.
 - Detection of injectivity after localization at all maximal ideals.

@@ -6,11 +6,11 @@ origin: cited
 
 # Canonical divisors on a hyperelliptic curve
 
-On a hyperelliptic genus-`g` curve, every effective canonical divisor is a
-sum of `g-1` fibres of the unique `g^1_2`; conversely every such sum is
+On a hyperelliptic genus-$g$ curve, every effective canonical divisor is a
+sum of $g-1$ fibres of the unique $g^1_2$; conversely every such sum is
 canonical. In classical notation,
 
-`|K| = (g-1) g^1_2`.
+$|K| = (g-1) g^1_2$.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ canonical. In classical notation,
 ## Proof depends on
 
 - Hyperplane sections of the rational normal canonical image are exactly
-  effective divisors of degree `g-1` on `P^1`; pull them back along the
+  effective divisors of degree $g-1$ on $\mathbb{P}^1$; pull them back along the
   hyperelliptic double cover.
 
 ## Sources

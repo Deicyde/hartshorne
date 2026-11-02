@@ -7,10 +7,10 @@ origin: cited
 # Curves of degree five and six
 
 For degree five, the possibilities are the plane quintic of genus six and
-nonplanar curves with nonspecial hyperplane divisor of genus `0,1,2`.
+nonplanar curves with nonspecial hyperplane divisor of genus $0,1,2$.
 
 For degree six, the possibilities are the plane sextic of genus ten,
-nonplanar nonspecial curves of genus `0,1,2,3`, and the special genus-four
+nonplanar nonspecial curves of genus $0,1,2,3$, and the special genus-four
 canonical curve, a quadric–cubic complete intersection.
 
 ## Depends on
@@ -22,4 +22,4 @@ canonical curve, a quadric–cubic complete intersection.
 
 ## Sources
 
-- [Hartshorne IV.6, Example 6.4.2 for `d=5,6`, p.353](../../../../sources/hartshorne-iv-6.md)
+- [Hartshorne IV.6, Example 6.4.2 for $d=5,6$, p.353](../../../../sources/hartshorne-iv-6.md)

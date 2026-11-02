@@ -7,13 +7,11 @@ not_ready: true
 
 # Cohomology classes and homological equivalence
 
-For a smooth projective complex variety, a codimension-`r` algebraic cycle
-has a natural class in singular cohomology `H^(2r)(X^h,C)`, compatible with
+For a smooth projective complex variety, a codimension-$r$ algebraic cycle
+has a natural class in singular cohomology $H^{2r}(X^h,\mathbb{C} )$, compatible with
 proper pushforward and intersection products. A cycle is homologically
 trivial when this class vanishes.
 
-This node is not ready pending the Appendix-B analytification/singular-
-cohomology comparison and an exact cycle-class construction.
 
 ## Depends on
 

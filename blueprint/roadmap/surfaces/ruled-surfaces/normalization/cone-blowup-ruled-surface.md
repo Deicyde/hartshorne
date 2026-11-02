@@ -6,14 +6,14 @@ origin: cited
 
 # Blowing up the vertex of a cone gives a ruled surface
 
-Let `C` be a nonsingular curve of degree `d` embedded in `P^n`, and let
-`X0` be its cone in `P^(n+1)`. The blowup of the vertex is
+Let $C$ be a nonsingular curve of degree $d$ embedded in $\mathbb{P}^n$, and let
+$X0$ be its cone in $\mathbb{P}^{n+1}$. The blowup of the vertex is
 
-`P_C(O_C direct-sum O_C(-1))`.
+$\mathbb{P}_C(\mathcal{O}_C\oplus\mathcal{O}_C(-1))$.
 
-It has invariant `e=d`, and its exceptional section has self-intersection
-`-d`. In particular, the blowup of `P^2` at one point is
-`P_P1(O direct-sum O(-1))`, with invariant one.
+It has invariant $e=d$, and its exceptional section has self-intersection
+$-d$. In particular, the blowup of $\mathbb{P}^2$ at one point is
+$\mathbb{P}_{\mathbb{P}^1}(\mathcal{O}\oplus\mathcal{O}(-1))$, with invariant one.
 
 ## Depends on
 

@@ -6,10 +6,10 @@ origin: cited
 
 # Ideals of definition are cofinal
 
-If `J₁` and `J₂` are ideals of definition on a Noetherian formal scheme, then
-there are positive integers `a,b` such that
+If $J_{1}$ and $J_{2}$ are ideals of definition on a Noetherian formal scheme, then
+there are positive integers $a,b$ such that
 
-`J₁ ⊇ J₂^a` and `J₂ ⊇ J₁^b`.
+$J_{1} \supseteq J_{2}^a$ and $J_{2} \supseteq J_{1}^b$.
 
 ## Depends on
 

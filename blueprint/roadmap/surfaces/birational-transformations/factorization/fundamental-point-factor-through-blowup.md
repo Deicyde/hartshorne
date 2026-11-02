@@ -6,11 +6,11 @@ origin: cited
 
 # A fundamental point of the inverse forces factorization through its blowup
 
-Let `f:X'->X` be a birational morphism of nonsingular projective surfaces.
-If `P` is a fundamental point of `f^(-1)`, then there is a morphism
-`f_1:X'->Bl_P(X)` such that
+Let $f:X'\to X$ be a birational morphism of nonsingular projective surfaces.
+If $P$ is a fundamental point of $f^{-1}$, then there is a morphism
+$f_1:X'\to Bl_P(X)$ such that
 
-`f = pi after f_1`.
+$f=\pi\circ f_1$.
 
 ## Depends on
 
@@ -23,8 +23,8 @@ If `P` is a fundamental point of `f^(-1)`, then there is a morphism
 - If the induced birational transformation to the blowup had a fundamental
   point, its total transform would be the exceptional curve. Choose a general
   point of that curve where the inverse is defined and compare the dominated
-  local rings. Writing `x=t*y` in blowup parameters forces `t` both to be a
-  regular parameter and to lie in `(y)`, a contradiction.
+  local rings. Writing $x=t\cdot y$ in blowup parameters forces $t$ both to be a
+  regular parameter and to lie in $(y)$, a contradiction.
 
 ## Sources
 

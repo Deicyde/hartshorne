@@ -8,12 +8,12 @@ origin: background
 
 The map
 
-`C/Lambda -> P^2(C)`,  `z |-> (P(z),P'(z))`,
+$\mathbb C/\Lambda\longrightarrow\mathbb P^2(\mathbb C)$,  $z\mapsto(\wp(z),\wp'(z))$,
 
 with the lattice class of zero sent to the point at infinity, is a
 biholomorphic bijection onto the nonsingular cubic
 
-`y^2 = 4*x^3 - g2*x - g3`.
+$y^2 = 4\cdot x^3 - g_2\cdot x - g_3$.
 
 It identifies the field of elliptic functions with the algebraic function
 field of the cubic.
@@ -27,7 +27,7 @@ field of the cubic.
 ## Proof depends on
 
 - Nonvanishing of the lattice discriminant and analysis of the poles and
-  fibres of `(P,P')`.
+  fibres of $(\wp,\wp')$.
 - Hurwitz–Courant, II.5 §1.
 
 ## Sources

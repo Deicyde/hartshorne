@@ -9,15 +9,15 @@ origin: cited
 The two later-used conclusions of Exercises 4.8–4.9 are:
 
 1. projective morphisms compose; and
-2. if `X ⟶ Y ⟶ Z` has projective composite and `Y ⟶ Z` is separated,
-   then `X ⟶ Y` is projective.
+2. if $X \longrightarrow Y \longrightarrow Z$ has projective composite and $Y \longrightarrow Z$ is separated,
+   then $X \longrightarrow Y$ is projective.
 
 For composition, embed the first source into projective space over the
 intermediate scheme and combine that embedding with an embedding of the
 intermediate scheme over the base. The product lands in a product of relative
 projective spaces; the relative Segre embedding turns it into one projective
-space. For cancellation, the graph `X ⟶ X ×[Z] Y` is a closed immersion because
-`Y/Z` is separated, and the second projection is a base change of the
+space. For cancellation, the graph $X\longrightarrow X\times_ZY$ is a closed immersion because
+$Y/Z$ is separated, and the second projection is a base change of the
 projective composite.
 
 Closed-immersion and base-change stability are supporting calculus used in

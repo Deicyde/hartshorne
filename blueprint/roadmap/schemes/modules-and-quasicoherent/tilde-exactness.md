@@ -9,8 +9,8 @@ lean: Hartshorne.affineTilde_exact Hartshorne.affineTilde_preservesFiniteLimits 
 
 # Exactness of the tilde functor
 
-For every exact sequence of `A`-modules, applying `M ↦ M̃` gives an exact
-sequence of `𝒪_{Spec A}`-modules.  Thus the tilde functor preserves kernels,
+For every exact sequence of $A$-modules, applying $M \mapsto \widetilde{M}$ gives an exact
+sequence of $\mathcal{O} _{\operatorname{Spec} A}$-modules.  Thus the tilde functor preserves kernels,
 images, cokernels, and short exact sequences.
 
 This is the exactness clause of Proposition 5.2(a).

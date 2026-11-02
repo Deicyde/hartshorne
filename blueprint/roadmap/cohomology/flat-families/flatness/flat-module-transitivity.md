@@ -9,8 +9,8 @@ mathlib_file: Mathlib/RingTheory/Flat/Stability.lean
 
 # Transitivity of flat modules
 
-Let `R -> S` be a ring map. If `S` is flat over `R` and an `S`-module `M`
-is flat over `S`, then `M` is flat over `R`.
+Let $R \to S$ be a ring map. If $S$ is flat over $R$ and an $S$-module $M$
+is flat over $S$, then $M$ is flat over $R$.
 
 ## Depends on
 
@@ -18,7 +18,6 @@ is flat over `S`, then `M` is flat over `R`.
 
 ## Proof depends on
 
-- The exact pinned declaration named in the metadata.
 - [The finitely generated ideal criterion for flatness](flat-module-fg-ideal-criterion.md)
   gives the source proof.
 

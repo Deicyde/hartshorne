@@ -6,13 +6,13 @@ origin: cited
 
 # Frobenius determinant factorization of the zeta function
 
-For smooth projective `X/F_q`, define
+For smooth projective $X/\mathbb{F}_q$, define
 
-`P_i(t)=det(1-t*F^* | H^i(X_bar,Q_ell))`.
+$P_i(t)=\det (1-t\cdot F^* | H^i(\overline{X},\mathbb{Q}_\ell))$.
 
 Then
 
-`Z(X,t)=prod_i P_i(t)^((-1)^(i+1))`,
+$Z(X,t)=\prod _i P_i(t)^{((-1)^{i+1})}$,
 
 equivalently the product of odd-degree factors divided by the product of
 even-degree factors.

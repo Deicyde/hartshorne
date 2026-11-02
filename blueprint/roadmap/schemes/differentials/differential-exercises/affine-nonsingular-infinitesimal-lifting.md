@@ -6,10 +6,10 @@ origin: cited
 
 # Infinitesimal lifting for a nonsingular affine scheme
 
-Let `k` be algebraically closed and let `A` be a finitely generated
-`k`-algebra such that `Spec A` is nonsingular. For every surjection of
-`k`-algebras `B' -> B` with square-zero kernel and every `k`-algebra map
-`A -> B`, there is a lift `A -> B'`.
+Let $k$ be algebraically closed and let $A$ be a finitely generated
+$k$-algebra such that $\operatorname{Spec} A$ is nonsingular. For every surjection of
+$k$-algebras $B' \to B$ with square-zero kernel and every $k$-algebra map
+$A \to B$, there is a lift $A \to B'$.
 
 ## Depends on
 
@@ -18,11 +18,9 @@ Let `k` be algebraically closed and let `A` be a finitely generated
 
 ## Proof depends on
 
-- Embed `A` as a quotient of a polynomial algebra and split the resulting
-  conormal sequence after applying `Hom(-, I)`.
-- `Algebra.FormallySmooth.liftOfSurjective` in
-  `Mathlib/RingTheory/Smooth/Basic.lean` supplies the final lift once formal
-  smoothness has been established from the source hypotheses.
+- Embed $A$ as a quotient of a polynomial algebra and split the resulting
+  conormal sequence after applying $\operatorname{Hom} (-, I)$.
+- The infinitesimal lifting property of a formally smooth algebra.
 
 ## Sources
 

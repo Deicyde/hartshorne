@@ -7,12 +7,12 @@ origin: cited
 # Rationality descends from Qℓ to Q
 
 If a formal power series has rational coefficients and represents a rational
-function over `Q_ell`, then it lies in `Q(t)`:
+function over $\mathbb Q_\ell$, then it lies in $\mathbb{Q}(t)$:
 
-`Q[[t]] intersect Q_ell(t)=Q(t)`.
+$\mathbb{Q}[[t]] \cap \mathbb{Q}_\ell(t)=\mathbb{Q}(t)$.
 
 Applied to the Frobenius determinant factorization, this proves rationality of
-the Hasse–Weil zeta function over `Q`.
+the Hasse–Weil zeta function over $Q$.
 
 ## Depends on
 

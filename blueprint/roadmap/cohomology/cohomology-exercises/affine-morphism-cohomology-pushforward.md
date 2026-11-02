@@ -6,11 +6,11 @@ origin: cited
 
 # Cohomology under an affine morphism
 
-Let `f : X ⟶ Y` be an affine morphism of Noetherian separated schemes and
-let `F` be quasi-coherent on `X`. For every `i`, there are natural
+Let $f : X \longrightarrow Y$ be an affine morphism of Noetherian separated schemes and
+let $F$ be quasi-coherent on $X$. For every $i$, there are natural
 isomorphisms
 
-`H^i(X,F) ≅ H^i(Y,f_*F)`.
+$H^i(X,F) \cong H^i(Y,f_*F)$.
 
 ## Depends on
 
@@ -22,7 +22,7 @@ isomorphisms
 - [Affine covers compute quasi-coherent cohomology](../cech-cohomology/affine-cover-comparison.md)
 - [Affine morphisms are separated](../../schemes/separated-morphisms/affine-morphism-separated.md)
 - [Pushforward under Hartshorne's finiteness hypotheses](../../schemes/modules-and-quasicoherent/qcqs-pushforward-quasicoherent.md)
-- Pull back an affine cover of `Y`; affine morphisms make every resulting
+- Pull back an affine cover of $Y$; affine morphisms make every resulting
   finite intersection affine.
 - The two Čech complexes are termwise identical by the definition of direct
   image.

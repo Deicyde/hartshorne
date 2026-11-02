@@ -6,9 +6,9 @@ origin: cited
 
 # The total transform of a fundamental point is connected
 
-Let `T:X dashedrightarrow Y` be a birational transformation of projective
-varieties with `X` normal, and let `P` be fundamental. Then the graph total
-transform `T(P)` is connected.
+Let $T:X \dashrightarrow Y$ be a birational transformation of projective
+varieties with $X$ normal, and let $P$ be fundamental. Then the graph total
+transform $T(P)$ is connected.
 
 ## Depends on
 
@@ -18,8 +18,8 @@ transform `T(P)` is connected.
 ## Proof depends on
 
 - The first projection from the graph is projective and birational onto the
-  normal variety `X`; its fibre over `P` is connected and the second
-  projection identifies that fibre with `T(P)`.
+  normal variety $X$; its fibre over $P$ is connected and the second
+  projection identifies that fibre with $T(P)$.
 
 ## Sources
 

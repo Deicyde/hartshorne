@@ -6,17 +6,17 @@ origin: cited
 
 # The anticanonical embedding of a plane point blowup
 
-Let `X_r` be `P^2` blown up at `0<=r<=6` ordinary points, no three
+Let $X_r$ be $\mathbb{P}^2$ blown up at $0\le r\le 6$ ordinary points, no three
 collinear and no six on a conic. The divisor
 
-`H=3*l-E_1-...-E_r`
+$H=3\cdot l-E_1-\ldots -E_r$
 
-embeds `X_r` in `P^(9-r)` as a surface of degree `9-r`, and
+embeds $X_r$ in $\mathbb{P}^{9-r}$ as a surface of degree $9-r$, and
 
-`omega_(X_r) ~= O_(X_r)(-1)`
+$\omega _{(X_r)} \simeq \mathcal{O}_{(X_r)}(-1)$
 
-for this embedding. In particular `X_6` is a nonsingular cubic surface in
-`P^3`.
+for this embedding. In particular $X_6$ is a nonsingular cubic surface in
+$\mathbb{P}^3$.
 
 ## Depends on
 
@@ -28,8 +28,8 @@ for this embedding. In particular `X_6` is a nonsingular cubic surface in
 
 ## Proof depends on
 
-- The cubic system has projective dimension `9-r`; its self-intersection is
-  `9-r`. Iterating the canonical-divisor formula gives `K_(X_r)=-H`.
+- The cubic system has projective dimension $9-r$; its self-intersection is
+  $9-r$. Iterating the canonical-divisor formula gives $K_{(X_r)}=-H$.
 
 ## Sources
 

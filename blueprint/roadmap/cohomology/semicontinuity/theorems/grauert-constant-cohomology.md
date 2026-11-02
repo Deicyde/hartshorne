@@ -6,17 +6,17 @@ origin: cited
 
 # Grauert's constant-cohomology theorem
 
-Let `f : X -> Y` be a projective morphism of Noetherian schemes, with `Y`
-integral, and let `F` be a coherent `O_X`-module flat over `Y`. Fix `i`. If
+Let $f : X \to Y$ be a projective morphism of Noetherian schemes, with $Y$
+integral, and let $F$ be a coherent $\mathcal{O}_X$-module flat over $Y$. Fix $i$. If
 
-`y |-> dim_k(y) H^i(X_y,F_y)`
+$y \mapsto \dim _k(y) H^i(X_y,F_y)$
 
-is constant, then `R^i f_* F` is locally free and the natural residue-field
+is constant, then $R^i f_* F$ is locally free and the natural residue-field
 base-change map
 
-`(R^i f_* F) tensor k(y) -> H^i(X_y,F_y)`
+$(R^i f_* F) \otimes k(y) \to H^i(X_y,F_y)$
 
-is an isomorphism for every `y : Y`.
+is an isomorphism for every $y \in Y$.
 
 ## Depends on
 

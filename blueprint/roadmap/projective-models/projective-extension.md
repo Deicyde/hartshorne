@@ -9,18 +9,16 @@ lean: Hartshorne.ValuationSpace.existsUnique_projective_extension
 
 # Extension to a projective target
 
-Let `X` be an abstract nonsingular curve, `P ∈ X`, and `Y` a projective
-variety.  Every morphism `X \ {P} → Y` extends to a unique morphism `X → Y`.
-This is Proposition 6.8.  The sole main declaration is
-`Hartshorne.ValuationSpace.existsUnique_projective_extension`.
+Let $X$ be an abstract nonsingular curve, $P \in X$, and $Y$ a projective
+variety.  Every morphism $X \setminus \{P\} \to Y$ extends to a unique morphism $X \to Y$.
+This is Proposition 6.8.
 
 The proof also establishes simultaneous extension from an arbitrary
-nonempty open subset, which is what Theorem 6.9 consumes, but the public
-headline must retain the source's punctured-curve statement and uniqueness.
-Embed `Y` as a closed subvariety of projective space, choose a nonvanishing
+nonempty open subset, which is what [Theorem I.6.9](function-field-projective-model.md) consumes, while the punctured-curve case is the statement of Proposition I.6.8.
+Embed $Y$ as a closed subvariety of projective space, choose a nonvanishing
 coordinate, use the valuation-minimal pivot, and extend the resulting affine
-ratios as regular functions near `P`.  Density keeps the value in `Y`, and
-Lemma 4.1 gives uniqueness.
+ratios as regular functions near $P$.  Density keeps the value in $Y$, and
+[Lemma I.4.1](../rational-maps/morphism-agreement.md) gives uniqueness.
 
 ## Depends on
 

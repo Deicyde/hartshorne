@@ -9,9 +9,9 @@ lean: Hartshorne.finiteType_iff_everyAffineTarget
 
 # The finite affine-cover criterion for finite type
 
-A morphism `f : X → Y` is finite type if and only if, for every affine open
-`V = Spec B` in `Y`, the inverse image `f⁻¹(V)` has a finite affine cover
-`Spec A_i` with each `A_i` a finitely generated `B`-algebra.
+A morphism $f : X \to Y$ is finite type if and only if, for every affine open
+$V = \operatorname{Spec} B$ in $Y$, the inverse image $f^{-1}(V)$ has a finite affine cover
+$\operatorname{Spec} A_i$ with each $A_i$ a finitely generated $B$-algebra.
 
 Combine the affine-target criterion for local finite type with the criterion
 that quasi-compactness is detected on affine target inverse images.

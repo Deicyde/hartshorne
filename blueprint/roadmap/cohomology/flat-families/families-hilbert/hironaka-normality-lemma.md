@@ -6,10 +6,10 @@ origin: cited
 
 # Hironaka's normality lemma
 
-Let `A` be a local Noetherian domain essentially of finite type over a field,
-and let `t : A`. Assume that `tA` has a unique minimal associated prime `p`,
-that `t` generates the maximal ideal of `A_p`, and that `A/p` is normal. Then
-`p=tA` and `A` is normal.
+Let $A$ be a local Noetherian domain essentially of finite type over a field,
+and let $t \in A$. Assume that $tA$ has a unique minimal associated prime $p$,
+that $t$ generates the maximal ideal of $A_p$, and that $A/p$ is normal. Then
+$p=tA$ and $A$ is normal.
 
 ## Depends on
 
@@ -21,9 +21,9 @@ that `t` generates the maximal ideal of `A_p`, and that `A/p` is normal. Then
   a normal local domain of dimension at least two has depth at least two.
 - [Finite normalization over a field](../../../schemes/normalization-and-exercises/normalization-finite-type-field.md).
 - Quotient by a regular element lowers depth, so the maximal ideal is not an
-  associated prime of the quotient of the normalization by `t`.
+  associated prime of the quotient of the normalization by $t$.
 - A finite birational algebra over a normal domain is equal to that domain.
-- Nakayama's lemma applied to `Abar=A+t Abar`.
+- Nakayama's lemma applied to $\overline{A} =A+t \overline{A}$.
 
 ## Sources
 

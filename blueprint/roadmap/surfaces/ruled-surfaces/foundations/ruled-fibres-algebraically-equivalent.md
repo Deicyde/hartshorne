@@ -6,9 +6,9 @@ origin: cited
 
 # Fibres of a ruled surface are algebraically equivalent
 
-Let `pi : X -> C` be a ruled surface. Any two fibre divisors of `pi` are
+Let $\pi : X \to C$ be a ruled surface. Any two fibre divisors of $\pi$ are
 algebraically equivalent, since they occur in the family of divisors
-parametrized by the connected curve `C`.
+parametrized by the connected curve $C$.
 
 ## Depends on
 

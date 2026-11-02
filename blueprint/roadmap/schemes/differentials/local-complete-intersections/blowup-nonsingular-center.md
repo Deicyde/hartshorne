@@ -6,8 +6,8 @@ origin: cited
 
 # Blowing up a nonsingular center preserves nonsingularity
 
-Let `X` be a nonsingular variety and `Y` a nonsingular closed subvariety. The
-blowup of `X` along `Y` is nonsingular.
+Let $X$ be a nonsingular variety and $Y$ a nonsingular closed subvariety. The
+blowup of $X$ along $Y$ is nonsingular.
 
 This is stated with Hartshorne's nonsingularity over the algebraically closed
 base. It does not assert that regularity and smoothness coincide over an
@@ -28,7 +28,7 @@ arbitrary imperfect field.
   complement of the center.
 - Along the exceptional divisor, use its Cartier equation and lift regularity
   from the regular quotient.
-- Stacks tag `0FUT`, specialized over the algebraically closed base, gives an
+- Stacks tag 0FUT, specialized over the algebraically closed base, gives an
   alternate smooth-center proof.
 
 ## Sources

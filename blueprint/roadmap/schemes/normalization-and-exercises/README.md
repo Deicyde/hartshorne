@@ -8,7 +8,7 @@ These exercises are included only because later running text depends on them.
 They comprise function fields, generic finiteness, normalization, and closed
 subschemes of projective spectra.
 
-- [Affine opens have fraction field `K(X)`](function-field-integral-scheme.md)
+- [Affine opens have fraction field $K(X)$](function-field-integral-scheme.md)
 - [A generically finite morphism is finite over a dense open](generically-finite-becomes-finite.md)
 - [Normal schemes](normal-scheme.md)
 - [Construction of the normalization](normalization-construction.md)

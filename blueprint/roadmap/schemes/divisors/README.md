@@ -8,7 +8,7 @@ Hartshorne II.6 develops codimension-one cycles on suitable integral schemes,
 divisors on nonsingular curves, Cartier divisors on arbitrary schemes, and the
 comparison with invertible sheaves. This chapter follows the source's order
 while keeping the different levels of generality explicit: Weil divisors use
-condition `(*)`, Cartier divisors use the total quotient sheaf on an arbitrary
+condition $(\cdot )$, Cartier divisors use the total quotient sheaf on an arbitrary
 scheme, and the Picard comparison becomes surjective under integrality.
 
 - [Weil divisors and class groups](weil-divisors/README.md)
@@ -16,10 +16,9 @@ scheme, and the Picard comparison becomes surjective under integrality.
 - [Cartier divisors and Picard groups](cartier-picard/README.md)
 - [Later-used divisor exercises](divisor-exercises/README.md)
 
-Pinned Mathlib supplies algebraic cycles, scheme function fields, and orders of
-vanishing, but not the scheme-level Weil, Cartier, or Picard packages. Its ring
-`ClassGroup` and `CommRing.Pic` are supporting affine algebra only and are not
-used as exact replacements for the scheme constructions.
+Orders of vanishing along prime divisors lead to Weil divisors.
+Local equations lead to Cartier divisors, and invertible sheaves
+connect these constructions to the Picard group.
 
 ## Sources
 

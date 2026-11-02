@@ -6,14 +6,14 @@ origin: cited
 
 # The bad-hyperplane incidence correspondence
 
-Let `X` be a nonsingular closed `r`-dimensional proper subvariety of `P^n_k`,
-with `k` algebraically closed and `r < n`. For each closed point `x : X`, the hyperplanes that
-contain `X`, or whose section with `X` is not regular at `x`, form a projective
-linear subspace `B_x` of dimension `n - r - 1`. The incidence subset
+Let $X$ be a nonsingular closed $r$-dimensional proper subvariety of $\mathbb{P}^n_k$,
+with $k$ algebraically closed and $r < n$. For each closed point $x \in X$, the hyperplanes that
+contain $X$, or whose section with $X$ is not regular at $x$, form a projective
+linear subspace $B_x$ of dimension $n - r - 1$. The incidence subset
 
-`B = {(x,H) | H belongs to B_x} subset X times |H|`
+$B = \{(x,H) | H \text{belongs} \to B_x\} \subset X \times |H|$
 
-is closed and irreducible, and has dimension `n - 1`.
+is closed and irreducible, and has dimension $n - 1$.
 
 ## Depends on
 

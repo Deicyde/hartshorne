@@ -14,7 +14,7 @@ between affine schemes is separated, as in Proposition 4.1.
 
 Over an affine target, identify the source and the fiber square with spectra.
 The diagonal corresponds to the multiplication map
-`A ⊗[B] A → A`, which is surjective, so its spectrum is a closed
+$A\otimes_B A\longrightarrow A$, which is surjective, so its spectrum is a closed
 immersion. Target-locality extends the result to every affine morphism.
 
 ## Depends on

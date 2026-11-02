@@ -9,9 +9,9 @@ lean: AlgebraicGeometry.Scheme.structureUnitsAddSheaf AlgebraicGeometry.Scheme.t
 
 # The Cartier divisor group
 
-For an arbitrary scheme `X`, define the sheaf of Cartier divisors as the
-additive cokernel `K_X^* / O_X^*`, and define the Cartier divisor group as
-`Γ(X, K_X^* / O_X^*)`.
+For an arbitrary scheme $X$, define the sheaf of Cartier divisors as the
+additive cokernel $K_X^* / \mathcal{O}_X^*$, and define the Cartier divisor group as
+$\Gamma (X, K_X^* / \mathcal{O}_X^*)$.
 
 Transport the multiplicative unit sheaves to additive commutative groups
 before taking the cokernel, as in the source. Verify that this categorical
@@ -24,8 +24,8 @@ cokernel agrees with the explicit sheafified pointwise cokernel.
 
 ## Proof depends on
 
-- Injectivity of `O_X^* -> K_X^*` follows from the monomorphism
-  `O_X -> K_X`.
+- Injectivity of $\mathcal{O}_X^* \to K_X^*$ follows from the monomorphism
+  $\mathcal{O}_X \to K_X$.
 - Cokernels of additive sheaves are computed by sheafifying the pointwise
   cokernel.
 

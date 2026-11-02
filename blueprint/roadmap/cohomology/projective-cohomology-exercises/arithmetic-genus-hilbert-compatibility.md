@@ -6,10 +6,10 @@ origin: cited
 
 # Arithmetic genus and the embedded Hilbert polynomial
 
-If `X⊆P^N_k` is a closed projective subvariety with `dim X=r`, the
+If $X\subseteq \mathbb{P}^N_k$ is a closed projective subvariety with $\dim X=r$, the
 cohomological arithmetic genus satisfies
 
-`p_a(X)=(-1)^r(P_X(0)-1)`,
+$p_a(X)=(-1)^r(P_X(0)-1)$,
 
 so it agrees with Hartshorne I, Exercise 7.2 and is independent of the chosen
 projective embedding.

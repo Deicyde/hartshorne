@@ -6,15 +6,15 @@ origin: cited
 
 # Degree-zero classes on a nonsingular plane cubic
 
-Let `X : y^2 z = x^3 - xz^2` be the nonsingular plane cubic over an
+Let $X : y^2 z = x^3 - xz^2$ be the nonsingular plane cubic over an
 algebraically closed field of characteristic not two, and let
-`P_0=(0,1,0)`. Prove that
+$P_0=(0,1,0)$. Prove that
 
-`P ↦ [P-P_0]`
+$P \mapsto [P-P_0]$
 
-is a bijection from the closed points of `X` to `Cl^0 X`. Transporting the
+is a bijection from the closed points of $X$ to $Cl^0 X$. Transporting the
 group law across this bijection gives the chord-and-tangent law with identity
-`P_0`.
+$P_0$.
 
 The completion criterion is the bijection and its explicit group law. The
 stronger assertion that addition and inverse are morphisms is not claimed
@@ -28,10 +28,10 @@ until Olson [1], or a replacement proof-level source, is adopted.
 
 ## Proof depends on
 
-- A line cuts a divisor linearly equivalent to `3P_0`.
-- The chord-and-tangent reduction of a degree-zero divisor to `P-P_0`.
+- A line cuts a divisor linearly equivalent to $3P_0$.
+- The chord-and-tangent reduction of a degree-zero divisor to $P-P_0$.
 - Exercise I.6.2(a–d): nonsingularity and normality of
-  `k[x,y]/(y^2-x^3+x)`, its norm calculation, and the resulting failure of
+  $k[x,y]/(y^2-x^3+x)$, its norm calculation, and the resulting failure of
   unique factorization.
 - Exercise I.6.2(e): a nonsingular rational affine curve has a UFD coordinate
   ring, so the affine cubic and its projective completion are not rational.

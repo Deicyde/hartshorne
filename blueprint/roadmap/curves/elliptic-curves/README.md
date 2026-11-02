@@ -7,9 +7,9 @@ article_id: af_d13bab5c9af28a0194a2f40d
 Hartshorne IV.4 develops degree-two and Weierstrass models, the algebraic
 group law, isogenies and torsion, relative Picard functors and Jacobians,
 complex uniformization and multiplication, the Hasse invariant, and rational
-points. The fine roadmap has 75 leaves: one exact pinned-Mathlib analytic
-equation and 74 project targets, with explicit source obligations for the
-quoted analytic and arithmetic theorems.
+points. The algebraic constructions lead to the analytic and arithmetic
+theorems, whose source obligations are recorded alongside their current
+formalization status.
 
 - [Algebraic and Weierstrass models](algebraic-models/README.md)
 - [Group-law foundations](group-law-foundations/README.md)

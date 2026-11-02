@@ -11,9 +11,6 @@ Every Moishezon manifold admits a finite sequence of analytic monoidal
 transformations with nonsingular centres after which the resulting compact
 complex manifold is projective algebraic.
 
-This node is not ready.  Hartshorne cites Moishezon without proof, and the
-roadmap has no analytic blowup or modification API.  Scheme blowups cannot be
-substituted definitionally before algebraicity is known.
 
 ## Depends on
 

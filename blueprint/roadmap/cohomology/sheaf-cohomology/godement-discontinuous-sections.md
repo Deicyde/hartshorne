@@ -9,12 +9,12 @@ lean: Hartshorne.toGodement_mono Hartshorne.godementFunctor_obj_isFlasque
 
 # The Godement flasque embedding
 
-For every abelian sheaf `F` on a topological space, the sheaf
-`D(F)` of arbitrary, not necessarily continuous, choices of stalk elements is
-flasque, and the germ map gives a natural monomorphism `F ⟶ D(F)`.
+For every abelian sheaf $F$ on a topological space, the sheaf
+$D(F)$ of arbitrary, not necessarily continuous, choices of stalk elements is
+flasque, and the germ map gives a natural monomorphism $F \longrightarrow D(F)$.
 
 The unique main result is the functorial monomorphism into a flasque sheaf.
-The construction of `D` and its restriction maps is supporting data.
+The construction of $D$ and its restriction maps is supporting data.
 
 ## Depends on
 

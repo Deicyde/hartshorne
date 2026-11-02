@@ -7,17 +7,13 @@ not_ready: true
 
 # The top Chern class is the cycle of an expected-codimension zero scheme
 
-Let `E` have rank `r` on a nonsingular quasi-projective variety `X`, and let
-`s` be a global section.  If `Z(s)` has expected pure codimension `r`, then
+Let $E$ have rank $r$ on a nonsingular quasi-projective variety $X$, and let
+$s$ be a global section.  If $Z(s)$ has expected pure codimension $r$, then
 
-`c_r(E)=[Z(s)] in A^r(X)`.
+$c_r(E)=[Z(s)] \in A^r(X)$.
 
 The right side is the associated cycle with scheme multiplicities.
 
-This node is not ready.  Hartshorne states C6 without proof.  An exact source
-must supply the regular-sequence/Koszul or localized-top-Chern argument and
-must justify the expected-codimension hypothesis used to obtain the
-associated cycle.
 
 ## Depends on
 

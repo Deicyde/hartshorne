@@ -9,8 +9,8 @@ lean: Hartshorne.finiteFlat_iff_free
 
 # Finite flat modules over local rings are free
 
-For a Noetherian local ring `R` and a finitely generated `R`-module `M`, the
-module `M` is flat if and only if it is finite free.
+For a Noetherian local ring $R$ and a finitely generated $R$-module $M$, the
+module $M$ is flat if and only if it is finite free.
 
 ## Depends on
 
@@ -18,12 +18,9 @@ module `M` is flat if and only if it is finite free.
 
 ## Proof depends on
 
-- `Module.free_of_flat_of_isLocalRing` for the forward implication.
-- `Module.Flat.of_free` for the converse.
+- A finitely generated flat module over a local ring is free.
+- Free modules are flat.
 - [The finitely generated ideal criterion for flatness](flat-module-fg-ideal-criterion.md).
-
-This source-shaped iff is a project wrapper around two upstream facts, not an
-exact whole upstream declaration.
 
 ## Sources
 

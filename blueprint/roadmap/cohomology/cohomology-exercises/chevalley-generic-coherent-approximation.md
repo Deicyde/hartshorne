@@ -7,11 +7,11 @@ origin: cited
 # Generic coherent pushforward approximation
 
 Under the hypotheses of the generic finite-module frame, for every coherent
-module `F` on `Y` there are a coherent module `G` on `X` and a morphism
+module $F$ on $Y$ there are a coherent module $G$ on $X$ and a morphism
 
-`f_*G ⟶ F`
+$f_*G \longrightarrow F$
 
-which is an isomorphism at the generic point of `Y`.
+which is an isomorphism at the generic point of $Y$.
 
 ## Depends on
 
@@ -22,7 +22,7 @@ which is an isomorphism at the generic point of `Y`.
 - [Finite pushforward preserves coherence](../../schemes/modules-and-quasicoherent/finite-pushforward-coherent.md)
 - [A generic finite-module frame](chevalley-generic-finite-module-frame.md)
 - [The sheaf Hom of module sheaves](../../schemes/modules-and-quasicoherent/module-sheaf-hom.md)
-- Apply sheaf Hom into `F` to the generic frame.
+- Apply sheaf Hom into $F$ to the generic frame.
 - Hartshorne II, Exercise 5.17(e), supplying the finite-morphism Hom and
   pushforward comparison.
 

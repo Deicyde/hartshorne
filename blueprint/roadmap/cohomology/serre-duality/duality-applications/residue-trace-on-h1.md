@@ -7,9 +7,9 @@ origin: cited
 # The residue trace on first cohomology
 
 The sum of local residues on differential principal parts vanishes on the
-image of `Ω_(K/k)` and therefore descends to a `k`-linear map
+image of $\Omega _{(K/k)}$ and therefore descends to a $k$-linear map
 
-`tr_res : H¹(X,Ω_X) →ₗ k`.
+$\operatorname{tr}_{\mathrm{res}} : H^{1}(X,\Omega _X) \longrightarrow k$.
 
 The unresolved proof-source obligation is carried by the global residue
 theorem dependency on which the descent depends.
@@ -22,7 +22,7 @@ theorem dependency on which the descent depends.
 ## Proof depends on
 
 - Compatibility of the direct-sum residue functional with the cokernel model
-  for `H¹(X,Ω_X)`.
+  for $H^{1}(X,\Omega _X)$.
 
 ## Sources
 

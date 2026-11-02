@@ -8,7 +8,7 @@ origin: cited
 
 For a smooth projective geometrically connected variety,
 
-`E(X)=sum_i (-1)^i*B_i(X)`.
+$E(X)=\sum_i(-1)^i B_i(X)$.
 
 ## Depends on
 

@@ -7,13 +7,13 @@ origin: cited
 # Formal Chern-root calculus
 
 After pullback along a splitting space, write the total Chern class of a
-rank-`r` bundle `E` as
+rank-$r$ bundle $E$ as
 
-`prod_i (1+a_i*t)`.
+$\prod _i (1+a_i\cdot t)$.
 
-Every symmetric formal power-series expression in the roots `a_i` of bounded
+Every symmetric formal power-series expression in the roots $a_i$ of bounded
 codimension descends uniquely to a universal rational polynomial in the Chern
-classes of `E`, independently of the chosen splitting space.
+classes of $E$, independently of the chosen splitting space.
 
 ## Depends on
 

@@ -6,8 +6,8 @@ origin: cited
 
 # Degree-five embeddings of genus-two curves
 
-Let `X` be a Chapter IV curve of genus two. Every divisor `D` of degree five
-is very ample, satisfies `dim|D|=3`, and embeds `X` in `P^3` as a curve of
+Let $X$ be a Chapter IV curve of genus two. Every divisor $D$ of degree five
+is very ample, satisfies $\dim |D|=3$, and embeds $X$ in $\mathbb{P}^3$ as a curve of
 projective degree five.
 
 ## Depends on
@@ -19,7 +19,7 @@ projective degree five.
 
 ## Proof depends on
 
-- Degree five equals `2g+1`; nonspecial Riemann–Roch gives four global
+- Degree five equals $2g+1$; nonspecial Riemann–Roch gives four global
   sections and hence projective dimension three.
 
 ## Sources

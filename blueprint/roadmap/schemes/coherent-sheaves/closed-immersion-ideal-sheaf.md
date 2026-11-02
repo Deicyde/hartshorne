@@ -6,16 +6,16 @@ origin: cited
 
 # Ideal sheaves of closed immersions
 
-Let `i : Y → X` be a closed immersion and define its module ideal sheaf by
+Let $i : Y \to X$ be a closed immersion and define its module ideal sheaf by
 
-`I_Y = ker(O_X → i_*O_Y)`.
+$I_Y = \ker (\mathcal{O}_X \to i_*\mathcal{O}_Y)$.
 
-Then `I_Y` is a quasi-coherent ideal subsheaf of `O_X`. If `X` is
-Noetherian, `I_Y` is coherent.
+Then $I_Y$ is a quasi-coherent ideal subsheaf of $\mathcal{O}_X$. If $X$ is
+Noetherian, $I_Y$ is coherent.
 
-This is the forward direction of Proposition 5.9. It remains a statement
-about an actual subobject of `X.Modules`; the comparison with Mathlib's
-affine-open `IdealSheafData` is the next, separate representation bridge.
+This is the forward direction of Hartshorne's Proposition II.5.9.
+The ideal sheaf is a subsheaf of the structure sheaf, with compatible
+module operations.
 
 ## Depends on
 

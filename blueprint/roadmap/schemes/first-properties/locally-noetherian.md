@@ -11,7 +11,7 @@ mathlib_file: Mathlib/AlgebraicGeometry/Noetherian.lean
 
 A scheme is locally Noetherian when it admits an affine open cover whose coordinate rings are Noetherian.
 
-Use Mathlib's equivalent formulation that every affine open has a Noetherian section ring; the equivalence with Hartshorne's existential cover is proved in the local-on-affines node.
+Equivalently, the ring of sections on every affine open is Noetherian.
 
 ## Depends on
 

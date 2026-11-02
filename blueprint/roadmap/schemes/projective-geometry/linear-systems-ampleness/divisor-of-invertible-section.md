@@ -6,9 +6,9 @@ origin: cited
 
 # Divisors of invertible-sheaf sections
 
-Let `X` be a nonsingular projective variety over an algebraically closed field
-and `L ≅ O(D_0)`. A nonzero section has an effective zero divisor linearly
-equivalent to `D_0`; every effective divisor in that class occurs; and two
+Let $X$ be a nonsingular projective variety over an algebraically closed field
+and $L \cong \mathcal{O}(D_0)$. A nonzero section has an effective zero divisor linearly
+equivalent to $D_0$; every effective divisor in that class occurs; and two
 sections have the same zero divisor exactly when they differ by a scalar in
 the ground field.
 
@@ -25,8 +25,8 @@ the ground field.
 
 - [The global regular functions of a projective variety](../../../morphisms/projective-rings/projective-global-regular.md)
 - [Global regular functions inside the function field](../../../morphisms/global-functions/global-regular-in-function-field.md)
-- Identification of global sections of `O(D)` with rational functions `f`
-  satisfying `div(f) + D >= 0`.
+- Identification of global sections of $\mathcal{O}(D)$ with rational functions $f$
+  satisfying $\operatorname{div} (f) + D \ge 0$.
 
 ## Sources
 

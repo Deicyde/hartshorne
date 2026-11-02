@@ -6,9 +6,9 @@ origin: cited
 
 # Blowing up a point preserves smooth projective surfaces
 
-The monoidal transformation `X_tilde=Bl_P(X)` of a Chapter-V surface is
+The monoidal transformation $\widetilde{X}=Bl_P(X)$ of a Chapter-V surface is
 again an integral nonsingular projective surface. Its projection is
-projective and birational to `X`.
+projective and birational to $X$.
 
 ## Depends on
 

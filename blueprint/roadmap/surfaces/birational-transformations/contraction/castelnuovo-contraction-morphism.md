@@ -6,16 +6,16 @@ origin: cited
 
 # The Castelnuovo morphism contracts exactly the minus-one curve
 
-The globally generated bundle `A=O_X(H+kY)` defines a morphism
+The globally generated bundle $A=\mathcal{O}_X(H+kY)$ defines a morphism
 
-`f_1:X -> X_1 subset P^N`
+$f_1:X \to X_1 \subset \mathbb{P}^N$
 
-which maps `Y` to one point `P_1` and restricts to an isomorphism
+which maps $Y$ to one point $P_1$ and restricts to an isomorphism
 
-`X-Y ~= X_1-P_1`.
+$X-Y \simeq X_1-P_1$.
 
-Indeed `A|Y` is trivial, while the very ample `H` supplies separation of
-points and tangent vectors away from `Y` and separates points off `Y` from
+Indeed $A|Y$ is trivial, while the very ample $H$ supplies separation of
+points and tangent vectors away from $Y$ and separates points off $Y$ from
 points on it.
 
 ## Depends on

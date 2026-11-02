@@ -6,14 +6,12 @@ origin: cited
 
 # Completion and ordinary sheaf tensor product
 
-Let `X` be Noetherian, let `Xhat` be its completion along a closed subscheme,
-and let `F` be coherent. Construct the canonical isomorphism
+Let $X$ be Noetherian, let $\widehat{X}$ be its completion along a closed subscheme,
+and let $F$ be coherent. Construct the canonical isomorphism
 
-`Fhat ≅ F|_|Xhat| tensor_(O_X|_|Xhat|) O_Xhat`.
+$\widehat{F}\cong\left.F\right|_{|\widehat{X}|}\otimes_{\left.\mathcal{O}_X\right|_{|\widehat{X}|}}\mathcal{O}_{\widehat{X}}$.
 
-The main artifact is this canonical isomorphism, hence its declaration kind is
-`def`. The tensor product is the existing ordinary tensor product of module
-sheaves; no completed tensor product is introduced.
+The tensor product is the ordinary tensor product of module sheaves.
 
 ## Depends on
 

@@ -6,14 +6,14 @@ origin: cited
 
 # Proper pushforward is functorial on Chow groups
 
-For a proper morphism `f:X->X'`, cycle pushforward induces
+For a proper morphism $f:X\to X'$, cycle pushforward induces
 
-`f_* : A^r(X) -> A^(r+dim X'-dim X)(X')`.
+$f_* : A^r(X) \to A^{r+\dim X'-\dim X}(X')$.
 
 For
 composable proper morphisms,
 
-`g_* after f_*=(g after f)_*`.
+$g_*\circ f_*=(g\circ f)_*$.
 
 ## Depends on
 

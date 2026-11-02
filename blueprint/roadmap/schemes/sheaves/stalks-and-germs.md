@@ -9,13 +9,12 @@ mathlib_file: Mathlib/Topology/Sheaves/Stalks.lean
 
 # Stalks and germs
 
-For a presheaf `F` and `x : X`, its stalk is the filtered colimit of `F(U)`
-over open neighbourhoods of `x`. A section over a neighbourhood determines a
+For a presheaf $F$ and $x \in X$, its stalk is the filtered colimit of $F(U)$
+over open neighbourhoods of $x$. A section over a neighbourhood determines a
 germ, and a presheaf morphism induces a functorial map on stalks.
 
-Mathlib supplies this construction as `TopCat.Presheaf.stalk`, with
-`stalkFunctor` and `germ`. Its concrete filtered-colimit API also states that
-each stalk element is represented by a germ and characterizes equality after
+Every stalk element is represented by a germ of a section. Two
+representatives define the same germ exactly when they agree after
 restriction to a smaller neighbourhood.
 
 ## Depends on

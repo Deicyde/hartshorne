@@ -6,8 +6,8 @@ origin: cited
 
 # Sheaf Ext from the structure sheaf
 
-For every `O_X`-module `G`, construct the natural identification
-`𝓔xt^0_X(O_X,G) ≅ G` and prove that `𝓔xt^i_X(O_X,G)=0` for every `i>0`.
+For every $\mathcal{O}_X$-module $G$, construct the natural identification
+$\mathcal{E}xt^0_X(\mathcal{O}_X,G) \cong G$ and prove that $\mathcal{E}xt^i_X(\mathcal{O}_X,G)=0$ for every $i>0$.
 
 The unique main result is the all-degree calculation.
 
@@ -18,7 +18,7 @@ The unique main result is the all-degree calculation.
 
 ## Proof depends on
 
-- Identify `𝓗om_X(O_X,-)` naturally with the identity functor.
+- Identify $\mathcal{H}om_X(\mathcal{O}_X,-)$ naturally with the identity functor.
 
 ## Sources
 

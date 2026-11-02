@@ -6,13 +6,13 @@ origin: cited
 
 # Very ampleness via unassigned base points
 
-A complete system `|D|` on a projective surface is very ample if and only if
-it has no base points and, for every point `P`, the assigned system `|D-P|`
-has no unassigned base point, including points infinitely near `P`.
+A complete system $|D|$ on a projective surface is very ample if and only if
+it has no base points and, for every point $P$, the assigned system $|D-P|$
+has no unassigned base point, including points infinitely near $P$.
 
-Equivalently, for every pair `P,Q`, allowing `Q` infinitely near `P`,
+Equivalently, for every pair $P,Q$, allowing $Q$ infinitely near $P$,
 
-`dim |D-P-Q| = dim |D|-2`.
+$\dim |D-P-Q| = \dim |D|-2$.
 
 For an assigned system downstairs, the same criterion characterizes very
 ampleness of its transformed complete system upstairs.

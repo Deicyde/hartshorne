@@ -9,24 +9,17 @@ lean: Hartshorne.reducible_plane_curve_bezout
 
 # Bézout for reducible plane curves without a common component
 
-Let `Y,Z ⊆ ℙ²` be projective algebraic sets with
-`projDim Y = projDim Z = 1`, every irreducible component carrier of either set
-of projective dimension one, and no common component in the carrier-equality
-sense stated in the pointwise-multiplicity article. Then `Y ∩ Z` is finite and
+Let $Y,Z\subseteq\mathbb P^2$ be projective algebraic sets of dimension
+one. Assume that all their irreducible components have dimension one and
+that they have no component in common. Then $Y\cap Z$ is finite and
 
-`∑ P ∈ (Y ∩ Z).toFinset,`
-`  (reduciblePlaneCurveIntersectionMultiplicity Y Z P : ℚ)`
-`= projectiveDegree Y * projectiveDegree Z`,
+$$\sum_{P\in Y\cap Z}i(Y,Z;P)=\deg Y\,\deg Z.$$
 
-where `toFinset` uses the finiteness theorem from the pointwise-multiplicity
-article. The unique main declaration is
-`Hartshorne.reducible_plane_curve_bezout`.
-
-This formalizes the pure/equidimensional interpretation of Remark 7.8.2.
-Expand the pointwise sum into the finite triple sum, apply the irreducible
-plane-curve theorem to each component pair (which is distinct by the
-no-common-component hypothesis), and factor the resulting finite sums using
-the two component-degree identities.
+Here $i(Y,Z;P)$ is the pointwise multiplicity defined by summing over
+component pairs. Expand the sum, apply the irreducible plane-curve Bézout
+theorem to each pair of components, and use the component-degree
+identities to factor the resulting finite sums. This is the pure
+one-dimensional interpretation of Hartshorne's Remark I.7.8.2.
 
 ## Depends on
 

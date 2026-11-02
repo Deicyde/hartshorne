@@ -11,9 +11,9 @@ lean: Hartshorne.InverseSystem.isMittagLeffler_quotient
 
 In a levelwise short exact sequence of sequential inverse systems
 
-`0 ⟶ A n ⟶ B n ⟶ C n ⟶ 0`,
+$0 \longrightarrow A n \longrightarrow B n \longrightarrow C n \longrightarrow 0$,
 
-if `B` satisfies the Mittag–Leffler condition, then `C` satisfies it as well.
+if $B$ satisfies the Mittag–Leffler condition, then $C$ satisfies it as well.
 This is Proposition 9.1(a), kept separate from right exactness of the limit.
 
 ## Depends on
@@ -22,7 +22,7 @@ This is Proposition 9.1(a), kept separate from right exactness of the limit.
 
 ## Proof depends on
 
-- Images in `B n` map surjectively onto the corresponding images in `C n`.
+- Images in $B n$ map surjectively onto the corresponding images in $C n$.
 
 ## Sources
 

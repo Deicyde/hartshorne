@@ -6,8 +6,8 @@ origin: cited
 
 # Affineness is invariant under reduction
 
-For a Noetherian scheme `X`, `X` is affine if and only if its reduction
-`X_red` is affine.
+For a Noetherian scheme $X$, $X$ is affine if and only if its reduction
+$X_{\mathrm{red}}$ is affine.
 
 ## Depends on
 

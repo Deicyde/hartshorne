@@ -6,16 +6,16 @@ origin: cited
 
 # The equality cases in Clifford's theorem
 
-For an effective special divisor `D`, equality
+For an effective special divisor $D$, equality
 
-`2 * dim|D| = deg D`
+$2 \cdot \dim |D| = \deg D$
 
 holds if and only if one of the following occurs:
 
-1. `D=0`;
-2. `D` is linearly equivalent to `K`;
-3. the curve is hyperelliptic and, writing `r=dim|D|`, the complete system is
-   `|D| = r g^1_2` for the unique hyperelliptic pencil.
+1. $D=0$;
+2. $D$ is linearly equivalent to $K$;
+3. the curve is hyperelliptic and, writing $r=\dim |D|$, the complete system is
+   $|D| = r g^1_2$ for the unique hyperelliptic pencil.
 
 ## Depends on
 
@@ -25,8 +25,8 @@ holds if and only if one of the following occurs:
 
 ## Proof depends on
 
-- Superadditivity shows `|D|+(g-1-r)g^1_2` has canonical degree and dimension,
-  hence equals `|K|=(g-1)g^1_2`; cancel the common pencil multiple.
+- Superadditivity shows $|D|+(g-1-r)g^1_2$ has canonical degree and dimension,
+  hence equals $|K|=(g-1)g^1_2$; cancel the common pencil multiple.
 
 ## Sources
 

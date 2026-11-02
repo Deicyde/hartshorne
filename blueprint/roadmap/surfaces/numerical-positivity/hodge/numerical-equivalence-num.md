@@ -6,18 +6,18 @@ origin: cited
 
 # Numerical equivalence and the numerical divisor group
 
-A divisor `D` on a Chapter V surface is numerically trivial when
+A divisor $D$ on a Chapter V surface is numerically trivial when
 
-`D*E=0`
+$D\cdot E=0$
 
-for every divisor `E`. Define numerical equivalence by numerical triviality
-of the difference, the subgroup `Pic^n(X)` of numerically trivial Picard
+for every divisor $E$. Define numerical equivalence by numerical triviality
+of the difference, the subgroup $\operatorname{Pic} ^n(X)$ of numerically trivial Picard
 classes, and
 
-`Num(X)=Pic(X)/Pic^n(X)`.
+$\operatorname{Num} (X)=\operatorname{Pic} (X)/\operatorname{Pic} ^n(X)$.
 
 The intersection pairing descends to a nondegenerate integral symmetric
-bilinear pairing on `Num(X)`. The group `Num(X)` is torsion-free by
+bilinear pairing on $\operatorname{Num} (X)$. The group $\operatorname{Num} (X)$ is torsion-free by
 construction.
 
 ## Depends on

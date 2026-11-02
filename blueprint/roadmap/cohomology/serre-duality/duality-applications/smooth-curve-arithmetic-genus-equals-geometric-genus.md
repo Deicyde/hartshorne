@@ -6,9 +6,9 @@ origin: cited
 
 # Arithmetic and geometric genus of a nonsingular curve
 
-For a nonsingular projective curve `X` over an algebraically closed field,
+For a nonsingular projective curve $X$ over an algebraically closed field,
 
-`p_a(X)=dim_k H¹(X,O_X)=dim_k H⁰(X,ω_X)=p_g(X)`.
+$p_a(X)=\dim _k H^{1}(X,\mathcal{O}_X)=\dim _k H^{0}(X,\omega _X)=p_g(X)$.
 
 ## Depends on
 

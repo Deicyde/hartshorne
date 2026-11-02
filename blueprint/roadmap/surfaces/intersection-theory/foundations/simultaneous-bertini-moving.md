@@ -6,11 +6,11 @@ origin: cited
 
 # Simultaneous Bertini moving
 
-Let `C_1,...,C_r` be finitely many irreducible curves on a Chapter V surface
-and let `D` be very ample. A nonempty dense open subset of `|D|` consists of
-irreducible nonsingular curves `D'` meeting every `C_i` transversally.
+Let $C _1,\ldots ,C _r$ be finitely many irreducible curves on a Chapter V surface
+and let $D$ be very ample. A nonempty dense open subset of $|D|$ consists of
+irreducible nonsingular curves $D'$ meeting every $C _i$ transversally.
 
-The `C_i` need not be nonsingular. This uses the restriction/trace clause of
+The $C _i$ need not be nonsingular. This uses the restriction/trace clause of
 the earlier Bertini theorem and is valid in arbitrary characteristic; it does
 not use the characteristic-zero III.10 proof.
 

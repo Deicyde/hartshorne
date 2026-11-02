@@ -7,11 +7,9 @@ not_ready: true
 
 # Zariski connectedness agrees with analytic connectedness
 
-A finite-type complex scheme `X` is connected in its Zariski topology if and
-only if `X^h` is connected in the analytic topology.
+A finite-type complex scheme $X$ is connected in its Zariski topology if and
+only if $X^h$ is connected in the analytic topology.
 
-This node is not ready pending an exact idempotent/component comparison for
-analytification.
 
 ## Depends on
 

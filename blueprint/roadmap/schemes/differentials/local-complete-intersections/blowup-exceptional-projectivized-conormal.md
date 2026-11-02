@@ -6,10 +6,10 @@ origin: cited
 
 # The exceptional divisor as a projectivized conormal bundle
 
-Let `Y` be a nonsingular codimension-`r` closed subvariety of a nonsingular
-variety `X`, with ideal sheaf `J`. In the blowup `pi : X' -> X`, the closed
-subscheme `E` defined by the inverse-image ideal is canonically isomorphic over
-`Y` to the projective bundle `P(J/J^2)` in Hartshorne's quotient convention.
+Let $Y$ be a nonsingular codimension-$r$ closed subvariety of a nonsingular
+variety $X$, with ideal sheaf $J$. In the blowup $\pi : X' \to X$, the closed
+subscheme $E$ defined by the inverse-image ideal is canonically isomorphic over
+$Y$ to the projective bundle $P(J/J^2)$ in Hartshorne's quotient convention.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ subscheme `E` defined by the inverse-image ideal is canonically isomorphic over
 
 ## Proof depends on
 
-- `E = Proj_Y(direct-sum J^n/J^(n+1))`.
+- $E=\operatorname{Proj}_Y\left(\bigoplus_{n\ge0}J^n/J^{n+1}\right)$.
 - Relative Proj respects the graded symmetric-algebra isomorphism.
 
 ## Sources

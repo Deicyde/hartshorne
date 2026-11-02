@@ -6,13 +6,13 @@ origin: cited
 
 # Riemann–Hurwitz
 
-Let `f : X -> Y` be a finite separable morphism of curves of degree `n`. Then
+Let $f : X \to Y$ be a finite separable morphism of curves of degree $n$. Then
 
-`2*g(X) - 2 = n * (2*g(Y) - 2) + deg R_f`.
+$2\cdot g(X) - 2 = n \cdot (2\cdot g(Y) - 2) + \deg R_f$.
 
 If all ramification is tame, then
 
-`deg R_f = sum_(P in X) (e_P - 1)`.
+$\deg R_f = \sum _{(P \in X)} (e_P - 1)$.
 
 The equality should be represented over the integers, not with truncated
 natural-number subtraction.

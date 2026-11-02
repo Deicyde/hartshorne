@@ -6,9 +6,9 @@ origin: cited
 
 # Quasi-coherent sheaves are filtered unions of coherent subsheaves
 
-Let `X` be a Noetherian scheme and `F` a quasi-coherent `O_X`-module. The
-poset of coherent quasi-coherent subsheaves of `F` is filtered, and its
-canonical colimit maps isomorphically to `F`.
+Let $X$ be a Noetherian scheme and $F$ a quasi-coherent $\mathcal{O}_X$-module. The
+poset of coherent quasi-coherent subsheaves of $F$ is filtered, and its
+canonical colimit maps isomorphically to $F$.
 
 ## Depends on
 

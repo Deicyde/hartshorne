@@ -6,14 +6,14 @@ origin: bridged
 
 # Dimension of the bad special-divisor locus
 
-Let `X` have genus `g>=2` and fix `d>=g+3`. In the ordered effective-divisor
-parameter space `X^d`, let `S` consist of divisors linearly equivalent to
-`E+P+Q`, where `E` is an effective special divisor of degree `d-2`. Then
+Let $X$ have genus $g\ge 2$ and fix $d\ge g+3$. In the ordered effective-divisor
+parameter space $X^d$, let $S$ consist of divisors linearly equivalent to
+$E+P+Q$, where $E$ is an effective special divisor of degree $d-2$. Then
 
-`dim S <= g+2`.
+$\dim S \le g+2$.
 
 The special effective divisors of any fixed degree form a locus of dimension
-at most `g-1`, since each is contained in an effective canonical divisor.
+at most $g-1$, since each is contained in an effective canonical divisor.
 
 ## Depends on
 
@@ -25,7 +25,7 @@ at most `g-1`, since each is contained in an effective canonical divisor.
 ## Proof depends on
 
 - Construct the universal effective-divisor and linear-equivalence incidence
-  over powers of `X`, keeping the finite permutation quotient out of the
+  over powers of $X$, keeping the finite permutation quotient out of the
   dimension calculation.
 - Riemann–Roch bounds the dimensions of the relevant complete linear systems
   and hence the fibres of the incidence projections.

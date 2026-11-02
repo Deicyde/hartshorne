@@ -6,17 +6,17 @@ origin: cited
 
 # Pullback by the graph construction
 
-Within an intersection theory, define pullback along `f:X->X'` by
+Within an intersection theory, define pullback along $f:X\to X'$ by
 
-`f^*([Y'])=p1_*(Gamma_f . [p2^(-1)(Y')])`,
+$f^*([Y'])=p1_*(\Gamma _f . [p2^{-1}(Y')])$,
 
-where `Gamma_f` is the graph cycle in `X times X'`. Here the inverse image is
-the flat product cycle `X times Y'`, not an invocation of the pullback being
+where $\Gamma _f$ is the graph cycle in $X \times X'$. Here the inverse image is
+the flat product cycle $X \times Y'$, not an invocation of the pullback being
 defined. The final raw pushforward is supported on the graph, where the first
 projection is an isomorphism.
 
-The second projection is essential: `p1^(-1)(Y')` is ill-typed for
-`Y' subset X'`.
+The second projection is essential: $p1^{-1}(Y')$ is ill-typed for
+$Y' \subset X'$.
 
 ## Depends on
 

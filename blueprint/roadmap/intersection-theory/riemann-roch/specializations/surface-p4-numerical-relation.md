@@ -6,10 +6,10 @@ origin: cited
 
 # The numerical relation for a smooth surface in projective four-space
 
-For a smooth degree-`d` surface `X subset P^4`, with hyperplane class `H`,
-canonical class `K`, and arithmetic genus `p_a`,
+For a smooth degree-$d$ surface $X \subset \mathbb{P}^4$, with hyperplane class $H$,
+canonical class $K$, and arithmetic genus $p_a$,
 
-`d^2-10*d-5*(H.K)-2*K^2+12+12*p_a=0`.
+$d^2-10d-5(H\cdot K)-2K^2+12+12p_a=0$.
 
 ## Depends on
 

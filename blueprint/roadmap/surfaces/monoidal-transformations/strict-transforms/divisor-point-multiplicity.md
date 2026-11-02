@@ -6,14 +6,14 @@ origin: cited
 
 # Multiplicity of a divisor at a point
 
-Let `D` be an effective divisor on a smooth surface and let `f` be a local
-equation at `P`. Define
+Let $D$ be an effective divisor on a smooth surface and let $f$ be a local
+equation at $P$. Define
 
-`mu_P(D)=max {r | f in m_P^r}`.
+$\mu_P(D)=\max\{r\mid f\in\mathfrak m_P^r\}$.
 
-Prove independence of the local equation, additivity under sums of effective
-divisors, and agreement with the usual order of the initial homogeneous part
-in regular local parameters.
+This multiplicity is independent of the local equation, additive under sums
+of effective divisors, and equal to the degree of the initial homogeneous
+part in regular local parameters.
 
 ## Depends on
 

@@ -9,14 +9,15 @@ lean: AlgebraicGeometry.Scheme.IsRegularAt AlgebraicGeometry.Scheme.IsRegular
 
 # Regular points and nonsingular schemes
 
-A point `x` of a locally Noetherian scheme `X` is regular when the local ring
-`𝒪_{X,x}` is a regular local ring.  Call `X` regular when every point is
+A point $x$ of a locally Noetherian scheme $X$ is regular when the local ring
+$\mathcal{O} _{X,x}$ is a regular local ring.  Call $X$ regular when every point is
 regular.  For an integral separated scheme of finite type over an
 algebraically closed field, use this all-points condition as Hartshorne's
 definition of a nonsingular abstract variety.
 
-This scheme predicate is distinct from smoothness of the structure morphism
-and from the project's Chapter I predicate on its classical `Variety` type.
+Regularity is a condition on the local rings. The comparison with
+nonsingularity of classical varieties is made through their associated
+schemes.
 
 ## Depends on
 

@@ -9,20 +9,20 @@ lean: Hartshorne.hypersurface_hilbertPolynomial_and_degree
 
 # A degree-d hypersurface has degree d
 
-Assume `n > 0`. Let `f ∈ k[x₀,…,xₙ]` be an irreducible homogeneous
-polynomial of positive degree `d`, and let `H = Z(f) ⊆ ℙⁿ`. Then
+Assume $n > 0$. Let $f \in k[x_{0},\ldots ,x_{n}]$ be an irreducible homogeneous
+polynomial of positive degree $d$, and let $H = Z(f) \subseteq \mathbb{P} ^{n}$. Then
 
-`P_H(z) = P_{ℙⁿ}(z) - P_{ℙⁿ}(z-d)`
+$P_H(z)=P_{\mathbb P^n}(z)-P_{\mathbb P^n}(z-d)$
 
-and `projectiveDegree H = d`.
+and $\deg H = d$.
 
-This is Proposition 7.6(d). Multiplication by `f` gives the graded exact
-sequence `0 → S(-d) → S → S/(f) → 0`; the Hilbert-function difference gives
-the polynomial identity, and the leading term is `d/(n-1)!`. Irreducibility
-is essential: it identifies the homogeneous vanishing ideal of `Z(f)` with
-`(f)`; without it, replacing `f` by a power would leave the zero set unchanged
-while changing `d`. The positive ambient dimension excludes the degenerate
-case `Z(x₀) = ∅` in `ℙ⁰`, whose projective degree is zero.
+This is Proposition 7.6(d). Multiplication by $f$ gives the graded exact
+sequence $0 \to S(-d) \to S \to S/(f) \to 0$; the Hilbert-function difference gives
+the polynomial identity, and the leading term is $d/(n-1)!$. Irreducibility
+is essential: it identifies the homogeneous vanishing ideal of $Z(f)$ with
+$(f)$; without it, replacing $f$ by a power would leave the zero set unchanged
+while changing $d$. The positive ambient dimension excludes the degenerate
+case $Z(x_{0}) = \varnothing$ in $\mathbb{P} ^{0}$, whose projective degree is zero.
 
 ## Depends on
 

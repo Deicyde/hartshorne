@@ -9,17 +9,17 @@ lean: Hartshorne.projectiveSpaceOverScheme Hartshorne.projectiveSpaceOverSchemeP
 
 # Projective space over a scheme
 
-For a scheme `Y`, define relative projective `n`-space by
+For a scheme $Y$, define relative projective $n$-space by
 
-`ℙⁿ_Y := ℙⁿ_ℤ ×[Spec ℤ] Y`,
+$\mathbb{P}^n_Y=\mathbb{P}^n_{\mathbb{Z}}\times_{\operatorname{Spec}\mathbb{Z}}Y$,
 
 with structure morphism the second projection. Expose the canonical base-change
 isomorphism
 
-`ℙⁿ_Y ×[Y] Y' ≅ ℙⁿ_{Y'}`
+$\mathbb{P} ^{n}_Y \times [Y] Y' \cong \mathbb{P} ^{n}_{Y'}$
 
 and its compatibility with projections. Use the existing scheme projective
-space over a ring for `ℙⁿ_ℤ`; keep this construction distinct from the
+space over a ring for $\mathbb{P} ^{n}_{\mathbb{Z}}$; keep this construction distinct from the
 project's Chapter-I type of classical projective points.
 
 ## Depends on

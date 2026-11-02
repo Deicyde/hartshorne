@@ -6,11 +6,11 @@ origin: cited
 
 # ℓ-adic fibre dimensions are locally constant in a smooth proper family
 
-Let `f:X->Y` be smooth and proper.  For every `i`,
+Let $f:X\to Y$ be smooth and proper.  For every $i$,
 
-`y_bar |-> dim_(Q_ell) H^i_et(X_(y_bar),Q_ell)`
+$\overline{y} \mapsto \dim _{(\mathbb{Q}_\ell)} H^i_{\mathrm{et}}(X_{(\overline{y})},\mathbb{Q}_\ell)$
 
-is locally constant on `Y`; if `Y` is connected it is constant.  Fibres are
+is locally constant on $Y$; if $Y$ is connected it is constant.  Fibres are
 geometric fibres, not merely residue-field fibres.
 
 ## Depends on
@@ -20,7 +20,7 @@ geometric fibres, not merely residue-field fibres.
 
 ## Proof depends on
 
-- A lisse finite-rank `Z_ell` sheaf has locally constant rank; geometric
+- A lisse finite-rank $\mathbb Z_\ell$ sheaf has locally constant rank; geometric
   stalk identification and rationalization give the displayed dimensions.
 
 ## Sources

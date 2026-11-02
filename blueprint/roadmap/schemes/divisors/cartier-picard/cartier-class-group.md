@@ -13,9 +13,9 @@ Map every global total-quotient unit to its principal Cartier divisor. Define
 two Cartier divisors to be linearly equivalent when their difference is
 principal, and define the Cartier class group
 
-`CaCl X = Div_Cartier(X) / Prin_Cartier(X)`.
+$\operatorname{CaCl}(X)=\operatorname{Div}_{\mathrm{Cartier}}(X)/\operatorname{Prin}_{\mathrm{Cartier}}(X)$.
 
-Prove that equality in `CaCl X` is exactly linear equivalence, and express
+Prove that equality in $\operatorname{CaCl}(X)$ is exactly linear equivalence, and express
 linear equivalence explicitly by a global total-quotient unit.
 
 ## Depends on

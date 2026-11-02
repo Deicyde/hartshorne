@@ -6,12 +6,12 @@ origin: cited
 
 # Proper schemes have valuation centers
 
-Let `X` be an integral scheme of finite type over a field `k`. If `X` is
-proper over `k`, every valuation of `K(X)/k` has exactly one center on `X`.
+Let $X$ be an integral scheme of finite type over a field $k$. If $X$ is
+proper over $k$, every valuation of $K(X)/k$ has exactly one center on $X$.
 
 The canonical generic-point map and the valuation-ring structure map form a
-valuative square for `X ⟶ Spec k`. Properness gives a unique lift
-`Spec R ⟶ X`; its closed-point image is the required center. The domination
+valuative square for $X \longrightarrow \operatorname{Spec} k$. Properness gives a unique lift
+$\operatorname{Spec} R \longrightarrow X$; its closed-point image is the required center. The domination
 formulation follows from the center equivalence, and uniqueness also follows
 from separatedness.
 

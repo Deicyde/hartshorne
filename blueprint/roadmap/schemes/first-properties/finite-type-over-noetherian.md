@@ -9,9 +9,9 @@ lean: Hartshorne.finiteType_isNoetherian
 
 # Finite type over a Noetherian scheme
 
-If `f : X → Y` is finite type and `Y` is Noetherian, then `X` is Noetherian.
+If $f : X \to Y$ is finite type and $Y$ is Noetherian, then $X$ is Noetherian.
 
-Local finite type over a locally Noetherian target makes `X` locally Noetherian. Quasi-compactness of `f` pulls compactness of `Y` back to `X`.
+Local finite type over a locally Noetherian target makes $X$ locally Noetherian. Quasi-compactness of $f$ pulls compactness of $Y$ back to $X$.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ Local finite type over a locally Noetherian target makes `X` locally Noetherian.
 
 ## Proof depends on
 
-- `LocallyOfFiniteType.isLocallyNoetherian` and compactness of a quasi-compact source over a compact target.
+- Local finite type preserves local Noetherianity, and a quasi-compact morphism to a compact target has compact source.
 
 ## Sources
 

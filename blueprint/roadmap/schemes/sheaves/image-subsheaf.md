@@ -9,15 +9,13 @@ lean: Hartshorne.imageSheafification_mono
 
 # The image is a subsheaf
 
-For a morphism of sheaves of abelian groups `φ : F ⟶ G`, sheafify the
-pointwise image presheaf. The induced map `im φ ⟶ G` is a monomorphism, so the
-image identifies canonically with a subsheaf of `G`.
+For a morphism of sheaves of abelian groups $\varphi : F \longrightarrow G$, sheafify the
+pointwise image presheaf. The induced map $im \varphi \longrightarrow G$ is a monomorphism, so the
+image identifies canonically with a subsheaf of $G$.
 
-The proof first shows that sheafification sends a sectionwise injective map to
-a monomorphism, as in Exercise 1.4(a), then applies this to the inclusion of the
-presheaf image. Mathlib has the exact Type-valued construction
-`CategoryTheory.Sheaf.imageι` and the needed left-exact sheafification
-machinery, but no verified AddCommGrp source-shaped wrapper.
+Sheafification sends a sectionwise injective morphism to a
+monomorphism, as in Hartshorne's Exercise II.1.4(a). Apply this to
+the inclusion of the pointwise image presheaf into the target.
 
 ## Depends on
 
@@ -25,7 +23,7 @@ machinery, but no verified AddCommGrp source-shaped wrapper.
 
 ## Proof depends on
 
-- Sheafification's preservation of finite limits in the pinned Mathlib.
+- Sheafification preserves finite limits.
 
 ## Sources
 

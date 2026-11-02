@@ -18,8 +18,8 @@ implies numerical equivalence.
 
 ## Proof depends on
 
-- For a very ample divisor `H`, flatness makes the Hilbert polynomial—and
-  hence the intersection with `H`—constant in a family.
+- For a very ample divisor $H$, flatness makes the Hilbert polynomial—and
+  hence the intersection with $H$—constant in a family.
 - Move an arbitrary test divisor to a difference of very ample divisors.
 
 ## Sources

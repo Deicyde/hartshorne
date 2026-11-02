@@ -6,8 +6,8 @@ origin: cited
 
 # Basepoint-free section systems
 
-On `X_e`, the complete linear system `|C0+n*f|` is basepoint-free if and
-only if `n>=e`.
+On $X_e$, the complete linear system $|C_0+n\cdot f|$ is basepoint-free if and
+only if $n\ge e$.
 
 ## Depends on
 
@@ -16,8 +16,8 @@ only if `n>=e`.
 
 ## Proof depends on
 
-- Necessity follows from intersection with `C0`. For sufficiency, use the
-  disjoint representatives `C0+n*f` and `C1+(n-e)*f` and move fibres to
+- Necessity follows from intersection with $C_0$. For sufficiency, use the
+  disjoint representatives $C_0+n\cdot f$ and $C_1+(n-e)\cdot f$ and move fibres to
   avoid any prescribed point.
 
 ## Sources

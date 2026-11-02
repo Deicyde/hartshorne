@@ -7,9 +7,9 @@ origin: cited
 # The j-line as coarse moduli for pointed elliptic curves
 
 Over an algebraically closed field of characteristic different from two, the
-affine `j`-line is a coarse moduli variety for families of elliptic curves with
+affine $j$-line is a coarse moduli variety for families of elliptic curves with
 a section: a family has a classifying morphism given fibrewise by its
-`j`-invariant.
+$j$-invariant.
 
 ## Depends on
 

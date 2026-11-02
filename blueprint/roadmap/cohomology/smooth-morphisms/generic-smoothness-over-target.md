@@ -6,11 +6,11 @@ origin: cited
 
 # Generic smoothness over the target
 
-Let `f : X -> Y` be a morphism of varieties over an algebraically closed field
-of characteristic zero, with `X` nonsingular. There is a nonempty open
-`V subset Y` such that `f^-1(V) -> V` is smooth.
+Let $f : X \to Y$ be a morphism of varieties over an algebraically closed field
+of characteristic zero, with $X$ nonsingular. There is a nonempty open
+$V \subset Y$ such that $f^-1(V) \to V$ is smooth.
 
-No dominance hypothesis is imposed. If the image of `f` is not dense, `V`
+No dominance hypothesis is imposed. If the image of $f$ is not dense, $V$
 may be chosen disjoint from its closure and the restricted source is empty.
 
 ## Depends on
@@ -22,7 +22,7 @@ may be chosen disjoint from its closure and the restricted source is empty.
 ## Proof depends on
 
 - Remove the image closure of the locus on which the tangent rank is less
-  than `dim Y`, after replacing `Y` by its dense nonsingular open.
+  than $\dim Y$, after replacing $Y$ by its dense nonsingular open.
 
 ## Sources
 

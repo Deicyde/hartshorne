@@ -9,9 +9,9 @@ mathlib_file: Mathlib/AlgebraicGeometry/Noetherian.lean
 
 # Noetherianity is local on affine opens
 
-If `X` is locally Noetherian, every affine open `U = Spec A` has `A` Noetherian. In particular, `Spec A` is a Noetherian scheme if and only if `A` is a Noetherian ring.
+If $X$ is locally Noetherian, every affine open $U = \operatorname{Spec} A$ has $A$ Noetherian. In particular, $\operatorname{Spec} A$ is a Noetherian scheme if and only if $A$ is a Noetherian ring.
 
-Refine the given cover on `U` by finitely many principal opens `D(fᵢ)`. Their rings are Noetherian localizations, and the elements `fᵢ` generate the unit ideal. Descend stabilization of ideal chains from all `A_{fᵢ}` to `A`.
+Refine the given cover on $U$ by finitely many principal opens $D(f_{i})$. Their rings are Noetherian localizations, and the elements $f_{i}$ generate the unit ideal. Descend stabilization of ideal chains from all $A_{f_{i}}$ to $A$.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ Refine the given cover on `U` by finitely many principal opens `D(fᵢ)`. Their 
 
 ## Proof depends on
 
-- The localization descent lemma `isNoetherianRing_of_away`.
+- Noetherianity descends from a finite principal-open cover.
 
 ## Sources
 

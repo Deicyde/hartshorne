@@ -9,9 +9,9 @@ lean: Hartshorne.affineTilde_flatOver_iff_module_flat
 
 # Flatness of an affine associated sheaf
 
-For a ring map `A -> B`, a `B`-module `M`, and the induced morphism
-`Spec B -> Spec A`, the associated sheaf `M~` is flat over `Spec A` if and
-only if `M` is flat over `A`.
+For a ring map $A \to B$, a $B$-module $M$, and the induced morphism
+$\operatorname{Spec} B \to \operatorname{Spec} A$, the associated sheaf $\widetilde{M}$ is flat over $\operatorname{Spec} A$ if and
+only if $M$ is flat over $A$.
 
 ## Depends on
 

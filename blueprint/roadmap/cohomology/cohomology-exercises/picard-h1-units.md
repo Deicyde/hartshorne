@@ -6,10 +6,10 @@ origin: cited
 
 # The Picard group as first unit-sheaf cohomology
 
-For every ringed space `(X,O_X)`, transition functions give a natural group
+For every ringed space $(X,\mathcal{O}_X)$, transition functions give a natural group
 isomorphism
 
-`Pic X ≅ H^1(X,O_X^*)`.
+$\operatorname{Pic} X \cong H^1(X,\mathcal{O}_X^*)$.
 
 ## Depends on
 

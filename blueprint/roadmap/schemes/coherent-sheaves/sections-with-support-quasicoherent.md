@@ -6,9 +6,9 @@ origin: cited
 
 # Quasi-coherence of sections with support
 
-Let `X` be Noetherian and `Z ⊆ X` closed. If `F` is quasi-coherent, then the
-subsheaf `Γ_Z(F)` of sections supported on `Z` is quasi-coherent. If `F` is
-coherent, then `Γ_Z(F)` is coherent.
+Let $X$ be Noetherian and $Z \subseteq X$ closed. If $F$ is quasi-coherent, then the
+subsheaf $\Gamma _Z(F)$ of sections supported on $Z$ is quasi-coherent. If $F$ is
+coherent, then $\Gamma _Z(F)$ is coherent.
 
 ## Depends on
 

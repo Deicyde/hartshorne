@@ -6,14 +6,14 @@ origin: bridged
 
 # Relative differentials are the conormal sheaf of the diagonal
 
-For a scheme morphism `f : X → Y`, let
-`Δ_f : X → X ×_Y X` be its diagonal immersion. There is a canonical
-isomorphism of `𝒪_X`-modules
+For a scheme morphism $f : X \to Y$, let
+$\Delta _f : X \to X \times _Y X$ be its diagonal immersion. There is a canonical
+isomorphism of $\mathcal{O} _X$-modules
 
-`Ω[X/Y] ≅ N^*_(Δ_f)`.
+$\Omega_{X/Y} \cong N^*_{(\Delta _f)}$.
 
 Under this isomorphism the universal derivation is the difference of the two
-pullbacks of local functions to `X ×_Y X`, modulo the square of the diagonal
+pullbacks of local functions to $X \times _Y X$, modulo the square of the diagonal
 ideal. The isomorphism is independent of the open neighbourhood in which the
 diagonal is represented as a closed immersion.
 
@@ -28,7 +28,7 @@ diagonal is represented as a closed immersion.
 ## Proof depends on
 
 - [Differentials on affine schemes](affine-relative-differentials.md)
-- Stacks Project, Lemma 29.33.7, tag `08S2`.
+- Stacks Project, Lemma 29.33.7, tag $08S2$.
 
 ## Sources
 

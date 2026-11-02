@@ -6,11 +6,11 @@ origin: cited
 
 # Curves on a quadric cone
 
-Let `Y` be a nonsingular curve on a quadric cone `X_0` in `P^3`.
+Let $Y$ be a nonsingular curve on a quadric cone $X_0$ in $\mathbb{P}^3$.
 
-- If `deg Y = 2*a`, with `a>=1`, then `Y` is the complete intersection of
-  the cone with a surface of degree `a`, and `g(Y)=(a-1)^2`.
-- If `deg Y = 2*a+1`, then `g(Y)=a^2-a`.
+- If $\deg Y = 2\cdot a$, with $a\ge 1$, then $Y$ is the complete intersection of
+  the cone with a surface of degree $a$, and $g(Y)=(a-1)^2$.
+- If $\deg Y = 2\cdot a+1$, then $g(Y)=a^2-a$.
 
 This is the ruled-surface calculation quoted forward in Remark IV.6.4.1(d).
 
@@ -24,10 +24,10 @@ This is the ruled-surface calculation quoted forward in Remark IV.6.4.1(d).
 ## Proof depends on
 
 - Resolve the quadric cone as the invariant-two ruled surface and express the
-  strict transform of `Y` in the basis `C0,f`.
+  strict transform of $Y$ in the basis $C_0,f$.
 - Its intersection with the exceptional section gives the parity alternative;
   adjunction computes the two genus formulas. In the even case the divisor
-  class is the pullback of a degree-`a` hypersurface section.
+  class is the pullback of a degree-$a$ hypersurface section.
 
 ## Sources
 

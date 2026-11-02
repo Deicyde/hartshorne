@@ -12,7 +12,7 @@ proof: formalized
 On a noetherian topological space, a filtered colimit of flasque abelian
 sheaves is flasque.
 
-For each inclusion `V ⊆ U`, use the sectionwise colimit comparison and
+For each inclusion $V \subseteq U$, use the sectionwise colimit comparison and
 exactness of filtered colimits of abelian groups to show that the colimit
 restriction map remains surjective.
 

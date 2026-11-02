@@ -6,19 +6,18 @@ origin: cited
 
 # Constant fibre dimension of relative differentials
 
-Let `f : X -> Y` be a morphism of finite-type schemes over a field, with `X`
+Let $f : X \to Y$ be a morphism of finite-type schemes over a field, with $X$
 integral. Hartshorne's third smoothness clause,
 
-`dim_k(x) (Omega[X/Y]_x tensor k(x)) = n` for every `x : X`,
+$\dim _k(x) (\Omega_{X/Y}_x \otimes k(x)) = n$ for every $x \in X$,
 
-is equivalent to `Omega[X/Y]` being locally free of constant rank `n`. No
+is equivalent to $\Omega_{X/Y}$ being locally free of constant rank $n$. No
 smoothness assumption is made. As a corollary, for a morphism already known to
-be smooth, relative dimension `n` gives a locally free differential sheaf of
-rank `n`.
+be smooth, relative dimension $n$ gives a locally free differential sheaf of
+rank $n$.
 
-This is a statement about the scheme differential sheaf and the finite-module
-criterion for local freeness; it is not definitionally the modern Mathlib
-smoothness predicate.
+The assertion follows from the finite-module criterion for local
+freeness of the relative differential sheaf.
 
 ## Depends on
 
@@ -28,11 +27,9 @@ smoothness predicate.
 ## Proof depends on
 
 - The finite-presentation criterion that a coherent module on an integral
-  Noetherian scheme is locally free of rank `n` exactly when every fibre has
-  dimension `n`.
-- For the smooth corollary,
-  `Algebra.IsStandardSmoothOfRelativeDimension.rank_kaehlerDifferential` in
-  pinned Mathlib.
+  Noetherian scheme is locally free of rank $n$ exactly when every fibre has
+  dimension $n$.
+- The differential module of a standard-smooth algebra has rank equal to its relative dimension.
 
 ## Sources
 

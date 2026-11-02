@@ -9,7 +9,7 @@ origin: cited
 For a finite affine open cover of a finite-type complex scheme, glue the
 affine analytifications along the localization identifications. The result is
 independent, up to canonical isomorphism, of the affine cover and its
-refinements; denote it by `X^h`.
+refinements; denote it by $X^h$.
 
 ## Depends on
 

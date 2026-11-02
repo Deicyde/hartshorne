@@ -9,17 +9,17 @@ lean: Hartshorne.ValuationSpace.abstractNonsingularCurveToFunctionFieldAlgHom_bi
 
 # The function field of an abstract nonsingular curve
 
-Let `k` be algebraically closed, let `K/k` be an essentially finite-type field
-extension with `Algebra.trdeg k K = 1`, and let `U` be a nonempty open subset
-of `C_K`.  The function field of the associated abstract nonsingular curve is
-canonically isomorphic to `K` as a `k`-algebra.
+Let $k$ be algebraically closed, let $K/k$ be an essentially finite-type field
+extension with transcendence degree one, and let $U$ be a nonempty open subset
+of $C _K$.  The function field of the associated abstract nonsingular curve is
+canonically isomorphic to $K$ as a $k$-algebra.
 
-Every `f : K` lies in all but finitely many valuation rings by Lemma 6.5, so it
-is regular on a nonempty open subset of `U` and defines a rational function.
+Every $f\in K$ lies in all but finitely many valuation rings by [Lemma I.6.5](finite-poles.md), so it
+is regular on a nonempty open subset of $U$ and defines a rational function.
 Conversely, every rational representative on the abstract curve is represented
-by a unique element of `K`, because residue evaluation is injective on
-nonempty opens.  Prove that these constructions respect the rational-function
-equivalence relation and are inverse algebra maps.
+by a unique element of $K$, because residue evaluation is injective on
+nonempty opens.  These constructions respect equivalence of rational representatives and
+give inverse algebra maps.
 
 ## Depends on
 
@@ -33,4 +33,4 @@ equivalence relation and are inverse algebra maps.
 
 ## Sources
 
-- [Hartshorne I.6, identification of the function field of `C_K` with `K` (p. 42)](../../sources/hartshorne.md#i6-abstract-nonsingular-curves)
+- [Hartshorne I.6, identification of the function field of $C _K$ with $K$ (p. 42)](../../sources/hartshorne.md#i6-abstract-nonsingular-curves)

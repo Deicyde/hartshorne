@@ -6,13 +6,13 @@ origin: cited
 
 # Eventual base change for twisted global sections
 
-Let `A` be a local Noetherian domain, `X=P^n_A`, `F` coherent, and let `t`
-be a point of `Spec A`. There is an integer `m0`, allowed to depend on `F`
-and `t`, such that for every `m >= m0` there is a natural isomorphism
+Let $A$ be a local Noetherian domain, $X=\mathbb{P}^n_A$, $F$ coherent, and let $t$
+be a point of $\operatorname{Spec} A$. There is an integer $m0$, allowed to depend on $F$
+and $t$, such that for every $m \ge m0$ there is a natural isomorphism
 
-`H^0(X_t,F_t(m)) ≅ H^0(X,F(m)) tensor_A k(t)`.
+$H^0(X_t,F_t(m)) \cong H^0(X,F(m)) \otimes _A k(t)$.
 
-The eventual bound may first be chosen after localizing at `t`; the statement
+The eventual bound may first be chosen after localizing at $t$; the statement
 records exactly the pointwise eventuality needed for Hilbert polynomials.
 
 ## Depends on
@@ -23,9 +23,9 @@ records exactly the pointwise eventuality needed for Hilbert polynomials.
 ## Proof depends on
 
 - [Eventual exactness of twisted global sections](../../projective-cohomology-exercises/eventual-exactness-twisted-global-sections.md)
-- A free presentation of `k(t)` over the localized base ring.
+- A free presentation of $k(t)$ over the localized base ring.
 - [Flat base change for higher direct images](flat-base-change-higher-direct-images.md)
-  for the initial localization at `t`.
+  for the initial localization at $t$.
 
 ## Sources
 

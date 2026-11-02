@@ -9,8 +9,8 @@ mathlib_file: Mathlib/AlgebraicGeometry/GammaSpecAdjunction.lean
 
 # Spec is fully faithful
 
-For commutative rings `A` and `B`, every locally-ringed-space morphism
-`Spec B → Spec A` is induced by a unique ring homomorphism `A → B`.
+For commutative rings $A$ and $B$, every locally-ringed-space morphism
+$\operatorname{Spec} B \to \operatorname{Spec} A$ is induced by a unique ring homomorphism $A \to B$.
 Equivalently, the contravariant Spec functor is fully faithful.
 
 Take global sections to recover the ring map, use locality of each stalk map

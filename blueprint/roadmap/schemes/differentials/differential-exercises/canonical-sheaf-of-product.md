@@ -6,9 +6,9 @@ origin: cited
 
 # The canonical sheaf of a product
 
-If `X` and `Y` are nonsingular varieties over `k`, then
+If $X$ and $Y$ are nonsingular varieties over $k$, then
 
-`omega_(X times_k Y) ~= p_X^* omega_X tensor p_Y^* omega_Y`.
+$\omega _{(X \times _k Y)} \simeq p_X^* \omega _X \otimes p_Y^* \omega _Y$.
 
 ## Depends on
 

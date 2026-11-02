@@ -9,21 +9,21 @@ lean: Hartshorne.dim
 
 # Dimension of a topological space and of a ring
 
-The *dimension* of a topological space `X` is the supremum of the integers `n`
-admitting a chain `Z₀ ⊊ Z₁ ⊊ … ⊊ Zₙ` of distinct irreducible closed subsets. The
-dimension of an affine or quasi-affine variety is its dimension as a space. In a
-ring, the *height* of a prime `𝔭` is the supremum of lengths of chains
-`𝔭₀ ⊊ … ⊊ 𝔭ₙ = 𝔭`, and the *Krull dimension* is the supremum of the heights.
+The *dimension* of a topological space $X$ is the supremum of the integers
+$n$ for which there is a chain
 
-Both notions are already in Mathlib, as `topologicalKrullDim` and
-`ringKrullDim`, valued in `WithBot ℕ∞`. This node fixes those as the project's
-definitions and supplies the specialisation to varieties, so that later
-statements say `topologicalKrullDim Y` rather than reintroducing chains.
+$$Z_0\subsetneq Z_1\subsetneq\cdots\subsetneq Z_n$$
 
-Choosing `WithBot ℕ∞` rather than `ℕ` matters downstream: the empty space has
-dimension `⊥` and infinite-dimensional Noetherian spaces exist, so statements
-like `dim 𝔸ⁿ = n` are equalities in `WithBot ℕ∞` and need the coercion handled
-explicitly.
+of irreducible closed subsets. The dimension of a variety is its dimension
+as a topological space.
+
+The *height* of a prime ideal $\mathfrak p$ is the supremum of the lengths
+of chains of prime ideals ending at $\mathfrak p$. The *Krull dimension*
+of a ring is the supremum of the heights of its prime ideals.
+
+The empty space has no such chain; its dimension is assigned a value below
+zero. Infinite-dimensional spaces and rings are allowed in these general
+definitions.
 
 ## Depends on
 

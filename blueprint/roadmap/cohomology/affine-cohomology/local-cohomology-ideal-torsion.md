@@ -9,9 +9,9 @@ lean: Hartshorne.localCohomology_primaryComponent_eq_top
 
 # Local cohomology is ideal-power torsion
 
-Let `A` be Noetherian, `a` an ideal, and `M` an `A`-module. For every `i`
-and every `x : H_a^i(M)`, some power of `a` annihilates `x`. Equivalently,
-the ideal-power torsion submodule of `H_a^i(M)` is the whole module.
+Let $A$ be Noetherian, $a$ an ideal, and $M$ an $A$-module. For every $i$
+and every $x : H_a^i(M)$, some power of $a$ annihilates $x$. Equivalently,
+the ideal-power torsion submodule of $H_a^i(M)$ is the whole module.
 
 ## Depends on
 

@@ -9,14 +9,14 @@ lean: Hartshorne.codim_eq_iInf_ringKrullDim_stalk
 
 # Codimension as an infimum of local dimensions
 
-Let `X` be an integral scheme of finite type over a field, and let `Y ⊆ X` be
+Let $X$ be an integral scheme of finite type over a field, and let $Y \subseteq X$ be
 a nonempty closed subset. Then
 
-`codim(Y,X) = inf { ringKrullDim 𝒪_{X,P} | P ∈ Y }`.
+$$\operatorname{codim}(Y,X)=\inf_{P\in Y}\dim\mathcal{O}_{X,P}.$$
 
-For each `P`, identify the dimension of the stalk with the coheight of `P`.
-The closure of `P` is an irreducible closed subset of `Y`, while the generic
-point of every irreducible closed subset of `Y` supplies the reverse
+For each $P$, identify the dimension of the stalk with the coheight of $P$.
+The closure of $P$ is an irreducible closed subset of $Y$, while the generic
+point of every irreducible closed subset of $Y$ supplies the reverse
 inequality between the two infima.
 
 ## Depends on
@@ -27,8 +27,7 @@ inequality between the two infima.
 
 ## Proof depends on
 
-- `AlgebraicGeometry.ringKrullDim_stalk_eq_coheight` and the generic-point
-  correspondence for irreducible closed subsets.
+- Local-ring dimension equals point coheight, and irreducible closed subsets have generic points.
 
 ## Sources
 

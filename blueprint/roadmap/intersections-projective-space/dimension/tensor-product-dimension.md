@@ -9,26 +9,18 @@ lean: Hartshorne.ringKrullDim_tensorProduct
 
 # Dimension of a tensor product of affine domains
 
-Let `A` and `B` be finitely generated domain algebras over a field `k`, and
-assume that `A ⊗[k] B` is a domain.  Then
+Let $A$ and $B$ be finitely generated domain algebras over a field $k$.
+Assume that $A\otimes_k B$ is a domain. Then
 
-`ringKrullDim (A ⊗[k] B) = ringKrullDim A + ringKrullDim B`.
+$$\dim(A\otimes_k B)=\dim A+\dim B.$$
 
-The sole main declaration is planned as
-`Hartshorne.ringKrullDim_tensorProduct`.  In the geometric application the
-domain hypothesis is supplied by irreducibility of the affine product.
-
-Choose Noether normalisations of `A` and `B`.  Tensor their injective maps,
-identify the tensor product of the two polynomial rings with the polynomial
-ring on the sum of their variables, and show that the target is integral over
-that polynomial ring: the two included factors are integral, hence so are pure
-tensors, sums of pure tensors, and therefore every tensor.  Invariance of
-Krull dimension under injective integral extensions then reduces all three
-dimensions to the corresponding numbers of variables.
-
-Pinned Mathlib supplies `MvPolynomial.tensorEquivSum`, tensor-map injectivity
-over a field, tensor induction, and Noether normalisation.  It does not supply
-this tensor-product dimension theorem as a packaged result.
+Choose Noether normalizations of $A$ and $B$. Tensor their injective maps
+and identify the tensor product of their polynomial rings with a
+polynomial ring on the union of the variable sets. The target is integral
+over this polynomial ring: the two factors are integral, and pure tensors
+and their sums remain integral. Invariance of dimension under injective
+integral extensions reduces the three dimensions to the corresponding
+numbers of variables.
 
 ## Depends on
 

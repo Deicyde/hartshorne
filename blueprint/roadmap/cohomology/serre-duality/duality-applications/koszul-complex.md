@@ -6,14 +6,14 @@ origin: cited
 
 # The Koszul complex
 
-For a commutative ring `A`, an `A`-module `M`, and a finite sequence
-`f₁,…,fᵣ`, define the homological Koszul complex
+For a commutative ring $A$, an $A$-module $M$, and a finite sequence
+$f_{1},\ldots ,f_{r}$, define the homological Koszul complex
 
-`K_p(f;M)=∧^p(A^r)⊗_A M`
+$K_p(f;M)=\bigwedge ^p(A^r)\otimes _A M$
 
 with the alternating contraction differential. Include its augmentation to
-`M/(f₁,…,fᵣ)M`, functoriality in `M`, localization, and change-of-basis
-maps. The unique main result is this bundled complex construction and API.
+$M/(f_{1},\ldots ,f_{r})M$, functoriality in $M$, localization, and change-of-basis
+maps. These operations are compatible with the complex construction.
 
 ## Depends on
 
@@ -22,7 +22,7 @@ maps. The unique main result is this bundled complex construction and API.
 
 ## Proof depends on
 
-- The alternating-sign calculation proving `d²=0`.
+- The alternating-sign calculation proving $d^{2}=0$.
 
 ## Sources
 

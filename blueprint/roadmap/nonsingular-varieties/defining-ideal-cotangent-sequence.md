@@ -9,31 +9,22 @@ lean: Hartshorne.definingIdealCotangentEquiv_nonempty Hartshorne.residueField_sm
 
 # The defining ideal and the local cotangent space
 
-Let `Y ⊆ 𝔸ⁿ` be an affine variety, `P ∈ Y`,
-`𝔟 = I(Y)`, and `𝔫_P` the maximal ideal of the ambient polynomial ring at
-`P`. If `𝔪` is the maximal ideal of `𝒪_{P,Y}`, then the residue-field
-identification `𝒪_{P,Y}/𝔪 ≃ k` gives a `k`-linear model
+Let $Y\subseteq\mathbb A^n$ be an affine variety, let $P\in Y$, and
+write $\mathfrak b=I(Y)$ and $\mathfrak n_P$ for the ambient polynomial
+ring's maximal ideal at $P$. If $\mathfrak m$ is the maximal ideal of
+$\mathcal O_{P,Y}$, the identification of its residue field with $k$ gives
 
-`𝔪/𝔪² ≃ₗ[k] 𝔫_P/(𝔟 + 𝔫_P²)`.
+$$\mathfrak m/\mathfrak m^2\cong
+\mathfrak n_P/(\mathfrak b+\mathfrak n_P^2)$$
 
-Combining this with the ambient derivative equivalence gives an exact quotient
-of `kⁿ` by the span of the gradients `θ_P(𝔟)`. In particular,
+as $k$-vector spaces. Combining this with the ambient derivative map gives
 
-`dim_k(𝔪/𝔪²) + dim_k span{∇f(P) | f ∈ I(Y)} = n`.
+$$\dim_k(\mathfrak m/\mathfrak m^2)+
+\dim_k\operatorname{span}\{\nabla f(P):f\in I(Y)\}=n.$$
 
-This is the dimension count in the proof of Theorem 5.1. Formally, it is the
-bridge between three representations already present in the libraries: the
-project's germ local ring, its localization model
-`A(Y)_{𝔪_P}`, and Mathlib's `Ideal.Cotangent`/`IsLocalRing.CotangentSpace`.
-The equivalences must also respect the project's residue-field equivalence with
-`k`; a bare ring equivalence is not enough to rewrite vector-space dimensions.
-
-Mathlib's closest reusable pieces are
-`Algebra.Extension.exact_cotangentComplex_toKaehler`,
-`Algebra.Generators.Cotangent.exact`, and `Ideal.tensorCotangentEquiv`.
-None directly transports the cotangent space through this project's
-localization and germ-ring equivalences, so that scalar-compatible bridge is
-the principal implementation risk in this node.
+This is the dimension count in Hartshorne's proof of Theorem I.5.1.
+The identifications commute with the residue-field maps, preserving the
+scalar structure used in this dimension calculation.
 
 ## Depends on
 

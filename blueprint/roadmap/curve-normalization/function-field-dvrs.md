@@ -9,19 +9,15 @@ lean: Hartshorne.FunctionFieldDVR Hartshorne.FunctionFieldDVR.HasPoleAt Hartshor
 
 # Discrete valuation rings of a function field
 
-Let `K/k` be a field extension.  Define the type `C_K` of discrete valuation
-rings of `K/k` to consist of valuation subrings `R ⊆ K` such that `R` is a
-discrete valuation ring and contains the image of `k`.
+For a field extension $K/k$, let $C_K$ be the set of discrete valuation
+rings $R\subseteq K$ containing the image of $k$.
 
-For a valuation subring, containing `k` is equivalent to its associated
-valuation being trivial on every nonzero element of `k`; record that
-equivalence so this definition interoperates with
-`Valuation.IsTrivialOn`.  Also define the predicates that `x : K` has a pole
-at `R`, meaning `x ∉ R`, and that `x` vanishes at `R`, meaning
-`x ∈ 𝔪_R`.
+Containing $k$ is equivalent to the corresponding valuation being trivial
+on nonzero elements of $k$. An element $x\in K$ has a *pole* at $R$ if
+$x\notin R$, and *vanishes* at $R$ if $x\in\mathfrak m_R$.
 
-Use valuation *subrings*, not chosen valuation maps: `C_K` identifies points
-which have the same local ring, exactly as Hartshorne does.
+A point of $C_K$ is specified by its valuation ring: equivalent valuations
+with the same ring describe the same point.
 
 ## Depends on
 
@@ -29,4 +25,4 @@ No project-local statement prerequisites.
 
 ## Sources
 
-- [Hartshorne I.6, definition of `C_K` and of valuation rings of `K/k` (pp. 39--42)](../../sources/hartshorne.md#i6-normalization-and-finite-poles)
+- [Hartshorne I.6, definition of $C _K$ and of valuation rings of $K/k$ (pp. 39--42)](../../sources/hartshorne.md#i6-normalization-and-finite-poles)

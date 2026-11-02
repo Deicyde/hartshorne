@@ -14,9 +14,8 @@ sheaf condition. It is therefore the categorical kernel in the sheaf category,
 and a sheaf morphism is monic exactly when all its maps on sections are
 injective.
 
-Mathlib's `TopCat.limit_isSheaf` proves the general result that a pointwise
-limit of sheaves is a sheaf; kernels are its walking-parallel-pair instance.
-The forgetful functor from sheaves creates these limits.
+Kernels are a special case of pointwise limits of sheaves. The
+forgetful functor from sheaves to presheaves creates these limits.
 
 ## Depends on
 

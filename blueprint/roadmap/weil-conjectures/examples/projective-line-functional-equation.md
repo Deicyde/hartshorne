@@ -8,7 +8,7 @@ origin: cited
 
 As rational functions,
 
-`Z(P^1,1/(q*t))=q*t^2*Z(P^1,t)`.
+$Z(\mathbb{P}^1,1/(q\cdot t))=q\cdot t^2\cdot Z(\mathbb{P}^1,t)$.
 
 ## Depends on
 
@@ -17,7 +17,7 @@ As rational functions,
 
 ## Proof depends on
 
-- Substitute `1/(q*t)` into the explicit rational function and simplify.
+- Substitute $1/(q\cdot t)$ into the explicit rational function and simplify.
 
 ## Sources
 

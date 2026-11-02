@@ -8,12 +8,12 @@ origin: cited
 
 Define
 
-`A^r(X)=Z^r(X)/Rat^r(X)`
+$A^r(X)=\mathbb{Z}^r(X)/\operatorname{Rat}^r(X)$
 
-and `A(X)=direct-sum_(r=0)^(dim X) A^r(X)`. For an integral variety,
-`A^0(X)=Z`, and `A^r(X)=0` when `r>dim X`.
+and $A(X)=\bigoplus_{r=0}^{\dim X}A^r(X)$. For an integral variety,
+$A^0(X)=Z$, and $A^r(X)=0$ when $r>\dim X$.
 
-At this stage `A(X)` is a graded abelian group. Its Chow-ring multiplication
+At this stage $A(X)$ is a graded abelian group. Its Chow-ring multiplication
 is supplied only after constructing the intersection product.
 
 ## Depends on

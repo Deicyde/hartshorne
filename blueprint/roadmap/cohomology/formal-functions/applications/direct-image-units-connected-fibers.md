@@ -6,12 +6,12 @@ origin: cited
 
 # Direct image of the structure sheaf forces connected fibres
 
-Let `f : X -> Y` be a projective morphism of Noetherian schemes. If the
+Let $f : X \to Y$ be a projective morphism of Noetherian schemes. If the
 canonical unit map
 
-`O_Y -> f_* O_X`
+$\mathcal{O}_Y \to f_* \mathcal{O}_X$
 
-is an isomorphism, then every scheme-theoretic fibre `X_y` is connected.
+is an isomorphism, then every scheme-theoretic fibre $X_y$ is connected.
 
 ## Depends on
 
@@ -21,10 +21,10 @@ is an isomorphism, then every scheme-theoretic fibre `X_y` is connected.
 
 ## Proof depends on
 
-- A disconnection of `X_y` induces compatible product decompositions of the
+- A disconnection of $X_y$ induces compatible product decompositions of the
   global functions on every infinitesimal fibre.
 - Formal functions in degree zero would then give a nontrivial idempotent in
-  the completion of the local ring `O_(Y,y)`, which is again local.
+  the completion of the local ring $\mathcal{O}_{(Y,y)}$, which is again local.
 
 ## Sources
 

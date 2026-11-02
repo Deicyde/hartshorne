@@ -7,7 +7,7 @@ origin: cited
 # Curves of degree two and three
 
 Every curve of projective degree two is a conic in a projective plane. Every
-curve of degree three is either a plane cubic or a twisted cubic in `P^3`,
+curve of degree three is either a plane cubic or a twisted cubic in $\mathbb{P}^3$,
 after replacing the ambient projective space by the linear span of the curve.
 
 ## Depends on

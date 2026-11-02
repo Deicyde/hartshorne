@@ -9,20 +9,18 @@ lean: Hartshorne.projective_dimension_theorem
 
 # The projective dimension theorem for components
 
-Let `Y,Z ⊆ ℙⁿ` be projective varieties and let `W` be an irreducible component
-of `Y ∩ Z`.  Then
+Let $Y,Z\subseteq\mathbb P^n$ be projective varieties and let $W$ be
+an irreducible component of $Y\cap Z$. Then
 
-`projDim Y + projDim Z ≤ projDim W + n`.
+$$\dim Y+\dim Z\leq\dim W+n.$$
 
-The sole main declaration is planned as
-`Hartshorne.projective_dimension_theorem`.  For natural dimensions `r,s,t`,
-this is the subtraction-free form of Theorem 7.2's assertion
-`t ≥ r + s - n`.
+This is Hartshorne's Theorem I.7.2, equivalently
+$\dim W\geq\dim Y+\dim Z-n$.
 
-Choose a standard affine chart meeting `W`.  The preceding chart-component
-theorem turns `W` into a component of the intersection of the two affine chart
-pieces and preserves all three dimensions.  Apply the affine dimension
-theorem in that chart, whose ambient affine dimension is `n`.
+Choose a standard affine chart meeting $W$. The chart-component theorem
+identifies its image with an irreducible component of the intersection of
+the two chart pieces and preserves all three dimensions. The affine
+dimension theorem in this chart gives the result.
 
 ## Depends on
 

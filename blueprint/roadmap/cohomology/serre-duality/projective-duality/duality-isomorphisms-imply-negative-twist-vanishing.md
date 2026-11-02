@@ -6,14 +6,14 @@ origin: cited
 
 # Duality implies negative-twist vanishing
 
-Let `X` be an arbitrary projective scheme of dimension `n` over an
-algebraically closed field `k`, equipped with a dualizing sheaf and a fixed
-very ample `O_X(1)`. If all projective duality comparison maps are
-isomorphisms, then every finite locally free `E` satisfies
+Let $X$ be an arbitrary projective scheme of dimension $n$ over an
+algebraically closed field $k$, equipped with a dualizing sheaf and a fixed
+very ample $\mathcal{O}_X(1)$. If all projective duality comparison maps are
+isomorphisms, then every finite locally free $E$ satisfies
 
-`Hⁱ(X,E(-q))=0`
+$H^{i}(X,E(-q))=0$
 
-for `i<n` and all sufficiently large `q`.
+for $i<n$ and all sufficiently large $q$.
 
 ## Depends on
 

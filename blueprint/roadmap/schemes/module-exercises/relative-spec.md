@@ -6,15 +6,15 @@ origin: cited
 
 # Relative Spec of a quasi-coherent algebra
 
-For a quasi-coherent sheaf `A` of `O_Y`-algebras, construct an affine morphism
+For a quasi-coherent sheaf $A$ of $\mathcal{O}_Y$-algebras, construct an affine morphism
 
-`Spec_Y A → Y`
+$\operatorname{Spec} _Y A \to Y$
 
-whose inverse image over every affine `V ⊆ Y` is `Spec A(V)`, with
-`f_*O_{Spec_Y A} ≅ A`. Conversely, every affine morphism is canonically of
+whose inverse image over every affine $V \subseteq Y$ is $\operatorname{Spec} A(V)$, with
+$f_*\mathcal{O}_{\operatorname{Spec} _Y A} \cong A$. Conversely, every affine morphism is canonically of
 this form. These constructions induce mutually inverse bijections between
-isomorphism classes of quasi-coherent `O_Y`-algebras and isomorphism classes
-of affine schemes over `Y`. No categorical equivalence is asserted here.
+isomorphism classes of quasi-coherent $\mathcal{O}_Y$-algebras and isomorphism classes
+of affine schemes over $Y$. No categorical equivalence is asserted here.
 
 ## Depends on
 

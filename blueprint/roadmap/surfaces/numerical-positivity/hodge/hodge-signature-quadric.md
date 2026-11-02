@@ -6,13 +6,13 @@ origin: cited
 
 # The Hodge signature and the quadric example
 
-After tensoring the numerical divisor group with `R`, the nondegenerate
+After tensoring the numerical divisor group with $R$, the nondegenerate
 intersection form of a Chapter V surface has exactly one positive direction,
 represented by an ample class, and every orthogonal direction is negative.
 
-On the nonsingular quadric, classes `H=(1,1)` and `D=(1,-1)` satisfy
+On the nonsingular quadric, classes $H=(1,1)$ and $D=(1,-1)$ satisfy
 
-`H^2=2`, `H*D=0`, and `D^2=-2`;
+$H^2=2$, $H\cdot D=0$, and $D^2=-2$;
 
 they diagonalize the real numerical intersection form, and numerical and
 linear equivalence coincide.
@@ -27,7 +27,7 @@ linear equivalence coincide.
 ## Proof depends on
 
 - Hodge index makes the orthogonal complement of an ample class negative
-  definite; Sylvester's law turns this into signature `(1,rho-1)`.
+  definite; Sylvester's law turns this into signature $(1,\rho -1)$.
 
 ## Sources
 

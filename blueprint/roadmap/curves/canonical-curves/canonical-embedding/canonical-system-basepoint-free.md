@@ -6,13 +6,13 @@ origin: cited
 
 # The canonical system is basepoint-free
 
-Let `X` be a Chapter IV curve of genus `g>=2`. Its canonical linear system
-has projective dimension `g-1`, is effective and basepoint-free, and therefore
+Let $X$ be a Chapter IV curve of genus $g\ge 2$. Its canonical linear system
+has projective dimension $g-1$, is effective and basepoint-free, and therefore
 defines the canonical morphism
 
-`X -> P^(g-1)`.
+$X \to \mathbb{P}^{g-1}$.
 
-For context, when `g=0` the canonical system is empty, and when `g=1` it is
+For context, when $g=0$ the canonical system is empty, and when $g=1$ it is
 the zero divisor and gives the constant map.
 
 ## Depends on
@@ -24,8 +24,8 @@ the zero divisor and gives the constant map.
 
 ## Proof depends on
 
-- Since a genus-at-least-two curve is not rational, `dim|P|=0`; Riemann–Roch
-  gives `dim|K-P|=g-2` for every point `P`.
+- Since a genus-at-least-two curve is not rational, $\dim |P|=0$; Riemann–Roch
+  gives $\dim |K-P|=g-2$ for every point $P$.
 
 ## Sources
 

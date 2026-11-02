@@ -6,11 +6,11 @@ origin: bridged
 
 # The projective-linear hyperplane orbit map is open
 
-Fix a hyperplane `H` in `P^n` over an algebraically closed field of
+Fix a hyperplane $H$ in $\mathbb{P}^n$ over an algebraically closed field of
 characteristic zero. The orbit
 morphism
 
-`PGL(n+1) -> (P^n)^dual`,  `sigma |-> sigma(H)`,
+$\operatorname{PGL} (n+1) \to (\mathbb{P}^n)^\vee$,  $\sigma \mapsto \sigma (H)$,
 
 is surjective and smooth, hence open. Therefore the image of any invariantly
 constructed nonempty open set of good translates contains a nonempty open set

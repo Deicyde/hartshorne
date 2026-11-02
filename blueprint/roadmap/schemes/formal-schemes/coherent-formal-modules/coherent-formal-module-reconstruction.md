@@ -6,15 +6,15 @@ origin: cited
 
 # Reconstruction from infinitesimal reductions
 
-Let `Xhat` be a Noetherian formal scheme, `J` an ideal of definition, and
-`F` a coherent formal module. For `n : Nat`, set
+Let $\widehat{X}$ be a Noetherian formal scheme, $J$ an ideal of definition, and
+$F$ a coherent formal module. For nonnegative integer $n$, set
 
-`F n = F / J^(n+1) F`.
+$F n = F / J^{n+1} F$.
 
-Then `F n` is coherent on the scheme
-`(Xhat,O_Xhat/J^(n+1))`, and the canonical map
+Then $F n$ is coherent on the scheme
+$(\widehat{X} ,\mathcal{O}_{\widehat{X}} /J^{n+1})$, and the canonical map
 
-`F ⟶ lim_n F n`
+$F \longrightarrow \lim _n F n$
 
 is an isomorphism.
 

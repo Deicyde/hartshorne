@@ -6,9 +6,9 @@ origin: cited
 
 # Inversion and translations are morphisms
 
-For a pointed elliptic curve, inversion `P |-> -P` is a scheme
-automorphism. For every closed point `Q`, translation `P |-> Q+P` is also a
-scheme automorphism, with inverse translation by `-Q`.
+For a pointed elliptic curve, inversion $P\mapsto-P$ is a scheme
+automorphism. For every closed point $Q$, translation $P\mapsto Q+P$ is also a
+scheme automorphism, with inverse translation by $-Q$.
 
 ## Depends on
 
@@ -17,7 +17,7 @@ scheme automorphism, with inverse translation by `-Q`.
 
 ## Proof depends on
 
-- Apply the involution lemma to `(P_0,P_0)` for inversion and to `(Q,P_0)`,
+- Apply the involution lemma to $(P_0,P_0)$ for inversion and to $(Q,P_0)$,
   then compose with inversion to obtain translation.
 
 ## Sources

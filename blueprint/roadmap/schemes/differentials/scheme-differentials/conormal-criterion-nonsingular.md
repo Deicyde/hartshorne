@@ -6,11 +6,11 @@ origin: cited
 
 # The conormal criterion for nonsingularity
 
-Let `Y ↪ X` be an irreducible closed subscheme of a nonsingular variety over
-an algebraically closed field, with ideal sheaf `J`.  Then `Y` is nonsingular
+Let $Y \hookrightarrow X$ be an irreducible closed subscheme of a nonsingular variety over
+an algebraically closed field, with ideal sheaf $J$.  Then $Y$ is nonsingular
 if and only if both:
 
-1. `Ω[Y/k]` is locally free; and
+1. $\Omega_{Y/k}$ is locally free; and
 2. the conormal sequence is exact on the left.
 
 The completion criterion for this node is the equivalence.  The conormal-rank

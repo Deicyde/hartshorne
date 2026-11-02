@@ -6,11 +6,11 @@ origin: cited
 
 # Analytification of a coherent algebraic sheaf
 
-Analytify a local finite free presentation of a coherent `O_X`-module and
+Analytify a local finite free presentation of a coherent $\mathcal{O}_X$-module and
 take its cokernel in coherent analytic modules. These local constructions are
 independent of presentation, agree on overlaps, and define a functor
 
-`Coh(X)->Coh_an(X^h)`.
+$\operatorname{Coh}(X)\longrightarrow\operatorname{Coh}_{\mathrm{an}}(X^h)$.
 
 ## Depends on
 

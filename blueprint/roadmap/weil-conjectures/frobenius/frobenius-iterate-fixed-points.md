@@ -6,10 +6,10 @@ origin: cited
 
 # Frobenius iterates and rational points
 
-For every `r>=1`, the geometric points fixed by `F^r` are exactly the
-`F_(q^r)`-rational points of `X`. Hence
+For every $r\ge 1$, the geometric points fixed by $F^r$ are exactly the
+$\mathbb F_{q^r}$-rational points of $X$. Hence
 
-`N_r = #(Fix(F^r))`.
+$N_r=\#\operatorname{Fix}(F^r)$.
 
 ## Depends on
 

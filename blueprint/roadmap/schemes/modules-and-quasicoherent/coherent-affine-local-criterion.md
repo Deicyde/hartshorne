@@ -6,13 +6,13 @@ origin: cited
 
 # The affine-local criterion for coherence
 
-Let `X` be a locally Noetherian scheme.  For an `𝒪_X`-module `F`, prove that
-Hartshorne coherence is equivalent to Mathlib finite presentation, and to the
-condition that for every affine open `U = Spec A`,
+Let $X$ be a locally Noetherian scheme.  For an $\mathcal{O} _X$-module $F$, prove that
+coherence is equivalent to local finite presentation, and to the
+condition that for every affine open $U = \operatorname{Spec} A$,
 
-`F|_U ≅ M̃`
+$F|_U \cong \widetilde{M}$
 
-for a finitely generated `A`-module `M`, necessarily `M = Γ(U,F)`.  This is
+for a finitely generated $A$-module $M$, necessarily $M = \Gamma (U,F)$.  This is
 the coherent clause of Proposition 5.4 and Corollary 5.5.  The Noetherian
 hypothesis is essential to replace finite presentation by finite generation.
 

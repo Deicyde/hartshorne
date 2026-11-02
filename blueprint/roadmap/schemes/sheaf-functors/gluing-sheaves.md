@@ -6,14 +6,13 @@ origin: cited
 
 # Gluing sheaves on an open cover
 
-Let `{Uᵢ}` cover `X`, let `Fᵢ` be a sheaf on `Uᵢ`, and suppose isomorphisms
-`φᵢⱼ : Fᵢ|Uᵢ∩Uⱼ ≅ Fⱼ|Uᵢ∩Uⱼ` satisfy the identity and cocycle conditions.
-Construct a sheaf `F` on `X` with compatible isomorphisms `F|Uᵢ ≅ Fᵢ`, and
+Let $\{U_{i}\}$ cover $X$, let $F_{i}$ be a sheaf on $U_{i}$, and suppose isomorphisms
+$\varphi _{ij} : F_{i}|U_{i}\cap U_{j} \cong F_{j}|U_{i}\cap U_{j}$ satisfy the identity and cocycle conditions.
+Construct a sheaf $F$ on $X$ with compatible isomorphisms $F|U_{i} \cong F_{i}$, and
 prove uniqueness up to unique isomorphism respecting those identifications.
 
-Mathlib contains gluing machinery for presheafed and sheafed spaces, but no
-exact theorem for sheaves on a fixed topological space was found. This node is
-the prerequisite Hartshorne invokes for reduced induced subschemes on p. 86.
+This is the gluing result invoked in the construction of reduced
+induced subschemes.
 
 ## Depends on
 

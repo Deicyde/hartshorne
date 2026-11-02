@@ -6,12 +6,12 @@ origin: cited
 
 # The canonical sheaf of a smooth hypersurface
 
-Let `Y` be a nonsingular degree-`d` hypersurface in `P^n_k`, with `n >= 2`.
+Let $Y$ be a nonsingular degree-$d$ hypersurface in $\mathbb{P}^n_k$, with $n \ge 2$.
 Then
 
-`omega_Y ~= O_Y(d - n - 1)`.
+$\omega _Y \simeq \mathcal{O}_Y(d - n - 1)$.
 
-In particular, when `d >= n + 1`, `Y` has positive geometric genus and is not
+In particular, when $d \ge n + 1$, $Y$ has positive geometric genus and is not
 rational. The individual curve, surface, and threefold cases in the source are
 recorded as applications of this formula rather than separate graph nodes.
 
@@ -24,7 +24,7 @@ recorded as applications of this formula rather than separate graph nodes.
 
 ## Proof depends on
 
-- The divisor sheaf of a degree-`d` hypersurface is `O(d)`.
+- The divisor sheaf of a degree-$d$ hypersurface is $\mathcal{O}(d)$.
 - Nonnegative projective twists have a nonzero global section.
 
 ## Sources

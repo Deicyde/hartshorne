@@ -6,17 +6,17 @@ origin: cited
 
 # Degree of a projective Weil divisor
 
-Let `k` be algebraically closed and let `X ⊆ P^n_k` be a projective variety
-nonsingular in codimension one. For a Weil divisor `D = sum_i n_i Y_i` on
-`X`, define
+Let $k$ be algebraically closed and let $X \subseteq \mathbb{P}^n_k$ be a projective variety
+nonsingular in codimension one. For a Weil divisor $D = \sum _i n_i Y_i$ on
+$X$, define
 
-`deg D = sum_i n_i * deg Y_i`,
+$\deg D = \sum _i n_i \cdot \deg Y_i$,
 
 where each prime divisor is given its projective degree in the fixed
-embedding of `X`.
+embedding of $X$.
 
 This is the preamble of Exercise 6.2. The unique completion criterion is the
-additive degree homomorphism `Div X → Z`; its invariance under linear
+additive degree homomorphism $\operatorname{Div} X \to Z$; its invariance under linear
 equivalence belongs to the excluded part (d), not to this node.
 
 ## Depends on

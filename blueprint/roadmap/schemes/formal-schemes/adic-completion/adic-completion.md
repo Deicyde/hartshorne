@@ -9,17 +9,14 @@ mathlib_file: Mathlib/RingTheory/AdicCompletion/Basic.lean
 
 # Adic completion of rings and modules
 
-For an ideal `I` of a commutative ring `A` and an `A`-module `M`, define
+For an ideal $I$ of a commutative ring $A$ and an $A$-module $M$, define
 
-`Mhat = lim_n M / I^(n+1) M`.
+$\widehat{M}=\varprojlim_n M/I^{n+1}M$.
 
-For `M = A`, equip `Ahat` with its induced commutative-ring structure and the
-canonical map `A ⟶ Ahat`. Stage zero is reduction modulo `I`, not modulo
-`I^0`; the shift by one reconciles Hartshorne's positive indices with
-Mathlib's natural-number-indexed `AdicCompletion`.
-
-Pinned Mathlib's `AdicCompletion I M` is exactly the compatible-family model
-of this inverse limit.
+For $M=A$, the completion $\widehat A$ has its induced
+commutative-ring structure and canonical homomorphism
+$A\to\widehat A$. With this indexing, term zero is reduction
+modulo $I$.
 
 ## Depends on
 

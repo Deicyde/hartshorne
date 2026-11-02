@@ -6,7 +6,7 @@ origin: cited
 
 # Closed images and specialization
 
-If `f : X ⟶ Y` is quasi-compact, then `Set.range f` is closed if and only
+If $f : X \longrightarrow Y$ is quasi-compact, then the image $f(X)$ is closed if and only
 if it is stable under specialization.
 
 Only the reverse implication requires work. Reduce source and target, replace
@@ -16,10 +16,8 @@ On one chart dominance gives an injective ring map; localizing above a minimal
 prime produces a point over the required generalization, and stability under
 specialization supplies the target point itself.
 
-This is the source-shaped range statement. Mathlib's related theorem
-`isClosedMap_iff_specializingMap` concerns images of all closed subsets, not
-only the whole source, so it is proof infrastructure rather than an exact
-replacement.
+The assertion concerns the image of the whole source. It is the
+form of the closed-image criterion used here.
 
 ## Depends on
 
@@ -30,8 +28,7 @@ replacement.
 
 - [The reduced induced closed subscheme](../subschemes-and-dimension/reduced-induced-closed-subscheme.md)
 - Existence of minimal primes and exactness of localization.
-- `isClosedMap_iff_specializingMap` from
-  `Mathlib/AlgebraicGeometry/Morphisms/QuasiCompact.lean`.
+- For a quasi-compact scheme morphism, being a closed map is equivalent to preserving specialization.
 
 ## Sources
 

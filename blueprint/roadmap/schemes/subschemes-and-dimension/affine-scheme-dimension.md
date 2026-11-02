@@ -9,9 +9,9 @@ mathlib_file: Mathlib/RingTheory/Spectrum/Prime/Topology.lean
 
 # Dimension of an affine scheme
 
-For every commutative ring `A`, the topological dimension of `Spec A` equals the Krull dimension of `A`.
+For every commutative ring $A$, the topological dimension of $\operatorname{Spec} A$ equals the Krull dimension of $A$.
 
-Transport topological Krull dimension along the canonical homeomorphism from the affine scheme to `PrimeSpectrum A`, then apply the prime-spectrum dimension theorem.
+Transport topological Krull dimension along the canonical homeomorphism from the affine scheme to the prime spectrum of $A$, then apply the prime-spectrum dimension theorem.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ Transport topological Krull dimension along the canonical homeomorphism from the
 
 ## Proof depends on
 
-- `PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim`.
+- The dimension of the prime spectrum equals the ring Krull dimension.
 
 ## Sources
 

@@ -6,18 +6,18 @@ origin: cited
 
 # The partial Proj morphism of a graded map
 
-Let `φ : S → T` be a degree-preserving homomorphism of graded rings and let
+Let $\varphi : S \to T$ be a degree-preserving homomorphism of graded rings and let
 
-`U = {𝔭 ∈ Proj T | 𝔭 ⊉ φ(S₊)}`.
+$U = \{\mathfrak{p} \in \operatorname{Proj} T | \mathfrak{p} \not\supseteq \varphi (S_{+})\}$.
 
-Then `U` is open and `φ` determines a natural scheme morphism
-`U → Proj S`, sending `𝔭` to `φ⁻¹(𝔭)`.
+Then $U$ is open and $\varphi$ determines a natural scheme morphism
+$U \to \operatorname{Proj} S$, sending $\mathfrak{p}$ to $\varphi ^{-1}(\mathfrak{p} )$.
 
-Cover `U` by the opens `D₊(φ(f))` for positive-degree homogeneous `f ∈ S`.
-On each chart use the induced map of degree-zero away localizations and the
-standard affine correspondence, then glue.  Mathlib's existing `Proj.map`
-supplies the special case in which the irrelevant-ideal hypothesis makes
-`U = Proj T`; it is not the general statement of Exercise 2.14(b).
+Cover $U$ by $D_+(\varphi(f))$ for homogeneous $f\in S$ of
+positive degree. The induced homomorphisms of degree-zero
+localizations define morphisms on these affine charts, which glue.
+If the irrelevant-ideal hypothesis makes $U=\operatorname{Proj}T$,
+the resulting morphism is defined everywhere.
 
 ## Depends on
 

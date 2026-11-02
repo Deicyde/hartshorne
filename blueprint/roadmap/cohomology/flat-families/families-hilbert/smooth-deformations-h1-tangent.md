@@ -6,12 +6,11 @@ origin: cited
 
 # Smooth infinitesimal deformations and tangent cohomology
 
-Let `X` be nonsingular over an algebraically closed field `k`. Isomorphism
-classes of infinitesimal deformations of `X` over the dual numbers are in
-natural bijection with `H^1(X,T_X)`.
+Let $X$ be nonsingular over an algebraically closed field $k$. Isomorphism
+classes of infinitesimal deformations of $X$ over the dual numbers are in
+natural bijection with $H^1(X,T_X)$.
 
-This is cohomology of the ordinary tangent sheaf. It is not stated using a
-cotangent complex or a declaration named `H1Cotangent`.
+This is cohomology of the ordinary tangent sheaf.
 
 ## Depends on
 
@@ -21,7 +20,7 @@ cotangent complex or a declaration named `H1Cotangent`.
 
 ## Proof depends on
 
-- Specialize the extension classification to the coefficient sheaf `O_X`
+- Specialize the extension classification to the coefficient sheaf $\mathcal{O}_X$
   and transport across the deformation/extension correspondence.
 - [Dual-number deformations and square-zero extensions](dual-number-deformation-square-zero-extension.md).
 - [Infinitesimal extensions and tangent-valued cohomology](../../cohomology-exercises/infinitesimal-extension-classification.md).

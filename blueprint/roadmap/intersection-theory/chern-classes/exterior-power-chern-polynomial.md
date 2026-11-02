@@ -6,15 +6,15 @@ origin: cited
 
 # The Chern polynomial of an exterior power
 
-If `E` has rank `r` and formal Chern roots `a_1,...,a_r`, then for
-`0<=p<=r`,
+If $E$ has rank $r$ and formal Chern roots $a_1,\ldots ,a_r$, then for
+$0\le p\le r$,
 
-`c_t(exteriorPower p E) =`
+$c_t(\bigwedge^p E)=$
 
-`product_(i_1<...<i_p)(1+(a_(i_1)+...+a_(i_p))t)`.
+$\prod _{(i_1<\ldots <i_p)}(1+(a_{(i_1)}+\ldots +a_{(i_p)})t)$.
 
 The symmetric coefficient expressions descend uniquely to universal
-polynomials in the Chern classes of `E`.
+polynomials in the Chern classes of $E$.
 
 ## Depends on
 

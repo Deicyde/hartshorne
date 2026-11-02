@@ -6,9 +6,9 @@ origin: cited
 
 # Pullback by a point blowup preserves intersection numbers
 
-For divisor classes `C,D` on `X`,
+For divisor classes $C ,D$ on $X$,
 
-`(pi^*C).(pi^*D) = C.D`.
+$(\pi^*C)\cdot(\pi^*D)=C\cdot D$.
 
 ## Depends on
 
@@ -18,7 +18,7 @@ For divisor classes `C,D` on `X`,
 
 ## Proof depends on
 
-- Move `C,D` to differences of smooth transverse curves avoiding `P`; their
+- Move $C ,D$ to differences of smooth transverse curves avoiding $P$; their
   intersections are unchanged under the isomorphism away from the center.
 
 ## Sources

@@ -8,21 +8,21 @@ origin: cited
 
 Let
 
-`D ~ a*l-sum_i b_i*e_i`
+$D\sim al-\sum_i b_i e_i$
 
 on the marked cubic surface.  If
 
-`b_1 >= b_2 >= ... >= b_6 > 0`
+$b_1 \ge b_2 \ge \ldots \ge b_6 > 0$
 
 and
 
-`a >= b_1+b_2+b_5`,
+$a \ge b_1+b_2+b_5$,
 
-then `D` is very ample.
+then $D$ is very ample.
 
-Equivalently, these inequalities express `D` as
-`sum_(i=0)^6 c_i D_i`, with every `c_i>=0` and `c_6>0`, in the standard
-basis.  The positive `D_6` summand is very ample and the remaining summand is
+Equivalently, these inequalities express $D$ as
+$\sum _{(i=0)}^6 c_i D_i$, with every $c_i\ge 0$ and $c_6>0$, in the standard
+basis.  The positive $D_6$ summand is very ample and the remaining summand is
 globally generated.
 
 ## Depends on

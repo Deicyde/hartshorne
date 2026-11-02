@@ -9,9 +9,9 @@ origin: cited
 For a connected reduced projective complex variety, the analytic exponential
 sequence and degree-zero surjectivity give an exact sequence beginning
 
-`0 -> H^1(X^h,Z) -> H^1(X^h,O) -> H^1(X^h,O^*)`
+$0 \to H^1(X^h,\mathbb{Z}) \to H^1(X^h,O) \to H^1(X^h,O^*)$
 
-`-> H^2(X^h,Z) -> H^2(X^h,O) -> ...`.
+$\to H^2(X^h,\mathbb{Z}) \to H^2(X^h,O) \to \ldots$.
 
 ## Depends on
 

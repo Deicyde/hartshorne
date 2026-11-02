@@ -9,11 +9,10 @@ schemes. Tensor products, sheaf Hom, and direct and inverse image operations
 are followed by the affine tilde construction and the local criteria for
 quasi-coherence and coherence.
 
-This chapter covers the foundational half of Hartshorne II.5 through
-Proposition 5.8 for schemes. It ends where ideal sheaves begin on printed p. 115.
-The roadmap explicitly relates Mathlib's local-presentation definition of
-quasi-coherence to Hartshorne's local affine `M̃` definition before using
-one in place of the other.
+Hartshorne II.5 introduces sheaves of modules and develops their
+affine description through Proposition II.5.8. Ideal sheaves begin
+on printed p.115. Local presentations and the affine tilde
+description give equivalent characterizations of quasi-coherence.
 
 ## Modules and their operations
 

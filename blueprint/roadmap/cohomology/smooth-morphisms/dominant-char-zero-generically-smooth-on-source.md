@@ -6,12 +6,12 @@ origin: cited
 
 # Dominant maps are generically smooth on the source in characteristic zero
 
-Let `f : X -> Y` be a dominant morphism of integral finite-type schemes over
+Let $f : X \to Y$ be a dominant morphism of integral finite-type schemes over
 an algebraically closed field of characteristic zero. There is a nonempty open
-`U` in `X` such that `U -> Y` is smooth.
+$U$ in $X$ such that $U \to Y$ is smooth.
 
 The proof first establishes the stronger field-theoretic form assuming that
-`K(X)/K(Y)` is separably generated. Characteristic zero supplies precisely
+$K(X)/K(Y)$ is separably generated. Characteristic zero supplies precisely
 that hypothesis and is not erased from the source-facing corollary.
 
 ## Depends on

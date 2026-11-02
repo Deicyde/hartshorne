@@ -18,7 +18,6 @@ In a cartesian square of schemes, a pullback of a flat morphism is flat.
 
 ## Proof depends on
 
-- The exact pinned morphism-property declaration named in the metadata.
 - [Base change of a module sheaf flat over a base](module-sheaf-flat-base-change.md),
   specialized to the structure sheaf.
 

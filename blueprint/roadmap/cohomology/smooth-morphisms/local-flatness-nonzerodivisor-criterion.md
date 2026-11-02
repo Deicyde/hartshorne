@@ -6,10 +6,10 @@ origin: background
 
 # The non-zero-divisor local criterion for flatness
 
-Let `A -> B` be a local homomorphism of Noetherian local rings, let `M` be a
-finite `B`-module, and let `t` be a nonunit and non-zero-divisor of `A`. Then
-`M` is flat over `A` if and only if multiplication by `t` is injective on `M`
-and `M/tM` is flat over `A/tA`.
+Let $A \to B$ be a local homomorphism of Noetherian local rings, let $M$ be a
+finite $B$-module, and let $t$ be a nonunit and non-zero-divisor of $A$. Then
+$M$ is flat over $A$ if and only if multiplication by $t$ is injective on $M$
+and $M/tM$ is flat over $A/tA$.
 
 ## Depends on
 

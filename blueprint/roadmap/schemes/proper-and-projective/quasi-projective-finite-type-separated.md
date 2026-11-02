@@ -9,21 +9,21 @@ lean: Hartshorne.QuasiProjective.finiteType_and_isSeparated Hartshorne.QuasiProj
 
 # Quasi-projective morphisms are finite type and separated
 
-Let `f : X ⟶ Y` be a quasi-projective morphism of Noetherian schemes. Then
-`f` is finite type and separated.
+Let $f : X \longrightarrow Y$ be a quasi-projective morphism of Noetherian schemes. Then
+$f$ is finite type and separated.
 
-Choose a factorization of `f` as an open immersion `X ⟶ X'` followed by a
-projective morphism `X' ⟶ Y`. The projective map is proper, hence separated
+Choose a factorization of $f$ as an open immersion $X \longrightarrow X'$ followed by a
+projective morphism $X' \longrightarrow Y$. The projective map is proper, hence separated
 and finite type. An open immersion is locally finite type and separated; with
 locally Noetherian target, it is also quasi-compact, hence finite type.
-Composition gives both conclusions for `f`.
+Composition gives both conclusions for $f$.
 
 Keep the Noetherian hypothesis visible: an arbitrary open immersion need not
 be quasi-compact, so Hartshorne's finite-type conclusion is not unconditional.
 
-The hypothesis that `X` is Noetherian is retained to match Hartshorne's source
+The hypothesis that $X$ is Noetherian is retained to match Hartshorne's source
 statement, although the separate generalization proves both conclusions for
-an arbitrary `X` over a locally Noetherian `Y`.
+an arbitrary $X$ over a locally Noetherian $Y$.
 
 ## Depends on
 

@@ -12,31 +12,25 @@ degree, and the hypersurface and plane-curve forms of Bézout's theorem.
 All fifty leaves are formalized.
 
 The dependency split follows Hartshorne's proof. The geometric branch reaches
-Theorem 7.2. The algebraic branch builds the missing `ℤ`-graded module and
+Theorem 7.2. The algebraic branch builds the missing $\mathbb{Z}$-graded module and
 prime-filtration infrastructure, then proves Hilbert–Serre. The final branch
 extracts leading coefficients and intersection multiplicities.
 
 ## Chapters
 
 - [Affine and projective dimension theorems](dimension/README.md) — products,
-  cones, finite equation cuts, Proposition 7.1, and Theorem 7.2.
+  cones, finite equation cuts, [Proposition I.7.1](dimension/affine-dimension-theorem.md), and Theorem 7.2.
 - [Numerical polynomials and graded Hilbert theory](hilbert/README.md) —
   Proposition 7.3 through Hilbert–Serre and the definition of projective degree.
 - [Degree and Bézout](bezout/README.md) — Proposition 7.6, hypersurface
-  intersection multiplicity, Theorem 7.7, Corollary 7.8, and Remark 7.8.2.
+  intersection multiplicity, [Theorem I.7.7](bezout/projective-hypersurface-bezout.md), [Corollary I.7.8](bezout/plane-curve-bezout.md), and Remark 7.8.2.
 
 ## Representation and source boundary
 
-Polynomial rings are regraded over `ℤ`, with negative pieces zero, so the
-source's twist `M(l)ₐ = Mₐ₊ₗ` is represented literally. Dimension inequalities
-use additive, subtraction-free statements in `WithBot ℕ∞`; localized lengths
-remain `ℕ∞` until their finiteness is proved.
-
-Pinned Mathlib contains Krull's height theorem, ungraded prime filtrations,
-associated-prime localization, module length, homogeneous submodules, and
-rational generating-function Hilbert polynomials. It explicitly lacks Hilbert
-polynomials of finite graded modules and has no exact result corresponding to
-Proposition 7.1, Theorem 7.2, Theorem 7.7, or Corollary 7.8.
+Polynomial rings are graded over the integers, with negative pieces zero,
+so twists satisfy $M(l)_a=M_{a+l}$. Dimension inequalities are written in
+additive form, and localized module lengths are proved finite before being
+used as intersection multiplicities.
 
 Remark 7.8.1, comparing homogeneous and local intersection multiplicities, is
 deferred because its local definition comes from unadopted Exercise 5.4.

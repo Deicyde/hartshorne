@@ -12,9 +12,9 @@ mathlib_file: Mathlib/AlgebraicGeometry/Noetherian.lean
 A scheme is Noetherian if and only if it has a finite affine open cover whose
 global section rings are Noetherian.
 
-Here `IsNoetherian X` is Mathlib's conjunction of local Noetherianity and
-quasi-compactness. A finite affine Noetherian cover supplies both conditions;
-conversely quasi-compactness extracts a finite subcover.
+A scheme is Noetherian exactly when it is locally Noetherian and
+quasi-compact. A finite affine Noetherian cover supplies both
+conditions; conversely, quasi-compactness extracts a finite subcover.
 
 ## Depends on
 

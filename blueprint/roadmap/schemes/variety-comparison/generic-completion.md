@@ -9,17 +9,18 @@ lean: Hartshorne.genericCompletionFunctor Hartshorne.genericCompletionAlpha Hart
 
 # The generic-completion functor
 
-Define a functor `t : TopCat ⥤ TopCat` as follows.  On a topological space
-`X`, `t(X)` is its nonempty irreducible closed subsets, with `t(Y) =
-{Z | Z ⊆ Y}` closed whenever `Y ⊆ X` is closed.  For a continuous map
-`f : X → Y`, send `Z` to the closure of `f(Z)`.
+Define a functor $t$ on topological spaces. For a space $X$, the points of
+$t(X)$ are its nonempty irreducible closed subsets. For each closed subset
+$Y\subseteq X$, the set
 
-The unique main artifact is this functor, including its identity and
-composition laws.  Supporting it, the map
-`α_X : X → t(X)`, `x ↦ closure {x}`, induces an order isomorphism between the
-open subsets of `X` and `t(X)`.  The article should reuse Mathlib's carrier
-`IrreducibleCloseds X` but supply Hartshorne's topology and open-set
-correspondence.
+$$t(Y)=\{Z\in t(X)\mid Z\subseteq Y\}$$
+
+is closed in $t(X)$. For a continuous map $f:X\to Y$, send $Z$ to the
+closure of $f(Z)$.
+
+The construction respects identity maps and composition. The map
+$\alpha_X:X\to t(X)$ given by $x\mapsto\overline{\{x\}}$ induces
+an order isomorphism between the open subsets of $X$ and $t(X)$.
 
 ## Depends on
 
@@ -27,4 +28,4 @@ correspondence.
 
 ## Sources
 
-- [Hartshorne II.2, construction of `t(X)` in Proposition 2.6 (p. 78)](../../../sources/hartshorne-ii-2.md#schemes-over-a-base-and-proposition-26)
+- [Hartshorne II.2, construction of $t(X)$ in Proposition 2.6 (p. 78)](../../../sources/hartshorne-ii-2.md#schemes-over-a-base-and-proposition-26)

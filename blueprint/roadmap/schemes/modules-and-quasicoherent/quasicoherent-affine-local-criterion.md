@@ -9,16 +9,15 @@ lean: Hartshorne.quasicoherent_affine_local_tfae
 
 # The affine-local criterion for quasi-coherence
 
-For an `𝒪_X`-module `F`, prove the equivalence of the following conditions:
+For an $\mathcal{O} _X$-module $F$, prove the equivalence of the following conditions:
 
-1. `F` has Mathlib's local-presentation quasi-coherence predicate;
-2. `X` has an affine open cover on which `F` is isomorphic to `M̃`; and
-3. for every affine open `U = Spec A`, the restriction `F|_U` is isomorphic
-   to `Γ(U,F)̃`.
+1. $F$ locally has a presentation by free module sheaves;
+2. $X$ has an affine open cover on which $F$ is isomorphic to $\widetilde{M}$; and
+3. for every affine open $U = \operatorname{Spec} A$, the restriction $F|_U$ is isomorphic
+   to $\widetilde{\Gamma(U,F)}$.
 
-This is Hartshorne's definition and Proposition 5.4, with Exercise 5.4 used
-only to bridge the chosen Mathlib representation.  The completion result is
-the three-way equivalence, not a second definition of quasi-coherence.
+This relates Hartshorne's running definition and Proposition II.5.4
+to the local-presentation formulation in Exercise II.5.4.
 
 ## Depends on
 

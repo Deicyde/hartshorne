@@ -6,21 +6,21 @@ origin: cited
 
 # The normalization defect quotient
 
-Let `X` be an integral projective one-dimensional scheme over an
-algebraically closed field and let `nu : X_tilde -> X` be its normalization.
+Let $X$ be an integral projective one-dimensional scheme over an
+algebraically closed field and let $\nu:\widetilde X\to X$ be its normalization.
 There is an exact sequence of coherent sheaves
 
-`0 -> O_X -> nu_* O_X_tilde -> Q -> 0`,
+$0 \to \mathcal{O}_X \to \nu _* \mathcal{O}_\widetilde{X} \to Q \to 0$,
 
-where `Q` has finite support and
+where $Q$ has finite support and
 
-`Q_P ~= Otilde_P / O_(X,P)`.
+$Q_P \simeq \widetilde{\mathcal{O}} _P / \mathcal{O}_{X,P}$.
 
-Here `Otilde_P` is the finite semilocal integral closure of `O_(X,P)` in
-`K(X)`, namely the stalk `(nu_*O_X_tilde)_P`. Its localizations at maximal
-ideals are the normalization local rings above `P`; it is not replaced by
-their product. Define `delta_P` as the finite module length of this quotient;
-only finitely many `delta_P` are nonzero.
+Here $\widetilde{\mathcal{O}} _P$ is the finite semilocal integral closure of $\mathcal{O}_{X,P}$ in
+$K(X)$, namely the stalk $(\nu _*\mathcal{O}_\widetilde{X})_P$. Its localizations at maximal
+ideals are the normalization local rings above $P$; it is not replaced by
+their product. Define $\delta _P$ as the finite module length of this quotient;
+only finitely many $\delta _P$ are nonzero.
 
 ## Depends on
 
@@ -33,10 +33,10 @@ only finitely many `delta_P` are nonzero.
 
 - Normalization is an isomorphism over the normal locus, whose complement on
   a Noetherian integral curve is a finite set of closed points.
-- On an affine neighbourhood of `P`, finite pushforward is restriction of
-  scalars; localizing that finite algebra at `P` gives the semilocal integral
+- On an affine neighbourhood of $P$, finite pushforward is restriction of
+  scalars; localizing that finite algebra at $P$ gives the semilocal integral
   closure whose maximal localizations are the normalization local rings above
-  `P`.
+  $P$.
 
 ## Sources
 

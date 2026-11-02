@@ -7,12 +7,12 @@ not_ready: true
 
 # Infinitesimal extensions and tangent-valued cohomology
 
-Let `X` be a nonsingular variety over an algebraically closed field `k`, and
-let `F` be coherent. Isomorphism classes of square-zero infinitesimal
-extensions of `X` by `F`, in the sense of Hartshorne II, Exercise 8.7, are in
+Let $X$ be a nonsingular variety over an algebraically closed field $k$, and
+let $F$ be coherent. Isomorphism classes of square-zero infinitesimal
+extensions of $X$ by $F$, in the sense of Hartshorne II, Exercise 8.7, are in
 natural bijection with
 
-`H^1(X, F tensor T_X)`.
+$H^1(X, F \otimes T_X)$.
 
 ## Depends on
 
@@ -25,11 +25,9 @@ natural bijection with
 - [Infinitesimal lifting for a nonsingular affine scheme](../../schemes/differentials/differential-exercises/affine-nonsingular-infinitesimal-lifting.md)
 - [Affine covers compute quasi-coherent cohomology](../cech-cohomology/affine-cover-comparison.md)
 - Trivialize the extension on affine opens, compare splittings on overlaps,
-  and identify their differences with derivations valued in `F`.
+  and identify their differences with derivations valued in $F$.
 - Prove that changes of local splitting are Čech coboundaries and that every
   cocycle glues an extension.
-- Reconcile the precise extension category, equivalence relation, and tensor
-  convention from II, Exercises 8.6–8.7 before formalization.
 
 ## Sources
 

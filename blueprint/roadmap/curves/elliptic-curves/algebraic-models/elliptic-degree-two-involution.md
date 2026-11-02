@@ -6,12 +6,12 @@ origin: cited
 
 # The involution attached to two points
 
-For points `P,Q` on an elliptic curve, including `P=Q`, there is an
-automorphism `sigma` with `sigma^2=id`, `sigma(P)=Q`, and
+For points $P,Q$ on an elliptic curve, including $P=Q$, there is an
+automorphism $\sigma$ with $\sigma ^2=id$, $\sigma (P)=Q$, and
 
-`R + sigma(R) ~ P + Q`
+$R + \sigma (R) \sim  P + Q$
 
-for every point `R`.
+for every point $R$.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ for every point `R`.
 
 ## Proof depends on
 
-- `|P+Q|` is a basepoint-free pencil giving a separable quadratic extension;
+- $|P+Q|$ is a basepoint-free pencil giving a separable quadratic extension;
   its nontrivial Galois automorphism interchanges the points of each fibre.
 
 ## Sources

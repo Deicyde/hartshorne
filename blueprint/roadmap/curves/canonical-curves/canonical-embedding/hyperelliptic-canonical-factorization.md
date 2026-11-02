@@ -6,13 +6,13 @@ origin: cited
 
 # The hyperelliptic canonical map factors through a rational normal curve
 
-Let `X` be hyperelliptic of genus `g>=2` and choose a `g^1_2` with morphism
-`f_0 : X -> P^1`. The canonical morphism factors as `f_0` followed by the
-`(g-1)`-uple embedding
+Let $X$ be hyperelliptic of genus $g\ge 2$ and choose a $g^1_2$ with morphism
+$f_0 : X \to \mathbb{P}^1$. The canonical morphism factors as $f_0$ followed by the
+$(g-1)$-uple embedding
 
-`P^1 -> P^(g-1)`.
+$\mathbb{P}^1 \to \mathbb{P}^{g-1}$.
 
-It has degree two onto a nonsingular rational normal curve of degree `g-1`.
+It has degree two onto a nonsingular rational normal curve of degree $g-1$.
 
 ## Depends on
 
@@ -26,7 +26,7 @@ It has degree two onto a nonsingular rational normal curve of degree `g-1`.
 - The canonical map collapses every pair in the chosen pencil, so is not
   birational. Normalize its image and compare degree and linear-system
   dimension; equality in the curve dimension bound forces genus zero and the
-  complete degree-`g-1` system on `P^1`.
+  complete degree-$g-1$ system on $\mathbb{P}^1$.
 
 ## Sources
 

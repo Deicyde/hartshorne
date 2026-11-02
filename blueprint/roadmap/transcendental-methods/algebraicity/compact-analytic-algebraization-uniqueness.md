@@ -6,9 +6,9 @@ origin: cited
 
 # A compact complex manifold has at most one algebraization
 
-Let `M` be a compact complex manifold.  If finite-type `C`-schemes `X` and
-`Y` have analytifications identified with `M`, then there is a unique
-algebraic isomorphism `X~=Y` inducing the given analytic identification.
+Let $M$ be a compact complex manifold.  If finite-type $\mathbb{C}$-schemes $X$ and
+$Y$ have analytifications identified with $M$, then there is a unique
+algebraic isomorphism $X\simeq Y$ inducing the given analytic identification.
 
 Compactness makes both algebraizations proper.  Proper GAGA supplies full
 faithfulness; this is uniqueness only and does not assert that an

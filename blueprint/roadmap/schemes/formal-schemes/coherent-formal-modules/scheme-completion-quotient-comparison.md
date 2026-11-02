@@ -6,11 +6,11 @@ origin: cited
 
 # Quotients of completed coherent modules
 
-Let `X` be Noetherian, let `I` define a closed subscheme, let `J` be its
-completed ideal, and let `F` be coherent. For every `n : Nat`, the canonical
+Let $X$ be Noetherian, let $I$ define a closed subscheme, let $J$ be its
+completed ideal, and let $F$ be coherent. For every nonnegative integer $n$, the canonical
 map induces an isomorphism
 
-`Fhat / J^(n+1) Fhat ≅ F / I^(n+1) F`
+$\widehat{F} / J^{n+1} \widehat{F} \cong F / I^{n+1} F$
 
 on the common closed support.
 

@@ -6,9 +6,9 @@ origin: cited
 
 # Base change of a module sheaf flat over a base
 
-Let `f : X -> Y`, let `F` be an `O_X`-module flat over `Y`, and let
-`g : Y' -> Y` be any scheme morphism. For `X'=X times_Y Y'` with projection
-`f' : X' -> Y'`, the module pullback of `F` to `X'` is flat over `Y'`.
+Let $f : X \to Y$, let $F$ be an $\mathcal{O}_X$-module flat over $Y$, and let
+$g : Y' \to Y$ be any scheme morphism. For $X'=X \times _Y Y'$ with projection
+$f' : X' \to Y'$, the module pullback of $F$ to $X'$ is flat over $Y'$.
 
 ## Depends on
 

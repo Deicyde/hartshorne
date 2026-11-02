@@ -6,9 +6,9 @@ origin: cited
 
 # The Chow ring maps to Tate-twisted ℓ-adic cohomology
 
-For smooth proper `X`, cycle classes induce a graded ring homomorphism
+For smooth proper $X$, cycle classes induce a graded ring homomorphism
 
-`cl:A^*(X)->direct-sum_q H^(2q)_et(X,Q_ell(q))`.
+$\operatorname{cl}:A^*(X)\longrightarrow\bigoplus_q H^{2q}_{\mathrm{et}}(X,\mathbb{Q}_\ell(q))$.
 
 The source grading is codimension, while the target has cohomological degree
 twice the codimension and the matching Tate twist.

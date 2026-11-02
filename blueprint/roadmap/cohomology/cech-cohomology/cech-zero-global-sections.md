@@ -9,10 +9,10 @@ lean: Hartshorne.orderedCechCochainsMap Hartshorne.orderedCechComplexFunctor Har
 
 # Zeroth Čech cohomology is global sections
 
-For every open cover `U` and abelian sheaf `F`, compatible degree-zero
+For every open cover $U$ and abelian sheaf $F$, compatible degree-zero
 cochains glue uniquely, giving a natural isomorphism
 
-`CechH^0(U,F) ≅ Γ(X,F)`.
+$\check{H}^0(U,F)\cong\Gamma(X,F)$.
 
 ## Depends on
 

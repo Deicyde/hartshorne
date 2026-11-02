@@ -6,10 +6,10 @@ origin: cited
 
 # The zeta logarithm as a Frobenius trace series
 
-For smooth projective `X/F_q`, substitution of the Frobenius trace formula
+For smooth projective $X/\mathbb{F}_q$, substitution of the Frobenius trace formula
 into the definition of the Hasse–Weil zeta series gives
 
-`log Z(X,t) = sum_i (-1)^i sum_(r>=1) Tr((F^*)^r|H^i) * t^r/r`.
+$\log Z(X,t) = \sum _i (-1)^i \sum _{(r\ge 1)} Tr((F^*)^r|H^i) \cdot t^r/r$.
 
 ## Depends on
 

@@ -10,15 +10,16 @@ mathlib_file: Mathlib/AlgebraicGeometry/Spec.lean
 # The contravariant Spec functor
 
 The spectrum of every commutative ring is a locally ringed space.  Every ring
-homomorphism `φ : A → B` induces a morphism
+homomorphism $\varphi : A \to B$ induces a morphism
 
-`Spec B → Spec A`
+$\operatorname{Spec} B \to \operatorname{Spec} A$
 
-whose point map sends `𝔭` to `φ⁻¹(𝔭)` and whose stalk map is the corresponding
+whose point map sends $\mathfrak{p}$ to $\varphi ^{-1}(\mathfrak{p} )$ and whose stalk map is the corresponding
 localization homomorphism.  Identity and composition make this a functor from
 the opposite of commutative rings.
 
-This packages Proposition 2.3(a),(b) as `Spec.toLocallyRingedSpace`.
+These are the functoriality statements in Hartshorne's
+Proposition II.2.3(a,b).
 
 ## Depends on
 

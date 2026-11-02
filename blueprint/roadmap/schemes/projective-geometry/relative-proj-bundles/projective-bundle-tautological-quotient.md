@@ -6,13 +6,13 @@ origin: cited
 
 # The tautological quotient and functor of points
 
-For `pi : P(E) -> X`, construct the natural surjection `pi^* E -> O(1)`.
-For any `g : Y -> X`, morphisms `Y -> P(E)` over `X` are naturally equivalent
-to pairs consisting of an invertible sheaf `L` on `Y` and a surjection
-`g^* E -> L`, modulo isomorphisms of invertible sheaves intertwining the two
-quotient maps. The represented quotient is recovered by pullback of `O(1)`.
+For $\pi : P(E) \to X$, construct the natural surjection $\pi ^* E \to \mathcal{O}(1)$.
+For any $g : Y \to X$, morphisms $Y \to P(E)$ over $X$ are naturally equivalent
+to pairs consisting of an invertible sheaf $L$ on $Y$ and a surjection
+$g^* E \to L$, modulo isomorphisms of invertible sheaves intertwining the two
+quotient maps. The represented quotient is recovered by pullback of $\mathcal{O}(1)$.
 
-The case `Y = X` classifies sections of `pi` by invertible quotients of `E`,
+The case $Y = X$ classifies sections of $\pi$ by invertible quotients of $E$,
 as required by Exercise 7.8.
 
 ## Depends on

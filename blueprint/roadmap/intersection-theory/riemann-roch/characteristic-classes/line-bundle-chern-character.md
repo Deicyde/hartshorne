@@ -6,11 +6,11 @@ origin: cited
 
 # Chern character of an invertible sheaf
 
-For an invertible sheaf `O_X(D)`,
+For an invertible sheaf $\mathcal{O}_X(D)$,
 
-`ch(O_X(D))=exp(D)=1+D+D^2/2+D^3/6+...`
+$ch(\mathcal{O}_X(D))=\exp (D)=1+D+D^2/2+D^3/6+\ldots$
 
-in `A(X) tensor Q`, truncated above `dim X`.
+in $A(X) \otimes Q$, truncated above $\dim X$.
 
 ## Depends on
 

@@ -6,13 +6,12 @@ origin: cited
 
 # Ext from the structure sheaf is cohomology
 
-For every `O_X`-module `G` and `i ≥ 0`, construct natural isomorphisms
+For every $\mathcal{O}_X$-module $G$ and $i \ge 0$, construct natural isomorphisms
 
-`Ext^i_X(O_X,G) ≅ H^i(X,G)`.
+$\operatorname{Ext} ^i_X(\mathcal{O}_X,G) \cong H^i(X,G)$.
 
-The unique main result is this comparison of derived functors in the category
-of module sheaves. It is not Mathlib's definition of abelian-sheaf cohomology
-as Ext from a constant integral sheaf.
+The comparison is between derived functors in the category of
+module sheaves.
 
 ## Depends on
 

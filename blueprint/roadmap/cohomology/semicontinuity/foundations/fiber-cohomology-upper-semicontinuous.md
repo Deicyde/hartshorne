@@ -6,12 +6,12 @@ origin: cited
 
 # Fibre cohomology dimension is upper semicontinuous
 
-Let `f : X -> Y` be a projective morphism of Noetherian schemes and let `F`
-be a coherent `O_X`-module flat over `Y`. For every `i >= 0`, the function
+Let $f : X \to Y$ be a projective morphism of Noetherian schemes and let $F$
+be a coherent $\mathcal{O}_X$-module flat over $Y$. For every $i \ge 0$, the function
 
-`y |-> dim_(k(y)) H^i(X_y, F_y)`
+$y\mapsto\dim_{k(y)}H^i(X_y,F_y)$
 
-is upper semicontinuous on `Y`.
+is upper semicontinuous on $Y$.
 
 ## Depends on
 
@@ -21,10 +21,10 @@ is upper semicontinuous on `Y`.
 
 ## Proof depends on
 
-- After restricting to `Y = Spec A`, the finite-free model gives a four-term
-  exact sequence whose dimension formula expresses `h^i(y,F)` as the sum of
-  the fibre dimensions of `W^i` and `W^(i+1)` minus the constant rank of
-  `L^(i+1)`.
+- After restricting to $Y = \operatorname{Spec} A$, the finite-free model gives a four-term
+  exact sequence whose dimension formula expresses $h^i(y,F)$ as the sum of
+  the fibre dimensions of $W^i$ and $W^{i+1}$ minus the constant rank of
+  $L^{i+1}$.
 
 ## Sources
 

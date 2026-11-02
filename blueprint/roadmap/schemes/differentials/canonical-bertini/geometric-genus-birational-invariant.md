@@ -6,8 +6,8 @@ origin: cited
 
 # Birational invariance of geometric genus
 
-If `X` and `X'` are birationally equivalent nonsingular projective varieties
-over `k`, then `p_g(X) = p_g(X')`.
+If $X$ and $X'$ are birationally equivalent nonsingular projective varieties
+over $k$, then $p_g(X) = p_g(X')$.
 
 ## Depends on
 

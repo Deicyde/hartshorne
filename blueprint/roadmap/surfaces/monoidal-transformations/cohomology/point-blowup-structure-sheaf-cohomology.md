@@ -6,11 +6,11 @@ origin: cited
 
 # Structure-sheaf cohomology is invariant under a point blowup
 
-For every `i>=0`, a monoidal transformation induces a natural isomorphism
+For every $i\ge 0$, a monoidal transformation induces a natural isomorphism
 
-`H^i(X,O_X) ~= H^i(X_tilde,O_X_tilde)`.
+$H^i(X,\mathcal{O}_X) \simeq H^i(\widetilde{X},\mathcal{O}_\widetilde{X})$.
 
-Moreover the unit is an isomorphism `O_X~=pi_*O_X_tilde` and the positive
+Moreover the unit is an isomorphism $\mathcal{O}_X\simeq \pi _*\mathcal{O}_\widetilde{X}$ and the positive
 higher direct images vanish.
 
 ## Depends on

@@ -9,27 +9,21 @@ lean: Hartshorne.isNumericalPolynomial_iff_exists_binomialExpansion
 
 # Numerical polynomials have integral binomial expansions
 
-If `P ∈ ℚ[z]` is numerical, then there is a finitely supported family of
-integers `c_r` such that
+A polynomial $P\in\mathbb Q[z]$ is numerical if and only if it has a
+finite expansion
 
-`P = ∑ r, c_r · numericalBinomial r`.
+$$P(z)=\sum_{r\geq0}c_r\binom zr,\qquad c_r\in\mathbb Z.$$
 
-Conversely, every such integral combination is numerical. The sole main
-declaration is planned as
-`Hartshorne.isNumericalPolynomial_iff_exists_binomialExpansion`; it packages
-Proposition 7.3(a) in a support-bounded form and yields Hartshorne's consequence
-that `P(n)` is integral for every `n : ℤ`, not merely for large `n`.
+Consequently $P(n)$ is integral for every integer $n$, not merely for
+sufficiently large integers. This is Hartshorne's Proposition I.7.3(a).
+If $P$ has degree $r$, its top coefficient satisfies
 
-The proof is by induction on `P.natDegree`. Forward difference sends the
-degree-`r` binomial polynomial to the degree-`r-1` one, so induction makes all
-coefficients except the constant integral; one sufficiently large integral
-evaluation then makes the last coefficient integral. The result should also
-record the top-coefficient identity
-`r! · P.leadingCoeff = c_r`, since the definition and positivity of
-projective degree use it later.
+$$r!\,\operatorname{lc}(P)=c_r.$$
 
-Pinned Mathlib supplies the Pochhammer degree, leading-coefficient, and
-integer-evaluation lemmas, but not the integral-basis characterization.
+The proof is induction on degree. Forward difference sends the degree-$r$
+binomial polynomial to the degree-$(r-1)$ one. Induction gives integrality
+of all nonconstant coefficients, and one sufficiently large integral
+evaluation gives integrality of the constant coefficient.
 
 ## Depends on
 

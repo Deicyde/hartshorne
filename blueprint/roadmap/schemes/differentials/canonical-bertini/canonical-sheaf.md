@@ -6,10 +6,10 @@ origin: cited
 
 # The canonical sheaf
 
-For a nonsingular variety `X` of dimension `n` over `k`, define its canonical
+For a nonsingular variety $X$ of dimension $n$ over $k$, define its canonical
 sheaf by
 
-`omega_X = exterior^n Omega_(X/k)`.
+$\omega_X=\bigwedge^n\Omega_{X/k}$.
 
 It is an invertible sheaf.
 

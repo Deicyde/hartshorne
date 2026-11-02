@@ -6,13 +6,13 @@ origin: cited
 
 # The cohomological ampleness criterion
 
-Let `A` be Noetherian, let `X` be proper over `Spec A`, and let `L` be
-invertible. Then `L` is ample if and only if, for every coherent `F`, there is
-one `n₀` such that
+Let $A$ be Noetherian, let $X$ be proper over $\operatorname{Spec} A$, and let $L$ be
+invertible. Then $L$ is ample if and only if, for every coherent $F$, there is
+one $n_{0}$ such that
 
-`Hⁱ(X,F⊗L^n)=0`
+$H^{i}(X,F\otimes L^n)=0$
 
-for every `i>0` and every `n≥n₀`.
+for every $i>0$ and every $n\ge n_{0}$.
 
 ## Depends on
 
@@ -28,7 +28,7 @@ for every `i>0` and every `n≥n₀`.
 - [Generation by global sections](../../schemes/projective-sheaves/globally-generated-module-sheaf.md)
 - [The long exact sequence of sheaf cohomology](../sheaf-cohomology/sheaf-cohomology-long-exact-sequence.md)
 - Nakayama at closed points, openness of generation for coherent modules,
-  quasi-compactness, and the finite residue-class argument for powers of `L`.
+  quasi-compactness, and the finite residue-class argument for powers of $L$.
 
 ## Sources
 

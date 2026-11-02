@@ -6,12 +6,11 @@ origin: background
 
 # Localizations of regular local rings
 
-If `A` is a regular local ring and `𝔭` is a prime ideal of `A`, then the prime
-localization `A_𝔭` is again a regular local ring.
+If $A$ is a regular local ring and $\mathfrak{p}$ is a prime ideal of $A$, then the prime
+localization $A_{\mathfrak{p}}$ is again a regular local ring.
 
-This is stronger than transporting regularity across a ring equivalence.  The
-pinned Mathlib defines regular rings by regularity of all prime localizations,
-but explicitly records the implication from a regular local ring as missing.
+This concerns localization at an arbitrary prime ideal, rather
+than transport of regularity across a ring isomorphism.
 
 ## Depends on
 
@@ -19,7 +18,7 @@ but explicitly records the implication from a regular local ring as missing.
 
 ## Proof depends on
 
-- Stacks Project, Lemma 10.110.6, tag `0AFS`.
+- Stacks Project, Lemma 10.110.6, tag 0AFS.
 - Hartshorne's cited source is Matsumura [2], p. 139.
 
 ## Sources

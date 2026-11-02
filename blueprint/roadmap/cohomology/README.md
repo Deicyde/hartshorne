@@ -14,11 +14,10 @@ The roadmap covers all of Chapter III and the retained exercises through
 printed p. 292, with 291 targets. For current formalization status, use this
 page's progress summary and the status on each statement.
 
-Three coefficient categories remain distinct throughout: abelian sheaves,
-modules over the structure sheaf, and quasi-coherent modules. Explicit
-comparison tasks record where Mathlib's Ext-based site cohomology,
-local-cohomology colimit, or categorical Čech nerve differs from Hartshorne's
-chosen model.
+Three coefficient categories remain distinct: abelian sheaves,
+modules over the structure sheaf, and quasi-coherent modules.
+Comparison theorems relate the Ext, local-cohomology, and Čech
+constructions to Hartshorne's derived-functor definitions.
 
 ## Derived and sheaf cohomology
 

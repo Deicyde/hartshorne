@@ -9,20 +9,20 @@ lean: Hartshorne.dim_affineCone
 
 # Dimension of the affine cone
 
-For every nonempty projective algebraic set `Y`,
+For every nonempty projective algebraic set $Y$, its affine cone $C(Y)$
+satisfies
 
-`dim (affineCone Y) = projDim Y + 1`.
+$$\dim C(Y)=\dim Y+1.$$
 
-The sole main declaration is planned as `Hartshorne.dim_affineCone`.  The
-statement retains the full generality of Exercise I.2.10(c), rather than only
-the projective-variety specialization used in Theorem 7.2.
+This is Hartshorne's Exercise I.2.10(c), used for projective varieties in
+[Theorem I.7.2](projective-dimension-theorem.md).
 
-For irreducible `Y`, the cone's coordinate ring is `S(Y)`, and the existing
-homogeneous-coordinate-ring theorem gives the result.  For general nonempty
-algebraic `Y`, pass to its finite irredundant decomposition: taking cones
-commutes with that finite union, the preceding irreducibility result identifies
-the components, and the dimension of a finite closed union is the maximum of
-the component dimensions.
+For irreducible $Y$, the coordinate ring of the cone is $S(Y)$, so the
+homogeneous-coordinate-ring dimension theorem applies. For general
+nonempty $Y$, take its finite irredundant decomposition. Taking cones
+commutes with finite unions and preserves irreducibility, while the
+dimension of a finite closed union is the maximum of the component
+dimensions.
 
 ## Depends on
 

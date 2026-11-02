@@ -7,7 +7,7 @@ origin: cited
 # Kodaira dimension is a birational invariant
 
 Birationally equivalent nonsingular projective integral varieties have equal
-Kodaira dimension, including equality in the `-1` case.
+Kodaira dimension, including equality in the $-1$ case.
 
 ## Depends on
 

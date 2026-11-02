@@ -6,11 +6,11 @@ origin: cited
 
 # Kodaira dimension of a nonsingular projective curve
 
-Let `C` be a nonsingular projective curve of genus `g`. Then
+Let $C$ be a nonsingular projective curve of genus $g$. Then
 
-- `kappa(C)=-1` exactly when `g=0`;
-- `kappa(C)=0` exactly when `g=1`;
-- `kappa(C)=1` exactly when `g>=2`.
+- $\kappa (C )=-1$ exactly when $g=0$;
+- $\kappa (C )=0$ exactly when $g=1$;
+- $\kappa (C )=1$ exactly when $g\ge 2$.
 
 ## Depends on
 
@@ -24,7 +24,7 @@ Let `C` be a nonsingular projective curve of genus `g`. Then
 
 - Negative canonical degree gives no positive pluricanonical sections in
   genus zero. In genus one every tensor power is trivial. In genus at least
-  two, `deg K>0`, so the positive-degree section-ring theorem gives
+  two, $\deg K>0$, so the positive-degree section-ring theorem gives
   transcendence degree two.
 
 ## Sources

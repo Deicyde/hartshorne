@@ -6,12 +6,12 @@ origin: cited
 
 # Kodaira dimension
 
-For a nonsingular projective integral variety `X`, define
+For a nonsingular projective integral variety $X$, define
 
-`kappa(X)=trdeg_k R(X,K)-1`.
+$\kappa (X)=\operatorname{trdeg} _k R(X,K)-1$.
 
-Use the integer-valued convention `kappa(X)=-1` when every positive-degree
-piece of the canonical ring is zero. Otherwise `kappa(X)` is a nonnegative
+Use the integer-valued convention $\kappa (X)=-1$ when every positive-degree
+piece of the canonical ring is zero. Otherwise $\kappa (X)$ is a nonnegative
 integer. This definition is independent of the representative of the
 canonical divisor.
 

@@ -4,15 +4,15 @@ declaration: theorem
 origin: cited
 ---
 
-# Vanishing for `Z_U`
+# Vanishing for $Z_U$
 
-Let `X` be irreducible noetherian with `topologicalKrullDim X = n`, and
+Let $X$ be irreducible noetherian with $\dim X=n$, and
 assume Grothendieck vanishing is known for all proper closed subspaces of
-`X`. For every open `U ⊆ X`, one has `Hⁱ(X,Z_U)=0` for `i>n`.
+$X$. For every open $U \subseteq X$, one has $H^{i}(X,Z_U)=0$ for $i>n$.
 
-This parameterized induction step is the unique main result. For `Y=X\\U`,
-use `0 ⟶ Z_U ⟶ Z ⟶ Z_Y ⟶ 0`, flasqueness of `Z`, closed-pushforward
-cohomology, and strict dimension drop on `Y`.
+This parameterized induction step is the unique main result. For $Y=X\setminus U$,
+use $0 \longrightarrow Z_U \longrightarrow Z \longrightarrow Z_Y \longrightarrow 0$, flasqueness of $Z$, closed-pushforward
+cohomology, and strict dimension drop on $Y$.
 
 ## Depends on
 

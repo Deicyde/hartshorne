@@ -6,7 +6,7 @@ origin: cited
 
 # Countability of complex-multiplication invariants
 
-Only countably many complex values of the `j`-invariant correspond to
+Only countably many complex values of the $j$-invariant correspond to
 elliptic curves with complex multiplication.
 
 ## Depends on

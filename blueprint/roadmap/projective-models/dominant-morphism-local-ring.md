@@ -9,13 +9,12 @@ lean: Hartshorne.VarietyHom.injective_localRingHom_of_denseRange
 
 # Dense morphisms inject on local rings
 
-Let `φ : X → Y` be a morphism of varieties with dense image and let `P ∈ X`.
+Let $\varphi : X \to Y$ be a morphism of varieties with dense image and let $P \in X$.
 Then the induced map
 
-`φ* : 𝒪_{φ(P),Y} → 𝒪_{P,X}`
+$\varphi^*:\mathcal O_{\varphi(P),Y}\longrightarrow\mathcal O_{P,X}$
 
-is injective.  This is Exercise 3.3(c), and the sole main declaration is
-`Hartshorne.VarietyHom.injective_localRingHom_of_denseRange`.
+is injective.  This is Exercise 3.3(c).
 
 ## Depends on
 

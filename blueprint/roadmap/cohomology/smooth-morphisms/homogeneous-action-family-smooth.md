@@ -6,15 +6,15 @@ origin: bridged
 
 # The homogeneous action family is smooth
 
-Let a group variety `G` act transitively on a homogeneous variety `X` over an
-algebraically closed field of characteristic zero, let `Y` be nonsingular,
-and let `f : Y -> X`. The action-family morphism
+Let a group variety $G$ act transitively on a homogeneous variety $X$ over an
+algebraically closed field of characteristic zero, let $Y$ be nonsingular,
+and let $f : Y \to X$. The action-family morphism
 
-`h : G times Y -> X`,  `h(sigma,y) = sigma . f(y)`,
+$h : G \times Y \to X$,  $h(\sigma ,y) = \sigma . f(y)$,
 
 is smooth everywhere, of relative dimension
 
-`dim G + dim Y - dim X`.
+$\dim G + \dim Y - \dim X$.
 
 ## Depends on
 
@@ -26,9 +26,9 @@ is smooth everywhere, of relative dimension
 
 ## Proof depends on
 
-- Apply generic smoothness to `h`, transport the resulting target open by
-  compatible translations, and use orbit openness to cover `X`.
-- Use the product regularity theorem to make the source of `h` nonsingular.
+- Apply generic smoothness to $h$, transport the resulting target open by
+  compatible translations, and use orbit openness to cover $X$.
+- Use the product regularity theorem to make the source of $h$ nonsingular.
 
 ## Sources
 

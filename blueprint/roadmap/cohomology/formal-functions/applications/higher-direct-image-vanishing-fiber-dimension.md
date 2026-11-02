@@ -6,15 +6,15 @@ origin: cited
 
 # Higher direct images vanish above the fibre dimension
 
-Let `f : X -> Y` be a projective morphism of Noetherian schemes, let `F` be a
-coherent `O_X`-module, and set
+Let $f : X \to Y$ be a projective morphism of Noetherian schemes, let $F$ be a
+coherent $\mathcal{O}_X$-module, and set
 
-`r = max { dim X_y | y in Y }`.
+$r = \max \{ \dim X_y | y \in Y \}$.
 
-Then `R^i f_* F = 0` for every `i > r`.
+Then $R^i f_* F = 0$ for every $i > r$.
 
 The bound concerns the dimensions of the scheme-theoretic fibres. No
-flatness assumption on `F` or `f` is made.
+flatness assumption on $F$ or $f$ is made.
 
 ## Depends on
 
@@ -27,7 +27,7 @@ flatness assumption on `F` or `f` is made.
 
 - Every infinitesimal fibre has the same underlying topological space and
   hence the same dimension as the ordinary fibre.
-- Formal functions makes the completed stalk of `R^i f_*F` zero; coherence
+- Formal functions makes the completed stalk of $R^i f_*F$ zero; coherence
   makes the stalk finite, so faithful completion reflects its vanishing.
 
 ## Sources

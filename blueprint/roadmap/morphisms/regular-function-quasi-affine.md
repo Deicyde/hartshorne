@@ -9,13 +9,13 @@ lean: Hartshorne.IsRegularAt Hartshorne.IsRegular
 
 # Regular functions on a quasi-affine variety
 
-Let `Y ⊆ 𝔸ⁿ` be quasi-affine. A function `f : Y → k` is *regular at* `P ∈ Y`
-when there is an open `U` with `P ∈ U ⊆ Y` and polynomials `g, h ∈ A` such that
-`h` is nowhere zero on `U` and `f = g/h` on `U`. It is *regular on* `Y` when it
+Let $Y \subseteq \mathbb{A} ^{n}$ be quasi-affine. A function $f : Y \to k$ is *regular at* $P \in Y$
+when there is an open $U$ with $P \in U \subseteq Y$ and polynomials $g, h \in A$ such that
+$h$ is nowhere zero on $U$ and $f = g/h$ on $U$. It is *regular on* $Y$ when it
 is regular at every point.
 
 The definition is local by design, which is what makes it behave like a sheaf
-even though sheaves are not available in Chapter I. Note that the pair `(g, h)`
+even though sheaves are not available in Chapter I. Note that the pair $(g, h)$
 is allowed to vary with the point: a function can be regular without admitting a
 single global representation as a quotient, and Hartshorne's later examples turn
 on exactly that.

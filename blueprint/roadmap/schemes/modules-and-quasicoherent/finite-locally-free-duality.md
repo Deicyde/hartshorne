@@ -6,15 +6,15 @@ origin: cited
 
 # Duality for finite locally free sheaves
 
-For a finite locally free `𝒪_X`-module `E`, let
-`E∨ = 𝓗om(E, 𝒪_X)`.  Prove the natural isomorphisms
+For a finite locally free $\mathcal{O} _X$-module $E$, let
+$E^{\vee} = \mathcal{H}om(E, \mathcal{O} _X)$.  Prove the natural isomorphisms
 
-`E∨∨ ≅ E` and `𝓗om(E,F) ≅ E∨ ⊗ F`,
+$E^{\vee\vee} \cong E$ and $\mathcal{H}om(E,F) \cong E^{\vee} \otimes F$,
 
 and the tensor–Hom adjunction
-`Hom(E ⊗ F,G) ≃ Hom(F,𝓗om(E,G))`.  These are the later-used conclusions of
+$\operatorname{Hom} (E \otimes F,G) \simeq \operatorname{Hom} (F,\mathcal{H}om(E,G))$.  These are the later-used conclusions of
 Exercise 5.1(a–c), reviewed together because they share the same local basis
-calculation and one completion criterion: dualizability of `E`.
+calculation and one completion criterion: dualizability of $E$.
 
 ## Depends on
 

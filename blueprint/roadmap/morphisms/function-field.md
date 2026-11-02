@@ -9,27 +9,27 @@ lean: Hartshorne.FunctionField
 
 # The function field
 
-The *function field* `K(Y)` of a variety `Y` consists of equivalence classes of
-pairs `(U, f)` with `U` a nonempty open subset and `f` regular on `U`, where
-`(U, f)` and `(V, g)` are identified when `f = g` on `U ∩ V`. Its elements are
-the *rational functions* on `Y`.
+The *function field* $K(Y)$ of a variety $Y$ consists of equivalence classes of
+pairs $(U, f)$ with $U$ a nonempty open subset and $f$ regular on $U$, where
+$(U, f)$ and $(V, g)$ are identified when $f = g$ on $U \cap V$. Its elements are
+the *rational functions* on $Y$.
 
-`K(Y)` is a field. Addition and multiplication are defined because `Y` is
+$K(Y)$ is a field. Addition and multiplication are defined because $Y$ is
 irreducible, so any two nonempty open sets meet; inverses exist because a nonzero
-`(U, f)` restricts to `V = U ∖ Z(f)`, which is nonempty and on which `1/f` is
+$(U, f)$ restricts to $V = U \setminus Z(f)$, which is nonempty and on which $1/f$ is
 regular. Irreducibility is doing real work here and is the reason Hartshorne's
 varieties are irreducible by definition.
 
-Note that `K(Y)` is defined without reference to `𝒪_P`: both are equivalence
-classes of pairs `(U, f)`, differing only in whether `U` is required to contain a
+Note that $K(Y)$ is defined without reference to $\mathcal{O} _P$: both are equivalence
+classes of pairs $(U, f)$, differing only in whether $U$ is required to contain a
 fixed point. The comparison between them is
 [a separate article](function-field-injections.md), so this node depends on
 neither the local ring nor the global sections.
 
 ## The same construction for an arbitrary variety
 
-Theorem 3.4(c) needs `K(Y)` for a projective `Y`, so the construction is redone
-over the bundled `Variety`. That is [its own node](function-field-abstract.md).
+[Theorem I.3.4(c)](projective-rings/projective-function-field.md) needs $K(Y)$ for a projective $Y$, so the construction is redone
+for an arbitrary variety. See [the general construction](function-field-abstract.md).
 
 ## Depends on
 
@@ -43,4 +43,4 @@ over the bundled `Variety`. That is [its own node](function-field-abstract.md).
 
 ## Sources
 
-- [Hartshorne I.3, definition of `K(Y)` (p. 16)](../../sources/hartshorne.md#i3)
+- [Hartshorne I.3, definition of $K(Y)$ (p. 16)](../../sources/hartshorne.md#i3)

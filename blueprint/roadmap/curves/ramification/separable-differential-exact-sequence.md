@@ -6,10 +6,10 @@ origin: cited
 
 # The differential sequence of a separable curve morphism
 
-Let `f : X -> Y` be a finite separable morphism of curves. Then the standard
+Let $f : X \to Y$ be a finite separable morphism of curves. Then the standard
 transitivity sequence is exact also on the left:
 
-`0 -> f^* Omega_Y -> Omega_X -> Omega_(X/Y) -> 0`.
+$0 \to f^* \Omega _Y \to \Omega _X \to \Omega _{(X/Y)} \to 0$.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ transitivity sequence is exact also on the left:
 
 ## Proof depends on
 
-- Separability makes `Omega_(K(X)/K(Y))` zero, so the map between the two
+- Separability makes $\Omega _{(K(X)/K(Y))}$ zero, so the map between the two
   invertible differential sheaves is nonzero at the generic point.
 - A generically nonzero morphism from an invertible sheaf on an integral
   scheme is injective.

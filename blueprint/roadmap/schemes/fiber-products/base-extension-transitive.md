@@ -9,7 +9,7 @@ mathlib_file: Mathlib/CategoryTheory/Limits/Shapes/Pullback/Assoc.lean
 
 # Transitivity of base extension
 
-For `S'' → S' → S`, there is a canonical isomorphism `(X ×_S S') ×_{S'} S'' ≅ X ×_S S''`, compatible with all projections.
+For $S'' \to S' \to S$, there is a canonical isomorphism $(X \times _S S') \times _{S'} S'' \cong X \times _S S''$, compatible with all projections.
 
 Apply the associativity isomorphism for iterated pullbacks and simplify the identity leg of the resulting pullback.
 

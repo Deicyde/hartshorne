@@ -6,10 +6,10 @@ origin: cited
 
 # Projective bundles
 
-Let `X` be Noetherian and `E` finite locally free. Define
-`P(E) = Proj_X Sym(E)` using the quotient convention. If `E` is free of rank
-`n + 1` on `U`, identify `P(E)|_U` with `P^n_U`, compatibly with the projection
-and `O(1)`.
+Let $X$ be Noetherian and $E$ finite locally free. Define
+$P(E) = \operatorname{Proj} _X \operatorname{Sym} (E)$ using the quotient convention. If $E$ is free of rank
+$n + 1$ on $U$, identify $P(E)|_U$ with $\mathbb{P}^n_U$, compatibly with the projection
+and $\mathcal{O}(1)$.
 
 ## Depends on
 

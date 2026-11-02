@@ -9,9 +9,9 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Finite.lean
 
 # Closed immersions are finite
 
-A closed immersion of schemes is a finite morphism. Pinned Mathlib proves
-the stronger characterization that a morphism is a closed immersion exactly
-when it is finite and a monomorphism.
+A closed immersion of schemes is a finite morphism. More generally,
+a morphism is a closed immersion exactly when it is finite and a
+monomorphism.
 
 ## Depends on
 

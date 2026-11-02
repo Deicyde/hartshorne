@@ -6,10 +6,10 @@ origin: cited
 
 # An ordered skew sextuple uniquely labels the configuration
 
-Once six mutually skew lines are given ordered names `E_1,...,E_6`, the names
-of the other twenty-one lines are forced by incidence: `F_ij` is the unique
-line meeting `E_i,E_j` and no other `E_k`, while `G_i` is the unique line
-meeting every `E_j` except `E_i`.
+Once six mutually skew lines are given ordered names $E_1,\ldots ,E_6$, the names
+of the other twenty-one lines are forced by incidence: $F_{ij}$ is the unique
+line meeting $E_i,E_j$ and no other $E_k$, while $G_i$ is the unique line
+meeting every $E_j$ except $E_i$.
 
 Thus at most one automorphism of the abstract incidence configuration carries
 the standard ordered exceptional sextuple to a prescribed ordered skew

@@ -6,13 +6,13 @@ origin: cited
 
 # The general Weierstrass equation from a genus-one curve
 
-Let `(X,P_0)` be a pointed elliptic curve over an algebraically closed field
-of characteristic different from two. The embedding by `|3P_0|` admits
-functions `x` and `y`, of exact pole orders two and three at `P_0`, satisfying
+Let $(X,P_0)$ be a pointed elliptic curve over an algebraically closed field
+of characteristic different from two. The embedding by $|3P_0|$ admits
+functions $x$ and $y$, of exact pole orders two and three at $P_0$, satisfying
 
-`y^2+a_1*x*y+a_3*y = x^3+a_2*x^2+a_4*x+a_6`.
+$y^2+a_1\cdot x\cdot y+a_3\cdot y = x^3+a_2\cdot x^2+a_4\cdot x+a_6$.
 
-The projective closure is the image of `X`, with `P_0` its unique point at
+The projective closure is the image of $X$, with $P_0$ its unique point at
 infinity.
 
 ## Depends on
@@ -22,8 +22,8 @@ infinity.
 
 ## Proof depends on
 
-- Seven monomials lie in the six-dimensional space `H^0(O(6P_0))`; exact
-  pole orders force nonzero coefficients of `x^3` and `y^2`.
+- Seven monomials lie in the six-dimensional space $H^0(\mathcal{O}(6P_0))$; exact
+  pole orders force nonzero coefficients of $x^3$ and $y^2$.
 
 ## Sources
 

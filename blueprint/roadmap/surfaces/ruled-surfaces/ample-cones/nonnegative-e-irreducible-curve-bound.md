@@ -6,10 +6,10 @@ origin: cited
 
 # Irreducible curves when the invariant is nonnegative
 
-Let `X` be a ruled surface with invariant `e>=0`. If
-`Y=a*C0+b*f` is an irreducible curve distinct from `C0` and a fibre, then
+Let $X$ be a ruled surface with invariant $e\ge 0$. If
+$Y=a\cdot C_0+b\cdot f$ is an irreducible curve distinct from $C_0$ and a fibre, then
 
-`a>0` and `b>=a*e`.
+$a>0$ and $b\ge a\cdot e$.
 
 ## Depends on
 
@@ -18,8 +18,8 @@ Let `X` be a ruled surface with invariant `e>=0`. If
 
 ## Proof depends on
 
-- The map `Y->C` is surjective, so `a=Y*f>0`; distinct irreducible curves
-  have nonnegative intersection, so `Y*C0=b-ae>=0`.
+- The map $Y\to C$ is surjective, so $a=Y\cdot f>0$; distinct irreducible curves
+  have nonnegative intersection, so $Y\cdot C_0=b-ae\ge 0$.
 
 ## Sources
 

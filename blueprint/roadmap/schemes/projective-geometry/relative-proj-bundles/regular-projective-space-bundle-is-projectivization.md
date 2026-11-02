@@ -7,13 +7,13 @@ not_ready: true
 
 # Regular projective-space bundles are projectivizations
 
-Over a regular Noetherian scheme, every projective `n`-space bundle is
-isomorphic to `P(E)` for a rank `n + 1` locally free sheaf `E`. Consequently
+Over a regular Noetherian scheme, every projective $n$-space bundle is
+isomorphic to $P(E)$ for a rank $n + 1$ locally free sheaf $E$. Consequently
 such bundles correspond to locally free sheaves modulo tensoring by an
 invertible sheaf.
 
 This node is not ready until a proof-level source is adopted for extending the
-local `O(1)` and proving local freeness of its pushforward.
+local $\mathcal{O}(1)$ and proving local freeness of its pushforward.
 
 ## Depends on
 
@@ -23,7 +23,7 @@ local `O(1)` and proving local freeness of its pushforward.
 
 ## Proof depends on
 
-- Extension of the local `O(1)` to an invertible sheaf on the total space.
+- Extension of the local $\mathcal{O}(1)$ to an invertible sheaf on the total space.
 - [Pushforwards of projective-bundle twists](projective-bundle-pushforward-twists.md)
 - Local freeness of the extended sheaf's pushforward.
 - An adopted proof of Hartshorne Exercise 7.10(c,d).

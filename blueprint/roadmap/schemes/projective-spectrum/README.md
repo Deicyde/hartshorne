@@ -4,10 +4,10 @@ article_id: af_feefe997749b789386eb85e8
 
 # Projective spectrum
 
-This chapter covers Hartshorne's construction of `Proj S`, its affine charts,
-projective space over a ring, and the adopted functoriality exercises.  The
-construction and chart theorem are exact pinned-Mathlib results; the natural
-partial-domain morphism and tail-invariance theorem remain project work.
+Hartshorne's construction of $\operatorname{Proj}S$ leads to its
+affine charts and projective space over a ring. The subsequent
+statements describe partial-domain morphisms and invariance under
+discarding the low-degree part of a graded algebra.
 
 - [The topology on Proj](proj-topology.md)
 - [The structure sheaf on Proj](proj-structure-sheaf.md)

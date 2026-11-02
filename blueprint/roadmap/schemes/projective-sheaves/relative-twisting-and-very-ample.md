@@ -6,10 +6,10 @@ origin: cited
 
 # Relative twisting sheaves and very ampleness
 
-For any scheme `Y`, define `O_{P_Y^r}(1)` by pullback from
-`P_Z^r`. An invertible sheaf `L` on an `Y`-scheme `X` is very ample relative
-to `Y` when there is an immersion `i : X → P_Y^r` with
-`i^* O(1) ≅ L`.
+For any scheme $Y$, define $\mathcal{O}_{\mathbb{P}^r_{Y}}(1)$ by pullback from
+$\mathbb{P}^r_{Z}$. An invertible sheaf $L$ on an $Y$-scheme $X$ is very ample relative
+to $Y$ when there is an immersion $i : X \to \mathbb{P}^r_{Y}$ with
+$i^* \mathcal{O}(1) \cong L$.
 
 ## Depends on
 

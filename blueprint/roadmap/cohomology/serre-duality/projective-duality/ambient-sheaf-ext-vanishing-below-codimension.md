@@ -6,14 +6,14 @@ origin: cited
 
 # Ambient sheaf Ext vanishes below codimension
 
-Let `i:X⟶Pᴺ_k` be a closed subscheme of dimension `n` and put
-`r=N-n`. Then
+Let $i:X\longrightarrow \mathbb{P}^{N}_k$ be a closed subscheme of dimension $n$ and put
+$r=N-n$. Then
 
-`𝓔xtⁱ_P(i_*O_X,ω_P)=0`
+$\mathcal{E}xt^{i}_P(i_*\mathcal{O}_X,\omega _P)=0$
 
-for every `i<r`.
+for every $i<r$.
 
-The codimension is the ambient dimension drop `N-n`; no purity or
+The codimension is the ambient dimension drop $N-n$; no purity or
 Cohen–Macaulay hypothesis is added to the statement.
 
 ## Depends on

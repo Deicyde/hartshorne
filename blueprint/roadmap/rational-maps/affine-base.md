@@ -17,38 +17,34 @@ This is the statement that makes "reduce to the affine case" a legitimate move
 for an arbitrary variety and not just for a projective one covered by charts.
 Every later argument in the section uses it.
 
-The Lean target must retain that scope explicitly. The current abstract
-`Variety` structure records regular functions and irreducibility, but does not
-record that the space came from an affine, quasi-affine, projective, or
-quasi-projective construction. Proposition 4.3 is false for an arbitrary
-structure with only those fields. Its implementation should therefore package
-an affine-open-basis witness (for example `Variety.HasAffineOpenBasis`) and
-prove it for the concrete constructors; downstream §4 statements quantify over
-varieties carrying that witness.
+The conclusion applies to Hartshorne's concrete varieties. An abstract
+irreducible space with regular-function algebras need not have affine
+neighbourhoods; an affine-open basis is therefore retained as an explicit
+hypothesis in results stated in that more general language.
 
 ## The proof
 
-Given `P ∈ U ⊆ Y` with `U` open, a smaller affine open neighbourhood is wanted.
+Given $P \in U \subseteq Y$ with $U$ open, a smaller affine open neighbourhood is wanted.
 Three reductions and one construction:
 
-- `U` is itself a variety, so replace `Y` by `U` and look for an affine open
-  set containing `P` in `Y`;
-- every variety is covered by quasi-affine ones (Corollary 2.3), so assume `Y`
-  is quasi-affine in `𝔸ⁿ`;
-- let `Z = Ȳ − Y`, closed in `𝔸ⁿ`, with ideal `𝔞 = I(Z)`. Since `P ∉ Z` and `Z`
-  is closed, some `f ∈ 𝔞` has `f(P) ≠ 0`.
+- $U$ is itself a variety, so replace $Y$ by $U$ and look for an affine open
+  set containing $P$ in $Y$;
+- every variety is covered by quasi-affine ones ([Corollary I.2.3](../projective-varieties/affine-cover.md)), so assume $Y$
+  is quasi-affine in $\mathbb{A} ^{n}$;
+- let $Z=\overline Y\setminus Y$, closed in $\mathbb{A} ^{n}$, with ideal $\mathfrak{a} = I(Z)$. Since $P \notin Z$ and $Z$
+  is closed, some $f \in \mathfrak{a}$ has $f(P) \ne 0$.
 
-Then with `H = Z(f)` the hypersurface: `Z ⊆ H` and `P ∉ H`, so
-`P ∈ Y − Y ∩ H`, an open subset of `Y`. That set equals `Y − Y ∩ H` viewed
-inside `𝔸ⁿ − H`, where it is *closed*, because everything of `Ȳ` that was
-thrown away lies in `Z ⊆ H`. A closed subvariety of an affine variety is
-affine, and `𝔸ⁿ − H` is affine by
-[Lemma 4.2](hypersurface-complement.md). So `Y − Y ∩ H` is the affine
+Then with $H = Z(f)$ the hypersurface: $Z \subseteq H$ and $P \notin H$, so
+$P\in Y\setminus(Y\cap H)$, an open subset of $Y$. That set equals $Y\setminus(Y\cap H)$ viewed
+inside $\mathbb A^n\setminus H$, where it is *closed*, because everything of $\overline{Y}$ that was
+thrown away lies in $Z \subseteq H$. A closed subvariety of an affine variety is
+affine, and $\mathbb A^n\setminus H$ is affine by
+[Lemma 4.2](hypersurface-complement.md). So $Y\setminus(Y\cap H)$ is the affine
 neighbourhood wanted.
 
-The one step that repays attention is why `Y − Y ∩ H` is closed in `𝔸ⁿ − H` and
-not merely locally closed: `Ȳ − H` is closed in `𝔸ⁿ − H`, and
-`Y − Y ∩ H = Ȳ − H` exactly because `Ȳ − Y = Z` is inside `H`.
+The one step that repays attention is why $Y\setminus(Y\cap H)$ is closed in $\mathbb A^n\setminus H$ and
+not merely locally closed: $\overline Y\setminus H$ is closed in $\mathbb A^n\setminus H$, and
+$Y\setminus(Y\cap H)=\overline Y\setminus H$ exactly because $\overline Y\setminus Y=Z$ is inside $H$.
 
 ## Depends on
 

@@ -6,7 +6,7 @@ article_id: af_013cc8ed0fd0d25537c45491
 
 This chapter records Riemann existence, meromorphic-function criteria, and
 Moishezon's algebraicity results for compact complex manifolds.  Every claim
-is over `C`.  Algebraic schemes, Grauert analytic spaces, complex manifolds,
+is over $\mathbb{C}$.  Algebraic schemes, Grauert analytic spaces, complex manifolds,
 and topological covering spaces remain distinct representations connected by
 explicit comparison theorems.
 

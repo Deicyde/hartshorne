@@ -9,15 +9,12 @@ lean: Hartshorne.abelianSheafPushforwardPreservesFiniteLimits
 
 # Abelian-sheaf pushforward is left exact
 
-For a continuous map `f : X -> Y`, the direct-image functor on abelian
+For a continuous map $f : X \to Y$, the direct-image functor on abelian
 sheaves preserves finite limits and is therefore additive and left exact.
 
-The unique result is the `PreservesFiniteLimits` interface needed to apply
-`Functor.rightDerivedZeroIsoSelf`. The proof is source-shaped: direct image
-is right adjoint to inverse image, so it preserves all limits that exist.
-Pinned Mathlib supplies the adjunction and the generic preservation theorem,
-but does not package this specialization as the higher-direct-image
-interface used here.
+Direct image is right adjoint to inverse image, so it preserves
+limits and is left exact. This gives the degree-zero comparison
+for its right derived functors.
 
 ## Depends on
 

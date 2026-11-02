@@ -5,41 +5,28 @@ article_id: af_70d46bb56536a432530278f4
 # Nonsingular varieties
 
 Nonsingularity is the algebraic substitute for being a manifold. Hartshorne
-first defines it for an affine variety `Y ⊆ 𝔸ⁿ` by differentiating generators
-of `I(Y)`: at a point `P`, the Jacobian must have the largest rank allowed by
-the dimension of `Y`. Theorem 5.1 then proves that this coordinate condition is
-intrinsic. It says exactly that the local ring `𝒪_{P,Y}` is regular, meaning
-that the cotangent space `𝔪_P/𝔪_P²` has dimension `dim 𝒪_{P,Y}`.
+first defines it for an affine variety $Y \subseteq \mathbb{A} ^{n}$ by differentiating generators
+of $I(Y)$: at a point $P$, the Jacobian must have the largest rank allowed by
+the dimension of $Y$. [Theorem I.5.1](jacobian-criterion.md) then proves that this coordinate condition is
+intrinsic. It says exactly that the local ring $\mathcal{O} _{P,Y}$ is regular, meaning
+that the cotangent space $\mathfrak{m} _P/\mathfrak{m} _P^{2}$ has dimension $\dim \mathcal{O} _{P,Y}$.
 
-The comparison is the heart of this milestone. The derivative at `P`
-identifies the cotangent space of ambient affine space with `kⁿ`; quotienting
-by the equations of `Y` removes the span of their gradients. This gives
+The comparison is the heart of this milestone. The derivative at $P$
+identifies the cotangent space of ambient affine space with $k^{n}$; quotienting
+by the equations of $Y$ removes the span of their gradients. This gives
 
-`dim_k(𝔪_P/𝔪_P²) + rank J(P) = n`,
+$\dim _k(\mathfrak{m} _P/\mathfrak{m} _P^{2}) + \operatorname{rank} J(P) = n$,
 
-so the Jacobian criterion follows from `dim 𝒪_{P,Y} = dim Y`.
+so the Jacobian criterion follows from $\dim \mathcal{O} _{P,Y} = \dim Y$.
 
-Theorem 5.3 has two further ingredients. Proposition 5.2A bounds the dimension
+[Theorem I.5.3](singular-locus.md) has two further ingredients. [Proposition I.5.2A](cotangent-dimension-bound.md) bounds the dimension
 of a local ring by the dimension of its cotangent space, so the Jacobian rank is
-always at most `n − dim Y`; consequently singularity is detected by the
+always at most $n - \dim Y$; consequently singularity is detected by the
 vanishing of maximal minors and is closed. Properness reduces birationally to
 an irreducible hypersurface. Such a hypersurface cannot have every partial
 derivative vanish: in characteristic zero this is immediate, while in
-characteristic `p` it would make its defining polynomial a `p`th power over the
+characteristic $p$ it would make its defining polynomial a $p$th power over the
 algebraically closed base field.
-
-## Mathlib boundary
-
-The pinned Mathlib already contains the exact
-`IsRegularLocalRing.iff_finrank_cotangentSpace` criterion,
-`MvPolynomial.pderiv`, the polynomial Kähler basis and its partial-derivative
-coordinate formula, and a local Jacobian criterion for formal smoothness. It
-also has `Scheme.Hom.isOpen_smoothLocus` and
-`Scheme.Hom.dense_smoothLocus_of_perfectField`. It does not identify those
-scheme-theoretic notions with this project's classical point-set varieties or
-their germ local rings. The roadmap therefore reuses the local-algebra
-primitives but follows Hartshorne's explicit Jacobian-minor and
-birational-hypersurface proof for Theorem 5.3.
 
 ## Local algebra and the Jacobian criterion
 
@@ -68,7 +55,7 @@ birational-hypersurface proof for Theorem 5.3.
 
 ## Scope note
 
-This chapter stops with Theorem 5.3 on printed p. 33. Outside this chapter,
+This chapter stops with [Theorem I.5.3](singular-locus.md) on printed p. 33. Outside this chapter,
 regularity under completion is adopted for V.5, and the analytic-isomorphism
 definition and Exercise 5.14(d) are adopted for V.3. The remaining completion,
 Cohen-structure, and analytic examples are deferred; Theorem 5.7A and the

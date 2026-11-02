@@ -17,7 +17,6 @@ The composite of two flat scheme morphisms is flat.
 
 ## Proof depends on
 
-- The exact pinned declaration named in the metadata.
 - [Transitivity for module sheaves flat over a base](module-sheaf-flat-transitivity.md),
   specialized to the structure sheaf.
 

@@ -6,8 +6,8 @@ origin: cited
 
 # A blowup is an isomorphism off its center
 
-If `Y` is the closed subscheme defined by `I`, the blowup projection restricts
-to an isomorphism `Bl_I(X) \ pi^{-1}(Y) ≅ X \ Y`.
+If $Y$ is the closed subscheme defined by $I$, the blowup projection restricts
+to an isomorphism $Bl_I(X) \ \pi ^{-1}(Y) \cong X \setminus Y$.
 
 ## Depends on
 
@@ -16,7 +16,7 @@ to an isomorphism `Bl_I(X) \ pi^{-1}(Y) ≅ X \ Y`.
 
 ## Proof depends on
 
-- The local identity `Proj O_U[T] ≅ U` where `I|_U = O_U`.
+- The local identity $\operatorname{Proj} \mathcal{O}_U[T] \cong U$ where $I|_U = \mathcal{O}_U$.
 
 ## Sources
 

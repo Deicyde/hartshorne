@@ -6,14 +6,14 @@ origin: cited
 
 # Restricting the structure sheaf recovers regular functions
 
-Let `V` be a variety over an algebraically closed field and identify it with
-the closed-point subspace of its associated scheme via `α_V`.  The inverse
+Let $V$ be a variety over an algebraically closed field and identify it with
+the closed-point subspace of its associated scheme via $\alpha _V$.  The inverse
 image of the associated scheme's structure sheaf along this homeomorphism is
-canonically isomorphic to the original sheaf of regular functions on `V`.
+canonically isomorphic to the original sheaf of regular functions on $V$.
 
 The unique main artifact is this sheaf isomorphism.  For corresponding opens,
-the associated scheme's sheaf was defined as `α_{V*}𝒪_V`, so its sections and
-restriction maps agree with those of `𝒪_V`; sheaf extensionality assembles
+the associated scheme's sheaf was defined as $\alpha _{V\cdot }\mathcal{O} _V$, so its sections and
+restriction maps agree with those of $\mathcal{O} _V$; sheaf extensionality assembles
 these componentwise identifications.
 
 ## Depends on

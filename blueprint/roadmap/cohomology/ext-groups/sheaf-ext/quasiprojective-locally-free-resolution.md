@@ -6,8 +6,8 @@ origin: cited
 
 # Locally free resolutions on quasi-projective schemes
 
-Let `X` be quasi-projective over a Noetherian affine scheme. Every coherent
-`O_X`-module admits a resolution, possibly unbounded to the left, by
+Let $X$ be quasi-projective over a Noetherian affine scheme. Every coherent
+$\mathcal{O}_X$-module admits a resolution, possibly unbounded to the left, by
 finite-rank locally free sheaves.
 
 The unique main result is existence of the resolution; the successive kernel

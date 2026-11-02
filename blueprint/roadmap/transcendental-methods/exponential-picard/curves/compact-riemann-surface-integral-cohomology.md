@@ -6,9 +6,9 @@ origin: cited
 
 # Integral cohomology of a compact Riemann surface
 
-For a compact genus-`g` Riemann surface `C^h`,
+For a compact genus-$g$ Riemann surface $C ^h$,
 
-`H^0(C^h,Z)=Z`, `H^1(C^h,Z)=Z^(2g)`, and `H^2(C^h,Z)=Z`,
+$H^0(C ^h,\mathbb{Z})=\mathbb{Z}$, $H^1(C ^h,\mathbb{Z})=\mathbb{Z}^{2g}$, and $H^2(C ^h,\mathbb{Z})=\mathbb{Z}$,
 
 with no other cohomology.
 

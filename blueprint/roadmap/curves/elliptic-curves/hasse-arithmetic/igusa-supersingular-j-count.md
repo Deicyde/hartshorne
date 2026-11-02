@@ -8,9 +8,9 @@ not_ready: true
 # Igusa's exact supersingular count
 
 Igusa's theorem makes every root of the Hasse polynomial simple. Consequently
-`j=0` occurs exactly when `p congruent 2 mod 3`, `j=1728` occurs exactly when
-`p congruent 3 mod 4`, and the remaining supersingular `j`-invariants have the
-exact count stated by Hartshorne in terms of `floor(p/12)`.
+$j=0$ occurs exactly when $p\equiv2\pmod3$, $j=1728$ occurs exactly when
+$p\equiv3\pmod4$, and the remaining supersingular $j$-invariants have the
+exact count stated by Hartshorne in terms of $\lfloor p/12\rfloor$.
 
 ## Depends on
 

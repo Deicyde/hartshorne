@@ -9,8 +9,8 @@ mathlib_file: Mathlib/RingTheory/Flat/Tensor.lean
 
 # The finitely generated ideal criterion for flatness
 
-An `R`-module `M` is flat if and only if, for every finitely generated ideal
-`I` of `R`, the canonical multiplication map `I tensor_R M -> M` is injective.
+An $R$-module $M$ is flat if and only if, for every finitely generated ideal
+$I$ of $R$, the canonical multiplication map $I \otimes _R M \to M$ is injective.
 
 ## Depends on
 
@@ -18,7 +18,7 @@ An `R`-module `M` is flat if and only if, for every finitely generated ideal
 
 ## Proof depends on
 
-- The exact pinned declaration named in the metadata.
+No additional project-local results.
 
 ## Sources
 

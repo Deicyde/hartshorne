@@ -6,15 +6,15 @@ origin: cited
 
 # Irreducible curves when the invariant is negative
 
-Let `X` be ruled over a genus-`g` curve with `e<0`, and assume either
-`char k=0` or `g<=1`. If `Y=a*C0+b*f` is irreducible and distinct from
-`C0,f`, then either
+Let $X$ be ruled over a genus-$g$ curve with $e<0$, and assume either
+$\operatorname{char} k=0$ or $g\le 1$. If $Y=a\cdot C_0+b\cdot f$ is irreducible and distinct from
+$C_0,f$, then either
 
-- `a=1` and `b>=0`; or
-- `a>=2` and `2*b>=a*e`.
+- $a=1$ and $b\ge 0$; or
+- $a\ge 2$ and $2\cdot b\ge a\cdot e$.
 
-No assertion with these exact bounds is made here when `char k=p>0` and
-`g>=2`.
+No assertion with these exact bounds is made here when $\operatorname{char} k=p>0$ and
+$g\ge 2$.
 
 ## Depends on
 
@@ -27,10 +27,10 @@ No assertion with these exact bounds is made here when `char k=p>0` and
 
 ## Proof depends on
 
-- Normalize `Y` and compare its genus with the base using separable Hurwitz
+- Normalize $Y$ and compare its genus with the base using separable Hurwitz
   in characteristic zero, or genus monotonicity when the base genus is zero
-  or one. Adjunction then gives `2b>=ae` for `a>=2`.
-- When `a=1`, the section quotient and normalizedness give `b>=0`.
+  or one. Adjunction then gives $2b\ge ae$ for $a\ge 2$.
+- When $a=1$, the section quotient and normalizedness give $b\ge 0$.
 
 ## Sources
 

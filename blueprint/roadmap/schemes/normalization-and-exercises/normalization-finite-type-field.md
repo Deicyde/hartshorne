@@ -6,9 +6,9 @@ origin: cited
 
 # Finiteness of normalization over a field
 
-If an integral scheme `X` is finite type over a field, its normalization morphism `ν : X̃ → X` is finite.
+If an integral scheme $X$ is finite type over a field, its normalization morphism $\nu : \widetilde{X} \to X$ is finite.
 
-Over each affine open `Spec A`, invoke finiteness of the integral closure of a finitely generated domain in its fraction field. The affine-local criterion for finite morphisms then globalizes the result.
+Over each affine open $\operatorname{Spec} A$, invoke finiteness of the integral closure of a finitely generated domain in its fraction field. The affine-local criterion for finite morphisms then globalizes the result.
 
 ## Depends on
 
@@ -19,8 +19,6 @@ Over each affine open `Spec A`, invoke finiteness of the integral closure of a f
 ## Proof depends on
 
 - Finiteness of integral closure for finitely generated algebras over a field.
-- The pinned relative-normalization API proves integrality but not this
-  module-finiteness statement.
 
 ## Sources
 

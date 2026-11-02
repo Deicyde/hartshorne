@@ -7,9 +7,9 @@ origin: cited
 # Birational invariance of plurigenera
 
 For a nonsingular projective variety define
-`P_m(X) = dim_k Gamma(X, omega_X tensor-power m)` for `m > 0`. If `X` and
-`X'` are birationally equivalent nonsingular projective varieties, then
-`P_m(X) = P_m(X')` for every `m > 0`.
+$P_m(X)=\dim_k\Gamma(X,\omega_X^{\otimes m})$ for $m > 0$. If $X$ and
+$X'$ are birationally equivalent nonsingular projective varieties, then
+$P_m(X) = P_m(X')$ for every $m > 0$.
 
 ## Depends on
 
@@ -24,7 +24,7 @@ For a nonsingular projective variety define
   extend across codimension-at-least-two subsets of a normal variety.
 - Choose dense opens on which the two birational maps are inverse and run the
   two pullback injections in parallel, rather than treating this as a formal
-  corollary of the `m = 1` result.
+  corollary of the $m = 1$ result.
 
 ## Sources
 

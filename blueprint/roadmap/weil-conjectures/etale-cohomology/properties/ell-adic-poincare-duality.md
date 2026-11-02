@@ -7,16 +7,13 @@ not_ready: true
 
 # ℓ-adic Poincaré duality
 
-For connected smooth proper `X` of pure dimension `n`, cup product followed
+For connected smooth proper $X$ of pure dimension $n$, cup product followed
 by trace gives a perfect pairing
 
-`H^i_et(X,Q_ell) times H^(2n-i)_et(X,Q_ell(n)) -> Q_ell`
+$H^i_{\mathrm{et}}(X,\mathbb Q_\ell)\times H^{2n-i}_{\mathrm{et}}(X,\mathbb Q_\ell(n))\to\mathbb Q_\ell$
 
-for every `0<=i<=2n`.
+for every $0\le i\le 2n$.
 
-This node is not ready.  Hartshorne quotes duality without proof and suppresses
-the twist.  A proof-level SGA 5 source must supply finite-dimensionality,
-trace, and perfectness with these conventions.
 
 ## Depends on
 

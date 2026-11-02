@@ -9,11 +9,8 @@ not_ready: true
 
 Complex projective space carries the Fubini–Study Kähler form with integral
 cohomology class.  Its restriction along a closed immersion makes the
-analytification of every smooth projective `C`-scheme a Hodge manifold.
+analytification of every smooth projective $\mathbb{C}$-scheme a Hodge manifold.
 
-This node is not ready.  The project lacks manifold differential forms,
-Fubini–Study geometry, singular/de Rham comparison, and the identification of
-the integral class with the hyperplane bundle.
 
 ## Depends on
 

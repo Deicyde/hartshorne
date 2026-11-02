@@ -9,14 +9,12 @@ lean: Hartshorne.absoluteNormalizationMap_isDominant
 
 # The normalization morphism is dominant
 
-For an integral scheme `X`, the normalization morphism `ν : X̃ → X` is
+For an integral scheme $X$, the normalization morphism $\nu : \widetilde{X} \to X$ is
 dominant.
 
-On each affine chart the coordinate-ring map into its integral closure inside
-`K(X)` is injective, so the induced map on spectra has dense image. These local
-dense-image statements glue. The pinned relative-normalization API has an
-`IsDominant toNormalization` instance, but the absolute orientation here still
-requires the source-shaped wrapper.
+On each affine chart, the coordinate ring embeds in its integral
+closure inside $K(X)$. The induced morphism of spectra has dense
+image, and these local dense-image statements glue.
 
 ## Depends on
 

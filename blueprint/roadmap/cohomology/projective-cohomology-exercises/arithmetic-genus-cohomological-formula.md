@@ -6,17 +6,17 @@ origin: cited
 
 # Arithmetic genus and cohomology
 
-For a projective scheme `X` of dimension `r` over a field, define
+For a projective scheme $X$ of dimension $r$ over a field, define
 
-`p_a(X)=(-1)^r(χ(O_X)-1)`.
+$p_a(X)=(-1)^r(\chi (\mathcal{O}_X)-1)$.
 
-If `X` is integral and the field is algebraically closed, then
-`H⁰(X,O_X)≅k` and
+If $X$ is integral and the field is algebraically closed, then
+$H^{0}(X,\mathcal{O}_X)\cong k$ and
 
-`p_a(X)=Σ_(i=0)^(r-1) (-1)^i dim_k H^(r-i)(X,O_X)`.
+$p_a(X)=\sum _{(i=0)}^{r-1} (-1)^i \dim _k H^{r-i}(X,\mathcal{O}_X)$.
 
 In particular, for an integral projective curve,
-`p_a(X)=dim_k H¹(X,O_X)`.
+$p_a(X)=\dim _k H^{1}(X,\mathcal{O}_X)$.
 
 ## Depends on
 

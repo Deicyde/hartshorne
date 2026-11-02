@@ -6,9 +6,9 @@ origin: cited
 
 # Geometric genus and irregularity are invariant under a point blowup
 
-For a monoidal transformation `pi:X_tilde->X`,
+For a monoidal transformation $\pi:\widetilde X\to X$,
 
-`p_g(X_tilde)=p_g(X)` and `q(X_tilde)=q(X)`.
+$p_g(\widetilde{X})=p_g(X)$ and $q(\widetilde{X})=q(X)$.
 
 ## Depends on
 
@@ -17,8 +17,8 @@ For a monoidal transformation `pi:X_tilde->X`,
 
 ## Proof depends on
 
-- Use Hartshorne's identifications `q(X)=dim H^1(X,O_X)` and
-  `p_g(X)=dim H^2(X,O_X)`, then apply structure-sheaf cohomology invariance.
+- Use Hartshorne's identifications $q(X)=\dim H^1(X,\mathcal{O}_X)$ and
+  $p_g(X)=\dim H^2(X,\mathcal{O}_X)$, then apply structure-sheaf cohomology invariance.
 
 ## Sources
 

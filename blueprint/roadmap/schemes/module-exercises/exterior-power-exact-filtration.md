@@ -7,13 +7,13 @@ origin: cited
 # Exterior powers of an exact sequence
 
 For a short exact sequence of finite locally free sheaves
-`0 → F' → F → F'' → 0`, the sheaf `exterior^r F` has the standard finite
+$0 \to F' \to F \to F'' \to 0$, the sheaf $\bigwedge^r F$ has the standard finite
 filtration whose graded pieces are
 
-`exterior^p F' tensor exterior^(r-p) F''`.
+$\bigwedge^p F'\otimes\bigwedge^{r-p}F''$.
 
 In top degree this gives
-`det F ≅ det F' tensor det F''`.
+$\det F \cong \det F' \otimes \det F''$.
 
 ## Depends on
 

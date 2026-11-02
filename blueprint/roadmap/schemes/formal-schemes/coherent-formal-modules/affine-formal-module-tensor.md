@@ -6,11 +6,11 @@ origin: cited
 
 # Affine completed modules and ordinary tensor product
 
-Let `A` be Noetherian, `I` an ideal, `M` a finite `A`-module, and
-`Xhat = Spf_I(A)`. The completed sheaf associated to `M` is canonically
+Let $A$ be Noetherian, $I$ an ideal, $M$ a finite $A$-module, and
+$\widehat{X} = \operatorname{Spf} _I(A)$. The completed sheaf associated to $M$ is canonically
 isomorphic to
 
-`Mtilde|_|V(I)| tensor_(O_(Spec A)|_|V(I)|) O_Xhat`.
+$\left.\widetilde{M}\right|_{V(I)}\otimes_{\left.\mathcal{O}_{\operatorname{Spec}A}\right|_{V(I)}}\mathcal{O}_{\widehat{X}}$.
 
 This is the ordinary tensor product of sheaves of modules. The node neither
 defines nor invokes a completed tensor product.

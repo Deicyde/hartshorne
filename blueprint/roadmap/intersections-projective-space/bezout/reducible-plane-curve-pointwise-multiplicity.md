@@ -9,31 +9,24 @@ lean: Hartshorne.reduciblePlaneCurveIntersectionMultiplicity
 
 # Pointwise multiplicity for reducible plane curves
 
-Let `Y,Z ⊆ ℙ²` be projective algebraic sets with
-`projDim Y = projDim Z = 1`, every irreducible component carrier of either set
-of projective dimension one, and no common component, meaning
+Let $Y,Z\subseteq\mathbb P^2$ be projective algebraic sets of dimension
+one, with every irreducible component of dimension one and no common
+component. Thus $C\ne D$ for every component $C$ of $Y$ and component
+$D$ of $Z$.
 
-`projectiveComponentCarrier C.1 ≠ projectiveComponentCarrier D.1`
+For a point $P$ of the ambient plane, define
 
-for every `C : irreducibleComponents ↑Y` and
-`D : irreducibleComponents ↑Z`.
+$$i(Y,Z;P)=\sum_C\sum_D\sum_{W\subseteq C\cap D}
+\mathbf 1_{\{P\in W\}}\,i(C,D;W),$$
 
-For an ambient point `P`, define the natural-valued pointwise multiplicity
-`reduciblePlaneCurveIntersectionMultiplicity Y Z P` by
+where the last sum is over irreducible components of $C\cap D$ and the
+indicator is one when $P\in W$, zero otherwise. The value is a
+nonnegative integer. Each such $W$ is a singleton, and $Y\cap Z$ is
+finite. Summing over the intersection removes the indicators and gives
+the corresponding finite triple sum of component multiplicities.
 
-`∑ C ∈ projectiveComponents Y, ∑ D ∈ projectiveComponents Z,`
-`  ∑ W ∈ projectiveComponents`
-`    (projectiveComponentCarrier C.1 ∩ projectiveComponentCarrier D.1),`
-`  if P ∈ projectiveComponentCarrier W.1 then`
-`    projectiveIntersectionMultiplicity C D W else 0`.
-
-This definition is the unique main declaration. Supporting theorems prove
-that `Y ∩ Z` is finite, that every component `W` occurring above has singleton
-carrier, and that the sum of the pointwise multiplicities over the finite set
-`Y ∩ Z` equals the displayed finite triple sum with the indicators removed.
-This is a project-authored reindexing definition implementing the extension
-asserted, but not defined, in Remark 7.8.2. The Lean declaration makes the
-proof arguments implicit in the schematic multiplicity call precise.
+This is a project-authored definition of the reindexing needed for the
+extension asserted in Hartshorne's Remark I.7.8.2.
 
 ## Depends on
 

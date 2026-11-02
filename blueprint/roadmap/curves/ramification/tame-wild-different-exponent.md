@@ -6,10 +6,10 @@ origin: cited
 
 # Tame and wild different exponents
 
-Let `d_P = length((Omega_(X/Y))_P)` for a finite separable curve map. Then
+Let $d_P = \operatorname{length} ((\Omega _{(X/Y)})_P)$ for a finite separable curve map. Then
 
-- `d_P = e_P - 1` when the ramification at `P` is tame;
-- `d_P > e_P - 1` when it is wild.
+- $d_P = e_P - 1$ when the ramification at $P$ is tame;
+- $d_P > e_P - 1$ when it is wild.
 
 ## Depends on
 
@@ -18,9 +18,9 @@ Let `d_P = length((Omega_(X/Y))_P)` for a finite separable curve map. Then
 
 ## Proof depends on
 
-- In the DVR `O_(X,P)`, write `t=a*u^(e_P)` for a unit `a` and differentiate.
-  The coefficient `e_P` is a unit precisely in the tame case.
-- Separability ensures `dt/du` is nonzero even in the wild case.
+- In the DVR $\mathcal{O}_{X,P}$, write $t=a\cdot u^{e_P}$ for a unit $a$ and differentiate.
+  The coefficient $e_P$ is a unit precisely in the tame case.
+- Separability ensures $dt/du$ is nonzero even in the wild case.
 
 ## Sources
 

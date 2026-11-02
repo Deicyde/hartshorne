@@ -5,7 +5,7 @@ article_id: af_e2559b19f1edcda895c62136
 # Schemes
 
 Hartshorne Chapter II replaces embedded varieties by locally ringed spaces
-glued from affine spectra. Sheaves, `Spec`, and `Proj` establish the language;
+glued from affine spectra. Sheaves, $\operatorname{Spec}$, and $\operatorname{Proj}$ establish the language;
 subschemes, dimension, fibre products, and finiteness properties develop the
 geometry. The later sections treat separated and proper morphisms, sheaves of
 modules, divisors, projective geometry, differentials, and formal schemes.
@@ -19,11 +19,10 @@ coverage contract links 452 targets associated with Chapter II sources.
 For current formalization status, use this page's progress summary and the
 status on each statement.
 
-The formalization uses Mathlib's categorical representations: presheaves and
-sheaves are functors on opens, schemes are Mathlib `Scheme`s, schemes over a
-base live in a slice category, and fibre products are categorical pullbacks.
-Project declarations provide Hartshorne's exact statements when an existing
-Mathlib declaration does not expose them directly.
+Presheaves and sheaves are functors on open subsets. Schemes over
+a base form a slice category, and fiber products are categorical
+pullbacks. These constructions extend the language of classical
+varieties used in Chapter I.
 
 An exercise is adopted when running text in the approved whole-book scope
 cites or delegates to it, or when later running text uses it. Examples that

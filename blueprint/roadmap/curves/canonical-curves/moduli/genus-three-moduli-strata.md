@@ -6,10 +6,10 @@ origin: cited
 
 # The genus-three moduli strata
 
-Over an algebraically closed field of characteristic zero, assuming `M_3`,
+Over an algebraically closed field of characteristic zero, assuming $M_3$,
 its hyperelliptic locus is irreducible of dimension five. Its
 nonhyperelliptic curves are canonical plane quartics and form a
-six-dimensional stratum: the smooth quartic locus is open in `P^14`, and its
+six-dimensional stratum: the smooth quartic locus is open in $\mathbb{P}^14$, and its
 projective-linear orbits have dimension eight because each curve has finite
 automorphism group.
 

@@ -9,30 +9,22 @@ lean: Hartshorne.isAlgebraic_of_isFractionRing Hartshorne.exists_ringKrullDim_eq
 
 # Dimension of a finitely generated domain
 
-Let `k` be a field and `B` an integral domain that is a finitely generated
-`k`-algebra. Then `dim B = trdeg_k K(B)`, the transcendence degree of the
-fraction field.
+Let $k$ be a field and let $B$ be a finitely generated $k$-algebra that is
+an integral domain. Then
 
-This is the first clause of Hartshorne's Theorem 1.8A, quoted from Matsumura and
-Atiyah–Macdonald. Everything numerical in Chapter I rests on it, together with
-its second clause, which is now
-[the dimension formula](dim-formula-catenary.md): `dim 𝔸ⁿ = n`, `dim Y = dim Ȳ`
-for quasi-affine `Y`, the codimension-one characterisation of hypersurfaces, and
-in §3 the fact that `K(Y)` has transcendence degree `dim Y`.
+$$\dim B=\operatorname{trdeg}_k K(B),$$
 
-Because it is quoted rather than proved in the source, the proof is not
-constrained to follow Hartshorne. A single Noether normalisation
-`k[y₁,…,y_s] ↪ B` answers both sides: `B` is integral over the polynomial ring,
-so the two have the same dimension, and it is algebraic over it, so they have
-the same transcendence degree. The fraction field is algebraic over `B`, so it
-does not move the transcendence degree either.
+where $K(B)$ is the fraction field of $B$. Both sides are finite
+nonnegative integers.
 
-## Statement shape
+This is Hartshorne's Theorem I.1.8A(a), quoted from Matsumura and
+Atiyah–Macdonald. Together with [the dimension formula](dim-formula-catenary.md),
+it supports the dimension calculations throughout Chapter I.
 
-`ringKrullDim` is valued in `WithBot ℕ∞` and `Algebra.trdeg` in `Cardinal`,
-which have no canonical map between them. The statement is therefore that one
-natural number `s` answers both questions, which is what the equation means and
-is strictly more informative, since it also records that both sides are finite.
+Choose a Noether normalization $k[y_1,\ldots,y_s]\hookrightarrow B$.
+The extension is integral, so both rings have dimension $s$.
+Their fraction fields form an algebraic extension, so $K(B)$ also has
+transcendence degree $s$ over $k$.
 
 ## Depends on
 

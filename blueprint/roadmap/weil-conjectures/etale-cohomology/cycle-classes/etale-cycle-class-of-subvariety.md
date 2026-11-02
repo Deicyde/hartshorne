@@ -6,12 +6,12 @@ origin: cited
 
 # The étale class of an integral subvariety
 
-Let `X` be smooth and proper over an algebraically closed field and let
-`Z subset X` be an integral closed subvariety of codimension `q`.  Purity on
+Let $X$ be smooth and proper over an algebraically closed field and let
+$Z \subset X$ be an integral closed subvariety of codimension $q$.  Purity on
 the regular dense locus, extension with supports, and forgetting supports
 define
 
-`cl_X(Z) in H^(2q)_et(X,Q_ell(q))`.
+$cl_X(\mathbb{Z}) \in H^{2q}_{\mathrm{et}}(X,\mathbb{Q}_\ell(q))$.
 
 The construction is independent of the chosen regular dense open and is
 additive after extension to cycles.

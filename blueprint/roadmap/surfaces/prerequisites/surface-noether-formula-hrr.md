@@ -6,17 +6,18 @@ origin: bridged
 
 # Hirzebruch–Riemann–Roch for surfaces
 
-For a nonsingular projective variety `X` and a finite locally free sheaf `E`,
+For a nonsingular projective variety $X$ and a finite locally free sheaf $E$,
 Hirzebruch–Riemann–Roch states
 
-`chi(E)=deg(ch(E)*td(T_X))_(dim X)`.
+$\chi (E)=\deg (ch(E)\cdot td(T_X))_{(\dim X)}$.
 
 For a Chapter-V surface this specializes to
 
-`chi(O_X(D)) = (D.(D-K))/2 + (K^2+c_2(X))/12`.
+$\chi (\mathcal{O}_X(D)) = (D\cdot(D-K))/2 + (K^2+c_2(X))/12$.
 
-This is the surface specialization of the general Appendix A theorem; it is
-derivatively blocked until that HRR source root is ready.
+This is the surface specialization of the general
+[Hirzebruch–Riemann–Roch theorem](../../intersection-theory/riemann-roch/characteristic-classes/hirzebruch-riemann-roch.md)
+in Appendix A.
 
 ## Depends on
 

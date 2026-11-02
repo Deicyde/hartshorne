@@ -6,17 +6,17 @@ origin: cited
 
 # Hilbert-polynomial coefficients and intersection degrees
 
-Let `H` be a very ample divisor on a Chapter-V surface `X`, defining
-`X -> P^N`, and write
+Let $H$ be a very ample divisor on a Chapter-V surface $X$, defining
+$X \to \mathbb{P}^N$, and write
 
-`P_X(z) = (a/2)*z^2 + b*z + c`.
+$P_X(z) = (a/2)\cdot z^2 + b\cdot z + c$.
 
-If `pi` is the genus of a smooth member of `|H|`, then
+If $\pi$ is the genus of a smooth member of $|H|$, then
 
-`a=H^2`, `b=H^2/2+1-pi`, and `c=1+p_a(X)`.
+$a=H^2$, $b=H^2/2+1-\pi$, and $c=1+p_a(X)$.
 
-Consequently the embedded degree of `X` is `H^2`; for every curve `C` on
-`X`, its degree in this embedding is `C.H`.
+Consequently the embedded degree of $X$ is $H^2$; for every curve $C$ on
+$X$, its degree in this embedding is $C\cdot H$.
 
 ## Depends on
 
@@ -27,8 +27,8 @@ Consequently the embedded degree of `X` is `H^2`; for every curve `C` on
 
 ## Proof depends on
 
-- Apply surface Riemann–Roch to `zH` and use adjunction to replace `H.K`
-  by `2*pi-2-H^2`.
+- Apply surface Riemann–Roch to $zH$ and use adjunction to replace $H\cdot K$
+  by $2\cdot \pi -2-H^2$.
 - Restrict hyperplanes to a curve and identify divisor degree with embedded
   degree.
 

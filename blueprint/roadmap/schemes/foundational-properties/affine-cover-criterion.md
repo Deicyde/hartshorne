@@ -9,14 +9,13 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Affine.lean
 
 # A finite principal-open affine criterion
 
-If `f₁,…,fᵣ ∈ Γ(X,𝒪_X)` generate the unit ideal and every principal open
-`X_{fᵢ}` is affine, then `X` is affine.  This criterion is the unique main
+If $f_{1},\ldots ,f_{r} \in \Gamma (X,\mathcal{O} _X)$ generate the unit ideal and every principal open
+$X_{f_{i}}$ is affine, then $X$ is affine.  This criterion is the unique main
 result of the article.
 
-The displayed Lean theorem is the exact principal-open criterion of Exercise
-2.17(b); Mathlib's `IsZariskiLocalAtTarget (isomorphisms Scheme)` supplies
-part (a) as a proof input.  Glue the chart maps to `Spec Γ(X,𝒪_X)` and apply
-target-locality.
+This is Hartshorne's Exercise II.2.17(b). Glue the chart maps to
+$\operatorname{Spec}\Gamma(X,\mathcal{O}_X)$ and use the fact that
+being an isomorphism is local on the target, as in part (a).
 
 ## Depends on
 

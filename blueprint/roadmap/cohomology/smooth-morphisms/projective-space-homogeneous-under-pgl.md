@@ -6,8 +6,8 @@ origin: bridged
 
 # Projective space is homogeneous under the projective linear group
 
-Over an algebraically closed field, the scheme-level actions of `PGL(n+1)` on
-`P^n` and on its dual projective space of hyperplanes are transitive on closed
+Over an algebraically closed field, the scheme-level actions of $\operatorname{PGL} (n+1)$ on
+$\mathbb{P}^n$ and on its dual projective space of hyperplanes are transitive on closed
 points. Thus both are homogeneous spaces in the sense used by Kleiman's
 theorem.
 

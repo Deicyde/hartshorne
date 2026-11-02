@@ -6,10 +6,10 @@ origin: cited
 
 # Étale cycle classes are invariant under rational equivalence
 
-If codimension-`q` cycles on a smooth proper variety are rationally
-equivalent, then their classes in `H^(2q)_et(X,Q_ell(q))` are equal.
+If codimension-$q$ cycles on a smooth proper variety are rationally
+equivalent, then their classes in $H^{2q}_{\mathrm{et}}(X,\mathbb{Q}_\ell(q))$ are equal.
 Equivalently, the cycle-class homomorphism kills pushed principal divisors on
-normalizations of codimension-`q-1` subvarieties.
+normalizations of codimension-$q-1$ subvarieties.
 
 ## Depends on
 

@@ -9,21 +9,19 @@ lean: Hartshorne.exists_isNumericalPolynomial_eventuallyEq_of_diff
 
 # Discrete antidifferentiation of a numerical polynomial
 
-Let `f : ℤ → ℤ`. If a numerical polynomial `Q ∈ ℚ[z]` satisfies
+Let $f:\mathbb Z\to\mathbb Z$. Suppose that a numerical polynomial
+$Q\in\mathbb Q[z]$ satisfies
 
-`f(n+1) - f(n) = Q(n)`
+$$f(n+1)-f(n)=Q(n)$$
 
-for all sufficiently large `n`, then there is a numerical polynomial `P` such
-that `f(n) = P(n)` for all sufficiently large `n`. The sole main declaration
-is planned as `Hartshorne.exists_isNumericalPolynomial_eventuallyEq_of_diff`.
+for all sufficiently large $n$. Then there is a numerical polynomial $P$
+with $f(n)=P(n)$ for all sufficiently large $n$.
 
-Expand `Q` in the integral binomial basis and raise every basis index by one;
-Pascal's identity makes the forward difference of the resulting polynomial
-equal to `Q`. The remaining difference `f-P` is eventually constant, which is
-absorbed into the degree-zero coefficient. Record as supporting consequences
-that antidifferentiation raises the degree by one when `Q ≠ 0` and divides
-its leading coefficient by the new degree; Hilbert–Serre needs those facts to
-identify dimension, not merely eventual polynomiality.
+Expand $Q$ in the integral binomial basis and raise each basis index by one.
+Pascal's identity gives a polynomial whose forward difference is $Q$.
+The remaining difference from $f$ is eventually constant and is absorbed
+into the constant coefficient. When $Q\ne0$, antidifferentiation raises
+the degree by one and divides its leading coefficient by the new degree.
 
 ## Depends on
 

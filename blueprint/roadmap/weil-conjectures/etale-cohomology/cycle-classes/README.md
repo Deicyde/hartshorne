@@ -11,8 +11,8 @@ article_id: af_f74fefdbb88da546c57c05e4
 - [The Chow-ring cycle-class map](chow-to-ell-adic-cycle-class.md)
 - [The class of a closed point is nonzero](closed-point-etale-cycle-class-nonzero.md)
 
-All classes retain their Tate twist: codimension `q` lands in
-`H^(2q)(-,Q_ell(q))`.
+All classes retain their Tate twist: codimension $q$ lands in
+$H^{2q}(-,\mathbb{Q}_\ell(q))$.
 
 ## Sources
 

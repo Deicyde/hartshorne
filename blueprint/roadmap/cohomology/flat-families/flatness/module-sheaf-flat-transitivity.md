@@ -9,9 +9,9 @@ lean: Hartshorne.moduleSheaf_flatOver_comp
 
 # Transitivity for module sheaves flat over a base
 
-Let `f : X -> Y` and `g : Y -> Z`. If an `O_X`-module `F` is flat over `Y`
-and the scheme morphism `g` is flat, then `F` is flat over `Z` through
-`g after f`.
+Let $f : X \to Y$ and $g : Y \to Z$. If an $\mathcal{O}_X$-module $F$ is flat over $Y$
+and the scheme morphism $g$ is flat, then $F$ is flat over $Z$ through
+$g\circ f$.
 
 ## Depends on
 
@@ -21,7 +21,7 @@ and the scheme morphism `g` is flat, then `F` is flat over `Z` through
 ## Proof depends on
 
 - [Transitivity of flat modules](flat-module-transitivity.md)
-- Apply transitivity to the two local-ring actions on every stalk of `F`.
+- Apply transitivity to the two local-ring actions on every stalk of $F$.
 
 ## Sources
 

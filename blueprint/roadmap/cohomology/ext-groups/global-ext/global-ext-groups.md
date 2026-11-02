@@ -9,15 +9,12 @@ mathlib_file: Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean
 
 # Global Ext groups
 
-Fix a universe `w` and an explicit instance
-`HasExt.{w} (Scheme.Modules X)`. For `O_X`-modules `F` and `G`, define
-`Ext^n_X(F,G) : Type w` as the degree-`n` global Ext group in `X.Modules`,
-functorial contravariantly in `F` and covariantly in `G`. In degree zero it is
-naturally `Hom_X(F,G)`, and positive Ext into an injective object vanishes.
-
-The main result is the global Ext definition. Pinned Mathlib supplies it as
-`CategoryTheory.Abelian.Ext`; `Ext.addEquiv₀`, `Abelian.extFunctor`, and
-`Ext.eq_zero_of_injective` supply the stated supporting API.
+Assume that Ext groups exist in the category of
+$\mathcal{O}_X$-modules. For module sheaves $F$ and $G$, define
+$\operatorname{Ext}^n_X(F,G)$ to be the degree-$n$ global Ext
+group. It is contravariant in $F$ and covariant in $G$. In degree
+zero it is naturally $\operatorname{Hom}_X(F,G)$, and positive
+Ext into an injective object vanishes.
 
 ## Depends on
 
@@ -26,8 +23,7 @@ The main result is the global Ext definition. Pinned Mathlib supplies it as
 ## Proof depends on
 
 - [Module sheaves have enough injectives](../../sheaf-cohomology/module-sheaves-enough-injectives.md)
-- Pinned Mathlib's `CategoryTheory.hasExt_of_enoughInjectives`, with a chosen
-  local-smallness universe, supplies the required `HasExt` instance.
+- Enough injectives provide the Ext construction in a locally small abelian category.
 
 ## Sources
 

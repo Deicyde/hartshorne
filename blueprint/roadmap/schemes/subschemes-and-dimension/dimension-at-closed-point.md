@@ -9,9 +9,9 @@ lean: Hartshorne.dimension_at_closed_point
 
 # Dimension at a closed point
 
-Let `X` be an integral scheme of finite type over a field. For every closed point `P ∈ X`, `dim X = ringKrullDim 𝒪_{X,P}`.
+Let $X$ be an integral scheme of finite type over a field. For every closed point $P \in X$, $\dim X=\dim\mathcal{O}_{X,P}$.
 
-Reduce to an affine neighbourhood of `P`. Identify the local-ring dimension with the height of the maximal prime and use the finite-type domain dimension theorem to identify that height with the global dimension.
+Reduce to an affine neighbourhood of $P$. Identify the local-ring dimension with the height of the maximal prime and use the finite-type domain dimension theorem to identify that height with the global dimension.
 
 ## Depends on
 
@@ -21,7 +21,7 @@ Reduce to an affine neighbourhood of `P`. Identify the local-ring dimension with
 
 ## Proof depends on
 
-- The finite-type domain dimension formula and `ringKrullDim_stalk_eq_coheight`.
+- The dimension formula for a finite-type domain and the identification of local-ring dimension with point coheight.
 
 ## Sources
 

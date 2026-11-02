@@ -18,10 +18,7 @@ Every open immersion of schemes is flat.
 
 ## Proof depends on
 
-- The open-immersion `AlgebraicGeometry.Flat` instance in pinned Mathlib.
-
-The implementation is exact prior art, but its generated instance name is not
-used as stable `mathlib_declaration` metadata.
+- The stalk maps of an open immersion are isomorphisms, hence flat.
 
 ## Sources
 

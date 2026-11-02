@@ -6,7 +6,7 @@ origin: cited
 
 # Separation of points and tangent vectors
 
-Let `X` be projective over an algebraically closed field and let a subspace of
+Let $X$ be projective over an algebraically closed field and let a subspace of
 global sections generate an invertible sheaf. The associated morphism to
 projective space is a closed immersion if and only if those sections separate
 closed points and tangent vectors.

@@ -7,10 +7,10 @@ not_ready: true
 
 # The unique flat closure over a punctured curve
 
-Let `Y` be a regular integral one-dimensional scheme, let `P` be a closed
-point, and let `X` be a closed subscheme of relative projective space over
-`Y-P`, flat over `Y-P`. Its scheme-theoretic closure in projective space over
-`Y` is the unique closed subscheme extending `X` that is flat over `Y`.
+Let $Y$ be a regular integral one-dimensional scheme, let $P$ be a closed
+point, and let $X$ be a closed subscheme of relative projective space over
+$Y-P$, flat over $Y-P$. Its scheme-theoretic closure in projective space over
+$Y$ is the unique closed subscheme extending $X$ that is flat over $Y$.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ point, and let `X` be a closed subscheme of relative projective space over
 
 ## Proof depends on
 
-- Prove that schematic closure introduces no associated point above `P` and
+- Prove that schematic closure introduces no associated point above $P$ and
   that any distinct extension would introduce a vertical associated point.
 - [Flatness over a regular curve](flat-over-regular-curve-associated-points.md).
 - [The scheme-theoretic image of a reduced source](../../../schemes/subschemes-and-dimension/scheme-theoretic-image-reduced-source.md)

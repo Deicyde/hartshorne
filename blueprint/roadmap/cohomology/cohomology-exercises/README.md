@@ -4,8 +4,8 @@ article_id: af_6e1ee2ef539acd0257b5b994
 
 # Affineness, Picard, and dimension exercises
 
-These are the exercises in Hartshorne III.3–4 retained because later chapters
-use them or because they complete the local/Čech cohomology API.
+These exercises from Hartshorne III.3–4 supply results used later
+in the book and develop local and Čech cohomology.
 
 1. [Affineness is invariant under reduction](reduction-affine-iff.md)
 2. [Affineness of reduced irreducible components](reduced-components-affine-iff.md)

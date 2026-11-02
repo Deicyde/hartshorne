@@ -10,10 +10,10 @@ vanishing results, and introduces the comparison with cohomology on the total
 space. This chapter covers all running results on printed pp.250–252 and the
 retained acyclic Leray comparison of Exercise 8.1.
 
-The roadmap keeps abelian-sheaf and module-sheaf models explicit. It uses
-Mathlib's degreewise `Functor.rightDerived`, not the still-unconnected bounded
-derived-category construction. A full Leray spectral sequence and the proper
-generalization in Remark 8.8.1 are deferred.
+The construction starts with right derived functors of direct
+image and compares abelian sheaves with module sheaves. The full
+Leray spectral sequence and the proper generalization in
+Hartshorne's Remark III.8.8.1 are outside this chapter's adopted scope.
 
 1. [Abelian-sheaf pushforward is left exact](abelian-pushforward-left-exact.md)
 2. [Higher direct images of abelian sheaves](higher-direct-images.md)

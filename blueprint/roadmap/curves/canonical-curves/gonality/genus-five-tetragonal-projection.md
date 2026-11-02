@@ -6,11 +6,11 @@ origin: cited
 
 # A tetragonal system from projection in genus five
 
-Let `X subset P^4` be the canonical genus-five complete intersection of three
-quadrics with no trisecants. Projection from a point `P in X` embeds it as a
-nonsingular degree-seven curve `X' subset P^3`. The image has a trisecant;
-the three inverse-image points together with `P` are coplanar in `P^4` and
-define a `g^1_4` on `X`.
+Let $X \subset \mathbb{P}^4$ be the canonical genus-five complete intersection of three
+quadrics with no trisecants. Projection from a point $P \in X$ embeds it as a
+nonsingular degree-seven curve $X' \subset \mathbb{P}^3$. The image has a trisecant;
+the three inverse-image points together with $P$ are coplanar in $\mathbb{P}^4$ and
+define a $g^1_4$ on $X$.
 
 ## Depends on
 
@@ -22,12 +22,12 @@ define a `g^1_4` on `X`.
 
 ## Proof depends on
 
-- Absence of trisecants makes projection from `P` nonsingular and degree
+- Absence of trisecants makes projection from $P$ nonsingular and degree
   seven.
-- If `X'` had no trisecant, projecting once more would produce a nonsingular
+- If $X'$ had no trisecant, projecting once more would produce a nonsingular
   plane sextic of genus five, contradicting the plane genus formula.
 - Four coplanar canonical points impose a pencil of hyperplanes and hence a
-  `g^1_4`.
+  $g^1_4$.
 
 ## Sources
 

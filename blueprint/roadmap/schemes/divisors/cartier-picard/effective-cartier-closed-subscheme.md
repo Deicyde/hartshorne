@@ -7,7 +7,7 @@ origin: cited
 # Effective Cartier divisors and locally principal subschemes
 
 Define a Cartier divisor to be effective when it has local equations in
-`O_X`. Sending those equations to the locally generated ideal sheaf gives a
+$\mathcal{O}_X$. Sending those equations to the locally generated ideal sheaf gives a
 bijection between effective Cartier divisors and closed subschemes locally cut
 out by one non-zero-divisor.
 

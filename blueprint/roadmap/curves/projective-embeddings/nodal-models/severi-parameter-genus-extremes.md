@@ -6,16 +6,16 @@ origin: cited
 
 # Severi parameters, genus, and the extreme cases
 
-For `d >= 1`, degree-`d` plane curves are parametrized by a projective space of dimension
-`d*(d+3)/2`. The irreducible curves with exactly `r` ordinary nodes and no
-other singularities form a locally closed Severi locus `V_(d,r)`. For every
-member with normalization genus `g`,
+For $d \ge 1$, degree-$d$ plane curves are parametrized by a projective space of dimension
+$d\cdot (d+3)/2$. The irreducible curves with exactly $r$ ordinary nodes and no
+other singularities form a locally closed Severi locus $V_{(d,r)}$. For every
+member with normalization genus $g$,
 
-`g = (d-1)*(d-2)/2 - r`.
+$g = (d-1)\cdot (d-2)/2 - r$.
 
-Hence `0 <= r <= (d-1)*(d-2)/2`. Both extremes are nonempty: smooth
-irreducible degree-`d` curves give `r=0`, and a rational normal curve of
-degree `d`, projected generically to the plane, gives the maximal value.
+Hence $0 \le r \le (d-1)\cdot (d-2)/2$. Both extremes are nonempty: smooth
+irreducible degree-$d$ curves give $r=0$, and a rational normal curve of
+degree $d$, projected generically to the plane, gives the maximal value.
 
 ## Depends on
 
@@ -29,11 +29,11 @@ degree `d`, projected generically to the plane, gives the maximal value.
 
 ## Proof depends on
 
-- The space of nonzero degree-`d` ternary forms modulo scalars has the stated
+- The space of nonzero degree-$d$ ternary forms modulo scalars has the stated
   dimension, and the ordinary-node/no-other-singularity condition is locally
   closed in the universal plane curve.
-- The rational normal curve has pullback `O(1)=O_(P^1)(d)`, so its birational
-  nodal plane projection still has degree `d`.
+- The rational normal curve has pullback $\mathcal{O}(1)=\mathcal{O}_{(\mathbb{P}^1)}(d)$, so its birational
+  nodal plane projection still has degree $d$.
 
 ## Sources
 

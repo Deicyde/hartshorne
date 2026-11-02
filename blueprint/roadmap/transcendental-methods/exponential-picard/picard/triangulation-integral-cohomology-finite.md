@@ -8,11 +8,9 @@ not_ready: true
 # Triangulation gives finitely generated integral cohomology
 
 The analytification of a complex algebraic variety is triangulable. Therefore
-every singular cohomology group `H^i(X^h,Z)` is a finitely generated abelian
+every singular cohomology group $H^i(X^h,\mathbb{Z})$ is a finitely generated abelian
 group.
 
-This node is not ready until the exact Hironaka triangulation theorem and the
-comparison with the roadmap's singular-cohomology representation are adopted.
 
 ## Depends on
 

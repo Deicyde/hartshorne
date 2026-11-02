@@ -6,18 +6,18 @@ origin: cited
 
 # The variety-to-scheme functor is fully faithful
 
-For varieties `V,W` over an algebraically closed field `k`, the natural map
+For varieties $V,W$ over an algebraically closed field $k$, the natural map
 
-`Hom_Var(k)(V,W) → Hom_Sch(k)(t(V),t(W))`
+$\operatorname{Hom}_{\mathrm{Var}_k}(V,W)\longrightarrow\operatorname{Hom}_{\mathrm{Sch}_k}(t(V),t(W))$
 
 is bijective.
 
 Faithfulness follows by restriction to classical closed points.  For fullness,
-an `Over (Spec k)` morphism preserves `k`-rational closed points by its induced
-residue-field maps, hence restricts to a continuous map `V → W`; its sheaf map
+a morphism of schemes over $k$ preserves $k$-rational closed points by its induced
+residue-field maps, hence restricts to a continuous map $V \to W$; its sheaf map
 says precisely that regular functions pull back to regular functions.  The
 generic-completion construction then recovers the original scheme morphism.
-This is Exercise 2.15(b),(c) and completes Proposition 2.6.
+This is Hartshorne's Exercise II.2.15(b,c) and completes Proposition II.2.6.
 
 ## Depends on
 

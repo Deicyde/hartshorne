@@ -9,23 +9,19 @@ lean: Hartshorne.ValuationSpace.exists_dense_projective_diagonal
 
 # The projective diagonal model
 
-The two extended maps `φ₀` and `φ₁` define a diagonal map from `C_K`
-to the Segre product `Y₀ × Y₁`.  Its image closure is an irreducible
-projective variety `Y`, and the diagonal corestricts to a dense morphism
-`φ : C_K → Y`.  The sole main declaration is formalized as
-`Hartshorne.ValuationSpace.exists_dense_projective_diagonal`.
+The extended morphisms $\varphi_0,\varphi_1$ give a diagonal map
+$C_K\to Y_0\times Y_1$ into the Segre product. Its image closure is an
+irreducible projective variety $Y$, and the diagonal induces a dense morphism
+$\varphi:C_K\to Y$.
 
-This is Hartshorne's product-and-closure construction with the finite index
-set specialized to the two normalization charts.
+This is Hartshorne's product-and-closure construction for the two
+normalization charts. It retains the chart identifications and the
+projection identities
 
-The main existential returns a supporting `ProjectiveDiagonalModel` package.
-It retains the two chart models and closures, the chart-cover equality, their
-extended morphisms together with the equations showing agreement with the
-original affine-chart embeddings, the product projections, `Y` as exactly the
-closure of the diagonal image, and the dense corestricted diagonal `φ`.  For
-each of the two charts it also records the restricted projection identity
-`πᵢ ∘ φ = Φᵢ`.  The following function-field and local-ring leaves refer
-to this same package; they may not choose unrelated existential witnesses.
+$$\pi_i\circ\varphi=\varphi_i\qquad(i=0,1).$$
+
+The function-field and local-ring comparisons use this same diagonal,
+projective model, and chart identifications.
 
 ## Depends on
 

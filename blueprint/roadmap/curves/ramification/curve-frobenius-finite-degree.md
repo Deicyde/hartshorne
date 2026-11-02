@@ -6,13 +6,13 @@ origin: cited
 
 # Degree of Frobenius on a curve
 
-Let `X` be a curve over an algebraically closed field `k` of characteristic
-`p>0`. Hartshorne's `k`-linear Frobenius
+Let $X$ be a curve over an algebraically closed field $k$ of characteristic
+$p>0$. Hartshorne's $k$-linear Frobenius
 
-`X^p -> X`
+$X^p \to X$
 
-is finite of degree `p`. On function fields it corresponds to the inclusion
-`K(X) -> K(X)^(1/p)`.
+is finite of degree $p$. On function fields it corresponds to the inclusion
+$K(X) \to K(X)^{1/p}$.
 
 ## Depends on
 
@@ -23,7 +23,7 @@ is finite of degree `p`. On function fields it corresponds to the inclusion
 ## Proof depends on
 
 - For a one-dimensional function field over a perfect field,
-  `[K^(1/p):K]=p`.
+  $[K^{1/p}:K]=p$.
 - Finiteness is affine-local and the Frobenius map is finite on finite-type
   affine coordinate rings over a perfect field.
 

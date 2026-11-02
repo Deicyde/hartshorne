@@ -9,13 +9,11 @@ mathlib_file: Mathlib/Topology/Sheaves/Sheafify.lean
 
 # Sheafification preserves stalks
 
-For every presheaf `F` and point `x`, the map on stalks induced by the unit
-`F ⟶ F⁺` is an isomorphism.
+For every presheaf $F$ and point $x$, the map on stalks induced by the unit
+$F \longrightarrow F^{+}$ is an isomorphism.
 
-This is exactly
-`TopCat.Presheaf.stalkFunctor_map_unit_toSheafify_isIso`. The node exposes
-only this stalk comparison; the universal property and behavior on an existing
-sheaf remain supporting API of [the associated sheaf](associated-sheaf.md).
+The stalk comparison is compatible with the canonical map from a
+presheaf to [its associated sheaf](associated-sheaf.md).
 
 ## Depends on
 

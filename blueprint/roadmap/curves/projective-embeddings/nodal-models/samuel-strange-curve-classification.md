@@ -18,7 +18,7 @@ two.
 
 ## Proof depends on
 
-- Projection down to `P^3` preserves the relevant strange-point incidence.
+- Projection down to $\mathbb{P}^3$ preserves the relevant strange-point incidence.
 - The two numerical possibilities from Samuel's calculation give exactly the
   basic examples.
 

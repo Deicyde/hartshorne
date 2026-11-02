@@ -6,10 +6,10 @@ origin: cited
 
 # A genus-five complete intersection with no trigonal system
 
-A nonsingular complete intersection of three quadric hypersurfaces in `P^4`
-has degree eight, canonical sheaf `O_X(1)`, and genus five. Its canonical
+A nonsingular complete intersection of three quadric hypersurfaces in $\mathbb{P}^4$
+has degree eight, canonical sheaf $\mathcal{O}_X(1)$, and genus five. Its canonical
 image has no line whose scheme-theoretic intersection with the curve has
-length at least three, and hence the curve has no `g^1_3`.
+length at least three, and hence the curve has no $g^1_3$.
 
 Such smooth complete intersections exist over every algebraically closed
 field.

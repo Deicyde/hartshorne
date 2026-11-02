@@ -6,14 +6,14 @@ origin: cited
 
 # The differential principal-parts resolution
 
-For a complete nonsingular curve `X` over an algebraically closed field `k`,
-with function field `K`, let `Ω_K` denote the constant sheaf with value
-`Ω_(K/k)`. There is a flasque resolution
+For a complete nonsingular curve $X$ over an algebraically closed field $k$,
+with function field $K$, let $\Omega _K$ denote the constant sheaf with value
+$\Omega _{(K/k)}$. There is a flasque resolution
 
-`0 ⟶ Ω_X ⟶ Ω_K ⟶ ⊕_(P∈X_closed) i_(P,*)(Ω_(K/k)/Ω_(X,P)) ⟶ 0`.
+$0\longrightarrow\Omega_X\longrightarrow\Omega_K\longrightarrow\bigoplus_{P\in X_{\mathrm{closed}}}i_{P,*}\left(\Omega_{K/k}/\Omega_{X,P}\right)\longrightarrow0$.
 
-Consequently `H¹(X,Ω_X)` is the cokernel of the rational-differential
-principal-parts map. Unlike the special `P¹` resolution, no surjectivity on
+Consequently $H^{1}(X,\Omega _X)$ is the cokernel of the rational-differential
+principal-parts map. Unlike the special $\mathbb{P}^{1}$ resolution, no surjectivity on
 global sections before taking this cokernel is asserted.
 
 ## Depends on
@@ -27,9 +27,9 @@ global sections before taking this cokernel is asserted.
 
 - [Exactness is detected on stalks](../../../schemes/sheaves/stalkwise-exactness.md)
 - [Flasque sheaves are acyclic](../../sheaf-cohomology/flasque-sheaf-acyclic.md)
-- Local freeness of `Ω_X` of rank one.
+- Local freeness of $\Omega _X$ of rank one.
 - The general curve principal-parts decomposition over closed points, proved
-  stalkwise rather than imported from the special `P¹` case.
+  stalkwise rather than imported from the special $\mathbb{P}^{1}$ case.
 
 ## Sources
 

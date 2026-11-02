@@ -6,15 +6,16 @@ origin: cited
 
 # Determinant on the Grothendieck group of a curve
 
-Let `X` be a nonsingular curve over an algebraically closed field. Every
+Let $X$ be a nonsingular curve over an algebraically closed field. Every
 coherent sheaf admits a length-one finite locally free resolution
-`0 → E_1 → E_0 → F → 0`. Define
+$0 \to E_1 \to E_0 \to F \to 0$. Define
 
-`det(F) = topExterior(E_0) tensor topExterior(E_1)^{-1}`
+$$\det F=\bigwedge^{\operatorname{rk}E_0}E_0\otimes
+\left(\bigwedge^{\operatorname{rk}E_1}E_1\right)^{-1}.$$
 
 and prove independence of the resolution and additivity in short exact
-sequences. Thus determinant induces `det : K(X) → Pic X`; for the divisor
-class represented by a skyscraper sum, its determinant is `O_X(D)`.
+sequences. Thus determinant induces $\det : K(X) \to \operatorname{Pic} X$; for the divisor
+class represented by a skyscraper sum, its determinant is $\mathcal{O}_X(D)$.
 
 This is exactly the determinant construction in Exercise 6.11(b); the other
 parts of Exercise 6.11 are not targets.

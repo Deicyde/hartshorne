@@ -6,12 +6,12 @@ origin: cited
 
 # Closed pushforward preserves cohomology
 
-For a closed inclusion `i : Y ↪ X` and an abelian sheaf `F` on `Y`, there
+For a closed inclusion $i : Y \hookrightarrow X$ and an abelian sheaf $F$ on $Y$, there
 are natural isomorphisms
 
-`Hⁿ(Y,F) ≅ Hⁿ(X,i_*F)`
+$H^{n}(Y,F) \cong H^{n}(X,i_*F)$
 
-for every `n`. The comparison is induced by equality of global sections and is
+for every $n$. The comparison is induced by equality of global sections and is
 computed using pushforward of a flasque resolution.
 
 ## Depends on

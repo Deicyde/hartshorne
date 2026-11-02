@@ -9,21 +9,18 @@ not_ready: true
 
 Over an algebraically closed field of characteristic zero, for every
 
-`d >= 1` and
+$d \ge 1$ and
 
-`0 <= r <= (d-1)*(d-2)/2`,
+$0 \le r \le (d-1)\cdot (d-2)/2$,
 
-the Severi variety `V_(d,r)` of irreducible degree-`d` plane curves with
-exactly `r` ordinary nodes and no other singularities is nonempty and
+the Severi variety $V_{(d,r)}$ of irreducible degree-$d$ plane curves with
+exactly $r$ ordinary nodes and no other singularities is nonempty and
 irreducible of dimension
 
-`d*(d+3)/2 - r`.
+$d\cdot (d+3)/2 - r$.
 
-This node is not ready. Hartshorne reports the theorem without proof and does
-not state a characteristic boundary. Harris's classical proof is a
-characteristic-zero source; adopting it requires an exact proof-level passage
-and a decision whether any positive-characteristic strengthening is in
-scope. No arbitrary-characteristic theorem is asserted here.
+
+The characteristic-zero hypothesis is part of this statement.
 
 ## Depends on
 

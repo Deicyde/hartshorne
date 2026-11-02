@@ -6,8 +6,8 @@ article_id: af_045de176ba235fca1c6086da
 
 This subchapter constructs the infinitesimal fibres and natural comparison
 map in Hartshorne III.11, isolates the projective-twist and Artin–Rees inputs,
-and proves the theorem on formal functions. Natural-number stage `n` means
-reduction modulo the `(n+1)`st power, so stage zero is Hartshorne's first
+and proves the theorem on formal functions. Natural-number stage $n$ means
+reduction modulo the $(n+1)$st power, so stage zero is Hartshorne's first
 infinitesimal fibre.
 
 Read the leaves in this order:

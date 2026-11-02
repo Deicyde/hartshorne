@@ -10,11 +10,11 @@ Assume the algebraically closed ground field has characteristic different
 from two. Every reduced plane-curve double point is analytically isomorphic
 to
 
-`y^2=x^r`
+$y^2=x^r$
 
-for some `r>=2`. Blowing up replaces `r` by `r-2`; consequently its
-resolution-equivalence tree has length `floor(r/2)` and ends in the nodal
-case for even `r` and the cuspidal case for odd `r`.
+for some $r\ge 2$. Blowing up replaces $r$ by $r-2$; consequently its
+resolution-equivalence tree has length $\lfloor r/2\rfloor$ and ends in the nodal
+case for even $r$ and the cuspidal case for odd $r$.
 
 ## Depends on
 

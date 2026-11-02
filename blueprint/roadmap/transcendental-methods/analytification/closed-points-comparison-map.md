@@ -7,16 +7,14 @@ not_ready: true
 
 # Analytic points correspond to closed algebraic points
 
-For a finite-type complex scheme `X`, there is a continuous map of underlying
+For a finite-type complex scheme $X$, there is a continuous map of underlying
 spaces
 
-`phi:X^h->X`
+$\phi :X^h\to X$
 
-which is a bijection from analytic points onto the closed points of `X`.
+which is a bijection from analytic points onto the closed points of $X$.
 The analytic and Zariski topologies are not identified.
 
-This node is not ready pending the affine comparison, the complex
-Nullstellensatz, and continuity through the gluing construction.
 
 ## Depends on
 
@@ -26,8 +24,8 @@ Nullstellensatz, and continuity through the gluing construction.
 
 ## Proof depends on
 
-- On an arbitrary finite-type affine `C`-scheme, analytic points are
-  `C`-algebra maps to `C`, hence maximal ideals by Nullstellensatz; nilpotents
+- On an arbitrary finite-type affine $\mathbb{C}$-scheme, analytic points are
+  $\mathbb{C}$-algebra maps to $\mathbb{C}$, hence maximal ideals by Nullstellensatz; nilpotents
   affect the local analytic structure but not this point bijection.
 
 ## Sources

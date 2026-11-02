@@ -18,9 +18,6 @@ The valuative intersection theorem makes the corresponding ring map integral;
 finite type plus integrality makes it module-finite. Conversely, finite
 morphisms are affine, separated, locally finite type, and universally closed.
 
-The exact upstream equivalence is stronger than Hartshorne's stated affine-
-variety direction and should be the public API.
-
 ## Depends on
 
 - [Proper morphisms](proper-morphism.md)

@@ -6,8 +6,8 @@ origin: background
 
 # Localization of Cohen–Macaulay rings
 
-If `A` is a Noetherian Cohen–Macaulay local ring and `p` is a prime ideal of
-`A`, then `A_p` is Cohen–Macaulay.
+If $A$ is a Noetherian Cohen–Macaulay local ring and $p$ is a prime ideal of
+$A$, then $A_p$ is Cohen–Macaulay.
 
 ## Depends on
 

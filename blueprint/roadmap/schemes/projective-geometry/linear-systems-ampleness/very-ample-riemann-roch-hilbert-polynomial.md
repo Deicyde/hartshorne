@@ -6,13 +6,13 @@ origin: cited
 
 # Very ample linear systems and the Hilbert polynomial
 
-Let `D` be a very ample divisor on a nonsingular projective variety and use
-its complete linear system to embed `X` in projective space. For every
-sufficiently large `n`,
+Let $D$ be a very ample divisor on a nonsingular projective variety and use
+its complete linear system to embed $X$ in projective space. For every
+sufficiently large $n$,
 
-`dim |nD| = P_X(n) - 1`,
+$\dim |nD| = P_X(n) - 1$,
 
-where `P_X` is the Hilbert polynomial of this embedding.
+where $P_X$ is the Hilbert polynomial of this embedding.
 
 ## Depends on
 
@@ -22,7 +22,7 @@ where `P_X` is the Hilbert polynomial of this embedding.
 ## Proof depends on
 
 - Eventual surjectivity from ambient homogeneous polynomials to the global
-  sections of `O_X(n)`.
+  sections of $\mathcal{O}_X(n)$.
 
 ## Sources
 

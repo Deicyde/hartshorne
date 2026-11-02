@@ -6,14 +6,14 @@ origin: cited
 
 # The projective duality comparison maps
 
-Let `X` be an arbitrary projective scheme of dimension `n` over an
-algebraically closed field `k`, equipped with a dualizing sheaf `ω°_X` and a
-fixed very ample `O_X(1)`. For every `i:ℕ` define natural maps
+Let $X$ be an arbitrary projective scheme of dimension $n$ over an
+algebraically closed field $k$, equipped with a dualizing sheaf $\omega ^{\circ} _X$ and a
+fixed very ample $\mathcal{O}_X(1)$. For every $i \in \mathbb{N}$ define natural maps
 
-`θᵢ(F) : Extⁱ_X(F,ω°_X) →ₗ Dual k (HBelow n i F)`
+$$\theta_i(F):\operatorname{Ext}^i_X(F,\omega_X^{\circ})\longrightarrow H^{n-i}(X,F)^\vee.$$
 
-for coherent `F`, where `HBelow n i F` is `H^(n-i)(X,F)` for `i≤n` and
-zero otherwise. The degree-zero map is induced by the defining dualizing
+for coherent $F$, using the convention that $H^j(X,F)=0$ for
+$j<0$. The degree-zero map is induced by the defining dualizing
 pairing.
 
 This node constructs the comparison maps; it does not assert that they are

@@ -6,12 +6,12 @@ origin: cited
 
 # Bertini away from the base locus
 
-Let `X` be a nonsingular variety over an algebraically closed field of
-characteristic zero, and let `b` be any finite-dimensional linear system in an
-invertible sheaf, with base locus `Sigma`. A dense open subset of `b`
-parametrizes divisors whose restriction to `X \ Sigma` is nonsingular.
+Let $X$ be a nonsingular variety over an algebraically closed field of
+characteristic zero, and let $b$ be any finite-dimensional linear system in an
+invertible sheaf, with base locus $\Sigma$. A dense open subset of $b$
+parametrizes divisors whose restriction to $X\setminus\Sigma$ is nonsingular.
 
-Neither this statement nor its basepoint-free input requires `X` to be
+Neither this statement nor its basepoint-free input requires $X$ to be
 projective. It makes the finite-dimensional and base-locus clauses of Remark
 10.9.2 explicit without adding the connectedness conclusion from Exercise
 11.3.

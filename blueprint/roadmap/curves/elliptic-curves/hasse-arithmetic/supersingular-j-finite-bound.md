@@ -6,9 +6,9 @@ origin: cited
 
 # There are finitely many supersingular j-invariants
 
-For a fixed odd characteristic `p`, only finitely many elliptic curves
+For a fixed odd characteristic $p$, only finitely many elliptic curves
 over an algebraically closed field have Hasse invariant zero. More precisely,
-the number of their `j`-invariants is at most `floor(p/12)+2`.
+the number of their $j$-invariants is at most $\lfloor p/12\rfloor+2$.
 
 ## Depends on
 
@@ -17,7 +17,7 @@ the number of their `j`-invariants is at most `floor(p/12)+2`.
 
 ## Proof depends on
 
-- `h_p` has degree `(p-1)/2`; the Legendre parameter-to-`j` map is generically
+- $h_p$ has degree $(p-1)/2$; the Legendre parameter-to-$j$ map is generically
   six-to-one, with the two exceptional automorphism orbits handled separately.
 
 ## Sources

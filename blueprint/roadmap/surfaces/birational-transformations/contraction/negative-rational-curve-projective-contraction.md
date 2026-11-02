@@ -6,8 +6,8 @@ origin: cited
 
 # A negative rational curve contracts to a projective surface
 
-Let `Y ~= P^1` be a curve on a nonsingular projective surface `X`.  If
-`Y^2<0`, then `Y` is algebraically contractible to a point on a projective
+Let $Y \simeq \mathbb{P}^1$ be a curve on a nonsingular projective surface $X$.  If
+$Y^2<0$, then $Y$ is algebraically contractible to a point on a projective
 surface, which may be singular.
 
 This extends Castelnuovo's existence statement from square minus one to every

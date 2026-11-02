@@ -6,13 +6,13 @@ origin: cited
 
 # Frobenius is ramified everywhere
 
-Let `f : Y^p -> Y` be one `k`-linear Frobenius step for a curve in
-characteristic `p`. It is the identity on points, and every point has
-ramification index `p`. The map
+Let $f : Y^p \to Y$ be one $k$-linear Frobenius step for a curve in
+characteristic $p$. It is the identity on points, and every point has
+ramification index $p$. The map
 
-`f^* Omega_Y -> Omega_(Y^p)`
+$f^* \Omega _Y \to \Omega _{(Y^p)}$
 
-is zero, so `Omega_((Y^p)/Y) ~= Omega_(Y^p)`.
+is zero, so $\Omega _{((Y^p)/Y)} \simeq \Omega _{(Y^p)}$.
 
 This map is inseparable. Its relative differential sheaf has rank one rather
 than finite torsion support, so the separable ramification divisor is not
@@ -26,8 +26,8 @@ defined for it.
 
 ## Proof depends on
 
-- A uniformizer pulls back to its `p`th power and `d(t^p)=0` in
-  characteristic `p`.
+- A uniformizer pulls back to its $p$th power and $d(t^p)=0$ in
+  characteristic $p$.
 
 ## Sources
 

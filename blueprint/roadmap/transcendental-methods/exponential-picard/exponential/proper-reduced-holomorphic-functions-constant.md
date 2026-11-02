@@ -6,10 +6,10 @@ origin: cited
 
 # Holomorphic functions on a proper reduced analytification are constant
 
-If `X` is a connected reduced projective variety over `C`, then every global
-holomorphic function on `X^h` is constant. Thus
+If $X$ is a connected reduced projective variety over $\mathbb{C}$, then every global
+holomorphic function on $X^h$ is constant. Thus
 
-`H^0(X^h,O_(X^h))=C`, and `H^0(X^h,O_(X^h)^*)=C^*`.
+$H^0(X^h,\mathcal{O}_{(X^h)})=\mathbb{C}$, and $H^0(X^h,\mathcal{O}_{(X^h)}^*)=\mathbb{C}^{\times}$.
 
 ## Depends on
 

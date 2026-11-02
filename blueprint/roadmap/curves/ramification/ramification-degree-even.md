@@ -15,7 +15,7 @@ divisor is even.
 
 ## Proof depends on
 
-- Rearranging Riemann–Hurwitz expresses `deg R_f` as a difference of even
+- Rearranging Riemann–Hurwitz expresses $\deg R_f$ as a difference of even
   integers.
 
 ## Sources

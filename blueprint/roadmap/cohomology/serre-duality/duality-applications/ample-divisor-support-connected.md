@@ -6,9 +6,9 @@ origin: cited
 
 # Connected support of an ample divisor
 
-Let `X` be an integral normal projective variety of dimension at least two
-over an algebraically closed field. If a closed subset `Y` is the support of
-an effective ample Cartier divisor, then `Y` is connected.
+Let $X$ be an integral normal projective variety of dimension at least two
+over an algebraically closed field. If a closed subset $Y$ is the support of
+an effective ample Cartier divisor, then $Y$ is connected.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ an effective ample Cartier divisor, then `Y` is connected.
 ## Proof depends on
 
 - A positive power of an ample divisor is very ample.
-- The exact sequence `0→O_X(-qD)→O_X→O_(qD)→0`.
+- The exact sequence $0\to \mathcal{O}_X(-qD)\to \mathcal{O}_X\to \mathcal{O}_{(qD)}\to 0$.
 - A disconnected proper scheme has a nontrivial idempotent in its global
   functions.
 

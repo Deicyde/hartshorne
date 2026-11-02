@@ -6,9 +6,9 @@ origin: cited
 
 # Ampleness and tensor powers
 
-For an invertible sheaf `L` on a Noetherian scheme, the following are
-equivalent: `L` is ample; every positive tensor power of `L` is ample; and some
-positive tensor power of `L` is ample.
+For an invertible sheaf $L$ on a Noetherian scheme, the following are
+equivalent: $L$ is ample; every positive tensor power of $L$ is ample; and some
+positive tensor power of $L$ is ample.
 
 ## Depends on
 

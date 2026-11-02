@@ -6,13 +6,13 @@ origin: cited
 
 # The canonical numerical class and square of a ruled surface
 
-For a ruled surface over a curve of genus `g`,
+For a ruled surface over a curve of genus $g$,
 
-`K_X numerical-equivalent -2*C0 + (2*g-2-e)f`
+$K_X\equiv-2C_0+(2g-2-e)f$
 
 and
 
-`K_X^2 = 8*(1-g)`.
+$K_X^2 = 8\cdot (1-g)$.
 
 ## Depends on
 

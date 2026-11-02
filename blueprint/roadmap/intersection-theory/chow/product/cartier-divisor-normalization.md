@@ -6,10 +6,10 @@ origin: cited
 
 # Intersection with a Cartier divisor is its restricted fundamental cycle
 
-Let `Y subset X` be an irreducible subvariety and let `Z` be an effective
-Cartier divisor meeting `Y` properly. Then `[Y].[Z]` is the fundamental cycle
-of the Cartier divisor on `Y` obtained by restricting a local equation of
-`Z`. In particular, smooth subvarieties meeting transversally have
+Let $Y \subset X$ be an irreducible subvariety and let $Z$ be an effective
+Cartier divisor meeting $Y$ properly. Then $[Y].[Z]$ is the fundamental cycle
+of the Cartier divisor on $Y$ obtained by restricting a local equation of
+$Z$. In particular, smooth subvarieties meeting transversally have
 intersection multiplicity one.
 
 ## Depends on

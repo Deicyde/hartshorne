@@ -6,13 +6,13 @@ origin: cited
 
 # The geometric genus of a smooth hypersurface
 
-Let `k` be algebraically closed, `n >= 2`, and `d >= 1`. If
-`Y subset P^n_k` is a nonsingular hypersurface of degree `d`, then
+Let $k$ be algebraically closed, $n \ge 2$, and $d \ge 1$. If
+$Y \subset \mathbb{P}^n_k$ is a nonsingular hypersurface of degree $d$, then
 
-`p_g(Y) = binomial(d - 1, n)`.
+$p_g(Y)=\binom{d-1}{n}$.
 
-In particular, a nonsingular plane curve of degree `d` has geometric genus
-`(d - 1)(d - 2)/2`.
+In particular, a nonsingular plane curve of degree $d$ has geometric genus
+$(d - 1)(d - 2)/2$.
 
 ## Depends on
 
@@ -22,7 +22,7 @@ In particular, a nonsingular plane curve of degree `d` has geometric genus
 
 ## Proof depends on
 
-- Count degree-`d-n-1` homogeneous polynomials using the section-surjectivity
+- Count degree-$d-n-1$ homogeneous polynomials using the section-surjectivity
   result.
 
 ## Sources

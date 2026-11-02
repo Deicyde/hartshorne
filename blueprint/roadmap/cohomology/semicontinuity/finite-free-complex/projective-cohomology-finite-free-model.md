@@ -6,13 +6,13 @@ origin: cited
 
 # A finite-free model for projective cohomology
 
-Under the fixed hypotheses `A` Noetherian, `Y = Spec A`, `f : X -> Y`
-projective, and `F` coherent and flat over `Y`, there is a bounded-above
-complex `L` of finitely generated free `A`-modules with natural isomorphisms
+Under the fixed hypotheses $A$ Noetherian, $Y = \operatorname{Spec} A$, $f : X \to Y$
+projective, and $F$ coherent and flat over $Y$, there is a bounded-above
+complex $L$ of finitely generated free $A$-modules with natural isomorphisms
 
-`H^i(L tensor_A M) ~= H^i(X, F tensor_A M)`
+$H^i(L \otimes _A M) \simeq H^i(X, F \otimes _A M)$
 
-for every `A`-module `M` and every `i >= 0`. These isomorphisms commute with
+for every $A$-module $M$ and every $i \ge 0$. These isomorphisms commute with
 the connecting morphisms and therefore identify the two delta functors.
 
 ## Depends on
@@ -24,9 +24,9 @@ the connecting morphisms and therefore identify the two delta functors.
 
 ## Proof depends on
 
-- For a finite affine cover of `X`, the Cech complex of `F` is bounded, its
-  terms are flat over `A`, and tensoring it with `M` gives the Cech complex of
-  `F tensor_A M`.
+- For a finite affine cover of $X$, the Cech complex of $F$ is bounded, its
+  terms are flat over $A$, and tensoring it with $M$ gives the Cech complex of
+  $F \otimes _A M$.
 
 ## Sources
 

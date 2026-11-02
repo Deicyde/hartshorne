@@ -7,8 +7,8 @@ not_ready: true
 
 # Negative-negative quadric H¹ vanishing
 
-For the split nonsingular quadric `Q`, if `a<0` and `b<0`, then
-`H¹(Q,O_Q(a,b))=0`.
+For the split nonsingular quadric $Q$, if $a<0$ and $b<0$, then
+$H^{1}(Q,\mathcal{O}_Q(a,b))=0$.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ For the split nonsingular quadric `Q`, if `a<0` and `b<0`, then
 ## Proof depends on
 
 - Divisor exact sequences for disjoint unions of ruling lines and induction
-  from the diagonal twists `O_Q(n,n)`.
+  from the diagonal twists $\mathcal{O}_Q(n,n)$.
 
 Hartshorne supplies only the exercise instruction; the induction and its base
 cases must be specified before this root is ready.

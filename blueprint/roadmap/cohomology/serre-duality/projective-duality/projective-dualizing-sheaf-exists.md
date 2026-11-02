@@ -6,12 +6,12 @@ origin: cited
 
 # Existence of projective dualizing sheaves
 
-Every projective scheme `X` over a field has a dualizing sheaf. For a closed
-immersion `i:X⟶Pᴺ_k` with `r=N-dim X`, one may take
+Every projective scheme $X$ over a field has a dualizing sheaf. For a closed
+immersion $i:X\longrightarrow \mathbb{P}^{N}_k$ with $r=N-\dim X$, one may take
 
-`ω°_X=𝓔xtʳ_P(i_*O_X,ω_P)`.
+$\omega ^{\circ} _X=\mathcal{E}xt^{r}_P(i_*\mathcal{O}_X,\omega _P)$.
 
-The identity of `ω°_X` determines the trace under projective-space duality;
+The identity of $\omega ^{\circ} _X$ determines the trace under projective-space duality;
 with that trace the construction represents the dual of top cohomology.
 
 ## Depends on
@@ -23,7 +23,7 @@ with that trace the construction represents the dual of top cohomology.
 
 ## Proof depends on
 
-- The equality `N-r=dim X` and vanishing above the dimension of the support.
+- The equality $N-r=\dim X$ and vanishing above the dimension of the support.
 - [Uniqueness of a dualizing sheaf with trace](dualizing-sheaf-unique.md)
   for independence of the chosen embedding.
 

@@ -9,13 +9,12 @@ mathlib_file: Mathlib/Topology/Sheaves/Stalks.lean
 
 # Isomorphisms are detected on stalks
 
-For a morphism `φ : F ⟶ G` of sheaves on `X`, `φ` is an isomorphism if and
-only if every induced map `Fₓ ⟶ Gₓ` is an isomorphism.
+For a morphism $\varphi : F \longrightarrow G$ of sheaves on $X$, $\varphi$ is an isomorphism if and
+only if every induced map $F_{x} \longrightarrow G_{x}$ is an isomorphism.
 
-This is exactly `TopCat.Presheaf.isIso_iff_stalkFunctor_map_iso` in the pinned
-Mathlib. Its proof follows Hartshorne: stalkwise injectivity gives equality of
-sections locally, while stalkwise surjectivity supplies compatible local
-preimages which the sheaf axiom glues.
+Stalkwise injectivity gives equality of sections locally. Stalkwise
+surjectivity gives local preimages, which agree on overlaps by
+injectivity and therefore glue by the sheaf axiom.
 
 ## Depends on
 

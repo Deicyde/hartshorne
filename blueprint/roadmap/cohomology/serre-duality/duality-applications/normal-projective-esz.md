@@ -6,13 +6,13 @@ origin: cited
 
 # Enriques–Severi–Zariski for normal projective schemes
 
-Let `X` be a normal projective scheme of dimension at least two over an
-algebraically closed field and `E` a finite locally free module. For a fixed
-very ample `O_X(1)`,
+Let $X$ be a normal projective scheme of dimension at least two over an
+algebraically closed field and $E$ a finite locally free module. For a fixed
+very ample $\mathcal{O}_X(1)$,
 
-`H¹(X,E(-q))=0`
+$H^{1}(X,E(-q))=0$
 
-for every sufficiently large `q`.
+for every sufficiently large $q$.
 
 ## Depends on
 
@@ -22,7 +22,7 @@ for every sufficiently large `q`.
 
 ## Proof depends on
 
-- Normal Noetherian local rings satisfy Serre's depth condition `S₂`.
+- Normal Noetherian local rings satisfy Serre's depth condition $S_{2}$.
 - A finite locally free module has the same depth as its local ring.
 
 ## Sources

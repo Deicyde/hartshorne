@@ -6,9 +6,9 @@ origin: cited
 
 # A divisor with a nonzero section has nonnegative degree
 
-Let `D` be a divisor on a Chapter IV curve. If `l(D)>0`, then
-`deg D>=0`. If `l(D)>0` and `deg D=0`, then `D~0`, equivalently
-`O_X(D)~=O_X`.
+Let $D$ be a divisor on a Chapter IV curve. If $l(D)>0$, then
+$\deg D\ge 0$. If $l(D)>0$ and $\deg D=0$, then $D\sim 0$, equivalently
+$\mathcal{O}_X(D)\simeq \mathcal{O}_X$.
 
 ## Depends on
 
@@ -17,7 +17,7 @@ Let `D` be a divisor on a Chapter IV curve. If `l(D)>0`, then
 
 ## Proof depends on
 
-- A nonzero section gives an effective divisor linearly equivalent to `D`;
+- A nonzero section gives an effective divisor linearly equivalent to $D$;
   an effective divisor of degree zero is the zero divisor because closed
   points have degree one.
 

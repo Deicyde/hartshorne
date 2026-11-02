@@ -6,11 +6,11 @@ origin: cited
 
 # Hermitian and Kähler manifolds
 
-Package on a complex manifold:
+On a complex manifold, consider:
 
 - a Hermitian metric on its complex tangent bundle;
-- its associated real differential two-form `omega` of type `(1,1)`;
-- the Kähler condition `d omega=0`.
+- its associated real differential two-form $\omega$ of type $(1,1)$;
+- the Kähler condition $d \omega =0$.
 
 A Kähler manifold is a complex manifold equipped with such a metric.  The
 positivity and reality conditions are part of the structure.  This is not the

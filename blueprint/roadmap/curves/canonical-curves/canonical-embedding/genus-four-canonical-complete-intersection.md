@@ -6,10 +6,10 @@ origin: cited
 
 # A canonical genus-four curve is a quadric-cubic complete intersection
 
-For a canonical genus-four curve `X subset P^3`, there is an irreducible cubic
-surface `F`, not the product of its unique quadric equation with a linear
-form, such that `X` is scheme-theoretically the complete intersection
-`Q intersect F`.
+For a canonical genus-four curve $X \subset \mathbb{P}^3$, there is an irreducible cubic
+surface $F$, not the product of its unique quadric equation with a linear
+form, such that $X$ is scheme-theoretically the complete intersection
+$Q \cap F$.
 
 ## Depends on
 
@@ -23,8 +23,8 @@ form, such that `X` is scheme-theoretically the complete intersection
 - The ideal-sheaf sequence twisted by three gives at least five independent
   containing cubics, while quadric-times-linear cubics form a four-dimensional
   subspace.
-- Any reducible containing cubic outside that subspace would force `X` into a
-  plane or a second quadric. Degree six then identifies `X=Q intersect F`.
+- Any reducible containing cubic outside that subspace would force $X$ into a
+  plane or a second quadric. Degree six then identifies $X=Q \cap F$.
 
 ## Sources
 

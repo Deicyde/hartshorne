@@ -6,14 +6,14 @@ origin: cited
 
 # The abstract group and torsion of a complex elliptic curve
 
-For an elliptic curve `X` over `C`, analytic uniformization gives an abstract
+For an elliptic curve $X$ over $\mathbb{C}$, analytic uniformization gives an abstract
 group isomorphism
 
-`X(C) ~= R/Z times R/Z`.
+$X(\mathbb C)\simeq(\mathbb R/\mathbb Z)\times(\mathbb R/\mathbb Z)$.
 
-For every positive integer `n`, the subgroup killed by `n` is
+For every positive integer $n$, the subgroup killed by $n$ is
 
-`X[n] ~= Z/nZ times Z/nZ`.
+$X[n]\simeq(\mathbb{Z}/n\mathbb Z)\times(\mathbb{Z}/n\mathbb Z)$.
 
 ## Depends on
 

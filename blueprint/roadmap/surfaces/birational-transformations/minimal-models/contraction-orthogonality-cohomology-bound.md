@@ -6,14 +6,14 @@ origin: cited
 
 # Orthogonality bounds the length of a contraction sequence
 
-For a sequence of `n` contractions of exceptional curves of the first kind,
-their total transforms `E_1,...,E_n` on the original surface satisfy
+For a sequence of $n$ contractions of exceptional curves of the first kind,
+their total transforms $E_1,\ldots ,E_n$ on the original surface satisfy
 
-`E_i^2=-1`, and `E_i.E_j=0` for `i!=j`.
+$E_i^2=-1$, and $E_i\cdot E_j=0$ for $i\ne j$.
 
-Their cohomology classes are linearly independent in `H^1(X,Omega_X)`. Hence
+Their cohomology classes are linearly independent in $H^1(X,\Omega _X)$. Hence
 
-`n <= dim_k H^1(X,Omega_X)`.
+$n \le \dim _k H^1(X,\Omega _X)$.
 
 ## Depends on
 

@@ -7,8 +7,8 @@ origin: cited
 # The hyperelliptic locus
 
 Over an algebraically closed field of characteristic different from two,
-assuming the coarse moduli space, the hyperelliptic genus-`g` curves form an
-irreducible subvariety of dimension `2*g-1`. For `g=2` this is all of `M_2`,
+assuming the coarse moduli space, the hyperelliptic genus-$g$ curves form an
+irreducible subvariety of dimension $2\cdot g-1$. For $g=2$ this is all of $M_2$,
 which is irreducible of dimension three.
 
 ## Depends on
@@ -18,7 +18,7 @@ which is irreducible of dimension three.
 
 ## Proof depends on
 
-- Normalize three of the `2*g+2` unordered branch points on `P^1`; quotient
+- Normalize three of the $2\cdot g+2$ unordered branch points on $\mathbb{P}^1$; quotient
   the remaining open configuration space by the finite permutation action.
 
 ## Sources

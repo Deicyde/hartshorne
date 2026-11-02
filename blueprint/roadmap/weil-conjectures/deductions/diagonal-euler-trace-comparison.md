@@ -9,7 +9,7 @@ origin: cited
 For a smooth projective variety, the self-intersection number of the diagonal
 equals its ℓ-adic Euler characteristic:
 
-`Delta^2=sum_i (-1)^i dim H^i(X_bar,Q_ell)`.
+$\Delta^2=\sum_i(-1)^i\dim H^i(\overline X,\mathbb Q_\ell)$.
 
 ## Depends on
 

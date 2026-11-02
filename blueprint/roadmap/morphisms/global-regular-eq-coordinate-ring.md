@@ -9,40 +9,39 @@ lean: Hartshorne.coordinateRingEquivGlobalRegular
 
 # The coordinate ring is the ring of regular functions
 
-For an affine variety `Y`, the map `α : A(Y) → 𝒪(Y)` sending a polynomial class
-to the function it defines is an isomorphism of `k`-algebras (Theorem 3.2(a)).
+For an affine variety $Y$, the map $\alpha : A(Y) \to \mathcal{O} (Y)$ sending a polynomial class
+to the function it defines is an isomorphism of $k$-algebras (Theorem 3.2(a)).
 
-This is the part of Theorem 3.2 the rest of §3 actually consumes: Proposition
-3.5 is stated as a bijection `Hom(X, Y) ≅ Hom_{k-alg}(A(Y), 𝒪(X))`, and it is
-`α` that lets the two sides be compared at all.
+This is the part of Theorem 3.2 the rest of §3 actually consumes: [Proposition I.3.5](hom-affine-bijection.md) is stated as a bijection $\operatorname{Hom}(X,Y)\cong\operatorname{Hom}_{k\text{-alg}}(A(Y),\mathcal O(X))$, and it is
+$\alpha$ that lets the two sides be compared at all.
 
 Injectivity is the correspondence of §1 pushed through the quotient: a
-polynomial defining the zero function on `Y` lies in `I(Y)`.
+polynomial defining the zero function on $Y$ lies in $I(Y)$.
 
 ## Surjectivity, by a different route than Hartshorne's
 
 Hartshorne derives surjectivity from part (c), writing
-`𝒪(Y) = ⋂_P 𝒪_P = ⋂_𝔪 A(Y)_𝔪 = A(Y)` inside `K(Y)`. That needs the local rings,
-their identification with localisations of `A(Y)`, and one fact he takes from
+$\mathcal O(Y)=\bigcap_P\mathcal O_P=\bigcap_{\mathfrak m}A(Y)_{\mathfrak m}=A(Y)$ inside $K(Y)$. That needs the local rings,
+their identification with localisations of $A(Y)$, and one fact he takes from
 outside: that a domain is the intersection of its localisations at all maximal
 ideals.
 
-None of it is needed. Given a regular `f`, take the *ideal of denominators*
+None of it is needed. Given a regular $f$, take the *ideal of denominators*
 
-`𝔞 = {a ∈ A(Y) : a·f is again a polynomial function}`.
+$\mathfrak a=\{a\in A(Y):af\text{ is a polynomial function}\}$.
 
-Regularity at `P` writes `f = g/h` near `P` with `h(P) ≠ 0`. Then `h·f` and `g`
-are both regular on all of `Y` and agree on that neighbourhood, so the identity
-principle makes them agree everywhere: `h̄ ∈ 𝔞`, and `h̄ ∉ 𝔪_P`. So `𝔞` lies in no
-maximal ideal, since every maximal ideal is some `𝔪_P` by part (b), and hence
-`𝔞 = A(Y)`. Then `1 ∈ 𝔞`, which says exactly that `f` is a polynomial function.
+Regularity at $P$ writes $f = g/h$ near $P$ with $h(P) \ne 0$. Then $h\cdot f$ and $g$
+are both regular on all of $Y$ and agree on that neighbourhood, so the identity
+principle makes them agree everywhere: $\overline{h} \in \mathfrak{a}$, and $\overline{h} \notin \mathfrak{m} _P$. So $\mathfrak{a}$ lies in no
+maximal ideal, since every maximal ideal is some $\mathfrak{m} _P$ by part (b), and hence
+$\mathfrak{a} = A(Y)$. Then $1 \in \mathfrak{a}$, which says exactly that $f$ is a polynomial function.
 
 The two ingredients, the identity principle and part (b), were already
 available, so this node costs nothing beyond assembling them. It also breaks the
 dependency of (a) on (c), which was the reason (a) had been sitting behind the
 still-open dimension clause.
 
-Irreducibility of `Y` enters exactly once, to make the identity principle
+Irreducibility of $Y$ enters exactly once, to make the identity principle
 available.
 
 ## Depends on

@@ -6,12 +6,12 @@ origin: cited
 
 # Higher direct-image vanishing near a fibre
 
-Let `f : X -> Y` be a projective morphism of Noetherian schemes and let `F`
-be a coherent `O_X`-module flat over `Y`. If, for some `i` and `y : Y`,
+Let $f : X \to Y$ be a projective morphism of Noetherian schemes and let $F$
+be a coherent $\mathcal{O}_X$-module flat over $Y$. If, for some $i$ and $y \in Y$,
 
-`H^i(X_y,F_y) = 0`,
+$H^i(X_y,F_y) = 0$,
 
-then `R^i f_*F` is zero on an open neighbourhood of `y`.
+then $R^i f_*F$ is zero on an open neighbourhood of $y$.
 
 This exercise is used in Hartshorne V.2.4 to deduce higher-direct-image
 vanishing for line bundles on the fibres of a ruled surface.
@@ -26,12 +26,12 @@ vanishing for line bundles on the fibres of a ruled surface.
 
 ## Proof depends on
 
-- Flatness filters each infinitesimal restriction `F_n` with successive
-  quotients obtained from `F_y` by tensoring with
-  `m_y^j/m_y^(j+1)`; induction gives `H^i(X_n,F_n)=0` for every `n`.
-- Formal functions makes the completed stalk of `R^i f_*F` zero. Faithful
+- Flatness filters each infinitesimal restriction $F_n$ with successive
+  quotients obtained from $F_y$ by tensoring with
+  $m_y^j/m_y^{j+1}$; induction gives $H^i(X_n,F_n)=0$ for every $n$.
+- Formal functions makes the completed stalk of $R^i f_*F$ zero. Faithful
   completion kills the finite stalk, and coherence spreads this vanishing to
-  a neighbourhood of `y`.
+  a neighbourhood of $y$.
 
 ## Sources
 

@@ -9,9 +9,9 @@ lean: Hartshorne.isProper_iff_nilpotentThickening
 
 # Properness across a nilpotent thickening
 
-Let `X` be a finite-type scheme over a field and let `i:X₀→X` be a closed
-immersion defined by a nilpotent quasi-coherent ideal. Then `X` is proper over
-the field if and only if `X₀` is proper.
+Let $X$ be a finite-type scheme over a field and let $i:X_{0}\to X$ be a closed
+immersion defined by a nilpotent quasi-coherent ideal. Then $X$ is proper over
+the field if and only if $X_{0}$ is proper.
 
 ## Depends on
 
@@ -24,7 +24,7 @@ the field if and only if `X₀` is proper.
   homeomorphisms on underlying spaces, so universal closedness is unchanged.
 - The diagonal is an immersion; it is a closed immersion exactly when its
   underlying image is closed, so separatedness is unchanged. Finite type is
-  assumed for `X` and descends to `X₀`.
+  assumed for $X$ and descends to $X_{0}$.
 
 ## Sources
 

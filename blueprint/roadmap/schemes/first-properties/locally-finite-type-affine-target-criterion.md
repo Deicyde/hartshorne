@@ -9,9 +9,9 @@ lean: Hartshorne.locallyOfFiniteType_iff_everyAffineTarget
 
 # The affine-target criterion for local finite type
 
-A morphism `f : X → Y` is locally of finite type if and only if, for every
-affine open `V = Spec B` in `Y`, the inverse image `f⁻¹(V)` has an affine open
-cover `Spec A_i` with each `A_i` a finitely generated `B`-algebra.
+A morphism $f : X \to Y$ is locally of finite type if and only if, for every
+affine open $V = \operatorname{Spec} B$ in $Y$, the inverse image $f^{-1}(V)$ has an affine open
+cover $\operatorname{Spec} A_i$ with each $A_i$ a finitely generated $B$-algebra.
 
 Refine the witnessing target cover by principal opens for one implication and
 use the stated condition on the members of an affine target cover for the

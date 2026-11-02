@@ -9,14 +9,10 @@ mathlib_file: Mathlib/AlgebraicGeometry/StructureSheaf.lean
 
 # The structure sheaf on Spec
 
-For an open `U ⊆ Spec A`, define `𝒪(U)` to consist of dependent functions
-whose value at `𝔭` lies in `A_𝔭` and which locally have the form `a/f` with
+For an open $U \subseteq \operatorname{Spec} A$, define $\mathcal{O} (U)$ to consist of dependent functions
+whose value at $\mathfrak{p}$ lies in $A_{\mathfrak{p}}$ and which locally have the form $a/f$ with
 the denominator outside every prime of the chosen neighbourhood.  Pointwise
 ring operations and restriction make this a sheaf of commutative rings.
-
-Mathlib implements the local-quotient predicate as
-`StructureSheaf.isLocallyFraction` and packages the resulting sheaf as
-`Spec.structureSheaf`.
 
 ## Depends on
 

@@ -6,11 +6,11 @@ origin: cited
 
 # Eventual exactness of twisted global sections
 
-Let `X` be projective over a Noetherian ring and let
-`F₁→F₂→⋯→Fᵣ` be a finite exact sequence of coherent sheaves. There is
-one integer `n₀` such that for every `n≥n₀`, the sequence
+Let $X$ be projective over a Noetherian ring and let
+$F_{1}\to F_{2}\to \cdots \to F_{r}$ be a finite exact sequence of coherent sheaves. There is
+one integer $n_{0}$ such that for every $n\ge n_{0}$, the sequence
 
-`Γ(X,F₁(n))→Γ(X,F₂(n))→⋯→Γ(X,Fᵣ(n))`
+$\Gamma (X,F_{1}(n))\to \Gamma (X,F_{2}(n))\to \cdots \to \Gamma (X,F_{r}(n))$
 
 is exact at every position.
 
@@ -24,7 +24,7 @@ is exact at every position.
 - [Serre vanishing](../projective-cohomology/serre-vanishing.md)
 - [Abelian closure of quasi-coherent sheaves](../../schemes/modules-and-quasicoherent/quasicoherent-abelian-closure.md)
 - Break the finite sequence into short exact sequences of coherent kernels
-  and images, use `H¹` vanishing, and take the maximum of finitely many bounds.
+  and images, use $H^{1}$ vanishing, and take the maximum of finitely many bounds.
 
 ## Sources
 

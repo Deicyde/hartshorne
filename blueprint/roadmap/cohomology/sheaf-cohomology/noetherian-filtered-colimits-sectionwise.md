@@ -9,12 +9,12 @@ lean: Hartshorne.noetherianFilteredColimit_sections_isIso Hartshorne.noetherianS
 
 # Filtered colimits are sectionwise on noetherian spaces
 
-Let `X` be a noetherian topological space and `(F_a)` a filtered diagram of
-abelian sheaves. For every open `U ⊆ X`, the canonical map
+Let $X$ be a noetherian topological space and $(F_a)$ a filtered diagram of
+abelian sheaves. For every open $U \subseteq X$, the canonical map
 
-`colim_a F_a(U) ⟶ (colim_a F_a)(U)`
+$\varinjlim _a F_a(U) \longrightarrow (\varinjlim _a F_a)(U)$
 
-is an isomorphism, naturally in `U` and in the diagram.
+is an isomorphism, naturally in $U$ and in the diagram.
 
 This is the supporting result deferred from II.1.11. The noetherian hypothesis
 enters through quasi-compactness of every open.

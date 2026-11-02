@@ -6,11 +6,11 @@ origin: cited
 
 # An algebraically contracted curve has negative self-intersection
 
-If an irreducible curve `Y` on a nonsingular projective surface is exactly the
+If an irreducible curve $Y$ on a nonsingular projective surface is exactly the
 fibre over a point of a morphism to a projective surface of dimension two,
 then
 
-`Y^2<0`.
+$Y^2<0$.
 
 In particular, negative self-intersection is necessary for algebraic
 contractibility.

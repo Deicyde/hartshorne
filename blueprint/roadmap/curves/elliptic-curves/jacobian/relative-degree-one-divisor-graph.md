@@ -6,10 +6,10 @@ origin: bridged
 
 # A relative degree-one divisor is a graph
 
-Let `T` be a finite-type scheme, not necessarily reduced, and let
-`Z subset X times T` be an effective relative Cartier divisor, flat over
-`T`, whose fibre over every `t : T` has degree one. Then `Z -> T` is an
-isomorphism and `Z` is the graph of a unique morphism `T -> X`.
+Let $T$ be a finite-type scheme, not necessarily reduced, and let
+$Z \subset X \times T$ be an effective relative Cartier divisor, flat over
+$T$, whose fibre over every $t \in T$ has degree one. Then $Z \to T$ is an
+isomorphism and $Z$ is the graph of a unique morphism $T \to X$.
 
 This isolates the scheme-theoretic step hidden by Hartshorne's phrase “one
 sees easily”; a bijection on closed fibres alone is insufficient over a
@@ -25,12 +25,12 @@ nonreduced parameter scheme.
 ## Proof depends on
 
 - The relative-Cartier hypothesis supplies flatness, while degree-one fibres
-  make the projective morphism `Z -> T` quasi-finite and hence finite.
-- Cohomology and base change makes the pushforward of `O_Z` locally free of
-  rank one and identifies the unit map `O_T -> p_*O_Z` fibrewise; Nakayama
+  make the projective morphism $Z \to T$ quasi-finite and hence finite.
+- Cohomology and base change makes the pushforward of $\mathcal{O}_Z$ locally free of
+  rank one and identifies the unit map $\mathcal{O}_T \to p_*\mathcal{O}_Z$ fibrewise; Nakayama
   upgrades it to an isomorphism.
-- A finite morphism with structure algebra `O_T` is an isomorphism, and the
-  closed immersion in `X times T` is then the graph of its first projection.
+- A finite morphism with structure algebra $\mathcal{O}_T$ is an isomorphism, and the
+  closed immersion in $X \times T$ is then the graph of its first projection.
 
 ## Sources
 

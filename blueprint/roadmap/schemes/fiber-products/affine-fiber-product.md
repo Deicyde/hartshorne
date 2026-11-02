@@ -9,9 +9,9 @@ mathlib_file: Mathlib/AlgebraicGeometry/Pullbacks.lean
 
 # Fiber products of affine schemes
 
-For `R`-algebras `A` and `B`, `Spec A ×_{Spec R} Spec B` is canonically isomorphic to `Spec(A ⊗[R] B)`, and the two projections correspond to the tensor-product inclusions.
+For $R$-algebras $A$ and $B$, $\operatorname{Spec} A \times _{\operatorname{Spec} R} \operatorname{Spec} B$ is canonically isomorphic to $\operatorname{Spec}(A\otimes_R B)$, and the two projections correspond to the tensor-product inclusions.
 
-The tensor product is the pushout of commutative rings. Apply the contravariant `Spec` functor to obtain a pullback and identify its projections.
+The tensor product is the pushout of commutative rings. Apply the contravariant $\operatorname{Spec}$ functor to obtain a pullback and identify its projections.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ The tensor product is the pushout of commutative rings. Apply the contravariant 
 
 ## Proof depends on
 
-- The pushout universal property of `Algebra.TensorProduct`.
+- The tensor product is the pushout of commutative algebras.
 
 ## Sources
 

@@ -9,8 +9,8 @@ mathlib_file: Mathlib/RingTheory/AdicCompletion/AsTensorProduct.lean
 
 # Noetherian adic completions are flat
 
-If `R` is Noetherian and `I` is an ideal, the `I`-adic completion of `R` is
-flat over `R`.
+If $R$ is Noetherian and $I$ is an ideal, the $I$-adic completion of $R$ is
+flat over $R$.
 
 ## Depends on
 
@@ -18,7 +18,7 @@ flat over `R`.
 
 ## Proof depends on
 
-- The exact pinned declaration named in the metadata.
+No additional project-local results.
 
 ## Sources
 

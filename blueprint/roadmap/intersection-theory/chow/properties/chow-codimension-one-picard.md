@@ -6,10 +6,10 @@ origin: cited
 
 # Codimension-one Chow classes are the Picard group
 
-For a nonsingular quasi-projective variety `X`, the divisor-to-line-bundle map
+For a nonsingular quasi-projective variety $X$, the divisor-to-line-bundle map
 induces an isomorphism
 
-`A^1(X) ~= Pic(X)`.
+$A^1(X) \simeq \operatorname{Pic} (X)$.
 
 ## Depends on
 

@@ -7,11 +7,11 @@ origin: cited
 # Pullback is a functorial ring homomorphism
 
 In the Chow intersection theory on nonsingular quasi-projective varieties,
-every morphism `f:X->X'` induces a graded ring homomorphism
+every morphism $f:X\to X'$ induces a graded ring homomorphism
 
-`f^*:A(X')->A(X)`,
+$f^*:A(X')\to A(X)$,
 
-and `f^* after g^*=(g after f)^*` for composable morphisms.
+and $f^*\circ g^*=(g\circ f)^*$ for composable morphisms.
 
 ## Depends on
 

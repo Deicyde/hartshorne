@@ -9,20 +9,20 @@ origin: cited
 
 # Restriction, stalks, and characterization of open extension by zero
 
-Let `j : U ↪ X` be an open immersion and `F` a sheaf on `U`. There is a
+Let $j : U \hookrightarrow X$ be an open immersion and $F$ a sheaf on $U$. There is a
 canonical isomorphism
 
-`r_F : j^*j_!F ≅ F`.
+$r_F : j^*j_!F \cong F$.
 
-The stalk of `j_!F` is `Fₓ` at every `x ∈ U` and zero at every `x ∉ U`.
-Moreover, if a sheaf `G` on `X` has zero stalk outside `U` and is equipped
-with an isomorphism `ρ : j^*G ≅ F`, there is a unique isomorphism
-`e : j_!F ≅ G` satisfying
+The stalk of $j_!F$ is $F_{x}$ at every $x \in U$ and zero at every $x \notin U$.
+Moreover, if a sheaf $G$ on $X$ has zero stalk outside $U$ and is equipped
+with an isomorphism $\rho : j^*G \cong F$, there is a unique isomorphism
+$e : j_!F \cong G$ satisfying
 
-`j^*(e.hom) ≫ ρ.hom = r_F.hom`.
+$$\rho\circ j^*(e)=r_F.$$
 
-The fixed isomorphism `ρ` and the displayed compatibility are essential:
-without them, a nontrivial automorphism of `F` contradicts uniqueness.
+The fixed isomorphism $\rho$ and the displayed compatibility are essential:
+without them, a nontrivial automorphism of $F$ contradicts uniqueness.
 
 ## Depends on
 

@@ -7,18 +7,15 @@ not_ready: true
 
 # Meromorphic functions on a proper algebraic analytification are rational
 
-Let `X` be a nonsingular integral proper finite-type scheme over `C`.
+Let $X$ be a nonsingular integral proper finite-type scheme over $\mathbb{C}$.
 Analytification induces an isomorphism
 
-`K(X) ~= K(X^h)`
+$K(X) \simeq K(X^h)$
 
 between algebraic rational functions and analytic meromorphic functions.
 Consequently the analytic meromorphic field has transcendence degree
-`dim X`.
+$\dim X$.
 
-This node is not ready.  Hartshorne says “one can show” and provides no proof;
-the claim needs a meromorphic GAGA comparison, not merely coherent-sheaf GAGA
-for globally regular functions.
 
 ## Depends on
 

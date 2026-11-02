@@ -6,9 +6,9 @@ origin: cited
 
 # Ample sections form an affine basis
 
-If `L` is ample on a finite-type scheme over a Noetherian ring, then every
-point lies in an affine nonvanishing locus `X_s` for a global section `s` of
-some positive tensor power of `L`. Finitely many such loci cover `X`, and the
+If $L$ is ample on a finite-type scheme over a Noetherian ring, then every
+point lies in an affine nonvanishing locus $X_s$ for a global section $s$ of
+some positive tensor power of $L$. Finitely many such loci cover $X$, and the
 sections may be replaced by powers so that they all have the same degree.
 
 ## Depends on

@@ -6,14 +6,14 @@ origin: cited
 
 # Embedded Del Pezzo surfaces from plane blowups
 
-Define an embedded Del Pezzo surface of degree `d` to be a nonsingular
-surface `X` of degree `d` in `P^d` with
+Define an embedded Del Pezzo surface of degree $d$ to be a nonsingular
+surface $X$ of degree $d$ in $\mathbb{P}^d$ with
 
-`omega_X ~= O_X(-1)`.
+$\omega _X \simeq \mathcal{O}_X(-1)$.
 
 The anticanonical point-blowup construction supplies such surfaces in every
-degree `d=3,...,9`. The two-uple embedding of a smooth quadric gives the
-additional degree-eight model in `P^8`.
+degree $d=3,\ldots ,9$. The two-uple embedding of a smooth quadric gives the
+additional degree-eight model in $\mathbb{P}^8$.
 
 ## Depends on
 

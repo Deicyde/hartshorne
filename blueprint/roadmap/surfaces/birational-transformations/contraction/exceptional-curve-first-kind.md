@@ -7,9 +7,9 @@ origin: cited
 # Exceptional curves of the first kind
 
 An exceptional curve of the first kind on a nonsingular projective surface is
-an irreducible curve `Y` such that
+an irreducible curve $Y$ such that
 
-`Y ~= P^1` and `Y^2=-1`.
+$Y \simeq \mathbb{P}^1$ and $Y^2=-1$.
 
 The exceptional curve of a point blowup is of the first kind.  Castelnuovo's
 criterion will prove the converse without imposing a characteristic

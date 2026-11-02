@@ -9,9 +9,9 @@ lean: AlgebraicGeometry.Scheme.toCartierDivisorSheaf_apply_eq_iff_ratio Algebrai
 
 # Local equations for Cartier divisors
 
-A global section of `K_X^* / O_X^*` is equivalently represented by an open
-cover `U_i` and local equations `f_i ∈ K_X^*(U_i)` whose ratios `f_i/f_j` on
-the full overlaps `U_i ∩ U_j` come from regular units.
+A global section of $K_X^* / \mathcal{O}_X^*$ is equivalently represented by an open
+cover $U_i$ and local equations $f_i \in K_X^*(U_i)$ whose ratios $f_i/f_j$ on
+the full overlaps $U_i \cap U_j$ come from regular units.
 
 Every Cartier divisor admits such local equations, and compatible local
 equations glue to a unique divisor. Two presentations represent the same

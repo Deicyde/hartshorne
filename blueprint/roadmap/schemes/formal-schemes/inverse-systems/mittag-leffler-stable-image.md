@@ -9,11 +9,11 @@ lean: Hartshorne.InverseSystem.exists_stableImageSectionsAddEquiv
 
 # Stable-image replacement
 
-For a Mittag–Leffler inverse system `A`, let `A' n` be its stable image in
-`A n`. The induced transition maps on `A'` are surjective, and the inclusion
+For a Mittag–Leffler inverse system $A$, let $A' n$ be its stable image in
+$A n$. The induced transition maps on $A'$ are surjective, and the inclusion
 of systems induces an isomorphism
 
-`lim A' ≅ lim A`.
+$\lim A' \cong \lim A$.
 
 The isomorphism of limits is the unique main result.
 
@@ -23,13 +23,11 @@ The isomorphism of limits is the unique main result.
 
 ## Proof depends on
 
-- `CategoryTheory.Functor.toEventualRanges`,
-  `toEventualRangesSectionsEquiv`, and
-  `surjective_toEventualRanges` from pinned Mathlib.
+- Replacing each term by its stable image preserves the inverse limit and makes the transition maps surjective.
 - Dependent choice for the limit of a sequential system of nonempty sets with
   surjective transition maps.
 
 ## Sources
 
 - [Hartshorne II.9, stable-image discussion (pp.191–192)](../../../../sources/hartshorne-ii-9.md#inverse-systems-and-sheaf-limits)
-- Stacks Project, tags `0596` and `0597`.
+- Stacks Project, tags $0596$ and $0597$.

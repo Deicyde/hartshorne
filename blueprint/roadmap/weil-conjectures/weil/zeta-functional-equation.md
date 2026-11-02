@@ -6,10 +6,10 @@ origin: cited
 
 # The zeta functional equation
 
-Let `X/F_q` be smooth, projective, geometrically connected, and pure of
-dimension `n`, with diagonal Euler number `E`. As rational functions,
+Let $X/\mathbb{F}_q$ be smooth, projective, geometrically connected, and pure of
+dimension $n$, with diagonal Euler number $E$. As rational functions,
 
-`Z(X,1/(q^n*t)) = +/- q^(n*E/2)*t^E*Z(X,t)`.
+$Z(X,1/(q^n\cdot t)) = +/- q^{n\cdot E/2}\cdot t^E\cdot Z(X,t)$.
 
 The theorem includes the sign supplied by Poincare duality. The notation is
 interpreted in an extension allowing the displayed half power when needed;

@@ -7,15 +7,13 @@ not_ready: true
 
 # Projective GAGA identifies coherent cohomology
 
-Let `X` be projective over `C` and `F` coherent. For every `i>=0`, the
+Let $X$ be projective over $\mathbb{C}$ and $F$ coherent. For every $i\ge 0$, the
 natural map
 
-`alpha_i:H^i(X,F)->H^i(X^h,F^h)`
+$\alpha _i:H^i(X,F)\to H^i(X^h,F^h)$
 
-is an isomorphism, functorially in `F`.
+is an isomorphism, functorially in $F$.
 
-This node is not ready pending Serre's comparison proof, including analytic
-delta-functors and reduction to projective-space twists.
 
 ## Depends on
 

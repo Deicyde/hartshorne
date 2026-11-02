@@ -6,11 +6,11 @@ origin: cited
 
 # Affine covers compute quasi-coherent cohomology
 
-Let `X` be a Noetherian separated scheme, `U` an affine open cover, and `F`
-a quasi-coherent `O_X`-module. For every `p`, the comparison map is an
+Let $X$ be a Noetherian separated scheme, $U$ an affine open cover, and $F$
+a quasi-coherent $\mathcal{O}_X$-module. For every $p$, the comparison map is an
 isomorphism
 
-`CechH^p(U,F) ≅ H^p(X,F)`.
+$\check{H}^p(U,F)\cong H^p(X,F)$.
 
 ## Depends on
 

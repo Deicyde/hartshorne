@@ -9,14 +9,12 @@ lean: Hartshorne.Variety.HasAffineOpenBasis.exists_functionFieldDVR_dominating_l
 
 # A dominating function-field DVR
 
-Let `Y` be a curve with an affine-open basis and `Q ∈ Y`.  There is a
-function-field DVR `R ⊆ K(Y)` dominating the image of `𝒪_{Q,Y}` in
-`K(Y)`.  The sole main declaration is
-`Hartshorne.Variety.HasAffineOpenBasis.exists_functionFieldDVR_dominating_localRing`.
+Let $Y$ be a curve with an affine-open basis and $Q \in Y$.  There is a
+discrete valuation ring of the function field $R \subseteq K(Y)$ dominating the image of $\mathcal{O} _{Q,Y}$ in
+$K(Y)$.
 
 Hartshorne uses this assertion parenthetically to prove surjectivity of the
-projective diagonal.  Mathlib supplies a valuation subring dominating any
-local subring, but not the required discreteness.  In transcendence degree
+projective diagonal.  A valuation ring dominates any local subring. In transcendence degree
 one, Krull--Akizuki makes the valuation overring Noetherian and
 one-dimensional; the nonfield valuation-ring criterion then makes it a DVR.
 

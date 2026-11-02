@@ -6,10 +6,10 @@ origin: cited
 
 # Degree of zero-cycles on a complete variety
 
-Let `X` be a complete `n`-dimensional variety over the algebraically closed
+Let $X$ be a complete $n$-dimensional variety over the algebraically closed
 field. The coefficient sum on closed-point cycles descends to a homomorphism
 
-`deg:A^n(X)->Z`.
+$\deg :A^n(X)\to Z$.
 
 ## Depends on
 

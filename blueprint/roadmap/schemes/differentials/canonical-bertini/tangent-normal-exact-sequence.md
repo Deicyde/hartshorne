@@ -6,10 +6,10 @@ origin: cited
 
 # The tangent-normal exact sequence
 
-For a nonsingular closed subvariety `Y` of a nonsingular variety `X`,
+For a nonsingular closed subvariety $Y$ of a nonsingular variety $X$,
 dualizing the conormal sequence gives a short exact sequence
 
-`0 -> T_Y -> T_X|_Y -> N_(Y/X) -> 0`.
+$0 \to T_Y \to T_X|_Y \to N_{(Y/X)} \to 0$.
 
 ## Depends on
 

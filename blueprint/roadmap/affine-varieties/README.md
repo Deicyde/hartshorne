@@ -4,10 +4,10 @@ article_id: af_57e7a327fd202f9b1729e50f
 
 # Affine varieties
 
-Hartshorne begins over a fixed algebraically closed field `k`. The basic
-dictionary relates subsets of affine `n`-space `𝔸ⁿ` to ideals of the
-polynomial ring `A = k[x₁,…,xₙ]`. The zero-set map `Z` and the
-vanishing-ideal map `I` reverse inclusion. Hilbert's Nullstellensatz
+Hartshorne begins over a fixed algebraically closed field $k$. The basic
+dictionary relates subsets of affine $n$-space $\mathbb{A} ^{n}$ to ideals of the
+polynomial ring $A = k[x_{1},\ldots ,x_{n}]$. The zero-set map $Z$ and the
+vanishing-ideal map $I$ reverse inclusion. Hilbert's Nullstellensatz
 describes their relation and establishes the correspondence used throughout
 the section.
 
@@ -16,7 +16,7 @@ Noetherian property leads to the unique decomposition of an algebraic set
 into irreducible components. Dimension then connects the topological
 dimension of a variety with the Krull dimension of its coordinate ring and,
 through the cited commutative-algebra result, the transcendence degree of its
-function field. These comparisons establish `dim 𝔸ⁿ = n` and supply the
+function field. These comparisons establish $\dim \mathbb{A} ^{n} = n$ and supply the
 dimension calculations used later in Chapter I.
 
 ## The affine dictionary

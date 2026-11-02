@@ -6,18 +6,18 @@ origin: cited
 
 # A nowhere-vanishing section of a high-rank generated bundle
 
-Let `X` be an `n`-dimensional variety and let `E` be locally free of rank
-strictly greater than `n`. If a finite-dimensional subspace
-`V subset Gamma(X,E)` generates `E`, then some `s in V` is nonzero in every
+Let $X$ be an $n$-dimensional variety and let $E$ be locally free of rank
+strictly greater than $n$. If a finite-dimensional subspace
+$V \subset \Gamma (X,E)$ generates $E$, then some $s \in V$ is nonzero in every
 fibre:
 
-`s_x notin m_x E_x` for every `x in X`.
+$s_x \notin m_x E_x$ for every $x \in X$.
 
-Consequently `s` induces an exact sequence
+Consequently $s$ induces an exact sequence
 
-`0 -> O_X -> E -> E' -> 0`
+$0 \to \mathcal{O}_X \to E \to E' \to 0$
 
-with `E'` locally free.
+with $E'$ locally free.
 
 ## Depends on
 
@@ -26,8 +26,8 @@ with `E'` locally free.
 
 ## Proof depends on
 
-- The incidence of pairs `(x,s)` with `s(x)=0` has fibres in `V` of
-  codimension `rank(E)>dim X`; its image has proper closure in `V`.
+- The incidence of pairs $(x,s)$ with $s(x)=0$ has fibres in $V$ of
+  codimension $\operatorname{rank} (E)>\dim X$; its image has proper closure in $V$.
 - Outside that image, the section is a unimodular element in every stalk;
   local bases containing it identify the cokernel as locally free.
 

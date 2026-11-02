@@ -6,21 +6,20 @@ origin: cited
 
 # The local-to-global Ext spectral sequence
 
-For `O_X`-modules `F,G`, take the derived-category inputs
-`K=F[0]` and `L=G[0]`. Here `K` is bounded above and `L` is bounded below, so
+For $\mathcal{O}_X$-modules $F,G$, take the derived-category inputs
+$K=F[0]$ and $L=G[0]$. Here $K$ is bounded above and $L$ is bounded below, so
 tag 0BQP's favorable convergence hypothesis holds. Construct the natural
 first-quadrant cohomological spectral sequence
 
-`E₂^{p,q} = H^p(X,𝓔xt^q_X(F,G)) ⇒ Ext^{p+q}_X(F,G)`
+$E_{2}^{p,q} = H^p(X,\mathcal{E}xt^q_X(F,G)) \Longrightarrow \operatorname{Ext} ^{p+q}_X(F,G)$
 
-with convergence to global Ext in total degree `p+q`. For every `q`, its
-total-degree-`q` edge morphism
+with convergence to global Ext in total degree $p+q$. For every $q$, its
+total-degree-$q$ edge morphism
 
-`Ext^q_X(F,G) ⟶ E₂^{0,q}=Γ(X,𝓔xt^q_X(F,G))`
+$\operatorname{Ext} ^q_X(F,G) \longrightarrow E_{2}^{0,q}=\Gamma (X,\mathcal{E}xt^q_X(F,G))$
 
-agrees with the separately constructed global-to-sheaf Ext map. The source's
-derived internal Hom used to construct the spectral sequence is comparison
-data; it is not inferred definitionally from Mathlib's global Ext API.
+agrees with the separately constructed global-to-sheaf Ext map.
+The construction uses the derived internal Hom comparison.
 
 ## Depends on
 
@@ -33,7 +32,7 @@ data; it is not inferred definitionally from Mathlib's global Ext API.
 - [The global-to-sheaf Ext map](global-to-sheaf-ext-map.md)
 - [Module and abelian-sheaf cohomology agree](../../sheaf-cohomology/module-cohomology-comparison.md)
 - Identify the cohomology sheaves of the internal derived Hom for
-  `K=F[0]`, `L=G[0]` with the chosen sheaf-Ext model.
+  $K=F[0]$, $L=G[0]$ with the chosen sheaf-Ext model.
 
 ## Sources
 

@@ -9,14 +9,13 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Separated.lean
 
 # Separated morphisms
 
-A morphism `f : X ⟶ Y` is separated when its diagonal
-`pullback.diagonal f : X ⟶ X ×[Y] X` is a closed immersion. A scheme is
-separated when its structure morphism to the terminal scheme `Spec ℤ` is
-separated.
+A morphism $f:X\to Y$ is separated when its diagonal
+$\Delta_f:X\to X\times_Y X$ is a closed immersion. A scheme is
+separated when its structure morphism to $\operatorname{Spec}\mathbb Z$
+is separated.
 
-The pullback universal property constructs the diagonal and proves that its
-two projections are the identity. Use Mathlib's existing morphism property and
-scheme-level specialization rather than introducing another predicate.
+The fiber-product universal property constructs the diagonal; both
+of its projections are the identity of $X$.
 
 ## Depends on
 

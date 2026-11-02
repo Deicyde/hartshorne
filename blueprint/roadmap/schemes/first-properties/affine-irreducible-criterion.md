@@ -9,8 +9,8 @@ mathlib_file: Mathlib/RingTheory/Spectrum/Prime/Topology.lean
 
 # Irreducibility of an affine scheme
 
-For a commutative ring `A`, `Spec A` is irreducible if and only if the
-nilradical of `A` is a prime ideal.
+For a commutative ring $A$, $\operatorname{Spec} A$ is irreducible if and only if the
+nilradical of $A$ is a prime ideal.
 
 Transport the prime-spectrum criterion across the canonical affine-scheme
 homeomorphism.
@@ -22,7 +22,7 @@ homeomorphism.
 
 ## Proof depends on
 
-- The zero-locus description of irreducible closed subsets of `PrimeSpectrum`.
+- The zero-locus description of irreducible closed subsets of the prime spectrum.
 
 ## Sources
 

@@ -9,12 +9,12 @@ lean: AlgebraicGeometry.Scheme.WeilClassGroup
 
 # Linear equivalence and the Weil class group
 
-For `X` satisfying `(*)`, define two Weil divisors to be linearly equivalent
+For $X$ satisfying $(\cdot )$, define two Weil divisors to be linearly equivalent
 when their difference is principal. Define the Weil divisor class group
-`Cl X` as `Div X` modulo the image of `K(X)^* → Div X`.
+$Cl X$ as $\operatorname{Div} X$ modulo the image of $K(X)^* \to \operatorname{Div} X$.
 
 Expose the quotient map and the criterion that two representatives have the
-same class exactly when their difference is `(f)` for some nonzero rational
+same class exactly when their difference is $(f)$ for some nonzero rational
 function.
 
 ## Depends on
@@ -23,4 +23,4 @@ function.
 
 ## Sources
 
-- [Hartshorne II.6, linear equivalence and `Cl X` on printed p.131](../../../../sources/hartshorne-ii-6.md#weil-divisors-and-class-groups)
+- [Hartshorne II.6, linear equivalence and $Cl X$ on printed p.131](../../../../sources/hartshorne-ii-6.md#weil-divisors-and-class-groups)

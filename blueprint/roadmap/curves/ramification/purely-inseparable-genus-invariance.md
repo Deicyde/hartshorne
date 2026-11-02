@@ -8,7 +8,7 @@ origin: cited
 
 Under the hypotheses of the purely inseparable Frobenius factorization,
 
-`g(X) = g(Y)`.
+$g(X) = g(Y)$.
 
 This is a theorem under Hartshorne's algebraically closed base-field
 convention. No imperfect-field generalization is asserted: over an imperfect

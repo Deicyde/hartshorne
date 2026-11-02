@@ -9,8 +9,8 @@ lean: Hartshorne.mem_associatedPoints_iff_maximalIdeal_subset_zeroDivisors
 
 # Associated points of a scheme
 
-A point `x` of a locally Noetherian scheme `X` is associated when the maximal
-ideal of the local ring `O_{X,x}` is an associated prime of the zero module.
+A point $x$ of a locally Noetherian scheme $X$ is associated when the maximal
+ideal of the local ring $\mathcal{O}_{X,x}$ is an associated prime of the zero module.
 Equivalently, every element of that maximal ideal is a zero-divisor.
 
 ## Depends on
@@ -20,9 +20,7 @@ Equivalently, every element of that maximal ideal is a zero-divisor.
 
 ## Proof depends on
 
-- `IsAssociatedPrime`, `isAssociatedPrime_iff`, and
-  `biUnion_associatedPrimes_eq_compl_nonZeroDivisors` from
-  `Mathlib/RingTheory/Ideal/AssociatedPrime/Basic.lean`.
+- The union of associated primes is the complement of the non-zero-divisors.
 
 ## Sources
 

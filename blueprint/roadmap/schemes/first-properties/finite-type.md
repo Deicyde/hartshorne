@@ -11,8 +11,6 @@ lean: Hartshorne.finiteType_iff_everyAffineTarget
 
 A morphism is of finite type exactly when it is locally of finite type and quasi-compact.
 
-Use the conjunction `LocallyOfFiniteType f ∧ QuasiCompact f`; do not introduce a competing typeclass because Mathlib intentionally exposes the two reusable components.
-
 ## Depends on
 
 - [Morphisms locally of finite type](locally-finite-type.md)

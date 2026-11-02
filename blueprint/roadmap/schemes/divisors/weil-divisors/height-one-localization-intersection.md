@@ -6,14 +6,13 @@ origin: cited
 
 # Intersection of height-one localizations
 
-Let `A` be an integrally closed Noetherian domain with fraction field `K`.
-Inside `K`, the image of `A` is the intersection of the images of `A_p` as
-`p` ranges over prime ideals of height one. Equivalently, an element of `K`
-which is integral at every height-one prime already belongs to `A`.
+Let $A$ be an integrally closed Noetherian domain with fraction field $K$.
+Inside $K$, the image of $A$ is the intersection of the images of $A_p$ as
+$p$ ranges over prime ideals of height one. Equivalently, an element of $K$
+which is integral at every height-one prime already belongs to $A$.
 
-This is Proposition 6.3A. Hartshorne cites Matsumura for its proof; the pinned
-Mathlib height-one intersection theorem only covers the Dedekind case, so this
-general-dimensional result remains a sourced project target.
+This is Hartshorne's Proposition II.6.3A, for which he cites
+Matsumura's commutative-algebra text.
 
 ## Depends on
 

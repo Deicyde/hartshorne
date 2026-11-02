@@ -6,9 +6,9 @@ origin: cited
 
 # The ample cone of a nonsingular quadric
 
-On `P^1 times P^1`, a divisor of type `(a,b)` is ample if and only if
+On $\mathbb{P}^1 \times \mathbb{P}^1$, a divisor of type $(a,b)$ is ample if and only if
 
-`a>0` and `b>0`.
+$a>0$ and $b>0$.
 
 Here positivity against every irreducible curve already implies positive
 self-intersection.

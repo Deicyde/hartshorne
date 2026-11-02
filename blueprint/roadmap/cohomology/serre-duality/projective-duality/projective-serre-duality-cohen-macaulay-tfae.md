@@ -6,13 +6,13 @@ origin: cited
 
 # The Cohen–Macaulay Serre-duality equivalences
 
-Let `X` be an arbitrary projective scheme of dimension `n` over an
-algebraically closed field `k`, equipped with a dualizing sheaf and a fixed
-very ample `O_X(1)`. The following are equivalent:
+Let $X$ be an arbitrary projective scheme of dimension $n$ over an
+algebraically closed field $k$, equipped with a dualizing sheaf and a fixed
+very ample $\mathcal{O}_X(1)$. The following are equivalent:
 
-1. `X` is Cohen–Macaulay and equidimensional;
-2. every finite locally free `E` has `Hⁱ(X,E(-q))=0` for `i<n` and `q≫0`;
-3. every comparison map `θᵢ(F)` is an isomorphism for every coherent `F`.
+1. $X$ is Cohen–Macaulay and equidimensional;
+2. every finite locally free $E$ has $H^{i}(X,E(-q))=0$ for $i<n$ and $q\mathbin{\gg} 0$;
+3. every comparison map $\theta _{i}(F)$ is an isomorphism for every coherent $F$.
 
 This theorem packages the four separately reviewable implications.
 Equidimensionality occurs only in condition (1), not in the common

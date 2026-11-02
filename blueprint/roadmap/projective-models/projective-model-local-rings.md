@@ -9,22 +9,20 @@ lean: Hartshorne.projectiveDiagonal_localRingRange_eq
 
 # Local rings of the diagonal model
 
-For a `ProjectiveDiagonalModel` and every `P ∈ C_K`, the map induced by its
-projective diagonal identifies the image of `𝒪_{φ(P),Y}` in the common
-function field `K` with the valuation ring `P`.  The sole main declaration is
-formalized as
-`Hartshorne.projectiveDiagonal_localRingRange_eq`.
+For the diagonal model $\varphi:C_K\to Y$ and every point $P\in C_K$,
+the induced map identifies the image of $\mathcal O_{\varphi(P),Y}$ in
+the common function field $K$ with the valuation ring represented by $P$.
 
-This records Hartshorne's sandwich
+The comparison is Hartshorne's sequence of inclusions inside $K$:
 
-`𝒪_{φᵢ(P),Yᵢ} ⊆ 𝒪_{φ(P),Y} ⊆ 𝒪_{P,C_K}`
+$$\mathcal O_{\varphi_i(P),Y_i}\subseteq
+\mathcal O_{\varphi(P),Y}\subseteq\mathcal O_{P,C_K}.$$
 
-inside `K`; the outer composite is an isomorphism on a chart, so both
-inclusions are equalities.  Abstract isomorphisms between the three rings are
-insufficient for the subsequent point argument.  Bijectivity of each induced
-local-ring map is a supporting consequence for Exercise 3.3(b).  The range
-equality and bijectivity must use the same packaged field identification and
-projection identities as the preceding function-field leaf.
+On a chart the outer composite is an isomorphism, so both inclusions are
+equalities. In particular, each induced local-ring map is bijective,
+as required by the local isomorphism criterion. All comparisons use the
+same function-field identification and projection identities as the
+diagonal function-field theorem.
 
 ## Depends on
 

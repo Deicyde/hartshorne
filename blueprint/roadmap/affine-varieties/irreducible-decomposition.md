@@ -9,22 +9,23 @@ lean: Hartshorne.exists_unique_irredundant_decomposition Hartshorne.IsAlgebraicS
 
 # Decomposition into irreducible components
 
-In a Noetherian topological space every nonempty closed subset `Y` is a finite
-union `Y = Y₁ ∪ … ∪ Y_r` of irreducible closed subsets, and if no `Yᵢ` contains
-another then the `Yᵢ` are uniquely determined. They are the *irreducible
-components* of `Y`. Specialised to `𝔸ⁿ`, every algebraic set is uniquely a union
-of finitely many varieties, none containing another (Corollary 1.6).
+In a Noetherian topological space, every nonempty closed subset $Y$ is a
+finite union
 
-Existence is Noetherian induction on the set of closed subsets admitting no such
-decomposition; uniqueness is a short argument comparing two decompositions
-componentwise.
+$$Y=Y_1\cup\cdots\cup Y_r$$
 
-Mathlib has existence, as
-`TopologicalSpace.NoetherianSpace.exists_finite_set_isClosed_irreducible`, and
-separately `NoetherianSpace.finite_irreducibleComponents`. Neither is
-Hartshorne's statement: the first gives no irredundancy or uniqueness. Treat
-them as reusable inputs, not as the result, and do not mark this node as
-upstreamed on their strength.
+of irreducible closed subsets. If no $Y_i$ contains another, the subsets
+$Y_i$ are uniquely determined and are called the *irreducible components*
+of $Y$.
+
+In particular, every algebraic set in affine space has a unique
+irredundant decomposition into finitely many varieties. This is
+Hartshorne's Corollary I.1.6.
+
+Existence follows by Noetherian induction on closed subsets. For uniqueness,
+an irreducible component in one decomposition must lie in a component of
+the other; applying this in both directions and using irredundancy gives
+equality of the components.
 
 ## Depends on
 

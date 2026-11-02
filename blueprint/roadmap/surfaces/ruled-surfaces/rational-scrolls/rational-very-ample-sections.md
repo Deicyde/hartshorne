@@ -6,7 +6,7 @@ origin: cited
 
 # Very ample section systems
 
-On `X_e`, the divisor `C0+n*f` is very ample if and only if `n>e`.
+On $X_e$, the divisor $C_0+n\cdot f$ is very ample if and only if $n>e$.
 
 ## Depends on
 
@@ -17,10 +17,10 @@ On `X_e`, the divisor `C0+n*f` is very ample if and only if `n>e`.
 
 ## Proof depends on
 
-- Positive intersection with `C0` gives necessity.
-- Separate points and tangent vectors by divisors built from `C0`, `C1`, and
+- Positive intersection with $C_0$ gives necessity.
+- Separate points and tangent vectors by divisors built from $C_0$, $C_1$, and
   fibres. For two conditions in one fibre, surjectivity of restriction follows
-  from `H^1(X,O(C0+(n-1)f))=0`, computed after pushforward to `P^1`.
+  from $H^1(X,\mathcal{O}(C_0+(n-1)f))=0$, computed after pushforward to $\mathbb{P}^1$.
 
 ## Sources
 

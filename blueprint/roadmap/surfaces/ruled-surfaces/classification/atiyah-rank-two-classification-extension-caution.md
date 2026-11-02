@@ -6,13 +6,13 @@ origin: cited
 
 # Atiyah's rank-two classification and the extension caution
 
-For every integer `n`, isomorphism classes of indecomposable rank-two,
-degree-`n` vector bundles on an elliptic curve are naturally in bijection
+For every integer $n$, isomorphism classes of indecomposable rank-two,
+degree-$n$ vector bundles on an elliptic curve are naturally in bijection
 with the closed points of the curve.
 
-The nonsplit condition alone does not imply indecomposability: on `P^1` the
+The nonsplit condition alone does not imply indecomposability: on $\mathbb{P}^1$ the
 Euler sequence is a nonsplit extension with decomposable middle term
-`O(-1) direct-sum O(-1)`.
+$\mathcal{O}(-1)\oplus\mathcal{O}(-1)$.
 
 ## Depends on
 
@@ -23,7 +23,7 @@ Euler sequence is a nonsplit extension with decomposable middle term
 
 ## Proof depends on
 
-- Twist to degree zero or one. The two invariant classes and `Pic^0(C)~=C`
+- Twist to degree zero or one. The two invariant classes and $\operatorname{Pic} ^0(C )\simeq C$
   give the parameter point; the Euler sequence supplies the cautionary
   example independently.
 

@@ -6,11 +6,11 @@ origin: cited
 
 # Thickenings of an affine formal scheme
 
-Let `Xhat = Spf_I(A)` and let `J` be the completion of the affine ideal sheaf
-associated to `I`. Then `J` is an ideal subsheaf of `O_Xhat`, and for every
-`n : Nat` there is an isomorphism of sheaves on `V(I)`
+Let $\widehat{X} = \operatorname{Spf} _I(A)$ and let $J$ be the completion of the affine ideal sheaf
+associated to $I$. Then $J$ is an ideal subsheaf of $\mathcal{O}_{\widehat{X}}$, and for every
+nonnegative integer $n$ there is an isomorphism of sheaves on $V(I)$
 
-`O_Xhat / J^(n+1) ≅ (A / I^(n+1))tilde`.
+$\mathcal{O}_{\widehat{X}} / J^{n+1} \cong \widetilde{A/I^{n+1}}$.
 
 The quotient-sheaf comparison is the unique main result.
 

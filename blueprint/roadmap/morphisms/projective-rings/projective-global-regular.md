@@ -9,79 +9,29 @@ lean: Hartshorne.exists_const_eq_globalRegular Hartshorne.eval_eq_zero_of_eval_e
 
 # The global regular functions of a projective variety
 
-**Theorem 3.4(a)**: for `Y` a projective variety, `𝒪(Y) = k`.
+For a projective variety $Y$ over an algebraically closed field $k$,
+Hartshorne's Theorem I.3.4(a) says that every global regular function is
+constant:
 
-A global regular `f` lies in every `A(Yᵢ)`, so `xᵢ^{Nᵢ} f ∈ S(Y)` for each `i`;
-choosing `N ≥ Σ Nᵢ` gives `S(Y)_N · f ⊆ S(Y)_N`, iterating gives `S(Y)[f]` inside
-a finitely generated `S(Y)`-module, so `f` is integral over `S(Y)`. Taking
-degree-zero components of an integral equation puts the coefficients in
-`S(Y)₀ = k`, and `k` is algebraically closed, so `f ∈ k`.
+$$\mathcal O(Y)=k.$$
 
-That `𝒪(Y) = k` is the structural reason projective varieties need sheaf
-cohomology rather than global functions, and it is the motivation Hartshorne
-gives for Chapters II and III.
+On each standard affine chart meeting $Y$, write $f=g_i/x_i^{N_i}$.
+The [chart description](chart-reading.md) gives these homogeneous fractions.
+Choose one chart $i_0$ and regard $t=g_{i_0}/x_{i_0}^{N_{i_0}}$ as a
+fraction-field element. On overlaps,
 
-## Status
+$$g_{i_0}x_i^{N_i}=g_i x_{i_0}^{N_{i_0}}$$
 
-Independent of everything the other two parts needed. The argument has no affine
-analogue and no reduction to one chart: it uses the whole affine cover at once,
-and the finiteness it turns on is a statement about the graded pieces of `S(Y)`
-rather than about germs or fractions.
+in $S(Y)$: the homogeneous polynomials agree on a nonempty open subset
+and hence everywhere by the identity principle. Thus one element $t$
+satisfies every chart's denominator condition.
 
-The completed proof composes the ingredients below into
-`Hartshorne.exists_const_eq_globalRegular`.
-
-**The integrality core** and the finiteness it consumes are
-[their own node](stable-subspace.md): an element stabilising a nonzero
-finite-dimensional subspace is integral, hence constant over an algebraically
-closed field, and each graded piece of `S(Y)` is finite-dimensional.
-
-**The common home.** A global regular function and the graded pieces of `S(Y)`
-have nothing to do with each other until both sit inside `K(Y)`, so `𝒪(X)` has
-to embed in `K(X)` over the abstract structure; that too is
-[its own node](../global-functions/global-regular-in-function-field.md), along with the
-compatibilities that make readings on different charts comparable.
-
-**The chart reading** and **the degree bound** are each
-[their](chart-reading.md) [own](degree-bound.md) node: a global regular function
-is a ratio of forms on each chart that meets `Y`, and once it is, a large enough
-graded piece of `S(Y)` is carried into itself.
-
-## Why the reading has to be pointwise
-
-The first attempt at the assembly failed, and the failure is worth recording,
-because it is the sort of thing Hartshorne's notation hides completely.
-
-The degree bound needs a *single* `t ∈ Frac(S(Y))` with `xᵢ^{Nᵢ} t ∈ S(Y)` for
-every chart. Phrased inside the function field, the chart reading gives, for
-each `i`, an equation whose right-hand side is `Φᵢ(f)`, where
-`Φᵢ : K(Y) ≅ S(Y)_((0))` is [part (c)](projective-function-field.md)'s
-isomorphism — built through the chart `Uᵢ`. Different charts give different
-terms, and nothing says they agree, so the equations do not combine. Hartshorne
-has no such difficulty because he treats `K(Y)` and `S(Y)_((0))` as the same
-field from the start; the identification is used once and never named.
-
-Pointwise the question does not arise: the values of `f` are what they are, and
-no identification is involved. So the fix was not to compare the `Φᵢ`, nor to
-rebuild them chart-free, but to avoid them.
-
-## The assembly
-
-With the pointwise reading, the two charts are compared only once and directly.
-If `f` is `gᵢ/xᵢ^{Nᵢ}` on `Uᵢ` and `g_{i₀}/x_{i₀}^{N_{i₀}}` on `U_{i₀}`, then
-
-`g_{i₀} · xᵢ^{Nᵢ} = gᵢ · x_{i₀}^{N_{i₀}}` in `S(Y)`,
-
-because both sides are homogeneous of the same degree and agree on
-`Y ∩ Uᵢ ∩ U_{i₀}` — a nonempty open subset of an irreducible space, hence
-enough. That makes `t := [g_{i₀}]/[x_{i₀}]^{N_{i₀}}` satisfy the degree bound's
-hypothesis for every chart at once, and the rest follows: `t` stabilises
-`S(Y)_N`, which is nonzero because `[xᵢ₀]^N ≠ 0` and finite-dimensional, so `t`
-is a constant `c`; then `f = c` on `U_{i₀}` and, by the identity principle, on
-`Y`.
-
-Irreducibility is used exactly twice, both times to move a statement off a
-chart onto all of `Y`: once for the cross equation, once at the end.
+For $N\geq\sum_iN_i$, the [degree bound](degree-bound.md) gives
+$tS(Y)_N\subseteq S(Y)_N$. The piece $S(Y)_N$ is nonzero and
+finite-dimensional. The [stable-subspace theorem](stable-subspace.md)
+makes $t$ integral over $k$, hence constant because $k$ is algebraically
+closed. Then $f$ is constant on the chosen chart and, by the identity
+principle, on all of $Y$.
 
 ## Depends on
 

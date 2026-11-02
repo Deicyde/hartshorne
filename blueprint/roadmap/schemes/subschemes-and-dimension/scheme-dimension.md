@@ -11,7 +11,8 @@ mathlib_file: Mathlib/Topology/KrullDimension.lean
 
 The dimension of a scheme is the supremum of lengths of chains of irreducible closed subsets of its underlying topological space.
 
-Reuse `topologicalKrullDim`, whose order-theoretic definition is the Krull dimension of the poset of irreducible closed subsets.
+This is the Krull dimension of the ordered set of irreducible
+closed subsets.
 
 ## Depends on
 

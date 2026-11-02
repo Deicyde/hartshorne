@@ -9,19 +9,14 @@ lean: Hartshorne.projective_inter_nonempty_of_dim
 
 # Projective varieties of complementary dimension meet
 
-Let `Y,Z ⊆ ℙⁿ` be projective varieties of natural dimensions `r,s`.  If
-`n ≤ r + s`, then `Y ∩ Z` is nonempty.  The sole main declaration is planned
-as `Hartshorne.projective_inter_nonempty_of_dim`.
+Let $Y,Z\subseteq\mathbb P^n$ be projective varieties of dimensions
+$r,s$. If $n\leq r+s$, then $Y\cap Z$ is nonempty.
 
-The cones `C(Y)` and `C(Z)` are affine varieties of dimensions `r+1` and
-`s+1` in `𝔸ⁿ⁺¹`, and both contain the origin.  Apply the affine dimension
-theorem to a component of their intersection.  Under `n ≤ r+s`, that component
-has positive dimension, so it cannot be the singleton origin and contains a
-nonzero point.  Projectivizing that point produces a point of `Y ∩ Z`.
-
-The dimension hypotheses should be recorded as natural witnesses
-`projDim Y = r` and `projDim Z = s`; this avoids truncated subtraction and
-keeps the source's condition literal.
+Their affine cones are varieties of dimensions $r+1$ and $s+1$ in
+$\mathbb A^{n+1}$, both containing the origin. The affine dimension theorem
+shows that a component of the cones' intersection has positive dimension.
+It therefore contains a point other than the origin. Projectivizing that
+point gives a point of $Y\cap Z$.
 
 ## Depends on
 

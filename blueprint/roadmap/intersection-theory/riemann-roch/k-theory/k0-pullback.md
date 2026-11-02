@@ -6,9 +6,9 @@ origin: cited
 
 # Pullback on K0
 
-A morphism `f:X'->X` of smooth varieties induces a ring homomorphism
+A morphism $f:X'\to X$ of smooth varieties induces a ring homomorphism
 
-`f^*:K0(X)->K0(X')`
+$f^*:K0(X)\to K0(X')$
 
 by pullback of finite locally free sheaves, and the Chern character commutes
 with this pullback.

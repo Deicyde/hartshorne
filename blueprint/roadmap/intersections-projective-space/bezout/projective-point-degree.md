@@ -9,8 +9,8 @@ lean: Hartshorne.projectivePoint_hilbertPolynomial_and_degree
 
 # A projective point has Hilbert polynomial and degree one
 
-For a point `P ∈ ℙⁿ`, the Hilbert polynomial of the singleton algebraic set
-`{P}` is the constant polynomial `1`, and `projectiveDegree {P} = 1`.
+For a point $P \in \mathbb{P} ^{n}$, the Hilbert polynomial of the singleton algebraic set
+$\{P\}$ is the constant polynomial $1$, and $\deg \{P\} = 1$.
 
 This is the calculation invoked in the proof of Corollary 7.8. After a
 projective coordinate change, the homogeneous coordinate ring is a polynomial

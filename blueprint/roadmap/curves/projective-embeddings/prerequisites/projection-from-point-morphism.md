@@ -6,14 +6,14 @@ origin: cited
 
 # Projection from a point is a morphism
 
-Let `H ~= P^n_k` be a hyperplane in `P^(n+1)_k` and let `P` be a point not
-on `H`. For `Q != P`, let `pi_P(Q)` be the intersection with `H` of the unique
-line through `P` and `Q`. Then
+Let $H \simeq \mathbb{P}^n_k$ be a hyperplane in $\mathbb{P}^{n+1}_k$ and let $P$ be a point not
+on $H$. For $Q \ne P$, let $\pi _P(Q)$ be the intersection with $H$ of the unique
+line through $P$ and $Q$. Then
 
-`pi_P : P^(n+1)_k \ {P} -> H`
+$\pi _P : \mathbb{P}^{n+1}_k \setminus \{P\} \to H$
 
-is a morphism. After projective coordinates put `P` at the omitted coordinate
-point and `H` at the corresponding coordinate hyperplane, it is the morphism
+is a morphism. After projective coordinates put $P$ at the omitted coordinate
+point and $H$ at the corresponding coordinate hyperplane, it is the morphism
 defined by the remaining homogeneous coordinates.
 
 ## Depends on
@@ -23,7 +23,7 @@ defined by the remaining homogeneous coordinates.
 
 ## Proof depends on
 
-- The remaining coordinates have no common zero away from `P` and define
+- The remaining coordinates have no common zero away from $P$ and define
   compatible morphisms on the standard affine charts.
 
 ## Sources

@@ -6,11 +6,11 @@ origin: cited
 
 # The acyclic Leray comparison
 
-Let `f : X -> Y` be a continuous map and let `F` be an abelian sheaf on `X`.
-If `R^q f_* F=0` for every `q>0`, then for every `p` construct the natural
+Let $f : X \to Y$ be a continuous map and let $F$ be an abelian sheaf on $X$.
+If $R^q f_* F=0$ for every $q>0$, then for every $p$ construct the natural
 isomorphism
 
-`H^p(Y,f_*F) ~= H^p(X,F)`.
+$H^p(Y,f_*F) \simeq H^p(X,F)$.
 
 This is Exercise 8.1. The unique result is only the acyclic comparison; the
 roadmap does not claim or depend on a full Leray spectral sequence.
@@ -25,11 +25,11 @@ roadmap does not claim or depend on a full Leray spectral sequence.
 - [Acyclic resolutions compute derived functors](../derived-functors/acyclic-resolution-comparison.md)
 - Exactness of inverse image for abelian sheaves and the generic adjunction
   theorem that a right adjoint to an exact functor preserves injectives.
-- Choose an injective resolution `F -> I^.`. The terms `f_* I^n` are
-  injective, and `H^q(f_*I^.)` computes `R^q f_*F`. The vanishing hypothesis,
-  together with `R^0 f_*F ~= f_*F`, therefore makes
-  `f_*F -> f_*I^.` an injective resolution.
-- The section identity `Gamma(Y,f_*I)=Gamma(X,I)` identifies the two
+- Choose an injective resolution $F \to I^.$. The terms $f_* I^n$ are
+  injective, and $H^q(f_*I^.)$ computes $R^q f_*F$. The vanishing hypothesis,
+  together with $R^0 f_*F \simeq f_*F$, therefore makes
+  $f_*F \to f_*I^.$ an injective resolution.
+- The section identity $\Gamma (Y,f_*I)=\Gamma (X,I)$ identifies the two
   cochain complexes whose cohomology gives the comparison.
 
 ## Sources

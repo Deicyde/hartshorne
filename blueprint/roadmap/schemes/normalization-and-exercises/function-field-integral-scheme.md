@@ -7,15 +7,11 @@ mathlib_declaration: AlgebraicGeometry.functionField_isFractionRing_of_isAffineO
 mathlib_file: Mathlib/AlgebraicGeometry/FunctionField.lean
 ---
 
-# Affine opens have fraction field `K(X)`
+# Affine opens have fraction field $K(X)$
 
-Let `X` be integral and let `U ⊆ X` be a nonempty affine open. Then the
-function field `X.functionField`, defined as the stalk at the generic point, is
-a fraction ring of `Γ(X,U)`.
-
-This is exactly `functionField_isFractionRing_of_isAffineOpen`. The supporting
-function-field definition and field instance are existing API, but are not
-additional main results of this leaf.
+Let $X$ be integral and let $U \subseteq X$ be a nonempty affine open. Then the
+function field $K(X)$, defined as the stalk at the generic point, is
+a fraction ring of $\Gamma (X,U)$.
 
 ## Depends on
 

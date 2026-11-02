@@ -6,7 +6,7 @@ origin: cited
 
 # Analytification is a functor
 
-Analytification defines a functor from finite-type schemes over `C` to
+Analytification defines a functor from finite-type schemes over $\mathbb{C}$ to
 complex analytic spaces. On affine charts, a polynomial algebra map induces
 the corresponding holomorphic map; presentation independence and gluing make
 identity and composition laws canonical.

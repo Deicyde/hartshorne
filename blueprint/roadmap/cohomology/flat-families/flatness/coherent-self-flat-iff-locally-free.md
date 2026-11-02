@@ -6,8 +6,8 @@ origin: cited
 
 # Coherent self-flat sheaves are locally free
 
-Let `X` be Noetherian and `F` a coherent `O_X`-module. Then `F` is flat over
-`X` through the identity morphism if and only if `F` is locally free of finite
+Let $X$ be Noetherian and $F$ a coherent $\mathcal{O}_X$-module. Then $F$ is flat over
+$X$ through the identity morphism if and only if $F$ is locally free of finite
 rank.
 
 ## Depends on

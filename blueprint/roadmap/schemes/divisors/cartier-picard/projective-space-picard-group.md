@@ -6,11 +6,11 @@ origin: cited
 
 # The Picard group of projective space
 
-Let `k` be a field and `n ≥ 1`. Every invertible sheaf on `P^n_k` is
-isomorphic to `O(l)` for a unique integer `l`; equivalently,
-`Pic(P^n_k) ≅ Z` with generator `O(1)`.
+Let $k$ be a field and $n \ge 1$. Every invertible sheaf on $\mathbb{P}^n_k$ is
+isomorphic to $\mathcal{O}(l)$ for a unique integer $l$; equivalently,
+$\operatorname{Pic} (\mathbb{P}^n_k) \cong Z$ with generator $\mathcal{O}(1)$.
 
-Identify the hyperplane divisor with `O(1)` and transport the degree
+Identify the hyperplane divisor with $\mathcal{O}(1)$ and transport the degree
 isomorphism for the Weil class group through the locally factorial
 class–Picard equivalence.
 

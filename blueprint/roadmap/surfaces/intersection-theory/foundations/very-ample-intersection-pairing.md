@@ -6,8 +6,8 @@ origin: cited
 
 # Intersection of very ample divisors
 
-For very ample divisor classes `C,D` on a Chapter V surface, choose smooth
-irreducible representatives meeting transversally and define `C.D` as the
+For very ample divisor classes $C ,D$ on a Chapter V surface, choose smooth
+irreducible representatives meeting transversally and define $C\cdot D$ as the
 number of intersection points. This integer is independent of both choices,
 symmetric, additive on the cone of very ample divisors, and depends only on
 their linear-equivalence classes.

@@ -6,11 +6,11 @@ origin: cited
 
 # Birational nonsingular projective varieties have isomorphic canonical rings
 
-If `X` and `X'` are birationally equivalent nonsingular projective integral
+If $X$ and $X'$ are birationally equivalent nonsingular projective integral
 varieties, restriction to inverse dense opens and extension across their
-codimension-two complements induce a graded `k`-algebra isomorphism
+codimension-two complements induce a graded $k$-algebra isomorphism
 
-`R(X,K_X) ~= R(X',K_X')`.
+$R(X,K_X) \simeq R(X',K_X')$.
 
 The comparison preserves multiplication, not only the dimension of each
 pluricanonical section space.

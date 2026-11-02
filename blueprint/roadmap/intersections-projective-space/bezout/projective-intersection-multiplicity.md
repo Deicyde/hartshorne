@@ -9,17 +9,15 @@ lean: Hartshorne.projectiveIntersectionMultiplicity
 
 # Intersection multiplicity with a hypersurface
 
-Let `Y ⊆ ℙⁿ` be a projective variety, let `H` be a hypersurface not containing
-`Y`, and let `Z` be an irreducible component of `Y ∩ H` with homogeneous prime
-ideal `p_Z`. Define
+Let $Y\subseteq\mathbb P^n$ be a projective variety, let $H$ be a
+hypersurface not containing $Y$, and let $Z$ be an irreducible component
+of $Y\cap H$ with homogeneous prime ideal $\mathfrak p_Z$. Define
 
-`i(Y,H;Z) = μ_{p_Z}(S/(I(Y)+I(H)))`.
+$$i(Y,H;Z)=\mu_{\mathfrak p_Z}\bigl(S/(I(Y)+I(H))\bigr).$$
 
-The main artifact is the natural-valued intersection multiplicity
-`Hartshorne.projectiveIntersectionMultiplicity`, together with
-the theorem that the underlying `ℕ∞` module length is finite. The component
-theorem identifies `p_Z` as a minimal prime of the quotient module, making the
-definition an instance of graded multiplicity.
+This is a finite nonnegative integer. The component correspondence makes
+$\mathfrak p_Z$ a minimal prime of the intersection module, so finiteness
+follows from the graded-multiplicity theorem.
 
 ## Depends on
 

@@ -9,22 +9,15 @@ lean: Hartshorne.finite_gradedPiece
 
 # Finite-dimensional graded pieces
 
-Let `S = k[x₀,…,xₙ]` with finitely many variables, and let `M` be a finite
-integer-graded `S`-module. Every homogeneous piece `M_d` is a finite-dimensional
-`k`-vector space. The sole main declaration is planned as
-`Hartshorne.finite_gradedPiece`.
+Let $S=k[x_0,\ldots,x_n]$ and let $M$ be a finitely generated
+integer-graded $S$-module. Every homogeneous piece $M_d$ is a
+finite-dimensional $k$-vector space.
 
-Choose finitely many `S`-module generators and replace them by the finite
-collection of all their nonzero homogeneous components. For fixed degree `d`,
-the piece `M_d` is spanned by products of those homogeneous generators with
-the finitely generated polynomial pieces of the complementary degrees.
-Negative complementary degrees contribute zero.
-
-Pinned Mathlib proves `MvPolynomial.homogeneousSubmodule_fg` for finitely many
-variables, but it does not lift this fact to the pieces of an arbitrary finite
-graded module. This node supplies exactly the finiteness needed for the Hilbert
-function; it does not assert that the underlying polynomial ring is
-finite-dimensional.
+Choose finitely many module generators and replace them by their nonzero
+homogeneous components. For fixed $d$, the piece $M_d$ is spanned by
+products of these homogeneous generators with the polynomial pieces in the
+complementary degrees. Each polynomial piece is finite-dimensional, and
+negative complementary degrees contribute zero.
 
 ## Depends on
 

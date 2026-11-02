@@ -9,13 +9,13 @@ lean: AlgebraicGeometry.Scheme.constantTorsionEtaleSheaf
 
 # Constant torsion sheaves on the small étale site
 
-Let `ell` be a prime invertible on `X` and `r>=1`.  Define the constant
-abelian sheaf `Z/ell^r Z` on the small étale site by sheafifying the constant
-presheaf with value `ZMod (ell^r)`.
+Let $\ell$ be a prime invertible on $X$ and $r\ge 1$.  Define the constant
+abelian sheaf $\mathbb{Z}/\ell ^r\mathbb{Z}$ on the small étale site by sheafifying the constant
+presheaf with value $\mathbb{Z}/\ell^r\mathbb{Z}$.
 
 The word “constant” refers to the étale sheaf, not merely the unsheafified
-constant presheaf.  Transition maps for increasing `r` are induced by
-reduction modulo `ell^r`.
+constant presheaf.  Transition maps for increasing $r$ are induced by
+reduction modulo $\ell ^r$.
 
 ## Depends on
 

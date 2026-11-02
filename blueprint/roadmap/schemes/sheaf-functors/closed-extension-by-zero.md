@@ -9,14 +9,15 @@ lean: Hartshorne.exists_closedExtensionByZeroStalkIsos
 
 # Closed extension by zero
 
-Let `i : Z ↪ X` be the inclusion of a closed subspace and `F` a sheaf of
-abelian groups on `Z`. Show that direct image is extension by zero:
+Let $i : Z \hookrightarrow X$ be the inclusion of a closed subspace and $F$ a sheaf of
+abelian groups on $Z$. Show that direct image is extension by zero:
 
-`(i_*F)ₓ ≅ Fₓ` for `x ∈ Z`, and `(i_*F)ₓ ≅ 0` for `x ∉ Z`.
+$(i_*F)_{x} \cong F_{x}$ for $x \in Z$, and $(i_*F)_{x} \cong 0$ for $x \notin Z$.
 
-The on-image comparison follows from Mathlib's
-`TopCat.Presheaf.stalkPushforward.stalkPushforward_iso_of_isInducing`. The off-image vanishing
-requires using the open complement of `Z`; no exact packaged theorem was found.
+At a point of $Z$, neighbourhoods in $X$ restrict to neighbourhoods
+in $Z$, giving the stalk comparison. Outside $Z$, the open
+complement is a neighbourhood on which the direct image has zero
+sections.
 
 ## Depends on
 

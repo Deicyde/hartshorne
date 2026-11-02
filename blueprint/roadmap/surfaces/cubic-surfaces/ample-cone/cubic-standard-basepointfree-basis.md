@@ -8,17 +8,17 @@ origin: cited
 
 In the Picard group of the marked cubic surface, set
 
-`D_0=l`, `D_1=l-e_1`,
+$D_0=l$, $D_1=l-e_1$,
 
-`D_2=2l-e_1-e_2`,
-`D_3=2l-e_1-e_2-e_3`,
-`D_4=2l-e_1-e_2-e_3-e_4`,
+$D_2=2l-e_1-e_2$,
+$D_3=2l-e_1-e_2-e_3$,
+$D_4=2l-e_1-e_2-e_3-e_4$,
 
-`D_5=3l-e_1-e_2-e_3-e_4-e_5`, and
-`D_6=3l-e_1-e_2-e_3-e_4-e_5-e_6`.
+$D_5=3l-e_1-e_2-e_3-e_4-e_5$, and
+$D_6=3l-e_1-e_2-e_3-e_4-e_5-e_6$.
 
-The seven classes form a free basis.  The systems `|D_0|,...,|D_5|` are
-basepoint-free, and `D_6` is very ample.
+The seven classes form a free basis.  The systems $|D_0|,\ldots ,|D_5|$ are
+basepoint-free, and $D_6$ is very ample.
 
 ## Depends on
 
@@ -31,7 +31,7 @@ basepoint-free, and `D_6` is very ample.
 ## Proof depends on
 
 - The basis assertion is triangular integer linear algebra relative to
-  `l,e_1,...,e_6`; the geometric assertions identify each class with the
+  $l,e_1,\ldots ,e_6$; the geometric assertions identify each class with the
   indicated plane linear system.
 
 ## Sources

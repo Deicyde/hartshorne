@@ -7,12 +7,12 @@ origin: cited
 # The twisted-cubic projection degeneration
 
 The scaling construction for projection from a point extends the twisted
-cubic to a flat family over `A^1`. Its special fibre has ideal
+cubic to a flat family over $A^1$. Its special fibre has ideal
 
-`(z^2,yz,xz,y^2-x^2(x+1))`
+$(z^2,yz,xz,y^2-x^2(x+1))$
 
-in `k[x,y,z]`; its support is the nodal plane cubic
-`y^2=x^2(x+1)`, and it has a nonzero square-zero element at the node.
+in $k[x,y,z]$; its support is the nodal plane cubic
+$y^2=x^2(x+1)$, and it has a nonzero square-zero element at the node.
 
 ## Depends on
 

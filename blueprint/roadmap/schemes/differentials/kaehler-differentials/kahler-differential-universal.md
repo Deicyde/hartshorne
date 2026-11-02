@@ -9,19 +9,18 @@ mathlib_file: Mathlib/RingTheory/Kaehler/Basic.lean
 
 # The universal module of Kähler differentials
 
-For a ring map `A → B`, the canonical derivation
+For a ring map $A \to B$, the canonical derivation
 
-`d : B → Ω[B⁄A]`
+$d:B\longrightarrow\Omega_{B/A}$
 
-is universal: for every `B`-module `M`, composition with `d` gives a natural
+is universal: for every $B$-module $M$, composition with $d$ gives a natural
 linear equivalence
 
-`Hom_B(Ω[B⁄A], M) ≃ Der_A(B,M)`.
+$\operatorname{Hom}_B(\Omega_{B/A},M)\cong\operatorname{Der}_A(B,M)$.
 
-Mathlib constructs `Ω[B⁄A]` as the cotangent module `I/I²` for the kernel `I`
-of multiplication `B ⊗[A] B → B`.  Hartshorne's Proposition 8.1A is the
-background diagonal model supporting the universal construction; it is not a
-second project definition of differentials.
+The differential module can also be described as $I/I^2$, where
+$I$ is the kernel of multiplication $B\otimes_A B\to B$. This is
+the diagonal description in Hartshorne's Proposition II.8.1A.
 
 ## Depends on
 

@@ -6,15 +6,15 @@ origin: cited
 
 # Divisor class and intersection of a section
 
-Fix normalized `E`, write `det(E)=O_C(eps)`, and let `C0` be a section with
-`O_X(C0)=O_X(1)`. If a section `D` corresponds to a quotient
-`E -> O_C(b)`, then
+Fix normalized $E$, write $\det (E)=\mathcal{O}_C (\varepsilon )$, and let $C_0$ be a section with
+$\mathcal{O}_X(C_0)=\mathcal{O}_X(1)$. If a section $D$ corresponds to a quotient
+$E \to \mathcal{O}_C (b)$, then
 
-`deg(b)=C0.D`,
+$\deg(b)=C_0\cdot D$,
 
-`D ~ C0 + (b-eps)f`,
+$D \sim  C_0 + (b-\varepsilon )f$,
 
-and in particular `C0^2=deg(eps)=-e(X)`.
+and in particular $C_0^2=\deg (\varepsilon )=-e(X)$.
 
 ## Depends on
 

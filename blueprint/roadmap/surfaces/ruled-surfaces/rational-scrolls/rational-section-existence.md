@@ -6,13 +6,13 @@ origin: cited
 
 # Sections on a rational ruled surface
 
-Let `X_e=P_(P^1)(O direct-sum O(-e))`, `e>=0`. A section linearly equivalent
-to `C0+n*f` exists if and only if
+Let $X_e=\mathbb{P}_{\mathbb{P}^1}(\mathcal{O}\oplus\mathcal{O}(-e))$, $e\ge 0$. A section linearly equivalent
+to $C_0+n\cdot f$ exists if and only if
 
-`n=0` or `n>=e`.
+$n=0$ or $n\ge e$.
 
-In particular there is a section `C1~C0+e*f`, disjoint from `C0`, with
-`C1^2=e`.
+In particular there is a section $C_1\sim C_0+e\cdot f$, disjoint from $C_0$, with
+$C_1^2=e$.
 
 ## Depends on
 
@@ -23,8 +23,8 @@ In particular there is a section `C1~C0+e*f`, disjoint from `C0`, with
 ## Proof depends on
 
 - A section is a surjection
-  `O direct-sum O(-e) -> O(n-e)`. If `n<e`, surjectivity forces `n=0`;
-  for `n>=e`, choose two sections with disjoint zero divisors.
+  $\mathcal{O}\oplus\mathcal{O}(-e)\longrightarrow\mathcal{O}(n-e)$. If $n<e$, surjectivity forces $n=0$;
+  for $n\ge e$, choose two sections with disjoint zero divisors.
 
 ## Sources
 

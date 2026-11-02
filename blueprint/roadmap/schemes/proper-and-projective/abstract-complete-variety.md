@@ -6,17 +6,14 @@ origin: cited
 
 # Abstract and complete varieties
 
-For an algebraically closed field `k`, define an abstract variety to be a
-scheme over `Spec k` whose total space is integral and whose structure
+For an algebraically closed field $k$, define an abstract variety to be a
+scheme over $\operatorname{Spec} k$ whose total space is integral and whose structure
 morphism is separated and finite type. Define such a variety to be complete
 when its structure morphism is proper.
 
-Package the structure morphism using `Over (Spec (.of k))`, with fields for
-the three mathematical properties. The completion predicate should reuse
-`IsProper`; projective varieties become complete through Theorem 4.9. Keep the
-new scheme-based object visibly distinct from the project's Chapter-I
-`Hartshorne.Variety`, and provide a constructor from the essential-image
-comparison rather than identifying the types definitionally.
+The structure morphism is a morphism to $\operatorname{Spec} k$.
+A variety is complete when this morphism is proper; projective
+varieties are complete by Hartshorne's Theorem II.4.9.
 
 ## Depends on
 

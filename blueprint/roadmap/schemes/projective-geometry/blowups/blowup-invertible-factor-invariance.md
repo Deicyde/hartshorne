@@ -6,8 +6,8 @@ origin: cited
 
 # Blowups are invariant under invertible factors
 
-If `I` is coherent and `L` is an invertible ideal sheaf, the blowups along
-`I` and `I · L` are canonically isomorphic over `X`.
+If $I$ is coherent and $L$ is an invertible ideal sheaf, the blowups along
+$I$ and $I \cdot L$ are canonically isomorphic over $X$.
 
 ## Depends on
 

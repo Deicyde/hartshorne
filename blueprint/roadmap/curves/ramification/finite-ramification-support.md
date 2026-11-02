@@ -6,9 +6,9 @@ origin: cited
 
 # Ramification has finite support
 
-For a finite separable morphism of curves `f : X -> Y`, the sheaf
-`Omega_(X/Y)` is torsion. Its support is exactly the set of points with
-ramification index greater than one. Consequently `f` has only finitely many
+For a finite separable morphism of curves $f : X \to Y$, the sheaf
+$\Omega _{(X/Y)}$ is torsion. Its support is exactly the set of points with
+ramification index greater than one. Consequently $f$ has only finitely many
 ramification points.
 
 ## Depends on
@@ -21,8 +21,8 @@ ramification points.
 
 - The quotient of two invertible sheaves with generically isomorphic fibres
   is torsion.
-- At `P`, the quotient vanishes exactly when `f^*(dt)` generates `Omega_X`,
-  equivalently when `e_P=1`.
+- At $P$, the quotient vanishes exactly when $f^*(dt)$ generates $\Omega _X$,
+  equivalently when $e_P=1$.
 - A coherent torsion sheaf on a Noetherian integral curve has finite support.
 
 ## Sources

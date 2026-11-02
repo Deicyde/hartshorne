@@ -9,28 +9,20 @@ lean: Hartshorne.exists_gradedPrimeFiltration
 
 # Graded prime filtrations
 
-Let `S` be a Noetherian integer-graded ring and let `M` be a finite
-integer-graded `S`-module. There is a finite increasing filtration by
-homogeneous submodules
+Let $S$ be a Noetherian integer-graded ring and let $M$ be a finitely
+generated integer-graded $S$-module. There is a finite increasing filtration
+by homogeneous submodules
 
-`0 = M₀ ⊆ M₁ ⊆ ⋯ ⊆ Mₜ = M`
+$$0=M_0\subseteq M_1\subseteq\cdots\subseteq M_t=M$$
 
-such that, for every `i`, the graded quotient `Mᵢ/Mᵢ₋₁` is
-graded-equivalent to `(S/pᵢ)(lᵢ)` for a homogeneous prime ideal `pᵢ` and an
-integer `lᵢ`. The sole main declaration is planned as
-`Hartshorne.exists_gradedPrimeFiltration`.
+such that every quotient $M_i/M_{i-1}$ is isomorphic as a graded module
+to $(S/\mathfrak p_i)(l_i)$ for a homogeneous prime ideal
+$\mathfrak p_i$ and an integer $l_i$.
 
-Package the filtration as a finite relational series whose steps contain the
-prime, shift, and graded equivalence. This lets later nodes inspect factors
-without choosing a second list. The proof takes a maximal already-filtered
-homogeneous submodule. In the graded quotient, choose a nonzero homogeneous
-element with maximal annihilator; its annihilator is prime, and adjoining its
-cyclic submodule extends the filtration unless it was already all of `M`.
-
-Pinned Mathlib's
-`IsNoetherianRing.exists_relSeries_isQuotientEquivQuotientPrime` is the exact
-ungraded analogue, but it does not preserve homogeneous submodules or record
-twists and therefore is prior art rather than an upstream solution.
+Choose a maximal homogeneous submodule admitting such a filtration. If
+it is not all of $M$, choose in the quotient a nonzero homogeneous element
+with maximal annihilator. That annihilator is prime, so adjoining the
+cyclic submodule extends the filtration, a contradiction.
 
 ## Depends on
 

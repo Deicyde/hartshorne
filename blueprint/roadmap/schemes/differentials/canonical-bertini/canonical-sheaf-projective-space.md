@@ -6,12 +6,12 @@ origin: cited
 
 # The canonical sheaf of projective space
 
-For `X = P^n_k`, dualizing the Euler sequence gives
+For $X = \mathbb{P}^n_k$, dualizing the Euler sequence gives
 
-`0 -> O_X -> O_X(1)^(n+1) -> T_X -> 0`,
+$0 \to \mathcal{O}_X \to \mathcal{O}_X(1)^{n+1} \to T_X \to 0$,
 
-and taking determinants gives `omega_X ~= O_X(-n-1)`. Consequently
-`p_g(P^n_k) = 0` for `n >= 1`.
+and taking determinants gives $\omega _X \simeq \mathcal{O}_X(-n-1)$. Consequently
+$p_g(\mathbb{P}^n_k) = 0$ for $n \ge 1$.
 
 ## Depends on
 

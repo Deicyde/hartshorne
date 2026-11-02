@@ -9,18 +9,15 @@ lean: Hartshorne.IsRegularAtProjVia Hartshorne.IsRegularProjVia Hartshorne.IsReg
 
 # Regular functions on a quasi-projective variety
 
-Let `Y ⊆ ℙⁿ` be quasi-projective. A function `f : Y → k` is *regular at* `P` when
-there is an open `U` with `P ∈ U ⊆ Y` and homogeneous `g, h ∈ S` **of the same
-degree** with `h` nowhere zero on `U` and `f = g/h` on `U`.
+Let $Y\subseteq\mathbb P^n$ be quasi-projective. A function $f:Y\to k$
+is *regular at* $P$ if there is an open neighbourhood $U$ of $P$ in $Y$
+and homogeneous polynomials $g,h$ of the same degree, with $h$ nowhere
+zero on $U$, such that $f=g/h$ on $U$.
 
-Equal degrees is the whole point: neither `g` nor `h` is a function on `ℙⁿ`, but
-their ratio is, because the scaling factors `λᵈ` cancel. Dropping the condition
-makes the definition meaningless rather than merely wrong.
-
-Continuity and the identity principle hold here by the same argument as in the
-quasi-affine case; Hartshorne leaves the repetition to the reader. In Lean it is
-worth asking whether the two definitions can be stated once against a common
-interface rather than twice, since §3 immediately treats them uniformly.
+The equal-degree condition makes the ratio independent of homogeneous
+coordinates: the common scaling factor cancels. Continuity and the identity
+principle follow by the same local quotient argument as in the quasi-affine
+case.
 
 ## Depends on
 

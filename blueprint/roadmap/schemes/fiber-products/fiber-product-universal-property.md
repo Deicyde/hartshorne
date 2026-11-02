@@ -9,9 +9,10 @@ mathlib_file: Mathlib/CategoryTheory/Limits/Shapes/Pullback/HasPullback.lean
 
 # The universal property of a fiber product
 
-For schemes `X → S ← Y`, a fiber product consists of a scheme `P`, projections `P → X` and `P → Y` commuting over `S`, and a unique lift from every other compatible cone.
+For schemes $X \to S \leftarrow Y$, a fiber product consists of a scheme $P$, projections $P \to X$ and $P \to Y$ commuting over $S$, and a unique lift from every other compatible cone.
 
-Use the categorical pullback in `Scheme`. Package the projection equation, lift equations, and hom-extensionality as the working API for later geometric statements.
+Thus a fiber product is the categorical pullback of the two
+structure morphisms.
 
 ## Depends on
 

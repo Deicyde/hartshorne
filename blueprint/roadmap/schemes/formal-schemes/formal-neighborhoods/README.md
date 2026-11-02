@@ -5,7 +5,7 @@ article_id: af_ed041c52e51dad4ae3ef7839
 # Formal neighbourhoods and formal spectra
 
 This milestone constructs Hartshorne's completions as locally ringed spaces,
-then introduces project `Spf` notation through a separate comparison. It also
+then introduces project $\operatorname{Spf}$ notation through a separate comparison. It also
 develops affine formal thickenings and ideals of definition.
 
 1. [Infinitesimal neighbourhoods](infinitesimal-neighborhoods.md)

@@ -9,13 +9,10 @@ mathlib_file: Mathlib/Algebra/Homology/DerivedCategory/Ext/ExactSequences.lean
 
 # The contravariant long exact sequence of global Ext
 
-For a short exact sequence `0 ⟶ F' ⟶ F ⟶ F'' ⟶ 0` and an object `G`, the
-groups `Ext^n(-,G)` form the natural contravariant long exact sequence
+For a short exact sequence $0 \longrightarrow F' \longrightarrow F \longrightarrow F'' \longrightarrow 0$ and an object $G$, the
+groups $\operatorname{Ext} ^n(-,G)$ form the natural contravariant long exact sequence
 
-`0 ⟶ Hom(F'',G) ⟶ Hom(F,G) ⟶ Hom(F',G) ⟶ Ext^1(F'',G) ⟶ ⋯`.
-
-Pinned Mathlib's `Ext.contravariantSequence` constructs each six-term piece,
-and `Ext.contravariantSequence_exact` is the exact main result.
+$0 \longrightarrow \operatorname{Hom} (F'',G) \longrightarrow \operatorname{Hom} (F,G) \longrightarrow \operatorname{Hom} (F',G) \longrightarrow \operatorname{Ext} ^1(F'',G) \longrightarrow \cdots$.
 
 ## Depends on
 

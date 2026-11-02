@@ -6,14 +6,14 @@ origin: cited
 
 # The Chern polynomial of a tensor product
 
-For locally free sheaves `E,F` with formal Chern roots `a_i,b_j`, the Chern
+For locally free sheaves $E,F$ with formal Chern roots $a_i,b_j$, the Chern
 classes of their tensor product are the universal classes characterized after
 an injective splitting pullback by
 
-`c_t(E tensor F)=product_(i,j)(1+(a_i+b_j)t)`.
+$c_t(E \otimes F)=\prod _{(i,j)}(1+(a_i+b_j)t)$.
 
 The coefficients descend because the right side is symmetric separately in
-the `a_i` and `b_j`.
+the $a_i$ and $b_j$.
 
 ## Depends on
 

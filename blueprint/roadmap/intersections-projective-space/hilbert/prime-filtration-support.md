@@ -9,32 +9,20 @@ lean: Hartshorne.gradedPrimeFiltration_annihilator_le_iff
 
 # Minimal primes in a graded prime filtration
 
-Fix a graded prime filtration of `M` with factor primes
-`p₁,…,pₜ`. For every prime ideal `p`,
+Fix a graded prime filtration of $M$ with factor primes
+$\mathfrak p_1,\ldots,\mathfrak p_t$. For every prime ideal $\mathfrak p$,
 
-`Ann M ⊆ p ⟺ ∃ i, pᵢ ⊆ p`.
+$$\operatorname{Ann}M\subseteq\mathfrak p
+\quad\Longleftrightarrow\quad
+\mathfrak p_i\subseteq\mathfrak p\text{ for some }i.$$
 
-The main declaration is
-`Hartshorne.gradedPrimeFiltration_annihilator_le_iff`. Its formalized statement
-is slightly stronger than the source because `p` need not be homogeneous.
-The corollary `Hartshorne.gradedPrimeFiltration_minimal_factor_iff` identifies
-the minimal elements of the finite set of factor primes with the primes
-minimal over `Ann M`.
+The prime $\mathfrak p$ need not be homogeneous. The minimal factor primes
+are exactly the primes minimal over $\operatorname{Ann}M$.
 
-For one filtration step, the annihilator of the quotient factor is its
-recorded prime `pᵢ`, while the product of the annihilator of the preceding term
-and `pᵢ` annihilates the next term. Primality therefore turns containment of
-the next annihilator into a disjunction: either the preceding annihilator or
-`pᵢ` is contained in the target prime. Induction over the `RelSeries`, starting
-at the zero submodule and ending at `M`, proves the equivalence.
-
-The stable chosen-factor API consists of
-`Hartshorne.GradedPrimeFiltrationFactorData`,
-`Hartshorne.gradedPrimeFiltrationFactorDataAt`, and
-`Hartshorne.gradedPrimeFiltrationFactorPrime`; it exposes the selected prime,
-twist, and graded equivalence at every filtration index. The accompanying
-specification theorem shows that these selected primes enumerate exactly the
-factor-prime predicate used by the main theorem.
+For each filtration step, the quotient factor has annihilator
+$\mathfrak p_i$, and the product of that ideal with the annihilator of the
+preceding term annihilates the next term. Primality gives the required
+disjunction. Induction on the finite filtration proves the equivalence.
 
 ## Depends on
 

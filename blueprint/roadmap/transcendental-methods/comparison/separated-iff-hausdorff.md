@@ -7,11 +7,9 @@ not_ready: true
 
 # A finite-type complex scheme is separated iff its analytification is Hausdorff
 
-For a finite-type scheme `X` over `C`, `X->Spec C` is separated exactly when
-the topological space underlying `X^h` is Hausdorff.
+For a finite-type scheme $X$ over $\mathbb{C}$, $X\to \operatorname{Spec} \mathbb{C}$ is separated exactly when
+the topological space underlying $X^h$ is Hausdorff.
 
-This node is not ready pending Serre's exact diagonal comparison and the
-analytic closed-diagonal/Hausdorff theorem.
 
 ## Depends on
 

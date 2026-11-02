@@ -9,15 +9,14 @@ mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Topology.lean
 
 # The topology on Proj
 
-For an `ℕ`-graded commutative ring `S`, `Proj S` is the set of homogeneous
-prime ideals not containing the irrelevant ideal `S₊`.  For homogeneous ideals
-`𝔞,𝔟`,
+For an $\mathbb{N}$-graded commutative ring $S$, $\operatorname{Proj} S$ is the set of homogeneous
+prime ideals not containing the irrelevant ideal $S_{+}$.  For homogeneous ideals
+$\mathfrak{a} ,\mathfrak{b}$,
 
-`V(𝔞𝔟) = V(𝔞) ∪ V(𝔟)` and `V(⨆ i,𝔞 i) = ⋂ i,V(𝔞 i)`.
+$V(\mathfrak{a} \mathfrak{b} ) = V(\mathfrak{a} ) \cup V(\mathfrak{b} )$ and $V(\bigcup i,\mathfrak{a} i) = \bigcap i,V(\mathfrak{a} i)$.
 
-These zero loci define the topology of Lemma 2.4.  The exact supporting
-declarations include `zeroLocus_mul_homogeneousIdeal`,
-`zeroLocus_iSup_homogeneousIdeal`, and `isTopologicalBasis_basic_opens`.
+These zero loci define the topology in Hartshorne's Lemma II.2.4.
+The homogeneous principal opens form a basis.
 
 ## Depends on
 

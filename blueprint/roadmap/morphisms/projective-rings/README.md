@@ -7,7 +7,7 @@ article_id: af_2a6659234206a788b61bfba3
 Theorem 3.2 computes the three rings of an affine variety and finds that the
 coordinate ring loses nothing. Theorem 3.4 does the same for a projective
 variety and finds the opposite: the global regular functions see nothing at all,
-`𝒪(Y) = k`, and everything local lives in graded localisations of `S(Y)`.
+$\mathcal{O} (Y) = k$, and everything local lives in graded localisations of $S(Y)$.
 
 All three parts are proved. They need different equipment, which is why they
 are separate nodes: (b) and (c) reduce to the affine case one chart at a time,
@@ -26,7 +26,7 @@ projective varieties need sheaf cohomology rather than global functions — the
 motivation Hartshorne gives for Chapters II and III.
 
 Formalising it turned up the one place where his notation genuinely hides
-something: treating `K(Y)` and `S(Y)_((0))` as the same field makes the
+something: treating $K(Y)$ and $S(Y)_{((0))}$ as the same field makes the
 identification invisible, but it has to be built, and if it is built chart by
 chart then readings on different charts are not comparable. The way out was to
 keep the chart readings pointwise, where there is nothing to identify.

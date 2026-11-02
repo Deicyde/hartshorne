@@ -6,11 +6,11 @@ origin: cited
 
 # ℓ-adic cohomology is contravariantly functorial
 
-For a morphism `f:X->Y`, pullback induces `Q_ell`-linear maps
+For a morphism $f:X\to Y$, pullback induces $\mathbb Q_\ell$-linear maps
 
-`f^*:H^i_et(Y,Q_ell)->H^i_et(X,Q_ell)`
+$f^*:H^i_{\mathrm{et}}(Y,\mathbb{Q}_\ell)\to H^i_{\mathrm{et}}(X,\mathbb{Q}_\ell)$
 
-for all `i`, with identity and composition laws.  Thus an endomorphism,
+for all $i$, with identity and composition laws.  Thus an endomorphism,
 including Frobenius, acts by cohomological pullback.
 
 ## Depends on

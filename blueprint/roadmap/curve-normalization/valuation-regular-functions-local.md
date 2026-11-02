@@ -9,30 +9,25 @@ lean: Hartshorne.ValuationSpace.regularFunctions_axioms
 
 # The valuation-space regularity axioms
 
-Let `k` be algebraically closed and let `K/k` be an essentially finite-type
-field extension with `Algebra.trdeg k K = 1`.  The regular-function algebras on
-open subsets of `C_K` satisfy the four axioms required by
-`Hartshorne.Variety`:
+Let $k$ be algebraically closed and let $K/k$ be a finitely generated
+field extension of transcendence degree one. Regular functions on open
+subsets of $C_K$ have the following properties:
 
-1. regular functions restrict to smaller opens;
-2. the zero locus of a regular function is closed;
-3. a quotient by a nowhere-zero regular function is regular; and
-4. regularity is local.
+1. They restrict to smaller open subsets.
+2. Their zero loci are closed.
+3. Division by a nowhere-zero regular function preserves regularity.
+4. Regularity is local.
 
-Restriction is monotonicity of intersections.  A nonzero rational function
-has only finitely many zero valuations, so its zero locus is finite; the zero
-function has the whole open set as zero locus.  If the residue of a denominator
-is nonzero at `R`, that denominator is a unit of the local ring `R`, giving the
-division axiom.
+Restriction follows from inclusion of the corresponding intersections of
+valuation rings. A nonzero rational function vanishes at only finitely many
+valuations, so its zero locus is closed. A denominator with nonzero residue
+at $R$ is a unit in $R$, proving the division property.
 
-For locality, choose one local rational representative.  Any other local
-representative agrees with it on a nonempty intersection of cofinite opens, so
-injectivity of evaluation makes the two elements of `K` equal.  The chosen
-representative therefore belongs to every valuation ring over the original
-open and represents the whole function.
-
-State these properties as one structure-shaped theorem so the following
-definition of an abstract curve contains no new mathematical proof.
+For locality, choose one local rational representative. Every other
+representative agrees with it on a nonempty intersection of cofinite
+opens. Injectivity of residue evaluation identifies the corresponding
+elements of $K$, so the chosen representative belongs to every valuation
+ring over the original open set and represents the whole function.
 
 ## Depends on
 
@@ -45,4 +40,4 @@ definition of an abstract curve contains no new mathematical proof.
 
 ## Sources
 
-- [Hartshorne I.6, regular functions on `C_K` and their identification with functions (p. 42)](../../sources/hartshorne.md#i6-abstract-nonsingular-curves)
+- [Hartshorne I.6, regular functions on $C _K$ and their identification with functions (p. 42)](../../sources/hartshorne.md#i6-abstract-nonsingular-curves)

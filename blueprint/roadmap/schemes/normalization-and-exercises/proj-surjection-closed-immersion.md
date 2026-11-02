@@ -6,9 +6,9 @@ origin: cited
 
 # A graded quotient induces a closed immersion of Proj
 
-A surjective degree-preserving homomorphism of graded rings `S → T` induces a morphism `Proj T → Proj S`, defined everywhere, and that morphism is a closed immersion.
+A surjective degree-preserving homomorphism of graded rings $S \to T$ induces a morphism $\operatorname{Proj} T \to \operatorname{Proj} S$, defined everywhere, and that morphism is a closed immersion.
 
-On each standard open `D₊(f)`, identify the induced map with the spectrum of the surjection on degree-zero localized rings. These affine closed immersions agree on overlaps and glue; closed-immersion target-locality finishes.
+On each standard open $D_{+}(f)$, identify the induced map with the spectrum of the surjection on degree-zero localized rings. These affine closed immersions agree on overlaps and glue; closed-immersion target-locality finishes.
 
 ## Depends on
 

@@ -6,10 +6,10 @@ origin: cited
 
 # The canonical divisor of a ruled surface
 
-With normalized notation and a canonical divisor `kappa` on the base curve,
+With normalized notation and a canonical divisor $\kappa$ on the base curve,
 the canonical divisor of the ruled surface satisfies
 
-`K_X ~ -2*C0 + (kappa+eps)f`.
+$K_X \sim  -2\cdot C_0 + (\kappa +\varepsilon )f$.
 
 ## Depends on
 
@@ -19,8 +19,8 @@ the canonical divisor of the ruled surface satisfies
 
 ## Proof depends on
 
-- Adjunction on a fibre determines the coefficient of `C0`; sheaf
-  adjunction on `C0 ~= C` determines the pulled-back base divisor.
+- Adjunction on a fibre determines the coefficient of $C_0$; sheaf
+  adjunction on $C_0 \simeq C$ determines the pulled-back base divisor.
 
 ## Sources
 

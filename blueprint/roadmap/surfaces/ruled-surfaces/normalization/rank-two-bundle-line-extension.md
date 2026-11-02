@@ -6,12 +6,12 @@ origin: cited
 
 # A rank-two bundle on a curve is an extension of line bundles
 
-Every rank-two locally free sheaf `E` on a nonsingular projective curve fits
+Every rank-two locally free sheaf $E$ on a nonsingular projective curve fits
 into an exact sequence
 
-`0 -> N -> E -> L -> 0`
+$0 \to N \to E \to L \to 0$
 
-with `N` and `L` invertible.
+with $N$ and $L$ invertible.
 
 ## Depends on
 

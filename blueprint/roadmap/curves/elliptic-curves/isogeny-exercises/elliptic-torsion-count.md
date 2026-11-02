@@ -6,10 +6,10 @@ origin: cited
 
 # Characteristic-zero torsion has d² points
 
-Let `X` be an elliptic curve in characteristic zero and let `d>=3`. Embed
-`X` in `P^(d-1)` by a degree-`d` complete linear system. Its
-hyperosculation points are exactly the points of order dividing `d`, and
-there are exactly `d^2` of them.
+Let $X$ be an elliptic curve in characteristic zero and let $d\ge 3$. Embed
+$X$ in $\mathbb{P}^{d-1}$ by a degree-$d$ complete linear system. Its
+hyperosculation points are exactly the points of order dividing $d$, and
+there are exactly $d^2$ of them.
 
 ## Depends on
 
@@ -18,8 +18,8 @@ there are exactly `d^2` of them.
 
 ## Proof depends on
 
-- A hyperplane has contact at least `d` at `P` exactly when
-  `d*P` is linearly equivalent to `d*P_0`.
+- A hyperplane has contact at least $d$ at $P$ exactly when
+  $d\cdot P$ is linearly equivalent to $d\cdot P_0$.
 
 ## Sources
 

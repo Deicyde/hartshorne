@@ -6,9 +6,9 @@ origin: cited
 
 # Composition of very ample sheaves
 
-Let `X → Y → Z`, let `L` be very ample on `X` relative to `Y`, and let `M`
-be very ample on `Y` relative to `Z`. Then `L tensor f^*M` is very ample on
-`X` relative to `Z`.
+Let $X \to Y \to Z$, let $L$ be very ample on $X$ relative to $Y$, and let $M$
+be very ample on $Y$ relative to $Z$. Then $L \otimes f^*M$ is very ample on
+$X$ relative to $Z$.
 
 ## Depends on
 

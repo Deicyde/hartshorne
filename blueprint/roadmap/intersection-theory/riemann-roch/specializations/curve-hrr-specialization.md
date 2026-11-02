@@ -6,9 +6,9 @@ origin: cited
 
 # The curve Riemann–Roch specialization
 
-For a smooth projective genus-`g` curve and divisor `D`, HRR specializes to
+For a smooth projective genus-$g$ curve and divisor $D$, HRR specializes to
 
-`chi(O_X(D))=deg(D)+1-g`.
+$\chi (\mathcal{O}_X(D))=\deg (D)+1-g$.
 
 ## Depends on
 

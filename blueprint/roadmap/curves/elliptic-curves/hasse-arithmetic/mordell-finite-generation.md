@@ -7,7 +7,7 @@ not_ready: true
 
 # Mordell's finite-generation theorem
 
-For an elliptic curve over `Q`, the abelian group `X(Q)` of rational points is
+For an elliptic curve over $Q$, the abelian group $X(Q)$ of rational points is
 finitely generated.
 
 ## Depends on

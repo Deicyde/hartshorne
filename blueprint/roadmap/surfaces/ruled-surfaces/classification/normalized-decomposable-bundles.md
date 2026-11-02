@@ -6,12 +6,12 @@ origin: cited
 
 # Decomposable normalized bundles
 
-Let `E` be a normalized decomposable rank-two bundle on a curve `C`. Then
+Let $E$ be a normalized decomposable rank-two bundle on a curve $C$. Then
 
-`E ~= O_C direct-sum L`
+$E\simeq\mathcal{O}_C\oplus L$
 
-for an invertible sheaf `L` with `deg L<=0`. Hence the ruled-surface
-invariant `e=-deg L` is nonnegative, and every `e>=0` occurs.
+for an invertible sheaf $L$ with $\deg L\le 0$. Hence the ruled-surface
+invariant $e=-\deg L$ is nonnegative, and every $e\ge 0$ occurs.
 
 ## Depends on
 

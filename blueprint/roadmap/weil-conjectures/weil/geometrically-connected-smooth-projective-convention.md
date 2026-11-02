@@ -6,12 +6,13 @@ origin: cited
 
 # Smooth projective geometrically connected varieties over a finite field
 
-Package a Weil-theorem input as a smooth projective `F_q`-scheme `X` of pure
-dimension `n` whose base change to an algebraic closure is connected.
+The Weil-theorem hypotheses are a smooth projective $\mathbb{F}_q$-scheme
+$X$ of pure dimension $n$ whose base change to an algebraic closure is
+connected.
 
 Geometric connectedness is explicit because the normalization
-`P_0(t)=1-t` is false for a general disconnected geometric fibre. Purity of
-dimension fixes the top polynomial index `2n`.
+$P_0(t)=1-t$ is false for a general disconnected geometric fibre. Purity of
+dimension fixes the top polynomial index $2n$.
 
 ## Depends on
 

@@ -6,12 +6,12 @@ origin: cited
 
 # GAGA comparison for the structure sheaf
 
-For a projective scheme `X` over `C`, analytification induces natural
+For a projective scheme $X$ over $\mathbb{C}$, analytification induces natural
 isomorphisms
 
-`H^i(X,O_X) ~= H^i(X^h,O_(X^h))`
+$H^i(X,\mathcal{O}_X) \simeq H^i(X^h,\mathcal{O}_{(X^h)})$
 
-for every `i`.
+for every $i$.
 
 ## Depends on
 

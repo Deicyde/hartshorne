@@ -7,18 +7,13 @@ not_ready: true
 
 # The separable surface Lüroth theorem
 
-Let `k` be algebraically closed and let
+Let $k$ be algebraically closed and let
 
-`k subset L subset k(t,u)`
+$k \subset L \subset k(t,u)$
 
-be fields such that `k(t,u)/L` is finite and separable.  Then `L` is a purely
-transcendental extension of `k` of transcendence degree two.
+be fields such that $k(t,u)/L$ is finite and separable.  Then $L$ is a purely
+transcendental extension of $k$ of transcendence degree two.
 
-This node is not ready.  Besides the blocked Castelnuovo criterion, the proof
-requires an exact arbitrary-characteristic source for a nonsingular
-projective surface model of `L` and for the separable invariant-descent
-package.  The conclusion is not an instance of the one-variable Lüroth
-theorem in Mathlib.
 
 ## Depends on
 
@@ -27,9 +22,9 @@ theorem in Mathlib.
 
 ## Proof depends on
 
-- Choose smooth projective models of `L` and `k(t,u)`.  The latter is
+- Choose smooth projective models of $L$ and $k(t,u)$.  The latter is
   rational, so its geometric genus, irregularity, and second plurigenus
-  vanish.  Descent gives the same vanishing on the model of `L`, and
+  vanish.  Descent gives the same vanishing on the model of $L$, and
   Castelnuovo makes that model rational.
 
 ## Sources

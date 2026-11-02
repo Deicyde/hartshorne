@@ -6,9 +6,9 @@ origin: cited
 
 # The Jacobian period lattice
 
-For a smooth projective complex genus-`g` curve, the exponential boundary
-embeds `H^1(C^h,Z)~=Z^(2g)` as a discrete cocompact lattice in
-`H^1(C,O_C)~=C^g`.
+For a smooth projective complex genus-$g$ curve, the exponential boundary
+embeds $H^1(C ^h,\mathbb{Z})\simeq \mathbb{Z}^{2g}$ as a discrete cocompact lattice in
+$H^1(C,\mathcal O_C)\simeq\mathbb{C}^g$.
 
 ## Depends on
 

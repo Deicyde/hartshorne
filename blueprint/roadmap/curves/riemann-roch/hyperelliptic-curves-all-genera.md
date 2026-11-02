@@ -6,10 +6,10 @@ origin: cited
 
 # Hyperelliptic curves exist in every genus
 
-For every integer `g>=2`, choose a nonsingular irreducible divisor of type
-`(g+1,2)` on a nonsingular quadric surface. It is a Chapter IV curve of genus
-`g`, and restriction of the appropriate ruling projection gives a finite map
-to `P^1` of degree two. Hence hyperelliptic curves exist in every genus at
+For every integer $g\ge 2$, choose a nonsingular irreducible divisor of type
+$(g+1,2)$ on a nonsingular quadric surface. It is a Chapter IV curve of genus
+$g$, and restriction of the appropriate ruling projection gives a finite map
+to $\mathbb{P}^1$ of degree two. Hence hyperelliptic curves exist in every genus at
 least two.
 
 ## Depends on
@@ -21,8 +21,8 @@ least two.
 
 ## Proof depends on
 
-- Identify the smooth quadric with `P^1 times P^1`; a ruling fibre intersects
-  a divisor of type `(g+1,2)` in degree two.
+- Identify the smooth quadric with $\mathbb{P}^1 \times \mathbb{P}^1$; a ruling fibre intersects
+  a divisor of type $(g+1,2)$ in degree two.
 
 ## Sources
 

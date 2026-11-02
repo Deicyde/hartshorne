@@ -7,12 +7,12 @@ not_ready: true
 
 # The genus of a complete-intersection curve in projective three-space
 
-Let `k` be algebraically closed, let `d,e >= 1`, and let `Y subset P^3_k` be a
+Let $k$ be algebraically closed, let $d,e \ge 1$, and let $Y \subset \mathbb{P}^3_k$ be a
 nonsingular curve that is the scheme-theoretic complete intersection of
-nonsingular surfaces of degrees `d` and `e`. Then the following integer
+nonsingular surfaces of degrees $d$ and $e$. Then the following integer
 identity holds:
 
-`2 * (p_g(Y) : Z) = (d : Z) * (e : Z) * ((d : Z) + (e : Z) - 4) + 2`.
+$2p_g(Y)=de(d+e-4)+2$.
 
 ## Depends on
 

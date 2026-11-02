@@ -7,14 +7,11 @@ not_ready: true
 
 # Affine-space pullback is an isomorphism on Chow rings
 
-For a nonsingular quasi-projective variety `X` and `m>=0`, projection induces
+For a nonsingular quasi-projective variety $X$ and $m\ge 0$, projection induces
 a graded-ring isomorphism
 
-`A(X) ~= A(X times A^m)`.
+$A(X) \simeq A(X \times A^m)$.
 
-This node is not ready. Hartshorne states A9 and refers to Chevalley without
-a proof-level passage. An exact arbitrary-characteristic homotopy-invariance
-source compatible with the roadmap's codimension grading must be adopted.
 
 ## Depends on
 

@@ -7,11 +7,11 @@ article_id: af_945cb79812a2a68b25a6532c
 This milestone covers the ideal-sheaf consequences of Hartshorne II.5 and the
 adopted coherence exercises: support, stalkwise local freeness, and extension
 from an open subset. It depends on the affine quasi-coherent and coherent
-machinery in the sibling `modules-and-quasicoherent` chapter.
+machinery in the [modules and quasi-coherent sheaves](../modules-and-quasicoherent/README.md) chapter.
 
-Mathlib's `IdealSheafData` is compatible affine-open ideal data, not literally
-a subobject in `X.Modules`. The first two leaves deliberately bridge those
-representations before using the existing closed-subscheme equivalence.
+A quasi-coherent ideal sheaf can be described by compatible ideals
+on affine opens. The first statements establish this correspondence
+and use it to construct closed subschemes.
 
 - [Ideal sheaves of closed immersions](closed-immersion-ideal-sheaf.md)
 - [Module ideal sheaves and ideal data](module-ideal-sheaf-data.md)

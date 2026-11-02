@@ -6,14 +6,14 @@ origin: cited
 
 # Growth from a general hyperplane section
 
-Let `X subset P^3` be a nonplanar degree-`d` curve and choose a hyperplane
+Let $X \subset \mathbb{P}^3$ be a nonplanar degree-$d$ curve and choose a hyperplane
 section
 
-`D=P_1+...+P_d`
+$D=P_1+\ldots +P_d$
 
-consisting of distinct points with no three collinear. For every `n>=1`,
+consisting of distinct points with no three collinear. For every $n\ge 1$,
 
-`dim|nD| - dim|(n-1)D| >= min(d,2*n+1)`.
+$\dim |nD| - \dim |(n-1)D| \ge \min (d,2\cdot n+1)$.
 
 All dimensions and differences are integer-valued.
 
@@ -24,7 +24,7 @@ All dimensions and differences are integer-valued.
 
 ## Proof depends on
 
-- A union of `n` planes can contain any selected first `2n` section points
+- A union of $n$ planes can contain any selected first $2n$ section points
   while avoiding the next one, pairing at most two points on each plane.
 - Removing a non-base point lowers the projective dimension of a complete
   linear system by one.

@@ -6,10 +6,10 @@ origin: cited
 
 # The analytic exponential sheaf sequence
 
-On a reduced complex analytic space `X^h`, pointwise exponential gives an
+On a reduced complex analytic space $X^h$, pointwise exponential gives an
 exact sequence of sheaves of abelian groups on the analytic topology
 
-`0 -> Z -> O_(X^h) -> O_(X^h)^* -> 0`.
+$0 \to \mathbb{Z} \to \mathcal{O}_{(X^h)} \to \mathcal{O}_{(X^h)}^* \to 0$.
 
 Surjectivity is local and uses local holomorphic logarithms. The constant
 integer sheaf here is analytic-topological, not a Zariski constant sheaf.

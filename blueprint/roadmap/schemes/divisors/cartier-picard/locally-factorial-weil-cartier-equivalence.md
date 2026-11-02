@@ -6,7 +6,7 @@ origin: cited
 
 # Weil and Cartier divisors on locally factorial schemes
 
-Let `X` be integral, separated, Noetherian, and locally factorial. Construct
+Let $X$ be integral, separated, Noetherian, and locally factorial. Construct
 mutually inverse additive equivalences between the Weil divisor group and the
 Cartier divisor group, and prove that principal divisors correspond.
 

@@ -6,14 +6,14 @@ origin: cited
 
 # The kernel formula for a section of a projective bundle
 
-In the section--quotient correspondence, let `D=sigma(C)` and
-`N=ker(E->L)`. Then `N` is invertible and there are natural isomorphisms
+In the section--quotient correspondence, let $D=\sigma (C )$ and
+$N=\ker (E\to L)$. Then $N$ is invertible and there are natural isomorphisms
 
-`N ~= pi_*(O_X(1) tensor O_X(-D))`
+$N \simeq \pi _*(\mathcal{O}_X(1) \otimes \mathcal{O}_X(-D))$
 
 and
 
-`pi^*N ~= O_X(1) tensor O_X(-D)`.
+$\pi ^*N \simeq \mathcal{O}_X(1) \otimes \mathcal{O}_X(-D)$.
 
 ## Depends on
 
@@ -25,7 +25,7 @@ and
 ## Proof depends on
 
 - Push forward the section-divisor exact sequence after tensoring by
-  `O_X(1)`; the restricted quotient is `L` and the next higher direct image
+  $\mathcal{O}_X(1)$; the restricted quotient is $L$ and the next higher direct image
   vanishes.
 
 ## Sources

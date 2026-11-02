@@ -9,21 +9,22 @@ lean: Hartshorne.hilbertFunction
 
 # The Hilbert function
 
-For a finite integer-graded module `M = ⊕ d, M_d` over
-`S = k[x₀,…,xₙ]`, define its Hilbert function by
+For a finitely generated integer-graded module
+$M=\bigoplus_{d\in\mathbb Z}M_d$ over $S=k[x_0,\ldots,x_n]$, its
+*Hilbert function* is
 
-`φ_M(d) = dim_k M_d` for `d : ℤ`.
+$$\varphi_M(d)=\dim_k M_d\qquad(d\in\mathbb Z).$$
 
-The sole main declaration is planned as `Hartshorne.hilbertFunction`, valued in
-`ℕ`; later eventual-polynomial statements compare its cast with evaluation in
-`ℚ`.
+Twisting translates its argument:
 
-The supporting API must record the two identities used throughout the source:
-twisting translates the argument,
-`φ_{M(l)}(d) = φ_M(d+l)`, and a degreewise short exact sequence gives
-`φ_M(d) = φ_{M'}(d) + φ_{M''}(d)`. These follow from the induced
-subquotient gradings and finite-dimensional rank-nullity, not from a global
-dimension of `M`.
+$$\varphi_{M(l)}(d)=\varphi_M(d+l).$$
+
+A degreewise short exact sequence
+$0\to M'\to M\to M''\to0$ gives
+
+$$\varphi_M(d)=\varphi_{M'}(d)+\varphi_{M''}(d).$$
+
+The pieces are finite-dimensional, so this is rank-nullity in each degree.
 
 ## Depends on
 

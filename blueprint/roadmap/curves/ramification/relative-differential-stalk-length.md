@@ -8,11 +8,11 @@ origin: cited
 
 Under the hypotheses and notation of the local differential ratio,
 
-`(Omega_(X/Y))_P ~= O_(X,P)/(dt/du)`.
+$(\Omega _{(X/Y)})_P \simeq \mathcal{O}_{X,P}/(dt/du)$.
 
 It is a finite-length cyclic module and
 
-`length_(O_(X,P))((Omega_(X/Y))_P) = v_P(dt/du)`.
+$\operatorname{length} _{(\mathcal{O}_{X,P})}((\Omega _{(X/Y)})_P) = v_P(dt/du)$.
 
 ## Depends on
 

@@ -6,9 +6,9 @@ origin: cited
 
 # Projective iff proper and very ample
 
-Let `Y` be Noetherian. A `Y`-scheme `X` is projective over `Y` if and only if
-`X → Y` is proper and `X` admits an invertible sheaf very ample relative to
-`Y`.
+Let $Y$ be Noetherian. A $Y$-scheme $X$ is projective over $Y$ if and only if
+$X \to Y$ is proper and $X$ admits an invertible sheaf very ample relative to
+$Y$.
 
 ## Depends on
 

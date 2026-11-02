@@ -9,14 +9,13 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/UniversallyClosed.lean
 
 # Universally closed morphisms
 
-A scheme morphism `f : X ⟶ Y` is universally closed when every pullback
-`X ×[Y] Y' ⟶ Y'` is a closed map on underlying topological spaces.
+A scheme morphism $f : X \longrightarrow Y$ is universally closed when every pullback
+$X\times_YY'\longrightarrow Y'$ is a closed map on underlying topological spaces.
 
-Use Mathlib's universal closure of the topological closed-map morphism
-property. The identity base change recovers that every universally closed map
-is closed. Keeping the quantification over arbitrary scheme morphisms is
-essential: the projection `𝔸²_k → 𝔸¹_k` shows that finite type and closedness
-alone do not suffice.
+Taking the identity base change shows that every universally
+closed morphism is closed. Quantification over arbitrary base
+changes is essential: finite type and closedness alone do not
+suffice, as the projection $\mathbb A^2_k\to\mathbb A^1_k$ shows.
 
 ## Depends on
 

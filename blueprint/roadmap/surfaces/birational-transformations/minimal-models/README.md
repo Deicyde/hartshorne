@@ -4,7 +4,7 @@ article_id: af_56b6502dc7dcf167ca32d470
 
 # Relative and minimal surface models
 
-This chapter packages the termination of `(-1)`-curve contractions and the
+This chapter packages the termination of $(-1)$-curve contractions and the
 classification statements at the end of Hartshorne V.5.
 
 - [Relative minimality and exceptional curves](relative-minimal-surface-criterion.md)

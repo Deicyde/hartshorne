@@ -7,18 +7,15 @@ not_ready: true
 
 # The ℓ-adic Lefschetz fixed-point formula for simple fixed points
 
-Let `X` be smooth and proper over an algebraically closed field, and let
-`f:X->X` have finitely many fixed points.  If `1-df_x` is invertible at every
+Let $X$ be smooth and proper over an algebraically closed field, and let
+$f:X\to X$ have finitely many fixed points.  If $1-df_x$ is invertible at every
 fixed point, then
 
-`#Fix(f)=sum_i (-1)^i Tr(f^*|H^i_et(X,Q_ell))`.
+$\#\operatorname{Fix}(f)=\sum_i(-1)^i\operatorname{Tr}(f^*\mid H^i_{\mathrm{et}}(X,\mathbb Q_\ell))$.
 
 The left side is the ordinary number of closed fixed points because every
 local Lefschetz term equals one.
 
-This node is not ready.  It needs the étale Lefschetz–Verdier trace formula,
-finite-dimensional cohomology, and identification of local terms with graph–
-diagonal intersection multiplicities.
 
 ## Depends on
 

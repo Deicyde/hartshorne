@@ -6,12 +6,12 @@ origin: cited
 
 # Clifford's inequality
 
-Let `D` be an effective special divisor on a Chapter IV curve. Then
+Let $D$ be an effective special divisor on a Chapter IV curve. Then
 
-`2 * dim|D| <= deg D`.
+$2 \cdot \dim |D| \le \deg D$.
 
 The inequality is integer-valued and equivalent to the traditional
-`dim|D| <= deg D/2` without introducing rational dimensions.
+$\dim |D| \le \deg D/2$ without introducing rational dimensions.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ The inequality is integer-valued and equivalent to the traditional
 
 ## Proof depends on
 
-- Speciality makes `K-D` effective. Apply superadditivity to `D` and `K-D`,
+- Speciality makes $K-D$ effective. Apply superadditivity to $D$ and $K-D$,
   then add the resulting inequality to the Riemann–Roch equality.
 
 ## Sources

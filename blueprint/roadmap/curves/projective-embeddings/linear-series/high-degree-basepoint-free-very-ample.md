@@ -6,10 +6,10 @@ origin: cited
 
 # High-degree divisors are generated and very ample
 
-Let `D` be a divisor on a Chapter IV curve of genus `g`.
+Let $D$ be a divisor on a Chapter IV curve of genus $g$.
 
-- If `deg D >= 2*g`, then `|D|` is basepoint-free.
-- If `deg D >= 2*g+1`, then `D` is very ample.
+- If $\deg D \ge 2\cdot g$, then $|D|$ is basepoint-free.
+- If $\deg D \ge 2\cdot g+1$, then $D$ is very ample.
 
 Both inequalities are integer inequalities and the result is valid in every
 characteristic.
@@ -22,8 +22,8 @@ characteristic.
 
 ## Proof depends on
 
-- Under the first bound, `D` and `D-P` are nonspecial; under the second,
-  `D` and `D-P-Q` are nonspecial, including when `P=Q`.
+- Under the first bound, $D$ and $D-P$ are nonspecial; under the second,
+  $D$ and $D-P-Q$ are nonspecial, including when $P=Q$.
 - Riemann–Roch computes the required dimension drops.
 
 ## Sources

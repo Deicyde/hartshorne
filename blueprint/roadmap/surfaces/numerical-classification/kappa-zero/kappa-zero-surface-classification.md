@@ -7,9 +7,9 @@ not_ready: true
 
 # Exhaustive classification of Kodaira-dimension-zero surfaces
 
-Let `X` be a relatively minimal Chapter-V surface over an algebraically
+Let $X$ be a relatively minimal Chapter-V surface over an algebraically
 closed field of characteristic different from two and three. If
-`kappa(X)=0`, then `X` is exactly one of the following four types:
+$\kappa (X)=0$, then $X$ is exactly one of the following four types:
 
 1. a K3 surface;
 2. an Enriques surface;
@@ -20,11 +20,9 @@ The alternatives use the distinct structures in the surface-type interface;
 the statement does not identify an arbitrary elliptically fibred surface as
 hyperelliptic.
 
-This node is not ready. Hartshorne quotes this one-way exhaustive classification
-without proof. An exact source establishing exhaustivity, exclusivity, the
-classical hyperelliptic quotient description, and the characteristic boundary
-must be adopted.  Characteristics two and three require additional
-quasi-hyperelliptic and exceptional cases and are outside this statement.
+
+Characteristics two and three require additional quasi-hyperelliptic and
+exceptional cases and are outside this statement.
 
 ## Depends on
 

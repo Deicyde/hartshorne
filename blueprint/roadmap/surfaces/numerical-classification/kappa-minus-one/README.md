@@ -17,8 +17,8 @@ inseparable failure is a separate claim.
 - [The separable surface Lüroth theorem](separable-surface-luroth.md)
 - [Surface Lüroth fails without separability](inseparable-surface-luroth-failure.md)
 
-The one-variable theorem `FieldTheory.RatFunc.Luroth` is not evidence for the
-dimension-two results in this chapter.
+The dimension-two results require the surface theory developed here;
+the one-variable Lüroth theorem concerns function fields of curves.
 
 ## Sources
 

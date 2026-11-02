@@ -6,10 +6,10 @@ origin: cited
 
 # Serre symmetry for differential forms
 
-Let `X` be a nonsingular projective `n`-fold over an algebraically closed
-field. For `0≤p,q≤n`, there is a natural isomorphism
+Let $X$ be a nonsingular projective $n$-fold over an algebraically closed
+field. For $0\le p,q\le n$, there is a natural isomorphism
 
-`H^q(X,Ω_X^p) ≃ Dual k (H^(n-q)(X,Ω_X^(n-p)))`.
+$$H^q(X,\Omega_X^p)\cong H^{n-q}(X,\Omega_X^{n-p})^\vee.$$
 
 ## Depends on
 
@@ -21,7 +21,7 @@ field. For `0≤p,q≤n`, there is a natural isomorphism
 ## Proof depends on
 
 - The natural identification
-  `Ω_X^(n-p)≃(Ω_X^p)ᵛ⊗ω_X`.
+  $\Omega _X^{n-p}\simeq (\Omega _X^p)^{\vee}\otimes \omega _X$.
 
 ## Sources
 

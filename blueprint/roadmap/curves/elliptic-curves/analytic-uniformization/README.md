@@ -5,9 +5,9 @@ article_id: af_ee98fa81bf7682a299727e67
 # Analytic uniformization of complex elliptic curves
 
 This chapter records Hartshorne's explicitly imported analytic background
-4.12B–4.15B. The Weierstrass differential equation is already in pinned
-Mathlib. The field of elliptic functions and the analytic quotient
-`C/Lambda` remain a separate representation root.
+4.12B–4.15B. Period lattices, their quotient complex tori, and the field of
+elliptic functions provide the setting for the Weierstrass differential
+equation and the uniformization theorem.
 
 - [Complex lattices and elliptic functions](complex-lattice-elliptic-function-api.md)
 - [The Weierstrass differential equation](weierstrass-p-differential-equation.md)

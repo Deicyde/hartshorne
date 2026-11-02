@@ -9,18 +9,18 @@ mathlib_file: Mathlib/RingTheory/Etale/Kaehler.lean
 
 # Localization of Kähler differentials
 
-Let `T` be a localization of an `R`-algebra `S` at a submonoid `M`.  The
+Let $T$ be a localization of an $R$-algebra $S$ at a submonoid $M$.  The
 canonical map
 
-`Ω[S⁄R] → Ω[T⁄R]`
+$\Omega_{S/ R} \to \Omega_{T/ R}$
 
-exhibits the target as the localization of the source at `M`.  Equivalently,
-there is a canonical `T`-linear equivalence
+exhibits the target as the localization of the source at $M$.  Equivalently,
+there is a canonical $T$-linear equivalence
 
-`T ⊗[S] Ω[S⁄R] ≃ Ω[T⁄R]`.
+$T\otimes_S\Omega_{S/R}\cong\Omega_{T/R}$.
 
-The pinned declaration proves this through the formally étale equivalence
-`KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale`.
+The isomorphism follows from the universal property of
+differentials and the formal étaleness of localization.
 
 ## Depends on
 

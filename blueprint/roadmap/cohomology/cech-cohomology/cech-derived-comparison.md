@@ -6,10 +6,10 @@ origin: cited
 
 # Comparison from Čech to sheaf cohomology
 
-For every open cover `U`, abelian sheaf `F`, and degree `p`, construct a
+For every open cover $U$, abelian sheaf $F$, and degree $p$, construct a
 natural map
 
-`CechH^p(U,F) ⟶ H^p(X,F)`
+$\check{H}^p(U,F)\longrightarrow H^p(X,F)$
 
 which in degree zero is the canonical global-sections isomorphism.
 

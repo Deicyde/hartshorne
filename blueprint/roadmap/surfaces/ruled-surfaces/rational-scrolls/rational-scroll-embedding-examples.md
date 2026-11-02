@@ -6,15 +6,15 @@ origin: cited
 
 # Rational scroll embeddings and examples
 
-For `n>e>=0`, the divisor `C0+n*f` embeds `X_e` as a rational scroll of
+For $n>e\ge 0$, the divisor $C_0+n\cdot f$ embeds $X_e$ as a rational scroll of
 degree
 
-`d=2*n-e`
+$d=2\cdot n-e$
 
-in `P^(d+1)`, with every fibre mapped to a line.
+in $\mathbb{P}^{d+1}$, with every fibre mapped to a line.
 
-This recovers the quadric for `(e,n)=(0,1)`, the cubic scroll for `(1,2)`,
-and two nonisomorphic quartic scrolls in `P^5` for `(0,2)` and `(2,3)`.
+This recovers the quadric for $(e,n)=(0,1)$, the cubic scroll for $(1,2)$,
+and two nonisomorphic quartic scrolls in $\mathbb{P}^5$ for $(0,2)$ and $(2,3)$.
 
 ## Depends on
 
@@ -24,8 +24,8 @@ and two nonisomorphic quartic scrolls in `P^5` for `(0,2)` and `(2,3)`.
 
 ## Proof depends on
 
-- `D*f=1`, `D^2=2n-e`, and
-  `h^0(X,O(D))=h^0(P^1,O(n) direct-sum O(n-e))=2n+2-e`.
+- $D\cdot f=1$, $D^2=2n-e$, and
+  $h^0(X,\mathcal{O}(D))=h^0(\mathbb{P}^1,\mathcal{O}(n)\oplus\mathcal{O}(n-e))=2n+2-e$.
 
 ## Sources
 

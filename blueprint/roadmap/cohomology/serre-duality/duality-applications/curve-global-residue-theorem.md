@@ -7,14 +7,14 @@ not_ready: true
 
 # The global residue theorem
 
-For every rational differential `η∈Ω_(K/k)` on a complete nonsingular
+For every rational differential $\eta \in \Omega _{(K/k)}$ on a complete nonsingular
 curve,
 
-`∑_(P∈X) res_P(η)=0`.
+$\sum _{(P\in X)} \operatorname{res} _P(\eta )=0$.
 
 Only finitely many summands are nonzero. The node remains not ready until one
 of Hartshorne's two indicated proofs is chosen with all compatibility data:
-finite-morphism reduction to `P¹`, or Tate's intrinsic operator construction.
+finite-morphism reduction to $\mathbb{P}^{1}$, or Tate's intrinsic operator construction.
 
 ## Depends on
 
@@ -23,7 +23,7 @@ finite-morphism reduction to `P¹`, or Tate's intrinsic operator construction.
 ## Proof depends on
 
 - Finiteness of the pole set of a rational differential.
-- Either residue compatibility under a finite morphism to `P¹` or Tate's
+- Either residue compatibility under a finite morphism to $\mathbb{P}^{1}$ or Tate's
   finite-potent-operator trace formalism.
 
 ## Sources

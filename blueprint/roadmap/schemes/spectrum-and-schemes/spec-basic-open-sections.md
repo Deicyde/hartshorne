@@ -9,14 +9,13 @@ mathlib_file: Mathlib/AlgebraicGeometry/StructureSheaf.lean
 
 # Sections on a principal open
 
-For `f : A`, the canonical map from `A` to the structure-sheaf sections on
-`D(f)` exhibits those sections as the localization away from `f`:
+For $f \in A$, the canonical map from $A$ to the structure-sheaf sections on
+$D(f)$ exhibits those sections as the localization away from $f$:
 
-`Γ(D(f), 𝒪_{Spec A}) ≅ A_f`.
+$\Gamma (D(f), \mathcal{O} _{\operatorname{Spec} A}) \cong A_f$.
 
-The Mathlib instance is the exact universal-property form of Proposition
-2.2(b).  Its construction follows Hartshorne's finite principal-open cover and
-common-power denominator argument.
+This is Hartshorne's Proposition II.2.2(b). Its proof uses a finite
+principal-open cover and a common power of the denominator.
 
 ## Depends on
 

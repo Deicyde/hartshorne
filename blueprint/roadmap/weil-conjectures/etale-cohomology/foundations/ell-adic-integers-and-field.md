@@ -9,31 +9,27 @@ lean: Hartshorne.EllAdicCoefficientPackage
 
 # The ℓ-adic integers and coefficient field
 
-For a prime `ell`, identify
+For a prime $\ell$, the ring of $\ell$-adic integers is
 
-`Z_ell = inverse-limit_r Z/ell^r Z`
+$$\mathbb{Z}_\ell=\varprojlim_r\mathbb{Z}/\ell^r\mathbb{Z}.$$
 
-with Mathlib's `PadicInt ell`, notation `Z_[ell]`, and let
+Its fraction field is the field of $\ell$-adic numbers:
 
-`Q_ell = Frac(Z_ell)`
+$$\mathbb{Q}_\ell=\operatorname{Frac}(\mathbb{Z}_\ell).$$
 
-be Mathlib's `Padic ell`, notation `Q_[ell]`.  Record the reduction maps to
-`ZMod (ell^r)` and the scalar extension `Z_ell -> Q_ell`.
-
-This coefficient package is existing infrastructure, but no single pinned
-declaration states the whole inverse-limit/fraction-field bridge as this
-source-shaped leaf.
+The coefficient system includes the reduction maps
+$\mathbb{Z}_\ell\to\mathbb{Z}/\ell^r\mathbb{Z}$ and the scalar-extension
+map $\mathbb{Z}_\ell\hookrightarrow\mathbb{Q}_\ell$.
 
 ## Depends on
 
-No project-local geometric prerequisite; this leaf packages pinned p-adic
-coefficient-ring infrastructure in the source's inverse-system convention.
+No project-local geometric prerequisite.
 
 ## Proof depends on
 
-- `PadicInt`, `Padic`, `PadicInt.toZModPow`, and the universal-property
-  declarations in `Mathlib/NumberTheory/Padics/RingHoms.lean`.
-- Categorical inverse limits of the reduction system `ZMod (ell^r)`.
+- The universal properties of the $\ell$-adic integers, their fraction
+  field, and the coefficient-reduction maps.
+- Inverse limits of the reduction system $\mathbb{Z}/\ell^r\mathbb{Z}$.
 
 ## Sources
 

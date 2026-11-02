@@ -6,11 +6,11 @@ origin: cited
 
 # Eventual comparison of global and sheaf Ext
 
-Let `X` be projective over a Noetherian ring, let `O_X(1)` be very ample, and
-let `F,G` be coherent. For each `i`, there is `n₀` such that for every
-`n ≥ n₀`, the natural map
+Let $X$ be projective over a Noetherian ring, let $\mathcal{O}_X(1)$ be very ample, and
+let $F,G$ be coherent. For each $i$, there is $n_{0}$ such that for every
+$n \ge n_{0}$, the natural map
 
-`Ext^i_X(F,G(n)) ⟶ Γ(X,𝓔xt^i_X(F,G(n)))`
+$\operatorname{Ext} ^i_X(F,G(n)) \longrightarrow \Gamma (X,\mathcal{E}xt^i_X(F,G(n)))$
 
 is an isomorphism.
 

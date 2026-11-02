@@ -8,14 +8,9 @@ not_ready: true
 # Classification of indecomposable elliptic ruled surfaces
 
 Over an algebraically closed field of arbitrary characteristic, an
-indecomposable elliptic ruled surface has invariant `e=0` or `e=-1`, and
+indecomposable elliptic ruled surface has invariant $e=0$ or $e=-1$, and
 there is exactly one ruled surface up to isomorphism for each value.
 
-This node is not ready. Hartshorne's proof of uniqueness for `e=-1`
-explicitly assumes characteristic different from two. The
-arbitrary-characteristic statement requires an exact adopted passage from
-Atiyah's classification or another source; it must not be inferred from the
-preceding characteristic-not-two leaf.
 
 ## Depends on
 

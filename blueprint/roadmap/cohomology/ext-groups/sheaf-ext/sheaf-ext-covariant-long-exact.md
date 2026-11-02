@@ -6,11 +6,11 @@ origin: cited
 
 # The covariant long exact sequence of sheaf Ext
 
-For a fixed `O_X`-module `F` and a short exact sequence
-`0 ⟶ G' ⟶ G ⟶ G'' ⟶ 0`, the sheaves `𝓔xt^n_X(F,-)` form the natural
+For a fixed $\mathcal{O}_X$-module $F$ and a short exact sequence
+$0 \longrightarrow G' \longrightarrow G \longrightarrow G'' \longrightarrow 0$, the sheaves $\mathcal{E}xt^n_X(F,-)$ form the natural
 covariant long exact sequence beginning
 
-`0 ⟶ 𝓗om(F,G') ⟶ 𝓗om(F,G) ⟶ 𝓗om(F,G'') ⟶ 𝓔xt^1(F,G') ⟶ ⋯`.
+$0 \longrightarrow \mathcal{H}om(F,G') \longrightarrow \mathcal{H}om(F,G) \longrightarrow \mathcal{H}om(F,G'') \longrightarrow \mathcal{E}xt^1(F,G') \longrightarrow \cdots$.
 
 ## Depends on
 

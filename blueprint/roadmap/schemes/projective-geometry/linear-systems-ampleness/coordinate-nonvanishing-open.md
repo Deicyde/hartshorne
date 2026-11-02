@@ -6,10 +6,10 @@ origin: cited
 
 # Coordinate nonvanishing opens
 
-For the morphism defined by generators `s_0,...,s_n`, the inverse image of
-`D_+(x_i)` is the locus `X_{s_i}` where `s_i` generates the line-bundle stalk.
-After trivializing by `s_i`, the restricted morphism is induced by
-`A[x_j/x_i] -> Gamma(X_{s_i}, O_X)`, sending `x_j/x_i` to `s_j/s_i`.
+For the morphism defined by generators $s_0,\ldots ,s_n$, the inverse image of
+$D_+(x_i)$ is the locus $X_{s_i}$ where $s_i$ generates the line-bundle stalk.
+After trivializing by $s_i$, the restricted morphism is induced by
+$A[x_j/x_i] \to \Gamma (X_{s_i}, \mathcal{O}_X)$, sending $x_j/x_i$ to $s_j/s_i$.
 
 ## Depends on
 
@@ -18,8 +18,7 @@ After trivializing by `s_i`, the restricted morphism is induced by
 
 ## Proof depends on
 
-- `AlgebraicGeometry.Proj.fromOfGlobalSections_preimage_basicOpen` and
-  `fromOfGlobalSections_morphismRestrict`.
+- A coordinate basic open pulls back to the nonvanishing open of the corresponding section, with compatible restrictions.
 
 ## Sources
 

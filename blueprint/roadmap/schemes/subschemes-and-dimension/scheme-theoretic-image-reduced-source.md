@@ -6,14 +6,12 @@ origin: cited
 
 # The scheme-theoretic image of a reduced source
 
-If `f : Z → X` has reduced source, its scheme-theoretic image is the reduced
-induced closed subscheme on `closure (f(Z))`.
+If $f : Z \to X$ has reduced source, its scheme-theoretic image is the reduced
+induced closed subscheme on $\operatorname{closure} (f(Z))$.
 
-Identify the kernel ideal sheaf defining `f.image` with the vanishing ideal of
-the closure. Mathlib proves `Hom.support_ker` under a quasi-compact hypothesis;
-Hartshorne's exercise is unrestricted, so the project must either remove that
-hypothesis or give a direct local proof before invoking the smallest reduced
-structure.
+Identify the kernel ideal sheaf defining the image with the
+vanishing ideal of the closure, then use the smallest reduced
+structure on that closed subset.
 
 ## Depends on
 

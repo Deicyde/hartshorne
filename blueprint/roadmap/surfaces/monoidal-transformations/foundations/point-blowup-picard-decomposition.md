@@ -6,14 +6,14 @@ origin: cited
 
 # The Picard group of a point blowup
 
-For `pi:X_tilde->X`, pullback and the exceptional class induce an isomorphism
+For $\pi:\widetilde X\to X$, pullback and the exceptional class induce an isomorphism
 
-`Pic(X) direct-sum Z ~= Pic(X_tilde)`,
+$\operatorname{Pic}(X)\oplus\mathbb Z\simeq\operatorname{Pic}(\widetilde X)$,
 
-`(L,n) |-> pi^*L tensor O_X_tilde(nE)`.
+$(L,n) \mapsto \pi ^*L \otimes \mathcal{O}_\widetilde{X}(nE)$.
 
-Thus every divisor class on `X_tilde` has a unique expression
-`pi^*D+nE`.
+Thus every divisor class on $\widetilde X$ has a unique expression
+$\pi ^*D+nE$.
 
 ## Depends on
 
@@ -24,9 +24,9 @@ Thus every divisor class on `X_tilde` has a unique expression
 
 ## Proof depends on
 
-- Restriction identifies the complements `X_tilde-E` and `X-P`; their class
-  groups are `Cl(X)/0` and `Cl(X_tilde)/Z[E]`.
-- Pullback splits the resulting exact sequence, and `E^2=-1` makes the
+- Restriction identifies the complements $\widetilde{X}-E$ and $X-P$; their class
+  groups are $Cl(X)/0$ and $Cl(\widetilde{X})/Z[E]$.
+- Pullback splits the resulting exact sequence, and $E^2=-1$ makes the
   exceptional-class map injective.
 
 ## Sources

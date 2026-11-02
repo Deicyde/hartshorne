@@ -7,12 +7,12 @@ not_ready: true
 
 # Algebraic and supported sheaf local cohomology
 
-Let `A` be Noetherian, `a` an ideal, `X = Spec A`, `Y = V(a)`, and `M` an
-`A`-module. There are natural isomorphisms
+Let $A$ be Noetherian, $a$ an ideal, $X = \operatorname{Spec} A$, $Y = V(a)$, and $M$ an
+$A$-module. There are natural isomorphisms
 
-`H_a^i(M) ≅ H_Y^i(X,Mtilde)`
+$H_a^i(M) \cong H_Y^i(X,\widetilde{M} )$
 
-for all `i`.
+for all $i$.
 
 ## Depends on
 

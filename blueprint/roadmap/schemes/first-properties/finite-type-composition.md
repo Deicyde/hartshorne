@@ -11,7 +11,8 @@ lean: Hartshorne.finiteType_comp
 
 The composite of two morphisms of finite type is finite type.
 
-Compose the `LocallyOfFiniteType` instances and the `QuasiCompact` instances separately.
+Local finite type and quasi-compactness are separately preserved
+by composition.
 
 ## Depends on
 

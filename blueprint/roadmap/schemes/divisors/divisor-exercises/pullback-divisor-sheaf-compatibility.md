@@ -6,13 +6,13 @@ origin: cited
 
 # Pullback compatibility for divisor sheaves on curves
 
-Let `f : X → Y` be a finite morphism of nonsingular curves. For every Weil
-divisor `D` on `Y`, prove a natural isomorphism
+Let $f : X \to Y$ be a finite morphism of nonsingular curves. For every Weil
+divisor $D$ on $Y$, prove a natural isomorphism
 
-`f* O_Y(D) ≅ O_X(f*D)`.
+$f^* \mathcal{O}_Y(D) \cong \mathcal{O}_X(f^* D)$.
 
-On the left, `f*` is pullback of invertible sheaves; inside the right-hand
-divisor, it is the valuation-weighted pullback `Div Y → Div X`. This is
+On the left, $f^*$ is pullback of invertible sheaves; inside the right-hand
+divisor, it is the valuation-weighted pullback $\operatorname{Div} Y \to \operatorname{Div} X$. This is
 Exercise 6.8(b), and it is the compatibility used in IV.2.
 
 ## Depends on
@@ -24,8 +24,8 @@ Exercise 6.8(b), and it is the compatibility used in IV.2.
 
 ## Proof depends on
 
-- Pulling back a local equation multiplies its order at `P` by the
-  ramification index over `f(P)`.
+- Pulling back a local equation multiplies its order at $P$ by the
+  ramification index over $f(P)$.
 - Isomorphisms of invertible sheaves may be checked on a trivializing cover.
 
 ## Sources

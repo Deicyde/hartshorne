@@ -6,7 +6,7 @@ origin: cited
 
 # The meromorphic-function field of a compact complex manifold
 
-For a connected complex manifold `M`, define `K(M)` to be the field of global
+For a connected complex manifold $M$, define $K(M)$ to be the field of global
 meromorphic functions, represented locally by quotients of holomorphic
 functions and glued across their domains of definition.
 

@@ -6,8 +6,8 @@ origin: cited
 
 # Every ruled surface is birationally ruled
 
-If `X -> C` is a ruled surface, then `X` is birational over `C` to
-`C x P^1`. In particular every ruled surface is birationally ruled in
+If $X \to C$ is a ruled surface, then $X$ is birational over $C$ to
+$C x \mathbb{P}^1$. In particular every ruled surface is birationally ruled in
 Hartshorne's terminology.
 
 ## Depends on
@@ -17,7 +17,7 @@ Hartshorne's terminology.
 ## Proof depends on
 
 - A rank-two bundle is trivial on a nonempty open subset of the integral
-  curve `C`.
+  curve $C$.
 
 ## Sources
 

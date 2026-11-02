@@ -6,15 +6,15 @@ origin: cited
 
 # Elementary transformations of ruled surfaces
 
-Let `pi:X->C` be a geometrically ruled surface, let `P` lie on the fibre
-`L`, and blow up `P`.  The strict transform of `L` is a projective line of
+Let $\pi :X\to C$ be a geometrically ruled surface, let $P$ lie on the fibre
+$L$, and blow up $P$.  The strict transform of $L$ is a projective line of
 self-intersection minus one, so Castelnuovo contracts it.  The resulting
-surface `X'` carries a morphism `pi':X'->C` and is again geometrically ruled.
+surface $X'$ carries a morphism $\pi ':X'\to C$ and is again geometrically ruled.
 
 The image of the first exceptional curve is a projective line of square zero;
-all fibres of `pi'` are projective lines, and the strict transform of a
+all fibres of $\pi '$ are projective lines, and the strict transform of a
 section supplies a section.  The resulting ruled surface is the elementary
-transform `elm_P X`.
+transform $\operatorname{elm}_P X$.
 
 ## Depends on
 

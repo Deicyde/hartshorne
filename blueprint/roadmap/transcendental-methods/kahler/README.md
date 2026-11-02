@@ -6,7 +6,7 @@ article_id: af_3acd05b7c19fb2a31554df6a
 
 This chapter packages the differential-geometric notions used by Hartshorne
 and records the Kodaira and Moishezon projectivity theorems.  “Kähler” here
-refers to a Hermitian metric with closed positive `(1,1)`-form and has no
+refers to a Hermitian metric with closed positive $(1,1)$-form and has no
 connection to algebraic Kähler differentials.
 
 - [Hermitian and Kähler manifolds](hermitian-kahler-manifold-api.md)

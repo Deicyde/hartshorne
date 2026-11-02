@@ -6,9 +6,9 @@ origin: cited
 
 # Differentials characterize nonsingular varieties
 
-Let `X` be an integral separated scheme of finite type over an algebraically
-closed field `k`, and let `n = dim X`.  Then `X` is nonsingular if and only if
-`Ω[X/k]` is locally free of constant rank `n`.
+Let $X$ be an integral separated scheme of finite type over an algebraically
+closed field $k$, and let $n = \dim X$.  Then $X$ is nonsingular if and only if
+$\Omega_{X/k}$ is locally free of constant rank $n$.
 
 This is a statement about the differential sheaf.  Its fiber at a closed
 point is compared with the cotangent space before applying the regular-local

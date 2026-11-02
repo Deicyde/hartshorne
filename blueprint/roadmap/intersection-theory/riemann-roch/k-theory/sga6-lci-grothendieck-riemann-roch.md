@@ -7,13 +7,11 @@ not_ready: true
 
 # The SGA6 lci extension of GRR
 
-Let `Y` be Noetherian with an ample invertible sheaf and let `f:X->Y` be a
+Let $Y$ be Noetherian with an ample invertible sheaf and let $f:X\to Y$ be a
 projective local-complete-intersection morphism. The SGA6 form of
 Grothendieck–Riemann–Roch extends the smooth-projective formula using the
 virtual relative tangent class.
 
-This node is not ready pending an exact SGA6/Manin theorem statement and the
-virtual-bundle formalism.
 
 ## Depends on
 

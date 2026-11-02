@@ -6,9 +6,9 @@ origin: cited
 
 # The pushforward of the structure sheaf of a ruled surface
 
-For a ruled surface `pi : X -> C`, the structural map is an isomorphism
+For a ruled surface $\pi : X \to C$, the structural map is an isomorphism
 
-`O_C ~= pi_* O_X`.
+$\mathcal{O}_C \simeq \pi _* \mathcal{O}_X$.
 
 ## Depends on
 
@@ -16,8 +16,8 @@ For a ruled surface `pi : X -> C`, the structural map is an isomorphism
 
 ## Proof depends on
 
-- Under residue-field base change the global section `1` generates every
-  one-dimensional fibre of `pi_* O_X`.
+- Under residue-field base change the global section $1$ generates every
+  one-dimensional fibre of $\pi _* \mathcal{O}_X$.
 
 ## Sources
 

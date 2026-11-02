@@ -9,12 +9,12 @@ lean: Hartshorne.kaehlerFirstExactSequence
 
 # The first exact sequence
 
-For ring maps `A → B → C`, the natural sequence of `C`-modules
+For ring maps $A \to B \to C$, the natural sequence of $C$-modules
 
-`C ⊗[B] Ω[B⁄A] → Ω[C⁄A] → Ω[C⁄B] → 0`
+$C\otimes_B\Omega_{B/A}\longrightarrow\Omega_{C/A}\longrightarrow\Omega_{C/B}\longrightarrow0$
 
-is exact.  The first map sends `c ⊗ db` to `c · db`, and the second forgets
-that elements of `B` may vary over `A`.
+is exact.  The first map sends $c \otimes db$ to $c \cdot db$, and the second forgets
+that elements of $B$ may vary over $A$.
 
 ## Depends on
 
@@ -22,11 +22,8 @@ that elements of `B` may vary over `A`.
 
 ## Proof depends on
 
-- `KaehlerDifferential.exact_mapBaseChange_map` proves exactness at
-  `Ω[C⁄A]`.
-- `KaehlerDifferential.map_surjective` proves surjectivity onto `Ω[C⁄B]`.
-- Both primitives are in `Mathlib/RingTheory/Kaehler/Basic.lean`; the full
-  source-shaped right-exact sequence is the project wrapper.
+- The universal property identifies the kernel at the middle differential module.
+- The final map on differential modules is surjective.
 
 ## Sources
 

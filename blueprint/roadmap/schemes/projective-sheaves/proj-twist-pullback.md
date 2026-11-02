@@ -6,18 +6,18 @@ origin: cited
 
 # Pullback of twisting sheaves
 
-Let `S → T` preserve degrees, with both rings generated in degree one, and
-let `f : U → Proj S` be the induced morphism from an open `U ⊆ Proj T`.
+Let $S \to T$ preserve degrees, with both rings generated in degree one, and
+let $f : U \to \operatorname{Proj} S$ be the induced morphism from an open $U \subseteq \operatorname{Proj} T$.
 Then
 
-`f^* O_{Proj S}(n) ≅ O_{Proj T}(n)|_U`,
+$f^* \mathcal{O}_{\operatorname{Proj} S}(n) \cong \mathcal{O}_{\operatorname{Proj} T}(n)|_U$,
 
 and the direct image satisfies
 
-`f_*(O_{Proj T}(n)|_U) ≅ (f_*O_U)(n)`,
+$f_*(\mathcal{O}_{\operatorname{Proj} T}(n)|_U) \cong (f_*\mathcal{O}_U)(n)$,
 
-where the twist on the right uses the `O_{Proj S}`-module structure of
-`f_*O_U`. This is a pushforward formula; it is not a claim that arbitrary
+where the twist on the right uses the $\mathcal{O}_{\operatorname{Proj} S}$-module structure of
+$f_*\mathcal{O}_U$. This is a pushforward formula; it is not a claim that arbitrary
 module twists commute with pullback.
 
 ## Depends on

@@ -9,14 +9,13 @@ mathlib_file: Mathlib/RingTheory/Kaehler/TensorProduct.lean
 
 # Base change for Kähler differentials
 
-Given a pushout square of rings with `B = S ⊗[R] A`, there is a canonical
-`B`-linear equivalence
+Given a pushout square of rings with $B=S\otimes_R A$, there is a canonical
+$B$-linear equivalence
 
-`B ⊗[A] Ω[A⁄R] ≃ Ω[B⁄S]`.
+$B\otimes_A\Omega_{A/R}\cong\Omega_{B/S}$.
 
-This is the base-change clause of Hartshorne's background Proposition 8.2A in
-Mathlib's pushout-oriented API.  Localization is recorded separately because
-its exact stable declaration uses the formally étale localization API.
+This is the base-change clause of Hartshorne's background
+Proposition II.8.2A. Localization is treated separately.
 
 ## Depends on
 

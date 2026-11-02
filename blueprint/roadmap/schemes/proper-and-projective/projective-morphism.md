@@ -9,15 +9,13 @@ lean: Hartshorne.Projective
 
 # Projective morphisms
 
-A morphism `f : X ⟶ Y` is projective when there are a natural number `n`
-and a closed immersion `i : X ⟶ ℙⁿ_Y` such that `f` is `i` followed by
+A morphism $f : X \longrightarrow Y$ is projective when there are a natural number $n$
+and a closed immersion $i : X \longrightarrow \mathbb{P} ^{n}_Y$ such that $f$ is $i$ followed by
 the relative projective-space projection.
 
-Package the witnessing dimension, closed immersion, and factorization equation
-so that the property respects isomorphism of arrows. Expose constructors for
-closed immersions and for the projection `ℙⁿ_Y ⟶ Y`. Mathlib has no
-existing general projective-morphism predicate, so this is project API rather
-than an alias.
+This property is invariant under isomorphism of morphisms. Closed
+immersions and the projection $\mathbb{P}^n_Y\to Y$ give the basic
+examples.
 
 ## Depends on
 

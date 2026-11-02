@@ -6,9 +6,9 @@ origin: cited
 
 # Projective normality on a quadric
 
-Let `k` be algebraically closed and let `Y⊆Q⊆P³_k` be an irreducible
-nonsingular curve of type `(a,b)` with `a,b>0`. Then `Y` is projectively
-normal in `P³` if and only if `|a-b|≤1`.
+Let $k$ be algebraically closed and let $Y\subseteq Q\subseteq \mathbb{P}^{3}_k$ be an irreducible
+nonsingular curve of type $(a,b)$ with $a,b>0$. Then $Y$ is projectively
+normal in $\mathbb{P}^{3}$ if and only if $|a-b|\le 1$.
 
 ## Depends on
 
@@ -16,7 +16,7 @@ normal in `P³` if and only if `|a-b|≤1`.
 
 ## Proof depends on
 
-- Twist the divisor sequence by `O_Q(n,n)` and use the exact restriction
+- Twist the divisor sequence by $\mathcal{O}_Q(n,n)$ and use the exact restriction
   sequence in every nonnegative degree.
 - [Balanced quadric H¹ vanishing](quadric-h1-balanced-vanishing.md)
 - [Ruling-direction quadric H¹ nonvanishing](quadric-h1-ruling-nonvanishing.md)

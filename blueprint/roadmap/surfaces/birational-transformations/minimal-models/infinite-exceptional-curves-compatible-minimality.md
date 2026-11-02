@@ -7,7 +7,7 @@ origin: cited
 # Infinite exceptional curves do not prevent termination
 
 Over an uncountable algebraically closed field, blowing up at least nine
-general points of `P^2` can produce a surface with infinitely many exceptional
+general points of $\mathbb{P}^2$ can produce a surface with infinitely many exceptional
 curves of the first kind.
 
 This does not contradict termination: the cohomological argument bounds the

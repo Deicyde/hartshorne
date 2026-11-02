@@ -6,9 +6,9 @@ origin: cited
 
 # Pushforwards of projective-bundle twists
 
-If `E` has rank at least two and `pi : P(E) -> X`, there is a canonical graded
-isomorphism `Sym(E) ≅ direct-sum_{l in Z} pi_* O(l)`. In particular the
-negative terms vanish, `pi_* O = O_X`, and `pi_* O(1) = E`.
+If $E$ has rank at least two and $\pi : P(E) \to X$, there is a canonical graded
+isomorphism $\operatorname{Sym}(E)\cong\bigoplus_{l\in\mathbb{Z}}\pi_*\mathcal{O}(l)$. In particular the
+negative terms vanish, $\pi _* O = \mathcal{O}_X$, and $\pi _* \mathcal{O}(1) = E$.
 
 ## Depends on
 

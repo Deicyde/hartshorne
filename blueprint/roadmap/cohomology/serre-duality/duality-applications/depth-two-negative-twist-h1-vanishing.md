@@ -6,12 +6,12 @@ origin: cited
 
 # Depth-two negative-twist vanishing
 
-Let `X` be proper over an algebraically closed field, `L` ample, and `F`
-coherent. If `depth(F_x)≥2` at every closed point, then
+Let $X$ be proper over an algebraically closed field, $L$ ample, and $F$
+coherent. If $\operatorname{depth} (F_x)\ge 2$ at every closed point, then
 
-`H¹(X,F⊗L^m)=0`
+$H^{1}(X,F\otimes L^m)=0$
 
-for all sufficiently negative integers `m`.
+for all sufficiently negative integers $m$.
 
 This depth formulation is the reusable Enriques–Severi–Zariski theorem; the
 normal locally free case is a corollary.

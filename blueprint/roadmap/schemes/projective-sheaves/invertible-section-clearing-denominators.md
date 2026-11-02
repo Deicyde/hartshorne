@@ -6,13 +6,13 @@ origin: cited
 
 # Clearing denominators with an invertible section
 
-Let `L` be invertible on `X`, `f ∈ Γ(X,L)`, and `X_f` its nonvanishing
-locus. For quasi-coherent `F`:
+Let $L$ be invertible on $X$, $f \in \Gamma (X,L)$, and $X_f$ its nonvanishing
+locus. For quasi-coherent $F$:
 
-- if `X` is quasi-compact and `s ∈ Γ(X,F)` vanishes on `X_f`, then
-  `f^n s = 0` for some `n`;
+- if $X$ is quasi-compact and $s \in \Gamma (X,F)$ vanishes on $X_f$, then
+  $f^n s = 0$ for some $n$;
 - under Hartshorne's finite affine-cover and quasi-compact-overlap hypotheses,
-  every `t ∈ Γ(X_f,F)` extends after multiplication by some `f^n`.
+  every $t \in \Gamma (X_f,F)$ extends after multiplication by some $f^n$.
 
 The unique main result is this two-sided localization theorem; the two clauses
 are its uniqueness and existence halves.

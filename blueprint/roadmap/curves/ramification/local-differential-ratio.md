@@ -6,11 +6,11 @@ origin: cited
 
 # The local differential ratio
 
-For a finite separable curve map `f : X -> Y`, a point `P : X`, `Q=f(P)`,
-and uniformizers `u` at `P` and `t` at `Q`, define the unique element
-`dt/du in O_(X,P)` by
+For a finite separable curve map $f : X \to Y$, a point $P \in X$, $Q=f(P)$,
+and uniformizers $u$ at $P$ and $t$ at $Q$, define the unique element
+$dt/du \in \mathcal{O}_{X,P}$ by
 
-`f^*(dt) = (dt/du) du`.
+$f^*(dt) = (dt/du) du$.
 
 Changing either uniformizer multiplies the resulting local equation by a
 unit in the way required for its valuation and principal ideal to be
@@ -28,5 +28,5 @@ intrinsic.
 
 ## Sources
 
-- [Hartshorne IV.2, definition of `dt/du`, p.300](../../../sources/hartshorne-iv-2.md#finite-maps-ramification-and-the-different-pp299301)
+- [Hartshorne IV.2, definition of $dt/du$, p.300](../../../sources/hartshorne-iv-2.md#finite-maps-ramification-and-the-different-pp299301)
 - [Stacks Project, uniformizer differentials, tag 0C1E](../../../sources/hartshorne-iv-2.md#external-proof-sources)

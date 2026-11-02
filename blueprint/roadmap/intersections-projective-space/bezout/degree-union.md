@@ -9,10 +9,10 @@ lean: Hartshorne.projectiveDegree_union
 
 # Degree is additive across a top-dimensional union
 
-Let `Y = Y₁ ∪ Y₂` be a projective algebraic set. If `Y₁` and `Y₂` both have
-dimension `r` and `dim (Y₁ ∩ Y₂) < r`, then
+Let $Y = Y_{1} \cup Y_{2}$ be a projective algebraic set. If $Y_{1}$ and $Y_{2}$ both have
+dimension $r$ and $\dim (Y_{1} \cap Y_{2}) < r$, then
 
-`projectiveDegree Y = projectiveDegree Y₁ + projectiveDegree Y₂`.
+$\deg Y = \deg Y_{1} + \deg Y_{2}$.
 
 This is Proposition 7.6(b). Additivity of Hilbert polynomials along the union
 exact sequence shows that the intersection term has too small a degree to

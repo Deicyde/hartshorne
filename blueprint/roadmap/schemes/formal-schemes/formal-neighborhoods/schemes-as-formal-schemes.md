@@ -6,8 +6,8 @@ origin: cited
 
 # Schemes as formal schemes
 
-If a Noetherian scheme `X` is completed along the closed subscheme `Y = X`,
-then the canonical map identifies its completion with `X` as a locally ringed
+If a Noetherian scheme $X$ is completed along the closed subscheme $Y = X$,
+then the canonical map identifies its completion with $X$ as a locally ringed
 space. Consequently Noetherian schemes embed into Hartshorne's category of
 Noetherian formal schemes.
 
@@ -17,7 +17,7 @@ Noetherian formal schemes.
 
 ## Proof depends on
 
-- The defining ideal is zero and every shifted quotient by `0^(n+1)` is
+- The defining ideal is zero and every shifted quotient by $0^{n+1}$ is
   canonically the original structure sheaf.
 
 ## Sources

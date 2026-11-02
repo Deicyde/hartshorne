@@ -6,9 +6,9 @@ origin: cited
 
 # An ample twist makes relative Proj projective
 
-If `X` admits an ample invertible sheaf `L`, then `Proj_X S -> X` is
-projective. For sufficiently large `n`, the invertible sheaf
-`O(1) tensor pi^* L^n` is very ample relative to `X`.
+If $X$ admits an ample invertible sheaf $L$, then $\operatorname{Proj} _X S \to X$ is
+projective. For sufficiently large $n$, the invertible sheaf
+$\mathcal{O}(1) \otimes \pi ^* L^n$ is very ample relative to $X$.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ projective. For sufficiently large `n`, the invertible sheaf
 ## Proof depends on
 
 - [A graded quotient induces a closed immersion of Proj](../../normalization-and-exercises/proj-surjection-closed-immersion.md)
-- Finite global generation of `S_1 tensor L^n`.
+- Finite global generation of $S_1 \otimes L^n$.
 
 ## Sources
 

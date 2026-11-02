@@ -6,12 +6,12 @@ origin: cited
 
 # Moishezon manifolds
 
-A connected compact complex manifold `M` of dimension `n` is Moishezon when
+A connected compact complex manifold $M$ of dimension $n$ is Moishezon when
 
-`trdeg_C K(M)=n`.
+$\operatorname{trdeg} _\mathbb{C} K(M)=n$.
 
 This is maximal algebraic dimension in Siegel's bound.  It does not by itself
-assert that `M` is the analytification of a scheme or that it is projective.
+assert that $M$ is the analytification of a scheme or that it is projective.
 
 ## Depends on
 

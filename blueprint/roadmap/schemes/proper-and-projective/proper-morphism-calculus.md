@@ -11,14 +11,14 @@ lean: Hartshorne.properMorphismCalculus
 
 Proper morphisms satisfy all clauses of Corollary 4.8: closed immersions are
 proper; composites and base changes of proper morphisms are proper; products
-over a base are proper; if `g ∘ f` is proper and `g` is separated, then `f`
+over a base are proper; if $g \circ f$ is proper and $g$ is separated, then $f$
 is proper; and properness is local on the target.
 
-Package these statements together as the working API. Use the corresponding
-separated and local-finite-type calculus for those components. Universal
-closedness is stable under composition and base change, and cancels from a
-composite against a separated second map by applying the diagonal argument.
-Alternatively, all clauses follow uniformly from unique valuation lifts.
+Separatedness and local finite type satisfy the corresponding
+composition and base-change rules. Universal closedness is stable
+under composition and base change, and cancels from a composite
+against a separated second map by the diagonal argument.
+Alternatively, the assertions follow from unique valuation lifts.
 
 ## Depends on
 
@@ -31,8 +31,7 @@ Alternatively, all clauses follow uniformly from unique valuation lifts.
 - [Separated-morphism calculus](../separated-morphisms/separated-morphism-calculus.md)
 - [Finite-type morphisms compose](../first-properties/finite-type-composition.md)
 - [Finite type is stable under base extension](../fiber-products/finite-type-base-change.md)
-- `IsProper.stableUnderComposition`, `IsProper.isStableUnderBaseChange`, and
-  `IsProper.of_comp` from `Mathlib/AlgebraicGeometry/Morphisms/Proper.lean`.
+- Composition, base change, and cancellation rules for properness.
 
 ## Sources
 

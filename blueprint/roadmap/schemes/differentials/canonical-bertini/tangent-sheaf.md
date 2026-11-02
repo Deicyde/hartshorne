@@ -6,11 +6,11 @@ origin: cited
 
 # The tangent sheaf
 
-For a nonsingular variety `X` over `k`, define the tangent sheaf by
+For a nonsingular variety $X$ over $k$, define the tangent sheaf by
 
-`T_X = Hom_OX(Omega_(X/k), O_X)`.
+$T_X = \operatorname{\operatorname{Hom} }_{\mathcal{O}_X}(\Omega _{(X/k)}, \mathcal{O}_X)$.
 
-It is finite locally free of rank `dim X`.
+It is finite locally free of rank $\dim X$.
 
 ## Depends on
 

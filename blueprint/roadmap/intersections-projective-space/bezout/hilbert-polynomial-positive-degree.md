@@ -9,14 +9,14 @@ lean: Hartshorne.projectiveDegree_eq_natCast_of_nonempty
 
 # A nonempty projective algebraic set has positive integral degree
 
-Let `Y ⊆ ℙⁿ` be a nonempty projective algebraic set of dimension `r`. Then
-`r!` times the leading coefficient of its Hilbert polynomial is a positive
-integer. In particular, `projectiveDegree Y` lands in the natural numbers and
+Let $Y \subseteq \mathbb{P} ^{n}$ be a nonempty projective algebraic set of dimension $r$. Then
+$r!$ times the leading coefficient of its Hilbert polynomial is a positive
+integer. In particular, $\deg Y$ lands in the natural numbers and
 is strictly positive.
 
 This is Proposition 7.6(a). The binomial-basis expansion makes the scaled
 leading coefficient integral. Eventual equality with the nonnegative Hilbert
-function makes it positive because the polynomial is nonzero of degree `r`.
+function makes it positive because the polynomial is nonzero of degree $r$.
 
 ## Depends on
 

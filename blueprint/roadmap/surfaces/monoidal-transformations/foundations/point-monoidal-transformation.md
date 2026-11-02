@@ -6,13 +6,13 @@ origin: cited
 
 # Monoidal transformation at a point
 
-Let `X` be a Chapter-V surface and `P` a closed point. Define the monoidal
-transformation with center `P` to be the blowup
+Let $X$ be a Chapter-V surface and $P$ a closed point. Define the monoidal
+transformation with center $P$ to be the blowup
 
-`pi : X_tilde = Bl_P(X) -> X`.
+$\pi : \widetilde{X} = Bl_P(X) \to X$.
 
-Let `E=pi^(-1)(P)` be its exceptional divisor. The morphism restricts to an
-isomorphism `X_tilde-E ~= X-P`.
+Let $E=\pi ^{-1}(P)$ be its exceptional divisor. The morphism restricts to an
+isomorphism $\widetilde{X}-E \simeq X-P$.
 
 ## Depends on
 

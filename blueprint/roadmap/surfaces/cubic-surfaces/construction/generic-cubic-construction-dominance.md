@@ -11,16 +11,12 @@ The family obtained from six ordered plane points in general position,
 followed by projective changes of coordinates in the source and target, has
 dimension
 
-`12-8+15=19`.
+$12-8+15=19$.
 
-The projective space of cubic equations in `P^3` also has dimension nineteen,
+The projective space of cubic equations in $\mathbb{P}^3$ also has dimension nineteen,
 and the construction map has dense image in its smooth locus. Thus a general
 nonsingular cubic surface arises from the six-point blowup construction.
 
-This node is not ready. Hartshorne supplies the dimension count but equality
-of dimensions alone does not prove dominance. A precise parameter-space map
-and generic-fibre argument, or an external proof of generic dominance, must
-be adopted.
 
 ## Depends on
 

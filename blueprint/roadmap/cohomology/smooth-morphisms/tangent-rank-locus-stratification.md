@@ -6,13 +6,13 @@ origin: bridged
 
 # Constructible tangent-rank strata
 
-Let `f : X -> Y` be a morphism of finite-type schemes over an algebraically
-closed field. For every integer `r`, the closed-point subset
+Let $f : X \to Y$ be a morphism of finite-type schemes over an algebraically
+closed field. For every integer $r$, the closed-point subset
 
-`rank(Tf_x) <= r`
+$\operatorname{rank} (Tf_x) \le r$
 
-is constructible. Produce a finite stratification of `X` by locally closed
-reduced subschemes on which `X`, the relevant stratum of `Y`, and the
+is constructible. Produce a finite stratification of $X$ by locally closed
+reduced subschemes on which $X$, the relevant stratum of $Y$, and the
 cotangent presentations are nonsingular and the rank is constant. Every
 irreducible component of the closure of the rank subset contains a dense
 irreducible stratum, and closed points remain dense on that stratum and its

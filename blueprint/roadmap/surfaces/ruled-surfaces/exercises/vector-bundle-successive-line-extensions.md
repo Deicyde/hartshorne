@@ -6,12 +6,12 @@ origin: cited
 
 # Vector bundles on curves are successive extensions of line bundles
 
-Let `E` be a finite locally free sheaf of rank `r` on a nonsingular curve
-`C`. There is a filtration by locally free subsheaves
+Let $E$ be a finite locally free sheaf of rank $r$ on a nonsingular curve
+$C$. There is a filtration by locally free subsheaves
 
-`0=E_0 subset E_1 subset ... subset E_r=E`
+$0=E_0 \subset E_1 \subset \ldots \subset E_r=E$
 
-such that every quotient `E_i/E_(i-1)` is invertible.
+such that every quotient $E_i/E_{(i-1)}$ is invertible.
 
 ## Depends on
 

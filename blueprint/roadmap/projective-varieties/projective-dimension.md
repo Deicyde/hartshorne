@@ -9,41 +9,30 @@ lean: Hartshorne.projDim_univ Hartshorne.projDim_univ_fin Hartshorne.projDim_uni
 
 # Dimension in projective space
 
-`dim ℙⁿ = n`, and if `Y ⊆ ℙⁿ` is quasi-projective then `dim Y = dim Ȳ`
+$\dim \mathbb{P} ^{n} = n$, and if $Y \subseteq \mathbb{P} ^{n}$ is quasi-projective then $\dim Y = \dim \overline{Y}$
 (Exercise 2.7).
 
-The first follows from the previous node applied to `Y = ℙⁿ`. The second reduces
-to the affine statement of Proposition 1.10 through the charts.
+The first follows from the previous node applied to $Y = \mathbb{P} ^{n}$. The second reduces
+to the affine statement of [Proposition I.1.10](../affine-varieties/dim-quasi-affine.md) through the charts.
 
 This closes §2: projective space has the dimension it should, and dimension is
 insensitive to passing between a quasi-projective variety and its closure, so
 later sections can compute dimension on whichever representative is convenient.
 
-## Status
 
-Proved. Both halves fall out of the previous node.
+## Proof
 
-For `ℙⁿ` itself the shortest route is not through `S(ℙⁿ) = k[x₀,…,xₙ]` but
-through the charts, which the previous node already matched with `ℙⁿ`: every
-chart of `ℙⁿ` is *all* of `𝔸ⁿ`, since `φᵢ(ℙⁿ ∩ Uᵢ) = φᵢ⁻¹⁻¹(ℙⁿ)` is the whole
-affine space. So `dim ℙⁿ` is the dimension of affine space in one variable
-fewer, which is already computed. The polynomial-ring reading is recorded too
-(`projDim_univ_add_one`), and agrees: `S(ℙⁿ)` is the polynomial ring because
-`J(ℙⁿ) = 0`, and its dimension is `n + 1`.
+Every standard affine chart of $\mathbb P^n$ is isomorphic to
+$\mathbb A^n$. The charts cover projective space, so its dimension is $n$.
+Equivalently, its homogeneous coordinate ring is the polynomial ring
+$k[x_0,\ldots,x_n]$, of dimension $n+1$.
 
-For the quasi-projective half, one inequality is the general fact that a
-subspace has no larger dimension. The other goes through a chart: `φᵢ(Y ∩ Uᵢ)`
-is quasi-affine and its closure in `𝔸ⁿ` is `φᵢ(Ȳ ∩ Uᵢ)`, because `φᵢ⁻¹` is an
-open map and preimages along open maps commute with closure. Proposition 1.10
-says those two have the same dimension, and the previous node identifies the
-second with `dim Ȳ`.
-
-Proposition 1.10 had been stated for an ambient space `𝔸ᵐ` indexed by `Fin m`;
-the chart variables are indexed by `{j : σ // j ≠ i}` instead, so it was
-restated over an arbitrary finite index type. The index type has to sit in
-universe zero for the dimension formula, whose ring and base field must share a
-universe — the same restriction every other dimension result in the chapter
-carries.
+For a quasi-projective variety $Y$, a chart identifies $Y\cap U_i$ with
+a quasi-affine variety whose closure is the chart image of
+$\overline Y\cap U_i$. The affine equality
+[\(\dim V=\dim\overline V\)](../affine-varieties/dim-quasi-affine.md),
+together with the chart dimension comparison, gives
+$\dim Y=\dim\overline Y$.
 
 ## Depends on
 

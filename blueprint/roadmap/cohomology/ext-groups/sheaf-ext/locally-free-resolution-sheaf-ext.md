@@ -6,13 +6,13 @@ origin: cited
 
 # Locally free resolutions compute sheaf Ext
 
-Suppose `L_• ⟶ F ⟶ 0` is a nonnegative homological resolution, possibly
+Suppose $L_{\bullet} \longrightarrow F \longrightarrow 0$ is a nonnegative homological resolution, possibly
 unbounded to the left, whose terms are finite-rank locally free
-`O_X`-modules. For every `O_X`-module `G`, construct natural isomorphisms
+$\mathcal{O}_X$-modules. For every $\mathcal{O}_X$-module $G$, construct natural isomorphisms
 
-`𝓔xt^i_X(F,G) ≅ H^i(𝓗om_X(L_•,G))`.
+$\mathcal{E}xt^i_X(F,G) \cong H^i(\mathcal{H}om_X(L_{\bullet} ,G))$.
 
-Only the terms needed through degree `i+1` enter the degree-`i` comparison;
+Only the terms needed through degree $i+1$ enter the degree-$i$ comparison;
 no finite-length resolution is assumed.
 
 ## Depends on
@@ -23,7 +23,7 @@ no finite-length resolution is assumed.
 ## Proof depends on
 
 - [The contravariant long exact sequence of sheaf Ext](sheaf-ext-contravariant-long-exact.md)
-- Exactness of `𝓗om_X(L,-)` for finite locally free `L`.
+- Exactness of $\mathcal{H}om_X(L,-)$ for finite locally free $L$.
 
 ## Sources
 

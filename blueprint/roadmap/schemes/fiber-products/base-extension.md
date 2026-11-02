@@ -8,9 +8,7 @@ lean: Hartshorne.baseExtension Hartshorne.baseExtensionProjection
 
 # Base extension
 
-For a scheme `X → S` and a morphism `S' → S`, the base extension of `X` to `S'` is `X ×_S S'`, equipped with its second projection to `S'`.
-
-Use the existing pullback object and projection. Keep the term “base extension” as notation/API, not as a second construction.
+For a scheme $X \to S$ and a morphism $S' \to S$, the base extension of $X$ to $S'$ is $X \times _S S'$, equipped with its second projection to $S'$.
 
 ## Depends on
 

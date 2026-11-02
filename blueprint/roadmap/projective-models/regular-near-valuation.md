@@ -9,16 +9,13 @@ lean: Hartshorne.ValuationSpace.mem_valuationSubring_iff_exists_regular_neighbor
 
 # Regularity near a valuation
 
-Let `K/k` be a one-dimensional function field, `R : FunctionFieldDVR k K`,
-and `q : K`.  Then `q ∈ R` if and only if there is an open neighbourhood
-`U` of `R` in `C_K` on which `q` is a regular function.  The sole main
-declaration is
-`Hartshorne.ValuationSpace.mem_valuationSubring_iff_exists_regular_neighborhood`.
+Let $K/k$ be a one-dimensional function field, let $R$ be a discrete
+valuation ring of $K/k$, and let $q\in K$. Then $q\in R$ if and only if
+there is an open neighbourhood of $R$ in $C_K$ on which $q$ is regular.
 
-This exposes the local fact used in Proposition 6.8: nonnegative valuation is
-exactly regularity near the missing point.  Its implementation publicizes and
-generalizes the private `regularDomain`, `regularValue`, and
-`rationalRepOfElement` machinery rather than duplicating it.
+Thus membership in the valuation ring is exactly regularity near the
+corresponding point. This is the local fact used to extend a morphism
+across a missing point in Hartshorne's Proposition I.6.8.
 
 ## Depends on
 

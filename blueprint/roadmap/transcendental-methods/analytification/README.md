@@ -7,7 +7,7 @@ article_id: af_c06a2fafe8fd2e3f0893f8b7
 This subchapter constructs affine analytification from polynomial equations,
 proves presentation and localization compatibility, glues the functor, and
 analytifies coherent sheaves and their cohomology comparison maps. The
-construction applies to nonreduced schemes of finite type over `C`.
+construction applies to nonreduced schemes of finite type over $\mathbb{C}$.
 
 1. [Affine finite-type analytification](affine-finite-type-analytification.md)
 2. [Independence of the affine presentation](affine-presentation-independence.md)

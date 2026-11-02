@@ -9,26 +9,20 @@ lean: Hartshorne.krullAkizuki_quotientIdeal_isFiniteLength Hartshorne.krullAkizu
 
 # Finite-length quotients in Krull--Akizuki
 
-Let `A` be a one-dimensional Noetherian domain with fraction field `K`, let
-`L/K` be finite, and let `B` be an intermediate `A`-subalgebra of `L`. For
-every nonzero ideal `I` of `B`, the quotient `B/I` has finite length as an
-`A`-module. In particular, it is a finite `A`-module.
+Let $A$ be a one-dimensional Noetherian domain with fraction field $K$, let
+$L/K$ be finite, and let $B$ be an intermediate $A$-subalgebra of $L$. For
+every nonzero ideal $I$ of $B$, the quotient $B/I$ has finite length as an
+$A$-module. In particular, it is a finite $A$-module.
 
 This is the ideal-quotient step in the Krull--Akizuki theorem. By Stacks
-Project, Tag 0H7L, every nonzero ideal `I` of `B` meets `A` nontrivially. Choose
-`0 ≠ a ∈ I ∩ A`, a `K`-basis `L ≃ K^n`, and view the image of `B` as an
-`A`-submodule of `K^n`. Transport `B/aB` across this equivalence and apply the
-preceding principal-quotient theorem; the quotient map `B/aB → B/I` then gives
-finite length for `B/I`. The result must apply to an arbitrary intermediate
-ring `B`; assuming that `B` is already finite or integral over `A` would make
+Project, Tag 0H7L, every nonzero ideal $I$ of $B$ meets $A$ nontrivially. Choose
+$0 \ne a \in I \cap A$, a $K$-basis $L\cong K^n$, and view the image of $B$ as an
+$A$-submodule of $K^n$. Transport $B/aB$ across this equivalence and apply the
+preceding principal-quotient theorem; the quotient map $B/aB \to B/I$ then gives
+finite length for $B/I$. The result must apply to an arbitrary intermediate
+ring $B$; assuming that $B$ is already finite or integral over $A$ would make
 the later Krull--Akizuki step circular.
 
-Open Mathlib PR
-[#41755](https://github.com/leanprover-community/mathlib4/pull/41755)
-contains the closely matching declaration
-`krullAkizuki_quotient_ideal_finiteLength`. Treat it as implementation prior
-art only: the roadmap targets the pinned checkout and does not assume the PR
-will merge.
 
 ## Depends on
 

@@ -6,8 +6,8 @@ origin: cited
 
 # Connected positive-type quadric divisors
 
-Let `Y⊆Q` be a locally principal closed subscheme of type `(a,b)` with
-`a>0` and `b>0`. Then `Y` is connected.
+Let $Y\subseteq Q$ be a locally principal closed subscheme of type $(a,b)$ with
+$a>0$ and $b>0$. Then $Y$ is connected.
 
 ## Depends on
 
@@ -17,8 +17,8 @@ Let `Y⊆Q` be a locally principal closed subscheme of type `(a,b)` with
 ## Proof depends on
 
 - [Negative-negative quadric H¹ vanishing](quadric-h1-negative-vanishing.md)
-- The divisor sequence `0→O_Q(-a,-b)→O_Q→O_Y→0` and the fact that
-  `H⁰(Y,O_Y)=k` precludes a nontrivial idempotent decomposition.
+- The divisor sequence $0\to \mathcal{O}_Q(-a,-b)\to \mathcal{O}_Q\to \mathcal{O}_Y\to 0$ and the fact that
+  $H^{0}(Y,\mathcal{O}_Y)=k$ precludes a nontrivial idempotent decomposition.
 
 ## Sources
 

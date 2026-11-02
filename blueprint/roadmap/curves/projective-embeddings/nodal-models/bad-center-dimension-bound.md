@@ -6,9 +6,9 @@ origin: bridged
 
 # The bad projection centers have dimension at most two
 
-Let `X subset P^3` be a nonplanar curve that is neither a line nor a conic.
+Let $X \subset \mathbb{P}^3$ be a nonplanar curve that is neither a line nor a conic.
 The union of tangent lines and of secants arising from multisecant pairs or
-pairs with coplanar tangents is contained in a constructible subset of `P^3`
+pairs with coplanar tangents is contained in a constructible subset of $\mathbb{P}^3$
 of dimension at most two. Its closure is therefore a proper closed subset.
 
 ## Depends on
@@ -21,7 +21,7 @@ of dimension at most two. Its closure is therefore a proper closed subset.
 ## Proof depends on
 
 - Samuel's theorem and Proposition 3.8 make the bad-pair locus a proper
-  subset of the surface `X times X`, hence of dimension at most one.
+  subset of the surface $X \times X$, hence of dimension at most one.
 - Sweeping the corresponding secant lines raises dimension by at most one.
 
 ## Sources

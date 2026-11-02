@@ -6,20 +6,20 @@ origin: background
 
 # The modular invariant and fundamental region
 
-For a period ratio `tau`, define `J(tau)=g2^3/Delta`, so Hartshorne's
-algebraic invariant is `j=1728*J(tau)`. For nonreal `tau,tau'`,
-`J(tau)=J(tau')` if and only if
+For a period ratio $\tau$, define $J(\tau )=g_2^3/\Delta$, so Hartshorne's
+algebraic invariant is $j=1728\cdot J(\tau )$. For nonreal $\tau ,\tau '$,
+$J(\tau )=J(\tau ')$ if and only if
 
-`tau'=(a*tau+b)/(c*tau+d)`
+$\tau '=(a\cdot \tau +b)/(c\cdot \tau +d)$
 
-for integers `a,b,c,d` with `a*d-b*c=+1` or `-1`. Every orbit has the unique
-representative in Hartshorne's half-open fundamental region `G`, with its
+for integers $a,b,c,d$ with $a\cdot d-b\cdot c=+1$ or $-1$. Every orbit has the unique
+representative in Hartshorne's half-open fundamental region $G$, with its
 specified boundary convention.
 
 ## Depends on
 
 - [Every complex elliptic curve comes from a period lattice](period-lattice-realization.md)
-- [The elliptic `j`-invariant classifies elliptic curves](../algebraic-models/elliptic-j-invariant-classifies.md)
+- [The elliptic $j$-invariant classifies elliptic curves](../algebraic-models/elliptic-j-invariant-classifies.md)
 
 ## Proof depends on
 

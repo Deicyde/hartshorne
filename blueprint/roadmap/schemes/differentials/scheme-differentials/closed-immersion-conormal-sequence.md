@@ -6,13 +6,13 @@ origin: cited
 
 # The conormal sequence of a closed immersion
 
-Let `Z ↪ X → Y` be a closed subscheme with ideal sheaf `J`.  Construct the
-natural right-exact sequence on `Z`
+Let $Z \hookrightarrow X \to Y$ be a closed subscheme with ideal sheaf $J$.  Construct the
+natural right-exact sequence on $Z$
 
-`J/J² → i^* Ω[X/Y] → Ω[Z/Y] → 0`,
+$J/J^{2} \to i^* \Omega_{X/Y} \to \Omega_{Z/Y} \to 0$,
 
-where `i : Z ↪ X` and `i^* Ω[X/Y]` is canonically identified with
-`Ω[X/Y] ⊗_[𝒪_X] 𝒪_Z`.
+where $i : Z \hookrightarrow X$ and $i^* \Omega_{X/Y}$ is canonically identified with
+$\Omega_{X/Y} \otimes _[\mathcal{O} _X] \mathcal{O} _Z$.
 
 The left term is the conormal sheaf of the immersion.  The statement does not
 claim that its first map is injective.

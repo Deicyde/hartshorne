@@ -8,19 +8,16 @@ not_ready: true
 # Analytic normal form of a plane-curve double point
 
 Two pointed varieties are analytically isomorphic when their completed local
-rings are isomorphic as complete local `k`-algebras.
+rings are isomorphic as complete local $k$-algebras.
 
-Assume `char k != 2`. Every multiplicity-two point of a plane curve is
+Assume $\operatorname{char} k \ne 2$. Every multiplicity-two point of a plane curve is
 analytically isomorphic to the origin on
 
-`y^2=x^r`
+$y^2=x^r$
 
-for a unique integer `r>=2`. The cases `r=2,3,4` are respectively a node, a
+for a unique integer $r\ge 2$. The cases $r=2,3,4$ are respectively a node, a
 cusp, and a tacnode.
 
-This node is not ready. Hartshorne states the classification as a starred
-exercise, and no proof-level formal-power-series reduction source has yet
-been adopted.
 
 ## Depends on
 
@@ -29,9 +26,9 @@ been adopted.
 
 ## Proof depends on
 
-- Develop completed local `k`-algebras and formal changes of two variables.
+- Develop completed local $k$-algebras and formal changes of two variables.
 - In characteristic different from two, complete the square and iteratively
-  remove higher terms until the unique exponent `r` is exposed.
+  remove higher terms until the unique exponent $r$ is exposed.
 
 ## Sources
 

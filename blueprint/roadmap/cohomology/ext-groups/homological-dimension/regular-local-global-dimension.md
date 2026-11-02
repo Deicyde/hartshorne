@@ -7,13 +7,11 @@ not_ready: true
 
 # The global dimension of a regular local ring
 
-Let `A` be a Noetherian regular local ring. Every `A`-module `M` has
-`pd_A(M)≤dim A`.
+Let $A$ be a Noetherian regular local ring. Every $A$-module $M$ has
+$pd_A(M)\le \dim A$.
 
-The statement concerns arbitrary modules, not only finitely generated ones.
-No exact theorem with this dimension bound was found in pinned Mathlib. This
-node remains not ready until Matsumura's cited passage is inspected directly
-and its module-size hypotheses are recorded.
+The statement concerns arbitrary modules, including modules which
+are not finitely generated.
 
 ## Depends on
 

@@ -6,7 +6,7 @@ origin: cited
 
 # The relative twisting sheaf
 
-Glue the affine-Proj twisting sheaves into `O_{Proj_X S}(1)` and prove that it
+Glue the affine-Proj twisting sheaves into $\mathcal{O}_{\operatorname{Proj} _X S}(1)$ and prove that it
 is invertible under the degree-one-generation hypotheses. Record its
 compatibility with restriction to affine opens of the base.
 

@@ -6,11 +6,11 @@ origin: cited
 
 # Self-intersection and the normal bundle
 
-Let `C` be a smooth curve on a Chapter V surface. Then
+Let $C$ be a smooth curve on a Chapter V surface. Then
 
-`C^2 = deg_C(O_X(C)|_C) = deg_C(N_(C/X))`.
+$C ^2 = \deg _C (\mathcal{O}_X(C )|_C ) = \deg _C (N_{(C /X)})$.
 
-Here the normal bundle is the dual of the conormal bundle `I/I^2`.
+Here the normal bundle is the dual of the conormal bundle $I/I^2$.
 
 ## Depends on
 
@@ -22,7 +22,7 @@ Here the normal bundle is the dual of the conormal bundle `I/I^2`.
 
 - Restriction degree computes intersection with a linearly equivalent smooth
   transverse representative, while the effective-Cartier ideal identifies
-  `(I/I^2)^dual` with `O_X(C)|_C`.
+  $(I/I^2)^\vee$ with $\mathcal{O}_X(C )|_C$.
 
 ## Sources
 

@@ -7,7 +7,7 @@ article_id: af_93e324bba9a6965c0d3b49b7
 This subchapter studies the blowup of one closed point on a Chapter-V
 surface. It records the exceptional curve, the Picard and intersection
 decompositions, and the canonical-class formula. The algebraically closed
-base makes the center rational and the exceptional curve `P^1`; every
+base makes the center rational and the exceptional curve $\mathbb{P}^1$; every
 statement is valid in arbitrary characteristic.
 
 1. [Monoidal transformation at a point](point-monoidal-transformation.md)

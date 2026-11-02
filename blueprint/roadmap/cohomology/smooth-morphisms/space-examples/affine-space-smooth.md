@@ -9,13 +9,12 @@ lean: Hartshorne.affineSpace_smoothOfRelativeDimension Hartshorne.affineSpace_sm
 
 # Affine space is smooth over an arbitrary base
 
-For every scheme `Y`, the projection `A^n_Y -> Y` is smooth of relative
-dimension `n`.
+For every scheme $Y$, the projection $A^n_Y \to Y$ is smooth of relative
+dimension $n$.
 
 ## Depends on
 
-No project-local prerequisites; pinned Mathlib supplies the standard-smooth
-polynomial-algebra API.
+No additional project-local prerequisites.
 
 ## Proof depends on
 

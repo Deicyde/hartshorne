@@ -6,15 +6,15 @@ origin: cited
 
 # The canonical double cover of a genus-two curve
 
-Let `k` be algebraically closed of characteristic different from two and let
-`X` be a curve of genus two. The canonical linear system is basepoint free
+Let $k$ be algebraically closed of characteristic different from two and let
+$X$ be a curve of genus two. The canonical linear system is basepoint free
 and defines a finite morphism
 
-`f : X -> P^1_k`
+$f : X \to \mathbb{P}^1_k$
 
 of degree two. It is ramified at exactly six points, each with ramification
 index two. The morphism is unique up to postcomposition by an automorphism of
-`P^1`, so `X` determines an unordered six-point branch set up to projective
+$\mathbb{P}^1$, so $X$ determines an unordered six-point branch set up to projective
 linear equivalence.
 
 ## Depends on

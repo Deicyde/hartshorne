@@ -6,12 +6,12 @@ origin: cited
 
 # Excision for cohomology with supports
 
-Let `Y ⊆ X` be closed and let `V ⊆ X` be an open neighbourhood of `Y`.
+Let $Y \subseteq X$ be closed and let $V \subseteq X$ be an open neighbourhood of $Y$.
 Restriction induces natural isomorphisms
 
-`H_Yⁿ(X,F) ≅ H_Yⁿ(V,F|_V)`
+$H_Y^{n}(X,F) \cong H_Y^{n}(V,F|_V)$
 
-for every abelian sheaf `F` and every `n`. The unique main result is the
+for every abelian sheaf $F$ and every $n$. The unique main result is the
 natural excision isomorphism.
 
 ## Depends on

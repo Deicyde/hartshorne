@@ -7,13 +7,13 @@ not_ready: true
 
 # A nonprojective infinitesimal thickening of the plane
 
-Let `k` be algebraically closed of characteristic zero, let `X=P²_k`, and let
-`ω=Ω²_X≅O_X(-3)`. On the standard cover, the cocycle
+Let $k$ be algebraically closed of characteristic zero, let $X=\mathbb{P}^{2}_k$, and let
+$\omega =\Omega ^{2}_X\cong \mathcal{O}_X(-3)$. On the standard cover, the cocycle
 
-`ξ_ij=(x_j/x_i) d(x_i/x_j)`
+$\xi _{ij}=(x_j/x_i) d(x_i/x_j)$
 
-in `H¹(X,ω⊗T_X)≅H¹(X,Ω¹_X)` defines a square-zero extension `X'`
-of `X` by `ω`. This extension is proper and has `Pic(X')=0`; consequently it
+in $H^{1}(X,\omega \otimes T_X)\cong H^{1}(X,\Omega ^{1}_X)$ defines a square-zero extension $X'$
+of $X$ by $\omega$. This extension is proper and has $\operatorname{Pic} (X')=0$; consequently it
 has no ample invertible sheaf and is not projective.
 
 ## Depends on
@@ -31,8 +31,8 @@ has no ample invertible sheaf and is not projective.
 - [Ample restriction to a closed subscheme](ample-restricts-to-closed-subscheme.md)
 - [Projective iff proper and very ample](../../schemes/projective-sheaves/projective-iff-proper-very-ample.md)
 - Calculate the Picard connecting map and prove that
-  `δ(O_X(1))≠0` in the one-dimensional space `H²(X,ω)`; characteristic zero
-  then makes `δ:Pic(X)≅Z→k` injective.
+  $\delta (\mathcal{O}_X(1))\ne 0$ in the one-dimensional space $H^{2}(X,\omega )$; characteristic zero
+  then makes $\delta :\operatorname{Pic} (X)\cong Z\to k$ injective.
 
 ## Sources
 

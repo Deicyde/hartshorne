@@ -7,16 +7,14 @@ not_ready: true
 
 # Grauert's analytic contraction of a negative curve
 
-Let `X` be a nonsingular projective surface over `C`, and let `Y` be an
-irreducible curve with `Y^2<0`.  In the category of complex analytic spaces,
-there is a proper bimeromorphic map which contracts exactly `Y` to a point
-and is an isomorphism away from `Y`.
+Let $X$ be a nonsingular projective surface over $C$, and let $Y$ be an
+irreducible curve with $Y^2<0$.  In the category of complex analytic spaces,
+there is a proper bimeromorphic map which contracts exactly $Y$ to a point
+and is an isomorphism away from $Y$.
 
-This node is not ready.  Hartshorne only cites Grauert, and the project has no
-representation of complex analytic spaces, analytification, or proper
-modifications.  The exact theorem passage and an analytic representation
-boundary must be adopted before formalization.  The statement is not an
-algebraic contraction theorem and has no arbitrary-field generalization here.
+
+This is an analytic contraction theorem over the complex numbers; no
+arbitrary-field generalization is asserted here.
 
 ## Depends on
 

@@ -6,14 +6,14 @@ origin: cited
 
 # Pointed automorphism groups
 
-Let `(X,P_0)` be an elliptic curve over an algebraically closed field of
+Let $(X,P_0)$ be an elliptic curve over an algebraically closed field of
 characteristic different from two. Its pointed automorphism group is finite
 of order
 
-- `2` if `j` is neither `0` nor `1728`;
-- `4` if `j=1728` and the characteristic is not three;
-- `6` if `j=0` and the characteristic is not three;
-- `12` in characteristic three when `j=0=1728`.
+- $2$ if $j$ is neither $0$ nor $1728$;
+- $4$ if $j=1728$ and the characteristic is not three;
+- $6$ if $j=0$ and the characteristic is not three;
+- $12$ in characteristic three when $j=0=1728$.
 
 ## Depends on
 
@@ -23,9 +23,9 @@ of order
 
 ## Proof depends on
 
-- A pointed automorphism descends to an automorphism of `P^1` preserving the
+- A pointed automorphism descends to an automorphism of $\mathbb{P}^1$ preserving the
   branch set; the kernel is the order-two deck group.
-- Compute stabilizers of the Legendre parameter under `S_3`, keeping the
+- Compute stabilizers of the Legendre parameter under $S_3$, keeping the
   characteristic-three collision separate.
 
 ## Sources

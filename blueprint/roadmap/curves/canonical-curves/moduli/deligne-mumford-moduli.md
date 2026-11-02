@@ -7,8 +7,8 @@ not_ready: true
 
 # The Deligne–Mumford theorem on M_g
 
-For `g>=2`, the coarse moduli variety `M_g` is irreducible and
-quasi-projective of dimension `3*g-3` over every algebraically closed field.
+For $g\ge 2$, the coarse moduli variety $M_g$ is irreducible and
+quasi-projective of dimension $3\cdot g-3$ over every algebraically closed field.
 
 ## Depends on
 

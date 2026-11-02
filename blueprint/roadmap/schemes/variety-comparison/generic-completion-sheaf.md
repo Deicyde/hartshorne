@@ -6,15 +6,13 @@ origin: cited
 
 # The regular-function sheaf on the generic completion
 
-For a project variety `V`, transport its sheaf of regular functions across the
-open-set order isomorphism `Opens V ≃o Opens t(V)`.  Equivalently, define the
-structure sheaf on `t(V)` as `α_{V*}𝒪_V`.
+For a project variety $V$, transport its sheaf of regular functions across the
+open-set order isomorphism between the open subsets of $V$ and $t(V)$.  Equivalently, define the
+structure sheaf on $t(V)$ as $\alpha _{V\cdot }\mathcal{O} _V$.
 
-The main declaration is the resulting sheaf of commutative rings.  The sheaf
-condition is inherited from the locality field in `Variety`; restriction maps
-are the existing restrictions of regular functions.  Record the canonical
-identification of its sections on a corresponding open with the original
-regular functions there.
+The sheaf condition follows from locality of regular functions.
+Restriction maps are their usual restrictions, and sections on
+corresponding open subsets identify canonically.
 
 ## Depends on
 
@@ -23,4 +21,4 @@ regular functions there.
 
 ## Sources
 
-- [Hartshorne II.2, the ringed space `(t(V), α_*𝒪_V)` (p. 78)](../../../sources/hartshorne-ii-2.md#schemes-over-a-base-and-proposition-26)
+- [Hartshorne II.2, the ringed space $(t(V), \alpha _*\mathcal{O} _V)$ (p. 78)](../../../sources/hartshorne-ii-2.md#schemes-over-a-base-and-proposition-26)

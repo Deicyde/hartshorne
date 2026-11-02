@@ -6,16 +6,16 @@ origin: cited
 
 # Kleiman's general-translate theorem
 
-Let `X` be a homogeneous space for a group variety `G` over an algebraically
+Let $X$ be a homogeneous space for a group variety $G$ over an algebraically
 closed field of characteristic zero. For morphisms from nonsingular varieties
-`Y -> X` and `Z -> X`, there is a nonempty open `V subset G` such that for
-every `sigma : V(k)`, the fibre product `Y^sigma times_X Z` is nonsingular and
+$Y \to X$ and $Z \to X$, there is a nonempty open $V \subset G$ such that for
+every $\sigma : V(k)$, the fibre product $Y^\sigma \times _X Z$ is nonsingular and
 either empty or has dimension exactly
 
-`dim Y + dim Z - dim X`.
+$\dim Y + \dim Z - \dim X$.
 
 In the nonempty case the dimension formula implies
-`dim Y + dim Z >= dim X`; all finitely many connected components have that
+$\dim Y + \dim Z \ge \dim X$; all finitely many connected components have that
 dimension.
 
 ## Depends on
@@ -27,7 +27,7 @@ dimension.
 
 ## Proof depends on
 
-- Apply generic smoothness to the incidence projection `W -> G`, then identify
+- Apply generic smoothness to the incidence projection $W \to G$, then identify
   its fibres with translated intersections.
 
 ## Sources

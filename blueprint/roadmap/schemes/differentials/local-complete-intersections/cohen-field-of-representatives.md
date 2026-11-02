@@ -7,10 +7,10 @@ not_ready: true
 
 # Cohen's field of representatives
 
-Let `A` be a complete local ring containing a field `k`. If the residue field
-`A/m` is separably generated over `k`, then there is a subfield `K subset A`
-containing `k` such that the residue map restricts to an isomorphism
-`K ~= A/m`.
+Let $A$ be a complete local ring containing a field $k$. If the residue field
+$A/m$ is separably generated over $k$, then there is a subfield $K \subset A$
+containing $k$ such that the residue map restricts to an isomorphism
+$K \simeq A/m$.
 
 ## Depends on
 
@@ -19,8 +19,8 @@ No earlier roadmap result beyond the standard complete-local-ring definitions.
 ## Proof depends on
 
 - Hartshorne cites Matsumura [2], p.205.
-- Stacks tag `032A` supplies coefficient fields, but a precise statement
-  preserving the specified embedded subfield `k` has not yet been adopted.
+- Stacks tag $032A$ supplies coefficient fields, but a precise statement
+  preserving the specified embedded subfield $k$ has not yet been adopted.
 
 ## Sources
 

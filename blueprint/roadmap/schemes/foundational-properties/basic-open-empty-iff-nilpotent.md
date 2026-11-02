@@ -9,10 +9,10 @@ mathlib_file: Mathlib/RingTheory/Spectrum/Prime/Topology.lean
 
 # An empty principal open detects nilpotence
 
-For `f` in a commutative ring `A`, the principal open `D(f) ⊆ Spec A` is empty
-if and only if `f` is nilpotent.
+For $f$ in a commutative ring $A$, the principal open $D(f) \subseteq \operatorname{Spec} A$ is empty
+if and only if $f$ is nilpotent.
 
-The complement of `D(f)` is `V(f)`.  It is all of `Spec A` exactly when `f`
+The complement of $D(f)$ is $V(f)$.  It is all of $\operatorname{Spec} A$ exactly when $f$
 belongs to every prime ideal, equivalently to the nilradical.  This is Exercise
 2.18(a).
 

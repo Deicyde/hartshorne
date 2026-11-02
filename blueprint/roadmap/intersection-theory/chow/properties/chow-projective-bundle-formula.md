@@ -7,16 +7,13 @@ not_ready: true
 
 # The Chow projective-bundle formula
 
-Let `E` be locally free of rank `r>0` on a nonsingular quasi-projective
-variety `X`, let `pi:P(E)->X` use Hartshorne's quotient convention, and let
-`xi in A^1(P(E))` correspond to `O_(P(E))(1)`. Pullback makes `A(P(E))` a free
-`A(X)`-module with basis
+Let $E$ be locally free of rank $r>0$ on a nonsingular quasi-projective
+variety $X$, let $\pi :\mathbb{P}(E)\to X$ use Hartshorne's quotient convention, and let
+$\xi \in A^1(\mathbb{P}(E))$ correspond to $\mathcal{O}_{\mathbb{P}(E)}(1)$. Pullback makes $A(\mathbb{P}(E))$ a free
+$A(X)$-module with basis
 
-`1,xi,xi^2,...,xi^(r-1)`.
+$1,\xi ,\xi ^2,\ldots ,\xi ^{r-1}$.
 
-This node is not ready. Hartshorne states A11 and refers to Chevalley. An
-exact proof source compatible with quotient `P(E)`, Chow pullback, and the
-codimension grading must be adopted.
 
 ## Depends on
 

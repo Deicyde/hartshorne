@@ -18,7 +18,7 @@ field is projective.
 - [Proper integral curves are projective](proper-integral-curve-projective.md)
 - [Picard restriction to the components of a reduced curve](reduced-curve-picard-restriction-surjective.md)
 - [Ampleness on irreducible components](ample-iff-on-irreducible-components.md)
-- Lift chosen ample componentwise powers to one invertible sheaf on `X` and
+- Lift chosen ample componentwise powers to one invertible sheaf on $X$ and
   apply the component criterion.
 
 ## Sources

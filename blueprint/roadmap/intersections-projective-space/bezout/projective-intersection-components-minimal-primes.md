@@ -9,27 +9,21 @@ lean: Hartshorne.projectiveIntersectionComponentPrimeEquivMinimalPrimes
 
 # Projective intersection components correspond to minimal primes
 
-Let `Y` be a projective variety and `H` a projective algebraic set. The map
+Let $Y$ be a projective variety and let $H$ be a projective algebraic set.
+The map $Z\mapsto J(Z)$ identifies the irreducible components of $Y\cap H$
+with the homogeneous prime ideals minimal over $J(Y)+J(H)$ whose
+projective zero sets are nonempty.
 
-`Z ↦ J(projectiveComponentCarrier Z)`
+Equivalently, these are the projectively relevant minimal primes over the
+annihilator of $S/(J(Y)+J(H))$. The zero set of each corresponding prime
+is its component. The nonemptiness condition is essential when the
+intersection is empty: the irrelevant ideal may be a minimal prime but
+does not represent a projective component.
 
-identifies the irreducible components of `Y ∩ H` with the homogeneous prime
-ideals minimal over `J(Y) + J(H)` whose projective zero sets are nonempty.
-Equivalently, it identifies them with the projectively relevant minimal primes
-over the annihilator of the intersection module `S/(J(Y)+J(H))`. For each
-component, the projective zero set of its attached prime is exactly its
-component carrier. The nonemptiness restriction is essential when `Y ∩ H` is
-empty: the irrelevant ideal may still be a minimal prime, but it represents no
-projective component.
-
-The main declaration is planned as a noncomputable equivalence
-`Hartshorne.projectiveIntersectionComponentPrimeEquivMinimalPrimes`, with the
-zero-set identity exposed as a supporting theorem. The forward minimality is
-already available from the intersection-multiplicity construction. The
-converse takes a homogeneous minimal prime, uses the projective ideal
-correspondence to obtain a nonempty irreducible closed subset of `Y ∩ H`, and
-extends it to a unique irreducible component; minimality forces equality of
-the attached prime ideals.
+The projective ideal correspondence turns a homogeneous minimal prime
+into a nonempty irreducible closed subset of the intersection. Extend it
+to an irreducible component; minimality then forces equality of the
+corresponding prime ideals.
 
 ## Depends on
 

@@ -29,7 +29,7 @@ are valid in arbitrary characteristic.
 13. [The local criterion for a nodal plane projection](nodal-projection-local-criterion.md)
 
 Complete-linear-system dimensions are integer-valued throughout, so the
-empty system has dimension `-1` and no natural-number subtraction is hidden.
+empty system has dimension $-1$ and no natural-number subtraction is hidden.
 
 ## Sources
 

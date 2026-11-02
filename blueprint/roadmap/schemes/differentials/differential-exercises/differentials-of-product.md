@@ -6,10 +6,10 @@ origin: cited
 
 # Differentials of a product
 
-For schemes `X` and `Y` over `S`, with projections from `X times_S Y`, there
+For schemes $X$ and $Y$ over $S$, with projections from $X \times _S Y$, there
 is a natural isomorphism
 
-`Omega_((X times_S Y)/S) ~= p_X^* Omega_(X/S) direct-sum p_Y^* Omega_(Y/S)`.
+$\Omega_{(X\times_S Y)/S}\simeq p_X^*\Omega_{X/S}\oplus p_Y^*\Omega_{Y/S}$.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ is a natural isomorphism
 
 - The universal property of relative differentials applied to the two
   projections.
-- Stacks Project tag `01V1`.
+- Stacks Project tag $01V1$.
 
 ## Sources
 

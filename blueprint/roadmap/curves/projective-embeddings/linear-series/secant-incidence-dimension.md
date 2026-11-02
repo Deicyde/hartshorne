@@ -6,9 +6,9 @@ origin: cited
 
 # The secant incidence has dimension at most three
 
-For an embedded Chapter IV curve `X -> P^n`, the union `Sec(X)` of actual
+For an embedded Chapter IV curve $X \to \mathbb{P}^n$, the union $\operatorname{Sec}(X)$ of actual
 secant lines is a locally closed subset of projective space of dimension at
-most three. It is the image of the secant incidence over `X times X` with the
+most three. It is the image of the secant incidence over $X \times X$ with the
 diagonal removed, whose total dimension is at most three.
 
 ## Depends on
@@ -20,7 +20,7 @@ diagonal removed, whose total dimension is at most three.
 ## Proof depends on
 
 - The incidence has a one-dimensional projective-line fibre over the
-  two-dimensional parameter space `X times X` off the diagonal.
+  two-dimensional parameter space $X \times X$ off the diagonal.
 - Dimension does not increase under the image of a finite-type morphism, and
   Chevalley's theorem first makes that image constructible; the incidence
   closure and diagonal boundary analysis give the asserted locally closed

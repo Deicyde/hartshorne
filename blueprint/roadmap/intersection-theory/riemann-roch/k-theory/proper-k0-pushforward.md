@@ -6,9 +6,9 @@ origin: cited
 
 # Proper pushforward on K0
 
-For a proper morphism `f:X->Y`, define
+For a proper morphism $f:X\to Y$, define
 
-`f_!([F])=sum_i (-1)^i [R^i f_*F]`
+$f_!([F])=\sum _i (-1)^i [R^i f_*F]$
 
 on coherent-sheaf K0. This is additive in short exact sequences and therefore
 descends to a group homomorphism. It is not ordinary sheaf pushforward.

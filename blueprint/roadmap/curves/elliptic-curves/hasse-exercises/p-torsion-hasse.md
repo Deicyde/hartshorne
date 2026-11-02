@@ -6,8 +6,8 @@ origin: cited
 
 # The p-torsion subgroup and the Hasse invariant
 
-For an elliptic curve in characteristic `p`, the subgroup of closed points
-killed by multiplication by `p` is isomorphic to `Z/pZ` when the Hasse
+For an elliptic curve in characteristic $p$, the subgroup of closed points
+killed by multiplication by $p$ is isomorphic to $\mathbb{Z}/p\mathbb{Z}$ when the Hasse
 invariant is one and is trivial when the Hasse invariant is zero.
 
 ## Depends on
@@ -17,7 +17,7 @@ invariant is one and is trivial when the Hasse invariant is zero.
 
 ## Proof depends on
 
-- Factor multiplication by `p` as Frobenius followed by dual Frobenius and
+- Factor multiplication by $p$ as Frobenius followed by dual Frobenius and
   distinguish separable from radicial kernels on closed points.
 
 ## Sources

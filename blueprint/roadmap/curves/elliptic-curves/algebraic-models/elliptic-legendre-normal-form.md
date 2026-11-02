@@ -9,10 +9,10 @@ origin: cited
 Every pointed elliptic curve over an algebraically closed field of
 characteristic different from two has a plane model
 
-`y^2 = x*(x-1)*(x-lambda)`
+$y^2 = x\cdot (x-1)\cdot (x-\lambda )$
 
-with `lambda != 0,1`, carrying the chosen point to `(0:1:0)`. Projection to
-the `x`-line is the degree-two map branched at `0,1,lambda,infinity`.
+with $\lambda \ne 0,1$, carrying the chosen point to $(0:1:0)$. Projection to
+the $x$-line is the degree-two map branched at $0,1,\lambda ,\infty$.
 
 ## Depends on
 
@@ -22,7 +22,7 @@ the `x`-line is the degree-two map branched at `0,1,lambda,infinity`.
 ## Proof depends on
 
 - Complete the square, factor the nonsingular cubic, and apply an affine
-  coordinate change sending two distinct roots to `0,1`.
+  coordinate change sending two distinct roots to $0,1$.
 
 ## Sources
 

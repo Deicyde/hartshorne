@@ -6,8 +6,8 @@ origin: cited
 
 # Normality of a local complete intersection
 
-Let `Y` be a local complete intersection subscheme of a nonsingular variety.
-Then `Y` is normal if and only if it is regular in codimension one.
+Let $Y$ be a local complete intersection subscheme of a nonsingular variety.
+Then $Y$ is normal if and only if it is regular in codimension one.
 
 ## Depends on
 
@@ -16,8 +16,8 @@ Then `Y` is normal if and only if it is regular in codimension one.
 
 ## Proof depends on
 
-- A Cohen–Macaulay local ring satisfies `(S2)`.
-- A normal Noetherian ring satisfies `(R1)`.
+- A Cohen–Macaulay local ring satisfies $(S2)$.
+- A normal Noetherian ring satisfies $(R1)$.
 
 ## Sources
 

@@ -9,10 +9,9 @@ lean: Hartshorne.VarietyHom.isIso_iff_isHomeomorph_and_bijective_localRingHom
 
 # Isomorphisms from topology and local rings
 
-Let `φ : X → Y` be a morphism. Then `φ` is an isomorphism of varieties if
+Let $\varphi : X \to Y$ be a morphism. Then $\varphi$ is an isomorphism of varieties if
 and only if its underlying map is a homeomorphism and every induced map
-`𝒪_{φ(P),Y} → 𝒪_{P,X}` is bijective. The sole main declaration is
-`Hartshorne.VarietyHom.isIso_iff_isHomeomorph_and_bijective_localRingHom`.
+$\mathcal{O} _{\varphi (P),Y} \to \mathcal{O} _{P,X}$ is bijective.
 
 This is exactly Exercise 3.3(b), not merely its difficult sufficient
 direction. For that direction, the proof builds the inverse continuously from

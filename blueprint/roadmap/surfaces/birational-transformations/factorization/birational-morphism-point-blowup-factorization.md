@@ -6,8 +6,8 @@ origin: cited
 
 # A birational morphism factors into exactly its contracted-curve count of point blowups
 
-Every birational morphism `f:X'->X` of nonsingular projective surfaces is a
-composition of exactly `n(f)` monoidal transformations.
+Every birational morphism $f:X'\to X$ of nonsingular projective surfaces is a
+composition of exactly $n(f)$ monoidal transformations.
 
 ## Depends on
 
@@ -16,9 +16,9 @@ composition of exactly `n(f)` monoidal transformations.
 
 ## Proof depends on
 
-- Induct on `n(f)`. When it is zero, a fundamental point of `f^(-1)` would
+- Induct on $n(f)$. When it is zero, a fundamental point of $f^{-1}$ would
   have a positive-dimensional total transform and hence supply a contracted
-  curve; therefore the inverse is a morphism and `f` is an isomorphism.
+  curve; therefore the inverse is a morphism and $f$ is an isomorphism.
 
 ## Sources
 

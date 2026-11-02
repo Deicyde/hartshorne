@@ -6,16 +6,16 @@ origin: cited
 
 # Normalization genus and local delta from multiplicity sequences
 
-Let `C` be an irreducible curve on a smooth surface, with normalization
-`C_norm`. Along a point-blowup resolution let `r_Q` be the multiplicity at
+Let $C$ be an irreducible curve on a smooth surface, with normalization
+$C^{\mathrm{norm}}$. Along a point-blowup resolution let $r_Q$ be the multiplicity at
 each singular infinitely near point. Then
 
-`g(C_norm) = p_a(C) - sum_Q r_Q*(r_Q-1)/2`.
+$g(C^{\mathrm{norm}}) = p_a(C ) - \sum _Q r_Q\cdot (r_Q-1)/2$.
 
-For one original singular point `P`, its normalization defect is the same sum
+For one original singular point $P$, its normalization defect is the same sum
 over the infinitely near singular points above it:
 
-`delta_P = sum_(Q above P) r_Q*(r_Q-1)/2`.
+$\delta_P=\sum_{Q\,\mathrm{above}\,P}\frac{r_Q(r_Q-1)}{2}$.
 
 ## Depends on
 

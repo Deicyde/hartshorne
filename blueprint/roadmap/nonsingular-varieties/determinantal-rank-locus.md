@@ -9,22 +9,17 @@ lean: Hartshorne.rank_lt_iff_forall_minors_eq_zero Hartshorne.matrixRankDropLocu
 
 # Rank-drop loci are determinantal
 
-Let `k` be a field, let `σ` be a coordinate type, let `m` and `n` be finite
-row and column index types, and let `M : Matrix m n (MvPolynomial σ k)`.
-For `q : ℕ`, the points `P : σ → k` for which the evaluated matrix
-`M(P)` has rank less than `q` are exactly the common zero set of all `q × q` minors of `M`.
-Consequently this rank-drop locus is Zariski closed.
+Let $k$ be a field and let $M$ be a finite matrix whose entries are
+polynomials in finitely many affine coordinates. For a nonnegative
+integer $q$, the points where the evaluated matrix has rank below $q$
+are exactly the common zero set of its $q\times q$ minors. Thus this
+rank-drop locus is Zariski closed.
 
-The algebraic statement is the standard rank/minor criterion over a field:
-rank at least `q` is equivalent to one `q × q` submatrix having nonzero
-determinant. Evaluation commutes with determinants, so each evaluated minor is
-the value at `P` of a polynomial determinant. Negating the existential gives a
-simultaneous zero locus. The edge case `q = 0` is included: the empty minor has
-determinant one and the rank-drop locus is empty.
-
-This node is deliberately general rather than Jacobian-specific. It isolates
-the finite matrix and determinant bookkeeping from the geometric argument in
-Theorem 5.3.
+Over a field, rank at least $q$ is equivalent to the existence of a
+nonzero $q\times q$ minor. Evaluation commutes with determinants, so
+negating this condition gives the simultaneous vanishing of polynomial
+minors. For $q=0$, the empty minor has determinant one and the rank-drop
+locus is empty.
 
 ## Depends on
 

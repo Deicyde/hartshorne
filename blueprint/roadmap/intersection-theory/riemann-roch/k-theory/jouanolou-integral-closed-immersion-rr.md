@@ -11,9 +11,8 @@ For a closed immersion of smooth varieties, the Chern classes of the proper
 K-theory pushforward are universal integral polynomials in the pushed-forward
 Chern classes of the sheaf and its normal bundle. Unlike the direct GRR
 consequence, the identity holds in the integral Chow ring, not merely modulo
-torsion after tensoring with `Q`.
+torsion after tensoring with $Q$.
 
-This node is not ready pending Jouanolou's exact formula and hypotheses.
 
 ## Depends on
 

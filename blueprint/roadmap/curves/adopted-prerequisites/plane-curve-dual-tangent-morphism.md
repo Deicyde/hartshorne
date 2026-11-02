@@ -6,14 +6,14 @@ origin: cited
 
 # The tangent morphism and dual plane curve
 
-Let `Y` be a projective plane curve. For every regular point `P of Y`, there
-is a unique line `T_P(Y)` whose local intersection multiplicity with `Y` at
-`P` is greater than one. The assignment
+Let $Y$ be a projective plane curve. For every regular point $P \text{of} Y$, there
+is a unique line $T_P(Y)$ whose local intersection multiplicity with $Y$ at
+$P$ is greater than one. The assignment
 
-`P |-> T_P(Y)`
+$P\mapsto T_P(Y)$
 
-is a morphism from the regular locus of `Y` to the dual projective plane.
-Define the dual curve `Y^*` as the closure of its image.
+is a morphism from the regular locus of $Y$ to the dual projective plane.
+Define the dual curve $Y^*$ as the closure of its image.
 
 ## Depends on
 

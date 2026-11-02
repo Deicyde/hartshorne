@@ -6,20 +6,20 @@ origin: cited
 
 # Cartier classes and the Picard group of an integral scheme
 
-If `X` is an integral scheme, prove that every invertible sheaf is isomorphic
-to an invertible subsheaf of the constant function-field sheaf `K_X`.
+If $X$ is an integral scheme, prove that every invertible sheaf is isomorphic
+to an invertible subsheaf of the constant function-field sheaf $K_X$.
 Consequently the canonical injection is an isomorphism
 
-`CaCl X ≅ Pic X`.
+$\operatorname{CaCl}(X)\cong\operatorname{Pic}(X)$.
 
-The proof tensors an invertible sheaf with `K_X`, identifies the result with a
+The proof tensors an invertible sheaf with $K_X$, identifies the result with a
 rank-one constant sheaf on the irreducible space, and proves that the natural
 map into that sheaf is injective.
 
 ## Depends on
 
 - [Cartier classes inject into the Picard group](cartier-class-to-picard.md)
-- [Affine opens have fraction field `K(X)`](../../normalization-and-exercises/function-field-integral-scheme.md)
+- [Affine opens have fraction field $K(X)$](../../normalization-and-exercises/function-field-integral-scheme.md)
 
 ## Proof depends on
 

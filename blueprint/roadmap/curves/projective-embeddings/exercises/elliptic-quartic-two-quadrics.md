@@ -6,9 +6,9 @@ origin: cited
 
 # Elliptic quartics are intersections of two quadrics
 
-Let `X` be a degree-four genus-one curve embedded nondegenerately in `P^3`.
+Let $X$ be a degree-four genus-one curve embedded nondegenerately in $\mathbb{P}^3$.
 Then there are two irreducible quadric surfaces whose scheme-theoretic
-intersection is exactly `X`.
+intersection is exactly $X$.
 
 ## Depends on
 
@@ -20,8 +20,8 @@ intersection is exactly `X`.
 
 ## Proof depends on
 
-- The ideal-sheaf sequence twisted by `O(2)` shows that at least two
-  independent quadrics contain `X`.
+- The ideal-sheaf sequence twisted by $\mathcal{O}(2)$ shows that at least two
+  independent quadrics contain $X$.
 - A reducible quadric containing an integral nondegenerate curve would force
   the curve into one plane; Bezout and degree four identify the intersection.
 

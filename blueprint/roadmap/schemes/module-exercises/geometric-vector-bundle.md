@@ -6,16 +6,16 @@ origin: cited
 
 # Geometric vector bundles from locally free sheaves
 
-For a locally free sheaf `E` of rank `n` on `Y`, define
+For a locally free sheaf $E$ of rank $n$ on $Y$, define
 
-`V(E) = Spec_Y Sym(E)`.
+$V(E) = \operatorname{Spec} _Y \operatorname{Sym} (E)$.
 
-Local bases identify this affine `Y`-scheme with `A_Y^n`, and changes of basis
-give linear transition maps, so `V(E)` is a geometric vector bundle of rank
-`n`, independent of the chosen trivializations.
+Local bases identify this affine $Y$-scheme with $A_Y^n$, and changes of basis
+give linear transition maps, so $V(E)$ is a geometric vector bundle of rank
+$n$, independent of the chosen trivializations.
 
 This follows Hartshorne's convention exactly. In particular, it is
-`Spec Sym(E)`, not `Spec Sym(E^dual)`.
+$\operatorname{Spec} \operatorname{Sym} (E)$, not $\operatorname{Spec} \operatorname{Sym} (E^\vee )$.
 
 ## Depends on
 

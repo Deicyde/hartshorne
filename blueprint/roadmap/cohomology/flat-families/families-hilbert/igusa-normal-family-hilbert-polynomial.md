@@ -7,9 +7,9 @@ not_ready: true
 
 # Igusa constancy for normal projective families
 
-Let `X^(t)` be an algebraic family of normal varieties embedded in fixed
-projective space and parametrized by a variety `T`. The Hilbert polynomial,
-and therefore the arithmetic genus, is independent of `t`.
+Let $X^{t}$ be an algebraic family of normal varieties embedded in fixed
+projective space and parametrized by a variety $T$. The Hilbert polynomial,
+and therefore the arithmetic genus, is independent of $t$.
 
 ## Depends on
 
@@ -18,7 +18,7 @@ and therefore the arithmetic genus, is independent of `t`.
 
 ## Proof depends on
 
-- Prove the source's unproved reduction: any two closed points of `T` occur in
+- Prove the source's unproved reduction: any two closed points of $T$ occur in
   the image of a nonsingular curve, or can be joined by a finite chain of such
   curve images.
 - [Numerical invariants in a flat projective family](flat-projective-family-invariants.md).

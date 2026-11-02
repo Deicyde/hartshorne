@@ -7,12 +7,12 @@ origin: cited
 # The normal bundle of the exceptional divisor
 
 Under the canonical identification
-`E ~= P(J/J^2)` for the blowup of a nonsingular variety along a nonsingular
-center, the normal bundle of `E` in the blowup is the relative `O_E(-1)`.
+$E \simeq P(J/J^2)$ for the blowup of a nonsingular variety along a nonsingular
+center, the normal bundle of $E$ in the blowup is the relative $\mathcal{O}_E(-1)$.
 
 The sign is fixed by Hartshorne's Rees convention: the inverse-image ideal is
-`O(1) = O(-E)`, so the conormal sheaf of `E` is `O_E(1)` and its dual normal
-sheaf is `O_E(-1)`.
+$\mathcal{O}(1) = \mathcal{O}(-E)$, so the conormal sheaf of $E$ is $\mathcal{O}_E(1)$ and its dual normal
+sheaf is $\mathcal{O}_E(-1)$.
 
 ## Depends on
 

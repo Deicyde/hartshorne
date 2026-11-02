@@ -7,16 +7,13 @@ not_ready: true
 
 # Mumford's strictly-nef square-zero counterexample
 
-There is a smooth projective surface `X` and a divisor `D` such that
+There is a smooth projective surface $X$ and a divisor $D$ such that
 
-`D*C>0`
+$D\cdot C >0$
 
-for every irreducible curve `C`, but `D^2=0`. Hence `D` is not ample despite
+for every irreducible curve $C$, but $D^2=0$. Hence $D$ is not ample despite
 being strictly nef.
 
-This node is not ready until the exact construction and verification in
-Hartshorne's cited source, *Ample Subvarieties of Algebraic Varieties*,
-I.10.6, are adopted.
 
 ## Depends on
 

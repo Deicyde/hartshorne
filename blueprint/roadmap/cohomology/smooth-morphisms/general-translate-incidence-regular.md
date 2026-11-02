@@ -6,17 +6,17 @@ origin: bridged
 
 # The general-translate incidence space is nonsingular
 
-For maps `f : Y -> X` and `g : Z -> X` from nonsingular varieties as in
+For maps $f : Y \to X$ and $g : Z \to X$ from nonsingular varieties as in
 Kleiman's theorem, let
 
-`W = (G times Y) times_X Z`.
+$W = (G \times Y) \times _X Z$.
 
-The projection `W -> Z` is the base change of the smooth action-family map.
-Consequently `W` is nonsingular and equidimensional, and
+The projection $W \to Z$ is the base change of the smooth action-family map.
+Consequently $W$ is nonsingular and equidimensional, and
 
-`dim W = dim G + dim Y + dim Z - dim X`.
+$\dim W = \dim G + \dim Y + \dim Z - \dim X$.
 
-The equidimensional conclusion uses that `Z` is an integral variety and that
+The equidimensional conclusion uses that $Z$ is an integral variety and that
 the smooth projection has constant relative dimension; it is not inferred
 from regularity alone.
 

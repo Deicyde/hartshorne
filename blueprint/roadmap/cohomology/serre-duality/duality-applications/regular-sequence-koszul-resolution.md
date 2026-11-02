@@ -6,12 +6,12 @@ origin: cited
 
 # A regular sequence gives a Koszul resolution
 
-If `f₁,…,fᵣ` is a regular sequence on an `A`-module `M`, then
+If $f_{1},\ldots ,f_{r}$ is a regular sequence on an $A$-module $M$, then
 
-`H_p(K(f;M))=0` for `p>0`
+$H_p(K(f;M))=0$ for $p>0$
 
 and the augmentation induces
-`H₀(K(f;M))≃M/(f₁,…,fᵣ)M`.
+$H_{0}(K(f;M))\simeq M/(f_{1},\ldots ,f_{r})M$.
 
 ## Depends on
 

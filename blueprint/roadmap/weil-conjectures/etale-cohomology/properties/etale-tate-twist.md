@@ -6,13 +6,13 @@ origin: bridged
 
 # Étale Tate twists
 
-For `ell` invertible on `X`, define
+For $\ell$ invertible on $X$, define
 
-`Z/ell^r Z(1)=mu_(ell^r)`
+$\mathbb{Z}/\ell ^r\mathbb{Z}(1)=\mu _{(\ell ^r)}$
 
 on the small étale site.  Tensor powers give positive twists, duals give
 negative twists, and inverse limit followed by rationalization gives
-`Z_ell(q)` and `Q_ell(q)` for every integer `q`.
+$\mathbb Z_\ell(q)$ and $\mathbb Q_\ell(q)$ for every integer $q$.
 
 Twists are retained explicitly even though Hartshorne suppresses them.  They
 control trace normalization and Frobenius eigenvalues.

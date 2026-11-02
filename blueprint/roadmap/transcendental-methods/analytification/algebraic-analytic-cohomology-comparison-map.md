@@ -6,10 +6,10 @@ origin: cited
 
 # Natural algebraic-to-analytic cohomology comparison maps
 
-For every coherent algebraic sheaf `F` and every `i>=0`, the analytification
+For every coherent algebraic sheaf $F$ and every $i\ge 0$, the analytification
 comparison morphism induces a natural map
 
-`alpha_i:H^i(X,F)->H^i(X^h,F^h)`.
+$\alpha _i:H^i(X,F)\to H^i(X^h,F^h)$.
 
 No isomorphism is asserted without the projective or proper GAGA hypotheses.
 

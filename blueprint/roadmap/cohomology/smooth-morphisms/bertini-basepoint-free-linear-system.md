@@ -6,11 +6,11 @@ origin: cited
 
 # Bertini for a basepoint-free linear system
 
-Let `X` be a nonsingular variety over an algebraically closed field of
-characteristic zero, and let `b` be a basepoint-free finite-dimensional linear
-system in an invertible sheaf. A dense open subset of `b` parametrizes divisors
-that are nonsingular as closed subschemes of `X`, though they may be reducible.
-No projectivity hypothesis on `X` is needed once the linear system is assumed
+Let $X$ be a nonsingular variety over an algebraically closed field of
+characteristic zero, and let $b$ be a basepoint-free finite-dimensional linear
+system in an invertible sheaf. A dense open subset of $b$ parametrizes divisors
+that are nonsingular as closed subschemes of $X$, though they may be reducible.
+No projectivity hypothesis on $X$ is needed once the linear system is assumed
 finite-dimensional.
 
 Connectedness and irreducibility from III Exercise 11.3 are not included.

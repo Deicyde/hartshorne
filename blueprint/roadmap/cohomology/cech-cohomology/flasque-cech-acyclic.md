@@ -6,8 +6,8 @@ origin: cited
 
 # Flasque sheaves are Čech-acyclic
 
-If `F` is flasque, then `CechH^p(U,F)=0` for every open cover `U` and every
-`p>0`.
+If $F$ is flasque, then $\check{H}^p(U,F)=0$ for every open cover $U$ and every
+$p>0$.
 
 ## Depends on
 

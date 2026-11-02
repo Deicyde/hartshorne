@@ -8,10 +8,10 @@ origin: cited
 
 Let
 
-`0 ⟶ F' ⟶ F ⟶ F'' ⟶ 0`
+$0 \longrightarrow F' \longrightarrow F \longrightarrow F'' \longrightarrow 0$
 
-be exact on a Noetherian formal scheme. If `F'` and `F''` are coherent, then
-`F` is coherent.
+be exact on a Noetherian formal scheme. If $F'$ and $F''$ are coherent, then
+$F$ is coherent.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ be exact on a Noetherian formal scheme. If `F'` and `F''` are coherent, then
 ## Proof depends on
 
 - [Exactness of affine formal global sections](affine-formal-global-sections-exact.md)
-- On each affine formal chart, global sections present `F` as the completed
+- On each affine formal chart, global sections present $F$ as the completed
   sheaf associated to the extension of the two finite section modules.
 - Coherence is local on the finite formal-affine cover.
 

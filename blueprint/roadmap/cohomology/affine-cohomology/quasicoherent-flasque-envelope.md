@@ -6,8 +6,8 @@ origin: cited
 
 # Quasi-coherent flasque envelopes
 
-If `X` is Noetherian and `F` is a quasi-coherent `O_X`-module, there is a
-monomorphism `F ⟶ G` with `G` both flasque and quasi-coherent.
+If $X$ is Noetherian and $F$ is a quasi-coherent $\mathcal{O}_X$-module, there is a
+monomorphism $F \longrightarrow G$ with $G$ both flasque and quasi-coherent.
 
 ## Depends on
 

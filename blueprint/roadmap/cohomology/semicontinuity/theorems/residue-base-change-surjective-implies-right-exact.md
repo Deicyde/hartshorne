@@ -6,17 +6,17 @@ origin: cited
 
 # Residue-field surjectivity implies right exactness
 
-Let `A` be a Noetherian local ring with residue field `k`, let
-`f : X -> Spec A` be projective, and let `F` be coherent and flat over `A`.
+Let $A$ be a Noetherian local ring with residue field $k$, let
+$f : X \to \operatorname{Spec} A$ be projective, and let $F$ be coherent and flat over $A$.
 If the comparison map
 
-`H^i(X,F) tensor_A k -> H^i(X_k,F_k)`
+$H^i(X,F) \otimes _A k \to H^i(X_k,F_k)$
 
 is surjective, then the functor
 
-`M |-> H^i(X,F tensor_A M)`
+$M \mapsto H^i(X,F \otimes _A M)$
 
-is right exact on `A`-modules.
+is right exact on $A$-modules.
 
 ## Depends on
 
@@ -29,7 +29,7 @@ is right exact on `A`-modules.
 
 - Lift surjectivity from the residue field to finite-length modules, then to
   all infinitesimal quotients; use formal functions and faithful exact
-  completion to recover surjectivity over `A`.
+  completion to recover surjectivity over $A$.
 
 ## Sources
 

@@ -6,11 +6,11 @@ origin: cited
 
 # Torsion étale cohomology
 
-For the constant étale sheaf `Z/ell^r Z`, define
+For the constant étale sheaf $\mathbb{Z}/\ell ^r\mathbb{Z}$, define
 
-`H^i_et(X,Z/ell^r Z)`
+$H^i_{\mathrm{et}}(X,\mathbb{Z}/\ell ^r\mathbb{Z})$
 
-as the `i`th right-derived functor of global sections in the abelian category
+as the $i$th right-derived functor of global sections in the abelian category
 of abelian sheaves on the small étale site.  Morphisms of schemes act by the
 site-theoretic inverse-image construction.
 
@@ -21,10 +21,8 @@ site-theoretic inverse-image construction.
 
 ## Proof depends on
 
-- The generic sheaf-cohomology infrastructure in
-  `Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean`; the coefficient
-  sheaf and inverse-image functor must be instantiated on the small étale
-  site.
+- Sheaf cohomology and the coefficient sheaf's inverse-image functor on the
+  small étale site.
 
 ## Sources
 

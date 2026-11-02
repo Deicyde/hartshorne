@@ -9,36 +9,19 @@ lean: Hartshorne.height_le_height_comap_of_isIntegral Hartshorne.height_comap_le
 
 # Height is preserved by contraction along an integral extension
 
-Let `A ⊆ B` be an integral extension with `A` an integrally closed domain and
-`B` a domain. Then a prime `𝔭` of `B` has the same height as `𝔭 ∩ A`.
+Let $A\subseteq B$ be an integral extension of domains, with $A$
+integrally closed. For every prime ideal $\mathfrak p$ of $B$,
 
-This is the step [the dimension formula](dim-formula-catenary.md) needs in order
-to move a prime of an affine domain down to a Noether normalisation, where it
-becomes a prime of a polynomial ring and unique factorisation applies.
+$$\operatorname{ht}(\mathfrak p\cap A)=\operatorname{ht}\mathfrak p.$$
 
-## Mathlib boundary
+Incomparability ensures that contracting a prime chain below $\mathfrak p$
+preserves strict inclusions. Going down lifts a prime chain below
+$\mathfrak p\cap A$ to one below $\mathfrak p$. These give the two
+inequalities.
 
-This was expected to be the large missing prerequisite, and it is not missing at
-all: `Mathlib/RingTheory/IntegralClosure/GoingDown.lean` supplies exactly the
-instance, for `R ⊆ S` integral with `S` a domain and `R` integrally closed. An
-earlier search missed it because the instance is anonymous and lives under
-`IntegralClosure` rather than beside the `HasGoingDown` class.
-
-It applies to a Noether normalisation without any work: a polynomial ring over a
-field is a unique factorisation domain, hence integrally closed, and the
-normalisation is injective and integral.
-
-## What was actually needed
-
-Only the height statement that going down was wanted for:
-
-`(𝔭 ∩ R).height = 𝔭.height`
-
-(`Hartshorne.height_comap_eq_height_of_isIntegral`). One inequality contracts a
-chain below `𝔭` and stays strictly increasing, because primes of an integral
-extension over comparable primes are incomparable unless equal; the other lifts
-a chain below `𝔭 ∩ R`, which is going down. Both directions are three lines once
-the right Mathlib lemmas are named.
+The result applies to Noether normalization because a polynomial ring
+over a field is a unique factorization domain and hence integrally closed.
+It is the height comparison used in [the dimension formula](dim-formula-catenary.md).
 
 ## Depends on
 

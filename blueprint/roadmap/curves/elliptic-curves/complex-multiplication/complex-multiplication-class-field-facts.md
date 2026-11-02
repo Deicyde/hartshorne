@@ -7,18 +7,14 @@ not_ready: true
 
 # Class-field facts for complex multiplication
 
-Let `X/C` have complex multiplication by an order `R` with quotient field
-`K`, and let `j` be its invariant. Hartshorne records without proof:
+Let $X/\mathbb{C}$ have complex multiplication by an order $R$ with quotient field
+$K$, and let $j$ be its invariant. Hartshorne records without proof:
 
-1. `j` is an algebraic integer;
-2. `K(j)/K` is an abelian extension of degree `#Pic(R)`;
-3. `j` is a rational integer exactly when `#Pic(R)=1`, and exactly thirteen
-   such integral `j`-values occur.
+1. $j$ is an algebraic integer;
+2. $K(j)/K$ is an abelian extension of degree $\#\operatorname{Pic}(R)$;
+3. $j$ is a rational integer exactly when $\#\operatorname{Pic}(R)=1$, and exactly thirteen
+   such integral $j$-values occur.
 
-This node is not ready. The text cites the classical complex-multiplication
-literature but supplies neither a proof nor a precise theorem passage that
-covers all three clauses for nonmaximal orders. A proof-level source and the
-required class-field-theory representation must be adopted first.
 
 ## Depends on
 

@@ -7,9 +7,9 @@ not_ready: true
 
 # Balanced quadric H¹ vanishing
 
-Let `Q⊆P³_k` be the split nonsingular quadric `xy=zw`, with line bundles
-`O_Q(a,b)` normalized by the two rulings. If `|a-b|≤1`, then
-`H¹(Q,O_Q(a,b))=0`.
+Let $Q\subseteq \mathbb{P}^{3}_k$ be the split nonsingular quadric $xy=zw$, with line bundles
+$\mathcal{O}_Q(a,b)$ normalized by the two rulings. If $|a-b|\le 1$, then
+$H^{1}(Q,\mathcal{O}_Q(a,b))=0$.
 
 ## Depends on
 

@@ -9,8 +9,8 @@ mathlib_file: Mathlib/RingTheory/Kaehler/Basic.lean
 
 # Finiteness of differentials
 
-If `B` is an essentially finite-type `A`-algebra, then `Ω[B⁄A]` is a finitely
-generated `B`-module.  This includes both finitely generated algebras and
+If $B$ is an essentially finite-type $A$-algebra, then $\Omega_{B/ A}$ is a finitely
+generated $B$-module.  This includes both finitely generated algebras and
 their localizations.
 
 ## Depends on

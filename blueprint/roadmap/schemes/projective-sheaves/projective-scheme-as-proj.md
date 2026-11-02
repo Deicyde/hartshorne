@@ -6,9 +6,9 @@ origin: cited
 
 # Projective schemes as Proj
 
-A scheme `Y` over `Spec A` is projective if and only if
-`Y ≅ Proj S` for a graded ring `S` with `S₀ = A` that is finitely generated
-by `S₁` as an `A`-algebra.
+A scheme $Y$ over $\operatorname{Spec} A$ is projective if and only if
+$Y \cong \operatorname{Proj} S$ for a graded ring $S$ with $S_{0} = A$ that is finitely generated
+by $S_{1}$ as an $A$-algebra.
 
 ## Depends on
 

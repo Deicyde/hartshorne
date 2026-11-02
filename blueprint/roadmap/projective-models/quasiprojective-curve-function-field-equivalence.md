@@ -11,12 +11,11 @@ lean: Hartshorne.quasiProjectiveCurveFunctionFieldEquivalence
 
 The opposite of the category of quasi-projective curves with dominant
 rational maps is equivalent to the category of one-dimensional function
-fields with `k`-homomorphisms.  The sole main declaration is formalized as
-`Hartshorne.quasiProjectiveCurveFunctionFieldEquivalence`.
+fields with $k$-homomorphisms.
 
 The forward functor forgets the chosen quasi-projective presentation and then
 uses the function-field functor of Theorem 4.4.  It lands in transcendence
-degree one by `HasAffineOpenBasis.isCurve_iff_trdeg_eq_one` and is fully
+degree one by the curve-dimension theorem and is fully
 faithful by Theorem 4.4.  For essential surjectivity, realize a
 one-dimensional function field affinely, pass to its projective closure, and
 transport the function field and curve dimension across the resulting

@@ -6,10 +6,10 @@ origin: cited
 
 # Sheaf tensor, symmetric, and exterior operations
 
-For `F : X.Modules`, construct its tensor algebra, symmetric algebra, and
+For a sheaf $F$ of $\mathcal{O}_X$-modules, construct its tensor algebra, symmetric algebra, and
 exterior algebra by sheafifying the corresponding presheaf operations. Their
-homogeneous degree-`r` components define the tensor, symmetric, and exterior
-powers of `F` and restrict compatibly to open subspaces.
+homogeneous degree-$r$ components define the tensor, symmetric, and exterior
+powers of $F$ and restrict compatibly to open subspaces.
 
 ## Depends on
 

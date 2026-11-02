@@ -6,8 +6,8 @@ origin: cited
 
 # Automorphisms act transitively on an elliptic curve
 
-For any two closed points `P,Q` of an elliptic curve, there is a scheme
-automorphism carrying `P` to `Q`.
+For any two closed points $P,Q$ of an elliptic curve, there is a scheme
+automorphism carrying $P$ to $Q$.
 
 ## Depends on
 

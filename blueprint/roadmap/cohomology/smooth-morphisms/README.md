@@ -4,10 +4,10 @@ article_id: af_7fb2f63d04aa061f555260b2
 
 # Smooth morphisms and generic smoothness
 
-This chapter covers the running text of Hartshorne III.10, printed pp.268–275,
-and the later-used étale criterion in Exercise 10.3. It uses Mathlib's modern
-smooth and étale morphism predicates, connected to Hartshorne's differential,
-dimension, and tangent formulations by explicit comparison theorems.
+Hartshorne III.10 studies smooth morphisms through differential,
+dimension, and tangent-space criteria (printed pp.268–275). The
+chapter also includes the later-used étale criterion in
+Exercise III.10.3.
 
 ## Smoothness foundations
 

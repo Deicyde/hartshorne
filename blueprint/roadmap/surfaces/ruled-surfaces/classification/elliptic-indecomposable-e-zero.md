@@ -7,9 +7,9 @@ origin: cited
 # The elliptic indecomposable case with invariant zero
 
 On an elliptic curve, a normalized indecomposable rank-two bundle with
-`e=0` is, up to isomorphism, the unique nonsplit extension
+$e=0$ is, up to isomorphism, the unique nonsplit extension
 
-`0 -> O_C -> E -> O_C -> 0`.
+$0 \to \mathcal{O}_C \to E \to \mathcal{O}_C \to 0$.
 
 Its projectivization is the unique indecomposable elliptic ruled surface with
 invariant zero.
@@ -23,9 +23,9 @@ invariant zero.
 ## Proof depends on
 
 - Serre duality forces the degree-zero quotient line bundle to be trivial;
-  `H^1(O_C)` is one-dimensional, so all nonzero extension classes are
+  $H^1(\mathcal{O}_C )$ is one-dimensional, so all nonzero extension classes are
   isomorphic. A decomposition would make the extension split.
 
 ## Sources
 
-- [Hartshorne V.2, `e=0` case of Theorem 2.15, p.377](../../../../sources/hartshorne-v-2.md)
+- [Hartshorne V.2, $e=0$ case of Theorem 2.15, p.377](../../../../sources/hartshorne-v-2.md)

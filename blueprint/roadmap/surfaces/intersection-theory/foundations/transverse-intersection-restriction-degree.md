@@ -6,13 +6,13 @@ origin: cited
 
 # Transverse intersections and restricted divisor degree
 
-Let `C` be a smooth irreducible curve on a Chapter V surface and let `D` be
-an effective curve meeting `C` transversally. Then
+Let $C$ be a smooth irreducible curve on a Chapter V surface and let $D$ be
+an effective curve meeting $C$ transversally. Then
 
-`#(C intersect D) = deg_C(O_X(D)|_C)`.
+$\#(C\cap D)=\deg_C(\mathcal O_X(D)|_C)$.
 
 The left side counts closed points, while the restriction line bundle
-corresponds to the scheme-theoretic intersection divisor on `C`.
+corresponds to the scheme-theoretic intersection divisor on $C$.
 
 ## Depends on
 
@@ -23,7 +23,7 @@ corresponds to the scheme-theoretic intersection divisor on `C`.
 
 ## Proof depends on
 
-- Tensor `0 -> O_X(-D) -> O_X -> O_D -> 0` with `O_C`; transversality
+- Tensor $0 \to \mathcal{O}_X(-D) \to \mathcal{O}_X \to \mathcal{O}_D \to 0$ with $\mathcal{O}_C$; transversality
   identifies the quotient with the reduced intersection divisor.
 
 ## Sources

@@ -6,10 +6,10 @@ origin: cited
 
 # Abelian closure of quasi-coherent sheaves
 
-For a morphism of quasi-coherent `𝒪_X`-modules, its kernel, image, and
+For a morphism of quasi-coherent $\mathcal{O} _X$-modules, its kernel, image, and
 cokernel are quasi-coherent; an extension of quasi-coherent modules is
 quasi-coherent.  Therefore quasi-coherent modules form an abelian full
-subcategory of `X.Modules`.  If `X` is locally Noetherian, the corresponding
+subcategory of the category of $\mathcal{O}_X$-modules.  If $X$ is locally Noetherian, the corresponding
 statements hold for coherent modules.
 
 This is Proposition 5.7.  The completion result is closure under finite

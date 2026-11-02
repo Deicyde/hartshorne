@@ -6,8 +6,8 @@ origin: cited
 
 # An ample sheaf has a very ample power
 
-Let `X` be of finite type over a Noetherian ring. If `L` is ample, then some
-positive tensor power of `L` is very ample over the base.
+Let $X$ be of finite type over a Noetherian ring. If $L$ is ample, then some
+positive tensor power of $L$ is very ample over the base.
 
 ## Depends on
 

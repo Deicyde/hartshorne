@@ -7,14 +7,11 @@ not_ready: true
 
 # Regularity is reflected by maximal-adic completion
 
-Let `(A,m)` be a Noetherian local ring and let `A_hat` be its `m`-adic
+Let $(A,m)$ be a Noetherian local ring and let $\widehat{A}$ be its $m$-adic
 completion. Then
 
-`A is a regular local ring` if and only if `A_hat` is a regular local ring.
+$A \text{is} a \text{regular} \text{local} \text{ring}$ if and only if $\widehat{A}$ is a regular local ring.
 
-This node is not ready. Hartshorne quotes the completion package as Theorem
-I.5.4A; an exact proof-level commutative-algebra source and its comparison with
-the project's completion representation remain to be adopted.
 
 ## Depends on
 

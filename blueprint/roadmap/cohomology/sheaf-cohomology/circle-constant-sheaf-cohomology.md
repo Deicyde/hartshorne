@@ -7,13 +7,13 @@ not_ready: true
 
 # Constant-sheaf cohomology of the circle
 
-For the circle `S¹` with its usual topology and the constant integral sheaf
-`Z`, construct an isomorphism `H¹(S¹,Z) ≅ Z` using the derived-functor
+For the circle $S^{1}$ with its usual topology and the constant integral sheaf
+$Z$, construct an isomorphism $H^{1}(S^{1},Z) \cong Z$ using the derived-functor
 definition of sheaf cohomology.
 
 The unique main result is the displayed group isomorphism. Any concrete
 resolution introduced for the computation is supporting data and must be
-related to the `RΓ`/Ext comparison. This node is not ready until a concrete
+related to the $R\Gamma$/Ext comparison. This node is not ready until a concrete
 resolution and the required topological sheaf model are adopted.
 
 ## Depends on

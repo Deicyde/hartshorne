@@ -7,14 +7,14 @@ origin: cited
 # The elliptic indecomposable case with invariant minus one
 
 Assume the algebraically closed ground field has characteristic different
-from two. For every point `P` of an elliptic curve there is a unique normalized
+from two. For every point $P$ of an elliptic curve there is a unique normalized
 nonsplit extension
 
-`0 -> O_C -> E_P -> O_C(P) -> 0`.
+$0 \to \mathcal{O}_C \to E_P \to \mathcal{O}_C (P) \to 0$.
 
-For any `P,Q`, the bundles differ by a line-bundle twist, so all
-`P(E_P)` are isomorphic. Thus there is one indecomposable elliptic ruled
-surface with `e=-1` under this source-proof hypothesis.
+For any $P,Q$, the bundles differ by a line-bundle twist, so all
+$P(E_P)$ are isomorphic. Thus there is one indecomposable elliptic ruled
+surface with $e=-1$ under this source-proof hypothesis.
 
 ## Depends on
 
@@ -25,9 +25,9 @@ surface with `e=-1` under this source-proof hypothesis.
 
 ## Proof depends on
 
-- Choose `R` with `2R~P+Q` using the tame degree-two pencil, then show
-  `E_Q~=E_P tensor O(R-P)` by sections and determinants.
+- Choose $R$ with $2R\sim P+Q$ using the tame degree-two pencil, then show
+  $E_Q\simeq E_P \otimes \mathcal{O}(R-P)$ by sections and determinants.
 
 ## Sources
 
-- [Hartshorne V.2, `e=-1` case of Theorem 2.15, pp.377–378](../../../../sources/hartshorne-v-2.md)
+- [Hartshorne V.2, $e=-1$ case of Theorem 2.15, pp.377–378](../../../../sources/hartshorne-v-2.md)

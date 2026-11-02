@@ -7,13 +7,13 @@ origin: cited
 # Weil Betti numbers
 
 For a smooth projective geometrically connected variety with Weil
-polynomials `P_i`, define
+polynomials $P_i$, define
 
-`B_i(X)=degree(P_i)`.
+$B_i(X)=\deg P_i$.
 
 The §4 cohomological identification proves that these integers are the
 dimensions of the corresponding l-adic cohomology groups and are independent
-of `l`; that fact is theorem content, not part of this definition.
+of $l$; that fact is theorem content, not part of this definition.
 
 ## Depends on
 

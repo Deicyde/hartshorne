@@ -6,8 +6,8 @@ origin: cited
 
 # Lifting regularity from a regular hypersurface quotient
 
-Let `(A, m)` be a Noetherian local ring and let `f` be a non-zero-divisor in
-`m`. If `A/(f)` is a regular local ring, then `A` is a regular local ring.
+Let $(A, m)$ be a Noetherian local ring and let $f$ be a non-zero-divisor in
+$m$. If $A/(f)$ is a regular local ring, then $A$ is a regular local ring.
 
 ## Depends on
 
@@ -15,8 +15,8 @@ Let `(A, m)` be a Noetherian local ring and let `f` be a non-zero-divisor in
 
 ## Proof depends on
 
-- Lift a minimal generating set of the maximal ideal of `A/(f)` and adjoin
-  `f`; the dimension rises by one across a regular element.
+- Lift a minimal generating set of the maximal ideal of $A/(f)$ and adjoin
+  $f$; the dimension rises by one across a regular element.
 
 ## Sources
 

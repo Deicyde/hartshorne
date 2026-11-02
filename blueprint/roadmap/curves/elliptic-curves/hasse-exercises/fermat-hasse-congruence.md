@@ -6,10 +6,10 @@ origin: cited
 
 # The Fermat cubic Hasse congruence
 
-For the Fermat cubic `x^3+y^3=z^3` in characteristic `p != 3`, the Hasse
+For the Fermat cubic $x^3+y^3=z^3$ in characteristic $p \ne 3$, the Hasse
 invariant is zero exactly when
 
-`p congruent 2 mod 3`.
+$p\equiv2\pmod3$.
 
 The Dirichlet-density conclusion in the printed exercise is not part of this
 adopted clause.
@@ -20,8 +20,8 @@ adopted clause.
 
 ## Proof depends on
 
-- A monomial in `f^(p-1)` contributes to `(xyz)^(p-1)` exactly when
-  `3` divides `p-1`.
+- A monomial in $f^{p-1}$ contributes to $(xyz)^{p-1}$ exactly when
+  $3$ divides $p-1$.
 
 ## Sources
 

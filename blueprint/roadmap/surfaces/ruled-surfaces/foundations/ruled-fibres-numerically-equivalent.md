@@ -6,9 +6,9 @@ origin: cited
 
 # Fibres of a ruled surface are numerically equivalent
 
-All fibres `f` of a ruled surface `pi : X -> C` are numerically equivalent.
-Consequently `D.f` is independent of the chosen fibre for every divisor `D`
-on `X`.
+All fibres $f$ of a ruled surface $\pi : X \to C$ are numerically equivalent.
+Consequently $D\cdot f$ is independent of the chosen fibre for every divisor $D$
+on $X$.
 
 ## Depends on
 

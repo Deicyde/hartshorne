@@ -6,12 +6,12 @@ origin: cited
 
 # Effectivity of compatible coherent systems
 
-Let `J` be an ideal of definition on a Noetherian formal scheme and let `F n`
-be coherent on `(Xhat,O_Xhat/J^(n+1))`. Suppose the transition maps are
-surjective and, for `n' >= n`, their kernels are
-`J^(n+1) F n'`. Then `F = lim_n F n` is coherent and
+Let $J$ be an ideal of definition on a Noetherian formal scheme and let $F n$
+be coherent on $(\widehat{X} ,\mathcal{O}_{\widehat{X}} /J^{n+1})$. Suppose the transition maps are
+surjective and, for $n' \ge n$, their kernels are
+$J^{n+1} F n'$. Then $F = \lim _n F n$ is coherent and
 
-`F / J^(n+1) F ≅ F n`.
+$F / J^{n+1} F \cong F n$.
 
 ## Depends on
 

@@ -6,9 +6,9 @@ origin: cited
 
 # Ideals of definition
 
-For a Noetherian formal scheme `Xhat`, define an ideal of definition to be a
-module ideal subsheaf `J ↪ O_Xhat` such that `Supp(O_Xhat/J)` is the whole
-underlying space and the quotient locally ringed space `(Xhat,O_Xhat/J)` is a
+For a Noetherian formal scheme $\widehat{X}$, define an ideal of definition to be a
+module ideal subsheaf $J \hookrightarrow \mathcal{O}_{\widehat{X}}$ such that $\operatorname{Supp} (\mathcal{O}_{\widehat{X}} /J)$ is the whole
+underlying space and the quotient locally ringed space $(\widehat{X} ,\mathcal{O}_{\widehat{X}} /J)$ is a
 Noetherian scheme.
 
 The ideal is stored as an actual submodule sheaf. Affine-open ideal data may

@@ -9,13 +9,12 @@ lean: AlgebraicGeometry.Scheme.IsRegularInCodimensionOne AlgebraicGeometry.Schem
 
 # Regularity in codimension one
 
-Define a scheme `X` to be regular in codimension one when every point `x`
-with `coheight x = 1` has a regular local ring `O_{X,x}`. Package
-Hartshorne's standing condition `(*)` as the conjunction that `X` is
+A scheme $X$ is regular in codimension one when the local ring
+$\mathcal{O}_{X,x}$ is regular at every codimension-one point
+$x$. Hartshorne's standing condition $(*)$ says that $X$ is
 Noetherian, integral, separated, and regular in codimension one.
 
-The completion criterion is this scheme-level predicate and its projections;
-no global regularity or local-factoriality is included in the definition.
+Regularity is required only at codimension-one points.
 
 ## Depends on
 
@@ -26,9 +25,8 @@ no global regularity or local-factoriality is included in the definition.
 
 ## Proof depends on
 
-- `ringKrullDim_stalk_eq_coheight` for translating Hartshorne's
-  one-dimensional-local-ring formulation.
+- Local-ring dimension equals point coheight, relating this definition to the one-dimensional-local-ring formulation.
 
 ## Sources
 
-- [Hartshorne II.6, definition and condition `(*)` on printed p.130](../../../../sources/hartshorne-ii-6.md#weil-divisors-and-class-groups)
+- [Hartshorne II.6, definition and condition $(\cdot )$ on printed p.130](../../../../sources/hartshorne-ii-6.md#weil-divisors-and-class-groups)

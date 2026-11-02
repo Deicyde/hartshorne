@@ -6,10 +6,10 @@ origin: cited
 
 # Adjunction for an effective Cartier divisor
 
-Let `Y` be a nonsingular effective Cartier divisor in a nonsingular variety
-`X`, and let `L = O_X(Y)` be its associated invertible sheaf. Then
+Let $Y$ be a nonsingular effective Cartier divisor in a nonsingular variety
+$X$, and let $L = \mathcal{O}_X(Y)$ be its associated invertible sheaf. Then
 
-`omega_Y ~= (omega_X tensor L)|_Y`.
+$\omega _Y \simeq (\omega _X \otimes L)|_Y$.
 
 ## Depends on
 
@@ -19,8 +19,8 @@ Let `Y` be a nonsingular effective Cartier divisor in a nonsingular variety
 
 ## Proof depends on
 
-- The identifications `J/J^2 ~= L^(-1)|_Y` and
-  `N_(Y/X) ~= L|_Y`.
+- The identifications $J/J^2 \simeq L^{-1}|_Y$ and
+  $N_{(Y/X)} \simeq L|_Y$.
 
 ## Sources
 

@@ -10,8 +10,6 @@ not_ready: true
 Every surface that is neither rational nor birationally ruled is birational
 to a unique minimal model, in arbitrary characteristic.
 
-This node is not ready. Hartshorne quotes the classical theorem from Zariski
-without a proof-level passage suitable for the roadmap.
 
 ## Depends on
 

@@ -6,12 +6,12 @@ origin: cited
 
 # The graded global-sections module
 
-For `X = Proj S` and `F : X.Modules`, define
+For $X = \operatorname{Proj} S$ and a sheaf $F$ of $\mathcal{O}_X$-modules, define
 
-`Γ_*(F) = direct-sum_(n : Z) Γ(X,F(n))`
+$\Gamma_*(F)=\bigoplus_{n\in\mathbb{Z}}\Gamma(X,F(n))$
 
-as a graded `S`-module. Multiplication by a homogeneous `s ∈ S_d` is induced
-by the section of `O_X(d)` determined by `s` and the twist-tensor
+as a graded $S$-module. Multiplication by a homogeneous $s \in S_d$ is induced
+by the section of $\mathcal{O}_X(d)$ determined by $s$ and the twist-tensor
 isomorphism.
 
 ## Depends on

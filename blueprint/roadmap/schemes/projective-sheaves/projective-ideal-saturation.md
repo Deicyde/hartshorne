@@ -6,14 +6,14 @@ origin: cited
 
 # Saturation of projective ideals
 
-For a homogeneous ideal `I ⊆ S = A[x₀,...,xᵣ]`, define its saturation by
+For a homogeneous ideal $I \subseteq S = A[x_{0},\ldots ,x_{r}]$, define its saturation by
 
-`I^sat = {s ∈ S | ∀ i ∈ {0,...,r}, ∃ n : N, x_i^n s ∈ I}`.
+$I^{\mathrm{sat}}=\{s\in S\mid\forall i\in\{0,\ldots,r\},\;\exists n\in\mathbb N,\;x_i^n s\in I\}$.
 
 This is a homogeneous ideal; two homogeneous ideals define the same closed
 subscheme of projective space exactly when their saturations agree; and for a
-closed subscheme `Y`, `Γ_*(I_Y)` is saturated and is the largest homogeneous
-ideal defining `Y`.
+closed subscheme $Y$, $\Gamma _*(I_Y)$ is saturated and is the largest homogeneous
+ideal defining $Y$.
 
 ## Depends on
 
@@ -22,7 +22,7 @@ ideal defining `Y`.
 ## Proof depends on
 
 - [The sheaf of a graded module on Proj](proj-graded-module-sheaf.md)
-- Compare the localized ideals on every standard chart `D₊(x_i)`; equality
+- Compare the localized ideals on every standard chart $D_{+}(x_i)$; equality
   there is exactly the quantified power condition above.
 
 ## Sources

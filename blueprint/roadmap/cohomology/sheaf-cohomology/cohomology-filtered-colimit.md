@@ -6,12 +6,12 @@ origin: cited
 
 # Cohomology commutes with filtered colimits
 
-If `X` is noetherian and `(F_a)` is a filtered diagram of abelian sheaves,
+If $X$ is noetherian and $(F_a)$ is a filtered diagram of abelian sheaves,
 then the canonical maps
 
-`colim_a Hⁿ(X,F_a) ⟶ Hⁿ(X,colim_a F_a)`
+$\varinjlim _a H^{n}(X,F_a) \longrightarrow H^{n}(X,\varinjlim _a F_a)$
 
-are natural isomorphisms for all `n`. Consequently sheaf cohomology on `X`
+are natural isomorphisms for all $n$. Consequently sheaf cohomology on $X$
 commutes with arbitrary direct sums.
 
 The proof compares two effaceable delta functors using functorial embeddings

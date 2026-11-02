@@ -6,13 +6,13 @@ origin: cited
 
 # A variety with an affine-open basis has an associated scheme
 
-For a variety `V` equipped with `HasAffineOpenBasis`, package
-`(t(V), α_{V*}𝒪_V)` as a scheme.
+For a variety $V$ with an affine-open basis, the ringed space
+$(t(V),\alpha_{V*}\mathcal{O}_V)$ is a scheme.
 
-Given a point of `t(V)`, choose a classical point in its nonempty irreducible
-closed subset and then an affine open neighbourhood of that point in `V`.
-The corresponding open in `t(V)` is affine by the affine comparison.  This
-supplies exactly the local-affineness field of Mathlib's `Scheme`.
+Given a point of $t(V)$, choose a classical point in its nonempty irreducible
+closed subset and then an affine open neighbourhood of that point in $V$.
+The corresponding open in $t(V)$ is affine by the affine comparison.  This
+establishes the required local affineness.
 
 ## Depends on
 

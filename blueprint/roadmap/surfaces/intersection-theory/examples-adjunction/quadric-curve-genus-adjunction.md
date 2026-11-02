@@ -6,9 +6,9 @@ origin: cited
 
 # The genus of a smooth curve on a quadric
 
-A smooth curve of type `(a,b)` on a smooth quadric surface has genus
+A smooth curve of type $(a,b)$ on a smooth quadric surface has genus
 
-`g = a*b-a-b+1`.
+$g = a\cdot b-a-b+1$.
 
 ## Depends on
 
@@ -18,7 +18,7 @@ A smooth curve of type `(a,b)` on a smooth quadric surface has genus
 
 ## Proof depends on
 
-- The canonical class has type `(-2,-2)`; substitute in adjunction.
+- The canonical class has type $(-2,-2)$; substitute in adjunction.
 
 ## Sources
 

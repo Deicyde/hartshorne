@@ -7,15 +7,12 @@ not_ready: true
 
 # Étale purity and Gysin fundamental classes
 
-For a regular closed immersion `i:Z->X` of pure codimension `q`, with `X`
-smooth and `ell` invertible, absolute purity supplies a Gysin/fundamental
+For a regular closed immersion $i:Z\to X$ of pure codimension $q$, with $X$
+smooth and $\ell$ invertible, absolute purity supplies a Gysin/fundamental
 class with support and a degree-shifted, Tate-twisted map
 
-`i_*:H^m_et(Z,Q_ell(a))->H^(m+2q)_Z,et(X,Q_ell(a+q))`.
+$i_*:H^m_{\mathrm{et}}(\mathbb{Z},\mathbb{Q}_\ell(a))\to H^{m+2q}_\mathbb{Z},et(X,\mathbb{Q}_\ell(a+q))$.
 
-This node is not ready.  It requires cohomology with supports and a precise
-absolute-purity theorem.  Hartshorne suppresses both the construction and the
-Tate twist.
 
 ## Depends on
 

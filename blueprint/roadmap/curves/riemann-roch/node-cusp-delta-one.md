@@ -7,10 +7,10 @@ not_ready: true
 
 # Nodes and ordinary cusps have defect one
 
-Let `P` be a node or ordinary cusp on an integral projective curve over an
+Let $P$ be a node or ordinary cusp on an integral projective curve over an
 algebraically closed field. Then its normalization defect is
 
-`delta_P = length(Otilde_P/O_P) = 1`.
+$\delta _P = \operatorname{length} (\widetilde{\mathcal{O}} _P/\mathcal{O}_P) = 1$.
 
 ## Depends on
 
@@ -23,10 +23,6 @@ algebraically closed field. Then its normalization defect is
 - Compute the normalization quotients for the standard nodal and cuspidal
   plane-cubic singularities.
 
-This node is not ready: the current roadmap has no adopted proof-level
-analytic-isomorphism bridge and does not cover Hartshorne I Exercises 5.6 and
-5.14, which define and classify the singularities used by the hint. Stacks
-tag `0C46` supplies nodal context but not the missing ordinary-cusp bridge.
 
 ## Sources
 

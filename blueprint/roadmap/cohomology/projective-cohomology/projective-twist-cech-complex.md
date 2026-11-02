@@ -6,15 +6,15 @@ origin: cited
 
 # The standard graded Čech complex
 
-Let `A` be Noetherian, `S=A[x₀,…,xᵣ]`, `r≥1`, `X=Proj S`, and
-`F=⊕_(n:Z) O_X(n)`. For the ordered standard cover `Uᵢ=D₊(xᵢ)`, there is
+Let $A$ be Noetherian, $S=A[x_{0},\ldots ,x_{r}]$, $r\ge 1$, $X=\operatorname{Proj} S$, and
+$F=\bigoplus_{n\in\mathbb{Z}} \mathcal{O}_X(n)$. For the ordered standard cover $U_{i}=D_{+}(x_{i})$, there is
 an isomorphism of integer-graded cochain complexes
 
-`Cᵖ(U,F) ≅ ∏_(0≤i₀<⋯<iₚ≤r) S[(x_i₀⋯x_iₚ)⁻¹]`,
+$C ^{p}(U,F) \cong \prod _{(0\le i_{0}<\cdots <i_{p}\le r)} S[(x_i_{0}\cdots x_i_{p})^{-1}]$,
 
 term by term, with the alternating localization differential. The grading
-agrees with the twist index and multiplication by `S`. Every finite
-intersection is affine and `F` restricts to a quasi-coherent sheaf there, so
+agrees with the twist index and multiplication by $S$. Every finite
+intersection is affine and $F$ restricts to a quasi-coherent sheaf there, so
 the cover is acyclic in the sense required by the Čech comparison theorem.
 
 ## Depends on

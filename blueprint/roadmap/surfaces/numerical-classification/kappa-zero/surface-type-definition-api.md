@@ -4,29 +4,27 @@ declaration: structure
 origin: bridged
 ---
 
-# Distinct interfaces for the four Kodaira-dimension-zero surface types
+# The four Kodaira-dimension-zero surface types
 
-Over an algebraically closed field, keep the following structures distinct:
+Over an algebraically closed field, the four surface types have the
+following defining properties:
 
-- a `K3Surface` is a Chapter-V surface with `K_X~0` and `q(X)=0`;
-- an `EnriquesSurface` is a Chapter-V surface with `q(X)=0` and a nontrivial
-  canonical class satisfying `2K_X~0`;
-- an `AbelianSurface` is a projective connected group variety of dimension
+- a K3 surface is a Chapter-V surface with $K_X\sim 0$ and $q(X)=0$;
+- an Enriques surface is a Chapter-V surface with $q(X)=0$ and a nontrivial
+  canonical class satisfying $2K_X\sim 0$;
+- an abelian surface is a projective connected group variety of dimension
   two;
-- a `HyperellipticSurface` is the classical bielliptic quotient type
-  `(E times F)/G`, with the finite group action free, translational on one
-  elliptic factor, and with the other quotient equal to `P^1`.
+- a hyperelliptic surface is the classical bielliptic quotient type
+  $(E \times F)/G$, with the finite group action free, translational on one
+  elliptic factor, and with the other quotient equal to $\mathbb{P}^1$.
 
-The K3 and abelian-surface interfaces make sense in every characteristic.
-For the Enriques and hyperelliptic interfaces used in Hartshorne's exhaustive
-classification, impose `char k != 2,3`; the small-characteristic variants are
-not silently included.
+The K3 and abelian-surface definitions make sense in every characteristic.
+For the Enriques and hyperelliptic types in Hartshorne's exhaustive
+classification, assume $\operatorname{char} k\ne 2,3$.
 
-These are representation interfaces, not an assertion that every
-Kodaira-dimension-zero surface has one of the structures.  In particular, a
-hyperelliptic surface is not represented merely by the existence of some
-elliptic fibration, and an abelian surface carries group data absent from the
-other types.
+Exhaustivity of these four types is a separate classification theorem. A
+hyperelliptic surface has the stated quotient description in addition to an
+elliptic fibration; an abelian surface carries the specified group structure.
 
 ## Depends on
 

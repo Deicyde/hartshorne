@@ -6,8 +6,8 @@ origin: cited
 
 # The fundamental locus on a normal source has codimension at least two
 
-Let `T:X dashedrightarrow Y` be a birational transformation of projective
-varieties, with `X` normal. Its fundamental locus is closed and has
+Let $T:X \dashrightarrow Y$ be a birational transformation of projective
+varieties, with $X$ normal. Its fundamental locus is closed and has
 codimension at least two. In particular, for a normal surface it is a finite
 set of closed points.
 

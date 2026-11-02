@@ -9,10 +9,10 @@ mathlib_file: Mathlib/AlgebraicGeometry/Limits.lean
 
 # Spec Z is terminal
 
-Every scheme has a unique morphism to `Spec ℤ`; hence `Spec ℤ` is terminal in
+Every scheme has a unique morphism to $\operatorname{Spec} \mathbb{Z}$; hence $\operatorname{Spec} \mathbb{Z}$ is terminal in
 the category of schemes.
 
-The unique ring homomorphism `ℤ → Γ(X,𝒪_X)` gives existence by the
+The unique ring homomorphism $\mathbb{Z} \to \Gamma (X,\mathcal{O} _X)$ gives existence by the
 Gamma–Spec adjunction, and uniqueness follows from the same equivalence.  This
 is Exercise 2.5.
 

@@ -6,18 +6,18 @@ origin: cited
 
 # The twenty-seven candidate lines exhaust all lines
 
-The marked cubic surface contains exactly the twenty-seven lines `E_i`,
-`F_ij`, and `G_i`.  They are also exactly its irreducible curves of negative
+The marked cubic surface contains exactly the twenty-seven lines $E_i$,
+$F_{ij}$, and $G_i$.  They are also exactly its irreducible curves of negative
 self-intersection.
 
 For a line other than an exceptional curve, write its class as
-`a*l-sum b_i*e_i`, with `a>0` and `b_i>=0`.  Degree one and square minus one
+$a\cdot l-\sum b_i\cdot e_i$, with $a>0$ and $b_i\ge 0$.  Degree one and square minus one
 give
 
-`3*a-sum b_i=1`, `a^2-sum b_i^2=-1`.
+$3\cdot a-\sum b_i=1$, $a^2-\sum b_i^2=-1$.
 
-Cauchy--Schwarz forces `a<=2`; the cases `a=1` and `a=2` give respectively
-the `F_ij` and the `G_i`.
+Cauchy--Schwarz forces $a\le 2$; the cases $a=1$ and $a=2$ give respectively
+the $F_{ij}$ and the $G_i$.
 
 ## Depends on
 

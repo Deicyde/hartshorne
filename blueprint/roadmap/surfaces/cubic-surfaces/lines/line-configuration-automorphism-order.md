@@ -9,7 +9,7 @@ origin: cited
 The automorphism group of the incidence configuration of the twenty-seven
 lines has order
 
-`27 * 16 * 10 * 6 * 2 * 1 = 51840`.
+$27 \cdot 16 \cdot 10 \cdot 6 \cdot 2 \cdot 1 = 51840$.
 
 The factors count the successive choices in an ordered sextuple of mutually
 skew lines, and simple transitivity identifies these sextuples with group

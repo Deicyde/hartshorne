@@ -6,8 +6,8 @@ origin: cited
 
 # Ample restriction to a closed subscheme
 
-Let `X` be proper over a Noetherian ring, let `L` be ample on `X`, and let
-`i:Y→X` be a closed immersion. Then `i^*L` is ample on `Y`.
+Let $X$ be proper over a Noetherian ring, let $L$ be ample on $X$, and let
+$i:Y\to X$ be a closed immersion. Then $i^*L$ is ample on $Y$.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ Let `X` be proper over a Noetherian ring, let `L` be ample on `X`, and let
 - [The cohomological ampleness criterion](../projective-cohomology/ample-cohomological-criterion.md)
 - [Closed pushforward preserves cohomology](../sheaf-cohomology/closed-pushforward-cohomology.md)
 - [Finite pushforward preserves coherence](../../schemes/modules-and-quasicoherent/finite-pushforward-coherent.md)
-- Projection formula and `i_*(F⊗i^*L^n)≅i_*F⊗L^n`.
+- Projection formula and $i_*(F\otimes i^*L^n)\cong i_*F\otimes L^n$.
 
 ## Sources
 

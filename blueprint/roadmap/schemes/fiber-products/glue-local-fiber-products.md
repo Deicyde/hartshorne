@@ -9,7 +9,7 @@ mathlib_file: Mathlib/AlgebraicGeometry/Pullbacks.lean
 
 # Gluing local fiber products
 
-If `{Xᵢ}` is an open cover of `X` and every `Xᵢ ×_S Y` exists, then these local products glue to a fiber product `X ×_S Y`.
+If $\{X_{i}\}$ is an open cover of $X$ and every $X_{i} \times _S Y$ exists, then these local products glue to a fiber product $X \times _S Y$.
 
 Identify pairwise overlaps using the open-restriction theorem and uniqueness of pullbacks. The canonical identifications satisfy the cocycle condition. Glue the schemes and projections, then glue universal lifts.
 

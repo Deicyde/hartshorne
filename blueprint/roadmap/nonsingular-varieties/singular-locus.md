@@ -9,24 +9,24 @@ proof: formalized
 
 # The singular locus is proper and closed
 
-Let `X` be a separated variety over an algebraically closed field, equipped
+Let $X$ be a separated variety over an algebraically closed field, equipped
 with the affine-open-basis witness satisfied by Hartshorne's affine,
 quasi-affine, projective, and quasi-projective varieties. Then
 
-`SingularLocus X ⊊ X`
+$\operatorname{Sing}(X)\subsetneq X$
 
 is a proper closed subset. This is Theorem 5.3.
 
 Closedness is local on the affine-open basis. For properness, choose the natural
-dimension `r` of `X` and apply Proposition 4.9 to obtain an irreducible
-projective hypersurface birational to `X`. Corollary 4.5 supplies isomorphic
+dimension $r$ of $X$ and apply [Proposition I.4.9](../rational-maps/birational-hypersurface.md) to obtain an irreducible
+projective hypersurface birational to $X$. [Corollary I.4.5](../rational-maps/birational-criterion.md) supplies isomorphic
 nonempty open subvarieties. Intersect the hypersurface-side open with a standard
 affine chart: in that chart the hypersurface is defined by one irreducible
 polynomial. Its nonsingular locus is nonempty open, so irreducibility makes its
 intersection with the prescribed birational open nonempty. Nonsingularity
 transfers across the open inclusions and the isomorphism because all the local
-rings involved are isomorphic. The corresponding point of `X` is therefore
-nonsingular, proving that its singular locus is not all of `X`.
+rings involved are isomorphic. The corresponding point of $X$ is therefore
+nonsingular, proving that its singular locus is not all of $X$.
 
 ## Depends on
 

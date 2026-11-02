@@ -6,20 +6,18 @@ origin: bridged
 
 # Scheme-valued points of the projective line
 
-For a field extension `k → K`, the `K`-valued points of the relative
-projective line over `k`, namely morphisms
+For a field extension $k \to K$, the $K$-valued points of the relative
+projective line over $k$, namely morphisms
 
-`Spec K → P^1_k`
+$\operatorname{Spec} K \to \mathbb{P}^1_k$
 
-over `Spec k`, are naturally equivalent to one-dimensional quotients of
-`K²`. Dualizing a quotient line gives a line in `(K²)∨`; the standard basis
-identifies `(K²)∨` with `Fin 2 → K`, yielding an equivalence with
-`Projectivization K (Fin 2 → K)`.
+over $\operatorname{Spec} k$, are naturally equivalent to one-dimensional
+quotients of $K^2$. Dualizing a quotient line gives a line in $(K^2)^\vee$.
+The standard basis identifies this dual with $K^2$, giving the usual
+description of projective-line points as lines through the origin in $K^2$.
 
-This is the representation bridge between Hartshorne's scheme-valued point
-count and Mathlib's classical projectivization. Counting homogeneous
-coordinate tuples without this equivalence does not prove the scheme-valued
-statement.
+This connects the scheme-valued description used in Hartshorne's point
+counts with the classical homogeneous-coordinate description.
 
 ## Depends on
 
@@ -30,9 +28,9 @@ statement.
 ## Proof depends on
 
 - The relative-projective-space functor of points specialized to an invertible
-  sheaf with two ordered generators on `Spec K`.
-- Standard-basis self-duality for `K²`, converting one-dimensional quotients
-  into Mathlib's projective lines.
+  sheaf with two ordered generators on $\operatorname{Spec} K$.
+- Standard-basis self-duality for $K^2$, converting one-dimensional
+  quotients into projective lines.
 
 ## Sources
 

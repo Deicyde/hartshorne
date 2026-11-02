@@ -6,19 +6,19 @@ origin: bridged
 
 # Fibres of the general-translate incidence scheme
 
-For maps `f : Y -> X` and `g : Z -> X` as in Kleiman's theorem, form
+For maps $f : Y \to X$ and $g : Z \to X$ as in Kleiman's theorem, form
 
-`W = (G times Y) times_X Z`
+$W = (G \times Y) \times _X Z$
 
-using the action-family map, and let `q : W -> G`. For every `sigma : G(k)`,
+using the action-family map, and let $q : W \to G$. For every $\sigma : G(k)$,
 construct a scheme isomorphism between the fibre
-`W_sigma` and `Y^sigma times_X Z`. If the fibre is nonempty, its dimension
-under a smooth restriction of `q` is `dim Y + dim Z - dim X`.
+$W_\sigma$ and $Y^\sigma \times _X Z$. If the fibre is nonempty, its dimension
+under a smooth restriction of $q$ is $\dim Y + \dim Z - \dim X$.
 
 Also prove that a regular finite-type fibre has finitely many connected
 components. The common dimension of its nonempty components follows from the
 equidimensional incidence space and the constant relative dimension of the
-smooth restriction of `q`, not from regularity alone.
+smooth restriction of $q$, not from regularity alone.
 
 ## Depends on
 

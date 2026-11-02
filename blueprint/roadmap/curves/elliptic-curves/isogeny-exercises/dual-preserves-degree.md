@@ -6,10 +6,10 @@ origin: cited
 
 # Dual morphisms preserve degree
 
-For every nonconstant morphism of elliptic curves `f : X -> X'`, its dual
+For every nonconstant morphism of elliptic curves $f : X \to X'$, its dual
 morphism has the same degree:
 
-`deg(f_dual) = deg(f)`.
+$\deg (f^{\vee}) = \deg (f)$.
 
 ## Depends on
 
@@ -18,8 +18,8 @@ morphism has the same degree:
 
 ## Proof depends on
 
-- Compare degrees in `f_dual comp f=[deg f]` and use multiplicativity of
-  degree together with `deg([n])=n^2`.
+- Compare degrees in $f^{\vee} \circ f=[\deg f]$ and use multiplicativity of
+  degree together with $\deg ([n])=n^2$.
 
 ## Sources
 

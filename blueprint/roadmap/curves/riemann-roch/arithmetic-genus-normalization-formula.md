@@ -8,10 +8,10 @@ origin: cited
 
 With the normalization defect notation,
 
-`p_a(X) = p_a(X_tilde) + sum_P delta_P`.
+$p_a(X) = p_a(\widetilde{X}) + \sum _P \delta _P$.
 
 The sum is finite. Arithmetic genus is the cohomological arithmetic genus of
-an integral projective one-dimensional scheme; no regularity of `X` is
+an integral projective one-dimensional scheme; no regularity of $X$ is
 assumed.
 
 ## Depends on
@@ -23,7 +23,7 @@ assumed.
 
 ## Proof depends on
 
-- A finite morphism is affine, so `chi(nu_*O_X_tilde)=chi(O_X_tilde)`.
+- A finite morphism is affine, so $\chi (\nu _*\mathcal{O}_\widetilde{X})=\chi (\mathcal{O}_\widetilde{X})$.
 - A finite-length skyscraper sheaf has Euler characteristic equal to its
   total length and no positive cohomology.
 

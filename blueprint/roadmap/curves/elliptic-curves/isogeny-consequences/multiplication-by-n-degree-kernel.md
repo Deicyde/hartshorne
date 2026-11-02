@@ -6,14 +6,14 @@ origin: cited
 
 # Degree and kernel of general multiplication
 
-Let `X` be an elliptic curve over an algebraically closed field of
-characteristic different from two. For every nonzero integer `n`, the
-multiplication morphism `[n]` is finite of degree `n^2`. If `n` is prime to
-the characteristic, its closed kernel-point group is `(Z/nZ)^2`.
+Let $X$ be an elliptic curve over an algebraically closed field of
+characteristic different from two. For every nonzero integer $n$, the
+multiplication morphism $[n]$ is finite of degree $n^2$. If $n$ is prime to
+the characteristic, its closed kernel-point group is $(\mathbb{Z}/n\mathbb{Z})^2$.
 
 This is the point-kernel statement announced in Example 4.8.1. It does not
 identify the possibly nonreduced finite kernel group scheme with a constant
-group in characteristic dividing `n`.
+group in characteristic dividing $n$.
 
 ## Depends on
 
@@ -26,11 +26,11 @@ group in characteristic dividing `n`.
 
 ## Proof depends on
 
-- Self-duality of `[n]` and the dual-composite formula give
-  `deg([n])=n^2`.
+- Self-duality of $[n]$ and the dual-composite formula give
+  $\deg ([n])=n^2$.
 - Prime-to-characteristic multiplication is étale. The hyperosculation
   theorem identifies its kernel points in characteristic zero; in positive
-  characteristic, the standard finite-étale `n`-torsion theorem supplies the
+  characteristic, the standard finite-étale $n$-torsion theorem supplies the
   same point group independently of that proof.
 
 ## Sources

@@ -7,8 +7,8 @@ origin: cited
 # Multiplication by three
 
 Over an algebraically closed field of characteristic different from two and
-three, `[3] : X -> X` is finite of degree nine and its group of closed kernel
-points is isomorphic to `(Z/3Z)^2`.
+three, $[3] : X \to X$ is finite of degree nine and its group of closed kernel
+points is isomorphic to $(\mathbb{Z}/3\mathbb{Z})^2$.
 
 ## Depends on
 

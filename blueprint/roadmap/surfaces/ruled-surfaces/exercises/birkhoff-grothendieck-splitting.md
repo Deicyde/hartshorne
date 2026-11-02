@@ -6,10 +6,10 @@ origin: cited
 
 # Birkhoff–Grothendieck splitting on the projective line
 
-Every finite-rank locally free sheaf `E` on `P^1` is isomorphic to a direct
+Every finite-rank locally free sheaf $E$ on $\mathbb{P}^1$ is isomorphic to a direct
 sum of invertible sheaves
 
-`E ~= direct-sum_i O(a_i)`.
+$E\simeq\bigoplus_i\mathcal{O}(a_i)$.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ sum of invertible sheaves
 ## Proof depends on
 
 - Choose an invertible subsheaf of maximal degree. The quotient is locally
-  free; induct on rank and use maximality together with `H^1(P^1,O(n))`
+  free; induct on rank and use maximality together with $H^1(\mathbb{P}^1,\mathcal{O}(n))$
   vanishing to split the resulting extensions.
 
 ## Sources

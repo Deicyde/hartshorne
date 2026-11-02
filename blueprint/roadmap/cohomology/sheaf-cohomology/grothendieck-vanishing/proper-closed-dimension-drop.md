@@ -9,12 +9,9 @@ lean: topologicalKrullDim_lt_of_isClosed_ssubset
 
 # Dimension drops on proper closed subsets
 
-Let `X` be an irreducible noetherian topological space with
-`topologicalKrullDim X = n`, viewed in `WithBot ℕ∞`. If `Y ⊊ X` is closed,
-then `topologicalKrullDim Y < n`.
-
-The unique main result is strict dimension drop in Mathlib's actual dimension
-codomain; no implicit natural-valued dimension convention is used.
+Let $X$ be an irreducible noetherian topological space with
+$\dim X=n$, viewed in the extended Krull-dimension convention. If $Y \subsetneq X$ is closed,
+then $\dim Y<n$.
 
 ## Depends on
 

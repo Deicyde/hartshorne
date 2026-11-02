@@ -6,8 +6,8 @@ origin: cited
 
 # Cohomological dimension from an affine cover
 
-If a Noetherian separated scheme `X` is covered by `r+1` affine opens, then
-`cd(X) ≤ r`.
+If a Noetherian separated scheme $X$ is covered by $r+1$ affine opens, then
+$cd(X) \le r$.
 
 ## Depends on
 
@@ -16,8 +16,8 @@ If a Noetherian separated scheme `X` is covered by `r+1` affine opens, then
 ## Proof depends on
 
 - [Affine covers compute quasi-coherent cohomology](../cech-cohomology/affine-cover-comparison.md)
-- The ordered Čech complex of an `r+1` member cover has no terms above
-  degree `r`.
+- The ordered Čech complex of an $r+1$ member cover has no terms above
+  degree $r$.
 
 ## Sources
 

@@ -6,12 +6,12 @@ origin: cited
 
 # Higher direct images in nonnegative fibre degree vanish
 
-Let `D` be a divisor on a ruled surface `pi : X -> C` with `D.f >= 0`.
+Let $D$ be a divisor on a ruled surface $\pi : X \to C$ with $D\cdot f\ge0$.
 Then
 
-`R^i pi_* O_X(D) = 0`
+$R^i \pi _* \mathcal{O}_X(D) = 0$
 
-for every `i>0`.
+for every $i>0$.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ for every `i>0`.
 
 ## Proof depends on
 
-- On every fibre the restriction is `O_P1(D.f)`, whose positive-degree
+- On every fibre the restriction is $\mathcal O_{\mathbb P^1}(D\cdot f)$, whose positive-degree
   cohomology vanishes.
 
 ## Sources

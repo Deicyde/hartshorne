@@ -6,12 +6,12 @@ origin: cited
 
 # The canonical self-intersection
 
-For a Chapter V surface, choose a canonical divisor `K` representing
-`omega_X=exterior^2 Omega[X/k]`. The integer `K^2` is independent of the
+For a Chapter V surface, choose a canonical divisor $K$ representing
+$\omega_X=\bigwedge^2\Omega_{X/k}$. The integer $K^2$ is independent of the
 representative and is an isomorphism invariant of the surface.
 
-For `P^2`, `K=-3h` and `K^2=9`. For a smooth quadric, `K` has type
-`(-2,-2)` and `K^2=8`.
+For $\mathbb{P}^2$, $K=-3h$ and $K^2=9$. For a smooth quadric, $K$ has type
+$(-2,-2)$ and $K^2=8$.
 
 ## Depends on
 

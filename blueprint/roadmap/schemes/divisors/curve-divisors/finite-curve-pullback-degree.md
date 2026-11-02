@@ -6,14 +6,14 @@ origin: cited
 
 # Degree of a pulled-back curve divisor
 
-Let `f : X → Y` be a finite morphism of nonsingular curves over an
-algebraically closed field. For every divisor `D` on `Y`, prove
+Let $f : X \to Y$ be a finite morphism of nonsingular curves over an
+algebraically closed field. For every divisor $D$ on $Y$, prove
 
-`deg(f*D) = deg(f) * deg(D)`.
+$\deg (f^* D) = \deg (f) \cdot \deg (D)$.
 
-It suffices to treat one closed point `Q`. Localizing the integral closure
-above `Q`, compare the dimension of `A'/tA'` with the sum of the orders of a
-local parameter at the points above `Q`.
+It suffices to treat one closed point $Q$. Localizing the integral closure
+above $Q$, compare the dimension of $A'/tA'$ with the sum of the orders of a
+local parameter at the points above $Q$.
 
 ## Depends on
 
@@ -22,9 +22,8 @@ local parameter at the points above `Q`.
 ## Proof depends on
 
 - Finite torsion-free modules over a DVR are free.
-- Chinese remaindering over the finitely many primes above `Q`.
-- `Ideal.sum_ramification_inertia_eq_finrank`; residue degrees are one over
-  the algebraically closed ground field.
+- Chinese remaindering over the finitely many primes above $Q$.
+- The sum of ramification indices times residue degrees equals the field-extension degree; the residue degrees are one over the algebraically closed field.
 
 ## Sources
 

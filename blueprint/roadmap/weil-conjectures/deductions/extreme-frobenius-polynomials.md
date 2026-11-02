@@ -6,9 +6,9 @@ origin: cited
 
 # The extreme Frobenius polynomials
 
-For a geometrically connected smooth projective `n`-fold over `F_q`,
+For a geometrically connected smooth projective $n$-fold over $\mathbb{F}_q$,
 
-`P_0(t)=1-t`, and `P_(2n)(t)=1-q^n*t`.
+$P_0(t)=1-t$, and $P_{(2n)}(t)=1-q^n\cdot t$.
 
 ## Depends on
 
@@ -19,12 +19,12 @@ For a geometrically connected smooth projective `n`-fold over `F_q`,
 
 ## Proof depends on
 
-- Geometric connectedness identifies degree-zero cohomology with `Q_ell`, on
+- Geometric connectedness identifies degree-zero cohomology with $\mathbb Q_\ell$, on
   which pullback is the identity.
-- Hartshorne's `q`-power Frobenius is finite of degree `q^n`. Compatibility
+- Hartshorne's $q$-power Frobenius is finite of degree $q^n$. Compatibility
   of pullback with the normalized top trace shows explicitly that it acts by
-  multiplication by `q^n` on `H^(2n)(X_bar,Q_ell)` under the untwisted
-  `Q_ell(-n)` identification. Hence the two determinants are the displayed
+  multiplication by $q^n$ on $H^{2n}(\overline{X},\mathbb{Q}_\ell)$ under the untwisted
+  $\mathbb Q_\ell(-n)$ identification. Hence the two determinants are the displayed
   linear polynomials.
 
 ## Sources

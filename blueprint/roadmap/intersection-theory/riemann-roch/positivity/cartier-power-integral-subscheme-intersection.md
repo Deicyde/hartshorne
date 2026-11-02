@@ -7,18 +7,14 @@ not_ready: true
 
 # Cartier powers against integral subschemes
 
-Let `X` be proper over an algebraically closed field, `D` a Cartier divisor,
-and `Y subset X` a closed integral subscheme of dimension `r`. Define the
-integer `D^r.Y` using repeated Cartier-divisor intersection with the
-fundamental cycle of `Y` and degree of the resulting zero-cycle.
+Let $X$ be proper over an algebraically closed field, $D$ a Cartier divisor,
+and $Y \subset X$ a closed integral subscheme of dimension $r$. Define the
+integer $D^r\cdot Y$ using repeated Cartier-divisor intersection with the
+fundamental cycle of $Y$ and degree of the resulting zero-cycle.
 
-This restricted intersection operation is available even when `X` is
+This restricted intersection operation is available even when $X$ is
 singular and no moving lemma for arbitrary cycles is assumed.
 
-This node is not ready: the smooth-variety A7 normalization leaf does not
-construct repeated Cartier intersections on a singular proper ambient
-scheme. A proof-level elementary Cartier-on-integral-subscheme formalism must
-be adopted.
 
 ## Depends on
 

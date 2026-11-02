@@ -6,11 +6,11 @@ origin: cited
 
 # Cohomology classes recover surface intersections
 
-Let `X` be a Chapter-V surface. Serre duality and exterior multiplication
-give a nondegenerate bilinear pairing on `H^1(X,Omega_X)`. For any divisors
-`D,E` on `X`, their `dlog` cohomology classes satisfy
+Let $X$ be a Chapter-V surface. Serre duality and exterior multiplication
+give a nondegenerate bilinear pairing on $H^1(X,\Omega _X)$. For any divisors
+$D,E$ on $X$, their $\operatorname{dlog}$ cohomology classes satisfy
 
-`<c(D),c(E)> = (D.E) * 1_k`.
+$\langle c(D),c(E)\rangle=(D\cdot E)\,1_k$.
 
 ## Depends on
 

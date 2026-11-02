@@ -6,15 +6,15 @@ origin: cited
 
 # Construction and functoriality of the dual morphism
 
-For pointed elliptic curves and a morphism `f : X -> X'`, pullback on Picard
+For pointed elliptic curves and a morphism $f : X \to X'$, pullback on Picard
 groups induces a morphism
 
-`f_dual : X' -> X`
+$f^{\vee} : X' \to X$
 
 under the identifications with the degree-zero Picard groups. This dual
 construction reverses composition:
 
-`(g comp f)_dual = f_dual comp g_dual`.
+$(g \circ f)_\vee = f^{\vee} \circ g^{\vee}$.
 
 ## Depends on
 
@@ -22,7 +22,7 @@ construction reverses composition:
 
 ## Proof depends on
 
-- The elliptic curve represents its own relative `Pic^0` functor, and pullback
+- The elliptic curve represents its own relative $\operatorname{Pic} ^0$ functor, and pullback
   of line bundles is functorial.
 
 ## Sources

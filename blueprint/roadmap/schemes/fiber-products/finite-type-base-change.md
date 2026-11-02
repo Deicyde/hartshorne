@@ -9,9 +9,10 @@ lean: Hartshorne.finiteType_baseExtension
 
 # Finite type is stable under base extension
 
-If `f : X → S` is finite type and `S' → S` is arbitrary, then the projection `X ×_S S' → S'` is finite type.
+If $f : X \to S$ is finite type and $S' \to S$ is arbitrary, then the projection $X \times _S S' \to S'$ is finite type.
 
-Stability of `LocallyOfFiniteType` and `QuasiCompact` under pullback gives the two conjuncts of finite type.
+Local finite type and quasi-compactness are both preserved by base
+change, giving the two conditions for finite type.
 
 ## Depends on
 
@@ -20,7 +21,7 @@ Stability of `LocallyOfFiniteType` and `QuasiCompact` under pullback gives the t
 
 ## Proof depends on
 
-- `locallyOfFiniteType_isStableUnderBaseChange` and `quasiCompact_isStableUnderBaseChange`.
+- Local finite type and quasi-compactness are stable under base change.
 
 ## Sources
 

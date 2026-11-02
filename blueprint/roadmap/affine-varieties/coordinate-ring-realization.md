@@ -9,19 +9,19 @@ lean: Hartshorne.exists_isAffineVariety_coordinateRing_equiv Hartshorne.isAffine
 
 # Every finitely generated domain is a coordinate ring
 
-Any finitely generated `k`-algebra `B` that is an integral domain is isomorphic
-to `A(Y)` for some affine variety `Y`. Writing `B` as a quotient
-`A/𝔞` of a polynomial ring `A = k[x₁,…,xₙ]`, the variety is `Y = Z(𝔞)`.
+Any finitely generated $k$-algebra $B$ that is an integral domain is isomorphic
+to $A(Y)$ for some affine variety $Y$. Writing $B$ as a quotient
+$A/\mathfrak{a}$ of a polynomial ring $A = k[x_{1},\ldots ,x_{n}]$, the variety is $Y = Z(\mathfrak{a} )$.
 
 Hartshorne records this as the second half of Remark 1.4.6 and does not belabour
-it, but it carries the two facts that make the construction work. That `B` is a
-domain makes `𝔞` prime, which makes `Z(𝔞)` irreducible and therefore a variety.
-That `𝔞` is prime makes it radical, so the Nullstellensatz gives `I(Z(𝔞)) = 𝔞`
-rather than merely `√𝔞`, and hence `A(Y) = A/I(Z(𝔞)) = A/𝔞 ≅ B`.
+it, but it carries the two facts that make the construction work. That $B$ is a
+domain makes $\mathfrak{a}$ prime, which makes $Z(\mathfrak{a} )$ irreducible and therefore a variety.
+That $\mathfrak{a}$ is prime makes it radical, so the Nullstellensatz gives $I(Z(\mathfrak{a} )) = \mathfrak{a}$
+rather than merely $\sqrt{\mathfrak{a}}$, and hence $A(Y) = A/I(Z(\mathfrak{a} )) = A/\mathfrak{a} \cong B$.
 
 Both steps fail without the domain hypothesis, which is the reason it appears in
-the statement of Corollary 3.8 rather than being dropped for a general finitely
-generated `k`-algebra. This article exists separately from the coordinate ring
+the statement of [Corollary I.3.8](../morphisms/affine-variety-equivalence.md) rather than being dropped for a general finitely
+generated $k$-algebra. This article exists separately from the coordinate ring
 construction because it is what supplies essential surjectivity in that
 corollary, and a functor being essentially surjective is a theorem that wants
 its own name.

@@ -6,14 +6,14 @@ origin: cited
 
 # Genus-two curves from six branch points
 
-Let `k` be algebraically closed of characteristic different from two, and let
-`a_1,...,a_6` be distinct elements of `k`. For the quadratic extension
+Let $k$ be algebraically closed of characteristic different from two, and let
+$a_1,\ldots ,a_6$ be distinct elements of $k$. For the quadratic extension
 
-`k(x)(z) / k(x)`,  `z^2 = product_i (x-a_i)`,
+$k(x)(z) / k(x)$,  $z^2 = \prod _i (x-a_i)$,
 
-let `X` be its nonsingular projective curve model. Then `X` has genus two,
-the induced degree-two morphism `X -> P^1_k` is ramified exactly over the six
-points `x=a_i`, and this morphism is the canonical double cover.
+let $X$ be its nonsingular projective curve model. Then $X$ has genus two,
+the induced degree-two morphism $X \to \mathbb{P}^1_k$ is ramified exactly over the six
+points $x=a_i$, and this morphism is the canonical double cover.
 
 ## Depends on
 
@@ -24,7 +24,7 @@ points `x=a_i`, and this morphism is the canonical double cover.
 
 ## Proof depends on
 
-- The valuation of `product_i (x-a_i)` at each finite point and at infinity
+- The valuation of $\prod _i (x-a_i)$ at each finite point and at infinity
   determines the six ramification points.
 - Hurwitz's formula computes the genus.
 

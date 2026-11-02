@@ -9,15 +9,15 @@ lean: Hartshorne.exists_restrictionStalkIso
 
 # Restriction preserves stalks
 
-Let `i : Z ↪ X` be the inclusion of a topological subspace and define the
-restriction `F|Z` as `i⁻¹F`. For every `z : Z`, construct a natural
+Let $i : Z \hookrightarrow X$ be the inclusion of a topological subspace and define the
+restriction $F|Z$ as $i^{-1}F$. For every $z \in Z$, construct a natural
 isomorphism
 
-`(F|Z)_z ≅ F_{i(z)}`.
+$(F|Z)_z \cong F_{i(z)}$.
 
-Pinned Mathlib proves the presheaf comparison as
-`TopCat.Presheaf.stalkPullbackIso`; this leaf packages it for sheaf pullback by
-composing with the isomorphism on stalks induced by sheafification.
+Restriction does not change a stalk because open neighbourhoods
+inside the subspace form a cofinal family of neighbourhoods of the
+point. Sheafification preserves this comparison.
 
 ## Depends on
 

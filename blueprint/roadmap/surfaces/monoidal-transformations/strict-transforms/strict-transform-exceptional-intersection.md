@@ -8,7 +8,7 @@ origin: cited
 
 Under the total-transform hypotheses,
 
-`D_tilde*E = mu_P(D)`.
+$\widetilde D\cdot E=\mu_P(D)$.
 
 Equivalently, the strict transform meets the exceptional projective line in
 the tangent-cone divisor of total degree equal to the multiplicity.
@@ -21,7 +21,7 @@ the tangent-cone divisor of total degree equal to the multiplicity.
 
 ## Proof depends on
 
-- Intersect `pi^*D=D_tilde+rE` with `E`, using `pi^*D*E=0` and `E^2=-1`.
+- Intersect $\pi ^*D=\widetilde{D}+rE$ with $E$, using $\pi ^*D\cdot E=0$ and $E^2=-1$.
 
 ## Sources
 

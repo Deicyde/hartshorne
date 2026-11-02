@@ -6,9 +6,9 @@ origin: cited
 
 # The projective closed-immersion chart criterion
 
-The morphism associated to `L` and `s_0,...,s_n` is a closed immersion if and
-only if every `X_{s_i}` is affine and each coordinate-ring map
-`A[x_j/x_i] -> Gamma(X_{s_i}, O_X)` is surjective.
+The morphism associated to $L$ and $s_0,\ldots ,s_n$ is a closed immersion if and
+only if every $X_{s_i}$ is affine and each coordinate-ring map
+$A[x_j/x_i] \to \Gamma (X_{s_i}, \mathcal{O}_X)$ is surjective.
 
 ## Depends on
 

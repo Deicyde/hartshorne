@@ -6,13 +6,12 @@ origin: cited
 
 # Higher direct images preserve quasi-coherence
 
-Let `f : X -> Y` be a morphism of schemes with `X` Noetherian, and let `F`
-be quasi-coherent on `X`. For every `i`, the module `R^i f_* F` is
-quasi-coherent on `Y`.
+Let $f : X \to Y$ be a morphism of schemes with $X$ Noetherian, and let $F$
+be quasi-coherent on $X$. For every $i$, the module $R^i f_* F$ is
+quasi-coherent on $Y$.
 
-This is Corollary 8.6. The unique main result is the quasi-coherence
-instance/property for the module-valued higher direct image; it makes no
-coherence claim.
+This is Hartshorne's Corollary III.8.6; the conclusion is
+quasi-coherence.
 
 ## Depends on
 

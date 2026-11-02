@@ -6,12 +6,12 @@ origin: cited
 
 # Contractible curves
 
-Let `Y` be an irreducible curve on a nonsingular projective surface `X`.
-Call `Y` algebraically contractible if there are a projective algebraic
-surface `X_0`, a point `P` of `X_0`, and a birational morphism `f:X->X_0`
+Let $Y$ be an irreducible curve on a nonsingular projective surface $X$.
+Call $Y$ algebraically contractible if there are a projective algebraic
+surface $X_0$, a point $P$ of $X_0$, and a birational morphism $f:X\to X_0$
 such that
 
-`f(Y)={P}` and `f:X-Y -> X_0-P`
+$f(Y)=\{P\}$ and $f:X-Y \to X_0-P$
 
 is an isomorphism.  The target is allowed to be singular.
 

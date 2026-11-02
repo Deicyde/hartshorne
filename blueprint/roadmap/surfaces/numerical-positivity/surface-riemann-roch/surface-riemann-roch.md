@@ -6,9 +6,9 @@ origin: cited
 
 # The surface Riemann–Roch theorem
 
-For every divisor `D` on a Chapter V surface,
+For every divisor $D$ on a Chapter V surface,
 
-`l(D)-s(D)+l(K-D) = (D*(D-K))/2 + 1 + p_a(X)`.
+$l(D)-s(D)+l(K-D) = (D\cdot (D-K))/2 + 1 + p_a(X)$.
 
 The formal statement uses the doubled integer equality when necessary, rather
 than division in the natural numbers.

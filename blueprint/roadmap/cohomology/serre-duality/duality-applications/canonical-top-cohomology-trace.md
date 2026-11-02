@@ -6,10 +6,10 @@ origin: cited
 
 # Top cohomology of the canonical sheaf
 
-For a nonsingular projective variety `X` of dimension `n` over an
+For a nonsingular projective variety $X$ of dimension $n$ over an
 algebraically closed field, the dualizing trace gives an isomorphism
 
-`Hⁿ(X,ω_X) ≃ k`.
+$H^{n}(X,\omega _X) \simeq k$.
 
 The normalization is inherited from the trace on the projective dualizing
 sheaf, not chosen anew.

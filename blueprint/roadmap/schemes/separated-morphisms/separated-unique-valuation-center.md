@@ -6,12 +6,12 @@ origin: cited
 
 # Separated schemes have unique valuation centers
 
-Let `X` be an integral scheme of finite type over a field `k`. If `X` is
-separated over `k`, every valuation of `K(X)/k` has at most one center on `X`.
+Let $X$ be an integral scheme of finite type over a field $k$. If $X$ is
+separated over $k$, every valuation of $K(X)/k$ has at most one center on $X$.
 
 Two centers give two lifts of the same valuative square whose generic map is
-the canonical map `Spec K(X) ⟶ X` and whose base map is
-`Spec R ⟶ Spec k`. Separatedness supplies uniqueness in the valuative
+the canonical map $\operatorname{Spec} K(X) \longrightarrow X$ and whose base map is
+$\operatorname{Spec} R \longrightarrow \operatorname{Spec} k$. Separatedness supplies uniqueness in the valuative
 criterion, so the lifts, and hence their closed-point images, agree.
 
 The theorem deliberately asserts only uniqueness: a nonproper separated
@@ -25,7 +25,7 @@ scheme need not contain a center for every valuation.
 ## Proof depends on
 
 - [Valuative criterion for separatedness](valuative-criterion-separated.md)
-- The canonical structure map of an integral scheme over `k`.
+- The canonical structure map of an integral scheme over $k$.
 
 ## Sources
 

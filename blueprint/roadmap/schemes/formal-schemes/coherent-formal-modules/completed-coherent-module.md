@@ -6,14 +6,14 @@ origin: cited
 
 # Completion of a coherent module
 
-Let `X` be Noetherian, let `Y ↪ X` have module ideal sheaf `I`, and let `F`
-be a coherent `O_X`-module. Define its completion along `Y` by
+Let $X$ be Noetherian, let $Y \hookrightarrow X$ have module ideal sheaf $I$, and let $F$
+be a coherent $\mathcal{O}_X$-module. Define its completion along $Y$ by
 
-`Fhat = lim_n (F / I^(n+1) F)|_|Y|`.
+$\widehat{F}=\varprojlim_n\left(F/I^{n+1}F\right)|_{|Y|}$.
 
-Construct the natural `O_(Xhat_Y)`-module structure. Powers and quotients are
-taken on the module ideal sheaf obtained from the existing
-`IdealSheafData` bridge.
+The quotients and their transition maps give the completion its
+natural module structure over the completed structure sheaf. Powers
+are taken in the ideal sheaf of $Y$.
 
 ## Depends on
 

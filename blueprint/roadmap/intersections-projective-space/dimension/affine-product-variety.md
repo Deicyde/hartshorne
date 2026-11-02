@@ -9,20 +9,16 @@ lean: Hartshorne.isAffineVariety_affineProduct
 
 # Affine products are varieties
 
-For finite coordinate types `σ` and `τ`, define `affineProduct X Y` inside
-affine space on `σ ⊕ τ` by requiring its two coordinate restrictions to lie in
-`X` and `Y`.  If `X` and `Y` are affine varieties over an algebraically closed
-field, then `affineProduct X Y` is an affine variety.  The sole main
-declaration is planned as `Hartshorne.isAffineVariety_affineProduct`.
+Let $X\subseteq\mathbb A^m$ and $Y\subseteq\mathbb A^n$ be affine
+varieties over an algebraically closed field. Their product, viewed as a
+subset of $\mathbb A^{m+n}$ with the induced Zariski topology, is an
+affine variety.
 
-This is Exercise I.3.15(a), adopted because Proposition 7.1 applies it to
-`Y × Z ⊆ 𝔸²ⁿ`.  The topology is the one induced from affine space, not the
-ordinary product topology.
-
-The closed-set part comes from extending the equations of each factor to the
-disjoint union of their variables.  For irreducibility, use Hartshorne's
-closed-fibre argument, equivalently the existing general lemma that the range
-of a separately continuous map from two irreducible spaces is irreducible.
+This is Hartshorne's Exercise I.3.15(a), used in
+[Proposition I.7.1](affine-dimension-theorem.md). Each factor's equations
+extend to its coordinate block, proving closedness. Irreducibility follows
+from the closed-fibre argument. The topology used is the one induced from
+affine space, rather than the ordinary product topology.
 
 ## Depends on
 

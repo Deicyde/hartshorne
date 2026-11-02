@@ -9,17 +9,11 @@ mathlib_file: Mathlib/RingTheory/Spectrum/Prime/Topology.lean
 
 # The Zariski topology on Spec
 
-For a commutative ring `A`, let `Spec A` be its prime ideals and
-`V(𝔞) = {𝔭 | 𝔞 ≤ 𝔭}`.  The identities
-`V(𝔞𝔟) = V(𝔞) ∪ V(𝔟)` and `V(⨆ i, 𝔞 i) = ⋂ i, V(𝔞 i)` make these sets the
+For a commutative ring $A$, let $\operatorname{Spec} A$ be its prime ideals and
+$V(\mathfrak{a} ) = \{\mathfrak{p} | \mathfrak{a} \le \mathfrak{p} \}$.  The identities
+$V(\mathfrak{a} \mathfrak{b} ) = V(\mathfrak{a} ) \cup V(\mathfrak{b} )$ and $V(\bigcup i, \mathfrak{a} i) = \bigcap i, V(\mathfrak{a} i)$ make these sets the
 closed sets of a topology.  Moreover,
-`V(𝔞) ⊆ V(𝔟) ↔ 𝔟 ≤ radical 𝔞`, and the principal opens `D(f)` form a basis.
-
-The pinned implementation is `PrimeSpectrum.zariskiTopology`; the source
-clauses are supplied exactly by `PrimeSpectrum.zeroLocus_mul`,
-`PrimeSpectrum.zeroLocus_iSup`,
-`PrimeSpectrum.zeroLocus_subset_zeroLocus_iff`, and
-`PrimeSpectrum.isTopologicalBasis_basic_opens`.
+$V(\mathfrak a)\subseteq V(\mathfrak b)\quad\Longleftrightarrow\quad\mathfrak b\subseteq\sqrt{\mathfrak a}$, and the principal opens $D(f)$ form a basis.
 
 ## Depends on
 

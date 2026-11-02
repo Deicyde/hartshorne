@@ -9,14 +9,13 @@ lean: Hartshorne.Projective.isFinite_of_finite_fibres Hartshorne.Projective.isFi
 
 # Projective quasi-finite morphisms are finite
 
-Let `f : X -> Y` be a projective morphism of Noetherian schemes. If every
-fibre of `f` is finite, equivalently if `f` is quasi-finite, then `f` is a
+Let $f : X \to Y$ be a projective morphism of Noetherian schemes. If every
+fibre of $f$ is finite, equivalently if $f$ is quasi-finite, then $f$ is a
 finite morphism.
 
-This later-used exercise is a projective specialization of the modern theorem
-that a proper locally quasi-finite morphism is finite. That stronger modern
-result is proof infrastructure; this source-shaped wrapper is not marked as
-an exact Mathlib result. The exercise is used in Hartshorne V.1.10 and V.5.2.
+This is the projective case of the theorem that a proper locally
+quasi-finite morphism is finite. Hartshorne uses the exercise in
+V.1.10 and V.5.2.
 
 Both Noetherian hypotheses are retained in the source-case theorem to match
 Hartshorne's setting. Properness itself supplies local finite type and
@@ -31,7 +30,7 @@ therefore applies to arbitrary schemes.
 
 ## Proof depends on
 
-- `IsFinite.of_isProper_of_locallyQuasiFinite` in pinned Mathlib.
+- A proper locally quasi-finite morphism is finite.
 - For a finite-type morphism, finite scheme-theoretic fibres are equivalent
   to local quasi-finiteness.
 

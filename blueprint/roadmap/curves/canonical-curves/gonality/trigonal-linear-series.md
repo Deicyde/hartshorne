@@ -6,15 +6,16 @@ origin: cited
 
 # Linear series and trigonal curves
 
-Package a `g^r_d` on a Chapter IV curve as a degree-`d` invertible sheaf
-together with an `(r+1)`-dimensional subspace of global sections, modulo the
-appropriate scalar identification. Expose completeness and basepoint-freeness
-as predicates.
+A linear series $g^r_d$ on a Chapter IV curve consists of a degree-$d$
+invertible sheaf and an $(r+1)$-dimensional subspace of global sections,
+modulo the appropriate scalar identification. It is complete when the
+subspace is the full space of sections and basepoint-free when its sections
+have no common zero.
 
 A curve of genus at least two is trigonal in Hartshorne's convention when it
-carries a `g^1_3`, which may have a base point. A basepoint-free `g^1_3` is
-equivalent to a finite degree-three morphism to `P^1`; on a hyperelliptic
-curve, adding one base point to the unique `g^1_2` also gives a `g^1_3`.
+carries a $g^1_3$, which may have a base point. A basepoint-free $g^1_3$ is
+equivalent to a finite degree-three morphism to $\mathbb{P}^1$; on a hyperelliptic
+curve, adding one base point to the unique $g^1_2$ also gives a $g^1_3$.
 
 ## Depends on
 
@@ -24,4 +25,4 @@ curve, adding one base point to the unique `g^1_2` also gives a `g^1_3`.
 
 ## Sources
 
-- [Hartshorne IV.5, `g^r_d` notation and trigonal definition, pp.341, 345](../../../../sources/hartshorne-iv-5.md)
+- [Hartshorne IV.5, $g^r_d$ notation and trigonal definition, pp.341, 345](../../../../sources/hartshorne-iv-5.md)

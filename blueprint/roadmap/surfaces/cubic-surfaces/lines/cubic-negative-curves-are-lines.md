@@ -6,12 +6,12 @@ origin: cited
 
 # Every negative irreducible curve is a line
 
-Let `C` be an irreducible curve on the marked cubic surface.  If `C^2<0`,
+Let $C$ be an irreducible curve on the marked cubic surface.  If $C ^2<0$,
 then
 
-`C^2=-1`, `p_a(C)=0`, and `deg C=1`.
+$C ^2=-1$, $p_a(C )=0$, and $\deg C =1$.
 
-Consequently `C` is a line in the fixed embedding.  Thus the irreducible
+Consequently $C$ is a line in the fixed embedding.  Thus the irreducible
 negative curves will be exhausted once all lines have been enumerated.
 
 ## Depends on
@@ -23,7 +23,7 @@ negative curves will be exhausted once all lines have been enumerated.
 
 - An irreducible projective curve has nonnegative arithmetic genus, while its
   hyperplane degree is positive.  Applying
-  `p_a(C)=1+(C^2-deg C)/2` leaves only the displayed values.
+  $p_a(C )=1+(C ^2-\deg C )/2$ leaves only the displayed values.
 
 ## Sources
 

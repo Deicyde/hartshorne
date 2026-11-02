@@ -6,9 +6,9 @@ origin: cited
 
 # Projectivity detected by Ext against the base ring
 
-Let `A` be a Noetherian regular local ring and `M` a finitely generated
-`A`-module. Then `M` is projective if and only if
-`Ext^i_A(M,A)=0` for every `i>0`.
+Let $A$ be a Noetherian regular local ring and $M$ a finitely generated
+$A$-module. Then $M$ is projective if and only if
+$\operatorname{Ext} ^i_A(M,A)=0$ for every $i>0$.
 
 ## Depends on
 
@@ -17,9 +17,9 @@ Let `A` be a Noetherian regular local ring and `M` a finitely generated
 
 ## Proof depends on
 
-- Descending induction on degree to pass from Ext vanishing against `A` to
+- Descending induction on degree to pass from Ext vanishing against $A$ to
   Ext vanishing against every finite module.
-- Splitting a finite free presentation once `Ext^1` vanishes.
+- Splitting a finite free presentation once $\operatorname{Ext} ^1$ vanishes.
 
 ## Sources
 

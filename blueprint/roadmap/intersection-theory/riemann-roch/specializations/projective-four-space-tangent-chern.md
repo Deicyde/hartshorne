@@ -6,11 +6,11 @@ origin: cited
 
 # The tangent Chern classes of projective four-space
 
-Let `h` be the hyperplane class on `P^4`. The Euler sequence gives
+Let $h$ be the hyperplane class on $\mathbb{P}^4$. The Euler sequence gives
 
-`c(T_(P^4))=(1+h)^5`,
+$c(T_{(\mathbb{P}^4)})=(1+h)^5$,
 
-so `c_1=5h` and `c_2=10h^2`.
+so $c_1=5h$ and $c_2=10h^2$.
 
 ## Depends on
 

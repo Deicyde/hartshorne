@@ -9,45 +9,25 @@ lean: Hartshorne.exists_dedekind_affine_model
 
 # Dedekind localizations occur on nonsingular affine curves
 
-Let `k` be algebraically closed. Let `B` be a finitely generated `k`-algebra
-domain which is Dedekind of exact Krull dimension one, and let `K` be a chosen
-fraction field with compatible instances
-`[Algebra B K] [IsFractionRing B K] [Algebra k K]
-[IsScalarTower k B K]`. For a maximal ideal `℘` of `B`, there are an affine
-variety `Y` with witness `hY`, a point `P ∈ Y`, and compatible `k`-algebra
-equivalences
+Let $k$ be algebraically closed and let $B$ be a finitely generated
+$k$-algebra domain which is Dedekind of Krull dimension exactly one.
+Let $K$ be a fraction field of $B$, with compatible embeddings
+$k\subseteq B\subseteq K$. For every maximal ideal $\mathfrak p$ of $B$,
+there are a nonsingular affine curve $Y$, a point $P\in Y$, and compatible
+isomorphisms of $k$-algebras
 
-`e_B : A(Y) ≃ₐ[k] B`,
-`e_K : Hartshorne.FunctionField hY.isIrreducible ≃ₐ[k] K`, and
-`e_P : Hartshorne.LocalRingAt hY.isIrreducible P ≃ₐ[k] B_℘`
+$$e_B:A(Y)\cong B,\qquad e_K:K(Y)\cong K,\qquad
+ e_P:\mathcal O_{P,Y}\cong B_{\mathfrak p},$$
 
-such that `Y` is a nonsingular curve and
+with $e_B(\mathfrak m_P)=\mathfrak p$. The isomorphisms commute with
+the coordinate-ring and local-ring embeddings into the fraction fields.
+Thus for a local germ $z$, its image under $e_K$ is the image of $e_P(z)$
+under the canonical inclusion $B_{\mathfrak p}\hookrightarrow K$.
 
-`Ideal.map e_B.toRingEquiv (𝔪_P) = ℘`.
-
-Write `ι_℘ : B_℘ →ₐ[k] K` for the canonical localization map. Compatibility
-means that both equations
-
-`e_K (coordToRational hY.isIrreducible a) = algebraMap B K (e_B a)`
-
-and
-
-`e_K (localToFunctionField hY.isIrreducible P z) = ι_℘ (e_P z)`
-
-hold for every `a : A(Y)` and
-`z : Hartshorne.LocalRingAt hY.isIrreducible P`. State these commuting
-squares explicitly rather than retaining three unrelated abstract
-equivalences. Use this affine presentation consistently; do not mix it with
-the separate bundled `Variety.FunctionField` API.
-
-Realize `B` as a coordinate ring using Remark 1.4.6 and transport `℘` to a
-point by Theorem 3.2(b).  Dimension of the coordinate ring makes `Y` a curve.
-At every point, Theorem 3.2(c) identifies the local ring with a localization
-of `B`; that localization is a DVR, hence regular local, so `Y` is
-nonsingular.
-
-The chosen-fraction-field and local-ring compatibility is needed both for the
-valuation-space infinitude argument and for residue-field transport.
+Realize $B$ as a coordinate ring using Hartshorne's Remark I.1.4.6 and
+transport $\mathfrak p$ to a point using Theorem I.3.2(b). Dimension makes
+$Y$ a curve. Every local ring is a localization of the Dedekind domain,
+hence a discrete valuation ring and regular; therefore $Y$ is nonsingular.
 
 ## Depends on
 

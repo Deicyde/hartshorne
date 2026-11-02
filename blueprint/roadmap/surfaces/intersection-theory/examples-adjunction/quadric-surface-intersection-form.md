@@ -6,13 +6,13 @@ origin: cited
 
 # The intersection form on a smooth quadric
 
-On a smooth quadric surface, let `l` and `m` be lines from its two rulings.
+On a smooth quadric surface, let $l$ and $m$ be lines from its two rulings.
 Then
 
-`l^2=0`, `m^2=0`, and `l.m=1`.
+$l^2=0$, $m^2=0$, and $l\cdot m=1$.
 
-Thus divisors of types `(a,b)` and `(a',b')` intersect in
-`a*b'+a'*b`.
+Thus divisors of types $(a,b)$ and $(a',b')$ intersect in
+$a\cdot b'+a'\cdot b$.
 
 ## Depends on
 

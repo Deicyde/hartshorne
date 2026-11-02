@@ -7,13 +7,13 @@ not_ready: true
 
 # The associated graded algebra of a regular-sequence ideal
 
-Let `A` be a Cohen–Macaulay local ring and let `I = (x_1, ..., x_r)`, where
+Let $A$ be a Cohen–Macaulay local ring and let $I = (x_1, \ldots , x_r)$, where
 the generators form a regular sequence. The natural graded algebra map
 
-`Sym_(A/I)(I/I^2) -> direct-sum_(n >= 0) I^n/I^(n+1)`
+$\operatorname{Sym}_{A/I}(I/I^2)\longrightarrow\bigoplus_{n\ge0}I^n/I^{n+1}$
 
-is an isomorphism. In particular, `I/I^2` is free of rank `r` and every
-degree-`n` map `Sym^n(I/I^2) -> I^n/I^(n+1)` is an isomorphism.
+is an isomorphism. In particular, $I/I^2$ is free of rank $r$ and every
+degree-$n$ map $\operatorname{Sym} ^n(I/I^2) \to I^n/I^{n+1}$ is an isomorphism.
 
 ## Depends on
 
@@ -21,8 +21,7 @@ degree-`n` map `Sym^n(I/I^2) -> I^n/I^(n+1)` is an isomorphism.
 
 ## Proof depends on
 
-- Mathlib's `SymmetricAlgebra`, ideal-power quotients, and `reesAlgebra`
-  provide algebraic representations but not the required isomorphism.
+- The symmetric algebra and the quotients of ideal powers in the associated graded algebra.
 - Hartshorne cites Matsumura [2], p.110, but the exact passage has not yet
   been adopted.
 

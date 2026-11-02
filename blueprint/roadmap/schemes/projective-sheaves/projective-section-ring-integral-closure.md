@@ -6,15 +6,15 @@ origin: cited
 
 # The projective section ring is the integral closure
 
-Let `k` be algebraically closed and let `X ⊆ P_k^r` be connected and normal.
-Its homogeneous coordinate ring `S` is a domain, and the nonnegative section
+Let $k$ be algebraically closed and let $X \subseteq \mathbb{P}^r_{k}$ be connected and normal.
+Its homogeneous coordinate ring $S$ is a domain, and the nonnegative section
 ring
 
-`S' = direct-sum_(n≥0) Γ(X,O_X(n))`
+$S'=\bigoplus_{n\ge0}\Gamma(X,\mathcal{O}_X(n))$
 
-is the integral closure of `S` in its fraction field.
+is the integral closure of $S$ in its fraction field.
 
-This is the unique main result of Exercise 5.14(a). The integrality of `X` and
+This is the unique main result of Exercise 5.14(a). The integrality of $X$ and
 the fact that the sheaf of graded section rings has integrally closed stalks
 are supporting steps.
 

@@ -6,7 +6,7 @@ origin: background
 
 # Compatibility with the elliptic-curve group law
 
-Under the Weierstrass uniformization, the additive group `C/Lambda` is
+Under the Weierstrass uniformization, the additive group $\mathbb C/\Lambda$ is
 isomorphic to the algebraic group of the Weierstrass cubic, with the lattice
 class of zero corresponding to the point at infinity.
 
@@ -18,8 +18,8 @@ class of zero corresponding to the point at infinity.
 
 ## Proof depends on
 
-- The principal-divisor criterion identifies `a1+a2=b` in the torus with the
-  divisor relation `phi(a1)+phi(a2)~phi(b)+phi(0)` on the cubic.
+- The principal-divisor criterion identifies $a_1+a_2=b$ in the torus with the
+  divisor relation $\phi (a_1)+\phi (a_2)\sim \phi (b)+\phi (0)$ on the cubic.
 
 ## Sources
 

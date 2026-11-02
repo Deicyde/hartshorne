@@ -6,8 +6,8 @@ origin: cited
 
 # Every compact Riemann surface is projective algebraic
 
-For every connected compact complex one-manifold `M`, there is a nonsingular
-projective algebraic curve `X` over `C` with `X^h~=M`.  The algebraization is
+For every connected compact complex one-manifold $M$, there is a nonsingular
+projective algebraic curve $X$ over $\mathbb{C}$ with $X^h\simeq M$.  The algebraization is
 unique up to the compatible algebraic isomorphism.
 
 ## Depends on
@@ -20,7 +20,7 @@ unique up to the compatible algebraic isomorphism.
 ## Proof depends on
 
 - Interpret a nonconstant meromorphic function as a finite holomorphic map
-  `M->P^1(C)`, then apply generalized Riemann existence over the algebraic
+  $M\to \mathbb{P}^1(\mathbb C)$, then apply generalized Riemann existence over the algebraic
   projective line.
 
 ## Sources

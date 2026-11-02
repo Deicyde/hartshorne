@@ -6,10 +6,10 @@ origin: cited
 
 # Cartier classes inject into the Picard group
 
-For every scheme `X`, the assignment `D ↦ O_X(D)` descends to an injective
+For every scheme $X$, the assignment $D \mapsto \mathcal{O}_X(D)$ descends to an injective
 group homomorphism
 
-`CaCl X → Pic X`.
+$\operatorname{CaCl}(X)\longrightarrow\operatorname{Pic}(X)$.
 
 This is Corollary 6.14. No surjectivity is asserted without an additional
 hypothesis; the Kleiman and Nakai remarks remain external source notes.

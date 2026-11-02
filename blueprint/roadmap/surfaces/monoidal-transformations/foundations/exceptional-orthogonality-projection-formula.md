@@ -6,15 +6,15 @@ origin: cited
 
 # Exceptional orthogonality and the blowup projection formula
 
-For every divisor class `C` on `X`, `(pi^*C).E=0`. Let
+For every divisor class $C$ on $X$, $(\pi^*C)\cdot E=0$. Let
 
-`pi_* : Pic(X_tilde) -> Pic(X)`
+$\pi _* : \operatorname{Pic} (\widetilde{X}) \to \operatorname{Pic} (X)$
 
 denote projection along the decomposition
-`Pic(X_tilde)=pi^*Pic(X) direct-sum Z[E]`; this is not sheaf direct image.
-Then for every divisor class `D` on `X_tilde`,
+$\operatorname{Pic}(\widetilde X)=\pi^*\operatorname{Pic}(X)\oplus\mathbb Z[E]$; this is not sheaf direct image.
+Then for every divisor class $D$ on $\widetilde X$,
 
-`(pi^*C).D = C.(pi_*D)`.
+$(\pi^*C)\cdot D=C\cdot(\pi_*D)$.
 
 ## Depends on
 
@@ -24,8 +24,8 @@ Then for every divisor class `D` on `X_tilde`,
 
 ## Proof depends on
 
-- Move a representative of `C` away from `P`, so its pullback misses `E`;
-  then expand `D` in the Picard direct sum.
+- Move a representative of $C$ away from $P$, so its pullback misses $E$;
+  then expand $D$ in the Picard direct sum.
 
 ## Sources
 

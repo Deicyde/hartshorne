@@ -9,17 +9,17 @@ lean: Hartshorne.IsAffineVariety.ringKrullDim_coordinateRing_eq_one Hartshorne.I
 
 # Nonsingular affine curves have Dedekind coordinate rings
 
-Let `Y` be a nonsingular affine curve.  Its coordinate ring `A(Y)` is a
+Let $Y$ be a nonsingular affine curve.  Its coordinate ring $A(Y)$ is a
 Dedekind domain of Krull dimension one.
 
-The coordinate ring is a Noetherian domain and has dimension one because `Y`
-is an affine curve.  For every maximal ideal `𝔪_P`, Theorem 3.2(c)
-identifies `A(Y)_{𝔪_P}` with the local ring at `P`; that local ring is a
+The coordinate ring is a Noetherian domain and has dimension one because $Y$
+is an affine curve.  For every maximal ideal $\mathfrak{m} _P$, [Theorem I.3.2(c)](../morphisms/affine-variety-rings.md)
+identifies $A(Y)_{\mathfrak{m} _P}$ with the local ring at $P$; that local ring is a
 DVR by nonsingularity.  Integral closedness is local at maximal ideals, so
-`A(Y)` is integrally closed.
+$A(Y)$ is integrally closed.
 
 This is the converse direction to the affine-model construction.  It is kept
-separate because the openness proof in Proposition 6.7 starts with an
+separate because the openness proof in [Proposition I.6.7](curve-to-valuation-space-iso.md) starts with an
 arbitrary affine open subset of the given curve, not with a normalization
 model constructed earlier.
 

@@ -9,17 +9,17 @@ mathlib_file: Mathlib/AlgebraicGeometry/ValuativeCriterion.lean
 
 # Valuative criterion for properness
 
-For every morphism `f`, properness is equivalent to the conjunction of the
+For every morphism $f$, properness is equivalent to the conjunction of the
 unique-lift valuative criterion, quasi-compactness, quasi-separatedness, and
 local finite type. Hence a finite-type morphism with Noetherian source is
 proper exactly when every valuative commutative square has a unique lift, as
 in Theorem 4.7.
 
-Split unique lifting into existence and uniqueness. The former gives universal
-closedness, and the latter gives separatedness. The remaining finiteness
-hypotheses give precisely Mathlib's definition of properness. Conversely,
-properness provides existence by closedness after base change and uniqueness
-by the closed diagonal.
+Split unique lifting into existence and uniqueness. Existence
+gives universal closedness, and uniqueness gives separatedness.
+Together with the finiteness hypotheses these imply properness.
+Conversely, properness gives existence by closedness after base
+change and uniqueness by the closed diagonal.
 
 ## Depends on
 

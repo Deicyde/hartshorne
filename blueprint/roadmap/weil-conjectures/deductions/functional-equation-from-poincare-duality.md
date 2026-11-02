@@ -6,18 +6,18 @@ origin: cited
 
 # The functional equation from Poincaré duality
 
-For smooth projective `X/F_q` of dimension `n`, use the Tate-twisted perfect
+For smooth projective $X/\mathbb{F}_q$ of dimension $n$, use the Tate-twisted perfect
 pairing
 
-`H^i_et(X_bar,Q_ell) times H^(2n-i)_et(X_bar,Q_ell(n)) -> Q_ell`.
+$H^i_{\mathrm{et}}(\overline{X},\mathbb{Q}_\ell) \times H^{2n-i}_{\mathrm{et}}(\overline{X},\mathbb{Q}_\ell(n)) \to \mathbb{Q}_\ell$.
 
-Under Hartshorne's `q`-power Frobenius convention, cup-product naturality and
+Under Hartshorne's $q$-power Frobenius convention, cup-product naturality and
 the explicit top-degree action give
 
-`<F^*v,F^*w> = q^n * <v,w>`.
+$<F^*v,F^*w> = q^n \cdot <v,w>$.
 
-The scaled perfect-pairing determinant identity therefore relates `P_i` and
-`P_(2n-i)`. Substitution in the determinant factorization gives the Weil
+The scaled perfect-pairing determinant identity therefore relates $P_i$ and
+$P_{(2n-i)}$. Substitution in the determinant factorization gives the Weil
 functional equation with exponent the diagonal Euler characteristic and the
 determinant sign prescribed by Frobenius.
 

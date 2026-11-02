@@ -9,21 +9,18 @@ lean: Hartshorne.gradedPrimeFiltration_multiplicity_eq_count
 
 # Multiplicity in a graded prime filtration
 
-For a prime `p` minimal over `Ann M`, define the multiplicity of `M` at `p` by
+For a prime $\mathfrak p$ minimal over $\operatorname{Ann}M$, define
 
-`μ_p(M) = Module.length (S_p) (M_p)`.
+$$\mu_{\mathfrak p}(M)=\operatorname{length}_{S_{\mathfrak p}}M_{\mathfrak p}.$$
 
-Keep this value in Mathlib's `ℕ∞` until finiteness is proved. For every graded
-prime filtration of `M`, it is finite and equals the number of indices `i` for
-which the factor prime `pᵢ` is `p`. The main result is
-`Hartshorne.gradedPrimeFiltration_multiplicity_eq_count`; the supporting
-definition is `Hartshorne.gradedMultiplicity`.
+For every graded prime filtration of $M$, this length is finite and equals
+the number of factors whose prime is $\mathfrak p$.
 
-After localizing the filtration at `p`, a factor associated to `pᵢ` vanishes
-unless `pᵢ ⊆ p`. Minimality and the preceding support theorem turn that
-containment into equality. Every surviving factor is the residue field of the
-local ring `S_p`, hence has length one, and additivity of module length counts
-the occurrences. This also proves that the definition is independent of the
+After localization at $\mathfrak p$, a factor with prime $\mathfrak p_i$
+vanishes unless $\mathfrak p_i\subseteq\mathfrak p$. Minimality turns
+this containment into equality. Each surviving factor is the residue field
+of $S_{\mathfrak p}$ and has length one. Additivity of length therefore
+counts the factors and shows that the number is independent of the
 chosen filtration.
 
 ## Depends on

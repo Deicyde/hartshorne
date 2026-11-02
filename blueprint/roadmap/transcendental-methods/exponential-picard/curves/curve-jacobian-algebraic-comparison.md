@@ -7,12 +7,10 @@ not_ready: true
 
 # Comparison with the algebraic Jacobian
 
-For a smooth projective complex genus-`g` curve, the analytic torus
-`C^g/Z^(2g)` is the analytification of its algebraic Jacobian and represents
-`Pic^0(C)`. Moreover `NS(C)~=Z` via degree.
+For a smooth projective complex genus-$g$ curve, the analytic torus
+$\mathbb{C}^g/\mathbb{Z}^{2g}$ is the analytification of its algebraic Jacobian and represents
+$\operatorname{Pic} ^0(C )$. Moreover $\operatorname{NS} (C )\simeq \mathbb{Z}$ via degree.
 
-This node is not ready until an exact comparison between the algebraic
-Jacobian/Picard functor and the exponential-sequence period torus is adopted.
 
 ## Depends on
 

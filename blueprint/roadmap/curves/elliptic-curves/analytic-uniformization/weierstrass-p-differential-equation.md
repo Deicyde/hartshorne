@@ -9,19 +9,18 @@ mathlib_file: Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean
 
 # The Weierstrass differential equation
 
-Let `L` be a pair of complex periods and let `z` lie outside its lattice.
-Pinned Mathlib proves
+Let $L$ be a pair of complex periods and let $z$ lie outside its lattice.
+The corresponding Weierstrass function satisfies
 
-`P'[L](z)^2 = 4*P[L](z)^3 - L.g2*P[L](z) - L.g3`.
+$$\wp_L'(z)^2=4\wp_L(z)^3-g_2(L)\wp_L(z)-g_3(L).$$
 
-This is the differential-equation part of Hartshorne's Theorem 4.12B. The
-separate claim that `P,P'` generate every elliptic function is not included in
-this Mathlib status.
+This is the differential-equation part of Hartshorne's Theorem IV.4.12B.
+Generation of the elliptic-function field by $\wp$ and $\wp'$ is a
+[separate result](elliptic-function-field-generation.md).
 
 ## Depends on
 
-No project-local prerequisites; the exact theorem is supplied by pinned
-Mathlib.
+No project-local prerequisites.
 
 ## Sources
 

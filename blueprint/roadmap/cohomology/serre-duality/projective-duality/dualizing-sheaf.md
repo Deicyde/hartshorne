@@ -6,18 +6,18 @@ origin: cited
 
 # Dualizing sheaves
 
-Let `X` be a proper scheme of dimension `n` over a field `k`. A dualizing
-sheaf on `X` consists of a coherent `O_X`-module `ω°_X`, a `k`-linear trace
+Let $X$ be a proper scheme of dimension $n$ over a field $k$. A dualizing
+sheaf on $X$ consists of a coherent $\mathcal{O}_X$-module $\omega ^{\circ} _X$, a $k$-linear trace
 
-`tr_X : Hⁿ(X,ω°_X) →ₗ k`,
+$\operatorname{tr}_X:H^n(X,\omega_X^{\circ})\longrightarrow k$,
 
-and the assertion that for every coherent `F`, composition followed by trace
+and the assertion that for every coherent $F$, composition followed by trace
 induces a natural linear equivalence
 
-`Hom_X(F,ω°_X) ≃ Dual k (Hⁿ(X,F))`.
+$$\operatorname{Hom}_X(F,\omega_X^{\circ})\cong H^n(X,F)^\vee.$$
 
-The trace is part of the data. This definition neither assumes that `X` is
-Cohen–Macaulay nor that `ω°_X` is invertible.
+The trace is part of the data. This definition neither assumes that $X$ is
+Cohen–Macaulay nor that $\omega ^{\circ} _X$ is invertible.
 
 ## Depends on
 
@@ -28,8 +28,7 @@ Cohen–Macaulay nor that `ω°_X` is invertible.
 
 ## Proof depends on
 
-- A coherent-module full subcategory and the contravariant Hom functor into
-  `ModuleCat k`.
+- The contravariant Hom functor on coherent modules takes values in $k$-vector spaces.
 - The base-field module structure on module-sheaf cohomology.
 
 ## Sources

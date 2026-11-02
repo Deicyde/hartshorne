@@ -7,13 +7,13 @@ not_ready: true
 
 # The coherent-sheaf Hilbert polynomial
 
-Let `X` be projective over a field, let `O_X(1)` be very ample, and let `F`
-be coherent. There is a unique polynomial `P_F∈Q[z]` such that
+Let $X$ be projective over a field, let $\mathcal{O}_X(1)$ be very ample, and let $F$
+be coherent. There is a unique polynomial $P_F\in \mathbb{Q}[z]$ such that
 
-`χ(F(n))=P_F(n)`
+$\chi (F(n))=P_F(n)$
 
-for every integer `n`, positive or negative. Define this polynomial to be the
-Hilbert polynomial of `F` relative to `O_X(1)`.
+for every integer $n$, positive or negative. Define this polynomial to be the
+Hilbert polynomial of $F$ relative to $\mathcal{O}_X(1)$.
 
 ## Depends on
 
@@ -23,8 +23,8 @@ Hilbert polynomial of `F` relative to `O_X(1)`.
 
 ## Proof depends on
 
-- Induction on `dim Supp(F)` using the kernel and cokernel of a suitable map
-  `F(-1)→F`, whose supports have smaller dimension.
+- Induction on $\dim \operatorname{Supp} (F)$ using the kernel and cokernel of a suitable map
+  $F(-1)\to F$, whose supports have smaller dimension.
 - The finite-difference characterization of numerical polynomials.
 
 The exercise fixes the statement but not a complete dimension-lowering proof

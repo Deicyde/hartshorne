@@ -6,13 +6,13 @@ origin: cited
 
 # Conics through assigned points
 
-For ordinary assigned points in `P^2` with no three collinear, conics through
-at most four points have no unassigned base points. Through `r<=5` ordinary
-points the system has projective dimension `5-r`; for `r=5` its unique member
+For ordinary assigned points in $\mathbb{P}^2$ with no three collinear, conics through
+at most four points have no unassigned base points. Through $r\le 5$ ordinary
+points the system has projective dimension $5-r$; for $r=5$ its unique member
 is irreducible.
 
 The same conclusions hold for Hartshorne's explicitly listed variants with
-`P_2` directly infinitely near `P_1` and the stated `P_5`
+$P_2$ directly infinitely near $P_1$ and the stated $P_5$
 tangent-direction specializations in Corollary 4.2/Remark 4.2.1. Collinearity
 and conic incidence there mean incidence of strict transforms on the relevant
 successive blowup. No arbitrary longer assigned cluster is asserted.

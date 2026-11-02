@@ -6,9 +6,9 @@ origin: cited
 
 # Homogeneous ideals and truncation define the same Proj subscheme
 
-A homogeneous ideal `I ⊆ S` defines the closed subscheme `Proj(S/I) → Proj S`. For any degree bound `d₀`, replacing `I` by its truncation `⊕_{d≥d₀} I_d` gives the same closed subscheme.
+A homogeneous ideal $I \subseteq S$ defines the closed subscheme $\operatorname{Proj} (S/I) \to \operatorname{Proj} S$. For any degree bound $d_{0}$, replacing $I$ by its truncation $\bigoplus _{d\ge d_{0}} I_d$ gives the same closed subscheme.
 
-Apply the graded-quotient closed immersion. On every standard affine chart, sufficiently high homogeneous multiples become invertible-degree representatives, so `I` and its truncation induce the same localized degree-zero ideal. Glue the chartwise equality.
+Apply the graded-quotient closed immersion. On every standard affine chart, sufficiently high homogeneous multiples become invertible-degree representatives, so $I$ and its truncation induce the same localized degree-zero ideal. Glue the chartwise equality.
 
 ## Depends on
 

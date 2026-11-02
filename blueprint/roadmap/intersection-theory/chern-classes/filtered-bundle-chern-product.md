@@ -6,10 +6,10 @@ origin: cited
 
 # Chern classes of a bundle filtered by line bundles
 
-If a rank-`r` locally free sheaf `E` has a filtration whose successive
-quotients are invertible sheaves `L_1,...,L_r`, then
+If a rank-$r$ locally free sheaf $E$ has a filtration whose successive
+quotients are invertible sheaves $L_1,\ldots ,L_r$, then
 
-`c_t(E)=product_(i=1)^r c_t(L_i)`.
+$c_t(E)=\prod _{(i=1)}^r c_t(L_i)$.
 
 No direct-sum decomposition is asserted or chosen.
 

@@ -6,21 +6,21 @@ article_id: af_a0c663862a8cb83c9c2e9b1d
 
 Rational maps compare varieties using morphisms defined on nonempty open
 subsets. Representatives are identified when they agree on a nonempty common
-refinement. Lemma 4.1 provides the rigidity needed for this comparison:
+refinement. [Lemma I.4.1](morphism-agreement.md) provides the rigidity needed for this comparison:
 two morphisms of varieties that agree on a nonempty open subset agree
 everywhere.
 
 Open affine subsets form a base for the topology of a variety
-(Proposition 4.3), allowing local questions to be studied in the affine
-setting. Dominant rational maps `X ⇢ Y` correspond to `k`-algebra
-homomorphisms `K(Y) → K(X)` (Theorem 4.4). This gives an arrow-reversing
+([Proposition I.4.3](affine-base.md)), allowing local questions to be studied in the affine
+setting. Dominant rational maps $X \dashrightarrow Y$ correspond to $k$-algebra
+homomorphisms $K(Y) \to K(X)$ ([Theorem I.4.4](rational-map-function-field.md)). This gives an arrow-reversing
 equivalence between varieties with dominant rational maps and finitely
-generated field extensions of `k`. Together with Corollary 3.8, it
+generated field extensions of $k$. Together with [Corollary I.3.8](../morphisms/affine-variety-equivalence.md), it
 distinguishes the coordinate-ring classification up to isomorphism from the
 function-field classification up to birational equivalence.
 
-Two applications close the section. Every variety of dimension `r` is
-birational to a hypersurface in `ℙ^{r+1}` (Proposition 4.9). The point-blowup
+Two applications close the section. Every variety of dimension $r$ is
+birational to a hypersurface in $\mathbb{P} ^{r+1}$ ([Proposition I.4.9](birational-hypersurface.md)). The point-blowup
 example gives a birational morphism that is not an isomorphism, introducing
 a construction used in resolution of singularities.
 

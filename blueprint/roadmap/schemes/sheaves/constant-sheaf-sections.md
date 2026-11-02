@@ -9,14 +9,14 @@ lean: Hartshorne.exists_constantSheafSectionsEquivOfIsPreconnected Hartshorne.ex
 
 # Sections of a constant sheaf
 
-Let `A_X` be the constant sheaf associated to `A`. If `U` is a connected
-nonempty open subset of `X`, evaluation at any chosen point gives an additive
-equivalence `A_X(U) ≃+ A`. More generally, if the connected components of `U`
-are open, restriction gives an additive equivalence between `A_X(U)` and the
-product of copies of `A` indexed by those components.
+Let $A_X$ be the constant sheaf associated to $A$. If $U$ is a connected
+nonempty open subset of $X$, evaluation at any chosen point gives an additive
+equivalence $A_X(U)\cong A$. More generally, if the connected components of $U$
+are open, restriction gives an additive equivalence between $A_X(U)$ and the
+product of copies of $A$ indexed by those components.
 
-The nonemptiness is explicit because Lean's connected-space API distinguishes
-it from preconnectedness and the empty open has the zero group of sections.
+Nonemptiness is essential: the group of sections on the empty open
+is the zero group.
 
 ## Depends on
 
@@ -24,7 +24,7 @@ it from preconnectedness and the empty open has the zero group of sections.
 
 ## Proof depends on
 
-- Mathlib's `LocallyConstant.apply_eq_of_isPreconnected` and the open-component decomposition.
+- A locally constant function on a connected nonempty space is constant; functions on open components glue independently.
 
 ## Sources
 

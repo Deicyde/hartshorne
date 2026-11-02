@@ -6,7 +6,7 @@ origin: cited
 
 # Relative Proj is proper
 
-The projection `Proj_X S -> X` is proper for a graded algebra satisfying the
+The projection $\operatorname{Proj} _X S \to X$ is proper for a graded algebra satisfying the
 relative-Proj finiteness hypotheses.
 
 ## Depends on
@@ -16,8 +16,8 @@ relative-Proj finiteness hypotheses.
 
 ## Proof depends on
 
-- The pinned Mathlib properness instance for `Proj.toSpecZero`.
-- Target locality of properness on the affine cover of `X`.
+- The structure morphism of the Proj of a finitely generated graded algebra is proper.
+- Target locality of properness on the affine cover of $X$.
 
 ## Sources
 

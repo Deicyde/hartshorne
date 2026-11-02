@@ -9,20 +9,17 @@ lean: Hartshorne.projectiveHypersurfaceSectionComponent_projDim_eq
 
 # Proper hypersurface sections are equidimensional
 
-Assume `n > 0`. Let `Y ⊆ ℙⁿ` be a projective variety of natural dimension
-`r > 0`, and let `H = Z(f)` for an irreducible homogeneous polynomial `f` of
-positive degree. If `Y` is not contained in `H`, then every irreducible
-component `Z` of `Y ∩ H` has
+Assume $n>0$. Let $Y\subseteq\mathbb P^n$ be a projective variety of
+dimension $r>0$, and let $H=Z(f)$ for an irreducible homogeneous polynomial
+$f$ of positive degree. If $Y$ is not contained in $H$, every irreducible
+component $Z$ of $Y\cap H$ has
 
-`projDim (projectiveComponentCarrier Z) = r - 1`.
+$$\dim Z=r-1.$$
 
-The main declaration is planned as
-`Hartshorne.projectiveHypersurfaceSectionComponent_projDim_eq`. The projective
-dimension theorem gives the lower bound `r-1`. The component carrier is a
-proper closed subset of the irreducible variety `Y`, so strict dimension drop
-gives the matching upper bound. This is the equidimensionality assertion used
-when Theorem 7.7 replaces top-dimensional minimal primes by the geometric
-components of the section.
+The projective dimension theorem gives the lower bound. Each component is
+a proper closed subset of the irreducible variety $Y$, so strict dimension
+drop gives the matching upper bound. This is the equidimensionality used
+in [Hartshorne's Theorem I.7.7](projective-hypersurface-bezout.md).
 
 ## Depends on
 

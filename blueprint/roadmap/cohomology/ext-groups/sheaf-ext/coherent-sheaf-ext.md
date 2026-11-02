@@ -6,8 +6,8 @@ origin: cited
 
 # Coherence of sheaf Ext
 
-Let `X` be Noetherian and let `F,G` be coherent `O_X`-modules. Then
-`𝓔xt^i_X(F,G)` is coherent for every `i ≥ 0`.
+Let $X$ be Noetherian and let $F,G$ be coherent $\mathcal{O}_X$-modules. Then
+$\mathcal{E}xt^i_X(F,G)$ is coherent for every $i \ge 0$.
 
 ## Depends on
 
@@ -18,7 +18,7 @@ Let `X` be Noetherian and let `F,G` be coherent `O_X`-modules. Then
 
 - Local finite free resolutions on affine neighborhoods and abelian closure of
   coherent sheaves.
-- Pinned Mathlib's `ModuleCat.finite_ext` as affine algebraic prior art.
+- Ext groups of finite modules are finite under the stated Noetherian hypotheses.
 
 ## Sources
 

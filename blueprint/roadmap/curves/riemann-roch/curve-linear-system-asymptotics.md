@@ -6,15 +6,15 @@ origin: cited
 
 # Asymptotic dimensions of complete linear systems
 
-Let `D` be a divisor on a Chapter IV curve of genus `g`.
+Let $D$ be a divisor on a Chapter IV curve of genus $g$.
 
-- If `deg D<0`, then `dim|nD|=-1` for every positive `n`.
-- If `deg D=0`, then `dim|nD|=0` when `nD~0` and is `-1` otherwise.
-- If `deg D>0`, then for all sufficiently large positive `n`,
-  `dim|nD| = n*deg D-g`.
+- If $\deg D<0$, then $\dim |nD|=-1$ for every positive $n$.
+- If $\deg D=0$, then $\dim |nD|=0$ when $nD\sim 0$ and is $-1$ otherwise.
+- If $\deg D>0$, then for all sufficiently large positive $n$,
+  $\dim |nD| = n\cdot \deg D-g$.
 
 All displayed dimensions are integers, retaining the empty-system value
-`-1`.
+$-1$.
 
 ## Depends on
 
@@ -24,7 +24,7 @@ All displayed dimensions are integers, retaining the empty-system value
 
 ## Proof depends on
 
-- For `n*deg D>deg K`, the divisor `K-nD` has negative degree and hence no
+- For $n\cdot \deg D>\deg K$, the divisor $K-nD$ has negative degree and hence no
   nonzero section.
 
 ## Sources

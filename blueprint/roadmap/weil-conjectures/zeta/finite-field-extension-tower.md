@@ -9,13 +9,13 @@ lean: Hartshorne.finiteFieldExtensionPolynomial Hartshorne.finiteFieldExtension 
 
 # The finite-field extension tower
 
-Fix `k=F_q`. For every integer `r>=1`, choose the degree-`r` extension
+Fix $k=\mathbb{F}_q$. For every integer $r\ge 1$, choose the degree-$r$ extension
 
-`k_r=F_(q^r)`
+$k_r=\mathbb{F}_{q^r}$
 
-inside a fixed algebraic closure, with its `q^r` elements and the canonical
-inclusions whenever one extension divides another. Record the algebraic
-closure as the filtered union of these finite extensions.
+inside a fixed algebraic closure, with its $q^r$ elements and the canonical
+inclusions whenever one extension degree divides another. The algebraic
+closure is the filtered union of these finite extensions.
 
 ## Depends on
 

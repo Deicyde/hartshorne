@@ -9,7 +9,7 @@ origin: cited
 Neither degree-nine genus-ten type is a specialization of the other in a
 flat family. The two distinguishing functions are
 
-`h^0(I_X(2))` and `h^0(O_X(2))`:
+$h^0(I_X(2))$ and $h^0(\mathcal{O}_X(2))$:
 
 one increases from the complete-intersection type to the quadric type, while
 the other decreases.
@@ -23,8 +23,8 @@ the other decreases.
 
 - Apply upper semicontinuity separately to the flat family of structure
   sheaves and to its coherent ideal sheaf. In
-  `0 -> I -> O_(P^3 times T) -> O_X -> 0`, the middle and quotient are flat
-  over `T`, hence the ideal sheaf `I` is flat as well; twisting by `O(2)`
+  $0 \to I \to \mathcal{O}_{(\mathbb{P}^3 \times T)} \to \mathcal{O}_X \to 0$, the middle and quotient are flat
+  over $T$, hence the ideal sheaf $I$ is flat as well; twisting by $\mathcal{O}(2)$
   preserves flatness.
 
 ## Sources

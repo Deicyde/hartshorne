@@ -6,16 +6,16 @@ origin: bridged
 
 # Complex comparison after choosing an embedding of coefficient fields
 
-Let `X` be smooth and proper over `C`, and choose an abstract field embedding
+Let $X$ be smooth and proper over $\mathbb{C}$, and choose an abstract field embedding
 
-`iota:Q_ell->C`.
+$\iota :\mathbb{Q}_\ell\to \mathbb{C}$.
 
 Then the ℓ-adic singular comparison and change of coefficients give
 
-`H^i_et(X,Q_ell) tensor_(Q_ell,iota) C ~= H^i_sing(X^h,C)`.
+$H^i_{\mathrm{et}}(X,\mathbb{Q}_\ell) \otimes _{(\mathbb{Q}_\ell,\iota )} \mathbb{C} \simeq H^i_\mathrm{sing} (X^h,\mathbb{C} )$.
 
-The isomorphism depends on `iota`; there is no canonical topological
-embedding of `Q_ell` into `C`.  Dimension equality is independent of the
+The isomorphism depends on $\iota$; there is no canonical topological
+embedding of $\mathbb Q_\ell$ into $\mathbb{C}$.  Dimension equality is independent of the
 choice.
 
 ## Depends on

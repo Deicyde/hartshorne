@@ -6,19 +6,19 @@ origin: cited
 
 # Local intersection multiplicity of plane curves
 
-For distinct affine plane curves `Y=(f=0)` and `Z=(g=0)` and a point
-`P in Y intersect Z`, define
+For distinct affine plane curves $Y=(f=0)$ and $Z=(g=0)$ and a point
+$P \in Y \cap Z$, define
 
-`(Y . Z)_P = length_(O_(A^2,P)) (O_(A^2,P)/(f,g))`.
+$(Y\cdot Z)_P=\operatorname{length}_{\mathcal O_{\mathbb A^2,P}}(\mathcal O_{\mathbb A^2,P}/(f,g))$.
 
-Prove that this length is finite and at least
-`mult_P(Y)*mult_P(Z)`. For all but finitely many lines `L` through `P`, prove
-`(L.Y)_P = mult_P(Y)`. Finally, for a projective plane curve `Y` of degree
-`d` and a line `L` not contained in `Y`, prove
+This length is finite and at least
+$\operatorname{mult}_P(Y)\operatorname{mult}_P(Z)$. For all but finitely many lines $L$ through $P$,
+$(L\cdot Y)_P=\operatorname{mult}_P(Y)$. Finally, for a projective plane curve $Y$ of degree
+$d$ and a line $L$ not contained in $Y$,
 
-`sum_(P in L intersect Y) (L.Y)_P = d`.
+$\sum_{P\in L\cap Y}(L\cdot Y)_P=d$.
 
-The local length is the main definition; the three clauses establish the API
+The local length is the definition; these three properties are
 needed by tangent lines and flex calculations.
 
 ## Depends on

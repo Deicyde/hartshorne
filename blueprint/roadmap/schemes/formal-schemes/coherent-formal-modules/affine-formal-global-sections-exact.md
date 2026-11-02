@@ -6,15 +6,15 @@ origin: cited
 
 # Exactness of affine formal global sections
 
-Let `Xhat` be affine formal and let
+Let $\widehat{X}$ be affine formal and let
 
-`0 ⟶ F' ⟶ F ⟶ F'' ⟶ 0`
+$0 \longrightarrow F' \longrightarrow F \longrightarrow F'' \longrightarrow 0$
 
-be exact. If `F'` is coherent, then the induced sequence
+be exact. If $F'$ is coherent, then the induced sequence
 
-`0 ⟶ Γ(Xhat,F') ⟶ Γ(Xhat,F) ⟶ Γ(Xhat,F'') ⟶ 0`
+$0 \longrightarrow \Gamma (\widehat{X} ,F') \longrightarrow \Gamma (\widehat{X} ,F) \longrightarrow \Gamma (\widehat{X} ,F'') \longrightarrow 0$
 
-is exact. Neither `F` nor `F''` is assumed coherent.
+is exact. Neither $F$ nor $F''$ is assumed coherent.
 
 ## Depends on
 

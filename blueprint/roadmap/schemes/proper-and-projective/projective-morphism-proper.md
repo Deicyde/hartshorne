@@ -15,7 +15,7 @@ without the Noetherian hypotheses whenever the chosen projective-morphism
 definition is available.
 
 Unpack a projective factorization
-`X ⟶ ℙⁿ_Y ⟶ Y`. The first map is a closed immersion and therefore
+$X \longrightarrow \mathbb{P} ^{n}_Y \longrightarrow Y$. The first map is a closed immersion and therefore
 proper; the projective-space projection is proper; composition stability
 finishes. This leaf deliberately separates the formal consequence from the
 substantial valuation argument establishing properness of projective space.

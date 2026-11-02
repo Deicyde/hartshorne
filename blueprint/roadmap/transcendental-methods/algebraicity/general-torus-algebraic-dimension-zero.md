@@ -7,14 +7,10 @@ not_ready: true
 
 # A general complex torus of dimension at least two has no meromorphic functions
 
-For every `n>=2`, a sufficiently general lattice `Lambda~=Z^(2n)` in `C^n`
-gives a compact complex torus `C^n/Lambda` whose meromorphic-function field is
-exactly `C`.  Such a torus is neither Moishezon nor algebraic.
+For every $n\ge 2$, a sufficiently general lattice $\Lambda \simeq \mathbb{Z}^{2n}$ in $\mathbb{C}^n$
+gives a compact complex torus $\mathbb{C}^n/\Lambda$ whose meromorphic-function field is
+exactly $\mathbb{C}$.  Such a torus is neither Moishezon nor algebraic.
 
-This node is not ready.  “Sufficiently general” needs a precise period-domain
-bad locus, and Hartshorne only cites Morrow–Kodaira.  A complex torus must not
-be given an abelian-variety structure unless algebraicity is separately
-proved.
 
 ## Depends on
 

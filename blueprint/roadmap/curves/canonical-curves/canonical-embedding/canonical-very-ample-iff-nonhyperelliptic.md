@@ -6,11 +6,11 @@ origin: cited
 
 # The canonical divisor is very ample exactly off the hyperelliptic locus
 
-For a Chapter IV curve `X` of genus `g>=2`, the canonical divisor is very
-ample if and only if `X` is not hyperelliptic.
+For a Chapter IV curve $X$ of genus $g\ge 2$, the canonical divisor is very
+ample if and only if $X$ is not hyperelliptic.
 
-For nonhyperelliptic `g>=3`, the resulting closed immersion
-`X -> P^(g-1)` is the canonical embedding; its image has degree `2g-2` and is
+For nonhyperelliptic $g\ge 3$, the resulting closed immersion
+$X \to \mathbb{P}^{g-1}$ is the canonical embedding; its image has degree $2g-2$ and is
 called a canonical curve.
 
 ## Depends on
@@ -24,8 +24,8 @@ called a canonical curve.
 ## Proof depends on
 
 - Riemann–Roch turns the repeated-point and two-point separation conditions
-  for `K` into the assertion `dim|P+Q|=0` for every pair.
-- A pair with moving `|P+Q|` is exactly a `g^1_2`.
+  for $K$ into the assertion $\dim |P+Q|=0$ for every pair.
+- A pair with moving $|P+Q|$ is exactly a $g^1_2$.
 
 ## Sources
 

@@ -9,11 +9,11 @@ mathlib_file: Mathlib/AlgebraicGeometry/Restrict.lean
 
 # Open subschemes
 
-If `X` is a scheme and `U ⊆ X` is open, the restricted locally ringed space
-`(U, 𝒪_X|_U)` is a scheme, and its inclusion `U → X` is an open immersion.
+If $X$ is a scheme and $U \subseteq X$ is open, the restricted locally ringed space
+$(U, \mathcal{O} _X|_U)$ is a scheme, and its inclusion $U \to X$ is an open immersion.
 
 This is Exercise 2.2.  Local affineness is inherited by intersecting an affine
-neighbourhood with `U` and refining to a principal open.
+neighbourhood with $U$ and refining to a principal open.
 
 ## Depends on
 

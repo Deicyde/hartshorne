@@ -9,14 +9,14 @@ lean: AlgebraicGeometry.Scheme.totalQuotientSheaf AlgebraicGeometry.Scheme.toTot
 
 # The total quotient sheaf
 
-For an arbitrary scheme `X` and an affine open `U = Spec A`, define the total
-quotient ring `K(U)` by inverting the non-zero-divisors of `A`. On a general
-open `U`, invert the sections of `O_X(U)` whose germs are non-zero-divisors at
+For an arbitrary scheme $X$ and an affine open $U = \operatorname{Spec} A$, define the total
+quotient ring $K(U)$ by inverting the non-zero-divisors of $A$. On a general
+open $U$, invert the sections of $\mathcal{O}_X(U)$ whose germs are non-zero-divisors at
 every point, and sheafify the resulting presheaf to obtain the sheaf of total
-quotient rings `K_X`.
+quotient rings $K_X$.
 
-Also expose the sheaves of multiplicative units `K_X^*` and `O_X^*`. The
-construction must not assume that `X` is reduced or integral.
+Also expose the sheaves of multiplicative units $K_X^*$ and $\mathcal{O}_X^*$. The
+construction must not assume that $X$ is reduced or integral.
 
 ## Depends on
 

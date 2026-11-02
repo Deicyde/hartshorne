@@ -6,13 +6,13 @@ origin: cited
 
 # The algebraically trivial divisors form a subgroup
 
-On a Chapter-V surface `X`, two effective divisors are prealgebraically
+On a Chapter-V surface $X$, two effective divisors are prealgebraically
 equivalent when they occur as fibres over two closed points of a flat family
 of effective Cartier divisors parametrized by a nonsingular curve. Extend
 this relation to differences of effective divisors, and define algebraic
 equivalence as its transitive closure.
 
-The divisors algebraically equivalent to zero form a subgroup of `Div X`.
+The divisors algebraically equivalent to zero form a subgroup of $\operatorname{Div} X$.
 Every pair of linearly equivalent divisors is algebraically equivalent.
 
 ## Depends on
@@ -23,8 +23,8 @@ Every pair of linearly equivalent divisors is algebraically equivalent.
 ## Proof depends on
 
 - Addition and inversion of divisor families give the subgroup operations.
-- For a principal divisor `(f)`, use the family cut out on `X times P^1` by
-  `t*f-u`, where `t,u` are homogeneous coordinates.
+- For a principal divisor $(f)$, use the family cut out on $X \times \mathbb{P}^1$ by
+  $t\cdot f-u$, where $t,u$ are homogeneous coordinates.
 
 ## Sources
 

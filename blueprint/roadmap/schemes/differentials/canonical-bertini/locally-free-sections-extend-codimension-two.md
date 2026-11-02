@@ -6,11 +6,11 @@ origin: bridged
 
 # Locally free sections extend across codimension two
 
-Let `X` be a normal integral Noetherian scheme, let `U subset X` be an open
-subscheme whose complement has codimension at least two, and let `E` be a
-finite locally free sheaf on `X`. Restriction is an isomorphism
+Let $X$ be a normal integral Noetherian scheme, let $U \subset X$ be an open
+subscheme whose complement has codimension at least two, and let $E$ be a
+finite locally free sheaf on $X$. Restriction is an isomorphism
 
-`Gamma(X, E) ~= Gamma(U, E|_U)`.
+$\Gamma (X, E) \simeq \Gamma (U, E|_U)$.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ finite locally free sheaf on `X`. Restriction is an isomorphism
 
 ## Proof depends on
 
-- Trivialize `E` on affine opens and apply the height-one intersection theorem
+- Trivialize $E$ on affine opens and apply the height-one intersection theorem
   componentwise.
 - Uniqueness on overlaps follows from density.
 

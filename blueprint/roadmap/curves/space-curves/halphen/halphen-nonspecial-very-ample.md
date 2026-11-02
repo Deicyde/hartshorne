@@ -6,10 +6,10 @@ origin: cited
 
 # Halphen's nonspecial very-ample theorem
 
-Let `X` be a curve of genus `g>=2`. There exists a nonspecial very ample
-divisor of degree `d` if and only if
+Let $X$ be a curve of genus $g\ge 2$. There exists a nonspecial very ample
+divisor of degree $d$ if and only if
 
-`d >= g+3`.
+$d \ge g+3$.
 
 ## Depends on
 
@@ -19,7 +19,7 @@ divisor of degree `d` if and only if
 
 ## Proof depends on
 
-- Since `dim X^d=d>g+2`, choose an effective divisor outside the bad locus.
+- Since $\dim X^d=d>g+2$, choose an effective divisor outside the bad locus.
   It and every two-point subtraction are nonspecial, so the complete linear
   system separates points and tangent vectors.
 

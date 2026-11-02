@@ -8,11 +8,11 @@ origin: cited
 
 The Chern character begins
 
-`rank(E)+c_1+(c_1^2-2*c_2)/2+(c_1^3-3*c_1*c_2+3*c_3)/6+...`.
+$\operatorname{rank} (E)+c_1+(c_1^2-2\cdot c_2)/2+(c_1^3-3\cdot c_1\cdot c_2+3\cdot c_3)/6+\ldots$.
 
 The Todd class begins
 
-`1+c_1/2+(c_1^2+c_2)/12+...`.
+$1+c_1/2+(c_1^2+c_2)/12+\ldots$.
 
 These identities hold in the rational Chow ring, truncated above the
 dimension of the ambient variety.

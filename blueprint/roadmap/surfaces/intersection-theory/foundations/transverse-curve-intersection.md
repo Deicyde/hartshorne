@@ -6,12 +6,12 @@ origin: cited
 
 # Transverse intersection of curves
 
-Let `C,D` be effective curves on a Chapter V surface and let
-`P in C intersect D`. Define transversality at `P` by requiring local
-equations `f,g in O_(X,P)` to generate the maximal ideal.
+Let $C ,D$ be effective curves on a Chapter V surface and let
+$P \in C \cap D$. Define transversality at $P$ by requiring local
+equations $f,g \in \mathcal{O}_{X,P}$ to generate the maximal ideal.
 
-Prove independence of the chosen local equations. If `C,D` are transverse at
-`P`, each is regular at `P`, the scheme-theoretic intersection is reduced of
+The condition is independent of the chosen local equations. If $C ,D$ are transverse at
+$P$, each is regular at $P$, the scheme-theoretic intersection is reduced of
 length one there, and their embedded tangent lines are distinct.
 
 ## Depends on

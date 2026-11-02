@@ -6,9 +6,9 @@ origin: cited
 
 # Homogeneous ideals define projective closed subschemes
 
-Every closed subscheme `Y ⊆ P_A^r` is the closed subscheme defined by a
-homogeneous ideal `I ⊆ A[x₀,...,xᵣ]`. One may take
-`I = Γ_*(I_Y)`, where `I_Y` is the module ideal sheaf of `Y`.
+Every closed subscheme $Y \subseteq \mathbb{P}^r_{A}$ is the closed subscheme defined by a
+homogeneous ideal $I \subseteq A[x_{0},\ldots ,x_{r}]$. One may take
+$I = \Gamma _*(I_Y)$, where $I_Y$ is the module ideal sheaf of $Y$.
 
 The later saturation leaf identifies this choice as the largest defining
 ideal; that refinement is not assumed here.

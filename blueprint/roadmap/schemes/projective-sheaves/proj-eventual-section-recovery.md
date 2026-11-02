@@ -6,20 +6,20 @@ origin: cited
 
 # Eventual recovery from graded sections
 
-Let `S₀=A` be a finite-type algebra over a field, let `S` be generated in
-degree one with `S₁` finite over `A`, and let `M` be a finite graded
-`S`-module. The natural graded map
+Let $S_{0}=A$ be a finite-type algebra over a field, let $S$ be generated in
+degree one with $S_{1}$ finite over $A$, and let $M$ be a finite graded
+$S$-module. The natural graded map
 
-`M → Γ_*(M~)`
+$M\to\Gamma_*(\widetilde{M})$
 
 is an isomorphism in every sufficiently large degree.
 
-For homogeneous `m ∈ M_d`, its degree-`d` component is the global section of
-`M~(d)` obtained from `m ∈ M(d)_0` through the sheaf map
-`M(d) → Γ(Proj S, M(d)~)` and the isomorphism
-`M(d)~ ≅ M~(d)`. Construction and naturality of this graded map are included
-as supporting data; no map is obtained by pretending that `M~` itself has
-global section `m` in every degree.
+For homogeneous $m \in M_d$, its degree-$d$ component is the global section of
+$\widetilde{M}(d)$ obtained from $m \in M(d)_0$ through the sheaf map
+$M(d)_0\to\Gamma(\operatorname{Proj}S,\widetilde{M(d)})$ and the isomorphism
+$\widetilde{M(d)}\cong\widetilde{M}(d)$. Construction and naturality of this graded map are included
+as supporting data; the twist is essential because $\widetilde{M}$ need not have
+a global section $m$ in every degree.
 
 ## Depends on
 

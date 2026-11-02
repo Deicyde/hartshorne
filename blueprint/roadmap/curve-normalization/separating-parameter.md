@@ -9,22 +9,16 @@ lean: Hartshorne.exists_separatingParameter
 
 # One-dimensional function fields have separating parameters
 
-Let `K/k` be an essentially finitely generated field extension of
-transcendence degree one, with `k` algebraically closed. There is a
-transcendental element `t : K` such that `K/k(t)` is finite and separable.
+Let $K/k$ be an essentially finitely generated field extension of
+transcendence degree one, with $k$ algebraically closed. There is a
+transcendental element $t\in K$ such that $K/k(t)$ is finite and separable.
 
-In Lean, take `k(t)` to be `IntermediateField.adjoin k {t}` and expose the
-`FiniteDimensional` and `Algebra.IsSeparable` instances used by normalization.
-The existing separating-transcendence-basis theorem, formalizing the Theorem
-4.8A route over the perfect field `k`, produces a finite basis of cardinality
-one. Extract its unique element and identify its generated intermediate field
-with `k(t)`. This is a project-added replacement for Hartshorne's arbitrary
-nonconstant parameter in the proof of Lemma 6.5; it is what allows the
-geometric branch to use Mathlib's separable normalization theorems.
+The separating-transcendence-basis theorem over the perfect field $k$
+produces a basis of cardinality one. Its unique element generates $k(t)$,
+over which $K$ is finite and separable. This refines Hartshorne's choice of
+an arbitrary nonconstant parameter in the proof of Lemma I.6.5.
 
-The same conclusion holds for `t⁻¹`, since `k(t⁻¹) = k(t)`. Record this
-equality explicitly so the two-chart construction does not repeat field-tower
-bookkeeping.
+The same conclusion holds for $t^{-1}$, since $k(t^{-1}) = k(t)$. This gives the second normalization chart.
 
 ## Depends on
 

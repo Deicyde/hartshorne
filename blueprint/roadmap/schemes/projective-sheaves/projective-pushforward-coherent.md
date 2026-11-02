@@ -6,9 +6,9 @@ origin: cited
 
 # Coherence of projective pushforward
 
-Let `f : X → Y` be projective, with `X` and `Y` of finite type over a field.
-For every coherent sheaf `F` on `X`, the direct image `f_*F` is coherent on
-`Y`.
+Let $f : X \to Y$ be projective, with $X$ and $Y$ of finite type over a field.
+For every coherent sheaf $F$ on $X$, the direct image $f_*F$ is coherent on
+$Y$.
 
 ## Depends on
 

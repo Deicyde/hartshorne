@@ -9,9 +9,9 @@ mathlib_file: Mathlib/AlgebraicGeometry/ValuativeCriterion.lean
 
 # Valuative criterion for separatedness
 
-For a scheme morphism `f`, separatedness is equivalent to the conjunction of
+For a scheme morphism $f$, separatedness is equivalent to the conjunction of
 quasi-separatedness and uniqueness of lifts in every valuative commutative
-square. Consequently, if the source is Noetherian, `f` is separated exactly
+square. Consequently, if the source is Noetherian, $f$ is separated exactly
 when every valuation square has at most one lift, which is Theorem 4.3.
 
 The forward direction compares two lifts through the closed diagonal. For the

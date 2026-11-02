@@ -9,19 +9,17 @@ lean: Hartshorne.IsProjVariety.eq_singleton_of_projDim_eq_zero
 
 # A zero-dimensional projective variety is a point
 
-Let `Y` be a projective variety. If
+Let $Y$ be a projective variety. If
 
-`projDim Y = 0`,
+$$\dim Y=0,$$
 
-then there is a projective point `P` such that `Y = {P}`. The main
-declaration is planned as
-`Hartshorne.IsProjVariety.eq_singleton_of_projDim_eq_zero`.
+then there is a projective point $P$ such that $Y=\{P\}$.
 
-Choose `P ∈ Y`. The singleton `{P}` is a projective variety of dimension zero.
-If it were a proper closed subset of `Y`, strict dimension drop would force
+Choose $P\in Y$. The singleton $\{P\}$ is a projective variety of dimension zero.
+If it were a proper closed subset of $Y$, strict dimension drop would force
 its dimension below zero, contradicting the projective-point Hilbert
-polynomial calculation. Thus `Y = {P}`. This is the Bézout closed-point bridge
-used when Corollary 7.8 replaces zero-dimensional intersection components by
+polynomial calculation. Thus $Y=\{P\}$. This is the Bézout closed-point bridge
+used when [Hartshorne's Corollary I.7.8](plane-curve-bezout.md) replaces zero-dimensional intersection components by
 their points.
 
 ## Depends on

@@ -7,11 +7,9 @@ not_ready: true
 
 # Algebraic reducedness agrees with analytic reducedness
 
-A finite-type complex scheme `X` is reduced if and only if its analytic
-structure sheaf `O_(X^h)` has no nonzero nilpotent local sections.
+A finite-type complex scheme $X$ is reduced if and only if its analytic
+structure sheaf $\mathcal{O}_{(X^h)}$ has no nonzero nilpotent local sections.
 
-This node is not ready pending faithful analytic extension of affine local
-rings and the comparison of nilradicals.
 
 ## Depends on
 

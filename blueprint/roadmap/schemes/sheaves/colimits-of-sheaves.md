@@ -14,11 +14,6 @@ Given a colimit cocone of the underlying presheaves, sheafifying its cocone
 point produces a colimit cocone in sheaves. Thus direct sums and direct limits
 are the associated sheaves of their pointwise presheaf constructions.
 
-This construction is exactly
-`CategoryTheory.Sheaf.isColimitSheafifyCocone` in pinned Mathlib. The unique
-main artifact is the colimit certificate for the sheafified cocone; existence
-of the corresponding colimits is its instance-level consequence.
-
 ## Depends on
 
 - [Sheaves of abelian groups](sheaves-of-abelian-groups.md)

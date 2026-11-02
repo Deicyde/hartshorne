@@ -9,27 +9,17 @@ lean: Hartshorne.ringKrullDim_quotient_eq_coheight Hartshorne.height_add_ringKru
 
 # One inequality of the dimension formula
 
-For any commutative ring `R` and any prime `𝔭`,
-`height 𝔭 + dim R/𝔭 ≤ dim R`.
+For a commutative ring $R$ and a prime ideal $\mathfrak p$,
 
-This is the direction of Hartshorne's Theorem 1.8A(b) that costs nothing. A
-chain of primes below `𝔭` and a chain above it meet at `𝔭` and splice into one
-chain, whose length is the sum. No finite generation, no domain, no field.
+$$\operatorname{ht}\mathfrak p+\dim(R/\mathfrak p)\leq\dim R.$$
 
-It is split out because the two directions have nothing in common. This one is
-a one-line observation about chains; the reverse is the catenary property, which
-is false for general Noetherian rings and is [the open node](dim-formula-catenary.md).
+A chain of primes below $\mathfrak p$ and a chain above it can be joined
+at $\mathfrak p$. The resulting chain has length equal to the sum of the
+two lengths. No finite-generation or domain hypothesis is needed.
 
-## Mathlib boundary
-
-The chain splicing is upstream, as
-`Order.krullDim_eq_iSup_height_add_coheight_of_nonempty`. What is missing is the
-ring-theoretic translation: `dim R/𝔭` has to be identified with the coheight of
-`𝔭` in the prime spectrum. That follows from
-`Ideal.primeSpectrumQuotientOrderIsoZeroLocus` together with the observation
-that the zero locus of a prime is exactly its up-set, and it is worth having on
-its own, since every statement comparing a quotient's dimension with a height
-needs it.
+The dimension of $R/\mathfrak p$ is the supremum of the lengths of prime
+chains above $\mathfrak p$. Equality is supplied under the stronger
+hypotheses of [the dimension formula](dim-formula-catenary.md).
 
 ## Depends on
 

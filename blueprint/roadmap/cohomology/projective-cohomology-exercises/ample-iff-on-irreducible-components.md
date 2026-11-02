@@ -6,9 +6,9 @@ origin: cited
 
 # Ampleness on irreducible components
 
-Let `X` be a reduced proper Noetherian scheme with irreducible components
-`X₁,…,Xₘ`. An invertible sheaf `L` on `X` is ample if and only if every
-restriction `L|Xᵢ` is ample.
+Let $X$ be a reduced proper Noetherian scheme with irreducible components
+$X_{1},\ldots ,X_{m}$. An invertible sheaf $L$ on $X$ is ample if and only if every
+restriction $L|X_{i}$ is ample.
 
 ## Depends on
 

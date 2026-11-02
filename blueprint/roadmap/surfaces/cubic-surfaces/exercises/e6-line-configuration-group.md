@@ -6,16 +6,16 @@ origin: cited
 
 # The E6 presentation of the line-configuration group
 
-Let `G` be the automorphism group of the incidence configuration of the 27
+Let $G$ be the automorphism group of the incidence configuration of the 27
 lines on a smooth cubic surface in Hartshorne's six-point model. The standard
 five adjacent transpositions of the exceptional labels, together with the
 quadratic transformation based at three points, satisfy the Coxeter
-relations of type `E6` and induce a surjection
+relations of type $E6$ and induce a surjection
 
-`W(E6) -> G`.
+$W(E6) \to G$.
 
-The group `W(E6)` has at most `51840` elements. Since the running
-configuration count gives `|G|=51840`, the map is an isomorphism.
+The group $W(E6)$ has at most $51840$ elements. Since the running
+configuration count gives $|G|=51840$, the map is an isomorphism.
 
 ## Depends on
 

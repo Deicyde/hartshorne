@@ -6,11 +6,11 @@ origin: cited
 
 # Picard restriction to the components of a reduced curve
 
-Let `X` be a reduced proper one-dimensional scheme over an algebraically
-closed field, with reduced irreducible components `X₁,…,Xₘ`. The restriction
+Let $X$ be a reduced proper one-dimensional scheme over an algebraically
+closed field, with reduced irreducible components $X_{1},\ldots ,X_{m}$. The restriction
 homomorphism
 
-`Pic(X) ⟶ ⊕_i Pic(Xᵢ)`
+$\operatorname{Pic} (X) \longrightarrow \oplus _i \operatorname{Pic} (X_{i})$
 
 is surjective.
 

@@ -6,10 +6,10 @@ origin: cited
 
 # Projective dimension detected by Ext against the base ring
 
-Let `A` be a Noetherian regular local ring and `M` a finitely generated
-`A`-module. For every `n`,
+Let $A$ be a Noetherian regular local ring and $M$ a finitely generated
+$A$-module. For every $n$,
 
-`pd_A(M)≤n ↔ ∀ i>n, Ext^i_A(M,A)=0`.
+$pd_A(M)\le n \Longleftrightarrow \forall i>n, \operatorname{Ext} ^i_A(M,A)=0$.
 
 ## Depends on
 

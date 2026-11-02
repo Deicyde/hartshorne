@@ -11,14 +11,14 @@ lean: Hartshorne.separatedMorphismCalculus
 
 Separated morphisms satisfy all clauses of Corollary 4.6: open and closed
 immersions are separated; composites and base changes of separated morphisms
-are separated; products over a base are separated; if `g ∘ f` is separated,
-then `f` is separated; and separatedness is local on the target.
+are separated; products over a base are separated; if $g \circ f$ is separated,
+then $f$ is separated; and separatedness is local on the target.
 
 Package these clauses as the working calculus for later chapters. Composition,
 base change, and target locality follow from the corresponding properties of
 closed immersions applied to the diagonal. Products are two base changes
 followed by composition. Cancellation identifies the relative diagonal of
-`f` with a pullback/closed factor of the diagonal of the composite. The
+$f$ with a pullback/closed factor of the diagonal of the composite. The
 valuative criterion gives an alternative uniform proof.
 
 ## Depends on
@@ -30,9 +30,7 @@ valuative criterion gives an alternative uniform proof.
 ## Proof depends on
 
 - [Valuative criterion for separatedness](valuative-criterion-separated.md)
-- `IsSeparated.stableUnderComposition`,
-  `IsSeparated.isStableUnderBaseChange`, and `IsSeparated.of_comp` from
-  `Mathlib/AlgebraicGeometry/Morphisms/Separated.lean`.
+- Composition, base change, and cancellation rules for separatedness.
 
 ## Sources
 

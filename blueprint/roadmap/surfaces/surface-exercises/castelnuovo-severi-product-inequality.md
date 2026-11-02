@@ -6,12 +6,12 @@ origin: cited
 
 # The Castelnuovo–Severi product inequality
 
-Let `X=C times C'`, `l=C times {pt}`, and `m={pt} times C'`. If a divisor
-`D` has type `(a,b)`, meaning `a=D.l` and `b=D.m`, then
+Let $X=C \times C '$, $l=C \times \{pt\}$, and $m=\{pt\} \times C '$. If a divisor
+$D$ has type $(a,b)$, meaning $a=D\cdot l$ and $b=D\cdot m$, then
 
-`D^2 <= 2*a*b`.
+$D^2 \le 2\cdot a\cdot b$.
 
-Equality holds exactly when `D` is numerically equivalent to `b*l+a*m`.
+Equality holds exactly when $D$ is numerically equivalent to $b\cdot l+a\cdot m$.
 
 ## Depends on
 
@@ -20,8 +20,8 @@ Equality holds exactly when `D` is numerically equivalent to `b*l+a*m`.
 
 ## Proof depends on
 
-- Apply the Hodge inequality to the ample class `l+m`, the orthogonal class
-  `l-m`, and the component of `D` orthogonal to both.
+- Apply the Hodge inequality to the ample class $l+m$, the orthogonal class
+  $l-m$, and the component of $D$ orthogonal to both.
 
 ## Sources
 

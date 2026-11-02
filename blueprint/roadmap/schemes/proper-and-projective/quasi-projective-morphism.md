@@ -9,9 +9,9 @@ lean: Hartshorne.QuasiProjective
 
 # Quasi-projective morphisms
 
-A morphism `f : X ⟶ Y` is quasi-projective when there are a scheme `X'`,
-an open immersion `j : X ⟶ X'`, and a projective morphism
-`g : X' ⟶ Y` such that `f = j ≫ g`.
+A morphism $f : X \longrightarrow Y$ is quasi-projective when there are a scheme $X'$,
+an open immersion $j : X \longrightarrow X'$, and a projective morphism
+$g : X' \longrightarrow Y$ such that $f = j \mathbin{\gg} g$.
 
 Package the intermediate scheme, immersion, projectivity witness, and
 factorization equation as the defining data. The property should respect

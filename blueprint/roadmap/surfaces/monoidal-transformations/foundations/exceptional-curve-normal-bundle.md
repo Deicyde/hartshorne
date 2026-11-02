@@ -6,12 +6,12 @@ origin: cited
 
 # The normal bundle of the exceptional curve
 
-Under `E ~= P^1`, the normal bundle of the exceptional curve in the blown-up
+Under $E \simeq \mathbb{P}^1$, the normal bundle of the exceptional curve in the blown-up
 surface is
 
-`N_(E/X_tilde) ~= O_E(-1)`.
+$N_{(E/\widetilde{X})} \simeq \mathcal{O}_E(-1)$.
 
-Equivalently, the conormal line bundle `I_E/I_E^2` is `O_E(1)`.
+Equivalently, the conormal line bundle $I_E/I_E^2$ is $\mathcal{O}_E(1)$.
 
 ## Depends on
 

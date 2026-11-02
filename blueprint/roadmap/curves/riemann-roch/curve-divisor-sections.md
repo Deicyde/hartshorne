@@ -6,14 +6,14 @@ origin: cited
 
 # Divisor sections and complete linear systems
 
-For a divisor `D` on a Chapter IV curve, define
+For a divisor $D$ on a Chapter IV curve, define
 
-`l(D) = finrank k H^0(X,O_X(D))`.
+$l(D) = \dim_k H^0(X,\mathcal{O}_X(D))$.
 
-Identify the complete linear system `|D|` with the projectivization of
+Identify the complete linear system $|D|$ with the projectivization of
 nonzero global sections and prove it is finite-dimensional. Define its
-dimension as the integer `l(D)-1`; in particular an empty system has
-dimension `-1`.
+dimension as the integer $l(D)-1$; in particular an empty system has
+dimension $-1$.
 
 Reuse the existing divisor group, degree, linear equivalence, associated
 invertible sheaf, and class-group/Picard equivalence. This leaf introduces

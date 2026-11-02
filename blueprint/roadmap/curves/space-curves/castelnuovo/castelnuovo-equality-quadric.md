@@ -7,7 +7,7 @@ origin: cited
 # Equality forces a containing quadric
 
 If a nonplanar space curve attains the Castelnuovo genus bound, then it is
-contained in a quadric surface in `P^3`.
+contained in a quadric surface in $\mathbb{P}^3$.
 
 ## Depends on
 
@@ -16,9 +16,9 @@ contained in a quadric surface in `P^3`.
 
 ## Proof depends on
 
-- Equality throughout the increment argument gives `dim|2D|<=8` (and an
+- Equality throughout the increment argument gives $\dim |2D|\le 8$ (and an
   even smaller value in the low-degree cases).
-- Since `h^0(P^3,O(2))=10`, the restriction map to `X` has nonzero kernel,
+- Since $h^0(\mathbb{P}^3,\mathcal{O}(2))=10$, the restriction map to $X$ has nonzero kernel,
   furnishing a quadric equation.
 
 ## Sources

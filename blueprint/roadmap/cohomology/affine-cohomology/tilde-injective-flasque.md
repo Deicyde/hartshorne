@@ -6,8 +6,8 @@ origin: cited
 
 # The sheaf of an injective module is flasque
 
-Let `A` be Noetherian and `I` an injective `A`-module. The associated module
-sheaf `Itilde` on `Spec A` is flasque.
+Let $A$ be Noetherian and $I$ an injective $A$-module. The associated module
+sheaf $\widetilde{I}$ on $\operatorname{Spec} A$ is flasque.
 
 ## Depends on
 
@@ -20,7 +20,7 @@ sheaf `Itilde` on `Spec A` is flasque.
 - [Affine sections with support](../../schemes/coherent-sheaves/affine-sections-with-support.md)
 - [The support of sections and sheaves](../../schemes/sheaf-functors/support-of-sections-and-sheaves.md)
 - Noetherian induction on the closed support.
-- `TopCat.Sheaf.IsFlasque` from `Mathlib/Topology/Sheaves/Flasque.lean`.
+- A sheaf is flasque when all its restriction maps are surjective.
 
 ## Sources
 

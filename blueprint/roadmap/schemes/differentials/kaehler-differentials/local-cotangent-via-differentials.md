@@ -9,11 +9,11 @@ lean: Hartshorne.localCotangentToDifferentials_bijective
 
 # The local cotangent space via differentials
 
-Let `(B, 𝔪)` be a local ring containing a field `k` whose composite with the
-residue map is an isomorphism `k ≃ B/𝔪`.  The conormal map is a `k`-linear
+Let $(B, \mathfrak{m} )$ be a local ring containing a field $k$ whose composite with the
+residue map is an isomorphism $k \simeq B/\mathfrak{m}$.  The conormal map is a $k$-linear
 equivalence
 
-`𝔪/𝔪² ≃ₗ[k] Ω[B⁄k] ⊗[B] k`.
+$\mathfrak{m}/\mathfrak{m}^2\cong\Omega_{B/k}\otimes_B k$.
 
 The left side is the cotangent space of the local ring; it is not the sheaf of
 differentials or its tangent-space dual.
@@ -25,7 +25,7 @@ differentials or its tangent-space dual.
 ## Proof depends on
 
 - The universal property identifying the dual map with restriction of
-  `k`-derivations from `B` to `𝔪/𝔪²`.
+  $k$-derivations from $B$ to $\mathfrak{m} /\mathfrak{m} ^{2}$.
 
 ## Sources
 

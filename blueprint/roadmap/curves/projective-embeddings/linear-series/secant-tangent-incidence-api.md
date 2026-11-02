@@ -6,15 +6,17 @@ origin: cited
 
 # Secant and tangent incidence for an embedded curve
 
-Let `X -> P^n` be a closed immersion of a Chapter IV curve. For distinct
-closed points `P,Q`, define the secant line joining their images. For `P`,
-define the embedded tangent line as the unique projective line through `P`
-whose tangent direction is the image of `T_P(X)` in `T_P(P^n)`.
+Let $X \to \mathbb{P}^n$ be a closed immersion of a Chapter IV curve. For distinct
+closed points $P,Q$, define the secant line joining their images. For $P$,
+define the embedded tangent line as the unique projective line through $P$
+whose tangent direction is the image of $T_P(X)$ in $T_P(\mathbb{P}^n)$.
 
-Package the secant incidence with parameters `(P,Q,z)`, `P!=Q`, and `z` on
-the joining line, and the tangent incidence with parameters `(P,z)` and `z`
-on the tangent line. Define their images `Sec(X)` and `Tan(X)`. Also define a
-multisecant and a secant whose two embedded tangent lines are coplanar.
+The secant incidence consists of triples $(P,Q,z)$ with $P\ne Q$ and $z$
+on the joining line. The tangent incidence consists of pairs $(P,z)$ with
+$z$ on the tangent line. Their images in projective space are denoted
+$\operatorname{Sec}(X)$ and $\operatorname{Tan}(X)$. The incidence
+description also distinguishes multisecants and secants whose embedded
+tangent lines at the two points are coplanar.
 
 ## Depends on
 

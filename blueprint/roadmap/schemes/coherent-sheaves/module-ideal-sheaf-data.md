@@ -6,14 +6,14 @@ origin: bridged
 
 # Module ideal sheaves and ideal data
 
-For a scheme `X`, quasi-coherent subobjects `I ↪ O_X` in `X.Modules`
-correspond to `X.IdealSheafData`. On every affine open `U`, the correspondence
-sends `I` to the ideal `Γ(U,I) ⊆ Γ(U,O_X)`, and reconstructs `I|_U` as the
-tilde sheaf of that ideal.
+For a scheme $X$, quasi-coherent ideal subsheaves
+$I\hookrightarrow\mathcal{O}_X$ correspond to compatible ideals
+on affine opens. On an affine open $U$, this correspondence sends
+$I$ to $\Gamma(U,I)\subseteq\Gamma(U,\mathcal{O}_X)$ and reconstructs
+$I|_U$ as the tilde sheaf of that ideal.
 
-This is a representation bridge. `IdealSheafData` must not be treated as
-definitionally equal to a module subsheaf: Mathlib explicitly stores
-compatible ideals on affine opens rather than an object of `X.Modules`.
+Compatibility means that the ideals agree under restriction to
+smaller affine opens. This ensures that their tilde sheaves glue.
 
 ## Depends on
 
@@ -25,7 +25,7 @@ compatible ideals on affine opens rather than an object of `X.Modules`.
 
 - [Affine quasi-coherent equivalence](../modules-and-quasicoherent/affine-quasicoherent-equivalence.md)
 - [Quasi-coherent sheaves are closed under kernels](../modules-and-quasicoherent/quasicoherent-abelian-closure.md)
-- Restriction compatibility for `Scheme.IdealSheafData.ideal`.
+- Compatibility of the affine ideals under restriction.
 
 ## Sources
 

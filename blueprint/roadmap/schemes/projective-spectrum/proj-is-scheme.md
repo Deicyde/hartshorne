@@ -9,7 +9,7 @@ mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Scheme.lean
 
 # Proj is a scheme
 
-For every `ℕ`-graded commutative ring `S`, its projective spectrum with the
+For every $\mathbb{N}$-graded commutative ring $S$, its projective spectrum with the
 degree-zero structure sheaf is a scheme.
 
 Every relevant prime omits some positive-degree homogeneous element, so the

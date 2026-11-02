@@ -6,8 +6,8 @@ origin: cited
 
 # Exactness of affine module completion
 
-For Noetherian `A` and ideal `I`, the functor sending a finite `A`-module `M`
-to its completed module sheaf on `Spf_I(A)` is exact.
+For Noetherian $A$ and ideal $I$, the functor sending a finite $A$-module $M$
+to its completed module sheaf on $\operatorname{Spf} _I(A)$ is exact.
 
 ## Depends on
 

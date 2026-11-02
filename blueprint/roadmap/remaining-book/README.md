@@ -24,11 +24,11 @@ intersection-theory milestone are recorded in the
 
 | Milestone | Source | Goal | Primary prerequisites or decisions |
 | --- | --- | --- | --- |
-| I-5C | §I.5 after Thm. 5.3, pp. 33–35 | Completions, Cohen structure, and analytic local type | Partial: regularity under completion and the analytic-isomorphism definition are decomposed for later uses; the remaining completion, Cohen, and analytic examples are `DEFERRED` |
+| I-5C | §I.5 after Thm. 5.3, pp. 33–35 | Completions, Cohen structure, and analytic local type | Partial: regularity under completion and the analytic-isomorphism definition are decomposed for later uses; the remaining completion, Cohen, and analytic examples are **deferred** |
 | I-7A | §I.7 through Thm. 7.2, pp. 47–49 | Affine and projective intersection-dimension theorems | Exercises 2.10 and 3.15; current Chapter I dimension theory |
 | I-7B | §I.7, Props. 7.3–7.6, pp. 49–52 | Numerical polynomials, graded prime filtrations, Hilbert–Serre, and degree | I-7A; choose an integer-indexed twist representation |
 | I-7C | §I.7, Thm. 7.7 and Cor. 7.8, pp. 53–54 | Intersection multiplicity and Bézout | I-7B and Exercise 2.8 |
-| I-7D | Exercise I.7.4, with Exercises I.7.3 and I.5.4 | Optional generic-line interpretation of degree | `OUT`: Exercise I.7.4 has no later consumer; I.7.3 and I.5.4 are independently adopted for IV.2.3 |
+| I-7D | Exercise I.7.4, with Exercises I.7.3 and I.5.4 | Optional generic-line interpretation of degree | **out of scope**: Exercise I.7.4 has no later consumer; I.7.3 and I.5.4 are independently adopted for IV.2.3 |
 | I-8 | §I.8, pp. 55–59 | Survey claims dispositioned as Chapter I recaps, later previews, standalone source obligations, or exposition | Coverage complete; exact later previews are decomposed, while four narrowly defined source units remain deferred |
 
 ### Section I.8 disposition
@@ -36,7 +36,7 @@ intersection-theory milestone are recorded in the
 The Chapter I survey has now been read claim by claim. Its Chapter I recaps—
 function-field classification, nonsingular curve-model uniqueness, dimension,
 affine covers, and the affine-variety/domain equivalence—point to exact Chapter
-I articles. Its `g ≥ 2` moduli, intrinsic, and cohomological previews are
+I articles. Its $g \ge 2$ moduli, intrinsic, and cohomological previews are
 decomposed into exact Chapter II–V and Appendix A leaves. The curve, surface,
 and foundational preview groups remain explicitly deferred where the survey
 still lacks a precise formal target or adopted proof source: arbitrary-curve
@@ -48,7 +48,7 @@ and adopted source. Editorial, historical, and motivational passages are out
 of formalization scope.
 
 Four further assertions are neither recaps nor sufficiently specified later
-targets: the unpointed genus-one interpretation of `M_1` and its dimension, a
+targets: the unpointed genus-one interpretation of $M_1$ and its dimension, a
 counterexample showing that degree and Hilbert polynomial depend on projective
 embedding, characteristic-zero birational invariance of arithmetic genus for
 higher-dimensional nonsingular varieties, and a Noetherian affine scheme of
@@ -60,7 +60,7 @@ not used as a proof specification.
 
 | Milestone | Source | Goal | Primary prerequisites |
 | --- | --- | --- | --- |
-| II-A | §§II.1–3, pp. 60–95 | [Fine roadmap](../schemes/README.md): sheaves, `Spec`, `Proj`, schemes, morphisms, subschemes, products, and first properties | See the linked chapter for current formalization progress. |
+| II-A | §§II.1–3, pp. 60–95 | [Fine roadmap](../schemes/README.md): sheaves, $\operatorname{Spec}$, $\operatorname{Proj}$, schemes, morphisms, subschemes, products, and first properties | See the linked chapter for current formalization progress. |
 | II-B | §II.4, pp. 95–108 | [Fine roadmap](../schemes/README.md): separated, proper, and projective morphisms and valuative criteria | See the linked chapter for current formalization progress. |
 | II-C | §II.5, pp. 109–129 | [Fine roadmap](../schemes/README.md): quasi-coherent and coherent modules, projective sheaf machinery, relative Spec, and vector bundles | See the linked chapter for current formalization progress. |
 | II-D | §§II.6–7, pp. 129–172 | [Fine roadmap](../schemes/README.md): divisors, Picard groups, K-theory, ampleness, relative Proj, projective bundles, and blowups | See the linked chapter for current formalization progress; Exercise II.6.4 adds one downstream-reactivated leaf |
@@ -119,7 +119,7 @@ left to the reader in Appendix B §2.
 
 ## Dependency spine and approval boundary
 
-The main spine is `II-A → II-C → III-A → III-B/III-C/III-D`, with II-B,
+The main spine is II-A → II-C → III-A → III-B/III-C/III-D, with II-B,
 II-D, II-E, and II-F branching into the later cohomology, curve, and surface
 milestones. Chapter IV builds on Chapters II–III; Chapter V builds on II–IV;
 the appendices consolidate those chapters and add substantial external source

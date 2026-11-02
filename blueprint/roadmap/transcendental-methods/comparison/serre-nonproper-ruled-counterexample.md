@@ -7,19 +7,16 @@ not_ready: true
 
 # Serre's nonproper ruled-surface counterexample
 
-Let `C` be a complex elliptic curve, `X` the unique indecomposable ruled
-surface with invariant zero, and `C_0` its square-zero section. For
+Let $C$ be a complex elliptic curve, $X$ the unique indecomposable ruled
+surface with invariant zero, and $C _0$ its square-zero section. For
 
-`U=X-C_0`, `U'=(A^1-{0}) times (A^1-{0})`,
+$U=X-C _0$, $U'=(A^1-\{0\}) \times (A^1-\{0\})$,
 
-one has `U^h~=U'^h` but `U` is not algebraically isomorphic to `U'` because
-`U` is not affine. Moreover `U^h` is Stein,
-`Pic(U)~=Pic(C)`, and `Pic_an(U^h)~=Z`; thus distinct algebraic line bundles
+one has $U^h\simeq U'^h$ but $U$ is not algebraically isomorphic to $U'$ because
+$U$ is not affine. Moreover $U^h$ is Stein,
+$\operatorname{Pic} (U)\simeq \operatorname{Pic} (C )$, and $\operatorname{Pic} _{\mathrm{an}}(U^h)\simeq \mathbb{Z}$; thus distinct algebraic line bundles
 can become analytically isomorphic.
 
-This node is not ready. Hartshorne quotes the example from another paper; an
-exact proof of the analytic isomorphism, nonaffineness, Stein property, and
-both Picard computations must be adopted.
 
 ## Depends on
 

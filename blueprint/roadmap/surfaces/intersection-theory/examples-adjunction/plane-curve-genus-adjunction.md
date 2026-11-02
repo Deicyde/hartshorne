@@ -6,12 +6,12 @@ origin: cited
 
 # The genus of a smooth plane curve
 
-A smooth plane curve of degree `d` has genus
+A smooth plane curve of degree $d$ has genus
 
-`g = (d-1)*(d-2)/2`.
+$g = (d-1)\cdot (d-2)/2$.
 
 Equivalently, the doubled integer formula is
-`2*g-2=d*(d-3)`.
+$2\cdot g-2=d\cdot (d-3)$.
 
 ## Depends on
 
@@ -21,7 +21,7 @@ Equivalently, the doubled integer formula is
 
 ## Proof depends on
 
-- The curve class is `d*h` and the canonical class is `-3*h`.
+- The curve class is $d\cdot h$ and the canonical class is $-3\cdot h$.
 
 ## Sources
 

@@ -6,8 +6,8 @@ origin: cited
 
 # A canonical genus-four curve lies on a unique quadric
 
-Let `X subset P^3` be the canonical embedding of a nonhyperelliptic
-genus-four curve. Then `X` has degree six and lies on a unique irreducible
+Let $X \subset \mathbb{P}^3$ be the canonical embedding of a nonhyperelliptic
+genus-four curve. Then $X$ has degree six and lies on a unique irreducible
 reduced quadric surface.
 
 ## Depends on
@@ -19,10 +19,10 @@ reduced quadric surface.
 
 ## Proof depends on
 
-- `h^0(P^3,O(2))=10`, while nonspecial Riemann–Roch gives
-  `h^0(X,O_X(2))=9`, so a containing quadric exists.
+- $h^0(\mathbb{P}^3,\mathcal{O}(2))=10$, while nonspecial Riemann–Roch gives
+  $h^0(X,\mathcal{O}_X(2))=9$, so a containing quadric exists.
 - Reducibility would put the integral nonplanar curve in a plane. Two distinct
-  irreducible quadrics intersect in degree four, too small to contain `X`.
+  irreducible quadrics intersect in degree four, too small to contain $X$.
 
 ## Sources
 

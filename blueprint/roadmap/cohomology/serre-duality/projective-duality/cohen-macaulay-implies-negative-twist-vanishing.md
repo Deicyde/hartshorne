@@ -6,14 +6,14 @@ origin: cited
 
 # Cohen–Macaulay schemes have negative-twist vanishing
 
-Let `X` be a projective scheme of dimension `n` over an algebraically closed
-field `k`, equipped with a dualizing sheaf and a fixed very ample `O_X(1)`.
-If `X` is Cohen–Macaulay and equidimensional and `E` is finite locally free,
-then for every `i<n`,
+Let $X$ be a projective scheme of dimension $n$ over an algebraically closed
+field $k$, equipped with a dualizing sheaf and a fixed very ample $\mathcal{O}_X(1)$.
+If $X$ is Cohen–Macaulay and equidimensional and $E$ is finite locally free,
+then for every $i<n$,
 
-`Hⁱ(X,E(-q))=0`
+$H^{i}(X,E(-q))=0$
 
-for all sufficiently large `q`.
+for all sufficiently large $q$.
 
 The Cohen–Macaulay and equidimensional hypotheses are both explicit.
 

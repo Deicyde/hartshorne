@@ -9,11 +9,11 @@ mathlib_file: Mathlib/AlgebraicGeometry/Gluing.lean
 
 # Gluing scheme morphisms
 
-Morphisms from the members of an open cover of `X` to a scheme `Y` that agree on every pairwise overlap glue to a unique morphism `X → Y`.
+Morphisms from the members of an open cover of $X$ to a scheme $Y$ that agree on every pairwise overlap glue to a unique morphism $X \to Y$.
 
-Construct the map with `Scheme.Cover.glueMorphisms`. The supporting exact lemma
-`Scheme.Cover.ι_glueMorphisms` proves the prescribed restrictions, and
-`Scheme.Cover.hom_ext` gives uniqueness from equality on the cover.
+The local morphisms glue because their restrictions agree on every
+overlap. Equality of two glued morphisms can be checked on the cover,
+which gives uniqueness.
 
 ## Depends on
 
@@ -22,8 +22,7 @@ Construct the map with `Scheme.Cover.glueMorphisms`. The supporting exact lemma
 
 ## Proof depends on
 
-- `Scheme.Cover.ι_glueMorphisms`, `Scheme.Cover.hom_ext`, the overlap
-  pullbacks, and the scheme gluing universal property.
+- Morphisms glue over an open cover, and equality of morphisms can be checked on that cover.
 
 ## Sources
 

@@ -9,14 +9,13 @@ mathlib_file: Mathlib/CategoryTheory/Sites/Sheafification.lean
 
 # The associated sheaf
 
-Every presheaf `F` has an associated sheaf `F⁺` and a canonical map
-`F ⟶ F⁺` such that every map from `F` to a sheaf factors uniquely through
-`F⁺`. Consequently the pair is unique up to unique isomorphism, and
+Every presheaf $F$ has an associated sheaf $F^{+}$ and a canonical map
+$F \longrightarrow F^{+}$ such that every map from $F$ to a sheaf factors uniquely through
+$F^{+}$. Consequently the pair is unique up to unique isomorphism, and
 sheafification of an existing sheaf is isomorphic to it.
 
-The exact upstream result is the adjunction
-`CategoryTheory.sheafificationAdjunction`; its unit is `toSheafify`, and
-`sheafifyLift_unique` is Hartshorne's factorization uniqueness.
+Equivalently, sheafification is left adjoint to the inclusion of
+sheaves into presheaves.
 
 ## Depends on
 

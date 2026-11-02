@@ -7,8 +7,8 @@ article_id: af_29185534176616269cf5c213
 This subchapter develops the characteristic-free foundations of geometrically
 ruled surfaces over a nonsingular projective curve: their projective-bundle
 presentation, divisor groups, and coherent cohomology. Projectivizations use
-Hartshorne's quotient-line convention, so `P(E) = Proj Sym(E)`, sections arise
-from quotients `E -> L`, and `pi_* O(1) = E`.
+Hartshorne's quotient-line convention, so $\mathbb{P}(E) = \operatorname{Proj} \operatorname{Sym} (E)$, sections arise
+from quotients $E \to L$, and $\pi _* \mathcal{O}(1) = E$.
 
 1. [Geometrically ruled surfaces](geometrically-ruled-surface.md)
 2. [Fibres are algebraically equivalent](ruled-fibres-algebraically-equivalent.md)

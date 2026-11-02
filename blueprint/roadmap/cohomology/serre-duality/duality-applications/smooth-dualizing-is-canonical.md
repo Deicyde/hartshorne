@@ -6,11 +6,11 @@ origin: cited
 
 # The dualizing sheaf is canonical in the nonsingular case
 
-For a nonsingular projective variety `X` of dimension `n` over an
+For a nonsingular projective variety $X$ of dimension $n$ over an
 algebraically closed field, the projective dualizing sheaf is naturally
 isomorphic to the canonical sheaf
 
-`ω°_X ≃ ω_X = ∧ⁿΩ_(X/k)`.
+$\omega ^{\circ} _X \simeq \omega _X = \bigwedge ^{n}\Omega _{(X/k)}$.
 
 ## Depends on
 

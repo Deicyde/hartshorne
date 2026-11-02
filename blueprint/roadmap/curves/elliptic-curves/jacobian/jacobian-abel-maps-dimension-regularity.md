@@ -6,14 +6,14 @@ origin: cited
 
 # Abel maps determine the dimension and regularity of the Jacobian
 
-Fix a point `P_0` on a genus-`g` Chapter IV curve `X` with Jacobian `J`. The
+Fix a point $P_0$ on a genus-$g$ Chapter IV curve $X$ with Jacobian $J$. The
 Abel map
 
-`X^n -> J`,  `(P_1,...,P_n) |-> O(P_1+...+P_n-nP_0)`,
+$X^n \to J$,  $(P_1,\ldots,P_n)\mapsto\mathcal O(P_1+\cdots+P_n-nP_0)$,
 
-is surjective for `n >= g`, and `X^g -> J` is generically finite. Consequently
-`J` is irreducible of dimension `g`. Together with
-`dim T_0 J = g` and translation homogeneity, this makes `J` nonsingular.
+is surjective for $n \ge g$, and $X^g \to J$ is generically finite. Consequently
+$J$ is irreducible of dimension $g$. Together with
+$\dim T_0 J = g$ and translation homogeneity, this makes $J$ nonsingular.
 
 ## Depends on
 

@@ -9,13 +9,10 @@ mathlib_file: Mathlib/Topology/Sheaves/Functors.lean
 
 # Inverse image is left adjoint to direct image
 
-For a continuous map `f : X → Y`, sheaves `G` on `Y`, and `F` on `X`,
+For a continuous map $f : X \to Y$, sheaves $G$ on $Y$, and $F$ on $X$,
 there is a natural bijection
 
-`Hom_X(f⁻¹G, F) ≃ Hom_Y(G, f_*F)`.
-
-This is exactly the adjunction
-`TopCat.Sheaf.pullbackPushforwardAdjunction` in pinned Mathlib.
+$\operatorname{Hom} _X(f^{-1}G, F) \simeq \operatorname{Hom} _Y(G, f_*F)$.
 
 ## Depends on
 

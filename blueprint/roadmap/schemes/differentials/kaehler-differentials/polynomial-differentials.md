@@ -9,9 +9,9 @@ mathlib_file: Mathlib/RingTheory/Kaehler/Polynomial.lean
 
 # Differentials of a polynomial algebra
 
-For a polynomial algebra `A[xᵢ | i ∈ ι]`, the differentials `dxᵢ` form a
-basis of the module of relative differentials.  For finite `ι` this makes
-`Ω[A[xᵢ]⁄A]` free of rank `|ι|`.
+For a polynomial algebra $A[x_{i} | i \in \iota ]$, the differentials $dx_{i}$ form a
+basis of the module of relative differentials.  For finite $\iota$ this makes
+$\Omega [A[x_{i}]/ A]$ free of rank $|\iota |$.
 
 ## Depends on
 

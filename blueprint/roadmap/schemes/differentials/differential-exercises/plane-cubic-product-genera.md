@@ -7,9 +7,9 @@ not_ready: true
 
 # The genera of a product of plane cubics
 
-Let `Y` be a nonsingular plane cubic and let `X = Y times_k Y`. Then
+Let $Y$ be a nonsingular plane cubic and let $X = Y \times _k Y$. Then
 
-`p_g(X) = 1` and `p_a(X) = -1`.
+$p_g(X) = 1$ and $p_a(X) = -1$.
 
 Thus arithmetic and geometric genus need not agree for nonsingular projective
 varieties of dimension at least two.

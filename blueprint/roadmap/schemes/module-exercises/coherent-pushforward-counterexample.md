@@ -6,11 +6,11 @@ origin: cited
 
 # A coherent pushforward counterexample
 
-There exist varieties `X` and `Y` over a field, a morphism `f : X → Y`, and
-a coherent sheaf `F` on `X` such that `f_*F` is not coherent on `Y`.
+There exist varieties $X$ and $Y$ over a field, a morphism $f : X \to Y$, and
+a coherent sheaf $F$ on $X$ such that $f_*F$ is not coherent on $Y$.
 
-Use the structure morphism `A^1_k → Spec k` and `F = O_{A^1}`: the direct
-image corresponds to the infinite-dimensional `k`-module `k[t]`. This is the
+Use the structure morphism $A^1_k \to \operatorname{Spec} k$ and $F = \mathcal{O}_{A^1}$: the direct
+image corresponds to the infinite-dimensional $k$-module $k[t]$. This is the
 warning required by Caution 5.8.1; later positive pushforward results must
 retain their finite, projective, or proper hypotheses.
 

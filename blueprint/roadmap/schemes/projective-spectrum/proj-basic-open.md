@@ -9,13 +9,13 @@ mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean
 
 # A standard Proj chart is affine
 
-If `f ∈ S_d` is homogeneous of positive degree, then
-`D₊(f) = {𝔭 | f ∉ 𝔭}` is open and there is a canonical isomorphism of locally
+If $f \in S_d$ is homogeneous of positive degree, then
+$D_{+}(f) = \{\mathfrak{p} | f \notin \mathfrak{p} \}$ is open and there is a canonical isomorphism of locally
 ringed spaces
 
-`D₊(f) ≅ Spec S_(f)`.
+$D_{+}(f) \cong \operatorname{Spec} S_{(f)}$.
 
-The proof identifies relevant primes avoiding `f` with primes of the
+The proof identifies relevant primes avoiding $f$ with primes of the
 degree-zero away localization and checks the structure sheaves via the
 same-degree fractions.  The covering statement is split into its own leaf.
 

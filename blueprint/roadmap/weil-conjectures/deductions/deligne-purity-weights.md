@@ -7,18 +7,18 @@ not_ready: true
 
 # Deligne purity for Frobenius on ℓ-adic cohomology
 
-Let `X/F_q` be smooth and projective. For every eigenvalue `alpha` of
-Hartshorne's `q`-power Frobenius pullback on
-`H^i_et(X_bar,Q_ell)` and every embedding of its coefficient field into `C`,
+Let $X/\mathbb{F}_q$ be smooth and projective. For every eigenvalue $\alpha$ of
+Hartshorne's $q$-power Frobenius pullback on
+$H^i_{\mathrm{et}}(\overline X,\mathbb Q_\ell)$ and every embedding of its coefficient field into $\mathbb{C}$,
 
-`|alpha|=q^(i/2)`.
+$|\alpha |=q^{i/2}$.
 
 Together with the separate integrality theorem, these eigenvalues are
 algebraic integers. This is the cohomological purity input; identification
 with the final, uniquely determined integral Weil polynomials belongs to the
-§1 theorem page and `deligne-polynomial-identification.md`.
+the [weight theorem](../weil/deligne-weight-theorem.md) and the
+[polynomial-identification result](deligne-polynomial-identification.md).
 
-This node remains not ready pending Deligne's proof.
 
 ## Depends on
 

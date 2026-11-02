@@ -6,11 +6,11 @@ origin: cited
 
 # The graph of the quadratic transformation is a common three-point blowup
 
-Let `V` in `P^2_x times P^2_y` be defined by
+Let $V$ in $\mathbb{P}^2_x \times \mathbb{P}^2_y$ be defined by
 
-`x_0*y_0=x_1*y_1=x_2*y_2`.
+$x_0\cdot y_0=x_1\cdot y_1=x_2\cdot y_2$.
 
-Each projection identifies `V` with its plane blown up at the three
+Each projection identifies $V$ with its plane blown up at the three
 coordinate points. Under the resolved quadratic transformation, each joining
 line on one plane is contracted to the opposite target point, and each
 exceptional curve maps isomorphically to the opposite joining line.

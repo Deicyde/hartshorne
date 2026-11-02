@@ -6,13 +6,13 @@ origin: cited
 
 # Serre duality on projective space
 
-For `X=Pⁿ_k`, every coherent `F`, and every `i:ℕ`, there is a natural
-functorial `k`-linear isomorphism
+For $X=\mathbb{P}^{n}_k$, every coherent $F$, and every $i \in \mathbb{N}$, there is a natural
+functorial $k$-linear isomorphism
 
-`Extⁱ_X(F,ω_X) ≃ Dual k (HBelow n i F)`.
+$$\operatorname{Ext}^i_X(F,\omega_X)\cong H^{n-i}(X,F)^\vee.$$
 
-Here `HBelow n i F` is `H^(n-i)(X,F)` when `i≤n` and the zero `k`-module
-otherwise. At `i=0` this isomorphism is induced by the top perfect pairing.
+Cohomology in negative degrees is zero. At $i=0$, the
+isomorphism is induced by the top perfect pairing.
 
 ## Depends on
 

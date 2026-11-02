@@ -6,14 +6,10 @@ origin: cited
 
 # Tensor products of module sheaves
 
-For two `𝒪_X`-modules `F` and `G`, construct `F ⊗[𝒪_X] G` by sheafifying
-the presheaf `U ↦ F(U) ⊗[𝒪_X(U)] G(U)`.  Prove its balanced universal
+For two $\mathcal{O} _X$-modules $F$ and $G$, construct $F\otimes_{\mathcal{O}_X}G$ by sheafifying
+the presheaf $U\longmapsto F(U)\otimes_{\mathcal{O}_X(U)}G(U)$.  Prove its balanced universal
 property and the canonical stalk isomorphism
-`(F ⊗ G)_x ≅ F_x ⊗[𝒪_{X,x}] G_x`.
-
-Pinned Mathlib has the pointwise tensor product of presheaves of modules but
-does not expose the resulting tensor product in `X.Modules`; this leaf supplies
-that missing sheaf-level interface.
+$(F\otimes G)_x\cong F_x\otimes_{\mathcal{O}_{X,x}}G_x$.
 
 ## Depends on
 

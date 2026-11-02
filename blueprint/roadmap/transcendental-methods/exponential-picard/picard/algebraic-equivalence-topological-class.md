@@ -10,7 +10,7 @@ not_ready: true
 Algebraically equivalent Cartier divisors on a projective complex variety
 have the same image under
 
-`c_1^top:Pic(X)->H^2(X^h,Z)`.
+$c_1^\top :\operatorname{Pic} (X)\to H^2(X^h,\mathbb{Z})$.
 
 Hartshorne says only that this is easy to see. A proof through an analytic
 family, homotopy invariance, or the Picard functor remains to be adopted.

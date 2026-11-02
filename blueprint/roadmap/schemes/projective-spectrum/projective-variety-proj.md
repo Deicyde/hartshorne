@@ -6,13 +6,13 @@ origin: cited
 
 # A projective variety completes to Proj
 
-Let `V` be a projective variety over an algebraically closed field `k`, with
-homogeneous coordinate ring `S(V)`.  The scheme associated to `V` by generic
-completion is naturally isomorphic, over `Spec k`, to `Proj S(V)`.
+Let $V$ be a projective variety over an algebraically closed field $k$, with
+homogeneous coordinate ring $S(V)$.  The scheme associated to $V$ by generic
+completion is naturally isomorphic, over $\operatorname{Spec} k$, to $\operatorname{Proj} S(V)$.
 
 On each standard projective chart, use the Chapter I dehomogenization
 isomorphism to identify the completed affine variety with the corresponding
-degree-zero localization chart of `Proj`.  Compatibility on double overlaps
+degree-zero localization chart of $\operatorname{Proj}$.  Compatibility on double overlaps
 glues the chart isomorphisms.
 
 ## Depends on

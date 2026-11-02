@@ -6,15 +6,15 @@ origin: cited
 
 # The normalized Poincaré class of an elliptic curve
 
-Let `(X,P_0)` be a pointed elliptic curve, let `Delta` be the diagonal in
-`X times X`, and let `p_1` be the first projection. The line bundle
+Let $(X,P_0)$ be a pointed elliptic curve, let $\Delta$ be the diagonal in
+$X \times X$, and let $p_1$ be the first projection. The line bundle
 
-`P = O(Delta) tensor p_1^* O(-P_0)`
+$P = \mathcal{O}(\Delta ) \otimes p_1^* \mathcal{O}(-P_0)$
 
-has restriction over a point `P` of the second factor equal to the degree-zero
-class `O(P-P_0)`. It is trivial on `X times {P_0}`, so it is normalized along
-the parameter-axis base point. Its restriction to `{P_0} times X` is
-`O_X(P_0)`, not trivial; tensoring also by `p_2^*O(-P_0)` gives a doubly
+has restriction over a point $P$ of the second factor equal to the degree-zero
+class $\mathcal{O}(P-P_0)$. It is trivial on $X \times \{P_0\}$, so it is normalized along
+the parameter-axis base point. Its restriction to $\{P_0\} \times X$ is
+$\mathcal{O}_X(P_0)$, not trivial; tensoring also by $p_2^*\mathcal{O}(-P_0)$ gives a doubly
 normalized actual bundle without changing the relative Picard class.
 
 ## Depends on

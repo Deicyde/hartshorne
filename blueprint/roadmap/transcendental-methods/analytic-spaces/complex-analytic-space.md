@@ -16,9 +16,9 @@ Include a gluing theorem: analytic locally ringed spaces with compatible open
 overlap isomorphisms satisfying the cocycle condition glue uniquely to a
 complex analytic space, and analytic morphisms glue across open covers.
 
-This node is not ready until the local models, analytic gluing, and morphism
-representation are available. It includes nonreduced spaces and is not a
-synonym for complex manifold.
+
+Complex analytic spaces may be nonreduced; a complex manifold is a special
+case, rather than a synonym.
 
 ## Depends on
 

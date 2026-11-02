@@ -6,11 +6,11 @@ origin: cited
 
 # The canonical sheaf of a smooth complete intersection
 
-Let `k` be algebraically closed, let `d_1, ..., d_r >= 1` with `r < n`, and
-let `Y subset P^n_k` be a nonsingular complete intersection of hypersurfaces
+Let $k$ be algebraically closed, let $d_1, \ldots , d_r \ge 1$ with $r < n$, and
+let $Y \subset \mathbb{P}^n_k$ be a nonsingular complete intersection of hypersurfaces
 of those degrees. Then
 
-`omega_Y ~= O_Y(d_1 + ... + d_r - n - 1)`.
+$\omega _Y \simeq \mathcal{O}_Y(d_1 + \ldots + d_r - n - 1)$.
 
 ## Depends on
 
@@ -21,7 +21,7 @@ of those degrees. Then
 ## Proof depends on
 
 - The conormal bundle of the complete intersection is
-  `J/J^2 ~= ⊕_i O_Y(-d_i)`. Apply determinant adjunction directly to this
+  $J/J^2 \simeq \oplus _i \mathcal{O}_Y(-d_i)$. Apply determinant adjunction directly to this
   bundle and the canonical sheaf of projective space; no nonsingularity of a
   chosen sequence of partial intersections is required.
 

@@ -9,9 +9,10 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Finite.lean
 
 # Finite morphisms
 
-A morphism `f : X → Y` is finite when every affine open `V ⊆ Y` has affine inverse image and the induced coordinate-ring map is module finite.
+A morphism $f : X \to Y$ is finite when every affine open $V \subseteq Y$ has affine inverse image and the induced coordinate-ring map is module finite.
 
-Use `IsFinite`, whose fields are the affine-morphism condition and module finiteness on affine target opens.
+The definition combines affineness of the morphism with module
+finiteness on affine opens of the target.
 
 ## Depends on
 

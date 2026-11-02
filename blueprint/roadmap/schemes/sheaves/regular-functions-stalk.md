@@ -9,15 +9,14 @@ lean: Hartshorne.Variety.exists_regularSheafStalkEquivLocalRing
 
 # The regular-functions stalk is the local ring
 
-For a project `Variety X` and `P : X`, construct a ring equivalence
+For a variety $X$ and a point $P\in X$, the stalk of the regular-
+functions sheaf is canonically isomorphic to the local ring:
 
-`(X.regularSheaf.presheaf.stalk P) ≃+* X.LocalRingAt P`.
+$$ (\mathcal{O}_X)_P \cong \mathcal{O}_{P,X}. $$
 
-The forward map sends a categorical germ to the existing quotient-of-germ
-representatives; the inverse chooses a representative. Equality is justified
-by shrinking neighbourhoods and the identity principle already used in the
-Chapter I local-ring construction. This comparison, rather than a replacement
-definition, is the main result.
+Both rings consist of germs of regular functions at $P$. The
+isomorphism sends a germ to its local-ring class; equality is
+determined by agreement on a smaller neighbourhood.
 
 ## Depends on
 

@@ -6,12 +6,8 @@ origin: cited
 
 # Flasque sheaves have no positive higher direct images
 
-If `F` is a flasque abelian sheaf on `X`, then for every continuous map
-`f : X -> Y` and every `i>0`, the sheaf `R^i f_* F` is zero.
-
-The unique main result is this vanishing. Pinned Mathlib has the definition
-of flasqueness and proves that pushforward preserves it, but does not supply
-this higher-direct-image consequence.
+If $F$ is a flasque abelian sheaf on $X$, then for every continuous map
+$f : X \to Y$ and every $i>0$, the sheaf $R^i f_* F$ is zero.
 
 ## Depends on
 

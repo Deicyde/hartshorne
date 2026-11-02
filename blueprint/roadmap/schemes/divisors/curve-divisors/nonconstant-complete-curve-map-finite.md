@@ -6,14 +6,14 @@ origin: cited
 
 # Nonconstant maps of complete curves are finite
 
-Let `X` be a complete nonsingular curve over an algebraically closed field and
-let `Y` be any curve. For a morphism `f : X → Y`, either its image is one
-point, or `f` is surjective, `K(X)` is a finite extension of `K(Y)`, `f` is
-finite, and `Y` is complete.
+Let $X$ be a complete nonsingular curve over an algebraically closed field and
+let $Y$ be any curve. For a morphism $f : X \to Y$, either its image is one
+point, or $f$ is surjective, $K(X)$ is a finite extension of $K(Y)$, $f$ is
+finite, and $Y$ is complete.
 
 The main result is this constant-or-finite dichotomy. The proof identifies the
-preimage of an affine open of `Y` with the spectrum of its integral closure in
-`K(X)`.
+preimage of an affine open of $Y$ with the spectrum of its integral closure in
+$K(X)$.
 
 ## Depends on
 

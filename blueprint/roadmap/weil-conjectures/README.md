@@ -13,8 +13,9 @@ The roadmap contains 71 targets. Targets needing an additional representation
 or proof source are marked explicitly. For current formalization status, use
 this page's progress summary and the status on each statement.
 
-Mathlib's pro-étale `Z_ℓ` construction is kept distinct from the comparison
-with classical `Q_ℓ` cohomology. The statements record Hartshorne's suppressed
+Classical $\mathbb{Q}_\ell$ cohomology is related to the pro-étale
+$\mathbb{Z}_\ell$ construction through an explicit comparison. The
+statements record Hartshorne's suppressed
 Tate twists, connectedness conditions, fixed-point transversality, Frobenius
 convention, and good-reduction hypotheses.
 

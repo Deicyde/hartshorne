@@ -9,10 +9,10 @@ lean: Hartshorne.idealPowerTorsion_injective
 
 # Ideal-power torsion in an injective module
 
-Let `A` be Noetherian, `a` an ideal, and `I` an injective `A`-module. The
+Let $A$ be Noetherian, $a$ an ideal, and $I$ an injective $A$-module. The
 submodule
 
-`Γ_a(I) = {x | a^n x = 0 for some n}`
+$\Gamma _a(I) = \{x | a^n x = 0 \text{for} \text{some} n\}$
 
 is injective.
 
@@ -23,10 +23,8 @@ No project-local prerequisites.
 ## Proof depends on
 
 - [Artin–Rees induced topology](artin-rees-induced-topology.md)
-- `Ideal.primaryComponent` and `Ideal.primaryComponent_mem` from
-  `Mathlib/Algebra/Module/Torsion/PrimaryComponent.lean` model `Γ_a`.
-- `Module.Baer.iff_injective` from
-  `Mathlib/Algebra/Module/Injective.lean` supplies Baer's criterion.
+- The ideal-power torsion submodule consists of elements annihilated by some power of the ideal.
+- Baer's criterion for injective modules.
 
 ## Sources
 

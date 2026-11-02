@@ -9,13 +9,13 @@ lean: Hartshorne.plane_curve_bezout
 
 # Bézout's theorem for distinct plane curves
 
-Let `Y,Z ⊆ ℙ²` be distinct projective curves of degrees `d,e`. Their
-intersection is a finite set `{P₁,…,Pₛ}`, and
+Let $Y,Z \subseteq \mathbb{P} ^{2}$ be distinct projective curves of degrees $d,e$. Their
+intersection is a finite set $\{P_{1},\ldots ,P_{s}\}$, and
 
-`∑ j, i(Y,Z;P_j) = d·e`.
+$\sum_j i(Y,Z;P_j)=de$.
 
-This is Corollary 7.8. Exercise 2.8 realizes `Z` as a hypersurface. Distinct
-irreducible curves cannot contain one another, so Theorem 7.7 applies; the
+This is Corollary 7.8. Exercise 2.8 realizes $Z$ as a hypersurface. Distinct
+irreducible curves cannot contain one another, so [Theorem I.7.7](projective-hypersurface-bezout.md) applies; the
 projective dimension theorem makes the components points, each of degree one.
 
 ## Depends on

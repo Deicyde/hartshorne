@@ -6,13 +6,13 @@ origin: cited
 
 # The degree-four curve trichotomy
 
-Let `X` be a curve of projective degree four and replace the ambient space by
+Let $X$ be a curve of projective degree four and replace the ambient space by
 its linear span. Exactly one of the following holds:
 
-1. `g(X)=0`, and `X` is either the rational normal quartic in `P^4` or a
-   rational quartic in `P^3`;
-2. `X` is a plane quartic and `g(X)=3`;
-3. `X` lies nondegenerately in `P^3` and `g(X)=1`.
+1. $g(X)=0$, and $X$ is either the rational normal quartic in $\mathbb{P}^4$ or a
+   rational quartic in $\mathbb{P}^3$;
+2. $X$ is a plane quartic and $g(X)=3$;
+3. $X$ lies nondegenerately in $\mathbb{P}^3$ and $g(X)=1$.
 
 ## Depends on
 

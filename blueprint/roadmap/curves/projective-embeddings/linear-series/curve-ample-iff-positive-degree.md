@@ -6,9 +6,9 @@ origin: cited
 
 # A curve divisor is ample exactly when its degree is positive
 
-For a divisor `D` on a Chapter IV curve,
+For a divisor $D$ on a Chapter IV curve,
 
-`D is ample <-> deg D > 0`.
+$D \text{is} \text{ample} \Longleftrightarrow \deg D > 0$.
 
 ## Depends on
 
@@ -21,7 +21,7 @@ For a divisor `D` on a Chapter IV curve,
 
 - A positive tensor power of an ample divisor is very ample and hence has
   positive hyperplane-section degree.
-- If `deg D>0`, a sufficiently large multiple has degree at least `2g+1` and
+- If $\deg D>0$, a sufficiently large multiple has degree at least $2g+1$ and
   is very ample.
 
 ## Sources

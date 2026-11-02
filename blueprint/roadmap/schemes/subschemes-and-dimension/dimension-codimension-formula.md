@@ -6,10 +6,10 @@ origin: cited
 
 # The dimension-codimension formula
 
-Let `X` be an integral scheme of finite type over a field, and let `Y ⊆ X` be
-a nonempty closed subset. Then `dim Y + codim(Y,X) = dim X`.
+Let $X$ be an integral scheme of finite type over a field, and let $Y \subseteq X$ be
+a nonempty closed subset. Then $\dim Y + \operatorname{codim} (Y,X) = \dim X$.
 
-First prove the formula for each irreducible component of `Y` using the height/dimension formula for finitely generated domains. Take the maximum of component dimensions and the corresponding infimum of codimensions.
+First prove the formula for each irreducible component of $Y$ using the height/dimension formula for finitely generated domains. Take the maximum of component dimensions and the corresponding infimum of codimensions.
 
 ## Depends on
 

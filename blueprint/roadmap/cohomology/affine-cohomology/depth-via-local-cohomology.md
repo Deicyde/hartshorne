@@ -7,10 +7,10 @@ not_ready: true
 
 # Depth detected by local cohomology
 
-Let `A` be Noetherian, `a` an ideal, and `M` a finite `A`-module. For every
-`n ≥ 0`,
+Let $A$ be Noetherian, $a$ an ideal, and $M$ a finite $A$-module. For every
+$n \ge 0$,
 
-`depth_a M ≥ n` if and only if `H_a^i(M)=0` for every `i<n`.
+$\operatorname{depth} _a M \ge n$ if and only if $H_a^i(M)=0$ for every $i<n$.
 
 ## Depends on
 
@@ -18,10 +18,9 @@ Let `A` be Noetherian, `a` an ideal, and `M` a finite `A`-module. For every
 
 ## Proof depends on
 
-- Positive depth is equivalent to `Γ_a(M)=0`, via associated primes.
-- Induction along an `M`-regular sequence and the long exact sequence for
+- Positive depth is equivalent to $\Gamma _a(M)=0$, via associated primes.
+- Induction along an $M$-regular sequence and the long exact sequence for
   local cohomology.
-- A complete external proof source must be adopted before formalization.
 
 ## Sources
 

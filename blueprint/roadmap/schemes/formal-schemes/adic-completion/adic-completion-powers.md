@@ -9,14 +9,13 @@ mathlib_file: Mathlib/RingTheory/AdicCompletion/Completeness.lean
 
 # Powers in an adic completion
 
-If `I` is finitely generated, then for every `n`, multiplication by the ideal
+If $I$ is finitely generated, then for every $n$, multiplication by the ideal
 power on the completed module is exactly the kernel of reduction:
 
-`I^(n+1) • top = ker (AdicCompletion.eval I M (n+1))`.
+$$I^{n+1}\widehat M=\ker(\widehat M\longrightarrow M/I^{n+1}M).$$
 
-For `M = A`, this identifies the completed power with
-`I^(n+1) Ahat`. The kernel equality is the unique main result and is exactly
-the pinned declaration named in the metadata.
+For $M=A$, this identifies the ideal $I^{n+1}\widehat A$ with the
+kernel of reduction to $A/I^{n+1}$.
 
 ## Depends on
 
@@ -29,4 +28,4 @@ the pinned declaration named in the metadata.
 ## Sources
 
 - [Hartshorne II.9, Theorem 9.3A(a) (pp.193–194)](../../../../sources/hartshorne-ii-9.md#adic-completion)
-- Stacks Project, tags `05GG` and `031C`.
+- Stacks Project, tags $05GG$ and $031C$.

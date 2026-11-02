@@ -6,10 +6,10 @@ origin: cited
 
 # The transitivity sequence for differential sheaves
 
-For scheme morphisms `X → Y → Z`, construct the natural right-exact sequence
-of `𝒪_X`-modules
+For scheme morphisms $X \to Y \to Z$, construct the natural right-exact sequence
+of $\mathcal{O} _X$-modules
 
-`f^* Ω[Y/Z] → Ω[X/Z] → Ω[X/Y] → 0`.
+$f^* \Omega_{Y/Z} \to \Omega_{X/Z} \to \Omega_{X/Y} \to 0$.
 
 The maps must agree on affine charts with the first exact sequence for
 Kähler differentials.

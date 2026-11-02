@@ -6,12 +6,12 @@ origin: cited
 
 # The normal-bundle Chern classes of a surface in projective four-space
 
-Let `X subset P^4` be a smooth surface, with hyperplane class `H`, canonical
-class `K`, tangent second Chern class `c_2`, and normal bundle `N`. Then
+Let $X \subset \mathbb{P}^4$ be a smooth surface, with hyperplane class $H$, canonical
+class $K$, tangent second Chern class $c_2$, and normal bundle $N$. Then
 
-`c_1(N)=5H+K`,
+$c_1(N)=5H+K$,
 
-`c_2(N)=10H^2-c_2+5H.K+K^2`.
+$c_2(N)=10H^2-c_2+5H\cdot K+K^2$.
 
 ## Depends on
 

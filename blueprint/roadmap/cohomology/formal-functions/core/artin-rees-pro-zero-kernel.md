@@ -6,13 +6,13 @@ origin: cited
 
 # The Artin–Rees kernel system is pro-zero
 
-Let `A` be Noetherian, let `a` be an ideal, and let `R` be a finite submodule
-of a finite `A`-module `E`. Define
+Let $A$ be Noetherian, let $a$ be an ideal, and let $R$ be a finite submodule
+of a finite $A$-module $E$. Define
 
-`K_n = (R intersect a^(n+1) E) / a^(n+1) R`.
+$K_n = (R \cap a^{n+1} E) / a^{n+1} R$.
 
-For every `n`, there is `n' >= n` such that the transition map
-`K_(n') -> K_n` is zero. Consequently `lim K_n = 0`, and the same conclusion
+For every $n$, there is $n' \ge n$ such that the transition map
+$K_{(n')} \to K_n$ is zero. Consequently $\lim K_n = 0$, and the same conclusion
 holds for the associated coherent kernel sheaves on a quasi-compact
 Noetherian scheme, for a coherent ambient module and a coherent ideal sheaf.
 
@@ -26,9 +26,9 @@ having zero intersection of all powers.
 
 ## Proof depends on
 
-- Artin–Rees gives, for every `n`, an `n'` with
-  `R intersect a^(n'+1)E <= a^(n+1)R`.
-- A finite affine cover makes the sheafwise choice of `n'` uniform.
+- Artin–Rees gives, for every $n$, an $n'$ with
+  $R \cap a^{n'+1}E \le a^{n+1}R$.
+- A finite affine cover makes the sheafwise choice of $n'$ uniform.
 
 ## Sources
 

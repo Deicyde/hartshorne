@@ -6,10 +6,10 @@ origin: cited
 
 # Flatness over a regular curve
 
-Let `f : X -> Y`, where `X` is locally Noetherian and `Y` is regular,
-integral, and one-dimensional. Then `f` is flat if and only if every
-associated point of `X` maps to the generic point of `Y`. If `X` is reduced,
-this is equivalent to every irreducible component of `X` dominating `Y`.
+Let $f : X \to Y$, where $X$ is locally Noetherian and $Y$ is regular,
+integral, and one-dimensional. Then $f$ is flat if and only if every
+associated point of $X$ maps to the generic point of $Y$. If $X$ is reduced,
+this is equivalent to every irreducible component of $X$ dominating $Y$.
 
 The locally Noetherian source hypothesis makes explicit the hypothesis used
 by Hartshorne's associated-prime argument. No weak-associated-point variant is

@@ -9,16 +9,15 @@ mathlib_file: Mathlib/AlgebraicGeometry/StructureSheaf.lean
 
 # The stalk of Spec
 
-For `𝔭 ∈ Spec A`, evaluation of a local section at `𝔭` induces an
-`A`-algebra isomorphism
+For $\mathfrak{p} \in \operatorname{Spec} A$, evaluation of a local section at $\mathfrak{p}$ induces an
+$A$-algebra isomorphism
 
-`𝒪_{Spec A,𝔭} ≅ A_𝔭`.
+$\mathcal{O} _{\operatorname{Spec} A,\mathfrak{p} } \cong A_{\mathfrak{p}}$.
 
-Surjectivity represents a fraction on a principal neighbourhood.  Injectivity
-uses equality in the localization to shrink to a neighbourhood on which two
-representatives agree.  This is Hartshorne Proposition 2.2(a), realized by
-`StructureSheaf.stalkIso` and the instance
-`StructureSheaf.IsLocalization.to_stalk`.
+Surjectivity represents a fraction on a principal neighbourhood.
+Injectivity uses equality in the localization to shrink to a
+neighbourhood on which the representatives agree. This is
+Hartshorne's Proposition II.2.2(a).
 
 ## Depends on
 

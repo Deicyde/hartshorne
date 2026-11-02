@@ -6,13 +6,13 @@ origin: cited
 
 # Genus is monotone under finite curve maps
 
-For every finite morphism of curves `f : X -> Y`,
+For every finite morphism of curves $f : X \to Y$,
 
-`g(X) >= g(Y)`.
+$g(X) \ge g(Y)$.
 
-If `f` is separable and `g(Y) >= 1`, equality occurs only when `deg f=1`, or
-when `g(Y)=1` and `f` is unramified; both alternatives do give equality. For
-`g(Y)=0`, higher-degree maps `P^1 -> P^1` show that no degree-one conclusion
+If $f$ is separable and $g(Y) \ge 1$, equality occurs only when $\deg f=1$, or
+when $g(Y)=1$ and $f$ is unramified; both alternatives do give equality. For
+$g(Y)=0$, higher-degree maps $\mathbb{P}^1 \to \mathbb{P}^1$ show that no degree-one conclusion
 is possible. No such restriction is asserted for a purely inseparable map,
 which can preserve genus in higher degree.
 
@@ -25,9 +25,9 @@ which can preserve genus in higher degree.
 ## Proof depends on
 
 - Factor the finite function-field extension into a purely inseparable part
-  followed by a separable extension, as in Stacks tag `0CD2`.
+  followed by a separable extension, as in Stacks tag $0CD2$.
 - For a separable map rewrite Riemann–Hurwitz as
-  `g(X)=g(Y)+(n-1)(g(Y)-1)+deg(R_f)/2`, treating `g(Y)=0` separately.
+  $g(X)=g(Y)+(n-1)(g(Y)-1)+\deg (R_f)/2$, treating $g(Y)=0$ separately.
 
 ## Sources
 

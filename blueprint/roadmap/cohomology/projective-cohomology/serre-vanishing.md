@@ -6,14 +6,14 @@ origin: cited
 
 # Serre vanishing
 
-Let `X` be projective over a Noetherian ring `A`, let `O_X(1)` be very ample,
-and let `F` be coherent. There is one integer `n₀`, depending on `F`, such
-that for every `n≥n₀` and every `i>0`,
+Let $X$ be projective over a Noetherian ring $A$, let $\mathcal{O}_X(1)$ be very ample,
+and let $F$ be coherent. There is one integer $n_{0}$, depending on $F$, such
+that for every $n\ge n_{0}$ and every $i>0$,
 
-`Hⁱ(X,F(n))=0`.
+$H^{i}(X,F(n))=0$.
 
 The bound is uniform in the cohomological degree, not a separate unrecorded
-eventuality for each `i`.
+eventuality for each $i$.
 
 ## Depends on
 

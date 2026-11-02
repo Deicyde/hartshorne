@@ -6,10 +6,10 @@ origin: cited
 
 # Relative Proj
 
-For a Noetherian scheme `X` and a quasi-coherent graded `O_X`-algebra `S`
-with `S_0 = O_X`, coherent `S_1`, and local generation by `S_1`, construct
-`Proj_X S` by gluing the affine schemes `Proj Gamma(U,S)`. Construct its
-projection to `X` and the canonical comparison over every affine open.
+For a Noetherian scheme $X$ and a quasi-coherent graded $\mathcal{O}_X$-algebra $S$
+with $S_0 = \mathcal{O}_X$, coherent $S_1$, and local generation by $S_1$, construct
+$\operatorname{Proj} _X S$ by gluing the affine schemes $\operatorname{Proj} \Gamma (U,S)$. Construct its
+projection to $X$ and the canonical comparison over every affine open.
 
 ## Depends on
 

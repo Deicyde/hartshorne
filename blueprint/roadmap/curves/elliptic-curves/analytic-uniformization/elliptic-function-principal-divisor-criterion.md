@@ -6,12 +6,12 @@ origin: background
 
 # Principal divisors of elliptic functions
 
-Let `a1,...,aq` be distinct points of `C/Lambda` and let `n1,...,nq` be
+Let $a_1,\ldots ,a_q$ be distinct points of $\mathbb C/\Lambda$ and let $n1,\ldots ,nq$ be
 integers. There is an elliptic function with divisor
 
-`sum_i n_i*(a_i)`
+$\sum _i n_i\cdot (a_i)$
 
-if and only if `sum_i n_i=0` and `sum_i n_i*a_i=0` in `C/Lambda`.
+if and only if $\sum _i n_i=0$ and $\sum _i n_i\cdot a_i=0$ in $\mathbb C/\Lambda$.
 
 ## Depends on
 

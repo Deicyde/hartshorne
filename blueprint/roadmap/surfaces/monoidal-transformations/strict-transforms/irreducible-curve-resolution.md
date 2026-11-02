@@ -6,8 +6,8 @@ origin: cited
 
 # Resolution of an irreducible curve on a surface
 
-Let `C` be an irreducible curve on a Chapter V surface. A finite succession
-of point blowups at singular points makes the strict transform of `C`
+Let $C$ be an irreducible curve on a Chapter V surface. A finite succession
+of point blowups at singular points makes the strict transform of $C$
 nonsingular.
 
 The theorem is valid over an algebraically closed field of arbitrary

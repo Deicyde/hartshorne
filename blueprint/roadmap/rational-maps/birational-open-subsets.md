@@ -9,11 +9,11 @@ lean: Hartshorne.birational_iff_hasIsomorphicOpenSubsets
 
 # Birational varieties have isomorphic open subsets
 
-For separated varieties `X` and `Y`, the following are equivalent:
+For separated varieties $X$ and $Y$, the following are equivalent:
 
-- `X` and `Y` are birationally equivalent;
-- there are nonempty open subsets `U ⊆ X` and `V ⊆ Y` such that the
-  restricted varieties on `U` and `V` are isomorphic.
+- $X$ and $Y$ are birationally equivalent;
+- there are nonempty open subsets $U \subseteq X$ and $V \subseteq Y$ such that the
+  restricted varieties on $U$ and $V$ are isomorphic.
 
 For the forward implication, choose representatives of mutually inverse
 rational maps.  Restrict their domains once more so that each map lands in the
@@ -22,7 +22,7 @@ those smaller opens and give inverse morphisms.  Conversely, an isomorphism of
 nonempty opens and its inverse define dominant rational maps because every
 nonempty open subset of an irreducible variety is dense.
 
-This is the geometric `(i) ⇔ (ii)` part of Corollary 4.5.
+This is the geometric $\mathrm{(i)}\Longleftrightarrow\mathrm{(ii)}$ part of Corollary 4.5.
 
 ## Depends on
 

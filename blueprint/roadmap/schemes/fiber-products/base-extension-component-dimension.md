@@ -6,9 +6,9 @@ origin: cited
 
 # Dimension after extending the ground field
 
-Let `X` be integral and finite type over a field `k`. For every extension `k ⊆ k'`, each irreducible component of `X ×_k k'` has dimension `dim X`.
+Let $X$ be integral and finite type over a field $k$. For every extension $k \subseteq k'$, each irreducible component of $X \times _k k'$ has dimension $\dim X$.
 
-Work affine-locally, pass to minimal primes of `A ⊗_k k'`, and compare transcendence degrees over `k'` and `k`. Glue the local calculation across each irreducible component.
+Work affine-locally, pass to minimal primes of $A \otimes _k k'$, and compare transcendence degrees over $k'$ and $k$. Glue the local calculation across each irreducible component.
 
 ## Depends on
 

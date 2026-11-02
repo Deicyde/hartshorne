@@ -6,10 +6,10 @@ origin: cited
 
 # Leray comparison for ruled line bundles
 
-Let `D` be a divisor on a ruled surface `pi : X -> C` with `D.f >= 0`.
-For every `i`, the natural comparison is an isomorphism
+Let $D$ be a divisor on a ruled surface $\pi : X \to C$ with $D\cdot f\ge0$.
+For every $i$, the natural comparison is an isomorphism
 
-`H^i(X,O_X(D)) ~= H^i(C,pi_*O_X(D))`.
+$H^i(X,\mathcal{O}_X(D)) \simeq H^i(C ,\pi _*\mathcal{O}_X(D))$.
 
 ## Depends on
 

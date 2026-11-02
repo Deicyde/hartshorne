@@ -6,11 +6,11 @@ origin: cited
 
 # The intersection form on the projective plane
 
-Let `h` be the divisor class of a line in `P^2`. Then `Pic(P^2)=Z*h` and
+Let $h$ be the divisor class of a line in $\mathbb{P}^2$. Then $\operatorname{Pic} (\mathbb{P}^2)=Z\cdot h$ and
 
-`h^2=1`.
+$h^2=1$.
 
-Consequently curves of degrees `n,m` have intersection number `n*m`; when
+Consequently curves of degrees $n,m$ have intersection number $n\cdot m$; when
 they share no component this recovers Bezout as the sum of local
 intersection multiplicities.
 

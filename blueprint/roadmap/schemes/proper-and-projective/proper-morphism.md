@@ -14,10 +14,6 @@ finite type. This is equivalent to Hartshorne's definition using finite type:
 universal closedness already implies quasi-compactness, so local finite type
 plus universal closedness supplies the missing finite-cover condition.
 
-Use Mathlib's `IsProper` class. Its decomposition into reusable morphism
-properties is exposed by `isProper_eq`; do not introduce a second predicate
-using the project's finite-type conjunction.
-
 ## Depends on
 
 - [Separated morphisms](../separated-morphisms/separated-morphism.md)

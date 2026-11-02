@@ -6,15 +6,15 @@ origin: cited
 
 # Fibre cohomology as residue-field tensor cohomology
 
-Let `f : X -> Y` be a separated finite-type morphism of Noetherian schemes,
-with `Y=Spec A`, and let `F` be quasicoherent. For every point `y : Y` and
-every `i`, there is a natural isomorphism
+Let $f : X \to Y$ be a separated finite-type morphism of Noetherian schemes,
+with $Y=\operatorname{Spec} A$, and let $F$ be quasicoherent. For every point $y \in Y$ and
+every $i$, there is a natural isomorphism
 
-`H^i(X_y,F_y) ≅ H^i(X,F tensor_{O_Y} k(y))`.
+$H^i(X_y,F_y) \cong H^i(X,F \otimes _{\mathcal{O}_Y} k(y))$.
 
-On the right, regard `k(y)` as an `A`-module, take its associated
-quasicoherent module on `Y`, pull that module sheaf back along `f`, and tensor
-it with `F` on `X`. It is not an unrelated constant sheaf on `X`.
+On the right, regard $k(y)$ as an $A$-module, take its associated
+quasicoherent module on $Y$, pull that module sheaf back along $f$, and tensor
+it with $F$ on $X$. It is not an unrelated constant sheaf on $X$.
 
 ## Depends on
 
@@ -24,7 +24,7 @@ it with `F` on `X`. It is not an unrelated constant sheaf on `X`.
 
 ## Proof depends on
 
-- Reduction to the reduced closure of `y`, followed by flat base change to
+- Reduction to the reduced closure of $y$, followed by flat base change to
   its generic point.
 - [Flat base change for higher direct images](flat-base-change-higher-direct-images.md).
 

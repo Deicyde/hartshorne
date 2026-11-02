@@ -6,11 +6,11 @@ origin: cited
 
 # Intersection reduces to pullback along the diagonal
 
-For cycles `Y,Z` on a nonsingular quasi-projective variety `X`,
+For cycles $Y,Z$ on a nonsingular quasi-projective variety $X$,
 
-`Y.Z=Delta^*(Y times Z)`
+$Y\cdot Z=\Delta^*(Y\times Z)$
 
-in `A(X)`, where `Delta:X->X times X` is the diagonal.
+in $A(X)$, where $\Delta :X\to X \times X$ is the diagonal.
 
 ## Depends on
 

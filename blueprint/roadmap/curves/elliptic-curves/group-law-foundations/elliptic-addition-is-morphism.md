@@ -8,11 +8,11 @@ origin: cited
 
 For a pointed elliptic curve, point addition defines a scheme morphism
 
-`mu : X times X -> X`.
+$\mu : X \times X \to X$.
 
 On the complement of the diagonal, the third intersection of the joining
 line with the plane cubic is rational in the coordinates and gives
-`-(P+Q)`. The resulting morphism extends across the diagonal by translating
+$-(P+Q)$. The resulting morphism extends across the diagonal by translating
 one input by a fixed nonzero point.
 
 ## Depends on
@@ -25,7 +25,7 @@ one input by a fixed nonzero point.
 
 - Polynomial division of the cubic intersection equation gives a regular
   third-intersection morphism off the diagonal.
-- For fixed nonzero `Q`, the pair `(P,P+Q)` stays off the diagonal; conjugate
+- For fixed nonzero $Q$, the pair $(P,P+Q)$ stays off the diagonal; conjugate
   by translations to obtain regularity near every diagonal point.
 
 ## Sources

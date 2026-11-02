@@ -9,14 +9,11 @@ mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/StructureSheaf.lean
 
 # The structure sheaf on Proj
 
-At a relevant homogeneous prime `𝔭`, let `S_(𝔭)` be the degree-zero part of
-the homogeneous localization away from `𝔭`.  Sections on an open subset are
-dependent functions into these rings which locally are fractions `a/f` of
+At a relevant homogeneous prime $\mathfrak{p}$, let $S_{(\mathfrak p)}$ be the degree-zero part of
+the homogeneous localization away from $\mathfrak{p}$.  Sections on an open subset are
+dependent functions into these rings which locally are fractions $a/f$ of
 same-degree homogeneous elements.  They form a sheaf, and its stalks are local
-rings, so `Proj S` is a locally ringed space.
-
-Mathlib packages the sheaf as `Proj.structureSheaf` and the locally ringed
-space as the main declaration above.
+rings, so $\operatorname{Proj} S$ is a locally ringed space.
 
 ## Depends on
 
