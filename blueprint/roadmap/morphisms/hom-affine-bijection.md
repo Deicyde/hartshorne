@@ -12,30 +12,31 @@ lean: Hartshorne.homEquivAlgHom
 Let $X$ be any variety and $Y$ an affine variety. Then there is a natural
 bijection
 
-$\alpha:\operatorname{Hom}(X,Y)\longrightarrow\operatorname{Hom}_{k\text{-alg}}(A(Y),\mathcal O(X))$ (Proposition 3.5),
+$\alpha:\operatorname{Hom}(X,Y)\longrightarrow\operatorname{Hom}_{k\text{-alg}}(A(Y),\mathcal O(X))$
+(Hartshorne's Proposition I.3.5),
 
 where the left side is morphisms of varieties and the right side is $k$-algebra
 homomorphisms.
 
-Forward, a morphism pulls regular functions back, and $\mathcal{O} (Y) \cong A(Y)$ by Theorem
-3.2. Backward, given $h : A(Y) \to \mathcal{O} (X)$, write $Y \subseteq \mathbb{A} ^{n}$, let $\overline{x}_{i}$ be the image of
+In one direction, a morphism pulls regular functions back, using
+[the coordinate-ring isomorphism](global-regular-eq-coordinate-ring.md).
+In the other direction, given $h : A(Y) \to \mathcal{O} (X)$, write $Y \subseteq \mathbb{A} ^{n}$, let $\overline{x}_{i}$ be the image of
 $x_{i}$ in $A(Y)$, and set $\psi (P) = (h(\overline{x}_{1})(P), \ldots , h(\overline{x}_{n})(P))$. Its image lands in $Y$
 because any $f \in I(Y)$ satisfies $f(\psi (P)) = h(f)(P) = 0$, and it is a morphism by
-Lemma 3.6.
+[Hartshorne's Lemma I.3.6](morphism-to-affine-criterion.md).
 
-Naturality in both arguments is not part of this node. Hartshorne does not spell
-it out, and the equivalence of categories does need the bijection to be natural
-rather than a family of bijections, so it is proved
-[there](affine-variety-equivalence.md), where the functors it is natural in
-exist. Proving it here would mean stating those functors here.
+The compatibility of these bijections with morphisms in both arguments is
+developed in the
+[equivalence between affine varieties and finitely generated domains](affine-variety-equivalence.md).
 
-## The bijection does not need [Theorem I.3.2(a)](global-regular-eq-coordinate-ring.md)
+## A direct construction of the bijection
 
-Hartshorne phrases the forward map as "pull back regular functions, then apply
-$\mathcal{O} (Y) \cong A(Y)$", which reads as a dependency on part (a). It is not one.
-Precomposing with the map $A(Y) \to \mathcal{O} (Y)$ gives the same map, and nothing in
-either round trip needs it to be injective or surjective. The statement is also
-free of the algebraically closed hypothesis, which (a) does need.
+Hartshorne constructs the forward map by pulling regular functions back
+and applying $\mathcal{O} (Y) \cong A(Y)$. The same map can be defined
+directly by precomposing with $A(Y) \to \mathcal{O} (Y)$.
+The verification of the two inverse constructions does not require this
+last map to be injective or surjective. This direct argument also applies
+without the algebraically closed hypothesis used in Theorem I.3.2(a).
 
 The identity carrying the whole proof is $f(\psi (x)) = h(\overline{f})(x)$ for every
 polynomial $f$, where $\psi (x)_{i} = h(\overline{x}_{i})(x)$. Both sides are $k$-algebra maps out of

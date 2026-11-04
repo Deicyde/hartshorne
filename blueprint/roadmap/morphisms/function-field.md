@@ -17,19 +17,20 @@ the *rational functions* on $Y$.
 $K(Y)$ is a field. Addition and multiplication are defined because $Y$ is
 irreducible, so any two nonempty open sets meet; inverses exist because a nonzero
 $(U, f)$ restricts to $V = U \setminus Z(f)$, which is nonempty and on which $1/f$ is
-regular. Irreducibility is doing real work here and is the reason Hartshorne's
-varieties are irreducible by definition.
+regular. Irreducibility guarantees the nonempty intersections and restrictions
+needed in this construction.
 
-Note that $K(Y)$ is defined without reference to $\mathcal{O} _P$: both are equivalence
+$K(Y)$ is defined without reference to $\mathcal{O} _P$: both are equivalence
 classes of pairs $(U, f)$, differing only in whether $U$ is required to contain a
 fixed point. The comparison between them is
-[a separate article](function-field-injections.md), so this node depends on
-neither the local ring nor the global sections.
+[the canonical injections into the function field](function-field-injections.md).
 
 ## The same construction for an arbitrary variety
 
-[Theorem I.3.4(c)](projective-rings/projective-function-field.md) needs $K(Y)$ for a projective $Y$, so the construction is redone
-for an arbitrary variety. See [the general construction](function-field-abstract.md).
+The same construction applies to an arbitrary variety, including the
+projective varieties of
+[Hartshorne's Theorem I.3.4(c)](projective-rings/projective-function-field.md).
+See [the general construction](function-field-abstract.md).
 
 ## Depends on
 

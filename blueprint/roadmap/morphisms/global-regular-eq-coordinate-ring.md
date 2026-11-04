@@ -10,10 +10,14 @@ lean: Hartshorne.coordinateRingEquivGlobalRegular
 # The coordinate ring is the ring of regular functions
 
 For an affine variety $Y$, the map $\alpha : A(Y) \to \mathcal{O} (Y)$ sending a polynomial class
-to the function it defines is an isomorphism of $k$-algebras (Theorem 3.2(a)).
+to the function it defines is an isomorphism of $k$-algebras
+(Hartshorne's Theorem I.3.2(a)).
 
-This is the part of Theorem 3.2 the rest of §3 actually consumes: [Proposition I.3.5](hom-affine-bijection.md) is stated as a bijection $\operatorname{Hom}(X,Y)\cong\operatorname{Hom}_{k\text{-alg}}(A(Y),\mathcal O(X))$, and it is
-$\alpha$ that lets the two sides be compared at all.
+The isomorphism identifies polynomial classes with regular functions.
+It is used in the description of
+[morphisms into an affine variety](hom-affine-bijection.md), where the
+coordinate ring of the target is compared with regular functions on
+the source.
 
 Injectivity is the correspondence of §1 pushed through the quotient: a
 polynomial defining the zero function on $Y$ lies in $I(Y)$.
@@ -26,7 +30,7 @@ their identification with localisations of $A(Y)$, and one fact he takes from
 outside: that a domain is the intersection of its localisations at all maximal
 ideals.
 
-None of it is needed. Given a regular $f$, take the *ideal of denominators*
+An alternative proof uses the *ideal of denominators* of a regular function $f$:
 
 $\mathfrak a=\{a\in A(Y):af\text{ is a polynomial function}\}$.
 
@@ -36,10 +40,10 @@ principle makes them agree everywhere: $\overline{h} \in \mathfrak{a}$, and $\ov
 maximal ideal, since every maximal ideal is some $\mathfrak{m} _P$ by part (b), and hence
 $\mathfrak{a} = A(Y)$. Then $1 \in \mathfrak{a}$, which says exactly that $f$ is a polynomial function.
 
-The two ingredients, the identity principle and part (b), were already
-available, so this node costs nothing beyond assembling them. It also breaks the
-dependency of (a) on (c), which was the reason (a) had been sitting behind the
-still-open dimension clause.
+This argument uses the identity principle and
+[the correspondence between points and maximal ideals](points-eq-maximal-ideals.md).
+It establishes surjectivity without the dimension statement in
+Hartshorne's Theorem I.3.2(c).
 
 Irreducibility of $Y$ enters exactly once, to make the identity principle
 available.

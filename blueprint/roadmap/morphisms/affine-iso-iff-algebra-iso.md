@@ -10,28 +10,27 @@ lean: Hartshorne.nonempty_isIso_iff_nonempty_algEquiv
 # Isomorphism via coordinate rings
 
 Two affine varieties $X$ and $Y$ are isomorphic if and only if $A(X)$ and $A(Y)$
-are isomorphic as $k$-algebras (Corollary 3.7).
+are isomorphic as $k$-algebras (Hartshorne's Corollary I.3.7).
 
-Immediate from the bijection of the previous node applied in both directions,
-together with the fact that $\alpha$ respects composition and identities, so it
+Apply the [morphism–algebra correspondence](hom-affine-bijection.md) in both
+directions. Because $\alpha$ respects composition and identities, it
 carries inverse pairs to inverse pairs.
 
-Making "respects composition" precise is the only work. The map of [Proposition I.3.5](hom-affine-bijection.md) factors as pullback of regular functions precomposed with $A(Y) \cong \mathcal{O} (Y)$
+The map of [Proposition I.3.5](hom-affine-bijection.md) factors as pullback of regular functions precomposed with $A(Y) \cong \mathcal{O} (Y)$
 and pullback is contravariantly functorial, so
 functoriality of the bijection is functoriality of pullback. Forward, that turns
 a two-sided inverse pair of morphisms into one of algebras directly. Backward, it
 lets the two composites be recognised as identities by comparing their images
 under an injective map.
 
-That backward direction is where the definition of isomorphism earns its
-awkwardness. Exercise 3.2 shows a bijective bicontinuous morphism need not be an
-isomorphism, so what has to be produced is a two-sided *inverse morphism*, and
-[Proposition I.3.5](hom-affine-bijection.md) is what produces one.
+In the backward direction, the inverse must itself be a morphism.
+Hartshorne's Exercise I.3.2 shows that a bijective bicontinuous morphism
+need not be an isomorphism. The bijection in
+[Proposition I.3.5](hom-affine-bijection.md) produces a two-sided inverse morphism.
 
-Worth stating separately because it is the concrete form the equivalence takes
-in practice, and because it is the statement Hartshorne's exercises invoke — for
-instance to distinguish the conics $y = x^{2}$ and $xy = 1$, whose coordinate rings
-are $k[t]$ and $k[t, t^{-1}]$.
+The criterion gives a concrete way to distinguish varieties. For
+instance, the conics $y = x^{2}$ and $xy = 1$ have coordinate rings
+$k[t]$ and $k[t, t^{-1}]$, respectively.
 
 ## Depends on
 

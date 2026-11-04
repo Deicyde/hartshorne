@@ -17,8 +17,12 @@ and proves that the global ring is the intersection of all the local rings.
 The injections, bundled algebra maps, and intersection formula are
 formalized in this project.
 
-For an affine variety, Theorem 3.2 computes these rings from $A(Y)$ and its
-localizations. For a projective variety, Theorem 3.4 gives $\mathcal{O} (Y) = k$;
+For an affine variety, Hartshorne's Theorem I.3.2 computes these rings
+from $A(Y)$ and its localizations; see
+[the coordinate-ring description](global-regular-eq-coordinate-ring.md) and
+[the local ring and function field](affine-variety-rings.md).
+For a projective variety,
+[Theorem I.3.4(a)](projective-rings/projective-global-regular.md) gives $\mathcal{O} (Y) = k$;
 the local data is described through graded localizations of $S(Y)$.
 [Corollary I.3.8](affine-variety-equivalence.md) concludes with an arrow-reversing equivalence between affine
 varieties over $k$ and finitely generated integral domains over $k$.
