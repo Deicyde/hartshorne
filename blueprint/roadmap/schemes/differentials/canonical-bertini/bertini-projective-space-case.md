@@ -2,6 +2,9 @@
 article_id: af_17f7dc9756447de8a8a05c90
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.nonempty_iso_hyperplaneSection Hartshorne.hyperplaneSection_isRegular Hartshorne.hyperplaneSection Hartshorne.hyperplaneSectionι Hartshorne.hyperplaneIdeal Hartshorne.projectiveSpaceScheme_isRegular
 ---
 
 # The projective-space case of Bertini
