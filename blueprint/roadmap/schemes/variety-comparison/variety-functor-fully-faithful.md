@@ -2,6 +2,9 @@
 article_id: af_a896c68bfa7d7ac69130a777
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.varietyToSchemeFunctor_map_bijective Hartshorne.varietyToSchemeFunctor_faithful Hartshorne.varietyToSchemeFunctor_full Hartshorne.VarietyHom.associatedSchemeHom_injective Hartshorne.VarietyHom.ofSchemeHom Hartshorne.VarietyHom.associatedSchemeHom_ofSchemeHom
 ---
 
 # The variety-to-scheme functor is fully faithful
