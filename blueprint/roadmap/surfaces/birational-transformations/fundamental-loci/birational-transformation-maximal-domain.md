@@ -13,9 +13,7 @@ For a birational transformation $T:X \dashrightarrow Y$ of projective
 varieties, compatible morphism representatives glue to a unique largest open
 subscheme $\operatorname{Dom}(T)$ on which $T$ is a morphism. Define the fundamental locus
 to be the closed-set complement $X\setminus\operatorname{Dom}(T)$ and its closed points to be
-the fundamental points of $T$. The same gluing works for any rational map from a reduced
-scheme to a separated scheme, with the fundamental locus and fundamental points
-defined in the same way.
+the fundamental points of $T$.
 
 ## Depends on
 
