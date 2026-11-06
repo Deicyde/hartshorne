@@ -2,6 +2,9 @@
 article_id: af_42de77499f808ebd72313434
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_finiteFree_quasiIso_of_isStrictlyLE
 ---
 
 # Replacing a bounded-above complex by finite free modules
