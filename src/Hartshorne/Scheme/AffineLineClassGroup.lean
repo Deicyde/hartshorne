@@ -198,7 +198,7 @@ ideal preserves the normalized valuation, via any compatible map of fraction fie
 theorem ordFrac_map_of_map_maximalIdeal_eq {A B K L : Type*} [CommRing A] [IsDomain A]
     [IsDiscreteValuationRing A] [CommRing B] [IsDomain B] [IsDiscreteValuationRing B] [Field K]
     [Algebra A K] [IsFractionRing A K] [Field L] [Algebra B L] [IsFractionRing B L]
-    (φ : A →+* B) [IsLocalHom φ] (ψ : K →+* L)
+    (φ : A →+* B) (ψ : K →+* L)
     (hψ : ∀ a, ψ (algebraMap A K a) = algebraMap B L (φ a))
     (hm : (maximalIdeal A).map φ = maximalIdeal B) (k : K) :
     Ring.ordFrac B (ψ k) = Ring.ordFrac A k := by
@@ -1337,8 +1337,7 @@ variable {X}
 omit [IsNoetherian X] in
 /-- In a chart, pulling back along the projection and then restricting to the chart is pulling
 back along the inclusion of constants. -/
-theorem affineLineChart_functionFieldMap {R : CommRingCat.{u}} [IsDomain R] [IsNoetherianRing R]
-    {f : Spec R ⟶ X}
+theorem affineLineChart_functionFieldMap {R : CommRingCat.{u}} [IsDomain R] {f : Spec R ⟶ X}
     [IsOpenImmersion f] {g : Spec (CommRingCat.of R[X]) ⟶ 𝔸(PUnit.{u + 1}; X)}
     (pb : IsPullback g (Spec.map (CommRingCat.ofHom (C : R →+* R[X]))) (𝔸(PUnit.{u + 1}; X) ↘ X) f)
     (f' : X.functionField) :
