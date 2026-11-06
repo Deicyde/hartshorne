@@ -2,7 +2,8 @@
 Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Hartshorne.Intersection.ProjectiveDegreePositive
+import Hartshorne.Intersection.NumericalBinomial
+import Hartshorne.Intersection.ProjectiveHilbertPolynomial
 import Hartshorne.Scheme.WeilDivisor
 import Mathlib.AlgebraicGeometry.Morphisms.Affine
 import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Proper
@@ -44,6 +45,16 @@ attribute [local instance] MvPolynomial.gradedAlgebra
 
 variable {k : Type u} [Field k] [IsAlgClosed k] {n : ℕ}
 
+/-- Projective degree is an integer: it is the top coefficient of the integral binomial-basis
+expansion of the numerical Hilbert polynomial. -/
+private theorem exists_intCast_eq_projectiveDegree
+    (Y : Set (ProjectiveSpace k (Fin (n + 1)))) :
+    ∃ d : ℤ, projectiveDegree Y = (d : ℚ) := by
+  obtain ⟨c, _, _, htop⟩ :=
+    (isNumericalPolynomial_iff_exists_binomialExpansion (projectiveHilbertPolynomial Y)).mp
+      (projectiveHilbertPolynomial_isHilbertPolynomial Y).1
+  exact ⟨c (projectiveHilbertPolynomial Y).natDegree, htop⟩
+
 /-- The degree of the closure of a point `x` of `ℙⁿ_k = Proj k[x₀, ..., xₙ]`: the projective
 degree of the classical algebraic set `Z(𝔭)` cut out by the homogeneous prime `𝔭` of `x`. -/
 def projectiveSpectrumPointDegree
@@ -56,7 +67,7 @@ theorem projectiveSpectrumPointDegree_cast
     (projectiveSpectrumPointDegree x : ℚ) =
       projectiveDegree
         (projZeroSet (x.asHomogeneousIdeal : Set (MvPolynomial (Fin (n + 1)) k))) := by
-  obtain ⟨d, hd⟩ := projectiveDegree_eq_intCast
+  obtain ⟨d, hd⟩ := exists_intCast_eq_projectiveDegree
     (projZeroSet (x.asHomogeneousIdeal : Set (MvPolynomial (Fin (n + 1)) k)))
   rw [projectiveSpectrumPointDegree, hd, Int.floor_intCast]
 

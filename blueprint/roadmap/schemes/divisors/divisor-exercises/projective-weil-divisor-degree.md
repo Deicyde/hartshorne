@@ -18,6 +18,10 @@ $\deg D = \sum _i n_i \cdot \deg Y_i$,
 where each prime divisor is given its projective degree in the fixed
 embedding of $X$.
 
+The same formula defines the degree for any closed subscheme $X$ of $\mathbb{P}^n_k$;
+the hypotheses that $X$ is a variety nonsingular in codimension one serve only to make
+$\operatorname{Div} X$ the divisor group of Hartshorne's §6.
+
 This is the preamble of Exercise 6.2. The unique completion criterion is the
 additive degree homomorphism $\operatorname{Div} X \to Z$; its invariance under linear
 equivalence belongs to the excluded part (d), not to this node.
