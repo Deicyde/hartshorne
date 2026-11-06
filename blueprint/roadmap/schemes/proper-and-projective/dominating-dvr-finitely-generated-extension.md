@@ -2,6 +2,9 @@
 article_id: af_f3a7028c4c4728ad41df66fb
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_dominating_dvr_of_fg
 ---
 
 # A dominating DVR in a finitely generated extension
@@ -14,6 +17,8 @@ dominates the image of $A$ in $L$.
 This is the project-authored repair of Exercise 4.11(a) used by the geometric
 criterion. Without the nonzero-maximal-ideal hypothesis, the literal statement
 is false when $A$ is a field and $L=K$.
+That $A$ is a domain also follows from its having the fraction field $K$, so
+the proof never invokes that hypothesis separately.
 
 Adjoin a transcendence basis and localize a polynomial ring over $A$ to reduce
 to the case that $L$ is finite over the new fraction field. Apply the
