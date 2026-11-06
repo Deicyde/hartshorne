@@ -451,3 +451,4 @@ import Hartshorne.Scheme.LocallyFactorialWeilCartier
 import Hartshorne.Cohomology.FlatFamilies.FlatFibreLocalDimension
 import Hartshorne.Scheme.SerreNormalityCriterion
 import Hartshorne.Scheme.VarietyRestrictedSheaf
+import Hartshorne.Scheme.ProjectiveSpaceHyperplane
