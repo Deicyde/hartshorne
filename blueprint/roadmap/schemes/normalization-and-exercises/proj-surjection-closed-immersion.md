@@ -2,6 +2,9 @@
 article_id: af_e0b7dccf69594036648fa59f
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.projPartialDomain_eq_top_of_surjective Hartshorne.isClosedImmersion_projPartialMap_of_surjective Hartshorne.isClosedImmersion_projPartialMap_comp_top_of_surjective
 ---
 
 # A graded quotient induces a closed immersion of Proj
