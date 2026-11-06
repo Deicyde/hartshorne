@@ -46,13 +46,12 @@ theorem isIntegrallyClosed_sections_of_isNormal (Z : Scheme.{u}) [IsIntegral Z] 
   exact IsIntegrallyClosed.of_equiv e.symm.toRingEquiv
 
 /-- A dominant morphism of integral schemes sends the generic point to the generic point. -/
-theorem map_genericPoint_of_isDominant {X Z : Scheme.{u}} [IsIntegral X] [IsIntegral Z]
+private theorem map_genericPoint_of_isDominant {X Z : Scheme.{u}} [IsIntegral X] [IsIntegral Z]
     (f : Z ⟶ X) [IsDominant f] : f (genericPoint Z) = genericPoint X := by
   apply ((genericPoint_spec X).eq _).symm
   have h := (genericPoint_spec Z).image f.continuous
   rw [Set.image_univ, f.denseRange.closure_range] at h
   exact h
-
 
 /-- A normal integral scheme is its own normalization inside its function field. -/
 instance isIso_fromNormalization_of_isNormal (Z : Scheme.{u}) [IsIntegral Z] [IsNormal Z] :
@@ -94,11 +93,10 @@ instance isIso_fromNormalization_of_isNormal (Z : Scheme.{u}) [IsIntegral Z] [Is
     have hx : x ∈ V := Z.affineCover.covers x
     exact TopologicalSpace.Opens.mem_iSup.mpr ⟨⟨⟨V, isAffineOpen_opensRange _⟩, ⟨⟨x, hx⟩⟩⟩, hx⟩
 
-
 /-- A dominant morphism of integral schemes is compatible, at the generic points, with a
 morphism of function fields. -/
-theorem genericMap_comp_eq_SpecMap {X Z : Scheme.{u}} [IsIntegral X] [IsIntegral Z]
-    (f : Z ⟶ X) [IsDominant f] :
+theorem absoluteNormalizationGenericMap_comp_eq_SpecMap {X Z : Scheme.{u}} [IsIntegral X]
+    [IsIntegral Z] (f : Z ⟶ X) [IsDominant f] :
     ∃ φ : X.functionField ⟶ Z.functionField,
       absoluteNormalizationGenericMap Z ≫ f =
         Spec.map φ ≫ absoluteNormalizationGenericMap X := by
@@ -111,7 +109,7 @@ theorem genericMap_comp_eq_SpecMap {X Z : Scheme.{u}} [IsIntegral X] [IsIntegral
 
 /-- Two ring maps into a domain that agree on `ρ`, with `ρ` followed by them injective, agree
 when every element of the source becomes a quotient of elements in the image of `ρ`. -/
-theorem ringHom_eq_of_cancel {A B T : Type*} [CommRing A] [CommRing B] [CommRing T]
+private theorem ringHom_eq_of_cancel {A B T : Type*} [CommRing A] [CommRing B] [CommRing T]
     [IsDomain T] (ρ : A →+* B) (u v : B →+* T) (huv : u.comp ρ = v.comp ρ)
     (hinj : Function.Injective (u.comp ρ))
     (hloc : ∀ t : B, ∃ a s, s ≠ 0 ∧ ρ s * t = ρ a) : u = v := by
@@ -124,7 +122,7 @@ theorem ringHom_eq_of_cancel {A B T : Type*} [CommRing A] [CommRing B] [CommRing
 
 /-- Two morphisms from the spectrum of a domain agreeing after `p` are equal when they land in
 the affine preimage of an affine open over which `p` is a ring extension inside fractions. -/
-theorem eq_of_comp_eq_of_isAffineOpen {Y X : Scheme.{u}} (p : Y ⟶ X) {U : X.Opens}
+private theorem eq_of_comp_eq_of_isAffineOpen {Y X : Scheme.{u}} (p : Y ⟶ X) {U : X.Opens}
     (hV : IsAffineOpen (p ⁻¹ᵁ U)) {R : CommRingCat.{u}} [IsDomain R] {a₁ a₂ : Spec R ⟶ Y}
     (b : Spec R ⟶ X) (hb₁ : a₁ ≫ p = b) (hb₂ : a₂ ≫ p = b) (hbU : b ⁻¹ᵁ U = ⊤)
     (hinj : Function.Injective (b.appLE U ⊤ hbU.ge))
@@ -145,7 +143,6 @@ theorem eq_of_comp_eq_of_isAffineOpen {Y X : Scheme.{u}} (p : Y ⟶ X) {U : X.Op
   rw [← cancel_epi (Spec R).isoSpec.inv, ← IsAffineOpen.fromSpec_top,
     ← IsAffineOpen.SpecMap_appLE_fromSpec a₁ hV (isAffineOpen_top _) h₁.ge,
     ← IsAffineOpen.SpecMap_appLE_fromSpec a₂ hV (isAffineOpen_top _) h₂.ge, key]
-
 
 /-- Over a nonempty affine open, every section of the normalization is a quotient of sections
 of the base. -/
@@ -182,7 +179,6 @@ theorem absoluteNormalizationMap_app_exists_mul_eq (X : Scheme.{u}) [IsIntegral 
         (s : Γ(X, U)) * w) := by rw [map_mul]; simp [w]
     _ = _ := by rw [h']
 
-
 /-- Sections over a nonempty open inject into the sections pulled back to the generic point. -/
 theorem absoluteNormalizationGenericMap_app_injective (X : Scheme.{u}) [IsIntegral X]
     (U : X.Opens) [Nonempty U] :
@@ -197,7 +193,7 @@ theorem absoluteNormalizationGenericMap_app_injective (X : Scheme.{u}) [IsIntegr
 
 /-- A morphism from the spectrum of a domain that factors through the generic point is injective
 on sections over a nonempty open. -/
-theorem comp_genericMap_appLE_injective {X : Scheme.{u}} [IsIntegral X]
+theorem comp_absoluteNormalizationGenericMap_appLE_injective {X : Scheme.{u}} [IsIntegral X]
     {K : CommRingCat.{u}} [IsDomain K] (c : Spec K ⟶ Spec X.functionField) (U : X.Opens)
     [Nonempty U] (h : (c ≫ absoluteNormalizationGenericMap X) ⁻¹ᵁ U = ⊤) :
     Function.Injective ((c ≫ absoluteNormalizationGenericMap X).appLE U ⊤ h.ge) := by
@@ -238,7 +234,7 @@ normalization. -/
 theorem absoluteNormalization_existsUnique_lift {X Z : Scheme.{u}} [IsIntegral X]
     [IsIntegral Z] [IsNormal Z] (f : Z ⟶ X) [IsDominant f] :
     ∃! g : Z ⟶ absoluteNormalization X, g ≫ absoluteNormalizationMap X = f := by
-  obtain ⟨φ, hφ⟩ := genericMap_comp_eq_SpecMap f
+  obtain ⟨φ, hφ⟩ := absoluteNormalizationGenericMap_comp_eq_SpecMap f
   let ηZ := absoluteNormalizationGenericMap Z
   let ηX := absoluteNormalizationGenericMap X
   let ν := absoluteNormalizationMap X
@@ -263,7 +259,7 @@ theorem absoluteNormalization_existsUnique_lift {X Z : Scheme.{u}} [IsIntegral X
     refine ext_of_isDominant_of_isSeparated ν (hg₁.trans hg₂.symm) ηZ ?_
     exact eq_of_comp_eq_of_isAffineOpen ν (hU.preimage ν) (Spec.map φ ≫ ηX)
       (by rw [Category.assoc, hg₁, hφ]) (by rw [Category.assoc, hg₂, hφ]) hbU
-      (comp_genericMap_appLE_injective (Spec.map φ) U hbU)
+      (comp_absoluteNormalizationGenericMap_appLE_injective (Spec.map φ) U hbU)
       (absoluteNormalizationMap_app_exists_mul_eq X hU)
   refine ⟨inv ηZ.fromNormalization ≫ d ≫ pullback.snd f ν, ?_, fun g hg ↦ uniq _ _ hg ?_⟩ <;>
   · simp only [Category.assoc]
