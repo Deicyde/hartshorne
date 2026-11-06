@@ -1040,4 +1040,622 @@ theorem Scheme.affineLineClassGroupHom_weilDivisorClassHom (hX : X.SatisfiesCond
 
 end ClassGroupMap
 
+/-- The polynomial ring over a domain, as a commutative ring, is a domain. -/
+instance affineLineChart_isDomain (R : CommRingCat.{u}) [IsDomain R] :
+    IsDomain (CommRingCat.of R[X]) :=
+  inferInstanceAs (IsDomain R[X])
+
+section Chart
+
+attribute [local instance] Polynomial.algebra
+
+variable {X : Scheme.{u}} [IsNoetherian X] [IsIntegral X]
+  {R : CommRingCat.{u}} [IsDomain R] [IsNoetherianRing R] {f : Spec R ⟶ X} [IsOpenImmersion f]
+  {g : Spec (CommRingCat.of R[X]) ⟶ 𝔸(PUnit.{u + 1}; X)}
+  (pb : IsPullback g (Spec.map (CommRingCat.ofHom (C : R →+* R[X]))) (𝔸(PUnit.{u + 1}; X) ↘ X) f)
+
+include pb
+
+theorem affineLineChart_isOpenImmersion : IsOpenImmersion g :=
+  isOpenImmersion_of_affineLine_chart inferInstance pb
+
+theorem affineLineChart_genericPoint :
+    g.base (genericPoint (Spec (CommRingCat.of R[X]))) = genericPoint 𝔸(PUnit.{u + 1}; X) := by
+  have := affineLineChart_isOpenImmersion pb
+  exact genericPoint_eq_of_isOpenImmersion g
+
+/-- The affine chart of the relative affine line satisfies `(*)`. -/
+theorem affineLineChart_satisfiesConditionStar (hX : X.SatisfiesConditionStar) :
+    (Spec (CommRingCat.of R[X])).SatisfiesConditionStar := by
+  have := affineLineChart_isOpenImmersion pb
+  exact ⟨inferInstance, inferInstance, inferInstance,
+    hX.affineLine.isRegularInCodimensionOne.of_isOpenImmersion g⟩
+
+/-- Horizontal codimension-one points of the relative affine line lie in the chart, over the
+generic point of `Spec R`. -/
+theorem affineLineChart_exists_of_horizontal {w : 𝔸(PUnit.{u + 1}; X)}
+    (hw : Order.coheight w = 1) (hπ : (𝔸(PUnit.{u + 1}; X) ↘ X).base w = genericPoint X) :
+    ∃ P : Spec (CommRingCat.of R[X]), g.base P = w ∧ P.asIdeal.comap C = ⊥ ∧
+      P.asIdeal.height = 1 := by
+  have hf : f.base (genericPoint (Spec R)) = genericPoint X := genericPoint_eq_of_isOpenImmersion f
+  obtain ⟨P, rfl, hP⟩ := Scheme.exists_preimage_of_isPullback pb w (genericPoint (Spec R))
+    (hπ.trans hf.symm)
+  refine ⟨P, rfl, ?_, ?_⟩
+  · have := congrArg PrimeSpectrum.asIdeal hP
+    rw [genericPoint_eq_bot_of_affine] at this
+    exact this
+  · rw [← (affineLine_chart_point inferInstance pb P).1]
+    exact hw
+
+/-- Conversely, chart points over the generic point of `Spec R` of height one are horizontal
+codimension-one points. -/
+theorem affineLineChart_horizontal {P : Spec (CommRingCat.of R[X])}
+    (hP : P.asIdeal.comap C = ⊥) (hP1 : P.asIdeal.height = 1) :
+    Order.coheight (g.base P) = 1 ∧
+      (𝔸(PUnit.{u + 1}; X) ↘ X).base (g.base P) = genericPoint X := by
+  obtain ⟨a, b, -⟩ := affineLine_chart_point inferInstance pb P
+  refine ⟨a.trans hP1, ?_⟩
+  rw [b, ← genericPoint_eq_of_isOpenImmersion f, genericPoint_eq_bot_of_affine]
+  congr 1
+  apply PrimeSpectrum.ext
+  exact hP
+
+/-- Order of vanishing can be computed in the chart. -/
+theorem affineLineChart_ord (hX : X.SatisfiesConditionStar) (P : Spec (CommRingCat.of R[X]))
+    (F : 𝔸(PUnit.{u + 1}; X).functionField) :
+    Scheme.ord (g.genericFunctionFieldMap (affineLineChart_genericPoint pb) F) P =
+      Scheme.ord F (g.base P) := by
+  have := affineLineChart_isOpenImmersion pb
+  have hY := hX.affineLine
+  have : IsNoetherian 𝔸(PUnit.{u + 1}; X) := hY.isNoetherian
+  by_cases hP : Order.coheight P = 1
+  · have hgP : Order.coheight (g.base P) = 1 := by
+      rw [coheight_eq_of_isOpenImmersion]; exact hP
+    exact Scheme.ord_genericFunctionFieldMap (affineLineChart_satisfiesConditionStar pb hX) hY g _
+      hP hgP (g.map_maximalIdeal_stalkMap_of_isOpenImmersion P) F
+  · have hgP : Order.coheight (g.base P) ≠ 1 := by
+      rw [coheight_eq_of_isOpenImmersion]; exact hP
+    rw [Scheme.ord_eq_zero_of_coheight_neq_one hP, Scheme.ord_eq_zero_of_coheight_neq_one hgP]
+
+/-- The function-field map of the chart is surjective. -/
+theorem affineLineChart_genericFunctionFieldMap_surjective :
+    Function.Surjective (g.genericFunctionFieldMap (affineLineChart_genericPoint pb)) := by
+  have := affineLineChart_isOpenImmersion pb
+  have : IsIso (𝔸(PUnit.{u + 1}; X).presheaf.stalkSpecializes
+      (Inseparable.of_eq (affineLineChart_genericPoint pb)).specializes) :=
+    (𝔸(PUnit.{u + 1}; X).presheaf.stalkCongr
+      (Inseparable.of_eq (affineLineChart_genericPoint pb))).isIso_inv
+  have : IsIso (g.genericFunctionFieldMap (affineLineChart_genericPoint pb)) := by
+    unfold Scheme.Hom.genericFunctionFieldMap
+    infer_instance
+  exact (asIso (g.genericFunctionFieldMap (affineLineChart_genericPoint pb))
+    ).commRingCatIsoToRingEquiv.surjective
+
+end Chart
+
+section ChartAlgebra
+
+attribute [local instance] Polynomial.algebra
+
+variable {R : CommRingCat.{u}} [IsDomain R]
+
+theorem affineLineChart_base_genericPoint :
+    (Spec.map (CommRingCat.ofHom (C : R →+* R[X]))).base (genericPoint (Spec (CommRingCat.of R[X]))) =
+      genericPoint (Spec R) := by
+  rw [genericPoint_eq_bot_of_affine, genericPoint_eq_bot_of_affine]
+  apply PrimeSpectrum.ext
+  change (⊥ : Ideal R[X]).comap C = ⊥
+  rw [Ideal.comap_bot_of_injective _ (Polynomial.C_injective)]
+
+/-- Points of `Spec R[X]` are prime ideals. -/
+instance affineLineChart_isPrime (P : Spec (CommRingCat.of R[X])) : P.asIdeal.IsPrime :=
+  P.isPrime
+
+/-- The structure maps of `Spec R` to its stalks and function field are compatible. -/
+theorem spec_algebraMap_stalk_toStalk {A : CommRingCat.{u}} [IsDomain A] (x : Spec A) (a : A) :
+    algebraMap ((Spec A).presheaf.stalk x) (Spec A).functionField
+      (StructureSheaf.toStalk A x a) = algebraMap A (Spec A).functionField a :=
+  RingHom.congr_fun (congrArg CommRingCat.Hom.hom (StructureSheaf.toStalk_stalkSpecializes
+    ((genericPoint_spec (Spec A)).specializes (Set.mem_univ x)))) a
+
+variable (R) in
+/-- The structure map of `R[X]` into the function field of `Spec R[X]`. -/
+noncomputable abbrev affineLineChartBaseAlgebra :
+    Algebra R[X] (Spec (CommRingCat.of R[X])).functionField :=
+  (StructureSheaf.toStalk R[X] (genericPoint (Spec (CommRingCat.of R[X])))).hom.toAlgebra
+
+/-- The structure map of `R[X]` into a stalk of `Spec R[X]`. -/
+noncomputable abbrev affineLineChartStalkAlgebra (P : Spec (CommRingCat.of R[X])) :
+    Algebra R[X] ((Spec (CommRingCat.of R[X])).presheaf.stalk P) :=
+  StructureSheaf.stalkAlgebra R[X] P
+
+attribute [local instance] affineLineChartBaseAlgebra affineLineChartStalkAlgebra
+  Hartshorne.isLocalization_nonzeroConstants
+
+theorem affineLineChart_isFractionRing :
+    IsFractionRing R[X] (Spec (CommRingCat.of R[X])).functionField :=
+  functionField_isFractionRing_of_affine (CommRingCat.of R[X])
+
+theorem affineLineChart_isLocalization (P : Spec (CommRingCat.of R[X])) :
+    IsLocalization.AtPrime ((Spec (CommRingCat.of R[X])).presheaf.stalk P) P.asIdeal :=
+  StructureSheaf.IsLocalization.to_stalk R[X] P
+
+theorem affineLineChart_isScalarTower (P : Spec (CommRingCat.of R[X])) :
+    IsScalarTower R[X] ((Spec (CommRingCat.of R[X])).presheaf.stalk P)
+      (Spec (CommRingCat.of R[X])).functionField :=
+  IsScalarTower.of_algebraMap_eq fun s ↦ (spec_algebraMap_stalk_toStalk P s).symm
+
+attribute [local instance] affineLineChart_isFractionRing affineLineChart_isLocalization
+  affineLineChart_isScalarTower
+
+theorem affineLineChart_isUnit (y : Hartshorne.nonzeroConstants R) :
+    IsUnit (algebraMap R[X] (Spec (CommRingCat.of R[X])).functionField y) := by
+  have : (y : R[X]) ≠ 0 := by
+    obtain ⟨r, hr, hy⟩ := y.2
+    rw [← hy]
+    exact Polynomial.C_ne_zero.mpr (nonZeroDivisors.ne_zero hr)
+  have h : algebraMap R[X] (Spec (CommRingCat.of R[X])).functionField y ≠ 0 :=
+    IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors (mem_nonZeroDivisors_of_ne_zero this)
+  exact h.isUnit
+
+variable (R) in
+/-- The polynomial ring over the function field of `Spec R` maps to the function field of
+`Spec R[X]`. -/
+noncomputable abbrev affineLineChartAlgebra :
+    Algebra (Spec R).functionField[X] (Spec (CommRingCat.of R[X])).functionField :=
+  (IsLocalization.lift (M := Hartshorne.nonzeroConstants R) (S := (Spec R).functionField[X])
+    (affineLineChart_isUnit (R := R))).toAlgebra
+
+attribute [local instance] affineLineChartAlgebra
+
+theorem affineLineChart_isScalarTower' :
+    IsScalarTower R[X] (Spec R).functionField[X] (Spec (CommRingCat.of R[X])).functionField :=
+  IsScalarTower.of_algebraMap_eq fun s ↦ (IsLocalization.lift_eq _ s).symm
+
+attribute [local instance] affineLineChart_isScalarTower'
+
+theorem affineLineChart_algebraMap_C (r : R) :
+    algebraMap (Spec R).functionField[X] (Spec (CommRingCat.of R[X])).functionField
+        (C (algebraMap R (Spec R).functionField r)) =
+      algebraMap R[X] (Spec (CommRingCat.of R[X])).functionField (C r) := by
+  rw [IsScalarTower.algebraMap_apply R[X] (Spec R).functionField[X]
+    (Spec (CommRingCat.of R[X])).functionField, Polynomial.algebraMap_def, coe_mapRingHom, map_C]
+
+theorem affineLineChart_isFractionRing' :
+    IsFractionRing (Spec R).functionField[X] (Spec (CommRingCat.of R[X])).functionField :=
+  IsFractionRing.isFractionRing_of_isLocalization (Hartshorne.nonzeroConstants R) _ _
+    (by
+      rintro _ ⟨r, hr, rfl⟩
+      exact mem_nonZeroDivisors_of_ne_zero (Polynomial.C_ne_zero.mpr (nonZeroDivisors.ne_zero hr)))
+
+attribute [local instance] affineLineChart_isFractionRing'
+
+/-- The function-field map of `Spec R[X] → Spec R` is the inclusion of constants. -/
+theorem affineLineChart_baseFunctionFieldMap (c : (Spec R).functionField) :
+    (Spec.map (CommRingCat.ofHom (C : R →+* R[X]))).genericFunctionFieldMap
+        (affineLineChart_base_genericPoint (R := R)) c =
+      algebraMap (Spec R).functionField[X] (Spec (CommRingCat.of R[X])).functionField (C c) := by
+  set h := Spec.map (CommRingCat.ofHom (C : R →+* R[X]))
+  have key : (h.genericFunctionFieldMap (affineLineChart_base_genericPoint (R := R))).hom =
+      (algebraMap (Spec R).functionField[X] (Spec (CommRingCat.of R[X])).functionField).comp C := by
+    apply IsLocalization.ringHom_ext (nonZeroDivisors R)
+    refine RingHom.ext fun r ↦ ?_
+    simp only [RingHom.comp_apply]
+    set ξ := genericPoint (Spec (CommRingCat.of R[X]))
+    have e1 := spec_algebraMap_stalk_toStalk (A := R) (h.base ξ) r
+    have e2 := h.genericFunctionFieldMap_algebraMap (affineLineChart_base_genericPoint (R := R)) ξ
+      (StructureSheaf.toStalk R (h.base ξ) r)
+    have e3 : h.stalkMap ξ (StructureSheaf.toStalk R (h.base ξ) r) =
+        StructureSheaf.toStalk R[X] ξ (C r) :=
+      stalkMap_toStalk_apply (CommRingCat.ofHom (C : R →+* R[X])) ξ r
+    have e4 := spec_algebraMap_stalk_toStalk (A := CommRingCat.of R[X]) ξ (C r)
+    refine (congrArg (h.genericFunctionFieldMap (affineLineChart_base_genericPoint (R := R)))
+      e1).symm.trans ?_
+    refine e2.trans ?_
+    rw [e3]
+    refine e4.trans ?_
+    exact (affineLineChart_algebraMap_C r).symm
+  exact RingHom.congr_fun key c
+
+end ChartAlgebra
+
+section HorizontalDivisors
+
+attribute [local instance] Polynomial.algebra affineLineChartBaseAlgebra affineLineChartStalkAlgebra
+  Hartshorne.isLocalization_nonzeroConstants affineLineChart_isFractionRing
+  affineLineChart_isLocalization affineLineChart_isScalarTower affineLineChartAlgebra
+  affineLineChart_isScalarTower' affineLineChart_isFractionRing'
+
+/-- The function-field map of an open immersion of integral schemes is surjective. -/
+theorem Scheme.Hom.genericFunctionFieldMap_surjective_of_isOpenImmersion {V Y : Scheme.{u}}
+    [IsIntegral V] [IsIntegral Y] (φ : V ⟶ Y) [IsOpenImmersion φ]
+    (h : φ.base (genericPoint V) = genericPoint Y) :
+    Function.Surjective (φ.genericFunctionFieldMap h) := by
+  have : IsIso (Y.presheaf.stalkSpecializes (Inseparable.of_eq h).specializes) :=
+    (Y.presheaf.stalkCongr (Inseparable.of_eq h)).isIso_inv
+  have : IsIso (φ.genericFunctionFieldMap h) := by
+    unfold Scheme.Hom.genericFunctionFieldMap
+    infer_instance
+  exact (asIso (φ.genericFunctionFieldMap h)).commRingCatIsoToRingEquiv.surjective
+
+variable (X : Scheme.{u}) [IsNoetherian X] [IsIntegral X]
+
+/-- An affine chart of the relative affine line over a nonempty affine open of `X`. -/
+theorem exists_affineLine_chart_of_isIntegral :
+    ∃ (R : CommRingCat.{u}) (_ : IsDomain R) (_ : IsNoetherianRing R) (f : Spec R ⟶ X)
+      (_ : IsOpenImmersion f) (g : Spec (CommRingCat.of R[X]) ⟶ 𝔸(PUnit.{u + 1}; X)),
+      IsPullback g (Spec.map (CommRingCat.ofHom (C : R →+* R[X]))) (𝔸(PUnit.{u + 1}; X) ↘ X) f := by
+  obtain ⟨R, f, g, hf, ⟨u, -⟩, pb⟩ := exists_affineLine_chart X (genericPoint X)
+  have : Nonempty (Spec R) := ⟨u⟩
+  have : IsIntegral (Spec R) := isIntegral_of_isOpenImmersion f
+  have : IsLocallyNoetherian (Spec R) := isLocallyNoetherian_of_isOpenImmersion f
+  exact ⟨R, (affine_isIntegral_iff R).mp inferInstance, isLocallyNoetherian_Spec.mp inferInstance,
+    f, hf, g, pb⟩
+
+variable {X}
+
+/-- In a chart, pulling back along the projection and then restricting to the chart is pulling
+back along the inclusion of constants. -/
+theorem affineLineChart_functionFieldMap {R : CommRingCat.{u}} [IsDomain R] [IsNoetherianRing R]
+    {f : Spec R ⟶ X}
+    [IsOpenImmersion f] {g : Spec (CommRingCat.of R[X]) ⟶ 𝔸(PUnit.{u + 1}; X)}
+    (pb : IsPullback g (Spec.map (CommRingCat.ofHom (C : R →+* R[X]))) (𝔸(PUnit.{u + 1}; X) ↘ X) f)
+    (f' : X.functionField) :
+    g.genericFunctionFieldMap (affineLineChart_genericPoint pb) (X.affineLineFunctionFieldMap f') =
+      algebraMap (Spec R).functionField[X] (Spec (CommRingCat.of R[X])).functionField
+        (C (f.genericFunctionFieldMap (genericPoint_eq_of_isOpenImmersion f) f')) := by
+  rw [← affineLineChart_baseFunctionFieldMap]
+  have hgπ : (g ≫ (𝔸(PUnit.{u + 1}; X) ↘ X)).base (genericPoint (Spec (CommRingCat.of R[X]))) =
+      genericPoint X := by
+    rw [Scheme.Hom.comp_apply, affineLineChart_genericPoint pb, affineLine_proj_genericPoint]
+  have hhf : (Spec.map (CommRingCat.ofHom (C : R →+* R[X])) ≫ f).base
+      (genericPoint (Spec (CommRingCat.of R[X]))) = genericPoint X := by
+    rw [← pb.w]; exact hgπ
+  have e1 := Scheme.Hom.genericFunctionFieldMap_comp g (𝔸(PUnit.{u + 1}; X) ↘ X)
+    (affineLineChart_genericPoint pb) (affineLine_proj_genericPoint X) hgπ
+  have e2 := Scheme.Hom.genericFunctionFieldMap_comp (Spec.map (CommRingCat.ofHom (C : R →+* R[X])))
+    f affineLineChart_base_genericPoint (genericPoint_eq_of_isOpenImmersion f) hhf
+  have e3 := Scheme.Hom.genericFunctionFieldMap_congr pb.w hgπ hhf
+  have := ConcreteCategory.congr_hom (e1.symm.trans (e3.trans e2)) f'
+  simp only [CommRingCat.comp_apply] at this
+  exact this
+
+variable (hX : X.SatisfiesConditionStar)
+include hX
+
+/-- **Horizontal prime divisors are principal up to vertical divisors.** For a horizontal prime
+divisor `z` of `𝔸¹_X`, there is a rational function with order one along `z` and order zero along
+every other horizontal prime divisor. -/
+theorem affineLine_exists_ord_horizontal {z : 𝔸(PUnit.{u + 1}; X)} (hz : Order.coheight z = 1)
+    (hπ : (𝔸(PUnit.{u + 1}; X) ↘ X).base z = genericPoint X) :
+    ∃ F : 𝔸(PUnit.{u + 1}; X).functionField, F ≠ 0 ∧ ∀ w : 𝔸(PUnit.{u + 1}; X),
+      Order.coheight w = 1 → (𝔸(PUnit.{u + 1}; X) ↘ X).base w = genericPoint X →
+        (w = z → Scheme.ord F w = 1) ∧ (w ≠ z → Scheme.ord F w = 0) := by
+  obtain ⟨R, _, _, f, _, g, pb⟩ := exists_affineLine_chart_of_isIntegral X
+  have := affineLineChart_isOpenImmersion pb
+  have hS := affineLineChart_satisfiesConditionStar pb hX
+  have : IsNoetherian 𝔸(PUnit.{u + 1}; X) := hX.affineLine.isNoetherian
+  obtain ⟨P, rfl, hP0, hP1⟩ := affineLineChart_exists_of_horizontal pb hz hπ
+  have hdisj := Hartshorne.disjoint_nonzeroConstants hP0
+  set Pe := P.asIdeal.map (algebraMap R[X] (Spec R).functionField[X]) with hPe_def
+  have hPe : Pe.IsPrime := IsLocalization.isPrime_of_isPrime_disjoint
+    (Hartshorne.nonzeroConstants R) _ _ inferInstance hdisj
+  have hPe_comap : Pe.comap (algebraMap R[X] (Spec R).functionField[X]) = P.asIdeal :=
+    IsLocalization.under_map_of_isPrime_disjoint _ _ inferInstance hdisj
+  have hPne : P.asIdeal ≠ ⊥ := by
+    intro h; rw [h, Ideal.height_bot] at hP1; exact zero_ne_one hP1
+  have hPe0 : Pe ≠ ⊥ := by
+    intro h
+    apply hPne
+    have hM : Hartshorne.nonzeroConstants R ≤ nonZeroDivisors R[X] := by
+      rintro _ ⟨r, hr, rfl⟩
+      exact mem_nonZeroDivisors_of_ne_zero (Polynomial.C_ne_zero.mpr (nonZeroDivisors.ne_zero hr))
+    rw [← hPe_comap, h]
+    exact Ideal.comap_bot_of_injective _ (IsLocalization.injective (Spec R).functionField[X] hM)
+  set q := Submodule.IsPrincipal.generator Pe
+  have hq : Ideal.span {q} = Pe := Ideal.span_singleton_generator Pe
+  have hq0 : q ≠ 0 := by
+    intro h; apply hPe0; rw [← hq, h, Ideal.span_singleton_eq_bot]
+  have hqL : algebraMap (Spec R).functionField[X] (Spec (CommRingCat.of R[X])).functionField q ≠ 0 :=
+    IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors (mem_nonZeroDivisors_of_ne_zero hq0)
+  obtain ⟨F, hF⟩ := g.genericFunctionFieldMap_surjective_of_isOpenImmersion
+    (affineLineChart_genericPoint pb)
+    (algebraMap (Spec R).functionField[X] (Spec (CommRingCat.of R[X])).functionField q)
+  refine ⟨F, ?_, ?_⟩
+  · rintro rfl; rw [map_zero] at hF; exact hqL hF.symm
+  intro w hw hπw
+  obtain ⟨P', rfl, hP'0, hP'1⟩ := affineLineChart_exists_of_horizontal pb hw hπw
+  rw [← affineLineChart_ord pb hX P' F, hF]
+  have hP'coh : Order.coheight P' = 1 := by rw [← idealHeight_eq_coheight]; exact hP'1
+  let _ : IsDiscreteValuationRing ((Spec (CommRingCat.of R[X])).presheaf.stalk P') :=
+    (Spec (CommRingCat.of R[X])).codimensionOneStalk_isDiscreteValuationRing hS hP'coh
+  constructor
+  · intro hPP
+    have : P' = P := g.isOpenEmbedding.injective hPP
+    subst this
+    rw [Scheme.ord_eq_iff hP'coh hqL]
+    exact Hartshorne.ordFrac_algebraMap_eq_exp_one_of_span_eq _ P'.asIdeal hP'0 _ _ hq
+  · intro hPP
+    rw [Scheme.ord_eq_iff hP'coh hqL]
+    refine Hartshorne.ordFrac_algebraMap_eq_one_of_notMem _ P'.asIdeal hP'0 _ _ ?_
+    intro hqmem
+    apply hPP
+    congr 1
+    have hdisj' := Hartshorne.disjoint_nonzeroConstants hP'0
+    have hP'e : (P'.asIdeal.map (algebraMap R[X] (Spec R).functionField[X])).IsPrime :=
+      IsLocalization.isPrime_of_isPrime_disjoint (Hartshorne.nonzeroConstants R) _ _
+        inferInstance hdisj'
+    have hle : Pe ≤ P'.asIdeal.map (algebraMap R[X] (Spec R).functionField[X]) := by
+      rw [← hq, Ideal.span_le, Set.singleton_subset_iff]; exact hqmem
+    have hmax : Pe.IsMaximal := IsPrime.to_maximal_ideal hPe0
+    have heq := hmax.eq_of_le hP'e.ne_top hle
+    apply PrimeSpectrum.ext
+    rw [← IsLocalization.under_map_of_isPrime_disjoint (Hartshorne.nonzeroConstants R)
+      (Spec R).functionField[X] (inferInstance : P'.asIdeal.IsPrime) hdisj', ← heq]
+    exact hPe_comap
+
+/-- **Rational functions without horizontal zeros or poles come from the base.** A nonzero
+rational function on `𝔸¹_X` with order zero along every horizontal prime divisor is the pullback
+of a rational function on `X`. -/
+theorem affineLine_exists_functionFieldMap_eq {F : 𝔸(PUnit.{u + 1}; X).functionField}
+    (hF0 : F ≠ 0) (hF : ∀ w : 𝔸(PUnit.{u + 1}; X), Order.coheight w = 1 →
+      (𝔸(PUnit.{u + 1}; X) ↘ X).base w = genericPoint X → Scheme.ord F w = 0) :
+    ∃ f' : X.functionField, X.affineLineFunctionFieldMap f' = F := by
+  obtain ⟨R, _, _, f, _, g, pb⟩ := exists_affineLine_chart_of_isIntegral X
+  have := affineLineChart_isOpenImmersion pb
+  have hS := affineLineChart_satisfiesConditionStar pb hX
+  have : IsNoetherian 𝔸(PUnit.{u + 1}; X) := hX.affineLine.isNoetherian
+  set gK := g.genericFunctionFieldMap (affineLineChart_genericPoint pb)
+  have hgK : Function.Injective gK := gK.hom.injective
+  have hFL0 : gK F ≠ 0 := (map_ne_zero_iff _ hgK).mpr hF0
+  -- the horizontal prime attached to an irreducible polynomial
+  have hspan : ∀ q : (Spec R).functionField[X], Irreducible q →
+      (Ideal.span {q}).IsPrime ∧ Ideal.span {q} ≠ ⊥ ∧ Ideal.span {q} ≠ ⊤ := by
+    intro q hq
+    refine ⟨(Ideal.span_singleton_prime hq.ne_zero).mpr hq.prime, ?_, ?_⟩
+    · rw [Ne, Ideal.span_singleton_eq_bot]; exact hq.ne_zero
+    · rw [Ne, Ideal.span_singleton_eq_top]; exact hq.not_isUnit
+  have hpt : ∀ q : (Spec R).functionField[X], Irreducible q → ∃ P : Spec (CommRingCat.of R[X]),
+      P.asIdeal = (Ideal.span {q}).comap (algebraMap R[X] (Spec R).functionField[X]) :=
+    fun q hq ↦ ⟨⟨(Ideal.span {q}).comap (algebraMap R[X] (Spec R).functionField[X]),
+      have := (hspan q hq).1; Ideal.comap_isPrime _ _⟩, rfl⟩
+  choose pt hpt using hpt
+  have hpt0 : ∀ q hq, (pt q hq).asIdeal.comap C = ⊥ := fun q hq ↦ by
+    rw [hpt q hq]; exact Hartshorne.comap_C_comap_algebraMap_eq_bot _ (hspan q hq).2.2
+  have hpt1 : ∀ q hq, (pt q hq).asIdeal.height = 1 := fun q hq ↦ by
+    have := (hspan q hq).1
+    rw [hpt q hq]; exact Hartshorne.height_comap_algebraMap_eq_one _ (hspan q hq).2.1
+  have hptc : ∀ q hq, Order.coheight (pt q hq) = 1 := fun q hq ↦ by
+    rw [← idealHeight_eq_coheight]; exact hpt1 q hq
+  have hptmap : ∀ q hq, (pt q hq).asIdeal.map (algebraMap R[X] (Spec R).functionField[X]) =
+      Ideal.span {q} := fun q hq ↦ by
+    rw [hpt q hq]; exact IsLocalization.map_under (Hartshorne.nonzeroConstants R) _ _
+  obtain ⟨c, hc⟩ := Hartshorne.exists_eq_algebraMap_C_of_forall_irreducible
+    (K := (Spec R).functionField) (L := (Spec (CommRingCat.of R[X])).functionField)
+    (fun q hq ↦ (Spec (CommRingCat.of R[X])).ordHom (pt q hq) (hptc q hq))
+    (fun q hq b hb ↦ by
+      let _ : IsDiscreteValuationRing ((Spec (CommRingCat.of R[X])).presheaf.stalk (pt q hq)) :=
+        (Spec (CommRingCat.of R[X])).codimensionOneStalk_isDiscreteValuationRing hS (hptc q hq)
+      refine Hartshorne.ordFrac_algebraMap_eq_one_of_notMem _ (pt q hq).asIdeal (hpt0 q hq) _ _ ?_
+      rw [hptmap, Ideal.mem_span_singleton]
+      exact hb)
+    (fun q hq ↦ by
+      let _ : IsDiscreteValuationRing ((Spec (CommRingCat.of R[X])).presheaf.stalk (pt q hq)) :=
+        (Spec (CommRingCat.of R[X])).codimensionOneStalk_isDiscreteValuationRing hS (hptc q hq)
+      exact Hartshorne.ordFrac_algebraMap_eq_exp_one_of_span_eq _ (pt q hq).asIdeal (hpt0 q hq) _ _
+        (hptmap q hq).symm)
+    (fun q hq ↦ by
+      have h := affineLineChart_horizontal pb (hpt0 q hq) (hpt1 q hq)
+      have h' := hF _ h.1 h.2
+      rw [← affineLineChart_ord pb hX, Scheme.ord_eq_iff (hptc q hq) hFL0] at h'
+      exact h')
+  obtain ⟨f', hf'⟩ := f.genericFunctionFieldMap_surjective_of_isOpenImmersion
+    (genericPoint_eq_of_isOpenImmersion f) c
+  refine ⟨f', hgK ?_⟩
+  rw [affineLineChart_functionFieldMap pb, hf', hc]
+
+end HorizontalDivisors
+
+section Bijective
+
+/-- Coefficients of the Weil divisor attached to a finitely supported function on prime
+divisors. -/
+theorem Scheme.weilDivisorAddEquivFinsupp_symm_apply_coeff {Y : Scheme.{u}} [IsNoetherian Y]
+    (φ : Y.PrimeDivisor →₀ ℤ) (P : Y.PrimeDivisor) :
+    (Y.weilDivisorAddEquivFinsupp.symm φ).1 P.1 = φ P :=
+  congrArg (· P) (Y.weilDivisorAddEquivFinsupp.apply_symm_apply φ)
+
+/-- The generic point of an integral scheme has coheight zero. -/
+theorem coheight_genericPoint (X : Scheme.{u}) [IsIntegral X] :
+    Order.coheight (genericPoint X) = 0 :=
+  Order.coheight_eq_zero.mpr fun b _ ↦ genericPoint_specializes b
+
+variable {X : Scheme.{u}} [IsNoetherian X] [IsIntegral X] (hX : X.SatisfiesConditionStar)
+include hX
+
+/-- A Weil divisor on `𝔸¹_X` without horizontal components is a pullback from `X`. -/
+theorem affineLine_exists_pullback_eq {E : 𝔸(PUnit.{u + 1}; X).WeilDivisor}
+    (hE : ∀ w : 𝔸(PUnit.{u + 1}; X), Order.coheight w = 1 →
+      (𝔸(PUnit.{u + 1}; X) ↘ X).base w = genericPoint X → E.1 w = 0) :
+    ∃ D : X.WeilDivisor, X.affineLinePullback D = E := by
+  classical
+  have : IsNoetherian 𝔸(PUnit.{u + 1}; X) := hX.affineLine.isNoetherian
+  let coeff : X → ℤ := fun x ↦
+    if Order.coheight x = 1 then E.1 (X.affineLineFibreGenericPoint x) else 0
+  have hfin : coeff.support.Finite := by
+    refine ((Scheme.WeilDivisor.support_finite E).image (𝔸(PUnit.{u + 1}; X) ↘ X).base).subset ?_
+    intro x hx
+    simp only [Function.mem_support, coeff, ne_eq, ite_eq_right_iff, not_forall] at hx
+    obtain ⟨-, hE'⟩ := hx
+    exact ⟨_, hE', (X.affineLineFibreGenericPoint_spec x).1⟩
+  let D₀ : AlgebraicCycle X ℤ :=
+    { toFun := coeff
+      supportWithinDomain' := Set.subset_univ _
+      supportLocallyFiniteWithinDomain' := fun _ _ ↦
+        ⟨Set.univ, Filter.univ_mem, by simpa using hfin⟩ }
+  refine ⟨⟨D₀, fun x hx ↦ by change coeff x = 0; simp [coeff, hx]⟩, ?_⟩
+  apply Subtype.ext
+  apply Function.locallyFinsuppWithin.ext
+  intro w
+  rw [Scheme.affineLinePullback_apply]
+  change (if Order.coheight w = 1 then coeff ((𝔸(PUnit.{u + 1}; X) ↘ X).base w) else 0) = E.1 w
+  split_ifs with hw
+  · simp only [coeff]
+    split_ifs with hx
+    · rw [← X.eq_affineLineFibreGenericPoint (hw.trans hx.symm)]
+    · have hlt : Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base w) < 1 :=
+        lt_of_le_of_ne ((coheight_affineLine_proj_le w).trans hw.le) hx
+      exact (hE w hw (eq_genericPoint_of_coheight_eq_zero (Order.lt_one_iff.mp hlt))).symm
+  · exact (E.2 w hw).symm
+
+/-- Pullback of divisor classes along `𝔸¹_X → X` is surjective. -/
+theorem Scheme.affineLineClassGroupHom_surjective :
+    Function.Surjective (X.affineLineClassGroupHom hX) := by
+  classical
+  have hY := hX.affineLine
+  have : IsNoetherian 𝔸(PUnit.{u + 1}; X) := hY.isNoetherian
+  let H : AddSubgroup 𝔸(PUnit.{u + 1}; X).WeilDivisor :=
+    (X.affineLineClassGroupHom hX).range.comap (𝔸(PUnit.{u + 1}; X).weilDivisorClassHom hY)
+  let e := 𝔸(PUnit.{u + 1}; X).weilDivisorAddEquivFinsupp
+  let eX := X.weilDivisorAddEquivFinsupp
+  have hcoeff : ∀ (P : 𝔸(PUnit.{u + 1}; X).PrimeDivisor) (w : 𝔸(PUnit.{u + 1}; X)),
+      Order.coheight w = 1 → (e.symm (Finsupp.single P 1)).1 w = if w = P.1 then 1 else 0 := by
+    intro P w hw
+    rw [show w = (⟨w, hw⟩ : 𝔸(PUnit.{u + 1}; X).PrimeDivisor).1 from rfl,
+      Scheme.weilDivisorAddEquivFinsupp_symm_apply_coeff, Finsupp.single_apply]
+    by_cases h : w = P.1
+    · rw [if_pos (Subtype.ext h.symm), if_pos h]
+    · rw [if_neg (fun h' ↦ h (congrArg Subtype.val h').symm), if_neg h]
+  have hprime : ∀ P : 𝔸(PUnit.{u + 1}; X).PrimeDivisor, e.symm (Finsupp.single P 1) ∈ H := by
+    rintro ⟨z, hz⟩
+    by_cases hx : Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) = 1
+    · -- vertical prime divisors are pullbacks
+      refine ⟨X.weilDivisorClassHom hX
+        (eX.symm (Finsupp.single ⟨(𝔸(PUnit.{u + 1}; X) ↘ X).base z, hx⟩ 1)), ?_⟩
+      rw [Scheme.affineLineClassGroupHom_weilDivisorClassHom]
+      congr 1
+      apply Subtype.ext
+      apply Function.locallyFinsuppWithin.ext
+      intro w
+      rw [Scheme.affineLinePullback_apply]
+      split_ifs with hw
+      · rw [hcoeff _ w hw]
+        by_cases hxw : Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base w) = 1
+        · rw [show (𝔸(PUnit.{u + 1}; X) ↘ X).base w =
+              (⟨_, hxw⟩ : X.PrimeDivisor).1 from rfl,
+            Scheme.weilDivisorAddEquivFinsupp_symm_apply_coeff, Finsupp.single_apply]
+          by_cases hwz : w = z
+          · subst hwz; rw [if_pos rfl, if_pos rfl]
+          · rw [if_neg hwz, if_neg]
+            intro h
+            apply hwz
+            have h' := congrArg Subtype.val h
+            dsimp only at h'
+            rw [X.eq_affineLineFibreGenericPoint (hw.trans hxw.symm),
+              X.eq_affineLineFibreGenericPoint (hz.trans hx.symm), h']
+        · rw [(eX.symm _).2 _ hxw, if_neg]
+          rintro rfl
+          exact hxw hx
+      · exact ((e.symm _).2 w hw).symm
+    · -- horizontal prime divisors are principal up to vertical divisors
+      have hη : (𝔸(PUnit.{u + 1}; X) ↘ X).base z = genericPoint X := by
+        have hlt : Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) < 1 :=
+          lt_of_le_of_ne ((coheight_affineLine_proj_le z).trans hz.le) hx
+        exact eq_genericPoint_of_coheight_eq_zero (Order.lt_one_iff.mp hlt)
+      obtain ⟨F, hF0, hF⟩ := affineLine_exists_ord_horizontal hX hz hη
+      set δ := e.symm (Finsupp.single ⟨z, hz⟩ 1)
+      set E' := 𝔸(PUnit.{u + 1}; X).principalDivisor hY (Units.mk0 F hF0) - δ
+      obtain ⟨D', hD'⟩ := affineLine_exists_pullback_eq hX (E := E') (by
+        intro w hw hπw
+        change Scheme.ord F w - δ.1 w = 0
+        rw [hcoeff _ w hw]
+        by_cases hwz : w = z
+        · rw [if_pos hwz, (hF w hw hπw).1 hwz, sub_self]
+        · rw [if_neg hwz, (hF w hw hπw).2 hwz, sub_self])
+      refine ⟨X.weilDivisorClassHom hX (-D'), ?_⟩
+      rw [Scheme.affineLineClassGroupHom_weilDivisorClassHom, map_neg, hD']
+      change ((-E' : 𝔸(PUnit.{u + 1}; X).WeilDivisor) : 𝔸(PUnit.{u + 1}; X).WeilClassGroup hY) =
+        (δ : 𝔸(PUnit.{u + 1}; X).WeilClassGroup hY)
+      rw [QuotientAddGroup.eq, neg_neg]
+      refine ⟨Additive.ofMul (Units.mk0 F hF0), ?_⟩
+      change 𝔸(PUnit.{u + 1}; X).principalDivisor hY (Units.mk0 F hF0) = E' + δ
+      rw [sub_add_cancel]
+  have hall : ∀ E, E ∈ H := by
+    intro E
+    rw [← e.symm_apply_apply E]
+    induction e E using Finsupp.induction_linear with
+    | zero => rw [map_zero]; exact H.zero_mem
+    | add a b ha hb => rw [map_add]; exact H.add_mem ha hb
+    | single P n =>
+      rw [← Finsupp.smul_single_one, map_zsmul]
+      exact H.zsmul_mem (hprime P) n
+  intro c
+  obtain ⟨E, rfl⟩ := QuotientAddGroup.mk_surjective c
+  exact hall E
+
+/-- Pullback of divisor classes along `𝔸¹_X → X` is injective. -/
+theorem Scheme.affineLineClassGroupHom_injective :
+    Function.Injective (X.affineLineClassGroupHom hX) := by
+  have hY := hX.affineLine
+  have : IsNoetherian 𝔸(PUnit.{u + 1}; X) := hY.isNoetherian
+  rw [injective_iff_map_eq_zero]
+  intro c hc
+  obtain ⟨D, rfl⟩ := QuotientAddGroup.mk_surjective c
+  have hc' : 𝔸(PUnit.{u + 1}; X).weilDivisorClassHom hY (X.affineLinePullback D) =
+      𝔸(PUnit.{u + 1}; X).weilDivisorClassHom hY 0 := by
+    rw [map_zero]; exact hc
+  obtain ⟨F, hF⟩ := (Scheme.weilDivisorClass_eq_iff hY _ _).mp hc'
+  rw [sub_zero] at hF
+  have hhor : ∀ w : 𝔸(PUnit.{u + 1}; X), Order.coheight w = 1 →
+      (𝔸(PUnit.{u + 1}; X) ↘ X).base w = genericPoint X →
+        Scheme.ord (F : 𝔸(PUnit.{u + 1}; X).functionField) w = 0 := by
+    intro w hw hπw
+    have h := congrArg (fun E : 𝔸(PUnit.{u + 1}; X).WeilDivisor ↦ E.1 w) hF
+    rw [Scheme.affineLinePullback_apply, if_pos hw, hπw,
+      D.2 _ (by rw [coheight_genericPoint]; exact zero_ne_one)] at h
+    exact h.symm
+  obtain ⟨f', hf'⟩ := affineLine_exists_functionFieldMap_eq hX F.ne_zero hhor
+  have hf'0 : f' ≠ 0 := by
+    rintro rfl; rw [map_zero] at hf'; exact F.ne_zero hf'.symm
+  have hpull : X.affineLinePullback (X.principalDivisor hX (Units.mk0 f' hf'0)) =
+      X.affineLinePullback D := by
+    rw [Scheme.affineLinePullback_principalDivisor, hF]
+    congr 1
+    ext
+    exact hf'
+  have hD := Scheme.affineLinePullback_injective hpull
+  change X.weilDivisorClassHom hX D = 0
+  rw [← hD]
+  exact (QuotientAddGroup.eq_zero_iff _).mpr ⟨Additive.ofMul (Units.mk0 f' hf'0), rfl⟩
+
+end Bijective
+
+section Main
+
+variable {X : Scheme.{u}}
+
+/-- **Hartshorne II.6, Proposition 6.6.** If `X` satisfies `(*)`, pullback along the projection
+`𝔸¹_X → X` induces a bijection `Cl X → Cl (𝔸¹_X)`. -/
+theorem Scheme.affineLineClassGroupHom_bijective (hX : X.SatisfiesConditionStar) :
+    Function.Bijective (X.affineLineClassGroupHom hX) := by
+  let _ : IsNoetherian X := hX.isNoetherian
+  let _ : IsIntegral X := hX.isIntegral
+  exact ⟨Scheme.affineLineClassGroupHom_injective hX, Scheme.affineLineClassGroupHom_surjective hX⟩
+
+/-- **Hartshorne II.6, Proposition 6.6.** If `X` satisfies `(*)`, pullback along the projection
+`𝔸¹_X → X` is an isomorphism `Cl X ≃ Cl (𝔸¹_X)`. -/
+noncomputable def Scheme.affineLineClassGroupEquiv (hX : X.SatisfiesConditionStar) :
+    X.WeilClassGroup hX ≃+ 𝔸(PUnit.{u + 1}; X).WeilClassGroup hX.affineLine :=
+  AddEquiv.ofBijective (X.affineLineClassGroupHom hX) (X.affineLineClassGroupHom_bijective hX)
+
+/-- The isomorphism `Cl X ≃ Cl (𝔸¹_X)` sends the class of `D` to the class of its pullback. -/
+theorem Scheme.affineLineClassGroupEquiv_weilDivisorClassHom (hX : X.SatisfiesConditionStar)
+    (D : X.WeilDivisor) :
+    let _ : IsNoetherian X := hX.isNoetherian
+    X.affineLineClassGroupEquiv hX (X.weilDivisorClassHom hX D) =
+      𝔸(PUnit.{u + 1}; X).weilDivisorClassHom hX.affineLine (X.affineLinePullback D) :=
+  rfl
+
+end Main
+
 end AlgebraicGeometry
