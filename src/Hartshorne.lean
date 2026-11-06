@@ -432,3 +432,4 @@ import Hartshorne.Scheme.BaseExtensionComponentDimension
 import Hartshorne.Scheme.ProperValuationCenter
 import Hartshorne.Intersection.SectionZeroScheme
 import Hartshorne.Scheme.ProjectiveIntersectionDegree
+import Hartshorne.Cohomology.FiniteLocallyFreeTensorInjective
