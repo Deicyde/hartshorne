@@ -2,6 +2,9 @@
 article_id: af_6a2e5ff2057aec8d2fb1fb78
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.affineVarietyGenericCompletionIsoSpec Hartshorne.affineVarietyGenericCompletionLocallyRingedSpace Hartshorne.affineVarietyGenericCompletionSheafedSpaceIsoSpec Hartshorne.genericCompletionHomeomorphSpec Hartshorne.affineVarietyGenericCompletionIsoSpec_hom_base_asIdeal Hartshorne.affineVarietyGenericCompletionIsoSpec_hom_base_alpha Hartshorne.affineVarietyGenericCompletionIsoSpec_hom_c_app
 ---
 
 # An affine variety completes to its spectrum
@@ -14,8 +17,19 @@ $(t(V), \alpha _{V\cdot }\mathcal{O} _V) \cong \operatorname{Spec} A(V)$.
 
 On points, send an irreducible closed subset to its prime vanishing ideal; the
 Chapter I radical-ideal correspondence supplies the inverse and proves the
-homeomorphism.  On opens, identify regular functions with the locally
-fractional structure-sheaf sections, using $A(V) \cong \mathcal{O} (V)$ on affine charts.
+homeomorphism.  Here the Nullstellensatz enters as the statement that a prime
+of $A(V)$ is the intersection of the maximal ideals $\mathfrak{m}_P$ containing it,
+and a point $P$ of $V$ goes to $\mathfrak{m}_P$.
+
+On opens, identify regular functions with the locally fractional
+structure-sheaf sections: a section goes to the function whose value at $P$ is
+its germ in $A(V)_{\mathfrak{m}_P}$ evaluated at $P$.  Locally the section is
+$a/f$, so the function is locally $a(P)/f(P)$ and is regular.  Injectivity
+and surjectivity both rest on the identity principle in $A(V) \subseteq \mathcal{O} (V)$:
+an element vanishing on a nonempty open subset of $V$ is zero.  For
+surjectivity, write a regular function as $a/f$ near a point of the zero set
+of each prime; any two such quotients agree on a nonempty open set, hence in
+every localization, and they glue to a section.
 
 ## Depends on
 
