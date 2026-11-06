@@ -448,3 +448,4 @@ import Hartshorne.Rational.OrdinaryNode
 import Hartshorne.Scheme.ProjectiveSpaceRegular
 import Hartshorne.Scheme.TotalQuotientIntegral
 import Hartshorne.Scheme.LocallyFactorialWeilCartier
+import Hartshorne.Cohomology.FlatFamilies.FlatFibreLocalDimension
