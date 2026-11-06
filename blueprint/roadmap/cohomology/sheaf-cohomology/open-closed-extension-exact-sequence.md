@@ -25,10 +25,15 @@ the natural short exact sequence, proved stalkwise.
 
 - [Open extension by zero](../../schemes/sheaf-functors/open-extension-by-zero.md)
 - [Closed extension by zero](../../schemes/sheaf-functors/closed-extension-by-zero.md)
+- [Inverse image of a sheaf](../../schemes/sheaf-functors/inverse-image.md)
+- [Open extension by zero is left adjoint to restriction](../../schemes/sheaf-functors/open-extension-by-zero-adjunction.md)
+- [Inverse image is left adjoint to direct image](../../schemes/sheaf-functors/inverse-direct-adjunction.md)
 
 ## Proof depends on
 
 - [Exactness is detected on stalks](../../schemes/sheaves/stalkwise-exactness.md)
+- [Restriction, stalks, and characterization of open extension by zero](../../schemes/sheaf-functors/open-extension-by-zero-properties.md)
+- [Sheafification preserves stalks](../../schemes/sheaves/associated-sheaf-stalks.md)
 
 ## Sources
 
