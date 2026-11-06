@@ -367,3 +367,4 @@ import Hartshorne.Scheme.LocallyFreeInvertible
 import Hartshorne.Scheme.Differentials.FieldDifferentialsDimension
 import Hartshorne.Scheme.ProjChartMorphism
 import Hartshorne.Scheme.RelativeSegre
+import Hartshorne.Scheme.ClassGroupOpenRestriction
