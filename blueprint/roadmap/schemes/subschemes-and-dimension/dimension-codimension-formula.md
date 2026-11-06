@@ -25,6 +25,7 @@ First prove the formula for each irreducible component of $Y$ using the height/d
 
 - Catenarity and the affine finite-type domain dimension formula.
 - [Dimension of an affine scheme](affine-scheme-dimension.md)
+- [The dimension formula for a finitely generated domain](../../affine-varieties/dim-formula-catenary.md)
 
 ## Sources
 
