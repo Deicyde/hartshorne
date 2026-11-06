@@ -2,6 +2,9 @@
 article_id: af_a4de4cbc424f0fbad187747f
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveVarietyAssociatedSchemeIsoProj Hartshorne.projectiveVarietyAssociatedSchemeIsoProj_hom_base Hartshorne.projectiveVarietyAssociatedSchemeIsoProj_hom_base_alpha Hartshorne.projectiveVarietyAssociatedSchemeIsoProj_hom_app Hartshorne.projCoordStructureMorphism Hartshorne.projectiveVarietyAssociatedSchemeIsoProj_hom_comp_structureMorphism
 ---
 
 # A projective variety completes to Proj
