@@ -23,6 +23,7 @@ these componentwise identifications.
 
 - [The regular-function sheaf on the generic completion](generic-completion-sheaf.md)
 - [Classical points are the closed points](variety-closed-points.md)
+- [The sheaf of regular functions](../sheaves/regular-functions-sheaf.md)
 
 ## Sources
 
