@@ -2,6 +2,9 @@
 article_id: af_af78109c23021852fb9a08c2
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.weilClassGroupRestrict AlgebraicGeometry.Scheme.weilClassGroupRestrict_surjective AlgebraicGeometry.Scheme.weilClassGroupRestrict_bijective_of_two_le_codim AlgebraicGeometry.Scheme.weilClassGroupRestrict_exact_of_codim_eq_one
 ---
 
 # Restriction of class groups to open complements
