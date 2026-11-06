@@ -412,3 +412,4 @@ import Hartshorne.Scheme.ProjectiveWeilDivisorDegree
 import Hartshorne.Scheme.FiniteLocallyFreeDuality
 import Hartshorne.Projective.HomogeneousLocalizedModule
 import Hartshorne.Scheme.ProjGradedModuleSheaf
+import Hartshorne.Scheme.ImageReducedSource
