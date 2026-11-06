@@ -379,3 +379,4 @@ import Hartshorne.Intersection.RawCyclePushforward
 import Hartshorne.Cohomology.RightDerivedLongExactSequence
 import Hartshorne.Weil.FiniteFieldFrobenius
 import Hartshorne.Scheme.GluingSheaves
+import Hartshorne.Scheme.AffineGlobalSectionsExact
