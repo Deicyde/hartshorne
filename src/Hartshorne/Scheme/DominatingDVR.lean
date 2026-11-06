@@ -299,7 +299,7 @@ image of `A` lies in `R` and the induced map `A → R` is local.
 
 The domain hypothesis is the source's; it also follows from `IsFractionRing A K`,
 so the proof does not use it separately. -/
-theorem exists_dominating_dvr_of_fg (A K : Type*) [CommRing A] [_hA : IsDomain A]
+theorem exists_dominating_dvr_of_fg (A K : Type*) [CommRing A] [IsDomain A]
     [IsNoetherianRing A] [IsLocalRing A] [Field K] [Algebra A K] [IsFractionRing A K]
     [Algebra K L] [Algebra A L] [IsScalarTower A K L]
     (hm : maximalIdeal A ≠ ⊥) (hfg : (⊤ : IntermediateField K L).FG) :
