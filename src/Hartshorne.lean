@@ -452,3 +452,4 @@ import Hartshorne.Cohomology.FlatFamilies.FlatFibreLocalDimension
 import Hartshorne.Scheme.SerreNormalityCriterion
 import Hartshorne.Scheme.VarietyRestrictedSheaf
 import Hartshorne.Scheme.ProjectiveSpaceHyperplane
+import Hartshorne.Scheme.ProjectiveVarietyProj
