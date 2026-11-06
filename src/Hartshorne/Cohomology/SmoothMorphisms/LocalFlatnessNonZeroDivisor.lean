@@ -237,7 +237,7 @@ Let `A → B` be a local homomorphism of Noetherian local rings, `M` a finite `B
 a nonunit and non-zero-divisor of `A`. Then `M` is flat over `A` if and only if multiplication
 by `t` is injective on `M` and `M ⧸ t M` is flat over `A ⧸ (t)`. -/
 theorem flat_iff_isSMulRegular_and_flat_quotSMulTop {A B M : Type*} [CommRing A] [CommRing B]
-    [Algebra A B] [_hA : IsLocalRing A] [IsLocalRing B] [IsNoetherianRing A] [IsNoetherianRing B]
+    [Algebra A B] [IsLocalRing A] [IsLocalRing B] [IsNoetherianRing A] [IsNoetherianRing B]
     [IsLocalHom (algebraMap A B)] [AddCommGroup M] [Module A M] [Module B M]
     [IsScalarTower A B M] [Module.Finite B M] {t : A} (ht : ¬IsUnit t)
     (htreg : t ∈ nonZeroDivisors A) :
