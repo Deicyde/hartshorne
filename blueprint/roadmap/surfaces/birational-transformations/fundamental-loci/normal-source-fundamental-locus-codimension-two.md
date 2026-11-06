@@ -23,9 +23,11 @@ the argument uses only that $Y$ is projective, hence proper, over the field.
 - [Valuative criterion for properness](../../../schemes/proper-and-projective/valuative-criterion-proper.md)
 - [Codimension-one stalks are DVRs](../../../schemes/divisors/weil-divisors/codimension-one-stalk-dvr.md)
 - [Normal schemes](../../../schemes/normalization-and-exercises/normal-scheme.md)
+- [Projective morphisms](../../../schemes/proper-and-projective/projective-morphism.md)
 
 ## Proof depends on
 
+- [Projective morphisms are proper](../../../schemes/proper-and-projective/projective-morphism-proper.md)
 - Properness extends the generic morphism over every codimension-one DVR;
   the local extension is represented on an open neighborhood.
 
