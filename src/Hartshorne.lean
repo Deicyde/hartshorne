@@ -414,3 +414,4 @@ import Hartshorne.Projective.HomogeneousLocalizedModule
 import Hartshorne.Scheme.ProjGradedModuleSheaf
 import Hartshorne.Scheme.ImageReducedSource
 import Hartshorne.Scheme.ValuationCenter
+import Hartshorne.Cohomology.Semicontinuity.CoherentFiberDimension
