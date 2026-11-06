@@ -2,6 +2,9 @@
 article_id: af_2a6303717034db019467c6df
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.absoluteNormalization_existsUnique_lift
 ---
 
 # The universal property of normalization
