@@ -2,6 +2,9 @@
 article_id: af_bda47588979c84d023027a74
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.flat_iff_forall_mem_associatedPoints_eq_genericPoint Hartshorne.forall_mem_associatedPoints_eq_genericPoint_iff_forall_dense_image Hartshorne.flat_iff_forall_mem_irreducibleComponents_dense_image
 ---
 
 # Flatness over a regular curve
@@ -14,6 +17,13 @@ this is equivalent to every irreducible component of $X$ dominating $Y$.
 The locally Noetherian source hypothesis makes explicit the hypothesis used
 by Hartshorne's associated-prime argument. No weak-associated-point variant is
 silently substituted.
+
+Here regularity of $Y$ means that every local ring $\mathcal{O}_{Y,y}$ is a
+regular local ring. Of the dimension hypothesis only $\dim Y \le 1$ is used: it
+makes every local ring of $Y$ a field or a discrete valuation ring. The
+equivalence between the associated-point condition and dominance of the
+irreducible components holds for every reduced scheme $X$ and every integral
+scheme $Y$, without the Noetherian, regularity, or dimension hypotheses.
 
 ## Depends on
 
