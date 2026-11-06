@@ -13,14 +13,41 @@ import Mathlib.RingTheory.RegularLocalRing.Polynomial
 Hartshorne, *Algebraic Geometry*, II.6, Proposition 6.6 (pp. 134--135).
 
 The relative affine line over a scheme `X` is `𝔸¹_X = X ×_ℤ Spec ℤ[t]`, written
-`𝔸(PUnit; X)`. If `X` satisfies Hartshorne's condition `(*)` then so does `𝔸¹_X`:
-it is Noetherian and separated because the projection is affine of finite type, integral
-because the projection is geometrically integral, and regular in codimension one because,
-for a Noetherian domain `A` whose height-one localizations are regular, every height-one
-localization of `A[t]` is regular. The last fact reduces, after localizing at the
-contraction `q` of a height-one prime of `A[t]` (which has height at most one by going
-down along the flat extension `A → A[t]`), to Mathlib's theorem that a polynomial ring over
-a regular local ring has regular localizations at primes lying over the maximal ideal.
+`𝔸(PUnit; X)`, with projection `π : 𝔸¹_X → X`.
+
+## Condition `(*)`
+
+If `X` satisfies Hartshorne's condition `(*)` then so does `𝔸¹_X`: it is Noetherian and
+separated because the projection is affine of finite type, integral because the projection is
+geometrically integral, and regular in codimension one because, for a Noetherian domain `A` whose
+height-one localizations are regular, every height-one localization of `A[t]` is regular. The last
+fact reduces, after localizing at the contraction `q` of a height-one prime of `A[t]` (which has
+height at most one by going down along the flat extension `A → A[t]`), to Mathlib's theorem that a
+polynomial ring over a regular local ring has regular localizations at primes lying over the
+maximal ideal.
+
+## Pullback of divisors
+
+Over an affine open `Spec R ⊆ X` the relative affine line is `Spec R[t]` and the projection is
+induced by the inclusion of constants. A prime `P ⊆ R[t]` has the same height as its contraction
+`p` exactly when `P = p R[t]`; hence every point `x` of `X` has a unique point over it with the same
+coheight, the generic point of the fibre. Pullback of Weil divisors sends a prime divisor with
+generic point `x` to the prime divisor whose generic point is the generic point of the fibre over
+`x`. At such a point the maximal ideal of `𝒪_{X,x}` generates the maximal ideal of the stalk of
+`𝔸¹_X` (it is `p R[t]_{p R[t]}`), so pulling back a rational function preserves its order along
+vertical prime divisors, while along horizontal prime divisors (those over the generic point of
+`X`) every pulled-back nonzero rational function is a unit. Pullback therefore preserves principal
+divisors and induces a homomorphism `Cl X → Cl (𝔸¹_X)`.
+
+## Bijectivity
+
+Horizontal prime divisors of `𝔸¹_X` correspond to the nonzero primes of `K[t]`, where `K` is the
+function field of `X`. Since `K[t]` is a principal ideal domain, a generator of the prime attached
+to a horizontal divisor `Z` has order one along `Z` and order zero along the other horizontal
+divisors; its divisor differs from `Z` by a divisor without horizontal components, which is a
+pullback. This gives surjectivity. If the pullback of `D` is the divisor of `f`, then `f` has order
+zero along every horizontal divisor, so by unique factorization in `K[t]` it is a constant, i.e. the
+pullback of a rational function `g` on `X`; injectivity of pullback on divisors gives `D = (g)`.
 -/
 
 noncomputable section
@@ -255,6 +282,7 @@ variable (R) in
 abbrev nonzeroConstants : Submonoid R[X] := (nonZeroDivisors R).map (C : R →+* R[X])
 
 omit [IsDomain R] in
+/-- `K[X]` is the localization of `R[X]` at the nonzero constants. -/
 theorem isLocalization_nonzeroConstants :
     IsLocalization (nonzeroConstants R) K[X] :=
   Polynomial.isLocalization (nonZeroDivisors R) K
@@ -303,6 +331,7 @@ variable (K) (P : Ideal R[X]) [P.IsPrime] (hP : P.comap C = ⊥) (A : Type*) [Co
   [Algebra R[X] A] [IsLocalization.AtPrime A P]
 
 include hP in
+/-- Nonzero constants become units in the localization at a prime over the zero ideal of `R`. -/
 theorem isUnit_algebraMap_nonzeroConstants (y : nonzeroConstants R) :
     IsUnit (algebraMap R[X] A y) := by
   rw [IsLocalization.AtPrime.isUnit_to_map_iff A P]
@@ -313,10 +342,12 @@ noncomputable def horizontalLift : K[X] →+* A :=
   IsLocalization.lift (M := nonzeroConstants R) (S := K[X])
     (isUnit_algebraMap_nonzeroConstants P hP A)
 
+/-- The map `K[X] → A` extends the localization map `R[X] → A`. -/
 theorem horizontalLift_algebraMap (s : R[X]) :
     horizontalLift K P hP A (algebraMap R[X] K[X] s) = algebraMap R[X] A s :=
   IsLocalization.lift_eq _ s
 
+/-- The contraction of the maximal ideal of `A` to `K[X]` is the extension of `P`. -/
 theorem comap_maximalIdeal_horizontalLift :
     have : IsLocalRing A := IsLocalization.AtPrime.isLocalRing A P
     (maximalIdeal A).comap (horizontalLift K P hP A) = P.map (algebraMap R[X] K[X]) := by
@@ -334,6 +365,7 @@ theorem comap_maximalIdeal_horizontalLift :
 variable (L : Type*) [Field L] [Algebra R[X] L] [Algebra K[X] L] [IsScalarTower R[X] K[X] L]
   [Algebra A L] [IsScalarTower R[X] A L]
 
+/-- The map `K[X] → A` is compatible with the maps to the common fraction field. -/
 theorem algebraMap_horizontalLift (b : K[X]) :
     algebraMap A L (horizontalLift K P hP A b) = algebraMap K[X] L b := by
   have : (algebraMap A L).comp (horizontalLift K P hP A) = algebraMap K[X] L := by
@@ -347,7 +379,7 @@ variable [IsDomain A] [IsDiscreteValuationRing A] [IsFractionRing A L]
 
 include hP in
 /-- A polynomial over `K` outside the extension of `P` has order zero along `P`. -/
-theorem ordFrac_algebraMap_eq_one_of_notMem {b : K[X]} (hb : b ∉ P.map (algebraMap R[X] K[X])) :
+theorem horizontal_ordFrac_eq_one_of_notMem {b : K[X]} (hb : b ∉ P.map (algebraMap R[X] K[X])) :
     Ring.ordFrac A (algebraMap K[X] L b) = 1 := by
   rw [← algebraMap_horizontalLift K P hP A L]
   apply Ring.ordFrac_of_isUnit
@@ -358,7 +390,7 @@ theorem ordFrac_algebraMap_eq_one_of_notMem {b : K[X]} (hb : b ∉ P.map (algebr
 
 include hP in
 /-- A generator of the extension of `P` has order one along `P`. -/
-theorem ordFrac_algebraMap_eq_exp_one_of_span_eq {q : K[X]}
+theorem horizontal_ordFrac_eq_exp_one_of_span_eq {q : K[X]}
     (hq : Ideal.span {q} = P.map (algebraMap R[X] K[X])) :
     Ring.ordFrac A (algebraMap K[X] L q) = WithZero.exp 1 := by
   rw [← algebraMap_horizontalLift K P hP A L]
@@ -684,6 +716,7 @@ over `x` with the same coheight as `x`. -/
 noncomputable def Scheme.affineLineFibreGenericPoint (x : X) : 𝔸(PUnit.{u + 1}; X) :=
   (exists_affineLine_coheight_eq x).choose
 
+/-- The generic point of the fibre over `x` lies over `x` and has the coheight of `x`. -/
 theorem Scheme.affineLineFibreGenericPoint_spec (x : X) :
     (𝔸(PUnit.{u + 1}; X) ↘ X).base (X.affineLineFibreGenericPoint x) = x ∧
       Order.coheight (X.affineLineFibreGenericPoint x) = Order.coheight x :=
@@ -704,6 +737,7 @@ section PullbackDivisor
 
 variable (X : Scheme.{u}) [IsNoetherian X]
 
+/-- The underlying cycle of the pullback of a Weil divisor along `𝔸¹_X → X`. -/
 private noncomputable def affineLinePullbackFun (D : X.WeilDivisor) :
     𝔸(PUnit.{u + 1}; X).WeilDivisor := by
   classical
@@ -751,12 +785,15 @@ noncomputable def Scheme.affineLinePullback : X.WeilDivisor →+ 𝔸(PUnit.{u +
 
 variable {X}
 
+/-- Coefficients of a pulled-back Weil divisor. -/
 theorem Scheme.affineLinePullback_apply (D : X.WeilDivisor) (z : 𝔸(PUnit.{u + 1}; X)) :
     (X.affineLinePullback D).1 z =
       if Order.coheight z = 1 then D.1 ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) else 0 := by
   classical
   rfl
 
+/-- The coefficient of a pullback along the pullback of a prime divisor is the original
+coefficient. -/
 theorem Scheme.affineLinePullback_apply_fibreGenericPoint (D : X.WeilDivisor) {x : X}
     (hx : Order.coheight x = 1) :
     (X.affineLinePullback D).1 (X.affineLineFibreGenericPoint x) = D.1 x := by
@@ -933,6 +970,7 @@ theorem eq_genericPoint_of_coheight_eq_zero {X : Scheme.{u}} [IsIntegral X] {x :
   have h1 : (⊤ : X) ≤ x := Order.coheight_eq_zero.mp hx le_top
   exact ((show x ⤳ genericPoint X from h1).antisymm (genericPoint_specializes x)).eq
 
+/-- The stalk at the generic point maps onto the function field. -/
 private theorem surjective_algebraMap_stalk_of_eq_genericPoint {X : Scheme.{u}} [IsIntegral X]
     {x : X} (hx : x = genericPoint X) :
     Function.Surjective (algebraMap (X.presheaf.stalk x) X.functionField) := by
@@ -1057,10 +1095,12 @@ variable {X : Scheme.{u}} [IsNoetherian X] [IsIntegral X]
 include pb
 
 omit [IsNoetherian X] [IsIntegral X] [IsDomain R] [IsNoetherianRing R] in
+/-- The chart map into the relative affine line is an open immersion. -/
 theorem affineLineChart_isOpenImmersion : IsOpenImmersion g :=
   isOpenImmersion_of_affineLine_chart inferInstance pb
 
 omit [IsNoetherian X] [IsNoetherianRing R] in
+/-- The chart map sends the generic point to the generic point. -/
 theorem affineLineChart_genericPoint :
     g.base (genericPoint (Spec (CommRingCat.of R[X]))) = genericPoint 𝔸(PUnit.{u + 1}; X) := by
   have := affineLineChart_isOpenImmersion pb
@@ -1122,21 +1162,6 @@ theorem affineLineChart_ord (hX : X.SatisfiesConditionStar) (P : Spec (CommRingC
       rw [coheight_eq_of_isOpenImmersion]; exact hP
     rw [Scheme.ord_eq_zero_of_coheight_neq_one hP, Scheme.ord_eq_zero_of_coheight_neq_one hgP]
 
-omit [IsNoetherian X] [IsNoetherianRing R] in
-/-- The function-field map of the chart is surjective. -/
-theorem affineLineChart_genericFunctionFieldMap_surjective :
-    Function.Surjective (g.genericFunctionFieldMap (affineLineChart_genericPoint pb)) := by
-  have := affineLineChart_isOpenImmersion pb
-  have : IsIso (𝔸(PUnit.{u + 1}; X).presheaf.stalkSpecializes
-      (Inseparable.of_eq (affineLineChart_genericPoint pb)).specializes) :=
-    (𝔸(PUnit.{u + 1}; X).presheaf.stalkCongr
-      (Inseparable.of_eq (affineLineChart_genericPoint pb))).isIso_inv
-  have : IsIso (g.genericFunctionFieldMap (affineLineChart_genericPoint pb)) := by
-    unfold Scheme.Hom.genericFunctionFieldMap
-    infer_instance
-  exact (asIso (g.genericFunctionFieldMap (affineLineChart_genericPoint pb))
-    ).commRingCatIsoToRingEquiv.surjective
-
 end Chart
 
 section ChartAlgebra
@@ -1145,6 +1170,7 @@ attribute [local instance] Polynomial.algebra
 
 variable {R : CommRingCat.{u}} [IsDomain R]
 
+/-- The projection `Spec R[X] → Spec R` sends the generic point to the generic point. -/
 theorem affineLineChart_base_genericPoint :
     (Spec.map (CommRingCat.ofHom (C : R →+* R[X]))).base (genericPoint (Spec (CommRingCat.of R[X]))) =
       genericPoint (Spec R) := by
@@ -1178,15 +1204,18 @@ noncomputable abbrev affineLineChartStalkAlgebra (P : Spec (CommRingCat.of R[X])
 attribute [local instance] affineLineChartBaseAlgebra affineLineChartStalkAlgebra
   Hartshorne.isLocalization_nonzeroConstants
 
+/-- The function field of `Spec R[X]` is the fraction field of `R[X]`. -/
 theorem affineLineChart_isFractionRing :
     IsFractionRing R[X] (Spec (CommRingCat.of R[X])).functionField :=
   functionField_isFractionRing_of_affine (CommRingCat.of R[X])
 
 omit [IsDomain R] in
+/-- The stalk of `Spec R[X]` at `P` is the localization of `R[X]` at `P`. -/
 theorem affineLineChart_isLocalization (P : Spec (CommRingCat.of R[X])) :
     IsLocalization.AtPrime ((Spec (CommRingCat.of R[X])).presheaf.stalk P) P.asIdeal :=
   StructureSheaf.IsLocalization.to_stalk R[X] P
 
+/-- The maps from `R[X]` to a stalk of `Spec R[X]` and to its function field are compatible. -/
 theorem affineLineChart_isScalarTower (P : Spec (CommRingCat.of R[X])) :
     IsScalarTower R[X] ((Spec (CommRingCat.of R[X])).presheaf.stalk P)
       (Spec (CommRingCat.of R[X])).functionField :=
@@ -1195,6 +1224,7 @@ theorem affineLineChart_isScalarTower (P : Spec (CommRingCat.of R[X])) :
 attribute [local instance] affineLineChart_isFractionRing affineLineChart_isLocalization
   affineLineChart_isScalarTower
 
+/-- Nonzero constants are units in the function field of `Spec R[X]`. -/
 theorem affineLineChart_isUnit (y : Hartshorne.nonzeroConstants R) :
     IsUnit (algebraMap R[X] (Spec (CommRingCat.of R[X])).functionField y) := by
   have : (y : R[X]) ≠ 0 := by
@@ -1215,12 +1245,14 @@ noncomputable abbrev affineLineChartAlgebra :
 
 attribute [local instance] affineLineChartAlgebra
 
+/-- The maps `R[X] → K[X] → K(Spec R[X])` are compatible. -/
 theorem affineLineChart_isScalarTower' :
     IsScalarTower R[X] (Spec R).functionField[X] (Spec (CommRingCat.of R[X])).functionField :=
   IsScalarTower.of_algebraMap_eq fun s ↦ (IsLocalization.lift_eq _ s).symm
 
 attribute [local instance] affineLineChart_isScalarTower'
 
+/-- Constants of `R` reach the function field of `Spec R[X]` compatibly through `K[X]`. -/
 theorem affineLineChart_algebraMap_C (r : R) :
     algebraMap (Spec R).functionField[X] (Spec (CommRingCat.of R[X])).functionField
         (C (algebraMap R (Spec R).functionField r)) =
@@ -1228,6 +1260,7 @@ theorem affineLineChart_algebraMap_C (r : R) :
   rw [IsScalarTower.algebraMap_apply R[X] (Spec R).functionField[X]
     (Spec (CommRingCat.of R[X])).functionField, Polynomial.algebraMap_def, coe_mapRingHom, map_C]
 
+/-- The function field of `Spec R[X]` is the fraction field of `K[X]`. -/
 theorem affineLineChart_isFractionRing' :
     IsFractionRing (Spec R).functionField[X] (Spec (CommRingCat.of R[X])).functionField :=
   IsFractionRing.isFractionRing_of_isLocalization (Hartshorne.nonzeroConstants R) _ _
@@ -1382,10 +1415,10 @@ theorem affineLine_exists_ord_horizontal {z : 𝔸(PUnit.{u + 1}; X)} (hz : Orde
     have : P' = P := g.isOpenEmbedding.injective hPP
     subst this
     rw [Scheme.ord_eq_iff hP'coh hqL]
-    exact Hartshorne.ordFrac_algebraMap_eq_exp_one_of_span_eq _ P'.asIdeal hP'0 _ _ hq
+    exact Hartshorne.horizontal_ordFrac_eq_exp_one_of_span_eq _ P'.asIdeal hP'0 _ _ hq
   · intro hPP
     rw [Scheme.ord_eq_iff hP'coh hqL]
-    refine Hartshorne.ordFrac_algebraMap_eq_one_of_notMem _ P'.asIdeal hP'0 _ _ ?_
+    refine Hartshorne.horizontal_ordFrac_eq_one_of_notMem _ P'.asIdeal hP'0 _ _ ?_
     intro hqmem
     apply hPP
     congr 1
@@ -1444,13 +1477,13 @@ theorem affineLine_exists_functionFieldMap_eq {F : 𝔸(PUnit.{u + 1}; X).functi
     (fun q hq b hb ↦ by
       let _ : IsDiscreteValuationRing ((Spec (CommRingCat.of R[X])).presheaf.stalk (pt q hq)) :=
         (Spec (CommRingCat.of R[X])).codimensionOneStalk_isDiscreteValuationRing hS (hptc q hq)
-      refine Hartshorne.ordFrac_algebraMap_eq_one_of_notMem _ (pt q hq).asIdeal (hpt0 q hq) _ _ ?_
+      refine Hartshorne.horizontal_ordFrac_eq_one_of_notMem _ (pt q hq).asIdeal (hpt0 q hq) _ _ ?_
       rw [hptmap, Ideal.mem_span_singleton]
       exact hb)
     (fun q hq ↦ by
       let _ : IsDiscreteValuationRing ((Spec (CommRingCat.of R[X])).presheaf.stalk (pt q hq)) :=
         (Spec (CommRingCat.of R[X])).codimensionOneStalk_isDiscreteValuationRing hS (hptc q hq)
-      exact Hartshorne.ordFrac_algebraMap_eq_exp_one_of_span_eq _ (pt q hq).asIdeal (hpt0 q hq) _ _
+      exact Hartshorne.horizontal_ordFrac_eq_exp_one_of_span_eq _ (pt q hq).asIdeal (hpt0 q hq) _ _
         (hptmap q hq).symm)
     (fun q hq ↦ by
       have h := affineLineChart_horizontal pb (hpt0 q hq) (hpt1 q hq)
