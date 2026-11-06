@@ -386,3 +386,4 @@ import Hartshorne.Intersection.ClosedSubschemeFundamentalCycle
 import Hartshorne.Scheme.CohenMacaulayRegularSequence
 import Hartshorne.Cohomology.ExtOneExtensionClassification
 import Hartshorne.Cohomology.Semicontinuity.FiniteFreeComplexReplacement
+import Hartshorne.Scheme.Differentials.AffineRelativeDifferentials
