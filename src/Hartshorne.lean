@@ -399,3 +399,4 @@ import Hartshorne.Cohomology.AcyclicResolutionComparison
 import Hartshorne.Scheme.ProjTailIsomorphism
 import Hartshorne.Scheme.AffineTildeTensor
 import Hartshorne.Scheme.QuasiCompactImageClosed
+import Hartshorne.Scheme.Differentials.RelativeDifferentialsQuasicoherent
