@@ -2,6 +2,9 @@
 article_id: af_5ffc461f2f07008cebf36805
 declaration: definition
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.affineLocalIntersectionMultiplicity Hartshorne.planeCurveMultiplicity Hartshorne.affineLocalIntersectionMultiplicity_ne_top_and_ge Hartshorne.finite_lines_affineLocalIntersectionMultiplicity_ne Hartshorne.projectivePlaneLocalIntersectionMultiplicity Hartshorne.finite_and_finsum_projectivePlaneLocalIntersectionMultiplicity
 ---
 
 # Local intersection multiplicity of plane curves
@@ -20,6 +23,8 @@ $\sum_{P\in L\cap Y}(L\cdot Y)_P=d$.
 
 The local length is the definition; these three properties are
 needed by tangent lines and flex calculations.
+
+The irreducibility of $Y$ in the last statement is kept as in the source; it is not needed, since the count only uses that $Y$ is cut out by a form of degree $d$ not vanishing identically on $L$.
 
 ## Depends on
 
