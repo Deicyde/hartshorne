@@ -2,6 +2,9 @@
 article_id: af_85b8c912e45f2b2c152b9ce5
 declaration: definition
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.planeLocalEquation Hartshorne.IsPlaneDoublePoint Hartshorne.IsOrdinaryNode Hartshorne.translatedPlaneCurve Hartshorne.ordinaryNode_blowup Hartshorne.isOrdinaryNode_of_two_blowup_points
 ---
 
 # Ordinary nodes and their two branches
