@@ -2,6 +2,9 @@
 article_id: af_8d604cc43b75df685cf8ce8e
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.tensorPullbackTilde Hartshorne.cohomologyTensor Hartshorne.cohomologyTensorδ Hartshorne.IsCovariantDeltaFunctor Hartshorne.tensorPullbackTilde_shortExact Hartshorne.cohomologyTensor_isCovariantDeltaFunctor
 ---
 
 # Cohomology after tensor is a delta functor
@@ -16,6 +19,10 @@ $X$, and tensored with $F$. Each $T^i$ is additive and covariant, every short
 exact sequence of $A$-modules gives the natural long exact cohomology
 sequence, and the collection $(T^i)_{(i \ge 0)}$ is a covariant delta functor.
 In particular, every $T^i$ is exact in the middle.
+
+The Noetherian, projectivity and coherence hypotheses are kept as in the
+source; they are not needed here, because only the flatness of $F$ over $Y$
+enters the argument.
 
 ## Depends on
 
