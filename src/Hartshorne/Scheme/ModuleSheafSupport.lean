@@ -110,7 +110,7 @@ formulation).  The Noetherian hypothesis is not needed: coherence is defined by 
 on which the sheaf is associated to finitely generated modules, see
 `isClosed_moduleSheafSupport_of_isCoherent`. -/
 theorem isClosed_moduleSheafSupport_of_isCoherent_of_isNoetherian {X : Scheme.{u}}
-    [_hX : IsNoetherian X] (F : X.Modules) (hF : IsCoherent F) :
+    [IsNoetherian X] (F : X.Modules) (hF : IsCoherent F) :
     IsClosed (moduleSheafSupport F) :=
   isClosed_moduleSheafSupport_of_isCoherent F hF
 
