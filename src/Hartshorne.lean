@@ -410,3 +410,5 @@ import Hartshorne.Scheme.FibreDimensionFree
 import Hartshorne.Scheme.Differentials.RegularLocalDifferentialCriterion
 import Hartshorne.Scheme.ProjectiveWeilDivisorDegree
 import Hartshorne.Scheme.FiniteLocallyFreeDuality
+import Hartshorne.Projective.HomogeneousLocalizedModule
+import Hartshorne.Scheme.ProjGradedModuleSheaf
