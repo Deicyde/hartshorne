@@ -14,29 +14,12 @@ $\alpha _V : V \to t(V)$ is a homeomorphism from $V$ onto the subspace of closed
 points of its associated scheme.  Equivalently, a point of $t(V)$ is closed if
 and only if its residue field is $k$.
 
-Here, as for the associated scheme itself, $V$ has an affine-open basis.  The
-residue field of a point $z$ is $k$ when the composite
-$k \to \Gamma (t(V),\mathcal{O} ) \to \mathcal{O} _{t(V),z} \to \kappa (z)$ of the
-constant regular functions, the germ map and the residue map is bijective.
+Here, as for the associated scheme itself, $V$ has an affine-open basis.
 
-In $t(V)$ an irreducible closed subset $Z'$ lies in the closure of the point
-$Z$ exactly when $Z' \subseteq Z$, so $Z$ is a closed point exactly when it is a
-minimal irreducible closed subset.  On an affine open neighbourhood the
-coordinate functions are regular and separate points, and their non-vanishing
-loci are open; hence the points of $V$ are closed, and the closed points of
-$t(V)$ are exactly the points $\alpha _V(P) = \{P\}$.  The topology is the
-subspace topology because $\alpha _V$ induces the established bijection on open
-sets: the preimage of the set of irreducible closed subsets meeting an open
-$U \subseteq V$ is $U$.
-
-Exercise 2.15(a) gives the intrinsic residue-field characterization.  At
-$\alpha _V(P)$, evaluation at $P$ is a ring map
-$\mathcal{O} _{t(V),\alpha _V(P)} \to k$ fixing constants, so every germ differs
-from a constant by a non-unit and the residue field is $k$.  Conversely, if $Z$
-is not a point, it meets an affine open $U$ in two points separated by a
-coordinate function $f$.  For every $c \in k$, the function $f - c$ is invertible
-on the open set where it does not vanish, which meets $Z$; so the germ of
-$f - c$ at $Z$ is a unit, and the residue class of $f$ is not a constant.
+Reduce on affine opens to maximal ideals of $A(V)$; the Nullstellensatz
+identifies them with classical points and residue field $k$.  The topology is
+the subspace topology because $\alpha _V$ induces the established bijection on open
+sets.  Exercise 2.15(a) gives the intrinsic residue-field characterization.
 
 ## Depends on
 
