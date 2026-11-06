@@ -344,3 +344,4 @@ import Hartshorne.Weil.ScaledPerfectPairingDeterminant
 import Hartshorne.Weil.EllAdicCoefficients
 import Hartshorne.Weil.ConstantTorsionEtaleSheaf
 import Hartshorne.Transcendental.ComplexExponentialExactSequence
+import Hartshorne.Scheme.Differentials.RegularLocalLift
