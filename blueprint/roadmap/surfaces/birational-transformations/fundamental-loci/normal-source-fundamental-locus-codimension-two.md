@@ -2,6 +2,9 @@
 article_id: af_e067734e3eaa60839252f909
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.SchemeRationalMap.normal_projective_fundamentalLocus_codim_two Hartshorne.SchemeRationalMap.normal_projective_surface_fundamentalLocus_finite Hartshorne.SchemeRationalMap.mem_dom_of_coheight_eq_one Hartshorne.SchemeRationalMap.two_le_codim_fundamentalLocus Hartshorne.SchemeRationalMap.fundamentalLocus_finite_of_topologicalKrullDim_eq_two
 ---
 
 # The fundamental locus on a normal source has codimension at least two
@@ -10,6 +13,9 @@ Let $T:X \dashrightarrow Y$ be a birational transformation of projective
 varieties, with $X$ normal. Its fundamental locus is closed and has
 codimension at least two. In particular, for a normal surface it is a finite
 set of closed points.
+
+The integrality of $Y$ is kept as in the source; it is not needed, because
+the argument uses only that $Y$ is projective, hence proper, over the field.
 
 ## Depends on
 
