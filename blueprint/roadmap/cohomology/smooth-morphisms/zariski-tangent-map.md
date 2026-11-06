@@ -2,6 +2,9 @@
 article_id: af_6775941197c7d1e9de05f2e3
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.zariskiTangentMap Hartshorne.dualBaseChangeEquiv_zariskiTangentMap Hartshorne.dualBaseChangeEquiv_zariskiTangentMap_toCotangent Hartshorne.localCotangentMap_stalkMap_toCotangent Hartshorne.stalkMap_residueField_algebraMap_eq Hartshorne.zariskiTangentMap_comp Hartshorne.localTangentMap Hartshorne.localTangentMap_eq_iff Hartshorne.localTangentMap_comp
 ---
 
 # The Zariski tangent map
