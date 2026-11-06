@@ -15,9 +15,6 @@ finite locally free sheaf on $X$. Restriction is an isomorphism
 
 $\Gamma (X, E) \simeq \Gamma (U, E|_U)$.
 
-Since $X$ is integral, hence connected, a finite locally free sheaf on $X$ is locally
-isomorphic to $\mathcal{O}_X^{r}$ for one fixed integer $r \ge 0$.
-
 ## Depends on
 
 - [Normal schemes](../../normalization-and-exercises/normal-scheme.md)
