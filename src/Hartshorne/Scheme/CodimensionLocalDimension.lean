@@ -27,8 +27,8 @@ type over a field is the infimum of the dimensions of the local rings at its
 points. -/
 theorem codim_eq_iInf_ringKrullDim_stalk
     {k : Type u} [Field k] {X : Scheme.{u}} [IsIntegral X]
-    (f : X ⟶ Spec (.of k)) (_hf : FiniteType f)
-    {Y : Set X} (_hY : Y.Nonempty) (hYc : IsClosed Y) :
+    (f : X ⟶ Spec (.of k)) (hf : FiniteType f)
+    {Y : Set X} (hY : Y.Nonempty) (hYc : IsClosed Y) :
     (codim Y : WithBot ℕ∞) =
       ⨅ P : Y, ringKrullDim (X.presheaf.stalk P.1) := by
   change (↑(⨅ (Z : IrreducibleCloseds X) (_ : (Z : Set X) ⊆ Y),
