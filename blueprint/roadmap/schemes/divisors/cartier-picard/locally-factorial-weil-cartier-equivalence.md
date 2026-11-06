@@ -2,6 +2,9 @@
 article_id: af_80f6d4cc27ebb567666021b8
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.cartierToWeil AlgebraicGeometry.Scheme.cartierToWeil_apply AlgebraicGeometry.Scheme.weilCartierEquiv AlgebraicGeometry.Scheme.weilCartierEquiv_symm_apply AlgebraicGeometry.Scheme.weilCartierEquiv_principalDivisor AlgebraicGeometry.Scheme.map_principalDivisorSubgroup_weilCartierEquiv AlgebraicGeometry.Scheme.isLocallyPrincipal_of_isLocallyFactorial AlgebraicGeometry.Scheme.cartierEquivLocallyPrincipal AlgebraicGeometry.Scheme.coe_cartierEquivLocallyPrincipal AlgebraicGeometry.Scheme.mem_locallyPrincipalWeilDivisors
 ---
 
 # Weil and Cartier divisors on locally factorial schemes
@@ -14,6 +17,9 @@ For a normal integral Noetherian scheme, prove as a supporting refinement that
 the same construction identifies Cartier divisors with the subgroup of
 locally principal Weil divisors. The locally factorial hypothesis makes every
 Weil divisor locally principal.
+
+In the refinement the scheme is also taken to be separated, as in condition
+$(*)$, under which Weil divisors and principal divisors are considered.
 
 ## Depends on
 
