@@ -242,6 +242,213 @@ theorem map_maximalIdeal_iso_comp_iff {A' A B B' : CommRingCat} [IsLocalRing A']
       (φ.hom.comp (e₁.commRingCatIsoToRingEquiv : A' →+* A)) := rfl
   rw [this, map_maximalIdeal_ringEquiv_comp_iff, map_maximalIdeal_comp_ringEquiv]
 
+
+section Horizontal
+
+attribute [local instance] Polynomial.algebra
+
+variable {R : Type*} [CommRing R] [IsDomain R] {K : Type*} [Field K] [Algebra R K]
+  [IsFractionRing R K]
+
+variable (R) in
+/-- The multiplicative set of nonzero constants of `R[X]`. -/
+abbrev nonzeroConstants : Submonoid R[X] := (nonZeroDivisors R).map (C : R →+* R[X])
+
+omit [IsDomain R] in
+theorem isLocalization_nonzeroConstants :
+    IsLocalization (nonzeroConstants R) K[X] :=
+  Polynomial.isLocalization (nonZeroDivisors R) K
+
+attribute [local instance] isLocalization_nonzeroConstants
+
+/-- A prime of `R[X]` lying over the zero ideal of `R` misses the nonzero constants. -/
+theorem disjoint_nonzeroConstants {P : Ideal R[X]} (hP : P.comap C = ⊥) :
+    Disjoint (nonzeroConstants R : Set R[X]) P := by
+  rw [Set.disjoint_left]
+  rintro x ⟨r, hr, rfl⟩ hx
+  have : r ∈ P.comap C := hx
+  rw [hP, Ideal.mem_bot] at this
+  exact nonZeroDivisors.ne_zero hr this
+
+variable (K) in
+/-- The contraction to `R[X]` of a proper ideal of `K[X]` lies over the zero ideal of `R`. -/
+theorem comap_C_comap_algebraMap_eq_bot {Q : Ideal K[X]} (hQ : Q ≠ ⊤) :
+    (Q.comap (algebraMap R[X] K[X])).comap C = ⊥ := by
+  rw [eq_bot_iff]
+  intro r hr
+  rw [Ideal.mem_bot]
+  by_contra h0
+  apply hQ
+  apply Ideal.eq_top_of_isUnit_mem _ (show algebraMap R[X] K[X] (C r) ∈ Q from hr)
+  rw [Polynomial.algebraMap_def, coe_mapRingHom, map_C]
+  have : algebraMap R K r ≠ 0 :=
+    IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors (mem_nonZeroDivisors_of_ne_zero h0)
+  exact isUnit_C.mpr this.isUnit
+
+variable (K) in
+/-- A nonzero prime of `K[X]` contracts to a height-one prime of `R[X]`. -/
+theorem height_comap_algebraMap_eq_one {Q : Ideal K[X]} [Q.IsPrime] (hQ : Q ≠ ⊥) :
+    (Q.comap (algebraMap R[X] K[X])).height = 1 := by
+  have hQ' : Q.IsMaximal := IsPrime.to_maximal_ideal hQ
+  have hdisj := disjoint_nonzeroConstants (comap_C_comap_algebraMap_eq_bot (R := R) K hQ'.ne_top)
+  have : (Q.comap (algebraMap R[X] K[X])).IsPrime := Ideal.comap_isPrime _ _
+  rw [← IsLocalization.height_map_of_disjoint (S := K[X]) (nonzeroConstants R) _ hdisj]
+  rw [show Ideal.map (algebraMap R[X] K[X]) (Q.comap (algebraMap R[X] K[X])) = Q from
+    IsLocalization.map_under (nonzeroConstants R) K[X] Q]
+  exact IsPrincipalIdealRing.height_eq_one_of_isMaximal Q (Polynomial.not_isField K)
+
+section Local
+
+variable (K) (P : Ideal R[X]) [P.IsPrime] (hP : P.comap C = ⊥) (A : Type*) [CommRing A]
+  [Algebra R[X] A] [IsLocalization.AtPrime A P]
+
+include hP in
+theorem isUnit_algebraMap_nonzeroConstants (y : nonzeroConstants R) :
+    IsUnit (algebraMap R[X] A y) := by
+  rw [IsLocalization.AtPrime.isUnit_to_map_iff A P]
+  exact Set.disjoint_left.mp (disjoint_nonzeroConstants hP) y.2
+
+/-- The localization of `R[X]` at a prime over the zero ideal of `R` receives `K[X]`. -/
+noncomputable def horizontalLift : K[X] →+* A :=
+  IsLocalization.lift (M := nonzeroConstants R) (S := K[X])
+    (isUnit_algebraMap_nonzeroConstants P hP A)
+
+theorem horizontalLift_algebraMap (s : R[X]) :
+    horizontalLift K P hP A (algebraMap R[X] K[X] s) = algebraMap R[X] A s :=
+  IsLocalization.lift_eq _ s
+
+theorem comap_maximalIdeal_horizontalLift :
+    have : IsLocalRing A := IsLocalization.AtPrime.isLocalRing A P
+    (maximalIdeal A).comap (horizontalLift K P hP A) = P.map (algebraMap R[X] K[X]) := by
+  intro _
+  set J := (maximalIdeal A).comap (horizontalLift K P hP A)
+  have hJ : J.comap (algebraMap R[X] K[X]) = P := by
+    rw [Ideal.comap_comap]
+    have : (horizontalLift K P hP A).comp (algebraMap R[X] K[X]) = algebraMap R[X] A :=
+      IsLocalization.lift_comp _
+    rw [this]
+    exact IsLocalization.AtPrime.under_maximalIdeal A P
+  rw [← hJ]
+  exact (IsLocalization.map_under (nonzeroConstants R) K[X] J).symm
+
+variable (L : Type*) [Field L] [Algebra R[X] L] [Algebra K[X] L] [IsScalarTower R[X] K[X] L]
+  [Algebra A L] [IsScalarTower R[X] A L]
+
+theorem algebraMap_horizontalLift (b : K[X]) :
+    algebraMap A L (horizontalLift K P hP A b) = algebraMap K[X] L b := by
+  have : (algebraMap A L).comp (horizontalLift K P hP A) = algebraMap K[X] L := by
+    apply IsLocalization.ringHom_ext (nonzeroConstants R)
+    refine RingHom.ext fun s => ?_
+    simp only [RingHom.comp_apply, horizontalLift_algebraMap]
+    rw [← IsScalarTower.algebraMap_apply, ← IsScalarTower.algebraMap_apply]
+  exact RingHom.congr_fun this b
+
+variable [IsDomain A] [IsDiscreteValuationRing A] [IsFractionRing A L]
+
+include hP in
+/-- A polynomial over `K` outside the extension of `P` has order zero along `P`. -/
+theorem ordFrac_algebraMap_eq_one_of_notMem {b : K[X]} (hb : b ∉ P.map (algebraMap R[X] K[X])) :
+    Ring.ordFrac A (algebraMap K[X] L b) = 1 := by
+  rw [← algebraMap_horizontalLift K P hP A L]
+  apply Ring.ordFrac_of_isUnit
+  by_contra h
+  apply hb
+  rw [← comap_maximalIdeal_horizontalLift K P hP A]
+  exact (mem_maximalIdeal _).mpr h
+
+include hP in
+/-- A generator of the extension of `P` has order one along `P`. -/
+theorem ordFrac_algebraMap_eq_exp_one_of_span_eq {q : K[X]}
+    (hq : Ideal.span {q} = P.map (algebraMap R[X] K[X])) :
+    Ring.ordFrac A (algebraMap K[X] L q) = WithZero.exp 1 := by
+  rw [← algebraMap_horizontalLift K P hP A L]
+  apply Ring.ordFrac_irreducible
+  rw [IsDiscreteValuationRing.irreducible_iff_uniformizer]
+  apply le_antisymm
+  · rw [← IsLocalization.AtPrime.map_eq_maximalIdeal P A, Ideal.map_le_iff_le_comap]
+    intro p hp
+    have hmem : algebraMap R[X] K[X] p ∈ Ideal.span {q} := hq ▸ Ideal.mem_map_of_mem _ hp
+    obtain ⟨t, ht⟩ := Ideal.mem_span_singleton'.mp hmem
+    rw [Ideal.mem_comap, ← horizontalLift_algebraMap K P hP A, ← ht, map_mul]
+    exact Ideal.mul_mem_left _ _ (Ideal.mem_span_singleton_self _)
+  · rw [Ideal.span_le, Set.singleton_subset_iff, SetLike.mem_coe, ← Ideal.mem_comap,
+      comap_maximalIdeal_horizontalLift K P hP A, ← hq]
+    exact Ideal.mem_span_singleton_self q
+
+end Local
+
+end Horizontal
+
+/-- An element of the fraction field of `K[X]` with order zero along every irreducible polynomial
+is a constant. -/
+theorem exists_eq_algebraMap_C_of_forall_irreducible {K L : Type*} [Field K] [Field L]
+    [Algebra K[X] L] [IsFractionRing K[X] L] (w : ∀ q : K[X], Irreducible q → L →*₀ WithZero (Multiplicative ℤ))
+    (hw₁ : ∀ q (hq : Irreducible q) b, ¬ q ∣ b → w q hq (algebraMap K[X] L b) = 1)
+    (hw₂ : ∀ q (hq : Irreducible q), w q hq (algebraMap K[X] L q) = WithZero.exp 1)
+    {F : L} (hF : ∀ q (hq : Irreducible q), w q hq F = 1) :
+    ∃ c : K, F = algebraMap K[X] L (C c) := by
+  have hmult : ∀ q (hq : Irreducible q) (x : K[X]), x ≠ 0 →
+      w q hq (algebraMap K[X] L x) = WithZero.exp (multiplicity q x : ℤ) := by
+    intro q hq x hx
+    obtain ⟨c, hc, hnd⟩ :=
+      (FiniteMultiplicity.of_not_isUnit hq.not_isUnit hx).exists_eq_pow_mul_and_not_dvd
+    conv_lhs => rw [hc]
+    rw [map_mul, map_mul, map_pow, map_pow, hw₂ q hq, hw₁ q hq c hnd, mul_one, ← WithZero.exp_nsmul]
+    simp
+  suffices key : ∀ n : ℕ, ∀ a b : K[X], a ≠ 0 → b ≠ 0 → a.natDegree + b.natDegree ≤ n →
+      F = algebraMap K[X] L a / algebraMap K[X] L b → ∃ c : K, F = algebraMap K[X] L (C c) by
+    obtain ⟨a, b, hb, rfl⟩ := IsFractionRing.div_surjective (A := K[X]) F
+    by_cases ha : a = 0
+    · exact ⟨0, by simp [ha]⟩
+    exact key _ a b ha (nonZeroDivisors.ne_zero hb) le_rfl rfl
+  intro n
+  induction n with
+  | zero =>
+    intro a b ha hb hdeg hF'
+    have ha0 : a.natDegree = 0 := by omega
+    have hb0 : b.natDegree = 0 := by omega
+    rw [eq_C_of_natDegree_eq_zero ha0, eq_C_of_natDegree_eq_zero hb0] at hF'
+    refine ⟨a.coeff 0 / b.coeff 0, ?_⟩
+    rw [hF']
+    exact (map_div₀ ((algebraMap K[X] L).comp C) _ _).symm
+  | succ n ih =>
+    intro a b ha hb hdeg hF'
+    by_cases hdeg0 : a.natDegree + b.natDegree = 0
+    · exact ih a b ha hb (by omega) hF'
+    -- an irreducible factor of `a` or `b`
+    obtain ⟨q, hq, hqab⟩ : ∃ q, Irreducible q ∧ (q ∣ a ∨ q ∣ b) := by
+      by_cases hapos : 0 < a.natDegree
+      · obtain ⟨q, hq, hqa⟩ := WfDvdMonoid.exists_irreducible_factor
+          (Polynomial.not_isUnit_of_natDegree_pos a hapos) ha
+        exact ⟨q, hq, Or.inl hqa⟩
+      · obtain ⟨q, hq, hqb⟩ := WfDvdMonoid.exists_irreducible_factor
+          (Polynomial.not_isUnit_of_natDegree_pos b (by omega)) hb
+        exact ⟨q, hq, Or.inr hqb⟩
+    have hab : multiplicity q a = multiplicity q b := by
+      have h1 := hF q hq
+      rw [hF', map_div₀, hmult q hq a ha, hmult q hq b hb, div_eq_one_iff_eq] at h1
+      · exact_mod_cast WithZero.exp_injective h1
+      · exact WithZero.exp_ne_zero
+    have hqa : q ∣ a := by
+      rcases hqab with h | h
+      · exact h
+      · rw [← multiplicity_ne_zero, hab, multiplicity_ne_zero]; exact h
+    have hqb : q ∣ b := by
+      rcases hqab with h | h
+      · rw [← multiplicity_ne_zero, ← hab, multiplicity_ne_zero]; exact h
+      · exact h
+    obtain ⟨a', rfl⟩ := hqa
+    obtain ⟨b', rfl⟩ := hqb
+    have hq0 : q ≠ 0 := hq.ne_zero
+    have ha' : a' ≠ 0 := right_ne_zero_of_mul ha
+    have hb' : b' ≠ 0 := right_ne_zero_of_mul hb
+    have hqL : algebraMap K[X] L q ≠ 0 :=
+      IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors (mem_nonZeroDivisors_of_ne_zero hq0)
+    have hqdeg := Irreducible.natDegree_pos hq
+    rw [natDegree_mul hq0 ha', natDegree_mul hq0 hb'] at hdeg
+    refine ih a' b' ha' hb' (by omega) ?_
+    rw [hF', map_mul, map_mul, mul_div_mul_left _ _ hqL]
+
 end Hartshorne
 
 namespace AlgebraicGeometry
@@ -570,6 +777,75 @@ theorem Scheme.affineLinePullback_injective : Function.Injective X.affineLinePul
 
 end PullbackDivisor
 
+section GenericFunctionFieldMap
+
+variable {U V Y : Scheme.{u}} [IsIntegral U] [IsIntegral V] [IsIntegral Y]
+
+/-- Pullback of rational functions along a morphism of integral schemes that sends the generic
+point to the generic point. -/
+noncomputable def Scheme.Hom.genericFunctionFieldMap (φ : V ⟶ Y)
+    (h : φ.base (genericPoint V) = genericPoint Y) : Y.functionField ⟶ V.functionField :=
+  Y.presheaf.stalkSpecializes (Inseparable.of_eq h).specializes ≫ φ.stalkMap (genericPoint V)
+
+/-- Pullback of rational functions is compatible with the stalk maps. -/
+theorem Scheme.Hom.genericFunctionFieldMap_algebraMap (φ : V ⟶ Y)
+    (h : φ.base (genericPoint V) = genericPoint Y) (v : V) (r : Y.presheaf.stalk (φ.base v)) :
+    φ.genericFunctionFieldMap h (algebraMap _ Y.functionField r) =
+      algebraMap _ V.functionField (φ.stalkMap v r) := by
+  have key : Y.presheaf.stalkSpecializes ((genericPoint_spec Y).specializes (Set.mem_univ _) :
+        genericPoint Y ⤳ φ.base v) ≫ φ.genericFunctionFieldMap h =
+      φ.stalkMap v ≫ V.presheaf.stalkSpecializes
+        ((genericPoint_spec V).specializes (Set.mem_univ _)) := by
+    rw [Scheme.Hom.genericFunctionFieldMap, TopCat.Presheaf.stalkSpecializes_comp_assoc,
+      Scheme.Hom.stalkSpecializes_stalkMap]
+  exact ConcreteCategory.congr_hom key r
+
+/-- Pullback of rational functions is functorial. -/
+theorem Scheme.Hom.genericFunctionFieldMap_comp (a : U ⟶ V) (b : V ⟶ Y)
+    (ha : a.base (genericPoint U) = genericPoint V) (hb : b.base (genericPoint V) = genericPoint Y)
+    (hab : (a ≫ b).base (genericPoint U) = genericPoint Y) :
+    (a ≫ b).genericFunctionFieldMap hab = b.genericFunctionFieldMap hb ≫ a.genericFunctionFieldMap ha := by
+  rw [Scheme.Hom.genericFunctionFieldMap, Scheme.Hom.genericFunctionFieldMap,
+    Scheme.Hom.genericFunctionFieldMap, Scheme.Hom.stalkMap_comp]
+  have hsp : a.base (genericPoint U) ⤳ genericPoint V := (Inseparable.of_eq ha).specializes
+  rw [Category.assoc, ← Scheme.Hom.stalkSpecializes_stalkMap_assoc b _ _ hsp,
+    TopCat.Presheaf.stalkSpecializes_comp_assoc]
+  rfl
+
+/-- Pullback of rational functions only depends on the morphism. -/
+theorem Scheme.Hom.genericFunctionFieldMap_congr {a b : V ⟶ Y} (hab : a = b)
+    (ha : a.base (genericPoint V) = genericPoint Y) (hb : b.base (genericPoint V) = genericPoint Y) :
+    a.genericFunctionFieldMap ha = b.genericFunctionFieldMap hb := by
+  subst hab
+  rfl
+
+/-- If the maximal ideal of the stalk at the image generates the maximal ideal of the stalk at a
+codimension-one point, pullback of rational functions preserves order of vanishing. -/
+theorem Scheme.ord_genericFunctionFieldMap {V Y : Scheme.{u}} [IsNoetherian V] [IsIntegral V]
+    [IsNoetherian Y] [IsIntegral Y] (hV : V.SatisfiesConditionStar)
+    (hY : Y.SatisfiesConditionStar) (φ : V ⟶ Y) (h : φ.base (genericPoint V) = genericPoint Y)
+    {v : V} (hv : Order.coheight v = 1) (hy : Order.coheight (φ.base v) = 1)
+    (hm : (maximalIdeal (Y.presheaf.stalk (φ.base v))).map (φ.stalkMap v).hom =
+      maximalIdeal (V.presheaf.stalk v)) (F : Y.functionField) :
+    Scheme.ord (φ.genericFunctionFieldMap h F) v = Scheme.ord F (φ.base v) := by
+  let _ : IsDiscreteValuationRing (Y.presheaf.stalk (φ.base v)) :=
+    Y.codimensionOneStalk_isDiscreteValuationRing hY hy
+  let _ : IsDiscreteValuationRing (V.presheaf.stalk v) :=
+    V.codimensionOneStalk_isDiscreteValuationRing hV hv
+  rw [Scheme.ord_eq_ordHom_of_coheight_eq_one hv, Scheme.ord_eq_ordHom_of_coheight_eq_one hy]
+  congr 2
+  exact Hartshorne.ordFrac_map_of_map_maximalIdeal_eq (φ.stalkMap v).hom
+    (φ.genericFunctionFieldMap h).hom (φ.genericFunctionFieldMap_algebraMap h v) hm F
+
+/-- Open immersions satisfy the maximal-ideal condition. -/
+theorem Scheme.Hom.map_maximalIdeal_stalkMap_of_isOpenImmersion {V Y : Scheme.{u}} (φ : V ⟶ Y)
+    [IsOpenImmersion φ] (v : V) :
+    (maximalIdeal (Y.presheaf.stalk (φ.base v))).map (φ.stalkMap v).hom =
+      maximalIdeal (V.presheaf.stalk v) :=
+  map_ringEquiv_maximalIdeal (asIso (φ.stalkMap v)).commRingCatIsoToRingEquiv
+
+end GenericFunctionFieldMap
+
 section FunctionField
 
 variable (X : Scheme.{u}) [IsIntegral X]
@@ -584,8 +860,7 @@ theorem affineLine_proj_genericPoint :
 /-- Pullback of rational functions along the projection `𝔸¹_X → X`. -/
 noncomputable def Scheme.affineLineFunctionFieldMap :
     X.functionField ⟶ 𝔸(PUnit.{u + 1}; X).functionField :=
-  X.presheaf.stalkSpecializes (Inseparable.of_eq (affineLine_proj_genericPoint X)).specializes ≫
-    (𝔸(PUnit.{u + 1}; X) ↘ X).stalkMap (genericPoint 𝔸(PUnit.{u + 1}; X))
+  (𝔸(PUnit.{u + 1}; X) ↘ X).genericFunctionFieldMap (affineLine_proj_genericPoint X)
 
 variable {X}
 
@@ -594,14 +869,8 @@ theorem Scheme.affineLineFunctionFieldMap_algebraMap (z : 𝔸(PUnit.{u + 1}; X)
     (r : X.presheaf.stalk ((𝔸(PUnit.{u + 1}; X) ↘ X).base z)) :
     X.affineLineFunctionFieldMap (algebraMap _ X.functionField r) =
       algebraMap _ 𝔸(PUnit.{u + 1}; X).functionField
-        ((𝔸(PUnit.{u + 1}; X) ↘ X).stalkMap z r) := by
-  have key : X.presheaf.stalkSpecializes ((genericPoint_spec X).specializes (Set.mem_univ _) :
-        genericPoint X ⤳ (𝔸(PUnit.{u + 1}; X) ↘ X).base z) ≫ X.affineLineFunctionFieldMap =
-      (𝔸(PUnit.{u + 1}; X) ↘ X).stalkMap z ≫ 𝔸(PUnit.{u + 1}; X).presheaf.stalkSpecializes
-        ((genericPoint_spec 𝔸(PUnit.{u + 1}; X)).specializes (Set.mem_univ _)) := by
-    rw [Scheme.affineLineFunctionFieldMap, TopCat.Presheaf.stalkSpecializes_comp_assoc,
-      Scheme.Hom.stalkSpecializes_stalkMap]
-  exact ConcreteCategory.congr_hom key r
+        ((𝔸(PUnit.{u + 1}; X) ↘ X).stalkMap z r) :=
+  (𝔸(PUnit.{u + 1}; X) ↘ X).genericFunctionFieldMap_algebraMap _ z r
 
 end FunctionField
 
