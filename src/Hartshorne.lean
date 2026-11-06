@@ -464,3 +464,6 @@ import Hartshorne.Rational.ContractedCurves
 import Hartshorne.Cohomology.FlatFamilies.NormalFamilyFlat
 import Hartshorne.Scheme.RelativeProj
 import Hartshorne.Scheme.Differentials.RegularLocalization
+import Hartshorne.Cohomology.LocallyFiniteSumSheaf
+import Hartshorne.Cohomology.ProjectiveLinePartialFractions
+import Hartshorne.Cohomology.ProjectiveLinePrincipalParts
