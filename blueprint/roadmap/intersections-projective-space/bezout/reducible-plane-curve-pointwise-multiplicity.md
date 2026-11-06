@@ -25,6 +25,15 @@ nonnegative integer. Each such $W$ is a singleton, and $Y\cap Z$ is
 finite. Summing over the intersection removes the indicators and gives
 the corresponding finite triple sum of component multiplicities.
 
+The dimension-one, purity and no-common-component hypotheses are not needed
+for the defining sum to make sense, because every projective algebraic set has
+finitely many irreducible components and the multiplicity
+$i(C,D;W)=\mu_{\mathfrak p_W}\bigl(S/(I(C)+I(D))\bigr)$, with $S$ the
+homogeneous coordinate ring of $\mathbb P^2$ and $\mathfrak p_W$ the
+homogeneous prime of $W$, is defined for every component $W$ of $C\cap D$;
+they are what make each $W$ a single point and $Y\cap Z$ finite, so that the
+sum becomes a finite sum over the points of $Y\cap Z$.
+
 This is a project-authored definition of the reindexing needed for the
 extension asserted in Hartshorne's Remark I.7.8.2.
 
