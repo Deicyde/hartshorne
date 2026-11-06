@@ -2,6 +2,9 @@
 article_id: af_5b2f2abbc298a5bf3bfb5336
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.moduleSheafSupport Hartshorne.moduleSheafSupport_tilde Hartshorne.moduleSheafSupport_tilde_eq_zeroLocus Hartshorne.isClosed_moduleSheafSupport_of_isCoherent Hartshorne.sectionSupport_tilde_toOpen_top
 ---
 
 # Support of a quasi-coherent module
