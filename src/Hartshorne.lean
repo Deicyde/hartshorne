@@ -425,3 +425,4 @@ import Hartshorne.Scheme.DVRValuativeCriterionSeparated
 import Hartshorne.Scheme.SeparatedValuationCenter
 import Hartshorne.Scheme.GeneratedProjProjective
 import Hartshorne.Cohomology.FlatFamilies.FlatOverRegularCurve
+import Hartshorne.Scheme.DVRValuativeCriterionProper
