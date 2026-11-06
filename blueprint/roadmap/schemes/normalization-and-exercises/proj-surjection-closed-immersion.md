@@ -23,6 +23,7 @@ On each standard open $D_{+}(f)$, identify the induced map with the spectrum of 
 
 - The chartwise graded-localization maps and target-locality of closed
   immersions.
+- [Proj is invariant under an eventual graded isomorphism](../projective-spectrum/proj-tail-isomorphism.md)
 
 ## Sources
 

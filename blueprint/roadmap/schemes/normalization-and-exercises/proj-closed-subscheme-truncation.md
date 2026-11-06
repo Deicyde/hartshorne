@@ -22,6 +22,7 @@ Apply the graded-quotient closed immersion. On every standard affine chart, suff
 ## Proof depends on
 
 - Degree-zero graded localization and equality of ideal sheaves on the standard affine cover.
+- [Proj is invariant under an eventual graded isomorphism](../projective-spectrum/proj-tail-isomorphism.md)
 
 ## Sources
 
