@@ -1056,14 +1056,17 @@ variable {X : Scheme.{u}} [IsNoetherian X] [IsIntegral X]
 
 include pb
 
+omit [IsNoetherian X] [IsIntegral X] [IsDomain R] [IsNoetherianRing R] in
 theorem affineLineChart_isOpenImmersion : IsOpenImmersion g :=
   isOpenImmersion_of_affineLine_chart inferInstance pb
 
+omit [IsNoetherian X] [IsNoetherianRing R] in
 theorem affineLineChart_genericPoint :
     g.base (genericPoint (Spec (CommRingCat.of R[X]))) = genericPoint 𝔸(PUnit.{u + 1}; X) := by
   have := affineLineChart_isOpenImmersion pb
   exact genericPoint_eq_of_isOpenImmersion g
 
+omit [IsNoetherian X] [IsIntegral X] in
 /-- The affine chart of the relative affine line satisfies `(*)`. -/
 theorem affineLineChart_satisfiesConditionStar (hX : X.SatisfiesConditionStar) :
     (Spec (CommRingCat.of R[X])).SatisfiesConditionStar := by
@@ -1071,6 +1074,7 @@ theorem affineLineChart_satisfiesConditionStar (hX : X.SatisfiesConditionStar) :
   exact ⟨inferInstance, inferInstance, inferInstance,
     hX.affineLine.isRegularInCodimensionOne.of_isOpenImmersion g⟩
 
+omit [IsNoetherian X] [IsNoetherianRing R] in
 /-- Horizontal codimension-one points of the relative affine line lie in the chart, over the
 generic point of `Spec R`. -/
 theorem affineLineChart_exists_of_horizontal {w : 𝔸(PUnit.{u + 1}; X)}
@@ -1087,6 +1091,7 @@ theorem affineLineChart_exists_of_horizontal {w : 𝔸(PUnit.{u + 1}; X)}
   · rw [← (affineLine_chart_point inferInstance pb P).1]
     exact hw
 
+omit [IsNoetherian X] [IsNoetherianRing R] in
 /-- Conversely, chart points over the generic point of `Spec R` of height one are horizontal
 codimension-one points. -/
 theorem affineLineChart_horizontal {P : Spec (CommRingCat.of R[X])}
@@ -1117,6 +1122,7 @@ theorem affineLineChart_ord (hX : X.SatisfiesConditionStar) (P : Spec (CommRingC
       rw [coheight_eq_of_isOpenImmersion]; exact hP
     rw [Scheme.ord_eq_zero_of_coheight_neq_one hP, Scheme.ord_eq_zero_of_coheight_neq_one hgP]
 
+omit [IsNoetherian X] [IsNoetherianRing R] in
 /-- The function-field map of the chart is surjective. -/
 theorem affineLineChart_genericFunctionFieldMap_surjective :
     Function.Surjective (g.genericFunctionFieldMap (affineLineChart_genericPoint pb)) := by
@@ -1176,6 +1182,7 @@ theorem affineLineChart_isFractionRing :
     IsFractionRing R[X] (Spec (CommRingCat.of R[X])).functionField :=
   functionField_isFractionRing_of_affine (CommRingCat.of R[X])
 
+omit [IsDomain R] in
 theorem affineLineChart_isLocalization (P : Spec (CommRingCat.of R[X])) :
     IsLocalization.AtPrime ((Spec (CommRingCat.of R[X])).presheaf.stalk P) P.asIdeal :=
   StructureSheaf.IsLocalization.to_stalk R[X] P
@@ -1294,6 +1301,7 @@ theorem exists_affineLine_chart_of_isIntegral :
 
 variable {X}
 
+omit [IsNoetherian X] in
 /-- In a chart, pulling back along the projection and then restricting to the chart is pulling
 back along the inclusion of constants. -/
 theorem affineLineChart_functionFieldMap {R : CommRingCat.{u}} [IsDomain R] [IsNoetherianRing R]
