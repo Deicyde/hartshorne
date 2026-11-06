@@ -20,9 +20,12 @@ projective surface.
 ## Depends on
 
 - [The fundamental locus on a normal surface is finite](../fundamental-loci/normal-source-fundamental-locus-codimension-two.md)
+- [Regular points and nonsingular schemes](../../../schemes/differentials/scheme-differentials/regular-points-and-nonsingular-schemes.md)
 
 ## Proof depends on
 
+- [Serre's criterion for normality](../../../schemes/differentials/local-complete-intersections/serre-normality-criterion.md)
+- [Regular local rings are Cohen–Macaulay](../../../schemes/differentials/local-complete-intersections/regular-local-implies-cohen-macaulay.md)
 - Every contracted curve lies in the inverse image of a fundamental point of
   $f^{-1}$. There are finitely many such points, and each Noetherian fibre has
   finitely many irreducible components.
