@@ -2,6 +2,9 @@
 article_id: af_1a74e5d0667c096b8cd95fd1
 declaration: definition
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.moduleSheafTensor Hartshorne.ModuleSheafBilinear Hartshorne.moduleSheafTensorBilinear Hartshorne.moduleSheafTensorHomEquiv Hartshorne.moduleSheafTensorHomEquiv_apply Hartshorne.moduleSheafTensorHomEquiv_comp Hartshorne.moduleSheafTensor_universal Hartshorne.moduleSheafTensorStalkIso Hartshorne.moduleSheafTensorStalkIso_germ
 ---
 
 # Tensor products of module sheaves
