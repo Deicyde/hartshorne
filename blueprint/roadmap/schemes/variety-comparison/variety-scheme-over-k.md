@@ -2,6 +2,9 @@
 article_id: af_b8676c84ea1c7ada3d8fddba
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.varietyAssociatedSchemeConstants Hartshorne.varietyAssociatedSchemeStructureMorphism Hartshorne.varietyAssociatedScheme_structureMorphism_appTop Hartshorne.varietyAssociatedScheme_structureMorphism_unique Hartshorne.varietyAssociatedSchemeCanonicallyOver Hartshorne.varietyAssociatedScheme_over Hartshorne.SchemeVarietyCat.toSchemeCanonicallyOver
 ---
 
 # The associated scheme is a scheme over the base field
@@ -14,6 +17,9 @@ $t(V) \to \operatorname{Spec} k$.
 This makes the associated scheme a scheme over $k$. The global-sections–
 spectrum adjunction gives the unique morphism with the prescribed map on
 global sections.
+
+Here, as for the associated scheme itself, $V$ has an affine-open basis and
+$k$ is algebraically closed.
 
 ## Depends on
 
