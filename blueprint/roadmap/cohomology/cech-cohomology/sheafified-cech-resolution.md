@@ -2,6 +2,9 @@
 article_id: af_129a7a2a84a9a482e9669070
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.SheafifiedCech.augmentedSheafifiedCechComplex_exactAt Hartshorne.SheafifiedCech.globalSectionsIso Hartshorne.SheafifiedCech.cochainSheaf Hartshorne.SheafifiedCech.cochainSheafIsProduct Hartshorne.SheafifiedCech.sheafifiedCechComplex Hartshorne.SheafifiedCech.augmentation Hartshorne.SheafifiedCech.augmentedSheafifiedCechComplex
 ---
 
 # The sheafified Čech resolution
