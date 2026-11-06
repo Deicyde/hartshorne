@@ -22,6 +22,7 @@ $X_y$ has dimension $n$.
 
 ## Proof depends on
 
+- [The reduced induced closed subscheme](../../../schemes/subschemes-and-dimension/reduced-induced-closed-subscheme.md)
 - [Dimension after extending the ground field](../../../schemes/fiber-products/base-extension-component-dimension.md)
 - [The local dimension formula for a flat fibre](flat-fiber-local-dimension-formula.md)
 - [Dimension at a closed point](../../../schemes/subschemes-and-dimension/dimension-at-closed-point.md)
