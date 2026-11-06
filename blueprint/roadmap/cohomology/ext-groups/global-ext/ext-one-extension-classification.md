@@ -2,6 +2,9 @@
 article_id: af_052d2f1600357bdd3ecb1208
 declaration: theorem
 origin: cited
+lean: Hartshorne.sheafOfModules_quotientExtClass_bijective Hartshorne.schemeModules_quotientExtClass_bijective Hartshorne.ShortExactExtension Hartshorne.ShortExactExtension.IsEquivalent Hartshorne.ShortExactExtension.extClass Hartshorne.ShortExactExtension.quotientExtClass
+statement: formalized
+proof: formalized
 ---
 
 # Extensions are classified by Ext one
