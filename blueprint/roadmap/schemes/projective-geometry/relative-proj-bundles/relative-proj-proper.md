@@ -2,6 +2,9 @@
 article_id: af_f5af5ac873c8d42f918a59ee
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.RelativeProjData.isProper_projection
 ---
 
 # Relative Proj is proper
