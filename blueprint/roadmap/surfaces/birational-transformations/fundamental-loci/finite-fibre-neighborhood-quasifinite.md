@@ -2,6 +2,9 @@
 article_id: af_7370d04f9ed05fa3fb569f11
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.Projective.exists_mem_locallyQuasiFinite_morphismRestrict Hartshorne.exists_mem_locallyQuasiFinite_morphismRestrict_of_isProper
 ---
 
 # A finite projective fibre has a quasi-finite neighbourhood
@@ -10,9 +13,15 @@ Let $f : Z \to X$ be a projective finite-type morphism of Noetherian schemes.
 If the fibre over $P \in X$ is zero-dimensional, then there is an open
 neighbourhood $U$ of $P$ such that
 
-$f^-1(U) \to U$
+$f^{-1}(U) \to U$
 
 is quasi-finite.
+
+The Noetherian and finite-type hypotheses are kept to match Hartshorne's
+setting. Projectivity already makes $f$ proper, hence of finite type and
+closed, and the argument never uses the Noetherian hypotheses, so the separately
+stated general form holds for every proper morphism whose fibre over $P$ has
+dimension at most zero.
 
 ## Depends on
 
