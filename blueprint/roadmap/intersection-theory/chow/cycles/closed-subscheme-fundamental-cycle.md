@@ -2,6 +2,9 @@
 article_id: af_9f98993e9d2c722ee3b28d98
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.closedSubschemeFundamentalCycle Hartshorne.closedSubschemeFundamentalCycle_apply_generic Hartshorne.closedSubschemeFundamentalCycle_apply_eq_zero
 ---
 
 # The fundamental cycle of a closed subscheme
