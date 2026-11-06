@@ -87,7 +87,7 @@ jobs:
       - name: Validate the blueprint contract
         run: >-
           uvx --from "git+${AUTOFORM_SOURCE}@${AUTOFORM_REF}"
-          autoform doctor blueprint --lean-root .
+          autoform audit blueprint --lean-root .
 
       # Writes site-src/: statement boxes, derived statuses, the Mermaid graph,
       # and permalinks into the Lean code at this exact commit.

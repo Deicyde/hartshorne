@@ -27,7 +27,7 @@ jobs:
         run: |
           wiki_ref="$(cat .github/autoform-ref)"
           wiki_package="git+https://github.com/facebookresearch/autoform-bot.git@${wiki_ref}"
-          uvx --from "$wiki_package" autoform doctor blueprint --lean-root .
+          uvx --from "$wiki_package" autoform audit blueprint --lean-root .
           uvx --from "$wiki_package" autoform render blueprint --output site-src --lean-root . --require-declarations
           uvx --from mkdocs==1.6.1 --with mkdocs-material==9.7.7 --with mkdocs-literate-nav==0.6.2 \
             --with markdown==3.10.3 --with pymdown-extensions==11.0.1 mkdocs build --strict
