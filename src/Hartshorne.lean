@@ -435,3 +435,4 @@ import Hartshorne.Scheme.ProjectiveIntersectionDegree
 import Hartshorne.Cohomology.FiniteLocallyFreeTensorInjective
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsTransitivity
 import Hartshorne.Scheme.SheafTensorOperations
+import Hartshorne.Scheme.VarietyAssociatedScheme
