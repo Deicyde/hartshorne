@@ -467,3 +467,4 @@ import Hartshorne.Scheme.Differentials.RegularLocalization
 import Hartshorne.Cohomology.LocallyFiniteSumSheaf
 import Hartshorne.Cohomology.ProjectiveLinePartialFractions
 import Hartshorne.Cohomology.ProjectiveLinePrincipalParts
+import Hartshorne.Scheme.RelativeProjProper
