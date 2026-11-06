@@ -338,14 +338,8 @@ theorem bijective_truncationQuotientMap (d : ℕ) (hd : d₀ ≤ d) :
 theorem isIso_map_truncationQuotientMap :
     IsIso (Proj.map (truncationQuotientMap I d₀)
       (irrelevant_le_map_of_surjective (truncationQuotientMap_surjective I d₀))) := by
-  have hbij := bijective_truncationQuotientMap I d₀
-  have hiso : IsIso (projPartialMap (truncationQuotientMap I d₀)) := by
-    refine (IsZariskiLocalAtTarget.iff_of_iSup_eq_top
-      (P := MorphismProperty.isomorphisms Scheme)
-      (f := projPartialMap (truncationQuotientMap I d₀)) _
-      (ProjTail.iSup_basicOpen_tail_eq_top d₀)).mpr ?_
-    rintro ⟨i, r, hi, hd, hr⟩
-    exact ProjTail.isIso_morphismRestrict hbij hr hi hd
+  have hiso : IsIso (projPartialMap (truncationQuotientMap I d₀)) :=
+    isIso_projPartialMap_of_bijective (bijective_truncationQuotientMap I d₀)
   have hι : IsIso (projPartialDomain (truncationQuotientMap I d₀)).ι := by
     rw [isIso_iff_isOpenImmersion_and_surjective]
     refine ⟨inferInstance, ⟨fun y => ?_⟩⟩
