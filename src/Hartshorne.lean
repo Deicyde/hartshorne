@@ -394,3 +394,4 @@ import Hartshorne.Scheme.AbsoluteNormalizationFinite
 import Hartshorne.Scheme.FiniteCurveDivisorPullback
 import Hartshorne.Scheme.ReducedInducedSubscheme
 import Hartshorne.Weil.FrobeniusFixedPoints
+import Hartshorne.Scheme.ModuleSheafSupport
