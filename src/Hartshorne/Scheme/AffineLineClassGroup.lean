@@ -190,6 +190,58 @@ theorem ordFrac_map_of_map_maximalIdeal_eq {A B K L : Type*} [CommRing A] [IsDom
   obtain ⟨a, b, -, rfl⟩ := IsFractionRing.div_surjective (A := A) k
   rw [map_div₀, hψ, hψ, map_div₀, map_div₀, key, key]
 
+
+
+/-- Precomposing with a ring isomorphism of local rings does not change the image of the maximal
+ideal. -/
+theorem map_maximalIdeal_comp_ringEquiv {A A' B : Type*} [CommRing A] [CommRing A'] [CommRing B]
+    [IsLocalRing A] [IsLocalRing A'] (e : A' ≃+* A) (φ : A →+* B) :
+    (maximalIdeal A').map (φ.comp (e : A' →+* A)) = (maximalIdeal A).map φ := by
+  rw [← Ideal.map_map]
+  exact congrArg (Ideal.map φ) (map_ringEquiv_maximalIdeal e)
+
+/-- Postcomposing with a ring isomorphism of local rings preserves the property that the maximal
+ideal generates the maximal ideal. -/
+theorem map_maximalIdeal_ringEquiv_comp_iff {A B B' : Type*} [CommRing A] [CommRing B]
+    [CommRing B'] [IsLocalRing A] [IsLocalRing B] [IsLocalRing B'] (φ : A →+* B) (e : B ≃+* B') :
+    (maximalIdeal A).map ((e : B →+* B').comp φ) = maximalIdeal B' ↔
+      (maximalIdeal A).map φ = maximalIdeal B := by
+  constructor
+  · intro h
+    have h' := congrArg (Ideal.map (e.symm : B' →+* B)) h
+    rw [Ideal.map_map, show ((e.symm : B' →+* B).comp ((e : B →+* B').comp φ)) = φ by
+      ext; simp] at h'
+    rw [h']
+    exact map_ringEquiv_maximalIdeal e.symm
+  · intro h
+    rw [← Ideal.map_map, h]
+    exact map_ringEquiv_maximalIdeal e
+
+/-- For a prime `p` of `R`, the maximal ideal of `R_p` generates the maximal ideal of
+`R[X]_{p[X]}`. -/
+theorem map_maximalIdeal_localRingHom_C {R : Type*} [CommRing R] (p : Ideal R) [p.IsPrime]
+    (P : Ideal R[X]) [P.IsPrime] (hP : P = p.map C) (hp : p = P.comap C) :
+    (maximalIdeal (Localization.AtPrime p)).map (Localization.localRingHom p P C hp) =
+      maximalIdeal (Localization.AtPrime P) := by
+  rw [← Localization.AtPrime.map_eq_maximalIdeal, Ideal.map_map,
+    ← Localization.AtPrime.map_eq_maximalIdeal]
+  rw [show Ideal.map (algebraMap R[X] (Localization.AtPrime P)) P =
+    Ideal.map (algebraMap R[X] (Localization.AtPrime P)) (p.map C) from congrArg _ hP,
+    Ideal.map_map]
+  congr 1
+  ext r
+  simp
+
+/-- Composing with isomorphisms on both sides preserves the property that the maximal ideal
+generates the maximal ideal. -/
+theorem map_maximalIdeal_iso_comp_iff {A' A B B' : CommRingCat} [IsLocalRing A'] [IsLocalRing A]
+    [IsLocalRing B] [IsLocalRing B'] (e₁ : A' ≅ A) (φ : A ⟶ B) (e₂ : B' ≅ B) :
+    (maximalIdeal A').map (e₁.hom ≫ φ ≫ e₂.inv).hom = maximalIdeal B' ↔
+      (maximalIdeal A).map φ.hom = maximalIdeal B := by
+  have : (e₁.hom ≫ φ ≫ e₂.inv).hom = (e₂.symm.commRingCatIsoToRingEquiv : B →+* B').comp
+      (φ.hom.comp (e₁.commRingCatIsoToRingEquiv : A' →+* A)) := rfl
+  rw [this, map_maximalIdeal_ringEquiv_comp_iff, map_maximalIdeal_comp_ringEquiv]
+
 end Hartshorne
 
 namespace AlgebraicGeometry
@@ -517,5 +569,206 @@ theorem Scheme.affineLinePullback_injective : Function.Injective X.affineLinePul
   · exact D.2 x hx
 
 end PullbackDivisor
+
+section FunctionField
+
+variable (X : Scheme.{u}) [IsIntegral X]
+
+/-- The projection of the relative affine line sends the generic point to the generic point. -/
+theorem affineLine_proj_genericPoint :
+    (𝔸(PUnit.{u + 1}; X) ↘ X).base (genericPoint 𝔸(PUnit.{u + 1}; X)) = genericPoint X := by
+  have h := (genericPoint_spec 𝔸(PUnit.{u + 1}; X)).image (𝔸(PUnit.{u + 1}; X) ↘ X).continuous
+  rw [Set.image_univ, (𝔸(PUnit.{u + 1}; X) ↘ X).surjective.range_eq, closure_univ] at h
+  exact h.eq (genericPoint_spec X)
+
+/-- Pullback of rational functions along the projection `𝔸¹_X → X`. -/
+noncomputable def Scheme.affineLineFunctionFieldMap :
+    X.functionField ⟶ 𝔸(PUnit.{u + 1}; X).functionField :=
+  X.presheaf.stalkSpecializes (Inseparable.of_eq (affineLine_proj_genericPoint X)).specializes ≫
+    (𝔸(PUnit.{u + 1}; X) ↘ X).stalkMap (genericPoint 𝔸(PUnit.{u + 1}; X))
+
+variable {X}
+
+/-- Pullback of rational functions is compatible with the stalk maps of the projection. -/
+theorem Scheme.affineLineFunctionFieldMap_algebraMap (z : 𝔸(PUnit.{u + 1}; X))
+    (r : X.presheaf.stalk ((𝔸(PUnit.{u + 1}; X) ↘ X).base z)) :
+    X.affineLineFunctionFieldMap (algebraMap _ X.functionField r) =
+      algebraMap _ 𝔸(PUnit.{u + 1}; X).functionField
+        ((𝔸(PUnit.{u + 1}; X) ↘ X).stalkMap z r) := by
+  have key : X.presheaf.stalkSpecializes ((genericPoint_spec X).specializes (Set.mem_univ _) :
+        genericPoint X ⤳ (𝔸(PUnit.{u + 1}; X) ↘ X).base z) ≫ X.affineLineFunctionFieldMap =
+      (𝔸(PUnit.{u + 1}; X) ↘ X).stalkMap z ≫ 𝔸(PUnit.{u + 1}; X).presheaf.stalkSpecializes
+        ((genericPoint_spec 𝔸(PUnit.{u + 1}; X)).specializes (Set.mem_univ _)) := by
+    rw [Scheme.affineLineFunctionFieldMap, TopCat.Presheaf.stalkSpecializes_comp_assoc,
+      Scheme.Hom.stalkSpecializes_stalkMap]
+  exact ConcreteCategory.congr_hom key r
+
+end FunctionField
+
+section MaximalIdeal
+
+variable {X : Scheme.{u}} [IsLocallyNoetherian X]
+
+/-- At the generic point of a fibre of `𝔸¹_X → X`, the maximal ideal of the base stalk generates
+the maximal ideal of the stalk. -/
+theorem affineLine_map_maximalIdeal_stalk {z : 𝔸(PUnit.{u + 1}; X)}
+    (hz : Order.coheight z = Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base z)) :
+    (maximalIdeal (X.presheaf.stalk ((𝔸(PUnit.{u + 1}; X) ↘ X).base z))).map
+        ((𝔸(PUnit.{u + 1}; X) ↘ X).stalkMap z).hom =
+      maximalIdeal (𝔸(PUnit.{u + 1}; X).presheaf.stalk z) := by
+  obtain ⟨R, f, g, hf, ⟨u, hu⟩, pb⟩ :=
+    exists_affineLine_chart X ((𝔸(PUnit.{u + 1}; X) ↘ X).base z)
+  have : IsOpenImmersion g := isOpenImmersion_of_affineLine_chart hf pb
+  obtain ⟨P, rfl, rfl⟩ := Scheme.exists_preimage_of_isPullback pb z u hu.symm
+  have : IsLocallyNoetherian (Spec R) := isLocallyNoetherian_of_isOpenImmersion f
+  have : IsNoetherianRing R := isLocallyNoetherian_Spec.mp this
+  have : P.asIdeal.IsPrime := P.isPrime
+  obtain ⟨a, -, c⟩ := affineLine_chart_point hf pb P
+  rw [a, c] at hz
+  have hP := (Hartshorne.height_eq_height_comap_C_iff P.asIdeal).mp hz
+  set h := Spec.map (CommRingCat.ofHom (C : R →+* R[X]))
+  set π := 𝔸(PUnit.{u + 1}; X) ↘ X
+  have hpt : π.base (g.base P) = f.base (h.base P) := by
+    rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, pb.w]
+  -- the stalk maps around the chart square
+  have hsq : π.stalkMap (g.base P) ≫ g.stalkMap P =
+      (X.presheaf.stalkCongr (.of_eq hpt)).hom ≫ f.stalkMap (h.base P) ≫ h.stalkMap P := by
+    rw [← Scheme.Hom.stalkMap_comp, ← Scheme.Hom.stalkMap_comp,
+      Scheme.Hom.stalkMap_congr_hom _ _ pb.w]
+    rfl
+  have hspec := Scheme.localRingHom_comp_stalkIso (CommRingCat.ofHom (C : R →+* R[X])) P
+  rw [← Hartshorne.map_maximalIdeal_ringEquiv_comp_iff _
+    (asIso (g.stalkMap P)).commRingCatIsoToRingEquiv]
+  have e1 : ((asIso (g.stalkMap P)).commRingCatIsoToRingEquiv : _ →+* _).comp
+      (π.stalkMap (g.base P)).hom = (π.stalkMap (g.base P) ≫ g.stalkMap P).hom := rfl
+  rw [e1, hsq]
+  have e2 : ((X.presheaf.stalkCongr (.of_eq hpt)).hom ≫ f.stalkMap (h.base P) ≫ h.stalkMap P).hom =
+      (h.stalkMap P).hom.comp ((X.presheaf.stalkCongr (.of_eq hpt) ≪≫ asIso (f.stalkMap (h.base P))).commRingCatIsoToRingEquiv :
+        _ →+* _) := rfl
+  rw [e2, Hartshorne.map_maximalIdeal_comp_ringEquiv, ← hspec]
+  refine (Hartshorne.map_maximalIdeal_iso_comp_iff _ _ _).mpr ?_
+  exact Hartshorne.map_maximalIdeal_localRingHom_C _ _ hP rfl
+
+end MaximalIdeal
+
+section Ord
+
+/-- The relative affine line over a locally Noetherian scheme is locally Noetherian. -/
+instance AffineSpace.isLocallyNoetherian_pUnit {X : Scheme.{u}} [IsLocallyNoetherian X] :
+    IsLocallyNoetherian 𝔸(PUnit.{u + 1}; X) :=
+  LocallyOfFiniteType.isLocallyNoetherian (𝔸(PUnit.{u + 1}; X) ↘ X)
+
+/-- On an integral scheme, a point of coheight zero is the generic point. -/
+theorem eq_genericPoint_of_coheight_eq_zero {X : Scheme.{u}} [IsIntegral X] {x : X}
+    (hx : Order.coheight x = 0) : x = genericPoint X := by
+  have h1 : (⊤ : X) ≤ x := Order.coheight_eq_zero.mp hx le_top
+  exact ((show x ⤳ genericPoint X from h1).antisymm (genericPoint_specializes x)).eq
+
+private theorem surjective_algebraMap_stalk_of_eq_genericPoint {X : Scheme.{u}} [IsIntegral X]
+    {x : X} (hx : x = genericPoint X) :
+    Function.Surjective (algebraMap (X.presheaf.stalk x) X.functionField) := by
+  subst hx
+  intro f
+  refine ⟨f, ?_⟩
+  change (X.presheaf.stalkSpecializes _).hom f = f
+  rw [TopCat.Presheaf.stalkSpecializes_refl]
+  rfl
+
+variable {X : Scheme.{u}} [IsNoetherian X] [IsIntegral X] (hX : X.SatisfiesConditionStar)
+include hX
+
+/-- Along a vertical prime divisor, pulling back a rational function preserves its order. -/
+theorem Scheme.ord_affineLineFunctionFieldMap_of_coheight_eq_one {z : 𝔸(PUnit.{u + 1}; X)}
+    (hz : Order.coheight z = 1)
+    (hx : Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) = 1) (f : X.functionField) :
+    Scheme.ord (X.affineLineFunctionFieldMap f) z =
+      Scheme.ord f ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) := by
+  have hY := hX.affineLine
+  have : IsNoetherian 𝔸(PUnit.{u + 1}; X) := hY.isNoetherian
+  let _ : IsDiscreteValuationRing (X.presheaf.stalk ((𝔸(PUnit.{u + 1}; X) ↘ X).base z)) :=
+    X.codimensionOneStalk_isDiscreteValuationRing hX hx
+  let _ : IsDiscreteValuationRing (𝔸(PUnit.{u + 1}; X).presheaf.stalk z) :=
+    𝔸(PUnit.{u + 1}; X).codimensionOneStalk_isDiscreteValuationRing hY hz
+  rw [Scheme.ord_eq_ordHom_of_coheight_eq_one hz, Scheme.ord_eq_ordHom_of_coheight_eq_one hx]
+  congr 2
+  exact Hartshorne.ordFrac_map_of_map_maximalIdeal_eq ((𝔸(PUnit.{u + 1}; X) ↘ X).stalkMap z).hom
+    X.affineLineFunctionFieldMap.hom (Scheme.affineLineFunctionFieldMap_algebraMap z)
+    (affineLine_map_maximalIdeal_stalk (hz.trans hx.symm)) f
+
+/-- Along a horizontal prime divisor, the pullback of a nonzero rational function has order
+zero. -/
+theorem Scheme.ord_affineLineFunctionFieldMap_of_eq_genericPoint {z : 𝔸(PUnit.{u + 1}; X)}
+    (hz : Order.coheight z = 1)
+    (hx : (𝔸(PUnit.{u + 1}; X) ↘ X).base z = (letI := hX.isIntegral; genericPoint X))
+    {f : X.functionField} (hf : f ≠ 0) :
+    Scheme.ord (X.affineLineFunctionFieldMap f) z = 0 := by
+  have hY := hX.affineLine
+  have : IsNoetherian 𝔸(PUnit.{u + 1}; X) := hY.isNoetherian
+  have hinj : Function.Injective
+      (algebraMap (X.presheaf.stalk ((𝔸(PUnit.{u + 1}; X) ↘ X).base z)) X.functionField) :=
+    IsFractionRing.injective _ _
+  have hbij := And.intro hinj (surjective_algebraMap_stalk_of_eq_genericPoint hx)
+  let e := RingEquiv.ofBijective _ hbij
+  obtain ⟨r, rfl⟩ := hbij.2 f
+  have hr : IsUnit r := by
+    have : IsUnit (e r) := (Ne.isUnit hf)
+    simpa using this.map e.symm
+  rw [Scheme.affineLineFunctionFieldMap_algebraMap, Scheme.ord_eq_ordHom_of_coheight_eq_one hz]
+  have : Ring.KrullDimLE 1 (𝔸(PUnit.{u + 1}; X).presheaf.stalk z) :=
+    krullDimLE_of_coheight_le hz.le
+  unfold Scheme.ordHom
+  rw [Ring.ordFrac_of_isUnit (hr.map _)]
+  rfl
+
+end Ord
+
+section ClassGroupMap
+
+variable {X : Scheme.{u}}
+
+/-- The pullback of the principal divisor of `f` is the principal divisor of the pullback of
+`f`. -/
+theorem Scheme.affineLinePullback_principalDivisor [IsNoetherian X] [IsIntegral X]
+    (hX : X.SatisfiesConditionStar) (f : X.functionFieldˣ) :
+    X.affineLinePullback (X.principalDivisor hX f) =
+      𝔸(PUnit.{u + 1}; X).principalDivisor hX.affineLine
+        (Units.map X.affineLineFunctionFieldMap.hom.toMonoidHom f) := by
+  apply Subtype.ext
+  apply Function.locallyFinsuppWithin.ext
+  intro z
+  rw [Scheme.affineLinePullback_apply]
+  change (if Order.coheight z = 1 then
+      Scheme.ord (f : X.functionField) ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) else 0) =
+    Scheme.ord (X.affineLineFunctionFieldMap (f : X.functionField)) z
+  split_ifs with hz
+  · by_cases hx : Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) = 1
+    · rw [Scheme.ord_affineLineFunctionFieldMap_of_coheight_eq_one hX hz hx]
+    · have hlt : Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) < 1 :=
+        lt_of_le_of_ne ((coheight_affineLine_proj_le z).trans hz.le) hx
+      rw [Scheme.ord_eq_zero_of_coheight_neq_one hx,
+        Scheme.ord_affineLineFunctionFieldMap_of_eq_genericPoint hX hz
+          (eq_genericPoint_of_coheight_eq_zero (Order.lt_one_iff.mp hlt)) f.ne_zero]
+  · rw [Scheme.ord_eq_zero_of_coheight_neq_one hz]
+
+/-- **Hartshorne II.6, Proposition 6.6, the map.** Pullback along the projection `𝔸¹_X → X`
+induces a homomorphism of Weil divisor class groups `Cl X → Cl (𝔸¹_X)`. -/
+noncomputable def Scheme.affineLineClassGroupHom (hX : X.SatisfiesConditionStar) :
+    X.WeilClassGroup hX →+ 𝔸(PUnit.{u + 1}; X).WeilClassGroup hX.affineLine := by
+  let _ : IsNoetherian X := hX.isNoetherian
+  let _ : IsIntegral X := hX.isIntegral
+  refine QuotientAddGroup.map _ _ X.affineLinePullback ?_
+  rintro D ⟨f, rfl⟩
+  exact ⟨Additive.ofMul (Units.map X.affineLineFunctionFieldMap.hom.toMonoidHom f.toMul),
+    (X.affineLinePullback_principalDivisor hX f.toMul).symm⟩
+
+/-- The class-group map sends the class of `D` to the class of its pullback. -/
+theorem Scheme.affineLineClassGroupHom_weilDivisorClassHom (hX : X.SatisfiesConditionStar)
+    (D : X.WeilDivisor) :
+    let _ : IsNoetherian X := hX.isNoetherian
+    X.affineLineClassGroupHom hX (X.weilDivisorClassHom hX D) =
+      𝔸(PUnit.{u + 1}; X).weilDivisorClassHom hX.affineLine (X.affineLinePullback D) :=
+  rfl
+
+end ClassGroupMap
 
 end AlgebraicGeometry
