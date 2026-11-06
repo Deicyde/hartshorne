@@ -2,6 +2,9 @@
 article_id: af_5584498281d3b787791b3dc4
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveSpaceOverSchemeProjection_smoothOfRelativeDimension
 ---
 
 # Projective space is smooth over an arbitrary base
