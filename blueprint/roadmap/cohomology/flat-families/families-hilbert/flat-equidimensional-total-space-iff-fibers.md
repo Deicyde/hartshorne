@@ -2,6 +2,9 @@
 article_id: af_1aa4ca184d44600d11d9206c
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.forall_irreducibleComponents_topologicalKrullDim_eq_add_iff
 ---
 
 # Equidimensionality in a flat family
