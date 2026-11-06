@@ -22,11 +22,13 @@ it does not assume that $F$ or $F''$ is quasi-coherent.
 
 - [Sheaves of modules](sheaves-of-modules.md)
 - [Quasi-coherence by local presentations](quasicoherent-local-presentations.md)
+- [Schemes and affine schemes](../spectrum-and-schemes/scheme.md)
 
 ## Proof depends on
 
 - [Quasi-coherent sections on principal opens](quasicoherent-principal-open-localization.md)
 - [Global sections are left exact](../sheaf-functors/global-sections-left-exact.md)
+- [Epimorphisms are locally surjective](../sheaves/locally-surjective-morphisms.md)
 - Lift the target section on finitely many principal opens, multiply by common
   powers to make the lifts glue, and use a unit-ideal combination of those
   powers to obtain a global lift.
