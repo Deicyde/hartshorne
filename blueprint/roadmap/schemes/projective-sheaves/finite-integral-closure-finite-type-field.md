@@ -2,6 +2,9 @@
 article_id: af_21c97160a189bc8f47f84e5c
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.moduleFinite_integralClosure_of_finiteType_of_field
 ---
 
 # General-field finiteness of integral closure
