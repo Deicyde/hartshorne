@@ -2,6 +2,9 @@
 article_id: af_600dcf83ce173a433697ccd1
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.SatisfiesConditionStar.affineLine AlgebraicGeometry.Scheme.affineLinePullback AlgebraicGeometry.Scheme.affineLineClassGroupHom AlgebraicGeometry.Scheme.affineLineClassGroupHom_bijective AlgebraicGeometry.Scheme.affineLineClassGroupEquiv AlgebraicGeometry.Scheme.affineLineClassGroupEquiv_weilDivisorClassHom
 ---
 
 # Affine-line invariance of the class group
