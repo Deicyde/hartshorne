@@ -33,7 +33,7 @@ type over `Spec k`. The canonical isomorphism `ℙⁿ_k ×_{Spec k} Y ≅ ℙⁿ
 and the projection `ℙⁿ_k ×_{Spec k} Y ⟶ Y` is smooth of relative dimension `n`. -/
 theorem projectiveSpace_smoothOfRelativeDimension_finiteTypeOverField
     (k : Type u) [Field k] (Y : Over (Spec (CommRingCat.of k)))
-    (_hY : LocallyOfFiniteType Y.hom ∧ QuasiCompact Y.hom) (n : ℕ) :
+    (hY : LocallyOfFiniteType Y.hom ∧ QuasiCompact Y.hom) (n : ℕ) :
     (projectiveSpaceOverSchemeBaseChangeIso n Y.hom).hom ≫
         projectiveSpaceOverSchemeProjection n Y.left =
       pullback.snd (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) Y.hom ∧
