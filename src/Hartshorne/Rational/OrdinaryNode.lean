@@ -704,8 +704,9 @@ theorem ordinaryNode_blowup [IsAlgClosed k] {f : MvPolynomial (Fin 2) k} (hf : I
   exact ordinaryNode_blowup_aux _ (irreducible_planeLocalEquation hf P) hP.1 hP.2.1 hP.2.2
     hl₁ hl₂ hdist hfac
 
-/-- **Recognizing an ordinary node by its two branches** (the converse in
-Hartshorne I, Exercise 5.6(b)).  If `P` is a double point of the plane curve
+/-- **Recognizing an ordinary node by its two branches** (a converse that
+supplements Hartshorne I, Exercise 5.6(b), which states only the forward
+direction).  If `P` is a double point of the plane curve
 `f = 0` and the strict transform of the curve under the blow-up at `P` has two
 distinct points over `P`, then `P` is an ordinary node. -/
 theorem isOrdinaryNode_of_two_blowup_points [IsAlgClosed k] {f : MvPolynomial (Fin 2) k}
