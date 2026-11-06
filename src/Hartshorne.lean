@@ -460,3 +460,4 @@ import Hartshorne.Cohomology.FlatFamilies.HironakaNormality
 import Hartshorne.Cohomology.FlatFamilies.FlatEquidimensional
 import Hartshorne.Scheme.FiniteLocallyFreeProjectionFormula
 import Hartshorne.Scheme.AssociatedVarietyEssentialImage
+import Hartshorne.Rational.ContractedCurves
