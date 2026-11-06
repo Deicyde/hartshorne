@@ -41,6 +41,7 @@ $f - c$ at $Z$ is a unit, and the residue class of $f$ is not a constant.
 ## Depends on
 
 - [A variety with an affine-open basis has an associated scheme](variety-associated-scheme.md)
+- [The associated scheme is a scheme over the base field](variety-scheme-over-k.md)
 
 ## Proof depends on
 
