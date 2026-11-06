@@ -18,9 +18,6 @@ the same construction identifies Cartier divisors with the subgroup of
 locally principal Weil divisors. The locally factorial hypothesis makes every
 Weil divisor locally principal.
 
-In the refinement the scheme is also taken to be separated, as in condition
-$(*)$, under which Weil divisors and principal divisors are considered.
-
 ## Depends on
 
 - [Principal divisors have finite support](../weil-divisors/principal-divisor-finite-support.md)

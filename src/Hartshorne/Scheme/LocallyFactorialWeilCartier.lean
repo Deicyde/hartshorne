@@ -12,7 +12,7 @@ import Hartshorne.Scheme.AffineUFDClassGroup
 
 Hartshorne, *Algebraic Geometry*, II.6, Proposition 6.11 and Remark 6.11.2 (pp. 141--142).
 
-Let `X` be an integral Noetherian scheme satisfying condition `(*)`. Since `K_X` is the constant
+Let `X` be an integral Noetherian scheme. Since `K_X` is the constant
 sheaf `K(X)` (see `Hartshorne.Scheme.TotalQuotientIntegral`), a Cartier divisor is given locally by
 rational functions `f_i ∈ K(X)^*` on an open cover, well defined up to regular units on overlaps.
 Its Weil divisor has coefficient `ord_Y(f_i)` at a prime divisor `Y` meeting `U_i`; this is
@@ -20,10 +20,11 @@ Its Weil divisor has coefficient `ord_Y(f_i)` at a prime divisor `Y` meeting `U_
 
 * For normal `X` the map is injective, and its image is exactly the subgroup of locally principal
   Weil divisors (Remark 6.11.2): `AlgebraicGeometry.Scheme.cartierEquivLocallyPrincipal`.
-  Injectivity uses the height-one intersection theorem on affine opens; the inverse glues the
-  local equations of a locally principal divisor, using that intersections of affine opens are
-  affine on a separated scheme.
-* If `X` is locally factorial, every Weil divisor is locally principal: near a point `x`, each
+  Both directions rest on the fact that a rational function with nonnegative order at every
+  codimension-one point of an open set is regular there; this follows from the height-one
+  intersection theorem on affine opens and gluing. The inverse glues the local equations of a
+  locally principal divisor.
+* If `X` is also separated and locally factorial, every Weil divisor is locally principal: near a point `x`, each
   prime divisor through `x` corresponds to a height-one prime of the factorial local ring at `x`,
   which is principal, and its generator spreads out to a local equation. Hence `cartierToWeil` is
   an isomorphism (Proposition 6.11), `AlgebraicGeometry.Scheme.weilCartierEquiv`, under which
@@ -190,15 +191,95 @@ theorem weilCoeff_add (D E : X.CartierDivisor) (x : X) :
 
 end CartierDivisor
 
+open Set Filter in
+private theorem finite_codimensionOne_compl_of_nonempty
+    [IsNoetherian X] [IsIntegral X]
+    (U : X.Opens) [Nonempty U] :
+    {x : X | Order.coheight x = 1 ∧ x ∉ (U : Set X)}.Finite := by
+  obtain ⟨T, hTfin, hTclosed, hTirr, hTC⟩ :=
+    NoetherianSpace.exists_finite_set_isClosed_irreducible U.isOpen.isClosed_compl
+  let _ : Fintype T := hTfin.fintype
+  let g : T → X := fun t ↦ (hTirr t.1 t.2).genericPoint
+  refine (Set.finite_range g).subset ?_
+  intro x hx
+  have hxC : x ∈ (U : Set X)ᶜ := hx.2
+  have hclosureC : closure ({x} : Set X) ⊆ Uᶜ :=
+    closure_minimal (by simpa) U.isOpen.isClosed_compl
+  let Tf : Finset (Set X) := hTfin.toFinset
+  have hTfclosed : ∀ t ∈ Tf, IsClosed t := by
+    intro t ht
+    exact hTclosed t (hTfin.mem_toFinset.mp ht)
+  have hclosureUnion : closure ({x} : Set X) ⊆ ⋃₀ (Tf : Set (Set X)) := by
+    rw [hTfin.coe_toFinset, ← hTC]
+    exact hclosureC
+  obtain ⟨t, htTf, hclosuret⟩ :=
+    (isIrreducible_iff_sUnion_isClosed.mp isIrreducible_singleton.closure)
+      Tf hTfclosed hclosureUnion
+  have htT : t ∈ T := hTfin.mem_toFinset.mp htTf
+  let Z : IrreducibleCloseds X := irreducibleSetEquivPoints.symm x
+  let W : IrreducibleCloseds X := ⟨t, hTirr t htT, hTclosed t htT⟩
+  have hZW : Z ≤ W := by
+    change (Z : Set X) ⊆ t
+    simpa [Z] using hclosuret
+  have hZcoheight : Order.coheight Z = 1 := by
+    change Order.coheight (irreducibleSetEquivPoints.symm x) = 1
+    rw [Order.coheight_orderIso (irreducibleSetEquivPoints (α := X)).symm]
+    exact hx.1
+  have hZW_eq : Z = W := by
+    apply le_antisymm hZW
+    by_contra hWZ
+    have hlt : Z < W := ⟨hZW, hWZ⟩
+    have hWle : Order.coheight W ≤ 1 := by
+      rw [← hZcoheight]
+      exact Order.coheight_anti hZW
+    have hWfin : Order.coheight W < ⊤ := lt_of_le_of_lt hWle (by simp)
+    have hcoheight_lt : Order.coheight W < Order.coheight Z :=
+      Order.coheight_strictAnti hlt hWfin
+    rw [hZcoheight] at hcoheight_lt
+    have hWzero : Order.coheight W = 0 :=
+      Order.lt_one_iff.mp hcoheight_lt
+    let Wtop : IrreducibleCloseds X :=
+      ⟨Set.univ, IrreducibleSpace.isIrreducible_univ X, isClosed_univ⟩
+    have hWtop : W = Wtop :=
+      (Order.coheight_eq_zero.mp hWzero).eq_of_le (Set.subset_univ _)
+    have htC : t ⊆ Uᶜ := by
+      rw [hTC]
+      exact subset_sUnion_of_mem htT
+    obtain ⟨y, hy⟩ := (inferInstance : Nonempty U)
+    have hyW : y ∈ (W : Set X) := by
+      rw [hWtop]
+      change y ∈ (Set.univ : Set X)
+      trivial
+    exact (show y ∉ (U : Set X) from htC hyW) hy
+  refine ⟨⟨t, htT⟩, ?_⟩
+  change irreducibleSetEquivPoints W = x
+  rw [← hZW_eq]
+  exact (irreducibleSetEquivPoints (α := X)).apply_symm_apply x
+
+/-- On an integral Noetherian scheme, a nonzero rational function has nonzero order at only
+finitely many points. -/
+theorem finite_support_ord [IsIntegral X] [IsNoetherian X] {f : X.functionField} (hf : f ≠ 0) :
+    (Function.support fun x : X ↦ X.ord f x).Finite := by
+  obtain ⟨U, _, fU, hU, hUf, hfU⟩ := exists_isUnit_germ_eq X f hf
+  refine (finite_codimensionOne_compl_of_nonempty U).subset ?_
+  intro x hx
+  change X.ord f x ≠ 0 at hx
+  constructor
+  · by_contra hcodim
+    exact hx (X.ord_eq_zero_of_coheight_neq_one hcodim f)
+  · intro hxU
+    apply hx
+    rw [← hUf]
+    exact X.ord_of_isUnit hfU hxU
+
 /-- The Weil divisor of a Cartier divisor. -/
-def cartierToWeilFun [IsIntegral X] [IsNoetherian X] (hX : X.SatisfiesConditionStar)
-    (D : X.CartierDivisor) : X.WeilDivisor :=
+def cartierToWeilFun [IsIntegral X] [IsNoetherian X] (D : X.CartierDivisor) : X.WeilDivisor :=
   ⟨{ toFun := D.weilCoeff
      supportWithinDomain' := Set.subset_univ _
      supportLocallyFiniteWithinDomain' := fun z _ ↦ by
        refine ⟨(D.localEquation z).1, (D.localEquation z).1.isOpen.mem_nhds
          (D.mem_localEquation z), ?_⟩
-       have hfin := X.finite_support_ord_of_satisfiesConditionStar hX
+       have hfin := finite_support_ord
          (Units.ne_zero (totalQuotientUnitsEquivFunctionField _
            (genericPoint_mem_opens_of_mem (D.mem_localEquation z)) (D.localEquation z).2))
        refine hfin.subset ?_
@@ -208,18 +289,18 @@ def cartierToWeilFun [IsIntegral X] [IsNoetherian X] (hX : X.SatisfiesConditionS
    fun x hx ↦ ord_eq_zero_of_coheight_neq_one hx _⟩
 
 /-- The homomorphism from Cartier divisors to Weil divisors. -/
-def cartierToWeil [IsIntegral X] [IsNoetherian X] (hX : X.SatisfiesConditionStar) :
+def cartierToWeil [IsIntegral X] [IsNoetherian X] :
     X.CartierDivisor →+ X.WeilDivisor :=
-  AddMonoidHom.mk' (cartierToWeilFun hX) fun D E ↦
+  AddMonoidHom.mk' cartierToWeilFun fun D E ↦
     Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ D.weilCoeff_add E x)
 
 /-- The coefficient of the Weil divisor of a Cartier divisor at a point of an open set is the order
 of any local equation on that open set. -/
-theorem cartierToWeil_apply [IsIntegral X] [IsNoetherian X] (hX : X.SatisfiesConditionStar)
+theorem cartierToWeil_apply [IsIntegral X] [IsNoetherian X]
     (D : X.CartierDivisor) {U : X.Opens} (f : X.totalQuotientUnitsSheaf.obj.obj (op U))
     (hf : D.restrict U = X.toCartierDivisorSheaf.hom.app (op U) (Additive.ofMul f))
     {x : X} (hx : x ∈ U) :
-    (cartierToWeil hX D).1 x = X.ord (totalQuotientUnitsEquivFunctionField U
+    (cartierToWeil D).1 x = X.ord (totalQuotientUnitsEquivFunctionField U
       (genericPoint_mem_opens_of_mem hx) f : X.functionField) x :=
   D.weilCoeff_eq f hf hx
 
@@ -234,11 +315,11 @@ theorem CartierDivisor.restrict_top (D : X.CartierDivisor) : D.restrict ⊤ = D 
 principal Weil divisor of the corresponding rational function. -/
 theorem cartierToWeil_principalCartierDivisor [IsIntegral X] [IsNoetherian X]
     (hX : X.SatisfiesConditionStar) (f : X.totalQuotientUnitsSheaf.obj.obj (op ⊤)) :
-    cartierToWeil hX (X.principalCartierDivisor f) =
+    cartierToWeil (X.principalCartierDivisor f) =
       X.principalDivisor hX (totalQuotientUnitsEquivFunctionField ⊤ trivial f) := by
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
   rw [X.principalDivisor_apply hX]
-  exact cartierToWeil_apply hX _ f (X.principalCartierDivisor f).restrict_top
+  exact cartierToWeil_apply _ f (X.principalCartierDivisor f).restrict_top
     (show x ∈ (⊤ : X.Opens) from trivial)
 
 open Hartshorne in
@@ -259,11 +340,22 @@ theorem isIntegrallyClosed_of_isAffineOpen [IsIntegral X] [IsNormal X] {V : X.Op
     IsLocalization.algEquiv P.primeCompl _ _
   exact IsIntegrallyClosed.of_equiv e.symm.toRingEquiv
 
+/-- On a normal Noetherian scheme, the local ring at a codimension-one point is a discrete
+valuation ring. -/
+theorem isDiscreteValuationRing_stalk_of_isNormal [IsNoetherian X]
+    [Hartshorne.IsNormal X] {z : X} (hz : coheight z = 1) :
+    IsDiscreteValuationRing (X.presheaf.stalk z) := by
+  have hdim : ringKrullDim (X.presheaf.stalk z) = 1 := by
+    rw [ringKrullDim_stalk_eq_coheight]
+    exact WithBot.coe_eq_coe.mpr hz
+  exact ((Hartshorne.dvr_characterizations (X.presheaf.stalk z) hdim).out 1 0).mp
+    (show IsIntegrallyClosed (X.presheaf.stalk z) from inferInstance)
+
 open Hartshorne in
-/-- On a normal scheme satisfying `(*)`, a nonzero rational function with nonnegative order at every
-codimension-one point of a nonempty affine open set is regular there. -/
+/-- On a normal integral Noetherian scheme, a nonzero rational function with nonnegative order at
+every codimension-one point of a nonempty affine open set is regular there. -/
 theorem exists_germToFunctionField_eq_of_ord_nonneg [IsIntegral X] [IsNoetherian X] [IsNormal X]
-    (hX : X.SatisfiesConditionStar) {V : X.Opens} (hV : IsAffineOpen V) [Nonempty V]
+    {V : X.Opens} (hV : IsAffineOpen V) [Nonempty V]
     {k : X.functionField} (hk : k ≠ 0)
     (h : ∀ y ∈ V, Order.coheight y = 1 → 0 ≤ X.ord k y) :
     ∃ a : Γ(X, V), X.germToFunctionField V a = k := by
@@ -285,7 +377,7 @@ theorem exists_germToFunctionField_eq_of_ord_nonneg [IsIntegral X] [IsNoetherian
       hheight] at h1
     exact (WithBot.coe_eq_coe.mp h1).symm
   have : IsDiscreteValuationRing (X.presheaf.stalk (hV.fromSpec y)) :=
-    X.codimensionOneStalk_isDiscreteValuationRing hX hcoh
+    isDiscreteValuationRing_stalk_of_isNormal hcoh
   have : IsScalarTower Γ(X, V) (X.presheaf.stalk (hV.fromSpec y)) X.functionField :=
     functionField_isScalarTower X V ⟨hV.fromSpec y, hy⟩
   have hle := h _ hy hcoh
@@ -304,38 +396,79 @@ theorem ord_inv_eq_neg [IsIntegral X] [IsNoetherian X] {k : X.functionField} (hk
   omega
 
 open Hartshorne in
-/-- On a normal scheme satisfying `(*)`, a nonzero rational function with order zero at every
-codimension-one point of a nonempty affine open set is a regular unit there. -/
+/-- On a normal integral Noetherian scheme, a nonzero rational function with nonnegative order at
+every codimension-one point of a nonempty open set is regular there: regularity is checked on an
+affine cover, and the local regular functions glue. -/
+theorem exists_germToFunctionField_eq_of_ord_nonneg_of_opens [IsIntegral X] [IsNoetherian X]
+    [IsNormal X] {W : X.Opens} [Nonempty W] {k : X.functionField} (hk : k ≠ 0)
+    (h : ∀ y ∈ W, Order.coheight y = 1 → 0 ≤ X.ord k y) :
+    ∃ a : Γ(X, W), X.germToFunctionField W a = k := by
+  have hloc : ∀ x : W, ∃ V : X.Opens, IsAffineOpen V ∧ x.1 ∈ V ∧ V ≤ W := fun x ↦ by
+    obtain ⟨_, ⟨V, hV, rfl⟩, hxV, hVW⟩ :=
+      X.isBasis_affineOpens.exists_subset_of_mem_open x.2 W.isOpen
+    exact ⟨V, hV, hxV, hVW⟩
+  choose V hV hxV hVW using hloc
+  have hreg : ∀ x : W, ∃ a : Γ(X, V x),
+      X.presheaf.germ (V x) (genericPoint X) (genericPoint_mem_opens_of_mem (hxV x)) a = k := by
+    intro x
+    have : Nonempty (V x) := ⟨⟨_, hxV x⟩⟩
+    exact exists_germToFunctionField_eq_of_ord_nonneg (hV x) hk
+      fun y hy hy1 ↦ h y (hVW x hy) hy1
+  choose a ha using hreg
+  have hcompat : TopCat.Presheaf.IsCompatible X.sheaf.presheaf V a := by
+    intro i j
+    by_cases hη : genericPoint X ∈ V i ⊓ V j
+    · apply germ_injective_of_isIntegral (X := X) (U := V i ⊓ V j) _ hη
+      change X.presheaf.germ _ _ hη (X.presheaf.map (homOfLE inf_le_left).op (a i)) =
+        X.presheaf.germ _ _ hη (X.presheaf.map (homOfLE inf_le_right).op (a j))
+      rw [X.presheaf.germ_res_apply, X.presheaf.germ_res_apply, ha i, ha j]
+    · have hbot := opens_eq_bot_of_genericPoint_notMem hη
+      have : Subsingleton Γ(X, V i ⊓ V j) :=
+        CommRingCat.subsingleton_of_isTerminal (X.sheaf.isTerminalOfEqEmpty hbot)
+      exact Subsingleton.elim (α := Γ(X, V i ⊓ V j)) _ _
+  obtain ⟨s, hs, -⟩ := X.sheaf.existsUnique_gluing' V W (fun x ↦ homOfLE (hVW x))
+    (fun y hy ↦ Opens.mem_iSup.mpr ⟨⟨y, hy⟩, hxV _⟩) a hcompat
+  obtain ⟨x⟩ := ‹Nonempty W›
+  refine ⟨s, ?_⟩
+  have hx := ha x
+  rw [← hs x] at hx
+  change X.presheaf.germ _ _ _ (X.presheaf.map (homOfLE (hVW x)).op s) = k at hx
+  rw [X.presheaf.germ_res_apply] at hx
+  exact hx
+
+open Hartshorne in
+/-- On a normal integral Noetherian scheme, a nonzero rational function with order zero at every
+codimension-one point of a nonempty open set is a regular unit there. -/
 theorem exists_unit_germToFunctionField_eq_of_ord_eq_zero [IsIntegral X] [IsNoetherian X]
-    [IsNormal X] (hX : X.SatisfiesConditionStar) {V : X.Opens} (hV : IsAffineOpen V) [Nonempty V]
+    [IsNormal X] {V : X.Opens} [Nonempty V]
     (k : X.functionFieldˣ) (h : ∀ y ∈ V, Order.coheight y = 1 → X.ord (k : X.functionField) y = 0) :
     ∃ a : Γ(X, V)ˣ, X.germToFunctionField V a = k := by
-  obtain ⟨a, ha⟩ := exists_germToFunctionField_eq_of_ord_nonneg hX hV k.ne_zero
+  obtain ⟨a, ha⟩ := exists_germToFunctionField_eq_of_ord_nonneg_of_opens k.ne_zero
     fun y hy hy1 ↦ (h y hy hy1).ge
-  obtain ⟨b, hb⟩ := exists_germToFunctionField_eq_of_ord_nonneg hX hV (inv_ne_zero k.ne_zero)
+  obtain ⟨b, hb⟩ := exists_germToFunctionField_eq_of_ord_nonneg_of_opens (inv_ne_zero k.ne_zero)
     fun y hy hy1 ↦ by rw [ord_inv_eq_neg k.ne_zero, h y hy hy1, neg_zero]
   have hab : a * b = 1 := by
     apply X.germToFunctionField_injective V
     rw [map_mul, ha, hb, map_one, mul_inv_cancel₀ k.ne_zero]
   exact ⟨⟨a, b, hab, by rw [mul_comm, hab]⟩, ha⟩
 
-/-- On a normal scheme satisfying `(*)`, a Cartier divisor with zero Weil divisor is zero. -/
-theorem cartierToWeil_injective [IsIntegral X] [IsNoetherian X] [Hartshorne.IsNormal X]
-    (hX : X.SatisfiesConditionStar) : Function.Injective (cartierToWeil hX) := by
+/-- On a normal integral Noetherian scheme, a Cartier divisor with zero Weil divisor is zero. -/
+theorem cartierToWeil_injective [IsIntegral X] [IsNoetherian X] [Hartshorne.IsNormal X] :
+    Function.Injective (cartierToWeil (X := X)) := by
   rw [injective_iff_map_eq_zero]
   intro D hD
   have hloc : ∀ x : X, ∃ V : X.Opens, x ∈ V ∧ D.restrict V = 0 := by
     intro x
     obtain ⟨⟨U, f⟩, hxU, hf⟩ := D.exists_local_representative x
-    obtain ⟨_, ⟨V, hV, rfl⟩, hxV, hVU⟩ :=
+    obtain ⟨_, ⟨V, -, rfl⟩, hxV, hVU⟩ :=
       X.isBasis_affineOpens.exists_subset_of_mem_open hxU U.isOpen
     have : Nonempty V := ⟨⟨x, hxV⟩⟩
     have hηV := genericPoint_mem_opens_of_mem hxV
     have hfV := D.restrict_eq_of_le hVU f hf
-    obtain ⟨a, ha⟩ := exists_unit_germToFunctionField_eq_of_ord_eq_zero hX hV
+    obtain ⟨a, ha⟩ := exists_unit_germToFunctionField_eq_of_ord_eq_zero
       (totalQuotientUnitsEquivFunctionField V hηV
         (X.totalQuotientUnitsSheaf.obj.map (homOfLE hVU).op f)) fun y hy _ ↦ by
-          refine (cartierToWeil_apply hX D _ hfV hy).symm.trans ?_
+          refine (cartierToWeil_apply D _ hfV hy).symm.trans ?_
           rw [hD]
           rfl
     refine ⟨V, hxV, ?_⟩
@@ -359,27 +492,20 @@ theorem cartierToWeil_injective [IsIntegral X] [IsNoetherian X] [Hartshorne.IsNo
 
 /-- The Weil divisor of a Cartier divisor is locally principal. -/
 theorem isLocallyPrincipal_cartierToWeil [IsIntegral X] [IsNoetherian X]
-    (hX : X.SatisfiesConditionStar) (D : X.CartierDivisor) :
-    WeilDivisor.IsLocallyPrincipal (cartierToWeil hX D) := by
+    (D : X.CartierDivisor) :
+    WeilDivisor.IsLocallyPrincipal (cartierToWeil D) := by
   intro x
   obtain ⟨⟨U, f⟩, hxU, hf⟩ := D.exists_local_representative x
   exact ⟨U, hxU, totalQuotientUnitsEquivFunctionField U (genericPoint_mem_opens_of_mem hxU) f,
-    fun y hy ↦ (cartierToWeil_apply hX D f hf hy).trans rfl⟩
+    fun y hy ↦ (cartierToWeil_apply D f hf hy).trans rfl⟩
 
-/-- On a normal scheme satisfying `(*)`, every locally principal Weil divisor comes from a
+/-- On a normal integral Noetherian scheme, every locally principal Weil divisor comes from a
 Cartier divisor. -/
 theorem exists_cartierToWeil_eq_of_isLocallyPrincipal [IsIntegral X] [IsNoetherian X]
-    [Hartshorne.IsNormal X] [X.IsSeparated] (hX : X.SatisfiesConditionStar) (W : X.WeilDivisor)
-    (hW : WeilDivisor.IsLocallyPrincipal W) : ∃ D : X.CartierDivisor, cartierToWeil hX D = W := by
+    [Hartshorne.IsNormal X] (W : X.WeilDivisor)
+    (hW : WeilDivisor.IsLocallyPrincipal W) : ∃ D : X.CartierDivisor, cartierToWeil D = W := by
   classical
-  have hloc : ∀ x : X, ∃ V : X.Opens, IsAffineOpen V ∧ x ∈ V ∧
-      ∃ k : X.functionFieldˣ, ∀ y ∈ V, W.1 y = X.ord (k : X.functionField) y := by
-    intro x
-    obtain ⟨U, hxU, k, hk⟩ := hW x
-    obtain ⟨_, ⟨V, hV, rfl⟩, hxV, hVU⟩ :=
-      X.isBasis_affineOpens.exists_subset_of_mem_open hxU U.isOpen
-    exact ⟨V, hV, hxV, k, fun y hy ↦ hk y (hVU hy)⟩
-  choose V hV hxV k hk using hloc
+  choose V hxV k hk using hW
   let f : ∀ x, X.totalQuotientUnitsSheaf.obj.obj (op (V x)) := fun x ↦
     (totalQuotientUnitsEquivFunctionField (V x) (genericPoint_mem_opens_of_mem (hxV x))).symm (k x)
   have hf : ∀ x, totalQuotientUnitsEquivFunctionField (V x)
@@ -392,9 +518,9 @@ theorem exists_cartierToWeil_eq_of_isLocallyPrincipal [IsIntegral X] [IsNoetheri
             (f j) := by
     intro i j
     by_cases hη : genericPoint X ∈ V i ⊓ V j
-    · have hVij : IsAffineOpen (V i ⊓ V j) := (hV i).inf (hV j)
-      have : Nonempty (V i ⊓ V j : X.Opens) := ⟨⟨_, hη⟩⟩
-      obtain ⟨a, ha⟩ := exists_unit_germToFunctionField_eq_of_ord_eq_zero hX hVij (k i / k j)
+    · have : Nonempty (V i ⊓ V j : X.Opens) := ⟨⟨_, hη⟩⟩
+      obtain ⟨a, ha⟩ := exists_unit_germToFunctionField_eq_of_ord_eq_zero (V := V i ⊓ V j)
+        (k i / k j)
         fun y hy _ ↦ by
           rw [Units.val_div_eq_div_val, div_eq_mul_inv, ord_mul (Units.ne_zero _)
             (inv_ne_zero (Units.ne_zero _)), ord_inv_eq_neg (Units.ne_zero _),
@@ -437,7 +563,7 @@ theorem exists_cartierToWeil_eq_of_isLocallyPrincipal [IsIntegral X] [IsNoetheri
   refine ⟨D, Subtype.ext (Function.locallyFinsuppWithin.ext fun y ↦ ?_)⟩
   have hrep : D.restrict (V y) =
       X.toCartierDivisorSheaf.hom.app (op (V y)) (Additive.ofMul (f y)) := hD y
-  refine (cartierToWeil_apply hX D (f y) hrep (hxV y)).trans ?_
+  refine (cartierToWeil_apply D (f y) hrep (hxV y)).trans ?_
   rw [hf y]
   exact (hk y y (hxV y)).symm
 
@@ -710,15 +836,14 @@ divisor of a Cartier divisor, `cartierToWeil`. -/
 def weilCartierEquiv [IsIntegral X] [IsNoetherian X] [X.IsSeparated]
     (hlf : X.IsLocallyFactorial) : X.WeilDivisor ≃+ X.CartierDivisor :=
   have := isNormal_of_isLocallyFactorial hlf
-  (AddEquiv.ofBijective (cartierToWeil (satisfiesConditionStar_of_isLocallyFactorial hlf))
-    ⟨cartierToWeil_injective _, fun W ↦ exists_cartierToWeil_eq_of_isLocallyPrincipal _ W
+  (AddEquiv.ofBijective (cartierToWeil (X := X))
+    ⟨cartierToWeil_injective, fun W ↦ exists_cartierToWeil_eq_of_isLocallyPrincipal W
       (isLocallyPrincipal_of_isLocallyFactorial hlf W)⟩).symm
 
 /-- The inverse of `weilCartierEquiv` sends a Cartier divisor to its Weil divisor. -/
 theorem weilCartierEquiv_symm_apply [IsIntegral X] [IsNoetherian X] [X.IsSeparated]
     (hlf : X.IsLocallyFactorial) (D : X.CartierDivisor) :
-    (weilCartierEquiv hlf).symm D =
-      cartierToWeil (satisfiesConditionStar_of_isLocallyFactorial hlf) D :=
+    (weilCartierEquiv hlf).symm D = cartierToWeil D :=
   rfl
 
 /-- Under `weilCartierEquiv`, the principal Weil divisor of `f ∈ K(X)^*` corresponds to the
@@ -729,7 +854,8 @@ theorem weilCartierEquiv_principalDivisor [IsIntegral X] [IsNoetherian X] [X.IsS
       X.principalCartierDivisor ((totalQuotientUnitsEquivFunctionField ⊤ trivial).symm f) := by
   apply (weilCartierEquiv hlf).symm.injective
   rw [AddEquiv.symm_apply_apply, weilCartierEquiv_symm_apply,
-    cartierToWeil_principalCartierDivisor, MulEquiv.apply_symm_apply]
+    cartierToWeil_principalCartierDivisor (satisfiesConditionStar_of_isLocallyFactorial hlf),
+    MulEquiv.apply_symm_apply]
 
 /-- Under `weilCartierEquiv`, the subgroup of principal Weil divisors corresponds to the subgroup
 of principal Cartier divisors. -/
@@ -754,34 +880,31 @@ end LocallyFactorial
 
 section Normal
 
-variable (X) [IsIntegral X] [IsNoetherian X] [X.IsSeparated] [Hartshorne.IsNormal X]
+variable (X) [IsIntegral X] [IsNoetherian X] [Hartshorne.IsNormal X]
 
-/-- The subgroup of locally principal Weil divisors on a normal integral separated Noetherian
-scheme. -/
+/-- The subgroup of locally principal Weil divisors on a normal integral Noetherian scheme. -/
 def locallyPrincipalWeilDivisors : AddSubgroup X.WeilDivisor :=
-  (cartierToWeil (Hartshorne.satisfiesConditionStar_of_isNormal (X := X))).range.copy
+  (cartierToWeil (X := X)).range.copy
     {W | WeilDivisor.IsLocallyPrincipal W} (Set.ext fun W ↦
-      ⟨fun hW ↦ exists_cartierToWeil_eq_of_isLocallyPrincipal _ W hW, by
+      ⟨fun hW ↦ exists_cartierToWeil_eq_of_isLocallyPrincipal W hW, by
         rintro ⟨D, rfl⟩
-        exact isLocallyPrincipal_cartierToWeil _ D⟩)
+        exact isLocallyPrincipal_cartierToWeil D⟩)
 
 variable {X} in
 theorem mem_locallyPrincipalWeilDivisors (W : X.WeilDivisor) :
     W ∈ X.locallyPrincipalWeilDivisors ↔ WeilDivisor.IsLocallyPrincipal W :=
   Iff.rfl
 
-/-- **Hartshorne II.6, Remark 6.11.2.** On a normal integral separated Noetherian scheme, the Weil
-divisor of a Cartier divisor identifies Cartier divisors with locally principal Weil divisors. -/
+/-- **Hartshorne II.6, Remark 6.11.2.** On a normal integral Noetherian scheme, the Weil divisor of
+a Cartier divisor identifies Cartier divisors with locally principal Weil divisors. -/
 def cartierEquivLocallyPrincipal : X.CartierDivisor ≃+ X.locallyPrincipalWeilDivisors :=
-  (AddMonoidHom.ofInjective (cartierToWeil_injective
-    (Hartshorne.satisfiesConditionStar_of_isNormal (X := X)))).trans
+  (AddMonoidHom.ofInjective (cartierToWeil_injective (X := X))).trans
     (AddEquiv.addSubgroupCongr (AddSubgroup.copy_eq _ _ _).symm)
 
 variable {X} in
 /-- The identification of Remark 6.11.2 is the Weil divisor of a Cartier divisor. -/
 theorem coe_cartierEquivLocallyPrincipal (D : X.CartierDivisor) :
-    (cartierEquivLocallyPrincipal X D : X.WeilDivisor) =
-      cartierToWeil (Hartshorne.satisfiesConditionStar_of_isNormal (X := X)) D :=
+    (cartierEquivLocallyPrincipal X D : X.WeilDivisor) = cartierToWeil D :=
   rfl
 
 end Normal
