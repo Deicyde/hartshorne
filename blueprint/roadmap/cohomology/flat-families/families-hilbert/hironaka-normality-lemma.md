@@ -20,6 +20,7 @@ $p=tA$ and $A$ is normal.
 
 ## Proof depends on
 
+- [The dimension formula for a finitely generated domain](../../../affine-varieties/dim-formula-catenary.md)
 - [Serre's normality criterion](../../../schemes/differentials/local-complete-intersections/serre-normality-criterion.md):
   a normal local domain of dimension at least two has depth at least two.
 - [Finite normalization over a field](../../../schemes/normalization-and-exercises/normalization-finite-type-field.md).
