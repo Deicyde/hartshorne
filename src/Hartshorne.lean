@@ -450,3 +450,4 @@ import Hartshorne.Scheme.TotalQuotientIntegral
 import Hartshorne.Scheme.LocallyFactorialWeilCartier
 import Hartshorne.Cohomology.FlatFamilies.FlatFibreLocalDimension
 import Hartshorne.Scheme.SerreNormalityCriterion
+import Hartshorne.Scheme.VarietyRestrictedSheaf
