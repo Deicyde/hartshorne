@@ -2,6 +2,9 @@
 article_id: af_4125aa4e28c21fd436d3a767
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.reducedInducedSubscheme Hartshorne.reducedInducedSubschemeι Hartshorne.isClosedImmersion_reducedInducedSubschemeι Hartshorne.ker_reducedInducedSubschemeι Hartshorne.range_reducedInducedSubschemeι Hartshorne.isReduced_reducedInducedSubscheme
 ---
 
 # The reduced induced closed subscheme
