@@ -468,3 +468,5 @@ import Hartshorne.Cohomology.LocallyFiniteSumSheaf
 import Hartshorne.Cohomology.ProjectiveLinePartialFractions
 import Hartshorne.Cohomology.ProjectiveLinePrincipalParts
 import Hartshorne.Scheme.RelativeProjProper
+import Hartshorne.Intersection.LocalPlaneCurveMultiplicity
+import Hartshorne.Intersection.ProjectiveLineCurveMultiplicity
