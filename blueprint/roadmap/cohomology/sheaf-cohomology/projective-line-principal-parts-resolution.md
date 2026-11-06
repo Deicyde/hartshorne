@@ -2,6 +2,9 @@
 article_id: af_698047ca13215ffae1ff86c3
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveLine_principalPartsResolution
 ---
 
 # The principal-parts resolution on $\mathbb{P}^{1}$
