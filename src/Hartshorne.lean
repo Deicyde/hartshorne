@@ -416,3 +416,4 @@ import Hartshorne.Scheme.ImageReducedSource
 import Hartshorne.Scheme.ValuationCenter
 import Hartshorne.Cohomology.Semicontinuity.CoherentFiberDimension
 import Hartshorne.Scheme.ProjClosedSubschemeTruncation
+import Hartshorne.Rational.SchemeMaximalDomain
