@@ -986,9 +986,9 @@ structure IsCovariantDeltaFunctor (T : ℕ → C ⥤ D)
     (δ : ∀ S : ShortComplex C, S.ShortExact → ∀ i : ℕ, (T i).obj S.X₃ ⟶ (T (i + 1)).obj S.X₁) :
     Prop where
   /-- `0 ⟶ T⁰(A') ⟶ T⁰(A)` is exact. -/
-  mono_map_f : ∀ (S : ShortComplex C) (_ : S.ShortExact), Mono ((T 0).map S.f)
+  mono_map_f : ∀ (S : ShortComplex C), S.ShortExact → Mono ((T 0).map S.f)
   /-- `Tⁱ(A') ⟶ Tⁱ(A) ⟶ Tⁱ(A'')` is a complex. -/
-  map_f_comp_map_g : ∀ (S : ShortComplex C) (_ : S.ShortExact) (i : ℕ),
+  map_f_comp_map_g : ∀ (S : ShortComplex C), S.ShortExact → ∀ (i : ℕ),
     (T i).map S.f ≫ (T i).map S.g = 0
   /-- Exactness at `Tⁱ(A)`. -/
   exact_map_f_map_g : ∀ (S : ShortComplex C) (hS : S.ShortExact) (i : ℕ),
