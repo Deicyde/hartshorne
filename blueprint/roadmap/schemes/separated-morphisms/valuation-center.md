@@ -2,6 +2,9 @@
 article_id: af_5e43640b622d3636a61b759b
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.ValuationCenter Hartshorne.ValuationCenter.point Hartshorne.exists_valuationCenter_point_eq_iff Hartshorne.functionFieldBaseHom Hartshorne.ValuationCenter.lift_comp_over
 ---
 
 # Centers of valuations
@@ -14,6 +17,12 @@ $\operatorname{Spec} R$.
 
 A point $x\in X$ is the center exactly when the image of
 $\mathcal{O}_{X,x}$ in $K(X)$ is dominated by $R$.
+
+Neither the definition nor this characterization uses $k$; when $R$ contains
+$k$, every center is a morphism over $\operatorname{Spec} k$, where
+$\operatorname{Spec} R$ lies over $\operatorname{Spec} k$ through
+$k \subseteq R$, so it is a lift in the valuative square of
+$X \longrightarrow \operatorname{Spec} k$.
 
 ## Depends on
 
