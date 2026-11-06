@@ -390,3 +390,4 @@ import Hartshorne.Scheme.Differentials.AffineRelativeDifferentials
 import Hartshorne.Scheme.CohenMacaulayLocalization
 import Hartshorne.Scheme.DimensionCodimension
 import Hartshorne.Scheme.RegularLocalCohenMacaulay
+import Hartshorne.Scheme.AbsoluteNormalizationFinite
