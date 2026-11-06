@@ -2,6 +2,9 @@
 article_id: af_75915e20cde7c635d26e9579
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.acyclicResolutionIso Hartshorne.acyclicResolutionIso_naturality Hartshorne.IsRightAcyclic
 ---
 
 # Acyclic resolutions compute derived functors
