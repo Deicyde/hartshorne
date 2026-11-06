@@ -2,6 +2,9 @@
 article_id: af_988ffcee9c967e9494cbaeeb
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.injective_moduleSheafRestrict_obj
 ---
 
 # Injectives restrict to open subsets
