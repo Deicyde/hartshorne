@@ -2,6 +2,9 @@
 article_id: af_1d46aac6dba6470680974531
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.varietyRestrictedSheafIso Hartshorne.varietyRestrictedPresheafIso Hartshorne.varietyClosedPointsInclusion Hartshorne.varietyClosedPointsTopIso
 ---
 
 # Restricting the structure sheaf recovers regular functions
