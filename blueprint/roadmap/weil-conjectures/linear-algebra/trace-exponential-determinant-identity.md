@@ -2,6 +2,9 @@
 article_id: af_f94727becbaef06de2d68b36
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.traceExponential_eq_inv_det
 ---
 
 # Trace exponential equals reciprocal determinant
