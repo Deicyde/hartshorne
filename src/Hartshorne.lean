@@ -391,3 +391,4 @@ import Hartshorne.Scheme.CohenMacaulayLocalization
 import Hartshorne.Scheme.DimensionCodimension
 import Hartshorne.Scheme.RegularLocalCohenMacaulay
 import Hartshorne.Scheme.AbsoluteNormalizationFinite
+import Hartshorne.Scheme.FiniteCurveDivisorPullback
