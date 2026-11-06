@@ -446,3 +446,5 @@ import Hartshorne.Rational.OrdinaryNodeAlgebra
 import Hartshorne.Rational.OrdinaryNodeBlowup
 import Hartshorne.Rational.OrdinaryNode
 import Hartshorne.Scheme.ProjectiveSpaceRegular
+import Hartshorne.Scheme.TotalQuotientIntegral
+import Hartshorne.Scheme.LocallyFactorialWeilCartier
