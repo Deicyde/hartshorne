@@ -334,7 +334,7 @@ Noetherian scheme `Y`, every `y ∈ Y` has an open neighbourhood on which the fi
 `dim_{k(y')} (G_{y'} ⊗ k(y'))` is at most its value at `y`.  The Noetherian hypothesis is the
 source's setting; see `exists_nhds_moduleFiberDim_le_of_isCoherent` for the general statement. -/
 theorem exists_nhds_moduleFiberDim_le_of_isCoherent_of_isNoetherian {Y : Scheme.{u}}
-    [_hY : IsNoetherian Y] (G : Y.Modules) (hG : IsCoherent G) (y : Y) :
+    [IsNoetherian Y] (G : Y.Modules) (hG : IsCoherent G) (y : Y) :
     ∃ U : Y.Opens, y ∈ U ∧ ∀ y' ∈ U, moduleFiberDim G y' ≤ moduleFiberDim G y :=
   exists_nhds_moduleFiberDim_le_of_isCoherent G hG y
 
@@ -343,7 +343,7 @@ Noetherian scheme `Y` and every integer `n`, the locus `{y | dim_{k(y)} (G_y ⊗
 closed.  The Noetherian hypothesis is the source's setting; see
 `isClosed_setOf_le_moduleFiberDim_of_isCoherent` for the general statement. -/
 theorem isClosed_setOf_le_moduleFiberDim_of_isCoherent_of_isNoetherian {Y : Scheme.{u}}
-    [_hY : IsNoetherian Y] (G : Y.Modules) (hG : IsCoherent G) (n : ℤ) :
+    [IsNoetherian Y] (G : Y.Modules) (hG : IsCoherent G) (n : ℤ) :
     IsClosed {y : Y | n ≤ (moduleFiberDim G y : ℤ)} :=
   isClosed_setOf_le_moduleFiberDim_of_isCoherent G hG n
 
