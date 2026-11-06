@@ -22,10 +22,15 @@ this augmented principal-parts resolution, including global surjectivity.
 - [The constant sheaf](../../schemes/sheaves/constant-sheaf.md)
 - [Skyscraper and closed extension by zero](../../schemes/sheaf-functors/closed-extension-by-zero.md)
 - [The function field of a projective variety](../../morphisms/projective-rings/projective-function-field.md)
+- [The sheaf of regular functions](../../schemes/sheaves/regular-functions-sheaf.md)
+- [The local ring at a point](../../morphisms/local-ring.md)
 
 ## Proof depends on
 
 - [Exactness is detected on stalks](../../schemes/sheaves/stalkwise-exactness.md)
+- [Projective space is a Noetherian space](../../projective-varieties/projective-space-noetherian.md)
+- [Quasi-projective curves have the cofinite topology](../../curve-normalization/quasiprojective-curve-cofinite.md)
+- [Dimension in projective space](../../projective-varieties/projective-dimension.md)
 
 ## Sources
 
