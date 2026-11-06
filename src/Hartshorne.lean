@@ -438,3 +438,4 @@ import Hartshorne.Scheme.SheafTensorOperations
 import Hartshorne.Scheme.VarietyAssociatedScheme
 import Hartshorne.Scheme.ProjectiveMorphismCalculus
 import Hartshorne.Scheme.VarietySchemeOverK
+import Hartshorne.Scheme.PicardGroup
