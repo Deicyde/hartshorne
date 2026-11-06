@@ -2,6 +2,9 @@
 article_id: af_215f30fde4b1a62c7df95544
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.iInf_localization_height_one_eq_bot Hartshorne.exists_algebraMap_eq_of_forall_height_one
 ---
 
 # Intersection of height-one localizations
