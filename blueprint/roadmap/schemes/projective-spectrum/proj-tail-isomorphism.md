@@ -2,6 +2,9 @@
 article_id: af_0b1b24f36f44756106b92d98
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.projPartialDomain_eq_top_of_bijective Hartshorne.isIso_projPartialMap_of_bijective Hartshorne.isIso_projPartialMap_comp_top_of_bijective
 ---
 
 # Proj is invariant under an eventual graded isomorphism
