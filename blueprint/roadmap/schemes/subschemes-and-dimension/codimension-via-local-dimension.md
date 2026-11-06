@@ -14,6 +14,12 @@ a nonempty closed subset. Then
 
 $$\operatorname{codim}(Y,X)=\inf_{P\in Y}\dim\mathcal{O}_{X,P}.$$
 
+Integrality, finite type over the field and nonemptiness of $Y$ are not needed
+for this equality, because on every scheme $\dim\mathcal{O}_{X,P}$ is the
+coheight of $P$ and every irreducible closed subset has a unique generic point,
+while for $Y=\varnothing$ both sides are infima over empty families and so
+equal $\infty$.
+
 For each $P$, identify the dimension of the stalk with the coheight of $P$.
 The closure of $P$ is an irreducible closed subset of $Y$, while the generic
 point of every irreducible closed subset of $Y$ supplies the reverse
