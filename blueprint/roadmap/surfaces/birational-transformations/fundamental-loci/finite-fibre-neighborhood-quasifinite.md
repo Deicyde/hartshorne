@@ -31,6 +31,7 @@ dimension at most zero.
 
 ## Proof depends on
 
+- [Projective morphisms are proper](../../../schemes/proper-and-projective/projective-morphism-proper.md)
 - Quasi-finiteness is open on the source for a locally finite-type morphism.
   The finite fibre is contained in that open; projectivity makes the image of
   its closed complement closed, so removing that image gives the required
