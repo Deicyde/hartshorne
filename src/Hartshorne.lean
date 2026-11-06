@@ -356,3 +356,4 @@ import Hartshorne.Scheme.ProjPartialMap
 import Hartshorne.Scheme.AdicCompletionNoetherian
 import Hartshorne.Cohomology.OpenRestrictionInjective
 import Hartshorne.Cohomology.SmoothMorphisms.ProjectiveSpaceSmoothFiniteTypeOverField
+import Hartshorne.Scheme.GenericCompletionSheaf
