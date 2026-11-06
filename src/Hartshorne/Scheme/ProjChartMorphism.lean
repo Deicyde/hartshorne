@@ -12,13 +12,13 @@ Hartshorne, *Algebraic Geometry*, II.7 (morphisms to projective space), in the e
 form used to build explicit morphisms such as the Segre embedding (Exercise II.4.9).
 
 For a graded ring `A`, a ring `B` and a ring map `F : A → B` sending a homogeneous element `f`
-of positive degree to a unit, `chartMap F f` is the morphism `Spec B → Proj A` obtained from the
+of positive degree to a unit, `projChartMap F f` is the morphism `Spec B → Proj A` obtained from the
 induced map `A_(f) → B` and the chart `Spec A_(f) ≅ D₊(f)`. We prove:
 
-* `chartMap_eq`: the result does not depend on which inverted homogeneous element is used;
-* `chartMap_eq_of_scale`: rescaling each degree `n` component by `u ^ n` does not change it;
-* `SpecMap_chartMap`: naturality in `B`;
-* `chartMap_preimage_basicOpen`: the preimage of `D₊(g)` is the basic open of `F g`;
+* `projChartMap_eq`: the result does not depend on which inverted homogeneous element is used;
+* `projChartMap_eq_of_scale`: rescaling each degree `n` component by `u ^ n` does not change it;
+* `SpecMap_projChartMap`: naturality in `B`;
+* `projChartMap_preimage_basicOpen`: the preimage of `D₊(g)` is the basic open of `F g`;
 * `ι_comp_eq_toSpecΓ_SpecMap` and `eq_awayLift_chartPolyMap`: every morphism into `Proj`,
   restricted to an open set mapping into a coordinate chart of projective space, is of this
   form;
@@ -125,7 +125,7 @@ variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A] {�
 /-- The morphism `Spec B → Proj 𝒜` determined by a ring map `F : A → B` sending the
 homogeneous element `f` of positive degree to a unit: it is `Spec` of the induced map
 `A_(f) → B` followed by the chart `Spec A_(f) ≅ D₊(f) ⊆ Proj 𝒜`. -/
-def chartMap {B : CommRingCat.{u}} (F : A →+* B) {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m)
+def projChartMap {B : CommRingCat.{u}} (F : A →+* B) {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m)
     (hm : 0 < m) (hf : IsUnit (F f)) : Spec B ⟶ Proj 𝒜 :=
   Spec.map (CommRingCat.ofHom (awayLift (𝒜 := 𝒜) F f hf)) ≫ Proj.awayι 𝒜 f f_deg hm
 
@@ -136,45 +136,45 @@ theorem awayι_congr_deg {f : A} {m m' : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m
   rfl
 
 /-- The chart morphism does not depend on the chosen coordinate inverted by `F`. -/
-theorem chartMap_eq {B : CommRingCat.{u}} (F : A →+* B) {f g : A} {m n : ℕ}
+theorem projChartMap_eq {B : CommRingCat.{u}} (F : A →+* B) {f g : A} {m n : ℕ}
     (f_deg : f ∈ 𝒜 m) (hm : 0 < m) (hf : IsUnit (F f))
     (g_deg : g ∈ 𝒜 n) (hn : 0 < n) (hg : IsUnit (F g)) :
-    chartMap F f_deg hm hf = chartMap F g_deg hn hg := by
+    projChartMap F f_deg hm hf = projChartMap F g_deg hn hg := by
   have hfg : IsUnit (F (f * g)) := by rw [map_mul]; exact hf.mul hg
-  have h1 : chartMap F f_deg hm hf =
+  have h1 : projChartMap F f_deg hm hf =
       Spec.map (CommRingCat.ofHom (awayLift (𝒜 := 𝒜) F (f * g) hfg)) ≫
         Proj.awayι 𝒜 (f * g) (SetLike.mul_mem_graded f_deg g_deg) (by omega) := by
-    rw [chartMap, ← awayLift_comp_awayMap F f_deg g_deg rfl hf hfg, CommRingCat.ofHom_comp,
+    rw [projChartMap, ← awayLift_comp_awayMap F f_deg g_deg rfl hf hfg, CommRingCat.ofHom_comp,
       Spec.map_comp, Category.assoc, Proj.SpecMap_awayMap_awayι]
-  have h2 : chartMap F g_deg hn hg =
+  have h2 : projChartMap F g_deg hn hg =
       Spec.map (CommRingCat.ofHom (awayLift (𝒜 := 𝒜) F (f * g) hfg)) ≫
         Proj.awayι 𝒜 (f * g) (SetLike.mul_mem_graded f_deg g_deg) (by omega) := by
-    rw [chartMap, ← awayLift_comp_awayMap F g_deg f_deg (mul_comm f g) hg hfg,
+    rw [projChartMap, ← awayLift_comp_awayMap F g_deg f_deg (mul_comm f g) hg hfg,
       CommRingCat.ofHom_comp, Spec.map_comp, Category.assoc, Proj.SpecMap_awayMap_awayι,
       awayι_congr_deg _ _ _ _ (Nat.add_comm n m)]
   rw [h1, h2]
 
 /-- Rescaling all homogeneous elements of degree `n` by `u ^ n` does not change the chart
 morphism. -/
-theorem chartMap_eq_of_scale {B : CommRingCat.{u}} (F F' : A →+* B) (u : B)
+theorem projChartMap_eq_of_scale {B : CommRingCat.{u}} (F F' : A →+* B) (u : B)
     (hscale : ∀ n a, a ∈ 𝒜 n → F' a = u ^ n * F a) {f : A} {m : ℕ}
     (f_deg : f ∈ 𝒜 m) (hm : 0 < m) (hf : IsUnit (F f)) (hf' : IsUnit (F' f)) :
-    chartMap F' f_deg hm hf' = chartMap F f_deg hm hf := by
-  rw [chartMap, chartMap, awayLift_eq_of_scale F F' f_deg u hscale hf hf']
+    projChartMap F' f_deg hm hf' = projChartMap F f_deg hm hf := by
+  rw [projChartMap, projChartMap, awayLift_eq_of_scale F F' f_deg u hscale hf hf']
 
 /-- Naturality of the chart morphism in the ring. -/
-theorem SpecMap_chartMap {B C : CommRingCat.{u}} (F : A →+* B) (β : B ⟶ C) {f : A} {m : ℕ}
+theorem SpecMap_projChartMap {B C : CommRingCat.{u}} (F : A →+* B) (β : B ⟶ C) {f : A} {m : ℕ}
     (f_deg : f ∈ 𝒜 m) (hm : 0 < m) (hf : IsUnit (F f)) (hf' : IsUnit ((β.hom.comp F) f)) :
-    Spec.map β ≫ chartMap F f_deg hm hf = chartMap (β.hom.comp F) f_deg hm hf' := by
-  rw [chartMap, chartMap, ← Category.assoc, ← Spec.map_comp,
+    Spec.map β ≫ projChartMap F f_deg hm hf = projChartMap (β.hom.comp F) f_deg hm hf' := by
+  rw [projChartMap, projChartMap, ← Category.assoc, ← Spec.map_comp,
     ← awayLift_naturality F β.hom f_deg hf hf']
   rfl
 
 /-- The preimage of a standard open under a chart morphism. -/
-theorem chartMap_preimage_basicOpen {B : CommRingCat.{u}} (F : A →+* B) {f g : A} {m n : ℕ}
+theorem projChartMap_preimage_basicOpen {B : CommRingCat.{u}} (F : A →+* B) {f g : A} {m n : ℕ}
     (f_deg : f ∈ 𝒜 m) (hm : 0 < m) (hf : IsUnit (F f)) (g_deg : g ∈ 𝒜 n) (hn : 0 < n) :
-    chartMap F f_deg hm hf ⁻¹ᵁ Proj.basicOpen 𝒜 g = PrimeSpectrum.basicOpen (F g) := by
-  rw [chartMap, Scheme.Hom.comp_preimage, Proj.awayι_preimage_basicOpen 𝒜 f_deg hm g_deg hn]
+    projChartMap F f_deg hm hf ⁻¹ᵁ Proj.basicOpen 𝒜 g = PrimeSpectrum.basicOpen (F g) := by
+  rw [projChartMap, Scheme.Hom.comp_preimage, Proj.awayι_preimage_basicOpen 𝒜 f_deg hm g_deg hn]
   have : Spec.map (CommRingCat.ofHom (awayLift (𝒜 := 𝒜) F f hf)) ⁻¹ᵁ
       PrimeSpectrum.basicOpen (Away.isLocalizationElem f_deg g_deg) =
       PrimeSpectrum.basicOpen (awayLift (𝒜 := 𝒜) F f hf
@@ -330,12 +330,12 @@ attribute [local instance] MvPolynomial.gradedAlgebra
 
 open MvPolynomial
 
-/-- `chartMap` only depends on the ring map, not on the proof that it inverts the chosen
+/-- `projChartMap` only depends on the ring map, not on the proof that it inverts the chosen
 element. -/
-theorem chartMap_congr {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+theorem projChartMap_congr {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
     {𝒜 : ℕ → σ} [GradedRing 𝒜] {B : CommRingCat.{u}} {F G : A →+* B} (h : F = G) {f : A}
     {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m) (hF : IsUnit (F f)) (hG : IsUnit (G f)) :
-    chartMap F f_deg hm hF = chartMap G f_deg hm hG := by
+    projChartMap F f_deg hm hF = projChartMap G f_deg hm hG := by
   subst h
   rfl
 

@@ -121,7 +121,7 @@ theorem isUnit_segreChartRingMap_X_self (i : Fin (r + 1)) (j : Fin (s + 1)) :
 def segreChart (i : Fin (r + 1)) (j : Fin (s + 1)) :
     (segreChartOpen.{u} r s i j).toScheme ⟶ Proj (segreGrading.{u} (r * s + r + s)) :=
   (segreChartOpen r s i j).toSpecΓ ≫
-    chartMap (segreChartRingMap r s i j) (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos
+    projChartMap (segreChartRingMap r s i j) (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos
       (isUnit_segreChartRingMap_X_self r s i j)
 
 theorem segreChartOpen_iSup :
@@ -207,12 +207,12 @@ theorem segreChart_compat (c c' : Fin (r + 1) × Fin (s + 1)) :
     exact hu1.mul hu2
   simp only [segreChart]
   rw [← Scheme.Opens.toSpecΓ_SpecMap_presheaf_map_assoc,
-    ← Scheme.Opens.toSpecΓ_SpecMap_presheaf_map_assoc, SpecMap_chartMap _ _ _ _ _ hunit_c,
-    SpecMap_chartMap _ _ _ _ _ hunit_c']
+    ← Scheme.Opens.toSpecΓ_SpecMap_presheaf_map_assoc, SpecMap_projChartMap _ _ _ _ _ hunit_c,
+    SpecMap_projChartMap _ _ _ _ _ hunit_c']
   congr 1
-  rw [chartMap_eq _ _ _ hunit_c (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos hunit_x]
+  rw [projChartMap_eq _ _ _ hunit_c (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos hunit_x]
   symm
-  apply chartMap_eq_of_scale _ _ (ρ' (segreChartRingMap r s k l (X (segreIndex r s (i, j)))))
+  apply projChartMap_eq_of_scale _ _ (ρ' (segreChartRingMap r s k l (X (segreIndex r s (i, j)))))
   intro n a ha
   have hgen : ∀ d, (ρ'.hom.comp (segreChartRingMap r s k l)) (X d) =
       ρ' (segreChartRingMap r s k l (X (segreIndex r s (i, j)))) *
@@ -264,19 +264,19 @@ theorem ι_segreMorphismInt (i : Fin (r + 1)) (j : Fin (s + 1)) :
 
 theorem ι_segreFst (k : Fin (r + 1)) (l : Fin (s + 1)) :
     (segreChartOpen r s k l).ι ≫ segreFst.{u} r s = (segreChartOpen r s k l).toSpecΓ ≫
-      chartMap (chartPolyMap k (segreFstSection r s k l)) (X_mem_homogeneousSubmodule_one _ _)
+      projChartMap (chartPolyMap k (segreFstSection r s k l)) (X_mem_homogeneousSubmodule_one _ _)
         Nat.one_pos (isUnit_chartPolyMap_X_self _ _) := by
   rw [ι_comp_eq_toSpecΓ_SpecMap (segreFst r s) (segreChartOpen r s k l)
-    (X_mem_homogeneousSubmodule_one _ k) Nat.one_pos (by exact inf_le_left), chartMap,
+    (X_mem_homogeneousSubmodule_one _ k) Nat.one_pos (by exact inf_le_left), projChartMap,
     ← eq_awayLift_chartPolyMap]
   rfl
 
 theorem ι_segreSnd (k : Fin (r + 1)) (l : Fin (s + 1)) :
     (segreChartOpen r s k l).ι ≫ segreSnd.{u} r s = (segreChartOpen r s k l).toSpecΓ ≫
-      chartMap (chartPolyMap l (segreSndSection r s k l)) (X_mem_homogeneousSubmodule_one _ _)
+      projChartMap (chartPolyMap l (segreSndSection r s k l)) (X_mem_homogeneousSubmodule_one _ _)
         Nat.one_pos (isUnit_chartPolyMap_X_self _ _) := by
   rw [ι_comp_eq_toSpecΓ_SpecMap (segreSnd r s) (segreChartOpen r s k l)
-    (X_mem_homogeneousSubmodule_one _ l) Nat.one_pos (by exact inf_le_right), chartMap,
+    (X_mem_homogeneousSubmodule_one _ l) Nat.one_pos (by exact inf_le_right), projChartMap,
     ← eq_awayLift_chartPolyMap]
   rfl
 
@@ -285,7 +285,7 @@ theorem ι_preimage_segreFst_preimage (k i : Fin (r + 1)) (l : Fin (s + 1)) :
       (segreChartOpen r s k l).ι ⁻¹ᵁ
         (segreSource r s).basicOpen (segreFstSection r s k l (chartRatio _ k i)) := by
   rw [← Scheme.Hom.comp_preimage, ι_segreFst, Scheme.Hom.comp_preimage,
-    chartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ i) Nat.one_pos,
+    projChartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ i) Nat.one_pos,
     Scheme.Opens.toSpecΓ_preimage_basicOpen]
   simp [chartPolyMap]
 
@@ -294,7 +294,7 @@ theorem ι_preimage_segreSnd_preimage (k : Fin (r + 1)) (l j : Fin (s + 1)) :
       (segreChartOpen r s k l).ι ⁻¹ᵁ
         (segreSource r s).basicOpen (segreSndSection r s k l (chartRatio _ l j)) := by
   rw [← Scheme.Hom.comp_preimage, ι_segreSnd, Scheme.Hom.comp_preimage,
-    chartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ j) Nat.one_pos,
+    projChartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ j) Nat.one_pos,
     Scheme.Opens.toSpecΓ_preimage_basicOpen]
   simp [chartPolyMap]
 
@@ -306,7 +306,7 @@ theorem segreMorphismInt_preimage_basicOpen (i : Fin (r + 1)) (j : Fin (s + 1)) 
   rintro ⟨k, l⟩
   dsimp only
   rw [← Scheme.Hom.comp_preimage, ι_segreMorphismInt, segreChart, Scheme.Hom.comp_preimage,
-    chartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos,
+    projChartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos,
     Scheme.Opens.toSpecΓ_preimage_basicOpen, segreChartRingMap_X, Scheme.basicOpen_mul]
   have hW : segreChartOpen r s i j = segreFst.{u} r s ⁻¹ᵁ Proj.basicOpen _ (X i) ⊓
       segreSnd.{u} r s ⁻¹ᵁ Proj.basicOpen _ (X j) := rfl
@@ -344,23 +344,23 @@ def segreRetractToSource (i : Fin (r + 1)) (j : Fin (s + 1)) :
     Spec (.of (Away (segreGrading.{u} (r * s + r + s)) (X (segreIndex r s (i, j))))) ⟶
       segreSource.{u} r s :=
   pullback.lift
-    (chartMap (segreFstRetractRingMap r s i j) (X_mem_homogeneousSubmodule_one _ i) Nat.one_pos
+    (projChartMap (segreFstRetractRingMap r s i j) (X_mem_homogeneousSubmodule_one _ i) Nat.one_pos
       (by rw [segreFstRetractRingMap_X_self]; exact isUnit_one))
-    (chartMap (segreSndRetractRingMap r s i j) (X_mem_homogeneousSubmodule_one _ j) Nat.one_pos
+    (projChartMap (segreSndRetractRingMap r s i j) (X_mem_homogeneousSubmodule_one _ j) Nat.one_pos
       (by rw [segreSndRetractRingMap_X_self]; exact isUnit_one))
     (specULiftZIsTerminal.{u}.hom_ext _ _)
 
 @[reassoc]
 theorem segreRetractToSource_fst (i : Fin (r + 1)) (j : Fin (s + 1)) :
     segreRetractToSource.{u} r s i j ≫ segreFst r s =
-      chartMap (segreFstRetractRingMap r s i j) (X_mem_homogeneousSubmodule_one _ i)
+      projChartMap (segreFstRetractRingMap r s i j) (X_mem_homogeneousSubmodule_one _ i)
         Nat.one_pos (by rw [segreFstRetractRingMap_X_self]; exact isUnit_one) :=
   pullback.lift_fst _ _ _
 
 @[reassoc]
 theorem segreRetractToSource_snd (i : Fin (r + 1)) (j : Fin (s + 1)) :
     segreRetractToSource.{u} r s i j ≫ segreSnd r s =
-      chartMap (segreSndRetractRingMap r s i j) (X_mem_homogeneousSubmodule_one _ j)
+      projChartMap (segreSndRetractRingMap r s i j) (X_mem_homogeneousSubmodule_one _ j)
         Nat.one_pos (by rw [segreSndRetractRingMap_X_self]; exact isUnit_one) :=
   pullback.lift_snd _ _ _
 
@@ -370,8 +370,8 @@ theorem segreRetractToSource_preimage (i : Fin (r + 1)) (j : Fin (s + 1)) :
       segreSnd.{u} r s ⁻¹ᵁ Proj.basicOpen _ (X j) := rfl
   rw [hW, Scheme.Hom.preimage_inf, ← Scheme.Hom.comp_preimage, ← Scheme.Hom.comp_preimage,
     segreRetractToSource_fst, segreRetractToSource_snd,
-    chartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ i) Nat.one_pos,
-    chartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ j) Nat.one_pos,
+    projChartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ i) Nat.one_pos,
+    projChartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ j) Nat.one_pos,
     segreFstRetractRingMap_X_self, segreSndRetractRingMap_X_self]
   have h1 : PrimeSpectrum.basicOpen (1 : Away (segreGrading.{u} (r * s + r + s))
       (X (segreIndex r s (i, j)))) = ⊤ := PrimeSpectrum.basicOpen_one
@@ -406,7 +406,7 @@ def segreChartSpec (i : Fin (r + 1)) (j : Fin (s + 1)) :
 theorem segreChart_eq (i : Fin (r + 1)) (j : Fin (s + 1)) :
     segreChart.{u} r s i j = segreChartSpec r s i j ≫
       Proj.awayι _ _ (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos := by
-  simp [segreChart, segreChartSpec, chartMap]
+  simp [segreChart, segreChartSpec, projChartMap]
 
 theorem segreChartSpec_retract (i : Fin (r + 1)) (j : Fin (s + 1)) :
     segreChartSpec.{u} r s i j ≫ segreRetract r s i j = 𝟙 _ := by
@@ -437,13 +437,15 @@ theorem segreChartSpec_retract (i : Fin (r + 1)) (j : Fin (s + 1)) :
   · change segreChartSpec r s i j ≫ segreRetractToSource r s i j ≫ segreFst r s =
       (segreChartOpen r s i j).ι ≫ segreFst r s
     rw [segreRetractToSource_fst, ι_segreFst, segreChartSpec, Category.assoc,
-      SpecMap_chartMap _ _ _ _ _ (by rw [CommRingCat.hom_ofHom, hring1]; exact isUnit_chartPolyMap_X_self _ _)]
-    exact congrArg _ (chartMap_congr hring1 _ _ _ _)
+      SpecMap_projChartMap _ _ _ _ _
+        (by rw [CommRingCat.hom_ofHom, hring1]; exact isUnit_chartPolyMap_X_self _ _)]
+    exact congrArg _ (projChartMap_congr hring1 _ _ _ _)
   · change segreChartSpec r s i j ≫ segreRetractToSource r s i j ≫ segreSnd r s =
       (segreChartOpen r s i j).ι ≫ segreSnd r s
     rw [segreRetractToSource_snd, ι_segreSnd, segreChartSpec, Category.assoc,
-      SpecMap_chartMap _ _ _ _ _ (by rw [CommRingCat.hom_ofHom, hring2]; exact isUnit_chartPolyMap_X_self _ _)]
-    exact congrArg _ (chartMap_congr hring2 _ _ _ _)
+      SpecMap_projChartMap _ _ _ _ _
+        (by rw [CommRingCat.hom_ofHom, hring2]; exact isUnit_chartPolyMap_X_self _ _)]
+    exact congrArg _ (projChartMap_congr hring2 _ _ _ _)
 
 instance (i : Fin (r + 1)) (j : Fin (s + 1)) : IsClosedImmersion (segreChartSpec.{u} r s i j) := by
   have : IsSeparated (segreRetract.{u} r s i j ≫ (segreChartOpen r s i j).toSpecΓ) :=
