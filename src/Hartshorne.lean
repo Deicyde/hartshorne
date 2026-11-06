@@ -368,3 +368,4 @@ import Hartshorne.Scheme.Differentials.FieldDifferentialsDimension
 import Hartshorne.Scheme.ProjChartMorphism
 import Hartshorne.Scheme.RelativeSegre
 import Hartshorne.Scheme.ClassGroupOpenRestriction
+import Hartshorne.Cohomology.SmoothMorphisms.ZariskiTangentMap
