@@ -23,6 +23,7 @@ separate objects until the theorem proves their equality.
 
 - [The fibre of a morphism](../../../schemes/fiber-products/scheme-fiber.md)
 - [The stalk criterion for flat morphisms](../flatness/flat-morphism-stalk-criterion.md)
+- [The reduced induced closed subscheme](../../../schemes/subschemes-and-dimension/reduced-induced-closed-subscheme.md)
 
 ## Proof depends on
 
