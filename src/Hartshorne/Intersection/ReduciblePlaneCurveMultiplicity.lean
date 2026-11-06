@@ -33,13 +33,13 @@ noncomputable def reduciblePlaneCurveIntersectionMultiplicity
     {k : Type u} [Field k] [IsAlgClosed k]
     {Y Z : Set (ProjectiveSpace k (Fin 3))}
     (hY : IsProjAlgebraicSet Y) (hZ : IsProjAlgebraicSet Z)
-    (_hYdim : projDim Y = (1 : WithBot ℕ∞))
-    (_hZdim : projDim Z = (1 : WithBot ℕ∞))
-    (_hYpure : ∀ C : irreducibleComponents ↥Y,
+    (hYdim : projDim Y = (1 : WithBot ℕ∞))
+    (hZdim : projDim Z = (1 : WithBot ℕ∞))
+    (hYpure : ∀ C : irreducibleComponents ↥Y,
       projDim (projectiveComponentCarrier C.1) = (1 : WithBot ℕ∞))
-    (_hZpure : ∀ D : irreducibleComponents ↥Z,
+    (hZpure : ∀ D : irreducibleComponents ↥Z,
       projDim (projectiveComponentCarrier D.1) = (1 : WithBot ℕ∞))
-    (_hYZ : ∀ (C : irreducibleComponents ↥Y)
+    (hYZ : ∀ (C : irreducibleComponents ↥Y)
       (D : irreducibleComponents ↥Z),
       projectiveComponentCarrier C.1 ≠ projectiveComponentCarrier D.1)
     (P : ProjectiveSpace k (Fin 3)) : ℕ := by
@@ -98,8 +98,8 @@ theorem reduciblePlaneCurveComponent_eq_singleton
     {k : Type u} [Field k] [IsAlgClosed k]
     {Y Z : Set (ProjectiveSpace k (Fin 3))}
     (hY : IsProjAlgebraicSet Y) (hZ : IsProjAlgebraicSet Z)
-    (_hYdim : projDim Y = (1 : WithBot ℕ∞))
-    (_hZdim : projDim Z = (1 : WithBot ℕ∞))
+    (hYdim : projDim Y = (1 : WithBot ℕ∞))
+    (hZdim : projDim Z = (1 : WithBot ℕ∞))
     (hYpure : ∀ C : irreducibleComponents ↥Y,
       projDim (projectiveComponentCarrier C.1) = (1 : WithBot ℕ∞))
     (hZpure : ∀ D : irreducibleComponents ↥Z,
@@ -125,8 +125,8 @@ theorem reduciblePlaneCurve_intersection_finite
     {k : Type u} [Field k] [IsAlgClosed k]
     {Y Z : Set (ProjectiveSpace k (Fin 3))}
     (hY : IsProjAlgebraicSet Y) (hZ : IsProjAlgebraicSet Z)
-    (_hYdim : projDim Y = (1 : WithBot ℕ∞))
-    (_hZdim : projDim Z = (1 : WithBot ℕ∞))
+    (hYdim : projDim Y = (1 : WithBot ℕ∞))
+    (hZdim : projDim Z = (1 : WithBot ℕ∞))
     (hYpure : ∀ C : irreducibleComponents ↥Y,
       projDim (projectiveComponentCarrier C.1) = (1 : WithBot ℕ∞))
     (hZpure : ∀ D : irreducibleComponents ↥Z,
