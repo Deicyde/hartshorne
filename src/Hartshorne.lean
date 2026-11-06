@@ -397,3 +397,4 @@ import Hartshorne.Weil.FrobeniusFixedPoints
 import Hartshorne.Scheme.ModuleSheafSupport
 import Hartshorne.Cohomology.AcyclicResolutionComparison
 import Hartshorne.Scheme.ProjTailIsomorphism
+import Hartshorne.Scheme.AffineTildeTensor
