@@ -66,9 +66,8 @@ theorem comp_absoluteFrobenius {X Y : Scheme.{u}} [X.IsCharP p] [Y.IsCharP p] (f
 
 /-- The `n`-th iterate of the absolute Frobenius, raising local sections to `p ^ n`-th powers. -/
 def iterateAbsoluteFrobenius (X : Scheme.{u}) (p : ℕ) [Fact p.Prime] [X.IsCharP p] :
-    ℕ → (X ⟶ X)
-  | 0 => 𝟙 X
-  | n + 1 => iterateAbsoluteFrobenius X p n ≫ X.absoluteFrobenius p
+    ℕ → (X ⟶ X) :=
+  fun n ↦ (fun f ↦ f ≫ X.absoluteFrobenius p)^[n] (𝟙 X)
 
 @[simp]
 theorem iterateAbsoluteFrobenius_zero (X : Scheme.{u}) [X.IsCharP p] :
@@ -76,7 +75,8 @@ theorem iterateAbsoluteFrobenius_zero (X : Scheme.{u}) [X.IsCharP p] :
 
 theorem iterateAbsoluteFrobenius_succ (X : Scheme.{u}) [X.IsCharP p] (n : ℕ) :
     X.iterateAbsoluteFrobenius p (n + 1) =
-      X.iterateAbsoluteFrobenius p n ≫ X.absoluteFrobenius p := rfl
+      X.iterateAbsoluteFrobenius p n ≫ X.absoluteFrobenius p :=
+  Function.iterate_succ_apply' _ n _
 
 @[simp]
 theorem iterateAbsoluteFrobenius_appTop (X : Scheme.{u}) [X.IsCharP p] (n : ℕ)
