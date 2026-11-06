@@ -2,6 +2,9 @@
 article_id: af_af002c6c55b279781ec7601e
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.BirationalMap.dom Hartshorne.BirationalMap.domHom Hartshorne.BirationalMap.domRep_represents Hartshorne.BirationalMap.domHom_eq_eval Hartshorne.BirationalMap.le_dom Hartshorne.BirationalMap.isGreatest_dom Hartshorne.BirationalMap.domHom_unique Hartshorne.BirationalMap.fundamentalLocus Hartshorne.BirationalMap.fundamentalPoints
 ---
 
 # The maximal domain of a birational transformation
