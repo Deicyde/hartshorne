@@ -30,6 +30,8 @@ enters the argument.
 - [Tensor products of module sheaves](../../../schemes/modules-and-quasicoherent/module-tensor-product.md)
 - [The affine quasicoherent equivalence](../../../schemes/modules-and-quasicoherent/affine-quasicoherent-equivalence.md)
 - [The long exact sequence of right-derived functors](../../derived-functors/right-derived-long-exact-sequence.md)
+- [Projective morphisms](../../../schemes/proper-and-projective/projective-morphism.md)
+- [The affine-local criterion for coherence](../../../schemes/modules-and-quasicoherent/coherent-affine-local-criterion.md)
 
 ## Proof depends on
 
