@@ -440,3 +440,4 @@ import Hartshorne.Scheme.ProjectiveMorphismCalculus
 import Hartshorne.Scheme.VarietySchemeOverK
 import Hartshorne.Scheme.PicardGroup
 import Hartshorne.Scheme.VarietyClosedPoints
+import Hartshorne.Scheme.AffineLineClassGroup
