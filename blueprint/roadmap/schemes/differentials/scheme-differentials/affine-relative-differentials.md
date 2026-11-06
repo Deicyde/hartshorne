@@ -29,6 +29,7 @@ $A$ is free on $dx_{1},\ldots ,dx_{n}$.
 - Compatibility of the construction with restriction to principal affine
   opens, using localization of Kähler differentials.
 - [Localization of Kähler differentials](../kaehler-differentials/kahler-differential-localization.md)
+- [The universal property of the relative differential sheaf](relative-differentials-universal.md)
 
 ## Sources
 
