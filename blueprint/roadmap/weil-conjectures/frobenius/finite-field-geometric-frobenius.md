@@ -2,6 +2,9 @@
 article_id: af_b62d988fd69a68b20a00abf6
 declaration: definition
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.finiteFieldBaseChange AlgebraicGeometry.finiteFieldQFrobenius AlgebraicGeometry.finiteFieldQFrobenius_point AlgebraicGeometry.finiteFieldBaseChangeQTwist AlgebraicGeometry.finiteFieldQFrobeniusTwistTo AlgebraicGeometry.finiteFieldDescentIso AlgebraicGeometry.finiteFieldQFrobenius_eq_descentIso_inv_comp
 ---
 
 # Hartshorne's finite-field q-power Frobenius
