@@ -62,8 +62,8 @@ theorem exists_mem_locallyQuasiFinite_morphismRestrict_of_isProper
 finite-type morphism of Noetherian schemes has a zero-dimensional fibre over
 `P`, then it is quasi-finite over some open neighbourhood of `P`. -/
 theorem Projective.exists_mem_locallyQuasiFinite_morphismRestrict
-    {Z X : Scheme.{u}} [_hZ : IsNoetherian Z] [_hX : IsNoetherian X]
-    {f : Z ⟶ X} (hf : Projective f) [_hft : LocallyOfFiniteType f] (P : X)
+    {Z X : Scheme.{u}} [IsNoetherian Z] [IsNoetherian X]
+    {f : Z ⟶ X} (hf : Projective f) [LocallyOfFiniteType f] (P : X)
     (hP : topologicalKrullDim (f.fiber P) = 0) :
     ∃ U : X.Opens, P ∈ U ∧ LocallyQuasiFinite (f ∣_ U) := by
   have : IsProper f := Projective.isProper hf
