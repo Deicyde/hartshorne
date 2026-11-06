@@ -2,6 +2,9 @@
 article_id: af_54141ee57b8cd7bc7fe556d7
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.relativeSegre Hartshorne.relativeSegre_spec
 ---
 
 # The relative Segre embedding
