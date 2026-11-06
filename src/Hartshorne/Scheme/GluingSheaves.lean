@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib.Algebra.Category.Grp.Limits
 import Mathlib.CategoryTheory.Sites.Limits
 import Mathlib.Topology.Sheaves.Functors
+import Mathlib.Topology.Sheaves.Limits
 import Mathlib.Topology.Sheaves.SheafCondition.PairwiseIntersections
 
 /-!
@@ -131,7 +132,7 @@ lemma functor_mono (V : Opens X) {O₁ O₂ : Opens ((Opens.toTopCat X).obj V)} 
 
 /-- A tactic proving inequalities between the opens appearing in the gluing construction, by
 comparing their images in `X`. -/
-macro "opens_le" : tactic => `(tactic| (
+local macro "opens_le" : tactic => `(tactic| (
   (try apply le_of_functor_le)
   (try simp only [inclusion'_functor_inclLE_functor_obj, Opens.functor_map_eq_inf])
   intro x hx
@@ -143,7 +144,7 @@ macro "opens_le" : tactic => `(tactic| (
       (config := { terminal := true })))
 
 /-- The restriction map between two opens, with the inequality proved by `opens_le`. -/
-macro "le%" : term => `((homOfLE (by opens_le)).op)
+local macro "le%" : term => `((homOfLE (by opens_le)).op)
 
 /-- `(G|V)|T ≅ G|T` for a sheaf `G` on `W` and opens `T ≤ V ≤ W`. -/
 def restrictLERestrictLEIso {T V W : Opens X} (hTV : T ≤ V) (hVW : V ≤ W)
@@ -285,9 +286,6 @@ def pushRestrict {V W : Opens X} (h : V ≤ W)
       restrictLE_obj_obj_map, restrictLE_obj_obj_obj]
     rw [← Functor.map_comp, ← Functor.map_comp]
     apply map_eq_map
-
-instance {A : TopCat.{u}} (a b : (Opens A)ᵒᵖ) : Subsingleton (a ⟶ b) :=
-  ⟨fun _ _ => Quiver.Hom.unop_inj (Subsingleton.elim _ _)⟩
 
 lemma map_comp_map {A : TopCat.{u}} (G : A.Presheaf C) {a b c : (Opens A)ᵒᵖ} (f : a ⟶ b)
     (g : b ⟶ c) (h : a ⟶ c) : G.map f ≫ G.map g = G.map h := by
@@ -718,9 +716,6 @@ lemma φ_self_gen (i : D.ι) {P : Opens ((Opens.toTopCat X).obj (D.U i ⊓ D.U i
   rw [appLE_φ_self, Category.id_comp, map_comp_map]
 
 variable [HasLimitsOfShape (Pairwise D.ι)ᵒᵖ C]
-
-instance : HasLimitsOfShape (Pairwise D.ι)ᵒᵖ (X.Presheaf C) :=
-  inferInstanceAs (HasLimitsOfShape _ ((Opens X)ᵒᵖ ⥤ C))
 
 /-- The glued sheaf. -/
 def glue : Sheaf (Opens.grothendieckTopology X) C :=
