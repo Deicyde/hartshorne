@@ -2,6 +2,9 @@
 article_id: af_b7ad9258fc875360bb5b8559
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.existsUnique_reducedInducedSubschemeι_factorization
 ---
 
 # The smallest structure on a closed subset
