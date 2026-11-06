@@ -2,6 +2,9 @@
 article_id: af_6572c1c9f15a2e6280655f06
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.projectiveSpace_smoothOfRelativeDimension_finiteTypeOverField
 ---
 
 # Projective space is smooth
@@ -12,6 +15,9 @@ For every $n$, the projection
 $\mathbb{P}^n_k \times _{(\operatorname{Spec} k)} Y \to Y$,
 
 canonically identified with $\mathbb{P}^n_Y \to Y$, is smooth of relative dimension $n$.
+
+The finite-type hypothesis is retained to match Hartshorne's standing convention;
+the arbitrary-base theorem proves the conclusion independently of that hypothesis.
 
 ## Depends on
 
