@@ -23,6 +23,7 @@ isomorphic to $\mathcal{O}_X^{r}$ for one fixed integer $r \ge 0$.
 - [Normal schemes](../../normalization-and-exercises/normal-scheme.md)
 - [Intersection of height-one localizations](../../divisors/weil-divisors/height-one-localization-intersection.md)
 - [Locally free and invertible module sheaves](../../modules-and-quasicoherent/locally-free-and-invertible.md)
+- [Codimension in a scheme](../../subschemes-and-dimension/scheme-codimension.md)
 
 ## Proof depends on
 
