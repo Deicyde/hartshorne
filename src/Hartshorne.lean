@@ -362,3 +362,4 @@ import Hartshorne.Rational.BirationalMaximalDomain
 import Hartshorne.Cohomology.ArtinReesProZeroKernel
 import Hartshorne.Scheme.GenericallyFiniteDenseOpen
 import Hartshorne.Scheme.DominatingDVR
+import Hartshorne.Curve.QuadraticCoverNormality
