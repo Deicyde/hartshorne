@@ -2,6 +2,9 @@
 article_id: af_9afe784f58dca3e19b05a327
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.etale_tfae_finiteTypeOverField Hartshorne.HartshorneUnramified
 ---
 
 # Étale, flat-unramified, and differential criteria
@@ -16,6 +19,9 @@ and $k(x)/k(y)$ is separable algebraic. Then the following are equivalent:
 1. $f$ is étale, equivalently smooth of relative dimension zero;
 2. $f$ is flat and $\Omega_{X/Y}=0$;
 3. $f$ is flat and Hartshorne-unramified.
+
+Only the local finiteness half of the finite-type hypotheses is used: it makes $f$ locally of
+finite presentation, which is all the equivalences require.
 
 ## Depends on
 
