@@ -6,6 +6,7 @@ import Mathlib.Algebra.Category.ModuleCat.Stalk
 import Mathlib.RingTheory.LocalRing.Module
 import Mathlib.RingTheory.Localization.Finiteness
 import Hartshorne.Scheme.CoherentAffineLocalCriterion
+import Hartshorne.Scheme.CoherentFreeLocus
 
 /-!
 # The fibre dimension of a coherent sheaf is upper semicontinuous
@@ -147,16 +148,6 @@ universe u
 
 namespace FiberDimAux
 
-/-- The `𝒪_{X,x}`-module structure on the stalk of an `𝒪_X`-module (Mathlib's stalk module of a
-presheaf of modules). -/
-noncomputable abbrev stalkModule {X : Scheme.{u}} (F : X.Modules) (x : X) :
-    Module (X.presheaf.stalk x) (F.presheaf.stalk x) :=
-  let FX : PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat RingCat) := F.val
-  inferInstanceAs (Module (X.presheaf.stalk x)
-    ↑(TopCat.Presheaf.stalk (C := Ab) FX.presheaf x))
-
-attribute [local instance] stalkModule
-
 variable {X : Scheme.{u}} (F : X.Modules) {U : X.Opens} (hU : IsAffineOpen U)
 
 theorem fromSpec_image_basicOpen_le (f : Γ(X, U)) :
@@ -195,16 +186,11 @@ theorem isScalarTower_stalk (x : U) :
 
 attribute [local instance] isScalarTower_stalk
 
-theorem germ_smul_sections {V : X.Opens} (z : X) (hz : z ∈ V) (r : Γ(X, V)) (m : Γ(F, V)) :
-    F.presheaf.germ V z hz (r • m) = X.presheaf.germ V z hz r • F.presheaf.germ V z hz m := by
-  let FX : PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat RingCat) := F.val
-  exact PresheafOfModules.germ_smul (M := FX) z V hz r m
-
 /-- The germ map `Γ(U, F) → F_x`, as a map of `Γ(X, U)`-modules. -/
 noncomputable def germₗ (x : U) : Γ(F, U) →ₗ[Γ(X, U)] F.presheaf.stalk (x : X) where
   toFun := F.presheaf.germ U x x.2
   map_add' := map_add _
-  map_smul' r m := germ_smul_sections F (x : X) x.2 r m
+  map_smul' r m := schemeModules_germ_smul F U (x : X) x.2 r m
 
 theorem germₗ_apply (x : U) (m : Γ(F, U)) : germₗ F x m = F.presheaf.germ U x x.2 m := rfl
 
@@ -265,7 +251,7 @@ theorem isLocalizedModule_germₗ (hiso : IsIso (F.restrict hU.fromSpec).fromTil
     have key := congrArg (F.presheaf.germ _ (x : X) hxW) (hc.symm.trans (hsmul f c t'))
     rw [h1, ← hres, e.apply_symm_apply]
     refine Eq.trans ?_ key.symm
-    rw [germ_smul_sections, TopCat.Presheaf.germ_res_apply]
+    rw [schemeModules_germ_smul, TopCat.Presheaf.germ_res_apply]
     change _ = _ • F.presheaf.germ _ (x : X) hxW (F.presheaf.map (homOfLE hWV).op t)
     rw [TopCat.Presheaf.germ_res_apply, ← hn']
     rfl
@@ -293,8 +279,7 @@ end FiberDimAux
 
 open FiberDimAux
 
-attribute [local instance] FiberDimAux.stalkModule FiberDimAux.stalkModuleSections
-  FiberDimAux.isScalarTower_stalk
+attribute [local instance] FiberDimAux.stalkModuleSections FiberDimAux.isScalarTower_stalk
 
 /-- The **fibre dimension** of an `𝒪_X`-module `F` at `x`:
 `dim_{k(x)} (F_x ⊗_{𝒪_{X,x}} k(x))`, where `k(x)` is the residue field of `𝒪_{X,x}`. -/
