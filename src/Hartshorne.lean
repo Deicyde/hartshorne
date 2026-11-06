@@ -363,3 +363,4 @@ import Hartshorne.Cohomology.ArtinReesProZeroKernel
 import Hartshorne.Scheme.GenericallyFiniteDenseOpen
 import Hartshorne.Scheme.DominatingDVR
 import Hartshorne.Curve.QuadraticCoverNormality
+import Hartshorne.Scheme.LocallyFreeInvertible
