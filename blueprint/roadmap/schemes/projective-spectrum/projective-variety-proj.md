@@ -22,11 +22,14 @@ glues the chart isomorphisms.
 
 - [Proj is a scheme](proj-is-scheme.md)
 - [A variety with an affine-open basis has an associated scheme](../variety-comparison/variety-associated-scheme.md)
+- [The associated scheme is a scheme over the base field](../variety-comparison/variety-scheme-over-k.md)
+- [The homogeneous prime at a point](../../morphisms/projective-rings/point-ideal.md)
 
 ## Proof depends on
 
 - [Standard affine charts](../../projective-varieties/standard-affine-charts.md)
 - [Graded localization](../../morphisms/projective-rings/graded-localization.md)
+- [The homogeneous Nullstellensatz](../../projective-varieties/projective-nullstellensatz.md)
 
 ## Sources
 
