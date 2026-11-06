@@ -457,3 +457,4 @@ import Hartshorne.Scheme.VarietyFunctorFullyFaithful
 import Hartshorne.Rational.SchemeGraphTotalTransform
 import Hartshorne.Rational.NormalFundamentalLocus
 import Hartshorne.Cohomology.FlatFamilies.HironakaNormality
+import Hartshorne.Cohomology.FlatFamilies.FlatEquidimensional
