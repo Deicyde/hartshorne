@@ -346,3 +346,5 @@ import Hartshorne.Weil.ConstantTorsionEtaleSheaf
 import Hartshorne.Transcendental.ComplexExponentialExactSequence
 import Hartshorne.Scheme.Differentials.RegularLocalLift
 import Hartshorne.Scheme.FiniteFibreQuasiFiniteNeighborhood
+import Hartshorne.Scheme.ProjectiveSpaceChart
+import Hartshorne.Cohomology.SmoothMorphisms.ProjectiveSpaceSmooth
