@@ -90,7 +90,7 @@ empty. -/
 theorem blowing_up :
     AffineBlowupProperties (k := k) (σ := σ) ∧
       ∀ (Y : Set (σ → k)) (hY : IsAffineVariety Y)
-          (_hzero : (0 : σ → k) ∈ Y),
+          (hzero : (0 : σ → k) ∈ Y),
         (∃ hne : (affineSubvarietyPunctured Y).Nonempty,
           IsQuasiProjVariety (strictTransform (k := k) (σ := σ) Y) ∧
             (strictTransformProjectionPunctured hY hne).IsIso ∧
