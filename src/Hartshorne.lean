@@ -349,3 +349,4 @@ import Hartshorne.Scheme.FiniteFibreQuasiFiniteNeighborhood
 import Hartshorne.Scheme.ProjectiveSpaceChart
 import Hartshorne.Cohomology.SmoothMorphisms.ProjectiveSpaceSmooth
 import Hartshorne.Weil.TraceExponentialDeterminant
+import Hartshorne.Scheme.Differentials.RegularHypersurfaceCriterion
