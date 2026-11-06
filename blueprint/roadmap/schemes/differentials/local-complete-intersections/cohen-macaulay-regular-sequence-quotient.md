@@ -2,6 +2,9 @@
 article_id: af_5ff1601cd5341bc41a477e6e
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: IsCohenMacaulayLocalRing.isRegular_iff_ringKrullDim_quotient_ofList_add_length IsCohenMacaulayLocalRing.isWeaklyRegular_iff_ringKrullDim_quotient_ofList_add_length IsCohenMacaulayLocalRing.quotient_ofList
 ---
 
 # Regular sequences and Cohen–Macaulay quotients
