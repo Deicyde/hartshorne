@@ -497,7 +497,7 @@ theorem Scheme.relativeDifferentials_isCoherent_of_locallyOfFiniteType (f : X �
 /-- Hartshorne II, Remark 8.9.1: if `Y` is Noetherian and `f : X ⟶ Y` is of finite type, then
 `Ω_{X/Y}` is coherent.  Coherence in Hartshorne's sense already follows from `f` being locally
 of finite type; the Noetherian hypothesis is the setting of the source. -/
-theorem Scheme.relativeDifferentials_isCoherent (f : X ⟶ Y) [_hY : IsNoetherian Y]
+theorem Scheme.relativeDifferentials_isCoherent (f : X ⟶ Y) [IsNoetherian Y]
     (hf : Hartshorne.FiniteType f) : Hartshorne.IsCoherent (Scheme.relativeDifferentials f) :=
   haveI : LocallyOfFiniteType f := hf.1
   Scheme.relativeDifferentials_isCoherent_of_locallyOfFiniteType f
