@@ -22,6 +22,7 @@ Over each affine open $\operatorname{Spec} A$, invoke finiteness of the integral
 ## Proof depends on
 
 - Finiteness of integral closure for finitely generated algebras over a field.
+- [General-field finiteness of integral closure](../projective-sheaves/finite-integral-closure-finite-type-field.md)
 
 ## Sources
 
