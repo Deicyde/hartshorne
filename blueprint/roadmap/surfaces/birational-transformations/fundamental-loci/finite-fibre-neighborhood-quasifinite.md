@@ -17,11 +17,10 @@ $f^{-1}(U) \to U$
 
 is quasi-finite.
 
-The Noetherian and finite-type hypotheses are kept to match Hartshorne's
-setting. Projectivity already makes $f$ proper, hence of finite type and
-closed, and the argument never uses the Noetherian hypotheses, so the separately
-stated general form holds for every proper morphism whose fibre over $P$ has
-dimension at most zero.
+More generally, the argument uses neither Noetherian hypothesis, and
+projectivity already makes $f$ proper, hence of finite type: for any proper
+morphism whose fibre over $P$ has dimension at most zero, the same conclusion
+holds.
 
 ## Depends on
 
