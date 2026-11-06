@@ -25,7 +25,7 @@ a regular local ring has regular localizations at primes lying over the maximal 
 
 noncomputable section
 
-open Polynomial IsLocalRing Ideal
+open CategoryTheory Limits Polynomial IsLocalRing Ideal
 
 namespace Hartshorne
 
@@ -114,6 +114,81 @@ theorem RingIsRegularInCodimensionOne.of_ringEquiv {R S : Type*} [CommRing R] [C
       simpa using hs
   exact IsRegularLocalRing.of_ringEquiv (IsLocalization.ringEquivOfRingEquiv
     (Localization.AtPrime Q) (Localization.AtPrime P) e hmap)
+
+
+/-- Contracting the extension of an ideal of `R` to `R[X]` gives back the ideal. -/
+theorem comap_C_map_C {R : Type*} [CommRing R] (p : Ideal R) :
+    (p.map (C : R →+* R[X])).comap C = p := by
+  ext r
+  simp only [Ideal.mem_comap, Ideal.mem_map_C_iff]
+  constructor
+  · intro h
+    simpa only [coeff_C_zero] using h 0
+  · rintro h (- | n)
+    · rwa [coeff_C_zero]
+    · simp only [coeff_C_of_ne_zero (Nat.succ_ne_zero _), Submodule.zero_mem]
+
+/-- Going down along `R → R[X]`: the contraction of a prime of `R[X]` has height at most the
+height of the prime. -/
+theorem height_comap_C_le {R : Type*} [CommRing R] [IsNoetherianRing R]
+    (P : Ideal R[X]) [P.IsPrime] : (P.comap C).height ≤ P.height := by
+  have : P.LiesOver (P.comap C) := ⟨rfl⟩
+  rw [Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown (P.comap C) P]
+  exact le_self_add
+
+/-- A prime of `R[X]` has the same height as its contraction to `R` exactly when it is the
+extension of that contraction. -/
+theorem height_eq_height_comap_C_iff {R : Type*} [CommRing R] [IsNoetherianRing R]
+    (P : Ideal R[X]) [P.IsPrime] : P.height = (P.comap C).height ↔ P = (P.comap C).map C := by
+  set q := P.comap C with hq
+  have : P.LiesOver q := ⟨rfl⟩
+  let Q : Ideal R[X] := q.map (algebraMap R R[X])
+  have hQ : Q = q.map C := rfl
+  have : Q.IsPrime := Ideal.isPrime_map_C_of_isPrime
+  have hQP : Q ≤ P := Ideal.map_comap_le
+  have : (P.map (Ideal.Quotient.mk Q)).IsPrime :=
+    Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective (by rwa [Ideal.mk_ker])
+  rw [Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown q P, ← hQ]
+  have hfin : q.height ≠ ⊤ := Ideal.height_ne_top_of_isPrime
+  constructor
+  · intro h
+    have h0 : (P.map (Ideal.Quotient.mk Q)).height = 0 := by
+      have h' : q.height + (P.map (Ideal.Quotient.mk Q)).height = q.height + 0 := by
+        rw [add_zero]; exact h
+      rw [add_comm q.height, add_comm q.height] at h'
+      exact (WithTop.add_right_inj hfin).mp h'
+    rw [Ideal.height_eq_zero_iff_eq_bot, Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker] at h0
+    exact le_antisymm h0 hQP
+  · intro h
+    have : P.map (Ideal.Quotient.mk Q) = ⊥ := by
+      rw [Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
+      exact h.le
+    rw [this, Ideal.height_bot, add_zero]
+
+
+/-- A local homomorphism of discrete valuation rings carrying the maximal ideal onto the maximal
+ideal preserves the normalized valuation, via any compatible map of fraction fields. -/
+theorem ordFrac_map_of_map_maximalIdeal_eq {A B K L : Type*} [CommRing A] [IsDomain A]
+    [IsDiscreteValuationRing A] [CommRing B] [IsDomain B] [IsDiscreteValuationRing B] [Field K]
+    [Algebra A K] [IsFractionRing A K] [Field L] [Algebra B L] [IsFractionRing B L]
+    (φ : A →+* B) [IsLocalHom φ] (ψ : K →+* L)
+    (hψ : ∀ a, ψ (algebraMap A K a) = algebraMap B L (φ a))
+    (hm : (maximalIdeal A).map φ = maximalIdeal B) (k : K) :
+    Ring.ordFrac B (ψ k) = Ring.ordFrac A k := by
+  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible A
+  have hϖB : Irreducible (φ ϖ) := by
+    rw [IsDiscreteValuationRing.irreducible_iff_uniformizer] at hϖ ⊢
+    rw [← hm, hϖ, Ideal.map_span, Set.image_singleton]
+  have key : ∀ a : A, Ring.ordFrac B (algebraMap B L (φ a)) = Ring.ordFrac A (algebraMap A K a) := by
+    intro a
+    by_cases ha : a = 0
+    · simp [ha]
+    obtain ⟨n, u, rfl⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible ha hϖ
+    simp only [map_mul, map_pow]
+    rw [Ring.ordFrac_of_isUnit (u.isUnit.map φ), Ring.ordFrac_of_isUnit u.isUnit,
+      Ring.ordFrac_irreducible hϖB, Ring.ordFrac_irreducible hϖ]
+  obtain ⟨a, b, -, rfl⟩ := IsFractionRing.div_surjective (A := A) k
+  rw [map_div₀, hψ, hψ, map_div₀, map_div₀, key, key]
 
 end Hartshorne
 
@@ -218,5 +293,229 @@ theorem Scheme.SatisfiesConditionStar.affineLine {X : Scheme.{u}}
       QuasiCompact.compactSpace_of_compactSpace (𝔸(PUnit.{u + 1}; X) ↘ X)
     exact {}
   · exact ⟨by rw [← terminal.comp_from (𝔸(PUnit.{u + 1}; X) ↘ X)]; infer_instance⟩
+
+/-- Affine charts of the relative affine line: every point of `X` lies in an affine open
+`Spec R`, over which the relative affine line is `Spec R[t]`, with the projection given by
+the inclusion of constants. -/
+theorem exists_affineLine_chart (X : Scheme.{u}) (x : X) :
+    ∃ (R : CommRingCat.{u}) (f : Spec R ⟶ X) (g : Spec (CommRingCat.of R[X]) ⟶ 𝔸(PUnit.{u + 1}; X)),
+      IsOpenImmersion f ∧ x ∈ Set.range f.base ∧
+      IsPullback g (Spec.map (CommRingCat.ofHom (C : R →+* R[X]))) (𝔸(PUnit.{u + 1}; X) ↘ X) f := by
+  obtain ⟨R, f, hf, hx, -⟩ := Scheme.exists_affine_mem_range_and_range_subset
+    (show x ∈ (⊤ : X.Opens) from trivial)
+  let e : MvPolynomial PUnit.{u + 1} R ≃+* R[X] :=
+    (MvPolynomial.uniqueAlgEquiv R PUnit.{u + 1}).toRingEquiv
+  let i : Spec (CommRingCat.of R[X]) ≅ 𝔸(PUnit.{u + 1}; Spec R) :=
+    Scheme.Spec.mapIso e.toCommRingCatIso.op ≪≫ (AffineSpace.SpecIso PUnit.{u + 1} R).symm
+  refine ⟨R, f, i.hom ≫ AffineSpace.map PUnit.{u + 1} f, hf, hx, ?_⟩
+  refine IsPullback.paste_horiz (IsPullback.of_horiz_isIso (fst := i.hom) (g := 𝟙 (Spec R)) ⟨?_⟩)
+    (AffineSpace.isPullback_map f)
+  simp only [i, Iso.trans_hom, Iso.symm_hom, Category.assoc, AffineSpace.SpecIso_inv_over,
+    Category.comp_id, Functor.mapIso_hom, Iso.op_hom, Scheme.Spec_map]
+  rw [← Spec.map_comp]
+  congr 1
+  ext r
+  simp [e]
+
+section VerticalPoints
+
+variable {X : Scheme.{u}}
+
+/-- In an affine chart of the relative affine line, the chart map is an open immersion. -/
+theorem isOpenImmersion_of_affineLine_chart {R : CommRingCat.{u}} {f : Spec R ⟶ X}
+    {g : Spec (CommRingCat.of R[X]) ⟶ 𝔸(PUnit.{u + 1}; X)} (hf : IsOpenImmersion f)
+    (pb : IsPullback g (Spec.map (CommRingCat.ofHom (C : R →+* R[X]))) (𝔸(PUnit.{u + 1}; X) ↘ X) f) :
+    IsOpenImmersion g :=
+  MorphismProperty.of_isPullback (P := @IsOpenImmersion) pb.flip hf
+
+/-- Coheights and images of points in an affine chart of the relative affine line. -/
+theorem affineLine_chart_point {R : CommRingCat.{u}} {f : Spec R ⟶ X}
+    {g : Spec (CommRingCat.of R[X]) ⟶ 𝔸(PUnit.{u + 1}; X)} (hf : IsOpenImmersion f)
+    (pb : IsPullback g (Spec.map (CommRingCat.ofHom (C : R →+* R[X]))) (𝔸(PUnit.{u + 1}; X) ↘ X) f)
+    (P : Spec (CommRingCat.of R[X])) :
+    Order.coheight (g.base P) = P.asIdeal.height ∧
+      (𝔸(PUnit.{u + 1}; X) ↘ X).base (g.base P) =
+        f.base ((Spec.map (CommRingCat.ofHom (C : R →+* R[X]))).base P) ∧
+      Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base (g.base P)) = (P.asIdeal.comap C).height := by
+  have := isOpenImmersion_of_affineLine_chart hf pb
+  have hsq : (𝔸(PUnit.{u + 1}; X) ↘ X).base (g.base P) =
+      f.base ((Spec.map (CommRingCat.ofHom (C : R →+* R[X]))).base P) := by
+    rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, pb.w]
+  refine ⟨?_, hsq, ?_⟩
+  · rw [coheight_eq_of_isOpenImmersion, ← idealHeight_eq_coheight]
+  · rw [hsq, coheight_eq_of_isOpenImmersion, ← idealHeight_eq_coheight]
+    rfl
+
+variable [IsLocallyNoetherian X]
+
+/-- The projection of the relative affine line does not increase coheight. -/
+theorem coheight_affineLine_proj_le (z : 𝔸(PUnit.{u + 1}; X)) :
+    Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) ≤ Order.coheight z := by
+  obtain ⟨R, f, g, hf, ⟨u, hu⟩, pb⟩ := exists_affineLine_chart X ((𝔸(PUnit.{u + 1}; X) ↘ X).base z)
+  obtain ⟨P, hP, -⟩ := Scheme.exists_preimage_of_isPullback pb z u hu.symm
+  have : IsLocallyNoetherian (Spec R) := isLocallyNoetherian_of_isOpenImmersion f
+  have : IsNoetherianRing R := isLocallyNoetherian_Spec.mp this
+  obtain ⟨h1, -, h3⟩ := affineLine_chart_point hf pb P
+  rw [← hP, h1, h3]
+  have : P.asIdeal.IsPrime := P.isPrime
+  exact Hartshorne.height_comap_C_le P.asIdeal
+
+/-- Two points of the relative affine line over the same point `x`, both with the coheight
+of `x`, coincide. -/
+theorem affineLine_eq_of_coheight_eq {z₁ z₂ : 𝔸(PUnit.{u + 1}; X)}
+    (h : (𝔸(PUnit.{u + 1}; X) ↘ X).base z₁ = (𝔸(PUnit.{u + 1}; X) ↘ X).base z₂)
+    (h₁ : Order.coheight z₁ = Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base z₁))
+    (h₂ : Order.coheight z₂ = Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base z₂)) :
+    z₁ = z₂ := by
+  obtain ⟨R, f, g, hf, ⟨u, hu⟩, pb⟩ :=
+    exists_affineLine_chart X ((𝔸(PUnit.{u + 1}; X) ↘ X).base z₁)
+  have : IsOpenImmersion g := isOpenImmersion_of_affineLine_chart hf pb
+  obtain ⟨P₁, hP₁, hu₁⟩ := Scheme.exists_preimage_of_isPullback pb z₁ u hu.symm
+  obtain ⟨P₂, hP₂, hu₂⟩ := Scheme.exists_preimage_of_isPullback pb z₂ u (hu.trans h).symm
+  have : IsLocallyNoetherian (Spec R) := isLocallyNoetherian_of_isOpenImmersion f
+  have : IsNoetherianRing R := isLocallyNoetherian_Spec.mp this
+  have : P₁.asIdeal.IsPrime := P₁.isPrime
+  have : P₂.asIdeal.IsPrime := P₂.isPrime
+  obtain ⟨a₁, -, c₁⟩ := affineLine_chart_point hf pb P₁
+  obtain ⟨a₂, -, c₂⟩ := affineLine_chart_point hf pb P₂
+  subst hP₁ hP₂
+  rw [a₁, c₁] at h₁
+  rw [a₂, c₂] at h₂
+  have e₁ := (Hartshorne.height_eq_height_comap_C_iff P₁.asIdeal).mp h₁
+  have e₂ := (Hartshorne.height_eq_height_comap_C_iff P₂.asIdeal).mp h₂
+  have hc : P₁.asIdeal.comap C = P₂.asIdeal.comap C := by
+    have := hu₁.trans hu₂.symm
+    exact congrArg PrimeSpectrum.asIdeal this
+  congr 1
+  apply PrimeSpectrum.ext
+  rw [e₁, e₂, hc]
+
+/-- Every point `x` of `X` has a point of the relative affine line over it with the same
+coheight: the generic point of the fibre over `x`. -/
+theorem exists_affineLine_coheight_eq (x : X) :
+    ∃ z : 𝔸(PUnit.{u + 1}; X), (𝔸(PUnit.{u + 1}; X) ↘ X).base z = x ∧
+      Order.coheight z = Order.coheight x := by
+  obtain ⟨R, f, g, hf, ⟨u, rfl⟩, pb⟩ := exists_affineLine_chart X x
+  have : IsLocallyNoetherian (Spec R) := isLocallyNoetherian_of_isOpenImmersion f
+  have : IsNoetherianRing R := isLocallyNoetherian_Spec.mp this
+  have : u.asIdeal.IsPrime := u.isPrime
+  let P : Spec (CommRingCat.of R[X]) :=
+    ⟨u.asIdeal.map C, Ideal.isPrime_map_C_of_isPrime⟩
+  have hPu : (Spec.map (CommRingCat.ofHom (C : R →+* R[X]))).base P = u := by
+    apply PrimeSpectrum.ext
+    exact Hartshorne.comap_C_map_C u.asIdeal
+  obtain ⟨a, b, c⟩ := affineLine_chart_point hf pb P
+  refine ⟨g.base P, by rw [b, hPu], ?_⟩
+  rw [a, coheight_eq_of_isOpenImmersion, ← idealHeight_eq_coheight]
+  have hP : P.asIdeal = (P.asIdeal.comap C).map C := by
+    change u.asIdeal.map C = ((u.asIdeal.map C).comap C).map C
+    rw [Hartshorne.comap_C_map_C]
+  have : P.asIdeal.IsPrime := P.isPrime
+  rw [(Hartshorne.height_eq_height_comap_C_iff P.asIdeal).mpr hP]
+  exact congrArg (fun I => I.height) (Hartshorne.comap_C_map_C u.asIdeal)
+
+end VerticalPoints
+
+section Pullback
+
+variable {X : Scheme.{u}} [IsLocallyNoetherian X]
+
+/-- The generic point of the fibre of the relative affine line over `x`; it is the unique point
+over `x` with the same coheight as `x`. -/
+noncomputable def Scheme.affineLineFibreGenericPoint (x : X) : 𝔸(PUnit.{u + 1}; X) :=
+  (exists_affineLine_coheight_eq x).choose
+
+theorem Scheme.affineLineFibreGenericPoint_spec (x : X) :
+    (𝔸(PUnit.{u + 1}; X) ↘ X).base (X.affineLineFibreGenericPoint x) = x ∧
+      Order.coheight (X.affineLineFibreGenericPoint x) = Order.coheight x :=
+  (exists_affineLine_coheight_eq x).choose_spec
+
+/-- A point of the relative affine line with the same coheight as its image is the generic
+point of its fibre. -/
+theorem Scheme.eq_affineLineFibreGenericPoint {z : 𝔸(PUnit.{u + 1}; X)}
+    (hz : Order.coheight z = Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base z)) :
+    z = X.affineLineFibreGenericPoint ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) := by
+  have hs := X.affineLineFibreGenericPoint_spec ((𝔸(PUnit.{u + 1}; X) ↘ X).base z)
+  refine affineLine_eq_of_coheight_eq hs.1.symm hz ?_
+  rw [hs.1, hs.2]
+
+end Pullback
+
+section PullbackDivisor
+
+variable (X : Scheme.{u}) [IsNoetherian X]
+
+private noncomputable def affineLinePullbackFun (D : X.WeilDivisor) :
+    𝔸(PUnit.{u + 1}; X).WeilDivisor := by
+  classical
+  let coeff : 𝔸(PUnit.{u + 1}; X) → ℤ := fun z ↦
+    if Order.coheight z = 1 then D.1 ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) else 0
+  have hfin : coeff.support.Finite := by
+    refine ((Scheme.WeilDivisor.support_finite D).image
+      X.affineLineFibreGenericPoint).subset ?_
+    intro z hz
+    simp only [Function.mem_support, coeff, ne_eq, ite_eq_right_iff, not_forall] at hz
+    obtain ⟨hz1, hD⟩ := hz
+    have hx1 : Order.coheight ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) = 1 := by
+      by_contra h
+      exact hD (D.2 _ h)
+    refine ⟨(𝔸(PUnit.{u + 1}; X) ↘ X).base z, hD, ?_⟩
+    exact (X.eq_affineLineFibreGenericPoint (hz1.trans hx1.symm)).symm
+  let E : AlgebraicCycle 𝔸(PUnit.{u + 1}; X) ℤ :=
+    { toFun := coeff
+      supportWithinDomain' := Set.subset_univ _
+      supportLocallyFiniteWithinDomain' := fun _ _ ↦
+        ⟨Set.univ, Filter.univ_mem, by simpa using hfin⟩ }
+  refine ⟨E, ?_⟩
+  intro z hz
+  change coeff z = 0
+  simp [coeff, hz]
+
+/-- **Pullback of Weil divisors along the projection `𝔸¹_X → X`.** A prime divisor `Y` with
+generic point `x` pulls back to the prime divisor `Y × 𝔸¹`, whose generic point is the generic
+point of the fibre over `x`. -/
+noncomputable def Scheme.affineLinePullback : X.WeilDivisor →+ 𝔸(PUnit.{u + 1}; X).WeilDivisor where
+  toFun := affineLinePullbackFun X
+  map_zero' := by
+    apply Subtype.ext
+    apply Function.locallyFinsuppWithin.ext
+    intro z
+    change (if Order.coheight z = 1 then (0 : X.WeilDivisor).1 _ else 0) = 0
+    split_ifs <;> rfl
+  map_add' D E := by
+    apply Subtype.ext
+    apply Function.locallyFinsuppWithin.ext
+    intro z
+    change (if Order.coheight z = 1 then (D + E).1 _ else 0) =
+      (if Order.coheight z = 1 then D.1 _ else 0) + (if Order.coheight z = 1 then E.1 _ else 0)
+    split_ifs <;> simp
+
+variable {X}
+
+theorem Scheme.affineLinePullback_apply (D : X.WeilDivisor) (z : 𝔸(PUnit.{u + 1}; X)) :
+    (X.affineLinePullback D).1 z =
+      if Order.coheight z = 1 then D.1 ((𝔸(PUnit.{u + 1}; X) ↘ X).base z) else 0 := by
+  classical
+  rfl
+
+theorem Scheme.affineLinePullback_apply_fibreGenericPoint (D : X.WeilDivisor) {x : X}
+    (hx : Order.coheight x = 1) :
+    (X.affineLinePullback D).1 (X.affineLineFibreGenericPoint x) = D.1 x := by
+  have hs := X.affineLineFibreGenericPoint_spec x
+  rw [Scheme.affineLinePullback_apply, if_pos (hs.2.trans hx), hs.1]
+
+/-- Pullback of Weil divisors along `𝔸¹_X → X` is injective. -/
+theorem Scheme.affineLinePullback_injective : Function.Injective X.affineLinePullback := by
+  rw [injective_iff_map_eq_zero]
+  intro D hD
+  apply Subtype.ext
+  apply Function.locallyFinsuppWithin.ext
+  intro x
+  by_cases hx : Order.coheight x = 1
+  · rw [← Scheme.affineLinePullback_apply_fibreGenericPoint D hx, hD]
+    rfl
+  · exact D.2 x hx
+
+end PullbackDivisor
 
 end AlgebraicGeometry
