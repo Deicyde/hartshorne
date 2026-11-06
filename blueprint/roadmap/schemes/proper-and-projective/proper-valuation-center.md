@@ -2,6 +2,9 @@
 article_id: af_8f10ec4eab25b1087868de48
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.ValuationCenter.nonempty_unique_of_isProper Hartshorne.ValuationCenter.existsUnique_point_of_isProper Hartshorne.ValuationCenter.existsUnique_dominates_of_isProper
 ---
 
 # Proper schemes have valuation centers
@@ -14,6 +17,9 @@ valuative square for $X \longrightarrow \operatorname{Spec} k$. Properness gives
 $\operatorname{Spec} R \longrightarrow X$; its closed-point image is the required center. The domination
 formulation follows from the center equivalence, and uniqueness also follows
 from separatedness.
+
+The finite-type hypothesis is kept as in the source; it is already part of
+properness over $k$.
 
 ## Depends on
 
