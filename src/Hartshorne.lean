@@ -388,3 +388,4 @@ import Hartshorne.Cohomology.ExtOneExtensionClassification
 import Hartshorne.Cohomology.Semicontinuity.FiniteFreeComplexReplacement
 import Hartshorne.Scheme.Differentials.AffineRelativeDifferentials
 import Hartshorne.Scheme.CohenMacaulayLocalization
+import Hartshorne.Scheme.DimensionCodimension
