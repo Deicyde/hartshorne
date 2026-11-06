@@ -2,6 +2,9 @@
 article_id: af_9188a467f3637bb8ea27ed1e
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.coherent_flatOver_id_iff_isLocallyFree
 ---
 
 # Coherent self-flat sheaves are locally free
