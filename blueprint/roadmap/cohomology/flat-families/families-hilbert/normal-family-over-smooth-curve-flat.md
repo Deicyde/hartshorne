@@ -2,6 +2,9 @@
 article_id: af_d6f2248176f39fcc6347ef2c
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.reducedFiber Hartshorne.IsAlgebraicFamily Hartshorne.IsAlgebraicFamily.isReduced_fiber_and_flat
 ---
 
 # Normal algebraic families over a smooth curve are flat
