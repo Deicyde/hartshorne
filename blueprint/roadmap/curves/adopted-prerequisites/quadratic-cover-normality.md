@@ -2,6 +2,9 @@
 article_id: af_a22897f3ca54863fdb97d0d5
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.squareRootCover_isIntegrallyClosed
 ---
 
 # Normality of square-root covers
