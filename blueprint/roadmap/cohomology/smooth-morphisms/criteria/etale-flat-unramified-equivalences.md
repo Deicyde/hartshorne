@@ -30,6 +30,7 @@ finite presentation, which is all the equivalences require.
 
 ## Proof depends on
 
+- [The universal property of the relative differential sheaf](../../../schemes/differentials/scheme-differentials/relative-differentials-universal.md)
 - Étale morphisms are smooth of relative dimension zero and equivalently flat and formally unramified.
 - The stalkwise criterion for formal unramifiedness, including residue-field separability.
 
