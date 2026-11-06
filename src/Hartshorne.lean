@@ -463,3 +463,4 @@ import Hartshorne.Scheme.AssociatedVarietyEssentialImage
 import Hartshorne.Rational.ContractedCurves
 import Hartshorne.Cohomology.FlatFamilies.NormalFamilyFlat
 import Hartshorne.Scheme.RelativeProj
+import Hartshorne.Scheme.Differentials.RegularLocalization
