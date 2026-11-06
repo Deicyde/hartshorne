@@ -2,6 +2,9 @@
 article_id: af_f0e205e897d3676b25586b0f
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.finiteFieldQFrobeniusIterate AlgebraicGeometry.finiteFieldRationalPointToGeometricPoint AlgebraicGeometry.finiteFieldQFrobeniusIterate_fixedPoints AlgebraicGeometry.pointCountSequence_eq_card_finiteFieldQFrobeniusIterate_fixedPoints
 ---
 
 # Frobenius iterates and rational points
