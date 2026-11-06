@@ -2,6 +2,9 @@
 article_id: af_cf4f6dcab1d7c69117f2c98e
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.trdeg_le_rank_kaehlerDifferential
 ---
 
 # Differentials of finitely generated field extensions
