@@ -409,3 +409,4 @@ import Hartshorne.Scheme.QuasicoherentAbelianClosure
 import Hartshorne.Scheme.FibreDimensionFree
 import Hartshorne.Scheme.Differentials.RegularLocalDifferentialCriterion
 import Hartshorne.Scheme.ProjectiveWeilDivisorDegree
+import Hartshorne.Scheme.FiniteLocallyFreeDuality
