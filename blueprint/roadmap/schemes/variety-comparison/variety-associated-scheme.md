@@ -20,16 +20,6 @@ closed subset and then an affine open neighbourhood of that point in $V$.
 The corresponding open in $t(V)$ is affine by the affine comparison.  This
 establishes the required local affineness.
 
-In more detail, if $g : W \to V$ is an open embedding of varieties along which
-every regular function on an open subset of $W$ descends to its image, then
-$Z \mapsto \overline{g(Z)}$ together with pullback of regular functions is an
-open immersion $(t(W),\alpha_{W*}\mathcal{O}_W) \to (t(V),\alpha_{V*}\mathcal{O}_V)$
-whose image consists of the irreducible closed subsets meeting $g(W)$: such a
-$Z'$ is the closure of $Z' \cap g(W)$, a nonempty open subset of $Z'$.  Applied
-to an affine open neighbourhood $U \cong Y$, this realizes $\operatorname{Spec} A(Y)$
-as an open subspace of $t(V)$ containing the given point.  In particular the
-stalks of $\alpha_{V*}\mathcal{O}_V$ are local rings.
-
 ## Depends on
 
 - [The scheme-variety source category](scheme-variety-category.md)
