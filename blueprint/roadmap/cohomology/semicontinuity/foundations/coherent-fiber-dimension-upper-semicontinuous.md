@@ -2,6 +2,9 @@
 article_id: af_7f3b0d6a9bc1810746558a00
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.moduleFiberDim Hartshorne.exists_nhds_moduleFiberDim_le_of_isCoherent_of_isNoetherian Hartshorne.isClosed_setOf_le_moduleFiberDim_of_isCoherent_of_isNoetherian Hartshorne.exists_nhds_moduleFiberDim_le_of_isCoherent Hartshorne.isClosed_setOf_le_moduleFiberDim_of_isCoherent
 ---
 
 # Fibre dimension of a coherent sheaf is upper semicontinuous
@@ -14,6 +17,11 @@ is upper semicontinuous: for every $y$ there is an open neighbourhood $U$
 such that its value at every $y' \in U$ is at most its value at $y$.
 Equivalently, for every integer $n$, the locus where the value is at least $n$
 is closed.
+
+The Noetherian hypothesis is not needed for this conclusion: coherence is
+defined by a cover by affine opens on which the sheaf is associated to finitely
+generated modules, and the argument only uses that the sections of $G$ over
+every affine open are finitely generated, which holds for every coherent sheaf.
 
 ## Depends on
 
