@@ -2,6 +2,9 @@
 article_id: af_76c399f9efcbb25ce4ccd596
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.isSeparated_iff_dvr_valuativeCriterion
 ---
 
 # DVR-valuative criterion for separatedness
@@ -12,12 +15,19 @@ ring is a discrete valuation ring has at most one lift.
 
 The forward implication restricts the ordinary uniqueness criterion. For the
 converse, prove that the diagonal range is stable under specialization. An
-equality specialization is immediate. For a strict specialization, the local
-domain on the reduced closure has nonzero maximal ideal, and finite type makes
-the relevant residue-field extension finitely generated. Choose a dominating
-DVR, apply uniqueness to the two projected lifts, and conclude that the
-specialized point remains on the diagonal. Quasi-compactness then makes the
-range closed.
+equality specialization is immediate. For a strict specialization
+$\Delta (x) \rightsquigarrow q$, the local domain of $q$ on the reduced closure of
+$\Delta (x)$ has fraction field $\kappa (\Delta (x))$ and nonzero maximal ideal, and
+it is Noetherian because $X \times_{Y} X$ is locally Noetherian: its projection
+to the Noetherian scheme $X$ is a base change of $f$, hence locally of finite
+type. Choose a dominating DVR of
+$\kappa (\Delta (x))$, apply uniqueness to the two projected lifts, and conclude
+that the specialized point remains on the diagonal. Quasi-compactness of the
+diagonal, which holds because $X$ is Noetherian, then makes the range closed.
+
+The Noetherian hypothesis on $Y$ is kept as in the source; it is not needed,
+because the argument only uses that $X$ is Noetherian and that $f$ is locally of
+finite type.
 
 ## Depends on
 
