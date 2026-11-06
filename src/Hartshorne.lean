@@ -370,3 +370,4 @@ import Hartshorne.Scheme.RelativeSegre
 import Hartshorne.Scheme.ClassGroupOpenRestriction
 import Hartshorne.Cohomology.SmoothMorphisms.ZariskiTangentMap
 import Hartshorne.Scheme.ModuleSheafTensor
+import Hartshorne.Scheme.AbsoluteNormalizationUniversal
