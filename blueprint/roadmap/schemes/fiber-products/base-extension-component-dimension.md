@@ -27,6 +27,8 @@ Every point of $X \times _k k'$ lies over an affine open $U = \operatorname{Spec
 ## Proof depends on
 
 - Dimension of finitely generated domains via transcendence degree and minimal primes after scalar extension.
+- [Krull dimension is invariant under integral extensions](../../affine-varieties/dimension-integral-extension.md)
+- [The dimension-codimension formula](../subschemes-and-dimension/dimension-codimension-formula.md)
 
 ## Sources
 
