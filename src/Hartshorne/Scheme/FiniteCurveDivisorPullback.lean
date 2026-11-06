@@ -390,8 +390,8 @@ open Classical in
 /-- **Independence of the local parameter.** For a closed point `Q` of `Y` and any local
 parameter `t` at `Q`, the coefficient of `P` in `f^*Q` is `ord_P(t)` if `f(P) = Q` and `0`
 otherwise. -/
-theorem finiteCurvePointPullback_apply [_hk : IsAlgClosed k] (hX : X.IsNonsingularCurve k)
-    (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f] [_hfk : f.IsOver (Spec (.of k))]
+theorem finiteCurvePointPullback_apply [IsAlgClosed k] (hX : X.IsNonsingularCurve k)
+    (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f] [f.IsOver (Spec (.of k))]
     {Q : Y} (hQ : IsClosed ({Q} : Set Y)) {t : Y.presheaf.stalk Q} (ht : Irreducible t)
     (x : X) :
     let _ := hX.satisfiesConditionStar.isNoetherian
@@ -416,9 +416,9 @@ theorem finiteCurvePointPullback_support_subset (hX : X.IsNonsingularCurve k)
 open Classical in
 /-- The defining formula `f^*Q = ∑_{f(P) = Q} ord_P(t) P`, as a finite sum in the free abelian
 group on prime divisors, for a closed point `Q` and any local parameter `t` at `Q`. -/
-theorem weilDivisorAddEquivFinsupp_finiteCurvePointPullback [_hk : IsAlgClosed k]
+theorem weilDivisorAddEquivFinsupp_finiteCurvePointPullback [IsAlgClosed k]
     (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f]
-    [_hfk : f.IsOver (Spec (.of k))] {Q : Y} (hQ : IsClosed ({Q} : Set Y))
+    [f.IsOver (Spec (.of k))] {Q : Y} (hQ : IsClosed ({Q} : Set Y))
     {t : Y.presheaf.stalk Q} (ht : Irreducible t) :
     let _ := hX.satisfiesConditionStar.isNoetherian
     X.weilDivisorAddEquivFinsupp (hX.finiteCurvePointPullback hY f Q) =
@@ -461,9 +461,9 @@ theorem finiteCurveDivisorPullback_apply (hX : X.IsNonsingularCurve k)
 
 /-- `f^*` on divisors is the additive extension of `Q ↦ f^*Q`: it sends the prime divisor `Q`
 (a generator of the free abelian group `Div Y`) to `f^*Q`. -/
-theorem finiteCurveDivisorPullback_primeDivisor [_hk : IsAlgClosed k]
+theorem finiteCurveDivisorPullback_primeDivisor [IsAlgClosed k]
     (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f]
-    [_hfk : f.IsOver (Spec (.of k))] (Q : Y.PrimeDivisor) :
+    [f.IsOver (Spec (.of k))] (Q : Y.PrimeDivisor) :
     let _ := hY.satisfiesConditionStar.isNoetherian
     hX.finiteCurveDivisorPullback hY f
         (Y.weilDivisorAddEquivFinsupp.symm (Finsupp.single Q 1)) =
@@ -504,9 +504,9 @@ private theorem finiteCurveDivisorPullback_principalDivisor_aux (hX : X.IsNonsin
 
 /-- **Pullback of principal divisors.** `f^*((g)) = (f^# g)` for every nonzero rational
 function `g` on `Y`. -/
-theorem finiteCurveDivisorPullback_principalDivisor [_hk : IsAlgClosed k]
+theorem finiteCurveDivisorPullback_principalDivisor [IsAlgClosed k]
     (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f]
-    [_hfk : f.IsOver (Spec (.of k))] (g : Y.functionFieldˣ) :
+    [f.IsOver (Spec (.of k))] (g : Y.functionFieldˣ) :
     hX.finiteCurveDivisorPullback hY f (Y.principalDivisor hY.satisfiesConditionStar g) =
       X.principalDivisor hX.satisfiesConditionStar
         (Units.map (hX.finiteCurveFunctionFieldMap hY f : Y.functionField →* X.functionField)
