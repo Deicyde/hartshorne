@@ -2,6 +2,9 @@
 article_id: af_0a1032d4064bbb5485d0d291
 declaration: definition
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.Modules.IsFree AlgebraicGeometry.Scheme.Modules.IsLocallyFree AlgebraicGeometry.Scheme.Modules.IsLocallyFreeOfRank AlgebraicGeometry.Scheme.Modules.IsInvertible AlgebraicGeometry.Scheme.Modules.rankAt AlgebraicGeometry.Scheme.Modules.rankAt_eq AlgebraicGeometry.Scheme.Modules.isLocallyConstant_rankAt AlgebraicGeometry.Scheme.Modules.rankAt_eq_of_connectedSpace
 ---
 
 # Locally free and invertible module sheaves
