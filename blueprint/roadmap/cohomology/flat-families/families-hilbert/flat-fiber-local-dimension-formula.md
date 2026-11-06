@@ -2,6 +2,9 @@
 article_id: af_59760d66dd7b9c8115b91761
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.ringKrullDim_stalk_fiber_add_ringKrullDim_stalk_of_flat
 ---
 
 # The local dimension formula for a flat fibre
