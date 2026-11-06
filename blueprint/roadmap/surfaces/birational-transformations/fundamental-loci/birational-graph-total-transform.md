@@ -2,6 +2,9 @@
 article_id: af_406add44cd9d1a865d86f160
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.SchemeRationalMap.graphHom Hartshorne.SchemeRationalMap.graphClosure Hartshorne.SchemeRationalMap.graphClosureι Hartshorne.SchemeRationalMap.graphFst Hartshorne.SchemeRationalMap.graphSnd Hartshorne.SchemeRationalMap.totalTransform Hartshorne.SchemeRationalMap.totalTransform_singleton_of_mem_dom Hartshorne.SchemeRationalMap.totalTransform_singleton_of_mem_dom_of_locallyOfFiniteType
 ---
 
 # The graph and set-theoretic total transform of a birational transformation
