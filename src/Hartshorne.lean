@@ -417,3 +417,4 @@ import Hartshorne.Scheme.ValuationCenter
 import Hartshorne.Cohomology.Semicontinuity.CoherentFiberDimension
 import Hartshorne.Scheme.ProjClosedSubschemeTruncation
 import Hartshorne.Rational.SchemeMaximalDomain
+import Hartshorne.Scheme.AffineVarietySpec
