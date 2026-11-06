@@ -404,3 +404,4 @@ import Hartshorne.Scheme.ReducedInducedSmallest
 import Hartshorne.Scheme.ProjSurjectionClosedImmersion
 import Hartshorne.Scheme.CoherentPushforwardCounterexample
 import Hartshorne.Scheme.ValuationSpectrumMaps
+import Hartshorne.Scheme.CoherentFreeLocus
