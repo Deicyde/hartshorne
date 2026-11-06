@@ -353,3 +353,4 @@ import Hartshorne.Scheme.Differentials.RegularHypersurfaceCriterion
 import Hartshorne.Scheme.HeightOneLocalizationIntersection
 import Hartshorne.Cohomology.SmoothMorphisms.LocalFlatnessNonZeroDivisor
 import Hartshorne.Scheme.ProjPartialMap
+import Hartshorne.Scheme.AdicCompletionNoetherian
