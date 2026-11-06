@@ -442,3 +442,6 @@ import Hartshorne.Scheme.PicardGroup
 import Hartshorne.Scheme.VarietyClosedPoints
 import Hartshorne.Scheme.AffineLineClassGroup
 import Hartshorne.Scheme.VarietyToSchemeFunctor
+import Hartshorne.Rational.OrdinaryNodeAlgebra
+import Hartshorne.Rational.OrdinaryNodeBlowup
+import Hartshorne.Rational.OrdinaryNode
