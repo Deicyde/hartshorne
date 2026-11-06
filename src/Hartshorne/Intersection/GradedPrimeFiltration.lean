@@ -170,7 +170,7 @@ theorem exists_homogeneous_torsionOf_isPrime
 /-- A homogeneous submodule `N₁ ≤ N₂` regarded as a homogeneous submodule
 of `N₂` with its induced grading. -/
 noncomputable def gradedSubmoduleOf
-    (N₁ N₂ : HomogeneousSubmodule 𝓐 ℳ) (_h : N₁ ≤ N₂) :
+    (N₁ N₂ : HomogeneousSubmodule 𝓐 ℳ) (h : N₁ ≤ N₂) :
     HomogeneousSubmodule 𝓐 (gradedSubmodulePiece 𝓐 ℳ N₂) where
   toSubmodule := N₁.toSubmodule.submoduleOf N₂.toSubmodule
   is_homogeneous' := by
