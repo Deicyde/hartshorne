@@ -21,6 +21,7 @@ proper closed subvariety.
 
 - [Projective space over a ring](../../projective-spectrum/projective-space-over-ring.md)
 - [Regular points and nonsingular schemes](../scheme-differentials/regular-points-and-nonsingular-schemes.md)
+- [Homogeneous ideals and truncation define the same Proj subscheme](../../normalization-and-exercises/proj-closed-subscheme-truncation.md)
 
 ## Proof depends on
 
