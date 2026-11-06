@@ -21,12 +21,14 @@ nodes in a projected plane curve.
 ## Depends on
 
 - [Blowing up a point](../../../rational-maps/blowing-up.md)
+- [Intrinsic nonsingularity](../../../nonsingular-varieties/intrinsic-nonsingularity.md)
 
 ## Proof depends on
 
 - On each standard blowup chart, divide the local equation by its exceptional
   factor; the two simple roots of the initial quadratic give the two regular
   points over $P$.
+- [Hypersurfaces and codimension one](../../../affine-varieties/hypersurface-dimension.md)
 
 ## Sources
 
