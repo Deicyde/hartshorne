@@ -2,6 +2,9 @@
 article_id: af_7d5b5dcb8f543a104d25695b
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.hironaka_normality_lemma
 ---
 
 # Hironaka's normality lemma
