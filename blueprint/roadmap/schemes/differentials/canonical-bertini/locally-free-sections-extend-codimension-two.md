@@ -2,6 +2,9 @@
 article_id: af_b7ae0b84eda54002bfe67819
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.Modules.bijective_presheaf_map_top_of_two_le_codim
 ---
 
 # Locally free sections extend across codimension two
@@ -11,6 +14,9 @@ subscheme whose complement has codimension at least two, and let $E$ be a
 finite locally free sheaf on $X$. Restriction is an isomorphism
 
 $\Gamma (X, E) \simeq \Gamma (U, E|_U)$.
+
+Since $X$ is integral, hence connected, a finite locally free sheaf on $X$ is locally
+isomorphic to $\mathcal{O}_X^{r}$ for one fixed integer $r \ge 0$.
 
 ## Depends on
 
