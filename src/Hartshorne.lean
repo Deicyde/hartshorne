@@ -400,3 +400,4 @@ import Hartshorne.Scheme.ProjTailIsomorphism
 import Hartshorne.Scheme.AffineTildeTensor
 import Hartshorne.Scheme.QuasiCompactImageClosed
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsQuasicoherent
+import Hartshorne.Scheme.ReducedInducedSmallest
