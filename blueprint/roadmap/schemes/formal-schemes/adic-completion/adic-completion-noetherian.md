@@ -2,6 +2,9 @@
 article_id: af_12b14eba4b45f85ba3eb4dca
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.isNoetherianRing_adicCompletion
 ---
 
 # Noetherianity of adic completion
