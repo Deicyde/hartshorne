@@ -2,6 +2,9 @@
 article_id: af_2578974926636e66e8b2c175
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.isClosed_range_iff_stableUnderSpecialization
 ---
 
 # Closed images and specialization
