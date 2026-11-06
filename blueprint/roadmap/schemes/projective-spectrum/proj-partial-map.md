@@ -2,6 +2,9 @@
 article_id: af_86cf2f3e5d74b056f599daea
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.projPartialMap Hartshorne.projPartialDomain Hartshorne.mem_projPartialDomain_iff Hartshorne.isOpen_projPartialDomain Hartshorne.projPartialMap_apply Hartshorne.projPartialMap_preimage_basicOpen Hartshorne.homOfLE_projPartialMap Hartshorne.awayι_comp_projPartialMap Hartshorne.projPartialDomain_eq_top Hartshorne.projPartialMap_eq_map
 ---
 
 # The partial Proj morphism of a graded map
