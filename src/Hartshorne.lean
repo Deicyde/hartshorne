@@ -384,3 +384,4 @@ import Hartshorne.Cohomology.SmoothMorphisms.EtaleCriteria
 import Hartshorne.Cohomology.OpenClosedExtensionSequence
 import Hartshorne.Intersection.ClosedSubschemeFundamentalCycle
 import Hartshorne.Scheme.CohenMacaulayRegularSequence
+import Hartshorne.Cohomology.ExtOneExtensionClassification
