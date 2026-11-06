@@ -2,6 +2,9 @@
 article_id: af_6e88bf11e4bd5326356b38a4
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.isFinite_absoluteNormalizationMap_of_finiteType_field
 ---
 
 # Finiteness of normalization over a field
