@@ -4,7 +4,7 @@ declaration: theorem
 origin: bridged
 statement: formalized
 proof: formalized
-lean: Hartshorne.moduleSheafSupport Hartshorne.moduleSheafSupport_tilde Hartshorne.moduleSheafSupport_tilde_eq_zeroLocus Hartshorne.isClosed_moduleSheafSupport_of_isCoherent Hartshorne.sectionSupport_tilde_toOpen_top
+lean: Hartshorne.moduleSheafSupport Hartshorne.moduleSheafSupport_tilde Hartshorne.moduleSheafSupport_tilde_eq_zeroLocus Hartshorne.isClosed_moduleSheafSupport_of_isCoherent_of_isNoetherian Hartshorne.isClosed_moduleSheafSupport_of_isCoherent Hartshorne.sectionSupport_tilde_toOpen_top
 ---
 
 # Support of a quasi-coherent module
@@ -19,6 +19,11 @@ finitely generated module $M$,
 $\operatorname{Supp}(\widetilde M)=V(\operatorname{ann}_A M)$.
 Consequently the support of a coherent sheaf on a Noetherian scheme
 is closed.
+The Noetherian hypothesis is not needed for this closedness: coherence
+is defined by a cover by affine opens on which the sheaf is associated
+to finitely generated modules, and on each such open the support is
+$V(\operatorname{ann} M)$, so the support is closed for every coherent
+sheaf.
 
 This node packages the internal support lemmas needed by the adopted parts of
 Exercise 5.6; parts (a)–(c) are not independently adopted targets. The

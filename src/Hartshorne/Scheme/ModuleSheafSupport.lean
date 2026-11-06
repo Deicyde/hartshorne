@@ -17,7 +17,8 @@ underlying sheaf of abelian groups.  We show:
 
 * on `X = Spec A`, the support of `M̃` is the set of primes `𝔭` with `M_𝔭 ≠ 0`;
 * if `M` is finitely generated, then `Supp(M̃) = V(Ann_A M)`;
-* the support of a coherent sheaf is closed;
+* the support of a coherent sheaf on a Noetherian scheme is closed, and in fact the support of
+  any coherent sheaf is closed;
 * for `m ∈ M`, the support of the corresponding global section of `M̃` is
   `V(Ann_A m)`.
 
@@ -103,6 +104,15 @@ theorem isClosed_moduleSheafSupport_of_isCoherent {X : Scheme.{u}} (F : X.Module
     hclosed.isOpen_compl, ⟨y, hx, rfl⟩⟩
   rintro _ ⟨z, hz, rfl⟩
   exact hz
+
+/-- **The support of a coherent sheaf on a Noetherian scheme is closed** (Hartshorne's
+formulation).  The Noetherian hypothesis is not needed: coherence is defined by an affine cover
+on which the sheaf is associated to finitely generated modules, see
+`isClosed_moduleSheafSupport_of_isCoherent`. -/
+theorem isClosed_moduleSheafSupport_of_isCoherent_of_isNoetherian {X : Scheme.{u}}
+    [_hX : IsNoetherian X] (F : X.Modules) (hF : IsCoherent F) :
+    IsClosed (moduleSheafSupport F) :=
+  isClosed_moduleSheafSupport_of_isCoherent F hF
 
 set_option backward.isDefEq.respectTransparency.types false in
 /-- **Support of a global section of `M̃`.** For `m ∈ M`, the support of the corresponding
