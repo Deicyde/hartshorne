@@ -18,12 +18,7 @@ The locally Noetherian source hypothesis makes explicit the hypothesis used
 by Hartshorne's associated-prime argument. No weak-associated-point variant is
 silently substituted.
 
-Here regularity of $Y$ means that every local ring $\mathcal{O}_{Y,y}$ is a
-regular local ring. Of the dimension hypothesis only $\dim Y \le 1$ is used: it
-makes every local ring of $Y$ a field or a discrete valuation ring. The
-equivalence between the associated-point condition and dominance of the
-irreducible components holds for every reduced scheme $X$ and every integral
-scheme $Y$, without the Noetherian, regularity, or dimension hypotheses.
+The hypothesis $\dim Y = 1$ is kept as in the source; the argument only uses $\dim Y \le 1$.
 
 ## Depends on
 
