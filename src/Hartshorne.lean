@@ -418,3 +418,4 @@ import Hartshorne.Cohomology.Semicontinuity.CoherentFiberDimension
 import Hartshorne.Scheme.ProjClosedSubschemeTruncation
 import Hartshorne.Rational.SchemeMaximalDomain
 import Hartshorne.Scheme.AffineVarietySpec
+import Hartshorne.Cohomology.Flatness.CoherentSelfFlatLocallyFree
