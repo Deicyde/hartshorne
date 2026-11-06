@@ -2,6 +2,9 @@
 article_id: af_214ad08768a544cd28d37738
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.isQuasicoherent_kernel Hartshorne.isQuasicoherent_image Hartshorne.isQuasicoherent_cokernel Hartshorne.isQuasicoherent_of_shortExact Hartshorne.quasicoherentModulesAbelian Hartshorne.quasicoherentModules_ι_preservesFiniteLimits Hartshorne.quasicoherentModules_ι_preservesFiniteColimits Hartshorne.isCoherent_kernel Hartshorne.isCoherent_image Hartshorne.isCoherent_cokernel Hartshorne.isCoherent_of_shortExact Hartshorne.coherentModules Hartshorne.coherentModulesAbelian Hartshorne.coherentModules_ι_preservesFiniteLimits Hartshorne.coherentModules_ι_preservesFiniteColimits
 ---
 
 # Abelian closure of quasi-coherent sheaves
