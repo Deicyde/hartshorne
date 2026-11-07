@@ -4,7 +4,7 @@ declaration: def
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.SchemeRationalMap.graphHom Hartshorne.SchemeRationalMap.graphClosure Hartshorne.SchemeRationalMap.graphClosureι Hartshorne.SchemeRationalMap.graphFst Hartshorne.SchemeRationalMap.graphSnd Hartshorne.SchemeRationalMap.totalTransform Hartshorne.SchemeRationalMap.totalTransform_singleton_of_mem_dom Hartshorne.SchemeRationalMap.totalTransform_singleton_of_mem_dom_of_locallyOfFiniteType
+lean: Hartshorne.SchemeRationalMap.graphHom Hartshorne.SchemeRationalMap.graphClosure Hartshorne.SchemeRationalMap.graphClosureι Hartshorne.SchemeRationalMap.graphFst Hartshorne.SchemeRationalMap.graphSnd Hartshorne.SchemeRationalMap.totalTransform Hartshorne.SchemeRationalMap.totalTransform_singleton_of_mem_dom Hartshorne.SchemeRationalMap.totalTransform_singleton_of_mem_dom_of_locallyOfFiniteType Hartshorne.SchemeRationalMap.range_graphClosureι
 ---
 
 # The graph and set-theoretic total transform of a birational transformation
