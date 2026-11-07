@@ -34,6 +34,7 @@ with the sign convention chosen so consecutive maps compose to zero.
 
 - [The long exact sequence of right derived functors](../derived-functors/right-derived-long-exact-sequence.md)
 - Exactness of the displayed natural sequence of support functors.
+- [Injective abelian sheaves are flasque](injective-abelian-sheaf-flasque.md)
 
 ## Sources
 
