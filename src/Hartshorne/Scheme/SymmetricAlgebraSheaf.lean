@@ -9,6 +9,8 @@ import Mathlib.LinearAlgebra.SymmetricAlgebra.Basis
 import Mathlib.Algebra.Category.ModuleCat.Sheaf.LocallyFree
 import Hartshorne.Scheme.SheafTensorAlgebras
 import Hartshorne.RingedSpace.PicardGroup
+import Hartshorne.Scheme.LocallyFreeRinged
+import Hartshorne.Scheme.CoherentAffineLocalCriterion
 
 /-!
 # The graded symmetric-algebra sheaf of a finite locally free module
@@ -670,6 +672,17 @@ theorem IsFiniteLocallyFree.isQuasicoherent_moduleSheafSymmetricAlgebra
 
 end LocallyFree
 
+/-- A free module `E ≅ 𝒪_X^{⊕ I}` of finite rank has a global frame. -/
+theorem exists_isLocalFrame_top_of_iso_free {E : SheafOfModules.{u} (ringCatSheafOf R)}
+    {I : Type u} [Fintype I] (β : E ≅ SheafOfModules.free I) :
+    ∃ e : I → E.val.presheaf.obj (op ⊤), IsLocalFrame E ⊤ e := by
+  classical
+  let G := SheafOfModules.overFunctor (ringCatSheafOf R) (⊤ : Opens X)
+  have : G.IsLeftAdjoint :=
+    inferInstanceAs (SheafOfModules.pushforward (𝟙 ((ringCatSheafOf R).over ⊤))).IsLeftAdjoint
+  let γ : E.over ⊤ ≅ SheafOfModules.free I :=
+    G.mapIso β ≪≫ (SheafOfModules.mapFreeIso G I (Iso.refl _)).symm
+  exact ⟨_, isLocalFrame_of_over_iso γ⟩
 
 end Ringed
 
@@ -812,6 +825,88 @@ theorem polynomialAlgebraSymmetricAlgebraIso_X (he : Ringed.IsLocalFrame E ⊤ e
     ((SymmetricAlgebra.equivMvPolynomial_symm_X (frameBasis he (op V)) i).trans
       (congrArg _ (frameBasis_apply he (op V) i))))
 
+/-- **The symmetric algebra of a free module of finite rank is a polynomial algebra:** if
+`E ≅ 𝒪_X^{⊕ ι}`, then `S(E) ≅ 𝒪_X[T_i]_{i ∈ ι}` as sheaves of `𝒪_X`-algebras. -/
+theorem exists_polynomialAlgebraSheaf_iso_symmetricAlgebra {E : SheafOfModules.{u} (ringCatSheafOf R)}
+    {ι : Type u} [Fintype ι] (β : E ≅ SheafOfModules.free ι) :
+    ∃ φ : polynomialAlgebraSheaf R ι ≅ moduleSheafSymmetricAlgebra E,
+      (∀ U a b, φ.hom.val.app U ((polynomialAlgebraSheafStructure R ι).mul.app U a b) =
+        (moduleSheafSymmetricAlgebraStructure E).mul.app U (φ.hom.val.app U a)
+          (φ.hom.val.app U b)) ∧
+      ∀ U, φ.hom.val.app U ((polynomialAlgebraSheafStructure R ι).one U) =
+        (moduleSheafSymmetricAlgebraStructure E).one U := by
+  obtain ⟨e, he⟩ := Ringed.exists_isLocalFrame_top_of_iso_free β
+  exact ⟨polynomialAlgebraSymmetricAlgebraIso (e := e) he,
+    polynomialAlgebraSymmetricAlgebraIso_mul (e := e) he,
+    polynomialAlgebraSymmetricAlgebraIso_one (e := e) he⟩
+
 end Polynomial
 
 end Hartshorne
+
+namespace AlgebraicGeometry.Scheme.Modules
+
+open Hartshorne
+
+variable {X : Scheme.{u}} (E : X.Modules)
+
+/-- **The symmetric algebra sheaf** `Sym(E) = ⊕_d Sym^d E` of an `𝒪_X`-module `E`, with its sheaf of
+graded `𝒪_X`-algebras structure `symmetricAlgebraStructure`. -/
+noncomputable abbrev symmetricAlgebra : X.Modules :=
+  moduleSheafSymmetricAlgebra (R := X.sheaf) E
+
+/-- The sheaf of `𝒪_X`-algebras structure of `Sym(E)`. -/
+noncomputable abbrev symmetricAlgebraStructure : ModuleSheafAlgebra (R := X.sheaf) E.symmetricAlgebra :=
+  moduleSheafSymmetricAlgebraStructure E
+
+/-- The homogeneous component `Sym^d E` of `Sym(E)`. -/
+noncomputable abbrev symmetricPower (d : ℕ) : X.Modules :=
+  moduleSheafSymmetricPower (R := X.sheaf) d E
+
+variable {E}
+
+private theorem isFiniteLocallyFree_of (hE : E.IsLocallyFree)
+    (hfin : ∀ x, E.rankAt x < Cardinal.aleph0) : Ringed.IsFiniteLocallyFree (R := X.sheaf) E :=
+  (isFiniteLocallyFree_iff E).mpr ⟨hE, hfin⟩
+
+/-- **`Sym(E)` is quasi-coherent** for a locally free `E` of finite rank. -/
+theorem symmetricAlgebra_isQuasicoherent (hE : E.IsLocallyFree)
+    (hfin : ∀ x, E.rankAt x < Cardinal.aleph0) :
+    SheafOfModules.IsQuasicoherent.{u, u, u} E.symmetricAlgebra :=
+  (isFiniteLocallyFree_of hE hfin).isQuasicoherent_moduleSheafSymmetricAlgebra
+
+/-- **Each `Sym^d E` is locally free of finite rank** for a locally free `E` of finite rank. -/
+theorem symmetricPower_isLocallyFree (hE : E.IsLocallyFree)
+    (hfin : ∀ x, E.rankAt x < Cardinal.aleph0) (d : ℕ) :
+    (E.symmetricPower d).IsLocallyFree ∧ ∀ x, (E.symmetricPower d).rankAt x < Cardinal.aleph0 :=
+  (isFiniteLocallyFree_iff _).mp
+    (Ringed.IsFiniteLocallyFree.moduleSheafSymmetricPower (isFiniteLocallyFree_of hE hfin) d)
+
+/-- **`Sym^d` of a locally free module of rank `n` is locally free of rank `C(n + d - 1, d)`.** -/
+theorem symmetricPower_isLocallyFreeOfRank {n : ℕ} (hE : E.IsLocallyFreeOfRank n) (d : ℕ) :
+    (E.symmetricPower d).IsLocallyFreeOfRank ((n + d - 1).choose d) :=
+  (isLocallyFreeOfRank_iff_ringed _ _).mpr
+    (Ringed.IsLocallyFreeOfRank.moduleSheafSymmetricPower
+      ((isLocallyFreeOfRank_iff_ringed _ _).mp hE) d)
+
+/-- **Each `Sym^d E` is quasi-coherent** for a locally free `E` of finite rank. -/
+theorem symmetricPower_isQuasicoherent (hE : E.IsLocallyFree)
+    (hfin : ∀ x, E.rankAt x < Cardinal.aleph0) (d : ℕ) :
+    SheafOfModules.IsQuasicoherent.{u, u, u} (E.symmetricPower d) :=
+  Ringed.IsFiniteLocallyFree.isQuasicoherent
+    (Ringed.IsFiniteLocallyFree.moduleSheafSymmetricPower (isFiniteLocallyFree_of hE hfin) d)
+
+/-- **Each `Sym^d E` is coherent** on a Noetherian scheme, for a locally free `E` of finite
+rank. -/
+theorem symmetricPower_isCoherent [IsNoetherian X] (hE : E.IsLocallyFree)
+    (hfin : ∀ x, E.rankAt x < Cardinal.aleph0) (d : ℕ) :
+    IsCoherent (E.symmetricPower d) :=
+  have := Ringed.IsFiniteLocallyFree.isFinitePresentation
+    (Ringed.IsFiniteLocallyFree.moduleSheafSymmetricPower (isFiniteLocallyFree_of hE hfin) d)
+  ((coherent_affine_local_tfae (E.symmetricPower d)).out 1 0).mp this
+
+/-- **The degree-one part of `Sym(E)` is `E`.** -/
+noncomputable def symmetricPowerOneIso (E : X.Modules) : E.symmetricPower 1 ≅ E :=
+  moduleSheafSymmetricPowerOneIso (R := X.sheaf) E
+
+end AlgebraicGeometry.Scheme.Modules
