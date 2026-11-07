@@ -165,6 +165,14 @@ Thus exactly Exercises 6.2, 6.3, and 6.6 are adopted.
 - SGA6 and Manin [1] supply generalized GRR; Jouanolou [1] supplies the
   integral closed-immersion formula; Baum–Fulton–MacPherson and Fulton [2]
   supply singular Riemann–Roch.
+- Fulton, *Intersection Theory*, supplies the background route adopted for
+  Exercise 6.3 with the normalization-defined rational equivalence:
+  Proposition 1.8 (localization sequence), §1.9 (the Chow groups of affine
+  and projective space; example number not confirmed against the text),
+  Example 1.2.3 with Lemma A.3 (orders via the normalization are lengths;
+  numbering not confirmed against the text), and §§1.4, 2.5 (degree of cycles
+  on projective space; locator not confirmed against the text). The exercise leaf's
+  article still records the direct projection argument.
 
 The roadmap isolates ten explicit blocker roots: HRR, Cartier powers on a
 singular ambient scheme, Nakai–Moishezon, cycle classes, higher Hodge index,
