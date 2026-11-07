@@ -18,10 +18,13 @@ sections may be replaced by powers so that they all have the same degree.
 
 - [Ample invertible sheaves](ample-invertible-sheaf.md)
 - [Closed subschemes from quasi-coherent ideal data](../../coherent-sheaves/closed-subschemes-ideal-data.md)
+- [Clearing denominators with an invertible section](../../projective-sheaves/invertible-section-clearing-denominators.md)
+- [Finite type over a Noetherian scheme](../../first-properties/finite-type-over-noetherian.md)
 
 ## Proof depends on
 
 - Coherence of the reduced complement's ideal sheaf.
+- [The affine-local criterion for coherence](../../modules-and-quasicoherent/coherent-affine-local-criterion.md)
 - Quasi-compactness of a finite-type scheme over an affine Noetherian base.
 
 ## Sources
