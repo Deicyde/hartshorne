@@ -2,6 +2,9 @@
 article_id: af_6f38afec9cb9209df5c3d078
 declaration: definition
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.Ringed.globalToSheafExt Hartshorne.Ringed.cocycleSheafExtClass Hartshorne.Ringed.homEquivStructureHom Hartshorne.Ringed.homEquivStructureHom_naturality Hartshorne.Ringed.globalToSheafExt_extMk Hartshorne.Ringed.globalToSheafExt_mk₀ Hartshorne.Ringed.globalToSheafExt_comp_mk₀ Hartshorne.Ringed.globalToSheafExt_mk₀_comp
 ---
 
 # The global-to-sheaf Ext map
