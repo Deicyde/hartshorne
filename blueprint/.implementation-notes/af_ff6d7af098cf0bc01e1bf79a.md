@@ -5,10 +5,11 @@
 Not recorded. A bounded attempt built every object the article asks for: `μ_n`,
 `ℤ/ℓ^r(1) = μ_{ℓ^r}`, tensor products and internal Homs of abelian étale sheaves, the twists
 `ℤ/ℓ^r(q)` for every integer `q`, their inverse systems `ℤ_ℓ(q)`, and the twisted `ℤ_ℓ`- and
-`ℚ_ℓ`-cohomology. Three of the ingredients are definitions the size of an article that other
-articles will also need: the sheaf `μ_n`, the tensor product, and the internal Hom. Following the
-bounded-attempt rule, the leaf is left unrecorded and a split proposal is given below. Once those
-articles exist, the leaf can record the declarations listed in item 4.
+`ℚ_ℓ`-cohomology. The split below is resolved by the roadmap revision: the leaf now depends on
+the three new articles (étale roots of unity, the tensor product of sheaves on a site, the étale
+internal Hom) and on rational-ell-adic-cohomology and ell-adic-integers-and-field, and its
+statement carries both clarifications (negative twists as tensor powers of the dual; `ℚ_ℓ(q)` as
+the limit tensored with `ℚ_ℓ` over `ℤ_ℓ`).
 
 ## Checked Lean (module `Hartshorne.Weil.EtaleTateTwist`)
 
@@ -127,10 +128,18 @@ needed for these constructions, apart from `ℓ` prime for `ℤ_[ℓ]` and `ℚ_
 
 ## Remaining goal
 
-No Lean work remains for the objects the article lists. What remains is the Roadmap step: create
-articles 1–3 below and add the edges. Then the leaf can be recorded after an independent review.
+No Lean work remains for the objects this article lists. Record
+`AlgebraicGeometry.Scheme.etaleTateTwistOne`, `AlgebraicGeometry.Scheme.etaleTateTwist`,
+`AlgebraicGeometry.Scheme.etaleTateTwistSystem`,
+`AlgebraicGeometry.Scheme.classicalEllAdicCohomologyTwist` and
+`AlgebraicGeometry.Scheme.rationalEllAdicCohomologyTwist` after an independent review, once the
+three new articles are recorded. The blocker is the tensor-product article: its associativity,
+symmetry and unit isomorphisms are not yet in Lean (routes in that article's note). This leaf
+itself only uses `sheafTensor` and `sheafTensorPowSucc`.
 
-## Split proposal
+## Split proposal (resolved by the roadmap revision)
+
+Kept for the record; the three articles and their notes now carry the details.
 
 1. **Sheaf of roots of unity on the small étale site** (def).
    - Statement: for a scheme `X` and `n ≥ 1`, `μ_n(U) = {ζ ∈ Γ(U, 𝒪_U)^× : ζ^n = 1}` is a
@@ -179,7 +188,7 @@ articles 1–3 below and add the edges. Then the leaf can be recorded after an i
    inclusion would be wrong for `q ≥ 2`: they are off by a factor `ℓ^{(s-r)(q-1)}`. That is why
    the negative twists are defined as tensor powers of `ℤ/ℓ^r(-1)`.
 
-Suggested clarification for the article (statement not edited): "inverse limit followed by
+Suggested clarification for the article (now adopted in its statement): "inverse limit followed by
 rationalization" should say that `ℤ_ℓ(q)` is the inverse system `(ℤ/ℓ^r(q))_r`, with cohomology
 `lim_r H^i_et(X, ℤ/ℓ^r(q))`. It should also say that `ℚ_ℓ(q)`-cohomology is that limit tensored
 with `ℚ_ℓ` over `ℤ_ℓ`, matching rational-ell-adic-cohomology. The literal limit sheaf of the
