@@ -20,8 +20,7 @@ maps. These operations are compatible with the complex construction.
 
 ## Depends on
 
-- [Sheaf tensor, symmetric, and exterior operations](../../../schemes/module-exercises/sheaf-tensor-operations.md)
-- [Exterior powers of a short exact sequence](../../../schemes/module-exercises/exterior-power-exact-filtration.md)
+- Nothing in this roadmap.
 
 ## Proof depends on
 
