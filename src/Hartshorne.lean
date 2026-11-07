@@ -564,3 +564,4 @@ import Hartshorne.Scheme.QuadricSurfaceClassGroup
 import Hartshorne.Cohomology.ResolutionToInjectiveComplex
 import Hartshorne.Cohomology.RightDerivedPullback
 import Hartshorne.Weil.EllAdicPullbackFunctoriality
+import Hartshorne.Weil.EtaleTateTwist
