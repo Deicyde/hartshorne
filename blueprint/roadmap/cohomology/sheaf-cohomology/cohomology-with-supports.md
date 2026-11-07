@@ -29,9 +29,13 @@ $\Gamma _Y$-acyclic.
 
 - [Acyclic resolutions compute derived functors](../derived-functors/acyclic-resolution-comparison.md)
 - [Flasque closure in short exact sequences](flasque-short-exact-closure.md)
-- [Restriction preserves stalks](../../schemes/sheaf-functors/restriction-stalk.md)
 - [Injective abelian sheaves are flasque](injective-abelian-sheaf-flasque.md)
 - [Open extension by zero is left adjoint to restriction](../../schemes/sheaf-functors/open-extension-by-zero-adjunction.md)
+
+## Informally uses
+
+- [Restriction preserves stalks](../../schemes/sheaf-functors/restriction-stalk.md)
+- [Injectives restrict to open subsets](../ext-groups/sheaf-ext/open-restriction-injective.md)
 
 ## Sources
 
