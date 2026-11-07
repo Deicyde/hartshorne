@@ -59,3 +59,5 @@ type over $k$ has more than one point exactly when its dimension is at least one
   - ProjectiveLocalIntersectionMultiplicity proves inline the fact
     `projectivePrimeDivisorEquation_notMem_of_not_subset` (ProjectiveIntersectionDegreeFormula);
     moving that lemma up into ProjectiveLocalIntersectionMultiplicity would remove the repeat.
+  - `Hartshorne.EulerSequence.exists_X_notMem` (EulerSequenceChainRule) states the same fact as
+    `exists_X_notMem_projectiveSpace` over the same grading; one of the two can go.
