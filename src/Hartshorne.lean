@@ -458,6 +458,7 @@ import Hartshorne.Cohomology.Flatness.CoherentSelfFlatLocallyFree
 import Hartshorne.Cohomology.QuasicoherentCoherentSubobjects
 import Hartshorne.Cohomology.CohomologyWithSupports
 import Hartshorne.Cohomology.CohomologyWithSupportsExcision
+import Hartshorne.Cohomology.MayerVietorisWithSupports
 import Hartshorne.Scheme.DVRValuativeCriterionSeparated
 import Hartshorne.Scheme.SeparatedValuationCenter
 import Hartshorne.Scheme.GeneratedProjProjective

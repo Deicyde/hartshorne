@@ -2,6 +2,9 @@
 article_id: af_dc6feac9cb3e2d0a0bbd53e9
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.supportedSectionsMap Hartshorne.mayerVietorisSC_mono_f Hartshorne.mayerVietorisSC_exact Hartshorne.mayerVietorisSC_shortExact_of_isFlasque Hartshorne.cohomologyWithSupportsBiprod Hartshorne.mayerVietorisι Hartshorne.mayerVietorisπ Hartshorne.mayerVietorisδ Hartshorne.mayerVietorisι_mono Hartshorne.mayerVietoris_exact₂ Hartshorne.mayerVietoris_exact₃ Hartshorne.mayerVietoris_exact₁
 ---
 
 # Mayer–Vietoris with supports
