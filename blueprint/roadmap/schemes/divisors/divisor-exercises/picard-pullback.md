@@ -2,6 +2,9 @@
 article_id: af_ff5ac38b7941cc148e224b10
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.Ringed.Pic.pullback Hartshorne.Ringed.Pic.pullback_mk Hartshorne.isInvertible_pullback AlgebraicGeometry.Scheme.Modules.IsInvertible.pullback Hartshorne.pullbackTensorMap Hartshorne.pullbackTensorMap_isIso Hartshorne.pullbackTensorIso Hartshorne.nonempty_pullback_dual_iso Hartshorne.Ringed.Pic.pullback_id Hartshorne.Ringed.Pic.pullback_comp
 ---
 
 # Pullback on Picard groups

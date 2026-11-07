@@ -485,3 +485,4 @@ import Hartshorne.Intersection.ProjectiveLineCurveMultiplicity
 import Hartshorne.Intersection.PlaneCurveDual
 import Hartshorne.Cohomology.Semicontinuity.CohomologyTensorDeltaFunctor
 import Hartshorne.Scheme.Differentials.BirationalMapDomain
+import Hartshorne.Scheme.PicardPullback
