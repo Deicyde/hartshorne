@@ -2,6 +2,9 @@
 article_id: af_5977a242f5a83bcd170abc82
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.weilClassCartierClassEquiv AlgebraicGeometry.Scheme.weilClassCartierClassEquiv_weilDivisorClassHom AlgebraicGeometry.Scheme.weilClassEquivPicard AlgebraicGeometry.Scheme.weilClassEquivPicard_weilDivisorClassHom AlgebraicGeometry.Scheme.weilClassEquivPicard_apply
 ---
 
 # Weil classes and the Picard group on a locally factorial scheme

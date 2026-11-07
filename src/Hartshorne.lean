@@ -484,6 +484,7 @@ import Hartshorne.Rational.OrdinaryNode
 import Hartshorne.Scheme.ProjectiveSpaceRegular
 import Hartshorne.Scheme.TotalQuotientIntegral
 import Hartshorne.Scheme.LocallyFactorialWeilCartier
+import Hartshorne.Scheme.LocallyFactorialClassPicard
 import Hartshorne.Cohomology.FlatFamilies.FlatFibreLocalDimension
 import Hartshorne.Scheme.SerreNormalityCriterion
 import Hartshorne.Scheme.VarietyRestrictedSheaf
