@@ -24,7 +24,6 @@ all homogeneous pieces are coherent.
 
 ## Proof depends on
 
-- [The Picard group of a ringed space](../../divisors/cartier-picard/invertible-sheaf-group.md)
 - The universal property of the symmetric algebra and its polynomial-algebra description on affine trivializations.
 
 ## Sources
