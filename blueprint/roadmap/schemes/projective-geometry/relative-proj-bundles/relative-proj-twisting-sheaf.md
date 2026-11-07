@@ -14,10 +14,11 @@ compatibility with restriction to affine opens of the base.
 
 - [Relative Proj](relative-proj.md)
 - [Twisting sheaves are invertible](../../projective-sheaves/proj-twisting-sheaf.md)
+- [Gluing sheaves of modules along open immersions](../../coherent-sheaves/module-gluing.md)
 
 ## Proof depends on
 
-- Compatibility of graded shifts and associated sheaves under localization.
+- [Twisting sheaves under localization in degree zero](proj-twist-localization.md)
 
 ## Sources
 

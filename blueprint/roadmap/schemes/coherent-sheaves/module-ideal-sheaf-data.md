@@ -27,6 +27,10 @@ smaller affine opens. This ensures that their tilde sheaves glue.
 - [Quasi-coherent sheaves are closed under kernels](../modules-and-quasicoherent/quasicoherent-abelian-closure.md)
 - Compatibility of the affine ideals under restriction.
 
+## Informally uses
+
+- [Gluing sheaves of modules along open immersions](module-gluing.md)
+
 ## Sources
 
 - [Hartshorne II.5, definition and Proposition 5.9 (pp.115–116)](../../../sources/hartshorne-ii-5.md#ideal-sheaves-and-closed-subschemes)

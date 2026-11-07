@@ -9,6 +9,11 @@ adopted coherence exercises: support, stalkwise local freeness, and extension
 from an open subset. It depends on the affine quasi-coherent and coherent
 machinery in the [modules and quasi-coherent sheaves](../modules-and-quasicoherent/README.md) chapter.
 
+Sheaves of modules on the members of an open cover, with compatible
+isomorphisms on the overlaps, glue to a sheaf of modules.
+
+- [Gluing sheaves of modules along open immersions](module-gluing.md)
+
 A quasi-coherent ideal sheaf can be described by compatible ideals
 on affine opens. The first statements establish this correspondence
 and use it to construct closed subschemes.

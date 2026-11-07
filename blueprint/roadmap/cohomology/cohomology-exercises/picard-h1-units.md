@@ -20,8 +20,8 @@ $\operatorname{Pic} X \cong H^1(X,\mathcal{O}_X^*)$.
 
 - [First cohomology as the refinement colimit](cech-refinement-colimit-h1.md)
 - Local trivializations give unit-valued Čech cocycles.
-- Coboundaries exactly change trivializations, and cocycles glue invertible
-  sheaves.
+- Coboundaries exactly change trivializations.
+- [Gluing sheaves of modules along open immersions](../../schemes/coherent-sheaves/module-gluing.md)
 
 ## Sources
 
