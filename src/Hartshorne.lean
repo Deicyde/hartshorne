@@ -470,6 +470,8 @@ import Hartshorne.Scheme.BaseExtensionComponentDimension
 import Hartshorne.Scheme.ProperValuationCenter
 import Hartshorne.Intersection.SectionZeroScheme
 import Hartshorne.Scheme.ProjectiveIntersectionDegree
+import Hartshorne.Scheme.ProjectiveClosedSubschemePrimes
+import Hartshorne.Scheme.ProjectiveLocalIntersectionMultiplicity
 import Hartshorne.RingedSpace.FiniteLocallyFreeTensorInjective
 import Hartshorne.RingedSpace.OpenRestriction
 import Hartshorne.RingedSpace.FiniteLocallyFreeProjectionFormula
