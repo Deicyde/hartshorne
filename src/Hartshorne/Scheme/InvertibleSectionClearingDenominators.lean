@@ -3,7 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.SheafTensorOperations
-import Hartshorne.RingedSpace.PicardGroup
+import Hartshorne.RingedSpace.FiniteLocallyFreeDuality
 import Hartshorne.Scheme.LocallyFreeRinged
 
 /-!
@@ -139,9 +139,9 @@ end IsTrivializingSection
 /-- An invertible sheaf is trivialized by a section near every point. -/
 theorem exists_isTrivializingSection {L : X.Modules} (hL : L.IsInvertible) (x : X) :
     ∃ (U : X.Opens) (e : Γ(L, U)), x ∈ U ∧ IsTrivializingSection L U e := by
-  obtain ⟨U, e', hx, he⟩ := Ringed.exists_isLocalFrame_of_isLocallyFreeOfRank
-    ((Scheme.Modules.isInvertible_iff_ringed L).mp hL) x
-  exact ⟨U, _, hx, IsTrivializingSection.of_isLocalFrame he⟩
+  obtain ⟨U, hx, ⟨α⟩⟩ := hL x
+  obtain ⟨γ⟩ := (Scheme.Modules.nonempty_restrict_iso_free_iff L U _).mp ⟨α⟩
+  exact ⟨U, _, hx, IsTrivializingSection.of_isLocalFrame (Ringed.isLocalFrame_of_over_iso γ)⟩
 
 /-- An invertible sheaf is trivialized by a section on an affine open neighbourhood of every
 point. -/
@@ -184,8 +184,8 @@ noncomputable instance moduleSheafStalkModule (F : X.Modules) (x : X) :
   inferInstanceAs (Module (X.presheaf.stalk x)
     (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) M.presheaf x))
 
-theorem moduleSheaf_germ_smul (F : X.Modules) {U : X.Opens} (x : X) (hx : x ∈ U) (r : Γ(X, U))
-    (m : Γ(F, U)) :
+private theorem moduleSheaf_germ_smul (F : X.Modules) {U : X.Opens} (x : X) (hx : x ∈ U)
+    (r : Γ(X, U)) (m : Γ(F, U)) :
     F.presheaf.germ U x hx (r • m) = X.presheaf.germ U x hx r • F.presheaf.germ U x hx m :=
   let M : PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat RingCat) := F.val
   PresheafOfModules.germ_smul M x U hx r m
@@ -294,7 +294,7 @@ def nonvanishingLocusOpens {L : X.Modules} (hL : L.IsInvertible) (f : Γ(L, ⊤)
 /-! ### Quasi-coherent sections on affine opens and quasi-compact opens -/
 
 /-- Restricting along `Spec Γ(X, U) ⟶ X` and back is restriction of sections. -/
-theorem affineFromSpec_ring_compat {U : X.Opens} (hU : IsAffineOpen U)
+private theorem affineFromSpec_ring_compat {U : X.Opens} (hU : IsAffineOpen U)
     (V : (Spec Γ(X, U)).Opens) (h : hU.fromSpec ''ᵁ V ≤ U) :
     (Scheme.ΓSpecIso Γ(X, U)).inv ≫ (Spec Γ(X, U)).presheaf.map V.leTop.op ≫
         (hU.fromSpec.appIso V).inv = X.presheaf.map (homOfLE h).op := by
@@ -304,7 +304,7 @@ theorem affineFromSpec_ring_compat {U : X.Opens} (hU : IsAffineOpen U)
   rfl
 
 /-- The `Γ(X, U)`-module structure on the sections of `F|_U` on `Spec Γ(X, U)`. -/
-theorem affineFromSpec_smul {U : X.Opens} (hU : IsAffineOpen U) (F : X.Modules)
+private theorem affineFromSpec_smul {U : X.Opens} (hU : IsAffineOpen U) (F : X.Modules)
     (V : (Spec Γ(X, U)).Opens) (h : hU.fromSpec ''ᵁ V ≤ U) (a : Γ(X, U))
     (x : Γ(F.restrict hU.fromSpec, V)) :
     a • x = (show Γ(F.restrict hU.fromSpec, V) from
@@ -350,7 +350,7 @@ theorem exists_pow_smul_eq_zero_of_isAffineOpen (F : X.Modules) [F.IsQuasicohere
     eqToHom_refl, op_id, CategoryTheory.Functor.map_id, map_zero] at this
 
 /-- Restriction along an equality of opens is injective. -/
-theorem map_eqToHom_injective (F : X.Modules) {V W : X.Opens} (h : V = W) :
+private theorem map_eqToHom_injective (F : X.Modules) {V W : X.Opens} (h : V = W) :
     Function.Injective (F.presheaf.map (eqToHom h).op) := by
   subst h
   intro a b hab
@@ -438,6 +438,18 @@ theorem IsTrivializingSection.exists_eq_smul {L : X.Modules} {U : X.Opens} {e : 
   simp only [homOfLE_refl, op_id, CategoryTheory.Functor.map_id]
   rfl
 
+private theorem modules_map_map (F : X.Modules) {U V W : X.Opens} (h₁ : V ≤ U) (h₂ : W ≤ V)
+    (s : Γ(F, U)) : F.presheaf.map (homOfLE h₂).op (F.presheaf.map (homOfLE h₁).op s) =
+      F.presheaf.map (homOfLE (h₂.trans h₁)).op s := by
+  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
+  rfl
+
+private theorem ring_map_map {U V W : X.Opens} (h₁ : V ≤ U) (h₂ : W ≤ V) (a : Γ(X, U)) :
+    X.presheaf.map (homOfLE h₂).op (X.presheaf.map (homOfLE h₁).op a) =
+      X.presheaf.map (homOfLE (h₂.trans h₁)).op a := by
+  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
+  rfl
+
 /-! ### Lemma 5.14 -/
 
 /-- **Hartshorne II, Lemma 5.14(a).** Let `L` be an invertible sheaf on a quasi-compact scheme
@@ -469,5 +481,129 @@ theorem exists_sectionPowSMul_eq_zero [CompactSpace X] {L : X.Modules} (hL : L.I
   rw [map_zero, sectionPowSMul_map, hfg y, sectionPowSMul_smul]
   have hle : n y ≤ t.sup n + 1 := (Finset.le_sup hy).trans (Nat.le_succ _)
   rw [← Nat.sub_add_cancel hle, pow_add, mul_smul, hn y, smul_zero, sectionPowSMul_zero]
+
+/-- **Hartshorne II, Lemma 5.14(b).** Let `L` be an invertible sheaf on `X`, `f ∈ Γ(X, L)`, and
+`F` a quasi-coherent sheaf. Suppose `X` has a finite cover by open affines `Uᵢ` such that each
+`L|_{Uᵢ}` is free and each `Uᵢ ∩ Uⱼ` is quasi-compact. Then for every section `t` of `F` over
+the nonvanishing locus `X_f` there is `n > 0` such that `f^n t ∈ Γ(X_f, F ⊗ L^{⊗ n})` extends to a
+global section of `F ⊗ L^{⊗ n}`. -/
+theorem exists_sectionPowSMul_extension {L : X.Modules} (hL : L.IsInvertible) (f : Γ(L, ⊤))
+    (F : X.Modules) [F.IsQuasicoherent] {ι : Type*} [Finite ι] (U : ι → X.Opens)
+    (hU : ⨆ i, U i = ⊤) (hUaff : ∀ i, IsAffineOpen (U i))
+    (hUfree : ∀ i, (L.restrict (U i).ι).IsFree)
+    (hUqc : ∀ i j, IsCompact ((U i ⊓ U j : X.Opens) : Set X))
+    (t : Γ(F, nonvanishingLocusOpens hL f)) :
+    ∃ n > 0, ∃ u : Γ(tensorPowerTwist F L n, ⊤),
+      (tensorPowerTwist F L n).presheaf.map
+          (homOfLE le_top : nonvanishingLocusOpens hL f ⟶ ⊤).op u =
+        sectionPowSMul F L n (L.presheaf.map (homOfLE le_top).op f) t := by
+  classical
+  have := Fintype.ofFinite ι
+  choose e he using fun i => exists_isTrivializingSection_of_isFree hL (hUfree i)
+  choose g hfg using fun i => (he i).exists_eq_smul f
+  have hD : ∀ i, X.basicOpen (g i) ≤ nonvanishingLocusOpens hL f :=
+    fun i => (he i).basicOpen_le_nonvanishingLocus (hfg i)
+  -- local extensions on each `Uᵢ`, with a common exponent `n`
+  choose n₀ t₀ ht₀ using fun i =>
+    exists_pow_smul_extension_of_isAffineOpen F (hUaff i) (g i)
+      (F.presheaf.map (homOfLE (hD i)).op t)
+  obtain ⟨n, hn₀, hnpos⟩ : ∃ n, (∀ i, n₀ i ≤ n) ∧ 0 < n :=
+    ⟨Finset.univ.sup n₀ + 1, fun i => (Finset.le_sup (Finset.mem_univ i)).trans (Nat.le_succ _),
+      Nat.succ_pos _⟩
+  let t₁ : ∀ i, Γ(F, U i) := fun i => g i ^ (n - n₀ i) • t₀ i
+  have ht₁ : ∀ i, F.presheaf.map (homOfLE (X.basicOpen_le (g i))).op (t₁ i) =
+      (X.presheaf.map (homOfLE (X.basicOpen_le (g i))).op (g i)) ^ n •
+        F.presheaf.map (homOfLE (hD i)).op t := by
+    intro i
+    simp only [t₁]
+    rw [Scheme.Modules.map_smul, ht₀, map_pow, ← mul_smul, ← pow_add, Nat.sub_add_cancel (hn₀ i)]
+  -- transition functions on the overlaps
+  choose h hh using fun i j => (he i (U i ⊓ U j) inf_le_left).2
+    (L.presheaf.map (homOfLE inf_le_right).op (e j))
+  simp only at hh
+  have hgij : ∀ i j, X.presheaf.map (homOfLE inf_le_left).op (g i) =
+      h i j * X.presheaf.map (homOfLE (inf_le_right : U i ⊓ U j ≤ U j)).op (g j) := by
+    intro i j
+    apply (he i (U i ⊓ U j) inf_le_left).1
+    simp only
+    rw [mul_comm, mul_smul, hh i j, ← Scheme.Modules.map_smul, ← Scheme.Modules.map_smul,
+      ← hfg i, ← hfg j, modules_map_map, modules_map_map]
+  -- the discrepancies on the overlaps are killed by a further power `m`
+  have hdisc : ∀ p : ι × ι, ∃ m : ℕ,
+      (X.presheaf.map (homOfLE (inf_le_left : U p.1 ⊓ U p.2 ≤ U p.1)).op (g p.1)) ^ m •
+        (F.presheaf.map (homOfLE inf_le_left).op (t₁ p.1) -
+          h p.1 p.2 ^ n • F.presheaf.map (homOfLE inf_le_right).op (t₁ p.2)) = 0 := by
+    rintro ⟨i, j⟩
+    refine exists_pow_smul_eq_zero_of_isCompact F (hUqc i j) _ _ ?_
+    set D := X.basicOpen (X.presheaf.map (homOfLE (inf_le_left : U i ⊓ U j ≤ U i)).op (g i))
+    have hDi : D ≤ X.basicOpen (g i) := by
+      simp only [D, Scheme.basicOpen_res]
+      exact inf_le_right
+    have hDj : D ≤ X.basicOpen (g j) := by
+      intro x hx
+      have hxij : x ∈ U i ⊓ U j := X.basicOpen_le _ hx
+      exact ((he j).mem_nonvanishingLocus_iff (hfg j) hxij.2).mp (hD i (hDi hx))
+    have hgD : X.presheaf.map (homOfLE (hDi.trans (X.basicOpen_le (g i)))).op (g i) =
+        X.presheaf.map (homOfLE (X.basicOpen_le _)).op (h i j) *
+          X.presheaf.map (homOfLE (hDj.trans (X.basicOpen_le (g j)))).op (g j) := by
+      have := congrArg (X.presheaf.map (homOfLE (X.basicOpen_le
+        (X.presheaf.map (homOfLE (inf_le_left : U i ⊓ U j ≤ U i)).op (g i)))).op) (hgij i j)
+      rwa [map_mul, ring_map_map, ring_map_map] at this
+    have e₁ := congrArg (F.presheaf.map (homOfLE hDi).op) (ht₁ i)
+    have e₂ := congrArg (F.presheaf.map (homOfLE hDj).op) (ht₁ j)
+    simp only [Scheme.Modules.map_smul, map_pow, modules_map_map, ring_map_map] at e₁ e₂
+    simp only [map_sub, Scheme.Modules.map_smul, map_pow, modules_map_map]
+    rw [e₁, e₂, smul_smul, ← mul_pow, ← hgD, sub_self]
+  choose m hm using hdisc
+  obtain ⟨M, hmM'⟩ : ∃ M, ∀ p, m p ≤ M :=
+    ⟨Finset.univ.sup m, fun p => Finset.le_sup (Finset.mem_univ p)⟩
+  have hmM : ∀ i j, (X.presheaf.map (homOfLE (inf_le_left : U i ⊓ U j ≤ U i)).op (g i)) ^ M •
+        (F.presheaf.map (homOfLE inf_le_left).op (t₁ i) -
+          h i j ^ n • F.presheaf.map (homOfLE inf_le_right).op (t₁ j)) = 0 := by
+    intro i j
+    rw [← Nat.sub_add_cancel (hmM' (i, j)), pow_add, mul_smul, hm (i, j), smul_zero]
+  -- the local sections of `F ⊗ L^{⊗ (n + M)}` and their gluing
+  let t₂ : ∀ i, Γ(F, U i) := fun i => g i ^ M • t₁ i
+  let u : ∀ i, Γ(tensorPowerTwist F L (n + M), U i) :=
+    fun i => sectionPowSMul F L (n + M) (e i) (t₂ i)
+  have hcompat : TopCat.Presheaf.IsCompatible (tensorPowerTwist F L (n + M)).presheaf U u := by
+    intro i j
+    change (tensorPowerTwist F L (n + M)).presheaf.map (homOfLE inf_le_left).op (u i) =
+      (tensorPowerTwist F L (n + M)).presheaf.map (homOfLE inf_le_right).op (u j)
+    simp only [u, sectionPowSMul_map]
+    rw [← hh i j, sectionPowSMul_smul]
+    congr 1
+    simp only [t₂, Scheme.Modules.map_smul, map_pow]
+    have := hmM i j
+    rw [smul_sub, sub_eq_zero] at this
+    rw [this, hgij i j, smul_smul, smul_smul]
+    congr 1
+    ring
+  obtain ⟨s, hs, -⟩ := TopCat.Sheaf.existsUnique_gluing'
+    ⟨(tensorPowerTwist F L (n + M)).presheaf, (tensorPowerTwist F L (n + M)).isSheaf⟩ U ⊤
+    (fun i => homOfLE le_top) hU.ge u hcompat
+  refine ⟨n + M, by omega, s, ?_⟩
+  refine TopCat.Presheaf.IsSheaf.section_ext (tensorPowerTwist F L (n + M)).isSheaf
+    (fun x hx => ?_)
+  obtain ⟨i, hxi⟩ := Opens.mem_iSup.mp (hU.ge (Set.mem_univ x))
+  have hxD : x ∈ X.basicOpen (g i) := ((he i).mem_nonvanishingLocus_iff (hfg i) hxi).mp hx
+  refine ⟨X.basicOpen (g i), hD i, hxD, ?_⟩
+  have hsi : (tensorPowerTwist F L (n + M)).presheaf.map (homOfLE le_top : U i ⟶ ⊤).op s =
+      sectionPowSMul F L (n + M) (e i) (t₂ i) := hs i
+  have hL1 : (tensorPowerTwist F L (n + M)).presheaf.map (homOfLE (hD i)).op
+      ((tensorPowerTwist F L (n + M)).presheaf.map
+        (homOfLE le_top : nonvanishingLocusOpens hL f ⟶ ⊤).op s) =
+      (tensorPowerTwist F L (n + M)).presheaf.map (homOfLE (X.basicOpen_le (g i))).op
+        (sectionPowSMul F L (n + M) (e i) (t₂ i)) := by
+    rw [← hsi, modules_map_map, modules_map_map]
+  rw [hL1, sectionPowSMul_map, sectionPowSMul_map]
+  have hf : L.presheaf.map (homOfLE (hD i)).op (L.presheaf.map (homOfLE le_top).op f) =
+      X.presheaf.map (homOfLE (X.basicOpen_le (g i))).op (g i) •
+        L.presheaf.map (homOfLE (X.basicOpen_le (g i))).op (e i) := by
+    rw [← Scheme.Modules.map_smul, ← hfg i, modules_map_map, modules_map_map]
+  rw [hf, sectionPowSMul_smul]
+  congr 1
+  simp only [t₂, Scheme.Modules.map_smul, map_pow]
+  rw [ht₁ i, smul_smul, ← pow_add, add_comm]
 
 end Hartshorne
