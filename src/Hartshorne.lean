@@ -427,6 +427,7 @@ import Hartshorne.Projective.GradedTwist
 import Hartshorne.Scheme.ProjTwistingSheaf
 import Hartshorne.Projective.Veronese
 import Hartshorne.Scheme.VeroneseProj
+import Hartshorne.Scheme.VeroneseTwist
 import Hartshorne.Scheme.ImageReducedSource
 import Hartshorne.Scheme.ValuationCenter
 import Hartshorne.Cohomology.Semicontinuity.CoherentFiberDimension
