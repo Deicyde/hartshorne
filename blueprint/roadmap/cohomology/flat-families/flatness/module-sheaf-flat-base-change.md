@@ -19,8 +19,9 @@ $f' : X' \to Y'$, the module pullback of $F$ to $X'$ is flat over $Y'$.
 ## Proof depends on
 
 - [Flat modules remain flat after base change](flat-module-base-change.md)
-- Identify the pulled-back stalk with the appropriate localized tensor
-  product over the original base stalk.
+- [Stalks of the pullback of a module sheaf](../../../schemes/module-stalks/module-pullback-stalk.md)
+- [Local rings of a fibre product](../../../schemes/fiber-products/fiber-product-local-ring.md)
+- If $C$ is a flat $R$-algebra and $N$ is an $R$-module that is flat over a ring $B' \to R$, then $C \otimes_R N$ is flat over $B'$. Apply it with $R = \mathcal{O}_{X,x} \otimes_{\mathcal{O}_{Y,y}} \mathcal{O}_{Y',y'}$, $C = \mathcal{O}_{X',x'}$ and $N = \mathcal{O}_{Y',y'} \otimes_{\mathcal{O}_{Y,y}} F_x$, using $C \otimes_{\mathcal{O}_{X,x}} F_x \cong C \otimes_R N$.
 
 ## Sources
 

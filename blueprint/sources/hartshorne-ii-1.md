@@ -133,6 +133,11 @@ Exercises 1.1, 1.3(b), 1.5–1.7, 1.11, 1.13, 1.17, 1.19(c), and
 either unused here, already subsumed by Mathlib's categorical API, or examples
 requested only inside the exercise set.
 
+Exercise 1.17 (skyscraper sheaves) is not adopted as a source target, but it
+grounds the bridged module-level article
+[Skyscraper module sheaves and the stalk adjunction](../roadmap/schemes/module-stalks/module-skyscraper-stalk-adjunction.md),
+which the stalk computation for pullbacks of module sheaves uses.
+
 Exercises 1.16 (flasque sheaves) and 1.20 (sections with supports) are deferred
 to the Chapter III cohomology milestones. Exercise 1.14 is adopted only to the
 extent stated above; a separate example showing that a sheaf's support need

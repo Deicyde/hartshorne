@@ -55,6 +55,7 @@ illustrate an existing construction remain in the source notes.
 ## Sheaves of modules
 
 - [Modules and quasi-coherent sheaves](modules-and-quasicoherent/README.md)
+- [Stalks of module sheaves](module-stalks/README.md)
 - [Coherent sheaves and support](coherent-sheaves/README.md)
 - [Projective sheaf machinery](projective-sheaves/README.md)
 - [Later-used module exercises](module-exercises/README.md)

@@ -13,6 +13,7 @@ II.3.3, then packages fibers, base extension, and finite-type stability.
 - [Restricting a fiber product to an open subscheme](fiber-product-restrict-open.md)
 - [Gluing local fiber products](glue-local-fiber-products.md)
 - [Fiber products of schemes exist](schemes-have-fiber-products.md)
+- [Local rings of a fibre product](fiber-product-local-ring.md)
 - [The fiber of a morphism](scheme-fiber.md)
 - [The underlying space of a fiber](fiber-underlying-space.md)
 - [Base extension](base-extension.md)
