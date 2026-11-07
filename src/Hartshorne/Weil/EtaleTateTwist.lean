@@ -2,7 +2,7 @@
 Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Hartshorne.Weil.ClassicalEllAdicCohomology
+import Hartshorne.Weil.RationalEllAdicCohomology
 import Mathlib.Algebra.MonoidAlgebra.Basic
 import Mathlib.AlgebraicGeometry.Sites.Fpqc
 import Mathlib.AlgebraicGeometry.Sites.Proetale
@@ -34,12 +34,17 @@ groups: a morphism `F|_U ⟶ G|_U` is determined by its components at the essent
 of affine étale schemes over `U`.  The negative twists are `ℤ/ℓ^r(-1) = Hom(μ_{ℓ^r}, ℤ/ℓ^r)` and
 its tensor powers.  The transition `ℤ/ℓ^s(-1) → ℤ/ℓ^r(-1)` restricts `τ : μ_{ℓ^s} → ℤ/ℓ^s` to
 `μ_{ℓ^r}` and divides by `ℓ ^ (s - r)`: the restriction is killed by `ℓ ^ r`, and the
-`ℓ^r`-torsion of `ℤ/ℓ^s` is `ℓ^(s-r) ℤ/ℓ^r`, also on sections of the constant sheaves because
-taking sections of constant sheaves is left exact.  Together these give `ℤ_ℓ(q)` for every integer
-`q`, and the groups `H^i(X, ℤ_ℓ(q)) = lim_r H^i_et(X, ℤ/ℓ^r(q))` and `H^i(X, ℤ_ℓ(q)) ⊗ ℚ`.
+`ℓ^r`-torsion of `ℤ/ℓ^s` is `ℓ^(s-r) ℤ/ℓ^s ≅ ℤ/ℓ^r`, also on sections of the constant sheaves
+because taking sections of constant sheaves is left exact.  Together these give `ℤ_ℓ(q)` for every integer
+`q`, and the groups `H^i(X, ℤ_ℓ(q)) = lim_r H^i_et(X, ℤ/ℓ^r(q))`.  Since `ℓ^r` kills
+`ℤ/ℓ^r(q)`, the construction of `Hartshorne.Weil.RationalEllAdicCohomology` (redone here for any
+inverse system whose `r`-th stage is killed by `ℓ ^ r`) makes `H^i(X, ℤ_ℓ(q))` a
+`ℤ_[ℓ]`-module, and `H^i(X, ℚ_ℓ(q)) = ℚ_ℓ ⊗_{ℤ_ℓ} H^i(X, ℤ_ℓ(q))`; for `q = 0` both agree
+definitionally with `Hartshorne.Weil.RationalEllAdicCohomology`.
 
 Except for the transition maps of negative twists, which need `ℓ ≠ 0`, no hypothesis on `ℓ` is
-needed for these constructions; invertibility of `ℓ` on `X` enters only in theorems about them.
+needed for these constructions, apart from `ℓ` prime for `ℤ_[ℓ]` and `ℚ_[ℓ]`; invertibility of
+`ℓ` on `X` enters only in theorems about them.
 
 ## Main declarations
 
@@ -1079,15 +1084,296 @@ coefficients, for every integer `q`: the ordinary inverse limit in abelian group
 noncomputable def classicalEllAdicCohomologyTwist (q : ℤ) (i : ℕ) : Ab.{u} :=
   limit (X.ellAdicTwistCohomologySystem ℓ q i)
 
-/-- The rational `ℓ`-adic cohomology group `H^i(X, ℚ_ℓ(q)) = H^i(X, ℤ_ℓ(q)) ⊗ ℚ` with Tate-twisted
-coefficients, for every integer `q`.  For a `ℤ_ℓ`-module `M`, `M ⊗_ℤ ℚ` is canonically
-`M ⊗_{ℤ_ℓ} ℚ_ℓ`, because `ℚ_ℓ = ℤ_ℓ ⊗_ℤ ℚ`. -/
-noncomputable def rationalEllAdicCohomologyTwist (q : ℤ) (i : ℕ) : Ab.{u} :=
-  AddCommGrpCat.of (TensorProduct ℤ (X.classicalEllAdicCohomologyTwist ℓ q i) ℚ)
-
 /-- With nonnegative twist this is the limit of `etaleTateTwistNat`-cohomology. -/
 theorem classicalEllAdicCohomologyTwist_natCast (q i : ℕ) :
     X.classicalEllAdicCohomologyTwist ℓ q i = X.classicalEllAdicCohomologyTwistNat ℓ q i :=
+  rfl
+
+end AlgebraicGeometry.Scheme
+
+namespace Hartshorne
+
+section Killing
+
+variable {C : Type w} [Category.{v} C]
+
+/-- The pointwise tensor product is additive in the first variable. -/
+theorem presheafTensorMap_nsmul_left {F F' G G' : Cᵒᵖ ⥤ Ab.{u}} (n : ℕ) (α : F ⟶ F')
+    (β : G ⟶ G') : presheafTensorMap (n • α) β = n • presheafTensorMap α β := by
+  ext U x
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | tmul a b =>
+    change ((n • α.app U) a) ⊗ₜ[ℤ] (β.app U b) = n • ((α.app U a) ⊗ₜ[ℤ] (β.app U b))
+    rw [TensorProduct.smul_tmul']
+    simp
+  | add x y hx hy => simp_all
+
+variable (J : GrothendieckTopology C) [HasSheafify J Ab.{u}]
+
+/-- The tensor product of sheaves is additive in the first variable. -/
+theorem sheafTensorMap_nsmul_left {F F' G G' : Sheaf J Ab.{u}} (n : ℕ) (α : F ⟶ F')
+    (β : G ⟶ G') : sheafTensorMap J (n • α) β = n • sheafTensorMap J α β := by
+  simp only [sheafTensorMap]
+  rw [← CategoryTheory.Functor.map_nsmul, ← presheafTensorMap_nsmul_left]
+  rfl
+
+/-- If `n` kills `F`, then `n` kills `F ⊗ G`. -/
+theorem sheafTensor_nsmul_id_eq_zero {F : Sheaf J Ab.{u}} (G : Sheaf J Ab.{u}) {n : ℕ}
+    (hF : n • 𝟙 F = 0) : n • 𝟙 (sheafTensor J F G) = 0 := by
+  rw [← sheafTensorMap_id, ← sheafTensorMap_nsmul_left, hF, ← zero_smul ℕ (0 : F ⟶ F),
+    sheafTensorMap_nsmul_left, zero_smul]
+
+/-- If `n` kills `F`, then `n` kills every tensor power `F^{⊗(k+1)}`. -/
+theorem sheafTensorPowSucc_nsmul_id_eq_zero {F : Sheaf J Ab.{u}} {n : ℕ}
+    (hF : n • 𝟙 F = 0) (k : ℕ) : n • 𝟙 (sheafTensorPowSucc J F k) = 0 := by
+  induction k with
+  | zero => exact hF
+  | succ k ih => exact sheafTensor_nsmul_id_eq_zero J F ih
+
+omit [HasSheafify J Ab.{u}] in
+/-- If `n` kills the target, `n` kills every morphism. -/
+theorem nsmul_eq_zero_of_nsmul_id {D : Type*} [Category D] [Preadditive D] {A B : D}
+    (t : A ⟶ B) {n : ℕ} (h : n • 𝟙 B = 0) : n • t = 0 := by
+  rw [← Category.comp_id t, ← Preadditive.comp_nsmul, h, Limits.comp_zero]
+
+omit [HasSheafify J Ab.{u}] in
+/-- Multiples of morphisms of sheaves of abelian groups are computed sectionwise. -/
+theorem sheaf_nsmul_hom_app {F G : Sheaf J Ab.{u}} (n : ℕ) (f : F ⟶ G) (U : Cᵒᵖ) :
+    (n • f).hom.app U = n • f.hom.app U :=
+  rfl
+
+end Killing
+
+end Hartshorne
+
+namespace AlgebraicGeometry.Scheme
+
+/-- `ℓ ^ r` kills `μ_{ℓ^r}`. -/
+theorem etaleTateTwistOne_pow_nsmul_id (X : Scheme.{u}) (ℓ r : ℕ) :
+    (ℓ ^ r) • 𝟙 (X.etaleTateTwistOne ℓ r) = 0 := by
+  ext V ζ
+  rw [Hartshorne.sheaf_nsmul_hom_app, AddCommGrpCat.hom_nsmul, AddMonoidHom.nsmul_apply]
+  refine Subtype.ext ?_
+  exact (mem_rootsOfUnity _ _).1 (Additive.toMul ζ).2
+
+/-- If `n` kills `G`, then `n` kills the internal Hom sheaf `Hom(F, G)`. -/
+theorem etaleSheafHom_nsmul_id_eq_zero {X : Scheme.{u}} (F : Sheaf X.smallEtaleTopology Ab.{u})
+    {G : Sheaf X.smallEtaleTopology Ab.{u}} {n : ℕ} (hG : n • 𝟙 G = 0) :
+    n • 𝟙 (etaleSheafHom F G) = 0 := by
+  ext U φ
+  rw [Hartshorne.sheaf_nsmul_hom_app, AddCommGrpCat.hom_nsmul, AddMonoidHom.nsmul_apply]
+  change n • φ = 0
+  apply (Shrink.addEquiv.{u} (α := EtaleHomOver F G U.unop)).injective
+  rw [map_nsmul, map_zero]
+  refine NatTrans.ext (funext fun Y ↦ ?_)
+  rw [NatTrans.app_nsmul, NatTrans.app_zero]
+  have hG' : n • 𝟙 (G.obj.obj (op Y.unop.left)) = 0 := by
+    have := congrArg (fun f ↦ f.hom.app (op Y.unop.left)) hG
+    simpa [Hartshorne.sheaf_nsmul_hom_app] using this
+  exact Hartshorne.nsmul_eq_zero_of_nsmul_id _ hG'
+
+/-- `ℓ ^ r` kills `ℤ/ℓ^r(q)` for every integer `q`. -/
+theorem etaleTateTwist_pow_nsmul_id (X : Scheme.{u}) (ℓ r : ℕ) (q : ℤ) :
+    (ℓ ^ r) • 𝟙 (X.etaleTateTwist ℓ r q) = 0 := by
+  rcases q with q | k
+  · cases q with
+    | zero => exact X.constantTorsionEtaleSheaf_pow_nsmul_id ℓ r
+    | succ q =>
+      exact Hartshorne.sheafTensorPowSucc_nsmul_id_eq_zero X.smallEtaleTopology
+        (X.etaleTateTwistOne_pow_nsmul_id ℓ r) q
+  · exact Hartshorne.sheafTensorPowSucc_nsmul_id_eq_zero X.smallEtaleTopology
+      (etaleSheafHom_nsmul_id_eq_zero _ (X.constantTorsionEtaleSheaf_pow_nsmul_id ℓ r)) k
+
+/-- `ℓ ^ r` kills `H^i_et(X, ℤ/ℓ^r(q))`. -/
+theorem ellAdicTwistCohomologySystem_pow_nsmul_id (X : Scheme.{u}) (ℓ : ℕ) [NeZero ℓ] (q : ℤ)
+    (i r : ℕ) : (ℓ ^ r) • 𝟙 ((X.ellAdicTwistCohomologySystem ℓ q i).obj (op r)) = 0 := by
+  have hsys : (ℓ ^ r) • 𝟙 ((X.etaleTateTwistSystem ℓ q).obj (op r)) = 0 := by
+    rw [etaleTateTwistSystem_obj]
+    exact X.etaleTateTwist_pow_nsmul_id ℓ r q
+  change (ℓ ^ r) • 𝟙 (((Sheaf.Γ X.smallEtaleTopology Ab.{u}).rightDerived i).obj
+    ((X.etaleTateTwistSystem ℓ q).obj (op r))) = 0
+  rw [← CategoryTheory.Functor.map_id, ← CategoryTheory.Functor.map_nsmul, hsys,
+    CategoryTheory.Functor.map_zero]
+
+end AlgebraicGeometry.Scheme
+
+namespace Hartshorne
+
+section EllAdicLimitModule
+
+/-- An inverse system `F` of abelian groups indexed by `ℕ` is an `ℓ`-power torsion system if
+`ℓ ^ r` kills its `r`-th stage. -/
+def IsEllPowerTorsionSystem (ℓ : ℕ) (F : ℕᵒᵖ ⥤ Ab.{u}) : Prop :=
+  ∀ r : ℕ, (ℓ ^ r) • 𝟙 (F.obj (op r)) = 0
+
+variable {ℓ : ℕ} {F : ℕᵒᵖ ⥤ Ab.{u}} (hF : IsEllPowerTorsionSystem ℓ F)
+include hF
+
+/-- On the `r`-th stage of an `ℓ`-power torsion system, multiplication by a natural number
+depends only on its class modulo `ℓ ^ r`. -/
+theorem IsEllPowerTorsionSystem.nsmul_id_congr {r m n : ℕ} (h : (m : ZMod (ℓ ^ r)) = n) :
+    m • 𝟙 (F.obj (op r)) = n • 𝟙 (F.obj (op r)) := by
+  have key : ∀ k : ℕ, k • 𝟙 (F.obj (op r)) = (k % ℓ ^ r) • 𝟙 (F.obj (op r)) := fun k ↦ by
+    conv_lhs => rw [← Nat.mod_add_div k (ℓ ^ r)]
+    rw [add_nsmul, mul_comm (ℓ ^ r), mul_smul, hF r, smul_zero, add_zero]
+  rw [key m, key n, (ZMod.natCast_eq_natCast_iff' m n (ℓ ^ r)).mp h]
+
+variable [Fact ℓ.Prime]
+
+omit hF in
+/-- The canonical lift of `a mod ℓ^r` reduces back to it. -/
+private theorem natCast_val_toZModPow' (r : ℕ) (a : ℤ_[ℓ]) :
+    ((PadicInt.toZModPow r a).val : ZMod (ℓ ^ r)) = PadicInt.toZModPow r a :=
+  have : NeZero (ℓ ^ r) := ⟨pow_ne_zero r (Fact.out : ℓ.Prime).ne_zero⟩
+  ZMod.natCast_zmod_val _
+
+/-- The action of `ℤ_[ℓ]` on the `r`-th stage of an `ℓ`-power torsion system: an `ℓ`-adic
+integer acts as multiplication by the canonical natural-number lift of its reduction modulo
+`ℓ ^ r`.  For the classical inverse system this is the action of
+`Hartshorne.Weil.RationalEllAdicCohomology`. -/
+noncomputable def ellAdicStagePadicIntAction (r : ℕ) : ℤ_[ℓ] →+* End (F.obj (op r)) where
+  toFun a := (PadicInt.toZModPow r a).val • 𝟙 _
+  map_one' := by
+    refine (hF.nsmul_id_congr (n := 1) ?_).trans (one_smul ℕ _)
+    rw [natCast_val_toZModPow', map_one, Nat.cast_one]
+  map_mul' a b := by
+    rw [End.mul_def, Preadditive.nsmul_comp, Preadditive.comp_nsmul, Category.id_comp,
+      ← mul_smul]
+    refine hF.nsmul_id_congr ?_
+    rw [Nat.cast_mul, natCast_val_toZModPow', natCast_val_toZModPow', natCast_val_toZModPow',
+      map_mul, mul_comm]
+  map_zero' := by
+    change (PadicInt.toZModPow r 0).val • 𝟙 _ = 0
+    rw [map_zero, ZMod.val_zero, zero_smul]
+  map_add' a b := by
+    refine (hF.nsmul_id_congr (n := _ + _) ?_).trans (add_nsmul _ _ _)
+    rw [Nat.cast_add, natCast_val_toZModPow', natCast_val_toZModPow', natCast_val_toZModPow',
+      map_add]
+
+/-- The action of `a` on the `r`-th stage is multiplication by the lift of `a mod ℓ^r`. -/
+theorem ellAdicStagePadicIntAction_apply (r : ℕ) (a : ℤ_[ℓ]) :
+    ellAdicStagePadicIntAction hF r a = (PadicInt.toZModPow r a).val • 𝟙 _ :=
+  rfl
+
+/-- The action of `ℤ_[ℓ]` commutes with every morphism from a later stage to an earlier one. -/
+theorem comp_ellAdicStagePadicIntAction {r s : ℕ} (h : r ≤ s)
+    (g : F.obj (op s) ⟶ F.obj (op r)) (a : ℤ_[ℓ]) :
+    g ≫ ellAdicStagePadicIntAction hF r a = ellAdicStagePadicIntAction hF s a ≫ g := by
+  have hcast : ((PadicInt.toZModPow s a).val : ZMod (ℓ ^ r)) =
+      ((PadicInt.toZModPow r a).val : ZMod (ℓ ^ r)) := by
+    have : NeZero (ℓ ^ s) := ⟨pow_ne_zero s (Fact.out : ℓ.Prime).ne_zero⟩
+    rw [natCast_val_toZModPow', ZMod.natCast_val, ← ZMod.castHom_apply (h := pow_dvd_pow ℓ h)]
+    exact RingHom.congr_fun (PadicInt.zmod_cast_comp_toZModPow r s h) a
+  have e := congrArg (g ≫ ·) (hF.nsmul_id_congr hcast)
+  simp only [Preadditive.comp_nsmul, Category.comp_id] at e
+  rw [ellAdicStagePadicIntAction_apply, ellAdicStagePadicIntAction_apply,
+    Preadditive.comp_nsmul, Preadditive.nsmul_comp, Category.comp_id, Category.id_comp]
+  exact e.symm
+
+/-- The action of `ℤ_[ℓ]` on an `ℓ`-power torsion system. -/
+noncomputable def ellAdicSystemPadicIntAction : ℤ_[ℓ] →+* End F where
+  toFun a :=
+    { app r := ellAdicStagePadicIntAction hF r.unop a
+      naturality _ _ f := comp_ellAdicStagePadicIntAction hF (leOfHom f.unop) _ a }
+  map_one' := by
+    refine NatTrans.ext (funext fun r ↦ ?_)
+    exact map_one (ellAdicStagePadicIntAction hF r.unop)
+  map_mul' a b := by
+    refine NatTrans.ext (funext fun r ↦ ?_)
+    exact map_mul (ellAdicStagePadicIntAction hF r.unop) a b
+  map_zero' := by
+    refine NatTrans.ext (funext fun r ↦ ?_)
+    exact map_zero (ellAdicStagePadicIntAction hF r.unop)
+  map_add' a b := by
+    refine NatTrans.ext (funext fun r ↦ ?_)
+    exact map_add (ellAdicStagePadicIntAction hF r.unop) a b
+
+/-- The action of `ℤ_[ℓ]` on the inverse limit of an `ℓ`-power torsion system. -/
+noncomputable def ellAdicLimitPadicIntAction : ℤ_[ℓ] →+* End (limit F) where
+  toFun a := limMap (ellAdicSystemPadicIntAction hF a)
+  map_one' := by
+    rw [map_one]
+    exact lim.map_id _
+  map_mul' a b := by
+    rw [map_mul]
+    exact lim.map_comp _ _
+  map_zero' := by
+    change limMap (ellAdicSystemPadicIntAction hF 0) = (0 : limit F ⟶ limit F)
+    refine limit.hom_ext fun r ↦ ?_
+    rw [limMap_π, map_zero, NatTrans.app_zero, Limits.comp_zero, Limits.zero_comp]
+  map_add' a b := by
+    change limMap (ellAdicSystemPadicIntAction hF (a + b)) =
+      (limMap (ellAdicSystemPadicIntAction hF a) + limMap (ellAdicSystemPadicIntAction hF b) :
+        limit F ⟶ limit F)
+    refine limit.hom_ext fun r ↦ ?_
+    rw [Preadditive.add_comp, limMap_π, limMap_π, limMap_π, map_add, NatTrans.app_add,
+      Preadditive.comp_add]
+
+/-- The `ℤ_[ℓ]`-module structure on the inverse limit of an `ℓ`-power torsion system. -/
+noncomputable abbrev ellAdicLimitModule : Module ℤ_[ℓ] ((limit F : Ab.{u}) : Type u) where
+  smul a x := (ellAdicLimitPadicIntAction hF a).hom x
+  one_smul x := by
+    change (ellAdicLimitPadicIntAction hF 1).hom x = x
+    rw [map_one]
+    rfl
+  mul_smul a b x := by
+    change (ellAdicLimitPadicIntAction hF (a * b)).hom x = _
+    rw [map_mul]
+    rfl
+  smul_zero a := map_zero _
+  smul_add a x y := map_add _ x y
+  add_smul a b x := by
+    change (ellAdicLimitPadicIntAction hF (a + b)).hom x = _
+    rw [map_add]
+    rfl
+  zero_smul x := by
+    change (ellAdicLimitPadicIntAction hF 0).hom x = 0
+    rw [map_zero]
+    rfl
+
+end EllAdicLimitModule
+
+end Hartshorne
+
+namespace AlgebraicGeometry.Scheme
+
+open Hartshorne
+
+variable (X : Scheme.{u}) (ℓ : ℕ)
+
+/-- The inverse system `r ↦ H^i_et(X, ℤ/ℓ^r(q))` is an `ℓ`-power torsion system. -/
+theorem isEllPowerTorsionSystem_ellAdicTwistCohomologySystem [NeZero ℓ] (q : ℤ) (i : ℕ) :
+    IsEllPowerTorsionSystem ℓ (X.ellAdicTwistCohomologySystem ℓ q i) :=
+  fun r ↦ X.ellAdicTwistCohomologySystem_pow_nsmul_id ℓ q i r
+
+/-- A prime is nonzero. -/
+theorem _root_.Hartshorne.neZero_of_factPrime [Fact ℓ.Prime] : NeZero ℓ :=
+  ⟨(Fact.out : ℓ.Prime).ne_zero⟩
+
+attribute [local instance] Hartshorne.neZero_of_factPrime
+
+variable [Fact ℓ.Prime]
+
+/-- The `ℤ_[ℓ]`-module structure on `H^i(X, ℤ_ℓ(q))`. -/
+noncomputable instance classicalEllAdicCohomologyTwistModule (q : ℤ) (i : ℕ) :
+    Module ℤ_[ℓ] (X.classicalEllAdicCohomologyTwist ℓ q i) :=
+  ellAdicLimitModule (X.isEllPowerTorsionSystem_ellAdicTwistCohomologySystem ℓ q i)
+
+/-- With the trivial twist this is the `ℤ_[ℓ]`-module structure of
+`Hartshorne.Weil.RationalEllAdicCohomology`. -/
+theorem classicalEllAdicCohomologyTwistModule_zero (i : ℕ) :
+    X.classicalEllAdicCohomologyTwistModule ℓ 0 i = X.classicalEllAdicCohomologyModule ℓ i :=
+  rfl
+
+/-- Rational `ℓ`-adic cohomology with Tate-twisted coefficients
+`H^i(X, ℚ_ℓ(q)) = H^i(X, ℤ_ℓ(q)) ⊗_{ℤ_ℓ} ℚ_ℓ`, for every integer `q`, as a `ℚ_[ℓ]`-module. -/
+noncomputable def rationalEllAdicCohomologyTwist (q : ℤ) (i : ℕ) : ModuleCat.{u} ℚ_[ℓ] :=
+  ModuleCat.of ℚ_[ℓ] (TensorProduct ℤ_[ℓ] ℚ_[ℓ] (X.classicalEllAdicCohomologyTwist ℓ q i))
+
+/-- With the trivial twist this is the rational `ℓ`-adic cohomology `H^i_et(X, ℚ_ℓ)`. -/
+theorem rationalEllAdicCohomologyTwist_zero (i : ℕ) :
+    X.rationalEllAdicCohomologyTwist ℓ 0 i = X.rationalEllAdicCohomology ℓ i :=
   rfl
 
 end AlgebraicGeometry.Scheme

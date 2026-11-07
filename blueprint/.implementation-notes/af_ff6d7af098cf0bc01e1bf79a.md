@@ -112,6 +112,19 @@ needed for these constructions, apart from `ℓ` prime for `ℤ_[ℓ]` and `ℚ_
 - Mathlib's `presheafHom` / `sheafHom` give the internal Hom only as a sheaf of types in
   `Type (u+1)`. The smallness argument and the shrinking above fill this gap.
 
+## Cleanup list
+
+- The generic `ℤ_[ℓ]`-module construction (`Hartshorne.IsEllPowerTorsionSystem`,
+  `ellAdicStagePadicIntAction`, `ellAdicSystemPadicIntAction`, `ellAdicLimitPadicIntAction`,
+  `ellAdicLimitModule`) duplicates main's construction in
+  `Hartshorne.Weil.RationalEllAdicCohomology` term for term.
+  - `natCast_val_toZModPow'` duplicates main's private `natCast_val_toZModPow`.
+  - `IsEllPowerTorsionSystem.nsmul_id_congr` duplicates
+    `torsionEtaleCohomology_nsmul_id_congr`.
+  - Main's construction should later be derived from the generic one: its system is
+    `ellAdicTwistCohomologySystem X ℓ 0 i`, and its torsion hypothesis is
+    `torsionEtaleCohomology_pow_nsmul_id`. The `q = 0` comparisons are already definitional.
+
 ## Remaining goal
 
 No Lean work remains for the objects the article lists. What remains is the Roadmap step: create
