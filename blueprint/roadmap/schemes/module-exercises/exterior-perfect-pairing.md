@@ -23,6 +23,7 @@ $\bigwedge^r F\cong(\bigwedge^{n-r}F)^\vee\otimes\bigwedge^n F$.
 - [Sheaf tensor, symmetric, and exterior operations](sheaf-tensor-operations.md)
 - [Module sheaf Hom](../modules-and-quasicoherent/module-sheaf-hom.md)
 - [Finite locally free duality](../modules-and-quasicoherent/finite-locally-free-duality.md)
+- [Tensor products of module sheaves](../modules-and-quasicoherent/module-tensor-product.md)
 
 ## Proof depends on
 
