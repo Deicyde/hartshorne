@@ -53,7 +53,8 @@ theorem exists_cotangentSpace_localization_toTensor :
   let κ := Q.ResidueField
   have : Algebra.FormallyEtale P B := .of_isLocalization Q.primeCompl
   let e := tensorKaehlerEquivOfFormallyEtale k P B
-  have hker : maximalIdeal B = RingHom.ker (algebraMap B κ) := (IsLocalRing.ker_residue (R := B)).symm
+  have hker : maximalIdeal B = RingHom.ker (algebraMap B κ) :=
+    (IsLocalRing.ker_residue (R := B)).symm
   let ψB : CotangentSpace B →ₗ[B] κ ⊗[P] Ω[P⁄k] :=
     ((AlgebraTensorModule.cancelBaseChange P B κ κ Ω[P⁄k]).restrictScalars B).toLinearMap ∘ₗ
       (e.symm.toLinearMap.lTensor κ) ∘ₗ kerCotangentToTensor k B κ ∘ₗ

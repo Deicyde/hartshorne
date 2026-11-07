@@ -442,6 +442,7 @@ import Hartshorne.Scheme.Differentials.RelativeDifferentialsFibreRank
 import Hartshorne.Scheme.Differentials.RegularQuotientCotangentIndependent
 import Hartshorne.Scheme.Differentials.JacobianRegularQuotient
 import Hartshorne.Scheme.Differentials.StandardSmoothFieldDimension
+import Hartshorne.Scheme.Differentials.DifferentialCriterionField
 import Hartshorne.Scheme.Differentials.RegularLocalDifferentialCriterion
 import Hartshorne.Scheme.ProjectiveWeilDivisorDegree
 import Hartshorne.RingedSpace.FiniteLocallyFreeDuality
