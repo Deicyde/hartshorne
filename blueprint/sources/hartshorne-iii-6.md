@@ -105,9 +105,12 @@ locator for this local-to-global Ext spectral sequence.
   Proposition 21.
 
 The three cited Matsumura/Serre passages have not yet been inspected directly.
-Accordingly the regular-local global-dimension, residue-field, and
-Auslander–Buchsbaum leaves remain source-blocked; the generic Ext criterion is
-already supplied exactly by pinned Mathlib.
+Accordingly the regular-local global-dimension and Auslander–Buchsbaum leaves
+remain source-blocked. The residue-field leaf (`pd_A(A/m)=dim A`, with `dim A` the
+Krull dimension) is not blocked: its article gives a self-contained proof from a
+regular sequence of length `dim A` generating `m`, so it does not rely on the
+uninspected Matsumura passage. The generic Ext criterion is already supplied
+exactly by pinned Mathlib.
 
 ## Adopted exercises, printed pp.237–238
 
@@ -187,5 +190,5 @@ propagate one `HasExt` universe for `Scheme.Modules X`, lift open extension by
 zero and its adjunction to module sheaves, encode finite rank in the locally
 free API, construct the extension setoid, and expand the hinted
 descending-induction proof of Exercise 6.6. The quoted Matsumura and Serre
-passages must be checked directly before the three source-blocked
-regular-local leaves are made ready.
+passages must be checked directly before the two remaining source-blocked
+regular-local leaves (global dimension and Auslander–Buchsbaum) are made ready.
