@@ -579,6 +579,44 @@ theorem IsFiniteLocallyFree.isFinitePresentation {M : SheafOfModules.{u} (ringCa
     · exact ⟨inferInstanceAs (Finite (ULift.{u} Empty))⟩
   exact SheafOfModules.IsFinitePresentation.mk.{u, u, u} ⟨q.quasiCoherentData, hq⟩
 
+/-- A module sheaf which is locally free of finite rank is quasi-coherent. -/
+theorem IsFiniteLocallyFree.isQuasicoherent {M : SheafOfModules.{u} (ringCatSheafOf R)}
+    (hM : IsFiniteLocallyFree M) : SheafOfModules.IsQuasicoherent.{u, u, u} M :=
+  have := hM.isFinitePresentation
+  inferInstance
+
+/-- **The symmetric algebra of a locally free module of finite rank is quasi-coherent.** Over an
+open `U` on which `E` is free with frame `e`, each `(S^d E)|_U` is free on the monomials of degree
+`d` in `e`, so `S(E)|_U = ⊕_d (S^d E)|_U` is free. -/
+theorem IsFiniteLocallyFree.isQuasicoherent_moduleSheafSymmetricAlgebra
+    (hE : IsFiniteLocallyFree E) :
+    SheafOfModules.IsQuasicoherent.{u, u, u} (moduleSheafSymmetricAlgebra E) := by
+  classical
+  choose U hxU n α using hE
+  have hloc : ∀ x, SheafOfModules.IsQuasicoherent.{u, u, u}
+      ((moduleSheafSymmetricAlgebra E).over (U x)) := by
+    intro x
+    let : LinearOrder (ULift.{u} (Fin (n x))) :=
+      LinearOrder.lift' (Fintype.equivFin _) (Fintype.equivFin _).injective
+    have he := isLocalFrame_of_over_iso (α x).some
+    let T : ℕ → Type u := fun d => MonotoneWord (ULift.{u} (Fin (n x))) d
+    let β : ∀ d, (Hartshorne.moduleSheafSymmetricPower d E).over (U x) ≅ SheafOfModules.free (T d) :=
+      fun d => (nonempty_over_iso_free_of_isLocalFrame
+        (IsLocalFrame.moduleSheafSymmetricPower he d)).some
+    let G := SheafOfModules.overFunctor (ringCatSheafOf R) (U x)
+    have : G.IsLeftAdjoint :=
+      inferInstanceAs (SheafOfModules.pushforward (𝟙 ((ringCatSheafOf R).over (U x)))).IsLeftAdjoint
+    have hG := isColimitOfPreserves G (moduleSheafSymmetricAlgebra_isColimit E)
+    have hF := isColimitOfPreserves (SheafOfModules.freeFunctor (R := (ringCatSheafOf R).over (U x)))
+      (Types.coproductColimitCocone.{0, u} T).isColimit
+    let e := hG.coconePointsIsoOfNatIso hF (Discrete.natIso fun d => β d.as)
+    exact (SheafOfModules.isQuasicoherent ((ringCatSheafOf R).over (U x))).prop_of_iso e.symm
+      (inferInstanceAs (SheafOfModules.IsQuasicoherent.{u, u, u}
+        (SheafOfModules.free (R := (ringCatSheafOf R).over (U x)) (Σ d, T d))))
+  refine SheafOfModules.IsQuasicoherent.of_coversTop (moduleSheafSymmetricAlgebra E) U ?_
+  rw [Opens.coversTop_iff, IsOpenCover, eq_top_iff]
+  exact fun x _ => Opens.mem_iSup.mpr ⟨x, hxU x⟩
+
 end LocallyFree
 
 end Ringed
