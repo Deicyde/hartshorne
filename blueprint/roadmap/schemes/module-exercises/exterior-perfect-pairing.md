@@ -2,6 +2,9 @@
 article_id: af_b8fb6a4359a185c434f8d531
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.ExteriorPerfectPairing.exteriorPowerPairing Hartshorne.ExteriorPerfectPairing.exteriorPowerPairing_tmul Hartshorne.ExteriorPerfectPairing.exteriorPowerPairingCurry Hartshorne.ExteriorPerfectPairing.exteriorPowerPairingCurry_eval Hartshorne.ExteriorPerfectPairing.exteriorPowerPairingCurry_isIso Hartshorne.ExteriorPerfectPairing.exteriorPowerPerfectPairingIso Hartshorne.ExteriorPerfectPairing.exteriorPowerDualTensorIso
 ---
 
 # The perfect exterior-power pairing
