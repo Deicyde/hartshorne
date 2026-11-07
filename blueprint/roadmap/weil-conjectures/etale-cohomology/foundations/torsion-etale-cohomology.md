@@ -2,6 +2,9 @@
 article_id: af_50d4474dff844cd886e04b0c
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.torsionEtaleCohomology AlgebraicGeometry.Scheme.torsionEtaleCohomologyPullback
 ---
 
 # Torsion étale cohomology

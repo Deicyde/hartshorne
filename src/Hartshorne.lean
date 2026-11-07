@@ -388,6 +388,7 @@ import Hartshorne.Scheme.AbsoluteNormalizationUniversal
 import Hartshorne.Scheme.AffineUFDClassGroup
 import Hartshorne.Scheme.CoherentAffineLocalCriterion
 import Hartshorne.Cohomology.SheafifiedCechResolution
+import Hartshorne.Weil.EtaleInverseImage
 import Hartshorne.Weil.TorsionEtaleCohomology
 import Hartshorne.Intersection.RawCyclePushforward
 import Hartshorne.Intersection.RationalEquivalence
