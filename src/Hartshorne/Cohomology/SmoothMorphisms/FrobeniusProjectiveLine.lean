@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Cohomology.SmoothMorphisms.ProjectiveSpaceSmooth
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsFibreRank
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsTransitivity
+import Hartshorne.Scheme.Regular
 import Hartshorne.Weil.FiniteFieldFrobenius
 import Mathlib.AlgebraicGeometry.AlgClosed.Basic
 import Mathlib.AlgebraicGeometry.Fiber
@@ -12,7 +13,7 @@ import Mathlib.AlgebraicGeometry.Fiber
 /-!
 # Frobenius on the projective line is nowhere smooth
 
-Hartshorne, *Algebraic Geometry*, III.10, Example 10.5.1 (p. 272).
+Hartshorne, *Algebraic Geometry*, III.10, Example 10.5.1 (p. 272) and Remark 10.9.3 (p. 275).
 
 Let `k` be an algebraically closed field of characteristic `p > 0`, and let
 `F : ℙ¹_k ⟶ ℙ¹_k` be the Frobenius morphism, here the absolute Frobenius: the identity on points
@@ -28,6 +29,11 @@ only by an automorphism of the scheme `ℙ¹_k`, which does not affect any of th
 * `F` is smooth on no nonempty open: on affine charts `A → B` of a smooth restriction, the map
   `B ⊗_A Ω_{A/ℤ} ⟶ Ω_{B/ℤ}` would be injective (as `H₁(L_{B/A}) = 0`), but it is zero, while its
   source surjects onto `B` because `Ω_{A/k}` is free of rank one on a standard smooth chart.
+* The pullback of a closed point `P` (a hyperplane of `ℙ¹_k`), the scheme-theoretic fibre over
+  `P`, is nonreduced: on an affine chart `A` around `P` with maximal ideal `q` it is
+  `Spec (κ(q) ⊗_{A,F} A)`, in which `1 ⊗ t` is nilpotent and nonzero for any `t ∈ q` outside
+  `q² A_q`; such a `t` exists because some derivation of `A` does not preserve `q`. A regular
+  scheme with one point is reduced, so these fibres are not regular either.
 -/
 
 noncomputable section
@@ -155,20 +161,49 @@ theorem topologicalKrullDim_eq_zero_of_subsingleton (T : Type*) [TopologicalSpac
     ⟨⟨closure {x}, isIrreducible_singleton.closure, isClosed_closure⟩⟩
   exact Order.krullDim_nonneg
 
-/-- Every scheme-theoretic fibre of the absolute Frobenius is a single point, hence has
-dimension zero. -/
-theorem absoluteFrobenius_fiber_topologicalKrullDim (X : Scheme.{u}) (p : ℕ) [Fact p.Prime]
-    [X.IsCharP p] (y : X) : topologicalKrullDim ((X.absoluteFrobenius p).fiber y) = 0 := by
-  rw [IsHomeomorph.topologicalKrullDim_eq _ ((X.absoluteFrobenius p).fiberHomeo y).isHomeomorph]
+/-- Every scheme-theoretic fibre of the absolute Frobenius has at most one point. -/
+instance absoluteFrobenius_fiber_subsingleton (X : Scheme.{u}) (p : ℕ) [Fact p.Prime]
+    [X.IsCharP p] (y : X) : Subsingleton ((X.absoluteFrobenius p).fiber y) := by
   have : Subsingleton ((X.absoluteFrobenius p) ⁻¹' {y}) :=
     ⟨fun a b => Subtype.ext (by
       have ha : X.absoluteFrobenius p a = y := a.2
       have hb : X.absoluteFrobenius p b = y := b.2
       rw [absoluteFrobenius_apply] at ha hb
       rw [ha, hb])⟩
-  have : Nonempty ((X.absoluteFrobenius p) ⁻¹' {y}) :=
-    ⟨⟨y, by simp⟩⟩
+  exact ((X.absoluteFrobenius p).fiberHomeo y).injective.subsingleton
+
+/-- Every scheme-theoretic fibre of the absolute Frobenius is a single point, hence has
+dimension zero. -/
+theorem absoluteFrobenius_fiber_topologicalKrullDim (X : Scheme.{u}) (p : ℕ) [Fact p.Prime]
+    [X.IsCharP p] (y : X) : topologicalKrullDim ((X.absoluteFrobenius p).fiber y) = 0 := by
+  have : Nonempty ((X.absoluteFrobenius p).fiber y) :=
+    ⟨((X.absoluteFrobenius p).fiberHomeo y).symm ⟨y, by simp⟩⟩
   exact topologicalKrullDim_eq_zero_of_subsingleton _
+
+/-- A regular scheme with at most one point is reduced: its local rings have dimension zero, so
+regularity forces their maximal ideals to vanish. -/
+theorem isReduced_of_isRegular_of_subsingleton (X : Scheme.{u}) [Subsingleton X]
+    (h : X.IsRegular) : IsReduced X := by
+  have : ∀ x : X, _root_.IsReduced (X.presheaf.stalk x) := by
+    intro x
+    have hreg : IsRegularLocalRing (X.presheaf.stalk x) := h.2 x
+    have hsub : Subsingleton (PrimeSpectrum (X.presheaf.stalk x)) :=
+      ⟨fun a b => (X.fromSpecStalk x).isEmbedding.injective (Subsingleton.elim _ _)⟩
+    have : Ring.KrullDimLE 0 (X.presheaf.stalk x) := Ring.krullDimLE_zero_iff.mpr fun I hI => by
+      have hI' : (⟨I, hI⟩ : PrimeSpectrum _) =
+          ⟨IsLocalRing.maximalIdeal _, inferInstance⟩ := Subsingleton.elim _ _
+      rw [show I = IsLocalRing.maximalIdeal _ from congrArg PrimeSpectrum.asIdeal hI']
+      exact IsLocalRing.maximalIdeal.isMaximal _
+    have hdim : ringKrullDim (X.presheaf.stalk x) = 0 :=
+      ringKrullDimZero_iff_ringKrullDim_eq_zero.mp this
+    have hspan := hreg.spanFinrank_maximalIdeal
+    rw [hdim] at hspan
+    have h0 : (IsLocalRing.maximalIdeal (X.presheaf.stalk x)).spanFinrank = 0 := by
+      exact_mod_cast hspan
+    have hbot := (Submodule.spanFinrank_eq_zero_iff_eq_bot (IsNoetherian.noetherian _)).mp h0
+    let := (IsLocalRing.isField_iff_maximalIdeal_eq.mpr hbot).toField
+    infer_instance
+  exact isReduced_of_isReduced_stalk X
 
 /-- If `A → B` is formally smooth, `B ≠ 0`, every `d(φ a)` vanishes in `Ω_{B/ℤ}`, and `Ω_{A/ℤ}`
 surjects onto `A`, we have a contradiction: `B ⊗_A Ω_{A/ℤ} → Ω_{B/ℤ}` is injective, but it is
@@ -487,14 +522,23 @@ theorem absoluteFrobenius_fiber_not_isReduced [IsAlgClosed k]
   exact not_isReduced_residueField_tensor_of_frobenius hp q ρ hφ (a - μ ^ p) (a - μ ^ p)
     (hφ _) rfl hμ ht hred₃
 
+/-- The pullback under the absolute Frobenius of `ℙ¹_k` of a closed point is not a regular
+scheme. -/
+theorem absoluteFrobenius_fiber_not_isRegular [IsAlgClosed k]
+    (y : projectiveSpaceOverScheme 1 (Spec (.of k))) (hy : IsClosed {y}) :
+    ¬ (((projectiveSpaceOverScheme 1 (Spec (.of k))).absoluteFrobenius p).fiber y).IsRegular :=
+  fun h => absoluteFrobenius_fiber_not_isReduced k p y hy (isReduced_of_isRegular_of_subsingleton _ h)
+
 end Frobenius
 
-/-- **Hartshorne III, Example 10.5.1.** Let `k` be an algebraically closed field of
-characteristic `p > 0` and let `F : ℙ¹_k ⟶ ℙ¹_k` be the Frobenius morphism. Then
+/-- **Hartshorne III, Example 10.5.1 and Remark 10.9.3.** Let `k` be an algebraically closed
+field of characteristic `p > 0` and let `F : ℙ¹_k ⟶ ℙ¹_k` be the Frobenius morphism. Then
 1. `F` has relative dimension zero: every scheme-theoretic fibre has dimension zero;
 2. `F` is smooth on no nonempty open subset of `ℙ¹_k`;
-3. the map `F^*Ω_{ℙ¹} ⟶ Ω_{ℙ¹}` on absolute differentials is zero; and
-4. the relative differential sheaf `Ω_{ℙ¹/F}` is locally free of rank one. -/
+3. the map `F^*Ω_{ℙ¹} ⟶ Ω_{ℙ¹}` on absolute differentials is zero;
+4. the relative differential sheaf `Ω_{ℙ¹/F}` is locally free of rank one; and
+5. the pullback under `F` of every point of the target (a hyperplane of `ℙ¹_k`), that is, the
+   scheme-theoretic fibre over a closed point, is nonreduced and not regular. -/
 theorem frobenius_projectiveLine_nowhere_smooth (k : Type u) [Field k] [IsAlgClosed k]
     (p : ℕ) [Fact p.Prime] [CharP k p] :
     (∀ y : projectiveSpaceOverScheme 1 (Spec (.of k)), topologicalKrullDim
@@ -506,9 +550,14 @@ theorem frobenius_projectiveLine_nowhere_smooth (k : Type u) [Field k] [IsAlgClo
         ((projectiveSpaceOverScheme 1 (Spec (.of k))).absoluteFrobenius p)
         (schemeToSpecZ (projectiveSpaceOverScheme 1 (Spec (.of k)))) = 0 ∧
     (relativeDifferentials
-      ((projectiveSpaceOverScheme 1 (Spec (.of k))).absoluteFrobenius p)).IsLocallyFreeOfRank 1 :=
+      ((projectiveSpaceOverScheme 1 (Spec (.of k))).absoluteFrobenius p)).IsLocallyFreeOfRank 1 ∧
+    (∀ y : projectiveSpaceOverScheme 1 (Spec (.of k)), IsClosed {y} →
+      ¬ IsReduced (((projectiveSpaceOverScheme 1 (Spec (.of k))).absoluteFrobenius p).fiber y) ∧
+      ¬ (((projectiveSpaceOverScheme 1 (Spec (.of k))).absoluteFrobenius p).fiber y).IsRegular) :=
   ⟨absoluteFrobenius_fiber_topologicalKrullDim _ p, absoluteFrobenius_not_smooth_on_open k p,
     pullbackRelativeDifferentialsToComp_absoluteFrobenius_eq_zero k p 1,
-    relativeDifferentials_absoluteFrobenius_isLocallyFreeOfRank_one k p⟩
+    relativeDifferentials_absoluteFrobenius_isLocallyFreeOfRank_one k p,
+    fun y hy => ⟨absoluteFrobenius_fiber_not_isReduced k p y hy,
+      absoluteFrobenius_fiber_not_isRegular k p y hy⟩⟩
 
 end Hartshorne
