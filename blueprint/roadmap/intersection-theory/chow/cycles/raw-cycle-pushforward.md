@@ -23,6 +23,7 @@ through rational equivalence.
 - [Codimension cycles](codimension-cycle-group.md)
 - [Scheme-theoretic image](../../../schemes/subschemes-and-dimension/scheme-theoretic-image.md)
 - [Function fields of integral schemes](../../../schemes/normalization-and-exercises/function-field-integral-scheme.md)
+- [The dimension-codimension formula](../../../schemes/subschemes-and-dimension/dimension-codimension-formula.md)
 
 ## Sources
 
