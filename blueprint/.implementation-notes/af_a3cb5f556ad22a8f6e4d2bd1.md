@@ -4,7 +4,7 @@
 
 - `deg(V.X) = deg(V) * deg(X)`
 
-## Status: proved in Lean with the extra hypothesis dim X ≥ 1; unrecorded pending a statement fix
+## Status: proved in Lean; statement corrected by the roadmap revision, `lean:` still to record
 
 The scheme setting of the dependencies: $\mathbb{P}^n_k = \operatorname{Proj} S$ with
 $S = k[x_0,\dots,x_n]$, $\iota : X \to \mathbb{P}^n_k$ a closed immersion with $X$ satisfying
@@ -13,17 +13,18 @@ homogeneous prime of $\iota(\eta_X)$, and $\mathfrak P_x$ that of $\iota(x)$. De
 projective degrees of the classical zero sets $Z(\mathfrak P)$. Bézout (Theorem I.7.7) is applied
 to the classical variety $Y = Z(\mathfrak p)$ and $H = Z(f)$.
 
-### Statement needs $\dim X \ge 1$ (Roadmap return)
+### Statement needs $\dim X \ge 1$ (resolved by the roadmap revision)
 
 For $X$ a closed point not on $V$, $V\cdot X = 0$ while $\deg V \cdot \deg X = \deg f \ge 1$.
-The blueprint's source page paraphrases the preamble as "a projective variety nonsingular in
-codimension one" and states no dimension bound; the Bézout theorem it invokes (I.7.7) assumes a
-variety of dimension at least one. Proposed wording for the article: "Let $X$ have dimension at
-least one" added to the setting, i.e. "In the setting of the ambient intersection divisor, assume
-moreover $\dim X \ge 1$." Formally the hypothesis is `Nontrivial X` (an integral scheme of finite
-type over $k$ has more than one point exactly when its dimension is at least one).
+The Bézout theorem the exercise invokes (I.7.7) assumes a variety of dimension at least one.
+Resolved by the roadmap revision: the article now asserts the degree formula "when
+$\dim X\ge 1$" and records the closed-point counterexample; the multiplicity equality (which
+needs no bound) is unchanged. Formally the hypothesis is `Nontrivial X` (an integral scheme of
+finite type over $k$ has more than one point exactly when its dimension is at least one); only
+`weilDivisorProjectiveDegree_projectiveIntersectionDivisor` carries it, matching the article.
+The ambient-divisor article (projective-intersection-divisor) needs no bound and is unchanged.
 
-### To record once the statement is corrected
+### To record (the statement is now corrected)
 
 - `lean:` `Hartshorne.weilDivisorProjectiveDegree_projectiveIntersectionDivisor`
   `Hartshorne.projectiveIntersectionDivisor_apply_eq_projectiveIntersectionMultiplicity`
@@ -34,12 +35,17 @@ type over $k$ has more than one point exactly when its dimension is at least one
 - The first theorem is $\deg(V\cdot X) = \deg V\deg X$; the second is "the valuation multiplicity
   along each component is the local intersection multiplicity", the components being matched by
   the equivalence.
-- Link-only Depends-on edges the Lean then uses (all recorded on main, statement and proof
-  formalized): projective-intersection-multiplicity, projective-intersection-components-minimal-primes,
-  homogeneous-ideal-correspondence, projective-proper-closed-dimension-drop,
-  projective-zero-dimensional-variety-point, codimension-one-stalk-dvr. The existing Depends on
-  (projective-intersection-divisor, projective-weil-divisor-degree, projective-hypersurface-bezout)
-  are all used. Projective-space-class-group is not used.
+- Edges the Lean uses (all statement and proof formalized) are now linked by the roadmap
+  revision. Under Depends on, because the statements mention them:
+  projective-intersection-multiplicity (the right side of the coefficient equality) and
+  projective-intersection-components-minimal-primes (the component equivalence is built from
+  `projectiveIntersectionComponentPrimeEquivMinimalPrimes`, and the fourth declaration's
+  statement uses `projectiveIntersectionComponentPrime`). Under Proof depends on, used only in
+  proofs: codimension-one-stalk-dvr, homogeneous-ideal-correspondence,
+  projective-proper-closed-dimension-drop, projective-zero-dimensional-variety-point. The existing
+  Depends on (projective-intersection-divisor, projective-weil-divisor-degree,
+  projective-hypersurface-bezout) are all used. Projective-space-class-group is not used (and the
+  article does not link it).
 
 ### Lean layout
 
