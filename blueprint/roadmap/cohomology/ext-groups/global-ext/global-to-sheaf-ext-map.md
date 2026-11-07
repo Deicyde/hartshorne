@@ -21,6 +21,7 @@ degree zero, and be natural in both arguments. No isomorphism is asserted.
 
 - [Global Ext from an injective resolution](global-ext-injective-resolution.md)
 - [Sheaf Ext](../sheaf-ext/sheaf-ext.md)
+- [The contravariant long exact sequence of sheaf Ext](../sheaf-ext/sheaf-ext-contravariant-long-exact.md)
 
 ## Proof depends on
 
