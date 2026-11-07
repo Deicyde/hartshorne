@@ -22,6 +22,7 @@ are its uniqueness and existence halves.
 - [Locally free and invertible modules](../modules-and-quasicoherent/locally-free-and-invertible.md)
 - [Quasi-coherence by local presentations](../modules-and-quasicoherent/quasicoherent-local-presentations.md)
 - [Tensor products of module sheaves](../modules-and-quasicoherent/module-tensor-product.md)
+- [Sheaf tensor, symmetric, and exterior operations](../module-exercises/sheaf-tensor-operations.md)
 
 ## Proof depends on
 
