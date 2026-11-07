@@ -2,6 +2,9 @@
 article_id: af_6419a3b53adfd67b778e0e9d
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.CartierDivisor.mulTotalQuotient AlgebraicGeometry.Scheme.CartierDivisor.tensorIso AlgebraicGeometry.Scheme.CartierDivisor.tensorIso_hom_comp_sheafι AlgebraicGeometry.Scheme.CartierDivisor.negToDual AlgebraicGeometry.Scheme.CartierDivisor.negIsoDual AlgebraicGeometry.Scheme.CartierDivisor.toK_dualEval_negToDual AlgebraicGeometry.Scheme.CartierDivisor.subIsoTensorDual AlgebraicGeometry.Scheme.CartierDivisor.subIsoTensorDual_inv_comp_sheafι AlgebraicGeometry.Scheme.CartierDivisor.subIsoTensorDual_inv_tmul
 ---
 
 # Arithmetic of associated divisor sheaves
