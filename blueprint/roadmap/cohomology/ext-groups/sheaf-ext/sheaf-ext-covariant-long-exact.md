@@ -19,6 +19,7 @@ $0 \longrightarrow \mathcal{H}om(F,G') \longrightarrow \mathcal{H}om(F,G) \longr
 
 - [Sheaf Ext](sheaf-ext.md)
 - [The long exact sequence of right derived functors](../../derived-functors/right-derived-long-exact-sequence.md)
+- [Sheaf Hom as a left-exact functor](module-sheaf-hom-left-exact.md)
 
 ## Sources
 
