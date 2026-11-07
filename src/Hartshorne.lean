@@ -510,3 +510,4 @@ import Hartshorne.Scheme.GloballyGenerated
 import Hartshorne.RingedSpace.SheafExt
 import Hartshorne.RingedSpace.SheafExtStructureSheaf
 import Hartshorne.Scheme.SymmetricAlgebraSheaf
+import Hartshorne.Scheme.Differentials.EulerSequenceMaps
