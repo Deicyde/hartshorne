@@ -5,8 +5,8 @@ article_id: af_945cb79812a2a68b25a6532c
 # Coherent sheaves, ideals, and support
 
 This milestone covers the ideal-sheaf consequences of Hartshorne II.5 and the
-adopted coherence exercises: support, stalkwise local freeness, and extension
-from an open subset. It depends on the affine quasi-coherent and coherent
+adopted coherence exercises: support, stalkwise local freeness, local freeness
+from constant fibre dimension, and extension from an open subset. It depends on the affine quasi-coherent and coherent
 machinery in the [modules and quasi-coherent sheaves](../modules-and-quasicoherent/README.md) chapter.
 
 Sheaves of modules on the members of an open cover, with compatible
@@ -25,6 +25,7 @@ and use it to construct closed subschemes.
 - [Affine sections with support](affine-sections-with-support.md)
 - [Quasi-coherence of sections with support](sections-with-support-quasicoherent.md)
 - [The free locus of a coherent sheaf](coherent-free-locus.md)
+- [Constant fibre dimension forces local freeness](coherent-constant-fibre-rank-locally-free.md)
 - [Affine extension of coherent sheaves](coherent-extension-affine.md)
 - [Extension of coherent sheaves](coherent-extension.md)
 - [Closed immersions are finite](closed-immersion-finite.md)
