@@ -20,7 +20,7 @@ adjoint, preserves coproducts.
 ## Depends on
 
 - [The affine tilde sheaf and localization](tilde-localization.md)
-- [Sheaves of modules](sheaves-of-modules.md)
+- [Sheaves of modules](../sheaves-of-modules.md)
 
 ## Proof depends on
 
@@ -29,4 +29,4 @@ adjoint, preserves coproducts.
 
 ## Sources
 
-- [Hartshorne II.5, Proposition 5.2(c) on printed p. 111](../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)
+- [Hartshorne II.5, Proposition 5.2(c) on printed p. 111](../../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)

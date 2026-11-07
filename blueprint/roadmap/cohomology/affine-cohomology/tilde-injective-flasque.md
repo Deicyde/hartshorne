@@ -11,7 +11,7 @@ sheaf $\widetilde{I}$ on $\operatorname{Spec} A$ is flasque.
 
 ## Depends on
 
-- [The affine tilde sheaf and localization](../../schemes/modules-and-quasicoherent/tilde-localization.md)
+- [The affine tilde sheaf and localization](../../schemes/modules-and-quasicoherent/affine-tilde/tilde-localization.md)
 
 ## Proof depends on
 

@@ -21,7 +21,7 @@ The quotient-sheaf comparison is the unique main result.
 
 ## Proof depends on
 
-- [Exactness of the tilde functor](../../modules-and-quasicoherent/tilde-exactness.md)
+- [Exactness of the tilde functor](../../modules-and-quasicoherent/affine-tilde/tilde-exactness.md)
 - [Quotients of an adic completion](../adic-completion/adic-completion-quotients.md)
 - [Completed ideals and their powers](../adic-completion/completed-ideal-powers.md)
 - The affine section comparison on a basis of affine opens.

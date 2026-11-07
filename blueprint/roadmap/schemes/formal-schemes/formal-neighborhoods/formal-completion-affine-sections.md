@@ -22,7 +22,7 @@ map from ordinary functions.
 ## Proof depends on
 
 - [Limits of sheaves are computed pointwise](../../sheaves/limits-of-sheaves.md)
-- [The affine tilde sheaf and localization](../../modules-and-quasicoherent/tilde-localization.md)
+- [The affine tilde sheaf and localization](../../modules-and-quasicoherent/affine-tilde/tilde-localization.md)
 - Sections of affine quotient sheaves identify with ring quotients.
 
 ## Sources

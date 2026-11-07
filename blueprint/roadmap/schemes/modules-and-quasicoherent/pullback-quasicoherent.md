@@ -22,7 +22,7 @@ base change.
 
 ## Proof depends on
 
-- [Tilde under affine change of rings](tilde-affine-change-of-rings.md)
+- [Tilde under affine change of rings](affine-tilde/tilde-affine-change-of-rings.md)
 - [The affine-local criterion for quasi-coherence](quasicoherent-affine-local-criterion.md)
 - Every point of the source has an affine neighborhood mapping into an affine
   neighborhood of its image.

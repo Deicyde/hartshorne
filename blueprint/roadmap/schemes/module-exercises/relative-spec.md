@@ -24,7 +24,7 @@ of affine schemes over $Y$. No categorical equivalence is asserted here.
 ## Proof depends on
 
 - [Gluing schemes](../spectrum-and-schemes/gluing.md)
-- [Affine change of rings](../modules-and-quasicoherent/tilde-affine-change-of-rings.md)
+- [Affine change of rings](../modules-and-quasicoherent/affine-tilde/tilde-affine-change-of-rings.md)
 
 ## Sources
 

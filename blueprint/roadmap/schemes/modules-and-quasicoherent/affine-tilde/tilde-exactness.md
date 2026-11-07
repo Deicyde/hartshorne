@@ -21,9 +21,9 @@ This is the exactness clause of Proposition 5.2(a).
 
 ## Proof depends on
 
-- [Exactness is detected on stalks](../sheaves/stalkwise-exactness.md)
+- [Exactness is detected on stalks](../../sheaves/stalkwise-exactness.md)
 - Localization is an exact functor on modules.
 
 ## Sources
 
-- [Hartshorne II.5, Proposition 5.2(a) on printed pp. 110–111](../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)
+- [Hartshorne II.5, Proposition 5.2(a) on printed pp. 110–111](../../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)

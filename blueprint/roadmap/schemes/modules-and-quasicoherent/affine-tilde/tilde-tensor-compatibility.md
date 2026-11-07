@@ -16,7 +16,8 @@ monoidal for the module tensor product.
 
 ## Depends on
 
-- [Tensor products of module sheaves](module-tensor-product.md)
+- [Tensor products of module sheaves](../module-tensor-product.md)
+- [The monoidal category of sheaves of modules](../module-sheaf-monoidal-category.md)
 - [The affine tilde sheaf and localization](tilde-localization.md)
 
 ## Proof depends on
@@ -26,4 +27,4 @@ monoidal for the module tensor product.
 
 ## Sources
 
-- [Hartshorne II.5, Proposition 5.2(b) on printed p. 111](../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)
+- [Hartshorne II.5, Proposition 5.2(b) on printed p. 111](../../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)
