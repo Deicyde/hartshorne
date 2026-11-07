@@ -30,6 +30,7 @@ class group.
 - Unique factorization of homogeneous polynomials and homogeneous
   representatives of rational functions of equal degree.
 - [Codimension-one stalks are DVRs](codimension-one-stalk-dvr.md)
+- [The projective-space case of Bertini](../../differentials/canonical-bertini/bertini-projective-space-case.md)
 
 ## Sources
 
