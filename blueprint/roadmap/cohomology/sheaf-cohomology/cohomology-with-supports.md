@@ -2,6 +2,9 @@
 article_id: af_f1f2fa6af1f466bed9cd978d
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.supportedSections Hartshorne.supportedSections_preservesFiniteLimits Hartshorne.mem_range_supportedSections_iff Hartshorne.cohomologyWithSupports Hartshorne.isRightAcyclic_supportedSections_of_isFlasque Hartshorne.openRestrict Hartshorne.cohomologyWithSupportsToCohomology Hartshorne.cohomologyRestriction Hartshorne.localizationδ Hartshorne.cohomologyWithSupportsToCohomology_mono Hartshorne.localization_exact₂ Hartshorne.localization_exact₃ Hartshorne.localization_exact₁
 ---
 
 # The localization sequence for cohomology with supports
