@@ -2,6 +2,9 @@
 article_id: af_cefd5671b7a80410e671151c
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.Koszul.isZero_sequenceKoszulComplex_homology_of_isWeaklyRegular Hartshorne.Koszul.quasiIso_sequenceKoszulAugmentation Hartshorne.Koszul.sequenceKoszulAugmentation
 ---
 
 # A regular sequence gives a Koszul resolution
