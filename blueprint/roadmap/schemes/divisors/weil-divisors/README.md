@@ -18,6 +18,8 @@ calculations in the first half of Hartshorne II.6.
 - [The class group of projective space](projective-space-class-group.md)
 - [Restriction of class groups to open complements](class-group-open-restriction.md)
 - [Affine-line invariance of the class group](a1-class-group-invariance.md)
+- [Divisors of homogeneous fractions on Proj of a graded domain](proj-homogeneous-fraction-order.md)
+- [The split quadric surface is $\mathbb{P}^1 \times \mathbb{P}^1$](split-quadric-product-of-lines.md)
 - [The class group of a nonsingular quadric surface](quadric-surface-class-group.md)
 
 ## Sources
