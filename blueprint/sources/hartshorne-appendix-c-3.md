@@ -170,6 +170,9 @@ finiteness, cup products, duality, trace, comparison, or cycle classes.
 | Classical inverse system | `weil-conjectures/etale-cohomology/foundations/classical-ell-adic-inverse-system.md` |
 | Classical/pro-étale comparison | `weil-conjectures/etale-cohomology/foundations/classical-proetale-ell-adic-comparison.md` |
 | Rational ℓ-adic cohomology | `weil-conjectures/etale-cohomology/foundations/rational-ell-adic-cohomology.md` |
+| Roots of unity `mu_n` (bridge for Tate twists) | `weil-conjectures/etale-cohomology/foundations/etale-roots-of-unity-sheaf.md` |
+| Tensor product of abelian sheaves (bridge for Tate twists) | `weil-conjectures/etale-cohomology/foundations/site-sheaf-tensor-product.md` |
+| Internal Hom of étale sheaves (bridge for Tate twists) | `weil-conjectures/etale-cohomology/foundations/etale-sheaf-hom.md` |
 | 3.1, vanishing range | `weil-conjectures/etale-cohomology/properties/ell-adic-vanishing-range.md` |
 | 3.1, proper finiteness | `weil-conjectures/etale-cohomology/properties/proper-ell-adic-finite-dimensionality.md` |
 | 3.2 | `weil-conjectures/etale-cohomology/properties/ell-adic-pullback-functoriality.md` |
