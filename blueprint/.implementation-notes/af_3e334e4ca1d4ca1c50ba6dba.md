@@ -7,10 +7,10 @@ The module `Hartshorne.Intersection.SectionZeroScheme` (sorry-free, axioms only
 frontmatter) gives the module-level part of the definition, for any
 $\mathcal{O}_X$-module $E$ and global section $s$:
 
-- `Hartshorne.sectionDualMap s : moduleSheafDual E ⟶ structureModule X`, the dual
+- `Hartshorne.sectionDualMap s : Ringed.moduleSheafDual (R := X.sheaf) E ⟶ Ringed.structureModule X.sheaf`, the dual
   map $s^\vee : E^\vee \to \mathcal{O}_X$, $\psi \mapsto \psi(s|_U)$ on an open
   $U$. Its formula is `Hartshorne.sectionDualMap_app`.
-- `Hartshorne.sectionDualImage s` and the monomorphism
+- `Hartshorne.sectionDualImage s` (an object of `SheafOfModules (ringCatSheafOf X.sheaf)`, as is `Hartshorne.sectionDualCokernel s`) and the monomorphism
   `Hartshorne.sectionDualImageι s` into $\mathcal{O}_X$: the image
   $\operatorname{image}(s^\vee)$ (abelian image in the category of
   $\mathcal{O}_X$-modules), with `Hartshorne.sectionDualMap_factor`.
@@ -38,7 +38,7 @@ missing:
 
 ## Next route
 
-Once the bridge exists: show `(moduleSheafDual E).IsQuasicoherent` for finite
+Once the bridge exists: show `(Ringed.moduleSheafDual (R := X.sheaf) E).IsQuasicoherent` for finite
 locally free $E$ (the dual frames `IsLocalFrame.dual` give local freeness of
 $E^\vee$; a free module of finite rank is quasi-coherent), so the image is
 quasi-coherent by `isQuasicoherent_image`; apply the bridge to
