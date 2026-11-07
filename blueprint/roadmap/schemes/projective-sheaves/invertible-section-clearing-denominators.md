@@ -2,6 +2,9 @@
 article_id: af_46b488e3a21cd228d6965fe7
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.nonvanishingLocus Hartshorne.isOpen_nonvanishingLocus Hartshorne.nonvanishingLocusOpens Hartshorne.tensorPowerTwist Hartshorne.sectionPowSMul Hartshorne.exists_sectionPowSMul_eq_zero Hartshorne.exists_sectionPowSMul_extension
 ---
 
 # Clearing denominators with an invertible section
