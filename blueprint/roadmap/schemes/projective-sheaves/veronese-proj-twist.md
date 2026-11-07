@@ -24,6 +24,7 @@ polynomial presentation this isomorphism realizes the $d$-uple embedding.
 ## Proof depends on
 
 - [A standard Proj chart is affine](../projective-spectrum/proj-basic-open.md)
+- [Degree-one-generated Proj is projective](../proper-and-projective/generated-proj-projective.md)
 - The degree-$d$ monomial description of the Veronese embedding from
   Hartshorne I, Exercise 2.12.
 - The canonical chartwise identification of $\operatorname{Proj} S^{d}$ with $\operatorname{Proj} S$.
