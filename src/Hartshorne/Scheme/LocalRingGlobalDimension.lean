@@ -10,8 +10,7 @@ import Mathlib.RingTheory.Ideal.AssociatedPrime.Finiteness
 
 Let `R` be a Noetherian local ring with residue field `k`. If `k` has projective dimension at
 most `n`, then every finitely generated `R`-module has projective dimension at most `n`
-(Matsumura, *Commutative Ring Theory*, Theorem 19.1 and Lemma 19.1; Stacks, tag 00O3 and
-tag 00O5).
+(compare Matsumura, *Commutative Ring Theory*, Theorem 19.1).
 
 The proof only uses `Ext`:
 
@@ -166,9 +165,9 @@ theorem subsingleton_ext_quotient_prime [IsLocalRing R] [IsNoetherianRing R]
     Ext.bilinearComp_apply_apply, Ext.smul_comp, Ext.mk₀_id_comp] at hz
   simpa [← hz] using Submodule.smul_mem_pointwise_smul _ _ ⊤ trivial
 
-/-- **Matsumura, Lemma 19.1 / Theorem 19.1 (one direction)**: over a Noetherian local ring
-whose residue field has projective dimension at most `n`, every finitely generated module has
-projective dimension at most `n`. -/
+/-- Over a Noetherian local ring whose residue field has projective dimension at most `n`, every
+finitely generated module has projective dimension at most `n` (compare Matsumura, *Commutative
+Ring Theory*, Theorem 19.1). -/
 theorem hasProjectiveDimensionLE_of_residueField [IsLocalRing R] [IsNoetherianRing R] (n : ℕ)
     (hk : HasProjectiveDimensionLE (ModuleCat.of R (ResidueField R)) n)
     (M : ModuleCat.{u} R) [Module.Finite R M] : HasProjectiveDimensionLE M n := by
