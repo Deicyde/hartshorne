@@ -444,6 +444,7 @@ import Hartshorne.Scheme.ProperValuationCenter
 import Hartshorne.Intersection.SectionZeroScheme
 import Hartshorne.Scheme.ProjectiveIntersectionDegree
 import Hartshorne.Cohomology.FiniteLocallyFreeTensorInjective
+import Hartshorne.RingedSpace.FiniteLocallyFreeTensorInjective
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsTransitivity
 import Hartshorne.Scheme.SheafTensorOperations
 import Hartshorne.Scheme.SheafAlgebraOperations
