@@ -2,6 +2,9 @@
 article_id: af_36ff6f8309143f85f6007e34
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.EulerSequence.eulerSequence
 ---
 
 # The Euler sequence on projective space
