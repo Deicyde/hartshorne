@@ -2,6 +2,9 @@
 article_id: af_3e334e4ca1d4ca1c50ba6dba
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.sectionDualMap Hartshorne.sectionDualMap_app Hartshorne.sectionDualImage Hartshorne.sectionDualImageι Hartshorne.sectionZeroIdeal Hartshorne.sectionZeroScheme Hartshorne.sectionZeroSchemeι Hartshorne.mem_sectionZeroIdeal_iff Hartshorne.sectionZeroIdeal_ideal_eq_range_sectionDualImageι Hartshorne.ker_sectionZeroSchemeι Hartshorne.ker_sectionZeroSchemeι_app Hartshorne.sectionZeroSchemeι_app_surjective Hartshorne.sectionZeroCycle
 ---
 
 # The zero scheme of a section of a locally free sheaf
