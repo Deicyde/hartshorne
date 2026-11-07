@@ -2,6 +2,9 @@
 article_id: af_2e3f234e38bdd94f0004e982
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.chowGroup Hartshorne.gradedChowGroup Hartshorne.chowGroupZeroEquivInt Hartshorne.chowGroupZeroEquivInt_mk Hartshorne.subsingleton_chowGroup_of_lt
 ---
 
 # The graded Chow groups

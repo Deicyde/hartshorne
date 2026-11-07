@@ -513,3 +513,4 @@ import Hartshorne.Scheme.SymmetricAlgebraSheaf
 import Hartshorne.Scheme.Differentials.EulerSequenceMaps
 import Hartshorne.Scheme.Differentials.EulerSequenceChainRule
 import Hartshorne.Scheme.Differentials.EulerSequence
+import Hartshorne.Intersection.ChowGroups
