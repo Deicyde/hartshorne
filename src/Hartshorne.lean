@@ -455,6 +455,7 @@ import Hartshorne.Scheme.SheafTensorOperations
 import Hartshorne.Scheme.SheafAlgebraOperations
 import Hartshorne.Scheme.SheafTensorAlgebras
 import Hartshorne.Scheme.ExteriorPowerFiltrationAlgebra
+import Hartshorne.Scheme.ExteriorPowerExactFiltration
 import Hartshorne.Scheme.VarietyAssociatedScheme
 import Hartshorne.Scheme.ProjectiveMorphismCalculus
 import Hartshorne.Scheme.VarietySchemeOverK
