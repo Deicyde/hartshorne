@@ -529,3 +529,4 @@ import Hartshorne.RingedSpace.SheafExtContravariant
 import Hartshorne.Scheme.LocalRingGlobalDimension
 import Hartshorne.Scheme.RegularLocalGlobalDimension
 import Hartshorne.Scheme.SerreRegularity
+import Hartshorne.Scheme.ProjectiveSpaceClassGroup
