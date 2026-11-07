@@ -539,3 +539,5 @@ import Hartshorne.RingedSpace.ModuleSkyscraper
 import Hartshorne.Scheme.ModulePullbackStalk
 import Hartshorne.Cohomology.Flatness.FlatTensorFlatAlgebra
 import Hartshorne.RingedSpace.GlobalToSheafExt
+import Hartshorne.RingedSpace.SheafExtFiniteLocallyFree
+import Hartshorne.RingedSpace.SheafExtLocallyFreeResolution
