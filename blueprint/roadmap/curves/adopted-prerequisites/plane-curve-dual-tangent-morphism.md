@@ -22,11 +22,14 @@ Define the dual curve $Y^*$ as the closure of its image.
 
 - [Local intersection multiplicity of plane curves](local-plane-curve-intersection-multiplicity.md)
 - [Regular points and nonsingular schemes](../../schemes/differentials/scheme-differentials/regular-points-and-nonsingular-schemes.md)
+- [Intrinsic nonsingularity](../../nonsingular-varieties/intrinsic-nonsingularity.md)
+- [Morphisms](../../morphisms/morphism.md)
 
 ## Proof depends on
 
 - On an affine chart, the tangent line is given by the first derivatives of a
   local equation; these homogeneous coordinates glue to the Gauss morphism.
+- [An irreducible polynomial has a nonzero partial derivative](../../nonsingular-varieties/irreducible-polynomial-nonzero-partial.md)
 
 ## Sources
 
