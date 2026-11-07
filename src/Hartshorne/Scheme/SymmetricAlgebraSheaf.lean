@@ -47,12 +47,17 @@ of `S(F)`, are constructed in `Hartshorne.Scheme.SheafTensorAlgebras` and
 * **Polynomial description.** If `E ≅ 𝒪_X^{⊕ ι}` with `ι` finite, then `S(E)` is isomorphic, as
   a sheaf of `𝒪_X`-algebras, to the polynomial algebra `𝒪_X[T_i]`, the sheafification of
   `U ↦ 𝒪_X(U)[T_i]` (`exists_polynomialAlgebraSheaf_iso_symmetricAlgebra`,
-  `polynomialAlgebraSymmetricAlgebraIso`).
+  `polynomialAlgebraSymmetricAlgebraIso`). Restriction to an open subscheme commutes with the
+  symmetric algebra as sheaves of algebras (`ModuleSheafAlgebra.restrict`,
+  `symmetricAlgebraRestrictIso`, `symmetricAlgebraRestrictIso_mul`), so on every open `U` where
+  `E` is free, `S(E)|_U ≅ 𝒪_U[T_i]` as sheaves of graded algebras
+  (`Scheme.Modules.symmetricAlgebra_restrict_iso_polynomial`).
 
 The statements for schemes are in `AlgebraicGeometry.Scheme.Modules`: `symmetricAlgebra`,
 `symmetricPower`, `symmetricAlgebra_graded`, `symmetricAlgebra_isQuasicoherent`,
 `symmetricPower_isQuasicoherent`, `symmetricPower_isCoherent`, `symmetricPower_isLocallyFree`,
-`symmetricPower_isLocallyFreeOfRank` and `symmetricPowerOneIso`.
+`symmetricPower_isLocallyFreeOfRank`, `symmetricAlgebra_restrict_iso_polynomial` and
+`symmetricPowerOneIso`.
 -/
 
 universe u
@@ -928,6 +933,20 @@ theorem exists_polynomialAlgebraSheaf_iso_symmetricAlgebra
     polynomialAlgebraSymmetricAlgebraIso_mul (e := e) he,
     polynomialAlgebraSymmetricAlgebraIso_one (e := e) he⟩
 
+/-- The degree-one inclusion `S^1 F → S(F)` sends the class of a section `m` of `F` to the image
+of `m` in the symmetric algebra. -/
+theorem moduleSheafSymmetricAlgebraι_one_apply (F : SheafOfModules.{u} (ringCatSheafOf R))
+    (V : (Opens X)ᵒᵖ) (m : F.val.obj V) :
+    (moduleSheafSymmetricAlgebraι 1 F).val.app V
+        ((moduleSheafSymmetricPowerUnit 1 F).app V
+          (symmetricPowerTprod _ (F.val.obj V) 1 (fun _ => m))) =
+      (sheafifyUnit (moduleSheafSymmetricAlgebraPresheaf F)).app V
+        (SymmetricAlgebra.ι _ _ m) := by
+  refine (sheafifyMap_unit _ V _).trans (congrArg _ ?_)
+  change SymmetricAlgebra.algHom _ _ (TensorPower.toTensorAlgebra (PiTensorProduct.tprod _ _)) = _
+  rw [TensorPower.toTensorAlgebra_tprod, TensorAlgebra.tprod_apply]
+  simp [SymmetricAlgebra.ι]
+
 end Polynomial
 
 section Restriction
@@ -1049,7 +1068,7 @@ end Hartshorne
 
 namespace AlgebraicGeometry.Scheme.Modules
 
-open Hartshorne
+open Hartshorne Hartshorne.SheafAlgebraOperations Hartshorne.SheafTensorOperations
 
 variable {X : Scheme.{u}} (E : X.Modules)
 
@@ -1126,6 +1145,39 @@ theorem symmetricPower_isCoherent [IsNoetherian X] (hE : E.IsLocallyFree)
   have := Ringed.IsFiniteLocallyFree.isFinitePresentation
     (Ringed.IsFiniteLocallyFree.moduleSheafSymmetricPower (isFiniteLocallyFree_of hE hfin) d)
   ((coherent_affine_local_tfae (E.symmetricPower d)).out 1 0).mp this
+
+/-- **Locally, `Sym(E)` is a polynomial algebra.** On an open `U` where `E` is free,
+`E|_U ≅ 𝒪_U^{⊕ ι}` with `ι` finite, the restriction `Sym(E)|_U` is isomorphic, as a sheaf of
+graded `𝒪_U`-algebras, to the polynomial algebra `𝒪_U[T_i]_{i ∈ ι}`: the isomorphism is
+multiplicative and unital, and sends each variable `T_i` into the degree-one part `Sym^1 E`. -/
+theorem symmetricAlgebra_restrict_iso_polynomial {U : X.Opens} {ι : Type u} [Fintype ι]
+    (β : E.restrict U.ι ≅ SheafOfModules.free ι) :
+    ∃ φ : polynomialAlgebraSheaf (U : Scheme.{u}).sheaf ι ≅ E.symmetricAlgebra.restrict U.ι,
+      (∀ W a b, φ.hom.val.app W
+          ((polynomialAlgebraSheafStructure (U : Scheme.{u}).sheaf ι).mul.app W a b) =
+        (E.symmetricAlgebraStructure.restrict U.ι).mul.app W (φ.hom.val.app W a)
+          (φ.hom.val.app W b)) ∧
+      (∀ W, φ.hom.val.app W ((polynomialAlgebraSheafStructure (U : Scheme.{u}).sheaf ι).one W) =
+        (E.symmetricAlgebraStructure.restrict U.ι).one W) ∧
+      ∀ W (i : ι), ∃ s : (E.symmetricPower 1).val.obj (U.ι.opensFunctor.op.obj W),
+        φ.hom.val.app W ((sheafifyUnit (polynomialPresheaf (U : Scheme.{u}).sheaf ι)).app W
+          (MvPolynomial.X i)) =
+        (moduleSheafSymmetricAlgebraι (R := X.sheaf) 1 E).val.app _ s := by
+  obtain ⟨e, he⟩ := Ringed.exists_isLocalFrame_top_of_iso_free (R := (U : Scheme.{u}).sheaf)
+    (E := E.restrict U.ι) β
+  let ψ := symmetricAlgebraRestrictIso U.ι E
+  refine ⟨polynomialAlgebraSymmetricAlgebraIso (e := e) he ≪≫ ψ, fun W a b => ?_, fun W => ?_,
+    fun W i => ⟨(moduleSheafSymmetricPowerMultilinear 1 E).app (U.ι.opensFunctor.op.obj W)
+      (fun _ => SheafTensorOperations.restrictSections U.ι E W
+        (globalSectionsRestrict (E := E.restrict U.ι) e W i)), ?_⟩⟩
+  · exact (congrArg (ψ.hom.val.app W) (polynomialAlgebraSymmetricAlgebraIso_mul he W a b)).trans
+      (symmetricAlgebraRestrictIso_mul U.ι E W _ _)
+  · exact (congrArg (ψ.hom.val.app W) (polynomialAlgebraSymmetricAlgebraIso_one he W)).trans
+      (symmetricAlgebraRestrictIso_one U.ι E W)
+  · exact (congrArg (ψ.hom.val.app W) (polynomialAlgebraSymmetricAlgebraIso_X he W.unop i)).trans
+      ((symmetricAlgebraRestrictIso_unit U.ι E W _).trans
+        ((congrArg _ (symmetricAlgebraRingHom_ι _ _ _)).trans
+          (moduleSheafSymmetricAlgebraι_one_apply E _ _).symm))
 
 /-- **The degree-one part of `Sym(E)` is `E`.** -/
 noncomputable def symmetricPowerOneIso (E : X.Modules) : E.symmetricPower 1 ≅ E :=
