@@ -458,29 +458,6 @@ theorem homogeneousVanishingIdeal_linearSubspace [IsAlgClosed k] (m : ℕ) :
     (projZeroSet_linearSubspaceIdeal_nonempty m)]
   exact (isPrime_span_X_image _).radical
 
-private theorem finrank_homogeneousSubmodule_fin (m l : ℕ) :
-    Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin (m + 1)) k l) =
-      (l + m).choose m := by
-  rw [MvPolynomial.homogeneousSubmodule_eq_finsupp_supported]
-  change Module.finrank k
-      (MvPolynomial.restrictSupport k
-        {d : Fin (m + 1) →₀ ℕ | d.degree = l}) = _
-  rw [Module.finrank_eq_nat_card_basis
-    (MvPolynomial.basisRestrictSupport k
-      {d : Fin (m + 1) →₀ ℕ | d.degree = l})]
-  change Nat.card {d : Fin (m + 1) →₀ ℕ // d.degree = l} = _
-  calc
-    Nat.card {d : Fin (m + 1) →₀ ℕ // d.degree = l} =
-        Nat.card (Sym (Fin (m + 1)) l) :=
-      Nat.card_congr (Sym.equivNatSum (Fin (m + 1)) l).symm
-    _ = Fintype.card (Sym (Fin (m + 1)) l) := Nat.card_eq_fintype_card
-    _ = ((m + 1) + l - 1).choose l := by
-      simpa using Sym.card_sym_eq_choose (α := Fin (m + 1)) l
-    _ = (l + m).choose m := by
-      have h : (m + 1) + l - 1 = l + m := by omega
-      rw [h]
-      exact Nat.choose_symm_add
-
 /-- The Hilbert function of `Lₘ ≅ ℙᵐ` in degree `l ≥ 0` is `choose (l + m) m`. -/
 theorem hilbertFunction_linearSubspace [IsAlgClosed k] {m : ℕ} (hm : m ≤ n) (l : ℕ) :
     hilbertFunction (k := k) (σ := Fin (n + 1))
@@ -523,7 +500,7 @@ theorem hilbertFunction_linearSubspace [IsAlgClosed k] {m : ℕ} (hm : m ≤ n) 
         Module.finrank k ((projCoordGrading Y l).map e.toLinearEquiv.toLinearMap) :=
       (e.toLinearEquiv.finrank_map_eq _).symm
     _ = Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin (m + 1)) k l) := by rw [hmap]
-    _ = (l + m).choose m := finrank_homogeneousSubmodule_fin m l
+    _ = (l + m).choose m := finrank_homogeneousSubmodule m l
 
 /-- **The linear subspace `Lₘ` has degree `1`** (for `m ≤ n`, `k` algebraically closed): its
 Hilbert polynomial is `z ↦ choose (z + m) m`, with leading coefficient `1 / m!`. -/
@@ -531,21 +508,8 @@ theorem projectiveSpectrumPointDegree_linearSubspacePoint [IsAlgClosed k] {m : �
     projectiveSpectrumPointDegree (linearSubspacePoint (k := k) (n := n) m) = 1 := by
   set Y := projZeroSet ((linearSubspaceIdeal (k := k) n m).toIdeal : Set 𝕊)
   have hpoly : IsHilbertPolynomial (σ := Fin (n + 1)) (integerProjCoordGrading Y)
-      ((numericalBinomial m).taylor (m : ℚ)) := by
-    constructor
-    · rw [IsNumericalPolynomial, Filter.eventually_atTop]
-      refine ⟨0, fun d hd ↦ ?_⟩
-      refine ⟨Ring.choose (d + m) m, ?_⟩
-      rw [Polynomial.taylor_eval]
-      simpa only [Int.cast_add, Int.cast_natCast] using
-        numericalBinomial_eval_intCast m (d + m)
-    · rw [Filter.eventually_atTop]
-      refine ⟨0, fun d hd ↦ ?_⟩
-      obtain ⟨l, rfl⟩ := Int.eq_ofNat_of_zero_le hd
-      rw [Polynomial.taylor_eval, hilbertFunction_linearSubspace hm]
-      have h := numericalBinomial_eval_natCast m (l + m)
-      norm_num at h ⊢
-      exact h
+      ((numericalBinomial m).taylor (m : ℚ)) :=
+    translatedNumericalBinomial_isHilbertPolynomial _ m (hilbertFunction_linearSubspace hm)
   have hP : projectiveHilbertPolynomial Y = (numericalBinomial m).taylor (m : ℚ) :=
     isHilbertPolynomial_unique (integerProjCoordGrading Y)
       (projectiveHilbertPolynomial_isHilbertPolynomial Y) hpoly

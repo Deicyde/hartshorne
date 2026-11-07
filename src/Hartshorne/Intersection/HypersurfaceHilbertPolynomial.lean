@@ -172,30 +172,6 @@ private theorem projZeroSet_singleton_nonempty_of_irreducible
   have heval := congrArg (MvPolynomial.eval v) hg
   simp [v, hi] at heval
 
-private theorem finrank_homogeneousSubmodule_hypersurface
-    {k : Type u} [Field k] (n l : Nat) :
-    Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) k l) =
-      (l + n).choose n := by
-  rw [MvPolynomial.homogeneousSubmodule_eq_finsupp_supported]
-  change Module.finrank k
-      (MvPolynomial.restrictSupport k
-        {e : Fin (n + 1) →₀ Nat | e.degree = l}) = _
-  rw [Module.finrank_eq_nat_card_basis
-    (MvPolynomial.basisRestrictSupport k
-      {e : Fin (n + 1) →₀ Nat | e.degree = l})]
-  change Nat.card {e : Fin (n + 1) →₀ Nat // e.degree = l} = _
-  calc
-    Nat.card {e : Fin (n + 1) →₀ Nat // e.degree = l} =
-        Nat.card (Sym (Fin (n + 1)) l) :=
-      Nat.card_congr (Sym.equivNatSum (Fin (n + 1)) l).symm
-    _ = Fintype.card (Sym (Fin (n + 1)) l) := Nat.card_eq_fintype_card
-    _ = ((n + 1) + l - 1).choose l := by
-      simpa using Sym.card_sym_eq_choose (α := Fin (n + 1)) l
-    _ = (l + n).choose n := by
-      have h : (n + 1) + l - 1 = l + n := by omega
-      rw [h]
-      exact Nat.choose_symm_add
-
 private theorem hilbertFunction_hypersurface
     {k : Type u} [Field k] [IsAlgClosed k] {n d l : Nat}
     (hn : 0 < n) (hdl : d ≤ l)
@@ -313,12 +289,12 @@ private theorem projectiveHilbertPolynomial_hypersurface
         (integerHomogeneousSubmodule k (Fin (n + 1))) (l : Int) =
         (l + n).choose n := by
       rw [hilbertFunction, integerHomogeneousSubmodule_ofNat,
-        finrank_homogeneousSubmodule_hypersurface]
+        finrank_homogeneousSubmodule]
     have hraw_ld : hilbertFunction (k := k) (σ := Fin (n + 1))
         (integerHomogeneousSubmodule k (Fin (n + 1))) ((l - d : Nat) : Int) =
         (l - d + n).choose n := by
       rw [hilbertFunction, integerHomogeneousSubmodule_ofNat,
-        finrank_homogeneousSubmodule_hypersurface]
+        finrank_homogeneousSubmodule]
     have hspace_l :=
       (projectiveSpace_hilbertPolynomial_and_degree (k := k) n).1 l
     have hspace_ld :=

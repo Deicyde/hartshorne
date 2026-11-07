@@ -27,7 +27,9 @@ noncomputable section
 
 universe u
 
-private theorem finrank_homogeneousSubmodule
+/-- The space of homogeneous polynomials of degree `l` in `n + 1` variables has dimension
+`choose (l + n) n`. -/
+theorem finrank_homogeneousSubmodule
     {k : Type u} [Field k] (n l : ℕ) :
     Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) k l) =
       (l + n).choose n := by
@@ -88,24 +90,30 @@ private theorem hilbertFunction_projectiveSpace
         (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) k l) := by rw [hmap]
     _ = (l + n).choose n := finrank_homogeneousSubmodule n l
 
-private theorem translatedNumericalBinomial_isHilbertPolynomial
-    {k : Type u} [Field k] [IsAlgClosed k] (n : ℕ) :
-    IsHilbertPolynomial (σ := Fin (n + 1))
-      (integerProjCoordGrading
-        (Set.univ : Set (ProjectiveSpace k (Fin (n + 1)))))
-      ((numericalBinomial n).taylor (n : ℚ)) := by
+/-- A graded module whose Hilbert function in every degree `l ≥ 0` is `choose (l + m) m` has
+Hilbert polynomial the translated numerical binomial polynomial `z ↦ choose (z + m) m`. -/
+theorem translatedNumericalBinomial_isHilbertPolynomial
+    {k : Type u} [Field k] {σ : Type*} [Finite σ]
+    {M : Type*} [AddCommGroup M] [Module k M]
+    [Module (MvPolynomial σ k) M]
+    [IsScalarTower k (MvPolynomial σ k) M]
+    (ℳ : ℤ → Submodule k M) [DirectSum.Decomposition ℳ]
+    [SetLike.GradedSMul (integerHomogeneousSubmodule k σ) ℳ]
+    [Module.Finite (MvPolynomial σ k) M] (m : ℕ)
+    (hℳ : ∀ l : ℕ, hilbertFunction (σ := σ) ℳ (l : ℤ) = (l + m).choose m) :
+    IsHilbertPolynomial (σ := σ) ℳ ((numericalBinomial m).taylor (m : ℚ)) := by
   constructor
   · rw [IsNumericalPolynomial, Filter.eventually_atTop]
     refine ⟨0, fun d hd => ?_⟩
-    refine ⟨Ring.choose (d + n) n, ?_⟩
+    refine ⟨Ring.choose (d + m) m, ?_⟩
     rw [Polynomial.taylor_eval]
     simpa only [Int.cast_add, Int.cast_natCast] using
-      numericalBinomial_eval_intCast n (d + n)
+      numericalBinomial_eval_intCast m (d + m)
   · rw [Filter.eventually_atTop]
     refine ⟨0, fun d hd => ?_⟩
     obtain ⟨l, rfl⟩ := Int.eq_ofNat_of_zero_le hd
-    rw [Polynomial.taylor_eval, hilbertFunction_projectiveSpace]
-    have h := numericalBinomial_eval_natCast n (l + n)
+    rw [Polynomial.taylor_eval, hℳ]
+    have h := numericalBinomial_eval_natCast m (l + m)
     norm_num at h ⊢
     exact h
 
@@ -135,7 +143,7 @@ theorem projectiveSpace_hilbertPolynomial_and_degree
         (Set.univ : Set (ProjectiveSpace k (Fin (n + 1)))))
       (projectiveHilbertPolynomial_isHilbertPolynomial
         (Set.univ : Set (ProjectiveSpace k (Fin (n + 1)))))
-      (translatedNumericalBinomial_isHilbertPolynomial (k := k) n)
+      (translatedNumericalBinomial_isHilbertPolynomial _ n hfunction)
   refine ⟨hfunction, hpolynomial, ?_⟩
   rw [projectiveDegree, hpolynomial, Polynomial.natDegree_taylor,
     numericalBinomial_natDegree, Polynomial.leadingCoeff_taylor,
