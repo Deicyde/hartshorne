@@ -17,14 +17,20 @@ linear-system, curve, and surface calculations.
 
 ## Depends on
 
-- [The class group of projective space](projective-space-class-group.md)
+- [The split quadric surface is $\mathbb{P}^1 \times \mathbb{P}^1$](split-quadric-product-of-lines.md)
 - [Restriction of class groups to open complements](class-group-open-restriction.md)
 - [Affine-line invariance of the class group](a1-class-group-invariance.md)
-- [The Segre embedding](../../../rational-maps/segre-embedding.md)
 
 ## Proof depends on
 
+- [Divisors of homogeneous fractions on Proj of a graded domain](proj-homogeneous-fraction-order.md)
+- [Intersection of height-one localizations](height-one-localization-intersection.md)
+- [The affine UFD class-group criterion](affine-ufd-class-group.md)
 - The hyperplane section $w = 0$ is the sum of one line from each ruling.
+
+## Informally uses
+
+- [The class group of projective space](projective-space-class-group.md)
 
 ## Sources
 
