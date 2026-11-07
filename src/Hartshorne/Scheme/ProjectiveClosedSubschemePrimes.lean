@@ -97,19 +97,13 @@ local notation "𝒜" => homogeneousSubmodule (Fin (n + 1)) k
 
 local notation "S" => MvPolynomial (Fin (n + 1)) k
 
-/-- Specialization in `ℙⁿ_k` is inclusion of homogeneous primes. -/
-theorem proj_specializes_iff_le (x y : Proj 𝒜) :
-    x ⤳ y ↔ x.asHomogeneousIdeal ≤ y.asHomogeneousIdeal := by
-  rw [specializes_iff_mem_closure]
-  exact (ProjectiveSpectrum.le_iff_mem_closure 𝒜 x y).symm
-
 variable {X : Scheme.{u}}
 
 /-- Along a closed immersion into `ℙⁿ_k`, `x ⤳ y` exactly when the homogeneous prime of `ι x`
 is contained in that of `ι y`. -/
 theorem closedImmersion_specializes_iff (ι : X ⟶ Proj 𝒜) [IsClosedImmersion ι] (x y : X) :
     x ⤳ y ↔ (ι.base x).asHomogeneousIdeal ≤ (ι.base y).asHomogeneousIdeal := by
-  rw [← proj_specializes_iff_le]
+  rw [← projectiveSpace_specializes_iff_le]
   exact (ι.isClosedEmbedding.isInducing.specializes_iff).symm
 
 /-- The image of a closed immersion of an integral scheme into `ℙⁿ_k` consists of the points
@@ -117,7 +111,7 @@ whose homogeneous prime contains the prime `𝔭` of the image of the generic po
 theorem mem_range_closedImmersion_iff (ι : X ⟶ Proj 𝒜) [IsClosedImmersion ι] [IsIntegral X]
     (q : Proj 𝒜) :
     q ∈ Set.range ι ↔ (ι.base (genericPoint X)).asHomogeneousIdeal ≤ q.asHomogeneousIdeal := by
-  rw [← proj_specializes_iff_le]
+  rw [← projectiveSpace_specializes_iff_le]
   constructor
   · rintro ⟨x, rfl⟩
     exact (genericPoint_specializes x).map ι.continuous

@@ -259,7 +259,7 @@ theorem stalkMap_stalkIso_inv_eq_zero_iff {X : Scheme.{u}} [IsIntegral X] (ι : 
         (ι.base (genericPoint X)).asHomogeneousIdeal.toIdeal := by
   have h𝔭P : (ι.base (genericPoint X)).asHomogeneousIdeal.toIdeal ≤
       (ι.base x).asHomogeneousIdeal.toIdeal :=
-    (proj_specializes_iff_le _ _).mp ((genericPoint_specializes x).map ι.continuous)
+    (projectiveSpace_specializes_iff_le _ _).mp ((genericPoint_specializes x).map ι.continuous)
   obtain ⟨⟨e, ⟨a, ha⟩, ⟨b, hb⟩, hbx⟩, rfl⟩ := HomogeneousLocalization.mk_surjective α
   have ha' : a.IsHomogeneous e := (mem_homogeneousSubmodule e a).mp ha
   have hb' : b.IsHomogeneous e := (mem_homogeneousSubmodule e b).mp hb
@@ -284,31 +284,6 @@ theorem stalkMap_stalkIso_inv_eq_zero_iff {X : Scheme.{u}} [IsIntegral X] (ι : 
   rw [hloc, hiso, ← isUnit_iff_isUnit_val, HomogeneousLocalization.val_mk,
     Localization.mk_eq_mk', IsLocalization.AtPrime.isUnit_mk'_iff, Ideal.mem_primeCompl_iff,
     not_not]
-
-/-- Some coordinate does not vanish at a point of `ℙⁿ_k`. -/
-theorem exists_X_notMem_asHomogeneousIdeal (p : Proj 𝒜) :
-    ∃ i, (MvPolynomial.X i : S) ∉ p.asHomogeneousIdeal := by
-  by_contra hall
-  push Not at hall
-  apply p.not_irrelevant_le
-  intro a ha
-  have ha0 : homogeneousComponent 0 a = 0 := by
-    rw [← decomposition.decompose'_apply]
-    exact ha
-  have hspan : a ∈ Ideal.span ((MvPolynomial.X : Fin (n + 1) → S) '' Set.univ) := by
-    rw [mem_ideal_span_X_image]
-    intro m hm
-    by_contra hm0
-    push Not at hm0
-    have hm0' : m = 0 := by ext i; simpa using hm0 i trivial
-    subst hm0'
-    have := congr(MvPolynomial.coeff 0 $ha0)
-    rw [coeff_homogeneousComponent] at this
-    simp at this
-    exact (MvPolynomial.mem_support_iff.mp hm) this
-  refine (Ideal.span_le.mpr ?_) hspan
-  rintro _ ⟨i, -, rfl⟩
-  exact hall i
 
 /-- On a scheme satisfying `(*)`, the order at a codimension-one point of a nonzero element of
 the stalk is the length of its quotient. -/
@@ -345,15 +320,15 @@ theorem projectiveIntersectionDivisor_apply_eq_length {X : Scheme.{u}} (ι : X �
   set d := projectivePrimeDivisorEquationDegree V
   have hf : f.IsHomogeneous d := projectivePrimeDivisorEquation_isHomogeneous V
   have h𝔭P : 𝔭 ≤ P :=
-    (proj_specializes_iff_le _ _).mp ((genericPoint_specializes x).map ι.continuous)
+    (projectiveSpace_specializes_iff_le _ _).mp ((genericPoint_specializes x).map ι.continuous)
   have hf𝔭 : f ∉ 𝔭 := by
     intro h
     apply hXV
     rintro _ ⟨z, rfl⟩
     rw [mem_closure_projectivePrimeDivisor_iff]
-    exact (proj_specializes_iff_le _ _).mp
+    exact (projectiveSpace_specializes_iff_le _ _).mp
       ((genericPoint_specializes z).map ι.continuous) h
-  obtain ⟨i, hi⟩ := exists_X_notMem_asHomogeneousIdeal (ι.base x)
+  obtain ⟨i, hi⟩ := exists_X_notMem_projectiveSpace (ι.base x)
   set g : S := MvPolynomial.X i ^ d
   have hg : g.IsHomogeneous d := MvPolynomial.isHomogeneous_X_pow i d
   have hgP : g ∈ P.primeCompl := fun h ↦ hi ((ι.base x).isPrime.mem_of_pow_mem d h)

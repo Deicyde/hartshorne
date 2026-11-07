@@ -52,14 +52,10 @@ type over $k$ has more than one point exactly when its dimension is at least one
 - `Hartshorne.Scheme.ProjectiveIntersectionDegreeFormula`: classical identifications
   ($J(Z(\mathfrak p)) = \mathfrak p$, $J(Z(f)) = (f)$, relevance iff nonempty zero set), the
   component equivalence, and the Bézout assembly.
-- Cleanup owed (duplicates):
-  - `exists_X_notMem_asHomogeneousIdeal` copies the private `exists_projectiveSpace_X_notMem`
-    (ProjectiveIntersectionDivisor); the public `Hartshorne.EulerSequence.exists_X_notMem` exists.
-  - `isProjAlgebraicSet_projZeroSet_of_isHomogeneousIdeal` copies the private
-    `isProjAlgebraicSet_projZeroSet_of_isHomogeneous` (HilbertSerre, TopDimensionalPrimeFiltrationLeadingTerm).
-  - `proj_specializes_iff_le` duplicates the public `projectiveSpace_specializes_iff_le`
-    (ProjectiveSpaceClassGroup).
-  - The irrelevant-ideal step in ProjectiveIntersectionDegreeFormula reproves
-    `X_mem_irrelevant_projectiveSpace` (ProjectiveSpaceClassGroup).
+- Cleanup owed (duplicates): the copied helpers are gone. These modules now use the public
+  `projectiveSpace_specializes_iff_le`, `exists_X_notMem_projectiveSpace` and
+  `X_mem_irrelevant_projectiveSpace` (ProjectiveIntersectionDivisor) and
+  `isProjAlgebraicSet_projZeroSet_of_isHomogeneous` (HilbertSerre). One item remains:
   - ProjectiveLocalIntersectionMultiplicity proves inline the fact
-    `projectivePrimeDivisorEquation_notMem_of_not_subset` (ProjectiveIntersectionDegreeFormula).
+    `projectivePrimeDivisorEquation_notMem_of_not_subset` (ProjectiveIntersectionDegreeFormula);
+    moving that lemma up into ProjectiveLocalIntersectionMultiplicity would remove the repeat.

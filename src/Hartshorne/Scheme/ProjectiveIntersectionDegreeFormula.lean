@@ -47,26 +47,10 @@ local notation "𝒜" => homogeneousSubmodule (Fin (n + 1)) k
 
 local notation "S" => MvPolynomial (Fin (n + 1)) k
 
-/-- The zero set of a homogeneous ideal is a projective algebraic set. -/
-theorem isProjAlgebraicSet_projZeroSet_of_isHomogeneousIdeal {σ : Type*}
-    (I : Ideal (MvPolynomial σ k)) (hI : IsHomogeneousIdeal I) :
-    IsProjAlgebraicSet (projZeroSet (I : Set (MvPolynomial σ k))) := by
-  rw [IsHomogeneousIdeal, Ideal.IsHomogeneous.iff_exists] at hI
-  obtain ⟨T, hT⟩ := hI
-  refine ⟨Subtype.val '' T, ?_, ?_⟩
-  · rintro f ⟨g, -, rfl⟩
-    exact isHomogeneousElem_iff.mp g.2
-  · rw [← projZeroSet_span (Subtype.val '' T), ← hT]
-
 /-- A homogeneous prime has a nonempty projective zero set exactly when it is relevant. -/
 theorem projZeroSet_nonempty_iff_not_irrelevant_le [IsAlgClosed k] {Q : Ideal S} [Q.IsPrime]
     (hQ : IsHomogeneousIdeal Q) :
     (projZeroSet (Q : Set S)).Nonempty ↔ ¬(HomogeneousIdeal.irrelevant 𝒜).toIdeal ≤ Q := by
-  have hX : ∀ i : Fin (n + 1), (MvPolynomial.X i : S) ∈ HomogeneousIdeal.irrelevant 𝒜 := by
-    intro i
-    rw [HomogeneousIdeal.mem_irrelevant_iff, GradedRing.proj_apply,
-      DirectSum.decompose_of_mem_ne 𝒜 ((mem_homogeneousSubmodule 1 _).mpr (isHomogeneous_X k i))
-        one_ne_zero]
   rw [Set.nonempty_iff_ne_empty, ne_eq, projZeroSet_eq_empty_iff hQ,
     (Ideal.IsPrime.isRadical ‹_›).radical]
   constructor
@@ -74,7 +58,7 @@ theorem projZeroSet_nonempty_iff_not_irrelevant_le [IsAlgClosed k] {Q : Ideal S}
     apply h
     rw [irrelevantIdeal, Ideal.span_le]
     rintro _ ⟨i, rfl⟩
-    exact hirr (hX i)
+    exact hirr (X_mem_irrelevant_projectiveSpace i)
   · intro h hirr
     apply h
     intro a ha
@@ -102,7 +86,7 @@ theorem isProjVariety_projZeroSet_asHomogeneousIdeal [IsAlgClosed k] (q : Proj �
   have hJ : homogeneousVanishingIdeal (projZeroSet (q.asHomogeneousIdeal.toIdeal : Set S)) =
       q.asHomogeneousIdeal.toIdeal := by
     rw [homogeneousVanishingIdeal_projZeroSet hhom hne, (Ideal.IsPrime.isRadical q.isPrime).radical]
-  have halg := isProjAlgebraicSet_projZeroSet_of_isHomogeneousIdeal _ hhom
+  have halg := isProjAlgebraicSet_projZeroSet_of_isHomogeneous _ hhom
   refine ⟨⟨(isIrreducible_iff_isPrime_homogeneousVanishingIdeal halg).mpr (by rw [hJ]; exact q.isPrime),
     isClosed_iff_isProjAlgebraicSet.mpr halg⟩, hJ⟩
 
@@ -229,7 +213,7 @@ theorem projectivePrimeDivisorEquation_notMem_of_not_subset {X : Scheme.{u}} [Is
   apply hXV
   rintro _ ⟨z, rfl⟩
   rw [mem_closure_projectivePrimeDivisor_iff]
-  exact (proj_specializes_iff_le _ _).mp ((genericPoint_specializes z).map ι.continuous) h
+  exact (projectiveSpace_specializes_iff_le _ _).mp ((genericPoint_specializes z).map ι.continuous) h
 
 /-- **Hartshorne II, Exercise 6.2(c), local part.** Along a prime divisor `Y` of `X` contained in
 `V`, the coefficient of `V · X` is the intersection multiplicity `i(Z(𝔭), Z(f); Z)` of
