@@ -29,6 +29,7 @@ are its uniqueness and existence halves.
 - [Quasi-coherent principal-open localization](../modules-and-quasicoherent/quasicoherent-principal-open-localization.md)
 - [Affine intersections in a separated scheme](../separated-morphisms/separated-affine-intersection.md)
 - [Noetherian opens are quasi-compact](../foundational-properties/noetherian-space-open-compact.md)
+- [Duality for finite locally free sheaves](../modules-and-quasicoherent/finite-locally-free-duality.md)
 
 ## Sources
 
