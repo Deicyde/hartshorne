@@ -389,6 +389,7 @@ import Hartshorne.Cohomology.SheafifiedCechResolution
 import Hartshorne.Weil.TorsionEtaleCohomology
 import Hartshorne.Intersection.RawCyclePushforward
 import Hartshorne.Intersection.RationalEquivalence
+import Hartshorne.Intersection.RationalEquivalencePrincipal
 import Hartshorne.Intersection.RawCyclePushforwardFunctorial
 import Hartshorne.Cohomology.RightDerivedLongExactSequence
 import Hartshorne.Weil.FiniteFieldFrobenius
