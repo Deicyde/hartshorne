@@ -19,7 +19,7 @@ partition-of-unity or explicit-resolution proof are sourced.
 
 ## Depends on
 
-- [Sheaf cohomology and the Ext model](sheaf-cohomology.md)
+- [Sheaf cohomology](sheaf-cohomology.md)
 
 ## Proof depends on
 

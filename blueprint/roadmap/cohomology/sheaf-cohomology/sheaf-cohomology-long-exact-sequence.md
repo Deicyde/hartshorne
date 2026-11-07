@@ -2,26 +2,24 @@
 article_id: af_acc41f7e6e3920d05b1ce349
 declaration: theorem
 origin: cited
-mathlib: true
-mathlib_declaration: CategoryTheory.Abelian.Ext.covariantSequence_exact
-mathlib_file: Mathlib/Algebra/Homology/DerivedCategory/Ext/ExactSequences.lean
 ---
 
 # The long exact sequence of sheaf cohomology
 
-Under the Ext model of sheaf cohomology, every short exact sequence
-of abelian sheaves gives exact six-term windows in the cohomology
-sequence, each containing five successive arrows.
+For every short exact sequence
+$0\longrightarrow F'\longrightarrow F\longrightarrow F''\longrightarrow 0$
+of abelian sheaves on a topological space $X$ there are connecting
+homomorphisms $H^{n}(X,F'')\longrightarrow H^{n+1}(X,F')$ for $n\ge 0$,
+natural in morphisms of short exact sequences, such that the sequence
 
-Compatibility with connecting morphisms assembles these windows
-into the [long exact sequence of derived functors](../derived-functors/right-derived-long-exact-sequence.md).
+$0\longrightarrow H^{0}(X,F')\longrightarrow H^{0}(X,F)\longrightarrow H^{0}(X,F'')\longrightarrow H^{1}(X,F')\longrightarrow\cdots$
+
+is exact. This is the long exact sequence of right derived functors applied
+to $\Gamma(X,-)$.
 
 ## Depends on
 
-- [Sheaf cohomology and the Ext model](sheaf-cohomology.md)
-
-## Proof depends on
-
+- [Sheaf cohomology](sheaf-cohomology.md)
 - [The long exact sequence of right derived functors](../derived-functors/right-derived-long-exact-sequence.md)
 
 ## Sources

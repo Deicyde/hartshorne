@@ -18,7 +18,7 @@ roadmap does not claim or depend on a full Leray spectral sequence.
 ## Depends on
 
 - [Higher direct images of abelian sheaves](higher-direct-images.md)
-- [Sheaf cohomology and the Ext model](../sheaf-cohomology/sheaf-cohomology.md)
+- [Sheaf cohomology](../sheaf-cohomology/sheaf-cohomology.md)
 
 ## Proof depends on
 

@@ -15,14 +15,14 @@ cohomology sequence. This is the unique main vanishing result.
 
 ## Depends on
 
-- [Sheaf cohomology and the Ext model](sheaf-cohomology.md)
+- [Sheaf cohomology](sheaf-cohomology.md)
 
 ## Proof depends on
 
 - [Abelian sheaves have enough injectives](abelian-sheaves-enough-injectives.md)
 - [Injective abelian sheaves are flasque](injective-abelian-sheaf-flasque.md)
 - [Flasque closure in short exact sequences](flasque-short-exact-closure.md)
-- [The long exact sequence of sheaf cohomology](sheaf-cohomology-long-exact-sequence.md)
+- [The long exact sequence of right derived functors](../derived-functors/right-derived-long-exact-sequence.md)
 
 ## Sources
 

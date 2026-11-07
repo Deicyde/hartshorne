@@ -14,7 +14,7 @@ $H^{1}(Q,\mathcal{O}_Q(a,b))=0$.
 
 - [The class group of a nonsingular quadric surface](../../../schemes/divisors/weil-divisors/quadric-surface-class-group.md)
 - [Locally factorial schemes identify class and Picard groups](../../../schemes/divisors/cartier-picard/locally-factorial-class-picard-equivalence.md)
-- [Sheaf cohomology and the Ext model](../../sheaf-cohomology/sheaf-cohomology.md)
+- [Sheaf cohomology](../../sheaf-cohomology/sheaf-cohomology.md)
 
 ## Proof depends on
 

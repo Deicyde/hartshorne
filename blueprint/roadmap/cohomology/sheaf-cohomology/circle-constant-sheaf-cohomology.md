@@ -18,7 +18,7 @@ resolution and the required topological sheaf model are adopted.
 
 ## Depends on
 
-- [Sheaf cohomology and the Ext model](sheaf-cohomology.md)
+- [Sheaf cohomology](sheaf-cohomology.md)
 - [The constant sheaf](../../schemes/sheaves/constant-sheaf.md)
 
 ## Proof depends on

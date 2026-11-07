@@ -18,7 +18,7 @@ is included in this node.
 ## Depends on
 
 - [Global complete intersections and hypersurface intersections](../../schemes/differentials/differential-exercises/global-complete-intersection-iff-hypersurface-intersection.md)
-- [Sheaf cohomology and the Ext model](../sheaf-cohomology/sheaf-cohomology.md)
+- [Sheaf cohomology](../sheaf-cohomology/sheaf-cohomology.md)
 
 ## Proof depends on
 

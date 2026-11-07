@@ -16,7 +16,7 @@ the finite number of irreducible components and the open–closed exact sequence
 
 ## Depends on
 
-- [Sheaf cohomology and the Ext model](../sheaf-cohomology.md)
+- [Sheaf cohomology](../sheaf-cohomology.md)
 
 ## Proof depends on
 

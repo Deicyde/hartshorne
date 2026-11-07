@@ -17,11 +17,13 @@ cohomology on inverse-image opens.
 
 ## Depends on
 
-- [Sheaf cohomology and the Ext model](../sheaf-cohomology/sheaf-cohomology.md)
+- [Sheaf cohomology](../sheaf-cohomology/sheaf-cohomology.md)
+- [Global Ext groups](../ext-groups/global-ext/global-ext-groups.md)
 - [Restriction and stalks](../../schemes/sheaf-functors/restriction-stalk.md)
 
 ## Proof depends on
 
+- [Sheaf cohomology as Ext from the constant sheaf](../ext-groups/global-ext/sheaf-cohomology-ext-comparison.md)
 - Equivalence between sheaves on an open subspace and sheaves on the
   corresponding over-site, compatible with the constant integral sheaf.
 - The direct abelian-sheaf restriction theorem: restriction to an open

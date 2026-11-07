@@ -17,7 +17,7 @@ the unique main result is the comparison isomorphism.
 ## Depends on
 
 - [Module sheaves have enough injectives](module-sheaves-enough-injectives.md)
-- [Sheaf cohomology and the Ext model](sheaf-cohomology.md)
+- [Sheaf cohomology](sheaf-cohomology.md)
 
 ## Proof depends on
 

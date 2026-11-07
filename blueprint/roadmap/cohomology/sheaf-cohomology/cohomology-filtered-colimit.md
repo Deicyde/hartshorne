@@ -19,7 +19,7 @@ into discontinuous-section sheaves and preservation of flasqueness.
 
 ## Depends on
 
-- [Sheaf cohomology and the Ext model](sheaf-cohomology.md)
+- [Sheaf cohomology](sheaf-cohomology.md)
 
 ## Proof depends on
 

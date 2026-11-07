@@ -13,3 +13,11 @@ Mathlib file lists precisely this comparison as TODO, so no upstream status
 is asserted. The node remains not ready until the over-site/open-subspace
 equivalence and its compatibility with the constant integral sheaf are fixed
 as a Lean interface.
+
+## After the sheaf-cohomology split
+
+The cohomology `H^i(U,F|_U)` in the statement is Hartshorne's derived-functor
+cohomology (article `sheaf-cohomology`). Passing from Mathlib's Ext-model
+`Sheaf.H'` / `Sheaf.H` on `U` to it uses the bridged comparison
+`sheaf-cohomology-ext-comparison` (af_20b90b5104320442f4732041), now listed
+under Proof depends on. The over-site blocker above is unchanged.

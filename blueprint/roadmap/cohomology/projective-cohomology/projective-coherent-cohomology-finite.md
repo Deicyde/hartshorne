@@ -13,7 +13,7 @@ generated $A$-module.
 ## Depends on
 
 - [Relative twisting sheaves and very ampleness](../../schemes/projective-sheaves/relative-twisting-and-very-ample.md)
-- [Sheaf cohomology and the Ext model](../sheaf-cohomology/sheaf-cohomology.md)
+- [Sheaf cohomology](../sheaf-cohomology/sheaf-cohomology.md)
 
 ## Proof depends on
 
