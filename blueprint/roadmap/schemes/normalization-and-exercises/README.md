@@ -16,6 +16,7 @@ subschemes of projective spectra.
 - [The normalization morphism is dominant](normalization-dominant.md)
 - [The universal property of normalization](normalization-universal-property.md)
 - [Finiteness of normalization over a field](normalization-finite-type-field.md)
+- [The normalization is an isomorphism over a normal open](normalization-iso-over-normal-open.md)
 - [A graded quotient induces a closed immersion of Proj](proj-surjection-closed-immersion.md)
 - [Homogeneous ideals and truncation define the same Proj subscheme](proj-closed-subscheme-truncation.md)
 - [Noetherian induction](noetherian-induction.md)
