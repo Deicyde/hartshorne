@@ -461,4 +461,224 @@ theorem quadricChart_eq_const_of_isUnit (i j : Fin 2) {a : Away 𝒬 (quadricCha
 
 end Chart
 
+section ClassGroup
+
+local notation "hQ" => quadricSurface_satisfiesConditionStar k
+
+/-- The coordinate ring of the chart `D₊(s₀u₀)`. -/
+def quadricChartRing : CommRingCat.{u} := CommRingCat.of (Away 𝒬 (quadricChart k 0 0))
+
+instance quadricChartRing_isDomain : IsDomain (quadricChartRing k) := quadricChart_isDomain k 0 0
+
+instance quadricChartRing_isNoetherianRing : IsNoetherianRing (quadricChartRing k) :=
+  quadricChart_isNoetherianRing k 0 0
+
+instance quadricChartRing_uniqueFactorizationMonoid :
+    UniqueFactorizationMonoid (quadricChartRing k) :=
+  quadricChart_uniqueFactorizationMonoid k 0 0
+
+theorem quadricChartRing_spec_satisfiesConditionStar :
+    (Spec (quadricChartRing k)).SatisfiesConditionStar :=
+  quadricChart_spec_satisfiesConditionStar k 0 0
+
+local notation "hA" => quadricChartRing_spec_satisfiesConditionStar k
+
+/-- The chart `D₊(s₀u₀) ≅ 𝔸²` of `Q`, as an open immersion. -/
+abbrev quadricChartι : Spec (quadricChartRing k) ⟶ quadricSurface k :=
+  Proj.awayι 𝒬 (quadricChart k 0 0) (quadricChart_mem k 0 0) Nat.one_pos
+
+instance quadricChartι_isOpenImmersion : IsOpenImmersion (quadricChartι k) :=
+  inferInstanceAs
+    (IsOpenImmersion (Proj.awayι 𝒬 (quadricChart k 0 0) (quadricChart_mem k 0 0) Nat.one_pos))
+
+theorem quadricChartι_genericPoint :
+    (quadricChartι k).base (genericPoint _) = genericPoint (quadricSurface k) :=
+  genericPoint_eq_of_isOpenImmersion _
+
+theorem mem_range_quadricChartι {x : quadricSurface k} :
+    x ∈ Set.range (quadricChartι k).base ↔ x ∈ Proj.basicOpen 𝒬 (quadricChart k 0 0) := by
+  have h := Proj.opensRange_awayι 𝒬 (quadricChart k 0 0) (quadricChart_mem k 0 0) Nat.one_pos
+  rw [← Scheme.Hom.coe_opensRange]
+  change x ∈ (Proj.awayι 𝒬 (quadricChart k 0 0) (quadricChart_mem k 0 0) Nat.one_pos).opensRange
+    ↔ _
+  rw [h]
+
+/-- Pullback of rational functions from `Q` to the chart `D₊(s₀u₀)`. -/
+abbrev quadricChartPull :
+    (quadricSurface k).functionField ⟶ (Spec (quadricChartRing k)).functionField :=
+  (quadricChartι k).genericFunctionFieldMap (quadricChartι_genericPoint k)
+
+theorem ord_quadricChartPull {v : Spec (quadricChartRing k)} (hv : coheight v = 1)
+    (F : (quadricSurface k).functionField) :
+    (Spec (quadricChartRing k)).ord (quadricChartPull k F) v =
+      (quadricSurface k).ord F ((quadricChartι k).base v) :=
+  Scheme.ord_genericFunctionFieldMap hA hQ _ _ hv
+    (by rw [coheight_eq_of_isOpenImmersion]; exact hv)
+    (Scheme.Hom.map_maximalIdeal_stalkMap_of_isOpenImmersion _ v) F
+
+/-- The prime divisor `L₁ = {s₀ = 0}`. -/
+def quadricLineOneDivisor : (quadricSurface k).PrimeDivisor :=
+  ⟨quadricLineOne k, coheight_quadricLineOne k⟩
+
+/-- The prime divisor `L₂ = {u₀ = 0}`. -/
+def quadricLineTwoDivisor : (quadricSurface k).PrimeDivisor :=
+  ⟨quadricLineTwo k, coheight_quadricLineTwo k⟩
+
+/-- The homomorphism `ℤ × ℤ → Cl Q`, `(a, b) ↦ a [L₁] + b [L₂]`. -/
+def quadricClassGroupHom : ℤ × ℤ →+ (quadricSurface k).WeilClassGroup hQ :=
+  AddMonoidHom.coprod
+    (zmultiplesHom _ ((quadricSurface k).weilDivisorClassHom hQ
+      (quadricLineOneDivisor k).toWeilDivisor))
+    (zmultiplesHom _ ((quadricSurface k).weilDivisorClassHom hQ
+      (quadricLineTwoDivisor k).toWeilDivisor))
+
+theorem quadricClassGroupHom_apply (a b : ℤ) :
+    quadricClassGroupHom k (a, b) = (quadricSurface k).weilDivisorClassHom hQ
+      (a • (quadricLineOneDivisor k).toWeilDivisor +
+        b • (quadricLineTwoDivisor k).toWeilDivisor) := by
+  simp [quadricClassGroupHom, map_add, map_zsmul]
+
+theorem quadricLineOne_ne_of_mem {x : quadricSurface k}
+    (hx : x ∈ Proj.basicOpen 𝒬 (quadricChart k 0 0)) : x ≠ (quadricLineOneDivisor k).1 :=
+  fun h => quadricLineOne_notMem_basicOpen k (by rw [h] at hx; exact hx)
+
+theorem quadricLineTwo_ne_of_mem {x : quadricSurface k}
+    (hx : x ∈ Proj.basicOpen 𝒬 (quadricChart k 0 0)) : x ≠ (quadricLineTwoDivisor k).1 :=
+  fun h => quadricLineTwo_notMem_basicOpen k (by rw [h] at hx; exact hx)
+
+/-- **Surjectivity, one prime divisor.** The class of a prime divisor of `Q` is an integral
+combination of `[L₁]` and `[L₂]`. -/
+theorem quadric_primeDivisor_mem_range (P : (quadricSurface k).PrimeDivisor) :
+    (quadricSurface k).weilDivisorClassHom hQ P.toWeilDivisor ∈
+      (quadricClassGroupHom k).range := by
+  by_cases hxU : P.1 ∈ Proj.basicOpen 𝒬 (quadricChart k 0 0)
+  swap
+  · rcases eq_quadricLine_of_notMem_basicOpen k P.2 hxU with h | h
+    · refine ⟨(1, 0), ?_⟩
+      rw [quadricClassGroupHom_apply]
+      have : P = quadricLineOneDivisor k := Subtype.ext h
+      simp [this]
+    · refine ⟨(0, 1), ?_⟩
+      rw [quadricClassGroupHom_apply]
+      have : P = quadricLineTwoDivisor k := Subtype.ext h
+      simp [this]
+  obtain ⟨v, hv⟩ := (mem_range_quadricChartι k).mpr hxU
+  have hv1 : coheight v = 1 := by rw [← coheight_eq_of_isOpenImmersion (quadricChartι k), hv]; exact P.2
+  have hheight : v.asIdeal.height = 1 := by rw [idealHeight_eq_coheight]; exact hv1
+  have := v.isPrime
+  obtain ⟨π, hπ⟩ := (UniqueFactorizationMonoid.isPrincipal_of_height_eq_one hheight).principal
+  have hπ0 : π ≠ 0 := by
+    rintro rfl
+    have : v.asIdeal = ⊥ := by rw [hπ]; simp
+    rw [this, Ideal.height_bot] at hheight
+    exact zero_ne_one hheight
+  have hπK : algebraMap (quadricChartRing k) (Spec (quadricChartRing k)).functionField π ≠ 0 :=
+    IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors (mem_nonZeroDivisors_of_ne_zero hπ0)
+  obtain ⟨F, hF⟩ := Scheme.Hom.genericFunctionFieldMap_surjective_of_isOpenImmersion
+    (quadricChartι k) (quadricChartι_genericPoint k)
+    (algebraMap (quadricChartRing k) (Spec (quadricChartRing k)).functionField π)
+  have hF0 : F ≠ 0 := by
+    rintro rfl
+    rw [map_zero] at hF
+    exact hπK hF.symm
+  set a := (quadricSurface k).ord F (quadricLineOne k) with ha
+  set b := (quadricSurface k).ord F (quadricLineTwo k) with hb
+  refine ⟨(-a, -b), ?_⟩
+  rw [quadricClassGroupHom_apply]
+  refine (((quadricSurface k).weilDivisorClass_eq_iff hQ _ _).mpr ⟨Units.mk0 F hF0, ?_⟩).symm
+  apply Scheme.WeilDivisor.ext_apply
+  intro x
+  rw [Scheme.principalDivisor_apply hQ, Units.val_mk0]
+  simp only [neg_smul, AddSubgroup.coe_sub, AddSubgroup.coe_add, AddSubgroup.coe_neg,
+    AddSubgroupClass.coe_zsmul, Function.locallyFinsuppWithin.coe_sub,
+    Function.locallyFinsuppWithin.coe_add, Function.locallyFinsuppWithin.coe_neg,
+    Function.locallyFinsuppWithin.coe_zsmul, Pi.sub_apply, Pi.add_apply, Pi.neg_apply,
+    Pi.smul_apply, smul_eq_mul]
+  by_cases hx1 : coheight x = 1
+  swap
+  · rw [Scheme.ord_eq_zero_of_coheight_neq_one hx1, P.toWeilDivisor.2 x hx1,
+      (quadricLineOneDivisor k).toWeilDivisor.2 x hx1,
+      (quadricLineTwoDivisor k).toWeilDivisor.2 x hx1]
+    ring
+  by_cases hxU' : x ∈ Proj.basicOpen 𝒬 (quadricChart k 0 0)
+  · obtain ⟨v', rfl⟩ := (mem_range_quadricChartι k).mpr hxU'
+    have hv1' : coheight v' = 1 := by rwa [coheight_eq_of_isOpenImmersion] at hx1
+    rw [Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ (quadricLineOne_ne_of_mem k hxU'),
+      Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ (quadricLineTwo_ne_of_mem k hxU'),
+      ← ord_quadricChartPull k hv1', hF]
+    by_cases hvv : v' = v
+    · subst hvv
+      rw [hv, Scheme.PrimeDivisor.toWeilDivisor_apply_self,
+        spec_ord_algebraMap_eq_one_of_span_eq hA hv1 hπ.symm]
+      ring
+    · have hne : (quadricChartι k).base v' ≠ P.1 := by
+        rw [← hv]
+        exact fun h => hvv ((quadricChartι k).isOpenEmbedding.injective h)
+      rw [Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ hne]
+      have hπv' : π ∉ v'.asIdeal := by
+        intro hmem
+        have hle : v.asIdeal ≤ v'.asIdeal := by
+          rw [hπ, Submodule.span_le, Set.singleton_subset_iff]
+          exact hmem
+        exact hvv (eq_of_coheight_eq_one_of_specializes hv1' hv1
+          ((PrimeSpectrum.le_iff_specializes v v').mp hle))
+      rw [(spec_ord_algebraMap_eq_zero_iff hA hv1' hπ0).mpr hπv']
+      ring
+  · rcases eq_quadricLine_of_notMem_basicOpen k hx1 hxU' with rfl | rfl
+    · rw [Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _
+          (fun h => quadricLineOne_notMem_basicOpen k (by rw [h]; exact hxU)),
+        show quadricLineOne k = (quadricLineOneDivisor k).1 from rfl,
+        Scheme.PrimeDivisor.toWeilDivisor_apply_self,
+        Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ (quadricLineOne_ne_quadricLineTwo k)]
+      change _ = (quadricSurface k).ord F (quadricLineOne k)
+      ring
+    · rw [Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _
+          (fun h => quadricLineTwo_notMem_basicOpen k (by rw [h]; exact hxU)),
+        show quadricLineTwo k = (quadricLineTwoDivisor k).1 from rfl,
+        Scheme.PrimeDivisor.toWeilDivisor_apply_self,
+        Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _
+          (quadricLineOne_ne_quadricLineTwo k).symm]
+      change _ = (quadricSurface k).ord F (quadricLineTwo k)
+      ring
+
+/-- **Surjectivity.** Every divisor class of `Q` is an integral combination of `[L₁]` and
+`[L₂]`. -/
+theorem quadricClassGroupHom_surjective : Function.Surjective (quadricClassGroupHom k) := by
+  classical
+  intro c
+  obtain ⟨D, rfl⟩ := QuotientAddGroup.mk_surjective c
+  let e := (quadricSurface k).weilDivisorAddEquivFinsupp
+  have key : ∀ f : (quadricSurface k).PrimeDivisor →₀ ℤ,
+      (quadricSurface k).weilDivisorClassHom hQ (e.symm f) ∈ (quadricClassGroupHom k).range := by
+    intro f
+    induction f using Finsupp.induction_linear with
+    | zero => simp
+    | add f g hf hg =>
+      rw [map_add, map_add]
+      exact add_mem hf hg
+    | single P n =>
+      have hsingle : e.symm (Finsupp.single P n) = n • P.toWeilDivisor := by
+        apply Scheme.WeilDivisor.ext_apply
+        intro x
+        simp only [AddSubgroupClass.coe_zsmul, Function.locallyFinsuppWithin.coe_zsmul,
+          Pi.smul_apply, smul_eq_mul]
+        by_cases hx : coheight x = 1
+        · have := Scheme.weilDivisorAddEquivFinsupp_symm_apply_coeff (Finsupp.single P n)
+            ⟨x, hx⟩
+          simp only at this
+          rw [this, Finsupp.single_apply]
+          by_cases hPx : P = ⟨x, hx⟩
+          · subst hPx
+            rw [if_pos rfl, Scheme.PrimeDivisor.toWeilDivisor_apply_self, mul_one]
+          · rw [if_neg hPx, Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _
+              (fun h => hPx (Subtype.ext h.symm)), mul_zero]
+        · rw [(e.symm (Finsupp.single P n)).2 x hx, P.toWeilDivisor.2 x hx, mul_zero]
+      rw [hsingle, map_zsmul]
+      exact zsmul_mem (quadric_primeDivisor_mem_range k P) n
+  have := key (e D)
+  rw [AddEquiv.symm_apply_apply] at this
+  exact this
+
+end ClassGroup
+
 end Hartshorne
