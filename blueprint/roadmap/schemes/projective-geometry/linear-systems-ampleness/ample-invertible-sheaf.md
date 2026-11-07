@@ -16,6 +16,7 @@ sections for every sufficiently large $n$.
 - [Generation by global sections](../../projective-sheaves/globally-generated-module-sheaf.md)
 - [Module tensor product](../../modules-and-quasicoherent/module-tensor-product.md)
 - [The affine-local criterion for coherence](../../modules-and-quasicoherent/coherent-affine-local-criterion.md)
+- [Sheaf tensor, symmetric, and exterior operations](../../module-exercises/sheaf-tensor-operations.md)
 
 ## Sources
 
