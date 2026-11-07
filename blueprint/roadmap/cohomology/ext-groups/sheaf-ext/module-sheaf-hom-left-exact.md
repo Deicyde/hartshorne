@@ -2,6 +2,9 @@
 article_id: af_d21e8ae65cb672de66c70211
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.Ringed.moduleSheafHomFunctor_additive_leftExact Hartshorne.Ringed.moduleSheafHomGlobalSectionsIso Hartshorne.Ringed.moduleSheafHomFunctor
 ---
 
 # Sheaf Hom as a left-exact functor
