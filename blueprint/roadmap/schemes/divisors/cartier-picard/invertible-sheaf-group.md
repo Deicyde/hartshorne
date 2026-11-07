@@ -2,6 +2,9 @@
 article_id: af_8d2be8c21fece52c1133a2ff
 declaration: definition
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.Ringed.Pic Hartshorne.Ringed.Pic.mk Hartshorne.Ringed.Pic.mk_eq_mk_iff Hartshorne.Ringed.Pic.instCommGroup Hartshorne.Ringed.Pic.mk_mul_mk Hartshorne.Ringed.Pic.one_eq_mk Hartshorne.Ringed.Pic.inv_mk Hartshorne.Ringed.isInvertible_moduleSheafTensor Hartshorne.Ringed.moduleSheafDualEval Hartshorne.Ringed.moduleSheafDualEval_isIso Hartshorne.Ringed.moduleSheafDualEvalIso Hartshorne.Ringed.isInvertible_moduleSheafDual Hartshorne.Ringed.structureModule_isInvertible
 ---
 
 # The Picard group of a ringed space

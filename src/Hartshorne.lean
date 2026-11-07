@@ -443,7 +443,7 @@ import Hartshorne.Scheme.SheafTensorOperations
 import Hartshorne.Scheme.VarietyAssociatedScheme
 import Hartshorne.Scheme.ProjectiveMorphismCalculus
 import Hartshorne.Scheme.VarietySchemeOverK
-import Hartshorne.Scheme.PicardGroup
+import Hartshorne.RingedSpace.PicardGroup
 import Hartshorne.Scheme.VarietyClosedPoints
 import Hartshorne.Scheme.AffineLineClassGroup
 import Hartshorne.Scheme.VarietyToSchemeFunctor
