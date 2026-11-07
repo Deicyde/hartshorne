@@ -47,3 +47,28 @@ would weaken the stated generality, and downstream articles (for example
 Lean pitfall: `X.sheaf` is a `TopCat.Sheaf` while `moduleSheafTensor` takes a `Sheaf`, so
 `rw` and instance search often fail on terms built from `moduleSheafTensor`. Term-mode proofs
 and the `X.Modules`-typed abbreviation `modulesTensorObj` avoid this.
+
+## Ringed-space generalization plan
+
+The project owner chose the first route above: generalize the prerequisites, then this
+article. Setting: `{X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}`, modules `SheafOfModules.{u} (ringCatSheafOf R)`, new general declarations in namespace `Hartshorne.Ringed` under `src/Hartshorne/RingedSpace/`. Schemes are the case `R := X.sheaf`, for which `SheafOfModules (ringCatSheafOf X.sheaf)` is definitionally `X.Modules`.
+
+This article is stage 5 and needs stages 2 (general locally free and invertible:
+`Ringed.IsLocallyFreeOfRank`, `Ringed.IsInvertible`, `Ringed.IsFiniteLocallyFree`) and 3 (general
+duality: `Ringed.moduleSheafHom`, `Ringed.moduleSheafDual`, `Ringed.IsLocalFrame`, the double-dual
+and dual-tensor isomorphisms). It does not need stage 4 or 6.
+
+Stage 5: `RingedSpace/PicardGroup.lean` generalizes `Hartshorne.Scheme.PicardGroup` and records
+`Ringed.isInvertible_moduleSheafTensor`, `Ringed.moduleSheafDualEval`,
+`Ringed.moduleSheafDualEval_isIso`, `Ringed.moduleSheafDualEvalIso`,
+`Ringed.isInvertible_moduleSheafDual`, `Ringed.structureModule_isInvertible`, `Ringed.Pic`,
+`Ringed.Pic.mk`, `Ringed.Pic.instCommGroup`, `Ringed.Pic.mk_mul_mk`, `Ringed.Pic.one_eq_mk`,
+`Ringed.Pic.inv_mk` (supporting: `Ringed.moduleSheafTensorAssoc`, `Ringed.moduleSheafTensorComm`,
+`Ringed.moduleSheafUnitTensor`, `Ringed.moduleSheafTensorIsoOfIso`,
+`Ringed.moduleSheafDualIsoOfIso`). The scheme Picard group is `Ringed.Pic X.sheaf`. The
+scheme module has no users and is deleted in the same commit. Claims: this article plus the
+`lean/...` targets of the deleted scheme declarations, as listed by `work impact` with
+`--declaration` for them. Unlocks picard-h1-units, cartier-class-to-picard and picard-pullback
+in ringed-space form.
+
+The full staged plan (setting, route, all stages, claim sets) is in the implementation note of the Modules and quasi-coherent sheaves container (`af_cef7a5b34bf9a0c78dc51155`).
