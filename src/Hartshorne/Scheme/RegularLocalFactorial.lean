@@ -27,16 +27,19 @@ Theorem 48, p. 142, as cited by Hartshorne II, Remark 6.11.1A).
   a nonzero finitely generated ideal of a domain that is principal at every maximal ideal is an
   invertible fractional ideal.
 * `Hartshorne.RegularLocalFactorial.uniqueFactorizationMonoid_of_isStablyFree`:
-  a Noetherian domain whose localizations at maximal ideals are UFDs and whose height-one primes
-  are stably free is a UFD.
+  a Noetherian domain whose localizations at maximal ideals are UFDs and whose projective
+  height-one primes are stably free is a UFD.
 * `Hartshorne.RegularLocalFactorial.isStablyFree_of_exact`:
   in `0 → K → F → M → 0` with `F` finite free and `M` projective, `K` stably free implies `M`
   stably free.
+* `Hartshorne.RegularLocalFactorial.uniqueFactorizationMonoid_of_forall_localization`:
+  the induction on the dimension, with its two remaining inputs (regularity of localizations,
+  stable freeness of projective ideals of `R[1/x]`) as hypotheses.
 
-These are the base case and the reduction step of the standard induction on the dimension; the
-remaining step (that `R[1/x]` is a UFD) needs Serre's finite global dimension of regular local
-rings, stable freeness of projective modules with finite free resolutions, and the regularity of
-localizations of regular local rings.
+The two inputs still missing are the regularity of localizations of regular local rings and the
+stable freeness of projective ideals of `R[1/x]`; the latter follows from Serre's theorem (every
+finitely generated module over a regular local ring has a finite free resolution) together with
+`isStablyFree_of_exact`.
 -/
 
 open IsLocalRing Ideal
@@ -212,11 +215,11 @@ theorem isPrincipal_of_linearEquiv {p : Ideal A} (f : p ≃ₗ[A] A) : p.IsPrinc
 variable [IsNoetherianRing A]
 
 omit K in
-/-- A nonzero stably free ideal of a Noetherian domain whose extension to every localization at a
-maximal ideal is principal is itself principal: it is invertible, and an invertible stably free
-module is free. -/
+/-- A nonzero ideal of a Noetherian domain whose extension to every localization at a maximal ideal
+is principal, and which is stably free as soon as it is projective, is itself principal: it is
+invertible (hence projective), and an invertible stably free module is free. -/
 theorem isPrincipal_of_isStablyFree_of_forall_isPrincipal_map {p : Ideal A} (hp : p ≠ ⊥)
-    [Module.IsStablyFree A p]
+    (hsf : Module.Projective A p → Module.IsStablyFree A p)
     (h : ∀ (m : Ideal A) [m.IsMaximal],
       (p.map (algebraMap A (Localization.AtPrime m))).IsPrincipal) :
     p.IsPrincipal := by
@@ -228,22 +231,23 @@ theorem isPrincipal_of_isStablyFree_of_forall_isPrincipal_map {p : Ideal A} (hp 
   have : Module.Invertible A (Submodule.map (Algebra.linearMap A K) p) :=
     inferInstanceAs (Module.Invertible A (hu.unit : Submodule A K))
   have : Module.Invertible A p := Module.Invertible.congr e.symm
+  have : Module.IsStablyFree A p := hsf inferInstance
   have : Module.Free A p := Module.free_of_isStablyFree_of_invertible A p
   obtain ⟨f⟩ := Module.Invertible.free_iff_linearEquiv.mp this
   exact isPrincipal_of_linearEquiv f
 
 omit K in
-/-- A Noetherian domain whose localizations at maximal ideals are UFDs and whose height-one primes
-are stably free is a UFD. -/
+/-- A Noetherian domain whose localizations at maximal ideals are UFDs, and whose projective
+height-one primes are stably free, is a UFD. -/
 theorem uniqueFactorizationMonoid_of_isStablyFree
     (hloc : ∀ (m : Ideal A) [m.IsMaximal], UniqueFactorizationMonoid (Localization.AtPrime m))
-    (hsf : ∀ p : Ideal A, p.IsPrime → p.height = 1 → Module.IsStablyFree A p) :
+    (hsf : ∀ p : Ideal A, p.IsPrime → p.height = 1 → Module.Projective A p →
+      Module.IsStablyFree A p) :
     UniqueFactorizationMonoid A := by
   rw [UniqueFactorizationMonoid.iff_forall_isPrincipal_of_height_eq_one]
   intro p _ hp1
-  have := hsf p ‹_› hp1
   refine isPrincipal_of_isStablyFree_of_forall_isPrincipal_map (p.ne_bot_of_height_eq_one hp1)
-    fun m _ => ?_
+    (hsf p ‹_› hp1) fun m _ => ?_
   by_cases hpm : p ≤ m
   · have hd : Disjoint (m.primeCompl : Set A) p :=
       Set.disjoint_left.mpr fun x hx hxp => hx (hpm hxp)
@@ -286,5 +290,68 @@ theorem isStablyFree_of_exact {f : K →ₗ[R] F} {g : F →ₗ[R] M} (hf : Func
   exact Module.IsStablyFree.of_free_prod R M (K × N)
 
 end StablyFree
+
+section Induction
+
+universe u
+
+/-- The induction on the dimension behind "a regular local ring is a UFD", with its two remaining
+inputs as hypotheses: localizations of regular local rings at primes are regular, and projective
+ideals of the localization `R[1/x]` of a regular local ring are stably free. For `x ∈ 𝔪 \ 𝔪²`,
+`R` is a UFD iff `R[1/x]` is; the localizations of `R[1/x]` at maximal ideals are localizations of
+`R` at non-maximal primes, which are UFDs by induction. -/
+theorem uniqueFactorizationMonoid_of_forall_localization
+    (H1 : ∀ (R : Type u) [CommRing R] [IsRegularLocalRing R] (q : Ideal R) [q.IsPrime],
+      IsRegularLocalRing (Localization.AtPrime q))
+    (H2 : ∀ (R : Type u) [CommRing R] [IsRegularLocalRing R] (x : R)
+      (P : Ideal (Localization.Away x)), Module.Projective (Localization.Away x) P →
+        Module.IsStablyFree (Localization.Away x) P)
+    (R : Type u) [CommRing R] [IsRegularLocalRing R] : UniqueFactorizationMonoid R := by
+  suffices h : ∀ n : ℕ, ∀ (R : Type u) [CommRing R] [IsRegularLocalRing R],
+      ringKrullDim R = n → UniqueFactorizationMonoid R from
+    h _ R (IsRegularLocalRing.spanFinrank_maximalIdeal (R := R)).symm
+  intro n
+  induction n using Nat.strong_induction_on with
+  | _ n ih =>
+  intro R _ _ hn
+  rcases le_or_gt n 1 with h1 | h1
+  · exact uniqueFactorizationMonoid_of_ringKrullDim_le_one (by rw [hn]; exact_mod_cast h1)
+  obtain ⟨x, hxm, hx2⟩ := exists_mem_maximalIdeal_notMem_sq (R := R)
+    (by rw [hn]; exact_mod_cast (by omega : 0 < n))
+  have := Hartshorne.RegularLocal.isDomain R
+  have hx0 : x ≠ 0 := (prime_of_mem_maximalIdeal_of_notMem_sq hxm hx2).ne_zero
+  rw [uniqueFactorizationMonoid_iff_localizationAway hxm hx2]
+  have : IsDomain (Localization.Away x) := IsLocalization.Away.isDomain (Localization.Away x) hx0
+  have : IsNoetherianRing (Localization.Away x) :=
+    IsLocalization.isNoetherianRing (Submonoid.powers x) _ inferInstance
+  refine uniqueFactorizationMonoid_of_isStablyFree (fun m _ => ?_) (fun P _ _ hP => H2 R x P hP)
+  set q := m.comap (algebraMap R (Localization.Away x))
+  have hxq : x ∉ q := by
+    intro hxq
+    exact (‹m.IsMaximal›.ne_top) (Ideal.eq_top_of_isUnit_mem _ hxq
+      (IsLocalization.Away.algebraMap_isUnit x))
+  have hqm : q < maximalIdeal R :=
+    lt_of_le_of_ne (le_maximalIdeal (IsPrime.ne_top inferInstance)) fun h => hxq (h ▸ hxm)
+  have := H1 R q
+  set k := (maximalIdeal (Localization.AtPrime q)).spanFinrank
+  have hk : ringKrullDim (Localization.AtPrime q) = k :=
+    (IsRegularLocalRing.spanFinrank_maximalIdeal (R := Localization.AtPrime q)).symm
+  have hkn : k < n := by
+    have e1 := IsLocalization.AtPrime.ringKrullDim_eq_height q (Localization.AtPrime q)
+    have e2 := Ideal.height_add_one_le_of_lt_of_isPrime hqm
+    have e3 := IsLocalRing.maximalIdeal_height_eq_ringKrullDim (R := R)
+    rw [hk] at e1
+    rw [hn] at e3
+    have hq : q.height = k := by exact_mod_cast e1.symm
+    have hm : (maximalIdeal R).height = n := by exact_mod_cast e3
+    rw [hq, hm] at e2
+    have : ((k + 1 : ℕ) : ℕ∞) ≤ n := by exact_mod_cast e2
+    have : k + 1 ≤ n := by exact_mod_cast this
+    omega
+  have := ih k hkn (Localization.AtPrime q) hk
+  exact (IsLocalization.localizationLocalizationAtPrimeIsoLocalization (Submonoid.powers x)
+    m).toMulEquiv.uniqueFactorizationMonoid this
+
+end Induction
 
 end Hartshorne.RegularLocalFactorial
