@@ -287,4 +287,178 @@ theorem coheight_quadricLinePoint (hℓ : ℓ (quadricChartExp 1 1) = 0) {t : qu
 
 end Lines
 
+section TwoLines
+
+/-- The exponent of `s₀` in a monomial. -/
+def quadricExpS : quadricExponents →+ ℕ where
+  toFun p := p.1.1 0
+  map_zero' := rfl
+  map_add' _ _ := rfl
+
+/-- The exponent of `u₀` in a monomial. -/
+def quadricExpU : quadricExponents →+ ℕ where
+  toFun p := p.1.2 0
+  map_zero' := rfl
+  map_add' _ _ := rfl
+
+theorem quadricExpS_apply (p : quadricExponents) : quadricExpS p = p.1.1 0 := rfl
+
+theorem quadricExpU_apply (p : quadricExponents) : quadricExpU p = p.1.2 0 := rfl
+
+theorem quadricExpS_chartExp_one_one : quadricExpS (quadricChartExp 1 1) = 0 := rfl
+
+theorem quadricExpU_chartExp_one_one : quadricExpU (quadricChartExp 1 1) = 0 := rfl
+
+/-- A monomial with `eᵢ ≠ 0` and `gⱼ ≠ 0` is divisible by `sᵢuⱼ`. -/
+theorem exists_eq_quadricChartExp_add (p : quadricExponents) (i j : Fin 2) (hi : p.1.1 i ≠ 0)
+    (hj : p.1.2 j ≠ 0) : ∃ p', p = quadricChartExp i j + p' := by
+  have h := (mem_quadricExponents _).mp p.2
+  refine ⟨⟨(p.1.1 - Pi.single i 1, p.1.2 - Pi.single j 1), ?_⟩, ?_⟩
+  · rw [mem_quadricExponents]
+    fin_cases i <;> fin_cases j <;> simp at hi hj ⊢ <;> omega
+  · apply Subtype.ext
+    apply Prod.ext <;> funext l <;>
+      fin_cases i <;> fin_cases j <;> fin_cases l <;> simp [quadricChartExp] at hi hj ⊢ <;> omega
+
+theorem quadricExpS_shift (p : quadricExponents) (hp : quadricExpS p ≠ 0) :
+    ∃ p', p + quadricChartExp 1 1 = quadricChartExp 0 1 + p' := by
+  have h := (mem_quadricExponents _).mp p.2
+  rw [quadricExpS_apply] at hp
+  refine ⟨⟨(p.1.1 - Pi.single 0 1 + Pi.single 1 1, p.1.2), ?_⟩, ?_⟩
+  · rw [mem_quadricExponents]
+    simp
+    omega
+  · apply Subtype.ext
+    apply Prod.ext <;> funext l <;> fin_cases l <;> simp [quadricChartExp] <;> omega
+
+theorem quadricExpU_shift (p : quadricExponents) (hp : quadricExpU p ≠ 0) :
+    ∃ p', p + quadricChartExp 1 1 = quadricChartExp 1 0 + p' := by
+  have h := (mem_quadricExponents _).mp p.2
+  rw [quadricExpU_apply] at hp
+  refine ⟨⟨(p.1.1, p.1.2 - Pi.single 0 1 + Pi.single 1 1), ?_⟩, ?_⟩
+  · rw [mem_quadricExponents]
+    simp
+    omega
+  · apply Subtype.ext
+    apply Prod.ext <;> funext l <;> fin_cases l <;> simp [quadricChartExp] <;> omega
+
+/-- **The line `L₁ = {s₀ = 0}`** of `Q`, a fibre of the first projection `Q ≅ ℙ¹ × ℙ¹ → ℙ¹`. -/
+def quadricLineOne : quadricSurface k :=
+  quadricLinePoint k quadricExpS_chartExp_one_one
+
+/-- **The line `L₂ = {u₀ = 0}`** of `Q`, a fibre of the second projection `Q ≅ ℙ¹ × ℙ¹ → ℙ¹`. -/
+def quadricLineTwo : quadricSurface k :=
+  quadricLinePoint k quadricExpU_chartExp_one_one
+
+theorem coheight_quadricLineOne : coheight (quadricLineOne k) = 1 :=
+  coheight_quadricLinePoint k quadricExpS quadricExpS_chartExp_one_one
+    (quadricDegree_chartExp 0 1) (by simp [quadricExpS_apply, quadricChartExp]) quadricExpS_shift
+
+theorem coheight_quadricLineTwo : coheight (quadricLineTwo k) = 1 :=
+  coheight_quadricLinePoint k quadricExpU quadricExpU_chartExp_one_one
+    (quadricDegree_chartExp 1 0) (by simp [quadricExpU_apply, quadricChartExp]) quadricExpU_shift
+
+theorem quadricLineOne_ne_quadricLineTwo : quadricLineOne k ≠ quadricLineTwo k := by
+  intro h
+  have hmem := single_mem_quadricLineIdeal k quadricExpS (p := quadricChartExp 0 1)
+    (by simp [quadricExpS_apply, quadricChartExp]) (1 : k)
+  rw [← quadricLinePoint_ideal k quadricExpS_chartExp_one_one] at hmem
+  change single _ 1 ∈ (quadricLineOne k).asHomogeneousIdeal.toIdeal at hmem
+  rw [h] at hmem
+  exact (mem_quadricLineIdeal_iff k quadricExpU _).mp hmem (quadricChartExp 0 1)
+    (by simp [coeff_single]) (by simp [quadricExpU_apply, quadricChartExp])
+
+/-- `L₁` lies outside the chart `D₊(s₀u₀)`. -/
+theorem quadricLineOne_notMem_basicOpen :
+    quadricLineOne k ∉ Proj.basicOpen 𝒬 (quadricChart k 0 0) := by
+  rw [Proj.mem_basicOpen, not_not]
+  exact single_mem_quadricLineIdeal k quadricExpS (by simp [quadricExpS_apply, quadricChartExp]) 1
+
+/-- `L₂` lies outside the chart `D₊(s₀u₀)`. -/
+theorem quadricLineTwo_notMem_basicOpen :
+    quadricLineTwo k ∉ Proj.basicOpen 𝒬 (quadricChart k 0 0) := by
+  rw [Proj.mem_basicOpen, not_not]
+  exact single_mem_quadricLineIdeal k quadricExpU (by simp [quadricExpU_apply, quadricChartExp]) 1
+
+/-- The hyperplane section `s₀u₀ = 0` is `L₁ ∪ L₂`: a point outside the chart `D₊(s₀u₀)` is a
+specialization of `L₁` or of `L₂`. -/
+theorem quadricLine_specializes_of_notMem_basicOpen {x : quadricSurface k}
+    (hx : x ∉ Proj.basicOpen 𝒬 (quadricChart k 0 0)) :
+    quadricLineOne k ⤳ x ∨ quadricLineTwo k ⤳ x := by
+  rw [Proj.mem_basicOpen, not_not] at hx
+  have hw : single (quadricChartExp 0 0) (1 : k) ∈ x.asHomogeneousIdeal.toIdeal := hx
+  rw [quadricSurface_specializes_iff, quadricSurface_specializes_iff]
+  by_cases hz : single (quadricChartExp 0 1) (1 : k) ∈ x.asHomogeneousIdeal.toIdeal
+  · left
+    refine quadricLineIdeal_le_of_dvd k hw hz fun p hp => ?_
+    have h := (mem_quadricExponents _).mp p.2
+    rw [quadricExpS_apply] at hp
+    by_cases hg : p.1.2 0 = 0
+    · obtain ⟨p', hp'⟩ := exists_eq_quadricChartExp_add p 0 1 hp (by omega)
+      exact ⟨p', Or.inr hp'⟩
+    · obtain ⟨p', hp'⟩ := exists_eq_quadricChartExp_add p 0 0 hp hg
+      exact ⟨p', Or.inl hp'⟩
+  · right
+    have hrel : single (quadricChartExp 0 0) (1 : k) * single (quadricChartExp 1 1) 1 =
+        single (quadricChartExp 0 1) 1 * single (quadricChartExp 1 0) 1 := by
+      rw [single_mul_single, single_mul_single]
+      congr 1
+      apply Subtype.ext
+      apply Prod.ext <;> funext l <;> fin_cases l <;> simp [quadricChartExp]
+    have hw'' : single (quadricChartExp 1 0) (1 : k) ∈ x.asHomogeneousIdeal.toIdeal := by
+      have hmem : single (quadricChartExp 0 1) (1 : k) * single (quadricChartExp 1 0) 1 ∈
+          x.asHomogeneousIdeal.toIdeal := hrel ▸ Ideal.mul_mem_right _ _ hw
+      exact (x.isPrime.mem_or_mem hmem).resolve_left hz
+    refine quadricLineIdeal_le_of_dvd k hw hw'' fun p hp => ?_
+    have h := (mem_quadricExponents _).mp p.2
+    rw [quadricExpU_apply] at hp
+    by_cases he : p.1.1 0 = 0
+    · obtain ⟨p', hp'⟩ := exists_eq_quadricChartExp_add p 1 0 (by omega) hp
+      exact ⟨p', Or.inr hp'⟩
+    · obtain ⟨p', hp'⟩ := exists_eq_quadricChartExp_add p 0 0 he hp
+      exact ⟨p', Or.inl hp'⟩
+
+/-- The only prime divisors of `Q` outside the chart `D₊(s₀u₀)` are `L₁` and `L₂`. -/
+theorem eq_quadricLine_of_notMem_basicOpen {x : quadricSurface k} (hx1 : coheight x = 1)
+    (hx : x ∉ Proj.basicOpen 𝒬 (quadricChart k 0 0)) :
+    x = quadricLineOne k ∨ x = quadricLineTwo k := by
+  rcases quadricLine_specializes_of_notMem_basicOpen k hx with h | h
+  · exact Or.inl (eq_of_coheight_eq_one_of_specializes hx1 (coheight_quadricLineOne k) h)
+  · exact Or.inr (eq_of_coheight_eq_one_of_specializes hx1 (coheight_quadricLineTwo k) h)
+
+end TwoLines
+
+section Chart
+
+instance quadricChart_isDomain (i j : Fin 2) : IsDomain (Away 𝒬 (quadricChart k i j)) :=
+  MulEquiv.isDomain (MvPolynomial (Fin 2) k) (quadricChartAwayEquiv k i j).toMulEquiv
+
+instance quadricChart_isNoetherianRing (i j : Fin 2) :
+    IsNoetherianRing (Away 𝒬 (quadricChart k i j)) :=
+  isNoetherianRing_of_ringEquiv (MvPolynomial (Fin 2) k) (quadricChartAwayEquiv k i j).symm
+
+instance quadricChart_uniqueFactorizationMonoid (i j : Fin 2) :
+    UniqueFactorizationMonoid (Away 𝒬 (quadricChart k i j)) :=
+  (quadricChartAwayEquiv k i j).symm.toMulEquiv.uniqueFactorizationMonoid inferInstance
+
+theorem quadricChart_spec_satisfiesConditionStar (i j : Fin 2) :
+    (Spec (CommRingCat.of (Away 𝒬 (quadricChart k i j)))).SatisfiesConditionStar := by
+  have : IsNormal (Spec (CommRingCat.of (Away 𝒬 (quadricChart k i j)))) :=
+    isNormal_spec_of_isIntegrallyClosed _
+  exact satisfiesConditionStar_of_isNormal
+
+/-- The units of a chart are the nonzero constants. -/
+theorem quadricChart_eq_const_of_isUnit (i j : Fin 2) {a : Away 𝒬 (quadricChart k i j)}
+    (ha : IsUnit a) : ∃ c : k, c ≠ 0 ∧ a = quadricChartConst k i j c := by
+  obtain ⟨c, hc, hca⟩ :=
+    MvPolynomial.isUnit_iff_eq_C_of_isReduced.mp (ha.map (quadricChartAwayEquiv k i j))
+  refine ⟨c, hc.ne_zero, (quadricChartAwayEquiv k i j).injective ?_⟩
+  rw [hca]
+  have hconst : quadricChartConst k i j c = quadricChartOfPoly k i j (MvPolynomial.C c) := by
+    simp [quadricChartOfPoly]
+  rw [hconst]
+  exact (RingHom.congr_fun (quadricChartToPoly_comp_chartOfPoly k i j) (MvPolynomial.C c)).symm
+
+end Chart
+
 end Hartshorne
