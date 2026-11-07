@@ -156,7 +156,8 @@ then reuses `IsClosedImmersion.overEquivIdealSheafData`.
   Noetherian `X`, extending over one open affine at a time. Used on II p.154
   and in Chapter III.
 - **Exercise 5.16, definitions and parts (b),(d), pp.127–128.** Tensor,
-  symmetric, and exterior operations; the perfect exterior pairing; and the
+  symmetric, and exterior operations; the perfect exterior pairing (with its
+  rank-two case `F ≅ F^∨ ⊗ ⋀²F`); and the
   exterior-power filtration of a short exact sequence. Used in II–III.
 - **Exercise 5.17(a–d), p.128.** Affine morphisms, relative Spec of a
   quasi-coherent algebra, and its classification. Relative Spec is used in the
