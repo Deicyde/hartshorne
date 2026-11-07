@@ -3,7 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Cohomology.ModuleSectionsRepresentable
-import Hartshorne.RingedSpace.SheafExt
+import Hartshorne.RingedSpace.SheafExtContravariant
 import Mathlib.CategoryTheory.Abelian.Injective.Ext
 
 /-!
@@ -30,8 +30,9 @@ cohomology sheaf `ℋⁱ(ℋom(F, I^•)) ≅ ℰxtⁱ(F, G)` is the image of th
 This file constructs the map for a given resolution (`Hartshorne.Ringed.globalToSheafExtOf`) with
 its value on representing cocycles (`Hartshorne.Ringed.globalToSheafExtOf_extMk`), the
 degree-zero comparison `Hartshorne.extMk_resolutionAugmentation` between cocycle classes and
-`Ext.mk₀`, and the contravariant functoriality of `ℰxtⁱ(-, G)` obtained by deriving the
-precomposition maps `ℋom(F, -) ⟶ ℋom(F', -)` (`Hartshorne.Ringed.sheafExtMapFst`).
+`Ext.mk₀`, and the compatibility of the cochain identification with the precomposition maps
+`ℋom(F, -) ⟶ ℋom(F', -)` (`Hartshorne.Ringed.moduleSheafHomPrecomp`), which induce the
+contravariant functoriality of `ℰxtⁱ(-, G)` (`Hartshorne.Ringed.sheafExtPrecomp`).
 
 No isomorphism is asserted.
 -/
@@ -157,32 +158,6 @@ lemma homEquivStructureHom_naturality {F F' M M' : 𝓜} (h : F' ⟶ F) (f : F �
   change h ≫ f ≫ g = h ≫ moduleSheafHomGlobalSectionsAddEquiv F M
     ((moduleSheafHomGlobalSectionsAddEquiv F M).symm f) ≫ g
   rw [AddEquiv.apply_symm_apply]
-
-/-- Precomposition with `h : F' ⟶ F`, as a natural transformation `ℋom(F, -) ⟶ ℋom(F', -)`. -/
-noncomputable def moduleSheafHomPrecomp {F F' : 𝓜} (h : F' ⟶ F) :
-    moduleSheafHomFunctor F ⟶ moduleSheafHomFunctor F' where
-  app G := moduleSheafHomMap h (𝟙 G)
-  naturality {G G'} g := by
-    apply SheafOfModules.hom_ext
-    ext U σ
-    change (SheafOfModules.overFunctor _ U.unop).map (𝟙 F') ≫
-        ((SheafOfModules.overFunctor _ U.unop).map h ≫ σ ≫
-          (SheafOfModules.overFunctor _ U.unop).map (𝟙 G)) ≫
-        (SheafOfModules.overFunctor _ U.unop).map g =
-      (SheafOfModules.overFunctor _ U.unop).map h ≫
-        ((SheafOfModules.overFunctor _ U.unop).map (𝟙 F) ≫ σ ≫
-          (SheafOfModules.overFunctor _ U.unop).map g) ≫
-        (SheafOfModules.overFunctor _ U.unop).map (𝟙 G')
-    obtain ⟨τ, rfl⟩ : ∃ τ : F.over U.unop ⟶ G.over U.unop, τ = σ := ⟨σ, rfl⟩
-    simp
-
-lemma moduleSheafHomPrecomp_app {F F' : 𝓜} (h : F' ⟶ F) (G : 𝓜) :
-    (moduleSheafHomPrecomp h).app G = moduleSheafHomMap h (𝟙 G) := rfl
-
-/-- **Contravariant functoriality of sheaf Ext.** For `h : F' ⟶ F`, the natural transformation
-`ℰxtⁿ(F, -) ⟶ ℰxtⁿ(F', -)` obtained by deriving precomposition `ℋom(F, -) ⟶ ℋom(F', -)`. -/
-noncomputable def sheafExtMapFst {F F' : 𝓜} (h : F' ⟶ F) (n : ℕ) : sheafExt F n ⟶ sheafExt F' n :=
-  NatTrans.rightDerived (moduleSheafHomPrecomp h) n
 
 /-- The complex `ℋom(F, K^•)` of `𝒪_X`-modules, for a complex `K^•` of `𝒪_X`-modules. -/
 noncomputable abbrev sheafHomComplex (F : 𝓜) (K : CochainComplex 𝓜 ℕ) : CochainComplex 𝓜 ℕ :=
