@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib.LinearAlgebra.TensorAlgebra.ToTensorPower
+import Mathlib.LinearAlgebra.ExteriorAlgebra.Grading
 import Hartshorne.Scheme.SheafAlgebraOperations
 
 /-!
@@ -140,6 +141,101 @@ theorem toTensorAlgebra_mul_mem (r s : ℕ) (a : ⨂[A]^r M) (b : ⨂[A]^s M) :
 
 end TensorAlgebra
 
+section ExteriorAlgebra
+
+/-- The ring homomorphism `⋀_A(M) → ⋀_B(N)` induced by a `σ`-semilinear map `M → N`. -/
+noncomputable def exteriorAlgebraRingHom (σ : A →+* B) (f : M →ₛₗ[σ] N) :
+    ExteriorAlgebra A M →+* ExteriorAlgebra B N :=
+  letI : Algebra A (ExteriorAlgebra B N) :=
+    ((algebraMap B (ExteriorAlgebra B N)).comp σ).toAlgebra' (fun c x => Algebra.commutes (σ c) x)
+  (ExteriorAlgebra.lift A ⟨
+    { toFun := fun m => ExteriorAlgebra.ι B (f m)
+      map_add' := fun m m' => by rw [map_add, map_add]
+      map_smul' := fun a m => by
+        rw [map_smulₛₗ, map_smul, RingHom.id_apply]
+        exact (Algebra.smul_def (σ a) _).trans (Algebra.smul_def a _).symm },
+    fun m => ExteriorAlgebra.ι_sq_zero (f m)⟩).toRingHom
+
+@[simp]
+lemma exteriorAlgebraRingHom_ι (σ : A →+* B) (f : M →ₛₗ[σ] N) (m : M) :
+    exteriorAlgebraRingHom σ f (ExteriorAlgebra.ι A m) = ExteriorAlgebra.ι B (f m) := by
+  let _ : Algebra A (ExteriorAlgebra B N) :=
+    ((algebraMap B (ExteriorAlgebra B N)).comp σ).toAlgebra' (fun c x => Algebra.commutes (σ c) x)
+  exact ExteriorAlgebra.lift_ι_apply _ _ _ m
+
+@[simp]
+lemma exteriorAlgebraRingHom_algebraMap (σ : A →+* B) (f : M →ₛₗ[σ] N) (a : A) :
+    exteriorAlgebraRingHom σ f (algebraMap A (ExteriorAlgebra A M) a) =
+      algebraMap B (ExteriorAlgebra B N) (σ a) := by
+  let _ : Algebra A (ExteriorAlgebra B N) :=
+    ((algebraMap B (ExteriorAlgebra B N)).comp σ).toAlgebra' (fun c x => Algebra.commutes (σ c) x)
+  exact AlgHom.commutes _ a
+
+/-- The `σ`-semilinear map `⋀_A(M) → ⋀_B(N)` induced by a `σ`-semilinear map `M → N`. -/
+noncomputable def exteriorAlgebraMap (σ : A →+* B) (f : M →ₛₗ[σ] N) :
+    ExteriorAlgebra A M →ₛₗ[σ] ExteriorAlgebra B N where
+  toFun := exteriorAlgebraRingHom σ f
+  map_add' := map_add _
+  map_smul' a x := by
+    rw [Algebra.smul_def, map_mul, exteriorAlgebraRingHom_algebraMap, ← Algebra.smul_def]
+
+lemma exteriorAlgebraMap_apply (σ : A →+* B) (f : M →ₛₗ[σ] N) (x : ExteriorAlgebra A M) :
+    exteriorAlgebraMap σ f x = exteriorAlgebraRingHom σ f x := rfl
+
+theorem exteriorAlgebraMap_mul (σ : A →+* B) (f : M →ₛₗ[σ] N) (a b : ExteriorAlgebra A M) :
+    exteriorAlgebraMap σ f (algebraMulBilinear A _ a b) =
+      algebraMulBilinear B _ (exteriorAlgebraMap σ f a) (exteriorAlgebraMap σ f b) :=
+  map_mul (exteriorAlgebraRingHom σ f) a b
+
+theorem exteriorAlgebraMap_id {σ : A →+* A} (hσ : ∀ a, σ a = a) (f : M →ₛₗ[σ] M)
+    (hf : ∀ m, f m = m) (x : ExteriorAlgebra A M) : exteriorAlgebraMap σ f x = x := by
+  rw [exteriorAlgebraMap_apply]
+  induction x using ExteriorAlgebra.induction with
+  | algebraMap a => rw [exteriorAlgebraRingHom_algebraMap, hσ]
+  | ι m => rw [exteriorAlgebraRingHom_ι, hf]
+  | mul a b ha hb => rw [map_mul, ha, hb]
+  | add a b ha hb => rw [map_add, ha, hb]
+
+theorem exteriorAlgebraMap_comp {σ : A →+* B} {τ : B →+* C} {ρ : A →+* C}
+    (hρ : ∀ a, ρ a = τ (σ a)) (f : M →ₛₗ[σ] N) (g : N →ₛₗ[τ] P) (h : M →ₛₗ[ρ] P)
+    (hh : ∀ m, h m = g (f m)) (x : ExteriorAlgebra A M) :
+    exteriorAlgebraMap ρ h x = exteriorAlgebraMap τ g (exteriorAlgebraMap σ f x) := by
+  simp only [exteriorAlgebraMap_apply]
+  induction x using ExteriorAlgebra.induction with
+  | algebraMap a => rw [exteriorAlgebraRingHom_algebraMap, exteriorAlgebraRingHom_algebraMap,
+      exteriorAlgebraRingHom_algebraMap, hρ]
+  | ι m => rw [exteriorAlgebraRingHom_ι, exteriorAlgebraRingHom_ι, exteriorAlgebraRingHom_ι, hh]
+  | mul a b ha hb => rw [map_mul, ha, hb, map_mul, map_mul]
+  | add a b ha hb => rw [map_add, ha, hb, map_add, map_add]
+
+theorem exteriorAlgebraMap_coe (r : ℕ) (σ : A →+* B) (f : M →ₛₗ[σ] N) (x : ⋀[A]^r M) :
+    exteriorAlgebraMap σ f (x : ExteriorAlgebra A M) = (exteriorPowerMap r σ f x : ExteriorAlgebra B N) := by
+  have hx : x ∈ Submodule.span A (Set.range (exteriorPower.ιMulti A r)) :=
+    exteriorPower.ιMulti_span A r M ▸ Submodule.mem_top
+  induction hx using Submodule.span_induction with
+  | mem y hy =>
+    obtain ⟨m, rfl⟩ := hy
+    rw [exteriorPowerMap_ιMulti, exteriorPower.ιMulti_apply_coe, exteriorPower.ιMulti_apply_coe,
+      ExteriorAlgebra.ιMulti_apply, ExteriorAlgebra.ιMulti_apply, exteriorAlgebraMap_apply,
+      map_list_prod, List.map_ofFn]
+    congr 1
+    exact List.ofFn_inj.2 (funext fun i => exteriorAlgebraRingHom_ι σ f (m i))
+  | zero => simp only [ZeroMemClass.coe_zero, map_zero]
+  | add y z _ _ hy hz => simp only [Submodule.coe_add, map_add, hy, hz]
+  | smul a y _ hy => simp only [Submodule.coe_smul, map_smulₛₗ, hy]
+
+theorem exteriorPower_directSum_bijective :
+    Function.Bijective (DirectSum.toModule A ℕ (ExteriorAlgebra A M)
+      (fun r => (⋀[A]^r M).subtype)) :=
+  DirectSum.Decomposition.isInternal (fun r : ℕ => ⋀[A]^r M)
+
+theorem exteriorPower_mul_mem (r s : ℕ) (a : ⋀[A]^r M) (b : ⋀[A]^s M) :
+    (a : ExteriorAlgebra A M) * b ∈ LinearMap.range (⋀[A]^(r + s) M).subtype := by
+  rw [Submodule.range_subtype]
+  exact SetLike.mul_mem_graded a.2 b.2
+
+end ExteriorAlgebra
+
 end SheafTensorOperations
 
 variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
@@ -243,5 +339,101 @@ theorem moduleSheafTensorAlgebra_mul_ι (s : ℕ) (U : (Opens X)ᵒᵖ)
   (moduleSheafTensorAlgebraPresheaf_isGraded F).sheafification_mul_ι r s U a b
 
 end TensorAlgebraSheaf
+
+section ExteriorAlgebraSheaf
+
+/-- The presheaf of modules `U ↦ ⋀(F(U))`, the exterior algebra of `F(U)` over `𝒪_X(U)`. -/
+noncomputable def moduleSheafExteriorAlgebraPresheaf :
+    PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat) :=
+  presheafOfSemilinear (fun U => ModuleCat.of _ (ExteriorAlgebra ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U) (F.val.obj U)))
+    (fun i => exteriorAlgebraMap _ (F.val.restrictₛₗ i))
+    (fun U x => exteriorAlgebraMap_id (ringMap_id_apply U) _ (restrictₛₗ_id F.val U) x)
+    (fun i j x => exteriorAlgebraMap_comp (ringMap_comp_apply i j) _ _ _
+      (restrictₛₗ_comp F.val i j) x)
+
+/-- The presheaf of `𝒪_X`-algebras `U ↦ ⋀(F(U))`. -/
+noncomputable def moduleSheafExteriorAlgebraPresheafAlgebra :
+    PresheafAlgebra (moduleSheafExteriorAlgebraPresheaf F) where
+  mul :=
+    { app U := algebraMulBilinear _ (ExteriorAlgebra ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U) (F.val.obj U))
+      naturality i a b := exteriorAlgebraMap_mul _ (F.val.restrictₛₗ i) a b }
+  one U := (1 : ExteriorAlgebra ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U) (F.val.obj U))
+  map_one i := map_one (exteriorAlgebraRingHom _ (F.val.restrictₛₗ i))
+  mul_assoc U a b c := _root_.mul_assoc (G := ExteriorAlgebra ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U) (F.val.obj U)) a b c
+  one_mul U a := _root_.one_mul (M := ExteriorAlgebra ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U) (F.val.obj U)) a
+  mul_one U a := _root_.mul_one (M := ExteriorAlgebra ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U) (F.val.obj U)) a
+
+/-- The inclusion of the presheaf `U ↦ ⋀^r(F(U))` into `U ↦ ⋀(F(U))`. -/
+noncomputable def moduleSheafExteriorAlgebraPresheafι :
+    moduleSheafExteriorPowerPresheaf r F ⟶ moduleSheafExteriorAlgebraPresheaf F where
+  app U := ModuleCat.ofHom (⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj U]^r (F.val.obj U)).subtype
+  naturality i := by
+    ext x
+    exact (exteriorAlgebraMap_coe r ((R.obj ⋙ forget₂ CommRingCat RingCat).map i).hom
+      (F.val.restrictₛₗ i) x).symm
+
+theorem moduleSheafExteriorAlgebraPresheaf_isGraded :
+    (moduleSheafExteriorAlgebraPresheafAlgebra F).IsGraded
+      (fun r => moduleSheafExteriorPowerPresheaf r F)
+      (fun r => moduleSheafExteriorAlgebraPresheafι r F) where
+  bijective _ := exteriorPower_directSum_bijective
+  mul_mem _ r s a b := exteriorPower_mul_mem r s a b
+
+/-- **The exterior algebra of a module sheaf.** The `𝒪_X`-module `⋀(F)`, the sheafification of the
+presheaf `U ↦ ⋀(F(U))`; its sheaf of `𝒪_X`-algebras structure is
+`moduleSheafExteriorAlgebraStructure F`. -/
+noncomputable def moduleSheafExteriorAlgebra : SheafOfModules.{u} (ringCatSheafOf R) :=
+  sheafify (moduleSheafExteriorAlgebraPresheaf F)
+
+/-- The sheaf of `𝒪_X`-algebras structure on `⋀(F)`, obtained by sheafifying the multiplication
+of the presheaf of `𝒪_X`-algebras `U ↦ ⋀(F(U))`. -/
+noncomputable def moduleSheafExteriorAlgebraStructure :
+    ModuleSheafAlgebra (moduleSheafExteriorAlgebra F) :=
+  (moduleSheafExteriorAlgebraPresheafAlgebra F).sheafification
+
+/-- The canonical map `U ↦ ⋀(F(U))` to `⋀(F)` is multiplicative. -/
+theorem moduleSheafExteriorAlgebra_mul_unit (U : (Opens X)ᵒᵖ)
+    (a b : ExteriorAlgebra ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U) (F.val.obj U)) :
+    (moduleSheafExteriorAlgebraStructure F).mul.app U
+        ((sheafifyUnit (moduleSheafExteriorAlgebraPresheaf F)).app U a)
+        ((sheafifyUnit (moduleSheafExteriorAlgebraPresheaf F)).app U b) =
+      (sheafifyUnit (moduleSheafExteriorAlgebraPresheaf F)).app U (a * b) :=
+  (moduleSheafExteriorAlgebraPresheafAlgebra F).sheafification_mul_unit U a b
+
+/-- The canonical map `U ↦ ⋀(F(U))` to `⋀(F)` is unital. -/
+theorem moduleSheafExteriorAlgebra_one (U : (Opens X)ᵒᵖ) :
+    (moduleSheafExteriorAlgebraStructure F).one U =
+      (sheafifyUnit (moduleSheafExteriorAlgebraPresheaf F)).app U
+        (1 : ExteriorAlgebra ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U) (F.val.obj U)) :=
+  rfl
+
+/-- The inclusion `⋀^r F → ⋀(F)` of the homogeneous component of degree `r`. -/
+noncomputable def moduleSheafExteriorAlgebraι :
+    moduleSheafExteriorPower r F ⟶ moduleSheafExteriorAlgebra F :=
+  sheafifyMap (moduleSheafExteriorAlgebraPresheafι r F)
+
+/-- **`⋀(F)` is the direct sum of the exterior powers `⋀^r F`.** -/
+noncomputable def moduleSheafExteriorAlgebra_isColimit :
+    IsColimit (Cofan.mk (moduleSheafExteriorAlgebra F) fun r => moduleSheafExteriorAlgebraι r F) :=
+  (moduleSheafExteriorAlgebraPresheaf_isGraded F).isColimit
+
+/-- The multiplication `⋀^r F × ⋀^s F → ⋀^{r+s} F` of homogeneous sections. -/
+noncomputable def moduleSheafExteriorPowerMul (s : ℕ) :
+    PresheafBilinear (moduleSheafExteriorPower r F).val (moduleSheafExteriorPower s F).val
+      (moduleSheafExteriorPower (r + s) F).val :=
+  (moduleSheafExteriorAlgebraPresheaf_isGraded F).sheafMul r s
+
+/-- **The grading of `⋀(F)` is multiplicative:** the product of homogeneous sections of degrees `r`
+and `s` is homogeneous of degree `r + s`. -/
+theorem moduleSheafExteriorAlgebra_mul_ι (s : ℕ) (U : (Opens X)ᵒᵖ)
+    (a : (moduleSheafExteriorPower r F).val.obj U) (b : (moduleSheafExteriorPower s F).val.obj U) :
+    (moduleSheafExteriorAlgebraStructure F).mul.app U
+        ((moduleSheafExteriorAlgebraι r F).val.app U a)
+        ((moduleSheafExteriorAlgebraι s F).val.app U b) =
+      (moduleSheafExteriorAlgebraι (r + s) F).val.app U
+        ((moduleSheafExteriorPowerMul r F s).app U a b) :=
+  (moduleSheafExteriorAlgebraPresheaf_isGraded F).sheafification_mul_ι r s U a b
+
+end ExteriorAlgebraSheaf
 
 end Hartshorne
