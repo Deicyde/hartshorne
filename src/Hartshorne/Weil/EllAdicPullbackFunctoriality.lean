@@ -221,7 +221,8 @@ theorem constantSheafToEtalePushforward_naturality (f : X ⟶ Y) {M N : Ab.{u}} 
   apply ((constantSheafΓAdj Y.smallEtaleTopology Ab.{u}).homEquiv _ _).injective
   rw [Adjunction.homEquiv_naturality_right, Adjunction.homEquiv_naturality_left,
     homEquiv_constantSheafToEtalePushforward, homEquiv_constantSheafToEtalePushforward]
-  have h1 := (etalePushforwardCompΓ f).inv.naturality ((constantSheaf X.smallEtaleTopology Ab.{u}).map u)
+  have h1 :=
+    (etalePushforwardCompΓ f).inv.naturality ((constantSheaf X.smallEtaleTopology Ab.{u}).map u)
   have h2 := (constantSheafΓAdj X.smallEtaleTopology Ab.{u}).unit.naturality u
   simp only [Functor.comp_map, Functor.id_map] at h1 h2
   rw [Category.assoc, ← h1, ← Category.assoc, ← h2, Category.assoc]
