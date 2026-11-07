@@ -254,7 +254,8 @@ noncomputable def moduleStalkSkyscraperHomEquiv (F : 𝓜) (N : ModuleCat.{u} (r
 variable (x) in
 /-- **The stalk–skyscraper adjunction.** The stalk functor at `x` is left adjoint to the
 skyscraper functor at `x`. -/
-noncomputable def moduleStalkSkyscraperAdjunction : moduleStalkFunctor x ⊣ moduleSkyscraper (R := R) x :=
+noncomputable def moduleStalkSkyscraperAdjunction :
+    moduleStalkFunctor x ⊣ moduleSkyscraper (R := R) x :=
   Adjunction.mkOfHomEquiv
     { homEquiv := moduleStalkSkyscraperHomEquiv x
       homEquiv_naturality_left_symm := fun {F G N} f g => by

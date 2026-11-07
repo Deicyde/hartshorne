@@ -101,7 +101,13 @@ def pullbackStalkIso :
 /-- **Stalks of the module pullback.** For a morphism of schemes `h : X' ⟶ X`, an `𝒪_X`-module
 `F` and `x' : X'`, the stalk of `h^*F` at `x'` is `𝒪_{X',x'} ⊗_{𝒪_{X,h(x')}} F_{h(x')}`, as
 `𝒪_{X',x'}`-modules. -/
-def pullbackStalkLinearEquiv (F : X.Modules) :=
+def pullbackStalkLinearEquiv (F : X.Modules) :
+    letI : Module (ringSheafStalk X'.sheaf x') ((ModuleCat.extendScalars (h.stalkMap x').hom).obj
+        ((moduleStalkFunctor (R := X.sheaf) (h x')).obj F)) := ModuleCat.isModule _
+    (moduleStalkFunctor (R := X'.sheaf) x').obj ((Scheme.Modules.pullback h).obj F) ≃ₗ[
+      ringSheafStalk X'.sheaf x']
+      (ModuleCat.extendScalars (h.stalkMap x').hom).obj
+        ((moduleStalkFunctor (R := X.sheaf) (h x')).obj F) :=
   ((pullbackStalkIso h x').app F).toLinearEquiv
 
 end
