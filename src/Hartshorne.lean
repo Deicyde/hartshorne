@@ -405,6 +405,8 @@ import Hartshorne.Scheme.AffineGlobalSectionsExact
 import Hartshorne.Cohomology.SmoothMorphisms.EtaleCriteria
 import Hartshorne.Cohomology.SmoothMorphisms.FrobeniusProjectiveLine
 import Hartshorne.Cohomology.SmoothMorphisms.SmoothnessCriterionReduction
+import Hartshorne.Cohomology.SmoothMorphisms.SmoothOverFieldComponentDimension
+import Hartshorne.Cohomology.SmoothMorphisms.SmoothnessCriterion
 import Hartshorne.Cohomology.OpenClosedExtensionSequence
 import Hartshorne.Intersection.ClosedSubschemeFundamentalCycle
 import Hartshorne.Scheme.CohenMacaulayRegularSequence
