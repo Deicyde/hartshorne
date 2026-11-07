@@ -16,6 +16,7 @@ duplicated here.
 - [Composition of very ample sheaves](very-ample-composition.md)
 - [Sheaf tensor, symmetric, and exterior operations](sheaf-tensor-operations.md)
 - [The perfect exterior-power pairing](exterior-perfect-pairing.md)
+- [A rank-two locally free sheaf is its dual twisted by its determinant](rank-two-dual-determinant.md)
 - [Exterior powers of an exact sequence](exterior-power-exact-filtration.md)
 - [The affine-morphism criterion](affine-morphism-criterion.md)
 - [Relative Spec of a quasi-coherent algebra](relative-spec.md)
