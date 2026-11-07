@@ -471,3 +471,4 @@ import Hartshorne.Scheme.RelativeProjProper
 import Hartshorne.Intersection.LocalPlaneCurveMultiplicity
 import Hartshorne.Intersection.ProjectiveLineCurveMultiplicity
 import Hartshorne.Cohomology.Semicontinuity.CohomologyTensorDeltaFunctor
+import Hartshorne.Scheme.Differentials.BirationalMapDomain

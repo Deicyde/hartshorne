@@ -2,6 +2,9 @@
 article_id: af_bfda446a7ab93cf495b276ef
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.RationalMap.codim_compl_domain_birational
 ---
 
 # The domain of a birational map has codimension-two complement
@@ -10,6 +13,9 @@ Let $X$ be a nonsingular variety and $X'$ a proper variety over $k$. For a
 birational map $f : X \dashrightarrow X'$, let $V$ be its maximal domain of
 definition. Then every codimension-one point of $X$ belongs to $V$; hence
 $X \setminus V$ has codimension at least two.
+
+The integrality of $X'$ is kept as in the source; the argument uses only that
+$X'$ is proper over $k$.
 
 ## Depends on
 
