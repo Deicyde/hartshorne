@@ -6,13 +6,14 @@ import Hartshorne.Scheme.Differentials.FieldDifferentialsDimension
 import Hartshorne.Scheme.Differentials.LocalCotangentViaDifferentials
 import Hartshorne.Dimension.DimFormula
 import Hartshorne.Dimension.FgDomain
+import Hartshorne.Scheme.RegularLocalCohenMacaulay
 import Mathlib.FieldTheory.SeparablyGenerated
 import Mathlib.LinearAlgebra.TensorProduct.Pi
 import Mathlib.RingTheory.LocalRing.Module
 import Mathlib.RingTheory.RegularLocalRing.Defs
 
 /-!
-# The regular-local differential criterion (partial)
+# The regular-local differential criterion
 
 Hartshorne, *Algebraic Geometry*, II.8, Theorem 8.8 and Lemma 8.9 (pp. 174–175).
 
@@ -34,7 +35,11 @@ perfect field `k`, with `k ≅ B/𝔪`. Hartshorne's Theorem 8.8 says that `Ω_{
   (`k` is perfect); and `trdeg_k K = dim B` by the dimension theory of finitely generated domains.
   Lemma 8.9 then applies.
 
-The remaining input for Hartshorne's converse is that a regular local ring is a domain.
+* `Hartshorne.free_kaehlerDifferential_of_isRegularLocalRing`: the same without the domain
+  hypothesis, since a regular local ring is a domain (`Hartshorne.RegularLocal.isDomain`).
+* `Hartshorne.isRegularLocalRing_iff_free_kaehlerDifferential` (Theorem 8.8): `Ω_{B/k}` is free of
+  rank `dim B` if and only if `B` is regular. Both rings live in one universe, because the
+  dimension theory of finitely generated domains used here is single-universe.
 -/
 
 namespace Hartshorne
@@ -196,6 +201,33 @@ theorem free_kaehlerDifferential_of_isRegularLocalRing_of_isDomain [PerfectField
   obtain ⟨hfree, hrank⟩ := free_of_finrank_residueField_eq_finrank_fractionField
     (FractionRing B) hk hK
   exact ⟨hfree, by rw [hrank, hdim]⟩
+
+end
+
+section
+
+variable (k B : Type u) [Field k] [CommRing B] [Algebra k B] [Algebra.EssFiniteType k B]
+
+/-- **The forward direction of Hartshorne II, Theorem 8.8.** If `B` is a regular local ring,
+essentially of finite type over a perfect field `k ≅ B/𝔪`, then `Ω_{B/k}` is free of rank `dim B`.
+This removes the domain hypothesis of
+`free_kaehlerDifferential_of_isRegularLocalRing_of_isDomain`, since a regular local ring is a
+domain (`Hartshorne.RegularLocal.isDomain`). -/
+theorem free_kaehlerDifferential_of_isRegularLocalRing [PerfectField k]
+    [IsRegularLocalRing B] (h : Function.Bijective (algebraMap k (ResidueField B))) :
+    Module.Free B Ω[B⁄k] ∧ (Module.finrank B Ω[B⁄k] : WithBot ℕ∞) = ringKrullDim B := by
+  have := RegularLocal.isDomain B
+  exact free_kaehlerDifferential_of_isRegularLocalRing_of_isDomain k B h
+
+/-- **Hartshorne II, Theorem 8.8.** Let `B` be a local ring, essentially of finite type over a
+perfect field `k` with `k ≅ B/𝔪`. Then `Ω_{B/k}` is a free `B`-module of rank `dim B` if and only
+if `B` is a regular local ring. -/
+theorem isRegularLocalRing_iff_free_kaehlerDifferential [PerfectField k] [IsLocalRing B]
+    (h : Function.Bijective (algebraMap k (ResidueField B))) :
+    IsRegularLocalRing B ↔
+      Module.Free B Ω[B⁄k] ∧ (Module.finrank B Ω[B⁄k] : WithBot ℕ∞) = ringKrullDim B :=
+  ⟨fun _ => free_kaehlerDifferential_of_isRegularLocalRing k B h,
+    fun ⟨_, hr⟩ => isRegularLocalRing_of_free_kaehlerDifferential k B h hr⟩
 
 end
 
