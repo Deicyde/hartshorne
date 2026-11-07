@@ -33,6 +33,7 @@ freeness of the relative differential sheaf.
   Noetherian scheme is locally free of rank $n$ exactly when every fibre has
   dimension $n$.
 - The differential module of a standard-smooth algebra has rank equal to its relative dimension.
+- [Quasi-coherence and coherence of differentials](../../../schemes/differentials/scheme-differentials/relative-differentials-quasicoherent.md)
 
 ## Sources
 
