@@ -2,6 +2,8 @@
 article_id: af_99bf910b9ab7e6bc93e7a3ef
 declaration: def
 origin: cited
+statement: formalized
+lean: Hartshorne.subvarietyNormalizationMap Hartshorne.subvarietyNormalizationPushforward Hartshorne.rationalEquivalenceGenerators Hartshorne.rationalEquivalenceSubgroup Hartshorne.RationallyEquivalent
 ---
 
 # Rational equivalence via divisors on normalizations
