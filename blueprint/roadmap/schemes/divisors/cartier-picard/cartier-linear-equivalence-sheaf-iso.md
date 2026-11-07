@@ -23,6 +23,7 @@ global rational section whose inverse represents $D$ as principal.
 ## Depends on
 
 - [Arithmetic of associated divisor sheaves](cartier-associated-sheaf-arithmetic.md)
+- [Principal Cartier divisors and the Cartier class group](cartier-class-group.md)
 
 ## Proof depends on
 
