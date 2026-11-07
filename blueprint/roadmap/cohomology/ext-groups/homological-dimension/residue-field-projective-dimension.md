@@ -2,7 +2,6 @@
 article_id: af_903d71598a93080c404c0326
 declaration: theorem
 origin: cited
-not_ready: true
 ---
 
 # Projective dimension of the residue field
@@ -13,12 +12,25 @@ $pd_A(k)=\dim A$.
 
 This equality is the sharpness clause in the regular-local global-dimension
 theorem and is kept separate because later depth arguments use it as a
-specific computation. It remains not ready until the cited proof is inspected
-and reconciled with the project's Krull-dimension convention.
+specific computation.
+
+Let $d=\dim A$ and let $x_1,\ldots,x_d$ generate $m$. Since $A$ is
+Cohen–Macaulay and $\dim A/(x_1,\ldots,x_d)=0=d-d$, the sequence
+$x_1,\ldots,x_d$ is regular. The quotient of a local ring by a regular sequence
+of length $d$ in its maximal ideal has projective dimension exactly $d$, and
+here that quotient is $A/m=k$.
 
 ## Depends on
 
-- [The global dimension of a regular local ring](regular-local-global-dimension.md)
+- [Regular local rings](../../../nonsingular-varieties/regular-local-rings.md)
+- [Projective-dimension bounds detected by Ext](projective-dimension-ext-criterion.md)
+
+## Proof depends on
+
+- [Regular local rings are Cohen–Macaulay](../../../schemes/differentials/local-complete-intersections/regular-local-implies-cohen-macaulay.md)
+- [Regular sequences and Cohen–Macaulay quotients](../../../schemes/differentials/local-complete-intersections/cohen-macaulay-regular-sequence-quotient.md)
+- The quotient of a local ring by a regular sequence of length $d$ in its
+  maximal ideal has projective dimension $d$.
 
 ## Sources
 

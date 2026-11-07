@@ -12,11 +12,12 @@ $\operatorname{Ext} ^i_A(M,A)=0$ for every $i>0$.
 
 ## Depends on
 
+- [Regular local rings](../../../nonsingular-varieties/regular-local-rings.md)
 - [Projective dimension detected by Ext](projective-dimension-ext-criterion.md)
-- [The global dimension of a regular local ring](regular-local-global-dimension.md)
 
 ## Proof depends on
 
+- [Finitely generated modules over a regular local ring](regular-local-finite-module-projective-dimension.md)
 - Descending induction on degree to pass from Ext vanishing against $A$ to
   Ext vanishing against every finite module.
 - Splitting a finite free presentation once $\operatorname{Ext} ^1$ vanishes.
