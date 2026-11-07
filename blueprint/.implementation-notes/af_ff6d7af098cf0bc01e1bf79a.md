@@ -1,0 +1,123 @@
+# Étale Tate twists
+
+## Status
+
+Not recorded. A bounded attempt built the sheaf `μ_n`, the twist `ℤ/ℓ^r(1) = μ_{ℓ^r}`, tensor
+products of abelian sheaves on the small étale site, and the nonnegative twists `ℤ/ℓ^r(q)`
+(`q ≥ 0`) with their inverse systems in `r`. The negative twists (duals) need an internal Hom of
+abelian étale sheaves that stays in the right universe. That construction is the size of an article
+and is missing, so the leaf cannot be recorded faithfully. See the split proposal below.
+
+## Checked Lean (module `Hartshorne.Weil.EtaleTateTwist`)
+
+The module is sorry-free, imported by the library root, and uses only the standard axioms. It
+imports `Hartshorne.Weil.ClassicalEllAdicCohomology` (for the `q = 0` inverse system) and does
+not edit it.
+
+- Representing ring: `Hartshorne.RootsOfUnityRing n = ℤ[ℤ/n]` (group ring), with
+  `Hartshorne.universalRootOfUnity` and
+  `Hartshorne.bijective_restrictRootsOfUnity_universalRootOfUnity`. Ring maps `ℤ[ℤ/n] → A`
+  correspond to `n`-th roots of unity in `A`, for every `n`, including `n = 0`, where they are all
+  units. The universe-lifted versions are `Hartshorne.rootsOfUnityRingCat`,
+  `Hartshorne.universalRootOfUnityULift` and
+  `Hartshorne.bijective_restrictRootsOfUnity_universalRootOfUnityULift`.
+- `Hartshorne.rootsOfUnityFunctor n : CommRingCat ⥤ Ab` (`A ↦ μ_n(A)`, written additively),
+  `Hartshorne.rootsOfUnityPowHom` and `Hartshorne.rootsOfUnityFunctorPow` (`ζ ↦ ζ^k` from
+  `μ_{km}` to `μ_m`), and `Hartshorne.rootsOfUnityFunctorSystem ℓ` (`r ↦ μ_{ℓ^r}` with
+  transitions `ζ ↦ ζ^(ℓ^(s-r))`).
+- `AlgebraicGeometry.Scheme.rootsOfUnityPresheaf n = Γ ⋙ μ_n` on all schemes, and
+  `rootsOfUnityPresheafRepresentableIso` (it is `Hom(-, Spec ℤ[ℤ/n])`, via
+  `rootOfUnityOfHomSpec`, `bijective_rootOfUnityOfHomSpec`).
+  `isSheaf_fpqcTopology_rootsOfUnityPresheaf` follows because fpqc is subcanonical, and
+  `isSheaf_etaleTopology_rootsOfUnityPresheaf` because `etaleTopology_le_fpqcTopology`.
+- Continuity of the forgetful functor from the small étale site to schemes: instances
+  `isContinuous_etaleForget` and `isContinuous_etaleForget_comp_overForget` (plus
+  `PreservesFiniteLimits` and `RepresentablyFlat` instances for `Etale.forget X`).
+- `AlgebraicGeometry.Scheme.etaleRootsOfUnitySheaf X n : Sheaf X.smallEtaleTopology Ab`, the
+  restriction of the big-site sheaf `rootsOfUnityEtaleBigSheaf n`. Its sections over `U` are
+  definitionally `Additive (rootsOfUnity n Γ(U.left, ⊤))` (`etaleRootsOfUnitySheaf_obj_obj`).
+- `AlgebraicGeometry.Scheme.etaleTateTwistOne X ℓ r := μ_{ℓ^r}` and
+  `etaleTateTwistOneSystem X ℓ : ℕᵒᵖ ⥤ Sheaf X.smallEtaleTopology Ab`, which is `ℤ_ℓ(1)` as an
+  inverse system (obtained through `rootsOfUnityEtaleBigSystem`).
+- For any site `J` with sheafification into `Ab`:
+  - `Hartshorne.presheafTensor` and `Hartshorne.presheafTensorMap`: the pointwise `⊗_ℤ` of
+    `Ab`-valued presheaves, with functoriality lemmas.
+  - `Hartshorne.sheafTensor J F G`: the sheafification of the pointwise tensor product.
+  - `Hartshorne.sheafTensorMap`, `Hartshorne.sheafTensorPowSucc J F k` (`F^{⊗(k+1)}`),
+    `Hartshorne.sheafTensorPowSuccMap`, and `Hartshorne.sheafTensorPowSuccFunctor J k`.
+- `AlgebraicGeometry.Scheme.etaleTateTwistNat X ℓ r q` is `ℤ/ℓ^r(q)` for `q ≥ 0`: the constant
+  sheaf `ℤ/ℓ^r` at `q = 0` and `μ_{ℓ^r}^{⊗q}` for `q ≥ 1` (`etaleTateTwistNat_one`).
+  `etaleTateTwistNatSystem X ℓ q` is the inverse system in `r`: for `q = 0` it is
+  `constantTorsionEtaleSheafSystem`, for `q ≥ 1` it is the `q`-th tensor power of the
+  `μ_{ℓ^r}` system (`etaleTateTwistNatSystem_obj`).
+- `twistedTorsionEtaleCohomologySystem X ℓ q i` (`r ↦ H^i_et(X, ℤ/ℓ^r(q))`) and
+  `classicalEllAdicCohomologyTwistNat X ℓ q i` (its inverse limit). At `q = 0` the latter is
+  definitionally `classicalEllAdicCohomology` (`classicalEllAdicCohomologyTwistNat_zero`).
+
+No hypothesis on `ℓ` is needed for these constructions. Invertibility of `ℓ` enters only in
+theorems about them, as in constant-torsion-etale-sheaf.
+
+## Mathlib gaps found
+
+- Mathlib has no monoidal structure on `AddCommGrpCat`. `Sheaf.monoidalCategory` needs a
+  monoidal-closed coefficient category, and `HasFunctorEnrichedHom` over the large site
+  `X.Etale`, so it does not apply here. That is why the tensor product above is defined by hand
+  (pointwise `⊗_ℤ`, then sheafify).
+- Mathlib's `presheafHom` / `sheafHom` give the internal Hom only as a sheaf of types in
+  `Type (u+1)`, because `X.Etale` is a large category. No `Ab.{u}`-valued internal Hom exists.
+
+## Remaining goal
+
+- Negative twists `ℤ/ℓ^r(-q)` for `q ≥ 1`, with transition maps, and the leaf's
+  "every integer `q`" packaging.
+- `ℚ_ℓ(q)` by rationalization. `H^i(X, ℚ_ℓ(q))` is presumably
+  `H^i_classical(X, ℤ_ℓ(q)) ⊗_{ℤ_ℓ} ℚ_ℓ`, as in rational-ell-adic-cohomology for `q = 0`. It
+  needs the `ℤ_ℓ`-module structure that rational-ell-adic-cohomology builds.
+
+## Split proposal
+
+1. **Sheaf of roots of unity on the small étale site** (def).
+   - Statement: for a scheme `X` and `n ≥ 1`, `μ_n(U) = {ζ ∈ Γ(U, 𝒪_U)^× : ζ^n = 1}` is a
+     sheaf of abelian groups on `X_et`. It is representable by `Spec ℤ[t]/(t^n − 1)`, so it is
+     an fpqc sheaf.
+   - Source: Milne, Étale Cohomology, Ch. II (examples of sheaves); SGA 4½ (Tate twists).
+     Hartshorne App. C §3 only uses it implicitly, through the suppressed twist.
+   - Depends on: small-etale-site.
+   - Would record: `AlgebraicGeometry.Scheme.etaleRootsOfUnitySheaf`, with
+     `AlgebraicGeometry.Scheme.isSheaf_fpqcTopology_rootsOfUnityPresheaf` as supporting lemma.
+     Already built.
+2. **Tensor product of abelian étale sheaves** (def).
+   - Statement: `F ⊗ G` is the sheafification of `U ↦ F(U) ⊗_ℤ G(U)`, functorial in both
+     variables. Tensor powers `F^{⊗k}` are defined from it.
+   - Source: SGA 4 IV (operations on sheaves); Milne, Étale Cohomology, Ch. II.
+   - Depends on: small-etale-site, associated-sheaf.
+   - Would record: `Hartshorne.sheafTensor`, `Hartshorne.sheafTensorPowSucc` (with
+     `Hartshorne.sheafTensorPowSuccFunctor`). Already built.
+3. **Internal Hom and duals of abelian étale sheaves** (def).
+   - Statement: for abelian sheaves `F, G` on `X_et`, `U ↦ Hom_{X_et/U}(F|_U, G|_U)` is a sheaf
+     of abelian groups. Its groups are small because the affine étale site is essentially small.
+     The dual of a `ℤ/ℓ^r`-sheaf `F` is `Hom(F, ℤ/ℓ^r)`.
+   - Source: SGA 4 IV (operations on sheaves); Milne, Étale Cohomology, Ch. II.
+   - Depends on: small-etale-site, constant-torsion-etale-sheaf.
+   - Not built. Next route: give Mathlib's `presheafHom F G` its pointwise `AddCommGroup`
+     structure (it is a sheaf by `Presheaf.IsSheaf.hom`). Prove the hom groups are `u`-small by
+     comparing sheaves on `X_et/U` with sheaves on the essentially small affine étale site of
+     `U`. Then shrink, as in `GrpCat.shrinkFunctor`, and transport the sheaf property.
+4. The leaf etale-tate-twist then depends on 1–3 as well as its current dependencies, and
+   would record:
+   - `ℤ/ℓ^r(q)` for all integers `q`: the existing `etaleTateTwistNat` for `q ≥ 0`, and
+     `ℤ/ℓ^r(-q) = (ℤ/ℓ^r(-1))^{⊗q}` with `ℤ/ℓ^r(-1) = Hom(μ_{ℓ^r}, ℤ/ℓ^r)`;
+   - the inverse systems in `r`;
+   - the rationalized coefficients.
+
+   The transition map `ℤ/ℓ^s(-1) → ℤ/ℓ^r(-1)` needs no Kummer theory. Restrict along the
+   inclusion `μ_{ℓ^r} ↪ μ_{ℓ^s}`. The result lands in the `ℓ^r`-torsion `ℓ^{s-r}ℤ/ℓ^s ≅ ℤ/ℓ^r`.
+   This sends the dual of a generator to the dual of a generator. Tensor powers of the
+   inclusion would be wrong for `q ≥ 2`: they are off by a factor `ℓ^{(s-r)(q-1)}`. That is why
+   the negative twists are defined as tensor powers of `ℤ/ℓ^r(-1)`.
+
+Suggested clarification for the article (statement not edited): "inverse limit followed by
+rationalization" should say that `ℤ_ℓ(q)` is the inverse system `(ℤ/ℓ^r(q))_r`, with cohomology
+`lim_r H^i_et(X, ℤ/ℓ^r(q))`. It should also say that `ℚ_ℓ(q)`-cohomology is that limit tensored
+with `ℚ_ℓ` over `ℤ_ℓ`. The literal limit sheaf of the `ℤ/ℓ^r(q)` tensored with `ℚ` is not the
+standard object.
