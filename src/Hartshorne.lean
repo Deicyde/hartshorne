@@ -494,3 +494,4 @@ import Hartshorne.Intersection.PlaneCurveGaussRamification
 import Hartshorne.Scheme.InvertibleSectionClearingDenominators
 import Hartshorne.Scheme.GloballyGenerated
 import Hartshorne.RingedSpace.SheafExt
+import Hartshorne.Scheme.SymmetricAlgebraSheaf
