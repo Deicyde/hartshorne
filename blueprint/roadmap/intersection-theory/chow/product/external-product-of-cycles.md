@@ -20,8 +20,7 @@ equivalence is shown compatible with products.
 ## Depends on
 
 - [Codimension cycles](../cycles/codimension-cycle-group.md)
-- [Products of varieties](../../../rational-maps/product-variety.md)
-- [Rational equivalence via normalizations](../cycles/rational-equivalence-via-normalizations.md)
+- [The universal property of a fiber product](../../../schemes/fiber-products/fiber-product-universal-property.md)
 
 ## Proof depends on
 
@@ -31,6 +30,11 @@ equivalence is shown compatible with products.
 - [Dimension of a tensor product of affine domains](../../../intersections-projective-space/dimension/tensor-product-dimension.md)
 - [Dimension of a finitely generated domain](../../../affine-varieties/dim-fg-domain.md)
 - [The dimension formula for a finitely generated domain](../../../affine-varieties/dim-formula-catenary.md)
+
+## Informally uses
+
+- [Products of varieties](../../../rational-maps/product-variety.md)
+- [Rational equivalence via normalizations](../cycles/rational-equivalence-via-normalizations.md)
 
 ## Sources
 
