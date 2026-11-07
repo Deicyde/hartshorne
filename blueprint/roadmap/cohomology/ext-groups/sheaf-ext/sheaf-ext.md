@@ -2,6 +2,9 @@
 article_id: af_4525a69f81e72d0b3853829e
 declaration: definition
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.Ringed.sheafExt Hartshorne.Ringed.sheafExtIsoHomology Hartshorne.Ringed.sheafExtIsoHomology_hom_naturality
 ---
 
 # Sheaf Ext
