@@ -53,6 +53,11 @@ there.
 
 ## Divisors on curves
 
+- **Definitions, p.136.** A curve over `k` is an integral separated scheme of
+  finite type over `k` of dimension one; it is nonsingular when all its local
+  rings are regular local rings. With the definition, the roadmap records that a
+  nonsingular curve satisfies `(*)` and that its prime divisors are its closed
+  points, as the divisor definitions on pp.137–138 use.
 - **Proposition 6.7, pp.136–137.** For a nonsingular curve over an
   algebraically closed field, projective, complete, and arising from the
   abstract nonsingular curve of I.6 are equivalent.

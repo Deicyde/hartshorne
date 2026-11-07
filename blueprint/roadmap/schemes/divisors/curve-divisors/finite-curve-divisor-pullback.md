@@ -23,6 +23,8 @@ divisors on the source. No divisor pushforward is introduced here.
 
 ## Depends on
 
+- [Nonsingular curves over a field](nonsingular-curve.md)
+- [Linear equivalence and the Weil class group](../weil-divisors/weil-linear-equivalence.md)
 - [Codimension-one stalks are DVRs](../weil-divisors/codimension-one-stalk-dvr.md)
 - [Principal divisors have finite support](../weil-divisors/principal-divisor-finite-support.md)
 - [Finite morphisms](../../first-properties/finite-morphism.md)
