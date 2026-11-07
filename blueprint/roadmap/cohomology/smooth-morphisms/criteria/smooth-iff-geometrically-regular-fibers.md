@@ -19,7 +19,7 @@ regular and equidimensional of dimension $n$.
 
 ## Proof depends on
 
-- Smoothness can be checked on fibers under the stated flatness and finiteness hypotheses.
+- [Flat morphisms with smooth fibres are smooth](flat-smooth-fibers-smooth.md)
 - Faithfully flat descent of local freeness of Kähler differentials along an
   algebraic closure of a residue field.
 

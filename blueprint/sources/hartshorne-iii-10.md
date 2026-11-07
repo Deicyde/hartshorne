@@ -45,6 +45,16 @@ calculus. Lemma 29.35.3, tag `01V8`, supplies flat plus smooth fibres implies
 smooth. Section 37.21, tag `07R6`, records regular morphisms. Section 10.140,
 tag `00TQ`, treats smooth algebras over fields.
 
+The comparison of the three clauses with the adopted predicate uses, from
+Section 10.140, that a scheme smooth of relative dimension `n` over a field has
+all irreducible components of dimension `n`, and the differential criterion: a
+finite-type algebra over a field whose differential fibre at a prime has
+dimension at most the local dimension is smooth there. These rest on two
+commutative-algebra inputs that Hartshorne does not state: elements of a regular
+local ring with independent differentials cut out a regular quotient, and the
+Jacobian criterion for formal smoothness of a local algebra, which the pinned
+Mathlib provides.
+
 ## Tangent criterion, pp.270–271
 
 For `x : X`, `y=f(x)`, the tangent map is
