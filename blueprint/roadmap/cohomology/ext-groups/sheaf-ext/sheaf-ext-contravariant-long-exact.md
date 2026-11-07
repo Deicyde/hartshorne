@@ -22,6 +22,7 @@ $0 \longrightarrow \mathcal{H}om(F'',G) \longrightarrow \mathcal{H}om(F,G) \long
 ## Proof depends on
 
 - [Injectives restrict to open subsets](open-restriction-injective.md)
+- [Sheaf Hom as a left-exact functor](module-sheaf-hom-left-exact.md)
 - Exactness of $\mathcal{H}om_X(-,J)$ for an injective module sheaf $J$.
 
 ## Sources
