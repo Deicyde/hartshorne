@@ -7,9 +7,9 @@ origin: cited
 # Extension of coherent sheaves
 
 Let $X$ be Noetherian, $U \subseteq X$ open, and $F$ coherent on $U$. There exists a
-coherent sheaf $F'$ on $X$ with $F'|_U \cong F$. If $F$ is already identified with
-the restriction of a quasi-coherent $G$ on $X$, $F'$ may be chosen as a
-coherent subsheaf of $G$.
+coherent sheaf $F'$ on $X$ with $F'|_U \cong F$. More precisely, if $G$ is a
+quasi-coherent sheaf on $X$ such that $F \subseteq G|_U$ is a subsheaf, then there
+is a coherent subsheaf $F' \subseteq G$ with $F'|_U = F$ as subsheaves of $G|_U$.
 
 ## Depends on
 

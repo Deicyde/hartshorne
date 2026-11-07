@@ -148,7 +148,13 @@ then reuses `IsClosedImmersion.overEquivIdealSheafData`.
   projectively normal Veronese embeddings, and the section-surjectivity
   criterion. Used by Remark 5.13.1 and later in Chapters II and III.
 - **Exercise 5.15(a–d), pp.126–127.** Extension of coherent sheaves from an
-  open subset of a Noetherian scheme. Used on II p.154 and in Chapter III.
+  open subset of a Noetherian scheme: (a) on an affine Noetherian scheme every
+  quasi-coherent sheaf is the union of its coherent subsheaves; (b) the affine
+  case of existence; (c) the affine case inside a quasi-coherent `G` with
+  `F ⊆ G|_U`, giving a coherent subsheaf `F' ⊆ G` with `F'|_U ≅ F` (hint:
+  replace `i_*F` by its preimage under `G → i_*(G|_U)`); (d) the same for any
+  Noetherian `X`, extending over one open affine at a time. Used on II p.154
+  and in Chapter III.
 - **Exercise 5.16, definitions and parts (b),(d), pp.127–128.** Tensor,
   symmetric, and exterior operations; the perfect exterior pairing; and the
   exterior-power filtration of a short exact sequence. Used in II–III.

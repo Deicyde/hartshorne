@@ -7,9 +7,10 @@ origin: cited
 # Affine extension of coherent sheaves
 
 Let $X$ be affine Noetherian, $U \subseteq X$ open, and $F$ coherent on $U$. Then
-$F$ extends to a coherent sheaf on $X$. More precisely, if
-$F \cong G|_U$ for a quasi-coherent $G$ on $X$, the extension may be chosen as a
-coherent subsheaf of $G$.
+there is a coherent sheaf $F'$ on $X$ with $F'|_U \cong F$. More precisely, if
+$G$ is a quasi-coherent sheaf on $X$ such that $F \subseteq G|_U$ is a subsheaf,
+then there is a coherent subsheaf $F' \subseteq G$ with $F'|_U = F$ as subsheaves
+of $G|_U$.
 
 The auxiliary assertion that every quasi-coherent sheaf on an affine
 Noetherian scheme is the directed union of its coherent subsheaves is included
