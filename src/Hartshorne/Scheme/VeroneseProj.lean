@@ -3,7 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Projective.Veronese
-import Hartshorne.Scheme.ProjTailIsomorphism
+import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Basic
 import Mathlib.AlgebraicGeometry.Morphisms.IsIso
 
 /-!
@@ -44,6 +44,22 @@ variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
 
 /-! ### Points -/
 
+/-- A relevant homogeneous prime misses a homogeneous element of positive degree. -/
+theorem exists_homogeneous_notMem (x : ProjectiveSpectrum 𝒜) :
+    ∃ (e : ℕ) (t : A), 0 < e ∧ t ∈ 𝒜 e ∧ t ∉ x.asHomogeneousIdeal := by
+  classical
+  obtain ⟨y, hy, hyx⟩ := Set.not_subset.mp x.not_irrelevant_le
+  by_contra! H
+  apply hyx
+  rw [← DirectSum.sum_support_decompose 𝒜 y]
+  refine Ideal.sum_mem _ fun i _ => ?_
+  by_cases hi : i = 0
+  · subst hi
+    have h0 : (DirectSum.decompose 𝒜 y 0 : A) = 0 := (mem_irrelevant_iff 𝒜 y).mp hy
+    rw [h0]
+    exact zero_mem _
+  · exact H i _ (Nat.pos_of_ne_zero hi) (SetLike.coe_mem _)
+
 /-- The homogeneous ideal `I ∩ S^{(d)}` of `S^{(d)}`, for a homogeneous ideal `I` of `S`. -/
 def comapIdeal (I : HomogeneousIdeal 𝒜) : HomogeneousIdeal (veronese 𝒜 d) where
   toSubmodule := I.toIdeal.comap (veroneseSubring 𝒜 d).subtype
@@ -66,7 +82,7 @@ def comapPoint (x : ProjectiveSpectrum 𝒜) : ProjectiveSpectrum (veronese 𝒜
   isPrime := inferInstanceAs ((x.asHomogeneousIdeal.toIdeal.comap
     (veroneseSubring 𝒜 d).subtype).IsPrime)
   not_irrelevant_le h := by
-    obtain ⟨e, t, he, ht, htx⟩ := ProjTail.exists_homogeneous_not_mem x
+    obtain ⟨e, t, he, ht, htx⟩ := exists_homogeneous_notMem x
     have htd : t ^ d ∈ 𝒜 (e * d) := by
       simpa [smul_eq_mul, mul_comm] using SetLike.pow_mem_graded d ht
     have hmem := h (mem_irrelevant_of_mem (veronese 𝒜 d) he (ofMem_mem htd))
@@ -266,11 +282,18 @@ theorem isIso_morphismRestrict {i : ℕ} (hi : 0 < i) {g : veroneseSubring 𝒜 
   rw [key]
   infer_instance
 
+/-- The standard opens `D₊(g)`, `g` homogeneous of positive degree, cover `Proj S`. -/
+theorem iSup_basicOpen_eq_top' :
+    ⨆ g : Σ' (i : ℕ) (g : A), 0 < i ∧ g ∈ 𝒜 i, Proj.basicOpen 𝒜 g.2.1 = ⊤ := by
+  refine eq_top_iff.mpr fun x _ => ?_
+  obtain ⟨e, t, he, ht, htx⟩ := exists_homogeneous_notMem x
+  exact Opens.mem_iSup.mpr ⟨⟨e, t, he, ht⟩, (Proj.mem_basicOpen _ _ _).mpr htx⟩
+
 /-- `Proj S ⟶ Proj S^{(d)}` is an isomorphism. -/
 instance isIso_toProj : IsIso (toProj (𝒜 := 𝒜) d) := by
   refine (IsZariskiLocalAtTarget.iff_of_iSup_eq_top (P := MorphismProperty.isomorphisms Scheme)
-    (f := toProj d) _ (ProjTail.iSup_basicOpen_tail_eq_top (𝒜 := veronese 𝒜 d) 0)).mpr ?_
-  rintro ⟨i, g, hi, -, hg⟩
+    (f := toProj d) _ (iSup_basicOpen_eq_top' (𝒜 := veronese 𝒜 d))).mpr ?_
+  rintro ⟨i, g, hi, hg⟩
   exact isIso_morphismRestrict d hi hg
 
 variable (𝒜) in

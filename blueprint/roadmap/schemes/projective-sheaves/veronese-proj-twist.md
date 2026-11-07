@@ -2,6 +2,9 @@
 article_id: af_782acfedef3c273801b29df6
 declaration: isomorphism
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.veroneseSubring Hartshorne.veronese Hartshorne.Veronese.awayEquiv Hartshorne.Veronese.toProj Hartshorne.Veronese.awayι_comp_toProj Hartshorne.Veronese.projIso Hartshorne.Veronese.twistIso Hartshorne.Veronese.dupleEmbedding Hartshorne.Veronese.isClosedImmersion_dupleEmbedding
 ---
 
 # Veronese Proj and twists
