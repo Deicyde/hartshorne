@@ -3,11 +3,11 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib.AlgebraicGeometry.Morphisms.QuasiFinite
-import Hartshorne.Curve.DVR
 import Hartshorne.Intersection.RawCyclePushforward
 import Hartshorne.Scheme.AbsoluteNormalizationDominant
 import Hartshorne.Scheme.AbsoluteNormalizationFinite
 import Hartshorne.Scheme.AbsoluteNormalizationNormal
+import Hartshorne.Scheme.AffineUFDClassGroup
 import Hartshorne.Scheme.WeilClassGroup
 
 /-!
@@ -41,7 +41,7 @@ open AlgebraicGeometry CategoryTheory Limits Order TopologicalSpace
 universe u
 
 /-- The codimension of the closure of a point is the coheight of the point. -/
-theorem codim_closure_singleton_eq_coheight {X : Scheme.{u}} (x : X) :
+private theorem codim_closure_singleton_eq_coheight {X : Scheme.{u}} (x : X) :
     codim (closure ({x} : Set X)) = coheight x := by
   let e : IrreducibleCloseds X ≃o X := irreducibleSetEquivPoints
   have he : ((e.symm x : IrreducibleCloseds X) : Set X) = closure {x} :=
@@ -56,30 +56,6 @@ theorem codim_closure_singleton_eq_coheight {X : Scheme.{u}} (x : X) :
     change (W : Set X) ⊆ (e.symm x : Set X)
     rw [he]
     exact hW
-
-/-- A locally Noetherian normal scheme is regular in codimension one: a codimension-one local
-ring is a one-dimensional Noetherian integrally closed local domain, hence regular. -/
-theorem isRegularInCodimensionOne_of_isNormal {Y : Scheme.{u}} [IsLocallyNoetherian Y]
-    [IsNormal Y] : Y.IsRegularInCodimensionOne := by
-  intro y hy
-  have hdim : ringKrullDim (Y.presheaf.stalk y) = 1 := by
-    rw [ringKrullDim_stalk_eq_coheight, hy]
-    rfl
-  exact ((dvr_characterizations (Y.presheaf.stalk y) hdim).out 1 2).mp
-    (IsNormal.isIntegrallyClosed_stalk y)
-
-/-- A normal integral scheme, separated and of finite type over a field, satisfies Hartshorne's
-condition `(*)`. -/
-theorem satisfiesConditionStar_of_isNormal {k : Type u} [Field k] {Y : Scheme.{u}}
-    (q : Y ⟶ Spec (.of k)) (hq : FiniteType q) [IsSeparated q] [IsIntegral Y] [IsNormal Y] :
-    Y.SatisfiesConditionStar := by
-  have := hq.1
-  have := hq.2
-  have : IsLocallyNoetherian Y := LocallyOfFiniteType.isLocallyNoetherian q
-  have : CompactSpace Y := QuasiCompact.compactSpace_of_compactSpace q
-  refine ⟨{}, inferInstance, ⟨?_⟩, isRegularInCodimensionOne_of_isNormal⟩
-  rw [← terminal.comp_from q]
-  infer_instance
 
 /-- On a scheme satisfying `(*)`, a Weil divisor is a codimension-one cycle. -/
 noncomputable def weilDivisorToCodimOneCycles {Y : Scheme.{u}} (hY : Y.SatisfiesConditionStar) :
@@ -144,8 +120,15 @@ theorem satisfiesConditionStar_absoluteNormalization (p : X ⟶ Spec (.of k)) (h
     (absoluteNormalization V).SatisfiesConditionStar := by
   have := isFinite_subvarietyNormalizationMap p hp i
   have := (absoluteNormalization_isNormal_and_isIntegral V).1
-  exact satisfiesConditionStar_of_isNormal (subvarietyNormalizationMap i ≫ p)
-    (finiteType_subvarietyNormalizationMap_comp p hp i)
+  let q := subvarietyNormalizationMap i ≫ p
+  have hq := finiteType_subvarietyNormalizationMap_comp p hp i
+  have := hq.1
+  have := hq.2
+  have : IsLocallyNoetherian (absoluteNormalization V) := LocallyOfFiniteType.isLocallyNoetherian q
+  have : CompactSpace (absoluteNormalization V) := QuasiCompact.compactSpace_of_compactSpace q
+  have : IsNoetherian (absoluteNormalization V) := {}
+  have : (absoluteNormalization V).IsSeparated := ⟨by rw [← terminal.comp_from q]; infer_instance⟩
+  exact satisfiesConditionStar_of_isNormal
 
 /-- The dimension of the normalization of an integral closed subscheme `V` of an integral scheme
 `X` of finite type over `k`, plus the codimension of `V` in `X`, is the dimension of `X`. -/
