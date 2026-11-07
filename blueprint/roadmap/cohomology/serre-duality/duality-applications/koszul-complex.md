@@ -2,6 +2,9 @@
 article_id: af_98097ebb6a196e47a684358a
 declaration: definition
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.Koszul.contraction Hartshorne.Koszul.contraction_contraction Hartshorne.Koszul.contraction_ιMulti Hartshorne.Koszul.koszulComplex Hartshorne.Koszul.koszulComplex_d_tmul_ιMulti Hartshorne.Koszul.koszulForm Hartshorne.Koszul.sequenceKoszulComplex Hartshorne.Koszul.sequenceKoszulComplex_d_basis Hartshorne.Koszul.koszulAugmentation Hartshorne.Koszul.koszulAugmentationIsCokernel Hartshorne.Koszul.koszulHomologyZeroIso Hartshorne.Koszul.sequenceKoszulHomologyZeroIso Hartshorne.Koszul.koszulFunctor Hartshorne.Koszul.koszulMap_f_zero_comp_koszulAugmentation Hartshorne.Koszul.baseChangeComplex Hartshorne.Koszul.exteriorPowerBaseChangeEquiv Hartshorne.Koszul.koszulBaseChangeIso Hartshorne.Koszul.sequenceKoszulBaseChangeIso Hartshorne.Koszul.sequenceKoszulLocalizationIso Hartshorne.Koszul.koszulChangeOfBasis Hartshorne.Koszul.koszulChangeOfBasis_comp Hartshorne.Koszul.koszulChangeOfBasis_naturality Hartshorne.Koszul.koszulChangeOfBasisIso Hartshorne.Koszul.sequenceKoszulChangeOfBasis Hartshorne.Koszul.sequenceKoszulChangeOfBasisIso
 ---
 
 # The Koszul complex

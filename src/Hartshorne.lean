@@ -328,6 +328,7 @@ import Hartshorne.Cohomology.ArtinReesInducedTopology
 import Hartshorne.Cohomology.HigherDirectImages
 import Hartshorne.Cohomology.IdealPowerTorsionInjective
 import Hartshorne.Cohomology.InjectiveLocalization
+import Hartshorne.Cohomology.KoszulComplex
 import Hartshorne.Cohomology.LocalCohomologyDerivedTorsion
 import Hartshorne.Cohomology.LocalCohomologyIdealTorsion
 import Hartshorne.Cohomology.MaximalAdicCompletionFaithful
