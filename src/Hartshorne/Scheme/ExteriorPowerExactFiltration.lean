@@ -7,6 +7,11 @@ import Hartshorne.Scheme.SheafAlgebraOperations
 import Hartshorne.RingedSpace.FiniteLocallyFreeDuality
 import Mathlib.Algebra.Category.ModuleCat.Presheaf.Submodule
 import Mathlib.CategoryTheory.Limits.Constructions.EpiMono
+import Mathlib.Algebra.Homology.ShortComplex.ExactFunctor
+import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+import Mathlib.Topology.Sheaves.LocallySurjective
+import Mathlib.Topology.Sheaves.AddCommGrpCat
+import Mathlib.Algebra.Category.ModuleCat.Sheaf.Limits
 
 /-!
 # Exterior powers of a short exact sequence of locally free sheaves
@@ -448,6 +453,141 @@ lemma toH_bijective {V : (Opens X)ᵒᵖ} (hV : IsSplitAt f g V) :
 
 end Filtration
 
+section LocalSplitting
+
+variable {A B : SheafOfModules.{u} (ringCatSheafOf R)}
+
+/-- A monomorphism of `𝒪_X`-modules is injective on sections. -/
+lemma app_injective_of_mono (i : A ⟶ B) [Mono i] (U : (Opens X)ᵒᵖ) :
+    Function.Injective (i.val.app U).hom := by
+  have : PreservesFiniteLimits (SheafOfModules.evaluation (ringCatSheafOf R) U) :=
+    SheafOfModules.Finite.evaluationPreservesFiniteLimits (ringCatSheafOf R) U
+  have : Mono ((SheafOfModules.evaluation (ringCatSheafOf R) U).map i) := Functor.map_mono _ _
+  exact (ModuleCat.mono_iff_injective _).1 this
+
+/-- Sections of a short exact sequence of `𝒪_X`-modules are exact in the middle. -/
+lemma range_eq_ker_of_shortExact {S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))}
+    (hS : S.ShortExact) (U : (Opens X)ᵒᵖ) :
+    LinearMap.range (S.f.val.app U).hom = LinearMap.ker (S.g.val.app U).hom := by
+  let G := SheafOfModules.evaluation (ringCatSheafOf R) U
+  have hG : PreservesFiniteLimits G := SheafOfModules.Finite.evaluationPreservesFiniteLimits (ringCatSheafOf R) U
+  have : G.Additive := ⟨fun {_ _ _ _} => rfl⟩
+  have key : PreservesFiniteLimits G → ∀ S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R)),
+      S.Exact ∧ Mono S.f → (S.map G).Exact ∧ Mono (G.map S.f) :=
+    ((Functor.preservesFiniteLimits_tfae G).out 3 1).mp
+  have := hS.mono_f
+  exact (key hG S ⟨hS.exact, inferInstance⟩).1.moduleCat_range_eq_ker
+
+private lemma toSheaf_preservesColimit {K : Type} [SmallCategory K]
+    (D : K ⥤ SheafOfModules.{u} (ringCatSheafOf R)) :
+    PreservesColimit D (SheafOfModules.toSheaf (ringCatSheafOf R)) := by
+  let adj := PresheafOfModules.sheafificationAdjunction (𝟙 (ringCatSheafOf R).obj)
+  let D₀ : K ⥤ PresheafOfModules.{u} (ringCatSheafOf R).obj := D ⋙ SheafOfModules.forget _
+  let D' : K ⥤ SheafOfModules.{u} (ringCatSheafOf R) :=
+    D₀ ⋙ PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj)
+  let e : D ≅ D' := Functor.isoWhiskerLeft D (asIso adj.counit).symm
+  have hc₀ := colimit.isColimit D₀
+  have : PreservesColimitsOfSize.{0, 0}
+      (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj)) :=
+    adj.leftAdjoint_preservesColimits
+  have h1 : PreservesColimit D₀ (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj)) :=
+    inferInstance
+  have h2 : PreservesColimit D₀
+      (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj) ⋙
+        SheafOfModules.toSheaf (ringCatSheafOf R)) :=
+    preservesColimit_of_natIso D₀
+      (PresheafOfModules.sheafificationCompToSheaf (𝟙 (ringCatSheafOf R).obj)).symm
+  have : PreservesColimit D' (SheafOfModules.toSheaf (ringCatSheafOf R)) :=
+    preservesColimit_of_preserves_colimit_cocone
+      (isColimitOfPreserves (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj)) hc₀)
+      (isColimitOfPreserves (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj) ⋙
+        SheafOfModules.toSheaf (ringCatSheafOf R)) hc₀)
+  exact preservesColimit_of_iso_diagram _ e.symm
+
+/-- An epimorphism of `𝒪_X`-modules is locally surjective on sections. -/
+lemma exists_local_lift (g : A ⟶ B) [Epi g] {U : Opens X} (t : B.val.obj (op U)) {x : X}
+    (hx : x ∈ U) : ∃ (V : Opens X) (hVU : V ≤ U), x ∈ V ∧
+      ∃ s : A.val.obj (op V), g.val.app (op V) s = B.val.map (homOfLE hVU).op t := by
+  have h := toSheaf_preservesColimit (span g g)
+  have : Epi ((SheafOfModules.toSheaf (ringCatSheafOf R)).map g) :=
+    @preserves_epi_of_preservesColimit _ _ _ _ (SheafOfModules.toSheaf (ringCatSheafOf R)) _ _ g h
+      ‹Epi g›
+  have h := (TopCat.Sheaf.isLocallySurjective_iff_epi
+    ((SheafOfModules.toSheaf (ringCatSheafOf R)).map g)).mpr this
+  obtain ⟨V, hVU, ⟨s, hs⟩, hxV⟩ := (TopCat.Presheaf.isLocallySurjective_iff _).mp h U t x hx
+  exact ⟨V, hVU, hxV, s, hs⟩
+
+open Ringed in
+/-- A local frame of `E` over `U` makes the sections of `E` over each open `V ⊆ U` a finite
+free module. -/
+lemma free_finite_of_isLocalFrame {E : SheafOfModules.{u} (ringCatSheafOf R)} {U : Opens X}
+    {ι : Type u} [Fintype ι] {e : ι → (E.val.presheaf.obj (op U) : Type u)}
+    (hE : Ringed.IsLocalFrame E U e) {V : Opens X} (hV : V ≤ U) :
+    Module.Free ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op V)) (E.val.obj (op V)) ∧
+      Module.Finite ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op V)) (E.val.obj (op V)) := by
+  let eqv : (ι → R.obj.obj (op V)) ≃ₗ[R.obj.obj (op V)] (E.val.presheaf.obj (op V)) :=
+    LinearEquiv.ofBijective (Ringed.localFrameMap E e hV) (hE V hV)
+  have h1 : Module.Free (R.obj.obj (op V)) (E.val.presheaf.obj (op V)) := Module.Free.of_equiv eqv
+  have h2 : Module.Finite (R.obj.obj (op V)) (E.val.presheaf.obj (op V)) := Module.Finite.equiv eqv
+  exact ⟨h1, h2⟩
+
+open Ringed in
+/-- Near every point, a short exact sequence `0 → F' → F → F'' → 0` with `F'` and `F''` finite
+locally free is split on sections over all small opens, with finite free outer terms. -/
+lemma exists_isSplitAt {S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))}
+    (hS : S.ShortExact) (h₁ : Ringed.IsFiniteLocallyFree S.X₁)
+    (h₃ : Ringed.IsFiniteLocallyFree S.X₃) (x : X) :
+    ∃ U : Opens X, x ∈ U ∧ ∀ V : Opens X, V ≤ U → IsSplitAt S.f S.g (op V) := by
+  classical
+  have := hS.mono_f
+  have := hS.epi_g
+  obtain ⟨U₁, ι₁, _, e₁, hx₁, hE₁⟩ := Ringed.exists_isLocalFrame_of_isFiniteLocallyFree h₁ x
+  obtain ⟨U₃, ι₃, _, e₃, hx₃, hE₃⟩ := Ringed.exists_isLocalFrame_of_isFiniteLocallyFree h₃ x
+  have hlift : ∀ j : ι₃, ∃ (W : Opens X) (hW : W ≤ U₃), x ∈ W ∧
+      ∃ t : S.X₂.val.obj (op W), S.g.val.app (op W) t = S.X₃.val.map (homOfLE hW).op (e₃ j) :=
+    fun j => exists_local_lift S.g (e₃ j) hx₃
+  choose W hW hxW t ht using hlift
+  have hxinf : ∀ s : Finset ι₃, x ∈ s.inf W := by
+    intro s
+    induction s using Finset.induction_on with
+    | empty => simp
+    | insert j s _ ih =>
+      rw [Finset.inf_insert]
+      exact ⟨hxW j, ih⟩
+  refine ⟨U₁ ⊓ U₃ ⊓ Finset.univ.inf W, ⟨⟨hx₁, hx₃⟩, hxinf _⟩, fun V hV => ?_⟩
+  have hV₁ : V ≤ U₁ := hV.trans (inf_le_left.trans inf_le_left)
+  have hV₃ : V ≤ U₃ := hV.trans (inf_le_left.trans inf_le_right)
+  have hVW : ∀ j, V ≤ W j := fun j =>
+    hV.trans (inf_le_right.trans (Finset.inf_le (Finset.mem_univ j)))
+  obtain ⟨hfree₁, hfin₁⟩ := free_finite_of_isLocalFrame hE₁ hV₁
+  obtain ⟨hfree₃, hfin₃⟩ := free_finite_of_isLocalFrame hE₃ hV₃
+  refine ⟨app_injective_of_mono S.f _, range_eq_ker_of_shortExact hS _, ?_, hfree₁, hfin₁,
+    hfree₃, hfin₃⟩
+  let eqv : (ι₃ → R.obj.obj (op V)) ≃ₗ[R.obj.obj (op V)] (S.X₃.val.presheaf.obj (op V)) :=
+    LinearEquiv.ofBijective (Ringed.localFrameMap S.X₃ e₃ hV₃) (hE₃ V hV₃)
+  let lc : (ι₃ → R.obj.obj (op V)) →ₗ[R.obj.obj (op V)] S.X₂.val.presheaf.obj (op V) :=
+    Fintype.linearCombination (R.obj.obj (op V))
+      (fun j => S.X₂.val.presheaf.map (homOfLE (hVW j)).op (t j))
+  refine ⟨lc ∘ₗ eqv.symm.toLinearMap, ?_⟩
+  refine LinearMap.ext fun y => ?_
+  obtain ⟨a, rfl⟩ := eqv.surjective y
+  change (S.g.val.app (op V)).hom (lc (eqv.symm (eqv a))) = eqv a
+  rw [LinearEquiv.symm_apply_apply, LinearEquiv.ofBijective_apply, Ringed.localFrameMap_apply,
+    Fintype.linearCombination_apply]
+  let gV : S.X₂.val.presheaf.obj (op V) →ₗ[R.obj.obj (op V)] S.X₃.val.presheaf.obj (op V) :=
+    (S.g.val.app (op V)).hom
+  change gV _ = _
+  rw [map_sum]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  rw [map_smul]
+  congr 1
+  refine (PresheafOfModules.naturality_apply S.g.val (homOfLE (hVW j)).op (t j)).trans ?_
+  rw [ht j]
+  exact (PresheafOfModules.map_comp_apply S.X₃.val (homOfLE (hW j)).op (homOfLE (hVW j)).op
+    (e₃ j)).symm
+
+end LocalSplitting
+
 section SheafLevel
 
 open SheafAlgebraOperations
@@ -601,6 +741,29 @@ theorem exists_filtration_of_locally_split (r : ℕ) :
     fun _ h hp => ⟨gradedIso f g hloc hp h⟩⟩
 
 end SheafLevel
+
+section MainTheorem
+
+/-- **Hartshorne II, Exercise 5.16(d).** Let `0 → F' → F → F'' → 0` be a short exact sequence of
+locally free `𝒪_X`-modules of finite rank on a ringed space `(X, 𝒪_X)`. Then for every `r` the
+exterior power `⋀^r F` has a finite filtration
+`⋀^r F = F^0 ⊇ F^1 ⊇ ⋯ ⊇ F^r ⊇ F^{r+1} = 0` (a decreasing chain of subobjects) whose quotients
+are `F^p / F^{p+1} ≅ ⋀^p F' ⊗ ⋀^{r-p} F''` for `0 ≤ p ≤ r`. The filtration is the standard one:
+`F^p` is the image of `⋀^p F' ⊗ ⋀^{r-p} F → ⋀^r F`. -/
+theorem exteriorPower_exact_filtration
+    (S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))) (hS : S.ShortExact)
+    (h₁ : Ringed.IsFiniteLocallyFree S.X₁) (h₃ : Ringed.IsFiniteLocallyFree S.X₃) :
+    Ringed.IsFiniteLocallyFree S.X₂ → ∀ r : ℕ,
+    ∃ Fil : ℕ → Subobject (C := SheafOfModules.{u} (ringCatSheafOf R))
+        (moduleSheafExteriorPower r S.X₂),
+      Fil 0 = ⊤ ∧ Fil (r + 1) = ⊥ ∧ Antitone Fil ∧
+      ∀ p (h : Fil (p + 1) ≤ Fil p), p ≤ r →
+        Nonempty (cokernel (Subobject.ofLE _ _ h) ≅
+          moduleSheafTensor (moduleSheafExteriorPower p S.X₁)
+            (moduleSheafExteriorPower (r - p) S.X₃)) := fun _ r =>
+  exists_filtration_of_locally_split S.f S.g (fun x => exists_isSplitAt hS h₁ h₃ x) r
+
+end MainTheorem
 
 end ExteriorPowerExactFiltration
 
