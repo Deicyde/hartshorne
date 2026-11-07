@@ -511,6 +511,63 @@ lemma lTensor_map_surjective (N : Type*) [AddCommGroup N] [Module A N] (n : ℕ)
 
 end Split
 
+section Rank
+
+variable {M' M M'' : Type*} [AddCommGroup M'] [Module A M'] [AddCommGroup M] [Module A M]
+  [AddCommGroup M''] [Module A M'']
+
+/-- Exterior powers of a free module above its rank vanish. -/
+lemma exteriorPower_subsingleton_of_basis {ι : Type*} [Fintype ι] (b : Module.Basis ι A M)
+    {k : ℕ} (hk : Fintype.card ι < k) : Subsingleton (⋀[A]^k M) := by
+  let B := (b.reindex (Fintype.equivFin ι)).exteriorPower k
+  have : IsEmpty (Set.powersetCard (Fin (Fintype.card ι)) k) := ⟨fun s => by
+    have h1 := Set.powersetCard.card_eq s
+    have h2 := Finset.card_le_univ (s : Finset (Fin (Fintype.card ι)))
+    rw [Fintype.card_fin] at h2
+    omega⟩
+  exact B.repr.toEquiv.subsingleton
+
+/-- If `⋀^p M'` vanishes, so does `F^p`. -/
+lemma filt_eq_bot_of_subsingleton (i : M' →ₗ[A] M) {r p : ℕ} (h : Subsingleton (⋀[A]^p M')) :
+    filt i r p = ⊥ := by
+  rcases Nat.lt_or_ge r p with hp | hp
+  · exact filt_of_lt i hp
+  · rw [filt_of_le i hp, eq_bot_iff]
+    rintro _ ⟨z, rfl⟩
+    have hz : z = 0 := by
+      induction z using TensorProduct.induction_on with
+      | zero => rfl
+      | tmul x y => rw [Subsingleton.elim x 0, TensorProduct.zero_tmul]
+      | add z z' hz hz' => rw [hz, hz', add_zero]
+    rw [hz, map_zero]
+    exact Submodule.zero_mem _
+
+variable {i : M' →ₗ[A] M} {q : M →ₗ[A] M''} {s : M'' →ₗ[A] M}
+  [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M'']
+
+/-- If the exterior powers `⋀^{r-k} M''` vanish for all `k < p`, then `F^p = ⋀^r M`. -/
+lemma filt_eq_top_of_subsingleton (hi : Function.Injective i)
+    (hiq : LinearMap.range i = LinearMap.ker q) (hqs : q ∘ₗ s = LinearMap.id) {r : ℕ} :
+    ∀ p ≤ r, (∀ k < p, Subsingleton (⋀[A]^(r - k) M'')) → filt i r p = ⊤ := by
+  intro p
+  induction p with
+  | zero => exact fun _ _ => filt_zero i r
+  | succ p ih =>
+    intro hp h
+    have hp' : p ≤ r := Nat.le_of_succ_le hp
+    rw [eq_top_iff, ← ih hp' fun k hk => h k (Nat.lt_succ_of_lt hk), filt_of_le i hp']
+    rintro _ ⟨z, rfl⟩
+    have := h p (Nat.lt_succ_self p)
+    refine (alpha_mem_filt_succ_iff hiq hqs hi hp' z).2 ?_
+    have hsub : ∀ w : ⋀[A]^p M' ⊗[A] ⋀[A]^(r - p) M'', w = 0 := fun w => by
+      induction w using TensorProduct.induction_on with
+      | zero => rfl
+      | tmul x y => rw [Subsingleton.elim y 0, TensorProduct.tmul_zero]
+      | add w w' hw hw' => rw [hw, hw', add_zero]
+    exact hsub _
+
+end Rank
+
 end ExteriorPowerFiltration
 
 end Hartshorne

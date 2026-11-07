@@ -2,6 +2,9 @@
 article_id: af_3fbc46711bd77afee0c430be
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.ExteriorPowerExactFiltration.exteriorPower_exact_filtration Hartshorne.ExteriorPowerExactFiltration.exists_exteriorPower_exact_filtration Hartshorne.ExteriorPowerExactFiltration.exteriorPower_exact_det Hartshorne.ExteriorPowerExactFiltration.filSh Hartshorne.ExteriorPowerExactFiltration.wedgeSheafMap Hartshorne.ExteriorPowerExactFiltration.filSh_eq_imageSubobject
 ---
 
 # Exterior powers of an exact sequence
@@ -14,6 +17,9 @@ $\bigwedge^p F'\otimes\bigwedge^{r-p}F''$.
 
 In top degree this gives
 $\det F \cong \det F' \otimes \det F''$.
+
+As in the source, $F$ is assumed locally free too, although this follows from the
+hypotheses on $F'$ and $F''$.
 
 ## Depends on
 

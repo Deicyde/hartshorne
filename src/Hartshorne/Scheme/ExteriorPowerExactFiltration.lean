@@ -17,6 +17,36 @@ import Mathlib.Algebra.Category.ModuleCat.Sheaf.Limits
 # Exterior powers of a short exact sequence of locally free sheaves
 
 Hartshorne, *Algebraic Geometry*, II, Exercise 5.16(d) (p. 128).
+
+Let `(X, 𝒪_X)` be a ringed space (a topological space `X` with a sheaf `R` of commutative rings;
+`𝒪_X`-modules are `SheafOfModules (ringCatSheafOf R)`) and let `0 → F' → F → F'' → 0` be a short
+exact sequence of `𝒪_X`-modules (`S : ShortComplex _`, `S.ShortExact`) with `F'` and `F''` locally
+free of finite rank. For `r ≥ 0` the exterior power `⋀^r F` (`moduleSheafExteriorPower r F`, the
+sheafification of `U ↦ ⋀^r F(U)`) carries the standard filtration `F^p` (`filSh`): for `p ≤ r`,
+`F^p` is the image of the wedge-product morphism `⋀^p F' ⊗ ⋀^{r-p} F → ⋀^r F` (`wedgeSheafMap`,
+`filSh_eq_imageSubobject`), and `F^p = 0` for `p > r`. We prove:
+
+* `exteriorPower_exact_filtration`: `F^0 = ⋀^r F`, `F^{r+1} = 0`, the `F^p` decrease, and
+  `F^p / F^{p+1} ≅ ⋀^p F' ⊗ ⋀^{r-p} F''` for `p ≤ r`; `exists_exteriorPower_exact_filtration`
+  states this in Hartshorne's form (there is such a filtration);
+* `exteriorPower_exact_det`: if `F'`, `F`, `F''` are locally free of ranks `n'`, `n`, `n''`, then
+  `⋀^n F ≅ ⋀^{n'} F' ⊗ ⋀^{n''} F''`.
+
+Proof. Everything is first done for presheaves of sections. The presheaf filtration `filPre` is
+given on each open `U` by the module-level filtration of
+`Hartshorne.Scheme.ExteriorPowerFiltrationAlgebra` applied to `F'(U) → F(U)`. To compare the graded
+piece `F^p(U) / F^{p+1}(U)` with `⋀^p F'(U) ⊗ ⋀^{r-p} F''(U)` (there is no map between them on
+arbitrary opens, as `F(U) → F''(U)` need not be onto) both are compared with the quotient
+`apexPre` of `⋀^p F'(U) ⊗ ⋀^{r-p} F(U)` by `α_p⁻¹(F^{p+1}) ∩ ker(id ⊗ ⋀^{r-p} g)`
+(`toGrad`, `toH`). Near every point the sequence of sections over all small opens is split exact
+with finite free outer terms (`exists_isSplitAt`: exactness on sections, local lifts of a local
+frame of `F''`); there both comparison maps are bijective by the module-level theorem
+(`toGrad_bijective`, `toH_bijective`). A morphism of presheaves bijective on all small opens
+becomes an isomorphism after sheafification (`isIso_sheafifyMap_of_locally_bijective`), and
+sheafification preserves monomorphisms and cokernels, which gives the sheaf statements. For the
+determinant, if `n = n' + n''` the filtration of `⋀^n F` collapses (`F^{n'} = ⋀^n F`,
+`F^{n'+1} = 0`) because exterior powers of a free module above its rank vanish; otherwise `𝒪_X`
+vanishes near every point and all `𝒪_X`-modules are zero (`isZero_of_locally_subsingleton`).
 -/
 
 universe u
@@ -202,7 +232,9 @@ section Alpha
 
 variable {F' F : SheafOfModules.{u} (ringCatSheafOf R)} (f : F' ⟶ F)
 
-set_option maxHeartbeats 2000000 in
+-- Unifying the coefficient rings of the sections of `F'` and `F` is slow here.
+set_option maxHeartbeats 400000 in
+/-- Naturality of `α_p` with respect to restriction of sections. -/
 lemma alpha_natural {p r : ℕ} (hp : p ≤ r) {U V : (Opens X)ᵒᵖ} (i : U ⟶ V)
     (x : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj U]^p (F'.val.obj U))
     (y : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj U]^(r - p) (F.val.obj U)) :
@@ -704,6 +736,42 @@ noncomputable def cokernelIsoSheafifyGrad (r p : ℕ) :
     (CokernelCofork.mapIsColimit _ (isColimitQuotient (gradSub f r p) _ (range_homOfLE_app f r p))
       (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj)))
 
+/-- The wedge-product morphism `⋀^p F' ⊗ ⋀^{r-p} F → ⋀^r F` induced by `f : F' ⟶ F`: the
+sheafification of `x ⊗ y ↦ (⋀^p f)(x) ∧ y` on sections. -/
+noncomputable def wedgeSheafMap {r p : ℕ} (hp : p ≤ r) :
+    moduleSheafTensor (moduleSheafExteriorPower p F') (moduleSheafExteriorPower (r - p) F) ⟶
+      (moduleSheafExteriorPower r F : SheafOfModules.{u} (ringCatSheafOf R)) :=
+  (sheafifyTensorIso F' F p (r - p)).inv ≫ sheafifyMap (alphaPre f hp) ≫ (extPowIso F r).hom
+
+/-- The standard filtration is the filtration by the images of the wedge-product morphisms
+`⋀^p F' ⊗ ⋀^{r-p} F → ⋀^r F`. -/
+theorem filSh_eq_imageSubobject {r p : ℕ} (hp : p ≤ r) :
+    filSh f r p = imageSubobject (wedgeSheafMap f hp) := by
+  have hfac : alphaPre f hp = alphaTo f hp ≫ (filPre f r p).ι := by
+    ext U z
+    rfl
+  have hepi : Epi (alphaTo f hp) := PresheafOfModules.epi_of_surjective fun U w => by
+    obtain ⟨w, hw⟩ := w
+    have hw' : w ∈ LinearMap.range (ExteriorPowerFiltration.alpha (f.val.app U).hom hp) := by
+      rw [← ExteriorPowerFiltration.filt_of_le _ hp]
+      exact hw
+    obtain ⟨z, rfl⟩ := hw'
+    exact ⟨z, rfl⟩
+  have : Epi ((sheafifyTensorIso F' F p (r - p)).inv ≫ sheafifyMap (alphaTo f hp)) := by
+    have : Epi (sheafifyMap (alphaTo f hp)) := Functor.map_epi _ _
+    exact epi_comp _ _
+  have hcomm : ((sheafifyTensorIso F' F p (r - p)).inv ≫ sheafifyMap (alphaTo f hp)) ≫
+      filArrow f r p = wedgeSheafMap f hp := by
+    have hmap : sheafifyMap (alphaTo f hp ≫ (filPre f r p).ι) =
+        sheafifyMap (alphaTo f hp) ≫ sheafifyMap (filPre f r p).ι := Functor.map_comp _ _ _
+    rw [wedgeSheafMap, filArrow, hfac, hmap]
+    simp only [Category.assoc]
+  have : StrongEpi ((sheafifyTensorIso F' F p (r - p)).inv ≫ sheafifyMap (alphaTo f hp)) :=
+    strongEpi_of_epi _
+  rw [filSh, imageSubobject]
+  exact Subobject.mk_eq_mk_of_comm _ _ (image.isoStrongEpiMono _ _ hcomm)
+    (image.isoStrongEpiMono_hom_comp_ι _ _ hcomm)
+
 variable (hloc : ∀ x : X, ∃ U : Opens X, x ∈ U ∧ ∀ V : Opens X, V ≤ U → IsSplitAt f g (op V))
 include hloc
 
@@ -729,39 +797,243 @@ noncomputable def gradedIso {r p : ℕ} (hp : p ≤ r) (h : filSh f r (p + 1) �
     cokernelIsoSheafifyGrad f r p ≪≫ (asIso (sheafifyMap (toGrad f g hp))).symm ≪≫
       asIso (sheafifyMap (toH f g hp)) ≪≫ sheafifyTensorIso F' F'' p (r - p)
 
-/-- **The exterior-power filtration of a locally split exact sequence.** -/
-theorem exists_filtration_of_locally_split (r : ℕ) :
-    ∃ Fil : ℕ → Subobject (C := SheafOfModules.{u} (ringCatSheafOf R))
-        (moduleSheafExteriorPower r F),
-      Fil 0 = ⊤ ∧ Fil (r + 1) = ⊥ ∧ Antitone Fil ∧
-      ∀ p (h : Fil (p + 1) ≤ Fil p), p ≤ r →
-        Nonempty (cokernel (Subobject.ofLE _ _ h) ≅
-          moduleSheafTensor (moduleSheafExteriorPower p F') (moduleSheafExteriorPower (r - p) F'')) :=
-  ⟨filSh f r, filSh_zero f r, filSh_of_lt f (Nat.lt_succ_self r), filSh_antitone f r,
-    fun _ h hp => ⟨gradedIso f g hloc hp h⟩⟩
-
 end SheafLevel
+
+section Determinant
+
+open SheafAlgebraOperations
+
+variable {F' F F'' : SheafOfModules.{u} (ringCatSheafOf R)} (f : F' ⟶ F)
+
+lemma filSh_eq_top_of_locally {r p : ℕ}
+    (h : ∀ x : X, ∃ U : Opens X, x ∈ U ∧
+      ∀ V : Opens X, V ≤ U → (filPre f r p).obj (op V) = ⊤) : filSh f r p = ⊤ := by
+  have : IsIso (sheafifyMap (filPre f r p).ι) :=
+    isIso_sheafifyMap_of_locally_bijective _ fun x => by
+      obtain ⟨U, hxU, hU⟩ := h x
+      refine ⟨U, hxU, fun V hV => ⟨fun a b hab => Subtype.ext hab, fun w => ?_⟩⟩
+      have hw : w ∈ (filPre f r p).obj (op V) := by
+        rw [hU V hV]
+        trivial
+      exact ⟨⟨w, hw⟩, rfl⟩
+  have : IsIso (filArrow f r p) := by
+    unfold filArrow
+    infer_instance
+  exact Subobject.mk_eq_top_of_isIso _
+
+lemma filSh_eq_bot_of_locally {r p : ℕ}
+    (h : ∀ x : X, ∃ U : Opens X, x ∈ U ∧
+      ∀ V : Opens X, V ≤ U → (filPre f r p).obj (op V) = ⊥) : filSh f r p = ⊥ := by
+  let j := PresheafOfModules.Submodule.homOfLE
+    (bot_le : (⊥ : (moduleSheafExteriorPowerPresheaf r F).Submodule) ≤ filPre f r p)
+  have : IsIso (sheafifyMap j) :=
+    isIso_sheafifyMap_of_locally_bijective _ fun x => by
+      obtain ⟨U, hxU, hU⟩ := h x
+      refine ⟨U, hxU, fun V hV => ⟨fun a b _ => ?_, fun w => ?_⟩⟩
+      · have ha : a.1 = 0 := (Submodule.mem_bot _).1 a.2
+        have hb : b.1 = 0 := (Submodule.mem_bot _).1 b.2
+        exact Subtype.ext (ha.trans hb.symm)
+      · have key : ∀ (N : Submodule ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op V))
+            ((moduleSheafExteriorPowerPresheaf r F).obj (op V))) (y), y ∈ N → N = ⊥ → y = 0 := by
+          rintro N y hy rfl
+          exact (Submodule.mem_bot _).1 hy
+        have hw : w.1 = 0 := key _ _ w.2 (hU V hV)
+        refine ⟨0, Subtype.ext ?_⟩
+        exact (congrArg Subtype.val (map_zero (j.app (op V)).hom)).trans hw.symm
+  have hι : (⊥ : (moduleSheafExteriorPowerPresheaf r F).Submodule).ι = 0 := by
+    ext U ⟨w, hw⟩
+    exact (Submodule.mem_bot _).1 hw
+  have hcomp : sheafifyMap j ≫ filArrow f r p = 0 := by
+    rw [filArrow, ← Category.assoc, ← Functor.map_comp, PresheafOfModules.Submodule.homOfLE_ι, hι]
+    change (PresheafOfModules.sheafification _).map 0 ≫ _ = 0
+    rw [Functor.map_zero, zero_comp]
+  rw [filSh, Subobject.mk_eq_bot_iff_zero, ← cancel_epi (sheafifyMap j), hcomp, comp_zero]
+
+/-- The cokernel of the inclusion of the zero subobject into `B` is `B`. -/
+noncomputable def cokernelOfLEBotIso {Y : SheafOfModules.{u} (ringCatSheafOf R)}
+    {A B : Subobject Y} (hA : A = ⊥) (h : A ≤ B) :
+    cokernel (Subobject.ofLE A B h) ≅ (B : SheafOfModules.{u} (ringCatSheafOf R)) :=
+  have h0 : Subobject.ofLE A B h = 0 := by
+    subst hA
+    exact (IsZero.of_iso (isZero_zero _) Subobject.botCoeIsoZero).eq_of_src _ _
+  cokernelIsoOfEq h0 ≪≫ cokernelZeroIsoTarget
+
+open Ringed in
+/-- A locally free module of rank `n` has, near every point, sections over all small opens
+that are free with a basis indexed by `n` elements. -/
+lemma exists_basis_of_isLocallyFreeOfRank {E : SheafOfModules.{u} (ringCatSheafOf R)} {n : ℕ}
+    (hE : Ringed.IsLocallyFreeOfRank E n) (x : X) :
+    ∃ U : Opens X, x ∈ U ∧ ∀ V : Opens X, V ≤ U →
+      Nonempty (Module.Basis (ULift.{u} (Fin n))
+        ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op V)) (E.val.obj (op V))) := by
+  classical
+  obtain ⟨U, hxU, ⟨α⟩⟩ := hE x
+  refine ⟨U, hxU, fun V hV => ?_⟩
+  have hfr := Ringed.isLocalFrame_of_over_iso α
+  let eqv : (ULift.{u} (Fin n) → R.obj.obj (op V)) ≃ₗ[R.obj.obj (op V)]
+      E.val.presheaf.obj (op V) :=
+    LinearEquiv.ofBijective (Ringed.localFrameMap E _ hV) (hfr V hV)
+  have b : Module.Basis (ULift.{u} (Fin n)) (R.obj.obj (op V)) (E.val.presheaf.obj (op V)) :=
+    (Pi.basisFun _ _).map eqv
+  exact ⟨b⟩
+
+/-- An `𝒪_X`-module is zero if every point has a neighbourhood on which `𝒪_X` vanishes. -/
+lemma isZero_of_locally_subsingleton
+    (h : ∀ x : X, ∃ U : Opens X, x ∈ U ∧
+      Subsingleton ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)))
+    (M : SheafOfModules.{u} (ringCatSheafOf R)) : IsZero M := by
+  choose U hxU hU using h
+  have hsub : ∀ W : Opens X, ∀ s : M.val.obj (op W), s = 0 := by
+    intro W s
+    let Fsh : TopCat.Sheaf AddCommGrpCat.{u} X := ⟨M.val.presheaf, M.isSheaf⟩
+    refine TopCat.Sheaf.eq_of_locally_eq' Fsh (fun x : W => W ⊓ U x) W
+      (fun _ => homOfLE inf_le_left) (fun y hy => ?_) s 0 (fun x => ?_)
+    · exact Opens.mem_iSup.2 ⟨⟨y, hy⟩, hy, hxU y⟩
+    · have := hU x
+      have hW : Subsingleton ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op (W ⊓ U x))) := by
+        let φ := ((R.obj ⋙ forget₂ CommRingCat RingCat).map
+          (homOfLE (inf_le_right : W ⊓ U x ≤ U x)).op).hom
+        refine subsingleton_of_zero_eq_one ?_
+        rw [← map_zero φ, ← map_one φ, Subsingleton.elim (0 : (R.obj ⋙ forget₂ CommRingCat RingCat).obj
+          (op (U x))) 1]
+      have hM : Subsingleton (M.val.obj (op (W ⊓ U x))) :=
+        Module.subsingleton ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op (W ⊓ U x))) _
+      exact @Subsingleton.elim _ hM _ _
+  refine (IsZero.iff_id_eq_zero M).2 ?_
+  apply SheafOfModules.hom_ext
+  apply PresheafOfModules.hom_ext
+  intro W
+  ext s
+  exact (hsub W.unop _).trans (hsub W.unop _).symm
+
+end Determinant
 
 section MainTheorem
 
 /-- **Hartshorne II, Exercise 5.16(d).** Let `0 → F' → F → F'' → 0` be a short exact sequence of
-locally free `𝒪_X`-modules of finite rank on a ringed space `(X, 𝒪_X)`. Then for every `r` the
-exterior power `⋀^r F` has a finite filtration
-`⋀^r F = F^0 ⊇ F^1 ⊇ ⋯ ⊇ F^r ⊇ F^{r+1} = 0` (a decreasing chain of subobjects) whose quotients
-are `F^p / F^{p+1} ≅ ⋀^p F' ⊗ ⋀^{r-p} F''` for `0 ≤ p ≤ r`. The filtration is the standard one:
-`F^p` is the image of `⋀^p F' ⊗ ⋀^{r-p} F → ⋀^r F`. -/
+locally free `𝒪_X`-modules of finite rank on a ringed space `(X, 𝒪_X)`, and `r ≥ 0`. The standard
+filtration `F^p ⊆ ⋀^r F` (`filSh`), with `F^p` the image of the wedge-product morphism
+`⋀^p F' ⊗ ⋀^{r-p} F → ⋀^r F` for `p ≤ r`, is a finite filtration
+`⋀^r F = F^0 ⊇ F^1 ⊇ ⋯ ⊇ F^r ⊇ F^{r+1} = 0` by subobjects whose quotients are
+`F^p / F^{p+1} ≅ ⋀^p F' ⊗ ⋀^{r-p} F''` for `0 ≤ p ≤ r`. -/
 theorem exteriorPower_exact_filtration
     (S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))) (hS : S.ShortExact)
     (h₁ : Ringed.IsFiniteLocallyFree S.X₁) (h₃ : Ringed.IsFiniteLocallyFree S.X₃) :
     Ringed.IsFiniteLocallyFree S.X₂ → ∀ r : ℕ,
-    ∃ Fil : ℕ → Subobject (C := SheafOfModules.{u} (ringCatSheafOf R))
-        (moduleSheafExteriorPower r S.X₂),
-      Fil 0 = ⊤ ∧ Fil (r + 1) = ⊥ ∧ Antitone Fil ∧
-      ∀ p (h : Fil (p + 1) ≤ Fil p), p ≤ r →
+      (∀ p (hp : p ≤ r), filSh S.f r p = imageSubobject (wedgeSheafMap S.f hp)) ∧
+      filSh S.f r 0 = ⊤ ∧ filSh S.f r (r + 1) = ⊥ ∧ Antitone (filSh S.f r) ∧
+      ∀ p (h : filSh S.f r (p + 1) ≤ filSh S.f r p), p ≤ r →
         Nonempty (cokernel (Subobject.ofLE _ _ h) ≅
           moduleSheafTensor (moduleSheafExteriorPower p S.X₁)
             (moduleSheafExteriorPower (r - p) S.X₃)) := fun _ r =>
-  exists_filtration_of_locally_split S.f S.g (fun x => exists_isSplitAt hS h₁ h₃ x) r
+  ⟨fun _ hp => filSh_eq_imageSubobject S.f hp, filSh_zero S.f r,
+    filSh_of_lt S.f (Nat.lt_succ_self r), filSh_antitone S.f r,
+    fun _ h hp => ⟨gradedIso S.f S.g (fun x => exists_isSplitAt hS h₁ h₃ x) hp h⟩⟩
+
+/-- **Hartshorne II, Exercise 5.16(d)**, in the book's wording: for a short exact sequence
+`0 → F' → F → F'' → 0` of locally free `𝒪_X`-modules of finite rank and every `r`, there is a
+finite filtration `⋀^r F = F^0 ⊇ F^1 ⊇ ⋯ ⊇ F^r ⊇ F^{r+1} = 0` with quotients
+`F^p / F^{p+1} ≅ ⋀^p F' ⊗ ⋀^{r-p} F''` for each `p`. -/
+theorem exists_exteriorPower_exact_filtration
+    (S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))) (hS : S.ShortExact)
+    (h₁ : Ringed.IsFiniteLocallyFree S.X₁) (h₃ : Ringed.IsFiniteLocallyFree S.X₃) :
+    Ringed.IsFiniteLocallyFree S.X₂ → ∀ r : ℕ,
+      ∃ Fil : ℕ → Subobject (C := SheafOfModules.{u} (ringCatSheafOf R))
+          (moduleSheafExteriorPower r S.X₂),
+        Fil 0 = ⊤ ∧ Fil (r + 1) = ⊥ ∧ Antitone Fil ∧
+        ∀ p (h : Fil (p + 1) ≤ Fil p), p ≤ r →
+          Nonempty (cokernel (Subobject.ofLE _ _ h) ≅
+            moduleSheafTensor (moduleSheafExteriorPower p S.X₁)
+              (moduleSheafExteriorPower (r - p) S.X₃)) := fun h₂ r =>
+  have h := exteriorPower_exact_filtration S hS h₁ h₃ h₂ r
+  ⟨filSh S.f r, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2⟩
+
+/-- Near every point of a short exact sequence of locally free modules of ranks `n'`, `n`, `n''`,
+the sequence is split on sections over small opens, and those sections are free with bases of
+sizes `n'`, `n`, `n''`. -/
+lemma exists_rank_data {S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))}
+    (hS : S.ShortExact) {n' n n'' : ℕ} (h₁ : Ringed.IsLocallyFreeOfRank S.X₁ n')
+    (h₂ : Ringed.IsLocallyFreeOfRank S.X₂ n) (h₃ : Ringed.IsLocallyFreeOfRank S.X₃ n'') (x : X) :
+    ∃ U : Opens X, x ∈ U ∧ ∀ V : Opens X, V ≤ U → IsSplitAt S.f S.g (op V) ∧
+      Nonempty (Module.Basis (ULift.{u} (Fin n'))
+        ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op V)) (S.X₁.val.obj (op V))) ∧
+      Nonempty (Module.Basis (ULift.{u} (Fin n))
+        ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op V)) (S.X₂.val.obj (op V))) ∧
+      Nonempty (Module.Basis (ULift.{u} (Fin n''))
+        ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op V)) (S.X₃.val.obj (op V))) := by
+  obtain ⟨U₀, hx₀, hU₀⟩ := exists_isSplitAt hS h₁.isFiniteLocallyFree h₃.isFiniteLocallyFree x
+  obtain ⟨U₁, hx₁, hU₁⟩ := exists_basis_of_isLocallyFreeOfRank h₁ x
+  obtain ⟨U₂, hx₂, hU₂⟩ := exists_basis_of_isLocallyFreeOfRank h₂ x
+  obtain ⟨U₃, hx₃, hU₃⟩ := exists_basis_of_isLocallyFreeOfRank h₃ x
+  refine ⟨U₀ ⊓ U₁ ⊓ U₂ ⊓ U₃, ⟨⟨⟨hx₀, hx₁⟩, hx₂⟩, hx₃⟩, fun V hV => ⟨hU₀ V ?_, hU₁ V ?_,
+    hU₂ V ?_, hU₃ V ?_⟩⟩
+  · exact hV.trans (inf_le_left.trans (inf_le_left.trans inf_le_left))
+  · exact hV.trans (inf_le_left.trans (inf_le_left.trans inf_le_right))
+  · exact hV.trans (inf_le_left.trans inf_le_right)
+  · exact hV.trans inf_le_right
+
+/-- **Hartshorne II, Exercise 5.16(d), top degree.** If `0 → F' → F → F'' → 0` is a short exact
+sequence of `𝒪_X`-modules with `F'`, `F`, `F''` locally free of ranks `n'`, `n`, `n''`, then
+`⋀^n F ≅ ⋀^{n'} F' ⊗ ⋀^{n''} F''`, that is, `det F ≅ det F' ⊗ det F''`. -/
+theorem exteriorPower_exact_det
+    (S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))) (hS : S.ShortExact)
+    {n' n n'' : ℕ} (h₁ : Ringed.IsLocallyFreeOfRank S.X₁ n')
+    (h₂ : Ringed.IsLocallyFreeOfRank S.X₂ n) (h₃ : Ringed.IsLocallyFreeOfRank S.X₃ n'') :
+    Nonempty (Iso (C := SheafOfModules.{u} (ringCatSheafOf R))
+      (moduleSheafExteriorPower n S.X₂)
+      (moduleSheafTensor (moduleSheafExteriorPower n' S.X₁)
+        (moduleSheafExteriorPower n'' S.X₃))) := by
+  have hdata := exists_rank_data hS h₁ h₂ h₃
+  by_cases hn : n = n' + n''
+  · have hloc : ∀ x : X, ∃ U : Opens X, x ∈ U ∧
+        ∀ V : Opens X, V ≤ U → IsSplitAt S.f S.g (op V) := fun x => by
+      obtain ⟨U, hx, hU⟩ := hdata x
+      exact ⟨U, hx, fun V hV => (hU V hV).1⟩
+    have htop : filSh S.f n n' = ⊤ := filSh_eq_top_of_locally S.f fun x => by
+      obtain ⟨U, hx, hU⟩ := hdata x
+      refine ⟨U, hx, fun V hV => ?_⟩
+      obtain ⟨hsplit, -, -, ⟨b₃⟩⟩ := hU V hV
+      obtain ⟨s, hs⟩ := hsplit.split
+      have := hsplit.free₁
+      have := hsplit.finite₁
+      have := hsplit.free₃
+      have := hsplit.finite₃
+      exact ExteriorPowerFiltration.filt_eq_top_of_subsingleton hsplit.injective hsplit.exact hs
+        n' (by omega) fun k hk => ExteriorPowerFiltration.exteriorPower_subsingleton_of_basis b₃
+          (by simp only [Fintype.card_ulift, Fintype.card_fin]; omega)
+    have hbot : filSh S.f n (n' + 1) = ⊥ := filSh_eq_bot_of_locally S.f fun x => by
+      obtain ⟨U, hx, hU⟩ := hdata x
+      refine ⟨U, hx, fun V hV => ?_⟩
+      obtain ⟨-, ⟨b₁⟩, -, -⟩ := hU V hV
+      exact ExteriorPowerFiltration.filt_eq_bot_of_subsingleton _
+        (ExteriorPowerFiltration.exteriorPower_subsingleton_of_basis b₁
+          (by simp only [Fintype.card_ulift, Fintype.card_fin]; omega))
+    have hle : filSh S.f n (n' + 1) ≤ filSh S.f n n' := filSh_antitone S.f n (Nat.le_succ n')
+    have hp : n' ≤ n := by omega
+    exact ⟨(Subobject.isoOfEqMk _ (𝟙 _) (htop.trans (Subobject.mk_eq_top_of_isIso _).symm)).symm ≪≫
+      (cokernelOfLEBotIso hbot hle).symm ≪≫ gradedIso S.f S.g hloc hp hle ≪≫
+      eqToIso (by rw [show n - n' = n'' by omega])⟩
+  · have hzero : ∀ x : X, ∃ U : Opens X, x ∈ U ∧
+        Subsingleton ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)) := fun x => by
+      obtain ⟨U, hx, hU⟩ := hdata x
+      refine ⟨U, hx, ?_⟩
+      obtain ⟨hsplit, ⟨b₁⟩, ⟨b₂⟩, ⟨b₃⟩⟩ := hU U le_rfl
+      rcases subsingleton_or_nontrivial ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U))
+        with h | h
+      · exact h
+      · exfalso
+        apply hn
+        obtain ⟨s, hs⟩ := hsplit.split
+        have := hsplit.free₁
+        have := hsplit.finite₁
+        have := hsplit.free₃
+        have := hsplit.finite₃
+        have e := (ExteriorPowerFiltration.splitEquiv hsplit.exact hs hsplit.injective).finrank_eq
+        rw [Module.finrank_prod, Module.finrank_eq_card_basis b₁, Module.finrank_eq_card_basis b₂,
+          Module.finrank_eq_card_basis b₃] at e
+        simp only [Fintype.card_ulift, Fintype.card_fin] at e
+        omega
+    exact ⟨(isZero_of_locally_subsingleton hzero _).iso (isZero_of_locally_subsingleton hzero _)⟩
 
 end MainTheorem
 
