@@ -2,16 +2,44 @@
 Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
+import Hartshorne.Weil.ClassicalEllAdicCohomology
 import Mathlib.Algebra.MonoidAlgebra.Basic
 import Mathlib.AlgebraicGeometry.Sites.Fpqc
 import Mathlib.AlgebraicGeometry.Sites.Proetale
 import Mathlib.AlgebraicGeometry.Sites.AffineEtale
 import Mathlib.RingTheory.RootsOfUnity.Basic
+import Mathlib.LinearAlgebra.TensorProduct.Basic
 
 /-!
-# Roots of unity on the small étale site
+# Roots of unity and nonnegative Tate twists on the small étale site
 
-Scratch.
+For a scheme `X` and a natural number `n`, this file constructs the sheaf `μ_n` of `n`-th roots
+of unity on the small étale site of `X`: its sections over an étale `X`-scheme `U` are the
+`n`-th roots of unity in `Γ(U, 𝒪_U)`, written additively.  The sheaf property comes from
+representability: the presheaf `U ↦ μ_n(Γ(U, 𝒪_U))` on all schemes is represented by
+`Spec ℤ[ℤ/n]`, hence is a sheaf for the fpqc topology (which is subcanonical), hence for the
+étale topology, and it restricts to the small étale site along the continuous forgetful functor.
+
+With `ℤ/ℓ^r(1) = μ_{ℓ^r}`, the transition maps `μ_{ℓ^s} ⟶ μ_{ℓ^r}`, `ζ ↦ ζ ^ (ℓ ^ (s - r))`
+(`r ≤ s`) form the inverse system `ℤ_ℓ(1)`.  The tensor product of two sheaves of abelian groups
+is the sheafification of the pointwise tensor product over `ℤ`; tensor powers of `μ_{ℓ^r}` give
+the nonnegative twists `ℤ/ℓ^r(q)`, `q ≥ 0` (with `ℤ/ℓ^r(0)` the constant sheaf `ℤ/ℓ^r`), their
+inverse systems in `r`, and the classical groups `lim_r H^i_et(X, ℤ/ℓ^r(q))`.
+
+No hypothesis on `ℓ` is needed for these constructions; invertibility of `ℓ` on `X` enters
+only in theorems about them.  Negative twists (duals) are not constructed here.
+
+## Main declarations
+
+- `AlgebraicGeometry.Scheme.etaleRootsOfUnitySheaf X n`: the sheaf `μ_n` on `X_et`.
+- `AlgebraicGeometry.Scheme.isSheaf_fpqcTopology_rootsOfUnityPresheaf`: `U ↦ μ_n(Γ(U, 𝒪_U))` is
+  an fpqc sheaf on schemes.
+- `AlgebraicGeometry.Scheme.etaleTateTwistOne X ℓ r`: `ℤ/ℓ^r(1) = μ_{ℓ^r}`.
+- `AlgebraicGeometry.Scheme.etaleTateTwistOneSystem X ℓ`: the inverse system `r ↦ μ_{ℓ^r}`.
+- `Hartshorne.sheafTensor J F G`, `Hartshorne.sheafTensorPowSucc J F k`: tensor products and
+  tensor powers of sheaves of abelian groups.
+- `AlgebraicGeometry.Scheme.etaleTateTwistNat X ℓ r q`: `ℤ/ℓ^r(q)` for `q ≥ 0`, and
+  `AlgebraicGeometry.Scheme.etaleTateTwistNatSystem X ℓ q`: the inverse system in `r`.
 -/
 
 open CategoryTheory Limits Opposite
@@ -19,7 +47,7 @@ open CategoryTheory Limits Opposite
 set_option backward.isDefEq.respectTransparency.types false
 set_option backward.isDefEq.respectTransparency false
 
-universe u
+universe u v w
 
 namespace Hartshorne
 
@@ -32,7 +60,8 @@ noncomputable def universalRootOfUnity (n : ℕ) : rootsOfUnity n (RootsOfUnityR
     rw [mem_rootsOfUnity, ← map_pow, ← ofAdd_nsmul, nsmul_one, ZMod.natCast_self, ofAdd_zero,
       map_one]⟩
 
-lemma generator_zpowers (n : ℕ) (x : Multiplicative (ZMod n)) :
+/-- The class of `1` generates `ℤ/n`, written multiplicatively. -/
+lemma mem_zpowers_ofAdd_one (n : ℕ) (x : Multiplicative (ZMod n)) :
     x ∈ Subgroup.zpowers (Multiplicative.ofAdd (1 : ZMod n)) := by
   rw [Subgroup.mem_zpowers_iff]
   refine ⟨((Multiplicative.toAdd x).cast : ℤ), ?_⟩
@@ -51,7 +80,7 @@ theorem bijective_restrictRootsOfUnity_universalRootOfUnity (n : ℕ) :
           (MonoidAlgebra.of ℤ (Multiplicative (ZMod n))).toHomUnits =
         (Units.map (ψ : RootsOfUnityRing n →* A)).comp
           (MonoidAlgebra.of ℤ (Multiplicative (ZMod n))).toHomUnits :=
-      (MonoidHom.eq_iff_eq_on_generator (generator_zpowers n) _ _).2
+      (MonoidHom.eq_iff_eq_on_generator (mem_zpowers_ofAdd_one n) _ _).2
         (congrArg (fun ζ : rootsOfUnity n A ↦ (ζ : Aˣ)) h)
     apply MonoidAlgebra.ringHom_ext
     · intro r
@@ -64,7 +93,7 @@ theorem bijective_restrictRootsOfUnity_universalRootOfUnity (n : ℕ) :
     have hord : orderOf (ζ : Aˣ) ∣ orderOf (Multiplicative.ofAdd (1 : ZMod n)) := by
       rw [orderOf_ofAdd_eq_addOrderOf, ZMod.addOrderOf_one]
       exact orderOf_dvd_of_pow_eq_one ((mem_rootsOfUnity _ _).1 ζ.2)
-    let ψ := monoidHomOfForallMemZpowers (generator_zpowers n) hord
+    let ψ := monoidHomOfForallMemZpowers (mem_zpowers_ofAdd_one n) hord
     refine ⟨(MonoidAlgebra.lift ℤ A (Multiplicative (ZMod n))
       ((Units.coeHom A).comp ψ)).toRingHom, ?_⟩
     apply Subtype.ext
@@ -84,6 +113,7 @@ noncomputable def universalRootOfUnityULift (n : ℕ) :
   restrictRootsOfUnity (ULift.ringEquiv.{0, u} (R := RootsOfUnityRing n)).symm n
     (universalRootOfUnity n)
 
+/-- The universe-lifted group ring `ℤ[ℤ/n]` also represents `n`-th roots of unity. -/
 theorem bijective_restrictRootsOfUnity_universalRootOfUnityULift (n : ℕ) :
     Function.Bijective (fun φ : rootsOfUnityRingCat.{u} n →+* A ↦
       restrictRootsOfUnity φ n (universalRootOfUnityULift n)) := by
@@ -166,10 +196,12 @@ noncomputable def rootsOfUnityPresheaf (n : ℕ) : Scheme.{u}ᵒᵖ ⥤ Ab.{u} :
 
 /-- A morphism `U ⟶ Spec ℤ[ℤ/n]` gives an `n`-th root of unity in `Γ(U, 𝒪_U)`: the image of
 the tautological root of unity. -/
-noncomputable def rootOfUnityOfHomSpec (n : ℕ) {U : Scheme.{u}} (g : U ⟶ Spec (rootsOfUnityRingCat n)) :
+noncomputable def rootOfUnityOfHomSpec (n : ℕ) {U : Scheme.{u}}
+    (g : U ⟶ Spec (rootsOfUnityRingCat n)) :
     rootsOfUnity n Γ(U, ⊤) :=
   restrictRootsOfUnity ((Scheme.ΓSpecIso _).inv ≫ g.appTop).hom n (universalRootOfUnityULift n)
 
+/-- Morphisms `U ⟶ Spec ℤ[ℤ/n]` correspond to `n`-th roots of unity in `Γ(U, 𝒪_U)`. -/
 theorem bijective_rootOfUnityOfHomSpec (n : ℕ) (U : Scheme.{u}) :
     Function.Bijective (rootOfUnityOfHomSpec n (U := U)) := by
   have h1 : Function.Bijective (fun g : U ⟶ Spec (rootsOfUnityRingCat n) ↦
@@ -184,7 +216,8 @@ theorem bijective_rootOfUnityOfHomSpec (n : ℕ) (U : Scheme.{u}) :
 
 /-- The presheaf of `n`-th roots of unity on schemes is represented by `Spec ℤ[ℤ/n]`. -/
 noncomputable def rootsOfUnityPresheafRepresentableIso (n : ℕ) :
-    yoneda.obj (Spec (rootsOfUnityRingCat.{u} n)) ≅ rootsOfUnityPresheaf n ⋙ CategoryTheory.forget Ab.{u} :=
+    yoneda.obj (Spec (rootsOfUnityRingCat.{u} n)) ≅
+      rootsOfUnityPresheaf n ⋙ CategoryTheory.forget Ab.{u} :=
   NatIso.ofComponents
     (fun U ↦ Equiv.toIso ((Equiv.ofBijective _ (bijective_rootOfUnityOfHomSpec n U.unop)).trans
       Additive.ofMul))
@@ -204,6 +237,7 @@ theorem isSheaf_fpqcTopology_rootsOfUnityPresheaf (n : ℕ) :
     isSheaf_iff_isSheaf_of_type]
   exact GrothendieckTopology.Subcanonical.isSheaf_of_isRepresentable _
 
+/-- Every étale covering is an fpqc covering. -/
 lemma etaleTopology_le_fpqcTopology : etaleTopology.{u} ≤ fpqcTopology :=
   etaleTopology_le_proetaleTopology.trans proetaleTopology_le_fpqcTopology
 
@@ -212,17 +246,22 @@ theorem isSheaf_etaleTopology_rootsOfUnityPresheaf (n : ℕ) :
     Presheaf.IsSheaf etaleTopology (rootsOfUnityPresheaf.{u} n) :=
   (isSheaf_fpqcTopology_rootsOfUnityPresheaf n).of_le etaleTopology_le_fpqcTopology
 
+/-- The forgetful functor from the small étale site to schemes over `X` preserves finite limits. -/
 instance (X : Scheme.{u}) : PreservesFiniteLimits (Etale.forget X) :=
   inferInstanceAs (PreservesFiniteLimits (MorphismProperty.Over.forget _ _ _))
 
+/-- The forgetful functor from the small étale site to schemes over `X` is representably flat. -/
 instance (X : Scheme.{u}) : RepresentablyFlat (Etale.forget X) :=
   flat_of_preservesFiniteLimits _
 
+/-- The forgetful functor from the small étale site of `X` to schemes over `X` is continuous. -/
 instance isContinuous_etaleForget (X : Scheme.{u}) :
     (Etale.forget X).IsContinuous X.smallEtaleTopology (etaleTopology.over X) := by
   rw [Functor.isContinuous_iff_coverPreserving]
   exact Functor.coverPreserving_restrictedTopology (MorphismProperty.Over.forget _ ⊤ X) _
 
+/-- The forgetful functor from the small étale site of `X` to all schemes is continuous for the
+étale topology. -/
 instance isContinuous_etaleForget_comp_overForget (X : Scheme.{u}) :
     (Etale.forget X ⋙ CategoryTheory.Over.forget X).IsContinuous X.smallEtaleTopology
       etaleTopology :=
@@ -242,7 +281,7 @@ noncomputable def etaleRootsOfUnitySheaf (X : Scheme.{u}) (n : ℕ) :
 
 /-- The sections of `μ_n` over an étale `X`-scheme `U` are the `n`-th roots of unity in
 `Γ(U, 𝒪_U)`. -/
-theorem etaleRootsOfUnitySheaf_val_obj (X : Scheme.{u}) (n : ℕ) (U : X.Etale) :
+theorem etaleRootsOfUnitySheaf_obj_obj (X : Scheme.{u}) (n : ℕ) (U : X.Etale) :
     (X.etaleRootsOfUnitySheaf n).obj.obj (op U) =
       AddCommGrpCat.of (Additive (rootsOfUnity n Γ(U.left, ⊤))) :=
   rfl
@@ -266,8 +305,193 @@ noncomputable def etaleTateTwistOneSystem (X : Scheme.{u}) (ℓ : ℕ) :
     (Etale.forget X ⋙ CategoryTheory.Over.forget X).sheafPushforwardContinuous Ab.{u}
       X.smallEtaleTopology etaleTopology
 
+/-- The `r`-th stage of `ℤ_ℓ(1)` is `μ_{ℓ^r}`. -/
 theorem etaleTateTwistOneSystem_obj (X : Scheme.{u}) (ℓ : ℕ) (r : ℕᵒᵖ) :
     (X.etaleTateTwistOneSystem ℓ).obj r = X.etaleTateTwistOne ℓ r.unop :=
+  rfl
+
+end AlgebraicGeometry.Scheme
+
+namespace Hartshorne
+
+section Tensor
+
+variable {C : Type*} [Category C]
+
+/-- The pointwise tensor product `U ↦ F(U) ⊗_ℤ G(U)` of two presheaves of abelian groups. -/
+@[simps]
+noncomputable def presheafTensor (F G : Cᵒᵖ ⥤ Ab.{u}) : Cᵒᵖ ⥤ Ab.{u} where
+  obj U := AddCommGrpCat.of (TensorProduct ℤ (F.obj U) (G.obj U))
+  map f := AddCommGrpCat.ofHom (TensorProduct.map (F.map f).hom.toIntLinearMap
+    (G.map f).hom.toIntLinearMap).toAddMonoidHom
+  map_id U := by
+    ext x
+    induction x using TensorProduct.induction_on with
+    | zero => simp
+    | tmul a b => simp
+    | add x y hx hy => simp_all
+  map_comp f g := by
+    ext x
+    induction x using TensorProduct.induction_on with
+    | zero => simp
+    | tmul a b => simp
+    | add x y hx hy => simp_all
+
+/-- The pointwise tensor product of two morphisms of presheaves of abelian groups. -/
+@[simps]
+noncomputable def presheafTensorMap {F F' G G' : Cᵒᵖ ⥤ Ab.{u}} (α : F ⟶ F') (β : G ⟶ G') :
+    presheafTensor F G ⟶ presheafTensor F' G' where
+  app U := AddCommGrpCat.ofHom (TensorProduct.map (α.app U).hom.toIntLinearMap
+    (β.app U).hom.toIntLinearMap).toAddMonoidHom
+  naturality U V f := by
+    ext x
+    induction x using TensorProduct.induction_on with
+    | zero => simp
+    | tmul a b =>
+      change (α.app V (F.map f a)) ⊗ₜ[ℤ] (β.app V (G.map f b)) =
+        (F'.map f (α.app U a)) ⊗ₜ[ℤ] (G'.map f (β.app U b))
+      rw [NatTrans.naturality_apply, NatTrans.naturality_apply]
+    | add x y hx hy => simp_all
+
+/-- The pointwise tensor product is functorial: identities. -/
+theorem presheafTensorMap_id (F G : Cᵒᵖ ⥤ Ab.{u}) :
+    presheafTensorMap (𝟙 F) (𝟙 G) = 𝟙 (presheafTensor F G) := by
+  ext U x
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | tmul a b => rfl
+  | add x y hx hy => simp_all
+
+/-- The pointwise tensor product is functorial: composition. -/
+theorem presheafTensorMap_comp {F F' F'' G G' G'' : Cᵒᵖ ⥤ Ab.{u}} (α : F ⟶ F') (α' : F' ⟶ F'')
+    (β : G ⟶ G') (β' : G' ⟶ G'') :
+    presheafTensorMap (α ≫ α') (β ≫ β') = presheafTensorMap α β ≫ presheafTensorMap α' β' := by
+  ext U x
+  induction x using TensorProduct.induction_on with
+  | zero => simp
+  | tmul a b => rfl
+  | add x y hx hy => simp_all
+
+end Tensor
+
+section SheafTensor
+
+variable {C : Type w} [Category.{v} C] (J : GrothendieckTopology C) [HasSheafify J Ab.{u}]
+
+/-- The tensor product `F ⊗ G` of two sheaves of abelian groups: the sheafification of the
+pointwise tensor product `U ↦ F(U) ⊗_ℤ G(U)`. -/
+noncomputable def sheafTensor (F G : Sheaf J Ab.{u}) : Sheaf J Ab.{u} :=
+  (presheafToSheaf J Ab.{u}).obj (presheafTensor F.obj G.obj)
+
+/-- The tensor product of two morphisms of sheaves of abelian groups. -/
+noncomputable def sheafTensorMap {F F' G G' : Sheaf J Ab.{u}} (α : F ⟶ F') (β : G ⟶ G') :
+    sheafTensor J F G ⟶ sheafTensor J F' G' :=
+  (presheafToSheaf J Ab.{u}).map (presheafTensorMap α.hom β.hom)
+
+/-- The tensor product of sheaves is functorial: identities. -/
+theorem sheafTensorMap_id (F G : Sheaf J Ab.{u}) :
+    sheafTensorMap J (𝟙 F) (𝟙 G) = 𝟙 (sheafTensor J F G) := by
+  simp only [sheafTensorMap, ObjectProperty.FullSubcategory.id_hom, presheafTensorMap_id]
+  exact (presheafToSheaf J Ab.{u}).map_id _
+
+/-- The tensor product of sheaves is functorial: composition. -/
+theorem sheafTensorMap_comp {F F' F'' G G' G'' : Sheaf J Ab.{u}} (α : F ⟶ F') (α' : F' ⟶ F'')
+    (β : G ⟶ G') (β' : G' ⟶ G'') :
+    sheafTensorMap J (α ≫ α') (β ≫ β') = sheafTensorMap J α β ≫ sheafTensorMap J α' β' := by
+  simp only [sheafTensorMap, ObjectProperty.FullSubcategory.comp_hom, presheafTensorMap_comp,
+    Functor.map_comp]
+
+/-- The tensor power `F^{⊗(k+1)} = F ⊗ ⋯ ⊗ F` (`k + 1` factors, bracketed to the left) of a
+sheaf of abelian groups. -/
+noncomputable def sheafTensorPowSucc (F : Sheaf J Ab.{u}) : ℕ → Sheaf J Ab.{u}
+  | 0 => F
+  | k + 1 => sheafTensor J (sheafTensorPowSucc F k) F
+
+/-- The tensor power `α^{⊗(k+1)}` of a morphism of sheaves of abelian groups. -/
+noncomputable def sheafTensorPowSuccMap {F G : Sheaf J Ab.{u}} (α : F ⟶ G) :
+    (k : ℕ) → sheafTensorPowSucc J F k ⟶ sheafTensorPowSucc J G k
+  | 0 => α
+  | k + 1 => sheafTensorMap J (sheafTensorPowSuccMap α k) α
+
+/-- Tensor powers are functorial: identities. -/
+theorem sheafTensorPowSuccMap_id (F : Sheaf J Ab.{u}) (k : ℕ) :
+    sheafTensorPowSuccMap J (𝟙 F) k = 𝟙 (sheafTensorPowSucc J F k) := by
+  induction k with
+  | zero => rfl
+  | succ k ih =>
+    change sheafTensorMap J (sheafTensorPowSuccMap J (𝟙 F) k) (𝟙 F) = _
+    rw [ih, sheafTensorMap_id]
+    rfl
+
+/-- Tensor powers are functorial: composition. -/
+theorem sheafTensorPowSuccMap_comp {F G H : Sheaf J Ab.{u}} (α : F ⟶ G) (β : G ⟶ H) (k : ℕ) :
+    sheafTensorPowSuccMap J (α ≫ β) k =
+      sheafTensorPowSuccMap J α k ≫ sheafTensorPowSuccMap J β k := by
+  induction k with
+  | zero => rfl
+  | succ k ih =>
+    change sheafTensorMap J (sheafTensorPowSuccMap J (α ≫ β) k) (α ≫ β) =
+      sheafTensorMap J (sheafTensorPowSuccMap J α k) α ≫
+        sheafTensorMap J (sheafTensorPowSuccMap J β k) β
+    rw [ih, sheafTensorMap_comp]
+
+/-- The tensor power functor `F ↦ F^{⊗(k+1)}` on sheaves of abelian groups. -/
+@[simps]
+noncomputable def sheafTensorPowSuccFunctor (k : ℕ) : Sheaf J Ab.{u} ⥤ Sheaf J Ab.{u} where
+  obj F := sheafTensorPowSucc J F k
+  map α := sheafTensorPowSuccMap J α k
+  map_id F := sheafTensorPowSuccMap_id J F k
+  map_comp α β := sheafTensorPowSuccMap_comp J α β k
+
+end SheafTensor
+
+
+end Hartshorne
+
+namespace AlgebraicGeometry.Scheme
+
+open Hartshorne
+
+/-- The étale Tate twist `ℤ/ℓ^r(q)` for `q ≥ 0` on the small étale site of `X`: the constant sheaf
+`ℤ/ℓ^r` for `q = 0`, and the tensor power `μ_{ℓ^r}^{⊗q}` for `q ≥ 1`. -/
+noncomputable def etaleTateTwistNat (X : Scheme.{u}) (ℓ r : ℕ) :
+    ℕ → Sheaf X.smallEtaleTopology Ab.{u}
+  | 0 => X.constantTorsionEtaleSheaf ℓ r
+  | q + 1 => sheafTensorPowSucc X.smallEtaleTopology (X.etaleTateTwistOne ℓ r) q
+
+/-- The twist `ℤ/ℓ^r(1)` is `μ_{ℓ^r}`. -/
+theorem etaleTateTwistNat_one (X : Scheme.{u}) (ℓ r : ℕ) :
+    X.etaleTateTwistNat ℓ r 1 = X.etaleTateTwistOne ℓ r :=
+  rfl
+
+/-- The inverse system `r ↦ ℤ/ℓ^r(q)` (`q ≥ 0`) of sheaves on the small étale site of `X`: the
+reduction maps of the constant sheaves for `q = 0`, and the `q`-th tensor powers of the transition
+maps `μ_{ℓ^s} ⟶ μ_{ℓ^r}` for `q ≥ 1`.  This is the `ℓ`-adic sheaf `ℤ_ℓ(q)`. -/
+noncomputable def etaleTateTwistNatSystem (X : Scheme.{u}) (ℓ : ℕ) :
+    ℕ → ℕᵒᵖ ⥤ Sheaf X.smallEtaleTopology Ab.{u}
+  | 0 => X.constantTorsionEtaleSheafSystem ℓ
+  | q + 1 => X.etaleTateTwistOneSystem ℓ ⋙ sheafTensorPowSuccFunctor X.smallEtaleTopology q
+
+/-- The `r`-th stage of `ℤ_ℓ(q)` is `ℤ/ℓ^r(q)`. -/
+theorem etaleTateTwistNatSystem_obj (X : Scheme.{u}) (ℓ q : ℕ) (r : ℕᵒᵖ) :
+    (X.etaleTateTwistNatSystem ℓ q).obj r = X.etaleTateTwistNat ℓ r.unop q := by
+  cases q <;> rfl
+
+/-- The inverse system `r ↦ H^i_et(X, ℤ/ℓ^r(q))` (`q ≥ 0`) of torsion étale cohomology groups with
+twisted coefficients. -/
+noncomputable def twistedTorsionEtaleCohomologySystem (X : Scheme.{u}) (ℓ q i : ℕ) :
+    ℕᵒᵖ ⥤ Ab.{u} :=
+  X.etaleTateTwistNatSystem ℓ q ⋙ (Sheaf.Γ X.smallEtaleTopology Ab.{u}).rightDerived i
+
+/-- The classical `ℓ`-adic cohomology group with Tate-twisted coefficients
+`H^i(X, ℤ_ℓ(q)) = lim_r H^i_et(X, ℤ/ℓ^r(q))` (`q ≥ 0`): the ordinary inverse limit in abelian
+groups. -/
+noncomputable def classicalEllAdicCohomologyTwistNat (X : Scheme.{u}) (ℓ q i : ℕ) : Ab.{u} :=
+  limit (X.twistedTorsionEtaleCohomologySystem ℓ q i)
+
+/-- With the trivial twist this is the classical `ℓ`-adic cohomology group. -/
+theorem classicalEllAdicCohomologyTwistNat_zero (X : Scheme.{u}) (ℓ i : ℕ) :
+    X.classicalEllAdicCohomologyTwistNat ℓ 0 i = X.classicalEllAdicCohomology ℓ i :=
   rfl
 
 end AlgebraicGeometry.Scheme
