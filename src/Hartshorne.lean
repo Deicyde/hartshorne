@@ -52,6 +52,7 @@ import Hartshorne.Scheme.CartierDivisorSheafArithmetic
 import Hartshorne.Scheme.ConstantSheaf
 import Hartshorne.Scheme.ConstantSheafSections
 import Hartshorne.Scheme.SheafSupport
+import Hartshorne.Scheme.AmpleInvertibleSheaf
 import Hartshorne.Scheme.Codimension
 import Hartshorne.Scheme.RegularInCodimensionOne
 import Hartshorne.Scheme.CodimensionOneStalkDVR
