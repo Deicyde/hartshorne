@@ -27,7 +27,8 @@ type over $k$ has more than one point exactly when its dimension is at least one
 
 - `lean:` `Hartshorne.weilDivisorProjectiveDegree_projectiveIntersectionDivisor`
   `Hartshorne.projectiveIntersectionDivisor_apply_eq_projectiveIntersectionMultiplicity`
-  `Hartshorne.closedImmersionComponentEquiv` (module
+  `Hartshorne.closedImmersionComponentEquiv`
+  `Hartshorne.projectiveIntersectionComponentPrime_closedImmersionComponentEquiv` (module
   `Hartshorne.Scheme.ProjectiveIntersectionDegreeFormula`), with `statement: formalized`,
   `proof: formalized`.
 - The first theorem is $\deg(V\cdot X) = \deg V\deg X$; the second is "the valuation multiplicity
@@ -51,6 +52,14 @@ type over $k$ has more than one point exactly when its dimension is at least one
 - `Hartshorne.Scheme.ProjectiveIntersectionDegreeFormula`: classical identifications
   ($J(Z(\mathfrak p)) = \mathfrak p$, $J(Z(f)) = (f)$, relevance iff nonempty zero set), the
   component equivalence, and the Bézout assembly.
-- Duplicated private helpers: `exists_X_notMem_asHomogeneousIdeal` (private in
-  ProjectiveIntersectionDivisor) and `isProjAlgebraicSet_projZeroSet_of_isHomogeneousIdeal`
-  (private in HilbertSerre and TopDimensionalPrimeFiltrationLeadingTerm).
+- Cleanup owed (duplicates):
+  - `exists_X_notMem_asHomogeneousIdeal` copies the private `exists_projectiveSpace_X_notMem`
+    (ProjectiveIntersectionDivisor); the public `Hartshorne.EulerSequence.exists_X_notMem` exists.
+  - `isProjAlgebraicSet_projZeroSet_of_isHomogeneousIdeal` copies the private
+    `isProjAlgebraicSet_projZeroSet_of_isHomogeneous` (HilbertSerre, TopDimensionalPrimeFiltrationLeadingTerm).
+  - `proj_specializes_iff_le` duplicates the public `projectiveSpace_specializes_iff_le`
+    (ProjectiveSpaceClassGroup).
+  - The irrelevant-ideal step in ProjectiveIntersectionDegreeFormula reproves
+    `X_mem_irrelevant_projectiveSpace` (ProjectiveSpaceClassGroup).
+  - ProjectiveLocalIntersectionMultiplicity proves inline the fact
+    `projectivePrimeDivisorEquation_notMem_of_not_subset` (ProjectiveIntersectionDegreeFormula).
