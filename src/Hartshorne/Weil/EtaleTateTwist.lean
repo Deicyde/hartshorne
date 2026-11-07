@@ -9,6 +9,8 @@ import Mathlib.AlgebraicGeometry.Sites.Proetale
 import Mathlib.AlgebraicGeometry.Sites.AffineEtale
 import Mathlib.RingTheory.RootsOfUnity.Basic
 import Mathlib.LinearAlgebra.TensorProduct.Basic
+import Mathlib.CategoryTheory.Sites.SheafHom
+import Mathlib.Algebra.Group.Shrink
 
 /-!
 # Roots of unity and nonnegative Tate twists on the small étale site
@@ -492,6 +494,144 @@ noncomputable def classicalEllAdicCohomologyTwistNat (X : Scheme.{u}) (ℓ q i :
 /-- With the trivial twist this is the classical `ℓ`-adic cohomology group. -/
 theorem classicalEllAdicCohomologyTwistNat_zero (X : Scheme.{u}) (ℓ i : ℕ) :
     X.classicalEllAdicCohomologyTwistNat ℓ 0 i = X.classicalEllAdicCohomology ℓ i :=
+  rfl
+
+end AlgebraicGeometry.Scheme
+
+namespace AlgebraicGeometry.Scheme
+
+section InternalHom
+
+variable {X : Scheme.{u}} (F G : Sheaf X.smallEtaleTopology Ab.{u})
+
+/-- The abelian group `Hom(F|_U, G|_U)` of morphisms between the restrictions of two abelian
+sheaves to the site of étale `X`-schemes over `U`. -/
+abbrev EtaleHomOver (U : X.Etale) : Type (u + 1) :=
+  (CategoryTheory.Over.forget U).op ⋙ F.obj ⟶ (CategoryTheory.Over.forget U).op ⋙ G.obj
+
+/-- A morphism `F|_U ⟶ G|_U` is determined by its components at the affine étale `X`-schemes
+over `U`, which form an essentially small family; hence `Hom(F|_U, G|_U)` is `u`-small. -/
+instance small_etaleHomOver (U : X.Etale) : Small.{u} (EtaleHomOver F G U) := by
+  let e := equivSmallModel.{u} X.AffineEtale
+  let A : SmallModel X.AffineEtale → X.Etale := fun w ↦ (AffineEtale.Spec X).obj (e.inverse.obj w)
+  let Φ : EtaleHomOver F G U → ((w : SmallModel X.AffineEtale) → (g : A w ⟶ U) →
+      (F.obj.obj (op (A w)) →+ G.obj.obj (op (A w)))) :=
+    fun τ w g ↦ (τ.app (op (CategoryTheory.Over.mk g))).hom
+  refine small_of_injective (f := Φ) ?_
+  intro τ τ' h
+  ext Y : 2
+  obtain ⟨Y⟩ := Y
+  let I := Σ w : SmallModel X.AffineEtale, (A w ⟶ Y.left)
+  have hf : Sieve.ofArrows (fun i : I ↦ A i.1) (fun i ↦ i.2) ∈ X.smallEtaleTopology Y.left := by
+    refine X.smallEtaleTopology.superset_covering ?_
+      ((AffineEtale.Spec X).is_cover_of_isCoverDense X.smallEtaleTopology Y.left)
+    rintro Z f ⟨⟨a, lift, map, fac⟩⟩
+    refine ⟨A (e.functor.obj a), lift ≫ (AffineEtale.Spec X).map (e.unitIso.hom.app a),
+      (AffineEtale.Spec X).map (e.unitIso.inv.app a) ≫ map,
+      Presieve.ofArrows.mk (ι := I) ⟨e.functor.obj a, _⟩, ?_⟩
+    rw [Category.assoc, ← Functor.map_comp_assoc, Iso.hom_inv_id_app]
+    simp [fac]
+  refine G.property.hom_ext_ofArrows (fun i : I ↦ i.2) hf ?_
+  rintro ⟨w, g⟩
+  have hn := τ.naturality (CategoryTheory.Over.homMk g : CategoryTheory.Over.mk (g ≫ Y.hom) ⟶ Y).op
+  have hn' := τ'.naturality
+    (CategoryTheory.Over.homMk g : CategoryTheory.Over.mk (g ≫ Y.hom) ⟶ Y).op
+  have hw : τ.app (op (CategoryTheory.Over.mk (g ≫ Y.hom))) =
+      τ'.app (op (CategoryTheory.Over.mk (g ≫ Y.hom))) :=
+    AddCommGrpCat.hom_ext (congrFun (congrFun h w) (g ≫ Y.hom))
+  rw [hw] at hn
+  exact hn.symm.trans hn'
+
+/-- Restriction `Hom(F|_U, G|_U) → Hom(F|_V, G|_V)` along a morphism `V ⟶ U` of étale
+`X`-schemes, as an additive map. -/
+noncomputable def etaleHomOverRestrict {U V : X.Etale} (f : V ⟶ U) :
+    EtaleHomOver F G U →+ EtaleHomOver F G V where
+  toFun τ := Functor.whiskerLeft (CategoryTheory.Over.map f).op τ
+  map_zero' := by ext; rfl
+  map_add' τ τ' := by ext; rfl
+
+theorem etaleHomOverRestrict_id (U : X.Etale) (τ : EtaleHomOver F G U) :
+    etaleHomOverRestrict F G (𝟙 U) τ = τ :=
+  ConcreteCategory.congr_hom ((presheafHom F.obj G.obj).map_id (op U)) τ
+
+theorem etaleHomOverRestrict_comp {U V W : X.Etale} (f : V ⟶ U) (g : W ⟶ V)
+    (τ : EtaleHomOver F G U) :
+    etaleHomOverRestrict F G (g ≫ f) τ =
+      etaleHomOverRestrict F G g (etaleHomOverRestrict F G f τ) :=
+  ConcreteCategory.congr_hom ((presheafHom F.obj G.obj).map_comp f.op g.op) τ
+
+/-- The presheaf `U ↦ Hom(F|_U, G|_U)` of abelian groups on the small étale site of `X`, shrunk
+to the universe `u`. -/
+@[simps]
+noncomputable def etaleHomPresheaf : X.Etaleᵒᵖ ⥤ Ab.{u} where
+  obj U := AddCommGrpCat.of (Shrink.{u} (EtaleHomOver F G U.unop))
+  map f := AddCommGrpCat.ofHom
+    ((Shrink.addEquiv.{u}).symm.toAddMonoidHom.comp
+      ((etaleHomOverRestrict F G f.unop).comp Shrink.addEquiv.toAddMonoidHom))
+  map_id U := by
+    apply AddCommGrpCat.hom_ext
+    apply AddMonoidHom.ext
+    intro φ
+    change (Shrink.addEquiv.{u}).symm
+      (etaleHomOverRestrict F G (𝟙 U.unop) (Shrink.addEquiv φ)) = φ
+    rw [etaleHomOverRestrict_id, AddEquiv.symm_apply_apply]
+  map_comp f g := by
+    apply AddCommGrpCat.hom_ext
+    apply AddMonoidHom.ext
+    intro φ
+    change (Shrink.addEquiv.{u}).symm
+      (etaleHomOverRestrict F G (g.unop ≫ f.unop) (Shrink.addEquiv φ)) =
+      (Shrink.addEquiv.{u}).symm (etaleHomOverRestrict F G g.unop
+        (Shrink.addEquiv ((Shrink.addEquiv.{u}).symm
+          (etaleHomOverRestrict F G f.unop (Shrink.addEquiv φ)))))
+    rw [AddEquiv.apply_symm_apply, etaleHomOverRestrict_comp]
+
+/-- The presheaf `U ↦ Hom(F|_U, G|_U)` is a sheaf. -/
+theorem isSheaf_etaleHomPresheaf :
+    Presheaf.IsSheaf X.smallEtaleTopology (etaleHomPresheaf F G) := by
+  apply Presheaf.isSheaf_of_isSheaf_comp _ _ (CategoryTheory.forget Ab.{u})
+  rw [isSheaf_iff_isSheaf_of_type]
+  have h := (Presheaf.IsSheaf.hom F.obj G.obj G.property)
+  rw [isSheaf_iff_isSheaf_of_type] at h
+  refine Presieve.isSheaf_of_nat_equiv (fun U ↦ by exact equivShrink (EtaleHomOver F G U))
+    (fun U V f x ↦ ?_) h
+  change equivShrink _ (etaleHomOverRestrict F G f x) = (Shrink.addEquiv.{u}).symm
+    (etaleHomOverRestrict F G f (Shrink.addEquiv.{u} (equivShrink _ x)))
+  have hx : Shrink.addEquiv.{u} (equivShrink (EtaleHomOver F G V) x) = x :=
+    (equivShrink (EtaleHomOver F G V)).symm_apply_apply x
+  rw [hx]
+  rfl
+
+/-- The internal Hom sheaf `Hom(F, G)` of two abelian sheaves on the small étale site of `X`. -/
+noncomputable def etaleSheafHom : Sheaf X.smallEtaleTopology Ab.{u} :=
+  ⟨etaleHomPresheaf F G, isSheaf_etaleHomPresheaf F G⟩
+
+end InternalHom
+
+end AlgebraicGeometry.Scheme
+
+namespace AlgebraicGeometry.Scheme
+
+open Hartshorne
+
+/-- The étale Tate twist `ℤ/ℓ^r(-1)`: the dual `Hom(μ_{ℓ^r}, ℤ/ℓ^r)` of `ℤ/ℓ^r(1) = μ_{ℓ^r}`. -/
+noncomputable def etaleTateTwistNegOne (X : Scheme.{u}) (ℓ r : ℕ) :
+    Sheaf X.smallEtaleTopology Ab.{u} :=
+  etaleSheafHom (X.etaleTateTwistOne ℓ r) (X.constantTorsionEtaleSheaf ℓ r)
+
+/-- The étale Tate twist `ℤ/ℓ^r(q)` for every integer `q`: the constant sheaf `ℤ/ℓ^r` for
+`q = 0`, the tensor power `μ_{ℓ^r}^{⊗q}` for `q > 0`, and the tensor power
+`ℤ/ℓ^r(-1)^{⊗(-q)}` of the dual `ℤ/ℓ^r(-1) = Hom(μ_{ℓ^r}, ℤ/ℓ^r)` for `q < 0`. -/
+noncomputable def etaleTateTwist (X : Scheme.{u}) (ℓ r : ℕ) : ℤ → Sheaf X.smallEtaleTopology Ab.{u}
+  | .ofNat q => X.etaleTateTwistNat ℓ r q
+  | .negSucc k => sheafTensorPowSucc X.smallEtaleTopology (X.etaleTateTwistNegOne ℓ r) k
+
+theorem etaleTateTwist_natCast (X : Scheme.{u}) (ℓ r q : ℕ) :
+    X.etaleTateTwist ℓ r q = X.etaleTateTwistNat ℓ r q :=
+  rfl
+
+theorem etaleTateTwist_neg_one (X : Scheme.{u}) (ℓ r : ℕ) :
+    X.etaleTateTwist ℓ r (-1) = X.etaleTateTwistNegOne ℓ r :=
   rfl
 
 end AlgebraicGeometry.Scheme
