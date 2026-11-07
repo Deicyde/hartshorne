@@ -2,6 +2,9 @@
 article_id: af_1f79dc57d1611e08e4dcdb41
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.Ringed.moduleSheafHomPrecomp Hartshorne.Ringed.sheafExtPrecomp Hartshorne.Ringed.sheafExtContraδ Hartshorne.Ringed.sheafHomContraδ Hartshorne.Ringed.sheafHom_contra_mono Hartshorne.Ringed.sheafHom_contra_exact₂ Hartshorne.Ringed.sheafHom_contra_exact₃ Hartshorne.Ringed.sheafHom_contra_exact₁ Hartshorne.Ringed.sheafExt_contra_exact₂ Hartshorne.Ringed.sheafExt_contra_exact₃ Hartshorne.Ringed.sheafExt_contra_exact₁ Hartshorne.Ringed.sheafHomContraδ_naturality Hartshorne.Ringed.sheafExtContraδ_naturality
 ---
 
 # The contravariant long exact sequence of sheaf Ext
