@@ -679,6 +679,162 @@ theorem quadricClassGroupHom_surjective : Function.Surjective (quadricClassGroup
   rw [AddEquiv.symm_apply_apply] at this
   exact this
 
+/-- The constant function `c` on `Q`: the pullback of `c ∈ k ⊆ 𝒬₀` along `Q → Spec 𝒬₀`. -/
+def quadricConstSection (c : k) : Γ(quadricSurface k, ⊤) :=
+  (Proj.toSpecZero 𝒬).appTop
+    ((Scheme.ΓSpecIso (CommRingCat.of ↥(𝒬 0))).inv (algebraMap k ↥(𝒬 0) c))
+
+instance quadricSurface_nonempty_top : Nonempty (⊤ : (quadricSurface k).Opens) :=
+  ⟨⟨quadricSurfaceGenericPoint k, trivial⟩⟩
+
+theorem isUnit_quadricConstSection {c : k} (hc : c ≠ 0) : IsUnit (quadricConstSection k c) :=
+  ((hc.isUnit.map (algebraMap k ↥(𝒬 0))).map
+    (Scheme.ΓSpecIso (CommRingCat.of ↥(𝒬 0))).inv.hom).map
+    (Proj.toSpecZero 𝒬).appTop.hom
+
+/-- Nonzero constants have trivial divisor on `Q`. -/
+theorem ord_quadricConst {c : k} (hc : c ≠ 0) (x : quadricSurface k) :
+    (quadricSurface k).ord
+      ((quadricSurface k).germToFunctionField ⊤ (quadricConstSection k c)) x = 0 :=
+  Scheme.ord_of_isUnit (isUnit_quadricConstSection k hc) trivial
+
+/-- The constant `c` on `Q` restricts to the constant `c` of the chart `D₊(s₀u₀)`. -/
+theorem quadricChartPull_const (c : k) :
+    quadricChartPull k ((quadricSurface k).germToFunctionField ⊤ (quadricConstSection k c)) =
+      algebraMap (quadricChartRing k) (Spec (quadricChartRing k)).functionField
+        (quadricChartConst k 0 0 c) := by
+  have h1 := Scheme.Hom.genericFunctionFieldMap_algebraMap (quadricChartι k)
+    (quadricChartι_genericPoint k) (genericPoint (Spec (quadricChartRing k)))
+    ((quadricSurface k).presheaf.germ ⊤ _ trivial (quadricConstSection k c))
+  have e1 := Scheme.algebraMap_germ_eq_germToFunctionField (X := quadricSurface k) (U := ⊤)
+    (x := (quadricChartι k).base (genericPoint _)) trivial (quadricConstSection k c)
+  rw [← e1, h1]
+  have e2 := Scheme.Hom.germ_stalkMap_apply (quadricChartι k) ⊤
+    (genericPoint (Spec (quadricChartRing k))) trivial (quadricConstSection k c)
+  erw [e2]
+  have h2 : (quadricChartι k).appTop (quadricConstSection k c) =
+      (Scheme.ΓSpecIso (quadricChartRing k)).inv (quadricChartConst k 0 0 c) := by
+    have h3 : quadricChartι k ≫ Proj.toSpecZero 𝒬 =
+        Spec.map (CommRingCat.ofHom (fromZeroRingHom 𝒬 (Submonoid.powers (quadricChart k 0 0)))) :=
+      Proj.awayι_toSpecZero _ _ _ _
+    have h4 := Scheme.ΓSpecIso_inv_naturality
+      (CommRingCat.ofHom (fromZeroRingHom 𝒬 (Submonoid.powers (quadricChart k 0 0))))
+    rw [quadricConstSection, ← ConcreteCategory.comp_apply, ← Scheme.Hom.comp_appTop, h3,
+      ← ConcreteCategory.comp_apply]
+    erw [← h4]
+    rfl
+  erw [h2, Scheme.ΓSpecIso_inv, StructureSheaf.algebraMap_germ_apply]
+  exact spec_algebraMap_stalk_toStalk _ _
+
+theorem quadricChart_exists_algebraMap_eq {g : (Spec (quadricChartRing k)).functionField}
+    (hg : g ≠ 0) (h : ∀ v : Spec (quadricChartRing k), coheight v = 1 →
+      0 ≤ (Spec (quadricChartRing k)).ord g v) :
+    ∃ α : quadricChartRing k, algebraMap _ (Spec (quadricChartRing k)).functionField α = g := by
+  apply exists_algebraMap_eq_of_forall_height_one (Spec (quadricChartRing k)).functionField g
+  intro q hq hqh
+  let y : Spec (quadricChartRing k) := ⟨q, hq⟩
+  have hy : coheight y = 1 := by
+    rw [← idealHeight_eq_coheight]
+    exact hqh
+  exact spec_mem_ofField_of_ord_nonneg hA hy hg (h y hy)
+
+/-- **Injectivity.** If `a L₁ + b L₂` is principal then `a = b = 0`: its rational function has
+no zeros or poles on the chart `D₊(s₀u₀)`, hence is a nonzero constant. -/
+theorem quadricClassGroupHom_injective : Function.Injective (quadricClassGroupHom k) := by
+  rw [injective_iff_map_eq_zero]
+  rintro ⟨a, b⟩ hab
+  rw [quadricClassGroupHom_apply] at hab
+  obtain ⟨F, hF⟩ :=
+    ((quadricSurface k).weilDivisorClass_eq_iff hQ _ 0).mp (hab.trans (map_zero _).symm)
+  rw [sub_zero] at hF
+  have hordF : ∀ x, (quadricSurface k).ord (F : (quadricSurface k).functionField) x =
+      (a • (quadricLineOneDivisor k).toWeilDivisor +
+        b • (quadricLineTwoDivisor k).toWeilDivisor).1 x := by
+    intro x
+    rw [hF, Scheme.principalDivisor_apply hQ]
+  have hinj : Function.Injective (quadricChartPull k) := (quadricChartPull k).hom.injective
+  have hG0 : quadricChartPull k (F : (quadricSurface k).functionField) ≠ 0 := by
+    rw [Ne, ← map_zero (quadricChartPull k).hom]
+    exact fun h => F.ne_zero (hinj h)
+  have hzero : ∀ v : Spec (quadricChartRing k), coheight v = 1 →
+      (Spec (quadricChartRing k)).ord (quadricChartPull k F) v = 0 := by
+    intro v hv
+    rw [ord_quadricChartPull k hv, hordF]
+    have hU := (mem_range_quadricChartι k).mp ⟨v, rfl⟩
+    simp [Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ (quadricLineOne_ne_of_mem k hU),
+      Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ (quadricLineTwo_ne_of_mem k hU)]
+  have hinv : ∀ v : Spec (quadricChartRing k), coheight v = 1 →
+      (Spec (quadricChartRing k)).ord (quadricChartPull k F)⁻¹ v = 0 := by
+    intro v hv
+    have h := Scheme.ord_mul (x := v) hG0 (inv_ne_zero hG0)
+    have h1 := Scheme.ord_mul (x := v) (one_ne_zero (α := (Spec (quadricChartRing k)).functionField))
+      one_ne_zero
+    rw [mul_one] at h1
+    rw [mul_inv_cancel₀ hG0, hzero v hv] at h
+    omega
+  obtain ⟨α, hα⟩ := quadricChart_exists_algebraMap_eq k hG0 fun v hv => (hzero v hv).symm.le
+  obtain ⟨β, hβ⟩ := quadricChart_exists_algebraMap_eq k (inv_ne_zero hG0)
+    fun v hv => (hinv v hv).symm.le
+  have hαβ : α * β = 1 := by
+    apply IsFractionRing.injective (quadricChartRing k) (Spec (quadricChartRing k)).functionField
+    rw [map_mul, hα, hβ, mul_inv_cancel₀ hG0, map_one]
+  obtain ⟨c, hc0, hαc⟩ := quadricChart_eq_const_of_isUnit k 0 0 (IsUnit.of_mul_eq_one β hαβ)
+  have hFc : (F : (quadricSurface k).functionField) =
+      (quadricSurface k).germToFunctionField ⊤ (quadricConstSection k c) := by
+    apply hinj
+    rw [quadricChartPull_const, ← hα]
+    exact congrArg _ hαc
+  have h1 := hordF (quadricLineOneDivisor k).1
+  have h2 := hordF (quadricLineTwoDivisor k).1
+  rw [hFc, ord_quadricConst k hc0] at h1 h2
+  simp only [AddSubgroup.coe_add, AddSubgroupClass.coe_zsmul,
+    Function.locallyFinsuppWithin.coe_add, Function.locallyFinsuppWithin.coe_zsmul, Pi.add_apply,
+    Pi.smul_apply, smul_eq_mul, Scheme.PrimeDivisor.toWeilDivisor_apply_self] at h1 h2
+  rw [Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ (quadricLineOne_ne_quadricLineTwo k)] at h1
+  rw [Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _
+    (quadricLineOne_ne_quadricLineTwo k).symm] at h2
+  simp only [mul_one, mul_zero, add_zero, zero_add] at h1 h2
+  simp [← h1, ← h2]
+
+/-- **Hartshorne II, Example 6.6.1.** The class group of the split quadric surface is `ℤ × ℤ`:
+the class of the line `L₁ = {s₀ = 0}` (a fibre of the first projection) is `(1, 0)` and the class
+of the line `L₂ = {u₀ = 0}` (a fibre of the second projection) is `(0, 1)`. -/
+def quadricSurfaceClassGroupEquiv : (quadricSurface k).WeilClassGroup hQ ≃+ ℤ × ℤ :=
+  (AddEquiv.ofBijective (quadricClassGroupHom k)
+    ⟨quadricClassGroupHom_injective k, quadricClassGroupHom_surjective k⟩).symm
+
+theorem quadricSurfaceClassGroupEquiv_symm_apply (a b : ℤ) :
+    (quadricSurfaceClassGroupEquiv k).symm (a, b) = (quadricSurface k).weilDivisorClassHom hQ
+      (a • (quadricLineOneDivisor k).toWeilDivisor +
+        b • (quadricLineTwoDivisor k).toWeilDivisor) := by
+  rw [quadricSurfaceClassGroupEquiv, AddEquiv.symm_symm]
+  exact quadricClassGroupHom_apply k a b
+
+theorem quadricSurfaceClassGroupEquiv_lineOne :
+    quadricSurfaceClassGroupEquiv k
+      ((quadricSurface k).weilDivisorClassHom hQ (quadricLineOneDivisor k).toWeilDivisor) =
+      (1, 0) := by
+  apply (AddEquiv.eq_symm_apply _).mp
+  rw [quadricSurfaceClassGroupEquiv_symm_apply]
+  simp
+
+theorem quadricSurfaceClassGroupEquiv_lineTwo :
+    quadricSurfaceClassGroupEquiv k
+      ((quadricSurface k).weilDivisorClassHom hQ (quadricLineTwoDivisor k).toWeilDivisor) =
+      (0, 1) := by
+  apply (AddEquiv.eq_symm_apply _).mp
+  rw [quadricSurfaceClassGroupEquiv_symm_apply]
+  simp
+
+/-- The hyperplane section `s₀u₀ = 0` of `Q` is `L₁ + L₂`, of class `(1, 1)`. -/
+theorem quadricSurfaceClassGroupEquiv_lineOne_add_lineTwo :
+    quadricSurfaceClassGroupEquiv k ((quadricSurface k).weilDivisorClassHom hQ
+      ((quadricLineOneDivisor k).toWeilDivisor + (quadricLineTwoDivisor k).toWeilDivisor)) =
+      (1, 1) := by
+  rw [map_add, map_add, quadricSurfaceClassGroupEquiv_lineOne,
+    quadricSurfaceClassGroupEquiv_lineTwo]
+  rfl
+
 end ClassGroup
 
 end Hartshorne
