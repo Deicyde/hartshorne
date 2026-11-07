@@ -14,8 +14,9 @@ varieties, with $X$ normal. Its fundamental locus is closed and has
 codimension at least two. In particular, for a normal surface it is a finite
 set of closed points.
 
-The integrality of $Y$ is kept as in the source; it is not needed, because
-the argument uses only that $Y$ is projective, hence proper, over the field.
+The integrality of $Y$ and the birationality of $T$ are kept as in the source;
+neither is needed, because the argument uses only that $T$ is a rational map
+over the field to a $Y$ that is projective, hence proper, over the field.
 
 ## Depends on
 

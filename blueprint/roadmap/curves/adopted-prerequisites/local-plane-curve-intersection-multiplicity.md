@@ -24,7 +24,7 @@ $\sum_{P\in L\cap Y}(L\cdot Y)_P=d$.
 The local length is the definition; these three properties are
 needed by tangent lines and flex calculations.
 
-The irreducibility of $Y$ in the last statement is kept as in the source; it is not needed, since the count only uses that $Y$ is cut out by a form of degree $d$ not vanishing identically on $L$.
+The hypotheses that $P$ lies on $Y$ and $Z$ in the first statement and on $Y$ in the second, and the irreducibility of $Y$ in the last, are kept as in the source but are not needed: the statements hold for every point $P$ and, in the last, for every form of degree $d$ not vanishing identically on $L$, with all lengths and multiplicities computed from the given defining polynomials (so for a non-reduced form such as $G^2$ the count is $2\deg G$, not $\deg G$).
 
 ## Depends on
 
