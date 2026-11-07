@@ -526,3 +526,6 @@ import Hartshorne.RingedSpace.ModuleSheafTensorPowerIso
 import Hartshorne.Scheme.AmplePowerEquivalence
 import Hartshorne.RingedSpace.SheafExtLongExact
 import Hartshorne.RingedSpace.SheafExtContravariant
+import Hartshorne.Scheme.LocalRingGlobalDimension
+import Hartshorne.Scheme.RegularLocalGlobalDimension
+import Hartshorne.Scheme.SerreRegularity
