@@ -523,3 +523,4 @@ import Hartshorne.Scheme.Differentials.EulerSequence
 import Hartshorne.Intersection.ChowGroups
 import Hartshorne.RingedSpace.ModuleSheafTensorPowerIso
 import Hartshorne.Scheme.AmplePowerEquivalence
+import Hartshorne.RingedSpace.SheafExtLongExact

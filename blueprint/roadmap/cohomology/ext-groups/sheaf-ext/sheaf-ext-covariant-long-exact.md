@@ -2,6 +2,9 @@
 article_id: af_5c7f274082175e85b1937ea8
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.Ringed.sheafExtδ Hartshorne.Ringed.sheafHomδ Hartshorne.Ringed.sheafHom_mono_map_f Hartshorne.Ringed.sheafHom_exact₂ Hartshorne.Ringed.sheafHom_exact₃ Hartshorne.Ringed.sheafHom_exact₁ Hartshorne.Ringed.sheafExt_exact₂ Hartshorne.Ringed.sheafExt_exact₃ Hartshorne.Ringed.sheafExt_exact₁ Hartshorne.Ringed.sheafHomδ_naturality Hartshorne.Ringed.sheafExtδ_naturality
 ---
 
 # The covariant long exact sequence of sheaf Ext
