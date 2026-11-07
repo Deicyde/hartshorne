@@ -21,6 +21,7 @@ site-theoretic inverse-image construction.
 
 - [Constant torsion sheaves](constant-torsion-etale-sheaf.md)
 - [Right derived functors](../../../cohomology/derived-functors/right-derived-functors.md)
+- [Comparison with an injective resolution](../../../cohomology/derived-functors/resolution-to-injective-comparison.md)
 
 ## Proof depends on
 
