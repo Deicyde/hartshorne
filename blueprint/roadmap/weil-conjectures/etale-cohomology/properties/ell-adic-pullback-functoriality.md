@@ -20,6 +20,8 @@ including Frobenius, acts by cohomological pullback.
 
 ## Proof depends on
 
+- [The classical inverse system of torsion étale cohomology](../foundations/classical-ell-adic-inverse-system.md)
+- [Comparison with an injective resolution](../../../cohomology/derived-functors/resolution-to-injective-comparison.md)
 - Site morphisms induced by scheme morphisms, naturality in the torsion
   coefficient systems, and passage through inverse limit and scalar extension.
 
