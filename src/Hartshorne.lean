@@ -365,6 +365,8 @@ import Hartshorne.Scheme.GenericallyFiniteDenseOpen
 import Hartshorne.Scheme.DominatingDVR
 import Hartshorne.Curve.QuadraticCoverNormality
 import Hartshorne.Scheme.LocallyFreeInvertible
+import Hartshorne.RingedSpace.LocallyFree
+import Hartshorne.Scheme.LocallyFreeRinged
 import Hartshorne.Scheme.Differentials.FieldDifferentialsDimension
 import Hartshorne.Scheme.ProjChartMorphism
 import Hartshorne.Scheme.RelativeSegre
