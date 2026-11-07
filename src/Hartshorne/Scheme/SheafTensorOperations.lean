@@ -14,7 +14,10 @@ Hartshorne, *Algebraic Geometry*, II, Exercise 5.16 (printed p. 127).
 
 Let `(X, 𝒪_X)` be a ringed space, given by a topological space `X` with a sheaf `R` of commutative
 rings; `𝒪_X`-modules are `SheafOfModules (ringCatSheafOf R)` as in
-`Hartshorne.Scheme.ModuleSheafTensor`. For an `𝒪_X`-module `F` and `r : ℕ` we define
+`Hartshorne.Scheme.ModuleSheafTensor`. The constructions below are made more generally for a sheaf
+`R` of commutative rings on any small site `(C, J)` (modules over `siteRingCatSheaf R`, which for
+`C = Opens X` is `ringCatSheafOf R`); this generality is used for restrictions to open subsets,
+which live on the site `Over U`. For an `𝒪_X`-module `F` and `r : ℕ` we define
 
 * `moduleSheafTensorPower r F` (`T^r F`), the sheafification of `U ↦ ⨂^r_{𝒪_X(U)} F(U)`;
 * `moduleSheafSymmetricPower r F` (`S^r F`), the sheafification of `U ↦ Sym^r_{𝒪_X(U)} F(U)`, where
@@ -33,6 +36,15 @@ Each power has a universal property: morphisms `T^r F ⟶ H` are the families of
 see `moduleSheafTensorPowerHomEquiv` and `moduleSheafTensorPower_universal`; for `S^r F` and
 `⋀^r F` the families are required to be symmetric (`ModuleSheafMultilinear.IsSymmetric`) resp.
 alternating (`ModuleSheafMultilinear.IsAlternating`).
+
+Restriction to open subsets: for an object `U` of the site (for a ringed space, an open subset
+`U ⊆ X`) and `F|_U = F.over U` (Mathlib's restriction to the site `Over U`, with structure sheaf
+`R.over U`), `moduleSheafTensorPowerOverIso` (and its symmetric and exterior analogues) identifies
+`(T^r F)|_U` with `T^r (F|_U)`, compatibly with the universal multilinear maps
+(`moduleSheafTensorPowerOverIso_multilinear`). Here the presheaves `V ↦ ⨂^r F(V)` restrict on the
+nose, and sheafification commutes with restriction (`sheafificationOverHom` is an isomorphism, by
+Mathlib's compatibility of sheafification with the continuous and cocontinuous functor
+`Over.forget U`).
 
 Restriction to open subschemes: for schemes and an open immersion `f : Y ⟶ X`,
 `moduleSheafTensorPowerRestrictIso` (and its symmetric and exterior analogues) identifies
@@ -269,17 +281,24 @@ namespace Hartshorne
 
 open CategoryTheory TopologicalSpace Opposite SheafTensorOperations
 
-variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+/-- The sheaf of rings underlying a sheaf of commutative rings on a site. For the site of opens
+of a topological space it is `ringCatSheafOf`. -/
+abbrev siteRingCatSheaf {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
+    (R : Sheaf J CommRingCat.{u}) : Sheaf J RingCat.{u} :=
+  ⟨R.obj ⋙ forget₂ CommRingCat RingCat.{u},
+    ((sheafCompose _ (forget₂ CommRingCat RingCat.{u})).obj R).property⟩
+
+variable {C : Type u} [SmallCategory C] {J : GrothendieckTopology C} {R : Sheaf J CommRingCat.{u}}
 
 namespace SheafTensorOperations
 
 /-- A presheaf of modules built from modules of sections and semilinear restriction maps. -/
 noncomputable def presheafOfSemilinear
-    (obj : ∀ U : (Opens X)ᵒᵖ, ModuleCat.{u} ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U))
-    (map : ∀ {U V : (Opens X)ᵒᵖ} (i : U ⟶ V),
+    (obj : ∀ U : Cᵒᵖ, ModuleCat.{u} ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U))
+    (map : ∀ {U V : Cᵒᵖ} (i : U ⟶ V),
       obj U →ₛₗ[((R.obj ⋙ forget₂ CommRingCat RingCat).map i).hom] obj V)
-    (map_id : ∀ (U : (Opens X)ᵒᵖ) (x : obj U), map (𝟙 U) x = x)
-    (map_comp : ∀ {U V W : (Opens X)ᵒᵖ} (i : U ⟶ V) (j : V ⟶ W) (x : obj U),
+    (map_id : ∀ (U : Cᵒᵖ) (x : obj U), map (𝟙 U) x = x)
+    (map_comp : ∀ {U V W : Cᵒᵖ} (i : U ⟶ V) (j : V ⟶ W) (x : obj U),
       map (i ≫ j) x = map j (map i x)) :
     PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat) where
   obj := obj
@@ -298,19 +317,19 @@ noncomputable def presheafOfSemilinear
 
 @[simp]
 theorem presheafOfSemilinear_map_apply
-    (obj : ∀ U : (Opens X)ᵒᵖ, ModuleCat.{u} ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U))
-    (map : ∀ {U V : (Opens X)ᵒᵖ} (i : U ⟶ V),
+    (obj : ∀ U : Cᵒᵖ, ModuleCat.{u} ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U))
+    (map : ∀ {U V : Cᵒᵖ} (i : U ⟶ V),
       obj U →ₛₗ[((R.obj ⋙ forget₂ CommRingCat RingCat).map i).hom] obj V)
-    (map_id : ∀ (U : (Opens X)ᵒᵖ) (x : obj U), map (𝟙 U) x = x)
-    (map_comp : ∀ {U V W : (Opens X)ᵒᵖ} (i : U ⟶ V) (j : V ⟶ W) (x : obj U),
-      map (i ≫ j) x = map j (map i x)) {U V : (Opens X)ᵒᵖ} (i : U ⟶ V) (x : obj U) :
+    (map_id : ∀ (U : Cᵒᵖ) (x : obj U), map (𝟙 U) x = x)
+    (map_comp : ∀ {U V W : Cᵒᵖ} (i : U ⟶ V) (j : V ⟶ W) (x : obj U),
+      map (i ≫ j) x = map j (map i x)) {U V : Cᵒᵖ} (i : U ⟶ V) (x : obj U) :
     (presheafOfSemilinear obj map map_id map_comp).map i x = map i x := rfl
 
-theorem ringMap_id_apply (U : (Opens X)ᵒᵖ) (a : (R.obj ⋙ forget₂ CommRingCat RingCat).obj U) :
+theorem ringMap_id_apply (U : Cᵒᵖ) (a : (R.obj ⋙ forget₂ CommRingCat RingCat).obj U) :
     ((R.obj ⋙ forget₂ CommRingCat RingCat).map (𝟙 U)).hom a = a := by
   simp
 
-theorem ringMap_comp_apply {U V W : (Opens X)ᵒᵖ} (i : U ⟶ V) (j : V ⟶ W)
+theorem ringMap_comp_apply {U V W : Cᵒᵖ} (i : U ⟶ V) (j : V ⟶ W)
     (a : (R.obj ⋙ forget₂ CommRingCat RingCat).obj U) :
     ((R.obj ⋙ forget₂ CommRingCat RingCat).map (i ≫ j)).hom a =
       ((R.obj ⋙ forget₂ CommRingCat RingCat).map j).hom
@@ -318,12 +337,12 @@ theorem ringMap_comp_apply {U V W : (Opens X)ᵒᵖ} (i : U ⟶ V) (j : V ⟶ W)
   simp
 
 theorem restrictₛₗ_id (M : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat))
-    (U : (Opens X)ᵒᵖ) (x : M.obj U) : M.restrictₛₗ (𝟙 U) x = x := by
+    (U : Cᵒᵖ) (x : M.obj U) : M.restrictₛₗ (𝟙 U) x = x := by
   rw [PresheafOfModules.restrictₛₗ_apply]
   simp
 
 theorem restrictₛₗ_comp (M : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat))
-    {U V W : (Opens X)ᵒᵖ} (i : U ⟶ V) (j : V ⟶ W) (x : M.obj U) :
+    {U V W : Cᵒᵖ} (i : U ⟶ V) (j : V ⟶ W) (x : M.obj U) :
     M.restrictₛₗ (i ≫ j) x = M.restrictₛₗ j (M.restrictₛₗ i x) :=
   PresheafOfModules.map_comp_apply M i j x
 
@@ -334,7 +353,7 @@ variable (r : ℕ)
 section TensorPowerSheaf
 
 /-- The presheaf of modules `U ↦ ⨂^r_{𝒪_X(U)} F(U)`. -/
-noncomputable def moduleSheafTensorPowerPresheaf (F : SheafOfModules.{u} (ringCatSheafOf R)) :
+noncomputable def moduleSheafTensorPowerPresheaf (F : SheafOfModules.{u} (siteRingCatSheaf R)) :
     PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat) :=
   presheafOfSemilinear (fun U => ModuleCat.of _ (⨂[_]^r (F.val.obj U)))
     (fun i => tensorPowerMap r _ (F.val.restrictₛₗ i))
@@ -342,33 +361,33 @@ noncomputable def moduleSheafTensorPowerPresheaf (F : SheafOfModules.{u} (ringCa
     (fun i j x => tensorPowerMap_comp r (ringMap_comp_apply i j) _ _ _
       (restrictₛₗ_comp F.val i j) x)
 
-variable (F : SheafOfModules.{u} (ringCatSheafOf R))
+variable (F : SheafOfModules.{u} (siteRingCatSheaf R))
 
 /-- **Tensor powers of a module sheaf.** The `𝒪_X`-module `T^r F`, the sheafification of the
 presheaf `U ↦ ⨂^r_{𝒪_X(U)} F(U)`. -/
-noncomputable def moduleSheafTensorPower : SheafOfModules.{u} (ringCatSheafOf R) :=
-  (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj)).obj
+noncomputable def moduleSheafTensorPower : SheafOfModules.{u} (siteRingCatSheaf R) :=
+  (PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf R).obj)).obj
     (moduleSheafTensorPowerPresheaf r F)
 
 /-- The canonical map from the presheaf `U ↦ ⨂^r F(U)` to its sheafification `T^r F`. -/
 noncomputable def moduleSheafTensorPowerUnit :
     moduleSheafTensorPowerPresheaf r F ⟶ (moduleSheafTensorPower r F).val :=
-  (PresheafOfModules.sheafificationAdjunction (𝟙 (ringCatSheafOf R).obj)).unit.app
+  (PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)).unit.app
     (moduleSheafTensorPowerPresheaf r F)
 
 /-- An `r`-multilinear morphism `F^r → H` of `𝒪_X`-modules: for every open `U`, an
 `𝒪_X(U)`-multilinear map `F(U)^r → H(U)`, compatible with restriction. -/
-structure ModuleSheafMultilinear (H : SheafOfModules.{u} (ringCatSheafOf R)) where
+structure ModuleSheafMultilinear (H : SheafOfModules.{u} (siteRingCatSheaf R)) where
   /-- The multilinear map on sections over `U`. -/
-  app (U : (Opens X)ᵒᵖ) : MultilinearMap ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U)
+  app (U : Cᵒᵖ) : MultilinearMap ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U)
     (fun _ : Fin r => F.val.obj U) (H.val.obj U)
   /-- Compatibility with restriction. -/
-  naturality {U V : (Opens X)ᵒᵖ} (i : U ⟶ V) (m : Fin r → F.val.obj U) :
+  naturality {U V : Cᵒᵖ} (i : U ⟶ V) (m : Fin r → F.val.obj U) :
     H.val.map i (app U m) = app V (fun k => F.val.map i (m k))
 
 namespace ModuleSheafMultilinear
 
-variable {r F} {H K L : SheafOfModules.{u} (ringCatSheafOf R)}
+variable {r F} {H K L : SheafOfModules.{u} (siteRingCatSheaf R)}
 
 @[ext]
 lemma ext {β γ : ModuleSheafMultilinear r F H} (h : ∀ U m, β.app U m = γ.app U m) : β = γ := by
@@ -386,7 +405,7 @@ noncomputable def postcomp (β : ModuleSheafMultilinear r F H) (φ : H ⟶ K) :
     exact h.symm.trans (congrArg (fun y => (φ.val.app _).hom y) (β.naturality i m))
 
 @[simp]
-lemma postcomp_app (β : ModuleSheafMultilinear r F H) (φ : H ⟶ K) (U : (Opens X)ᵒᵖ)
+lemma postcomp_app (β : ModuleSheafMultilinear r F H) (φ : H ⟶ K) (U : Cᵒᵖ)
     (m : Fin r → F.val.obj U) : (β.postcomp φ).app U m = φ.val.app U (β.app U m) := rfl
 
 lemma postcomp_postcomp (β : ModuleSheafMultilinear r F H) (φ : H ⟶ K) (ψ : K ⟶ L) :
@@ -397,13 +416,13 @@ lemma postcomp_postcomp (β : ModuleSheafMultilinear r F H) (φ : H ⟶ K) (ψ :
 /-- A multilinear morphism is symmetric if on every open it is invariant under permuting its
 arguments. -/
 def IsSymmetric (β : ModuleSheafMultilinear r F H) : Prop :=
-  ∀ (U : (Opens X)ᵒᵖ) (e : Equiv.Perm (Fin r)) (m : Fin r → F.val.obj U),
+  ∀ (U : Cᵒᵖ) (e : Equiv.Perm (Fin r)) (m : Fin r → F.val.obj U),
     β.app U (m ∘ e) = β.app U m
 
 /-- A multilinear morphism is alternating if on every open it vanishes whenever two of its
 arguments coincide. -/
 def IsAlternating (β : ModuleSheafMultilinear r F H) : Prop :=
-  ∀ (U : (Opens X)ᵒᵖ) (m : Fin r → F.val.obj U) (i j : Fin r), m i = m j → i ≠ j →
+  ∀ (U : Cᵒᵖ) (m : Fin r → F.val.obj U) (i j : Fin r), m i = m j → i ≠ j →
     β.app U m = 0
 
 lemma IsSymmetric.postcomp {β : ModuleSheafMultilinear r F H} (hβ : β.IsSymmetric) (φ : H ⟶ K) :
@@ -418,7 +437,7 @@ end ModuleSheafMultilinear
 
 namespace SheafTensorOperations
 
-variable (H : SheafOfModules.{u} (ringCatSheafOf R))
+variable (H : SheafOfModules.{u} (siteRingCatSheaf R))
 
 /-- Morphisms out of the presheaf `U ↦ ⨂^r F(U)` are the multilinear morphisms. -/
 noncomputable def tensorPowerPresheafHomEquiv :
@@ -456,14 +475,14 @@ noncomputable def tensorPowerPresheafHomEquiv :
 
 end SheafTensorOperations
 
-variable {r F} {H K : SheafOfModules.{u} (ringCatSheafOf R)}
+variable {r F} {H K : SheafOfModules.{u} (siteRingCatSheaf R)}
 
 variable (r F H) in
 /-- **Universal property of the tensor power.** Morphisms `T^r F ⟶ H` correspond bijectively to
 `r`-multilinear morphisms `F^r → H`. -/
 noncomputable def moduleSheafTensorPowerHomEquiv :
     (moduleSheafTensorPower r F ⟶ H) ≃ ModuleSheafMultilinear r F H :=
-  ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringCatSheafOf R).obj)).homEquiv
+  ((PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)).homEquiv
     (moduleSheafTensorPowerPresheaf r F) H).trans (tensorPowerPresheafHomEquiv r F H)
 
 variable (r F) in
@@ -472,7 +491,7 @@ noncomputable def moduleSheafTensorPowerMultilinear :
     ModuleSheafMultilinear r F (moduleSheafTensorPower r F) :=
   tensorPowerPresheafHomEquiv r F _ (moduleSheafTensorPowerUnit r F)
 
-lemma moduleSheafTensorPowerMultilinear_app (U : (Opens X)ᵒᵖ) (m : Fin r → F.val.obj U) :
+lemma moduleSheafTensorPowerMultilinear_app (U : Cᵒᵖ) (m : Fin r → F.val.obj U) :
     (moduleSheafTensorPowerMultilinear r F).app U m =
       (moduleSheafTensorPowerUnit r F).app U (PiTensorProduct.tprod _ m) :=
   rfl
@@ -501,13 +520,13 @@ namespace Hartshorne
 
 open CategoryTheory TopologicalSpace Opposite SheafTensorOperations
 
-variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+variable {C : Type u} [SmallCategory C] {J : GrothendieckTopology C} {R : Sheaf J CommRingCat.{u}}
 variable (r : ℕ)
 
 section SymmetricPowerSheaf
 
 /-- The presheaf of modules `U ↦ Sym^r_{𝒪_X(U)} F(U)`. -/
-noncomputable def moduleSheafSymmetricPowerPresheaf (F : SheafOfModules.{u} (ringCatSheafOf R)) :
+noncomputable def moduleSheafSymmetricPowerPresheaf (F : SheafOfModules.{u} (siteRingCatSheaf R)) :
     PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat) :=
   presheafOfSemilinear (fun U => ModuleCat.of _ (SymmetricPowerQuotient _ (F.val.obj U) r))
     (fun i => symmetricPowerMap r _ (F.val.restrictₛₗ i))
@@ -515,23 +534,23 @@ noncomputable def moduleSheafSymmetricPowerPresheaf (F : SheafOfModules.{u} (rin
     (fun i j x => symmetricPowerMap_comp r (ringMap_comp_apply i j) _ _ _
       (restrictₛₗ_comp F.val i j) x)
 
-variable (F : SheafOfModules.{u} (ringCatSheafOf R))
+variable (F : SheafOfModules.{u} (siteRingCatSheaf R))
 
 /-- **Symmetric powers of a module sheaf.** The `𝒪_X`-module `S^r F`, the sheafification of the
 presheaf `U ↦ Sym^r_{𝒪_X(U)} F(U)`. -/
-noncomputable def moduleSheafSymmetricPower : SheafOfModules.{u} (ringCatSheafOf R) :=
-  (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj)).obj
+noncomputable def moduleSheafSymmetricPower : SheafOfModules.{u} (siteRingCatSheaf R) :=
+  (PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf R).obj)).obj
     (moduleSheafSymmetricPowerPresheaf r F)
 
 /-- The canonical map from the presheaf `U ↦ Sym^r F(U)` to its sheafification `S^r F`. -/
 noncomputable def moduleSheafSymmetricPowerUnit :
     moduleSheafSymmetricPowerPresheaf r F ⟶ (moduleSheafSymmetricPower r F).val :=
-  (PresheafOfModules.sheafificationAdjunction (𝟙 (ringCatSheafOf R).obj)).unit.app
+  (PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)).unit.app
     (moduleSheafSymmetricPowerPresheaf r F)
 
 namespace SheafTensorOperations
 
-variable (H : SheafOfModules.{u} (ringCatSheafOf R))
+variable (H : SheafOfModules.{u} (siteRingCatSheaf R))
 
 /-- Morphisms out of the presheaf `U ↦ Sym^r F(U)` are the symmetric multilinear morphisms. -/
 noncomputable def symmetricPowerPresheafHomEquiv :
@@ -573,14 +592,14 @@ noncomputable def symmetricPowerPresheafHomEquiv :
 
 end SheafTensorOperations
 
-variable {r F} {H K : SheafOfModules.{u} (ringCatSheafOf R)}
+variable {r F} {H K : SheafOfModules.{u} (siteRingCatSheaf R)}
 
 variable (r F H) in
 /-- **Universal property of the symmetric power.** Morphisms `S^r F ⟶ H` correspond bijectively
 to symmetric `r`-multilinear morphisms `F^r → H`. -/
 noncomputable def moduleSheafSymmetricPowerHomEquiv :
     (moduleSheafSymmetricPower r F ⟶ H) ≃ {β : ModuleSheafMultilinear r F H // β.IsSymmetric} :=
-  ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringCatSheafOf R).obj)).homEquiv
+  ((PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)).homEquiv
     (moduleSheafSymmetricPowerPresheaf r F) H).trans (symmetricPowerPresheafHomEquiv r F H)
 
 variable (r F) in
@@ -593,7 +612,7 @@ lemma moduleSheafSymmetricPowerMultilinear_isSymmetric :
     (moduleSheafSymmetricPowerMultilinear r F).IsSymmetric :=
   (symmetricPowerPresheafHomEquiv r F _ (moduleSheafSymmetricPowerUnit r F)).2
 
-lemma moduleSheafSymmetricPowerMultilinear_app (U : (Opens X)ᵒᵖ) (m : Fin r → F.val.obj U) :
+lemma moduleSheafSymmetricPowerMultilinear_app (U : Cᵒᵖ) (m : Fin r → F.val.obj U) :
     (moduleSheafSymmetricPowerMultilinear r F).app U m =
       (moduleSheafSymmetricPowerUnit r F).app U
         (symmetricPowerTprod ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U) (F.val.obj U) r m) :=
@@ -623,7 +642,7 @@ end SymmetricPowerSheaf
 section ExteriorPowerSheaf
 
 /-- The presheaf of modules `U ↦ ⋀^r_{𝒪_X(U)} F(U)`. -/
-noncomputable def moduleSheafExteriorPowerPresheaf (F : SheafOfModules.{u} (ringCatSheafOf R)) :
+noncomputable def moduleSheafExteriorPowerPresheaf (F : SheafOfModules.{u} (siteRingCatSheaf R)) :
     PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat) :=
   presheafOfSemilinear (fun U => ModuleCat.of _ (⋀[_]^r (F.val.obj U)))
     (fun i => exteriorPowerMap r _ (F.val.restrictₛₗ i))
@@ -631,23 +650,23 @@ noncomputable def moduleSheafExteriorPowerPresheaf (F : SheafOfModules.{u} (ring
     (fun i j x => exteriorPowerMap_comp r (ringMap_comp_apply i j) _ _ _
       (restrictₛₗ_comp F.val i j) x)
 
-variable (F : SheafOfModules.{u} (ringCatSheafOf R))
+variable (F : SheafOfModules.{u} (siteRingCatSheaf R))
 
 /-- **Exterior powers of a module sheaf.** The `𝒪_X`-module `⋀^r F`, the sheafification of the
 presheaf `U ↦ ⋀^r_{𝒪_X(U)} F(U)`. -/
-noncomputable def moduleSheafExteriorPower : SheafOfModules.{u} (ringCatSheafOf R) :=
-  (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj)).obj
+noncomputable def moduleSheafExteriorPower : SheafOfModules.{u} (siteRingCatSheaf R) :=
+  (PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf R).obj)).obj
     (moduleSheafExteriorPowerPresheaf r F)
 
 /-- The canonical map from the presheaf `U ↦ ⋀^r F(U)` to its sheafification `⋀^r F`. -/
 noncomputable def moduleSheafExteriorPowerUnit :
     moduleSheafExteriorPowerPresheaf r F ⟶ (moduleSheafExteriorPower r F).val :=
-  (PresheafOfModules.sheafificationAdjunction (𝟙 (ringCatSheafOf R).obj)).unit.app
+  (PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)).unit.app
     (moduleSheafExteriorPowerPresheaf r F)
 
 namespace SheafTensorOperations
 
-variable (H : SheafOfModules.{u} (ringCatSheafOf R))
+variable (H : SheafOfModules.{u} (siteRingCatSheaf R))
 
 /-- Morphisms out of the presheaf `U ↦ ⋀^r F(U)` are the alternating multilinear morphisms. -/
 noncomputable def exteriorPowerPresheafHomEquiv :
@@ -695,14 +714,14 @@ noncomputable def exteriorPowerPresheafHomEquiv :
 
 end SheafTensorOperations
 
-variable {r F} {H K : SheafOfModules.{u} (ringCatSheafOf R)}
+variable {r F} {H K : SheafOfModules.{u} (siteRingCatSheaf R)}
 
 variable (r F H) in
 /-- **Universal property of the exterior power.** Morphisms `⋀^r F ⟶ H` correspond bijectively
 to alternating `r`-multilinear morphisms `F^r → H`. -/
 noncomputable def moduleSheafExteriorPowerHomEquiv :
     (moduleSheafExteriorPower r F ⟶ H) ≃ {β : ModuleSheafMultilinear r F H // β.IsAlternating} :=
-  ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringCatSheafOf R).obj)).homEquiv
+  ((PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)).homEquiv
     (moduleSheafExteriorPowerPresheaf r F) H).trans (exteriorPowerPresheafHomEquiv r F H)
 
 variable (r F) in
@@ -716,7 +735,7 @@ lemma moduleSheafExteriorPowerMultilinear_isAlternating :
     (moduleSheafExteriorPowerMultilinear r F).IsAlternating :=
   (exteriorPowerPresheafHomEquiv r F _ (moduleSheafExteriorPowerUnit r F)).2
 
-lemma moduleSheafExteriorPowerMultilinear_app (U : (Opens X)ᵒᵖ) (m : Fin r → F.val.obj U) :
+lemma moduleSheafExteriorPowerMultilinear_app (U : Cᵒᵖ) (m : Fin r → F.val.obj U) :
     (moduleSheafExteriorPowerMultilinear r F).app U m =
       (moduleSheafExteriorPowerUnit r F).app U (exteriorPower.ιMulti _ r m) :=
   rfl
@@ -741,6 +760,292 @@ theorem moduleSheafExteriorPower_universal (β : ModuleSheafMultilinear r F H)
     exact Subtype.ext ((moduleSheafExteriorPowerHomEquiv_apply φ).trans hφ)
 
 end ExteriorPowerSheaf
+
+end Hartshorne
+
+namespace Hartshorne
+
+open CategoryTheory TopologicalSpace Opposite SheafTensorOperations
+
+section OverRestriction
+
+variable {C : Type u} [SmallCategory C] {J : GrothendieckTopology C} {R : Sheaf J CommRingCat.{u}}
+  (U : C)
+
+/-- The restriction `F|_U = F.over U` of a module sheaf to an object `U` of the site (for a ringed
+space, to an open subset `U`), regarded as a module sheaf over `R.over U`. It is literally Mathlib's
+`SheafOfModules.over`. -/
+noncomputable abbrev moduleSheafOver (F : SheafOfModules.{u} (siteRingCatSheaf R)) :
+    SheafOfModules.{u} (siteRingCatSheaf (R.over U)) :=
+  F.over U
+
+namespace SheafTensorOperations
+
+/-- The (identity) morphism of sheaves of rings along which module sheaves are restricted to
+`U`. -/
+noncomputable def overRingHom :
+    siteRingCatSheaf (R.over U) ⟶ ((Over.forget U).sheafPushforwardContinuous RingCat.{u}
+      (J.over U) J).obj (siteRingCatSheaf R) :=
+  𝟙 _
+
+/-- Restriction of module sheaves to `U`; it is definitionally `SheafOfModules.overFunctor`. -/
+noncomputable abbrev overModule :
+    SheafOfModules.{u} (siteRingCatSheaf R) ⥤ SheafOfModules.{u} (siteRingCatSheaf (R.over U)) :=
+  SheafOfModules.pushforward (overRingHom U)
+
+theorem overModule_obj (F : SheafOfModules.{u} (siteRingCatSheaf R)) :
+    (overModule U).obj F = moduleSheafOver U F := rfl
+
+/-- Restriction to `U` commutes with sheafification of presheaves of modules: the comparison
+morphism. -/
+noncomputable def sheafificationOverHom (P : PresheafOfModules.{u} (siteRingCatSheaf R).obj) :
+    (PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf (R.over U)).obj)).obj
+        ((PresheafOfModules.pushforward (overRingHom U).hom).obj P) ⟶
+      (overModule U).obj
+        ((PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf R).obj)).obj P) :=
+  ((PresheafOfModules.sheafificationAdjunction
+    (𝟙 (siteRingCatSheaf (R.over U)).obj)).homEquiv _ _).symm
+    ((PresheafOfModules.pushforward (overRingHom U).hom).map
+      ((PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)).unit.app P))
+
+theorem toSheafify_sheafificationOverHom (P : PresheafOfModules.{u} (siteRingCatSheaf R).obj) :
+    toSheafify (J.over U) ((Over.forget U).op ⋙ P.presheaf) ≫
+      ((SheafOfModules.toSheaf _).map (sheafificationOverHom U P)).hom =
+    Functor.whiskerLeft (Over.forget U).op (toSheafify J P.presheaf) := by
+  have h1 := PresheafOfModules.toPresheaf_map_sheafificationHomEquiv_def
+    (𝟙 (siteRingCatSheaf (R.over U)).obj) (sheafificationOverHom U P)
+  have h2 : PresheafOfModules.sheafificationHomEquiv (𝟙 (siteRingCatSheaf (R.over U)).obj)
+      (sheafificationOverHom U P) = (PresheafOfModules.pushforward (overRingHom U).hom).map
+        ((PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)).unit.app P) :=
+    ((PresheafOfModules.sheafificationAdjunction
+      (𝟙 (siteRingCatSheaf (R.over U)).obj)).homEquiv _ _).apply_symm_apply _
+  rw [h2] at h1
+  exact h1.symm
+
+instance (P : PresheafOfModules.{u} (siteRingCatSheaf R).obj) :
+    IsIso (sheafificationOverHom U P) := by
+  have h : (SheafOfModules.toSheaf _).map (sheafificationOverHom U P) =
+      ((Over.forget U).pushforwardContinuousSheafificationCompatibility AddCommGrpCat.{u}
+        (J.over U) J).hom.app P.presheaf := by
+    ext1
+    apply sheafify_hom_ext
+    · exact ((presheafToSheaf _ _ ⋙ (Over.forget U).sheafPushforwardContinuous _ _ _).obj
+        P.presheaf).property
+    · exact (toSheafify_sheafificationOverHom U P).trans
+        (Functor.toSheafify_pullbackSheafificationCompatibility _ _ _ _ P.presheaf).symm
+  have : IsIso ((SheafOfModules.toSheaf _).map (sheafificationOverHom U P)) := by
+    rw [h]
+    exact inferInstanceAs (IsIso (((Over.forget U).pushforwardContinuousSheafificationCompatibility
+      AddCommGrpCat.{u} (J.over U) J).app P.presheaf).hom)
+  exact isIso_of_reflects_iso _ (SheafOfModules.toSheaf _)
+
+theorem sheafificationOverHom_unit (P : PresheafOfModules.{u} (siteRingCatSheaf R).obj)
+    (W : (Over U)ᵒᵖ) (y : P.obj (op W.unop.left)) :
+    (sheafificationOverHom U P).val.app W
+        (((PresheafOfModules.sheafificationAdjunction
+          (𝟙 (siteRingCatSheaf (R.over U)).obj)).unit.app
+          ((PresheafOfModules.pushforward (overRingHom U).hom).obj P)).app W y) =
+      ((PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)).unit.app
+        P).app (op W.unop.left) y := by
+  have h := ((PresheafOfModules.sheafificationAdjunction
+    (𝟙 (siteRingCatSheaf (R.over U)).obj)).homEquiv_unit _ _
+      (sheafificationOverHom U P)).symm.trans
+      (((PresheafOfModules.sheafificationAdjunction
+        (𝟙 (siteRingCatSheaf (R.over U)).obj)).homEquiv _ _).apply_symm_apply _)
+  exact congrArg (fun k => (k.app W).hom y) h
+
+theorem inv_sheafificationOverHom_unit (P : PresheafOfModules.{u} (siteRingCatSheaf R).obj)
+    (W : (Over U)ᵒᵖ) (y : P.obj (op W.unop.left)) :
+    (inv (sheafificationOverHom U P)).val.app W
+        (((PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)).unit.app
+          P).app (op W.unop.left) y) =
+      ((PresheafOfModules.sheafificationAdjunction
+        (𝟙 (siteRingCatSheaf (R.over U)).obj)).unit.app
+        ((PresheafOfModules.pushforward (overRingHom U).hom).obj P)).app W y := by
+  rw [← sheafificationOverHom_unit]
+  exact congrArg (fun k => (k.val.app W).hom
+    (((PresheafOfModules.sheafificationAdjunction
+      (𝟙 (siteRingCatSheaf (R.over U)).obj)).unit.app
+      ((PresheafOfModules.pushforward (overRingHom U).hom).obj P)).app W y))
+    (IsIso.hom_inv_id (sheafificationOverHom U P))
+
+variable (F : SheafOfModules.{u} (siteRingCatSheaf R)) (r : ℕ)
+
+/-- The presheaf `V ↦ ⨂^r (F|_U)(V)` is the restriction to `U` of the presheaf
+`V ↦ ⨂^r F(V)` (sections over `V ⊆ U` agree on the nose). -/
+noncomputable def tensorPowerPresheafOverIso :
+    moduleSheafTensorPowerPresheaf r (moduleSheafOver U F) ≅
+      (PresheafOfModules.pushforward (overRingHom U).hom).obj
+        (moduleSheafTensorPowerPresheaf r F) :=
+  PresheafOfModules.isoMk (fun _ => Iso.refl _) (fun _ _ _ => rfl)
+
+/-- The presheaf `V ↦ Sym^r (F|_U)(V)` is the restriction to `U` of the presheaf
+`V ↦ Sym^r F(V)`. -/
+noncomputable def symmetricPowerPresheafOverIso :
+    moduleSheafSymmetricPowerPresheaf r (moduleSheafOver U F) ≅
+      (PresheafOfModules.pushforward (overRingHom U).hom).obj
+        (moduleSheafSymmetricPowerPresheaf r F) :=
+  PresheafOfModules.isoMk (fun _ => Iso.refl _) (fun _ _ _ => rfl)
+
+/-- The (identity) ring map `(R.over U)(V) → R(V)`. -/
+noncomputable def overRing (W : (Over U)ᵒᵖ) :
+    (siteRingCatSheaf (R.over U)).obj.obj W →+*
+      (siteRingCatSheaf R).obj.obj ((Over.forget U).op.obj W) :=
+  ((overRingHom (R := R) U).hom.app W).hom
+
+/-- The (identity) ring map `R(V) → (R.over U)(V)`. -/
+noncomputable def overRingInv (W : (Over U)ᵒᵖ) :
+    (siteRingCatSheaf R).obj.obj ((Over.forget U).op.obj W) →+*
+      (siteRingCatSheaf (R.over U)).obj.obj W :=
+  RingHom.id _
+
+/-- Sections of `F|_U` over `V` are the sections of `F` over `V`. -/
+noncomputable def overSections (W : (Over U)ᵒᵖ) :
+    (moduleSheafOver U F).val.obj W →ₛₗ[overRing (R := R) U W]
+      F.val.obj ((Over.forget U).op.obj W) where
+  toFun x := x
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+/-- The inverse of `overSections`. -/
+noncomputable def overSectionsInv (W : (Over U)ᵒᵖ) :
+    F.val.obj ((Over.forget U).op.obj W) →ₛₗ[overRingInv (R := R) U W]
+      (moduleSheafOver U F).val.obj W where
+  toFun x := x
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+/-- Restriction `(F|_U)(W) → F(W')` for `W' ⊆ W`, semilinear over the composite ring map. -/
+noncomputable def overSectionsMap {W W' : (Over U)ᵒᵖ} (i : W ⟶ W') :
+    (moduleSheafOver U F).val.obj W →ₛₗ[(overRing (R := R) U W').comp
+      ((siteRingCatSheaf (R.over U)).obj.map i).hom]
+      F.val.obj ((Over.forget U).op.obj W') where
+  toFun x := overSections U F W' ((moduleSheafOver U F).val.restrictₛₗ i x)
+  map_add' x y := by rw [map_add, map_add]
+  map_smul' a x := by rw [map_smulₛₗ, map_smulₛₗ]; rfl
+
+/-- Sections over `V` of the presheaf `V ↦ ⋀^r (F|_U)(V)` agree with those of `V ↦ ⋀^r F(V)`. -/
+noncomputable def exteriorPowerOverEquiv (W : (Over U)ᵒᵖ) :
+    (moduleSheafExteriorPowerPresheaf r (moduleSheafOver U F)).obj W ≃ₗ[
+      (siteRingCatSheaf (R.over U)).obj.obj W]
+      ((PresheafOfModules.pushforward (overRingHom U).hom).obj
+        (moduleSheafExteriorPowerPresheaf r F)).obj W where
+  toFun := exteriorPowerMap r (overRing U W) (overSections U F W)
+  map_add' := map_add _
+  map_smul' := (exteriorPowerMap r (overRing U W) (overSections U F W)).map_smulₛₗ
+  invFun := exteriorPowerMap r (overRingInv U W) (overSectionsInv U F W)
+  left_inv x := (exteriorPowerMap_comp r (fun _ => rfl) _ _ LinearMap.id (fun _ => rfl) x).symm.trans
+      (exteriorPowerMap_id r (fun _ => rfl) _ (fun _ => rfl) x)
+  right_inv x := (exteriorPowerMap_comp r (fun _ => rfl) _ _ LinearMap.id (fun _ => rfl) x).symm.trans
+      (exteriorPowerMap_id r (fun _ => rfl) _ (fun _ => rfl) x)
+
+/-- The presheaf `V ↦ ⋀^r (F|_U)(V)` is the restriction to `U` of the presheaf
+`V ↦ ⋀^r F(V)`. -/
+noncomputable def exteriorPowerPresheafOverIso :
+    moduleSheafExteriorPowerPresheaf r (moduleSheafOver U F) ≅
+      (PresheafOfModules.pushforward (overRingHom U).hom).obj
+        (moduleSheafExteriorPowerPresheaf r F) :=
+  PresheafOfModules.isoMk (fun W => (exteriorPowerOverEquiv U F r W).toModuleIso)
+    (fun W W' i => by
+      ext x
+      exact (exteriorPowerMap_comp r (fun _ => rfl) ((moduleSheafOver U F).val.restrictₛₗ i)
+        (overSections U F W') (overSectionsMap U F i) (fun _ => rfl) x).symm.trans
+        (exteriorPowerMap_comp r (fun _ => rfl) (overSections U F W)
+          (F.val.restrictₛₗ ((Over.forget U).op.map i)) _ (fun _ => rfl) x))
+
+end SheafTensorOperations
+
+variable (F : SheafOfModules.{u} (siteRingCatSheaf R)) (r : ℕ)
+
+/-- **Tensor powers restrict compatibly to open subsets.** For an object `U` of the site (for a
+ringed space `(X, 𝒪_X)`, an open subset `U ⊆ X`), the restriction of `T^r F` to `U` is
+`T^r (F|_U)`, where `F|_U = F.over U`. -/
+noncomputable def moduleSheafTensorPowerOverIso :
+    (moduleSheafTensorPower r F).over U ≅ moduleSheafTensorPower r (moduleSheafOver U F) :=
+  (asIso (sheafificationOverHom U (moduleSheafTensorPowerPresheaf r F))).symm ≪≫
+    (PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf (R.over U)).obj)).mapIso
+      (tensorPowerPresheafOverIso U F r).symm
+
+/-- The isomorphism `moduleSheafTensorPowerOverIso` is compatible with the universal maps: it sends
+`f₁ ⊗ ⋯ ⊗ fᵣ`, formed in `T^r F` from sections over `V ⊆ U`, to the same expression in
+`T^r (F|_U)`. -/
+theorem moduleSheafTensorPowerOverIso_multilinear (W : (Over U)ᵒᵖ)
+    (m : Fin r → F.val.obj (op W.unop.left)) :
+    (moduleSheafTensorPowerOverIso U F r).hom.val.app W
+        ((moduleSheafTensorPowerMultilinear r F).app (op W.unop.left) m) =
+      (moduleSheafTensorPowerMultilinear r (moduleSheafOver U F)).app W m := by
+  let η := (PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf (R.over U)).obj)).unit
+  let e := (tensorPowerPresheafOverIso U F r).inv
+  let x : (moduleSheafTensorPowerPresheaf r F).obj (op W.unop.left) := PiTensorProduct.tprod _ m
+  have h1 := inv_sheafificationOverHom_unit U (moduleSheafTensorPowerPresheaf r F) W x
+  have h2 : (η.app (moduleSheafTensorPowerPresheaf r (moduleSheafOver U F))).app W (e.app W x) =
+      ((PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf (R.over U)).obj)).map e).val.app W
+        ((η.app ((PresheafOfModules.pushforward (overRingHom U).hom).obj
+          (moduleSheafTensorPowerPresheaf r F))).app W x) :=
+    congrArg (fun k => (k.app W).hom x) (η.naturality e)
+  exact (congrArg _ h1).trans h2.symm
+
+/-- **Symmetric powers restrict compatibly to open subsets.** For an object `U` of the site (for a
+ringed space, an open subset `U ⊆ X`), the restriction of `S^r F` to `U` is `S^r (F|_U)`. -/
+noncomputable def moduleSheafSymmetricPowerOverIso :
+    (moduleSheafSymmetricPower r F).over U ≅ moduleSheafSymmetricPower r (moduleSheafOver U F) :=
+  (asIso (sheafificationOverHom U (moduleSheafSymmetricPowerPresheaf r F))).symm ≪≫
+    (PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf (R.over U)).obj)).mapIso
+      (symmetricPowerPresheafOverIso U F r).symm
+
+/-- The isomorphism `moduleSheafSymmetricPowerOverIso` is compatible with the universal maps: it
+sends the symmetric product `f₁ ⋯ fᵣ` formed from sections over `V ⊆ U` to the same expression in
+`S^r (F|_U)`. -/
+theorem moduleSheafSymmetricPowerOverIso_multilinear (W : (Over U)ᵒᵖ)
+    (m : Fin r → F.val.obj (op W.unop.left)) :
+    (moduleSheafSymmetricPowerOverIso U F r).hom.val.app W
+        ((moduleSheafSymmetricPowerMultilinear r F).app (op W.unop.left) m) =
+      (moduleSheafSymmetricPowerMultilinear r (moduleSheafOver U F)).app W m := by
+  let η := (PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf (R.over U)).obj)).unit
+  let e := (symmetricPowerPresheafOverIso U F r).inv
+  let x : (moduleSheafSymmetricPowerPresheaf r F).obj (op W.unop.left) :=
+    symmetricPowerTprod _ (F.val.obj (op W.unop.left)) r m
+  have h1 := inv_sheafificationOverHom_unit U (moduleSheafSymmetricPowerPresheaf r F) W x
+  have h2 : (η.app (moduleSheafSymmetricPowerPresheaf r (moduleSheafOver U F))).app W
+        (e.app W x) =
+      ((PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf (R.over U)).obj)).map e).val.app W
+        ((η.app ((PresheafOfModules.pushforward (overRingHom U).hom).obj
+          (moduleSheafSymmetricPowerPresheaf r F))).app W x) :=
+    congrArg (fun k => (k.app W).hom x) (η.naturality e)
+  exact (congrArg _ h1).trans h2.symm
+
+/-- **Exterior powers restrict compatibly to open subsets.** For an object `U` of the site (for a
+ringed space, an open subset `U ⊆ X`), the restriction of `⋀^r F` to `U` is `⋀^r (F|_U)`. -/
+noncomputable def moduleSheafExteriorPowerOverIso :
+    (moduleSheafExteriorPower r F).over U ≅ moduleSheafExteriorPower r (moduleSheafOver U F) :=
+  (asIso (sheafificationOverHom U (moduleSheafExteriorPowerPresheaf r F))).symm ≪≫
+    (PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf (R.over U)).obj)).mapIso
+      (exteriorPowerPresheafOverIso U F r).symm
+
+/-- The isomorphism `moduleSheafExteriorPowerOverIso` is compatible with the universal maps: it
+sends `f₁ ∧ ⋯ ∧ fᵣ` formed from sections over `V ⊆ U` to the same expression in `⋀^r (F|_U)`. -/
+theorem moduleSheafExteriorPowerOverIso_multilinear (W : (Over U)ᵒᵖ)
+    (m : Fin r → F.val.obj (op W.unop.left)) :
+    (moduleSheafExteriorPowerOverIso U F r).hom.val.app W
+        ((moduleSheafExteriorPowerMultilinear r F).app (op W.unop.left) m) =
+      (moduleSheafExteriorPowerMultilinear r (moduleSheafOver U F)).app W m := by
+  let η := (PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf (R.over U)).obj)).unit
+  let e := (exteriorPowerPresheafOverIso U F r).inv
+  let x : (moduleSheafExteriorPowerPresheaf r F).obj (op W.unop.left) := exteriorPower.ιMulti _ r m
+  have h1 := inv_sheafificationOverHom_unit U (moduleSheafExteriorPowerPresheaf r F) W x
+  have h2 : (η.app (moduleSheafExteriorPowerPresheaf r (moduleSheafOver U F))).app W
+        (e.app W x) =
+      ((PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf (R.over U)).obj)).map e).val.app W
+        ((η.app ((PresheafOfModules.pushforward (overRingHom U).hom).obj
+          (moduleSheafExteriorPowerPresheaf r F))).app W x) :=
+    congrArg (fun k => (k.app W).hom x) (η.naturality e)
+  let m' : Fin r → (moduleSheafOver U F).val.obj W := m
+  have h3 : e.app W x = exteriorPower.ιMulti _ r m' :=
+    exteriorPowerMap_ιMulti r (overRingInv (R := R) U W) (overSectionsInv U F W) m
+  rw [h3] at h2
+  exact (congrArg _ h1).trans h2.symm
+
+end OverRestriction
 
 end Hartshorne
 
