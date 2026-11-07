@@ -18,7 +18,7 @@ Hartshorne, *Algebraic Geometry*, II.6, Example 6.6.1 (p. 135).
 Let `Q = Proj` of the Segre ring of `ℙ¹ × ℙ¹` (the quadric `xy = zw` of `ℙ³_k`, see
 `Hartshorne.quadricSurface`), with bihomogeneous coordinates `s₀, s₁` and `u₀, u₁`. Let `L₁` be
 the line `s₀ = 0` (a fibre of the first projection) and `L₂` the line `u₀ = 0` (a fibre of the
-second projection). They are the two components of the hyperplane section `w = s₀u₀ = 0`.
+second projection). They are the two components of the hyperplane section `x = s₀u₀ = 0`.
 
 ## Proof
 
