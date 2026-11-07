@@ -73,8 +73,8 @@ theorem uniqueFactorizationMonoid_of_ringKrullDim_le_one (h : ringKrullDim R ≤
   intro p _ hp
   have hpbot : p ≠ ⊥ := p.ne_bot_of_height_eq_one hp
   obtain rfl : p = maximalIdeal R :=
-    (Hartshorne.RegularLocalization.eq_bot_or_eq_maximalIdeal_of_ringKrullDim_le_one p h).resolve_left
-      hpbot
+    (Hartshorne.RegularLocalization.eq_bot_or_eq_maximalIdeal_of_ringKrullDim_le_one p
+      h).resolve_left hpbot
   have hsf : ((maximalIdeal R).spanFinrank : WithBot ℕ∞) ≤ 1 :=
     (IsRegularLocalRing.spanFinrank_maximalIdeal (R := R)).symm ▸ h
   have hsf1 : (maximalIdeal R).spanFinrank ≤ 1 := by exact_mod_cast hsf
@@ -193,7 +193,8 @@ theorem isUnit_map_of_forall_exists_mul_eq {p : Ideal A} (hp : p ≠ ⊥) (hfg :
         simp only [Algebra.linearMap_apply, y]
         rw [div_mul_eq_mul_div, eq_div_iff ha0, hr]
         simp only [map_mul]
-        have : algebraMap A K (t x) * algebraMap A K x = algebraMap A K a * algebraMap A K (c x) := by
+        have : algebraMap A K (t x) * algebraMap A K x =
+            algebraMap A K a * algebraMap A K (c x) := by
           rw [← map_mul, ← map_mul, hcx]
         linear_combination -(algebraMap A K r) * this
       | zero => simp
