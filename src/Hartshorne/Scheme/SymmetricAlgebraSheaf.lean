@@ -239,7 +239,58 @@ section Generation
 open SheafTensorOperations SheafAlgebraOperations
 
 variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
-  (F : SheafOfModules.{u} (ringCatSheafOf R)) (d : ℕ)
+
+/-- A multiplicative morphism of presheaves of `𝒪_X`-algebras induces a multiplicative morphism of
+their sheafifications. -/
+theorem PresheafAlgebra.sheafifyMap_mul
+    {P Q : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat)} (S : PresheafAlgebra P)
+    (S' : PresheafAlgebra Q) (f : P ⟶ Q)
+    (hf : ∀ U a b, f.app U (S.mul.app U a b) = S'.mul.app U (f.app U a) (f.app U b))
+    (U : (Opens X)ᵒᵖ) (a b : (sheafify P).val.obj U) :
+    (sheafifyMap f).val.app U (S.sheafification.mul.app U a b) =
+      S'.sheafification.mul.app U ((sheafifyMap f).val.app U a) ((sheafifyMap f).val.app U b) := by
+  obtain ⟨U⟩ := U
+  apply sheaf_section_ext (sheafify Q)
+  intro x hx
+  obtain ⟨V₁, h₁, i₁, p₁, e₁⟩ := exists_unit_eq_map P a hx
+  obtain ⟨V₂, h₂, i₂, p₂, e₂⟩ := exists_unit_eq_map P b hx
+  let W := V₁ ⊓ V₂
+  let k : W ⟶ U := homOfLE inf_le_left ≫ i₁
+  refine ⟨W, ⟨h₁, h₂⟩, k, ?_⟩
+  obtain ⟨q₁, ha⟩ := map_eq_unit_of_le P e₁ (homOfLE inf_le_left) k
+  obtain ⟨q₂, hb⟩ := map_eq_unit_of_le P e₂ (homOfLE inf_le_right) k
+  have key : ∀ q₁ q₂ : P.obj (op W),
+      (sheafifyMap f).val.app _ (S.sheafification.mul.app _ ((sheafifyUnit P).app _ q₁)
+        ((sheafifyUnit P).app _ q₂)) = S'.sheafification.mul.app _
+        ((sheafifyMap f).val.app _ ((sheafifyUnit P).app _ q₁))
+        ((sheafifyMap f).val.app _ ((sheafifyUnit P).app _ q₂)) := by
+    intro q₁ q₂
+    have h1 := S.sheafification_mul_unit (op W) q₁ q₂
+    have h2 := S'.sheafification_mul_unit (op W) (f.app _ q₁) (f.app _ q₂)
+    have h3 := fun q => sheafifyMap_unit f (op W) q
+    exact (congrArg ((sheafifyMap f).val.app (op W)) h1).trans ((h3 _).trans
+      ((congrArg ((sheafifyUnit Q).app (op W)) (hf _ q₁ q₂)).trans (h2.symm.trans
+        (congrArg₂ (fun s t => S'.sheafification.mul.app (op W) s t)
+          (h3 q₁).symm (h3 q₂).symm))))
+  rw [← PresheafOfModules.naturality_apply, S.sheafification.mul.naturality,
+    S'.sheafification.mul.naturality, ← PresheafOfModules.naturality_apply,
+    ← PresheafOfModules.naturality_apply]
+  have e1 := congrArg₂ (fun s t => (sheafifyMap f).val.app (op W)
+    (S.sheafification.mul.app (op W) s t)) ha hb
+  have e2 := congrArg₂ (fun s t => S'.sheafification.mul.app (op W)
+    ((sheafifyMap f).val.app (op W) s) ((sheafifyMap f).val.app (op W) t)) ha hb
+  exact e1.trans ((key q₁ q₂).trans e2.symm)
+
+/-- A unital morphism of presheaves of `𝒪_X`-algebras induces a unital morphism of their
+sheafifications. -/
+theorem PresheafAlgebra.sheafifyMap_one
+    {P Q : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat)} (S : PresheafAlgebra P)
+    (S' : PresheafAlgebra Q) (f : P ⟶ Q) (hf : ∀ U, f.app U (S.one U) = S'.one U)
+    (U : (Opens X)ᵒᵖ) :
+    (sheafifyMap f).val.app U (S.sheafification.one U) = S'.sheafification.one U :=
+  (sheafifyMap_unit f U _).trans (congrArg _ (hf U))
+
+variable (F : SheafOfModules.{u} (ringCatSheafOf R)) (d : ℕ)
 
 /-- The quotient maps `⨂^d F(U) → Sym^d F(U)`, as a morphism of presheaves of modules. -/
 noncomputable def tensorToSymmetricPowerPresheaf :
@@ -305,9 +356,8 @@ theorem moduleSheafTensorAlgebraι_comp_toSymmetricAlgebra :
 /-- The map `T(F) → S(F)` is unital. -/
 theorem moduleSheafTensorToSymmetricAlgebra_one (U : (Opens X)ᵒᵖ) :
     (moduleSheafTensorToSymmetricAlgebra F).val.app U ((moduleSheafTensorAlgebraStructure F).one U) =
-      (moduleSheafSymmetricAlgebraStructure F).one U := by
-  rw [moduleSheafTensorAlgebra_one, moduleSheafSymmetricAlgebra_one]
-  exact (sheafifyMap_unit _ U _).trans (congrArg _ (map_one (SymmetricAlgebra.algHom _ _)))
+      (moduleSheafSymmetricAlgebraStructure F).one U :=
+  PresheafAlgebra.sheafifyMap_one _ _ _ (fun _ => map_one (SymmetricAlgebra.algHom _ _)) U
 
 /-- The map `T(F) → S(F)` is multiplicative. -/
 theorem moduleSheafTensorToSymmetricAlgebra_mul (U : (Opens X)ᵒᵖ)
@@ -316,42 +366,10 @@ theorem moduleSheafTensorToSymmetricAlgebra_mul (U : (Opens X)ᵒᵖ)
         ((moduleSheafTensorAlgebraStructure F).mul.app U a b) =
       (moduleSheafSymmetricAlgebraStructure F).mul.app U
         ((moduleSheafTensorToSymmetricAlgebra F).val.app U a)
-        ((moduleSheafTensorToSymmetricAlgebra F).val.app U b) := by
-  obtain ⟨U⟩ := U
-  let P := moduleSheafTensorAlgebraPresheaf F
-  let ψ := moduleSheafTensorToSymmetricAlgebra F
-  apply sheaf_section_ext (moduleSheafSymmetricAlgebra F)
-  intro x hx
-  obtain ⟨V₁, h₁, i₁, p₁, e₁⟩ := exists_unit_eq_map P a hx
-  obtain ⟨V₂, h₂, i₂, p₂, e₂⟩ := exists_unit_eq_map P b hx
-  let W := V₁ ⊓ V₂
-  let k : W ⟶ U := homOfLE inf_le_left ≫ i₁
-  refine ⟨W, ⟨h₁, h₂⟩, k, ?_⟩
-  obtain ⟨q₁, ha⟩ := map_eq_unit_of_le P e₁ (homOfLE inf_le_left) k
-  obtain ⟨q₂, hb⟩ := map_eq_unit_of_le P e₂ (homOfLE inf_le_right) k
-  have key : ∀ q₁ q₂ : TensorAlgebra ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op W))
-      (F.val.obj (op W)),
-      ψ.val.app _ ((moduleSheafTensorAlgebraStructure F).mul.app _ ((sheafifyUnit P).app _ q₁)
-        ((sheafifyUnit P).app _ q₂)) = (moduleSheafSymmetricAlgebraStructure F).mul.app _
-        (ψ.val.app _ ((sheafifyUnit P).app _ q₁)) (ψ.val.app _ ((sheafifyUnit P).app _ q₂)) := by
-    intro q₁ q₂
-    have h1 := moduleSheafTensorAlgebra_mul_unit F (op W) q₁ q₂
-    have h2 := moduleSheafSymmetricAlgebra_mul_unit F (op W)
-      (SymmetricAlgebra.algHom _ _ q₁) (SymmetricAlgebra.algHom _ _ q₂)
-    have h3 := fun q => sheafifyMap_unit (tensorToSymmetricAlgebraPresheaf F) (op W) q
-    exact (congrArg (ψ.val.app (op W)) h1).trans ((h3 _).trans
-      ((congrArg ((sheafifyUnit (moduleSheafSymmetricAlgebraPresheaf F)).app (op W))
-        (map_mul (SymmetricAlgebra.algHom _ _) q₁ q₂)).trans (h2.symm.trans
-        (congrArg₂ (fun s t => (moduleSheafSymmetricAlgebraStructure F).mul.app (op W) s t)
-          (h3 q₁).symm (h3 q₂).symm))))
-  rw [← PresheafOfModules.naturality_apply, (moduleSheafTensorAlgebraStructure F).mul.naturality,
-    (moduleSheafSymmetricAlgebraStructure F).mul.naturality, ← PresheafOfModules.naturality_apply,
-    ← PresheafOfModules.naturality_apply]
-  have e1 := congrArg₂ (fun s t => ψ.val.app (op W)
-    ((moduleSheafTensorAlgebraStructure F).mul.app (op W) s t)) ha hb
-  have e2 := congrArg₂ (fun s t => (moduleSheafSymmetricAlgebraStructure F).mul.app (op W)
-    (ψ.val.app (op W) s) (ψ.val.app (op W) t)) ha hb
-  exact e1.trans ((key q₁ q₂).trans e2.symm)
+        ((moduleSheafTensorToSymmetricAlgebra F).val.app U b) :=
+  PresheafAlgebra.sheafifyMap_mul _ _ _
+    (fun U (a b : TensorAlgebra ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U) (F.val.obj U)) =>
+      map_mul (SymmetricAlgebra.algHom _ _) a b) U a b
 
 end Generation
 
