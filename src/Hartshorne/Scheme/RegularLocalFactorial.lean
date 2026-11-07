@@ -4,6 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib.RingTheory.Ideal.UFD
 import Mathlib.Algebra.Module.StablyFree.FreeOfInvertible
+import Mathlib.RingTheory.LocalProperties.ProjectiveDimension
+import Mathlib.RingTheory.LocalRing.Module
 import Hartshorne.Scheme.RegularLocalCohenMacaulay
 import Hartshorne.Scheme.Differentials.RegularLocalization
 
@@ -35,11 +37,15 @@ Theorem 48, p. 142, as cited by Hartshorne II, Remark 6.11.1A).
 * `Hartshorne.RegularLocalFactorial.uniqueFactorizationMonoid_of_forall_localization`:
   the induction on the dimension, with its two remaining inputs (regularity of localizations,
   stable freeness of projective ideals of `R[1/x]`) as hypotheses.
+* `Hartshorne.RegularLocalFactorial.isStablyFree_of_isLocalizedModule_of_hasProjectiveDimensionLE`:
+  over a Noetherian local ring, a projective localization of a finitely generated module of finite
+  projective dimension is stably free.
+* `Hartshorne.RegularLocalFactorial.uniqueFactorizationMonoid_of_forall_hasProjectiveDimensionLE`:
+  a regular local ring is a UFD, assuming that localizations of regular local rings are regular
+  and that finitely generated modules over regular local rings have finite projective dimension.
 
-The two inputs still missing are the regularity of localizations of regular local rings and the
-stable freeness of projective ideals of `R[1/x]`; the latter follows from Serre's theorem (every
-finitely generated module over a regular local ring has a finite free resolution) together with
-`isStablyFree_of_exact`.
+The two inputs still missing are thus the regularity of localizations of regular local rings and
+one direction of Serre's theorem (finite projective dimension over a regular local ring).
 -/
 
 open IsLocalRing Ideal
@@ -353,5 +359,102 @@ theorem uniqueFactorizationMonoid_of_forall_localization
     m).toMulEquiv.uniqueFactorizationMonoid this
 
 end Induction
+
+section FiniteProjectiveDimension
+
+open CategoryTheory
+
+universe u
+
+variable {R : Type u} [CommRing R] [IsLocalRing R] [IsNoetherianRing R] (S : Submonoid R)
+
+/-- Over a Noetherian local ring, let `M` be a finitely generated module of finite projective
+dimension. Then any localization of `M` that is projective is stably free (localize a finite free
+resolution of `M` and split it from the left). -/
+theorem isStablyFree_of_isLocalizedModule_of_hasProjectiveDimensionLE (n : ℕ) :
+    ∀ (M : Type u) [AddCommGroup M] [Module R M] [Module.Finite R M]
+      [HasProjectiveDimensionLE (ModuleCat.of R M) n]
+      (Mₛ : Type u) [AddCommGroup Mₛ] [Module R Mₛ] [Module (Localization S) Mₛ]
+      [IsScalarTower R (Localization S) Mₛ] (f : M →ₗ[R] Mₛ) [IsLocalizedModule S f],
+      Module.Projective (Localization S) Mₛ → Module.IsStablyFree (Localization S) Mₛ := by
+  induction n with
+  | zero =>
+    intro M _ _ _ hM Mₛ _ _ _ _ f _ _
+    have : Projective (ModuleCat.of R M) := (projective_iff_hasProjectiveDimensionLE_zero _).mpr hM
+    have : Module.Projective R M := (IsProjective.iff_projective M).mpr this
+    have : Module.Free R M := Module.free_of_flat_of_isLocalRing
+    have : Module.Free (Localization S) Mₛ := Module.free_of_isLocalizedModule S f
+    infer_instance
+  | succ n ih =>
+    intro M _ _ _ hM Mₛ _ _ _ _ f _ hproj
+    obtain ⟨F, _, _, _, _, g, hg⟩ := Module.exists_finite_presentation R M
+    have hS := LinearMap.shortExact_shortComplexKer hg
+    have hK : HasProjectiveDimensionLE (ModuleCat.of R (LinearMap.ker g)) n :=
+      (hS.hasProjectiveDimensionLT_X₃_iff n inferInstance).mp hM
+    let Kₛ := LocalizedModule S (LinearMap.ker g)
+    let Fₛ := LocalizedModule S F
+    let i : Kₛ →ₗ[Localization S] Fₛ :=
+      IsLocalizedModule.mapExtendScalars S (LocalizedModule.mkLinearMap S (LinearMap.ker g))
+        (LocalizedModule.mkLinearMap S F) (Localization S) (LinearMap.ker g).subtype
+    let p : Fₛ →ₗ[Localization S] Mₛ :=
+      IsLocalizedModule.mapExtendScalars S (LocalizedModule.mkLinearMap S F) f (Localization S) g
+    have hi : Function.Injective i :=
+      IsLocalizedModule.map_injective S _ _ _ (LinearMap.ker g).injective_subtype
+    have hp : Function.Surjective p := IsLocalizedModule.map_surjective S _ _ _ hg
+    have hip : Function.Exact i p :=
+      IsLocalizedModule.map_exact S _ _ _ _ _ (LinearMap.exact_subtype_ker_map g)
+    have : Module.Free (Localization S) Fₛ :=
+      Module.free_of_isLocalizedModule S (LocalizedModule.mkLinearMap S F)
+    obtain ⟨l, hl⟩ := Module.projective_lifting_property p LinearMap.id hp
+    let e := (hip.splitSurjectiveEquiv hi ⟨l, hl⟩).1
+    have : Module.Projective (Localization S) (Kₛ × Mₛ) := Module.Projective.of_equiv e
+    have : Module.Projective (Localization S) Kₛ :=
+      Module.Projective.of_split (LinearMap.inl _ Kₛ Mₛ) (LinearMap.fst _ Kₛ Mₛ)
+        (LinearMap.ext fun _ => rfl)
+    have : Module.IsStablyFree (Localization S) Kₛ :=
+      ih (LinearMap.ker g) Kₛ (LocalizedModule.mkLinearMap S (LinearMap.ker g)) inferInstance
+    exact isStablyFree_of_exact hi hip hp
+
+/-- Over a Noetherian local ring all of whose finitely generated modules have finite projective
+dimension, every projective ideal of a localization is stably free. -/
+theorem isStablyFree_of_forall_hasProjectiveDimensionLE
+    (hfin : ∀ (M : Type u) [AddCommGroup M] [Module R M] [Module.Finite R M],
+      ∃ n, HasProjectiveDimensionLE (ModuleCat.of R M) n)
+    (P : Ideal (Localization S)) (hP : Module.Projective (Localization S) P) :
+    Module.IsStablyFree (Localization S) P := by
+  let P₀ : Ideal R :=
+    Submodule.comap (Algebra.linearMap R (Localization S)) (P.restrictScalars R)
+  have hP₀ : P₀.localized' (Localization S) S (Algebra.linearMap R (Localization S)) = P :=
+    (Submodule.localized'gi (Localization S) S (Algebra.linearMap R (Localization S))).l_u_eq P
+  obtain ⟨n, hn⟩ := hfin P₀
+  have := isStablyFree_of_isLocalizedModule_of_hasProjectiveDimensionLE S n P₀
+    (P₀.localized' (Localization S) S (Algebra.linearMap R (Localization S)))
+    (P₀.toLocalized' (Localization S) S (Algebra.linearMap R (Localization S)))
+  revert hP
+  rw [← hP₀]
+  exact this
+
+end FiniteProjectiveDimension
+
+section Conditional
+
+open CategoryTheory
+
+universe u
+
+/-- A regular local ring is a UFD, assuming the two inputs not yet available: localizations of
+regular local rings at primes are regular, and finitely generated modules over a regular local
+ring have finite projective dimension (one direction of Serre's theorem). -/
+theorem uniqueFactorizationMonoid_of_forall_hasProjectiveDimensionLE
+    (H1 : ∀ (R : Type u) [CommRing R] [IsRegularLocalRing R] (q : Ideal R) [q.IsPrime],
+      IsRegularLocalRing (Localization.AtPrime q))
+    (H2 : ∀ (R : Type u) [CommRing R] [IsRegularLocalRing R] (M : Type u) [AddCommGroup M]
+      [Module R M] [Module.Finite R M], ∃ n, HasProjectiveDimensionLE (ModuleCat.of R M) n)
+    (R : Type u) [CommRing R] [IsRegularLocalRing R] : UniqueFactorizationMonoid R :=
+  uniqueFactorizationMonoid_of_forall_localization H1
+    (fun A _ _ x P hP =>
+      isStablyFree_of_forall_hasProjectiveDimensionLE (Submonoid.powers x) (H2 A) P hP) R
+
+end Conditional
 
 end Hartshorne.RegularLocalFactorial
