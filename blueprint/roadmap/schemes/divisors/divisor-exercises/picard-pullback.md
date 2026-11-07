@@ -21,6 +21,7 @@ and duals, so these homomorphisms are functorial.
 
 - [The Picard group of a ringed space](../cartier-picard/invertible-sheaf-group.md)
 - [Pushforward, pullback, and their adjunction](../../modules-and-quasicoherent/module-push-pull-adjunction.md)
+- [Locally free and invertible module sheaves](../../modules-and-quasicoherent/locally-free-and-invertible.md)
 
 ## Proof depends on
 
