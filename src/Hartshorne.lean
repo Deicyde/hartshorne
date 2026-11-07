@@ -551,3 +551,4 @@ import Hartshorne.RingedSpace.GlobalToSheafExt
 import Hartshorne.RingedSpace.SheafExtFiniteLocallyFree
 import Hartshorne.RingedSpace.SheafExtLocallyFreeResolution
 import Hartshorne.Intersection.ProjectiveLinearSubspaceCycle
+import Hartshorne.Scheme.QuadricSurface
