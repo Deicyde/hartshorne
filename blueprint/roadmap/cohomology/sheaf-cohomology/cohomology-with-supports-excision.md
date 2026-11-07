@@ -2,6 +2,9 @@
 article_id: af_44adccb6cea98fcc33a4f6ee
 declaration: isomorphism
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.cohomologyWithSupportsExcisionIso Hartshorne.cohomologyWithSupportsExcisionIso_hom Hartshorne.supportedSectionsRestrict Hartshorne.supportedSectionsRestrict_isIso
 ---
 
 # Excision for cohomology with supports
