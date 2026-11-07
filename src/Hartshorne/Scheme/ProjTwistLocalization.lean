@@ -348,14 +348,6 @@ def restrictSections (W : (Proj ℬ).Opens) :
       (twistSections φ hf n (Proj.map φ hf ''ᵁ W))
 
 omit [Algebra A B] in
-theorem restrictSections_apply (W : (Proj ℬ).Opens)
-    (t : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj
-      (op (Proj.map φ hf ''ᵁ W))) (y : W) :
-    (restrictSections φ hf n W t).1 y =
-      twistFiber φ n (primeCompl_le_comap φ hf y.1) (t.1 ⟨_, y.1, y.2, rfl⟩) :=
-  rfl
-
-omit [Algebra A B] in
 theorem twistRestrictHom_app (W : (Proj ℬ).Opens) :
     (twistRestrictHom φ hf n).app W = AddCommGrpCat.ofHom (restrictSections φ hf n W) :=
   rfl
@@ -455,7 +447,8 @@ theorem isIso_twistRestrictHom :
   rw [Scheme.Modules.Hom.isIso_iff_isIso_app]
   intro W
   rw [twistRestrictHom_app, ConcreteCategory.isIso_iff_bijective]
-  exact ⟨restrictSections_injective φ hf n (s := s) hφ W, restrictSections_surjective φ hf n hs hφ W⟩
+  exact ⟨restrictSections_injective φ hf n (s := s) hφ W,
+    restrictSections_surjective φ hf n hs hφ W⟩
 
 /-- **Twisting sheaves are compatible with localization on the degree-zero part.** If
 `B = A[1/s]` with `s` of degree zero and `f = Proj.map φ : Proj B ⟶ Proj A`, then

@@ -55,28 +55,42 @@ isomorphisms (the `projι U` cover `relProj`). The compatibility over an affine 
 
 ## Split proposal (Roadmap return)
 
-1. New article "Gluing sheaves of modules along open immersions" (theorem): for a
-   scheme `Y`, a thin index category `I`, a functor `F : I ⥤ Sch` with open
-   immersions `ι_i : F(i) → Y` compatible with `F`, jointly surjective and locally
-   directed (a point of `ι_i(F i) ∩ ι_j(F j)` lies in `ι_k(F k)` for some `k → i`,
-   `k → j`), `𝒪_{F(i)}`-modules `M_i` and isomorphisms `θ_f : (F f)^* M_j ≅ M_i`
-   satisfying the identity and cocycle conditions, there is an `𝒪_Y`-module `M` with
-   isomorphisms `ι_i^* M ≅ M_i` compatible with the `θ_f`, unique up to unique
-   isomorphism. Source: Hartshorne II, Exercise 1.22 (p. 69), module version.
-   Depends on: Gluing sheaves on an open cover
+1. New article "Gluing sheaves of modules along open immersions" (theorem,
+   `origin: bridged`: Exercise II.1.22 glues sheaves valued in one fixed category, not
+   modules over a sheaf of rings). Statement: for a scheme `Y`, a thin index category
+   `I`, a functor `F : I ⥤ Sch` with open immersions `ι_i : F(i) → Y` compatible with
+   `F`, jointly surjective and locally directed (a point of `ι_i(F i) ∩ ι_j(F j)` lies
+   in `ι_k(F k)` for some `k → i`, `k → j`), `𝒪_{F(i)}`-modules `M_i` and isomorphisms
+   `θ_f : (F f)^* M_j ≅ M_i` satisfying the identity and cocycle conditions, there is
+   an `𝒪_Y`-module `M` with isomorphisms `ι_i^* M ≅ M_i` compatible with the `θ_f`,
+   unique up to unique isomorphism. Source: Hartshorne II, Exercise 1.22 (p. 69),
+   bridged to modules. Depends on: Gluing sheaves on an open cover
    (`schemes/sheaf-functors/gluing-sheaves.md`), Sheaves of modules. No Lean yet.
-   Suggested route: `M = lim_{i ∈ Iᵒᵖ} (ι_i)_* M_i` in `Y.Modules` (limits exist and
-   are sectionwise; the transition maps come from `θ_f` through
-   `restrictAdjunction`); show `ι_i^* M ⟶ M_i` is an isomorphism on sections using
-   local directedness and the sheaf property of each `M_j`.
+   Other consumers: `cohomology/cohomology-exercises/picard-h1-units.md` ("cocycles
+   glue invertible sheaves") and `schemes/coherent-sheaves/module-ideal-sheaf-data.md`
+   ("tilde sheaves glue"). Suggested route: `M = lim_{i ∈ Iᵒᵖ} (ι_i)_* M_i` in
+   `Y.Modules` (limits exist and are sectionwise; the transition maps come from `θ_f`
+   through `restrictAdjunction`); show `ι_i^* M ⟶ M_i` is an isomorphism on sections
+   using local directedness and the sheaf property of each `M_j`.
 2. New article "Twisting sheaves under localization on degree zero" (theorem): for
    `B = A[1/s]` with `s ∈ A₀`, `𝒪_{Proj A}(n)|_{Proj B} ≅ 𝒪_{Proj B}(n)`, functorial
    in composites of such localizations. Source: Hartshorne II.7 pp. 160–161 (used
    implicitly in the relative Proj construction); Stacks 01NM. Depends on: Twisting
-   sheaves are invertible, Relative Proj. Records
+   sheaves are invertible (`schemes/projective-sheaves/proj-twisting-sheaf.md`) and
+   `schemes/projective-spectrum/proj-partial-map.md`; Relative Proj at most under
+   Proof depends on (only for the open-immersion lemma of its module). Records
    `Hartshorne.ProjTwistMap.twistFiber_comp`, `Hartshorne.ProjTwistMap.twistRestrictHom`,
    `Hartshorne.ProjTwistMap.isIso_twistRestrictHom`,
    `Hartshorne.ProjTwistMap.twistRestrictIso`.
+   Relation to the existing unformalized article
+   `schemes/projective-sheaves/proj-twist-pullback.md` (II.5.12(c),
+   `f^* 𝒪(n) ≅ 𝒪(n)|_U`): when `B = A[1/s]` and both rings are generated in degree
+   one, that isomorphism coincides with the one here. (2) stays a separate article
+   because it needs no degree-one hypothesis and records functoriality in composites
+   (the cocycle condition used for gluing), which II.5.12(c) does not state. Its
+   morphism `twistHom` (`𝒪_{Proj A}(n) ⟶ f_* 𝒪_{Proj B}(n)` for any graded map) is an
+   ingredient for proj-twist-pullback; alternatively (2) can be that article's Proof
+   depends on.
 3. Edges: this leaf Depends on (1) and Proof-depends on (2), replacing the unlinked
    bullet. The leaf would then record the glued sheaf, its restriction isomorphisms,
    invertibility, and `Hartshorne.QuasiCoherentGradedAlgebra.twistTransition`,

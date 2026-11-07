@@ -53,7 +53,8 @@ abbrev twistingSheaf (U : X.AffineZariskiSite) : (Proj (S.grading U)).Modules :=
 /-- The transition morphism `𝒪_{Proj S(V)}(n)|_{Proj S(U)} ⟶ 𝒪_{Proj S(U)}(n)` along an arrow
 `U ⟶ V` of affine opens. -/
 def twistTransitionHom {U V : X.AffineZariskiSite} (f : U ⟶ V) :
-    (S.twistingSheaf n V).restrict (Proj.map (S.restrict f) (S.irrelevant_le f)) ⟶ S.twistingSheaf n U :=
+    (S.twistingSheaf n V).restrict (Proj.map (S.restrict f) (S.irrelevant_le f)) ⟶
+      S.twistingSheaf n U :=
   ProjTwistMap.twistRestrictHom (S.restrict f) (S.irrelevant_le f) n
 
 instance isIso_twistTransitionHom {U V : X.AffineZariskiSite} (f : U ⟶ V) :
@@ -69,7 +70,8 @@ instance isIso_twistTransitionHom {U V : X.AffineZariskiSite} (f : U ⟶ V) :
 /-- **The transition isomorphisms** `𝒪_{Proj S(V)}(n)|_{Proj S(U)} ≅ 𝒪_{Proj S(U)}(n)` along the
 basic open inclusions `U = D(r) ⊆ V` of affine opens. -/
 def twistTransition {U V : X.AffineZariskiSite} (f : U ⟶ V) :
-    (S.twistingSheaf n V).restrict (Proj.map (S.restrict f) (S.irrelevant_le f)) ≅ S.twistingSheaf n U :=
+    (S.twistingSheaf n V).restrict (Proj.map (S.restrict f) (S.irrelevant_le f)) ≅
+      S.twistingSheaf n U :=
   asIso (S.twistTransitionHom n f)
 
 theorem projMap_restrict_comp {U V W : X.AffineZariskiSite} (f : U ⟶ V) (g : V ⟶ W) :
