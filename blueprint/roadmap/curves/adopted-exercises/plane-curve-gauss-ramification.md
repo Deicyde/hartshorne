@@ -2,6 +2,9 @@
 article_id: af_d35622e737f7899002be2be0
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.planeCurve_gaussPencil_ramification Hartshorne.VarietyHom.ramificationIndex Hartshorne.VarietyHom.IsRamifiedAt Hartshorne.VarietyHom.ramificationIndex_eq_addVal Hartshorne.planeCurveInflectionPoints
 ---
 
 # The Gauss pencil and ramification at flexes
