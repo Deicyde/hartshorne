@@ -19,18 +19,30 @@ import Mathlib.CategoryTheory.Abelian.RightDerived
 /-!
 # Cohomology after tensoring is a δ-functor
 
-Hartshorne, *Algebraic Geometry*, III.12, the statement before Proposition 12.2 (p. 282).
+Hartshorne, *Algebraic Geometry*, III.12, Proposition 12.1 (p. 282).
 
 Let `A` be a Noetherian ring, `f : X ⟶ Spec A` a projective morphism and `F` a coherent
 `𝒪_X`-module which is flat over `Spec A`. For an `A`-module `M` put `F ⊗_A M := F ⊗_{𝒪_X} f^*(M̃)`
 (`Hartshorne.tensorPullbackTilde`, landing in sheaves of abelian groups) and
 `Tⁱ(M) = Hⁱ(X, F ⊗_A M)` (`Hartshorne.cohomologyTensor`), where `Hⁱ(X, -)` is the `i`-th right
-derived functor of global sections on sheaves of abelian groups. The main result
+derived functor of global sections on sheaves of abelian groups. The result
 `Hartshorne.cohomologyTensor_isCovariantDeltaFunctor` says that every `Tⁱ` is an additive functor
-and that, with the connecting morphisms `Hartshorne.cohomologyTensorδ` of the long exact cohomology
-sequences, `(Tⁱ)` is a covariant δ-functor (`Hartshorne.IsCovariantDeltaFunctor`: long exact
-sequences, natural in morphisms of short exact sequences); in particular every `Tⁱ` is exact in the
-middle. The values of `Tⁱ` are taken in abelian groups, as for Hartshorne's `Hⁱ(X, -)`.
+to abelian groups and that, with the connecting morphisms `Hartshorne.cohomologyTensorδ` of the long
+exact cohomology sequences, `(Tⁱ)` is a covariant δ-functor (`Hartshorne.IsCovariantDeltaFunctor`:
+long exact sequences, natural in morphisms of short exact sequences).
+
+Hartshorne's `Tⁱ` go from `A`-modules to `A`-modules. Since `Tⁱ` is additive and `A` is
+commutative, `a ∈ A` acts on `Tⁱ(M)` by `Tⁱ` of multiplication by `a` on `M`; this gives the lift
+`Hartshorne.cohomologyTensorModule` of `Tⁱ` to a functor from `A`-modules to `A`-modules, whose
+composite with the forgetful functor to abelian groups is `Hartshorne.cohomologyTensor`
+(`Hartshorne.cohomologyTensorModule_comp_forget₂`). The connecting morphisms commute with these
+actions (naturality for multiplication by `a` on a short exact sequence), giving `A`-linear
+connecting morphisms `Hartshorne.cohomologyTensorModuleδ` lying over `Hartshorne.cohomologyTensorδ`
+(`Hartshorne.forget₂_map_cohomologyTensorModuleδ`). The statement of Proposition 12.1 is
+`Hartshorne.cohomologyTensorModule_isCovariantDeltaFunctor`: every lifted `Tⁱ` is additive and the
+lifted family is a covariant δ-functor from `A`-modules to `A`-modules; in particular every `Tⁱ` is
+exact in the middle. Exactness is transferred along the faithful, exact forgetful functor to
+abelian groups.
 
 Only the flatness of `F` is used: the Noetherian, projectivity and coherence hypotheses are kept as
 in the source.
@@ -1011,6 +1023,92 @@ structure IsCovariantDeltaFunctor (T : ℕ → C ⥤ D)
 
 end DeltaFunctor
 
+namespace CohomologyTensorDelta
+
+section ModuleLift
+
+variable {A : CommRingCat.{u}} (T : ModuleCat.{u} A ⥤ AddCommGrpCat.{u}) [T.Additive]
+
+/-- For an additive functor `T` from `A`-modules to abelian groups, `a ↦ T(a · 𝟙_M)`: the action
+of `A` on `T(M)` induced by multiplication by `a` on `M`, a ring map since `T` is additive and `A`
+is commutative. -/
+noncomputable def liftSMul (M : ModuleCat.{u} A) : A →+* End (T.obj M) where
+  toFun a := T.map (a • 𝟙 M)
+  map_one' := by rw [one_smul, T.map_id]; rfl
+  map_mul' a b := by
+    rw [End.mul_def, ← T.map_comp, Linear.comp_smul, Linear.smul_comp, Category.id_comp,
+      smul_smul]
+  map_zero' := by rw [zero_smul, T.map_zero]
+  map_add' a b := by rw [add_smul, T.map_add]
+
+omit [T.Additive] in
+lemma map_comp_smul {M N : ModuleCat.{u} A} (g : M ⟶ N) (a : A) :
+    T.map g ≫ T.map (a • 𝟙 N) = T.map (a • 𝟙 M) ≫ T.map g := by
+  rw [← T.map_comp, ← T.map_comp, Linear.comp_smul, Linear.smul_comp, Category.comp_id,
+    Category.id_comp]
+
+/-- The lift of an additive functor `T` from `A`-modules to abelian groups to a functor from
+`A`-modules to `A`-modules: `a ∈ A` acts on `T(M)` by `T(a · 𝟙_M)`, and `T(g)` is `A`-linear for
+every `A`-linear `g`. -/
+noncomputable def moduleLift : ModuleCat.{u} A ⥤ ModuleCat.{u} A where
+  obj M := ModuleCat.mkOfSMul (liftSMul T M)
+  map g := ModuleCat.homMk (T.map g) (fun a => map_comp_smul T g a)
+  map_id M := (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u}).map_injective (T.map_id M)
+  map_comp g h := (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u}).map_injective (T.map_comp g h)
+
+lemma moduleLift_smul (M : ModuleCat.{u} A) (a : A) (x : (moduleLift T).obj M) :
+    a • x = T.map (a • 𝟙 M) x :=
+  rfl
+
+theorem moduleLift_comp_forget₂ :
+    moduleLift T ⋙ forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u} = T :=
+  rfl
+
+instance : (moduleLift T).Additive where
+  map_add {M N g h} := (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u}).map_injective (by
+    rw [(forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u}).map_add]
+    exact T.map_add)
+
+end ModuleLift
+
+section DeltaLift
+
+variable {A : CommRingCat.{u}} (T : ℕ → ModuleCat.{u} A ⥤ AddCommGrpCat.{u}) [∀ i, (T i).Additive]
+  (δ : ∀ S : ShortComplex (ModuleCat.{u} A), S.ShortExact → ∀ i : ℕ,
+    (T i).obj S.X₃ ⟶ (T (i + 1)).obj S.X₁)
+  (hδ : ∀ (S : ShortComplex (ModuleCat.{u} A)) (hS : S.ShortExact) (i : ℕ) (a : A),
+    δ S hS i ≫ (T (i + 1)).map (a • 𝟙 S.X₁) = (T i).map (a • 𝟙 S.X₃) ≫ δ S hS i)
+
+/-- Connecting morphisms commuting with multiplication by scalars, as `A`-linear maps between the
+lifted functors `moduleLift (T i)`. -/
+noncomputable def moduleLiftδ (S : ShortComplex (ModuleCat.{u} A)) (hS : S.ShortExact) (i : ℕ) :
+    (moduleLift (T i)).obj S.X₃ ⟶ (moduleLift (T (i + 1))).obj S.X₁ :=
+  ModuleCat.homMk (δ S hS i) (hδ S hS i)
+
+/-- A covariant δ-functor from `A`-modules to abelian groups whose connecting morphisms commute
+with multiplication by scalars lifts to a covariant δ-functor from `A`-modules to `A`-modules:
+exactness is reflected by the faithful, exact forgetful functor to abelian groups. -/
+theorem moduleLift_isCovariantDeltaFunctor (h : IsCovariantDeltaFunctor T δ) :
+    IsCovariantDeltaFunctor (fun i => moduleLift (T i)) (moduleLiftδ T δ hδ) := by
+  refine ⟨fun S hS => ?_, fun S hS i => ?_, fun S hS i => ?_, fun S hS i => ?_, fun S hS i => ?_,
+    fun S hS i => ?_, fun S hS i => ?_, fun S₁ S₂ φ h₁ h₂ i => ?_⟩
+  · exact (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u}).mono_of_mono_map (h.mono_map_f S hS)
+  · rw [← Functor.map_comp, S.zero, Functor.map_zero]
+  · exact (ShortComplex.exact_map_iff_of_faithful _
+      (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u})).mp (h.exact_map_f_map_g S hS i)
+  · exact (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u}).map_injective (h.map_g_comp_δ S hS i)
+  · exact (ShortComplex.exact_map_iff_of_faithful _
+      (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u})).mp (h.exact_map_g_δ S hS i)
+  · exact (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u}).map_injective (h.δ_comp_map_f S hS i)
+  · exact (ShortComplex.exact_map_iff_of_faithful _
+      (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u})).mp (h.exact_δ_map_f S hS i)
+  · exact (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u}).map_injective
+      (h.δ_naturality S₁ S₂ φ h₁ h₂ i)
+
+end DeltaLift
+
+end CohomologyTensorDelta
+
 /-- Global sections `Γ(X, -)` of sheaves of abelian groups. -/
 noncomputable def abelianSheafGlobalSections (X : TopCat.{u}) :
     TopCat.Sheaf AddCommGrpCat.{u} X ⥤ AddCommGrpCat.{u} :=
@@ -1066,11 +1164,13 @@ noncomputable def cohomologyTensorδ (hflat : F.FlatOver f) (S : ShortComplex (M
   rightDerivedδ (abelianSheafGlobalSections X) (tensorPullbackTilde_shortExact f F hflat hS) i
 
 
-/-- **Hartshorne III.12, before Proposition 12.2.** Let `A` be Noetherian, `f : X ⟶ Spec A`
-projective and `F` a coherent `𝒪_X`-module flat over `Spec A`. Then the functors
-`Tⁱ(M) = Hⁱ(X, F ⊗_A M)` are additive, and together with the connecting morphisms of the long exact
-cohomology sequences they form a covariant δ-functor from `A`-modules to abelian groups; in
-particular every `Tⁱ` is exact in the middle. -/
+/-- **Hartshorne III.12, Proposition 12.1 (p. 282), with values in abelian groups.** Let `A` be
+Noetherian, `f : X ⟶ Spec A` projective and `F` a coherent `𝒪_X`-module flat over `Spec A`. Then
+the functors `Tⁱ(M) = Hⁱ(X, F ⊗_A M)`, viewed with values in abelian groups, are additive, and
+together with the connecting morphisms of the long exact cohomology sequences they form a covariant
+δ-functor from `A`-modules to abelian groups. Hartshorne's statement, with the `Tⁱ` and the
+connecting morphisms `A`-linear and the δ-functor taken in `A`-modules, is
+`Hartshorne.cohomologyTensorModule_isCovariantDeltaFunctor`, deduced from this one. -/
 theorem cohomologyTensor_isCovariantDeltaFunctor [IsNoetherianRing A] (hf : Projective f)
     (hF : IsCoherent F) (hflat : F.FlatOver f) :
     (∀ i, (cohomologyTensor f F i).Additive) ∧
@@ -1094,5 +1194,74 @@ theorem cohomologyTensor_isCovariantDeltaFunctor [IsNoetherianRing A] (hf : Proj
   · exact rightDerived_exact₁ _ (tensorPullbackTilde_shortExact f F hflat hS) i
   · exact rightDerivedδ_naturality _ ((tensorPullbackTilde f F).mapShortComplex.map φ)
       (tensorPullbackTilde_shortExact f F hflat h₁) (tensorPullbackTilde_shortExact f F hflat h₂) i
+
+
+instance cohomologyTensor_additive (i : ℕ) : (cohomologyTensor f F i).Additive := by
+  have : (tensorFunctor F).Additive := tensorFunctor_additive F
+  have h : (SheafOfModules.toSheaf (ringCatSheafOf X.sheaf)).Additive := inferInstance
+  have : (tensorPullbackTilde f F).Additive := ⟨fun {M N a b} => by
+    simp only [tensorPullbackTilde, Functor.comp_map, Functor.map_add]
+    exact h.map_add⟩
+  exact ⟨fun {M N a b} => by simp only [cohomologyTensor, Functor.comp_map, Functor.map_add]⟩
+
+/-- `Tⁱ(M) = Hⁱ(X, F ⊗_A M)` as a functor from `A`-modules to `A`-modules: `a ∈ A` acts on
+`Tⁱ(M)` by `Tⁱ` of multiplication by `a` on `M` (`Hartshorne.cohomologyTensorModule_smul`), and
+`Tⁱ(φ)` is `A`-linear. -/
+noncomputable def cohomologyTensorModule (i : ℕ) : ModuleCat.{u} A ⥤ ModuleCat.{u} A :=
+  moduleLift (cohomologyTensor f F i)
+
+lemma cohomologyTensorModule_smul (i : ℕ) (M : ModuleCat.{u} A) (a : A)
+    (x : (cohomologyTensorModule f F i).obj M) :
+    a • x = (cohomologyTensor f F i).map (a • 𝟙 M) x :=
+  rfl
+
+/-- The `A`-module valued `Tⁱ` composed with the forgetful functor to abelian groups is the
+abelian-group valued `Tⁱ`. -/
+theorem cohomologyTensorModule_comp_forget₂ (i : ℕ) :
+    cohomologyTensorModule f F i ⋙ forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u} =
+      cohomologyTensor f F i :=
+  rfl
+
+/-- The connecting morphisms commute with multiplication by `a ∈ A`: naturality for the
+endomorphism `a · 𝟙` of a short exact sequence. -/
+theorem cohomologyTensorδ_smul (hflat : F.FlatOver f) (S : ShortComplex (ModuleCat.{u} A))
+    (hS : S.ShortExact) (i : ℕ) (a : A) :
+    cohomologyTensorδ f F hflat S hS i ≫ (cohomologyTensor f F (i + 1)).map (a • 𝟙 S.X₁) =
+      (cohomologyTensor f F i).map (a • 𝟙 S.X₃) ≫ cohomologyTensorδ f F hflat S hS i :=
+  rightDerivedδ_naturality _ ((tensorPullbackTilde f F).mapShortComplex.map
+      { τ₁ := a • 𝟙 S.X₁, τ₂ := a • 𝟙 S.X₂, τ₃ := a • 𝟙 S.X₃
+        comm₁₂ := by rw [Linear.smul_comp, Linear.comp_smul, Category.id_comp, Category.comp_id]
+        comm₂₃ := by rw [Linear.smul_comp, Linear.comp_smul, Category.id_comp, Category.comp_id] })
+    (tensorPullbackTilde_shortExact f F hflat hS) (tensorPullbackTilde_shortExact f F hflat hS) i
+
+/-- The connecting morphisms `Tⁱ(M'') ⟶ Tⁱ⁺¹(M')` of a short exact sequence of `A`-modules, as
+`A`-linear maps. -/
+noncomputable def cohomologyTensorModuleδ (hflat : F.FlatOver f)
+    (S : ShortComplex (ModuleCat.{u} A)) (hS : S.ShortExact) (i : ℕ) :
+    (cohomologyTensorModule f F i).obj S.X₃ ⟶ (cohomologyTensorModule f F (i + 1)).obj S.X₁ :=
+  moduleLiftδ (cohomologyTensor f F) (cohomologyTensorδ f F hflat)
+    (cohomologyTensorδ_smul f F hflat) S hS i
+
+/-- The underlying map of abelian groups of the `A`-linear connecting morphism is the connecting
+morphism `Hartshorne.cohomologyTensorδ`. -/
+theorem forget₂_map_cohomologyTensorModuleδ (hflat : F.FlatOver f)
+    (S : ShortComplex (ModuleCat.{u} A)) (hS : S.ShortExact) (i : ℕ) :
+    (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u}).map (cohomologyTensorModuleδ f F hflat S hS i) =
+      cohomologyTensorδ f F hflat S hS i :=
+  rfl
+
+/-- **Hartshorne III.12, Proposition 12.1 (p. 282).** Let `A` be Noetherian, `f : X ⟶ Spec A`
+projective and `F` a coherent `𝒪_X`-module flat over `Spec A`. Then each
+`Tⁱ(M) = Hⁱ(X, F ⊗_A M)` is an additive covariant functor from `A`-modules to `A`-modules, and
+together with the `A`-linear connecting morphisms of the long exact cohomology sequences the `Tⁱ`
+form a covariant δ-functor from `A`-modules to `A`-modules; in particular every `Tⁱ` is exact in
+the middle. -/
+theorem cohomologyTensorModule_isCovariantDeltaFunctor [IsNoetherianRing A] (hf : Projective f)
+    (hF : IsCoherent F) (hflat : F.FlatOver f) :
+    (∀ i, (cohomologyTensorModule f F i).Additive) ∧
+      IsCovariantDeltaFunctor (cohomologyTensorModule f F) (cohomologyTensorModuleδ f F hflat) :=
+  ⟨fun i => inferInstanceAs (moduleLift (cohomologyTensor f F i)).Additive,
+    moduleLift_isCovariantDeltaFunctor _ _ _
+      (cohomologyTensor_isCovariantDeltaFunctor f F hf hF hflat).2⟩
 
 end Hartshorne
