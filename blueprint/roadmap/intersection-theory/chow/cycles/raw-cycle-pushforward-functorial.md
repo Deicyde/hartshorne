@@ -2,6 +2,9 @@
 article_id: af_2c10c4478f63546bfee1cdd2
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.rawCyclePushforward_comp Hartshorne.rawCyclePushforward_id Hartshorne.dimension_drop_comp_iff Hartshorne.rawCyclePushforwardCoeff_comp Hartshorne.residueDegree_comp
 ---
 
 # Raw cycle pushforward is functorial
