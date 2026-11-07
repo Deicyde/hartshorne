@@ -69,6 +69,11 @@ Atiyah–Macdonald, pp.108–109 and p.113, for (a–d), and Bourbaki, Chapter I
   depends only on the closed support, and has completed affine section rings.
   For coherent `F`, its completion is `lim F/I^(n+1)F`.
 
+The completion uses the subsheaves `I^n F`. That they are quasi-coherent, coherent for
+coherent `F` on a Noetherian scheme, and have sections `I(V)^n F(V)` on an affine open `V` is
+recorded as the project bridge *Product of an ideal sheaf with a submodule sheaf*; no numbered
+result in this section states it.
+
 Mathlib's `Scheme.IdealSheafData` is compatible affine-open ideal data, not
 definitionally a subobject of the structure sheaf in `X.Modules`. The formal
 completion construction therefore depends on the existing project bridge
