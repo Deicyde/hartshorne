@@ -18,10 +18,6 @@ sections identify with global module morphisms from $F$.
 
 - [The sheaf Hom of module sheaves](../../../schemes/modules-and-quasicoherent/module-sheaf-hom.md)
 
-## Proof depends on
-
-- [Exactness is detected on stalks](../../../schemes/sheaves/stalkwise-exactness.md)
-
 ## Sources
 
 - [Hartshorne III.6, opening definition, printed p.233](../../../../sources/hartshorne-iii-6.md#definitions-and-restriction-printed-pp233234)
