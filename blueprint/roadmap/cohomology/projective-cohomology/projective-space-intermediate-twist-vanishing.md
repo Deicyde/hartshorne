@@ -15,7 +15,7 @@ The quantifier over all integer twists is part of the result.
 ## Depends on
 
 - [Twisting sheaves are invertible](../../schemes/projective-sheaves/proj-twisting-sheaf.md)
-- [Sheaf cohomology and the Ext model](../sheaf-cohomology/sheaf-cohomology.md)
+- [Sheaf cohomology](../sheaf-cohomology/sheaf-cohomology.md)
 
 ## Proof depends on
 

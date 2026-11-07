@@ -17,7 +17,7 @@ case as a quotient of some $\mathbb{Z}_U$.
 
 ## Depends on
 
-- [Sheaf cohomology and the Ext model](../sheaf-cohomology.md)
+- [Sheaf cohomology](../sheaf-cohomology.md)
 - [Open extension by zero](../../../schemes/sheaf-functors/open-extension-by-zero.md)
 
 ## Proof depends on

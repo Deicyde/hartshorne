@@ -18,7 +18,7 @@ for every $i>0$ and every $n\ge n_{0}$.
 
 - [Ample invertible sheaves](../../schemes/projective-geometry/linear-systems-ampleness/ample-invertible-sheaf.md)
 - [Proper morphisms](../../schemes/proper-and-projective/proper-morphism.md)
-- [Sheaf cohomology and the Ext model](../sheaf-cohomology/sheaf-cohomology.md)
+- [Sheaf cohomology](../sheaf-cohomology/sheaf-cohomology.md)
 
 ## Proof depends on
 

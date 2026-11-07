@@ -18,7 +18,7 @@ computed using pushforward of a flasque resolution.
 
 - [Closed extension by zero](../../schemes/sheaf-functors/closed-extension-by-zero.md)
 - [Direct image of a sheaf](../../schemes/sheaf-functors/direct-image.md)
-- [Sheaf cohomology and the Ext model](sheaf-cohomology.md)
+- [Sheaf cohomology](sheaf-cohomology.md)
 
 ## Proof depends on
 

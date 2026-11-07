@@ -18,7 +18,7 @@ Exercise 4.8.
 
 ## Depends on
 
-- [Sheaf cohomology and the Ext model](../sheaf-cohomology/sheaf-cohomology.md)
+- [Sheaf cohomology](../sheaf-cohomology/sheaf-cohomology.md)
 - [Abelian closure of quasi-coherent sheaves](../../schemes/modules-and-quasicoherent/quasicoherent-abelian-closure.md)
 - [Separated morphisms](../../schemes/separated-morphisms/separated-morphism.md)
 

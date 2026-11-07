@@ -16,7 +16,7 @@ cohomological vanishing base case.
 
 ## Depends on
 
-- [Sheaf cohomology and the Ext model](../sheaf-cohomology.md)
+- [Sheaf cohomology](../sheaf-cohomology.md)
 
 ## Sources
 

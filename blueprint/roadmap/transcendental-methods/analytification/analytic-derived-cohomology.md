@@ -14,7 +14,7 @@ sheaves this is the cohomology theory used in GAGA.
 
 - [Coherent analytic sheaves](../analytic-spaces/coherent-analytic-sheaf.md)
 - [Right derived functors](../../cohomology/derived-functors/right-derived-functors.md)
-- [Sheaf cohomology and the Ext model](../../cohomology/sheaf-cohomology/sheaf-cohomology.md)
+- [Sheaf cohomology](../../cohomology/sheaf-cohomology/sheaf-cohomology.md)
 
 ## Sources
 

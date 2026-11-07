@@ -89,10 +89,14 @@ the natural `Γ(X,O_X)`-module, and hence base-ring, structure.
 
 Mathlib's `Sheaf.H` is defined as an Ext group from the constant integral
 sheaf. It is implementation prior art, not definitionally Hartshorne's `RΓ`.
-The roadmap therefore requires a natural comparison between Ext from the
-constant integral sheaf and the right-derived global-sections functor,
-including the degree-zero identification `Hom(Z_X,F) ≅ Γ(X,F)`. This
-comparison is not supplied by the pinned checkout and remains not ready.
+The roadmap keeps Hartshorne's definition `Hⁱ(X,-) = RⁱΓ(X,-)`, with its
+degree-zero identification with global sections, as the primary notion, and
+records the natural comparison of delta functors between it and Ext from the
+constant integral sheaf, induced in degree zero by `Hom(Z_X,F) ≅ Γ(X,F)`, as
+a separate project-bridge article. That comparison is not supplied by the
+pinned checkout; for a space in universe `u` both models take values in
+abelian groups of universe `u`, since the sheaf category is Grothendieck
+abelian there and so has its `Ext` groups in that universe.
 
 ## Filtered colimits and closed support, printed pp. 208–210
 

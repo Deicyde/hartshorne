@@ -14,7 +14,7 @@ principal-parts resolution, whose two nonzero resolution terms are flasque.
 
 ## Depends on
 
-- [Sheaf cohomology and the Ext model](sheaf-cohomology.md)
+- [Sheaf cohomology](sheaf-cohomology.md)
 - [Projective space over a scheme](../../schemes/proper-and-projective/projective-space-over-scheme.md)
 
 ## Proof depends on

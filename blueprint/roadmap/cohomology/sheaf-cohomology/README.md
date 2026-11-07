@@ -5,7 +5,7 @@ article_id: af_09adc286dacbd9da015d216e
 # Sheaf cohomology foundations
 1. [Module sheaves have enough injectives](module-sheaves-enough-injectives.md)
 2. [Abelian sheaves have enough injectives](abelian-sheaves-enough-injectives.md)
-3. [Sheaf cohomology and the Ext model](sheaf-cohomology.md)
+3. [Sheaf cohomology](sheaf-cohomology.md)
 4. [The long exact sequence of sheaf cohomology](sheaf-cohomology-long-exact-sequence.md)
 5. [The Godement flasque embedding](godement-discontinuous-sections.md)
 6. [Flasque closure in short exact sequences](flasque-short-exact-closure.md)
