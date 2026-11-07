@@ -2,6 +2,9 @@
 article_id: af_f0015eba983da3bec5f18766
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.ArtinReesKernel.system Hartshorne.ArtinReesKernel.system_isProZero Hartshorne.ArtinReesKernel.system_sections_eq_zero Hartshorne.ArtinReesKernelSheaf.powSmul Hartshorne.ArtinReesKernelSheaf.kernelSystem Hartshorne.ArtinReesKernelSheaf.kernelSystem_isProZero Hartshorne.ArtinReesKernelSheaf.isZero_limit_kernelSystem
 ---
 
 # The Artin–Rees kernel system is pro-zero

@@ -371,6 +371,7 @@ import Hartshorne.Scheme.GenericCompletionSheaf
 import Hartshorne.Scheme.FiniteIntegralClosureField
 import Hartshorne.Rational.BirationalMaximalDomain
 import Hartshorne.Cohomology.ArtinReesProZeroKernel
+import Hartshorne.Cohomology.ArtinReesKernelSheaf
 import Hartshorne.Scheme.GenericallyFiniteDenseOpen
 import Hartshorne.Scheme.DominatingDVR
 import Hartshorne.Curve.QuadraticCoverNormality
