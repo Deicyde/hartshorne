@@ -18,9 +18,9 @@ of the constant sheaf extended by zero from an open subset.
 
 - [The irreducible dimension-zero base case](irreducible-dimension-zero-cohomology.md)
 - [Reduction to irreducible components](irreducible-component-reduction.md)
-- [Reduction to subsheaves of $Z_U$](finitely-generated-subsheaf-reduction.md)
-- [Generic trivialization inside $Z_U$](subsheaf-of-zu-generic-trivialization.md)
-- [Vanishing for $Z_U$](constant-open-extension-vanishing.md)
+- [Reduction to subsheaves of $\mathbb{Z}_U$](finitely-generated-subsheaf-reduction.md)
+- [Generic trivialization inside $\mathbb{Z}_U$](subsheaf-of-zu-generic-trivialization.md)
+- [Vanishing for $\mathbb{Z}_U$](constant-open-extension-vanishing.md)
 
 ## Sources
 

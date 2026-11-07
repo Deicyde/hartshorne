@@ -8,7 +8,7 @@ origin: cited
 
 On a complete nonsingular curve $X$, every principal divisor has degree zero.
 Consequently the sum of coefficients descends to a surjective homomorphism
-$\deg : Cl X \to Z$.
+$\deg : \operatorname{Cl} X \to \mathbb{Z}$.
 
 For a nonconstant rational function $f$, extend the induced rational map to a
 finite morphism $X \to \mathbb{P}^1$ and identify $(f)$ with the pullback of

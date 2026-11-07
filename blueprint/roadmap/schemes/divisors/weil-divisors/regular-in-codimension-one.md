@@ -29,4 +29,4 @@ Regularity is required only at codimension-one points.
 
 ## Sources
 
-- [Hartshorne II.6, definition and condition $(\cdot )$ on printed p.130](../../../../sources/hartshorne-ii-6.md#weil-divisors-and-class-groups)
+- [Hartshorne II.6, definition and condition $(*)$ on printed p.130](../../../../sources/hartshorne-ii-6.md#weil-divisors-and-class-groups)

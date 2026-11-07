@@ -32,7 +32,7 @@ has no ample invertible sheaf and is not projective.
 - [Projective iff proper and very ample](../../schemes/projective-sheaves/projective-iff-proper-very-ample.md)
 - Calculate the Picard connecting map and prove that
   $\delta (\mathcal{O}_X(1))\ne 0$ in the one-dimensional space $H^{2}(X,\omega )$; characteristic zero
-  then makes $\delta :\operatorname{Pic} (X)\cong Z\to k$ injective.
+  then makes $\delta :\operatorname{Pic} (X)\cong \mathbb{Z}\to k$ injective.
 
 ## Sources
 

@@ -8,7 +8,7 @@ origin: cited
 
 Let $X$ be a Chapter-V surface. Under $A^1(X)\simeq \operatorname{Pic} (X)$, the composite
 
-$A^1(X) \times A^1(X) \to A^2(X) \to Z$
+$A^1(X) \times A^1(X) \to A^2(X) \to \mathbb{Z}$
 
 given by the Chow product and zero-cycle degree is the divisor intersection
 pairing of V.1.

@@ -8,7 +8,7 @@ origin: cited
 
 For projective $n$-space and the hyperplane class $h \in A^1(\mathbb{P}^n)$,
 
-$A(\mathbb{P}^n) \simeq Z[h]/(h^{n+1})$
+$A(\mathbb{P}^n) \simeq \mathbb{Z}[h]/(h^{n+1})$
 
 as graded rings.
 

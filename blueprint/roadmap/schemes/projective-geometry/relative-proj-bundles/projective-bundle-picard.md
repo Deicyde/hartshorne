@@ -11,11 +11,11 @@ If $X$ is regular Noetherian and $E$ is finite locally free of rank at least
 two on every connected component, pullback and componentwise tensor powers of
 $\mathcal{O}(1)$ induce an isomorphism
 
-$\operatorname{Pic} (X) x LC(X, Z) \cong \operatorname{Pic} (P(E))$,
+$\operatorname{Pic} (X) x LC(X, \mathbb{Z}) \cong \operatorname{Pic} (P(E))$,
 
-where $LC(X,Z)$ is the group of locally constant integer-valued functions on
+where $LC(X,\mathbb{Z})$ is the group of locally constant integer-valued functions on
 $X$. If $X$ is connected, this specializes to Hartshorne's
-$\operatorname{Pic} (X) x Z \cong \operatorname{Pic} (P(E))$.
+$\operatorname{Pic} (X) x \mathbb{Z} \cong \operatorname{Pic} (P(E))$.
 
 This node is not ready until a proof-level source for Exercise 7.9(a), with
 the disconnected correction above, is adopted.

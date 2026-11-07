@@ -6,7 +6,7 @@ origin: cited
 
 # Intermediate twist cohomology vanishes
 
-Let $A$ be Noetherian and $r\ge 1$. For every $n \in Z$ and $0<i<r$,
+Let $A$ be Noetherian and $r\ge 1$. For every $n \in \mathbb{Z}$ and $0<i<r$,
 
 $H^{i}(\mathbb{P}^{r}_A,\mathcal{O}(n))=0$.
 

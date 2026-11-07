@@ -12,7 +12,7 @@ $P_0=(0,1,0)$. Prove that
 
 $P \mapsto [P-P_0]$
 
-is a bijection from the closed points of $X$ to $Cl^0 X$. Transporting the
+is a bijection from the closed points of $X$ to $\operatorname{Cl}^0 X$. Transporting the
 group law across this bijection gives the chord-and-tangent law with identity
 $P_0$.
 

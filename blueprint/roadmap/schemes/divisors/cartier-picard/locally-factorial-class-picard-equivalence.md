@@ -10,7 +10,7 @@ For an integral separated Noetherian locally factorial scheme $X$, the
 Weil–Cartier comparison and the Cartier–Picard comparison compose to a natural
 group isomorphism
 
-$Cl X \cong \operatorname{Pic} X$.
+$\operatorname{Cl} X \cong \operatorname{Pic} X$.
 
 This is Corollary 6.16. Naturality here means compatibility with the two
 canonical quotient maps and the assignment $D \mapsto \mathcal{O}_X(D)$; it does not assert a

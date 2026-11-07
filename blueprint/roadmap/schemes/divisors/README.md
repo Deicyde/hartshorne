@@ -8,7 +8,7 @@ Hartshorne II.6 develops codimension-one cycles on suitable integral schemes,
 divisors on nonsingular curves, Cartier divisors on arbitrary schemes, and the
 comparison with invertible sheaves. This chapter follows the source's order
 while keeping the different levels of generality explicit: Weil divisors use
-condition $(\cdot )$, Cartier divisors use the total quotient sheaf on an arbitrary
+condition $(*)$, Cartier divisors use the total quotient sheaf on an arbitrary
 scheme, and the Picard comparison becomes surjective under integrality.
 
 - [Weil divisors and class groups](weil-divisors/README.md)

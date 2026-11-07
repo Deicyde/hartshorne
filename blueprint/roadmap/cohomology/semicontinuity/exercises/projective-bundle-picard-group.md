@@ -10,7 +10,7 @@ Let $Y$ be an integral finite-type scheme over an algebraically closed field
 and let $E$ be finite locally free of constant rank at least two. Pullback and
 tensor powers of the tautological sheaf induce an isomorphism
 
-$\operatorname{Pic} (Y) \times Z \simeq \operatorname{Pic} (P(E))$,
+$\operatorname{Pic} (Y) \times \mathbb{Z} \simeq \operatorname{Pic} (P(E))$,
 
 $(N,n) \mapsto \pi ^* N \otimes \mathcal{O}_P(E)(n)$.
 

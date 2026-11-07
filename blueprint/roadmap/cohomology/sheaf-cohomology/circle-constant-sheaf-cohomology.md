@@ -8,7 +8,7 @@ not_ready: true
 # Constant-sheaf cohomology of the circle
 
 For the circle $S^{1}$ with its usual topology and the constant integral sheaf
-$Z$, construct an isomorphism $H^{1}(S^{1},Z) \cong Z$ using the derived-functor
+$\mathbb{Z}$, construct an isomorphism $H^{1}(S^{1},\mathbb{Z}) \cong \mathbb{Z}$ using the derived-functor
 definition of sheaf cohomology.
 
 The unique main result is the displayed group isomorphism. Any concrete

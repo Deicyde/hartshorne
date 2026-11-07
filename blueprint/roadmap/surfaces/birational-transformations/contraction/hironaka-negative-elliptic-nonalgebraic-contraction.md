@@ -7,7 +7,7 @@ origin: cited
 # Hironaka's negative elliptic curve is not algebraically contractible
 
 Over an uncountable algebraically closed field $k$, there are ten
-$Z$-independent points $P_1,\ldots ,P_{10}$ on a nonsingular plane cubic $Y_0$,
+$\mathbb{Z}$-independent points $P_1,\ldots ,P_{10}$ on a nonsingular plane cubic $Y_0$,
 with an inflection point as origin.  On the blowup of $\mathbb{P}^2$ at those points,
 the strict transform $Y$ is a genus-one curve with
 
@@ -22,7 +22,7 @@ law give
 
 $\sum _i n_i P_i=0$, with $n_i\ge 0$ and $\sum _i n_i=3d>0$,
 
-contradicting $Z$-independence.  The choice of points uses that $Y_0(k)$ is
+contradicting $\mathbb{Z}$-independence.  The choice of points uses that $Y_0(k)$ is
 uncountable while its torsion subgroup is countable; finiteness of each
 $n$-torsion fibre is required in every characteristic.
 

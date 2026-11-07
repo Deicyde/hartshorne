@@ -8,7 +8,7 @@ origin: cited
 
 Let $k$ be a field and $n \ge 1$. Every invertible sheaf on $\mathbb{P}^n_k$ is
 isomorphic to $\mathcal{O}(l)$ for a unique integer $l$; equivalently,
-$\operatorname{Pic} (\mathbb{P}^n_k) \cong Z$ with generator $\mathcal{O}(1)$.
+$\operatorname{Pic} (\mathbb{P}^n_k) \cong \mathbb{Z}$ with generator $\mathcal{O}(1)$.
 
 Identify the hyperplane divisor with $\mathcal{O}(1)$ and transport the degree
 isomorphism for the Weil class group through the locally factorial

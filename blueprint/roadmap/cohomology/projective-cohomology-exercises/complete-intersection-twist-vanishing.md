@@ -8,7 +8,7 @@ not_ready: true
 # Intermediate cohomology of a complete intersection
 
 Let $Y\subseteq \mathbb{P}^{r}_k$ be a projective complete-intersection closed subscheme of
-dimension $q\ge 1$. For every $n \in Z$ and every $0<i<q$,
+dimension $q\ge 1$. For every $n \in \mathbb{Z}$ and every $0<i<q$,
 
 $H^{i}(Y,\mathcal{O}_Y(n))=0$.
 

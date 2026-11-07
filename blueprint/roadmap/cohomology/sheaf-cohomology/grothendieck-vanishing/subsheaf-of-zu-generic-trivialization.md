@@ -5,11 +5,11 @@ origin: cited
 not_ready: true
 ---
 
-# Generic trivialization inside $Z_U$
+# Generic trivialization inside $\mathbb{Z}_U$
 
-Let $X$ be irreducible, let $U \subseteq X$ be open, and let $0 \ne M \subseteq Z_U$ be a
+Let $X$ be irreducible, let $U \subseteq X$ be open, and let $0 \ne M \subseteq \mathbb{Z}_U$ be a
 subsheaf. There are a nonempty open $V \subseteq U$ and a positive integer $d$ such
-that $M|_V = dZ|_V \cong Z|_V$; moreover $M/Z_V$ is supported on the proper
+that $M|_V = d\mathbb{Z}|_V \cong \mathbb{Z}|_V$; moreover $M/\mathbb{Z}_V$ is supported on the proper
 closed subset $\operatorname{closure} (U \setminus V)$.
 
 This node is not ready. Hartshorne's printed proof only says to choose the

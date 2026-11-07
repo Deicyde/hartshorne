@@ -9,7 +9,7 @@ origin: cited
 For a pointed elliptic curve over an algebraically closed field of
 characteristic different from two, the map
 
-$Z \to \operatorname{End} (X,P_0)$,  $n\mapsto[n]$
+$\mathbb{Z} \to \operatorname{End} (X,P_0)$,  $n\mapsto[n]$
 
 is an injective ring homomorphism. For every nonzero integer $n$, $[n]$ is a
 nonconstant finite curve morphism.

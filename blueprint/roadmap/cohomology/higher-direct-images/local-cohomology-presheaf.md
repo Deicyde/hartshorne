@@ -26,7 +26,7 @@ functoriality in $F$.
 - [Derived-functor universality](../derived-functors/derived-functor-universality.md)
 - [Open restriction preserves injectives](../ext-groups/sheaf-ext/open-restriction-injective.md)
 - The direct abelian-sheaf restriction theorem obtained by viewing abelian
-  sheaves as modules over the constant sheaf $Z$.
+  sheaves as modules over the constant sheaf $\mathbb{Z}$.
 - Exactness of associated-sheaf formation.
 
 ## Sources

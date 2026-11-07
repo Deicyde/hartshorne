@@ -6,7 +6,7 @@ origin: cited
 
 # The perfect twist pairing
 
-For every $n \in Z$, multiplication followed by the negative-monomial trace gives
+For every $n \in \mathbb{Z}$, multiplication followed by the negative-monomial trace gives
 a perfect pairing of finite free $A$-modules
 
 $H^0(\mathbb{P}^r_A,\mathcal{O}(n))\times H^r(\mathbb{P}^r_A,\mathcal{O}(-n-r-1))\longrightarrow A$.

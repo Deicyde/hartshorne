@@ -9,7 +9,7 @@ origin: cited
 Let $X$ be a complete $n$-dimensional variety over the algebraically closed
 field. The coefficient sum on closed-point cycles descends to a homomorphism
 
-$\deg :A^n(X)\to Z$.
+$\deg :A^n(X)\to \mathbb{Z}$.
 
 ## Depends on
 

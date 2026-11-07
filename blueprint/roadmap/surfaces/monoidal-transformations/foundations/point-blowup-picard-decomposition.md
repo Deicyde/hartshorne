@@ -25,7 +25,7 @@ $\pi ^*D+nE$.
 ## Proof depends on
 
 - Restriction identifies the complements $\widetilde{X}-E$ and $X-P$; their class
-  groups are $Cl(X)/0$ and $Cl(\widetilde{X})/Z[E]$.
+  groups are $\operatorname{Cl}(X)/0$ and $\operatorname{Cl}(\widetilde{X})/\mathbb{Z}[E]$.
 - Pullback splits the resulting exact sequence, and $E^2=-1$ makes the
   exceptional-class map injective.
 

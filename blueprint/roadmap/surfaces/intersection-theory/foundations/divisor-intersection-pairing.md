@@ -8,7 +8,7 @@ origin: cited
 
 There is a unique pairing
 
-$\operatorname{Div} (X) \times \operatorname{Div} (X) \to Z$,  $(C,D)\mapsto C\cdot D$,
+$\operatorname{Div} (X) \times \operatorname{Div} (X) \to \mathbb{Z}$,  $(C,D)\mapsto C\cdot D$,
 
 which is symmetric, additive in each argument, invariant under linear
 equivalence, and counts points for nonsingular curves meeting transversally.
