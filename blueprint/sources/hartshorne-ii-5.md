@@ -75,7 +75,8 @@ then reuses `IsClosedImmersion.overEquivIdealSheafData`.
   coherent when `S` is Noetherian and `M` is finite.
 - **Definition and Proposition 5.12, p.117.** Define `O_X(n)=S(n)~` and
   `F(n)=F tensor O_X(n)`. If `S` is generated in degree one, the twists are
-  invertible, twisting commutes with graded-module shifts and tensor products,
+  invertible (the proof of (a) covers `Proj S` by the `D_+(f)`, `f in S_1`, and
+  trivializes `O_X(n)` on each by multiplication by `f^n`), twisting commutes with graded-module shifts and tensor products,
   and graded-ring maps pull twists back compatibly. For the induced
   `f : U → Proj S` from an open of `Proj T`, the source also identifies
   `f_*(O_{Proj T}(n)|_U)` with `(f_*O_U)(n)`.

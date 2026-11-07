@@ -22,9 +22,10 @@ also fixes the sign convention for all later twist statements.
 - [The sheaf of a graded module on Proj](proj-graded-module-sheaf.md)
 - [Locally free and invertible modules](../modules-and-quasicoherent/locally-free-and-invertible.md)
 
-## Proof depends on
+## Informally uses
 
 - [The standard opens cover Proj](../projective-spectrum/proj-basic-open-cover.md)
+- [Degree-one basic opens cover Proj of a degree-one-generated ring](../projective-spectrum/proj-degree-one-cover.md)
 
 ## Sources
 

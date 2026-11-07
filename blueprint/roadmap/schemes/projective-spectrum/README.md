@@ -15,6 +15,7 @@ discarding the low-degree part of a graded algebra.
 - [A standard Proj chart is affine](proj-basic-open.md)
 - [Proj is a scheme](proj-is-scheme.md)
 - [Positive-degree basic opens form an affine cover](proj-basic-open-cover.md)
+- [Degree-one basic opens cover Proj of a degree-one-generated ring](proj-degree-one-cover.md)
 - [Projective space over a ring](projective-space-over-ring.md)
 - [The partial Proj morphism of a graded map](proj-partial-map.md)
 - [Proj is invariant under an eventual graded isomorphism](proj-tail-isomorphism.md)
