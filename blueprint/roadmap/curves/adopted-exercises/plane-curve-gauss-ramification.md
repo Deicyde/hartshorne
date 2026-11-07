@@ -2,8 +2,7 @@
 article_id: af_d35622e737f7899002be2be0
 declaration: theorem
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: Hartshorne.planeCurve_gaussPencil_ramification Hartshorne.VarietyHom.ramificationIndex Hartshorne.VarietyHom.IsRamifiedAt Hartshorne.VarietyHom.ramificationIndex_eq_addVal Hartshorne.planeCurveInflectionPoints
 ---
 
@@ -16,8 +15,8 @@ $P\mapsto T_P(X)\cap L$
 
 defines a morphism $\phi : X \to L$. It is ramified at $P$ exactly when either
 $P$ lies on $L$, or the tangent line has local intersection multiplicity at
-least three with $X$ at $P$. In particular, $X$ has only finitely many
-inflection points.
+least three with $X$ at $P$. In particular, if $X$ has degree at least two,
+then $X$ has only finitely many inflection points.
 
 ## Depends on
 
