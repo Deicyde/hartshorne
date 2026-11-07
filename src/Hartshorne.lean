@@ -491,3 +491,4 @@ import Hartshorne.Scheme.Differentials.BirationalMapDomain
 import Hartshorne.Scheme.PicardPullback
 import Hartshorne.Intersection.PlaneCurveGermDerivation
 import Hartshorne.Intersection.PlaneCurveGaussRamification
+import Hartshorne.Scheme.InvertibleSectionClearingDenominators
