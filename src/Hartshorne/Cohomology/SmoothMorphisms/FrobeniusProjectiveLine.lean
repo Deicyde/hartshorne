@@ -6,6 +6,7 @@ import Hartshorne.Cohomology.SmoothMorphisms.ProjectiveSpaceSmooth
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsFibreRank
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsTransitivity
 import Hartshorne.Weil.FiniteFieldFrobenius
+import Mathlib.AlgebraicGeometry.AlgClosed.Basic
 import Mathlib.AlgebraicGeometry.Fiber
 
 /-!
@@ -199,6 +200,128 @@ theorem false_of_formallySmooth_of_kaehlerD_algebraMap_eq_zero {A B : Type u} [C
     Algebra.linearMap_apply, map_one, one_smul] at h
   exact one_ne_zero h
 
+/-- A tensor product `K ⊗_R S` containing `1 ⊗ s` with `s ^ n` the image of an element killed
+in `K` is nonreduced, provided some pair of compatible maps to a ring `C` does not kill `s`. -/
+theorem not_isReduced_tensor_of_pow_eq_algebraMap {R K S C : Type*} [CommRing R] [CommRing K]
+    [CommRing S] [CommRing C] [Algebra R K] [Algebra R S] (ψ : K →+* C) (σ : S →+* C)
+    (hcomm : ∀ r, ψ (algebraMap R K r) = σ (algebraMap R S r)) {n : ℕ} (s : S) (t : R)
+    (hst : algebraMap R S t = s ^ n) (ht : algebraMap R K t = 0) (hs : σ s ≠ 0) :
+    ¬ IsReduced (K ⊗[R] S) := by
+  intro hred
+  let : Algebra R C := (ψ.comp (algebraMap R K)).toAlgebra
+  let ψ' : K →ₐ[R] C := { ψ with commutes' := fun r => rfl }
+  let σ' : S →ₐ[R] C := { σ with commutes' := fun r => (hcomm r).symm }
+  have hnil : IsNilpotent ((1 : K) ⊗ₜ[R] s) := ⟨n, by
+    rw [Algebra.TensorProduct.tmul_pow, one_pow, ← hst, Algebra.algebraMap_eq_smul_one,
+      ← TensorProduct.smul_tmul, ← Algebra.algebraMap_eq_smul_one, ht, TensorProduct.zero_tmul]⟩
+  have h0 := congrArg (Algebra.TensorProduct.lift ψ' σ' (fun _ _ => Commute.all _ _))
+    (hred.eq_zero _ hnil)
+  rw [Algebra.TensorProduct.lift_tmul, map_zero, map_one, one_mul] at h0
+  exact hs h0
+
+/-- Let `R` have characteristic `p`, let `q` be a prime of `R`, and let `S` be an `R`-algebra with
+a ring map `ρ : S → R` turning the structure map into the Frobenius. If `t ∈ q` is the image of
+`s ∈ S` with `s ^ p` the image of `t`, and `t ∉ q² R_q`, then the fibre ring `κ(q) ⊗_R S` is
+nonreduced. -/
+theorem not_isReduced_residueField_tensor_of_frobenius {R S : Type*} [CommRing R] [CommRing S]
+    [Algebra R S] {p : ℕ} [hp' : Fact p.Prime] (hp : ((p : ℕ) : R) = 0) (q : Ideal R) [q.IsPrime]
+    (ρ : S →+* R) (hρ : ∀ r, ρ (algebraMap R S r) = r ^ p) (s : S) (t : R)
+    (hst : algebraMap R S t = s ^ p) (hs : ρ s = t) (htq : t ∈ q)
+    (ht : algebraMap R (Localization.AtPrime q) t ∉
+      (IsLocalRing.maximalIdeal (Localization.AtPrime q)) ^ 2) :
+    ¬ IsReduced (q.ResidueField ⊗[R] S) := by
+  let L := Localization.AtPrime q
+  let m := IsLocalRing.maximalIdeal L
+  have hm2 : m ^ 2 ≠ ⊤ := fun h => (IsLocalRing.maximalIdeal.isMaximal L).ne_top
+    (eq_top_iff.mpr (h.symm.le.trans (Ideal.pow_le_self two_ne_zero)))
+  have : Nontrivial (L ⧸ m ^ 2) := Ideal.Quotient.nontrivial_iff.mpr hm2
+  have hpC : ((p : ℕ) : L ⧸ m ^ 2) = 0 := by
+    rw [← map_natCast ((Ideal.Quotient.mk (m ^ 2)).comp (algebraMap R L)), hp, map_zero]
+  have : CharP (L ⧸ m ^ 2) p := (CharP.charP_iff_prime_eq_zero hp'.out).mpr hpC
+  have : ExpChar (L ⧸ m ^ 2) p := ExpChar.prime hp'.out
+  let ψ : q.ResidueField →+* L ⧸ m ^ 2 :=
+    Ideal.Quotient.lift m ((frobenius (L ⧸ m ^ 2) p).comp (Ideal.Quotient.mk (m ^ 2)))
+      (fun x hx => by
+        obtain ⟨n, hn⟩ : ∃ n, p = n + 2 := ⟨p - 2, by have := hp'.out.two_le; omega⟩
+        rw [RingHom.comp_apply, frobenius_def, ← map_pow, Ideal.Quotient.eq_zero_iff_mem, hn,
+          pow_add]
+        exact Ideal.mul_mem_left _ _ (Ideal.pow_mem_pow hx 2))
+  let σ : S →+* L ⧸ m ^ 2 := (Ideal.Quotient.mk (m ^ 2)).comp ((algebraMap R L).comp ρ)
+  refine not_isReduced_tensor_of_pow_eq_algebraMap ψ σ (fun r => ?_) s t hst
+    (Ideal.algebraMap_residueField_eq_zero.mpr htq) ?_
+  · rw [IsScalarTower.algebraMap_apply R L, IsLocalRing.ResidueField.algebraMap_eq]
+    change Ideal.Quotient.lift m _ _ (Ideal.Quotient.mk m _) = _
+    rw [Ideal.Quotient.lift_mk]
+    simp only [σ, RingHom.comp_apply, hρ, map_pow, frobenius_def]
+  · simp only [σ, RingHom.comp_apply, hs, ne_eq, Ideal.Quotient.eq_zero_iff_mem]
+    exact ht
+
+/-- If a derivation `D` of `R` does not send `t ∈ q` into the prime `q`, then `t` does not lie in
+the square of the maximal ideal of `R_q`. -/
+theorem algebraMap_not_mem_maximalIdeal_sq_of_derivation {R : Type*} [CommRing R] (q : Ideal R)
+    [q.IsPrime] (D : Derivation ℤ R R) (t : R) (htq : t ∈ q) (hDt : D t ∉ q) :
+    algebraMap R (Localization.AtPrime q) t ∉
+      (IsLocalRing.maximalIdeal (Localization.AtPrime q)) ^ 2 := by
+  have hDq : ∀ z ∈ q ^ 2, D z ∈ q := by
+    intro z hz
+    rw [sq] at hz
+    refine Submodule.mul_induction_on hz (fun a ha b hb => ?_) (fun x y hx hy => ?_)
+    · rw [Derivation.leibniz, smul_eq_mul, smul_eq_mul]
+      exact q.add_mem (q.mul_mem_right _ ha) (q.mul_mem_right _ hb)
+    · rw [map_add]
+      exact q.add_mem hx hy
+  rw [← Localization.AtPrime.map_eq_maximalIdeal, ← Ideal.map_pow]
+  intro h
+  obtain ⟨⟨x, u⟩, hx⟩ := (IsLocalization.mem_map_algebraMap_iff q.primeCompl _).mp h
+  simp only at hx
+  rw [← map_mul, IsLocalization.eq_iff_exists q.primeCompl] at hx
+  obtain ⟨c, hc⟩ := hx
+  have hmem : ((c : R) * u) * t ∈ q ^ 2 := by
+    rw [show (c : R) * u * t = c * (t * u) by ring, hc]
+    exact Ideal.mul_mem_left _ _ x.2
+  have hD := hDq _ hmem
+  rw [Derivation.leibniz, smul_eq_mul, smul_eq_mul] at hD
+  have h1 : (c : R) * u * D t ∈ q := by
+    have := q.sub_mem hD (q.mul_mem_right (D ((c : R) * u)) htq)
+    rwa [add_sub_cancel_right] at this
+  rcases Ideal.IsPrime.mem_or_mem ‹_› h1 with h2 | h2
+  · exact (q.primeCompl.mul_mem c.2 u.2) h2
+  · exact hDt h2
+
+/-- A morphism that is smooth of positive relative dimension has, around every point, an affine
+open `V` such that `Ω_{Γ(V)/ℤ}` surjects linearly onto `Γ(V)`: on a standard smooth chart
+`Ω_{Γ(V)/Γ(U)}` is free of positive rank. -/
+theorem exists_affineOpen_kaehlerDifferential_surjective {X Y : Scheme.{u}} (f : X ⟶ Y) (n : ℕ)
+    [SmoothOfRelativeDimension (n + 1) f] (x : X) :
+    ∃ V : X.Opens, IsAffineOpen V ∧ x ∈ V ∧
+      ∃ c : Ω[Γ(X, V)⁄ℤ] →ₗ[Γ(X, V)] Γ(X, V), Function.Surjective c := by
+  obtain ⟨U₀, hU₀, V₀, hV₀, hxV₀, e₀, hf₀⟩ :=
+    SmoothOfRelativeDimension.exists_isStandardSmoothOfRelativeDimension (n := n + 1) (f := f) x
+  let := (f.appLE U₀ V₀ e₀).hom.toAlgebra
+  have : Algebra.IsStandardSmoothOfRelativeDimension (n + 1) Γ(Y, U₀) Γ(X, V₀) := hf₀
+  have : Algebra.IsStandardSmooth Γ(Y, U₀) Γ(X, V₀) :=
+    Algebra.IsStandardSmoothOfRelativeDimension.isStandardSmooth (n + 1)
+  have : Nonempty V₀ := ⟨⟨x, hxV₀⟩⟩
+  have hrank := Algebra.IsStandardSmoothOfRelativeDimension.rank_kaehlerDifferential
+    (R := Γ(Y, U₀)) (S := Γ(X, V₀)) (n + 1)
+  let b := Module.Free.chooseBasis Γ(X, V₀) Ω[Γ(X, V₀)⁄Γ(Y, U₀)]
+  have hne : Nonempty (Module.Free.ChooseBasisIndex Γ(X, V₀) Ω[Γ(X, V₀)⁄Γ(Y, U₀)]) := by
+    rw [← Cardinal.mk_ne_zero_iff, b.mk_eq_rank'', hrank]
+    exact_mod_cast Nat.succ_ne_zero n
+  obtain ⟨i⟩ := hne
+  refine ⟨V₀, hV₀, hxV₀, b.coord i ∘ₗ KaehlerDifferential.map ℤ Γ(Y, U₀) Γ(X, V₀) Γ(X, V₀),
+    fun a => ?_⟩
+  obtain ⟨ω, hω⟩ := KaehlerDifferential.map_surjective ℤ Γ(Y, U₀) Γ(X, V₀) (a • b i)
+  exact ⟨ω, by simp [hω]⟩
+
+/-- In a pullback square whose bottom map is an isomorphism, the top-left corner is reduced
+when the top-right corner is. -/
+theorem isReduced_of_isPullback_of_isIso {P X Y Z : Scheme.{u}} {fst : P ⟶ X} {snd : P ⟶ Y}
+    {f : X ⟶ Z} {g : Y ⟶ Z} (h : IsPullback fst snd f g) [IsIso g] [IsReduced X] :
+    IsReduced P := by
+  have := h.isIso_fst_of_isIso
+  exact isReduced_of_isOpenImmersion fst
+
 section Frobenius
 
 variable (k : Type u) [Field k] (p : ℕ) [Fact p.Prime] [CharP k p]
@@ -265,31 +388,8 @@ theorem absoluteFrobenius_not_smooth_on_open
   let P := projectiveSpaceOverScheme 1 (Spec (.of k))
   let π := projectiveSpaceOverSchemeProjection 1 (Spec (.of k))
   let F := P.absoluteFrobenius p
-  -- A standard smooth chart of `ℙ¹_k ⟶ Spec k` at `x`: `Ω_{A/R₀}` is free of rank one.
   have := projectiveSpaceOverSchemeProjection_smoothOfRelativeDimension 1 (Spec (.of k))
-  obtain ⟨U₀, hU₀, V₀, hV₀, hxV₀, e₀, hf₀⟩ :=
-    SmoothOfRelativeDimension.exists_isStandardSmoothOfRelativeDimension (n := 1) (f := π) x
-  let := (π.appLE U₀ V₀ e₀).hom.toAlgebra
-  have : Algebra.IsStandardSmoothOfRelativeDimension 1 Γ(Spec (.of k), U₀) Γ(P, V₀) := hf₀
-  have : Algebra.IsStandardSmooth Γ(Spec (.of k), U₀) Γ(P, V₀) :=
-    Algebra.IsStandardSmoothOfRelativeDimension.isStandardSmooth 1
-  have : Nonempty V₀ := ⟨⟨x, hxV₀⟩⟩
-  have hrank := Algebra.IsStandardSmoothOfRelativeDimension.rank_kaehlerDifferential
-    (R := Γ(Spec (.of k), U₀)) (S := Γ(P, V₀)) 1
-  let b := Module.Free.chooseBasis Γ(P, V₀) Ω[Γ(P, V₀)⁄Γ(Spec (.of k), U₀)]
-  have hne : Nonempty (Module.Free.ChooseBasisIndex Γ(P, V₀)
-      Ω[Γ(P, V₀)⁄Γ(Spec (.of k), U₀)]) := by
-    rw [← Cardinal.mk_ne_zero_iff, b.mk_eq_rank'', hrank]
-    simp
-  obtain ⟨i⟩ := hne
-  let c : Ω[Γ(P, V₀)⁄ℤ] →ₗ[Γ(P, V₀)] Γ(P, V₀) :=
-    b.coord i ∘ₗ KaehlerDifferential.map ℤ Γ(Spec (.of k), U₀) Γ(P, V₀) Γ(P, V₀)
-  have hc : Function.Surjective c := by
-    intro a
-    obtain ⟨ω, hω⟩ := KaehlerDifferential.map_surjective ℤ Γ(Spec (.of k), U₀) Γ(P, V₀)
-      (a • b i)
-    refine ⟨ω, ?_⟩
-    simp [c, hω]
+  obtain ⟨V₀, hV₀, hxV₀, c, hc⟩ := exists_affineOpen_kaehlerDifferential_surjective π 0 x
   -- An affine open `W` of `U` around `x` mapping into `V₀`.
   have hxpre : (⟨x, hx⟩ : U) ∈ (U.ι ≫ F) ⁻¹ᵁ V₀ := hxV₀
   obtain ⟨W, hW, hxW, hWle⟩ :=
@@ -307,6 +407,85 @@ theorem absoluteFrobenius_not_smooth_on_open
     simp only [φ, Scheme.Hom.comp_appLE, CommRingCat.comp_apply]
     exact map_pow _ _ _
   rw [hφ, Derivation.leibniz_pow, ← Nat.cast_smul_eq_nsmul Γ(U, W), hp, zero_smul]
+
+/-- The pullback under the absolute Frobenius of `ℙ¹_k` of a closed point, that is, the
+scheme-theoretic fibre over it, is nonreduced. -/
+theorem absoluteFrobenius_fiber_not_isReduced [IsAlgClosed k]
+    (y : projectiveSpaceOverScheme 1 (Spec (.of k))) (hy : IsClosed {y}) :
+    ¬ IsReduced (((projectiveSpaceOverScheme 1 (Spec (.of k))).absoluteFrobenius p).fiber y) := by
+  let P := projectiveSpaceOverScheme 1 (Spec (.of k))
+  let π := projectiveSpaceOverSchemeProjection 1 (Spec (.of k))
+  let F := P.absoluteFrobenius p
+  have := projectiveSpaceOverSchemeProjection_smoothOfRelativeDimension 1 (Spec (.of k))
+  obtain ⟨V, hV, hyV, c, hc⟩ := exists_affineOpen_kaehlerDifferential_surjective π 0 y
+  let R := Γ(P, V)
+  let y' := hV.primeIdealOf ⟨y, hyV⟩
+  let q := y'.asIdeal
+  have hqmax : q.IsMaximal := hV.primeIdealOf_isMaximal_of_isClosed ⟨y, hyV⟩ hy
+  have hp : ((p : ℕ) : R) = 0 := natCast_eq_zero_of_hom_spec π V
+  -- A derivation `D` of `R` with `D a ∉ q`.
+  let D : Derivation ℤ R R := c.compDer (KaehlerDifferential.D ℤ R)
+  obtain ⟨a, ha⟩ : ∃ a, D a ∉ q := by
+    by_contra! h
+    obtain ⟨ω, hω⟩ := hc 1
+    have hcq : ∀ ω, c ω ∈ q := by
+      intro ω
+      have hω' : ω ∈ Submodule.span R (Set.range (KaehlerDifferential.D ℤ R)) := by
+        rw [KaehlerDifferential.span_range_derivation]; trivial
+      induction hω' using Submodule.span_induction with
+      | mem x hx =>
+        obtain ⟨b, rfl⟩ := hx
+        exact h b
+      | zero => rw [map_zero]; exact q.zero_mem
+      | add x y _ _ hx hy => rw [map_add]; exact q.add_mem hx hy
+      | smul r x _ hx => rw [map_smul, smul_eq_mul]; exact q.mul_mem_left r hx
+    exact hqmax.ne_top ((Ideal.eq_top_iff_one q).mpr (hω ▸ hcq ω))
+  -- The residue field at `q` is `k`, hence perfect.
+  have hclosed : IsClosed {y'} := (PrimeSpectrum.isClosed_singleton_iff_isMaximal y').mpr hqmax
+  have : Smooth π := SmoothOfRelativeDimension.smooth 1 π
+  let e : q.ResidueField ≃+* k := ((Spec.residueFieldIso (.of R) y').symm ≪≫
+      residueFieldIsoBase (hV.fromSpec ≫ π) y' hclosed).commRingCatIsoToRingEquiv
+  obtain ⟨μ, hμ⟩ : ∃ μ : R, a - μ ^ p ∈ q := by
+    obtain ⟨c₀, hc₀⟩ := surjective_frobenius k p (e (algebraMap R q.ResidueField a))
+    obtain ⟨μ, hμ⟩ := Ideal.algebraMap_residueField_surjective q (e.symm c₀)
+    refine ⟨μ, Ideal.algebraMap_residueField_eq_zero.mp ?_⟩
+    rw [map_sub, map_pow, hμ, ← map_pow, ← frobenius_def, hc₀, RingEquiv.symm_apply_apply,
+      sub_self]
+  have hDt : D (a - μ ^ p) ∉ q := by
+    rwa [map_sub, Derivation.leibniz_pow, ← Nat.cast_smul_eq_nsmul R, hp, zero_smul, sub_zero]
+  have ht := algebraMap_not_mem_maximalIdeal_sq_of_derivation q D _ hμ hDt
+  -- The fibre over `y` is the fibre of `Spec Γ(F⁻¹V) ⟶ Spec Γ(V)` over `q`.
+  let V' := F ⁻¹ᵁ V
+  have hV' : IsAffineOpen V' := hV
+  let φ := F.appLE V V' le_rfl
+  have hsq : IsPullback hV'.fromSpec (Spec.map φ) F hV.fromSpec :=
+    (IsOpenImmersion.isPullback _ _ _ _ (IsAffineOpen.SpecMap_appLE_fromSpec F hV hV' le_rfl).symm
+      (by rw [hV.opensRange_fromSpec, hV'.opensRange_fromSpec])).flip
+  have hpb := isPullback_fiberToSpecResidueField_of_isPullback hsq y'
+  have : IsOpenImmersion hV.fromSpec := hV.isOpenImmersion_fromSpec
+  have : IsIso (hV.fromSpec.residueFieldMap y') :=
+    instIsIsoCommRingCatResidueFieldMapOfIsOpenImmersion hV.fromSpec y'
+  have : IsIso (Spec.map (hV.fromSpec.residueFieldMap y')) :=
+    (Scheme.Spec.mapIso (asIso (hV.fromSpec.residueFieldMap y')).op).isIso_hom
+  have hy' : hV.fromSpec y' = y := hV.fromSpec_primeIdealOf ⟨y, hyV⟩
+  rw [← hy']
+  intro hred
+  have hred₁ : IsReduced ((Spec.map φ).fiber y') :=
+    @isReduced_of_isPullback_of_isIso _ _ _ _ _ _ _ _ hpb _ hred
+  let : Algebra R Γ(P, V') := φ.hom.toAlgebra
+  let E := Spec.fiberToSpecResidueFieldIso R Γ(P, V') y'
+  let e : Spec (.of (q.ResidueField ⊗[R] Γ(P, V'))) ≅ (Spec.map φ).fiber y' :=
+    (Arrow.leftFunc.mapIso E).symm
+  have hred₂ : IsReduced (Spec (.of (q.ResidueField ⊗[R] Γ(P, V')))) :=
+    isReduced_of_isOpenImmersion e.hom
+  have hφ : ∀ r : R, algebraMap R Γ(P, V') r = r ^ p := fun r => by
+    change (F.appLE V (F ⁻¹ᵁ V) le_rfl) r = r ^ p
+    rw [← Scheme.Hom.app_eq_appLE]
+    rfl
+  have hred₃ : IsReduced (q.ResidueField ⊗[R] Γ(P, V')) := (affine_isReduced_iff _).mp hred₂
+  let ρ : Γ(P, V') →+* R := RingHom.id R
+  exact not_isReduced_residueField_tensor_of_frobenius hp q ρ hφ (a - μ ^ p) (a - μ ^ p)
+    (hφ _) rfl hμ ht hred₃
 
 end Frobenius
 
