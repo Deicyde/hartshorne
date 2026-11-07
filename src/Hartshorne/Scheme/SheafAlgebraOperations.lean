@@ -455,6 +455,24 @@ lemma sheafification_mul_unique
     μ = S.sheafification.mul :=
   bilinear_ext_of_unit fun U a b => (hμ U a b).trans (S.sheafification_mul_unit U a b).symm
 
+/-- The sheafification of a commutative presheaf of algebras is commutative. -/
+lemma sheafification_mul_comm (h : ∀ U a b, S.mul.app U a b = S.mul.app U b a)
+    (U : (Opens X)ᵒᵖ) (a b : (sheafify P).val.obj U) :
+    S.sheafification.mul.app U a b = S.sheafification.mul.app U b a := by
+  obtain ⟨U⟩ := U
+  apply sheaf_section_ext (sheafify P)
+  intro x hx
+  obtain ⟨V₁, h₁, i₁, p₁, e₁⟩ := exists_unit_eq_map P a hx
+  obtain ⟨V₂, h₂, i₂, p₂, e₂⟩ := exists_unit_eq_map P b hx
+  let W := V₁ ⊓ V₂
+  let k : W ⟶ U := homOfLE inf_le_left ≫ i₁
+  refine ⟨W, ⟨h₁, h₂⟩, k, ?_⟩
+  obtain ⟨q₁, ha⟩ := map_eq_unit_of_le P e₁ (homOfLE inf_le_left) k
+  obtain ⟨q₂, hb⟩ := map_eq_unit_of_le P e₂ (homOfLE inf_le_right) k
+  show (sheafify P).val.map k.op (S.sheafMul.app _ a b) =
+    (sheafify P).val.map k.op (S.sheafMul.app _ b a)
+  rw [S.sheafMul.naturality, S.sheafMul.naturality, ha, hb, S.sheafMul_unit, S.sheafMul_unit, h]
+
 end PresheafAlgebra
 
 end Algebra

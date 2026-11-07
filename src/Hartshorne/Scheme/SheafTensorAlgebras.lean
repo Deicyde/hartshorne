@@ -12,13 +12,27 @@ import Hartshorne.Scheme.SheafAlgebraOperations
 
 Hartshorne, *Algebraic Geometry*, II, Exercise 5.16 (printed p. 127).
 
-Let `(X, 𝒪_X)` be a ringed space and `F` an `𝒪_X`-module. Following Hartshorne, the tensor
-algebra `T(F)` is the sheaf associated to the presheaf `U ↦ T(F(U))` of `𝒪_X`-algebras
-(`moduleSheafTensorAlgebra`, with its sheaf of `𝒪_X`-algebras structure
-`moduleSheafTensorAlgebraStructure`). Its homogeneous components are the tensor powers: the maps
-`T^r F → T(F)` (`moduleSheafTensorAlgebraι`) exhibit `T(F)` as the direct sum of the `T^r F`
-(`moduleSheafTensorAlgebra_isColimit`), and multiplication maps `T^r F × T^s F` to `T^{r+s} F`
-(`moduleSheafTensorAlgebra_mul_ι`).
+Let `(X, 𝒪_X)` be a ringed space and `F` an `𝒪_X`-module. Following Hartshorne, the tensor,
+symmetric and exterior algebras of `F` are the sheaves associated to the presheaves of
+`𝒪_X`-algebras `U ↦ T(F(U))`, `U ↦ S(F(U))`, `U ↦ ⋀(F(U))` (Mathlib's `TensorAlgebra`,
+`SymmetricAlgebra`, `ExteriorAlgebra` of the `𝒪_X(U)`-module `F(U)`):
+
+* `moduleSheafTensorAlgebra F`, `moduleSheafSymmetricAlgebra F`, `moduleSheafExteriorAlgebra F`,
+  with their sheaf of `𝒪_X`-algebras structures (`ModuleSheafAlgebra`)
+  `moduleSheafTensorAlgebraStructure F` etc., obtained by sheafifying the multiplications
+  (`moduleSheafTensorAlgebra_mul_unit`, `moduleSheafTensorAlgebra_one`, ...); `S(F)` is commutative
+  (`moduleSheafSymmetricAlgebra_mul_comm`).
+* Their homogeneous components are the powers of `Hartshorne.Scheme.SheafTensorOperations`: the
+  maps `T^r F → T(F)`, `S^r F → S(F)`, `⋀^r F → ⋀(F)` (`moduleSheafTensorAlgebraι` etc., the
+  sheafifications of the inclusions of the degree-`r` parts) exhibit each algebra as the direct
+  sum of its components (`moduleSheafTensorAlgebra_isColimit` etc.), and the product of
+  components of degrees `r` and `s` lies in the component of degree `r + s`
+  (`moduleSheafTensorAlgebra_mul_ι` etc.).
+
+For the symmetric algebra, `Sym^r M` is the quotient of `⨂^r M` by the permutation relations
+(`SymmetricPowerQuotient`), and `symmetricPower_directSum_bijective` shows that `S(M)` is the direct
+sum of the `Sym^r M`: the kernel of `T(M) → S(M)` is spanned by the permutation relations in each
+degree (`mem_symmetricKernel_of_algHom_eq_zero`, `toDirectSum_mem_rel`).
 -/
 
 universe u
@@ -415,8 +429,8 @@ theorem tensorPowerMul_mem_rel_right {i j : ℕ} (y : ⨂[A]^i M) {z : ⨂[A]^j 
 
 variable (A M) in
 /-- The submodule of the tensor algebra spanned by the images of the submodules
-`symmetricPowerRel A M r ⊆ ⨂^r M`; it is the kernel of `T(M) → S(M)`
-(`mem_symmetricKernel_iff`). -/
+`symmetricPowerRel A M r ⊆ ⨂^r M`. It is a two-sided ideal containing the kernel of
+`T(M) → S(M)` (`mem_symmetricKernel_of_algHom_eq_zero`). -/
 noncomputable def symmetricKernel : Submodule A (TensorAlgebra A M) :=
   Submodule.span A {t | ∃ (n : ℕ) (y : ⨂[A]^n M), y ∈ symmetricPowerRel A M n ∧
     t = TensorPower.toTensorAlgebra y}
@@ -877,6 +891,14 @@ of the presheaf of `𝒪_X`-algebras `U ↦ S(F(U))`. -/
 noncomputable def moduleSheafSymmetricAlgebraStructure :
     ModuleSheafAlgebra (moduleSheafSymmetricAlgebra F) :=
   (moduleSheafSymmetricAlgebraPresheafAlgebra F).sheafification
+
+/-- `S(F)` is a sheaf of commutative `𝒪_X`-algebras. -/
+theorem moduleSheafSymmetricAlgebra_mul_comm (U : (Opens X)ᵒᵖ)
+    (a b : (moduleSheafSymmetricAlgebra F).val.obj U) :
+    (moduleSheafSymmetricAlgebraStructure F).mul.app U a b =
+      (moduleSheafSymmetricAlgebraStructure F).mul.app U b a :=
+  (moduleSheafSymmetricAlgebraPresheafAlgebra F).sheafification_mul_comm
+    (moduleSheafSymmetricAlgebraPresheafAlgebra_mul_comm F) U a b
 
 /-- The canonical map `U ↦ S(F(U))` to `S(F)` is multiplicative. -/
 theorem moduleSheafSymmetricAlgebra_mul_unit (U : (Opens X)ᵒᵖ)

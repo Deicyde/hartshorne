@@ -42,7 +42,8 @@ presheaves of modules commutes with restriction to `Y` (`sheafificationRestrictH
 isomorphism), deduced from Mathlib's compatibility of sheafification with the cocontinuous functor
 `f.opensFunctor`.
 
-The sheaves of graded algebras `T(F)`, `S(F)`, `⋀(F)` themselves are not constructed here.
+The sheaves of graded algebras `T(F)`, `S(F)`, `⋀(F)`, whose homogeneous components are these
+powers, are constructed in `Hartshorne.Scheme.SheafTensorAlgebras`.
 -/
 
 universe u
