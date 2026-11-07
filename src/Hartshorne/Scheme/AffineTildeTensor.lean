@@ -255,7 +255,7 @@ theorem affineTildeTensorIso_hom_app_tmul (U : (Spec R).Opens) (m : M) (n : N) :
 
 set_option backward.isDefEq.respectTransparency false in
 /-- Morphisms out of `P̃` agree if they agree on the global sections coming from `P`. -/
-private lemma tildeHom_ext {P : ModuleCat.{u} R} {F : (Spec R).Modules} {f f' : tilde P ⟶ F}
+lemma tildeHom_ext {P : ModuleCat.{u} R} {F : (Spec R).Modules} {f f' : tilde P ⟶ F}
     (h : ∀ x : P, f.val.app (op ⊤) ((tilde.toOpen P ⊤).hom x) =
       f'.val.app (op ⊤) ((tilde.toOpen P ⊤).hom x)) : f = f' := by
   apply (tilde.adjunction.homEquiv P F).injective
@@ -264,7 +264,8 @@ private lemma tildeHom_ext {P : ModuleCat.{u} R} {F : (Spec R).Modules} {f f' : 
   exact h x
 
 set_option backward.isDefEq.respectTransparency false in
-private lemma tilde_map_toOpen_apply {P Q : ModuleCat.{u} R} (k : P ⟶ Q) (U : (Spec R).Opens)
+/-- The morphism `k̃ : P̃ ⟶ Q̃` sends the section of `P̃` given by `x ∈ P` to that given by `k x`. -/
+lemma tilde_map_toOpen_apply {P Q : ModuleCat.{u} R} (k : P ⟶ Q) (U : (Spec R).Opens)
     (x : P) :
     (tilde.map k).val.app (op U) ((tilde.toOpen P U).hom x) = (tilde.toOpen Q U).hom (k.hom x) :=
   congrArg (fun l => l.hom x) (tilde.toOpen_map_app k U)

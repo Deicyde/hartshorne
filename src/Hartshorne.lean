@@ -410,6 +410,8 @@ import Hartshorne.Scheme.ModuleSheafSupport
 import Hartshorne.Cohomology.AcyclicResolutionComparison
 import Hartshorne.Scheme.ProjTailIsomorphism
 import Hartshorne.Scheme.AffineTildeTensor
+import Hartshorne.RingedSpace.ModuleSheafMonoidal
+import Hartshorne.Scheme.AffineTildeMonoidal
 import Hartshorne.Scheme.QuasiCompactImageClosed
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsQuasicoherent
 import Hartshorne.Scheme.ReducedInducedSmallest
