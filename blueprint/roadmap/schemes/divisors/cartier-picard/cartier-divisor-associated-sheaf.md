@@ -2,6 +2,9 @@
 article_id: af_6d3146e9561c402339584668
 declaration: definition
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.totalQuotientModule AlgebraicGeometry.Scheme.CartierDivisor.submodule AlgebraicGeometry.Scheme.CartierDivisor.sheaf AlgebraicGeometry.Scheme.CartierDivisor.sheafι AlgebraicGeometry.Scheme.CartierDivisor.isInvertible_sheaf AlgebraicGeometry.Scheme.InvertibleTotalQuotientSubmodule AlgebraicGeometry.Scheme.CartierDivisor.toInvertibleSubmodule AlgebraicGeometry.Scheme.CartierDivisor.toInvertibleSubmodule_bijective AlgebraicGeometry.Scheme.cartierDivisorEquivInvertibleSubmodule
 ---
 
 # The invertible sheaf associated to a Cartier divisor
