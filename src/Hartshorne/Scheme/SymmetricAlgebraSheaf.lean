@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib.Data.Sym.Card
 import Mathlib.Data.Fin.Tuple.Sort
 import Mathlib.RingTheory.MvPolynomial.Basic
+import Mathlib.LinearAlgebra.SymmetricAlgebra.Basis
 import Mathlib.Algebra.Category.ModuleCat.Sheaf.LocallyFree
 import Hartshorne.Scheme.SheafTensorAlgebras
 import Hartshorne.RingedSpace.PicardGroup
@@ -207,6 +208,38 @@ theorem symmetricPowerOneEquiv_map {B N : Type u} [CommRing B] [AddCommGroup N] 
         symmetricPowerMap_tprod, symmetricPowerOneEquiv_tprod]) x
 
 end DegreeOne
+
+section PolynomialNaturality
+
+variable {A B : Type u} [CommRing A] [CommRing B] {M N : Type u} [AddCommGroup M] [Module A M]
+  [AddCommGroup N] [Module B N] {ι : Type u}
+
+/-- The identification of the symmetric algebra of a free module with a polynomial algebra is
+compatible with a semilinear map sending a basis to a basis. -/
+theorem equivMvPolynomial_symm_map (σ : A →+* B) (g : M →ₛₗ[σ] N) (bM : Module.Basis ι A M)
+    (bN : Module.Basis ι B N) (hg : ∀ i, g (bM i) = bN i) (p : MvPolynomial ι A) :
+    (SymmetricAlgebra.equivMvPolynomial bN).symm (MvPolynomial.map σ p) =
+      symmetricAlgebraRingHom σ g ((SymmetricAlgebra.equivMvPolynomial bM).symm p) := by
+  let φ₁ := (SymmetricAlgebra.equivMvPolynomial bN).symm.toRingEquiv.toRingHom.comp
+    (MvPolynomial.map (σ := ι) σ)
+  let φ₂ := (symmetricAlgebraRingHom σ g).comp
+    (SymmetricAlgebra.equivMvPolynomial bM).symm.toRingEquiv.toRingHom
+  have h : φ₁ = φ₂ := by
+    refine MvPolynomial.ringHom_ext (fun r => ?_) (fun i => ?_)
+    · simp only [φ₁, φ₂, RingHom.coe_comp, Function.comp_apply, MvPolynomial.map_C]
+      rw [← MvPolynomial.algebraMap_eq, ← MvPolynomial.algebraMap_eq]
+      change (SymmetricAlgebra.equivMvPolynomial bN).symm (algebraMap _ _ (σ r)) =
+        symmetricAlgebraRingHom σ g ((SymmetricAlgebra.equivMvPolynomial bM).symm
+          (algebraMap _ _ r))
+      rw [AlgEquiv.commutes, AlgEquiv.commutes, symmetricAlgebraRingHom_algebraMap]
+    · simp only [φ₁, φ₂, RingHom.coe_comp, Function.comp_apply, MvPolynomial.map_X]
+      change (SymmetricAlgebra.equivMvPolynomial bN).symm (MvPolynomial.X i) =
+        symmetricAlgebraRingHom σ g ((SymmetricAlgebra.equivMvPolynomial bM).symm (MvPolynomial.X i))
+      rw [SymmetricAlgebra.equivMvPolynomial_symm_X, SymmetricAlgebra.equivMvPolynomial_symm_X,
+        symmetricAlgebraRingHom_ι, hg]
+  exact RingHom.congr_fun h p
+
+end PolynomialNaturality
 
 end SheafTensorOperations
 
@@ -637,6 +670,148 @@ theorem IsFiniteLocallyFree.isQuasicoherent_moduleSheafSymmetricAlgebra
 
 end LocallyFree
 
+
 end Ringed
+
+section Polynomial
+
+open SheafTensorOperations SheafAlgebraOperations
+
+variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+
+
+variable (ι : Type u)
+
+/-- The semilinear map `A[T_i] → B[T_i]` induced by a ring map `A → B` on coefficients. -/
+noncomputable def mvPolynomialMapₛₗ {A B : Type u} [CommRing A] [CommRing B] (σ : A →+* B) :
+    MvPolynomial ι A →ₛₗ[σ] MvPolynomial ι B where
+  toFun := MvPolynomial.map σ
+  map_add' := map_add _
+  map_smul' a p := by
+    rw [MvPolynomial.smul_eq_C_mul, map_mul, MvPolynomial.map_C, ← MvPolynomial.smul_eq_C_mul]
+
+variable (R) in
+/-- The presheaf of `𝒪_X`-algebras `U ↦ 𝒪_X(U)[T_i]_{i ∈ ι}`, as a presheaf of modules. -/
+noncomputable def polynomialPresheaf : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat) :=
+  presheafOfSemilinear
+    (fun U => ModuleCat.of _ (MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U)))
+    (fun i => mvPolynomialMapₛₗ ι ((R.obj ⋙ forget₂ CommRingCat RingCat).map i).hom)
+    (fun U p => by
+      change MvPolynomial.map _ p = p
+      rw [show ((R.obj ⋙ forget₂ CommRingCat RingCat).map (𝟙 U)).hom = RingHom.id _ from
+        RingHom.ext (ringMap_id_apply U), MvPolynomial.map_id])
+    (fun i j p => by
+      change MvPolynomial.map _ p = MvPolynomial.map _ (MvPolynomial.map _ p)
+      rw [MvPolynomial.map_map]
+      exact congrArg (fun φ => MvPolynomial.map φ p) (RingHom.ext (ringMap_comp_apply (R := R) i j)))
+
+variable (R) in
+/-- The presheaf of `𝒪_X`-algebras `U ↦ 𝒪_X(U)[T_i]_{i ∈ ι}`. -/
+noncomputable def polynomialPresheafAlgebra : PresheafAlgebra (polynomialPresheaf R ι) where
+  mul :=
+    { app U := SheafTensorOperations.algebraMulBilinear _
+        (MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U))
+      naturality i a b := map_mul (MvPolynomial.map ((R.obj ⋙ forget₂ CommRingCat RingCat).map i).hom)
+        (show MvPolynomial ι _ from a) (show MvPolynomial ι _ from b) }
+  one U := (1 : MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U))
+  map_one i := map_one (MvPolynomial.map ((R.obj ⋙ forget₂ CommRingCat RingCat).map i).hom)
+  mul_assoc U a b c := _root_.mul_assoc
+    (G := MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U)) a b c
+  one_mul U a := _root_.one_mul
+    (M := MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U)) a
+  mul_one U a := _root_.mul_one
+    (M := MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U)) a
+
+variable (R) in
+/-- **The polynomial algebra sheaf** `𝒪_X[T_i]_{i ∈ ι}`, the sheafification of
+`U ↦ 𝒪_X(U)[T_i]`; its sheaf of `𝒪_X`-algebras structure is `polynomialAlgebraSheafStructure`. -/
+noncomputable def polynomialAlgebraSheaf : SheafOfModules.{u} (ringCatSheafOf R) :=
+  sheafify (polynomialPresheaf R ι)
+
+variable (R) in
+/-- The sheaf of `𝒪_X`-algebras structure of `𝒪_X[T_i]`. -/
+noncomputable def polynomialAlgebraSheafStructure : ModuleSheafAlgebra (polynomialAlgebraSheaf R ι) :=
+  (polynomialPresheafAlgebra R ι).sheafification
+
+variable {ι} [Fintype ι] {E : SheafOfModules.{u} (ringCatSheafOf R)}
+  {e : ι → E.val.obj (op ⊤)}
+
+/-- The restrictions `e_i|_V` of global sections of `E` to an open `V`. -/
+noncomputable def globalSectionsRestrict (e : ι → E.val.obj (op ⊤)) (V : (Opens X)ᵒᵖ) :
+    ι → E.val.obj V :=
+  fun i => E.val.map (homOfLE (le_top : V.unop ≤ ⊤)).op (e i)
+
+/-- The basis of `E(V)` given by the restrictions of a global frame `e`. -/
+noncomputable def frameBasis (he : Ringed.IsLocalFrame E ⊤ e) (V : (Opens X)ᵒᵖ) :
+    Module.Basis ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj V) (E.val.obj V) :=
+  Module.Basis.ofEquivFun (LinearEquiv.ofBijective
+    (Fintype.linearCombination ((R.obj ⋙ forget₂ CommRingCat RingCat).obj V)
+      (globalSectionsRestrict e V)) (he V.unop le_top)).symm
+
+theorem frameBasis_apply (he : Ringed.IsLocalFrame E ⊤ e) (V : (Opens X)ᵒᵖ) (i : ι) :
+    frameBasis he V i = globalSectionsRestrict e V i := by
+  classical
+  exact (congrFun (Module.Basis.coe_ofEquivFun _) i).trans
+    ((Fintype.linearCombination_apply_single _ _ i 1).trans (one_smul _ _))
+
+omit [Fintype ι] in
+theorem restrict_globalSectionsRestrict {V W : (Opens X)ᵒᵖ} (f : V ⟶ W) (i : ι) :
+    E.val.map f (globalSectionsRestrict e V i) = globalSectionsRestrict e W i := by
+  simp only [globalSectionsRestrict]
+  rw [← PresheafOfModules.map_comp_apply]
+  exact PresheafOfModules.congr_map_apply _ (Subsingleton.elim _ _) _
+
+theorem restrict_frameBasis (he : Ringed.IsLocalFrame E ⊤ e) {V W : (Opens X)ᵒᵖ} (f : V ⟶ W)
+    (i : ι) : E.val.restrictₛₗ f (frameBasis he V i) = frameBasis he W i := by
+  rw [frameBasis_apply, frameBasis_apply]
+  exact restrict_globalSectionsRestrict f i
+
+/-- Over every open `V`, the frame `e|_V` identifies `𝒪_X(V)[T_i]` with the symmetric algebra
+`S(E(V))`, `T_i ↦ e_i|_V`. -/
+noncomputable def polynomialPresheafIso (he : Ringed.IsLocalFrame E ⊤ e) :
+    polynomialPresheaf R ι ≅ moduleSheafSymmetricAlgebraPresheaf E :=
+  PresheafOfModules.isoMk
+    (fun V => (SymmetricAlgebra.equivMvPolynomial (frameBasis he V)).symm.toLinearEquiv.toModuleIso)
+    (fun _ _ f => ModuleCat.hom_ext (LinearMap.ext fun p =>
+      SheafTensorOperations.equivMvPolynomial_symm_map _ (E.val.restrictₛₗ f) _ _
+        (restrict_frameBasis he f) p))
+
+/-- **The symmetric algebra of a free module is a polynomial algebra.** If `E` has a global
+frame `e = (e_i)_{i ∈ ι}` (that is, `E ≅ 𝒪_X^{⊕ ι}`), then `𝒪_X[T_i]_{i ∈ ι} ≅ S(E)`, `T_i ↦ e_i`,
+as sheaves of `𝒪_X`-algebras (`polynomialAlgebraSymmetricAlgebraIso_mul`,
+`polynomialAlgebraSymmetricAlgebraIso_one`, `polynomialAlgebraSymmetricAlgebraIso_X`). -/
+noncomputable def polynomialAlgebraSymmetricAlgebraIso (he : Ringed.IsLocalFrame E ⊤ e) :
+    polynomialAlgebraSheaf R ι ≅ moduleSheafSymmetricAlgebra E :=
+  (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj)).mapIso (polynomialPresheafIso he)
+
+theorem polynomialAlgebraSymmetricAlgebraIso_mul (he : Ringed.IsLocalFrame E ⊤ e) (U : (Opens X)ᵒᵖ)
+    (a b : (polynomialAlgebraSheaf R ι).val.obj U) :
+    (polynomialAlgebraSymmetricAlgebraIso he).hom.val.app U
+        ((polynomialAlgebraSheafStructure R ι).mul.app U a b) =
+      (moduleSheafSymmetricAlgebraStructure E).mul.app U
+        ((polynomialAlgebraSymmetricAlgebraIso he).hom.val.app U a)
+        ((polynomialAlgebraSymmetricAlgebraIso he).hom.val.app U b) :=
+  PresheafAlgebra.sheafifyMap_mul _ _ _
+    (fun U (a b : MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U)) =>
+      map_mul (SymmetricAlgebra.equivMvPolynomial (frameBasis he U)).symm a b) U a b
+
+theorem polynomialAlgebraSymmetricAlgebraIso_one (he : Ringed.IsLocalFrame E ⊤ e) (U : (Opens X)ᵒᵖ) :
+    (polynomialAlgebraSymmetricAlgebraIso he).hom.val.app U ((polynomialAlgebraSheafStructure R ι).one U) =
+      (moduleSheafSymmetricAlgebraStructure E).one U :=
+  PresheafAlgebra.sheafifyMap_one _ _ _
+    (fun U => map_one (SymmetricAlgebra.equivMvPolynomial (frameBasis he U)).symm) U
+
+/-- The isomorphism `𝒪_X[T_i] ≅ S(E)` sends the variable `T_i` to the frame section `e_i`. -/
+theorem polynomialAlgebraSymmetricAlgebraIso_X (he : Ringed.IsLocalFrame E ⊤ e) (V : Opens X) (i : ι) :
+    (polynomialAlgebraSymmetricAlgebraIso he).hom.val.app (op V)
+        ((sheafifyUnit (polynomialPresheaf R ι)).app (op V)
+          (MvPolynomial.X i : MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op V)))) =
+      (sheafifyUnit (moduleSheafSymmetricAlgebraPresheaf E)).app (op V)
+        (SymmetricAlgebra.ι _ _ (globalSectionsRestrict e (op V) i)) :=
+  (sheafifyMap_unit _ (op V) _).trans (congrArg _
+    ((SymmetricAlgebra.equivMvPolynomial_symm_X (frameBasis he (op V)) i).trans
+      (congrArg _ (frameBasis_apply he (op V) i))))
+
+end Polynomial
 
 end Hartshorne
