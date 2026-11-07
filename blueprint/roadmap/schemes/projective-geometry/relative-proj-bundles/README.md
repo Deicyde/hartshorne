@@ -5,6 +5,7 @@ article_id: af_a994ea66df9c86712f3c491b
 # Relative Proj and projective bundles
 
 - [Relative Proj](relative-proj.md)
+- [Twisting sheaves under localization in degree zero](proj-twist-localization.md)
 - [The relative twisting sheaf](relative-proj-twisting-sheaf.md)
 - [Twisting a graded algebra by a line bundle](relative-proj-line-bundle-twist.md)
 - [Relative Proj is proper](relative-proj-proper.md)

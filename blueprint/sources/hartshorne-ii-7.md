@@ -63,6 +63,11 @@ examples and tests rather than separate theorem targets.
   tautological quotient `pi^* E -> O(1)` and represents invertible quotients
   of pullbacks of `E`, modulo isomorphism of the quotient line bundle.
 
+The relative Proj construction uses two results Hartshorne does not state. The roadmap
+records them as project bridges: gluing sheaves of modules on an open cover (the module form
+of Exercise II.1.22), and the compatibility of the twisting sheaves `O(n)` of an affine Proj
+with localization at an element of degree zero, including compatibility with composites.
+
 The convention is the quotient convention. A point of `P(E)` is an invertible
 quotient of `E`, and the tautological map is `pi^* E -> O(1)`. Replacing `E`
 by its dual silently reverses Proposition 7.11, Proposition 7.12, and the

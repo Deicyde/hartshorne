@@ -2,12 +2,13 @@
 
 ## Status
 
-Not recorded: the statement needs the gluing of sheaves of modules along the affine
+Not recorded. The statement needs the gluing of sheaves of modules along the affine
 pieces of the relative Proj, which neither the pinned Mathlib nor the project has
 (Mathlib defines `Pseudofunctor.IsStack` but proves no stack instance for
 `SheafOfModules`; the project's Exercise II.1.22 gluing handles sheaves valued in a
-fixed category only). Every other ingredient is now built, sorry-free, in two
-modules imported by the library root.
+fixed category only). The roadmap revision below made that gluing its own article,
+now under this leaf's "Depends on"; this leaf waits for it. Every other ingredient is
+built, sorry-free, in two modules imported by the library root.
 
 ## Checked declarations
 
@@ -23,8 +24,10 @@ for a graded map `φ : A → B` with `B₊ ≤ φ(A₊)B` and `f = Proj.map φ`:
   with the pointwise formula `twistRestrictHom_app_apply` (rfl).
 - For `B = A[1/s]`, `s ∈ A₀` (`[IsLocalization.Away s B]`, `φ = algebraMap`):
   `twistFiber_injective`, `twistFiber_surjective`, `fiberEquiv`,
-  `isIso_twistRestrictHom`, `twistRestrictIso`. This is the article's unlinked
-  "Proof depends on" bullet (twisting sheaves under localization on degree zero).
+  `isIso_twistRestrictHom`, `twistRestrictIso`. These are the candidate
+  declarations of the split-off article "Twisting sheaves under localization in degree
+  zero" (`af_71347b8169aa158ac22ab154`), now under this leaf's "Proof depends on"; that
+  article's note records them, and this leaf does not.
 
 `Hartshorne.Scheme.RelativeProjTwist` (namespace
 `Hartshorne.QuasiCoherentGradedAlgebra`), for `S` and `n : ℤ`:
@@ -45,53 +48,49 @@ spelling, even with an instance stated for it.
 
 ## Remaining goal
 
-A gluing theorem for sheaves of modules (proposed below). Applied to
-`F = S.projFunctor`, `ι = S.projι`, `M U = twistingSheaf S 1 U`, `θ = twistTransition`
-it yields `𝒪_{Proj_X S}(1)` with `(projι U)^* 𝒪(1) ≅ twistingSheaf S 1 U`.
-Invertibility is local: transport `isInvertible_twistingSheaf` along these
-isomorphisms (the `projι U` cover `relProj`). The compatibility over an affine open
-`U ⊆ X` is the gluing isomorphism composed with `restrictIso`, via
-`restrictFunctorComp` along `(Proj_X S)|_U ≅ Proj S(U)`.
+Prove the gluing article "Gluing sheaves of modules along open immersions"
+(`af_cc5b776dbee778ca137f2f01`), stated in Hartshorne's open-cover form. Then build the
+overlap isomorphisms on `π⁻¹(U ∩ V)` from `twistTransition` (the descent data are
+indexed by basic-open arrows of `X.AffineZariskiSite`, not by pairwise intersections;
+glue the transition isomorphisms over basic opens lying in both `U` and `V`), check
+the cocycle condition locally, and apply the gluing to the cover of `Proj_X S` by the
+`projι U` with `M U = twistingSheaf S 1 U`. That yields `𝒪_{Proj_X S}(1)` with
+`(projι U)^* 𝒪(1) ≅ twistingSheaf S 1 U`. Invertibility is local: transport
+`isInvertible_twistingSheaf` along these isomorphisms (the `projι U` cover `relProj`).
+The compatibility over an affine open `U ⊆ X` is the gluing isomorphism composed with
+`restrictIso`, via `restrictFunctorComp` along `(Proj_X S)|_U ≅ Proj S(U)`. If proving
+a thin, locally directed variant of the gluing directly is cheaper, the gluing
+article's note allows it as a helper.
 
-## Split proposal (Roadmap return)
+To record on this leaf once proved: the glued sheaf, its restriction isomorphisms,
+invertibility, and `Hartshorne.QuasiCoherentGradedAlgebra.twistTransition`,
+`Hartshorne.QuasiCoherentGradedAlgebra.twistTransitionHom_comp`,
+`Hartshorne.QuasiCoherentGradedAlgebra.twistTransitionHom_id`,
+`Hartshorne.QuasiCoherentGradedAlgebra.isInvertible_twistingSheaf`.
 
-1. New article "Gluing sheaves of modules along open immersions" (theorem,
-   `origin: bridged`: Exercise II.1.22 glues sheaves valued in one fixed category, not
-   modules over a sheaf of rings). Statement: for a scheme `Y`, a thin index category
-   `I`, a functor `F : I ⥤ Sch` with open immersions `ι_i : F(i) → Y` compatible with
-   `F`, jointly surjective and locally directed (a point of `ι_i(F i) ∩ ι_j(F j)` lies
-   in `ι_k(F k)` for some `k → i`, `k → j`), `𝒪_{F(i)}`-modules `M_i` and isomorphisms
-   `θ_f : (F f)^* M_j ≅ M_i` satisfying the identity and cocycle conditions, there is
-   an `𝒪_Y`-module `M` with isomorphisms `ι_i^* M ≅ M_i` compatible with the `θ_f`,
-   unique up to unique isomorphism. Source: Hartshorne II, Exercise 1.22 (p. 69),
-   bridged to modules. Depends on: Gluing sheaves on an open cover
-   (`schemes/sheaf-functors/gluing-sheaves.md`), Sheaves of modules. No Lean yet.
-   Other consumers: `cohomology/cohomology-exercises/picard-h1-units.md` ("cocycles
-   glue invertible sheaves") and `schemes/coherent-sheaves/module-ideal-sheaf-data.md`
-   ("tilde sheaves glue"). Suggested route: `M = lim_{i ∈ Iᵒᵖ} (ι_i)_* M_i` in
-   `Y.Modules` (limits exist and are sectionwise; the transition maps come from `θ_f`
-   through `restrictAdjunction`); show `ι_i^* M ⟶ M_i` is an isomorphism on sections
-   using local directedness and the sheaf property of each `M_j`.
-2. New article "Twisting sheaves under localization on degree zero" (theorem): for
-   `B = A[1/s]` with `s ∈ A₀`, `𝒪_{Proj A}(n)|_{Proj B} ≅ 𝒪_{Proj B}(n)`, functorial
-   in composites of such localizations. Source: Hartshorne II.7 pp. 160–161 (used
-   implicitly in the relative Proj construction); Stacks 01NM. Depends on: Twisting
-   sheaves are invertible (`schemes/projective-sheaves/proj-twisting-sheaf.md`) and
-   `schemes/projective-spectrum/proj-partial-map.md`; Relative Proj at most under
-   Proof depends on (only for the open-immersion lemma of its module). Records
-   `Hartshorne.ProjTwistMap.twistFiber_comp`, `Hartshorne.ProjTwistMap.twistRestrictHom`,
-   `Hartshorne.ProjTwistMap.isIso_twistRestrictHom`,
-   `Hartshorne.ProjTwistMap.twistRestrictIso`.
-   Relation to the existing unformalized article
-   `schemes/projective-sheaves/proj-twist-pullback.md` (II.5.12(c),
-   `f^* 𝒪(n) ≅ 𝒪(n)|_U`): when `B = A[1/s]` and both rings are generated in degree
-   one, that isomorphism coincides with the one here. (2) stays a separate article
-   because it needs no degree-one hypothesis and records functoriality in composites
-   (the cocycle condition used for gluing), which II.5.12(c) does not state. Its
-   morphism `twistHom` (`𝒪_{Proj A}(n) ⟶ f_* 𝒪_{Proj B}(n)` for any graded map) is an
-   ingredient for proj-twist-pullback; alternatively (2) can be that article's Proof
-   depends on.
-3. Edges: this leaf Depends on (1) and Proof-depends on (2), replacing the unlinked
-   bullet. The leaf would then record the glued sheaf, its restriction isomorphisms,
-   invertibility, and `Hartshorne.QuasiCoherentGradedAlgebra.twistTransition`,
-   `twistTransitionHom_comp`, `twistTransitionHom_id`, `isInvertible_twistingSheaf`.
+## Split proposal (resolved by the roadmap revision)
+
+The Roadmap return proposed splitting off two articles. The roadmap revision added
+them, with these differences from the proposal:
+
+1. "Gluing sheaves of modules along open immersions"
+   (`schemes/coherent-sheaves/module-gluing.md`, `af_cc5b776dbee778ca137f2f01`,
+   theorem, `origin: bridged` from Exercise II.1.22, p. 69). It is stated in
+   Hartshorne's open-cover form for a ringed space (`φ_ij` on `U_ij`, `φ_ii = id`,
+   `φ_ik = φ_jk ∘ φ_ij` on `U_ijk`), not in the proposed thin-category form, so that it
+   also serves the Picard and ideal-sheaf consumers. Depends on Gluing sheaves on an
+   open cover and Sheaves of modules. It is linked from this leaf's "Depends on" and
+   from the "Proof depends on" of `cohomology/cohomology-exercises/picard-h1-units.md`.
+   `schemes/coherent-sheaves/module-ideal-sheaf-data.md` lists it under "Informally uses"
+   only: ideal subsheaves of the structure sheaf can be glued directly, and a proof edge
+   would hold that article, which lies on the coherent-extension chain, until the module
+   gluing is formalized.
+2. "Twisting sheaves under localization in degree zero"
+   (`schemes/projective-geometry/relative-proj-bundles/proj-twist-localization.md`,
+   `af_71347b8169aa158ac22ab154`, theorem, `origin: bridged`, sources Hartshorne II.7
+   pp. 160–161 and Stacks 01NM). Depends on Twisting sheaves are invertible and The
+   partial Proj morphism of a graded map; Proof depends on Relative Proj (for
+   `isOpenImmersion_projMap`). It replaced this leaf's unlinked "Proof depends on"
+   bullet. `schemes/projective-sheaves/proj-twist-pullback.md` is unchanged; the new
+   article's prose and note record the relation.
+3. This leaf's statement is unchanged.

@@ -115,6 +115,10 @@ original stalk.
 | 1.19(a,b) | Closed and open extension by zero and their stalks | 68 | Example 5.2.3, p. 111; formal schemes, p. 196 |
 | 1.22 | Compatible sheaves on an open cover glue uniquely | 69 | Reduced induced subschemes, p. 86; gluing morphisms, p. 88 |
 
+Exercise 1.22 glues sheaves on a topological space. The roadmap bridges it to sheaves of
+modules over a sheaf of rings, which the relative Proj construction (II.7, pp. 160–161)
+needs to glue twisting sheaves.
+
 Exercise 1.19(b) supplies the open-extension construction, its restriction and
 stalk calculations, and its uniqueness claim. The roadmap makes the precise
 categorical reading explicit: a candidate sheaf carries a fixed restriction
