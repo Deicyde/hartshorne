@@ -220,6 +220,11 @@ def toChartΓ : ModuleCat.of (Away 𝒜 f) (HomogeneousLocalizedModule 𝒜 ℳ 
     chartSections 𝒜 ℳ f_deg hd ⊤ :=
   ModuleCat.ofHom (Y := chartSections 𝒜 ℳ f_deg hd ⊤) (toChartΓLinear 𝒜 ℳ f_deg hd)
 
+@[simp]
+theorem toChartΓ_apply (m : HomogeneousLocalizedModule 𝒜 ℳ (Submonoid.powers f)) :
+    toChartΓ 𝒜 ℳ f_deg hd m = toChartSection 𝒜 ℳ f_deg hd m :=
+  rfl
+
 variable {𝒜 ℳ f_deg hd} in
 theorem mem_image_of_mem {U : (Spec (.of (Away 𝒜 f))).Opens} {y : Spec (.of (Away 𝒜 f))}
     (hy : y ∈ U) : (Proj.awayι 𝒜 f f_deg hd).base y ∈ (Proj.awayι 𝒜 f f_deg hd) ''ᵁ U :=
@@ -252,6 +257,168 @@ theorem chartStalkEval_bijective (y : Spec (.of (Away 𝒜 f))) :
   exact Function.Bijective.comp
     ⟨stalkToFiber_injective 𝒜 ℳ _, stalkToFiber_surjective 𝒜 ℳ _⟩
     (ConcreteCategory.bijective_of_isIso _)
+
+variable {𝒜 ℳ f_deg hd} in
+theorem chartEval_res {U V : (Spec (.of (Away 𝒜 f))).Opens} (i : V ⟶ U)
+    (s : chartSections 𝒜 ℳ f_deg hd U) (x : Proj 𝒜)
+    (hx : x ∈ (Proj.awayι 𝒜 f f_deg hd) ''ᵁ V) :
+    chartEval ((modulesSpecToSheaf.obj (chartModule 𝒜 ℳ f_deg hd)).presheaf.map i.op s) x hx =
+      chartEval s x (Scheme.Hom.image_mono _ i.le hx) :=
+  rfl
+
+variable (f) in
+/-- `M_(f)` as a module over the ring `S_(f)`, bundled. -/
+abbrev awayModule : ModuleCat (CommRingCat.of (Away 𝒜 f)) :=
+  ModuleCat.of (Away 𝒜 f) (HomogeneousLocalizedModule 𝒜 ℳ (Submonoid.powers f))
+
+/-- The morphism `(M_(f))~ → M~|_{D₊(f)}` corresponding to `toChartΓ` under the adjunction
+between `~` and global sections. -/
+def fromTildeChart : tilde (awayModule 𝒜 ℳ f) ⟶ chartModule 𝒜 ℳ f_deg hd :=
+  tilde.map (toChartΓ 𝒜 ℳ f_deg hd) ≫
+    Scheme.Modules.fromTildeΓ (R := CommRingCat.of (Away 𝒜 f)) (chartModule 𝒜 ℳ f_deg hd)
+
+theorem fromTildeChart_app_toOpen (U : (Spec (.of (Away 𝒜 f))).Opens)
+    (m : HomogeneousLocalizedModule 𝒜 ℳ (Submonoid.powers f)) :
+    (modulesSpecToSheaf.map (fromTildeChart 𝒜 ℳ f_deg hd)).1.app (op U)
+        (tilde.toOpen (awayModule 𝒜 ℳ f) U m) =
+      (modulesSpecToSheaf.obj (chartModule 𝒜 ℳ f_deg hd)).presheaf.map (homOfLE le_top).op
+        (toChartΓ 𝒜 ℳ f_deg hd m) := by
+  have h1 := ConcreteCategory.congr_hom (tilde.toOpen_map_app (toChartΓ 𝒜 ℳ f_deg hd) U) m
+  have h2 := ConcreteCategory.congr_hom
+    (Scheme.Modules.toOpen_fromTildeΓ_app (R := CommRingCat.of (Away 𝒜 f))
+      (chartModule 𝒜 ℳ f_deg hd) U) (toChartΓ 𝒜 ℳ f_deg hd m)
+  simp only [ConcreteCategory.comp_apply] at h1 h2
+  rw [fromTildeChart, Functor.map_comp]
+  change (modulesSpecToSheaf.map (Scheme.Modules.fromTildeΓ (R := CommRingCat.of (Away 𝒜 f))
+    (chartModule 𝒜 ℳ f_deg hd))).1.app (op U) ((modulesSpecToSheaf.map
+      (tilde.map (toChartΓ 𝒜 ℳ f_deg hd))).1.app (op U) (tilde.toOpen _ U m)) = _
+  rw [h1, h2]
+
+/-- Mathlib's `S_(f)`-module structure on the stalks of `(M_(f))~` (the instance is keyed on
+`CommRingCat` and is not found automatically for `CommRingCat.of (Away 𝒜 f)`). -/
+noncomputable instance tildeStalkModule (y : Spec (.of (Away 𝒜 f))) :
+    Module (Away 𝒜 f) ((tilde (awayModule 𝒜 ℳ f)).presheaf.stalk y) :=
+  tilde.instModuleCarrierCarrierStalkAbPresheaf (R := CommRingCat.of (Away 𝒜 f)) _ y
+
+set_option backward.isDefEq.respectTransparency false in
+theorem tilde_germ_smul (y : Spec (.of (Away 𝒜 f))) (U : (Spec (.of (Away 𝒜 f))).Opens)
+    (hy : y ∈ U) (r : Away 𝒜 f)
+    (t : (modulesSpecToSheaf.obj (tilde (awayModule 𝒜 ℳ f))).presheaf.obj (op U)) :
+    (tilde (awayModule 𝒜 ℳ f)).presheaf.germ U y hy (r • t) =
+      r • (tilde (awayModule 𝒜 ℳ f)).presheaf.germ U y hy t := by
+  have h := PresheafOfModules.germ_smul
+    (moduleStructurePresheaf (CommRingCat.of (Away 𝒜 f)) (awayModule 𝒜 ℳ f)) y U hy
+    ((Spec (.of (Away 𝒜 f))).presheaf.map U.leTop.op ((Scheme.ΓSpecIso _).inv r)) t
+  refine h.trans ?_
+  have h2 : (structurePresheafInCommRingCat (CommRingCat.of (Away 𝒜 f))).germ U y hy
+      ((Spec (.of (Away 𝒜 f))).presheaf.map U.leTop.op ((Scheme.ΓSpecIso _).inv r)) =
+        StructureSheaf.toStalk _ y r :=
+    TopCat.Presheaf.germ_res_apply _ _ _ _ _
+  rw [h2]
+  rfl
+
+/-- The stalk map of `fromTildeChart` at `y`, followed by `chartStalkEval`. -/
+def chartStalkMap (y : Spec (.of (Away 𝒜 f))) :
+    (tilde (awayModule 𝒜 ℳ f)).presheaf.stalk y ⟶
+      AddCommGrpCat.of (Mat ((Proj.awayι 𝒜 f f_deg hd).base y)) :=
+  (TopCat.Presheaf.stalkFunctor Ab y).map
+    ((Scheme.Modules.toPresheaf _).map (fromTildeChart 𝒜 ℳ f_deg hd)) ≫
+      chartStalkEval 𝒜 ℳ f_deg hd y
+
+theorem chartStalkMap_germ (y : Spec (.of (Away 𝒜 f))) (U : (Spec (.of (Away 𝒜 f))).Opens)
+    (hy : y ∈ U) (t : (modulesSpecToSheaf.obj (tilde (awayModule 𝒜 ℳ f))).presheaf.obj (op U)) :
+    chartStalkMap 𝒜 ℳ f_deg hd y ((tilde (awayModule 𝒜 ℳ f)).presheaf.germ U y hy t) =
+      chartEval ((modulesSpecToSheaf.map (fromTildeChart 𝒜 ℳ f_deg hd)).1.app (op U) t) _
+        (mem_image_of_mem hy) := by
+  rw [chartStalkMap, ConcreteCategory.comp_apply]
+  have h := TopCat.Presheaf.stalkFunctor_map_germ_apply U y hy
+    ((Scheme.Modules.toPresheaf _).map (fromTildeChart 𝒜 ℳ f_deg hd)) t
+  exact (congrArg (fun z => chartStalkEval 𝒜 ℳ f_deg hd y z) h).trans
+    (chartStalkEval_germ 𝒜 ℳ f_deg hd y U hy _)
+
+theorem chartStalkMap_toStalk (y : Spec (.of (Away 𝒜 f)))
+    (m : HomogeneousLocalizedModule 𝒜 ℳ (Submonoid.powers f)) :
+    chartStalkMap 𝒜 ℳ f_deg hd y (tilde.toStalk (awayModule 𝒜 ℳ f) y m) =
+      HomogeneousLocalizedModule.mapOfLE 𝒜 ℳ
+        (powers_le_of_mem 𝒜 f_deg hd (mem_image_of_mem (U := ⊤) (y := y) trivial)) m := by
+  change chartStalkMap 𝒜 ℳ f_deg hd y ((tilde (awayModule 𝒜 ℳ f)).presheaf.germ ⊤ y trivial
+    (tilde.toOpen (awayModule 𝒜 ℳ f) ⊤ m)) = _
+  rw [chartStalkMap_germ, fromTildeChart_app_toOpen, chartEval_res, toChartΓ_apply,
+    chartEval_toChartSection]
+
+theorem chartStalkMap_smul (y : Spec (.of (Away 𝒜 f))) (r : Away 𝒜 f)
+    (z : (tilde (awayModule 𝒜 ℳ f)).presheaf.stalk y) :
+    chartStalkMap 𝒜 ℳ f_deg hd y (r • z) =
+      mapId 𝒜 (powers_le_of_mem 𝒜 f_deg hd (mem_image_of_mem (U := ⊤) (y := y) trivial)) r •
+        chartStalkMap 𝒜 ℳ f_deg hd y z := by
+  obtain ⟨U, hy, t, rfl⟩ := (tilde (awayModule 𝒜 ℳ f)).presheaf.exists_germ_eq z
+  rw [← tilde_germ_smul, chartStalkMap_germ, chartStalkMap_germ, map_smul, chartEval_smul]
+
+variable [DirectSum.Decomposition ℳ]
+
+/-- On stalks, `fromTildeChart` followed by evaluation is the localization map
+`(M_(f))_𝔮 → M_(𝔭)`, hence bijective. -/
+theorem chartStalkMap_bijective (y : Spec (.of (Away 𝒜 f))) :
+    Function.Bijective (chartStalkMap 𝒜 ℳ f_deg hd y) := by
+  set x := (Proj.awayι 𝒜 f f_deg hd).base y
+  have hx : x ∈ (Proj.awayι 𝒜 f f_deg hd) ''ᵁ ⊤ := mem_image_of_mem (U := ⊤) (y := y) trivial
+  set h := powers_le_of_mem 𝒜 f_deg hd hx
+  let _ := HomogeneousLocalizedModule.moduleOfLE 𝒜 ℳ h
+  have _ : IsLocalizedModule y.asIdeal.primeCompl (tilde.toStalk (awayModule 𝒜 ℳ f) y).hom :=
+    tilde.instIsLocalizedModuleCarrierCarrierOfCarrierStalkAbPresheafPrimeComplAsIdealHomToStalk
+      (R := CommRingCat.of (Away 𝒜 f)) _ y
+  let L : (tilde (awayModule 𝒜 ℳ f)).presheaf.stalk y →ₗ[Away 𝒜 f] Mat x :=
+    { toFun := chartStalkMap 𝒜 ℳ f_deg hd y
+      map_add' := map_add _
+      map_smul' := chartStalkMap_smul 𝒜 ℳ f_deg hd y }
+  have hcomp : L ∘ₗ (tilde.toStalk (awayModule 𝒜 ℳ f) y).hom =
+      HomogeneousLocalizedModule.mapOfLELinear 𝒜 ℳ h :=
+    LinearMap.ext (chartStalkMap_toStalk 𝒜 ℳ f_deg hd y)
+  have hQ (n : ℕ) (a : A) (ha : a ∈ 𝒜 (n • d)) :
+      Away.mk 𝒜 f_deg n a ha ∈ y.asIdeal.primeCompl ↔ a ∉ x.asHomogeneousIdeal.toIdeal :=
+    (awayι_mem_asIdeal_iff 𝒜 f_deg hd y _).not
+  have hloc := HomogeneousLocalizedModule.isLocalizedModule_mapOfLE (ℳ := ℳ) f_deg hd
+    x.asHomogeneousIdeal.toIdeal x.asHomogeneousIdeal.isHomogeneous
+    (awayι_base_mem_basicOpen 𝒜 f_deg hd y) y.asIdeal.primeCompl hQ
+  have : IsLocalizedModule y.asIdeal.primeCompl
+      (L ∘ₗ (tilde.toStalk (awayModule 𝒜 ℳ f) y).hom) := hcomp ▸ hloc
+  have hL := IsLocalizedModule.linearEquiv_of_isLocalizedModule_comp y.asIdeal.primeCompl
+    (tilde.toStalk (awayModule 𝒜 ℳ f) y).hom L
+  have hb := (IsLocalizedModule.linearEquiv y.asIdeal.primeCompl
+    (tilde.toStalk (awayModule 𝒜 ℳ f) y).hom
+    (L ∘ₗ (tilde.toStalk (awayModule 𝒜 ℳ f) y).hom)).bijective
+  have hb' : Function.Bijective L := by
+    rw [← hL]
+    exact hb
+  exact hb'
+
+/-- **The chart isomorphism**, as an instance: `(M_(f))~ → M~|_{D₊(f)}` is an isomorphism. -/
+instance isIso_fromTildeChart : IsIso (fromTildeChart 𝒜 ℳ f_deg hd) := by
+  let F₁ : TopCat.Sheaf Ab (Spec (.of (Away 𝒜 f))) :=
+    ⟨(Scheme.Modules.toPresheaf _).obj (tilde (awayModule 𝒜 ℳ f)),
+      (tilde (awayModule 𝒜 ℳ f)).isSheaf⟩
+  let G₁ : TopCat.Sheaf Ab (Spec (.of (Away 𝒜 f))) :=
+    ⟨(Scheme.Modules.toPresheaf _).obj (chartModule 𝒜 ℳ f_deg hd),
+      (chartModule 𝒜 ℳ f_deg hd).isSheaf⟩
+  let g : F₁ ⟶ G₁ := ⟨(Scheme.Modules.toPresheaf _).map (fromTildeChart 𝒜 ℳ f_deg hd)⟩
+  have hstalk (y : Spec (.of (Away 𝒜 f))) :
+      IsIso ((TopCat.Presheaf.stalkFunctor Ab y).map g.1) := by
+    rw [ConcreteCategory.isIso_iff_bijective]
+    have hb := chartStalkMap_bijective 𝒜 ℳ f_deg hd y
+    rw [chartStalkMap] at hb
+    exact (Function.Bijective.of_comp_iff' (chartStalkEval_bijective 𝒜 ℳ f_deg hd y) _).1 hb
+  have : IsIso g := TopCat.Presheaf.isIso_of_stalkFunctor_map_iso g
+  have : IsIso ((Scheme.Modules.toPresheaf _).map (fromTildeChart 𝒜 ℳ f_deg hd)) :=
+    (TopCat.Sheaf.forget Ab (Spec (.of (Away 𝒜 f)))).map_isIso g
+  exact isIso_of_reflects_iso _ (Scheme.Modules.toPresheaf _)
+
+/-- **Hartshorne II.5.11(b), the chart isomorphism.** For `f ∈ S_d` with `d > 0`, under the
+chart `Spec S_(f) ≅ D₊(f)` the restriction of `M~` is the sheaf associated to the
+`S_(f)`-module `M_(f)`: `M~|_{D₊(f)} ≅ (M_(f))~`. -/
+def chartIso :
+    (Scheme.Modules.restrictFunctor (Proj.awayι 𝒜 f f_deg hd)).obj (projGradedModuleSheaf 𝒜 ℳ) ≅
+      tilde (awayModule 𝒜 ℳ f) :=
+  (asIso (fromTildeChart 𝒜 ℳ f_deg hd)).symm
 
 end Module
 
