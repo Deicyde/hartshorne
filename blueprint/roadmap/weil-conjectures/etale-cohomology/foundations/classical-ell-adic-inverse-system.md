@@ -2,6 +2,9 @@
 article_id: af_bf9a7cd3954a8ae39f1a8b34
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.torsionEtaleCohomologySystem AlgebraicGeometry.Scheme.classicalEllAdicCohomology
 ---
 
 # The classical inverse system of torsion étale cohomology
