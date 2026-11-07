@@ -24,6 +24,7 @@ rationally equivalent when their difference belongs to this subgroup.
 - [Construction of normalization](../../../schemes/normalization-and-exercises/normalization-construction.md)
 - [Finiteness of normalization over a field](../../../schemes/normalization-and-exercises/normalization-finite-type-field.md)
 - [The normalization is normal and integral](../../../schemes/normalization-and-exercises/normalization-normal-integral.md)
+- [The normalization morphism is dominant](../../../schemes/normalization-and-exercises/normalization-dominant.md)
 - [Linear equivalence and the Weil class group](../../../schemes/divisors/weil-divisors/weil-linear-equivalence.md)
 - [Raw pushforward of cycles](raw-cycle-pushforward.md)
 
