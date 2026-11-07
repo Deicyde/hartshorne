@@ -12,7 +12,7 @@ import Mathlib.Topology.Compactness.LocallyFinite
 # Direct sums of skyscraper sheaves
 
 Supporting construction for Hartshorne, *Algebraic Geometry*, II.1, Exercise 1.21(d)
-(p. 68), adopted for III, Exercise 2.2 (p. 212).
+(p. 69), adopted for III, Exercise 2.2 (p. 212).
 
 For a family of abelian groups `A x` indexed by the points of a space `X`, the sections of
 `⨁_{P ∈ X} i_{P,*}(A_P)` over an open set `U` are the families `(s_x)_{x ∈ U}` with `s_x ∈ A_x`

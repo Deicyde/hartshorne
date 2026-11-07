@@ -14,7 +14,7 @@ import Mathlib.RingTheory.Polynomial.UniqueFactorization
 /-!
 # Partial fractions on the projective line
 
-Supporting algebra for Hartshorne, *Algebraic Geometry*, II.1, Exercise 1.21(e) (p. 68),
+Supporting algebra for Hartshorne, *Algebraic Geometry*, II.1, Exercise 1.21(e) (p. 69),
 adopted for III, Exercise 2.2 (p. 212).
 
 Let `X = ℙ¹` over an algebraically closed field `k`, with function field `K`. For every point

@@ -10,7 +10,7 @@ import Mathlib.Topology.Sheaves.Abelian
 /-!
 # The principal-parts resolution on `ℙ¹`
 
-Hartshorne, *Algebraic Geometry*, II.1, Exercise 1.21(d,e) (p. 68), adopted for III,
+Hartshorne, *Algebraic Geometry*, II.1, Exercise 1.21(d,e) (p. 69), adopted for III,
 Exercise 2.2 (p. 212).
 
 Let `X = ℙ¹` over an algebraically closed field `k`, `K` its function field and `K_X` the
