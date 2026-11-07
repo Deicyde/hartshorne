@@ -2,6 +2,9 @@
 article_id: af_c4797cdb52b4536100d61cc2
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.rationalEllAdicCohomologyPullback AlgebraicGeometry.Scheme.rationalEllAdicCohomologyPullback_id AlgebraicGeometry.Scheme.rationalEllAdicCohomologyPullback_comp AlgebraicGeometry.Scheme.rationalEllAdicCohomologyFunctor
 ---
 
 # ℓ-adic cohomology is contravariantly functorial
