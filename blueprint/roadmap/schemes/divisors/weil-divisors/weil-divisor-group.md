@@ -9,7 +9,7 @@ lean: AlgebraicGeometry.Scheme.PrimeDivisor AlgebraicGeometry.Scheme.WeilDivisor
 
 # The Weil divisor group
 
-For a scheme $X$ satisfying $(\cdot )$, define a prime divisor as an integral
+For a scheme $X$ satisfying $(*)$, define a prime divisor as an integral
 closed subscheme of codimension one and identify it with its codimension-one
 generic point. Define $\operatorname{Div} X$ as the additive group of integer-valued
 algebraic cycles supported on those points, and define effectiveness by

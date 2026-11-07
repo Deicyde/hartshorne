@@ -9,10 +9,10 @@ lean: AlgebraicGeometry.Scheme.SatisfiesConditionStar.affineLine AlgebraicGeomet
 
 # Affine-line invariance of the class group
 
-If $X$ satisfies $(\cdot )$, then its relative affine line
-$X \times \operatorname{Spec} Z[t]$ also satisfies $(\cdot )$, and pullback along the projection
+If $X$ satisfies $(*)$, then its relative affine line
+$X \times \operatorname{Spec} \mathbb{Z}[t]$ also satisfies $(*)$, and pullback along the projection
 induces an isomorphism
-$Cl X \cong Cl(X \times A^1)$.
+$\operatorname{Cl} X \cong \operatorname{Cl}(X \times A^1)$.
 
 Distinguish vertical codimension-one points pulled back from $X$ from
 horizontal points over the generic point. A horizontal prime becomes

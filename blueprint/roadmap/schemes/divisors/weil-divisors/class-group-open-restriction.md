@@ -9,11 +9,11 @@ lean: AlgebraicGeometry.Scheme.weilClassGroupRestrict AlgebraicGeometry.Scheme.w
 
 # Restriction of class groups to open complements
 
-Let $X$ satisfy $(\cdot )$, let $Z$ be a proper closed subset, and set
+Let $X$ satisfy $(*)$, let $Z$ be a proper closed subset, and set
 $U = X - Z$. Restricting prime divisors defines a surjection
-$Cl X \to Cl U$. It is an isomorphism when $\operatorname{codim} (Z,X) \ge 2$; when $Z$ is
+$\operatorname{Cl} X \to \operatorname{Cl} U$. It is an isomorphism when $\operatorname{codim} (Z,X) \ge 2$; when $Z$ is
 irreducible of codimension one, the sequence
-$Z \to Cl X \to Cl U \to 0$, with $1 \mapsto [Z]$, is exact.
+$\mathbb{Z} \to \operatorname{Cl} X \to \operatorname{Cl} U \to 0$, with $1 \mapsto [Z]$, is exact.
 
 The three clauses are one localization theorem, with a single completion
 criterion: identify the kernel as classes supported on the complement.

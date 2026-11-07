@@ -10,7 +10,7 @@ lean: Hartshorne.uniqueFactorizationMonoid_iff_isNormal_spec_and_weilClassGroup_
 # The affine UFD class-group criterion
 
 For a Noetherian domain $A$, prove that $A$ is a unique factorization domain
-if and only if $\operatorname{Spec} A$ is normal and $Cl(\operatorname{Spec} A)$ is trivial.
+if and only if $\operatorname{Spec} A$ is normal and $\operatorname{Cl}(\operatorname{Spec} A)$ is trivial.
 The class group is defined because a normal Noetherian integral separated
 scheme satisfies condition $(*)$: its codimension-one local rings are
 one-dimensional integrally closed Noetherian local domains, hence regular.

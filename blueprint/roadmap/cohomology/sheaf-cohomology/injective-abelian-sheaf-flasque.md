@@ -13,8 +13,8 @@ Every injective object in the category of abelian sheaves on a topological
 space is flasque.
 
 For an open $U$, sections are represented directly by the abelian extension
-by zero $Z_U$: $\operatorname{Hom} (Z_U,F) \cong F(U)$. Injectivity then lifts a section across
-$Z_V \longrightarrow Z_U$ for every inclusion $V \subseteq U$. This direct argument keeps the
+by zero $\mathbb{Z}_U$: $\operatorname{Hom} (\mathbb{Z}_U,F) \cong F(U)$. Injectivity then lifts a section across
+$\mathbb{Z}_V \longrightarrow \mathbb{Z}_U$ for every inclusion $V \subseteq U$. This direct argument keeps the
 abelian-sheaf and module-sheaf categories distinct.
 
 ## Depends on

@@ -14,9 +14,9 @@ and the quadratic initial form of a local equation is a product of two
 distinct linear factors. These factors are the two tangent directions.
 
 Blowing up the plane curve at $P$ replaces the node by two distinct regular
-points, one for each tangent direction. Conversely, the local
-two-branch/transverse-tangent description is the criterion used to recognize
-nodes in a projected plane curve.
+points, one for each tangent direction. Conversely, a double point over
+which the blown-up curve has two distinct points is an ordinary node; this
+converse supplements Hartshorne's Exercise 5.6(b).
 
 ## Depends on
 

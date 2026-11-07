@@ -9,7 +9,7 @@ lean: AlgebraicGeometry.Scheme.finite_support_ord_of_satisfiesConditionStar
 
 # Principal divisors have finite support
 
-Let $X$ satisfy $(\cdot )$ and let $f : K(X)$ be nonzero. Then
+Let $X$ satisfy $(*)$ and let $f : K(X)$ be nonzero. Then
 $\operatorname{ord} _x(f) = 0$ for all but finitely many codimension-one points $x$.
 Consequently the coefficients $\operatorname{ord} _x(f)$ define a Weil divisor $(f)$, and
 $f \mapsto (f)$ is a homomorphism from $K(X)^*$ to the additive group $\operatorname{Div} X$.

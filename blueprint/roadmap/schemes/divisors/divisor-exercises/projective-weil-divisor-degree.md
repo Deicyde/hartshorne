@@ -23,7 +23,7 @@ the hypotheses that $X$ is a variety nonsingular in codimension one serve only t
 $\operatorname{Div} X$ the divisor group of Hartshorne's §6.
 
 This is the preamble of Exercise 6.2. The unique completion criterion is the
-additive degree homomorphism $\operatorname{Div} X \to Z$; its invariance under linear
+additive degree homomorphism $\operatorname{Div} X \to \mathbb{Z}$; its invariance under linear
 equivalence belongs to the excluded part (d), not to this node.
 
 ## Depends on
