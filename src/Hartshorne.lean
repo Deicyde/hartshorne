@@ -408,6 +408,7 @@ import Hartshorne.Scheme.Differentials.AffineRelativeDifferentials
 import Hartshorne.Scheme.CohenMacaulayLocalization
 import Hartshorne.Scheme.DimensionCodimension
 import Hartshorne.Scheme.RegularLocalCohenMacaulay
+import Hartshorne.Scheme.RegularLocalFactorial
 import Hartshorne.Scheme.AbsoluteNormalizationFinite
 import Hartshorne.Scheme.FiniteCurveDivisorPullback
 import Hartshorne.Scheme.ReducedInducedSubscheme
