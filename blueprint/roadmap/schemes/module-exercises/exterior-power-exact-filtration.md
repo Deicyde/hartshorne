@@ -25,6 +25,9 @@ hypotheses on $F'$ and $F''$.
 
 - [Sheaf tensor, symmetric, and exterior operations](sheaf-tensor-operations.md)
 - [Sheaves of modules](../modules-and-quasicoherent/sheaves-of-modules.md)
+- [Tensor products of module sheaves](../modules-and-quasicoherent/module-tensor-product.md)
+- [Locally free and invertible module sheaves](../modules-and-quasicoherent/locally-free-and-invertible.md)
+- [Duality for finite locally free sheaves](../modules-and-quasicoherent/finite-locally-free-duality.md)
 
 ## Proof depends on
 
