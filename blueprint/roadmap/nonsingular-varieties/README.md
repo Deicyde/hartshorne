@@ -31,6 +31,7 @@ algebraically closed base field.
 ## Local algebra and the Jacobian criterion
 
 - [Regular local rings](regular-local-rings.md)
+- [A regular local ring is an integral domain](regular-local-ring-domain.md)
 - [The cotangent-dimension bound](cotangent-dimension-bound.md)
 - [Local rings are unchanged on open neighbourhoods](local-ring-open-invariance.md)
 - [The cotangent space of affine space](ambient-cotangent-space.md)
@@ -59,4 +60,6 @@ This chapter stops with [Theorem I.5.3](singular-locus.md) on printed p. 33. Out
 regularity under completion is adopted for V.5, and the analytic-isomorphism
 definition and Exercise 5.14(d) are adopted for V.3. The remaining completion,
 Cohen-structure, and analytic examples are deferred; Theorem 5.7A and the
-unadopted exercises are out of scope. See the [coverage contract](../../coverage/README.md).
+unadopted exercises are out of scope. The fact that a regular local ring is a domain,
+which Hartshorne uses in the proof of Theorem II.8.8, sits here beside the
+definition. See the [coverage contract](../../coverage/README.md).
