@@ -29,7 +29,11 @@ between Hartshorne's definition and the adopted modern predicate.
 
 ## Proof depends on
 
-- The affine-local standard-smooth characterization and the fiber-dimension theorem for standard-smooth algebras.
+- The affine-local standard-smooth characterization of smoothness.
+- [Dimension of a scheme smooth over a field](smooth-over-field-component-dimension.md)
+- [The differential criterion for smoothness over a field](differential-criterion-smooth-over-field.md)
+- [The differential criterion for a scheme over a field](differential-criterion-smooth-scheme-over-field.md)
+- [Flat morphisms with smooth fibres are smooth](flat-smooth-fibers-smooth.md)
 - [Dimension after extending the ground field](../../../schemes/fiber-products/base-extension-component-dimension.md)
 
 ## Sources
