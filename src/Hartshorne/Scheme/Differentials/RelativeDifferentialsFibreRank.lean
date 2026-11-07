@@ -34,7 +34,7 @@ open RelDiffLocal
 
 universe u
 
-/-- **Hartshorne III.10, Example 10.0.2**, general form: for a morphism `f : X ⟶ Y` locally of
+/-- A generalization of **Hartshorne III.10, Example 10.0.2**: for a morphism `f : X ⟶ Y` locally of
 finite type with `X` integral and locally Noetherian, `Ω_{X/Y}` is locally free of rank `n` if
 and only if `dim_{k(x)} ((Ω_{X/Y})_x ⊗ k(x)) = n` for every `x ∈ X`. -/
 theorem Scheme.relativeDifferentials_isLocallyFreeOfRank_iff {X Y : Scheme.{u}} (f : X ⟶ Y)
