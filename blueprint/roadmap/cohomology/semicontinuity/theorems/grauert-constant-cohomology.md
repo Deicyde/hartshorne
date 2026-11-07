@@ -27,6 +27,7 @@ is an isomorphism for every $y \in Y$.
 
 ## Proof depends on
 
+- [Constant fibre dimension forces local freeness](../../../schemes/coherent-sheaves/coherent-constant-fibre-rank-locally-free.md)
 - Constant dimensions force the relevant differential ranks in the
   finite-free model to be locally constant; kernels, images, and cohomology
   are then finite locally free and commute with residue fields.

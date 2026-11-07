@@ -29,9 +29,7 @@ freeness of the relative differential sheaf.
 
 ## Proof depends on
 
-- The finite-presentation criterion that a coherent module on an integral
-  Noetherian scheme is locally free of rank $n$ exactly when every fibre has
-  dimension $n$.
+- [Constant fibre dimension forces local freeness](../../../schemes/coherent-sheaves/coherent-constant-fibre-rank-locally-free.md)
 - The differential module of a standard-smooth algebra has rank equal to its relative dimension.
 - [Quasi-coherence and coherence of differentials](../../../schemes/differentials/scheme-differentials/relative-differentials-quasicoherent.md)
 
