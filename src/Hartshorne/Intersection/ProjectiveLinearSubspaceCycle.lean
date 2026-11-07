@@ -7,6 +7,7 @@ import Mathlib.RingTheory.MvPolynomial.Ideal
 import Hartshorne.Intersection.ChowGroups
 import Hartshorne.Intersection.ProjectiveSpaceHilbertPolynomial
 import Hartshorne.Intersection.RationalEquivalenceCodimOne
+import Hartshorne.Projective.Correspondence
 import Hartshorne.Rational.ContractedCurves
 import Hartshorne.Scheme.ProjectiveIntersectionDegree
 import Hartshorne.Scheme.ProjectiveSpaceClassGroup
@@ -23,13 +24,16 @@ subspaces as cycles:
 * the structure morphism `ℙⁿ_k ⟶ Spec k` is of finite type and separated;
 * `ℙⁿ_k` has dimension `n`;
 * for `m ≤ n`, the coordinate linear subspace `Lₘ = V(x_{m+1}, …, xₙ)` is a point of `ℙⁿ_k`
-  whose closure has codimension `n - m`, so `[Lₘ]` is a codimension-`(n - m)` cycle.
+  whose closure has codimension `n - m`, so `[Lₘ]` is a codimension-`(n - m)` cycle;
+* for `k` algebraically closed, `Lₘ` has degree `1`: its Hilbert polynomial is
+  `z ↦ choose (z + m) m`.
 
-It then proves the two extreme cases of Exercise 6.3, for `k` algebraically closed: an integral
-subvariety `Y` of codimension `0` is `ℙⁿ_k` itself, of degree `1`, so `[Y] = 1 · [Lₙ]`; and an
+It then proves the two extreme cases of Exercise 6.3, for `k` algebraically closed. An integral
+subvariety `Y` of codimension `0` is `ℙⁿ_k` itself, of degree `1`, so `[Y] = 1 · [Lₙ]`. An
 integral subvariety of codimension `1` (a hypersurface of degree `d`) is rationally equivalent to
-`d · [L_{n-1}]` (Hartshorne II.6.4 together with the agreement of rational and linear equivalence
-in codimension one).
+`d · [L_{n-1}]`, by Hartshorne II.6.4 together with the agreement of rational and linear
+equivalence in codimension one. Finally it reduces the general case to two inputs: degree
+vanishes on rational equivalence, and `[Y]` is rationally equivalent to some multiple of `[Lₘ]`.
 -/
 
 noncomputable section
@@ -44,10 +48,12 @@ attribute [local instance] MvPolynomial.gradedAlgebra
 
 section PrimeSpan
 
-/-- An ideal of a polynomial ring over a domain spanned by a set of variables is prime. -/
-theorem isPrime_span_X_image {σ R : Type*} [CommRing R] [IsDomain R] (s : Set σ) :
-    (Ideal.span (X '' s : Set (MvPolynomial σ R))).IsPrime := by
-  classical
+/-- The ideal spanned by the variables `X i`, `i ∈ s`, is the kernel of the substitution killing
+those variables. -/
+theorem ker_aeval_ite_eq_span_X_image {σ R : Type*} [CommRing R] (s : Set σ)
+    [DecidablePred (· ∈ s)] :
+    RingHom.ker (aeval (R := R) fun i ↦ if i ∈ s then (0 : MvPolynomial σ R) else X i).toRingHom =
+      Ideal.span (X '' s : Set (MvPolynomial σ R)) := by
   let φ : MvPolynomial σ R →ₐ[R] MvPolynomial σ R := aeval fun i ↦ if i ∈ s then 0 else X i
   have hsub : ∀ f, f - φ f ∈ Ideal.span (X '' s : Set (MvPolynomial σ R)) := by
     intro f
@@ -64,15 +70,20 @@ theorem isPrime_span_X_image {σ R : Type*} [CommRing R] [IsDomain R] (s : Set �
       · simpa [φ, hi] using
           (Ideal.subset_span ⟨i, hi, rfl⟩ : X i ∈ Ideal.span (X '' s : Set (MvPolynomial σ R)))
       · simp [φ, hi]
-  have hker : RingHom.ker φ.toRingHom = Ideal.span (X '' s : Set (MvPolynomial σ R)) := by
-    apply le_antisymm
-    · intro f hf
-      have h := hsub f
-      rwa [show φ f = 0 from hf, sub_zero] at h
-    · rw [Ideal.span_le]
-      rintro _ ⟨i, hi, rfl⟩
-      simp [φ, hi]
-  rw [← hker]
+  apply le_antisymm
+  · intro f hf
+    have h := hsub f
+    rwa [show φ f = 0 from hf, sub_zero] at h
+  · rw [Ideal.span_le]
+    rintro _ ⟨i, hi, rfl⟩
+    change φ (X i) = 0
+    simp [φ, hi]
+
+/-- An ideal of a polynomial ring over a domain spanned by a set of variables is prime. -/
+theorem isPrime_span_X_image {σ R : Type*} [CommRing R] [IsDomain R] (s : Set σ) :
+    (Ideal.span (X '' s : Set (MvPolynomial σ R))).IsPrime := by
+  classical
+  rw [← ker_aeval_ite_eq_span_X_image]
   exact RingHom.ker_isPrime _
 
 /-- A variable `X j` lies in the ideal spanned by the variables `X i`, `i ∈ s`, only if
@@ -374,6 +385,181 @@ theorem codim_closure_linearSubspacePoint {m : ℕ} (hm : m ≤ n) :
 
 end SchemeDimension
 
+section LinearSubspaceDegree
+
+/-- The substitution `k[x₀, …, xₙ] → k[x₀, …, xₘ]` keeping `xᵢ` for `i ≤ m` and killing `xᵢ` for
+`i > m`. -/
+def linearSubspaceRestrict (n m : ℕ) :
+    MvPolynomial (Fin (n + 1)) k →ₐ[k] MvPolynomial (Fin (m + 1)) k :=
+  aeval fun i ↦ if h : (i : ℕ) ≤ m then X ⟨i, by omega⟩ else 0
+
+theorem linearSubspaceRestrict_rename {m : ℕ} (hm : m ≤ n) (t : MvPolynomial (Fin (m + 1)) k) :
+    linearSubspaceRestrict n m (rename (Fin.castLE (by omega)) t) = t := by
+  have h : (linearSubspaceRestrict (k := k) n m).comp (rename (Fin.castLE (by omega))) =
+      AlgHom.id k _ := by
+    apply MvPolynomial.algHom_ext
+    intro j
+    have hj : ¬ m < (j : ℕ) := by
+      have := j.isLt
+      omega
+    simp [linearSubspaceRestrict, hj]
+  exact DFunLike.congr_fun h t
+
+theorem linearSubspaceRestrict_surjective {m : ℕ} (hm : m ≤ n) :
+    Function.Surjective (linearSubspaceRestrict (k := k) n m) :=
+  fun t ↦ ⟨_, linearSubspaceRestrict_rename hm t⟩
+
+theorem ker_linearSubspaceRestrict {m : ℕ} (hm : m ≤ n) :
+    RingHom.ker (linearSubspaceRestrict (k := k) n m).toRingHom =
+      (linearSubspaceIdeal (k := k) n m).toIdeal := by
+  let ι : MvPolynomial (Fin (m + 1)) k →ₐ[k] MvPolynomial (Fin (n + 1)) k :=
+    rename (Fin.castLE (by omega))
+  have hι : Function.Injective ι := rename_injective _ (Fin.castLE_injective _)
+  have hcomp : ι.comp (linearSubspaceRestrict n m) =
+      aeval fun i ↦ if i ∈ {i : Fin (n + 1) | m < (i : ℕ)} then (0 : 𝕊) else X i := by
+    apply MvPolynomial.algHom_ext
+    intro i
+    by_cases hi : (i : ℕ) ≤ m
+    · have hi' : ¬ m < (i : ℕ) := by omega
+      simp only [AlgHom.comp_apply, linearSubspaceRestrict, aeval_X, dif_pos hi, ι, rename_X]
+      rw [if_neg (show i ∉ {i : Fin (n + 1) | m < (i : ℕ)} from hi')]
+      congr 1
+    · have hi' : m < (i : ℕ) := by omega
+      simp [linearSubspaceRestrict, hi, hi', ι]
+  rw [linearSubspaceIdeal_toIdeal, ← ker_aeval_ite_eq_span_X_image, ← hcomp]
+  ext f
+  simp only [RingHom.mem_ker, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, AlgHom.comp_apply]
+  exact ⟨fun h ↦ by rw [h, map_zero], fun h ↦ hι (by rw [h, map_zero])⟩
+
+/-- The linear subspace `Lₘ` is a nonempty algebraic set: it contains `[1 : 0 : ⋯ : 0]`. -/
+theorem projZeroSet_linearSubspaceIdeal_nonempty (m : ℕ) :
+    (projZeroSet ((linearSubspaceIdeal (k := k) n m).toIdeal : Set 𝕊)).Nonempty := by
+  classical
+  have hv : (Pi.single 0 1 : Fin (n + 1) → k) ≠ 0 := by
+    intro h
+    simpa using congrFun h 0
+  refine ⟨Projectivization.mk k _ hv, fun f hf ↦ ?_⟩
+  have hle : (linearSubspaceIdeal (k := k) n m).toIdeal ≤
+      RingHom.ker (eval (Projectivization.mk k _ hv).rep) := by
+    rw [linearSubspaceIdeal_toIdeal, Ideal.span_le]
+    rintro _ ⟨i, hi, rfl⟩
+    have hi0 : i ≠ 0 := by
+      rintro rfl
+      exact absurd hi (by simp)
+    have h := (homogeneousVanish_X_iff (k := k) (i := i) hv).mpr (by simp [hi0])
+    exact h
+  exact hle hf
+
+/-- The homogeneous vanishing ideal of `Lₘ` is `(x_{m+1}, …, xₙ)`. -/
+theorem homogeneousVanishingIdeal_linearSubspace [IsAlgClosed k] (m : ℕ) :
+    homogeneousVanishingIdeal (projZeroSet ((linearSubspaceIdeal (k := k) n m).toIdeal : Set 𝕊)) =
+      (linearSubspaceIdeal (k := k) n m).toIdeal := by
+  rw [homogeneousVanishingIdeal_projZeroSet (linearSubspaceIdeal n m).isHomogeneous
+    (projZeroSet_linearSubspaceIdeal_nonempty m)]
+  exact (isPrime_span_X_image _).radical
+
+private theorem finrank_homogeneousSubmodule_fin (m l : ℕ) :
+    Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin (m + 1)) k l) =
+      (l + m).choose m := by
+  rw [MvPolynomial.homogeneousSubmodule_eq_finsupp_supported]
+  change Module.finrank k
+      (MvPolynomial.restrictSupport k
+        {d : Fin (m + 1) →₀ ℕ | d.degree = l}) = _
+  rw [Module.finrank_eq_nat_card_basis
+    (MvPolynomial.basisRestrictSupport k
+      {d : Fin (m + 1) →₀ ℕ | d.degree = l})]
+  change Nat.card {d : Fin (m + 1) →₀ ℕ // d.degree = l} = _
+  calc
+    Nat.card {d : Fin (m + 1) →₀ ℕ // d.degree = l} =
+        Nat.card (Sym (Fin (m + 1)) l) :=
+      Nat.card_congr (Sym.equivNatSum (Fin (m + 1)) l).symm
+    _ = Fintype.card (Sym (Fin (m + 1)) l) := Nat.card_eq_fintype_card
+    _ = ((m + 1) + l - 1).choose l := by
+      simpa using Sym.card_sym_eq_choose (α := Fin (m + 1)) l
+    _ = (l + m).choose m := by
+      have h : (m + 1) + l - 1 = l + m := by omega
+      rw [h]
+      exact Nat.choose_symm_add
+
+/-- The Hilbert function of `Lₘ ≅ ℙᵐ` in degree `l ≥ 0` is `choose (l + m) m`. -/
+theorem hilbertFunction_linearSubspace [IsAlgClosed k] {m : ℕ} (hm : m ≤ n) (l : ℕ) :
+    hilbertFunction (k := k) (σ := Fin (n + 1))
+        (integerProjCoordGrading
+          (projZeroSet ((linearSubspaceIdeal (k := k) n m).toIdeal : Set 𝕊))) (l : ℤ) =
+      (l + m).choose m := by
+  rw [hilbertFunction, integerProjCoordGrading_ofNat]
+  set Y := projZeroSet ((linearSubspaceIdeal (k := k) n m).toIdeal : Set 𝕊)
+  have hI : homogeneousVanishingIdeal Y = RingHom.ker (linearSubspaceRestrict (k := k) n m).toRingHom := by
+    rw [homogeneousVanishingIdeal_linearSubspace, ker_linearSubspaceRestrict hm]
+  let e : homogeneousCoordinateRing Y ≃ₐ[k] MvPolynomial (Fin (m + 1)) k :=
+    (Ideal.quotientEquivAlgOfEq k hI).trans
+      (Ideal.quotientKerAlgEquivOfSurjective (linearSubspaceRestrict_surjective hm))
+  have he : ∀ p : 𝕊, e (Ideal.Quotient.mk _ p) = linearSubspaceRestrict n m p := fun p ↦ rfl
+  have hmap : (projCoordGrading Y l).map e.toLinearEquiv.toLinearMap =
+      MvPolynomial.homogeneousSubmodule (Fin (m + 1)) k l := by
+    ext t
+    constructor
+    · rintro ⟨q, ⟨p, hp, rfl⟩, rfl⟩
+      change e (Ideal.Quotient.mk _ p) ∈ _
+      rw [he, mem_homogeneousSubmodule]
+      have hp' : p.IsHomogeneous l := (mem_homogeneousSubmodule l p).mp hp
+      have h := hp'.eval₂ (algebraMap k (MvPolynomial (Fin (m + 1)) k))
+        (fun i : Fin (n + 1) ↦ if h : (i : ℕ) ≤ m then (X ⟨i, by omega⟩ : MvPolynomial (Fin (m + 1)) k) else 0)
+        (fun r ↦ isHomogeneous_C _ r) (fun i ↦ by
+          by_cases h : (i : ℕ) ≤ m
+          · simp only [dif_pos h]
+            exact isHomogeneous_X k _
+          · simp only [dif_neg h]
+            exact isHomogeneous_zero _ _ _)
+      rw [one_mul] at h
+      exact h
+    · intro ht
+      refine ⟨Ideal.Quotient.mk _ (rename (Fin.castLE (by omega)) t), ⟨_, ?_, rfl⟩, ?_⟩
+      · exact (mem_homogeneousSubmodule l _).mpr
+          (((mem_homogeneousSubmodule l t).mp ht).rename_isHomogeneous)
+      · change e (Ideal.Quotient.mk _ _) = t
+        rw [he, linearSubspaceRestrict_rename hm]
+  calc Module.finrank k (projCoordGrading Y l) =
+        Module.finrank k ((projCoordGrading Y l).map e.toLinearEquiv.toLinearMap) :=
+      (e.toLinearEquiv.finrank_map_eq _).symm
+    _ = Module.finrank k (MvPolynomial.homogeneousSubmodule (Fin (m + 1)) k l) := by rw [hmap]
+    _ = (l + m).choose m := finrank_homogeneousSubmodule_fin m l
+
+/-- **The linear subspace `Lₘ` has degree `1`** (for `m ≤ n`, `k` algebraically closed): its
+Hilbert polynomial is `z ↦ choose (z + m) m`, with leading coefficient `1 / m!`. -/
+theorem projectiveSpectrumPointDegree_linearSubspacePoint [IsAlgClosed k] {m : ℕ} (hm : m ≤ n) :
+    projectiveSpectrumPointDegree (linearSubspacePoint (k := k) (n := n) m) = 1 := by
+  set Y := projZeroSet ((linearSubspaceIdeal (k := k) n m).toIdeal : Set 𝕊)
+  have hpoly : IsHilbertPolynomial (σ := Fin (n + 1)) (integerProjCoordGrading Y)
+      ((numericalBinomial m).taylor (m : ℚ)) := by
+    constructor
+    · rw [IsNumericalPolynomial, Filter.eventually_atTop]
+      refine ⟨0, fun d hd ↦ ?_⟩
+      refine ⟨Ring.choose (d + m) m, ?_⟩
+      rw [Polynomial.taylor_eval]
+      simpa only [Int.cast_add, Int.cast_natCast] using
+        numericalBinomial_eval_intCast m (d + m)
+    · rw [Filter.eventually_atTop]
+      refine ⟨0, fun d hd ↦ ?_⟩
+      obtain ⟨l, rfl⟩ := Int.eq_ofNat_of_zero_le hd
+      rw [Polynomial.taylor_eval, hilbertFunction_linearSubspace hm]
+      have h := numericalBinomial_eval_natCast m (l + m)
+      norm_num at h ⊢
+      exact h
+  have hP : projectiveHilbertPolynomial Y = (numericalBinomial m).taylor (m : ℚ) :=
+    isHilbertPolynomial_unique (integerProjCoordGrading Y)
+      (projectiveHilbertPolynomial_isHilbertPolynomial Y) hpoly
+  have hdeg : projectiveDegree Y = 1 := by
+    rw [projectiveDegree, hP, Polynomial.natDegree_taylor, numericalBinomial_natDegree,
+      Polynomial.leadingCoeff_taylor, numericalBinomial_leadingCoeff]
+    exact mul_inv_cancel₀ (by positivity)
+  have h := projectiveSpectrumPointDegree_cast (linearSubspacePoint (k := k) (n := n) m)
+  change _ = projectiveDegree Y at h
+  rw [hdeg] at h
+  exact_mod_cast h
+
+end LinearSubspaceDegree
+
 section Cycles
 
 open scoped Classical in
@@ -415,24 +601,6 @@ theorem eq_linearSubspacePoint_of_codim_eq_zero {y : Proj 𝒜}
     exact zero_mem _
   exact (hy.eq_of_le hle).symm
 
-/-- `ℙⁿ_k` itself, the closure of the generic point `Lₙ`, has degree `1`. -/
-theorem projectiveSpectrumPointDegree_linearSubspacePoint_self [IsAlgClosed k] :
-    projectiveSpectrumPointDegree (linearSubspacePoint (k := k) (n := n) n) = 1 := by
-  have hempty : {i : Fin (n + 1) | n < (i : ℕ)} = ∅ :=
-    Set.eq_empty_of_forall_notMem fun i hi ↦ by
-      change n < (i : ℕ) at hi
-      omega
-  have huniv : projZeroSet ((linearSubspacePoint (k := k) (n := n) n).asHomogeneousIdeal :
-      Set 𝕊) = Set.univ := by
-    refine Set.eq_univ_of_forall fun P f hf ↦ ?_
-    change f ∈ Ideal.span (X '' {i : Fin (n + 1) | n < (i : ℕ)}) at hf
-    rw [hempty, Set.image_empty, Ideal.span_empty, Ideal.mem_bot] at hf
-    rw [hf]
-    exact map_zero _
-  have h := projectiveSpectrumPointDegree_cast (linearSubspacePoint (k := k) (n := n) n)
-  rw [huniv, (projectiveSpace_hilbertPolynomial_and_degree (k := k) n).2.2] at h
-  exact_mod_cast h
-
 /-- **Hartshorne A, Exercise 6.3, the case of codimension zero.** For `k` algebraically closed, an
 integral subvariety `Y = closure {y}` of `ℙⁿ_k` of codimension zero (dimension `n`) is rationally
 equivalent to `deg Y · [Lₙ]`; indeed `Y = Lₙ = ℙⁿ_k` and `deg Y = 1`. -/
@@ -445,7 +613,7 @@ theorem rationallyEquivalent_degree_smul_linearSubspace_of_codim_eq_zero [IsAlgC
         pointCodimensionCycle (linearSubspacePoint (k := k) (n := n) n)
           ((codim_closure_linearSubspacePoint le_rfl).trans (by rw [Nat.sub_self]))) := by
   obtain rfl := eq_linearSubspacePoint_of_codim_eq_zero (k := k) (n := n) (by exact_mod_cast hy)
-  rw [projectiveSpectrumPointDegree_linearSubspacePoint_self, one_smul, RationallyEquivalent,
+  rw [projectiveSpectrumPointDegree_linearSubspacePoint le_rfl, one_smul, RationallyEquivalent,
     sub_self]
   exact zero_mem _
 
@@ -516,5 +684,57 @@ theorem rationallyEquivalent_degree_smul_linearSubspace_of_codim_eq_one [IsAlgCl
     exact projectiveSpectrumPointDegree_primeDivisor hn P
   rw [hY, hL, ← map_zsmul, rationallyEquivalent_weilDivisorToCodimOneCycles_iff, hdeg]
   exact projectiveSpace_linearEquivalent_degree_smul_hyperplane hn _ _ P.toWeilDivisor
+
+/-- The degree of a codimension-`r` cycle `∑ nᵢ [Yᵢ]` on `ℙⁿ_k`: `∑ nᵢ deg Yᵢ`, where `deg Yᵢ` is
+the projective degree of `Yᵢ`. -/
+def cycleProjectiveDegree [IsAlgClosed k] (r : ℕ) : codimensionCycles (Proj 𝒜) r →+ ℤ where
+  toFun c := ∑ᶠ x : Proj 𝒜, (c : AlgebraicCycle (Proj 𝒜) ℤ) x * projectiveSpectrumPointDegree x
+  map_zero' := by simp
+  map_add' c d := by
+    have hfin : ∀ e : codimensionCycles (Proj 𝒜) r, (Function.support fun x : Proj 𝒜 ↦
+        (e : AlgebraicCycle (Proj 𝒜) ℤ) x * projectiveSpectrumPointDegree x).Finite :=
+      fun e ↦ e.2.1.subset fun x hx ↦ left_ne_zero_of_mul hx
+    simp only [AddSubgroup.coe_add, Function.locallyFinsuppWithin.coe_add, Pi.add_apply, add_mul]
+    exact finsum_add_distrib (hfin c) (hfin d)
+
+/-- The degree of the cycle `1 · [closure {x}]` is the projective degree of `closure {x}`. -/
+theorem cycleProjectiveDegree_pointCodimensionCycle [IsAlgClosed k] {x : Proj 𝒜} {r : ℕ}
+    (hx : codim (closure ({x} : Set (Proj 𝒜))) = r) :
+    cycleProjectiveDegree r (pointCodimensionCycle x hx) = projectiveSpectrumPointDegree x := by
+  change ∑ᶠ y : Proj 𝒜, (pointCodimensionCycle x hx : AlgebraicCycle (Proj 𝒜) ℤ) y *
+    projectiveSpectrumPointDegree y = _
+  rw [finsum_eq_single _ x]
+  · rw [pointCodimensionCycle_apply, if_pos rfl, one_mul]
+  · intro y hy
+    rw [pointCodimensionCycle_apply, if_neg hy, zero_mul]
+
+/-- **Reduction of Hartshorne A, Exercise 6.3, to its two missing inputs.** Let `k` be
+algebraically closed and `Y = closure {y}` an integral subvariety of `ℙⁿ_k` of dimension `m`.
+Suppose that degree vanishes on the rational-equivalence subgroup in codimension `n - m`, and that
+`[Y]` is rationally equivalent to some integer multiple of `[Lₘ]`. Then `[Y]` is rationally
+equivalent to `deg Y · [Lₘ]`, because `deg Lₘ = 1`. -/
+theorem rationallyEquivalent_degree_smul_linearSubspace_of_exists [IsAlgClosed k] {m : ℕ}
+    (hm : m ≤ n) {y : Proj 𝒜} (hy : codim (closure ({y} : Set (Proj 𝒜))) = (n - m : ℕ))
+    (hdeg : ∀ c ∈ rationalEquivalenceSubgroup projectiveSpaceStructureMorphism
+      finiteType_projectiveSpaceStructureMorphism topologicalKrullDim_projectiveSpace (n - m),
+      cycleProjectiveDegree (k := k) (n := n) (n - m) c = 0)
+    (hgen : ∃ a : ℤ, RationallyEquivalent projectiveSpaceStructureMorphism
+      finiteType_projectiveSpaceStructureMorphism topologicalKrullDim_projectiveSpace
+      (pointCodimensionCycle y hy)
+      (a • pointCodimensionCycle (linearSubspacePoint (k := k) (n := n) m)
+        (codim_closure_linearSubspacePoint hm))) :
+    RationallyEquivalent projectiveSpaceStructureMorphism
+      finiteType_projectiveSpaceStructureMorphism topologicalKrullDim_projectiveSpace
+      (pointCodimensionCycle y hy)
+      (projectiveSpectrumPointDegree y •
+        pointCodimensionCycle (linearSubspacePoint (k := k) (n := n) m)
+          (codim_closure_linearSubspacePoint hm)) := by
+  obtain ⟨a, ha⟩ := hgen
+  have h := hdeg _ ha
+  rw [map_sub, map_zsmul, cycleProjectiveDegree_pointCodimensionCycle,
+    cycleProjectiveDegree_pointCodimensionCycle,
+    projectiveSpectrumPointDegree_linearSubspacePoint hm, smul_eq_mul, mul_one,
+    sub_eq_zero] at h
+  rwa [h]
 
 end Cycles
