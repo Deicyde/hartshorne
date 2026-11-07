@@ -472,6 +472,7 @@ import Hartshorne.Intersection.SectionZeroScheme
 import Hartshorne.Scheme.ProjectiveIntersectionDegree
 import Hartshorne.Scheme.ProjectiveClosedSubschemePrimes
 import Hartshorne.Scheme.ProjectiveLocalIntersectionMultiplicity
+import Hartshorne.Scheme.ProjectiveIntersectionDegreeFormula
 import Hartshorne.RingedSpace.FiniteLocallyFreeTensorInjective
 import Hartshorne.RingedSpace.OpenRestriction
 import Hartshorne.RingedSpace.FiniteLocallyFreeProjectionFormula
