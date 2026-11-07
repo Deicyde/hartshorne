@@ -2,6 +2,9 @@
 article_id: af_43c075991ef42c98863acc26
 declaration: bilinear_map
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.externalProduct Hartshorne.externalProductPoint Hartshorne.closure_externalProductPoint Hartshorne.externalProduct_apply_of_eq_single
 ---
 
 # External products of cycles

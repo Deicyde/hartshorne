@@ -391,6 +391,7 @@ import Hartshorne.Intersection.RawCyclePushforward
 import Hartshorne.Intersection.RationalEquivalence
 import Hartshorne.Intersection.RationalEquivalencePrincipal
 import Hartshorne.Intersection.RationalEquivalenceCodimOne
+import Hartshorne.Intersection.ExternalProduct
 import Hartshorne.Intersection.RawCyclePushforwardFunctorial
 import Hartshorne.Cohomology.RightDerivedLongExactSequence
 import Hartshorne.Weil.FiniteFieldFrobenius
