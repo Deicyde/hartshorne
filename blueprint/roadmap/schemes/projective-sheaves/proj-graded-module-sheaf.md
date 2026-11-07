@@ -25,6 +25,7 @@ with it so subsequent nodes do not depend on an underspecified sheaf.
 - [A standard Proj chart is affine](../projective-spectrum/proj-basic-open.md)
 - [Sheaves of modules](../modules-and-quasicoherent/sheaves-of-modules.md)
 - [Quasi-coherence by local presentations](../modules-and-quasicoherent/quasicoherent-local-presentations.md)
+- [The affine-local criterion for coherence](../modules-and-quasicoherent/coherent-affine-local-criterion.md)
 
 ## Proof depends on
 
