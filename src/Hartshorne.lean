@@ -532,3 +532,5 @@ import Hartshorne.Scheme.LocalRingGlobalDimension
 import Hartshorne.Scheme.RegularLocalGlobalDimension
 import Hartshorne.Scheme.SerreRegularity
 import Hartshorne.Scheme.ProjectiveSpaceClassGroup
+import Hartshorne.RingedSpace.ModuleSkyscraper
+import Hartshorne.Scheme.ModulePullbackStalk
