@@ -2,6 +2,9 @@
 article_id: af_d8a60fcacc98f1f02dc601a2
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.Modules.IsGeneratedBySections AlgebraicGeometry.Scheme.Modules.IsGloballyGenerated AlgebraicGeometry.Scheme.Modules.isGloballyGenerated_iff_exists_epi AlgebraicGeometry.Scheme.Modules.isGloballyGenerated_of_isAffine Hartshorne.ProjTwistingSheaf.degreeOneSection Hartshorne.ProjTwistingSheaf.isGeneratedBySections_degreeOneSection Hartshorne.ProjTwistingSheaf.isGloballyGenerated
 ---
 
 # Generation by global sections

@@ -492,3 +492,4 @@ import Hartshorne.Scheme.PicardPullback
 import Hartshorne.Intersection.PlaneCurveGermDerivation
 import Hartshorne.Intersection.PlaneCurveGaussRamification
 import Hartshorne.Scheme.InvertibleSectionClearingDenominators
+import Hartshorne.Scheme.GloballyGenerated
