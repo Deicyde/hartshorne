@@ -25,6 +25,8 @@ positive-characteristic failure of Bertini noted in Remark 10.9.3.
 - [Projective space is smooth](space-examples/projective-space-smooth.md)
 - [The transitivity sequence for differential sheaves](../../schemes/differentials/scheme-differentials/relative-differentials-transitivity.md)
 - [Relative differentials of a smooth morphism](criteria/relative-differentials-rank-of-smooth.md)
+- [Absolute Frobenius and Hartshorne's Frobenius twist](../../curves/ramification/scheme-frobenius-twist.md)
+- [Regular points and nonsingular schemes](../../schemes/differentials/scheme-differentials/regular-points-and-nonsingular-schemes.md)
 
 ## Proof depends on
 
