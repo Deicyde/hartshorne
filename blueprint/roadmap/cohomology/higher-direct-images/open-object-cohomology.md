@@ -35,6 +35,10 @@ cohomology on inverse-image opens.
   sheaf $\mathbb{Z}$ on that open.
 - Naturality of $\operatorname{Ext}$ under that equivalence.
 
+## Informally uses
+
+- [Injectives restrict to open subsets](../ext-groups/sheaf-ext/open-restriction-injective.md)
+
 ## Sources
 
 - [Source notes for the comparison in Hartshorne III.8.1](../../../sources/hartshorne-iii-8.md#definition-and-local-description-printed-pp-250251)
