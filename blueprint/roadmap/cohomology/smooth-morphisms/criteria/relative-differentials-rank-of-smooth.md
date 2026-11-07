@@ -2,6 +2,9 @@
 article_id: af_df89836b70eff0b96573888b
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.relativeDifferentials_isLocallyFreeOfRank_iff_of_field AlgebraicGeometry.Scheme.relativeDifferentials_isLocallyFreeOfRank_iff AlgebraicGeometry.Scheme.relativeDifferentials_isLocallyFreeOfRank_of_smoothOfRelativeDimension
 ---
 
 # Constant fibre dimension of relative differentials

@@ -428,6 +428,8 @@ import Hartshorne.Scheme.CoherentFreeLocus
 import Hartshorne.Scheme.QuasicoherentAbelianClosure
 import Hartshorne.Scheme.QuasicoherentIdealSheafData
 import Hartshorne.Scheme.FibreDimensionFree
+import Hartshorne.Scheme.CoherentFibreRank
+import Hartshorne.Scheme.Differentials.RelativeDifferentialsFibreRank
 import Hartshorne.Scheme.Differentials.RegularLocalDifferentialCriterion
 import Hartshorne.Scheme.ProjectiveWeilDivisorDegree
 import Hartshorne.RingedSpace.FiniteLocallyFreeDuality
