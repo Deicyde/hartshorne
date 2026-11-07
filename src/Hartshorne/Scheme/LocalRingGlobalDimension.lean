@@ -10,7 +10,8 @@ import Mathlib.RingTheory.Ideal.AssociatedPrime.Finiteness
 
 Let `R` be a Noetherian local ring with residue field `k`. If `k` has projective dimension at
 most `n`, then every finitely generated `R`-module has projective dimension at most `n`
-(compare Matsumura, *Commutative Ring Theory*, Theorem 19.1).
+(compare Matsumura, *Commutative Ring Theory*, §19, where the global dimension of
+a Noetherian local ring is shown to equal the projective dimension of its residue field).
 
 The proof only uses `Ext`:
 
@@ -167,7 +168,7 @@ theorem subsingleton_ext_quotient_prime [IsLocalRing R] [IsNoetherianRing R]
 
 /-- Over a Noetherian local ring whose residue field has projective dimension at most `n`, every
 finitely generated module has projective dimension at most `n` (compare Matsumura, *Commutative
-Ring Theory*, Theorem 19.1). -/
+Ring Theory*, §19: the global dimension of a Noetherian local ring equals `pd k`). -/
 theorem hasProjectiveDimensionLE_of_residueField [IsLocalRing R] [IsNoetherianRing R] (n : ℕ)
     (hk : HasProjectiveDimensionLE (ModuleCat.of R (ResidueField R)) n)
     (M : ModuleCat.{u} R) [Module.Finite R M] : HasProjectiveDimensionLE M n := by

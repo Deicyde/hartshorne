@@ -8,10 +8,10 @@ import Hartshorne.Scheme.RegularLocalGlobalDimension
 # Serre's criterion: finite projective dimension of the residue field forces regularity
 
 Let `B` be a Noetherian local ring whose residue field `k` has finite projective dimension.
-Then `B` is regular (Serre; compare Matsumura, *Commutative Ring Theory*, Theorem 19.2).
+Then `B` is regular (Serre; compare Matsumura, *Commutative Ring Theory*, §19).
 Combined with the finiteness of global dimension of regular local rings and the behaviour of
 projective dimension under localization, this shows that every localization of a regular local
-ring at a prime is regular (compare Matsumura, Theorem 19.3).
+ring at a prime is regular (compare Matsumura, §19).
 
 ## Proof outline
 
@@ -382,7 +382,7 @@ theorem nonempty_retract_residueField_quotient [IsLocalRing B] {x : B}
     ResidueField.algebraMap_eq]
 
 /-- **Serre's criterion**: a Noetherian local ring whose residue field has finite projective
-dimension is regular (compare Matsumura, *Commutative Ring Theory*, Theorem 19.2). -/
+dimension is regular (compare Matsumura, *Commutative Ring Theory*, §19). -/
 theorem isRegularLocalRing_of_hasProjectiveDimensionLE (n : ℕ) :
     ∀ (B : Type u) [CommRing B] [IsLocalRing B] [IsNoetherianRing B],
       HasProjectiveDimensionLE (ModuleCat.of B (ResidueField B)) n → IsRegularLocalRing B := by
