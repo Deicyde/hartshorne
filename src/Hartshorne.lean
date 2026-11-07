@@ -50,6 +50,7 @@ import Hartshorne.Scheme.CartierDivisorSheaf
 import Hartshorne.Scheme.CartierDivisorSheafArithmetic
 import Hartshorne.Scheme.CartierLinearEquivalenceSheaf
 import Hartshorne.Scheme.CartierClassPicard
+import Hartshorne.Scheme.CartierClassPicardIntegral
 import Hartshorne.Scheme.ConstantSheaf
 import Hartshorne.Scheme.ConstantSheafSections
 import Hartshorne.Scheme.SheafSupport
