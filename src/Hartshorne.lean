@@ -511,3 +511,4 @@ import Hartshorne.RingedSpace.SheafExt
 import Hartshorne.RingedSpace.SheafExtStructureSheaf
 import Hartshorne.Scheme.SymmetricAlgebraSheaf
 import Hartshorne.Scheme.Differentials.EulerSequenceMaps
+import Hartshorne.Scheme.Differentials.EulerSequenceChainRule
