@@ -2,6 +2,9 @@
 article_id: af_6982e1262c5f2e3e73e7301d
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.Ringed.sheafExt_structureModule Hartshorne.Ringed.sheafExtStructureModuleZeroIso Hartshorne.Ringed.isZero_sheafExt_structureModule Hartshorne.Ringed.moduleSheafHomStructureModuleIso
 ---
 
 # Sheaf Ext from the structure sheaf
