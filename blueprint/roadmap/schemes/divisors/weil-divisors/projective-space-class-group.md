@@ -23,6 +23,7 @@ class group.
 - [Linear equivalence and the Weil class group](weil-linear-equivalence.md)
 - [Projective space over a ring](../../projective-spectrum/projective-space-over-ring.md)
 - [Projective codimension one is a hypersurface](../../../intersections-projective-space/dimension/projective-codimension-one-hypersurface.md)
+- [Ambient hypersurfaces cut divisors](../divisor-exercises/projective-intersection-divisor.md)
 
 ## Proof depends on
 
