@@ -313,6 +313,45 @@ open SheafTensorOperations SheafAlgebraOperations
 
 variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
 
+/-- A morphism from the sheafification of a presheaf of `𝒪_X`-algebras to a sheaf of
+`𝒪_X`-algebras is multiplicative as soon as it is multiplicative on the images of presheaf
+sections. -/
+theorem PresheafAlgebra.sheafify_hom_mul
+    {P : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat)} (S : PresheafAlgebra P)
+    {H : SheafOfModules.{u} (ringCatSheafOf R)} (T : ModuleSheafAlgebra H) (ψ : sheafify P ⟶ H)
+    (hψ : ∀ U a b, ψ.val.app U ((sheafifyUnit P).app U (S.mul.app U a b)) =
+      T.mul.app U (ψ.val.app U ((sheafifyUnit P).app U a))
+        (ψ.val.app U ((sheafifyUnit P).app U b)))
+    (U : (Opens X)ᵒᵖ) (a b : (sheafify P).val.obj U) :
+    ψ.val.app U (S.sheafification.mul.app U a b) =
+      T.mul.app U (ψ.val.app U a) (ψ.val.app U b) := by
+  obtain ⟨U⟩ := U
+  apply sheaf_section_ext H
+  intro x hx
+  obtain ⟨V₁, h₁, i₁, p₁, e₁⟩ := exists_unit_eq_map P a hx
+  obtain ⟨V₂, h₂, i₂, p₂, e₂⟩ := exists_unit_eq_map P b hx
+  let W := V₁ ⊓ V₂
+  let k : W ⟶ U := homOfLE inf_le_left ≫ i₁
+  refine ⟨W, ⟨h₁, h₂⟩, k, ?_⟩
+  obtain ⟨q₁, ha⟩ := map_eq_unit_of_le P e₁ (homOfLE inf_le_left) k
+  obtain ⟨q₂, hb⟩ := map_eq_unit_of_le P e₂ (homOfLE inf_le_right) k
+  have key : ∀ q₁ q₂ : P.obj (op W),
+      ψ.val.app _ (S.sheafification.mul.app _ ((sheafifyUnit P).app _ q₁)
+        ((sheafifyUnit P).app _ q₂)) = T.mul.app _
+        (ψ.val.app _ ((sheafifyUnit P).app _ q₁))
+        (ψ.val.app _ ((sheafifyUnit P).app _ q₂)) := by
+    intro q₁ q₂
+    exact (congrArg (ψ.val.app (op W)) (S.sheafification_mul_unit (op W) q₁ q₂)).trans
+      (hψ _ q₁ q₂)
+  rw [← PresheafOfModules.naturality_apply, S.sheafification.mul.naturality,
+    T.mul.naturality, ← PresheafOfModules.naturality_apply,
+    ← PresheafOfModules.naturality_apply]
+  have e1 := congrArg₂ (fun s t => ψ.val.app (op W)
+    (S.sheafification.mul.app (op W) s t)) ha hb
+  have e2 := congrArg₂ (fun s t => T.mul.app (op W)
+    (ψ.val.app (op W) s) (ψ.val.app (op W) t)) ha hb
+  exact e1.trans ((key q₁ q₂).trans e2.symm)
+
 /-- A multiplicative morphism of presheaves of `𝒪_X`-algebras induces a multiplicative morphism of
 their sheafifications. -/
 theorem PresheafAlgebra.sheafifyMap_mul
@@ -890,6 +929,121 @@ theorem exists_polynomialAlgebraSheaf_iso_symmetricAlgebra
     polynomialAlgebraSymmetricAlgebraIso_one (e := e) he⟩
 
 end Polynomial
+
+section Restriction
+
+open SheafTensorOperations SheafAlgebraOperations AlgebraicGeometry
+
+variable {X Y : Scheme.{u}} (f : Y ⟶ X) [IsOpenImmersion f]
+
+/-- **Restriction of a sheaf of algebras** along an open immersion `f : Y ⟶ X`: the
+multiplication and unit of `A|_Y` over `W` are those of `A` over `f(W)`. -/
+noncomputable def ModuleSheafAlgebra.restrict {A : SheafOfModules.{u} (ringCatSheafOf X.sheaf)}
+    (S : ModuleSheafAlgebra A) : ModuleSheafAlgebra ((restrictModule f).obj A) where
+  mul :=
+    { app W :=
+        { toFun a :=
+            { toFun b := S.mul.app (f.opensFunctor.op.obj W) a b
+              map_add' b b' := map_add _ b b'
+              map_smul' r b := (S.mul.app (f.opensFunctor.op.obj W) a).map_smul
+                (restrictRing f W r) b }
+          map_add' a a' := LinearMap.ext fun b =>
+            LinearMap.congr_fun ((S.mul.app (f.opensFunctor.op.obj W)).map_add a a') b
+          map_smul' r a := LinearMap.ext fun b =>
+            LinearMap.congr_fun ((S.mul.app (f.opensFunctor.op.obj W)).map_smul
+              (restrictRing f W r) a) b }
+      naturality i a b := S.mul.naturality (f.opensFunctor.op.map i) a b }
+  one W := S.one (f.opensFunctor.op.obj W)
+  map_one i := S.map_one (f.opensFunctor.op.map i)
+  mul_assoc W := S.mul_assoc (f.opensFunctor.op.obj W)
+  one_mul W := S.one_mul (f.opensFunctor.op.obj W)
+  mul_one W := S.mul_one (f.opensFunctor.op.obj W)
+
+theorem isIso_sheafificationRestrictHom (P : PresheafOfModules.{u} (ringCatSheafOf X.sheaf).obj) :
+    IsIso (sheafificationRestrictHom f P) :=
+  inferInstance
+
+variable (E : SheafOfModules.{u} (ringCatSheafOf X.sheaf))
+
+/-- Sections over `W` of the presheaf `W ↦ S(E|_Y(W))` agree with sections over `f(W)` of the
+presheaf `U ↦ S(E(U))`. -/
+noncomputable def symmetricAlgebraRestrictEquiv (W : (Opens Y)ᵒᵖ) :
+    (moduleSheafSymmetricAlgebraPresheaf ((restrictModule f).obj E)).obj W ≃ₗ[
+      (ringCatSheafOf Y.sheaf).obj.obj W]
+      ((PresheafOfModules.pushforward (restrictRingHom f).hom).obj
+        (moduleSheafSymmetricAlgebraPresheaf E)).obj W where
+  toFun := symmetricAlgebraMap (restrictRing f W) (restrictSections f E W)
+  map_add' := map_add _
+  map_smul' := (symmetricAlgebraMap (restrictRing f W) (restrictSections f E W)).map_smulₛₗ
+  invFun := symmetricAlgebraMap (restrictRingInv f W) (restrictSectionsInv f E W)
+  left_inv x := (symmetricAlgebraMap_comp (fun a => (restrictRingInv_restrictRing f W a).symm)
+    _ _ LinearMap.id (fun _ => rfl) x).symm.trans
+      (symmetricAlgebraMap_id (fun _ => rfl) _ (fun _ => rfl) x)
+  right_inv x := (symmetricAlgebraMap_comp (fun b => (restrictRing_restrictRingInv f W b).symm)
+    _ _ LinearMap.id (fun _ => rfl) x).symm.trans
+      (symmetricAlgebraMap_id (fun _ => rfl) _ (fun _ => rfl) x)
+
+/-- The presheaf `W ↦ S(E|_Y(W))` is the restriction to `Y` of the presheaf `U ↦ S(E(U))`. -/
+noncomputable def symmetricAlgebraPresheafRestrictIso :
+    moduleSheafSymmetricAlgebraPresheaf ((restrictModule f).obj E) ≅
+      (PresheafOfModules.pushforward (restrictRingHom f).hom).obj
+        (moduleSheafSymmetricAlgebraPresheaf E) :=
+  PresheafOfModules.isoMk (fun W => (symmetricAlgebraRestrictEquiv f E W).toModuleIso)
+    (fun W W' i => by
+      ext x
+      exact (symmetricAlgebraMap_comp (fun a => rfl)
+        (((restrictModule f).obj E).val.restrictₛₗ i)
+        (restrictSections f E W') (restrictSectionsMap f E i) (fun _ => rfl) x).symm.trans
+        (symmetricAlgebraMap_comp (fun a => restrictRing_naturality f i a)
+          (restrictSections f E W) (E.val.restrictₛₗ (f.opensFunctor.op.map i)) _
+          (fun _ => rfl) x))
+
+/-- **The symmetric algebra commutes with restriction to open subschemes:** `S(E|_Y) ≅ S(E)|_Y`,
+as sheaves of algebras (`symmetricAlgebraRestrictIso_mul`, `symmetricAlgebraRestrictIso_one`). -/
+noncomputable def symmetricAlgebraRestrictIso :
+    moduleSheafSymmetricAlgebra ((restrictModule f).obj E) ≅
+      (restrictModule f).obj (moduleSheafSymmetricAlgebra E) :=
+  (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf Y.sheaf).obj)).mapIso
+      (symmetricAlgebraPresheafRestrictIso f E) ≪≫
+    @asIso _ _ _ _ (sheafificationRestrictHom f (moduleSheafSymmetricAlgebraPresheaf E))
+      (isIso_sheafificationRestrictHom f _)
+
+theorem symmetricAlgebraRestrictIso_unit (W : (Opens Y)ᵒᵖ)
+    (z : (moduleSheafSymmetricAlgebraPresheaf ((restrictModule f).obj E)).obj W) :
+    (symmetricAlgebraRestrictIso f E).hom.val.app W
+        ((sheafifyUnit (moduleSheafSymmetricAlgebraPresheaf ((restrictModule f).obj E))).app W z) =
+      (sheafifyUnit (moduleSheafSymmetricAlgebraPresheaf E)).app (f.opensFunctor.op.obj W)
+        (symmetricAlgebraMap (restrictRing f W) (restrictSections f E W) z) := by
+  have h1 := sheafifyMap_unit (symmetricAlgebraPresheafRestrictIso f E).hom W z
+  have h2 := sheafificationRestrictHom_unit f (moduleSheafSymmetricAlgebraPresheaf E) W
+    ((symmetricAlgebraPresheafRestrictIso f E).hom.app W z)
+  exact (congrArg ((sheafificationRestrictHom f (moduleSheafSymmetricAlgebraPresheaf E)).val.app W)
+    h1).trans h2
+
+theorem symmetricAlgebraRestrictIso_mul (W : (Opens Y)ᵒᵖ)
+    (a b : (moduleSheafSymmetricAlgebra ((restrictModule f).obj E)).val.obj W) :
+    (symmetricAlgebraRestrictIso f E).hom.val.app W
+        ((moduleSheafSymmetricAlgebraStructure ((restrictModule f).obj E)).mul.app W a b) =
+      ((moduleSheafSymmetricAlgebraStructure E).restrict f).mul.app W
+        ((symmetricAlgebraRestrictIso f E).hom.val.app W a)
+        ((symmetricAlgebraRestrictIso f E).hom.val.app W b) := by
+  refine PresheafAlgebra.sheafify_hom_mul _ _ _ (fun W x y => ?_) W a b
+  have hu := symmetricAlgebraRestrictIso_unit f E W
+  exact (hu _).trans ((congrArg _ (symmetricAlgebraMap_mul _ _ x y)).trans
+    ((moduleSheafSymmetricAlgebra_mul_unit E _ _ _).symm.trans
+      (congrArg₂ (fun s t => ((moduleSheafSymmetricAlgebraStructure E).restrict f).mul.app W s t)
+        (hu x).symm (hu y).symm)))
+
+theorem symmetricAlgebraRestrictIso_one (W : (Opens Y)ᵒᵖ) :
+    (symmetricAlgebraRestrictIso f E).hom.val.app W
+        ((moduleSheafSymmetricAlgebraStructure ((restrictModule f).obj E)).one W) =
+      ((moduleSheafSymmetricAlgebraStructure E).restrict f).one W :=
+  (symmetricAlgebraRestrictIso_unit f E W
+    (1 : SymmetricAlgebra ((Y.sheaf.obj ⋙ forget₂ CommRingCat RingCat).obj W)
+      (((restrictModule f).obj E).val.obj W))).trans
+    (congrArg _ (map_one (symmetricAlgebraRingHom (restrictRing f W) (restrictSections f E W))))
+
+end Restriction
 
 end Hartshorne
 
