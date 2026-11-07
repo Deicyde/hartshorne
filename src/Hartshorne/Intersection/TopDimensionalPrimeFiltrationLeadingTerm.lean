@@ -383,29 +383,6 @@ private theorem hilbertFunction_eq_sum_filtrationFactors
     hslast, ← htop] at hlast
   exact hlast
 
-private theorem isProjAlgebraicSet_projZeroSet_of_isHomogeneous
-    {k : Type u} [Field k] {σ : Type*}
-    (I : Ideal (MvPolynomial σ k)) (hI : IsHomogeneousIdeal I) :
-    IsProjAlgebraicSet (projZeroSet (I : Set (MvPolynomial σ k))) := by
-  obtain ⟨T, hT⟩ := (Ideal.IsHomogeneous.iff_exists
-    (𝒜 := homogeneousSubmodule σ k) (I := I)).mp hI
-  let U : Set (MvPolynomial σ k) := Subtype.val '' T
-  refine ⟨U, ?_, ?_⟩
-  · rintro f ⟨g, -, rfl⟩
-    exact isHomogeneousElem_iff.mp g.2
-  · calc
-      projZeroSet (I : Set (MvPolynomial σ k)) =
-          projZeroSet (Ideal.span U : Set (MvPolynomial σ k)) := by
-        rw [hT]
-      _ = projZeroSet U := projZeroSet_span _
-
-private theorem isClosed_projZeroSet_of_isHomogeneousIdeal
-    {k : Type u} [Field k] {σ : Type*}
-    (I : Ideal (MvPolynomial σ k)) (hI : IsHomogeneousIdeal I) :
-    IsClosed (projZeroSet (I : Set (MvPolynomial σ k))) :=
-  isClosed_iff_isProjAlgebraicSet.mpr
-    (isProjAlgebraicSet_projZeroSet_of_isHomogeneous I hI)
-
 private theorem isProjVariety_projZeroSet_of_isHomogeneous_isPrime
     {k : Type u} [Field k] [IsAlgClosed k]
     {σ : Type*} [Finite σ]

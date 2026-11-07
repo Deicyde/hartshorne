@@ -703,7 +703,8 @@ theorem isHilbertPolynomial_unique
   filter_upwards [hP.2, hQ.2] with d hdP hdQ
   exact hdP.trans hdQ.symm
 
-private theorem isProjAlgebraicSet_projZeroSet_of_isHomogeneous
+/-- The zero set of a homogeneous ideal is a projective algebraic set. -/
+theorem isProjAlgebraicSet_projZeroSet_of_isHomogeneous
     {k : Type u} [Field k] {σ : Type*}
     (I : Ideal (MvPolynomial σ k)) (hI : IsHomogeneousIdeal I) :
     IsProjAlgebraicSet (projZeroSet (I : Set (MvPolynomial σ k))) := by
@@ -744,7 +745,8 @@ private theorem projZeroSet_sup
         · exact hI f hf
         · exact hJ f hf
 
-private theorem isClosed_projZeroSet_of_isHomogeneousIdeal
+/-- The zero set of a homogeneous ideal is closed in projective space. -/
+theorem isClosed_projZeroSet_of_isHomogeneousIdeal
     {k : Type u} [Field k] {σ : Type*}
     (I : Ideal (MvPolynomial σ k)) (hI : IsHomogeneousIdeal I) :
     IsClosed (projZeroSet (I : Set (MvPolynomial σ k))) :=
