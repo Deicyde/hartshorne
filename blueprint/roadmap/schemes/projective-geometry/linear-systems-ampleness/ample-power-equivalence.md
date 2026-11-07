@@ -2,6 +2,9 @@
 article_id: af_0047853787bc9451067d42a3
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.Modules.isAmple_tfae
 ---
 
 # Ampleness and tensor powers
