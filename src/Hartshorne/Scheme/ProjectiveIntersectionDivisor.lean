@@ -83,7 +83,9 @@ theorem germ_hypersurfaceChartEquation (f g : S) {d : ℕ} (hf : f.IsHomogeneous
 section atPrime
 variable {P : Ideal (MvPolynomial (Fin (n + 1)) k)} [P.IsPrime]
 
-private theorem atPrime_mk_eq_mk' {i j : ℕ} {a b : 𝒜 i} {a' b' : 𝒜 j}
+/-- Two fractions `a / b` and `a' / b'` of the homogeneous localization at a prime are equal as
+soon as `a * b' = a' * b`. -/
+theorem atPrime_mk_eq_mk_of_mul_eq {i j : ℕ} {a b : 𝒜 i} {a' b' : 𝒜 j}
     (hb : (b : S) ∈ P.primeCompl) (hb' : (b' : S) ∈ P.primeCompl) (h : (a : S) * b' = a' * b) :
     (HomogeneousLocalization.mk ⟨i, a, b, hb⟩ : AtPrime 𝒜 P) =
       HomogeneousLocalization.mk ⟨j, a', b', hb'⟩ := by
@@ -92,15 +94,13 @@ private theorem atPrime_mk_eq_mk' {i j : ℕ} {a b : 𝒜 i} {a' b' : 𝒜 j}
   rw [Localization.mk_eq_mk_iff, Localization.r_iff_exists]
   exact ⟨1, by simp only [OneMemClass.coe_one, one_mul]; rw [mul_comm, h, mul_comm]⟩
 
-private theorem atPrime_mk_isUnit' {i : ℕ} {a b : 𝒜 i} (hb : (b : S) ∈ P.primeCompl)
-    (ha : (a : S) ∈ P.primeCompl) :
-    IsUnit (HomogeneousLocalization.mk ⟨i, a, b, hb⟩ : AtPrime 𝒜 P) := by
-  refine isUnit_iff_exists_inv.mpr ⟨HomogeneousLocalization.mk ⟨i, b, a, ha⟩, ?_⟩
-  apply HomogeneousLocalization.val_injective
-  rw [HomogeneousLocalization.val_mul, HomogeneousLocalization.val_mk,
-    HomogeneousLocalization.val_mk, HomogeneousLocalization.val_one, Localization.mk_mul,
-    mul_comm (a : S)]
-  exact Localization.mk_self ⟨(b : S) * a, P.primeCompl.mul_mem hb ha⟩
+/-- A fraction `a / b` of the homogeneous localization at a prime is a unit exactly when its
+numerator lies outside the prime. -/
+theorem atPrime_mk_isUnit_iff {i : ℕ} {a b : 𝒜 i} (hb : (b : S) ∈ P.primeCompl) :
+    IsUnit (HomogeneousLocalization.mk ⟨i, a, b, hb⟩ : AtPrime 𝒜 P) ↔ (a : S) ∉ P := by
+  rw [← HomogeneousLocalization.isUnit_iff_isUnit_val, HomogeneousLocalization.val_mk,
+    Localization.mk_eq_mk', IsLocalization.AtPrime.isUnit_mk'_iff]
+  rfl
 
 /-- Two fractions `a / b` and `a' / b'` are associated when `a' / b' = (a / b) * (c / e)` with
 `c, e` outside the prime. -/
@@ -110,16 +110,17 @@ private theorem atPrime_mk_associated' {i j l : ℕ} {a b : 𝒜 i} {a' b' : �
     (h : (a' : S) * (b * e) = a * c * b') :
     Associated (HomogeneousLocalization.mk ⟨i, a, b, hb⟩ : AtPrime 𝒜 P)
       (HomogeneousLocalization.mk ⟨j, a', b', hb'⟩) := by
-  obtain ⟨u, hu⟩ := atPrime_mk_isUnit' (P := P) he hc
+  obtain ⟨u, hu⟩ := (atPrime_mk_isUnit_iff (P := P) (a := c) he).mpr hc
   refine ⟨u, ?_⟩
   rw [hu, ← HomogeneousLocalization.mk_mul]
-  apply atPrime_mk_eq_mk'
+  apply atPrime_mk_eq_mk_of_mul_eq
   change (a : S) * c * b' = a' * (b * e)
   rw [h]
 
 end atPrime
 
-private theorem exists_projectiveSpace_X_notMem (p : Proj 𝒜) :
+/-- Some coordinate does not vanish at a point of `ℙⁿ_k`. -/
+theorem exists_X_notMem_projectiveSpace (p : Proj 𝒜) :
     ∃ i, (MvPolynomial.X i : S) ∉ p.asHomogeneousIdeal := by
   by_contra hall
   push Not at hall
@@ -143,17 +144,23 @@ private theorem exists_projectiveSpace_X_notMem (p : Proj 𝒜) :
   rintro _ ⟨i, -, rfl⟩
   exact hall i
 
-private theorem exists_projectiveSpace_chart (p : Proj 𝒜) (d : ℕ) :
-    ∃ g : S, g.IsHomogeneous d ∧ p ∈ Proj.basicOpen 𝒜 g := by
-  obtain ⟨i, hi⟩ := exists_projectiveSpace_X_notMem p
-  refine ⟨MvPolynomial.X i ^ d, isHomogeneous_X_pow i d, ?_⟩
+/-- A point of `ℙⁿ_k` at which `x_i` does not vanish lies in the chart `D₊(x_i^d)`. -/
+theorem mem_basicOpen_X_pow {p : Proj 𝒜} {i : Fin (n + 1)}
+    (hi : (MvPolynomial.X i : S) ∉ p.asHomogeneousIdeal) (d : ℕ) :
+    p ∈ Proj.basicOpen 𝒜 ((MvPolynomial.X i : S) ^ d) := by
   rw [Proj.mem_basicOpen]
   exact fun h ↦ hi (p.isPrime.mem_of_pow_mem d h)
+
+private theorem exists_projectiveSpace_chart (p : Proj 𝒜) (d : ℕ) :
+    ∃ g : S, g.IsHomogeneous d ∧ p ∈ Proj.basicOpen 𝒜 g := by
+  obtain ⟨i, hi⟩ := exists_X_notMem_projectiveSpace p
+  exact ⟨MvPolynomial.X i ^ d, isHomogeneous_X_pow i d, mem_basicOpen_X_pow hi d⟩
 
 section ord
 variable {X : Scheme.{u}} [IsIntegral X] [IsLocallyNoetherian X]
 
-private theorem ord_algebraMap_stalk_of_isUnit {x : X} {u : X.presheaf.stalk x} (hu : IsUnit u) :
+/-- A unit of a local ring of an integral locally Noetherian scheme has order zero. -/
+theorem ord_algebraMap_stalk_of_isUnit {x : X} {u : X.presheaf.stalk x} (hu : IsUnit u) :
     X.ord (algebraMap _ X.functionField u) x = 0 := by
   by_cases hx : Order.coheight x = 1
   · have : Ring.KrullDimLE 1 (X.presheaf.stalk x) := krullDimLE_of_coheight_le hx.le
@@ -178,7 +185,8 @@ private theorem ord_algebraMap_stalk_eq_of_associated {x : X} {a b : X.presheaf.
 
 end ord
 
-private theorem projectiveSpace_specializes_iff (x y : Proj 𝒜) :
+/-- Specialization in `ℙⁿ_k` is inclusion of homogeneous primes. -/
+theorem projectiveSpace_specializes_iff_le (x y : Proj 𝒜) :
     x ⤳ y ↔ x.asHomogeneousIdeal ≤ y.asHomogeneousIdeal := by
   rw [specializes_iff_mem_closure]
   exact (ProjectiveSpectrum.le_iff_mem_closure 𝒜 x y).symm
@@ -199,7 +207,7 @@ theorem exists_projectivePrimeDivisor_equation (V : (Proj 𝒜).PrimeDivisor) :
       intro w hw
       change V.1 ⤳ w
       change w ⤳ V.1 at hw
-      rw [projectiveSpace_specializes_iff] at hw ⊢
+      rw [projectiveSpace_specializes_iff_le] at hw ⊢
       intro a ha
       have : a ∈ 𝔭 := ha
       rw [hbot] at this
@@ -251,21 +259,21 @@ theorem exists_projectivePrimeDivisor_equation (V : (Proj 𝒜).PrimeDivisor) :
   let gen : Proj 𝒜 := ⟨⊥, Ideal.isPrime_bot, hbot_relevant⟩
   have hwgen : w < gen := by
     refine ⟨?_, ?_⟩
-    · rw [projectiveSpace_specializes_iff]
+    · rw [projectiveSpace_specializes_iff_le]
       exact bot_le
     · intro h
       change w ⤳ gen at h
-      rw [projectiveSpace_specializes_iff] at h
+      rw [projectiveSpace_specializes_iff_le] at h
       exact hb0 ((Submodule.mem_bot _).mp (h hbJc))
   have hJc_eq : Jc.toIdeal = 𝔭 := by
     by_contra hne'
     have hvw : V.1 < w := by
       refine ⟨?_, ?_⟩
-      · rw [projectiveSpace_specializes_iff]
+      · rw [projectiveSpace_specializes_iff_le]
         exact hJcJ.trans hJ𝔭
       · intro h
         change V.1 ⤳ w at h
-        rw [projectiveSpace_specializes_iff] at h
+        rw [projectiveSpace_specializes_iff_le] at h
         exact hne' (le_antisymm (hJcJ.trans hJ𝔭) h)
     have h1 := Order.coheight_add_one_le hvw
     have h2 := Order.coheight_add_one_le hwgen
@@ -352,15 +360,15 @@ private theorem stalkMap_germ_chartEquation_ne_zero [IsIntegral X] (ι : X ⟶ P
       ⟨x, trivial, hx⟩
   have hfη : f ∉ (ι η).asHomogeneousIdeal := by
     have hsp : ι η ⤳ ι z := ((genericPoint_spec X).specializes trivial).map ι.continuous
-    rw [projectiveSpace_specializes_iff] at hsp
+    rw [projectiveSpace_specializes_iff_le] at hsp
     exact fun h ↦ hz (hsp h)
   have hunit :
       IsUnit ((Proj 𝒜).presheaf.germ _ (ι η) hηU (hypersurfaceChartEquation f g hf hg)) := by
     have := (ι η).isPrime
     rw [germ_hypersurfaceChartEquation]
-    exact (atPrime_mk_isUnit' (P := (ι η).asHomogeneousIdeal.toIdeal)
+    exact ((atPrime_mk_isUnit_iff (P := (ι η).asHomogeneousIdeal.toIdeal)
       (a := ⟨f, (mem_homogeneousSubmodule d f).mpr hf⟩)
-      (b := ⟨g, (mem_homogeneousSubmodule d g).mpr hg⟩) hηU hfη).map _
+      (b := ⟨g, (mem_homogeneousSubmodule d g).mpr hg⟩) hηU).mpr hfη).map _
   intro h0
   rw [Scheme.Hom.germ_stalkMap_apply] at h0
   have hsec : ι.app _ (hypersurfaceChartEquation f g hf hg) = 0 :=
@@ -412,7 +420,7 @@ theorem span_projectivePrimeDivisorEquation (V : (Proj 𝒜).PrimeDivisor) :
 theorem mem_closure_projectivePrimeDivisor_iff (V : (Proj 𝒜).PrimeDivisor) (p : Proj 𝒜) :
     p ∈ closure ({V.1} : Set (Proj 𝒜)) ↔
       projectivePrimeDivisorEquation V ∈ p.asHomogeneousIdeal := by
-  rw [← specializes_iff_mem_closure, projectiveSpace_specializes_iff]
+  rw [← specializes_iff_mem_closure, projectiveSpace_specializes_iff_le]
   constructor
   · intro h
     apply h
@@ -425,7 +433,8 @@ theorem mem_closure_projectivePrimeDivisor_iff (V : (Proj 𝒜).PrimeDivisor) (p
     obtain ⟨b, rfl⟩ := ha
     exact Ideal.mul_mem_left _ b h
 
-private theorem projectiveSpace_X_mem_irrelevant (i : Fin (n + 1)) :
+/-- Every coordinate `x_i` lies in the irrelevant ideal of `k[x₀, …, xₙ]`. -/
+theorem X_mem_irrelevant_projectiveSpace (i : Fin (n + 1)) :
     (MvPolynomial.X i : S) ∈ HomogeneousIdeal.irrelevant 𝒜 := by
   rw [HomogeneousIdeal.mem_irrelevant_iff, GradedRing.proj_apply,
     DirectSum.decompose_of_mem_ne 𝒜 ((mem_homogeneousSubmodule 1 _).mpr (isHomogeneous_X k i))
@@ -455,10 +464,10 @@ theorem projectiveHypersurfaceIdeal_relevant (hn : 0 < n) {f : S}
   intro h
   have hdvd : ∀ i : Fin (n + 1), (MvPolynomial.X i : S) ∣ f :=
     fun i ↦ hirr.dvd_symm (MvPolynomial.X_prime (R := k) (i := i)).irreducible
-      ((mem_projectiveHypersurfaceIdeal hf _).mp (h (projectiveSpace_X_mem_irrelevant i)))
+      ((mem_projectiveHypersurfaceIdeal hf _).mp (h (X_mem_irrelevant_projectiveSpace i)))
   have h01 : (MvPolynomial.X 0 : S) ∣ MvPolynomial.X ⟨1, by omega⟩ :=
     (hdvd 0).trans ((mem_projectiveHypersurfaceIdeal hf _).mp
-      (h (projectiveSpace_X_mem_irrelevant ⟨1, by omega⟩)))
+      (h (X_mem_irrelevant_projectiveSpace ⟨1, by omega⟩)))
   rw [X_dvd_X] at h01
   have := congrArg Fin.val h01
   simp at this
@@ -478,7 +487,7 @@ theorem coheight_projectiveHypersurfacePoint (hn : 0 < n) {f : S}
   have habove : ∀ w : Proj 𝒜, v < w → w.asHomogeneousIdeal.toIdeal = ⊥ := by
     intro w hvw
     have hwv : w.asHomogeneousIdeal.toIdeal ≤ Ideal.span {f} :=
-      hvideal ▸ (projectiveSpace_specializes_iff w v).mp hvw.1
+      hvideal ▸ (projectiveSpace_specializes_iff_le w v).mp hvw.1
     by_contra hne
     obtain ⟨p, hpw, hp⟩ := w.isPrime.exists_mem_prime_of_ne_bot hne
     have hpf : p ∣ f := hirr.dvd_symm hp.irreducible (Ideal.mem_span_singleton.mp (hwv hpw))
@@ -487,27 +496,27 @@ theorem coheight_projectiveHypersurfacePoint (hn : 0 < n) {f : S}
       rw [hc]
       exact Ideal.mul_mem_right _ _ hpw
     apply hvw.2
-    rw [projectiveSpace_specializes_iff]
+    rw [projectiveSpace_specializes_iff_le]
     change v.asHomogeneousIdeal.toIdeal ≤ w.asHomogeneousIdeal.toIdeal
     rw [hvideal]
     exact (Ideal.span_singleton_le_iff_mem _).mpr hfw
   have hmax : ∀ w : Proj 𝒜, v < w → IsMax w := by
     intro w hvw w' _
     change w ⤳ w'
-    rw [projectiveSpace_specializes_iff]
+    rw [projectiveSpace_specializes_iff_le]
     change w.asHomogeneousIdeal.toIdeal ≤ w'.asHomogeneousIdeal.toIdeal
     rw [habove w hvw]
     exact bot_le
   have hbot_relevant : ¬HomogeneousIdeal.irrelevant 𝒜 ≤ (⊥ : HomogeneousIdeal 𝒜) := fun h ↦
-    MvPolynomial.X_ne_zero 0 ((Submodule.mem_bot _).mp (h (projectiveSpace_X_mem_irrelevant 0)))
+    MvPolynomial.X_ne_zero 0 ((Submodule.mem_bot _).mp (h (X_mem_irrelevant_projectiveSpace 0)))
   let gen : Proj 𝒜 := ⟨⊥, Ideal.isPrime_bot, hbot_relevant⟩
   have hvgen : v < gen := by
     refine ⟨?_, ?_⟩
-    · rw [projectiveSpace_specializes_iff]
+    · rw [projectiveSpace_specializes_iff_le]
       exact bot_le
     · intro h
       change v ⤳ gen at h
-      rw [projectiveSpace_specializes_iff] at h
+      rw [projectiveSpace_specializes_iff_le] at h
       have hf' : f ∈ v.asHomogeneousIdeal.toIdeal := by
         rw [hvideal]
         exact Ideal.subset_span rfl
@@ -536,7 +545,7 @@ theorem mem_closure_projectiveHypersurfacePrimeDivisor_iff (hn : 0 < n)
     (p : Proj 𝒜) :
     p ∈ closure ({(projectiveHypersurfacePrimeDivisor hn hf hirr).1} : Set (Proj 𝒜)) ↔
       f ∈ p.asHomogeneousIdeal := by
-  rw [← specializes_iff_mem_closure, projectiveSpace_specializes_iff]
+  rw [← specializes_iff_mem_closure, projectiveSpace_specializes_iff_le]
   change Ideal.span {f} ≤ p.asHomogeneousIdeal.toIdeal ↔ _
   exact Ideal.span_singleton_le_iff_mem _
 
@@ -588,13 +597,11 @@ theorem IsProjectiveHypersurfaceLocalEquation.associated {V : (Proj 𝒜).PrimeD
 
 /-- A coordinate not vanishing at a point of `ℙⁿ_k`. -/
 private def projectiveChartIndex (p : Proj 𝒜) : Fin (n + 1) :=
-  Classical.choose (exists_projectiveSpace_X_notMem p)
+  Classical.choose (exists_X_notMem_projectiveSpace p)
 
 private theorem mem_basicOpen_projectiveChartIndex (p : Proj 𝒜) (d : ℕ) :
-    p ∈ Proj.basicOpen 𝒜 (MvPolynomial.X (projectiveChartIndex p) ^ d) := by
-  rw [Proj.mem_basicOpen]
-  exact fun h ↦
-    Classical.choose_spec (exists_projectiveSpace_X_notMem p) (p.isPrime.mem_of_pow_mem d h)
+    p ∈ Proj.basicOpen 𝒜 (MvPolynomial.X (projectiveChartIndex p) ^ d) :=
+  mem_basicOpen_X_pow (Classical.choose_spec (exists_X_notMem_projectiveSpace p)) d
 
 private theorem exists_notMem_primeDivisorEquation {X : Scheme.{u}} (ι : X ⟶ Proj 𝒜)
     (V : (Proj 𝒜).PrimeDivisor)
@@ -642,10 +649,11 @@ private theorem projectiveIntersectionCoeff_eq_zero_of_notMem [IsIntegral X] [Is
   rw [← Scheme.Hom.germ_stalkMap_apply]
   refine IsUnit.map (ι.stalkMap x).hom ?_
   rw [germ_hypersurfaceChartEquation]
-  exact (atPrime_mk_isUnit' (P := (ι x).asHomogeneousIdeal.toIdeal)
+  exact ((atPrime_mk_isUnit_iff (P := (ι x).asHomogeneousIdeal.toIdeal)
     (a := ⟨_, (mem_homogeneousSubmodule _ _).mpr (projectivePrimeDivisorEquation_isHomogeneous V)⟩)
     (b := ⟨_, (mem_homogeneousSubmodule _ _).mpr (isHomogeneous_X_pow _ _)⟩)
-    (mem_basicOpen_projectiveChartIndex (ι x) (projectivePrimeDivisorEquationDegree V)) hx).map _
+    (mem_basicOpen_projectiveChartIndex (ι x) (projectivePrimeDivisorEquationDegree V))).mpr
+      hx).map _
 
 private theorem projectiveIntersectionCoeff_support_finite (hX : X.SatisfiesConditionStar)
     [IsIntegral X]
