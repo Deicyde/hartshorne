@@ -35,8 +35,8 @@ of affine étale schemes over `U`.  The negative twists are `ℤ/ℓ^r(-1) = Hom
 its tensor powers.  The transition `ℤ/ℓ^s(-1) → ℤ/ℓ^r(-1)` restricts `τ : μ_{ℓ^s} → ℤ/ℓ^s` to
 `μ_{ℓ^r}` and divides by `ℓ ^ (s - r)`: the restriction is killed by `ℓ ^ r`, and the
 `ℓ^r`-torsion of `ℤ/ℓ^s` is `ℓ^(s-r) ℤ/ℓ^s ≅ ℤ/ℓ^r`, also on sections of the constant sheaves
-because taking sections of constant sheaves is left exact.  Together these give `ℤ_ℓ(q)` for every integer
-`q`, and the groups `H^i(X, ℤ_ℓ(q)) = lim_r H^i_et(X, ℤ/ℓ^r(q))`.  Since `ℓ^r` kills
+because taking sections of constant sheaves is left exact.  Together these give `ℤ_ℓ(q)` for every
+integer `q`, and the groups `H^i(X, ℤ_ℓ(q)) = lim_r H^i_et(X, ℤ/ℓ^r(q))`.  Since `ℓ^r` kills
 `ℤ/ℓ^r(q)`, the construction of `Hartshorne.Weil.RationalEllAdicCohomology` (redone here for any
 inverse system whose `r`-th stage is killed by `ℓ ^ r`) makes `H^i(X, ℤ_ℓ(q))` a
 `ℤ_[ℓ]`-module, and `H^i(X, ℚ_ℓ(q)) = ℚ_ℓ ⊗_{ℤ_ℓ} H^i(X, ℤ_ℓ(q))`; for `q = 0` both agree
@@ -1346,12 +1346,6 @@ variable (X : Scheme.{u}) (ℓ : ℕ)
 theorem isEllPowerTorsionSystem_ellAdicTwistCohomologySystem [NeZero ℓ] (q : ℤ) (i : ℕ) :
     IsEllPowerTorsionSystem ℓ (X.ellAdicTwistCohomologySystem ℓ q i) :=
   fun r ↦ X.ellAdicTwistCohomologySystem_pow_nsmul_id ℓ q i r
-
-/-- A prime is nonzero. -/
-theorem _root_.Hartshorne.neZero_of_factPrime [Fact ℓ.Prime] : NeZero ℓ :=
-  ⟨(Fact.out : ℓ.Prime).ne_zero⟩
-
-attribute [local instance] Hartshorne.neZero_of_factPrime
 
 variable [Fact ℓ.Prime]
 

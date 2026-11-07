@@ -167,8 +167,7 @@ articles 1–3 below and add the edges. Then the leaf can be recorded after an i
 4. The leaf etale-tate-twist then depends on 1–3 as well as its current dependencies.
    - It also needs rational-ell-adic-cohomology and ell-adic-integers-and-field as Depends on,
      because the rational twisted cohomology reuses that `ℤ_[ℓ]`-module structure and `ℚ_[ℓ]`.
-   - Its
-   statement could say that `ℤ/ℓ^r(-q) = ℤ/ℓ^r(-1)^{⊗q}` with `ℤ/ℓ^r(-1)` the dual of
+   - Its statement could say that `ℤ/ℓ^r(-q) = ℤ/ℓ^r(-1)^{⊗q}` with `ℤ/ℓ^r(-1)` the dual of
    `ℤ/ℓ^r(1)`. It would record `AlgebraicGeometry.Scheme.etaleTateTwistOne`,
    `AlgebraicGeometry.Scheme.etaleTateTwist`, `AlgebraicGeometry.Scheme.etaleTateTwistSystem`,
    `AlgebraicGeometry.Scheme.classicalEllAdicCohomologyTwist` and
