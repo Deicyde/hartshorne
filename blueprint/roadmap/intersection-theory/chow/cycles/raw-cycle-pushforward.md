@@ -2,6 +2,8 @@
 article_id: af_891febfb913637badc7cc51f
 declaration: def
 origin: cited
+statement: formalized
+lean: Hartshorne.rawCyclePushforwardCoeff Hartshorne.rawCyclePushforwardGenerator Hartshorne.rawCyclePushforward Hartshorne.coe_rawCyclePushforward Hartshorne.rawCyclePushforward_eq_zero_of_lt
 ---
 
 # Raw pushforward of cycles
