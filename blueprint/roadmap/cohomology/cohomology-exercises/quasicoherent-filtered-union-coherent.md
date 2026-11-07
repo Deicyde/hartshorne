@@ -18,9 +18,7 @@ canonical colimit maps isomorphically to $F$.
 
 - [The affine-local criterion for coherence](../../schemes/modules-and-quasicoherent/coherent-affine-local-criterion.md)
 - [Abelian closure of quasi-coherent sheaves](../../schemes/modules-and-quasicoherent/quasicoherent-abelian-closure.md)
-- Choose finitely many affine charts and finitely generated submodules
-  containing any prescribed finite family of local sections, then extend and
-  sum the resulting coherent subsheaves.
+- [Extension of coherent sheaves](../../schemes/coherent-sheaves/coherent-extension.md)
 
 ## Sources
 
