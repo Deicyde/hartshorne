@@ -20,6 +20,8 @@ divisor subtraction with tensor product and duality.
 ## Depends on
 
 - [The invertible sheaf associated to a Cartier divisor](cartier-divisor-associated-sheaf.md)
+- [Tensor products of module sheaves](../../modules-and-quasicoherent/module-tensor-product.md)
+- [Duality for finite locally free sheaves](../../modules-and-quasicoherent/finite-locally-free-duality.md)
 
 ## Proof depends on
 
