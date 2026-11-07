@@ -19,6 +19,7 @@ structure morphism.
 
 ## Depends on
 
+- [Nonsingular curves over a field](nonsingular-curve.md)
 - [The curve/function-field category equivalence](../../../projective-models/curve-category-equivalence.md)
 - [Classical varieties as schemes](../../variety-comparison/README.md)
 - [Projective morphisms are proper](../../proper-and-projective/projective-morphism-proper.md)

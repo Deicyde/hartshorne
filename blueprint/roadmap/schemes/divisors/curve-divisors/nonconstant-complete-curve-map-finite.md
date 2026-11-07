@@ -17,6 +17,7 @@ $K(X)$.
 
 ## Depends on
 
+- [Nonsingular curves over a field](nonsingular-curve.md)
 - [Complete nonsingular curves are projective](complete-nonsingular-curve-projective.md)
 - [Images of proper schemes](../../proper-and-projective/proper-image.md)
 - [Finite morphisms](../../first-properties/finite-morphism.md)
