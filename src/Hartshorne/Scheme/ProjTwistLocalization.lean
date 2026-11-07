@@ -131,20 +131,23 @@ theorem twistFiber_smul (n : ℤ) (h : P ≤ Q.comap φ) (c : HomogeneousLocaliz
 
 /-- **Functoriality of the fiber maps**: the fiber map of a composite is the composite of the
 fiber maps. -/
-theorem twistFiber_comp (φ' : ℬ →+*ᵍ 𝒞) {R : Submonoid C} (n : ℤ) (h : P ≤ Q.comap φ)
-    (h' : Q ≤ R.comap φ') (h'' : P ≤ R.comap (φ'.comp φ))
+theorem twistFiber_comp (φ' : ℬ →+*ᵍ 𝒞) (φ'' : 𝒜 →+*ᵍ 𝒞) (hcomp : ∀ a, φ'' a = φ' (φ a))
+    {R : Submonoid C} (n : ℤ) (h : P ≤ Q.comap φ) (h' : Q ≤ R.comap φ') (h'' : P ≤ R.comap φ'')
     (y : HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 n) P) :
-    twistFiber (φ'.comp φ) n h'' y = twistFiber φ' n h' (twistFiber φ n h y) := by
+    twistFiber φ'' n h'' y = twistFiber φ' n h' (twistFiber φ n h y) := by
   obtain ⟨k, m, hm, t, ht, htx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective y
   rw [twistFiber_mk, twistFiber_mk, twistFiber_mk]
-  rfl
+  ext
+  simp only [HomogeneousLocalizedModule.val_mk, hcomp]
 
-theorem twistFiber_id (n : ℤ) (h : P ≤ P.comap (GradedRingHom.id 𝒜))
+/-- The fiber map of a graded ring map which is the identity is the identity. -/
+theorem twistFiber_id (φ : 𝒜 →+*ᵍ 𝒜) (hid : ∀ a, φ a = a) (n : ℤ) (h : P ≤ P.comap φ)
     (y : HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 n) P) :
-    twistFiber (GradedRingHom.id 𝒜) n h y = y := by
+    twistFiber φ n h y = y := by
   obtain ⟨k, m, hm, t, ht, htx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective y
   rw [twistFiber_mk]
-  rfl
+  ext
+  simp only [HomogeneousLocalizedModule.val_mk, hid]
 
 /-! ### The morphism of twisting sheaves -/
 
