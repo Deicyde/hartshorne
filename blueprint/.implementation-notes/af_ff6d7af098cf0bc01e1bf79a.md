@@ -13,8 +13,8 @@ articles exist, the leaf can record the declarations listed in item 4.
 ## Checked Lean (module `Hartshorne.Weil.EtaleTateTwist`)
 
 The module is sorry-free, imported by the library root, and uses only the standard axioms. It
-imports `Hartshorne.Weil.ClassicalEllAdicCohomology` (for the `q = 0` inverse system) and does
-not edit it.
+imports `Hartshorne.Weil.RationalEllAdicCohomology` (for the `q = 0` inverse system and the
+`q = 0` comparison of rational cohomology) and does not edit it.
 
 - Representing ring: `Hartshorne.RootsOfUnityRing n = ℤ[ℤ/n]` (group ring), with
   `Hartshorne.universalRootOfUnity` and
@@ -77,19 +77,38 @@ not edit it.
     `etaleTateTwistNegOneTransition`, and `etaleTateTwistNegOneSystem`.
 - `etaleTateTwistSystem X ℓ : ℤ → ℕᵒᵖ ⥤ Sheaf` (`ℤ_ℓ(q)`, `etaleTateTwistSystem_obj`),
   `ellAdicTwistCohomologySystem`, `classicalEllAdicCohomologyTwist` (`lim_r H^i(X, ℤ/ℓ^r(q))`),
-  and `rationalEllAdicCohomologyTwist` (that limit `⊗_ℤ ℚ`, which is canonically
-  `⊗_{ℤ_ℓ} ℚ_ℓ`).
+  and `rationalEllAdicCohomologyTwist` (`ℚ_[ℓ] ⊗[ℤ_[ℓ]] H^i(X, ℤ_ℓ(q))` as a
+  `ModuleCat ℚ_[ℓ]`, under `[Fact ℓ.Prime]`).
+- `ℤ_ℓ`-module structure:
+  - `Hartshorne.IsEllPowerTorsionSystem ℓ F` says `ℓ^r` kills the `r`-th stage of
+    `F : ℕᵒᵖ ⥤ Ab`.
+  - `Hartshorne.ellAdicStagePadicIntAction`, `ellAdicSystemPadicIntAction`,
+    `ellAdicLimitPadicIntAction` and `ellAdicLimitModule` are a generic copy of the construction
+    in `Hartshorne.Weil.RationalEllAdicCohomology`. That construction is specialised to the
+    constant coefficients and uses a private helper, so it is copied rather than edited.
+  - The torsion hypothesis comes from `etaleTateTwist_pow_nsmul_id` (`ℓ^r` kills `ℤ/ℓ^r(q)`).
+    That rests on `etaleTateTwistOne_pow_nsmul_id`, `sheafTensorPowSucc_nsmul_id_eq_zero` and
+    `etaleSheafHom_nsmul_id_eq_zero`, giving `ellAdicTwistCohomologySystem_pow_nsmul_id`.
+  - `classicalEllAdicCohomologyTwistModule` is the resulting instance. By construction it is
+    definitionally main's `classicalEllAdicCohomologyModule` at `q = 0`
+    (`classicalEllAdicCohomologyTwistModule_zero`, proved by `rfl`). Likewise
+    `rationalEllAdicCohomologyTwist_zero : rationalEllAdicCohomologyTwist X ℓ 0 i =
+    rationalEllAdicCohomology X ℓ i` holds by `rfl`.
 
 Except for the transition maps of negative twists, which need `ℓ ≠ 0`, no hypothesis on `ℓ` is
-needed for these constructions. Invertibility of `ℓ` on `X` enters only in theorems about them,
-as in constant-torsion-etale-sheaf.
+needed for these constructions, apart from `ℓ` prime for `ℤ_[ℓ]` and `ℚ_[ℓ]`. Invertibility of
+`ℓ` on `X` enters only in theorems about them, as in constant-torsion-etale-sheaf.
 
 ## Mathlib gaps found
 
-- Mathlib has no monoidal structure on `AddCommGrpCat`. `Sheaf.monoidalCategory` needs a
-  monoidal-closed coefficient category, and `HasFunctorEnrichedHom` over the large site
-  `X.Etale`, so it does not apply here. That is why the tensor product above is defined by hand
-  (pointwise `⊗_ℤ`, then sheafify).
+- Mathlib has no monoidal structure on `AddCommGrpCat`, so the tensor product above is defined by
+  hand: pointwise `⊗_ℤ`, then sheafify. Associativity and symmetry are not proved.
+  - An alternative route, not tried or checked: work with coefficients in `ModuleCat ℤ`, which is
+    monoidal closed.
+  - On that route, `GrothendieckTopology.W.transport_isMonoidal`
+    (`Mathlib/CategoryTheory/Sites/Monoidal.lean`) could transport `J.W.IsMonoidal` from a
+    cover-dense small subsite, such as a small model of `X.AffineEtale`. Then
+    `Sheaf.monoidalCategory` would give a full monoidal structure on sheaves on `X_et`.
 - Mathlib's `presheafHom` / `sheafHom` give the internal Hom only as a sheaf of types in
   `Type (u+1)`. The smallness argument and the shrinking above fill this gap.
 
@@ -112,19 +131,30 @@ articles 1–3 below and add the edges. Then the leaf can be recorded after an i
      Already built.
 2. **Tensor product of abelian étale sheaves** (def).
    - Statement: `F ⊗ G` is the sheafification of `U ↦ F(U) ⊗_ℤ G(U)`, functorial in both
-     variables. Tensor powers `F^{⊗k}` are defined from it.
+     variables. It is associative and symmetric up to coherent isomorphism. Tensor powers
+     `F^{⊗k}` are defined from it.
+   - The cup-product article needs `F(a) ⊗ F(b) ≅ F(a+b)`. So this article should either use
+     Mathlib's `Sheaf.monoidalCategory`, via the `ModuleCat ℤ` route under "Mathlib gaps found",
+     or state and prove the associativity and symmetry isomorphisms for the hand-made tensor
+     product, which are not yet in Lean.
    - Source: SGA 4 IV (operations on sheaves); Milne, Étale Cohomology, Ch. II.
    - Depends on: small-etale-site, associated-sheaf.
    - Would record: `Hartshorne.sheafTensor`, `Hartshorne.sheafTensorPowSucc` (with
-     `Hartshorne.sheafTensorPowSuccFunctor`). Already built.
+     `Hartshorne.sheafTensorPowSuccFunctor`). These are built; the associativity and symmetry
+     isomorphisms are not.
 3. **Internal Hom and duals of abelian étale sheaves** (def).
    - Statement: for abelian sheaves `F, G` on `X_et`, `U ↦ Hom_{X_et/U}(F|_U, G|_U)` is a sheaf
      of abelian groups. Its groups are small because the affine étale site is essentially small.
      The dual of a `ℤ/ℓ^r`-sheaf `F` is `Hom(F, ℤ/ℓ^r)`.
-   - Source: SGA 4 IV (operations on sheaves); Milne, Étale Cohomology, Ch. II.
-   - Depends on: small-etale-site, constant-torsion-etale-sheaf.
+   - Source: SGA 4 IV (operations on sheaves); Milne, Étale Cohomology, Ch. II. The topological
+     analogue is schemes/sheaf-functors/sheaf-hom.
+   - Depends on: small-etale-site. The internal Hom does not need the constant sheaves; only the
+     dual `Hom(F, ℤ/ℓ^r)`, used by the leaf, involves constant-torsion-etale-sheaf.
    - Would record: `AlgebraicGeometry.Scheme.etaleSheafHom`. Already built.
-4. The leaf etale-tate-twist then depends on 1–3 as well as its current dependencies. Its
+4. The leaf etale-tate-twist then depends on 1–3 as well as its current dependencies.
+   - It also needs rational-ell-adic-cohomology and ell-adic-integers-and-field as Depends on,
+     because the rational twisted cohomology reuses that `ℤ_[ℓ]`-module structure and `ℚ_[ℓ]`.
+   - Its
    statement could say that `ℤ/ℓ^r(-q) = ℤ/ℓ^r(-1)^{⊗q}` with `ℤ/ℓ^r(-1)` the dual of
    `ℤ/ℓ^r(1)`. It would record `AlgebraicGeometry.Scheme.etaleTateTwistOne`,
    `AlgebraicGeometry.Scheme.etaleTateTwist`, `AlgebraicGeometry.Scheme.etaleTateTwistSystem`,
@@ -140,5 +170,5 @@ articles 1–3 below and add the edges. Then the leaf can be recorded after an i
 Suggested clarification for the article (statement not edited): "inverse limit followed by
 rationalization" should say that `ℤ_ℓ(q)` is the inverse system `(ℤ/ℓ^r(q))_r`, with cohomology
 `lim_r H^i_et(X, ℤ/ℓ^r(q))`. It should also say that `ℚ_ℓ(q)`-cohomology is that limit tensored
-with `ℚ_ℓ` over `ℤ_ℓ`, which is the same as tensoring with `ℚ` over `ℤ`. The literal limit sheaf of the `ℤ/ℓ^r(q)` tensored with `ℚ` is not the
-standard object.
+with `ℚ_ℓ` over `ℤ_ℓ`, matching rational-ell-adic-cohomology. The literal limit sheaf of the
+`ℤ/ℓ^r(q)` tensored with `ℚ` is not the standard object.
