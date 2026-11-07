@@ -16,6 +16,7 @@ positive tensor power of $L$ is ample.
 ## Depends on
 
 - [Ample invertible sheaves](ample-invertible-sheaf.md)
+- [The Picard group of a ringed space](../../divisors/cartier-picard/invertible-sheaf-group.md)
 
 ## Proof depends on
 
