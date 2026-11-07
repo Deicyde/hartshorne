@@ -470,5 +470,6 @@ import Hartshorne.Cohomology.ProjectiveLinePrincipalParts
 import Hartshorne.Scheme.RelativeProjProper
 import Hartshorne.Intersection.LocalPlaneCurveMultiplicity
 import Hartshorne.Intersection.ProjectiveLineCurveMultiplicity
+import Hartshorne.Intersection.PlaneCurveDual
 import Hartshorne.Cohomology.Semicontinuity.CohomologyTensorDeltaFunctor
 import Hartshorne.Scheme.Differentials.BirationalMapDomain

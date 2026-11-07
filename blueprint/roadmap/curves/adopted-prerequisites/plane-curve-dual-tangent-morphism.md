@@ -2,6 +2,9 @@
 article_id: af_0a0b46fa1c07ad0c16df634e
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.planeCurve_tangentLine_morphism Hartshorne.planeCurveRegularLocus Hartshorne.isQuasiProjVariety_planeCurveRegularLocus Hartshorne.planeCurveTangentLine Hartshorne.planeDualCurve Hartshorne.isProjVariety_planeCurve
 ---
 
 # The tangent morphism and dual plane curve
