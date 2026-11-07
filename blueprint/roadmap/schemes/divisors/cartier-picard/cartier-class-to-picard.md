@@ -2,6 +2,9 @@
 article_id: af_4b67949886ef359c3cdc8da0
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.cartierDivisorToPicard AlgebraicGeometry.Scheme.cartierClassToPicard AlgebraicGeometry.Scheme.cartierClassToPicard_apply AlgebraicGeometry.Scheme.cartierClassToPicard_injective
 ---
 
 # Cartier classes inject into the Picard group
