@@ -19,7 +19,7 @@ These are the two formulas in Hartshorne's Proposition II.5.2(d,e).
 
 ## Depends on
 
-- [Pushforward, pullback, and their adjunction](module-push-pull-adjunction.md)
+- [Pushforward, pullback, and their adjunction](../module-push-pull-adjunction.md)
 - [Tilde commutes with tensor products](tilde-tensor-compatibility.md)
 
 ## Proof depends on
@@ -29,4 +29,4 @@ These are the two formulas in Hartshorne's Proposition II.5.2(d,e).
 
 ## Sources
 
-- [Hartshorne II.5, Proposition 5.2(d,e) on printed p. 111](../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)
+- [Hartshorne II.5, Proposition 5.2(d,e) on printed p. 111](../../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)

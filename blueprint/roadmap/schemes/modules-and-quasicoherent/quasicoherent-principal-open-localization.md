@@ -24,7 +24,7 @@ description.
 ## Depends on
 
 - [Quasi-coherence by local presentations](quasicoherent-local-presentations.md)
-- [The affine tilde sheaf and localization](tilde-localization.md)
+- [The affine tilde sheaf and localization](affine-tilde/tilde-localization.md)
 
 ## Proof depends on
 

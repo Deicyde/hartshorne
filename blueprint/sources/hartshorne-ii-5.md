@@ -47,6 +47,12 @@ Hartshorne's affine-local finite-generation definition of coherence.
 These results are represented in the sibling
 `modules-and-quasicoherent` roadmap chapter and are prerequisites below.
 
+Hartshorne defines the tensor product of `O_X`-modules on p.109 but does not
+discuss its associativity, unit, or coherence. The bridged roadmap article
+*The monoidal category of sheaves of modules* supplies that structure; the
+roadmap uses it to state Proposition 5.2(b) as a strong monoidal functor and
+to state the associativity of the twist isomorphisms of Proposition 5.12(b).
+
 ## Ideal sheaves and closed subschemes
 
 - **Definition and Proposition 5.9, pp.115–116.** The ideal sheaf of a closed

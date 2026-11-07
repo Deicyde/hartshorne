@@ -21,7 +21,7 @@ sheaf, not a derived functor internal to quasi-coherent modules.
 - [The sheaf of an injective module is flasque](tilde-injective-flasque.md)
 - [Modules and quasi-coherent sheaves on an affine scheme](../../schemes/modules-and-quasicoherent/affine-quasicoherent-equivalence.md)
 - [Flasque sheaves are acyclic](../sheaf-cohomology/flasque-sheaf-acyclic.md)
-- [Exactness of the tilde functor](../../schemes/modules-and-quasicoherent/tilde-exactness.md)
+- [Exactness of the tilde functor](../../schemes/modules-and-quasicoherent/affine-tilde/tilde-exactness.md)
 - The category of modules over the affine coordinate ring has enough injectives.
 
 ## Sources

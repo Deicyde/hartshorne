@@ -26,7 +26,7 @@ only a proof dependency.
 
 ## Proof depends on
 
-- [Exactness of the tilde functor](tilde-exactness.md)
+- [Exactness of the tilde functor](affine-tilde/tilde-exactness.md)
 - [Modules and quasi-coherent sheaves on an affine scheme](affine-quasicoherent-equivalence.md)
 - [Exactness of affine global sections](affine-global-sections-exact.md)
 - The short five lemma in an abelian category.

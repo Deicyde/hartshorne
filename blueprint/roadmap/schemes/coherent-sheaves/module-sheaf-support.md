@@ -33,7 +33,7 @@ artifact.
 
 ## Depends on
 
-- [Stalks of an associated affine module](../modules-and-quasicoherent/tilde-localization.md)
+- [Stalks of an associated affine module](../modules-and-quasicoherent/affine-tilde/tilde-localization.md)
 - [Coherent affine-local criterion](../modules-and-quasicoherent/coherent-affine-local-criterion.md)
 - [The support of sections and sheaves](../sheaf-functors/support-of-sections-and-sheaves.md)
 

@@ -20,10 +20,10 @@ These localization descriptions are Hartshorne's Proposition II.5.1.
 
 ## Depends on
 
-- [Sheaves of modules](sheaves-of-modules.md)
-- [The stalk of Spec](../spectrum-and-schemes/spec-stalk.md)
-- [Sections on a principal open](../spectrum-and-schemes/spec-basic-open-sections.md)
-- [Global sections of an affine spectrum](../spectrum-and-schemes/spec-global-sections.md)
+- [Sheaves of modules](../sheaves-of-modules.md)
+- [The stalk of Spec](../../spectrum-and-schemes/spec-stalk.md)
+- [Sections on a principal open](../../spectrum-and-schemes/spec-basic-open-sections.md)
+- [Global sections of an affine spectrum](../../spectrum-and-schemes/spec-global-sections.md)
 
 ## Proof depends on
 
@@ -32,4 +32,4 @@ These localization descriptions are Hartshorne's Proposition II.5.1.
 
 ## Sources
 
-- [Hartshorne II.5, Proposition 5.1 on printed p. 110](../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)
+- [Hartshorne II.5, Proposition 5.1 on printed p. 110](../../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)

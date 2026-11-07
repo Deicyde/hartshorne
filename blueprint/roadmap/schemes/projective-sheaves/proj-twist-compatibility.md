@@ -18,10 +18,11 @@ associative and compatible with the chosen chart trivializations.
 
 - [Twisting sheaves are invertible](proj-twisting-sheaf.md)
 - [Module tensor product](../modules-and-quasicoherent/module-tensor-product.md)
+- [The monoidal category of sheaves of modules](../modules-and-quasicoherent/module-sheaf-monoidal-category.md)
 
 ## Proof depends on
 
-- [Tilde preserves tensor products](../modules-and-quasicoherent/tilde-tensor-compatibility.md)
+- [Tilde preserves tensor products](../modules-and-quasicoherent/affine-tilde/tilde-tensor-compatibility.md)
 - The degree-one standard affine cover and the shift convention
   $M(n)_d = M_{n+d}$.
 

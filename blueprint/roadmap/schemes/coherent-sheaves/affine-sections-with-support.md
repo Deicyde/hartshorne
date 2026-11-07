@@ -18,7 +18,7 @@ so it can serve later as the degree-zero local-cohomology construction.
 ## Depends on
 
 - [Support of a quasi-coherent module](module-sheaf-support.md)
-- [Stalks of an associated affine module](../modules-and-quasicoherent/tilde-localization.md)
+- [Stalks of an associated affine module](../modules-and-quasicoherent/affine-tilde/tilde-localization.md)
 
 ## Proof depends on
 

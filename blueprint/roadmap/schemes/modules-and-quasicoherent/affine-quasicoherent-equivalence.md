@@ -19,7 +19,7 @@ case of Proposition II.5.4.
 
 ## Depends on
 
-- [The tilde–global-sections adjunction](tilde-gamma-adjunction.md)
+- [The tilde–global-sections adjunction](affine-tilde/tilde-gamma-adjunction.md)
 - [Quasi-coherent sections on principal opens](quasicoherent-principal-open-localization.md)
 
 ## Proof depends on

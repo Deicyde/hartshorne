@@ -27,7 +27,7 @@ duplicated here.
 
 - [Finite locally free duality](../modules-and-quasicoherent/finite-locally-free-duality.md)
 - [Finite locally free projection formula](../modules-and-quasicoherent/finite-locally-free-projection-formula.md)
-- [Tilde/global-sections adjunction](../modules-and-quasicoherent/tilde-gamma-adjunction.md)
+- [Tilde/global-sections adjunction](../modules-and-quasicoherent/affine-tilde/tilde-gamma-adjunction.md)
 - [Finite pushforward preserves coherence](../modules-and-quasicoherent/finite-pushforward-coherent.md)
 
 ## Sources

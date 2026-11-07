@@ -30,5 +30,5 @@ completion result.
 
 ## Sources
 
-- [Hartshorne II.5, Proposition 5.2(a)](../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)
-- [Hartshorne II.5, Exercise 5.3](../../../sources/hartshorne-ii-5.md#adopted-exercises-and-later-use-evidence)
+- [Hartshorne II.5, Proposition 5.2(a)](../../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)
+- [Hartshorne II.5, Exercise 5.3](../../../../sources/hartshorne-ii-5.md#adopted-exercises-and-later-use-evidence)
