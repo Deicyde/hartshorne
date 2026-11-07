@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.RingedSpace.ModuleSheafTensorPowerIso
 import Hartshorne.Scheme.AmpleInvertibleSheaf
-import Hartshorne.Scheme.FiniteLocallyFreeProjectionFormula
+import Hartshorne.RingedSpace.FiniteLocallyFreeProjectionFormula
 import Hartshorne.Scheme.QuasicoherentAbelianClosure
 import Hartshorne.Scheme.LocallyFreeRinged
 
@@ -55,6 +55,8 @@ theorem isGloballyGenerated_of_iso {F G : X.Modules} (e : F ≅ G)
 
 namespace AmplePower
 
+open scoped Ringed
+
 variable (F L : X.Modules) (V : X.affineOpens)
 
 instance (V : X.affineOpens) : IsOpenImmersion V.2.fromSpec :=
@@ -70,40 +72,45 @@ lemma image_le_affineOpen (U : (Spec Γ(X, (V : X.Opens))).Opens) :
 noncomputable def twistRestrictHom (e : Γ(L, (V : X.Opens))) :
     F.restrict V.2.fromSpec ⟶
       Scheme.Modules.restrict (moduleSheafTensor F L : X.Modules) V.2.fromSpec :=
-  modulesHomMk
-    (fun U =>
-      { toFun := fun s => (moduleSheafTensorBilinear F L).app (op (V.2.fromSpec ''ᵁ U)) s
-          (L.presheaf.map (homOfLE (image_le_affineOpen V U)).op e)
-        map_add' := fun s s' => LinearMap.map_add₂ ((moduleSheafTensorBilinear F L).app
-          (op (V.2.fromSpec ''ᵁ U))) (show Γ(F, V.2.fromSpec ''ᵁ U) from s)
-          (show Γ(F, V.2.fromSpec ''ᵁ U) from s') _
-        map_smul' := fun r s => LinearMap.map_smul₂ ((moduleSheafTensorBilinear F L).app
-          (op (V.2.fromSpec ''ᵁ U))) ((V.2.fromSpec.appIso U).inv r)
-          (show Γ(F, V.2.fromSpec ''ᵁ U) from s) _ })
-    (fun U U' i s => by
-      change (moduleSheafTensorBilinear F L).app (op (V.2.fromSpec ''ᵁ U'))
-          (F.presheaf.map (homOfLE (Scheme.Hom.image_mono _ i)).op s)
-          (L.presheaf.map (homOfLE (image_le_affineOpen V U')).op e) =
-        (moduleSheafTensor F L).val.map (homOfLE (Scheme.Hom.image_mono _ i)).op
-          ((moduleSheafTensorBilinear F L).app (op (V.2.fromSpec ''ᵁ U)) s
-            (L.presheaf.map (homOfLE (image_le_affineOpen V U)).op e))
-      have hL : L.presheaf.map (homOfLE (image_le_affineOpen V U')).op e =
-          L.presheaf.map (homOfLE (Scheme.Hom.image_mono _ i)).op
-            (L.presheaf.map (homOfLE (image_le_affineOpen V U)).op e) := by
+  ⟨{ app U := ModuleCat.ofHom
+        (X := (F.restrict V.2.fromSpec).val.obj U)
+        (Y := (Scheme.Modules.restrict (moduleSheafTensor F L : X.Modules) V.2.fromSpec).val.obj U)
+        { toFun := fun s => (moduleSheafTensorBilinear F L).app (op (V.2.fromSpec ''ᵁ U.unop))
+            (show Γ(F, V.2.fromSpec ''ᵁ U.unop) from s)
+            (L.presheaf.map (homOfLE (image_le_affineOpen V U.unop)).op e)
+          map_add' := fun s s' => LinearMap.map_add₂ ((moduleSheafTensorBilinear F L).app
+            (op (V.2.fromSpec ''ᵁ U.unop))) (show Γ(F, V.2.fromSpec ''ᵁ U.unop) from s)
+            (show Γ(F, V.2.fromSpec ''ᵁ U.unop) from s') _
+          map_smul' := fun r s => LinearMap.map_smul₂ ((moduleSheafTensorBilinear F L).app
+            (op (V.2.fromSpec ''ᵁ U.unop))) ((V.2.fromSpec.appIso U.unop).inv r)
+            (show Γ(F, V.2.fromSpec ''ᵁ U.unop) from s) _ }
+     naturality {U U'} i := by
+      ext s
+      change (moduleSheafTensorBilinear F L).app (op (V.2.fromSpec ''ᵁ U'.unop))
+          (F.presheaf.map (homOfLE (Scheme.Hom.image_mono _ (leOfHom i.unop))).op s)
+          (L.presheaf.map (homOfLE (image_le_affineOpen V U'.unop)).op e) =
+        (moduleSheafTensor F L).val.map (homOfLE (Scheme.Hom.image_mono _ (leOfHom i.unop))).op
+          ((moduleSheafTensorBilinear F L).app (op (V.2.fromSpec ''ᵁ U.unop)) s
+            (L.presheaf.map (homOfLE (image_le_affineOpen V U.unop)).op e))
+      have hL : L.presheaf.map (homOfLE (image_le_affineOpen V U'.unop)).op e =
+          L.presheaf.map (homOfLE (Scheme.Hom.image_mono _ (leOfHom i.unop))).op
+            (L.presheaf.map (homOfLE (image_le_affineOpen V U.unop)).op e) := by
         rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
         rfl
       refine Eq.trans ?_ ((moduleSheafTensorBilinear F L).naturality
-        (homOfLE (Scheme.Hom.image_mono V.2.fromSpec i)).op
-        (show Γ(F, V.2.fromSpec ''ᵁ U) from s) _).symm
+        (homOfLE (Scheme.Hom.image_mono V.2.fromSpec (leOfHom i.unop))).op
+        (show Γ(F, V.2.fromSpec ''ᵁ U.unop) from s) _).symm
       rw [hL]
-      rfl)
+      rfl }⟩
 
 variable {F L V} in
 lemma twistRestrictHom_bijective {e : ULift.{u} (Fin 1) → Γ(L, (V : X.Opens))}
-    (he : IsLocalFrame L V e) (U : (Spec Γ(X, (V : X.Opens))).Opens) :
-    Function.Bijective ((twistRestrictHom F L V (e default)).app U) := by
-  have key : ⇑((twistRestrictHom F L V (e default)).app U) =
-      tensorFrameMap F e (image_le_affineOpen V U) ∘
+    (he : Ringed.IsLocalFrame (R := X.sheaf) L V e) (U : (Spec Γ(X, (V : X.Opens))).Opens) :
+    Function.Bijective (Ringed.sectionsMap (R := (Spec Γ(X, (V : X.Opens))).sheaf)
+      (twistRestrictHom F L V (e default)) U) := by
+  have key : ⇑(Ringed.sectionsMap (R := (Spec Γ(X, (V : X.Opens))).sheaf)
+      (twistRestrictHom F L V (e default)) U) =
+      Ringed.tensorFrameMap (R := X.sheaf) F e (image_le_affineOpen V U) ∘
         (fun (s : Γ(F, V.2.fromSpec ''ᵁ U)) (_ : ULift.{u} (Fin 1)) => s) := by
     funext s
     change _ = ∑ i : ULift.{u} (Fin 1), (moduleSheafTensorBilinear F L).app
@@ -118,8 +125,9 @@ lemma twistRestrictHom_bijective {e : ULift.{u} (Fin 1) → Γ(L, (V : X.Opens))
 
 variable {F L V} in
 lemma twistRestrictHom_isIso {e : ULift.{u} (Fin 1) → Γ(L, (V : X.Opens))}
-    (he : IsLocalFrame L V e) : IsIso (twistRestrictHom F L V (e default)) :=
-  modules_isIso_of_locally_bijective _ fun _ =>
+    (he : Ringed.IsLocalFrame (R := X.sheaf) L V e) :
+    IsIso (twistRestrictHom F L V (e default)) :=
+  Ringed.modules_isIso_of_locally_bijective (R := (Spec Γ(X, (V : X.Opens))).sheaf) _ fun _ =>
     ⟨⊤, trivial, fun U _ => twistRestrictHom_bijective he U⟩
 
 end AmplePower
@@ -132,12 +140,12 @@ theorem isCoherent_moduleSheafTensor_of_isInvertible [IsLocallyNoetherian X] {F 
   have hL' := (Scheme.Modules.isInvertible_iff_ringed L).mp hL
   have hF' := ((coherent_affine_local_tfae F).out 0 2).mp hF
   refine ⟨{V : X.affineOpens // ∃ e : ULift.{u} (Fin 1) → Γ(L, (V : X.Opens)),
-      IsLocalFrame L V e}, fun V => V.1, ?_, fun V => ?_⟩
+      Ringed.IsLocalFrame (R := X.sheaf) L V e}, fun V => V.1, ?_, fun V => ?_⟩
   · refine eq_top_iff.mpr fun x _ => ?_
     obtain ⟨U, e, hx, he⟩ := Ringed.exists_isLocalFrame_of_isLocallyFreeOfRank hL' x
     obtain ⟨_, ⟨W, hW, rfl⟩, hxW, hWU⟩ :=
       X.isBasis_affineOpens.exists_subset_of_mem_open hx U.2
-    exact Opens.mem_iSup.mpr ⟨⟨⟨W, hW⟩, _, show IsLocalFrame L W _ from he.restrictLE hWU⟩, hxW⟩
+    exact Opens.mem_iSup.mpr ⟨⟨⟨W, hW⟩, _, he.restrictLE hWU⟩, hxW⟩
   · obtain ⟨e, he⟩ := V.2
     obtain ⟨M, hM, ⟨α⟩⟩ := hF' V.1
     have := twistRestrictHom_isIso (F := F) he
