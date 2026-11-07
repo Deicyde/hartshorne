@@ -6,6 +6,8 @@ import Mathlib.RingTheory.Ideal.UFD
 import Mathlib.Algebra.Module.StablyFree.FreeOfInvertible
 import Mathlib.RingTheory.LocalProperties.ProjectiveDimension
 import Mathlib.RingTheory.LocalRing.Module
+import Mathlib.RingTheory.Regular.ProjectiveDimension
+import Mathlib.RingTheory.Regular.Free
 import Hartshorne.Scheme.RegularLocalCohenMacaulay
 import Hartshorne.Scheme.Differentials.RegularLocalization
 
@@ -456,5 +458,161 @@ theorem uniqueFactorizationMonoid_of_forall_hasProjectiveDimensionLE
       isStablyFree_of_forall_hasProjectiveDimensionLE (Submonoid.powers x) (H2 A) P hP) R
 
 end Conditional
+
+section Serre
+
+open CategoryTheory
+
+universe u
+
+variable {R : Type u} [CommRing R] [IsDomain R] {x : R}
+
+/-- For a nonzero element `x` of a domain `R`, a finite free `R ⧸ (x)`-module has projective
+dimension at most one over `R`. -/
+theorem hasProjectiveDimensionLE_pi_quotient (hx : x ≠ 0) (m : ℕ) :
+    HasProjectiveDimensionLE (ModuleCat.of R (Fin m → R ⧸ Ideal.span {x})) 1 := by
+  let f : (Fin m → R) →ₗ[R] (Fin m → R) := x • LinearMap.id
+  let g : (Fin m → R) →ₗ[R] (Fin m → R ⧸ Ideal.span {x}) :=
+    LinearMap.compLeft (Algebra.linearMap R (R ⧸ Ideal.span {x})) (Fin m)
+  have hf : Function.Injective f := smul_right_injective (Fin m → R) hx
+  have hg : Function.Surjective g := by
+    intro b
+    choose c hc using fun i => Ideal.Quotient.mk_surjective (b i)
+    exact ⟨c, funext hc⟩
+  have hfg : Function.Exact f g := by
+    intro a
+    constructor
+    · intro ha
+      have hc : ∀ i, ∃ c, x * c = a i := fun i => by
+        have := congr_fun ha i
+        simp only [g, LinearMap.compLeft_apply, Function.comp_apply, Algebra.linearMap_apply,
+          Pi.zero_apply, Ideal.Quotient.algebraMap_eq, Ideal.Quotient.eq_zero_iff_mem] at this
+        obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.mp this
+        exact ⟨c, by rw [mul_comm]; exact hc⟩
+      choose c hc using hc
+      exact ⟨c, funext fun i => by simp [f, hc]⟩
+    · rintro ⟨b, rfl⟩
+      funext i
+      simp only [g, f, LinearMap.compLeft_apply, Function.comp_apply, LinearMap.smul_apply,
+        LinearMap.id_apply, Pi.smul_apply, smul_eq_mul, Algebra.linearMap_apply, Pi.zero_apply,
+        Ideal.Quotient.algebraMap_eq, Ideal.Quotient.eq_zero_iff_mem]
+      exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self x)
+  let S : ShortComplex (ModuleCat.{u} R) :=
+    ShortComplex.mk (ModuleCat.ofHom f) (ModuleCat.ofHom g)
+      (ModuleCat.hom_ext (LinearMap.ext fun a => hfg.apply_apply_eq_zero a))
+  have hS : S.ShortExact :=
+    { exact := (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mpr hfg
+      mono_f := (ModuleCat.mono_iff_injective _).mpr hf
+      epi_g := (ModuleCat.epi_iff_surjective _).mpr hg }
+  exact (hS.hasProjectiveDimensionLT_X₃_iff 0 inferInstance).mpr inferInstance
+
+variable (x) in
+/-- Change of rings: for a nonzero element `x` of a domain `R`, a finitely generated
+`R ⧸ (x)`-module of projective dimension at most `k` over `R ⧸ (x)` has projective dimension at
+most `k + 1` over `R`. -/
+theorem hasProjectiveDimensionLE_of_quotient [IsNoetherianRing R] (hx : x ≠ 0) (k : ℕ) :
+    ∀ (L : Type u) [AddCommGroup L] [Module (R ⧸ Ideal.span {x}) L] [Module R L]
+      [IsScalarTower R (R ⧸ Ideal.span {x}) L] [Module.Finite (R ⧸ Ideal.span {x}) L],
+      HasProjectiveDimensionLE (ModuleCat.of (R ⧸ Ideal.span {x}) L) k →
+        HasProjectiveDimensionLE (ModuleCat.of R L) (k + 1) := by
+  induction k with
+  | zero =>
+    intro L _ _ _ _ _ hL
+    obtain ⟨m, π, hπ⟩ := Module.Finite.exists_fin' (R ⧸ Ideal.span {x}) L
+    have : Module.Projective (R ⧸ Ideal.span {x}) L :=
+      (IsProjective.iff_projective L).mpr
+        ((projective_iff_hasProjectiveDimensionLE_zero _).mpr hL)
+    obtain ⟨s, hs⟩ := Module.projective_lifting_property π LinearMap.id hπ
+    have := hasProjectiveDimensionLE_pi_quotient hx m
+    let r : Retract (ModuleCat.of R L) (ModuleCat.of R (Fin m → R ⧸ Ideal.span {x})) :=
+      { i := ModuleCat.ofHom (s.restrictScalars R)
+        r := ModuleCat.ofHom (π.restrictScalars R)
+        retract := ModuleCat.hom_ext (LinearMap.ext fun l => DFunLike.congr_fun hs l) }
+    exact r.hasProjectiveDimensionLT 2
+  | succ k ih =>
+    intro L _ _ _ _ _ hL
+    obtain ⟨m, π, hπ⟩ := Module.Finite.exists_fin' (R ⧸ Ideal.span {x}) L
+    have hS := LinearMap.shortExact_shortComplexKer hπ
+    have hK : HasProjectiveDimensionLE
+        (ModuleCat.of (R ⧸ Ideal.span {x}) (LinearMap.ker π)) k :=
+      (hS.hasProjectiveDimensionLT_X₃_iff k inferInstance).mp hL
+    have hKR := ih (LinearMap.ker π) hK
+    have := hasProjectiveDimensionLE_pi_quotient hx m
+    let i : LinearMap.ker π →ₗ[R] (Fin m → R ⧸ Ideal.span {x}) :=
+      (LinearMap.ker π).subtype.restrictScalars R
+    let p : (Fin m → R ⧸ Ideal.span {x}) →ₗ[R] L := π.restrictScalars R
+    have hip : Function.Exact i p := LinearMap.exact_subtype_ker_map π
+    let S' : ShortComplex (ModuleCat.{u} R) :=
+      ShortComplex.mk (ModuleCat.ofHom i) (ModuleCat.ofHom p)
+        (ModuleCat.hom_ext (LinearMap.ext fun a => hip.apply_apply_eq_zero a))
+    have hS' : S'.ShortExact :=
+      { exact := (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mpr hip
+        mono_f := (ModuleCat.mono_iff_injective _).mpr (LinearMap.ker π).injective_subtype
+        epi_g := (ModuleCat.epi_iff_surjective _).mpr hπ }
+    have h2 : HasProjectiveDimensionLT S'.X₂ (k + 1 + 1 + 1) :=
+      hasProjectiveDimensionLT_of_ge _ 2 _ (by omega)
+    exact hS'.hasProjectiveDimensionLT_X₃ (k + 1 + 1) hKR h2
+
+/-- One direction of Serre's theorem: a finitely generated module over a regular local ring whose
+maximal ideal is generated by `d` elements has projective dimension at most `d`. -/
+theorem hasProjectiveDimensionLE_of_isRegularLocalRing (d : ℕ) :
+    ∀ (A : Type u) [CommRing A] [IsRegularLocalRing A], (IsLocalRing.maximalIdeal A).spanFinrank = d →
+      ∀ (M : Type u) [AddCommGroup M] [Module A M] [Module.Finite A M],
+        HasProjectiveDimensionLE (ModuleCat.of A M) d := by
+  induction d with
+  | zero =>
+    intro A _ _ hd M _ _ _
+    have hbot : IsLocalRing.maximalIdeal A = ⊥ :=
+      (Submodule.spanFinrank_eq_zero_iff_eq_bot (IsNoetherian.noetherian _)).mp hd
+    let := (IsLocalRing.isField_iff_maximalIdeal_eq.mpr hbot).toField
+    have : Module.Free A M := Module.Free.of_divisionRing A M
+    exact (projective_iff_hasProjectiveDimensionLE_zero _).mp inferInstance
+  | succ d ih =>
+    intro A _ _ hd M _ _ _
+    have := Hartshorne.RegularLocal.isDomain A
+    have hdim : ringKrullDim A = ((d + 1 : ℕ) : WithBot ℕ∞) := by
+      rw [← hd]
+      exact (IsRegularLocalRing.spanFinrank_maximalIdeal (R := A)).symm
+    obtain ⟨y, hym, hy2⟩ := exists_mem_maximalIdeal_notMem_sq (R := A)
+      (by rw [hdim]; exact_mod_cast Nat.succ_pos d)
+    have hy0 : y ≠ 0 := (prime_of_mem_maximalIdeal_of_notMem_sq hym hy2).ne_zero
+    obtain ⟨hregq, hdimq⟩ := Hartshorne.RegularLocal.isRegularLocalRing_quotient_of_notMem_sq hym hy2
+    have hdq : (IsLocalRing.maximalIdeal (A ⧸ Ideal.span {y})).spanFinrank = d := by
+      have h1 := IsRegularLocalRing.spanFinrank_maximalIdeal (R := A ⧸ Ideal.span {y})
+      rw [← h1, hdim] at hdimq
+      have : (IsLocalRing.maximalIdeal (A ⧸ Ideal.span {y})).spanFinrank + 1 = d + 1 := by
+        exact_mod_cast hdimq
+      omega
+    obtain ⟨F, _, _, _, _, g, hg⟩ := Module.exists_finite_presentation A M
+    have hS := LinearMap.shortExact_shortComplexKer hg
+    suffices hN : HasProjectiveDimensionLE (ModuleCat.of A (LinearMap.ker g)) d from
+      (hS.hasProjectiveDimensionLT_X₃_iff d inferInstance).mpr hN
+    have hreg : IsSMulRegular (LinearMap.ker g) y := IsSMulRegular.of_ne_zero hy0
+    have : Module.Finite (A ⧸ Ideal.span {y}) (QuotSMulTop y (LinearMap.ker g)) :=
+      Module.Finite.of_restrictScalars_finite A _ _
+    have hQ := ih (A ⧸ Ideal.span {y}) hdq (QuotSMulTop y (LinearMap.ker g))
+    have hQR := hasProjectiveDimensionLE_of_quotient y hy0 d (QuotSMulTop y (LinearMap.ker g)) hQ
+    have heq := ModuleCat.projectiveDimension_quotSMulTop_eq_succ_of_isSMulRegular
+      (ModuleCat.of A (LinearMap.ker g)) y hreg hym
+    rw [← projectiveDimension_le_iff] at hQR ⊢
+    erw [heq] at hQR
+    generalize projectiveDimension (ModuleCat.of A (LinearMap.ker g)) = e at hQR ⊢
+    induction e using WithBot.recBotCoe with
+    | bot => exact bot_le
+    | coe e =>
+      have h1 : e + 1 ≤ (d : ℕ∞) + 1 := by exact_mod_cast hQR
+      have h2 : e ≤ d := (ENat.add_le_add_iff_right ENat.one_ne_top).mp h1
+      exact_mod_cast h2
+
+/-- A regular local ring is a UFD, assuming only that localizations of regular local rings at prime
+ideals are regular. -/
+theorem uniqueFactorizationMonoid_of_forall_isRegularLocalRing_localization
+    (H1 : ∀ (A : Type u) [CommRing A] [IsRegularLocalRing A] (q : Ideal A) [q.IsPrime],
+      IsRegularLocalRing (Localization.AtPrime q))
+    (A : Type u) [CommRing A] [IsRegularLocalRing A] : UniqueFactorizationMonoid A :=
+  uniqueFactorizationMonoid_of_forall_hasProjectiveDimensionLE H1
+    (fun B _ _ M _ _ _ => ⟨_, hasProjectiveDimensionLE_of_isRegularLocalRing _ B rfl M⟩) A
+
+end Serre
 
 end Hartshorne.RegularLocalFactorial
