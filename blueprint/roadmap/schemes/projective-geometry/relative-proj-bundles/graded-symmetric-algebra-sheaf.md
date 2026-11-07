@@ -19,6 +19,7 @@ all homogeneous pieces are coherent.
 
 - [Sheaf tensor, symmetric, and exterior operations](../../module-exercises/sheaf-tensor-operations.md)
 - [Locally free and invertible module sheaves](../../modules-and-quasicoherent/locally-free-and-invertible.md)
+- [Duality for finite locally free sheaves](../../modules-and-quasicoherent/finite-locally-free-duality.md)
 
 ## Proof depends on
 
