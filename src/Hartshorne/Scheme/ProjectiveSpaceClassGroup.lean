@@ -116,49 +116,6 @@ end ConditionStar
 
 section Polynomial
 
-private theorem homogeneousComponent_mul_of_isHomogeneous' (a f : S) {d : ℕ}
-    (hf : f.IsHomogeneous d) (m : ℕ) :
-    homogeneousComponent (m + d) (a * f) = homogeneousComponent m a * f := by
-  induction a using MvPolynomial.induction_on' with
-  | add p q hp hq => simp only [add_mul, map_add, hp, hq, add_mul]
-  | monomial e c =>
-      rw [homogeneousComponent_of_mem
-          ((isHomogeneous_monomial c rfl).mul hf),
-        homogeneousComponent_of_mem (isHomogeneous_monomial c rfl)]
-      split_ifs with hleft hright
-      · rfl
-      · omega
-      · omega
-      · simp
-
-/-- A cofactor of a nonzero homogeneous factor of a homogeneous polynomial is homogeneous. -/
-theorem isHomogeneous_of_mul_isHomogeneous {a f : S} {d l : ℕ}
-    (hf : f.IsHomogeneous d) (hf0 : f ≠ 0) (haf : (a * f).IsHomogeneous l) :
-    a.IsHomogeneous (l - d) := by
-  intro e he
-  let m := e.degree
-  have hcomponent_ne : homogeneousComponent m a ≠ 0 := by
-    intro hzero
-    have hcoeff := congrArg (MvPolynomial.coeff e) hzero
-    simp only [MvPolynomial.coeff_homogeneousComponent, m,
-      MvPolynomial.coeff_zero] at hcoeff
-    exact he hcoeff
-  have hdegree : m + d = l := by
-    by_contra hne
-    have hcomponent_zero : homogeneousComponent (m + d) (a * f) = 0 := by
-      rw [homogeneousComponent_of_mem haf, if_neg hne]
-    rw [homogeneousComponent_mul_of_isHomogeneous' a f hf m] at hcomponent_zero
-    exact (mul_ne_zero hcomponent_ne hf0) hcomponent_zero
-  have he_degree : e.degree = l - d := by
-    dsimp [m] at hdegree
-    omega
-  calc
-    Finsupp.weight (1 : Fin (n + 1) → ℕ) e =
-        Finsupp.weight (fun _ : Fin (n + 1) ↦ (1 : ℕ)) e := rfl
-    _ = e.degree := congrArg (fun h : (Fin (n + 1) →₀ ℕ) →+ ℕ ↦ h e)
-      (@Finsupp.degree_eq_weight_one (Fin (n + 1)) ℕ _).symm
-    _ = l - d := he_degree
-
 /-- The degree of a nonzero homogeneous factor is at most the degree of the product. -/
 theorem le_of_mul_isHomogeneous {a f : S} {d l : ℕ}
     (hf : f.IsHomogeneous d) (haf : (a * f).IsHomogeneous l) (haf0 : a * f ≠ 0) : d ≤ l := by

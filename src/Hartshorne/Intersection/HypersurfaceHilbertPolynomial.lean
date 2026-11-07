@@ -21,53 +21,6 @@ noncomputable section
 
 universe u
 
-private theorem homogeneousComponent_mul_of_isHomogeneous
-    {k : Type u} [Field k] {sigma : Type*}
-    (a f : MvPolynomial sigma k) {d : Nat} (hf : f.IsHomogeneous d)
-    (m : Nat) :
-    homogeneousComponent (m + d) (a * f) = homogeneousComponent m a * f := by
-  induction a using MvPolynomial.induction_on' with
-  | add p q hp hq => simp only [add_mul, map_add, hp, hq, add_mul]
-  | monomial e c =>
-      rw [homogeneousComponent_of_mem
-          ((isHomogeneous_monomial c rfl).mul hf),
-        homogeneousComponent_of_mem (isHomogeneous_monomial c rfl)]
-      split_ifs with hleft hright
-      · rfl
-      · omega
-      · omega
-      · simp
-
-private theorem isHomogeneous_of_mul_right_isHomogeneous
-    {k : Type u} [Field k] {sigma : Type*}
-    {a f : MvPolynomial sigma k} {d l : Nat}
-    (hf : f.IsHomogeneous d) (hf0 : f ≠ 0)
-    (haf : (a * f).IsHomogeneous l) :
-    a.IsHomogeneous (l - d) := by
-  intro e he
-  let m := e.degree
-  have hcomponent_ne : homogeneousComponent m a ≠ 0 := by
-    intro hzero
-    have hcoeff := congrArg (MvPolynomial.coeff e) hzero
-    simp only [MvPolynomial.coeff_homogeneousComponent, m,
-      MvPolynomial.coeff_zero] at hcoeff
-    exact he hcoeff
-  have hdegree : m + d = l := by
-    by_contra hne
-    have hcomponent_zero : homogeneousComponent (m + d) (a * f) = 0 := by
-      rw [homogeneousComponent_of_mem haf, if_neg hne]
-    rw [homogeneousComponent_mul_of_isHomogeneous a f hf m] at hcomponent_zero
-    exact (mul_ne_zero hcomponent_ne hf0) hcomponent_zero
-  have he_degree : e.degree = l - d := by
-    dsimp [m] at hdegree
-    omega
-  calc
-    Finsupp.weight (1 : sigma → Nat) e =
-        Finsupp.weight (fun _ : sigma ↦ (1 : Nat)) e := rfl
-    _ = e.degree := congrArg (fun h : (sigma →₀ Nat) →+ Nat ↦ h e)
-      (@Finsupp.degree_eq_weight_one sigma Nat _).symm
-    _ = l - d := he_degree
-
 private noncomputable def principalHomogeneousIdeal
     {k : Type u} [Field k] {sigma : Type*}
     (f : MvPolynomial sigma k) {d : Nat} (hf : f.IsHomogeneous d) :
@@ -154,7 +107,7 @@ private theorem hypersurface_degreewise_exact
       have hpf : (p : MvPolynomial sigma k).IsHomogeneous l := by
         simpa using p.property
       have haHom : a.IsHomogeneous (l - d) := by
-        apply isHomogeneous_of_mul_right_isHomogeneous hf hf0
+        apply isHomogeneous_of_mul_isHomogeneous hf hf0
         rw [mul_comm, ← ha]
         exact hpf
       let a' : ↑(gradedModuleTwist (integerHomogeneousSubmodule k sigma)
