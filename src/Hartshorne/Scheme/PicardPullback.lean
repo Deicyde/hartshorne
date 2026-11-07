@@ -3,7 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.RingedSpace.PicardGroup
-import Hartshorne.Scheme.FiniteLocallyFreeProjectionFormula
+import Hartshorne.RingedSpace.FiniteLocallyFreeProjectionFormula
 import Hartshorne.Scheme.LocallyFreeRinged
 
 /-!
@@ -44,31 +44,44 @@ open scoped TensorProduct
 
 namespace Hartshorne
 
+namespace Ringed
+
 section Frames
 
-variable {X : Scheme.{u}}
+variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+
+set_option hygiene false in
+/-- `𝒪_X`-modules. -/
+local notation "𝓜" => SheafOfModules.{u} (ringCatSheafOf R)
+
+/-- Sections of a module sheaf over an open, as an abelian group. -/
+local notation3 "Γ(" M ", " U ")" => (PresheafOfModules.presheaf (SheafOfModules.val M)).obj
+  (Opposite.op U)
 
 /-- A morphism of `𝒪_X`-modules carrying a frame over `W` to a frame over `W` is bijective on
 sections over every open inside `W`. -/
-lemma IsLocalFrame.app_bijective_of_map {ι : Type*} [Fintype ι] {A B : X.Modules} (φ : A ⟶ B)
-    {W : X.Opens} {a : ι → Γ(A, W)} {b : ι → Γ(B, W)} (ha : IsLocalFrame A W a)
-    (hb : IsLocalFrame B W b) (hφ : ∀ i, φ.app W (a i) = b i) {V : X.Opens} (hV : V ≤ W) :
-    Function.Bijective (φ.app V) := by
-  have key : ⇑(φ.app V) ∘ ⇑(localFrameMap A a hV) = ⇑(localFrameMap B b hV) := by
+lemma IsLocalFrame.app_bijective_of_map {ι : Type*} [Fintype ι] {A B : 𝓜} (φ : A ⟶ B)
+    {W : Opens X} {a : ι → Γ(A, W)} {b : ι → Γ(B, W)} (ha : IsLocalFrame A W a)
+    (hb : IsLocalFrame B W b) (hφ : ∀ i, sectionsMap φ W (a i) = b i) {V : Opens X}
+    (hV : V ≤ W) : Function.Bijective (sectionsMap φ V) := by
+  have key : ⇑(sectionsMap φ V) ∘ ⇑(localFrameMap A a hV) = ⇑(localFrameMap B b hV) := by
     funext r
     rw [Function.comp_apply, localFrameMap_apply, localFrameMap_apply, map_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
-    rw [Scheme.Modules.Hom.app_smul, ← hφ i]
+    have hs : sectionsMap φ V (r i • A.val.presheaf.map (homOfLE hV).op (a i)) =
+        r i • sectionsMap φ V (A.val.presheaf.map (homOfLE hV).op (a i)) :=
+      (φ.val.app (op V)).hom.map_smul _ _
+    rw [hs, ← hφ i]
     congr 1
-    exact (ConcreteCategory.congr_hom (φ.mapPresheaf.naturality (homOfLE hV).op) (a i))
+    exact ConcreteCategory.congr_hom ((modulesMapPresheaf φ).naturality (homOfLE hV).op) (a i)
   have h := hb V hV
   rw [← key] at h
   exact (Function.Bijective.of_comp_iff _ (ha V hV)).mp h
 
 /-- **Frames of a tensor product.** If `a` is a frame of `A` over `W` and `b` is a one-element
 frame of `B` over `W`, then the sections `a i ⊗ b` form a frame of `A ⊗ B` over `W`. -/
-lemma IsLocalFrame.tensor {ι κ : Type*} [Fintype ι] [Fintype κ] [Unique κ] {A B : X.Modules}
-    {W : X.Opens} {a : ι → Γ(A, W)} {b : κ → Γ(B, W)} (ha : IsLocalFrame A W a)
+lemma IsLocalFrame.tensor {ι κ : Type*} [Fintype ι] [Fintype κ] [Unique κ] {A B : 𝓜}
+    {W : Opens X} {a : ι → Γ(A, W)} {b : κ → Γ(B, W)} (ha : IsLocalFrame A W a)
     (hb : IsLocalFrame B W b) :
     IsLocalFrame (moduleSheafTensor A B) W
       (fun i => (moduleSheafTensorBilinear A B).app (op W) (a i) (b default)) := by
@@ -92,6 +105,8 @@ lemma IsLocalFrame.tensor {ι κ : Type*} [Fintype ι] [Fintype κ] [Unique κ] 
 
 end Frames
 
+end Ringed
+
 section PullbackTensor
 
 variable {X Y : Scheme.{u}} (f : X ⟶ Y)
@@ -103,7 +118,7 @@ theorem isInvertible_pullback {L : Y.Modules} (hL : Ringed.IsInvertible (R := Y.
   classical
   refine Ringed.isLocallyFreeOfRank_of_isLocalFrame fun x => ?_
   obtain ⟨U, e, hx, he⟩ := Ringed.exists_isLocalFrame_of_isLocallyFreeOfRank hL (f.base x)
-  exact ⟨f ⁻¹ᵁ U, _, hx, IsLocalFrame.pullback f (show IsLocalFrame L U e from he)⟩
+  exact ⟨f ⁻¹ᵁ U, _, hx, Ringed.IsLocalFrame.pullback (φ := f.toRingCatSheafHom) he⟩
 
 /-- The morphism `L ⊗ M ⟶ f_*(f^*L ⊗ f^*M)`, `l ⊗ m ↦ η(l) ⊗ η(m)`, adjoint to the comparison
 map `pullbackTensorMap`. -/
@@ -111,8 +126,8 @@ noncomputable def pullbackTensorMapAdj (L M : Y.Modules) :
     @Quiver.Hom Y.Modules _ (moduleSheafTensor L M) ((Scheme.Modules.pushforward f).obj
       (moduleSheafTensor ((Scheme.Modules.pullback f).obj L)
         ((Scheme.Modules.pullback f).obj M))) :=
-  modulesTensorMap (pullbackUnit f L) (𝟙 M) ≫
-    projectionFormulaMap f ((Scheme.Modules.pullback f).obj L) M
+  Ringed.modulesTensorMap (Ringed.pullbackUnit f.toRingCatSheafHom L) (𝟙 M) ≫
+    Ringed.projectionFormulaMap f.toRingCatSheafHom ((Scheme.Modules.pullback f).obj L) M
 
 /-- The canonical comparison map `f^*(L ⊗ M) ⟶ f^*L ⊗ f^*M`, adjoint to
 `l ⊗ m ↦ η(l) ⊗ η(m)`. -/
@@ -123,42 +138,47 @@ noncomputable def pullbackTensorMap (L M : Y.Modules) :
 
 variable {f} in
 lemma pullbackTensorMap_app_unit {L M : Y.Modules} {U : Y.Opens} (l : Γ(L, U)) (m : Γ(M, U)) :
-    (pullbackTensorMap f L M).app (f ⁻¹ᵁ U)
-        ((pullbackUnit f (moduleSheafTensor L M)).app U
+    Ringed.sectionsMap (pullbackTensorMap f L M) (f ⁻¹ᵁ U)
+        (Ringed.etaSec (φ := f.toRingCatSheafHom)
           ((moduleSheafTensorBilinear L M).app (op U) l m)) =
       (moduleSheafTensorBilinear ((Scheme.Modules.pullback f).obj L)
         ((Scheme.Modules.pullback f).obj M)).app (op (f ⁻¹ᵁ U))
-          ((pullbackUnit f L).app U l) ((pullbackUnit f M).app U m) := by
-  have h : pullbackUnit f (moduleSheafTensor L M) ≫
+          (Ringed.etaSec (φ := f.toRingCatSheafHom) l)
+          (Ringed.etaSec (φ := f.toRingCatSheafHom) m) := by
+  have h : Ringed.pullbackUnit f.toRingCatSheafHom (moduleSheafTensor L M) ≫
       (Scheme.Modules.pushforward f).map (pullbackTensorMap f L M) = pullbackTensorMapAdj f L M :=
     ((Scheme.Modules.pullbackPushforwardAdjunction f).homEquiv_unit _ _ _).symm.trans
       (Equiv.apply_symm_apply _ _)
-  have h1 : (pullbackTensorMap f L M).app (f ⁻¹ᵁ U)
-      ((pullbackUnit f (moduleSheafTensor L M)).app U
+  have h1 : Ringed.sectionsMap (pullbackTensorMap f L M) (f ⁻¹ᵁ U)
+      (Ringed.etaSec (φ := f.toRingCatSheafHom)
         ((moduleSheafTensorBilinear L M).app (op U) l m)) =
-      (pullbackTensorMapAdj f L M).app U ((moduleSheafTensorBilinear L M).app (op U) l m) :=
-    ConcreteCategory.congr_hom (congrArg (fun φ => Scheme.Modules.Hom.app φ U) h)
+      Ringed.sectionsMap (pullbackTensorMapAdj f L M) U
+        ((moduleSheafTensorBilinear L M).app (op U) l m) :=
+    ConcreteCategory.congr_hom (congrArg (fun φ => Ringed.sectionsMap φ U) h)
       ((moduleSheafTensorBilinear L M).app (op U) l m)
-  have h3 := modulesTensorMap_tmul (pullbackUnit f L) (𝟙 M) l m
-  have h4 := projectionFormulaMap_tmul (f := f) (F := (Scheme.Modules.pullback f).obj L) (E := M)
-    ((pullbackUnit f L).app U l) m
-  exact h1.trans ((congrArg (fun t => (projectionFormulaMap f
-    ((Scheme.Modules.pullback f).obj L) M).app U t) h3).trans h4)
+  have h3 := Ringed.modulesTensorMap_tmul (Ringed.pullbackUnit f.toRingCatSheafHom L) (𝟙 M) l m
+  have h4 := Ringed.projectionFormulaMap_tmul (φ := f.toRingCatSheafHom)
+    (F := (Scheme.Modules.pullback f).obj L) (E := M)
+    (Ringed.etaSec (φ := f.toRingCatSheafHom) l) m
+  exact h1.trans ((congrArg (fun t => Ringed.sectionsMap (Ringed.projectionFormulaMap
+    f.toRingCatSheafHom ((Scheme.Modules.pullback f).obj L) M) U t) h3).trans h4)
 
 /-- **Pullback commutes with tensor products of invertible sheaves.** For invertible
 `𝒪_Y`-modules `L` and `M`, the comparison map `f^*(L ⊗ M) ⟶ f^*L ⊗ f^*M` is an isomorphism. -/
 theorem pullbackTensorMap_isIso {L M : Y.Modules} (hL : Ringed.IsInvertible (R := Y.sheaf) L)
     (hM : Ringed.IsInvertible (R := Y.sheaf) M) : IsIso (pullbackTensorMap f L M) := by
   classical
-  refine modules_isIso_of_locally_bijective _ fun x => ?_
+  refine Ringed.modules_isIso_of_locally_bijective (R := X.sheaf) _ fun x => ?_
   obtain ⟨U₁, l, hx₁, hl⟩ := Ringed.exists_isLocalFrame_of_isLocallyFreeOfRank hL (f.base x)
   obtain ⟨U₂, m, hx₂, hm⟩ := Ringed.exists_isLocalFrame_of_isLocallyFreeOfRank hM (f.base x)
-  have hl' : IsLocalFrame L (U₁ ⊓ U₂) _ := hl.restrictLE inf_le_left
-  have hm' : IsLocalFrame M (U₁ ⊓ U₂) _ := hm.restrictLE inf_le_right
-  have hsrc := (hl'.tensor hm').pullback f
-  have htgt := (hl'.pullback f).tensor (hm'.pullback f)
+  have hl' := hl.restrictLE (inf_le_left : U₁ ⊓ U₂ ≤ U₁)
+  have hm' := hm.restrictLE (inf_le_right : U₁ ⊓ U₂ ≤ U₂)
+  have hsrc := Ringed.IsLocalFrame.pullback (φ := f.toRingCatSheafHom) (hl'.tensor hm')
+  have htgt := (Ringed.IsLocalFrame.pullback (φ := f.toRingCatSheafHom) hl').tensor
+    (Ringed.IsLocalFrame.pullback (φ := f.toRingCatSheafHom) hm')
   exact ⟨f ⁻¹ᵁ (U₁ ⊓ U₂), ⟨hx₁, hx₂⟩, fun V hV =>
-    IsLocalFrame.app_bijective_of_map _ hsrc htgt (fun _ => pullbackTensorMap_app_unit _ _) hV⟩
+    Ringed.IsLocalFrame.app_bijective_of_map _ hsrc htgt
+      (fun _ => pullbackTensorMap_app_unit _ _) hV⟩
 
 /-- **Pullback and tensor products.** For invertible `𝒪_Y`-modules `L` and `M`, the canonical
 isomorphism `f^*(L ⊗ M) ≅ f^*L ⊗ f^*M`. -/
