@@ -443,6 +443,7 @@ import Hartshorne.Scheme.ProjectiveIntersectionDegree
 import Hartshorne.Cohomology.FiniteLocallyFreeTensorInjective
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsTransitivity
 import Hartshorne.Scheme.SheafTensorOperations
+import Hartshorne.Scheme.SheafAlgebraOperations
 import Hartshorne.Scheme.VarietyAssociatedScheme
 import Hartshorne.Scheme.ProjectiveMorphismCalculus
 import Hartshorne.Scheme.VarietySchemeOverK

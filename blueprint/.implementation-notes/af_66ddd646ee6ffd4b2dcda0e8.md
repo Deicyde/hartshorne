@@ -22,6 +22,14 @@ $T(F)$, $S(F)$, $\bigwedge(F)$ are not yet constructed, so the article is not re
   immersion of schemes, with `..._multilinear` compatibility with the universal maps; built on
   `Hartshorne.SheafTensorOperations.sheafificationRestrictHom` being an isomorphism.
 
+- `Hartshorne.SheafAlgebraOperations` (module `Hartshorne.Scheme.SheafAlgebraOperations`): general
+  sheafification of presheaves of algebras. `PresheafAlgebra P` (associative unital bilinear
+  multiplication compatible with restriction), `PresheafAlgebra.sheafification` with
+  `sheafification_mul_unit` / `sheafification_mul_unique`; bilinear extension
+  `sheafifyBilinearEquiv` (via `isIso_sheafifyMap`: stalk-bijective maps sheafify to isomorphisms,
+  and `stalkMap_tensorHom_bijective`); `PresheafAlgebra.IsGraded` with `isColimit` (the
+  sheafification is the coproduct of the sheafified components) and `sheafification_mul_ι`.
+
 ## Remaining goal
 
 Construct the tensor, symmetric, and exterior algebras of $F$ as sheaves of $\mathcal O_X$-algebras
