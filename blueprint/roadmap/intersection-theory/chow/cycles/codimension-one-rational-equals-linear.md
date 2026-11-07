@@ -2,6 +2,9 @@
 article_id: af_a698257cd270977b8a1da05f
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.rationalEquivalenceSubgroup_one_eq_map_principalDivisorSubgroup Hartshorne.rationallyEquivalent_weilDivisorToCodimOneCycles_iff Hartshorne.codimOneCycleClassEquivWeilClassGroup Hartshorne.codimOneCycleClassEquivWeilClassGroup_mk
 ---
 
 # On a normal variety codimension-one rational equivalence is linear equivalence
