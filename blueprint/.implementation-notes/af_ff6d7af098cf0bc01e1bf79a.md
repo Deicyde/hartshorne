@@ -2,11 +2,13 @@
 
 ## Status
 
-Not recorded. A bounded attempt built the sheaf `μ_n`, the twist `ℤ/ℓ^r(1) = μ_{ℓ^r}`, tensor
-products of abelian sheaves on the small étale site, and the nonnegative twists `ℤ/ℓ^r(q)`
-(`q ≥ 0`) with their inverse systems in `r`. The negative twists (duals) need an internal Hom of
-abelian étale sheaves that stays in the right universe. That construction is the size of an article
-and is missing, so the leaf cannot be recorded faithfully. See the split proposal below.
+Not recorded. A bounded attempt built every object the article asks for: `μ_n`,
+`ℤ/ℓ^r(1) = μ_{ℓ^r}`, tensor products and internal Homs of abelian étale sheaves, the twists
+`ℤ/ℓ^r(q)` for every integer `q`, their inverse systems `ℤ_ℓ(q)`, and the twisted `ℤ_ℓ`- and
+`ℚ_ℓ`-cohomology. Three of the ingredients are definitions the size of an article that other
+articles will also need: the sheaf `μ_n`, the tensor product, and the internal Hom. Following the
+bounded-attempt rule, the leaf is left unrecorded and a split proposal is given below. Once those
+articles exist, the leaf can record the declarations listed in item 4.
 
 ## Checked Lean (module `Hartshorne.Weil.EtaleTateTwist`)
 
@@ -54,8 +56,33 @@ not edit it.
   `classicalEllAdicCohomologyTwistNat X ℓ q i` (its inverse limit). At `q = 0` the latter is
   definitionally `classicalEllAdicCohomology` (`classicalEllAdicCohomologyTwistNat_zero`).
 
-No hypothesis on `ℓ` is needed for these constructions. Invertibility of `ℓ` enters only in
-theorems about them, as in constant-torsion-etale-sheaf.
+- Internal Hom (`AlgebraicGeometry.Scheme`): `EtaleHomOver F G U` (morphisms `F|_U ⟶ G|_U`).
+  `small_etaleHomOver` shows these are `u`-small: a morphism is determined by its components at
+  affine étale schemes over `U` (a small family via `equivSmallModel X.AffineEtale`), by cover
+  density of the affine étale site and separatedness of `G`. Then `etaleHomOverRestrict` (with
+  `_id`, `_comp`), `etaleHomPresheaf` (shrunk to `Ab.{u}`), `isSheaf_etaleHomPresheaf`, and
+  `etaleSheafHom F G : Sheaf X.smallEtaleTopology Ab`.
+- `etaleTateTwistNegOne X ℓ r = Hom(μ_{ℓ^r}, ℤ/ℓ^r)` and `etaleTateTwist X ℓ r : ℤ → Sheaf`.
+  This is `etaleTateTwistNat` for `q ≥ 0` and `ℤ/ℓ^r(-1)^{⊗(-q)}` for `q < 0`
+  (`etaleTateTwist_natCast`, `etaleTateTwist_neg_one`).
+- Transitions of `ℤ_ℓ(-1)` (need `[NeZero ℓ]`):
+  - `Hartshorne.zmodPowMulHom` (multiplication by `ℓ^(s-r)`, `ℤ/ℓ^r → ℤ/ℓ^s`) and
+    `Hartshorne.zmodPowShortComplex`, which is exact with mono first map
+    (`exact_zmodPowShortComplex`, `mono_zmodPowShortComplex_f`).
+  - `constantTorsionEtaleSheafMul` and `exists_lift_constantTorsionEtaleSheafMul`: sections of
+    `ℤ/ℓ^s` killed by `ℓ^r` come from `ℤ/ℓ^r`. The constant sheaf followed by sections is left
+    exact. Also `mono_constantTorsionEtaleSheafMul_app` and `etaleTateTwistOneIncl`
+    (`μ_{ℓ^r} ⊆ μ_{ℓ^s}`).
+  - `Hartshorne.natTransLiftOfMono` (lift through a componentwise mono), `negTwistTransitionApp`,
+    `etaleTateTwistNegOneTransition`, and `etaleTateTwistNegOneSystem`.
+- `etaleTateTwistSystem X ℓ : ℤ → ℕᵒᵖ ⥤ Sheaf` (`ℤ_ℓ(q)`, `etaleTateTwistSystem_obj`),
+  `ellAdicTwistCohomologySystem`, `classicalEllAdicCohomologyTwist` (`lim_r H^i(X, ℤ/ℓ^r(q))`),
+  and `rationalEllAdicCohomologyTwist` (that limit `⊗_ℤ ℚ`, which is canonically
+  `⊗_{ℤ_ℓ} ℚ_ℓ`).
+
+Except for the transition maps of negative twists, which need `ℓ ≠ 0`, no hypothesis on `ℓ` is
+needed for these constructions. Invertibility of `ℓ` on `X` enters only in theorems about them,
+as in constant-torsion-etale-sheaf.
 
 ## Mathlib gaps found
 
@@ -64,15 +91,12 @@ theorems about them, as in constant-torsion-etale-sheaf.
   `X.Etale`, so it does not apply here. That is why the tensor product above is defined by hand
   (pointwise `⊗_ℤ`, then sheafify).
 - Mathlib's `presheafHom` / `sheafHom` give the internal Hom only as a sheaf of types in
-  `Type (u+1)`, because `X.Etale` is a large category. No `Ab.{u}`-valued internal Hom exists.
+  `Type (u+1)`. The smallness argument and the shrinking above fill this gap.
 
 ## Remaining goal
 
-- Negative twists `ℤ/ℓ^r(-q)` for `q ≥ 1`, with transition maps, and the leaf's
-  "every integer `q`" packaging.
-- `ℚ_ℓ(q)` by rationalization. `H^i(X, ℚ_ℓ(q))` is presumably
-  `H^i_classical(X, ℤ_ℓ(q)) ⊗_{ℤ_ℓ} ℚ_ℓ`, as in rational-ell-adic-cohomology for `q = 0`. It
-  needs the `ℤ_ℓ`-module structure that rational-ell-adic-cohomology builds.
+No Lean work remains for the objects the article lists. What remains is the Roadmap step: create
+articles 1–3 below and add the edges. Then the leaf can be recorded after an independent review.
 
 ## Split proposal
 
@@ -99,16 +123,13 @@ theorems about them, as in constant-torsion-etale-sheaf.
      The dual of a `ℤ/ℓ^r`-sheaf `F` is `Hom(F, ℤ/ℓ^r)`.
    - Source: SGA 4 IV (operations on sheaves); Milne, Étale Cohomology, Ch. II.
    - Depends on: small-etale-site, constant-torsion-etale-sheaf.
-   - Not built. Next route: give Mathlib's `presheafHom F G` its pointwise `AddCommGroup`
-     structure (it is a sheaf by `Presheaf.IsSheaf.hom`). Prove the hom groups are `u`-small by
-     comparing sheaves on `X_et/U` with sheaves on the essentially small affine étale site of
-     `U`. Then shrink, as in `GrpCat.shrinkFunctor`, and transport the sheaf property.
-4. The leaf etale-tate-twist then depends on 1–3 as well as its current dependencies, and
-   would record:
-   - `ℤ/ℓ^r(q)` for all integers `q`: the existing `etaleTateTwistNat` for `q ≥ 0`, and
-     `ℤ/ℓ^r(-q) = (ℤ/ℓ^r(-1))^{⊗q}` with `ℤ/ℓ^r(-1) = Hom(μ_{ℓ^r}, ℤ/ℓ^r)`;
-   - the inverse systems in `r`;
-   - the rationalized coefficients.
+   - Would record: `AlgebraicGeometry.Scheme.etaleSheafHom`. Already built.
+4. The leaf etale-tate-twist then depends on 1–3 as well as its current dependencies. Its
+   statement could say that `ℤ/ℓ^r(-q) = ℤ/ℓ^r(-1)^{⊗q}` with `ℤ/ℓ^r(-1)` the dual of
+   `ℤ/ℓ^r(1)`. It would record `AlgebraicGeometry.Scheme.etaleTateTwistOne`,
+   `AlgebraicGeometry.Scheme.etaleTateTwist`, `AlgebraicGeometry.Scheme.etaleTateTwistSystem`,
+   `AlgebraicGeometry.Scheme.classicalEllAdicCohomologyTwist` and
+   `AlgebraicGeometry.Scheme.rationalEllAdicCohomologyTwist`. All of these are already built.
 
    The transition map `ℤ/ℓ^s(-1) → ℤ/ℓ^r(-1)` needs no Kummer theory. Restrict along the
    inclusion `μ_{ℓ^r} ↪ μ_{ℓ^s}`. The result lands in the `ℓ^r`-torsion `ℓ^{s-r}ℤ/ℓ^s ≅ ℤ/ℓ^r`.
@@ -119,5 +140,5 @@ theorems about them, as in constant-torsion-etale-sheaf.
 Suggested clarification for the article (statement not edited): "inverse limit followed by
 rationalization" should say that `ℤ_ℓ(q)` is the inverse system `(ℤ/ℓ^r(q))_r`, with cohomology
 `lim_r H^i_et(X, ℤ/ℓ^r(q))`. It should also say that `ℚ_ℓ(q)`-cohomology is that limit tensored
-with `ℚ_ℓ` over `ℤ_ℓ`. The literal limit sheaf of the `ℤ/ℓ^r(q)` tensored with `ℚ` is not the
+with `ℚ_ℓ` over `ℤ_ℓ`, which is the same as tensoring with `ℚ` over `ℤ`. The literal limit sheaf of the `ℤ/ℓ^r(q)` tensored with `ℚ` is not the
 standard object.

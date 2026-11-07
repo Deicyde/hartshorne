@@ -11,9 +11,10 @@ import Mathlib.RingTheory.RootsOfUnity.Basic
 import Mathlib.LinearAlgebra.TensorProduct.Basic
 import Mathlib.CategoryTheory.Sites.SheafHom
 import Mathlib.Algebra.Group.Shrink
+import Mathlib.Algebra.Homology.ShortComplex.Ab
 
 /-!
-# Roots of unity and nonnegative Tate twists on the small étale site
+# Roots of unity and Tate twists on the small étale site
 
 For a scheme `X` and a natural number `n`, this file constructs the sheaf `μ_n` of `n`-th roots
 of unity on the small étale site of `X`: its sections over an étale `X`-scheme `U` are the
@@ -28,8 +29,17 @@ is the sheafification of the pointwise tensor product over `ℤ`; tensor powers 
 the nonnegative twists `ℤ/ℓ^r(q)`, `q ≥ 0` (with `ℤ/ℓ^r(0)` the constant sheaf `ℤ/ℓ^r`), their
 inverse systems in `r`, and the classical groups `lim_r H^i_et(X, ℤ/ℓ^r(q))`.
 
-No hypothesis on `ℓ` is needed for these constructions; invertibility of `ℓ` on `X` enters
-only in theorems about them.  Negative twists (duals) are not constructed here.
+The internal Hom `U ↦ Hom(F|_U, G|_U)` of two abelian sheaves is a sheaf of `u`-small abelian
+groups: a morphism `F|_U ⟶ G|_U` is determined by its components at the essentially small family
+of affine étale schemes over `U`.  The negative twists are `ℤ/ℓ^r(-1) = Hom(μ_{ℓ^r}, ℤ/ℓ^r)` and
+its tensor powers.  The transition `ℤ/ℓ^s(-1) → ℤ/ℓ^r(-1)` restricts `τ : μ_{ℓ^s} → ℤ/ℓ^s` to
+`μ_{ℓ^r}` and divides by `ℓ ^ (s - r)`: the restriction is killed by `ℓ ^ r`, and the
+`ℓ^r`-torsion of `ℤ/ℓ^s` is `ℓ^(s-r) ℤ/ℓ^r`, also on sections of the constant sheaves because
+taking sections of constant sheaves is left exact.  Together these give `ℤ_ℓ(q)` for every integer
+`q`, and the groups `H^i(X, ℤ_ℓ(q)) = lim_r H^i_et(X, ℤ/ℓ^r(q))` and `H^i(X, ℤ_ℓ(q)) ⊗ ℚ`.
+
+Except for the transition maps of negative twists, which need `ℓ ≠ 0`, no hypothesis on `ℓ` is
+needed for these constructions; invertibility of `ℓ` on `X` enters only in theorems about them.
 
 ## Main declarations
 
@@ -42,6 +52,12 @@ only in theorems about them.  Negative twists (duals) are not constructed here.
   tensor powers of sheaves of abelian groups.
 - `AlgebraicGeometry.Scheme.etaleTateTwistNat X ℓ r q`: `ℤ/ℓ^r(q)` for `q ≥ 0`, and
   `AlgebraicGeometry.Scheme.etaleTateTwistNatSystem X ℓ q`: the inverse system in `r`.
+- `AlgebraicGeometry.Scheme.etaleSheafHom F G`: the internal Hom of abelian sheaves on `X_et`.
+- `AlgebraicGeometry.Scheme.etaleTateTwist X ℓ r q`: `ℤ/ℓ^r(q)` for every integer `q`, and
+  `AlgebraicGeometry.Scheme.etaleTateTwistSystem X ℓ q`: the inverse system `ℤ_ℓ(q)`.
+- `AlgebraicGeometry.Scheme.classicalEllAdicCohomologyTwist X ℓ q i` and
+  `AlgebraicGeometry.Scheme.rationalEllAdicCohomologyTwist X ℓ q i`: `H^i(X, ℤ_ℓ(q))` and
+  `H^i(X, ℚ_ℓ(q))`.
 -/
 
 open CategoryTheory Limits Opposite
@@ -550,10 +566,12 @@ noncomputable def etaleHomOverRestrict {U V : X.Etale} (f : V ⟶ U) :
   map_zero' := by ext; rfl
   map_add' τ τ' := by ext; rfl
 
+/-- Restriction along the identity is the identity. -/
 theorem etaleHomOverRestrict_id (U : X.Etale) (τ : EtaleHomOver F G U) :
     etaleHomOverRestrict F G (𝟙 U) τ = τ :=
   ConcreteCategory.congr_hom ((presheafHom F.obj G.obj).map_id (op U)) τ
 
+/-- Restriction is compatible with composition. -/
 theorem etaleHomOverRestrict_comp {U V W : X.Etale} (f : V ⟶ U) (g : W ⟶ V)
     (τ : EtaleHomOver F G U) :
     etaleHomOverRestrict F G (g ≫ f) τ =
@@ -626,12 +644,450 @@ noncomputable def etaleTateTwist (X : Scheme.{u}) (ℓ r : ℕ) : ℤ → Sheaf 
   | .ofNat q => X.etaleTateTwistNat ℓ r q
   | .negSucc k => sheafTensorPowSucc X.smallEtaleTopology (X.etaleTateTwistNegOne ℓ r) k
 
+/-- For `q ≥ 0`, `ℤ/ℓ^r(q)` is the nonnegative twist. -/
 theorem etaleTateTwist_natCast (X : Scheme.{u}) (ℓ r q : ℕ) :
     X.etaleTateTwist ℓ r q = X.etaleTateTwistNat ℓ r q :=
   rfl
 
+/-- The twist `ℤ/ℓ^r(-1)` is the dual of `μ_{ℓ^r}`. -/
 theorem etaleTateTwist_neg_one (X : Scheme.{u}) (ℓ r : ℕ) :
     X.etaleTateTwist ℓ r (-1) = X.etaleTateTwistNegOne ℓ r :=
+  rfl
+
+end AlgebraicGeometry.Scheme
+
+namespace Hartshorne
+
+/-- Multiplication by `ℓ ^ (s - r)`, as a homomorphism `ℤ/ℓ^r → ℤ/ℓ^s` for `r ≤ s`. -/
+noncomputable def zmodPowMulHom (ℓ : ℕ) {r s : ℕ} (h : r ≤ s) : ZMod (ℓ ^ r) →+ ZMod (ℓ ^ s) :=
+  ZMod.lift (ℓ ^ r) ⟨zmultiplesHom (ZMod (ℓ ^ s)) ((ℓ ^ (s - r) : ℕ) : ZMod (ℓ ^ s)), by
+    rw [zmultiplesHom_apply, natCast_zsmul, nsmul_eq_mul, ← Nat.cast_mul, ← pow_add,
+      Nat.add_sub_cancel' h, ZMod.natCast_self]⟩
+
+/-- Multiplication by `ℓ ^ (s - r)` on natural-number classes. -/
+theorem zmodPowMulHom_natCast (ℓ : ℕ) {r s : ℕ} (h : r ≤ s) (k : ℕ) :
+    zmodPowMulHom ℓ h (k : ZMod (ℓ ^ r)) = ((k * ℓ ^ (s - r) : ℕ) : ZMod (ℓ ^ s)) := by
+  have := ZMod.lift_coe (ℓ ^ r) ⟨zmultiplesHom (ZMod (ℓ ^ s)) ((ℓ ^ (s - r) : ℕ) : ZMod (ℓ ^ s)),
+    by rw [zmultiplesHom_apply, natCast_zsmul, nsmul_eq_mul, ← Nat.cast_mul, ← pow_add,
+      Nat.add_sub_cancel' h, ZMod.natCast_self]⟩ (k : ℤ)
+  simp only [Int.cast_natCast] at this
+  rw [zmodPowMulHom, this]
+  simp [Nat.cast_mul]
+
+/-- For `ℓ ≠ 0`, multiplication by `ℓ ^ (s - r)` is injective on `ℤ/ℓ^r`. -/
+theorem injective_zmodPowMulHom {ℓ : ℕ} (hℓ : ℓ ≠ 0) {r s : ℕ} (h : r ≤ s) :
+    Function.Injective (zmodPowMulHom ℓ h) := by
+  have : NeZero (ℓ ^ r) := ⟨pow_ne_zero r hℓ⟩
+  rw [injective_iff_map_eq_zero]
+  intro x hx
+  rw [← ZMod.natCast_zmod_val x, zmodPowMulHom_natCast, ZMod.natCast_eq_zero_iff] at hx
+  rw [← ZMod.natCast_zmod_val x, ZMod.natCast_eq_zero_iff]
+  have hs : ℓ ^ s = ℓ ^ (s - r) * ℓ ^ r := by rw [← pow_add, Nat.sub_add_cancel h]
+  rw [hs, mul_comm x.val] at hx
+  exact Nat.dvd_of_mul_dvd_mul_left (Nat.pos_of_ne_zero (pow_ne_zero _ hℓ)) hx
+
+/-- For `ℓ ≠ 0`, the `ℓ^r`-torsion of `ℤ/ℓ^s` is the image of `ℤ/ℓ^r`. -/
+theorem exists_zmodPowMulHom_eq {ℓ : ℕ} (hℓ : ℓ ≠ 0) {r s : ℕ} (h : r ≤ s) (y : ZMod (ℓ ^ s))
+    (hy : (ℓ ^ r) • y = 0) : ∃ x, zmodPowMulHom ℓ h x = y := by
+  have : NeZero (ℓ ^ s) := ⟨pow_ne_zero s hℓ⟩
+  rw [← ZMod.natCast_zmod_val y, nsmul_eq_mul, ← Nat.cast_mul, ZMod.natCast_eq_zero_iff] at hy
+  have hs : ℓ ^ s = ℓ ^ r * ℓ ^ (s - r) := by rw [← pow_add, Nat.add_sub_cancel' h]
+  replace hy : ℓ ^ r * ℓ ^ (s - r) ∣ ℓ ^ r * y.val := hs ▸ hy
+  obtain ⟨k, hk⟩ := Nat.dvd_of_mul_dvd_mul_left (Nat.pos_of_ne_zero (pow_ne_zero _ hℓ)) hy
+  refine ⟨(k : ZMod (ℓ ^ r)), ?_⟩
+  rw [zmodPowMulHom_natCast, ← ZMod.natCast_zmod_val y, hk, mul_comm]
+
+/-- The image of `ℤ/ℓ^r` in `ℤ/ℓ^s` is killed by `ℓ ^ r`. -/
+theorem nsmul_zmodPowMulHom (ℓ : ℕ) {r s : ℕ} (h : r ≤ s) (x : ZMod (ℓ ^ r)) :
+    (ℓ ^ r) • zmodPowMulHom ℓ h x = 0 := by
+  rw [← map_nsmul, nsmul_eq_mul, Nat.cast_pow, ← Nat.cast_pow, ZMod.natCast_self, zero_mul,
+    map_zero]
+
+/-- Multiplication by `ℓ ^ (s - r)` on integer classes. -/
+theorem zmodPowMulHom_intCast (ℓ : ℕ) {r s : ℕ} (h : r ≤ s) (k : ℤ) :
+    zmodPowMulHom ℓ h (k : ZMod (ℓ ^ r)) =
+      (k : ZMod (ℓ ^ s)) * ((ℓ ^ (s - r) : ℕ) : ZMod (ℓ ^ s)) := by
+  rw [zmodPowMulHom, ZMod.lift_coe]
+  simp [zsmul_eq_mul]
+
+/-- For `r = s` the map is the identity. -/
+theorem zmodPowMulHom_refl (ℓ r : ℕ) : zmodPowMulHom ℓ (le_refl r) = AddMonoidHom.id _ := by
+  ext x
+  rw [← ZMod.intCast_zmod_cast x, zmodPowMulHom_intCast]
+  simp
+
+/-- The maps compose: `ℓ^(t-s) ℓ^(s-r) = ℓ^(t-r)`. -/
+theorem zmodPowMulHom_trans (ℓ : ℕ) {r s t : ℕ} (hrs : r ≤ s) (hst : s ≤ t) :
+    zmodPowMulHom ℓ (hrs.trans hst) = (zmodPowMulHom ℓ hst).comp (zmodPowMulHom ℓ hrs) := by
+  ext x
+  rw [← ZMod.intCast_zmod_cast x, AddMonoidHom.comp_apply, zmodPowMulHom_intCast,
+    zmodPowMulHom_intCast]
+  rw [show ((x.cast : ℤ) : ZMod (ℓ ^ s)) * ((ℓ ^ (s - r) : ℕ) : ZMod (ℓ ^ s)) =
+      (((x.cast : ℤ) * (ℓ ^ (s - r) : ℕ) : ℤ) : ZMod (ℓ ^ s)) by push_cast; rfl,
+    zmodPowMulHom_intCast]
+  have : t - r = (s - r) + (t - s) := by omega
+  push_cast
+  rw [this, pow_add, mul_assoc]
+
+/-- The short complex `ℤ/ℓ^r → ℤ/ℓ^s → ℤ/ℓ^s` of abelian groups, where the first map is
+multiplication by `ℓ ^ (s - r)` and the second is multiplication by `ℓ ^ r`. -/
+noncomputable def zmodPowShortComplex (ℓ : ℕ) {r s : ℕ} (h : r ≤ s) : ShortComplex Ab.{u} :=
+  ShortComplex.mk ((AddCommGrpCat.uliftFunctor.{u}).map (AddCommGrpCat.ofHom (zmodPowMulHom ℓ h)))
+    ((ℓ ^ r) • 𝟙 _) (by
+      ext x
+      exact ULift.ext _ _ (nsmul_zmodPowMulHom ℓ h x.down))
+
+/-- The first map of `zmodPowShortComplex` is injective. -/
+theorem mono_zmodPowShortComplex_f {ℓ : ℕ} (hℓ : ℓ ≠ 0) {r s : ℕ} (h : r ≤ s) :
+    Mono (zmodPowShortComplex.{u} ℓ h).f := by
+  rw [AddCommGrpCat.mono_iff_injective]
+  intro x y hxy
+  exact ULift.ext _ _ (injective_zmodPowMulHom hℓ h (congrArg ULift.down hxy))
+
+/-- The short complex `ℤ/ℓ^r → ℤ/ℓ^s → ℤ/ℓ^s` is exact. -/
+theorem exact_zmodPowShortComplex {ℓ : ℕ} (hℓ : ℓ ≠ 0) {r s : ℕ} (h : r ≤ s) :
+    (zmodPowShortComplex.{u} ℓ h).Exact := by
+  rw [ShortComplex.ab_exact_iff]
+  intro y hy
+  obtain ⟨x, hx⟩ := exists_zmodPowMulHom_eq hℓ h y.down (congrArg ULift.down hy)
+  exact ⟨ULift.up x, ULift.ext _ _ hx⟩
+
+/-- The inclusion `μ_m ⟶ μ_n` of functors on commutative rings, for `m ∣ n`. -/
+@[simps]
+noncomputable def rootsOfUnityFunctorIncl {m n : ℕ} (h : m ∣ n) :
+    rootsOfUnityFunctor.{u} m ⟶ rootsOfUnityFunctor n where
+  app A := AddCommGrpCat.ofHom (Subgroup.inclusion (rootsOfUnity_le_of_dvd h)).toAdditive
+  naturality A B f := by
+    ext ζ
+    rfl
+
+end Hartshorne
+
+namespace AlgebraicGeometry.Scheme
+
+open Hartshorne
+
+/-- The morphism `μ_m ⟶ μ_n` of sheaves on the small étale site of `X` induced by a natural
+transformation of the functors `A ↦ μ_m(A)` and `A ↦ μ_n(A)`. -/
+noncomputable def etaleRootsOfUnitySheafMap (X : Scheme.{u}) {m n : ℕ}
+    (α : rootsOfUnityFunctor.{u} m ⟶ rootsOfUnityFunctor n) :
+    X.etaleRootsOfUnitySheaf m ⟶ X.etaleRootsOfUnitySheaf n :=
+  ((Etale.forget X ⋙ CategoryTheory.Over.forget X).sheafPushforwardContinuous Ab.{u}
+    X.smallEtaleTopology etaleTopology).map
+      (ObjectProperty.homMk (Functor.whiskerLeft Scheme.Γ α))
+
+/-- The inclusion `μ_{ℓ^r} ⟶ μ_{ℓ^s}` for `r ≤ s`. -/
+noncomputable def etaleTateTwistOneIncl (X : Scheme.{u}) (ℓ : ℕ) {r s : ℕ} (h : r ≤ s) :
+    X.etaleTateTwistOne ℓ r ⟶ X.etaleTateTwistOne ℓ s :=
+  X.etaleRootsOfUnitySheafMap (rootsOfUnityFunctorIncl (pow_dvd_pow ℓ h))
+
+/-- Sections of `μ_{ℓ^r}` are killed by `ℓ ^ r`. -/
+theorem etaleTateTwistOneIncl_app_comp_nsmul (X : Scheme.{u}) (ℓ : ℕ) {r s : ℕ} (h : r ≤ s)
+    (V : X.Etale) :
+    (X.etaleTateTwistOneIncl ℓ h).hom.app (op V) ≫ ((ℓ ^ r) • 𝟙 _) = 0 := by
+  ext ζ
+  refine Subtype.ext ?_
+  exact (mem_rootsOfUnity _ _).1 (Additive.toMul ζ).2
+
+/-- Multiplication by `ℓ ^ (s - r)`, as a morphism `ℤ/ℓ^r ⟶ ℤ/ℓ^s` of constant sheaves. -/
+noncomputable def constantTorsionEtaleSheafMul (X : Scheme.{u}) (ℓ : ℕ) {r s : ℕ} (h : r ≤ s) :
+    X.constantTorsionEtaleSheaf ℓ r ⟶ X.constantTorsionEtaleSheaf ℓ s :=
+  (constantSheaf X.smallEtaleTopology Ab.{u}).map (zmodPowShortComplex.{u} ℓ h).f
+
+/-- Sections over `V` of the constant sheaf with a given value. -/
+noncomputable abbrev constantSheafEval (X : Scheme.{u}) (V : X.Etale) : Ab.{u} ⥤ Ab.{u} :=
+  Functor.const _ ⋙ presheafToSheaf X.smallEtaleTopology Ab.{u} ⋙ sheafToPresheaf _ _ ⋙
+    (CategoryTheory.evaluation _ _).obj (op V)
+
+/-- Sections of constant sheaves form an additive functor. -/
+instance (X : Scheme.{u}) (V : X.Etale) : (constantSheafEval X V).Additive :=
+  Functor.additive_of_preserves_binary_products _
+
+/-- A homomorphism into the sections over `V` of `ℤ/ℓ^s` that is killed by `ℓ ^ r` factors
+through multiplication by `ℓ ^ (s - r)` from `ℤ/ℓ^r`. -/
+theorem exists_lift_constantTorsionEtaleSheafMul (X : Scheme.{u}) {ℓ : ℕ} (hℓ : ℓ ≠ 0)
+    {r s : ℕ} (h : r ≤ s) (V : X.Etale) {P : Ab.{u}}
+    (k : P ⟶ (X.constantTorsionEtaleSheaf ℓ s).obj.obj (op V)) (hk : k ≫ ((ℓ ^ r) • 𝟙 _) = 0) :
+    ∃ l, l ≫ (X.constantTorsionEtaleSheafMul ℓ h).hom.app (op V) = k := by
+  have := mono_zmodPowShortComplex_f.{u} hℓ h
+  let hS := (exact_zmodPowShortComplex.{u} hℓ h).fIsKernel
+  let hT := KernelFork.mapIsLimit _ hS (constantSheafEval X V)
+  let k' : P ⟶ (constantSheafEval X V).obj (zmodPowShortComplex.{u} ℓ h).X₂ := k
+  have hk' : k' ≫ (constantSheafEval X V).map (zmodPowShortComplex.{u} ℓ h).g = 0 := by
+    change k' ≫ (constantSheafEval X V).map ((ℓ ^ r) • 𝟙 (zmodPowShortComplex.{u} ℓ h).X₂) = 0
+    have e : (constantSheafEval X V).map (𝟙 (zmodPowShortComplex.{u} ℓ h).X₂) = 𝟙 _ :=
+      CategoryTheory.Functor.map_id _ _
+    rw [CategoryTheory.Functor.map_nsmul, e]
+    exact hk
+  exact ⟨(KernelFork.IsLimit.lift' hT k' hk').1, (KernelFork.IsLimit.lift' hT k' hk').2⟩
+
+/-- Multiplication by `ℓ ^ (s - r)` from `ℤ/ℓ^r` to `ℤ/ℓ^s` is injective on sections. -/
+instance mono_constantTorsionEtaleSheafMul_app (X : Scheme.{u}) {ℓ : ℕ} [NeZero ℓ]
+    {r s : ℕ} (h : r ≤ s) (V : X.Etale) :
+    Mono ((X.constantTorsionEtaleSheafMul ℓ h).hom.app (op V)) := by
+  have := mono_zmodPowShortComplex_f.{u} (NeZero.ne ℓ) h
+  let hS := (exact_zmodPowShortComplex.{u} (NeZero.ne ℓ) h).fIsKernel
+  let hT := KernelFork.mapIsLimit _ hS (constantSheafEval X V)
+  exact (Fork.IsLimit.mono hT :)
+
+end AlgebraicGeometry.Scheme
+
+namespace Hartshorne
+
+section LiftThroughMono
+
+variable {D : Type*} [Category D] {A : Type*} [Category A] {P Q Q' : D ⥤ A} (j : Q' ⟶ Q)
+  [hj : ∀ Y, Mono (j.app Y)] (α : P ⟶ Q) (hα : ∀ Y, ∃ l : P.obj Y ⟶ Q'.obj Y, l ≫ j.app Y = α.app Y)
+
+/-- A natural transformation `α : P ⟶ Q` whose components factor through the components of a
+componentwise monomorphism `j : Q' ⟶ Q` factors through `j`. -/
+noncomputable def natTransLiftOfMono : P ⟶ Q' where
+  app Y := (hα Y).choose
+  naturality Y Y' φ := by
+    rw [← cancel_mono (j.app Y'), Category.assoc, (hα Y').choose_spec, Category.assoc,
+      j.naturality, ← Category.assoc, (hα Y).choose_spec, α.naturality]
+
+/-- The lift composed with `j` is `α`. -/
+@[reassoc (attr := simp)]
+theorem natTransLiftOfMono_comp : natTransLiftOfMono j α hα ≫ j = α := by
+  ext Y
+  exact (hα Y).choose_spec
+
+/-- The lift is unique. -/
+theorem eq_natTransLiftOfMono (β : P ⟶ Q') (hβ : β ≫ j = α) : β = natTransLiftOfMono j α hα := by
+  ext Y
+  rw [← cancel_mono (j.app Y)]
+  exact (congrArg (fun γ ↦ γ.app Y) hβ).trans (hα Y).choose_spec.symm
+
+end LiftThroughMono
+
+end Hartshorne
+
+namespace AlgebraicGeometry.Scheme
+
+open Hartshorne
+
+section NegativeTwist
+
+variable (X : Scheme.{u}) (ℓ : ℕ) [NeZero ℓ] {r s : ℕ} (h : r ≤ s)
+
+/-- Multiplication by `ℓ ^ (s - r)`, restricted to the étale `X`-schemes over `U`. -/
+noncomputable abbrev constantTorsionEtaleSheafMulOver (U : X.Etale) :=
+  Functor.whiskerLeft (CategoryTheory.Over.forget U).op (X.constantTorsionEtaleSheafMul ℓ h).hom
+
+/-- Multiplication by `ℓ ^ (s - r)` is injective on sections over every `V` over `U`. -/
+instance (U : X.Etale) (Y : (CategoryTheory.Over U)ᵒᵖ) :
+    Mono ((X.constantTorsionEtaleSheafMulOver ℓ h U).app Y) :=
+  mono_constantTorsionEtaleSheafMul_app X h Y.unop.left
+
+/-- The restriction of `τ : μ_{ℓ^s}|_U ⟶ ℤ/ℓ^s|_U` along the inclusion `μ_{ℓ^r} ⟶ μ_{ℓ^s}`. -/
+noncomputable abbrev negTwistRestrictIncl (U : X.Etale)
+    (τ : EtaleHomOver (X.etaleTateTwistOne ℓ s) (X.constantTorsionEtaleSheaf ℓ s) U) :=
+  Functor.whiskerLeft (CategoryTheory.Over.forget U).op (X.etaleTateTwistOneIncl ℓ h).hom ≫ τ
+
+omit [NeZero ℓ] in
+/-- If `ℓ ^ r` kills `a`, it kills `a ≫ t`. -/
+theorem comp_comp_nsmul_id_eq_zero {C : Type*} [Category C] [Preadditive C] {A B D : C}
+    (a : A ⟶ B) (t : B ⟶ D) (n : ℕ) (ha : a ≫ (n • 𝟙 B) = 0) :
+    (a ≫ t) ≫ (n • 𝟙 D) = 0 := by
+  rw [Preadditive.comp_nsmul, Category.comp_id, ← Preadditive.nsmul_comp]
+  rw [Preadditive.comp_nsmul, Category.comp_id] at ha
+  rw [ha, zero_comp]
+
+/-- The restriction of `τ` to `μ_{ℓ^r}` takes values in the image of `ℤ/ℓ^r`. -/
+theorem exists_lift_negTwistRestrictIncl (U : X.Etale)
+    (τ : EtaleHomOver (X.etaleTateTwistOne ℓ s) (X.constantTorsionEtaleSheaf ℓ s) U)
+    (Y : (CategoryTheory.Over U)ᵒᵖ) :
+    ∃ l, l ≫ (X.constantTorsionEtaleSheafMulOver ℓ h U).app Y =
+      (X.negTwistRestrictIncl ℓ h U τ).app Y := by
+  refine exists_lift_constantTorsionEtaleSheafMul X (NeZero.ne ℓ) h Y.unop.left _ ?_
+  exact comp_comp_nsmul_id_eq_zero _ (τ.app Y) _
+    (X.etaleTateTwistOneIncl_app_comp_nsmul ℓ h Y.unop.left)
+
+/-- The transition `ℤ/ℓ^s(-1) → ℤ/ℓ^r(-1)` on sections over `U`: a morphism
+`τ : μ_{ℓ^s}|_U ⟶ ℤ/ℓ^s|_U` goes to the unique `σ : μ_{ℓ^r}|_U ⟶ ℤ/ℓ^r|_U` such that
+multiplication by `ℓ ^ (s - r)` after `σ` is the restriction of `τ` to `μ_{ℓ^r}`. -/
+noncomputable def negTwistTransitionApp (U : X.Etale) :
+    EtaleHomOver (X.etaleTateTwistOne ℓ s) (X.constantTorsionEtaleSheaf ℓ s) U →+
+      EtaleHomOver (X.etaleTateTwistOne ℓ r) (X.constantTorsionEtaleSheaf ℓ r) U where
+  toFun τ := natTransLiftOfMono (X.constantTorsionEtaleSheafMulOver ℓ h U)
+    (X.negTwistRestrictIncl ℓ h U τ) (X.exists_lift_negTwistRestrictIncl ℓ h U τ)
+  map_zero' := (eq_natTransLiftOfMono _ _ _ 0 (by simp)).symm
+  map_add' τ τ' := (eq_natTransLiftOfMono _ _ _ _ (by simp [Preadditive.add_comp])).symm
+
+/-- Characterizing property of the transition. -/
+theorem negTwistTransitionApp_comp (U : X.Etale)
+    (τ : EtaleHomOver (X.etaleTateTwistOne ℓ s) (X.constantTorsionEtaleSheaf ℓ s) U) :
+    X.negTwistTransitionApp ℓ h U τ ≫ X.constantTorsionEtaleSheafMulOver ℓ h U =
+      X.negTwistRestrictIncl ℓ h U τ :=
+  natTransLiftOfMono_comp _ _ _
+
+/-- Uniqueness of the transition. -/
+theorem eq_negTwistTransitionApp (U : X.Etale)
+    (τ : EtaleHomOver (X.etaleTateTwistOne ℓ s) (X.constantTorsionEtaleSheaf ℓ s) U)
+    (σ : EtaleHomOver (X.etaleTateTwistOne ℓ r) (X.constantTorsionEtaleSheaf ℓ r) U)
+    (hσ : σ ≫ X.constantTorsionEtaleSheafMulOver ℓ h U = X.negTwistRestrictIncl ℓ h U τ) :
+    σ = X.negTwistTransitionApp ℓ h U τ :=
+  eq_natTransLiftOfMono _ _ _ σ hσ
+
+/-- The transition commutes with restriction. -/
+theorem negTwistTransitionApp_restrict {U V : X.Etale} (g : V ⟶ U)
+    (τ : EtaleHomOver (X.etaleTateTwistOne ℓ s) (X.constantTorsionEtaleSheaf ℓ s) U) :
+    etaleHomOverRestrict _ _ g (X.negTwistTransitionApp ℓ h U τ) =
+      X.negTwistTransitionApp ℓ h V (etaleHomOverRestrict _ _ g τ) := by
+  apply eq_negTwistTransitionApp
+  have := congrArg (Functor.whiskerLeft (CategoryTheory.Over.map g).op)
+    (X.negTwistTransitionApp_comp ℓ h U τ)
+  rw [Functor.whiskerLeft_comp, Functor.whiskerLeft_comp] at this
+  exact this
+
+/-- The transition morphism `ℤ/ℓ^s(-1) ⟶ ℤ/ℓ^r(-1)` for `r ≤ s`. -/
+noncomputable def etaleTateTwistNegOneTransition :
+    X.etaleTateTwistNegOne ℓ s ⟶ X.etaleTateTwistNegOne ℓ r :=
+  ObjectProperty.homMk
+    { app U := AddCommGrpCat.ofHom ((Shrink.addEquiv.{u}).symm.toAddMonoidHom.comp
+        ((X.negTwistTransitionApp ℓ h U.unop).comp Shrink.addEquiv.toAddMonoidHom))
+      naturality U V g := by
+        apply AddCommGrpCat.hom_ext
+        apply AddMonoidHom.ext
+        intro φ
+        change (Shrink.addEquiv.{u}).symm (X.negTwistTransitionApp ℓ h V.unop
+            (Shrink.addEquiv ((Shrink.addEquiv.{u}).symm
+              (etaleHomOverRestrict _ _ g.unop (Shrink.addEquiv φ))))) =
+          (Shrink.addEquiv.{u}).symm (etaleHomOverRestrict _ _ g.unop
+            (Shrink.addEquiv ((Shrink.addEquiv.{u}).symm (X.negTwistTransitionApp ℓ h U.unop
+              (Shrink.addEquiv φ)))))
+        rw [AddEquiv.apply_symm_apply, AddEquiv.apply_symm_apply,
+          negTwistTransitionApp_restrict] }
+
+omit [NeZero ℓ] in
+/-- The inclusion `μ_{ℓ^r} ⊆ μ_{ℓ^r}` is the identity. -/
+theorem etaleTateTwistOneIncl_refl (r : ℕ) :
+    X.etaleTateTwistOneIncl ℓ (le_refl r) = 𝟙 _ := by
+  ext V ζ
+  rfl
+
+omit [NeZero ℓ] in
+/-- Inclusions of roots of unity compose. -/
+theorem etaleTateTwistOneIncl_trans {r s t : ℕ} (hrs : r ≤ s) (hst : s ≤ t) :
+    X.etaleTateTwistOneIncl ℓ (hrs.trans hst) =
+      X.etaleTateTwistOneIncl ℓ hrs ≫ X.etaleTateTwistOneIncl ℓ hst := by
+  ext V ζ
+  rfl
+
+omit [NeZero ℓ] in
+/-- Multiplication by `ℓ ^ 0` is the identity. -/
+theorem constantTorsionEtaleSheafMul_refl (r : ℕ) :
+    X.constantTorsionEtaleSheafMul ℓ (le_refl r) = 𝟙 _ := by
+  simp only [constantTorsionEtaleSheafMul, zmodPowShortComplex, zmodPowMulHom_refl]
+  rw [AddCommGrpCat.ofHom_id, CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id]
+  rfl
+
+omit [NeZero ℓ] in
+/-- Multiplications by powers of `ℓ` compose. -/
+theorem constantTorsionEtaleSheafMul_trans {r s t : ℕ} (hrs : r ≤ s) (hst : s ≤ t) :
+    X.constantTorsionEtaleSheafMul ℓ (hrs.trans hst) =
+      X.constantTorsionEtaleSheafMul ℓ hrs ≫ X.constantTorsionEtaleSheafMul ℓ hst := by
+  unfold constantTorsionEtaleSheafMul zmodPowShortComplex
+  rw [← CategoryTheory.Functor.map_comp, ← CategoryTheory.Functor.map_comp,
+    ← AddCommGrpCat.ofHom_comp, ← zmodPowMulHom_trans]
+
+/-- The transition from `ℤ/ℓ^r(-1)` to itself is the identity. -/
+theorem negTwistTransitionApp_refl (r : ℕ) (U : X.Etale)
+    (τ : EtaleHomOver (X.etaleTateTwistOne ℓ r) (X.constantTorsionEtaleSheaf ℓ r) U) :
+    X.negTwistTransitionApp ℓ (le_refl r) U τ = τ := by
+  refine (eq_negTwistTransitionApp X ℓ (le_refl r) U τ τ ?_).symm
+  simp only [constantTorsionEtaleSheafMulOver, negTwistRestrictIncl,
+    constantTorsionEtaleSheafMul_refl, etaleTateTwistOneIncl_refl]
+  rfl
+
+/-- Transitions of `ℤ_ℓ(-1)` compose. -/
+theorem negTwistTransitionApp_trans {r s t : ℕ} (hrs : r ≤ s) (hst : s ≤ t) (U : X.Etale)
+    (τ : EtaleHomOver (X.etaleTateTwistOne ℓ t) (X.constantTorsionEtaleSheaf ℓ t) U) :
+    X.negTwistTransitionApp ℓ (hrs.trans hst) U τ =
+      X.negTwistTransitionApp ℓ hrs U (X.negTwistTransitionApp ℓ hst U τ) := by
+  refine (eq_negTwistTransitionApp X ℓ (hrs.trans hst) U τ _ ?_).symm
+  have e1 : X.constantTorsionEtaleSheafMulOver ℓ (hrs.trans hst) U =
+      X.constantTorsionEtaleSheafMulOver ℓ hrs U ≫ X.constantTorsionEtaleSheafMulOver ℓ hst U := by
+    simp only [constantTorsionEtaleSheafMulOver]
+    rw [constantTorsionEtaleSheafMul_trans X ℓ hrs hst]
+    rfl
+  rw [e1, ← Category.assoc, negTwistTransitionApp_comp, negTwistRestrictIncl, Category.assoc,
+    negTwistTransitionApp_comp, negTwistRestrictIncl, negTwistRestrictIncl,
+    etaleTateTwistOneIncl_trans X ℓ hrs hst, ← Category.assoc]
+  rfl
+
+/-- The transition morphism from `ℤ/ℓ^r(-1)` to itself is the identity. -/
+theorem etaleTateTwistNegOneTransition_refl (r : ℕ) :
+    X.etaleTateTwistNegOneTransition ℓ (le_refl r) = 𝟙 _ := by
+  ext U φ
+  change (Shrink.addEquiv.{u}).symm (X.negTwistTransitionApp ℓ (le_refl r) U.unop
+    (Shrink.addEquiv φ)) = φ
+  rw [negTwistTransitionApp_refl, AddEquiv.symm_apply_apply]
+
+/-- Transition morphisms of `ℤ_ℓ(-1)` compose. -/
+theorem etaleTateTwistNegOneTransition_trans {r s t : ℕ} (hrs : r ≤ s) (hst : s ≤ t) :
+    X.etaleTateTwistNegOneTransition ℓ (hrs.trans hst) =
+      X.etaleTateTwistNegOneTransition ℓ hst ≫ X.etaleTateTwistNegOneTransition ℓ hrs := by
+  ext U φ
+  change (Shrink.addEquiv.{u}).symm (X.negTwistTransitionApp ℓ (hrs.trans hst) U.unop
+    (Shrink.addEquiv φ)) = (Shrink.addEquiv.{u}).symm (X.negTwistTransitionApp ℓ hrs U.unop
+      (Shrink.addEquiv ((Shrink.addEquiv.{u}).symm (X.negTwistTransitionApp ℓ hst U.unop
+        (Shrink.addEquiv φ)))))
+  rw [AddEquiv.apply_symm_apply, negTwistTransitionApp_trans]
+
+/-- The inverse system `r ↦ ℤ/ℓ^r(-1)` of sheaves on the small étale site of `X`; this is the
+`ℓ`-adic sheaf `ℤ_ℓ(-1)`. -/
+@[simps]
+noncomputable def etaleTateTwistNegOneSystem : ℕᵒᵖ ⥤ Sheaf X.smallEtaleTopology Ab.{u} where
+  obj r := X.etaleTateTwistNegOne ℓ r.unop
+  map f := X.etaleTateTwistNegOneTransition ℓ (leOfHom f.unop)
+  map_id r := X.etaleTateTwistNegOneTransition_refl ℓ r.unop
+  map_comp f g := X.etaleTateTwistNegOneTransition_trans ℓ (leOfHom g.unop) (leOfHom f.unop)
+
+end NegativeTwist
+
+end AlgebraicGeometry.Scheme
+
+namespace AlgebraicGeometry.Scheme
+
+open Hartshorne
+
+variable (X : Scheme.{u}) (ℓ : ℕ) [NeZero ℓ]
+
+/-- The inverse system `r ↦ ℤ/ℓ^r(q)` of sheaves on the small étale site of `X`, for every integer
+`q`: the `ℓ`-adic sheaf `ℤ_ℓ(q)`.  For `q ≥ 0` it is `etaleTateTwistNatSystem`; for `q < 0` it is
+the `(-q)`-th tensor power of the inverse system `ℤ_ℓ(-1)`. -/
+noncomputable def etaleTateTwistSystem : ℤ → ℕᵒᵖ ⥤ Sheaf X.smallEtaleTopology Ab.{u}
+  | .ofNat q => X.etaleTateTwistNatSystem ℓ q
+  | .negSucc k => X.etaleTateTwistNegOneSystem ℓ ⋙ sheafTensorPowSuccFunctor X.smallEtaleTopology k
+
+/-- The `r`-th stage of `ℤ_ℓ(q)` is `ℤ/ℓ^r(q)`. -/
+theorem etaleTateTwistSystem_obj (q : ℤ) (r : ℕᵒᵖ) :
+    (X.etaleTateTwistSystem ℓ q).obj r = X.etaleTateTwist ℓ r.unop q := by
+  rcases q with q | k
+  · exact X.etaleTateTwistNatSystem_obj ℓ q r
+  · rfl
+
+/-- The inverse system `r ↦ H^i_et(X, ℤ/ℓ^r(q))` of torsion étale cohomology groups, for every
+integer `q`. -/
+noncomputable def ellAdicTwistCohomologySystem (q : ℤ) (i : ℕ) : ℕᵒᵖ ⥤ Ab.{u} :=
+  X.etaleTateTwistSystem ℓ q ⋙ (Sheaf.Γ X.smallEtaleTopology Ab.{u}).rightDerived i
+
+/-- The `ℓ`-adic cohomology group `H^i(X, ℤ_ℓ(q)) = lim_r H^i_et(X, ℤ/ℓ^r(q))` with Tate-twisted
+coefficients, for every integer `q`: the ordinary inverse limit in abelian groups. -/
+noncomputable def classicalEllAdicCohomologyTwist (q : ℤ) (i : ℕ) : Ab.{u} :=
+  limit (X.ellAdicTwistCohomologySystem ℓ q i)
+
+/-- The rational `ℓ`-adic cohomology group `H^i(X, ℚ_ℓ(q)) = H^i(X, ℤ_ℓ(q)) ⊗ ℚ` with Tate-twisted
+coefficients, for every integer `q`.  For a `ℤ_ℓ`-module `M`, `M ⊗_ℤ ℚ` is canonically
+`M ⊗_{ℤ_ℓ} ℚ_ℓ`, because `ℚ_ℓ = ℤ_ℓ ⊗_ℤ ℚ`. -/
+noncomputable def rationalEllAdicCohomologyTwist (q : ℤ) (i : ℕ) : Ab.{u} :=
+  AddCommGrpCat.of (TensorProduct ℤ (X.classicalEllAdicCohomologyTwist ℓ q i) ℚ)
+
+/-- With nonnegative twist this is the limit of `etaleTateTwistNat`-cohomology. -/
+theorem classicalEllAdicCohomologyTwist_natCast (q i : ℕ) :
+    X.classicalEllAdicCohomologyTwist ℓ q i = X.classicalEllAdicCohomologyTwistNat ℓ q i :=
   rfl
 
 end AlgebraicGeometry.Scheme
