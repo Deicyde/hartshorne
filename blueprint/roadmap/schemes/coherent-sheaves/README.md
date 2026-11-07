@@ -29,6 +29,12 @@ and use it to construct closed subschemes.
 - [Extension of coherent sheaves](coherent-extension.md)
 - [Closed immersions are finite](closed-immersion-finite.md)
 
+The product $I^k N$ of a power of a quasi-coherent ideal sheaf with a quasi-coherent module is
+again quasi-coherent, and on an affine open its sections are $I(V)^k N(V)$. Completions along a
+closed subscheme and the Artin–Rees kernel systems are built from these products.
+
+- [Product of an ideal sheaf with a submodule sheaf](ideal-power-product.md)
+
 ## Sources
 
 - [Hartshorne II.5 source notes](../../../sources/hartshorne-ii-5.md)

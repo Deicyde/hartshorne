@@ -18,6 +18,7 @@ on the common closed support.
 
 - [Completion of a coherent module](completed-coherent-module.md)
 - [Coherent modules on a Noetherian formal scheme](coherent-formal-module.md)
+- [Product of an ideal sheaf with a submodule sheaf](../../coherent-sheaves/ideal-power-product.md)
 
 ## Proof depends on
 

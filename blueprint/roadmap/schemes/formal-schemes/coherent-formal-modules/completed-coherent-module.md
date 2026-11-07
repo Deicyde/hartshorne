@@ -20,6 +20,7 @@ are taken in the ideal sheaf of $Y$.
 - [Formal completion as a locally ringed space](../formal-neighborhoods/formal-completion.md)
 - [Sheaves of modules](../../modules-and-quasicoherent/sheaves-of-modules.md)
 - [Module ideal sheaves and ideal data](../../coherent-sheaves/module-ideal-sheaf-data.md)
+- [Product of an ideal sheaf with a submodule sheaf](../../coherent-sheaves/ideal-power-product.md)
 
 ## Proof depends on
 
