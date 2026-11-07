@@ -335,8 +335,10 @@ instance openExtensionByZeroFunctor_preservesMonomorphisms (V : Opens X) :
 
 /-- Restriction to an open subset preserves injective abelian sheaves. -/
 theorem injective_openRestrict_obj (V : Opens X) (I : X.Sheaf AddCommGrpCat.{u})
-    [Injective I] : Injective ((openRestrict V).obj I) :=
-  (openRestrictAdjunction V).map_injective I inferInstance
+    [Injective I] : Injective ((openRestrict V).obj I) := by
+  obtain ⟨a, -⟩ := openExtensionByZero_adjunction_canonical V
+  exact (a.ofNatIsoRight (V.isOpenEmbedding.sheafPullbackIso AddCommGrpCat.{u})).map_injective I
+    inferInstance
 
 instance openRestrict_preservesFiniteLimits (V : Opens X) :
     PreservesFiniteLimits (openRestrict V) := by
