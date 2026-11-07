@@ -21,6 +21,7 @@ $X'$ is proper over $k$.
 
 - [Valuative criterion for properness](../../proper-and-projective/valuative-criterion-proper.md)
 - [Codimension-one stalks are DVRs](../../divisors/weil-divisors/codimension-one-stalk-dvr.md)
+- [Regular points and nonsingular schemes](../scheme-differentials/regular-points-and-nonsingular-schemes.md)
 
 ## Proof depends on
 
