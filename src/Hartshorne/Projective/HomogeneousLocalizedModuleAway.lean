@@ -159,11 +159,16 @@ noncomputable def mapOfLELinear (h : T ≤ T') :
 
 section Away
 
+omit [AddSubgroupClass σ A] [GradedRing 𝒜] [AddSubgroupClass σM M] [SetLike.GradedSMul 𝒜 ℳ] in
+theorem powers_le_primeCompl {f : A} (P : Ideal A) [P.IsPrime] (hfP : f ∉ P) :
+    Submonoid.powers f ≤ P.primeCompl :=
+  Submonoid.powers_le.mpr (show f ∈ P.primeCompl from hfP)
+
 variable [DirectSum.Decomposition ℳ]
 
 theorem mapId_away_mk_mul_eq_one {f : A} {d : ℕ} (f_deg : f ∈ 𝒜 d) (P : Ideal A) [P.IsPrime]
     (hfP : f ∉ P) (n : ℕ) (a : A) (ha : a ∈ 𝒜 (n • d)) (haP : a ∉ P) :
-    mapId 𝒜 (Submonoid.powers_le.mpr (show f ∈ P.primeCompl from hfP) : Submonoid.powers f ≤ P.primeCompl)
+    mapId 𝒜 (powers_le_primeCompl P hfP)
         (Away.mk 𝒜 f_deg n a ha) *
       HomogeneousLocalization.mk (𝒜 := 𝒜) (x := P.primeCompl)
         ⟨n • d, ⟨f ^ n, SetLike.pow_mem_graded n f_deg⟩, ⟨a, ha⟩, haP⟩ = 1 := by
@@ -173,19 +178,19 @@ theorem mapId_away_mk_mul_eq_one {f : A} {d : ℕ} (f_deg : f ∈ 𝒜 d) (P : I
     Localization.mk_mul, mul_comm a, ← Localization.mk_one]
   exact Localization.mk_eq_mk_iff.2 (Localization.r_iff_exists.2 ⟨1, by simp⟩)
 
-/-- **The localization lemma** (Hartshorne II.5.11(b), proof). Let `f ∈ S_d` with `d > 0` and let
-`𝔭` be a homogeneous prime with `f ∉ 𝔭`. Let `Q ⊆ S_(f)` be the complement of the prime of
-`S_(f)` corresponding to `𝔭`, i.e. `a / f^n ∈ Q ↔ a ∉ 𝔭`. Then `M_(f) → M_(𝔭)` is the
-localization of the `S_(f)`-module `M_(f)` at `Q`. -/
+/-- **The localization lemma**, used for the chart isomorphism of Hartshorne II.5.11(b).
+Let `f ∈ S_d` with `d > 0` and let `𝔭` be a homogeneous prime with `f ∉ 𝔭`. Let `Q ⊆ S_(f)`
+be the complement of the prime of `S_(f)` corresponding to `𝔭`, i.e. `a / f^n ∈ Q ↔ a ∉ 𝔭`.
+Then `M_(f) → M_(𝔭)` is the localization of the `S_(f)`-module `M_(f)` at `Q`. -/
 theorem isLocalizedModule_mapOfLE {f : A} {d : ℕ} (f_deg : f ∈ 𝒜 d) (hd : 0 < d)
     (P : Ideal A) [P.IsPrime] (hP : Ideal.IsHomogeneous 𝒜 P) (hfP : f ∉ P)
     (Q : Submonoid (Away 𝒜 f))
     (hQ : ∀ (n : ℕ) (a : A) (ha : a ∈ 𝒜 (n • d)), Away.mk 𝒜 f_deg n a ha ∈ Q ↔ a ∉ P) :
-    letI := moduleOfLE 𝒜 ℳ (Submonoid.powers_le.mpr (show f ∈ P.primeCompl from hfP) : Submonoid.powers f ≤ P.primeCompl)
-    IsLocalizedModule Q (mapOfLELinear 𝒜 ℳ (Submonoid.powers_le.mpr (show f ∈ P.primeCompl from hfP))) := by
+    letI := moduleOfLE 𝒜 ℳ (powers_le_primeCompl P hfP)
+    IsLocalizedModule Q (mapOfLELinear 𝒜 ℳ (powers_le_primeCompl P hfP)) := by
   classical
   obtain ⟨d, rfl⟩ : ∃ d', d = d' + 1 := ⟨d - 1, by omega⟩
-  set h : Submonoid.powers f ≤ P.primeCompl := Submonoid.powers_le.mpr (show f ∈ P.primeCompl from hfP)
+  set h : Submonoid.powers f ≤ P.primeCompl := powers_le_primeCompl P hfP
   let _ := moduleOfLE 𝒜 ℳ h
   have hfn (n : ℕ) : f ^ n ∈ Submonoid.powers f := ⟨n, rfl⟩
   constructor
@@ -302,9 +307,9 @@ theorem mkHom_apply (n : ℕ) (s : A) (hs : s ∈ 𝒜 n) (hsx : s ∈ T) (x : �
 
 variable [DirectSum.Decomposition ℳ]
 
-/-- **Finiteness of `M_(f)`** (Hartshorne II.5.11(c), proof). If `S` is Noetherian and `M` is a
-finitely generated `S`-module, then `M_(f)` is a finitely generated `S_(f)`-module for every
-homogeneous `f` of positive degree. -/
+/-- **Finiteness of `M_(f)`**, used for the coherence clause of Hartshorne II.5.11(c).
+If `S` is Noetherian and `M` is a finitely generated `S`-module, then `M_(f)` is a finitely
+generated `S_(f)`-module for every homogeneous `f` of positive degree. -/
 theorem finite_away [IsNoetherianRing A] [Module.Finite A M] {f : A} {d : ℕ}
     (f_deg : f ∈ 𝒜 d) (hd : 0 < d) :
     Module.Finite (Away 𝒜 f) (HomogeneousLocalizedModule 𝒜 ℳ (Submonoid.powers f)) := by

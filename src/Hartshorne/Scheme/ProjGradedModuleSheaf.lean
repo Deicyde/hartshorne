@@ -29,8 +29,9 @@ sections form a module over the sections of the structure sheaf pointwise.
   semilinearly over Mathlib's identification of the stalk of `𝒪_{Proj S}` with `S_(x)`;
   the germ of a section goes to its value at `x`.
 
-The chart isomorphism `M~|_{D₊(f)} ≅ (M_(f))~` and the quasi-coherence and coherence
-consequences are not yet formalized here.
+The chart isomorphism `M~|_{D₊(f)} ≅ (M_(f))~` is in `Hartshorne.Scheme.ProjGradedModuleSheafChart`
+and the quasi-coherence and coherence consequences are in
+`Hartshorne.Scheme.ProjGradedModuleSheafCoherent`.
 -/
 
 universe u
