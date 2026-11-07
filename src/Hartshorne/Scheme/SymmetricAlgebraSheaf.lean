@@ -15,7 +15,44 @@ import Hartshorne.Scheme.CoherentAffineLocalCriterion
 /-!
 # The graded symmetric-algebra sheaf of a finite locally free module
 
-Scratch.
+Hartshorne, *Algebraic Geometry*, II.7, definition of the projective bundle `P(E)` (printed
+p. 162): for a Noetherian scheme `X` and a locally free `𝒪_X`-module `E` of finite rank, the
+symmetric algebra `S(E) = ⊕_d S^d(E)` is a quasi-coherent sheaf of graded `𝒪_X`-algebras,
+generated in degree one, with coherent homogeneous components; locally, where `E` is free, it is
+a polynomial algebra.
+
+The symmetric algebra `S(F)` and the symmetric powers `S^d F` of a module sheaf, with the grading
+of `S(F)`, are constructed in `Hartshorne.Scheme.SheafTensorAlgebras` and
+`Hartshorne.Scheme.SheafTensorOperations` (Hartshorne II, Exercise 5.16). Here we prove:
+
+* **Bases of symmetric powers.** If `b` is a basis of a free module `M` indexed by a finite
+  linearly ordered type `ι`, the monomials `b_{w 1} ⋯ b_{w d}` for monotone words `w : Fin d → ι`
+  form a basis of `Sym^d M` (`symmetricMonomial_bijective`); there are `C(n + d - 1, d)` of them
+  (`MonotoneWord.card`). The proof maps `Sym^d M` to the polynomial ring `A[T_i]`.
+* **Frames.** If a family of sections of a presheaf of modules restricts to a basis over every open
+  contained in `U`, its image in the sheafification is a local frame over `U`
+  (`Ringed.isLocalFrame_sheafify`). Hence the monomials of degree `d` in a frame of `E` form a
+  frame of `S^d E` (`Ringed.IsLocalFrame.moduleSheafSymmetricPower`), so `S^d E` is locally free of
+  rank `C(n + d - 1, d)` when `E` is locally free of rank `n`
+  (`Ringed.IsLocallyFreeOfRank.moduleSheafSymmetricPower`).
+* **Quasi-coherence and coherence.** A locally free module of finite rank is of finite
+  presentation (`Ringed.IsFiniteLocallyFree.isFinitePresentation`); `S(E)` is quasi-coherent,
+  being locally a direct sum of free modules
+  (`Ringed.IsFiniteLocallyFree.isQuasicoherent_moduleSheafSymmetricAlgebra`).
+* **Generation in degree one.** `S^1 F ≅ F` (`moduleSheafSymmetricPowerOneIso`); the canonical maps
+  `T^d F → S^d F`, `f₁ ⊗ ⋯ ⊗ f_d ↦ f₁ ⋯ f_d`, are epimorphisms
+  (`epi_moduleSheafTensorToSymmetricPower`), and so is the multiplicative map `T(F) → S(F)` from
+  the tensor algebra (`epi_moduleSheafTensorToSymmetricAlgebra`,
+  `moduleSheafTensorToSymmetricAlgebra_mul`).
+* **Polynomial description.** If `E ≅ 𝒪_X^{⊕ ι}` with `ι` finite, then `S(E)` is isomorphic, as
+  a sheaf of `𝒪_X`-algebras, to the polynomial algebra `𝒪_X[T_i]`, the sheafification of
+  `U ↦ 𝒪_X(U)[T_i]` (`exists_polynomialAlgebraSheaf_iso_symmetricAlgebra`,
+  `polynomialAlgebraSymmetricAlgebraIso`).
+
+The statements for schemes are in `AlgebraicGeometry.Scheme.Modules`: `symmetricAlgebra`,
+`symmetricPower`, `symmetricAlgebra_graded`, `symmetricAlgebra_isQuasicoherent`,
+`symmetricPower_isQuasicoherent`, `symmetricPower_isCoherent`, `symmetricPower_isLocallyFree`,
+`symmetricPower_isLocallyFreeOfRank` and `symmetricPowerOneIso`.
 -/
 
 universe u
@@ -236,7 +273,8 @@ theorem equivMvPolynomial_symm_map (σ : A →+* B) (g : M →ₛₗ[σ] N) (bM 
       rw [AlgEquiv.commutes, AlgEquiv.commutes, symmetricAlgebraRingHom_algebraMap]
     · simp only [φ₁, φ₂, RingHom.coe_comp, Function.comp_apply, MvPolynomial.map_X]
       change (SymmetricAlgebra.equivMvPolynomial bN).symm (MvPolynomial.X i) =
-        symmetricAlgebraRingHom σ g ((SymmetricAlgebra.equivMvPolynomial bM).symm (MvPolynomial.X i))
+        symmetricAlgebraRingHom σ g
+          ((SymmetricAlgebra.equivMvPolynomial bM).symm (MvPolynomial.X i))
       rw [SymmetricAlgebra.equivMvPolynomial_symm_X, SymmetricAlgebra.equivMvPolynomial_symm_X,
         symmetricAlgebraRingHom_ι, hg]
   exact RingHom.congr_fun h p
@@ -390,7 +428,8 @@ theorem moduleSheafTensorAlgebraι_comp_toSymmetricAlgebra :
 
 /-- The map `T(F) → S(F)` is unital. -/
 theorem moduleSheafTensorToSymmetricAlgebra_one (U : (Opens X)ᵒᵖ) :
-    (moduleSheafTensorToSymmetricAlgebra F).val.app U ((moduleSheafTensorAlgebraStructure F).one U) =
+    (moduleSheafTensorToSymmetricAlgebra F).val.app U
+        ((moduleSheafTensorAlgebraStructure F).one U) =
       (moduleSheafSymmetricAlgebraStructure F).one U :=
   PresheafAlgebra.sheafifyMap_one _ _ _ (fun _ => map_one (SymmetricAlgebra.algHom _ _)) U
 
@@ -653,14 +692,16 @@ theorem IsFiniteLocallyFree.isQuasicoherent_moduleSheafSymmetricAlgebra
       LinearOrder.lift' (Fintype.equivFin _) (Fintype.equivFin _).injective
     have he := isLocalFrame_of_over_iso (α x).some
     let T : ℕ → Type u := fun d => MonotoneWord (ULift.{u} (Fin (n x))) d
-    let β : ∀ d, (Hartshorne.moduleSheafSymmetricPower d E).over (U x) ≅ SheafOfModules.free (T d) :=
+    let β : ∀ d, (Hartshorne.moduleSheafSymmetricPower d E).over (U x) ≅
+        SheafOfModules.free (T d) :=
       fun d => (nonempty_over_iso_free_of_isLocalFrame
         (IsLocalFrame.moduleSheafSymmetricPower he d)).some
     let G := SheafOfModules.overFunctor (ringCatSheafOf R) (U x)
     have : G.IsLeftAdjoint :=
       inferInstanceAs (SheafOfModules.pushforward (𝟙 ((ringCatSheafOf R).over (U x)))).IsLeftAdjoint
     have hG := isColimitOfPreserves G (moduleSheafSymmetricAlgebra_isColimit E)
-    have hF := isColimitOfPreserves (SheafOfModules.freeFunctor (R := (ringCatSheafOf R).over (U x)))
+    have hF := isColimitOfPreserves
+      (SheafOfModules.freeFunctor (R := (ringCatSheafOf R).over (U x)))
       (Types.coproductColimitCocone.{0, u} T).isColimit
     let e := hG.coconePointsIsoOfNatIso hF (Discrete.natIso fun d => β d.as)
     exact (SheafOfModules.isQuasicoherent ((ringCatSheafOf R).over (U x))).prop_of_iso e.symm
@@ -705,7 +746,8 @@ noncomputable def mvPolynomialMapₛₗ {A B : Type u} [CommRing A] [CommRing B]
 
 variable (R) in
 /-- The presheaf of `𝒪_X`-algebras `U ↦ 𝒪_X(U)[T_i]_{i ∈ ι}`, as a presheaf of modules. -/
-noncomputable def polynomialPresheaf : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat) :=
+noncomputable def polynomialPresheaf :
+    PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat) :=
   presheafOfSemilinear
     (fun U => ModuleCat.of _ (MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U)))
     (fun i => mvPolynomialMapₛₗ ι ((R.obj ⋙ forget₂ CommRingCat RingCat).map i).hom)
@@ -716,7 +758,8 @@ noncomputable def polynomialPresheaf : PresheafOfModules.{u} (R.obj ⋙ forget�
     (fun i j p => by
       change MvPolynomial.map _ p = MvPolynomial.map _ (MvPolynomial.map _ p)
       rw [MvPolynomial.map_map]
-      exact congrArg (fun φ => MvPolynomial.map φ p) (RingHom.ext (ringMap_comp_apply (R := R) i j)))
+      exact congrArg (fun φ => MvPolynomial.map φ p)
+        (RingHom.ext (ringMap_comp_apply (R := R) i j)))
 
 variable (R) in
 /-- The presheaf of `𝒪_X`-algebras `U ↦ 𝒪_X(U)[T_i]_{i ∈ ι}`. -/
@@ -724,7 +767,8 @@ noncomputable def polynomialPresheafAlgebra : PresheafAlgebra (polynomialPreshea
   mul :=
     { app U := SheafTensorOperations.algebraMulBilinear _
         (MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U))
-      naturality i a b := map_mul (MvPolynomial.map ((R.obj ⋙ forget₂ CommRingCat RingCat).map i).hom)
+      naturality i a b :=
+        map_mul (MvPolynomial.map ((R.obj ⋙ forget₂ CommRingCat RingCat).map i).hom)
         (show MvPolynomial ι _ from a) (show MvPolynomial ι _ from b) }
   one U := (1 : MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U))
   map_one i := map_one (MvPolynomial.map ((R.obj ⋙ forget₂ CommRingCat RingCat).map i).hom)
@@ -743,7 +787,8 @@ noncomputable def polynomialAlgebraSheaf : SheafOfModules.{u} (ringCatSheafOf R)
 
 variable (R) in
 /-- The sheaf of `𝒪_X`-algebras structure of `𝒪_X[T_i]`. -/
-noncomputable def polynomialAlgebraSheafStructure : ModuleSheafAlgebra (polynomialAlgebraSheaf R ι) :=
+noncomputable def polynomialAlgebraSheafStructure :
+    ModuleSheafAlgebra (polynomialAlgebraSheaf R ι) :=
   (polynomialPresheafAlgebra R ι).sheafification
 
 variable {ι} [Fintype ι] {E : SheafOfModules.{u} (ringCatSheafOf R)}
@@ -808,14 +853,17 @@ theorem polynomialAlgebraSymmetricAlgebraIso_mul (he : Ringed.IsLocalFrame E ⊤
     (fun U (a b : MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj U)) =>
       map_mul (SymmetricAlgebra.equivMvPolynomial (frameBasis he U)).symm a b) U a b
 
-theorem polynomialAlgebraSymmetricAlgebraIso_one (he : Ringed.IsLocalFrame E ⊤ e) (U : (Opens X)ᵒᵖ) :
-    (polynomialAlgebraSymmetricAlgebraIso he).hom.val.app U ((polynomialAlgebraSheafStructure R ι).one U) =
+theorem polynomialAlgebraSymmetricAlgebraIso_one (he : Ringed.IsLocalFrame E ⊤ e)
+    (U : (Opens X)ᵒᵖ) :
+    (polynomialAlgebraSymmetricAlgebraIso he).hom.val.app U
+        ((polynomialAlgebraSheafStructure R ι).one U) =
       (moduleSheafSymmetricAlgebraStructure E).one U :=
   PresheafAlgebra.sheafifyMap_one _ _ _
     (fun U => map_one (SymmetricAlgebra.equivMvPolynomial (frameBasis he U)).symm) U
 
 /-- The isomorphism `𝒪_X[T_i] ≅ S(E)` sends the variable `T_i` to the frame section `e_i`. -/
-theorem polynomialAlgebraSymmetricAlgebraIso_X (he : Ringed.IsLocalFrame E ⊤ e) (V : Opens X) (i : ι) :
+theorem polynomialAlgebraSymmetricAlgebraIso_X (he : Ringed.IsLocalFrame E ⊤ e) (V : Opens X)
+    (i : ι) :
     (polynomialAlgebraSymmetricAlgebraIso he).hom.val.app (op V)
         ((sheafifyUnit (polynomialPresheaf R ι)).app (op V)
           (MvPolynomial.X i : MvPolynomial ι ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op V)))) =
@@ -827,7 +875,8 @@ theorem polynomialAlgebraSymmetricAlgebraIso_X (he : Ringed.IsLocalFrame E ⊤ e
 
 /-- **The symmetric algebra of a free module of finite rank is a polynomial algebra:** if
 `E ≅ 𝒪_X^{⊕ ι}`, then `S(E) ≅ 𝒪_X[T_i]_{i ∈ ι}` as sheaves of `𝒪_X`-algebras. -/
-theorem exists_polynomialAlgebraSheaf_iso_symmetricAlgebra {E : SheafOfModules.{u} (ringCatSheafOf R)}
+theorem exists_polynomialAlgebraSheaf_iso_symmetricAlgebra
+    {E : SheafOfModules.{u} (ringCatSheafOf R)}
     {ι : Type u} [Fintype ι] (β : E ≅ SheafOfModules.free ι) :
     ∃ φ : polynomialAlgebraSheaf R ι ≅ moduleSheafSymmetricAlgebra E,
       (∀ U a b, φ.hom.val.app U ((polynomialAlgebraSheafStructure R ι).mul.app U a b) =
@@ -856,7 +905,8 @@ noncomputable abbrev symmetricAlgebra : X.Modules :=
   moduleSheafSymmetricAlgebra (R := X.sheaf) E
 
 /-- The sheaf of `𝒪_X`-algebras structure of `Sym(E)`. -/
-noncomputable abbrev symmetricAlgebraStructure : ModuleSheafAlgebra (R := X.sheaf) E.symmetricAlgebra :=
+noncomputable abbrev symmetricAlgebraStructure :
+    ModuleSheafAlgebra (R := X.sheaf) E.symmetricAlgebra :=
   moduleSheafSymmetricAlgebraStructure E
 
 /-- The homogeneous component `Sym^d E` of `Sym(E)`. -/
@@ -868,6 +918,24 @@ variable {E}
 private theorem isFiniteLocallyFree_of (hE : E.IsLocallyFree)
     (hfin : ∀ x, E.rankAt x < Cardinal.aleph0) : Ringed.IsFiniteLocallyFree (R := X.sheaf) E :=
   (isFiniteLocallyFree_iff E).mpr ⟨hE, hfin⟩
+
+/-- **`Sym(E)` is a sheaf of graded commutative `𝒪_X`-algebras** `⊕_d Sym^d E`: the inclusions of
+the homogeneous components exhibit `Sym(E)` as the direct sum of the `Sym^d E`, the product of
+sections of degrees `r` and `s` has degree `r + s`, and the multiplication is commutative. -/
+theorem symmetricAlgebra_graded (E : X.Modules) :
+    Nonempty (Limits.IsColimit (Limits.Cofan.mk E.symmetricAlgebra
+      fun d => moduleSheafSymmetricAlgebraι (R := X.sheaf) d E)) ∧
+    (∀ (r s : ℕ) (U : (X.Opens)ᵒᵖ) (a : (E.symmetricPower r).val.obj U)
+      (b : (E.symmetricPower s).val.obj U),
+      E.symmetricAlgebraStructure.mul.app U ((moduleSheafSymmetricAlgebraι r E).val.app U a)
+          ((moduleSheafSymmetricAlgebraι s E).val.app U b) =
+        (moduleSheafSymmetricAlgebraι (r + s) E).val.app U
+          ((moduleSheafSymmetricPowerMul r E s).app U a b)) ∧
+    ∀ (U : (X.Opens)ᵒᵖ) (a b : E.symmetricAlgebra.val.obj U),
+      E.symmetricAlgebraStructure.mul.app U a b = E.symmetricAlgebraStructure.mul.app U b a :=
+  ⟨⟨moduleSheafSymmetricAlgebra_isColimit E⟩,
+    fun r s U a b => moduleSheafSymmetricAlgebra_mul_ι r E s U a b,
+    moduleSheafSymmetricAlgebra_mul_comm E⟩
 
 /-- **`Sym(E)` is quasi-coherent** for a locally free `E` of finite rank. -/
 theorem symmetricAlgebra_isQuasicoherent (hE : E.IsLocallyFree)
