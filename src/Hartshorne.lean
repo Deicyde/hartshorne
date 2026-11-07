@@ -1,6 +1,5 @@
 import Hartshorne.Basic
 import Hartshorne.Scheme.AbelianSheafHom
-import Hartshorne.Scheme.ModuleSheafHom
 import Hartshorne.RingedSpace.ModuleSheafHom
 import Hartshorne.RingedSpace.ModuleSheafHomLeftExact
 import Hartshorne.Scheme.ProjectiveSpace
@@ -418,7 +417,6 @@ import Hartshorne.Scheme.QuasicoherentAbelianClosure
 import Hartshorne.Scheme.FibreDimensionFree
 import Hartshorne.Scheme.Differentials.RegularLocalDifferentialCriterion
 import Hartshorne.Scheme.ProjectiveWeilDivisorDegree
-import Hartshorne.Scheme.FiniteLocallyFreeDuality
 import Hartshorne.RingedSpace.FiniteLocallyFreeDuality
 import Hartshorne.Projective.HomogeneousLocalizedModule
 import Hartshorne.Projective.HomogeneousLocalizedModuleAway
@@ -447,7 +445,6 @@ import Hartshorne.Scheme.BaseExtensionComponentDimension
 import Hartshorne.Scheme.ProperValuationCenter
 import Hartshorne.Intersection.SectionZeroScheme
 import Hartshorne.Scheme.ProjectiveIntersectionDegree
-import Hartshorne.Cohomology.FiniteLocallyFreeTensorInjective
 import Hartshorne.RingedSpace.FiniteLocallyFreeTensorInjective
 import Hartshorne.RingedSpace.OpenRestriction
 import Hartshorne.RingedSpace.FiniteLocallyFreeProjectionFormula
@@ -481,7 +478,6 @@ import Hartshorne.Rational.SchemeGraphTotalTransform
 import Hartshorne.Rational.NormalFundamentalLocus
 import Hartshorne.Cohomology.FlatFamilies.HironakaNormality
 import Hartshorne.Cohomology.FlatFamilies.FlatEquidimensional
-import Hartshorne.Scheme.FiniteLocallyFreeProjectionFormula
 import Hartshorne.Scheme.AssociatedVarietyEssentialImage
 import Hartshorne.Rational.ContractedCurves
 import Hartshorne.Cohomology.FlatFamilies.NormalFamilyFlat
