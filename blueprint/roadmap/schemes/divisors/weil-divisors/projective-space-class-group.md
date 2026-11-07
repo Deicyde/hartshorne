@@ -29,6 +29,7 @@ class group.
 
 - Unique factorization of homogeneous polynomials and homogeneous
   representatives of rational functions of equal degree.
+- [Codimension-one stalks are DVRs](codimension-one-stalk-dvr.md)
 
 ## Sources
 
