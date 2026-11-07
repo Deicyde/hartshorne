@@ -46,23 +46,6 @@ open CategoryTheory TopologicalSpace
 
 universe u
 
-/-- The codimension of the closure of a point is the coheight of the point. -/
-private theorem codim_closure_singleton {X : Scheme.{u}} (x : X) :
-    Hartshorne.codim (closure ({x} : Set X)) = Order.coheight x := by
-  let e : IrreducibleCloseds X ≃o X := irreducibleSetEquivPoints
-  have he : ((e.symm x : IrreducibleCloseds X) : Set X) = closure {x} :=
-    coe_irreducibleEquivPoints_symm_apply x
-  apply le_antisymm
-  · calc Hartshorne.codim (closure ({x} : Set X)) ≤ Order.coheight (e.symm x) :=
-          iInf₂_le (f := fun (W : IrreducibleCloseds X) (_ : (W : Set X) ⊆ closure {x}) ↦
-            Order.coheight W) _ he.le
-      _ = Order.coheight x := Order.coheight_orderIso _ _
-  · rw [← Order.coheight_orderIso e.symm x]
-    refine le_iInf₂ fun W hW ↦ Order.coheight_anti ?_
-    change (W : Set X) ⊆ (e.symm x : Set X)
-    rw [he]
-    exact hW
-
 /-- The restrictions of a partial map to the local schemes of its domain are
 compatible with specialization. -/
 private theorem specMap_stalkSpecializes_fromSpecStalkOfMem {X Y : Scheme.{u}}
@@ -161,7 +144,7 @@ theorem Scheme.RationalMap.codim_compl_domain_birational
     | coe n =>
       norm_cast at h0 h1 ⊢
       omega
-  refine ⟨fun x hx ↦ hmem x ((codim_closure_singleton x).symm.trans hx), ?_⟩
+  refine ⟨fun x hx ↦ hmem x ((Hartshorne.codim_closure_singleton_eq_coheight x).symm.trans hx), ?_⟩
   refine le_iInf₂ fun Z hZ ↦ ?_
   let e : IrreducibleCloseds X ≃o X := irreducibleSetEquivPoints
   rw [← Order.coheight_orderIso e]

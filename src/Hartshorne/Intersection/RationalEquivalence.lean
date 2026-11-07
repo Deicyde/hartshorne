@@ -40,23 +40,6 @@ open AlgebraicGeometry CategoryTheory Limits Order TopologicalSpace
 
 universe u
 
-/-- The codimension of the closure of a point is the coheight of the point. -/
-private theorem codim_closure_singleton_eq_coheight {X : Scheme.{u}} (x : X) :
-    codim (closure ({x} : Set X)) = coheight x := by
-  let e : IrreducibleCloseds X ≃o X := irreducibleSetEquivPoints
-  have he : ((e.symm x : IrreducibleCloseds X) : Set X) = closure {x} :=
-    coe_irreducibleEquivPoints_symm_apply x
-  apply le_antisymm
-  · calc codim (closure ({x} : Set X)) ≤ coheight (e.symm x) :=
-          iInf₂_le (f := fun (W : IrreducibleCloseds X) (_ : (W : Set X) ⊆ closure {x}) ↦
-            coheight W) _ he.le
-      _ = coheight x := coheight_orderIso _ _
-  · rw [← coheight_orderIso e.symm x]
-    refine le_iInf₂ fun W hW ↦ coheight_anti ?_
-    change (W : Set X) ⊆ (e.symm x : Set X)
-    rw [he]
-    exact hW
-
 /-- On a scheme satisfying `(*)`, a Weil divisor is a codimension-one cycle. -/
 noncomputable def weilDivisorToCodimOneCycles {Y : Scheme.{u}} (hY : Y.SatisfiesConditionStar) :
     Y.WeilDivisor →+ codimensionCycles Y 1 :=

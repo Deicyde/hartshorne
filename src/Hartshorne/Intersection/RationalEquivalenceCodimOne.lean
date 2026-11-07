@@ -151,23 +151,6 @@ theorem rawCyclePushforwardUngraded_principalDivisor_of_isIso (p : X ⟶ Spec (.
 
 end Isomorphism
 
-/-- The codimension of the closure of a point is the coheight of the point. -/
-private theorem codim_closure_singleton_eq_coheight' {X : Scheme.{u}} (x : X) :
-    codim (closure ({x} : Set X)) = coheight x := by
-  let e : IrreducibleCloseds X ≃o X := irreducibleSetEquivPoints
-  have he : ((e.symm x : IrreducibleCloseds X) : Set X) = closure {x} :=
-    coe_irreducibleEquivPoints_symm_apply x
-  apply le_antisymm
-  · calc codim (closure ({x} : Set X)) ≤ coheight (e.symm x) :=
-          iInf₂_le (f := fun (W : IrreducibleCloseds X) (_ : (W : Set X) ⊆ closure {x}) ↦
-            coheight W) _ he.le
-      _ = coheight x := coheight_orderIso _ _
-  · rw [← coheight_orderIso e.symm x]
-    refine le_iInf₂ fun W hW ↦ coheight_anti ?_
-    change (W : Set X) ⊆ (e.symm x : Set X)
-    rw [he]
-    exact hW
-
 /-- On a scheme satisfying `(*)`, Weil divisors are exactly the codimension-one cycles. -/
 theorem weilDivisorToCodimOneCycles_bijective {X : Scheme.{u}} (hX : X.SatisfiesConditionStar) :
     Function.Bijective (weilDivisorToCodimOneCycles hX) := by
@@ -177,7 +160,7 @@ theorem weilDivisorToCodimOneCycles_bijective {X : Scheme.{u}} (hX : X.Satisfies
   · refine ⟨⟨c.1, fun x hx => ?_⟩, Subtype.ext rfl⟩
     by_contra hcx
     have h := c.2.2 x hcx
-    rw [codim_closure_singleton_eq_coheight'] at h
+    rw [codim_closure_singleton_eq_coheight] at h
     exact hx (by exact_mod_cast h)
 
 /-- In an irreducible space, the whole space has codimension `0`. -/

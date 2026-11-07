@@ -363,25 +363,13 @@ theorem coheight_externalProductPoint (x : X) (y : Y) :
     coheight (externalProductPoint pX pY x y) = coheight x + coheight y :=
   (exists_closure_eq_preimage_inter pX pY x y).choose_spec.2
 
-omit [IsAlgClosed k] [IsIntegral X] [IsIntegral Y] [LocallyOfFiniteType pX]
-  [LocallyOfFiniteType pY] in
-private theorem codim_closure_singleton {Z : Scheme.{u}} (z : Z) :
-    codim (closure ({z} : Set Z)) = coheight z := by
-  have hirr : IsIrreducible (closure ({z} : Set Z)) := isIrreducible_singleton.closure
-  have h := Scheme.coheight_genericPoint_eq_codim hirr isClosed_closure
-  have hgen : hirr.genericPoint = z := by
-    have h1 := hirr.isGenericPoint_genericPoint_closure
-    rw [closure_closure] at h1
-    exact h1.eq (isGenericPoint_closure)
-  rw [hgen] at h
-  exact h.symm
-
 /-- **Codimension of a product.** `codim (V × W, X × Y) = codim (V, X) + codim (W, Y)` for
 `V = closure {x}` and `W = closure {y}`. -/
 theorem codim_closure_externalProductPoint (x : X) (y : Y) :
     codim (closure {externalProductPoint pX pY x y}) =
       codim (closure ({x} : Set X)) + codim (closure ({y} : Set Y)) := by
-  rw [codim_closure_singleton, codim_closure_singleton, codim_closure_singleton,
+  rw [codim_closure_singleton_eq_coheight, codim_closure_singleton_eq_coheight,
+    codim_closure_singleton_eq_coheight,
     coheight_externalProductPoint]
 
 open scoped Classical in
