@@ -543,5 +543,4 @@ import Hartshorne.Cohomology.Flatness.FlatTensorFlatAlgebra
 import Hartshorne.RingedSpace.GlobalToSheafExt
 import Hartshorne.RingedSpace.SheafExtFiniteLocallyFree
 import Hartshorne.RingedSpace.SheafExtLocallyFreeResolution
-import Hartshorne.Scheme.ProjectiveSpaceClassGroup
 import Hartshorne.Intersection.ProjectiveLinearSubspaceCycle
