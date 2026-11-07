@@ -8,7 +8,31 @@ import Hartshorne.Weil.RationalEllAdicCohomology
 /-!
 # Functoriality of ℓ-adic cohomology
 
-test
+For a morphism of schemes `f : X ⟶ Y` and a prime `ℓ`, this file constructs the pullback
+
+`f^* : H^i_et(Y, ℚ_ℓ) ⟶ H^i_et(X, ℚ_ℓ)`
+
+as a morphism of `ℚ_[ℓ]`-modules, and proves `(𝟙_X)^* = 𝟙` and `(f ≫ g)^* = g^* ≫ f^*`, i.e.
+`(g ∘ f)^* = f^* ∘ g^*`.  Together these give the functor `rationalEllAdicCohomologyFunctor`
+from `Schemeᵒᵖ` to `ℚ_[ℓ]`-modules.
+
+## Strategy
+
+The torsion pullback `torsionEtaleCohomologyPullback` is built from a chosen comparison of
+injective resolutions through the inverse image.  We identify it
+(`torsionEtaleCohomologyPullback_eq_pullback`) with the map of right derived functors
+`Hartshorne.RightDerivedPullback.pullback` induced by the morphism `ℤ/ℓ^r ⟶ f_* ℤ/ℓ^r` of
+constant sheaves (`constantSheafToEtalePushforward`), which is described through global
+sections only.  The abstract pullback is independent of all choices and satisfies naturality,
+composition and identity laws, as soon as the identification `Γ(Y, f_* -) ≅ Γ(X, -)` is
+compatible with `(f ≫ g)_* ≅ g_* f_*` and `(𝟙_X)_* ≅ 𝟭`; these compatibilities
+(`etalePushforwardCompΓ_comp`, `etalePushforwardCompΓ_id`) are checked by restricting global
+sections to a terminal object of the small étale site.
+
+The torsion pullbacks then commute with the reductions `ℤ/ℓ^s → ℤ/ℓ^r`, so they induce a map of
+inverse limits `classicalEllAdicCohomologyPullback`; it is `ℤ_[ℓ]`-linear because additive maps
+commute with multiplication by natural numbers, and its scalar extension to `ℚ_[ℓ]` is
+`rationalEllAdicCohomologyPullback`.
 -/
 
 open CategoryTheory Limits Opposite
@@ -271,5 +295,146 @@ theorem torsionEtaleCohomologyPullback_eq_pullback (f : X ⟶ Y) (ℓ r i : ℕ)
   rw [etaleCohomologyPullback_eq_pullback, RightDerivedPullback.pullback_comp_rightDerived_map]
   exact congrArg (fun a ↦ RightDerivedPullback.pullback (etalePushforwardCompΓ f) a i)
     (unit_comp_map_constantSheafCompEtaleInverseImageIso f _)
+
+/-- The torsion pullback maps commute with the reduction maps `ℤ/ℓ^s → ℤ/ℓ^r` (`r ≤ s`). -/
+theorem torsionEtaleCohomologyPullback_naturality (f : X ⟶ Y) (ℓ i : ℕ) {r s : ℕ} (h : r ≤ s) :
+    torsionEtaleCohomologyPullback f ℓ s i ≫
+        ((Sheaf.Γ X.smallEtaleTopology Ab.{u}).rightDerived i).map
+          (X.constantTorsionEtaleSheafReduction ℓ h) =
+      ((Sheaf.Γ Y.smallEtaleTopology Ab.{u}).rightDerived i).map
+          (Y.constantTorsionEtaleSheafReduction ℓ h) ≫
+        torsionEtaleCohomologyPullback f ℓ r i := by
+  rw [torsionEtaleCohomologyPullback_eq_pullback, torsionEtaleCohomologyPullback_eq_pullback,
+    RightDerivedPullback.pullback_comp_rightDerived_map,
+    RightDerivedPullback.rightDerived_map_comp_pullback]
+  exact congrArg (fun a ↦ RightDerivedPullback.pullback (etalePushforwardCompΓ f) a i)
+    (constantSheafToEtalePushforward_naturality f _)
+
+/-- Identity law for the torsion pullback maps. -/
+theorem torsionEtaleCohomologyPullback_id (X : Scheme.{u}) (ℓ r i : ℕ) :
+    torsionEtaleCohomologyPullback (𝟙 X) ℓ r i = 𝟙 _ := by
+  rw [torsionEtaleCohomologyPullback_eq_pullback,
+    RightDerivedPullback.pullback_eq_rightDerived_map (etalePushforwardCompΓ (𝟙 X))
+      (etalePushforwardId X) (etalePushforwardCompΓ_id X),
+    constantSheafToEtalePushforward_id, CategoryTheory.Functor.map_id]
+  rfl
+
+/-- Composition law for the torsion pullback maps. -/
+theorem torsionEtaleCohomologyPullback_comp (f : X ⟶ Y) (g : Y ⟶ Z) (ℓ r i : ℕ) :
+    torsionEtaleCohomologyPullback (f ≫ g) ℓ r i =
+      torsionEtaleCohomologyPullback g ℓ r i ≫ torsionEtaleCohomologyPullback f ℓ r i := by
+  rw [torsionEtaleCohomologyPullback_eq_pullback, torsionEtaleCohomologyPullback_eq_pullback,
+    torsionEtaleCohomologyPullback_eq_pullback,
+    RightDerivedPullback.pullback_comp_pullback (etalePushforwardCompΓ f) (etalePushforwardCompΓ g)
+      (etalePushforwardCompΓ (f ≫ g)) (etalePushforwardComp f g) (etalePushforwardCompΓ_comp f g),
+    constantSheafToEtalePushforward_comp]
+
+/-- The pullback morphism `(r ↦ H^i_et(Y, ℤ/ℓ^r)) ⟶ (r ↦ H^i_et(X, ℤ/ℓ^r))` of classical inverse
+systems. -/
+noncomputable def torsionEtaleCohomologySystemPullback (f : X ⟶ Y) (ℓ i : ℕ) :
+    Y.torsionEtaleCohomologySystem ℓ i ⟶ X.torsionEtaleCohomologySystem ℓ i where
+  app r := torsionEtaleCohomologyPullback f ℓ r.unop i
+  naturality _ _ g := (torsionEtaleCohomologyPullback_naturality f ℓ i (leOfHom g.unop)).symm
+
+theorem torsionEtaleCohomologySystemPullback_id (X : Scheme.{u}) (ℓ i : ℕ) :
+    torsionEtaleCohomologySystemPullback (𝟙 X) ℓ i = 𝟙 _ :=
+  NatTrans.ext (funext fun r ↦ torsionEtaleCohomologyPullback_id X ℓ r.unop i)
+
+theorem torsionEtaleCohomologySystemPullback_comp (f : X ⟶ Y) (g : Y ⟶ Z) (ℓ i : ℕ) :
+    torsionEtaleCohomologySystemPullback (f ≫ g) ℓ i =
+      torsionEtaleCohomologySystemPullback g ℓ i ≫ torsionEtaleCohomologySystemPullback f ℓ i :=
+  NatTrans.ext (funext fun r ↦ torsionEtaleCohomologyPullback_comp f g ℓ r.unop i)
+
+/-- The pullback `H^i_classical(Y, ℤ_ℓ) ⟶ H^i_classical(X, ℤ_ℓ)` induced on inverse limits by the
+torsion pullback maps. -/
+noncomputable def classicalEllAdicCohomologyPullback (f : X ⟶ Y) (ℓ i : ℕ) :
+    Y.classicalEllAdicCohomology ℓ i ⟶ X.classicalEllAdicCohomology ℓ i :=
+  limMap (torsionEtaleCohomologySystemPullback f ℓ i)
+
+theorem classicalEllAdicCohomologyPullback_id (X : Scheme.{u}) (ℓ i : ℕ) :
+    classicalEllAdicCohomologyPullback (𝟙 X) ℓ i = 𝟙 _ := by
+  rw [classicalEllAdicCohomologyPullback, torsionEtaleCohomologySystemPullback_id]
+  exact lim.map_id _
+
+theorem classicalEllAdicCohomologyPullback_comp (f : X ⟶ Y) (g : Y ⟶ Z) (ℓ i : ℕ) :
+    classicalEllAdicCohomologyPullback (f ≫ g) ℓ i =
+      classicalEllAdicCohomologyPullback g ℓ i ≫ classicalEllAdicCohomologyPullback f ℓ i := by
+  rw [classicalEllAdicCohomologyPullback, torsionEtaleCohomologySystemPullback_comp]
+  exact lim.map_comp _ _
+
+section Rational
+
+variable (ℓ : ℕ) [Fact ℓ.Prime]
+
+/-- The classical pullback commutes with the action of `ℤ_[ℓ]`. -/
+theorem classicalEllAdicCohomologyPullback_smul (f : X ⟶ Y) (i : ℕ) (a : ℤ_[ℓ])
+    (x : Y.classicalEllAdicCohomology ℓ i) :
+    (classicalEllAdicCohomologyPullback f ℓ i).hom (a • x) =
+      a • (classicalEllAdicCohomologyPullback f ℓ i).hom x := by
+  have hsys : Y.torsionEtaleCohomologySystemPadicIntAction ℓ i a ≫
+      torsionEtaleCohomologySystemPullback f ℓ i =
+        torsionEtaleCohomologySystemPullback f ℓ i ≫
+          X.torsionEtaleCohomologySystemPadicIntAction ℓ i a := by
+    refine NatTrans.ext (funext fun r ↦ ?_)
+    change Y.torsionEtaleCohomologyPadicIntAction ℓ r.unop i a ≫
+        torsionEtaleCohomologyPullback f ℓ r.unop i =
+      torsionEtaleCohomologyPullback f ℓ r.unop i ≫
+        X.torsionEtaleCohomologyPadicIntAction ℓ r.unop i a
+    rw [torsionEtaleCohomologyPadicIntAction_apply, torsionEtaleCohomologyPadicIntAction_apply,
+      Preadditive.nsmul_comp, Preadditive.comp_nsmul, Category.id_comp, Category.comp_id]
+  have h : Y.classicalEllAdicCohomologyPadicIntAction ℓ i a ≫
+      classicalEllAdicCohomologyPullback f ℓ i =
+        classicalEllAdicCohomologyPullback f ℓ i ≫
+          X.classicalEllAdicCohomologyPadicIntAction ℓ i a := by
+    change limMap _ ≫ limMap _ = limMap _ ≫ limMap _
+    simp only [limMap_eq]
+    rw [← lim.map_comp, ← lim.map_comp, hsys]
+  exact congrArg (fun φ ↦ φ.hom x) h
+
+/-- The classical pullback as a `ℤ_[ℓ]`-linear map. -/
+noncomputable def classicalEllAdicCohomologyPullbackLinearMap (f : X ⟶ Y) (i : ℕ) :
+    Y.classicalEllAdicCohomology ℓ i →ₗ[ℤ_[ℓ]] X.classicalEllAdicCohomology ℓ i where
+  toFun := (classicalEllAdicCohomologyPullback f ℓ i).hom
+  map_add' := map_add _
+  map_smul' := classicalEllAdicCohomologyPullback_smul ℓ f i
+
+/-- The pullback `f^* : H^i_et(Y, ℚ_ℓ) ⟶ H^i_et(X, ℚ_ℓ)`: the scalar extension to `ℚ_[ℓ]` of the
+`ℤ_[ℓ]`-linear classical pullback. -/
+noncomputable def rationalEllAdicCohomologyPullback (f : X ⟶ Y) (i : ℕ) :
+    Y.rationalEllAdicCohomology ℓ i ⟶ X.rationalEllAdicCohomology ℓ i :=
+  ModuleCat.ofHom ((classicalEllAdicCohomologyPullbackLinearMap ℓ f i).baseChange ℚ_[ℓ])
+
+/-- Identity law: `(𝟙_X)^* = 𝟙` on `H^i_et(X, ℚ_ℓ)`. -/
+theorem rationalEllAdicCohomologyPullback_id (X : Scheme.{u}) (i : ℕ) :
+    rationalEllAdicCohomologyPullback ℓ (𝟙 X) i = 𝟙 _ := by
+  have h : classicalEllAdicCohomologyPullbackLinearMap ℓ (𝟙 X) i = LinearMap.id :=
+    LinearMap.ext fun x ↦ congrArg (fun φ ↦ φ.hom x) (classicalEllAdicCohomologyPullback_id X ℓ i)
+  ext : 1
+  rw [rationalEllAdicCohomologyPullback, ModuleCat.hom_ofHom, h, LinearMap.baseChange_id]
+  rfl
+
+/-- Composition law: `(g ∘ f)^* = f^* ∘ g^*`. -/
+theorem rationalEllAdicCohomologyPullback_comp (f : X ⟶ Y) (g : Y ⟶ Z) (i : ℕ) :
+    rationalEllAdicCohomologyPullback ℓ (f ≫ g) i =
+      rationalEllAdicCohomologyPullback ℓ g i ≫ rationalEllAdicCohomologyPullback ℓ f i := by
+  have h : classicalEllAdicCohomologyPullbackLinearMap ℓ (f ≫ g) i =
+      classicalEllAdicCohomologyPullbackLinearMap ℓ f i ∘ₗ
+        classicalEllAdicCohomologyPullbackLinearMap ℓ g i :=
+    LinearMap.ext fun x ↦
+      congrArg (fun φ ↦ φ.hom x) (classicalEllAdicCohomologyPullback_comp f g ℓ i)
+  ext : 1
+  rw [rationalEllAdicCohomologyPullback, ModuleCat.hom_ofHom, h, LinearMap.baseChange_comp]
+  rfl
+
+/-- Rational `ℓ`-adic cohomology `X ↦ H^i_et(X, ℚ_ℓ)` as a contravariant functor from schemes to
+`ℚ_[ℓ]`-vector spaces, acting on morphisms by pullback. -/
+noncomputable def rationalEllAdicCohomologyFunctor (i : ℕ) :
+    Scheme.{u}ᵒᵖ ⥤ ModuleCat.{u} ℚ_[ℓ] where
+  obj X := X.unop.rationalEllAdicCohomology ℓ i
+  map f := rationalEllAdicCohomologyPullback ℓ f.unop i
+  map_id X := rationalEllAdicCohomologyPullback_id ℓ X.unop i
+  map_comp f g := rationalEllAdicCohomologyPullback_comp ℓ g.unop f.unop i
+
+end Rational
 
 end AlgebraicGeometry.Scheme
