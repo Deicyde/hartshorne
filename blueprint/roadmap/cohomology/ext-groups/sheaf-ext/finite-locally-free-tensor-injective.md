@@ -4,7 +4,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.Ringed.moduleSheafTensor_injective Hartshorne.moduleSheafTensor_injective
+lean: Hartshorne.Ringed.moduleSheafTensor_injective
 ---
 
 # Tensoring an injective by a finite locally free sheaf

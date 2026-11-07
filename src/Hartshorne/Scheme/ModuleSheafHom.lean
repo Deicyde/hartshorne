@@ -742,6 +742,8 @@ structure ModuleSheafHomData (X : Scheme.{u}) where
       f ≫ globalSections F G σ ≫ g
 
 /-- The source-faithful module-sheaf Hom family with its compatible local and global interfaces. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafHomData` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 noncomputable def moduleSheafHomData (X : Scheme.{u}) : ModuleSheafHomData X where
   obj := moduleSheafHom
   overSections := moduleSheafHomOverSectionsAddEquiv

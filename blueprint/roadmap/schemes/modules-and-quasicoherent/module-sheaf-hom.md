@@ -4,7 +4,7 @@ declaration: definition
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.Ringed.moduleSheafHomData Hartshorne.moduleSheafHomData
+lean: Hartshorne.Ringed.moduleSheafHomData
 ---
 
 # The sheaf Hom of module sheaves

@@ -222,6 +222,8 @@ lemma exists_isLocalFrame_dual_of_isLocallyFree {L : X.Modules} (hL : L.IsLocall
 
 /-- **Hartshorne III, Lemma 6.6.** If `L` is a finite locally free `𝒪_X`-module (locally free of
 finite rank at every point) and `J` is an injective `𝒪_X`-module, then `L ⊗ J` is injective. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafTensor_injective` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 theorem moduleSheafTensor_injective (L J : X.Modules) (hL : L.IsLocallyFree)
     (hfin : ∀ x, L.rankAt x < Cardinal.aleph0) [Injective J] :
     Injective (C := X.Modules) (moduleSheafTensor L J) := by

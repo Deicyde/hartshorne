@@ -244,6 +244,8 @@ variable (E F G) in
 /-- **Hartshorne II, Exercise 5.1(c): the tensor–Hom adjunction.** For all `𝒪_X`-modules `E`, `F`,
 `G`, morphisms `E ⊗ F ⟶ G` correspond bijectively to morphisms `F ⟶ ℋom(E, G)`: a morphism
 `φ` corresponds to `f ↦ (e ↦ φ(e ⊗ f))`. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafTensorHomAdjunction` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 noncomputable def moduleSheafTensorHomAdjunction :
     (@Quiver.Hom X.Modules _ (moduleSheafTensor E F) G) ≃ (F ⟶ moduleSheafHom E G) :=
   (moduleSheafTensorHomEquiv E F G).trans bilinearCurryEquiv
@@ -256,6 +258,8 @@ lemma moduleSheafTensorHomAdjunction_app_eval
   rfl
 
 /-- The tensor–Hom adjunction is natural in `G`. -/
+@[deprecated "use `Ringed.moduleSheafTensorHomAdjunction_naturality_target` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 lemma moduleSheafTensorHomAdjunction_naturality_target {G' : X.Modules}
     (φ : @Quiver.Hom X.Modules _ (moduleSheafTensor E F) G) (g : G ⟶ G') :
     moduleSheafTensorHomAdjunction E F G' (φ ≫ g) =
@@ -449,6 +453,8 @@ variable (X) in
 noncomputable abbrev structureModule : X.Modules := SheafOfModules.unit X.ringCatSheaf
 
 /-- The dual `E^∨ = ℋom(E, 𝒪_X)` of an `𝒪_X`-module. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafDual` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 noncomputable abbrev moduleSheafDual (E : X.Modules) : X.Modules :=
   moduleSheafHom E (structureModule X)
 
@@ -558,6 +564,8 @@ lemma doubleDualSection_eval (E : X.Modules) {U : X.Opens} (x : Γ(E, U)) {V : X
       moduleSheafHomEval ψ (le_refl V) (E.presheaf.map (homOfLE h).op x) := rfl
 
 /-- The canonical map `E ⟶ E^∨∨`, sending a section to evaluation at it. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafDoubleDualMap` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 noncomputable def moduleSheafDoubleDualMap (E : X.Modules) :
     E ⟶ moduleSheafDual (moduleSheafDual E) :=
   modulesHomMk
@@ -580,6 +588,8 @@ lemma moduleSheafDoubleDualMap_app_eval (E : X.Modules) {U : X.Opens} (x : Γ(E,
       moduleSheafHomEval ψ (le_refl V) (E.presheaf.map (homOfLE h).op x) := rfl
 
 /-- The double-dual map is natural in `E`. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafDoubleDualMap_naturality` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 lemma moduleSheafDoubleDualMap_naturality {E E' : X.Modules} (f : E ⟶ E') :
     f ≫ moduleSheafDoubleDualMap E' =
       moduleSheafDoubleDualMap E ≫
@@ -707,6 +717,8 @@ noncomputable def dualTensorBilinear :
 
 variable (E F : X.Modules) in
 /-- The canonical map `E^∨ ⊗ F ⟶ ℋom(E, F)`, induced by `(ψ, f) ↦ (x ↦ ψ(x) f)`. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafDualTensorMap` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 noncomputable def moduleSheafDualTensorMap :
     @Quiver.Hom X.Modules _ (moduleSheafTensor (moduleSheafDual E) F) (moduleSheafHom E F) :=
   (moduleSheafTensorHomEquiv _ _ _).symm (dualTensorBilinear E F)
@@ -1020,6 +1032,8 @@ variable (E : X.Modules)
 
 /-- **Hartshorne II, Exercise 5.1(a).** For a finite locally free `𝒪_X`-module `E` (locally free
 with finite rank at every point), the canonical map `E ⟶ E^∨∨` is an isomorphism. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafDoubleDualMap_isIso` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 theorem moduleSheafDoubleDualMap_isIso (hE : E.IsLocallyFree)
     (hfin : ∀ x, E.rankAt x < Cardinal.aleph0) : IsIso (moduleSheafDoubleDualMap E) :=
   modules_isIso_of_locally_bijective _ fun x => by
@@ -1028,6 +1042,8 @@ theorem moduleSheafDoubleDualMap_isIso (hE : E.IsLocallyFree)
     exact ⟨U, hx, fun V h => doubleDualMap_bijective_of_isLocalFrame hEU h⟩
 
 /-- The natural isomorphism `E ≅ E^∨∨` for a finite locally free `E`. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafDoubleDualIso` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 noncomputable def moduleSheafDoubleDualIso (hE : E.IsLocallyFree)
     (hfin : ∀ x, E.rankAt x < Cardinal.aleph0) : E ≅ moduleSheafDual (moduleSheafDual E) :=
   haveI := moduleSheafDoubleDualMap_isIso E hE hfin
@@ -1035,11 +1051,15 @@ noncomputable def moduleSheafDoubleDualIso (hE : E.IsLocallyFree)
 
 /-- **Hartshorne II, Exercise 5.1(b).** For a finite locally free `E` and any `𝒪_X`-module `F`, the
 canonical map `E^∨ ⊗ F ⟶ ℋom(E, F)` is an isomorphism. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafDualTensorMap_isIso` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 theorem moduleSheafDualTensorMap_isIso (F : X.Modules) (hE : E.IsLocallyFree)
     (hfin : ∀ x, E.rankAt x < Cardinal.aleph0) : IsIso (moduleSheafDualTensorMap E F) :=
   isIso_moduleSheafDualTensorMap_of_localFrames (exists_isLocalFrame_of_isLocallyFree hE hfin)
 
 /-- The natural isomorphism `E^∨ ⊗ F ≅ ℋom(E, F)` for a finite locally free `E`. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafDualTensorIso` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 noncomputable def moduleSheafDualTensorIso (F : X.Modules) (hE : E.IsLocallyFree)
     (hfin : ∀ x, E.rankAt x < Cardinal.aleph0) :
     @Iso X.Modules _ (moduleSheafTensor (moduleSheafDual E) F) (moduleSheafHom E F) :=
@@ -1087,6 +1107,8 @@ lemma modulesTensor_hom_ext {H : X.Modules}
     fun U e f => h U.unop e f).trans (moduleSheafTensorHomEquiv_apply ψ).symm)
 
 /-- The canonical map `E^∨ ⊗ F ⟶ ℋom(E, F)` is natural in `F`. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafDualTensorMap_naturality_right` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 lemma moduleSheafDualTensorMap_naturality_right (g : F ⟶ F') :
     modulesTensorMap (𝟙 (moduleSheafDual E)) g ≫ moduleSheafDualTensorMap E F' =
       moduleSheafDualTensorMap E F ≫ moduleSheafHomMap (𝟙 E) g := by
@@ -1108,6 +1130,8 @@ lemma moduleSheafDualTensorMap_naturality_right (g : F ⟶ F') :
   exact (ConcreteCategory.congr_hom (g.mapPresheaf.naturality (homOfLE h).op) f).symm
 
 /-- The canonical map `E^∨ ⊗ F ⟶ ℋom(E, F)` is natural in `E`. -/
+@[deprecated "use `Hartshorne.Ringed.moduleSheafDualTensorMap_naturality_left` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 lemma moduleSheafDualTensorMap_naturality_left (f : E' ⟶ E) :
     modulesTensorMap (moduleSheafHomMap f (𝟙 (structureModule X))) (𝟙 F) ≫
         moduleSheafDualTensorMap E' F =
@@ -1129,6 +1153,8 @@ lemma moduleSheafDualTensorMap_naturality_left (f : E' ⟶ E) :
   rfl
 
 /-- The tensor–Hom adjunction is natural in `F`. -/
+@[deprecated "use `Ringed.moduleSheafTensorHomAdjunction_naturality_right` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 lemma moduleSheafTensorHomAdjunction_naturality_right
     (g : F' ⟶ F) (φ : @Quiver.Hom X.Modules _ (moduleSheafTensor E F) G) :
     moduleSheafTensorHomAdjunction E F' G (modulesTensorMap (𝟙 E) g ≫ φ) =
@@ -1145,6 +1171,8 @@ lemma moduleSheafTensorHomAdjunction_naturality_right
     (ConcreteCategory.congr_hom (g.mapPresheaf.naturality (homOfLE h).op) f)
 
 /-- The tensor–Hom adjunction is natural in `E`. -/
+@[deprecated "use `Ringed.moduleSheafTensorHomAdjunction_naturality_left` with `R := X.sheaf`"
+  (since := "2026-11-06")]
 lemma moduleSheafTensorHomAdjunction_naturality_left
     (f : E' ⟶ E) (φ : @Quiver.Hom X.Modules _ (moduleSheafTensor E F) G) :
     moduleSheafTensorHomAdjunction E' F G (modulesTensorMap f (𝟙 F) ≫ φ) =
