@@ -48,4 +48,4 @@ linear on each $U_i$.
 ## Sources
 
 - [Hartshorne II.1, Exercise 1.22 (p. 69), glues sheaves; the module form here is a project bridge](../../../sources/hartshorne-ii-1.md#adopted-exercises-and-later-use-evidence)
-- [Hartshorne II.7, relative Proj construction (pp. 160–161), where the twisting sheaves of the affine pieces are glued](../../../sources/hartshorne-ii-7.md#relative-proj-and-projective-bundles)
+- [Hartshorne II.7, relative Proj construction (p. 160), where the twisting sheaves of the affine pieces are glued](../../../sources/hartshorne-ii-7.md#relative-proj-and-projective-bundles)

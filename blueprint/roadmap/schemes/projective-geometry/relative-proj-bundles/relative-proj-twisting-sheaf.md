@@ -25,5 +25,5 @@ compatibility with restriction to affine opens of the base.
 
 ## Sources
 
-- [Hartshorne II.7, relative Proj construction (pp.160–161)](../../../../sources/hartshorne-ii-7.md#relative-proj-and-projective-bundles)
+- [Hartshorne II.7, relative Proj construction (p.160)](../../../../sources/hartshorne-ii-7.md#relative-proj-and-projective-bundles)
 - [Stacks Project, relative Proj, tag 01NM](../../../../sources/hartshorne-ii-7.md#adopted-auxiliary-proof-sources)
