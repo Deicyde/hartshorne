@@ -612,3 +612,7 @@ import Hartshorne.Scheme.Differentials.DenseNonsingularLocus
 import Hartshorne.Scheme.Differentials.TangentSheaf
 import Hartshorne.Scheme.Differentials.CanonicalSheaf
 import Hartshorne.Scheme.ProjTwistCompatibility
+import Hartshorne.Cohomology.FlasqueCechAcyclic
+import Hartshorne.Cohomology.ClosedPushforwardCohomology
+import Hartshorne.Cohomology.ModuleCohomologyComparison
+import Hartshorne.Cohomology.ProjectiveLineRegularAcyclic
