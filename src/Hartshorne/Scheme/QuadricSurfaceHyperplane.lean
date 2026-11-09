@@ -39,7 +39,6 @@ variable (k : Type u) [Field k]
 
 local notation "𝒬" => quadricGrading k
 
-instance quadricRing_isDomain : IsDomain (QuadricRing k) := inferInstance
 
 section LineOrders
 

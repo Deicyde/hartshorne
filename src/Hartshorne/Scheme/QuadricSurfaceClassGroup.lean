@@ -342,11 +342,11 @@ theorem quadricExpU_shift (p : quadricExponents) (hp : quadricExpU p ≠ 0) :
   · apply Subtype.ext
     apply Prod.ext <;> funext l <;> fin_cases l <;> simp [quadricChartExp] <;> omega
 
-/-- **The line `L₁ = {s₀ = 0}`** of `Q`, a fibre of the first projection `Q ≅ ℙ¹ × ℙ¹ → ℙ¹`. -/
+/-- **The line `L₁ = {s₀ = 0}`** of `Q`, the line `{[0:1]} × ℙ¹` in the coordinates `s, u` (the identification `Q ≅ ℙ¹ × ℙ¹` is not yet formalized). -/
 def quadricLineOne : quadricSurface k :=
   quadricLinePoint k quadricExpS_chartExp_one_one
 
-/-- **The line `L₂ = {u₀ = 0}`** of `Q`, a fibre of the second projection `Q ≅ ℙ¹ × ℙ¹ → ℙ¹`. -/
+/-- **The line `L₂ = {u₀ = 0}`** of `Q`, the line `ℙ¹ × {[0:1]}` in the coordinates `s, u` (the identification `Q ≅ ℙ¹ × ℙ¹` is not yet formalized). -/
 def quadricLineTwo : quadricSurface k :=
   quadricLinePoint k quadricExpU_chartExp_one_one
 

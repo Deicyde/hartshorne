@@ -15,7 +15,7 @@ localization `S_((0))`, the stalk of `X` at its generic point
 
 For `f ∈ S_1` nonzero, pulling back along the chart `Spec S_(f) ≅ D₊(f) ⊆ X` sends `g / h` to
 the dehomogenized fraction `(g / f^d) / (h / f^d)` of `Frac S_(f)`
-(`Hartshorne.genericFunctionFieldMap_awayι_projHomogeneousFraction`). Consequently, when `X`
+(`Hartshorne.genericFunctionFieldMap_projChartι_projHomogeneousFraction`). Consequently, when `X`
 satisfies `(*)`, the order of `g / h` along a prime divisor `Y` meeting `D₊(f)` is
 `v_𝔭(g / f^d) - v_𝔭(h / f^d)`, for `𝔭 ⊂ S_(f)` the height-one prime of `Y ∩ D₊(f)`
 (`Hartshorne.ord_projHomogeneousFraction`).
