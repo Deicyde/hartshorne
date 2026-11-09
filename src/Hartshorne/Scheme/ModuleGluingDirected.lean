@@ -9,7 +9,33 @@ import Mathlib.AlgebraicGeometry.Modules.Sheaf
 /-!
 # Gluing sheaves of modules along a locally directed open cover
 
-WIP.
+Let `𝒰` be a locally directed open cover of a scheme `Y` whose index category is thin (for
+example the cover of a relative `Proj` by the affine pieces `Proj S(U)`, indexed by the affine
+opens `U` of the base). Suppose given a module `M i` on each piece `𝒰.X i` and isomorphisms
+`θ f : (M j)|_{𝒰.X i} ≅ M i` along the transition maps `𝒰.X i ⟶ 𝒰.X j`, satisfying the cocycle
+condition. Then the `M i` glue to an `𝒪_Y`-module `M` with isomorphisms
+`ψ i : M|_{𝒰.X i} ≅ M i` compatible with the `θ f`.
+
+This is the form of the gluing of sheaves of modules (Hartshorne II, Exercise 1.22, glues
+sheaves; the module form is a supplement) used for the relative twisting sheaf of II.7, where the
+descent data are indexed by the inclusions of affine opens rather than by pairwise intersections.
+
+## Construction
+
+`Hartshorne.CompatibleFamilies.sheaf` is, for a family of sheaves of modules `P i` on a ringed
+space and morphisms `α a : P (src a) ⟶ P (tgt a)`, the sheaf of families `(s i)` with
+`α a (s (src a)) = s (tgt a)`. Here `P i = (𝒰.f i)_* M i` and `α f` is restriction along the
+transition map followed by `θ f`. Over an open `O` inside the image of `𝒰.X k`, a compatible
+family is determined by its `k`-th component, and every section of `M k` extends: the pieces
+`𝒰.X l` with `l ⟶ i` and `l ⟶ k` cover `(𝒰.f i)⁻¹ O`, on which the `i`-th component is forced
+to be `θ⁻¹ ∘ θ` applied to the `k`-th, and these local sections agree on overlaps by the cocycle
+condition. This gives the isomorphisms `ψ k`.
+
+## Main results
+
+* `Hartshorne.DirectedModuleGluing.Data`: the descent data.
+* `Hartshorne.DirectedModuleGluing.Data.glue`, `Data.ψ`, `Data.ψ_compat`: the glued module, its
+  restrictions to the pieces, and their compatibility with the transition isomorphisms.
 -/
 
 universe u
@@ -109,7 +135,9 @@ open AlgebraicGeometry Scheme.Modules
 variable {Y : Scheme.{u}} (𝒰 : Scheme.OpenCover.{u} Y) [Category.{u} 𝒰.I₀] [Quiver.IsThin 𝒰.I₀]
   [𝒰.LocallyDirected]
 
-instance {i j : 𝒰.I₀} (f : i ⟶ j) : IsOpenImmersion (𝒰.trans f) := 𝒰.property_trans f
+omit [Quiver.IsThin 𝒰.I₀] in
+instance isOpenImmersion_trans {i j : 𝒰.I₀} (f : i ⟶ j) : IsOpenImmersion (𝒰.trans f) :=
+  𝒰.property_trans f
 
 lemma pmap_map {Z : Scheme.{u}} (M : Z.Modules) {a b c : Z.Opensᵒᵖ} (f : a ⟶ b) (g : b ⟶ c)
     (h : a ⟶ c) (x : M.presheaf.obj a) :
@@ -212,6 +240,7 @@ noncomputable def πk (k : 𝒰.I₀) : D.glue ⟶ D.P k :=
 noncomputable def ψHom (k : 𝒰.I₀) : D.glue.restrict (𝒰.f k) ⟶ D.M k :=
   (restrictFunctor (𝒰.f k)).map (D.πk k) ≫ (restrictAdjunction (𝒰.f k)).counit.app (D.M k)
 
+omit [Quiver.IsThin 𝒰.I₀] in
 lemma α_apply (a : Arr (𝒰 := 𝒰)) (O : Y.Opens) (x : Γ(D.M a.2.1, 𝒰.f a.2.1 ⁻¹ᵁ O)) :
     (D.α a).app O x = (D.θ a.2.2).hom.app (𝒰.f a.1 ⁻¹ᵁ O)
       ((D.M a.2.1).presheaf.map (homOfLE (image_preimage_trans_le 𝒰 a.2.2 O)).op x) := by
@@ -226,11 +255,13 @@ abbrev Sec (O : Y.Opens) : Type u :=
   ↥((CompatibleFamilies.N Y.ringCatSheaf D.P (fun a : Arr (𝒰 := 𝒰) => a.2.1) (fun a => a.1)
     D.α).obj (op O))
 
+omit [Quiver.IsThin 𝒰.I₀] in
 lemma sec_compat {O : Y.Opens} (s : D.Sec O) {i j : 𝒰.I₀} (f : i ⟶ j) :
     (D.θ f).hom.app (𝒰.f i ⁻¹ᵁ O)
       ((D.M j).presheaf.map (homOfLE (image_preimage_trans_le 𝒰 f O)).op (s.1 j)) = s.1 i :=
   (D.α_apply ⟨i, j, f⟩ O (s.1 j)).symm.trans (s.2 ⟨i, j, f⟩)
 
+omit [Quiver.IsThin 𝒰.I₀] in
 lemma θ_nat {i j : 𝒰.I₀} (f : i ⟶ j) {W W' : (𝒰.X i).Opens} (h : 𝒰.trans f ''ᵁ W' ≤ 𝒰.trans f ''ᵁ W)
     (h' : W' ≤ W) (x : Γ(D.M j, 𝒰.trans f ''ᵁ W)) :
     (D.θ f).hom.app W' ((D.M j).presheaf.map (homOfLE h).op x) =
@@ -240,18 +271,22 @@ lemma θ_nat {i j : 𝒰.I₀} (f : i ⟶ j) {W W' : (𝒰.X i).Opens} (h : 𝒰
   · rfl
   · rfl
 
+omit [Quiver.IsThin 𝒰.I₀] in
 lemma θ_hom_inv {i j : 𝒰.I₀} (f : i ⟶ j) (W : (𝒰.X i).Opens) (x : Γ(D.M j, 𝒰.trans f ''ᵁ W)) :
     (D.θ f).inv.app W ((D.θ f).hom.app W x) = x :=
   congrArg (fun e => Hom.app e W x) (D.θ f).hom_inv_id
 
+omit [Quiver.IsThin 𝒰.I₀] in
 lemma θ_inv_hom {i j : 𝒰.I₀} (f : i ⟶ j) (W : (𝒰.X i).Opens) (x : Γ(D.M i, W)) :
     (D.θ f).hom.app W ((D.θ f).inv.app W x) = x :=
   congrArg (fun e => Hom.app e W x) (D.θ f).inv_hom_id
 
+omit [Quiver.IsThin 𝒰.I₀] in
 lemma θ_injective {i j : 𝒰.I₀} (f : i ⟶ j) (W : (𝒰.X i).Opens) :
     Function.Injective ((D.θ f).hom.app W) := fun x y hxy => by
   rw [← D.θ_hom_inv f W x, ← D.θ_hom_inv f W y, hxy]
 
+omit [Quiver.IsThin 𝒰.I₀] in
 lemma θ_comp_apply {i j k : 𝒰.I₀} (f : i ⟶ j) (g : j ⟶ k) (W : (𝒰.X i).Opens)
     (x : Γ(D.M k, 𝒰.trans (f ≫ g) ''ᵁ W)) :
     (D.θ (f ≫ g)).hom.app W x = (D.θ f).hom.app W ((D.θ g).hom.app (𝒰.trans f ''ᵁ W)
@@ -287,17 +322,20 @@ noncomputable def σ (m : Γ(D.M k, 𝒰.f k ⁻¹ᵁ O)) {l i : 𝒰.I₀} (a :
   (D.θ a).inv.app (𝒰.f l ⁻¹ᵁ O) ((D.θ b).hom.app (𝒰.f l ⁻¹ᵁ O)
     ((D.M k).presheaf.map (homOfLE (image_preimage_trans_le 𝒰 b O)).op m))
 
+omit [Quiver.IsThin 𝒰.I₀] in
 lemma θ_σ (m : Γ(D.M k, 𝒰.f k ⁻¹ᵁ O)) {l i : 𝒰.I₀} (a : l ⟶ i) (b : l ⟶ k) :
     (D.θ a).hom.app (𝒰.f l ⁻¹ᵁ O) (D.σ O m a b) = (D.θ b).hom.app (𝒰.f l ⁻¹ᵁ O)
       ((D.M k).presheaf.map (homOfLE (image_preimage_trans_le 𝒰 b O)).op m) :=
   D.θ_inv_hom a _ _
 
+omit [Quiver.IsThin 𝒰.I₀] in
 lemma sec_piece (s : D.Sec O) {l i : 𝒰.I₀} (a : l ⟶ i) (b : l ⟶ k) :
     (D.M i).presheaf.map (homOfLE (image_preimage_trans_le 𝒰 a O)).op (s.1 i) =
       D.σ O (s.1 k) a b := by
   refine D.θ_injective a (𝒰.f l ⁻¹ᵁ O) ?_
   exact (D.sec_compat s a).trans ((D.sec_compat s b).symm.trans (D.θ_σ _ a b).symm)
 
+omit [Quiver.IsThin 𝒰.I₀] in
 lemma sec_ext (hO : O ≤ (𝒰.f k).opensRange) (s s' : D.Sec O) (h : s.1 k = s'.1 k) : s = s' := by
   refine Subtype.ext (funext fun i => ?_)
   have key : (s.1 i : Γ(D.M i, 𝒰.f i ⁻¹ᵁ O)) = s'.1 i := by
@@ -309,6 +347,7 @@ lemma sec_ext (hO : O ≤ (𝒰.f k).opensRange) (s s' : D.Sec O) (h : s.1 k = s
     (D.sec_piece s' p.2.1 p.2.2).symm)
   exact key
 
+omit [Quiver.IsThin 𝒰.I₀] in
 lemma σ_restrict (m : Γ(D.M k, 𝒰.f k ⁻¹ᵁ O)) {l l' i : 𝒰.I₀} (a : l ⟶ i) (b : l ⟶ k)
     (c : l' ⟶ l) (h : 𝒰.trans (c ≫ a) ''ᵁ (𝒰.f l' ⁻¹ᵁ O) ≤ 𝒰.trans a ''ᵁ (𝒰.f l ⁻¹ᵁ O)) :
     (D.M i).presheaf.map (homOfLE h).op (D.σ O m a b) = D.σ O m (c ≫ a) (c ≫ b) := by
@@ -403,6 +442,7 @@ lemma exists_sec (hO : O ≤ (𝒰.f k).opensRange) (m : Γ(D.M k, 𝒰.f k ⁻�
 
 end pieces
 
+omit [Quiver.IsThin 𝒰.I₀] in
 lemma ψHom_apply (k : 𝒰.I₀) (W : (𝒰.X k).Opens) (s : D.Sec (𝒰.f k ''ᵁ W)) :
     (D.ψHom k).app W s =
       (D.M k).presheaf.map (eqToHom (Scheme.Hom.preimage_image_eq _ W).symm).op (s.1 k) := by
