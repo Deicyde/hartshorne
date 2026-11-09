@@ -25,6 +25,7 @@ neighbourhood of the generic point.
 ## Proof depends on
 
 - [The free locus of a coherent sheaf](../../coherent-sheaves/coherent-free-locus.md)
+- [Dimension of a scheme smooth over a field](../../../cohomology/smooth-morphisms/criteria/smooth-over-field-component-dimension.md)
 
 ## Sources
 
