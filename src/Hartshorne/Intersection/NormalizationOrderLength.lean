@@ -150,6 +150,7 @@ theorem length_quotient_span_mul [IsDomain B] (b : B) {c : B} (hc : c ≠ 0) :
   rw [lem] at this
   exact this
 
+/-- `ℓ_A(B/uB) = 0` for a unit `u`. -/
 theorem length_quotient_span_unit {u : B} (hu : IsUnit u) :
     Module.length A (B ⧸ Ideal.span {u}) = 0 := by
   rw [Ideal.span_singleton_eq_top.mpr hu]
