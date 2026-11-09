@@ -476,6 +476,21 @@ lemma secOf_mem (k : D.ι) (A : Over (D.U k)) (t : (D.F k).val.obj (op A)) :
     erw [rm_rm, ← rm_rm (D.F j).val e3 e4, ← D.φ_nat k j (A := Tkj) (B := Bkj) e4, rm_rm]
   exact L.trans R.symm
 
+lemma ψHom_surjective (k : D.ι) (A : Over (D.U k)) :
+    Function.Surjective ((D.ψHom k).val.app (op A)) := by
+  intro t
+  refine ⟨(⟨D.secOf k A t, D.secOf_mem k A t⟩ : D.Gpre.obj (op A.left)), ?_⟩
+  change rm (D.F k).val (D.le_st_self k A) (D.secOf k A t k) = t
+  unfold secOf
+  erw [D.φ_self_apply k, rm_rm, rm_rm, rm_self]
+
+instance isIso_ψHom (k : D.ι) : IsIso (D.ψHom k) :=
+  isIso_of_bijective _ fun A => ⟨D.ψHom_injective k A.unop, D.ψHom_surjective k A.unop⟩
+
+/-- The isomorphisms `ψ k : glue|_{U k} ≅ F k`. -/
+noncomputable def ψ (k : D.ι) : (SheafOfModules.overFunctor S (D.U k)).obj D.glue ≅ D.F k :=
+  asIso (D.ψHom k)
+
 end GluingData
 
 end ModuleGluing
