@@ -2,8 +2,7 @@
 article_id: af_f40ca5db49f3d45395b96926
 declaration: theorem
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: Hartshorne.quadricClassGroupPullbackEquiv Hartshorne.quadricClassGroupPullbackEquiv_apply Hartshorne.quadricClassGroupPullbackOne Hartshorne.quadricClassGroupPullbackTwo Hartshorne.quadricProjOne Hartshorne.quadricProjTwo Hartshorne.quadricSurfaceClassGroupEquiv Hartshorne.quadricSurfaceClassGroupEquiv_pullback_add Hartshorne.quadricSurfaceClassGroupEquiv_rulingOne Hartshorne.quadricSurfaceClassGroupEquiv_rulingTwo Hartshorne.quadricSurfaceClassGroupEquiv_hyperplaneSection Hartshorne.quadricSurfaceClassGroupEquiv_lineOne Hartshorne.quadricSurfaceClassGroupEquiv_lineTwo
 ---
 
@@ -11,8 +10,15 @@ lean: Hartshorne.quadricClassGroupPullbackEquiv Hartshorne.quadricClassGroupPull
 
 Let $Q \subseteq \mathbb{P}^3_k$ be the split nonsingular quadric $xy = zw$, identified with
 $\mathbb{P}^1_k \times \mathbb{P}^1_k$. Prove that pullback from the two factors gives
-$\operatorname{Cl} Q \cong \mathbb{Z} \times \mathbb{Z}$; the two ruling classes are $(1,0)$ and $(0,1)$, and the
-hyperplane class is $(1,1)$.
+$\operatorname{Cl} Q \cong \mathbb{Z} \times \mathbb{Z}$, and that a line of either ruling (the fibre over a
+$k$-point) has class $(1,0)$ or $(0,1)$.
+
+Prove that the embedding $Q \subseteq \mathbb{P}^3_k$ induces a homomorphism
+$\operatorname{Cl} \mathbb{P}^3_k \to \operatorname{Cl} Q$: it sends the class of a divisor $D$ on $\mathbb{P}^3_k$,
+none of whose components contains $Q$, to the class of the divisor $D \cdot Q$
+cut on $Q$, and every class of $\operatorname{Cl} \mathbb{P}^3_k$ is the class of such a divisor.
+The image of the class of a hyperplane $H$, which generates
+$\operatorname{Cl} \mathbb{P}^3_k$, is $(1,1)$.
 
 The class-group isomorphism is the unique main result. The ruling and
 hyperplane formulas are its source-facing normalization and are used by later
@@ -35,6 +41,8 @@ linear-system, curve, and surface calculations.
 - [Intersection of height-one localizations](height-one-localization-intersection.md)
 - [The affine UFD class-group criterion](affine-ufd-class-group.md)
 - The hyperplane section $w = 0$ is the sum of one line from each ruling.
+- A hypersurface of degree $d$ not containing $Q$ cuts on $Q$ a divisor linearly equivalent to
+  $d$ times a hyperplane section.
 
 ## Sources
 
