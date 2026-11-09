@@ -871,7 +871,6 @@ theorem augmentedSheafifiedCechComplex_exactAt (U : ι → Opens X) (hU : IsOpen
     rw [hb', contraction_zero, add_zero] at h
     exact h
 
-
 section Naturality
 
 /-! ### Naturality in the sheaf -/
