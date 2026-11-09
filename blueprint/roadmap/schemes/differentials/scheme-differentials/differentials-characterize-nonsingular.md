@@ -25,6 +25,7 @@ criterion.
 ## Proof depends on
 
 - [The free locus of a coherent sheaf](../../coherent-sheaves/coherent-free-locus.md)
+- [Constant fibre dimension of relative differentials](../../../cohomology/smooth-morphisms/criteria/relative-differentials-rank-of-smooth.md)
 - Closed points are dense, and every nonclosed local ring is a localization of
   a local ring at a suitable closed point.
 
