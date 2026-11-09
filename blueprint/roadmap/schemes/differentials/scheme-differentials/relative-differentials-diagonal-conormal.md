@@ -32,5 +32,5 @@ diagonal is represented as a closed immersion.
 
 ## Sources
 
-- [Hartshorne II.8, definition and Remarks 8.9.1–8.9.2 (pp. 175–176)](../../../../sources/hartshorne-ii-8.md#modules-and-sheaves-of-differentials)
+- [Hartshorne II.8, definition and Remarks 8.9.1–8.9.2 (p. 175)](../../../../sources/hartshorne-ii-8.md#modules-and-sheaves-of-differentials)
 - [Adopted Stacks sources for scheme differentials](../../../../sources/hartshorne-ii-8.md#external-proof-sources-and-unresolved-obligations)

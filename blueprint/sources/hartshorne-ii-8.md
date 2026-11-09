@@ -41,7 +41,7 @@ outside the formalization targets.
   a perfect field, a finite-type local algebra is regular exactly when its
   differential module is free of the expected rank. Lemma 8.9 supplies the
   finite-module freeness criterion used in that proof.
-- **Definition and Remarks 8.9.1–8.9.2, pp.175–176.** For a scheme morphism
+- **Definition and Remarks 8.9.1–8.9.2, p.175.** For a scheme morphism
   `X -> Y`, define `Omega_(X/Y)` as the conormal sheaf of the diagonal. On an
   affine chart `Spec B -> Spec A` it is the sheaf associated to
   `Omega_(B/A)`. It is quasi-coherent, and coherent for a finite-type morphism
