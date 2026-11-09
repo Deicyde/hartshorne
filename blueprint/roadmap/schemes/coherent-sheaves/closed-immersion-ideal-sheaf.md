@@ -2,6 +2,9 @@
 article_id: af_7b82f963dca3fff196678fde
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.isQuasicoherent_closedImmersionIdealSheaf Hartshorne.isCoherent_closedImmersionIdealSheaf Hartshorne.closedImmersionIdealSheaf Hartshorne.closedImmersionIdealSheafι Hartshorne.structureSheafToPushforward
 ---
 
 # Ideal sheaves of closed immersions
