@@ -14,11 +14,11 @@ import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.HasExt
 For a topological space `X`, Hartshorne's sheaf cohomology `H^n(X,-) = R^nΓ(X,-)`
 (`Hartshorne.sheafCohomology`) is isomorphic to `Ext^n(ℤ_X,-)` in the category of abelian
 sheaves on `X`, which is Mathlib's `CategoryTheory.Sheaf.functorH`
-(`Hartshorne.sheafCohomologyIsoFunctorH`). The isomorphism is natural in the sheaf, is the
+(`Hartshorne.sheafCohomologyIsoExt`). The isomorphism is natural in the sheaf, is the
 canonical identification `H^0(X,F) ≅ Γ(X,F) ≅ Hom(ℤ_X,F) = Ext^0(ℤ_X,F)` in degree zero
-(`Hartshorne.sheafCohomologyIsoFunctorH_zero`), and carries the connecting homomorphisms of
+(`Hartshorne.sheafCohomologyIsoExt_zero`), and carries the connecting homomorphisms of
 sheaf cohomology to those of Ext, i.e. to the Yoneda product with the class of the short exact
-sequence (`Hartshorne.sheafCohomologyIsoFunctorH_δ`).
+sequence (`Hartshorne.sheafCohomologyIsoExt_δ`).
 
 ## Construction
 
