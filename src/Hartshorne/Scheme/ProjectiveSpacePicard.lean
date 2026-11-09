@@ -6,14 +6,29 @@ import Hartshorne.Scheme.ProjectiveSpaceClassGroup
 import Hartshorne.Scheme.ProjTwistingSheaf
 import Hartshorne.Scheme.LocallyFactorialClassPicard
 import Hartshorne.Scheme.TotalQuotientIntegral
+import Hartshorne.Scheme.RegularLocalFactorial
+import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Proper
 
 /-!
 # The Picard group of projective space
 
-Hartshorne, *Algebraic Geometry*, II.6, Corollary 6.17 (p. 145).
+Hartshorne, *Algebraic Geometry*, II.6, Corollary 6.17 (p. 145): for a field `k` and `n ≥ 1`,
+every invertible sheaf on `X = ℙⁿ_k` is isomorphic to `𝒪(l)` for a unique integer `l`
+(`Hartshorne.exists_unique_iso_projTwistingSheaf`); equivalently, `Pic X ≅ ℤ` with `𝒪(1) ↦ 1`
+(`Hartshorne.projectiveSpacePicardEquiv`, `Hartshorne.projectiveSpacePicardEquiv_projTwistingSheaf`).
 
-Work in progress: the embedding of the twisting sheaf `𝒪(l)` into the sheaf of rational functions
-`K_X` of `X = ℙⁿ_k`, `s ↦ s / x₀^l`.
+## Proof
+
+`X` is regular, hence locally factorial, so `Cl X ≅ Pic X` (Corollary 6.16), and `Cl X ≅ ℤ` by
+the degree (Proposition 6.4). It remains to see that `𝒪(l)` corresponds to `l · H`, `H = V(x₀)`.
+Sending a section `s` of `𝒪(l)` to the rational function `s / x₀^l` (evaluated at the generic
+point) is an injective morphism of `𝒪_X`-modules `𝒪(l) ⟶ K_X`
+(`Hartshorne.ProjectiveSpacePicard.twistToK`); its image is an invertible submodule of `K_X`,
+hence `O_X(D_l)` for a Cartier divisor `D_l` (Proposition 6.13). Near a codimension-one point `y`,
+with `ℓ` a linear form not vanishing at `y`, a section `m / f` goes to
+`(m ℓ^{l⁻} / f ℓ^{l⁺}) · (x₀/ℓ)^{l⁻} (ℓ/x₀)^{l⁺}`, of order at least `-l · [y ∈ H]`, with
+equality for `ℓ^l`. Comparing with a local equation `g` of `D_l` (`g⁻¹` is a section of the image,
+and `ℓ^l g` is regular) gives `ord_y g = l · [y ∈ H]`, so the Weil divisor of `D_l` is `l · H`.
 -/
 
 noncomputable section
@@ -725,6 +740,94 @@ theorem weilCoeff_imageDivisor (l : ℤ) (y : Proj 𝒜) (hy1 : Order.coheight y
   rw [hr', Scheme.ord_mul hgen0 hκ0, hgen] at hlow
   linarith
 
+include hn in
+theorem cartierToWeil_imageDivisor (l : ℤ) :
+    Scheme.cartierToWeil (imageDivisor (k := k) (n := n) l) =
+      l • (hyperplaneX0 hn).toWeilDivisor := by
+  apply Scheme.WeilDivisor.ext_apply
+  intro x
+  change (imageDivisor (k := k) (n := n) l).weilCoeff x = _
+  rw [show (l • (hyperplaneX0 hn).toWeilDivisor).1 x = l * (hyperplaneX0 hn).toWeilDivisor.1 x by
+    simp]
+  by_cases hx : Order.coheight x = 1
+  · exact weilCoeff_imageDivisor hn l x hx
+  · rw [(hyperplaneX0 hn).toWeilDivisor_apply_of_ne fun h => hx (by rw [h]; exact (hyperplaneX0 hn).2),
+      mul_zero]
+    exact Scheme.ord_eq_zero_of_coheight_neq_one hx _
+
+omit hn in
+theorem projectiveSpace_isLocallyFactorial : (Proj 𝒜).IsLocallyFactorial :=
+  (Proj 𝒜).isLocallyFactorial_of_isRegularLocalRing projectiveSpace_isRegular.2
+
+include hn in
+theorem weilCartierEquiv_smul_hyperplane (l : ℤ) :
+    Scheme.weilCartierEquiv projectiveSpace_isLocallyFactorial
+        (l • (hyperplaneX0 (k := k) hn).toWeilDivisor) = imageDivisor l := by
+  apply (Scheme.weilCartierEquiv projectiveSpace_isLocallyFactorial).symm.injective
+  rw [AddEquiv.symm_apply_apply, Scheme.weilCartierEquiv_symm_apply, cartierToWeil_imageDivisor hn]
+
+omit hn in
+theorem projTwistingSheaf_isInvertible (l : ℤ) : (projTwistingSheaf 𝒜 l).IsInvertible :=
+  ProjTwistingSheaf.isInvertible (adjoin_one_eq_top k n) l
+
+omit hn in
+/-- `𝒪(l) ≅ O_X(D_l)`. -/
+def projTwistingSheafIsoImageDivisorSheaf (l : ℤ) :
+    projTwistingSheaf 𝒜 l ≅ (imageDivisor (k := k) (n := n) l).sheaf :=
+  imageIso l ≪≫ eqToIso (by
+    unfold Scheme.CartierDivisor.sheaf
+    congr 1
+    exact congrArg _ (imageDivisor_submodule l).symm)
+
 end ProjectiveSpacePicard
+
+open ProjectiveSpacePicard Ringed
+
+set_option backward.isDefEq.respectTransparency false
+
+/-- The isomorphism `Pic ℙⁿ_k ≅ ℤ`, the composite of the isomorphism `Pic ≅ Cl` of the locally
+factorial scheme `ℙⁿ_k` and the degree `Cl ℙⁿ_k ≅ ℤ`. -/
+def projectiveSpacePicardEquiv (hn : 0 < n) : Additive (Pic (Proj 𝒜).sheaf) ≃+ ℤ :=
+  (Scheme.weilClassEquivPicard projectiveSpace_isLocallyFactorial).symm.trans
+    (projectiveSpaceClassGroupEquiv hn)
+
+/-- The isomorphism `Pic ℙⁿ_k ≅ ℤ` sends the class of `𝒪(l)` to `l`; in particular `𝒪(1)` goes
+to the generator `1`. -/
+theorem projectiveSpacePicardEquiv_projTwistingSheaf (hn : 0 < n) (l : ℤ) :
+    projectiveSpacePicardEquiv hn (Additive.ofMul (Pic.mk (R := (Proj 𝒜).sheaf)
+      (projTwistingSheaf 𝒜 l)
+      ((Scheme.Modules.isInvertible_iff_ringed _).1 (projTwistingSheaf_isInvertible l)))) = l := by
+  have hcls := Scheme.weilClassEquivPicard_weilDivisorClassHom
+    (projectiveSpace_isLocallyFactorial (k := k) (n := n)) (l • (hyperplaneX0 hn).toWeilDivisor)
+  have hpic : Pic.mk (R := (Proj 𝒜).sheaf) (projTwistingSheaf 𝒜 l)
+      ((Scheme.Modules.isInvertible_iff_ringed _).1 (projTwistingSheaf_isInvertible l)) =
+      Pic.mk (R := (Proj 𝒜).sheaf)
+        (Scheme.weilCartierEquiv projectiveSpace_isLocallyFactorial
+          (l • (hyperplaneX0 hn).toWeilDivisor)).sheaf
+        ((Scheme.Modules.isInvertible_iff_ringed _).1
+          (Scheme.weilCartierEquiv projectiveSpace_isLocallyFactorial
+            (l • (hyperplaneX0 hn).toWeilDivisor)).isInvertible_sheaf) := by
+    rw [Pic.mk_eq_mk_iff, weilCartierEquiv_smul_hyperplane hn]
+    exact ⟨projTwistingSheafIsoImageDivisorSheaf l⟩
+  rw [projectiveSpacePicardEquiv, AddEquiv.trans_apply, hpic, ← hcls, AddEquiv.symm_apply_apply,
+    map_zsmul, map_zsmul, projectiveSpaceClassGroupEquiv_hyperplane, smul_eq_mul, mul_one]
+
+/-- **Hartshorne II.6, Corollary 6.17.** For a field `k` and `n ≥ 1`, every invertible sheaf on
+`ℙⁿ_k` is isomorphic to `𝒪(l)` for a unique integer `l`. -/
+theorem exists_unique_iso_projTwistingSheaf (hn : 0 < n) (L : (Proj 𝒜).Modules)
+    (hL : L.IsInvertible) : ∃! l : ℤ, Nonempty (L ≅ projTwistingSheaf 𝒜 l) := by
+  have hL' := (Scheme.Modules.isInvertible_iff_ringed _).1 hL
+  have hT : ∀ l : ℤ, IsInvertible (projTwistingSheaf 𝒜 l) := fun l =>
+    (Scheme.Modules.isInvertible_iff_ringed _).1 (projTwistingSheaf_isInvertible l)
+  refine ⟨projectiveSpacePicardEquiv hn (Additive.ofMul (Pic.mk (R := (Proj 𝒜).sheaf) L hL')),
+    ?_, fun l ⟨e⟩ => ?_⟩
+  · dsimp only
+    rw [← Pic.mk_eq_mk_iff hL' (hT _)]
+    apply Additive.ofMul.injective
+    apply (projectiveSpacePicardEquiv hn).injective
+    rw [projectiveSpacePicardEquiv_projTwistingSheaf]
+  · have : Pic.mk (R := (Proj 𝒜).sheaf) L hL' = Pic.mk (R := (Proj 𝒜).sheaf) _ (hT l) :=
+      (Pic.mk_eq_mk_iff hL' (hT l)).2 ⟨e⟩
+    rw [this, projectiveSpacePicardEquiv_projTwistingSheaf]
 
 end Hartshorne
