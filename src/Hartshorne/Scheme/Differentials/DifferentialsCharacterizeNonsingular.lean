@@ -2,7 +2,7 @@
 Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Hartshorne.Scheme.DimensionAtClosedPoint
+import Hartshorne.Cohomology.FlatFamilies.FlatEquidimensional
 import Hartshorne.Scheme.Differentials.RegularLocalDifferentialCriterion
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsAffineFibre
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsFibreRank
@@ -14,16 +14,21 @@ import Hartshorne.Scheme.SerreRegularity
 
 Hartshorne, *Algebraic Geometry*, II, Theorem 8.15 (pp. 177–178).
 
-Let `X` be an integral scheme of finite type over an algebraically closed field `k`, of
-dimension `n` (Hartshorne also assumes `X` separated, which the proof does not use). Then `X` is
-nonsingular (all local rings are regular) if and only if `Ω_{X/k}` is locally free of rank `n`.
+Let `X` be an irreducible scheme of finite type over an algebraically closed field `k`, of
+dimension `n`. Then `X` is nonsingular (all local rings are regular; then `X` is also reduced,
+hence integral) if and only if `Ω_{X/k}` is locally free of rank `n`. Hartshorne states this for
+irreducible separated schemes of finite type, concluding that `X` is a nonsingular variety;
+separatedness is not used.
 
 ## Proof
 
-Since `X` is integral, `Ω_{X/k}` is locally free of rank `n` exactly when every fibre
-`(Ω_{X/k})_x ⊗ k(x)` has dimension `n`. Let `x` lie in an affine open `Spec T`, with prime
-`q ⊂ T`; the fibre is `κ(q) ⊗_T Ω_{T/k}`. Choose a maximal ideal `m ⊇ q`. Its point is closed in
-`X` (finite-type `k`-schemes are Jacobson), so `dim T_m = n`, and `T_m` has residue field `k`.
+If `X` is regular, its local rings are domains, so `X` is reduced and hence integral; then
+`Ω_{X/k}` is locally free of rank `n` exactly when every fibre `(Ω_{X/k})_x ⊗ k(x)` has dimension
+`n`. Conversely, local freeness of rank `n` gives fibre dimension `n` at every point, with no
+integrality needed. Let `x` lie in an affine open `Spec T`, with prime `q ⊂ T`; the fibre is
+`κ(q) ⊗_T Ω_{T/k}`. Choose a maximal ideal `m ⊇ q`. Its point is closed in `X` (finite-type
+`k`-schemes are Jacobson), so `dim T_m = n` (on an irreducible finite-type `k`-scheme the local
+ring at a closed point has dimension `dim X`, by catenarity), and `T_m` has residue field `k`.
 Since `Ω_{T_m/k} = T_m ⊗_T Ω_{T/k}`, the fibre at `q` is `κ(q) ⊗_{T_m} Ω_{T_m/k}`.
 
 * If `X` is nonsingular, `T_m` is regular of dimension `n`, so `Ω_{T_m/k}` is free of rank `n`
@@ -35,6 +40,7 @@ Since `Ω_{T_m/k} = T_m ⊗_T Ω_{T/k}`, the fibre at `q` is `κ(q) ⊗_{T_m} Ω
 ## Main results
 
 * `Hartshorne.isRegular_iff_relativeDifferentials_isLocallyFreeOfRank`: Theorem 8.15.
+* `Hartshorne.isIntegral_of_isRegular`: a regular irreducible scheme is integral.
 -/
 
 open CategoryTheory TensorProduct IsLocalRing Module Topology
@@ -77,15 +83,38 @@ end Algebra
 
 section Scheme
 
-variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [IsIntegral X]
+variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [IrreducibleSpace X]
 
-omit [IsIntegral X] in
+omit [IrreducibleSpace X] in
 /-- The point of `X` given by a prime `y` of an affine open `U` lies in `U`. -/
 theorem fromSpec_mem (U : X.affineOpens) (y : Spec Γ(X, (U : X.Opens))) :
     U.2.fromSpec y ∈ (U : X.Opens) := by
   exact U.2.range_fromSpec.le ⟨y, rfl⟩
 
-/-- On an integral scheme of finite type over a field, of dimension `n`, the local ring at a
+open FlatEquidimensional Order in
+/-- On an irreducible scheme of finite type over a field, of dimension `n`, the local ring at a
+closed point has dimension `n`. -/
+theorem ringKrullDim_stalk_of_isClosed (hf : FiniteType f) {n : ℕ}
+    (hn : topologicalKrullDim X = n) (z : X) (hz : IsClosed ({z} : Set X)) :
+    ringKrullDim (X.presheaf.stalk z) = n := by
+  have hC : ∀ C ∈ irreducibleComponents X, topologicalKrullDim C = n := by
+    intro C hC
+    obtain rfl : C = Set.univ :=
+      Set.eq_univ_of_univ_subset (hC.2 (IrreducibleSpace.isIrreducible_univ X) (Set.subset_univ C))
+    rw [← hn]
+    exact IsHomeomorph.topologicalKrullDim_eq _ (Homeomorph.Set.univ X).isHomeomorph
+  have hsum := coheight_add_height_eq_of_equidim (catenaryAt_of_finiteType f hf)
+    (exists_le_height_eq hC) z
+  have hh : height z = 0 := by
+    refine height_eq_zero.mpr fun y hy => ?_
+    have hyz : y ∈ closure ({z} : Set X) := specializes_iff_mem_closure.mp hy
+    rw [hz.closure_eq, Set.mem_singleton_iff] at hyz
+    rw [hyz]
+  rw [hh, add_zero] at hsum
+  rw [ringKrullDim_stalk_eq_coheight, hsum]
+  rfl
+
+/-- On an irreducible scheme of finite type over a field, of dimension `n`, the local ring at a
 maximal ideal of the ring of an affine open has dimension `n`. -/
 theorem ringKrullDim_localization_of_isMaximal (hf : FiniteType f) {n : ℕ}
     (hn : topologicalKrullDim X = n) (U : X.affineOpens) (m : Ideal Γ(X, (U : X.Opens)))
@@ -105,7 +134,7 @@ theorem ringKrullDim_localization_of_isMaximal (hf : FiniteType f) {n : ℕ}
   let := TopCat.Presheaf.algebra_section_stalk X.presheaf ⟨U.2.fromSpec y, hy⟩
   have : IsLocalization.AtPrime (X.presheaf.stalk (U.2.fromSpec y)) m :=
     U.2.isLocalization_stalk' y hy
-  rw [← hn, dimension_at_closed_point f hf _ hclosed]
+  rw [← ringKrullDim_stalk_of_isClosed f hf hn _ hclosed]
   exact ringKrullDim_eq_of_ringEquiv
     (IsLocalization.algEquiv m.primeCompl (Localization.AtPrime m) _).toRingEquiv
 
@@ -113,18 +142,28 @@ end Scheme
 
 end DifferentialsNonsingular
 
+/-- A regular irreducible scheme is integral: its local rings are domains, so it is reduced. -/
+theorem isIntegral_of_isRegular {X : Scheme.{u}} [IrreducibleSpace X] (h : X.IsRegular) :
+    IsIntegral X := by
+  have (x : X) : _root_.IsReduced (X.presheaf.stalk x) := by
+    have : IsRegularLocalRing (X.presheaf.stalk x) := h.2 x
+    have := RegularLocal.isDomain (X.presheaf.stalk x)
+    infer_instance
+  have : IsReduced X := isReduced_of_isReduced_stalk X
+  exact isIntegral_of_irreducibleSpace_of_isReduced X
+
 open DifferentialsNonsingular in
-/-- **Hartshorne II, Theorem 8.15.** Let `X` be an integral scheme of finite type over an
-algebraically closed field `k`, of dimension `n`. Then `X` is nonsingular (regular) if and only if
-`Ω_{X/k}` is locally free of rank `n`. Hartshorne states this for varieties, which are also
-separated; the proof does not use separatedness. -/
+/-- **Hartshorne II, Theorem 8.15.** Let `X` be an irreducible scheme of finite type over an
+algebraically closed field `k`, of dimension `n`. Then `X` is nonsingular (regular; it is then also
+integral, `Hartshorne.isIntegral_of_isRegular`) if and only if `Ω_{X/k}` is locally free of rank
+`n`. Hartshorne states this for irreducible separated schemes of finite type, concluding that `X`
+is a nonsingular variety; separatedness is not used. -/
 theorem isRegular_iff_relativeDifferentials_isLocallyFreeOfRank {k : Type u} [Field k]
-    [IsAlgClosed k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [IsIntegral X]
+    [IsAlgClosed k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [IrreducibleSpace X]
     (hf : FiniteType f) (n : ℕ) (hn : topologicalKrullDim X = n) :
     X.IsRegular ↔ (Scheme.relativeDifferentials f).IsLocallyFreeOfRank n := by
   have : LocallyOfFiniteType f := hf.1
   have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f
-  rw [Scheme.relativeDifferentials_isLocallyFreeOfRank_iff f n]
   -- the base ring `Γ(Spec k, ⊤) ≅ k` is an algebraically closed field
   let eA := (Scheme.ΓSpecIso (CommRingCat.of k)).commRingCatIsoToRingEquiv
   let : Field Γ(Spec (.of k), ⊤) := (eA.toMulEquiv.isField (Field.toIsField k)).toField
@@ -146,11 +185,20 @@ theorem isRegular_iff_relativeDifferentials_isLocallyFreeOfRank {k : Type u} [Fi
       obtain ⟨_, ⟨U, hU, rfl⟩, hxU, -⟩ :=
         X.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ x) isOpen_univ
       exact ⟨⟨U, hU⟩, hU.primeIdealOf ⟨x, hxU⟩, hU.fromSpec_primeIdealOf ⟨x, hxU⟩⟩
-    refine ⟨fun ⟨_, hreg⟩ x => ?_, fun h => ⟨inferInstance, fun x => ?_⟩⟩
-    · obtain ⟨U, y, rfl⟩ := hcover x
-      exact (key U y).1 hreg
-    · obtain ⟨U, y, rfl⟩ := hcover x
-      exact (key U y).2 h
+    constructor
+    · intro hX
+      -- a regular irreducible scheme is integral, so the fibre-rank criterion applies
+      have : IsIntegral X := isIntegral_of_isRegular hX
+      rw [Scheme.relativeDifferentials_isLocallyFreeOfRank_iff f n]
+      intro x
+      obtain ⟨U, y, rfl⟩ := hcover x
+      exact (key U y).1 hX.2
+    · intro h
+      -- local freeness of rank `n` gives fibre dimension `n` at every point
+      have hfib := finrank_fibre_of_isLocallyFreeOfRank _ n h
+      refine ⟨inferInstance, fun x => ?_⟩
+      obtain ⟨U, y, rfl⟩ := hcover x
+      exact (key U y).2 hfib
   intro U y
   have : y.asIdeal.IsPrime := y.isPrime
   let T := Γ(X, (U : X.Opens))
@@ -213,12 +261,9 @@ theorem isRegular_iff_relativeDifferentials_isLocallyFreeOfRank {k : Type u} [Fi
     have hl : IsLocalization.AtPrime (Localization.AtPrime p) y.asIdeal := by
       have := IsLocalization.isLocalization_isLocalization_atPrime_isLocalization
         (M := m.primeCompl) (S := Localization.AtPrime m) (T := Localization.AtPrime p) p
-      have key : ∀ (I : Ideal T) [I.IsPrime], I = y.asIdeal →
-          IsLocalization.AtPrime (Localization.AtPrime p) I →
-            IsLocalization.AtPrime (Localization.AtPrime p) y.asIdeal := by
-        rintro I _ rfl h
-        exact h
-      exact key _ hp this
+      have hp' : p.comap (algebraMap T (Localization.AtPrime m)) = y.asIdeal := hp
+      convert this
+      exact hp'.symm
     let := TopCat.Presheaf.algebra_section_stalk X.presheaf ⟨U.2.fromSpec y, fromSpec_mem U y⟩
     have : IsLocalization.AtPrime (X.presheaf.stalk (U.2.fromSpec y)) y.asIdeal := hstalk y
     exact IsRegularLocalRing.of_ringEquiv
