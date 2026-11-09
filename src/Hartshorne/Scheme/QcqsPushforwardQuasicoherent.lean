@@ -178,6 +178,159 @@ theorem isPullback_rp (S U : X.Opens) (G : X.Modules) :
     · simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
       rfl
 
+/-! ### Composites of `j_* j⁻¹` -/
+
+lemma isIso_η_app_app_of_le (U : X.Opens) (M : X.Modules) {T : X.Opens} (hT : T ≤ U) :
+    IsIso (((η U).app M).app T) := by
+  rw [η_app_app]
+  refine isIso_presheaf_map_homOfLE _ _ ?_
+  rw [ι_image_preimage]
+  exact le_inf hT le_rfl
+
+lemma isIso_η_app_rp (U V : X.Opens) (hVU : V ≤ U) (G : X.Modules) :
+    IsIso ((η U).app ((rp V).obj G)) := by
+  rw [Scheme.Modules.Hom.isIso_iff_isIso_app]
+  intro T
+  rw [η_app_app, rp_obj_presheaf_map]
+  refine isIso_presheaf_map_homOfLE _ _ ?_
+  simp only [ι_image_preimage]
+  exact le_inf inf_le_left (le_inf (inf_le_left.trans hVU) inf_le_right)
+
+lemma isIso_rp_map_rp_map_η (A B : X.Opens) (G : X.Modules) :
+    IsIso ((rp A).map ((rp B).map ((η (A ⊓ B)).app G))) := by
+  rw [Scheme.Modules.Hom.isIso_iff_isIso_app]
+  intro T
+  rw [rp_map_app, rp_map_app]
+  refine isIso_η_app_app_of_le _ _ ?_
+  simp only [ι_image_preimage]
+  exact le_inf (inf_le_right.trans inf_le_left) inf_le_left
+
+/-- `j_* j⁻¹` along `A` after `j_* j⁻¹` along `B` is `j_* j⁻¹` along `A ⊓ B`. -/
+def rpCompIso (A B : X.Opens) (G : X.Modules) :
+    (rp A).obj ((rp B).obj G) ≅ (rp (A ⊓ B)).obj G :=
+  haveI := isIso_rp_map_rp_map_η A B G
+  haveI := isIso_η_app_rp B (A ⊓ B) inf_le_right G
+  haveI := isIso_η_app_rp A (A ⊓ B) inf_le_left G
+  asIso ((rp A).map ((rp B).map ((η (A ⊓ B)).app G))) ≪≫
+    (rp A).mapIso (asIso ((η B).app ((rp (A ⊓ B)).obj G))).symm ≪≫
+      (asIso ((η A).app ((rp (A ⊓ B)).obj G))).symm
+
+/-- `j_* j⁻¹` along `⊤` is the identity. -/
+def rpTopIso (G : X.Modules) : G ≅ (rp ⊤).obj G :=
+  haveI : IsIso ((η (⊤ : X.Opens)).app G) := by
+    rw [Scheme.Modules.Hom.isIso_iff_isIso_app]
+    exact fun T => isIso_η_app_app_of_le _ _ le_top
+  asIso ((η ⊤).app G)
+
+lemma isZero_rp_bot (G : X.Modules) : IsZero ((rp (⊥ : X.Opens)).obj G) := by
+  rw [IsZero.iff_id_eq_zero]
+  ext T : 1
+  have hT : (⊥ : X.Opens).ι ''ᵁ (⊥ : X.Opens).ι ⁻¹ᵁ T = ⊥ := by
+    rw [ι_image_preimage, bot_inf_eq]
+  exact (TopCat.Sheaf.isTerminalOfEqEmpty ⟨G.presheaf, G.isSheaf⟩ hT).hom_ext _ _
+
+/-! ### Quasi-coherence of a pullback -/
+
+lemma isQuasicoherent_of_isPullback {P A B Z : Y.Modules} {fst : P ⟶ A} {snd : P ⟶ B}
+    {f : A ⟶ Z} {g : B ⟶ Z} (h : IsPullback fst snd f g) (hA : A.IsQuasicoherent)
+    (hB : B.IsQuasicoherent) (hZ : Z.IsQuasicoherent) : P.IsQuasicoherent := by
+  have := (SheafOfModules.isQuasicoherent Y.ringCatSheaf).isClosedUnderLimitsOfShape_of_preservesLimitsOfShape_ι
+    WalkingCospan
+  refine (SheafOfModules.isQuasicoherent Y.ringCatSheaf).prop_of_isLimit h.isLimit ?_
+  rintro (_ | _ | _)
+  · exact hZ
+  · exact hA
+  · exact hB
+
+/-! ### The affine-target case -/
+
+/-- `PushQC f S`: for every quasi-coherent `G`, the pushforward along `f` of `j_* j⁻¹ G`
+(along the inclusion of `S`) is quasi-coherent. -/
+def PushQC (f : X ⟶ Y) (S : X.Opens) : Prop :=
+  ∀ G : X.Modules, G.IsQuasicoherent →
+    ((Scheme.Modules.pushforward f).obj ((rp S).obj G)).IsQuasicoherent
+
+lemma pushQC_of_isAffineOpen [IsAffine Y] (f : X ⟶ Y) {U : X.Opens} (hU : IsAffineOpen U) :
+    PushQC f U := by
+  intro G hG
+  have : IsAffine U := hU
+  exact isQuasicoherent_of_iso ((Scheme.Modules.pushforwardComp U.ι f).app _).symm
+    (isQuasicoherent_pushforward_of_isAffine (U.ι ≫ f) (G.restrict U.ι))
+
+lemma pushQC_bot (f : X ⟶ Y) : PushQC f ⊥ := fun G _ =>
+  isQuasicoherent_of_isZero ((Scheme.Modules.pushforward f).map_isZero (isZero_rp_bot G))
+
+lemma pushQC_congr (f : X ⟶ Y) {S S' : X.Opens} (h : S = S') (hS : PushQC f S) : PushQC f S' :=
+  h ▸ hS
+
+lemma pushQC_sup (f : X ⟶ Y) (S U : X.Opens) (hS : PushQC f S) (hU : PushQC f U)
+    (hSU : PushQC f (S ⊓ U)) : PushQC f (S ⊔ U) := by
+  intro G hG
+  have sq := (isPullback_rp S U G).map (Scheme.Modules.pushforward f)
+  refine isQuasicoherent_of_isPullback sq ?_ ?_ ?_
+  · exact isQuasicoherent_of_iso ((Scheme.Modules.pushforward f).mapIso (rpCompIso _ _ G)).symm
+      (pushQC_congr f inf_sup_self.symm hS G hG)
+  · exact isQuasicoherent_of_iso ((Scheme.Modules.pushforward f).mapIso (rpCompIso _ _ G)).symm
+      (pushQC_congr f (inf_eq_left.mpr le_sup_right).symm hU G hG)
+  · refine isQuasicoherent_of_iso ((Scheme.Modules.pushforward f).mapIso
+      ((rp U).mapIso (rpCompIso _ _ G) ≪≫ rpCompIso _ _ G)).symm ?_
+    refine pushQC_congr f ?_ hSU G hG
+    rw [inf_sup_self, inf_comm]
+
+lemma pushQC_iSup_basicOpen [IsAffine Y] (f : X ⟶ Y) {U₀ : X.Opens} (hU₀ : IsAffineOpen U₀)
+    {ι : Type*} (t : Finset ι) (g : ι → Γ(X, U₀)) :
+    ∀ h : Γ(X, U₀), PushQC f (⨆ i ∈ t, X.basicOpen (g i * h)) := by
+  classical
+  induction t using Finset.induction_on with
+  | empty => intro h; simpa using pushQC_bot f
+  | insert i t hit ih =>
+    intro h
+    rw [Finset.iSup_insert]
+    refine pushQC_sup f _ _ (pushQC_of_isAffineOpen f (hU₀.basicOpen _)) (ih h) ?_
+    refine pushQC_congr f ?_ (ih (g i * h))
+    rw [inf_iSup₂_eq]
+    refine iSup_congr fun j => iSup_congr fun _ => ?_
+    simp only [Scheme.basicOpen_mul]
+    rw [inf_inf_inf_comm, inf_idem]
+    ac_rfl
+
+/-- A compact open contained in an affine open satisfies `PushQC`. -/
+lemma pushQC_of_isCompact_le [IsAffine Y] (f : X ⟶ Y) {U₀ : X.Opens} (hU₀ : IsAffineOpen U₀)
+    {W : X.Opens} (hW : IsCompact (W : Set X)) (hWU : W ≤ U₀) : PushQC f W := by
+  classical
+  have key : ∀ x : W, ∃ g : Γ(X, U₀), X.basicOpen g ≤ W ∧ (x : X) ∈ X.basicOpen g :=
+    fun x => hU₀.exists_basicOpen_le x (hWU x.2)
+  choose g hg hxg using key
+  obtain ⟨t, ht⟩ := hW.elim_finite_subcover (fun x : W => (X.basicOpen (g x) : Set X))
+    (fun x => (X.basicOpen (g x)).isOpen) (fun x hx => Set.mem_iUnion.mpr ⟨⟨x, hx⟩, hxg _⟩)
+  have hWt : W = ⨆ x ∈ t, X.basicOpen (g x * 1) := by
+    apply le_antisymm
+    · intro y hy
+      have := ht hy
+      simp only [Set.mem_iUnion] at this
+      obtain ⟨i, hi, hyi⟩ := this
+      simp only [mul_one, Opens.mem_iSup]
+      exact ⟨i, hi, hyi⟩
+    · exact iSup₂_le fun x _ => by rw [mul_one]; exact hg x
+  rw [hWt]
+  exact pushQC_iSup_basicOpen f hU₀ t g 1
+
+/-- On a quasi-separated scheme, every compact open satisfies `PushQC`. -/
+lemma pushQC_of_isCompact [IsAffine Y] [QuasiSeparatedSpace X] (f : X ⟶ Y) {S : X.Opens}
+    (hS : IsCompact (S : Set X)) : PushQC f S := by
+  refine compact_open_induction_on (P := PushQC f) S hS (pushQC_bot f) ?_
+  intro S hS U hP
+  exact pushQC_sup f S U hP (pushQC_of_isAffineOpen f U.2)
+    (pushQC_of_isCompact_le f U.2 (hS.inter_of_isOpen U.2.isCompact S.2 U.1.2) inf_le_right)
+
+/-- **Affine target.** If `X` is quasi-compact and quasi-separated and `Y` is affine, then the
+pushforward of a quasi-coherent `𝒪_X`-module along any `f : X ⟶ Y` is quasi-coherent. -/
+theorem isQuasicoherent_pushforward_of_isAffine_target [IsAffine Y] [CompactSpace X]
+    [QuasiSeparatedSpace X] (f : X ⟶ Y) (G : X.Modules) [G.IsQuasicoherent] :
+    ((Scheme.Modules.pushforward f).obj G).IsQuasicoherent :=
+  isQuasicoherent_of_iso ((Scheme.Modules.pushforward f).mapIso (rpTopIso G).symm)
+    (pushQC_of_isCompact f (by simpa using isCompact_univ) G ‹_›)
+
 end
 
 end QcqsPushforward
