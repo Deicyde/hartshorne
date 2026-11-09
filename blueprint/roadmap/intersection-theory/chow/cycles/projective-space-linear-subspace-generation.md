@@ -49,4 +49,4 @@ $\nu_*\operatorname{div}(g)=[Y]$.
 ## Sources
 
 - Fulton, *Intersection Theory*, §1.9 (Chow groups of affine and projective space).
-- [Hartshorne Appendix A.2, Example 2.0.1, p.429, which states the axiomatic analogue](../../../../sources/hartshorne-appendix-a-1-2.md#properties-of-the-chow-ring-printed-pp428429)
+- [Hartshorne Appendix A.2, Example 2.0.1, p.429, which states the stronger $A(\mathbb P^n)\cong\mathbb Z[h]/h^{n+1}$ for these groups and names this inductive proof from A9 and A10](../../../../sources/hartshorne-appendix-a-1-2.md#properties-of-the-chow-ring-printed-pp428429)
