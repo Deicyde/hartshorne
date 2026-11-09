@@ -15,6 +15,10 @@ characteristic zero and `L` a line not tangent to `X`.  Then `P ↦ T_P(X) ∩ L
 `φ : X → L`, ramified at `P` exactly when `P ∈ L` or `(T_P(X) · X)_P ≥ 3`; consequently `X` has
 only finitely many inflection points.
 
+An inflection point (flex) is a point `P` whose tangent line `T_P(X)` is not a component of `X` and
+satisfies `(T_P(X) · X)_P ≥ 3`: the intersection multiplicity of Exercise I.5.4 is defined only for
+distinct curves.  A line therefore has no flexes.
+
 ## Ramification
 
 For a morphism of varieties `φ : X → Y` and `P ∈ X`, the ramification index `e_P` is the largest
@@ -35,7 +39,8 @@ see `VarietyHom.ramificationIndex_eq_addVal`.  The morphism is ramified at `P` w
 * Finiteness: at points off a fixed line `w = 0`, flexes are zeros of the Hessian pairing
   `K = tᵀ (∂²F) t` of the tangent field `t = ∇F × w`.  If `F` divided `K`, every ratio of partial
   derivatives would have zero derivative along the curve, hence (characteristic zero) be constant;
-  Euler's formula would then factor `F` through a linear form.
+  Euler's formula would then factor `F` through a linear form.  A curve of degree one is its own
+  tangent line at every point, so it has no flexes.
 
 ## Main definitions
 
@@ -190,9 +195,12 @@ theorem eval_derivative_homogeneousLineRestrict_zero (F : MvPolynomial (Fin 3) k
   rw [Polynomial.eval_mul, Polynomial.eval_C, eval_homogeneousLineRestrict, zero_smul, add_zero]
 
 /-- **The inflection points** of the plane curve `F = 0`: the points `P` at which the tangent line
-`T_P` has local intersection multiplicity at least three with the curve. -/
+`T_P` is not a component of the curve and has local intersection multiplicity at least three with
+it.  (The intersection multiplicity of Exercise I.5.4 is defined for distinct curves; without the
+first condition every point of a line would be a flex.) -/
 def planeCurveInflectionPoints (F : MvPolynomial (Fin 3) k) : Set (ProjectiveSpace k (Fin 3)) :=
   {P | P ∈ projZeroSet ({F} : Set (MvPolynomial (Fin 3) k)) ∧
+    ¬ projectivePlaneLineForm (planeCurveTangentLine F P).rep ∣ F ∧
     3 ≤ projectivePlaneLocalIntersectionMultiplicity
       (projectivePlaneLineForm (planeCurveTangentLine F P).rep) F P}
 
@@ -842,12 +850,47 @@ theorem not_dvd_planeFlexForm [CharZero k] (hns : (planeCurveVariety hF hFirr).N
   · exact not_isUnit_of_isHomogeneous hA hA0 one_pos hu
   · exact not_isUnit_of_isHomogeneous hF.pderiv hB0 (by omega) hu
 
-/-- **Finitely many inflection points.**  A nonsingular plane curve of degree at least two over an
-algebraically closed field of characteristic zero has only finitely many inflection points. -/
+/-- **A nonsingular curve of degree less than two is its own tangent line**: the linear form of
+`T_P` divides `F` at every point `P` of the curve. -/
+theorem projectivePlaneLineForm_tangentLine_dvd_of_lt_two
+    (hns : (planeCurveVariety hF hFirr).Nonsingular) {P : ProjectiveSpace k (Fin 3)}
+    (hPY : P ∈ projZeroSet ({F} : Set (MvPolynomial (Fin 3) k))) (hd : d < 2) :
+    projectivePlaneLineForm (planeCurveTangentLine F P).rep ∣ F := by
+  set a : Fin 3 → k := fun l => eval P.rep (pderiv l F) with ha
+  have hgrad : a ≠ 0 := gradient_ne_zero_of_nonsingular hF hFirr hns ⟨P, hPY⟩
+  have hconst : ∀ j, pderiv j F = C (a j) := fun j => by
+    have h0 : (pderiv j F).totalDegree = 0 := by
+      have := (hF.pderiv (i := j)).totalDegree_le
+      omega
+    show pderiv j F = C (eval P.rep (pderiv j F))
+    rw [totalDegree_eq_zero_iff_eq_C.1 h0, eval_C]
+  have hd1 : d = 1 := by have := pos_of_isHomogeneous_irreducible hF hFirr; omega
+  have hlin : F = projectivePlaneLineForm a := by
+    have heul := hF.sum_X_mul_pderiv
+    rw [hd1, one_smul] at heul
+    rw [← heul, projectivePlaneLineForm]
+    exact Finset.sum_congr rfl fun i _ => by rw [hconst i, mul_comm]
+  obtain ⟨u, hu⟩ := Projectivization.exists_smul_eq_mk_rep k a hgrad
+  have hbu : (planeCurveTangentLine F P).rep = (u : k) • a := by
+    rw [planeCurveTangentLine_of_ne hgrad, ← hu, Units.smul_def]
+  have hsm : projectivePlaneLineForm ((u : k) • a) = C (u : k) * projectivePlaneLineForm a := by
+    simp only [projectivePlaneLineForm, Finset.mul_sum, Pi.smul_apply, smul_eq_mul, map_mul,
+      mul_assoc]
+  refine ⟨C (u : k)⁻¹, ?_⟩
+  rw [hbu, hsm, ← hlin, mul_comm (C (u : k)) F, mul_assoc, ← map_mul, mul_inv_cancel₀ u.ne_zero,
+    map_one, mul_one]
+
+/-- **Finitely many inflection points.**  A nonsingular plane curve over an algebraically closed
+field of characteristic zero has only finitely many inflection points (none if it is a line). -/
 theorem finite_planeCurveInflectionPoints [CharZero k]
-    (hns : (planeCurveVariety hF hFirr).Nonsingular) (hd : 2 ≤ d) :
+    (hns : (planeCurveVariety hF hFirr).Nonsingular) :
     (planeCurveInflectionPoints F).Finite := by
   classical
+  by_cases hd : 2 ≤ d
+  swap
+  · refine Set.finite_empty.subset ?_
+    rintro P ⟨hPY, hndvd, -⟩
+    exact hndvd (projectivePlaneLineForm_tangentLine_dvd_of_lt_two hF hFirr hns hPY (by omega))
   obtain ⟨P₀, hP₀Y, j₀, hj₀⟩ := exists_mem_planeCurve_pderiv_ne_zero hF hFirr
   obtain ⟨i₀, hi₀⟩ := Function.ne_iff.1 P₀.rep_nonzero
   set w : Fin 3 → k := Pi.single i₀ 1 with hw
@@ -866,7 +909,7 @@ theorem finite_planeCurveInflectionPoints [CharZero k]
   refine ((finite_inter_projZeroSet hF hFirr (isHomogeneous_projectivePlaneLineForm w)
     hndw).union (finite_inter_projZeroSet hF hFirr (isHomogeneous_planeFlexForm hF w)
       hndK)).subset ?_
-  rintro P ⟨hPY, hP3⟩
+  rintro P ⟨hPY, -, hP3⟩
   by_cases hPw : eval P.rep (projectivePlaneLineForm w) = 0
   · exact Or.inl ⟨hPY, (mem_projZeroSet_singleton_iff
       (isHomogeneous_projectivePlaneLineForm w) P).2 hPw⟩
@@ -907,10 +950,8 @@ for the line `L₀x₀ + L₁x₁ + L₂x₂ = 0`) be a line not tangent to `X`.
 
 * `P ↦ T_P(X) ∩ L` is a morphism `φ : X → L`: the point `φ(P)` of `L` lies on `T_P(X)`.
 * `φ` is ramified at `P` exactly when `P ∈ L` or `(T_P(X) · X)_P ≥ 3`.
-* Consequently, if `X` has degree at least two, it has only finitely many inflection points.
-
-The degree condition in the last clause excludes lines, where every tangent line is the curve
-itself. -/
+* Consequently `X` has only finitely many inflection points, a flex being a point whose tangent
+  line is not a component of `X` and meets `X` there with multiplicity at least three. -/
 theorem planeCurve_gaussPencil_ramification [CharZero k] {F : MvPolynomial (Fin 3) k} {d : ℕ}
     (hF : F.IsHomogeneous d) (hFirr : Irreducible F)
     (hns : (Variety.ofProjective (isProjVariety_planeCurve hF hFirr)).Nonsingular)
@@ -931,7 +972,7 @@ theorem planeCurve_gaussPencil_ramification [CharZero k] {F : MvPolynomial (Fin 
             (projectivePlaneLineForm
               (planeCurveTangentLine F (Subtype.val P : ProjectiveSpace k (Fin 3))).rep) F
             (Subtype.val P : ProjectiveSpace k (Fin 3))) ∧
-      (2 ≤ d → (planeCurveInflectionPoints F).Finite) := by
+      (planeCurveInflectionPoints F).Finite := by
   obtain ⟨φ, hφ⟩ := exists_planeGaussPencil hF hFirr hns L hL
   refine ⟨φ, fun P => ?_, isRamifiedAt_planeGaussPencil_iff hF hFirr hns L hL φ hφ,
     finite_planeCurveInflectionPoints hF hFirr hns⟩
