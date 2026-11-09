@@ -34,6 +34,7 @@ morphism (III.10, p. 268) with the standard smooth predicate.
 
 * `Hartshorne.exists_linearIndependent_D_ker`
 * `Hartshorne.isSmoothAt_of_finrank_le`
+* `Hartshorne.smooth_of_forall_finrank_le`
 -/
 
 namespace Hartshorne
