@@ -407,15 +407,16 @@ variable {X Y : Scheme.{u}} [IsIntegral X] [IsIntegral Y] [IsNoetherian X] [IsNo
 
 /-- **Pullback of Picard classes of Weil divisors.** Let `X` and `Y` be integral separated
 Noetherian locally factorial schemes and `f : X ⟶ Y` a morphism sending the generic point to the
-generic point. Suppose that near every point `x` of `X` there are an open `V ∋ f(x)` of `Y` and a
-rational function `g` on `Y` such that the Weil divisor `A` on `Y` is the divisor of `g` on `V` and
-the Weil divisor `B` on `X` is the divisor of `f^♯ g` on `f⁻¹(V)`. Then the Picard pullback sends
-the class corresponding to `A` (under `Cl Y ≅ Pic Y`) to the class corresponding to `B`. -/
+generic point. Suppose that every point `x` of `X` has an open neighbourhood `W` mapping into an
+open `V` of `Y`, with a rational function `g` on `Y` such that the Weil divisor `A` on `Y` is the
+divisor of `g` on `V` and the Weil divisor `B` on `X` is the divisor of `f^♯ g` on `W`. Then the
+Picard pullback sends the class corresponding to `A` (under `Cl Y ≅ Pic Y`) to the class
+corresponding to `B`. -/
 theorem picPullback_weilClassEquivPicard (hX : X.IsLocallyFactorial) (hY : Y.IsLocallyFactorial)
     (A : Y.WeilDivisor) (B : X.WeilDivisor)
-    (hAB : ∀ x : X, ∃ (V : Y.Opens) (g : Y.functionFieldˣ), f.base x ∈ V ∧
-      (∀ y ∈ V, Order.coheight y = 1 → A.1 y = Y.ord (g : Y.functionField) y) ∧
-      ∀ z ∈ f ⁻¹ᵁ V, Order.coheight z = 1 →
+    (hAB : ∀ x : X, ∃ (V : Y.Opens) (W : X.Opens) (g : Y.functionFieldˣ), x ∈ W ∧
+      W ≤ f ⁻¹ᵁ V ∧ (∀ y ∈ V, Order.coheight y = 1 → A.1 y = Y.ord (g : Y.functionField) y) ∧
+      ∀ z ∈ W, Order.coheight z = 1 →
         B.1 z = X.ord (f.genericFunctionFieldMap hf (g : Y.functionField)) z) :
     Pic.pullback f (Additive.toMul (weilClassEquivPicard hY
         (Y.weilDivisorClassHom (satisfiesConditionStar_of_isLocallyFactorial hY) A))) =
@@ -426,21 +427,23 @@ theorem picPullback_weilClassEquivPicard (hX : X.IsLocallyFactorial) (hY : Y.IsL
   rw [weilClassEquivPicard_weilDivisorClassHom, weilClassEquivPicard_weilDivisorClassHom,
     toMul_ofMul, toMul_ofMul]
   refine picPullback_cartierDivisorSheaf (hf := hf) fun x => ?_
-  obtain ⟨V, g, hxV, hA, hB⟩ := hAB x
+  obtain ⟨V, W₀, g, hxW₀, hW₀V, hA, hB⟩ := hAB x
+  have hxV : f.base x ∈ V := hW₀V hxW₀
   have hA' : ∀ y ∈ V, Order.coheight y = 1 →
       (cartierToWeil (weilCartierEquiv hY A)).1 y = Y.ord (g : Y.functionField) y := by
     intro y hy hy1
     rw [← weilCartierEquiv_symm_apply hY, AddEquiv.symm_apply_apply]
     exact hA y hy hy1
   obtain ⟨V', hxV', hV'V, hD⟩ := (weilCartierEquiv hY A).exists_restrict_eq_principal g hA' hxV
-  have hB' : ∀ z ∈ f ⁻¹ᵁ V', Order.coheight z = 1 →
+  have hB' : ∀ z ∈ W₀ ⊓ f ⁻¹ᵁ V', Order.coheight z = 1 →
       (cartierToWeil (weilCartierEquiv hX B)).1 z =
         X.ord ((genericFunctionFieldUnitsMap f hf g : X.functionFieldˣ) : X.functionField) z := by
     intro z hz hz1
     rw [← weilCartierEquiv_symm_apply hX, AddEquiv.symm_apply_apply]
-    exact hB z (hV'V hz) hz1
+    exact hB z hz.1 hz1
   obtain ⟨W, hxW, hWV', hE⟩ :=
-    (weilCartierEquiv hX B).exists_restrict_eq_principal _ hB' (show x ∈ f ⁻¹ᵁ V' from hxV')
-  exact ⟨V', W, g, hxW, hWV', hD, hE⟩
+    (weilCartierEquiv hX B).exists_restrict_eq_principal _ hB'
+      (show x ∈ W₀ ⊓ f ⁻¹ᵁ V' from ⟨hxW₀, hxV'⟩)
+  exact ⟨V', W, g, hxW, hWV'.trans inf_le_right, hD, hE⟩
 
 end AlgebraicGeometry.Scheme

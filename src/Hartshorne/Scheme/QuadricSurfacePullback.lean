@@ -650,4 +650,128 @@ theorem quadricProjTwo_homogeneousFraction :
 
 end FunctionField
 
+section Lines
+
+theorem quadricChart_mem_lineOne (b : Fin 2) :
+    quadricChart k 0 b ∈ (quadricLineOne k).asHomogeneousIdeal :=
+  single_mem_quadricLineIdeal k quadricExpS (by fin_cases b <;> decide) 1
+
+theorem quadricChart_notMem_lineOne (b : Fin 2) :
+    quadricChart k 1 b ∉ (quadricLineOne k).asHomogeneousIdeal := fun h =>
+  (mem_quadricLineIdeal_iff k quadricExpS _).mp h (quadricChartExp 1 b)
+    (by simp [quadricChart, AddMonoidAlgebra.coeff_single]) (by fin_cases b <;> rfl)
+
+theorem quadricChart_mem_lineTwo (a : Fin 2) :
+    quadricChart k a 0 ∈ (quadricLineTwo k).asHomogeneousIdeal :=
+  single_mem_quadricLineIdeal k quadricExpU (by fin_cases a <;> decide) 1
+
+theorem quadricChart_notMem_lineTwo (a : Fin 2) :
+    quadricChart k a 1 ∉ (quadricLineTwo k).asHomogeneousIdeal := fun h =>
+  (mem_quadricLineIdeal_iff k quadricExpU _).mp h (quadricChartExp a 1)
+    (by simp [quadricChart, AddMonoidAlgebra.coeff_single]) (by fin_cases a <;> rfl)
+
+theorem quadricLineOne_eq_of_mem {j : Fin 2} {z : quadricSurface k}
+    (hz : z ∈ Proj.basicOpen 𝒬 (quadricChart k 1 j)) (hz1 : Order.coheight z = 1)
+    (hmem : quadricChart k 0 j ∈ z.asHomogeneousIdeal) : z = quadricLineOne k := by
+  have hz' := (Proj.mem_basicOpen 𝒬 _ _).mp hz
+  have h00 : quadricChart k 0 0 ∈ z.asHomogeneousIdeal := by
+    obtain rfl | rfl : j = 0 ∨ j = 1 := by fin_cases j <;> simp
+    · exact hmem
+    · have hprod : quadricChart k 0 0 * quadricChart k 1 1 ∈ z.asHomogeneousIdeal := by
+        rw [quadricChart_mul_swap k 0 1 1 0]
+        exact z.asHomogeneousIdeal.toIdeal.mul_mem_right _ hmem
+      exact (z.isPrime.mem_or_mem hprod).resolve_right hz'
+  rcases eq_quadricLine_of_notMem_basicOpen k hz1
+      (fun h => (Proj.mem_basicOpen 𝒬 _ _).mp h h00) with h | h
+  · exact h
+  · exfalso
+    subst h
+    obtain rfl | rfl : j = 0 ∨ j = 1 := by fin_cases j <;> simp
+    · exact hz' (quadricChart_mem_lineTwo k 1)
+    · exact quadricChart_notMem_lineTwo k 0 hmem
+
+theorem quadricLineTwo_eq_of_mem {i : Fin 2} {z : quadricSurface k}
+    (hz : z ∈ Proj.basicOpen 𝒬 (quadricChart k i 1)) (hz1 : Order.coheight z = 1)
+    (hmem : quadricChart k i 0 ∈ z.asHomogeneousIdeal) : z = quadricLineTwo k := by
+  have hz' := (Proj.mem_basicOpen 𝒬 _ _).mp hz
+  have h00 : quadricChart k 0 0 ∈ z.asHomogeneousIdeal := by
+    obtain rfl | rfl : i = 0 ∨ i = 1 := by fin_cases i <;> simp
+    · exact hmem
+    · have hprod : quadricChart k 0 0 * quadricChart k 1 1 ∈ z.asHomogeneousIdeal := by
+        rw [quadricChart_mul_swap k 0 1 1 0]
+        exact z.asHomogeneousIdeal.toIdeal.mul_mem_left _ hmem
+      exact (z.isPrime.mem_or_mem hprod).resolve_right hz'
+  rcases eq_quadricLine_of_notMem_basicOpen k hz1
+      (fun h => (Proj.mem_basicOpen 𝒬 _ _).mp h h00) with h | h
+  · exfalso
+    subst h
+    obtain rfl | rfl : i = 0 ∨ i = 1 := by fin_cases i <;> simp
+    · exact hz' (quadricChart_mem_lineOne k 1)
+    · exact quadricChart_notMem_lineOne k 0 hmem
+  · exact h
+
+/-- On `D₊(s₁uⱼ)`, the line `L₁` is the divisor of `s₀u₀ / s₁u₀`. -/
+theorem quadricLineOne_apply_eq_ord (j : Fin 2) {z : quadricSurface k}
+    (hz : z ∈ Proj.basicOpen 𝒬 (quadricChart k 1 j)) (hz1 : Order.coheight z = 1) :
+    (quadricLineOneDivisor k).toWeilDivisor.1 z =
+      (quadricSurface k).ord (projHomogeneousFraction 𝒬 (quadricChart_mem k 0 0)
+        (quadricChart_mem k 1 0) (quadricChart_ne_zero k 1 0)) z := by
+  by_cases hzL : z = quadricLineOne k
+  · subst hzL
+    exact ((quadricLineOneDivisor k).toWeilDivisor_apply_self).trans
+      (ord_quadricLineOne_projHomogeneousFraction k).symm
+  · rw [(quadricLineOneDivisor k).toWeilDivisor_apply_of_ne hzL]
+    have hsj : quadricChart k 0 j ∉ z.asHomogeneousIdeal := fun h =>
+      hzL (quadricLineOne_eq_of_mem k hz hz1 h)
+    rw [projHomogeneousFraction_eq_of_mul_eq 𝒬 (quadricChart_mem k 0 0) (quadricChart_mem k 1 0)
+      (quadricChart_ne_zero k 1 0) (quadricChart_mem k 0 j) (quadricChart_mem k 1 j)
+      (quadricChart_ne_zero k 1 j) (quadricChart_mul_swap k 0 1 j 0)]
+    obtain ⟨y, rfl⟩ := quadric_exists_chart_point k hz
+    have h := ord_projHomogeneousFraction_quadricChart k (quadricChart_mem k 0 j)
+      (quadricChart_ne_zero k 0 j) hz1
+    dsimp only at h
+    rw [h]
+    exact (ord_quadric_projDehom_eq_zero k (quadricChart_mem k 0 j) (quadricChart_ne_zero k 0 j)
+      hz1 hsj).symm
+
+/-- On `D₊(sᵢu₁)`, the line `L₂` is the divisor of `s₀u₀ / s₀u₁`. -/
+theorem quadricLineTwo_apply_eq_ord (i : Fin 2) {z : quadricSurface k}
+    (hz : z ∈ Proj.basicOpen 𝒬 (quadricChart k i 1)) (hz1 : Order.coheight z = 1) :
+    (quadricLineTwoDivisor k).toWeilDivisor.1 z =
+      (quadricSurface k).ord (projHomogeneousFraction 𝒬 (quadricChart_mem k 0 0)
+        (quadricChart_mem k 0 1) (quadricChart_ne_zero k 0 1)) z := by
+  by_cases hzL : z = quadricLineTwo k
+  · subst hzL
+    exact ((quadricLineTwoDivisor k).toWeilDivisor_apply_self).trans
+      (ord_quadricLineTwo_projHomogeneousFraction k).symm
+  · rw [(quadricLineTwoDivisor k).toWeilDivisor_apply_of_ne hzL]
+    have hsi : quadricChart k i 0 ∉ z.asHomogeneousIdeal := fun h =>
+      hzL (quadricLineTwo_eq_of_mem k hz hz1 h)
+    rw [projHomogeneousFraction_eq_of_mul_eq 𝒬 (quadricChart_mem k 0 0) (quadricChart_mem k 0 1)
+      (quadricChart_ne_zero k 0 1) (quadricChart_mem k i 0) (quadricChart_mem k i 1)
+      (quadricChart_ne_zero k i 1) ((quadricChart_mul_swap k 0 i 1 0).trans (mul_comm _ _))]
+    obtain ⟨y, rfl⟩ := quadric_exists_chart_point k hz
+    have h := ord_projHomogeneousFraction_quadricChart k (quadricChart_mem k i 0)
+      (quadricChart_ne_zero k i 0) hz1
+    dsimp only at h
+    rw [h]
+    exact (ord_quadric_projDehom_eq_zero k (quadricChart_mem k i 0) (quadricChart_ne_zero k i 0)
+      hz1 hsi).symm
+
+theorem quadricLineOne_apply_of_mem (j : Fin 2) {z : quadricSurface k}
+    (hz : z ∈ Proj.basicOpen 𝒬 (quadricChart k 0 j)) :
+    (quadricLineOneDivisor k).toWeilDivisor.1 z = 0 := by
+  refine (quadricLineOneDivisor k).toWeilDivisor_apply_of_ne fun h => ?_
+  rw [h] at hz
+  exact (Proj.mem_basicOpen 𝒬 _ _).mp hz (quadricChart_mem_lineOne k j)
+
+theorem quadricLineTwo_apply_of_mem (i : Fin 2) {z : quadricSurface k}
+    (hz : z ∈ Proj.basicOpen 𝒬 (quadricChart k i 0)) :
+    (quadricLineTwoDivisor k).toWeilDivisor.1 z = 0 := by
+  refine (quadricLineTwoDivisor k).toWeilDivisor_apply_of_ne fun h => ?_
+  rw [h] at hz
+  exact (Proj.mem_basicOpen 𝒬 _ _).mp hz (quadricChart_mem_lineTwo k i)
+
+end Lines
+
 end Hartshorne
