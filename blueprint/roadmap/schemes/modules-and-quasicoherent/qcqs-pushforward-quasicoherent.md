@@ -2,6 +2,9 @@
 article_id: af_8e36cd2ce8a49bd91790411b
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.isQuasicoherent_pushforward Hartshorne.isQuasicoherent_pushforward_of_qcqs
 ---
 
 # Pushforward under Hartshorne's finiteness hypotheses
