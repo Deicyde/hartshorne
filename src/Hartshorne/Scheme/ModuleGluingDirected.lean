@@ -156,6 +156,11 @@ lemma pmap_map3_eq {Z : Scheme.{u}} (M : Z.Modules) {a b c d b' : Z.Opensᵒᵖ}
       M.presheaf.map g' (M.presheaf.map f' x) := by
   rw [pmap_map M f g (f ≫ g), pmap_map M (f ≫ g) h (f' ≫ g'), pmap_map M f' g' (f' ≫ g')]
 
+lemma pmap_comp_apply {Z : Scheme.{u}} (M : Z.Modules) {a b c : Z.Opensᵒᵖ} (f : a ⟶ b)
+    (g : b ⟶ c) (x : M.presheaf.obj a) :
+    M.presheaf.map g (M.presheaf.map f x) = M.presheaf.map (f ≫ g) x := by
+  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
+
 lemma pmap_self {Z : Scheme.{u}} (M : Z.Modules) {a : Z.Opensᵒᵖ} (f : a ⟶ a)
     (x : M.presheaf.obj a) : M.presheaf.map f x = x := by
   rw [Subsingleton.elim f (𝟙 a), CategoryTheory.Functor.map_id]; rfl
@@ -493,6 +498,122 @@ theorem ψ_compat {i j : 𝒰.I₀} (f : i ⟶ j) :
   exact congrArg (fun e => (D.M i).presheaf.map e (x'.1 i)) (Subsingleton.elim _ _)
 
 end Data
+
+/-- Descent data as in `Data`, with the transition maps given as separate morphisms `tr f`
+(equal to the transition maps `𝒰.trans f` of the cover). This is the form in which descent data
+arise in practice, with `tr f` written in terms of the construction of the pieces. -/
+structure DataTr where
+  /-- The module on each piece. -/
+  M : ∀ i, (𝒰.X i).Modules
+  /-- The transition maps. -/
+  tr : ∀ {i j : 𝒰.I₀} (_ : i ⟶ j), 𝒰.X i ⟶ 𝒰.X j
+  [tr_open : ∀ {i j : 𝒰.I₀} (f : i ⟶ j), IsOpenImmersion (tr f)]
+  tr_eq : ∀ {i j : 𝒰.I₀} (f : i ⟶ j), tr f = 𝒰.trans f
+  tr_comp : ∀ {i j k : 𝒰.I₀} (f : i ⟶ j) (g : j ⟶ k), tr (f ≫ g) = tr f ≫ tr g
+  /-- The transition isomorphisms. -/
+  θ : ∀ {i j : 𝒰.I₀} (f : i ⟶ j), (M j).restrict (tr f) ≅ M i
+  /-- The cocycle condition. -/
+  θ_comp : ∀ {i j k : 𝒰.I₀} (f : i ⟶ j) (g : j ⟶ k),
+    (θ (f ≫ g)).hom = (restrictFunctorCongr (tr_comp f g)).hom.app (M k) ≫
+      (restrictFunctorComp (tr f) (tr g)).hom.app (M k) ≫
+      (restrictFunctor (tr f)).map (θ g).hom ≫ (θ f).hom
+
+namespace DataTr
+
+variable {𝒰} (E : DataTr 𝒰)
+
+attribute [instance] DataTr.tr_open
+
+omit [Quiver.IsThin 𝒰.I₀] in
+lemma image_tr_eq {i j : 𝒰.I₀} (f : i ⟶ j) (W : (𝒰.X i).Opens) :
+    E.tr f ''ᵁ W = 𝒰.trans f ''ᵁ W := by
+  ext x
+  change x ∈ (E.tr f) '' W ↔ x ∈ (𝒰.trans f) '' W
+  rw [E.tr_eq f]
+
+omit [Quiver.IsThin 𝒰.I₀] in
+lemma θ_nat {i j : 𝒰.I₀} (f : i ⟶ j) {W W' : (𝒰.X i).Opens} (h : E.tr f ''ᵁ W' ≤ E.tr f ''ᵁ W)
+    (h' : W' ≤ W) (x : Γ(E.M j, E.tr f ''ᵁ W)) :
+    (E.θ f).hom.app W' ((E.M j).presheaf.map (homOfLE h).op x) =
+      (E.M i).presheaf.map (homOfLE h').op ((E.θ f).hom.app W x) := by
+  have := ConcreteCategory.congr_hom ((E.θ f).hom.mapPresheaf.naturality (homOfLE h').op) x
+  refine (Eq.trans ?_ this).trans ?_
+  · rfl
+  · rfl
+
+omit [Quiver.IsThin 𝒰.I₀] in
+lemma θ_nat' {i j : 𝒰.I₀} (f : i ⟶ j) {W W' : (𝒰.X i).Opens} (e : op W ⟶ op W')
+    (h : E.tr f ''ᵁ W' ≤ E.tr f ''ᵁ W) (x : Γ(E.M j, E.tr f ''ᵁ W)) :
+    (E.M i).presheaf.map e ((E.θ f).hom.app W x) =
+      (E.θ f).hom.app W' ((E.M j).presheaf.map (homOfLE h).op x) := by
+  rw [Subsingleton.elim e (homOfLE (leOfHom e.unop)).op]
+  exact (E.θ_nat f h (leOfHom e.unop) x).symm
+
+omit [Quiver.IsThin 𝒰.I₀] in
+lemma θ_comp_apply {i j k : 𝒰.I₀} (f : i ⟶ j) (g : j ⟶ k) (W : (𝒰.X i).Opens)
+    (h : E.tr g ''ᵁ (E.tr f ''ᵁ W) ≤ E.tr (f ≫ g) ''ᵁ W)
+    (x : Γ(E.M k, E.tr (f ≫ g) ''ᵁ W)) :
+    (E.θ (f ≫ g)).hom.app W x = (E.θ f).hom.app W ((E.θ g).hom.app (E.tr f ''ᵁ W)
+      ((E.M k).presheaf.map (homOfLE h).op x)) := by
+  rw [E.θ_comp f g]
+  simp only [Hom.comp_app, restrictFunctorCongr_hom_app_app, restrictFunctorComp_hom_app_app]
+  change (E.θ f).hom.app W ((E.θ g).hom.app _ ((E.M k).presheaf.map _
+    ((E.M k).presheaf.map _ x))) = _
+  rw [pmap_map (E.M k) _ _ (homOfLE h).op x]
+
+/-- The descent data in the form `Data`, transporting `θ f` along `tr f = 𝒰.trans f`. -/
+noncomputable def toData : Data 𝒰 where
+  M := E.M
+  θ f := (restrictFunctorCongr (E.tr_eq f)).symm.app (E.M _) ≪≫ E.θ f
+  θ_comp f g := by
+    apply Scheme.Modules.hom_ext
+    intro W
+    ext x
+    simp only [Iso.trans_hom, Iso.app_hom, Iso.symm_hom, Hom.comp_app,
+      restrictFunctorCongr_inv_app_app, restrictFunctorCongr_hom_app_app,
+      restrictFunctorComp_hom_app_app]
+    let x' : Γ(E.M _, 𝒰.trans (f ≫ g) ''ᵁ W) := x
+    have hle : E.tr f ''ᵁ W ≤ 𝒰.trans f ''ᵁ W := (E.image_tr_eq f W).le
+    have hX : E.tr g ''ᵁ (E.tr f ''ᵁ W) ≤ E.tr (f ≫ g) ''ᵁ W := by
+      rintro _ ⟨_, ⟨y, hy, rfl⟩, rfl⟩
+      refine ⟨y, hy, ?_⟩
+      change (E.tr (f ≫ g)) y = (E.tr g) ((E.tr f) y)
+      rw [E.tr_comp, Scheme.Hom.comp_apply]
+    change (E.θ (f ≫ g)).hom.app W ((E.M _).presheaf.map _ x') = (E.θ f).hom.app W
+      ((E.M _).presheaf.map _ ((E.θ g).hom.app (𝒰.trans f ''ᵁ W) ((E.M _).presheaf.map _
+        ((E.M _).presheaf.map _ ((E.M _).presheaf.map _ x')))))
+    rw [E.θ_comp_apply f g W hX, E.θ_nat' g _ (Scheme.Hom.image_mono _ hle)]
+    simp only [pmap_comp_apply]
+    exact congrArg (fun e => (E.θ f).hom.app W ((E.θ g).hom.app _ ((E.M _).presheaf.map e x')))
+      (Subsingleton.elim _ _)
+
+/-- The glued module. -/
+noncomputable abbrev glue : Y.Modules := E.toData.glue
+
+/-- The isomorphisms `glue|_{𝒰.X k} ≅ M k`. -/
+noncomputable abbrev ψ (k : 𝒰.I₀) : E.glue.restrict (𝒰.f k) ≅ E.M k := E.toData.ψ k
+
+/-- The isomorphisms `ψ` are compatible with the transition isomorphisms `θ`. -/
+theorem ψ_compat {i j : 𝒰.I₀} (f : i ⟶ j) (h : E.tr f ≫ 𝒰.f j = 𝒰.f i) :
+    (restrictFunctorCongr h).inv.app E.glue ≫
+      (restrictFunctorComp (E.tr f) (𝒰.f j)).hom.app E.glue ≫
+      (restrictFunctor (E.tr f)).map (E.ψ j).hom ≫ (E.θ f).hom = (E.ψ i).hom := by
+  apply Scheme.Modules.hom_ext
+  intro W
+  ext x
+  simp only [Hom.comp_app, restrictFunctorCongr_inv_app_app, restrictFunctorComp_hom_app_app]
+  let x' : E.toData.Sec (𝒰.f i ''ᵁ W) := x
+  have hW : W ≤ 𝒰.f i ⁻¹ᵁ (𝒰.f i ''ᵁ W) := (Scheme.Hom.preimage_image_eq _ W).ge
+  have hc := E.toData.sec_compat x' f
+  change (E.θ f).hom.app _ ((E.M j).presheaf.map _ ((E.M j).presheaf.map _ (x'.1 j))) =
+    x'.1 i at hc
+  change (E.θ f).hom.app W ((E.M j).presheaf.map _ ((E.M j).presheaf.map _
+    ((E.M j).presheaf.map _ (x'.1 j)))) = (E.M i).presheaf.map _ (x'.1 i)
+  simp only [pmap_comp_apply] at hc ⊢
+  rw [← hc, E.θ_nat' f _ (Scheme.Hom.image_mono _ hW), pmap_comp_apply]
+  exact congrArg ((E.θ f).hom.app W) (pmap_map_eq (E.M j) _ _ _ _ _)
+
+end DataTr
 
 end DirectedModuleGluing
 
