@@ -21,6 +21,7 @@ of every rank.
 ## Depends on
 
 - [Sheaves of modules](sheaves-of-modules.md)
+- [Stalks and germs](../sheaves/stalks-and-germs.md)
 
 ## Proof depends on
 
