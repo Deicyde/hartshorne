@@ -2,6 +2,9 @@
 article_id: af_407186ce584db2341c2b88f8
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.IsVeryAmpleRelative Hartshorne.projectiveSpaceTwistingSheaf Hartshorne.projectiveSpaceIntTwistingSheaf Hartshorne.isInvertible_projectiveSpaceTwistingSheaf
 ---
 
 # Relative twisting sheaves and very ampleness
