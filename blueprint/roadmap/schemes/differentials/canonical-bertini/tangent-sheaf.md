@@ -2,6 +2,9 @@
 article_id: af_754fd79d54e09ca9ac2e2ea1
 declaration: definition
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.tangentSheaf Hartshorne.tangentSheaf_isLocallyFreeOfRank Hartshorne.tangentSheaf_isLocallyFreeOfRank_of_relativeDifferentials Hartshorne.Ringed.IsLocallyFreeOfRank.moduleSheafDual
 ---
 
 # The tangent sheaf
