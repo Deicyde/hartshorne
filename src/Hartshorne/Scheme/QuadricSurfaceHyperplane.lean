@@ -514,6 +514,195 @@ theorem quadricSurfaceClassGroupEquiv_rulingOne {α : k} (hα : α ≠ 0) (β : 
   rw [hcl]
   exact quadricSurfaceClassGroupEquiv_lineOne k
 
+/-- The form `δsᵢu₀ - γsᵢu₁`, vanishing on the line `ℙ¹ × {[γ : δ]}` of the second ruling. -/
+def quadricRulingFormTwo (γ δ : k) (i : Fin 2) : QuadricRing k :=
+  δ • quadricChart k i 0 - γ • quadricChart k i 1
+
+theorem quadricRulingFormTwo_mem (γ δ : k) (i : Fin 2) : quadricRulingFormTwo k γ δ i ∈ 𝒬 1 :=
+  sub_mem (Submodule.smul_mem _ _ (quadricChart_mem k i 0))
+    (Submodule.smul_mem _ _ (quadricChart_mem k i 1))
+
+theorem quadricRulingFormTwo_coeff (γ δ : k) (i : Fin 2) :
+    (quadricRulingFormTwo k γ δ i).coeff (quadricChartExp i 1) = -γ := by
+  have hne : quadricChartExp i 0 ≠ quadricChartExp i 1 := by
+    intro h
+    have := congrArg (fun p : quadricExponents => p.1.2 0) h
+    simp [quadricChartExp] at this
+  simp [quadricRulingFormTwo, quadricChart, coeff_sub, coeff_single, hne]
+
+theorem quadricRulingFormTwo_ne_zero {γ : k} (hγ : γ ≠ 0) (δ : k) (i : Fin 2) :
+    quadricRulingFormTwo k γ δ i ≠ 0 := by
+  intro h
+  have := quadricRulingFormTwo_coeff k γ δ i
+  rw [h] at this
+  exact hγ (neg_eq_zero.mp (by simpa using this.symm))
+
+theorem quadricRulingFormTwo_notMem_lineTwo {γ : k} (hγ : γ ≠ 0) (δ : k) (i : Fin 2) :
+    quadricRulingFormTwo k γ δ i ∉ (quadricLineTwo k).asHomogeneousIdeal := by
+  intro h
+  refine (mem_quadricLineIdeal_iff k quadricExpU _).mp h (quadricChartExp i 1) ?_ rfl
+  rw [Finsupp.mem_support_iff, quadricRulingFormTwo_coeff]
+  exact neg_ne_zero.mpr hγ
+
+theorem quadricRulingFormTwo_notMem_lineOne {γ : k} (hγ : γ ≠ 0) (δ : k) :
+    quadricRulingFormTwo k γ δ 1 ∉ (quadricLineOne k).asHomogeneousIdeal := by
+  intro h
+  refine (mem_quadricLineIdeal_iff k quadricExpS _).mp h (quadricChartExp 1 1) ?_ rfl
+  rw [Finsupp.mem_support_iff, quadricRulingFormTwo_coeff]
+  exact neg_ne_zero.mpr hγ
+
+theorem quadricRulingFormTwo_relation (γ δ : k) :
+    quadricRulingFormTwo k γ δ 1 * quadricChart k 0 0 =
+      quadricRulingFormTwo k γ δ 0 * quadricChart k 1 0 := by
+  simp only [quadricRulingFormTwo, Algebra.smul_def]
+  linear_combination (algebraMap k (QuadricRing k) γ) * quadricChart_relation k
+
+/-- The element `δ - γ (s₀u₁ / s₀u₀)` of the chart `D₊(s₀u₀)`. -/
+def quadricRulingTwoElem (γ δ : k) : projChart 𝒬 (quadricChart k 0 0) :=
+  projDehom 𝒬 (quadricChart_mem k 0 0) (quadricRulingFormTwo_mem k γ δ 0)
+
+theorem prime_quadricRulingTwoElem {γ : k} (hγ : γ ≠ 0) (δ : k) :
+    Prime (quadricRulingTwoElem k γ δ) := by
+  have hX : Prime (quadricChartAwayEquiv k 0 0 (quadricRulingTwoElem k γ δ)) := by
+    change Prime (quadricAwayDehom k 0 0 (Localization.mk _ _))
+    rw [quadricAwayDehom_mk]
+    convert prime_C_sub_C_mul_X k (β := δ) hγ 1 using 1
+    simp [quadricRulingFormTwo, quadricDehom_single, quadricChart, quadricChartExp,
+      MvPolynomial.smul_eq_C_mul]
+  exact (MulEquiv.prime_iff (quadricChartAwayEquiv k 0 0).toMulEquiv).mp hX
+
+/-- **The lines of the second ruling.** For `γ ≠ 0`, the line `ℙ¹ × {[γ : δ]} = V(δu₀ - γu₁)` of
+`Q`, as the prime divisor over the prime `(δ - γ u₁/u₀)` of the chart `D₊(s₀u₀)`. (The remaining
+line of the ruling, over `[0 : 1]`, is `L₂`.) -/
+def quadricRulingTwoDivisor {γ : k} (hγ : γ ≠ 0) (δ : k) : (quadricSurface k).PrimeDivisor :=
+  quadricChartPrimeDivisor k (prime_quadricRulingTwoElem k hγ δ)
+
+/-- The forms `δsᵢu₀ - γsᵢu₁` vanish on the line `ℙ¹ × {[γ : δ]}`. -/
+theorem quadricRulingFormTwo_mem_rulingTwoDivisor {γ : k} (hγ : γ ≠ 0) (δ : k) (i : Fin 2) :
+    quadricRulingFormTwo k γ δ i ∈ (quadricRulingTwoDivisor k hγ δ).1.asHomogeneousIdeal := by
+  have h0 : quadricRulingFormTwo k γ δ 0 ∈ (quadricRulingTwoDivisor k hγ δ).1.asHomogeneousIdeal :=
+    (ProjGradedModuleSheaf.awayι_mem_asIdeal_iff 𝒬 (quadricChart_mem k 0 0) Nat.one_pos
+      (quadricChartPrimeSpecPoint k (prime_quadricRulingTwoElem k hγ δ))
+      ⟨1, ⟨_, quadricRulingFormTwo_mem k γ δ 0⟩,
+        ⟨_, pow_mem_graded_one 𝒬 (quadricChart_mem k 0 0) 1⟩, ⟨1, rfl⟩⟩).mp
+      (Ideal.mem_span_singleton_self (quadricRulingTwoElem k γ δ))
+  fin_cases i
+  · exact h0
+  · have hmem := Ideal.mul_mem_right (quadricChart k 1 0) _ h0
+    rw [← quadricRulingFormTwo_relation] at hmem
+    exact (Ideal.IsPrime.mem_or_mem (quadricRulingTwoDivisor k hγ δ).1.isPrime hmem).resolve_right
+      (quadricChartPrimePoint_mem_basicOpen k _)
+
+/-- The rational function `(δu₀ - γu₁)/u₀ = (δs₀u₀ - γs₀u₁)/(s₀u₀)` on `Q`. -/
+def quadricRulingTwoRatio {γ : k} (hγ : γ ≠ 0) (δ : k) : (quadricSurface k).functionFieldˣ :=
+  Units.mk0 (projHomogeneousFraction 𝒬 (quadricRulingFormTwo_mem k γ δ 0) (quadricChart_mem k 0 0)
+      (quadricChart_ne_zero k 0 0))
+    (projHomogeneousFraction_ne_zero 𝒬 _ _ _ (quadricRulingFormTwo_ne_zero k hγ δ 0))
+
+/-- **The line `ℙ¹ × {[γ : δ]}` is linearly equivalent to `L₂`**:
+`div((δu₀ - γu₁)/u₀) = ℙ¹ × {[γ : δ]} - L₂`. -/
+theorem quadricRulingTwoDivisor_sub_lineTwo {γ : k} (hγ : γ ≠ 0) (δ : k) :
+    (quadricRulingTwoDivisor k hγ δ).toWeilDivisor - (quadricLineTwoDivisor k).toWeilDivisor =
+      (quadricSurface k).principalDivisor hQ (quadricRulingTwoRatio k hγ δ) := by
+  have := isDomain_projChart 𝒬 (quadricChart_ne_zero k 0 0)
+  have := isNoetherianRing_projChart 𝒬 (quadricChart_mem k 0 0) Nat.one_pos
+  apply Scheme.WeilDivisor.ext_apply
+  intro x
+  rw [Scheme.principalDivisor_apply hQ, quadricRulingTwoRatio, Units.val_mk0]
+  simp only [AddSubgroup.coe_sub, Function.locallyFinsuppWithin.coe_sub, Pi.sub_apply]
+  by_cases hx1 : coheight x = 1
+  swap
+  · rw [Scheme.ord_eq_zero_of_coheight_neq_one hx1,
+      (quadricRulingTwoDivisor k hγ δ).toWeilDivisor.2 x hx1,
+      (quadricLineTwoDivisor k).toWeilDivisor.2 x hx1, sub_zero]
+  by_cases hxU : x ∈ Proj.basicOpen 𝒬 (quadricChart k 0 0)
+  · obtain ⟨y, rfl⟩ := quadric_exists_chart_point k hxU
+    have hy' : coheight y = 1 := by rwa [coheight_eq_of_isOpenImmersion] at hx1
+    have h := ord_projHomogeneousFraction_quadricChart k (quadricRulingFormTwo_mem k γ δ 0)
+      (quadricRulingFormTwo_ne_zero k hγ δ 0) hx1
+    have h' := ord_quadricChartPrime k (prime_quadricRulingTwoElem k hγ δ) hy'
+    dsimp only at h h'
+    rw [h]
+    erw [h']
+    rw [Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ (quadricLineTwo_ne_of_mem k hxU),
+      sub_zero]
+    split_ifs with hM
+    · rw [hM]
+      exact Scheme.PrimeDivisor.toWeilDivisor_apply_self _
+    · exact Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ hM
+  have hNL1 : quadricLineOne k ≠ (quadricRulingTwoDivisor k hγ δ).1 :=
+    fun h ↦ quadricLineOne_ne_of_mem k (quadricChartPrimePoint_mem_basicOpen k _) h.symm
+  have hNL2 : quadricLineTwo k ≠ (quadricRulingTwoDivisor k hγ δ).1 :=
+    fun h ↦ quadricLineTwo_ne_of_mem k (quadricChartPrimePoint_mem_basicOpen k _) h.symm
+  rcases eq_quadricLine_of_notMem_basicOpen k hx1 hxU with rfl | rfl
+  · have hxw : quadricLineOne k ∈ Proj.basicOpen 𝒬 (quadricChart k 1 0) := by
+      rw [Proj.mem_basicOpen]
+      intro h
+      exact (mem_quadricLineIdeal_iff k quadricExpS _).mp h (quadricChartExp 1 0)
+        (by simp [quadricChart, coeff_single]) rfl
+    have := isDomain_projChart 𝒬 (quadricChart_ne_zero k 1 0)
+    have := isNoetherianRing_projChart 𝒬 (quadricChart_mem k 1 0) Nat.one_pos
+    obtain ⟨y, hy⟩ := quadric_exists_chart_point k hxw
+    have hy1 : coheight ((projChartι 𝒬 (quadricChart_mem k 1 0) Nat.one_pos).base y) = 1 := by
+      rw [hy]
+      exact coheight_quadricLineOne k
+    have heq : projHomogeneousFraction 𝒬 (quadricRulingFormTwo_mem k γ δ 0)
+        (quadricChart_mem k 0 0) (quadricChart_ne_zero k 0 0) =
+        projHomogeneousFraction 𝒬 (quadricRulingFormTwo_mem k γ δ 1)
+          (quadricChart_mem k 1 0) (quadricChart_ne_zero k 1 0) :=
+      projHomogeneousFraction_eq_of_mul_eq 𝒬 _ _ _ _ _ _
+        (quadricRulingFormTwo_relation k γ δ).symm
+    have h := ord_projHomogeneousFraction_quadricChart k (quadricRulingFormTwo_mem k γ δ 1)
+      (quadricRulingFormTwo_ne_zero k hγ δ 1) hy1
+    have h0 := ord_quadric_projDehom_eq_zero k (quadricRulingFormTwo_mem k γ δ 1)
+      (quadricRulingFormTwo_ne_zero k hγ δ 1) hy1
+      (by rw [hy]; exact quadricRulingFormTwo_notMem_lineOne k hγ δ)
+    dsimp only at h h0
+    rw [hy, h0] at h
+    rw [heq, h, Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ hNL1,
+      Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ (quadricLineOne_ne_quadricLineTwo k)]
+    rfl
+  · have hxz : quadricLineTwo k ∈ Proj.basicOpen 𝒬 (quadricChart k 0 1) := by
+      rw [Proj.mem_basicOpen]
+      intro h
+      exact (mem_quadricLineIdeal_iff k quadricExpU _).mp h (quadricChartExp 0 1)
+        (by simp [quadricChart, coeff_single]) rfl
+    have := isDomain_projChart 𝒬 (quadricChart_ne_zero k 0 1)
+    have := isNoetherianRing_projChart 𝒬 (quadricChart_mem k 0 1) Nat.one_pos
+    obtain ⟨y, hy⟩ := quadric_exists_chart_point k hxz
+    have hy1 : coheight ((projChartι 𝒬 (quadricChart_mem k 0 1) Nat.one_pos).base y) = 1 := by
+      rw [hy]
+      exact coheight_quadricLineTwo k
+    have h := ord_projHomogeneousFraction 𝒬 (quadricChart_mem k 0 1) (quadricChart_ne_zero k 0 1)
+      (quadricSurface_satisfiesConditionStar k) (quadricRulingFormTwo_mem k γ δ 0)
+      (quadricChart_mem k 0 0) (quadricRulingFormTwo_ne_zero k hγ δ 0)
+      (quadricChart_ne_zero k 0 0) hy1
+    have h0 := ord_quadric_projDehom_eq_zero k (quadricRulingFormTwo_mem k γ δ 0)
+      (quadricRulingFormTwo_ne_zero k hγ δ 0) hy1
+      (by rw [hy]; exact quadricRulingFormTwo_notMem_lineTwo k hγ δ 0)
+    have h1 := ord_quadric_projDehom_eq_one k (i := 0) (j := 1) (p := quadricChartExp 0 0)
+      (quadricChart_mem k 0 0) (l := 1) (by simp [quadricDehom_single, quadricChartExp]) hy1
+      (by rw [hy]; exact single_mem_quadricLineIdeal k quadricExpU (by decide) 1)
+    dsimp only at h h0 h1
+    rw [hy, h0] at h
+    erw [h1] at h
+    rw [h, Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ hNL2,
+      show quadricLineTwo k = (quadricLineTwoDivisor k).1 from rfl,
+      Scheme.PrimeDivisor.toWeilDivisor_apply_self]
+
+/-- **The second ruling has class `(0, 1)`**: every line `ℙ¹ × {[γ : δ]}` (`γ ≠ 0`; the line
+over `[0 : 1]` is `L₂`, `quadricSurfaceClassGroupEquiv_lineTwo`). -/
+theorem quadricSurfaceClassGroupEquiv_rulingTwo {γ : k} (hγ : γ ≠ 0) (δ : k) :
+    quadricSurfaceClassGroupEquiv k ((quadricSurface k).weilDivisorClassHom hQ
+      (quadricRulingTwoDivisor k hγ δ).toWeilDivisor) = (0, 1) := by
+  have hcl : (quadricSurface k).weilDivisorClassHom hQ
+      (quadricRulingTwoDivisor k hγ δ).toWeilDivisor =
+      (quadricSurface k).weilDivisorClassHom hQ (quadricLineTwoDivisor k).toWeilDivisor :=
+    ((quadricSurface k).weilDivisorClass_eq_iff hQ _ _).mpr
+      ⟨quadricRulingTwoRatio k hγ δ, quadricRulingTwoDivisor_sub_lineTwo k hγ δ⟩
+  rw [hcl]
+  exact quadricSurfaceClassGroupEquiv_lineTwo k
+
 end Rulings
 
 section Hyperplane
