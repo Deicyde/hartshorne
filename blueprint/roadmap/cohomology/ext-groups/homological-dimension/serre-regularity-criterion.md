@@ -2,6 +2,9 @@
 article_id: af_a1e3f0fa0e273a17ac6a5d1c
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.SerreRegularity.isRegularLocalRing_of_hasProjectiveDimensionLE Hartshorne.SerreRegularity.hasProjectiveDimensionLE_quotient
 ---
 
 # Serre's criterion for regularity
