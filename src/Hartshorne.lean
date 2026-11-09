@@ -600,3 +600,4 @@ import Hartshorne.Scheme.VarietyBasicInstances
 import Hartshorne.Surface.SurfaceCurveConvention
 import Hartshorne.Surface.LocalEquation
 import Hartshorne.Surface.LocalIntersectionMultiplicity
+import Hartshorne.Surface.ContractibleCurve
