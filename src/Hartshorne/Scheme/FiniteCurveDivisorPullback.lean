@@ -45,12 +45,13 @@ namespace AlgebraicGeometry
 
 universe u
 
-/-- A **nonsingular curve** over a field `k` (Hartshorne II.6, p. 136): a scheme `X` over `k`
-that is separated and of finite type over `k`, has dimension one, and all of whose local rings
-are regular local rings. Integrality of `X`, also part of Hartshorne's definition of a curve, is
-supplied separately as the instance `IsIntegral X`. -/
+/-- A **nonsingular curve** over a field `k` (Hartshorne II.6, p. 136): an integral scheme `X`
+over `k` that is separated and of finite type over `k`, has dimension one, and all of whose local
+rings are regular local rings. Integrality is a parameter of the predicate (the instance
+`IsIntegral X`, in the style of Mathlib's mixin classes), so the predicate is only stated for
+integral schemes; finite type is spelled as locally of finite type and quasi-compact. -/
 structure Scheme.IsNonsingularCurve (k : Type u) [Field k] (X : Scheme.{u})
-    [X.Over (Spec (.of k))] : Prop where
+    [X.Over (Spec (.of k))] [IsIntegral X] : Prop where
   isSeparated : IsSeparated (X ↘ Spec (.of k))
   locallyOfFiniteType : LocallyOfFiniteType (X ↘ Spec (.of k))
   quasiCompact : QuasiCompact (X ↘ Spec (.of k))
@@ -103,7 +104,7 @@ theorem satisfiesConditionStar [IsIntegral X] (hX : X.IsNonsingularCurve k) :
   infer_instance
 
 /-- The Krull dimension of the specialization order of a curve is one. -/
-theorem krullDim_eq_one (hX : X.IsNonsingularCurve k) : krullDim X = 1 := by
+theorem krullDim_eq_one [IsIntegral X] (hX : X.IsNonsingularCurve k) : krullDim X = 1 := by
   rw [← krullDim_eq_of_orderIso (irreducibleSetEquivPoints (α := X))]
   exact hX.topologicalKrullDim_eq_one
 
@@ -155,6 +156,18 @@ theorem isClosed_singleton_iff_coheight_eq_one [IsIntegral X] (hX : X.IsNonsingu
     have h3' : coheight y ≤ 1 := by exact_mod_cast h3
     rw [h1] at h2
     exact absurd (h2.trans h3') (by decide)
+
+/-- On a nonsingular curve, the prime divisors are exactly the closed points. -/
+def primeDivisorEquivClosedPoint [IsIntegral X] (hX : X.IsNonsingularCurve k) :
+    X.PrimeDivisor ≃ {x : X // IsClosed ({x} : Set X)} :=
+  Equiv.subtypeEquivRight fun x ↦ (hX.isClosed_singleton_iff_coheight_eq_one x).symm
+
+/-- A Weil divisor on a nonsingular curve is a finite sum `∑ nᵢ Pᵢ` of closed points `Pᵢ`: the
+Weil divisor group is the free abelian group on the closed points. -/
+def weilDivisorAddEquivClosedPointFinsupp [IsIntegral X] (hX : X.IsNonsingularCurve k) :
+    X.WeilDivisor ≃+ ({x : X // IsClosed ({x} : Set X)} →₀ ℤ) :=
+  let _ := hX.satisfiesConditionStar.isNoetherian
+  X.weilDivisorAddEquivFinsupp.trans (Finsupp.domCongr hX.primeDivisorEquivClosedPoint)
 
 variable [IsIntegral X]
 
