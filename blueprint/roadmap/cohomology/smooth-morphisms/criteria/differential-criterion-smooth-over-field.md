@@ -4,7 +4,7 @@ declaration: theorem
 origin: background
 statement: formalized
 proof: formalized
-lean: Hartshorne.isSmoothAt_of_finrank_le Hartshorne.smooth_of_forall_finrank_le
+lean: Hartshorne.isSmoothAt_of_finrank_le Hartshorne.smooth_of_forall_finrank_le_ringKrullDim
 ---
 
 # The differential criterion for smoothness over a field
