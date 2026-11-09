@@ -2,6 +2,9 @@
 article_id: af_71347b8169aa158ac22ab154
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.ProjTwistMap.twistRestrictIso Hartshorne.ProjTwistMap.isIso_twistRestrictHom Hartshorne.ProjTwistMap.twistRestrictIso_comp Hartshorne.ProjTwistMap.twistRestrictIso_id Hartshorne.ProjTwistMap.exists_isLocalizationAway_comp Hartshorne.isOpenImmersion_projMap Hartshorne.range_projMap
 ---
 
 # Twisting sheaves under localization in degree zero

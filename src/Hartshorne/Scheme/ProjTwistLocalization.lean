@@ -27,8 +27,14 @@ glue the twisting sheaves of the affine pieces of a relative `Proj`.
 * `Hartshorne.ProjTwistMap.twistHom`: `𝒪_{Proj A}(n) ⟶ f_* 𝒪_{Proj B}(n)`.
 * `Hartshorne.ProjTwistMap.twistRestrictHom`: the adjoint `𝒪_{Proj A}(n)|_{Proj B} ⟶
   𝒪_{Proj B}(n)` when `f` is an open immersion.
+* `Hartshorne.ProjTwistMap.twistRestrictHom_comp`, `twistRestrictHom_id`: compatibility of
+  `twistRestrictHom` with composites and identities.
 * `Hartshorne.ProjTwistMap.isIso_twistRestrictHom`, `twistRestrictIso`: for `B = A[1/s]` with
   `s ∈ A₀`, `𝒪_{Proj A}(n)|_{Proj B} ≅ 𝒪_{Proj B}(n)`.
+* `Hartshorne.ProjTwistMap.twistRestrictIso_comp`, `twistRestrictIso_id`,
+  `exists_isLocalizationAway_comp`: for `A → B = A[1/s] → C = B[1/t]`, `C` is a localization of
+  `A` at an element of degree zero, and the isomorphisms are compatible with composites and the
+  identity.
 -/
 
 universe u
@@ -204,6 +210,100 @@ theorem twistRestrictHom_app_apply [IsOpenImmersion (Proj.map φ hf)] (W : (Proj
         (ProjGradedModuleSheaf.sheafInType ℬ (gradedTwist ℬ n)).1.obj (op W)).1 y =
       twistFiber φ n (primeCompl_le_comap φ hf y.1) (t.1 ⟨_, y.1, y.2, rfl⟩) :=
   rfl
+
+/-! ### Functoriality of the morphism under composites -/
+
+/-- `Proj.map` of a composite of graded ring maps, with the composite given pointwise. -/
+theorem projMap_comp_of_apply (φ : 𝒜 →+*ᵍ ℬ) (φ' : ℬ →+*ᵍ 𝒞) (φ'' : 𝒜 →+*ᵍ 𝒞)
+    (hcomp : ∀ a, φ'' a = φ' (φ a)) (hf : ℬ₊ ≤ 𝒜₊.map φ) (hf' : 𝒞₊ ≤ ℬ₊.map φ')
+    (hf'' : 𝒞₊ ≤ 𝒜₊.map φ'') :
+    Proj.map φ'' hf'' = Proj.map φ' hf' ≫ Proj.map φ hf := by
+  obtain rfl : φ'' = φ'.comp φ := GradedRingHom.ext hcomp
+  exact Proj.map_comp φ φ' hf hf'
+
+/-- `Proj.map` of a graded ring map which is the identity is the identity. -/
+theorem projMap_eq_id_of_apply (φ : 𝒜 →+*ᵍ 𝒜) (hid : ∀ a, φ a = a) (hf : 𝒜₊ ≤ 𝒜₊.map φ) :
+    Proj.map φ hf = 𝟙 (Proj 𝒜) := by
+  obtain rfl : φ = GradedRingHom.id 𝒜 := GradedRingHom.ext hid
+  exact Proj.map_id
+
+/-- **Compatibility with composites**: for graded ring maps `A → B → C` whose `Proj` maps are open
+immersions, the morphism `𝒪_{Proj A}(n)|_{Proj C} ⟶ 𝒪_{Proj C}(n)` of the composite is the
+restriction to `Proj C` of the morphism for `A → B` followed by the morphism for `B → C`,
+restriction along the composite being identified with restriction in two steps. -/
+theorem twistRestrictHom_comp (φ : 𝒜 →+*ᵍ ℬ) (φ' : ℬ →+*ᵍ 𝒞) (φ'' : 𝒜 →+*ᵍ 𝒞)
+    (hcomp : ∀ a, φ'' a = φ' (φ a)) (hf : ℬ₊ ≤ 𝒜₊.map φ) (hf' : 𝒞₊ ≤ ℬ₊.map φ')
+    (hf'' : 𝒞₊ ≤ 𝒜₊.map φ'') (n : ℤ) [IsOpenImmersion (Proj.map φ hf)]
+    [IsOpenImmersion (Proj.map φ' hf')] [IsOpenImmersion (Proj.map φ'' hf'')] :
+    twistRestrictHom φ'' hf'' n =
+      (Scheme.Modules.restrictFunctorCongr
+          (projMap_comp_of_apply φ φ' φ'' hcomp hf hf' hf'')).hom.app (projTwistingSheaf 𝒜 n) ≫
+        (Scheme.Modules.restrictFunctorComp (Proj.map φ' hf') (Proj.map φ hf)).hom.app
+          (projTwistingSheaf 𝒜 n) ≫
+        (Scheme.Modules.restrictFunctor (Proj.map φ' hf')).map (twistRestrictHom φ hf n) ≫
+        twistRestrictHom φ' hf' n := by
+  apply Scheme.Modules.hom_ext
+  intro O
+  ext t
+  apply Subtype.ext
+  funext y
+  let t' : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj
+      (op (Proj.map φ'' hf'' ''ᵁ O)) := t
+  change twistFiber φ'' n _ (t'.1 ⟨_, y.1, y.2, rfl⟩) =
+    twistFiber φ' n _ (twistFiber φ n _
+      (t'.1 ⟨ProjectiveSpectrum.comap φ hf (ProjectiveSpectrum.comap φ' hf' y.1), _⟩))
+  have hp : (Proj.map φ'' hf'').base y.1 =
+      ProjectiveSpectrum.comap φ hf (ProjectiveSpectrum.comap φ' hf' y.1) := by
+    rw [projMap_comp_of_apply φ φ' φ'' hcomp hf hf' hf'']
+    rfl
+  have h'' : (ProjectiveSpectrum.comap φ hf
+        (ProjectiveSpectrum.comap φ' hf' y.1)).asHomogeneousIdeal.toIdeal.primeCompl
+      ≤ (y.1.asHomogeneousIdeal.toIdeal.primeCompl).comap φ'' := by
+    rw [← hp]
+    exact primeCompl_le_comap φ'' hf'' y.1
+  rw [← twistFiber_comp φ φ' φ'' hcomp n _ _ h'']
+  have key : ∀ (p : ProjectiveSpectrum 𝒜) (hp' : (Proj.map φ'' hf'').base y.1 = p)
+      (m : p ∈ Proj.map φ'' hf'' ''ᵁ O)
+      (h : p.asHomogeneousIdeal.toIdeal.primeCompl ≤
+        (y.1.asHomogeneousIdeal.toIdeal.primeCompl).comap φ''),
+      twistFiber φ'' n (primeCompl_le_comap φ'' hf'' y.1) (t'.1 ⟨_, y.1, y.2, rfl⟩) =
+        twistFiber φ'' n h (t'.1 ⟨p, m⟩) := by
+    rintro p rfl m h
+    rfl
+  exact key _ hp _ _
+
+/-- **The identity**: for a graded ring map `A → A` which is the identity, the morphism
+`𝒪_{Proj A}(n)|_{Proj A} ⟶ 𝒪_{Proj A}(n)` is the canonical identification. -/
+theorem twistRestrictHom_id (φ : 𝒜 →+*ᵍ 𝒜) (hid : ∀ a, φ a = a) (hf : 𝒜₊ ≤ 𝒜₊.map φ) (n : ℤ)
+    [IsOpenImmersion (Proj.map φ hf)] :
+    twistRestrictHom φ hf n =
+      (Scheme.Modules.restrictFunctorCongr (projMap_eq_id_of_apply φ hid hf)).hom.app
+          (projTwistingSheaf 𝒜 n) ≫
+        Scheme.Modules.restrictFunctorId.hom.app (projTwistingSheaf 𝒜 n) := by
+  apply Scheme.Modules.hom_ext
+  intro O
+  ext t
+  apply Subtype.ext
+  funext y
+  let t' : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj
+      (op (Proj.map φ hf ''ᵁ O)) := t
+  change twistFiber φ n _ (t'.1 ⟨_, y.1, y.2, rfl⟩) = t'.1 ⟨y.1, _⟩
+  have hp : (Proj.map φ hf).base y.1 = y.1 := by
+    rw [projMap_eq_id_of_apply φ hid hf]
+    rfl
+  have key : ∀ (p : ProjectiveSpectrum 𝒜) (hp' : (Proj.map φ hf).base y.1 = p)
+      (m : p ∈ Proj.map φ hf ''ᵁ O)
+      (h : p.asHomogeneousIdeal.toIdeal.primeCompl ≤
+        (y.1.asHomogeneousIdeal.toIdeal.primeCompl).comap φ),
+      twistFiber φ n (primeCompl_le_comap φ hf y.1) (t'.1 ⟨_, y.1, y.2, rfl⟩) =
+        twistFiber φ n h (t'.1 ⟨p, m⟩) := by
+    rintro p rfl m h
+    rfl
+  have h' : y.1.asHomogeneousIdeal.toIdeal.primeCompl ≤
+      (y.1.asHomogeneousIdeal.toIdeal.primeCompl).comap φ := by
+    have := primeCompl_le_comap φ hf y.1
+    rwa [show ProjectiveSpectrum.comap φ hf y.1 = y.1 from hp] at this
+  exact (key y.1 hp _ h').trans (twistFiber_id φ hid n h' _)
 
 /-! ### Localization on the degree-zero part -/
 
@@ -463,6 +563,65 @@ theorem twistRestrictIso_hom :
   rfl
 
 end Localization
+
+/-! ### Compatibility of the localization isomorphisms with composites -/
+
+section LocalizationComp
+
+omit [AddSubgroupClass ψ C] [GradedRing 𝒞] in
+/-- If `B = A[1/s]` with `s` of degree zero and `C = B[1/t]` with `t` of degree zero, then `C` is
+again the localization of `A` at an element of degree zero. -/
+theorem exists_isLocalizationAway_comp (φ : 𝒜 →+*ᵍ ℬ) (φ' : ℬ →+*ᵍ 𝒞) (φ'' : 𝒜 →+*ᵍ 𝒞)
+    (hcomp : ∀ a, φ'' a = φ' (φ a)) {s : A} (hs : s ∈ 𝒜 0) [Algebra A B]
+    [IsLocalization.Away s B] (hφ : ∀ a, φ a = algebraMap A B a) {t : B} (ht : t ∈ ℬ 0)
+    [Algebra B C] [IsLocalization.Away t C] (hφ' : ∀ b, φ' b = algebraMap B C b) [Algebra A C]
+    (hφ'' : ∀ a, φ'' a = algebraMap A C a) :
+    ∃ u ∈ 𝒜 0, IsLocalization.Away u C := by
+  obtain ⟨a, ha, k, h⟩ := exists_mem_mul_pow_eq_of_isLocalizationAway φ hs hφ ht
+  have : IsScalarTower A B C := IsScalarTower.of_algebraMap_eq fun x => by
+    rw [← hφ'', hcomp, hφ', hφ]
+  have : IsLocalization.Away (algebraMap A B a) C := by
+    refine IsLocalization.Away.of_associated (r := t)
+      ⟨(IsLocalization.Away.algebraMap_isUnit (S := B) s).unit ^ k, ?_⟩
+    rw [Units.val_pow_eq_pow_val, IsUnit.unit_spec, ← hφ, h, hφ]
+  exact ⟨s * a, by simpa using SetLike.mul_mem_graded hs ha, IsLocalization.Away.mul' B C s a⟩
+
+/-- **Compatibility of the localization isomorphisms with composites.** For
+`A → B = A[1/s] → C = B[1/t]` with `s`, `t` of degree zero, and `C = A[1/u]`, the isomorphism
+`𝒪_{Proj A}(n)|_{Proj C} ≅ 𝒪_{Proj C}(n)` is the restriction to `Proj C` of the isomorphism for
+`A → B` followed by the isomorphism for `B → C`, restriction along the composite open immersion
+being identified with restriction in two steps. -/
+theorem twistRestrictIso_comp (φ : 𝒜 →+*ᵍ ℬ) (φ' : ℬ →+*ᵍ 𝒞) (φ'' : 𝒜 →+*ᵍ 𝒞)
+    (hcomp : ∀ a, φ'' a = φ' (φ a)) (hf : ℬ₊ ≤ 𝒜₊.map φ) (hf' : 𝒞₊ ≤ ℬ₊.map φ')
+    (hf'' : 𝒞₊ ≤ 𝒜₊.map φ'') (n : ℤ) {s : A} (hs : s ∈ 𝒜 0) [Algebra A B]
+    [IsLocalization.Away s B] (hφ : ∀ a, φ a = algebraMap A B a) {t : B} (ht : t ∈ ℬ 0)
+    [Algebra B C] [IsLocalization.Away t C] (hφ' : ∀ b, φ' b = algebraMap B C b) {u : A}
+    (hu : u ∈ 𝒜 0) [Algebra A C] [IsLocalization.Away u C]
+    (hφ'' : ∀ a, φ'' a = algebraMap A C a) [IsOpenImmersion (Proj.map φ hf)]
+    [IsOpenImmersion (Proj.map φ' hf')] [IsOpenImmersion (Proj.map φ'' hf'')] :
+    twistRestrictIso φ'' hf'' n hu hφ'' =
+      (Scheme.Modules.restrictFunctorCongr
+          (projMap_comp_of_apply φ φ' φ'' hcomp hf hf' hf'')).app (projTwistingSheaf 𝒜 n) ≪≫
+        (Scheme.Modules.restrictFunctorComp (Proj.map φ' hf') (Proj.map φ hf)).app
+          (projTwistingSheaf 𝒜 n) ≪≫
+        (Scheme.Modules.restrictFunctor (Proj.map φ' hf')).mapIso
+          (twistRestrictIso φ hf n hs hφ) ≪≫
+        twistRestrictIso φ' hf' n ht hφ' :=
+  Iso.ext (twistRestrictHom_comp φ φ' φ'' hcomp hf hf' hf'' n)
+
+/-- **The localization isomorphism of the identity is the identity.** If `φ : A → A` is the
+identity and `A = A[1/s]` (for instance `s = 1`, by
+`IsLocalization.away_of_isUnit_of_bijective`), the isomorphism `𝒪_{Proj A}(n)|_{Proj A} ≅
+𝒪_{Proj A}(n)` is the canonical identification. -/
+theorem twistRestrictIso_id (φ : 𝒜 →+*ᵍ 𝒜) (hid : ∀ a, φ a = a) (hf : 𝒜₊ ≤ 𝒜₊.map φ) (n : ℤ)
+    {s : A} (hs : s ∈ 𝒜 0) [IsLocalization.Away s A] [IsOpenImmersion (Proj.map φ hf)] :
+    twistRestrictIso φ hf n hs hid =
+      (Scheme.Modules.restrictFunctorCongr (projMap_eq_id_of_apply φ hid hf)).app
+          (projTwistingSheaf 𝒜 n) ≪≫
+        Scheme.Modules.restrictFunctorId.app (projTwistingSheaf 𝒜 n) :=
+  Iso.ext (twistRestrictHom_id φ hid hf n)
+
+end LocalizationComp
 
 end ProjTwistMap
 
