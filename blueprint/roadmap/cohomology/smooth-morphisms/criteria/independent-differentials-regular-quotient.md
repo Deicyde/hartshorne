@@ -2,6 +2,9 @@
 article_id: af_2d170ff5694452ff561f8ad3
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.isRegularLocalRing_localization_quotient_of_linearIndependent_D Hartshorne.ringKrullDim_localization_quotient_add_card_of_linearIndependent_D Hartshorne.isRegularLocalRing_quotient_span_range_of_linearIndependent Hartshorne.ringKrullDim_quotient_span_range_add_card_of_linearIndependent Hartshorne.linearIndependent_toCotangent_localization_of_linearIndependent_D Hartshorne.quotient_span_range_aux
 ---
 
 # Elements with independent differentials cut out a regular local ring
