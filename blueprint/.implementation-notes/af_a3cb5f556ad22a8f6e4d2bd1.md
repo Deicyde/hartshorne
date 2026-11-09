@@ -4,7 +4,21 @@
 
 - `deg(V.X) = deg(V) * deg(X)`
 
-## Status: proved in Lean; statement corrected by the roadmap revision, `lean:` still to record
+## Status: hypersurface case proved in Lean; divisor statement (faithfulness item 1) still to formalize
+
+### Faithfulness item 1: divisors, not one hypersurface
+
+Exercise II.6.2(c) states $\deg(D\cdot X) = (\deg D)(\deg X)$ for every divisor $D$ on
+$\mathbb{P}^n$ none of whose components contains $X$. The article now states this, with $D\cdot X$
+the linear extension that the dependency projective-intersection-divisor already defines and
+formalizes (`Hartshorne.ambientDivisorsNotContaining`, `Hartshorne.projectiveIntersectionDivisorHom`),
+and $\deg D$ the degree of a projective Weil divisor applied to $X = \mathbb{P}^n$ itself
+(`Hartshorne.weilDivisorProjectiveDegree (𝟙 (Proj 𝒜))`). No new definition is needed in the DAG.
+The Lean must add, besides the hypersurface declarations listed below, a theorem of the form
+`weilDivisorProjectiveDegree ι (projectiveIntersectionDivisorHom ι hX D) =
+weilDivisorProjectiveDegree (𝟙 (Proj 𝒜)) D * projectiveSpectrumPointDegree (ι.base (genericPoint X))`
+for `D : ambientDivisorsNotContaining ι`, under `Nontrivial X`, proved by linearity from
+`weilDivisorProjectiveDegree_projectiveIntersectionDivisor`, and record it in `lean:` too.
 
 The scheme setting of the dependencies: $\mathbb{P}^n_k = \operatorname{Proj} S$ with
 $S = k[x_0,\dots,x_n]$, $\iota : X \to \mathbb{P}^n_k$ a closed immersion with $X$ satisfying

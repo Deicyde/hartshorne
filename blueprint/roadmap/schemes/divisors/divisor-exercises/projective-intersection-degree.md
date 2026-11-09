@@ -6,11 +6,19 @@ origin: cited
 
 # Degree of an ambient hypersurface section
 
-In the setting of the ambient intersection divisor, prove that its valuation
-multiplicity along each component is the local intersection multiplicity.
+In the setting of the ambient intersection divisor, for an irreducible
+hypersurface $V$ not containing $X$, prove that the valuation multiplicity of
+$V\cdot X$ along each component is the local intersection multiplicity.
 Consequently, when $\dim X\ge 1$, generalized Bezout gives
-
 $\deg(V\cdot X)=\deg(V)\deg(X)$.
+
+Now let $D=\sum_j n_j V_j$ be any Weil divisor on $\mathbb{P}^n_k$, a finite
+$\mathbb{Z}$-combination of irreducible hypersurfaces $V_j$, none of which
+contains $X$, and let $D\cdot X=\sum_j n_j\,(V_j\cdot X)$ be the linear
+extension of the ambient intersection divisor. Its degree on $\mathbb{P}^n_k$ is
+$\deg D=\sum_j n_j\deg V_j$. Prove that when $\dim X\ge 1$,
+
+$\deg(D\cdot X)=(\deg D)(\deg X)$.
 
 The dimension bound is the hypothesis of generalized Bezout and cannot be
 dropped: if $X$ is a closed point not on $V$, then $V\cdot X=0$ while
