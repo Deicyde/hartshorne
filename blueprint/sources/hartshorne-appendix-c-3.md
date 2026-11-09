@@ -45,7 +45,10 @@ silently discarded.
   `H^i times H^j -> H^(i+j)`.
 - **3.4.**  If `X` is connected, smooth, and proper of dimension `n`, top
   cohomology is one-dimensional and complementary cup-product pairings are
-  perfect.
+  perfect.  Connectedness is the project's correction to the printed
+  statement: Hartshorne's 3.4 reads "If X is smooth and proper over k, of
+  dimension n, then H^{2n}(X,Q_l) is 1-dimensional ...", which as printed is
+  false for disconnected `X`.
 - **3.5.**  If `X` is smooth proper and `f:X->X` has isolated fixed points
   with `1-df_x` invertible at each fixed point, then every local term is one
   and
@@ -78,8 +81,9 @@ point multiplicity one.
   Passing to `Z_ell` and `Q_ell` gives the canonical `ell`-adic comparison.
   Hartshorne's displayed tensor product with `C` additionally requires a
   chosen abstract embedding `Q_ell->C`; it is not canonical.
-- **3.8.**  For connected smooth proper `X` and a codimension-`q` integral
-  subvariety `Z`, the modern cycle class lies in
+- **3.8.**  For connected smooth proper `X` (connectedness is the project's
+  correction to the printed statement, which does not assume it, as in 3.4)
+  and a codimension-`q` integral subvariety `Z`, the modern cycle class lies in
 
   `H^(2q)(X,Q_ell(q))`.
 
