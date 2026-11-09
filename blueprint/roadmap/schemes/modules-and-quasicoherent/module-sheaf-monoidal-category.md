@@ -2,6 +2,9 @@
 article_id: af_c3111cf65623ed1a0bd6096a
 declaration: instance
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.Ringed.monoidalCategory Hartshorne.Ringed.tensorUnit_eq Hartshorne.Ringed.moduleSheafTensorIsoTensor Hartshorne.Ringed.moduleSheafTensorIsoTensor_hom_bilinear Hartshorne.Ringed.associator_hom_tmulSection Hartshorne.Ringed.leftUnitor_hom_tmulSection Hartshorne.Ringed.rightUnitor_hom_tmulSection Hartshorne.Ringed.sheafificationFunctor_monoidal
 ---
 
 # The monoidal category of sheaves of modules
