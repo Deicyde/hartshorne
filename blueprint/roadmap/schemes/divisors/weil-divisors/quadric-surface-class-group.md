@@ -23,6 +23,11 @@ linear-system, curve, and surface calculations.
 - [The split quadric surface is $\mathbb{P}^1 \times \mathbb{P}^1$](split-quadric-product-of-lines.md)
 - [Restriction of class groups to open complements](class-group-open-restriction.md)
 - [Affine-line invariance of the class group](a1-class-group-invariance.md)
+- [The class group of projective space](projective-space-class-group.md)
+- [Ambient hypersurfaces cut divisors](../divisor-exercises/projective-intersection-divisor.md)
+- [Pullback on Picard groups](../divisor-exercises/picard-pullback.md)
+- [Weil classes and the Picard group on a locally factorial scheme](../cartier-picard/locally-factorial-class-picard-equivalence.md)
+- [Regular schemes are locally factorial](../cartier-picard/regular-locally-factorial.md)
 
 ## Proof depends on
 
@@ -30,11 +35,6 @@ linear-system, curve, and surface calculations.
 - [Intersection of height-one localizations](height-one-localization-intersection.md)
 - [The affine UFD class-group criterion](affine-ufd-class-group.md)
 - The hyperplane section $w = 0$ is the sum of one line from each ruling.
-- [The class group of projective space](projective-space-class-group.md)
-- [Ambient hypersurfaces cut divisors](../divisor-exercises/projective-intersection-divisor.md)
-- [Pullback on Picard groups](../divisor-exercises/picard-pullback.md)
-- [Weil classes and the Picard group on a locally factorial scheme](../cartier-picard/locally-factorial-class-picard-equivalence.md)
-- [Regular schemes are locally factorial](../cartier-picard/regular-locally-factorial.md)
 
 ## Sources
 
