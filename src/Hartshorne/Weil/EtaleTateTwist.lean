@@ -629,6 +629,20 @@ theorem isSheaf_etaleHomPresheaf :
 noncomputable def etaleSheafHom : Sheaf X.smallEtaleTopology Ab.{u} :=
   ⟨etaleHomPresheaf F G, isSheaf_etaleHomPresheaf F G⟩
 
+/-- The sections of `Hom(F, G)` over an étale `X`-scheme `U` are the morphisms `F|_U ⟶ G|_U`
+(shrunk to the universe `u`). -/
+theorem etaleSheafHom_obj_obj (U : X.Etale) :
+    (etaleSheafHom F G).obj.obj (op U) = AddCommGrpCat.of (Shrink.{u} (EtaleHomOver F G U)) :=
+  rfl
+
+/-- A morphism `V ⟶ U` of étale `X`-schemes acts on `Hom(F, G)` by restricting morphisms
+along it. -/
+theorem etaleSheafHom_map_apply {U V : X.Etale} (f : V ⟶ U)
+    (φ : (etaleSheafHom F G).obj.obj (op U)) :
+    Shrink.addEquiv.{u} ((etaleSheafHom F G).obj.map f.op φ) =
+      etaleHomOverRestrict F G f (Shrink.addEquiv.{u} φ) :=
+  AddEquiv.apply_symm_apply _ _
+
 end InternalHom
 
 end AlgebraicGeometry.Scheme
