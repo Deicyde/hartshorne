@@ -11,7 +11,7 @@ import Mathlib.RingTheory.LocalProperties.Projective
 /-!
 # The free locus of a coherent sheaf
 
-Hartshorne, *Algebraic Geometry*, Exercise II.5.7(b) (p. 124).
+Hartshorne, *Algebraic Geometry*, Exercise II.5.7(a,b) (p. 124).
 
 Let `X` be a Noetherian scheme and `F` a coherent `𝒪_X`-module. If the stalk `F_x` is a free
 `𝒪_{X,x}`-module, then `F` is free on an open neighbourhood of `x`; consequently `F` is locally

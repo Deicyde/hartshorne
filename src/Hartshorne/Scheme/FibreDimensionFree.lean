@@ -36,7 +36,7 @@ universe u
 free with a basis indexed by `Fin n`. -/
 theorem free_of_finrank_tensor_family_eq_finrank_residueField
     {R : Type u} [CommRing R] [IsLocalRing R]
-    (M : Type u) [AddCommGroup M] [Module R M] [Module.Finite R M]
+    (M : Type*) [AddCommGroup M] [Module R M] [Module.Finite R M]
     {ι : Type*} (K : ι → Type*) [∀ i, Field (K i)] [∀ i, Algebra R (K i)]
     (hK : ∀ r : R, (∀ i, algebraMap R (K i) r = 0) → r = 0)
     (h : ∀ i, finrank (K i) (K i ⊗[R] M) = finrank (ResidueField R) (ResidueField R ⊗[R] M)) :

@@ -7,6 +7,7 @@ import Hartshorne.Scheme.Differentials.LocalCotangentViaDifferentials
 import Hartshorne.Dimension.DimFormula
 import Hartshorne.Dimension.FgDomain
 import Hartshorne.Scheme.RegularLocalCohenMacaulay
+import Hartshorne.Scheme.FibreDimensionFree
 import Mathlib.FieldTheory.SeparablyGenerated
 import Mathlib.LinearAlgebra.TensorProduct.Pi
 import Mathlib.RingTheory.LocalRing.Module
@@ -52,7 +53,10 @@ universe u v w
 
 /-- **Hartshorne II, Lemma 8.9.** Let `R` be a local domain with residue field `κ` and fraction
 field `K`, and let `M` be a finitely generated `R`-module. If `dim_κ (M ⊗ κ) = dim_K (M ⊗ K) = r`,
-then `M` is free of rank `r`. -/
+then `M` is free of rank `r`. Hartshorne assumes the ring Noetherian; the proof doesn't use it.
+
+This is the one-fibre case of `Hartshorne.free_of_finrank_tensor_family_eq_finrank_residueField`,
+which also gives `Hartshorne.free_of_finrank_residueField_eq_finrank_fractionRing`. -/
 theorem free_of_finrank_residueField_eq_finrank_fractionField
     {R : Type u} [CommRing R] [IsLocalRing R] [IsDomain R]
     {M : Type v} [AddCommGroup M] [Module R M] [Module.Finite R M]
@@ -60,37 +64,9 @@ theorem free_of_finrank_residueField_eq_finrank_fractionField
     (hk : Module.finrank (ResidueField R) (ResidueField R ⊗[R] M) = r)
     (hK : Module.finrank K (K ⊗[R] M) = r) :
     Module.Free R M ∧ Module.finrank R M = r := by
-  -- lift a basis of the closed fibre; by Nakayama the lifts generate `M`
-  let b : Module.Basis (Fin r) (ResidueField R) (ResidueField R ⊗[R] M) :=
-    (Module.finBasis _ _).reindex (finCongr hk)
-  choose f hf using fun i =>
-    TensorProduct.mk_surjective R M (ResidueField R) Ideal.Quotient.mk_surjective (b i)
-  have hspan : Submodule.span R (Set.range f) = ⊤ :=
-    span_eq_top_of_tmul_eq_basis f b hf
-  let φ : (Fin r → R) →ₗ[R] M := Fintype.linearCombination R f
-  have hsurj : Function.Surjective φ := by
-    rw [← LinearMap.range_eq_top, Fintype.range_linearCombination, hspan]
-  -- on the generic fibre `φ` is a surjection between spaces of the same dimension
-  have hsurjK : Function.Surjective (φ.baseChange K) :=
-    LinearMap.lTensor_surjective K hsurj
-  have hfin : Module.finrank K (K ⊗[R] (Fin r → R)) = Module.finrank K (K ⊗[R] M) := by
-    rw [Module.finrank_baseChange, hK]; simp
-  have hinjK : Function.Injective (φ.baseChange K) :=
-    (LinearMap.injective_iff_surjective_of_finrank_eq_finrank hfin).2 hsurjK
-  -- so the kernel of `φ` is torsion, hence zero
-  have hinj : Function.Injective φ := by
-    rw [← LinearMap.ker_eq_bot, Submodule.eq_bot_iff]
-    intro v hv
-    rw [LinearMap.mem_ker] at hv
-    have h1 : (1 : K) ⊗ₜ[R] v = 0 := by
-      apply hinjK
-      rw [LinearMap.baseChange_tmul, hv, tmul_zero, map_zero]
-    funext i
-    have h2 := congrFun (congrArg (TensorProduct.piScalarRightHom R K K (Fin r)) h1) i
-    simp only [piScalarRightHom_tmul, map_zero, Pi.zero_apply, Algebra.smul_def, mul_one] at h2
-    exact IsFractionRing.injective R K (by simpa using h2)
-  let e : (Fin r → R) ≃ₗ[R] M := LinearEquiv.ofBijective φ ⟨hinj, hsurj⟩
-  exact ⟨Module.Free.of_equiv e, by rw [← e.finrank_eq]; simp⟩
+  obtain ⟨b⟩ := free_of_finrank_tensor_family_eq_finrank_residueField M (fun _ : Unit => K)
+    (fun x hx => IsFractionRing.injective R K (by simpa using hx ())) (fun _ => hK.trans hk.symm)
+  exact ⟨Module.Free.of_basis b, by rw [Module.finrank_eq_card_basis b, Fintype.card_fin, hk]⟩
 
 section
 
@@ -208,7 +184,7 @@ section
 
 variable (k B : Type u) [Field k] [CommRing B] [Algebra k B] [Algebra.EssFiniteType k B]
 
-/-- **The forward direction of Hartshorne II, Theorem 8.8.** If `B` is a regular local ring,
+/-- **The direction regular ⟹ free of Hartshorne II, Theorem 8.8.** If `B` is a regular local ring,
 essentially of finite type over a perfect field `k ≅ B/𝔪`, then `Ω_{B/k}` is free of rank `dim B`.
 This removes the domain hypothesis of
 `free_kaehlerDifferential_of_isRegularLocalRing_of_isDomain`, since a regular local ring is a
