@@ -473,6 +473,7 @@ import Hartshorne.Cohomology.SheafCohomology
 import Hartshorne.Cohomology.SheafCohomologyLongExactSequence
 import Hartshorne.Cohomology.SheafCohomologyFlasque
 import Hartshorne.Cohomology.SheafCohomologyExtComparison
+import Hartshorne.Cohomology.IrreducibleDimensionZeroCohomology
 import Hartshorne.Cohomology.CohomologyWithSupports
 import Hartshorne.Cohomology.CohomologyWithSupportsExcision
 import Hartshorne.Cohomology.MayerVietorisWithSupports

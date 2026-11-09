@@ -2,6 +2,9 @@
 article_id: af_0f74f3234bb2bd33998e6fd1
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.sheafCohomology_isZero_of_irreducible_dim_zero Hartshorne.preservesFiniteColimits_sheafSectionsOver_top_of_irreducible_dim_zero
 ---
 
 # The irreducible dimension-zero base case
