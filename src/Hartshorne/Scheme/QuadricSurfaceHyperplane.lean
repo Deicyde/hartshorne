@@ -310,6 +310,98 @@ theorem ord_quadricChartPrime {π : projChart 𝒬 (quadricChart k 0 0)} (hπ : 
     congr 1
     exact PrimeSpectrum.ext hspan
 
+/-- The relation `wz = yx`, i.e. `(s₁u₀)(s₀u₁) = (s₁u₁)(s₀u₀)`. -/
+theorem quadricChart_relation :
+    quadricChart k 1 0 * quadricChart k 0 1 = quadricChart k 1 1 * quadricChart k 0 0 := by
+  rw [quadricChart, quadricChart, quadricChart, quadricChart, single_mul_single,
+    single_mul_single]
+  congr 1
+  apply Subtype.ext
+  apply Prod.ext <;> funext l <;> fin_cases l <;> simp [quadricChartExp]
+
+/-- The form `βs₀uⱼ - αs₁uⱼ`, vanishing on the line `{[α : β]} × ℙ¹` of the first ruling. -/
+def quadricRulingFormOne (α β : k) (j : Fin 2) : QuadricRing k :=
+  β • quadricChart k 0 j - α • quadricChart k 1 j
+
+theorem quadricRulingFormOne_mem (α β : k) (j : Fin 2) : quadricRulingFormOne k α β j ∈ 𝒬 1 :=
+  sub_mem (Submodule.smul_mem _ _ (quadricChart_mem k 0 j))
+    (Submodule.smul_mem _ _ (quadricChart_mem k 1 j))
+
+theorem quadricRulingFormOne_coeff (α β : k) (j : Fin 2) :
+    (quadricRulingFormOne k α β j).coeff (quadricChartExp 1 j) = -α := by
+  have hne : quadricChartExp 0 j ≠ quadricChartExp 1 j := by
+    intro h
+    have := congrArg (fun p : quadricExponents => p.1.1 0) h
+    simp [quadricChartExp] at this
+  simp [quadricRulingFormOne, quadricChart, coeff_sub, coeff_single, hne]
+
+theorem quadricRulingFormOne_ne_zero {α : k} (hα : α ≠ 0) (β : k) (j : Fin 2) :
+    quadricRulingFormOne k α β j ≠ 0 := by
+  intro h
+  have := quadricRulingFormOne_coeff k α β j
+  rw [h] at this
+  exact hα (neg_eq_zero.mp (by simpa using this.symm))
+
+/-- `βs₀u₀ - αs₁u₀ ∉ L₁` when `α ≠ 0`. -/
+theorem quadricRulingFormOne_notMem_lineOne {α : k} (hα : α ≠ 0) (β : k) (j : Fin 2) :
+    quadricRulingFormOne k α β j ∉ (quadricLineOne k).asHomogeneousIdeal := by
+  intro h
+  refine (mem_quadricLineIdeal_iff k quadricExpS _).mp h (quadricChartExp 1 j) ?_ rfl
+  rw [Finsupp.mem_support_iff, quadricRulingFormOne_coeff]
+  exact neg_ne_zero.mpr hα
+
+/-- `βs₀u₁ - αs₁u₁ ∉ L₂` when `α ≠ 0`. -/
+theorem quadricRulingFormOne_notMem_lineTwo {α : k} (hα : α ≠ 0) (β : k) :
+    quadricRulingFormOne k α β 1 ∉ (quadricLineTwo k).asHomogeneousIdeal := by
+  intro h
+  refine (mem_quadricLineIdeal_iff k quadricExpU _).mp h (quadricChartExp 1 1) ?_ rfl
+  rw [Finsupp.mem_support_iff, quadricRulingFormOne_coeff]
+  exact neg_ne_zero.mpr hα
+
+/-- The element `β - α (s₁u₀ / s₀u₀)` of the chart `D₊(s₀u₀)`. -/
+def quadricRulingOneElem (α β : k) : projChart 𝒬 (quadricChart k 0 0) :=
+  projDehom 𝒬 (quadricChart_mem k 0 0) (quadricRulingFormOne_mem k α β 0)
+
+theorem prime_quadricRulingOneElem {α : k} (hα : α ≠ 0) (β : k) :
+    Prime (quadricRulingOneElem k α β) := by
+  have hX : Prime (quadricChartAwayEquiv k 0 0 (quadricRulingOneElem k α β)) := by
+    change Prime (quadricAwayDehom k 0 0 (Localization.mk _ _))
+    rw [quadricAwayDehom_mk]
+    convert prime_C_sub_C_mul_X k (β := β) hα 0 using 1
+    simp [quadricRulingFormOne, quadricDehom_single, quadricChart, quadricChartExp,
+      MvPolynomial.smul_eq_C_mul]
+  exact (MulEquiv.prime_iff (quadricChartAwayEquiv k 0 0).toMulEquiv).mp hX
+
+/-- **The lines of the first ruling.** For `α ≠ 0`, the line `{[α : β]} × ℙ¹ = V(βs₀ - αs₁)` of
+`Q`, as the prime divisor over the prime `(β - α s₁/s₀)` of the chart `D₊(s₀u₀)`. (The remaining
+line of the ruling, over `[0 : 1]`, is `L₁`.) -/
+def quadricRulingOneDivisor {α : k} (hα : α ≠ 0) (β : k) : (quadricSurface k).PrimeDivisor :=
+  quadricChartPrimeDivisor k (prime_quadricRulingOneElem k hα β)
+
+/-- The forms `βs₀uⱼ - αs₁uⱼ` vanish on the line `{[α : β]} × ℙ¹`. -/
+theorem quadricRulingFormOne_mem_rulingOneDivisor {α : k} (hα : α ≠ 0) (β : k) (j : Fin 2) :
+    quadricRulingFormOne k α β j ∈ (quadricRulingOneDivisor k hα β).1.asHomogeneousIdeal := by
+  have h0 : quadricRulingFormOne k α β 0 ∈ (quadricRulingOneDivisor k hα β).1.asHomogeneousIdeal :=
+    (ProjGradedModuleSheaf.awayι_mem_asIdeal_iff 𝒬 (quadricChart_mem k 0 0) Nat.one_pos
+      (quadricChartPrimeSpecPoint k (prime_quadricRulingOneElem k hα β))
+      ⟨1, ⟨_, quadricRulingFormOne_mem k α β 0⟩,
+        ⟨_, pow_mem_graded_one 𝒬 (quadricChart_mem k 0 0) 1⟩, ⟨1, rfl⟩⟩).mp
+      (Ideal.mem_span_singleton_self (quadricRulingOneElem k α β))
+  fin_cases j
+  · exact h0
+  · -- `(βs₀u₁ - αs₁u₁) · s₀u₀ = (βs₀u₀ - αs₁u₀) · s₀u₁`, and `s₀u₀` is not on the line
+    have hrel : quadricRulingFormOne k α β 1 * quadricChart k 0 0 =
+        quadricRulingFormOne k α β 0 * quadricChart k 0 1 := by
+      simp only [quadricRulingFormOne, Algebra.smul_def]
+      linear_combination (algebraMap k (QuadricRing k) α) * quadricChart_relation k
+    have hmem := Ideal.mul_mem_right (quadricChart k 0 1) _ h0
+    rw [← hrel] at hmem
+    exact (Ideal.IsPrime.mem_or_mem (quadricRulingOneDivisor k hα β).1.isPrime hmem).resolve_right
+      (quadricChartPrimePoint_mem_basicOpen k _)
+
+theorem quadricRulingOneDivisor_ne_lineOne {α : k} (hα : α ≠ 0) (β : k) :
+    quadricLineOne k ≠ (quadricRulingOneDivisor k hα β).1 :=
+  fun h ↦ quadricLineOne_ne_of_mem k (quadricChartPrimePoint_mem_basicOpen k _) h.symm
 end Rulings
 
 section Hyperplane
