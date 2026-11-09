@@ -38,6 +38,7 @@ between Hartshorne's definition and the adopted modern predicate.
 - [The differential criterion for a scheme over a field](differential-criterion-smooth-scheme-over-field.md)
 - [Flat morphisms with smooth fibres are smooth](flat-smooth-fibers-smooth.md)
 - [Dimension after extending the ground field](../../../schemes/fiber-products/base-extension-component-dimension.md)
+- [Differentials on affine schemes](../../../schemes/differentials/scheme-differentials/affine-relative-differentials.md)
 
 ## Sources
 
