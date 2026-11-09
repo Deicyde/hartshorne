@@ -215,6 +215,8 @@ end LineOrders
 
 section Rulings
 
+local notation "hQ" => quadricSurface_satisfiesConditionStar k
+
 /-- A nonconstant linear polynomial `β - αXₗ` in two variables is prime. -/
 theorem prime_C_sub_C_mul_X {α β : k} (hα : α ≠ 0) (l : Fin 2) :
     Prime (MvPolynomial.C β - MvPolynomial.C α * MvPolynomial.X l : MvPolynomial (Fin 2) k) := by
@@ -402,6 +404,116 @@ theorem quadricRulingFormOne_mem_rulingOneDivisor {α : k} (hα : α ≠ 0) (β 
 theorem quadricRulingOneDivisor_ne_lineOne {α : k} (hα : α ≠ 0) (β : k) :
     quadricLineOne k ≠ (quadricRulingOneDivisor k hα β).1 :=
   fun h ↦ quadricLineOne_ne_of_mem k (quadricChartPrimePoint_mem_basicOpen k _) h.symm
+/-- The rational function `(βs₀ - αs₁)/s₀ = (βs₀u₀ - αs₁u₀)/(s₀u₀)` on `Q`. -/
+def quadricRulingOneRatio {α : k} (hα : α ≠ 0) (β : k) : (quadricSurface k).functionFieldˣ :=
+  Units.mk0 (projHomogeneousFraction 𝒬 (quadricRulingFormOne_mem k α β 0) (quadricChart_mem k 0 0)
+      (quadricChart_ne_zero k 0 0))
+    (projHomogeneousFraction_ne_zero 𝒬 _ _ _ (quadricRulingFormOne_ne_zero k hα β 0))
+
+/-- **The line `{[α : β]} × ℙ¹` is linearly equivalent to `L₁`**:
+`div((βs₀ - αs₁)/s₀) = {[α : β]} × ℙ¹ - L₁`. -/
+theorem quadricRulingOneDivisor_sub_lineOne {α : k} (hα : α ≠ 0) (β : k) :
+    (quadricRulingOneDivisor k hα β).toWeilDivisor - (quadricLineOneDivisor k).toWeilDivisor =
+      (quadricSurface k).principalDivisor hQ (quadricRulingOneRatio k hα β) := by
+  have := isDomain_projChart 𝒬 (quadricChart_ne_zero k 0 0)
+  have := isNoetherianRing_projChart 𝒬 (quadricChart_mem k 0 0) Nat.one_pos
+  apply Scheme.WeilDivisor.ext_apply
+  intro x
+  rw [Scheme.principalDivisor_apply hQ, quadricRulingOneRatio, Units.val_mk0]
+  simp only [AddSubgroup.coe_sub, Function.locallyFinsuppWithin.coe_sub, Pi.sub_apply]
+  by_cases hx1 : coheight x = 1
+  swap
+  · rw [Scheme.ord_eq_zero_of_coheight_neq_one hx1,
+      (quadricRulingOneDivisor k hα β).toWeilDivisor.2 x hx1,
+      (quadricLineOneDivisor k).toWeilDivisor.2 x hx1, sub_zero]
+  by_cases hxU : x ∈ Proj.basicOpen 𝒬 (quadricChart k 0 0)
+  · obtain ⟨y, rfl⟩ := quadric_exists_chart_point k hxU
+    have hy' : coheight y = 1 := by rwa [coheight_eq_of_isOpenImmersion] at hx1
+    have h := ord_projHomogeneousFraction_quadricChart k (quadricRulingFormOne_mem k α β 0)
+      (quadricRulingFormOne_ne_zero k hα β 0) hx1
+    have h' := ord_quadricChartPrime k (prime_quadricRulingOneElem k hα β) hy'
+    dsimp only at h h'
+    rw [h]
+    erw [h']
+    rw [Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ (quadricLineOne_ne_of_mem k hxU),
+      sub_zero]
+    split_ifs with hM
+    · rw [hM]
+      exact Scheme.PrimeDivisor.toWeilDivisor_apply_self _
+    · exact Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ hM
+  rcases eq_quadricLine_of_notMem_basicOpen k hx1 hxU with rfl | rfl
+  · have hxw : quadricLineOne k ∈ Proj.basicOpen 𝒬 (quadricChart k 1 0) := by
+      rw [Proj.mem_basicOpen]
+      intro h
+      exact (mem_quadricLineIdeal_iff k quadricExpS _).mp h (quadricChartExp 1 0)
+        (by simp [quadricChart, coeff_single]) rfl
+    have := isDomain_projChart 𝒬 (quadricChart_ne_zero k 1 0)
+    have := isNoetherianRing_projChart 𝒬 (quadricChart_mem k 1 0) Nat.one_pos
+    obtain ⟨y, hy⟩ := quadric_exists_chart_point k hxw
+    have hy1 : coheight ((projChartι 𝒬 (quadricChart_mem k 1 0) Nat.one_pos).base y) = 1 := by
+      rw [hy]
+      exact coheight_quadricLineOne k
+    have h := ord_projHomogeneousFraction 𝒬 (quadricChart_mem k 1 0) (quadricChart_ne_zero k 1 0)
+      (quadricSurface_satisfiesConditionStar k) (quadricRulingFormOne_mem k α β 0)
+      (quadricChart_mem k 0 0) (quadricRulingFormOne_ne_zero k hα β 0)
+      (quadricChart_ne_zero k 0 0) hy1
+    have h0 := ord_quadric_projDehom_eq_zero k (quadricRulingFormOne_mem k α β 0)
+      (quadricRulingFormOne_ne_zero k hα β 0) hy1
+      (by rw [hy]; exact quadricRulingFormOne_notMem_lineOne k hα β 0)
+    have h1 := ord_quadric_projDehom_eq_one k (i := 1) (j := 0) (p := quadricChartExp 0 0)
+      (quadricChart_mem k 0 0) (l := 0) (by simp [quadricDehom_single, quadricChartExp]) hy1
+      (by rw [hy]; exact single_mem_quadricLineIdeal k quadricExpS (by decide) 1)
+    dsimp only at h h0 h1
+    rw [hy, h0] at h
+    erw [h1] at h
+    rw [h, Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _
+        (quadricRulingOneDivisor_ne_lineOne k hα β),
+      show quadricLineOne k = (quadricLineOneDivisor k).1 from rfl,
+      Scheme.PrimeDivisor.toWeilDivisor_apply_self]
+  · have hxz : quadricLineTwo k ∈ Proj.basicOpen 𝒬 (quadricChart k 0 1) := by
+      rw [Proj.mem_basicOpen]
+      intro h
+      exact (mem_quadricLineIdeal_iff k quadricExpU _).mp h (quadricChartExp 0 1)
+        (by simp [quadricChart, coeff_single]) rfl
+    have := isDomain_projChart 𝒬 (quadricChart_ne_zero k 0 1)
+    have := isNoetherianRing_projChart 𝒬 (quadricChart_mem k 0 1) Nat.one_pos
+    obtain ⟨y, hy⟩ := quadric_exists_chart_point k hxz
+    have hy1 : coheight ((projChartι 𝒬 (quadricChart_mem k 0 1) Nat.one_pos).base y) = 1 := by
+      rw [hy]
+      exact coheight_quadricLineTwo k
+    have heq : projHomogeneousFraction 𝒬 (quadricRulingFormOne_mem k α β 0)
+        (quadricChart_mem k 0 0) (quadricChart_ne_zero k 0 0) =
+        projHomogeneousFraction 𝒬 (quadricRulingFormOne_mem k α β 1)
+          (quadricChart_mem k 0 1) (quadricChart_ne_zero k 0 1) := by
+      apply projHomogeneousFraction_eq_of_mul_eq
+      simp only [quadricRulingFormOne, Algebra.smul_def]
+      linear_combination (-(algebraMap k (QuadricRing k) α)) * quadricChart_relation k
+    have h := ord_projHomogeneousFraction_quadricChart k (quadricRulingFormOne_mem k α β 1)
+      (quadricRulingFormOne_ne_zero k hα β 1) hy1
+    have h0 := ord_quadric_projDehom_eq_zero k (quadricRulingFormOne_mem k α β 1)
+      (quadricRulingFormOne_ne_zero k hα β 1) hy1
+      (by rw [hy]; exact quadricRulingFormOne_notMem_lineTwo k hα β)
+    dsimp only at h h0
+    rw [hy, h0] at h
+    have hM : quadricLineTwo k ≠ (quadricRulingOneDivisor k hα β).1 :=
+      fun h ↦ quadricLineTwo_ne_of_mem k (quadricChartPrimePoint_mem_basicOpen k _) h.symm
+    rw [heq, h, Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ hM,
+      Scheme.PrimeDivisor.toWeilDivisor_apply_of_ne _ (quadricLineOne_ne_quadricLineTwo k).symm]
+    rfl
+
+/-- **The first ruling has class `(1, 0)`**: every line `{[α : β]} × ℙ¹` (`α ≠ 0`; the line
+over `[0 : 1]` is `L₁`, `quadricSurfaceClassGroupEquiv_lineOne`). -/
+theorem quadricSurfaceClassGroupEquiv_rulingOne {α : k} (hα : α ≠ 0) (β : k) :
+    quadricSurfaceClassGroupEquiv k ((quadricSurface k).weilDivisorClassHom hQ
+      (quadricRulingOneDivisor k hα β).toWeilDivisor) = (1, 0) := by
+  have hcl : (quadricSurface k).weilDivisorClassHom hQ
+      (quadricRulingOneDivisor k hα β).toWeilDivisor =
+      (quadricSurface k).weilDivisorClassHom hQ (quadricLineOneDivisor k).toWeilDivisor :=
+    ((quadricSurface k).weilDivisorClass_eq_iff hQ _ _).mpr
+      ⟨quadricRulingOneRatio k hα β, quadricRulingOneDivisor_sub_lineOne k hα β⟩
+  rw [hcl]
+  exact quadricSurfaceClassGroupEquiv_lineOne k
+
 end Rulings
 
 section Hyperplane
