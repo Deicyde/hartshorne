@@ -429,6 +429,7 @@ import Hartshorne.RingedSpace.ModuleSheafMonoidal
 import Hartshorne.Scheme.AffineTildeMonoidal
 import Hartshorne.Scheme.QuasiCompactImageClosed
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsQuasicoherent
+import Hartshorne.Scheme.Differentials.AffineSpaceDifferentials
 import Hartshorne.Scheme.ReducedInducedSmallest
 import Hartshorne.Scheme.ProjSurjectionClosedImmersion
 import Hartshorne.Scheme.CoherentPushforwardCounterexample
