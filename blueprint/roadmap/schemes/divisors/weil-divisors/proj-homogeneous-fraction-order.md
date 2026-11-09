@@ -29,11 +29,12 @@ so the principal divisor $(g/h)$ is computed chart by chart, and any two
 degree-one charts containing $Y$ give the same order. The chart formula for
 $v_Y(g/h)$ is the unique main result.
 
-Proposition 6.4 treats rational functions on projective space as quotients of
-homogeneous forms of equal degree, and Example 6.6.1 computes divisor classes on
-the quadric surface. This article supplies, once and for a graded domain, the
-chart description of the divisor of such a quotient that the project's
-treatment of both needs; it is a project bridge.
+Example 6.6.1 computes divisor classes on the quadric surface, and Proposition
+6.4 treats rational functions on projective space as quotients of homogeneous
+forms of equal degree. This article supplies, once and for a graded domain, the
+chart description of the divisor of such a quotient; it is used for Example
+6.6.1, and it also covers the projective-space case of Proposition 6.4. It is a
+project bridge.
 
 ## Proof
 

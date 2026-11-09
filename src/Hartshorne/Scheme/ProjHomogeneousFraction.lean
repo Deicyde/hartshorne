@@ -20,7 +20,8 @@ satisfies `(*)`, the order of `g / h` along a prime divisor `Y` meeting `D₊(f)
 `v_𝔭(g / f^d) - v_𝔭(h / f^d)`, for `𝔭 ⊂ S_(f)` the height-one prime of `Y ∩ D₊(f)`
 (`Hartshorne.ord_projHomogeneousFraction`).
 
-These are project bridges used for Proposition II.6.4 and Example II.6.6.1 of Hartshorne.
+These are project bridges used for Example II.6.6.1 of Hartshorne; they also cover the
+projective-space case of Proposition II.6.4.
 -/
 
 universe u
