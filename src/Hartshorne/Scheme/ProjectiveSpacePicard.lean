@@ -242,6 +242,71 @@ theorem twistToK_app_apply (l : ℤ) {U : (Proj 𝒜).Opens} (h : η ∈ U)
         ((s : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 l)).1.obj (op U)).1 ⟨η, h⟩) :=
   twistToKSections_apply l h s
 
+theorem eq_zero_of_twistVal_mk_eq_zero (l : ℤ) {j : ℕ} {m : S} (hm : m ∈ gradedTwist 𝒜 l j)
+    {s : S} (hs : s ∈ 𝒜 j) (hsx : s ∈ genericCompl k n)
+    (h : twistVal l (HomogeneousLocalizedModule.mk j m hm s hs hsx) = 0) : m = 0 := by
+  rw [twistVal_mk, Localization.mk_eq_mk', IsLocalization.mk'_eq_zero_iff] at h
+  obtain ⟨⟨c, hc⟩, hcm⟩ := h
+  have hc0 : c ≠ 0 := by
+    rintro rfl
+    exact hc (zero_mem _)
+  have := (mul_eq_zero.mp hcm).resolve_left hc0
+  exact (mul_eq_zero.mp this).resolve_right (pow_ne_zero _ (X_ne_zero 0))
+
+theorem twistVal_injective (l : ℤ) :
+    Function.Injective (twistVal (k := k) (n := n) l) := by
+  refine (injective_iff_map_eq_zero _).2 fun y hy => ?_
+  obtain ⟨j, m, hm, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective y
+  have hm0 := eq_zero_of_twistVal_mk_eq_zero l hm hs hsx hy
+  subst hm0
+  ext
+  rw [HomogeneousLocalizedModule.val_mk, HomogeneousLocalizedModule.val_zero,
+    LocalizedModule.zero_mk]
+
+theorem twistToFunctionField_injective (l : ℤ) :
+    Function.Injective (twistToFunctionField (k := k) (n := n) l) := by
+  intro y z h
+  apply twistVal_injective l
+  rw [← functionFieldToLocalization_twistToFunctionField,
+    ← functionFieldToLocalization_twistToFunctionField, h]
+
+/-- A section of `𝒪(l)` vanishing at the generic point vanishes. -/
+theorem section_eq_zero_of_apply_genericPoint (l : ℤ) {U : (Proj 𝒜).Opens} (h : η ∈ U)
+    (s : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 l)).1.obj (op U))
+    (hs : s.1 ⟨η, h⟩ = 0) : s = 0 := by
+  apply Subtype.ext
+  funext x
+  obtain ⟨W, hxW, iWU, j, m, hm, f, hf, f_nin, w⟩ := s.2 x
+  have hηW : η ∈ W := Scheme.genericPoint_mem_opens_of_mem (X := Proj 𝒜) hxW
+  have hη := w ⟨η, hηW⟩
+  have hη' : s.1 ⟨η, h⟩ = HomogeneousLocalizedModule.mk j m hm f hf (f_nin ⟨η, hηW⟩) := hη
+  rw [hs] at hη'
+  have hm0 : m = 0 := by
+    apply eq_zero_of_twistVal_mk_eq_zero l hm hf (f_nin ⟨η, hηW⟩)
+    rw [← hη', map_zero]
+  have hx := w ⟨x.1, hxW⟩
+  change s.1 x = _ at hx
+  rw [hx]
+  subst hm0
+  ext
+  exact LocalizedModule.zero_mk _
+
+theorem twistToK_app_injective (l : ℤ) (U : (Proj 𝒜).Opensᵒᵖ) :
+    Function.Injective ((twistToK l).val.app U) := by
+  refine (injective_iff_map_eq_zero _).2 fun s hs => ?_
+  by_cases h : η ∈ U.unop
+  · have h1 := twistToK_app_apply l h s
+    have h1' : twistToFunctionField l
+        ((s : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 l)).1.obj (op U.unop)).1
+          ⟨η, h⟩) = twistToFunctionField l 0 := by
+      rw [← h1, map_zero]
+      erw [hs]
+      exact map_zero _
+    exact section_eq_zero_of_apply_genericPoint l h s (twistToFunctionField_injective l h1')
+  · apply Subtype.ext
+    funext x
+    exact absurd (Scheme.genericPoint_mem_opens_of_mem (X := Proj 𝒜) x.2) h
+
 end ProjectiveSpacePicard
 
 end Hartshorne
