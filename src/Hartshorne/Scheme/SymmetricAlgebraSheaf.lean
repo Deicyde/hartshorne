@@ -39,6 +39,10 @@ of `S(F)`, are constructed in `Hartshorne.Scheme.SheafTensorAlgebras` and
   presentation (`Ringed.IsFiniteLocallyFree.isFinitePresentation`); `S(E)` is quasi-coherent,
   being locally a direct sum of free modules
   (`Ringed.IsFiniteLocallyFree.isQuasicoherent_moduleSheafSymmetricAlgebra`).
+* **Degree zero.** `S^0 F ≅ 𝒪_X` (`moduleSheafSymmetricPowerZeroIso`), and the composite
+  `𝒪_X ≅ S^0 F → S(F)` is unital and multiplicative (`moduleSheafSymmetricAlgebraι_zero_one`,
+  `moduleSheafSymmetricAlgebraι_zero_mul`), so the degree-zero part of `S(F)` is `𝒪_X` as an
+  algebra.
 * **Generation in degree one.** `S^1 F ≅ F` (`moduleSheafSymmetricPowerOneIso`); the canonical maps
   `T^d F → S^d F`, `f₁ ⊗ ⋯ ⊗ f_d ↦ f₁ ⋯ f_d`, are epimorphisms
   (`epi_moduleSheafTensorToSymmetricPower`), and so is the multiplicative map `T(F) → S(F)` from
@@ -56,8 +60,9 @@ of `S(F)`, are constructed in `Hartshorne.Scheme.SheafTensorAlgebras` and
 The statements for schemes are in `AlgebraicGeometry.Scheme.Modules`: `symmetricAlgebra`,
 `symmetricPower`, `symmetricAlgebra_graded`, `symmetricAlgebra_isQuasicoherent`,
 `symmetricPower_isQuasicoherent`, `symmetricPower_isCoherent`, `symmetricPower_isLocallyFree`,
-`symmetricPower_isLocallyFreeOfRank`, `symmetricAlgebra_restrict_iso_polynomial` and
-`symmetricPowerOneIso`.
+`symmetricPower_isLocallyFreeOfRank`, `symmetricAlgebra_restrict_iso_polynomial`,
+`symmetricPowerOneIso`, `symmetricPowerZeroIso`, `symmetricPowerZeroIso_inv_one` and
+`symmetricPowerZeroIso_inv_mul`.
 -/
 
 universe u
@@ -253,6 +258,66 @@ theorem symmetricPowerOneEquiv_map {B N : Type u} [CommRing B] [AddCommGroup N] 
 
 end DegreeOne
 
+section DegreeZero
+
+variable {A : Type u} [CommRing A] {M : Type u} [AddCommGroup M] [Module A M]
+
+variable (A M) in
+/-- The linear map `Sym^0 M → A` sending the empty product to `1`. -/
+noncomputable def symmetricPowerZeroLift : SymmetricPowerQuotient A M 0 →ₗ[A] A :=
+  symmetricPowerLift 0 (MultilinearMap.constOfIsEmpty A (fun _ : Fin 0 => M) (1 : A))
+    (fun _ _ => rfl)
+
+theorem symmetricPowerZeroLift_tprod (m : Fin 0 → M) :
+    symmetricPowerZeroLift A M (symmetricPowerTprod A M 0 m) = 1 :=
+  symmetricPowerLift_tprod 0 _ _ m
+
+variable (A M) in
+/-- The zeroth symmetric power of a module is the base ring: `Sym^0 M ≅ A`, the empty product
+corresponding to `1`. -/
+noncomputable def symmetricPowerZeroEquiv : SymmetricPowerQuotient A M 0 ≃ₗ[A] A :=
+  LinearEquiv.ofLinearMap (symmetricPowerZeroLift A M)
+    (LinearMap.toSpanSingleton A _ (symmetricPowerTprod A M 0 Fin.elim0))
+    (by
+      ext
+      simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.toSpanSingleton_apply,
+        one_smul, LinearMap.id_coe, id_eq]
+      exact symmetricPowerZeroLift_tprod _)
+    (by
+      apply symmetricPower_linearMap_ext
+      intro m
+      simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.toSpanSingleton_apply,
+        LinearMap.id_coe, id_eq, symmetricPowerZeroLift_tprod, one_smul]
+      exact congrArg _ (Subsingleton.elim _ _))
+
+theorem symmetricPowerZeroEquiv_tprod (m : Fin 0 → M) :
+    symmetricPowerZeroEquiv A M (symmetricPowerTprod A M 0 m) = 1 :=
+  symmetricPowerZeroLift_tprod m
+
+theorem symmetricPowerZeroEquiv_symm_one :
+    (symmetricPowerZeroEquiv A M).symm 1 = symmetricPowerTprod A M 0 Fin.elim0 := by
+  rw [LinearEquiv.symm_apply_eq, symmetricPowerZeroEquiv_tprod]
+
+theorem symmetricPowerZeroEquiv_map {B N : Type u} [CommRing B] [AddCommGroup N] [Module B N]
+    (σ : A →+* B) (f : M →ₛₗ[σ] N) (x : SymmetricPowerQuotient A M 0) :
+    symmetricPowerZeroEquiv B N (symmetricPowerMap 0 σ f x) = σ (symmetricPowerZeroEquiv A M x) :=
+  semilinear_eq_comp_of_span (span_symmetricPowerTprod 0)
+    (((symmetricPowerZeroEquiv B N).toLinearMap).comp (symmetricPowerMap 0 σ f))
+    (symmetricPowerZeroEquiv A M).toLinearMap σ.toSemilinearMap (fun _ => rfl)
+    (fun m => by
+      simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe,
+        symmetricPowerMap_tprod, symmetricPowerZeroEquiv_tprod]
+      exact σ.map_one.symm) x
+
+/-- The degree-zero part of the symmetric algebra is spanned by `1`. -/
+theorem symmetricPowerToAlgebra_zero_tprod (m : Fin 0 → M) :
+    symmetricPowerToAlgebra A M 0 (symmetricPowerTprod A M 0 m) = 1 := by
+  rw [symmetricPowerTprod_apply, symmetricPowerToAlgebra_mk, TensorPower.toTensorAlgebra_tprod,
+    TensorAlgebra.tprod_apply]
+  simp
+
+end DegreeZero
+
 section PolynomialNaturality
 
 variable {A B : Type u} [CommRing A] [CommRing B] {M N : Type u} [AddCommGroup M] [Module A M]
@@ -311,6 +376,112 @@ noncomputable def moduleSheafSymmetricPowerOneIso : moduleSheafSymmetricPower 1 
     asIso ((PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)).counit.app F)
 
 end DegreeOneSheaf
+
+section DegreeZeroSheaf
+
+open SheafTensorOperations
+
+variable {C : Type u} [SmallCategory C] {J : GrothendieckTopology C} {R : Sheaf J CommRingCat.{u}}
+  (F : SheafOfModules.{u} (siteRingCatSheaf R))
+
+/-- The presheaf `U ↦ Sym^0 F(U)` is the presheaf of sections of the structure sheaf. -/
+noncomputable def symmetricPowerPresheafZeroIso :
+    moduleSheafSymmetricPowerPresheaf 0 F ≅
+      (SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars (𝟙 _)).obj
+        (SheafOfModules.unit (siteRingCatSheaf R)) :=
+  PresheafOfModules.isoMk (fun U => (symmetricPowerZeroEquiv _ (F.val.obj U)).toModuleIso)
+    (fun U V i => by
+      ext x
+      exact symmetricPowerZeroEquiv_map _ (F.val.restrictₛₗ i) x)
+
+/-- **The degree-zero part of the symmetric algebra.** `S^0 F ≅ 𝒪_X`. -/
+noncomputable def moduleSheafSymmetricPowerZeroIso :
+    moduleSheafSymmetricPower 0 F ≅ SheafOfModules.unit (siteRingCatSheaf R) :=
+  (PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf R).obj)).mapIso
+      (symmetricPowerPresheafZeroIso F) ≪≫
+    asIso ((PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)).counit.app
+      (SheafOfModules.unit (siteRingCatSheaf R)))
+
+/-- The isomorphism `𝒪_X ≅ S^0 F` sends the section `1` to the class of the empty product. -/
+theorem moduleSheafSymmetricPowerZeroIso_inv_one (U : Cᵒᵖ) :
+    (moduleSheafSymmetricPowerZeroIso F).inv.val.app U (1 : (siteRingCatSheaf R).obj.obj U) =
+      (moduleSheafSymmetricPowerUnit 0 F).app U
+        (symmetricPowerTprod _ (F.val.obj U) 0 Fin.elim0) := by
+  let adj := PresheafOfModules.sheafificationAdjunction (𝟙 (siteRingCatSheaf R).obj)
+  let G := SheafOfModules.forget (siteRingCatSheaf R) ⋙
+    PresheafOfModules.restrictScalars (𝟙 (siteRingCatSheaf R).obj)
+  have hc : G.map (inv (adj.counit.app (SheafOfModules.unit (siteRingCatSheaf R)))) =
+      adj.unit.app (G.obj (SheafOfModules.unit (siteRingCatSheaf R))) := by
+    rw [Functor.map_inv]
+    exact IsIso.inv_eq_of_inv_hom_id (adj.right_triangle_components _)
+  let L := PresheafOfModules.sheafification (𝟙 (siteRingCatSheaf R).obj)
+  have h1 := congrArg
+    (fun φ => (PresheafOfModules.Hom.app φ U).hom (1 : (siteRingCatSheaf R).obj.obj U)) hc
+  have h2 := congrArg
+    (fun φ => (PresheafOfModules.Hom.app φ U).hom (1 : (siteRingCatSheaf R).obj.obj U))
+    (adj.unit.naturality (symmetricPowerPresheafZeroIso F).inv)
+  simp only at h1 h2
+  calc _ = ((L ⋙ G).map (symmetricPowerPresheafZeroIso F).inv).app U
+        ((G.map (inv (adj.counit.app (SheafOfModules.unit (siteRingCatSheaf R))))).app U
+          (1 : (siteRingCatSheaf R).obj.obj U)) := rfl
+    _ = ((L ⋙ G).map (symmetricPowerPresheafZeroIso F).inv).app U
+        ((adj.unit.app (G.obj (SheafOfModules.unit (siteRingCatSheaf R)))).app U
+          (1 : (siteRingCatSheaf R).obj.obj U)) := by rw [h1]
+    _ = _ := by
+      refine h2.symm.trans ?_
+      change (moduleSheafSymmetricPowerUnit 0 F).app U
+        ((symmetricPowerZeroEquiv _ (F.val.obj U)).symm 1) = _
+      rw [symmetricPowerZeroEquiv_symm_one]
+
+end DegreeZeroSheaf
+
+section DegreeZeroAlgebra
+
+open SheafTensorOperations SheafAlgebraOperations
+
+variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+  (F : SheafOfModules.{u} (ringCatSheafOf R))
+
+/-- **The identification `𝒪_X ≅ S^0 F` is unital:** followed by the inclusion `S^0 F → S(F)`, it
+sends the section `1` of `𝒪_X` to the unit of the sheaf of algebras `S(F)`. -/
+theorem moduleSheafSymmetricAlgebraι_zero_one (U : (Opens X)ᵒᵖ) :
+    (moduleSheafSymmetricAlgebraι 0 F).val.app U
+        ((moduleSheafSymmetricPowerZeroIso F).inv.val.app U (1 : (ringCatSheafOf R).obj.obj U)) =
+      (moduleSheafSymmetricAlgebraStructure F).one U := by
+  rw [moduleSheafSymmetricPowerZeroIso_inv_one, moduleSheafSymmetricAlgebra_one]
+  refine (sheafifyMap_unit _ U _).trans (congrArg _ ?_)
+  exact symmetricPowerToAlgebra_zero_tprod _
+
+/-- The composite `𝒪_X ≅ S^0 F → S(F)` sends a section `a` of `𝒪_X` to `a • 1`. -/
+theorem moduleSheafSymmetricAlgebraι_zero_apply (U : (Opens X)ᵒᵖ)
+    (a : (ringCatSheafOf R).obj.obj U) :
+    (moduleSheafSymmetricAlgebraι 0 F).val.app U
+        ((moduleSheafSymmetricPowerZeroIso F).inv.val.app U a) =
+      a • (moduleSheafSymmetricAlgebraStructure F).one U := by
+  have h : (moduleSheafSymmetricPowerZeroIso F).inv.val.app U a =
+      a • (moduleSheafSymmetricPowerZeroIso F).inv.val.app U (1 : (ringCatSheafOf R).obj.obj U) :=
+    (congrArg ((moduleSheafSymmetricPowerZeroIso F).inv.val.app U) (mul_one a).symm).trans
+      (map_smul ((moduleSheafSymmetricPowerZeroIso F).inv.val.app U).hom a
+        (1 : (ringCatSheafOf R).obj.obj U))
+  rw [← moduleSheafSymmetricAlgebraι_zero_one, ← map_smul]
+  exact congrArg ((moduleSheafSymmetricAlgebraι 0 F).val.app U) h
+
+/-- **The identification `𝒪_X ≅ S^0 F` is multiplicative:** followed by the inclusion
+`S^0 F → S(F)`, it sends products of sections of `𝒪_X` to products in `S(F)`. -/
+theorem moduleSheafSymmetricAlgebraι_zero_mul (U : (Opens X)ᵒᵖ)
+    (a b : (ringCatSheafOf R).obj.obj U) :
+    (moduleSheafSymmetricAlgebraι 0 F).val.app U
+        ((moduleSheafSymmetricPowerZeroIso F).inv.val.app U (a * b)) =
+      (moduleSheafSymmetricAlgebraStructure F).mul.app U
+        ((moduleSheafSymmetricAlgebraι 0 F).val.app U
+          ((moduleSheafSymmetricPowerZeroIso F).inv.val.app U a))
+        ((moduleSheafSymmetricAlgebraι 0 F).val.app U
+          ((moduleSheafSymmetricPowerZeroIso F).inv.val.app U b)) := by
+  rw [moduleSheafSymmetricAlgebraι_zero_apply, moduleSheafSymmetricAlgebraι_zero_apply,
+    moduleSheafSymmetricAlgebraι_zero_apply, LinearMap.map_smul₂, LinearMap.map_smul,
+    (moduleSheafSymmetricAlgebraStructure F).mul_one, smul_smul]
+
+end DegreeZeroAlgebra
 
 section Generation
 
@@ -1182,5 +1353,30 @@ theorem symmetricAlgebra_restrict_iso_polynomial {U : X.Opens} {ι : Type u} [Fi
 /-- **The degree-one part of `Sym(E)` is `E`.** -/
 noncomputable def symmetricPowerOneIso (E : X.Modules) : E.symmetricPower 1 ≅ E :=
   moduleSheafSymmetricPowerOneIso (R := X.sheaf) E
+
+/-- **The degree-zero part of `Sym(E)` is `𝒪_X`.** -/
+noncomputable def symmetricPowerZeroIso (E : X.Modules) :
+    E.symmetricPower 0 ≅ SheafOfModules.unit X.ringCatSheaf :=
+  moduleSheafSymmetricPowerZeroIso (R := X.sheaf) E
+
+/-- **`Sym^0 E = 𝒪_X` as algebras, compatibly with the unit.** Followed by the inclusion
+`Sym^0 E → Sym(E)`, the identification `𝒪_X ≅ Sym^0 E` sends `1` to the unit of `Sym(E)`. -/
+theorem symmetricPowerZeroIso_inv_one (E : X.Modules) (U : X.Opensᵒᵖ) :
+    (moduleSheafSymmetricAlgebraι (R := X.sheaf) 0 E).val.app U
+        (E.symmetricPowerZeroIso.inv.val.app U (1 : Γ(X, U.unop))) =
+      E.symmetricAlgebraStructure.one U :=
+  moduleSheafSymmetricAlgebraι_zero_one E U
+
+/-- **`Sym^0 E = 𝒪_X` as algebras.** Followed by the inclusion `Sym^0 E → Sym(E)`, the
+identification `𝒪_X ≅ Sym^0 E` sends products of sections of `𝒪_X` to products in `Sym(E)`. -/
+theorem symmetricPowerZeroIso_inv_mul (E : X.Modules) (U : X.Opensᵒᵖ) (a b : Γ(X, U.unop)) :
+    (moduleSheafSymmetricAlgebraι (R := X.sheaf) 0 E).val.app U
+        (E.symmetricPowerZeroIso.inv.val.app U (a * b)) =
+      E.symmetricAlgebraStructure.mul.app U
+        ((moduleSheafSymmetricAlgebraι (R := X.sheaf) 0 E).val.app U
+          (E.symmetricPowerZeroIso.inv.val.app U a))
+        ((moduleSheafSymmetricAlgebraι (R := X.sheaf) 0 E).val.app U
+          (E.symmetricPowerZeroIso.inv.val.app U b)) :=
+  moduleSheafSymmetricAlgebraι_zero_mul E U a b
 
 end AlgebraicGeometry.Scheme.Modules
