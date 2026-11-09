@@ -285,7 +285,8 @@ theorem quadricSegreCover_comp_projTwo (c : Fin (1 + 1) × Fin (1 + 1)) :
       exact away_mk_congr k _ _ _ (quadricSegreHom_X_segreIndex k c.1 a)
   · have h3 : quadricSurfaceToSegreSource k ≫ pullback.snd _ _ ≫ pullback.snd _ _ =
         quadricSurfaceToSpec k := by
-      rw [← pullback.condition, ← quadricSurfaceToProjectiveSpace_projection, ← quadricSurfaceToSegreSource_comp,
+      rw [← pullback.condition, ← quadricSurfaceToProjectiveSpace_projection,
+        ← quadricSurfaceToSegreSource_comp,
         Category.assoc, relativeSegre_projection]
     simp only [Category.assoc, projectiveSpaceOverSpecIso_hom,
       projToProjectiveSpaceOverSpec_projection]
@@ -816,14 +817,16 @@ local notation "hP" => projectiveSpace_satisfiesConditionStar (k := k) (n := 1)
 
 /-- **The pullback `p₁^* : Cl ℙ¹_k ⟶ Cl Q`**: `Cl ℙ¹_k ≅ Pic ℙ¹_k ⟶ Pic Q ≅ Cl Q`, through the
 Picard pullback along the first projection. -/
-def quadricClassGroupPullbackOne : (Proj 𝒮).WeilClassGroup hP →+ (quadricSurface k).WeilClassGroup hQ :=
+def quadricClassGroupPullbackOne :
+    (Proj 𝒮).WeilClassGroup hP →+ (quadricSurface k).WeilClassGroup hQ :=
   ((Scheme.weilClassEquivPicard (quadricSurface_isLocallyFactorial k)).symm.toAddMonoidHom.comp
     (Ringed.Pic.pullback (quadricProjOne k)).toAdditive).comp
       (Scheme.weilClassEquivPicard (projectiveLine_isLocallyFactorial k)).toAddMonoidHom
 
 /-- **The pullback `p₂^* : Cl ℙ¹_k ⟶ Cl Q`**: `Cl ℙ¹_k ≅ Pic ℙ¹_k ⟶ Pic Q ≅ Cl Q`, through the
 Picard pullback along the second projection. -/
-def quadricClassGroupPullbackTwo : (Proj 𝒮).WeilClassGroup hP →+ (quadricSurface k).WeilClassGroup hQ :=
+def quadricClassGroupPullbackTwo :
+    (Proj 𝒮).WeilClassGroup hP →+ (quadricSurface k).WeilClassGroup hQ :=
   ((Scheme.weilClassEquivPicard (quadricSurface_isLocallyFactorial k)).symm.toAddMonoidHom.comp
     (Ringed.Pic.pullback (quadricProjTwo k)).toAdditive).comp
       (Scheme.weilClassEquivPicard (projectiveLine_isLocallyFactorial k)).toAddMonoidHom
@@ -924,7 +927,8 @@ theorem quadricSurfaceClassGroupEquiv_pullback_add (a b : (Proj 𝒮).WeilClassG
     Prod.mk_add_mk, add_zero, zero_add]
 
 theorem bijective_quadricClassGroupPullback :
-    Function.Bijective ((quadricClassGroupPullbackOne k).coprod (quadricClassGroupPullbackTwo k)) := by
+    Function.Bijective
+      ((quadricClassGroupPullbackOne k).coprod (quadricClassGroupPullbackTwo k)) := by
   have h : ⇑(quadricSurfaceClassGroupEquiv k) ∘
       ⇑((quadricClassGroupPullbackOne k).coprod (quadricClassGroupPullbackTwo k)) =
       Prod.map (projectiveSpaceClassGroupEquiv (k := k) Nat.one_pos)
@@ -938,9 +942,10 @@ theorem bijective_quadricClassGroupPullback :
       (projectiveSpaceClassGroupEquiv (k := k) Nat.one_pos).bijective
   exact (Function.Bijective.of_comp_iff' (quadricSurfaceClassGroupEquiv k).bijective _).mp hb
 
-/-- **Hartshorne II, Example 6.6.1: pullback from the two factors.** For the split quadric
-`Q ≅ ℙ¹_k ×_k ℙ¹_k`, the map `Cl ℙ¹_k × Cl ℙ¹_k ⟶ Cl Q`, `(a, b) ↦ p₁^* a + p₂^* b`, is an
-isomorphism. -/
+/-- **Hartshorne II, Example 6.6.1** (`Cl Q ≅ ℤ × ℤ`), here in the form given by pullback from the
+two factors: for the split quadric `Q ≅ ℙ¹_k ×_k ℙ¹_k`, the map `Cl ℙ¹_k × Cl ℙ¹_k ⟶ Cl Q`,
+`(a, b) ↦ p₁^* a + p₂^* b`, is an isomorphism. Under `Cl ℙ¹_k ≅ ℤ` it is the inverse of
+`quadricSurfaceClassGroupEquiv` (`quadricSurfaceClassGroupEquiv_pullback_add`). -/
 def quadricClassGroupPullbackEquiv :
     (Proj 𝒮).WeilClassGroup hP × (Proj 𝒮).WeilClassGroup hP ≃+
       (quadricSurface k).WeilClassGroup hQ :=

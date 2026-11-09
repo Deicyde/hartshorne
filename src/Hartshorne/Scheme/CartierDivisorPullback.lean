@@ -18,8 +18,8 @@ equation `g` of `D`. Then `f^* O_Y(D) ≅ O_X(E)`, so the Picard pullback
 (`AlgebraicGeometry.Scheme.picPullback_cartierDivisorSheaf`).
 
 On integral separated Noetherian locally factorial schemes this gives the Weil-divisor form
-(`AlgebraicGeometry.Scheme.picPullback_weilClassEquivPicard`): if a Weil divisor `A` on `Y` and a Weil
-divisor `B` on `X` are, near every point, the divisors of a rational function `g` on `Y` and of
+(`AlgebraicGeometry.Scheme.picPullback_weilClassEquivPicard`): if a Weil divisor `A` on `Y` and a
+Weil divisor `B` on `X` are, near every point, the divisors of a rational function `g` on `Y` and of
 its pullback `f^♯ g` on `X`, then the pullback of the Picard class of `A` is the Picard class
 of `B`.
 
@@ -222,7 +222,8 @@ theorem totalQuotientPullback_map {U V : Y.Opens} (i : V ≤ U)
         (totalQuotientPullback f hf U a) := by
   apply totalQuotientSheaf_ext
   intro hη
-  rw [totalQuotientPullback_spec', totalQuotientPullback_spec, totalQuotientSheafEquivFunctionField_map]
+  rw [totalQuotientPullback_spec', totalQuotientPullback_spec,
+    totalQuotientSheafEquivFunctionField_map]
 
 variable {f hf} {D : Y.CartierDivisor} {E : X.CartierDivisor}
 
@@ -337,7 +338,8 @@ of `O_X(E)` in `Pic X`. -/
 theorem picPullback_cartierDivisorSheaf (hDE : CartierPullbackData f hf D E) :
     Pic.pullback f (Pic.mk (R := Y.sheaf) D.sheaf
         ((Modules.isInvertible_iff_ringed _).1 D.isInvertible_sheaf)) =
-      Pic.mk (R := X.sheaf) E.sheaf ((Modules.isInvertible_iff_ringed _).1 E.isInvertible_sheaf) := by
+      Pic.mk (R := X.sheaf) E.sheaf
+        ((Modules.isInvertible_iff_ringed _).1 E.isInvertible_sheaf) := by
   rw [Pic.pullback_mk]
   have := isIso_cartierPullbackMap hDE
   exact (Pic.mk_eq_mk_iff _ _).mpr ⟨asIso (cartierPullbackMap hDE)⟩
@@ -358,12 +360,14 @@ theorem CartierDivisor.exists_restrict_eq_principal {X : Scheme.{u}} [IsIntegral
   have hD' : ∀ y ∈ V, Order.coheight y = 1 → (cartierToWeil D').1 y = 0 := by
     intro y hy hy1
     have hP := cartierToWeil_apply (X.principalCartierDivisor (globalUnit X g)) (globalUnit X g)
-      (X.principalCartierDivisor (globalUnit X g)).restrict_top (show y ∈ (⊤ : X.Opens) from trivial)
+      (X.principalCartierDivisor (globalUnit X g)).restrict_top
+      (show y ∈ (⊤ : X.Opens) from trivial)
     rw [MulEquiv.apply_symm_apply] at hP
     have hsub := congrArg (fun A : X.WeilDivisor => A.1 y)
       (map_sub (cartierToWeil (X := X)) D (X.principalCartierDivisor (globalUnit X g)))
     refine hsub.trans ?_
-    change (cartierToWeil D).1 y - (cartierToWeil (X.principalCartierDivisor (globalUnit X g))).1 y = 0
+    change (cartierToWeil D).1 y -
+      (cartierToWeil (X.principalCartierDivisor (globalUnit X g))).1 y = 0
     rw [hP, h y hy hy1, sub_self]
   obtain ⟨⟨U, f⟩, hxU, hf⟩ := D'.exists_local_representative x
   obtain ⟨_, ⟨W, -, rfl⟩, hxW, hWU⟩ :=
