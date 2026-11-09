@@ -445,6 +445,7 @@ import Hartshorne.Scheme.ValuationSpectrumMaps
 import Hartshorne.Scheme.CoherentFreeLocus
 import Hartshorne.Scheme.QuasicoherentAbelianClosure
 import Hartshorne.Scheme.QuasicoherentIdealSheafData
+import Hartshorne.Scheme.QcqsPushforwardQuasicoherent
 import Hartshorne.Scheme.FibreDimensionFree
 import Hartshorne.Scheme.CoherentFibreRank
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsFibreRank
