@@ -30,8 +30,15 @@ positive-characteristic failure of Bertini noted in Remark 10.9.3.
 
 ## Proof depends on
 
+- [Dimension of a scheme smooth over a field](criteria/smooth-over-field-component-dimension.md),
+  for the local rings of $\mathbb{P}^1_k$ at closed points being regular of
+  dimension one.
+- [Characterizations of discrete valuation rings](../../nonsingular-curves/dvr-characterizations.md)
 - The projective Frobenius morphism and the identity $d(a^p)=0$ in
   characteristic $p$.
+- The fibre ring of a quasi-finite algebra has dimension $\sum_i e_i f_i$, the
+  sum over the primes above the base prime of ramification index times
+  residue degree.
 
 ## Sources
 
