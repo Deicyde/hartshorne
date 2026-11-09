@@ -2,6 +2,9 @@
 article_id: af_5ec864a9cd13979d152f55ff
 declaration: isomorphism
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.ProjTwist.twistIso Hartshorne.twistIso_hom_naturality Hartshorne.twistMulIso Hartshorne.twistIso_assoc Hartshorne.twistMulIso_assoc Hartshorne.twistMulIso_hom_twistGenSection Hartshorne.twistPair_twistAwayEquiv Hartshorne.gradedModuleTwist.natGradedSMul Hartshorne.projGradedModuleSheafMap Hartshorne.ProjTwist.twistIso_hom_tmulSection
 ---
 
 # Twists and graded shifts
