@@ -333,6 +333,16 @@ theorem etaleTateTwistOneSystem_obj (X : Scheme.{u}) (ℓ : ℕ) (r : ℕᵒᵖ)
     (X.etaleTateTwistOneSystem ℓ).obj r = X.etaleTateTwistOne ℓ r.unop :=
   rfl
 
+/-- The transition `μ_{ℓ^s} ⟶ μ_{ℓ^r}` of `ℤ_ℓ(1)` (`r ≤ s`) sends a root of unity `ζ` over `U`
+to `ζ ^ (ℓ ^ (s - r))`. -/
+theorem etaleTateTwistOneSystem_map_app (X : Scheme.{u}) (ℓ : ℕ) {s r : ℕᵒᵖ} (f : s ⟶ r)
+    (U : X.Etale) (ζ : (X.etaleTateTwistOne ℓ s.unop).obj.obj (op U)) :
+    ((Additive.toMul (((X.etaleTateTwistOneSystem ℓ).map f).hom.app (op U) ζ) :
+        rootsOfUnity (ℓ ^ r.unop) Γ(U.left, ⊤)) : Γ(U.left, ⊤)ˣ) =
+      ((Additive.toMul ζ : rootsOfUnity (ℓ ^ s.unop) Γ(U.left, ⊤)) : Γ(U.left, ⊤)ˣ) ^
+        (ℓ ^ (s.unop - r.unop)) :=
+  rfl
+
 end AlgebraicGeometry.Scheme
 
 namespace Hartshorne
@@ -499,6 +509,18 @@ noncomputable def etaleTateTwistNatSystem (X : Scheme.{u}) (ℓ : ℕ) :
 theorem etaleTateTwistNatSystem_obj (X : Scheme.{u}) (ℓ q : ℕ) (r : ℕᵒᵖ) :
     (X.etaleTateTwistNatSystem ℓ q).obj r = X.etaleTateTwistNat ℓ r.unop q := by
   cases q <;> rfl
+
+/-- The untwisted system `ℤ_ℓ(0)` is the system of constant sheaves `ℤ/ℓ^r` with the reduction
+maps. -/
+theorem etaleTateTwistNatSystem_zero (X : Scheme.{u}) (ℓ : ℕ) :
+    X.etaleTateTwistNatSystem ℓ 0 = X.constantTorsionEtaleSheafSystem ℓ :=
+  rfl
+
+/-- For `q ≥ 1` the transitions of `ℤ_ℓ(q)` are the `q`-th tensor powers of those of `ℤ_ℓ(1)`. -/
+theorem etaleTateTwistNatSystem_succ_map (X : Scheme.{u}) (ℓ q : ℕ) {s r : ℕᵒᵖ} (f : s ⟶ r) :
+    (X.etaleTateTwistNatSystem ℓ (q + 1)).map f =
+      sheafTensorPowSuccMap X.smallEtaleTopology ((X.etaleTateTwistOneSystem ℓ).map f) q :=
+  rfl
 
 /-- The inverse system `r ↦ H^i_et(X, ℤ/ℓ^r(q))` (`q ≥ 0`) of torsion étale cohomology groups with
 twisted coefficients. -/
@@ -671,6 +693,28 @@ theorem etaleTateTwist_natCast (X : Scheme.{u}) (ℓ r q : ℕ) :
 /-- The twist `ℤ/ℓ^r(-1)` is the dual of `μ_{ℓ^r}`. -/
 theorem etaleTateTwist_neg_one (X : Scheme.{u}) (ℓ r : ℕ) :
     X.etaleTateTwist ℓ r (-1) = X.etaleTateTwistNegOne ℓ r :=
+  rfl
+
+/-- The twist `ℤ/ℓ^r(0)` is the constant sheaf `ℤ/ℓ^r`. -/
+theorem etaleTateTwist_zero (X : Scheme.{u}) (ℓ r : ℕ) :
+    X.etaleTateTwist ℓ r 0 = X.constantTorsionEtaleSheaf ℓ r :=
+  rfl
+
+/-- The twist `ℤ/ℓ^r(1)` is `μ_{ℓ^r}`. -/
+theorem etaleTateTwist_one (X : Scheme.{u}) (ℓ r : ℕ) :
+    X.etaleTateTwist ℓ r 1 = X.etaleTateTwistOne ℓ r :=
+  rfl
+
+/-- For `q = k + 1 ≥ 1`, `ℤ/ℓ^r(q)` is the tensor power `μ_{ℓ^r}^{⊗(k+1)}`. -/
+theorem etaleTateTwist_natCast_add_one (X : Scheme.{u}) (ℓ r k : ℕ) :
+    X.etaleTateTwist ℓ r ((k + 1 : ℕ) : ℤ) =
+      sheafTensorPowSucc X.smallEtaleTopology (X.etaleTateTwistOne ℓ r) k :=
+  rfl
+
+/-- For `q = -(k + 1) ≤ -1`, `ℤ/ℓ^r(q)` is the tensor power `ℤ/ℓ^r(-1)^{⊗(k+1)}`. -/
+theorem etaleTateTwist_negSucc (X : Scheme.{u}) (ℓ r k : ℕ) :
+    X.etaleTateTwist ℓ r (Int.negSucc k) =
+      sheafTensorPowSucc X.smallEtaleTopology (X.etaleTateTwistNegOne ℓ r) k :=
   rfl
 
 end AlgebraicGeometry.Scheme
@@ -1115,6 +1159,14 @@ theorem etaleTateTwistSystem_obj (q : ℤ) (r : ℕᵒᵖ) :
   rcases q with q | k
   · exact X.etaleTateTwistNatSystem_obj ℓ q r
   · rfl
+
+/-- For `q = -(k + 1) < 0` the transitions of `ℤ_ℓ(q)` are the `(k + 1)`-th tensor powers of
+those of `ℤ_ℓ(-1)`. -/
+theorem etaleTateTwistSystem_negSucc_map (k : ℕ) {s r : ℕᵒᵖ} (f : s ⟶ r) :
+    (X.etaleTateTwistSystem ℓ (Int.negSucc k)).map f =
+      sheafTensorPowSuccMap X.smallEtaleTopology
+        (X.etaleTateTwistNegOneTransition ℓ (leOfHom f.unop)) k :=
+  rfl
 
 /-- The inverse system `r ↦ H^i_et(X, ℤ/ℓ^r(q))` of torsion étale cohomology groups, for every
 integer `q`. -/
