@@ -2,6 +2,9 @@
 article_id: af_3d213fc9bd0b719e0a518a70
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.isLocallyFreeOfRank_iff_forall_finrank_fibre Hartshorne.free_stalk_of_finrank_fibre Hartshorne.free_of_forall_finrank_fiber_eq_of_isReduced Hartshorne.finrank_fibre_of_isLocallyFreeOfRank
 ---
 
 # Constant fibre dimension forces local freeness

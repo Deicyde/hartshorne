@@ -4,7 +4,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.exists_isFree_restrict_of_free_stalk Hartshorne.isLocallyFree_iff_forall_free_stalk
+lean: Hartshorne.exists_isFree_restrict_of_free_stalk Hartshorne.isLocallyFree_iff_forall_free_stalk Hartshorne.exists_isFree_restrict_of_free_stalk_of_isLocallyNoetherian Hartshorne.isLocallyFree_iff_forall_free_stalk_of_isLocallyNoetherian
 ---
 
 # The free locus of a coherent sheaf
