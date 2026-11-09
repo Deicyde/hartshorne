@@ -70,7 +70,7 @@ local notation "𝒮" => homogeneousSubmodule (Fin (n + 1)) R
 section Embedding
 
 /-- The degree-zero part of `R[x₀, …, xₙ]` is `R`. -/
-theorem bijective_algebraMap_homogeneousSubmodule_zero :
+theorem bijective_algebraMap_mvPolynomial_homogeneousSubmodule_zero :
     Function.Bijective (algebraMap R (𝒮 0)) := by
   refine ⟨fun r s h => C_injective (Fin (n + 1)) R (congrArg Subtype.val h), fun a => ?_⟩
   have ha : (a : MvPolynomial (Fin (n + 1)) R) ∈ (1 : Submodule R (MvPolynomial (Fin (n + 1)) R)) :=
@@ -78,9 +78,10 @@ theorem bijective_algebraMap_homogeneousSubmodule_zero :
   obtain ⟨r, hr⟩ := Submodule.mem_one.mp ha
   exact ⟨r, Subtype.ext hr⟩
 
-instance : IsIso (CommRingCat.ofHom (algebraMap R (𝒮 0))) :=
+instance isIso_algebraMap_homogeneousSubmodule_zero :
+    IsIso (CommRingCat.ofHom (algebraMap R (𝒮 0))) :=
   (RingEquiv.ofBijective _
-    (bijective_algebraMap_homogeneousSubmodule_zero R n)).toCommRingCatIso.isIso_hom
+    (bijective_algebraMap_mvPolynomial_homogeneousSubmodule_zero R n)).toCommRingCatIso.isIso_hom
 
 /-- The generators `x_{e l}`. -/
 abbrev projectiveSpaceGenerators : Fin (n + 1) → MvPolynomial (Fin (n + 1)) R := fun l => X (e l)
@@ -142,7 +143,8 @@ theorem projToProjectiveSpaceOverSpec_projection :
       Proj.toSpecZero 𝒮 ≫ Spec.map (CommRingCat.ofHom (algebraMap R (𝒮 0))) :=
   pullback.lift_snd _ _ _
 
-instance : IsClosedImmersion (projToProjectiveSpaceOverSpec R n e) := by
+instance isClosedImmersion_projToProjectiveSpaceOverSpec :
+    IsClosedImmersion (projToProjectiveSpaceOverSpec R n e) := by
   have h : projToProjectiveSpaceOverSpec R n e =
       GeneratedProj.toProjectiveSpace 𝒮 (projectiveSpaceGenerators_mem R n e)
           (adjoin_projectiveSpaceGenerators R n e) ≫
@@ -252,7 +254,8 @@ theorem projectiveSpaceOverSpecChartMap_comp_fst (l : Fin (n + 1)) :
     projectiveSpaceOverSpecChartMap R n e l ≫
         projToProjectiveSpaceInt R n e =
       (projectiveSpaceOverSpecChart R n l).ι ≫ projectiveSpaceOverSpecFst R n := by
-  rw [ι_comp_eq_toSpecΓ_SpecMap (projectiveSpaceOverSpecFst R n) (projectiveSpaceOverSpecChart R n l)
+  rw [ι_comp_eq_toSpecΓ_SpecMap (projectiveSpaceOverSpecFst R n)
+    (projectiveSpaceOverSpecChart R n l)
     (X_mem_homogeneousSubmodule_one _ l) Nat.one_pos
     (projectiveSpaceOverSpecChart_eq R n l).le,
     projectiveSpaceOverSpecChartMap, projChartMap, Category.assoc, Category.assoc,

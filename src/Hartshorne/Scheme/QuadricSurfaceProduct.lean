@@ -163,7 +163,8 @@ theorem bijective_algebraMap_quadricGrading_zero :
     · by_contra h
       exact hp (ha p (Finsupp.mem_support_iff.mpr (Ne.symm h))).symm
 
-instance : IsIso (CommRingCat.ofHom (algebraMap k (𝒬 0))) :=
+instance isIso_algebraMap_quadricGrading_zero :
+    IsIso (CommRingCat.ofHom (algebraMap k (𝒬 0))) :=
   (RingEquiv.ofBijective _ (bijective_algebraMap_quadricGrading_zero k)).toCommRingCatIso.isIso_hom
 
 end Coordinates
@@ -212,7 +213,8 @@ theorem quadricSurfaceToProjectiveSpace_eq :
       GeneratedProj.toProjectiveSpace_projection]
     rfl
 
-instance : IsClosedImmersion (quadricSurfaceToProjectiveSpace k) := by
+instance isClosedImmersion_quadricSurfaceToProjectiveSpace :
+    IsClosedImmersion (quadricSurfaceToProjectiveSpace k) := by
   rw [quadricSurfaceToProjectiveSpace_eq]
   have := GeneratedProj.isClosedImmersion_toProjectiveSpace 𝒬 (quadricSegreCoordinates_mem k)
     (adjoin_quadricSegreCoordinates k)
@@ -568,8 +570,8 @@ end ToQuadric
 
 section Comparison
 
-/-- The renumbering of the coordinates: the Segre coordinate `z_{ij}` (index `segreIndex 1 1 (i, j)`)
-is the coordinate of `k[x, y, z, w]` with `x = z₀₀`, `y = z₁₁`, `z = z₀₁`, `w = z₁₀`. -/
+/-- The renumbering of the coordinates: the Segre coordinate `z_{ij}` (index
+`segreIndex 1 1 (i, j)`) is the coordinate of `k[x, y, z, w]` with `x = z₀₀`, `y = z₁₁`, `z = z₀₁`, `w = z₁₀`. -/
 def quadricCoordinateEquiv : Fin (1 * 1 + 1 + 1 + 1) ≃ Fin (1 * 1 + 1 + 1 + 1) where
   toFun := ![0, 2, 3, 1]
   invFun := ![0, 3, 1, 2]
@@ -613,7 +615,8 @@ theorem quadricSurfaceι_comp_projectiveSpaceOverSpecIso :
     exact (Category.assoc _ _ _).trans
       ((congrArg _ (projToProjectiveSpaceOverSpec_fst _ _ _)).trans
         (h1.trans (quadricSurfaceToProjectiveSpace_fst k).symm))
-  · have h2 : quadricSurfaceι k ≫ Proj.toSpecZero (homogeneousSubmodule (Fin (1 * 1 + 1 + 1 + 1)) k) ≫
+  · have h2 : quadricSurfaceι k ≫
+        Proj.toSpecZero (homogeneousSubmodule (Fin (1 * 1 + 1 + 1 + 1)) k) ≫
         Spec.map (CommRingCat.ofHom
           (algebraMap k (homogeneousSubmodule (Fin (1 * 1 + 1 + 1 + 1)) k 0))) =
         quadricSurfaceToSpec k := by
