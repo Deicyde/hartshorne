@@ -13,7 +13,8 @@ import Mathlib.CategoryTheory.Sites.PreservesSheafification
 /-!
 # The constant sheaf is the sheafification of the constant presheaf
 
-Hartshorne, *Algebraic Geometry*, Example II.1.0.3 (p. 62).
+Hartshorne, *Algebraic Geometry*, Example II.1.0.3 (p. 62), defines the constant sheaf; the
+comparison with the sheafification below supplements that definition.
 
 The constant sheaf `Hartshorne.constantSheaf X A` of locally constant maps to `A` is canonically
 isomorphic to Mathlib's constant sheaf `CategoryTheory.constantSheaf`, the sheafification of the
