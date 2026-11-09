@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.RingedSpace.ModuleSheafMonoidal
+import Mathlib.CategoryTheory.Adjunction.Additive
 import Mathlib.Topology.Sheaves.SheafCondition.UniqueGluing
 
 /-!
@@ -16,7 +17,8 @@ distinctions, its sections over `U` are the functions `x ∈ U → N` on proofs 
 
 The stalk at `x`, as a functor `moduleStalkFunctor x` from `𝒪_X`-modules to `𝒪_{X,x}`-modules, is
 left adjoint to the skyscraper functor (`moduleStalkSkyscraperAdjunction`): a morphism `F ⟶ x_* N`
-is the same thing as an `𝒪_{X,x}`-linear map `F_x → N`.
+is the same thing as an `𝒪_{X,x}`-linear map `F_x → N`. Both functors are additive, and the
+correspondence is an isomorphism of Hom groups (`moduleStalkSkyscraperHomAddEquiv`).
 -/
 
 universe u
@@ -271,6 +273,30 @@ lemma moduleStalkSkyscraperAdjunction_homEquiv_apply {F : 𝓜}
     (s : F.val.obj (op U)) (h : x ∈ U) :
     ((moduleStalkSkyscraperAdjunction x).homEquiv F N ψ).val.app (op U) s ⟨h⟩ =
       ψ (sectionGerm F.val x U h s) := rfl
+
+variable (x) in
+instance moduleSkyscraper_additive : (moduleSkyscraper (R := R) x).Additive where
+  map_add {_ _} _ _ := SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun _ => by
+    ext s
+    funext h
+    rfl)
+
+variable (x) in
+instance moduleStalkFunctor_additive : (moduleStalkFunctor (R := R) x).Additive :=
+  (moduleStalkSkyscraperAdjunction x).left_adjoint_additive
+
+variable (x) in
+/-- The stalk–skyscraper correspondence as an isomorphism of Hom groups:
+`Hom(F_x, N) ≅ Hom(F, x_* N)` as additive groups. -/
+noncomputable def moduleStalkSkyscraperHomAddEquiv (F : 𝓜)
+    (N : ModuleCat.{u} (ringSheafStalk R x)) :
+    ((moduleStalkFunctor x).obj F ⟶ N) ≃+ (F ⟶ (moduleSkyscraper x).obj N) :=
+  (moduleStalkSkyscraperAdjunction x).homAddEquiv F N
+
+lemma moduleStalkSkyscraperHomAddEquiv_apply {F : 𝓜} {N : ModuleCat.{u} (ringSheafStalk R x)}
+    (ψ : (moduleStalkFunctor x).obj F ⟶ N) :
+    moduleStalkSkyscraperHomAddEquiv x F N ψ = (moduleStalkSkyscraperAdjunction x).homEquiv F N ψ :=
+  rfl
 
 end Adjunction
 
