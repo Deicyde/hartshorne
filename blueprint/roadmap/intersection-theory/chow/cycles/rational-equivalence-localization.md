@@ -2,6 +2,9 @@
 article_id: af_ce0e9c5305277a0eca0cf635
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.chowGroup_localization_exact Hartshorne.map_rationalEquivalenceSubgroup_le_of_isClosedImmersion Hartshorne.map_rationalEquivalenceSubgroup_restrict_le Hartshorne.chowGroupRestrict_surjective Hartshorne.chowGroupRestrict_injective_of_lt Hartshorne.codim_range_eq_sub Hartshorne.chowGroupPushforward Hartshorne.chowGroupRestrict Hartshorne.codimensionCyclesRestrict
 ---
 
 # Localization sequence for rational equivalence via normalizations
