@@ -491,6 +491,30 @@ instance isIso_ψHom (k : D.ι) : IsIso (D.ψHom k) :=
 noncomputable def ψ (k : D.ι) : (SheafOfModules.overFunctor S (D.U k)).obj D.glue ≅ D.F k :=
   asIso (D.ψHom k)
 
+lemma glue_compatible : D.Compatible D.glue D.ψ := by
+  intro i j
+  refine Iso.ext ?_
+  ext A x
+  obtain ⟨A⟩ := A
+  have hA : A.left ≤ D.U i ⊓ D.U j := leOfHom A.hom
+  let x' : ↥(D.N.obj (op A.left)) := x
+  let Bij : Over (D.U i ⊓ D.U j) := st _ A.left
+  have e : A.left ≤ Bij.left := le_st_left hA le_rfl
+  have hx := x'.2 i j
+  change (D.φ i j).hom.val.app (op A) (rm (D.F i).val
+      (A := (Over.map (homOfLE (inf_le_left : D.U i ⊓ D.U j ≤ D.U i))).obj A)
+      (B := st (D.U i) A.left) (D.le_st_self i _) (x'.1 i)) =
+    rm (D.F j).val (A := (Over.map (homOfLE (inf_le_right : D.U i ⊓ D.U j ≤ D.U j))).obj A)
+      (B := st (D.U j) A.left) (D.le_st_self j _) (x'.1 j)
+  refine (congrArg ((D.φ i j).hom.val.app (op A)) (rm_rm (D.F i).val
+    (B := (Over.map (homOfLE (inf_le_left : D.U i ⊓ D.U j ≤ D.U i))).obj Bij) e
+    (st_mono inf_le_left A.left) _).symm).trans ?_
+  refine (D.φ_nat i j (A := A) (B := Bij) e _).trans ?_
+  refine (congrArg (rm (D.F j).val (A := (Over.map (homOfLE (inf_le_right :
+    D.U i ⊓ D.U j ≤ D.U j))).obj A) (B := (Over.map (homOfLE (inf_le_right :
+    D.U i ⊓ D.U j ≤ D.U j))).obj Bij) e) hx).trans ?_
+  exact rm_rm _ _ _ _
+
 end GluingData
 
 end ModuleGluing
