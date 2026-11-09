@@ -4,6 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Cohomology.OrderedCechComplex
 import Mathlib.Algebra.Homology.Augment
+import Mathlib.Algebra.Homology.QuasiIso
+import Mathlib.Algebra.Homology.SingleHomology
 import Mathlib.Algebra.Homology.ShortComplex.Ab
 import Mathlib.Topology.Sheaves.Abelian
 import Mathlib.Topology.Sheaves.Functors
@@ -34,6 +36,20 @@ differential; it is the product of the direct images `(f_a)_* (F|U_a)`.
   augmented complex is exact in every degree.
 * `Hartshorne.SheafifiedCech.globalSectionsIso`: applying the global sections functor to
   `𝒞^•(U, F)` gives the ordered Cech complex `Hartshorne.orderedCechComplex U F`.
+
+## Naturality in the sheaf
+
+* `Hartshorne.SheafifiedCech.sheafifiedCechComplexFunctor` and
+  `Hartshorne.SheafifiedCech.augmentedSheafifiedCechComplexFunctor`: `𝒞^•(U, -)` and the
+  augmented complex as functors from abelian sheaves to complexes of sheaves, built from the
+  squares `Hartshorne.SheafifiedCech.augmentation_naturality` and
+  `Hartshorne.SheafifiedCech.cochainSheafMap_comp_cochainDifferential`.
+* `Hartshorne.SheafifiedCech.augmentationNatTrans`: the augmentations, as morphisms of complexes
+  `Hartshorne.SheafifiedCech.augmentationHom` from `F` placed in degree zero, form a natural
+  transformation; `Hartshorne.SheafifiedCech.quasiIso_augmentationHom` says each is a
+  quasi-isomorphism when `U` covers `X`.
+* `Hartshorne.SheafifiedCech.globalSectionsNatIso`: the global-sections isomorphisms with the
+  ordered Cech complex are natural in the sheaf.
 
 ## Proof
 
@@ -854,6 +870,185 @@ theorem augmentedSheafifiedCechComplex_exactAt (U : ι → Opens X) (hU : IsOpen
     have h := homotopy_succ F hW hjV p b
     rw [hb', contraction_zero, add_zero] at h
     exact h
+
+
+section Naturality
+
+/-! ### Naturality in the sheaf -/
+
+theorem refineCochains_naturality {U U' : ι → Opens X} (h : ∀ i, U' i ≤ U i)
+    {F G : X.Sheaf AddCommGrpCat.{u}} (f : F ⟶ G) (p : ℕ) :
+    refineCochains h F p ≫ orderedCechCochainsMap U' f p =
+      orderedCechCochainsMap U f p ≫ refineCochains h G p := by
+  ext s
+  apply funext
+  intro a
+  change f.hom.app _ (F.presheaf.map _ (s a)) = G.presheaf.map _ (f.hom.app _ (s a))
+  exact ConcreteCategory.congr_hom (f.hom.naturality (homOfLE (intersection_mono h a)).op) (s a)
+
+/-- A morphism of sheaves `F ⟶ G` induces `𝒞^p(U, F) ⟶ 𝒞^p(U, G)`; over `V` it acts
+componentwise on the ordered Cech cochains of the cover `(V ∩ U_i)`. -/
+def cochainSheafMap (U : ι → Opens X) {F G : X.Sheaf AddCommGrpCat.{u}} (f : F ⟶ G) (p : ℕ) :
+    cochainSheaf U F p ⟶ cochainSheaf U G p :=
+  ObjectProperty.homMk
+    { app := fun V ↦ orderedCechCochainsMap (fun i ↦ V.unop ⊓ U i) f p
+      naturality := fun _ _ g ↦
+        refineCochains_naturality (fun i ↦ inf_le_inf_right (U i) g.unop.le) f p }
+
+@[simp]
+theorem cochainSheafMap_id (U : ι → Opens X) (F : X.Sheaf AddCommGrpCat.{u}) (p : ℕ) :
+    cochainSheafMap U (𝟙 F) p = 𝟙 _ := by
+  apply Sheaf.hom_ext
+  ext V s
+  rfl
+
+@[simp, reassoc]
+theorem cochainSheafMap_comp (U : ι → Opens X) {F G H : X.Sheaf AddCommGrpCat.{u}}
+    (f : F ⟶ G) (g : G ⟶ H) (p : ℕ) :
+    cochainSheafMap U (f ≫ g) p = cochainSheafMap U f p ≫ cochainSheafMap U g p := by
+  apply Sheaf.hom_ext
+  ext V s
+  rfl
+
+/-- The differentials of `𝒞^•(U, -)` commute with the maps induced by a morphism of sheaves. -/
+@[reassoc]
+theorem cochainSheafMap_comp_cochainDifferential (U : ι → Opens X)
+    {F G : X.Sheaf AddCommGrpCat.{u}} (f : F ⟶ G) (p : ℕ) :
+    cochainSheafMap U f p ≫ cochainDifferential U G p =
+      cochainDifferential U F p ≫ cochainSheafMap U f (p + 1) := by
+  apply Sheaf.hom_ext
+  ext V : 2
+  exact orderedCechDifferential_naturality _ f p
+
+/-- **Naturality of the augmentation.** For a morphism of sheaves `f : F ⟶ G`, the augmentations
+`F → 𝒞^0(U, F)` and `G → 𝒞^0(U, G)` commute with `f` and the induced map on `𝒞^0`. -/
+@[reassoc]
+theorem augmentation_naturality (U : ι → Opens X) {F G : X.Sheaf AddCommGrpCat.{u}}
+    (f : F ⟶ G) :
+    f ≫ augmentation U G = augmentation U F ≫ cochainSheafMap U f 0 := by
+  apply Sheaf.hom_ext
+  ext V s
+  apply funext
+  intro a
+  change G.presheaf.map _ (f.hom.app V s) = f.hom.app _ (F.presheaf.map _ s)
+  exact (ConcreteCategory.congr_hom (f.hom.naturality _) s).symm
+
+/-- A morphism of sheaves induces a morphism of sheafified Cech complexes. -/
+def sheafifiedCechComplexMap (U : ι → Opens X) {F G : X.Sheaf AddCommGrpCat.{u}} (f : F ⟶ G) :
+    sheafifiedCechComplex U F ⟶ sheafifiedCechComplex U G :=
+  CochainComplex.ofHom (cochainSheafMap U f) fun p ↦ by
+    rw [sheafifiedCechComplex_d, sheafifiedCechComplex_d]
+    exact cochainSheafMap_comp_cochainDifferential U f p
+
+@[simp]
+theorem sheafifiedCechComplexMap_f (U : ι → Opens X) {F G : X.Sheaf AddCommGrpCat.{u}}
+    (f : F ⟶ G) (p : ℕ) : (sheafifiedCechComplexMap U f).f p = cochainSheafMap U f p :=
+  rfl
+
+/-- The sheafified Cech complex `𝒞^•(U, -)`, functorial in the sheaf. -/
+def sheafifiedCechComplexFunctor (U : ι → Opens X) :
+    X.Sheaf AddCommGrpCat.{u} ⥤ CochainComplex (X.Sheaf AddCommGrpCat.{u}) ℕ where
+  obj F := sheafifiedCechComplex U F
+  map f := sheafifiedCechComplexMap U f
+  map_id F := by
+    ext p : 1
+    exact cochainSheafMap_id U F p
+  map_comp f g := by
+    ext p : 1
+    exact cochainSheafMap_comp U f g p
+
+/-- The augmentation as a morphism of complexes from `F`, placed in degree zero, to
+`𝒞^•(U, F)`. -/
+def augmentationHom (U : ι → Opens X) (F : X.Sheaf AddCommGrpCat.{u}) :
+    (CochainComplex.single₀ (X.Sheaf AddCommGrpCat.{u})).obj F ⟶ sheafifiedCechComplex U F :=
+  (CochainComplex.fromSingle₀Equiv _ F).symm ⟨augmentation U F, augmentation_comp_d U F⟩
+
+@[simp]
+theorem augmentationHom_f_zero (U : ι → Opens X) (F : X.Sheaf AddCommGrpCat.{u}) :
+    (augmentationHom U F).f 0 = augmentation U F :=
+  CochainComplex.fromSingle₀Equiv_symm_apply_f_zero _ _
+
+/-- **Naturality of the resolution.** The augmentations `F → 𝒞^•(U, F)` form a natural
+transformation from the functor placing a sheaf in degree zero to `𝒞^•(U, -)`. -/
+def augmentationNatTrans (U : ι → Opens X) :
+    CochainComplex.single₀ (X.Sheaf AddCommGrpCat.{u}) ⟶ sheafifiedCechComplexFunctor U where
+  app F := augmentationHom U F
+  naturality F G f := by
+    refine HomologicalComplex.from_single_hom_ext ?_
+    change ((CochainComplex.single₀ _).map f).f 0 ≫ (augmentationHom U G).f 0 =
+      (augmentationHom U F).f 0 ≫ cochainSheafMap U f 0
+    rw [CochainComplex.single₀_map_f_zero, augmentationHom_f_zero, augmentationHom_f_zero]
+    exact augmentation_naturality U f
+
+/-- A morphism of sheaves induces a morphism of augmented sheafified Cech complexes
+`0 → F → 𝒞^•(U, F)`. -/
+def augmentedSheafifiedCechComplexMap (U : ι → Opens X) {F G : X.Sheaf AddCommGrpCat.{u}}
+    (f : F ⟶ G) : augmentedSheafifiedCechComplex U F ⟶ augmentedSheafifiedCechComplex U G where
+  f
+    | 0 => f
+    | p + 1 => cochainSheafMap U f p
+  comm' := by
+    rintro i j (rfl : i + 1 = j)
+    rcases i with _ | p
+    · exact augmentation_naturality U f
+    · change cochainSheafMap U f p ≫ (sheafifiedCechComplex U G).d p (p + 1) =
+        (sheafifiedCechComplex U F).d p (p + 1) ≫ cochainSheafMap U f (p + 1)
+      rw [sheafifiedCechComplex_d, sheafifiedCechComplex_d]
+      exact cochainSheafMap_comp_cochainDifferential U f p
+
+/-- The augmented sheafified Cech complex `0 → F → 𝒞^•(U, F)`, functorial in the sheaf. -/
+def augmentedSheafifiedCechComplexFunctor (U : ι → Opens X) :
+    X.Sheaf AddCommGrpCat.{u} ⥤ CochainComplex (X.Sheaf AddCommGrpCat.{u}) ℕ where
+  obj F := augmentedSheafifiedCechComplex U F
+  map f := augmentedSheafifiedCechComplexMap U f
+  map_id F := by
+    ext (_ | p) : 1
+    · rfl
+    · exact cochainSheafMap_id U F p
+  map_comp f g := by
+    ext (_ | p) : 1
+    · rfl
+    · exact cochainSheafMap_comp U f g p
+
+/-- **Global sections of the sheafified Cech complex, naturally in the sheaf.** The isomorphisms
+`Γ(X, 𝒞^•(U, F)) ≅ C^•(U, F)` form a natural isomorphism of functors to complexes. -/
+def globalSectionsNatIso (U : ι → Opens X) :
+    sheafifiedCechComplexFunctor U ⋙
+        (globalSectionsFunctor X).mapHomologicalComplex (ComplexShape.up ℕ) ≅
+      orderedCechComplexFunctor U :=
+  NatIso.ofComponents (fun F ↦ globalSectionsIso U F) fun f ↦ by
+    ext p : 1
+    exact (refineCochains_naturality (U := fun i ↦ ⊤ ⊓ U i) (fun _ ↦ le_inf le_top le_rfl)
+      f p).symm
+
+/-- **Hartshorne III, Lemma 4.2, as a resolution.** For an open cover `U` of `X`, the
+augmentation `F → 𝒞^•(U, F)` is a quasi-isomorphism from `F` placed in degree zero. -/
+theorem quasiIso_augmentationHom (U : ι → Opens X) (hU : IsOpenCover U)
+    (F : X.Sheaf AddCommGrpCat.{u}) : QuasiIso (augmentationHom U F) := by
+  have hex := augmentedSheafifiedCechComplex_exactAt U hU F
+  rw [quasiIso_iff]
+  intro n
+  rcases n with _ | n
+  · rw [CochainComplex.quasiIsoAt₀_iff, ShortComplex.quasiIso_iff_of_zeros]
+    · have h1 := hex 1
+      rw [HomologicalComplex.exactAt_iff' _ 0 1 2 (CochainComplex.prev_nat_succ 0)
+        (CochainComplex.next ℕ 1)] at h1
+      have h0 := hex 0
+      rw [HomologicalComplex.exactAt_iff' _ 0 0 1 CochainComplex.prev_nat_zero
+        (CochainComplex.next ℕ 0), ShortComplex.exact_iff_mono _
+        ((augmentedSheafifiedCechComplex U F).shape 0 0 (by simp))] at h0
+      simp only [HomologicalComplex.shortComplexFunctor'_map_τ₂, augmentationHom_f_zero]
+      exact ⟨h1, h0⟩
+    all_goals rfl
+  · rw [quasiIsoAt_iff_exactAt _ _ (CochainComplex.exactAt_succ_single_obj F n)]
+    have h := hex (n + 2)
+    rw [HomologicalComplex.exactAt_iff' _ (n + 1) (n + 2) (n + 3)
+      (CochainComplex.prev_nat_succ (n + 1)) (CochainComplex.next ℕ (n + 2))] at h
+    rw [HomologicalComplex.exactAt_iff' _ n (n + 1) (n + 2)
+      (CochainComplex.prev_nat_succ n) (CochainComplex.next ℕ (n + 1))]
+    exact h
+
+end Naturality
 
 end SheafifiedCech
 
