@@ -2,8 +2,7 @@
 article_id: af_4a270209c8460746b8d4cd54
 declaration: def
 origin: bridged
-statement: formalized
-proof: formalized
+statement: retracted
 lean: Hartshorne.sheafTensor Hartshorne.sheafTensorMap Hartshorne.sheafTensorMonoidal Hartshorne.sheafTensorSymmetric Hartshorne.sheafTensorUnit_eq Hartshorne.sheafTensorIsoTensor Hartshorne.sheafTensorIsoTensor_hom_tmul Hartshorne.AbSheaf.associator_hom_tmulSection Hartshorne.AbSheaf.leftUnitor_hom_tmulSection Hartshorne.AbSheaf.rightUnitor_hom_tmulSection Hartshorne.AbSheaf.braiding_hom_tmulSection Hartshorne.sheafificationBraided Hartshorne.sheafTensorPowSucc Hartshorne.sheafTensorPowSuccFunctor Hartshorne.sheafTensorPowSuccAddIso Hartshorne.abSheafW_isMonoidal_of_essentiallySmall Hartshorne.abSheafW_isMonoidal_of_isCoverDense AlgebraicGeometry.Scheme.etaleW_isMonoidal
 ---
 
@@ -28,7 +27,7 @@ $F\otimes G\cong G\otimes F$,
 
 natural in every variable and satisfying the pentagon, triangle and hexagon axioms.  On local
 sections they send $(f\otimes g)\otimes h$ to $f\otimes(g\otimes h)$, $a\otimes f$ and
-$f\otimes a$ to $af$, and $f\otimes g$ to $g\otimes f$.  Sheafification, from presheaves with
+$f\otimes a$ to $af$ for an integer $a$, and $f\otimes g$ to $g\otimes f$.  Sheafification, from presheaves with
 the sectionwise tensor product to sheaves with $\otimes$, is a symmetric monoidal functor.
 
 Tensor powers are $F^{\otimes 1}=F$ and $F^{\otimes(k+1)}=F^{\otimes k}\otimes F$ for $k\ge 1$.
