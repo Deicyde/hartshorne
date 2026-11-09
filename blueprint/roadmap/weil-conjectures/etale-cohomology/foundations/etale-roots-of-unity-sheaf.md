@@ -2,6 +2,9 @@
 article_id: af_fab4230d466fcd773bbece40
 declaration: def
 origin: bridged
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.etaleRootsOfUnitySheaf AlgebraicGeometry.Scheme.etaleRootsOfUnitySheaf_obj_obj AlgebraicGeometry.Scheme.rootsOfUnityPresheafRepresentableIso AlgebraicGeometry.Scheme.isSheaf_fpqcTopology_rootsOfUnityPresheaf AlgebraicGeometry.Scheme.isSheaf_etaleTopology_rootsOfUnityPresheaf AlgebraicGeometry.Scheme.etaleRootsOfUnitySheafIncl AlgebraicGeometry.Scheme.etaleRootsOfUnitySheafIncl_app AlgebraicGeometry.Scheme.etaleRootsOfUnitySheafPow AlgebraicGeometry.Scheme.etaleRootsOfUnitySheafPow_app
 ---
 
 # The sheaf of roots of unity on the small étale site

@@ -781,6 +781,34 @@ noncomputable def etaleRootsOfUnitySheafMap (X : Scheme.{u}) {m n : ℕ}
     X.smallEtaleTopology etaleTopology).map
       (ObjectProperty.homMk (Functor.whiskerLeft Scheme.Γ α))
 
+/-- The inclusion `μ_m ⟶ μ_n` of sheaves on the small étale site of `X`, for `m ∣ n`. -/
+noncomputable def etaleRootsOfUnitySheafIncl (X : Scheme.{u}) {m n : ℕ} (h : m ∣ n) :
+    X.etaleRootsOfUnitySheaf m ⟶ X.etaleRootsOfUnitySheaf n :=
+  X.etaleRootsOfUnitySheafMap (rootsOfUnityFunctorIncl h)
+
+/-- The inclusion `μ_m ⟶ μ_n` is the identity on sections: a root of unity `ζ` over `U` is sent
+to `ζ`. -/
+theorem etaleRootsOfUnitySheafIncl_app (X : Scheme.{u}) {m n : ℕ} (h : m ∣ n) (U : X.Etale)
+    (ζ : (X.etaleRootsOfUnitySheaf m).obj.obj (op U)) :
+    ((Additive.toMul ((X.etaleRootsOfUnitySheafIncl h).hom.app (op U) ζ) :
+        rootsOfUnity n Γ(U.left, ⊤)) : Γ(U.left, ⊤)ˣ) =
+      ((Additive.toMul ζ : rootsOfUnity m Γ(U.left, ⊤)) : Γ(U.left, ⊤)ˣ) :=
+  rfl
+
+/-- The power map `μ_n ⟶ μ_m`, `ζ ↦ ζ ^ (n / m)`, of sheaves on the small étale site of `X`, for
+`m ∣ n`. -/
+noncomputable def etaleRootsOfUnitySheafPow (X : Scheme.{u}) {m n : ℕ} (h : m ∣ n) :
+    X.etaleRootsOfUnitySheaf n ⟶ X.etaleRootsOfUnitySheaf m :=
+  X.etaleRootsOfUnitySheafMap (rootsOfUnityFunctorPow (Nat.div_mul_cancel h))
+
+/-- The power map `μ_n ⟶ μ_m` sends a root of unity `ζ` over `U` to `ζ ^ (n / m)`. -/
+theorem etaleRootsOfUnitySheafPow_app (X : Scheme.{u}) {m n : ℕ} (h : m ∣ n) (U : X.Etale)
+    (ζ : (X.etaleRootsOfUnitySheaf n).obj.obj (op U)) :
+    ((Additive.toMul ((X.etaleRootsOfUnitySheafPow h).hom.app (op U) ζ) :
+        rootsOfUnity m Γ(U.left, ⊤)) : Γ(U.left, ⊤)ˣ) =
+      ((Additive.toMul ζ : rootsOfUnity n Γ(U.left, ⊤)) : Γ(U.left, ⊤)ˣ) ^ (n / m) :=
+  rfl
+
 /-- The inclusion `μ_{ℓ^r} ⟶ μ_{ℓ^s}` for `r ≤ s`. -/
 noncomputable def etaleTateTwistOneIncl (X : Scheme.{u}) (ℓ : ℕ) {r s : ℕ} (h : r ≤ s) :
     X.etaleTateTwistOne ℓ r ⟶ X.etaleTateTwistOne ℓ s :=
