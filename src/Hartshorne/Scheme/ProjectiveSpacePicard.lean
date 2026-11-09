@@ -377,6 +377,75 @@ def imageInvertibleSubmodule (l : ℤ) : (Proj 𝒜).InvertibleTotalQuotientSubm
   isSheaf := isSheaf_imageSubmodule l
   isInvertible := (ProjTwistingSheaf.isInvertible (adjoin_one_eq_top k n) l).of_iso (imageIso l)
 
+/-! ### Orders of the image of a section -/
+
+theorem ord_one (y : Proj 𝒜) : (Proj 𝒜).ord (1 : (Proj 𝒜).functionField) y = 0 := by
+  have h := (Proj 𝒜).ord_mul (x := y) (one_ne_zero (α := (Proj 𝒜).functionField)) one_ne_zero
+  rw [mul_one] at h
+  omega
+
+theorem ord_pow {κ : (Proj 𝒜).functionField} (hκ : κ ≠ 0) (y : Proj 𝒜) (m : ℕ) :
+    (Proj 𝒜).ord (κ ^ m) y = m * (Proj 𝒜).ord κ y := by
+  induction m with
+  | zero => rw [pow_zero, ord_one, Nat.cast_zero, zero_mul]
+  | succ m ih =>
+    rw [pow_succ, Scheme.ord_mul (pow_ne_zero m hκ) hκ, ih]
+    push_cast
+    ring
+
+theorem homogeneousFraction_eq_zero {g h : S} {d : ℕ} (hg : g.IsHomogeneous d)
+    (hh : h.IsHomogeneous d) (h0 : h ≠ 0) (hg0 : g = 0) : homogeneousFraction hg hh h0 = 0 := by
+  apply functionFieldToLocalization_injective
+  rw [functionFieldToLocalization_homogeneousFraction, map_zero, hg0, Localization.mk_zero]
+
+/-- A homogeneous fraction `g / h` has nonnegative order at the points of `D₊(h)`. -/
+theorem ord_homogeneousFraction_nonneg {g h : S} {d : ℕ} (hg : g.IsHomogeneous d)
+    (hh : h.IsHomogeneous d) (h0 : h ≠ 0) (y : Proj 𝒜) (hy : y ∈ Proj.basicOpen 𝒜 h) :
+    0 ≤ (Proj 𝒜).ord (homogeneousFraction hg hh h0) y := by
+  by_cases hg0 : g = 0
+  · rw [homogeneousFraction_eq_zero hg hh h0 hg0, Scheme.ord_zero]
+    rfl
+  have : Nonempty (Proj.basicOpen 𝒜 h) := ⟨⟨y, hy⟩⟩
+  have ha0 : hypersurfaceChartEquation g h hg hh ≠ 0 := by
+    intro ha
+    apply homogeneousFraction_ne_zero hg hh h0 hg0
+    rw [homogeneousFraction, ha, map_zero]
+  have := (Proj 𝒜).ord_le_smul hy ha0 1
+  rw [ord_one] at this
+  convert this using 2
+  rw [Algebra.smul_def, mul_one]
+  rfl
+
+variable (hn : 0 < n)
+
+/-- The hyperplane `H = V(x₀)` of `ℙⁿ_k`. -/
+abbrev hyperplaneX0 : (Proj 𝒜).PrimeDivisor :=
+  projectiveHyperplanePrimeDivisor hn (isHomogeneous_X k (0 : Fin (n + 1))) (X_ne_zero 0)
+
+include hn in
+/-- The order of `x₀ / ℓ` at a codimension-one point `y` outside `V(ℓ)` is `1` along `H = V(x₀)`
+and `0` elsewhere. -/
+theorem ord_X0_div {ℓ : S} (hℓ : ℓ.IsHomogeneous 1) (hℓ0 : ℓ ≠ 0) (y : Proj 𝒜)
+    (hy1 : Order.coheight y = 1) (hy : y ∈ Proj.basicOpen 𝒜 ℓ) :
+    (Proj 𝒜).ord (homogeneousFraction (isHomogeneous_X k (0 : Fin (n + 1))) hℓ hℓ0) y =
+      (hyperplaneX0 hn).toWeilDivisor.1 y := by
+  rw [show y = (⟨y, hy1⟩ : (Proj 𝒜).PrimeDivisor).1 from rfl, toWeilDivisor_apply_primeDivisor]
+  split_ifs with hP
+  · have hyH : y = (hyperplaneX0 hn).1 := congrArg Subtype.val hP
+    refine ord_homogeneousFraction_eq_one _ hℓ hℓ0 y hy1 hy ?_ (X_ne_zero 0)
+    rw [hyH]
+    exact projectiveHypersurfacePrimeDivisor_asHomogeneousIdeal hn _ _
+  · refine ord_homogeneousFraction_eq_zero _ hℓ hℓ0 y hy fun hX0 => hP (Subtype.ext ?_)
+    refine (projectiveSpace_eq_of_coheight_eq_one (hyperplaneX0 hn).2 hy1 ?_).symm
+    intro a ha
+    have ha' : a ∈ Ideal.span {(X 0 : S)} := by
+      rw [← projectiveHypersurfacePrimeDivisor_asHomogeneousIdeal hn
+        (isHomogeneous_X k (0 : Fin (n + 1)))
+        (irreducible_of_isHomogeneous_one (isHomogeneous_X k (0 : Fin (n + 1))) (X_ne_zero 0))]
+      exact ha
+    obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.mp ha'
+    exact y.asHomogeneousIdeal.toIdeal.mul_mem_left c hX0
+
 end ProjectiveSpacePicard
 
 end Hartshorne
