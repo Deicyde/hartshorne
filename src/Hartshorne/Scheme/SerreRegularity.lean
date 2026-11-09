@@ -3,6 +3,7 @@ Copyright (c) 2026. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.RegularLocalGlobalDimension
+import Hartshorne.Scheme.Differentials.RegularLocalLift
 
 /-!
 # Serre's criterion: finite projective dimension of the residue field forces regularity
@@ -168,6 +169,8 @@ theorem projective_of_mem_associatedPrimes [IsLocalRing B] [IsNoetherianRing B]
 
 /-- If `x` is a non-zero-divisor in the maximal ideal of a Noetherian local ring `B` and
 `B ⧸ (x)` is regular, then `B` is regular. -/
+@[deprecated Hartshorne.isRegularLocalRing_of_isRegularLocalRing_quotient_span_singleton
+  (since := "2026-11-09")]
 theorem isRegularLocalRing_of_quotient [IsLocalRing B] [IsNoetherianRing B] {x : B}
     (hx : x ∈ nonZeroDivisors B) [IsLocalRing (B ⧸ Ideal.span {x})]
     (h : IsRegularLocalRing (B ⧸ Ideal.span {x})) : IsRegularLocalRing B := by
@@ -456,7 +459,9 @@ theorem isRegularLocalRing_of_hasProjectiveDimensionLE (n : ℕ) :
     obtain ⟨ret⟩ := nonempty_retract_residueField_quotient hxm hx2
     have hk' := ret.hasProjectiveDimensionLT (n + 1)
     have hreg' := ih (B ⧸ I) hk'
-    refine isRegularLocalRing_of_quotient (x := x) ?_ hreg'
+    have : IsRegularLocalRing (B ⧸ Ideal.span {x}) := hreg'
+    refine Hartshorne.isRegularLocalRing_of_isRegularLocalRing_quotient_span_singleton
+      (f := x) ?_ hxm
     rw [mem_nonZeroDivisors_iff_right]
     intro y hy
     exact hxreg.right_eq_zero_of_smul (by rwa [smul_eq_mul, mul_comm])
