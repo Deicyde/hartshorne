@@ -61,6 +61,7 @@ $D_+(s_i) \times D_+(u_j)$ of $\mathbb{P}^1_k \times_k \mathbb{P}^1_k$.
 - [The relative Segre embedding](../../proper-and-projective/relative-segre-closed-immersion.md)
 - [Projective space over a ring](../../projective-spectrum/projective-space-over-ring.md)
 - [A graded quotient induces a closed immersion of Proj](../../normalization-and-exercises/proj-surjection-closed-immersion.md)
+- [Homogeneous ideals and truncation define the same Proj subscheme](../../normalization-and-exercises/proj-closed-subscheme-truncation.md)
 
 ## Proof depends on
 
