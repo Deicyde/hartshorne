@@ -6,6 +6,7 @@ import Hartshorne.Scheme.ProjPartialMap
 import Hartshorne.Scheme.ProjTwistLocalization
 import Hartshorne.Scheme.ProjTwistCompatibility
 import Hartshorne.RingedSpace.FiniteLocallyFreeProjectionFormula
+import Hartshorne.Scheme.PicardPullback
 
 /-!
 # Pullback of twisting sheaves along the partial Proj morphism
@@ -423,6 +424,58 @@ theorem isLocalFrame_twistGenSection :
     exact (hc x).symm
 
 end Frames
+
+section Iso
+
+variable {A B σ τ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+  [CommRing B] [SetLike τ B] [AddSubgroupClass τ B]
+  {𝒜 : ℕ → σ} {ℬ : ℕ → τ} [GradedRing 𝒜] [GradedRing ℬ] (f : 𝒜 →+*ᵍ ℬ) (n : ℤ)
+
+open ProjTwistMap ProjGradedModuleSheaf Ringed
+
+theorem twistFiber_twistGen {P : Submonoid A} {Q : Submonoid B} (h : P ≤ Q.comap f) {g : A}
+    (g_deg : g ∈ 𝒜 1) (hgP : g ∈ P) :
+    twistFiber f n h (twistGen n g_deg hgP) = twistGen n (f.map_mem g_deg) (h hgP) := by
+  rw [twistGen, twistFiber_mk]
+  ext
+  simp only [HomogeneousLocalizedModule.val_mk, twistGen_val, map_pow]
+  rfl
+
+/-- The adjoint `f^* 𝒪_{Proj S}(n) ⟶ 𝒪_{Proj T}(n)|_U` of `psi`. -/
+def psiAdj : (Scheme.Modules.pullback (projPartialMap f)).obj (projTwistingSheaf 𝒜 n) ⟶
+    (projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι :=
+  ((Scheme.Modules.pullbackPushforwardAdjunction (projPartialMap f)).homEquiv _ _).symm (psi f n)
+
+theorem psiAdj_etaSec {V : (Proj 𝒜).Opens} (s : (projTwistingSheaf 𝒜 n).val.presheaf.obj (op V)) :
+    sectionsMap (R := (projPartialDomain f).toScheme.sheaf) (psiAdj f n) (projPartialMap f ⁻¹ᵁ V)
+        (etaSec (φ := (projPartialMap f).toRingCatSheafHom) s) =
+      sectionsMap (R := (Proj 𝒜).sheaf) (psi f n) V s := by
+  have h : pullbackUnit (projPartialMap f).toRingCatSheafHom (projTwistingSheaf 𝒜 n) ≫
+      (Scheme.Modules.pushforward (projPartialMap f)).map (psiAdj f n) = psi f n :=
+    ((Scheme.Modules.pullbackPushforwardAdjunction (projPartialMap f)).homEquiv_unit _ _ _).symm.trans
+      (Equiv.apply_symm_apply _ _)
+  exact ConcreteCategory.congr_hom (congrArg (fun φ => sectionsMap (R := (Proj 𝒜).sheaf) φ V) h) s
+
+theorem image_preimage_basicOpen_le {g : A} (V' : (projPartialDomain f).toScheme.Opens)
+    (hV' : V' ≤ projPartialMap f ⁻¹ᵁ Proj.basicOpen 𝒜 g) :
+    (projPartialDomain f).ι ''ᵁ V' ≤ Proj.basicOpen ℬ (f g) := by
+  rintro _ ⟨x, hx, rfl⟩
+  have h := hV' hx
+  change projPartialMap f x ∈ Proj.basicOpen 𝒜 g at h
+  rw [Proj.mem_basicOpen, projPartialMap_apply_asHomogeneousIdeal] at h
+  exact h
+
+set_option backward.isDefEq.respectTransparency false in
+/-- The image of the frame `g^n` under `psi` is a frame of `𝒪_{Proj T}(n)|_U` on `f⁻¹ D₊(g)`. -/
+theorem isLocalFrame_psi_twistGenSection {g : A} (g_deg : g ∈ 𝒜 1) :
+    IsLocalFrame (R := (projPartialDomain f).toScheme.sheaf)
+      ((projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι)
+      (projPartialMap f ⁻¹ᵁ Proj.basicOpen 𝒜 g)
+      (fun _ : PUnit.{u + 1} => sectionsMap (R := (Proj 𝒜).sheaf) (psi f n) _
+        (twistGenSection g_deg n)) := by
+  sorry
+
+end Iso
 
 end ProjTwistPullback
 
