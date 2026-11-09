@@ -12,7 +12,9 @@ and $n \in \mathbb{Z}$, there is a natural isomorphism
 $\widetilde{M} \otimes \mathcal{O}_X(n) \cong \widetilde{M(n)}$.
 
 In particular, $\mathcal{O}_X(n) \otimes \mathcal{O}_X(m) \cong \mathcal{O}_X(n+m)$. These isomorphisms are
-associative and compatible with the chosen chart trivializations.
+associative and compatible with the chosen chart trivializations. Hartshorne states only the
+isomorphisms; their associativity and compatibility with the chart trivializations are project
+additions.
 
 ## Depends on
 
