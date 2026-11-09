@@ -30,6 +30,11 @@ immersion.
 * `Hartshorne.Veronese.map_comp_toProj`: `Proj S ≅ Proj S^{(d)}` is natural in `S`.
 * `Hartshorne.Veronese.dupleMap`: the `d`-uple map `ρ_d : ℙⁿ_Y ⟶ ℙᴺ_Y` given by the
   degree-`d` monomials in `x₀, …, xₙ`, the base extension of `Hartshorne.Veronese.dupleMapInt`.
+* `Hartshorne.Veronese.isClosedImmersion_dupleMapInt` and
+  `Hartshorne.Veronese.isClosedImmersion_dupleMap`: `ρ_d` is a closed immersion. Over `ℤ` it is
+  `Proj ℤ[x] ≅ Proj ℤ[x]^{(d)}` followed by the closed immersion of
+  `Hartshorne.GeneratedProj.isClosedImmersion_toProjectiveSpace` into `ℙᴺ` over
+  `Spec ℤ[x]^{(d)}_0 = Spec ℤ`; over `Y` it is the base change of that.
 * `Hartshorne.Veronese.dupleEmbedding_eq_comp_dupleMap`: the `d`-uple embedding of `Proj S` is
   the closed immersion `Proj S ⟶ ℙⁿ_{Spec S₀}` given by `x₀, …, xₙ` followed by `ρ_d`.
 -/
@@ -439,6 +444,63 @@ theorem dupleMap_projection (Y : Scheme.{u}) :
     dupleMap d n Y ≫ projectiveSpaceOverSchemeProjection (dupleN n d) Y =
       projectiveSpaceOverSchemeProjection n Y :=
   (pullback.lift_snd _ _ _).trans (Category.comp_id _)
+
+variable (n) in
+/-- The degree-zero part of `ℤ[x₀, …, xₙ]` is `ℤ`. -/
+def intGradingZeroEquiv : ULift.{u} ℤ ≃+* GeneratedProj.intGrading.{u} n 0 :=
+  RingEquiv.ofBijective (algebraMap (ULift.{u} ℤ) (GeneratedProj.intGrading.{u} n 0))
+    ⟨fun a b h => MvPolynomial.C_injective (Fin (n + 1)) (ULift.{u} ℤ)
+        (congrArg Subtype.val h), by
+      rintro ⟨p, hp⟩
+      have hp' : p ∈ MvPolynomial.homogeneousSubmodule (Fin (n + 1)) (ULift.{u} ℤ) 0 := hp
+      rw [MvPolynomial.homogeneousSubmodule_zero, Submodule.mem_one] at hp'
+      obtain ⟨r, hr⟩ := hp'
+      exact ⟨r, Subtype.ext hr⟩⟩
+
+/-- `ℙᴺ` over `Spec` of the degree-zero part of `ℤ[x₀, …, xₙ]^{(d)}` is `ℙᴺ_ℤ`: the projection
+`ℙᴺ_{Spec ℤ[x]^{(d)}_0} ⟶ ℙᴺ_ℤ` is an isomorphism. -/
+instance isIso_fst_veroneseIntZero (N : ℕ) :
+    IsIso (pullback.fst (projectiveSpaceOverIntegersMap.{u} N)
+      (schemeToSpecZ (Spec (.of ((veronese (GeneratedProj.intGrading.{u} n) d) 0))))) := by
+  let e : ULift.{u} ℤ ≃+* (veronese (GeneratedProj.intGrading.{u} n) d) 0 :=
+    (intGradingZeroEquiv n).trans (zeroEquiv (GeneratedProj.intGrading.{u} n) d).symm
+  have h : schemeToSpecZ (Spec (.of ((veronese (GeneratedProj.intGrading.{u} n) d) 0))) =
+      Spec.map (CommRingCat.ofHom e.toRingHom) :=
+    specULiftZIsTerminal.{u}.hom_ext _ _
+  have : IsIso (CommRingCat.ofHom e.toRingHom) := (RingEquiv.toCommRingCatIso e).isIso_hom
+  have : IsIso (schemeToSpecZ (Spec (.of ((veronese (GeneratedProj.intGrading.{u} n) d) 0)))) := by
+    rw [h]
+    infer_instance
+  infer_instance
+
+/-- **The `d`-uple map of `ℙⁿ_ℤ` is a closed immersion.** -/
+instance isClosedImmersion_dupleMapInt : IsClosedImmersion (dupleMapInt.{u} d n) := by
+  have := GeneratedProj.isClosedImmersion_toProjectiveSpace
+    (veronese (GeneratedProj.intGrading.{u} n) d)
+    (dupleCoords_mem d MvPolynomial.X (X_mem_homogeneousSubmodule_one (ULift.{u} ℤ)))
+    (adjoin_dupleCoords MvPolynomial.X _ (adjoin_range_X_intGrading n))
+  rw [dupleMapInt, ← GeneratedProj.toProjectiveSpace_fst]
+  exact @IsClosedImmersion.comp _ _ _ _ _
+    (@IsClosedImmersion.instOfIsIsoScheme _ _ _ (isIso_toProj d))
+    (@IsClosedImmersion.comp _ _ _ _ _ this
+      (@IsClosedImmersion.instOfIsIsoScheme _ _ _ (isIso_fst_veroneseIntZero _)))
+
+/-- The `d`-uple map of `ℙⁿ_Y` is the base change of the `d`-uple map of `ℙⁿ_ℤ`. -/
+theorem dupleMap_isPullback (Y : Scheme.{u}) :
+    IsPullback (dupleMap d n Y) (pullback.fst _ _) (pullback.fst _ _) (dupleMapInt d n) := by
+  refine IsPullback.of_right (h₁₂ := projectiveSpaceOverSchemeProjection (dupleN n d) Y)
+    (h₂₂ := projectiveSpaceOverIntegersMap (dupleN n d)) (v₁₃ := schemeToSpecZ Y) ?_
+    (dupleMap_fst Y) (IsPullback.of_hasPullback _ _).flip
+  rw [dupleMap_projection]
+  convert (IsPullback.of_hasPullback (projectiveSpaceOverIntegersMap n) (schemeToSpecZ Y)).flip
+    using 1
+  exact specULiftZIsTerminal.{u}.hom_ext _ _
+
+/-- **The `d`-uple map `ρ_d : ℙⁿ_Y ⟶ ℙᴺ_Y` is a closed immersion**, over any base scheme `Y`
+(Hartshorne, II, Exercise 5.13, calls it the `d`-uple embedding of `ℙⁿ_A`). -/
+instance isClosedImmersion_dupleMap (Y : Scheme.{u}) : IsClosedImmersion (dupleMap d n Y) :=
+  MorphismProperty.of_isPullback (P := @IsClosedImmersion) (dupleMap_isPullback Y).flip
+    (isClosedImmersion_dupleMapInt (d := d))
 
 omit [NeZero d] in
 /-- The graded homomorphism `ℤ[x₀, …, xₙ] → S`, `xᵢ ↦ xᵢ`, maps the degree-`d` monomials in the
