@@ -23,6 +23,10 @@ It is an invertible sheaf.
 - [Exterior powers of a short exact sequence](../../module-exercises/exterior-power-exact-filtration.md)
 - [Locally free and invertible module sheaves](../../modules-and-quasicoherent/locally-free-and-invertible.md)
 
+## Proof depends on
+
+- [The perfect exterior-power pairing](../../module-exercises/exterior-perfect-pairing.md)
+
 ## Sources
 
 - [Hartshorne II.8, canonical-sheaf definition (pp.180–181)](../../../../sources/hartshorne-ii-8.md#canonical-sheaves-and-adjunction)
