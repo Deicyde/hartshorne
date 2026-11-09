@@ -2,6 +2,9 @@
 article_id: af_6894ed727f5896f25fa50b4e
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.ExteriorPerfectPairing.rankTwoDualTensorIso Hartshorne.moduleSheafExteriorPowerOneIso
 ---
 
 # A rank-two locally free sheaf is its dual twisted by its determinant
