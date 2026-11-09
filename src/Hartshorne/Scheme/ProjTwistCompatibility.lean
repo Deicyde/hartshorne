@@ -30,6 +30,8 @@ Project additions (Hartshorne states only the isomorphisms):
 * compatibility with the chart trivializations by multiplication by `f^n` on `D₊(f)`,
   `f ∈ S_1`: `twistMulIso_hom_twistGenSection` (the local generators `f^n ⊗ f^m` go to
   `f^(n + m)`) and `twistPair_twistAwayEquiv` (on `S(n)_(f)`, `a f^n · b f^m = a b f^(n + m)`).
+  The recorded trivialization sends `1` to `f^n` (`chartTrivialization_inv_one`), and
+  `M~ ⊗ 𝒪_X(n) ≅ M(n)~` sends `s ⊗ f^n` to multiplication by `f^n` (`twistIso_hom_twistGenSection`).
 
 The associativity proofs use `tensor₃_hom_ext`: morphisms out of `(F ⊗ G) ⊗ H` are determined by
 their values on the sections `(f ⊗ g) ⊗ h`, because every section of `F ⊗ G` is locally a finite
