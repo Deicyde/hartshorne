@@ -207,6 +207,96 @@ theorem quadricSegreCover_comp_projOne (c : Fin (1 + 1) × Fin (1 + 1)) :
     rw [awayLift_fromZeroRingHom (𝒜 := 𝒮)]
     exact (eval₂Hom_C (quadricAwayConst k) _ r).symm
 
+theorem isUnit_quadricSndChartHom_segre (c : Fin (1 + 1) × Fin (1 + 1)) :
+    IsUnit (quadricSndChartHom k (quadricSegreHom_X_mem k c) c.1 (X c.2)) := by
+  rw [quadricSndChartHom, eval₂Hom_X',
+    away_mk_eq_one k _ _ (quadricSegreHom_X_segreIndex k c.1 c.2).symm]
+  exact isUnit_one
+
+/-- **The second projection on a chart.** On `D₊(sᵢuⱼ)`, `p₂` is the chart map to `D₊(xⱼ)` given
+by `x_b ↦ sᵢ u_b / sᵢ uⱼ`. -/
+theorem quadricSegreCover_comp_projTwo (c : Fin (1 + 1) × Fin (1 + 1)) :
+    (quadricSegreCover k).f c ≫ quadricProjTwo k =
+      projChartMap (quadricSndChartHom k (quadricSegreHom_X_mem k c) c.1)
+        (X_mem_homogeneousSubmodule_one k c.2) Nat.one_pos
+        (isUnit_quadricSndChartHom_segre k c) := by
+  rw [← cancel_mono (projectiveLineIso k).hom]
+  simp only [quadricProjTwo, Category.assoc, Iso.inv_hom_id, Category.comp_id,
+    quadricSurfaceIsoSegreSource_inv]
+  apply pullback.hom_ext
+  · simp only [Category.assoc]
+    rw [projectiveSpaceOverSpecIso_hom, projToProjectiveSpaceOverSpec_fst]
+    have h1 : quadricSurfaceToSegreSource k ≫ pullback.snd _ _ ≫ pullback.fst _ _ =
+        quadricToSegreSource k ≫ segreSnd 1 1 := by
+      rw [← quadricSurfaceToSegreSource_toInt, Category.assoc]
+      exact congrArg _ (pullback.lift_snd _ _ _).symm
+    rw [h1]
+    have h2 : (quadricSegreCover k).f c ≫ quadricToSegreSource k =
+        quadricChartToSegreChart k c ≫ segreRetractToSource 1 1 c.1 c.2 := by
+      rw [quadricToSegreSource, Scheme.Cover.ι_glueMorphisms]
+      rfl
+    have hG : IsUnit (((CommRingCat.ofHom (Away.map (quadricSegreHom k)
+        (X (segreIndex 1 1 c)))).hom.comp (segreSndRetractRingMap 1 1 c.1 c.2)) (X c.2)) := by
+      rw [RingHom.comp_apply, segreSndRetractRingMap_X_self, map_one]
+      exact isUnit_one
+    have hL : (quadricSegreCover k).f c ≫ quadricToSegreSource k ≫ segreSnd 1 1 =
+        projChartMap (((CommRingCat.ofHom (Away.map (quadricSegreHom k)
+          (X (segreIndex 1 1 c)))).hom.comp (segreSndRetractRingMap 1 1 c.1 c.2)))
+          (X_mem_homogeneousSubmodule_one _ c.2) Nat.one_pos hG := by
+      rw [← Category.assoc, h2, Category.assoc, segreRetractToSource_snd, SpecMap_projChartMap]
+    refine hL.trans ?_
+    have hu : IsUnit (quadricSndChartHom k (quadricSegreHom_X_mem k c) c.1
+        (projectiveSpaceComparisonHom k 1 (Equiv.refl _) (X c.2))) := by
+      rw [projectiveSpaceComparisonHom_X]
+      exact isUnit_quadricSndChartHom_segre k c
+    rw [projChartMap_eq _ (X_mem_homogeneousSubmodule_one k c.2) Nat.one_pos _
+      ((projectiveSpaceComparisonHom k 1 (Equiv.refl _)).map_mem
+        (X_mem_homogeneousSubmodule_one _ c.2)) Nat.one_pos hu,
+      projChartMap, projChartMap]
+    refine Eq.trans ?_ ((congrArg (_ ≫ ·)
+      (awayι_comp_toProjectiveSpaceInt k 1 (Equiv.refl _) c.2)).symm.trans
+        (Category.assoc _ _ _).symm)
+    rw [← Category.assoc, ← Spec.map_comp]
+    congr 2
+    ext1
+    apply chart_ringHom_ext c.2
+    · intro r
+      exact chartConst_ext _ _ _ r
+    · intro a
+      have hF1 : quadricSndChartHom k (quadricSegreHom_X_mem k c) c.1
+          (projectiveSpaceComparisonHom k 1 (Equiv.refl _) (X c.2)) = 1 := by
+        rw [projectiveSpaceComparisonHom_X, Equiv.refl_apply, quadricSndChartHom, eval₂Hom_X',
+          away_mk_eq_one k _ _ (quadricSegreHom_X_segreIndex k c.1 c.2).symm]
+      have key := awayLift_mk (𝒜 := 𝒮) (quadricSndChartHom k (quadricSegreHom_X_mem k c) c.1) hu
+        ((projectiveSpaceComparisonHom k 1 (Equiv.refl _)).map_mem
+          (X_mem_homogeneousSubmodule_one _ c.2)) 1
+        (projectiveSpaceComparisonHom k 1 (Equiv.refl _) (X a))
+        (by simpa using projectiveSpaceComparisonHom_X_mem k 1 (Equiv.refl _) a)
+      rw [hF1, one_pow] at key
+      replace key := (mul_one _).symm.trans key
+      simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom, RingHom.comp_apply]
+      rw [away_map_comparison_chartRatio]
+      refine Eq.trans ?_ key.symm
+      rw [awayLift_chartRatio _ _ _ (by
+        rw [RingHom.comp_apply, segreSndRetractRingMap_X_self, map_one]), RingHom.comp_apply,
+        projectiveSpaceComparisonHom_X]
+      simp only [segreSndRetractRingMap, eval₂Hom_X', chartRatio, Away.map_mk,
+        quadricSndChartHom, Equiv.refl_apply]
+      exact away_mk_congr k _ _ _ (quadricSegreHom_X_segreIndex k c.1 a)
+  · have h3 : quadricSurfaceToSegreSource k ≫ pullback.snd _ _ ≫ pullback.snd _ _ =
+        quadricSurfaceToSpec k := by
+      rw [← pullback.condition, ← quadricSurfaceToProjectiveSpace_projection, ← quadricSurfaceToSegreSource_comp,
+        Category.assoc, relativeSegre_projection]
+    simp only [Category.assoc, projectiveSpaceOverSpecIso_hom,
+      projToProjectiveSpaceOverSpec_projection]
+    rw [h3, quadricSurfaceToSpec, projChartMap, Category.assoc, Proj.awayι_toSpecZero_assoc,
+      Proj.awayι_toSpecZero_assoc, ← Spec.map_comp, ← Spec.map_comp, ← Spec.map_comp]
+    congr 1
+    refine CommRingCat.hom_ext (RingHom.ext fun r => ?_)
+    simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom, RingHom.comp_apply]
+    rw [awayLift_fromZeroRingHom (𝒜 := 𝒮)]
+    exact (eval₂Hom_C (quadricAwayConst k) _ r).symm
+
 end Projections
 
 end Hartshorne
