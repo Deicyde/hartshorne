@@ -488,16 +488,29 @@ theorem isSmoothAt_of_finrank_le {K T : Type u} [Field K] [CommRing T] [Algebra 
 
 
 /-- **Differential criterion for smoothness over a field**, global form. A finite type algebra
-`T` over a field `K` such that `dim_{κ(q)} κ(q) ⊗ Ω_{T/K} ≤ n ≤ dim T_q + dim T ⧸ q` for every
-prime `q` is smooth over `K`. -/
+`T` over a field `K` such that `dim_{κ(q)} κ(q) ⊗ Ω_{T/K} ≤ dim T_q + dim T ⧸ q` at every prime
+`q` (the integer `n` of the pointwise criterion may depend on `q`) is smooth over `K`. -/
+theorem smooth_of_forall_finrank_le_ringKrullDim {K T : Type u} [Field K] [CommRing T]
+    [Algebra K T] [Algebra.FiniteType K T]
+    (h : ∀ (q : Ideal T) [q.IsPrime],
+      (finrank q.ResidueField (q.ResidueField ⊗[T] Ω[T⁄K]) : WithBot ℕ∞) ≤
+        ringKrullDim (Localization.AtPrime q) + ringKrullDim (T ⧸ q)) :
+    Algebra.Smooth K T := by
+  have : Algebra.FinitePresentation K T := Algebra.FinitePresentation.of_finiteType.mp ‹_›
+  refine ⟨Algebra.smoothLocus_eq_univ_iff.mp (Set.eq_univ_iff_forall.mpr fun q => ?_), ‹_›⟩
+  exact isSmoothAt_of_finrank_le q.asIdeal _ le_rfl (h q.asIdeal)
+
+/-- **Differential criterion for smoothness over a field**, global form with one integer `n` for
+every prime: a finite type algebra `T` over a field `K` such that
+`dim_{κ(q)} κ(q) ⊗ Ω_{T/K} ≤ n ≤ dim T_q + dim T ⧸ q` for every prime `q` is smooth over `K`.
+A special case of `Hartshorne.smooth_of_forall_finrank_le_ringKrullDim`. -/
 theorem smooth_of_forall_finrank_le {K T : Type u} [Field K] [CommRing T] [Algebra K T]
     [Algebra.FiniteType K T] (n : ℕ)
     (h : ∀ (q : Ideal T) [q.IsPrime],
       finrank q.ResidueField (q.ResidueField ⊗[T] Ω[T⁄K]) ≤ n ∧
         (n : WithBot ℕ∞) ≤ ringKrullDim (Localization.AtPrime q) + ringKrullDim (T ⧸ q)) :
-    Algebra.Smooth K T := by
-  have : Algebra.FinitePresentation K T := Algebra.FinitePresentation.of_finiteType.mp ‹_›
-  refine ⟨Algebra.smoothLocus_eq_univ_iff.mp (Set.eq_univ_iff_forall.mpr fun q => ?_), ‹_›⟩
-  exact isSmoothAt_of_finrank_le q.asIdeal n (h q.asIdeal).1 (h q.asIdeal).2
+    Algebra.Smooth K T :=
+  smooth_of_forall_finrank_le_ringKrullDim fun q _ =>
+    le_trans (by exact_mod_cast (h q).1) (h q).2
 
 end Hartshorne
