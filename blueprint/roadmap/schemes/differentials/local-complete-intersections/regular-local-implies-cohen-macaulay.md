@@ -4,7 +4,7 @@ declaration: theorem
 origin: background
 statement: formalized
 proof: formalized
-lean: IsRegularLocalRing.isCohenMacaulayLocalRing
+lean: IsRegularLocalRing.isCohenMacaulayLocalRing Hartshorne.RegularLocal.exists_isWeaklyRegular_of_spanFinrank_eq
 ---
 
 # Regular local rings are Cohen–Macaulay

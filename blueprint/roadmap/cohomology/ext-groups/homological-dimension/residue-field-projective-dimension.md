@@ -4,7 +4,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.RegularLocal.projectiveDimension_residueField_eq_ringKrullDim Hartshorne.RegularLocal.projectiveDimension_residueField Hartshorne.RegularLocal.exists_isWeaklyRegular_of_spanFinrank_eq
+lean: Hartshorne.RegularLocal.projectiveDimension_residueField_eq_ringKrullDim Hartshorne.RegularLocal.projectiveDimension_residueField
 ---
 
 # Projective dimension of the residue field
