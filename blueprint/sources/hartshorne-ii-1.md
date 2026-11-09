@@ -27,7 +27,9 @@ wrapper for presheaves should be introduced.
 Hartshorne's constant sheaf is presented concretely as continuous maps into a
 discrete group. Mathlib has both an abstract sheafification-based constant
 sheaf and a sheaf of continuous maps, but the pinned checkout does not contain
-the source-shaped additive comparison. That bridge remains project work.
+the source-shaped additive comparison. The project now proves that bridge: the
+source-shaped constant sheaf is canonically isomorphic to the sheafification
+of the constant presheaf.
 
 The project already has `Hartshorne.Variety.regular` and
 `Hartshorne.Variety.LocalRingAt`. The regular-functions sheaf must reuse the
