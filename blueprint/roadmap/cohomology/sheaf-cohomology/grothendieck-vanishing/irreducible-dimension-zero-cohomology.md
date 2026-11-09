@@ -21,6 +21,12 @@ cohomological vanishing base case.
 
 - [Sheaf cohomology](../sheaf-cohomology.md)
 
+## Proof depends on
+
+- [The long exact sequence of right derived functors](../../derived-functors/right-derived-long-exact-sequence.md)
+- [Abelian sheaves have enough injectives](../abelian-sheaves-enough-injectives.md)
+- [Flasque closure in short exact sequences](../flasque-short-exact-closure.md)
+
 ## Sources
 
 - [Hartshorne III.2, proof of Theorem 2.7, Step 2, printed p. 210](../../../../sources/hartshorne-iii-1-2.md#grothendieck-vanishing-proof-printed-pp-210211)
