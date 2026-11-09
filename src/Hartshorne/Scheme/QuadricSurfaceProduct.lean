@@ -347,4 +347,226 @@ theorem quadricSurfaceToSegreSource_comp :
 
 end FromQuadric
 
+section ToQuadric
+
+theorem awayLift_fromZeroRingHom {B : Type*} [CommRing B] (F : QuadricRing k →+* B)
+    {f : QuadricRing k} (hf : IsUnit (F f)) (x : 𝒬 0) :
+    awayLift (𝒜 := 𝒬) F f hf (fromZeroRingHom 𝒬 _ x) = F x := by
+  simp only [awayLift, RingHom.coe_comp, Function.comp_apply,
+    HomogeneousLocalization.algebraMap_apply]
+  have h : (fromZeroRingHom 𝒬 (Submonoid.powers f) x).val =
+      algebraMap (QuadricRing k) (Localization.Away f) x := by
+    rw [← Localization.mk_one_eq_algebraMap]
+    rfl
+  rw [h]
+  exact IsLocalization.lift_eq _ _
+
+theorem ι_comp_eq_toSpecΓ_SpecMap_of_Spec {Y : Scheme.{u}} {R : CommRingCat.{u}} (φ : Y ⟶ Spec R)
+    (V : Y.Opens) (h : V ≤ φ ⁻¹ᵁ ⊤) :
+    V.ι ≫ φ = V.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso R).inv ≫ φ.appLE ⊤ V h) := by
+  rw [Spec.map_comp, Scheme.Opens.toSpecΓ_SpecMap_appLE_assoc, ← Scheme.Hom.resLE_comp_ι φ h,
+    Scheme.Opens.toSpecΓ_top, Category.assoc, toSpecΓ_SpecMap_ΓSpecIso_inv, Category.comp_id]
+
+/-- The chart `V_{ij}` of `ℙ¹_k ×_k ℙ¹_k`: the preimage of `D₊(xᵢ) ×_ℤ D₊(yⱼ)`. -/
+def segreSourceChart (c : Fin (1 + 1) × Fin (1 + 1)) :
+    (relativeSegreSource 1 1 (Spec (.of k))).Opens :=
+  relativeSegreSourceToInt 1 1 (Spec (.of k)) ⁻¹ᵁ segreChartOpen 1 1 c.1 c.2
+
+theorem segreSourceChart_isOpenCover : TopologicalSpace.IsOpenCover (segreSourceChart k) := by
+  refine TopologicalSpace.IsOpenCover.mk (eq_top_iff.mpr fun x _ => ?_)
+  have hx : relativeSegreSourceToInt 1 1 (Spec (.of k)) x ∈
+      ⨆ c : Fin (1 + 1) × Fin (1 + 1), segreChartOpen.{u} 1 1 c.1 c.2 := by
+    rw [(segreChartOpen_iSup 1 1).iSup_eq_top]
+    trivial
+  obtain ⟨c, hc⟩ := TopologicalSpace.Opens.mem_iSup.mp hx
+  exact TopologicalSpace.Opens.mem_iSup.mpr ⟨c, hc⟩
+
+/-- The ratio `xₐ/xᵢ` on the chart `V_{ij}`. -/
+def segreSourceFst (c : Fin (1 + 1) × Fin (1 + 1)) (a : Fin (1 + 1)) :
+    Γ(relativeSegreSource 1 1 (Spec (.of k)), segreSourceChart k c) :=
+  (relativeSegreSourceToInt 1 1 (Spec (.of k))).appLE (segreChartOpen 1 1 c.1 c.2)
+    (segreSourceChart k c) le_rfl (segreFstSection 1 1 c.1 c.2 (chartRatio _ c.1 a))
+
+/-- The ratio `y_b/yⱼ` on the chart `V_{ij}`. -/
+def segreSourceSnd (c : Fin (1 + 1) × Fin (1 + 1)) (b : Fin (1 + 1)) :
+    Γ(relativeSegreSource 1 1 (Spec (.of k)), segreSourceChart k c) :=
+  (relativeSegreSourceToInt 1 1 (Spec (.of k))).appLE (segreChartOpen 1 1 c.1 c.2)
+    (segreSourceChart k c) le_rfl (segreSndSection 1 1 c.1 c.2 (chartRatio _ c.2 b))
+
+theorem segreSourceFst_self (c : Fin (1 + 1) × Fin (1 + 1)) : segreSourceFst k c c.1 = 1 := by
+  rw [segreSourceFst, chartRatio_self, map_one, map_one]
+
+theorem segreSourceSnd_self (c : Fin (1 + 1) × Fin (1 + 1)) : segreSourceSnd k c c.2 = 1 := by
+  rw [segreSourceSnd, chartRatio_self, map_one, map_one]
+
+/-- The scalars `k → Γ(V_{ij})`. -/
+def segreSourceScalar (c : Fin (1 + 1) × Fin (1 + 1)) :
+    k →+* Γ(relativeSegreSource 1 1 (Spec (.of k)), segreSourceChart k c) :=
+  ((Scheme.ΓSpecIso (.of k)).inv ≫ (relativeSegreSourceProjection 1 1 (Spec (.of k))).appLE ⊤
+    (segreSourceChart k c) (show _ ≤ _ ⁻¹ᵁ ⊤ from le_top)).hom
+
+/-- The monomial `s^e u^g ↦ ∏ (xₐ/xᵢ)^{eₐ} (y_b/yⱼ)^{g_b}` on the chart `V_{ij}`. -/
+def segreSourceMonomial (c : Fin (1 + 1) × Fin (1 + 1)) :
+    Multiplicative quadricExponents →*
+      Γ(relativeSegreSource 1 1 (Spec (.of k)), segreSourceChart k c) where
+  toFun p := segreSourceFst k c 0 ^ p.toAdd.1.1 0 * segreSourceFst k c 1 ^ p.toAdd.1.1 1 *
+    segreSourceSnd k c 0 ^ p.toAdd.1.2 0 * segreSourceSnd k c 1 ^ p.toAdd.1.2 1
+  map_one' := by simp
+  map_mul' p q := by
+    simp only [toAdd_mul, AddSubmonoid.coe_add, Prod.fst_add, Prod.snd_add, Pi.add_apply, pow_add]
+    ring
+
+/-- The ring map from the Segre ring to `Γ(V_{ij})` of the chart map `V_{ij} ⟶ D₊(sᵢuⱼ)`. -/
+def segreSourceRingHom (c : Fin (1 + 1) × Fin (1 + 1)) :
+    QuadricRing k →+* Γ(relativeSegreSource 1 1 (Spec (.of k)), segreSourceChart k c) :=
+  liftNCRingHom (segreSourceScalar k c) (segreSourceMonomial k c) fun _ _ => Commute.all _ _
+
+theorem segreSourceRingHom_quadricChart (c : Fin (1 + 1) × Fin (1 + 1)) (a b : Fin (1 + 1)) :
+    segreSourceRingHom k c (quadricChart k a b) = segreSourceFst k c a * segreSourceSnd k c b := by
+  rw [segreSourceRingHom, quadricChart, liftNCRingHom_single, map_one, one_mul]
+  fin_cases a <;> fin_cases b <;> simp [segreSourceMonomial, quadricChartExp]
+
+theorem segreSourceRingHom_algebraMap (c : Fin (1 + 1) × Fin (1 + 1)) (r : k) :
+    segreSourceRingHom k c (algebraMap k (QuadricRing k) r) = segreSourceScalar k c r := by
+  rw [segreSourceRingHom, coe_algebraMap, Function.comp_apply, liftNCRingHom_single, ofAdd_zero,
+    map_one, mul_one]
+  rfl
+
+theorem segreSourceRingHom_X_segreIndex (c : Fin (1 + 1) × Fin (1 + 1)) (a b : Fin (1 + 1)) :
+    segreSourceRingHom k c (quadricSegreHom k (X (segreIndex 1 1 (a, b)))) =
+      segreSourceFst k c a * segreSourceSnd k c b := by
+  rw [quadricSegreHom_X_segreIndex, segreSourceRingHom_quadricChart]
+
+theorem segreSourceRingHom_X_self (c : Fin (1 + 1) × Fin (1 + 1)) :
+    segreSourceRingHom k c (quadricSegreHom k (X (segreIndex 1 1 c))) = 1 := by
+  obtain ⟨i, j⟩ := c
+  rw [segreSourceRingHom_X_segreIndex]
+  exact (congrArg₂ (· * ·) (segreSourceFst_self k (i, j)) (segreSourceSnd_self k (i, j))).trans
+    (mul_one 1)
+
+theorem isUnit_segreSourceRingHom_X_self (c : Fin (1 + 1) × Fin (1 + 1)) :
+    IsUnit (segreSourceRingHom k c (quadricSegreHom k (X (segreIndex 1 1 c)))) := by
+  rw [segreSourceRingHom_X_self]
+  exact isUnit_one
+
+/-- The chart map `V_{ij} ⟶ D₊(sᵢuⱼ) ⊆ Q`. -/
+def segreSourceToQuadricChart (c : Fin (1 + 1) × Fin (1 + 1)) :
+    (segreSourceChart k c).toScheme ⟶ quadricSurface k :=
+  (segreSourceChart k c).toSpecΓ ≫ projChartMap (segreSourceRingHom k c) (quadricSegreHom_X_mem k c)
+    Nat.one_pos (isUnit_segreSourceRingHom_X_self k c)
+
+theorem quadric_away_map_chartRatio (l m : Fin (1 * 1 + 1 + 1 + 1)) :
+    Away.map (quadricSegreHom k) (X l) (chartRatio _ l m) =
+      Away.mk 𝒬 ((quadricSegreHom k).map_mem (X_mem_homogeneousSubmodule_one _ l)) 1
+        (quadricSegreHom k (X m))
+        (by simpa using (quadricSegreHom k).map_mem (X_mem_homogeneousSubmodule_one _ m)) := by
+  rw [chartRatio, Away.map_mk]
+
+theorem quadricAwayι_comp (c : Fin (1 + 1) × Fin (1 + 1)) :
+    Proj.awayι 𝒬 _ (quadricSegreHom_X_mem k c) Nat.one_pos ≫ quadricSurfaceToProjectiveSpaceInt k =
+      quadricChartToSegreChart k c ≫ Proj.awayι _ (X (segreIndex 1 1 c))
+        (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos :=
+  quadricSegreCover_comp k c
+
+theorem segreSourceToQuadricChart_comp_int (c : Fin (1 + 1) × Fin (1 + 1)) :
+    segreSourceToQuadricChart k c ≫ quadricSurfaceToProjectiveSpaceInt k =
+      (segreSourceChart k c).ι ≫ relativeSegreSourceToInt 1 1 (Spec (.of k)) ≫
+        segreMorphismInt 1 1 := by
+  obtain ⟨i, j⟩ := c
+  have hle : segreSourceChart k (i, j) ≤
+      (relativeSegreSourceToInt 1 1 (Spec (.of k)) ≫ segreMorphismInt 1 1) ⁻¹ᵁ
+        Proj.basicOpen _ (X (segreIndex 1 1 (i, j))) := by
+    rw [Scheme.Hom.comp_preimage, segreMorphismInt_preimage_basicOpen]
+    exact le_rfl
+  rw [ι_comp_eq_toSpecΓ_SpecMap _ _ (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos hle,
+    segreSourceToQuadricChart, projChartMap, Category.assoc, Category.assoc, quadricAwayι_comp,
+    ← Category.assoc (Spec.map _), ← Spec.map_comp]
+  congr 3
+  ext1
+  apply chart_ringHom_ext (segreIndex 1 1 (i, j))
+  · intro r
+    exact chartConst_ext _ _ _ r
+  · intro m
+    obtain ⟨⟨a, b⟩, rfl⟩ := (segreIndex 1 1).surjective m
+    have key := awayLift_mk (𝒜 := 𝒬) (segreSourceRingHom k (i, j))
+      (isUnit_segreSourceRingHom_X_self k (i, j)) (quadricSegreHom_X_mem k (i, j)) 1
+      (quadricSegreHom k (X (segreIndex 1 1 (a, b))))
+      (by simpa using quadricSegreHom_X_mem k (a, b))
+    rw [segreSourceRingHom_X_self, one_pow, mul_one, segreSourceRingHom_X_segreIndex] at key
+    simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom, RingHom.comp_apply]
+    rw [quadric_away_map_chartRatio, key, ← Scheme.Hom.appLE_comp_appLE _ _ _
+      (segreChartOpen 1 1 i j) (segreSourceChart k (i, j))
+      (segreMorphismInt_preimage_basicOpen 1 1 i j).ge
+      (show segreSourceChart k (i, j) ≤ _ ⁻¹ᵁ segreChartOpen 1 1 i j from le_rfl),
+      CommRingCat.hom_comp, RingHom.comp_apply, segreMorphismInt_appLE_chartRatio, map_mul]
+    rfl
+
+theorem segreSourceToQuadricChart_comp_toSpec (c : Fin (1 + 1) × Fin (1 + 1)) :
+    segreSourceToQuadricChart k c ≫ quadricSurfaceToSpec k =
+      (segreSourceChart k c).ι ≫ relativeSegreSourceProjection 1 1 (Spec (.of k)) := by
+  rw [ι_comp_eq_toSpecΓ_SpecMap_of_Spec _ _ (show _ ≤ _ ⁻¹ᵁ ⊤ from le_top),
+    segreSourceToQuadricChart, projChartMap, quadricSurfaceToSpec, Category.assoc, Category.assoc,
+    Proj.awayι_toSpecZero_assoc, ← Spec.map_comp, ← Spec.map_comp]
+  congr 2
+  ext r
+  simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom, RingHom.comp_apply]
+  rw [awayLift_fromZeroRingHom]
+  exact segreSourceRingHom_algebraMap k c r
+
+theorem segreSourceToQuadricChart_comp (c : Fin (1 + 1) × Fin (1 + 1)) :
+    segreSourceToQuadricChart k c ≫ quadricSurfaceToProjectiveSpace k =
+      (segreSourceChart k c).ι ≫ relativeSegre 1 1 (Spec (.of k)) := by
+  apply pullback.hom_ext
+  · exact (Category.assoc _ _ _).trans ((congrArg _ (quadricSurfaceToProjectiveSpace_fst k)).trans
+      ((segreSourceToQuadricChart_comp_int k c).trans
+        ((congrArg _ (relativeSegre_fst 1 1 _)).symm.trans (Category.assoc _ _ _).symm)))
+  · exact (Category.assoc _ _ _).trans
+      ((congrArg _ (quadricSurfaceToProjectiveSpace_projection k)).trans
+      ((segreSourceToQuadricChart_comp_toSpec k c).trans
+        ((congrArg _ (relativeSegre_projection 1 1 _)).symm.trans (Category.assoc _ _ _).symm)))
+
+/-- The morphism `ℙ¹_k ×_k ℙ¹_k ⟶ Q`, glued from the charts. -/
+def segreSourceToQuadric : relativeSegreSource 1 1 (Spec (.of k)) ⟶ quadricSurface k :=
+  glueOpens (segreSourceChart k) (segreSourceChart_isOpenCover k) (segreSourceToQuadricChart k)
+    (by
+      intro x y
+      rw [← cancel_mono (quadricSurfaceToProjectiveSpace k)]
+      simp only [Category.assoc, segreSourceToQuadricChart_comp, Scheme.homOfLE_ι_assoc])
+
+theorem ι_segreSourceToQuadric_comp (c : Fin (1 + 1) × Fin (1 + 1)) :
+    (segreSourceChart k c).ι ≫ segreSourceToQuadric k ≫ quadricSurfaceToProjectiveSpace k =
+      (segreSourceChart k c).ι ≫ relativeSegre 1 1 (Spec (.of k)) := by
+  rw [segreSourceToQuadric, ι_glueOpens_assoc, segreSourceToQuadricChart_comp]
+
+@[reassoc (attr := simp)]
+theorem segreSourceToQuadric_comp :
+    segreSourceToQuadric k ≫ quadricSurfaceToProjectiveSpace k = relativeSegre 1 1 (Spec (.of k)) :=
+  (Scheme.openCoverOfIsOpenCover _ (segreSourceChart k) (segreSourceChart_isOpenCover k)).hom_ext
+    _ _ fun c => ι_segreSourceToQuadric_comp k c
+
+end ToQuadric
+
+section Main
+
+/-- **The split quadric surface is `ℙ¹ × ℙ¹`.** The isomorphism `ℙ¹_k ×_k ℙ¹_k ≅ Q`. -/
+def quadricSurfaceIsoSegreSource : relativeSegreSource 1 1 (Spec (.of k)) ≅ quadricSurface k where
+  hom := segreSourceToQuadric k
+  inv := quadricSurfaceToSegreSource k
+  hom_inv_id := by
+    rw [← cancel_mono (relativeSegre 1 1 (Spec (.of k))), Category.assoc,
+      quadricSurfaceToSegreSource_comp, segreSourceToQuadric_comp, Category.id_comp]
+  inv_hom_id := by
+    rw [← cancel_mono (quadricSurfaceToProjectiveSpace k), Category.assoc,
+      segreSourceToQuadric_comp, quadricSurfaceToSegreSource_comp, Category.id_comp]
+
+/-- **The split quadric surface is `ℙ¹ × ℙ¹`.** The relative Segre embedding
+`ℙ¹_k ×_k ℙ¹_k ⟶ ℙ³_{Spec k}` is the isomorphism `ℙ¹_k ×_k ℙ¹_k ≅ Q` followed by the closed
+immersion `Q ⟶ ℙ³_{Spec k}` given by the Segre coordinates `z_{ij} = sᵢuⱼ`. -/
+theorem relativeSegre_eq_quadricSurfaceIsoSegreSource_hom_comp :
+    relativeSegre 1 1 (Spec (.of k)) =
+      (quadricSurfaceIsoSegreSource k).hom ≫ quadricSurfaceToProjectiveSpace k :=
+  (segreSourceToQuadric_comp k).symm
+
+end Main
+
 end Hartshorne
