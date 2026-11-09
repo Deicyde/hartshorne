@@ -2,6 +2,9 @@
 article_id: af_193fab189fbfe831c74ed1e1
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.smooth_of_forall_topologicalKrullDim_eq_of_finrank_fibre_le Hartshorne.finrank_fibre_relativeDifferentials_affine
 ---
 
 # The differential criterion for a scheme over a field
