@@ -115,8 +115,10 @@ The exercises themselves are printed on pp. 79–82.
   on p. 117 and tail invariance on p. 120; part (d) is also the promised
   comparison in Example 2.5.1 and Proposition 2.6.
 - **2.15(a–c):** closed points of an associated variety scheme are precisely
-  the `k`-rational points, scheme morphisms over `k` preserve them, and the
-  comparison functor is fully faithful.  Proposition 2.6 explicitly delegates
+  the `k`-rational points (a); a morphism of schemes over `k` sends points with
+  residue field `k` to points with residue field `k`, for arbitrary `k`-schemes (b);
+  and the comparison functor is fully faithful (c).  Here `k` is the exercise's
+  algebraically closed field (paraphrase; printed wording not yet checked).  Proposition 2.6 explicitly delegates
   its final assertion to this exercise on p. 79.
 - **2.16(a–d):** the nonvanishing locus of a global section is open; vanishing
   on it gives power torsion under quasi-compactness; under the stated finite

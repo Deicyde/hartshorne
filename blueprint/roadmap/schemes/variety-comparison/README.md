@@ -19,4 +19,5 @@ schemes over an algebraically closed field.
 - [The variety-to-scheme functor](variety-to-scheme-functor.md)
 - [Classical points are the closed points](variety-closed-points.md)
 - [Restricting the structure sheaf recovers regular functions](variety-restricted-sheaf.md)
+- [Morphisms over $k$ preserve points with residue field $k$](residue-field-k-preserved.md)
 - [The variety-to-scheme functor is fully faithful](variety-functor-fully-faithful.md)
