@@ -915,4 +915,37 @@ theorem chartTrivialization_inv_one (n : ℤ) (x : Proj 𝒜)
 
 end Chart
 
+section ChartModule
+
+variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+  {𝒜 : ℕ → σ} [GradedRing 𝒜]
+  {M σM : Type u} [AddCommGroup M] [Module A M] [SetLike σM M] [AddSubgroupClass σM M]
+  {ℳ : ℤ → σM} [SetLike.GradedSMul 𝒜 ℳ]
+
+open ProjGradedModuleSheaf ProjTwist Ringed
+
+variable {f : A} (f_deg : f ∈ 𝒜 1)
+
+/-- **Chart compatibility of `M~ ⊗ 𝒪_X(n) ≅ M(n)~`** (project addition): on `D₊(f)`, `f ∈ S_1`,
+the isomorphism sends `s ⊗ f^n` to the pairing of `s` with the local generator `f^n`, i.e. to
+multiplication by `f^n` (`val_twistPair`). With `chartTrivialization_inv_one` this ties the
+isomorphism to the chosen chart trivializations of `𝒪_X(n)`. -/
+theorem twistIso_hom_twistGenSection (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 : Set A) = ⊤) (n : ℤ)
+    (s : (projGradedModuleSheaf 𝒜 ℳ).val.obj (op (ProjectiveSpectrum.basicOpen 𝒜 f)))
+    (x : ProjectiveSpectrum.basicOpen 𝒜 f) :
+    (((twistIso ℳ hgen n).hom.val.app (op (ProjectiveSpectrum.basicOpen 𝒜 f))
+        (tmulSection _ _ s (twistGenSection f_deg n)) :
+        (projGradedModuleSheaf 𝒜 (gradedModuleTwist ℳ n)).val.obj
+          (op (ProjectiveSpectrum.basicOpen 𝒜 f))) :
+      (sheafInType 𝒜 (gradedModuleTwist ℳ n)).1.obj
+          (op (ProjectiveSpectrum.basicOpen 𝒜 f))).1 x =
+      twistPair _ n ((s : (sheafInType 𝒜 ℳ).1.obj _).1 x)
+        (twistGen n f_deg (show f ∈ x.1.asHomogeneousIdeal.toIdeal.primeCompl from x.2)) :=
+  congrArg (fun z : (projGradedModuleSheaf 𝒜 (gradedModuleTwist ℳ n)).val.obj
+      (op (ProjectiveSpectrum.basicOpen 𝒜 f)) =>
+      (z : (sheafInType 𝒜 (gradedModuleTwist ℳ n)).1.obj _).1 x)
+    (twistIso_hom_tmulSection hgen n s (twistGenSection f_deg n))
+
+end ChartModule
+
 end Hartshorne
