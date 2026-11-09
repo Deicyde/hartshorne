@@ -53,6 +53,9 @@ curve divisors is introduced only in IV, Exercise 2.6 and is not added here.
   table), and the chart description of the divisor of a quotient of
   homogeneous elements of equal degree on `Proj` of a graded domain generated
   in degree one, which also covers the projective-space case of Proposition 6.4.
+  The roadmap models the Segre ring as the monoid algebra of the exponent pairs
+  of bidegree `(d,d)`, graded by `d`; the split-quadric article identifies it
+  with `k[x,y,z,w]/(xy - zw)` and the resulting `Proj` with `V(xy - zw)`.
 
 The affine-space, Dedekind-domain, plane-complement, affine-quadric-cone, and
 twisted-cubic calculations are retained as examples or tests. The statement
