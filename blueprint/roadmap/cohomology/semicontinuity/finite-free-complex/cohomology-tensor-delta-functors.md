@@ -2,7 +2,8 @@
 article_id: af_8d604cc43b75df685cf8ce8e
 declaration: theorem
 origin: cited
-statement: retracted
+statement: formalized
+proof: formalized
 lean: Hartshorne.tensorPullbackTilde Hartshorne.cohomologyTensor Hartshorne.cohomologyTensorδ Hartshorne.IsCovariantDeltaFunctor Hartshorne.tensorPullbackTilde_shortExact Hartshorne.cohomologyTensor_isCovariantDeltaFunctor Hartshorne.cohomologyTensorModule Hartshorne.cohomologyTensorModuleδ Hartshorne.cohomologyTensorModule_comp_forget₂ Hartshorne.forget₂_map_cohomologyTensorModuleδ Hartshorne.cohomologyTensorModule_isCovariantDeltaFunctor
 ---
 
