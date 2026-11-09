@@ -63,6 +63,7 @@ end Algebra
 
 section Fibre
 
+-- The chart-level pullback isomorphisms and the stalk rewriting need more than the default.
 set_option maxHeartbeats 400000 in
 attribute [local instance] Algebra.TensorProduct.rightAlgebra in
 /-- Every fibre of `Ω_{X_y/k(y)}` on the scheme-theoretic fibre `X_y = X ×_Y Spec k(y)` of
