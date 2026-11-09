@@ -23,6 +23,7 @@ module operations.
 - [Quasi-coherence by local presentations](../modules-and-quasicoherent/quasicoherent-local-presentations.md)
 - [The affine-local criterion for coherence](../modules-and-quasicoherent/coherent-affine-local-criterion.md)
 - [Closed immersions](../subschemes-and-dimension/closed-immersions.md)
+- [Noetherian schemes and finite affine covers](../first-properties/noetherian-scheme.md)
 
 ## Proof depends on
 
