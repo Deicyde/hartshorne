@@ -32,4 +32,4 @@ $k \to \kappa(f(P))$.
 
 ## Sources
 
-- [Hartshorne II.2, Exercise 2.15(b) (exercises printed pp. 79–82)](../../../sources/hartshorne-ii-2.md#exercises-212-through-219)
+- [Hartshorne II.2, Exercise 2.15(b) (p. 81)](../../../sources/hartshorne-ii-2.md#exercises-212-through-219)

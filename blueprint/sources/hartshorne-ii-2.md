@@ -117,9 +117,11 @@ The exercises themselves are printed on pp. 79–82.
 - **2.15(a–c):** closed points of an associated variety scheme are precisely
   the `k`-rational points (a); a morphism of schemes over `k` sends points with
   residue field `k` to points with residue field `k`, for arbitrary `k`-schemes (b);
-  and the comparison functor is fully faithful (c).  Here `k` is the exercise's
-  algebraically closed field (paraphrase; printed wording not yet checked).  Proposition 2.6 explicitly delegates
-  its final assertion to this exercise on p. 79.
+  and the comparison functor is fully faithful (c).  Part (b), p. 81: "If
+  f: X -> Y is a morphism of schemes over k, and if P ∈ X is a point with
+  residue field k, then f(P) ∈ Y also has residue field k", where `k` is the
+  algebraically closed field `k` of part (a).  Proposition 2.6 explicitly
+  delegates its final assertion to this exercise on p. 79.
 - **2.16(a–d):** the nonvanishing locus of a global section is open; vanishing
   on it gives power torsion under quasi-compactness; under the stated finite
   affine-intersection hypothesis sections acquire a common power denominator;
