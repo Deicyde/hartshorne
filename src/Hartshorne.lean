@@ -593,6 +593,7 @@ import Hartshorne.Scheme.Differentials.RelativeDifferentialsAffineFibre
 import Hartshorne.Scheme.Differentials.DifferentialsCharacterizeNonsingular
 import Hartshorne.Cohomology.SmoothMorphisms.DifferentialCriterionSchemeOverField
 import Hartshorne.Scheme.RegularLocalProjectiveTest
+import Hartshorne.Scheme.RegularLocalPdTest
 import Hartshorne.Intersection.ChowCodimOnePicard
 import Hartshorne.Scheme.VarietyBasicInstances
 import Hartshorne.Surface.SurfaceCurveConvention
