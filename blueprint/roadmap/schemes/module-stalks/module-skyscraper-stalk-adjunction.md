@@ -4,7 +4,7 @@ declaration: def
 origin: bridged
 statement: formalized
 proof: formalized
-lean: Hartshorne.Ringed.moduleSkyscraper Hartshorne.Ringed.moduleStalkFunctor Hartshorne.Ringed.moduleStalkSkyscraperAdjunction
+lean: Hartshorne.Ringed.moduleSkyscraper Hartshorne.Ringed.moduleStalkFunctor Hartshorne.Ringed.moduleStalkSkyscraperAdjunction Hartshorne.Ringed.moduleStalkSkyscraperHomAddEquiv Hartshorne.Ringed.moduleStalkSkyscraperAdjunction_homEquiv_apply Hartshorne.Ringed.moduleSkyscraperObj_smul_apply
 ---
 
 # Skyscraper module sheaves and the stalk adjunction
