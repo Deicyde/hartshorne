@@ -66,6 +66,32 @@ lemma map_self {a : (Over U)ᵒᵖ} (f : a ⟶ a) (x : M.obj a) : M.map f x = x 
 
 end
 
+section
+
+variable {U : Opens X} {R : (Over U)ᵒᵖ ⥤ RingCat.{u}} (M : PresheafOfModules.{u} R)
+
+/-- Restriction along an inclusion of opens over `U`. -/
+noncomputable abbrev rm {A B : Over U} (h : A.left ≤ B.left) (x : M.obj (op B)) : M.obj (op A) :=
+  M.map (ovHom h).op x
+
+lemma rm_rm {A B C : Over U} (h₁ : A.left ≤ B.left) (h₂ : B.left ≤ C.left) (x : M.obj (op C)) :
+    rm M h₁ (rm M h₂ x) = rm M (h₁.trans h₂) x :=
+  map_map M _ _ _ x
+
+lemma rm_self {A : Over U} (h : A.left ≤ A.left) (x : M.obj (op A)) : rm M h x = x :=
+  map_self M _ x
+
+lemma rm_injective {A B : Over U} (h : A.left ≤ B.left) (h' : B.left ≤ A.left) :
+    Function.Injective (rm M h) := fun x y hxy => by
+  rw [← rm_self M (le_refl B.left) x, ← rm_self M (le_refl B.left) y, ← rm_rm M h' h,
+    ← rm_rm M h' h, hxy]
+
+lemma hom_rm {N : PresheafOfModules.{u} R} (f : M ⟶ N) {A B : Over U} (h : A.left ≤ B.left)
+    (x : M.obj (op B)) : f.app (op A) (rm M h x) = rm N h (f.app (op B) x) :=
+  PresheafOfModules.naturality_apply f _ x
+
+end
+
 variable (S : Sheaf (Opens.grothendieckTopology X) RingCat.{u})
 
 /-- Restriction of a module over `𝒪_X|_W` to an open `V ≤ W`. -/
@@ -152,6 +178,27 @@ lemma sheaf_glue (M : SheafOfModules.{u} S) {V : Opens X} {κ : Type u} (W : κ 
     TopCat.Sheaf AddCommGrpCat.{u} X) W V (fun k => homOfLE (hW k)) hcov sf
     (by intro k l; exact hc k l)
   exact ⟨s, hs⟩
+
+/-- A morphism of sheaves of modules that is bijective on all sections is an isomorphism. -/
+lemma isIso_of_bijective {C : Type*} [Category C] {J : GrothendieckTopology C}
+    {R : Sheaf J RingCat.{u}} {M N : SheafOfModules.{u} R} (f : M ⟶ N)
+    (h : ∀ A, Function.Bijective (f.val.app A)) : IsIso f := by
+  let e : M.val ≅ N.val := PresheafOfModules.isoMk
+    (fun A => (LinearEquiv.ofBijective (f.val.app A).hom (h A)).toModuleIso)
+    (fun _ _ g => f.val.naturality g)
+  have he : e.hom = f.val := by
+    ext A x
+    rfl
+  have : IsIso ((SheafOfModules.forget R).map f) := by
+    change IsIso f.val
+    rw [← he]
+    infer_instance
+  exact (SheafOfModules.fullyFaithfulForget R).isIso_of_isIso_map f
+
+lemma ring_over_map_self {W : Opens X} {A : Over W} {b : (Over W)ᵒᵖ}
+    (f : op A.left ⟶ op b.unop.left) (g : b ⟶ op A) (r : S.obj.obj (op A.left)) :
+    (S.over W).obj.map g (S.obj.map f r) = r := by
+  rw [ring_over_map S f g (𝟙 _), S.obj.map_id]; rfl
 
 variable {S}
 
@@ -282,6 +329,55 @@ lemma isSheaf_Gpre : Presheaf.IsSheaf (Opens.grothendieckTopology X) D.Gpre.pres
 
 /-- The glued sheaf of modules. -/
 noncomputable def glue : SheafOfModules.{u} S := ⟨D.Gpre, D.isSheaf_Gpre⟩
+
+lemma φ_nat (i j : D.ι) {A B : Over (D.U i ⊓ D.U j)} (h : A.left ≤ B.left)
+    (x : (D.F i).val.obj (op ((Over.map (homOfLE (inf_le_left : D.U i ⊓ D.U j ≤ D.U i))).obj B))) :
+    (D.φ i j).hom.val.app (op A) (rm (D.F i).val (A := (Over.map _).obj A)
+      (B := (Over.map (homOfLE (inf_le_left : D.U i ⊓ D.U j ≤ D.U i))).obj B) h x) =
+      rm (D.F j).val (A := (Over.map (homOfLE (inf_le_right : D.U i ⊓ D.U j ≤ D.U j))).obj A)
+        (B := (Over.map (homOfLE (inf_le_right : D.U i ⊓ D.U j ≤ D.U j))).obj B) h
+        ((D.φ i j).hom.val.app (op B) x) :=
+  PresheafOfModules.naturality_apply (D.φ i j).hom.val (ovHom h).op x
+
+lemma φ_self_apply (i : D.ι) (A : Over (D.U i ⊓ D.U i))
+    (x : (D.F i).val.obj (op ((Over.map (homOfLE (inf_le_left : D.U i ⊓ D.U i ≤ D.U i))).obj A))) :
+    (D.φ i i).hom.val.app (op A) x = x := by
+  rw [D.φ_self]; rfl
+
+lemma cocycle_apply (i j k : D.ι) (A : Over (D.U i ⊓ D.U j ⊓ D.U k))
+    (x : (D.F i).val.obj (op ((Over.map (homOfLE (inf_le_left.trans inf_le_left :
+      D.U i ⊓ D.U j ⊓ D.U k ≤ D.U i))).obj A))) :
+    (D.φ j k).hom.val.app (op ((Over.map (homOfLE (le_inf (inf_le_left.trans inf_le_right)
+      inf_le_right : D.U i ⊓ D.U j ⊓ D.U k ≤ D.U j ⊓ D.U k))).obj A))
+      ((D.φ i j).hom.val.app (op ((Over.map (homOfLE (inf_le_left :
+        D.U i ⊓ D.U j ⊓ D.U k ≤ D.U i ⊓ D.U j))).obj A)) x) =
+    (D.φ i k).hom.val.app (op ((Over.map (homOfLE (le_inf (inf_le_left.trans inf_le_left)
+      inf_le_right : D.U i ⊓ D.U j ⊓ D.U k ≤ D.U i ⊓ D.U k))).obj A)) x :=
+  congrArg (fun e => e.hom.val.app (op A) x) (D.cocycle i j k)
+
+lemma le_st_self (k : D.ι) (A : Over (D.U k)) : A.left ≤ (st (D.U k) A.left).left :=
+  le_st_left (leOfHom A.hom) le_rfl
+
+/-- The map `ψ k : glue|_{U k} ⟶ F k` on sections. -/
+noncomputable def ψHom (k : D.ι) : (SheafOfModules.overFunctor S (D.U k)).obj D.glue ⟶ D.F k where
+  val :=
+    { app A := ModuleCat.ofHom (X := ((SheafOfModules.overFunctor S (D.U k)).obj D.glue).val.obj A)
+        (Y := (D.F k).val.obj A)
+        { toFun s := rm (D.F k).val (D.le_st_self k A.unop)
+            ((s : D.Gpre.obj (op A.unop.left)).1 k)
+          map_add' x y := map_add _ _ _
+          map_smul' r x := by
+            refine ((D.F k).val.map_smul (ovHom (D.le_st_self k A.unop)).op
+              (S.obj.map (homOfLE (st_left_le_right (D.U k) A.unop.left)).op r)
+              ((x : D.Gpre.obj (op A.unop.left)).1 k)).trans ?_
+            refine (smul_eq_of_eq (D.F k).val (ring_over_map_self S _ _ r) _).trans ?_
+            rfl }
+      naturality {A A'} f := by
+        ext x
+        exact map_map_eq (D.F k).val _ _ _ _ _ }
+
+lemma ψHom_apply (k : D.ι) (A : Over (D.U k)) (s : D.Gpre.obj (op A.left)) :
+    (D.ψHom k).val.app (op A) s = rm (D.F k).val (D.le_st_self k A) (s.1 k) := rfl
 
 end GluingData
 
