@@ -2,6 +2,9 @@
 article_id: af_d0bf12084f8433d9aaa2bb0e
 declaration: definition
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveDivisorPullback AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveFunctionFieldMap AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveDegree AlgebraicGeometry.Scheme.IsNonsingularCurve.divisorDegree AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurvePointPullback AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurvePointPullback_apply AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurvePointPullback_support_subset AlgebraicGeometry.Scheme.IsNonsingularCurve.weilDivisorAddEquivFinsupp_finiteCurvePointPullback AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveDivisorPullback_primeDivisor AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveDivisorPullback_principalDivisor AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveClassGroupPullback AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveClassGroupPullback_weilDivisorClassHom
 ---
 
 # Pullback of divisors along finite curve morphisms
@@ -20,6 +23,10 @@ $f^* ((g)) = (f^{\#}g)$, so pullback descends to $\operatorname{Cl}(Y)\to\operat
 
 The direction is part of the type: divisors on the target pull back to
 divisors on the source. No divisor pushforward is introduced here.
+
+That the ground field is algebraically closed and that $f$ is a morphism over
+$k$ are kept because they are Hartshorne's standing hypotheses for curves in
+this section, although the constructions and facts above do not use them.
 
 ## Depends on
 
