@@ -330,6 +330,7 @@ import Hartshorne.Cohomology.CechZeroGlobalSections
 import Hartshorne.Cohomology.AbelianPushforwardLeftExact
 import Hartshorne.Cohomology.ArtinReesInducedTopology
 import Hartshorne.Cohomology.HigherDirectImages
+import Hartshorne.Cohomology.AcyclicLerayComparison
 import Hartshorne.Cohomology.IdealPowerTorsionInjective
 import Hartshorne.Cohomology.InjectiveLocalization
 import Hartshorne.Cohomology.KoszulComplex

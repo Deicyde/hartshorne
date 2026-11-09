@@ -2,6 +2,9 @@
 article_id: af_141b8fdd3c8a954816bedfd4
 declaration: isomorphism
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.acyclicLerayIso Hartshorne.acyclicLerayIso_naturality
 ---
 
 # The acyclic Leray comparison
