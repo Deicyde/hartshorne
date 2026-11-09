@@ -380,8 +380,8 @@ theorem quadricLineTwo_notMem_basicOpen :
   rw [Proj.mem_basicOpen, not_not]
   exact single_mem_quadricLineIdeal k quadricExpU (by simp [quadricExpU_apply, quadricChartExp]) 1
 
-/-- The hyperplane section `s₀u₀ = 0` is `L₁ ∪ L₂`: a point outside the chart `D₊(s₀u₀)` is a
-specialization of `L₁` or of `L₂`. -/
+/-- The closed set `s₀u₀ = 0` (the complement of the chart `D₊(s₀u₀)`) is `L₁ ∪ L₂`: a point
+outside the chart is a specialization of `L₁` or of `L₂`. -/
 theorem quadricLine_specializes_of_notMem_basicOpen {x : quadricSurface k}
     (hx : x ∉ Proj.basicOpen 𝒬 (quadricChart k 0 0)) :
     quadricLineOne k ⤳ x ∨ quadricLineTwo k ⤳ x := by
@@ -826,7 +826,9 @@ theorem quadricSurfaceClassGroupEquiv_lineTwo :
   rw [quadricSurfaceClassGroupEquiv_symm_apply]
   simp
 
-/-- The hyperplane section `s₀u₀ = 0` of `Q` is `L₁ + L₂`, of class `(1, 1)`. -/
+/-- The divisor `L₁ + L₂` has class `(1, 1)`. This is only the class of `L₁ + L₂`: no divisor
+cut on `Q` by a hyperplane of `ℙ³_k` is defined here, so it does not yet say that the hyperplane
+class (or the section `s₀u₀ = 0`) is `(1, 1)`. -/
 theorem quadricSurfaceClassGroupEquiv_lineOne_add_lineTwo :
     quadricSurfaceClassGroupEquiv k ((quadricSurface k).weilDivisorClassHom hQ
       ((quadricLineOneDivisor k).toWeilDivisor + (quadricLineTwoDivisor k).toWeilDivisor)) =
