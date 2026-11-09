@@ -66,6 +66,7 @@ $D_+(s_i) \times D_+(u_j)$ of $\mathbb{P}^1_k \times_k \mathbb{P}^1_k$.
 ## Proof depends on
 
 - [A standard Proj chart is affine](../../projective-spectrum/proj-basic-open.md)
+- [Degree-one-generated Proj is projective](../../proper-and-projective/generated-proj-projective.md)
 - The degree-$d$ parts of $k[x,y,z,w]/(xy - zw)$ and of the Segre ring both
   have dimension $(d+1)^2$.
 - Projective space over $\operatorname{Spec} k$, formed by base change from
