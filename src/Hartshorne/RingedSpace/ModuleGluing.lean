@@ -31,8 +31,9 @@ a unique isomorphism compatible with the `ψ i`. This is the module form of the 
 Push each `F i` forward to `X` (`P i`, with sections `F i (U i ⨯ V)` over `V`). Over `V`, the glued
 module consists of the families `(s i) ∈ ∏ i, P i (V)` with `φ i j (s i) = s j` on
 `U i ⨯ U j ⨯ V` (`GluingData.N`), an `𝒪_X(V)`-submodule because the `φ i j` and the restriction
-maps are linear. It is a sheaf because the `P i` are. Over `V ≤ U k`, taking the `k`-th component is the
-isomorphism `ψ k`: compatibility determines the other components, and the cocycle condition and
+maps are linear. It is a sheaf because the `P i` are. Over `V ≤ U k`, taking the `k`-th component
+is the isomorphism `ψ k`: compatibility determines the other components, and the cocycle
+condition and
 `φ k k = id` show that every section of `F k` arises.
 For a second solution `(G, ψ')`, the sections `ψ' i (t|_{U i})` of a section `t` of `G` form a
 compatible family, and the resulting map `G ⟶ glue` is bijective on sections by the sheaf
@@ -449,6 +450,7 @@ noncomputable def secOf (k : D.ι) (A : Over (D.U k)) (t : (D.F k).val.obj (op A
     ((D.φ k i).hom.val.app (op (st (D.U k ⊓ D.U i) A.left))
       (rm (D.F k).val (B := A) (st_left_le_right _ _) t))
 
+-- The membership proof unfolds the glued sections over every index; it needs more heartbeats.
 set_option maxHeartbeats 1000000 in
 lemma secOf_mem (k : D.ι) (A : Over (D.U k)) (t : (D.F k).val.obj (op A)) :
     (D.secOf k A t : D.piP.obj (op A.left)) ∈ D.N.obj (op A.left) := by

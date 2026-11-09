@@ -90,7 +90,8 @@ noncomputable def N : (piP S P).Submodule where
 /-- The presheaf of compatible families. -/
 noncomputable abbrev Fpre : PresheafOfModules.{u} S.obj := (N S P src tgt α).toPresheafOfModules
 
-lemma isSheaf_Fpre : Presheaf.IsSheaf (Opens.grothendieckTopology T) (Fpre S P src tgt α).presheaf := by
+lemma isSheaf_Fpre :
+    Presheaf.IsSheaf (Opens.grothendieckTopology T) (Fpre S P src tgt α).presheaf := by
   refine (TopCat.Presheaf.isSheaf_iff_isSheafUniqueGluing (X := T) _).2 ?_
   intro κ W sf hsf
   have hc : ∀ i k l, (P i).val.map (homOfLE (inf_le_left : W k ⊓ W l ≤ W k)).op
