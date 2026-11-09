@@ -15,7 +15,7 @@ article_id: af_3911d57dbf30686336d92cfd
 9. [Ampleness and reduction](ample-iff-on-reduction.md)
 10. [Ampleness on irreducible components](ample-iff-on-irreducible-components.md)
 11. [Finite-surjective descent of ampleness](ample-finite-surjective-descent.md)
-12. [An ample power descends from a curve normalization](normalization-ample-power-descends.md)
+12. [A very ample sheaf descends from a curve normalization](normalization-ample-power-descends.md)
 13. [Proper integral curves are projective](proper-integral-curve-projective.md)
 14. [Picard restriction to the components of a reduced curve](reduced-curve-picard-restriction-surjective.md)
 15. [Proper reduced curves are projective](proper-reduced-curve-projective.md)

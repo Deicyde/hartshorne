@@ -84,6 +84,11 @@ especially Lemma 30.17.1, is the adopted detailed source.
   approved scope exception, retained to preserve the III.3–4 reduction,
   Picard, and square-zero chain even though no later numbered result cites it.
   The roadmap keeps Hartshorne's normalization/component/nilpotent filtration.
+  Paraphrase of (b), p.232: for `X` integral (one-dimensional, proper over
+  `k`) with normalization `ν: X̃ → X` and `L` very ample on `X̃`, there is an
+  effective divisor `D = Σ P_i` on `X̃` with `L(D) ≅ L` and every `P_i` mapping
+  to a nonsingular point of `X`; hence there is an invertible sheaf `L_0` on
+  `X` with `ν^*L_0 ≅ L`. (Paraphrase, not the printed wording.)
 - Exercise 5.9: the stated square-zero extension of `P²` by its canonical
   sheaf has trivial Picard group and is proper but nonprojective. The cocycle
   boundary calculation remains a source obligation. This is an approved scope

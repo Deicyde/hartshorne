@@ -15,7 +15,7 @@ field is projective.
 
 ## Proof depends on
 
-- [An ample power descends from a curve normalization](normalization-ample-power-descends.md)
+- [A very ample sheaf descends from a curve normalization](normalization-ample-power-descends.md)
 - [Complete nonsingular curves are projective](../../schemes/divisors/curve-divisors/complete-nonsingular-curve-projective.md)
 - The finite normalization of a proper curve is proper, normality in
   dimension one gives nonsingularity, and hence the normalization is

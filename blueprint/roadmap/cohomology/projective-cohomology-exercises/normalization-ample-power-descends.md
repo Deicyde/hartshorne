@@ -4,20 +4,23 @@ declaration: theorem
 origin: cited
 ---
 
-# An ample power descends from a curve normalization
+# A very ample sheaf descends from a curve normalization
 
 Let $X$ be a proper integral one-dimensional scheme over an algebraically
-closed field, let $\nu :\widetilde{X}\to X$ be its normalization, and let $L$ be very ample on
-$\widetilde{X}$. There are $m>0$ and an invertible sheaf $L_{0}$ on $X$ such that
-$\nu ^*L_{0}\cong L^m$.
+closed field $k$, let $\nu :\widetilde{X}\to X$ be its normalization, and let
+$L$ be very ample on $\widetilde{X}$. There is an effective divisor
+$D=\sum P_i$ on $\widetilde{X}$ with $L\cong \mathcal{O}_{\widetilde{X}}(D)$
+such that each $P_i$ maps to a nonsingular point of $X$. Consequently there is
+an invertible sheaf $L_{0}$ on $X$ such that $\nu ^*L_{0}\cong L$.
 
-The descended power is obtained from an effective divisor representing
-$L^m$ whose support lies over the nonsingular locus of $X$.
+The sheaf $L_{0}$ is obtained by descending $D$ to $X$ along $\nu$, which is
+an isomorphism near the images of the $P_i$.
 
 ## Depends on
 
 - [Construction of the normalization](../../schemes/normalization-and-exercises/normalization-construction.md)
 - [Cartier divisors and their associated sheaves](../../schemes/divisors/cartier-picard/cartier-divisor-associated-sheaf.md)
+- [Effective Cartier divisors and locally principal subschemes](../../schemes/divisors/cartier-picard/effective-cartier-closed-subscheme.md)
 - [Relative twisting sheaves and very ampleness](../../schemes/projective-sheaves/relative-twisting-and-very-ample.md)
 
 ## Proof depends on
@@ -36,8 +39,9 @@ $L^m$ whose support lies over the nonsingular locus of $X$.
   proper closed subset of an integral curve is finite, so the normal locus of
   $X$ is open with finite complement.
 - A very ample sheaf over an infinite field has a global section vanishing at
-  none of finitely many prescribed closed points, so a divisor in $|L^m|$ can
-  be chosen away from the finite exceptional locus.
+  none of finitely many prescribed closed points (a hyperplane section avoids
+  any finite set of points), so, $L$ itself being very ample, a divisor $D$ in
+  $|L|$ can be chosen away from the finite preimage of the singular locus.
 - A Cartier divisor supported over the open set where $\nu$ is an isomorphism
   descends to $X$, and pulling the descended divisor back along $\nu$ is
   compatible with the associated invertible sheaves.
