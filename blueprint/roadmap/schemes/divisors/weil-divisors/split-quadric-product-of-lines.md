@@ -2,6 +2,9 @@
 article_id: af_84a1fe08857c7719e03e20fc
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.relativeSegre_eq_quadricSurfaceι Hartshorne.quadricSurfaceIsoSegreSource Hartshorne.quadricSurfaceι Hartshorne.ker_quadricCoordinateAlgHom Hartshorne.map_quadricCoordinateAlgHom_homogeneousSubmodule Hartshorne.quadricQuotientEquiv Hartshorne.projectiveSpaceOverSpecIso
 ---
 
 # The split quadric surface is $\mathbb{P}^1 \times \mathbb{P}^1$
