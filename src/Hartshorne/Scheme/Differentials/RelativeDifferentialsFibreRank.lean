@@ -17,8 +17,8 @@ definition of smoothness,
 `dim_{k(x)} ((Ω_{X/Y})_x ⊗ k(x)) = n` for every `x ∈ X`,
 
 is equivalent to `Ω_{X/Y}` being locally free of rank `n`. This is the constant fibre dimension
-criterion for coherent sheaves on integral locally Noetherian schemes, applied to the coherent
-sheaf `Ω_{X/Y}`.
+criterion for coherent sheaves on reduced (in particular integral) locally Noetherian schemes,
+applied to the coherent sheaf `Ω_{X/Y}`.
 
 As a corollary, a morphism that is smooth of relative dimension `n` in Mathlib's sense
 (locally standard smooth of relative dimension `n`) has `Ω_{X/Y}` locally free of rank `n`: on

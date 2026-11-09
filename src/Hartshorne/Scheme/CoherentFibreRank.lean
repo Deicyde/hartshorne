@@ -10,17 +10,18 @@ import Mathlib.RingTheory.Localization.Finiteness
 /-!
 # Constant fibre dimension and local freeness of coherent sheaves
 
-Let `X` be an integral locally Noetherian scheme and `F` a coherent `𝒪_X`-module. Then `F` is
+Let `X` be a reduced locally Noetherian scheme and `F` a coherent `𝒪_X`-module. Then `F` is
 locally free of rank `n` if and only if every fibre `F_x ⊗ k(x)` has dimension `n` over the
-residue field `k(x)` (compare Hartshorne II, Exercise 5.8(c)). The direction from local freeness
+residue field `k(x)` (Hartshorne II, Exercise 5.8(c), stated there for Noetherian `X`, in the
+direction from constant fibre dimension to local freeness). The direction from local freeness
 to the fibre dimension holds on any scheme.
 
-The proof is local. On an affine open `Spec A ⊆ X` (with `A` a domain) the stalk `F_y` at a
-prime `y` is the localization of the finite `A`-module `N = Γ(Spec A, F)`, so both the generic
-fibre `Frac(𝒪_{X,y}) ⊗ F_y` and the fibre at the generic point of `Spec A` have dimension
-`rank_A N`. Constant fibre dimension thus makes the special and the generic fibre of `F_y` have
-the same dimension, which forces `F_y` to be free over the local domain `𝒪_{X,y}`; the free
-locus of a coherent sheaf then gives local freeness.
+The proof is local. On an affine open `Spec A ⊆ X` (with `A` reduced) the stalk `F_y` at a
+prime `y` is the localization of the finite `A`-module `N = Γ(Spec A, F)`. For a prime `P` of
+`𝒪_{X,y}` lying over the prime `q` of `A`, the fibre `κ(P) ⊗ F_y` has the dimension of
+`κ(q) ⊗_A N`, which is the fibre of `F` at the point `q`. Constant fibre dimension thus makes
+every fibre of the module `F_y` over the reduced local ring `𝒪_{X,y}` have the same dimension,
+which forces `F_y` to be free; the free locus of a coherent sheaf then gives local freeness.
 
 Fibre dimensions are transported along open immersions by
 `rank_tensorProduct_eq_of_ringEquiv`, which compares base changes along compatible ring
@@ -177,9 +178,19 @@ theorem finrank_fibre_of_isLocallyFreeOfRank {X : Scheme.{u}} (F : X.Modules) (n
   rw [rank_fibre_of_restrict_iso_free F α hxU]
   simp
 
-/-- On `Spec R` with `R` a domain, let `G` be associated to a finite `R`-module. If every fibre
+/-- If `f : N → M'` is a base change along `A → S`, then for every field `K` over `S` (with
+compatible `A`-algebra structure), `K ⊗[S] M'` and `K ⊗[A] N` have the same dimension. -/
+theorem finrank_tensor_eq_of_isBaseChange {A S K N M' : Type*} [CommRing A] [CommRing S]
+    [Field K] [Algebra A S] [Algebra S K] [Algebra A K] [IsScalarTower A S K]
+    [AddCommGroup N] [Module A N] [AddCommGroup M'] [Module A M'] [Module S M']
+    [IsScalarTower A S M'] {f : N →ₗ[A] M'} (hf : IsBaseChange S f) :
+    finrank K (K ⊗[S] M') = finrank K (K ⊗[A] N) :=
+  ((AlgebraTensorModule.congr (LinearEquiv.refl K K) hf.equiv.symm).trans
+    (AlgebraTensorModule.cancelBaseChange A S K K N)).finrank_eq
+
+/-- On `Spec R` with `R` reduced, let `G` be associated to a finite `R`-module. If every fibre
 of `G` has dimension `n`, then every stalk of `G` is free of rank `n`. -/
-theorem nonempty_basis_stalk_of_finrank_fibre_spec {R : CommRingCat.{u}} [IsDomain R]
+theorem nonempty_basis_stalk_of_finrank_fibre_spec {R : CommRingCat.{u}} [IsReduced R]
     (G : (Spec R).Modules) (hloc : IsLocalizing (modulesSpecToSheaf.obj G))
     [Module.Finite R Γ(G, ⊤)] (n : ℕ)
     (h : ∀ y : Spec R, finrank (ResidueField ((Spec R).presheaf.stalk y))
@@ -187,47 +198,42 @@ theorem nonempty_basis_stalk_of_finrank_fibre_spec {R : CommRingCat.{u}} [IsDoma
         G.presheaf.stalk y) = n)
     (y : Spec R) :
     Nonempty (Basis (Fin n) ((Spec R).presheaf.stalk y) (G.presheaf.stalk y)) := by
-  have hdom (z : Spec R) : IsDomain ((Spec R).presheaf.stalk z) :=
-    IsLocalization.isDomain_of_le_nonZeroDivisors _
-      (Ideal.primeCompl_le_nonZeroDivisors z.asIdeal)
-  have hgen : ∀ z : Spec R,
-      finrank ((Spec R).presheaf.stalk z) (G.presheaf.stalk z) = finrank R Γ(G, ⊤) := by
-    intro z
+  have hbc (z : Spec R) : IsBaseChange ((Spec R).presheaf.stalk z) (germTopLinear G z) :=
     have := isLocalizedModule_germTopLinear G hloc z
-    have := hdom z
-    have : FaithfulSMul R ((Spec R).presheaf.stalk z) :=
-      (faithfulSMul_iff_algebraMap_injective _ _).mpr
-        (IsLocalization.injective _ (Ideal.primeCompl_le_nonZeroDivisors z.asIdeal))
-    exact (IsLocalizedModule.isBaseChange z.asIdeal.primeCompl _
-      (germTopLinear G z)).finrank_eq
-  obtain ⟨z0, hz0⟩ : ∃ z : Spec R, z.asIdeal = ⊥ := ⟨⟨⊥, Ideal.isPrime_bot⟩, rfl⟩
-  have h0 : finrank R Γ(G, ⊤) = n := by
-    rw [← hgen z0, ← h z0]
-    have : FaithfulSMul ((Spec R).presheaf.stalk z0)
-        (ResidueField ((Spec R).presheaf.stalk z0)) := by
-      rw [faithfulSMul_iff_algebraMap_injective, ResidueField.algebraMap_eq,
-        injective_iff_map_eq_zero]
-      intro a ha
-      have hm : a ∈ maximalIdeal _ := (residue_eq_zero_iff a).mp ha
-      rw [← IsLocalization.AtPrime.map_eq_maximalIdeal z0.asIdeal] at hm
-      rw [hz0, Ideal.map_bot] at hm
-      exact (Submodule.mem_bot _).mp hm
-    exact ((TensorProduct.isBaseChange ((Spec R).presheaf.stalk z0) (G.presheaf.stalk z0)
-      (ResidueField ((Spec R).presheaf.stalk z0))).finrank_eq).symm
+    IsLocalizedModule.isBaseChange z.asIdeal.primeCompl _ (germTopLinear G z)
+  have : IsReduced ((Spec R).presheaf.stalk y) :=
+    isReduced_localizationPreserves y.asIdeal.primeCompl _ inferInstance
   have := isLocalizedModule_germTopLinear G hloc y
-  have := hdom y
   have : Module.Finite ((Spec R).presheaf.stalk y) (G.presheaf.stalk y) :=
     Module.Finite.of_isLocalizedModule y.asIdeal.primeCompl
       (Rₚ := (Spec R).presheaf.stalk y) (germTopLinear G y)
+  have hP (P : PrimeSpectrum ((Spec R).presheaf.stalk y)) :
+      finrank P.asIdeal.ResidueField
+        (P.asIdeal.ResidueField ⊗[(Spec R).presheaf.stalk y] G.presheaf.stalk y) = n := by
+    let z : Spec R := ⟨P.asIdeal.comap (algebraMap R ((Spec R).presheaf.stalk y)),
+      Ideal.comap_isPrime _ _⟩
+    have : IsLocalization.AtPrime (Localization.AtPrime P.asIdeal) z.asIdeal :=
+      IsLocalization.isLocalization_isLocalization_atPrime_isLocalization y.asIdeal.primeCompl
+        (S := (Spec R).presheaf.stalk y) _ P.asIdeal
+    let e : Localization.AtPrime P.asIdeal ≃ₐ[R] (Spec R).presheaf.stalk z :=
+      have := freeLocus_stalk_isLocalization z
+      IsLocalization.algEquiv z.asIdeal.primeCompl _ _
+    rw [finrank_tensor_eq_of_isBaseChange (hbc y), ← h z, finrank_tensor_eq_of_isBaseChange (hbc z)]
+    refine congrArg Cardinal.toNat (rank_tensorProduct_eq_of_ringEquiv (RingEquiv.refl R)
+      (ResidueField.mapEquiv e.toRingEquiv) (fun r => ?_) (AddEquiv.refl _) (fun _ _ => rfl))
+    rw [IsScalarTower.algebraMap_apply R (Localization.AtPrime P.asIdeal)
+        P.asIdeal.ResidueField, ResidueField.algebraMap_eq,
+      IsScalarTower.algebraMap_apply R ((Spec R).presheaf.stalk z)
+        (ResidueField ((Spec R).presheaf.stalk z)), ResidueField.algebraMap_eq]
+    simp [ResidueField.mapEquiv, ResidueField.map_residue]
   have hy := h y
-  obtain ⟨b⟩ := free_of_finrank_residueField_eq_finrank_fractionRing (G.presheaf.stalk y)
-    (by rw [hy, (TensorProduct.isBaseChange ((Spec R).presheaf.stalk y) (G.presheaf.stalk y)
-      (FractionRing ((Spec R).presheaf.stalk y))).finrank_eq, hgen y, h0])
+  obtain ⟨b⟩ := free_of_forall_finrank_fiber_eq_of_isReduced (G.presheaf.stalk y)
+    (fun P => (hP P).trans hy.symm)
   exact ⟨b.reindex (finCongr hy)⟩
 
-/-- On an integral scheme, if every fibre of a coherent sheaf `F` has dimension `n`, then every
+/-- On a reduced scheme, if every fibre of a coherent sheaf `F` has dimension `n`, then every
 stalk `F_x` is free and every fibre has rank `n` (as a cardinal). -/
-theorem free_stalk_of_finrank_fibre {X : Scheme.{u}} [IsIntegral X] (F : X.Modules)
+theorem free_stalk_of_finrank_fibre {X : Scheme.{u}} [IsReduced X] (F : X.Modules)
     (hF : IsCoherent F) (n : ℕ)
     (h : ∀ x : X, finrank (ResidueField (X.presheaf.stalk x))
       (ResidueField (X.presheaf.stalk x) ⊗[X.presheaf.stalk x] F.presheaf.stalk x) = n)
@@ -238,7 +244,6 @@ theorem free_stalk_of_finrank_fibre {X : Scheme.{u}} [IsIntegral X] (F : X.Modul
   obtain ⟨_, ⟨V, hV, rfl⟩, hxV, -⟩ :=
     X.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ x) isOpen_univ
   let Va : X.affineOpens := ⟨V, hV⟩
-  have : Nonempty V := ⟨⟨x, hxV⟩⟩
   obtain ⟨hfin, hiso⟩ := forall_affine_finite_of_isCoherent F hF Va
   let G := specRestriction F Va
   have : Module.Finite Γ(X, V) Γ(G, ⊤) := (finite_specRestriction_iff F Va).mpr hfin
@@ -256,10 +261,12 @@ theorem free_stalk_of_finrank_fibre {X : Scheme.{u}} [IsIntegral X] (F : X.Modul
   rw [rank_fibre_restrict hV.fromSpec F y, rank_eq_card_basis (b.baseChange _)]
   simp
 
-/-- **Constant fibre dimension criterion** (compare Hartshorne II, Exercise 5.8(c)). On an
-integral locally Noetherian scheme `X`, a coherent `𝒪_X`-module `F` is locally free of rank `n`
-if and only if `dim_{k(x)} (F_x ⊗ k(x)) = n` for every `x ∈ X`. -/
-theorem isLocallyFreeOfRank_iff_forall_finrank_fibre {X : Scheme.{u}} [IsIntegral X]
+/-- **Constant fibre dimension criterion**. On a reduced locally Noetherian scheme `X`, a
+coherent `𝒪_X`-module `F` is locally free of rank `n` if and only if
+`dim_{k(x)} (F_x ⊗ k(x)) = n` for every `x ∈ X`. The direction from constant fibre dimension to
+local freeness is Hartshorne II, Exercise 5.8(c) (stated there for Noetherian `X`); the converse
+direction supplements it. -/
+theorem isLocallyFreeOfRank_iff_forall_finrank_fibre {X : Scheme.{u}} [IsReduced X]
     [IsLocallyNoetherian X] (F : X.Modules) (hF : IsCoherent F) (n : ℕ) :
     F.IsLocallyFreeOfRank n ↔ ∀ x : X, finrank (ResidueField (X.presheaf.stalk x))
       (ResidueField (X.presheaf.stalk x) ⊗[X.presheaf.stalk x] F.presheaf.stalk x) = n := by

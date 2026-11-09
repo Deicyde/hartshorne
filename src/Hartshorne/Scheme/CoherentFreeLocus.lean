@@ -334,7 +334,7 @@ theorem free_stalk_of_isLocallyFree {X : Scheme.{u}} (F : X.Modules) (hF : F.IsL
   rw [free_stalk_restrict_iff hV.fromSpec F y]
   exact free_stalk_free_spec I _ β y
 
-/-- **Hartshorne II, Exercise 5.7(b)**, locally Noetherian form: if `F` is coherent and the
+/-- **Hartshorne II, Exercise 5.7(a)**, locally Noetherian form: if `F` is coherent and the
 stalk `F_x` is a free `𝒪_{X,x}`-module, then `F` is free on an open neighbourhood of `x`. -/
 theorem exists_isFree_restrict_of_free_stalk_of_isLocallyNoetherian {X : Scheme.{u}}
     [IsLocallyNoetherian X] (F : X.Modules) (hF : IsCoherent F) (x : X)
@@ -386,7 +386,7 @@ theorem isLocallyFree_iff_forall_free_stalk_of_isLocallyNoetherian {X : Scheme.{
   ⟨free_stalk_of_isLocallyFree F,
     fun h x ↦ exists_isFree_restrict_of_free_stalk_of_isLocallyNoetherian F hF x (h x)⟩
 
-/-- **Hartshorne II, Exercise 5.7(b).** Let `X` be a Noetherian scheme and `F` a coherent
+/-- **Hartshorne II, Exercise 5.7(a).** Let `X` be a Noetherian scheme and `F` a coherent
 `𝒪_X`-module. If the stalk `F_x` is a free `𝒪_{X,x}`-module, then there is an open
 neighbourhood `U` of `x` such that `F|_U` is free. -/
 theorem exists_isFree_restrict_of_free_stalk {X : Scheme.{u}} [IsNoetherian X] (F : X.Modules)
