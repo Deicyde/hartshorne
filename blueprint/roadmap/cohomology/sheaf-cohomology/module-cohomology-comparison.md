@@ -2,9 +2,6 @@
 article_id: af_d77aa4b8be24b9adcbe9f1da
 declaration: theorem
 origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.moduleSheafCohomologyNatIso Hartshorne.moduleSheafCohomologyIso Hartshorne.moduleSheafCohomologyIso_naturality Hartshorne.moduleSheafCohomology Hartshorne.moduleSheafCohomologyModuleNatIso Hartshorne.moduleSheafCohomologyModule Hartshorne.ModuleCohomology.toSheaf_preservesFiniteColimits
 ---
 
 # Module and abelian-sheaf cohomology agree
