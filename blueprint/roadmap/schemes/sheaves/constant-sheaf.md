@@ -20,6 +20,7 @@ constant presheaf.
 ## Depends on
 
 - [Sheaves of abelian groups](sheaves-of-abelian-groups.md)
+- [The associated sheaf](associated-sheaf.md)
 
 ## Proof depends on
 
