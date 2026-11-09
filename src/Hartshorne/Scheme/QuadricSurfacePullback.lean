@@ -300,3 +300,198 @@ theorem quadricSegreCover_comp_projTwo (c : Fin (1 + 1) × Fin (1 + 1)) :
 end Projections
 
 end Hartshorne
+
+namespace Hartshorne
+
+universe u
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+variable (k : Type u) [Field k]
+
+local notation "𝒬" => quadricGrading k
+
+local notation "𝒮" => homogeneousSubmodule (Fin (1 + 1)) k
+
+section Charts
+
+theorem isUnit_quadricFstChartHom (i j : Fin 2) :
+    IsUnit (quadricFstChartHom k (quadricChart_mem k i j) j (X i)) := by
+  rw [quadricFstChartHom_X_self]
+  exact isUnit_one
+
+theorem isUnit_quadricSndChartHom (i j : Fin 2) :
+    IsUnit (quadricSndChartHom k (quadricChart_mem k i j) i (X j)) := by
+  rw [quadricSndChartHom_X_self]
+  exact isUnit_one
+
+/-- **The first projection on the chart `D₊(sᵢuⱼ)`.** -/
+theorem awayι_comp_quadricProjOne (i j : Fin 2) :
+    Proj.awayι 𝒬 (quadricChart k i j) (quadricChart_mem k i j) Nat.one_pos ≫ quadricProjOne k =
+      projChartMap (quadricFstChartHom k (quadricChart_mem k i j) j)
+        (X_mem_homogeneousSubmodule_one k i) Nat.one_pos (isUnit_quadricFstChartHom k i j) := by
+  have key : ∀ (f : QuadricRing k) (_ : quadricSegreHom k (X (segreIndex 1 1 (i, j))) = f)
+      (f_deg : f ∈ 𝒬 1) (hu : IsUnit (quadricFstChartHom k f_deg j (X i))),
+      Proj.awayι 𝒬 f f_deg Nat.one_pos ≫ quadricProjOne k =
+        projChartMap (quadricFstChartHom k f_deg j) (X_mem_homogeneousSubmodule_one k i)
+          Nat.one_pos hu := by
+    intro f hf
+    subst hf
+    intro f_deg hu
+    exact quadricSegreCover_comp_projOne k (i, j)
+  exact key _ (quadricSegreHom_X_segreIndex k i j) _ _
+
+/-- **The second projection on the chart `D₊(sᵢuⱼ)`.** -/
+theorem awayι_comp_quadricProjTwo (i j : Fin 2) :
+    Proj.awayι 𝒬 (quadricChart k i j) (quadricChart_mem k i j) Nat.one_pos ≫ quadricProjTwo k =
+      projChartMap (quadricSndChartHom k (quadricChart_mem k i j) i)
+        (X_mem_homogeneousSubmodule_one k j) Nat.one_pos (isUnit_quadricSndChartHom k i j) := by
+  have key : ∀ (f : QuadricRing k) (_ : quadricSegreHom k (X (segreIndex 1 1 (i, j))) = f)
+      (f_deg : f ∈ 𝒬 1) (hu : IsUnit (quadricSndChartHom k f_deg i (X j))),
+      Proj.awayι 𝒬 f f_deg Nat.one_pos ≫ quadricProjTwo k =
+        projChartMap (quadricSndChartHom k f_deg i) (X_mem_homogeneousSubmodule_one k j)
+          Nat.one_pos hu := by
+    intro f hf
+    subst hf
+    intro f_deg hu
+    exact quadricSegreCover_comp_projTwo k (i, j)
+  exact key _ (quadricSegreHom_X_segreIndex k i j) _ _
+
+theorem basicOpen_le_preimage_quadricProjOne (i j : Fin 2) :
+    Proj.basicOpen 𝒬 (quadricChart k i j) ≤
+      quadricProjOne k ⁻¹ᵁ Proj.basicOpen 𝒮 (X i) := by
+  intro x hx
+  obtain ⟨y, rfl⟩ := quadric_exists_chart_point k hx
+  change (Proj.awayι 𝒬 (quadricChart k i j) (quadricChart_mem k i j) Nat.one_pos ≫
+    quadricProjOne k).base y ∈ Proj.basicOpen 𝒮 (X i)
+  rw [awayι_comp_quadricProjOne, projChartMap]
+  exact projChartι_base_mem 𝒮 (X_mem_homogeneousSubmodule_one k i) Nat.one_pos _
+
+theorem basicOpen_le_preimage_quadricProjTwo (i j : Fin 2) :
+    Proj.basicOpen 𝒬 (quadricChart k i j) ≤
+      quadricProjTwo k ⁻¹ᵁ Proj.basicOpen 𝒮 (X j) := by
+  intro x hx
+  obtain ⟨y, rfl⟩ := quadric_exists_chart_point k hx
+  change (Proj.awayι 𝒬 (quadricChart k i j) (quadricChart_mem k i j) Nat.one_pos ≫
+    quadricProjTwo k).base y ∈ Proj.basicOpen 𝒮 (X j)
+  rw [awayι_comp_quadricProjTwo, projChartMap]
+  exact projChartι_base_mem 𝒮 (X_mem_homogeneousSubmodule_one k j) Nat.one_pos _
+
+end Charts
+
+section Generic
+
+theorem SpecMap_base_genericPoint {R S : CommRingCat.{u}} [IsDomain R] [IsDomain S] (φ : R ⟶ S)
+    (hφ : Function.Injective φ) :
+    (Spec.map φ).base (genericPoint (Spec S)) = genericPoint (Spec R) := by
+  rw [genericPoint_eq_bot_of_affine, genericPoint_eq_bot_of_affine]
+  refine PrimeSpectrum.ext ?_
+  exact Ideal.comap_bot_of_injective φ.hom hφ
+
+theorem genericFunctionFieldMap_SpecMap_algebraMap {R S : CommRingCat.{u}} [IsDomain R]
+    [IsDomain S] (φ : R ⟶ S)
+    (h : (Spec.map φ).base (genericPoint (Spec S)) = genericPoint (Spec R)) (r : R) :
+    (Spec.map φ).genericFunctionFieldMap h (algebraMap R (Spec R).functionField r) =
+      algebraMap S (Spec S).functionField (φ r) := by
+  set ξ := genericPoint (Spec S)
+  have e1 := spec_algebraMap_stalk_toStalk (A := R) ((Spec.map φ).base ξ) r
+  have e2 := (Spec.map φ).genericFunctionFieldMap_algebraMap h ξ
+    (StructureSheaf.toStalk R ((Spec.map φ).base ξ) r)
+  have e3 : (Spec.map φ).stalkMap ξ (StructureSheaf.toStalk R ((Spec.map φ).base ξ) r) =
+      StructureSheaf.toStalk S ξ (φ r) :=
+    stalkMap_toStalk_apply φ ξ r
+  have e4 := spec_algebraMap_stalk_toStalk (A := S) ξ (φ r)
+  rw [← e1, e2, e3, e4]
+
+end Generic
+
+section Dominance
+
+theorem fin_two_subtype_subsingleton (i : Fin (1 + 1)) (a b : {a : Fin (1 + 1) // a ≠ i}) :
+    a = b := by
+  revert i a b
+  decide
+
+theorem fin_two_eq_rev {i a : Fin 2} (h : a ≠ i) : a = i.rev := by
+  revert i a
+  decide
+
+theorem quadricChartToPoly_awayLift_fst (i j : Fin 2) :
+    ((quadricChartToPoly k i j).comp (awayLift (𝒜 := 𝒮)
+        (quadricFstChartHom k (quadricChart_mem k i j) j) (X i)
+        (isUnit_quadricFstChartHom k i j))).comp (chartOfPoly k i) =
+      (rename fun _ => (0 : Fin 2)).toRingHom := by
+  apply MvPolynomial.ringHom_ext
+  · intro r
+    simp only [RingHom.comp_apply, chartOfPoly, eval₂Hom_C, AlgHom.toRingHom_eq_coe,
+      RingHom.coe_coe, rename_C]
+    rw [chartConst, RingHom.comp_apply, awayLift_fromZeroRingHom (𝒜 := 𝒮)]
+    change quadricChartToPoly k i j (quadricFstChartHom k _ j (C r)) = C r
+    rw [quadricFstChartHom, eval₂Hom_C]
+    have h := RingHom.congr_fun (quadricChartToPoly_comp_chartOfPoly k i j) (C r)
+    rw [RingHom.comp_apply, quadricChartOfPoly, eval₂Hom_C] at h
+    exact h
+  · rintro ⟨a, ha⟩
+    obtain rfl := fin_two_eq_rev ha
+    simp only [RingHom.comp_apply, chartOfPoly, eval₂Hom_X', AlgHom.toRingHom_eq_coe,
+      RingHom.coe_coe, rename_X]
+    rw [awayLift_chartRatio _ _ _ (quadricFstChartHom_X_self k i j), quadricFstChartHom,
+      eval₂Hom_X', quadricChartToPoly_mk, quadricChart, quadricDehom_single]
+    simp [quadricChartExp, pi_single_rev]
+
+theorem quadricChartToPoly_awayLift_snd (i j : Fin 2) :
+    ((quadricChartToPoly k i j).comp (awayLift (𝒜 := 𝒮)
+        (quadricSndChartHom k (quadricChart_mem k i j) i) (X j)
+        (isUnit_quadricSndChartHom k i j))).comp (chartOfPoly k j) =
+      (rename fun _ => (1 : Fin 2)).toRingHom := by
+  apply MvPolynomial.ringHom_ext
+  · intro r
+    simp only [RingHom.comp_apply, chartOfPoly, eval₂Hom_C, AlgHom.toRingHom_eq_coe,
+      RingHom.coe_coe, rename_C]
+    rw [chartConst, RingHom.comp_apply, awayLift_fromZeroRingHom (𝒜 := 𝒮)]
+    change quadricChartToPoly k i j (quadricSndChartHom k _ i (C r)) = C r
+    rw [quadricSndChartHom, eval₂Hom_C]
+    have h := RingHom.congr_fun (quadricChartToPoly_comp_chartOfPoly k i j) (C r)
+    rw [RingHom.comp_apply, quadricChartOfPoly, eval₂Hom_C] at h
+    exact h
+  · rintro ⟨b, hb⟩
+    obtain rfl := fin_two_eq_rev hb
+    simp only [RingHom.comp_apply, chartOfPoly, eval₂Hom_X', AlgHom.toRingHom_eq_coe,
+      RingHom.coe_coe, rename_X]
+    rw [awayLift_chartRatio _ _ _ (quadricSndChartHom_X_self k i j), quadricSndChartHom,
+      eval₂Hom_X', quadricChartToPoly_mk, quadricChart, quadricDehom_single]
+    simp [quadricChartExp, pi_single_rev]
+
+theorem injective_awayLift_quadricFstChartHom (i j : Fin 2) :
+    Function.Injective (awayLift (𝒜 := 𝒮) (quadricFstChartHom k (quadricChart_mem k i j) j) (X i)
+      (isUnit_quadricFstChartHom k i j)) := by
+  intro x y hxy
+  obtain ⟨p, rfl⟩ : ∃ p, chartOfPoly k i p = x :=
+    ⟨chartToPoly k i x, RingHom.congr_fun (chartOfPoly_comp_chartToPoly k i) x⟩
+  obtain ⟨q, rfl⟩ : ∃ q, chartOfPoly k i q = y :=
+    ⟨chartToPoly k i y, RingHom.congr_fun (chartOfPoly_comp_chartToPoly k i) y⟩
+  have h := congrArg (quadricChartToPoly k i j) hxy
+  have hp := RingHom.congr_fun (quadricChartToPoly_awayLift_fst k i j) p
+  have hq := RingHom.congr_fun (quadricChartToPoly_awayLift_fst k i j) q
+  simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe] at hp hq
+  rw [hp, hq] at h
+  rw [rename_injective _ (fun a b _ => fin_two_subtype_subsingleton i a b) h]
+
+theorem injective_awayLift_quadricSndChartHom (i j : Fin 2) :
+    Function.Injective (awayLift (𝒜 := 𝒮) (quadricSndChartHom k (quadricChart_mem k i j) i) (X j)
+      (isUnit_quadricSndChartHom k i j)) := by
+  intro x y hxy
+  obtain ⟨p, rfl⟩ : ∃ p, chartOfPoly k j p = x :=
+    ⟨chartToPoly k j x, RingHom.congr_fun (chartOfPoly_comp_chartToPoly k j) x⟩
+  obtain ⟨q, rfl⟩ : ∃ q, chartOfPoly k j q = y :=
+    ⟨chartToPoly k j y, RingHom.congr_fun (chartOfPoly_comp_chartToPoly k j) y⟩
+  have h := congrArg (quadricChartToPoly k i j) hxy
+  have hp := RingHom.congr_fun (quadricChartToPoly_awayLift_snd k i j) p
+  have hq := RingHom.congr_fun (quadricChartToPoly_awayLift_snd k i j) q
+  simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe] at hp hq
+  rw [hp, hq] at h
+  rw [rename_injective _ (fun a b _ => fin_two_subtype_subsingleton j a b) h]
+
+end Dominance
+
+end Hartshorne
