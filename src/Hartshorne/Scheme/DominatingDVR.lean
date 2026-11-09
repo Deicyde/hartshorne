@@ -13,12 +13,13 @@ import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
 /-!
 # A dominating DVR in a finitely generated extension
 
-Hartshorne, *Algebraic Geometry*, II, Exercise 4.11(a), in the repaired form
-with a nonzero maximal ideal.
+Hartshorne, *Algebraic Geometry*, II, Exercise 4.11(a), in a repaired form
+excluding only the false edge case (`A` a field and `L/K` algebraic).
 
-Let `(A, 𝔪)` be a Noetherian local domain with `𝔪 ≠ 0`, fraction field `K`, and
-let `L/K` be a finitely generated field extension. Then a nonfield discrete
-valuation ring of `L` with fraction field `L` dominates the image of `A`.
+Let `(A, 𝔪)` be a Noetherian local domain with fraction field `K`, and let `L/K`
+be a finitely generated field extension, and suppose that `𝔪 ≠ 0` or `L` is not
+algebraic over `K`. Then a nonfield discrete valuation ring of `L` with fraction
+field `L` dominates the image of `A`.
 
 ## Proof
 
@@ -36,9 +37,15 @@ by induction on the size of `S`.
   Lying over gives a prime `Q` of `C` above the maximal ideal of `B`, and `C_Q`
   is the required DVR (`hasDominatingDVR_of_finiteDimensional`).
 
+If `𝔪 = 0` and `t ∈ L` is transcendental over `K`, the localization of `K[t]` at
+`(t)` has nonzero maximal ideal (`exists_localSubring_of_transcendental`); the
+case above applies to it, and domination of the field `A` is just containment.
+
 ## Main results
 
-* `Hartshorne.exists_dominating_dvr_of_fg`: the exercise.
+* `Hartshorne.exists_dominating_dvr_of_fg_of_ne_bot_or_transcendental`: the exercise, assuming
+  `𝔪 ≠ 0` or that `L` is not algebraic over `K`.
+* `Hartshorne.exists_dominating_dvr_of_fg`: its special case `𝔪 ≠ 0`.
 * `Hartshorne.hasDominatingDVR_of_closure_eq_top`: its form for subrings of `L`.
 -/
 
@@ -224,6 +231,39 @@ theorem exists_transcendental_step (A : Subring L) [IsLocalRing A] [IsNoetherian
       exact hxu
     exact (mem_maximalIdeal _).mp (hmax x hxm) hx
 
+/-- **A transcendental element over a field.** Localizing `K[t]` at `(t)`, for `t ∈ L`
+transcendental over a field `K`, gives a Noetherian local subring of `L` with nonzero maximal
+ideal containing the image of `K`. -/
+theorem exists_localSubring_of_transcendental (K : Type*) [Field K] [Algebra K L]
+    (t : L) (ht : Transcendental K t) :
+    ∃ A' : LocalSubring L, IsNoetherianRing A'.toSubring ∧
+      maximalIdeal A'.toSubring ≠ ⊥ ∧ ∀ k, algebraMap K L k ∈ A'.toSubring := by
+  classical
+  let T : Subalgebra K L := Algebra.adjoin K {t}
+  let e : Polynomial K ≃+* T.toSubring :=
+    (Polynomial.algEquivOfTranscendental K t ht).toRingEquiv
+  have : (Ideal.span {(Polynomial.X : Polynomial K)}).IsPrime :=
+    (Ideal.span_singleton_prime Polynomial.X_ne_zero).mpr Polynomial.prime_X
+  let P : Ideal T.toSubring := Ideal.map e (Ideal.span {Polynomial.X})
+  have : P.IsPrime := Ideal.map_isPrime_of_equiv e
+  have hT : IsNoetherianRing T.toSubring := isNoetherianRing_of_ringEquiv _ e
+  let A' := LocalSubring.ofPrime T.toSubring P
+  have hA'noeth : IsNoetherianRing A'.toSubring :=
+    IsLocalization.isNoetherianRing P.primeCompl A'.toSubring hT
+  have hTA' : T.toSubring ≤ A'.toSubring := LocalSubring.le_ofPrime T.toSubring P
+  refine ⟨A', hA'noeth, ?_, fun k => hTA' (Subalgebra.algebraMap_mem T k)⟩
+  let t' : T.toSubring := ⟨t, Algebra.self_mem_adjoin_singleton K t⟩
+  have ht'P : t' ∈ P := by
+    have h := Ideal.mem_map_of_mem e
+      (Ideal.mem_span_singleton_self (Polynomial.X : Polynomial K))
+    convert h using 1
+    exact (Polynomial.algEquivOfTranscendental_apply_X K t ht).symm
+  have hmem := (IsLocalization.AtPrime.to_map_mem_maximal_iff A'.toSubring P t').mpr ht'P
+  intro hbot
+  rw [hbot, Ideal.mem_bot] at hmem
+  have h0 : t = 0 := congrArg Subtype.val hmem
+  exact ht (h0 ▸ isAlgebraic_zero)
+
 /-- Domination is transitive. -/
 theorem HasDominatingDVR.of_le {A A' : Subring L} (h : A ≤ A')
     [IsLocalHom (Subring.inclusion h)] (hA' : HasDominatingDVR A') : HasDominatingDVR A := by
@@ -357,6 +397,66 @@ theorem exists_dominating_dvr_of_fg (A K : Type*) [CommRing A] [IsDomain A]
     rfl
   rw [this]
   infer_instance
+
+
+/-- **Hartshorne II, Exercise 4.11(a)** (repaired, general form). Let `(A, 𝔪)` be a
+Noetherian local domain with fraction field `K`, and let `L/K` be a finitely generated field
+extension, and suppose that `𝔪 ≠ 0` or `L` is not algebraic over `K`. Then there is a discrete
+valuation ring `R ⊆ L`, not a field, with fraction field `L`, which dominates the image of `A`
+in `L`: the image of `A` lies in `R` and the induced map `A → R` is local.
+
+Without the added hypothesis the literal statement fails exactly when `A` is a field and
+`L/K` is algebraic, for instance when `L = K`. The case `𝔪 ≠ 0` is
+`exists_dominating_dvr_of_fg`; when `𝔪 = 0`, the localization of `K[t]` at `(t)`, for `t`
+transcendental over `K`, takes the place of `A`. The domain hypothesis is the source's; it
+also follows from `IsFractionRing A K`. -/
+theorem exists_dominating_dvr_of_fg_of_ne_bot_or_transcendental (A K : Type*) [CommRing A]
+    [IsDomain A] [IsNoetherianRing A] [IsLocalRing A] [Field K] [Algebra A K]
+    [IsFractionRing A K] [Algebra K L] [Algebra A L] [IsScalarTower A K L]
+    (h : maximalIdeal A ≠ ⊥ ∨ ¬ Algebra.IsAlgebraic K L)
+    (hfg : (⊤ : IntermediateField K L).FG) :
+    ∃ R : Subring L, IsDiscreteValuationRing R ∧ IsFractionRing R L ∧ ¬ IsField R ∧
+      ∃ h : ∀ a, algebraMap A L a ∈ R, IsLocalHom ((algebraMap A L).codRestrict R h) := by
+  classical
+  by_cases hm : maximalIdeal A ≠ ⊥
+  · exact exists_dominating_dvr_of_fg A K hm hfg
+  have halg : ¬ Algebra.IsAlgebraic K L := h.resolve_left hm
+  rw [not_not] at hm
+  obtain ⟨t, ht⟩ : ∃ t : L, Transcendental K t := by
+    by_contra hcon
+    exact halg ⟨fun x => by
+      by_contra hx
+      exact hcon ⟨x, hx⟩⟩
+  obtain ⟨A', hnoeth, hm', hK⟩ := exists_localSubring_of_transcendental K t ht
+  have := hnoeth
+  obtain ⟨S, hS⟩ := hfg
+  have hclosure : Subfield.closure ((A'.toSubring : Set L) ∪ S) = ⊤ := by
+    let F : IntermediateField K L :=
+      (Subfield.closure ((A'.toSubring : Set L) ∪ S)).toIntermediateField fun k =>
+        Subfield.subset_closure (Or.inl (hK k))
+    have hle : IntermediateField.adjoin K (S : Set L) ≤ F :=
+      IntermediateField.adjoin_le_iff.mpr fun y hy => Subfield.subset_closure (Or.inr hy)
+    rw [eq_top_iff]
+    intro y _
+    have hy : y ∈ IntermediateField.adjoin K (S : Set L) := by
+      rw [hS]
+      exact IntermediateField.mem_top
+    exact hle hy
+  obtain ⟨R, hR, hRf, hle, -⟩ :=
+    hasDominatingDVR_of_closure_eq_top S.card A'.toSubring hm' S rfl hclosure
+  have hmem : ∀ a, algebraMap A L a ∈ R := fun a => by
+    rw [IsScalarTower.algebraMap_apply A K L]
+    exact hle (hK _)
+  refine ⟨R, hR, hRf, IsDiscreteValuationRing.not_isField R, hmem, ⟨fun a ha => ?_⟩⟩
+  by_contra hau
+  have ha0 : a = 0 := by
+    have hma : a ∈ maximalIdeal A := by
+      rw [mem_maximalIdeal, mem_nonunits_iff]
+      exact hau
+    rwa [hm, Ideal.mem_bot] at hma
+  subst ha0
+  rw [map_zero] at ha
+  exact not_isUnit_zero ha
 
 end
 

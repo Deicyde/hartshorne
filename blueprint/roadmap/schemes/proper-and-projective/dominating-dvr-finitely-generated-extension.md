@@ -2,8 +2,9 @@
 article_id: af_f3a7028c4c4728ad41df66fb
 declaration: theorem
 origin: cited
-statement: retracted
-lean: Hartshorne.exists_dominating_dvr_of_fg
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_dominating_dvr_of_fg_of_ne_bot_or_transcendental Hartshorne.exists_dominating_dvr_of_fg
 ---
 
 # A dominating DVR in a finitely generated extension
