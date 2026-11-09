@@ -10,8 +10,8 @@ import Mathlib.RingTheory.Flat.Localization
 /-!
 # Local rings of a fibre product
 
-Hartshorne, *Algebraic Geometry*, II, Theorem 3.3 (construction of fibre products, pp. 87–88):
-the local computation on an affine open `Spec (A ⊗_R B)` of `X ×_Y Y'`.
+A project lemma grounded in Hartshorne, *Algebraic Geometry*, II, Theorem 3.3 (construction of
+fibre products, pp. 87–88): the local computation on an affine open `Spec (A ⊗_R B)` of `X ×_Y Y'`.
 
 Let `f : X ⟶ Y` and `g : Y' ⟶ Y` be morphisms of schemes, `x'` a point of `X' = X ×_Y Y'`, and
 `x`, `y'`, `y` its images in `X`, `Y'`, `Y`. The stalk maps of the two projections agree on
