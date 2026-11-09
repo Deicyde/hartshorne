@@ -24,10 +24,12 @@ additions.
 - [Twisting sheaves are invertible](proj-twisting-sheaf.md)
 - [Module tensor product](../modules-and-quasicoherent/module-tensor-product.md)
 - [The monoidal category of sheaves of modules](../modules-and-quasicoherent/module-sheaf-monoidal-category.md)
+- [Integer-graded module twists](../../intersections-projective-space/hilbert/graded-module-twists.md)
 
 ## Proof depends on
 
 - [Tilde preserves tensor products](../modules-and-quasicoherent/affine-tilde/tilde-tensor-compatibility.md)
+- [Isomorphisms are detected on stalks](../sheaves/stalkwise-isomorphism.md)
 - The degree-one standard affine cover and the shift convention
   $M(n)_d = M_{n+d}$.
 
