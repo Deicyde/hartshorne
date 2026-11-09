@@ -127,13 +127,13 @@ then reuses `IsClosedImmersion.overEquivIdealSheafData`.
   used throughout III pp.213–215.
 - **Exercise 5.7(a,b), pp.124–125.** Freeness of a coherent stalk extends to a
   neighbourhood, and local freeness is stalkwise. Used on II p.178.
-- **Exercise 5.8(c), integral case, p.125.** For a coherent sheaf `F` on a
+- **Exercise 5.8(c), p.125.** For a coherent sheaf `F` on a
   Noetherian scheme `X`, Hartshorne considers the fibre-dimension function
   `phi(x) = dim_(k(x)) F_x tensor_(O_x) k(x)`; part (c) says that if `X` is
   reduced and `phi` is constant, then `F` is locally free, and part (b) gives
-  the converse constancy on a connected `X`. The roadmap adopts only the case
-  `X` integral, in rank form: `F` is locally free of rank `n` exactly when
-  `phi = n` everywhere. Later-use evidence: the roadmap's III.10 Example
+  the converse constancy on a connected `X`. The roadmap adopts (c) for
+  reduced `X`, in rank form: `F` is locally free of rank `n` exactly when
+  `phi = n` everywhere. Later uses need only integral `X`. Later-use evidence: the roadmap's III.10 Example
   10.0.2 article (fibre dimension of `Omega[X/Y]` for integral `X`, p.268)
   and the proof of III.12 Corollary 12.9 over an integral base (pp.288–289).
 - **Exercise 5.9(a,b), p.125.** The natural graded map to `Gamma_*` and its
@@ -171,10 +171,9 @@ then reuses `IsClosedImmersion.overEquivIdealSheafData`.
 
 ## Excluded exercise clauses
 
-Exercises 5.2 and 5.11 are not adopted. Of Exercise 5.8 only the integral
-case of (c) is adopted: part (a), upper semicontinuity of `phi`, is
-represented by the III.12 Example 12.7.2 article, and the reduced,
-non-integral case of (c) and part (b) on its own have no later use.
+Exercises 5.2 and 5.11 are not adopted. Of Exercise 5.8 only (c) is
+adopted: part (a), upper semicontinuity of `phi`, is represented by the
+III.12 Example 12.7.2 article, and part (b) on its own has no later use.
 Exercise 5.4 is recorded as the representation bridge but is not a separate
 exercise node. Parts 5.7(c),
 5.9(c), 5.10(d), 5.15(e), 5.16(a),(c),(e), and 5.17(e) are not independent
