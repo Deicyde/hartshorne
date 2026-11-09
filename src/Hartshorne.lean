@@ -570,3 +570,4 @@ import Hartshorne.Cohomology.ResolutionToInjectiveComplex
 import Hartshorne.Cohomology.RightDerivedPullback
 import Hartshorne.Weil.EllAdicPullbackFunctoriality
 import Hartshorne.Weil.EtaleTateTwist
+import Hartshorne.Weil.SheafTensorMonoidal
