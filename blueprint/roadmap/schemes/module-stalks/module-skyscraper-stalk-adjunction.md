@@ -2,6 +2,9 @@
 article_id: af_f892625ca28500dec147e4d2
 declaration: def
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.Ringed.moduleSkyscraper Hartshorne.Ringed.moduleStalkFunctor Hartshorne.Ringed.moduleStalkSkyscraperAdjunction
 ---
 
 # Skyscraper module sheaves and the stalk adjunction
