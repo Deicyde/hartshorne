@@ -25,8 +25,9 @@ monoidal for the module tensor product.
 
 ## Proof depends on
 
+- [The tilde–global-sections adjunction](tilde-gamma-adjunction.md)
 - Localization commutes with tensor products.
-- Isomorphisms of sheaves may be checked on stalks.
+- [Isomorphisms are detected on stalks](../../sheaves/stalkwise-isomorphism.md)
 
 ## Sources
 
