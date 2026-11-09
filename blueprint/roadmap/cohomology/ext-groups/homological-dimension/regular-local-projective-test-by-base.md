@@ -2,6 +2,9 @@
 article_id: af_d58223e3be3ec575072b3251
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.RegularLocal.projective_iff_forall_subsingleton_ext
 ---
 
 # Projectivity detected by Ext against the base ring
