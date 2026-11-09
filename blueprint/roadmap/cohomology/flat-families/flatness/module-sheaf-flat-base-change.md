@@ -2,6 +2,9 @@
 article_id: af_e6fc97faaa85552c7406c057
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.Scheme.Modules.FlatOver.baseChange Hartshorne.flat_tensorProduct_of_flat_of_flat_tensor Hartshorne.flat_tensorProduct_of_flat_algebra
 ---
 
 # Base change of a module sheaf flat over a base
