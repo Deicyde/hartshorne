@@ -4,7 +4,7 @@ declaration: theorem
 origin: bridged
 statement: formalized
 proof: formalized
-lean: Hartshorne.ProjTwistMap.twistRestrictIso Hartshorne.ProjTwistMap.isIso_twistRestrictHom Hartshorne.ProjTwistMap.twistRestrictIso_comp Hartshorne.ProjTwistMap.twistRestrictIso_id Hartshorne.ProjTwistMap.exists_isLocalizationAway_comp Hartshorne.isOpenImmersion_projMap Hartshorne.range_projMap Hartshorne.irrelevant_le_map_of_isLocalizationAway Hartshorne.ProjTwistMap.twistRestrictHom_app_apply Hartshorne.ProjTwistMap.twistFiber_mk
+lean: Hartshorne.ProjTwistMap.twistRestrictIso Hartshorne.ProjTwistMap.isIso_twistRestrictHom Hartshorne.ProjTwistMap.twistRestrictIso_comp Hartshorne.ProjTwistMap.twistRestrictIso_id Hartshorne.ProjTwistMap.exists_isLocalizationAway_comp Hartshorne.isOpenImmersion_projMap Hartshorne.range_projMap Hartshorne.irrelevant_eq_map_of_isLocalizationAway Hartshorne.ProjTwistMap.twistRestrictHom_app_apply Hartshorne.ProjTwistMap.twistFiber_mk
 ---
 
 # Twisting sheaves under localization in degree zero
