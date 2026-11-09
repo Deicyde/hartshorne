@@ -568,6 +568,7 @@ import Hartshorne.Scheme.ProjHomogeneousFraction
 import Hartshorne.Scheme.QuadricSurface
 import Hartshorne.Scheme.QuadricSurfaceSegre
 import Hartshorne.Scheme.QuadricSurfaceClassGroup
+import Hartshorne.Scheme.QuadricSurfaceHyperplane
 import Hartshorne.Cohomology.ResolutionToInjectiveComplex
 import Hartshorne.Cohomology.RightDerivedPullback
 import Hartshorne.Weil.EllAdicPullbackFunctoriality

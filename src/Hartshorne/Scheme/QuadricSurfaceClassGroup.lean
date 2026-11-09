@@ -826,9 +826,9 @@ theorem quadricSurfaceClassGroupEquiv_lineTwo :
   rw [quadricSurfaceClassGroupEquiv_symm_apply]
   simp
 
-/-- The divisor `L₁ + L₂` has class `(1, 1)`. This is only the class of `L₁ + L₂`: no divisor
-cut on `Q` by a hyperplane of `ℙ³_k` is defined here, so it does not yet say that the hyperplane
-class (or the section `s₀u₀ = 0`) is `(1, 1)`. -/
+/-- The divisor `L₁ + L₂` has class `(1, 1)`. This is only the class of `L₁ + L₂`; the divisor
+cut on `Q` by a hyperplane is not defined in this module (the hyperplane class is computed from
+this lemma in `Hartshorne.quadricSurfaceClassGroupEquiv_hyperplaneSection`). -/
 theorem quadricSurfaceClassGroupEquiv_lineOne_add_lineTwo :
     quadricSurfaceClassGroupEquiv k ((quadricSurface k).weilDivisorClassHom hQ
       ((quadricLineOneDivisor k).toWeilDivisor + (quadricLineTwoDivisor k).toWeilDivisor)) =

@@ -98,6 +98,52 @@ def projHomogeneousFraction [IsIntegral (Proj 𝒜)] {g h : A} {d : ℕ} (hg : g
   (Proj.stalkIso 𝒜 (genericPoint (Proj 𝒜))).inv
     (HomogeneousLocalization.mk ⟨d, ⟨g, hg⟩, ⟨h, hh⟩, notMem_genericPoint_proj 𝒜 h0⟩)
 
+theorem projHomogeneousFraction_eq_of_mul_eq [IsIntegral (Proj 𝒜)] {g h g' h' : A} {d d' : ℕ}
+    (hg : g ∈ 𝒜 d) (hh : h ∈ 𝒜 d) (h0 : h ≠ 0) (hg' : g' ∈ 𝒜 d') (hh' : h' ∈ 𝒜 d')
+    (h0' : h' ≠ 0) (H : g * h' = g' * h) :
+    projHomogeneousFraction 𝒜 hg hh h0 = projHomogeneousFraction 𝒜 hg' hh' h0' := by
+  rw [projHomogeneousFraction, projHomogeneousFraction]
+  congr 1
+  apply HomogeneousLocalization.val_injective
+  rw [HomogeneousLocalization.val_mk, HomogeneousLocalization.val_mk, Localization.mk_eq_mk_iff,
+    Localization.r_iff_exists]
+  exact ⟨1, by simp only [OneMemClass.coe_one, one_mul]; linear_combination H⟩
+
+theorem projHomogeneousFraction_mul [IsIntegral (Proj 𝒜)] {g h g' h' : A} {d d' : ℕ}
+    (hg : g ∈ 𝒜 d) (hh : h ∈ 𝒜 d) (h0 : h ≠ 0) (hg' : g' ∈ 𝒜 d') (hh' : h' ∈ 𝒜 d')
+    (h0' : h' ≠ 0) :
+    projHomogeneousFraction 𝒜 hg hh h0 * projHomogeneousFraction 𝒜 hg' hh' h0' =
+      projHomogeneousFraction 𝒜 (SetLike.mul_mem_graded hg hg')
+        (SetLike.mul_mem_graded hh hh') (mul_ne_zero h0 h0') := by
+  rw [projHomogeneousFraction, projHomogeneousFraction, projHomogeneousFraction, ← map_mul]
+  rfl
+
+theorem projHomogeneousFraction_self [IsIntegral (Proj 𝒜)] {h : A} {d : ℕ} (hh : h ∈ 𝒜 d)
+    (h0 : h ≠ 0) : projHomogeneousFraction 𝒜 hh hh h0 = 1 := by
+  rw [projHomogeneousFraction, ← map_one (Proj.stalkIso 𝒜 (genericPoint (Proj 𝒜))).inv.hom]
+  congr 1
+  apply HomogeneousLocalization.val_injective
+  rw [HomogeneousLocalization.val_mk, HomogeneousLocalization.val_one]
+  exact Localization.mk_self ⟨h, notMem_genericPoint_proj 𝒜 h0⟩
+
+theorem projHomogeneousFraction_ne_zero [IsIntegral (Proj 𝒜)] {g h : A} {d : ℕ} (hg : g ∈ 𝒜 d)
+    (hh : h ∈ 𝒜 d) (h0 : h ≠ 0) (g0 : g ≠ 0) : projHomogeneousFraction 𝒜 hg hh h0 ≠ 0 := by
+  have hmul := projHomogeneousFraction_mul 𝒜 hg hh h0 hh hg g0
+  rw [projHomogeneousFraction_eq_of_mul_eq 𝒜 (SetLike.mul_mem_graded hg hh)
+    (SetLike.mul_mem_graded hh hg) (mul_ne_zero h0 g0) hh hh h0 (by ring),
+    projHomogeneousFraction_self] at hmul
+  exact left_ne_zero_of_mul_eq_one hmul
+
+/-- The germ at the generic point of the section `g / h` of `D₊(h)` is `g / h`. -/
+theorem germ_awayToSection_mk [IsIntegral (Proj 𝒜)] {g h : A} {d : ℕ} (hg : g ∈ 𝒜 d)
+    (hh : h ∈ 𝒜 d) (h0 : h ≠ 0) :
+    (Proj 𝒜).presheaf.germ _ _ (genericPoint_mem_proj_basicOpen 𝒜 h0)
+        (Proj.awayToSection 𝒜 h (HomogeneousLocalization.mk ⟨d, ⟨g, hg⟩, ⟨h, hh⟩, ⟨1, pow_one h⟩⟩)) =
+      projHomogeneousFraction 𝒜 hg hh h0 :=
+  congr($(ProjectiveSpectrum.Proj.awayToSection_germ 𝒜 h (genericPoint (Proj 𝒜))
+    (genericPoint_mem_proj_basicOpen 𝒜 h0))
+    (HomogeneousLocalization.mk ⟨d, ⟨g, hg⟩, ⟨h, hh⟩, ⟨1, pow_one h⟩⟩))
+
 end Domain
 
 section Chart
