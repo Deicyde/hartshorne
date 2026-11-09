@@ -2,6 +2,9 @@
 article_id: af_bbf20495425732b134fda979
 declaration: def
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.cohomologicalDimension Hartshorne.IsCohomologicalDimensionBound Hartshorne.isCohomologicalDimensionBound_cohomologicalDimension Hartshorne.cohomologicalDimension_eq_top_iff Hartshorne.cohomologicalDimension_eq_coe_iff
 ---
 
 # Cohomological dimension
