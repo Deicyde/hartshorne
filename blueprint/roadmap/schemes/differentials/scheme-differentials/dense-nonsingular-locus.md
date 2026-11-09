@@ -2,6 +2,9 @@
 article_id: af_e2d480a9e888caa28bd5ec9b
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_nonempty_dense_isRegularAt Hartshorne.isRegularAt_of_smooth
 ---
 
 # The dense nonsingular locus
