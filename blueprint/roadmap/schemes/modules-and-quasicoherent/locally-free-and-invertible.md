@@ -24,6 +24,7 @@ of every rank.
 
 ## Proof depends on
 
+- [Skyscraper module sheaves and the stalk adjunction](../module-stalks/module-skyscraper-stalk-adjunction.md)
 - Invariant basis number for nonzero commutative rings.
 
 ## Sources
