@@ -571,7 +571,8 @@ end ToQuadric
 section Comparison
 
 /-- The renumbering of the coordinates: the Segre coordinate `z_{ij}` (index
-`segreIndex 1 1 (i, j)`) is the coordinate of `k[x, y, z, w]` with `x = z₀₀`, `y = z₁₁`, `z = z₀₁`, `w = z₁₀`. -/
+`segreIndex 1 1 (i, j)`) is the coordinate of `k[x, y, z, w]` with
+`x = z₀₀`, `y = z₁₁`, `z = z₀₁`, `w = z₁₀`. -/
 def quadricCoordinateEquiv : Fin (1 * 1 + 1 + 1 + 1) ≃ Fin (1 * 1 + 1 + 1 + 1) where
   toFun := ![0, 2, 3, 1]
   invFun := ![0, 3, 1, 2]
