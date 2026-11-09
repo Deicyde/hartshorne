@@ -122,6 +122,12 @@ lemma pmap_map_eq {Z : Scheme.{u}} (M : Z.Modules) {a b b' c : Z.Opensᵒᵖ} (f
     M.presheaf.map g (M.presheaf.map f x) = M.presheaf.map g' (M.presheaf.map f' x) := by
   rw [pmap_map M f g (f ≫ g), pmap_map M f' g' (f ≫ g)]
 
+lemma pmap_map3_eq {Z : Scheme.{u}} (M : Z.Modules) {a b c d b' : Z.Opensᵒᵖ} (f : a ⟶ b)
+    (g : b ⟶ c) (h : c ⟶ d) (f' : a ⟶ b') (g' : b' ⟶ d) (x : M.presheaf.obj a) :
+    M.presheaf.map h (M.presheaf.map g (M.presheaf.map f x)) =
+      M.presheaf.map g' (M.presheaf.map f' x) := by
+  rw [pmap_map M f g (f ≫ g), pmap_map M (f ≫ g) h (f' ≫ g'), pmap_map M f' g' (f' ≫ g')]
+
 lemma pmap_self {Z : Scheme.{u}} (M : Z.Modules) {a : Z.Opensᵒᵖ} (f : a ⟶ a)
     (x : M.presheaf.obj a) : M.presheaf.map f x = x := by
   rw [Subsingleton.elim f (𝟙 a), CategoryTheory.Functor.map_id]; rfl
@@ -204,7 +210,7 @@ noncomputable def πk (k : 𝒰.I₀) : D.glue ⟶ D.P k :=
 
 /-- The comparison `glue|_{𝒰.X k} ⟶ M k`. -/
 noncomputable def ψHom (k : 𝒰.I₀) : D.glue.restrict (𝒰.f k) ⟶ D.M k :=
-  ((restrictAdjunction (𝒰.f k)).homEquiv _ _).symm (D.πk k)
+  (restrictFunctor (𝒰.f k)).map (D.πk k) ≫ (restrictAdjunction (𝒰.f k)).counit.app (D.M k)
 
 lemma α_apply (a : Arr (𝒰 := 𝒰)) (O : Y.Opens) (x : Γ(D.M a.2.1, 𝒰.f a.2.1 ⁻¹ᵁ O)) :
     (D.α a).app O x = (D.θ a.2.2).hom.app (𝒰.f a.1 ⁻¹ᵁ O)
@@ -400,7 +406,6 @@ end pieces
 lemma ψHom_apply (k : 𝒰.I₀) (W : (𝒰.X k).Opens) (s : D.Sec (𝒰.f k ''ᵁ W)) :
     (D.ψHom k).app W s =
       (D.M k).presheaf.map (eqToHom (Scheme.Hom.preimage_image_eq _ W).symm).op (s.1 k) := by
-  simp only [ψHom, Adjunction.homEquiv_counit]
   rfl
 
 lemma ψHom_bijective (k : 𝒰.I₀) (W : (𝒰.X k).Opens) :
@@ -425,6 +430,27 @@ instance isIso_ψHom (k : 𝒰.I₀) : IsIso (D.ψHom k) :=
 
 /-- The isomorphisms `glue|_{𝒰.X k} ≅ M k`. -/
 noncomputable def ψ (k : 𝒰.I₀) : D.glue.restrict (𝒰.f k) ≅ D.M k := asIso (D.ψHom k)
+
+/-- The isomorphisms `ψ` are compatible with the transition isomorphisms: along `f : i ⟶ j`,
+`θ f ∘ (ψ j)|_{𝒰.X i} = ψ i` (up to the canonical identifications of restrictions). -/
+theorem ψ_compat {i j : 𝒰.I₀} (f : i ⟶ j) :
+    (restrictFunctorCongr (𝒰.trans_map f)).inv.app D.glue ≫
+      (restrictFunctorComp (𝒰.trans f) (𝒰.f j)).hom.app D.glue ≫
+      (restrictFunctor (𝒰.trans f)).map (D.ψ j).hom ≫ (D.θ f).hom = (D.ψ i).hom := by
+  apply Scheme.Modules.hom_ext
+  intro W
+  ext x
+  simp only [Hom.comp_app, restrictFunctorCongr_inv_app_app, restrictFunctorComp_hom_app_app]
+  let x' : D.Sec (𝒰.f i ''ᵁ W) := x
+  have hW : W ≤ 𝒰.f i ⁻¹ᵁ (𝒰.f i ''ᵁ W) := (Scheme.Hom.preimage_image_eq _ W).ge
+  change (D.θ f).hom.app W ((D.M j).presheaf.map _ ((D.M j).presheaf.map _
+    ((D.M j).presheaf.map _ (x'.1 j)))) = (D.M i).presheaf.map _ (x'.1 i)
+  refine (congrArg ((D.θ f).hom.app W) (pmap_map3_eq (D.M j) _ _ _
+    (homOfLE (image_preimage_trans_le 𝒰 f _)).op
+    (homOfLE (Scheme.Hom.image_mono _ hW)).op _)).trans ?_
+  refine (D.θ_nat f (Scheme.Hom.image_mono _ hW) hW _).trans ?_
+  refine (congrArg ((D.M i).presheaf.map (homOfLE hW).op) (D.sec_compat x' f)).trans ?_
+  exact congrArg (fun e => (D.M i).presheaf.map e (x'.1 i)) (Subsingleton.elim _ _)
 
 end Data
 
