@@ -170,7 +170,58 @@ theorem projPartialMap_app_apply (V : (Proj 𝒜).Opens) (r : Γ(Proj 𝒜, V))
     simp only [OneMemClass.coe_one, one_mul]
     change b * c * a = b * (a * c)
     ring
-  sorry
+  -- reduce to the section `x` over `D₊(bc)`
+  have nat1 := ConcreteCategory.congr_hom
+    ((projPartialMap f).naturality (homOfLE hW'V).op) r
+  have nat2 := ConcreteCategory.congr_hom
+    ((projPartialMap f).naturality (homOfLE inf_le_right : W' ⟶ Proj.basicOpen 𝒜 (b * c)).op)
+    (Proj.awayToSection 𝒜 (b * c) x)
+  rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply] at nat1 nat2
+  have hyd : y ∈ projPartialMap f ⁻¹ᵁ Proj.basicOpen 𝒜 (b * c) := hdy
+  have e1 : sectionValue (V := (projPartialDomain f).ι ''ᵁ (projPartialMap f ⁻¹ᵁ V))
+      ((projPartialMap f).app V r) ((projPartialDomain f).ι y) ⟨y, hy, rfl⟩ =
+      sectionValue (V := (projPartialDomain f).ι ''ᵁ
+        (projPartialMap f ⁻¹ᵁ Proj.basicOpen 𝒜 (b * c)))
+        ((projPartialMap f).app _ (Proj.awayToSection 𝒜 (b * c) x))
+        ((projPartialDomain f).ι y) ⟨y, hyd, rfl⟩ := by
+    have h1 := congrArg (fun t => sectionValue (V := (projPartialDomain f).ι ''ᵁ
+      (projPartialMap f ⁻¹ᵁ W')) t ((projPartialDomain f).ι y) ⟨y, hW', rfl⟩) nat1
+    have h2 := congrArg (fun t => sectionValue (V := (projPartialDomain f).ι ''ᵁ
+      (projPartialMap f ⁻¹ᵁ W')) t ((projPartialDomain f).ι y) ⟨y, hW', rfl⟩) nat2
+    simp only at h1 h2
+    rw [hres] at h1
+    exact h1.symm.trans h2
+  rw [e1]
+  have hφ : (projPartialDomain f).ι y ∈ Proj.basicOpen ℬ (f (b * c)) := by
+    rw [Proj.mem_basicOpen, map_mul]
+    intro h
+    rcases ((projPartialDomain f).ι y).isPrime.mem_or_mem h with h | h
+    · apply hby
+      rw [projPartialMap_apply_asHomogeneousIdeal]
+      exact h
+    · exact hyc h
+  have hmem : (projPartialDomain f).ι y ∈ (Proj.basicOpen ℬ (f (b * c))).ι ''ᵁ ⊤ :=
+    ⟨⟨_, hφ⟩, trivial, rfl⟩
+  have hc := projPartialMap_appLE_awayToSection f hd hdk x
+  rw [Scheme.Hom.comp_appLE, Scheme.homOfLE_appLE] at hc
+  have hc' := congrArg (fun t => sectionValue (V := (Proj.basicOpen ℬ (f (b * c))).ι ''ᵁ ⊤) t
+    ((projPartialDomain f).ι y) hmem) hc
+  refine hc'.trans ?_
+  have hrv := hr ⟨projPartialMap f y, hW⟩
+  refine Eq.trans ?_ (congrArg (HomogeneousLocalization.map f
+    (primeCompl_le_comap_projPartialMap f y)) hrv).symm
+  apply HomogeneousLocalization.val_injective
+  change (HomogeneousLocalization.mapId ℬ _ (Away.map f (b * c) x)).val = _
+  rw [HomogeneousLocalization.map_mk, HomogeneousLocalization.val_mk]
+  change (HomogeneousLocalization.mapId ℬ _ (HomogeneousLocalization.map f _
+    (HomogeneousLocalization.mk _))).val = _
+  rw [HomogeneousLocalization.map_mk, HomogeneousLocalization.map_mk,
+    HomogeneousLocalization.val_mk]
+  refine Localization.mk_eq_mk_iff.2 (Localization.r_iff_exists.2 ⟨1, ?_⟩)
+  simp only [OneMemClass.coe_one, one_mul]
+  change f b * (RingHom.id B) (f (a * c)) = (RingHom.id B) (f (b * c)) * f a
+  simp only [RingHom.id_apply, map_mul]
+  ring
 
 end PartialChart
 
