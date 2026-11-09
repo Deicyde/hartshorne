@@ -76,6 +76,14 @@ invertible sheaf O(1) on Proj S". Proposition 5.12(c) (p.117) assumes generation
 one, so dropping the generation hypothesis and the compatibility with composites (the cocycle
 condition for the gluing) are project additions.
 
+For that compatibility, the localization `B = A[1/s]` at an element `s` of degree zero is
+graded by `B_d = {a/s^k : a ∈ A_d, k ≥ 0}`. The formalization does not build this grading.
+It takes any grading of `B` for which the localization map `A -> B` preserves degrees. Nothing
+is lost, because such a grading is unique. Since `s` is a unit of degree zero, its inverse has
+degree zero, so every `a/s^k` with `a ∈ A_d` lies in `B_d`. These elements already sum to all
+of `B`, so the decomposition forces `B_d` to be exactly this set. The Lean proves the
+inclusion `B_d ⊆ {a/s^k : a ∈ A_d}` directly, by taking degree-`d` components of numerators.
+
 The roadmap also fixes how the quasi-coherent sheaf of graded algebras in the relative Proj
 construction is given. It is recorded only on affine opens: a ring of sections `S(U)` for each
 affine open `U` of `X`, with restriction maps along principal opens `D(r) ⊆ U`, an
