@@ -358,6 +358,9 @@ def zeroEquiv : (veronese 𝒜 d) 0 ≃+* 𝒜 0 where
   map_mul' _ _ := rfl
   map_add' _ _ := rfl
 
+instance isIso_ofHom_zeroEquiv : IsIso (CommRingCat.ofHom (zeroEquiv 𝒜 d).toRingHom) :=
+  (RingEquiv.toCommRingCatIso (zeroEquiv 𝒜 d)).isIso_hom
+
 /-- `Proj S ≅ Proj S^{(d)}` lies over `Spec S₀ = Spec S^{(d)}_0`. -/
 theorem toProj_comp_toSpecZero :
     toProj d ≫ Proj.toSpecZero (veronese 𝒜 d) =
@@ -474,7 +477,8 @@ theorem veroneseMap_comp_evalGradedHom (hx : ∀ i, x i ∈ 𝒜 1) :
 generated over `S₀` by `x₀, …, xₙ ∈ S₁`, the morphism `Proj S ⟶ ℙᴺ` given by the degree-`d`
 monomials through `Proj S ≅ Proj S^{(d)}` is the closed immersion `Proj S ⟶ ℙⁿ_{Spec S₀}` given by
 `x₀, …, xₙ`, followed by the `d`-uple map `ρ_d : ℙⁿ_{Spec S₀} ⟶ ℙᴺ_{Spec S₀}` (and the
-identification `S₀ = S^{(d)}_0` of base rings). -/
+identification `S₀ = S^{(d)}_0` of base rings, which induces an isomorphism
+`ℙᴺ_{Spec S₀} ≅ ℙᴺ_{Spec S^{(d)}_0}`). -/
 theorem dupleEmbedding_eq_comp_dupleMap (hx : ∀ i, x i ∈ 𝒜 1)
     (hgen : Algebra.adjoin (𝒜 0) (Set.range x) = ⊤) :
     dupleEmbedding 𝒜 d x hx hgen =

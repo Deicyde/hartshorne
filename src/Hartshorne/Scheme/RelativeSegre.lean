@@ -593,6 +593,12 @@ def projectiveSpaceOverSchemeMap (n : ℕ) {Y Y' : Scheme.{u}} (g : Y' ⟶ Y) :
     projectiveSpaceOverScheme n Y' ⟶ projectiveSpaceOverScheme n Y :=
   pullback.map _ _ _ _ (𝟙 _) g (𝟙 _) (by simp) (specULiftZIsTerminal.{u}.hom_ext _ _)
 
+/-- An isomorphism `Y' ≅ Y` induces an isomorphism `ℙⁿ_{Y'} ≅ ℙⁿ_Y`. -/
+instance isIso_projectiveSpaceOverSchemeMap (n : ℕ) {Y Y' : Scheme.{u}} (g : Y' ⟶ Y) [IsIso g] :
+    IsIso (projectiveSpaceOverSchemeMap n g) := by
+  unfold projectiveSpaceOverSchemeMap
+  infer_instance
+
 @[reassoc (attr := simp)]
 theorem projectiveSpaceOverSchemeMap_fst (n : ℕ) {Y Y' : Scheme.{u}} (g : Y' ⟶ Y) :
     projectiveSpaceOverSchemeMap n g ≫ pullback.fst _ _ = pullback.fst _ _ :=
