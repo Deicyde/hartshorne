@@ -466,14 +466,143 @@ theorem image_preimage_basicOpen_le {g : A} (V' : (projPartialDomain f).toScheme
   exact h
 
 set_option backward.isDefEq.respectTransparency false in
-/-- The image of the frame `g^n` under `psi` is a frame of `𝒪_{Proj T}(n)|_U` on `f⁻¹ D₊(g)`. -/
-theorem isLocalFrame_psi_twistGenSection {g : A} (g_deg : g ∈ 𝒜 1) :
+/-- The value at a point `z ∈ U` of a section of `𝒪_{Proj T}(n)|_U`. -/
+abbrev restrictValue {W : (projPartialDomain f).toScheme.Opens}
+    (s : ((projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι).val.presheaf.obj (op W))
+    (x : ↥((projPartialDomain f).ι ''ᵁ W)) :
+    HomogeneousLocalizedModule ℬ (gradedTwist ℬ n) x.1.asHomogeneousIdeal.toIdeal.primeCompl :=
+  (show (sheafInType ℬ (gradedTwist ℬ n)).1.obj (op ((projPartialDomain f).ι ''ᵁ W)) from s).1 x
+
+set_option backward.isDefEq.respectTransparency false in
+theorem restrictValue_ext {W : (projPartialDomain f).toScheme.Opens}
+    {s s' : ((projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι).val.presheaf.obj (op W)}
+    (h : ∀ x, restrictValue f n s x = restrictValue f n s' x) : s = s' :=
+  Subtype.ext (funext h)
+
+set_option backward.isDefEq.respectTransparency false in
+theorem sectionValue_ext {W : (projPartialDomain f).toScheme.Opens}
+    {c c' : Γ((projPartialDomain f).toScheme, W)}
+    (h : ∀ x : ↥((projPartialDomain f).ι ''ᵁ W),
+      sectionValue (V := (projPartialDomain f).ι ''ᵁ W) c x.1 x.2 =
+        sectionValue (V := (projPartialDomain f).ι ''ᵁ W) c' x.1 x.2) : c = c' :=
+  Subtype.ext (funext h)
+
+set_option backward.isDefEq.respectTransparency false in
+theorem restrictValue_smul {W : (projPartialDomain f).toScheme.Opens}
+    (c : (projPartialDomain f).toScheme.ringCatSheaf.val.obj (op W))
+    (s : ((projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι).val.presheaf.obj (op W))
+    (x : ↥((projPartialDomain f).ι ''ᵁ W)) :
+    restrictValue f n (c • s) x = sectionValue (V := (projPartialDomain f).ι ''ᵁ W) c x.1 x.2 •
+      restrictValue f n s x := by
+  show sectionValue (V := (projPartialDomain f).ι ''ᵁ W)
+    (((projPartialDomain f).ι.appIso W).inv c) x.1 x.2 • restrictValue f n s x = _
+  simp only [Scheme.Opens.ι_appIso, Iso.refl_inv]
+  rfl
+
+set_option backward.isDefEq.respectTransparency false in
+/-- The image `φ(g)^n` of the generator `g^n` of `𝒪_{Proj S}(n)` over `D₊(g)`, as a section of
+`𝒪_{Proj T}(n)|_U` over `f⁻¹ D₊(g)`. -/
+def psiFrame {g : A} (g_deg : g ∈ 𝒜 1) :
+    ((projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι).val.presheaf.obj
+      (op (projPartialMap f ⁻¹ᵁ Proj.basicOpen 𝒜 g)) :=
+  sectionsMap (R := (Proj 𝒜).sheaf) (psi f n) _ (twistGenSection g_deg n)
+
+set_option backward.isDefEq.respectTransparency false in
+theorem restrictValue_psiFrame {g : A} (g_deg : g ∈ 𝒜 1)
+    {W : (projPartialDomain f).toScheme.Opens} (hW : W ≤ projPartialMap f ⁻¹ᵁ Proj.basicOpen 𝒜 g)
+    (x : ↥((projPartialDomain f).ι ''ᵁ W)) :
+    restrictValue f n (((projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι).val.presheaf.map
+      (homOfLE hW).op (psiFrame f n g_deg)) x =
+      twistGen n (f.map_mem g_deg) (image_preimage_basicOpen_le f W hW x.2) := by
+  refine Eq.trans ?_ (twistFiber_twistGen f n
+    (primeCompl_le_comap_point f x.1 (mem_of_mem_image f x.2)) g_deg
+    (comap_mem_of_mem_image f (V := Proj.basicOpen 𝒜 g) (Scheme.Hom.image_mono _ hW x.2)))
+  rfl
+
+set_option backward.isDefEq.respectTransparency false in
+theorem restrictValue_localFrameMap {g : A} (g_deg : g ∈ 𝒜 1)
+    {V' : (projPartialDomain f).toScheme.Opens}
+    (hV' : V' ≤ projPartialMap f ⁻¹ᵁ Proj.basicOpen 𝒜 g)
+    (a : PUnit.{u + 1} → (projPartialDomain f).toScheme.sheaf.obj.obj (op V'))
+    (x : ↥((projPartialDomain f).ι ''ᵁ V')) :
+    restrictValue f n (localFrameMap (R := (projPartialDomain f).toScheme.sheaf)
+        ((projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι)
+        (fun _ : PUnit.{u + 1} => psiFrame f n g_deg) hV' a) x =
+      sectionValue (V := (projPartialDomain f).ι ''ᵁ V') (a default) x.1 x.2 •
+        twistGen n (f.map_mem g_deg) (image_preimage_basicOpen_le f V' hV' x.2) := by
+  rw [localFrameMap_apply, Fintype.sum_unique]
+  exact (restrictValue_smul f n _ _ x).trans (congrArg _ (restrictValue_psiFrame f n g_deg hV' x))
+
+set_option backward.isDefEq.respectTransparency false in
+/-- **The image of the frame `g^n` under `psi` is a frame** of `𝒪_{Proj T}(n)|_U` on
+`f⁻¹ D₊(g)`, for `g ∈ S_1`. -/
+theorem isLocalFrame_psiFrame {g : A} (g_deg : g ∈ 𝒜 1) :
     IsLocalFrame (R := (projPartialDomain f).toScheme.sheaf)
       ((projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι)
-      (projPartialMap f ⁻¹ᵁ Proj.basicOpen 𝒜 g)
-      (fun _ : PUnit.{u + 1} => sectionsMap (R := (Proj 𝒜).sheaf) (psi f n) _
-        (twistGenSection g_deg n)) := by
-  sorry
+      (projPartialMap f ⁻¹ᵁ Proj.basicOpen 𝒜 g) (fun _ : PUnit.{u + 1} => psiFrame f n g_deg) := by
+  intro V' hV'
+  have hgx : ∀ x : ↥((projPartialDomain f).ι ''ᵁ V'),
+      f g ∈ x.1.asHomogeneousIdeal.toIdeal.primeCompl :=
+    fun x => image_preimage_basicOpen_le f V' hV' x.2
+  refine ⟨fun a a' h => funext fun i => sectionValue_ext f fun x => ?_, fun s => ?_⟩
+  · exact smul_twistGen_inj (f.map_mem g_deg) (hgx x) n
+      ((restrictValue_localFrameMap f n g_deg hV' a x).symm.trans
+        ((congrArg (restrictValue f n · x) h).trans (restrictValue_localFrameMap f n g_deg hV' a' x)))
+  · choose c hc using fun x : ↥((projPartialDomain f).ι ''ᵁ V') =>
+      exists_smul_twistGen n (f.map_mem g_deg) (hgx x) (restrictValue f n s x)
+    have hloc : (ProjectiveSpectrum.StructureSheaf.isLocallyFraction ℬ).pred c := by
+      intro x
+      obtain ⟨W, hxW, iWV, k, m, hm, t, ht, t_nin, w⟩ :=
+        (show (sheafInType ℬ (gradedTwist ℬ n)).1.obj (op ((projPartialDomain f).ι ''ᵁ V'))
+          from s).2 x
+      refine ⟨W, hxW, iWV, n.toNat + k, ⟨_, twistNum_mem (f.map_mem g_deg) n hm⟩,
+        ⟨f g ^ n.toNat * t, SetLike.GradedMul.mul_mem
+          (ProjTwistingSheaf.pow_mem_of_mem_one (f.map_mem g_deg) _) ht⟩,
+        fun y => mul_mem (pow_mem (hgx (iWV y)) _) (t_nin y), fun y => ?_⟩
+      exact smul_twistGen_inj (f.map_mem g_deg) (hgx (iWV y)) n ((hc (iWV y)).symm.trans
+        ((w y).trans (twistFrac_smul_twistGen (f.map_mem g_deg) (hgx (iWV y)) n hm ht
+          (t_nin y)).symm))
+    refine ⟨fun _ => ⟨c, hloc⟩, restrictValue_ext f n fun x => ?_⟩
+    exact (restrictValue_localFrameMap f n g_deg hV' _ x).trans (hc x).symm
+
+/-- **`psiAdj` is an isomorphism** when `S` is generated by `S_1` over `S_0`: near every point
+of `U`, it sends the frame `f^*(g^n)` of `f^* 𝒪_{Proj S}(n)` to the frame `φ(g)^n` of
+`𝒪_{Proj T}(n)|_U`. -/
+theorem isIso_psiAdj (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 : Set A) = ⊤) : IsIso (psiAdj f n) := by
+  refine modules_isIso_of_locally_bijective (R := (projPartialDomain f).toScheme.sheaf) _
+    fun y => ?_
+  obtain ⟨g, g_deg, hg⟩ := ProjTwistingSheaf.exists_mem_one_notMem hgen (projPartialMap f y)
+  have hsrc := IsLocalFrame.pullback (φ := (projPartialMap f).toRingCatSheafHom)
+    (isLocalFrame_twistGenSection g_deg n)
+  exact ⟨projPartialMap f ⁻¹ᵁ Proj.basicOpen 𝒜 g, hg, fun V' hV' =>
+    IsLocalFrame.app_bijective_of_map _ hsrc (isLocalFrame_psiFrame f n g_deg)
+      (fun _ => psiAdj_etaSec f n _) hV'⟩
+
+/-- **Pullback of twisting sheaves** (Hartshorne II.5.12(c)): for a degree-preserving
+`φ : S → T` with `S` generated by `S_1` over `S_0`, and `f : U ⟶ Proj S` the induced morphism,
+`f^* 𝒪_{Proj S}(n) ≅ 𝒪_{Proj T}(n)|_U`. -/
+def pullbackTwistIso (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 : Set A) = ⊤) :
+    (Scheme.Modules.pullback (projPartialMap f)).obj (projTwistingSheaf 𝒜 n) ≅
+      (projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι :=
+  haveI := isIso_psiAdj f n hgen
+  asIso (psiAdj f n)
+
+/-- **The pushforward formula** (Hartshorne II.5.12(c)): for a degree-preserving `φ : S → T`
+with `S` generated by `S_1` over `S_0`, and `f : U ⟶ Proj S` the induced morphism,
+`f_*(𝒪_{Proj T}(n)|_U) ≅ (f_* 𝒪_U)(n)`, where the twist of the `𝒪_{Proj S}`-module `f_* 𝒪_U` is
+`f_* 𝒪_U ⊗ 𝒪_{Proj S}(n)`. It combines `pullbackTwistIso` with the projection formula. -/
+def pushforwardTwistIso (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 : Set A) = ⊤) :
+    (Scheme.Modules.pushforward (projPartialMap f)).obj
+        ((projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι) ≅
+      moduleSheafTensor ((Scheme.Modules.pushforward (projPartialMap f)).obj
+        (SheafOfModules.unit (projPartialDomain f).toScheme.ringCatSheaf))
+        (projTwistingSheaf 𝒜 n) :=
+  (Scheme.Modules.pushforward (projPartialMap f)).mapIso
+      ((pullbackTwistIso f n hgen).symm ≪≫ (MonoidalCategory.leftUnitor _).symm ≪≫
+        (moduleSheafTensorIsoTensor _ _).symm) ≪≫
+    projectionFormulaIso (projPartialMap f).toRingCatSheafHom _ _
+      (IsInvertible.isFiniteLocallyFree
+        ((Scheme.Modules.isInvertible_iff_ringed _).1 (ProjTwistingSheaf.isInvertible hgen n)))
 
 end Iso
 
