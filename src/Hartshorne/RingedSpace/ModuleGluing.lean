@@ -9,7 +9,40 @@ import Mathlib.Algebra.Category.ModuleCat.Presheaf.Submodule
 /-!
 # Gluing sheaves of modules on an open cover
 
-WIP.
+Let `(X, 𝒪_X)` be a ringed space, given by a topological space `X` and a sheaf `S` of rings on `X`,
+and let `{U i}` be an open cover of `X`. Suppose given an `𝒪_X|_{U i}`-module `F i` for each `i`,
+and isomorphisms `φ i j : F i |(U i ∩ U j) ≅ F j |(U i ∩ U j)` of `𝒪_X|_{U i ∩ U j}`-modules with
+`φ i i = id` and `φ i k = φ j k ∘ φ i j` on `U i ∩ U j ∩ U k`. Then there is an `𝒪_X`-module `F`
+with isomorphisms `ψ i : F|_{U i} ≅ F i` such that `ψ j = φ i j ∘ ψ i` on `U i ∩ U j`, unique up to
+a unique isomorphism compatible with the `ψ i`. This is the module form of the gluing of sheaves
+(Hartshorne II, Exercise 1.22, glues sheaves; the module form is a supplement).
+
+## Conventions
+
+* The restriction of an `𝒪_X`-module `M` to an open `U` is `M.over U`, a module over `S.over U` on
+  the category `Over U` (Mathlib's `SheafOfModules.overFunctor`). For opens `V ≤ W`, restriction
+  from `W` to `V` is Mathlib's `SheafOfModules.overMap` along `V ⟶ W` (`res`), and
+  `restrictIso` restricts an isomorphism between restrictions further.
+* The sheaf of rings `S` takes values in `RingCat`; for a ringed space with commutative structure
+  sheaf (a scheme, for example) take `S` to be the underlying sheaf of rings.
+
+## Construction
+
+Push each `F i` forward to `X` (`P i`, with sections `F i (U i ⨯ V)` over `V`). Over `V`, the glued
+module consists of the families `(s i) ∈ ∏ i, P i (V)` with `φ i j (s i) = s j` on
+`U i ⨯ U j ⨯ V` (`GluingData.N`), an `𝒪_X(V)`-submodule because the `φ i j` and the restriction
+maps are linear. It is a sheaf because the `P i` are. Over `V ≤ U k`, taking the `k`-th component is the
+isomorphism `ψ k`: compatibility determines the other components, and the cocycle condition and
+`φ k k = id` show that every section of `F k` arises.
+For a second solution `(G, ψ')`, the sections `ψ' i (t|_{U i})` of a section `t` of `G` form a
+compatible family, and the resulting map `G ⟶ glue` is bijective on sections by the sheaf
+property of `G`.
+
+## Main results
+
+* `Hartshorne.ModuleGluing.GluingData`: gluing data for sheaves of modules.
+* `Hartshorne.ModuleGluing.GluingData.exists_unique_gluing`: existence and uniqueness of the glued
+  module.
 -/
 
 universe u
@@ -21,8 +54,6 @@ namespace Hartshorne
 namespace ModuleGluing
 
 variable {X : TopCat.{u}}
-
-lemma opens_hom_ext {V W : Opens X} (f g : V ⟶ W) : f = g := Subsingleton.elim _ _
 
 lemma over_hom_ext {U : Opens X} {A B : Over U} (f g : A ⟶ B) : f = g := by
   ext; exact Subsingleton.elim _ _
@@ -96,10 +127,6 @@ lemma rm_injective {A B : Over U} (h : A.left ≤ B.left) (h' : B.left ≤ A.lef
   rw [← rm_self M (le_refl B.left) x, ← rm_self M (le_refl B.left) y, ← rm_rm M h' h,
     ← rm_rm M h' h, hxy]
 
-lemma hom_rm {N : PresheafOfModules.{u} R} (f : M ⟶ N) {A B : Over U} (h : A.left ≤ B.left)
-    (x : M.obj (op B)) : f.app (op A) (rm M h x) = rm N h (f.app (op B) x) :=
-  PresheafOfModules.naturality_apply f _ x
-
 end
 
 variable (S : Sheaf (Opens.grothendieckTopology X) RingCat.{u})
@@ -134,12 +161,6 @@ lemma ring_over_map {W : Opens X} {a : (Opens X)ᵒᵖ} {b c : (Over W)ᵒᵖ} (
 /-- Pushforward from `Over W` to `X`: sections over `V` are the sections over `W ⨯ V`. -/
 noncomputable abbrev pf (W : Opens X) : SheafOfModules.{u} (S.over W) ⥤ SheafOfModules.{u} S :=
   SheafOfModules.pushforward (SheafOfModules.pushforwardOver (R := S) W)
-
-lemma pf_smul (W V : Opens X) (M : SheafOfModules.{u} (S.over W)) (r : S.obj.obj (op V))
-    (x : ((pf S W).obj M).val.obj (op V)) :
-    r • x = (show (S.over W).obj.obj (op (st W V)) from
-      S.obj.map (homOfLE (st_left_le_right W V)).op r) • (show M.val.obj (op (st W V)) from x) :=
-  rfl
 
 lemma st_mono {V' W : Opens X} (h : V' ≤ W) (V : Opens X) :
     ((Over.map (homOfLE h)).obj (st V' V)).left ≤ (st W V).left := by
@@ -213,14 +234,6 @@ lemma ring_over_map_self {W : Opens X} {A : Over W} {b : (Over W)ᵒᵖ}
 lemma mapX_map (M : PresheafOfModules.{u} S.obj) {a b c : (Opens X)ᵒᵖ} (f : a ⟶ b) (g : b ⟶ c)
     (h : a ⟶ c) (x : M.obj a) : M.map g (M.map f x) = M.map h x := by
   rw [← PresheafOfModules.map_comp_apply, opensOp_hom_ext (f ≫ g) h]
-
-lemma mapX_self (M : PresheafOfModules.{u} S.obj) {a : (Opens X)ᵒᵖ} (f : a ⟶ a) (x : M.obj a) :
-    M.map f x = x := by
-  rw [opensOp_hom_ext f (𝟙 a), PresheafOfModules.map_id]; rfl
-
-lemma rm_over (M : SheafOfModules.{u} S) {U : Opens X} {A B : Over U} (h : A.left ≤ B.left)
-    (y : M.val.obj (op B.left)) :
-    rm ((SheafOfModules.overFunctor S U).obj M).val h y = M.val.map (homOfLE h).op y := rfl
 
 lemma over_nat (M : SheafOfModules.{u} S) {U : Opens X} {N : SheafOfModules.{u} (S.over U)}
     (f : (SheafOfModules.overFunctor S U).obj M ⟶ N) {A B : Over U} (h : A.left ≤ B.left)
@@ -309,9 +322,6 @@ noncomputable def piP : PresheafOfModules.{u} S.obj where
     funext i
     exact (D.P i).val.map_comp_apply f g (s i)
 
-lemma piP_map_apply {V V' : (Opens X)ᵒᵖ} (f : V ⟶ V') (s : D.piP.obj V) (i : D.ι) :
-    (D.piP.map f s : ∀ i, (D.P i).val.obj V') i = (D.P i).val.map f (s i) := rfl
-
 /-- The compatible families. -/
 noncomputable def N : D.piP.Submodule where
   obj V :=
@@ -330,14 +340,8 @@ noncomputable def N : D.piP.Submodule where
       (D.β i j).val.app V' ((D.P j).val.map f (s j))
     rw [PresheafOfModules.naturality_apply, PresheafOfModules.naturality_apply, hs i j]
 
-lemma mem_N {V : (Opens X)ᵒᵖ} (s : D.piP.obj V) :
-    s ∈ D.N.obj V ↔ ∀ i j, (D.α i j).val.app V (s i) = (D.β i j).val.app V (s j) := Iff.rfl
-
 /-- The glued presheaf of modules. -/
 noncomputable abbrev Gpre : PresheafOfModules.{u} S.obj := D.N.toPresheafOfModules
-
-lemma Gpre_map_val {V V' : (Opens X)ᵒᵖ} (f : V ⟶ V') (s : D.Gpre.obj V) (i : D.ι) :
-    ((D.Gpre.map f s).1 : ∀ i, (D.P i).val.obj V') i = (D.P i).val.map f (s.1 i) := rfl
 
 lemma isSheaf_Gpre : Presheaf.IsSheaf (Opens.grothendieckTopology X) D.Gpre.presheaf := by
   refine (TopCat.Presheaf.isSheaf_iff_isSheafUniqueGluing (X := X) D.Gpre.presheaf).2 ?_
@@ -721,6 +725,19 @@ lemma θ_unique (hψ' : D.Compatible G' ψ') (θ' : G' ≅ D.glue)
   exact rm_map (D.F i).val _ _ _
 
 end uniqueness
+
+/-- **Gluing sheaves of modules.** Given gluing data for modules on a ringed space `(X, 𝒪_X)`,
+there is an `𝒪_X`-module `F` with isomorphisms `ψ i : F|_{U i} ≅ F i` of `𝒪_X|_{U i}`-modules such
+that `ψ j = φ i j ∘ ψ i` on `U i ⊓ U j`, and it is unique up to a unique isomorphism compatible
+with these identifications. -/
+theorem exists_unique_gluing :
+    ∃ (F : SheafOfModules.{u} S)
+      (ψ : ∀ i, (SheafOfModules.overFunctor S (D.U i)).obj F ≅ D.F i), D.Compatible F ψ ∧
+      ∀ (G : SheafOfModules.{u} S)
+        (ψ' : ∀ i, (SheafOfModules.overFunctor S (D.U i)).obj G ≅ D.F i), D.Compatible G ψ' →
+        ∃! θ : G ≅ F, ∀ i, (SheafOfModules.overFunctor S (D.U i)).mapIso θ ≪≫ ψ i = ψ' i :=
+  ⟨D.glue, D.ψ, D.glue_compatible, fun _ _ hψ' =>
+    ⟨D.θ hψ', D.θ_comp hψ', fun θ' h => D.θ_unique hψ' θ' h⟩⟩
 
 end GluingData
 
