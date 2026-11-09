@@ -4,6 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.QcqsPushforwardQuasicoherent
 import Mathlib.Algebra.Category.ModuleCat.Sheaf.PullbackFree
+import Hartshorne.Scheme.CoherentPushforwardCounterexample
+import Hartshorne.Cohomology.QuasicoherentCoherentSubobjects
 
 /-!
 # Ideal sheaves of closed immersions
@@ -39,30 +41,6 @@ lemma isQuasicoherent_unit (X : Scheme.{u}) :
   let : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
   exact ⟨ModuleCat.of Γ(X, (U : X.Opens)) Γ(X, (U : X.Opens)),
     ⟨tildeSelf ≪≫ (Scheme.Modules.restrictUnitIso U.2.fromSpec).symm⟩⟩
-
-/-- On a locally Noetherian scheme the structure sheaf is coherent. -/
-lemma isCoherent_unit (X : Scheme.{u}) :
-    IsCoherent (SheafOfModules.unit X.ringCatSheaf : X.Modules) := by
-  refine ⟨X.affineOpens, id, iSup_affineOpens_eq_top X, fun U ↦ ?_⟩
-  let : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
-  exact ⟨ModuleCat.of Γ(X, (U : X.Opens)) Γ(X, (U : X.Opens)), Module.Finite.self _,
-    ⟨tildeSelf ≪≫ (Scheme.Modules.restrictUnitIso U.2.fromSpec).symm⟩⟩
-
-/-- On a locally Noetherian scheme, the kernel of a morphism from a coherent module to a
-quasi-coherent module is coherent: on an affine open `Spec A` it is a submodule of a finitely
-generated module over the Noetherian ring `A`. -/
-lemma isCoherent_kernel_of_isCoherent [IsLocallyNoetherian X] {A F : X.Modules}
-    (f : A ⟶ F) (hA : IsCoherent A) [F.IsQuasicoherent] : IsCoherent (kernel f) := by
-  rw [isCoherent_iff_forall_isFiniteTilde] at hA ⊢
-  intro U
-  have := isNoetherianRing_affineOpen U
-  obtain ⟨M, hM, ⟨eA⟩⟩ := hA U
-  have hF := (isQuasicoherent_iff_forall_essImage F).mp inferInstance U
-  refine ⟨_, ?_, ⟨kernelTildeIso eA hF.getIso _ ≪≫ (specRestrictionKernelIso f U).symm⟩⟩
-  exact Module.Finite.of_injective
-    (kernel.ι ((tilde.functor _).preimage
-      (eA.hom ≫ (specRestrictFunctor U).map f ≫ hF.getIso.inv))).hom
-    ((ModuleCat.mono_iff_injective _).mp inferInstance)
 
 end ClosedImmersionIdeal
 
@@ -107,6 +85,6 @@ theorem isCoherent_closedImmersionIdealSheaf (i : Y ⟶ X) [IsClosedImmersion i]
   have : ((Scheme.Modules.pushforward i).obj
       (SheafOfModules.unit Y.ringCatSheaf)).IsQuasicoherent :=
     isQuasicoherent_pushforward i (Or.inr ⟨inferInstance, inferInstance⟩) _
-  exact isCoherent_kernel_of_isCoherent _ (isCoherent_unit X)
+  exact isCoherent_kernel_of_isQuasicoherent _ (isCoherent_structureSheafModule X)
 
 end Hartshorne

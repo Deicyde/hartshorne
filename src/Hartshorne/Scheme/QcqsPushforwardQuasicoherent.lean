@@ -22,7 +22,8 @@ affine, `X` quasi-compact and quasi-separated. For an open `S ⊆ X` write `R_S 
 (Proposition II.5.2(d), `tildePushforwardIso`), which gives `f_* R_U F` for affine `U`. For
 opens `S, U` the square `R_{S ⊔ U} F → R_S, R_U → R_U R_S` is a pullback (the sheaf condition
 for the cover `{S, U}`, `isPullback_rp`), and `R_A R_B ≅ R_{A ⊓ B}` (`rpCompIso`); since `f_*`
-preserves pullbacks and quasi-coherent modules are closed under finite limits (Proposition 5.7),
+preserves pullbacks and quasi-coherent modules are closed under finite limits (a consequence of
+Proposition 5.7),
 `f_* R_S F` quasi-coherent for `S`, `U` and `S ⊓ U` gives it for `S ⊔ U`. Induction over finite
 unions of basic opens handles compact opens inside an affine open, and induction over finite
 unions of affine opens (intersections being compact, as `X` is quasi-separated) handles every
@@ -159,7 +160,6 @@ lemma rp_obj_presheaf_map (U : X.Opens) (M : X.Modules) {A B : X.Opens} (i : A �
   change M.presheaf.map (U.ι.opensFunctor.map ((Opens.map U.ι.base).map i)).op = _
   exact congrArg (fun j => M.presheaf.map (Quiver.Hom.op j)) (Subsingleton.elim _ _)
 
-set_option linter.unusedSimpArgs false in
 /-- **Mayer-Vietoris.** For opens `S, U` and `H = j_* j⁻¹ G` along `S ⊔ U`, the square
 `H → j_* j⁻¹ H` (along `S` and `U`) into `j_* j⁻¹ j_* j⁻¹ H` is a pullback. -/
 theorem isPullback_rp (S U : X.Opens) (G : X.Modules) :
@@ -194,8 +194,8 @@ theorem isPullback_rp (S U : X.Opens) (G : X.Modules) :
   have key := isPullback_sheaf_map G.presheaf G.isSheaf
     (homOfLE h₁).op (homOfLE h₂).op (homOfLE h₃).op (homOfLE h₄).op ha hd
   refine key.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_ <;>
-    · simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
-      rfl
+    · simp only [Iso.refl_hom]
+      exact (Category.id_comp _).symm
 
 /-! ### Composites of `j_* j⁻¹` -/
 
@@ -253,8 +253,8 @@ lemma isZero_rp_bot (G : X.Modules) : IsZero ((rp (⊥ : X.Opens)).obj G) := by
 lemma isQuasicoherent_of_isPullback {P A B Z : Y.Modules} {fst : P ⟶ A} {snd : P ⟶ B}
     {f : A ⟶ Z} {g : B ⟶ Z} (h : IsPullback fst snd f g) (hA : A.IsQuasicoherent)
     (hB : B.IsQuasicoherent) (hZ : Z.IsQuasicoherent) : P.IsQuasicoherent := by
-  have := (SheafOfModules.isQuasicoherent Y.ringCatSheaf).isClosedUnderLimitsOfShape_of_preservesLimitsOfShape_ι
-    WalkingCospan
+  have := (SheafOfModules.isQuasicoherent
+    Y.ringCatSheaf).isClosedUnderLimitsOfShape_of_preservesLimitsOfShape_ι WalkingCospan
   refine (SheafOfModules.isQuasicoherent Y.ringCatSheaf).prop_of_isLimit h.isLimit ?_
   rintro (_ | _ | _)
   · exact hZ
