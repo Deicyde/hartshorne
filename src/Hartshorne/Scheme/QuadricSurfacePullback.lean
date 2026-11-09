@@ -860,6 +860,97 @@ theorem quadricClassGroupPullbackOne_pointZero :
     · rw [homogeneousFractionUnit, Units.val_mk0, quadricProjOne_homogeneousFraction]
       exact quadricLineOne_apply_eq_ord k j hz hz1
 
+/-- **`p₂^*` of a point is a ruling line**: `p₂^*` sends the class of the point `x₀ = 0` of `ℙ¹_k`
+to the class of the line `L₂ = {u₀ = 0}`, its fibre. -/
+theorem quadricClassGroupPullbackTwo_pointZero :
+    quadricClassGroupPullbackTwo k ((Proj 𝒮).weilDivisorClassHom hP
+        (projectiveLinePointZero k).toWeilDivisor) =
+      (quadricSurface k).weilDivisorClassHom hQ (quadricLineTwoDivisor k).toWeilDivisor := by
+  apply (Scheme.weilClassEquivPicard (quadricSurface_isLocallyFactorial k)).injective
+  simp only [quadricClassGroupPullbackTwo, AddMonoidHom.coe_comp, Function.comp_apply,
+    AddEquiv.coe_toAddMonoidHom, AddEquiv.apply_symm_apply]
+  have h := Scheme.picPullback_weilClassEquivPicard (quadricProjTwo k)
+    (quadricProjTwo_genericPoint k) (quadricSurface_isLocallyFactorial k)
+    (projectiveLine_isLocallyFactorial k) (projectiveLinePointZero k).toWeilDivisor
+    (quadricLineTwoDivisor k).toWeilDivisor ?_
+  · exact congrArg Additive.ofMul h
+  intro x
+  have hx : x ∈ ⨆ ij : Fin 2 × Fin 2, Proj.basicOpen 𝒬 (quadricChart k ij.1 ij.2) := by
+    rw [quadricSurface_iSup_basicOpen]
+    trivial
+  obtain ⟨⟨i, j⟩, hxij⟩ := TopologicalSpace.Opens.mem_iSup.mp hx
+  obtain rfl | rfl : j = 0 ∨ j = 1 := by fin_cases j <;> simp
+  · refine ⟨Proj.basicOpen 𝒮 (X 0), Proj.basicOpen 𝒬 (quadricChart k i 0), 1, hxij,
+      basicOpen_le_preimage_quadricProjTwo k i 0, fun y hy _ => ?_, fun z hz _ => ?_⟩
+    · rw [projectiveLinePointZero_apply_of_mem k hy, Units.val_one, Scheme.ord_one_eq_zero]
+    · rw [quadricLineTwo_apply_of_mem k i hz, Units.val_one, map_one, Scheme.ord_one_eq_zero]
+  · refine ⟨Proj.basicOpen 𝒮 (X 1), Proj.basicOpen 𝒬 (quadricChart k i 1),
+      homogeneousFractionUnit (isHomogeneous_X k (0 : Fin (1 + 1))) (isHomogeneous_X k 1)
+        (X_ne_zero 1) (X_ne_zero 0), hxij,
+      basicOpen_le_preimage_quadricProjTwo k i 1, fun y hy hy1 => ?_, fun z hz hz1 => ?_⟩
+    · exact projectiveLinePointZero_apply_eq_ord k hy hy1
+    · rw [homogeneousFractionUnit, Units.val_mk0, quadricProjTwo_homogeneousFraction]
+      exact quadricLineTwo_apply_eq_ord k i hz hz1
+
+/-- Every class on `ℙ¹_k` is a multiple of the class of the point `x₀ = 0`. -/
+theorem projectiveLine_class_eq_zsmul (a : (Proj 𝒮).WeilClassGroup hP) :
+    a = projectiveSpaceClassGroupEquiv (k := k) Nat.one_pos a •
+      (Proj 𝒮).weilDivisorClassHom hP (projectiveLinePointZero k).toWeilDivisor := by
+  apply (projectiveSpaceClassGroupEquiv (k := k) Nat.one_pos).injective
+  rw [map_zsmul, projectiveSpaceClassGroupEquiv_hyperplane, smul_eq_mul, mul_one]
+
+/-- Under `Cl ℙ¹_k ≅ ℤ` and `Cl Q ≅ ℤ × ℤ`, `p₁^*` is `n ↦ (n, 0)`. -/
+theorem quadricSurfaceClassGroupEquiv_pullbackOne (a : (Proj 𝒮).WeilClassGroup hP) :
+    quadricSurfaceClassGroupEquiv k (quadricClassGroupPullbackOne k a) =
+      (projectiveSpaceClassGroupEquiv (k := k) Nat.one_pos a, 0) := by
+  conv_lhs => rw [projectiveLine_class_eq_zsmul k a]
+  rw [map_zsmul, map_zsmul, quadricClassGroupPullbackOne_pointZero,
+    quadricSurfaceClassGroupEquiv_lineOne, Prod.smul_mk, smul_zero, smul_eq_mul, mul_one]
+
+/-- Under `Cl ℙ¹_k ≅ ℤ` and `Cl Q ≅ ℤ × ℤ`, `p₂^*` is `n ↦ (0, n)`. -/
+theorem quadricSurfaceClassGroupEquiv_pullbackTwo (b : (Proj 𝒮).WeilClassGroup hP) :
+    quadricSurfaceClassGroupEquiv k (quadricClassGroupPullbackTwo k b) =
+      (0, projectiveSpaceClassGroupEquiv (k := k) Nat.one_pos b) := by
+  conv_lhs => rw [projectiveLine_class_eq_zsmul k b]
+  rw [map_zsmul, map_zsmul, quadricClassGroupPullbackTwo_pointZero,
+    quadricSurfaceClassGroupEquiv_lineTwo, Prod.smul_mk, smul_zero, smul_eq_mul, mul_one]
+
+theorem quadricSurfaceClassGroupEquiv_pullback_add (a b : (Proj 𝒮).WeilClassGroup hP) :
+    quadricSurfaceClassGroupEquiv k
+        (quadricClassGroupPullbackOne k a + quadricClassGroupPullbackTwo k b) =
+      (projectiveSpaceClassGroupEquiv (k := k) Nat.one_pos a,
+        projectiveSpaceClassGroupEquiv (k := k) Nat.one_pos b) := by
+  rw [map_add, quadricSurfaceClassGroupEquiv_pullbackOne, quadricSurfaceClassGroupEquiv_pullbackTwo,
+    Prod.mk_add_mk, add_zero, zero_add]
+
+theorem bijective_quadricClassGroupPullback :
+    Function.Bijective ((quadricClassGroupPullbackOne k).coprod (quadricClassGroupPullbackTwo k)) := by
+  have h : ⇑(quadricSurfaceClassGroupEquiv k) ∘
+      ⇑((quadricClassGroupPullbackOne k).coprod (quadricClassGroupPullbackTwo k)) =
+      Prod.map (projectiveSpaceClassGroupEquiv (k := k) Nat.one_pos)
+        (projectiveSpaceClassGroupEquiv (k := k) Nat.one_pos) := by
+    funext ab
+    exact quadricSurfaceClassGroupEquiv_pullback_add k ab.1 ab.2
+  have hb : Function.Bijective (⇑(quadricSurfaceClassGroupEquiv k) ∘
+      ⇑((quadricClassGroupPullbackOne k).coprod (quadricClassGroupPullbackTwo k))) := by
+    rw [h]
+    exact (projectiveSpaceClassGroupEquiv (k := k) Nat.one_pos).bijective.prodMap
+      (projectiveSpaceClassGroupEquiv (k := k) Nat.one_pos).bijective
+  exact (Function.Bijective.of_comp_iff' (quadricSurfaceClassGroupEquiv k).bijective _).mp hb
+
+/-- **Hartshorne II, Example 6.6.1: pullback from the two factors.** For the split quadric
+`Q ≅ ℙ¹_k ×_k ℙ¹_k`, the map `Cl ℙ¹_k × Cl ℙ¹_k ⟶ Cl Q`, `(a, b) ↦ p₁^* a + p₂^* b`, is an
+isomorphism. -/
+def quadricClassGroupPullbackEquiv :
+    (Proj 𝒮).WeilClassGroup hP × (Proj 𝒮).WeilClassGroup hP ≃+
+      (quadricSurface k).WeilClassGroup hQ :=
+  AddEquiv.ofBijective _ (bijective_quadricClassGroupPullback k)
+
+theorem quadricClassGroupPullbackEquiv_apply (a b : (Proj 𝒮).WeilClassGroup hP) :
+    quadricClassGroupPullbackEquiv k (a, b) =
+      quadricClassGroupPullbackOne k a + quadricClassGroupPullbackTwo k b :=
+  rfl
+
 end ClassGroup
 
 end Hartshorne
