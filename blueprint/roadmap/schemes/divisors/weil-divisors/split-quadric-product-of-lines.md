@@ -29,10 +29,10 @@ The identification of $Q$ with $\mathbb{P}^1_k \times_k \mathbb{P}^1_k$ is the u
 result; the coordinate-ring isomorphism is its algebraic interface, and it lets
 $Q$ be modelled as $\operatorname{Proj}$ of the Segre ring.
 
-Example II.6.6.1 works with $Q$ through this identification. The project traces
-it to Exercise I.2.15, which is not in the project's source table and concerns
-varieties over an algebraically closed field; the scheme statement over an
-arbitrary field recorded here is a project bridge.
+Example II.6.6.1 works with $Q$ through this identification. Hartshorne cites
+Exercise I.2.15 for this identification; that exercise is not in the project's
+source table and works over an algebraically closed field. The scheme statement
+over an arbitrary field recorded here is a project bridge.
 
 ## Proof
 

@@ -48,9 +48,9 @@ curve divisors is introduced only in IV, Exercise 2.6 and is not added here.
 - **Project bridges for Examples 6.6.1–6.6.2.** Two bridged articles support
   the quadric calculation: the scheme-theoretic identification of the split
   quadric `xy = zw` over a field with `P^1 × P^1` through the Segre morphism,
-  with homogeneous coordinate ring the Segre ring (the project traces the
-  classical identification to Exercise I.2.15, which is not adopted in the
-  source table), and the chart description of the divisor of a quotient of
+  with homogeneous coordinate ring the Segre ring (Hartshorne cites Exercise
+  I.2.15 for the identification; that exercise is not adopted in the source
+  table), and the chart description of the divisor of a quotient of
   homogeneous elements of equal degree on `Proj` of a graded domain generated
   in degree one, which also covers the projective-space case of Proposition 6.4.
 
