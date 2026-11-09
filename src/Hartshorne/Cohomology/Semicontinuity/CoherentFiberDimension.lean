@@ -28,8 +28,8 @@ of the `mᵢ`, so the `mᵢ` generate every stalk on the principal open `D(f)`, 
 dimension there is at most `d`.
 
 Coherence (the project's `IsCoherent`) is used through the finite generation of sections on
-affine opens, which does not need the Noetherian hypothesis; the statements for a Noetherian
-base, as in Hartshorne, are recorded separately.
+affine opens, which does not need the Noetherian hypothesis, so the statements hold without
+Hartshorne's Noetherian base.
 -/
 
 open TensorProduct IsLocalRing
@@ -289,7 +289,8 @@ noncomputable def moduleFiberDim {X : Scheme.{u}} (F : X.Modules) (x : X) : ℕ 
 
 /-- **Upper semicontinuity of the fibre dimension of a coherent sheaf**, neighbourhood form.
 For a coherent `𝒪_Y`-module `G`, every `y ∈ Y` has an open neighbourhood on which the fibre
-dimension of `G` is at most its value at `y`.  No Noetherian hypothesis is needed. -/
+dimension of `G` is at most its value at `y`.  No Noetherian hypothesis is needed (Hartshorne III
+Example 12.7.2 states this for a Noetherian `Y`). -/
 theorem exists_nhds_moduleFiberDim_le_of_isCoherent {Y : Scheme.{u}} (G : Y.Modules)
     (hG : IsCoherent G) (y : Y) :
     ∃ U : Y.Opens, y ∈ U ∧ ∀ y' ∈ U, moduleFiberDim G y' ≤ moduleFiberDim G y := by
@@ -318,7 +319,8 @@ theorem exists_nhds_moduleFiberDim_le_of_isCoherent {Y : Scheme.{u}} (G : Y.Modu
 
 /-- **Upper semicontinuity of the fibre dimension of a coherent sheaf**, closed-set form.
 For a coherent `𝒪_Y`-module `G` and every integer `n`, the locus where the fibre dimension of
-`G` is at least `n` is closed.  No Noetherian hypothesis is needed. -/
+`G` is at least `n` is closed.  No Noetherian hypothesis is needed (Hartshorne III
+Example 12.7.2 states this for a Noetherian `Y`). -/
 theorem isClosed_setOf_le_moduleFiberDim_of_isCoherent {Y : Scheme.{u}} (G : Y.Modules)
     (hG : IsCoherent G) (n : ℤ) :
     IsClosed {y : Y | n ≤ (moduleFiberDim G y : ℤ)} := by
@@ -328,23 +330,5 @@ theorem isClosed_setOf_le_moduleFiberDim_of_isCoherent {Y : Scheme.{u}} (G : Y.M
   refine ⟨U, fun y' hy' ↦ ?_, U.isOpen, hyU⟩
   simp only [Set.mem_compl_iff, Set.mem_ofPred_eq, not_le] at hy ⊢
   exact lt_of_le_of_lt (by exact_mod_cast hU y' hy') hy
-
-/-- **Hartshorne III Example 12.7.2**, neighbourhood form.  For a coherent sheaf `G` on a
-Noetherian scheme `Y`, every `y ∈ Y` has an open neighbourhood on which the fibre dimension
-`dim_{k(y')} (G_{y'} ⊗ k(y'))` is at most its value at `y`.  The Noetherian hypothesis is the
-source's setting; see `exists_nhds_moduleFiberDim_le_of_isCoherent` for the general statement. -/
-theorem exists_nhds_moduleFiberDim_le_of_isCoherent_of_isNoetherian {Y : Scheme.{u}}
-    [IsNoetherian Y] (G : Y.Modules) (hG : IsCoherent G) (y : Y) :
-    ∃ U : Y.Opens, y ∈ U ∧ ∀ y' ∈ U, moduleFiberDim G y' ≤ moduleFiberDim G y :=
-  exists_nhds_moduleFiberDim_le_of_isCoherent G hG y
-
-/-- **Hartshorne III Example 12.7.2**, closed-set form.  For a coherent sheaf `G` on a
-Noetherian scheme `Y` and every integer `n`, the locus `{y | dim_{k(y)} (G_y ⊗ k(y)) ≥ n}` is
-closed.  The Noetherian hypothesis is the source's setting; see
-`isClosed_setOf_le_moduleFiberDim_of_isCoherent` for the general statement. -/
-theorem isClosed_setOf_le_moduleFiberDim_of_isCoherent_of_isNoetherian {Y : Scheme.{u}}
-    [IsNoetherian Y] (G : Y.Modules) (hG : IsCoherent G) (n : ℤ) :
-    IsClosed {y : Y | n ≤ (moduleFiberDim G y : ℤ)} :=
-  isClosed_setOf_le_moduleFiberDim_of_isCoherent G hG n
 
 end Hartshorne
