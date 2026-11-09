@@ -2,6 +2,9 @@
 article_id: af_4123cecf1fd671d5bed8d63c
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.ord_projHomogeneousFraction Hartshorne.projHomogeneousFraction Hartshorne.projDehom Hartshorne.genericFunctionFieldMap_projChartι_bijective Hartshorne.genericFunctionFieldMap_projChartι_projHomogeneousFraction Hartshorne.exists_mem_basicOpen_of_irrelevant_le_span
 ---
 
 # Divisors of homogeneous fractions on Proj of a graded domain
