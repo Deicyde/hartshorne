@@ -2,6 +2,9 @@
 article_id: af_7c9c3c7ed2d4d570c9c104cc
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.closedPushforwardCohomologyIso Hartshorne.closedPushforwardCohomologyIso_naturality Hartshorne.closedPushforwardCohomologyIso_zero Hartshorne.closedPushforward_map_exact Hartshorne.isZero_abelianHigherDirectImage_closedSubspaceInclusion
 ---
 
 # Closed pushforward preserves cohomology
