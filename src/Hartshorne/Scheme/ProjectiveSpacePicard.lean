@@ -1,0 +1,170 @@
+/-
+Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
+import Hartshorne.Scheme.ProjectiveSpaceClassGroup
+import Hartshorne.Scheme.ProjTwistingSheaf
+import Hartshorne.Scheme.LocallyFactorialClassPicard
+import Hartshorne.Scheme.TotalQuotientIntegral
+
+/-!
+# The Picard group of projective space
+
+Hartshorne, *Algebraic Geometry*, II.6, Corollary 6.17 (p. 145).
+
+Work in progress: the embedding of the twisting sheaf `𝒪(l)` into the sheaf of rational functions
+`K_X` of `X = ℙⁿ_k`, `s ↦ s / x₀^l`.
+-/
+
+noncomputable section
+
+open AlgebraicGeometry CategoryTheory MvPolynomial HomogeneousLocalization Opposite
+
+namespace Hartshorne
+
+universe u
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+variable {k : Type u} [Field k] {n : ℕ}
+
+local notation "𝒜" => homogeneousSubmodule (Fin (n + 1)) k
+
+local notation "S" => MvPolynomial (Fin (n + 1)) k
+
+namespace ProjectiveSpacePicard
+
+variable (k n) in
+/-- The complement of the generic point of `ℙⁿ_k`, i.e. the nonzero polynomials. -/
+abbrev genericCompl : Submonoid S :=
+  (genericPoint (Proj 𝒜)).asHomogeneousIdeal.toIdeal.primeCompl
+
+theorem mem_genericCompl {h : S} (h0 : h ≠ 0) : h ∈ genericCompl k n :=
+  genericPoint_mem_basicOpen h0
+
+/-- The fraction `x₀^{l⁻} / x₀^{l⁺}` of the fraction field, which is `x₀^{-l}`. -/
+def twistFactor (l : ℤ) : Localization (genericCompl k n) :=
+  Localization.mk ((X 0 : S) ^ (-l).toNat) ⟨(X 0 : S) ^ l.toNat,
+    pow_mem (mem_genericCompl (X_ne_zero 0)) _⟩
+
+/-- The identification of the localized module of `S` with the localization of `S`,
+`m / s ↦ m / s`. -/
+def locEquiv : LocalizedModule (genericCompl k n) S →+ Localization (genericCompl k n) :=
+  AddMonoidHom.mk' (fun y => y.liftOn (fun p => Localization.mk p.1 p.2) (by
+    rintro ⟨m, s⟩ ⟨m', s'⟩ ⟨u, hu⟩
+    refine Localization.mk_eq_mk_iff.2 (Localization.r_iff_exists.2 ⟨u, ?_⟩)
+    have hu' : (u : S) * ((s' : S) * m) = u * (s * m') := by
+      simpa only [Submonoid.smul_def, smul_eq_mul] using hu
+    exact hu')) (by
+    intro y z
+    induction y using LocalizedModule.induction_on with
+    | h m s =>
+      induction z using LocalizedModule.induction_on with
+      | h m' s' =>
+        rw [LocalizedModule.mk_add_mk, LocalizedModule.liftOn_mk, LocalizedModule.liftOn_mk,
+          LocalizedModule.liftOn_mk, Localization.add_mk]
+        simp only [smul_eq_mul, Submonoid.smul_def]
+        congr 1
+        ring)
+
+theorem locEquiv_mk (m : S) (s : genericCompl k n) :
+    locEquiv (LocalizedModule.mk m s) = Localization.mk m s :=
+  rfl
+
+/-- The value `y / x₀^l` in the fraction field of an element `y` of `S(l)_(0)`. -/
+def twistVal (l : ℤ) :
+    HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 l) (genericCompl k n) →+
+      Localization (genericCompl k n) where
+  toFun y := locEquiv y.val * twistFactor l
+  map_zero' := by simp
+  map_add' y z := by simp [add_mul]
+
+theorem twistVal_mk (l : ℤ) (j : ℕ) (m : S) (hm : m ∈ gradedTwist 𝒜 l j) (s : S) (hs : s ∈ 𝒜 j)
+    (hsx : s ∈ genericCompl k n) :
+    twistVal l (HomogeneousLocalizedModule.mk j m hm s hs hsx) =
+      Localization.mk (m * (X 0 : S) ^ (-l).toNat) ⟨s * (X 0 : S) ^ l.toNat,
+        mul_mem hsx (pow_mem (mem_genericCompl (X_ne_zero 0)) _)⟩ := by
+  simp only [twistVal, AddMonoidHom.coe_mk, ZeroHom.coe_mk, HomogeneousLocalizedModule.val_mk,
+    locEquiv_mk, twistFactor, Localization.mk_mul]
+  rfl
+
+theorem twistVal_smul (l : ℤ) (c : AtPrime 𝒜 (genericPoint (Proj 𝒜)).asHomogeneousIdeal.toIdeal)
+    (y : HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 l) (genericCompl k n)) :
+    twistVal l (c • y) = c.val * twistVal l y := by
+  obtain ⟨⟨i, ⟨a, ha⟩, ⟨b, hb⟩, hbx⟩, rfl⟩ := HomogeneousLocalization.mk_surjective c
+  obtain ⟨j, m, hm, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective y
+  have : (HomogeneousLocalization.mk ⟨i, ⟨a, ha⟩, ⟨b, hb⟩, hbx⟩ •
+      HomogeneousLocalizedModule.mk j m hm s hs hsx :
+        HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 l) (genericCompl k n)).val =
+      LocalizedModule.mk (a * m) ⟨b * s, mul_mem hbx hsx⟩ := by
+    rw [HomogeneousLocalizedModule.val_smul, HomogeneousLocalization.val_mk,
+      HomogeneousLocalizedModule.val_mk, LocalizedModule.mk_smul_mk]
+    rfl
+  simp only [twistVal, AddMonoidHom.coe_mk, ZeroHom.coe_mk, this,
+    HomogeneousLocalizedModule.val_mk, locEquiv_mk, HomogeneousLocalization.val_mk, twistFactor,
+    Localization.mk_mul, mul_assoc]
+  congr 1
+  rw [← mul_assoc]
+  rfl
+
+theorem twistVal_mem_range (l : ℤ)
+    (y : HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 l) (genericCompl k n)) :
+    ∃ κ : (Proj 𝒜).functionField, functionFieldToLocalization κ = twistVal l y := by
+  obtain ⟨j, m, hm, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective y
+  rw [twistVal_mk]
+  by_cases hneg : l + (j : ℤ) < 0
+  · refine ⟨0, ?_⟩
+    rw [eq_zero_of_mem_gradedTwist hm hneg, zero_mul, Localization.mk_zero, map_zero]
+  have hm' : m.IsHomogeneous ((l + j).toNat + (-l).toNat - (-l).toNat) := by
+    rw [Nat.add_sub_cancel]
+    exact (mem_homogeneousSubmodule _ m).mp (mem_of_mem_gradedTwist hm)
+  have hg : (m * (X 0 : S) ^ (-l).toNat).IsHomogeneous (j + l.toNat) := by
+    have := (mem_homogeneousSubmodule _ m).mp (mem_of_mem_gradedTwist hm) |>.mul
+      (isHomogeneous_pow_of_isHomogeneous_one (isHomogeneous_X k (0 : Fin (n + 1))) (-l).toNat)
+    convert this using 1
+    omega
+  have hh : (s * (X 0 : S) ^ l.toNat).IsHomogeneous (j + l.toNat) :=
+    ((mem_homogeneousSubmodule _ s).mp hs).mul
+      (isHomogeneous_pow_of_isHomogeneous_one (isHomogeneous_X k (0 : Fin (n + 1))) l.toNat)
+  have h0 : s * (X 0 : S) ^ l.toNat ≠ 0 := by
+    have hs0 : s ≠ 0 := fun h => hsx (h ▸ zero_mem _)
+    exact mul_ne_zero hs0 (pow_ne_zero _ (X_ne_zero 0))
+  exact ⟨homogeneousFraction hg hh h0, functionFieldToLocalization_homogeneousFraction hg hh h0⟩
+
+/-- The rational function `y / x₀^l` attached to an element `y` of `S(l)_(0)`. -/
+def twistToFunctionField (l : ℤ) :
+    HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 l) (genericCompl k n) →+
+      (Proj 𝒜).functionField :=
+  AddMonoidHom.mk' (fun y => Classical.choose (twistVal_mem_range l y)) fun y z => by
+    apply functionFieldToLocalization_injective
+    have h1 := Classical.choose_spec (twistVal_mem_range l (y + z))
+    have h2 := Classical.choose_spec (twistVal_mem_range l y)
+    have h3 := Classical.choose_spec (twistVal_mem_range l z)
+    rw [h1, map_add functionFieldToLocalization, h2, h3]
+    exact map_add _ _ _
+
+theorem functionFieldToLocalization_twistToFunctionField (l : ℤ)
+    (y : HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 l) (genericCompl k n)) :
+    functionFieldToLocalization (twistToFunctionField l y) = twistVal l y :=
+  Classical.choose_spec (twistVal_mem_range l y)
+
+theorem functionFieldToLocalization_stalkIso_inv
+    (c : AtPrime 𝒜 (genericPoint (Proj 𝒜)).asHomogeneousIdeal.toIdeal) :
+    functionFieldToLocalization ((Proj.stalkIso 𝒜 (genericPoint (Proj 𝒜))).inv c) = c.val := by
+  simp only [functionFieldToLocalization, RingHom.comp_apply]
+  rw [← ConcreteCategory.comp_apply, Iso.inv_hom_id, CategoryTheory.id_apply]
+  rfl
+
+theorem twistToFunctionField_smul (l : ℤ)
+    (c : AtPrime 𝒜 (genericPoint (Proj 𝒜)).asHomogeneousIdeal.toIdeal)
+    (y : HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 l) (genericCompl k n)) :
+    twistToFunctionField l (c • y) =
+      (Proj.stalkIso 𝒜 (genericPoint (Proj 𝒜))).inv c * twistToFunctionField l y := by
+  apply functionFieldToLocalization_injective
+  rw [map_mul, functionFieldToLocalization_twistToFunctionField,
+    functionFieldToLocalization_twistToFunctionField, functionFieldToLocalization_stalkIso_inv,
+    twistVal_smul]
+
+end ProjectiveSpacePicard
+
+end Hartshorne
