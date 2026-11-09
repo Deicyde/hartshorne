@@ -4,7 +4,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.moduleFiberDim Hartshorne.exists_nhds_moduleFiberDim_le_of_isCoherent_of_isNoetherian Hartshorne.isClosed_setOf_le_moduleFiberDim_of_isCoherent_of_isNoetherian Hartshorne.exists_nhds_moduleFiberDim_le_of_isCoherent Hartshorne.isClosed_setOf_le_moduleFiberDim_of_isCoherent
+lean: Hartshorne.moduleFiberDim Hartshorne.exists_nhds_moduleFiberDim_le_of_isCoherent Hartshorne.isClosed_setOf_le_moduleFiberDim_of_isCoherent
 ---
 
 # Fibre dimension of a coherent sheaf is upper semicontinuous
