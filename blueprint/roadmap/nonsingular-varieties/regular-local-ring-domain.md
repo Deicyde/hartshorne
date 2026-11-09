@@ -2,6 +2,9 @@
 article_id: af_86df2fc5bb33de30c3e39629
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.RegularLocal.isDomain Hartshorne.RegularLocal.isDomain_of_spanFinrank_eq Hartshorne.RegularLocal.isRegularLocalRing_quotient_of_notMem_sq Hartshorne.RegularLocal.exists_mem_maximalIdeal_notMem_sq_notMem_minimalPrimes Hartshorne.RegularLocal.isDomain_of_isPrime_bot
 ---
 
 # A regular local ring is an integral domain
