@@ -6,6 +6,7 @@ import Hartshorne.Scheme.QuadricSurfaceClassGroup
 import Hartshorne.Scheme.QuadricSurfaceSegre
 import Hartshorne.Scheme.ProjHomogeneousFraction
 import Hartshorne.Scheme.ProjectiveSpaceClassGroup
+import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 
 /-!
 # Hyperplane sections of the split quadric surface
@@ -153,7 +154,163 @@ theorem ord_quadricLineTwo_projHomogeneousFraction :
   rw [h]
   exact h1
 
+/-- The chart `D₊(sᵢuⱼ)` satisfies `(*)`. -/
+theorem quadric_projChart_satisfiesConditionStar (i j : Fin 2) :
+    let _ : IsDomain (projChart 𝒬 (quadricChart k i j)) :=
+      isDomain_projChart 𝒬 (quadricChart_ne_zero k i j)
+    let _ : IsNoetherianRing (projChart 𝒬 (quadricChart k i j)) :=
+      isNoetherianRing_projChart 𝒬 (quadricChart_mem k i j) Nat.one_pos
+    (Spec (projChart 𝒬 (quadricChart k i j))).SatisfiesConditionStar := by
+  intro _ _
+  exact ⟨inferInstance, inferInstance, inferInstance,
+    (quadricSurface_satisfiesConditionStar k).isRegularInCodimensionOne.of_isOpenImmersion
+      (projChartι 𝒬 (quadricChart_mem k i j) Nat.one_pos)⟩
+
+/-- On a chart `D₊(sᵢuⱼ)`, the dehomogenization of a nonzero degree-one form `g` has order zero
+at a codimension-one point whose homogeneous prime does not contain `g`. -/
+theorem ord_quadric_projDehom_eq_zero {i j : Fin 2} {g : QuadricRing k} (hg : g ∈ 𝒬 1)
+    (g0 : g ≠ 0) {y : Spec (projChart 𝒬 (quadricChart k i j))}
+    (hy : coheight ((projChartι 𝒬 (quadricChart_mem k i j) Nat.one_pos).base y) = 1)
+    (hgy : g ∉ ((projChartι 𝒬 (quadricChart_mem k i j) Nat.one_pos).base y).asHomogeneousIdeal) :
+    let _ : IsDomain (projChart 𝒬 (quadricChart k i j)) :=
+      isDomain_projChart 𝒬 (quadricChart_ne_zero k i j)
+    let _ : IsNoetherianRing (projChart 𝒬 (quadricChart k i j)) :=
+      isNoetherianRing_projChart 𝒬 (quadricChart_mem k i j) Nat.one_pos
+    (Spec (projChart 𝒬 (quadricChart k i j))).ord
+      (algebraMap (projChart 𝒬 (quadricChart k i j))
+        (Spec (projChart 𝒬 (quadricChart k i j))).functionField
+        (projDehom 𝒬 (quadricChart_mem k i j) hg)) y = 0 := by
+  intro _ _
+  have hy' : coheight y = 1 := by rwa [coheight_eq_of_isOpenImmersion] at hy
+  refine (spec_ord_algebraMap_eq_zero_iff (quadric_projChart_satisfiesConditionStar k i j) hy'
+    (projDehom_ne_zero 𝒬 (quadricChart_mem k i j) (quadricChart_ne_zero k i j) hg g0)).mpr ?_
+  exact fun h ↦ hgy ((ProjGradedModuleSheaf.awayι_mem_asIdeal_iff 𝒬 (quadricChart_mem k i j)
+    Nat.one_pos y _).mp h)
+
+/-- The order of `g / sᵢuⱼ` at a point of the chart `D₊(sᵢuⱼ)` is the order of its
+dehomogenization. -/
+theorem ord_projHomogeneousFraction_quadricChart {i j : Fin 2} {g : QuadricRing k}
+    (hg : g ∈ 𝒬 1) (g0 : g ≠ 0) {y : Spec (projChart 𝒬 (quadricChart k i j))}
+    (hy : coheight ((projChartι 𝒬 (quadricChart_mem k i j) Nat.one_pos).base y) = 1) :
+    let _ : IsDomain (projChart 𝒬 (quadricChart k i j)) :=
+      isDomain_projChart 𝒬 (quadricChart_ne_zero k i j)
+    let _ : IsNoetherianRing (projChart 𝒬 (quadricChart k i j)) :=
+      isNoetherianRing_projChart 𝒬 (quadricChart_mem k i j) Nat.one_pos
+    (quadricSurface k).ord (projHomogeneousFraction 𝒬 hg (quadricChart_mem k i j)
+        (quadricChart_ne_zero k i j)) ((projChartι 𝒬 (quadricChart_mem k i j) Nat.one_pos).base y) =
+      (Spec (projChart 𝒬 (quadricChart k i j))).ord
+        (algebraMap (projChart 𝒬 (quadricChart k i j))
+          (Spec (projChart 𝒬 (quadricChart k i j))).functionField
+          (projDehom 𝒬 (quadricChart_mem k i j) hg)) y := by
+  intro _ _
+  have h := ord_projHomogeneousFraction 𝒬 (quadricChart_mem k i j) (quadricChart_ne_zero k i j)
+    (quadricSurface_satisfiesConditionStar k) hg (quadricChart_mem k i j) g0
+    (quadricChart_ne_zero k i j) hy
+  dsimp only at h
+  rw [h, projDehom_self]
+  erw [map_one]
+  rw [Scheme.ord_one_eq_zero, sub_zero]
+
 end LineOrders
+
+section Rulings
+
+/-- A nonconstant linear polynomial `β - αXₗ` in two variables is prime. -/
+theorem prime_C_sub_C_mul_X {α β : k} (hα : α ≠ 0) (l : Fin 2) :
+    Prime (MvPolynomial.C β - MvPolynomial.C α * MvPolynomial.X l : MvPolynomial (Fin 2) k) := by
+  classical
+  rw [← UniqueFactorizationMonoid.irreducible_iff_prime]
+  have hcoeff : (MvPolynomial.C β - MvPolynomial.C α * MvPolynomial.X l :
+      MvPolynomial (Fin 2) k).coeff (Finsupp.single l 1) = -α := by
+    rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_C, MvPolynomial.coeff_C_mul,
+      MvPolynomial.coeff_X, if_neg (Finsupp.single_ne_zero.mpr one_ne_zero).symm]
+    simp
+  apply MvPolynomial.irreducible_of_totalDegree_eq_one
+  · apply le_antisymm
+    · refine (MvPolynomial.totalDegree_sub _ _).trans (max_le ?_ ?_)
+      · rw [MvPolynomial.totalDegree_C]
+        exact zero_le_one
+      · exact (MvPolynomial.totalDegree_mul _ _).trans (by
+          rw [MvPolynomial.totalDegree_C, MvPolynomial.totalDegree_X, zero_add])
+    · have hmem : Finsupp.single l 1 ∈ (MvPolynomial.C β - MvPolynomial.C α * MvPolynomial.X l :
+          MvPolynomial (Fin 2) k).support := by
+        rw [MvPolynomial.mem_support_iff, hcoeff]
+        exact neg_ne_zero.mpr hα
+      have := MvPolynomial.le_totalDegree hmem
+      simpa using this
+  · intro x hx
+    exact isUnit_of_dvd_unit (hx (Finsupp.single l 1))
+      (by rw [hcoeff]; exact (neg_ne_zero.mpr hα).isUnit)
+
+/-- The point `(π)` of the chart `Spec S_(s₀u₀)`, for a prime element `π`. -/
+def quadricChartPrimeSpecPoint {π : projChart 𝒬 (quadricChart k 0 0)} (hπ : Prime π) :
+    Spec (projChart 𝒬 (quadricChart k 0 0)) :=
+  ⟨Ideal.span {π}, (Ideal.span_singleton_prime hπ.ne_zero).mpr hπ⟩
+
+theorem quadricChartPrimeSpecPoint_asIdeal {π : projChart 𝒬 (quadricChart k 0 0)}
+    (hπ : Prime π) : (quadricChartPrimeSpecPoint k hπ).asIdeal = Ideal.span {π} :=
+  rfl
+
+/-- The point of `Q` over the prime `(π)` of the chart `D₊(s₀u₀)`, for a prime element `π`. -/
+def quadricChartPrimePoint {π : projChart 𝒬 (quadricChart k 0 0)} (hπ : Prime π) :
+    quadricSurface k :=
+  (projChartι 𝒬 (quadricChart_mem k 0 0) Nat.one_pos).base (quadricChartPrimeSpecPoint k hπ)
+
+theorem coheight_quadricChartPrimePoint {π : projChart 𝒬 (quadricChart k 0 0)} (hπ : Prime π) :
+    coheight (quadricChartPrimePoint k hπ) = 1 := by
+  rw [quadricChartPrimePoint, coheight_eq_of_isOpenImmersion, ← idealHeight_eq_coheight,
+    quadricChartPrimeSpecPoint_asIdeal]
+  have hP : (Ideal.span {π}).IsPrime := (Ideal.span_singleton_prime hπ.ne_zero).mpr hπ
+  have := isNoetherianRing_projChart 𝒬 (quadricChart_mem k 0 0) Nat.one_pos
+  have := isDomain_projChart 𝒬 (quadricChart_ne_zero k 0 0)
+  have hprin : (Ideal.span {π}).IsPrincipal := ⟨⟨π, rfl⟩⟩
+  apply le_antisymm
+  · exact Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes _ _
+      ⟨⟨hP, le_rfl⟩, fun q hq _ ↦ hq.2⟩
+  · rw [Order.one_le_iff_ne_zero]
+    intro h
+    have hbot : Ideal.span {π} = ⊥ := Ideal.height_eq_zero_iff_eq_bot.mp h
+    exact hπ.ne_zero (Ideal.span_singleton_eq_bot.mp hbot)
+
+theorem quadricChartPrimePoint_mem_basicOpen {π : projChart 𝒬 (quadricChart k 0 0)} (hπ : Prime π) :
+    quadricChartPrimePoint k hπ ∈ Proj.basicOpen 𝒬 (quadricChart k 0 0) :=
+  projChartι_base_mem 𝒬 _ _ _
+
+/-- The prime divisor of `Q` over the prime `(π)` of the chart `D₊(s₀u₀)`. -/
+def quadricChartPrimeDivisor {π : projChart 𝒬 (quadricChart k 0 0)} (hπ : Prime π) :
+    (quadricSurface k).PrimeDivisor :=
+  ⟨quadricChartPrimePoint k hπ, coheight_quadricChartPrimePoint k hπ⟩
+
+open Classical in
+/-- On the chart `D₊(s₀u₀)`, the order of `π` is one at `(π)` and zero at the other
+codimension-one points. -/
+theorem ord_quadricChartPrime {π : projChart 𝒬 (quadricChart k 0 0)} (hπ : Prime π)
+    {y : Spec (projChart 𝒬 (quadricChart k 0 0))} (hy : coheight y = 1) :
+    let _ : IsDomain (projChart 𝒬 (quadricChart k 0 0)) :=
+      isDomain_projChart 𝒬 (quadricChart_ne_zero k 0 0)
+    let _ : IsNoetherianRing (projChart 𝒬 (quadricChart k 0 0)) :=
+      isNoetherianRing_projChart 𝒬 (quadricChart_mem k 0 0) Nat.one_pos
+    (Spec (projChart 𝒬 (quadricChart k 0 0))).ord
+      (algebraMap (projChart 𝒬 (quadricChart k 0 0))
+        (Spec (projChart 𝒬 (quadricChart k 0 0))).functionField π) y =
+      if (projChartι 𝒬 (quadricChart_mem k 0 0) Nat.one_pos).base y =
+        quadricChartPrimePoint k hπ then 1 else 0 := by
+  intro _ _
+  have := y.isPrime
+  have hheight : y.asIdeal.height = 1 := by rw [idealHeight_eq_coheight]; exact hy
+  split_ifs with h
+  · have hy' : y = ⟨Ideal.span {π}, (Ideal.span_singleton_prime hπ.ne_zero).mpr hπ⟩ :=
+      (projChartι 𝒬 (quadricChart_mem k 0 0) Nat.one_pos).isOpenEmbedding.injective h
+    exact spec_ord_algebraMap_eq_one_of_span_eq (quadric_projChart_satisfiesConditionStar k 0 0)
+      hy (by rw [hy'])
+  · refine (spec_ord_algebraMap_eq_zero_iff (quadric_projChart_satisfiesConditionStar k 0 0) hy
+      hπ.ne_zero).mpr fun hmem ↦ h ?_
+    have hspan := Ideal.eq_span_singleton_of_height_eq_one hheight hmem hπ
+    rw [quadricChartPrimePoint]
+    congr 1
+    exact PrimeSpectrum.ext hspan
+
+end Rulings
 
 section Hyperplane
 
