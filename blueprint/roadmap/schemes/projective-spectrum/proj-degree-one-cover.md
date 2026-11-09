@@ -2,6 +2,9 @@
 article_id: af_e330983a6da008586a128ac8
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.ProjTwistingSheaf.exists_mem_one_notMem Hartshorne.ProjTwistingSheaf.iSup_basicOpen_one_eq_top Hartshorne.ProjTwistingSheaf.irrelevant_le_span_one
 ---
 
 # Degree-one basic opens cover Proj of a degree-one-generated ring
