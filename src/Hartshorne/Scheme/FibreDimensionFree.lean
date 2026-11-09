@@ -16,7 +16,9 @@ and `dim_{K i} (K i ⊗ M) = n` for every `i`, then `M` is free of rank `n`. Two
 over a local domain, the generic fibre alone suffices; over a reduced local ring, the fibres
 `κ(𝔭) ⊗ M` at all primes `𝔭` suffice, since an element lying in every prime is nilpotent.
 
-This is the local algebraic core of Hartshorne II, Exercise 5.8(c): a coherent sheaf on a
+This is the local algebraic core of Hartshorne II, Exercise 5.8(c), and the family theorem also
+gives Hartshorne II, Lemma 8.9 (used by the regular local differential criterion). Ex. 5.8(c):
+a coherent sheaf on a
 reduced Noetherian scheme whose fibre dimension is constant is locally free. Proof: lifting a
 `k`-basis of `k ⊗ M` gives, by Nakayama's lemma, a surjection `φ : R ^ n → M`. After base change
 to each `K i` it becomes a surjection between `K i`-vector spaces of the same finite dimension,
