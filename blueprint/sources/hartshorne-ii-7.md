@@ -65,10 +65,15 @@ examples and tests rather than separate theorem targets.
   tautological quotient `pi^* E -> O(1)` and represents invertible quotients
   of pullbacks of `E`, modulo isomorphism of the quotient line bundle.
 
-The relative Proj construction uses two results Hartshorne does not state. The roadmap
-records them as project bridges: gluing sheaves of modules on an open cover (the module form
-of Exercise II.1.22), and the compatibility of the twisting sheaves `O(n)` of an affine Proj
-with localization at an element of degree zero, including compatibility with composites.
+The relative Proj construction uses two results that the roadmap records as project bridges.
+The first, gluing sheaves of modules on an open cover (the module form of Exercise II.1.22),
+Hartshorne does not state. The second is the compatibility of the twisting sheaves `O(n)` of
+an affine Proj with localization at an element of degree zero, including compatibility with
+composites. Here Hartshorne gives a reference: on p.160 the sheaves `O(1)` on each
+`Proj S(U)` "are compatible under this construction (5.12c), so they glue together to give an
+invertible sheaf O(1) on Proj S". Proposition 5.12(c) (p.117) assumes generation in degree
+one, so dropping the generation hypothesis and the compatibility with composites (the cocycle
+condition for the gluing) are project additions.
 
 The roadmap also fixes how the quasi-coherent sheaf of graded algebras in the relative Proj
 construction is given. It is recorded only on affine opens: a ring of sections `S(U)` for each

@@ -51,5 +51,6 @@ this compatibility with composites.
 
 ## Sources
 
-- [Hartshorne II.7, relative Proj construction (pp. 160–161), used there without statement](../../../../sources/hartshorne-ii-7.md#relative-proj-and-projective-bundles)
+- [Hartshorne II.7, relative Proj construction (p. 160), which cites Proposition 5.12(c) for the compatibility of the sheaves O(1); dropping the generation hypothesis and the compatibility with composites are project additions](../../../../sources/hartshorne-ii-7.md#relative-proj-and-projective-bundles)
+- [Hartshorne II.5, Proposition 5.12(c), p.117](../../../../sources/hartshorne-ii-5.md#graded-modules-twists-and-reconstruction-on-proj)
 - [Stacks Project, relative Proj, tag 01NM](../../../../sources/hartshorne-ii-7.md#adopted-auxiliary-proof-sources)
