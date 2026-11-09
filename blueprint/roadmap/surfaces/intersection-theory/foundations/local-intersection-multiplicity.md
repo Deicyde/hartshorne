@@ -2,6 +2,9 @@
 article_id: af_9f88c82081eeca47966b8137
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.Surface.localIntersectionMultiplicity Hartshorne.Surface.localIntersectionMultiplicity_eq Hartshorne.Surface.localIntersectionMultiplicity_ne_top Hartshorne.Surface.localIntersectionMultiplicity_eq_rank Hartshorne.Surface.IsLocalEquation Hartshorne.Surface.exists_isLocalEquation Hartshorne.Surface.IsLocalEquation.associated
 ---
 
 # Local intersection multiplicity
