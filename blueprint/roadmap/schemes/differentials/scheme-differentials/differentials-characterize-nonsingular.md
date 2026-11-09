@@ -2,16 +2,16 @@
 article_id: af_4d439f866589bc1e692ad888
 declaration: theorem
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: Hartshorne.isRegular_iff_relativeDifferentials_isLocallyFreeOfRank
 ---
 
 # Differentials characterize nonsingular varieties
 
-Let $X$ be an integral separated scheme of finite type over an algebraically
-closed field $k$, and let $n = \dim X$.  Then $X$ is nonsingular if and only if
-$\Omega_{X/k}$ is locally free of constant rank $n$.
+Let $X$ be an irreducible separated scheme of finite type over an
+algebraically closed field $k$, and let $n = \dim X$. Then $\Omega_{X/k}$ is
+locally free of constant rank $n$ if and only if $X$ is a nonsingular variety
+over $k$.
 
 This is a statement about the differential sheaf.  Its fiber at a closed
 point is compared with the cotangent space before applying the regular-local
