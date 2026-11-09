@@ -4,7 +4,7 @@ declaration: instance
 origin: bridged
 statement: formalized
 proof: formalized
-lean: Hartshorne.Ringed.monoidalCategory Hartshorne.Ringed.tensorUnit_eq Hartshorne.Ringed.moduleSheafTensorIsoTensor Hartshorne.Ringed.moduleSheafTensorIsoTensor_hom_bilinear Hartshorne.Ringed.associator_hom_tmulSection Hartshorne.Ringed.leftUnitor_hom_tmulSection Hartshorne.Ringed.rightUnitor_hom_tmulSection Hartshorne.Ringed.sheafificationFunctor_monoidal
+lean: Hartshorne.Ringed.monoidalCategory Hartshorne.Ringed.tensorUnit_eq Hartshorne.Ringed.moduleSheafTensorIsoTensor Hartshorne.Ringed.moduleSheafTensorIsoTensor_hom_bilinear Hartshorne.Ringed.associator_hom_tmulSection Hartshorne.Ringed.leftUnitor_hom_tmulSection Hartshorne.Ringed.rightUnitor_hom_tmulSection Hartshorne.Ringed.sheafificationFunctor_monoidal Hartshorne.Ringed.schemeModulesMonoidalCategory
 ---
 
 # The monoidal category of sheaves of modules
