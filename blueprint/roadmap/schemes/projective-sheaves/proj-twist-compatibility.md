@@ -22,6 +22,7 @@ additions.
 ## Depends on
 
 - [Twisting sheaves are invertible](proj-twisting-sheaf.md)
+- [The sheaf of a graded module on Proj](proj-graded-module-sheaf.md)
 - [Module tensor product](../modules-and-quasicoherent/module-tensor-product.md)
 - [The monoidal category of sheaves of modules](../modules-and-quasicoherent/module-sheaf-monoidal-category.md)
 - [Integer-graded module twists](../../intersections-projective-space/hilbert/graded-module-twists.md)
