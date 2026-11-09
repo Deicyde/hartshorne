@@ -24,6 +24,7 @@ Exercise 6.8(b), and it is the compatibility used in IV.2.
 - [The invertible sheaf associated to a Cartier divisor](../cartier-picard/cartier-divisor-associated-sheaf.md)
 - [Pullback on Picard groups](picard-pullback.md)
 - [Weil classes and the Picard group on a locally factorial scheme](../cartier-picard/locally-factorial-class-picard-equivalence.md)
+- [Regular schemes are locally factorial](../cartier-picard/regular-locally-factorial.md)
 
 ## Proof depends on
 
