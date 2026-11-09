@@ -33,7 +33,6 @@ here that quotient is $A/m=k$.
 - [Regular local rings are Cohen–Macaulay](../../../schemes/differentials/local-complete-intersections/regular-local-implies-cohen-macaulay.md)
 - [Regular sequences and Cohen–Macaulay quotients](../../../schemes/differentials/local-complete-intersections/cohen-macaulay-regular-sequence-quotient.md)
 - [A regular local ring is an integral domain](../../../nonsingular-varieties/regular-local-ring-domain.md)
-- [Regular hypersurface quotients of a regular local ring](../../../schemes/differentials/canonical-bertini/regular-hypersurface-local-criterion.md)
 - The quotient of a local ring by a regular sequence of length $d$ in its
   maximal ideal has projective dimension $d$.
 
