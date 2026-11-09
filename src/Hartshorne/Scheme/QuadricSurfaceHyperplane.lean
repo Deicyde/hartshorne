@@ -9,16 +9,22 @@ import Hartshorne.Scheme.ProjectiveSpaceClassGroup
 import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 
 /-!
-# Hyperplane sections of the split quadric surface
+# Hyperplane sections and rulings of the split quadric surface
 
-Let `Q ⊆ ℙ³_k` be the split quadric (`Hartshorne.quadricSurfaceι`). For a hyperplane `H` of
-`ℙ³_k`, the divisor `H · Q` cut on `Q` (Exercise II.6.2(a),
-`Hartshorne.projectiveIntersectionDivisor`) has class `(1, 1)` in `Cl Q ≅ ℤ × ℤ`.
+Let `Q ⊆ ℙ³_k` be the split quadric (`Hartshorne.quadricSurfaceι`), with `Cl Q ≅ ℤ × ℤ`
+(`Hartshorne.quadricSurfaceClassGroupEquiv`, normalized by `L₁ ↦ (1, 0)`, `L₂ ↦ (0, 1)`).
 
-The hyperplane `x = s₀u₀ = 0` cuts `L₁ + L₂`: along `L₁` the local equation `x / w` is the
-coordinate `s₀ / s₁` of the chart `D₊(w)`, and along `L₂` the local equation `x / z` is the
-coordinate `u₀ / u₁` of the chart `D₊(z)`. For any hyperplane `ℓ = 0`, `H · Q - H₀ · Q` is the
-divisor of the rational function `ℓ / x` on `Q`.
+* `Hartshorne.quadricSurfaceClassGroupEquiv_hyperplaneSection`: for a hyperplane `H` of `ℙ³_k`,
+  the divisor `H · Q` cut on `Q` (Exercise II.6.2(a), `Hartshorne.projectiveIntersectionDivisor`)
+  has class `(1, 1)`. The hyperplane `x = s₀u₀ = 0` cuts `L₁ + L₂`: along `L₁` the local equation
+  `x / w` is the coordinate `s₀ / s₁` of the chart `D₊(w)`, and along `L₂` the local equation
+  `x / z` is the coordinate `u₀ / u₁` of the chart `D₊(z)`. For any hyperplane `ℓ = 0`,
+  `H · Q - H₀ · Q` is the divisor of the rational function `ℓ / x` on `Q`.
+* `Hartshorne.quadricSurfaceClassGroupEquiv_rulingOne`,
+  `Hartshorne.quadricSurfaceClassGroupEquiv_rulingTwo`: every line `{[α : β]} × ℙ¹` of the first
+  ruling has class `(1, 0)` and every line `ℙ¹ × {[γ : δ]}` of the second has class `(0, 1)`
+  (lines over `k`-points; the lines over `[0 : 1]` are `L₁` and `L₂`). The line
+  `{[α : β]} × ℙ¹`, `α ≠ 0`, is `L₁ + div((βs₀ - αs₁)/s₀)`.
 -/
 
 noncomputable section
