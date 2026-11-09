@@ -39,9 +39,11 @@ def IsCohomologicalDimensionBound (X : Scheme.{u}) (n : WithTop ℕ) : Prop :=
   ∀ F : X.Modules, F.IsQuasicoherent → ∀ i : ℕ, n < i →
     IsZero ((sheafCohomology X.toTopCat i).obj ((SheafOfModules.toSheaf X.ringCatSheaf).obj F))
 
-/-- **Cohomological dimension** (Hartshorne III, Exercise 4.8). The cohomological dimension
-`cd(X) ∈ ℕ ∪ {∞}` of a scheme `X` is the infimum of the `n ∈ ℕ ∪ {∞}` such that
-`H^i(X, F) = 0` for every quasi-coherent sheaf `F` and every `i > n`. -/
+/-- **Cohomological dimension** (Hartshorne III, Exercise 4.8, with the project's extended-value
+convention). The cohomological dimension `cd(X) ∈ ℕ ∪ {∞}` of a scheme `X` is the infimum of the
+`n ∈ ℕ ∪ {∞}` such that `H^i(X, F) = 0` for every quasi-coherent sheaf `F` and every `i > n`.
+Hartshorne defines `cd(X)`, for `X` Noetherian separated, as the least such integer `n`; here it
+is the infimum in `ℕ ∪ {∞}`, defined for every scheme. -/
 noncomputable def cohomologicalDimension (X : Scheme.{u}) : WithTop ℕ :=
   sInf {n | IsCohomologicalDimensionBound X n}
 

@@ -312,8 +312,8 @@ theorem homologyMap_globalSectionsComparison_zero (U : ι → Opens X) (hU : IsO
   simp only [Category.assoc]
 
 set_option backward.isDefEq.respectTransparency false in
-/-- **Hartshorne III, Lemma 4.4, degree zero.** In degree zero, the comparison map
-`Ȟ^0(U, F) → H^0(X, F)` followed by `H^0(X, F) ≅ Γ(X, F)` is the gluing isomorphism
+/-- **Degree zero** (compare Hartshorne III, Lemmas 4.1 and 4.4). In degree zero, the comparison
+map `Ȟ^0(U, F) → H^0(X, F)` followed by `H^0(X, F) ≅ Γ(X, F)` is the gluing isomorphism
 `Ȟ^0(U, F) ≅ Γ(X, F)`. -/
 theorem _root_.Hartshorne.cechToSheafCohomology_zero_comp (U : ι → Opens X)
     (hU : IsOpenCover U) (F : X.Sheaf AddCommGrpCat.{u}) :
