@@ -47,6 +47,7 @@ import Hartshorne.Scheme.GenericCompletion
 import Hartshorne.Scheme.QuotientSheafStalks
 import Hartshorne.Scheme.TotalQuotientSheaf
 import Hartshorne.Scheme.CartierDivisor
+import Hartshorne.Scheme.CartierDivisorPullback
 import Hartshorne.Scheme.CartierDivisorSheaf
 import Hartshorne.Scheme.CartierDivisorSheafArithmetic
 import Hartshorne.Scheme.CartierLinearEquivalenceSheaf
