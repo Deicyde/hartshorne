@@ -8,7 +8,26 @@ import Hartshorne.Scheme.AffineTildeChangeOfRings
 /-!
 # Pushforward of quasi-coherent sheaves along quasi-compact quasi-separated morphisms
 
-Hartshorne, *Algebraic Geometry*, II, Proposition 5.8(c) (p. 115).
+Hartshorne, *Algebraic Geometry*, II, Proposition 5.8(c) (p. 115): if `X` is Noetherian, or `f`
+is quasi-compact and separated, then `f_*` of a quasi-coherent sheaf is quasi-coherent
+(`Hartshorne.isQuasicoherent_pushforward`). We prove it for every quasi-compact quasi-separated
+`f` (`Hartshorne.isQuasicoherent_pushforward_of_qcqs`).
+
+## Proof
+
+Quasi-coherence is local on `Y`, and the restriction of `f_* F` to an open `V ⊆ Y` is the
+pushforward along `f⁻¹ V ⟶ V` of `F|_{f⁻¹ V}` (`pushforwardRestrictIso`), so we may assume `Y`
+affine, `X` quasi-compact and quasi-separated. For an open `S ⊆ X` write `R_S = j_* j⁻¹`
+(`rp S`). Pushforward along a morphism of affine schemes preserves quasi-coherence
+(Proposition II.5.2(d), `tildePushforwardIso`), which gives `f_* R_U F` for affine `U`. For
+opens `S, U` the square `R_{S ⊔ U} F → R_S, R_U → R_U R_S` is a pullback (the sheaf condition
+for the cover `{S, U}`, `isPullback_rp`), and `R_A R_B ≅ R_{A ⊓ B}` (`rpCompIso`); since `f_*`
+preserves pullbacks and quasi-coherent modules are closed under finite limits (Proposition 5.7),
+`f_* R_S F` quasi-coherent for `S`, `U` and `S ⊓ U` gives it for `S ⊔ U`. Induction over finite
+unions of basic opens handles compact opens inside an affine open, and induction over finite
+unions of affine opens (intersections being compact, as `X` is quasi-separated) handles every
+compact open, in particular `X` itself (`R_X F ≅ F`). This is the finite-cover kernel argument of
+the book, organized two opens at a time.
 -/
 
 universe u
@@ -331,6 +350,89 @@ theorem isQuasicoherent_pushforward_of_isAffine_target [IsAffine Y] [CompactSpac
   isQuasicoherent_of_iso ((Scheme.Modules.pushforward f).mapIso (rpTopIso G).symm)
     (pushQC_of_isCompact f (by simpa using isCompact_univ) G ‹_›)
 
+/-! ### Restricting the target -/
+
+/-- **Restricting a pushforward to an open of the target.** For `f : X ⟶ Y`, an open `V` of `Y`
+and an `𝒪_X`-module `F`, the restriction of `f_* F` to `V` is the pushforward along
+`f ∣_ V : f⁻¹ V ⟶ V` of the restriction of `F` to `f⁻¹ V`. -/
+def pushforwardRestrictIso (f : X ⟶ Y) (V : Y.Opens) (F : X.Modules) :
+    ((Scheme.Modules.pushforward f).obj F).restrict V.ι ≅
+      (Scheme.Modules.pushforward (f ∣_ V)).obj (F.restrict (f ⁻¹ᵁ V).ι) :=
+  let e : (Scheme.Modules.pushforward f).obj ((rp (f ⁻¹ᵁ V)).obj F) ≅
+      (Scheme.Modules.pushforward V.ι).obj
+        ((Scheme.Modules.pushforward (f ∣_ V)).obj (F.restrict (f ⁻¹ᵁ V).ι)) :=
+    (Scheme.Modules.pushforwardComp (f ⁻¹ᵁ V).ι f).app _ ≪≫
+      (Scheme.Modules.pushforwardCongr (morphismRestrict_ι f V).symm).app _ ≪≫
+      ((Scheme.Modules.pushforwardComp (f ∣_ V) V.ι).app _).symm
+  let φ := (Scheme.Modules.pushforward f).map ((η (f ⁻¹ᵁ V)).app F) ≫ e.hom
+  let ψ := ((Scheme.Modules.restrictAdjunction V.ι).homEquiv _ _).symm φ
+  haveI : IsIso ψ := by
+    rw [Scheme.Modules.Hom.isIso_iff_isIso_app]
+    intro W
+    simp only [ψ, Adjunction.homEquiv_counit, Scheme.Modules.Hom.comp_app]
+    have h1 : IsIso (((Scheme.Modules.restrictFunctor V.ι).map φ).app W) := by
+      change IsIso (φ.app (V.ι ''ᵁ W))
+      simp only [φ, Scheme.Modules.Hom.comp_app, Scheme.Modules.pushforward_map_app]
+      have := isIso_η_app_app_of_le (f ⁻¹ᵁ V) F
+        (T := f ⁻¹ᵁ (V.ι ''ᵁ W)) (f.preimage_mono (Scheme.Opens.ι_image_le V W))
+      have h2 : IsIso (e.hom.app (V.ι ''ᵁ W)) := inferInstance
+      exact @IsIso.comp_isIso _ _ _ _ _ _ _ this h2
+    infer_instance
+  asIso ψ
+
 end
 
 end QcqsPushforward
+
+open QcqsPushforward
+
+variable {X Y : Scheme.{u}}
+
+/-- **Pushforward along a quasi-compact quasi-separated morphism.** If `f : X ⟶ Y` is
+quasi-compact and quasi-separated, then `f_*` sends quasi-coherent `𝒪_X`-modules to
+quasi-coherent `𝒪_Y`-modules. This supplements Hartshorne II, Proposition 5.8(c), whose two
+hypotheses (`X` Noetherian; `f` quasi-compact and separated) both imply it. -/
+theorem isQuasicoherent_pushforward_of_qcqs (f : X ⟶ Y) [QuasiCompact f] [QuasiSeparated f]
+    (G : X.Modules) [G.IsQuasicoherent] :
+    ((Scheme.Modules.pushforward f).obj G).IsQuasicoherent := by
+  have htfae := (quasicoherent_affine_local_tfae ((Scheme.Modules.pushforward f).obj G)).out 1 0
+  refine htfae.mp ⟨Y.affineOpens, id, iSup_affineOpens_eq_top Y, fun V => ?_⟩
+  have : IsAffine V := V.2
+  have : CompactSpace (f ⁻¹ᵁ (V : Y.Opens)) :=
+    isCompact_iff_compactSpace.mp
+      (QuasiCompact.isCompact_preimage (f := f) _ (V : Y.Opens).2 V.2.isCompact)
+  have hVqs : IsQuasiSeparated ((V : Y.Opens) : Set Y) :=
+    (isQuasiSeparated_iff_quasiSeparatedSpace _ (V : Y.Opens).2).mpr
+      (quasiSeparatedSpace_of_isAffine V)
+  have : QuasiSeparatedSpace (f ⁻¹ᵁ (V : Y.Opens)) :=
+    (isQuasiSeparated_iff_quasiSeparatedSpace _ (f ⁻¹ᵁ (V : Y.Opens)).2).mp
+      (f.isQuasiSeparated_preimage hVqs)
+  have h₁ : (((Scheme.Modules.pushforward f).obj G).restrict (V : Y.Opens).ι).IsQuasicoherent :=
+    isQuasicoherent_of_iso (pushforwardRestrictIso f V G).symm
+      (isQuasicoherent_pushforward_of_isAffine_target _ _)
+  let _ : IsOpenImmersion V.2.fromSpec := V.2.isOpenImmersion_fromSpec
+  have h₂ : (((Scheme.Modules.pushforward f).obj G).restrict V.2.fromSpec).IsQuasicoherent :=
+    isQuasicoherent_of_iso
+      (((Scheme.Modules.restrictFunctorComp V.2.isoSpec.inv (V : Y.Opens).ι).app
+          ((Scheme.Modules.pushforward f).obj G)).symm ≪≫
+        (Scheme.Modules.restrictFunctorCongr V.2.isoSpec_inv_ι).app
+          ((Scheme.Modules.pushforward f).obj G))
+      (Scheme.Modules.isQuasicoherent_restrictFunctor V.2.isoSpec.inv
+        (((Scheme.Modules.pushforward f).obj G).restrict (V : Y.Opens).ι))
+  have h₃ : IsIso (((Scheme.Modules.pushforward f).obj G).restrict V.2.fromSpec).fromTildeΓ :=
+    (isQuasicoherent_iff_isIso_fromTildeΓ _).mp h₂
+  exact isIso_fromTildeΓ_iff.mp h₃
+
+/-- **Hartshorne II, Proposition 5.8(c).** Let `f : X ⟶ Y` be a morphism of schemes, and assume
+that `X` is Noetherian, or that `f` is quasi-compact and separated. Then `f_*` sends
+quasi-coherent `𝒪_X`-modules to quasi-coherent `𝒪_Y`-modules. -/
+theorem isQuasicoherent_pushforward (f : X ⟶ Y)
+    (hf : IsNoetherian X ∨ (QuasiCompact f ∧ IsSeparated f))
+    (G : X.Modules) [G.IsQuasicoherent] :
+    ((Scheme.Modules.pushforward f).obj G).IsQuasicoherent := by
+  rcases hf with hX | ⟨hqc, hsep⟩
+  · have : QuasiSeparated f := QuasiSeparated.of_quasiSeparatedSpace f
+    exact isQuasicoherent_pushforward_of_qcqs f G
+  · exact isQuasicoherent_pushforward_of_qcqs f G
+
+end Hartshorne
