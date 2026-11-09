@@ -297,8 +297,9 @@ noncomputable def bilinearCurryEquiv :
 
 variable (E F G) in
 /-- **Hartshorne II, Exercise 5.1(c): the tensor–Hom adjunction.** For all `𝒪_X`-modules `E`, `F`,
-`G`, morphisms `E ⊗ F ⟶ G` correspond bijectively to morphisms `F ⟶ ℋom(E, G)`: a morphism
-`φ` corresponds to `f ↦ (e ↦ φ(e ⊗ f))`. -/
+`G` (Hartshorne assumes `E` finite locally free; not needed here), morphisms `E ⊗ F ⟶ G`
+correspond bijectively to morphisms `F ⟶ ℋom(E, G)`: a morphism `φ` corresponds to
+`f ↦ (e ↦ φ(e ⊗ f))`. -/
 noncomputable def moduleSheafTensorHomAdjunction :
     (@Quiver.Hom 𝓜 _ (moduleSheafTensor E F) G) ≃ (F ⟶ moduleSheafHom E G) :=
   (moduleSheafTensorHomEquiv E F G).trans bilinearCurryEquiv
@@ -334,8 +335,9 @@ lemma moduleSheafTensorHomAdjunction_add (φ ψ : @Quiver.Hom 𝓜 _ (moduleShea
 
 variable (E F G) in
 /-- **Hartshorne II, Exercise 5.1(c): the tensor–Hom isomorphism of groups.** For all
-`𝒪_X`-modules `E`, `F`, `G`, the bijection `moduleSheafTensorHomAdjunction` is additive, giving
-an isomorphism of abelian groups `Hom(E ⊗ F, G) ≅ Hom(F, ℋom(E, G))`. -/
+`𝒪_X`-modules `E`, `F`, `G` (Hartshorne assumes `E` finite locally free; not needed here), the
+bijection `moduleSheafTensorHomAdjunction` is additive, giving an isomorphism of abelian groups
+`Hom(E ⊗ F, G) ≅ Hom(F, ℋom(E, G))`. -/
 noncomputable def moduleSheafTensorHomAddEquiv :
     (@Quiver.Hom 𝓜 _ (moduleSheafTensor E F) G) ≃+ (F ⟶ moduleSheafHom E G) where
   toEquiv := moduleSheafTensorHomAdjunction E F G
@@ -1256,14 +1258,23 @@ namespace AlgebraicGeometry.Scheme.Modules
 
 variable {X : Scheme.{u}}
 
+/-- The tensor product `E ⊗ F` of `𝒪_X`-modules on a scheme, as an object of `X.Modules`:
+`Hartshorne.moduleSheafTensor` with `R := X.sheaf`. -/
+noncomputable abbrev sheafTensor (E F : X.Modules) : X.Modules :=
+  Hartshorne.moduleSheafTensor (R := X.sheaf) E F
+
+/-- The sheaf `ℋom(E, G)` of `𝒪_X`-modules on a scheme, as an object of `X.Modules`:
+`Hartshorne.Ringed.moduleSheafHom` with `R := X.sheaf`. -/
+noncomputable abbrev sheafHom (E G : X.Modules) : X.Modules :=
+  Hartshorne.Ringed.moduleSheafHom (R := X.sheaf) E G
+
 /-- **Hartshorne II, Exercise 5.1(c), on a scheme.** For all `𝒪_X`-modules `E`, `F`, `G` on a
-scheme `X`, the tensor–Hom isomorphism of abelian groups `Hom(E ⊗ F, G) ≅ Hom(F, ℋom(E, G))`,
-with Hom groups taken in the category `X.Modules`: the ringed-space isomorphism
+scheme `X` (Hartshorne assumes `E` finite locally free; not needed here), the tensor–Hom
+isomorphism of abelian groups `Hom(E ⊗ F, G) ≅ Hom(F, ℋom(E, G))`, with Hom groups taken in the
+category `X.Modules`: the ringed-space isomorphism
 `Hartshorne.Ringed.moduleSheafTensorHomAddEquiv` with `R := X.sheaf`. -/
 noncomputable def tensorHomAddEquiv (E F G : X.Modules) :
-    let EF : X.Modules := Hartshorne.moduleSheafTensor (R := X.sheaf) E F
-    let HomEG : X.Modules := Hartshorne.Ringed.moduleSheafHom (R := X.sheaf) E G
-    (EF ⟶ G) ≃+ (F ⟶ HomEG) :=
+    (sheafTensor E F ⟶ G) ≃+ (F ⟶ sheafHom E G) :=
   Hartshorne.Ringed.moduleSheafTensorHomAddEquiv E F G
 
 end AlgebraicGeometry.Scheme.Modules
