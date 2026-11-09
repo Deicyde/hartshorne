@@ -2,6 +2,9 @@
 article_id: af_cc5b776dbee778ca137f2f01
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.ModuleGluing.GluingData.exists_unique_gluing Hartshorne.ModuleGluing.GluingData
 ---
 
 # Gluing sheaves of modules along open immersions
