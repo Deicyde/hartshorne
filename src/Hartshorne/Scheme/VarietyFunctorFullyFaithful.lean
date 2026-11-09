@@ -9,7 +9,7 @@ import Mathlib.AlgebraicGeometry.Properties
 /-!
 # The variety-to-scheme functor is fully faithful
 
-Hartshorne, *Algebraic Geometry*, II.2, Proposition 2.6 and Exercise 2.15(b),(c)
+Hartshorne, *Algebraic Geometry*, II.2, Proposition 2.6 and Exercise 2.15(c)
 (pp. 78–81).
 
 For varieties `W`, `V` with an affine-open basis over an algebraically closed
@@ -277,7 +277,7 @@ theorem continuous_pointMapOfSchemeHom
   rw [this]
   exact φ.base.hom.continuous.comp (genericCompletionAlpha (TopCat.of W.carrier)).hom.continuous
 
-/-- **Hartshorne II.2, Proposition 2.6 and Exercise 2.15(b),(c).** The morphism
+/-- **Hartshorne II.2, Proposition 2.6 and Exercise 2.15(c).** The morphism
 of varieties underlying a morphism of associated schemes over `k`. -/
 def ofSchemeHom (φ : varietyAssociatedScheme W hW ⟶ varietyAssociatedScheme V hV)
     (hφ : φ ≫ varietyAssociatedSchemeStructureMorphism V hV =
@@ -300,7 +300,7 @@ def ofSchemeHom (φ : varietyAssociatedScheme W hW ⟶ varietyAssociatedScheme V
     funext x
     exact (app_apply_eq_pointMapOfSchemeHom φ hφ x.1 (hle x.2) s).symm
 
-/-- **Hartshorne II.2, Proposition 2.6 and Exercise 2.15(b),(c).** Every
+/-- **Hartshorne II.2, Proposition 2.6 and Exercise 2.15(c).** Every
 morphism of associated schemes over `k` is induced by a morphism of varieties. -/
 theorem associatedSchemeHom_ofSchemeHom
     (φ : varietyAssociatedScheme W hW ⟶ varietyAssociatedScheme V hV)
@@ -335,7 +335,7 @@ theorem associatedSchemeHom_injective (hW : W.HasAffineOpenBasis) (hV : V.HasAff
 
 end VarietyHom
 
-/-- **Hartshorne II.2, Proposition 2.6 and Exercise 2.15(b),(c) (pp. 78–81).**
+/-- **Hartshorne II.2, Proposition 2.6 and Exercise 2.15(c) (pp. 78–81).**
 For varieties `V`, `W` over an algebraically closed field `k` (with affine-open
 bases), the map `Hom(V, W) → Hom_k(t(V), t(W))` given by the variety-to-scheme
 functor is bijective. -/
