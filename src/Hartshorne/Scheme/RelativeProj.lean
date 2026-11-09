@@ -128,6 +128,14 @@ theorem irrelevant_le_map_of_isLocalizationAway : ℬ₊ ≤ 𝒜₊.map φ := b
   rw [this]
   exact Ideal.mul_mem_right _ _ (Ideal.mem_map_of_mem _ (mem_irrelevant_of_mem 𝒜 hi ha))
 
+include hs hφ in
+/-- If `B = A[1/s]` with `s` of degree zero and the localization map `φ` is graded, then
+`B₊ = A₊ B`. -/
+theorem irrelevant_eq_map_of_isLocalizationAway : ℬ₊ = 𝒜₊.map φ :=
+  le_antisymm (irrelevant_le_map_of_isLocalizationAway φ hs hφ)
+    (HomogeneousIdeal.map_le_of_le_comap _ <| (HomogeneousIdeal.irrelevant_le 𝒜).2
+      fun _ hi _ ha => mem_irrelevant_of_mem ℬ hi (map_mem φ ha))
+
 include hφ in
 /-- If `B = A[1/s]` with `s` of degree zero and `t` is homogeneous, then
 `B_(t) = A_(t)[1/s]`. -/
