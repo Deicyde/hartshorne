@@ -2,8 +2,7 @@
 article_id: af_8d604cc43b75df685cf8ce8e
 declaration: theorem
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: Hartshorne.tensorPullbackTilde Hartshorne.cohomologyTensor Hartshorne.cohomologyTensorδ Hartshorne.IsCovariantDeltaFunctor Hartshorne.tensorPullbackTilde_shortExact Hartshorne.cohomologyTensor_isCovariantDeltaFunctor Hartshorne.cohomologyTensorModule Hartshorne.cohomologyTensorModuleδ Hartshorne.cohomologyTensorModule_comp_forget₂ Hartshorne.forget₂_map_cohomologyTensorModuleδ Hartshorne.cohomologyTensorModule_isCovariantDeltaFunctor
 ---
 
@@ -15,9 +14,9 @@ coherent $\mathcal{O}_X$-module flat over $Y$. For an $A$-module $M$, set
 $T^i(M) = H^i(X, F \otimes _A M)$.
 
 Here $M$ is first associated to a quasicoherent module on $Y$, pulled back to
-$X$, and tensored with $F$. Each $T^i$ is additive and covariant, every short
-exact sequence of $A$-modules gives the natural long exact cohomology
-sequence, and the collection $(T^i)_{(i \ge 0)}$ is a covariant delta functor.
+$X$, and tensored with $F$. Each $T^i$ is an additive covariant functor from
+$A$-modules to $A$-modules, every short exact sequence of $A$-modules gives the
+natural long exact cohomology sequence, and the collection $(T^i)_{(i \ge 0)}$ is a covariant delta functor.
 In particular, every $T^i$ is exact in the middle.
 
 The Noetherian, projectivity and coherence hypotheses are kept as in the

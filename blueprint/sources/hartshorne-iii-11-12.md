@@ -108,8 +108,8 @@ coherent `F` flat over `Y`. For every `A`-module `M`, define
 
 `T^i(M) = H^i(X, F tensor_A M)`.
 
-Proposition 12.1 says the `T^i` are additive covariant functors, exact in the
-middle, and form a delta functor.
+Proposition 12.1 says the `T^i` are additive covariant functors from
+`A`-modules to `A`-modules, exact in the middle, and form a delta functor.
 
 Proposition 12.2 constructs a bounded-above complex `L` of finite free
 `A`-modules such that
