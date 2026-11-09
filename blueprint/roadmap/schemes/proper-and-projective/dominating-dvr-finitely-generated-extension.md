@@ -2,21 +2,22 @@
 article_id: af_f3a7028c4c4728ad41df66fb
 declaration: theorem
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: Hartshorne.exists_dominating_dvr_of_fg
 ---
 
 # A dominating DVR in a finitely generated extension
 
-Let $(A,\mathfrak{m} )$ be a Noetherian local domain with nonzero maximal ideal, let
-$K = \operatorname{Frac} (A)$, and let $L/K$ be a finitely generated field extension. Then
+Let $(A,\mathfrak{m} )$ be a Noetherian local domain, let
+$K = \operatorname{Frac} (A)$, and let $L/K$ be a finitely generated field extension.
+Suppose that either $\mathfrak{m} \neq 0$ or $L$ is not algebraic over $K$. Then
 there is a nonfield discrete valuation ring $R$ with fraction field $L$ which
 dominates the image of $A$ in $L$.
 
 This is the project-authored repair of Exercise 4.11(a) used by the geometric
-criterion. Without the nonzero-maximal-ideal hypothesis, the literal statement
-is false when $A$ is a field and $L=K$.
+criterion. Without the added hypothesis, the literal statement is false exactly
+when $A$ is a field and $L/K$ is algebraic, for instance when $L=K$: every ring
+between $K$ and an algebraic extension $L$ is a field.
 That $A$ is a domain also follows from its having the fraction field $K$, so
 the proof never invokes that hypothesis separately.
 
@@ -27,6 +28,12 @@ Noetherian and at most one-dimensional by Krull–Akizuki. Lying over supplies a
 maximal ideal above the original one; localizing there gives a one-dimensional
 integrally closed Noetherian local domain, hence a nonfield DVR, and preserves
 domination.
+
+If $\mathfrak{m} = 0$, then $A = K$ and some $t \in L$ is transcendental over $K$.
+The localization of $K[t]$ at $(t)$ is a Noetherian local domain in $L$ with
+nonzero maximal ideal, and $L$ is finitely generated over its fraction field
+$K(t)$; the first case gives a DVR dominating it, and this DVR contains $K$,
+which is all that domination of the field $A$ requires.
 
 ## Depends on
 

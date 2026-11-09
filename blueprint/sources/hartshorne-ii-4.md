@@ -116,8 +116,10 @@ Exercise 4.11(a), read literally for a field local domain, has a false edge
 case: a field admits no dominating nonfield DVR with the same fraction field.
 The geometric reduction uses the nontrivial-specialization case, equivalently
 a nonzero maximal ideal in the local domain produced from the specialization.
-The roadmap therefore states the repaired lemma with that hypothesis and uses
-the trivial specialization separately in the DVR criterion. This repair is
+The roadmap therefore states the repaired lemma under the hypothesis that the
+maximal ideal is nonzero or `L` is not algebraic over `K` (the literal
+statement fails exactly for a field with `L/K` algebraic), and uses the
+trivial specialization separately in the DVR criterion. This repair is
 project-authored and is not attributed verbatim to Hartshorne. In its local
 blow-up step, choose generators `x₁,…,xₙ` of the maximal ideal with
 `x₁ ≠ 0`; the argument does not assume that the maximal ideal is principal.
