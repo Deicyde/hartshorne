@@ -4,7 +4,7 @@ declaration: theorem
 origin: background
 statement: formalized
 proof: formalized
-lean: Hartshorne.SerreRegularity.isRegularLocalRing_of_hasProjectiveDimensionLE Hartshorne.SerreRegularity.hasProjectiveDimensionLE_quotient
+lean: Hartshorne.SerreRegularity.isRegularLocalRing_of_hasProjectiveDimensionLE
 ---
 
 # Serre's criterion for regularity
