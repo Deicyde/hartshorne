@@ -2,6 +2,9 @@
 article_id: af_dbe213d5c86308cea9ace1ec
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.NormalizationOrderLength.length_quotient_eq_finsum_ord_mul_inertiaDeg Hartshorne.NormalizationOrderLength.finite_setOf_isMaximal_integralClosure Hartshorne.NormalizationOrderLength.isDiscreteValuationRing_localization
 ---
 
 # Orders via the normalization are lengths

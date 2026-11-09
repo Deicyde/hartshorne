@@ -550,6 +550,7 @@ import Hartshorne.Scheme.Differentials.EulerSequenceMaps
 import Hartshorne.Scheme.Differentials.EulerSequenceChainRule
 import Hartshorne.Scheme.Differentials.EulerSequence
 import Hartshorne.Intersection.ChowGroups
+import Hartshorne.Intersection.NormalizationOrderLength
 import Hartshorne.RingedSpace.ModuleSheafTensorPowerIso
 import Hartshorne.Scheme.AmplePowerEquivalence
 import Hartshorne.RingedSpace.SheafExtLongExact
