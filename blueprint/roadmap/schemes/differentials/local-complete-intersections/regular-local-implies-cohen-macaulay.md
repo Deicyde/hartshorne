@@ -18,6 +18,7 @@ Every Noetherian regular local ring is Cohen–Macaulay.
 
 ## Proof depends on
 
+- [A regular local ring is an integral domain](../../../nonsingular-varieties/regular-local-ring-domain.md)
 - A minimal generating set of the maximal ideal of a regular local ring is a
   regular sequence.
 
