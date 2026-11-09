@@ -34,6 +34,7 @@ having zero intersection of all powers.
 - Artin–Rees gives, for every $n$, an $n'$ with
   $R \cap a^{n'+1}E \le a^{n+1}R$.
 - A finite affine cover makes the sheafwise choice of $n'$ uniform.
+- [Abelian closure of quasi-coherent sheaves](../../../schemes/modules-and-quasicoherent/quasicoherent-abelian-closure.md)
 
 ## Sources
 
