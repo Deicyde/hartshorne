@@ -2,6 +2,9 @@
 article_id: af_1bc813d687359f0e05cea7a7
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.CartierDivisor.IsDivisorOfZeros AlgebraicGeometry.Scheme.CartierDivisor.exists_isDivisorOfZeros AlgebraicGeometry.Scheme.CartierDivisor.exists_section_isDivisorOfZeros AlgebraicGeometry.Scheme.CartierDivisor.isDivisorOfZeros_eq_iff AlgebraicGeometry.Scheme.weil_isDivisorOfZeros AlgebraicGeometry.Scheme.weil_isDivisorOfZeros_eq_iff
 ---
 
 # Divisors of invertible-sheaf sections

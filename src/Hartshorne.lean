@@ -448,6 +448,7 @@ import Hartshorne.Scheme.QuasicoherentIdealSheafData
 import Hartshorne.Scheme.QcqsPushforwardQuasicoherent
 import Hartshorne.Scheme.ClosedImmersionIdealSheaf
 import Hartshorne.Scheme.EffectiveCartierDivisor
+import Hartshorne.Scheme.InvertibleSectionDivisor
 import Hartshorne.Scheme.FibreDimensionFree
 import Hartshorne.Scheme.CoherentFibreRank
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsFibreRank
