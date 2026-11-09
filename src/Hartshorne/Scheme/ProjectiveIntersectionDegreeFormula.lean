@@ -19,7 +19,9 @@ with equation `f`, not containing `X`. The prime divisors of `X` on `V` correspo
 irreducible components of the classical intersection `Z(𝔭) ∩ Z(f)`, and the coefficient of `V · X`
 along each is the intersection multiplicity of Theorem I.7.7. Bézout's theorem then gives
 `deg (V · X) = deg V · deg X`, provided `dim X ≥ 1`, i.e. `X` is not a single point; for a point
-not on `V` the left side is `0` while the right side is `deg f ≥ 1`.
+not on `V` the left side is `0` while the right side is `deg f ≥ 1`. By linearity the same holds
+for every Weil divisor `D` on `ℙⁿ_k` none of whose components contains `X`:
+`deg (D · X) = deg D · deg X`.
 
 ## Main results
 
@@ -29,6 +31,8 @@ not on `V` the left side is `0` while the right side is `deg f ≥ 1`.
   coefficients of `V · X` are the local intersection multiplicities.
 * `Hartshorne.weilDivisorProjectiveDegree_projectiveIntersectionDivisor`:
   `deg (V · X) = deg V · deg X`.
+* `Hartshorne.weilDivisorProjectiveDegree_projectiveIntersectionDivisorHom`:
+  `deg (D · X) = deg D · deg X` for divisors `D` none of whose components contains `X`.
 -/
 
 noncomputable section
@@ -357,5 +361,40 @@ theorem weilDivisorProjectiveDegree_projectiveIntersectionDivisor [IsAlgClosed k
         (congrArg projectiveDegree (projectiveIntersectionComponentPrime_projZeroSet _ _ Z)))
   rw [Int.cast_mul, hmult, Int.cast_natCast, primeDivisorProjectiveDegree]
   exact congrArg₂ (· * ·) rfl hdeg
+
+/-- **Hartshorne, Exercise II.6.2(c).** Let `D` be a Weil divisor on `ℙⁿ_k` none of whose
+components contains `X`, and suppose `dim X ≥ 1` (`X` has more than one point). Then
+`deg (D · X) = deg D · deg X`, where `D · X` is the linear extension of `V ↦ V · X`, `deg D` is
+the degree of `D` as a divisor on `ℙⁿ_k`, and `deg X` is the degree of the closure of the image of
+the generic point. -/
+theorem weilDivisorProjectiveDegree_projectiveIntersectionDivisorHom [IsAlgClosed k]
+    {X : Scheme.{u}} (ι : X ⟶ Proj 𝒜) [IsClosedImmersion ι] (hX : X.SatisfiesConditionStar)
+    (hdim : Nontrivial X) (D : ambientDivisorsNotContaining ι) :
+    let _ : IsIntegral X := hX.isIntegral
+    weilDivisorProjectiveDegree ι (projectiveIntersectionDivisorHom ι hX D) =
+      weilDivisorProjectiveDegree (𝟙 (Proj 𝒜)) D *
+        projectiveSpectrumPointDegree (ι.base (genericPoint X)) := by
+  intro _
+  have hfin := finite_support_primeDivisor_of_isClosedImmersion (𝟙 (Proj 𝒜))
+    (D : (Proj 𝒜).WeilDivisor)
+  have h1 : weilDivisorProjectiveDegree ι (projectiveIntersectionDivisorHom ι hX D) =
+      ∑ᶠ V : (Proj 𝒜).PrimeDivisor, weilDivisorProjectiveDegree ι
+        ((D : (Proj 𝒜).WeilDivisor).1 V.1 • projectiveIntersectionDivisor ι hX V) :=
+    map_finsum (weilDivisorProjectiveDegree ι)
+      (hfin.subset (Function.support_smul_subset_left
+        (fun V : (Proj 𝒜).PrimeDivisor ↦ (D : (Proj 𝒜).WeilDivisor).1 V.1)
+        (projectiveIntersectionDivisor ι hX)))
+  have h2 : weilDivisorProjectiveDegree (𝟙 (Proj 𝒜)) D *
+      projectiveSpectrumPointDegree (ι.base (genericPoint X)) =
+      ∑ᶠ V : (Proj 𝒜).PrimeDivisor, (D : (Proj 𝒜).WeilDivisor).1 V.1 *
+        primeDivisorProjectiveDegree (𝟙 (Proj 𝒜)) V *
+          projectiveSpectrumPointDegree (ι.base (genericPoint X)) :=
+    finsum_mul _ _
+  refine h1.trans (Eq.trans (finsum_congr fun V ↦ ?_) h2.symm)
+  rw [map_zsmul, smul_eq_mul, mul_assoc]
+  by_cases hV : (D : (Proj 𝒜).WeilDivisor).1 V.1 = 0
+  · rw [hV, zero_mul, zero_mul]
+  · rw [weilDivisorProjectiveDegree_projectiveIntersectionDivisor ι hX hdim V (D.2 V hV)]
+    rfl
 
 end Hartshorne
