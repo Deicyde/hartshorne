@@ -206,6 +206,24 @@ lemma ring_over_map_self {W : Opens X} {A : Over W} {b : (Over W)ᵒᵖ}
     (S.over W).obj.map g (S.obj.map f r) = r := by
   rw [ring_over_map S f g (𝟙 _), S.obj.map_id]; rfl
 
+lemma mapX_map (M : PresheafOfModules.{u} S.obj) {a b c : (Opens X)ᵒᵖ} (f : a ⟶ b) (g : b ⟶ c)
+    (h : a ⟶ c) (x : M.obj a) : M.map g (M.map f x) = M.map h x := by
+  rw [← PresheafOfModules.map_comp_apply, opensOp_hom_ext (f ≫ g) h]
+
+lemma mapX_self (M : PresheafOfModules.{u} S.obj) {a : (Opens X)ᵒᵖ} (f : a ⟶ a) (x : M.obj a) :
+    M.map f x = x := by
+  rw [opensOp_hom_ext f (𝟙 a), PresheafOfModules.map_id]; rfl
+
+lemma rm_over (M : SheafOfModules.{u} S) {U : Opens X} {A B : Over U} (h : A.left ≤ B.left)
+    (y : M.val.obj (op B.left)) :
+    rm ((SheafOfModules.overFunctor S U).obj M).val h y = M.val.map (homOfLE h).op y := rfl
+
+lemma over_nat (M : SheafOfModules.{u} S) {U : Opens X} {N : SheafOfModules.{u} (S.over U)}
+    (f : (SheafOfModules.overFunctor S U).obj M ⟶ N) {A B : Over U} (h : A.left ≤ B.left)
+    (y : M.val.obj (op B.left)) :
+    f.val.app (op A) (M.val.map (homOfLE h).op y) = rm N.val h (f.val.app (op B) y) :=
+  PresheafOfModules.naturality_apply f.val (ovHom h).op y
+
 variable {S}
 
 /-- Restriction to `T ≤ V` of an isomorphism between restrictions to `V`. -/
@@ -514,6 +532,52 @@ lemma glue_compatible : D.Compatible D.glue D.ψ := by
     D.U i ⊓ D.U j ≤ D.U j))).obj A) (B := (Over.map (homOfLE (inf_le_right :
     D.U i ⊓ D.U j ≤ D.U j))).obj Bij) e) hx).trans ?_
   exact rm_rm _ _ _ _
+
+section uniqueness
+
+variable {G' : SheafOfModules.{u} S}
+  {ψ' : ∀ i, (SheafOfModules.overFunctor S (D.U i)).obj G' ≅ D.F i}
+
+lemma compat_apply (hψ' : D.Compatible G' ψ') (i j : D.ι) (A : Over (D.U i ⊓ D.U j))
+    (y : G'.val.obj (op A.left)) :
+    (D.φ i j).hom.val.app (op A) ((ψ' i).hom.val.app
+      (op ((Over.map (homOfLE (inf_le_left : D.U i ⊓ D.U j ≤ D.U i))).obj A)) y) =
+    (ψ' j).hom.val.app (op ((Over.map (homOfLE (inf_le_right : D.U i ⊓ D.U j ≤ D.U j))).obj A))
+      y :=
+  congrArg (fun e => e.hom.val.app (op A) y) (hψ' i j)
+
+lemma ψ'_hom_inv (i : D.ι) (A : Over (D.U i)) (y : G'.val.obj (op A.left)) :
+    (ψ' i).inv.val.app (op A) ((ψ' i).hom.val.app (op A) y) = y :=
+  congrArg (fun e => e.val.app (op A) y) (ψ' i).hom_inv_id
+
+lemma ψ'_inv_hom (i : D.ι) (A : Over (D.U i)) (z : (D.F i).val.obj (op A)) :
+    (ψ' i).hom.val.app (op A) ((ψ' i).inv.val.app (op A) z) = z :=
+  congrArg (fun e => e.val.app (op A) z) (ψ' i).inv_hom_id
+
+/-- The components of the comparison map `G' ⟶ glue`. -/
+noncomputable def θComp (i : D.ι) (V : Opens X) (t : G'.val.obj (op V)) :
+    (D.P i).val.obj (op V) :=
+  (ψ' i).hom.val.app (op (st (D.U i) V))
+    (G'.val.map (homOfLE (st_left_le_right (D.U i) V)).op t)
+
+lemma θComp_mem (hψ' : D.Compatible G' ψ') (V : Opens X) (t : G'.val.obj (op V)) :
+    ((fun i => D.θComp (ψ' := ψ') i V t) : D.piP.obj (op V)) ∈ D.N.obj (op V) := by
+  intro i j
+  let Bij : Over (D.U i ⊓ D.U j) := st _ V
+  have h1 := over_nat S G' (ψ' i).hom
+    (A := (Over.map (homOfLE (inf_le_left : D.U i ⊓ D.U j ≤ D.U i))).obj Bij)
+    (B := st (D.U i) V) (st_mono inf_le_left V)
+    (G'.val.map (homOfLE (st_left_le_right (D.U i) V)).op t)
+  have h2 := over_nat S G' (ψ' j).hom
+    (A := (Over.map (homOfLE (inf_le_right : D.U i ⊓ D.U j ≤ D.U j))).obj Bij)
+    (B := st (D.U j) V) (st_mono inf_le_right V)
+    (G'.val.map (homOfLE (st_left_le_right (D.U j) V)).op t)
+  rw [mapX_map S G'.val _ _ (homOfLE (st_left_le_right _ V)).op] at h1 h2
+  refine (congrArg ((D.φ i j).hom.val.app (op Bij)) h1.symm).trans ?_
+  refine Eq.trans ?_ h2
+  exact D.compat_apply hψ' i j Bij _
+
+end uniqueness
 
 end GluingData
 
