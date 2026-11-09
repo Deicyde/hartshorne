@@ -4,7 +4,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.ArtinReesKernel.system Hartshorne.ArtinReesKernel.system_isProZero Hartshorne.ArtinReesKernel.system_sections_eq_zero Hartshorne.ArtinReesKernelSheaf.kernelSystem Hartshorne.ArtinReesKernelSheaf.kernelSystem_isProZero Hartshorne.ArtinReesKernelSheaf.isZero_limit_kernelSystem
+lean: Hartshorne.ArtinReesKernel.system Hartshorne.ArtinReesKernel.system_isProZero Hartshorne.ArtinReesKernel.system_sections_eq_zero Hartshorne.ArtinReesKernelSheaf.kernelSystem Hartshorne.ArtinReesKernelSheaf.kernelSystem_isProZero Hartshorne.ArtinReesKernelSheaf.isZero_limit_kernelSystem Hartshorne.ArtinReesKernelSheaf.isCoherent_kernelSheaf
 ---
 
 # The Artin–Rees kernel system is pro-zero
