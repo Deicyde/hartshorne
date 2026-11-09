@@ -2,6 +2,9 @@
 article_id: af_161a502758e7e12d572005a7
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.planeCurveMultiplicity Hartshorne.planeCurveMultiplicity_pos_iff
 ---
 
 # Multiplicity of a point on a plane curve

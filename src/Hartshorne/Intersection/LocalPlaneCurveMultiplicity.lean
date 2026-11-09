@@ -894,6 +894,27 @@ theorem homogeneousComponent_planeCurveMultiplicity_ne_zero {f : MvPolynomial (F
   rw [coeff_homogeneousComponent, if_pos hxdeg, coeff_zero] at this
   exact (mem_support_iff.1 hx) this
 
+/-- The degree-`0` part of `f(x + P)` is the constant `f(P)`. -/
+theorem homogeneousComponent_zero_affineTranslateEquiv (f : MvPolynomial (Fin 2) k)
+    (P : Fin 2 → k) :
+    homogeneousComponent 0 (affineTranslateEquiv P f) = C (eval P f) := by
+  rw [homogeneousComponent_zero, ← constantCoeff_eq, ← MvPolynomial.eval_zero,
+    eval_affineTranslateEquiv, zero_add]
+
+/-- A point `P` lies on the plane curve `f = 0` if and only if `mult_P(f) > 0` (Hartshorne I,
+Exercise 5.3). -/
+theorem planeCurveMultiplicity_pos_iff {f : MvPolynomial (Fin 2) k} (hf : f ≠ 0)
+    (P : Fin 2 → k) : 0 < planeCurveMultiplicity f P ↔ eval P f = 0 := by
+  constructor
+  · intro h
+    have h0 := homogeneousComponent_eq_zero_of_lt_planeCurveMultiplicity f P h
+    rwa [homogeneousComponent_zero_affineTranslateEquiv, C_eq_zero] at h0
+  · intro h
+    refine Nat.pos_of_ne_zero fun h0 => ?_
+    have hne := homogeneousComponent_planeCurveMultiplicity_ne_zero hf P
+    rw [h0, homogeneousComponent_zero_affineTranslateEquiv, h, C_0] at hne
+    exact hne rfl
+
 /-- Along a line through `P` whose direction is not a zero of the leading form, the
 restriction of `f` vanishes to order exactly `mult_P(f)`. -/
 theorem natTrailingDegree_lineRestrict {f : MvPolynomial (Fin 2) k} (P v : Fin 2 → k)
