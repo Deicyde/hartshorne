@@ -585,3 +585,4 @@ import Hartshorne.Cohomology.SmoothMorphisms.DifferentialCriterionSchemeOverFiel
 import Hartshorne.Scheme.RegularLocalProjectiveTest
 import Hartshorne.Intersection.ChowCodimOnePicard
 import Hartshorne.Scheme.VarietyBasicInstances
+import Hartshorne.Surface.SurfaceCurveConvention

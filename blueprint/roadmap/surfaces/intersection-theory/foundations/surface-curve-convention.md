@@ -2,6 +2,8 @@
 article_id: af_6d50e5f7c7b823d362fa0aa2
 declaration: structure
 origin: cited
+statement: formalized
+lean: Hartshorne.Surface Hartshorne.Surface.Curve Hartshorne.Surface.Point Hartshorne.Surface.weilCartierEquiv Hartshorne.Surface.classGroupEquivPicard Hartshorne.Surface.classGroupEquivPicard_weilDivisorClassHom
 ---
 
 # Surfaces and effective curves
