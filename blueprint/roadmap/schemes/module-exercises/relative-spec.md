@@ -2,6 +2,9 @@
 article_id: af_2eb3f3aa1e9994fae1979d0f
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.relativeSpecEquiv Hartshorne.QuasiCoherentAlgebra Hartshorne.QuasiCoherentAlgebra.relSpec Hartshorne.QuasiCoherentAlgebra.relSpecToBase Hartshorne.QuasiCoherentAlgebra.isAffineHom_relSpecToBase Hartshorne.QuasiCoherentAlgebra.restrictIso Hartshorne.QuasiCoherentAlgebra.restrictIso_hom_fromSpec Hartshorne.QuasiCoherentAlgebra.isPullback_ι Hartshorne.QuasiCoherentAlgebra.pushforwardStructureSheafIso Hartshorne.QuasiCoherentAlgebra.ofHom Hartshorne.QuasiCoherentAlgebra.relSpecOfHomIso Hartshorne.QuasiCoherentAlgebra.relSpecOfHomIso_hom_comp Hartshorne.relativeSpecEquiv_mk Hartshorne.relativeSpecEquiv_symm_mk
 ---
 
 # Relative Spec of a quasi-coherent algebra
