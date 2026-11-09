@@ -2,6 +2,9 @@
 article_id: af_0f89cc90cfd9d4cd30651fa5
 declaration: def
 origin: bridged
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.IsNonsingularCurve.ramificationIndex AlgebraicGeometry.Scheme.IsNonsingularCurve.ramificationIndex_eq AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurvePointPullback_apply_self AlgebraicGeometry.Scheme.IsNonsingularCurve.ramificationIndex_eq_ramificationIdx' AlgebraicGeometry.Scheme.IsNonsingularCurve.ramificationIndex_eq_one_iff AlgebraicGeometry.Scheme.IsNonsingularCurve.IsTamelyRamifiedAt AlgebraicGeometry.Scheme.IsNonsingularCurve.IsWildlyRamifiedAt Hartshorne.HartshorneUnramifiedAt
 ---
 
 # The ramification-index bridge
