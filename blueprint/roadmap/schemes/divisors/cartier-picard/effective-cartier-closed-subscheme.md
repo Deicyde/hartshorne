@@ -2,6 +2,9 @@
 article_id: af_4157e637327bb7299bdf28cb
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.effectiveCartierDivisorEquiv AlgebraicGeometry.Scheme.effectiveCartierDivisorEquiv_apply_coe AlgebraicGeometry.Scheme.CartierDivisor.IsEffective AlgebraicGeometry.Scheme.IdealSheafData.IsLocallyPrincipalNonZeroDivisor AlgebraicGeometry.Scheme.CartierDivisor.idealSheafData AlgebraicGeometry.Scheme.CartierDivisor.idealSheafData_ideal_eq_span AlgebraicGeometry.Scheme.CartierDivisor.isLocallyPrincipalNonZeroDivisor_idealSheafData AlgebraicGeometry.Scheme.CartierDivisor.idealSheafData_injective AlgebraicGeometry.Scheme.CartierDivisor.exists_idealSheafData_eq
 ---
 
 # Effective Cartier divisors and locally principal subschemes
