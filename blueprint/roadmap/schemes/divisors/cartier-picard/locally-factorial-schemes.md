@@ -13,6 +13,10 @@ unique factorization domain. For a normal integral Noetherian scheme, define a
 Weil divisor to be locally principal when every point has an open
 neighborhood on which its restriction is a principal Weil divisor.
 
+Hartshorne defines "locally factorial" in Proposition 6.11 (p.141) for integral,
+separated, noetherian schemes. The condition is pointwise, so it is defined here
+for every scheme.
+
 Keep local factoriality distinct from regularity. The implication from
 regular to locally factorial is a later theorem with a separate external
 source obligation.

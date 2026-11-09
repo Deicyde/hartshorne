@@ -12,6 +12,11 @@ lean: AlgebraicGeometry.Scheme.isLocallyFactorial_of_isRegularLocalRing Hartshor
 Let $X$ be a scheme whose local rings are regular local rings. Then every
 local ring of $X$ is a UFD, so $X$ is locally factorial.
 
+Hartshorne (Remark 6.11.1A, p.142) applies this to regular integral, separated,
+noetherian schemes, the setting in which Proposition 6.11 (p.141) defines
+"locally factorial". The conclusion is pointwise, so it is stated here for
+every scheme.
+
 The proof uses the algebraic theorem that every regular local ring
 is a unique factorization domain. The resulting comparison of Weil
 and Cartier divisors is treated separately.
