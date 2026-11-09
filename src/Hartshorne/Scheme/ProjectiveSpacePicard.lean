@@ -165,6 +165,83 @@ theorem twistToFunctionField_smul (l : ℤ)
     functionFieldToLocalization_twistToFunctionField, functionFieldToLocalization_stalkIso_inv,
     twistVal_smul]
 
+local notation "η" => genericPoint (Proj 𝒜)
+
+theorem subsingleton_totalQuotient_of_notMem {U : (Proj 𝒜).Opens} (h : η ∉ U) :
+    Subsingleton ((Proj 𝒜).totalQuotientSheaf.obj.obj (op U)) :=
+  CommRingCat.subsingleton_of_isTerminal
+    ((Proj 𝒜).totalQuotientSheaf.isTerminalOfEqEmpty (Scheme.opens_eq_bot_of_genericPoint_notMem h))
+
+open Classical in
+/-- The map on sections over `U` of `𝒪(l) ⟶ K_X`: a section `s` goes to the rational function
+`s(η) / x₀^l`, where `η` is the generic point (and to `0` if `U` is empty). -/
+def twistToKSections (l : ℤ) (U : (Proj 𝒜).Opens) :
+    (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 l)).1.obj (op U) →+
+      (Proj 𝒜).totalQuotientSheaf.obj.obj (op U) :=
+  if h : η ∈ U then
+    ((Scheme.totalQuotientSheafEquivFunctionField U h).symm.toAddEquiv.toAddMonoidHom.comp
+      ((twistToFunctionField l).comp
+        { toFun := fun s => s.1 ⟨η, h⟩
+          map_zero' := rfl
+          map_add' := fun _ _ => rfl }))
+  else 0
+
+theorem twistToKSections_apply (l : ℤ) {U : (Proj 𝒜).Opens} (h : η ∈ U)
+    (s : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 l)).1.obj (op U)) :
+    Scheme.totalQuotientSheafEquivFunctionField U h (twistToKSections l U s) =
+      twistToFunctionField l (s.1 ⟨η, h⟩) := by
+  simp [twistToKSections, dif_pos h]
+
+/-- The morphism of abelian presheaves `𝒪(l) ⟶ K_X`, `s ↦ s / x₀^l`. -/
+def twistToKPresheafHom (l : ℤ) :
+    (projTwistingSheaf 𝒜 l).presheaf ⟶ (Proj 𝒜).totalQuotientModule.presheaf where
+  app U := AddCommGrpCat.ofHom (twistToKSections l U.unop)
+  naturality U V i := by
+    ext s
+    by_cases h : η ∈ V.unop
+    · apply (Scheme.totalQuotientSheafEquivFunctionField V.unop h).injective
+      change Scheme.totalQuotientSheafEquivFunctionField V.unop h (twistToKSections l V.unop _) =
+        Scheme.totalQuotientSheafEquivFunctionField V.unop h
+          ((Proj 𝒜).totalQuotientSheaf.obj.map (homOfLE (leOfHom i.unop)).op
+            (twistToKSections l U.unop s))
+      rw [Scheme.totalQuotientSheafEquivFunctionField_map]
+      erw [twistToKSections_apply, twistToKSections_apply]
+      rfl
+    · have := subsingleton_totalQuotient_of_notMem h
+      exact Subsingleton.elim (α := (Proj 𝒜).totalQuotientSheaf.obj.obj (op V.unop)) _ _
+
+theorem stalkIso_inv_apply_eq_germ {U : (Proj 𝒜).Opens} (h : η ∈ U) (r : Γ(Proj 𝒜, U)) :
+    (Proj.stalkIso 𝒜 η).inv (r.1 ⟨η, h⟩) = (Proj 𝒜).presheaf.germ U η h r := by
+  change (Proj.stalkIso' 𝒜 η).symm _ = _
+  rw [← Proj.stalkIso'_germ 𝒜 U η h r, RingEquiv.symm_apply_apply]
+  rfl
+
+/-- **The embedding `𝒪(l) ⟶ K_X`** of `𝒪_X`-modules on `X = ℙⁿ_k`, `s ↦ s / x₀^l`. -/
+def twistToK (l : ℤ) : projTwistingSheaf 𝒜 l ⟶ (Proj 𝒜).totalQuotientModule :=
+  ⟨PresheafOfModules.homMk (twistToKPresheafHom l) fun U r m => by
+    by_cases h : η ∈ U.unop
+    · apply (Scheme.totalQuotientSheafEquivFunctionField U.unop h).injective
+      change Scheme.totalQuotientSheafEquivFunctionField U.unop h
+          (twistToKSections l U.unop (r • m)) =
+        Scheme.totalQuotientSheafEquivFunctionField U.unop h
+          ((Proj 𝒜).toK U.unop r * twistToKSections l U.unop m)
+      rw [map_mul]
+      erw [twistToKSections_apply, twistToKSections_apply]
+      erw [Scheme.totalQuotientSheafEquivFunctionField_toTotalQuotientSheaf]
+      have key := twistToFunctionField_smul l (r.1 ⟨η, h⟩)
+        ((m : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 l)).1.obj U).1 ⟨η, h⟩)
+      rw [stalkIso_inv_apply_eq_germ h r] at key
+      exact key
+    · have := subsingleton_totalQuotient_of_notMem h
+      exact Subsingleton.elim (α := (Proj 𝒜).totalQuotientSheaf.obj.obj (op U.unop)) _ _⟩
+
+theorem twistToK_app_apply (l : ℤ) {U : (Proj 𝒜).Opens} (h : η ∈ U)
+    (s : (projTwistingSheaf 𝒜 l).val.obj (op U)) :
+    Scheme.totalQuotientSheafEquivFunctionField U h ((twistToK l).val.app (op U) s) =
+      twistToFunctionField l
+        ((s : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 l)).1.obj (op U)).1 ⟨η, h⟩) :=
+  twistToKSections_apply l h s
+
 end ProjectiveSpacePicard
 
 end Hartshorne
