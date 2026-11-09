@@ -532,6 +532,99 @@ theorem ord_twistToFunctionField_mk (l : ℤ) {j : ℕ} {m : S} (hm : m ∈ grad
   have : ((-l).toNat : ℤ) - l.toNat = -l := by omega
   linear_combination (hyperplaneX0 hn).toWeilDivisor.1 y * this
 
+omit hn in
+theorem exists_linear_notMem (y : Proj 𝒜) :
+    ∃ ℓ : S, ℓ.IsHomogeneous 1 ∧ ℓ ≠ 0 ∧ y ∈ Proj.basicOpen 𝒜 ℓ := by
+  obtain ⟨ℓ, hℓ1, hℓy⟩ := ProjTwistingSheaf.exists_mem_one_notMem (adjoin_one_eq_top k n) y
+  refine ⟨ℓ, (mem_homogeneousSubmodule 1 ℓ).mp hℓ1, ?_, hℓy⟩
+  rintro rfl
+  exact hℓy (zero_mem _)
+
+include hn in
+/-- **Lower bound for the order of `s / x₀^l`**: for a section `s` of `𝒪(l)` near a
+codimension-one point `y`, the rational function `s / x₀^l` has order at least `-l · [y ∈ H]`
+at `y`, where `H = V(x₀)`. -/
+theorem le_ord_twistToFunctionField (l : ℤ) {V : (Proj 𝒜).Opens}
+    (s : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 l)).1.obj (op V)) (h : η ∈ V)
+    (hs0 : twistToFunctionField l (s.1 ⟨η, h⟩) ≠ 0) (y : Proj 𝒜) (hyV : y ∈ V)
+    (hy1 : Order.coheight y = 1) :
+    -(l * (hyperplaneX0 hn).toWeilDivisor.1 y) ≤
+      (Proj 𝒜).ord (twistToFunctionField l (s.1 ⟨η, h⟩)) y := by
+  obtain ⟨W, hyW, iWV, j, m, hm, f, hf, f_nin, w⟩ := s.2 ⟨y, hyV⟩
+  have hηW : η ∈ W := Scheme.genericPoint_mem_opens_of_mem (X := Proj 𝒜) hyW
+  have hsη : s.1 ⟨η, h⟩ = HomogeneousLocalizedModule.mk j m hm f hf (f_nin ⟨η, hηW⟩) :=
+    w ⟨η, hηW⟩
+  obtain ⟨ℓ, hℓ, hℓ0, hℓy⟩ := exists_linear_notMem y
+  have hm0 : m ≠ 0 := by
+    rintro rfl
+    apply hs0
+    rw [hsη]
+    convert map_zero (twistToFunctionField (k := k) (n := n) l)
+    ext
+    exact LocalizedModule.zero_mk _
+  have hlj : 0 ≤ l + j := by
+    by_contra hneg
+    exact hm0 (eq_zero_of_mem_gradedTwist hm (by omega))
+  rw [hsη]
+  erw [ord_twistToFunctionField_mk hn l hm hf (f_nin ⟨η, hηW⟩) hℓ hℓ0 hlj hm0 y hy1 hℓy]
+  have hy' : y ∈ Proj.basicOpen 𝒜 (f * ℓ ^ l.toNat) := by
+    rw [Proj.mem_basicOpen]
+    intro hmem
+    rcases y.isPrime.mem_or_mem hmem with h1 | h1
+    · exact f_nin ⟨y, hyW⟩ h1
+    · exact hℓy (y.isPrime.mem_of_pow_mem _ h1)
+  have := ord_homogeneousFraction_nonneg (g := m * ℓ ^ (-l).toNat) (h := f * ℓ ^ l.toNat)
+    (d := j + l.toNat) (by
+      have := (mem_homogeneousSubmodule _ m).mp (mem_of_mem_gradedTwist hm) |>.mul
+        (isHomogeneous_pow_of_isHomogeneous_one hℓ (-l).toNat)
+      convert this using 1
+      omega)
+    (((mem_homogeneousSubmodule _ f).mp hf).mul
+      (isHomogeneous_pow_of_isHomogeneous_one hℓ l.toNat))
+    (mul_ne_zero (fun h => f_nin ⟨η, hηW⟩ (h ▸ zero_mem _)) (pow_ne_zero _ hℓ0)) y hy'
+  linarith
+
+omit hn in
+theorem pow_toNat_mem_gradedTwist (l : ℤ) {ℓ : S} (hℓ : ℓ.IsHomogeneous 1) :
+    ℓ ^ l.toNat ∈ gradedTwist 𝒜 l ((-l).toNat : ℕ) :=
+  (mem_gradedTwist_of_eq (k := l.toNat) (by omega)).2
+    ((mem_homogeneousSubmodule _ _).2 (isHomogeneous_pow_of_isHomogeneous_one hℓ _))
+
+/-- The section `ℓ^l` of `𝒪(l)` over `D₊(ℓ^{l⁻})`: the fraction `ℓ^{l⁺} / ℓ^{l⁻}`. -/
+def linearPowSection (l : ℤ) {ℓ : S} (hℓ : ℓ.IsHomogeneous 1) :
+    (projTwistingSheaf 𝒜 l).val.obj (op (Proj.basicOpen 𝒜 (ℓ ^ (-l).toNat))) :=
+  ProjGradedModuleSheaf.sectionInBasicOpen 𝒜 (gradedTwist 𝒜 l) ((-l).toNat) (ℓ ^ l.toNat)
+    (pow_toNat_mem_gradedTwist l hℓ) (ℓ ^ (-l).toNat)
+    ((mem_homogeneousSubmodule _ _).2 (isHomogeneous_pow_of_isHomogeneous_one hℓ _))
+
+include hn in
+/-- The section `ℓ^l` has order exactly `-l · [y ∈ H]` at a codimension-one point `y ∉ V(ℓ)`. -/
+theorem ord_linearPowSection (l : ℤ) {ℓ : S} (hℓ : ℓ.IsHomogeneous 1) (hℓ0 : ℓ ≠ 0)
+    (h : η ∈ Proj.basicOpen 𝒜 (ℓ ^ (-l).toNat)) (y : Proj 𝒜) (hy1 : Order.coheight y = 1)
+    (hℓy : y ∈ Proj.basicOpen 𝒜 ℓ) :
+    (Proj 𝒜).ord (twistToFunctionField l
+        ((linearPowSection l hℓ : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 l)).1.obj
+          (op (Proj.basicOpen 𝒜 (ℓ ^ (-l).toNat)))).1 ⟨η, h⟩)) y =
+      -(l * (hyperplaneX0 hn).toWeilDivisor.1 y) := by
+  have hval : (linearPowSection l hℓ : (ProjGradedModuleSheaf.sheafInType 𝒜
+      (gradedTwist 𝒜 l)).1.obj (op (Proj.basicOpen 𝒜 (ℓ ^ (-l).toNat)))).1 ⟨η, h⟩ =
+      HomogeneousLocalizedModule.mk ((-l).toNat) (ℓ ^ l.toNat) (pow_toNat_mem_gradedTwist l hℓ)
+        (ℓ ^ (-l).toNat) ((mem_homogeneousSubmodule _ _).2
+          (isHomogeneous_pow_of_isHomogeneous_one hℓ _)) h := rfl
+  rw [hval]
+  erw [ord_twistToFunctionField_mk hn l (pow_toNat_mem_gradedTwist l hℓ)
+    ((mem_homogeneousSubmodule _ _).2 (isHomogeneous_pow_of_isHomogeneous_one hℓ _)) h hℓ hℓ0
+    (by omega) (pow_ne_zero _ hℓ0) y hy1 hℓy]
+  rw [ord_homogeneousFraction_eq_zero]
+  · ring
+  · rw [Proj.mem_basicOpen]
+    intro hmem
+    rcases y.isPrime.mem_or_mem hmem with h1 | h1 <;>
+      exact (Proj.mem_basicOpen _ _ _).1 hℓy (y.isPrime.mem_of_pow_mem _ h1)
+  · intro hmem
+    rcases y.isPrime.mem_or_mem hmem with h1 | h1 <;>
+      exact (Proj.mem_basicOpen _ _ _).1 hℓy (y.isPrime.mem_of_pow_mem _ h1)
+
 end ProjectiveSpacePicard
 
 end Hartshorne
