@@ -2,6 +2,9 @@
 article_id: af_4d439f866589bc1e692ad888
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.isRegular_iff_relativeDifferentials_isLocallyFreeOfRank
 ---
 
 # Differentials characterize nonsingular varieties
