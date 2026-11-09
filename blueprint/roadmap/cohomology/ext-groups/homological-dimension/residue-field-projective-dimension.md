@@ -2,6 +2,9 @@
 article_id: af_903d71598a93080c404c0326
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.RegularLocal.projectiveDimension_residueField_eq_ringKrullDim Hartshorne.RegularLocal.projectiveDimension_residueField Hartshorne.RegularLocal.exists_isWeaklyRegular_of_spanFinrank_eq
 ---
 
 # Projective dimension of the residue field
