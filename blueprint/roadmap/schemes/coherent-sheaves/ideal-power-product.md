@@ -2,6 +2,9 @@
 article_id: af_b98f93c716bddeea19728e16
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.ArtinReesKernelSheaf.isQuasicoherent_powSmul Hartshorne.ArtinReesKernelSheaf.sub_powSmul_eq Hartshorne.ArtinReesKernelSheaf.isCoherent_powSmul Hartshorne.ArtinReesKernelSheaf.powSmul Hartshorne.ArtinReesKernelSheaf.powSmul_zero
 ---
 
 # Product of an ideal sheaf with a submodule sheaf
