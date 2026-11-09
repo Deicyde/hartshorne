@@ -2,6 +2,9 @@
 article_id: af_0a85053c2012b17661490eb8
 declaration: isomorphism
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.ProjTwistPullback.pullbackTwistIso Hartshorne.ProjTwistPullback.pushforwardTwistIso Hartshorne.ProjTwistPullback.isIso_psiAdj Hartshorne.ProjTwistPullback.psi Hartshorne.ProjTwistPullback.psiAdj
 ---
 
 # Pullback of twisting sheaves
