@@ -66,6 +66,12 @@ lemma map_self {a : (Over U)ᵒᵖ} (f : a ⟶ a) (x : M.obj a) : M.map f x = x 
 
 end
 
+/-- Proves inclusions between the opens of the construction from inclusions of the cover. -/
+macro "opens_le" : tactic => `(tactic| (
+  simp only [Over.map_obj_left, st_left, Over.mk_left, SetLike.le_def, Opens.mem_inf] at *
+  intros
+  tauto))
+
 section
 
 variable {U : Opens X} {R : (Over U)ᵒᵖ ⥤ RingCat.{u}} (M : PresheafOfModules.{u} R)
@@ -378,6 +384,97 @@ noncomputable def ψHom (k : D.ι) : (SheafOfModules.overFunctor S (D.U k)).obj 
 
 lemma ψHom_apply (k : D.ι) (A : Over (D.U k)) (s : D.Gpre.obj (op A.left)) :
     (D.ψHom k).val.app (op A) s = rm (D.F k).val (D.le_st_self k A) (s.1 k) := rfl
+
+lemma α_apply (i j : D.ι) (V : Opens X) (x : (D.P i).val.obj (op V)) :
+    (D.α i j).val.app (op V) x = (D.φ i j).hom.val.app (op (st (D.U i ⊓ D.U j) V))
+      (rm (D.F i).val (st_mono inf_le_left V) x) := rfl
+
+lemma β_apply (i j : D.ι) (V : Opens X) (x : (D.P j).val.obj (op V)) :
+    (D.β i j).val.app (op V) x = rm (D.F j).val (st_mono inf_le_right V) x := rfl
+
+/-- Over an open `V ≤ U k`, a compatible family is determined by its `k`-th component. -/
+lemma component_eq (k i : D.ι) {V : Opens X} (hV : V ≤ D.U k) (s : D.Gpre.obj (op V)) :
+    s.1 i = rm (D.F i).val (A := st (D.U i) V)
+      (B := (Over.map (homOfLE (inf_le_right : D.U k ⊓ D.U i ≤ D.U i))).obj
+        (st (D.U k ⊓ D.U i) V)) (by opens_le) ((D.α k i).val.app (op V) (s.1 k)) := by
+  rw [s.2 k i, β_apply]
+  exact ((rm_rm _ _ _ _).trans (rm_self _ _ _)).symm
+
+lemma ψHom_injective (k : D.ι) (A : Over (D.U k)) :
+    Function.Injective ((D.ψHom k).val.app (op A)) := by
+  intro (s : D.Gpre.obj (op A.left)) (s' : D.Gpre.obj (op A.left)) h
+  have hA : A.left ≤ D.U k := leOfHom A.hom
+  have h' : rm (D.F k).val (D.le_st_self k A) (s.1 k) =
+    rm (D.F k).val (D.le_st_self k A) (s'.1 k) := h
+  have hk : s.1 k = s'.1 k := rm_injective _ _ (st_left_le_right _ _) h'
+  refine Subtype.ext (funext fun i => ?_)
+  rw [D.component_eq k i hA s, D.component_eq k i hA s', hk]
+
+/-- The compatible family determined by a section of `F k` over `A`. -/
+noncomputable def secOf (k : D.ι) (A : Over (D.U k)) (t : (D.F k).val.obj (op A)) (i : D.ι) :
+    (D.P i).val.obj (op A.left) :=
+  rm (D.F i).val (A := st (D.U i) A.left)
+    (B := (Over.map (homOfLE (inf_le_right : D.U k ⊓ D.U i ≤ D.U i))).obj
+      (st (D.U k ⊓ D.U i) A.left)) (by have := leOfHom A.hom; opens_le)
+    ((D.φ k i).hom.val.app (op (st (D.U k ⊓ D.U i) A.left))
+      (rm (D.F k).val (B := A) (st_left_le_right _ _) t))
+
+set_option maxHeartbeats 1000000 in
+lemma secOf_mem (k : D.ι) (A : Over (D.U k)) (t : (D.F k).val.obj (op A)) :
+    (D.secOf k A t : D.piP.obj (op A.left)) ∈ D.N.obj (op A.left) := by
+  intro i j
+  have hA : A.left ≤ D.U k := leOfHom A.hom
+  -- the objects involved
+  let V := A.left
+  let T : Over (D.U k ⊓ D.U i ⊓ D.U j) := st _ V
+  let Bki : Over (D.U k ⊓ D.U i) := st _ V
+  let Bkj : Over (D.U k ⊓ D.U j) := st _ V
+  let Bij : Over (D.U i ⊓ D.U j) := st _ V
+  let Tki : Over (D.U k ⊓ D.U i) := (Over.map (homOfLE (inf_le_left :
+    D.U k ⊓ D.U i ⊓ D.U j ≤ D.U k ⊓ D.U i))).obj T
+  let Tij : Over (D.U i ⊓ D.U j) := (Over.map (homOfLE (le_inf (inf_le_left.trans inf_le_right)
+    inf_le_right : D.U k ⊓ D.U i ⊓ D.U j ≤ D.U i ⊓ D.U j))).obj T
+  let Tkj : Over (D.U k ⊓ D.U j) := (Over.map (homOfLE (le_inf (inf_le_left.trans inf_le_left)
+    inf_le_right : D.U k ⊓ D.U i ⊓ D.U j ≤ D.U k ⊓ D.U j))).obj T
+  let lki := homOfLE (inf_le_left : D.U k ⊓ D.U i ≤ D.U k)
+  let rki := homOfLE (inf_le_right : D.U k ⊓ D.U i ≤ D.U i)
+  let lkj := homOfLE (inf_le_left : D.U k ⊓ D.U j ≤ D.U k)
+  let rkj := homOfLE (inf_le_right : D.U k ⊓ D.U j ≤ D.U j)
+  let lij := homOfLE (inf_le_left : D.U i ⊓ D.U j ≤ D.U i)
+  let rij := homOfLE (inf_le_right : D.U i ⊓ D.U j ≤ D.U j)
+  have e1 : ((Over.map lij).obj Bij).left ≤ ((Over.map rki).obj Tki).left := by
+    simp only [Bij, Tki, T, V]; opens_le
+  have e2 : ((Over.map rki).obj Tki).left ≤ ((Over.map rki).obj Bki).left := by
+    simp only [Bki, Tki, T, V]; opens_le
+  have e3 : ((Over.map rij).obj Bij).left ≤ ((Over.map rkj).obj Tkj).left := by
+    simp only [Bij, Tkj, T, V]; opens_le
+  have e4 : ((Over.map rkj).obj Tkj).left ≤ ((Over.map rkj).obj Bkj).left := by
+    simp only [Bkj, Tkj, T, V]; opens_le
+  have e5 : ((Over.map lki).obj Bki).left ≤ A.left := st_left_le_right _ _
+  have e6 : ((Over.map lkj).obj Bkj).left ≤ A.left := st_left_le_right _ _
+  have L : (D.α i j).val.app (op V) (D.secOf k A t i) =
+      rm (D.F j).val (A := (Over.map rij).obj Bij) (B := (Over.map rkj).obj Tkj) e3
+        ((D.φ k j).hom.val.app (op Tkj)
+          (rm (D.F k).val (A := (Over.map lki).obj Tki) (B := A) (e2.trans e5) t)) := by
+    rw [α_apply]
+    unfold secOf
+    erw [rm_rm, ← rm_rm (D.F i).val e1 e2, ← D.φ_nat k i (A := Tki) (B := Bki) e2]
+    change (D.φ i j).hom.val.app (op Bij) (rm (D.F i).val (A := (Over.map lij).obj Bij)
+      (B := (Over.map lij).obj Tij) e1 ((D.φ k i).hom.val.app (op Tki) _)) = _
+    erw [D.φ_nat i j (A := Bij) (B := Tij) e1]
+    have hc : ∀ x, (D.φ i j).hom.val.app (op Tij) ((D.φ k i).hom.val.app (op Tki) x) =
+        (D.φ k j).hom.val.app (op Tkj) x := fun x => D.cocycle_apply k i j T x
+    refine (congrArg (rm (D.F j).val e1) (hc _)).trans ?_
+    exact congrArg (rm (D.F j).val e3) (congrArg ((D.φ k j).hom.val.app (op Tkj))
+      (rm_rm _ _ _ _))
+  have R : (D.β i j).val.app (op V) (D.secOf k A t j) =
+      rm (D.F j).val (A := (Over.map rij).obj Bij) (B := (Over.map rkj).obj Tkj) e3
+        ((D.φ k j).hom.val.app (op Tkj)
+          (rm (D.F k).val (A := (Over.map lkj).obj Tkj) (B := A) (e4.trans e6) t)) := by
+    rw [β_apply]
+    unfold secOf
+    erw [rm_rm, ← rm_rm (D.F j).val e3 e4, ← D.φ_nat k j (A := Tkj) (B := Bkj) e4, rm_rm]
+  exact L.trans R.symm
 
 end GluingData
 
