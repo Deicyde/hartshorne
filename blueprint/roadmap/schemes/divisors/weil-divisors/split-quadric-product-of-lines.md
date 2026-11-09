@@ -4,7 +4,7 @@ declaration: theorem
 origin: bridged
 statement: formalized
 proof: formalized
-lean: Hartshorne.relativeSegre_eq_quadricSurfaceι Hartshorne.quadricSurfaceIsoSegreSource Hartshorne.quadricSurfaceι Hartshorne.ker_quadricCoordinateAlgHom Hartshorne.map_quadricCoordinateAlgHom_homogeneousSubmodule Hartshorne.quadricQuotientEquiv Hartshorne.projectiveSpaceOverSpecIso
+lean: Hartshorne.relativeSegre_eq_quadricSurfaceι Hartshorne.quadricSurfaceIsoSegreSource Hartshorne.quadricSurfaceι Hartshorne.ker_quadricCoordinateAlgHom Hartshorne.map_quadricCoordinateAlgHom_homogeneousSubmodule Hartshorne.quadricQuotientEquiv Hartshorne.projectiveSpaceOverSpecIso Hartshorne.projQuadricQuotientIso_hom_comp_quadricSurfaceι Hartshorne.projQuadricQuotientIso Hartshorne.ker_quadricSurfaceι
 ---
 
 # The split quadric surface is $\mathbb{P}^1 \times \mathbb{P}^1$
