@@ -55,6 +55,7 @@ import Hartshorne.Scheme.CartierClassPicard
 import Hartshorne.Scheme.CartierClassPicardIntegral
 import Hartshorne.Scheme.ConstantSheaf
 import Hartshorne.Scheme.ConstantSheafSections
+import Hartshorne.Scheme.ConstantSheafSheafification
 import Hartshorne.Scheme.SheafSupport
 import Hartshorne.Scheme.AmpleInvertibleSheaf
 import Hartshorne.Scheme.AmpleSectionsAffineBasis
