@@ -619,3 +619,5 @@ import Hartshorne.Cohomology.FlasqueCechAcyclic
 import Hartshorne.Cohomology.ClosedPushforwardCohomology
 import Hartshorne.Cohomology.ModuleCohomologyComparison
 import Hartshorne.Cohomology.ProjectiveLineRegularAcyclic
+import Hartshorne.Scheme.Differentials.GeometricGenus
+import Hartshorne.Scheme.Differentials.CanonicalDivisorClass
