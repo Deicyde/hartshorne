@@ -44,20 +44,31 @@ theorem Ringed.IsLocallyFreeOfRank.moduleSheafExteriorPower {T : TopCat.{u}}
     Ringed.nonempty_over_iso_free_of_isLocalFrame (he.reindex (Fintype.equivOfCardEq hcard))⟩
 
 /-- **Hartshorne II.8 (pp. 180–181).** The canonical sheaf `ω_X = ⋀^n Ω_{X/k}` of a scheme `X` over
-a field `k`, for `n = dim X` (the dimension is a parameter here; the invertibility theorem
-`Hartshorne.canonicalSheaf_isInvertible` takes `n = dim X` as a hypothesis). Hartshorne defines it
-for a nonsingular variety; the definition makes sense for any `X` over `k`. -/
+a field `k`, where `n = dim X` (the topological Krull dimension of `X`, read as a natural number;
+it is `0` if `X` is empty or infinite-dimensional, cases outside Hartshorne's setting).
+Hartshorne defines it for a nonsingular variety; the definition makes sense for any `X` over `k`.
+See `Hartshorne.canonicalSheaf_eq` for the value when `dim X = n`. -/
 noncomputable def canonicalSheaf {k : Type u} [Field k] {X : Scheme.{u}}
-    (f : X ⟶ Spec (.of k)) (n : ℕ) : X.Modules :=
-  moduleSheafExteriorPower (R := X.sheaf) n (Scheme.relativeDifferentials f)
+    (f : X ⟶ Spec (.of k)) : X.Modules :=
+  moduleSheafExteriorPower (R := X.sheaf) (WithBot.unbotD 0 (topologicalKrullDim X)).toNat
+    (Scheme.relativeDifferentials f)
 
-/-- If `Ω_{X/k}` is locally free of rank `n`, then `⋀^n Ω_{X/k}` is invertible. -/
+/-- If `dim X = n`, the canonical sheaf is `⋀^n Ω_{X/k}`. -/
+theorem canonicalSheaf_eq {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
+    {n : ℕ} (hn : topologicalKrullDim X = n) :
+    canonicalSheaf f = moduleSheafExteriorPower (R := X.sheaf) n
+      (Scheme.relativeDifferentials f) := by
+  rw [canonicalSheaf, hn]
+  rfl
+
+/-- If `dim X = n` and `Ω_{X/k}` is locally free of rank `n`, then `ω_X = ⋀^n Ω_{X/k}` is
+invertible. -/
 theorem canonicalSheaf_isInvertible_of_relativeDifferentials {k : Type u} [Field k]
-    {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) {n : ℕ}
+    {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) {n : ℕ} (hn : topologicalKrullDim X = n)
     (h : (Scheme.relativeDifferentials f).IsLocallyFreeOfRank n) :
-    (canonicalSheaf f n).IsInvertible := by
+    (canonicalSheaf f).IsInvertible := by
   rw [Scheme.Modules.isLocallyFreeOfRank_iff_ringed] at h
-  rw [Scheme.Modules.isInvertible_iff_ringed]
+  rw [Scheme.Modules.isInvertible_iff_ringed, canonicalSheaf_eq f hn]
   have := h.moduleSheafExteriorPower n
   rwa [Nat.choose_self] at this
 
@@ -67,8 +78,8 @@ an irreducible regular scheme of finite type over `k`; separatedness is not used
 theorem canonicalSheaf_isInvertible {k : Type u} [Field k] [IsAlgClosed k]
     {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [IrreducibleSpace X] (hf : FiniteType f)
     (hX : X.IsRegular) (n : ℕ) (hn : topologicalKrullDim X = n) :
-    (canonicalSheaf f n).IsInvertible :=
-  canonicalSheaf_isInvertible_of_relativeDifferentials f
+    (canonicalSheaf f).IsInvertible :=
+  canonicalSheaf_isInvertible_of_relativeDifferentials f hn
     ((isRegular_iff_relativeDifferentials_isLocallyFreeOfRank f hf n hn).mp hX)
 
 end Hartshorne
