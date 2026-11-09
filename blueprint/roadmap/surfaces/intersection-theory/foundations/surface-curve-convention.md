@@ -20,6 +20,13 @@ identifies divisor classes with $\operatorname{Pic}(X)$.
 - [Regular schemes are locally factorial](../../../schemes/divisors/cartier-picard/regular-locally-factorial.md)
 - [Weil and Cartier divisors on a locally factorial scheme](../../../schemes/divisors/cartier-picard/locally-factorial-weil-cartier-equivalence.md)
 - [Divisor classes and the Picard group](../../../schemes/divisors/cartier-picard/divisor-class-picard-equivalence.md)
+- [Projective morphisms](../../../schemes/proper-and-projective/projective-morphism.md)
+- [Regular points and nonsingular schemes](../../../schemes/differentials/scheme-differentials/regular-points-and-nonsingular-schemes.md)
+
+## Proof depends on
+
+- [Projective morphisms are proper](../../../schemes/proper-and-projective/projective-morphism-proper.md)
+- [Weil classes and the Picard group on a locally factorial scheme](../../../schemes/divisors/cartier-picard/locally-factorial-class-picard-equivalence.md)
 
 ## Sources
 
