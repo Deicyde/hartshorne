@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.QuadricSurface
 import Hartshorne.Scheme.ProjSurjectionClosedImmersion
+import Hartshorne.Scheme.ProjClosedSubschemeTruncation
 
 /-!
 # The split quadric surface in `ℙ³`
@@ -14,6 +15,12 @@ Let `k` be a field and `Q = Proj` of the Segre ring (`Hartshorne.quadricSurface 
 `Q → ℙ³_k = Proj k[x, y, z, w]` (`Hartshorne.quadricSurfaceι`), whose homogeneous kernel is the
 ideal `(xy - zw)` (`Hartshorne.ker_quadricCoordinateAlgHom`); the Segre ring is
 `k[x, y, z, w] / (xy - zw)` (`Hartshorne.quadricQuotientEquiv`).
+
+As a graded isomorphism (`Hartshorne.quadricQuotientHom`), this identifies `Q` with the closed
+subscheme `V(xy - zw) = Proj k[x, y, z, w] / (xy - zw)` of `ℙ³_k` given by the homogeneous ideal
+`(xy - zw)` (`Hartshorne.quadricIdeal`): `Hartshorne.projQuadricQuotientIso` and
+`Hartshorne.projQuadricQuotientIso_hom_comp_quadricSurfaceι` (over `ℙ³_k`), and
+`Hartshorne.ker_quadricSurfaceι` (equal ideal sheaves).
 
 The kernel is computed with a normal form: modulo `xy - zw` every monomial is congruent to one
 not divisible by `xy`, and sending each monomial `s^e u^g` of the Segre ring to the normal-form
@@ -310,5 +317,93 @@ theorem quadricQuotientEquiv_mk (P : MvPolynomial (Fin (3 + 1)) k) :
   rfl
 
 end Kernel
+
+section ClosedSubscheme
+
+open ProjTruncation
+
+/-- `xy - zw` is homogeneous of degree two. -/
+theorem quadricRelation_mem : quadricRelation k ∈ 𝒮 2 :=
+  sub_mem
+    (SetLike.mul_mem_graded (X_mem_homogeneousSubmodule_one k 0)
+      (X_mem_homogeneousSubmodule_one k 1))
+    (SetLike.mul_mem_graded (X_mem_homogeneousSubmodule_one k 2)
+      (X_mem_homogeneousSubmodule_one k 3))
+
+/-- The homogeneous ideal `(xy - zw)` of `k[x, y, z, w]`. -/
+def quadricIdeal : HomogeneousIdeal 𝒮 :=
+  ⟨Ideal.span {quadricRelation k}, Ideal.homogeneous_span 𝒮 _ fun _ hx => by
+    rw [Set.mem_singleton_iff.mp hx]
+    exact ⟨2, quadricRelation_mem k⟩⟩
+
+/-- The graded isomorphism `k[x, y, z, w] / (xy - zw) → ` Segre ring,
+`x, y, z, w ↦ s₀u₀, s₁u₁, s₀u₁, s₁u₀`, with `k[x, y, z, w] / (xy - zw)` graded as a quotient. -/
+def quadricQuotientHom : gradedQuotient 𝒮 (quadricIdeal k) →+*ᵍ 𝒬 where
+  __ := (quadricQuotientEquiv k).toRingEquiv.toRingHom
+  map_mem := by
+    intro i x hx
+    obtain ⟨a, ha, rfl⟩ := mem_gradedQuotient_iff.mp hx
+    exact quadricCoordinateAlgHom_mem k ha
+
+theorem quadricQuotientHom_mk (P : MvPolynomial (Fin (3 + 1)) k) :
+    quadricQuotientHom k (Ideal.Quotient.mk _ P) = quadricCoordinateAlgHom k P :=
+  rfl
+
+theorem quadricQuotientHom_surjective : Function.Surjective (quadricQuotientHom k) :=
+  (quadricQuotientEquiv k).surjective
+
+/-- The graded isomorphism is bijective in every degree. -/
+theorem quadricQuotientHom_bijective (d : ℕ) :
+    Function.Bijective ((quadricQuotientHom k).gradedAddHom d) := by
+  constructor
+  · intro x y h
+    exact Subtype.ext ((quadricQuotientEquiv k).injective (congrArg Subtype.val h))
+  · intro y
+    obtain ⟨a, ha⟩ := quadricCoordinateAlgHom_surjective k y
+    refine ⟨⟨Ideal.Quotient.mk _ (DirectSum.decompose 𝒮 a d : MvPolynomial (Fin (3 + 1)) k),
+      mk_mem_gradedQuotient (DirectSum.decompose 𝒮 a d).2⟩, Subtype.ext ?_⟩
+    rw [GradedRingHom.gradedAddHom_apply_coe]
+    change quadricCoordinateHom k (DirectSum.decompose 𝒮 a d : MvPolynomial (Fin (3 + 1)) k) = y
+    rw [GradedRingHom.map_directSumDecompose, quadricCoordinateHom_apply, ha,
+      DirectSum.decompose_coe, DirectSum.of_eq_same]
+
+theorem isIso_map_quadricQuotientHom :
+    IsIso (Proj.map (quadricQuotientHom k)
+      (irrelevant_le_map_of_surjective (quadricQuotientHom_surjective k))) := by
+  have hiso : IsIso (projPartialMap (quadricQuotientHom k)) :=
+    isIso_projPartialMap_of_bijective (d₀ := 0) fun d _ => quadricQuotientHom_bijective k d
+  have hι : IsIso (projPartialDomain (quadricQuotientHom k)).ι := by
+    rw [isIso_iff_isOpenImmersion_and_surjective]
+    refine ⟨inferInstance, ⟨fun y => ?_⟩⟩
+    have hy : y ∈ projPartialDomain (quadricQuotientHom k) := by
+      rw [projPartialDomain_eq_top_of_surjective (quadricQuotientHom_surjective k)]
+      trivial
+    exact ⟨⟨y, hy⟩, rfl⟩
+  rw [projPartialMap_eq_map
+    (irrelevant_le_map_of_surjective (quadricQuotientHom_surjective k))] at hiso
+  exact IsIso.of_isIso_comp_left (projPartialDomain (quadricQuotientHom k)).ι _
+
+/-- **`Q` is the closed subscheme `V(xy - zw) = Proj k[x, y, z, w] / (xy - zw)` of `ℙ³_k`**:
+the isomorphism `Proj (k[x, y, z, w] / (xy - zw)) ≅ Q` induced by the graded isomorphism of
+coordinate rings. -/
+def projQuadricQuotientIso : Proj (gradedQuotient 𝒮 (quadricIdeal k)) ≅ quadricSurface k :=
+  (@asIso _ _ _ _ (Proj.map (quadricQuotientHom k)
+    (irrelevant_le_map_of_surjective (quadricQuotientHom_surjective k)))
+    (isIso_map_quadricQuotientHom k)).symm
+
+/-- The isomorphism `Proj (k[x, y, z, w] / (xy - zw)) ≅ Q` is compatible with the closed
+immersions into `ℙ³_k`: the quadric `Q ⊆ ℙ³_k` is the closed subscheme cut out by `xy - zw`. -/
+theorem projQuadricQuotientIso_hom_comp_quadricSurfaceι :
+    (projQuadricQuotientIso k).hom ≫ quadricSurfaceι k = projQuotientι 𝒮 (quadricIdeal k) := by
+  rw [projQuadricQuotientIso, Iso.symm_hom, Iso.inv_comp_eq, asIso_hom, projQuotientι_eq_map,
+    ← Proj.map_comp, quadricSurfaceι]
+  exact map_congr (GradedRingHom.ext fun _ => rfl) _ _
+
+/-- The closed immersion `Q → ℙ³_k` has the ideal sheaf of `xy - zw`. -/
+theorem ker_quadricSurfaceι :
+    (quadricSurfaceι k).ker = (projQuotientι 𝒮 (quadricIdeal k)).ker := by
+  rw [← projQuadricQuotientIso_hom_comp_quadricSurfaceι, Scheme.Hom.ker_comp_of_isIso]
+
+end ClosedSubscheme
 
 end Hartshorne
