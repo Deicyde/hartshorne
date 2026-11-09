@@ -4,7 +4,7 @@ declaration: definition
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.constantSheaf Hartshorne.constantSheafIsoSheafification
+lean: Hartshorne.constantSheaf Hartshorne.constantSheafIsoSheafification Hartshorne.toSheafify_constantSheafIsoSheafification_inv
 ---
 
 # The constant sheaf
