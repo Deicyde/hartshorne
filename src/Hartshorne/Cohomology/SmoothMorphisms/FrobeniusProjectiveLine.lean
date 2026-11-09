@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Cohomology.SmoothMorphisms.ProjectiveSpaceSmooth
+import Hartshorne.Curve.DVR
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsFibreRank
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsTransitivity
 import Hartshorne.Scheme.Differentials.StandardSmoothFieldDimension
@@ -371,6 +372,7 @@ theorem isReduced_of_isPullback_of_isIso {P X Y Z : Scheme.{u}} {fst : P ⟶ X} 
   exact isReduced_of_isOpenImmersion fst
 
 /-- A regular local ring of dimension one is a discrete valuation ring. -/
+@[deprecated Hartshorne.dvr_characterizations (since := "2026-11-09")]
 theorem isDiscreteValuationRing_of_isRegularLocalRing (A : Type u) [CommRing A]
     [IsRegularLocalRing A] (h : ringKrullDim A = 1) :
     ∃ _ : IsDomain A, IsDiscreteValuationRing A := by
@@ -827,9 +829,11 @@ theorem absoluteFrobenius_fiber_finrank [IsAlgClosed k]
     (P.presheaf.stalk y)).toRingEquiv
   obtain ⟨hreg, hdim⟩ := projectiveLine_stalk_isRegularLocalRing k y hy
   have := IsRegularLocalRing.of_ringEquiv eQ.symm
-  obtain ⟨hdom, hdvr⟩ :=
-    isDiscreteValuationRing_of_isRegularLocalRing (Localization.AtPrime Q.asIdeal)
-      ((ringKrullDim_eq_of_ringEquiv eQ).trans hdim)
+  have hdom : IsDomain (Localization.AtPrime Q.asIdeal) := RegularLocal.isDomain _
+  have hdvr : IsDiscreteValuationRing (Localization.AtPrime Q.asIdeal) := by
+    have h := (dvr_characterizations (Localization.AtPrime Q.asIdeal)
+      ((ringKrullDim_eq_of_ringEquiv eQ).trans hdim)).out 0 2
+    exact h.mpr inferInstance
   have hfin := finrank_fiber_eq_of_pow_eq_algebraMap q ρ hφ hperf Q.asIdeal (fun s => Iff.rfl)
   rw [← hy']
   exact ((finrank_appTop_eq_of_arrowIso _ _ e₁).symm.trans
