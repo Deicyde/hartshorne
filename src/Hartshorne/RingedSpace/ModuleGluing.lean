@@ -582,8 +582,6 @@ lemma θComp_map (i : D.ι) {V V' : Opens X} (f : op V ⟶ op V') (t : G'.val.ob
   have h := over_nat S G' (ψ' i).hom (A := st (D.U i) V') (B := st (D.U i) V)
     (by simp only [st_left]; exact inf_le_inf_left _ (leOfHom f.unop))
     (G'.val.map (homOfLE (st_left_le_right (D.U i) V)).op t)
-  have k : op V ⟶ op (st (D.U i) V').left :=
-    (homOfLE ((st_left_le_right _ V').trans (leOfHom f.unop))).op
   unfold θComp
   refine Eq.trans ?_ h
   congr 1
@@ -611,6 +609,69 @@ noncomputable def θHom (hψ' : D.Compatible G' ψ') : G' ⟶ D.glue where
 
 lemma θHom_apply (hψ' : D.Compatible G' ψ') (V : Opens X) (t : G'.val.obj (op V)) (i : D.ι) :
     ((D.θHom hψ').val.app (op V) t : ↥(D.N.obj (op V))).1 i = D.θComp (ψ' := ψ') i V t := rfl
+
+lemma le_iSup_st (V : Opens X) : V ≤ iSup fun i => (st (D.U i) V).left := by
+  intro x hx
+  have hx' : x ∈ iSup D.U := by rw [D.iSup_eq_top]; trivial
+  obtain ⟨i, hi⟩ := Opens.mem_iSup.1 hx'
+  refine Opens.mem_iSup.2 ⟨i, ?_⟩
+  rw [st_left]
+  exact ⟨hi, hx⟩
+
+lemma ψ'_hom_injective (i : D.ι) (A : Over (D.U i)) :
+    Function.Injective ((ψ' i).hom.val.app (op A)) := fun y y' h => by
+  rw [← D.ψ'_hom_inv (ψ' := ψ') i A y, ← D.ψ'_hom_inv (ψ' := ψ') i A y']
+  exact congrArg _ h
+
+lemma θHom_injective (hψ' : D.Compatible G' ψ') (V : Opens X) :
+    Function.Injective ((D.θHom hψ').val.app (op V)) := by
+  intro t t' h
+  refine sheaf_ext S G' (fun i => (st (D.U i) V).left) (fun i => st_left_le_right _ V)
+    (D.le_iSup_st V) t t' fun i => ?_
+  have hi := congrArg (fun s : ↥(D.N.obj (op V)) => s.1 i) h
+  exact D.ψ'_hom_injective (ψ' := ψ') i _ hi
+
+lemma θHom_surjective (hψ' : D.Compatible G' ψ') (V : Opens X) :
+    Function.Surjective ((D.θHom hψ').val.app (op V)) := by
+  intro (s : ↥(D.N.obj (op V)))
+  let ti : ∀ i, G'.val.obj (op (st (D.U i) V).left) := fun i =>
+    (ψ' i).inv.val.app (op (st (D.U i) V)) (s.1 i)
+  have hc : ∀ i j, G'.val.map (homOfLE (inf_le_left : (st (D.U i) V).left ⊓ (st (D.U j) V).left ≤
+      (st (D.U i) V).left)).op (ti i) = G'.val.map (homOfLE (inf_le_right :
+      (st (D.U i) V).left ⊓ (st (D.U j) V).left ≤ (st (D.U j) V).left)).op (ti j) := by
+    intro i j
+    let Dij : Over (D.U i ⊓ D.U j) := st _ V
+    have c₁ : (st (D.U i) V).left ⊓ (st (D.U j) V).left ≤ Dij.left := by
+      simp only [Dij]; opens_le
+    have c₂ : Dij.left ≤ (st (D.U i) V).left := st_mono inf_le_left V
+    have c₃ : Dij.left ≤ (st (D.U j) V).left := st_mono inf_le_right V
+    rw [← mapX_map S G'.val (homOfLE c₂).op (homOfLE c₁).op, ← mapX_map S G'.val (homOfLE c₃).op
+      (homOfLE c₁).op]
+    congr 1
+    refine D.ψ'_hom_injective (ψ' := ψ') j ((Over.map (homOfLE (inf_le_right :
+      D.U i ⊓ D.U j ≤ D.U j))).obj Dij) ?_
+    have h₁ := over_nat S G' (ψ' i).hom
+      (A := (Over.map (homOfLE (inf_le_left : D.U i ⊓ D.U j ≤ D.U i))).obj Dij)
+      (B := st (D.U i) V) c₂ (ti i)
+    have h₂ := over_nat S G' (ψ' j).hom
+      (A := (Over.map (homOfLE (inf_le_right : D.U i ⊓ D.U j ≤ D.U j))).obj Dij)
+      (B := st (D.U j) V) c₃ (ti j)
+    refine (D.compat_apply hψ' i j Dij _).symm.trans ?_
+    refine Eq.trans ?_ h₂.symm
+    refine (congrArg ((D.φ i j).hom.val.app (op Dij)) h₁).trans ?_
+    simp only [ti]
+    erw [D.ψ'_inv_hom (ψ' := ψ') i, D.ψ'_inv_hom (ψ' := ψ') j]
+    exact s.2 i j
+  obtain ⟨t, ht⟩ := sheaf_glue S G' (fun i => (st (D.U i) V).left) (fun i => st_left_le_right _ V)
+    (D.le_iSup_st V) ti hc
+  refine ⟨t, Subtype.ext (funext fun i => ?_)⟩
+  change (ψ' i).hom.val.app (op (st (D.U i) V))
+    (G'.val.map (homOfLE (st_left_le_right (D.U i) V)).op t) = s.1 i
+  rw [ht i]
+  exact D.ψ'_inv_hom i _ _
+
+instance isIso_θHom (hψ' : D.Compatible G' ψ') : IsIso (D.θHom hψ') :=
+  isIso_of_bijective _ fun V => ⟨D.θHom_injective hψ' V.unop, D.θHom_surjective hψ' V.unop⟩
 
 end uniqueness
 
