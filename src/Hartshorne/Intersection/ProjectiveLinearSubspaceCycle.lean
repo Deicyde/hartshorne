@@ -11,6 +11,7 @@ import Hartshorne.Projective.Correspondence
 import Hartshorne.Rational.ContractedCurves
 import Hartshorne.Scheme.ProjectiveIntersectionDegree
 import Hartshorne.Scheme.ProjectiveSpaceClassGroup
+import Hartshorne.Scheme.ProjectiveSpaceOverSpec
 
 /-!
 # Linear subspaces of projective space as cycles
@@ -108,14 +109,11 @@ local notation "𝕊" => MvPolynomial (Fin (n + 1)) k
 
 section StructureMorphism
 
-/-- The degree-zero part of `k[x₀, …, xₙ]` is `k`: the algebra map `k → S₀` is bijective. -/
+/-- The degree-zero part of `k[x₀, …, xₙ]` is `k`: the algebra map `k → S₀` is bijective (the
+field case of `bijective_algebraMap_mvPolynomial_homogeneousSubmodule_zero`). -/
 theorem bijective_algebraMap_homogeneousSubmodule_zero :
-    Function.Bijective (algebraMap k (𝒜 0)) := by
-  refine ⟨fun a b h ↦ C_injective (Fin (n + 1)) k (congrArg Subtype.val h), fun x ↦ ?_⟩
-  have hx : (x : 𝕊).IsHomogeneous 0 := (mem_homogeneousSubmodule 0 _).mp x.2
-  refine ⟨coeff 0 (x : 𝕊), Subtype.ext ?_⟩
-  change C (coeff 0 (x : 𝕊)) = (x : 𝕊)
-  exact (totalDegree_eq_zero_iff_eq_C.mp (Nat.le_zero.mp hx.totalDegree_le)).symm
+    Function.Bijective (algebraMap k (𝒜 0)) :=
+  bijective_algebraMap_mvPolynomial_homogeneousSubmodule_zero k n
 
 /-- The structure morphism `ℙⁿ_k ⟶ Spec k`: the morphism `Proj S ⟶ Spec S₀` followed by the
 identification `S₀ = k`. -/
