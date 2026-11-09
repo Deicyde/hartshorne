@@ -61,6 +61,14 @@ theorem hasProjectiveDimensionLE_of_isRegularLocalRing [IsRegularLocalRing R]
     (projectiveDimension_le_iff _ _).mp (projectiveDimension_residueField R).le
   exact Hartshorne.LocalGlobalDimension.hasProjectiveDimensionLE_of_residueField _ hk M
 
+/-- Over a regular local ring `R`, every finitely generated module has projective dimension at
+most `dim R`. -/
+theorem projectiveDimension_le_ringKrullDim [IsRegularLocalRing R]
+    (M : ModuleCat.{u} R) [Module.Finite R M] :
+    projectiveDimension M ≤ ringKrullDim R := by
+  rw [← (isRegularLocalRing_iff R).mp ‹_›]
+  exact (projectiveDimension_le_iff _ _).mpr (hasProjectiveDimensionLE_of_isRegularLocalRing R M)
+
 /-- The residue field of `R_𝔭` is, as an `R_𝔭`-module, the localization of `R ⧸ 𝔭` at `𝔭`. -/
 noncomputable def localizedModuleQuotientIsoResidueField (p : Ideal R) [p.IsPrime] :
     (ModuleCat.of R (R ⧸ p)).localizedModule p.primeCompl ≅

@@ -2,6 +2,9 @@
 article_id: af_51803195baca053563595b22
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.RegularLocal.projectiveDimension_le_ringKrullDim Hartshorne.RegularLocal.hasProjectiveDimensionLE_of_isRegularLocalRing
 ---
 
 # Finitely generated modules over a regular local ring
