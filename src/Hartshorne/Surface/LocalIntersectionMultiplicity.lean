@@ -42,7 +42,8 @@ def localIntersectionMultiplicity (C D : S.Curve) (P : S.X) : ℕ∞ :=
 
 variable {S}
 
-private theorem span_pair_eq {R : Type*} [CommRing R] [IsDomain R] {f f' g g' : R} (hf : Associated f f')
+private theorem span_pair_eq {R : Type*} [CommRing R] [IsDomain R] {f f' g g' : R}
+    (hf : Associated f f')
     (hg : Associated g g') : Ideal.span {f, g} = Ideal.span {f', g'} := by
   rw [Ideal.span_insert, Ideal.span_insert, Ideal.span_singleton_eq_span_singleton.2 hf,
     Ideal.span_singleton_eq_span_singleton.2 hg]

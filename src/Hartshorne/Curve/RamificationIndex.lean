@@ -35,7 +35,8 @@ namespace Hartshorne
 `k(x)/k(y)` is separable algebraic. `Hartshorne.HartshorneUnramified f` is this condition at every
 point. -/
 def HartshorneUnramifiedAt {X Y : AlgebraicGeometry.Scheme.{u}} (f : X ⟶ Y) (x : X) : Prop :=
-  (maximalIdeal (Y.presheaf.stalk (f x))).map (f.stalkMap x).hom = maximalIdeal (X.presheaf.stalk x) ∧
+  (maximalIdeal (Y.presheaf.stalk (f x))).map (f.stalkMap x).hom =
+      maximalIdeal (X.presheaf.stalk x) ∧
     letI := (f.residueFieldMap x).hom.toAlgebra
     Algebra.IsAlgebraic (Y.residueField (f x)) (X.residueField x) ∧
       Algebra.IsSeparable (Y.residueField (f x)) (X.residueField x)
@@ -119,7 +120,8 @@ theorem exists_map_maximalIdeal_eq_pow (hX : X.IsNonsingularCurve k)
       hX.ord_algebraMap_unit_mul_pow hP hπ]
   · rw [(IsDiscreteValuationRing.irreducible_iff_uniformizer t).1 ht,
       (IsDiscreteValuationRing.irreducible_iff_uniformizer π).1 hπ, Ideal.map_span,
-      Set.image_singleton, Ideal.span_singleton_pow, hv, Ideal.span_singleton_mul_left_unit v.isUnit]
+      Set.image_singleton, Ideal.span_singleton_pow, hv,
+      Ideal.span_singleton_mul_left_unit v.isUnit]
 
 private theorem not_pow_succ_le_pow {R : Type*} [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] (n : ℕ) : ¬ maximalIdeal R ^ n ≤ maximalIdeal R ^ (n + 1) := by
@@ -202,12 +204,14 @@ theorem ramificationIndex_eq_one_iff [IsAlgClosed k] (hX : X.IsNonsingularCurve 
   rw [← hn, Nat.cast_eq_one, ← pow_eq_self_iff (R := X.presheaf.stalk P), ← hmap]
   exact ⟨fun h ↦ ⟨h, hres⟩, fun h ↦ h.1⟩
 
-/-- `f` is **tamely ramified** at `P` if `char k = 0`, or `char k = p` and `p ∤ e_P`. -/
+/-- `f` is **tamely ramified** at `P` if `char k = 0`, or `char k = p` and `p ∤ e_P`.
+Meaningful only at closed points (`coheight P = 1`), as in Hartshorne IV.2. -/
 def IsTamelyRamifiedAt (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k)
     (f : X ⟶ Y) [LocallyQuasiFinite f] (P : X) : Prop :=
   ringChar k = 0 ∨ ¬ ((ringChar k : ℤ) ∣ hX.ramificationIndex hY f P)
 
-/-- `f` is **wildly ramified** at `P` if it is not tamely ramified there. -/
+/-- `f` is **wildly ramified** at `P` if it is not tamely ramified there.
+Meaningful only at closed points (`coheight P = 1`). -/
 def IsWildlyRamifiedAt (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k)
     (f : X ⟶ Y) [LocallyQuasiFinite f] (P : X) : Prop :=
   ¬ hX.IsTamelyRamifiedAt hY f P
