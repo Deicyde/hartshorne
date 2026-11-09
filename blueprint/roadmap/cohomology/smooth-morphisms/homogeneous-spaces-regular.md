@@ -2,6 +2,9 @@
 article_id: af_ad0d5e883dcd87b9bf63ef57
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.HomogeneousSpace.isRegular Hartshorne.GroupVariety.isRegular Hartshorne.HomogeneousSpace.smooth Hartshorne.GroupVariety.selfHomogeneousSpace
 ---
 
 # Homogeneous spaces are nonsingular

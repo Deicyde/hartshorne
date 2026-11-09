@@ -631,3 +631,4 @@ import Hartshorne.Curve.FrobeniusRamification
 import Hartshorne.Scheme.ProjTwistPullback
 import Hartshorne.Scheme.RelativeVeryAmple
 import Hartshorne.Scheme.ProjectiveIffProperVeryAmple
+import Hartshorne.Cohomology.SmoothMorphisms.HomogeneousSpaceRegular
