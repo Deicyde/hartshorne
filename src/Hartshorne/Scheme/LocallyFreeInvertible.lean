@@ -2,6 +2,7 @@
 Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
+import Hartshorne.RingedSpace.LocallyFreeRank
 import Mathlib.AlgebraicGeometry.Modules.Tilde
 import Mathlib.AlgebraicGeometry.Properties
 import Mathlib.LinearAlgebra.Dimension.Constructions
@@ -19,10 +20,14 @@ a free `𝒪_U`-module, *locally free of rank `r`* if each such restriction can 
 direct sum of `r` copies of `𝒪_U`, and *invertible* if it is locally free of rank one.
 
 The rank of `F` at a point `x` is the number of copies (a cardinal, possibly infinite) needed on
-any open neighbourhood of `x` on which `F` is free. It is well defined: on an affine open
-`Spec A` contained in two such neighbourhoods, two free presentations give isomorphic free
-`A`-modules `A ^ (⊕ I) ≅ A ^ (⊕ J)`, and `A` is a nonzero commutative ring, so `#I = #J`. Hence
-the rank of a locally free module is locally constant, and constant when `X` is connected.
+any open neighbourhood of `x` on which `F` is free. Through Mathlib's equivalence
+`Scheme.Modules.overEquiv U`, `F` is also a module on the ringed space `(X, 𝒪_X)` and the scheme
+notions of local freeness and rank agree with the ringed-space ones
+(`isLocallyFree_iff_ringed`, `rankAt_eq_ringed`). The stalks of `𝒪_X` are local rings, hence
+nonzero, so the ringed-space theorems (`Hartshorne.Ringed.rankAt_eq`,
+`Hartshorne.Ringed.isLocallyConstant_rankAt`, `Hartshorne.Ringed.rankAt_eq_of_connectedSpace`)
+give, as corollaries, that the rank is well defined, locally constant, and constant when `X` is
+connected.
 
 Local freeness is phrased, as in Hartshorne, through restrictions `F|_U` to open subschemes.
 Mathlib's `SheafOfModules.IsLocallyFree` expresses the same idea through local generators on the
@@ -72,6 +77,8 @@ def restrictFreeIso {Y : Scheme.{u}} (f : Y ⟶ X) [IsOpenImmersion f] (I : Type
 
 /-- Over a nonzero commutative ring `A`, if the free modules `𝒪 ^ (⊕ I)` and `𝒪 ^ (⊕ J)` on
 `Spec A` are isomorphic, then `I` and `J` have the same cardinality. -/
+@[deprecated "the rank theorems now follow from `Hartshorne.Ringed.rankAt_eq`"
+  (since := "2026-11-09")]
 theorem cardinal_mk_eq_of_free_iso_spec (A : CommRingCat.{u}) [Nontrivial A] {I J : Type u}
     (e : (SheafOfModules.free I : (Spec A).Modules) ≅ SheafOfModules.free J) :
     Cardinal.mk I = Cardinal.mk J := by
@@ -81,8 +88,11 @@ theorem cardinal_mk_eq_of_free_iso_spec (A : CommRingCat.{u}) [Nontrivial A] {I 
   have h := ((tilde.fullyFaithfulFunctor (R := A)).preimageIso e').toLinearEquiv.rank_eq
   simpa using h
 
+set_option linter.deprecated false in
 /-- Two free presentations of `F` on open neighbourhoods of a common point have index types of
 the same cardinality. -/
+@[deprecated "use `Scheme.Modules.rankAt_eq`, a corollary of `Hartshorne.Ringed.rankAt_eq`"
+  (since := "2026-11-09")]
 theorem cardinal_mk_eq_of_restrict_iso {F : X.Modules} {U V : X.Opens} {I J : Type u}
     (α : F.restrict U.ι ≅ SheafOfModules.free I) (β : F.restrict V.ι ≅ SheafOfModules.free J)
     {x : X} (hxU : x ∈ U) (hxV : x ∈ V) :
@@ -115,29 +125,80 @@ def rankAt (F : X.Modules) (x : X) : Cardinal.{u} :=
   if h : ∃ (U : X.Opens) (I : Type u), x ∈ U ∧ Nonempty (F.restrict U.ι ≅ SheafOfModules.free I)
   then Cardinal.mk h.choose_spec.choose else 0
 
+/-- The equivalence `Scheme.Modules.overEquiv U` takes free modules to free modules. -/
+def overEquivFreeIso (U : X.Opens) (I : Type u) :
+    (SheafOfModules.free I : (U : Scheme.{u}).Modules) ≅
+      (overEquiv U).functor.obj (SheafOfModules.free I) :=
+  let G : SheafOfModules.{u} (X.ringCatSheaf.over U) ⥤
+      SheafOfModules.{u} (U : Scheme.{u}).ringCatSheaf :=
+    (overEquiv U).functor
+  have : PreservesColimitsOfShape (Discrete I) G :=
+    (overEquiv U).toAdjunction.leftAdjoint_preservesColimits.{u, u}.preservesColimitsOfShape
+  SheafOfModules.mapFreeIso G I (Iso.refl _)
+
+/-- The restriction of `F` to the open subscheme `U` is free on `I` exactly when its
+restriction to the opens contained in `U` is. -/
+theorem nonempty_restrict_iso_free_iff (F : X.Modules) (U : X.Opens) (I : Type u) :
+    Nonempty (F.restrict U.ι ≅ SheafOfModules.free I) ↔
+      Nonempty (F.over U ≅ SheafOfModules.free I) := by
+  let e := overEquiv U
+  let c : e.functor.obj (F.over U) ≅ F.restrict U.ι := (overFunctorEquiv U).app F
+  constructor
+  · rintro ⟨α⟩
+    exact ⟨e.fullyFaithfulFunctor.preimageIso (c ≪≫ α ≪≫ overEquivFreeIso U I)⟩
+  · rintro ⟨β⟩
+    exact ⟨c.symm ≪≫ e.functor.mapIso β ≪≫ (overEquivFreeIso U I).symm⟩
+
+/-- On a scheme, locally free in the ringed-space sense agrees with locally free in the scheme
+sense. -/
+theorem isLocallyFree_iff_ringed (F : X.Modules) :
+    F.IsLocallyFree ↔ Hartshorne.Ringed.IsLocallyFree (R := X.sheaf) F := by
+  refine forall_congr' fun x => exists_congr fun U => and_congr_right fun _ => ?_
+  exact exists_congr fun I => nonempty_restrict_iso_free_iff F U I
+
+/-- The stalks of the structure sheaf of a scheme are nonzero rings. -/
+instance nontrivial_ringSheafStalk (x : X) : Nontrivial (Hartshorne.ringSheafStalk X.sheaf x) :=
+  inferInstanceAs (Nontrivial (X.presheaf.stalk x))
+
+/-- On a scheme, the rank of a module at a point agrees with its rank as a module on the ringed
+space `(X, 𝒪_X)`. -/
+theorem rankAt_eq_ringed (F : X.Modules) (x : X) :
+    F.rankAt x = Hartshorne.Ringed.rankAt (R := X.sheaf) F x := by
+  by_cases h : ∃ (U : X.Opens) (I : Type u), x ∈ U ∧
+      Nonempty (F.restrict U.ι ≅ SheafOfModules.free I)
+  · rw [rankAt, dif_pos h]
+    obtain ⟨hx, hU⟩ := h.choose_spec.choose_spec
+    exact (Hartshorne.Ringed.rankAt_eq F
+      ((nonempty_restrict_iso_free_iff F _ _).mp hU).some hx).symm
+  · have h' : ¬ ∃ (U : X.Opens) (I : Type u), x ∈ U ∧
+        Nonempty (F.over U ≅ SheafOfModules.free I) := fun ⟨U, I, hx, hU⟩ =>
+      h ⟨U, I, hx, (nonempty_restrict_iso_free_iff F U I).mpr hU⟩
+    rw [rankAt, dif_neg h]
+    unfold Hartshorne.Ringed.rankAt
+    split
+    · exact absurd ‹_› h'
+    · rfl
+
 /-- The rank is well defined: on any open `U` with `F|_U ≅ 𝒪_U ^ (⊕ I)`, the rank at every
 point of `U` is `#I`. -/
 theorem rankAt_eq (F : X.Modules) {U : X.Opens} {I : Type u}
     (α : F.restrict U.ι ≅ SheafOfModules.free I) {x : X} (hx : x ∈ U) :
-    F.rankAt x = Cardinal.mk I := by
-  have h : ∃ (U : X.Opens) (I : Type u), x ∈ U ∧
-      Nonempty (F.restrict U.ι ≅ SheafOfModules.free I) := ⟨U, I, hx, ⟨α⟩⟩
-  rw [rankAt, dif_pos h]
-  obtain ⟨hx', ⟨α'⟩⟩ := h.choose_spec.choose_spec
-  exact cardinal_mk_eq_of_restrict_iso α' α hx' hx
+    F.rankAt x = Cardinal.mk I :=
+  (rankAt_eq_ringed F x).trans (Hartshorne.Ringed.rankAt_eq F
+    ((nonempty_restrict_iso_free_iff F U I).mp ⟨α⟩).some hx)
 
 /-- **The rank of a locally free module is locally constant** (Hartshorne II.5, p. 109). -/
 theorem isLocallyConstant_rankAt (F : X.Modules) (hF : F.IsLocallyFree) :
     IsLocallyConstant F.rankAt := by
-  rw [IsLocallyConstant.iff_exists_open]
-  intro x
-  obtain ⟨U, hxU, I, ⟨α⟩⟩ := hF x
-  exact ⟨U, U.2, hxU, fun y hy => (F.rankAt_eq α hy).trans (F.rankAt_eq α hxU).symm⟩
+  rw [show F.rankAt = Hartshorne.Ringed.rankAt (R := X.sheaf) F from
+    funext (rankAt_eq_ringed F)]
+  exact Hartshorne.Ringed.isLocallyConstant_rankAt F ((isLocallyFree_iff_ringed F).mp hF)
 
 /-- **The rank of a locally free module on a connected scheme is constant.** -/
 theorem rankAt_eq_of_connectedSpace [ConnectedSpace X] (F : X.Modules) (hF : F.IsLocallyFree)
     (x y : X) : F.rankAt x = F.rankAt y :=
-  (F.isLocallyConstant_rankAt hF).apply_eq_of_preconnectedSpace x y
+  (rankAt_eq_ringed F x).trans ((Hartshorne.Ringed.rankAt_eq_of_connectedSpace F
+    ((isLocallyFree_iff_ringed F).mp hF) x y).trans (rankAt_eq_ringed F y).symm)
 
 /-- A module is locally free of rank `r` exactly when it is locally free with rank `r` at every
 point. -/

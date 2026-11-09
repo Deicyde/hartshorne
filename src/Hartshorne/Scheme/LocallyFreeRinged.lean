@@ -22,6 +22,10 @@ The stalks of the structure sheaf of a scheme are local rings, hence nonzero, so
 module at a point (`Scheme.Modules.rankAt`) agrees with its rank as a module on the ringed space
 (`Hartshorne.Ringed.rankAt`; `rankAt_eq_ringed`), and the ringed-space theorems on the rank
 apply to schemes.
+
+The comparisons used by the rank theorems (`nonempty_restrict_iso_free_iff`,
+`isLocallyFree_iff_ringed`, `rankAt_eq_ringed`) live in `Hartshorne.Scheme.LocallyFreeInvertible`,
+where the scheme rank theorems are derived from the ringed-space ones; this file adds the rest.
 -/
 
 universe u
@@ -31,37 +35,6 @@ open CategoryTheory Limits TopologicalSpace
 namespace AlgebraicGeometry.Scheme.Modules
 
 variable {X : Scheme.{u}}
-
-/-- The equivalence `Scheme.Modules.overEquiv U` takes free modules to free modules. -/
-noncomputable def overEquivFreeIso (U : X.Opens) (I : Type u) :
-    (SheafOfModules.free I : (U : Scheme.{u}).Modules) ≅
-      (overEquiv U).functor.obj (SheafOfModules.free I) :=
-  let G : SheafOfModules.{u} (X.ringCatSheaf.over U) ⥤
-      SheafOfModules.{u} (U : Scheme.{u}).ringCatSheaf :=
-    (overEquiv U).functor
-  have : PreservesColimitsOfShape (Discrete I) G :=
-    (overEquiv U).toAdjunction.leftAdjoint_preservesColimits.{u, u}.preservesColimitsOfShape
-  SheafOfModules.mapFreeIso G I (Iso.refl _)
-
-/-- The restriction of `F` to the open subscheme `U` is free on `I` exactly when its
-restriction to the opens contained in `U` is. -/
-theorem nonempty_restrict_iso_free_iff (F : X.Modules) (U : X.Opens) (I : Type u) :
-    Nonempty (F.restrict U.ι ≅ SheafOfModules.free I) ↔
-      Nonempty (F.over U ≅ SheafOfModules.free I) := by
-  let e := overEquiv U
-  let c : e.functor.obj (F.over U) ≅ F.restrict U.ι := (overFunctorEquiv U).app F
-  constructor
-  · rintro ⟨α⟩
-    exact ⟨e.fullyFaithfulFunctor.preimageIso (c ≪≫ α ≪≫ overEquivFreeIso U I)⟩
-  · rintro ⟨β⟩
-    exact ⟨c.symm ≪≫ e.functor.mapIso β ≪≫ (overEquivFreeIso U I).symm⟩
-
-/-- On a scheme, locally free in the ringed-space sense agrees with locally free in the scheme
-sense. -/
-theorem isLocallyFree_iff_ringed (F : X.Modules) :
-    F.IsLocallyFree ↔ Hartshorne.Ringed.IsLocallyFree (R := X.sheaf) F := by
-  refine forall_congr' fun x => exists_congr fun U => and_congr_right fun _ => ?_
-  exact exists_congr fun I => nonempty_restrict_iso_free_iff F U I
 
 /-- On a scheme, locally free of rank `r` in the ringed-space sense agrees with the scheme
 notion. -/
@@ -96,27 +69,5 @@ theorem isFiniteLocallyFree_iff (F : X.Modules) :
     obtain ⟨n, ⟨e⟩⟩ := Finite.exists_equiv_fin I
     refine ⟨U, hxU, n, (nonempty_restrict_iso_free_iff F U _).mp
       ⟨α ≪≫ SheafOfModules.freeFunctor.mapIso (e.trans Equiv.ulift.symm).toIso⟩⟩
-
-/-- The stalks of the structure sheaf of a scheme are nonzero rings. -/
-instance nontrivial_ringSheafStalk (x : X) : Nontrivial (Hartshorne.ringSheafStalk X.sheaf x) :=
-  inferInstanceAs (Nontrivial (X.presheaf.stalk x))
-
-/-- On a scheme, the rank of a module at a point agrees with its rank as a module on the ringed
-space `(X, 𝒪_X)`. -/
-theorem rankAt_eq_ringed (F : X.Modules) (x : X) :
-    F.rankAt x = Hartshorne.Ringed.rankAt (R := X.sheaf) F x := by
-  by_cases h : ∃ (U : X.Opens) (I : Type u), x ∈ U ∧
-      Nonempty (F.restrict U.ι ≅ SheafOfModules.free I)
-  · obtain ⟨U, I, hx, ⟨α⟩⟩ := h
-    rw [F.rankAt_eq α hx,
-      Hartshorne.Ringed.rankAt_eq F ((nonempty_restrict_iso_free_iff F U I).mp ⟨α⟩).some hx]
-  · have h' : ¬ ∃ (U : X.Opens) (I : Type u), x ∈ U ∧
-        Nonempty (F.over U ≅ SheafOfModules.free I) := fun ⟨U, I, hx, hU⟩ =>
-      h ⟨U, I, hx, (nonempty_restrict_iso_free_iff F U I).mpr hU⟩
-    rw [rankAt, dif_neg h]
-    unfold Hartshorne.Ringed.rankAt
-    split
-    · exact absurd ‹_› h'
-    · rfl
 
 end AlgebraicGeometry.Scheme.Modules
