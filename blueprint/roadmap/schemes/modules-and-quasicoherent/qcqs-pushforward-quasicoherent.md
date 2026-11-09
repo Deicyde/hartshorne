@@ -27,6 +27,7 @@ apply abelian closure of quasi-coherent modules.
 
 - [Abelian closure of quasi-coherent sheaves](quasicoherent-abelian-closure.md)
 - [Tilde under affine change of rings](affine-tilde/tilde-affine-change-of-rings.md)
+- [The affine-local criterion for quasi-coherence](quasicoherent-affine-local-criterion.md)
 - [Affine intersections in a separated scheme](../separated-morphisms/separated-affine-intersection.md),
   for Hartshorne's separated special case.
 - [Noetherian spaces and quasi-compact opens](../foundational-properties/noetherian-space-open-compact.md),
