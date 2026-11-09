@@ -2,8 +2,7 @@
 article_id: af_bd43637b64a7306880f81a2d
 declaration: def
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: AlgebraicGeometry.Scheme.Modules.symmetricAlgebra AlgebraicGeometry.Scheme.Modules.symmetricAlgebraStructure AlgebraicGeometry.Scheme.Modules.symmetricPower AlgebraicGeometry.Scheme.Modules.symmetricAlgebra_graded AlgebraicGeometry.Scheme.Modules.symmetricAlgebra_isQuasicoherent AlgebraicGeometry.Scheme.Modules.symmetricPower_isQuasicoherent AlgebraicGeometry.Scheme.Modules.symmetricPower_isCoherent AlgebraicGeometry.Scheme.Modules.symmetricPower_isLocallyFree AlgebraicGeometry.Scheme.Modules.symmetricPower_isLocallyFreeOfRank AlgebraicGeometry.Scheme.Modules.symmetricPowerOneIso Hartshorne.moduleSheafSymmetricPowerOneIso Hartshorne.moduleSheafTensorToSymmetricPower Hartshorne.epi_moduleSheafTensorToSymmetricPower Hartshorne.moduleSheafTensorToSymmetricPower_multilinear Hartshorne.moduleSheafTensorToSymmetricAlgebra Hartshorne.epi_moduleSheafTensorToSymmetricAlgebra Hartshorne.moduleSheafTensorAlgebraι_comp_toSymmetricAlgebra Hartshorne.moduleSheafTensorToSymmetricAlgebra_mul Hartshorne.moduleSheafTensorToSymmetricAlgebra_one Hartshorne.SheafTensorOperations.symmetricMonomial_bijective Hartshorne.SheafTensorOperations.MonotoneWord.card Hartshorne.Ringed.IsLocalFrame.moduleSheafSymmetricPower Hartshorne.Ringed.IsLocallyFreeOfRank.moduleSheafSymmetricPower Hartshorne.Ringed.IsFiniteLocallyFree.moduleSheafSymmetricPower Hartshorne.Ringed.IsFiniteLocallyFree.isFinitePresentation Hartshorne.Ringed.IsFiniteLocallyFree.isQuasicoherent_moduleSheafSymmetricAlgebra Hartshorne.polynomialAlgebraSheaf Hartshorne.polynomialAlgebraSheafStructure Hartshorne.polynomialAlgebraSymmetricAlgebraIso Hartshorne.polynomialAlgebraSymmetricAlgebraIso_mul Hartshorne.polynomialAlgebraSymmetricAlgebraIso_one Hartshorne.polynomialAlgebraSymmetricAlgebraIso_X Hartshorne.exists_polynomialAlgebraSheaf_iso_symmetricAlgebra Hartshorne.ModuleSheafAlgebra.restrict Hartshorne.symmetricAlgebraRestrictIso Hartshorne.symmetricAlgebraRestrictIso_mul Hartshorne.symmetricAlgebraRestrictIso_one AlgebraicGeometry.Scheme.Modules.symmetricAlgebra_restrict_iso_polynomial
 ---
 
@@ -11,7 +10,8 @@ lean: AlgebraicGeometry.Scheme.Modules.symmetricAlgebra AlgebraicGeometry.Scheme
 
 For a Noetherian scheme $X$ and a finite locally free $\mathcal{O}_X$-module $E$,
 construct the quasi-coherent graded algebra
-$\operatorname{Sym}(E)=\bigoplus_d\operatorname{Sym}^d(E)$, generated in degree one, and identify it
+$\operatorname{Sym}(E)=\bigoplus_d\operatorname{Sym}^d(E)$, with $\operatorname{Sym}^0(E)\cong\mathcal{O}_X$ as
+algebras and generated in degree one, and identify it
 locally with a polynomial algebra when $E$ is free. Its degree-one term and
 all homogeneous pieces are coherent.
 
