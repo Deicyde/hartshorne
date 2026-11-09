@@ -2,6 +2,9 @@
 article_id: af_f40ca5db49f3d45395b96926
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.quadricClassGroupPullbackEquiv Hartshorne.quadricClassGroupPullbackEquiv_apply Hartshorne.quadricClassGroupPullbackOne Hartshorne.quadricClassGroupPullbackTwo Hartshorne.quadricSurfaceClassGroupEquiv Hartshorne.quadricSurfaceClassGroupEquiv_pullback_add Hartshorne.quadricSurfaceClassGroupEquiv_rulingOne Hartshorne.quadricSurfaceClassGroupEquiv_rulingTwo Hartshorne.quadricSurfaceClassGroupEquiv_hyperplaneSection
 ---
 
 # The class group of a nonsingular quadric surface
