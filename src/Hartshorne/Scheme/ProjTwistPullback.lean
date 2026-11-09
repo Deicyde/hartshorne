@@ -225,6 +225,101 @@ theorem projPartialMap_app_apply (V : (Proj 𝒜).Opens) (r : Γ(Proj 𝒜, V))
 
 end PartialChart
 
+section Psi
+
+variable {A B σ τ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+  [CommRing B] [SetLike τ B] [AddSubgroupClass τ B]
+  {𝒜 : ℕ → σ} {ℬ : ℕ → τ} [GradedRing 𝒜] [GradedRing ℬ] (f : 𝒜 →+*ᵍ ℬ) (n : ℤ)
+
+open ProjTwistMap ProjGradedModuleSheaf
+
+theorem mem_of_mem_image {W : (projPartialDomain f).toScheme.Opens} {z : Proj ℬ}
+    (hz : z ∈ (projPartialDomain f).ι ''ᵁ W) : z ∈ projPartialDomain f := by
+  obtain ⟨x, -, rfl⟩ := hz
+  exact x.2
+
+theorem comap_mem_of_mem_image {V : (Proj 𝒜).Opens} {z : Proj ℬ}
+    (hz : z ∈ (projPartialDomain f).ι ''ᵁ (projPartialMap f ⁻¹ᵁ V)) :
+    projPartialComapPoint f z (mem_of_mem_image f hz) ∈ V := by
+  obtain ⟨x, hx, rfl⟩ := hz
+  have h := projPartialMap_apply f x
+  change projPartialMap f x ∈ V at hx
+  rw [h] at hx
+  exact hx
+
+theorem primeCompl_le_comap_point (z : Proj ℬ) (hz : z ∈ projPartialDomain f) :
+    (projPartialComapPoint f z hz).asHomogeneousIdeal.toIdeal.primeCompl ≤
+      z.asHomogeneousIdeal.toIdeal.primeCompl.comap f :=
+  fun _ ha => ha
+
+/-- The sections of `𝒪_{Proj S}(n) ⟶ f_*(𝒪_{Proj T}(n)|_U)` over `V`: a section `s` goes to
+`z ↦ φ(s(φ⁻¹ z))`, through the fiber maps. -/
+def psiSections (V : (Proj 𝒜).Opens) :
+    (sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj (op V) →+
+      (sheafInType ℬ (gradedTwist ℬ n)).1.obj
+        (op ((projPartialDomain f).ι ''ᵁ (projPartialMap f ⁻¹ᵁ V))) where
+  toFun s := ⟨fun z => twistFiber f n (primeCompl_le_comap_point f z.1 (mem_of_mem_image f z.2))
+      (s.1 ⟨_, comap_mem_of_mem_image f z.2⟩), by
+    intro z
+    obtain ⟨W, hzW, iWV, k, m, hm, t, ht, t_nin, w⟩ := s.2 ⟨_, comap_mem_of_mem_image f z.2⟩
+    have hWV : projPartialMap f ⁻¹ᵁ W ≤ projPartialMap f ⁻¹ᵁ V := fun x hx => iWV.le hx
+    have hz' : z.1 ∈ (projPartialDomain f).ι ''ᵁ (projPartialMap f ⁻¹ᵁ W) := by
+      obtain ⟨x, hx, hxz⟩ := z.2
+      refine ⟨x, ?_, hxz⟩
+      change projPartialMap f x ∈ W
+      rw [projPartialMap_apply]
+      have e : projPartialComapPoint f ((projPartialDomain f).ι x) x.2 =
+          projPartialComapPoint f z.1 (mem_of_mem_image f z.2) :=
+        ProjectiveSpectrum.ext (congrArg (fun p : Proj ℬ => p.asHomogeneousIdeal.comap f) hxz)
+      rw [e]
+      exact hzW
+    refine ⟨(projPartialDomain f).ι ''ᵁ (projPartialMap f ⁻¹ᵁ W), hz',
+      homOfLE (Scheme.Hom.image_mono _ hWV), k, f m,
+      map_mem_gradedTwist f hm, f t, f.map_mem ht, fun y => ?_, fun y => ?_⟩
+    · exact t_nin ⟨_, comap_mem_of_mem_image f y.2⟩
+    · exact (congrArg (twistFiber f n _) (w ⟨_, comap_mem_of_mem_image f y.2⟩)).trans
+        (twistFiber_mk _ _ _ _ _ _ _ _ _)⟩
+  map_zero' := Subtype.ext <| funext fun _ => map_zero (twistFiber f n _)
+  map_add' _ _ := Subtype.ext <| funext fun _ => map_add (twistFiber f n _) _ _
+
+theorem map_sectionValue_congr {V : (Proj 𝒜).Opens} (r : Γ(Proj 𝒜, V)) {p q : Proj 𝒜}
+    (hpq : p = q) (hp : p ∈ V) (hq : q ∈ V) {Q : Submonoid B}
+    (h1 : p.asHomogeneousIdeal.toIdeal.primeCompl ≤ Q.comap f)
+    (h2 : q.asHomogeneousIdeal.toIdeal.primeCompl ≤ Q.comap f) :
+    HomogeneousLocalization.map f h1 (sectionValue r p hp) =
+      HomogeneousLocalization.map f h2 (sectionValue r q hq) := by
+  subst hpq
+  rfl
+
+/-- `projPartialMap_app_apply` at a point of `Proj T`, with `φ⁻¹(z)` in place of `f(z)`. -/
+theorem projPartialMap_app_apply' (V : (Proj 𝒜).Opens) (r : Γ(Proj 𝒜, V)) (z : Proj ℬ)
+    (hz : z ∈ (projPartialDomain f).ι ''ᵁ (projPartialMap f ⁻¹ᵁ V)) :
+    sectionValue ((projPartialMap f).app V r) z hz =
+      HomogeneousLocalization.map f (primeCompl_le_comap_point f z (mem_of_mem_image f hz))
+        (sectionValue r _ (comap_mem_of_mem_image f hz)) := by
+  obtain ⟨x, hx, rfl⟩ := hz
+  exact (projPartialMap_app_apply f V r x hx).trans
+    (map_sectionValue_congr f r (projPartialMap_apply f x) _ _ _ _)
+
+/-- The morphism of underlying abelian presheaves. -/
+def psiPresheafHom :
+    (projTwistingSheaf 𝒜 n).presheaf ⟶ ((Scheme.Modules.pushforward (projPartialMap f)).obj
+      ((projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι)).presheaf where
+  app V := AddCommGrpCat.ofHom (psiSections f n V.unop)
+  naturality _ _ _ := rfl
+
+set_option backward.isDefEq.respectTransparency false in
+/-- **The morphism `𝒪_{Proj S}(n) ⟶ f_*(𝒪_{Proj T}(n)|_U)`** for the partial morphism
+`f : U ⟶ Proj S`: on sections it is `s ↦ (z ↦ φ(s(φ⁻¹ z)))`. -/
+def psi : projTwistingSheaf 𝒜 n ⟶ (Scheme.Modules.pushforward (projPartialMap f)).obj
+    ((projTwistingSheaf ℬ n).restrict (projPartialDomain f).ι) :=
+  ⟨PresheafOfModules.homMk (psiPresheafHom f n) fun V r s => Subtype.ext <| funext fun z => by
+    refine (twistFiber_smul f n _ _ _).trans (congrArg (· • _) ?_)
+    simp only [Scheme.Opens.ι_appIso, Iso.refl_inv]
+    exact (projPartialMap_app_apply' f V.unop r z.1 z.2).symm⟩
+
+end Psi
+
 end ProjTwistPullback
 
 end Hartshorne
