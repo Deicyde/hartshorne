@@ -51,7 +51,7 @@ quasi-projective; the construction does not use it. -/
 def chowGroupOneEquivPicard (p : X ⟶ Spec (.of k)) [IsIntegral X] (hp : FiniteType p)
     [IsSeparated p] {n : ℕ} (hn : topologicalKrullDim X = n) (hreg : X.IsRegular) :
     chowGroup p hp hn 1 ≃+ Additive (Pic X.sheaf) :=
-  have := isNoetherian_of_finiteType p hp
+  have := finiteType_isNoetherian p hp
   have := isSeparated_of_isSeparated_spec p
   have := Scheme.isNormal_of_isLocallyFactorial (isLocallyFactorial_of_isRegular hreg)
   (codimOneCycleClassEquivWeilClassGroup p hp hn).trans
@@ -62,7 +62,7 @@ codimension-one cycle, to the class of `O_X(D)`, where `D` is viewed as a Cartie
 theorem chowGroupOneEquivPicard_mk (p : X ⟶ Spec (.of k)) [IsIntegral X] (hp : FiniteType p)
     [IsSeparated p] {n : ℕ} (hn : topologicalKrullDim X = n) (hreg : X.IsRegular)
     (D : X.WeilDivisor) :
-    have := isNoetherian_of_finiteType p hp
+    have := finiteType_isNoetherian p hp
     have := isSeparated_of_isSeparated_spec p
     have := Scheme.isNormal_of_isLocallyFactorial (isLocallyFactorial_of_isRegular hreg)
     chowGroupOneEquivPicard p hp hn hreg

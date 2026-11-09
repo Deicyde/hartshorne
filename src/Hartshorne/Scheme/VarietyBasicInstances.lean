@@ -9,8 +9,8 @@ import Hartshorne.Scheme.RegularLocalFactorial
 /-!
 # Basic properties of schemes over a field
 
-A scheme of finite type over a field is Noetherian; a scheme separated over a field is separated;
-a regular scheme is locally factorial.
+A scheme separated over a field is separated; a regular scheme is locally factorial. (That a
+scheme of finite type over a field is Noetherian is `Hartshorne.finiteType_isNoetherian`.)
 -/
 
 universe u
@@ -21,7 +21,9 @@ namespace Hartshorne
 
 variable {k : Type u} [Field k] {X : Scheme.{u}}
 
-/-- A scheme of finite type over a field is Noetherian. -/
+/-- A scheme of finite type over a field is Noetherian. Deprecated: this is the case `Y = Spec k`
+of `Hartshorne.finiteType_isNoetherian`. -/
+@[deprecated finiteType_isNoetherian (since := "2026-11-09")]
 theorem isNoetherian_of_finiteType (p : X ⟶ Spec (.of k)) (hp : FiniteType p) :
     IsNoetherian X := by
   have := hp.1

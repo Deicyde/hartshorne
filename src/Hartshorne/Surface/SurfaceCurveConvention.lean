@@ -64,7 +64,7 @@ instance isProper : IsProper S.hom := S.projective.isProper
 /-- A surface is of finite type over `k`. -/
 theorem finiteType : FiniteType S.hom := ⟨inferInstance, inferInstance⟩
 
-instance isNoetherian : IsNoetherian S.X := isNoetherian_of_finiteType S.hom S.finiteType
+instance isNoetherian : IsNoetherian S.X := finiteType_isNoetherian S.hom S.finiteType
 
 instance isSeparated : S.X.IsSeparated := isSeparated_of_isSeparated_spec S.hom
 
