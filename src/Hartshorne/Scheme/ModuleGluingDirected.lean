@@ -117,9 +117,27 @@ lemma pmap_map {Z : Scheme.{u}} (M : Z.Modules) {a b c : Z.Opensᵒᵖ} (f : a �
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
   exact congrArg (fun k => M.presheaf.map k x) (Subsingleton.elim _ _)
 
+lemma pmap_map_eq {Z : Scheme.{u}} (M : Z.Modules) {a b b' c : Z.Opensᵒᵖ} (f : a ⟶ b)
+    (g : b ⟶ c) (f' : a ⟶ b') (g' : b' ⟶ c) (x : M.presheaf.obj a) :
+    M.presheaf.map g (M.presheaf.map f x) = M.presheaf.map g' (M.presheaf.map f' x) := by
+  rw [pmap_map M f g (f ≫ g), pmap_map M f' g' (f ≫ g)]
+
 lemma pmap_self {Z : Scheme.{u}} (M : Z.Modules) {a : Z.Opensᵒᵖ} (f : a ⟶ a)
     (x : M.presheaf.obj a) : M.presheaf.map f x = x := by
   rw [Subsingleton.elim f (𝟙 a), CategoryTheory.Functor.map_id]; rfl
+
+lemma mod_ext {Z : Scheme.{u}} (M : Z.Modules) {V : Z.Opens} {κ : Type u} (W : κ → Z.Opens)
+    (hW : ∀ k, W k ≤ V) (hcov : V ≤ iSup W) (s t : Γ(M, V))
+    (h : ∀ k, M.presheaf.map (homOfLE (hW k)).op s = M.presheaf.map (homOfLE (hW k)).op t) :
+    s = t :=
+  ModuleGluing.sheaf_ext Z.ringCatSheaf M W hW hcov s t h
+
+lemma mod_glue {Z : Scheme.{u}} (M : Z.Modules) {V : Z.Opens} {κ : Type u} (W : κ → Z.Opens)
+    (hW : ∀ k, W k ≤ V) (hcov : V ≤ iSup W) (sf : ∀ k, Γ(M, W k))
+    (hc : ∀ k l, M.presheaf.map (homOfLE (inf_le_left : W k ⊓ W l ≤ W k)).op (sf k) =
+      M.presheaf.map (homOfLE (inf_le_right : W k ⊓ W l ≤ W l)).op (sf l)) :
+    ∃ s : Γ(M, V), ∀ k, M.presheaf.map (homOfLE (hW k)).op s = sf k :=
+  ModuleGluing.sheaf_glue Z.ringCatSheaf M W hW hcov sf hc
 
 omit [Quiver.IsThin 𝒰.I₀] in
 lemma image_preimage_trans_le {i j : 𝒰.I₀} (f : i ⟶ j) (O : Y.Opens) :
@@ -299,6 +317,83 @@ lemma σ_restrict (m : Γ(D.M k, 𝒰.f k ⁻¹ᵁ O)) {l l' i : 𝒰.I₀} (a :
       (image_preimage_trans_le 𝒰 b O))).op m,
     pmap_map (D.M k) _ _ (homOfLE ((Scheme.Hom.image_mono _ hc).trans
       (image_preimage_trans_le 𝒰 b O))).op m]
+
+lemma σ_restrict' (m : Γ(D.M k, 𝒰.f k ⁻¹ᵁ O)) {l l' i : 𝒰.I₀} (a : l ⟶ i) (b : l ⟶ k)
+    (e : l' ⟶ i) (e' : l' ⟶ k) (c : l' ⟶ l)
+    (h : 𝒰.trans e ''ᵁ (𝒰.f l' ⁻¹ᵁ O) ≤ 𝒰.trans a ''ᵁ (𝒰.f l ⁻¹ᵁ O)) :
+    (D.M i).presheaf.map (homOfLE h).op (D.σ O m a b) = D.σ O m e e' := by
+  obtain rfl : e = c ≫ a := Subsingleton.elim _ _
+  obtain rfl : e' = c ≫ b := Subsingleton.elim _ _
+  exact D.σ_restrict m a b c h
+
+omit [Quiver.IsThin 𝒰.I₀] in
+lemma piece_mono {l l' i : 𝒰.I₀} (a : l ⟶ i) (c : l' ⟶ l) :
+    𝒰.trans (c ≫ a) ''ᵁ (𝒰.f l' ⁻¹ᵁ O) ≤ 𝒰.trans a ''ᵁ (𝒰.f l ⁻¹ᵁ O) :=
+  (comp_image_ge 𝒰 c a _).trans (Scheme.Hom.image_mono _ (image_preimage_trans_le 𝒰 c O))
+
+lemma σ_compatible (m : Γ(D.M k, 𝒰.f k ⁻¹ᵁ O)) (i : 𝒰.I₀)
+    (p p' : Σ (l : 𝒰.I₀), (l ⟶ i) × (l ⟶ k)) :
+    (D.M i).presheaf.map (homOfLE (inf_le_left : 𝒰.trans p.2.1 ''ᵁ (𝒰.f p.1 ⁻¹ᵁ O) ⊓
+      𝒰.trans p'.2.1 ''ᵁ (𝒰.f p'.1 ⁻¹ᵁ O) ≤ _)).op (D.σ O m p.2.1 p.2.2) =
+    (D.M i).presheaf.map (homOfLE (inf_le_right : 𝒰.trans p.2.1 ''ᵁ (𝒰.f p.1 ⁻¹ᵁ O) ⊓
+      𝒰.trans p'.2.1 ''ᵁ (𝒰.f p'.1 ⁻¹ᵁ O) ≤ _)).op (D.σ O m p'.2.1 p'.2.2) := by
+  obtain ⟨l, a, b⟩ := p
+  obtain ⟨l', a', b'⟩ := p'
+  have hle : ∀ q : Σ (l'' : 𝒰.I₀), (l'' ⟶ l) × (l'' ⟶ l'),
+      𝒰.trans (q.2.1 ≫ a) ''ᵁ (𝒰.f q.1 ⁻¹ᵁ O) ≤
+        𝒰.trans a ''ᵁ (𝒰.f l ⁻¹ᵁ O) ⊓ 𝒰.trans a' ''ᵁ (𝒰.f l' ⁻¹ᵁ O) := fun q =>
+    le_inf (piece_mono a q.2.1) (by
+      rw [Subsingleton.elim (q.2.1 ≫ a) (q.2.2 ≫ a')]
+      exact piece_mono a' q.2.2)
+  refine mod_ext (D.M i)
+    (fun q : Σ (l'' : 𝒰.I₀), (l'' ⟶ l) × (l'' ⟶ l') => 𝒰.trans (q.2.1 ≫ a) ''ᵁ (𝒰.f q.1 ⁻¹ᵁ O))
+    hle ?_ _ _ fun q => ?_
+  · rintro x ⟨⟨xl, hxl, rfl⟩, ⟨xl', hxl', hx⟩⟩
+    obtain ⟨l'', c, c', x'', h1, h2⟩ := 𝒰.exists_of_trans_eq_trans a a' xl xl' hx.symm
+    refine Opens.mem_iSup.2 ⟨⟨l'', c, c'⟩, x'', ?_, ?_⟩
+    · change (𝒰.f l'') x'' ∈ O
+      rw [← 𝒰.trans_map c, Scheme.Hom.comp_apply, h1]
+      exact hxl
+    · change (𝒰.trans (c ≫ a)) x'' = (𝒰.trans a) xl
+      rw [𝒰.trans_comp, Scheme.Hom.comp_apply, h1]
+  · rw [pmap_map (D.M i) _ _ (homOfLE (piece_mono a q.2.1)).op,
+      pmap_map (D.M i) _ _ (homOfLE ((hle q).trans inf_le_right)).op,
+      D.σ_restrict' m a b (q.2.1 ≫ a) (q.2.1 ≫ b) q.2.1,
+      D.σ_restrict' m a' b' (q.2.1 ≫ a) (q.2.1 ≫ b) q.2.2]
+
+lemma exists_sec (hO : O ≤ (𝒰.f k).opensRange) (m : Γ(D.M k, 𝒰.f k ⁻¹ᵁ O)) :
+    ∃ s : D.Sec O, s.1 k = m := by
+  choose g hg using fun i => mod_glue (D.M i)
+    (fun p : Σ (l : 𝒰.I₀), (l ⟶ i) × (l ⟶ k) => 𝒰.trans p.2.1 ''ᵁ (𝒰.f p.1 ⁻¹ᵁ O))
+    (fun p => image_preimage_trans_le 𝒰 p.2.1 O) (le_iSup_pieces 𝒰 hO i)
+    (fun p => D.σ O m p.2.1 p.2.2) (D.σ_compatible m i)
+  have hmem : (g : (CompatibleFamilies.piP Y.ringCatSheaf D.P).obj (op O)) ∈
+      (CompatibleFamilies.N Y.ringCatSheaf D.P (fun a : Arr (𝒰 := 𝒰) => a.2.1) (fun a => a.1)
+        D.α).obj (op O) := by
+    rintro ⟨i, j, f⟩
+    change (D.α ⟨i, j, f⟩).app O (g j) = g i
+    rw [D.α_apply]
+    refine mod_ext (D.M i)
+      (fun p : Σ (l : 𝒰.I₀), (l ⟶ i) × (l ⟶ k) => 𝒰.trans p.2.1 ''ᵁ (𝒰.f p.1 ⁻¹ᵁ O))
+      (fun p => image_preimage_trans_le 𝒰 p.2.1 O) (le_iSup_pieces 𝒰 hO i) _ _ fun p => ?_
+    rw [hg i p]
+    obtain ⟨l, a, b⟩ := p
+    have ha := image_preimage_trans_le 𝒰 a O
+    rw [← D.θ_nat f (Scheme.Hom.image_mono _ ha) ha,
+      pmap_map_eq (D.M j) _ _ (homOfLE (image_preimage_trans_le 𝒰 (a ≫ f) O)).op
+        (homOfLE (comp_image_le 𝒰 a f _)).op, hg j ⟨l, a ≫ f, b⟩]
+    refine D.θ_injective a _ ?_
+    rw [D.θ_σ, ← D.θ_comp_apply a f, D.θ_σ]
+  refine ⟨⟨g, hmem⟩, ?_⟩
+  change g k = m
+  refine mod_ext (D.M k)
+    (fun p : Σ (l : 𝒰.I₀), (l ⟶ k) × (l ⟶ k) => 𝒰.trans p.2.1 ''ᵁ (𝒰.f p.1 ⁻¹ᵁ O))
+    (fun p => image_preimage_trans_le 𝒰 p.2.1 O) (le_iSup_pieces 𝒰 hO k) _ _ fun p => ?_
+  rw [hg k p]
+  obtain ⟨l, a, b⟩ := p
+  obtain rfl : b = a := Subsingleton.elim _ _
+  refine D.θ_injective b _ ?_
+  rw [D.θ_σ]
 
 end pieces
 
