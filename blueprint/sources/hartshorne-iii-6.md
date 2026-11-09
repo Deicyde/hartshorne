@@ -62,8 +62,8 @@ Lemma 6.6 says that `L ⊗ J` is injective when `L` is finite locally free and
 ## Tensor, stalk, and projective comparison, printed pp.235–236
 
 Proposition 6.7 gives natural tensor-dual isomorphisms
-`Ext^i(F⊗L,G) ≅ Ext^i(F,L∨⊗G)` and the analogous isomorphisms for sheaf Ext,
-for finite locally free `L`.
+`Ext^i(F⊗L,G) ≅ Ext^i(F,L∨⊗G)` and, for sheaf Ext,
+`𝓔xt^i(F⊗L,G) ≅ 𝓔xt^i(F,L∨⊗G) ≅ 𝓔xt^i(F,G)⊗L∨`, for finite locally free `L`.
 
 For a Noetherian scheme and coherent `F`, Proposition 6.8 identifies the
 stalk `𝓔xt^i_X(F,G)_x` with module Ext
