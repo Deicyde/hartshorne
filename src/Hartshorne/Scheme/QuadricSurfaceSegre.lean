@@ -11,10 +11,10 @@ import Hartshorne.Scheme.ProjClosedSubschemeTruncation
 
 Let `k` be a field and `Q = Proj` of the Segre ring (`Hartshorne.quadricSurface k`). The graded
 `k`-algebra homomorphism `k[x, y, z, w] → ` Segre ring, `x, y, z, w ↦ s₀u₀, s₁u₁, s₀u₁, s₁u₀`
-(`Hartshorne.quadricCoordinateHom`), is surjective, so it induces a closed immersion
-`Q → ℙ³_k = Proj k[x, y, z, w]` (`Hartshorne.quadricSurfaceι`), whose homogeneous kernel is the
-ideal `(xy - zw)` (`Hartshorne.ker_quadricCoordinateAlgHom`); the Segre ring is
-`k[x, y, z, w] / (xy - zw)` (`Hartshorne.quadricQuotientEquiv`).
+(`Hartshorne.quadricCoordinateHom`), is surjective, with kernel the ideal `(xy - zw)`
+(`Hartshorne.ker_quadricCoordinateAlgHom`), so the Segre ring is `k[x, y, z, w] / (xy - zw)`
+(`Hartshorne.quadricQuotientEquiv`). The graded surjection induces a closed immersion
+`Q → ℙ³_k = Proj k[x, y, z, w]` (`Hartshorne.quadricSurfaceι`).
 
 As a graded isomorphism (`Hartshorne.quadricQuotientHom`), this identifies `Q` with the closed
 subscheme `V(xy - zw) = Proj k[x, y, z, w] / (xy - zw)` of `ℙ³_k` given by the homogeneous ideal
