@@ -2,6 +2,9 @@
 article_id: af_f67cd2877cf877d4cfc3a585
 declaration: def
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.pullbackStalkIso Hartshorne.pullbackStalkLinearEquiv
 ---
 
 # Stalks of the pullback of a module sheaf
