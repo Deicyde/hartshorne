@@ -774,4 +774,92 @@ theorem quadricLineTwo_apply_of_mem (i : Fin 2) {z : quadricSurface k}
 
 end Lines
 
+section Hyperplane
+
+/-- The point `x₀ = 0` of `ℙ¹_k`, as a prime divisor. -/
+abbrev projectiveLinePointZero : (Proj 𝒮).PrimeDivisor :=
+  projectiveHyperplanePrimeDivisor (k := k) (n := 1) Nat.one_pos
+    (isHomogeneous_X k (0 : Fin (1 + 1))) (X_ne_zero 0)
+
+/-- On `D₊(x₁)`, the point `x₀ = 0` is the divisor of `x₀ / x₁`. -/
+theorem projectiveLinePointZero_apply_eq_ord {y : Proj 𝒮} (hy : y ∈ Proj.basicOpen 𝒮 (X 1))
+    (hy1 : Order.coheight y = 1) :
+    (projectiveLinePointZero k).toWeilDivisor.1 y = (Proj 𝒮).ord
+      (homogeneousFraction (isHomogeneous_X k (0 : Fin (1 + 1))) (isHomogeneous_X k 1)
+        (X_ne_zero 1)) y := by
+  have h := toWeilDivisor_apply_primeDivisor (projectiveLinePointZero k) ⟨y, hy1⟩
+  refine h.trans ?_
+  rw [ord_homogeneousFraction_irreducible (n := 1) Nat.one_pos (isHomogeneous_X k 0)
+    (irreducible_of_isHomogeneous_one (isHomogeneous_X k 0) (X_ne_zero 0)) (isHomogeneous_X k 1)
+    (X_ne_zero 1) ⟨y, hy1⟩ hy]
+  rfl
+
+theorem projectiveLinePointZero_apply_of_mem {y : Proj 𝒮} (hy : y ∈ Proj.basicOpen 𝒮 (X 0)) :
+    (projectiveLinePointZero k).toWeilDivisor.1 y = 0 := by
+  refine (projectiveLinePointZero k).toWeilDivisor_apply_of_ne fun h => ?_
+  rw [h] at hy
+  exact (Proj.mem_basicOpen 𝒮 _ _).mp hy (Ideal.mem_span_singleton_self _)
+
+end Hyperplane
+
+section ClassGroup
+
+theorem quadricSurface_isLocallyFactorial : (quadricSurface k).IsLocallyFactorial :=
+  Scheme.isLocallyFactorial_of_isRegularLocalRing _ (quadricSurface_isRegular k).2
+
+theorem projectiveLine_isLocallyFactorial : (Proj 𝒮).IsLocallyFactorial :=
+  Scheme.isLocallyFactorial_of_isRegularLocalRing _ (projectiveSpace_isRegular (k := k) (n := 1)).2
+
+local notation "hQ" => quadricSurface_satisfiesConditionStar k
+
+local notation "hP" => projectiveSpace_satisfiesConditionStar (k := k) (n := 1)
+
+/-- **The pullback `p₁^* : Cl ℙ¹_k ⟶ Cl Q`**: `Cl ℙ¹_k ≅ Pic ℙ¹_k ⟶ Pic Q ≅ Cl Q`, through the
+Picard pullback along the first projection. -/
+def quadricClassGroupPullbackOne : (Proj 𝒮).WeilClassGroup hP →+ (quadricSurface k).WeilClassGroup hQ :=
+  ((Scheme.weilClassEquivPicard (quadricSurface_isLocallyFactorial k)).symm.toAddMonoidHom.comp
+    (Ringed.Pic.pullback (quadricProjOne k)).toAdditive).comp
+      (Scheme.weilClassEquivPicard (projectiveLine_isLocallyFactorial k)).toAddMonoidHom
+
+/-- **The pullback `p₂^* : Cl ℙ¹_k ⟶ Cl Q`**: `Cl ℙ¹_k ≅ Pic ℙ¹_k ⟶ Pic Q ≅ Cl Q`, through the
+Picard pullback along the second projection. -/
+def quadricClassGroupPullbackTwo : (Proj 𝒮).WeilClassGroup hP →+ (quadricSurface k).WeilClassGroup hQ :=
+  ((Scheme.weilClassEquivPicard (quadricSurface_isLocallyFactorial k)).symm.toAddMonoidHom.comp
+    (Ringed.Pic.pullback (quadricProjTwo k)).toAdditive).comp
+      (Scheme.weilClassEquivPicard (projectiveLine_isLocallyFactorial k)).toAddMonoidHom
+
+/-- **`p₁^*` of a point is a ruling line**: `p₁^*` sends the class of the point `x₀ = 0` of `ℙ¹_k`
+to the class of the line `L₁ = {s₀ = 0}`, its fibre. -/
+theorem quadricClassGroupPullbackOne_pointZero :
+    quadricClassGroupPullbackOne k ((Proj 𝒮).weilDivisorClassHom hP
+        (projectiveLinePointZero k).toWeilDivisor) =
+      (quadricSurface k).weilDivisorClassHom hQ (quadricLineOneDivisor k).toWeilDivisor := by
+  apply (Scheme.weilClassEquivPicard (quadricSurface_isLocallyFactorial k)).injective
+  simp only [quadricClassGroupPullbackOne, AddMonoidHom.coe_comp, Function.comp_apply,
+    AddEquiv.coe_toAddMonoidHom, AddEquiv.apply_symm_apply]
+  have h := Scheme.picPullback_weilClassEquivPicard (quadricProjOne k)
+    (quadricProjOne_genericPoint k) (quadricSurface_isLocallyFactorial k)
+    (projectiveLine_isLocallyFactorial k) (projectiveLinePointZero k).toWeilDivisor
+    (quadricLineOneDivisor k).toWeilDivisor ?_
+  · exact congrArg Additive.ofMul h
+  intro x
+  have hx : x ∈ ⨆ ij : Fin 2 × Fin 2, Proj.basicOpen 𝒬 (quadricChart k ij.1 ij.2) := by
+    rw [quadricSurface_iSup_basicOpen]
+    trivial
+  obtain ⟨⟨i, j⟩, hxij⟩ := TopologicalSpace.Opens.mem_iSup.mp hx
+  obtain rfl | rfl : i = 0 ∨ i = 1 := by fin_cases i <;> simp
+  · refine ⟨Proj.basicOpen 𝒮 (X 0), Proj.basicOpen 𝒬 (quadricChart k 0 j), 1, hxij,
+      basicOpen_le_preimage_quadricProjOne k 0 j, fun y hy _ => ?_, fun z hz _ => ?_⟩
+    · rw [projectiveLinePointZero_apply_of_mem k hy, Units.val_one, Scheme.ord_one_eq_zero]
+    · rw [quadricLineOne_apply_of_mem k j hz, Units.val_one, map_one, Scheme.ord_one_eq_zero]
+  · refine ⟨Proj.basicOpen 𝒮 (X 1), Proj.basicOpen 𝒬 (quadricChart k 1 j),
+      homogeneousFractionUnit (isHomogeneous_X k (0 : Fin (1 + 1))) (isHomogeneous_X k 1)
+        (X_ne_zero 1) (X_ne_zero 0), hxij,
+      basicOpen_le_preimage_quadricProjOne k 1 j, fun y hy hy1 => ?_, fun z hz hz1 => ?_⟩
+    · exact projectiveLinePointZero_apply_eq_ord k hy hy1
+    · rw [homogeneousFractionUnit, Units.val_mk0, quadricProjOne_homogeneousFraction]
+      exact quadricLineOne_apply_eq_ord k j hz hz1
+
+end ClassGroup
+
 end Hartshorne
