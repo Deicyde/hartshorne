@@ -25,7 +25,8 @@ every point has an open neighbourhood `U` with `E|_U ≅ 𝒪_U^n` for some `n`.
   any `F`, an isomorphism (`moduleSheafDualTensorMap_isIso`, `moduleSheafDualTensorIso`);
 * (c) for all `𝒪_X`-modules `E`, `F`, `G` there is a bijection
   `Hom(E ⊗ F, G) ≃ Hom(F, ℋom(E, G))` (`moduleSheafTensorHomAdjunction`), natural in `E`, `F`
-  and `G`. No finiteness is needed here.
+  and `G`; it is additive, so an isomorphism of abelian groups
+  (`moduleSheafTensorHomAddEquiv`). No finiteness is needed here.
 
 The proofs of (a) and (b) are local. A *local frame* of `E` over an open `U` is a finite family
 of sections `e_i ∈ E(U)` such that on every open `V ⊆ U` each section of `E` is uniquely an
@@ -40,7 +41,8 @@ stalks) is an isomorphism.
 
 For a scheme `X`, `X.Modules` is definitionally `SheafOfModules (ringCatSheafOf X.sheaf)`, so all
 of this applies to schemes with `R := X.sheaf`; `Scheme.Modules.isFiniteLocallyFree_iff`
-translates the finiteness hypothesis.
+translates the finiteness hypothesis, and `Scheme.Modules.tensorHomAddEquiv` states (c) with Hom
+groups in `X.Modules`.
 -/
 
 universe u
@@ -319,6 +321,32 @@ lemma moduleSheafTensorHomAdjunction_naturality_target {G' : 𝓜}
   refine moduleSheafHomEval_ext fun V h => ?_
   ext e
   rfl
+
+/-- The tensor–Hom bijection is additive. -/
+lemma moduleSheafTensorHomAdjunction_add (φ ψ : @Quiver.Hom 𝓜 _ (moduleSheafTensor E F) G) :
+    moduleSheafTensorHomAdjunction E F G (φ + ψ) =
+      moduleSheafTensorHomAdjunction E F G φ + moduleSheafTensorHomAdjunction E F G ψ := by
+  refine modules_hom_ext fun U => ?_
+  ext f
+  refine moduleSheafHomEval_ext fun V h => ?_
+  ext e
+  rfl
+
+variable (E F G) in
+/-- **Hartshorne II, Exercise 5.1(c): the tensor–Hom isomorphism of groups.** For all
+`𝒪_X`-modules `E`, `F`, `G`, the bijection `moduleSheafTensorHomAdjunction` is additive, giving
+an isomorphism of abelian groups `Hom(E ⊗ F, G) ≅ Hom(F, ℋom(E, G))`. -/
+noncomputable def moduleSheafTensorHomAddEquiv :
+    (@Quiver.Hom 𝓜 _ (moduleSheafTensor E F) G) ≃+ (F ⟶ moduleSheafHom E G) where
+  toEquiv := moduleSheafTensorHomAdjunction E F G
+  map_add' := moduleSheafTensorHomAdjunction_add
+
+@[simp]
+lemma moduleSheafTensorHomAddEquiv_apply (φ : @Quiver.Hom 𝓜 _ (moduleSheafTensor E F) G) :
+    moduleSheafTensorHomAddEquiv E F G φ = moduleSheafTensorHomAdjunction E F G φ := rfl
+
+lemma moduleSheafTensorHomAddEquiv_toEquiv :
+    (moduleSheafTensorHomAddEquiv E F G).toEquiv = moduleSheafTensorHomAdjunction E F G := rfl
 
 end Adjunction
 
@@ -1223,3 +1251,19 @@ end MainResults
 end Ringed
 
 end Hartshorne
+
+namespace AlgebraicGeometry.Scheme.Modules
+
+variable {X : Scheme.{u}}
+
+/-- **Hartshorne II, Exercise 5.1(c), on a scheme.** For all `𝒪_X`-modules `E`, `F`, `G` on a
+scheme `X`, the tensor–Hom isomorphism of abelian groups `Hom(E ⊗ F, G) ≅ Hom(F, ℋom(E, G))`,
+with Hom groups taken in the category `X.Modules`: the ringed-space isomorphism
+`Hartshorne.Ringed.moduleSheafTensorHomAddEquiv` with `R := X.sheaf`. -/
+noncomputable def tensorHomAddEquiv (E F G : X.Modules) :
+    let EF : X.Modules := Hartshorne.moduleSheafTensor (R := X.sheaf) E F
+    let HomEG : X.Modules := Hartshorne.Ringed.moduleSheafHom (R := X.sheaf) E G
+    (EF ⟶ G) ≃+ (F ⟶ HomEG) :=
+  Hartshorne.Ringed.moduleSheafTensorHomAddEquiv E F G
+
+end AlgebraicGeometry.Scheme.Modules
