@@ -4,7 +4,7 @@ declaration: definition
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.canonicalSheaf Hartshorne.canonicalSheaf_isInvertible Hartshorne.canonicalSheaf_isInvertible_of_relativeDifferentials Hartshorne.Ringed.IsLocallyFreeOfRank.moduleSheafExteriorPower
+lean: Hartshorne.canonicalSheaf Hartshorne.canonicalSheaf_eq Hartshorne.canonicalSheaf_isInvertible Hartshorne.canonicalSheaf_isInvertible_of_relativeDifferentials Hartshorne.Ringed.IsLocallyFreeOfRank.moduleSheafExteriorPower
 ---
 
 # The canonical sheaf
