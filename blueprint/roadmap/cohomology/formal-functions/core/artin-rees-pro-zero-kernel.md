@@ -27,6 +27,7 @@ having zero intersection of all powers.
 - [The Artin–Rees induced topology theorem](../../affine-cohomology/artin-rees-induced-topology.md)
 - [Inverse systems and the Mittag–Leffler condition](../../../schemes/formal-schemes/inverse-systems/inverse-system-mittag-leffler.md)
 - [The affine-local criterion for coherence](../../../schemes/modules-and-quasicoherent/coherent-affine-local-criterion.md)
+- [Product of an ideal sheaf with a submodule sheaf](../../../schemes/coherent-sheaves/ideal-power-product.md)
 
 ## Proof depends on
 
