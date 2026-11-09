@@ -290,7 +290,8 @@ theorem sum_finiteCurvePullbackMultiplicity [IsAlgClosed k] (hX : X.IsNonsingula
     intro a b hab
     apply Y.germToFunctionField_injective V
     apply (hX.finiteCurveFunctionFieldMap hY f).injective
-    rw [finiteCurveFunctionFieldMap_germToFunctionField, finiteCurveFunctionFieldMap_germToFunctionField]
+    rw [finiteCurveFunctionFieldMap_germToFunctionField,
+      finiteCurveFunctionFieldMap_germToFunctionField]
     exact congrArg (X.germToFunctionField (f ⁻¹ᵁ V)) hab
   have : FaithfulSMul Γ(Y, V) Γ(X, f ⁻¹ᵁ V) :=
     (faithfulSMul_iff_algebraMap_injective _ _).mpr hinj
