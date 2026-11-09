@@ -577,6 +577,41 @@ lemma θComp_mem (hψ' : D.Compatible G' ψ') (V : Opens X) (t : G'.val.obj (op 
   refine Eq.trans ?_ h2
   exact D.compat_apply hψ' i j Bij _
 
+lemma θComp_map (i : D.ι) {V V' : Opens X} (f : op V ⟶ op V') (t : G'.val.obj (op V)) :
+    D.θComp (ψ' := ψ') i V' (G'.val.map f t) = (D.P i).val.map f (D.θComp (ψ' := ψ') i V t) := by
+  have h := over_nat S G' (ψ' i).hom (A := st (D.U i) V') (B := st (D.U i) V)
+    (by simp only [st_left]; exact inf_le_inf_left _ (leOfHom f.unop))
+    (G'.val.map (homOfLE (st_left_le_right (D.U i) V)).op t)
+  have k : op V ⟶ op (st (D.U i) V').left :=
+    (homOfLE ((st_left_le_right _ V').trans (leOfHom f.unop))).op
+  unfold θComp
+  refine Eq.trans ?_ h
+  congr 1
+  rw [← PresheafOfModules.map_comp_apply, ← PresheafOfModules.map_comp_apply]
+  exact PresheafOfModules.congr_map_apply _ (opensOp_hom_ext _ _) t
+
+/-- The comparison map `G' ⟶ glue`. -/
+noncomputable def θHom (hψ' : D.Compatible G' ψ') : G' ⟶ D.glue where
+  val :=
+    { app V := ModuleCat.ofHom (X := G'.val.obj V) (Y := D.glue.val.obj V)
+        { toFun t := ⟨fun i => D.θComp (ψ' := ψ') i V.unop t, D.θComp_mem hψ' V.unop t⟩
+          map_add' x y := Subtype.ext <| funext fun i => by
+            change D.θComp i V.unop (x + y) = D.θComp i V.unop x + D.θComp i V.unop y
+            unfold θComp
+            exact (congrArg _ (map_add _ x y)).trans (map_add _ _ _)
+          map_smul' r x := Subtype.ext <| funext fun i => by
+            change D.θComp i V.unop (r • x) = _
+            unfold θComp
+            refine (congrArg _ (G'.val.map_smul _ r x)).trans ?_
+            refine (((ψ' i).hom.val.app _).hom.map_smul _ _).trans ?_
+            rfl }
+      naturality {V V'} f := by
+        ext t
+        exact Subtype.ext <| funext fun i => D.θComp_map i f t }
+
+lemma θHom_apply (hψ' : D.Compatible G' ψ') (V : Opens X) (t : G'.val.obj (op V)) (i : D.ι) :
+    ((D.θHom hψ').val.app (op V) t : ↥(D.N.obj (op V))).1 i = D.θComp (ψ' := ψ') i V t := rfl
+
 end uniqueness
 
 end GluingData
