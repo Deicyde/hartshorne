@@ -446,6 +446,7 @@ import Hartshorne.Scheme.Differentials.DifferentialCriterionField
 import Hartshorne.Scheme.Differentials.RegularLocalDifferentialCriterion
 import Hartshorne.Scheme.ProjectiveWeilDivisorDegree
 import Hartshorne.RingedSpace.FiniteLocallyFreeDuality
+import Hartshorne.RingedSpace.LocallyFreeRank
 import Hartshorne.Projective.HomogeneousLocalizedModule
 import Hartshorne.Projective.HomogeneousLocalizedModuleAway
 import Hartshorne.Scheme.ProjGradedModuleSheaf
