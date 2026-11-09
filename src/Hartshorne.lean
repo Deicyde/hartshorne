@@ -609,3 +609,4 @@ import Hartshorne.Scheme.AffineTildeChangeOfRings
 import Hartshorne.Scheme.Differentials.DenseNonsingularLocus
 import Hartshorne.Scheme.Differentials.TangentSheaf
 import Hartshorne.Scheme.Differentials.CanonicalSheaf
+import Hartshorne.Scheme.ProjTwistCompatibility
