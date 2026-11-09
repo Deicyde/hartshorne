@@ -2,6 +2,9 @@
 article_id: af_acc41f7e6e3920d05b1ce349
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.sheafCohomologyδ Hartshorne.sheafCohomology_mono_map_f Hartshorne.sheafCohomology_exact₂ Hartshorne.sheafCohomology_exact₃ Hartshorne.sheafCohomology_exact₁ Hartshorne.sheafCohomologyδ_naturality
 ---
 
 # The long exact sequence of sheaf cohomology

@@ -470,6 +470,7 @@ import Hartshorne.Scheme.AffineVarietySpec
 import Hartshorne.Cohomology.Flatness.CoherentSelfFlatLocallyFree
 import Hartshorne.Cohomology.QuasicoherentCoherentSubobjects
 import Hartshorne.Cohomology.SheafCohomology
+import Hartshorne.Cohomology.SheafCohomologyLongExactSequence
 import Hartshorne.Cohomology.CohomologyWithSupports
 import Hartshorne.Cohomology.CohomologyWithSupportsExcision
 import Hartshorne.Cohomology.MayerVietorisWithSupports
