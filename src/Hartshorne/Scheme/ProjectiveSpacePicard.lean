@@ -625,6 +625,106 @@ theorem ord_linearPowSection (l : ℤ) {ℓ : S} (hℓ : ℓ.IsHomogeneous 1) (h
     rcases y.isPrime.mem_or_mem hmem with h1 | h1 <;>
       exact (Proj.mem_basicOpen _ _ _).1 hℓy (y.isPrime.mem_of_pow_mem _ h1)
 
+/-! ### The Cartier divisor of the image -/
+
+omit hn in
+/-- A regular function has nonnegative order at every codimension-one point of its domain. -/
+theorem ord_germ_nonneg {U : (Proj 𝒜).Opens} (y : Proj 𝒜) (hyU : y ∈ U) (r : Γ(Proj 𝒜, U)) :
+    0 ≤ (Proj 𝒜).ord ((Proj 𝒜).presheaf.germ U η
+      (Scheme.genericPoint_mem_opens_of_mem (X := Proj 𝒜) hyU) r) y := by
+  have : Nonempty U := ⟨⟨y, hyU⟩⟩
+  by_cases hr : r = 0
+  · rw [hr, map_zero, Scheme.ord_zero]
+    rfl
+  have := (Proj 𝒜).ord_le_smul hyU hr 1
+  rw [ord_one] at this
+  convert this using 2
+  rw [Algebra.smul_def, mul_one]
+  rfl
+
+/-- A Cartier divisor `D_l` whose sheaf `O_X(D_l)` is the image of `𝒪(l)` in `K_X`. -/
+def imageDivisor (l : ℤ) : (Proj 𝒜).CartierDivisor :=
+  Classical.choose
+    (Scheme.CartierDivisor.toInvertibleSubmodule_surjective (imageInvertibleSubmodule l))
+
+omit hn in
+theorem imageDivisor_submodule (l : ℤ) :
+    (imageDivisor (k := k) (n := n) l).submodule = imageSubmodule l :=
+  congrArg Scheme.InvertibleTotalQuotientSubmodule.submodule (Classical.choose_spec
+    (Scheme.CartierDivisor.toInvertibleSubmodule_surjective (imageInvertibleSubmodule l)))
+
+omit hn in
+theorem isSection_imageDivisor_iff (l : ℤ) {U : (Proj 𝒜).Opens}
+    (t : (Proj 𝒜).totalQuotientModule.val.obj (op U)) :
+    (imageDivisor (k := k) (n := n) l).IsSection (U := U) t ↔
+      ∃ s, (twistToK l).val.app (op U) s = t := by
+  rw [← Scheme.CartierDivisor.mem_submodule_iff, imageDivisor_submodule]
+  rfl
+
+include hn in
+/-- **The Weil divisor of `D_l` is `l · H`**: its coefficient at a codimension-one point `y` is
+`l · [y ∈ H]`, where `H = V(x₀)`. -/
+theorem weilCoeff_imageDivisor (l : ℤ) (y : Proj 𝒜) (hy1 : Order.coheight y = 1) :
+    (imageDivisor (k := k) (n := n) l).weilCoeff y = l * (hyperplaneX0 hn).toWeilDivisor.1 y := by
+  set D := imageDivisor (k := k) (n := n) l
+  obtain ⟨V, f, hyV, hf⟩ := D.exists_localEquation y
+  have hηV : η ∈ V := Scheme.genericPoint_mem_opens_of_mem (X := Proj 𝒜) hyV
+  rw [D.weilCoeff_eq f hf hyV]
+  set κ : (Proj 𝒜).functionField :=
+    (Scheme.totalQuotientUnitsEquivFunctionField V hηV f : (Proj 𝒜).functionField) with hκ
+  have hκ0 : κ ≠ 0 := Units.ne_zero _
+  -- upper bound, from the section `f⁻¹` of `O_X(D)`
+  obtain ⟨s, hs⟩ := (isSection_imageDivisor_iff l _).1 (D.isSection_inv hf (le_refl V))
+  have hsval : twistToFunctionField l
+      ((s : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 l)).1.obj (op V)).1 ⟨η, hηV⟩) =
+      κ⁻¹ := by
+    rw [← twistToK_app_apply l hηV s, hs, Scheme.CartierDivisor.kMap_id, hκ,
+      ← Units.val_inv_eq_inv_val, ← map_inv]
+    rfl
+  have hup := le_ord_twistToFunctionField hn l s hηV (by rw [hsval]; exact inv_ne_zero hκ0) y
+    hyV hy1
+  rw [hsval, Scheme.ord_inv_eq_neg hκ0] at hup
+  -- lower bound, from the section `ℓ^l` of `𝒪(l)` on `D₊(ℓ^{l⁻})`
+  obtain ⟨ℓ, hℓ, hℓ0, hℓy⟩ := exists_linear_notMem y
+  have hyB : y ∈ Proj.basicOpen 𝒜 (ℓ ^ (-l).toNat) := by
+    rw [Proj.mem_basicOpen]
+    exact fun h1 => (Proj.mem_basicOpen _ _ _).1 hℓy (y.isPrime.mem_of_pow_mem _ h1)
+  have hyW : y ∈ V ⊓ Proj.basicOpen 𝒜 (ℓ ^ (-l).toNat) := ⟨hyV, hyB⟩
+  have hηW := Scheme.genericPoint_mem_opens_of_mem (X := Proj 𝒜) hyW
+  have hηB := Scheme.genericPoint_mem_opens_of_mem (X := Proj 𝒜) hyB
+  set g := (projTwistingSheaf 𝒜 l).val.map
+    (homOfLE (inf_le_right : V ⊓ Proj.basicOpen 𝒜 (ℓ ^ (-l).toNat) ≤ _)).op
+    (linearPowSection l hℓ)
+  have ht := (isSection_imageDivisor_iff l ((twistToK l).val.app (op _) g)).2 ⟨g, rfl⟩
+  obtain ⟨r, hr⟩ := ht _ le_rfl _ (D.restrict_eq_of_le inf_le_left hf)
+  have hr' := congrArg (Scheme.totalQuotientSheafEquivFunctionField _ hηW) hr
+  rw [map_mul] at hr'
+  erw [Scheme.CartierDivisor.kMap_id, twistToK_app_apply l hηW,
+    Scheme.totalQuotientSheafEquivFunctionField_toTotalQuotientSheaf] at hr'
+  have hgval : twistToFunctionField l
+      ((g : (ProjGradedModuleSheaf.sheafInType 𝒜 (gradedTwist 𝒜 l)).1.obj (op _)).1 ⟨η, hηW⟩) =
+      twistToFunctionField l ((linearPowSection l hℓ : (ProjGradedModuleSheaf.sheafInType 𝒜
+        (gradedTwist 𝒜 l)).1.obj (op (Proj.basicOpen 𝒜 (ℓ ^ (-l).toNat)))).1 ⟨η, hηB⟩) := rfl
+  have hfval : Scheme.totalQuotientSheafEquivFunctionField _ hηW
+      (Scheme.kUnitVal ((Proj 𝒜).totalQuotientUnitsSheaf.obj.map
+        (homOfLE (inf_le_left : V ⊓ Proj.basicOpen 𝒜 (ℓ ^ (-l).toNat) ≤ V)).op f)) = κ := by
+    rw [hκ, ← Scheme.totalQuotientUnitsEquivFunctionField_map
+      (inf_le_left : V ⊓ Proj.basicOpen 𝒜 (ℓ ^ (-l).toNat) ≤ V) hηW f]
+    rfl
+  rw [hgval, hfval] at hr'
+  have hgen := ord_linearPowSection hn l hℓ hℓ0 hηB y hy1 hℓy
+  have hgen0 : twistToFunctionField l ((linearPowSection l hℓ : (ProjGradedModuleSheaf.sheafInType
+      𝒜 (gradedTwist 𝒜 l)).1.obj (op (Proj.basicOpen 𝒜 (ℓ ^ (-l).toNat)))).1 ⟨η, hηB⟩) ≠ 0 := by
+    intro h0
+    have := congrArg functionFieldToLocalization h0
+    rw [functionFieldToLocalization_twistToFunctionField, map_zero] at this
+    exact pow_ne_zero _ hℓ0 (eq_zero_of_twistVal_mk_eq_zero (j := (-l).toNat) l
+      (pow_toNat_mem_gradedTwist l hℓ)
+      ((mem_homogeneousSubmodule _ _).2 (isHomogeneous_pow_of_isHomogeneous_one hℓ _)) hηB this)
+  have hlow := ord_germ_nonneg y hyW r
+  rw [hr', Scheme.ord_mul hgen0 hκ0, hgen] at hlow
+  linarith
+
 end ProjectiveSpacePicard
 
 end Hartshorne
