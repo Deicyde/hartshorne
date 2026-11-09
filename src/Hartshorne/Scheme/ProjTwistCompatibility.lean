@@ -3,7 +3,6 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.ProjTwistingSheaf
-import Hartshorne.Scheme.AffineTildeTensor
 import Hartshorne.RingedSpace.ModuleSheafMonoidal
 import Hartshorne.Intersection.GradedModuleTwist
 
@@ -342,7 +341,8 @@ theorem exists_isBilinearSum_res {U : Opens X} (t : (moduleSheafTensor F G).val.
   obtain ⟨V, hV, v, hv, hve⟩ := exists_isBilinearSum_stalk x
     (moduleSheafTensorStalkIso F G x (sectionGerm _ x U hx t))
   have hg := (moduleSheafTensorStalkIso F G x).injective hve
-  obtain ⟨W, hxW, iV, iU, e⟩ := TopCat.Presheaf.germ_eq (moduleSheafTensor F G).val.presheaf x hV hx v t hg
+  obtain ⟨W, hxW, iV, iU, e⟩ :=
+    TopCat.Presheaf.germ_eq (moduleSheafTensor F G).val.presheaf x hV hx v t hg
   refine ⟨W, hxW, iU, ?_⟩
   have : res _ iU t = res _ iV v := e.symm
   rw [this]
@@ -456,7 +456,8 @@ def twistBilinear (n : ℤ) :
 theorem twistBilinear_apply (n : ℤ) {U : (Opens (ProjectiveSpectrum.top 𝒜))ᵒᵖ}
     (s : (projGradedModuleSheaf 𝒜 ℳ).val.obj U) (t : (projTwistingSheaf 𝒜 n).val.obj U)
     (x : U.unop) :
-    (((twistBilinear 𝒜 ℳ n).app U s t : (projGradedModuleSheaf 𝒜 (gradedModuleTwist ℳ n)).val.obj U) :
+    (((twistBilinear 𝒜 ℳ n).app U s t :
+        (projGradedModuleSheaf 𝒜 (gradedModuleTwist ℳ n)).val.obj U) :
       (sheafInType 𝒜 (gradedModuleTwist ℳ n)).1.obj U).1 x =
       twistPair (𝒜 := 𝒜) _ n ((s : (sheafInType 𝒜 ℳ).1.obj U).1 x)
         ((t : (sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj U).1 x) := rfl
@@ -472,7 +473,8 @@ def twistTensorHom (n : ℤ) :
 theorem twistTensorHom_bilinear (n : ℤ) (U : (Opens (ProjectiveSpectrum.top 𝒜))ᵒᵖ)
     (s : (projGradedModuleSheaf 𝒜 ℳ).val.obj U) (t : (projTwistingSheaf 𝒜 n).val.obj U) :
     (twistTensorHom 𝒜 ℳ n).val.app U
-        ((moduleSheafTensorBilinear (projGradedModuleSheaf 𝒜 ℳ) (projTwistingSheaf 𝒜 n)).app U s t) =
+        ((moduleSheafTensorBilinear (projGradedModuleSheaf 𝒜 ℳ) (projTwistingSheaf 𝒜 n)).app U
+          s t) =
       (twistBilinear 𝒜 ℳ n).app U s t := by
   have h := moduleSheafTensorHomEquiv_apply (twistTensorHom 𝒜 ℳ n)
   rw [twistTensorHom, Equiv.apply_symm_apply] at h
@@ -520,7 +522,8 @@ theorem twistTensorHom_stalk_bijective (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 :
   have hΦ : ∀ a b, Φ (a ⊗ₜ b) = twistPair _ n (EF a) (EG b) :=
     fun a b => twistTensorHom_stalk_tmul n x a b
   set b0 : moduleStalk (projTwistingSheaf 𝒜 n).val x := EG.symm (twistGen n f_deg hfT)
-  have hform : ∀ w : moduleStalk (projGradedModuleSheaf 𝒜 ℳ).val x ⊗[ringSheafStalk (Proj 𝒜).sheaf x]
+  have hform : ∀ w : moduleStalk (projGradedModuleSheaf 𝒜 ℳ).val x ⊗[
+      ringSheafStalk (Proj 𝒜).sheaf x]
       moduleStalk (projTwistingSheaf 𝒜 n).val x, ∃ a, w = a ⊗ₜ b0 := by
     intro w
     induction w using TensorProduct.induction_on with
@@ -787,7 +790,8 @@ theorem twistIso_assoc (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 : Set A) = ⊤) (
           (tmulSection _ _ (tmulSection _ _ s t) k))) =
     (twistIso ℳ hgen (n + m)).hom.val.app U
       ((projGradedModuleSheaf 𝒜 ℳ ◁ (twistMulIso 𝒜 hgen n m).hom).val.app U
-        ((α_ (projGradedModuleSheaf 𝒜 ℳ) (projTwistingSheaf 𝒜 n) (projTwistingSheaf 𝒜 m)).hom.val.app
+        ((α_ (projGradedModuleSheaf 𝒜 ℳ) (projTwistingSheaf 𝒜 n)
+          (projTwistingSheaf 𝒜 m)).hom.val.app
           U (tmulSection _ _ (tmulSection _ _ s t) k)))
   rw [scheme_whiskerRight_tmulSection, twistIso_hom_tmulSection, twistIso_hom_tmulSection,
     scheme_associator_hom_tmulSection, scheme_whiskerLeft_tmulSection, twistIso_hom_tmulSection]
@@ -830,7 +834,8 @@ theorem twistMulIso_assoc (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 : Set A) = ⊤
   rw [scheme_whiskerRight_tmulSection, scheme_associator_hom_tmulSection,
     scheme_whiskerLeft_tmulSection]
   refine section_ext (ℳ := gradedTwist 𝒜 (n + m + l)) fun x => HomogeneousLocalizedModule.ext ?_
-  rw [eqToHom_projTwistingSheaf_val (add_assoc n m l).symm, twistMulIso_hom_tmulSection, twistMulIso_hom_tmulSection,
+  rw [eqToHom_projTwistingSheaf_val (add_assoc n m l).symm, twistMulIso_hom_tmulSection,
+    twistMulIso_hom_tmulSection,
     twistMulIso_hom_tmulSection, twistMulIso_hom_tmulSection]
   exact (smul_assoc _ _ _).symm
 
@@ -869,6 +874,44 @@ theorem twistMulIso_hom_twistGenSection (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 
   refine section_ext (ℳ := gradedTwist 𝒜 (n + m)) fun x => HomogeneousLocalizedModule.ext ?_
   rw [twistMulIso_hom_tmulSection]
   exact twistGen_mul n f_deg x.2 m
+
+set_option backward.isDefEq.respectTransparency false in
+/-- **The chart trivialization sends `1` to the local generator.** Under the recorded chart
+trivialization `𝒪_X(n)|_{D₊(f)} ≅ 𝒪_{D₊(f)}` (`ProjTwistingSheaf.chartTrivialization`), the
+global section `1` corresponds to the section of `𝒪_X(n)` over `D₊(f)` whose value at every
+point is `f^n`, that is, to `twistGenSection f_deg n`. -/
+theorem chartTrivialization_inv_one (n : ℤ) (x : Proj 𝒜)
+    (hx : x ∈ Proj.awayι 𝒜 f f_deg one_pos ''ᵁ ⊤) :
+    chartEval (ℳ := gradedTwist 𝒜 n)
+        ((ProjTwistingSheaf.chartTrivialization f_deg n).inv.val.app (op ⊤)
+          (show Γ(Spec (.of (Away 𝒜 f)), ⊤) from 1)) x hx =
+      (twistGenSection f_deg n : (sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj
+        (op (ProjectiveSpectrum.basicOpen 𝒜 f))).1
+        ⟨x, awayι_mem_basicOpen 𝒜 f_deg one_pos hx⟩ := by
+  have h1 : (tildeSelf (R := CommRingCat.of (Away 𝒜 f))).inv.val.app (op ⊤)
+      (show Γ(Spec (.of (Away 𝒜 f)), ⊤) from 1) =
+      (tilde.toOpen (R := CommRingCat.of (Away 𝒜 f))
+        (ModuleCat.of (Away 𝒜 f) (Away 𝒜 f)) ⊤).hom 1 := by
+    apply Subtype.ext
+    funext p
+    exact (congrArg (fun s => s.1 p)
+      (StructureSheaf.const_one (R := Away 𝒜 f) (A := Away 𝒜 f) ⊤)).symm
+  have h2 := ConcreteCategory.congr_hom
+    (tilde.toOpen_map_app (R := CommRingCat.of (Away 𝒜 f))
+      (ProjTwistingSheaf.twistAwayEquiv f_deg n).toModuleIso.hom ⊤) (1 : Away 𝒜 f)
+  rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply] at h2
+  have h3 := fromTildeChart_app_toOpen 𝒜 (gradedTwist 𝒜 n) f_deg one_pos ⊤
+    (ProjTwistingSheaf.twistAwayEquiv f_deg n 1)
+  change chartEval ((modulesSpecToSheaf.map (fromTildeChart 𝒜 (gradedTwist 𝒜 n) f_deg
+    one_pos)).1.app (op ⊤)
+      ((tilde.map (ProjTwistingSheaf.twistAwayEquiv f_deg n).toModuleIso.hom).val.app
+      (op ⊤) ((tildeSelf (R := CommRingCat.of (Away 𝒜 f))).inv.val.app (op ⊤)
+        (show Γ(Spec (.of (Away 𝒜 f)), ⊤) from 1)))) x hx = _
+  rw [h1]
+  erw [h2]
+  erw [h3, chartEval_res, toChartΓ_apply, chartEval_toChartSection]
+  rw [ProjTwistingSheaf.twistAwayEquiv_apply, one_smul]
+  exact HomogeneousLocalizedModule.mapOfLE_mk _ _ _ _ _ _ _
 
 end Chart
 
