@@ -2,6 +2,9 @@
 article_id: af_192f0b8ffad7754e68bb629c
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.cechToSheafCohomology Hartshorne.cechToSheafCohomology_zero_comp Hartshorne.isIso_cechToSheafCohomology_zero
 ---
 
 # Comparison from Čech to sheaf cohomology

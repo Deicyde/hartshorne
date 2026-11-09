@@ -391,6 +391,7 @@ import Hartshorne.Scheme.AbsoluteNormalizationUniversal
 import Hartshorne.Scheme.AffineUFDClassGroup
 import Hartshorne.Scheme.CoherentAffineLocalCriterion
 import Hartshorne.Cohomology.SheafifiedCechResolution
+import Hartshorne.Cohomology.CechDerivedComparison
 import Hartshorne.Weil.EtaleInverseImage
 import Hartshorne.Weil.TorsionEtaleCohomology
 import Hartshorne.Weil.ClassicalEllAdicCohomology
