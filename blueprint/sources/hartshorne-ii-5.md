@@ -144,7 +144,11 @@ then reuses `IsClosedImmersion.overEquivIdealSheafData`.
 - **Exercise 5.12(a,b), p.126.** Tensoring very ample sheaves and composing
   relative very ample data. Used later in projective geometry.
 - **Exercise 5.13, p.126.** Veronese Proj and the identification of its `O(1)`
-  with `O(d)`. Used on II pp.155 and 167.
+  with `O(d)`. Also: if `x_0, ..., x_n` generate `S_1`, giving an embedding
+  `X ⊂ P^n_A`, the monomials of degree `d` in the `x_i` generate
+  `S^(d)_1 = S_d` and define a projective embedding of `Proj S^(d)` which is
+  "none other than the image of X under the d-uple embedding of P^n_A".
+  Used on II pp.155 and 167.
 - **Exercise 5.14(a–d), p.126.** Section rings, integral closure,
   projectively normal Veronese embeddings, and the section-surjectivity
   criterion. Used by Remark 5.13.1 and later in Chapters II and III.
