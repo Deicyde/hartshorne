@@ -26,7 +26,7 @@ class–Picard equivalence.
 
 ## Proof depends on
 
-- Projective space is regular.
+- [The projective-space case of Bertini](../../differentials/canonical-bertini/bertini-projective-space-case.md), for regularity of projective space.
 - The sheaf associated to a hyperplane is the standard twisting sheaf.
 
 ## Sources
