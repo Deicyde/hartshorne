@@ -2,6 +2,9 @@
 article_id: af_abf62cba2721e18c484f0f47
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.topologicalKrullDim_of_mem_irreducibleComponents_of_smoothOfRelativeDimension Hartshorne.SubmersivePresentation.isRegularLocalRing_localization Hartshorne.SubmersivePresentation.ringKrullDim_localization_add_ringKrullDim_quotient Hartshorne.SubmersivePresentation.linearIndependent_D_relation
 ---
 
 # Dimension of a scheme smooth over a field
