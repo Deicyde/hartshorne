@@ -229,6 +229,44 @@ theorem rankAt_eq_of_connectedSpace [ConnectedSpace X] [∀ x : X, Nontrivial (r
 
 end Rank
 
+section ZeroStalk
+
+/-- If the stalk `𝒪_{X,x}` is the zero ring, then `𝒪_X` vanishes on an open neighbourhood `U`
+of `x`, and every module over `𝒪_X|_U` is a zero object. -/
+theorem exists_isZero_over_of_subsingleton_stalk (x : X) [Subsingleton (ringSheafStalk R x)] :
+    ∃ U : Opens X, x ∈ U ∧ (∀ V : Opens X, V ≤ U → Subsingleton (R.obj.obj (op V))) ∧
+      ∀ M : SheafOfModules.{u} ((ringCatSheafOf R).over U), IsZero M := by
+  have h1 : TopCat.Presheaf.germ R.obj ⊤ x trivial 1 =
+      TopCat.Presheaf.germ R.obj ⊤ x trivial 0 :=
+    Subsingleton.elim _ _
+  obtain ⟨U, hxU, i, j, hij⟩ :=
+    TopCat.Presheaf.germ_eq R.obj (U := ⊤) (V := ⊤) x trivial trivial 1 0 h1
+  have hU : (1 : R.obj.obj (op U)) = 0 := by simpa using hij
+  have hsub : ∀ V : Opens X, V ≤ U → Subsingleton (R.obj.obj (op V)) := fun V hV =>
+    subsingleton_of_zero_eq_one (by
+      have := congrArg (R.obj.map (homOfLE hV).op).hom hU
+      simpa using this.symm)
+  refine ⟨U, hxU, hsub, fun M => ?_⟩
+  refine (IsZero.iff_id_eq_zero M).mpr ?_
+  apply SheafOfModules.hom_ext
+  apply PresheafOfModules.hom_ext
+  intro W
+  have := hsub W.unop.left (leOfHom W.unop.hom)
+  have : Subsingleton (M.val.obj W) := Module.subsingleton (R.obj.obj (op W.unop.left)) _
+  ext s
+  exact Subsingleton.elim _ _
+
+/-- **The stalk hypothesis on the rank is needed.** If the stalk `𝒪_{X,x}` is the zero ring,
+then `𝒪_X` vanishes on an open neighbourhood `U` of `x`, where every `𝒪_X`-module is free of
+every rank: `F|_U ≅ 𝒪_U ^ (⊕ I)` for every `F` and every index type `I`. -/
+theorem exists_over_iso_free_of_subsingleton_stalk (x : X) [Subsingleton (ringSheafStalk R x)] :
+    ∃ U : Opens X, x ∈ U ∧ (∀ V : Opens X, V ≤ U → Subsingleton (R.obj.obj (op V))) ∧
+      ∀ (F : 𝓜) (I : Type u), Nonempty (F.over U ≅ SheafOfModules.free I) := by
+  obtain ⟨U, hxU, hsub, h⟩ := exists_isZero_over_of_subsingleton_stalk (R := R) x
+  exact ⟨U, hxU, hsub, fun F I => ⟨(h _).iso (h _)⟩⟩
+
+end ZeroStalk
+
 end Ringed
 
 end Hartshorne
