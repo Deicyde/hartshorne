@@ -116,7 +116,7 @@ original stalk.
 | 1.22 | Compatible sheaves on an open cover glue uniquely | 69 | Reduced induced subschemes, p. 86; gluing morphisms, p. 88 |
 
 Exercise 1.22 glues sheaves on a topological space. The roadmap bridges it to sheaves of
-modules over a sheaf of rings, which the relative Proj construction (II.7, pp. 160–161)
+modules over a sheaf of rings, which the relative Proj construction (II.7, p. 160)
 needs to glue twisting sheaves.
 
 Exercise 1.19(b) supplies the open-extension construction, its restriction and
