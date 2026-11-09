@@ -2,6 +2,9 @@
 article_id: af_865d81387d6d127ca796c78f
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.bijective_residueFieldStructureMap_map Hartshorne.residueFieldStructureMap
 ---
 
 # Morphisms over $k$ preserve points with residue field $k$

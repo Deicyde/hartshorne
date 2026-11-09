@@ -501,6 +501,7 @@ import Hartshorne.Scheme.ProjectiveMorphismCalculus
 import Hartshorne.Scheme.VarietySchemeOverK
 import Hartshorne.RingedSpace.PicardGroup
 import Hartshorne.Scheme.VarietyClosedPoints
+import Hartshorne.Scheme.ResidueFieldOverField
 import Hartshorne.Scheme.AffineLineClassGroup
 import Hartshorne.Scheme.VarietyToSchemeFunctor
 import Hartshorne.Rational.OrdinaryNodeAlgebra
