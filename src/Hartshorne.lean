@@ -566,6 +566,7 @@ import Hartshorne.RingedSpace.SheafExtLocallyFreeResolution
 import Hartshorne.Intersection.ProjectiveLinearSubspaceCycle
 import Hartshorne.Scheme.ProjHomogeneousFraction
 import Hartshorne.Scheme.QuadricSurface
+import Hartshorne.Scheme.QuadricSurfaceSegre
 import Hartshorne.Scheme.QuadricSurfaceClassGroup
 import Hartshorne.Cohomology.ResolutionToInjectiveComplex
 import Hartshorne.Cohomology.RightDerivedPullback
