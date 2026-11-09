@@ -470,9 +470,9 @@ end Hartshorne.SerreRegularity
 
 namespace Hartshorne.RegularLocal
 
-/-- **Localizations of regular local rings are regular** (used in Hartshorne II, Theorem 8.14A,
-which cites Matsumura): if `A` is a regular local ring and `𝔭` is a prime ideal of `A`, then
-`A_𝔭` is a regular local ring. -/
+/-- **Hartshorne II, Theorem 8.14A** (p. 177, cited there from Matsumura [2], p. 139).
+Localizations of regular local rings are regular: if `A` is a regular local ring and `𝔭` is a
+prime ideal of `A`, then `A_𝔭` is a regular local ring. -/
 theorem isRegularLocalRing_localization_atPrime (A : Type u) [CommRing A] [IsRegularLocalRing A]
     (p : Ideal A) [p.IsPrime] : IsRegularLocalRing (Localization.AtPrime p) :=
   Hartshorne.SerreRegularity.isRegularLocalRing_of_hasProjectiveDimensionLE _ _
