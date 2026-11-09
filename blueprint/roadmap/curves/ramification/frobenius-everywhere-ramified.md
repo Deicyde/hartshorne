@@ -29,6 +29,7 @@ defined for it.
 
 ## Proof depends on
 
+- [Differentials characterize nonsingular varieties](../../schemes/differentials/scheme-differentials/differentials-characterize-nonsingular.md)
 - A uniformizer pulls back to its $p$th power and $d(t^p)=0$ in
   characteristic $p$.
 
