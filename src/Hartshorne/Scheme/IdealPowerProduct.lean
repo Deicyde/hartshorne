@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Cohomology.ArtinReesKernelSheaf
 import Hartshorne.Scheme.InvertibleSectionClearingDenominators
-import Hartshorne.Scheme.CoherentAffineLocalCriterion
+import Hartshorne.Scheme.QuasicoherentAbelianClosure
 
 /-!
 # The product of a power of an ideal sheaf with a submodule sheaf
@@ -19,7 +19,11 @@ without an ambient module, take `E = N` and the top submodule.
 * `sub_powSmul_eq`: if `N` is quasi-coherent, then on every affine open `V` the sections of
   `I ^ k N` are exactly `I(V) ^ k N(V)`;
 * `isCoherent_powSmul`: if `X` is locally Noetherian and `N` is coherent, `I ^ k N` is coherent;
-* `powSmul_zero`: `I ^ 0 N = N`.
+* `powSmul_zero`: `I ^ 0 N = N`;
+* `isCoherent_kernelSheaf`: consequently the Artin–Rees kernel sheaves
+  `(R ∩ I ^ (n + 1) E) / I ^ (n + 1) R` are coherent for coherent `R ⊆ E`, using
+  `isQuasicoherent_inf` (intersections of quasi-coherent submodule sheaves), `isCoherent_of_le`
+  (quasi-coherent subsheaves of coherent ones) and closure of coherent sheaves under cokernels.
 
 The quasi-coherence uses a converse of Hartshorne II.5.3, `isQuasicoherent_of_pow_smul`: an
 `𝒪_X`-module is quasi-coherent if, on every affine open `U` and for every `g ∈ Γ(X, U)`, sections
@@ -277,6 +281,28 @@ theorem isQuasicoherent_powSmul (I : X.IdealSheafData) (k : ℕ) {N : E.val.Subm
     exact ⟨n, (⟨p, le_sub_powSmul I k N U hp⟩ : (powSmul I k N).obj (op (U : X.Opens))),
       Subtype.ext h.symm⟩
 
+/-- A submodule sheaf of `E` which is a quasi-coherent subsheaf of a coherent submodule sheaf is
+coherent, on a locally Noetherian scheme. -/
+theorem isCoherent_of_le [IsLocallyNoetherian X] {N₁ N₂ : E.val.Submodule} (h₁ : IsLocal N₁)
+    (h₂ : IsLocal N₂) (h : N₁ ≤ N₂) [(toModules N₁ h₁).IsQuasicoherent]
+    (hcoh : IsCoherent (toModules N₂ h₂)) : IsCoherent (toModules N₁ h₁) := by
+  have h4 := ((coherent_affine_local_tfae (toModules N₂ h₂)).out 0 3).mp hcoh
+  have hiso := ((quasicoherent_affine_local_tfae (toModules N₁ h₁)).out 0 2).mp
+    ‹(toModules N₁ h₁).IsQuasicoherent›
+  refine ((coherent_affine_local_tfae _).out 3 0).mp ?_
+  intro U
+  refine ⟨?_, hiso U⟩
+  have := IsLocallyNoetherian.component_noetherian U
+  have : Module.Finite Γ(X, U) (sub N₂ U) := (h4 U).1
+  have : IsNoetherian Γ(X, U) (sub N₂ U) :=
+    isNoetherian_of_isNoetherianRing_of_finite _ _
+  have : IsNoetherian Γ(X, U) (sub N₁ U) :=
+    isNoetherian_of_injective
+      (Submodule.inclusion (p := sub N₁ U) (p' := sub N₂ U)
+        (PresheafOfModules.Submodule.le_iff.1 h _))
+      (Submodule.inclusion_injective _)
+  exact Module.IsNoetherian.finite Γ(X, U) (sub N₁ U)
+
 /-- **`I ^ k N` is coherent** on a locally Noetherian scheme when `N` is. -/
 theorem isCoherent_powSmul [IsLocallyNoetherian X] (I : X.IdealSheafData) (k : ℕ)
     {N : E.val.Submodule} (hN : IsLocal N) (hcoh : IsCoherent (toModules N hN)) :
@@ -284,21 +310,82 @@ theorem isCoherent_powSmul [IsLocallyNoetherian X] (I : X.IdealSheafData) (k : �
   have h4 := ((coherent_affine_local_tfae (toModules N hN)).out 0 3).mp hcoh
   have : (toModules N hN).IsQuasicoherent :=
     ((quasicoherent_affine_local_tfae _).out 2 0).mp fun U => (h4 U).2
-  have hqc := isQuasicoherent_powSmul I k hN
-  have hiso := ((quasicoherent_affine_local_tfae _).out 0 2).mp hqc
-  refine ((coherent_affine_local_tfae _).out 3 0).mp ?_
-  intro U
-  refine ⟨?_, hiso U⟩
-  have := IsLocallyNoetherian.component_noetherian U
-  have : Module.Finite Γ(X, U) (sub N U) := (h4 U).1
-  have : IsNoetherian Γ(X, U) (sub N U) :=
-    isNoetherian_of_isNoetherianRing_of_finite _ _
-  have : IsNoetherian Γ(X, U) (sub (powSmul I k N) U) :=
-    isNoetherian_of_injective
-      (Submodule.inclusion (p := sub (powSmul I k N) U) (p' := sub N U)
-        (PresheafOfModules.Submodule.le_iff.1 (powSmul_le hN) _))
-      (Submodule.inclusion_injective _)
-  exact Module.IsNoetherian.finite Γ(X, U) (sub (powSmul I k N) U)
+  have := isQuasicoherent_powSmul I k hN
+  exact isCoherent_of_le (isLocal_powSmul I k N) hN (powSmul_le hN) hcoh
+
+/-- The whole of `E` is a local family of submodules. -/
+lemma isLocal_top : IsLocal (⊤ : E.val.Submodule) := fun _ _ _ => trivial
+
+/-- The intersection of two quasi-coherent submodule sheaves of a quasi-coherent `E` is
+quasi-coherent. -/
+theorem isQuasicoherent_inf [E.IsQuasicoherent] {N₁ N₂ : E.val.Submodule} (h₁ : IsLocal N₁)
+    (h₂ : IsLocal N₂) [(toModules N₁ h₁).IsQuasicoherent] [(toModules N₂ h₂).IsQuasicoherent] :
+    (toModules (N₁ ⊓ N₂) (isLocal_inf h₁ h₂)).IsQuasicoherent := by
+  refine isQuasicoherent_of_pow_smul _ (fun U g s hs => ?_) (fun U g t => ?_)
+  · let s' : (N₁ ⊓ N₂).obj (op (U : X.Opens)) := s
+    have hs' := congrArg (fun x : (N₁ ⊓ N₂).obj (op (X.basicOpen g)) => x.1) hs
+    obtain ⟨n, hn⟩ := exists_pow_smul_eq_zero_of_isAffineOpen E U.2 g s'.1 hs'
+    exact ⟨n, Subtype.ext hn⟩
+  · let t' : (N₁ ⊓ N₂).obj (op (X.basicOpen g)) := t
+    have hDU : X.basicOpen g ≤ (U : X.Opens) := X.basicOpen_le g
+    set ρ := (X.presheaf.map (homOfLE hDU).op).hom
+    obtain ⟨n₁, u₁, hu₁⟩ := exists_pow_smul_extension_of_isAffineOpen (toModules N₁ h₁) U.2 g
+      (⟨t'.1, t'.2.1⟩ : N₁.obj (op (X.basicOpen g)))
+    obtain ⟨n₂, u₂, hu₂⟩ := exists_pow_smul_extension_of_isAffineOpen (toModules N₂ h₂) U.2 g
+      (⟨t'.1, t'.2.2⟩ : N₂.obj (op (X.basicOpen g)))
+    let s₁ : Γ(E, U) := (u₁ : N₁.obj (op (U : X.Opens))).1
+    let s₂ : Γ(E, U) := (u₂ : N₂.obj (op (U : X.Opens))).1
+    have hs₁ : s₁ ∈ sub N₁ U := (u₁ : N₁.obj (op (U : X.Opens))).2
+    have hs₂ : s₂ ∈ sub N₂ U := (u₂ : N₂.obj (op (U : X.Opens))).2
+    let tE : Γ(E, X.basicOpen g) := t'.1
+    have e₁ : res E hDU s₁ = ρ g ^ n₁ • tE := congrArg Subtype.val hu₁
+    have e₂ : res E hDU s₂ = ρ g ^ n₂ • tE := congrArg Subtype.val hu₂
+    have hd : res E hDU (g ^ n₂ • s₁ - g ^ n₁ • s₂) = 0 := by
+      rw [map_sub, LinearMap.map_smulₛₗ, LinearMap.map_smulₛₗ]
+      change ρ (g ^ n₂) • res E hDU s₁ - ρ (g ^ n₁) • res E hDU s₂ = 0
+      rw [e₁, e₂, map_pow, map_pow, smul_smul, smul_smul, ← pow_add, ← pow_add, add_comm n₂ n₁,
+        sub_self]
+    obtain ⟨l, hl⟩ := exists_pow_smul_eq_zero_of_isAffineOpen E U.2 g _ hd
+    rw [smul_sub, sub_eq_zero, smul_smul, smul_smul, ← pow_add, ← pow_add] at hl
+    have hmem : g ^ (l + n₂) • s₁ ∈ sub (N₁ ⊓ N₂) U :=
+      ⟨Submodule.smul_mem _ _ hs₁, by rw [hl]; exact Submodule.smul_mem _ _ hs₂⟩
+    refine ⟨l + n₂ + n₁, (⟨_, hmem⟩ : (N₁ ⊓ N₂).obj (op (U : X.Opens))), Subtype.ext ?_⟩
+    change res E hDU (g ^ (l + n₂) • s₁) = ρ g ^ (l + n₂ + n₁) • tE
+    rw [LinearMap.map_smulₛₗ]
+    change ρ (g ^ (l + n₂)) • res E hDU s₁ = _
+    rw [e₁, map_pow, smul_smul, ← pow_add]
+
+/-- **The Artin–Rees kernel sheaves are coherent.** On a locally Noetherian scheme, for a
+coherent `E`, a coherent submodule sheaf `R ⊆ E` and a quasi-coherent ideal sheaf `I`, the
+kernel sheaf `(R ∩ I ^ (n + 1) E) / I ^ (n + 1) R` is coherent. -/
+theorem isCoherent_kernelSheaf [IsLocallyNoetherian X] (hE : IsCoherent E) (I : X.IdealSheafData)
+    (R : E.val.Submodule)
+    (hRs : Presheaf.IsSheaf (Opens.grothendieckTopology X) R.toPresheafOfModules.presheaf)
+    (hR : IsCoherent (⟨R.toPresheafOfModules, hRs⟩ : X.Modules)) (n : ℕ) :
+    IsCoherent (kernelSheaf I (isLocal_of_isSheaf R hRs) n) := by
+  have hR' : IsLocal R := isLocal_of_isSheaf R hRs
+  have hRc : IsCoherent (toModules R hR') := hR
+  have h4E := ((coherent_affine_local_tfae E).out 0 3).mp hE
+  have h4R := ((coherent_affine_local_tfae (toModules R hR')).out 0 3).mp hRc
+  have : E.IsQuasicoherent := ((quasicoherent_affine_local_tfae _).out 2 0).mp fun U =>
+    (h4E U).2
+  have : (toModules R hR').IsQuasicoherent := ((quasicoherent_affine_local_tfae _).out 2 0).mp
+    fun U => (h4R U).2
+  have htop : (toModules ⊤ (isLocal_top (E := E))).IsQuasicoherent := by
+    refine isQuasicoherent_of_pow_smul _ (fun U g s hs => ?_) (fun U g t => ?_)
+    · let s' : (⊤ : E.val.Submodule).obj (op (U : X.Opens)) := s
+      have hs' := congrArg (fun x : (⊤ : E.val.Submodule).obj (op (X.basicOpen g)) => x.1) hs
+      obtain ⟨m, hm⟩ := exists_pow_smul_eq_zero_of_isAffineOpen E U.2 g s'.1 hs'
+      exact ⟨m, Subtype.ext hm⟩
+    · let t' : (⊤ : E.val.Submodule).obj (op (X.basicOpen g)) := t
+      obtain ⟨m, u, hu⟩ := exists_pow_smul_extension_of_isAffineOpen E U.2 g t'.1
+      exact ⟨m, (⟨u, Submodule.mem_top⟩ : (⊤ : E.val.Submodule).obj (op (U : X.Opens))),
+        Subtype.ext hu⟩
+  have := isQuasicoherent_powSmul I (n + 1) (isLocal_top (E := E))
+  have : (toModules (numerator I R n) (isLocal_numerator I hR' n)).IsQuasicoherent :=
+    isQuasicoherent_inf hR' (isLocal_powSmul I (n + 1) ⊤)
+  exact isCoherent_cokernel _ (isCoherent_powSmul I (n + 1) hR' hRc)
+    (isCoherent_of_le _ hR' inf_le_left hRc)
 
 end ArtinReesKernelSheaf
 
