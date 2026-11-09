@@ -2,6 +2,9 @@
 article_id: af_a3cb5f556ad22a8f6e4d2bd1
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.weilDivisorProjectiveDegree_projectiveIntersectionDivisorHom Hartshorne.weilDivisorProjectiveDegree_projectiveIntersectionDivisor Hartshorne.projectiveIntersectionDivisor_apply_eq_projectiveIntersectionMultiplicity Hartshorne.closedImmersionComponentEquiv Hartshorne.projectiveIntersectionComponentPrime_closedImmersionComponentEquiv
 ---
 
 # Degree of an ambient hypersurface section
