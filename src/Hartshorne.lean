@@ -570,6 +570,7 @@ import Hartshorne.Scheme.LocalRingGlobalDimension
 import Hartshorne.Scheme.RegularLocalGlobalDimension
 import Hartshorne.Scheme.SerreRegularity
 import Hartshorne.Scheme.ProjectiveSpaceClassGroup
+import Hartshorne.Scheme.ProjectiveSpacePicard
 import Hartshorne.RingedSpace.ModuleSkyscraper
 import Hartshorne.Scheme.ModulePullbackStalk
 import Hartshorne.Cohomology.Flatness.FlatTensorFlatAlgebra

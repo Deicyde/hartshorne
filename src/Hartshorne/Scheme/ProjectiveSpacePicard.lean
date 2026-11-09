@@ -15,7 +15,8 @@ import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Proper
 Hartshorne, *Algebraic Geometry*, II.6, Corollary 6.17 (p. 145): for a field `k` and `n ≥ 1`,
 every invertible sheaf on `X = ℙⁿ_k` is isomorphic to `𝒪(l)` for a unique integer `l`
 (`Hartshorne.exists_unique_iso_projTwistingSheaf`); equivalently, `Pic X ≅ ℤ` with `𝒪(1) ↦ 1`
-(`Hartshorne.projectiveSpacePicardEquiv`, `Hartshorne.projectiveSpacePicardEquiv_projTwistingSheaf`).
+(`Hartshorne.projectiveSpacePicardEquiv`,
+`Hartshorne.projectiveSpacePicardEquiv_projTwistingSheaf`).
 
 ## Proof
 
@@ -333,7 +334,8 @@ theorem adjoin_one_eq_top : Algebra.adjoin (𝒜 0) (𝒜 1 : Set S) = ⊤ := by
     exact (Algebra.adjoin (𝒜 0) (𝒜 1 : Set S)).algebraMap_mem ⟨C a, ha⟩
   | add p q hp hq => exact add_mem hp hq
   | mul_X p i hp =>
-    exact mul_mem hp (Algebra.subset_adjoin ((mem_homogeneousSubmodule 1 _).2 (isHomogeneous_X k i)))
+    exact mul_mem hp
+      (Algebra.subset_adjoin ((mem_homogeneousSubmodule 1 _).2 (isHomogeneous_X k i)))
 
 /-- An `𝒪_X`-module isomorphic to an invertible one is invertible. -/
 theorem _root_.AlgebraicGeometry.Scheme.Modules.IsInvertible.of_iso {X : Scheme.{u}}
@@ -751,8 +753,8 @@ theorem cartierToWeil_imageDivisor (l : ℤ) :
     simp]
   by_cases hx : Order.coheight x = 1
   · exact weilCoeff_imageDivisor hn l x hx
-  · rw [(hyperplaneX0 hn).toWeilDivisor_apply_of_ne fun h => hx (by rw [h]; exact (hyperplaneX0 hn).2),
-      mul_zero]
+  · rw [(hyperplaneX0 hn).toWeilDivisor_apply_of_ne
+      fun h => hx (by rw [h]; exact (hyperplaneX0 hn).2), mul_zero]
     exact Scheme.ord_eq_zero_of_coheight_neq_one hx _
 
 omit hn in
