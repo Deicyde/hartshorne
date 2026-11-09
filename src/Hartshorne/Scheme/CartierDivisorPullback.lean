@@ -409,28 +409,22 @@ open Hartshorne Hartshorne.Ringed
 variable {X Y : Scheme.{u}} [IsIntegral X] [IsIntegral Y] [IsNoetherian X] [IsNoetherian Y]
   [X.IsSeparated] [Y.IsSeparated] (f : X ⟶ Y) (hf : f.base (genericPoint X) = genericPoint Y)
 
-/-- **Pullback of Picard classes of Weil divisors.** Let `X` and `Y` be integral separated
-Noetherian locally factorial schemes and `f : X ⟶ Y` a morphism sending the generic point to the
-generic point. Suppose that every point `x` of `X` has an open neighbourhood `W` mapping into an
-open `V` of `Y`, with a rational function `g` on `Y` such that the Weil divisor `A` on `Y` is the
-divisor of `g` on `V` and the Weil divisor `B` on `X` is the divisor of `f^♯ g` on `W`. Then the
-Picard pullback sends the class corresponding to `A` (under `Cl Y ≅ Pic Y`) to the class
-corresponding to `B`. -/
-theorem picPullback_weilClassEquivPicard (hX : X.IsLocallyFactorial) (hY : Y.IsLocallyFactorial)
-    (A : Y.WeilDivisor) (B : X.WeilDivisor)
+/-- Let `X` and `Y` be integral separated Noetherian locally factorial schemes and `f : X ⟶ Y` a
+morphism sending the generic point to the generic point. Suppose that every point `x` of `X` has an
+open neighbourhood `W` mapping into an open `V` of `Y`, with a rational function `g` on `Y` such
+that the Weil divisor `A` on `Y` is the divisor of `g` on `V` and the Weil divisor `B` on `X` is the
+divisor of `f^♯ g` on `W`. Then the Cartier divisor of `B` is, near every point, the pullback of a
+local equation of the Cartier divisor of `A`. -/
+theorem cartierPullbackData_weilCartierEquiv (hX : X.IsLocallyFactorial)
+    (hY : Y.IsLocallyFactorial) (A : Y.WeilDivisor) (B : X.WeilDivisor)
     (hAB : ∀ x : X, ∃ (V : Y.Opens) (W : X.Opens) (g : Y.functionFieldˣ), x ∈ W ∧
       W ≤ f ⁻¹ᵁ V ∧ (∀ y ∈ V, Order.coheight y = 1 → A.1 y = Y.ord (g : Y.functionField) y) ∧
       ∀ z ∈ W, Order.coheight z = 1 →
         B.1 z = X.ord (f.genericFunctionFieldMap hf (g : Y.functionField)) z) :
-    Pic.pullback f (Additive.toMul (weilClassEquivPicard hY
-        (Y.weilDivisorClassHom (satisfiesConditionStar_of_isLocallyFactorial hY) A))) =
-      Additive.toMul (weilClassEquivPicard hX
-        (X.weilDivisorClassHom (satisfiesConditionStar_of_isLocallyFactorial hX) B)) := by
+    CartierPullbackData f hf (weilCartierEquiv hY A) (weilCartierEquiv hX B) := by
   have := isNormal_of_isLocallyFactorial hX
   have := isNormal_of_isLocallyFactorial hY
-  rw [weilClassEquivPicard_weilDivisorClassHom, weilClassEquivPicard_weilDivisorClassHom,
-    toMul_ofMul, toMul_ofMul]
-  refine picPullback_cartierDivisorSheaf (hf := hf) fun x => ?_
+  intro x
   obtain ⟨V, W₀, g, hxW₀, hW₀V, hA, hB⟩ := hAB x
   have hxV : f.base x ∈ V := hW₀V hxW₀
   have hA' : ∀ y ∈ V, Order.coheight y = 1 →
@@ -449,5 +443,26 @@ theorem picPullback_weilClassEquivPicard (hX : X.IsLocallyFactorial) (hY : Y.IsL
     (weilCartierEquiv hX B).exists_restrict_eq_principal _ hB'
       (show x ∈ W₀ ⊓ f ⁻¹ᵁ V' from ⟨hxW₀, hxV'⟩)
   exact ⟨V', W, g, hxW, hWV'.trans inf_le_right, hD, hE⟩
+
+/-- **Pullback of Picard classes of Weil divisors.** Let `X` and `Y` be integral separated
+Noetherian locally factorial schemes and `f : X ⟶ Y` a morphism sending the generic point to the
+generic point. Suppose that every point `x` of `X` has an open neighbourhood `W` mapping into an
+open `V` of `Y`, with a rational function `g` on `Y` such that the Weil divisor `A` on `Y` is the
+divisor of `g` on `V` and the Weil divisor `B` on `X` is the divisor of `f^♯ g` on `W`. Then the
+Picard pullback sends the class corresponding to `A` (under `Cl Y ≅ Pic Y`) to the class
+corresponding to `B`. -/
+theorem picPullback_weilClassEquivPicard (hX : X.IsLocallyFactorial) (hY : Y.IsLocallyFactorial)
+    (A : Y.WeilDivisor) (B : X.WeilDivisor)
+    (hAB : ∀ x : X, ∃ (V : Y.Opens) (W : X.Opens) (g : Y.functionFieldˣ), x ∈ W ∧
+      W ≤ f ⁻¹ᵁ V ∧ (∀ y ∈ V, Order.coheight y = 1 → A.1 y = Y.ord (g : Y.functionField) y) ∧
+      ∀ z ∈ W, Order.coheight z = 1 →
+        B.1 z = X.ord (f.genericFunctionFieldMap hf (g : Y.functionField)) z) :
+    Pic.pullback f (Additive.toMul (weilClassEquivPicard hY
+        (Y.weilDivisorClassHom (satisfiesConditionStar_of_isLocallyFactorial hY) A))) =
+      Additive.toMul (weilClassEquivPicard hX
+        (X.weilDivisorClassHom (satisfiesConditionStar_of_isLocallyFactorial hX) B)) := by
+  rw [weilClassEquivPicard_weilDivisorClassHom, weilClassEquivPicard_weilDivisorClassHom,
+    toMul_ofMul, toMul_ofMul]
+  exact picPullback_cartierDivisorSheaf (cartierPullbackData_weilCartierEquiv f hf hX hY A B hAB)
 
 end AlgebraicGeometry.Scheme

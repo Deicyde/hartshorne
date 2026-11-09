@@ -2,6 +2,9 @@
 article_id: af_0faaf08ed4fc25eccdda1218
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.IsNonsingularCurve.nonempty_pullbackDivisorSheafIso AlgebraicGeometry.Scheme.IsNonsingularCurve.pullbackDivisorSheafIso AlgebraicGeometry.Scheme.IsNonsingularCurve.divisorSheaf AlgebraicGeometry.Scheme.IsNonsingularCurve.cartierPullbackData_finiteCurveDivisorPullback
 ---
 
 # Pullback compatibility for divisor sheaves on curves
