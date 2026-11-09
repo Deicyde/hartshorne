@@ -2,20 +2,23 @@
 article_id: af_129a7a2a84a9a482e9669070
 declaration: theorem
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: Hartshorne.SheafifiedCech.augmentedSheafifiedCechComplex_exactAt Hartshorne.SheafifiedCech.globalSectionsIso Hartshorne.SheafifiedCech.cochainSheaf Hartshorne.SheafifiedCech.cochainSheafIsProduct Hartshorne.SheafifiedCech.sheafifiedCechComplex Hartshorne.SheafifiedCech.augmentation Hartshorne.SheafifiedCech.augmentedSheafifiedCechComplex Hartshorne.SheafifiedCech.sheafifiedCechComplexFunctor Hartshorne.SheafifiedCech.augmentationNatTrans Hartshorne.SheafifiedCech.quasiIso_augmentationHom Hartshorne.SheafifiedCech.globalSectionsNatIso Hartshorne.SheafifiedCech.augmentedSheafifiedCechComplexFunctor
 ---
 
 # The sheafified Čech resolution
 
-For an open cover $U$ and abelian sheaf $F$, let the degree-$p$ term be the
-product, over increasing tuples, of the direct image of $F$ restricted to the
-corresponding intersection. The augmented sheaf complex
+For an open cover $U$ and abelian sheaf $F$, let the degree-$p$ term
+$\mathcal{C}^p(U,F)$ be the product, over increasing tuples, of the direct
+image of $F$ restricted to the corresponding intersection, with the Čech
+differential. Then $\mathcal{C}^\bullet(U,F)$ is a resolution of $F$: there is
+a natural map $\varepsilon\colon F\to\mathcal{C}^0(U,F)$ such that
 
-$0\longrightarrow F\longrightarrow\mathcal{C}^0(U,F)\longrightarrow\mathcal{C}^1(U,F)\longrightarrow\cdots$
+$0\longrightarrow F\overset{\varepsilon}{\longrightarrow}\mathcal{C}^0(U,F)\longrightarrow\mathcal{C}^1(U,F)\longrightarrow\cdots$
 
-is exact, and its global sections recover the ordered Čech complex.
+is exact. The complex $\mathcal{C}^\bullet(U,F)$ and $\varepsilon$ are natural
+in $F$, and $\Gamma(X,\mathcal{C}^p(U,F))=C^p(U,F)$ naturally in $F$, so the
+global sections of $\mathcal{C}^\bullet(U,F)$ form the ordered Čech complex.
 
 ## Depends on
 

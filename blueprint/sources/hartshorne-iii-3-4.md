@@ -80,9 +80,9 @@ Exercise 3.6(c), which is outside the adopted chain.
   fixed-cover Čech cohomology.
 - **Lemma 4.1, p.220.** Degree-zero Čech cohomology is global sections.
 - **Lemma 4.2, pp.220–221.** The sheafified Čech complex, whose terms are
-  products of direct images from intersections, is a resolution. On a stalk,
-  insertion of any cover member containing the point gives a contracting
-  homotopy.
+  products of direct images from intersections, is a resolution with a natural
+  augmentation ε (p.220). On a stalk, insertion of any cover member
+  containing the point gives a contracting homotopy.
 - **Proposition 4.3, p.221.** A flasque sheaf has no positive Čech
   cohomology.
 - **Lemma 4.4, p.221.** Comparison with an injective resolution gives natural
