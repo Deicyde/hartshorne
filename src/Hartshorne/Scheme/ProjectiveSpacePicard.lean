@@ -446,6 +446,92 @@ theorem ord_X0_div {ℓ : S} (hℓ : ℓ.IsHomogeneous 1) (hℓ0 : ℓ ≠ 0) (y
     obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.mp ha'
     exact y.asHomogeneousIdeal.toIdeal.mul_mem_left c hX0
 
+omit hn in
+theorem homogeneousFraction_self {g : S} {d : ℕ} (hg : g.IsHomogeneous d) (h0 : g ≠ 0) :
+    homogeneousFraction hg hg h0 = 1 := by
+  apply functionFieldToLocalization_injective
+  rw [functionFieldToLocalization_homogeneousFraction, map_one]
+  exact Localization.mk_self (⟨g, genericPoint_mem_basicOpen h0⟩ : genericCompl k n)
+
+omit hn in
+/-- The value of `y / x₀^l` for `y = m / f`, split as `(m ℓ^{l⁻} / f ℓ^{l⁺}) · (x₀/ℓ)^{l⁻} ·
+(ℓ/x₀)^{l⁺}`, for a nonzero linear form `ℓ`. -/
+theorem twistToFunctionField_mk_eq (l : ℤ) {j : ℕ} {m : S} (hm : m ∈ gradedTwist 𝒜 l j) {f : S}
+    (hf : f ∈ 𝒜 j) (hfx : f ∈ genericCompl k n) {ℓ : S} (hℓ : ℓ.IsHomogeneous 1) (hℓ0 : ℓ ≠ 0)
+    (hlj : 0 ≤ l + j) :
+    twistToFunctionField l (HomogeneousLocalizedModule.mk j m hm f hf hfx) =
+      homogeneousFraction (g := m * ℓ ^ (-l).toNat) (h := f * ℓ ^ l.toNat) (d := j + l.toNat)
+          (by
+            have := (mem_homogeneousSubmodule _ m).mp (mem_of_mem_gradedTwist hm) |>.mul
+              (isHomogeneous_pow_of_isHomogeneous_one hℓ (-l).toNat)
+            convert this using 1
+            omega)
+          (((mem_homogeneousSubmodule _ f).mp hf).mul
+            (isHomogeneous_pow_of_isHomogeneous_one hℓ l.toNat))
+          (mul_ne_zero (fun h => hfx (h ▸ zero_mem _)) (pow_ne_zero _ hℓ0)) *
+        homogeneousFraction (isHomogeneous_X k (0 : Fin (n + 1))) hℓ hℓ0 ^ (-l).toNat *
+        homogeneousFraction hℓ (isHomogeneous_X k (0 : Fin (n + 1))) (X_ne_zero 0) ^ l.toNat := by
+  apply functionFieldToLocalization_injective
+  rw [functionFieldToLocalization_twistToFunctionField, twistVal_mk, map_mul, map_mul, map_pow,
+    map_pow, functionFieldToLocalization_homogeneousFraction,
+    functionFieldToLocalization_homogeneousFraction,
+    functionFieldToLocalization_homogeneousFraction, Localization.mk_pow, Localization.mk_pow,
+    Localization.mk_mul, Localization.mk_mul, Localization.mk_eq_mk_iff, Localization.r_iff_exists]
+  refine ⟨1, ?_⟩
+  simp only [OneMemClass.coe_one, one_mul, Submonoid.coe_mul, SubmonoidClass.coe_pow]
+  ring
+
+include hn in
+/-- The order formula for `y / x₀^l` with `y = m / f`. -/
+theorem ord_twistToFunctionField_mk (l : ℤ) {j : ℕ} {m : S} (hm : m ∈ gradedTwist 𝒜 l j)
+    {f : S} (hf : f ∈ 𝒜 j) (hfx : f ∈ genericCompl k n) {ℓ : S} (hℓ : ℓ.IsHomogeneous 1)
+    (hℓ0 : ℓ ≠ 0) (hlj : 0 ≤ l + j) (hm0 : m ≠ 0) (y : Proj 𝒜) (hy1 : Order.coheight y = 1)
+    (hy : y ∈ Proj.basicOpen 𝒜 ℓ) :
+    (Proj 𝒜).ord (twistToFunctionField l (HomogeneousLocalizedModule.mk j m hm f hf hfx)) y =
+      (Proj 𝒜).ord (homogeneousFraction (g := m * ℓ ^ (-l).toNat) (h := f * ℓ ^ l.toNat)
+          (d := j + l.toNat)
+          (by
+            have := (mem_homogeneousSubmodule _ m).mp (mem_of_mem_gradedTwist hm) |>.mul
+              (isHomogeneous_pow_of_isHomogeneous_one hℓ (-l).toNat)
+            convert this using 1
+            omega)
+          (((mem_homogeneousSubmodule _ f).mp hf).mul
+            (isHomogeneous_pow_of_isHomogeneous_one hℓ l.toNat))
+          (mul_ne_zero (fun h => hfx (h ▸ zero_mem _)) (pow_ne_zero _ hℓ0))) y -
+        l * (hyperplaneX0 hn).toWeilDivisor.1 y := by
+  rw [twistToFunctionField_mk_eq l hm hf hfx hℓ hℓ0 hlj]
+  have hu0 := homogeneousFraction_ne_zero (isHomogeneous_X k (0 : Fin (n + 1))) hℓ hℓ0
+    (X_ne_zero 0)
+  have hv0 := homogeneousFraction_ne_zero hℓ (isHomogeneous_X k (0 : Fin (n + 1)))
+    (X_ne_zero 0) hℓ0
+  have huv : homogeneousFraction (isHomogeneous_X k (0 : Fin (n + 1))) hℓ hℓ0 *
+      homogeneousFraction hℓ (isHomogeneous_X k (0 : Fin (n + 1))) (X_ne_zero 0) = 1 := by
+    rw [homogeneousFraction_mul, ← homogeneousFraction_self ((isHomogeneous_X k
+      (0 : Fin (n + 1))).mul hℓ) (mul_ne_zero (X_ne_zero 0) hℓ0)]
+    apply homogeneousFraction_eq_of_mul_eq
+    ring
+  have hord : (Proj 𝒜).ord (homogeneousFraction hℓ (isHomogeneous_X k (0 : Fin (n + 1)))
+      (X_ne_zero 0)) y = -(Proj 𝒜).ord (homogeneousFraction (isHomogeneous_X k
+        (0 : Fin (n + 1))) hℓ hℓ0) y := by
+    have := (Proj 𝒜).ord_mul (x := y) hu0 hv0
+    rw [huv, ord_one] at this
+    omega
+  have hg0 : m * ℓ ^ (-l).toNat ≠ 0 := mul_ne_zero hm0 (pow_ne_zero _ hℓ0)
+  have h1 := homogeneousFraction_ne_zero (g := m * ℓ ^ (-l).toNat) (h := f * ℓ ^ l.toNat)
+    (d := j + l.toNat) (by
+      have := (mem_homogeneousSubmodule _ m).mp (mem_of_mem_gradedTwist hm) |>.mul
+        (isHomogeneous_pow_of_isHomogeneous_one hℓ (-l).toNat)
+      convert this using 1
+      omega)
+    (((mem_homogeneousSubmodule _ f).mp hf).mul
+      (isHomogeneous_pow_of_isHomogeneous_one hℓ l.toNat))
+    (mul_ne_zero (fun h => hfx (h ▸ zero_mem _)) (pow_ne_zero _ hℓ0)) hg0
+  rw [Scheme.ord_mul (mul_ne_zero h1 (pow_ne_zero _ hu0)) (pow_ne_zero _ hv0),
+    Scheme.ord_mul h1 (pow_ne_zero _ hu0), ord_pow hu0, ord_pow hv0, hord,
+    ord_X0_div hn hℓ hℓ0 y hy1 hy]
+  have : ((-l).toNat : ℤ) - l.toNat = -l := by omega
+  linear_combination (hyperplaneX0 hn).toWeilDivisor.1 y * this
+
 end ProjectiveSpacePicard
 
 end Hartshorne
