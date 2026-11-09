@@ -2,6 +2,9 @@
 article_id: af_a25b6c55524736215d373167
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.projective_iff_isProper_and_exists_isVeryAmpleRelative
 ---
 
 # Projective iff proper and very ample
