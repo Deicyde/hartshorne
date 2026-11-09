@@ -212,7 +212,144 @@ theorem val_gradedLocMap (y : HomogeneousLocalizedModule 𝒜 ℳ T) :
     (gradedLocMap g hg T y).val = IsLocalizedModule.map T (LocalizedModule.mkLinearMap T M)
       (LocalizedModule.mkLinearMap T N) g y.val := rfl
 
+theorem gradedLocMap_twistPair (n : ℤ) (y : HomogeneousLocalizedModule 𝒜 ℳ T)
+    (z : HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 n) T) :
+    gradedLocMap (ℳ := gradedModuleTwist ℳ n) (𝒩 := gradedModuleTwist 𝒩 n) g
+        (fun i m hm => hg (n + i) m hm) T (twistPair T n y z) =
+      twistPair T n (gradedLocMap g hg T y) z := by
+  ext
+  change IsLocalizedModule.map T (LocalizedModule.mkLinearMap T M)
+      (LocalizedModule.mkLinearMap T N) g ((show Localization T from z.val) • y.val) =
+    (show Localization T from z.val) • IsLocalizedModule.map T (LocalizedModule.mkLinearMap T M)
+      (LocalizedModule.mkLinearMap T N) g y.val
+  generalize (show Localization T from z.val) = r
+  generalize y.val = v
+  induction r using Localization.induction_on with
+  | H p =>
+    induction v using LocalizedModule.induction_on with
+    | h m t =>
+      rw [LocalizedModule.mk_smul_mk, IsLocalizedModule.map_LocalizedModules,
+        IsLocalizedModule.map_LocalizedModules, LocalizedModule.mk_smul_mk, map_smul]
+
 end GradedMap
+
+section TensorExt
+
+open Ringed ModuleSheafTensor
+
+variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+  (F G : SheafOfModules.{u} (ringCatSheafOf R))
+
+/-- A section of `moduleSheafTensor F G` which is a finite sum of sections `f ⊗ g`. -/
+def IsBilinearSum {V : Opens X} (v : (moduleSheafTensor F G).val.obj (op V)) : Prop :=
+  ∃ l : List (F.val.obj (op V) × G.val.obj (op V)),
+    v = (l.map fun p => (moduleSheafTensorBilinear F G).app (op V) p.1 p.2).sum
+
+variable {F G}
+
+theorem IsBilinearSum.restrict {U V : Opens X} (i : V ⟶ U)
+    {v : (moduleSheafTensor F G).val.obj (op U)}
+    (hv : IsBilinearSum F G v) : IsBilinearSum F G (ModuleSheafTensor.res _ i v) := by
+  obtain ⟨l, rfl⟩ := hv
+  refine ⟨l.map fun p => (ModuleSheafTensor.res _ i p.1, ModuleSheafTensor.res _ i p.2), ?_⟩
+  rw [map_list_sum, List.map_map, List.map_map]
+  congr 1
+  refine List.map_congr_left fun p _ => ?_
+  exact (moduleSheafTensorBilinear F G).naturality i.op p.1 p.2
+
+theorem exists_isBilinearSum_stalk (x : X)
+    (w : moduleStalk F.val x ⊗[ringSheafStalk R x] moduleStalk G.val x) :
+    ∃ (V : Opens X) (hxV : x ∈ V) (v : (moduleSheafTensor F G).val.obj (op V)),
+      IsBilinearSum F G v ∧ moduleSheafTensorStalkIso F G x (sectionGerm _ x V hxV v) = w := by
+  induction w using TensorProduct.induction_on with
+  | zero => exact ⟨⊤, trivial, 0, ⟨[], rfl⟩, by rw [map_zero, map_zero]⟩
+  | tmul a b =>
+    obtain ⟨U, hU, f, rfl⟩ := exists_sectionGerm F.val x a
+    obtain ⟨V, hV, g, rfl⟩ := exists_sectionGerm G.val x b
+    have hW : x ∈ U ⊓ V := ⟨hU, hV⟩
+    refine ⟨U ⊓ V, hW, (moduleSheafTensorBilinear F G).app (op (U ⊓ V))
+      (res _ (homOfLE inf_le_left) f) (res _ (homOfLE inf_le_right) g),
+      ⟨[(res _ (homOfLE inf_le_left) f, res _ (homOfLE inf_le_right) g)], by simp⟩, ?_⟩
+    rw [← sectionGerm_res F.val x (homOfLE inf_le_left) hW f,
+      ← sectionGerm_res G.val x (homOfLE inf_le_right) hW g]
+    exact moduleSheafTensorStalkIso_germ F G x _ hW _ _
+  | add w w' hw hw' =>
+    obtain ⟨V, hV, v, hv, hve⟩ := hw
+    obtain ⟨V', hV', v', hv', hve'⟩ := hw'
+    have hW : x ∈ V ⊓ V' := ⟨hV, hV'⟩
+    refine ⟨V ⊓ V', hW, res _ (homOfLE inf_le_left) v + res _ (homOfLE inf_le_right) v', ?_, ?_⟩
+    · obtain ⟨l, hl⟩ := hv.restrict (homOfLE inf_le_left : V ⊓ V' ⟶ V)
+      obtain ⟨l', hl'⟩ := hv'.restrict (homOfLE inf_le_right : V ⊓ V' ⟶ V')
+      exact ⟨l ++ l', by rw [List.map_append, List.sum_append, ← hl, ← hl']⟩
+    · rw [map_add, sectionGerm_res, sectionGerm_res, map_add, hve, hve']
+
+theorem exists_isBilinearSum_res {U : Opens X} (t : (moduleSheafTensor F G).val.obj (op U))
+    {x : X} (hx : x ∈ U) :
+    ∃ (W : Opens X) (_ : x ∈ W) (i : W ⟶ U), IsBilinearSum F G (res _ i t) := by
+  obtain ⟨V, hV, v, hv, hve⟩ := exists_isBilinearSum_stalk x
+    (moduleSheafTensorStalkIso F G x (sectionGerm _ x U hx t))
+  have hg := (moduleSheafTensorStalkIso F G x).injective hve
+  obtain ⟨W, hxW, iV, iU, e⟩ := TopCat.Presheaf.germ_eq (moduleSheafTensor F G).val.presheaf x hV hx v t hg
+  refine ⟨W, hxW, iU, ?_⟩
+  have : res _ iU t = res _ iV v := e.symm
+  rw [this]
+  exact hv.restrict iV
+
+theorem tmulSection_res {U V : Opens X} (i : V ⟶ U) (f : F.val.obj (op U)) (g : G.val.obj (op U)) :
+    res _ i (tmulSection F G f g) = tmulSection F G (res _ i f) (res _ i g) :=
+  ((congrArg ((tensorπ F G).app (op V)).hom
+    (PresheafOfModules.Monoidal.tensorObj_map_tmul (M₁ := F.val) (M₂ := G.val) i.op f g)).symm.trans
+    (PresheafOfModules.naturality_apply (tensorπ F G) i.op (f ⊗ₜ g))).symm
+
+theorem tmulSection_list_sum_left {H : SheafOfModules.{u} (ringCatSheafOf R)}
+    {V : (Opens X)ᵒᵖ} (l : List ((F ⊗ G).val.obj V)) (k : H.val.obj V) :
+    tmulSection (F ⊗ G) H l.sum k = (l.map fun t => tmulSection (F ⊗ G) H t k).sum := by
+  induction l with
+  | nil => exact tmulSection_zero_left k
+  | cons a l ih => rw [List.sum_cons, tmulSection_add_left, ih, List.map_cons, List.sum_cons]
+
+/-- Morphisms out of `(F ⊗ G) ⊗ H` are determined by their values on the sections
+`(f ⊗ g) ⊗ h`. -/
+theorem tensor₃_hom_ext {H K : SheafOfModules.{u} (ringCatSheafOf R)}
+    {φ ψ : (F ⊗ G) ⊗ H ⟶ K}
+    (h : ∀ (U : (Opens X)ᵒᵖ) (f : F.val.obj U) (g : G.val.obj U) (k : H.val.obj U),
+      φ.val.app U (tmulSection (F ⊗ G) H (tmulSection F G f g) k) =
+        ψ.val.app U (tmulSection (F ⊗ G) H (tmulSection F G f g) k)) : φ = ψ := by
+  apply tensor_hom_ext
+  intro U t k
+  let ι := {x : X // x ∈ U.unop}
+  have hloc : ∀ x : ι, ∃ (W : Opens X) (_ : x.1 ∈ W) (i : W ⟶ U.unop),
+      IsBilinearSum F G (res _ i ((moduleSheafTensorIsoTensor F G).inv.val.app U t)) :=
+    fun x => exists_isBilinearSum_res _ x.2
+  choose W hxW iW hW using hloc
+  let K' : TopCat.Sheaf AddCommGrpCat.{u} X := ⟨K.val.presheaf, K.isSheaf⟩
+  have hcover : U.unop ≤ iSup W := fun x hx => Opens.mem_iSup.mpr ⟨⟨x, hx⟩, hxW ⟨x, hx⟩⟩
+  apply K'.eq_of_locally_eq' W U.unop iW hcover
+  intro x
+  obtain ⟨l, hl⟩ := hW x
+  have ht : res _ (iW x) t = (l.map fun p => tmulSection F G p.1 p.2).sum := by
+    have e1 : res _ (iW x) t = (moduleSheafTensorIsoTensor F G).hom.val.app _
+        (res _ (iW x) ((moduleSheafTensorIsoTensor F G).inv.val.app U t)) := by
+      change (F ⊗ G).val.map (iW x).op t = (moduleSheafTensorIsoTensor F G).hom.val.app _
+        ((moduleSheafTensor F G).val.map (iW x).op
+          ((moduleSheafTensorIsoTensor F G).inv.val.app U t))
+      rw [PresheafOfModules.naturality_apply]
+      congr 1
+      exact (congrArg (fun φ : F ⊗ G ⟶ F ⊗ G => (φ.val.app U).hom t)
+        (moduleSheafTensorIsoTensor F G).inv_hom_id).symm
+    rw [e1, hl, map_list_sum, List.map_map]
+    exact congrArg List.sum (List.map_congr_left fun (p : F.val.obj _ × G.val.obj _) _ =>
+      moduleSheafTensorIsoTensor_hom_bilinear F G p.1 p.2)
+  change K.val.map (iW x).op (φ.val.app U _) = K.val.map (iW x).op (ψ.val.app U _)
+  rw [← PresheafOfModules.naturality_apply, ← PresheafOfModules.naturality_apply]
+  change φ.val.app _ (res _ (iW x) (tmulSection (F ⊗ G) H t k)) =
+    ψ.val.app _ (res _ (iW x) (tmulSection (F ⊗ G) H t k))
+  rw [tmulSection_res, ht, tmulSection_list_sum_left, map_list_sum, map_list_sum]
+  simp only [List.map_map]
+  exact congrArg List.sum (List.map_congr_left fun (p : F.val.obj _ × G.val.obj _) _ =>
+    h (op (W x)) p.1 p.2 _)
+
+end TensorExt
 
 section Sheaf
 
@@ -417,5 +554,137 @@ theorem twistIso_hom_tmulSection (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 : Set A
 end ProjTwist
 
 end Sheaf
+
+section SheafMap
+
+variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+  {𝒜 : ℕ → σ} [GradedRing 𝒜]
+  {M σM : Type u} [AddCommGroup M] [Module A M] [SetLike σM M] [AddSubgroupClass σM M]
+  {ℳ : ℤ → σM} [SetLike.GradedSMul 𝒜 ℳ]
+  {N σN : Type u} [AddCommGroup N] [Module A N] [SetLike σN N] [AddSubgroupClass σN N]
+  {𝒩 : ℤ → σN} [SetLike.GradedSMul 𝒜 𝒩]
+  (g : M →ₗ[A] N) (hg : ∀ (i : ℤ) (m : M), m ∈ ℳ i → g m ∈ 𝒩 i)
+
+open ProjGradedModuleSheaf
+
+/-- The map on sections of `M~ ⟶ N~` induced by a graded linear map. -/
+def gradedSheafSections (U : Opens (ProjectiveSpectrum.top 𝒜)) :
+    (sheafInType 𝒜 ℳ).1.obj (op U) →+ (sheafInType 𝒜 𝒩).1.obj (op U) where
+  toFun s := ⟨fun x => gradedLocMap g hg _ (s.1 x), by
+    intro x
+    obtain ⟨V, hxV, i, k, m, hm, t, ht, t_nin, w⟩ := s.2 x
+    refine ⟨V, hxV, i, k, g m, hg _ m hm, t, ht, t_nin, fun y => ?_⟩
+    exact (congrArg (gradedLocMap g hg _) (w y)).trans
+      (HomogeneousLocalizedModule.ext (IsLocalizedModule.map_LocalizedModules _ _ _ _))⟩
+  map_zero' := Subtype.ext <| funext fun _ => map_zero (gradedLocMap g hg _)
+  map_add' _ _ := Subtype.ext <| funext fun _ => map_add (gradedLocMap g hg _) _ _
+
+/-- The morphism of underlying abelian presheaves. -/
+def gradedSheafPresheafHom :
+    (projGradedModuleSheaf 𝒜 ℳ).val.presheaf ⟶ (projGradedModuleSheaf 𝒜 𝒩).val.presheaf where
+  app U := AddCommGrpCat.ofHom (gradedSheafSections g hg U.unop)
+  naturality _ _ _ := rfl
+
+/-- The morphism `M~ ⟶ N~` of `𝒪_{Proj S}`-modules induced by a degree-preserving linear map
+`g : M → N` of graded modules; pointwise it is `m / s ↦ g m / s`. -/
+def projGradedModuleSheafMap : projGradedModuleSheaf 𝒜 ℳ ⟶ projGradedModuleSheaf 𝒜 𝒩 :=
+  ⟨PresheafOfModules.homMk (gradedSheafPresheafHom g hg) fun _ _ _ =>
+    Subtype.ext <| funext fun _ => map_smul (gradedLocMap g hg _) _ _⟩
+
+theorem projGradedModuleSheafMap_app_apply {U : (Opens (ProjectiveSpectrum.top 𝒜))ᵒᵖ}
+    (s : (projGradedModuleSheaf 𝒜 ℳ).val.obj U) (x : U.unop) :
+    (((projGradedModuleSheafMap g hg).val.app U s : (projGradedModuleSheaf 𝒜 𝒩).val.obj U) :
+      (sheafInType 𝒜 𝒩).1.obj U).1 x = gradedLocMap g hg _ ((s : (sheafInType 𝒜 ℳ).1.obj U).1 x) :=
+  rfl
+
+open Ringed ProjTwist in
+/-- **Naturality** of `M~ ⊗ 𝒪_X(n) ≅ M(n)~` in the graded module `M`. -/
+theorem twistIso_hom_naturality (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 : Set A) = ⊤) (n : ℤ) :
+    (projGradedModuleSheafMap g hg ▷ projTwistingSheaf 𝒜 n) ≫ (twistIso 𝒩 hgen n).hom =
+      (twistIso ℳ hgen n).hom ≫
+        projGradedModuleSheafMap (ℳ := gradedModuleTwist ℳ n) (𝒩 := gradedModuleTwist 𝒩 n) g
+          (fun i m hm => hg (n + i) m hm) := by
+  apply tensor_hom_ext
+  intro U s t
+  change (twistIso 𝒩 hgen n).hom.val.app U
+      ((projGradedModuleSheafMap g hg ▷ projTwistingSheaf 𝒜 n).val.app U (tmulSection _ _ s t)) =
+    (projGradedModuleSheafMap g _).val.app U ((twistIso ℳ hgen n).hom.val.app U
+      (tmulSection _ _ s t))
+  rw [scheme_whiskerRight_tmulSection, twistIso_hom_tmulSection, twistIso_hom_tmulSection]
+  refine section_ext fun x => ?_
+  rw [projGradedModuleSheafMap_app_apply, twistBilinear_apply, twistBilinear_apply,
+    projGradedModuleSheafMap_app_apply, gradedLocMap_twistPair]
+
+end SheafMap
+
+section Regrade
+
+variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+  {𝒜 : ℕ → σ} [GradedRing 𝒜]
+  {M σM σM' : Type u} [AddCommGroup M] [Module A M] [SetLike σM M] [AddSubgroupClass σM M]
+  [SetLike σM' M] [AddSubgroupClass σM' M]
+  {ℳ : ℤ → σM} [SetLike.GradedSMul 𝒜 ℳ] {ℳ' : ℤ → σM'} [SetLike.GradedSMul 𝒜 ℳ']
+
+open ProjGradedModuleSheaf
+
+theorem gradedLocMap_id_val {h : ∀ (i : ℤ) (m : M), m ∈ ℳ i → LinearMap.id m ∈ ℳ' i}
+    (T : Submonoid A) (y : HomogeneousLocalizedModule 𝒜 ℳ T) :
+    (gradedLocMap (ℳ := ℳ) (𝒩 := ℳ') LinearMap.id h T y).val = y.val := by
+  rw [val_gradedLocMap, IsLocalizedModule.map_id]
+  rfl
+
+variable (ℳ ℳ') in
+/-- Two gradings of the same module with the same homogeneous components give isomorphic
+sheaves; the isomorphism is the identity on the underlying fractions. -/
+def regradeIso (h : ∀ (i : ℤ) (m : M), m ∈ ℳ i ↔ m ∈ ℳ' i) :
+    projGradedModuleSheaf 𝒜 ℳ ≅ projGradedModuleSheaf 𝒜 ℳ' where
+  hom := projGradedModuleSheafMap LinearMap.id fun i m hm => (h i m).1 hm
+  inv := projGradedModuleSheafMap LinearMap.id fun i m hm => (h i m).2 hm
+  hom_inv_id := SheafOfModules.hom_ext <| PresheafOfModules.hom_ext fun U => by
+    ext s x
+    have e1 := gradedLocMap_id_val (𝒜 := 𝒜) (ℳ := ℳ) (ℳ' := ℳ') (h := fun i m hm => (h i m).1 hm) _
+      ((s : (sheafInType 𝒜 ℳ).1.obj U).1 x)
+    have e2 := gradedLocMap_id_val (𝒜 := 𝒜) (ℳ := ℳ') (ℳ' := ℳ) (h := fun i m hm => (h i m).2 hm) _
+      (gradedLocMap (𝒜 := 𝒜) (ℳ := ℳ) (𝒩 := ℳ') LinearMap.id (fun i m hm => (h i m).1 hm) _
+        ((s : (sheafInType 𝒜 ℳ).1.obj U).1 x))
+    exact e2.trans e1
+  inv_hom_id := SheafOfModules.hom_ext <| PresheafOfModules.hom_ext fun U => by
+    ext s x
+    have e1 := gradedLocMap_id_val (𝒜 := 𝒜) (ℳ := ℳ') (ℳ' := ℳ) (h := fun i m hm => (h i m).2 hm) _
+      ((s : (sheafInType 𝒜 ℳ').1.obj U).1 x)
+    have e2 := gradedLocMap_id_val (𝒜 := 𝒜) (ℳ := ℳ) (ℳ' := ℳ') (h := fun i m hm => (h i m).1 hm) _
+      (gradedLocMap (𝒜 := 𝒜) (ℳ := ℳ') (𝒩 := ℳ) LinearMap.id (fun i m hm => (h i m).2 hm) _
+        ((s : (sheafInType 𝒜 ℳ').1.obj U).1 x))
+    exact e2.trans e1
+
+theorem regradeIso_hom_app_val (h : ∀ (i : ℤ) (m : M), m ∈ ℳ i ↔ m ∈ ℳ' i)
+    {U : (Opens (ProjectiveSpectrum.top 𝒜))ᵒᵖ} (s : (projGradedModuleSheaf 𝒜 ℳ).val.obj U)
+    (x : U.unop) :
+    ((((regradeIso ℳ ℳ' h).hom.val.app U s : (projGradedModuleSheaf 𝒜 ℳ').val.obj U) :
+      (sheafInType 𝒜 ℳ').1.obj U).1 x).val = ((s : (sheafInType 𝒜 ℳ).1.obj U).1 x).val :=
+  gradedLocMap_id_val _ _
+
+end Regrade
+
+section TwistMul
+
+variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+  {𝒜 : ℕ → σ} [GradedRing 𝒜]
+
+theorem mem_gradedModuleTwist_gradedTwist (n m d : ℤ) (a : A) :
+    a ∈ gradedModuleTwist (gradedTwist 𝒜 n) m d ↔ a ∈ gradedTwist 𝒜 (n + m) d := by
+  change (a ∈ 𝒜 (n + (m + d)).toNat ∧ (n + (m + d) < 0 → a = 0)) ↔
+    (a ∈ 𝒜 (n + m + d).toNat ∧ (n + m + d < 0 → a = 0))
+  rw [add_assoc]
+
+variable (𝒜) in
+/-- **Hartshorne II.5.12(b), second statement.** If `S` is generated by `S_1` as an
+`S_0`-algebra, `𝒪_X(n) ⊗ 𝒪_X(m) ≅ 𝒪_X(n + m)` on `X = Proj S`. -/
+def twistMulIso (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 : Set A) = ⊤) (n m : ℤ) :
+    projTwistingSheaf 𝒜 n ⊗ projTwistingSheaf 𝒜 m ≅ projTwistingSheaf 𝒜 (n + m) :=
+  ProjTwist.twistIso (gradedTwist 𝒜 n) hgen m ≪≫
+    regradeIso _ _ (mem_gradedModuleTwist_gradedTwist n m)
+
+end TwistMul
 
 end Hartshorne
