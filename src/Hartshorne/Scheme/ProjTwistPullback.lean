@@ -320,6 +320,110 @@ def psi : projTwistingSheaf 𝒜 n ⟶ (Scheme.Modules.pushforward (projPartialM
 
 end Psi
 
+section Frames
+
+variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+  {𝒜 : ℕ → σ} [GradedRing 𝒜]
+
+open ProjGradedModuleSheaf
+
+variable {T : Submonoid A} {g : A} (g_deg : g ∈ 𝒜 1) (hgT : g ∈ T) (n : ℤ)
+
+/-- `S_(T)` acts faithfully on the generator `g^n` of `S(n)_(T)`. -/
+theorem smul_twistGen_eq_zero {c : HomogeneousLocalization 𝒜 T}
+    (h : c • twistGen n g_deg hgT = 0) : c = 0 := by
+  apply HomogeneousLocalization.val_injective
+  have hv : c.val * (show Localization T from (twistGen n g_deg hgT).val) = 0 :=
+    congrArg HomogeneousLocalizedModule.val h
+  have hinv : (Localization.mk (g ^ (-n).toNat) ⟨g ^ n.toNat, pow_mem hgT _⟩ *
+      (show Localization T from (twistGen n g_deg hgT).val) : Localization T) = 1 := by
+    rw [twistGen_val]
+    change Localization.mk _ _ * Localization.mk _ _ = _
+    rw [Localization.mk_mul, mul_comm (g ^ (-n).toNat), ← Localization.mk_one]
+    exact Localization.mk_eq_mk_iff.2 (Localization.r_iff_exists.2 ⟨1, by simp [mul_comm]⟩)
+  rw [HomogeneousLocalization.val_zero]
+  calc c.val = c.val * (Localization.mk (g ^ (-n).toNat) ⟨g ^ n.toNat, pow_mem hgT _⟩ *
+        (show Localization T from (twistGen n g_deg hgT).val)) := by rw [hinv, mul_one]
+    _ = Localization.mk (g ^ (-n).toNat) ⟨g ^ n.toNat, pow_mem hgT _⟩ *
+        (c.val * (show Localization T from (twistGen n g_deg hgT).val)) := by ring
+    _ = 0 := by rw [hv, mul_zero]
+
+theorem smul_twistGen_inj {c c' : HomogeneousLocalization 𝒜 T}
+    (h : c • twistGen n g_deg hgT = c' • twistGen n g_deg hgT) : c = c' := by
+  refine sub_eq_zero.1 (smul_twistGen_eq_zero g_deg hgT n ?_)
+  ext
+  have hv := congrArg HomogeneousLocalizedModule.val h
+  rw [HomogeneousLocalizedModule.val_smul, HomogeneousLocalizedModule.val_smul] at hv
+  rw [HomogeneousLocalizedModule.val_smul, HomogeneousLocalization.val_sub, sub_smul, hv,
+    sub_self, HomogeneousLocalizedModule.val_zero]
+
+include g_deg in
+theorem twistNum_mem {k : ℕ} {m : A} (hm : m ∈ gradedTwist 𝒜 n k) :
+    g ^ (-n).toNat * m ∈ 𝒜 (n.toNat + k) := by
+  by_cases h : n + k < 0
+  · rw [eq_zero_of_mem_gradedTwist hm h, mul_zero]
+    exact zero_mem _
+  · have := SetLike.GradedMul.mul_mem (ProjTwistingSheaf.pow_mem_of_mem_one g_deg (-n).toNat)
+      (mem_of_mem_gradedTwist hm)
+    convert this using 2
+    omega
+
+/-- The fraction `g^{n⁻} m / (g^{n⁺} t)` times `g^n` is `m / t`. -/
+theorem twistFrac_smul_twistGen {k : ℕ} {m : A} (hm : m ∈ gradedTwist 𝒜 n k) {t : A}
+    (ht : t ∈ 𝒜 k) (htT : t ∈ T) :
+    (HomogeneousLocalization.mk ⟨n.toNat + k, ⟨_, twistNum_mem g_deg n hm⟩,
+        ⟨g ^ n.toNat * t, SetLike.GradedMul.mul_mem
+          (ProjTwistingSheaf.pow_mem_of_mem_one g_deg _) ht⟩,
+        mul_mem (pow_mem hgT _) htT⟩ : HomogeneousLocalization 𝒜 T) • twistGen n g_deg hgT =
+      HomogeneousLocalizedModule.mk k m hm t ht htT := by
+  ext
+  rw [HomogeneousLocalizedModule.val_smul, twistGen_val,
+    HomogeneousLocalization.val_mk, LocalizedModule.mk_smul_mk,
+    HomogeneousLocalizedModule.val_mk, LocalizedModule.mk_eq]
+  refine ⟨1, ?_⟩
+  simp only [one_smul, Submonoid.mk_smul, Submonoid.mk_mul_mk, smul_eq_mul]
+  ring
+
+omit hgT in
+open Ringed in
+/-- **`g^n` is a frame of `𝒪_X(n)` on `D₊(g)`**, for `g ∈ S_1`: on every open `V ⊆ D₊(g)`, each
+section of `𝒪_X(n)` is uniquely `c · g^n` with `c ∈ 𝒪_X(V)`. -/
+theorem isLocalFrame_twistGenSection :
+    IsLocalFrame (R := (Proj 𝒜).sheaf) (projTwistingSheaf 𝒜 n)
+      (ProjectiveSpectrum.basicOpen 𝒜 g) (fun _ : PUnit.{u + 1} => twistGenSection g_deg n) := by
+  intro V hV
+  have hgx : ∀ x : V, g ∈ x.1.asHomogeneousIdeal.toIdeal.primeCompl := fun x => hV x.2
+  constructor
+  · intro a a' h
+    rw [localFrameMap_apply, localFrameMap_apply, Fintype.sum_unique, Fintype.sum_unique] at h
+    funext i
+    apply Subtype.ext
+    funext x
+    have hx := congrArg (fun s : (projTwistingSheaf 𝒜 n).val.presheaf.obj (op V) =>
+      (s : (sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj (op V)).1 x) h
+    change (a i).1 x • twistGen n g_deg (hgx x) = (a' i).1 x • twistGen n g_deg (hgx x) at hx
+    exact smul_twistGen_inj g_deg (hgx x) n hx
+  · intro s
+    choose c hc using fun x : V => exists_smul_twistGen n g_deg (hgx x)
+      ((s : (sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj (op V)).1 x)
+    have hloc : (ProjectiveSpectrum.StructureSheaf.isLocallyFraction 𝒜).pred c := by
+      intro x
+      obtain ⟨W, hxW, iWV, k, m, hm, t, ht, t_nin, w⟩ :=
+        (s : (sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj (op V)).2 x
+      refine ⟨W, hxW, iWV, n.toNat + k, ⟨_, twistNum_mem g_deg n hm⟩,
+        ⟨g ^ n.toNat * t, SetLike.GradedMul.mul_mem
+          (ProjTwistingSheaf.pow_mem_of_mem_one g_deg _) ht⟩,
+        fun y => mul_mem (pow_mem (hgx (iWV y)) _) (t_nin y), fun y => ?_⟩
+      exact smul_twistGen_inj g_deg (hgx (iWV y)) n ((hc (iWV y)).symm.trans ((w y).trans
+        (twistFrac_smul_twistGen g_deg (hgx (iWV y)) n hm ht (t_nin y)).symm))
+    refine ⟨fun _ => ⟨c, hloc⟩, ?_⟩
+    rw [localFrameMap_apply, Fintype.sum_unique]
+    apply Subtype.ext
+    funext x
+    exact (hc x).symm
+
+end Frames
+
 end ProjTwistPullback
 
 end Hartshorne
