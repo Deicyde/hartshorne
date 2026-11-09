@@ -2,6 +2,9 @@
 article_id: af_6ab512fd8c57787463fa9d4b
 declaration: isomorphism
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.chowGroupOneEquivPicard Hartshorne.chowGroupOneEquivPicard_mk
 ---
 
 # Codimension-one Chow classes are the Picard group
