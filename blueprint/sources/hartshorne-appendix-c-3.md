@@ -147,6 +147,14 @@ source file explicitly says comparison with the classical definition is
 future work.  They do not provide Hartshorne's rational `Q_ell` groups,
 finiteness, cup products, duality, trace, comparison, or cycle classes.
 
+The existence of associated abelian sheaves assumed by the tensor-product
+bridge (`site-sheaf-tensor-product.md`, its first paragraph) is Mathlib's:
+`CategoryTheory.hasSheafifyEssentiallySmallSite` for an essentially small site,
+and, for the small étale site, the `HasSheafify` instance on
+`S.smallEtaleTopology` in `Mathlib/AlgebraicGeometry/Sites/AffineEtale.lean`,
+obtained from the essentially small dense subsite of affine schemes étale over
+`S`.
+
 ## Representation warnings and omission risks
 
 - Keep small étale, big étale, and pro-étale sites distinct.
