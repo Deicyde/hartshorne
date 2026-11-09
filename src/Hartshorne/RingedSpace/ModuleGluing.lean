@@ -87,6 +87,10 @@ lemma rm_rm {A B C : Over U} (h₁ : A.left ≤ B.left) (h₂ : B.left ≤ C.lef
 lemma rm_self {A : Over U} (h : A.left ≤ A.left) (x : M.obj (op A)) : rm M h x = x :=
   map_self M _ x
 
+lemma rm_map {A B : Over U} (h : A.left ≤ B.left) (g : op A ⟶ op B) (x : M.obj (op A)) :
+    rm M h (M.map g x) = x :=
+  (map_map M g (ovHom h).op (𝟙 _) x).trans (map_self M _ x)
+
 lemma rm_injective {A B : Over U} (h : A.left ≤ B.left) (h' : B.left ≤ A.left) :
     Function.Injective (rm M h) := fun x y hxy => by
   rw [← rm_self M (le_refl B.left) x, ← rm_self M (le_refl B.left) y, ← rm_rm M h' h,
@@ -223,6 +227,10 @@ lemma over_nat (M : SheafOfModules.{u} S) {U : Opens X} {N : SheafOfModules.{u} 
     (y : M.val.obj (op B.left)) :
     f.val.app (op A) (M.val.map (homOfLE h).op y) = rm N.val h (f.val.app (op B) y) :=
   PresheafOfModules.naturality_apply f.val (ovHom h).op y
+
+lemma pf_map_apply (W : Opens X) (M : SheafOfModules.{u} (S.over W)) {V V' : Opens X}
+    (f : op V ⟶ op V') (z : ((pf S W).obj M).val.obj (op V)) :
+    ((pf S W).obj M).val.map f z = M.val.map ((Over.star W).map f.unop).op z := rfl
 
 variable {S}
 
@@ -672,6 +680,45 @@ lemma θHom_surjective (hψ' : D.Compatible G' ψ') (V : Opens X) :
 
 instance isIso_θHom (hψ' : D.Compatible G' ψ') : IsIso (D.θHom hψ') :=
   isIso_of_bijective _ fun V => ⟨D.θHom_injective hψ' V.unop, D.θHom_surjective hψ' V.unop⟩
+
+/-- The comparison isomorphism `G' ≅ glue`. -/
+noncomputable def θ (hψ' : D.Compatible G' ψ') : G' ≅ D.glue := asIso (D.θHom hψ')
+
+lemma θ_comp (hψ' : D.Compatible G' ψ') (i : D.ι) :
+    (SheafOfModules.overFunctor S (D.U i)).mapIso (D.θ hψ') ≪≫ D.ψ i = ψ' i := by
+  refine Iso.ext ?_
+  ext A y
+  obtain ⟨A⟩ := A
+  revert y
+  intro (y : G'.val.obj (op A.left))
+  change rm (D.F i).val (D.le_st_self i A) (D.θComp (ψ' := ψ') i A.left y) =
+    (ψ' i).hom.val.app (op A) y
+  unfold θComp
+  refine (over_nat S G' (ψ' i).hom (D.le_st_self i A) _).symm.trans ?_
+  congr 1
+  rw [← PresheafOfModules.map_comp_apply, opensOp_hom_ext (_ ≫ _) (𝟙 _),
+    PresheafOfModules.map_id]
+  rfl
+
+lemma θ_unique (hψ' : D.Compatible G' ψ') (θ' : G' ≅ D.glue)
+    (h : ∀ i, (SheafOfModules.overFunctor S (D.U i)).mapIso θ' ≪≫ D.ψ i = ψ' i) :
+    θ' = D.θ hψ' := by
+  refine Iso.ext ?_
+  ext ⟨V⟩ t
+  refine Subtype.ext (funext fun i => ?_)
+  let A := st (D.U i) V
+  have hA := congrArg (fun e => e.hom.val.app (op A)
+    (G'.val.map (homOfLE (st_left_le_right (D.U i) V)).op t)) (h i)
+  change (D.ψHom i).val.app (op A) (θ'.hom.val.app (op A.left)
+    (G'.val.map (homOfLE (st_left_le_right (D.U i) V)).op t)) = D.θComp (ψ' := ψ') i V t at hA
+  rw [PresheafOfModules.naturality_apply] at hA
+  refine Eq.trans ?_ hA
+  change _ = rm (D.F i).val (D.le_st_self i A)
+    ((D.P i).val.map (homOfLE (st_left_le_right (D.U i) V)).op
+      ((θ'.hom.val.app (op V) t : ↥(D.N.obj (op V))).1 i))
+  symm
+  refine (congrArg (rm (D.F i).val (D.le_st_self i A)) (pf_map_apply S _ _ _ _)).trans ?_
+  exact rm_map (D.F i).val _ _ _
 
 end uniqueness
 
