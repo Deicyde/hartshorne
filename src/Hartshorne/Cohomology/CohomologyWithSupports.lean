@@ -11,6 +11,7 @@ import Mathlib.CategoryTheory.Abelian.RightDerived
 import Mathlib.Algebra.Homology.HomologySequenceLemmas
 import Hartshorne.Cohomology.InjectiveAbelianSheafFlasque
 import Hartshorne.Scheme.OpenExtensionByZeroAdjunction
+import Hartshorne.Cohomology.SheafCohomology
 
 /-!
 # Cohomology with supports in a closed subset
@@ -115,19 +116,6 @@ variable {X : TopCat.{u}}
 /-- The open complement `X \ Y` of a closed subset `Y`. -/
 def closedComplement (Y : Set X) (hY : IsClosed Y) : Opens X :=
   ⟨Yᶜ, hY.isOpen_compl⟩
-
-/-- Sections over an open subset, as a functor on abelian sheaves. -/
-noncomputable abbrev sheafSectionsOver (V : Opens X) :
-    TopCat.Sheaf AddCommGrpCat.{u} X ⥤ AddCommGrpCat.{u} :=
-  TopCat.Sheaf.forget AddCommGrpCat.{u} X ⋙ (evaluation _ _).obj (op V)
-
-/-- Sections over an open subset preserve finite limits. -/
-noncomputable instance sheafSectionsOver_preservesFiniteLimits (V : Opens X) :
-    PreservesFiniteLimits (sheafSectionsOver V) := by
-  have h₁ : PreservesFiniteLimits (TopCat.Sheaf.forget AddCommGrpCat.{u} X) := inferInstance
-  have h₂ : PreservesFiniteLimits ((evaluation (Opens X)ᵒᵖ AddCommGrpCat.{u}).obj (op V)) :=
-    inferInstance
-  exact @comp_preservesFiniteLimits _ _ _ _ _ _ _ _ h₁ h₂
 
 /-- Restriction from global sections to sections over an open subset. -/
 noncomputable def restrictGlobalSections (V : Opens X) :
@@ -356,10 +344,6 @@ instance openRestrict_preservesFiniteColimits (V : Opens X) :
   exact PreservesColimitsOfSize.preservesFiniteColimits _
 
 instance openRestrict_additive (V : Opens X) : (openRestrict V).Additive :=
-  Functor.additive_of_preserves_binary_products _
-
-/-- Sections over an open subset are additive. -/
-instance sheafSectionsOver_additive (V : Opens X) : (sheafSectionsOver V).Additive :=
   Functor.additive_of_preserves_binary_products _
 
 /-- Global sections of the restriction `F|_V` are the sections of `F` over `V`. -/

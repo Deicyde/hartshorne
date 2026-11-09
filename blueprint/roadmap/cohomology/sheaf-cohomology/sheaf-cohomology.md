@@ -2,6 +2,9 @@
 article_id: af_a3a60a624675778f44a80899
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.sheafCohomology Hartshorne.sheafCohomologyZeroIso
 ---
 
 # Sheaf cohomology
