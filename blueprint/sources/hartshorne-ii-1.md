@@ -133,10 +133,13 @@ Exercises 1.1, 1.3(b), 1.5–1.7, 1.11, 1.13, 1.17, 1.19(c), and
 either unused here, already subsumed by Mathlib's categorical API, or examples
 requested only inside the exercise set.
 
-Exercise 1.17 (skyscraper sheaves) is not adopted as a source target, but it
-grounds the bridged module-level article
+Exercise 1.17 (skyscraper sheaves, p. 68) is not adopted as a source target. It
+covers only the construction of the skyscraper sheaf of an abelian group, and has
+no adjunction. The bridged module-level article
 [Skyscraper module sheaves and the stalk adjunction](../roadmap/schemes/module-stalks/module-skyscraper-stalk-adjunction.md),
-which the stalk computation for pullbacks of module sheaves uses.
+which the stalk computation for pullbacks of module sheaves uses, takes that
+construction from it; the adjunction comes from the proof of Proposition III.2.2
+(p. 207), recorded in the III.1–2 source note.
 
 Exercises 1.16 (flasque sheaves) and 1.20 (sections with supports) are deferred
 to the Chapter III cohomology milestones. Exercise 1.14 is adopted only to the

@@ -80,7 +80,14 @@ Hartshorne cites Godement, *Topologie algébrique et théorie des faisceaux*,
 I.1.2.2, and Hilton–Stammbach, *A Course in Homological Algebra*, I.8.3. We
 adopt both locators, with pinned Mathlib as the implementation source.
 Proposition 2.2 and Corollary 2.3 (p. 207) establish enough injectives for
-sheaves of modules and abelian sheaves. Cohomology is then defined as
+sheaves of modules and abelian sheaves. The proof of Proposition 2.2 embeds a
+module sheaf into a product of skyscraper sheaves `j_*(I_x)` built from
+injective modules `I_x`, using the stalk adjunction, stated there as "for each
+point x ∈ X, we have Hom_{O_X}(G, j_*(I_x)) ≅ Hom_{O_{x,X}}(G_x, I_x) as one
+sees easily." The roadmap records this adjunction, for a general module and
+with naturality, as the bridged article
+[Skyscraper module sheaves and the stalk adjunction](../roadmap/schemes/module-stalks/module-skyscraper-stalk-adjunction.md).
+Cohomology is then defined as
 `Hⁱ(X,-) = RⁱΓ(X,-)`. Lemma 2.4, Proposition 2.5, and Proposition 2.6
 (pp. 207–208) show respectively that injective module sheaves are flasque,
 flasque abelian sheaves are acyclic, and module-category derived global

@@ -23,6 +23,10 @@ $\operatorname{Hom}_{\mathcal{O}_X}(F, i_x(N)) \cong \operatorname{Hom}_{\mathca
 naturally in $F$ and $N$. A linear map $\varphi : F_x \to N$ corresponds to the
 morphism sending a section $t \in F(U)$, for $x \in U$, to $\varphi(t_x)$.
 
+Hartshorne's proof of Proposition III.2.2 uses this adjunction, for the injective
+modules $I_x$ of that proof, to embed a module sheaf into a product of skyscraper
+sheaves; the general module $N$ and the naturality are the project's.
+
 The sheaf axiom for $i_x(N)$ holds because a cover of an open containing $x$
 has a member containing $x$. A morphism $F \to i_x(N)$ is compatible with
 restriction to smaller neighbourhoods of $x$, so it factors uniquely through
@@ -40,4 +44,5 @@ the stalk $F_x$.
 
 ## Sources
 
-- [Hartshorne II.1, Exercise 1.17 (skyscraper sheaves), exercises pp.66–69](../../../sources/hartshorne-ii-1.md#excluded-and-deferred-exercises)
+- [Hartshorne III.2, proof of Proposition 2.2, p.207](../../../sources/hartshorne-iii-1-2.md#enough-injectives-and-cohomology-printed-pp-206208)
+- [Hartshorne II.1, Exercise 1.17 (p. 68): the skyscraper sheaf of an abelian group](../../../sources/hartshorne-ii-1.md#excluded-and-deferred-exercises)
