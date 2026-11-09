@@ -222,8 +222,11 @@ of Exercise 5.4 is stated with it: the local length is bounded below by the
 product of the two multiplicities and equals the multiplicity for all but
 finitely many lines through the point.  The roadmap states the standard
 definition (translate the point to the origin; the multiplicity is the least
-degree of a nonzero homogeneous part of the defining polynomial); Exercise
-5.3's printed wording and notation have not yet been checked against the book.
+degree of a nonzero homogeneous part of the defining polynomial).  Exercise
+5.3's printed wording (p.36) has been checked against the book: for a curve
+`Y ⊆ A^2` defined by `f(x,y) = 0` it defines the multiplicity of `P` on `Y`,
+denoted `μ_P(Y)`, to be the least `r` such that `f_r ≠ 0`, and notes that
+`P ∈ Y ⇔ μ_P(Y) > 0`; the roadmap's definition and notation match it.
 The remaining parts of Exercise 5.3 stay out.
 
 | Locator | Material | Pages | Disposition |

@@ -16,9 +16,9 @@ Translate $P$ to the origin and expand
 $f(x+a,\,y+b)=f_0+f_1+\cdots+f_d$,
 
 where each $f_i$ is a homogeneous polynomial of degree $i$ in $x$ and $y$.  The
-*multiplicity* $\operatorname{mult}_P(Y)$ of $P$ on $Y$ is the least $r$ with
+*multiplicity* $\mu_P(Y)$ of $P$ on $Y$ is the least $r$ with
 $f_r \ne 0$.  Since $f_0=f(P)$, the point $P$ lies on $Y$ if and only if
-$\operatorname{mult}_P(Y)>0$.
+$\mu_P(Y)>0$.
 
 The multiplicity is computed from the given defining polynomial $f$, as are
 the local intersection multiplicities that use it.
@@ -29,4 +29,4 @@ the local intersection multiplicities that use it.
 
 ## Sources
 
-- [Hartshorne I.5, Exercise 5.3 (definition of multiplicity only), exercises printed pp. 35–39](../../../sources/hartshorne.md#i5-exercises-and-exercise-only-prerequisite)
+- [Hartshorne I.5, Exercise 5.3 (definition of multiplicity only), p.36](../../../sources/hartshorne.md#i5-exercises-and-exercise-only-prerequisite)

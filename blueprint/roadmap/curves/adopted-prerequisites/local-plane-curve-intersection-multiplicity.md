@@ -15,8 +15,8 @@ $P \in Y \cap Z$, define
 $(Y\cdot Z)_P=\operatorname{length}_{\mathcal O_{\mathbb A^2,P}}(\mathcal O_{\mathbb A^2,P}/(f,g))$.
 
 This length is finite and at least
-$\operatorname{mult}_P(Y)\operatorname{mult}_P(Z)$. For all but finitely many lines $L$ through $P$,
-$(L\cdot Y)_P=\operatorname{mult}_P(Y)$. Finally, for a projective plane curve $Y$ of degree
+$\mu_P(Y)\mu_P(Z)$. For all but finitely many lines $L$ through $P$,
+$(L\cdot Y)_P=\mu_P(Y)$. Finally, for a projective plane curve $Y$ of degree
 $d$ and a line $L$ not contained in $Y$,
 
 $\sum_{P\in L\cap Y}(L\cdot Y)_P=d$.

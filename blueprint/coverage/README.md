@@ -121,7 +121,7 @@ with the exercises used by later included running text:
 | I.6.8–6.12 | Projective Models and Curve Categories | 43–46 | [21 further articles in the 23-leaf chapter](../roadmap/projective-models/README.md) | done |
 | I.7 main text and required prerequisites | Intersections, Hilbert Polynomials, Degree, and Bézout | 12, 22, 47–54 | [50 articles](../roadmap/intersections-projective-space/README.md) | done |
 | I.5.4 and I.7.8.1 | Local Plane-Curve Intersection Multiplicity | 36, 54 | [1 article](../roadmap/curves/adopted-prerequisites/local-plane-curve-intersection-multiplicity.md) | planned |
-| I.5.3 (definition only) | Multiplicity of a Point on a Plane Curve | 35–39 | [1 article](../roadmap/curves/adopted-prerequisites/plane-curve-point-multiplicity.md) | planned |
+| I.5.3 (definition only) | Multiplicity of a Point on a Plane Curve | 36 | [1 article](../roadmap/curves/adopted-prerequisites/plane-curve-point-multiplicity.md) | planned |
 | I.5.6(b) | Ordinary Nodes and Their Branches | 37 | [1 article](../roadmap/curves/projective-embeddings/prerequisites/ordinary-node-local-criterion.md) | planned |
 | I.5.14(d) | Analytic Classification of Plane Double Points | 39 | [1 article](../roadmap/surfaces/prerequisites/plane-double-point-analytic-normal-form.md) | planned |
 | I.5.4A regularity clause | Regularity Is Detected by Completion | 34 | [1 article](../roadmap/surfaces/prerequisites/regular-local-iff-completion-regular.md) | planned |
