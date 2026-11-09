@@ -397,6 +397,35 @@ lemma exists_sec (hO : O ≤ (𝒰.f k).opensRange) (m : Γ(D.M k, 𝒰.f k ⁻�
 
 end pieces
 
+lemma ψHom_apply (k : 𝒰.I₀) (W : (𝒰.X k).Opens) (s : D.Sec (𝒰.f k ''ᵁ W)) :
+    (D.ψHom k).app W s =
+      (D.M k).presheaf.map (eqToHom (Scheme.Hom.preimage_image_eq _ W).symm).op (s.1 k) := by
+  simp only [ψHom, Adjunction.homEquiv_counit]
+  rfl
+
+lemma ψHom_bijective (k : 𝒰.I₀) (W : (𝒰.X k).Opens) :
+    Function.Bijective ((D.ψHom k).app W) := by
+  have hO : 𝒰.f k ''ᵁ W ≤ (𝒰.f k).opensRange := Scheme.Hom.image_le_opensRange _ W
+  constructor
+  · intro (s : D.Sec (𝒰.f k ''ᵁ W)) (s' : D.Sec (𝒰.f k ''ᵁ W)) h
+    rw [D.ψHom_apply, D.ψHom_apply] at h
+    refine D.sec_ext hO s s' ?_
+    have := congrArg ((D.M k).presheaf.map
+      (eqToHom (Scheme.Hom.preimage_image_eq (𝒰.f k) W)).op) h
+    exact ((pmap_map (D.M k) _ _ (𝟙 _) _).trans (pmap_self _ _ _)).symm.trans
+      (this.trans ((pmap_map (D.M k) _ _ (𝟙 _) _).trans (pmap_self _ _ _)))
+  · intro m
+    obtain ⟨s, hs⟩ := D.exists_sec hO ((D.M k).presheaf.map
+      (eqToHom (Scheme.Hom.preimage_image_eq (𝒰.f k) W)).op m)
+    refine ⟨s, ?_⟩
+    rw [D.ψHom_apply, hs, pmap_map (D.M k) _ _ (𝟙 _), pmap_self]
+
+instance isIso_ψHom (k : 𝒰.I₀) : IsIso (D.ψHom k) :=
+  ModuleGluing.isIso_of_bijective _ fun W => D.ψHom_bijective k W.unop
+
+/-- The isomorphisms `glue|_{𝒰.X k} ≅ M k`. -/
+noncomputable def ψ (k : 𝒰.I₀) : D.glue.restrict (𝒰.f k) ≅ D.M k := asIso (D.ψHom k)
+
 end Data
 
 end DirectedModuleGluing
