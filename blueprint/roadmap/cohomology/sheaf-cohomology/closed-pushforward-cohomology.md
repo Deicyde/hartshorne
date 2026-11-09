@@ -28,6 +28,7 @@ computed using pushforward of a flasque resolution.
 - [Flasque closure in short exact sequences](flasque-short-exact-closure.md)
 - [Flasque sheaves are acyclic](flasque-sheaf-acyclic.md)
 - [Acyclic resolutions compute derived functors](../derived-functors/acyclic-resolution-comparison.md)
+- [The acyclic Leray comparison](../higher-direct-images/acyclic-leray-comparison.md)
 
 ## Sources
 
