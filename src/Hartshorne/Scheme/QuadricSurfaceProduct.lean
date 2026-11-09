@@ -13,7 +13,19 @@ Let `k` be a field and `Q = Proj` of the Segre ring (`Hartshorne.quadricSurface 
 coordinates `z_{ij} = sᵢuⱼ` (indexed by `segreIndex 1 1`) give a closed immersion
 `Q ⟶ ℙ³_{Spec k}` (`Hartshorne.quadricSurfaceToProjectiveSpace`), and the relative Segre
 embedding `ℙ¹_k ×_k ℙ¹_k ⟶ ℙ³_{Spec k}` factors through it by an isomorphism
-`ℙ¹_k ×_k ℙ¹_k ≅ Q` (`Hartshorne.quadricSurfaceIsoSegreSource`).
+`ℙ¹_k ×_k ℙ¹_k ≅ Q` (`Hartshorne.quadricSurfaceIsoSegreSource`,
+`Hartshorne.relativeSegre_eq_quadricSurfaceIsoSegreSource_hom_comp`).
+
+Under the comparison `Proj k[x, y, z, w] ≅ ℙ³_{Spec k}` (`Hartshorne.projectiveSpaceOverSpecIso`,
+with `x, y, z, w = z₀₀, z₁₁, z₀₁, z₁₀`), the closed immersion `Q ⟶ ℙ³_{Spec k}` is the closed
+immersion `Hartshorne.quadricSurfaceι : Q ⟶ Proj k[x, y, z, w]` induced by the graded surjection
+onto the Segre ring, whose homogeneous kernel is `(xy - zw)`
+(`Hartshorne.quadricSurfaceι_comp_projectiveSpaceOverSpecIso`). Hence the main statement
+`Hartshorne.relativeSegre_eq_quadricSurfaceι`: the relative Segre embedding is the isomorphism
+`ℙ¹_k ×_k ℙ¹_k ≅ Q` followed by `quadricSurfaceι` and the comparison. The coordinate homomorphism
+maps each degree-`d` part of `k[x, y, z, w]` onto the degree-`d` part of the Segre ring
+(`Hartshorne.map_quadricCoordinateAlgHom_homogeneousSubmodule`), so the Segre ring is
+`k[x, y, z, w]/(xy - zw)` as a graded `k`-algebra.
 
 Both factorizations are built chart by chart and glued, using that the two maps to `ℙ³_{Spec k}`
 are monomorphisms.
@@ -90,6 +102,37 @@ theorem quadricSegreHom_X_segreIndex (i j : Fin (1 + 1)) :
 theorem quadricSegreHom_X_mem (c : Fin (1 + 1) × Fin (1 + 1)) :
     quadricSegreHom k (X (segreIndex 1 1 c)) ∈ 𝒬 1 :=
   (quadricSegreHom k).map_mem (X_mem_homogeneousSubmodule_one _ _)
+
+/-- The coordinate homomorphism `k[x, y, z, w] → ` Segre ring maps the degree-`d` part onto the
+degree-`d` part. With `ker_quadricCoordinateAlgHom`, the induced `quadricQuotientEquiv` is an
+isomorphism of graded `k`-algebras. -/
+theorem map_quadricCoordinateAlgHom_homogeneousSubmodule (d : ℕ) :
+    (homogeneousSubmodule (Fin (3 + 1)) k d).map (quadricCoordinateAlgHom k).toLinearMap = 𝒬 d := by
+  apply le_antisymm
+  · rintro _ ⟨P, hP, rfl⟩
+    exact quadricCoordinateAlgHom_mem k hP
+  · intro a ha
+    obtain ⟨P, rfl⟩ := quadricCoordinateAlgHom_surjective k a
+    refine ⟨homogeneousComponent d P, homogeneousComponent_mem d P, ?_⟩
+    have hsum := congrArg (GradedRing.proj 𝒬 d ∘ quadricCoordinateAlgHom k)
+      (sum_homogeneousComponent P)
+    simp only [Function.comp_apply, map_sum] at hsum
+    have hproj : ∀ e, GradedRing.proj 𝒬 d (quadricCoordinateAlgHom k (homogeneousComponent e P)) =
+        if e = d then quadricCoordinateAlgHom k (homogeneousComponent e P) else 0 := by
+      intro e
+      have hmem := quadricCoordinateAlgHom_mem k (homogeneousComponent_mem e P)
+      rw [GradedRing.proj_apply]
+      split_ifs with h
+      · subst h
+        exact DirectSum.decompose_of_mem_same 𝒬 hmem
+      · exact DirectSum.decompose_of_mem_ne 𝒬 hmem h
+    rw [Finset.sum_congr rfl fun e _ => hproj e, Finset.sum_ite_eq', GradedRing.proj_apply,
+      DirectSum.decompose_of_mem_same 𝒬 ha] at hsum
+    change quadricCoordinateAlgHom k (homogeneousComponent d P) = _
+    split_ifs at hsum with hd
+    · exact hsum
+    · rw [← hsum, homogeneousComponent_eq_zero, map_zero]
+      simpa using hd
 
 /-- The degree-zero part of the Segre ring is `k`. -/
 theorem bijective_algebraMap_quadricGrading_zero :
@@ -609,8 +652,9 @@ theorem relativeSegre_eq_quadricSurfaceIsoSegreSource_hom_comp :
 /-- **The split quadric surface is `ℙ¹ × ℙ¹`.** With `ℙ³_{Spec k} ≅ Proj k[x, y, z, w]` and
 `x, y, z, w = z₀₀, z₁₁, z₀₁, z₁₀`, the relative Segre embedding `ℙ¹_k ×_k ℙ¹_k ⟶ ℙ³_{Spec k}` is
 the isomorphism `ℙ¹_k ×_k ℙ¹_k ≅ Q` followed by the closed immersion
-`Q = Proj k[x, y, z, w]/(xy - zw) ⟶ Proj k[x, y, z, w]` (`quadricSurfaceι`, whose homogeneous
-kernel is `(xy - zw)` by `ker_quadricCoordinateAlgHom`) and the comparison isomorphism. -/
+`quadricSurfaceι : Q ⟶ Proj k[x, y, z, w]` of the graded surjection onto the Segre ring (whose
+homogeneous kernel is `(xy - zw)` by `ker_quadricCoordinateAlgHom`) and the comparison
+isomorphism. -/
 theorem relativeSegre_eq_quadricSurfaceι :
     relativeSegre 1 1 (Spec (.of k)) =
       (quadricSurfaceIsoSegreSource k).hom ≫ quadricSurfaceι k ≫
