@@ -2,6 +2,9 @@
 article_id: af_25e490d6392f90bdc61e56b0
 declaration: theorem
 origin: background
+statement: formalized
+proof: formalized
+lean: Hartshorne.LocalGlobalDimension.hasProjectiveDimensionLE_of_residueField Hartshorne.LocalGlobalDimension.subsingleton_ext_quotient_prime Hartshorne.LocalGlobalDimension.subsingleton_ext_of_forall_prime Hartshorne.LocalGlobalDimension.isSMulRegular_quotient_of_notMem Hartshorne.LocalGlobalDimension.subsingleton_ext_of_iso
 ---
 
 # Projective dimension over a local ring is bounded by that of the residue field
