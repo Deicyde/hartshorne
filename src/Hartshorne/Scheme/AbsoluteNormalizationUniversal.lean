@@ -53,44 +53,79 @@ private theorem map_genericPoint_of_isDominant {X Z : Scheme.{u}} [IsIntegral X]
   rw [Set.image_univ, f.denseRange.closure_range] at h
   exact h
 
+/-- Over a nonempty affine open of an integral scheme whose ring of sections is integrally closed,
+the normalization map restricts to an isomorphism. -/
+theorem isIso_absoluteNormalizationMap_restrict_of_isAffineOpen (X : Scheme.{u}) [IsIntegral X]
+    {U : X.Opens} (hU : IsAffineOpen U) [Nonempty U] [IsIntegrallyClosed Γ(X, U)] :
+    IsIso (absoluteNormalizationMap X ∣_ U) := by
+  let g := absoluteNormalizationGenericMap X
+  change IsIso (g.fromNormalization ∣_ U)
+  rw [isIso_morphismRestrict_iff_isIso_app _ hU, g.fromNormalization_app hU]
+  let _ := (g.app U).hom.toAlgebra
+  suffices IsIso (CommRingCat.ofHom
+      (algebraMap Γ(X, U) (integralClosure Γ(X, U) Γ(Spec X.functionField, g ⁻¹ᵁ U)))) from
+    inferInstance
+  rw [ConcreteCategory.isIso_iff_bijective]
+  let e := genericPreimageSectionsAlgEquiv X U
+  have he : ∀ r : Γ(X, U), e (algebraMap _ _ r) = algebraMap Γ(X, U) X.functionField r :=
+    e.commutes
+  constructor
+  · intro r s hrs
+    have h := congrArg (fun x ↦ e x.1) hrs
+    simp only [CommRingCat.hom_ofHom] at h
+    have h' : algebraMap Γ(X, U) X.functionField r =
+        algebraMap Γ(X, U) X.functionField s := by
+      rw [← he, ← he]; exact h
+    exact X.germToFunctionField_injective U h'
+  · rintro ⟨x, hx⟩
+    have : IsFractionRing Γ(X, U) X.functionField :=
+      functionField_isFractionRing_of_isAffineOpen X U hU
+    obtain ⟨y, hy⟩ := IsIntegrallyClosed.isIntegral_iff.mp
+      ((mem_integralClosure_iff _ _).mp hx |>.map e.toAlgHom)
+    refine ⟨y, Subtype.ext (e.injective ?_)⟩
+    simpa [he] using hy
+
 /-- A normal integral scheme is its own normalization inside its function field. -/
 instance isIso_fromNormalization_of_isNormal (Z : Scheme.{u}) [IsIntegral Z] [IsNormal Z] :
     IsIso (absoluteNormalizationGenericMap Z).fromNormalization := by
-  let g := absoluteNormalizationGenericMap Z
   let ι := {U : Z.affineOpens // Nonempty (U : Z.Opens)}
   rw [← MorphismProperty.isomorphisms.iff,
     IsZariskiLocalAtTarget.iff_of_iSup_eq_top (P := MorphismProperty.isomorphisms Scheme)
       (fun i : ι ↦ (i.1 : Z.Opens)) ?_]
   · rintro ⟨⟨U, hU⟩, hne⟩
-    rw [MorphismProperty.isomorphisms.iff, isIso_morphismRestrict_iff_isIso_app _ hU,
-      g.fromNormalization_app hU]
-    let _ := (g.app U).hom.toAlgebra
-    suffices IsIso (CommRingCat.ofHom
-        (algebraMap Γ(Z, U) (integralClosure Γ(Z, U) Γ(Spec Z.functionField, g ⁻¹ᵁ U)))) from
-      inferInstance
-    rw [ConcreteCategory.isIso_iff_bijective]
-    let e := genericPreimageSectionsAlgEquiv Z U
-    have he : ∀ r : Γ(Z, U), e (algebraMap _ _ r) = algebraMap Γ(Z, U) Z.functionField r :=
-      e.commutes
-    constructor
-    · intro r s hrs
-      have h := congrArg (fun x ↦ e x.1) hrs
-      simp only [CommRingCat.hom_ofHom] at h
-      have h' : algebraMap Γ(Z, U) Z.functionField r =
-          algebraMap Γ(Z, U) Z.functionField s := by
-        rw [← he, ← he]; exact h
-      exact Z.germToFunctionField_injective U h'
-    · rintro ⟨x, hx⟩
-      have : IsFractionRing Γ(Z, U) Z.functionField :=
-        functionField_isFractionRing_of_isAffineOpen Z U hU
-      have : IsIntegrallyClosed Γ(Z, U) := isIntegrallyClosed_sections_of_isNormal Z hU
-      obtain ⟨y, hy⟩ := IsIntegrallyClosed.isIntegral_iff.mp
-        ((mem_integralClosure_iff _ _).mp hx |>.map e.toAlgHom)
-      refine ⟨y, Subtype.ext (e.injective ?_)⟩
-      simpa [he] using hy
+    have : IsIntegrallyClosed Γ(Z, U) := isIntegrallyClosed_sections_of_isNormal Z hU
+    exact (MorphismProperty.isomorphisms.iff _).mpr
+      (isIso_absoluteNormalizationMap_restrict_of_isAffineOpen Z hU)
   · refine eq_top_iff.mpr fun x _ ↦ ?_
     let V : Z.Opens := (Z.affineCover.f (Z.affineCover.idx x)).opensRange
     have hx : x ∈ V := Z.affineCover.covers x
+    exact TopologicalSpace.Opens.mem_iSup.mpr ⟨⟨⟨V, isAffineOpen_opensRange _⟩, ⟨⟨x, hx⟩⟩⟩, hx⟩
+
+/-- **The normalization is an isomorphism over a normal open.** For an integral scheme `X` and
+an open subset `U` that is a normal scheme, the normalization `X̃ ⟶ X` restricts to an
+isomorphism from the preimage of `U` onto `U`. -/
+theorem isIso_absoluteNormalizationMap_restrict_of_isNormal (X : Scheme.{u}) [IsIntegral X]
+    (U : X.Opens) [IsNormal U] : IsIso (absoluteNormalizationMap X ∣_ U) := by
+  let ι := {W : (U : Scheme).affineOpens // Nonempty (W : (U : Scheme).Opens)}
+  rw [← MorphismProperty.isomorphisms.iff,
+    IsZariskiLocalAtTarget.iff_of_iSup_eq_top (P := MorphismProperty.isomorphisms Scheme)
+      (fun i : ι ↦ (i.1 : (U : Scheme).Opens)) ?_]
+  · rintro ⟨⟨W, hW⟩, ⟨w⟩⟩
+    refine ((MorphismProperty.isomorphisms Scheme).arrow_mk_iso_iff
+      (morphismRestrictRestrict _ _ _)).mpr ?_
+    have : Nonempty W := ⟨w⟩
+    have : Nonempty U := ⟨w.1⟩
+    have : IsIntegral (U : Scheme) := isIntegral_of_isOpenImmersion U.ι
+    have : Nonempty (U.ι ''ᵁ W) := ⟨⟨U.ι w.1, ⟨w.1, w.2, rfl⟩⟩⟩
+    have : IsIntegrallyClosed Γ(U, W) := isIntegrallyClosed_sections_of_isNormal U hW
+    have : IsIntegrallyClosed Γ(X, U.ι ''ᵁ W) :=
+      IsIntegrallyClosed.of_equiv (U.ι.appIso W).symm.commRingCatIsoToRingEquiv
+    exact (MorphismProperty.isomorphisms.iff _).mpr
+      (isIso_absoluteNormalizationMap_restrict_of_isAffineOpen X (hW.image_of_isOpenImmersion U.ι))
+  · refine eq_top_iff.mpr fun x _ ↦ ?_
+    let V : (U : Scheme).Opens :=
+      ((U : Scheme).affineCover.f ((U : Scheme).affineCover.idx x)).opensRange
+    have hx : x ∈ V := (U : Scheme).affineCover.covers x
     exact TopologicalSpace.Opens.mem_iSup.mpr ⟨⟨⟨V, isAffineOpen_opensRange _⟩, ⟨⟨x, hx⟩⟩⟩, hx⟩
 
 /-- A dominant morphism of integral schemes is compatible, at the generic points, with a
