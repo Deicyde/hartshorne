@@ -9,6 +9,7 @@ import Hartshorne.Scheme.LocallyFiniteType
 import Hartshorne.Scheme.FiniteType
 import Hartshorne.Scheme.FiniteTypeAffineSource
 import Hartshorne.Scheme.FiberProductRestrictOpen
+import Hartshorne.Scheme.FiberProductLocalRing
 import Hartshorne.Scheme.SchemesHaveFiberProducts
 import Hartshorne.Scheme.DiagonalRangeClosed
 import Hartshorne.Scheme.SeparatedMorphismCalculus
