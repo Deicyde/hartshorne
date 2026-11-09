@@ -492,6 +492,107 @@ theorem injective_awayLift_quadricSndChartHom (i j : Fin 2) :
   rw [hp, hq] at h
   rw [rename_injective _ (fun a b _ => fin_two_subtype_subsingleton j a b) h]
 
+theorem quadricProjOne_genericPoint :
+    (quadricProjOne k).base (genericPoint (quadricSurface k)) = genericPoint (Proj 𝒮) := by
+  have : IsDomain (projChart 𝒬 (quadricChart k 0 0)) :=
+    isDomain_projChart 𝒬 (quadricChart_ne_zero k 0 0)
+  have : IsDomain (projChart 𝒮 (X 0)) := isDomain_projChart 𝒮 (X_ne_zero 0)
+  rw [← projChartι_genericPoint 𝒬 (quadricChart_mem k 0 0) Nat.one_pos]
+  have e := congrArg (fun φ => φ.base (genericPoint (Spec (projChart 𝒬 (quadricChart k 0 0)))))
+    (awayι_comp_quadricProjOne k 0 0)
+  refine e.trans ?_
+  refine (congrArg (Proj.awayι 𝒮 (X 0) (X_mem_homogeneousSubmodule_one k 0) Nat.one_pos).base
+    (SpecMap_base_genericPoint (R := projChart 𝒮 (X 0)) (S := projChart 𝒬 (quadricChart k 0 0)) _
+      (injective_awayLift_quadricFstChartHom k 0 0))).trans ?_
+  exact projChartι_genericPoint 𝒮 _ _
+
+theorem quadricProjTwo_genericPoint :
+    (quadricProjTwo k).base (genericPoint (quadricSurface k)) = genericPoint (Proj 𝒮) := by
+  have : IsDomain (projChart 𝒬 (quadricChart k 0 0)) :=
+    isDomain_projChart 𝒬 (quadricChart_ne_zero k 0 0)
+  have : IsDomain (projChart 𝒮 (X 0)) := isDomain_projChart 𝒮 (X_ne_zero 0)
+  rw [← projChartι_genericPoint 𝒬 (quadricChart_mem k 0 0) Nat.one_pos]
+  have e := congrArg (fun φ => φ.base (genericPoint (Spec (projChart 𝒬 (quadricChart k 0 0)))))
+    (awayι_comp_quadricProjTwo k 0 0)
+  refine e.trans ?_
+  refine (congrArg (Proj.awayι 𝒮 (X 0) (X_mem_homogeneousSubmodule_one k 0) Nat.one_pos).base
+    (SpecMap_base_genericPoint (R := projChart 𝒮 (X 0)) (S := projChart 𝒬 (quadricChart k 0 0)) _
+      (injective_awayLift_quadricSndChartHom k 0 0))).trans ?_
+  exact projChartι_genericPoint 𝒮 _ _
+
 end Dominance
+
+section FunctionField
+
+theorem homogeneousLocalization_mk_X_eq_chartRatio (a b : Fin (1 + 1)) :
+    (HomogeneousLocalization.mk ⟨1, ⟨X a, (mem_homogeneousSubmodule 1 _).mpr (isHomogeneous_X k a)⟩,
+      ⟨X b, (mem_homogeneousSubmodule 1 _).mpr (isHomogeneous_X k b)⟩, ⟨1, pow_one _⟩⟩ :
+        Away 𝒮 (X b)) = chartRatio k b a := by
+  apply HomogeneousLocalization.val_injective
+  rw [chartRatio, Away.val_mk, HomogeneousLocalization.val_mk]
+  congr 1
+  exact Subtype.ext (pow_one _).symm
+
+theorem away_mk_eq_projDehom {f a : QuadricRing k} (f_deg : f ∈ 𝒬 1) (ha : a ∈ 𝒬 1)
+    (ha' : a ∈ 𝒬 (1 • 1)) : Away.mk 𝒬 f_deg 1 a ha' = projDehom 𝒬 f_deg ha := by
+  apply HomogeneousLocalization.val_injective
+  rw [Away.val_mk, projDehom, HomogeneousLocalization.val_mk]
+
+/-- **`p₁` pulls `x₀ / x₁` back to `s₀u₀ / s₁u₀`.** -/
+theorem quadricProjOne_homogeneousFraction :
+    (quadricProjOne k).genericFunctionFieldMap (quadricProjOne_genericPoint k)
+        (homogeneousFraction (isHomogeneous_X k (0 : Fin (1 + 1))) (isHomogeneous_X k 1)
+          (X_ne_zero 1)) =
+      projHomogeneousFraction 𝒬 (quadricChart_mem k 0 0) (quadricChart_mem k 1 0)
+        (quadricChart_ne_zero k 1 0) := by
+  have : IsDomain (projChart 𝒬 (quadricChart k 1 0)) :=
+    isDomain_projChart 𝒬 (quadricChart_ne_zero k 1 0)
+  have : IsDomain (projChart 𝒮 (X 1)) := isDomain_projChart 𝒮 (X_ne_zero 1)
+  have hιQ := projChartι_genericPoint 𝒬 (quadricChart_mem k 1 0) Nat.one_pos
+  have hιP := projChartι_genericPoint 𝒮 (X_mem_homogeneousSubmodule_one k 1) Nat.one_pos
+  have hφ := SpecMap_base_genericPoint (R := projChart 𝒮 (X 1))
+    (S := projChart 𝒬 (quadricChart k 1 0)) _ (injective_awayLift_quadricFstChartHom k 1 0)
+  have hcomp : (projChartι 𝒬 (quadricChart_mem k 1 0) Nat.one_pos ≫ quadricProjOne k).base
+      (genericPoint _) = genericPoint (Proj 𝒮) := by
+    exact (congrArg (quadricProjOne k).base hιQ).trans (quadricProjOne_genericPoint k)
+  have hcomp' : (Spec.map (CommRingCat.ofHom (awayLift (𝒜 := 𝒮)
+      (quadricFstChartHom k (quadricChart_mem k 1 0) 0) (X 1)
+      (isUnit_quadricFstChartHom k 1 0))) ≫
+        projChartι 𝒮 (X_mem_homogeneousSubmodule_one k 1) Nat.one_pos).base
+      (genericPoint _) = genericPoint (Proj 𝒮) :=
+    (congrArg (projChartι 𝒮 (X_mem_homogeneousSubmodule_one k 1) Nat.one_pos).base hφ).trans hιP
+  have hEq : projChartι 𝒬 (quadricChart_mem k 1 0) Nat.one_pos ≫ quadricProjOne k =
+      Spec.map (CommRingCat.ofHom (awayLift (𝒜 := 𝒮)
+        (quadricFstChartHom k (quadricChart_mem k 1 0) 0) (X 1)
+        (isUnit_quadricFstChartHom k 1 0))) ≫
+        projChartι 𝒮 (X_mem_homogeneousSubmodule_one k 1) Nat.one_pos :=
+    awayι_comp_quadricProjOne k 1 0
+  apply ((projChartι 𝒬 (quadricChart_mem k 1 0) Nat.one_pos).genericFunctionFieldMap
+    hιQ).hom.injective
+  have e1 := (Scheme.Hom.genericFunctionFieldMap_comp _ _ hιQ (quadricProjOne_genericPoint k)
+    hcomp).symm.trans ((Scheme.Hom.genericFunctionFieldMap_congr hEq hcomp hcomp').trans
+      (Scheme.Hom.genericFunctionFieldMap_comp _ _ hφ hιP hcomp'))
+  have e2 := congrArg (fun F => F.hom (homogeneousFraction (isHomogeneous_X k (0 : Fin (1 + 1)))
+    (isHomogeneous_X k 1) (X_ne_zero 1))) e1
+  simp only [CommRingCat.hom_comp, RingHom.comp_apply] at e2
+  refine e2.trans ?_
+  have hR := genericFunctionFieldMap_projChartι_projHomogeneousFraction 𝒬
+    (quadricChart_mem k 1 0) (quadricChart_ne_zero k 1 0) (quadricChart_mem k 0 0)
+    (quadricChart_mem k 1 0) (quadricChart_ne_zero k 1 0)
+  dsimp only at hR
+  rw [hR, projDehom_self]
+  erw [map_one]
+  rw [div_one, homogeneousFraction, hypersurfaceChartEquation,
+    genericFunctionFieldMap_projChartι_germ, homogeneousLocalization_mk_X_eq_chartRatio]
+  refine (genericFunctionFieldMap_SpecMap_algebraMap (R := projChart 𝒮 (X 1))
+    (S := projChart 𝒬 (quadricChart k 1 0)) (CommRingCat.ofHom (awayLift (𝒜 := 𝒮)
+      (quadricFstChartHom k (quadricChart_mem k 1 0) 0) (X 1)
+      (isUnit_quadricFstChartHom k 1 0))) hφ (chartRatio k 1 0)).trans ?_
+  congr 1
+  refine (awayLift_chartRatio (quadricFstChartHom k (quadricChart_mem k 1 0) 0) 1 0
+    (quadricFstChartHom_X_self k 1 0) (isUnit_quadricFstChartHom k 1 0)).trans ?_
+  rw [quadricFstChartHom, eval₂Hom_X', away_mk_eq_projDehom k _ (quadricChart_mem k 0 0)]
+
+end FunctionField
 
 end Hartshorne
