@@ -94,6 +94,40 @@ theorem IsLocallyFreeOfRank.isLocallyFree {F : SheafOfModules.{u} (ringCatSheafO
     {r : ℕ} (hF : IsLocallyFreeOfRank F r) : IsLocallyFree F :=
   hF.isFiniteLocallyFree.isLocallyFree
 
+section HomMk
+
+set_option hygiene false in
+/-- `𝒪_X`-modules. -/
+local notation "𝓜" => SheafOfModules.{u} (ringCatSheafOf R)
+
+set_option hygiene false in
+/-- Sections of the structure sheaf over an open. -/
+local notation3 "𝒪(" U ")" => R.obj.obj (Opposite.op U)
+
+/-- Sections of a module sheaf over an open, as an abelian group. -/
+local notation3 "Γ(" M ", " U ")" => (PresheafOfModules.presheaf (SheafOfModules.val M)).obj
+  (Opposite.op U)
+
+/-- The sections of an `𝒪_X`-module over an open, as an abelian group, are a module over the
+sections of `𝒪_X`. -/
+scoped instance (M : SheafOfModules.{u} (ringCatSheafOf R)) (U : (Opens X)ᵒᵖ) :
+    Module (R.obj.obj U) (M.val.presheaf.obj U) :=
+  inferInstanceAs (Module (R.obj.obj U) (M.val.obj U))
+
+/-- The morphism of `𝒪_X`-modules given by a family of linear maps on sections compatible with
+restriction. -/
+noncomputable def modulesHomMk {A B : 𝓜}
+    (f : ∀ U : Opens X, Γ(A, U) →ₗ[𝒪(U)] Γ(B, U))
+    (hf : ∀ (U V : Opens X) (i : V ≤ U) (x : Γ(A, U)),
+      f V (A.val.presheaf.map (homOfLE i).op x) = B.val.presheaf.map (homOfLE i).op (f U x)) :
+    A ⟶ B :=
+  ⟨{ app U := ModuleCat.ofHom (X := A.val.obj U) (Y := B.val.obj U) (f U.unop)
+     naturality {U V} i := by
+       ext x
+       exact hf U.unop V.unop (leOfHom i.unop) x }⟩
+
+end HomMk
+
 end Ringed
 
 end Hartshorne

@@ -68,12 +68,6 @@ local notation3 "𝒪(" U ")" => R.obj.obj (Opposite.op U)
 local notation3 "Γ(" M ", " U ")" => (PresheafOfModules.presheaf (SheafOfModules.val M)).obj
   (Opposite.op U)
 
-/-- The sections of an `𝒪_X`-module over an open, as an abelian group, are a module over the
-sections of `𝒪_X`. -/
-scoped instance (M : SheafOfModules.{u} (ringCatSheafOf R)) (U : (Opens X)ᵒᵖ) :
-    Module (R.obj.obj U) (M.val.presheaf.obj U) :=
-  inferInstanceAs (Module (R.obj.obj U) (M.val.obj U))
-
 /-- The morphism of underlying presheaves of abelian groups of a morphism of `𝒪_X`-modules. -/
 noncomputable abbrev modulesMapPresheaf {A B : 𝓜} (φ : A ⟶ B) :
     A.val.presheaf ⟶ B.val.presheaf :=
@@ -177,18 +171,6 @@ private lemma ring_map_id {U : Opens X} (r : 𝒪(U)) :
     R.obj.map (homOfLE (le_refl U)).op r = r := by
   rw [show (homOfLE (le_refl U)) = 𝟙 U from rfl, op_id, CategoryTheory.Functor.map_id]
   rfl
-
-/-- The morphism of `𝒪_X`-modules given by a family of linear maps on sections compatible with
-restriction. -/
-noncomputable def modulesHomMk {A B : 𝓜}
-    (f : ∀ U : Opens X, Γ(A, U) →ₗ[𝒪(U)] Γ(B, U))
-    (hf : ∀ (U V : Opens X) (i : V ≤ U) (x : Γ(A, U)),
-      f V (A.val.presheaf.map (homOfLE i).op x) = B.val.presheaf.map (homOfLE i).op (f U x)) :
-    A ⟶ B :=
-  ⟨{ app U := ModuleCat.ofHom (X := A.val.obj U) (Y := B.val.obj U) (f U.unop)
-     naturality {U V} i := by
-       ext x
-       exact hf U.unop V.unop (leOfHom i.unop) x }⟩
 
 lemma modulesHomMk_app {A B : 𝓜} (f : ∀ U : Opens X, Γ(A, U) →ₗ[𝒪(U)] Γ(B, U))
     (hf : ∀ (U V : Opens X) (i : V ≤ U) (x : Γ(A, U)),

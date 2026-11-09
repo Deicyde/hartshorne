@@ -2,7 +2,7 @@
 Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Hartshorne.RingedSpace.FiniteLocallyFreeDuality
+import Hartshorne.RingedSpace.LocallyFree
 import Hartshorne.RingedSpace.ModuleSkyscraper
 import Mathlib.Algebra.Category.ModuleCat.Adjunctions
 import Mathlib.LinearAlgebra.Dimension.Constructions
@@ -251,8 +251,10 @@ theorem exists_isZero_over_of_subsingleton_stalk (x : X) [Subsingleton (ringShea
   apply SheafOfModules.hom_ext
   apply PresheafOfModules.hom_ext
   intro W
-  have := hsub W.unop.left (leOfHom W.unop.hom)
-  have : Subsingleton (M.val.obj W) := Module.subsingleton (R.obj.obj (op W.unop.left)) _
+  have : Subsingleton (((ringCatSheafOf R).over U).val.obj W) :=
+    hsub W.unop.left (leOfHom W.unop.hom)
+  have : Subsingleton (M.val.obj W) :=
+    Module.subsingleton (((ringCatSheafOf R).over U).val.obj W) _
   ext s
   exact Subsingleton.elim _ _
 
