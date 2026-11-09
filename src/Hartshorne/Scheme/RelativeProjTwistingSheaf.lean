@@ -21,9 +21,9 @@ an affine open `U ⊆ X` it restricts to `𝒪_{Proj S(U)}(n)` under `π⁻¹(U)
 ## Main definitions and results
 
 * `Hartshorne.QuasiCoherentGradedAlgebra.relTwistingSheaf`: `𝒪_{Proj_X S}(n)`.
-* `Hartshorne.QuasiCoherentGradedAlgebra.relTwistingSheafRestrictIso`,
-  `relTwistingSheafRestrictIso_compat`: its restrictions to the affine pieces, compatible with the
-  transition isomorphisms.
+* `Hartshorne.QuasiCoherentGradedAlgebra.relTwistingSheafRestrictIso`: its restrictions to the
+  affine pieces (compatible with the transition isomorphisms, by
+  `Hartshorne.DirectedModuleGluing.DataTr.ψ_compat`).
 * `Hartshorne.QuasiCoherentGradedAlgebra.isInvertible_relTwistingSheaf`: invertibility.
 * `Hartshorne.QuasiCoherentGradedAlgebra.relTwistingSheafAffineIso`: compatibility with
   restriction to affine opens of the base.
@@ -58,9 +58,6 @@ theorem isLocallyFreeOfRank_of_cover {Y : Scheme.{u}} (F : Y.Modules) (𝒰 : Y.
 
 end AlgebraicGeometry.Scheme.Modules
 
-set_option profiler true
-set_option profiler.threshold 1000
-
 namespace Hartshorne
 
 namespace QuasiCoherentGradedAlgebra
@@ -68,10 +65,6 @@ namespace QuasiCoherentGradedAlgebra
 open AlgebraicGeometry Scheme.Modules
 
 variable {X : Scheme.{u}} (S : QuasiCoherentGradedAlgebra X) (n : ℤ)
-
-theorem projMap_restrict_projι {U V : X.AffineZariskiSite} (f : U ⟶ V) :
-    Proj.map (S.restrict f) (S.irrelevant_le f) ≫ S.projι V = S.projι U :=
-  S.relativeGluingData.cover.trans_map f
 
 instance : Quiver.IsThin S.relativeGluingData.cover.I₀ :=
   inferInstanceAs (Quiver.IsThin X.AffineZariskiSite)
