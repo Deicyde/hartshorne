@@ -28,11 +28,11 @@ given by all monomials of degree $d$ in the homogeneous coordinates.
 ## Depends on
 
 - [Twisting sheaves are invertible](proj-twisting-sheaf.md)
+- [Degree-one-generated Proj is projective](../proper-and-projective/generated-proj-projective.md)
 
 ## Proof depends on
 
 - [A standard Proj chart is affine](../projective-spectrum/proj-basic-open.md)
-- [Degree-one-generated Proj is projective](../proper-and-projective/generated-proj-projective.md)
 - The degree-$d$ monomial description of the Veronese embedding from
   Hartshorne I, Exercise 2.12.
 - The canonical chartwise identification of $\operatorname{Proj} S^{(d)}$ with $\operatorname{Proj} S$.
