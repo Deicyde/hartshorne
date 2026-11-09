@@ -8,7 +8,8 @@ import Hartshorne.RingedSpace.ModuleSheafMonoidal
 /-!
 # Tilde is a strong monoidal functor
 
-Hartshorne, *Algebraic Geometry*, Proposition II.5.2(b).
+This supplements Hartshorne, *Algebraic Geometry*, Proposition II.5.2(b), which states only the
+isomorphism `(M ⊗_R N)~ ≅ M̃ ⊗ Ñ` (`affineTildeTensorIso`).
 
 For a commutative ring `R`, the functor `M ↦ M̃` from `R`-modules to `𝒪_{Spec R}`-modules is
 strong monoidal for the tensor product of modules and the monoidal structure on module sheaves
@@ -123,7 +124,7 @@ section Monoidal
 noncomputable def tildeεIso : 𝟙_ (Spec R).Modules ≅ (tilde.functor R).obj (𝟙_ (ModuleCat.{u} R)) :=
   tildeSelf.symm
 
-/-- **Tilde is strong monoidal** (Hartshorne II.5.2(b)): the tensor comparison
+/-- **Tilde is strong monoidal** (supplementing Hartshorne II.5.2(b)): the tensor comparison
 `M̃ ⊗ Ñ ≅ (M ⊗_R N)~` and the unit comparison `𝒪_{Spec R} ≅ R̃` satisfy the naturality,
 associativity and unitality conditions. -/
 noncomputable def tildeCoreMonoidal : (tilde.functor R).CoreMonoidal where
