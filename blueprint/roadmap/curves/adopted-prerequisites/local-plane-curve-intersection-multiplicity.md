@@ -29,6 +29,7 @@ The hypotheses that $P$ lies on $Y$ and $Z$ in the first statement and on $Y$ in
 ## Depends on
 
 - [Bezout's theorem for distinct plane curves](../../intersections-projective-space/bezout/plane-curve-bezout.md)
+- [Multiplicity of a point on a plane curve](plane-curve-point-multiplicity.md)
 
 ## Proof depends on
 

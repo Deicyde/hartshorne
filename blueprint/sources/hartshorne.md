@@ -215,12 +215,21 @@ V.3; the remaining completion, Cohen, and analytic examples remain deferred.
 
 Theorem 5.7A is in the running text on p. 35, but only for Exercise 5.15.
 The later-use rule now adopts Exercise 5.4, the node clause of 5.6(b), and
-the characteristic-not-two analytic normal form of Exercise 5.14(d).
+the characteristic-not-two analytic normal form of Exercise 5.14(d). It also
+adopts the definition of the multiplicity of a point on a plane curve from
+Exercise 5.3, because the adopted local plane-curve intersection multiplicity
+of Exercise 5.4 is stated with it: the local length is bounded below by the
+product of the two multiplicities and equals the multiplicity for all but
+finitely many lines through the point.  The roadmap states the standard
+definition (translate the point to the origin; the multiplicity is the least
+degree of a nonzero homogeneous part of the defining polynomial); Exercise
+5.3's printed wording and notation have not yet been checked against the book.
+The remaining parts of Exercise 5.3 stay out.
 
 | Locator | Material | Pages | Disposition |
 | --- | --- | --- | --- |
 | Thm. 5.7A | Elimination theory for common nontrivial zeros of homogeneous polynomials with indeterminate coefficients | 35 | Out of scope; it is introduced only for Exercise 5.15 |
-| Ex. 5.1–5.15 | Singularities, multiplicities, intersection multiplicity, blow-ups, projective Jacobians, tangent spaces, quadrics, normality, analytic singularities, and families of plane curves | 35–39 | Exercise 5.4 is adopted for IV.2.3, the ordinary-node clause of Exercise 5.6(b) for IV.3, and Exercise 5.14(d) for V.3.9.5; all other clauses remain out |
+| Ex. 5.1–5.15 | Singularities, multiplicities, intersection multiplicity, blow-ups, projective Jacobians, tangent spaces, quadrics, normality, analytic singularities, and families of plane curves | 35–39 | The definition of multiplicity in Exercise 5.3 is adopted because Exercise 5.4 uses it; Exercise 5.4 is adopted for IV.2.3, the ordinary-node clause of Exercise 5.6(b) for IV.3, and Exercise 5.14(d) for V.3.9.5; all other clauses remain out |
 
 ## I.6 valuation and DVR background
 
