@@ -46,6 +46,9 @@ identifies the two complexes; compatibility with connecting homomorphisms is
 checked on the horseshoe resolution of a short exact sequence. This
 comparison is a project bridge between Hartshorne's definition and the Ext
 description of cohomology.
+Hartshorne's Proposition 6.3(c) (p. 234) asserts only the isomorphisms;
+naturality, the degree-zero normalization and compatibility with connecting
+homomorphisms are project additions.
 
 ## Depends on
 
