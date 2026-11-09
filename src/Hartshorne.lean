@@ -572,6 +572,8 @@ import Hartshorne.Scheme.QuadricSurface
 import Hartshorne.Scheme.QuadricSurfaceSegre
 import Hartshorne.Scheme.QuadricSurfaceClassGroup
 import Hartshorne.Scheme.QuadricSurfaceHyperplane
+import Hartshorne.Scheme.ProjectiveSpaceOverSpec
+import Hartshorne.Scheme.QuadricSurfaceProduct
 import Hartshorne.Cohomology.ResolutionToInjectiveComplex
 import Hartshorne.Cohomology.RightDerivedPullback
 import Hartshorne.Weil.EllAdicPullbackFunctoriality

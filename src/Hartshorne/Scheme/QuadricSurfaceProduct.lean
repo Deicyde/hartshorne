@@ -3,8 +3,8 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.QuadricSurfaceSegre
-import Hartshorne.Scheme.RelativeSegre
-import Hartshorne.Scheme.GeneratedProjProjective
+import Hartshorne.Scheme.ProjectiveSpaceOverSpec
+import Hartshorne.Scheme.RelativeProj
 
 /-!
 # The split quadric surface is `ℙ¹ × ℙ¹`
@@ -264,11 +264,6 @@ theorem quadric_away_ratio_mul (i j a b : Fin (1 + 1)) :
   rw [quadricChart_mul_swap]
   ring
 
-theorem chartConst_ext {B : Type*} [CommRing B] (c0 : Fin (1 * 1 + 1 + 1 + 1))
-    (φ ψ : Away (segreGrading.{u} (1 * 1 + 1 + 1)) (X c0) →+* B) (r : ULift.{u} ℤ) :
-    φ (chartConst _ c0 r) = ψ (chartConst _ c0 r) :=
-  RingHom.congr_fun (ulift_int_ringHom_ext (φ.comp (chartConst _ c0)) (ψ.comp (chartConst _ c0))) r
-
 theorem segreRetract_toSpecΓ (i j : Fin (1 + 1)) :
     segreRetract.{u} 1 1 i j ≫ (segreChartOpen 1 1 i j).toSpecΓ =
       Spec.map (segreRetractRing.{u} i j) :=
@@ -348,24 +343,6 @@ theorem quadricSurfaceToSegreSource_comp :
 end FromQuadric
 
 section ToQuadric
-
-theorem awayLift_fromZeroRingHom {B : Type*} [CommRing B] (F : QuadricRing k →+* B)
-    {f : QuadricRing k} (hf : IsUnit (F f)) (x : 𝒬 0) :
-    awayLift (𝒜 := 𝒬) F f hf (fromZeroRingHom 𝒬 _ x) = F x := by
-  simp only [awayLift, RingHom.coe_comp, Function.comp_apply,
-    HomogeneousLocalization.algebraMap_apply]
-  have h : (fromZeroRingHom 𝒬 (Submonoid.powers f) x).val =
-      algebraMap (QuadricRing k) (Localization.Away f) x := by
-    rw [← Localization.mk_one_eq_algebraMap]
-    rfl
-  rw [h]
-  exact IsLocalization.lift_eq _ _
-
-theorem ι_comp_eq_toSpecΓ_SpecMap_of_Spec {Y : Scheme.{u}} {R : CommRingCat.{u}} (φ : Y ⟶ Spec R)
-    (V : Y.Opens) (h : V ≤ φ ⁻¹ᵁ ⊤) :
-    V.ι ≫ φ = V.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso R).inv ≫ φ.appLE ⊤ V h) := by
-  rw [Spec.map_comp, Scheme.Opens.toSpecΓ_SpecMap_appLE_assoc, ← Scheme.Hom.resLE_comp_ι φ h,
-    Scheme.Opens.toSpecΓ_top, Category.assoc, toSpecΓ_SpecMap_ΓSpecIso_inv, Category.comp_id]
 
 /-- The chart `V_{ij}` of `ℙ¹_k ×_k ℙ¹_k`: the preimage of `D₊(xᵢ) ×_ℤ D₊(yⱼ)`. -/
 def segreSourceChart (c : Fin (1 + 1) × Fin (1 + 1)) :
@@ -510,7 +487,7 @@ theorem segreSourceToQuadricChart_comp_toSpec (c : Fin (1 + 1) × Fin (1 + 1)) :
   congr 2
   ext r
   simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom, RingHom.comp_apply]
-  rw [awayLift_fromZeroRingHom]
+  rw [awayLift_fromZeroRingHom (𝒜 := 𝒬)]
   exact segreSourceRingHom_algebraMap k c r
 
 theorem segreSourceToQuadricChart_comp (c : Fin (1 + 1) × Fin (1 + 1)) :
@@ -546,6 +523,68 @@ theorem segreSourceToQuadric_comp :
 
 end ToQuadric
 
+section Comparison
+
+/-- The renumbering of the coordinates: the Segre coordinate `z_{ij}` (index `segreIndex 1 1 (i, j)`)
+is the coordinate of `k[x, y, z, w]` with `x = z₀₀`, `y = z₁₁`, `z = z₀₁`, `w = z₁₀`. -/
+def quadricCoordinateEquiv : Fin (1 * 1 + 1 + 1 + 1) ≃ Fin (1 * 1 + 1 + 1 + 1) where
+  toFun := ![0, 2, 3, 1]
+  invFun := ![0, 3, 1, 2]
+  left_inv := by decide
+  right_inv := by decide
+
+theorem quadricCoordinates_quadricCoordinateEquiv (l : Fin (1 * 1 + 1 + 1 + 1)) :
+    quadricCoordinates k (quadricCoordinateEquiv l) = quadricSegreCoordinates k l := by
+  fin_cases l <;> rfl
+
+theorem quadricCoordinateHom_comp_comparisonHom :
+    (quadricCoordinateHom k).comp (projectiveSpaceComparisonHom k (1 * 1 + 1 + 1)
+      quadricCoordinateEquiv) = quadricSegreHom k := by
+  apply GradedRingHom.ext
+  intro P
+  induction P using MvPolynomial.induction_on with
+  | C r =>
+    exact RingHom.congr_fun (ulift_int_ringHom_ext
+      (((quadricCoordinateHom k).comp (projectiveSpaceComparisonHom k (1 * 1 + 1 + 1)
+        quadricCoordinateEquiv)).toRingHom.comp C) ((quadricSegreHom k).toRingHom.comp C)) r
+  | add p q hp hq => rw [map_add, map_add, hp, hq]
+  | mul_X p l hp =>
+    rw [map_mul, map_mul, hp, GradedRingHom.comp_apply, projectiveSpaceComparisonHom_X,
+      quadricCoordinateHom_apply, quadricCoordinateAlgHom_X,
+      quadricCoordinates_quadricCoordinateEquiv, quadricSegreHom_X]
+
+/-- **The quadric in `ℙ³_k`.** Under the comparison `Proj k[x, y, z, w] ≅ ℙ³_{Spec k}` (with
+`x, y, z, w = z₀₀, z₁₁, z₀₁, z₁₀`), the closed immersion `Q ⟶ Proj k[x, y, z, w]` of the graded
+quotient by `xy - zw` is the morphism `Q ⟶ ℙ³_{Spec k}` given by the Segre coordinates. -/
+theorem quadricSurfaceι_comp_projectiveSpaceOverSpecIso :
+    quadricSurfaceι k ≫ (projectiveSpaceOverSpecIso k (1 * 1 + 1 + 1) quadricCoordinateEquiv).hom =
+      quadricSurfaceToProjectiveSpace k := by
+  apply pullback.hom_ext
+  · have h1 : quadricSurfaceι k ≫ projToProjectiveSpaceInt k (1 * 1 + 1 + 1)
+        quadricCoordinateEquiv = quadricSurfaceToProjectiveSpaceInt k := by
+      unfold quadricSurfaceι projToProjectiveSpaceInt quadricSurfaceToProjectiveSpaceInt
+        GeneratedProj.toProjectiveSpaceInt
+      refine (Proj.map_comp ..).symm.trans ?_
+      congr 1
+      exact quadricCoordinateHom_comp_comparisonHom k
+    exact (Category.assoc _ _ _).trans
+      ((congrArg _ (projToProjectiveSpaceOverSpec_fst _ _ _)).trans
+        (h1.trans (quadricSurfaceToProjectiveSpace_fst k).symm))
+  · have h2 : quadricSurfaceι k ≫ Proj.toSpecZero (homogeneousSubmodule (Fin (1 * 1 + 1 + 1 + 1)) k) ≫
+        Spec.map (CommRingCat.ofHom
+          (algebraMap k (homogeneousSubmodule (Fin (1 * 1 + 1 + 1 + 1)) k 0))) =
+        quadricSurfaceToSpec k := by
+      rw [quadricSurfaceι, ← Category.assoc, projMap_toSpecZero, Category.assoc, ← Spec.map_comp,
+        quadricSurfaceToSpec]
+      congr 2
+      refine CommRingCat.hom_ext (RingHom.ext fun r => Subtype.ext ?_)
+      simp [quadricCoordinateHom_apply, quadricCoordinateAlgHom]
+    exact (Category.assoc _ _ _).trans
+      ((congrArg _ (projToProjectiveSpaceOverSpec_projection _ _ _)).trans
+        (h2.trans (quadricSurfaceToProjectiveSpace_projection k).symm))
+
+end Comparison
+
 section Main
 
 /-- **The split quadric surface is `ℙ¹ × ℙ¹`.** The isomorphism `ℙ¹_k ×_k ℙ¹_k ≅ Q`. -/
@@ -566,6 +605,18 @@ theorem relativeSegre_eq_quadricSurfaceIsoSegreSource_hom_comp :
     relativeSegre 1 1 (Spec (.of k)) =
       (quadricSurfaceIsoSegreSource k).hom ≫ quadricSurfaceToProjectiveSpace k :=
   (segreSourceToQuadric_comp k).symm
+
+/-- **The split quadric surface is `ℙ¹ × ℙ¹`.** With `ℙ³_{Spec k} ≅ Proj k[x, y, z, w]` and
+`x, y, z, w = z₀₀, z₁₁, z₀₁, z₁₀`, the relative Segre embedding `ℙ¹_k ×_k ℙ¹_k ⟶ ℙ³_{Spec k}` is
+the isomorphism `ℙ¹_k ×_k ℙ¹_k ≅ Q` followed by the closed immersion
+`Q = Proj k[x, y, z, w]/(xy - zw) ⟶ Proj k[x, y, z, w]` (`quadricSurfaceι`, whose homogeneous
+kernel is `(xy - zw)` by `ker_quadricCoordinateAlgHom`) and the comparison isomorphism. -/
+theorem relativeSegre_eq_quadricSurfaceι :
+    relativeSegre 1 1 (Spec (.of k)) =
+      (quadricSurfaceIsoSegreSource k).hom ≫ quadricSurfaceι k ≫
+        (projectiveSpaceOverSpecIso k (1 * 1 + 1 + 1) quadricCoordinateEquiv).hom := by
+  rw [quadricSurfaceι_comp_projectiveSpaceOverSpecIso]
+  exact relativeSegre_eq_quadricSurfaceIsoSegreSource_hom_comp k
 
 end Main
 
