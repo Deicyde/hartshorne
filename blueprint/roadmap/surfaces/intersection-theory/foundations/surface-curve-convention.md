@@ -29,6 +29,8 @@ identifies divisor classes with $\operatorname{Pic}(X)$.
 
 - [Projective morphisms are proper](../../../schemes/proper-and-projective/projective-morphism-proper.md)
 - [Weil classes and the Picard group on a locally factorial scheme](../../../schemes/divisors/cartier-picard/locally-factorial-class-picard-equivalence.md)
+- [Finite type over a Noetherian scheme](../../../schemes/first-properties/finite-type-over-noetherian.md)
+- [Separated-morphism calculus](../../../schemes/separated-morphisms/separated-morphism-calculus.md)
 
 ## Sources
 
