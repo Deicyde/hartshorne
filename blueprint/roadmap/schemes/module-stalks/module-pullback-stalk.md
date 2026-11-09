@@ -35,10 +35,10 @@ inverse image and the tensor product are both computed stalkwise.
 
 - [Pushforward, pullback, and their adjunction](../modules-and-quasicoherent/module-push-pull-adjunction.md)
 - [Stalks and germs](../sheaves/stalks-and-germs.md)
+- [Skyscraper module sheaves and the stalk adjunction](module-skyscraper-stalk-adjunction.md)
 
 ## Proof depends on
 
-- [Skyscraper module sheaves and the stalk adjunction](module-skyscraper-stalk-adjunction.md)
 - Extension of scalars along a ring homomorphism is left adjoint to
   restriction of scalars.
 - The direct image of a skyscraper module sheaf at $x'$ is the skyscraper
