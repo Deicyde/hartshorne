@@ -25,7 +25,8 @@ through divisors on normalizations. For every $r$:
 
   is exact.
 
-No injectivity of $i_*$ is asserted.
+No injectivity of $i_*$ is asserted. Hartshorne's A10 assumes $X$ nonsingular
+quasi-projective and $Y$ nonsingular; this statement drops both.
 
 A generator $\nu_*\operatorname{div}(g)$ attached to a subvariety $V\subseteq Y$ is
 also a generator for $V\subseteq X$, with the same normalization, so $i_*$
@@ -57,4 +58,4 @@ cycle supported on $Y$, that is, a cycle in the image of $i_*$.
 ## Sources
 
 - Fulton, *Intersection Theory*, Proposition 1.8.
-- [Hartshorne Appendix A.2, A10, p.429, which states the axiomatic analogue](../../../../sources/hartshorne-appendix-a-1-2.md#properties-of-the-chow-ring-printed-pp428429)
+- [Hartshorne Appendix A.2, A10, p.429: the same sequence for a nonsingular closed subvariety $Y$ of a nonsingular quasi-projective $X$](../../../../sources/hartshorne-appendix-a-1-2.md#properties-of-the-chow-ring-printed-pp428429)
