@@ -2,6 +2,9 @@
 article_id: af_4dd6c82bd1666d3dba104198
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.isLocallyFactorial_of_isRegularLocalRing Hartshorne.RegularLocalFactorial.uniqueFactorizationMonoid_of_isRegularLocalRing
 ---
 
 # Regular schemes are locally factorial
