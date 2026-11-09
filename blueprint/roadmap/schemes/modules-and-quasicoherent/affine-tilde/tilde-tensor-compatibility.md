@@ -13,9 +13,12 @@ For $A$-modules $M$ and $N$, construct the natural isomorphism
 
 $\widetilde{M\otimes_A N}\cong\widetilde{M}\otimes_{\mathcal{O}_{\operatorname{Spec}A}}\widetilde{N}$.
 
-This is Proposition 5.2(b).  It is independent of preservation of direct sums
-and has the single completion criterion that the tilde functor is strong
-monoidal for the module tensor product.
+The isomorphism is Proposition 5.2(b).  It is independent of preservation of
+direct sums and has the single completion criterion that the tilde functor is
+strong monoidal for the module tensor product.  The completion criterion is a
+project strengthening: tilde is strong monoidal, so these isomorphisms also
+respect the unit and associativity isomorphisms of the monoidal category of
+sheaves of modules.
 
 ## Depends on
 
