@@ -18,9 +18,8 @@ $f(Y)=\{P\}$ and $f:X-Y \to X_0-P$
 is an isomorphism.  The target need not be projective, and it is allowed to be
 singular.
 
-Algebraic contractibility is stronger than contractibility in the category of
-complex analytic spaces: an analytic contraction, as given by Grauert's
-theorem, can exist when no algebraic one does.
+When $k=\mathbb{C}$, an analytic contraction, as given by Grauert's theorem,
+can exist when no algebraic one does (Example 5.7.3).
 
 ## Depends on
 

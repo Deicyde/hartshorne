@@ -44,7 +44,7 @@ over `k` (an integral scheme, separated and of finite type over `k`; not necessa
 possibly singular), a closed point `P ∈ X₀` and a morphism `f : X ⟶ X₀` over `k` with
 `f(Y) = {P}`, such that `f⁻¹(X₀ - P) = X - Y` and `f : X - Y ⟶ X₀ - P` is an isomorphism. -/
 structure AlgebraicContraction (Y : S.X.PrimeDivisor) where
-  /-- The target surface. -/
+  /-- The target variety. -/
   X₀ : Scheme.{u}
   /-- Its structure morphism to `Spec k`. -/
   hom₀ : X₀ ⟶ Spec (.of k)

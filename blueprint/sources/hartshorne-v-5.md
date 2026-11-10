@@ -188,8 +188,8 @@ or uniqueness/classification theorem.
 - Preserve the normalization and completed-local-ring stages in
   Castelnuovo's construction. Completion regularity does not follow from the
   currently pinned API.
-- Distinguish algebraic contraction to a projective scheme from Grauert's
-  analytic contraction.
+- Distinguish algebraic contraction to a variety (projective only in Ex. 5.2
+  and Ex. 5.7) from Grauert's analytic contraction.
 - Keep “relatively minimal” distinct from “the unique minimal model.”
 - Retain uncountability in the Hironaka and infinite-exceptional-curve
   examples where the source uses countable-avoidance arguments.
