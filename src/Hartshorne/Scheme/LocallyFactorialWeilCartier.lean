@@ -316,8 +316,11 @@ theorem cartierToWeil_principalCartierDivisor [IsIntegral X] [IsNoetherian X]
   exact cartierToWeil_apply _ f (X.principalCartierDivisor f).restrict_top
     (show x ∈ (⊤ : X.Opens) from trivial)
 
+open Hartshorne in
 @[deprecated Hartshorne.isIntegrallyClosed_sections_of_isNormal (since := "2026-11-09")]
-alias isIntegrallyClosed_of_isAffineOpen := Hartshorne.isIntegrallyClosed_sections_of_isNormal
+theorem isIntegrallyClosed_of_isAffineOpen [IsIntegral X] [IsNormal X] {V : X.Opens}
+    (hV : IsAffineOpen V) [Nonempty V] : IsIntegrallyClosed Γ(X, V) :=
+  Hartshorne.isIntegrallyClosed_sections_of_isNormal X hV
 
 /-- On a normal Noetherian scheme, the local ring at a codimension-one point is a discrete
 valuation ring. -/

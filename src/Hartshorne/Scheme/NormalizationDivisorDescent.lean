@@ -511,7 +511,7 @@ theorem principalCartierDivisor_restrict_eq_zero_iff {X : Scheme.{u}} [IsIntegra
     {V : X.Opens} (hη : genericPoint X ∈ V) (g : X.functionFieldˣ) :
     (X.principalCartierDivisor (globalUnit X g)).restrict V = 0 ↔
       ∃ a : Γ(X, V)ˣ, X.presheaf.germ V (genericPoint X) hη a = g := by
-  rw [principalCartierDivisor_restrict]
+  rw [CartierDivisor.principalCartierDivisor_restrict]
   have h0 : (0 : X.cartierDivisorSheaf.obj.obj (op V)) =
       X.toCartierDivisorSheaf.hom.app (op V)
         (Additive.ofMul (1 : X.totalQuotientUnitsSheaf.obj.obj (op V))) :=
@@ -629,7 +629,7 @@ theorem exists_cartierPullbackData_of_isIso_morphismRestrict {X Y : Scheme.{u}}
       let g : Y.functionFieldˣ := Units.mk0 g₀ hg₀ne
       have hgh : genericFunctionFieldUnitsMap f hf g = h := Units.ext hg₀
       have hV₀ : E.restrict V₀ = (X.principalCartierDivisor (globalUnit X h)).restrict V₀ := by
-        rw [hf₀, principalCartierDivisor_restrict]
+        rw [hf₀, CartierDivisor.principalCartierDivisor_restrict]
         congr 2
         apply (totalQuotientUnitsEquivFunctionField V₀ hη₀).injective
         rw [totalQuotientUnitsEquivFunctionField_restrict_top, MulEquiv.apply_symm_apply]

@@ -45,7 +45,10 @@ section Chart
 variable {f : A} {d : ℕ} (f_deg : f ∈ 𝒜 d) (hd : 0 < d)
 
 @[deprecated basicOpenToSpec_toLRSHom (since := "2026-11-09")]
-alias forget_basicOpenToSpec := basicOpenToSpec_toLRSHom
+theorem forget_basicOpenToSpec (f : A) :
+    Scheme.forgetToLocallyRingedSpace.map (Proj.basicOpenToSpec 𝒜 f) =
+      ProjectiveSpectrum.Proj.toSpec 𝒜 f :=
+  basicOpenToSpec_toLRSHom f
 
 /-- **The point correspondence of the chart.** For a prime `𝔮` of `S_(f)` with image `𝔭` in
 `Proj S`, a fraction `a / f^n` lies in `𝔮` exactly when `a ∈ 𝔭`. -/

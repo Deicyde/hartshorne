@@ -56,7 +56,8 @@ namespace ProjTwistingSheaf
 variable {𝒜}
 
 @[deprecated pow_mem_graded_one (since := "2026-11-09")]
-alias pow_mem_of_mem_one := pow_mem_graded_one
+theorem pow_mem_of_mem_one {f : A} (f_deg : f ∈ 𝒜 1) (k : ℕ) : f ^ k ∈ 𝒜 k :=
+  pow_mem_graded_one 𝒜 f_deg k
 
 theorem pow_mem_powers (f : A) (k : ℕ) : f ^ k ∈ Submonoid.powers f :=
   ⟨k, rfl⟩

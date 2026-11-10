@@ -217,7 +217,7 @@ lemma sheafifyUnit_injective {V : Opens X} (hV : V ≤ U) :
     have h1 : sectionGerm P x.1 V x.2 (presheafFrameMap P f hV a) =
         sectionGerm P x.1 V x.2 (presheafFrameMap P f hV b) := by
       apply (stalkMap_sheafifyUnit_bijective P x.1).1
-      rw [stalkMap_germ, stalkMap_germ, hpq]
+      rw [Ringed.stalkAddMap_germ, Ringed.stalkAddMap_germ, hpq]
     obtain ⟨W, hxW, iU, iV, e⟩ := TopCat.Presheaf.germ_eq P.presheaf x.1 x.2 x.2 _ _ h1
     obtain rfl : iV = iU := Subsingleton.elim _ _
     exact ⟨W, hxW, iV, e⟩

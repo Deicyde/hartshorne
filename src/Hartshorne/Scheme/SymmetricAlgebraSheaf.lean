@@ -726,7 +726,7 @@ theorem isLocalFrame_sheafify
     have hg : sectionGerm P x V hx (presheafFrameMap c h a) =
         sectionGerm P x V hx (presheafFrameMap c h b) := by
       apply (stalkMap_sheafifyUnit_bijective P x).1
-      rw [stalkMap_germ, stalkMap_germ, hab]
+      rw [Ringed.stalkAddMap_germ, Ringed.stalkAddMap_germ, hab]
     obtain ⟨W, hxW, iW, iW', he⟩ := TopCat.Presheaf.germ_eq P.presheaf x hx hx _ _ hg
     have hWV : W ≤ V := leOfHom iW
     have he' : P.map (homOfLE hWV).op (presheafFrameMap c h a) =

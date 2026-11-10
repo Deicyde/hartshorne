@@ -104,17 +104,22 @@ theorem mem_ofField_of_one_le_ordFrac [IsDomain A] [IsFractionRing A K] {f : K} 
 end DVRLocalization
 
 @[deprecated FreeLocusAux.freeLocusStalkAlgebra (since := "2026-11-09")]
-alias specStalkAlgebra := FreeLocusAux.freeLocusStalkAlgebra
+abbrev specStalkAlgebra (R : CommRingCat.{u}) (x : Spec R) :
+    Algebra R ((Spec R).presheaf.stalk x) :=
+  FreeLocusAux.freeLocusStalkAlgebra x
 
 attribute [local instance] FreeLocusAux.freeLocusStalkAlgebra
 
 @[deprecated FreeLocusAux.freeLocus_asIdeal_isPrime (since := "2026-11-09")]
-alias specPoint_asIdeal_isPrime := FreeLocusAux.freeLocus_asIdeal_isPrime
+theorem specPoint_asIdeal_isPrime (R : CommRingCat.{u}) (x : Spec R) : x.asIdeal.IsPrime :=
+  FreeLocusAux.freeLocus_asIdeal_isPrime x
 
 attribute [local instance] FreeLocusAux.freeLocus_asIdeal_isPrime
 
 @[deprecated FreeLocusAux.freeLocus_stalk_isLocalization (since := "2026-11-09")]
-alias specStalk_isLocalizationAtPrime := FreeLocusAux.freeLocus_stalk_isLocalization
+theorem specStalk_isLocalizationAtPrime (R : CommRingCat.{u}) (x : Spec R) :
+    IsLocalization.AtPrime ((Spec R).presheaf.stalk x) x.asIdeal :=
+  FreeLocusAux.freeLocus_stalk_isLocalization x
 
 attribute [local instance] FreeLocusAux.freeLocus_stalk_isLocalization
 

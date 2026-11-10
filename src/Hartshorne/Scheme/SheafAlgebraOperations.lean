@@ -77,10 +77,14 @@ lemma sheafifyMap_unit (f : P ⟶ Q) (U : (Opens X)ᵒᵖ) (p : P.obj U) :
 open Hartshorne.Ringed (stalkAddMap stalkAddMap_germ)
 
 @[deprecated Ringed.stalkAddMap (since := "2026-11-09")]
-alias stalkMap := Ringed.stalkAddMap
+noncomputable def stalkMap (f : M ⟶ N) (x : X) : moduleStalk M x →+ moduleStalk N x :=
+  stalkAddMap f x
 
+set_option linter.deprecated false in
 @[deprecated Ringed.stalkAddMap_germ (since := "2026-11-09")]
-alias stalkMap_germ := Ringed.stalkAddMap_germ
+lemma stalkMap_germ (f : M ⟶ N) (x : X) (U : Opens X) (hU : x ∈ U) (m : M.obj (op U)) :
+    stalkMap f x (sectionGerm M x U hU m) = sectionGerm N x U hU (f.app (op U) m) :=
+  stalkAddMap_germ f x U hU m
 
 lemma stalkMap_smul (f : M ⟶ N) (x : X) (r : ringSheafStalk R x) (s : moduleStalk M x) :
     stalkAddMap f x (r • s) = r • stalkAddMap f x s := by

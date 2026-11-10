@@ -51,7 +51,8 @@ theorem ulift_int_ringHom_ext {B : Type*} [Ring B] (f g : ULift.{u} ℤ →+* B)
 open Hartshorne.GeneratedProj (intGrading)
 
 @[deprecated GeneratedProj.intGrading (since := "2026-11-09")]
-alias segreGrading := GeneratedProj.intGrading
+abbrev segreGrading (n : ℕ) :=
+  GeneratedProj.intGrading.{u} n
 
 /-- The product `ℙʳ ×_ℤ ℙˢ` of projective spaces over the integers. -/
 abbrev segreSource (r s : ℕ) : Scheme.{u} :=

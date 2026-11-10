@@ -41,7 +41,9 @@ namespace EtaleCriteria
 variable {X Y : Scheme.{u}} (f : X ⟶ Y)
 
 @[deprecated inverseImageStructureSheafUnit (since := "2026-11-09")]
-alias inverseImageUnit := inverseImageStructureSheafUnit
+noncomputable abbrev inverseImageUnit :
+    Y.sheaf ⟶ (TopCat.Sheaf.pushforward CommRingCat f.base).obj (inverseImageStructureSheaf f) :=
+  inverseImageStructureSheafUnit f
 
 /-- The unit of the inverse-image adjunction followed by the structural map `f⁻¹𝒪_Y → 𝒪_X`
 is the comorphism of `f`. -/
