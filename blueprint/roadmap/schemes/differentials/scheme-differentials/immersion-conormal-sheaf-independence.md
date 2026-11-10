@@ -20,7 +20,7 @@ identify either construction with the canonical conormal sheaf $N^*_i$.
 
 - Compatibility of closed-immersion ideal sheaves and module pullback under
   restriction to a smaller open neighbourhood.
-- Stacks Project, Section 29.32, tags $01R1$–$01R3$.
+- Stacks Project, tags $01R1$–$01R3$.
 
 ## Sources
 
