@@ -20,6 +20,7 @@ is Proposition 6.18.
 
 - [Arithmetic of associated divisor sheaves](cartier-associated-sheaf-arithmetic.md)
 - [Effective Cartier divisors and locally principal subschemes](effective-cartier-closed-subscheme.md)
+- [Ideal sheaves of closed immersions](../../coherent-sheaves/closed-immersion-ideal-sheaf.md)
 
 ## Sources
 
