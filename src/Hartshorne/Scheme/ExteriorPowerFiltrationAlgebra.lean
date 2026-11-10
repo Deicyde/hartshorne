@@ -21,16 +21,17 @@ Let `A` be a commutative ring and `i : M' → M` a linear map. For `p ≤ r` let
 (`filt_antitone`) with `F^0 = ⋀^r M` (`filt_zero`).
 
 Main result (`alpha_mem_filt_succ_iff`): suppose `0 → M' → M → M'' → 0` is exact (with maps `i`,
-`q`) and split by `s : M'' → M`, and that `M'`, `M''` are finite free. Then for `p ≤ r` an element
-`z` of `⋀^p M' ⊗ ⋀^{r-p} M` satisfies `α_p z ∈ F^{p+1}` if and only if `z` is killed by
+`q`) and split by `s : M'' → M`, and that `M'`, `M''` are free (of any rank). Then for `p ≤ r` an
+element `z` of `⋀^p M' ⊗ ⋀^{r-p} M` satisfies `α_p z ∈ F^{p+1}` if and only if `z` is killed by
 `id ⊗ ⋀^{r-p} q : ⋀^p M' ⊗ ⋀^{r-p} M → ⋀^p M' ⊗ ⋀^{r-p} M''`. Since `α_p` maps onto `F^p` and
 `id ⊗ ⋀^{r-p} q` is onto, this identifies `F^p / F^{p+1}` with `⋀^p M' ⊗ ⋀^{r-p} M''`.
 
 The computations take place in the exterior algebra, with `P` the submodule spanned by the image
 of `M'` and `Q` the one spanned by `M` (`F^p = P^p Q^{r-p}`); submodules of degree one commute
 (`commute_of_le_range_ι`). The map `⨁_k ⋀^k M' ⊗ ⋀^{r-k} M'' → ⋀^r M` given by the splitting is
-surjective, hence (the ranks agreeing by Vandermonde's identity) injective, which gives the
-nontrivial implication.
+surjective, hence (the ranks agreeing by Vandermonde's identity) injective when `M'`, `M''` are
+finite free; for free modules of arbitrary rank every element comes from finite free direct
+summands (`phiSum_injective_of_free`). This gives the nontrivial implication.
 -/
 
 universe u
@@ -209,6 +210,80 @@ lemma filt_antitone (r : ℕ) : Antitone (filt i r) :=
   antitone_nat_of_succ_le (filt_succ_le i r)
 
 end Filtration
+
+section SubBasis
+
+variable {N : Type*} [AddCommGroup N] [Module A N] {I : Type*} (b : Module.Basis I A N)
+
+/-- The inclusion `A^J → N` of the span of a finite part `J` of a basis. -/
+noncomputable def subBasisMap (J : Finset I) : ((J : Set I) → A) →ₗ[A] N :=
+  Fintype.linearCombination A (fun j : (J : Set I) => b j)
+
+/-- The coordinates `N → A^J` along a finite part `J` of a basis. -/
+noncomputable def subBasisCoord (J : Finset I) : N →ₗ[A] ((J : Set I) → A) :=
+  LinearMap.pi fun j => b.coord j
+
+lemma subBasisCoord_comp_map (J : Finset I) :
+    subBasisCoord b J ∘ₗ subBasisMap b J = LinearMap.id := by
+  classical
+  ext c j
+  simp [subBasisMap, subBasisCoord, Fintype.linearCombination_apply, map_sum,
+    Finsupp.single_apply, Subtype.ext_iff]
+
+lemma support_repr_subBasisMap (J : Finset I) (c : (J : Set I) → A) :
+    (b.repr (subBasisMap b J c)).support ⊆ J := by
+  classical
+  intro j hj
+  by_contra hjJ
+  apply Finsupp.mem_support_iff.1 hj
+  simp only [subBasisMap, Fintype.linearCombination_apply, map_sum, map_smul, Basis.repr_self,
+    Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.smul_apply, Finsupp.single_apply]
+  refine Finset.sum_eq_zero fun k _ => ?_
+  rw [if_neg fun h => hjJ (h ▸ k.2), smul_zero]
+
+lemma subBasisMap_coord (J : Finset I) (m : N) (hm : (b.repr m).support ⊆ J) :
+    subBasisMap b J (subBasisCoord b J m) = m := by
+  classical
+  conv_rhs => rw [← b.linearCombination_repr m]
+  rw [Finsupp.linearCombination_apply, Finsupp.sum_of_support_subset _ hm _ (by simp)]
+  simp only [subBasisMap, subBasisCoord, Fintype.linearCombination_apply, LinearMap.pi_apply,
+    Basis.coord_apply]
+  exact Finset.sum_coe_sort J (fun j => b.repr m j • b j)
+
+lemma subBasisMap_comp_coord_comp {J K : Finset I} (h : J ⊆ K) :
+    subBasisMap b K ∘ₗ subBasisCoord b K ∘ₗ subBasisMap b J = subBasisMap b J := by
+  ext c : 1
+  exact subBasisMap_coord b K _ ((support_repr_subBasisMap b J c).trans h)
+
+/-- Every element of `⋀^n N` comes from `⋀^n A^J` for a finite part `J` of the basis. -/
+lemma exists_mem_range_exteriorPower_map (n : ℕ) (x : ⋀[A]^n N) :
+    ∃ J : Finset I, x ∈ LinearMap.range (exteriorPower.map n (subBasisMap b J)) := by
+  classical
+  have hdir : Directed (· ≤ ·) fun J : Finset I =>
+      LinearMap.range (exteriorPower.map n (subBasisMap b J)) := by
+    intro J K
+    refine ⟨J ∪ K, ?_, ?_⟩ <;> rintro _ ⟨y, rfl⟩
+    · refine ⟨exteriorPower.map n (subBasisCoord b (J ∪ K) ∘ₗ subBasisMap b J) y, ?_⟩
+      rw [← LinearMap.comp_apply, ← exteriorPower.map_comp,
+        subBasisMap_comp_coord_comp b Finset.subset_union_left]
+    · refine ⟨exteriorPower.map n (subBasisCoord b (J ∪ K) ∘ₗ subBasisMap b K) y, ?_⟩
+      rw [← LinearMap.comp_apply, ← exteriorPower.map_comp,
+        subBasisMap_comp_coord_comp b Finset.subset_union_right]
+  have htop : (⊤ : Submodule A (⋀[A]^n N)) ≤
+      ⨆ J : Finset I, LinearMap.range (exteriorPower.map n (subBasisMap b J)) := by
+    rw [← exteriorPower.ιMulti_span, Submodule.span_le]
+    rintro _ ⟨v, rfl⟩
+    let J := Finset.univ.biUnion fun k => (b.repr (v k)).support
+    refine Submodule.mem_iSup_of_mem J
+      ⟨exteriorPower.ιMulti A n (subBasisCoord b J ∘ v), ?_⟩
+    rw [exteriorPower.map_apply_ιMulti]
+    congr 1
+    funext k
+    exact subBasisMap_coord b J (v k) (Finset.subset_biUnion_of_mem
+      (fun k => (b.repr (v k)).support) (Finset.mem_univ k))
+  exact (Submodule.mem_iSup_of_directed _ hdir).1 (htop Submodule.mem_top)
+
+end SubBasis
 
 section Split
 
@@ -404,6 +479,168 @@ lemma phiSum_injective (hi : Function.Injective i) (r : ℕ) :
     apply hinj
     simp only [LinearMap.comp_apply, hab]
 
+omit hiq hqs [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M''] in
+/-- `phi` is natural in the target module. -/
+lemma map_comp_phi {N : Type*} [AddCommGroup N] [Module A N] (e : M →ₗ[A] N) (r : ℕ)
+    (k : Fin (r + 1)) :
+    exteriorPower.map r e ∘ₗ phi i s r k = phi (e ∘ₗ i) (e ∘ₗ s) r k := by
+  apply TensorProduct.ext'
+  intro x y
+  apply Subtype.ext
+  change (exteriorPower.map r e (wedgeMap i s _ (x ⊗ₜ y)) : ExteriorAlgebra A N) =
+    (wedgeMap (e ∘ₗ i) (e ∘ₗ s) _ (x ⊗ₜ y) : ExteriorAlgebra A N)
+  rw [coe_exteriorPower_map, coe_wedgeMap_tmul, coe_wedgeMap_tmul, map_mul,
+    ← AlgHom.comp_apply, ← AlgHom.comp_apply, ExteriorAlgebra.map_comp_map,
+    ExteriorAlgebra.map_comp_map]
+
+omit hiq hqs [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M''] in
+/-- `phi` is natural in the source modules. -/
+lemma phi_comp_map {N' N'' : Type*} [AddCommGroup N'] [Module A N'] [AddCommGroup N'']
+    [Module A N''] (f' : N' →ₗ[A] M') (f'' : N'' →ₗ[A] M'') (r : ℕ) (k : Fin (r + 1)) :
+    phi i s r k ∘ₗ TensorProduct.map (exteriorPower.map k f') (exteriorPower.map (r - k) f'') =
+      phi (i ∘ₗ f') (s ∘ₗ f'') r k := by
+  apply TensorProduct.ext'
+  intro x y
+  simp only [LinearMap.comp_apply, TensorProduct.map_tmul, phi, wedgeMap_tmul,
+    exteriorPower.map_comp]
+
+omit hiq hqs in
+/-- The componentwise map `⨁_k ⋀^k N' ⊗ ⋀^{r-k} N'' → ⨁_k ⋀^k M' ⊗ ⋀^{r-k} M''` induced by
+`f' : N' → M'` and `f'' : N'' → M''`. -/
+noncomputable def srcMap {N' N'' : Type*} [AddCommGroup N'] [Module A N'] [AddCommGroup N'']
+    [Module A N''] (f' : N' →ₗ[A] M') (f'' : N'' →ₗ[A] M'') (r : ℕ) :
+    ((k : Fin (r + 1)) → ⋀[A]^(k : ℕ) N' ⊗[A] ⋀[A]^(r - k) N'') →ₗ[A]
+      ((k : Fin (r + 1)) → ⋀[A]^(k : ℕ) M' ⊗[A] ⋀[A]^(r - k) M'') :=
+  LinearMap.pi fun k =>
+    TensorProduct.map (exteriorPower.map k f') (exteriorPower.map (r - k) f'') ∘ₗ
+      LinearMap.proj k
+
+omit hiq hqs [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M''] in
+lemma srcMap_single {N' N'' : Type*} [AddCommGroup N'] [Module A N'] [AddCommGroup N'']
+    [Module A N''] (f' : N' →ₗ[A] M') (f'' : N'' →ₗ[A] M'') (r : ℕ) (k : Fin (r + 1))
+    (z : ⋀[A]^(k : ℕ) N' ⊗[A] ⋀[A]^(r - k) N'') :
+    srcMap f' f'' r (Pi.single k z) = Pi.single k
+      (TensorProduct.map (exteriorPower.map k f') (exteriorPower.map (r - k) f'') z) := by
+  funext l
+  exact Pi.apply_single (fun l => TensorProduct.map (exteriorPower.map (l : ℕ) f')
+    (exteriorPower.map (r - l) f'')) (fun _ => map_zero _) k z l
+
+omit hiq hqs [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M''] in
+/-- `phiSum` is natural in the source modules. -/
+lemma phiSum_comp_srcMap {N' N'' : Type*} [AddCommGroup N'] [Module A N'] [AddCommGroup N'']
+    [Module A N''] (f' : N' →ₗ[A] M') (f'' : N'' →ₗ[A] M'') (r : ℕ) :
+    phiSum i s r ∘ₗ srcMap f' f'' r = phiSum (i ∘ₗ f') (s ∘ₗ f'') r := by
+  apply LinearMap.pi_ext'
+  intro k
+  apply LinearMap.ext
+  intro z
+  simp only [LinearMap.comp_apply, LinearMap.coe_single, srcMap_single, phiSum_single]
+  exact LinearMap.congr_fun (phi_comp_map i s f' f'' r k) z
+
+omit hiq hqs [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M''] in
+/-- `phiSum` is natural in the target module. -/
+lemma map_comp_phiSum {N : Type*} [AddCommGroup N] [Module A N] (e : M →ₗ[A] N) (r : ℕ) :
+    exteriorPower.map r e ∘ₗ phiSum i s r = phiSum (e ∘ₗ i) (e ∘ₗ s) r := by
+  apply LinearMap.pi_ext'
+  intro k
+  apply LinearMap.ext
+  intro z
+  simp only [LinearMap.comp_apply, LinearMap.coe_single, phiSum_single]
+  exact LinearMap.congr_fun (map_comp_phi i s e r k) z
+
+omit hiq hqs [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M''] in
+lemma srcMap_comp {N' N'' P' P'' : Type*} [AddCommGroup N'] [Module A N'] [AddCommGroup N'']
+    [Module A N''] [AddCommGroup P'] [Module A P'] [AddCommGroup P''] [Module A P'']
+    (f' : N' →ₗ[A] M') (f'' : N'' →ₗ[A] M'') (h' : P' →ₗ[A] N') (h'' : P'' →ₗ[A] N'') (r : ℕ) :
+    srcMap f' f'' r ∘ₗ srcMap h' h'' r = srcMap (f' ∘ₗ h') (f'' ∘ₗ h'') r := by
+  apply LinearMap.pi_ext'
+  intro k
+  apply LinearMap.ext
+  intro z
+  simp only [LinearMap.comp_apply, LinearMap.coe_single, srcMap_single, exteriorPower.map_comp,
+    TensorProduct.map_comp]
+
+omit [Module.Finite A M'] [Module.Finite A M''] in
+/-- `phiSum` is injective when `M'` and `M''` are free of arbitrary rank: every element of the
+source comes from finite free direct summands, where the finite case applies. -/
+lemma phiSum_injective_of_free (hi : Function.Injective i) (r : ℕ) :
+    Function.Injective (phiSum i s r) := by
+  classical
+  let b' := Module.Free.chooseBasis A M'
+  let b'' := Module.Free.chooseBasis A M''
+  let f₁ := subBasisMap b'
+  let g₁ := subBasisCoord b'
+  let f₂ := subBasisMap b''
+  let g₂ := subBasisCoord b''
+  let src : ∀ (J : Finset (Module.Free.ChooseBasisIndex A M') ×
+      Finset (Module.Free.ChooseBasisIndex A M'')), Submodule A _ :=
+    fun J => LinearMap.range (srcMap (f₁ J.1) (f₂ J.2) r)
+  -- The ranges of `srcMap` form a directed family covering the source.
+  have hdir : Directed (· ≤ ·) src := by
+    intro J K
+    refine ⟨(J.1 ∪ K.1, J.2 ∪ K.2), ?_, ?_⟩
+    · rintro _ ⟨w, rfl⟩
+      refine ⟨srcMap (g₁ _ ∘ₗ f₁ J.1) (g₂ _ ∘ₗ f₂ J.2) r w, ?_⟩
+      rw [← LinearMap.comp_apply, srcMap_comp, ← LinearMap.comp_assoc, ← LinearMap.comp_assoc,
+        subBasisMap_comp_coord_comp b' Finset.subset_union_left,
+        subBasisMap_comp_coord_comp b'' Finset.subset_union_left]
+    · rintro _ ⟨w, rfl⟩
+      refine ⟨srcMap (g₁ _ ∘ₗ f₁ K.1) (g₂ _ ∘ₗ f₂ K.2) r w, ?_⟩
+      rw [← LinearMap.comp_apply, srcMap_comp, ← LinearMap.comp_assoc, ← LinearMap.comp_assoc,
+        subBasisMap_comp_coord_comp b' Finset.subset_union_right,
+        subBasisMap_comp_coord_comp b'' Finset.subset_union_right]
+  have hcov : ∀ w, w ∈ ⨆ J, src J := by
+    intro w
+    rw [← Finset.univ_sum_single w]
+    refine Submodule.sum_mem _ fun k _ => ?_
+    induction w k using TensorProduct.induction_on with
+    | zero => rw [Pi.single_zero]; exact zero_mem _
+    | add z z' hz hz' => rw [Pi.single_add]; exact add_mem hz hz'
+    | tmul x y =>
+      obtain ⟨J₁, x₀, rfl⟩ := exists_mem_range_exteriorPower_map b' (k : ℕ) x
+      obtain ⟨J₂, y₀, rfl⟩ := exists_mem_range_exteriorPower_map b'' (r - k) y
+      refine Submodule.mem_iSup_of_mem (J₁, J₂) ⟨Pi.single k (x₀ ⊗ₜ y₀), ?_⟩
+      rw [srcMap_single, TensorProduct.map_tmul]
+  intro w w' hww'
+  rw [← sub_eq_zero] at hww' ⊢
+  rw [← map_sub] at hww'
+  obtain ⟨J, v, hv⟩ := (Submodule.mem_iSup_of_directed src hdir).1 (hcov (w - w'))
+  rw [← hv] at hww' ⊢
+  -- Reduce to the finite split sequence `0 → A^{J₁} → A^{J₁} × A^{J₂} → A^{J₂} → 0`.
+  let e := LinearMap.coprod (i ∘ₗ f₁ J.1) (s ∘ₗ f₂ J.2)
+  have he : phiSum (i ∘ₗ f₁ J.1) (s ∘ₗ f₂ J.2) r =
+      exteriorPower.map r e ∘ₗ phiSum (LinearMap.inl A _ _) (LinearMap.inr A _ _) r := by
+    rw [map_comp_phiSum, LinearMap.coprod_inl, LinearMap.coprod_inr]
+  let ρ := LinearMap.prodMap (g₁ J.1) (g₂ J.2) ∘ₗ (splitEquiv hiq hqs hi).symm.toLinearMap
+  have hρ : ρ ∘ₗ e = LinearMap.id := by
+    apply LinearMap.prod_ext
+    · ext c : 1
+      simp only [ρ, e, LinearMap.comp_apply, LinearMap.coprod_apply, LinearMap.inl_apply,
+        map_zero, add_zero, LinearMap.id_apply, LinearEquiv.coe_coe]
+      have : (splitEquiv hiq hqs hi).symm (i (f₁ J.1 c)) = (f₁ J.1 c, 0) := by
+        rw [LinearEquiv.symm_apply_eq]
+        simp [splitEquiv]
+      rw [this, LinearMap.prodMap_apply, map_zero]
+      exact Prod.ext (LinearMap.congr_fun (subBasisCoord_comp_map b' J.1) c) rfl
+    · ext c : 1
+      simp only [ρ, e, LinearMap.comp_apply, LinearMap.coprod_apply, LinearMap.inr_apply,
+        map_zero, zero_add, LinearMap.id_apply, LinearEquiv.coe_coe]
+      have : (splitEquiv hiq hqs hi).symm (s (f₂ J.2 c)) = (0, f₂ J.2 c) := by
+        rw [LinearEquiv.symm_apply_eq]
+        simp [splitEquiv]
+      rw [this, LinearMap.prodMap_apply, map_zero]
+      exact Prod.ext rfl (LinearMap.congr_fun (subBasisCoord_comp_map b'' J.2) c)
+  have hfin := phiSum_injective (A := A) (i := LinearMap.inl A ((J.1 : Set _) → A)
+      ((J.2 : Set _) → A)) (q := LinearMap.snd A _ _) (s := LinearMap.inr A _ _)
+    (LinearMap.range_inl _ _ _) (LinearMap.snd_comp_inr _ _ _) LinearMap.inl_injective r
+  have h0 : phiSum (LinearMap.inl A ((J.1 : Set _) → A) ((J.2 : Set _) → A))
+      (LinearMap.inr A _ _) r v = 0 := by
+    apply exteriorPower.map_injective (n := r) ρ hρ
+    rw [map_zero, ← LinearMap.comp_apply, ← he, ← phiSum_comp_srcMap]
+    exact hww'
+  rw [hfin (h0.trans (map_zero _).symm), map_zero]
+
+omit [Module.Finite A M'] [Module.Finite A M''] in
 /-- If `(⋀^p i)(x) ∧ (⋀^{r-p} s)(y)` (summed over a tensor) lies in `F^{p+1}`, it vanishes. -/
 lemma eq_zero_of_phi_mem_filt (hi : Function.Injective i) {p r : ℕ} (hp : p ≤ r)
     (w : ⋀[A]^p M' ⊗[A] ⋀[A]^(r - p) M'')
@@ -437,7 +674,7 @@ lemma eq_zero_of_phi_mem_filt (hi : Function.Injective i) {p r : ℕ} (hp : p �
       omega
   obtain ⟨v, hv, hvw⟩ := hK h
   rw [← phiSum_single r p'] at hvw
-  have := phiSum_injective hiq hqs hi r hvw
+  have := phiSum_injective_of_free hiq hqs hi r hvw
   simp only [SetLike.mem_coe, LinearMap.mem_ker, LinearMap.proj_apply, this,
     Pi.single_eq_same] at hv
   exact hv
@@ -482,9 +719,10 @@ lemma alpha_lTensor_map {p r : ℕ} (hp : p ≤ r) (u : ⋀[A]^p M' ⊗[A] ⋀[A
     rw [LinearMap.lTensor_tmul, alpha, wedgeMap_tmul, exteriorPower.map_id, LinearMap.id_apply]
     rfl
 
+omit [Module.Finite A M'] [Module.Finite A M''] in
 /-- **The graded pieces of the exterior-power filtration of a split exact sequence.** For
-`0 → M' → M → M'' → 0` exact and split, with `M'` and `M''` finite free, and `p ≤ r`, an element
-`z ∈ ⋀^p M' ⊗ ⋀^{r-p} M` has `α_p(z) ∈ F^{p+1}` if and only if `(id ⊗ ⋀^{r-p} q)(z) = 0`. -/
+`0 → M' → M → M'' → 0` exact and split, with `M'` and `M''` free (of any rank), and `p ≤ r`, an
+element `z ∈ ⋀^p M' ⊗ ⋀^{r-p} M` has `α_p(z) ∈ F^{p+1}` if and only if `(id ⊗ ⋀^{r-p} q)(z) = 0`. -/
 theorem alpha_mem_filt_succ_iff (hi : Function.Injective i) {p r : ℕ} (hp : p ≤ r)
     (z : ⋀[A]^p M' ⊗[A] ⋀[A]^(r - p) M) :
     alpha i hp z ∈ filt i r (p + 1) ↔
