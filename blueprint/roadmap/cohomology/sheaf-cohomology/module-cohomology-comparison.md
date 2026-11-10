@@ -11,8 +11,7 @@ computed in the category of $\mathcal{O}_X$-modules are naturally isomorphic, af
 module structure, to the cohomology of the underlying abelian sheaf.
 
 The comparison also equips every $H^{n}(X,F)$ with its natural
-$\Gamma (X,\mathcal{O}_X)$-module structure, functorially and compatibly with exact sequences;
-the unique main result is the comparison isomorphism.
+$\Gamma (X,\mathcal{O}_X)$-module structure, functorially and compatibly with exact sequences.
 
 ## Depends on
 
