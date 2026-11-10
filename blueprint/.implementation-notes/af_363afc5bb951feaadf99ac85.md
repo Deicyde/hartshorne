@@ -13,15 +13,35 @@ For `ℙ^{m+1}_A`: `hyperplaneHom` (`x_{m+1} ↦ 0`, graded and surjective),
 `isClosedImmersion_hyperplane`, `mulSection_psi_hyperplane` and
 `mono_mulSection_hyperplane`.
 
-Still missing for the degreewise sequence: exactness at `𝒪(n)` (every local section killed by
-`psi` is `x` times a section) and that `psi` is an epimorphism (stalks of the closed
-pushforward). The route planned for exactness at `𝒪(n)` is pointwise. Since `x·` is injective on
-fibers, the preimage can be defined pointwise. It is locally a fraction:
+Also done, in the general setting (`x` a non-zero-divisor, `f` surjective, `ker f ⊆ (x)`):
 
-- off `H`: `m/g = x m/(x g)`;
-- on `H`: from `psi t = 0`, take `u ∉ p` homogeneous with `u m ∈ ker f = (x)`.
+- `liftPoint`: the point of `Proj T` over a point `p ⊇ ker f` of `Proj S`;
+- `exists_local_preimage` and `exists_mulSection_preimage`: exactness at `𝒪(n)` on sections;
+- `lift` and `lift_mulSection`.
 
-This needs the point of `Proj T` over a point `p ⊇ ker f` of `Proj S`.
+For `ℙ^{m+1}_A`: `exists_eq_X_last_mul`, i.e. `ker(hyperplaneHom) = (x_{m+1})`.
+
+Still missing for the degreewise sequence:
+
+- the kernel fork, whose draft is below; it needs `haveI := mono_mulSection hx n hinj`, and was
+  last seen failing only for that instance;
+- that `psi` is an epimorphism, for example by `epi_of_stalk_surjective`
+  (`Scheme/GloballyGenerated.lean`). At `p ∉ H` the stalk of the closed pushforward is zero. At
+  `p ∈ H`, lift a local fraction `b̄/ḡ` on `Proj T` to `b/g` with homogeneous preimages
+  (`ProjSurjection.exists_homogeneous_preimage`).
+
+The graded Čech clause still needs the projective-twist-cech-complex node, so the article stays
+unrecorded.
+
+```lean
+/-- **Exactness at `𝒪(n)`.** Multiplication by `x` is a kernel of `psi`. -/
+def isLimitMulSection (hinj : Function.Injective (x * ·)) (f : 𝒜 →+*ᵍ ℬ)
+    (hf : Function.Surjective f) (hfx : f x = 0) (hker : ∀ a, f a = 0 → ∃ b, a = x * b) :
+    Limits.IsLimit (Limits.KernelFork.ofι (mulSection hx n) (mulSection_psi hx n f hfx)) :=
+  haveI := mono_mulSection hx n hinj
+  Limits.KernelFork.IsLimit.ofι' _ _ fun k hk =>
+    ⟨lift hx n hinj f hf hker k hk, lift_mulSection hx n hinj f hf hker k hk⟩
+```
 
 ## Why it is returned
 

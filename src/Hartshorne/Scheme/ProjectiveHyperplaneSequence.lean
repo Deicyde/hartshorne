@@ -298,6 +298,64 @@ theorem exists_mulSection_preimage (hinj : Function.Injective (x * ·)) (f : �
   exact ⟨W, hqW, iWV, k, b, hb, g, hg, g_nin, fun y =>
     gradedLocMap_mul_injective hx n hinj _ ((hsf _).trans (w y).symm)⟩
 
+/-- A morphism equal to zero is zero on sections. -/
+theorem app_eq_zero_of_comp_eq_zero {X : Scheme.{u}} {M N : X.Modules} {g : M ⟶ N} (hg : g = 0)
+    (U : X.Opensᵒᵖ) (s : M.val.obj U) : g.val.app U s = 0 := by
+  subst hg
+  rfl
+
+/-- The lift through multiplication by `x` of a map into the kernel of `psi`, sectionwise. -/
+def liftFun (hinj : Function.Injective (x * ·)) (f : 𝒜 →+*ᵍ ℬ) (hf : Function.Surjective f)
+    (hker : ∀ a, f a = 0 → ∃ b, a = x * b) {Z : (Proj 𝒜).Modules}
+    (k : Z ⟶ projTwistingSheaf 𝒜 n) (hk : k ≫ ProjTwistPullback.psi f n = 0)
+    (U : (Proj 𝒜).Opensᵒᵖ) (t : Z.val.obj U) : (projTwistingSheaf 𝒜 (n - 1)).val.obj U :=
+  (exists_mulSection_preimage hx n hinj f hf hker (V := U.unop) (k.val.app U t)
+    (app_eq_zero_of_comp_eq_zero hk U t)).choose
+
+theorem mulSection_liftFun (hinj : Function.Injective (x * ·)) (f : 𝒜 →+*ᵍ ℬ)
+    (hf : Function.Surjective f) (hker : ∀ a, f a = 0 → ∃ b, a = x * b) {Z : (Proj 𝒜).Modules}
+    (k : Z ⟶ projTwistingSheaf 𝒜 n) (hk : k ≫ ProjTwistPullback.psi f n = 0)
+    (U : (Proj 𝒜).Opensᵒᵖ) (t : Z.val.obj U) :
+    (mulSection hx n).val.app U (liftFun hx n hinj f hf hker k hk U t) = k.val.app U t :=
+  (exists_mulSection_preimage hx n hinj f hf hker (V := U.unop) (k.val.app U t)
+    (app_eq_zero_of_comp_eq_zero hk U t)).choose_spec
+
+/-- The lift through multiplication by `x` of a map into the kernel of `psi`. -/
+def lift (hinj : Function.Injective (x * ·)) (f : 𝒜 →+*ᵍ ℬ) (hf : Function.Surjective f)
+    (hker : ∀ a, f a = 0 → ∃ b, a = x * b) {Z : (Proj 𝒜).Modules}
+    (k : Z ⟶ projTwistingSheaf 𝒜 n) (hk : k ≫ ProjTwistPullback.psi f n = 0) :
+    Z ⟶ projTwistingSheaf 𝒜 (n - 1) where
+  val := PresheafOfModules.homMk
+    { app U := AddCommGrpCat.ofHom
+        { toFun := liftFun hx n hinj f hf hker k hk U
+          map_zero' := mulSection_app_injective hx n hinj U (by
+            rw [mulSection_liftFun, map_zero, map_zero])
+          map_add' t t' := mulSection_app_injective hx n hinj U (by
+            rw [mulSection_liftFun, map_add, map_add, mulSection_liftFun, mulSection_liftFun]) }
+      naturality := fun U V g => by
+        ext t
+        exact mulSection_app_injective hx n hinj V (by
+          change (mulSection hx n).val.app V (liftFun hx n hinj f hf hker k hk V (Z.val.map g t)) =
+            (mulSection hx n).val.app V ((projTwistingSheaf 𝒜 (n - 1)).val.map g
+              (liftFun hx n hinj f hf hker k hk U t))
+          rw [mulSection_liftFun, PresheafOfModules.naturality_apply k.val,
+            PresheafOfModules.naturality_apply (mulSection hx n).val, mulSection_liftFun]) }
+    (fun U r t => mulSection_app_injective hx n hinj U (by
+      change (mulSection hx n).val.app U (liftFun hx n hinj f hf hker k hk U (r • t)) =
+        (mulSection hx n).val.app U (r • liftFun hx n hinj f hf hker k hk U t)
+      rw [mulSection_liftFun, map_smul, map_smul, mulSection_liftFun]))
+
+theorem lift_mulSection (hinj : Function.Injective (x * ·)) (f : 𝒜 →+*ᵍ ℬ)
+    (hf : Function.Surjective f) (hker : ∀ a, f a = 0 → ∃ b, a = x * b) {Z : (Proj 𝒜).Modules}
+    (k : Z ⟶ projTwistingSheaf 𝒜 n) (hk : k ≫ ProjTwistPullback.psi f n = 0) :
+    lift hx n hinj f hf hker k hk ≫ mulSection hx n = k := by
+  apply SheafOfModules.hom_ext
+  apply PresheafOfModules.hom_ext
+  intro U
+  apply ConcreteCategory.hom_ext
+  intro t
+  exact mulSection_liftFun hx n hinj f hf hker k hk U t
+
 end General
 
 section ProjectiveSpace
