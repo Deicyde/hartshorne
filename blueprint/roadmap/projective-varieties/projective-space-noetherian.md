@@ -30,6 +30,7 @@ Noetherian space and needs no reproving here.
 
 - [The standard affine charts](standard-affine-charts.md)
 - [Affine space is a Noetherian space](../affine-varieties/affine-space-noetherian.md)
+- [The homogeneous vanishing ideal](homogeneous-vanishing-ideal.md)
 
 ## Sources
 

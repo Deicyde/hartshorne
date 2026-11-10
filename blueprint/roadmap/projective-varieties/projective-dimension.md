@@ -44,6 +44,7 @@ $\dim Y=\dim\overline Y$.
 - [Dimension of the homogeneous coordinate ring](homogeneous-coordinate-ring-dimension.md)
 - [Dimension of a quasi-affine variety](../affine-varieties/dim-quasi-affine.md)
 - [Varieties are covered by affine pieces](affine-cover.md)
+- [The dimension of affine space](../affine-varieties/dim-affine-space.md)
 
 ## Sources
 

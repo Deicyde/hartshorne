@@ -41,6 +41,7 @@ it is the form recorded.
 - [The standard affine charts](standard-affine-charts.md)
 - [Projective and quasi-projective varieties](projective-variety.md)
 - [Affine and quasi-affine varieties](../affine-varieties/affine-variety.md)
+- [The homogeneous vanishing ideal](homogeneous-vanishing-ideal.md)
 
 ## Sources
 

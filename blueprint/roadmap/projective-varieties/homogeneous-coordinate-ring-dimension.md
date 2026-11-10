@@ -59,6 +59,8 @@ algebraic half is what says all those bounds are the same number.
 - [Dimension is the dimension of the coordinate ring](../affine-varieties/dim-eq-coordinate-ring-dim.md)
 - [Dimension of a finitely generated domain](../affine-varieties/dim-fg-domain.md)
 - [The dimension formula for a finitely generated domain](../affine-varieties/dim-formula-catenary.md)
+- [Varieties are covered by affine pieces](affine-cover.md)
+- [Algebraic sets and homogeneous radical ideals](homogeneous-ideal-correspondence.md)
 
 ## Sources
 

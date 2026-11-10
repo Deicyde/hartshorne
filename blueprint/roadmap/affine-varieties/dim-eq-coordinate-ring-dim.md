@@ -27,6 +27,7 @@ so chains of the same length correspond and their suprema agree.
 ## Proof depends on
 
 - [Algebraic sets and radical ideals](radical-ideal-correspondence.md)
+- [Every finitely generated domain is a coordinate ring](coordinate-ring-realization.md)
 
 ## Sources
 
