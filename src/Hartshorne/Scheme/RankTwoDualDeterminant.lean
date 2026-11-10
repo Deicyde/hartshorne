@@ -3,7 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.ExteriorPerfectPairing
-import Hartshorne.RingedSpace.PicardGroup
+import Hartshorne.RingedSpace.FiniteLocallyFreeDuality
 
 /-!
 # A rank-two locally free sheaf is its dual twisted by its determinant

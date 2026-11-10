@@ -89,20 +89,6 @@ section TensorFunctoriality
 
 variable {E E' E'' F F' F'' : 𝓜}
 
-private lemma modulesTensorMap_comp (φ : E ⟶ E') (φ' : E' ⟶ E'') (ψ : F ⟶ F') (ψ' : F' ⟶ F'') :
-    modulesTensorMap (φ ≫ φ') (ψ ≫ ψ') = modulesTensorMap φ ψ ≫ modulesTensorMap φ' ψ' := by
-  refine modulesTensor_hom_ext fun U e f => ?_
-  change _ = sectionsMap (modulesTensorMap φ' ψ') U (sectionsMap (modulesTensorMap φ ψ) U
-    ((moduleSheafTensorBilinear E F).app (op U) e f))
-  rw [modulesTensorMap_tmul, modulesTensorMap_tmul, modulesTensorMap_tmul]
-  rfl
-
-private lemma modulesTensorMap_id (E F : 𝓜) :
-    modulesTensorMap (𝟙 E) (𝟙 F) = 𝟙 (moduleSheafTensor E F) := by
-  refine modulesTensor_hom_ext fun U e f => ?_
-  rw [modulesTensorMap_tmul]
-  rfl
-
 /-- An isomorphism `E ≅ E'` induces an isomorphism `E ⊗ F ≅ E' ⊗ F`. -/
 private noncomputable def modulesTensorIsoLeft (α : E ≅ E') (F : 𝓜) :
     @Iso 𝓜 _ (moduleSheafTensor E F) (moduleSheafTensor E' F) where

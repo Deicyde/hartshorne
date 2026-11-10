@@ -27,8 +27,9 @@ invertible (`Hartshorne.Ringed.IsInvertible`) when it is locally free of rank on
 A group of isomorphism classes needs no coherence data, only the existence of isomorphisms
 `(L ⊗ M) ⊗ N ≅ L ⊗ (M ⊗ N)` (`moduleSheafTensorAssoc`), `𝒪_X ⊗ F ≅ F` (`moduleSheafUnitTensor`),
 `E ⊗ F ≅ F ⊗ E` (`moduleSheafTensorComm`), and the compatibility of `⊗` and of duals with
-isomorphisms (`moduleSheafTensorIsoOfIso`, `moduleSheafDualIsoOfIso`). These all come from the
-universal property of the tensor product. For associativity, morphisms out of `(A ⊗ B) ⊗ C` are
+isomorphisms (`moduleSheafTensorIsoOfIso`, `moduleSheafDualIsoOfIso`, both in
+`FiniteLocallyFreeDuality`). These all come from the universal property of the tensor product.
+For associativity, morphisms out of `(A ⊗ B) ⊗ C` are
 built from trilinear maps on sections (`ModuleSheafTrilinear.tensorDesc`) by currying the last
 variable into `ℋom(C, H)`, and are determined by their values on elementary tensors
 (`moduleSheafTensor_assoc_hom_ext`).
@@ -242,26 +243,6 @@ private lemma picFreeFrameMap_bijective (A : (Over U)ᵒᵖ) :
 
 end FreeFrame
 
-section TensorFunctoriality
-
-variable {E E' E'' F F' F'' : 𝓜}
-
-lemma modulesTensorMap_comp (φ : E ⟶ E') (φ' : E' ⟶ E'') (ψ : F ⟶ F') (ψ' : F' ⟶ F'') :
-    modulesTensorMap (φ ≫ φ') (ψ ≫ ψ') = modulesTensorMap φ ψ ≫ modulesTensorMap φ' ψ' := by
-  refine modulesTensor_hom_ext fun U e f => ?_
-  change _ = sectionsMap (modulesTensorMap φ' ψ') U (sectionsMap (modulesTensorMap φ ψ) U
-    ((moduleSheafTensorBilinear E F).app (op U) e f))
-  rw [modulesTensorMap_tmul, modulesTensorMap_tmul, modulesTensorMap_tmul]
-  rfl
-
-lemma modulesTensorMap_id (E F : 𝓜) :
-    modulesTensorMap (𝟙 E) (𝟙 F) = 𝟙 (moduleSheafTensor E F) := by
-  refine modulesTensor_hom_ext fun U e f => ?_
-  rw [modulesTensorMap_tmul]
-  rfl
-
-end TensorFunctoriality
-
 section Helpers
 
 private lemma pic_map_map (A : 𝓜) {U V W : Opens X} (i : V ≤ U) (j : W ≤ V)
@@ -300,16 +281,6 @@ lemma moduleSheafTensorHomEquiv_symm_tmul {E F H : 𝓜} (β : ModuleSheafBiline
     ((moduleSheafTensorHomEquiv_apply ((moduleSheafTensorHomEquiv E F H).symm β)).symm.trans
       (Equiv.apply_symm_apply (moduleSheafTensorHomEquiv _ _ _) β))
   exact this
-
-/-- Tensor products of isomorphic modules are isomorphic. -/
-noncomputable def moduleSheafTensorIsoOfIso {E E' F F' : 𝓜} (α : E ≅ E') (β : F ≅ F') :
-    @Iso 𝓜 _ (moduleSheafTensor E F) (moduleSheafTensor E' F') where
-  hom := modulesTensorMap α.hom β.hom
-  inv := modulesTensorMap α.inv β.inv
-  hom_inv_id := by
-    rw [← modulesTensorMap_comp, α.hom_inv_id, β.hom_inv_id, modulesTensorMap_id]
-  inv_hom_id := by
-    rw [← modulesTensorMap_comp, α.inv_hom_id, β.inv_hom_id, modulesTensorMap_id]
 
 /-- The bilinear map `(e, f) ↦ f ⊗ e`. -/
 noncomputable def tensorFlipBilinear (E F : 𝓜) :
@@ -992,35 +963,6 @@ noncomputable def moduleSheafTensorAssoc :
     exact (Category.assoc _ _ _).trans ((congrArg _ h).trans (Iso.hom_inv_id _))
 
 end Associativity
-
-section DualCongr
-
-/-- The functoriality of `ℋom` is compatible with composition. -/
-lemma moduleSheafHomMap_comp {F F' F'' G G' G'' : 𝓜} (f : F' ⟶ F) (g : G ⟶ G')
-    (f' : F'' ⟶ F') (g' : G' ⟶ G'') :
-    moduleSheafHomMap f g ≫ moduleSheafHomMap f' g' = moduleSheafHomMap (f' ≫ f) (g ≫ g') := by
-  refine modules_hom_ext fun U => ?_
-  ext ψ
-  exact moduleSheafHomEval_ext fun V h => LinearMap.ext fun x => rfl
-
-/-- `ℋom` sends identities to the identity. -/
-lemma moduleSheafHomMap_id (F G : 𝓜) :
-    moduleSheafHomMap (𝟙 F) (𝟙 G) = 𝟙 _ := by
-  refine modules_hom_ext fun U => ?_
-  ext ψ
-  exact moduleSheafHomEval_ext fun V h => LinearMap.ext fun x => rfl
-
-/-- Isomorphic modules have isomorphic duals. -/
-noncomputable def moduleSheafDualIsoOfIso {L L' : 𝓜} (α : L ≅ L') :
-    moduleSheafDual L ≅ moduleSheafDual L' where
-  hom := moduleSheafHomMap α.inv (𝟙 _)
-  inv := moduleSheafHomMap α.hom (𝟙 _)
-  hom_inv_id := by
-    rw [moduleSheafHomMap_comp, α.hom_inv_id, Category.id_comp, moduleSheafHomMap_id]
-  inv_hom_id := by
-    rw [moduleSheafHomMap_comp, α.inv_hom_id, Category.id_comp, moduleSheafHomMap_id]
-
-end DualCongr
 
 section PicardGroup
 
