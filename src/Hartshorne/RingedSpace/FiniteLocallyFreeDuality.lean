@@ -1250,7 +1250,6 @@ lemma modulesTensorMap_id (E F : 𝓜) :
   rw [modulesTensorMap_tmul]
   rfl
 
-
 /-- Tensor products of isomorphic modules are isomorphic. -/
 noncomputable def moduleSheafTensorIsoOfIso {E E' F F' : 𝓜} (α : E ≅ E') (β : F ≅ F') :
     @Iso 𝓜 _ (moduleSheafTensor E F) (moduleSheafTensor E' F') where

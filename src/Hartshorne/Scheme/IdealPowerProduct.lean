@@ -14,7 +14,7 @@ Let `X` be a scheme, `I` a quasi-coherent ideal sheaf on `X`, given by its ideal
 submodule sheaf. The submodule sheaf `I ^ k N` (`ArtinReesKernelSheaf.powSmul`) consists of the
 sections lying, near every point, in `I(V) ^ k N(V)` on an affine open `V`. For a module `N`
 without an ambient module, take `E = N` and the top submodule, which is quasi-coherent when `N` is
-and coherent when `N` is (`isQuasicoherent_top`, `isCoherent_top`).
+and coherent when `N` is and `X` is locally Noetherian (`isQuasicoherent_top`, `isCoherent_top`).
 
 * `isQuasicoherent_powSmul`: if `N` is quasi-coherent, so is `I ^ k N`;
 * `sub_powSmul_eq`: if `N` is quasi-coherent, then on every affine open `V` the sections of
@@ -26,12 +26,12 @@ and coherent when `N` is (`isQuasicoherent_top`, `isCoherent_top`).
   `isQuasicoherent_inf` (intersections of quasi-coherent submodule sheaves), `isCoherent_of_le`
   (quasi-coherent subsheaves of coherent ones) and closure of coherent sheaves under cokernels.
 
-The quasi-coherence uses a criterion that supplements Hartshorne II.5.3, `isQuasicoherent_of_pow_smul`: an
-`𝒪_X`-module is quasi-coherent if, on every affine open `U` and for every `g ∈ Γ(X, U)`, sections
-over `U` vanishing on `D(g)` are killed by a power of `g` and sections over `D(g)` extend to `U`
-after multiplication by a power of `g`. These two conditions say that `Γ(U, F) → Γ(D(g), F)` is
-the localization at `g`, which on `Spec Γ(X, U)` is Mathlib's criterion
-`isIso_fromTildeΓ_iff_isLocalizing`.
+The quasi-coherence uses a criterion that supplements Hartshorne II.5.3,
+`isQuasicoherent_of_pow_smul`: an `𝒪_X`-module is quasi-coherent if, on every affine open `U` and
+for every `g ∈ Γ(X, U)`, sections over `U` vanishing on `D(g)` are killed by a power of `g` and
+sections over `D(g)` extend to `U` after multiplication by a power of `g`. These two conditions say
+that `Γ(U, F) → Γ(D(g), F)` is the localization at `g`, which on `Spec Γ(X, U)` is Mathlib's
+criterion `isIso_fromTildeΓ_iff_isLocalizing`.
 
 The inclusion `I(V) ^ k N(V) ⊆ Γ(V, I ^ k N)` holds by definition. For the converse, a section
 `s` of `I ^ k N` over `V` lies in `I(D(g)) ^ k N(D(g))` on a cover of `V` by basic opens `D(g)`.
@@ -54,9 +54,10 @@ universe u
 /-! ### A quasi-coherence criterion supplementing Hartshorne II.5.3 -/
 
 open FiberDimAux in
-/-- **Quasi-coherence from the conclusions of II.5.3** (supplements Hartshorne II.5.3). An `𝒪_X`-module `F` is quasi-coherent if, for every affine
-open `U` and `g ∈ Γ(X, U)`, a section over `U` vanishing on `D(g)` is killed by a power of `g`,
-and every section over `D(g)`, multiplied by a power of `g`, extends to `U`. -/
+/-- **Quasi-coherence from the conclusions of II.5.3** (supplements Hartshorne II.5.3). An
+`𝒪_X`-module `F` is quasi-coherent if, for every affine open `U` and `g ∈ Γ(X, U)`, a section over
+`U` vanishing on `D(g)` is killed by a power of `g`, and every section over `D(g)`, multiplied by a
+power of `g`, extends to `U`. -/
 theorem isQuasicoherent_of_pow_smul {X : Scheme.{u}} (F : X.Modules)
     (hzero : ∀ (U : X.affineOpens) (g : Γ(X, U)) (s : Γ(F, U)),
       F.presheaf.map (homOfLE (X.basicOpen_le g)).op s = 0 → ∃ n : ℕ, g ^ n • s = 0)

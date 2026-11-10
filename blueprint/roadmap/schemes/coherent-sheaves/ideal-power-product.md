@@ -4,7 +4,7 @@ declaration: theorem
 origin: bridged
 statement: formalized
 proof: formalized
-lean: Hartshorne.ArtinReesKernelSheaf.isQuasicoherent_powSmul Hartshorne.ArtinReesKernelSheaf.sub_powSmul_eq Hartshorne.ArtinReesKernelSheaf.isCoherent_powSmul Hartshorne.ArtinReesKernelSheaf.powSmul Hartshorne.ArtinReesKernelSheaf.powSmul_zero
+lean: Hartshorne.ArtinReesKernelSheaf.isQuasicoherent_powSmul Hartshorne.ArtinReesKernelSheaf.sub_powSmul_eq Hartshorne.ArtinReesKernelSheaf.isCoherent_powSmul Hartshorne.ArtinReesKernelSheaf.powSmul Hartshorne.ArtinReesKernelSheaf.powSmul_zero Hartshorne.ArtinReesKernelSheaf.isQuasicoherent_top Hartshorne.ArtinReesKernelSheaf.isCoherent_top
 ---
 
 # Product of an ideal sheaf with a submodule sheaf
