@@ -54,18 +54,17 @@ universe u
 /-! ### A quasi-coherence criterion supplementing Hartshorne II.5.3 -/
 
 open FiberDimAux in
-/-- **Quasi-coherence from the conclusions of II.5.3** (supplements Hartshorne II.5.3). An
-`𝒪_X`-module `F` is quasi-coherent if, for every affine open `U` and `g ∈ Γ(X, U)`, a section over
-`U` vanishing on `D(g)` is killed by a power of `g`, and every section over `D(g)`, multiplied by a
-power of `g`, extends to `U`. -/
-theorem isQuasicoherent_of_pow_smul {X : Scheme.{u}} (F : X.Modules)
-    (hzero : ∀ (U : X.affineOpens) (g : Γ(X, U)) (s : Γ(F, U)),
+/-- **The tilde property on one affine open from the conclusions of II.5.3.** If, on the affine
+open `U`, for every `g ∈ Γ(X, U)` a section over `U` vanishing on `D(g)` is killed by a power of
+`g`, and every section over `D(g)`, multiplied by a power of `g`, extends to `U`, then
+`F|_U ≅ Γ(U, F)~`. -/
+theorem isIso_fromTildeΓ_of_pow_smul {X : Scheme.{u}} (F : X.Modules) (U : X.affineOpens)
+    (hzero : ∀ (g : Γ(X, U)) (s : Γ(F, U)),
       F.presheaf.map (homOfLE (X.basicOpen_le g)).op s = 0 → ∃ n : ℕ, g ^ n • s = 0)
-    (hext : ∀ (U : X.affineOpens) (g : Γ(X, U)) (t : Γ(F, X.basicOpen g)),
+    (hext : ∀ (g : Γ(X, U)) (t : Γ(F, X.basicOpen g)),
       ∃ (n : ℕ) (s : Γ(F, U)), F.presheaf.map (homOfLE (X.basicOpen_le g)).op s =
         (X.presheaf.map (homOfLE (X.basicOpen_le g)).op g) ^ n • t) :
-    F.IsQuasicoherent := by
-  refine ((quasicoherent_affine_local_tfae F).out 2 0).mp fun U => ?_
+    IsIso (specRestriction F U).fromTildeΓ := by
   have hU : IsAffineOpen (U : X.Opens) := U.2
   let : IsOpenImmersion hU.fromSpec := hU.isOpenImmersion_fromSpec
   change IsIso (F.restrict hU.fromSpec).fromTildeΓ
@@ -92,12 +91,12 @@ theorem isQuasicoherent_of_pow_smul {X : Scheme.{u}} (F : X.Modules)
   have hzero' : ∀ (V : X.Opens) (hV : V = X.basicOpen f) (hVU : V ≤ U) (s : Γ(F, U)),
       F.presheaf.map (homOfLE hVU).op s = 0 → ∃ n : ℕ, f ^ n • s = 0 := by
     rintro V rfl hVU s hs
-    exact hzero U f s hs
+    exact hzero f s hs
   have hext' : ∀ (V : X.Opens) (hV : V = X.basicOpen f) (hVU : V ≤ U) (t : Γ(F, V)),
       ∃ (n : ℕ) (s : Γ(F, U)), F.presheaf.map (homOfLE hVU).op s =
         (X.presheaf.map (homOfLE hVU).op f) ^ n • t := by
     rintro V rfl hVU t
-    exact hext U f t
+    exact hext f t
   have hW : W = X.basicOpen f := hU.fromSpec_image_basicOpen f
   refine ⟨fun s => ?_, fun t => ?_, fun {m₁ m₂} h => ?_⟩
   · obtain ⟨n, hn⟩ := s.2
@@ -130,6 +129,20 @@ theorem isQuasicoherent_of_pow_smul {X : Scheme.{u}} (F : X.Modules)
     refine ⟨⟨f ^ n, n, rfl⟩, ?_⟩
     rw [smul_sub, sub_eq_zero] at hn
     exact hn
+
+/-- **Quasi-coherence from the conclusions of II.5.3** (supplements Hartshorne II.5.3). An
+`𝒪_X`-module `F` is quasi-coherent if, for every affine open `U` and `g ∈ Γ(X, U)`, a section over
+`U` vanishing on `D(g)` is killed by a power of `g`, and every section over `D(g)`, multiplied by a
+power of `g`, extends to `U`. -/
+theorem isQuasicoherent_of_pow_smul {X : Scheme.{u}} (F : X.Modules)
+    (hzero : ∀ (U : X.affineOpens) (g : Γ(X, U)) (s : Γ(F, U)),
+      F.presheaf.map (homOfLE (X.basicOpen_le g)).op s = 0 → ∃ n : ℕ, g ^ n • s = 0)
+    (hext : ∀ (U : X.affineOpens) (g : Γ(X, U)) (t : Γ(F, X.basicOpen g)),
+      ∃ (n : ℕ) (s : Γ(F, U)), F.presheaf.map (homOfLE (X.basicOpen_le g)).op s =
+        (X.presheaf.map (homOfLE (X.basicOpen_le g)).op g) ^ n • t) :
+    F.IsQuasicoherent :=
+  ((quasicoherent_affine_local_tfae F).out 2 0).mp fun U =>
+    isIso_fromTildeΓ_of_pow_smul F U (hzero U) (hext U)
 
 namespace ArtinReesKernelSheaf
 
