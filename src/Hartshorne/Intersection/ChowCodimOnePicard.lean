@@ -16,8 +16,9 @@ Hartshorne, *Algebraic Geometry*, Appendix A.2, A8 (p. 428).
 
 Let `X` be a nonsingular variety over a field `k` (an integral regular scheme, separated and of
 finite type over `k`). Then the divisor-to-line-bundle map induces an isomorphism
-`A^1(X) ≅ Pic X`. Hartshorne states this for quasi-projective `X`; the argument does not use
-quasi-projectivity.
+`A^1(X) ≅ Pic X`.
+Hartshorne takes k algebraically closed and X quasi-projective (p.427); here k is any field and
+nonsingular means regular, which agrees with his definition over an algebraically closed field.
 
 ## Proof
 
@@ -46,8 +47,9 @@ variable {k : Type u} [Field k] {X : Scheme.{u}}
 
 /-- **Hartshorne, Appendix A.2, A8.** On a nonsingular variety `X` over a field `k` (an integral
 regular scheme, separated and of finite type over `k`, of dimension `n`), the divisor-to-line-bundle
-map induces an isomorphism `A^1(X) ≅ Pic X`, written additively. Hartshorne assumes `X`
-quasi-projective; the construction does not use it. -/
+map induces an isomorphism `A^1(X) ≅ Pic X`, written additively.
+Hartshorne takes k algebraically closed and X quasi-projective (p.427); here k is any field and
+nonsingular means regular, which agrees with his definition over an algebraically closed field. -/
 def chowGroupOneEquivPicard (p : X ⟶ Spec (.of k)) [IsIntegral X] (hp : FiniteType p)
     [IsSeparated p] {n : ℕ} (hn : topologicalKrullDim X = n) (hreg : X.IsRegular) :
     chowGroup p hp hn 1 ≃+ Additive (Pic X.sheaf) :=
