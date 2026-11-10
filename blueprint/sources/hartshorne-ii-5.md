@@ -166,7 +166,16 @@ then reuses `IsClosedImmersion.overEquivIdealSheafData`.
   exterior-power filtration of a short exact sequence. Used in II–III.
 - **Exercise 5.17(a–d), p.128.** Affine morphisms, relative Spec of a
   quasi-coherent algebra, and its classification. Relative Spec is used in the
-  running text on III p.280.
+  running text on III p.280. Part (c) asks for a unique scheme `X` and morphism
+  `f : X -> Y` with `f^{-1}(V) ≅ Spec A(V)` for every open affine `V ⊆ Y`, such
+  that for every inclusion `U -> V` of open affines the morphism
+  `f^{-1}(U) -> f^{-1}(V)` corresponds to the restriction homomorphism
+  `A(V) -> A(U)`. The roadmap records a quasi-coherent sheaf of algebras by its
+  rings of sections over the affine opens, with restrictions along basic opens
+  and the localization property, as for relative Proj; see the convention
+  paragraph of the [II.7 note](hartshorne-ii-7.md#relative-proj-and-projective-bundles).
+  Article statements keep Hartshorne's wording; the missing comparison is a
+  library gap, not a change of hypothesis.
 - **Exercise 5.18(a–d), pp.128–129.** Geometric vector bundles and their
   correspondence with finite locally free sheaves. Explicitly referenced on
   II p.163. Hartshorne uses the convention `V(E)=Spec Sym(E)`, so its sheaf of
