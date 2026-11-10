@@ -24,6 +24,8 @@ library root.
 * `Hartshorne.ModuleGluing.resOverEquivIso`: for `V ≤ W` and an `𝒪_X|_W`-module `M`, the
   comparison between restricting `M` to `V` and then passing to `V.Modules`, and passing to
   `W.Modules` and then restricting along `V ⟶ W` (Mathlib's `Scheme.Modules.overMapCompOverEquiv`).
+* `Hartshorne.ModuleGluing.exists_resOverEquivIso_hom_app_eq_map` and companions: on sections, the
+  comparison isomorphisms are restriction maps of the underlying module.
 -/
 
 universe u
@@ -101,6 +103,80 @@ noncomputable abbrev resOverEquivIso {V W : X.Opens} (h : V ≤ W)
     (overEquiv V).functor.obj ((res X.ringCatSheaf h).obj M) ≅
       ((overEquiv W).functor.obj M).restrict (X.homOfLE h) :=
   (overMapCompOverEquiv (X := X) (homOfLE h)).app M
+
+/-! ### Sections of the comparison isomorphisms
+
+Each comparison isomorphism acts on sections as a restriction map `M.val.map g` of the underlying
+`𝒪_X|_W`-module along a morphism `g` of `(Over W)ᵒᵖ`; since `Over W` is thin, such maps are
+determined by their source and target. -/
+
+instance subsingleton_overOp_hom {W : X.Opens} (A B : (Over W)ᵒᵖ) : Subsingleton (A ⟶ B) :=
+  ⟨fun _ _ ↦ Quiver.Hom.unop_inj (Over.OverMorphism.ext (Subsingleton.elim _ _))⟩
+
+set_option backward.isDefEq.respectTransparency false in
+/-- On sections over `W'`, `resOverEquivIso h M` is a restriction map of `M`. -/
+theorem exists_resOverEquivIso_hom_app_eq_map {V W : X.Opens} (h : V ≤ W)
+    (M : SheafOfModules.{u} (X.ringCatSheaf.over W)) (W' : V.toScheme.Opens) :
+    ∃ g : Opposite.op ((Over.map (homOfLE h)).obj ((Opens.overEquivalence V).inverse.obj W')) ⟶
+        Opposite.op ((Opens.overEquivalence W).inverse.obj ((X.homOfLE h) ''ᵁ W')),
+      ∀ y, (resOverEquivIso h M).hom.app W' y = M.val.map g y :=
+  ⟨_, fun _ ↦ rfl⟩
+
+set_option backward.isDefEq.respectTransparency false in
+theorem overEquiv_map_resComp_hom_app_apply {T V W : X.Opens} (h1 : T ≤ V) (h2 : V ≤ W)
+    (M : SheafOfModules.{u} (X.ringCatSheaf.over W)) (W' : T.toScheme.Opens) (y) :
+    ((overEquiv T).functor.map ((resComp X.ringCatSheaf h1 h2).app M).hom).app W' y = y :=
+  rfl
+
+set_option backward.isDefEq.respectTransparency false in
+theorem restrictFunctor_homOfLE_map_app_apply {V W : X.Opens} (h : V ≤ W)
+    {A B : W.toScheme.Modules} (φ : A ⟶ B) (W' : V.toScheme.Opens) (y) :
+    ((restrictFunctor (X.homOfLE h)).map φ).app W' y = φ.app ((X.homOfLE h) ''ᵁ W') y :=
+  rfl
+
+set_option backward.isDefEq.respectTransparency false in
+theorem res_val_map_apply {V W : X.Opens} (h : V ≤ W)
+    (M : SheafOfModules.{u} (X.ringCatSheaf.over W)) {A B : (Over V)ᵒᵖ} (g : A ⟶ B) (y) :
+    ((res X.ringCatSheaf h).obj M).val.map g y = M.val.map ((Over.map (homOfLE h)).op.map g) y :=
+  rfl
+
+open Opposite in
+set_option backward.isDefEq.respectTransparency false in
+set_option maxHeartbeats 4000000 in
+/-- On sections over `W'`, the composite comparison for `T ≤ V ≤ W` (restrict in two steps, then
+reassociate the restriction functors) is a composite of four restriction maps of `M`. -/
+theorem exists_resOverEquivIso_trans_lhs_app_eq_map {T V W : X.Opens} (h1 : T ≤ V) (h2 : V ≤ W)
+    (M : SheafOfModules.{u} (X.ringCatSheaf.over W)) (W' : T.toScheme.Opens) :
+    ∃ (C : (Over W)ᵒᵖ)
+      (g1 : op ((Over.map (homOfLE h2)).obj ((Over.map (homOfLE h1)).obj
+        ((Opens.overEquivalence T).inverse.obj W'))) ⟶
+        op ((Over.map (homOfLE h2)).obj ((Opens.overEquivalence V).inverse.obj
+          ((X.homOfLE h1) ''ᵁ W'))))
+      (g2 : op ((Over.map (homOfLE h2)).obj ((Opens.overEquivalence V).inverse.obj
+          ((X.homOfLE h1) ''ᵁ W'))) ⟶
+        op ((Opens.overEquivalence W).inverse.obj ((X.homOfLE h2) ''ᵁ ((X.homOfLE h1) ''ᵁ W'))))
+      (g3 : op ((Opens.overEquivalence W).inverse.obj
+          ((X.homOfLE h2) ''ᵁ ((X.homOfLE h1) ''ᵁ W'))) ⟶ C)
+      (g4 : C ⟶ op ((Opens.overEquivalence W).inverse.obj ((X.homOfLE (le_trans h1 h2)) ''ᵁ W'))),
+      ∀ y, ((resOverEquivIso h1 ((res X.ringCatSheaf h2).obj M)).hom ≫
+        (restrictFunctor (X.homOfLE h1)).map (resOverEquivIso h2 M).hom ≫
+        ((restrictHomOfLETrans h1 h2).app _).inv).app W' y =
+        M.val.map g4 (M.val.map g3 (M.val.map g2 (M.val.map g1 y))) :=
+  ⟨_, _, _, _, _, fun _ ↦ rfl⟩
+
+open Opposite in
+set_option backward.isDefEq.respectTransparency false in
+set_option maxHeartbeats 4000000 in
+/-- On sections over `W'`, restricting along `T ≤ W` in one step (after `resComp`) is a
+restriction map of `M`. -/
+theorem exists_resOverEquivIso_trans_rhs_app_eq_map {T V W : X.Opens} (h1 : T ≤ V) (h2 : V ≤ W)
+    (M : SheafOfModules.{u} (X.ringCatSheaf.over W)) (W' : T.toScheme.Opens) :
+    ∃ g : op ((Over.map (homOfLE h2)).obj ((Over.map (homOfLE h1)).obj
+        ((Opens.overEquivalence T).inverse.obj W'))) ⟶
+        op ((Opens.overEquivalence W).inverse.obj ((X.homOfLE (le_trans h1 h2)) ''ᵁ W')),
+      ∀ y, ((overEquiv T).functor.map ((resComp X.ringCatSheaf h1 h2).app M).hom ≫
+        (resOverEquivIso (le_trans h1 h2) M).hom).app W' y = M.val.map g y :=
+  ⟨_, fun _ ↦ rfl⟩
 
 end ModuleGluing
 
