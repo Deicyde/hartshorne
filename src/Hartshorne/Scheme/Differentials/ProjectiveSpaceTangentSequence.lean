@@ -21,6 +21,8 @@ on `X = ℙⁿ_k`.
 * `Hartshorne.EulerSequence.nonempty_dual_O0_iso`, `Hartshorne.EulerSequence.nonempty_dual_O1_iso`:
   `𝒪^∨ ≅ 𝒪` and `𝒪(-1)^∨ ≅ 𝒪(1)`, computed in the Picard group.
 * `Hartshorne.EulerSequence.nonempty_dual_E_iso`: `(𝒪(-1)^{n+1})^∨ ≅ 𝒪(1)^{n+1}`.
+* `Hartshorne.EulerSequence.tangentSequence_projectiveSpace_iso`: the dual of the Euler sequence is
+  short exact, with terms `≅ 𝒪`, `≅ 𝒪(1)^{n+1}` and `= T_X`.
 * `Hartshorne.EulerSequence.tangentSequence_projectiveSpace`: the tangent sequence, as the short
   exact sequence `0 → 𝒪^∨ → (𝒪(-1)^{n+1})^∨ → T_X → 0`.
 -/
@@ -34,9 +36,8 @@ namespace Hartshorne.EulerSequence
 attribute [local instance] MvPolynomial.gradedAlgebra
 attribute [local instance] CategoryTheory.Abelian.hasFiniteBiproducts
 
-/- Elaborate with the preadditive structure coming from the abelian structure, as
-`Hartshorne.RingedSpace.ModuleSheafDualExact` does, so that short complexes built here and there
-carry the same zero morphisms. -/
+/- Use the preadditive structure coming from the abelian structure, as the sheaf-`Ext` API used by
+`Hartshorne.RingedSpace.ModuleSheafDualExact` does. -/
 attribute [local instance 2000] Abelian.toPreadditive
 
 variable {k : Type u} [Field k] {n : ℕ}
@@ -53,6 +54,7 @@ noncomputable def shortComplexToModules {X : Scheme.{u}}
     (S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf X.sheaf))) : ShortComplex X.Modules :=
   ShortComplex.mk (C := X.Modules) S.f S.g S.zero
 
+/-- `Hartshorne.EulerSequence.shortComplexToModules` preserves short exactness. -/
 theorem shortComplexToModules_shortExact {X : Scheme.{u}}
     {S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf X.sheaf))} (hS : S.ShortExact) :
     (shortComplexToModules S).ShortExact :=
@@ -157,6 +159,8 @@ variable (k n) in
 noncomputable def dualEulerComplex : ShortComplex (Proj (grading k n)).Modules :=
   dualModulesComplex (ShortComplex.mk (alpha k n) (beta k n) alpha_beta)
 
+/-- The dual of the Euler sequence (8.13) is short exact, since `𝒪_X` is locally free of finite
+rank. -/
 theorem dualEulerComplex_shortExact : (dualEulerComplex k n).ShortExact :=
   dualModulesComplex_shortExact (eulerSequence k n).1 (isFiniteLocallyFree_unit _)
 
@@ -180,6 +184,18 @@ theorem nonempty_dual_E_iso :
   obtain ⟨e₁⟩ := nonempty_dual_O1_iso (k := k) (n := n)
   exact ⟨dualModulesBiproductIso (fun _ : Fin (n + 1) ↦ O1 k n) ≪≫
     biproduct.mapIso (f := fun _ : Fin (n + 1) ↦ dualModules (O1 k n)) fun _ ↦ e₁⟩
+
+/-- Hartshorne II.8, Example 8.20.1: the dual of the Euler sequence (8.13) is a short exact
+sequence `0 → 𝒪 → 𝒪(1)^{n+1} → T_X → 0`: its terms are `≅ 𝒪`, `≅ 𝒪(1)^{n+1}` and `= T_X`. -/
+theorem tangentSequence_projectiveSpace_iso :
+    (dualModulesComplex (ShortComplex.mk (alpha k n) (beta k n) alpha_beta)).ShortExact ∧
+    Nonempty ((dualModulesComplex (ShortComplex.mk (alpha k n) (beta k n) alpha_beta)).X₁ ≅
+      O0 k n) ∧
+    Nonempty ((dualModulesComplex (ShortComplex.mk (alpha k n) (beta k n) alpha_beta)).X₂ ≅
+      ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) ∧
+    (dualModulesComplex (ShortComplex.mk (alpha k n) (beta k n) alpha_beta)).X₃ =
+      tangentSheaf (toBase k n) :=
+  ⟨dualEulerComplex_shortExact, nonempty_dual_O0_iso, nonempty_dual_E_iso, rfl⟩
 
 /-- The last term of `Hartshorne.EulerSequence.dualEulerComplex` is the tangent sheaf. -/
 theorem dualEulerComplex_X₃ : (dualEulerComplex k n).X₃ = tangentSheaf (toBase k n) :=

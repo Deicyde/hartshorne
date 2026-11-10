@@ -38,8 +38,7 @@ set_option hygiene false in
 local notation "𝓜" => SheafOfModules.{u} (ringCatSheafOf R)
 
 /- As in `Hartshorne.RingedSpace.SheafExt`, elaborate with the preadditive structure coming from
-the abelian structure; for schemes it matches the one of `X.Modules`, so the kernel need not unfold
-the abelian structure to compare them. -/
+the abelian structure. -/
 attribute [local instance 2000] Abelian.toPreadditive
 
 section Precomp
