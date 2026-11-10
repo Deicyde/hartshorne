@@ -2,6 +2,9 @@
 article_id: af_734981d3d00efaaef5fe0a23
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.sheafCohomology_isZero_of_forall_irreducible_closed Hartshorne.sheafCohomology_isZero_of_stalk_isZero_off
 ---
 
 # Reduction to irreducible components
