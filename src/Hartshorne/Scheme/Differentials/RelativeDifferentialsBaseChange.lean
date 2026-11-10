@@ -47,4 +47,29 @@ theorem baseChangeRelativeDifferentialsMap_unit_d (V : X.Opens) (b : X.presheaf.
   rw [pullbackRelativeDifferentialsToComp_unit_d, relativeDifferentialsCongr_hom_d,
     relativeDifferentialsCompToLeft_d]
 
+section HomExt
+
+variable {X Y X' : Scheme.{u}} (f : X ⟶ Y) (g : X' ⟶ X)
+
+/-- Morphisms out of `g^* Ω_{X/Y}` are determined by their values on the pulled-back
+differentials `g^*(d_{X/Y} b)`. -/
+theorem pullback_relativeDifferentials_hom_ext {N : X'.Modules}
+    {φ ψ : (Modules.pullback g).obj (relativeDifferentials f) ⟶ N}
+    (h : ∀ (V : X.Opens) (b : X.presheaf.obj (op V)),
+      φ.val.app (op (g ⁻¹ᵁ V))
+          (((Modules.pullbackPushforwardAdjunction g).unit.app (relativeDifferentials f)).val.app
+            (op V) ((relativeDifferentialsDerivation f).d b)) =
+        ψ.val.app (op (g ⁻¹ᵁ V))
+          (((Modules.pullbackPushforwardAdjunction g).unit.app (relativeDifferentials f)).val.app
+            (op V) ((relativeDifferentialsDerivation f).d b))) :
+    φ = ψ := by
+  apply ((Modules.pullbackPushforwardAdjunction g).homEquiv _ _).injective
+  rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit]
+  apply (relativeDifferentialsHomEquiv f _).injective
+  rw [relativeDifferentialsHomEquiv_apply, relativeDifferentialsHomEquiv_apply]
+  ext V b
+  exact h V.unop b
+
+end HomExt
+
 end AlgebraicGeometry.Scheme
