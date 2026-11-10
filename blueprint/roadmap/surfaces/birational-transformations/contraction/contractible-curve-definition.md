@@ -2,7 +2,8 @@
 article_id: af_865c9bf4c43ed692cc5dfe48
 declaration: def
 origin: cited
-statement: retracted
+statement: formalized
+proof: formalized
 lean: Hartshorne.Surface.IsAlgebraicallyContractible Hartshorne.Surface.AlgebraicContraction Hartshorne.Surface.AlgebraicContraction.birationalOver Hartshorne.Surface.AlgebraicContraction.partialIso
 ---
 
