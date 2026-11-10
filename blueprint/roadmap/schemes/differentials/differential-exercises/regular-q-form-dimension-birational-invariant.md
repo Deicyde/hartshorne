@@ -24,6 +24,7 @@ then $h^{q,0}(X) = h^{q,0}(X')$ for every $q$.
 ## Proof depends on
 
 - [Pullback injects canonical sections](../canonical-bertini/canonical-pullback-injective.md)
+- [The canonical sheaf](../canonical-bertini/canonical-sheaf.md)
 - Pullback of relative differentials on the common birational open subset.
 - Sections of a finite locally free sheaf extend across a codimension-at-least-
   two complement on a normal variety after local trivialization.
