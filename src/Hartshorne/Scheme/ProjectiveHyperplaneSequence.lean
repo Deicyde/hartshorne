@@ -77,6 +77,26 @@ theorem mulSection_psi (f : 𝒜 →+*ᵍ ℬ) (hfx : f x = 0) :
   refine Subtype.ext (funext fun z => ?_)
   exact twistFiber_gradedLocMap_mul hx n f hfx _ _
 
+/-- If `x` is a non-zero-divisor, multiplication by `x` is injective on fibers. -/
+theorem gradedLocMap_mul_injective (hinj : Function.Injective (x * ·)) (P : Submonoid A) :
+    Function.Injective (gradedLocMap (𝒜 := 𝒜) (ℳ := gradedTwist 𝒜 (n - 1)) (𝒩 := gradedTwist 𝒜 n)
+      (LinearMap.mulLeft A x) (fun _ _ hm => mul_mem_gradedTwist hx n hm) P) := by
+  intro y z h
+  apply HomogeneousLocalizedModule.ext
+  exact IsLocalizedModule.map_injective P (LocalizedModule.mkLinearMap P A)
+    (LocalizedModule.mkLinearMap P A) (LinearMap.mulLeft A x) hinj (congrArg (·.val) h)
+
+theorem mulSection_app_injective (hinj : Function.Injective (x * ·))
+    (U : (Proj 𝒜).Opensᵒᵖ) : Function.Injective ((mulSection hx n).val.app U) := by
+  intro s t h
+  refine Subtype.ext (funext fun p => ?_)
+  exact gradedLocMap_mul_injective hx n hinj _ (congrFun (congrArg Subtype.val h) p)
+
+/-- If `x` is a non-zero-divisor, multiplication by `x` is a monomorphism. -/
+theorem mono_mulSection (hinj : Function.Injective (x * ·)) : Mono (mulSection hx n) := by
+  apply (SheafOfModules.forget _).mono_of_mono_map
+  exact PresheafOfModules.mono_of_injective fun U => mulSection_app_injective hx n hinj U
+
 end General
 
 section ProjectiveSpace
@@ -139,6 +159,10 @@ theorem isClosedImmersion_hyperplane :
 theorem mulSection_psi_hyperplane (n : ℤ) :
     mulSection (x_last_mem A m) n ≫ ProjTwistPullback.psi (hyperplaneHom A m) n = 0 :=
   mulSection_psi _ n _ (hyperplaneHom_X_last A m)
+
+/-- **Multiplication by `x_{m+1}` is injective**: `𝒪_X(n-1) ⟶ 𝒪_X(n)` is a monomorphism. -/
+instance mono_mulSection_hyperplane (n : ℤ) : Mono (mulSection (x_last_mem A m) n) :=
+  mono_mulSection _ n MvPolynomial.isRegular_X.left
 
 end ProjectiveSpace
 
