@@ -2,6 +2,9 @@
 article_id: af_0f97d9366f82584efe3518bd
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.TensorPowerSectionRing.toPolynomialOfIso Hartshorne.TensorPowerSectionRing.toPolynomialOfIso_of Hartshorne.TensorPowerSectionRing.toPolynomialOfIso_injective Hartshorne.TensorPowerSectionRing.toPolynomialOfIsoAlgHom Hartshorne.TensorPowerSectionRing.exists_injective_toPolynomial Hartshorne.TensorPowerSectionRing.isDomain_of_isInvertible Hartshorne.TensorPowerSectionRing.trdeg_le Hartshorne.TensorPowerSectionRing.exists_toPolynomialOfIso_eq_aeval Hartshorne.canonicalSectionRing_exists_injective_toPolynomial Hartshorne.canonicalSectionRing_isDomain Hartshorne.canonicalSectionRing_trdeg_le
 ---
 
 # Section rings embed in a polynomial ring over the function field
