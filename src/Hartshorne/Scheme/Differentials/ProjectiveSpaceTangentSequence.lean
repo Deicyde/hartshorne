@@ -170,7 +170,7 @@ theorem nonempty_dualEulerComplex_X₂_iso :
 
 /-- Transport a short exact sequence `0 ⟶ A ⟶ B ⟶ T ⟶ 0` along isomorphisms `A ≅ A'`,
 `B ≅ B'`. -/
-theorem exists_shortExact_of_iso {C : Type*} [Category C] [Abelian C] {A B A' B' T : C}
+theorem exists_shortExact_of_iso {X : Scheme.{u}} {A B A' B' T : X.Modules}
     (h : ∃ (a : A ⟶ B) (b : B ⟶ T) (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact)
     (e₀ : A ≅ A') (eE : B ≅ B') :
     ∃ (a : A' ⟶ B') (b : B' ⟶ T) (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact := by
@@ -195,10 +195,34 @@ theorem nonempty_dual_E_iso :
   exact ⟨dualModulesBiproductIso (fun _ : Fin (n + 1) ↦ O1 k n) ≪≫
     biproduct.mapIso (f := fun _ : Fin (n + 1) ↦ dualModules (O1 k n)) fun _ ↦ e₁⟩
 
+-- DIAG1
+example :
+    ∃ (a : dualModules (O0 k n) ⟶ dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n))
+      (b : dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n) ⟶ tangentSheaf (toBase k n))
+      (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact :=
+  exists_shortExact_of_iso tangentSequence_projectiveSpace_aux (Iso.refl _) (Iso.refl _)
+
+-- DIAG2
+example (e₀ : dualModules (O0 k n) ≅ O0 k n) :
+    ∃ (a : O0 k n ⟶ dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n))
+      (b : dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n) ⟶ tangentSheaf (toBase k n))
+      (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact :=
+  exists_shortExact_of_iso tangentSequence_projectiveSpace_aux e₀ (Iso.refl _)
+
+-- DIAG3
+example (eE : dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n) ≅
+      ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) :
+    ∃ (a : dualModules (O0 k n) ⟶ ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1)
+      (b : (⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) ⟶
+        tangentSheaf (toBase k n))
+      (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact :=
+  exists_shortExact_of_iso tangentSequence_projectiveSpace_aux (Iso.refl _) eE
+
 /-- **Hartshorne II.8, Example 8.20.1 (the tangent sequence).** On `X = ℙⁿ_k` there is an exact
 sequence `0 → 𝒪_X → 𝒪_X(1)^{n+1} → T_X → 0`, obtained by dualizing the Euler sequence (8.13)
 (`Hartshorne.EulerSequence.dualEulerComplex`) and identifying `𝒪^∨ ≅ 𝒪` and
 `(𝒪(-1)^{n+1})^∨ ≅ 𝒪(1)^{n+1}`. -/
+set_option maxHeartbeats 1000000 in
 theorem tangentSequence_projectiveSpace :
     ∃ (a : O0 k n ⟶ ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1)
       (b : (⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) ⟶
