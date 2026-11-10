@@ -323,7 +323,8 @@ theorem unit_comp_pushforward_map :
     (Modules.pullbackPushforwardAdjunction i).unit.app (relativeDifferentials f) ≫
       (Modules.pushforward i).map (pullbackRelativeDifferentialsToComp i f) =
         relativeDifferentialsToPushforwardComp i f := by
-  rw [← Adjunction.homEquiv_unit, pullbackRelativeDifferentialsToComp_homEquiv]
+  exact ((Modules.pullbackPushforwardAdjunction i).homEquiv_unit _ _ _).symm.trans
+    (pullbackRelativeDifferentialsToComp_homEquiv i f)
 
 theorem conormalToPullback_comp :
     conormalToPullback i f ≫ pullbackRelativeDifferentialsToComp i f = 0 := by
@@ -337,8 +338,12 @@ theorem conormalToPullback_comp :
   have h2 : (relativeDifferentialsToPushforwardComp i f).val.app (op V)
       ((relativeDifferentialsDerivation f).d ((closedImmersionIdealSheafι i).val.app (op V) a)) =
         0 := by
-    rw [relativeDifferentialsToPushforwardComp_d]
-    erw [app_idealSheafι i V a]
+    refine (relativeDifferentialsToPushforwardComp_d i f (op V)
+      ((closedImmersionIdealSheafι i).val.app (op V) a)).trans ?_
+    have h0 := app_idealSheafι i V a
+    change (relativeDifferentialsDerivation (i ≫ f)).d
+      (i.app V ((closedImmersionIdealSheafι i).app V a)) = 0
+    rw [h0]
     exact map_zero _
   exact (h1.trans h2).trans rfl
 
@@ -392,8 +397,8 @@ theorem descδ_mul (U : X.Opens) (a b : Γ(X, U)) :
 theorem descδ_app (V : Y.Opens) (b : Γ(Y, V)) : descδ τ (f ⁻¹ᵁ V) (f.app V b) = 0 := by
   change (τAdj τ).val.app (op (f ⁻¹ᵁ V)) ((relativeDifferentialsDerivation f).d
     (f.c.app (op V) b)) = 0
-  rw [(derivationOfInverseImage f (relativeDifferentialsDerivation f)).d_app b]
-  exact map_zero _
+  have h := (derivationOfInverseImage f (relativeDifferentialsDerivation f)).d_app (X := op V) b
+  exact (congrArg (fun x => ((τAdj τ).val.app (op (f ⁻¹ᵁ V))).hom x) h).trans (map_zero _)
 
 /-- The derivation `𝒪_Z ⟶ M` over `Y` descended from `a ↦ τ(1 ⊗ d a)`. -/
 noncomputable def descDerivation :
@@ -442,7 +447,8 @@ noncomputable def conormalIsColimit :
       change (descHom τ hτ).val.app (op (i ⁻¹ᵁ U.unop))
         ((relativeDifferentialsToPushforwardComp i f).val.app U
           ((relativeDifferentialsDerivation f).d a)) = descδ τ U.unop a
-      rw [relativeDifferentialsToPushforwardComp_d]
+      refine (congrArg (fun x => ((descHom τ hτ).val.app (op (i ⁻¹ᵁ U.unop))).hom x)
+        (relativeDifferentialsToPushforwardComp_d i f U a)).trans ?_
       exact (descHom_d τ hτ _).trans (descDerivation_d_app τ hτ U.unop a))
     (fun {M} τ hτ m hm => by
       apply (relativeDifferentialsHomEquiv (i ≫ f) M).injective
@@ -450,26 +456,37 @@ noncomputable def conormalIsColimit :
       ext V s
       change m.val.app V ((relativeDifferentialsDerivation (i ≫ f)).d s) =
         (descHom τ hτ).val.app V ((relativeDifferentialsDerivation (i ≫ f)).d s)
-      rw [descHom_d]
+      refine Eq.trans ?_ (descHom_d τ hτ (V := V.unop) s).symm
       refine good_unique i (descδ τ) ?_ (good_descD i (descδ τ) (descδ_map τ) (descδ_ker τ hτ) s)
       intro U t W hWU hWV hl
       have hm' : relativeDifferentialsToPushforwardComp i f ≫ (Modules.pushforward i).map m =
           τAdj τ := by
-        rw [← pullbackRelativeDifferentialsToComp_homEquiv, ← Adjunction.homEquiv_naturality_right,
-          hm]
-      have e₁ := congr(($hm').val.app (op U) ((relativeDifferentialsDerivation f).d t))
-      change m.val.app (op (i ⁻¹ᵁ U)) ((relativeDifferentialsToPushforwardComp i f).val.app (op U)
-        ((relativeDifferentialsDerivation f).d t)) = descδ τ U t at e₁
-      rw [relativeDifferentialsToPushforwardComp_d] at e₁
-      change M.presheaf.map (homOfLE hWV).op (m.val.app (op V.unop)
-        ((relativeDifferentialsDerivation (i ≫ f)).d s)) = _
-      rw [← PresheafOfModules.naturality_apply m.val (homOfLE hWV).op]
-      erw [← (relativeDifferentialsDerivation (i ≫ f)).d_map]
+        rw [← hm, Adjunction.homEquiv_naturality_right,
+          pullbackRelativeDifferentialsToComp_homEquiv]
+      have e₁ : m.val.app (op (i ⁻¹ᵁ U)) ((relativeDifferentialsDerivation (i ≫ f)).d
+          (i.app U t)) = descδ τ U t := by
+        have h := congr(($hm').val.app (op U) ((relativeDifferentialsDerivation f).d t))
+        refine Eq.trans ?_ h
+        exact congrArg (fun x => (m.val.app (op (i ⁻¹ᵁ U))).hom x)
+          (relativeDifferentialsToPushforwardComp_d i f (op U) t).symm
       unfold IsLift at hl
-      rw [← hl]
-      erw [(relativeDifferentialsDerivation (i ≫ f)).d_map,
-        PresheafOfModules.naturality_apply m.val]
-      exact congrArg _ e₁)
+      calc M.presheaf.map (homOfLE hWV).op
+            (m.val.app V ((relativeDifferentialsDerivation (i ≫ f)).d s))
+          = m.val.app (op W) ((relativeDifferentials (i ≫ f)).val.map (homOfLE hWV).op
+              ((relativeDifferentialsDerivation (i ≫ f)).d s)) :=
+            (PresheafOfModules.naturality_apply m.val _ _).symm
+        _ = m.val.app (op W) ((relativeDifferentialsDerivation (i ≫ f)).d
+              (Z.presheaf.map (homOfLE hWV).op s)) := by
+            erw [(relativeDifferentialsDerivation (i ≫ f)).d_map]
+        _ = m.val.app (op W) ((relativeDifferentialsDerivation (i ≫ f)).d
+              (Z.presheaf.map (homOfLE hWU).op (i.app U t))) := by rw [hl]
+        _ = m.val.app (op W) ((relativeDifferentials (i ≫ f)).val.map (homOfLE hWU).op
+              ((relativeDifferentialsDerivation (i ≫ f)).d (i.app U t))) := by
+            erw [(relativeDifferentialsDerivation (i ≫ f)).d_map]
+        _ = M.presheaf.map (homOfLE hWU).op (m.val.app (op (i ⁻¹ᵁ U))
+              ((relativeDifferentialsDerivation (i ≫ f)).d (i.app U t))) :=
+            PresheafOfModules.naturality_apply m.val _ _
+        _ = _ := congrArg _ e₁)
 
 /-- **The conormal sequence of a closed immersion** (Hartshorne II, Proposition 8.12). For a
 closed immersion `i : Z ⟶ X` with ideal sheaf `I` and a morphism `f : X ⟶ Y`, the sequence
