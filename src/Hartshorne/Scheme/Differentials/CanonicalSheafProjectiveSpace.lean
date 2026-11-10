@@ -83,7 +83,8 @@ theorem isLocallyFreeOfRank_biproduct_const {L : X.Modules} (hL : L.IsLocallyFre
 
 /-- The inclusion of the first `k` summands and the projection to the last one. -/
 noncomputable abbrev biproductSnocComplex (L : X.Modules) (k : ℕ) : ShortComplex X.Modules :=
-  ShortComplex.mk (biproduct.desc fun j : Fin k => biproduct.ι (fun _ : Fin (k + 1) => L) j.castSucc)
+  ShortComplex.mk
+    (biproduct.desc fun j : Fin k => biproduct.ι (fun _ : Fin (k + 1) => L) j.castSucc)
     (biproduct.π (fun _ : Fin (k + 1) => L) (Fin.last k)) (by
       refine biproduct.hom_ext' _ _ fun j => ?_
       simp [(Fin.castSucc_lt_last j).ne])
