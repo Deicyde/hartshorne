@@ -79,11 +79,6 @@ theorem frobeniusTwistHom_comp_structureMap :
     frobeniusTwistHom k p Y ≫ (Y ↘ Spec (.of k)) = frobeniusTwistScheme k p Y ↘ Spec (.of k) :=
   (absoluteFrobenius_comp_structureMap k (asOverSpec k Y))
 
-instance [PerfectRing k p] : IsIso (specFrobenius p k) := by
-  have : IsIso (CommRingCat.ofHom (frobenius k p)) :=
-    (frobeniusEquiv k p).toCommRingCatIso.isIso_hom
-  exact inferInstanceAs (IsIso (Spec.map (CommRingCat.ofHom (frobenius k p))))
-
 /-- The first map `F^*Ω_{Y/k} ⟶ Ω_{Y^p/k}` of the transitivity sequence is zero, since
 `d(a ^ p) = 0`. -/
 theorem pullbackRelativeDifferentialsToComp_frobeniusTwistHom_eq_zero :

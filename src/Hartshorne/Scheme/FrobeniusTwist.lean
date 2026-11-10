@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib.Algebra.CharP.Frobenius
+import Mathlib.FieldTheory.Perfect
 import Mathlib.AlgebraicGeometry.GammaSpecAdjunction
 import Mathlib.AlgebraicGeometry.Over
 
@@ -128,6 +129,13 @@ end AbsoluteFrobenius
 def specFrobenius (p : ℕ) (k : Type u) [Field k] [CharP k p] [Fact p.Prime] :
     Spec (.of k) ⟶ Spec (.of k) :=
   Spec.map (CommRingCat.ofHom (frobenius k p))
+
+/-- Over a perfect field, Frobenius on `Spec k` is an isomorphism. -/
+instance {k : Type u} [Field k] {p : ℕ} [Fact p.Prime] [CharP k p] [PerfectRing k p] :
+    IsIso (specFrobenius p k) := by
+  have : IsIso (CommRingCat.ofHom (frobenius k p)) :=
+    (frobeniusEquiv k p).toCommRingCatIso.isIso_hom
+  exact inferInstanceAs (IsIso (Spec.map (CommRingCat.ofHom (frobenius k p))))
 
 variable {p : ℕ}
 
