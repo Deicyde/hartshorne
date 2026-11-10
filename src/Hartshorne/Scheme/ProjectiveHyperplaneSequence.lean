@@ -7,18 +7,28 @@ import Hartshorne.Scheme.ProjSurjectionClosedImmersion
 import Mathlib.Topology.Sheaves.LocallySurjective
 
 /-!
-# The hyperplane sequence on projective space (partial)
+# The degreewise hyperplane sequence on projective space
 
 Hartshorne, *Algebraic Geometry*, III.5, proof of Theorem 5.1(b) (p. 227).
 
-Let `x ∈ S_1` and let `φ : S → T` be a graded ring map with `φ(x) = 0`. Multiplication by `x`
-is a map of graded modules `S(n-1) → S(n)`, which gives `𝒪(n-1) ⟶ 𝒪(n)` (`mulSection`). Its
-composite with the restriction `𝒪_{Proj S}(n) ⟶ f_*(𝒪_{Proj T}(n)|_U)` of the partial Proj
-morphism `f` is zero (`mulSection_psi`).
+Let `x ∈ S_1` and let `f : S → T` be a surjective graded ring map with `f(x) = 0` and kernel `(x)`,
+with `x` a non-zero-divisor. Multiplication by `x` is a map of graded modules `S(n-1) → S(n)`,
+giving `𝒪(n-1) ⟶ 𝒪(n)` (`mulSection`). With the restriction
+`𝒪_{Proj S}(n) ⟶ f_*(𝒪_{Proj T}(n)|_U)` of the partial Proj morphism (`ProjTwistPullback.psi`),
+this gives a short exact sequence `0 → 𝒪(n-1) → 𝒪(n) → f_* 𝒪_{Proj T}(n) → 0` (`shortExact`):
+
+* `mono_mulSection`: `x` is a non-zero-divisor on the fibers;
+* `isLimitMulSection`: a section killed by `psi` is, near a point `p`, a fraction `m / g` with
+  `u m ∈ (x)` for some homogeneous `u ∉ p` (`exists_local_preimage`);
+* `epi_psi`: `psi` is locally surjective, by lifting local fractions on `Proj T`.
 
 For `X = ℙ^{m+1}_A = Proj A[x_0, …, x_{m+1}]` and `H = V₊(x_{m+1})`, `hyperplaneHom` is the
 surjective graded map `A[x_0, …, x_{m+1}] → A[x_0, …, x_m]` with `x_{m+1} ↦ 0`. Its partial Proj
-morphism is defined on all of `ℙ^m_A` and is a closed immersion with image `H`.
+morphism `i : ℙ^m_A ⟶ X` is defined on all of `ℙ^m_A` and is a closed immersion. The sequence
+`0 → 𝒪_X(n-1) → 𝒪_X(n) → i_* 𝒪_H(n) → 0` is short exact (`hyperplane_shortExact`).
+
+The graded form `⊕_n` and the statement about the induced cohomology map under the graded Čech
+identifications are not treated here.
 -/
 
 universe u
