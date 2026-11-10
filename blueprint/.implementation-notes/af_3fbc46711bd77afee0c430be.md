@@ -27,24 +27,57 @@ in `F^{p+1}(W) ⊆ ⋀^r F(W)` back to a finite free summand `M₀`. That requir
 to be injective (a retraction of `F(W)` onto `M₀`), which needs a splitting of `F(W) → F''(W)` on
 all of `F''(W)`. That splitting does not exist on sections.
 
-## Plan (stalk route)
+## Plan (stalk route) and progress
 
-At a stalk, `F''_x` is free of arbitrary rank (stalk of `⊕_I 𝒪` is `⊕_I 𝒪_x`), so
-`0 → F'_x → F_x → F''_x → 0` splits with free outer terms.
-1. Module level, for free modules of arbitrary rank (DONE in this branch, not yet compiled):
+At a stalk, `F''_x` is free of arbitrary rank, so `0 → F'_x → F_x → F''_x → 0` splits with free
+outer terms.
+
+Proved and compiling (branch head faith/item6):
+1. Module level, free modules of arbitrary rank (commit 2ba12c24,
+   src/Hartshorne/Scheme/ExteriorPowerFiltrationAlgebra.lean):
    `ExteriorPowerFiltration.phiSum_injective_of_free`, by reduction to finite sub-bases
-   (`subBasisMap`, `subBasisCoord`, `exists_mem_range_exteriorPower_map`, naturality `srcMap*`,
-   `map_comp_phiSum`, `phiSum_comp_srcMap`). `eq_zero_of_phi_mem_filt` and
-   `alpha_mem_filt_succ_iff` now need only `Module.Free` (no `Module.Finite`).
-2. Stalks: an exterior-power analogue of `presheafTensorStalkIso` (ModuleSheafTensor.lean),
-   `(⋀^n P)_x ≅ ⋀^n (P_x)`, compatible with `extMap`, `alphaPre` and `betaPre`. Alternatively
-   just the germ-level injectivity of `⋀^n (sections) → ⋀^n (stalk)` along the filtered colimit.
-3. Show that the stalk maps of `toGrad`/`toH` are bijective, by the module-level result for the
-   stalk sequence (split, free outer terms). Use `SheafAlgebraOperations.isIso_sheafifyMap`
-   (stalk bijectivity) in place of `isIso_sheafifyMap_of_locally_bijective`.
-4. Stalks of a locally free sheaf of arbitrary rank are free.
+   (`subBasisMap`, `subBasisCoord`, `exists_mem_range_exteriorPower_map`, `srcMap`,
+   `map_comp_phiSum`, `phiSum_comp_srcMap`, `range_srcMap_mono`, `exists_mem_range_srcMap`).
+   `eq_zero_of_phi_mem_filt` and `alpha_mem_filt_succ_iff` now need only `Module.Free`, with no
+   `Module.Finite`. The downstream modules ExteriorPowerExactFiltration and
+   CanonicalSheafProjectiveSpace still build.
+2. Stalks of a locally free module of arbitrary rank are free (commit bcc44f8a,
+   src/Hartshorne/RingedSpace/LocallyFreeRank.lean): `Ringed.moduleStalk_free_of_isLocallyFree`.
+
+(Commit ee4acede in the branch history is a WIP snapshot that does not compile by itself. The
+head does compile.)
+
+Remaining:
+3. Exterior powers commute with stalks: an `𝒪_{X,x}`-linear equivalence
+   `⋀^n (F_x) ≃ (⋀^n F)_x`, where `(⋀^n F)_x` is the stalk of `moduleSheafExteriorPowerPresheaf n F`.
+   The planned construction, modelled on `presheafTensorStalkIso`:
+   - forward: `stalkDesc` of `extGerm U := exteriorPowerMap n germ (sectionGerm)`;
+   - inverse: the alternating map `(F_x)^n → (⋀^n F)_x` that picks representatives over a
+     common neighbourhood (finite intersection) and takes the germ of `ιMulti`. It is
+     well defined by a germ-independence lemma, and turned into a linear map by
+     `exteriorPower.alternatingMapLinearEquiv`;
+   - both composites are the identity (`linearMap_ext` / span induction on germs).
+   Combined with `presheafTensorStalkIso` this gives
+   `(⋀^p F' ⊗ ⋀^q F)_x ≃ ⋀^p F'_x ⊗ ⋀^q F_x`, compatible with `alphaPre` and `betaPre` on germs.
+   An uncompiled draft of the first lemmas (`exists_open_le_of_finite`,
+   `exists_common_sectionGerm`, `germₛₗ`, `extGerm`, `extGerm_res`, `extStalkToExt`,
+   `sectionGerm_ιMulti_indep`) is in the untracked scratch file ScratchW20.lean in the
+   worktree. It is not committed.
+4. Stalk bijectivity of `toGrad` and `toH`, to feed `SheafAlgebraOperations.isIso_sheafifyMap`
+   in place of `isIso_sheafifyMap_of_locally_bijective`:
+   - Stalk exactness of `0 → F'_x → F_x → F''_x → 0` follows from `app_injective_of_mono`,
+     `range_eq_ker_of_shortExact` and `exists_local_lift`, by germs. The splitting comes from
+     freeness of `F''_x` (projective).
+   - `toGrad` surjective: already sectionwise.
+   - `toGrad` injective: if `α z ∈ F^{p+1}(W)`, then at the stalk `α_x(z_x) ∈ filt_x(p+1)`. So
+     `β_x(z_x) = 0` (`alpha_mem_filt_succ_iff` at the stalk), hence `(β z)_x = 0` by injectivity
+     of step 3, hence `β z = 0` near `x`.
+   - `toH` injective: if `(β z)_x = 0`, then `α_x(z_x) = α'_x(w̄)`. Lift `w̄` to sections by
+     surjectivity of step 3; then `α z = α' w` near `x`.
+   - `toH` surjective: `lTensor_map_surjective` at the stalk, then lift by step 3.
 5. New theorems `exteriorPower_exact_filtration_of_isLocallyFree` (and `exists_...`) with
-   `Ringed.IsLocallyFree`. The old ones are deprecated and derived from them;
-   `exteriorPower_exact_det` keeps finite ranks.
-6. Then the Roadmap commit (retract, restate toward the book), and re-record after evidence and
-   r9-44.
+   `Ringed.IsLocallyFree`, and a `gradedIso` variant without `hloc`. The old names become
+   `@[deprecated]`, derived through `IsFiniteLocallyFree.isLocallyFree`.
+   `exteriorPower_exact_det` keeps its finite ranks.
+6. Then the Roadmap commit (retract and restate as the lead specified, and update
+   hartshorne-ii-5.md if it says finite rank for Ex. 5.16), then evidence, r9-44 and re-record.
