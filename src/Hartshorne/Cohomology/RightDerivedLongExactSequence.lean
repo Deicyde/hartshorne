@@ -599,15 +599,6 @@ lemma δ_comp_map_f (n : ℕ) : δ F hS I₁ I₃ n ≫ (F.rightDerived (n + 1))
     map_f_comp_iso F hS I₁ I₃ (n + 1), δ_comp_iso_assoc F hS I₁ I₃ n, this, comp_zero,
     zero_comp]
 
-include hS in
-lemma exact₂ (n : ℕ) : (ShortComplex.mk ((F.rightDerived n).map S.f) ((F.rightDerived n).map S.g)
-    (by rw [← Functor.map_comp, S.zero, Functor.map_zero])).Exact := by
-  let I₁ := injectiveResolution S.X₁
-  let I₃ := injectiveResolution S.X₃
-  refine (ShortComplex.exact_iff_of_iso ?_).2 ((shortExact_map hS I₁ I₃ F).homology_exact₂ n)
-  exact ShortComplex.isoMk (isoH F I₁ n) (isoH F (resolution hS I₁ I₃) n)
-    (isoH F I₃ n) (map_f_comp_iso F hS I₁ I₃ n).symm (map_g_comp_iso F hS I₁ I₃ n).symm
-
 lemma exact₃ (n : ℕ) : (ShortComplex.mk ((F.rightDerived n).map S.g) (δ F hS I₁ I₃ n)
     (map_g_comp_δ F hS I₁ I₃ n)).Exact := by
   refine (ShortComplex.exact_iff_of_iso ?_).2
@@ -623,23 +614,6 @@ lemma exact₁ (n : ℕ) : (ShortComplex.mk (δ F hS I₁ I₃ n) ((F.rightDeriv
   exact ShortComplex.isoMk (isoH F I₃ n) (isoH F I₁ (n + 1))
     (isoH F (resolution hS I₁ I₃) (n + 1))
     (δ_comp_iso F hS I₁ I₃ n).symm (map_f_comp_iso F hS I₁ I₃ (n + 1)).symm
-
-include hS in
-lemma mono_map_f : Mono ((F.rightDerived 0).map S.f) := by
-  let I₁ := injectiveResolution S.X₁
-  let I₃ := injectiveResolution S.X₃
-  have hT := shortExact_map hS I₁ I₃ F
-  have := hT.mono_f
-  let T := shortComplexMap hS I₁ I₃ F
-  have : Mono (homologyMap T.f 0) := by
-    have : Mono (homologyMap T.f 0 ≫ T.X₂.isoHomologyπ₀.inv) := by
-      rw [CochainComplex.isoHomologyπ₀_inv_naturality]
-      infer_instance
-    exact mono_of_mono _ T.X₂.isoHomologyπ₀.inv
-  have : Mono ((F.rightDerived 0).map S.f ≫ (isoH F (resolution hS I₁ I₃) 0).hom) := by
-    rw [map_f_comp_iso]
-    infer_instance
-  exact mono_of_mono _ (isoH F (resolution hS I₁ I₃) 0).hom
 
 end Horseshoe
 
@@ -695,16 +669,41 @@ def rightDerivedδ (n : ℕ) : (F.rightDerived n).obj S.X₃ ⟶ (F.rightDerived
   Horseshoe.δ F hS (injectiveResolution S.X₁) (injectiveResolution S.X₃) n
 
 include hS in
+open HomologicalComplex CochainComplex Hartshorne.RightDerivedLES.Horseshoe in
 /-- The long exact sequence starts with `0`: `R⁰F(A') ⟶ R⁰F(A)` is a monomorphism. -/
-theorem rightDerived_mono_map_f : Mono ((F.rightDerived 0).map S.f) :=
-  Horseshoe.mono_map_f F hS
+theorem rightDerived_mono_map_f : Mono ((F.rightDerived 0).map S.f) := by
+  let I₁ := injectiveResolution S.X₁
+  let I₃ := injectiveResolution S.X₃
+  have hT := shortExact_map hS I₁ I₃ F
+  have := hT.mono_f
+  let T := shortComplexMap hS I₁ I₃ F
+  have : Mono (homologyMap T.f 0) := by
+    have : Mono (homologyMap T.f 0 ≫ T.X₂.isoHomologyπ₀.inv) := by
+      rw [CochainComplex.isoHomologyπ₀_inv_naturality]
+      infer_instance
+    exact mono_of_mono _ T.X₂.isoHomologyπ₀.inv
+  have : Mono ((F.rightDerived 0).map S.f ≫ (isoH F (resolution hS I₁ I₃) 0).hom) := by
+    rw [map_f_comp_iso]
+    infer_instance
+  exact mono_of_mono _ (isoH F (resolution hS I₁ I₃) 0).hom
 
 include hS in
+open HomologicalComplex CochainComplex Hartshorne.RightDerivedLES.Horseshoe in
 /-- Exactness of `RⁿF(A') ⟶ RⁿF(A) ⟶ RⁿF(A'')`. -/
 theorem rightDerived_exact₂ (n : ℕ) :
     (ShortComplex.mk ((F.rightDerived n).map S.f) ((F.rightDerived n).map S.g)
-      (by rw [← Functor.map_comp, S.zero, Functor.map_zero])).Exact :=
-  Horseshoe.exact₂ F hS n
+      (by rw [← Functor.map_comp, S.zero, Functor.map_zero])).Exact := by
+  let I₁ := injectiveResolution S.X₁
+  let I₃ := injectiveResolution S.X₃
+  refine (ShortComplex.exact_iff_of_iso ?_).2 ((shortExact_map hS I₁ I₃ F).homology_exact₂ n)
+  exact ShortComplex.isoMk (isoH F I₁ n) (isoH F (resolution hS I₁ I₃) n)
+    (isoH F I₃ n) (map_f_comp_iso F hS I₁ I₃ n).symm (map_g_comp_iso F hS I₁ I₃ n).symm
+
+@[deprecated rightDerived_mono_map_f (since := "2026-11-09")]
+alias RightDerivedLES.Horseshoe.mono_map_f := rightDerived_mono_map_f
+
+@[deprecated rightDerived_exact₂ (since := "2026-11-09")]
+alias RightDerivedLES.Horseshoe.exact₂ := rightDerived_exact₂
 
 /-- Exactness of `RⁿF(A) ⟶ RⁿF(A'') ⟶ Rⁿ⁺¹F(A')`. -/
 theorem rightDerived_exact₃ (n : ℕ) :

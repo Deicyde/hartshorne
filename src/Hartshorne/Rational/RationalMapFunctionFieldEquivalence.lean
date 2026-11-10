@@ -593,13 +593,11 @@ instance essSurj_functionFieldFunctor [IsAlgClosed k] :
     exact ⟨Opposite.op A,
       ⟨ObjectProperty.isoMk _ (CommAlgCat.isoMk e)⟩⟩
 
-instance isEquivalence_functionFieldFunctor [IsAlgClosed k] :
-    (functionFieldFunctor (k := k)).IsEquivalence where
-
 /-- The function-field functor is an equivalence of categories. -/
 theorem functionFieldFunctor_isEquivalence [IsAlgClosed k] :
-    (functionFieldFunctor (k := k)).IsEquivalence :=
-  inferInstance
+    (functionFieldFunctor (k := k)).IsEquivalence where
+
+attribute [instance] functionFieldFunctor_isEquivalence
 
 /-- The arrow-reversing categorical form of Hartshorne I.4.4. -/
 noncomputable def functionFieldEquivalence [IsAlgClosed k] :
