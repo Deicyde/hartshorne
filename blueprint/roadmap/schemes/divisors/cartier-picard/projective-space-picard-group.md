@@ -2,20 +2,22 @@
 article_id: af_341d134f58a4a6e58ce14c1c
 declaration: theorem
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: Hartshorne.exists_unique_iso_projTwistingSheaf Hartshorne.projectiveSpacePicardEquiv Hartshorne.projectiveSpacePicardEquiv_projTwistingSheaf
 ---
 
 # The Picard group of projective space
 
-Let $k$ be a field and $n \ge 1$. Every invertible sheaf on $\mathbb{P}^n_k$ is
-isomorphic to $\mathcal{O}(l)$ for a unique integer $l$; equivalently,
-$\operatorname{Pic} (\mathbb{P}^n_k) \cong \mathbb{Z}$ with generator $\mathcal{O}(1)$.
+Let $k$ be a field and $n \ge 0$. Every invertible sheaf on $\mathbb{P}^n_k$ is
+isomorphic to $\mathcal{O}(l)$ for some integer $l$. If $n \ge 1$, this integer $l$ is
+unique, and $\operatorname{Pic} (\mathbb{P}^n_k) \cong \mathbb{Z}$ with generator
+$\mathcal{O}(1)$.
 
-Identify the hyperplane divisor with $\mathcal{O}(1)$ and transport the degree
-isomorphism for the Weil class group through the locally factorial
-class–Picard equivalence.
+For $n \ge 1$, identify the hyperplane divisor with $\mathcal{O}(1)$ and transport the
+degree isomorphism for the Weil class group through the locally factorial
+class–Picard equivalence. For $n = 0$, $\mathbb{P}^0_k = \operatorname{Spec} k$, and every
+invertible sheaf on the spectrum of a field is free of rank one, hence isomorphic to
+$\mathcal{O} = \mathcal{O}(0)$.
 
 ## Depends on
 
