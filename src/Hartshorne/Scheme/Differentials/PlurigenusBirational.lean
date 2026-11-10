@@ -709,7 +709,8 @@ theorem geometricGenus_eq_of_birational [IsAlgClosed k] {X X' : Scheme.{u}}
     (rank_globalSections_exteriorPower_le_of_partialIso pX' pX hX' hX e.symm he.symm hn' hn n)
     (rank_globalSections_exteriorPower_le_of_partialIso pX pX' hX hX' e he hn hn' n))
 
-/-- **Dimension of the space of regular q-forms h^{q,0} (Hartshorne, Exercise II.8.8).**
+/-- **The Hodge number h^{q,0}, the dimension of the space of regular q-forms (Hartshorne,
+Exercise II.8.8).**
 `h^{q,0}(X) = dim_k Γ(X, ⋀^q Ω_{X/k})` for a scheme `X` over `k`, where `Γ(X, ⋀^q Ω_{X/k})` is a
 `k`-vector space through the structure morphism. Hartshorne defines it for a nonsingular
 projective variety and `0 ≤ q ≤ dim X`. -/

@@ -11,7 +11,9 @@ lean: Hartshorne.regularFormDimension_eq_of_birational Hartshorne.regularFormDim
 
 For a nonsingular projective variety $X$ and $0 \le q \le \dim X$, define
 
-$h^{q,0}(X)=\dim_k\Gamma(X,\bigwedge^q\Omega_{X/k})$.
+$h^{q,0}(X)=\dim_k\Gamma(X,\bigwedge^q\Omega_{X/k})$,
+
+the dimension of the space of regular $q$-forms; these integers are the Hodge numbers.
 
 If $X$ and $X'$ are birationally equivalent nonsingular projective varieties,
 then $h^{q,0}(X) = h^{q,0}(X')$ for every $q$.

@@ -178,6 +178,11 @@ prerequisites rather than claims proved in the running text.
   the explicit exercise exception and is used in III.4 and III.9.
 - **Exercise 8.8, p.190.** Plurigenera and the dimensions of spaces of
   regular `q`-forms are birational invariants. Chapter V cites the latter.
+  Hartshorne defines `h^{q,0} = dim_k Γ(X, Ω^q_{X/k})` for `0 ≤ q ≤ dim X`,
+  calls these integers Hodge numbers, and asks for both invariances "using the
+  method of (8.19)". The roadmap states the two halves as separate articles:
+  plurigenus-birational-invariant for `P_n` and
+  regular-q-form-dimension-birational-invariant for `h^{q,0}`.
 
 Exercise 8.5 is intentionally excluded: its later mentions are alternate
 proofs or see-also references after independent results, not dependencies.
