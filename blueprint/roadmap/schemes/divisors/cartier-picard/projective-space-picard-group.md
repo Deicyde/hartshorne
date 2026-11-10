@@ -2,8 +2,9 @@
 article_id: af_341d134f58a4a6e58ce14c1c
 declaration: theorem
 origin: cited
-statement: retracted
-lean: Hartshorne.exists_unique_iso_projTwistingSheaf Hartshorne.projectiveSpacePicardEquiv Hartshorne.projectiveSpacePicardEquiv_projTwistingSheaf
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_iso_projTwistingSheaf Hartshorne.exists_unique_iso_projTwistingSheaf Hartshorne.projectiveSpacePicardEquiv Hartshorne.projectiveSpacePicardEquiv_projTwistingSheaf
 ---
 
 # The Picard group of projective space
