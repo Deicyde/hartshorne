@@ -135,4 +135,61 @@ theorem tensorPowerPushforwardMap_mul (α : F ⟶ (Scheme.Modules.pushforward f)
 
 end Pushforward
 
+section GradedRingHom
+
+open scoped DirectSum
+
+variable {X X' : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+  {R' : Sheaf (Opens.grothendieckTopology X') CommRingCat.{u}}
+  (F : SheafOfModules.{u} (ringCatSheafOf R)) (U : (Opens X)ᵒᵖ)
+  (F' : SheafOfModules.{u} (ringCatSheafOf R')) (U' : (Opens X')ᵒᵖ)
+  (ψ : ∀ m, TensorPowerSectionRing.Component F U m →+ TensorPowerSectionRing.Component F' U' m)
+  (hone : ψ 0 (TensorPowerSectionRing.oneSec F U) = TensorPowerSectionRing.oneSec F' U')
+  (hmul : ∀ (i j : ℕ) (a : TensorPowerSectionRing.Component F U i)
+    (b : TensorPowerSectionRing.Component F U j),
+    ψ (i + j) (TensorPowerSectionRing.mul F U a b) =
+      TensorPowerSectionRing.mul F' U' (ψ i a) (ψ j b))
+
+/-- The ring homomorphism `⨁ₘ Γ(U, F^{⊗ m}) → ⨁ₘ Γ(U', F'^{⊗ m})` of section rings given by
+additive maps in each degree that preserve the unit and the products. -/
+noncomputable def TensorPowerSectionRing.gradedRingHom :
+    (⨁ m, TensorPowerSectionRing.Component F U m) →+*
+      ⨁ m, TensorPowerSectionRing.Component F' U' m :=
+  DirectSum.toSemiring (fun m => (DirectSum.of _ m).comp (ψ m))
+    (by
+      change DirectSum.of _ 0 (ψ 0 (TensorPowerSectionRing.oneSec F U)) = 1
+      rw [hone]
+      rfl)
+    (fun {i j} a b => by
+      change DirectSum.of _ (i + j) (ψ (i + j) (TensorPowerSectionRing.mul F U a b)) = _
+      rw [hmul, AddMonoidHom.comp_apply, AddMonoidHom.comp_apply, DirectSum.of_mul_of]
+      rfl)
+
+theorem TensorPowerSectionRing.gradedRingHom_of (m : ℕ)
+    (x : TensorPowerSectionRing.Component F U m) :
+    TensorPowerSectionRing.gradedRingHom F U F' U' ψ hone hmul (DirectSum.of _ m x) =
+      DirectSum.of _ m (ψ m x) :=
+  DirectSum.toSemiring_of _ _ _ m x
+
+theorem TensorPowerSectionRing.coe_gradedRingHom :
+    ⇑(TensorPowerSectionRing.gradedRingHom F U F' U' ψ hone hmul) = DirectSum.map ψ := by
+  have h : (TensorPowerSectionRing.gradedRingHom F U F' U' ψ hone hmul).toAddMonoidHom =
+      DirectSum.map ψ :=
+    DirectSum.addHom_ext fun m x => by
+      rw [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe, gradedRingHom_of,
+        DirectSum.map_of]
+  exact congrArg DFunLike.coe h
+
+theorem TensorPowerSectionRing.gradedRingHom_injective (h : ∀ m, Function.Injective (ψ m)) :
+    Function.Injective (TensorPowerSectionRing.gradedRingHom F U F' U' ψ hone hmul) := by
+  rw [coe_gradedRingHom]
+  exact (DirectSum.map_injective ψ).2 h
+
+theorem TensorPowerSectionRing.gradedRingHom_surjective (h : ∀ m, Function.Surjective (ψ m)) :
+    Function.Surjective (TensorPowerSectionRing.gradedRingHom F U F' U' ψ hone hmul) := by
+  rw [coe_gradedRingHom]
+  exact (DirectSum.map_surjective ψ).2 h
+
+end GradedRingHom
+
 end Hartshorne
