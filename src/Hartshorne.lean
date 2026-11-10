@@ -655,3 +655,4 @@ import Hartshorne.Cohomology.SmoothMorphisms.GeometricallyRegularFibers
 import Hartshorne.Cohomology.SmoothMorphisms.RegularCotangentFlat
 import Hartshorne.Cohomology.SmoothMorphisms.CotangentRelativeDifferentials
 import Hartshorne.Cohomology.SmoothMorphisms.SmoothTangentCriterion
+import Hartshorne.Scheme.Differentials.CanonicalPullback
