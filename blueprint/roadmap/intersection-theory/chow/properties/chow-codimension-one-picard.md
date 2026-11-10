@@ -25,6 +25,8 @@ $A^1(X) \simeq \operatorname{Pic} (X)$.
 ## Proof depends on
 
 - [Weil classes and the Picard group on a locally factorial scheme](../../../schemes/divisors/cartier-picard/locally-factorial-class-picard-equivalence.md)
+- [Finite type over a Noetherian scheme](../../../schemes/first-properties/finite-type-over-noetherian.md)
+- [Separated-morphism calculus](../../../schemes/separated-morphisms/separated-morphism-calculus.md)
 
 ## Sources
 
