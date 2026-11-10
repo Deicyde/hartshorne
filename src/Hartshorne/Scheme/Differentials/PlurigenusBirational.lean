@@ -611,18 +611,29 @@ section GeometricGenus
 
 variable {k : Type u} [Field k]
 
-/-- **One half of the birational invariance of the geometric genus.** For nonsingular varieties
+/-- On a nonsingular variety `X` of dimension `n` over an algebraically closed field,
+`⋀^q Ω_{X/k}` is locally free of rank `n choose q`. -/
+theorem isLocallyFreeOfRank_exteriorPower_relativeDifferentials [IsAlgClosed k] {X : Scheme.{u}}
+    (p : X ⟶ Spec (.of k)) [IrreducibleSpace X] (hp : FiniteType p) (hX : X.IsRegular) {n : ℕ}
+    (hn : topologicalKrullDim X = n) (q : ℕ) :
+    Modules.IsLocallyFreeOfRank
+      (moduleSheafExteriorPower (R := X.sheaf) q (relativeDifferentials p)) (n.choose q) := by
+  have h := (isRegular_iff_relativeDifferentials_isLocallyFreeOfRank p hp n hn).mp hX
+  rw [Scheme.Modules.isLocallyFreeOfRank_iff_ringed] at h ⊢
+  exact h.moduleSheafExteriorPower q
+
+/-- **One half of the birational invariance of regular `q`-forms.** For nonsingular varieties
 `X`, `X'` of dimension `n`, proper over an algebraically closed field `k` and birational over `k`,
-`dim_k Γ(X', ω_{X'}) ≤ dim_k Γ(X, ω_X)` (as cardinals). -/
-theorem rank_globalSections_canonical_le_of_partialIso [IsAlgClosed k] {X X' : Scheme.{u}}
+`dim_k Γ(X', ⋀^q Ω_{X'/k}) ≤ dim_k Γ(X, ⋀^q Ω_{X/k})` (as cardinals). -/
+theorem rank_globalSections_exteriorPower_le_of_partialIso [IsAlgClosed k] {X X' : Scheme.{u}}
     (pX : X ⟶ Spec (.of k)) (pX' : X' ⟶ Spec (.of k)) [IsIntegral X] [IsIntegral X']
     [IsProper pX] [IsProper pX'] (hX : X.IsRegular) (hX' : X'.IsRegular) (e : X.PartialIso X')
     (he : e.IsOver pX pX') {n : ℕ} (hnX : topologicalKrullDim X = n)
-    (hnX' : topologicalKrullDim X' = n) :
+    (hnX' : topologicalKrullDim X' = n) (q : ℕ) :
     Module.rank k (GlobalSectionsOver pX'
-      (moduleSheafExteriorPower (R := X'.sheaf) n (relativeDifferentials pX'))) ≤
+      (moduleSheafExteriorPower (R := X'.sheaf) q (relativeDifferentials pX'))) ≤
     Module.rank k (GlobalSectionsOver pX
-      (moduleSheafExteriorPower (R := X.sheaf) n (relativeDifferentials pX))) := by
+      (moduleSheafExteriorPower (R := X.sheaf) q (relativeDifferentials pX))) := by
   let : X.Over (Spec (.of k)) := ⟨pX⟩
   let : X'.Over (Spec (.of k)) := ⟨pX'⟩
   have hpX : FiniteType pX := ⟨inferInstance, inferInstance⟩
@@ -643,33 +654,31 @@ theorem rank_globalSections_canonical_le_of_partialIso [IsAlgClosed k] {X X' : S
   have : φ.IsOver (Spec (.of k)) := inferInstance
   have hφ : φ.hom ≫ pX' = φ.domain.ι ≫ pX := HomIsOver.comp_over (f := φ.hom) (S := Spec (.of k))
   let V : X.Opens := φ.domain
-  -- Pullback along `φ` is injective on `Γ(X', ω)`, `ω = ⋀^n Ω`.
+  -- Pullback along `φ` is injective on `Γ(X', ⋀^q Ω_{X'/k})`.
   obtain ⟨W, hWl, hW, hj⟩ := φ.exists_isOpenImmersion e (T.toRationalMap_toPartialMap).symm
-  have hL := canonicalSheaf_isInvertible pX' hpX' hX' n hnX'
-  rw [canonicalSheaf_eq pX' hnX'] at hL
-  have hinj := injective_app_top_of_comp_eq_unit φ.hom (X.homOfLE hWl) hL _ _
-    (exteriorPowerPullback_comp_openImmersionExteriorPowerMap φ.hom (X.homOfLE hWl) pX' n)
-  -- Pullback along `V ⟶ X` is bijective on `Γ(X, ω)`.
+  have hinj := injective_app_top_of_comp_eq_unit φ.hom (X.homOfLE hWl)
+    (isLocallyFreeOfRank_exteriorPower_relativeDifferentials pX' hpX' hX' hnX' q) _ _
+    (exteriorPowerPullback_comp_openImmersionExteriorPowerMap φ.hom (X.homOfLE hWl) pX' q)
+  -- Pullback along `V ⟶ X` is bijective on `Γ(X, ⋀^q Ω_{X/k})`.
   have : IsNoetherian X := by
     have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian pX
     have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace pX
     exact {}
   have : IsNormal X := isNormal_of_isRegular hX
-  have hLX := canonicalSheaf_isInvertible pX hpX hX n hnX
-  rw [canonicalSheaf_eq pX hnX] at hLX
   have himg : V.ι ''ᵁ V.ι ⁻¹ᵁ ⊤ = V := Scheme.Opens.ι_image_top V
   have hρ := Scheme.Modules.bijective_presheaf_map_top_of_two_le_codim (V.ι ''ᵁ V.ι ⁻¹ᵁ ⊤)
-    (by rw [himg]; exact hcodim) _ hLX
+    (by rw [himg]; exact hcodim) _
+    (isLocallyFreeOfRank_exteriorPower_relativeDifferentials pX hpX hX hnX q)
   have hbij := bijective_app_top_of_restrict V.ι _ _
     (exteriorPowerPushforwardMap_comp_restrictMap V.ι _ _
-      (relativeDifferentialsToPushforwardComp_comp_restrictMap V.ι pX) n)
+      (relativeDifferentialsToPushforwardComp_comp_restrictMap V.ι pX) q)
     (restrictLeftComposite_exteriorPower V.ι _ _
-      (restrictLeftComposite_differentials V.ι pX) n) hρ
+      (restrictLeftComposite_differentials V.ι pX) q) hρ
   -- Compare ranks.
   have h1 := LinearMap.rank_le_of_injective (globalSectionsLinearMap φ.hom pX'
-    (exteriorPowerPullback φ.hom pX' n)) hinj
+    (exteriorPowerPullback φ.hom pX' q)) hinj
   have h2 := (LinearEquiv.ofBijective (globalSectionsLinearMap V.ι pX
-    (exteriorPowerPushforwardMap V.ι (relativeDifferentialsToPushforwardComp V.ι pX) n))
+    (exteriorPowerPushforwardMap V.ι (relativeDifferentialsToPushforwardComp V.ι pX) q))
     hbij).rank_eq
   refine h1.trans (le_of_eq (Eq.trans ?_ h2.symm))
   rw [hφ]
@@ -692,8 +701,36 @@ theorem geometricGenus_eq_of_birational [IsAlgClosed k] {X X' : Scheme.{u}}
   unfold geometricGenus
   rw [canonicalSheaf_eq pX hn, canonicalSheaf_eq pX' hn']
   exact congrArg Cardinal.toNat (le_antisymm
-    (rank_globalSections_canonical_le_of_partialIso pX' pX hX' hX e.symm he.symm hn' hn)
-    (rank_globalSections_canonical_le_of_partialIso pX pX' hX hX' e he hn hn'))
+    (rank_globalSections_exteriorPower_le_of_partialIso pX' pX hX' hX e.symm he.symm hn' hn n)
+    (rank_globalSections_exteriorPower_le_of_partialIso pX pX' hX hX' e he hn hn' n))
+
+/-- **Hodge numbers `h^{q,0}` (Hartshorne, Exercise II.8.8).** The dimension
+`h^{q,0}(X) = dim_k Γ(X, ⋀^q Ω_{X/k})` of the space of regular `q`-forms on a scheme `X` over `k`,
+a `k`-vector space through the structure morphism. Hartshorne defines it for a nonsingular
+projective variety and `0 ≤ q ≤ dim X`. -/
+def regularFormDimension {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (q : ℕ) : ℕ :=
+  Module.finrank k
+    (GlobalSectionsOver f (moduleSheafExteriorPower (R := X.sheaf) q (relativeDifferentials f)))
+
+/-- **Hartshorne, Exercise II.8.8: birational invariance of `h^{q,0}`.** Let `k` be an
+algebraically closed field (Hartshorne's convention for varieties in Chapter II). If `X` and `X'`
+are nonsingular varieties, proper over `k` and birationally equivalent over `k` (a partial
+isomorphism `X ⤏ X'` over `k`), then `h^{q,0}(X) = h^{q,0}(X')` for every `q`. Hartshorne states
+it for projective varieties and `0 ≤ q ≤ dim X`; here `X`, `X'` are integral regular schemes
+proper over `k`, and every `q` is allowed. -/
+theorem regularFormDimension_eq_of_birational [IsAlgClosed k] {X X' : Scheme.{u}}
+    (pX : X ⟶ Spec (.of k)) (pX' : X' ⟶ Spec (.of k)) [IsIntegral X] [IsIntegral X']
+    [IsProper pX] [IsProper pX'] (hX : X.IsRegular) (hX' : X'.IsRegular)
+    (hbir : ∃ e : X.PartialIso X', e.IsOver pX pX') (q : ℕ) :
+    regularFormDimension pX q = regularFormDimension pX' q := by
+  obtain ⟨e, he⟩ := hbir
+  have hpX : FiniteType pX := ⟨inferInstance, inferInstance⟩
+  have hpX' : FiniteType pX' := ⟨inferInstance, inferInstance⟩
+  obtain ⟨n, hn⟩ := exists_topologicalKrullDim_eq_nat pX hpX
+  have hn' := topologicalKrullDim_eq_of_partialIso pX pX' hpX hpX' e hn
+  exact congrArg Cardinal.toNat (le_antisymm
+    (rank_globalSections_exteriorPower_le_of_partialIso pX' pX hX' hX e.symm he.symm hn' hn q)
+    (rank_globalSections_exteriorPower_le_of_partialIso pX pX' hX hX' e he hn hn' q))
 
 end GeometricGenus
 

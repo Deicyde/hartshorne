@@ -105,19 +105,19 @@ def exteriorPowerPullback (n : ℕ) :
         (moduleSheafExteriorPower (R := V.sheaf) n (Scheme.relativeDifferentials (f ≫ p))) :=
   exteriorPowerPushforwardMap f (Scheme.relativeDifferentialsToPushforwardComp f p) n
 
-/-- **Sections of an invertible sheaf on an integral scheme are determined on a nonempty open.**
-Locally `L` has a one-element frame, and restriction of functions to a nonempty open is injective
-on an integral scheme. -/
-theorem _root_.AlgebraicGeometry.Scheme.Modules.presheaf_map_injective_of_isInvertible
-    {X : Scheme.{u}} [IsIntegral X]
-    {L : X.Modules} (hL : L.IsInvertible) {U U' : X.Opens} (h : U ≤ U') [hU : Nonempty U] :
+/-- **Sections of a locally free sheaf on an integral scheme are determined on a nonempty open.**
+Locally `L` has a finite frame, and restriction of functions to a nonempty open is injective on an
+integral scheme. -/
+theorem _root_.AlgebraicGeometry.Scheme.Modules.presheaf_map_injective_of_isLocallyFreeOfRank
+    {X : Scheme.{u}} [IsIntegral X] {L : X.Modules} {r : ℕ} (hL : L.IsLocallyFreeOfRank r)
+    {U U' : X.Opens} (h : U ≤ U') [hU : Nonempty U] :
     Function.Injective (L.val.map (homOfLE h).op) := by
   rw [injective_iff_map_eq_zero]
   intro s hs
-  have hL' := (Scheme.Modules.isInvertible_iff_ringed L).1 hL
+  have hL' := (Scheme.Modules.isLocallyFreeOfRank_iff_ringed L r).1 hL
   refine SheafAlgebraOperations.sheaf_section_ext (R := X.sheaf) L s 0 fun x hx => ?_
   obtain ⟨Ux, hxUx, ⟨α⟩⟩ := hL' x
-  let e : ULift.{u} (Fin 1) → L.val.presheaf.obj (op Ux) := fun i =>
+  let e : ULift.{u} (Fin r) → L.val.presheaf.obj (op Ux) := fun i =>
     α.inv.val.app (op (Over.mk (𝟙 Ux))) (Ringed.freeVec Ux i)
   have hfr : Ringed.IsLocalFrame L Ux e := Ringed.isLocalFrame_of_over_iso α
   refine ⟨Ux ⊓ U', ⟨hxUx, hx⟩, homOfLE inf_le_right, ?_⟩
@@ -149,6 +149,13 @@ theorem _root_.AlgebraicGeometry.Scheme.Modules.presheaf_map_injective_of_isInve
     have := congrFun ((hfr _ (inf_le_left.trans inf_le_left)).1 h1) i
     exact this.trans (map_zero _).symm
   exact ha.symm.trans ((congrArg _ ha0).trans ((map_zero _).trans (map_zero _).symm))
+
+/-- **Sections of an invertible sheaf on an integral scheme are determined on a nonempty open.** -/
+theorem _root_.AlgebraicGeometry.Scheme.Modules.presheaf_map_injective_of_isInvertible
+    {X : Scheme.{u}} [IsIntegral X]
+    {L : X.Modules} (hL : L.IsInvertible) {U U' : X.Opens} (h : U ≤ U') [Nonempty U] :
+    Function.Injective (L.val.map (homOfLE h).op) :=
+  Scheme.Modules.presheaf_map_injective_of_isLocallyFreeOfRank hL h
 
 /-- A morphism out of an invertible sheaf on an integral scheme is injective on global sections as
 soon as it is injective on sections over one nonempty open. -/
@@ -350,11 +357,12 @@ open AlgebraicGeometry.Scheme
 variable {Y V W : Scheme.{u}} {F : Y.Modules} {G : V.Modules}
 
 /-- **Injectivity of a pullback on global sections.** Let `j : W ⟶ V` with `j ≫ f : W ⟶ Y` an
-open immersion, `W` nonempty, `Y` integral and `F` invertible. If `α : F ⟶ f_*G` admits
+open immersion, `W` nonempty, `Y` integral and `F` locally free of finite rank. If `α : F ⟶ f_*G` admits
 `β : G ⟶ j_*(F|_W)` with `f_*β ∘ α` the restriction of `F` to `W`, then `α` is injective on
 global sections. -/
 theorem injective_app_top_of_comp_eq_unit [IsIntegral Y] [Nonempty W] (f : V ⟶ Y) (j : W ⟶ V)
-    [IsOpenImmersion (j ≫ f)] (hF : F.IsInvertible) (α : F ⟶ (Modules.pushforward f).obj G)
+    [IsOpenImmersion (j ≫ f)] {r : ℕ} (hF : F.IsLocallyFreeOfRank r)
+    (α : F ⟶ (Modules.pushforward f).obj G)
     (β : G ⟶ (Modules.pushforward j).obj (F.restrict (j ≫ f)))
     (h : α ≫ (Modules.pushforward f).map β =
       (Modules.restrictAdjunction (j ≫ f)).unit.app F ≫
@@ -363,7 +371,7 @@ theorem injective_app_top_of_comp_eq_unit [IsIntegral Y] [Nonempty W] (f : V ⟶
   let g := j ≫ f
   have : Nonempty ↥((g ''ᵁ (g ⁻¹ᵁ (⊤ : Y.Opens)) : Y.Opens) : Set Y) :=
     ⟨⟨g (Classical.arbitrary W), Classical.arbitrary W, trivial, rfl⟩⟩
-  have hinj := Scheme.Modules.presheaf_map_injective_of_isInvertible hF
+  have hinj := Scheme.Modules.presheaf_map_injective_of_isLocallyFreeOfRank hF
     (g.image_preimage_le (⊤ : Y.Opens)) (hU := this)
   have h' : ∀ x, β.val.app (op (f ⁻¹ᵁ ⊤)) (α.val.app (op ⊤) x) =
       F.val.map (homOfLE (g.image_preimage_le (⊤ : Y.Opens))).op x :=
