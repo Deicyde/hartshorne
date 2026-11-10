@@ -24,7 +24,7 @@ regular and equidimensional of dimension $n$.
 
 - [Flat morphisms with smooth fibres are smooth](flat-smooth-fibers-smooth.md)
 - [Base change for differential sheaves](../../../schemes/differentials/scheme-differentials/relative-differentials-base-change.md)
-- Faithfully flat descent of local freeness of Kähler differentials along an
+- Faithfully flat, quasi-compact descent of smoothness along the spectrum of an
   algebraic closure of a residue field.
 
 ## Sources
