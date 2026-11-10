@@ -23,12 +23,16 @@ Let `X' = X ×_Y Y'`, with projections `g' : X' ⟶ X` and `f' : X' ⟶ Y'`. The
 transitivity sequence for `X' ⟶ X ⟶ Y`, the identification `Ω_{X'/Y}` along
 `g' ≫ f = f' ≫ h`, and `Ω_{X'/Y} ⟶ Ω_{X'/Y'}`. It sends `1 ⊗ d b` to `d (g'^♯ b)`.
 
-This file also collects the ingredients for checking that this map is an isomorphism on the affine
-opens `U ×_W V` of a fibre product: such opens are affine and cover the fibre product, a morphism
-of module sheaves is an isomorphism if it is one on every such open, the isomorphism
-`f^* M̃ ≅ (S ⊗_R M)~` is compatible with the adjunction units, the identification
-`Ω_{X/Y}|_U ≅ (Ω_{B/A})~` sends derivatives to derivatives, and over a pushout of rings every
-linear map `B ⊗_A Ω_{A/R} → Ω_{B/S}` with `1 ⊗ d a ↦ d a` is bijective.
+The main results are `isIso_baseChangeRelativeDifferentialsMap`, that this map is an isomorphism,
+and the resulting isomorphism `relativeDifferentialsBaseChangeIso : Ω_{X'/Y'} ≅ g'^* Ω_{X/Y}`.
+
+Being an isomorphism is checked on the affine opens `W = U ×_V V'` of `X'`, for affine opens
+`U ⊆ X`, `V ⊆ Y`, `V' ⊆ Y'` with `U` and `V'` over `V`; these cover `X'`. With `A = Γ(Y, V)`,
+`B = Γ(X, U)`, `A' = Γ(Y', V')` and `B' = Γ(X', W)`, the ring `B'` is the pushout `A' ⊗_A B`, the
+restriction of `g'^* Ω_{X/Y}` to `W` is `(B' ⊗_B Ω_{B/A})~`, and that of `Ω_{X'/Y'}` is
+`(Ω_{B'/A'})~`. Under these identifications the map sends `1 ⊗ d b` to `d b`, so it is the
+sheaf associated to the base-change isomorphism `B' ⊗_B Ω_{B/A} ≅ Ω_{B'/A'}` of Kähler
+differentials.
 -/
 
 open CategoryTheory CategoryTheory.Limits Opposite TopologicalSpace AlgebraicGeometry
@@ -433,7 +437,8 @@ variable {X Y : Scheme.{u}} (f : X ⟶ Y)
 
 set_option maxHeartbeats 1000000 in
 /-- On global sections, the inverse of `(f^*F)|_V ≅ (Γ(V) ⊗ M)~` sends the restriction of a
-pulled-back section `f^* s` to the image of `s` under `F|_U ≅ M̃` and `M̃ ⟶ f^* M̃ ≅ (Γ(V) ⊗ M)~`. -/
+pulled-back section `f^* s` to the image of `s` under `F|_U ≅ M̃` and
+`M̃ ⟶ f^* M̃ ≅ (Γ(V) ⊗ M)~`. -/
 theorem specRestrictionPullbackIso_inv_unit (F : Y.Modules) (U : Y.affineOpens)
     (V : X.affineOpens) (h : (V : X.Opens) ≤ f ⁻¹ᵁ (U : Y.Opens))
     (M : ModuleCat.{u} Γ(Y, (U : Y.Opens)))
@@ -455,25 +460,33 @@ theorem specRestrictionPullbackIso_inv_unit (F : Y.Modules) (U : Y.affineOpens)
             (((restrictAdjunction U.2.fromSpec).unit.app F).app T s)))) := by
   have : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
   have : IsOpenImmersion V.2.fromSpec := V.2.isOpenImmersion_fromSpec
-  have pa : (Spec.map (f.appLE U V h)) ≫ U.2.fromSpec = V.2.fromSpec ≫ f := IsAffineOpen.SpecMap_appLE_fromSpec f U.2 V.2 h
+  have pa : Spec.map (f.appLE U V h) ≫ U.2.fromSpec = V.2.fromSpec ≫ f :=
+    IsAffineOpen.SpecMap_appLE_fromSpec f U.2 V.2 h
   have h1 : ⊤ ≤ V.2.fromSpec ⁻¹ᵁ (f ⁻¹ᵁ T) := fun x _ => hT ⟨x, trivial, rfl⟩
   have e1 : ((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE hT).op
       (((pullbackPushforwardAdjunction f).unit.app F).app T s) =
       (((Scheme.Modules.pullback f).obj F).restrict V.2.fromSpec).presheaf.map (homOfLE h1).op
-        (((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE (V.2.fromSpec.image_preimage_le (f ⁻¹ᵁ T))).op
+        (((Scheme.Modules.pullback f).obj F).presheaf.map
+          (homOfLE (V.2.fromSpec.image_preimage_le (f ⁻¹ᵁ T))).op
           (((pullbackPushforwardAdjunction f).unit.app F).app T s)) :=
     (presheaf_map_map _ _ _ _ _).symm
-  have s1 : ((restrictFunctorIsoPullback V.2.fromSpec).hom.app ((Scheme.Modules.pullback f).obj F)).app ⊤
-      (((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE hT).op (((pullbackPushforwardAdjunction f).unit.app F).app T s)) =
-      ((Scheme.Modules.pullback V.2.fromSpec).obj ((Scheme.Modules.pullback f).obj F)).presheaf.map (homOfLE h1).op
-        (((pullbackPushforwardAdjunction V.2.fromSpec).unit.app ((Scheme.Modules.pullback f).obj F)).app (f ⁻¹ᵁ T)
+  have s1 : ((restrictFunctorIsoPullback V.2.fromSpec).hom.app ((Scheme.Modules.pullback f).obj
+      F)).app ⊤
+      (((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE hT).op
+          (((pullbackPushforwardAdjunction f).unit.app F).app T s)) =
+      ((Scheme.Modules.pullback V.2.fromSpec).obj ((Scheme.Modules.pullback f).obj
+          F)).presheaf.map (homOfLE h1).op
+        (((pullbackPushforwardAdjunction V.2.fromSpec).unit.app ((Scheme.Modules.pullback f).obj
+            F)).app (f ⁻¹ᵁ T)
           (((pullbackPushforwardAdjunction f).unit.app F).app T s)) := by
     rw [e1]
     exact (app_presheaf_map _ _ _).trans
       (congrArg _ (restrictFunctorIsoPullback_hom_restrict_unit _ _ _ _))
   have s2 : ((pullbackComp V.2.fromSpec f).hom.app F).app ⊤
-      (((Scheme.Modules.pullback V.2.fromSpec).obj ((Scheme.Modules.pullback f).obj F)).presheaf.map (homOfLE h1).op
-        (((pullbackPushforwardAdjunction V.2.fromSpec).unit.app ((Scheme.Modules.pullback f).obj F)).app (f ⁻¹ᵁ T)
+      (((Scheme.Modules.pullback V.2.fromSpec).obj ((Scheme.Modules.pullback f).obj
+          F)).presheaf.map (homOfLE h1).op
+        (((pullbackPushforwardAdjunction V.2.fromSpec).unit.app ((Scheme.Modules.pullback f).obj
+            F)).app (f ⁻¹ᵁ T)
           (((pullbackPushforwardAdjunction f).unit.app F).app T s))) =
       ((Scheme.Modules.pullback (V.2.fromSpec ≫ f)).obj F).presheaf.map (homOfLE h1).op
         (((pullbackPushforwardAdjunction (V.2.fromSpec ≫ f)).unit.app F).app T s) :=
@@ -482,32 +495,46 @@ theorem specRestrictionPullbackIso_inv_unit (F : Y.Modules) (U : Y.affineOpens)
   have s3 : ((pullbackCongr pa).inv.app F).app ⊤
       (((Scheme.Modules.pullback (V.2.fromSpec ≫ f)).obj F).presheaf.map (homOfLE h1).op
         (((pullbackPushforwardAdjunction (V.2.fromSpec ≫ f)).unit.app F).app T s)) =
-      ((Scheme.Modules.pullback ((Spec.map (f.appLE U V h)) ≫ U.2.fromSpec)).obj F).presheaf.map (homOfLE h3).op
-        (((pullbackPushforwardAdjunction ((Spec.map (f.appLE U V h)) ≫ U.2.fromSpec)).unit.app F).app T s) :=
+      ((Scheme.Modules.pullback ((Spec.map (f.appLE U V h)) ≫ U.2.fromSpec)).obj
+          F).presheaf.map (homOfLE h3).op
+        (((pullbackPushforwardAdjunction ((Spec.map (f.appLE U V h)) ≫ U.2.fromSpec)).unit.app
+            F).app T s) :=
     (app_presheaf_map _ _ _).trans ((congrArg _ (pullbackCongr_inv_unit pa F T s)).trans
       (presheaf_map_map _ _ _ _ _))
   have s4 : ((pullbackComp (Spec.map (f.appLE U V h)) U.2.fromSpec).inv.app F).app ⊤
-      (((Scheme.Modules.pullback ((Spec.map (f.appLE U V h)) ≫ U.2.fromSpec)).obj F).presheaf.map (homOfLE h3).op
-        (((pullbackPushforwardAdjunction ((Spec.map (f.appLE U V h)) ≫ U.2.fromSpec)).unit.app F).app T s)) =
-      ((Scheme.Modules.pullback (Spec.map (f.appLE U V h))).obj ((Scheme.Modules.pullback U.2.fromSpec).obj F)).presheaf.map
+      (((Scheme.Modules.pullback ((Spec.map (f.appLE U V h)) ≫ U.2.fromSpec)).obj F).presheaf.map
+          (homOfLE h3).op
+        (((pullbackPushforwardAdjunction ((Spec.map (f.appLE U V h)) ≫ U.2.fromSpec)).unit.app
+            F).app T s)) =
+      ((Scheme.Modules.pullback (Spec.map (f.appLE U V h))).obj ((Scheme.Modules.pullback
+          U.2.fromSpec).obj F)).presheaf.map
         (homOfLE hT').op
-        (((pullbackPushforwardAdjunction (Spec.map (f.appLE U V h))).unit.app ((Scheme.Modules.pullback U.2.fromSpec).obj F)).app
-          (U.2.fromSpec ⁻¹ᵁ T) (((pullbackPushforwardAdjunction U.2.fromSpec).unit.app F).app T s)) :=
-    (app_presheaf_map _ _ _).trans (congrArg _ (pullbackComp_inv_unit (Spec.map (f.appLE U V h)) U.2.fromSpec F T s))
+        (((pullbackPushforwardAdjunction (Spec.map (f.appLE U V h))).unit.app
+            ((Scheme.Modules.pullback U.2.fromSpec).obj F)).app
+          (U.2.fromSpec ⁻¹ᵁ T)
+          (((pullbackPushforwardAdjunction U.2.fromSpec).unit.app F).app T s)) :=
+    (app_presheaf_map _ _ _).trans (congrArg _ (pullbackComp_inv_unit (Spec.map (f.appLE U V h))
+        U.2.fromSpec F T s))
   have s5 : ((Scheme.Modules.pullback (Spec.map (f.appLE U V h))).map
         ((restrictFunctorIsoPullback U.2.fromSpec).inv.app F ≫ e.inv)).app ⊤
-      (((Scheme.Modules.pullback (Spec.map (f.appLE U V h))).obj ((Scheme.Modules.pullback U.2.fromSpec).obj F)).presheaf.map
+      (((Scheme.Modules.pullback (Spec.map (f.appLE U V h))).obj ((Scheme.Modules.pullback
+          U.2.fromSpec).obj F)).presheaf.map
         (homOfLE hT').op
-        (((pullbackPushforwardAdjunction (Spec.map (f.appLE U V h))).unit.app ((Scheme.Modules.pullback U.2.fromSpec).obj F)).app
-          (U.2.fromSpec ⁻¹ᵁ T) (((pullbackPushforwardAdjunction U.2.fromSpec).unit.app F).app T s))) =
-      ((Scheme.Modules.pullback (Spec.map (f.appLE U V h))).obj ((tilde.functor Γ(Y, (U : Y.Opens))).obj M)).presheaf.map
+        (((pullbackPushforwardAdjunction (Spec.map (f.appLE U V h))).unit.app
+            ((Scheme.Modules.pullback U.2.fromSpec).obj F)).app
+          (U.2.fromSpec ⁻¹ᵁ T)
+          (((pullbackPushforwardAdjunction U.2.fromSpec).unit.app F).app T s))) =
+      ((Scheme.Modules.pullback (Spec.map (f.appLE U V h))).obj
+          ((tilde.functor Γ(Y, (U : Y.Opens))).obj M)).presheaf.map
         (homOfLE hT').op
         (((pullbackPushforwardAdjunction (Spec.map (f.appLE U V h))).unit.app
             ((tilde.functor Γ(Y, (U : Y.Opens))).obj M)).app (U.2.fromSpec ⁻¹ᵁ T)
-          (e.inv.app (U.2.fromSpec ⁻¹ᵁ T) (((restrictAdjunction U.2.fromSpec).unit.app F).app T s))) := by
+          (e.inv.app (U.2.fromSpec ⁻¹ᵁ T)
+            (((restrictAdjunction U.2.fromSpec).unit.app F).app T s))) := by
     refine (app_presheaf_map _ _ _).trans (congrArg _ ((pullback_map_unit _ _ _ _).trans ?_))
     rw [Hom.comp_app]
-    exact congrArg _ (congrArg (e.inv.app (U.2.fromSpec ⁻¹ᵁ T)) (restrictFunctorIsoPullback_inv_unit U.2.fromSpec F T s))
+    exact congrArg _ (congrArg (e.inv.app (U.2.fromSpec ⁻¹ᵁ T))
+        (restrictFunctorIsoPullback_inv_unit U.2.fromSpec F T s))
   refine Eq.trans (b := ((tildePullbackIso (f.appLE U V h)).hom.app M).app ⊤
     (((Scheme.Modules.pullback (Spec.map (f.appLE U V h))).map
         ((restrictFunctorIsoPullback U.2.fromSpec).inv.app F ≫ e.inv)).app ⊤
@@ -575,7 +602,8 @@ theorem baseChange_specRestrictionPullbackIso_inv (b : Γ(X, (U : X.Opens)))
   rw [r12]
   refine Eq.trans ?_ (Hartshorne.tildePullbackIso_hom_unit_apply _ _ _)
   refine congrArg _ ?_
-  have r3 : (tilde.toOpen (ModuleCat.of Γ(X, (U : X.Opens)) Ω[Γ(X, (U : X.Opens))⁄Γ(Y, (V : Y.Opens))])
+  have r3 : (tilde.toOpen
+      (ModuleCat.of Γ(X, (U : X.Opens)) Ω[Γ(X, (U : X.Opens))⁄Γ(Y, (V : Y.Opens))])
       (U.2.fromSpec ⁻¹ᵁ (U : X.Opens))).hom (KaehlerDifferential.D _ _ b) =
       ((tilde.functor _).obj (ModuleCat.of Γ(X, (U : X.Opens))
         Ω[Γ(X, (U : X.Opens))⁄Γ(Y, (V : Y.Opens))])).presheaf.map (homOfLE le_top).op
@@ -608,3 +636,174 @@ theorem tilde_isIso_of_toOpen {R : CommRingCat.{u}} {M N : ModuleCat.{u} R}
   infer_instance
 
 end Hartshorne
+
+namespace AlgebraicGeometry.Scheme
+
+open Hartshorne Hartshorne.PullbackQuasicoherent Hartshorne.QuasicoherentAbelianAux Modules
+open scoped TensorProduct
+
+variable {X Y Y' : Scheme.{u}} (f : X ⟶ Y) (h : Y' ⟶ Y) (U : X.affineOpens) (V : Y.affineOpens)
+  (V' : Y'.affineOpens) (hUV : (U : X.Opens) ≤ f ⁻¹ᵁ (V : Y.Opens))
+  (hV'V : (V' : Y'.Opens) ≤ h ⁻¹ᵁ (V : Y.Opens))
+
+set_option maxHeartbeats 1000000 in
+set_option maxRecDepth 10000 in
+/-- On `W = U ×_V V'`, the base-change map, read through `(g'^*Ω_{X/Y})|_W ≅ (Γ(W) ⊗_B Ω_{B/A})~`
+and `Ω_{X'/Y'}|_W ≅ (Ω_{Γ(W)/A'})~`, sends `1 ⊗ d b` to `d b`. -/
+theorem baseChange_local_toOpen (b : Γ(X, (U : X.Opens))) :
+    let := (f.appLE V U hUV).hom.toAlgebra
+    let := ((pullback.snd f h).appLE V' (baseChangeAffineOpen f h U V V' hUV hV'V)
+      inf_le_right).hom.toAlgebra
+    ((specRestrictionPullbackIso (pullback.fst f h) (relativeDifferentials f) U
+        (baseChangeAffineOpen f h U V V' hUV hV'V) inf_le_left _
+        (RelDiffLocal.affineIso f U V hUV).symm).hom ≫
+      (specRestrictFunctor (baseChangeAffineOpen f h U V V' hUV hV'V)).map
+        (baseChangeRelativeDifferentialsMap f h) ≫
+      (RelDiffLocal.affineIso (pullback.snd f h) (baseChangeAffineOpen f h U V V' hUV hV'V) V'
+        inf_le_right).hom).val.app (op ⊤)
+      ((tilde.toOpen ((ModuleCat.extendScalars ((pullback.fst f h).appLE U
+        (baseChangeAffineOpen f h U V V' hUV hV'V) inf_le_left).hom).obj
+          (ModuleCat.of Γ(X, (U : X.Opens)) Ω[Γ(X, (U : X.Opens))⁄Γ(Y, (V : Y.Opens))])) ⊤).hom
+        ((1 : Γ(pullback f h, (baseChangeAffineOpen f h U V V' hUV hV'V : (pullback f h).Opens)))
+          ⊗ₜ[Γ(X, (U : X.Opens))] (KaehlerDifferential.D _ _ b :
+            Ω[Γ(X, (U : X.Opens))⁄Γ(Y, (V : Y.Opens))]))) =
+      (tilde.toOpen (ModuleCat.of Γ(pullback f h,
+          (baseChangeAffineOpen f h U V V' hUV hV'V : (pullback f h).Opens))
+        Ω[Γ(pullback f h, (baseChangeAffineOpen f h U V V' hUV hV'V : (pullback f h).Opens))⁄
+          Γ(Y', (V' : Y'.Opens))]) ⊤).hom
+        (KaehlerDifferential.D _ _ ((pullback.fst f h).appLE U
+          (baseChangeAffineOpen f h U V V' hUV hV'V) inf_le_left b)) := by
+  intro _ _
+  have : IsOpenImmersion (baseChangeAffineOpen f h U V V' hUV hV'V).2.fromSpec :=
+    (baseChangeAffineOpen f h U V V' hUV hV'V).2.isOpenImmersion_fromSpec
+  have hW : (baseChangeAffineOpen f h U V V' hUV hV'V).2.fromSpec ''ᵁ ⊤ ≤
+      (baseChangeAffineOpen f h U V V' hUV hV'V : (pullback f h).Opens) := by
+    rw [Scheme.Hom.image_top_eq_opensRange,
+      (baseChangeAffineOpen f h U V V' hUV hV'V).2.opensRange_fromSpec]
+  have hT : (baseChangeAffineOpen f h U V V' hUV hV'V).2.fromSpec ''ᵁ ⊤ ≤
+      pullback.fst f h ⁻¹ᵁ (U : X.Opens) := hW.trans inf_le_left
+  have e0 := baseChange_specRestrictionPullbackIso_inv f h U V V' hUV hV'V b hT
+  set SR := specRestrictionPullbackIso (pullback.fst f h) (relativeDifferentials f) U
+    (baseChangeAffineOpen f h U V V' hUV hV'V) inf_le_left _
+    (RelDiffLocal.affineIso f U V hUV).symm
+  set AF := RelDiffLocal.affineIso (pullback.snd f h) (baseChangeAffineOpen f h U V V' hUV hV'V)
+    V' inf_le_right
+  set W := baseChangeAffineOpen f h U V V' hUV hV'V
+  have e1 : ∀ y, SR.hom.app ⊤ (SR.inv.app ⊤ y) = y := fun y => by
+    have := ConcreteCategory.congr_hom (congrArg (fun φ => Modules.Hom.app φ ⊤) SR.inv_hom_id) y
+    exact this
+  have e2 : ((specRestrictFunctor W).map (baseChangeRelativeDifferentialsMap f h)).app ⊤
+      (((Modules.pullback (pullback.fst f h)).obj (relativeDifferentials f)).presheaf.map
+        (homOfLE hT).op (((pullbackPushforwardAdjunction (pullback.fst f h)).unit.app
+          (relativeDifferentials f)).app U ((relativeDifferentialsDerivation f).d b))) =
+      (relativeDifferentialsDerivation (pullback.snd f h)).d
+        ((pullback f h).presheaf.map (homOfLE hT).op ((pullback.fst f h).app U b)) := by
+    refine (app_presheaf_map (baseChangeRelativeDifferentialsMap f h) (homOfLE hT) _).trans ?_
+    refine (congrArg _ (baseChangeRelativeDifferentialsMap_unit_d f h U b)).trans ?_
+    exact ((relativeDifferentialsDerivation (pullback.snd f h)).d_map _ _).symm
+  have e3 : (pullback f h).presheaf.map (homOfLE hT).op ((pullback.fst f h).app U b) =
+      (pullback f h).presheaf.map (homOfLE hW).op
+        ((pullback.fst f h).appLE U W inf_le_left b) := by
+    rw [Scheme.Hom.appLE, CommRingCat.comp_apply]
+    exact (AffineSpaceDifferentials.presheaf_map_map_apply _ _ _ _ _).symm
+  have e4 := RelDiffLocal.affineIso_hom_d (pullback.snd f h) W V' inf_le_right ⊤ hW
+    ((pullback.fst f h).appLE U W inf_le_left b)
+  refine (congrArg (fun z => AF.hom.app ⊤ (((specRestrictFunctor W).map
+    (baseChangeRelativeDifferentialsMap f h)).app ⊤ (SR.hom.app ⊤ z))) e0.symm).trans ?_
+  refine (congrArg (fun z => AF.hom.app ⊤ (((specRestrictFunctor W).map
+    (baseChangeRelativeDifferentialsMap f h)).app ⊤ z)) (e1 _)).trans ?_
+  rw [e2, e3]
+  exact e4
+
+/-- The ring of the affine open `U ×_V V'` is the pushout of `Γ(X, U) ← Γ(Y, V) → Γ(Y', V')`. -/
+theorem baseChange_isPushout :
+    IsPushout (f.appLE V U hUV) (h.appLE V V' hV'V)
+      ((pullback.fst f h).appLE U (baseChangeAffineOpen f h U V V' hUV hV'V) inf_le_left)
+      ((pullback.snd f h).appLE V' (baseChangeAffineOpen f h U V V' hUV hV'V) inf_le_right) := by
+  have H := Scheme.Hom.isPullback_resLE (IsPullback.of_hasPullback f h) (US := (V : Y.Opens))
+    (UT := (V' : Y'.Opens)) (UX := (U : X.Opens)) hV'V hUV
+    (UY := (baseChangeAffineOpen f h U V V' hUV hV'V : (pullback f h).Opens)) rfl
+  have : IsAffine (U : X.Opens).toScheme := U.2
+  have : IsAffine (V : Y.Opens).toScheme := V.2
+  have : IsAffine (V' : Y'.Opens).toScheme := V'.2
+  exact (isPushout_appTop_of_isPullback H).of_iso (Scheme.Opens.topIso _) (Scheme.Opens.topIso _)
+    (Scheme.Opens.topIso _) (Scheme.Opens.topIso _)
+    (arrowResLEAppIso f _ _ hUV).hom.w.symm (arrowResLEAppIso h _ _ hV'V).hom.w.symm
+    (arrowResLEAppIso (pullback.fst f h) _ _ _).hom.w.symm
+    (arrowResLEAppIso (pullback.snd f h) _ _ _).hom.w.symm
+
+set_option maxRecDepth 10000 in
+/-- The base-change map is an isomorphism on every affine open `U ×_V V'`. -/
+theorem baseChange_isIso_specRestrict :
+    IsIso ((specRestrictFunctor (baseChangeAffineOpen f h U V V' hUV hV'V)).map
+      (baseChangeRelativeDifferentialsMap f h)) := by
+  set W := baseChangeAffineOpen f h U V V' hUV hV'V with hWdef
+  let _ : Algebra Γ(Y, (V : Y.Opens)) Γ(X, (U : X.Opens)) := (f.appLE V U hUV).hom.toAlgebra
+  let _ : Algebra Γ(Y, (V : Y.Opens)) Γ(Y', (V' : Y'.Opens)) := (h.appLE V V' hV'V).hom.toAlgebra
+  let _ : Algebra Γ(X, (U : X.Opens)) Γ(pullback f h, (W : (pullback f h).Opens)) :=
+    ((pullback.fst f h).appLE U W inf_le_left).hom.toAlgebra
+  let _ : Algebra Γ(Y', (V' : Y'.Opens)) Γ(pullback f h, (W : (pullback f h).Opens)) :=
+    ((pullback.snd f h).appLE V' W inf_le_right).hom.toAlgebra
+  let _ : Algebra Γ(Y, (V : Y.Opens)) Γ(pullback f h, (W : (pullback f h).Opens)) :=
+    (f.appLE V U hUV ≫ (pullback.fst f h).appLE U W inf_le_left).hom.toAlgebra
+  have hP := baseChange_isPushout f h U V V' hUV hV'V
+  have : IsScalarTower Γ(Y, (V : Y.Opens)) Γ(X, (U : X.Opens))
+      Γ(pullback f h, (W : (pullback f h).Opens)) := IsScalarTower.of_algebraMap_eq' rfl
+  have : IsScalarTower Γ(Y, (V : Y.Opens)) Γ(Y', (V' : Y'.Opens))
+      Γ(pullback f h, (W : (pullback f h).Opens)) :=
+    IsScalarTower.of_algebraMap_eq' (congrArg CommRingCat.Hom.hom hP.w)
+  have : Algebra.IsPushout Γ(Y, (V : Y.Opens)) Γ(Y', (V' : Y'.Opens)) Γ(X, (U : X.Opens))
+      Γ(pullback f h, (W : (pullback f h).Opens)) :=
+    CommRingCat.isPushout_iff_isPushout.mp hP.flip
+  set SR := specRestrictionPullbackIso (pullback.fst f h) (relativeDifferentials f) U
+    W inf_le_left _ (RelDiffLocal.affineIso f U V hUV).symm with hSR
+  set AF := RelDiffLocal.affineIso (pullback.snd f h) W V' inf_le_right with hAF
+  let L0 : (ModuleCat.extendScalars ((pullback.fst f h).appLE U W inf_le_left).hom).obj
+      (ModuleCat.of Γ(X, (U : X.Opens)) Ω[Γ(X, (U : X.Opens))⁄Γ(Y, (V : Y.Opens))]) ⟶
+      ModuleCat.of Γ(pullback f h, (W : (pullback f h).Opens))
+        Ω[Γ(pullback f h, (W : (pullback f h).Opens))⁄Γ(Y', (V' : Y'.Opens))] :=
+    ModuleCat.ofHom (X := (ModuleCat.extendScalars ((pullback.fst f h).appLE U W
+        inf_le_left).hom).obj
+      (ModuleCat.of Γ(X, (U : X.Opens)) Ω[Γ(X, (U : X.Opens))⁄Γ(Y, (V : Y.Opens))]))
+      (Y := ModuleCat.of Γ(pullback f h, (W : (pullback f h).Opens))
+        Ω[Γ(pullback f h, (W : (pullback f h).Opens))⁄Γ(Y', (V' : Y'.Opens))])
+      (KaehlerDifferential.tensorKaehlerEquiv Γ(Y, (V : Y.Opens))
+      Γ(Y', (V' : Y'.Opens)) Γ(X, (U : X.Opens)) Γ(pullback f h, (W : (pullback f
+          h).Opens))).toLinearMap
+  have hL0 : Function.Bijective L0 := (KaehlerDifferential.tensorKaehlerEquiv _ _ _ _).bijective
+  have hΨ : IsIso (SR.hom ≫ (specRestrictFunctor W).map (baseChangeRelativeDifferentialsMap f h) ≫
+      AF.hom) := by
+    refine tilde_isIso_of_toOpen _ L0 hL0 fun m => ?_
+    have key : tilde.toOpen _ ⊤ ≫ (modulesSpecToSheaf.map (SR.hom ≫ (specRestrictFunctor W).map
+        (baseChangeRelativeDifferentialsMap f h) ≫ AF.hom)).1.app (op ⊤) =
+        L0 ≫ tilde.toOpen _ ⊤ := by
+      apply ((ModuleCat.extendRestrictScalarsAdj
+        ((pullback.fst f h).appLE U W inf_le_left).hom).homEquiv _ _).injective
+      apply ModuleCat.hom_ext
+      refine LinearMap.ext_on_range (KaehlerDifferential.span_range_derivation _ _) fun b => ?_
+      refine (baseChange_local_toOpen f h U V V' hUV hV'V b).trans ?_
+      refine congrArg (tilde.toOpen _ ⊤).hom ?_
+      exact ((KaehlerDifferential.tensorKaehlerEquiv_tmul_D _ _ _ _ _ _).trans
+        (one_smul _ _)).symm
+    exact ConcreteCategory.congr_hom key m
+  have := IsIso.of_isIso_comp_left SR.hom
+    ((specRestrictFunctor W).map (baseChangeRelativeDifferentialsMap f h) ≫ AF.hom)
+  exact IsIso.of_isIso_comp_right ((specRestrictFunctor W).map
+    (baseChangeRelativeDifferentialsMap f h)) AF.hom
+
+/-- **Base change for relative differentials** (Hartshorne II.8.10): for `X' = X ×_Y Y'`, the
+base-change map `g'^* Ω_{X/Y} ⟶ Ω_{X'/Y'}` is an isomorphism. -/
+theorem isIso_baseChangeRelativeDifferentialsMap :
+    IsIso (baseChangeRelativeDifferentialsMap f h) :=
+  Modules.isIso_of_isIso_pullback_inf _ fun U V' V hUV hV'V =>
+    baseChange_isIso_specRestrict f h U V V' hUV hV'V
+
+/-- **Base change for relative differentials** (Hartshorne II.8.10): for `X' = X ×_Y Y'` with
+projections `g' : X' ⟶ X` and `f' : X' ⟶ Y'`, `Ω_{X'/Y'} ≅ g'^* Ω_{X/Y}`. -/
+noncomputable def relativeDifferentialsBaseChangeIso :
+    relativeDifferentials (pullback.snd f h) ≅
+      (Modules.pullback (pullback.fst f h)).obj (relativeDifferentials f) :=
+  haveI := isIso_baseChangeRelativeDifferentialsMap f h
+  (asIso (baseChangeRelativeDifferentialsMap f h)).symm
+
+end AlgebraicGeometry.Scheme

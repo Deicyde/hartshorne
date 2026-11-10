@@ -2,6 +2,9 @@
 article_id: af_5eb05ef8388c7140be706e3a
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.relativeDifferentialsBaseChangeIso AlgebraicGeometry.Scheme.isIso_baseChangeRelativeDifferentialsMap AlgebraicGeometry.Scheme.baseChangeRelativeDifferentialsMap AlgebraicGeometry.Scheme.baseChangeRelativeDifferentialsMap_unit_d
 ---
 
 # Base change for differential sheaves
@@ -23,6 +26,7 @@ compatible with the universal derivations.
 ## Proof depends on
 
 - [Fiber products of affine schemes](../../fiber-products/affine-fiber-product.md)
+- [The transitivity sequence for differential sheaves](relative-differentials-transitivity.md)
 - The affine-local criterion for isomorphisms of quasi-coherent modules.
 
 ## Sources
