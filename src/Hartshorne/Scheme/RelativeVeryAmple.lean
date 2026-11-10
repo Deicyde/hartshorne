@@ -16,7 +16,8 @@ Hartshorne, *Algebraic Geometry*, II.5, p. 120.
 For a scheme `Y`, the twisting sheaf `𝒪(k)` on `ℙⁿ_Y = ℙⁿ_ℤ ×_ℤ Y` is the pullback of the twisting
 sheaf `𝒪(k)` of `ℙⁿ_ℤ = Proj ℤ[x₀, …, xₙ]` along the first projection. An invertible sheaf `L` on
 a `Y`-scheme `X` is *very ample relative to `Y`* if there is an immersion `i : X ⟶ ℙʳ_Y` over `Y`
-with `i^* 𝒪(1) ≅ L`.
+with `i^* 𝒪(1) ≅ L`. Hartshorne's immersions are open in closed, which for Mathlib's
+`IsImmersion` (closed in open) means adding quasi-compactness.
 
 ## Main definitions
 
@@ -68,10 +69,14 @@ theorem isInvertible_projectiveSpaceTwistingSheaf (n : ℕ) (Y : Scheme.{u}) (k 
 
 /-- **Very ample relative to `Y`.** For a morphism `p : X ⟶ Y`, an invertible `𝒪_X`-module `L` is
 very ample relative to `Y` if there are `r` and an immersion `i : X ⟶ ℙʳ_Y` over `Y` (that is,
-`i` followed by the projection `ℙʳ_Y ⟶ Y` is `p`) with `i^* 𝒪(1) ≅ L`. -/
+`i` followed by the projection `ℙʳ_Y ⟶ Y` is `p`) with `i^* 𝒪(1) ≅ L`.
+
+Hartshorne's immersion (p. 120) is an isomorphism onto an open subscheme of a closed subscheme.
+Mathlib's `IsImmersion` is the other order: a closed subscheme of an open subscheme. The two
+agree for quasi-compact morphisms, so `i` is required to be a quasi-compact immersion. -/
 def IsVeryAmpleRelative {X Y : Scheme.{u}} (p : X ⟶ Y) (L : X.Modules) : Prop :=
   L.IsInvertible ∧ ∃ (r : ℕ) (i : X ⟶ projectiveSpaceOverScheme r Y), IsImmersion i ∧
-    i ≫ projectiveSpaceOverSchemeProjection r Y = p ∧
+    QuasiCompact i ∧ i ≫ projectiveSpaceOverSchemeProjection r Y = p ∧
     Nonempty ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r Y 1) ≅ L)
 
 end Hartshorne

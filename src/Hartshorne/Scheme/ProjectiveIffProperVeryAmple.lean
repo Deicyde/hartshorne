@@ -35,8 +35,9 @@ theorem projective_iff_isProper_and_exists_isVeryAmpleRelative {X Y : Scheme.{u}
     refine ⟨hp.isProper, ?_⟩
     obtain ⟨r, i, hi, rfl⟩ := hp
     exact ⟨_, Scheme.Modules.IsInvertible.pullback i
-      (isInvertible_projectiveSpaceTwistingSheaf r Y 1), r, i, inferInstance, rfl, ⟨Iso.refl _⟩⟩
-  · rintro ⟨hp, L, -, r, i, hi, rfl, -⟩
+      (isInvertible_projectiveSpaceTwistingSheaf r Y 1), r, i, inferInstance, inferInstance, rfl,
+      ⟨Iso.refl _⟩⟩
+  · rintro ⟨hp, L, -, r, i, hi, -, rfl, -⟩
     have : IsProper (projectiveSpaceOverSchemeProjection r Y) :=
       projectiveSpaceOverSchemeProjection_isProper r Y
     have : IsProper i := IsProper.of_comp i (projectiveSpaceOverSchemeProjection r Y)
