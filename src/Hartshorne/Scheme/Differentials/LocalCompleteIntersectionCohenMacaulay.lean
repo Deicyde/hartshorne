@@ -34,7 +34,7 @@ Fix `y ∈ Y` and let `A = 𝒪_{X,i y}`, a regular, hence Cohen–Macaulay, loc
   of `y` in `Y` ends at a point whose closure has codimension at least `r` in `X`.
 * Cutting by `r` elements lowers the dimension by at most `r`, so `dim A/I = dim A - r`. Since `A`
   is Cohen–Macaulay, the generators form a regular sequence and `A/I ≅ 𝒪_{Y,y}` is Cohen–Macaulay
-  (Theorem 8.21A(c); `LCICohenMacaulay.isCohenMacaulayLocalRing_quotient_ofList`).
+  (Theorem 8.21A(c, d); `LCICohenMacaulay.isCohenMacaulayLocalRing_quotient_ofList`).
 -/
 
 open CategoryTheory CategoryTheory.Limits Opposite IsLocalRing RingTheory.Sequence AlgebraicGeometry

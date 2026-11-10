@@ -4,7 +4,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.isCohenMacaulay_of_isLocalCompleteIntersectionIn Hartshorne.LCICohenMacaulay.exists_ker_stalkMap_eq_span Hartshorne.LCICohenMacaulay.ringKrullDim_stalk_add_codim_le Hartshorne.LCICohenMacaulay.isCohenMacaulayLocalRing_quotient_ofList
+lean: Hartshorne.isCohenMacaulay_of_isLocalCompleteIntersectionIn
 ---
 
 # Local complete intersections are Cohen–Macaulay
