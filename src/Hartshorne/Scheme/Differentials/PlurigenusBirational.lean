@@ -643,13 +643,13 @@ theorem rank_globalSections_canonical_le_of_partialIso [IsAlgClosed k] {X X' : S
   have : φ.IsOver (Spec (.of k)) := inferInstance
   have hφ : φ.hom ≫ pX' = φ.domain.ι ≫ pX := HomIsOver.comp_over (f := φ.hom) (S := Spec (.of k))
   let V : X.Opens := φ.domain
-  -- Pullback along `φ` is injective on `Γ(X', ω^{⊗m})`.
+  -- Pullback along `φ` is injective on `Γ(X', ω)`, `ω = ⋀^n Ω`.
   obtain ⟨W, hWl, hW, hj⟩ := φ.exists_isOpenImmersion e (T.toRationalMap_toPartialMap).symm
   have hL := canonicalSheaf_isInvertible pX' hpX' hX' n hnX'
   rw [canonicalSheaf_eq pX' hnX'] at hL
   have hinj := injective_app_top_of_comp_eq_unit φ.hom (X.homOfLE hWl) hL _ _
     (exteriorPowerPullback_comp_openImmersionExteriorPowerMap φ.hom (X.homOfLE hWl) pX' n)
-  -- Pullback along `V ⟶ X` is bijective on `Γ(X, ω^{⊗m})`.
+  -- Pullback along `V ⟶ X` is bijective on `Γ(X, ω)`.
   have : IsNoetherian X := by
     have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian pX
     have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace pX
