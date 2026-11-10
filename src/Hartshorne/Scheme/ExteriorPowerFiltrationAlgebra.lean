@@ -216,30 +216,35 @@ section SubBasis
 variable {N : Type*} [AddCommGroup N] [Module A N] {I : Type*} (b : Module.Basis I A N)
 
 /-- The inclusion `A^J → N` of the span of a finite part `J` of a basis. -/
-noncomputable def subBasisMap (J : Finset I) : ((J : Set I) → A) →ₗ[A] N :=
-  Fintype.linearCombination A (fun j : (J : Set I) => b j)
+noncomputable def subBasisMap (J : Finset I) : (↥J → A) →ₗ[A] N :=
+  Fintype.linearCombination A (fun j : ↥J => b j)
 
 /-- The coordinates `N → A^J` along a finite part `J` of a basis. -/
-noncomputable def subBasisCoord (J : Finset I) : N →ₗ[A] ((J : Set I) → A) :=
-  LinearMap.pi fun j => b.coord j
+noncomputable def subBasisCoord (J : Finset I) : N →ₗ[A] (↥J → A) :=
+  LinearMap.pi fun j : ↥J => b.coord j
 
 lemma subBasisCoord_comp_map (J : Finset I) :
     subBasisCoord b J ∘ₗ subBasisMap b J = LinearMap.id := by
   classical
-  ext c j
-  simp [subBasisMap, subBasisCoord, Fintype.linearCombination_apply, map_sum,
-    Finsupp.single_apply, Subtype.ext_iff]
+  refine LinearMap.ext fun c => funext fun j => ?_
+  simp only [LinearMap.comp_apply, subBasisCoord, subBasisMap, LinearMap.pi_apply,
+    Fintype.linearCombination_apply, map_sum, map_smul, Module.Basis.coord_apply,
+    Module.Basis.repr_self, Finsupp.single_apply, smul_eq_mul, mul_ite, mul_one, mul_zero,
+    LinearMap.id_apply]
+  rw [Finset.sum_eq_single j (fun k _ hk => if_neg fun h => hk (Subtype.ext h))
+    (fun h => absurd (Finset.mem_univ j) h), if_pos rfl]
 
-lemma support_repr_subBasisMap (J : Finset I) (c : (J : Set I) → A) :
+lemma support_repr_subBasisMap (J : Finset I) (c : ↥J → A) :
     (b.repr (subBasisMap b J c)).support ⊆ J := by
   classical
   intro j hj
   by_contra hjJ
   apply Finsupp.mem_support_iff.1 hj
-  simp only [subBasisMap, Fintype.linearCombination_apply, map_sum, map_smul, Basis.repr_self,
-    Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.smul_apply, Finsupp.single_apply]
+  simp only [subBasisMap, Fintype.linearCombination_apply, map_sum, map_smul,
+    Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.smul_apply]
   refine Finset.sum_eq_zero fun k _ => ?_
-  rw [if_neg fun h => hjJ (h ▸ k.2), smul_zero]
+  rw [Module.Basis.repr_self, Finsupp.single_apply,
+    if_neg fun h => hjJ (by rw [← h]; exact k.2), smul_zero]
 
 lemma subBasisMap_coord (J : Finset I) (m : N) (hm : (b.repr m).support ⊆ J) :
     subBasisMap b J (subBasisCoord b J m) = m := by
@@ -247,7 +252,7 @@ lemma subBasisMap_coord (J : Finset I) (m : N) (hm : (b.repr m).support ⊆ J) :
   conv_rhs => rw [← b.linearCombination_repr m]
   rw [Finsupp.linearCombination_apply, Finsupp.sum_of_support_subset _ hm _ (by simp)]
   simp only [subBasisMap, subBasisCoord, Fintype.linearCombination_apply, LinearMap.pi_apply,
-    Basis.coord_apply]
+    Module.Basis.coord_apply]
   exact Finset.sum_coe_sort J (fun j => b.repr m j • b j)
 
 lemma subBasisMap_comp_coord_comp {J K : Finset I} (h : J ⊆ K) :
@@ -522,7 +527,7 @@ lemma srcMap_single {N' N'' : Type*} [AddCommGroup N'] [Module A N'] [AddCommGro
     srcMap f' f'' r (Pi.single k z) = Pi.single k
       (TensorProduct.map (exteriorPower.map k f') (exteriorPower.map (r - k) f'') z) := by
   funext l
-  exact Pi.apply_single (fun l => TensorProduct.map (exteriorPower.map (l : ℕ) f')
+  exact Pi.apply_single (fun l : Fin (r + 1) => TensorProduct.map (exteriorPower.map (l : ℕ) f')
     (exteriorPower.map (r - l) f'')) (fun _ => map_zero _) k z l
 
 omit hiq hqs [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M''] in
@@ -535,7 +540,7 @@ lemma phiSum_comp_srcMap {N' N'' : Type*} [AddCommGroup N'] [Module A N'] [AddCo
   apply LinearMap.ext
   intro z
   simp only [LinearMap.comp_apply, LinearMap.coe_single, srcMap_single, phiSum_single]
-  exact LinearMap.congr_fun (phi_comp_map i s f' f'' r k) z
+  exact LinearMap.congr_fun (phi_comp_map (i := i) (s := s) f' f'' r k) z
 
 omit hiq hqs [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M''] in
 /-- `phiSum` is natural in the target module. -/
@@ -546,7 +551,7 @@ lemma map_comp_phiSum {N : Type*} [AddCommGroup N] [Module A N] (e : M →ₗ[A]
   apply LinearMap.ext
   intro z
   simp only [LinearMap.comp_apply, LinearMap.coe_single, phiSum_single]
-  exact LinearMap.congr_fun (map_comp_phi i s e r k) z
+  exact LinearMap.congr_fun (map_comp_phi (i := i) (s := s) e r k) z
 
 omit hiq hqs [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M''] in
 lemma srcMap_comp {N' N'' P' P'' : Type*} [AddCommGroup N'] [Module A N'] [AddCommGroup N'']
@@ -560,6 +565,48 @@ lemma srcMap_comp {N' N'' P' P'' : Type*} [AddCommGroup N'] [Module A N'] [AddCo
   simp only [LinearMap.comp_apply, LinearMap.coe_single, srcMap_single, exteriorPower.map_comp,
     TensorProduct.map_comp]
 
+omit hiq hqs [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M''] in
+lemma range_srcMap_mono {I' I'' : Type*} (b' : Module.Basis I' A M') (b'' : Module.Basis I'' A M'')
+    {J₁ K₁ : Finset I'} {J₂ K₂ : Finset I''} (h₁ : J₁ ⊆ K₁) (h₂ : J₂ ⊆ K₂) (r : ℕ) :
+    LinearMap.range (srcMap (subBasisMap b' J₁) (subBasisMap b'' J₂) r) ≤
+      LinearMap.range (srcMap (subBasisMap b' K₁) (subBasisMap b'' K₂) r) := by
+  rintro _ ⟨w, rfl⟩
+  refine ⟨srcMap (subBasisCoord b' K₁ ∘ₗ subBasisMap b' J₁)
+    (subBasisCoord b'' K₂ ∘ₗ subBasisMap b'' J₂) r w, ?_⟩
+  rw [← LinearMap.comp_apply, srcMap_comp, subBasisMap_comp_coord_comp b' h₁,
+    subBasisMap_comp_coord_comp b'' h₂]
+
+omit hiq hqs [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M''] in
+/-- Every element of `⨁_k ⋀^k M' ⊗ ⋀^{r-k} M''` comes from finite parts of bases. -/
+lemma exists_mem_range_srcMap {I' I'' : Type*} (b' : Module.Basis I' A M')
+    (b'' : Module.Basis I'' A M'') (r : ℕ)
+    (w : (k : Fin (r + 1)) → ⋀[A]^(k : ℕ) M' ⊗[A] ⋀[A]^(r - k) M'') :
+    ∃ J : Finset I' × Finset I'',
+      w ∈ LinearMap.range (srcMap (subBasisMap b' J.1) (subBasisMap b'' J.2) r) := by
+  classical
+  let src : Finset I' × Finset I'' → Submodule A ((k : Fin (r + 1)) →
+      ⋀[A]^(k : ℕ) M' ⊗[A] ⋀[A]^(r - k) M'') :=
+    fun J => LinearMap.range (srcMap (subBasisMap b' J.1) (subBasisMap b'' J.2) r)
+  have hdir : Directed (· ≤ ·) src := fun J K =>
+    ⟨(J.1 ∪ K.1, J.2 ∪ K.2),
+      range_srcMap_mono b' b'' Finset.subset_union_left Finset.subset_union_left r,
+      range_srcMap_mono b' b'' Finset.subset_union_right Finset.subset_union_right r⟩
+  have hsingle : ∀ (k : Fin (r + 1)) (z : ⋀[A]^(k : ℕ) M' ⊗[A] ⋀[A]^(r - k) M''),
+      Pi.single k z ∈ ⨆ J, src J := by
+    intro k z
+    induction z using TensorProduct.induction_on with
+    | zero => rw [Pi.single_zero]; exact zero_mem _
+    | add z z' hz hz' => rw [Pi.single_add]; exact add_mem hz hz'
+    | tmul x y =>
+      obtain ⟨J₁, x₀, rfl⟩ := exists_mem_range_exteriorPower_map b' (k : ℕ) x
+      obtain ⟨J₂, y₀, rfl⟩ := exists_mem_range_exteriorPower_map b'' (r - k) y
+      refine Submodule.mem_iSup_of_mem (J₁, J₂) ⟨Pi.single k (x₀ ⊗ₜ y₀), ?_⟩
+      rw [srcMap_single, TensorProduct.map_tmul]
+  have hw : w ∈ ⨆ J, src J := by
+    rw [← Finset.univ_sum_single w]
+    exact Submodule.sum_mem _ fun k _ => hsingle k (w k)
+  exact (Submodule.mem_iSup_of_directed src hdir).1 hw
+
 omit [Module.Finite A M'] [Module.Finite A M''] in
 /-- `phiSum` is injective when `M'` and `M''` are free of arbitrary rank: every element of the
 source comes from finite free direct summands, where the finite case applies. -/
@@ -568,76 +615,48 @@ lemma phiSum_injective_of_free (hi : Function.Injective i) (r : ℕ) :
   classical
   let b' := Module.Free.chooseBasis A M'
   let b'' := Module.Free.chooseBasis A M''
-  let f₁ := subBasisMap b'
-  let g₁ := subBasisCoord b'
-  let f₂ := subBasisMap b''
-  let g₂ := subBasisCoord b''
-  let src : ∀ (J : Finset (Module.Free.ChooseBasisIndex A M') ×
-      Finset (Module.Free.ChooseBasisIndex A M'')), Submodule A _ :=
-    fun J => LinearMap.range (srcMap (f₁ J.1) (f₂ J.2) r)
-  -- The ranges of `srcMap` form a directed family covering the source.
-  have hdir : Directed (· ≤ ·) src := by
-    intro J K
-    refine ⟨(J.1 ∪ K.1, J.2 ∪ K.2), ?_, ?_⟩
-    · rintro _ ⟨w, rfl⟩
-      refine ⟨srcMap (g₁ _ ∘ₗ f₁ J.1) (g₂ _ ∘ₗ f₂ J.2) r w, ?_⟩
-      rw [← LinearMap.comp_apply, srcMap_comp, ← LinearMap.comp_assoc, ← LinearMap.comp_assoc,
-        subBasisMap_comp_coord_comp b' Finset.subset_union_left,
-        subBasisMap_comp_coord_comp b'' Finset.subset_union_left]
-    · rintro _ ⟨w, rfl⟩
-      refine ⟨srcMap (g₁ _ ∘ₗ f₁ K.1) (g₂ _ ∘ₗ f₂ K.2) r w, ?_⟩
-      rw [← LinearMap.comp_apply, srcMap_comp, ← LinearMap.comp_assoc, ← LinearMap.comp_assoc,
-        subBasisMap_comp_coord_comp b' Finset.subset_union_right,
-        subBasisMap_comp_coord_comp b'' Finset.subset_union_right]
-  have hcov : ∀ w, w ∈ ⨆ J, src J := by
-    intro w
-    rw [← Finset.univ_sum_single w]
-    refine Submodule.sum_mem _ fun k _ => ?_
-    induction w k using TensorProduct.induction_on with
-    | zero => rw [Pi.single_zero]; exact zero_mem _
-    | add z z' hz hz' => rw [Pi.single_add]; exact add_mem hz hz'
-    | tmul x y =>
-      obtain ⟨J₁, x₀, rfl⟩ := exists_mem_range_exteriorPower_map b' (k : ℕ) x
-      obtain ⟨J₂, y₀, rfl⟩ := exists_mem_range_exteriorPower_map b'' (r - k) y
-      refine Submodule.mem_iSup_of_mem (J₁, J₂) ⟨Pi.single k (x₀ ⊗ₜ y₀), ?_⟩
-      rw [srcMap_single, TensorProduct.map_tmul]
-  intro w w' hww'
-  rw [← sub_eq_zero] at hww' ⊢
-  rw [← map_sub] at hww'
-  obtain ⟨J, v, hv⟩ := (Submodule.mem_iSup_of_directed src hdir).1 (hcov (w - w'))
-  rw [← hv] at hww' ⊢
+  refine (injective_iff_map_eq_zero _).2 fun w hw => ?_
+  obtain ⟨J, v, rfl⟩ := exists_mem_range_srcMap b' b'' r w
   -- Reduce to the finite split sequence `0 → A^{J₁} → A^{J₁} × A^{J₂} → A^{J₂} → 0`.
-  let e := LinearMap.coprod (i ∘ₗ f₁ J.1) (s ∘ₗ f₂ J.2)
-  have he : phiSum (i ∘ₗ f₁ J.1) (s ∘ₗ f₂ J.2) r =
+  let e : ((↥J.1 → A) × (↥J.2 → A)) →ₗ[A] M :=
+    LinearMap.coprod (i ∘ₗ subBasisMap b' J.1) (s ∘ₗ subBasisMap b'' J.2)
+  have he : phiSum (i ∘ₗ subBasisMap b' J.1) (s ∘ₗ subBasisMap b'' J.2) r =
       exteriorPower.map r e ∘ₗ phiSum (LinearMap.inl A _ _) (LinearMap.inr A _ _) r := by
     rw [map_comp_phiSum, LinearMap.coprod_inl, LinearMap.coprod_inr]
-  let ρ := LinearMap.prodMap (g₁ J.1) (g₂ J.2) ∘ₗ (splitEquiv hiq hqs hi).symm.toLinearMap
+  let ρ : M →ₗ[A] ((↥J.1 → A) × (↥J.2 → A)) :=
+    LinearMap.prodMap (subBasisCoord b' J.1) (subBasisCoord b'' J.2) ∘ₗ
+      (splitEquiv hiq hqs hi).symm.toLinearMap
   have hρ : ρ ∘ₗ e = LinearMap.id := by
     apply LinearMap.prod_ext
-    · ext c : 1
-      simp only [ρ, e, LinearMap.comp_apply, LinearMap.coprod_apply, LinearMap.inl_apply,
-        map_zero, add_zero, LinearMap.id_apply, LinearEquiv.coe_coe]
-      have : (splitEquiv hiq hqs hi).symm (i (f₁ J.1 c)) = (f₁ J.1 c, 0) := by
+    · refine LinearMap.ext fun c => ?_
+      have h1 : (splitEquiv hiq hqs hi).symm (i (subBasisMap b' J.1 c)) =
+          (subBasisMap b' J.1 c, 0) := by
         rw [LinearEquiv.symm_apply_eq]
-        simp [splitEquiv]
-      rw [this, LinearMap.prodMap_apply, map_zero]
+        change i (subBasisMap b' J.1 c) = i (subBasisMap b' J.1 c) + s 0
+        rw [map_zero, add_zero]
+      change LinearMap.prodMap (subBasisCoord b' J.1) (subBasisCoord b'' J.2)
+        ((splitEquiv hiq hqs hi).symm (i (subBasisMap b' J.1 c) + s (subBasisMap b'' J.2 0))) =
+          (c, 0)
+      rw [map_zero, map_zero, add_zero, h1, LinearMap.prodMap_apply, map_zero]
       exact Prod.ext (LinearMap.congr_fun (subBasisCoord_comp_map b' J.1) c) rfl
-    · ext c : 1
-      simp only [ρ, e, LinearMap.comp_apply, LinearMap.coprod_apply, LinearMap.inr_apply,
-        map_zero, zero_add, LinearMap.id_apply, LinearEquiv.coe_coe]
-      have : (splitEquiv hiq hqs hi).symm (s (f₂ J.2 c)) = (0, f₂ J.2 c) := by
+    · refine LinearMap.ext fun c => ?_
+      have h1 : (splitEquiv hiq hqs hi).symm (s (subBasisMap b'' J.2 c)) =
+          (0, subBasisMap b'' J.2 c) := by
         rw [LinearEquiv.symm_apply_eq]
-        simp [splitEquiv]
-      rw [this, LinearMap.prodMap_apply, map_zero]
+        change s (subBasisMap b'' J.2 c) = i 0 + s (subBasisMap b'' J.2 c)
+        rw [map_zero, zero_add]
+      change LinearMap.prodMap (subBasisCoord b' J.1) (subBasisCoord b'' J.2)
+        ((splitEquiv hiq hqs hi).symm (i (subBasisMap b' J.1 0) + s (subBasisMap b'' J.2 c))) =
+          (0, c)
+      rw [map_zero, map_zero, zero_add, h1, LinearMap.prodMap_apply, map_zero]
       exact Prod.ext rfl (LinearMap.congr_fun (subBasisCoord_comp_map b'' J.2) c)
-  have hfin := phiSum_injective (A := A) (i := LinearMap.inl A ((J.1 : Set _) → A)
-      ((J.2 : Set _) → A)) (q := LinearMap.snd A _ _) (s := LinearMap.inr A _ _)
+  have hfin := phiSum_injective (A := A) (i := LinearMap.inl A (↥J.1 → A) (↥J.2 → A))
+    (q := LinearMap.snd A _ _) (s := LinearMap.inr A _ _)
     (LinearMap.range_inl _ _ _) (LinearMap.snd_comp_inr _ _ _) LinearMap.inl_injective r
-  have h0 : phiSum (LinearMap.inl A ((J.1 : Set _) → A) ((J.2 : Set _) → A))
-      (LinearMap.inr A _ _) r v = 0 := by
+  have h0 : phiSum (LinearMap.inl A (↥J.1 → A) (↥J.2 → A)) (LinearMap.inr A _ _) r v = 0 := by
     apply exteriorPower.map_injective (n := r) ρ hρ
     rw [map_zero, ← LinearMap.comp_apply, ← he, ← phiSum_comp_srcMap]
-    exact hww'
+    exact hw
   rw [hfin (h0.trans (map_zero _).symm), map_zero]
 
 omit [Module.Finite A M'] [Module.Finite A M''] in
@@ -781,7 +800,7 @@ lemma filt_eq_bot_of_subsingleton (i : M' →ₗ[A] M) {r p : ℕ} (h : Subsingl
     exact Submodule.zero_mem _
 
 variable {i : M' →ₗ[A] M} {q : M →ₗ[A] M''} {s : M'' →ₗ[A] M}
-  [Module.Free A M'] [Module.Finite A M'] [Module.Free A M''] [Module.Finite A M'']
+  [Module.Free A M'] [Module.Free A M'']
 
 /-- If the exterior powers `⋀^{r-k} M''` vanish for all `k < p`, then `F^p = ⋀^r M`. -/
 lemma filt_eq_top_of_subsingleton (hi : Function.Injective i)
