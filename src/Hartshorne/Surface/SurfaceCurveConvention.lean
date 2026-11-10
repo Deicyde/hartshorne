@@ -66,7 +66,10 @@ theorem finiteType : FiniteType S.hom := ⟨inferInstance, inferInstance⟩
 
 instance isNoetherian : IsNoetherian S.X := finiteType_isNoetherian S.hom S.finiteType
 
-instance isSeparated : S.X.IsSeparated := isSeparated_of_isSeparated_spec S.hom
+instance isSeparated : S.X.IsSeparated :=
+  ⟨by
+    rw [← terminal.comp_from S.hom]
+    exact separatedMorphismCalculus.2.2.1.comp_mem S.hom _ inferInstance inferInstance⟩
 
 /-- A surface is locally factorial. -/
 theorem isLocallyFactorial : S.X.IsLocallyFactorial := isLocallyFactorial_of_isRegular S.isRegular

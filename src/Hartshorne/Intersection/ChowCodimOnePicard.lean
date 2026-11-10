@@ -52,7 +52,9 @@ def chowGroupOneEquivPicard (p : X ⟶ Spec (.of k)) [IsIntegral X] (hp : Finite
     [IsSeparated p] {n : ℕ} (hn : topologicalKrullDim X = n) (hreg : X.IsRegular) :
     chowGroup p hp hn 1 ≃+ Additive (Pic X.sheaf) :=
   have := finiteType_isNoetherian p hp
-  have := isSeparated_of_isSeparated_spec p
+  have : X.IsSeparated := ⟨by
+    rw [← terminal.comp_from p]
+    exact separatedMorphismCalculus.2.2.1.comp_mem p _ inferInstance inferInstance⟩
   have := Scheme.isNormal_of_isLocallyFactorial (isLocallyFactorial_of_isRegular hreg)
   (codimOneCycleClassEquivWeilClassGroup p hp hn).trans
     (Scheme.weilClassEquivPicard (isLocallyFactorial_of_isRegular hreg))
@@ -63,7 +65,9 @@ theorem chowGroupOneEquivPicard_mk (p : X ⟶ Spec (.of k)) [IsIntegral X] (hp :
     [IsSeparated p] {n : ℕ} (hn : topologicalKrullDim X = n) (hreg : X.IsRegular)
     (D : X.WeilDivisor) :
     have := finiteType_isNoetherian p hp
-    have := isSeparated_of_isSeparated_spec p
+    have : X.IsSeparated := ⟨by
+      rw [← terminal.comp_from p]
+      exact separatedMorphismCalculus.2.2.1.comp_mem p _ inferInstance inferInstance⟩
     have := Scheme.isNormal_of_isLocallyFactorial (isLocallyFactorial_of_isRegular hreg)
     chowGroupOneEquivPicard p hp hn hreg
         (weilDivisorToCodimOneCycles (satisfiesConditionStar_of_isNormal_of_finiteType p hp) D :
