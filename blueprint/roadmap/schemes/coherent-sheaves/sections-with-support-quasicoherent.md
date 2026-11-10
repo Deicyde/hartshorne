@@ -20,6 +20,7 @@ coherent, then $\Gamma _Z(F)$ is coherent.
 
 - [Quasi-coherent affine-local criterion](../modules-and-quasicoherent/quasicoherent-affine-local-criterion.md)
 - [Coherent affine-local criterion](../modules-and-quasicoherent/coherent-affine-local-criterion.md)
+- [Product of an ideal sheaf with a submodule sheaf](ideal-power-product.md)
 - Noetherian submodules of finite modules are finite.
 
 ## Sources
