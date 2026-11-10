@@ -2,21 +2,22 @@
 article_id: af_3fbc46711bd77afee0c430be
 declaration: theorem
 origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ExteriorPowerExactFiltration.exteriorPower_exact_filtration Hartshorne.ExteriorPowerExactFiltration.exists_exteriorPower_exact_filtration Hartshorne.ExteriorPowerExactFiltration.exteriorPower_exact_det Hartshorne.ExteriorPowerExactFiltration.filSh Hartshorne.ExteriorPowerExactFiltration.wedgeSheafMap Hartshorne.ExteriorPowerExactFiltration.filSh_eq_imageSubobject
+statement: retracted
+lean: Hartshorne.ExteriorPowerExactFiltration.exteriorPower_exact_filtration_of_isLocallyFree Hartshorne.ExteriorPowerExactFiltration.exists_exteriorPower_exact_filtration_of_isLocallyFree Hartshorne.ExteriorPowerExactFiltration.exteriorPower_exact_det Hartshorne.ExteriorPowerExactFiltration.filSh Hartshorne.ExteriorPowerExactFiltration.wedgeSheafMap Hartshorne.ExteriorPowerExactFiltration.filSh_eq_imageSubobject
 ---
 
 # Exterior powers of an exact sequence
 
-For a short exact sequence of finite locally free sheaves
-$0 \to F' \to F \to F'' \to 0$, the sheaf $\bigwedge^r F$ has the standard finite
-filtration whose graded pieces are
+For a short exact sequence of locally free sheaves (of arbitrary rank)
+$0 \to F' \to F \to F'' \to 0$ and any $r$, the sheaf $\bigwedge^r F$ has a finite
+filtration
+$\bigwedge^r F = F^0 \supseteq F^1 \supseteq \cdots \supseteq F^r \supseteq F^{r+1} = 0$
+with quotients
 
-$\bigwedge^p F'\otimes\bigwedge^{r-p}F''$.
+$F^p/F^{p+1} \cong \bigwedge^p F'\otimes\bigwedge^{r-p}F''$.
 
-In top degree this gives
-$\det F \cong \det F' \otimes \det F''$.
+In particular, if $F'$, $F$, $F''$ have finite ranks $n'$, $n$, $n''$, then
+$\bigwedge^n F \cong \bigwedge^{n'} F' \otimes \bigwedge^{n''} F''$.
 
 As in the source, $F$ is assumed locally free too, although this follows from the
 hypotheses on $F'$ and $F''$.
@@ -32,8 +33,10 @@ hypotheses on $F'$ and $F''$.
 ## Proof depends on
 
 - [Stalkwise exactness](../sheaves/stalkwise-exactness.md)
-- Local splitting of a short exact sequence with locally free quotient and
-  the module-level exterior filtration.
+- [Isomorphisms are detected on stalks](../sheaves/stalkwise-isomorphism.md)
+- Stalks of a locally free sheaf are free, exterior powers and tensor products
+  commute with stalks, and the module-level exterior filtration of a split
+  exact sequence of free modules of arbitrary rank.
 
 ## Sources
 
