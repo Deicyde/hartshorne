@@ -9,7 +9,7 @@ import Hartshorne.Scheme.LocallyFreeInvertible
 /-!
 # The relative twisting sheaf
 
-Hartshorne, *Algebraic Geometry*, II.7, the relative `Proj` construction (pp. 160–161); see also
+Hartshorne, *Algebraic Geometry*, II.7, the relative `Proj` construction (p. 160); see also
 Stacks Project, tag 01NM.
 
 Let `S` be a quasi-coherent sheaf of graded `𝒪_X`-algebras and `n ∈ ℤ`. The twisting sheaves
