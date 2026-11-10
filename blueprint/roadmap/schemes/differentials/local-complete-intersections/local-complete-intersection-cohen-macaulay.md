@@ -21,6 +21,7 @@ Cohen–Macaulay scheme.
 
 ## Proof depends on
 
+- [Generation by global sections](../../projective-sheaves/globally-generated-module-sheaf.md)
 - The local dimension-codimension formula identifies the number of local ideal
   generators with the dimension drop.
 
