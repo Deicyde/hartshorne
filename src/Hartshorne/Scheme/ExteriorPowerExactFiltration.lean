@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.ExteriorPowerFiltrationAlgebra
 import Hartshorne.Scheme.SheafAlgebraOperations
 import Hartshorne.RingedSpace.FiniteLocallyFreeDuality
+import Hartshorne.RingedSpace.LocallyFreeRank
 import Mathlib.Algebra.Category.ModuleCat.Presheaf.Submodule
 import Mathlib.CategoryTheory.Limits.Constructions.EpiMono
 import Mathlib.Algebra.Homology.ShortComplex.ExactFunctor
@@ -21,14 +22,16 @@ Hartshorne, *Algebraic Geometry*, II, Exercise 5.16(d) (p. 128).
 Let `(X, 𝒪_X)` be a ringed space (a topological space `X` with a sheaf `R` of commutative rings;
 `𝒪_X`-modules are `SheafOfModules (ringCatSheafOf R)`) and let `0 → F' → F → F'' → 0` be a short
 exact sequence of `𝒪_X`-modules (`S : ShortComplex _`, `S.ShortExact`) with `F'` and `F''` locally
-free of finite rank. For `r ≥ 0` the exterior power `⋀^r F` (`moduleSheafExteriorPower r F`, the
-sheafification of `U ↦ ⋀^r F(U)`) carries the standard filtration `F^p` (`filSh`): for `p ≤ r`,
+free (of arbitrary rank). For `r ≥ 0` the exterior power `⋀^r F` (`moduleSheafExteriorPower r F`,
+the sheafification of `U ↦ ⋀^r F(U)`) carries the standard filtration `F^p` (`filSh`): for `p ≤ r`,
 `F^p` is the image of the wedge-product morphism `⋀^p F' ⊗ ⋀^{r-p} F → ⋀^r F` (`wedgeSheafMap`,
 `filSh_eq_imageSubobject`), and `F^p = 0` for `p > r`. We prove:
 
-* `exteriorPower_exact_filtration`: `F^0 = ⋀^r F`, `F^{r+1} = 0`, the `F^p` decrease, and
-  `F^p / F^{p+1} ≅ ⋀^p F' ⊗ ⋀^{r-p} F''` for `p ≤ r`; `exists_exteriorPower_exact_filtration`
-  states this in Hartshorne's form (there is such a filtration);
+* `exteriorPower_exact_filtration_of_isLocallyFree`: `F^0 = ⋀^r F`, `F^{r+1} = 0`, the `F^p`
+  decrease, and `F^p / F^{p+1} ≅ ⋀^p F' ⊗ ⋀^{r-p} F''` for `p ≤ r`;
+  `exists_exteriorPower_exact_filtration_of_isLocallyFree` states this in Hartshorne's form (there
+  is such a filtration). The finite-rank versions `exteriorPower_exact_filtration` and
+  `exists_exteriorPower_exact_filtration` are deprecated;
 * `exteriorPower_exact_det`: if `F'`, `F`, `F''` are locally free of ranks `n'`, `n`, `n''`, then
   `⋀^n F ≅ ⋀^{n'} F' ⊗ ⋀^{n''} F''`.
 
@@ -38,13 +41,16 @@ given on each open `U` by the module-level filtration of
 piece `F^p(U) / F^{p+1}(U)` with `⋀^p F'(U) ⊗ ⋀^{r-p} F''(U)` (there is no map between them on
 arbitrary opens, as `F(U) → F''(U)` need not be onto) both are compared with the quotient
 `apexPre` of `⋀^p F'(U) ⊗ ⋀^{r-p} F(U)` by `α_p⁻¹(F^{p+1}) ∩ ker(id ⊗ ⋀^{r-p} g)`
-(`toGrad`, `toH`). Near every point the sequence of sections over all small opens is split exact
-with finite free outer terms (`exists_isSplitAt`: exactness on sections, local lifts of a local
-frame of `F''`); there both comparison maps are bijective by the module-level theorem
-(`toGrad_bijective`, `toH_bijective`). A morphism of presheaves bijective on all small opens
-becomes an isomorphism after sheafification (`isIso_sheafifyMap_of_locally_bijective`), and
-sheafification preserves monomorphisms and cokernels, which gives the sheaf statements. For the
-determinant, if `n = n' + n''` the filtration of `⋀^n F` collapses (`F^{n'} = ⋀^n F`,
+(`toGrad`, `toH`). Both comparison maps are bijective on stalks
+(`stalk_toGrad_bijective`, `stalk_toH_bijective`): exterior powers and tensor products commute
+with stalks (`extStalkEquiv`, `tensorExtStalkEquiv`), the stalk sequence
+`0 → F'_x → F_x → F''_x → 0` is exact, and it splits with free outer terms because stalks of
+locally free modules are free. So the module-level theorem for free modules of arbitrary rank
+applies at each stalk. A morphism of presheaves bijective on stalks becomes an isomorphism after
+sheafification, and sheafification preserves monomorphisms and cokernels, which gives the sheaf
+statements (`gradedIsoOfIsLocallyFree`). In finite rank the sequence of sections over all small
+opens is even split exact with finite free outer terms (`exists_isSplitAt`), which is used for
+the determinant: if `n = n' + n''` the filtration of `⋀^n F` collapses (`F^{n'} = ⋀^n F`,
 `F^{n'+1} = 0`) because exterior powers of a free module above its rank vanish; otherwise `𝒪_X`
 vanishes near every point and all `𝒪_X`-modules are zero (`isZero_of_locally_subsingleton`).
 -/
@@ -340,7 +346,8 @@ section ExteriorStalk
 open ModuleSheafTensor
 
 /-- Finitely many open neighbourhoods of `x` contain a common open neighbourhood. -/
-lemma exists_open_le_of_finite {x : X} {ι : Type*} [Finite ι] (U : ι → Opens X) (hU : ∀ i, x ∈ U i) :
+lemma exists_open_le_of_finite {x : X} {ι : Type*} [Finite ι] (U : ι → Opens X)
+    (hU : ∀ i, x ∈ U i) :
     ∃ V : Opens X, x ∈ V ∧ ∀ i, V ≤ U i := by
   have h : (⋂ i, (U i : Set X)) ∈ nhds x :=
     Filter.iInter_mem.2 fun i => (U i).isOpen.mem_nhds (hU i)
@@ -461,7 +468,8 @@ lemma extStalkMulti_eq {V : Opens X} (hV : x ∈ V) (t : Fin n → F.val.obj (op
   sectionGerm_ιMulti_indep n F x _ hV _ t fun i =>
     ((exists_common_sectionGerm F.val m).choose_spec.choose_spec.choose_spec i).trans (ht i).symm
 
-lemma sectionGerm_update [DecidableEq (Fin n)] {V : Opens X} (hV : x ∈ V) (t : Fin n → F.val.obj (op V))
+lemma sectionGerm_update [DecidableEq (Fin n)] {V : Opens X} (hV : x ∈ V)
+    (t : Fin n → F.val.obj (op V))
     (m : Fin n → moduleStalk F.val x) (ht : ∀ i, sectionGerm F.val x V hV (t i) = m i)
     (i : Fin n) (s : F.val.obj (op V)) (a : moduleStalk F.val x)
     (hs : sectionGerm F.val x V hV s = a) (j : Fin n) :
@@ -1050,6 +1058,447 @@ noncomputable def gradedIso {r p : ℕ} (hp : p ≤ r) (h : filSh f r (p + 1) �
 
 end SheafLevel
 
+section StalkFiltration
+
+open ModuleSheafTensor
+
+variable {x : X}
+
+lemma exists_res_eq_zero_of_sectionGerm_eq_zero
+    {M : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat)} {U : Opens X}
+    (hU : x ∈ U) (s : M.obj (op U)) (h : sectionGerm M x U hU s = 0) :
+    ∃ (W : Opens X) (i : W ⟶ U), x ∈ W ∧ M.map i.op s = 0 := by
+  obtain ⟨W, hW, i, j, e⟩ := TopCat.Presheaf.germ_eq M.presheaf x hU hU s 0
+    (h.trans (map_zero (sectionGerm M x U hU)).symm)
+  refine ⟨W, i, hW, ?_⟩
+  change M.presheaf.map i.op s = 0
+  rw [e]
+  exact map_zero _
+
+lemma sectionGerm_quotient_mk_eq_zero
+    {M : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat)} (N : M.Submodule)
+    {U W : Opens X} (i : W ⟶ U) (hW : x ∈ W) (z : M.obj (op U)) (hz : M.map i.op z ∈ N.obj (op W)) :
+    sectionGerm (quotientPresheaf N) x U (i.le hW)
+      (Submodule.Quotient.mk z : M.obj (op U) ⧸ N.obj (op U)) = 0 := by
+  refine (sectionGerm_res (quotientPresheaf N) x i hW _).symm.trans ?_
+  change sectionGerm (quotientPresheaf N) x W hW
+    (Submodule.Quotient.mk (M.map i.op z) : M.obj (op W) ⧸ N.obj (op W)) = 0
+  have h0 : (Submodule.Quotient.mk (M.map i.op z) : M.obj (op W) ⧸ N.obj (op W)) = 0 :=
+    (Submodule.Quotient.mk_eq_zero _).2 hz
+  exact (congrArg (sectionGerm (quotientPresheaf N) x W hW) h0).trans (map_zero _)
+
+lemma stalkAddMap_injective_of_germ
+    {P Q : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat)} (φ : P ⟶ Q)
+    (h : ∀ (U : Opens X) (hU : x ∈ U) (s : P.obj (op U)),
+      sectionGerm Q x U hU (φ.app (op U) s) = 0 → sectionGerm P x U hU s = 0) :
+    Function.Injective (Ringed.stalkAddMap φ x) := by
+  rw [injective_iff_map_eq_zero]
+  intro a ha
+  obtain ⟨U, hU, s, rfl⟩ := exists_sectionGerm P x a
+  rw [Ringed.stalkAddMap_germ] at ha
+  exact h U hU s ha
+
+lemma stalkAddMap_surjective_of_germ
+    {P Q : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat)} (φ : P ⟶ Q)
+    (h : ∀ (U : Opens X) (hU : x ∈ U) (t : Q.obj (op U)), ∃ (V : Opens X) (hV : x ∈ V)
+      (s : P.obj (op V)), sectionGerm Q x V hV (φ.app (op V) s) = sectionGerm Q x U hU t) :
+    Function.Surjective (Ringed.stalkAddMap φ x) := by
+  intro b
+  obtain ⟨U, hU, t, rfl⟩ := exists_sectionGerm Q x b
+  obtain ⟨V, hV, s, hs⟩ := h U hU t
+  exact ⟨sectionGerm P x V hV s, (Ringed.stalkAddMap_germ φ x V hV s).trans hs⟩
+
+variable (x)
+
+/-- The germ map `𝒪_X(U) → 𝒪_{X,x}`. -/
+noncomputable abbrev ringGerm (U : Opens X) (hU : x ∈ U) :
+    (R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U) →+* ringSheafStalk R x :=
+  (TopCat.Presheaf.germ R.obj U x hU).hom
+
+/-- The stalk of `U ↦ ⋀^a P(U) ⊗ ⋀^b Q(U)` is `⋀^a Pₓ ⊗ ⋀^b Qₓ`. -/
+noncomputable def tensorExtStalkEquiv (a b : ℕ) (P Q : SheafOfModules.{u} (ringCatSheafOf R)) :
+    moduleStalk (moduleSheafExteriorPowerPresheaf a P ⊗ moduleSheafExteriorPowerPresheaf b Q) x
+      ≃ₗ[ringSheafStalk R x]
+      ⋀[ringSheafStalk R x]^a (moduleStalk P.val x) ⊗[ringSheafStalk R x]
+        ⋀[ringSheafStalk R x]^b (moduleStalk Q.val x) :=
+  presheafTensorStalkIso _ _ x ≪≫ₗ
+    TensorProduct.congr (extStalkEquiv a P x).symm (extStalkEquiv b Q x).symm
+
+lemma tensorExtStalkEquiv_germ_tmul (a b : ℕ) (P Q : SheafOfModules.{u} (ringCatSheafOf R))
+    (U : Opens X) (hU : x ∈ U)
+    (y : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^a (P.val.obj (op U)))
+    (y' : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^b (Q.val.obj (op U))) :
+    tensorExtStalkEquiv x a b P Q
+        (sectionGerm (moduleSheafExteriorPowerPresheaf a P ⊗ moduleSheafExteriorPowerPresheaf b Q)
+          x U hU (y ⊗ₜ[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)] y')) =
+      extGerm a P x U hU y ⊗ₜ[ringSheafStalk R x] extGerm b Q x U hU y' := by
+  change TensorProduct.congr (extStalkEquiv a P x).symm (extStalkEquiv b Q x).symm
+    (presheafTensorStalkToTensor _ _ x
+      (sectionGerm _ x U hU (y ⊗ₜ[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)] y'))) = _
+  rw [presheafTensorStalkToTensor_germ]
+  erw [tensorStalkComponent_tmul]
+  rw [TensorProduct.congr_tmul]
+  erw [extStalkEquiv_symm_germ, extStalkEquiv_symm_germ]
+
+/-- The germ map `⋀^a P(U) ⊗ ⋀^b Q(U) → ⋀^a Pₓ ⊗ ⋀^b Qₓ`, semilinear over `𝒪_X(U) → 𝒪_{X,x}`. -/
+noncomputable def tensorExtGerm (a b : ℕ) (P Q : SheafOfModules.{u} (ringCatSheafOf R))
+    (U : Opens X) (hU : x ∈ U) :
+    (⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^a (P.val.obj (op U)) ⊗[
+      (R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]
+      ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^b (Q.val.obj (op U))) →ₛₗ[
+      ringGerm (R := R) x U hU]
+      ⋀[ringSheafStalk R x]^a (moduleStalk P.val x) ⊗[ringSheafStalk R x]
+        ⋀[ringSheafStalk R x]^b (moduleStalk Q.val x) where
+  toFun t := tensorExtStalkEquiv x a b P Q
+    (sectionGerm (moduleSheafExteriorPowerPresheaf a P ⊗ moduleSheafExteriorPowerPresheaf b Q)
+      x U hU t)
+  map_add' s t := (congrArg (tensorExtStalkEquiv x a b P Q)
+    (map_add (sectionGerm (moduleSheafExteriorPowerPresheaf a P ⊗
+      moduleSheafExteriorPowerPresheaf b Q) x U hU) s t)).trans (map_add _ _ _)
+  map_smul' c t := (congrArg (tensorExtStalkEquiv x a b P Q)
+    (sectionGerm_smul (moduleSheafExteriorPowerPresheaf a P ⊗
+      moduleSheafExteriorPowerPresheaf b Q) x U hU c t)).trans (LinearEquiv.map_smul _ _ _)
+
+lemma tensorExtGerm_tmul (a b : ℕ) (P Q : SheafOfModules.{u} (ringCatSheafOf R))
+    (U : Opens X) (hU : x ∈ U)
+    (y : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^a (P.val.obj (op U)))
+    (y' : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^b (Q.val.obj (op U))) :
+    tensorExtGerm x a b P Q U hU (y ⊗ₜ[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)] y') =
+      extGerm a P x U hU y ⊗ₜ[ringSheafStalk R x] extGerm b Q x U hU y' :=
+  tensorExtStalkEquiv_germ_tmul x a b P Q U hU y y'
+
+variable {F' F F'' : SheafOfModules.{u} (ringCatSheafOf R)} (f : F' ⟶ F) (g : F ⟶ F'')
+
+set_option maxHeartbeats 1000000 in
+/-- `α_p` commutes with taking stalks. -/
+lemma extGerm_alpha {p r : ℕ} (hp : p ≤ r) (U : Opens X) (hU : x ∈ U)
+    (t : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^p (F'.val.obj (op U)) ⊗[
+      (R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]
+      ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^(r - p) (F.val.obj (op U))) :
+    extGerm r F x U hU (ExteriorPowerFiltration.alpha (f.val.app (op U)).hom hp t) =
+      ExteriorPowerFiltration.alpha (Ringed.stalkLinearMap f.val x) hp
+        (tensorExtGerm x p (r - p) F' F U hU t) := by
+  have gen : ∀ m₁ m₂, extGerm r F x U hU (ExteriorPowerFiltration.alpha (f.val.app (op U)).hom hp
+      (exteriorPower.ιMulti _ p m₁ ⊗ₜ exteriorPower.ιMulti _ (r - p) m₂)) =
+      ExteriorPowerFiltration.alpha (Ringed.stalkLinearMap f.val x) hp
+        (tensorExtGerm x p (r - p) F' F U hU
+          (exteriorPower.ιMulti _ p m₁ ⊗ₜ exteriorPower.ιMulti _ (r - p) m₂)) := by
+    intro m₁ m₂
+    rw [tensorExtGerm_tmul]
+    rw [extGerm_ιMulti, extGerm_ιMulti]
+    unfold ExteriorPowerFiltration.alpha
+    rw [ExteriorPowerFiltration.wedgeMap_ιMulti, ExteriorPowerFiltration.wedgeMap_ιMulti]
+    rw [extGerm_ιMulti]
+    congr 1
+    funext k
+    simp only [Function.comp_apply]
+    generalize Fin.cast _ k = j
+    refine Fin.addCases (fun j => ?_) (fun j => ?_) j
+    · simp only [Fin.append_left, Function.comp_apply]
+      exact (Ringed.stalkAddMap_germ f.val x U hU (m₁ j)).symm
+    · simp only [Fin.append_right, Function.comp_apply, LinearMap.id_apply]
+  have key : (extGerm r F x U hU).comp (ExteriorPowerFiltration.alpha (f.val.app (op U)).hom hp) =
+      (ExteriorPowerFiltration.alpha (Ringed.stalkLinearMap f.val x) hp).comp
+        (tensorExtGerm x p (r - p) F' F U hU) :=
+    tensor_exteriorPower_semilinear_ext gen
+  exact LinearMap.congr_fun key t
+
+set_option maxHeartbeats 1000000 in
+/-- `id ⊗ ⋀^q g` commutes with taking stalks. -/
+lemma tensorExtGerm_lTensor {p q : ℕ} (U : Opens X) (hU : x ∈ U)
+    (t : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^p (F'.val.obj (op U)) ⊗[
+      (R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]
+      ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^q (F.val.obj (op U))) :
+    tensorExtGerm x p q F' F'' U hU
+        (LinearMap.lTensor (⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^p
+          (F'.val.obj (op U))) (exteriorPower.map q (g.val.app (op U)).hom) t) =
+      LinearMap.lTensor (⋀[ringSheafStalk R x]^p (moduleStalk F'.val x))
+        (exteriorPower.map q (Ringed.stalkLinearMap g.val x))
+        (tensorExtGerm x p q F' F U hU t) := by
+  have gen : ∀ m₁ m₂, tensorExtGerm x p q F' F'' U hU
+      (LinearMap.lTensor (⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^p
+        (F'.val.obj (op U))) (exteriorPower.map q (g.val.app (op U)).hom)
+        (exteriorPower.ιMulti _ p m₁ ⊗ₜ exteriorPower.ιMulti _ q m₂)) =
+      LinearMap.lTensor (⋀[ringSheafStalk R x]^p (moduleStalk F'.val x))
+        (exteriorPower.map q (Ringed.stalkLinearMap g.val x))
+        (tensorExtGerm x p q F' F U hU
+          (exteriorPower.ιMulti _ p m₁ ⊗ₜ exteriorPower.ιMulti _ q m₂)) := by
+    intro m₁ m₂
+    rw [LinearMap.lTensor_tmul, tensorExtGerm_tmul, tensorExtGerm_tmul, LinearMap.lTensor_tmul,
+      exteriorPower.map_apply_ιMulti, extGerm_ιMulti, extGerm_ιMulti, extGerm_ιMulti,
+      exteriorPower.map_apply_ιMulti]
+    congr 2
+    funext k
+    exact (Ringed.stalkAddMap_germ g.val x U hU (m₂ k)).symm
+  have key : (tensorExtGerm x p q F' F'' U hU).comp
+      (LinearMap.lTensor (⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^p
+        (F'.val.obj (op U))) (exteriorPower.map q (g.val.app (op U)).hom)) =
+      (LinearMap.lTensor (⋀[ringSheafStalk R x]^p (moduleStalk F'.val x))
+        (exteriorPower.map q (Ringed.stalkLinearMap g.val x))).comp
+        (tensorExtGerm x p q F' F U hU) := by
+    refine tensor_exteriorPower_semilinear_ext
+      (A := (R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U))
+      (B := ringSheafStalk R x) (σ := ringGerm x U hU) (M₁ := F'.val.obj (op U))
+      (M₂ := F.val.obj (op U)) (a := p) (b := q)
+      (N := ⋀[ringSheafStalk R x]^p (moduleStalk F'.val x) ⊗[ringSheafStalk R x]
+        ⋀[ringSheafStalk R x]^q (moduleStalk F''.val x)) fun m₁ m₂ => ?_
+    exact gen m₁ m₂
+  exact LinearMap.congr_fun key t
+
+/-- Germs of the filtration `F^q ⊆ ⋀^r F` land in the filtration of `⋀^r Fₓ`. -/
+lemma extGerm_mem_filt {q r : ℕ} (U : Opens X) (hU : x ∈ U)
+    (y : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^r (F.val.obj (op U)))
+    (hy : y ∈ ExteriorPowerFiltration.filt (f.val.app (op U)).hom r q) :
+    extGerm r F x U hU y ∈ ExteriorPowerFiltration.filt (Ringed.stalkLinearMap f.val x) r q := by
+  rcases Nat.lt_or_ge r q with hq | hq
+  · rw [ExteriorPowerFiltration.filt_of_lt _ hq] at hy ⊢
+    rw [(Submodule.mem_bot _).1 hy, map_zero]
+    exact Submodule.zero_mem _
+  · rw [ExteriorPowerFiltration.filt_of_le _ hq] at hy ⊢
+    obtain ⟨t, rfl⟩ := hy
+    exact ⟨tensorExtGerm x q (r - q) F' F U hU t, (extGerm_alpha x f hq U hU t).symm⟩
+
+/-- If the germ of `y ∈ ⋀^r F(U)` lies in the filtration of `⋀^r Fₓ`, then `y` lies in the
+filtration near `x`. -/
+lemma exists_mem_filt_of_extGerm {q r : ℕ} (U : Opens X) (hU : x ∈ U)
+    (y : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^r (F.val.obj (op U)))
+    (hy : extGerm r F x U hU y ∈ ExteriorPowerFiltration.filt (Ringed.stalkLinearMap f.val x) r q) :
+    ∃ (W : Opens X) (i : W ⟶ U), x ∈ W ∧ (moduleSheafExteriorPowerPresheaf r F).map i.op y ∈
+      ExteriorPowerFiltration.filt (f.val.app (op W)).hom r q := by
+  rcases Nat.lt_or_ge r q with hq | hq
+  · rw [ExteriorPowerFiltration.filt_of_lt _ hq] at hy
+    have h0 : sectionGerm (moduleSheafExteriorPowerPresheaf r F) x U hU y = 0 := by
+      apply (extStalkEquiv r F x).symm.injective
+      rw [extStalkEquiv_symm_germ, map_zero]
+      exact (Submodule.mem_bot _).1 hy
+    obtain ⟨W, i, hW, e⟩ := exists_res_eq_zero_of_sectionGerm_eq_zero hU _ h0
+    refine ⟨W, i, hW, ?_⟩
+    rw [e]
+    exact Submodule.zero_mem _
+  · rw [ExteriorPowerFiltration.filt_of_le _ hq] at hy
+    obtain ⟨w, hw⟩ := hy
+    obtain ⟨w', rfl⟩ := (tensorExtStalkEquiv x q (r - q) F' F).surjective w
+    obtain ⟨V, hV, t, rfl⟩ := exists_sectionGerm
+      (moduleSheafExteriorPowerPresheaf q F' ⊗ moduleSheafExteriorPowerPresheaf (r - q) F) x w'
+    have e1 : extGerm r F x V hV ((alphaPre f hq).app (op V) t) = extGerm r F x U hU y :=
+      (extGerm_alpha x f hq V hV t).trans hw
+    have e2 : sectionGerm (moduleSheafExteriorPowerPresheaf r F) x V hV
+        ((alphaPre f hq).app (op V) t) =
+          sectionGerm (moduleSheafExteriorPowerPresheaf r F) x U hU y := by
+      apply (extStalkEquiv r F x).symm.injective
+      erw [extStalkEquiv_symm_germ, extStalkEquiv_symm_germ]
+      exact e1
+    obtain ⟨W, hW, iV, iU, e3⟩ := TopCat.Presheaf.germ_eq _ x hV hU _ _ e2
+    refine ⟨W, iU, hW, ?_⟩
+    rw [ExteriorPowerFiltration.filt_of_le _ hq]
+    refine ⟨_, (PresheafOfModules.naturality_apply (alphaPre f hq) iV.op t).trans ?_⟩
+    exact e3
+
+variable {x} in
+/-- A class in the comparison presheaf has zero germ as soon as `α_p(z)` has germ in the
+filtration step `p + 1` and `(id ⊗ ⋀^{r-p} g)(z)` has zero germ. -/
+lemma sectionGerm_apex_mk_eq_zero {p r : ℕ} (hp : p ≤ r) {U : Opens X} (hU : x ∈ U)
+    (z : (moduleSheafExteriorPowerPresheaf p F' ⊗ moduleSheafExteriorPowerPresheaf (r - p) F).obj
+      (op U))
+    (h1 : extGerm r F x U hU ((alphaPre f hp).app (op U) z) ∈
+      ExteriorPowerFiltration.filt (Ringed.stalkLinearMap f.val x) r (p + 1))
+    (h2 : sectionGerm (moduleSheafExteriorPowerPresheaf p F' ⊗
+      moduleSheafExteriorPowerPresheaf (r - p) F'') x U hU ((betaPre g p r).app (op U) z) = 0) :
+    sectionGerm (apexPre f g hp) x U hU (Submodule.Quotient.mk z) = 0 := by
+  obtain ⟨W₁, i₁, hW₁, hm⟩ := exists_mem_filt_of_extGerm x f U hU _ h1
+  obtain ⟨W₂, i₂, hW₂, hz⟩ := exists_res_eq_zero_of_sectionGerm_eq_zero hU _ h2
+  let j₁ : W₁ ⊓ W₂ ⟶ W₁ := homOfLE inf_le_left
+  let j₂ : W₁ ⊓ W₂ ⟶ W₂ := homOfLE inf_le_right
+  refine sectionGerm_quotient_mk_eq_zero (kerSub f g hp) (j₁ ≫ i₁) ⟨hW₁, hW₂⟩ z ⟨?_, ?_⟩
+  · change (alphaPre f hp).app _ (_ : (moduleSheafExteriorPowerPresheaf p F' ⊗
+      moduleSheafExteriorPowerPresheaf (r - p) F).obj _) ∈ (filPre f r (p + 1)).obj _
+    rw [PresheafOfModules.naturality_apply, op_comp, PresheafOfModules.map_comp_apply]
+    exact (filPre f r (p + 1)).map_mem j₁.op hm
+  · change (betaPre g p r).app _ (_ : (moduleSheafExteriorPowerPresheaf p F' ⊗
+      moduleSheafExteriorPowerPresheaf (r - p) F).obj _) = 0
+    rw [PresheafOfModules.naturality_apply, Subsingleton.elim (j₁ ≫ i₁) (j₂ ≫ i₂), op_comp,
+      PresheafOfModules.map_comp_apply, hz]
+    exact map_zero _
+
+end StalkFiltration
+
+section StalkBijective
+
+open ModuleSheafTensor
+
+variable {S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))} (hS : S.ShortExact) (x : X)
+include hS
+
+lemma stalk_f_injective : Function.Injective (Ringed.stalkLinearMap S.f.val x) := by
+  have := hS.mono_f
+  rw [injective_iff_map_eq_zero]
+  intro a ha
+  obtain ⟨U, hU, s, rfl⟩ := exists_sectionGerm S.X₁.val x a
+  rw [Ringed.stalkLinearMap_apply, Ringed.stalkAddMap_germ] at ha
+  obtain ⟨W, i, hW, e⟩ := exists_res_eq_zero_of_sectionGerm_eq_zero hU _ ha
+  rw [← PresheafOfModules.naturality_apply] at e
+  have e' := app_injective_of_mono S.f (op W) (e.trans (map_zero _).symm)
+  refine (sectionGerm_res S.X₁.val x i hW s).symm.trans ?_
+  change sectionGerm S.X₁.val x W hW (S.X₁.val.map i.op s) = 0
+  rw [e']
+  exact map_zero _
+
+lemma stalk_g_surjective : Function.Surjective (Ringed.stalkLinearMap S.g.val x) := by
+  have := hS.epi_g
+  intro b
+  obtain ⟨U, hU, t, rfl⟩ := exists_sectionGerm S.X₃.val x b
+  obtain ⟨V, hVU, hV, s, hs⟩ := exists_local_lift S.g t hU
+  refine ⟨sectionGerm S.X₂.val x V hV s, ?_⟩
+  rw [Ringed.stalkLinearMap_apply, Ringed.stalkAddMap_germ, hs]
+  exact sectionGerm_res S.X₃.val x (homOfLE hVU) hV t
+
+lemma stalk_range_eq_ker :
+    LinearMap.range (Ringed.stalkLinearMap S.f.val x) =
+      LinearMap.ker (Ringed.stalkLinearMap S.g.val x) := by
+  apply le_antisymm
+  · rintro _ ⟨a, rfl⟩
+    obtain ⟨U, hU, s, rfl⟩ := exists_sectionGerm S.X₁.val x a
+    rw [LinearMap.mem_ker, Ringed.stalkLinearMap_apply, Ringed.stalkLinearMap_apply,
+      Ringed.stalkAddMap_germ, Ringed.stalkAddMap_germ]
+    have h : S.g.val.app (op U) (S.f.val.app (op U) s) = 0 := by
+      have := congrArg (fun φ : S.X₁ ⟶ S.X₃ => φ.val.app (op U) s) S.zero
+      exact this
+    rw [h]
+    exact map_zero _
+  · intro b hb
+    obtain ⟨U, hU, s, rfl⟩ := exists_sectionGerm S.X₂.val x b
+    rw [LinearMap.mem_ker, Ringed.stalkLinearMap_apply, Ringed.stalkAddMap_germ] at hb
+    obtain ⟨W, i, hW, e⟩ := exists_res_eq_zero_of_sectionGerm_eq_zero hU _ hb
+    rw [← PresheafOfModules.naturality_apply] at e
+    have hmem : S.X₂.val.map i.op s ∈ LinearMap.ker (S.g.val.app (op W)).hom := e
+    rw [← range_eq_ker_of_shortExact hS] at hmem
+    obtain ⟨a, ha⟩ := hmem
+    refine ⟨sectionGerm S.X₁.val x W hW a, ?_⟩
+    rw [Ringed.stalkLinearMap_apply, Ringed.stalkAddMap_germ]
+    exact (congrArg (sectionGerm S.X₂.val x W hW) ha).trans (sectionGerm_res S.X₂.val x i hW s)
+
+variable (h₁ : Ringed.IsLocallyFree S.X₁) (h₃ : Ringed.IsLocallyFree S.X₃)
+include h₁ h₃
+
+omit h₁ in
+lemma exists_stalk_section :
+    ∃ s : moduleStalk S.X₃.val x →ₗ[ringSheafStalk R x] moduleStalk S.X₂.val x,
+      Ringed.stalkLinearMap S.g.val x ∘ₗ s = LinearMap.id := by
+  have : Module.Free (ringSheafStalk R x) (moduleStalk S.X₃.val x) :=
+    Ringed.moduleStalk_free_of_isLocallyFree h₃ x
+  exact Module.projective_lifting_property _ _ (stalk_g_surjective hS x)
+
+lemma alpha_mem_filt_succ_iff_stalk {p r : ℕ} (hp : p ≤ r)
+    (z : ⋀[ringSheafStalk R x]^p (moduleStalk S.X₁.val x) ⊗[ringSheafStalk R x]
+      ⋀[ringSheafStalk R x]^(r - p) (moduleStalk S.X₂.val x)) :
+    ExteriorPowerFiltration.alpha (Ringed.stalkLinearMap S.f.val x) hp z ∈
+        ExteriorPowerFiltration.filt (Ringed.stalkLinearMap S.f.val x) r (p + 1) ↔
+      LinearMap.lTensor _ (exteriorPower.map (r - p) (Ringed.stalkLinearMap S.g.val x)) z = 0 := by
+  obtain ⟨s, hs⟩ := exists_stalk_section hS x h₃
+  have : Module.Free (ringSheafStalk R x) (moduleStalk S.X₁.val x) :=
+    Ringed.moduleStalk_free_of_isLocallyFree h₁ x
+  have : Module.Free (ringSheafStalk R x) (moduleStalk S.X₃.val x) :=
+    Ringed.moduleStalk_free_of_isLocallyFree h₃ x
+  exact ExteriorPowerFiltration.alpha_mem_filt_succ_iff (stalk_range_eq_ker hS x) hs
+    (stalk_f_injective hS x) hp z
+
+/-- The comparison map to the graded piece is bijective on stalks. -/
+theorem stalk_toGrad_bijective {p r : ℕ} (hp : p ≤ r) :
+    Function.Bijective (Ringed.stalkAddMap (toGrad S.f S.g hp) x) := by
+  refine ⟨stalkAddMap_injective_of_germ _ fun U hU s hs => ?_,
+    stalkAddMap_surjective_of_germ _ fun U hU t => ?_⟩
+  · induction s using Submodule.Quotient.induction_on with
+    | H z =>
+      obtain ⟨W, i, hW, e⟩ := exists_res_eq_zero_of_sectionGerm_eq_zero hU _ hs
+      change (Submodule.Quotient.mk _ : _ ⧸ (gradSub S.f r p).obj (op W)) = 0 at e
+      have h1 : (moduleSheafExteriorPowerPresheaf r S.X₂).map i.op
+          ((alphaPre S.f hp).app (op U) z) ∈ (filPre S.f r (p + 1)).obj (op W) := by
+        have := (Submodule.Quotient.mk_eq_zero _).1 e
+        exact this
+      have h2 : extGerm r S.X₂ x U hU ((alphaPre S.f hp).app (op U) z) ∈
+          ExteriorPowerFiltration.filt (Ringed.stalkLinearMap S.f.val x) r (p + 1) := by
+        have := extGerm_mem_filt x S.f W hW _ h1
+        convert this using 1
+        exact (extGerm_res r S.X₂ x i hW _).symm
+      have h3 := h2
+      erw [extGerm_alpha x S.f hp] at h3
+      rw [alpha_mem_filt_succ_iff_stalk hS x h₁ h₃ hp, ← tensorExtGerm_lTensor x S.g U hU z] at h3
+      have h4 : sectionGerm (moduleSheafExteriorPowerPresheaf p S.X₁ ⊗
+          moduleSheafExteriorPowerPresheaf (r - p) S.X₃) x U hU
+          ((betaPre S.g p r).app (op U) z) = 0 :=
+        (tensorExtStalkEquiv x p (r - p) S.X₁ S.X₃).map_eq_zero_iff.1 h3
+      exact sectionGerm_apex_mk_eq_zero S.f S.g hp hU z h2 h4
+  · induction t using Submodule.Quotient.induction_on with
+    | H w =>
+      obtain ⟨w, hw⟩ := w
+      have hw' : w ∈ LinearMap.range
+          (ExteriorPowerFiltration.alpha (S.f.val.app (op U)).hom hp) := by
+        rw [← ExteriorPowerFiltration.filt_of_le _ hp]
+        exact hw
+      obtain ⟨z, rfl⟩ := hw'
+      exact ⟨U, hU, Submodule.Quotient.mk z, rfl⟩
+
+/-- The comparison map to `⋀^p F' ⊗ ⋀^{r-p} F''` is bijective on stalks. -/
+theorem stalk_toH_bijective {p r : ℕ} (hp : p ≤ r) :
+    Function.Bijective (Ringed.stalkAddMap (toH S.f S.g hp) x) := by
+  refine ⟨stalkAddMap_injective_of_germ _ fun U hU s hs => ?_,
+    stalkAddMap_surjective_of_germ _ fun U hU t => ?_⟩
+  · induction s using Submodule.Quotient.induction_on with
+    | H z =>
+      have h3 : tensorExtGerm x p (r - p) S.X₁ S.X₃ U hU
+          ((betaPre S.g p r).app (op U) z) = 0 := by
+        change tensorExtStalkEquiv x p (r - p) S.X₁ S.X₃ (sectionGerm _ x U hU _) = 0
+        erw [hs]
+        exact map_zero _
+      erw [tensorExtGerm_lTensor] at h3
+      rw [← alpha_mem_filt_succ_iff_stalk hS x h₁ h₃ hp] at h3
+      have h4 : extGerm r S.X₂ x U hU ((alphaPre S.f hp).app (op U) z) ∈
+          ExteriorPowerFiltration.filt (Ringed.stalkLinearMap S.f.val x) r (p + 1) := by
+        erw [extGerm_alpha x S.f hp]
+        exact h3
+      exact sectionGerm_apex_mk_eq_zero S.f S.g hp hU z h4 hs
+  · obtain ⟨s, hs⟩ := exists_stalk_section hS x h₃
+    obtain ⟨u, hu⟩ := ExteriorPowerFiltration.lTensor_map_surjective hs _ (r - p)
+      (tensorExtGerm x p (r - p) S.X₁ S.X₃ U hU t)
+    obtain ⟨u', rfl⟩ := (tensorExtStalkEquiv x p (r - p) S.X₁ S.X₂).surjective u
+    obtain ⟨V, hV, v, rfl⟩ := exists_sectionGerm _ x u'
+    refine ⟨V, hV, Submodule.Quotient.mk v, ?_⟩
+    apply (tensorExtStalkEquiv x p (r - p) S.X₁ S.X₃).injective
+    change tensorExtGerm x p (r - p) S.X₁ S.X₃ V hV ((betaPre S.g p r).app (op V) v) =
+      tensorExtGerm x p (r - p) S.X₁ S.X₃ U hU t
+    erw [tensorExtGerm_lTensor]
+    exact hu
+
+end StalkBijective
+
+section LocallyFreeMain
+
+open SheafAlgebraOperations
+
+variable {S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))} (hS : S.ShortExact)
+  (h₁ : Ringed.IsLocallyFree S.X₁) (h₃ : Ringed.IsLocallyFree S.X₃)
+
+/-- The graded pieces of the standard filtration, for a short exact sequence whose outer terms
+are locally free of arbitrary rank. -/
+noncomputable def gradedIsoOfIsLocallyFree {r p : ℕ} (hp : p ≤ r)
+    (h : filSh S.f r (p + 1) ≤ filSh S.f r p) :
+    cokernel (Subobject.ofLE _ _ h) ≅
+      moduleSheafTensor (moduleSheafExteriorPower p S.X₁) (moduleSheafExteriorPower (r - p) S.X₃) :=
+  haveI : IsIso (sheafifyMap (toGrad S.f S.g hp)) :=
+    isIso_sheafifyMap _ fun x => stalk_toGrad_bijective hS x h₁ h₃ hp
+  haveI : IsIso (sheafifyMap (toH S.f S.g hp)) :=
+    isIso_sheafifyMap _ fun x => stalk_toH_bijective hS x h₁ h₃ hp
+  cokernelIsoOfEq (ofLE_filSh_eq S.f r p h) ≪≫
+    cokernelCompIsIso ((Subobject.underlyingIso (filArrow S.f r (p + 1))).hom ≫
+      sheafifyMap (PresheafOfModules.Submodule.homOfLE (filPre_antitone S.f r (Nat.le_succ p))))
+      (Subobject.underlyingIso (filArrow S.f r p)).inv ≪≫
+    cokernelEpiComp (Subobject.underlyingIso (filArrow S.f r (p + 1))).hom
+      (sheafifyMap (PresheafOfModules.Submodule.homOfLE (filPre_antitone S.f r (Nat.le_succ p)))) ≪≫
+    cokernelIsoSheafifyGrad S.f r p ≪≫ (asIso (sheafifyMap (toGrad S.f S.g hp))).symm ≪≫
+      asIso (sheafifyMap (toH S.f S.g hp)) ≪≫ sheafifyTensorIso S.X₁ S.X₃ p (r - p)
+
+end LocallyFreeMain
+
 section Determinant
 
 open SheafAlgebraOperations
@@ -1162,11 +1611,45 @@ end Determinant
 section MainTheorem
 
 /-- **Hartshorne II, Exercise 5.16(d).** Let `0 → F' → F → F'' → 0` be a short exact sequence of
-locally free `𝒪_X`-modules of finite rank on a ringed space `(X, 𝒪_X)`, and `r ≥ 0`. The standard
-filtration `F^p ⊆ ⋀^r F` (`filSh`), with `F^p` the image of the wedge-product morphism
+locally free `𝒪_X`-modules (of arbitrary rank) on a ringed space `(X, 𝒪_X)`, and `r ≥ 0`. The
+standard filtration `F^p ⊆ ⋀^r F` (`filSh`), with `F^p` the image of the wedge-product morphism
 `⋀^p F' ⊗ ⋀^{r-p} F → ⋀^r F` for `p ≤ r`, is a finite filtration
 `⋀^r F = F^0 ⊇ F^1 ⊇ ⋯ ⊇ F^r ⊇ F^{r+1} = 0` by subobjects whose quotients are
 `F^p / F^{p+1} ≅ ⋀^p F' ⊗ ⋀^{r-p} F''` for `0 ≤ p ≤ r`. -/
+theorem exteriorPower_exact_filtration_of_isLocallyFree
+    (S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))) (hS : S.ShortExact)
+    (h₁ : Ringed.IsLocallyFree S.X₁) (h₃ : Ringed.IsLocallyFree S.X₃) :
+    Ringed.IsLocallyFree S.X₂ → ∀ r : ℕ,
+      (∀ p (hp : p ≤ r), filSh S.f r p = imageSubobject (wedgeSheafMap S.f hp)) ∧
+      filSh S.f r 0 = ⊤ ∧ filSh S.f r (r + 1) = ⊥ ∧ Antitone (filSh S.f r) ∧
+      ∀ p (h : filSh S.f r (p + 1) ≤ filSh S.f r p), p ≤ r →
+        Nonempty (cokernel (Subobject.ofLE _ _ h) ≅
+          moduleSheafTensor (moduleSheafExteriorPower p S.X₁)
+            (moduleSheafExteriorPower (r - p) S.X₃)) := fun _ r =>
+  ⟨fun _ hp => filSh_eq_imageSubobject S.f hp, filSh_zero S.f r,
+    filSh_of_lt S.f (Nat.lt_succ_self r), filSh_antitone S.f r,
+    fun _ h hp => ⟨gradedIsoOfIsLocallyFree hS h₁ h₃ hp h⟩⟩
+
+/-- **Hartshorne II, Exercise 5.16(d)**, in the book's wording: for a short exact sequence
+`0 → F' → F → F'' → 0` of locally free `𝒪_X`-modules (of arbitrary rank) and every `r`, there is
+a finite filtration `⋀^r F = F^0 ⊇ F^1 ⊇ ⋯ ⊇ F^r ⊇ F^{r+1} = 0` with quotients
+`F^p / F^{p+1} ≅ ⋀^p F' ⊗ ⋀^{r-p} F''` for each `p`. -/
+theorem exists_exteriorPower_exact_filtration_of_isLocallyFree
+    (S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))) (hS : S.ShortExact)
+    (h₁ : Ringed.IsLocallyFree S.X₁) (h₃ : Ringed.IsLocallyFree S.X₃) :
+    Ringed.IsLocallyFree S.X₂ → ∀ r : ℕ,
+      ∃ Fil : ℕ → Subobject (C := SheafOfModules.{u} (ringCatSheafOf R))
+          (moduleSheafExteriorPower r S.X₂),
+        Fil 0 = ⊤ ∧ Fil (r + 1) = ⊥ ∧ Antitone Fil ∧
+        ∀ p (h : Fil (p + 1) ≤ Fil p), p ≤ r →
+          Nonempty (cokernel (Subobject.ofLE _ _ h) ≅
+            moduleSheafTensor (moduleSheafExteriorPower p S.X₁)
+              (moduleSheafExteriorPower (r - p) S.X₃)) := fun h₂ r =>
+  have h := exteriorPower_exact_filtration_of_isLocallyFree S hS h₁ h₃ h₂ r
+  ⟨filSh S.f r, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2⟩
+
+/-- The finite-rank case of `exteriorPower_exact_filtration_of_isLocallyFree`. -/
+@[deprecated exteriorPower_exact_filtration_of_isLocallyFree (since := "2026-11-09")]
 theorem exteriorPower_exact_filtration
     (S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))) (hS : S.ShortExact)
     (h₁ : Ringed.IsFiniteLocallyFree S.X₁) (h₃ : Ringed.IsFiniteLocallyFree S.X₃) :
@@ -1176,15 +1659,12 @@ theorem exteriorPower_exact_filtration
       ∀ p (h : filSh S.f r (p + 1) ≤ filSh S.f r p), p ≤ r →
         Nonempty (cokernel (Subobject.ofLE _ _ h) ≅
           moduleSheafTensor (moduleSheafExteriorPower p S.X₁)
-            (moduleSheafExteriorPower (r - p) S.X₃)) := fun _ r =>
-  ⟨fun _ hp => filSh_eq_imageSubobject S.f hp, filSh_zero S.f r,
-    filSh_of_lt S.f (Nat.lt_succ_self r), filSh_antitone S.f r,
-    fun _ h hp => ⟨gradedIso S.f S.g (fun x => exists_isSplitAt hS h₁ h₃ x) hp h⟩⟩
+            (moduleSheafExteriorPower (r - p) S.X₃)) := fun h₂ =>
+  exteriorPower_exact_filtration_of_isLocallyFree S hS h₁.isLocallyFree h₃.isLocallyFree
+    h₂.isLocallyFree
 
-/-- **Hartshorne II, Exercise 5.16(d)**, in the book's wording: for a short exact sequence
-`0 → F' → F → F'' → 0` of locally free `𝒪_X`-modules of finite rank and every `r`, there is a
-finite filtration `⋀^r F = F^0 ⊇ F^1 ⊇ ⋯ ⊇ F^r ⊇ F^{r+1} = 0` with quotients
-`F^p / F^{p+1} ≅ ⋀^p F' ⊗ ⋀^{r-p} F''` for each `p`. -/
+/-- The finite-rank case of `exists_exteriorPower_exact_filtration_of_isLocallyFree`. -/
+@[deprecated exists_exteriorPower_exact_filtration_of_isLocallyFree (since := "2026-11-09")]
 theorem exists_exteriorPower_exact_filtration
     (S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))) (hS : S.ShortExact)
     (h₁ : Ringed.IsFiniteLocallyFree S.X₁) (h₃ : Ringed.IsFiniteLocallyFree S.X₃) :
@@ -1195,9 +1675,9 @@ theorem exists_exteriorPower_exact_filtration
         ∀ p (h : Fil (p + 1) ≤ Fil p), p ≤ r →
           Nonempty (cokernel (Subobject.ofLE _ _ h) ≅
             moduleSheafTensor (moduleSheafExteriorPower p S.X₁)
-              (moduleSheafExteriorPower (r - p) S.X₃)) := fun h₂ r =>
-  have h := exteriorPower_exact_filtration S hS h₁ h₃ h₂ r
-  ⟨filSh S.f r, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2⟩
+              (moduleSheafExteriorPower (r - p) S.X₃)) := fun h₂ =>
+  exists_exteriorPower_exact_filtration_of_isLocallyFree S hS h₁.isLocallyFree h₃.isLocallyFree
+    h₂.isLocallyFree
 
 /-- Near every point of a short exact sequence of locally free modules of ranks `n'`, `n`, `n''`,
 the sequence is split on sections over small opens, and those sections are free with bases of
