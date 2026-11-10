@@ -67,7 +67,12 @@ instance toSheaf_preservesFiniteColimits :
     exact preservesColimitsOfShape_of_isIso_counit
       (PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)) _ K
 
-instance : EnoughInjectives (SheafOfModules.{u} R) := moduleSheaves_enoughInjectives X R
+/-- The `𝒪_X`-modules on a ringed space have enough injectives (Hartshorne III.2,
+Proposition 2.2), for an arbitrary sheaf of rings `R`. `sheafOfModules_enoughInjectives`
+(RingedSpace/SheafExt.lean) is the special case `R = ringCatSheafOf R'` of a sheaf of
+commutative rings. -/
+instance sheafOfModules_enoughInjectives_ringCat : EnoughInjectives (SheafOfModules.{u} R) :=
+  moduleSheaves_enoughInjectives X R
 
 /-- The underlying abelian sheaf of an `𝒪_X`-module, as a functor to the category of abelian
 sheaves on `X` used by sheaf cohomology. -/
