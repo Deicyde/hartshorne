@@ -15,9 +15,10 @@ Let `S = R[x₀, …, xᵣ]` with `r ≥ 1` and `X = Proj S`. The natural map `S
 `s ↦ s · 1`, is an isomorphism (`ProjectiveSpaceSectionRing.sectionRingMap_bijective`,
 `ProjectiveSpaceSectionRing.sectionRingEquiv`). It is a map of `S`-modules for the module
 structure `GradedGlobalSections.gammaStarModule`, and it is graded: `S_d` goes to
-`Γ(X, 𝒪_X(d))` (`ProjectiveSpaceSectionRing.sectionRingMap_of_mem`). `Γ_*(𝒪_X)` carries no ring
-structure in this library, so multiplicativity is expressed through `S`-linearity:
-`s · (t · 1) = (st) · 1`.
+`Γ(X, 𝒪_X(d))` (`ProjectiveSpaceSectionRing.sectionRingMap_of_mem`). `Γ_*(𝒪_X)` carries the
+degreewise product `ProjectiveSpaceSectionRing.mulTwistGlobal` induced by
+`𝒪_X(n) ⊗ 𝒪_X(m) → 𝒪_X(n + m)`, and the map is multiplicative on homogeneous elements
+(`ProjectiveSpaceSectionRing.sectionRingMap_mul`). No full ring instance on `Γ_*(𝒪_X)` is built.
 
 ## Proof
 
