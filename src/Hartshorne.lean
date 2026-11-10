@@ -561,6 +561,7 @@ import Hartshorne.Intersection.PlaneCurveGaussRamification
 import Hartshorne.Scheme.InvertibleSectionClearingDenominators
 import Hartshorne.Scheme.IdealPowerProduct
 import Hartshorne.Scheme.GloballyGenerated
+import Hartshorne.Scheme.GradedGlobalSections
 import Hartshorne.RingedSpace.SheafExt
 import Hartshorne.RingedSpace.SheafExtStructureSheaf
 import Hartshorne.Scheme.SymmetricAlgebraSheaf
