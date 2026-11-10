@@ -6,6 +6,10 @@ import Hartshorne.Cohomology.SmoothMorphisms.CotangentRelativeDifferentials
 import Hartshorne.Cohomology.Semicontinuity.CoherentFiberDimension
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsAffineFibre
 import Hartshorne.Cohomology.FlatFamilies.NormalFamilyFlat
+import Hartshorne.Cohomology.SmoothMorphisms.HartshorneSmoothnessCriterion
+import Hartshorne.Cohomology.SmoothMorphisms.RegularCotangentFlat
+import Hartshorne.Scheme.Differentials.DifferentialsCharacterizeNonsingular
+import Hartshorne.Scheme.Differentials.RelativeDifferentialsFibreRank
 import Mathlib.RingTheory.Etale.Kaehler
 import Mathlib.RingTheory.Flat.Localization
 
@@ -207,6 +211,81 @@ theorem flat_of_forall_isClosed {X Y : Scheme.{u}} [JacobsonSpace X] (f : X ⟶ 
   exact flat_stalkMap_of_specializes f (specializes_iff_mem_closure.mpr hx₀) (h x₀ hc)
 
 end Scheme
+
+section ClosedPoint
+
+/-- At a closed point `x` of a scheme of finite type over an algebraically closed field `k`, for a
+`k`-morphism `f : X ⟶ Y`, the scalar-extended cotangent map
+`κ(x) ⊗ 𝔪_{f x}/𝔪_{f x}² → 𝔪_x/𝔪_x²` is injective if and only if
+`dim κ(x) ⊗ (Ω_{X/Y})_x + dim 𝔪_{f x}/𝔪_{f x}² = dim 𝔪_x/𝔪_x²`. -/
+theorem injective_localCotangentBaseChange_iff_of_isClosed {k : Type u} [Field k]
+    [IsAlgClosed k] {X Y : Over (Spec (CommRingCat.of k))} (hX : LocallyOfFiniteType X.hom)
+    (f : X ⟶ Y) (x : X.left) (hx : IsClosed ({x} : Set X.left))
+    [IsNoetherianRing (Y.left.presheaf.stalk (f.left x))]
+    [IsNoetherianRing (X.left.presheaf.stalk x)] :
+    letI := (f.left.stalkMap x).hom.toAlgebra
+    haveI := isLocalHom_stalkMap_algebraMap f.left x
+    Function.Injective (localCotangentBaseChange (Y.left.presheaf.stalk (f.left x))
+        (X.left.presheaf.stalk x)) ↔
+      finrank (ResidueField (X.left.presheaf.stalk x))
+          (ResidueField (X.left.presheaf.stalk x) ⊗[X.left.presheaf.stalk x]
+            (Scheme.relativeDifferentials f.left).presheaf.stalk x) +
+        finrank (ResidueField (Y.left.presheaf.stalk (f.left x)))
+          (CotangentSpace (Y.left.presheaf.stalk (f.left x))) =
+      finrank (ResidueField (X.left.presheaf.stalk x)) (CotangentSpace (X.left.presheaf.stalk x)) := by
+  let _ := (f.left.stalkMap x).hom.toAlgebra
+  have := isLocalHom_stalkMap_algebraMap f.left x
+  -- the base ring `Γ(Spec k, ⊤) ≅ k` is an algebraically closed field
+  let eA := (Scheme.ΓSpecIso (CommRingCat.of k)).commRingCatIsoToRingEquiv
+  let : Field Γ(Spec (.of k), ⊤) := (eA.toMulEquiv.isField (Field.toIsField k)).toField
+  have : IsAlgClosed Γ(Spec (.of k), ⊤) := IsAlgClosed.of_ringEquiv k _ eA.symm
+  let : Algebra Γ(Spec (.of k), ⊤) (Y.left.presheaf.stalk (f.left x)) :=
+    (Y.hom.appTop ≫ Y.left.presheaf.germ ⊤ (f.left x) trivial).hom.toAlgebra
+  let : Algebra Γ(Spec (.of k), ⊤) (X.left.presheaf.stalk x) :=
+    (X.hom.appTop ≫ X.left.presheaf.germ ⊤ x trivial).hom.toAlgebra
+  have : IsScalarTower Γ(Spec (.of k), ⊤) (Y.left.presheaf.stalk (f.left x))
+      (X.left.presheaf.stalk x) := IsScalarTower.of_algebraMap_eq fun c ↦ by
+    change X.left.presheaf.germ ⊤ x trivial (X.hom.appTop c) =
+      f.left.stalkMap x (Y.left.presheaf.germ ⊤ (f.left x) trivial (Y.hom.appTop c))
+    rw [← Over.w f]
+    exact (Scheme.Hom.germ_stalkMap_apply f.left ⊤ x trivial (Y.hom.appTop c)).symm
+  -- `k → κ(x)` is bijective at the closed point `x`
+  have hk : Function.Bijective
+      (algebraMap Γ(Spec (.of k), ⊤) (ResidueField (X.left.presheaf.stalk x))) := by
+    obtain ⟨_, ⟨U, hU, rfl⟩, hxU, -⟩ :=
+      X.left.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ x) isOpen_univ
+    let : Algebra Γ(Spec (.of k), ⊤) Γ(X.left, U) := (X.hom.appLE ⊤ U le_top).hom.toAlgebra
+    have : Algebra.FiniteType Γ(Spec (.of k), ⊤) Γ(X.left, U) :=
+      X.hom.finiteType_appLE (isAffineOpen_top _) hU le_top
+    let m := hU.primeIdealOf ⟨x, hxU⟩
+    have : m.asIdeal.IsMaximal := hU.primeIdealOf_isMaximal_of_isClosed ⟨x, hxU⟩ hx
+    have hb := DifferentialsNonsingular.bijective_algebraMap_residueField
+      (k := Γ(Spec (.of k), ⊤)) m.asIdeal
+    let : Algebra Γ(X.left, U) (X.left.presheaf.stalk x) :=
+      TopCat.Presheaf.algebra_section_stalk X.left.presheaf ⟨x, hxU⟩
+    have : IsLocalization.AtPrime (X.left.presheaf.stalk x) m.asIdeal :=
+      hU.isLocalization_stalk ⟨x, hxU⟩
+    let e := IsLocalization.algEquiv m.asIdeal.primeCompl (Localization.AtPrime m.asIdeal)
+      (X.left.presheaf.stalk x)
+    let ψ := ResidueField.mapEquiv e.toRingEquiv
+    convert ψ.bijective.comp hb using 1
+    ext c
+    change residue _ (X.left.presheaf.germ ⊤ x trivial (X.hom.appTop c)) =
+      ResidueField.map (e.toRingEquiv : Localization.AtPrime m.asIdeal →+* _)
+        (residue _ (algebraMap Γ(X.left, U) (Localization.AtPrime m.asIdeal)
+          (algebraMap Γ(Spec (.of k), ⊤) Γ(X.left, U) c)))
+    rw [ResidueField.map_residue]
+    congr 1
+    change _ = e (algebraMap Γ(X.left, U) (Localization.AtPrime m.asIdeal) _)
+    rw [AlgEquiv.commutes]
+    change _ = X.left.presheaf.germ U x hxU (X.hom.appLE ⊤ U le_top c)
+    simp only [Scheme.Hom.appLE, CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply,
+      X.left.presheaf.germ_res_apply]
+    rfl
+  rw [CotangentKaehler.injective_localCotangentBaseChange_iff Γ(Spec (.of k), ⊤) _ _ hk,
+    finrank_fibre_relativeDifferentials_eq_stalk]
+
+end ClosedPoint
 
 end SmoothTangent
 
