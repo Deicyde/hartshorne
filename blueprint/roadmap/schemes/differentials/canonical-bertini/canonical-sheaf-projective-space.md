@@ -2,6 +2,9 @@
 article_id: af_37f416ec52be29fea398e3fd
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.EulerSequence.canonicalSheaf_projectiveSpace Hartshorne.EulerSequence.geometricGenus_projectiveSpace Hartshorne.ProjectiveSpacePicard.projTwistingSheaf_globalSections_eq_zero
 ---
 
 # The canonical sheaf of projective space
