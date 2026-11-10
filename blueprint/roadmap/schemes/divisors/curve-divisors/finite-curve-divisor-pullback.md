@@ -2,16 +2,16 @@
 article_id: af_d0bf12084f8433d9aaa2bb0e
 declaration: definition
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveDivisorPullback AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveFunctionFieldMap AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveDegree AlgebraicGeometry.Scheme.IsNonsingularCurve.divisorDegree AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurvePointPullback AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurvePointPullback_apply AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurvePointPullback_support_subset AlgebraicGeometry.Scheme.IsNonsingularCurve.weilDivisorAddEquivFinsupp_finiteCurvePointPullback AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveDivisorPullback_primeDivisor AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveDivisorPullback_principalDivisor AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveClassGroupPullback AlgebraicGeometry.Scheme.IsNonsingularCurve.finiteCurveClassGroupPullback_weilDivisorClassHom
 ---
 
 # Pullback of divisors along finite curve morphisms
 
-For a finite morphism $f : X \to Y$ of nonsingular curves, define its degree as
-$[K(X):K(Y)]$. Since the ground field is algebraically closed, define the
-degree of a curve divisor $D = \sum _i n_i P_i$ by
+For a finite morphism $f : X \to Y$ of curves, define its degree as
+$[K(X):K(Y)]$. Now let $X$ and $Y$ be nonsingular curves; in particular a
+finite morphism of nonsingular curves has a degree. Since the ground field is
+algebraically closed, define the degree of a curve divisor $D = \sum _i n_i P_i$ by
 $\deg D = \sum _i n_i$. For a closed point $Q \in Y$ and a local parameter $t$ at
 $Q$, define
 
@@ -44,4 +44,4 @@ this section, although the constructions and facts above do not use them.
 
 ## Sources
 
-- [Hartshorne II.6, curve-divisor degree and finite-curve pullback definitions on printed pp.137–138](../../../../sources/hartshorne-ii-6.md#divisors-on-curves)
+- [Hartshorne II.6, curve-divisor degree and finite-curve pullback definitions on printed p.137](../../../../sources/hartshorne-ii-6.md#divisors-on-curves)

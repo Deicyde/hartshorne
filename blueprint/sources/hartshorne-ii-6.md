@@ -72,7 +72,7 @@ there.
 - **Proposition 6.8, p.137.** A morphism from a complete nonsingular curve to
   a curve is constant or surjective. In the surjective case it is finite, the
   induced function-field extension is finite, and the target is complete.
-- **Definitions, pp.137–138.** The degree of a finite curve morphism is its
+- **Definitions, p.137.** The degree of a finite curve morphism is its
   function-field degree. Divisors on a nonsingular curve are sums of closed
   points. For a finite morphism `f : X → Y`, pullback is defined by
   `f*Q = sum_(P maps to Q) v_P(t) P`; it is independent of the local parameter
