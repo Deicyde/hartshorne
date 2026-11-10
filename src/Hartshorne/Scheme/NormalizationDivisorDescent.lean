@@ -11,6 +11,7 @@ import Hartshorne.Scheme.RegularLocalFactorial
 import Mathlib.AlgebraicGeometry.Morphisms.QuasiFinite
 import Hartshorne.Scheme.VarietyBasicInstances
 import Hartshorne.Scheme.AbsoluteNormalizationNormal
+import Mathlib.Algebra.Module.Submodule.Union
 
 /-!
 # Toward descending a very ample sheaf from the normalization of a curve
@@ -182,6 +183,133 @@ theorem exists_finite_set_divisor_of_generates {k : Type u} [Field k] [PerfectFi
   refine ⟨D, hDeff, hDL, fun x hx ↦ ?_⟩
   obtain ⟨V, ψ, hxV, hu⟩ := hgen x fun hxU ↦ hx (hreg _ hxU)
   exact ⟨V, hxV, hD.restrict_eq_zero ψ hu⟩
+
+open Scheme.CartierDivisor in
+/-- The germ at `x` of the coordinate of a global section in a trivialization near `x`. -/
+def trivGerm {Y : Scheme.{u}} {L : Y.Modules} {V : Y.Opens}
+    (ψ : L.over V ≅ SheafOfModules.unit _) {x : Y} (hx : x ∈ V) (s : L.val.obj (op ⊤)) :
+    Y.presheaf.stalk x :=
+  Y.presheaf.germ V x hx (trivApply ψ (resTop L V s))
+
+set_option backward.isDefEq.respectTransparency false in
+open Scheme.CartierDivisor in
+/-- `trivGerm` is additive. -/
+theorem trivGerm_add {Y : Scheme.{u}} {L : Y.Modules} {V : Y.Opens}
+    (ψ : L.over V ≅ SheafOfModules.unit _) {x : Y} (hx : x ∈ V) (s t : L.val.obj (op ⊤)) :
+    trivGerm ψ hx (s + t) = trivGerm ψ hx s + trivGerm ψ hx t := by
+  unfold trivGerm trivApply resTop
+  rw [map_add, map_add, map_add]
+
+set_option backward.isDefEq.respectTransparency false in
+open Scheme.CartierDivisor in
+/-- `trivGerm` is semilinear over the global sections. -/
+theorem trivGerm_smul {Y : Scheme.{u}} {L : Y.Modules} {V : Y.Opens}
+    (ψ : L.over V ≅ SheafOfModules.unit _) {x : Y} (hx : x ∈ V)
+    (c : Y.ringCatSheaf.obj.obj (op ⊤)) (s : L.val.obj (op ⊤)) :
+    trivGerm ψ hx (c • s) =
+      Y.presheaf.germ ⊤ x trivial (show Γ(Y, ⊤) from c) * trivGerm ψ hx s := by
+  unfold trivGerm trivApply resTop
+  rw [PresheafOfModules.map_smul, map_smul, smul_eq_mul, map_mul]
+  congr 1
+  exact Y.presheaf.germ_res_apply (homOfLE (le_top : V ≤ ⊤)) x hx (show Γ(Y, ⊤) from c)
+
+/-- **Choosing a section that generates at finitely many points.** Over an infinite field `k`
+acting on global sections, if at each of finitely many points `x` some global section of `L`
+generates `L` at `x` (its coordinate in a fixed trivialization near `x` has a unit germ), then a
+single global section does so at all of them. -/
+theorem exists_isUnit_trivGerm {k : Type u} [Field k] [Infinite k] {Y : Scheme.{u}}
+    (φ : k →+* Γ(Y, ⊤)) {L : Y.Modules} (S : Finset Y) (V : Y → Y.Opens) (hxV : ∀ x, x ∈ V x)
+    (ψ : ∀ x, L.over (V x) ≅ SheafOfModules.unit _)
+    (h : ∀ x ∈ S, ∃ t : L.val.obj (op ⊤), IsUnit (trivGerm (ψ x) (hxV x) t)) :
+    ∃ s : L.val.obj (op ⊤), ∀ x ∈ S, IsUnit (trivGerm (ψ x) (hxV x) s) := by
+  let _ : Module k (L.val.obj (op ⊤)) :=
+    Module.compHom _ (show k →+* Y.ringCatSheaf.obj.obj (op ⊤) from φ)
+  let N : S → Submodule k (L.val.obj (op ⊤)) := fun x ↦
+    { carrier := {s | trivGerm (ψ x) (hxV x) s ∈ IsLocalRing.maximalIdeal (Y.presheaf.stalk x.1)}
+      add_mem' := fun {a b} ha hb ↦ by
+        show trivGerm (ψ x) (hxV x) (a + b) ∈ IsLocalRing.maximalIdeal (Y.presheaf.stalk x.1)
+        rw [trivGerm_add]
+        exact add_mem ha hb
+      zero_mem' := by
+        show trivGerm (ψ x) (hxV x) 0 ∈ IsLocalRing.maximalIdeal (Y.presheaf.stalk x.1)
+        have := trivGerm_add (ψ x) (hxV x) 0 0
+        rw [add_zero, left_eq_add] at this
+        rw [this]
+        exact zero_mem _
+      smul_mem' := fun c a ha ↦ by
+        show trivGerm (ψ x) (hxV x) ((show Y.ringCatSheaf.obj.obj (op ⊤) from φ c) • a) ∈
+          IsLocalRing.maximalIdeal (Y.presheaf.stalk x.1)
+        rw [trivGerm_smul]
+        exact Ideal.mul_mem_left _ _ ha }
+  have hN : ∀ x, N x ≠ ⊤ := by
+    intro x htop
+    obtain ⟨t, ht⟩ := h x.1 x.2
+    have : t ∈ N x := htop ▸ Submodule.mem_top
+    exact (IsLocalRing.mem_maximalIdeal _).mp this ht
+  have hcard : (Finset.univ : Finset S).card < ENat.card k := by
+    rw [ENat.card_eq_top_of_infinite]
+    exact ENat.natCast_lt_top _
+  obtain ⟨s, -, hs⟩ := Set.exists_of_ssubset
+    (Submodule.iUnion_ssubset_of_forall_ne_top_of_card_lt Finset.univ N hN hcard)
+  refine ⟨s, fun x hx ↦ ?_⟩
+  by_contra hu
+  apply hs
+  refine Set.mem_biUnion (Finset.mem_univ ⟨x, hx⟩) ?_
+  exact (IsLocalRing.mem_maximalIdeal _).mpr hu
+
+open Scheme.CartierDivisor in
+/-- The divisor of zeros of `s` is trivial near a point where `s` generates `L`, i.e. where the
+coordinate of `s` in a trivialization has a unit germ. -/
+theorem Scheme.CartierDivisor.IsDivisorOfZeros.exists_restrict_eq_zero {Y : Scheme.{u}} {L : Y.Modules}
+    {s : L.val.obj (op ⊤)} {D : Y.CartierDivisor} (hD : IsDivisorOfZeros L s D) {V : Y.Opens}
+    (ψ : L.over V ≅ SheafOfModules.unit _) {x : Y} (hx : x ∈ V)
+    (hu : IsUnit (trivGerm ψ hx s)) : ∃ W : Y.Opens, x ∈ W ∧ D.restrict W = 0 := by
+  obtain ⟨W, i, hxW, hW⟩ := RingedSpace.isUnit_res_of_isUnit_germ Y.toRingedSpace V
+    (trivApply ψ (resTop L V s)) x hx hu
+  obtain ⟨f, hf, hDV⟩ := hD V ψ
+  have hWV : W ≤ V := leOfHom i
+  refine ⟨W, hxW, ?_⟩
+  rw [← D.restrict_restrict hWV, hDV, Scheme.toCartierDivisorSheaf_naturality_apply]
+  let a : Y.structureUnitsSheaf.obj.obj (op W) := (show Γ(Y, W)ˣ from hW.unit)
+  have ha : Y.structureUnitsToTotalQuotientUnits.hom.app (op W) a =
+      Y.totalQuotientUnitsSheaf.obj.map (homOfLE hWV).op f := by
+    refine Units.ext ?_
+    change Y.toK W hW.unit = Y.totalQuotientSheaf.obj.map (homOfLE hWV).op (kUnitVal f)
+    rw [hW.unit_spec, ← hf, toK_naturality]
+    rfl
+  rw [← ha]
+  exact Scheme.toCartierDivisorSheaf_structureUnits W a
+
+open Scheme.CartierDivisor in
+/-- **Reduction of the divisor part of Hartshorne III, Exercise 5.8(b) to choosing a section**,
+germ form. Let `X` be an integral scheme of finite type and dimension one over a perfect field,
+with normalization `ν : X̃ ⟶ X`. There is a finite set `S` of points of `X̃` such that for every
+invertible sheaf `L` on `X̃` and every nonzero global section `s` of `L` generating `L` at each
+point of `S` (for some trivialization near the point), the divisor of zeros `D = (s)₀` is
+effective, `𝒪(D) ≅ L`, and `D` is trivial near every point lying over a singular point of `X`. -/
+theorem exists_finite_set_divisor_of_isUnit_trivGerm {k : Type u} [Field k] [PerfectField k]
+    {X : Scheme.{u}} [IsIntegral X] (f : X ⟶ Spec (.of k)) (hf : Hartshorne.FiniteType f)
+    (hdim : topologicalKrullDim X = 1) :
+    ∃ S : Set (Hartshorne.absoluteNormalization X), S.Finite ∧
+      ∀ (L : (Hartshorne.absoluteNormalization X).Modules), L.IsInvertible →
+        ∀ s : L.val.obj (op ⊤), s ≠ 0 →
+          (∀ x ∈ S, ∃ (V : (Hartshorne.absoluteNormalization X).Opens)
+            (ψ : L.over V ≅ SheafOfModules.unit _) (hx : x ∈ V), IsUnit (trivGerm ψ hx s)) →
+          ∃ D : (Hartshorne.absoluteNormalization X).CartierDivisor, D.IsEffective ∧
+            Nonempty (D.sheaf ≅ L) ∧
+            ∀ x, ¬ X.IsRegularAt (Hartshorne.absoluteNormalizationMap X x) →
+              ∃ V : (Hartshorne.absoluteNormalization X).Opens, x ∈ V ∧ D.restrict V = 0 := by
+  have := hf.1
+  have := Hartshorne.isNoetherian_of_finiteType f hf
+  obtain ⟨U, hU, hreg, -⟩ := exists_isIso_absoluteNormalizationMap_restrict f
+  refine ⟨Hartshorne.absoluteNormalizationMap X ⁻¹' ((U : Set X)ᶜ),
+    finite_preimage_absoluteNormalizationMap f hf
+      (finite_compl_of_topologicalKrullDim_eq_one hdim hU),
+    fun L hL s hs hgen ↦ ?_⟩
+  obtain ⟨D, hD, hDeff, hDL⟩ := exists_isDivisorOfZeros_of_isInvertible hL hs
+  refine ⟨D, hDeff, hDL, fun x hx ↦ ?_⟩
+  obtain ⟨V, ψ, hxV, hu⟩ := hgen x fun hxU ↦ hx (hreg _ hxU)
+  exact hD.exists_restrict_eq_zero ψ hxV hu
 
 end
 
