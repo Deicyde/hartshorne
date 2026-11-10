@@ -221,6 +221,79 @@ theorem idealSheafRestrictIso_trans :
   exact (Category.assoc _ _ _).trans ((Category.assoc _ _ _).trans
     (s1.trans (s5.trans (hN.symm.trans s6))))
 
+/-- The conormal sheaf `g^* I_g` of a morphism `g`. -/
+noncomputable abbrev conormalOf {W : Scheme.{u}} (g : Z ⟶ W) : Z.Modules :=
+  (Modules.pullback g).obj (closedImmersionIdealSheaf g)
+
+omit [IsOpenImmersion κ₁] [IsOpenImmersion κ₂] in
+/-- `conormalRestrictIso` followed by `eqToIso`, with the ideal sheaf of `j'` throughout. -/
+theorem conormalRestrictIso_trans_eqToIso {V U : Scheme.{u}} (j : Z ⟶ V) (κ : V ⟶ U)
+    [IsOpenImmersion κ] (j' : Z ⟶ U) (h : j ≫ κ = j') :
+    (conormalRestrictIso j κ ≪≫ eqToIso (congrArg conormalOf h)).hom =
+      (Modules.pullback j).map ((idealSheafRestrictIso' j κ j' h).inv ≫
+        (Modules.restrictFunctorIsoPullback κ).hom.app _) ≫
+        (Modules.pullbackComp j κ).hom.app _ ≫
+        eqToHom (congrArg (fun g => (Modules.pullback g).obj (closedImmersionIdealSheaf j')) h) := by
+  subst h
+  simp [conormalRestrictIso, idealSheafRestrictIso']
+
+/-- **Transitivity** of `conormalRestrictIso` along composed open immersions. -/
+theorem conormalRestrictIso_trans :
+    conormalRestrictIso j κ₁ ≪≫ conormalRestrictIso (j ≫ κ₁) κ₂ =
+      conormalRestrictIso j (κ₁ ≫ κ₂) ≪≫
+        eqToIso (congrArg conormalOf (Category.assoc j κ₁ κ₂).symm) := by
+  ext1
+  refine Eq.trans ?_ (conormalRestrictIso_trans_eqToIso j (κ₁ ≫ κ₂) _
+    (Category.assoc j κ₁ κ₂).symm).symm
+  have hp := NatTrans.congr_app (Modules.pseudofunctor_associativity j κ₁ κ₂)
+    (closedImmersionIdealSheaf ((j ≫ κ₁) ≫ κ₂))
+  simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
+    Functor.associator_hom_app, Category.id_comp, eqToHom_app] at hp
+  have pa : (Modules.pullbackComp j κ₁).hom.app
+        ((Modules.pullback κ₂).obj (closedImmersionIdealSheaf ((j ≫ κ₁) ≫ κ₂))) ≫
+        (Modules.pullbackComp (j ≫ κ₁) κ₂).hom.app (closedImmersionIdealSheaf ((j ≫ κ₁) ≫ κ₂)) =
+      (Modules.pullback j).map ((Modules.pullbackComp κ₁ κ₂).hom.app
+          (closedImmersionIdealSheaf ((j ≫ κ₁) ≫ κ₂))) ≫
+        (Modules.pullbackComp j (κ₁ ≫ κ₂)).hom.app (closedImmersionIdealSheaf ((j ≫ κ₁) ≫ κ₂)) ≫
+          eqToHom (by rw [Category.assoc]) := by
+    rw [← hp]
+    simp only [Iso.hom_inv_id_app_assoc, ← Functor.map_comp_assoc, Iso.hom_inv_id_app]
+    erw [CategoryTheory.Functor.map_id, Category.id_comp]
+  have B := NatTrans.congr_app (restrictFunctorIsoPullback_comp κ₁ κ₂)
+    (closedImmersionIdealSheaf ((j ≫ κ₁) ≫ κ₂))
+  simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app] at B
+  have II := congrArg Iso.inv (idealSheafRestrictIso_trans j κ₁ κ₂)
+  simp only [Iso.trans_inv, Iso.app_inv, Functor.mapIso_inv] at II
+  simp only [conormalRestrictIso, Iso.trans_hom, Functor.mapIso_hom, Iso.symm_hom, Iso.app_hom,
+    Category.assoc]
+  rw [← NatTrans.naturality_assoc, Functor.comp_map, pa, ← Functor.map_comp_assoc,
+    ← Functor.map_comp_assoc]
+  congr 2
+  simp only [Category.assoc (obj := V₁.Modules)]
+  rw [← NatTrans.naturality_assoc, Functor.map_comp_assoc, ← II, ← B]
+  simp
+
+omit [IsOpenImmersion κ₁] [IsOpenImmersion κ₂] in
+/-- Transport of `conormalRestrictIso` along an equality of the closed immersions. -/
+@[reassoc]
+theorem conormalRestrictIso_congr_left {V U : Scheme.{u}} {j j' : Z ⟶ V} (hj : j = j')
+    (κ : V ⟶ U) [IsOpenImmersion κ] :
+    eqToHom (congrArg conormalOf hj) ≫ (conormalRestrictIso j' κ).hom =
+      (conormalRestrictIso j κ).hom ≫
+        eqToHom (congrArg conormalOf (congrArg (· ≫ κ) hj)) := by
+  subst hj
+  simp
+
+omit [IsOpenImmersion κ₁] [IsOpenImmersion κ₂] in
+/-- Transport of `conormalRestrictIso` along an equality of the open immersions. -/
+theorem conormalRestrictIso_congr_right {V U : Scheme.{u}} (j : Z ⟶ V) {κ κ' : V ⟶ U}
+    (hκ : κ = κ') [IsOpenImmersion κ] [IsOpenImmersion κ'] :
+    (conormalRestrictIso j κ).hom =
+      (conormalRestrictIso j κ').hom ≫
+        eqToHom (congrArg conormalOf (congrArg (j ≫ ·) hκ.symm)) := by
+  subst hκ
+  simp
+
 end Transitivity
 
 section Factorization
@@ -236,6 +309,8 @@ structure ClosedFactorization where
   j : Z ⟶ U.toScheme
   fac : j ≫ U.ι = i
   isClosedImmersion : IsClosedImmersion j
+
+attribute [instance] ClosedFactorization.isClosedImmersion
 
 namespace ClosedFactorization
 
@@ -255,7 +330,7 @@ variable (i) in
 theorem conormal_canonical : (canonical i).conormal = immersionConormalSheaf i :=
   rfl
 
-/-- Every open in which `Z` is closed lies in `i.coborderRange`. -/
+/-- The open of any closed factorization lies in `i.coborderRange`. -/
 theorem le_coborderRange (F : ClosedFactorization i) : F.U ≤ i.coborderRange := by
   intro x hx
   show x ∈ coborder (Set.range i)
@@ -264,7 +339,7 @@ theorem le_coborderRange (F : ClosedFactorization i) : F.U ≤ i.coborderRange :
   · exact Or.inl hxs
   refine Or.inr fun hcl => hxs ?_
   have hjc : IsClosed (Set.range F.j) :=
-    (@Scheme.Hom.isClosedEmbedding _ _ F.j F.isClosedImmersion).isClosed_range
+    F.j.isClosedEmbedding.isClosed_range
   have hfun : ∀ z, i z = F.U.ι (F.j z) := fun z =>
     (congrArg (fun g : Z ⟶ X => g z) F.fac).symm
   have hs : Set.range i = F.U.ι '' Set.range F.j := by
@@ -288,14 +363,16 @@ theorem j_homOfLE (F : ClosedFactorization i) :
     i.liftCoborder_ι]
 
 /-- **Independence of the conormal sheaf.** The construction from any closed factorization is
-canonically isomorphic to the conormal sheaf `N^*_i`. -/
+canonically isomorphic to the conormal sheaf `N^*_i`: this is the restriction isomorphism
+`conormalRestrictIso` along `F.U ≤ i.coborderRange`. -/
 noncomputable def toCanonical (F : ClosedFactorization i) :
     F.conormal ≅ immersionConormalSheaf i :=
   conormalRestrictIso F.j (X.homOfLE (le_coborderRange F)) ≪≫
     eqToIso (congrArg (fun g => (Modules.pullback g).obj (closedImmersionIdealSheaf g))
       (j_homOfLE F))
 
-/-- The comparison isomorphism between the constructions from two closed factorizations. -/
+/-- The comparison isomorphism between the constructions from two closed factorizations, defined
+through the canonical conormal sheaf `N^*_i`. -/
 noncomputable def comparison (F G : ClosedFactorization i) : F.conormal ≅ G.conormal :=
   toCanonical F ≪≫ (toCanonical G).symm
 
@@ -312,6 +389,12 @@ theorem comparison_trans (F G H : ClosedFactorization i) :
 theorem comparison_toCanonical (F G : ClosedFactorization i) :
     comparison F G ≪≫ toCanonical G = toCanonical F := by
   simp [comparison]
+
+omit [IsImmersion i] in
+/-- If `F.U ≤ G.U`, then `F.j` followed by the inclusion `F.U ⟶ G.U` is `G.j`. -/
+theorem j_homOfLE_of_le (F G : ClosedFactorization i) (h : F.U ≤ G.U) :
+    F.j ≫ X.homOfLE h = G.j := by
+  rw [← cancel_mono G.U.ι, Category.assoc, Scheme.homOfLE_ι, F.fac, G.fac]
 
 end ClosedFactorization
 
