@@ -2,6 +2,9 @@
 article_id: af_5dbe2fc522ca43b05f3a1f6b
 declaration: isomorphism
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.ProjectiveSpaceSectionRing.sectionRingMap Hartshorne.ProjectiveSpaceSectionRing.sectionRingMap_of_mem Hartshorne.ProjectiveSpaceSectionRing.sectionRingMap_bijective Hartshorne.ProjectiveSpaceSectionRing.sectionRingEquiv
 ---
 
 # The section ring of projective space
