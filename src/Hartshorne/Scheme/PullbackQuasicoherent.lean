@@ -78,8 +78,8 @@ theorem isQuasicoherent_pullback {X Y : Scheme.{u}} (f : X ⟶ Y) (F : Y.Modules
   exact ⟨_, ⟨specRestrictionPullbackIso f F (U p.1.1) p.1.2 p.2 M e⟩⟩
 
 /-- **Hartshorne II, Proposition 5.8(b).** For a morphism of schemes `f : X ⟶ Y`, the pullback of
-a coherent `𝒪_Y`-module is a coherent `𝒪_X`-module. Hartshorne assumes `X` and `Y` locally
-Noetherian; the proof doesn't use it. -/
+a coherent `𝒪_Y`-module is a coherent `𝒪_X`-module. Hartshorne assumes `X` and `Y` noetherian;
+the proof doesn't use it. -/
 theorem isCoherent_pullback {X Y : Scheme.{u}} (f : X ⟶ Y) {F : Y.Modules} (hF : IsCoherent F) :
     IsCoherent ((Scheme.Modules.pullback f).obj F) := by
   obtain ⟨ι, U, hU, hF⟩ := hF
