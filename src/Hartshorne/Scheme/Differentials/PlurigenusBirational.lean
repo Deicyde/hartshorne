@@ -619,8 +619,8 @@ theorem isLocallyFreeOfRank_exteriorPower_relativeDifferentials [IsAlgClosed k] 
     Modules.IsLocallyFreeOfRank
       (moduleSheafExteriorPower (R := X.sheaf) q (relativeDifferentials p)) (n.choose q) := by
   have h := (isRegular_iff_relativeDifferentials_isLocallyFreeOfRank p hp n hn).mp hX
-  rw [Scheme.Modules.isLocallyFreeOfRank_iff_ringed] at h ⊢
-  exact h.moduleSheafExteriorPower q
+  rw [Scheme.Modules.isLocallyFreeOfRank_iff_ringed] at h
+  exact (Scheme.Modules.isLocallyFreeOfRank_iff_ringed _ _).mpr (h.moduleSheafExteriorPower q)
 
 /-- **One half of the birational invariance of regular `q`-forms.** For nonsingular varieties
 `X`, `X'` of dimension `n`, proper over an algebraically closed field `k` and birational over `k`,
