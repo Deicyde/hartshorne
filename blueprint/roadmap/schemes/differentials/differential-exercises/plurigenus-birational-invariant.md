@@ -20,6 +20,7 @@ $P_m(X) = P_m(X')$ for every $m > 0$.
 
 ## Proof depends on
 
+- [Pullback injects canonical sections](../canonical-bertini/canonical-pullback-injective.md)
 - Tensor powers of an invertible sheaf remain invertible and their sections
   extend across codimension-at-least-two subsets of a normal variety.
 - Choose dense opens on which the two birational maps are inverse and run the
