@@ -7,6 +7,7 @@ import Hartshorne.Scheme.QcqsPushforwardQuasicoherent
 import Hartshorne.Scheme.AffineGlobalSectionsExact
 import Hartshorne.Scheme.AffineTildeLocalization
 import Mathlib.Algebra.Category.ModuleCat.EnoughInjectives
+import Hartshorne.Scheme.Differentials.LocallyFreeSectionsExtend
 
 /-!
 # Quasi-coherent flasque envelopes
@@ -42,12 +43,6 @@ theorem isFlasque_pushforward {Y : Scheme.{u}} (f : X ⟶ Y) (G : X.Modules)
     TopCat.Presheaf.IsFlasque ((Scheme.Modules.pushforward f).obj G).presheaf where
   epi i := TopCat.Presheaf.IsFlasque.epi (F := G.presheaf) ((Opens.map f.base).op.map i)
 
-/-- Sections of a finite sum of morphisms of `𝒪_X`-modules. -/
-lemma sum_app_apply {M N : X.Modules} {ι : Type*} (s : Finset ι) (φ : ι → (M ⟶ N))
-    (U : X.Opens) (x : Γ(M, U)) : (∑ j ∈ s, φ j).app U x = ∑ j ∈ s, (φ j).app U x :=
-  map_sum (AddMonoidHom.mk' (fun ψ : M ⟶ N => ψ.app U x) fun ψ ψ' => by
-    rw [Scheme.Modules.Hom.add_app]; rfl) φ s
-
 /-- A finite direct sum of `𝒪_X`-modules with flasque underlying sheaves is flasque. -/
 theorem isFlasque_biproduct {ι : Type} [Fintype ι] (H : ι → X.Modules)
     (hH : ∀ j, TopCat.Presheaf.IsFlasque (H j).presheaf) :
@@ -64,12 +59,13 @@ theorem isFlasque_biproduct {ι : Type} [Fintype ι] (H : ι → X.Modules)
       (ConcreteCategory.congr_hom ((biproduct.ι H j).mapPresheaf.naturality i) y).symm
     rw [map_sum]
     simp_rw [hnat, ht]
-    have := sum_app_apply Finset.univ (fun j => biproduct.π H j ≫ biproduct.ι H j) V.unop s
+    have := Scheme.Modules.sum_app_apply Finset.univ
+      (fun j => biproduct.π H j ≫ biproduct.ι H j) V.unop s
     have htot : (∑ j, biproduct.π H j ≫ biproduct.ι H j) = 𝟙 (⨁ H) := biproduct.total
     rw [htot] at this
     exact this.symm
 
-section Envelope
+namespace FlasqueEnvelope
 
 variable (F : X.Modules) (V : X.affineOpens)
 
@@ -116,7 +112,9 @@ lemma toChartEnvelope_app (U : X.Opens) (s : Γ(F, U)) :
   rw [Adjunction.homEquiv_unit]
   rfl
 
-end Envelope
+end FlasqueEnvelope
+
+open FlasqueEnvelope in
 
 /-- **Hartshorne III, Corollary 3.6.** On a Noetherian scheme, every quasi-coherent
 `𝒪_X`-module `F` admits a monomorphism `F ⟶ G` into a flasque quasi-coherent `𝒪_X`-module `G`. -/
