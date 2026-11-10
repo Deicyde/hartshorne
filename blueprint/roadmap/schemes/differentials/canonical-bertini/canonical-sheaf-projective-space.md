@@ -2,18 +2,20 @@
 article_id: af_37f416ec52be29fea398e3fd
 declaration: theorem
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: Hartshorne.EulerSequence.canonicalSheaf_projectiveSpace Hartshorne.EulerSequence.geometricGenus_projectiveSpace Hartshorne.ProjectiveSpacePicard.projTwistingSheaf_globalSections_eq_zero
 ---
 
 # The canonical sheaf of projective space
 
-For $X = \mathbb{P}^n_k$, dualizing the Euler sequence gives
+For $X = \mathbb{P}^n_k$, dualizing the Euler sequence (8.13),
+$0 \to \Omega_{X/k} \to \mathcal{O}_X(-1)^{n+1} \to \mathcal{O}_X \to 0$, gives the exact
+sequence
 
 $0 \to \mathcal{O}_X \to \mathcal{O}_X(1)^{n+1} \to T_X \to 0$,
 
-and taking determinants gives $\omega _X \simeq \mathcal{O}_X(-n-1)$. Consequently
+and taking highest exterior powers in the Euler sequence (8.13) itself gives
+$\omega _X \simeq \mathcal{O}_X(-n-1)$. Consequently
 $p_g(\mathbb{P}^n_k) = 0$ for $n \ge 1$.
 
 ## Depends on
