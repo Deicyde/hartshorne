@@ -243,6 +243,20 @@ end Scheme
 
 end DimensionCodimension
 
+namespace FlatEquidimensional
+
+/-- The dimension of the closure of a point is the height of the point in the specialization
+order. -/
+theorem topologicalKrullDim_closure_singleton {S : Scheme.{u}} (g : S) :
+    topologicalKrullDim (closure ({g} : Set S)) = (height g : WithBot ℕ∞) := by
+  rw [topologicalKrullDim_subtype_eq isClosed_closure]
+  let e : IrreducibleCloseds S ≃o S := irreducibleSetEquivPoints
+  let Z₀ : IrreducibleCloseds S := e.symm g
+  change Order.krullDim (Set.Iic Z₀) = _
+  rw [← height_eq_krullDim_Iic, ← height_orderIso e.symm g]
+
+end FlatEquidimensional
+
 open DimensionCodimension
 
 /-- **Exercise II.3.20 (dimension-codimension formula).** For an integral scheme `X`

@@ -142,16 +142,6 @@ end Poset
 
 section Scheme
 
-/-- The dimension of the closure of a point is the height of the point in the specialization
-order. -/
-theorem topologicalKrullDim_closure_singleton {S : Scheme.{u}} (g : S) :
-    topologicalKrullDim (closure ({g} : Set S)) = (height g : WithBot ℕ∞) := by
-  rw [topologicalKrullDim_subtype_eq isClosed_closure]
-  let e : IrreducibleCloseds S ≃o S := irreducibleSetEquivPoints
-  let Z₀ : IrreducibleCloseds S := e.symm g
-  change Order.krullDim (Set.Iic Z₀) = _
-  rw [← height_eq_krullDim_Iic, ← height_orderIso e.symm g]
-
 /-- A scheme of finite type over a field is catenary at every point, in the sense of
 `CatenaryAt`. This is the height-plus-coheight formula for the reduced induced closed
 subscheme on `cl{g}`, which is integral of finite type over the field. -/

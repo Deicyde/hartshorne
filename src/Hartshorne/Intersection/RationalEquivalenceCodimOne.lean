@@ -42,49 +42,6 @@ theorem isNormal_of_isIso (e : Y ⟶ X) [IsIso e] [IsNormal X] : IsNormal Y wher
   isIntegrallyClosed_stalk y :=
     IsIntegrallyClosed.of_equiv (asIso (e.stalkMap y)).commRingCatIsoToRingEquiv
 
-/-- The function field of an integral scheme is identified with that of an integral scheme openly
-immersed in it, via the stalk map at the generic point. -/
-noncomputable def functionFieldIsoOfIsOpenImmersion (f : Y ⟶ X) [IsOpenImmersion f]
-    [IsIntegral X] [IsIntegral Y] : X.functionField ≅ Y.functionField :=
-  have : IsIso (X.presheaf.stalkSpecializes
-      (Inseparable.of_eq (genericPoint_eq_of_isOpenImmersion f)).specializes) :=
-    (X.presheaf.stalkCongr (Inseparable.of_eq (genericPoint_eq_of_isOpenImmersion f))).isIso_inv
-  asIso (X.presheaf.stalkSpecializes
-      (Inseparable.of_eq (genericPoint_eq_of_isOpenImmersion f)).specializes ≫
-    f.stalkMap (genericPoint Y))
-
-/-- The function field isomorphism of an open immersion is compatible with its stalk maps. -/
-theorem functionFieldIsoOfIsOpenImmersion_hom_algebraMap (f : Y ⟶ X) [IsOpenImmersion f]
-    [IsIntegral X] [IsIntegral Y] (y : Y) (r : X.presheaf.stalk (f y)) :
-    (functionFieldIsoOfIsOpenImmersion f).hom (algebraMap (X.presheaf.stalk (f y)) X.functionField r) =
-      algebraMap (Y.presheaf.stalk y) Y.functionField (f.stalkMap y r) := by
-  have key : X.presheaf.stalkSpecializes ((genericPoint_spec X).specializes (Set.mem_univ _) :
-        genericPoint X ⤳ f y) ≫ (functionFieldIsoOfIsOpenImmersion f).hom =
-      f.stalkMap y ≫ Y.presheaf.stalkSpecializes
-        ((genericPoint_spec Y).specializes (Set.mem_univ _)) := by
-    rw [functionFieldIsoOfIsOpenImmersion, asIso_hom,
-      TopCat.Presheaf.stalkSpecializes_comp_assoc, Scheme.Hom.stalkSpecializes_stalkMap]
-  exact ConcreteCategory.congr_hom key r
-
-/-- The order of vanishing at a point of an integral scheme openly immersed in `X` agrees with
-the order of vanishing at its image, under the function field isomorphism. -/
-theorem ord_functionFieldIsoOfIsOpenImmersion_hom (f : Y ⟶ X) [IsOpenImmersion f]
-    [IsIntegral X] [IsIntegral Y] [IsLocallyNoetherian X] [IsLocallyNoetherian Y]
-    (g : X.functionField) (y : Y) :
-    Scheme.ord ((functionFieldIsoOfIsOpenImmersion f).hom g) y = Scheme.ord g (f y) := by
-  by_cases hy : coheight y = 1
-  · have hy' : coheight (f y) = 1 := (coheight_eq_of_isOpenImmersion f).trans hy
-    rw [Scheme.ord_eq_ordHom_of_coheight_eq_one hy, Scheme.ord_eq_ordHom_of_coheight_eq_one hy']
-    congr 2
-    unfold Scheme.ordHom
-    have : Ring.KrullDimLE 1 (X.presheaf.stalk (f y)) := krullDimLE_of_coheight_le hy'.le
-    have : Ring.KrullDimLE 1 (Y.presheaf.stalk y) := krullDimLE_of_coheight_le hy.le
-    exact ordFrac_ringEquiv (asIso (f.stalkMap y)).commRingCatIsoToRingEquiv
-      (functionFieldIsoOfIsOpenImmersion f).commRingCatIsoToRingEquiv
-      (fun r ↦ functionFieldIsoOfIsOpenImmersion_hom_algebraMap f y r) g
-  · have hy' : coheight (f y) ≠ 1 := by rwa [coheight_eq_of_isOpenImmersion]
-    rw [Scheme.ord_eq_zero_of_coheight_neq_one hy, Scheme.ord_eq_zero_of_coheight_neq_one hy']
-
 /-- An open immersion induces isomorphisms of residue fields, so its residue degrees are `1`. -/
 theorem residueDegree_eq_one_of_isOpenImmersion (f : Y ⟶ X) [IsOpenImmersion f] (y : Y) :
     f.residueDegree y = 1 := by
