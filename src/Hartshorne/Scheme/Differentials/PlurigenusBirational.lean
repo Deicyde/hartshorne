@@ -17,7 +17,9 @@ Hartshorne, *Algebraic Geometry*, Exercise II.8.8 (p. 190).
 For a scheme `X` over `k`, the `m`-th plurigenus is `P_m(X) = dim_k Γ(X, ω_X^{⊗m})`
 (`Hartshorne.plurigenus`). If `X` and `X'` are nonsingular varieties, proper over an algebraically
 closed field and birationally equivalent, then `P_m(X) = P_m(X')`
-(`Hartshorne.plurigenus_eq_of_birational`).
+(`Hartshorne.plurigenus_eq_of_birational`). For `m = 1` this is Theorem II.8.19, the birational
+invariance of the geometric genus (`Hartshorne.geometricGenus_eq_of_birational`), using
+`T^1 ω ≅ ω`.
 
 ## Proof
 
@@ -80,23 +82,6 @@ end HomExt
 section Lifts
 
 variable {Y V W : Scheme.{u}} {F : Y.Modules} {G : V.Modules}
-
-/-- The morphism `⋀^n F ⟶ f_*(⋀^n G)`, `x₁ ∧ ⋯ ∧ xₙ ↦ α x₁ ∧ ⋯ ∧ α xₙ`, induced by
-`α : F ⟶ f_* G`. -/
-def exteriorPowerPushforwardMap (f : V ⟶ Y) (α : F ⟶ (Modules.pushforward f).obj G) (n : ℕ) :
-    moduleSheafExteriorPower (R := Y.sheaf) n F ⟶
-      (Modules.pushforward f).obj (moduleSheafExteriorPower (R := V.sheaf) n G) :=
-  (moduleSheafExteriorPowerHomEquiv n _ _).symm
-    ⟨((moduleSheafExteriorPowerMultilinear n G).pushforward f).precompHom α,
-      ((moduleSheafExteriorPowerMultilinear_isAlternating).pushforward f).precompHom α⟩
-
-theorem exteriorPowerPushforwardMap_wedge (f : V ⟶ Y) (α : F ⟶ (Modules.pushforward f).obj G)
-    (n : ℕ) (U : Y.Opensᵒᵖ) (m : Fin n → F.val.obj U) :
-    (exteriorPowerPushforwardMap f α n).val.app U
-        ((moduleSheafExteriorPowerMultilinear n F).app U m) =
-      (moduleSheafExteriorPowerMultilinear n G).app (op (f ⁻¹ᵁ U.unop))
-        (fun i => α.val.app U (m i)) :=
-  moduleSheafExteriorPowerHomEquiv_symm_app _ _ U m
 
 /-- The morphism `⋀^n G ⟶ (⋀^n F)|_V`, `y₁ ∧ ⋯ ∧ yₙ ↦ β y₁ ∧ ⋯ ∧ β yₙ`, induced by
 `β : G ⟶ F|_V` for an open immersion `g : V ⟶ Y`. -/
@@ -250,28 +235,6 @@ theorem tensorPowerPushforwardMap_comp_restrictPushforwardMap (f : V ⟶ Y) (j :
   refine (tensorPowerRestrictPushforwardMap_tprod f j β m _ _).trans ?_
   refine Eq.trans ?_ ((moduleSheafTensorPowerMultilinear m F).naturality _ x).symm
   exact congrArg _ (funext fun i => hαβ (x i))
-
-/-- **Injectivity of a pullback on global sections.** Let `j : W ⟶ V` with `j ≫ f : W ⟶ Y` an
-open immersion, `W` nonempty, `Y` integral and `F` invertible. If `α : F ⟶ f_*G` admits
-`β : G ⟶ j_*(F|_W)` with `f_*β ∘ α` the restriction of `F` to `W`, then `α` is injective on
-global sections. -/
-theorem injective_app_top_of_comp_eq_unit [IsIntegral Y] [Nonempty W] (f : V ⟶ Y) (j : W ⟶ V)
-    [IsOpenImmersion (j ≫ f)] (hF : F.IsInvertible) (α : F ⟶ (Modules.pushforward f).obj G)
-    (β : G ⟶ (Modules.pushforward j).obj (F.restrict (j ≫ f)))
-    (h : α ≫ (Modules.pushforward f).map β =
-      (Modules.restrictAdjunction (j ≫ f)).unit.app F ≫
-        (Modules.pushforwardComp j f).inv.app _) :
-    Function.Injective (α.val.app (op ⊤)) := by
-  let g := j ≫ f
-  have : Nonempty ↥((g ''ᵁ (g ⁻¹ᵁ (⊤ : Y.Opens)) : Y.Opens) : Set Y) :=
-    ⟨⟨g (Classical.arbitrary W), Classical.arbitrary W, trivial, rfl⟩⟩
-  have hinj := Scheme.Modules.presheaf_map_injective_of_isInvertible hF
-    (g.image_preimage_le (⊤ : Y.Opens)) (hU := this)
-  have h' : ∀ x, β.val.app (op (f ⁻¹ᵁ ⊤)) (α.val.app (op ⊤) x) =
-      F.val.map (homOfLE (g.image_preimage_le (⊤ : Y.Opens))).op x :=
-    fun x => congrArg (fun φ => φ.val.app (op ⊤) x) h
-  intro x y hxy
-  exact hinj ((h' x).symm.trans ((congrArg _ hxy).trans (h' y)))
 
 end Compatible
 
@@ -643,5 +606,89 @@ theorem plurigenus_eq_of_birational [IsAlgClosed k] {X X' : Scheme.{u}}
     (rank_globalSections_le_of_partialIso pX pX' hX hX' e he hn hn' m))
 
 end Plurigenus
+
+section GeometricGenus
+
+variable {X : Scheme.{u}}
+
+/-- The morphism `T^1 F ⟶ F`, `x ↦ x`. -/
+def tensorPowerOneHom (F : X.Modules) : moduleSheafTensorPower (R := X.sheaf) 1 F ⟶ F :=
+  (moduleSheafTensorPowerHomEquiv 1 F F).symm
+    { app U := MultilinearMap.ofSubsingleton _ _ _ (0 : Fin 1) LinearMap.id
+      naturality _ _ := rfl }
+
+/-- The morphism `F ⟶ T^1 F`, `x ↦ x`. -/
+def tensorPowerOneInv (F : X.Modules) : F ⟶ moduleSheafTensorPower (R := X.sheaf) 1 F :=
+  ⟨{ app U := ModuleCat.ofHom
+      (((moduleSheafTensorPowerMultilinear 1 F).app U).toLinearMap (fun _ => 0) 0)
+     naturality {U V} i := by
+      ext x
+      change (moduleSheafTensorPowerMultilinear 1 F).app V
+          (Function.update (fun _ => 0) 0 (F.val.map i x)) =
+        (moduleSheafTensorPower (R := X.sheaf) 1 F).val.map i
+          ((moduleSheafTensorPowerMultilinear 1 F).app U (Function.update (fun _ => 0) 0 x))
+      rw [(moduleSheafTensorPowerMultilinear 1 F).naturality]
+      congr 1
+      funext k
+      simp only [Function.update_eq_const_of_subsingleton, Function.const_apply] }⟩
+
+theorem tensorPowerOneInv_app (F : X.Modules) (U : X.Opensᵒᵖ) (x : F.val.obj U) :
+    (tensorPowerOneInv F).val.app U x =
+      (moduleSheafTensorPowerMultilinear 1 F).app U (fun _ => x) :=
+  congrArg ((moduleSheafTensorPowerMultilinear 1 F).app U)
+    (Function.update_eq_const_of_subsingleton _ _ _)
+
+theorem tensorPowerOneHom_comp_inv (F : X.Modules) :
+    tensorPowerOneHom F ≫ tensorPowerOneInv F = 𝟙 _ := by
+  apply moduleSheafTensorPower_hom_ext
+  intro U m
+  have h : (tensorPowerOneHom F).val.app U ((moduleSheafTensorPowerMultilinear 1 F).app U m) =
+      m 0 :=
+    moduleSheafTensorPowerHomEquiv_symm_app _ U m
+  change (tensorPowerOneInv F).val.app U
+    ((tensorPowerOneHom F).val.app U ((moduleSheafTensorPowerMultilinear 1 F).app U m)) = _
+  rw [h]
+  exact (tensorPowerOneInv_app F U (m 0)).trans
+    (congrArg _ (funext fun i => congrArg m (Subsingleton.elim 0 i)))
+
+/-- `T^1 F ⟶ F` is bijective on sections. -/
+theorem bijective_tensorPowerOneHom_app (F : X.Modules) (U : X.Opensᵒᵖ) :
+    Function.Bijective ((tensorPowerOneHom F).val.app U) := by
+  have h₁ : ∀ t, (tensorPowerOneInv F).val.app U ((tensorPowerOneHom F).val.app U t) = t :=
+    fun t => congrArg (fun φ => φ.val.app U t) (tensorPowerOneHom_comp_inv F)
+  have h₂ : ∀ x, (tensorPowerOneHom F).val.app U ((tensorPowerOneInv F).val.app U x) = x :=
+    fun x => (congrArg _ (tensorPowerOneInv_app F U x)).trans
+      (moduleSheafTensorPowerHomEquiv_symm_app _ U (fun _ => x))
+  exact ⟨Function.LeftInverse.injective h₁, Function.RightInverse.surjective h₂⟩
+
+variable {k : Type u} [Field k]
+
+/-- A morphism of modules is `k`-linear on global sections. -/
+def globalSectionsLinearMapOfHom (q : X ⟶ Spec (.of k)) {M N : X.Modules} (φ : M ⟶ N) :
+    GlobalSectionsOver q M →ₗ[k] GlobalSectionsOver q N where
+  toFun s := φ.val.app (op ⊤) s
+  map_add' x y := map_add (φ.val.app (op ⊤)).hom x y
+  map_smul' a s := (φ.val.app (op ⊤)).hom.map_smul (structureRingHom q a) s
+
+/-- The geometric genus is the first plurigenus: `p_g(X) = P_1(X)`. -/
+theorem geometricGenus_eq_plurigenus_one (f : X ⟶ Spec (.of k)) :
+    geometricGenus f = plurigenus f 1 :=
+  (LinearEquiv.ofBijective (globalSectionsLinearMapOfHom f (tensorPowerOneHom (canonicalSheaf f)))
+    (bijective_tensorPowerOneHom_app _ _)).finrank_eq.symm
+
+/-- **Hartshorne, Theorem II.8.19: birational invariance of the geometric genus.** If `X` and `X'`
+are nonsingular varieties, proper over an algebraically closed field `k` and birationally
+equivalent over `k` (a partial isomorphism `X ⤏ X'` over `k`), then `p_g(X) = p_g(X')`.
+Hartshorne states it for projective varieties; here `X`, `X'` are integral regular schemes proper
+over `k`. -/
+theorem geometricGenus_eq_of_birational [IsAlgClosed k] {X X' : Scheme.{u}}
+    (pX : X ⟶ Spec (.of k)) (pX' : X' ⟶ Spec (.of k)) [IsIntegral X] [IsIntegral X']
+    [IsProper pX] [IsProper pX'] (hX : X.IsRegular) (hX' : X'.IsRegular)
+    (hbir : ∃ e : X.PartialIso X', e.IsOver pX pX') :
+    geometricGenus pX = geometricGenus pX' := by
+  rw [geometricGenus_eq_plurigenus_one, geometricGenus_eq_plurigenus_one]
+  exact plurigenus_eq_of_birational pX pX' hX hX' hbir 1
+
+end GeometricGenus
 
 end Hartshorne

@@ -78,6 +78,23 @@ theorem IsAlternating.precompHom {β : ModuleSheafMultilinear r B C} (hβ : β.I
 
 end ModuleSheafMultilinear
 
+section PushforwardMap
+
+open AlgebraicGeometry.Scheme
+
+variable {Y V : Scheme.{u}} {F : Y.Modules} {G : V.Modules}
+
+/-- The morphism `⋀^n F ⟶ f_*(⋀^n G)`, `x₁ ∧ ⋯ ∧ xₙ ↦ α x₁ ∧ ⋯ ∧ α xₙ`, induced by
+`α : F ⟶ f_* G`. -/
+def exteriorPowerPushforwardMap (f : V ⟶ Y) (α : F ⟶ (Modules.pushforward f).obj G) (n : ℕ) :
+    moduleSheafExteriorPower (R := Y.sheaf) n F ⟶
+      (Modules.pushforward f).obj (moduleSheafExteriorPower (R := V.sheaf) n G) :=
+  (moduleSheafExteriorPowerHomEquiv n _ _).symm
+    ⟨((moduleSheafExteriorPowerMultilinear n G).pushforward f).precompHom α,
+      ((moduleSheafExteriorPowerMultilinear_isAlternating).pushforward f).precompHom α⟩
+
+end PushforwardMap
+
 variable {k : Type u} [Field k] {V Y : Scheme.{u}} (f : V ⟶ Y) (p : Y ⟶ Spec (.of k))
 
 /-- **Pullback of top differential forms.** The morphism
@@ -86,10 +103,7 @@ def exteriorPowerPullback (n : ℕ) :
     moduleSheafExteriorPower (R := Y.sheaf) n (Scheme.relativeDifferentials p) ⟶
       (Scheme.Modules.pushforward f).obj
         (moduleSheafExteriorPower (R := V.sheaf) n (Scheme.relativeDifferentials (f ≫ p))) :=
-  (moduleSheafExteriorPowerHomEquiv n _ _).symm
-    ⟨((moduleSheafExteriorPowerMultilinear n _).pushforward f).precompHom
-        (Scheme.relativeDifferentialsToPushforwardComp f p),
-      ((moduleSheafExteriorPowerMultilinear_isAlternating).pushforward f).precompHom _⟩
+  exteriorPowerPushforwardMap f (Scheme.relativeDifferentialsToPushforwardComp f p) n
 
 /-- **Sections of an invertible sheaf on an integral scheme are determined on a nonempty open.**
 Locally `L` has a one-element frame, and restriction of functions to a nonempty open is injective
@@ -312,6 +326,53 @@ theorem moduleSheafExteriorPower_hom_ext
 
 end ExteriorPower
 
+section PushforwardMapWedge
+
+open AlgebraicGeometry.Scheme
+
+variable {Y V : Scheme.{u}} {F : Y.Modules} {G : V.Modules}
+
+/-- `exteriorPowerPushforwardMap f α n` sends `x₁ ∧ ⋯ ∧ xₙ` to `α x₁ ∧ ⋯ ∧ α xₙ`. -/
+theorem exteriorPowerPushforwardMap_wedge (f : V ⟶ Y) (α : F ⟶ (Modules.pushforward f).obj G)
+    (n : ℕ) (U : Y.Opensᵒᵖ) (m : Fin n → F.val.obj U) :
+    (exteriorPowerPushforwardMap f α n).val.app U
+        ((moduleSheafExteriorPowerMultilinear n F).app U m) =
+      (moduleSheafExteriorPowerMultilinear n G).app (op (f ⁻¹ᵁ U.unop))
+        (fun i => α.val.app U (m i)) :=
+  moduleSheafExteriorPowerHomEquiv_symm_app _ _ U m
+
+end PushforwardMapWedge
+
+section InjectiveOfCompEqUnit
+
+open AlgebraicGeometry.Scheme
+
+variable {Y V W : Scheme.{u}} {F : Y.Modules} {G : V.Modules}
+
+/-- **Injectivity of a pullback on global sections.** Let `j : W ⟶ V` with `j ≫ f : W ⟶ Y` an
+open immersion, `W` nonempty, `Y` integral and `F` invertible. If `α : F ⟶ f_*G` admits
+`β : G ⟶ j_*(F|_W)` with `f_*β ∘ α` the restriction of `F` to `W`, then `α` is injective on
+global sections. -/
+theorem injective_app_top_of_comp_eq_unit [IsIntegral Y] [Nonempty W] (f : V ⟶ Y) (j : W ⟶ V)
+    [IsOpenImmersion (j ≫ f)] (hF : F.IsInvertible) (α : F ⟶ (Modules.pushforward f).obj G)
+    (β : G ⟶ (Modules.pushforward j).obj (F.restrict (j ≫ f)))
+    (h : α ≫ (Modules.pushforward f).map β =
+      (Modules.restrictAdjunction (j ≫ f)).unit.app F ≫
+        (Modules.pushforwardComp j f).inv.app _) :
+    Function.Injective (α.val.app (op ⊤)) := by
+  let g := j ≫ f
+  have : Nonempty ↥((g ''ᵁ (g ⁻¹ᵁ (⊤ : Y.Opens)) : Y.Opens) : Set Y) :=
+    ⟨⟨g (Classical.arbitrary W), Classical.arbitrary W, trivial, rfl⟩⟩
+  have hinj := Scheme.Modules.presheaf_map_injective_of_isInvertible hF
+    (g.image_preimage_le (⊤ : Y.Opens)) (hU := this)
+  have h' : ∀ x, β.val.app (op (f ⁻¹ᵁ ⊤)) (α.val.app (op ⊤) x) =
+      F.val.map (homOfLE (g.image_preimage_le (⊤ : Y.Opens))).op x :=
+    fun x => congrArg (fun φ => φ.val.app (op ⊤) x) h
+  intro x y hxy
+  exact hinj ((h' x).symm.trans ((congrArg _ hxy).trans (h' y)))
+
+end InjectiveOfCompEqUnit
+
 section OpenImmersionExteriorPower
 
 open AlgebraicGeometry.Scheme
@@ -339,7 +400,7 @@ theorem exteriorPowerPullback_app_wedge (n : ℕ) (U : Y.Opensᵒᵖ)
         ((moduleSheafExteriorPowerMultilinear n _).app U m) =
       (moduleSheafExteriorPowerMultilinear n _).app (op (f ⁻¹ᵁ U.unop))
         (fun i => (relativeDifferentialsToPushforwardComp f p).val.app U (m i)) :=
-  moduleSheafExteriorPowerHomEquiv_symm_app _ _ U m
+  exteriorPowerPushforwardMap_wedge f _ n U m
 
 /-- `openImmersionExteriorPowerMap` sends `ω₁ ∧ ⋯ ∧ ωₙ` to `ψ ω₁ ∧ ⋯ ∧ ψ ωₙ`. -/
 theorem openImmersionExteriorPowerMap_app_wedge (n : ℕ) (U : V.Opensᵒᵖ)
@@ -383,20 +444,9 @@ on global sections**, when `Y` is integral and `⋀^n Ω_{Y/k}` is invertible. -
 theorem exteriorPowerPullback_app_top_injective [IsIntegral Y] [Nonempty W] (n : ℕ)
     (hL : Modules.IsInvertible
       (moduleSheafExteriorPower (R := Y.sheaf) n (relativeDifferentials p))) :
-    Function.Injective ((exteriorPowerPullback f p n).val.app (op ⊤)) := by
-  let g := j ≫ f
-  have : Nonempty ↥((g ''ᵁ (g ⁻¹ᵁ (⊤ : Y.Opens)) : Y.Opens) : Set Y) :=
-    ⟨⟨g (Classical.arbitrary W), Classical.arbitrary W, trivial, rfl⟩⟩
-  have hinj := Scheme.Modules.presheaf_map_injective_of_isInvertible hL
-    (g.image_preimage_le (⊤ : Y.Opens)) (hU := this)
-  have h : ∀ x, (openImmersionExteriorPowerMap f j p n).val.app (op (f ⁻¹ᵁ ⊤))
-      ((exteriorPowerPullback f p n).val.app (op ⊤) x) =
-      (moduleSheafExteriorPower (R := Y.sheaf) n (relativeDifferentials p)).val.map
-        (homOfLE (g.image_preimage_le (⊤ : Y.Opens))).op x :=
-    fun x => congrArg (fun φ => φ.val.app (op ⊤) x)
-      (exteriorPowerPullback_comp_openImmersionExteriorPowerMap f j p n)
-  intro x y hxy
-  exact hinj ((h x).symm.trans ((congrArg _ hxy).trans (h y)))
+    Function.Injective ((exteriorPowerPullback f p n).val.app (op ⊤)) :=
+  injective_app_top_of_comp_eq_unit f j hL _ _
+    (exteriorPowerPullback_comp_openImmersionExteriorPowerMap f j p n)
 
 end OpenImmersionExteriorPower
 
