@@ -2,6 +2,9 @@
 article_id: af_e692c0fe6fed5125f77be855
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.canonicalPullback_injective Hartshorne.canonicalPullback Hartshorne.exteriorPowerPullback Hartshorne.exteriorPowerPullback_app_top_injective
 ---
 
 # Pullback injects canonical sections
