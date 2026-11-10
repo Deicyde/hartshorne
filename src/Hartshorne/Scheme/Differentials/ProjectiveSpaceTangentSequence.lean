@@ -32,6 +32,11 @@ namespace Hartshorne.EulerSequence
 attribute [local instance] MvPolynomial.gradedAlgebra
 attribute [local instance] CategoryTheory.Abelian.hasFiniteBiproducts
 
+/- Elaborate with the preadditive structure coming from the abelian structure, as
+`Hartshorne.RingedSpace.ModuleSheafDualExact` does, so that short complexes built here and there
+carry the same zero morphisms. -/
+attribute [local instance 2000] Abelian.toPreadditive
+
 variable {k : Type u} [Field k] {n : ℕ}
 
 /-- An isomorphism of `𝒪_X`-modules, as an isomorphism of sheaves of modules over the structure
@@ -62,6 +67,24 @@ noncomputable def dualModulesBiproductIso {X : Scheme.{u}} {ι : Type} [Fintype 
     (Ringed.structureModule X.sheaf)
     (hF := (inferInstance : HasBiproduct F))
     (hG := (inferInstance : HasBiproduct fun i ↦ dualModules (F i))))
+
+/-- The dual `0 ⟶ F''^∨ ⟶ F^∨ ⟶ F'^∨ ⟶ 0` of a short complex `F' ⟶ F ⟶ F''` of `𝒪_X`-modules. -/
+noncomputable def dualModulesComplex {X : Scheme.{u}} (S : ShortComplex X.Modules) :
+    ShortComplex X.Modules :=
+  shortComplexToModules (Ringed.dualShortComplex (R := X.sheaf)
+    (ShortComplex.mk (C := SheafOfModules.{u} (ringCatSheafOf X.sheaf)) S.f S.g S.zero))
+
+/-- **Dualizing a short exact sequence of `𝒪_X`-modules** whose last term is locally free of
+finite rank gives a short exact sequence. -/
+theorem dualModulesComplex_shortExact {X : Scheme.{u}} {S : ShortComplex X.Modules}
+    (hS : S.ShortExact) (h₃ : Ringed.IsFiniteLocallyFree (R := X.sheaf) S.X₃) :
+    (dualModulesComplex S).ShortExact :=
+  shortComplexToModules_shortExact (Ringed.dualShortComplex_shortExact hS h₃)
+
+/-- The structure sheaf is locally free of finite rank. -/
+theorem isFiniteLocallyFree_unit (X : Scheme.{u}) :
+    Ringed.IsFiniteLocallyFree (R := X.sheaf) (SheafOfModules.unit X.ringCatSheaf) :=
+  (Ringed.structureModule_isInvertible (R := X.sheaf)).isFiniteLocallyFree
 
 /-- **The dual of the Euler sequence is short exact:**
 `0 → 𝒪^∨ → (𝒪(-1)^{n+1})^∨ → Ω^∨ = T_X → 0` on `ℙⁿ_k`. -/
@@ -111,11 +134,10 @@ variable (k n) in
 /-- The dual `𝒪^∨ → (𝒪(-1)^{n+1})^∨ → T_X` of the Euler sequence, as a short complex of
 `𝒪_X`-modules. -/
 noncomputable def dualEulerComplex : ShortComplex (Proj (grading k n)).Modules :=
-  shortComplexToModules (Ringed.dualShortComplex (R := (Proj (grading k n)).sheaf)
-    (ShortComplex.mk (alpha k n) (beta k n) alpha_beta))
+  dualModulesComplex (ShortComplex.mk (alpha k n) (beta k n) alpha_beta)
 
 theorem dualEulerComplex_shortExact : (dualEulerComplex k n).ShortExact :=
-  shortComplexToModules_shortExact dualEulerSequence_shortExact
+  dualModulesComplex_shortExact (eulerSequence k n).1 (isFiniteLocallyFree_unit _)
 
 theorem nonempty_dualEulerComplex_X₁_iso : Nonempty ((dualEulerComplex k n).X₁ ≅ O0 k n) :=
   nonempty_dual_O0_iso
