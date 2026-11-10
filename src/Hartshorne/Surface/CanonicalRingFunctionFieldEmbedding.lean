@@ -167,7 +167,6 @@ theorem toPolynomial_of (n : ℕ) (s : (n • K).sheafR.val.obj (op ⊤)) :
     toPolynomial K (of K n s) = monomial n (ratFun K s) :=
   embAddHom_of K n s
 
-
 theorem coeff_toPolynomial (x : DivisorMultipleSectionRing K) (n : ℕ) :
     (toPolynomial K x).coeff n = ratFun K (toDirectSum K x n) :=
   coeff_embAddHom K x n
@@ -307,7 +306,8 @@ such that the second embedding is the first followed by the graded
 theorem exists_toPolynomialOfIso_eq_aeval (D₁ D₂ : X.CartierDivisor) (α₁ : D₁.sheaf ≅ L)
     (α₂ : D₂.sheaf ≅ L) :
     ∃ c : X.functionFieldˣ, ∀ x : ⨁ n, Component (R := X.sheaf) L (op ⊤) n,
-      toPolynomialOfIso D₂ α₂ x = aeval (C (c : X.functionField) * Polynomial.X) (toPolynomialOfIso D₁ α₁ x) := by
+      toPolynomialOfIso D₂ α₂ x =
+        aeval (C (c : X.functionField) * Polynomial.X) (toPolynomialOfIso D₁ α₁ x) := by
   set β : D₁.sheaf ⟶ D₂.sheaf := α₁.hom ≫ α₂.inv with hβ
   set β' : D₂.sheaf ⟶ D₁.sheaf := α₂.hom ≫ α₁.inv with hβ'
   obtain ⟨m, hm⟩ := exists_mul_of_hom β
@@ -324,13 +324,16 @@ theorem exists_toPolynomialOfIso_eq_aeval (D₁ D₂ : X.CartierDivisor) (α₁ 
     rw [hβg, hm V g, mul_assoc] at h1
     have h2 : X.totalQuotientSheaf.obj.map (homOfLE (le_top : V ≤ ⊤)).op m *
         X.totalQuotientSheaf.obj.map (homOfLE (le_top : V ≤ ⊤)).op m' = 1 :=
-      (DivisorMultipleSectionRing.isUnit_kVal_generator D₁ hf).mul_left_cancel (h1.symm.trans (mul_one _).symm)
+      (DivisorMultipleSectionRing.isUnit_kVal_generator D₁ hf).mul_left_cancel
+        (h1.symm.trans (mul_one _).symm)
     have h3 := congrArg (Scheme.totalQuotientSheafEquivFunctionField V hV) h2
     rwa [map_mul, map_one, Scheme.totalQuotientSheafEquivFunctionField_map,
       Scheme.totalQuotientSheafEquivFunctionField_map] at h3
   refine ⟨Units.mkOfMulEqOne _ _ hmm', fun x => ?_⟩
   have hring : toPolynomialOfIso D₂ α₂ =
-      (aeval (C (Scheme.totalQuotientSheafEquivFunctionField ⊤ trivial m) * Polynomial.X)).toRingHom.comp
+      RingHom.comp
+        (aeval (C (Scheme.totalQuotientSheafEquivFunctionField ⊤ trivial m) *
+          Polynomial.X)).toRingHom
         (toPolynomialOfIso D₁ α₁) := by
     refine DirectSum.ringHom_ext fun n a => ?_
     obtain ⟨mₙ, hmₙ⟩ := exists_mul_of_hom
