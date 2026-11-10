@@ -2,8 +2,9 @@
 article_id: af_37f416ec52be29fea398e3fd
 declaration: theorem
 origin: cited
-statement: retracted
-lean: Hartshorne.EulerSequence.canonicalSheaf_projectiveSpace Hartshorne.EulerSequence.geometricGenus_projectiveSpace Hartshorne.ProjectiveSpacePicard.projTwistingSheaf_globalSections_eq_zero
+statement: formalized
+proof: formalized
+lean: Hartshorne.EulerSequence.tangentSequence_projectiveSpace Hartshorne.EulerSequence.nonempty_dual_O0_iso Hartshorne.EulerSequence.nonempty_dual_E_iso Hartshorne.EulerSequence.dualModulesComplex_shortExact Hartshorne.Ringed.dualShortComplex_shortExact Hartshorne.EulerSequence.canonicalSheaf_projectiveSpace Hartshorne.EulerSequence.geometricGenus_projectiveSpace Hartshorne.ProjectiveSpacePicard.projTwistingSheaf_globalSections_eq_zero
 ---
 
 # The canonical sheaf of projective space
