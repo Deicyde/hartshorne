@@ -95,6 +95,46 @@ theorem Scheme.Modules.isIso_of_isIso_pullback_inf {X Y Z : Scheme.{u}} {f : X �
 
 end AlgebraicGeometry
 
+namespace AlgebraicGeometry.Scheme.Modules
+
+variable {X Y Z : Scheme.{u}}
+
+/-- The unit of the composite pullback, followed by `(g ∘ f)^* ≅ f^* g^*`, is the composite of
+the units. -/
+theorem unit_pullbackComp_inv (f : X ⟶ Y) (g : Y ⟶ Z) (F : Z.Modules) :
+    (pullbackPushforwardAdjunction (f ≫ g)).unit.app F ≫
+      (pushforward (f ≫ g)).map ((pullbackComp f g).inv.app F) =
+    (pullbackPushforwardAdjunction g).unit.app F ≫
+      (pushforward g).map ((pullbackPushforwardAdjunction f).unit.app ((pullback g).obj F)) ≫
+      (pushforwardComp f g).hom.app _ := by
+  have := unit_conjugateEquiv
+    ((pullbackPushforwardAdjunction g).comp (pullbackPushforwardAdjunction f))
+    (pullbackPushforwardAdjunction (f ≫ g)) (pullbackComp f g).inv F
+  rw [conjugateEquiv_pullbackComp_inv, Adjunction.comp_unit_app] at this
+  rw [← this, Category.assoc]
+  rfl
+
+/-- The unit of the pullback along `f`, followed by `f^* ≅ g^*` for `f = g`, is the unit along `g`
+up to `f_* ≅ g_*`. -/
+theorem unit_pullbackCongr_hom {f g : X ⟶ Y} (h : f = g) (F : Y.Modules) :
+    (pullbackPushforwardAdjunction f).unit.app F ≫
+      (pushforward f).map ((pullbackCongr h).hom.app F) =
+    (pullbackPushforwardAdjunction g).unit.app F ≫ (pushforwardCongr h).inv.app _ := by
+  subst h
+  ext U : 1
+  simp [pullbackCongr]
+  rfl
+
+/-- For an open immersion, the identification of restriction with pullback is compatible with the
+adjunction units. -/
+theorem unit_restrictFunctorIsoPullback_hom (f : X ⟶ Y) [IsOpenImmersion f] (F : Y.Modules) :
+    (restrictAdjunction f).unit.app F ≫
+      (pushforward f).map ((restrictFunctorIsoPullback f).hom.app F) =
+    (pullbackPushforwardAdjunction f).unit.app F :=
+  Adjunction.unit_leftAdjointUniq_hom_app _ _ F
+
+end AlgebraicGeometry.Scheme.Modules
+
 namespace Hartshorne
 
 open AlgebraicGeometry
