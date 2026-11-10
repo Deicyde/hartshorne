@@ -670,3 +670,4 @@ import Hartshorne.Scheme.Differentials.ClosedImmersionConormalSequence
 import Hartshorne.Scheme.SectionsWithSupportQuasicoherent
 import Hartshorne.Scheme.ModuleIdealSheafData
 import Hartshorne.Scheme.Differentials.ImmersionConormalIndependence
+import Hartshorne.Scheme.Differentials.DifferentialsOfProduct
