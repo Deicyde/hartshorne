@@ -2,6 +2,9 @@
 article_id: af_29747dc044f4a25f1945e714
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: AlgebraicGeometry.Scheme.CartierDivisor.idealSheafIso AlgebraicGeometry.Scheme.CartierDivisor.idealSheafIso_hom_ι
 ---
 
 # The ideal sheaf of an effective Cartier divisor
