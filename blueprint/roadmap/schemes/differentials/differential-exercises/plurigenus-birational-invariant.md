@@ -17,6 +17,7 @@ $P_m(X) = P_m(X')$ for every $m > 0$.
 - [The domain of a birational map has codimension-two complement](../canonical-bertini/birational-map-domain-codimension-two.md)
 - [Locally free sections extend across codimension two](../canonical-bertini/locally-free-sections-extend-codimension-two.md)
 - [Sheaf tensor, symmetric, and exterior operations](../../module-exercises/sheaf-tensor-operations.md)
+- [Geometric genus](../canonical-bertini/geometric-genus.md)
 
 ## Proof depends on
 
