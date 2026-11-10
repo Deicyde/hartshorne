@@ -70,7 +70,7 @@ def zeroSheafIso : (0 : X.CartierDivisor).sheafR ≅ structureModule X.sheaf :=
 
 /-- **`𝒪_X(nD) ≅ 𝒪_X(D)^{⊗ n}`**, by induction on `n` from `𝒪_X(0) ≅ 𝒪_X` and
 `𝒪_X(nD) ⊗ 𝒪_X(D) ≅ 𝒪_X(nD + D)`. -/
-def nsmulSheafIso (D : X.CartierDivisor) :
+noncomputable def nsmulSheafIso (D : X.CartierDivisor) :
     ∀ n : ℕ, (n • D).sheafR ≅ moduleSheafTensorPower n D.sheafR
   | 0 => eqToIso (congrArg sheafR (zero_nsmul D)) ≪≫ zeroSheafIso ≪≫
       (moduleSheafTensorPowerZeroIso D.sheafR).symm
