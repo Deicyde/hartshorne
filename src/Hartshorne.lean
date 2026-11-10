@@ -672,3 +672,4 @@ import Hartshorne.Scheme.ModuleIdealSheafData
 import Hartshorne.Scheme.Differentials.ImmersionConormalIndependence
 import Hartshorne.Scheme.Differentials.DifferentialsOfProduct
 import Hartshorne.Scheme.FiniteTwistedFreeCover
+import Hartshorne.Scheme.CoherentExtension
