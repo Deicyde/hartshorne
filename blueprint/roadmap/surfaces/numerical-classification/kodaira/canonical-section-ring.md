@@ -2,6 +2,9 @@
 article_id: af_dafd958e44d3a633b1b25e55
 declaration: def
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.CanonicalSectionRing Hartshorne.CanonicalSectionRing.Component Hartshorne.CanonicalSectionRing.gRing Hartshorne.canonicalSectionRingCommRing Hartshorne.canonicalSectionRing_degreeZero_bijective Hartshorne.TensorPowerSectionRing.gRing Hartshorne.TensorPowerSectionRing.commRing Hartshorne.TensorPowerSectionRing.ι_mul_comm Hartshorne.TensorPowerSectionRing.smul_oneSec_bijective
 ---
 
 # The canonical section ring

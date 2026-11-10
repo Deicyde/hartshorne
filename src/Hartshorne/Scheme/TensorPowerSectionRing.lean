@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.SheafTensorAlgebras
 import Hartshorne.RingedSpace.PicardGroup
+import Hartshorne.RingedSpace.ModuleSheafTensorPowerIso
 
 /-!
 # The section ring of the tensor powers of a module sheaf
@@ -59,12 +60,14 @@ open SheafAlgebraOperations
 /-- The projection `T(F) ⟶ F^{⊗ r}` onto the component of degree `r`. -/
 noncomputable def proj (r : ℕ) : moduleSheafTensorAlgebra F ⟶ moduleSheafTensorPower r F :=
   (moduleSheafTensorAlgebra_isColimit F).desc
-    (Cofan.mk (moduleSheafTensorPower r F) fun s => if h : s = r then eqToHom (by subst h; rfl) else 0)
+    (Cofan.mk (moduleSheafTensorPower r F) fun s =>
+      if h : s = r then eqToHom (by subst h; rfl) else 0)
 
 @[reassoc (attr := simp)]
 theorem ι_proj (r : ℕ) : moduleSheafTensorAlgebraι r F ≫ proj F r = 𝟙 _ := by
   have := (moduleSheafTensorAlgebra_isColimit F).fac
-    (Cofan.mk (moduleSheafTensorPower r F) fun s => if h : s = r then eqToHom (by subst h; rfl) else 0) ⟨r⟩
+    (Cofan.mk (moduleSheafTensorPower r F) fun s =>
+      if h : s = r then eqToHom (by subst h; rfl) else 0) ⟨r⟩
   simpa [proj] using this
 
 /-- The inclusion `F^{⊗ r} ⟶ T(F)` is injective on sections. -/
@@ -95,17 +98,20 @@ theorem ι_oneSec :
     (congrArg _ TensorPower.toTensorAlgebra_gOne)
 
 /-- The product `Γ(U, F^{⊗ m}) × Γ(U, F^{⊗ n}) → Γ(U, F^{⊗ (m + n)})`. -/
-noncomputable def mul {m n : ℕ} (a : Component F U m) (b : Component F U n) : Component F U (m + n) :=
+noncomputable def mul {m n : ℕ} (a : Component F U m) (b : Component F U n) :
+    Component F U (m + n) :=
   (moduleSheafTensorPowerMul m F n).app U a b
 
 theorem ι_mul {m n : ℕ} (a : Component F U m) (b : Component F U n) :
     (moduleSheafTensorAlgebraι (m + n) F).val.app U (mul F U a b) =
       (moduleSheafTensorAlgebraStructure F).mul.app U
-        ((moduleSheafTensorAlgebraι m F).val.app U a) ((moduleSheafTensorAlgebraι n F).val.app U b) :=
+        ((moduleSheafTensorAlgebraι m F).val.app U a)
+        ((moduleSheafTensorAlgebraι n F).val.app U b) :=
   (moduleSheafTensorAlgebra_mul_ι m F n U a b).symm
 
 theorem sigma_ext {i j : ℕ} (h : i = j) {a : Component F U i} {b : Component F U j}
-    (e : (moduleSheafTensorAlgebraι i F).val.app U a = (moduleSheafTensorAlgebraι j F).val.app U b) :
+    (e : (moduleSheafTensorAlgebraι i F).val.app U a =
+      (moduleSheafTensorAlgebraι j F).val.app U b) :
     (⟨i, a⟩ : GradedMonoid (Component F U)) = ⟨j, b⟩ := by
   subst h
   rw [ι_injective F i U e]
@@ -143,7 +149,7 @@ noncomputable instance : DirectSum.GSemiring (Component F U) where
   natCast_zero := zero_smul _ _
   natCast_succ n := succ_nsmul _ _
 
-noncomputable instance : DirectSum.GRing (Component F U) where
+noncomputable instance gRing : DirectSum.GRing (Component F U) where
   intCast n := n • oneSec F U
   intCast_ofNat _ := natCast_zsmul _ _
   intCast_negSucc_ofNat _ := negSucc_zsmul _ _
@@ -153,9 +159,11 @@ open Ringed in
 section, so all tensors are polynomials in it. -/
 theorem ι_mul_comm (hF : IsInvertible F) {i j : ℕ} (a : Component F U i) (b : Component F U j) :
     (moduleSheafTensorAlgebraStructure F).mul.app U
-        ((moduleSheafTensorAlgebraι i F).val.app U a) ((moduleSheafTensorAlgebraι j F).val.app U b) =
+        ((moduleSheafTensorAlgebraι i F).val.app U a)
+        ((moduleSheafTensorAlgebraι j F).val.app U b) =
       (moduleSheafTensorAlgebraStructure F).mul.app U
-        ((moduleSheafTensorAlgebraι j F).val.app U b) ((moduleSheafTensorAlgebraι i F).val.app U a) := by
+        ((moduleSheafTensorAlgebraι j F).val.app U b)
+        ((moduleSheafTensorAlgebraι i F).val.app U a) := by
   obtain ⟨U₀⟩ := U
   apply sheaf_section_ext (moduleSheafTensorAlgebra F)
   intro x hx
@@ -208,6 +216,20 @@ noncomputable def gCommRing (hF : Ringed.IsInvertible F) : DirectSum.GCommRing (
 noncomputable def commRing (hF : Ringed.IsInvertible F) : CommRing (⨁ n, Component F U n) :=
   letI := gCommRing F U hF
   inferInstance
+
+open Ringed in
+/-- Degree zero: `r ↦ r · 1` identifies `Γ(U, 𝒪_X)` with `Γ(U, F^{⊗ 0})`. -/
+theorem smul_oneSec_bijective (U₀ : Opens X) :
+    Function.Bijective
+      (fun r : (R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U₀) => r • oneSec F (op U₀)) := by
+  refine Function.bijective_iff_has_inverse.2
+    ⟨(moduleSheafTensorPowerZeroIso F).hom.val.app (op U₀), fun r => ?_, fun t => ?_⟩
+  · change (moduleSheafTensorPowerZeroIso F).hom.val.app (op U₀)
+      ((moduleSheafTensorPowerZeroIso F).inv.val.app (op U₀) r) = r
+    exact congrArg (fun φ => φ.val.app (op U₀) r) (moduleSheafTensorPowerZeroIso F).inv_hom_id
+  · change (moduleSheafTensorPowerZeroIso F).inv.val.app (op U₀)
+      ((moduleSheafTensorPowerZeroIso F).hom.val.app (op U₀) t) = t
+    exact congrArg (fun φ => φ.val.app (op U₀) t) (moduleSheafTensorPowerZeroIso F).hom_inv_id
 
 end TensorPowerSectionRing
 
