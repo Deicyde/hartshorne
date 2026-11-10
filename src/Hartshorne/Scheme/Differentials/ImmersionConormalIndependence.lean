@@ -77,6 +77,111 @@ noncomputable def conormalRestrictIso :
 
 end Restrict
 
+section Coherence
+
+variable {X Y W : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ W) [IsOpenImmersion f] [IsOpenImmersion g]
+
+/-- `restrictUnitIso` is compatible with `restrictFunctorComp`. -/
+theorem restrictUnitIso_comp :
+    (Modules.restrictFunctorComp f g).hom.app _ ≫
+        (Modules.restrictFunctor f).map (Modules.restrictUnitIso g).hom ≫
+          (Modules.restrictUnitIso f).hom =
+      (Modules.restrictUnitIso (f ≫ g)).hom := by
+  refine Scheme.Modules.hom_ext _ _ fun U => ?_
+  ext x
+  exact (congr(ConcreteCategory.hom ($(Scheme.Hom.comp_appIso f g U)).hom x)).symm
+
+/-- The conjugate of `restrictFunctorIsoPullback` is the identity of the pushforward. -/
+theorem conjugateEquiv_restrictFunctorIsoPullback_hom :
+    conjugateEquiv (Modules.pullbackPushforwardAdjunction f) (Modules.restrictAdjunction f)
+      (Modules.restrictFunctorIsoPullback f).hom = 𝟙 _ := by
+  simp only [Modules.restrictFunctorIsoPullback, Adjunction.leftAdjointUniq, Iso.symm_hom,
+    conjugateIsoEquiv_symm_apply_inv, Iso.refl_inv, Equiv.apply_symm_apply]
+
+omit [IsOpenImmersion f] [IsOpenImmersion g] in
+/-- The conjugate of `pullbackComp` is the inverse of `pushforwardComp`. -/
+theorem conjugateEquiv_pullbackComp_hom :
+    conjugateEquiv (Modules.pullbackPushforwardAdjunction (f ≫ g))
+      ((Modules.pullbackPushforwardAdjunction g).comp (Modules.pullbackPushforwardAdjunction f))
+      (Modules.pullbackComp f g).hom = (Modules.pushforwardComp f g).inv := by
+  rw [← Iso.comp_hom_eq_id, ← Modules.conjugateEquiv_pullbackComp_inv, conjugateEquiv_comp,
+    Iso.inv_hom_id, conjugateEquiv_id]
+
+/-- The conjugate of `restrictFunctorComp` is `pushforwardComp`. -/
+theorem conjugateEquiv_restrictFunctorComp_hom :
+    conjugateEquiv ((Modules.restrictAdjunction g).comp (Modules.restrictAdjunction f))
+      (Modules.restrictAdjunction (f ≫ g)) (Modules.restrictFunctorComp f g).hom =
+      (Modules.pushforwardComp f g).hom := by
+  ext M : 2
+  refine Scheme.Modules.hom_ext _ _ fun V => ?_
+  have hr : ∀ {A B : Y.Modules} (φ : A ⟶ B) (W' : X.Opens),
+      Modules.Hom.app ((Modules.restrictFunctor f).map φ) W' = Modules.Hom.app φ (f ''ᵁ W') :=
+    fun _ _ => rfl
+  simp [conjugateEquiv_apply_app, Adjunction.comp_counit_app, hr]
+  erw [← M.presheaf.map_comp, ← M.presheaf.map_comp, ← M.presheaf.map_comp, ← M.presheaf.map_id]
+  rfl
+
+/-- `restrictFunctorIsoPullback` is compatible with composition of open immersions. -/
+theorem restrictFunctorIsoPullback_comp :
+    (Modules.restrictFunctorComp f g).hom ≫
+        Functor.whiskerRight (Modules.restrictFunctorIsoPullback g).hom
+          (Modules.restrictFunctor f) ≫
+          Functor.whiskerLeft (Modules.pullback g) (Modules.restrictFunctorIsoPullback f).hom ≫
+            (Modules.pullbackComp f g).hom =
+      (Modules.restrictFunctorIsoPullback (f ≫ g)).hom := by
+  apply (conjugateEquiv (Modules.pullbackPushforwardAdjunction (f ≫ g))
+    (Modules.restrictAdjunction (f ≫ g))).injective
+  rw [conjugateEquiv_restrictFunctorIsoPullback_hom (f ≫ g),
+    ← conjugateEquiv_comp _ ((Modules.restrictAdjunction g).comp (Modules.restrictAdjunction f)),
+    ← conjugateEquiv_comp _
+      ((Modules.pullbackPushforwardAdjunction g).comp (Modules.restrictAdjunction f)),
+    ← conjugateEquiv_comp _
+      ((Modules.pullbackPushforwardAdjunction g).comp (Modules.pullbackPushforwardAdjunction f)),
+    conjugateEquiv_pullbackComp_hom, conjugateEquiv_whiskerLeft,
+    conjugateEquiv_restrictFunctorIsoPullback_hom f, conjugateEquiv_whiskerRight,
+    conjugateEquiv_restrictFunctorIsoPullback_hom g, conjugateEquiv_restrictFunctorComp_hom]
+  simp
+
+end Coherence
+
+section Cocycle
+
+variable {Z V U : Scheme.{u}}
+
+/-- `idealSheafRestrictIso` is compatible with the inclusions into the structure sheaves. -/
+theorem idealSheafRestrictIso_hom_ι (j : Z ⟶ V) (κ : V ⟶ U) [IsOpenImmersion κ] :
+    (idealSheafRestrictIso j κ).hom ≫ closedImmersionIdealSheafι j =
+      (Modules.restrictFunctor κ).map (closedImmersionIdealSheafι (j ≫ κ)) ≫
+        (Modules.restrictUnitIso κ).hom := by
+  have h1 : (kernel.mapIso _ _ (Modules.restrictUnitIso κ) (pushforwardRestrictIso j κ)
+      (structureSheafToPushforward_restrict j κ)).hom ≫ kernel.ι (structureSheafToPushforward j) =
+      kernel.ι _ ≫ (Modules.restrictUnitIso κ).hom :=
+    kernel.lift_ι _ _ _
+  have h2 : (PreservesKernel.iso (Modules.restrictFunctor κ)
+      (structureSheafToPushforward (j ≫ κ))).hom ≫ kernel.ι _ =
+      (Modules.restrictFunctor κ).map (kernel.ι (structureSheafToPushforward (j ≫ κ))) :=
+    (congrArg (_ ≫ ·) (PreservesKernel.iso_inv_ι _ _).symm).trans (Iso.hom_inv_id_assoc _ _)
+  exact (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) h1).trans
+    ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) h2)))
+
+/-- `idealSheafRestrictIso` for a morphism `j'` equal to `j ≫ κ`. -/
+noncomputable def idealSheafRestrictIso' (j : Z ⟶ V) (κ : V ⟶ U) [IsOpenImmersion κ]
+    (j' : Z ⟶ U) (h : j ≫ κ = j') :
+    (closedImmersionIdealSheaf j').restrict κ ≅ closedImmersionIdealSheaf j :=
+  (Modules.restrictFunctor κ).mapIso (eqToIso (congrArg closedImmersionIdealSheaf h.symm)) ≪≫
+    idealSheafRestrictIso j κ
+
+/-- `idealSheafRestrictIso'` is compatible with the inclusions into the structure sheaves. -/
+theorem idealSheafRestrictIso'_hom_ι (j : Z ⟶ V) (κ : V ⟶ U) [IsOpenImmersion κ]
+    (j' : Z ⟶ U) (h : j ≫ κ = j') :
+    (idealSheafRestrictIso' j κ j' h).hom ≫ closedImmersionIdealSheafι j =
+      (Modules.restrictFunctor κ).map (closedImmersionIdealSheafι j') ≫
+        (Modules.restrictUnitIso κ).hom := by
+  subst h
+  simp [idealSheafRestrictIso', idealSheafRestrictIso_hom_ι]
+
+end Cocycle
+
 section Factorization
 
 variable {Z X : Scheme.{u}} (i : Z ⟶ X) [IsImmersion i]
