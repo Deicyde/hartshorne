@@ -4,7 +4,7 @@ declaration: theorem
 origin: bridged
 statement: formalized
 proof: formalized
-lean: Hartshorne.smooth_of_forall_topologicalKrullDim_eq_of_finrank_fibre_le Hartshorne.finrank_fibre_relativeDifferentials_affine
+lean: Hartshorne.smooth_of_forall_topologicalKrullDim_eq_of_finrank_fibre_le
 ---
 
 # The differential criterion for a scheme over a field

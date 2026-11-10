@@ -2,6 +2,9 @@
 article_id: af_bea91b5c0ddec6bb61bd8618
 declaration: theorem
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.finrank_fibre_relativeDifferentials_affine Hartshorne.finrank_fibre_eq_of_iso_tilde
 ---
 
 # Fibres of the differential sheaf on an affine chart
