@@ -18,6 +18,7 @@ over $k$, then $p_g(X) = p_g(X')$.
 
 ## Proof depends on
 
+- [Serre's criterion for normality](../local-complete-intersections/serre-normality-criterion.md)
 - Apply the injection of canonical sections to birational maps in both
   directions.
 
