@@ -3,6 +3,8 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsTransitivity
+import Hartshorne.Scheme.Differentials.RelativeDifferentialsQuasicoherent
+import Hartshorne.Scheme.Differentials.AffineSpaceDifferentials
 import Hartshorne.Scheme.QuasicoherentAbelianClosure
 import Hartshorne.Scheme.AffineTildeChangeOfRings
 import Hartshorne.RingedSpace.FiniteLocallyFreeDuality
@@ -23,7 +25,8 @@ transitivity sequence for `X' ⟶ X ⟶ Y`, the identification `Ω_{X'/Y}` along
 This file also collects the ingredients for checking that this map is an isomorphism on the affine
 opens `U ×_W V` of a fibre product: such opens are affine and cover the fibre product, a morphism
 of module sheaves is an isomorphism if it is one on every such open, the isomorphism
-`f^* M̃ ≅ (S ⊗_R M)~` is compatible with the adjunction units, and over a pushout of rings every
+`f^* M̃ ≅ (S ⊗_R M)~` is compatible with the adjunction units, the identification
+`Ω_{X/Y}|_U ≅ (Ω_{B/A})~` sends derivatives to derivatives, and over a pushout of rings every
 linear map `B ⊗_A Ω_{A/R} → Ω_{B/S}` with `1 ⊗ d a ↦ d a` is bijective.
 -/
 
@@ -109,6 +112,94 @@ theorem tildePullbackIso_hom_unit (M : ModuleCat.{u} R) :
   (unit_conjugateEquiv_symm _ _ _ M).symm
 
 end Hartshorne
+
+namespace AlgebraicGeometry.RelDiffLocal
+
+variable {X Y U V : Scheme.{u}} (f : X ⟶ Y) (j : U ⟶ X) [IsOpenImmersion j] (g : U ⟶ V)
+  (i : V ⟶ Y) [IsOpenImmersion i] (w : j ≫ f = g ≫ i)
+
+/-- Under the locality isomorphism `Ω_{U/V} ≅ Ω_{X/Y}|_U`, the derivative of `j^♯ c` goes to the
+derivative of `c`, on every open of `U`. -/
+theorem restrictIso_hom_d (W : U.Opens) (c : Γ(X, j ''ᵁ W)) :
+    (restrictIso f j g i w).hom.val.app (op W)
+      ((Scheme.relativeDifferentialsDerivation g).d ((j.appIso W).hom c)) =
+      (Scheme.relativeDifferentialsDerivation f).d (X := op (j ''ᵁ W)) c := by
+  let r := restrictCorepresentable f j g i w
+  have he : Scheme.relativeDifferentialsHomEquiv g _ (restrictIso f j g i w).hom =
+      r.homEquiv (𝟙 _) := by
+    change (Scheme.relativeDifferentialsHomEquiv g _)
+      ((Scheme.relativeDifferentialsHomEquiv g _).symm (r.homEquiv (𝟙 _))) = _
+    exact (Scheme.relativeDifferentialsHomEquiv g _).apply_symm_apply _
+  rw [Scheme.relativeDifferentialsHomEquiv_apply] at he
+  refine (PresheafOfModules.Derivation.congr_d he ((j.appIso W).hom c)).trans ?_
+  change resD (Scheme.relativeDifferentialsHomEquiv f _
+    ((Scheme.Modules.restrictAdjunction j).homEquiv _ _ (𝟙 _))) W ((j.appIso W).hom c) = _
+  rw [Adjunction.homEquiv_id, Scheme.relativeDifferentialsHomEquiv_apply]
+  unfold resD
+  erw [PresheafOfModules.Derivation.postcomp_d_apply]
+  have hc : (j.appIso W).inv ((j.appIso W).hom c) = c := Iso.hom_inv_id_apply _ _
+  rw [hc]
+  let D := Scheme.relativeDifferentialsDerivation f
+  change (Scheme.relativeDifferentials f).presheaf.map _
+    ((Scheme.relativeDifferentials f).presheaf.map _ (D.d (X := op (j ''ᵁ W)) c)) =
+    D.d (X := op (j ''ᵁ W)) c
+  refine (presheaf_map_map (Scheme.relativeDifferentials f) _ _ (𝟙 _) (𝟙 _) _).trans ?_
+  rw [CategoryTheory.Functor.map_id]
+  rfl
+
+omit [IsOpenImmersion j] in
+/-- The open immersion `Spec Γ(X, U) ⟶ X` of an affine open `U` sends the restriction of a section
+`b` over `U` to the restriction of `b`, viewed as a global function on `Spec Γ(X, U)`. -/
+theorem fromSpec_appIso_hom_res (U : X.affineOpens) (W : (Spec Γ(X, (U : X.Opens))).Opens)
+    (hW : haveI := U.2.isOpenImmersion_fromSpec; U.2.fromSpec ''ᵁ W ≤ (U : X.Opens))
+    (b : Γ(X, (U : X.Opens))) :
+    haveI := U.2.isOpenImmersion_fromSpec
+    (U.2.fromSpec.appIso W).hom (X.presheaf.map (homOfLE hW).op b) =
+      (Spec Γ(X, (U : X.Opens))).presheaf.map W.leTop.op
+        ((Scheme.ΓSpecIso Γ(X, (U : X.Opens))).inv b) := by
+  rw [Scheme.Hom.appIso_hom, ConcreteCategory.comp_apply,
+    ← ConcreteCategory.comp_apply (X.presheaf.map _), Scheme.Hom.naturality,
+    ConcreteCategory.comp_apply]
+  erw [IsAffineOpen.fromSpec_app_self_apply (U.2 : IsAffineOpen (U : X.Opens)) b]
+  exact AffineSpaceDifferentials.presheaf_map_map_map_apply _ _ _ _ _ _
+
+omit [IsOpenImmersion j] in
+/-- Under `Ω_{X/Y}|_U ≅ (Ω_{B/A})~` for affine opens `U ⊆ f⁻¹ V`, the derivative of (the
+restriction of) `b ∈ B` is `d b`. -/
+theorem affineIso_hom_d (U : X.affineOpens) (V : Y.affineOpens)
+    (h : (U : X.Opens) ≤ f ⁻¹ᵁ (V : Y.Opens)) (W : (Spec Γ(X, (U : X.Opens))).Opens)
+    (hW : haveI := U.2.isOpenImmersion_fromSpec; U.2.fromSpec ''ᵁ W ≤ (U : X.Opens))
+    (b : Γ(X, (U : X.Opens))) :
+    letI := (f.appLE V U h).hom.toAlgebra
+    (affineIso f U V h).hom.val.app (op W)
+      ((Scheme.relativeDifferentialsDerivation f).d (X.presheaf.map (homOfLE hW).op b)) =
+      (tilde.toOpen (ModuleCat.of Γ(X, (U : X.Opens)) Ω[Γ(X, (U : X.Opens))⁄Γ(Y, (V : Y.Opens))])
+        W).hom (KaehlerDifferential.D _ _ b) := by
+  let := (f.appLE V U h).hom.toAlgebra
+  have : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
+  have : IsOpenImmersion V.2.fromSpec := V.2.isOpenImmersion_fromSpec
+  let e := restrictIso f U.2.fromSpec
+    (Spec.map (CommRingCat.ofHom (algebraMap Γ(Y, (V : Y.Opens)) Γ(X, (U : X.Opens)))))
+    V.2.fromSpec (IsAffineOpen.SpecMap_appLE_fromSpec f V.2 U.2 h).symm
+  have h1 := restrictIso_hom_d f U.2.fromSpec
+    (Spec.map (CommRingCat.ofHom (algebraMap Γ(Y, (V : Y.Opens)) Γ(X, (U : X.Opens)))))
+    V.2.fromSpec (IsAffineOpen.SpecMap_appLE_fromSpec f V.2 U.2 h).symm W
+    (X.presheaf.map (homOfLE hW).op b)
+  have h2 : e.inv.val.app (op W)
+      ((Scheme.relativeDifferentialsDerivation f).d (X.presheaf.map (homOfLE hW).op b)) =
+      (Scheme.relativeDifferentialsDerivation
+        (Spec.map (CommRingCat.ofHom (algebraMap Γ(Y, (V : Y.Opens)) Γ(X, (U : X.Opens)))))).d
+        (X := op W) ((U.2.fromSpec.appIso W).hom (X.presheaf.map (homOfLE hW).op b)) := by
+    have key : ∀ x, e.inv.val.app (op W) (e.hom.val.app (op W) x) = x := fun x =>
+      congrArg (fun φ => φ.val.app (op W) x) e.hom_inv_id
+    rw [← h1]
+    exact key _
+  change (Scheme.relativeDifferentialsSpecIso _ _).hom.val.app (op W)
+    (e.inv.val.app (op W) _) = _
+  rw [h2, fromSpec_appIso_hom_res U W hW b]
+  exact Scheme.relativeDifferentialsSpecIso_hom_d _ _ W b
+
+end AlgebraicGeometry.RelDiffLocal
 
 namespace KaehlerDifferential
 
