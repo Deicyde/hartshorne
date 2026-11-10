@@ -26,6 +26,16 @@ $p_g(\mathbb{P}^n_k) = 0$ for $n \ge 1$.
 
 ## Proof depends on
 
+- [Constant fibre dimension of relative differentials](../../../cohomology/smooth-morphisms/criteria/relative-differentials-rank-of-smooth.md)
+- [Projective space is smooth over an arbitrary base](../../../cohomology/smooth-morphisms/space-examples/projective-space-smooth-arbitrary-base.md)
+- [The class group of projective space](../../divisors/weil-divisors/projective-space-class-group.md)
+- [The Picard group of a ringed space](../../divisors/cartier-picard/invertible-sheaf-group.md)
+- [A rank-two locally free sheaf is its dual twisted by its determinant](../../module-exercises/rank-two-dual-determinant.md)
+- [The monoidal category of sheaves of modules](../../modules-and-quasicoherent/module-sheaf-monoidal-category.md)
+- [Twists and graded shifts](../../projective-sheaves/proj-twist-compatibility.md)
+- [Projective space over a scheme](../../proper-and-projective/projective-space-over-scheme.md)
+- [The split quadric surface is $\mathbb{P}^1 \times \mathbb{P}^1$](../../divisors/weil-divisors/split-quadric-product-of-lines.md)
+- [The projective-space case of Bertini](bertini-projective-space-case.md)
 - Negative twists of the projective-space structure sheaf have no nonzero
   global sections.
 
