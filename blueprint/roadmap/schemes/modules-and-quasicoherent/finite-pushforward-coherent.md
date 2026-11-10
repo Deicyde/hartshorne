@@ -2,7 +2,8 @@
 article_id: af_8a57570ef4ec1d7a4d6b19c4
 declaration: theorem
 origin: cited
-statement: retracted
+statement: formalized
+proof: formalized
 lean: Hartshorne.isCoherent_pushforward_of_isFinite Hartshorne.module_finite_pushforward_sections
 ---
 
