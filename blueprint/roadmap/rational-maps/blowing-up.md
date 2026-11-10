@@ -75,6 +75,8 @@ That is out of scope and is not claimed.
 - [Morphisms agreeing on an open set](morphism-agreement.md)
 - [Criterion for a morphism to an affine variety](../morphisms/morphism-to-affine-criterion.md)
 - [Projective and quasi-projective varieties](../projective-varieties/projective-variety.md)
+- [Every finitely generated domain is a coordinate ring](../affine-varieties/coordinate-ring-realization.md)
+- [Birational varieties have isomorphic open subsets](birational-open-subsets.md)
 
 ## Sources
 

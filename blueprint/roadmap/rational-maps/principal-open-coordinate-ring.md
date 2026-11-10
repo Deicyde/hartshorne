@@ -34,6 +34,7 @@ isomorphism.
 ## Proof depends on
 
 - [Algebraic sets and radical ideals](../affine-varieties/radical-ideal-correspondence.md)
+- [Every finitely generated domain is a coordinate ring](../affine-varieties/coordinate-ring-realization.md)
 
 ## Sources
 

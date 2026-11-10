@@ -30,6 +30,7 @@ one-dimensional; the nonfield valuation-ring criterion then makes it a DVR.
 - [The Krull--Akizuki theorem](../curve-normalization/krull-akizuki/krull-akizuki.md)
 - [Dimension of the local ring of a variety](../nonsingular-curves/local-ring-dimension.md)
 - [Characterizations of discrete valuation rings](../nonsingular-curves/dvr-characterizations.md)
+- [The function field is the fraction field of every local ring](../nonsingular-curves/local-ring-fraction-field.md)
 
 ## Sources
 

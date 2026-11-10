@@ -57,6 +57,7 @@ $Y\setminus(Y\cap H)=\overline Y\setminus H$ exactly because $\overline Y\setmin
 - [The charts are isomorphisms of varieties](../morphisms/projective-rings/chart-isomorphism.md)
 - [The vanishing ideal](../affine-varieties/vanishing-ideal.md)
 - [Algebraic sets and radical ideals](../affine-varieties/radical-ideal-correspondence.md)
+- [Every finitely generated domain is a coordinate ring](../affine-varieties/coordinate-ring-realization.md)
 
 ## Sources
 

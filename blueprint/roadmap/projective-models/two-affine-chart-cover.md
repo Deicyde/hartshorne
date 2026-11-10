@@ -29,6 +29,7 @@ without imposing separability on $K/k$.
 
 - [Transporting valuation curves along a field equivalence](valuation-space-field-equivalence.md)
 - [Nonsingular curves are open subcurves of their valuation spaces](../curve-normalization/curve-to-valuation-space-iso.md)
+- [The projective closure of an affine variety](../rational-maps/projective-closure.md)
 
 ## Sources
 

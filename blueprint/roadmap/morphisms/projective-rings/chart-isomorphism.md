@@ -57,6 +57,11 @@ Treating $U_{i}$ as a variety at all needs $\mathbb{P} ^{n}$ to be irreducible; 
 - [The standard affine charts](../../projective-varieties/standard-affine-charts.md)
 - [Regular functions on a quasi-projective variety](../regular-function-quasi-projective.md)
 
+## Proof depends on
+
+- [Criterion for a morphism into an affine variety](../morphism-to-affine-criterion.md)
+- [Varieties are covered by affine pieces](../../projective-varieties/affine-cover.md)
+
 ## Sources
 
 - [Hartshorne I.3, Proposition 3.3 (p. 18)](../../../sources/hartshorne.md#i3)

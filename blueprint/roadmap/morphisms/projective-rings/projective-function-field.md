@@ -40,6 +40,7 @@ such a fraction, giving the same field identification.
 - [The function field is the fraction field](../function-field-is-fraction-field.md)
 - [The charts are isomorphisms of varieties](chart-isomorphism.md)
 - [Varieties are covered by affine pieces](../../projective-varieties/affine-cover.md)
+- [Algebraic sets and homogeneous radical ideals](../../projective-varieties/homogeneous-ideal-correspondence.md)
 
 ## Sources
 

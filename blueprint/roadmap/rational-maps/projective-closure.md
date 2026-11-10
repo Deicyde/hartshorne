@@ -45,11 +45,18 @@ by $\beta$ of a generating set.
 - [The standard affine charts](../projective-varieties/standard-affine-charts.md)
 - [The homogeneous vanishing ideal](../projective-varieties/homogeneous-vanishing-ideal.md)
 - [Affine and quasi-affine varieties](../affine-varieties/affine-variety.md)
+- [Morphisms](../morphisms/morphism.md)
 
 ## Proof depends on
 
 - [The vanishing ideal](../affine-varieties/vanishing-ideal.md)
 - [Algebraic sets and homogeneous radical ideals](../projective-varieties/homogeneous-ideal-correspondence.md)
+- [The function field of an arbitrary variety](../morphisms/function-field-abstract.md)
+- [Criterion for a morphism into an affine variety](../morphisms/morphism-to-affine-criterion.md)
+- [The charts are isomorphisms of varieties](../morphisms/projective-rings/chart-isomorphism.md)
+- [Dimension in projective space](../projective-varieties/projective-dimension.md)
+- [Open affine sets are a base for the topology](affine-base.md)
+- [The birational criterion](birational-criterion.md)
 
 ## Sources
 

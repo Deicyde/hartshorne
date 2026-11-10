@@ -33,6 +33,7 @@ This is the chart description used in
 
 - [The coordinate ring is the ring of regular functions](../global-regular-eq-coordinate-ring.md)
 - [The function field of a projective variety](projective-function-field.md)
+- [Algebraic sets and homogeneous radical ideals](../../projective-varieties/homogeneous-ideal-correspondence.md)
 
 ## Sources
 

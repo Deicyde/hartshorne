@@ -39,6 +39,7 @@ localization at $f$, hence a domain; that algebra calculation is split into
 ## Proof depends on
 
 - [Criterion for a morphism to an affine variety](../morphisms/morphism-to-affine-criterion.md)
+- [Every finitely generated domain is a coordinate ring](../affine-varieties/coordinate-ring-realization.md)
 
 ## Sources
 

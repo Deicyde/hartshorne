@@ -31,6 +31,7 @@ The geometric objects carry their projective or quasi-projective presentations.
 
 - [Composition of dominant rational maps](../rational-maps/rational-map-composition.md)
 - [The function field is functorial for dominant morphisms](../morphisms/function-field-functorial.md)
+- [Intrinsic nonsingularity](../nonsingular-varieties/intrinsic-nonsingularity.md)
 
 ## Sources
 
