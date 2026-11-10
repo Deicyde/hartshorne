@@ -16,6 +16,10 @@ the quotient of a finite direct sum of twisted structure sheaves $\mathcal{O}_X(
 
 - [Twists and graded shifts](proj-twist-compatibility.md)
 - [Sheaves of modules](../modules-and-quasicoherent/sheaves-of-modules.md)
+- [Projective morphisms](../proper-and-projective/projective-morphism.md)
+- [Relative twisting sheaves and very ampleness](relative-twisting-and-very-ample.md)
+- [Duality for finite locally free sheaves](../modules-and-quasicoherent/finite-locally-free-duality.md)
+- [Sheaf tensor, symmetric, and exterior operations](../module-exercises/sheaf-tensor-operations.md)
 
 ## Proof depends on
 
