@@ -20,6 +20,7 @@ regular and equidimensional of dimension $n$.
 ## Proof depends on
 
 - [Flat morphisms with smooth fibres are smooth](flat-smooth-fibers-smooth.md)
+- [Base change for differential sheaves](../../../schemes/differentials/scheme-differentials/relative-differentials-base-change.md)
 - Faithfully flat descent of local freeness of Kähler differentials along an
   algebraic closure of a residue field.
 
