@@ -14,7 +14,8 @@ $\mathcal{O} _Y$-modules to quasi-coherent $\mathcal{O} _X$-modules.  If $X$ and
 noetherian, it sends coherent modules to coherent modules.
 
 This is Proposition 5.8(a,b). The noetherian hypothesis in (b) is Hartshorne's; the argument
-below does not use it, and the coherence statement holds for every morphism $f$.  Reduce locally to a morphism of affine schemes,
+that follows does not use it, and the coherence statement holds for every morphism $f$. Reduce
+locally to a morphism of affine schemes,
 where pullback is extension of scalars and finite presentation is preserved by
 base change.
 
