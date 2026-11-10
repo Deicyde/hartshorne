@@ -666,3 +666,4 @@ import Hartshorne.Scheme.Differentials.PlurigenusBirational
 import Hartshorne.Cohomology.ChevalleyGenericFrame
 import Hartshorne.Cohomology.TildeInjectiveFlasque
 import Hartshorne.Scheme.ProjectiveSpaceSectionRing
+import Hartshorne.Scheme.Differentials.ClosedImmersionConormalSequence
