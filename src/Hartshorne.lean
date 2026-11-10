@@ -661,3 +661,4 @@ import Hartshorne.Scheme.Differentials.ImmersionConormalSheaf
 import Hartshorne.Scheme.Differentials.LocalCompleteIntersectionCohenMacaulay
 import Hartshorne.Scheme.SerreGlobalGeneration
 import Hartshorne.Surface.CanonicalRingFunctionFieldEmbedding
+import Hartshorne.Scheme.Differentials.LocalCompleteIntersectionNormal
