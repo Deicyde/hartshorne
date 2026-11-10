@@ -30,8 +30,8 @@ criterion.
 
 - [Fibres of the differential sheaf on an affine chart](relative-differentials-affine-fibre.md)
 - [The free locus of a coherent sheaf](../../coherent-sheaves/coherent-free-locus.md)
-- [Constant fibre dimension of relative differentials](../../../cohomology/smooth-morphisms/criteria/relative-differentials-rank-of-smooth.md)
-- [Equidimensionality in a flat family](../../../cohomology/flat-families/families-hilbert/flat-equidimensional-total-space-iff-fibers.md)
+- [Constant fibre dimension forces local freeness](../../coherent-sheaves/coherent-constant-fibre-rank-locally-free.md)
+- [The reduced induced closed subscheme](../../subschemes-and-dimension/reduced-induced-closed-subscheme.md)
 - Closed points are dense, and every nonclosed local ring is a localization of
   a local ring at a suitable closed point.
 
