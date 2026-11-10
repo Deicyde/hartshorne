@@ -461,8 +461,9 @@ noncomputable def conormalIsColimit :
       intro U t W hWU hWV hl
       have hm' : relativeDifferentialsToPushforwardComp i f ≫ (Modules.pushforward i).map m =
           τAdj τ := by
-        rw [← hm, Adjunction.homEquiv_naturality_right,
-          pullbackRelativeDifferentialsToComp_homEquiv]
+        rw [← hm]
+        show _ = (Modules.pullbackPushforwardAdjunction i).homEquiv _ _ _
+        rw [Adjunction.homEquiv_naturality_right, pullbackRelativeDifferentialsToComp_homEquiv]
       have e₁ : m.val.app (op (i ⁻¹ᵁ U)) ((relativeDifferentialsDerivation (i ≫ f)).d
           (i.app U t)) = descδ τ U t := by
         have h := congr(($hm').val.app (op U) ((relativeDifferentialsDerivation f).d t))
@@ -470,21 +471,22 @@ noncomputable def conormalIsColimit :
         exact congrArg (fun x => (m.val.app (op (i ⁻¹ᵁ U))).hom x)
           (relativeDifferentialsToPushforwardComp_d i f (op U) t).symm
       unfold IsLift at hl
-      calc M.presheaf.map (homOfLE hWV).op
+      show M.val.map (homOfLE hWV).op _ = M.val.map (homOfLE hWU).op _
+      calc M.val.map (homOfLE hWV).op
             (m.val.app V ((relativeDifferentialsDerivation (i ≫ f)).d s))
           = m.val.app (op W) ((relativeDifferentials (i ≫ f)).val.map (homOfLE hWV).op
               ((relativeDifferentialsDerivation (i ≫ f)).d s)) :=
             (PresheafOfModules.naturality_apply m.val _ _).symm
-        _ = m.val.app (op W) ((relativeDifferentialsDerivation (i ≫ f)).d
+        _ = m.val.app (op W) ((relativeDifferentialsDerivation (i ≫ f)).d (X := op W)
               (Z.presheaf.map (homOfLE hWV).op s)) := by
             erw [(relativeDifferentialsDerivation (i ≫ f)).d_map]
-        _ = m.val.app (op W) ((relativeDifferentialsDerivation (i ≫ f)).d
+        _ = m.val.app (op W) ((relativeDifferentialsDerivation (i ≫ f)).d (X := op W)
               (Z.presheaf.map (homOfLE hWU).op (i.app U t))) := by rw [hl]
         _ = m.val.app (op W) ((relativeDifferentials (i ≫ f)).val.map (homOfLE hWU).op
-              ((relativeDifferentialsDerivation (i ≫ f)).d (i.app U t))) := by
+              ((relativeDifferentialsDerivation (i ≫ f)).d (X := op (i ⁻¹ᵁ U)) (i.app U t))) := by
             erw [(relativeDifferentialsDerivation (i ≫ f)).d_map]
-        _ = M.presheaf.map (homOfLE hWU).op (m.val.app (op (i ⁻¹ᵁ U))
-              ((relativeDifferentialsDerivation (i ≫ f)).d (i.app U t))) :=
+        _ = M.val.map (homOfLE hWU).op (m.val.app (op (i ⁻¹ᵁ U))
+              ((relativeDifferentialsDerivation (i ≫ f)).d (X := op (i ⁻¹ᵁ U)) (i.app U t))) :=
             PresheafOfModules.naturality_apply m.val _ _
         _ = _ := congrArg _ e₁)
 
