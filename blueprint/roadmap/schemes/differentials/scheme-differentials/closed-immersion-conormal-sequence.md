@@ -28,6 +28,7 @@ claim that its first map is injective.
 
 ## Proof depends on
 
+- [The transitivity sequence for differential sheaves](relative-differentials-transitivity.md)
 - [Closed subschemes of an affine scheme](../../subschemes-and-dimension/affine-closed-subschemes.md)
 - Stalkwise exactness and sheaf quotients.
 
