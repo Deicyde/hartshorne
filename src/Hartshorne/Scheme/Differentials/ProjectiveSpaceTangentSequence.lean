@@ -86,6 +86,25 @@ theorem isFiniteLocallyFree_unit (X : Scheme.{u}) :
     Ringed.IsFiniteLocallyFree (R := X.sheaf) (SheafOfModules.unit X.ringCatSheaf) :=
   (Ringed.structureModule_isInvertible (R := X.sheaf)).isFiniteLocallyFree
 
+/-- If `0 ⟶ Ω_{X/k} ⟶ F ⟶ F'' ⟶ 0` is short exact with `F''` locally free of finite rank, and
+`F''^∨ ≅ A`, `F^∨ ≅ B`, then there is a short exact sequence `0 ⟶ A ⟶ B ⟶ T_X ⟶ 0`. -/
+theorem exists_shortExact_tangentSheaf_of_dual {X : Scheme.{u}} {k : Type u} [Field k]
+    (φ : X ⟶ Spec (.of k)) {S : ShortComplex X.Modules} (hS : S.ShortExact)
+    (h₃ : Ringed.IsFiniteLocallyFree (R := X.sheaf) S.X₃)
+    (hΩ : S.X₁ = Scheme.relativeDifferentials φ) {A B : X.Modules}
+    (e₀ : dualModules S.X₃ ≅ A) (eE : dualModules S.X₂ ≅ B) :
+    ∃ (a : A ⟶ B) (b : B ⟶ tangentSheaf φ) (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact := by
+  have hD := dualModulesComplex_shortExact hS h₃
+  let D := dualModulesComplex S
+  let e₀' : D.X₁ ≅ A := e₀
+  let eE' : D.X₂ ≅ B := eE
+  let e₃ : D.X₃ ≅ tangentSheaf φ := eqToIso (congrArg dualModules hΩ)
+  refine ⟨e₀'.inv ≫ D.f ≫ eE'.hom, eE'.inv ≫ D.g ≫ e₃.hom, ?_, ?_⟩
+  · simp only [Category.assoc, Iso.hom_inv_id_assoc, ShortComplex.zero_assoc, zero_comp,
+      comp_zero]
+  · exact ShortComplex.shortExact_of_iso
+      (ShortComplex.isoMk e₀' eE' e₃ (by simp) (by simp)) hD
+
 /-- **The dual of the Euler sequence is short exact:**
 `0 → 𝒪^∨ → (𝒪(-1)^{n+1})^∨ → Ω^∨ = T_X → 0` on `ℙⁿ_k`. -/
 theorem dualEulerSequence_shortExact :
@@ -149,22 +168,45 @@ theorem nonempty_dualEulerComplex_X₂_iso :
   exact ⟨dualModulesBiproductIso (fun _ : Fin (n + 1) ↦ O1 k n) ≪≫
     biproduct.mapIso (f := fun _ : Fin (n + 1) ↦ dualModules (O1 k n)) fun _ ↦ e₁⟩
 
+/-- Transport a short exact sequence `0 ⟶ A ⟶ B ⟶ T ⟶ 0` along isomorphisms `A ≅ A'`,
+`B ≅ B'`. -/
+theorem exists_shortExact_of_iso {C : Type*} [Category C] [Abelian C] {A B A' B' T : C}
+    (h : ∃ (a : A ⟶ B) (b : B ⟶ T) (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact)
+    (e₀ : A ≅ A') (eE : B ≅ B') :
+    ∃ (a : A' ⟶ B') (b : B' ⟶ T) (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact := by
+  obtain ⟨a, b, w, hS⟩ := h
+  refine ⟨e₀.inv ≫ a ≫ eE.hom, eE.inv ≫ b, by simp [w], ?_⟩
+  exact ShortComplex.shortExact_of_iso
+    (ShortComplex.isoMk e₀ eE (Iso.refl T) (by simp) (by simp)) hS
+
+/-- The dual Euler sequence with its last term named as the tangent sheaf:
+`0 ⟶ 𝒪^∨ ⟶ (𝒪(-1)^{n+1})^∨ ⟶ T_X ⟶ 0`. -/
+theorem tangentSequence_projectiveSpace_aux :
+    ∃ (a : dualModules (O0 k n) ⟶ dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n))
+      (b : dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n) ⟶ tangentSheaf (toBase k n))
+      (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact :=
+  exists_shortExact_tangentSheaf_of_dual (toBase k n) (eulerSequence k n).1
+    (isFiniteLocallyFree_unit _) rfl (Iso.refl _) (Iso.refl _)
+
+theorem nonempty_dual_E_iso :
+    Nonempty (dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n) ≅
+      ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) := by
+  obtain ⟨e₁⟩ := nonempty_dual_O1_iso (k := k) (n := n)
+  exact ⟨dualModulesBiproductIso (fun _ : Fin (n + 1) ↦ O1 k n) ≪≫
+    biproduct.mapIso (f := fun _ : Fin (n + 1) ↦ dualModules (O1 k n)) fun _ ↦ e₁⟩
+
 /-- **Hartshorne II.8, Example 8.20.1 (the tangent sequence).** On `X = ℙⁿ_k` there is an exact
-sequence `0 → 𝒪_X → 𝒪_X(1)^{n+1} → T_X → 0`, obtained by dualizing the Euler sequence (8.13): the
-maps are those of `Hartshorne.EulerSequence.dualEulerComplex` composed with the identifications
-`𝒪^∨ ≅ 𝒪` and `(𝒪(-1)^{n+1})^∨ ≅ 𝒪(1)^{n+1}`. -/
+sequence `0 → 𝒪_X → 𝒪_X(1)^{n+1} → T_X → 0`, obtained by dualizing the Euler sequence (8.13)
+(`Hartshorne.EulerSequence.dualEulerComplex`) and identifying `𝒪^∨ ≅ 𝒪` and
+`(𝒪(-1)^{n+1})^∨ ≅ 𝒪(1)^{n+1}`. -/
 theorem tangentSequence_projectiveSpace :
     ∃ (a : O0 k n ⟶ ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1)
       (b : (⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) ⟶
         tangentSheaf (toBase k n))
       (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact := by
-  obtain ⟨e₀⟩ := nonempty_dualEulerComplex_X₁_iso (k := k) (n := n)
-  obtain ⟨eE⟩ := nonempty_dualEulerComplex_X₂_iso (k := k) (n := n)
-  refine ⟨e₀.inv ≫ (dualEulerComplex k n).f ≫ eE.hom, eE.inv ≫ (dualEulerComplex k n).g, ?_, ?_⟩
-  · simp only [Category.assoc, Iso.hom_inv_id_assoc, ShortComplex.zero, comp_zero]
-  · exact ShortComplex.shortExact_of_iso
-      (ShortComplex.isoMk e₀ eE (Iso.refl (tangentSheaf (toBase k n))) (by simp) (by simp))
-      dualEulerComplex_shortExact
+  obtain ⟨e₀⟩ := nonempty_dual_O0_iso (k := k) (n := n)
+  obtain ⟨eE⟩ := nonempty_dual_E_iso (k := k) (n := n)
+  exact exists_shortExact_of_iso tangentSequence_projectiveSpace_aux e₀ eE
 
 /-- The last term of `Hartshorne.EulerSequence.dualEulerComplex` is the tangent sheaf. -/
 theorem dualEulerComplex_X₃ : (dualEulerComplex k n).X₃ = tangentSheaf (toBase k n) :=
