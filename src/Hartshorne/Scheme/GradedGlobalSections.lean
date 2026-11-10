@@ -198,37 +198,63 @@ theorem mulMap_add (n : ℤ) (d : ℕ) (s s' : 𝒜 d) :
       rw [key, key]
     _ = _ := rfl
 
+set_option maxHeartbeats 1000000 in
 theorem mulMap_mul (n : ℤ) (d e : ℕ) (s : 𝒜 d) (t : 𝒜 e) :
     mulMap hgen F n d s ≫ mulMap hgen F (n + d) e t =
       mulMap hgen F n (d + e) ⟨s * t, SetLike.GradedMul.mul_mem s.2 t.2⟩ ≫
-        eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) (by push_cast; ring)) := by
+        eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m)
+          (show n + ((d + e : ℕ) : ℤ) = n + d + e by push_cast; ring)) := by
+  have h : n + ((d + e : ℕ) : ℤ) = n + d + e := by push_cast; ring
   apply tensor_hom_ext
   intro U f g
-  change (mulMap hgen F (n + d) e t).val.app U ((mulMap hgen F n d s).val.app U
-    (tmulSection _ _ f g)) = (eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m)
-      (show n + ((d + e : ℕ) : ℤ) = n + d + e by push_cast; ring))).val.app U
-      ((mulMap hgen F n (d + e) ⟨s * t, SetLike.GradedMul.mul_mem s.2 t.2⟩).val.app U
-        (tmulSection _ _ f g))
-  rw [mulMap_tmulSection, mulMap_tmulSection, mulMap_tmulSection, eqToHom_tmulSection]
-  refine congrArg (tmulSection _ _ f) ?_
-  apply section_ext
-  intro x
-  apply HomogeneousLocalizedModule.ext
-  rw [twistMulIso_tmul_twistSection_apply, eqToHom_apply_val, twistMulIso_tmul_twistSection_apply,
-    twistMulIso_tmul_twistSection_apply, mul_comm, mul_smul]
+  calc _ = (mulMap hgen F (n + d) e t).val.app U ((mulMap hgen F n d s).val.app U
+        (tmulSection _ _ f g)) := rfl
+    _ = (mulMap hgen F (n + d) e t).val.app U (tmulSection _ _ f
+          ((twistMulIso 𝒜 hgen n d).hom.val.app U (tmulSection _ _ g (twistSection d s U)))) :=
+        congrArg _ (mulMap_tmulSection hgen F n d s f g)
+    _ = tmulSection _ _ f ((twistMulIso 𝒜 hgen (n + d) e).hom.val.app U (tmulSection _ _
+          ((twistMulIso 𝒜 hgen n d).hom.val.app U (tmulSection _ _ g (twistSection d s U)))
+          (twistSection e t U))) := mulMap_tmulSection hgen F (n + d) e t f _
+    _ = tmulSection _ _ f ((eqToHom (congrArg (projTwistingSheaf 𝒜) h)).val.app U
+          ((twistMulIso 𝒜 hgen n (d + e : ℕ)).hom.val.app U (tmulSection _ _ g
+            (twistSection (d + e) ⟨(s : A) * t, SetLike.GradedMul.mul_mem s.2 t.2⟩ U)))) := by
+      refine congrArg (tmulSection _ _ f) ?_
+      apply section_ext
+      intro x
+      apply HomogeneousLocalizedModule.ext
+      rw [twistMulIso_tmul_twistSection_apply, eqToHom_apply_val h,
+        twistMulIso_tmul_twistSection_apply, twistMulIso_tmul_twistSection_apply]
+      change _ = ((s : A) * t) • _
+      rw [mul_comm, mul_smul]
+    _ = (eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) h)).val.app U
+          (tmulSection _ _ f ((twistMulIso 𝒜 hgen n (d + e : ℕ)).hom.val.app U (tmulSection _ _ g
+            (twistSection (d + e) ⟨(s : A) * t, SetLike.GradedMul.mul_mem s.2 t.2⟩ U)))) :=
+        (eqToHom_tmulSection F h f _).symm
+    _ = (eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) h)).val.app U
+          ((mulMap hgen F n (d + e) ⟨(s : A) * t, SetLike.GradedMul.mul_mem s.2 t.2⟩).val.app U
+            (tmulSection _ _ f g)) :=
+        congrArg _ (mulMap_tmulSection hgen F n (d + e) _ f g).symm
+    _ = _ := rfl
 
+set_option maxHeartbeats 1000000 in
 theorem mulMap_one (n : ℤ) :
     mulMap hgen F n 0 ⟨1, SetLike.GradedOne.one_mem⟩ =
-      eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) (by push_cast; ring)) := by
+      eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m)
+        (show n = n + ((0 : ℕ) : ℤ) by push_cast; ring)) := by
+  have h : n = n + ((0 : ℕ) : ℤ) := by push_cast; ring
   apply tensor_hom_ext
   intro U f g
-  rw [mulMap_tmulSection, eqToHom_tmulSection]
-  refine congrArg (tmulSection _ _ f) ?_
-  apply section_ext
-  intro x
-  apply HomogeneousLocalizedModule.ext
-  rw [twistMulIso_tmul_twistSection_apply, eqToHom_apply_val]
-  exact one_smul _ _
+  calc _ = tmulSection _ _ f ((twistMulIso 𝒜 hgen n (0 : ℕ)).hom.val.app U
+        (tmulSection _ _ g (twistSection 0 ⟨1, SetLike.GradedOne.one_mem⟩ U))) :=
+      mulMap_tmulSection hgen F n 0 _ f g
+    _ = tmulSection _ _ f ((eqToHom (congrArg (projTwistingSheaf 𝒜) h)).val.app U g) := by
+      refine congrArg (tmulSection _ _ f) ?_
+      apply section_ext
+      intro x
+      apply HomogeneousLocalizedModule.ext
+      rw [twistMulIso_tmul_twistSection_apply, eqToHom_apply_val h]
+      exact one_smul _ _
+    _ = _ := (eqToHom_tmulSection F h f g).symm
 
 end MulMap
 
@@ -307,27 +333,49 @@ theorem actHom_of_mem {d : ℕ} {s : A} (hs : s ∈ 𝒜 d) :
 theorem actHom_one : actHom hgen F 1 = 1 := by
   rw [actHom_of_mem hgen F SetLike.GradedOne.one_mem]
   refine DirectSum.addHom_ext fun n x => ?_
-  rw [mulStar_of]
-  change DirectSum.of (fun m => twistGlobal F m) _ ((mulMap hgen F n 0 ⟨1, _⟩).val.app (op ⊤) x) = DirectSum.of (fun m => twistGlobal F m) n x
-  rw [mulMap_one]
-  exact of_eqToHom F _ x
+  have h : n = n + ((0 : ℕ) : ℤ) := by push_cast; ring
+  calc mulStar hgen F 0 ⟨1, SetLike.GradedOne.one_mem⟩ (DirectSum.of (fun m => twistGlobal F m) n x)
+      = DirectSum.of (fun m => twistGlobal F m) (n + ((0 : ℕ) : ℤ))
+          ((mulMap hgen F n 0 ⟨1, SetLike.GradedOne.one_mem⟩).val.app (op ⊤) x) :=
+        mulStar_of hgen F 0 _ n x
+    _ = DirectSum.of (fun m => twistGlobal F m) (n + ((0 : ℕ) : ℤ))
+          ((eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) h)).val.app (op ⊤) x) := by
+        rw [mulMap_one]
+    _ = DirectSum.of (fun m => twistGlobal F m) n x := of_eqToHom F h x
+    _ = _ := rfl
 
+set_option maxHeartbeats 1000000 in
+set_option maxRecDepth 10000 in
 theorem actHom_mul_of_mem {i j : ℕ} {a b : A} (ha : a ∈ 𝒜 i) (hb : b ∈ 𝒜 j) :
     actHom hgen F (a * b) = actHom hgen F a * actHom hgen F b := by
   rw [actHom_of_mem hgen F (SetLike.GradedMul.mul_mem ha hb), actHom_of_mem hgen F ha,
     actHom_of_mem hgen F hb]
   refine DirectSum.addHom_ext fun n x => ?_
-  change mulStar hgen F (i + j) _ (DirectSum.of (fun m => twistGlobal F m) n x) =
-    mulStar hgen F i ⟨a, ha⟩ (mulStar hgen F j ⟨b, hb⟩ (DirectSum.of (fun m => twistGlobal F m) n x))
-  rw [mulStar_of, mulStar_of, mulStar_of]
   have h2 : DirectSum.of (fun m => twistGlobal F m) (n + j + i)
       ((mulMap hgen F (n + j) i ⟨a, ha⟩).val.app (op ⊤)
         ((mulMap hgen F n j ⟨b, hb⟩).val.app (op ⊤) x)) =
       DirectSum.of (fun m => twistGlobal F m) (n + ((j + i : ℕ) : ℤ))
         ((mulMap hgen F n (j + i) ⟨b * a, SetLike.GradedMul.mul_mem hb ha⟩).val.app (op ⊤) x) :=
     (congrArg (fun φ => DirectSum.of (fun m => twistGlobal F m) (n + j + i) (φ.val.app (op ⊤) x))
-      (mulMap_mul hgen F n j i ⟨b, hb⟩ ⟨a, ha⟩)).trans (of_eqToHom F _ _)
-  exact (of_mulGlobal_congr hgen F n (add_comm i j) _ _ (mul_comm a b) x).trans h2.symm
+      (mulMap_mul hgen F n j i ⟨b, hb⟩ ⟨a, ha⟩)).trans
+      (of_eqToHom F (show n + ((j + i : ℕ) : ℤ) = n + j + i by push_cast; ring) _)
+  calc mulStar hgen F (i + j) ⟨a * b, SetLike.GradedMul.mul_mem ha hb⟩
+        (DirectSum.of (fun m => twistGlobal F m) n x)
+      = DirectSum.of (fun m => twistGlobal F m) (n + ((i + j : ℕ) : ℤ))
+          (mulGlobal hgen F n (i + j) ⟨a * b, SetLike.GradedMul.mul_mem ha hb⟩ x) :=
+        mulStar_of hgen F _ _ n x
+    _ = DirectSum.of (fun m => twistGlobal F m) (n + ((j + i : ℕ) : ℤ))
+          (mulGlobal hgen F n (j + i) ⟨b * a, SetLike.GradedMul.mul_mem hb ha⟩ x) :=
+        of_mulGlobal_congr hgen F n (add_comm i j) _ _ (mul_comm a b) x
+    _ = DirectSum.of (fun m => twistGlobal F m) (n + j + i)
+          ((mulMap hgen F (n + j) i ⟨a, ha⟩).val.app (op ⊤)
+            ((mulMap hgen F n j ⟨b, hb⟩).val.app (op ⊤) x)) := h2.symm
+    _ = mulStar hgen F i ⟨a, ha⟩ (DirectSum.of (fun m => twistGlobal F m) (n + j)
+          (mulGlobal hgen F n j ⟨b, hb⟩ x)) := (mulStar_of hgen F i _ (n + j) _).symm
+    _ = mulStar hgen F i ⟨a, ha⟩ (mulStar hgen F j ⟨b, hb⟩
+          (DirectSum.of (fun m => twistGlobal F m) n x)) :=
+        congrArg _ (mulStar_of hgen F j _ n x).symm
+    _ = _ := rfl
 
 /-- The action of `S` on `Γ_*(F)`, as a ring homomorphism to additive endomorphisms. -/
 def actRingHom : A →+* AddMonoid.End (GammaStar F) where
@@ -356,7 +404,8 @@ theorem smul_of {d : ℕ} {s : A} (hs : s ∈ 𝒜 d) (n : ℤ) (x : twistGlobal
     s • DirectSum.of (fun m => twistGlobal F m) n x =
       DirectSum.of (fun m => twistGlobal F m) (n + d) (mulGlobal hgen F n d ⟨s, hs⟩ x) := by
   change actHom hgen F s (DirectSum.of (fun m => twistGlobal F m) n x) = _
-  rw [actHom_of_mem hgen F hs, mulStar_of]
+  rw [actHom_of_mem hgen F hs]
+  exact mulStar_of hgen F d _ n x
 
 end Graded
 
