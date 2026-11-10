@@ -287,6 +287,128 @@ theorem injective_localCotangentBaseChange_iff_of_isClosed {k : Type u} [Field k
 
 end ClosedPoint
 
+section Main
+
+/-- The tangent map at `x` is surjective if and only if the scalar-extended cotangent map is
+injective. -/
+theorem surjective_zariskiTangentMap_iff {X Y : Scheme.{u}} (f : X ⟶ Y) (x : X)
+    [Module.Finite (ResidueField (Y.presheaf.stalk (f x))) (CotangentSpace (Y.presheaf.stalk (f x)))] :
+    letI := (f.stalkMap x).hom.toAlgebra
+    haveI := isLocalHom_stalkMap_algebraMap f x
+    Function.Surjective (zariskiTangentMap f x) ↔
+      Function.Injective (localCotangentBaseChange (Y.presheaf.stalk (f x)) (X.presheaf.stalk x)) := by
+  let _ := (f.stalkMap x).hom.toAlgebra
+  have := isLocalHom_stalkMap_algebraMap f x
+  rw [← LinearMap.dualMap_surjective_iff]
+  change Function.Surjective (localTangentMap _ _) ↔ _
+  simp only [localTangentMap, LinearMap.coe_comp, LinearEquiv.coe_coe, EquivLike.comp_surjective]
+
+/-- In an irreducible space, every irreducible component is the whole space. -/
+theorem eq_univ_of_mem_irreducibleComponents {S : Type*} [TopologicalSpace S] [IrreducibleSpace S]
+    {C : Set S} (hC : C ∈ irreducibleComponents S) : C = Set.univ :=
+  Set.eq_univ_of_univ_subset (hC.2 (IrreducibleSpace.isIrreducible_univ S) (Set.subset_univ C))
+
+/-- **Hartshorne III, Proposition 10.4.** Let `f : X → Y` be a morphism of nonsingular varieties
+over an algebraically closed field `k`, with `dim X = dim Y + n`. The following are equivalent:
+1. `f` is smooth of relative dimension `n`;
+2. `Ω_{X/Y}` is locally free of rank `n`;
+3. for every closed point `x ∈ X`, the Zariski tangent map `T_x X → k(x) ⊗ T_{f x} Y` is
+   surjective.
+
+Varieties are integral schemes of finite type over `k` (separatedness is not used); nonsingular
+means every local ring is regular. -/
+theorem smoothOfRelativeDimension_tfae_of_isRegularAt {k : Type u} [Field k] [IsAlgClosed k]
+    {X Y : Over (Spec (CommRingCat.of k))}
+    (hX : LocallyOfFiniteType X.hom ∧ QuasiCompact X.hom)
+    (hY : LocallyOfFiniteType Y.hom ∧ QuasiCompact Y.hom)
+    [IsIntegral X.left] [IsIntegral Y.left]
+    (hXr : ∀ x : X.left, X.left.IsRegularAt x) (hYr : ∀ y : Y.left, Y.left.IsRegularAt y)
+    (f : X ⟶ Y) (n : ℕ)
+    (hdim : topologicalKrullDim X.left = topologicalKrullDim Y.left + n) :
+    haveI : LocallyOfFiniteType Y.hom := hY.1
+    haveI := LocallyOfFiniteType.isLocallyNoetherian Y.hom
+    [SmoothOfRelativeDimension n f.left,
+      (Scheme.relativeDifferentials f.left).IsLocallyFreeOfRank n,
+      ∀ x : X.left, IsClosed ({x} : Set X.left) →
+        Function.Surjective (zariskiTangentMap f.left x)].TFAE := by
+  have : LocallyOfFiniteType X.hom := hX.1
+  have : LocallyOfFiniteType Y.hom := hY.1
+  have : IsLocallyNoetherian X.left := LocallyOfFiniteType.isLocallyNoetherian X.hom
+  have : IsLocallyNoetherian Y.left := LocallyOfFiniteType.isLocallyNoetherian Y.hom
+  have : JacobsonSpace X.left := LocallyOfFiniteType.jacobsonSpace X.hom
+  have : JacobsonSpace Y.left := LocallyOfFiniteType.jacobsonSpace Y.hom
+  have : LocallyOfFiniteType (f.left ≫ Y.hom) := by rw [Over.w f]; infer_instance
+  have : LocallyOfFiniteType f.left := locallyOfFiniteType_of_comp f.left Y.hom
+  -- at a closed point, the cotangent space has the dimension of the variety
+  have hcot : ∀ {Z : Scheme.{u}} (g : Z ⟶ Spec (.of k)), FiniteType g → IsIntegral Z →
+      (∀ z : Z, Z.IsRegularAt z) → ∀ z₀ : Z, IsClosed ({z₀} : Set Z) →
+      topologicalKrullDim Z =
+        (finrank (ResidueField (Z.presheaf.stalk z₀)) (CotangentSpace (Z.presheaf.stalk z₀)) : ℕ) :=
+    by
+    intro Z g hg _ hZ z₀ hz₀
+    have : IsRegularLocalRing (Z.presheaf.stalk z₀) := hZ z₀
+    rw [dimension_at_closed_point g hg z₀ hz₀,
+      ← (IsRegularLocalRing.iff_finrank_cotangentSpace _).mp this]
+  obtain ⟨x₀, -, hx₀⟩ := nonempty_inter_closedPoints (X := X.left) Set.univ_nonempty
+    isClosed_univ.isLocallyClosed
+  obtain ⟨y₀, -, hy₀⟩ := nonempty_inter_closedPoints (X := Y.left) Set.univ_nonempty
+    isClosed_univ.isLocallyClosed
+  set dX := finrank (ResidueField (X.left.presheaf.stalk x₀))
+    (CotangentSpace (X.left.presheaf.stalk x₀))
+  set dY := finrank (ResidueField (Y.left.presheaf.stalk y₀))
+    (CotangentSpace (Y.left.presheaf.stalk y₀))
+  have hdX : topologicalKrullDim X.left = dX := hcot X.hom hX inferInstance hXr x₀ hx₀
+  have hdY : topologicalKrullDim Y.left = dY := hcot Y.hom hY inferInstance hYr y₀ hy₀
+  have hd : dX = dY + n := by
+    rw [hdX, hdY] at hdim
+    exact_mod_cast hdim
+  have hcotX : ∀ x : X.left, IsClosed ({x} : Set X.left) →
+      finrank (ResidueField (X.left.presheaf.stalk x)) (CotangentSpace (X.left.presheaf.stalk x)) =
+        dX := fun x hx ↦ by
+    have h := (hcot X.hom hX inferInstance hXr x hx).symm.trans hdX
+    exact_mod_cast h
+  have hcotY : ∀ y : Y.left, IsClosed ({y} : Set Y.left) →
+      finrank (ResidueField (Y.left.presheaf.stalk y)) (CotangentSpace (Y.left.presheaf.stalk y)) =
+        dY := fun y hy ↦ by
+    have h := (hcot Y.hom hY inferInstance hYr y hy).symm.trans hdY
+    exact_mod_cast h
+  have key : ∀ x : X.left, IsClosed ({x} : Set X.left) →
+      (Function.Surjective (zariskiTangentMap f.left x) ↔
+        moduleFiberDim (Scheme.relativeDifferentials f.left) x + dY = dX) := fun x hx ↦ by
+    rw [surjective_zariskiTangentMap_iff,
+      injective_localCotangentBaseChange_iff_of_isClosed hX.1 f x hx,
+      hcotY _ (f.left.closePoints_subset_preimage_closedPoints hx), hcotX x hx]
+    rfl
+  tfae_have 1 → 2 := fun h ↦
+    haveI := h
+    Scheme.relativeDifferentials_isLocallyFreeOfRank_of_smoothOfRelativeDimension f.left n
+  tfae_have 2 → 3 := by
+    intro h x hx
+    rw [key x hx]
+    have := (Scheme.relativeDifferentials_isLocallyFreeOfRank_iff f.left n).mp h x
+    change moduleFiberDim _ x = n at this
+    omega
+  tfae_have 3 → 1 := by
+    intro h
+    have hfib : ∀ x : X.left, IsClosed ({x} : Set X.left) →
+        moduleFiberDim (Scheme.relativeDifferentials f.left) x = n := fun x hx ↦ by
+      have := (key x hx).mp (h x hx)
+      omega
+    rw [smoothOfRelativeDimension_iff_flat_and_component_dim_and_finrank hX hY f n]
+    refine ⟨?_, ?_, fun x ↦ ?_⟩
+    · exact flat_of_forall_isClosed f.left fun x hx ↦
+        RegularCotangentFlat.flat_stalkMap_of_surjective_zariskiTangentMap f.left x (hXr x) (hYr _) (h x hx)
+    · intro X' hX' Y' hY' _
+      rw [eq_univ_of_mem_irreducibleComponents hX', eq_univ_of_mem_irreducibleComponents hY',
+        (Homeomorph.Set.univ X.left).isHomeomorph.topologicalKrullDim_eq,
+        (Homeomorph.Set.univ Y.left).isHomeomorph.topologicalKrullDim_eq]
+      exact hdim
+    · exact moduleFiberDim_eq_of_forall_isClosed (Scheme.relativeDifferentials f.left)
+        (Scheme.relativeDifferentials_isCoherent_of_locallyOfFiniteType f.left) hfib x
+  tfae_finish
+
+end Main
+
 end SmoothTangent
 
 end
