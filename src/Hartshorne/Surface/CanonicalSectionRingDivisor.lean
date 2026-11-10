@@ -78,6 +78,120 @@ def nsmulSheafIso (D : X.CartierDivisor) :
       moduleSheafTensorIsoOfIso (nsmulSheafIso D n) (Iso.refl _) ≪≫
       (moduleSheafTensorPowerSuccIso D.sheafR n).symm
 
+theorem kVal_eqToHom {D D' : X.CartierDivisor} (hD : D = D') (h : D.sheafR = D'.sheafR)
+    {U : X.Opens} (s : D.sheafR.val.obj (op U)) :
+    D'.kVal ((eqToHom h).val.app (op U) s) = D.kVal s := by
+  subst hD
+  rfl
+
+theorem kVal_one_inv_top {U : X.Opens} :
+    X.totalQuotientSheaf.obj.map (homOfLE (le_top : U ≤ ⊤)).op
+      (kUnitVal (1 : X.totalQuotientUnitsSheaf.obj.obj (op ⊤))⁻¹) = 1 := by
+  have h1 : kUnitVal (1 : X.totalQuotientUnitsSheaf.obj.obj (op ⊤))⁻¹ = 1 := by
+    rw [inv_one]
+    exact Units.val_one
+  rw [h1, map_one]
+
+/-- **`𝒪_X(kD) ≅ 𝒪_X(D)^{⊗ k}` is multiplication in `K_X`:** its inverse sends
+`s₁ ⊗ ⋯ ⊗ s_k` to the product `s₁ ⋯ s_k` of rational functions. -/
+theorem kVal_nsmulSheafIso_inv_tprod (D : X.CartierDivisor) : ∀ (k : ℕ) {U : X.Opens}
+    (x : Fin k → D.sheafR.val.obj (op U)),
+    (k • D).kVal ((D.nsmulSheafIso k).inv.val.app (op U)
+      ((moduleSheafTensorPowerMultilinear k D.sheafR).app (op U) x)) = ∏ i, D.kVal (x i)
+  | 0, U, x => by
+    have h0 := moduleSheafTensorPowerHomEquiv_symm_tprod (tensorPowerZeroMultilinear D.sheafR) U x
+    change (0 • D).kVal ((eqToHom (congrArg sheafR (zero_nsmul D)).symm).val.app (op U)
+      (fromStructureZero.val.app (op U) ((moduleSheafTensorPowerZeroIso D.sheafR).hom.val.app
+        (op U) ((moduleSheafTensorPowerMultilinear 0 D.sheafR).app (op U) x)))) = _
+    rw [kVal_eqToHom (zero_nsmul D).symm, Fin.prod_univ_zero]
+    refine (generatorMap_val 0 zero_restrict_top le_top _).trans ?_
+    refine (congrArg (fun r => X.toK U r * X.totalQuotientSheaf.obj.map (homOfLE le_top).op
+      (kUnitVal (1 : X.totalQuotientUnitsSheaf.obj.obj (op ⊤))⁻¹)) h0).trans ?_
+    change X.toK U 1 * _ = 1
+    rw [map_one, kVal_one_inv_top, mul_one]
+  | k + 1, U, x => by
+    have e1 := moduleSheafTensorPowerHomEquiv_symm_tprod (tensorPowerSuccMultilinear D.sheafR k) U x
+    have e2 := modulesTensorMap_tmul (D.nsmulSheafIso k).inv (𝟙 D.sheafR)
+      ((moduleSheafTensorPowerMultilinear k D.sheafR).app (op U) (Fin.init x)) (x (Fin.last k))
+    have e3 := mulHom_tmul (k • D) D ((D.nsmulSheafIso k).inv.val.app (op U)
+      ((moduleSheafTensorPowerMultilinear k D.sheafR).app (op U) (Fin.init x))) (x (Fin.last k))
+    have ih := kVal_nsmulSheafIso_inv_tprod D k (Fin.init x)
+    have step : (D.nsmulSheafIso (k + 1)).inv.val.app (op U)
+        ((moduleSheafTensorPowerMultilinear (k + 1) D.sheafR).app (op U) x) =
+        (eqToHom (congrArg sheafR (succ_nsmul D k)).symm).val.app (op U)
+          ((mulBilinear (k • D) D).app (op U) ((D.nsmulSheafIso k).inv.val.app (op U)
+            ((moduleSheafTensorPowerMultilinear k D.sheafR).app (op U) (Fin.init x)))
+            (x (Fin.last k))) := by
+      change (eqToHom (congrArg sheafR (succ_nsmul D k)).symm).val.app (op U)
+        ((tensorIso (k • D) D).hom.val.app (op U)
+          ((moduleSheafTensorIsoOfIso (D.nsmulSheafIso k) (Iso.refl _)).inv.val.app (op U)
+            ((moduleSheafTensorPowerSuccIso D.sheafR k).hom.val.app (op U)
+              ((moduleSheafTensorPowerMultilinear (k + 1) D.sheafR).app (op U) x)))) = _
+      congr 1
+      refine (congrArg (fun z => (tensorIso (k • D) D).hom.val.app (op U)
+        ((moduleSheafTensorIsoOfIso (D.nsmulSheafIso k) (Iso.refl _)).inv.val.app (op U) z))
+        e1).trans ?_
+      refine (congrArg (fun z => (tensorIso (k • D) D).hom.val.app (op U) z) e2).trans ?_
+      exact e3
+    rw [step, kVal_eqToHom (succ_nsmul D k).symm, Fin.prod_univ_castSucc]
+    change (k • D).kVal _ * D.kVal (x (Fin.last k)) = _
+    rw [ih]
+    rfl
+
+/-- The multiplication `𝒪_X(mD) × 𝒪_X(nD) → K_X`, `(s, t) ↦ s t`, as a bilinear map of
+presheaves. -/
+def mulTotalQuotientPresheafBilinear (D D' : X.CartierDivisor) :
+    SheafAlgebraOperations.PresheafBilinear D.sheafR.val D'.sheafR.val X.totalQuotientModule.val :=
+  ⟨(mulTotalQuotientBilinear D D').app, (mulTotalQuotientBilinear D D').naturality⟩
+
+/-- **The isomorphisms `𝒪_X(kD) ≅ 𝒪_X(D)^{⊗ k}` turn the product of tensor powers into
+multiplication of rational functions.** -/
+theorem kVal_nsmulSheafIso_inv_mul (D : X.CartierDivisor) (m n : ℕ) (U : X.Opens)
+    (a : TensorPowerSectionRing.Component D.sheafR (op U) m)
+    (b : TensorPowerSectionRing.Component D.sheafR (op U) n) :
+    ((m + n) • D).kVal ((D.nsmulSheafIso (m + n)).inv.val.app (op U)
+        (TensorPowerSectionRing.mul D.sheafR (op U) a b)) =
+      (m • D).kVal ((D.nsmulSheafIso m).inv.val.app (op U) a) *
+        (n • D).kVal ((D.nsmulSheafIso n).inv.val.app (op U) b) := by
+  have base : ∀ (V : X.Opens) (x : Fin m → D.sheafR.val.obj (op V))
+      (y : Fin n → D.sheafR.val.obj (op V)),
+      ((m + n) • D).kVal ((D.nsmulSheafIso (m + n)).inv.val.app (op V)
+          (TensorPowerSectionRing.mul D.sheafR (op V)
+            ((moduleSheafTensorPowerMultilinear m D.sheafR).app (op V) x)
+            ((moduleSheafTensorPowerMultilinear n D.sheafR).app (op V) y))) =
+        (m • D).kVal ((D.nsmulSheafIso m).inv.val.app (op V)
+            ((moduleSheafTensorPowerMultilinear m D.sheafR).app (op V) x)) *
+          (n • D).kVal ((D.nsmulSheafIso n).inv.val.app (op V)
+            ((moduleSheafTensorPowerMultilinear n D.sheafR).app (op V) y)) := by
+    intro V x y
+    rw [TensorPowerSectionRing.mul_tprod, kVal_nsmulSheafIso_inv_tprod,
+      kVal_nsmulSheafIso_inv_tprod, kVal_nsmulSheafIso_inv_tprod, Fin.prod_univ_add]
+    simp only [Fin.append_left, Fin.append_right]
+  have key : (moduleSheafTensorPowerMul m D.sheafR n).postcomp
+        ((D.nsmulSheafIso (m + n)).inv ≫ ((m + n) • D).sheafι).val =
+      ((mulTotalQuotientPresheafBilinear (m • D) (n • D)).precomp
+        (D.nsmulSheafIso m).inv.val (D.nsmulSheafIso n).inv.val) := by
+    apply SheafAlgebraOperations.bilinear_ext_of_unit
+    intro ⟨V⟩ p q
+    have hL : (((moduleSheafTensorPowerMul m D.sheafR n).app (op V)).compl₁₂
+        ((SheafAlgebraOperations.sheafifyUnit (moduleSheafTensorPowerPresheaf m D.sheafR)).app
+          (op V)).hom
+        ((SheafAlgebraOperations.sheafifyUnit (moduleSheafTensorPowerPresheaf n D.sheafR)).app
+          (op V)).hom).compr₂
+          (((D.nsmulSheafIso (m + n)).inv ≫ ((m + n) • D).sheafι).val.app (op V)).hom =
+        ((mulTotalQuotientBilinear (m • D) (n • D)).app (op V)).compl₁₂
+          (((D.nsmulSheafIso m).inv.val.app (op V)).hom ∘ₗ
+            ((SheafAlgebraOperations.sheafifyUnit (moduleSheafTensorPowerPresheaf m D.sheafR)).app
+              (op V)).hom)
+          (((D.nsmulSheafIso n).inv.val.app (op V)).hom ∘ₗ
+            ((SheafAlgebraOperations.sheafifyUnit (moduleSheafTensorPowerPresheaf n D.sheafR)).app
+              (op V)).hom) := by
+      refine PiTensorProduct.ext (MultilinearMap.ext fun x => ?_)
+      refine PiTensorProduct.ext (MultilinearMap.ext fun y => ?_)
+      exact base V x y
+    exact congrArg (fun L => L p q) hL
+  exact congrArg (fun γ => γ.app (op U) a b) key
+
 end Scheme.CartierDivisor
 
 end
@@ -138,7 +252,10 @@ noncomputable def sectionsAddEquiv {A B : SheafOfModules.{u} (ringCatSheafOf X.s
 /-- Hartshorne's presentation `⨁_{n ≥ 0} H⁰(X, 𝒪_X(nK))` of the section ring of a divisor `K`.
 Its ring structure (`DivisorMultipleSectionRing.instRing`) is transported from
 `⨁ₙ H⁰(X, 𝒪_X(K)^{⊗ n})` along the isomorphisms `𝒪_X(nK) ≅ 𝒪_X(K)^{⊗ n}`
-(`AlgebraicGeometry.Scheme.CartierDivisor.nsmulSheafIso`). -/
+(`AlgebraicGeometry.Scheme.CartierDivisor.nsmulSheafIso`). The transported product is
+multiplication of rational functions in `K_X`: the product of homogeneous elements `s` and `t` is
+the homogeneous element `s t` (`DivisorMultipleSectionRing.of_mul_of`), and the unit is the
+rational function `1` in degree `0` (`DivisorMultipleSectionRing.one_eq`). -/
 def DivisorMultipleSectionRing (K : X.CartierDivisor) : Type u :=
   ⨁ n : ℕ, (n • K).sheafR.val.obj (op ⊤)
 
@@ -156,6 +273,55 @@ noncomputable instance DivisorMultipleSectionRing.instRing (K : X.CartierDivisor
 noncomputable def divisorMultipleSectionRingEquiv (K : X.CartierDivisor) :
     DivisorMultipleSectionRing K ≃+* ⨁ n, divisorSectionRingComponent K n :=
   (divisorMultipleSectionsAddEquiv K).toEquiv.ringEquiv
+
+/-- The homogeneous element of degree `i` of `⨁ₙ H⁰(X, 𝒪_X(nK))` given by a section `s`. -/
+noncomputable def DivisorMultipleSectionRing.of (K : X.CartierDivisor) (i : ℕ)
+    (s : (i • K).sheafR.val.obj (op ⊤)) : DivisorMultipleSectionRing K :=
+  DirectSum.of (fun i : ℕ => (i • K).sheafR.val.obj (op ⊤)) i s
+
+theorem divisorMultipleSectionRingEquiv_of (K : X.CartierDivisor) (i : ℕ)
+    (s : (i • K).sheafR.val.obj (op ⊤)) :
+    divisorMultipleSectionRingEquiv K (DivisorMultipleSectionRing.of K i s) =
+      DirectSum.of _ i ((K.nsmulSheafIso i).hom.val.app (op ⊤) s) :=
+  DFinsupp.mapRange_single (hf := fun _ => map_zero _)
+
+/-- **The product of `⨁ₙ H⁰(X, 𝒪_X(nK))` is multiplication of rational functions:** for sections
+`s` of `𝒪_X(mK)` and `t` of `𝒪_X(nK)`, the product of the homogeneous elements is the homogeneous
+element of degree `m + n` whose underlying rational function is `s t`. -/
+theorem DivisorMultipleSectionRing.of_mul_of (K : X.CartierDivisor) {m n : ℕ}
+    (s : (m • K).sheafR.val.obj (op ⊤)) (t : (n • K).sheafR.val.obj (op ⊤)) :
+    ∃ u : ((m + n) • K).sheafR.val.obj (op ⊤),
+      DivisorMultipleSectionRing.of K m s * DivisorMultipleSectionRing.of K n t =
+        DivisorMultipleSectionRing.of K (m + n) u ∧
+      ((m + n) • K).kVal u = (m • K).kVal s * (n • K).kVal t := by
+  refine ⟨(K.nsmulSheafIso (m + n)).inv.val.app (op ⊤)
+    (TensorPowerSectionRing.mul K.sheafR (op ⊤) ((K.nsmulSheafIso m).hom.val.app (op ⊤) s)
+      ((K.nsmulSheafIso n).hom.val.app (op ⊤) t)), ?_, ?_⟩
+  · apply (divisorMultipleSectionRingEquiv K).injective
+    rw [map_mul, divisorMultipleSectionRingEquiv_of, divisorMultipleSectionRingEquiv_of,
+      divisorMultipleSectionRingEquiv_of, DirectSum.of_mul_of]
+    exact congrArg (DirectSum.of _ (m + n))
+      ((sectionsAddEquiv (K.nsmulSheafIso (m + n)) (op ⊤)).apply_symm_apply _).symm
+  · rw [Scheme.CartierDivisor.kVal_nsmulSheafIso_inv_mul]
+    exact congrArg₂ (· * ·)
+      (congrArg _ ((sectionsAddEquiv (K.nsmulSheafIso m) (op ⊤)).symm_apply_apply s))
+      (congrArg _ ((sectionsAddEquiv (K.nsmulSheafIso n) (op ⊤)).symm_apply_apply t))
+
+/-- **The unit of `⨁ₙ H⁰(X, 𝒪_X(nK))` is the rational function `1` in degree `0`.** -/
+theorem DivisorMultipleSectionRing.one_eq (K : X.CartierDivisor) :
+    ∃ u : ((0 : ℕ) • K).sheafR.val.obj (op ⊤),
+      (1 : DivisorMultipleSectionRing K) = DivisorMultipleSectionRing.of K 0 u ∧
+      ((0 : ℕ) • K).kVal u = 1 := by
+  refine ⟨(K.nsmulSheafIso 0).inv.val.app (op ⊤) (TensorPowerSectionRing.oneSec K.sheafR (op ⊤)),
+    ?_, ?_⟩
+  · apply (divisorMultipleSectionRingEquiv K).injective
+    rw [map_one, divisorMultipleSectionRingEquiv_of]
+    exact congrArg (DirectSum.of _ 0)
+      ((sectionsAddEquiv (K.nsmulSheafIso 0) (op ⊤)).apply_symm_apply _).symm
+  · have e : TensorPowerSectionRing.oneSec K.sheafR (op ⊤) =
+        (moduleSheafTensorPowerMultilinear 0 K.sheafR).app (op ⊤) Fin.elim0 :=
+      congrArg _ TensorPower.gOne_def
+    rw [e, Scheme.CartierDivisor.kVal_nsmulSheafIso_inv_tprod, Fin.prod_univ_zero]
 
 /-- **A canonical divisor presents the canonical section ring.** For a Cartier divisor `K` and an
 isomorphism `φ : 𝒪_X(K) ≅ ω_X` (for instance from `Hartshorne.exists_cartierDivisor_canonicalDivisorClass`),

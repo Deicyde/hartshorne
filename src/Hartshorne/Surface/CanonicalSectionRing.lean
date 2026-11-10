@@ -14,6 +14,8 @@ Hartshorne, *Algebraic Geometry*, V.6, definition of the canonical ring (p. 421)
 For a scheme `X` over a field `k` with canonical sheaf `ω_X`, the canonical section ring is the
 graded ring `R(X, K) = ⨁_{n ≥ 0} H⁰(X, ω_X^{⊗ n})`, with multiplication induced by the tensor
 product of sections. It is defined through `ω_X`, without choosing a canonical divisor.
+Hartshorne defines `R(X, K) = ⨁_{n ≥ 0} H⁰(X, 𝒪_X(nK))` for a canonical divisor `K`; here it is
+defined through `ω_X`, and `Hartshorne.canonicalSectionRingEquivOfDivisor` compares the two.
 
 When `ω_X` is invertible, for instance when `X` is regular, irreducible and of finite type over
 an algebraically closed field, the ring is commutative (`canonicalSectionRingCommRing`). When `X`
