@@ -614,6 +614,7 @@ import Hartshorne.Surface.LocalIntersectionMultiplicity
 import Hartshorne.Surface.ContractibleCurve
 import Hartshorne.RingedSpace.ModuleGluing
 import Hartshorne.Scheme.ModuleGluingDirected
+import Hartshorne.Scheme.ModuleGluingScheme
 import Hartshorne.Scheme.RelativeProjTwistingSheaf
 import Hartshorne.Scheme.AffineTildeChangeOfRings
 import Hartshorne.Scheme.Differentials.DenseNonsingularLocus
