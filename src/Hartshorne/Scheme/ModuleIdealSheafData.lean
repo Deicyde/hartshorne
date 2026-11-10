@@ -20,8 +20,8 @@ is quasi-coherent as an `𝒪_X`-module (`Hartshorne.QuasicoherentIdealSubsheaf`
   (`quasicoherentIdealSubsheafEquiv_ideal`); they are compatible with restriction to basic opens
   because `I` is quasi-coherent;
 * ideal sheaf data `J` goes to the subsheaf of sections lying locally in `J(V)` on affine opens
-  `V` (`ArtinReesKernelSheaf.powSmul J 1 ⊤`, `idealSheafDataToSubsheaf`), which is quasi-coherent with sections `J(V)` over
-  every affine open `V`.
+  `V` (`idealSheafDataToSubsheaf`, built as `ArtinReesKernelSheaf.powSmul J 1 ⊤`), which is
+  quasi-coherent with sections `J(V)` over every affine open `V`.
 
 On an affine open `U`, `I|_U` is the tilde sheaf of the ideal `Γ(U, I)`
 (`QuasicoherentIdealSubsheaf.restrictTildeIso`).
