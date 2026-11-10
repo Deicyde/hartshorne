@@ -4,7 +4,7 @@ declaration: class
 origin: cited
 statement: formalized
 proof: formalized
-lean: IsCohenMacaulayLocalRing
+lean: IsCohenMacaulayLocalRing AlgebraicGeometry.Scheme.IsCohenMacaulay
 ---
 
 # Cohen–Macaulay local rings and schemes
