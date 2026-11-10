@@ -677,3 +677,4 @@ import Hartshorne.RingedSpace.ModuleSheafDualExact
 import Hartshorne.Scheme.Differentials.ProjectiveSpaceTangentSequence
 import Hartshorne.Scheme.ProjectiveHyperplaneSequence
 import Hartshorne.Surface.CanonicalRingBirational
+import Hartshorne.Cohomology.QuasicoherentFlasqueEnvelope
