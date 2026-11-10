@@ -24,7 +24,7 @@ $\phi ^{-1}\mathcal{O}_X\to \mathcal{O}_{(X^h)}$.
 
 ## Proof depends on
 
-- Form $\phi ^-1 F \otimes _[\phi ^-1 \mathcal{O}_X] \mathcal{O}_{(X^h)}$ using the analytic ring map;
+- Form $\phi^{-1} F \otimes_{\phi^{-1} \mathcal{O}_X} \mathcal{O}_{X^h}$ using the analytic ring map;
   compare its local finite-presentation cokernel with $F^h$.
 
 ## Sources

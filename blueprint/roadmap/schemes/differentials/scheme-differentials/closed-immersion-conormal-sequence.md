@@ -15,7 +15,7 @@ natural right-exact sequence on $Z$
 $J/J^{2} \to i^* \Omega_{X/Y} \to \Omega_{Z/Y} \to 0$,
 
 where $i : Z \hookrightarrow X$ and $i^* \Omega_{X/Y}$ is canonically identified with
-$\Omega_{X/Y} \otimes _[\mathcal{O} _X] \mathcal{O} _Z$.
+$\Omega_{X/Y} \otimes_{\mathcal{O}_X} \mathcal{O}_Z$.
 
 The left term is the conormal sheaf of the immersion.  The statement does not
 claim that its first map is injective.
