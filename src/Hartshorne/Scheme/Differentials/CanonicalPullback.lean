@@ -461,7 +461,7 @@ field `k`, and let `φ` be a `k`-morphism `f : V ⟶ X'` on a dense open `V ⊆ 
 birational map, i.e. agreeing on a dense open with a partial isomorphism `X ⤏ X'` over `k`. Then
 pullback of differentials `Γ(X', ω_{X'}) → Γ(V, ω_V)` is injective. It is linear, being the
 component at `X'` of the morphism of `𝒪_{X'}`-modules `canonicalPullback`. Of the hypotheses on
-`X`, only integrality, finite type and dimension are used. -/
+`X`, only integrality, finite type and dimension are used; separatedness of `X'` is not used. -/
 theorem canonicalPullback_injective [IsAlgClosed k] [IsIntegral X] [IsIntegral X']
     (hpX : FiniteType pX) (hpX' : FiniteType pX') (hX' : X'.IsRegular) {n : ℕ}
     (hnX : topologicalKrullDim X = n) (hnX' : topologicalKrullDim X' = n) (φ : X.PartialMap X')
