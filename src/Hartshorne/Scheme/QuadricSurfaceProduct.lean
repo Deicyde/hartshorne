@@ -4,7 +4,6 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.QuadricSurfaceSegre
 import Hartshorne.Scheme.ProjectiveSpaceOverSpec
-import Hartshorne.Scheme.RelativeProj
 
 /-!
 # The split quadric surface is `ℙ¹ × ℙ¹`

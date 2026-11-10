@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Functor
+import Hartshorne.Scheme.ProjPartialMap
 import Mathlib.AlgebraicGeometry.Sites.SmallAffineZariski
 import Mathlib.AlgebraicGeometry.Morphisms.OpenImmersion
 import Mathlib.AlgebraicGeometry.Noetherian
@@ -87,15 +88,6 @@ omit [GradedRing ℬ] in
 theorem val_fromZeroRingHom (x : Submonoid A) (a : 𝒜 0) :
     (fromZeroRingHom 𝒜 x a).val = Localization.mk (a : A) 1 :=
   rfl
-
-theorem away_map_fromZeroRingHom (t : A) (a : 𝒜 0) :
-    Away.map φ t (fromZeroRingHom 𝒜 _ a) =
-      fromZeroRingHom ℬ _ ⟨φ a, map_mem φ a.2⟩ := by
-  ext
-  change (HomogeneousLocalization.map φ _ (HomogeneousLocalization.mk _)).val =
-    (HomogeneousLocalization.mk _).val
-  rw [HomogeneousLocalization.map_mk]
-  simp
 
 variable {s : A} (hs : s ∈ 𝒜 0) [Algebra A B] [IsLocalization.Away s B]
   (hφ : ∀ a, φ a = algebraMap A B a)
@@ -233,21 +225,6 @@ theorem toSpecZero_preimage_basicOpen (s : 𝒜 0) :
     q ∈ Proj.awayι 𝒜 t ht hd ⁻¹ᵁ Proj.basicOpen 𝒜 (s : A)
   rw [e1, awayι_preimage_basicOpen_zero hd ht s]
   rfl
-
-/-- `Proj.map` commutes with the structure maps to the spectra of the degree-zero parts. -/
-theorem projMap_toSpecZero (hf : ℬ₊ ≤ 𝒜₊.map φ) :
-    Proj.map φ hf ≫ Proj.toSpecZero 𝒜 =
-      Proj.toSpecZero ℬ ≫ Spec.map (CommRingCat.ofHom (GradedRingHom.gradedZeroRingHom φ)) := by
-  refine (Proj.mapAffineOpenCover φ hf).openCover.hom_ext _ _ fun i ↦ ?_
-  obtain ⟨⟨d, hd⟩, t, ht⟩ := i
-  replace ht : t ∈ 𝒜 d := ht
-  change Proj.awayι ℬ (φ t) (map_mem φ ht) hd ≫ _ = Proj.awayι ℬ (φ t) (map_mem φ ht) hd ≫ _
-  rw [Proj.awayι_comp_map_assoc φ hf hd t ht, Proj.awayι_toSpecZero,
-    Proj.awayι_toSpecZero_assoc, ← Spec.map_comp, ← Spec.map_comp]
-  congr 1
-  ext a : 2
-  simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom, RingHom.comp_apply]
-  exact away_map_fromZeroRingHom φ t a
 
 variable {s : A} (hs : s ∈ 𝒜 0) [Algebra A B] [IsLocalization.Away s B]
   (hφ : ∀ a, φ a = algebraMap A B a)
