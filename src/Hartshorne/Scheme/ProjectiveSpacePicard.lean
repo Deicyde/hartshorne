@@ -19,7 +19,7 @@ every invertible sheaf on `X = ℙⁿ_k` is isomorphic to `𝒪(l)` for some int
 (`Hartshorne.projectiveSpacePicardEquiv`,
 `Hartshorne.projectiveSpacePicardEquiv_projTwistingSheaf`). For `n = 0`, `ℙ⁰_k` has a single
 point (`Hartshorne.ProjectiveSpacePicard.eq_projectiveSpaceGenericPoint_of_eq_zero`), so it has
-no Weil divisors and its Picard group is trivial.
+no prime divisors, every Weil divisor is `0`, and its Picard group is trivial.
 
 ## Proof
 

@@ -13,8 +13,9 @@ Let $f : X \longrightarrow Y$ be a finite morphism of noetherian schemes.  If $F
 is coherent on $X$, then $f_*F$ is coherent on $Y$.  This is the positive
 conclusion of Exercise 5.5(c), cited in Caution 5.8.1 and later in the proof of
 Serre's theorem.  The noetherian hypothesis is Hartshorne's; the argument below
-does not use it, and the conclusion holds for every finite morphism.  Exercise 5.5(a)'s counterexample remains explanatory rather
-than a second completion target.
+does not use it, and the conclusion holds for every finite morphism.  Exercise
+5.5(a)'s counterexample remains explanatory rather than a second completion
+target.
 
 On an affine $V = \operatorname{Spec} A$ in $Y$, write $f^{-1}(V) = \operatorname{Spec} B$ with $B$ finite over
 $A$.  A finite $B$-module is finite over $A$; affine change of rings identifies
