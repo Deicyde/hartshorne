@@ -41,8 +41,7 @@ of the cover (II.5.3 for `N` on `D(g')` and for `E`), hence in `N` over `U`
 (`exists_global_extension`). The span of these finitely many `s` is the required `N'`.
 
 The extension lemma for `N` uses only that `N` is quasi-coherent on the affine open in question
-(`exists_pow_smul_extension_of_isLocalizing`), a restatement of the proof of
-`exists_pow_smul_extension_of_isAffineOpen`, which assumes `N` quasi-coherent on all of `X`.
+(`exists_pow_smul_extension_of_isLocalizing`).
 -/
 
 noncomputable section
@@ -52,82 +51,6 @@ open CategoryTheory Opposite TopologicalSpace AlgebraicGeometry
 namespace Hartshorne
 
 universe u
-
-/-! ### Extension over an affine open on which `F` is quasi-coherent
-
-The two private lemmas and `exists_pow_smul_extension_of_isLocalizing` restate, for a module that
-is quasi-coherent only on the affine open in question, the proof of
-`exists_pow_smul_extension_of_isAffineOpen`. -/
-
-section LocalExtension
-
-variable {X : Scheme.{u}}
-
-/-- Restricting along `Spec Γ(X, U) ⟶ X` and back is restriction of sections. -/
-private theorem affineFromSpec_ring_compat' {U : X.Opens} (hU : IsAffineOpen U)
-    (V : (Spec Γ(X, U)).Opens) (h : hU.fromSpec ''ᵁ V ≤ U) :
-    (Scheme.ΓSpecIso Γ(X, U)).inv ≫ (Spec Γ(X, U)).presheaf.map V.leTop.op ≫
-        (hU.fromSpec.appIso V).inv = X.presheaf.map (homOfLE h).op := by
-  rw [← Category.assoc, Iso.comp_inv_eq, Scheme.Hom.appIso_hom, ← Category.assoc,
-    Scheme.Hom.naturality, hU.fromSpec_app_self]
-  simp only [Category.assoc, ← Functor.map_comp]
-  rfl
-
-/-- The `Γ(X, U)`-module structure on the sections of `F|_U` on `Spec Γ(X, U)`. -/
-private theorem affineFromSpec_smul' {U : X.Opens} (hU : IsAffineOpen U) (F : X.Modules)
-    (V : (Spec Γ(X, U)).Opens) (h : hU.fromSpec ''ᵁ V ≤ U) (a : Γ(X, U))
-    (x : Γ(F.restrict hU.fromSpec, V)) :
-    a • x = (show Γ(F.restrict hU.fromSpec, V) from
-      X.presheaf.map (homOfLE h).op a • (show Γ(F, hU.fromSpec ''ᵁ V) from x)) := by
-  rw [Scheme.Modules.smul_Spec_def]
-  rw [← affineFromSpec_ring_compat' hU V h]
-  rfl
-
-/-- Restriction along an equality of opens is injective. -/
-private theorem map_eqToHom_injective' (F : X.Modules) {V W : X.Opens} (h : V = W) :
-    Function.Injective (F.presheaf.map (eqToHom h).op) := by
-  subst h
-  intro a b hab
-  simpa using hab
-
-/-- On an affine open `U` on which `F` is localizing (that is, `F|_U` is quasi-coherent), after
-multiplication by a power of `g`, a section of `F` over `D(g)` extends to `U`. This is
-`exists_pow_smul_extension_of_isAffineOpen` with the quasi-coherence of `F` required only on
-`U`. -/
-theorem exists_pow_smul_extension_of_isLocalizing (F : X.Modules) {U : X.Opens}
-    (hU : IsAffineOpen U) (hloc : IsLocalizing (modulesSpecToSheaf.obj (F.restrict hU.fromSpec)))
-    (g : Γ(X, U)) (t : Γ(F, X.basicOpen g)) :
-    ∃ (n : ℕ) (t' : Γ(F, U)), F.presheaf.map (homOfLE (X.basicOpen_le g)).op t' =
-      (X.presheaf.map (homOfLE (X.basicOpen_le g)).op g) ^ n • t := by
-  have h1 : hU.fromSpec ''ᵁ ⊤ = U :=
-    hU.fromSpec.image_top_eq_opensRange.trans hU.opensRange_fromSpec
-  let D : (Spec Γ(X, U)).Opens := PrimeSpectrum.basicOpen g
-  have h2 : hU.fromSpec ''ᵁ D = X.basicOpen g := hU.fromSpec_image_basicOpen g
-  have hl := hloc g
-  let y : Γ(F.restrict hU.fromSpec, D) := F.presheaf.map (eqToHom h2).op t
-  obtain ⟨⟨m, ⟨c, n, rfl⟩⟩, hm⟩ := IsLocalizedModule.surj (Submonoid.powers g)
-    ((modulesSpecToSheaf.obj (F.restrict hU.fromSpec)).obj.map D.leTop.op).hom
-    (show (modulesSpecToSheaf.obj (F.restrict hU.fromSpec)).obj.obj (op D) from y)
-  refine ⟨n, F.presheaf.map (eqToHom h1.symm).op m, ?_⟩
-  have hm' : (g ^ n) • y = F.presheaf.map
-      (homOfLE (Scheme.Hom.image_mono _ (le_top : D ≤ ⊤))).op m := hm
-  rw [affineFromSpec_smul' hU F _ (h2.le.trans (X.basicOpen_le g))] at hm'
-  apply map_eqToHom_injective' F h2
-  have hcomp : F.presheaf.map (eqToHom h1.symm).op ≫
-      F.presheaf.map (homOfLE (X.basicOpen_le g)).op ≫ F.presheaf.map (eqToHom h2).op =
-      F.presheaf.map (homOfLE (Scheme.Hom.image_mono _ (le_top : D ≤ ⊤))).op := by
-    simp only [← Functor.map_comp]
-    rfl
-  have hL := ConcreteCategory.congr_hom hcomp m
-  refine Eq.trans hL ?_
-  have hr : X.presheaf.map (eqToHom h2).op
-      (X.presheaf.map (homOfLE (X.basicOpen_le g)).op g ^ n) =
-      X.presheaf.map (homOfLE (h2.le.trans (X.basicOpen_le g))).op (g ^ n) := by
-    rw [map_pow, map_pow, ← ConcreteCategory.comp_apply, ← Functor.map_comp]
-    rfl
-  rw [← hm', Scheme.Modules.map_smul, hr]
-
-end LocalExtension
 
 open ArtinReesKernelSheaf
 

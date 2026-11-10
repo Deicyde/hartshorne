@@ -31,7 +31,8 @@ then `X_f ∩ U` is the basic open `D(g)` (`nonvanishingLocus_inter_eq`), and
 the restriction `Γ(U, F) → Γ(D(g), F)` of a quasi-coherent `F` is the localization away from `g`
 (transported from Mathlib's `isIso_fromTildeΓ_iff_isLocalizing` on `Spec Γ(X, U)`), which gives
 the two clauses on one affine (`exists_pow_smul_eq_zero_of_isAffineOpen`,
-`exists_pow_smul_extension_of_isAffineOpen`), and then on a quasi-compact open
+`exists_pow_smul_extension_of_isAffineOpen`; the extension needs `F` quasi-coherent only on `U`,
+`exists_pow_smul_extension_of_isLocalizing`), and then on a quasi-compact open
 (`exists_pow_smul_eq_zero_of_isCompact`). A finite cover gives a common exponent, and the local
 extensions are glued after a further power of `f`, using (a) on the overlaps.
 -/
@@ -356,19 +357,18 @@ private theorem map_eqToHom_injective (F : X.Modules) {V W : X.Opens} (h : V = W
   intro a b hab
   simpa using hab
 
-/-- On an affine open `U`, after multiplication by a power of `g`, a section of a quasi-coherent
-sheaf over `D(g)` extends to `U` (Hartshorne II.5.3(b), transported from `Spec Γ(X, U)`). -/
-theorem exists_pow_smul_extension_of_isAffineOpen (F : X.Modules) [F.IsQuasicoherent] {U : X.Opens}
-    (hU : IsAffineOpen U) (g : Γ(X, U)) (t : Γ(F, X.basicOpen g)) :
+/-- On an affine open `U` on which `F` is localizing (that is, `F|_U` is quasi-coherent), after
+multiplication by a power of `g`, a section of `F` over `D(g)` extends to `U` (Hartshorne
+II.5.3(b), transported from `Spec Γ(X, U)`). -/
+theorem exists_pow_smul_extension_of_isLocalizing (F : X.Modules) {U : X.Opens}
+    (hU : IsAffineOpen U) (hloc : IsLocalizing (modulesSpecToSheaf.obj (F.restrict hU.fromSpec)))
+    (g : Γ(X, U)) (t : Γ(F, X.basicOpen g)) :
     ∃ (n : ℕ) (t' : Γ(F, U)), F.presheaf.map (homOfLE (X.basicOpen_le g)).op t' =
       (X.presheaf.map (homOfLE (X.basicOpen_le g)).op g) ^ n • t := by
   have h1 : hU.fromSpec ''ᵁ ⊤ = U :=
     hU.fromSpec.image_top_eq_opensRange.trans hU.opensRange_fromSpec
   let D : (Spec Γ(X, U)).Opens := PrimeSpectrum.basicOpen g
   have h2 : hU.fromSpec ''ᵁ D = X.basicOpen g := hU.fromSpec_image_basicOpen g
-  have hloc : IsLocalizing (modulesSpecToSheaf.obj (F.restrict hU.fromSpec)) := by
-    rw [← isIso_fromTildeΓ_iff_isLocalizing]
-    infer_instance
   have hl := hloc g
   let y : Γ(F.restrict hU.fromSpec, D) := F.presheaf.map (eqToHom h2).op t
   obtain ⟨⟨m, ⟨c, n, rfl⟩⟩, hm⟩ := IsLocalizedModule.surj (Submonoid.powers g)
@@ -392,6 +392,15 @@ theorem exists_pow_smul_extension_of_isAffineOpen (F : X.Modules) [F.IsQuasicohe
     rw [map_pow, map_pow, ← ConcreteCategory.comp_apply, ← Functor.map_comp]
     rfl
   rw [← hm', Scheme.Modules.map_smul, hr]
+
+/-- On an affine open `U`, after multiplication by a power of `g`, a section of a quasi-coherent
+sheaf over `D(g)` extends to `U` (Hartshorne II.5.3(b), transported from `Spec Γ(X, U)`). -/
+theorem exists_pow_smul_extension_of_isAffineOpen (F : X.Modules) [F.IsQuasicoherent] {U : X.Opens}
+    (hU : IsAffineOpen U) (g : Γ(X, U)) (t : Γ(F, X.basicOpen g)) :
+    ∃ (n : ℕ) (t' : Γ(F, U)), F.presheaf.map (homOfLE (X.basicOpen_le g)).op t' =
+      (X.presheaf.map (homOfLE (X.basicOpen_le g)).op g) ^ n • t :=
+  exists_pow_smul_extension_of_isLocalizing F hU
+    ((isIso_fromTildeΓ_iff_isLocalizing _).mp inferInstance) g t
 
 
 /-- On a quasi-compact open `W`, a section of a quasi-coherent sheaf vanishing on `D(g)` is
