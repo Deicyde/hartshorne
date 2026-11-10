@@ -4,7 +4,7 @@ declaration: isomorphism
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.ProjectiveSpaceSectionRing.sectionRingMap Hartshorne.ProjectiveSpaceSectionRing.sectionRingMap_of_mem Hartshorne.ProjectiveSpaceSectionRing.sectionRingMap_bijective Hartshorne.ProjectiveSpaceSectionRing.sectionRingEquiv
+lean: Hartshorne.ProjectiveSpaceSectionRing.sectionRingMap Hartshorne.ProjectiveSpaceSectionRing.sectionRingMap_of_mem Hartshorne.ProjectiveSpaceSectionRing.sectionRingMap_bijective Hartshorne.ProjectiveSpaceSectionRing.sectionRingEquiv Hartshorne.ProjectiveSpaceSectionRing.mulTwistGlobal Hartshorne.ProjectiveSpaceSectionRing.sectionRingMap_mul
 ---
 
 # The section ring of projective space
