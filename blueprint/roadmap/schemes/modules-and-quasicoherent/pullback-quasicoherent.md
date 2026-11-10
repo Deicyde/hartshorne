@@ -2,18 +2,18 @@
 article_id: af_406823956960a3ab123d308a
 declaration: theorem
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: Hartshorne.isQuasicoherent_pullback Hartshorne.isCoherent_pullback
 ---
 
 # Pullback preserves quasi-coherence
 
 For every scheme morphism $f : X \longrightarrow Y$, pullback sends quasi-coherent
-$\mathcal{O} _Y$-modules to quasi-coherent $\mathcal{O} _X$-modules.  If $X$ and $Y$ are locally
-Noetherian, it sends coherent modules to coherent modules.
+$\mathcal{O} _Y$-modules to quasi-coherent $\mathcal{O} _X$-modules.  If $X$ and $Y$ are
+noetherian, it sends coherent modules to coherent modules.
 
-This is Proposition 5.8(a,b).  Reduce locally to a morphism of affine schemes,
+This is Proposition 5.8(a,b). The noetherian hypothesis in (b) is Hartshorne's; the argument
+below does not use it, and the coherence statement holds for every morphism $f$.  Reduce locally to a morphism of affine schemes,
 where pullback is extension of scalars and finite presentation is preserved by
 base change.
 
