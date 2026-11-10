@@ -20,7 +20,7 @@ is quasi-coherent as an `𝒪_X`-module (`Hartshorne.QuasicoherentIdealSubsheaf`
   (`quasicoherentIdealSubsheafEquiv_ideal`); they are compatible with restriction to basic opens
   because `I` is quasi-coherent;
 * ideal sheaf data `J` goes to the subsheaf of sections lying locally in `J(V)` on affine opens
-  `V` (`ArtinReesKernelSheaf.powSmul J 1 ⊤`), which is quasi-coherent with sections `J(V)` over
+  `V` (`ArtinReesKernelSheaf.powSmul J 1 ⊤`, `idealSheafDataToSubsheaf`), which is quasi-coherent with sections `J(V)` over
   every affine open `V`.
 
 On an affine open `U`, `I|_U` is the tilde sheaf of the ideal `Γ(U, I)`
@@ -68,8 +68,7 @@ theorem map_ideal_basicOpen (I : QuasicoherentIdealSubsheaf X) (U : X.affineOpen
       I.ideal (X.affineBasicOpen f) := by
   have := I.isQuasicoherent
   apply le_antisymm
-  · rw [Ideal.map_le_iff_le_comap]
-    intro r hr
+  · refine Ideal.map_le_iff_le_comap.mpr fun r hr => ?_
     exact res_mem I.carrier (X.basicOpen_le f) hr
   · intro t ht
     obtain ⟨n, s, hs⟩ := exists_pow_smul_extension_of_isAffineOpen I.toModules U.2 f
@@ -96,7 +95,7 @@ end QuasicoherentIdealSubsheaf
 
 /-- The quasi-coherent ideal subsheaf of ideal sheaf data `J`: the sections lying, near every
 point, in `J(V)` on an affine open `V`. -/
-def IdealSheafData.toQuasicoherentIdealSubsheaf (J : X.IdealSheafData) :
+def idealSheafDataToSubsheaf (J : X.IdealSheafData) :
     QuasicoherentIdealSubsheaf X where
   carrier := powSmul J 1 ⊤
   isLocal := isLocal_powSmul J 1 ⊤
@@ -105,21 +104,15 @@ def IdealSheafData.toQuasicoherentIdealSubsheaf (J : X.IdealSheafData) :
     have := isQuasicoherent_top (E := (SheafOfModules.unit X.ringCatSheaf : X.Modules))
     exact isQuasicoherent_powSmul J 1 isLocal_top
 
-/-- `J(V) • Γ(V, 𝒪_X) = J(V)`. -/
-theorem ideal_pow_one_smul_top (U : X.Opens) (J : Ideal Γ(X, U)) :
-    (J ^ 1 • (⊤ : Submodule Γ(X, U) Γ((SheafOfModules.unit X.ringCatSheaf : X.Modules), U)) :
-      Ideal Γ(X, U)) = J := by
-  rw [pow_one]
-  exact Ideal.mul_top J
-
 /-- Over every affine open `V`, the sections of the subsheaf of `J` are `J(V)`. -/
-theorem IdealSheafData.ideal_toQuasicoherentIdealSubsheaf (J : X.IdealSheafData)
-    (V : X.affineOpens) : J.toQuasicoherentIdealSubsheaf.ideal V = J.ideal V := by
+theorem ideal_idealSheafDataToSubsheaf (J : X.IdealSheafData)
+    (V : X.affineOpens) : (idealSheafDataToSubsheaf J).ideal V = J.ideal V := by
   have := ClosedImmersionIdeal.isQuasicoherent_unit X
   have := isQuasicoherent_top (E := (SheafOfModules.unit X.ringCatSheaf : X.Modules))
   change sub (powSmul J 1 ⊤) V = _
-  rw [sub_powSmul_eq J 1 isLocal_top V]
-  exact ideal_pow_one_smul_top _ _
+  refine (sub_powSmul_eq J 1 isLocal_top V).trans ?_
+  rw [pow_one]
+  exact Ideal.mul_top _
 
 /-- **Quasi-coherent ideal subsheaves of `𝒪_X` are ideal sheaf data.** For a scheme `X`,
 quasi-coherent ideal subsheaves `I ⊆ 𝒪_X` correspond to Mathlib's `X.IdealSheafData`
@@ -127,17 +120,21 @@ quasi-coherent ideal subsheaves `I ⊆ 𝒪_X` correspond to Mathlib's `X.IdealS
 opens `U`. -/
 def quasicoherentIdealSubsheafEquiv : QuasicoherentIdealSubsheaf X ≃ X.IdealSheafData where
   toFun I := I.toIdealSheafData
-  invFun J := J.toQuasicoherentIdealSubsheaf
+  invFun J := idealSheafDataToSubsheaf J
   left_inv I := by
     have hfam : ∀ V : X.affineOpens,
-        (powSmulFamily I.toIdealSheafData 1 ⊤).obj V = sub I.carrier V := fun V =>
-      ideal_pow_one_smul_top _ _
+        (powSmulFamily I.toIdealSheafData 1 ⊤).obj V = sub I.carrier V := fun V => by
+      change I.ideal V ^ 1 •
+        sub (⊤ : (SheafOfModules.unit X.ringCatSheaf : X.Modules).val.Submodule) (V : X.Opens) =
+          I.ideal V
+      rw [pow_one]
+      exact Ideal.mul_top _
     refine QuasicoherentIdealSubsheaf.ext (le_antisymm ?_ ?_)
     · exact (powSmulFamily I.toIdealSheafData 1 ⊤).closure_le I.isLocal fun V => (hfam V).le
     · intro U s hs x hx
       obtain ⟨V, hVU, hxV⟩ := exists_affine_le hx
       exact ⟨V, hVU, hxV, (hfam V).ge (res_mem I.carrier hVU hs)⟩
-  right_inv J := IdealSheafData.ext (funext fun V => J.ideal_toQuasicoherentIdealSubsheaf V)
+  right_inv J := Scheme.IdealSheafData.ext (funext fun V => ideal_idealSheafDataToSubsheaf J V)
 
 /-- The ideal sheaf data of `I` has, on each affine open `U`, the ideal `Γ(U, I)`. -/
 theorem quasicoherentIdealSubsheafEquiv_ideal (I : QuasicoherentIdealSubsheaf X)
@@ -147,7 +144,7 @@ theorem quasicoherentIdealSubsheafEquiv_ideal (I : QuasicoherentIdealSubsheaf X)
 /-- The quasi-coherent ideal subsheaf of `J` has, on each affine open `U`, the ideal `J(U)`. -/
 theorem quasicoherentIdealSubsheafEquiv_symm_ideal (J : X.IdealSheafData) (U : X.affineOpens) :
     (quasicoherentIdealSubsheafEquiv.symm J).ideal U = J.ideal U :=
-  J.ideal_toQuasicoherentIdealSubsheaf U
+  ideal_idealSheafDataToSubsheaf J U
 
 /-- **The affine description.** On an affine open `U`, a quasi-coherent ideal subsheaf `I`
 restricts to the tilde sheaf of the ideal `Γ(U, I) ⊆ Γ(U, 𝒪_X)`. -/
