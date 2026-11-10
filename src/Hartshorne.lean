@@ -639,3 +639,4 @@ import Hartshorne.Scheme.FinitePushforwardCoherent
 import Hartshorne.Scheme.EffectiveCartierIdealSheaf
 import Hartshorne.Cohomology.SmoothMorphisms.SmoothOverAlgClosedRegular
 import Hartshorne.Scheme.Differentials.LocalCompleteIntersection
+import Hartshorne.Scheme.NormalizationDivisorDescent
