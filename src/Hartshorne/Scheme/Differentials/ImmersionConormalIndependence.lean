@@ -294,6 +294,20 @@ theorem conormalRestrictIso_congr_right {V U : Scheme.{u}} (j : Z ⟶ V) {κ κ'
   subst hκ
   simp
 
+omit [IsOpenImmersion κ₁] [IsOpenImmersion κ₂] in
+/-- `conormalRestrictIso_trans` with the composites replaced by equal morphisms. -/
+theorem conormalRestrictIso_trans' {V₁ V₂ U : Scheme.{u}} (j : Z ⟶ V₁) (κ₁ : V₁ ⟶ V₂)
+    (κ₂ : V₂ ⟶ U) (κ : V₁ ⟶ U) [IsOpenImmersion κ₁] [IsOpenImmersion κ₂] [IsOpenImmersion κ]
+    (hκ : κ₁ ≫ κ₂ = κ) {j₂ : Z ⟶ V₂} {j₃ : Z ⟶ U} (h₁ : j ≫ κ₁ = j₂) (h₂ : j₂ ≫ κ₂ = j₃)
+    (h₃ : j ≫ κ = j₃) :
+    (conormalRestrictIso j κ).hom ≫ eqToHom (congrArg conormalOf h₃) =
+      ((conormalRestrictIso j κ₁).hom ≫ eqToHom (congrArg conormalOf h₁)) ≫
+        (conormalRestrictIso j₂ κ₂).hom ≫ eqToHom (congrArg conormalOf h₂) := by
+  subst hκ h₁ h₂
+  have ht := congrArg Iso.hom (conormalRestrictIso_trans j κ₁ κ₂)
+  simp only [Iso.trans_hom, eqToIso.hom] at ht
+  rw [eqToHom_refl, eqToHom_refl, Category.comp_id, Category.comp_id, ht]
+
 end Transitivity
 
 section Factorization
@@ -372,7 +386,8 @@ noncomputable def toCanonical (F : ClosedFactorization i) :
       (j_homOfLE F))
 
 /-- The comparison isomorphism between the constructions from two closed factorizations, defined
-through the canonical conormal sheaf `N^*_i`. -/
+through the canonical conormal sheaf `N^*_i`. By `comparison_of_le` it is the restriction
+isomorphism when one open contains the other. -/
 noncomputable def comparison (F G : ClosedFactorization i) : F.conormal ≅ G.conormal :=
   toCanonical F ≪≫ (toCanonical G).symm
 
@@ -395,6 +410,23 @@ omit [IsImmersion i] in
 theorem j_homOfLE_of_le (F G : ClosedFactorization i) (h : F.U ≤ G.U) :
     F.j ≫ X.homOfLE h = G.j := by
   rw [← cancel_mono G.U.ι, Category.assoc, Scheme.homOfLE_ι, F.fac, G.fac]
+
+/-- `toCanonical F` factors through `toCanonical G` by the restriction isomorphism. -/
+theorem toCanonical_hom_eq_of_le (F G : ClosedFactorization i) (h : F.U ≤ G.U) :
+    (toCanonical F).hom = ((conormalRestrictIso F.j (X.homOfLE h)).hom ≫
+      eqToHom (congrArg conormalOf (j_homOfLE_of_le F G h))) ≫ (toCanonical G).hom :=
+  conormalRestrictIso_trans' F.j (X.homOfLE h) (X.homOfLE (le_coborderRange G))
+    (X.homOfLE (le_coborderRange F)) (X.homOfLE_homOfLE h (le_coborderRange G))
+    (j_homOfLE_of_le F G h) (j_homOfLE G) (j_homOfLE F)
+
+/-- **The comparison is the restriction isomorphism.** For closed factorizations with
+`F.U ≤ G.U`, `comparison F G` is `conormalRestrictIso` along the inclusion `F.U ⟶ G.U`. -/
+theorem comparison_of_le (F G : ClosedFactorization i) (h : F.U ≤ G.U) :
+    comparison F G = conormalRestrictIso F.j (X.homOfLE h) ≪≫
+      eqToIso (congrArg conormalOf (j_homOfLE_of_le F G h)) := by
+  ext1
+  rw [comparison, Iso.trans_hom, Iso.symm_hom, Iso.comp_inv_eq]
+  exact toCanonical_hom_eq_of_le F G h
 
 end ClosedFactorization
 
