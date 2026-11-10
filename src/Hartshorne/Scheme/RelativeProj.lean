@@ -44,8 +44,9 @@ with the Noetherian hypothesis in `RelativeProjData`.
 
 * `isPullback_projMap`: the compatibility of affine `Proj` with localization on the base: if
   `R' = R[1/r]` and `B = A[1/r]` for a graded `R`-algebra `A`, then
-  `Proj B = Proj A ×_{Spec R} Spec R'`. Proved via `isOpenImmersion_projMap` and
-  `range_projMap` (`Proj A[1/s] ⟶ Proj A` is an open immersion onto `D₊(s)` for `s` of degree 0).
+  `Proj B = Proj A ×_{Spec R} Spec R'`. Proved via `isOpenImmersion_projMap_and_range`
+  (`Proj A[1/s] ⟶ Proj A` is an open immersion onto `D₊(s)` for `s` of degree 0), whose two
+  halves are `isOpenImmersion_projMap` and `range_projMap`.
 * `QuasiCoherentGradedAlgebra.relativeGluingData`: the schemes `Proj S(U) ⟶ U` form a relative
   gluing datum over the affine opens of `X` (Mathlib's `Scheme.Cover.RelativeGluingData`).
 * `QuasiCoherentGradedAlgebra.relProj`, `relProjToBase`: the glued scheme and its projection.
@@ -230,49 +231,59 @@ variable {s : A} (hs : s ∈ 𝒜 0) [Algebra A B] [IsLocalization.Away s B]
   (hφ : ∀ a, φ a = algebraMap A B a)
 
 include hs hφ in
-theorem isOpenImmersion_projMap (hf : ℬ₊ ≤ 𝒜₊.map φ) : IsOpenImmersion (Proj.map φ hf) := by
-  refine IsZariskiLocalAtTarget.of_openCover (Proj.affineOpenCover 𝒜).openCover fun i ↦ ?_
-  have hsq := (isPullback_awayι_projMap φ hf i.1.2 i.2.2).flip
-  let := (Away.map φ (i.2 : A)).toAlgebra
-  have := away_map_isLocalization φ hs hφ i.2.2
-  have : IsOpenImmersion (Spec.map (CommRingCat.ofHom (Away.map φ (i.2 : A)))) :=
-    IsOpenImmersion.of_isLocalization (fromZeroRingHom 𝒜 (Submonoid.powers (i.2 : A)) ⟨s, hs⟩)
-  have e : (Proj.affineOpenCover 𝒜).openCover.pullbackHom (Proj.map φ hf) i =
-      hsq.isoPullback.inv ≫ Spec.map (CommRingCat.ofHom (Away.map φ (i.2 : A))) := by
-    simp only [Scheme.Cover.pullbackHom, IsPullback.isoPullback_inv_snd]
-    rfl
-  rw [e]
-  exact IsOpenImmersion.comp hsq.isoPullback.inv
-    (Spec.map (CommRingCat.ofHom (Away.map φ (i.2 : A))))
+/-- If `B = A[1/s]` with `s` of degree zero, then `Proj B ⟶ Proj A` is an open immersion with
+image `D₊(s)`. -/
+theorem isOpenImmersion_projMap_and_range (hf : ℬ₊ ≤ 𝒜₊.map φ) :
+    IsOpenImmersion (Proj.map φ hf) ∧ Set.range (Proj.map φ hf) = Proj.basicOpen 𝒜 s := by
+  constructor
+  · refine IsZariskiLocalAtTarget.of_openCover (Proj.affineOpenCover 𝒜).openCover fun i ↦ ?_
+    have hsq := (isPullback_awayι_projMap φ hf i.1.2 i.2.2).flip
+    let := (Away.map φ (i.2 : A)).toAlgebra
+    have := away_map_isLocalization φ hs hφ i.2.2
+    have : IsOpenImmersion (Spec.map (CommRingCat.ofHom (Away.map φ (i.2 : A)))) :=
+      IsOpenImmersion.of_isLocalization (fromZeroRingHom 𝒜 (Submonoid.powers (i.2 : A)) ⟨s, hs⟩)
+    have e : (Proj.affineOpenCover 𝒜).openCover.pullbackHom (Proj.map φ hf) i =
+        hsq.isoPullback.inv ≫ Spec.map (CommRingCat.ofHom (Away.map φ (i.2 : A))) := by
+      simp only [Scheme.Cover.pullbackHom, IsPullback.isoPullback_inv_snd]
+      rfl
+    rw [e]
+    exact IsOpenImmersion.comp hsq.isoPullback.inv
+      (Spec.map (CommRingCat.ofHom (Away.map φ (i.2 : A))))
+  · apply le_antisymm
+    · rintro _ ⟨y, rfl⟩
+      change y ∈ Proj.map φ hf ⁻¹ᵁ Proj.basicOpen 𝒜 s
+      rw [Proj.map_preimage_basicOpen, Proj.mem_basicOpen]
+      intro h
+      exact y.isPrime.ne_top (Ideal.eq_top_of_isUnit_mem _ h
+        (by rw [hφ s]; exact IsLocalization.Away.algebraMap_isUnit s))
+    · intro x hx
+      obtain ⟨d, t, ht, q, rfl⟩ : ∃ (d : ℕ+) (t : A) (ht : t ∈ 𝒜 d),
+          x ∈ Set.range (Proj.awayι 𝒜 t ht d.pos) :=
+        ⟨_, _, _, (Proj.affineOpenCover 𝒜).covers x⟩
+      have hd : 0 < (d : ℕ) := d.pos
+      change q ∈ Proj.awayι 𝒜 t ht hd ⁻¹ᵁ Proj.basicOpen 𝒜 ((⟨s, hs⟩ : 𝒜 0) : A) at hx
+      rw [awayι_preimage_basicOpen_zero hd ht] at hx
+      let := (Away.map φ t).toAlgebra
+      have := away_map_isLocalization φ hs hφ ht
+      have hr := PrimeSpectrum.localization_away_comap_range (Away ℬ (φ t))
+        (fromZeroRingHom 𝒜 (Submonoid.powers t) ⟨s, hs⟩)
+      obtain ⟨q', hq'⟩ : q ∈ Set.range (Spec.map (CommRingCat.ofHom (Away.map φ t))) := by
+        have hx' : q ∈ Set.range
+            (PrimeSpectrum.comap (algebraMap (Away 𝒜 t) (Away ℬ (φ t)))) := by
+          rw [hr]; exact hx
+        exact hx'
+      refine ⟨Proj.awayι ℬ (φ t) (map_mem φ ht) hd q', ?_⟩
+      rw [← Scheme.Hom.comp_apply, Proj.awayι_comp_map φ hf hd t ht, Scheme.Hom.comp_apply, hq']
+
+include hs hφ in
+theorem isOpenImmersion_projMap (hf : ℬ₊ ≤ 𝒜₊.map φ) : IsOpenImmersion (Proj.map φ hf) :=
+  (isOpenImmersion_projMap_and_range φ hs hφ hf).1
 
 include hs hφ in
 /-- If `B = A[1/s]` with `s` of degree zero, then `Proj B ⟶ Proj A` has image `D₊(s)`. -/
 theorem range_projMap (hf : ℬ₊ ≤ 𝒜₊.map φ) :
-    Set.range (Proj.map φ hf) = Proj.basicOpen 𝒜 s := by
-  apply le_antisymm
-  · rintro _ ⟨y, rfl⟩
-    change y ∈ Proj.map φ hf ⁻¹ᵁ Proj.basicOpen 𝒜 s
-    rw [Proj.map_preimage_basicOpen, Proj.mem_basicOpen]
-    intro h
-    exact y.isPrime.ne_top (Ideal.eq_top_of_isUnit_mem _ h
-      (by rw [hφ s]; exact IsLocalization.Away.algebraMap_isUnit s))
-  · intro x hx
-    obtain ⟨d, t, ht, q, rfl⟩ : ∃ (d : ℕ+) (t : A) (ht : t ∈ 𝒜 d),
-        x ∈ Set.range (Proj.awayι 𝒜 t ht d.pos) :=
-      ⟨_, _, _, (Proj.affineOpenCover 𝒜).covers x⟩
-    have hd : 0 < (d : ℕ) := d.pos
-    change q ∈ Proj.awayι 𝒜 t ht hd ⁻¹ᵁ Proj.basicOpen 𝒜 ((⟨s, hs⟩ : 𝒜 0) : A) at hx
-    rw [awayι_preimage_basicOpen_zero hd ht] at hx
-    let := (Away.map φ t).toAlgebra
-    have := away_map_isLocalization φ hs hφ ht
-    have hr := PrimeSpectrum.localization_away_comap_range (Away ℬ (φ t))
-      (fromZeroRingHom 𝒜 (Submonoid.powers t) ⟨s, hs⟩)
-    obtain ⟨q', hq'⟩ : q ∈ Set.range (Spec.map (CommRingCat.ofHom (Away.map φ t))) := by
-      have hx' : q ∈ Set.range (PrimeSpectrum.comap (algebraMap (Away 𝒜 t) (Away ℬ (φ t)))) := by
-        rw [hr]; exact hx
-      exact hx'
-    refine ⟨Proj.awayι ℬ (φ t) (map_mem φ ht) hd q', ?_⟩
-    rw [← Scheme.Hom.comp_apply, Proj.awayι_comp_map φ hf hd t ht, Scheme.Hom.comp_apply, hq']
+    Set.range (Proj.map φ hf) = Proj.basicOpen 𝒜 s :=
+  (isOpenImmersion_projMap_and_range φ hs hφ hf).2
 
 end Geometry
 
@@ -304,7 +315,8 @@ theorem isPullback_projMap [Algebra A B] (hφ : ∀ a, φ a = algebraMap A B a)
     IsPullback (Proj.map φ hf) (Proj.toSpecZero ℬ ≫ Spec.map α')
       (Proj.toSpecZero 𝒜 ≫ Spec.map α) (Spec.map ρ) := by
   have hs : ((α r : 𝒜 0) : A) ∈ 𝒜 0 := (α r).2
-  have := isOpenImmersion_projMap φ hs hφ hf
+  obtain ⟨hopen, hrange⟩ := isOpenImmersion_projMap_and_range φ hs hφ hf
+  have := hopen
   let := ρ.hom.toAlgebra
   have : IsOpenImmersion (Spec.map ρ) := IsOpenImmersion.of_isLocalization (R := R) (S := R') r
   refine (IsOpenImmersion.isPullback _ _ _ _ ?_ ?_).flip
@@ -313,7 +325,7 @@ theorem isPullback_projMap [Algebra A B] (hφ : ∀ a, φ a = algebraMap A B a)
   · have e : (Spec.map ρ).opensRange = PrimeSpectrum.basicOpen r := by
       exact TopologicalSpace.Opens.ext (PrimeSpectrum.localization_away_comap_range R' r)
     rw [e, toSpecZero_comp_preimage_basicOpen]
-    exact TopologicalSpace.Opens.ext (range_projMap φ hs hφ hf).symm
+    exact TopologicalSpace.Opens.ext hrange.symm
 
 end Pullback
 
