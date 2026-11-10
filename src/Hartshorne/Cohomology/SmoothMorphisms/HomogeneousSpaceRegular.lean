@@ -8,7 +8,7 @@ import Hartshorne.Scheme.Differentials.DenseNonsingularLocus
 /-!
 # Homogeneous spaces are nonsingular
 
-Hartshorne, *Algebraic Geometry*, III.10, Remark 10.7.1 and Example 10.7.2 (p. 273).
+Hartshorne, *Algebraic Geometry*, III.10, Remark 10.7.1 and Example 10.7.3 (p. 273).
 
 A homogeneous space `X` for a group variety over an algebraically closed field `k` is smooth over
 `k`, hence regular at every point. The smooth locus of `X ⟶ Spec k` is open and dense. If it
@@ -55,8 +55,8 @@ theorem HomogeneousSpace.smooth [IsAlgClosed k] {G : GroupVariety k} (H : Homoge
     show α.hom.left ≫ H.toAction.X.hom = H.toAction.X.hom from Over.w α.hom] at hy
   exact hx hy
 
-/-- **Homogeneous spaces are nonsingular** (Hartshorne III.10.7.1). A homogeneous space for a
-group variety over an algebraically closed field is regular. -/
+/-- **Homogeneous spaces are nonsingular** (Hartshorne III, Example 10.7.3). A homogeneous space
+for a group variety over an algebraically closed field is regular. -/
 theorem HomogeneousSpace.isRegular [IsAlgClosed k] {G : GroupVariety k}
     (H : HomogeneousSpace k G) : H.toAction.X.left.IsRegular := by
   have := H.smooth
@@ -73,8 +73,8 @@ noncomputable def GroupVariety.selfHomogeneousSpace (G : GroupVariety k) :
     change (y * x⁻¹) * x = y
     rw [inv_mul_cancel_right]⟩
 
-/-- **A group variety is nonsingular** (Hartshorne III.10.7.2): over an algebraically closed field,
-it is a homogeneous space under left translation. -/
+/-- **A group variety is nonsingular** (Hartshorne III, Remark 10.7.1 with Example 10.7.3): over
+an algebraically closed field, it is a homogeneous space under left translation. -/
 theorem GroupVariety.isRegular [IsAlgClosed k] (G : GroupVariety k) : G.obj.left.IsRegular :=
   G.selfHomogeneousSpace.isRegular
 
