@@ -20,6 +20,7 @@ then $h^{q,0}(X) = h^{q,0}(X')$ for every $q$.
 - [Differentials characterize nonsingularity](../scheme-differentials/differentials-characterize-nonsingular.md)
 - [Relative differential transitivity](../scheme-differentials/relative-differentials-transitivity.md)
 - [Sheaf tensor, symmetric, and exterior operations](../../module-exercises/sheaf-tensor-operations.md)
+- [Geometric genus](../canonical-bertini/geometric-genus.md)
 
 ## Proof depends on
 
