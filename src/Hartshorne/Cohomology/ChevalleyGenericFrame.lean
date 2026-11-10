@@ -125,7 +125,7 @@ noncomputable abbrev pushStructure : Y.Modules :=
 
 /-- For a finite morphism to an integral Noetherian scheme, `f_* 𝒪_X` has finite free sections
 over some affine open containing the generic point. -/
-theorem exists_affine_free [IsFinite f] [IsIntegral Y] [IsNoetherian Y] [IsNoetherian X] :
+theorem exists_affine_free [IsFinite f] [IsIntegral Y] [IsNoetherian Y] :
     ∃ W : Y.affineOpens, genericPoint Y ∈ (W : Y.Opens) ∧
       Module.Free Γ(Y, (W : Y.Opens)) Γ(specRestriction (pushStructure f) W, ⊤) ∧
       Module.Finite Γ(Y, (W : Y.Opens)) Γ(specRestriction (pushStructure f) W, ⊤) := by
@@ -199,6 +199,8 @@ noncomputable def frameMap {U : X.Opens} {ι : Type u} (c : ι → Γ(X, U)) :
 theorem isQuasicoherent_chartSheaf [IsNoetherian X] (U : X.Opens) :
     (chartSheaf U).IsQuasicoherent := by
   have := ClosedImmersionIdeal.isQuasicoherent_unit X
+  have := Scheme.Modules.isQuasicoherent_restrictFunctor U.ι
+    (SheafOfModules.unit X.ringCatSheaf : X.Modules)
   exact isQuasicoherent_pushforward U.ι (Or.inr ⟨inferInstance, inferInstance⟩) _
 
 theorem isCoherent_frameModule [IsNoetherian X] {U : X.Opens} {ι : Type u} [Finite ι]
@@ -245,30 +247,32 @@ theorem isIso_restrict_frameMap [IsFinite f] [IsNoetherian X] (W : Y.affineOpens
   let B := Γ(specRestriction (pushStructure f) W, ⊤)
   let h := homOfLE (le_image_preimage_self U)
   let Φf : N → B := fun n =>
-    X.presheaf.map h.op ((n : ↥(sub (spanSheaf (frameSet c)) U)).1 :
-      Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U)))
+    X.presheaf.map h.op (@id Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U))
+      (n : ↥(sub (spanSheaf (frameSet c)) U)).1)
   let ψ : A → Γ(X, U) := fun a =>
     f.app (W.2.fromSpec ''ᵁ ⊤) ((W.2.fromSpec.appIso ⊤).inv ((Scheme.ΓSpecIso A).inv a))
-  have smulN : ∀ (a : A) (n : N), ((a • n : N) : ↥(sub (spanSheaf (frameSet c)) U)).1 =
-      ((U.ι.appIso (U.ι ⁻¹ᵁ U)).inv (U.ι.app U (ψ a)) : Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U))) *
-        ((n : ↥(sub (spanSheaf (frameSet c)) U)).1 : Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U))) :=
+  have smulN : ∀ (a : A) (n : N),
+      @id Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U)) ((a • n : N) : ↥(sub (spanSheaf (frameSet c)) U)).1 =
+      (U.ι.appIso (U.ι ⁻¹ᵁ U)).inv (U.ι.app U (ψ a)) *
+        @id Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U)) (n : ↥(sub (spanSheaf (frameSet c)) U)).1 :=
     fun _ _ => rfl
-  have smulB : ∀ (a : A) (b : B), (a • b : B) = (ψ a * (b : Γ(X, U)) : Γ(X, U)) :=
+  have smulB : ∀ (a : A) (b : B), @id Γ(X, U) (a • b : B) = ψ a * @id Γ(X, U) b :=
     fun _ _ => rfl
   let Φ : N →ₗ[A] B :=
     { toFun := Φf
       map_add' := fun x y => map_add (X.presheaf.map h.op).hom _ _
       map_smul' := fun a x => by
-        change X.presheaf.map h.op (((a • x : N) : ↥(sub (spanSheaf (frameSet c)) U)).1 :
-          Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U))) = a • Φf x
-        rw [smulN, smulB, map_mul, presheaf_map_appIso_inv_app] }
+        refine (congrArg (fun z => X.presheaf.map h.op z) (smulN a x)).trans ?_
+        refine (map_mul (X.presheaf.map h.op).hom _ _).trans ?_
+        rw [presheaf_map_appIso_inv_app]
+        exact (smulB a (Φf x)).symm }
   have hK : ∀ i, Φ ((t i).val (op ⊤)) = bas i := fun i =>
     (AffineSpaceDifferentials.presheaf_map_map_map_apply X.presheaf _ _ _ (𝟙 _) (c i)).trans
       (by rw [CategoryTheory.Functor.map_id]; rfl)
   have hinj : Function.Injective Φ := by
     intro x y hxy
     have key : ∀ n : N, X.presheaf.map (homOfLE (U.ι.image_preimage_le U)).op (Φ n) =
-        ((n : ↥(sub (spanSheaf (frameSet c)) U)).1 : Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U))) := fun n =>
+        @id Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U)) (n : ↥(sub (spanSheaf (frameSet c)) U)).1 := fun n =>
       (AffineSpaceDifferentials.presheaf_map_map_apply X.presheaf _ _ (𝟙 _) _).trans
         (by rw [CategoryTheory.Functor.map_id]; rfl)
     have := congrArg (X.presheaf.map (homOfLE (U.ι.image_preimage_le U)).op) hxy
@@ -276,21 +280,22 @@ theorem isIso_restrict_frameMap [IsFinite f] [IsNoetherian X] (W : Y.affineOpens
     exact Subtype.ext this
   have hsurj : Function.Surjective Φ := by
     intro b
-    refine ⟨∑ i, bas.repr b i • (t i).val (op ⊤), ?_⟩
     have := Fintype.ofFinite ι
+    refine ⟨∑ i, bas.repr b i • @id N ((t i).val (op ⊤)), ?_⟩
     rw [map_sum]
-    simp_rw [map_smul, hK]
-    exact bas.sum_repr b
+    refine (Finset.sum_congr rfl fun i _ => ?_).trans (bas.sum_repr b)
+    exact (Φ.map_smul _ _).trans (congrArg _ (hK i))
   let Φe := LinearEquiv.ofBijective Φ ⟨hinj, hsurj⟩
   let b' := bas.map Φe.symm
   have hb' : ∀ i, b' i = (t i).val (op ⊤) := fun i =>
-    (Basis.map_apply _ _ _).trans (Φe.symm_apply_eq.mpr (hK i).symm)
+    (Module.Basis.map_apply _ _ _).trans (Φe.symm_apply_eq.mpr (hK i).symm)
   have hiso := freeHomEquiv_symm_isIso_of_basis P t b' hb'
   have hcomp : IsIso ((Scheme.Modules.restrictFreeIso W.2.fromSpec ι).inv ≫
       (Scheme.Modules.restrictFunctor W.2.fromSpec).map (frameMap f c)) := by
     rw [frameMap, hT2]
     exact hiso
-  exact IsIso.of_isIso_comp_left _ _
+  exact @IsIso.of_isIso_comp_left _ _ _ _ _ (Scheme.Modules.restrictFreeIso W.2.fromSpec ι).inv _
+    (Iso.isIso_inv _) hcomp
 
 end ChevalleyFrame
 
