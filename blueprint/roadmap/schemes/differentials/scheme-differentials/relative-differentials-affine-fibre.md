@@ -4,7 +4,7 @@ declaration: theorem
 origin: bridged
 statement: formalized
 proof: formalized
-lean: Hartshorne.finrank_fibre_relativeDifferentials_affine Hartshorne.finrank_fibre_eq_of_iso_tilde
+lean: Hartshorne.rank_fibre_relativeDifferentials_affine Hartshorne.rank_fibre_eq_of_iso_tilde Hartshorne.finrank_fibre_relativeDifferentials_affine Hartshorne.finrank_fibre_eq_of_iso_tilde
 ---
 
 # Fibres of the differential sheaf on an affine chart
