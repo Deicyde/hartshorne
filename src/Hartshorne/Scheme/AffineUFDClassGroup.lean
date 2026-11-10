@@ -113,13 +113,10 @@ alias specPoint_asIdeal_isPrime := FreeLocusAux.freeLocus_asIdeal_isPrime
 
 attribute [local instance] FreeLocusAux.freeLocus_asIdeal_isPrime
 
-/-- The stalk of `Spec R` at a point is the localization of `R` at the
-corresponding prime ideal. -/
-theorem specStalk_isLocalizationAtPrime (R : CommRingCat.{u}) (x : Spec R) :
-    IsLocalization.AtPrime ((Spec R).presheaf.stalk x) x.asIdeal :=
-  StructureSheaf.IsLocalization.to_stalk R x
+@[deprecated FreeLocusAux.freeLocus_stalk_isLocalization (since := "2026-11-09")]
+alias specStalk_isLocalizationAtPrime := FreeLocusAux.freeLocus_stalk_isLocalization
 
-attribute [local instance] specStalk_isLocalizationAtPrime
+attribute [local instance] FreeLocusAux.freeLocus_stalk_isLocalization
 
 /-- For a domain `R`, the maps `R → 𝒪_{Spec R, x} → K(Spec R)` compose to the
 canonical map from `R` to the function field. -/
@@ -254,7 +251,7 @@ theorem isIntegrallyClosed_of_isNormal_spec (R : CommRingCat.{u}) [IsDomain R]
   intro p _ _
   let x : Spec R := ⟨p, inferInstance⟩
   have : IsLocalization.AtPrime ((Spec R).presheaf.stalk x) p :=
-    specStalk_isLocalizationAtPrime R x
+    FreeLocusAux.freeLocus_stalk_isLocalization x
   let e : Localization.AtPrime p ≃ₐ[R] (Spec R).presheaf.stalk x :=
     IsLocalization.algEquiv p.primeCompl _ _
   exact IsIntegrallyClosed.of_equiv e.symm.toRingEquiv
