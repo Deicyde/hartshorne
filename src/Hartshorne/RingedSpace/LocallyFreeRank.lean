@@ -251,10 +251,10 @@ theorem exists_isZero_over_of_subsingleton_stalk (x : X) [Subsingleton (ringShea
   apply SheafOfModules.hom_ext
   apply PresheafOfModules.hom_ext
   intro W
-  have : Subsingleton (((ringCatSheafOf R).over U).val.obj W) :=
+  have : Subsingleton (((ringCatSheafOf R).over U).obj.obj W) :=
     hsub W.unop.left (leOfHom W.unop.hom)
   have : Subsingleton (M.val.obj W) :=
-    Module.subsingleton (((ringCatSheafOf R).over U).val.obj W) _
+    Module.subsingleton (((ringCatSheafOf R).over U).obj.obj W) _
   ext s
   exact Subsingleton.elim _ _
 
