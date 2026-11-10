@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.TotalQuotientIntegral
+import Hartshorne.Scheme.CartierDivisorSheaf
 import Hartshorne.Scheme.PrincipalDivisor
 import Hartshorne.Scheme.LocallyFactorial
 import Hartshorne.Scheme.AffineUFDClassGroup
@@ -94,14 +95,6 @@ theorem toCartierDivisorSheaf_structureUnits (U : X.Opens)
 
 namespace CartierDivisor
 
-/-- A local equation restricts to a local equation on a smaller open set. -/
-theorem restrict_eq_of_le (D : X.CartierDivisor) {U V : X.Opens} (i : V ≤ U)
-    (f : X.totalQuotientUnitsSheaf.obj.obj (op U))
-    (hf : D.restrict U = X.toCartierDivisorSheaf.hom.app (op U) (Additive.ofMul f)) :
-    D.restrict V = X.toCartierDivisorSheaf.hom.app (op V)
-      (Additive.ofMul (X.totalQuotientUnitsSheaf.obj.map (homOfLE i).op f)) := by
-  rw [← D.restrict_restrict i, hf, toCartierDivisorSheaf_naturality_apply]
-
 variable [IsIntegral X] [IsNoetherian X]
 
 /-- Two local equations of a Cartier divisor have the same order at every common point, since
@@ -118,8 +111,8 @@ theorem ord_eq_of_represents (D : X.CartierDivisor) {U V : X.Opens}
       X.functionField) x := by
   have hxW : x ∈ U ⊓ V := ⟨hxU, hxV⟩
   have hW := genericPoint_mem_opens_of_mem hxW
-  have hf' := D.restrict_eq_of_le (inf_le_left : U ⊓ V ≤ U) f hf
-  have hg' := D.restrict_eq_of_le (inf_le_right : U ⊓ V ≤ V) g hg
+  have hf' := D.restrict_eq_of_le (inf_le_left : U ⊓ V ≤ U) hf
+  have hg' := D.restrict_eq_of_le (inf_le_right : U ⊓ V ≤ V) hg
   obtain ⟨a, ha⟩ :=
     exists_structureUnits_eq_div_of_toCartierDivisorSheaf_eq _ _ _ (hf'.symm.trans hg')
   have hae := congrArg (totalQuotientUnitsEquivFunctionField (U ⊓ V) hW) ha
@@ -175,8 +168,8 @@ theorem weilCoeff_add (D E : X.CartierDivisor) (x : X) :
   have hxU : x ∈ U := D.mem_localEquation x
   have hxV : x ∈ V := E.mem_localEquation x
   have hxW : x ∈ U ⊓ V := ⟨hxU, hxV⟩
-  have hf' := D.restrict_eq_of_le (inf_le_left : U ⊓ V ≤ U) _ (D.restrict_localEquation x)
-  have hg' := E.restrict_eq_of_le (inf_le_right : U ⊓ V ≤ V) _ (E.restrict_localEquation x)
+  have hf' := D.restrict_eq_of_le (inf_le_left : U ⊓ V ≤ U) (D.restrict_localEquation x)
+  have hg' := E.restrict_eq_of_le (inf_le_right : U ⊓ V ≤ V) (E.restrict_localEquation x)
   have hsum : (D + E).restrict (U ⊓ V) = X.toCartierDivisorSheaf.hom.app (op (U ⊓ V))
       (Additive.ofMul
         (X.totalQuotientUnitsSheaf.obj.map (homOfLE (inf_le_left : U ⊓ V ≤ U)).op
@@ -464,7 +457,7 @@ theorem cartierToWeil_injective [IsIntegral X] [IsNoetherian X] [Hartshorne.IsNo
       X.isBasis_affineOpens.exists_subset_of_mem_open hxU U.isOpen
     have : Nonempty V := ⟨⟨x, hxV⟩⟩
     have hηV := genericPoint_mem_opens_of_mem hxV
-    have hfV := D.restrict_eq_of_le hVU f hf
+    have hfV := D.restrict_eq_of_le hVU hf
     obtain ⟨a, ha⟩ := exists_unit_germToFunctionField_eq_of_ord_eq_zero
       (totalQuotientUnitsEquivFunctionField V hηV
         (X.totalQuotientUnitsSheaf.obj.map (homOfLE hVU).op f)) fun y hy _ ↦ by

@@ -50,14 +50,6 @@ variable {X : Scheme.{u}}
 
 namespace Scheme.CartierDivisor
 
-/-- A local equation restricts to a local equation on a smaller open. -/
-private theorem restrictLE (D : X.CartierDivisor) {V W : X.Opens} (h : W ≤ V)
-    {f : X.totalQuotientUnitsSheaf.obj.obj (op V)}
-    (hf : D.restrict V = X.toCartierDivisorSheaf.hom.app (op V) (Additive.ofMul f)) :
-    D.restrict W = X.toCartierDivisorSheaf.hom.app (op W)
-      (Additive.ofMul (X.totalQuotientUnitsSheaf.obj.map (homOfLE h).op f)) := by
-  rw [← D.restrict_restrict h, hf, toCartierDivisorSheaf_naturality_apply]
-
 /-- The regular function on `U` corresponding, under a trivialization `ψ : L|_U ≅ 𝒪_U`, to a
 section `s` of `L` over `U`. -/
 def trivApply {L : X.Modules} {U : X.Opens} (ψ : L.over U ≅ SheafOfModules.unit _)
@@ -144,7 +136,7 @@ theorem exists_restrict_eq_trivGen {D : X.CartierDivisor} {U : X.Opens}
     obtain ⟨W, f, hxW, hf⟩ := D.exists_localEquation x
     have h₁ : U ⊓ W ≤ U := inf_le_left
     have h₂ : U ⊓ W ≤ W := inf_le_right
-    have hf' := restrictLE D h₂ hf
+    have hf' := D.restrict_eq_of_le h₂ hf
     set f' := X.totalQuotientUnitsSheaf.obj.map (homOfLE h₂).op f
     obtain ⟨a, ha⟩ := trivGen_isSection ψ (U ⊓ W) h₁ f' hf'
     let t : D.sheaf.val.obj (op (U ⊓ W)) :=
@@ -371,8 +363,8 @@ theorem isSection_of_isEffective_add_principal (D₀ : X.CartierDivisor)
   obtain ⟨W, fW, hxW, hDW, gW, hgW⟩ := hD x
   have h₁ : V ⊓ W ≤ V := inf_le_left
   have h₂ : V ⊓ W ≤ W := inf_le_right
-  have e₁ := restrictLE (D₀ + X.principalCartierDivisor h) h₁ (restrict_add_principal D₀ h hf)
-  have e₂ := restrictLE (D₀ + X.principalCartierDivisor h) h₂ hDW
+  have e₁ := (D₀ + X.principalCartierDivisor h).restrict_eq_of_le h₁ (restrict_add_principal D₀ h hf)
+  have e₂ := (D₀ + X.principalCartierDivisor h).restrict_eq_of_le h₂ hDW
   obtain ⟨a, ha⟩ := (D₀ + X.principalCartierDivisor h).exists_eq_mul_of_restrict_eq e₂ e₁
   refine ⟨V ⊓ W, h₁, ⟨hx, hxW⟩, a * X.presheaf.map (homOfLE h₂).op gW, ?_⟩
   rw [map_mul, ← toK_naturality, hgW]

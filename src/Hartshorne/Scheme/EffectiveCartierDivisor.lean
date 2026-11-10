@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.CartierDivisorSheaf
+import Hartshorne.Scheme.CartierDivisorSheafArithmetic
 import Hartshorne.Scheme.QuasicoherentIdealSheafData
 import Hartshorne.Scheme.SymmetricAlgebraSheaf
 
@@ -48,20 +49,6 @@ def IsEffective (D : X.CartierDivisor) : Prop :=
     D.restrict V = X.toCartierDivisorSheaf.hom.app (op V) (Additive.ofMul f) ∧
     ∃ g : Γ(X, V), X.toK V g = kUnitVal f
 
-/-- Restriction of `-D` is `-` the restriction of `D`. -/
-theorem restrict_neg (D : X.CartierDivisor) (V : X.Opens) :
-    (-D).restrict V = -D.restrict V :=
-  map_neg (X.cartierDivisorSheaf.obj.map (homOfLE le_top).op).hom D
-
-/-- If `f` is a local equation of `D`, then `f⁻¹` is a local equation of `-D`. -/
-theorem restrict_neg_eq_of_restrict_eq (D : X.CartierDivisor) {V : X.Opens}
-    {f : X.totalQuotientUnitsSheaf.obj.obj (op V)}
-    (hf : D.restrict V = X.toCartierDivisorSheaf.hom.app (op V) (Additive.ofMul f)) :
-    (-D).restrict V = X.toCartierDivisorSheaf.hom.app (op V)
-      (Additive.ofMul (f⁻¹ : X.totalQuotientUnitsSheaf.obj.obj (op V))) := by
-  rw [restrict_neg, hf]
-  exact (map_neg (X.toCartierDivisorSheaf.hom.app (op V)).hom (Additive.ofMul f)).symm
-
 /-- **Sections of `𝒪_X(-D)` are regular** when `D` is effective. -/
 theorem exists_toK_eq_of_isSection_neg {D : X.CartierDivisor} (hD : D.IsEffective)
     {U : X.Opens} {s : X.totalQuotientSheaf.obj.obj (op U)} (hs : (-D).IsSection s) :
@@ -72,7 +59,7 @@ theorem exists_toK_eq_of_isSection_neg {D : X.CartierDivisor} (hD : D.IsEffectiv
   have h₁ : U ⊓ V ≤ U := inf_le_left
   have h₂ : U ⊓ V ≤ V := inf_le_right
   have hf' := D.restrict_eq_of_le h₂ hf
-  obtain ⟨r, hr⟩ := hs (U ⊓ V) h₁ _ (D.restrict_neg_eq_of_restrict_eq hf')
+  obtain ⟨r, hr⟩ := hs (U ⊓ V) h₁ _ (restrict_neg_eq hf')
   refine ⟨U ⊓ V, h₁, ⟨hx, hxV⟩, r * X.presheaf.map (homOfLE h₂).op g, ?_⟩
   set f' := X.totalQuotientUnitsSheaf.obj.map (homOfLE h₂).op f
   rw [map_mul, hr, ← toK_naturality, hg]
@@ -177,7 +164,7 @@ theorem idealSheafData_ideal_eq_span {D : X.CartierDivisor} (hD : D.IsEffective)
     rfl
   ext r
   rw [mem_idealSheafData_ideal_iff, isSection_iff_of_restrict_eq (-D)
-    (D.restrict_neg_eq_of_restrict_eq (D.restrict_eq_of_le hW hf)), Ideal.mem_span_singleton']
+    (restrict_neg_eq (D.restrict_eq_of_le hW hf)), Ideal.mem_span_singleton']
   constructor
   · rintro ⟨a, ha⟩
     refine ⟨a, X.toK_injective W ?_⟩
