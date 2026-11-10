@@ -2,24 +2,24 @@
 article_id: af_865c9bf4c43ed692cc5dfe48
 declaration: def
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: Hartshorne.Surface.IsAlgebraicallyContractible Hartshorne.Surface.AlgebraicContraction Hartshorne.Surface.AlgebraicContraction.birationalOver Hartshorne.Surface.AlgebraicContraction.partialIso
 ---
 
 # Contractible curves
 
-Let $Y$ be an irreducible curve on a nonsingular projective surface $X$.
-Call $Y$ algebraically contractible if there are a projective algebraic
-surface $X_0$, a point $P$ of $X_0$, and a birational morphism $f:X\to X_0$
-such that
+Let $Y$ be an irreducible curve on a nonsingular projective surface $X$ over
+$k$.  Call $Y$ algebraically contractible if there are a variety $X_0$ over
+$k$, a point $P$ of $X_0$, and a birational morphism $f:X\to X_0$ such that
 
 $f(Y)=\{P\}$ and $f:X-Y \to X_0-P$
 
-is an isomorphism.  The target is allowed to be singular.
+is an isomorphism.  The target need not be projective, and it is allowed to be
+singular.
 
-This definition is distinct from contraction only in the category of complex
-analytic spaces.
+Algebraic contractibility is stronger than contractibility in the category of
+complex analytic spaces: an analytic contraction, as given by Grauert's
+theorem, can exist when no algebraic one does.
 
 ## Depends on
 

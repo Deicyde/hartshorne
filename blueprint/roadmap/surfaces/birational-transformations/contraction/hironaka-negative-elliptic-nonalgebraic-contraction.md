@@ -13,7 +13,8 @@ the strict transform $Y$ is a genus-one curve with
 
 $Y^2=9-10=-1$,
 
-but $Y$ is not algebraically contractible.
+but $Y$ is not algebraically contractible: there is no contraction of $Y$ to
+a point of any algebraic variety $X_0$, projective or not.
 
 For noncontractibility, an affine neighborhood of a hypothetical contraction
 point supplies a curve avoiding that point.  Its plane image $C$ meets $Y_0$

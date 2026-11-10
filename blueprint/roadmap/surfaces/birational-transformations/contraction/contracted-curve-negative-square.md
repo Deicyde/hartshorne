@@ -12,8 +12,8 @@ then
 
 $Y^2<0$.
 
-In particular, negative self-intersection is necessary for algebraic
-contractibility.
+In particular, negative self-intersection is necessary for $Y$ to be
+algebraically contractible to a point on a projective surface.
 
 ## Depends on
 
