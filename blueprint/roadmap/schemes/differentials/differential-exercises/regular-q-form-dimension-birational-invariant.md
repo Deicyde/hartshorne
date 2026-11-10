@@ -2,6 +2,9 @@
 article_id: af_39fd9dcb2ee95c6ad5be4318
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.regularFormDimension_eq_of_birational Hartshorne.regularFormDimension
 ---
 
 # Birational invariance of regular q-forms
