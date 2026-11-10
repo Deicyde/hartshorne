@@ -406,18 +406,18 @@ theorem unitorGlobal_zero (n : ℤ) : unitorGlobal (R := R) (r := r) n 0 = 0 :=
   map_zero _
 
 /-- The degree-`n` part of `s`, as an element of `S` (zero for `n < 0`). -/
-def projZ (n : ℤ) (s : MvPolynomial (Fin (r + 1)) R) : MvPolynomial (Fin (r + 1)) R :=
+def degreePart (n : ℤ) (s : MvPolynomial (Fin (r + 1)) R) : MvPolynomial (Fin (r + 1)) R :=
   if 0 ≤ n then (DirectSum.decompose 𝒮 s n.toNat : MvPolynomial (Fin (r + 1)) R) else 0
 
-theorem projZ_add (n : ℤ) (s t : MvPolynomial (Fin (r + 1)) R) :
-    projZ n (s + t) = projZ n s + projZ n t := by
-  unfold projZ
+theorem degreePart_add (n : ℤ) (s t : MvPolynomial (Fin (r + 1)) R) :
+    degreePart n (s + t) = degreePart n s + degreePart n t := by
+  unfold degreePart
   split_ifs
   · rw [DirectSum.decompose_add, DirectSum.add_apply, AddMemClass.coe_add]
   · rw [add_zero]
 
-theorem projZ_zero (n : ℤ) : projZ n (0 : MvPolynomial (Fin (r + 1)) R) = 0 := by
-  unfold projZ
+theorem degreePart_zero (n : ℤ) : degreePart n (0 : MvPolynomial (Fin (r + 1)) R) = 0 := by
+  unfold degreePart
   split_ifs
   · rw [DirectSum.decompose_zero]
     rfl
@@ -433,52 +433,55 @@ theorem globalValue_zero {n : ℤ} (x : Proj 𝒮) :
   rfl
 
 /-- The value at `x` of an element of `Γ(X, 𝒪_X ⊗ 𝒪_X(n))`. -/
-def cv (n : ℤ) (t : twistGlobal 𝒪 n) (x : Proj 𝒮) :
+def twistValue (n : ℤ) (t : twistGlobal 𝒪 n) (x : Proj 𝒮) :
     LocalizedModule x.asHomogeneousIdeal.toIdeal.primeCompl (MvPolynomial (Fin (r + 1)) R) :=
   (globalValue 𝒮 (gradedTwist 𝒮 n) (unitorGlobal n t) x).val
 
-theorem cv_add (n : ℤ) (t t' : twistGlobal 𝒪 n) (x : Proj 𝒮) :
-    cv n (t + t') x = cv n t x + cv n t' x := by
+theorem twistValue_add (n : ℤ) (t t' : twistGlobal 𝒪 n) (x : Proj 𝒮) :
+    twistValue n (t + t') x = twistValue n t x + twistValue n t' x := by
   have e := congrArg (fun g => (globalValue 𝒮 (gradedTwist 𝒮 n) g x).val)
     (unitorGlobal_add (R := R) (r := r) n t t')
   exact e
 
-theorem cv_zero (n : ℤ) (x : Proj 𝒮) : cv n (0 : twistGlobal 𝒪 n) x = 0 := by
+theorem twistValue_zero (n : ℤ) (x : Proj 𝒮) : twistValue n (0 : twistGlobal 𝒪 n) x = 0 := by
   have e := congrArg (fun g => (globalValue 𝒮 (gradedTwist 𝒮 n) g x).val)
     (unitorGlobal_zero (R := R) (r := r) n)
   exact e
 
-theorem eq_of_cv_eq {n : ℤ} {t t' : twistGlobal 𝒪 n} (h : ∀ x, cv n t x = cv n t' x) :
+theorem eq_of_twistValue_eq {n : ℤ} {t t' : twistGlobal 𝒪 n}
+    (h : ∀ x, twistValue n t x = twistValue n t' x) :
     t = t' := by
   apply (unitorGlobal_bijective n).1
   apply globalValue_injective 𝒮 (gradedTwist 𝒮 n)
   funext x
   exact HomogeneousLocalizedModule.ext (h x)
 
-theorem eq_of_cv_component_eq {y y' : GammaStar 𝒪} (h : ∀ n x, cv n (y n) x = cv n (y' n) x) :
+theorem eq_of_twistValue_component_eq {y y' : GammaStar 𝒪}
+    (h : ∀ n x, twistValue n (y n) x = twistValue n (y' n) x) :
     y = y' := by
   ext n
-  exact eq_of_cv_eq (h n)
+  exact eq_of_twistValue_eq (h n)
 
-theorem cv_of_ne {m n : ℤ} (h : m ≠ n) (z : twistGlobal 𝒪 m) (x : Proj 𝒮) :
-    cv n (DirectSum.of (fun k => twistGlobal 𝒪 k) m z n) x = 0 :=
-  (congrArg (fun t => cv n t x) (DirectSum.of_eq_of_ne _ _ _ h.symm)).trans (cv_zero n x)
+theorem twistValue_of_ne {m n : ℤ} (h : m ≠ n) (z : twistGlobal 𝒪 m) (x : Proj 𝒮) :
+    twistValue n (DirectSum.of (fun k => twistGlobal 𝒪 k) m z n) x = 0 :=
+  (congrArg (fun t => twistValue n t x) (DirectSum.of_eq_of_ne _ _ _ h.symm)).trans
+    (twistValue_zero n x)
 
-theorem cv_of_same {n : ℤ} (z : twistGlobal 𝒪 n) (x : Proj 𝒮) :
-    cv n (DirectSum.of (fun k => twistGlobal 𝒪 k) n z n) x = cv n z x :=
-  congrArg (fun t => cv n t x) (DirectSum.of_eq_same _ _)
+theorem twistValue_of_same {n : ℤ} (z : twistGlobal 𝒪 n) (x : Proj 𝒮) :
+    twistValue n (DirectSum.of (fun k => twistGlobal 𝒪 k) n z n) x = twistValue n z x :=
+  congrArg (fun t => twistValue n t x) (DirectSum.of_eq_same _ _)
 
 /-- `s · 1 = s / 1` on values, for `s ∈ S_d`. -/
-theorem cv_mulGlobal_unitSection {d : ℕ} {s : MvPolynomial (Fin (r + 1)) R} (hs : s ∈ 𝒮 d)
+theorem twistValue_mulGlobal_unitSection {d : ℕ} {s : MvPolynomial (Fin (r + 1)) R} (hs : s ∈ 𝒮 d)
     (x : Proj 𝒮) :
-    cv (0 + d) (mulGlobal 𝒪 0 d ⟨s, hs⟩ (unitSection R r)) x = LocalizedModule.mk s 1 := by
+    twistValue (0 + d) (mulGlobal 𝒪 0 d ⟨s, hs⟩ (unitSection R r)) x = LocalizedModule.mk s 1 := by
   let h := (twistMulHom 𝒮 0 d).val.app (op ⊤) (tmulSection _ _
     (twistSection 0 ⟨1, SetLike.GradedOne.one_mem⟩ (op ⊤)) (twistSection d ⟨s, hs⟩ (op ⊤)))
   have e0 : mulGlobal 𝒪 0 d ⟨s, hs⟩ (unitSection R r) = tmulSection _ _ (oneSec (op ⊤)) h :=
     mulMap_tmulSection 𝒪 0 d ⟨s, hs⟩ (oneSec (op ⊤)) _
   have e1 := leftUnitor_hom_tmulSection (projTwistingSheaf 𝒮 (0 + d)) (U := op ⊤)
     (1 : (Proj 𝒮).ringCatSheaf.obj.obj (op ⊤)) h
-  refine (congrArg (fun t => cv (0 + d) t x) e0).trans ?_
+  refine (congrArg (fun t => twistValue (0 + d) t x) e0).trans ?_
   refine (congrArg (fun g => (globalValue 𝒮 (gradedTwist 𝒮 (0 + d)) g x).val)
     (e1.trans (one_smul ((Proj 𝒮).ringCatSheaf.obj.obj (op ⊤)) h))).trans ?_
   refine (twistMulHom_tmul_twistSection_apply (𝒜 := 𝒮) 0 d ⟨s, hs⟩
@@ -486,16 +489,16 @@ theorem cv_mulGlobal_unitSection {d : ℕ} {s : MvPolynomial (Fin (r + 1)) R} (h
   change (s : MvPolynomial (Fin (r + 1)) R) • LocalizedModule.mk (1 : MvPolynomial _ R) 1 = _
   rw [LocalizedModule.smul'_mk, smul_eq_mul, mul_one]
 
-theorem mk_add_one {S : Submonoid (MvPolynomial (Fin (r + 1)) R)}
+theorem localizedModule_mk_add_one {S : Submonoid (MvPolynomial (Fin (r + 1)) R)}
     (a b : MvPolynomial (Fin (r + 1)) R) :
     (LocalizedModule.mk (a + b) 1 : LocalizedModule S (MvPolynomial (Fin (r + 1)) R)) =
       LocalizedModule.mk a 1 + LocalizedModule.mk b 1 := by
   rw [LocalizedModule.mk_add_mk, one_smul, one_smul, mul_one]
 
-theorem projZ_of_mem {d : ℕ} {s : MvPolynomial (Fin (r + 1)) R} (hs : s ∈ 𝒮 d) (n : ℤ) :
-    projZ n s = if n = d then s else 0 := by
+theorem degreePart_of_mem {d : ℕ} {s : MvPolynomial (Fin (r + 1)) R} (hs : s ∈ 𝒮 d) (n : ℤ) :
+    degreePart n s = if n = d then s else 0 := by
   classical
-  unfold projZ
+  unfold degreePart
   by_cases hn : 0 ≤ n
   · rw [if_pos hn]
     by_cases hnd : n = d
@@ -505,32 +508,35 @@ theorem projZ_of_mem {d : ℕ} {s : MvPolynomial (Fin (r + 1)) R} (hs : s ∈ �
 
 /-- **The components of `s · 1`.** The degree-`n` component of the image of `s` in `Γ_*(𝒪_X)`
 is the section `s_n / 1` of `𝒪_X(n)`. -/
-theorem cv_sectionRingMap (s : MvPolynomial (Fin (r + 1)) R) (n : ℤ) (x : Proj 𝒮) :
-    cv n (sectionRingMap R r s n) x = LocalizedModule.mk (projZ n s) 1 := by
+theorem twistValue_sectionRingMap (s : MvPolynomial (Fin (r + 1)) R) (n : ℤ) (x : Proj 𝒮) :
+    twistValue n (sectionRingMap R r s n) x = LocalizedModule.mk (degreePart n s) 1 := by
   classical
   induction s using DirectSum.Decomposition.inductionOn 𝒮 with
   | zero =>
-    refine (congrArg (fun y : GammaStar 𝒪 => cv n (y n) x) (map_zero (sectionRingMap R r))).trans
+    refine (congrArg (fun y : GammaStar 𝒪 => twistValue n (y n) x)
+      (map_zero (sectionRingMap R r))).trans
       ?_
-    rw [projZ_zero, LocalizedModule.zero_mk]
-    exact cv_zero n x
+    rw [degreePart_zero, LocalizedModule.zero_mk]
+    exact twistValue_zero n x
   | @homogeneous d m =>
-    rw [projZ_of_mem m.2]
-    refine (congrArg (fun y : GammaStar 𝒪 => cv n (y n) x) (sectionRingMap_of_mem m.2)).trans ?_
+    rw [degreePart_of_mem m.2]
+    refine (congrArg (fun y : GammaStar 𝒪 => twistValue n (y n) x)
+      (sectionRingMap_of_mem m.2)).trans ?_
     by_cases hnd : (0 + d : ℤ) = n
     · subst hnd
       rw [if_pos (zero_add _)]
-      exact (cv_of_same _ x).trans (cv_mulGlobal_unitSection m.2 x)
+      exact (twistValue_of_same _ x).trans (twistValue_mulGlobal_unitSection m.2 x)
     · rw [if_neg (by omega), LocalizedModule.zero_mk]
-      exact cv_of_ne hnd _ x
+      exact twistValue_of_ne hnd _ x
   | add s t hs ht =>
-    refine (congrArg (fun y : GammaStar 𝒪 => cv n (y n) x) (map_add (sectionRingMap R r) s t)).trans
+    refine (congrArg (fun y : GammaStar 𝒪 => twistValue n (y n) x)
+      (map_add (sectionRingMap R r) s t)).trans
       ?_
-    rw [DirectSum.add_apply, cv_add, hs, ht, projZ_add, mk_add_one]
+    rw [DirectSum.add_apply, twistValue_add, hs, ht, degreePart_add, localizedModule_mk_add_one]
 
-theorem projZ_natCast (d : ℕ) (s : MvPolynomial (Fin (r + 1)) R) :
-    projZ (d : ℤ) s = (DirectSum.decompose 𝒮 s d : MvPolynomial (Fin (r + 1)) R) := by
-  unfold projZ
+theorem degreePart_natCast (d : ℕ) (s : MvPolynomial (Fin (r + 1)) R) :
+    degreePart (d : ℤ) s = (DirectSum.decompose 𝒮 s d : MvPolynomial (Fin (r + 1)) R) := by
+  unfold degreePart
   rw [if_pos (Int.natCast_nonneg d), Int.toNat_natCast]
 
 theorem eq_of_mk_eq_mk {d : ℕ} (hr : 0 < r) {a b : MvPolynomial (Fin (r + 1)) R} (ha : a ∈ 𝒮 d)
@@ -551,38 +557,39 @@ theorem sectionRingMap_bijective (hr : 0 < r) : Function.Bijective (sectionRingM
   constructor
   · intro s t hst
     have hv : ∀ (n : ℤ) (x : Proj 𝒮),
-        (LocalizedModule.mk (projZ n s) 1 : LocalizedModule x.asHomogeneousIdeal.toIdeal.primeCompl
-          _) = LocalizedModule.mk (projZ n t) 1 := fun n x => by
-      rw [← cv_sectionRingMap, ← cv_sectionRingMap]
-      exact congrArg (fun y : GammaStar 𝒪 => cv n (y n) x) hst
+        (LocalizedModule.mk (degreePart n s) 1 :
+          LocalizedModule x.asHomogeneousIdeal.toIdeal.primeCompl
+          _) = LocalizedModule.mk (degreePart n t) 1 := fun n x => by
+      rw [← twistValue_sectionRingMap, ← twistValue_sectionRingMap]
+      exact congrArg (fun y : GammaStar 𝒪 => twistValue n (y n) x) hst
     apply (DirectSum.decompose 𝒮).injective
     ext d : 1
     apply Subtype.ext
     apply eq_of_mk_eq_mk hr (SetLike.coe_mem _) (SetLike.coe_mem _)
     intro x
     have := hv d x
-    rwa [projZ_natCast, projZ_natCast] at this
+    rwa [degreePart_natCast, degreePart_natCast] at this
   · intro y
     induction y using DirectSum.induction_on with
     | zero => exact ⟨0, map_zero _⟩
     | of n z =>
       obtain ⟨b, hb, hg⟩ := exists_globalValue_eq_mk hr n (unitorGlobal n z)
       have hb' : b ∈ 𝒮 (n + 0).toNat ∧ (n + 0 < 0 → b = 0) := hb
-      refine ⟨b, eq_of_cv_component_eq fun m x => ?_⟩
-      rw [cv_sectionRingMap]
+      refine ⟨b, eq_of_twistValue_component_eq fun m x => ?_⟩
+      rw [twistValue_sectionRingMap]
       by_cases hm : n = m
       · subst hm
-        rw [cv_of_same]
+        rw [twistValue_of_same]
         refine Eq.trans ?_ (hg x).symm
         congr 1
-        unfold projZ
+        unfold degreePart
         split_ifs with h0
         · rw [add_zero] at hb'
           exact DirectSum.decompose_of_mem_same 𝒮 hb'.1
         · exact (hb'.2 (by omega)).symm
-      · rw [cv_of_ne hm]
-        have : projZ m b = 0 := by
-          unfold projZ
+      · rw [twistValue_of_ne hm]
+        have : degreePart m b = 0 := by
+          unfold degreePart
           split_ifs with h0
           · by_cases hn : n < 0
             · rw [hb'.2 (by omega), DirectSum.decompose_zero]
@@ -602,6 +609,46 @@ variable (R) in
 def sectionRingEquiv (hr : 0 < r) :
     MvPolynomial (Fin (r + 1)) R ≃ₗ[MvPolynomial (Fin (r + 1)) R] GammaStar 𝒪 :=
   LinearEquiv.ofBijective (sectionRingMap R r) (sectionRingMap_bijective hr)
+
+/-- **The product on `Γ_*(𝒪_X)`**, degreewise:
+`Γ(X, 𝒪_X ⊗ 𝒪_X(n)) × Γ(X, 𝒪_X ⊗ 𝒪_X(m)) → Γ(X, 𝒪_X ⊗ 𝒪_X(n + m))`, through the unitors and
+the multiplication `𝒪_X(n) ⊗ 𝒪_X(m) → 𝒪_X(n + m)`. -/
+def mulTwistGlobal (n m : ℤ) (y : twistGlobal 𝒪 n) (z : twistGlobal 𝒪 m) :
+    twistGlobal 𝒪 (n + m) :=
+  (λ_ (projTwistingSheaf 𝒮 (n + m))).inv.val.app (op ⊤)
+    ((twistMulHom 𝒮 n m).val.app (op ⊤) (tmulSection _ _ (unitorGlobal n y) (unitorGlobal m z)))
+
+/-- On values, the product of `Γ_*(𝒪_X)` is the product of fractions. -/
+theorem twistValue_mulTwistGlobal (n m : ℤ) (y : twistGlobal 𝒪 n) (z : twistGlobal 𝒪 m)
+    (x : Proj 𝒮) :
+    twistValue (n + m) (mulTwistGlobal n m y z) x =
+      (show Localization x.asHomogeneousIdeal.toIdeal.primeCompl from twistValue m z x) •
+        twistValue n y x := by
+  have e : unitorGlobal (R := R) (r := r) (n + m) (mulTwistGlobal n m y z) =
+      (twistMulHom 𝒮 n m).val.app (op ⊤)
+        (tmulSection _ _ (unitorGlobal n y) (unitorGlobal m z)) := by
+    change ((λ_ (projTwistingSheaf 𝒮 (n + m))).inv ≫ (λ_ _).hom).val.app (op ⊤) _ = _
+    rw [Iso.inv_hom_id]
+    rfl
+  exact (congrArg (fun g => (globalValue 𝒮 (gradedTwist 𝒮 (n + m)) g x).val) e).trans
+    (twistMulHom_tmulSection (𝒜 := 𝒮) n m (U := op ⊤) _ _ ⟨x, trivial⟩)
+
+/-- **The section ring map is multiplicative** (Hartshorne II.5.13, "graded ring
+homomorphism"): for `s ∈ S_d` and `t ∈ S_e`, the product in `Γ_*(𝒪_X)` of the degree-`d`
+component of the image of `s` and the degree-`e` component of the image of `t` is the
+degree-`(d + e)` component of the image of `st`. -/
+theorem sectionRingMap_mul {d e : ℕ} {s t : MvPolynomial (Fin (r + 1)) R} (hs : s ∈ 𝒮 d)
+    (ht : t ∈ 𝒮 e) :
+    mulTwistGlobal d e (sectionRingMap R r s d) (sectionRingMap R r t e) =
+      sectionRingMap R r (s * t) ((d : ℤ) + e) := by
+  apply eq_of_twistValue_eq
+  intro x
+  rw [twistValue_mulTwistGlobal, twistValue_sectionRingMap, twistValue_sectionRingMap,
+    twistValue_sectionRingMap, degreePart_of_mem hs, degreePart_of_mem ht,
+    degreePart_of_mem (SetLike.GradedMul.mul_mem hs ht), if_pos rfl, if_pos rfl,
+    if_pos (by push_cast; rfl)]
+  change Localization.mk t 1 • LocalizedModule.mk s 1 = _
+  rw [LocalizedModule.mk_smul_mk, smul_eq_mul, mul_comm, mul_one]
 
 end GammaStar
 
