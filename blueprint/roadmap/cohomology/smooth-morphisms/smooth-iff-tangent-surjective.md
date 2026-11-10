@@ -4,7 +4,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.SmoothTangent.smoothOfRelativeDimension_tfae_of_isRegularAt Hartshorne.RegularCotangentFlat.flat_of_cotangentLinIndep Hartshorne.RegularCotangentFlat.flat_stalkMap_of_surjective_zariskiTangentMap Hartshorne.CotangentKaehler.injective_localCotangentBaseChange_iff Hartshorne.SmoothTangent.injective_localCotangentBaseChange_iff_of_isClosed
+lean: Hartshorne.SmoothTangent.smoothOfRelativeDimension_tfae_of_isRegularAt
 ---
 
 # Smoothness by tangent-map surjectivity

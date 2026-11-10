@@ -20,6 +20,11 @@ Hartshorne, *Algebraic Geometry*, III, Proposition 10.4 (pp. 270–271).
 
 ## Main results
 
+* `Hartshorne.SmoothTangent.smoothOfRelativeDimension_tfae_of_isRegularAt`: Proposition 10.4,
+  the equivalence of smoothness of relative dimension `n`, local freeness of rank `n` of
+  `Ω_{X/Y}`, and surjectivity of the tangent maps at closed points.
+* `Hartshorne.SmoothTangent.injective_localCotangentBaseChange_iff_of_isClosed`: at a closed
+  point, injectivity of the cotangent map is the dimension count with the fibre of `Ω_{X/Y}`.
 * `Hartshorne.SmoothTangent.finrank_tensor_kaehler_eq_of_isLocalization`: for `B = T_q` over
   a localization `A` of `R`, `κ(q) ⊗_T Ω_{T/R}` and `κ_B ⊗_B Ω_{B/A}` have the same dimension.
 * `Hartshorne.SmoothTangent.finrank_fibre_relativeDifferentials_eq_stalk`: the fibre of `Ω_{X/Y}`
