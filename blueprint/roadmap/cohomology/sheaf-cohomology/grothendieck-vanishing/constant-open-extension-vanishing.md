@@ -18,6 +18,7 @@ cohomology, and strict dimension drop on $Y$.
 
 - [Sheaf cohomology](../sheaf-cohomology.md)
 - [Open extension by zero](../../../schemes/sheaf-functors/open-extension-by-zero.md)
+- [The constant sheaf](../../../schemes/sheaves/constant-sheaf.md)
 
 ## Proof depends on
 
