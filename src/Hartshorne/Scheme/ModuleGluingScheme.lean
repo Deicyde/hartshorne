@@ -15,8 +15,7 @@ isomorphisms of `𝒪_{U i ∩ U j}`-modules between restrictions along open imm
 
 This module records the data and the comparison isomorphisms used to transport it to the
 ringed-space gluing data through Mathlib's `Scheme.Modules.overEquiv`; the transport (and hence the
-scheme form of the gluing theorem) is not yet proved, and this module is not imported by the
-library root.
+scheme form of the gluing theorem) is not yet proved (see Status below).
 
 * `Hartshorne.ModuleGluing.SchemeGluingData`: gluing data in `Scheme.Modules` form.
 * `Hartshorne.ModuleGluing.SchemeGluingData.Compatible`: compatibility of restrictions
@@ -26,6 +25,39 @@ library root.
   `W.Modules` and then restricting along `V ⟶ W` (Mathlib's `Scheme.Modules.overMapCompOverEquiv`).
 * `Hartshorne.ModuleGluing.exists_resOverEquivIso_hom_app_eq_map` and companions: on sections, the
   comparison isomorphisms are restriction maps of the underlying module.
+
+## Status
+
+The scheme form of the gluing theorem is not yet proved. What remains, in order:
+
+1. `resOverEquivIso_trans` (compatibility of `resOverEquivIso` with `T ≤ V ≤ W`):
+   `(resOverEquivIso h1 ((res X.ringCatSheaf h2).obj M)).hom ≫
+   (restrictFunctor (X.homOfLE h1)).map (resOverEquivIso h2 M).hom ≫
+   ((restrictHomOfLETrans h1 h2).app _).inv =
+   (overEquiv T).functor.map ((resComp X.ringCatSheaf h1 h2).app M).hom ≫
+   (resOverEquivIso (le_trans h1 h2) M).hom`.
+   Route: `apply Scheme.Modules.hom_ext; intro W'; refine ConcreteCategory.hom_ext _ _ fun x ↦ ?_`
+   (fast); bring in `exists_resOverEquivIso_trans_lhs_app_eq_map` with `have` and then `obtain`
+   (a direct `obtain` times out); `rw [hL x]` works. The obstacle is the right-hand side: after
+   `hom_ext` its section map has source `Γ((overEquiv T).functor.obj ((res h1).obj ((res h2).obj
+   M)), W')`, while the composite's own type has source `Γ(… (res h2 ⋙ res h1).obj M …)`. These
+   are defeq but not syntactically equal, so a lemma stated on the composite does not rewrite, and
+   `erw`, `Eq.trans` with it, and type ascription time out or fail. For this reason
+   `exists_resOverEquivIso_trans_rhs_app_eq_map` takes the section map as an `f` of the first
+   type with `hf : f = Hom.app RHS W'`. Using it as `… _ rfl`, followed by
+   `rw [hL x, hR x, ← M.val.map_comp_apply, ← M.val.map_comp_apply, ← M.val.map_comp_apply]` and
+   `exact M.val.congr_map_apply (Subsingleton.elim _ _) _` (thin category `Over W`), still times
+   out at 4000000 heartbeats. The failing step has not been localized; the likely candidates
+   are the `_ rfl` instantiation (a defeq check of the two source types, and of
+   `restrictFunctor … |>.obj` against `restrict` in the target) and the final
+   `congr_map_apply`. Next step: probe each step separately with `sorry` checkpoints.
+2. The analogous compatibility of `overFunctorEquiv` with `overFunctorMap` and
+   `SchemeGluingData.restrictInfIso`, by the same section-level method.
+3. Transport: `F i := (overEquiv (U i)).inverse.obj (E.F i)`; transition isomorphisms as preimages
+   under the fully faithful `(overEquiv _).functor`; the cocycle from step 1; then apply
+   `GluingData.exists_unique_gluing` and set
+   `ψ i := (overFunctorEquiv (U i)).app F ≪≫ functor.mapIso (ψ' i) ≪≫ counit`, with compatibility
+   and uniqueness from step 2.
 -/
 
 universe u
@@ -168,15 +200,20 @@ open Opposite in
 set_option backward.isDefEq.respectTransparency false in
 set_option maxHeartbeats 4000000 in
 /-- On sections over `W'`, restricting along `T ≤ W` in one step (after `resComp`) is a
-restriction map of `M`. -/
+restriction map of `M`. The section map is passed as `f` with its source written as
+`(res h1).obj ((res h2).obj M)`, so that it matches the form produced by `hom_ext`. -/
 theorem exists_resOverEquivIso_trans_rhs_app_eq_map {T V W : X.Opens} (h1 : T ≤ V) (h2 : V ≤ W)
-    (M : SheafOfModules.{u} (X.ringCatSheaf.over W)) (W' : T.toScheme.Opens) :
+    (M : SheafOfModules.{u} (X.ringCatSheaf.over W)) (W' : T.toScheme.Opens)
+    (f : Γ((overEquiv T).functor.obj ((res X.ringCatSheaf h1).obj ((res X.ringCatSheaf h2).obj M)),
+        W') ⟶ Γ((restrictFunctor (X.homOfLE (le_trans h1 h2))).obj ((overEquiv W).functor.obj M), W'))
+    (hf : f = Hom.app ((overEquiv T).functor.map ((resComp X.ringCatSheaf h1 h2).app M).hom ≫
+        (resOverEquivIso (le_trans h1 h2) M).hom) W') :
     ∃ g : op ((Over.map (homOfLE h2)).obj ((Over.map (homOfLE h1)).obj
         ((Opens.overEquivalence T).inverse.obj W'))) ⟶
         op ((Opens.overEquivalence W).inverse.obj ((X.homOfLE (le_trans h1 h2)) ''ᵁ W')),
-      ∀ y, ((overEquiv T).functor.map ((resComp X.ringCatSheaf h1 h2).app M).hom ≫
-        (resOverEquivIso (le_trans h1 h2) M).hom).app W' y = M.val.map g y :=
-  ⟨_, fun _ ↦ rfl⟩
+      ∀ y, f y = M.val.map g y := by
+  subst hf
+  exact ⟨_, fun _ ↦ rfl⟩
 
 end ModuleGluing
 
