@@ -646,3 +646,4 @@ import Hartshorne.Scheme.Differentials.LocalCompleteIntersection
 import Hartshorne.Scheme.NormalizationDivisorDescent
 import Hartshorne.Scheme.TensorPowerSectionRingMap
 import Hartshorne.Surface.CanonicalSectionRingDivisor
+import Hartshorne.Scheme.TopIsoRestriction
