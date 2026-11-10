@@ -2,20 +2,20 @@
 article_id: af_22f01c81477978c9b3e3208c
 declaration: theorem
 origin: cited
-statement: formalized
-proof: formalized
+statement: retracted
 lean: Hartshorne.smoothOfRelativeDimension_iff_forall_isRegularAt Hartshorne.smoothOfRelativeDimension_iff_isRegular Hartshorne.topologicalKrullDim_irreducibleComponents_fiber
 ---
 
 # Smoothness and regularity over an algebraically closed field
 
-Let $X$ be an equidimensional finite-type scheme of dimension $n$ over an
-algebraically closed field $k$. Then $X \to \operatorname{Spec} k$ is smooth of relative
-dimension $n$ if and only if every local ring of $X$ is regular.
+Let $X$ be a finite-type scheme over an algebraically closed field $k$, and let
+$n \ge 0$. Then $X \to \operatorname{Spec} k$ is smooth of relative dimension $n$ if and
+only if every local ring of $X$ is regular and every irreducible component of $X$ has
+dimension $n$.
 
-For an integral separated $X$, this identifies smoothness with Hartshorne's
-nonsingularity predicate from II.8. The algebraically closed, hence perfect,
-hypothesis is essential; no nonperfect-field generalization is asserted.
+For an integral separated $X$ of dimension $n$, this identifies smoothness with
+Hartshorne's nonsingularity predicate from II.8. Over a non-perfect field, a regular
+scheme need not be smooth.
 
 ## Depends on
 
