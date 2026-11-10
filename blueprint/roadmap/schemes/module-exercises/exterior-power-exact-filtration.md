@@ -20,8 +20,7 @@ $F^p/F^{p+1} \cong \bigwedge^p F'\otimes\bigwedge^{r-p}F''$.
 In particular, if $F'$, $F$, $F''$ have finite ranks $n'$, $n$, $n''$, then
 $\bigwedge^n F \cong \bigwedge^{n'} F' \otimes \bigwedge^{n''} F''$.
 
-As in the source, $F$ is assumed locally free too, although this follows from the
-hypotheses on $F'$ and $F''$.
+As in the source, $F$ is assumed locally free too; the proof does not use this hypothesis.
 
 ## Depends on
 
@@ -29,15 +28,17 @@ hypotheses on $F'$ and $F''$.
 - [Sheaves of modules](../modules-and-quasicoherent/sheaves-of-modules.md)
 - [Tensor products of module sheaves](../modules-and-quasicoherent/module-tensor-product.md)
 - [Locally free and invertible module sheaves](../modules-and-quasicoherent/locally-free-and-invertible.md)
-- [Duality for finite locally free sheaves](../modules-and-quasicoherent/finite-locally-free-duality.md)
 
 ## Proof depends on
 
 - [Stalkwise exactness](../sheaves/stalkwise-exactness.md)
 - [Isomorphisms are detected on stalks](../sheaves/stalkwise-isomorphism.md)
+- [Duality for finite locally free sheaves](../modules-and-quasicoherent/finite-locally-free-duality.md)
 - Stalks of a locally free sheaf are free, exterior powers and tensor products
   commute with stalks, and the module-level exterior filtration of a split
   exact sequence of free modules of arbitrary rank.
+- In finite rank, local splitting of a short exact sequence with locally free
+  quotient, used for the top-degree isomorphism.
 
 ## Sources
 
