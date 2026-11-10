@@ -335,6 +335,257 @@ lemma isIso_sheafifyMap_of_locally_bijective
 
 end Locality
 
+section ExteriorStalk
+
+open ModuleSheafTensor
+
+/-- Finitely many open neighbourhoods of `x` contain a common open neighbourhood. -/
+lemma exists_open_le_of_finite {x : X} {ι : Type*} [Finite ι] (U : ι → Opens X) (hU : ∀ i, x ∈ U i) :
+    ∃ V : Opens X, x ∈ V ∧ ∀ i, V ≤ U i := by
+  have h : (⋂ i, (U i : Set X)) ∈ nhds x :=
+    Filter.iInter_mem.2 fun i => (U i).isOpen.mem_nhds (hU i)
+  obtain ⟨t, ht, hto, hxt⟩ := mem_nhds_iff.1 h
+  exact ⟨⟨t, hto⟩, hxt, fun i => fun y hy => Set.mem_iInter.1 (ht hy) i⟩
+
+/-- A finite family of germs has representatives over a common open neighbourhood. -/
+lemma exists_common_sectionGerm {x : X} {ι : Type*} [Finite ι]
+    (M : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat))
+    (m : ι → moduleStalk M x) :
+    ∃ (V : Opens X) (hV : x ∈ V) (t : ι → M.obj (op V)), ∀ i, sectionGerm M x V hV (t i) = m i := by
+  choose U hU s hs using fun i => exists_sectionGerm M x (m i)
+  obtain ⟨V, hV, hVU⟩ := exists_open_le_of_finite U hU
+  exact ⟨V, hV, fun i => res M (homOfLE (hVU i)) (s i), fun i => by
+    rw [sectionGerm_res, hs]⟩
+
+variable (n : ℕ) (F : SheafOfModules.{u} (ringCatSheafOf R)) (x : X)
+
+/-- The germ map `F(U) → Fₓ`, semilinear over the germ map `𝒪_X(U) → 𝒪_{X,x}`. -/
+noncomputable def germₛₗ (U : Opens X) (hU : x ∈ U) :
+    F.val.obj (op U) →ₛₗ[((TopCat.Presheaf.germ R.obj U x hU).hom :
+      (R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U) →+* ringSheafStalk R x)]
+      moduleStalk F.val x where
+  toFun := sectionGerm F.val x U hU
+  map_add' := map_add _
+  map_smul' := sectionGerm_smul F.val x U hU
+
+/-- The map `⋀^n F(U) → ⋀^n Fₓ` induced by the germ map. -/
+noncomputable def extGerm (U : Opens X) (hU : x ∈ U) :
+    ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^n (F.val.obj (op U)) →ₛₗ[
+      ((TopCat.Presheaf.germ R.obj U x hU).hom :
+        (R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U) →+* ringSheafStalk R x)]
+      ⋀[ringSheafStalk R x]^n (moduleStalk F.val x) :=
+  exteriorPowerMap n _ (germₛₗ F x U hU)
+
+lemma extGerm_ιMulti (U : Opens X) (hU : x ∈ U) (m : Fin n → F.val.obj (op U)) :
+    extGerm n F x U hU (exteriorPower.ιMulti _ n m) =
+      exteriorPower.ιMulti _ n (fun i => sectionGerm F.val x U hU (m i)) :=
+  exteriorPowerMap_ιMulti _ _ _ _
+
+lemma extGerm_res {U V : Opens X} (i : V ⟶ U) (hV : x ∈ V)
+    (y : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^n (F.val.obj (op U))) :
+    extGerm n F x V hV ((moduleSheafExteriorPowerPresheaf n F).map i.op y) =
+      extGerm n F x U (i.le hV) y :=
+  (exteriorPowerMap_comp n (fun a => (TopCat.Presheaf.germ_res_apply R.obj i x hV a).symm)
+    (F.val.restrictₛₗ i.op) (germₛₗ F x V hV) (germₛₗ F x U (i.le hV))
+    (fun m => (sectionGerm_res F.val x i hV m).symm) y).symm
+
+/-- The comparison map `(⋀^n F)ₓ → ⋀^n Fₓ` from the stalk of the exterior-power presheaf. -/
+noncomputable def extStalkToExt :
+    moduleStalk (moduleSheafExteriorPowerPresheaf n F) x ⟶
+      AddCommGrpCat.of (⋀[ringSheafStalk R x]^n (moduleStalk F.val x)) :=
+  stalkDesc (fun U hU => AddCommGrpCat.ofHom (extGerm n F x U hU).toAddMonoidHom)
+    (fun _ _ i hV => AddCommGrpCat.ext fun y => extGerm_res n F x i hV y)
+
+lemma extStalkToExt_germ (U : Opens X) (hU : x ∈ U)
+    (y : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^n (F.val.obj (op U))) :
+    extStalkToExt n F x (sectionGerm (moduleSheafExteriorPowerPresheaf n F) x U hU y) =
+      extGerm n F x U hU y :=
+  stalkDesc_germ (P := (moduleSheafExteriorPowerPresheaf n F).presheaf) _ _ U hU y
+
+lemma sectionGerm_ιMulti_res {O V : Opens X} (i : O ⟶ V) (hO : x ∈ O)
+    (t : Fin n → F.val.obj (op V)) :
+    sectionGerm (moduleSheafExteriorPowerPresheaf n F) x O hO
+        (exteriorPower.ιMulti _ n (fun k => res F.val i (t k))) =
+      sectionGerm (moduleSheafExteriorPowerPresheaf n F) x V (i.le hO)
+        (exteriorPower.ιMulti _ n t) :=
+  (congrArg (sectionGerm (moduleSheafExteriorPowerPresheaf n F) x O hO)
+    (exteriorPresheaf_restrict_ιMulti n F i.op t).symm).trans
+    (sectionGerm_res (moduleSheafExteriorPowerPresheaf n F) x i hO _)
+
+/-- Germs of `m₁ ∧ ⋯ ∧ mₙ` only depend on the germs of the `mᵢ`. -/
+lemma sectionGerm_ιMulti_indep {V V' : Opens X} (hV : x ∈ V) (hV' : x ∈ V')
+    (t : Fin n → F.val.obj (op V)) (t' : Fin n → F.val.obj (op V'))
+    (h : ∀ i, sectionGerm F.val x V hV (t i) = sectionGerm F.val x V' hV' (t' i)) :
+    sectionGerm (moduleSheafExteriorPowerPresheaf n F) x V hV (exteriorPower.ιMulti _ n t) =
+      sectionGerm (moduleSheafExteriorPowerPresheaf n F) x V' hV'
+        (exteriorPower.ιMulti _ n t') := by
+  choose W hW iV iV' hW' using fun i =>
+    TopCat.Presheaf.germ_eq F.val.presheaf x hV hV' (t i) (t' i) (h i)
+  obtain ⟨O₀, hO₀, hO₀W⟩ := exists_open_le_of_finite W hW
+  let O := O₀ ⊓ (V ⊓ V')
+  have hO : x ∈ O := ⟨hO₀, hV, hV'⟩
+  have hOV : O ≤ V := inf_le_right.trans inf_le_left
+  have hOV' : O ≤ V' := inf_le_right.trans inf_le_right
+  refine (sectionGerm_ιMulti_res n F x (homOfLE hOV) hO t).symm.trans
+    (Eq.trans ?_ (sectionGerm_ιMulti_res n F x (homOfLE hOV') hO t'))
+  congr 2
+  funext i
+  have hOi : O ≤ W i := inf_le_left.trans (hO₀W i)
+  have e := congrArg (res F.val (homOfLE hOi)) (hW' i)
+  change res F.val (homOfLE hOi) (res F.val (iV i) (t i)) =
+    res F.val (homOfLE hOi) (res F.val (iV' i) (t' i)) at e
+  rw [res_res, res_res] at e
+  exact e
+
+lemma extStalkToExt_smul (c : ringSheafStalk R x)
+    (s : moduleStalk (moduleSheafExteriorPowerPresheaf n F) x) :
+    extStalkToExt n F x (c • s) = c • extStalkToExt n F x s := by
+  obtain ⟨U, hU, y, rfl⟩ := exists_sectionGerm (moduleSheafExteriorPowerPresheaf n F) x s
+  obtain ⟨W, hWU, hW, d, rfl⟩ := exists_le_ringGerm x c hU
+  rw [← sectionGerm_res (moduleSheafExteriorPowerPresheaf n F) x (homOfLE hWU) hW y,
+    ← sectionGerm_smul]
+  erw [extStalkToExt_germ, extStalkToExt_germ, map_smulₛₗ]
+
+/-- The germ of `m₁ ∧ ⋯ ∧ mₙ` for germs `mᵢ`, computed over a common neighbourhood. -/
+noncomputable def extStalkMulti (m : Fin n → moduleStalk F.val x) :
+    moduleStalk (moduleSheafExteriorPowerPresheaf n F) x :=
+  sectionGerm (moduleSheafExteriorPowerPresheaf n F) x
+    (exists_common_sectionGerm F.val m).choose
+    (exists_common_sectionGerm F.val m).choose_spec.choose
+    (exteriorPower.ιMulti _ n (exists_common_sectionGerm F.val m).choose_spec.choose_spec.choose)
+
+lemma extStalkMulti_eq {V : Opens X} (hV : x ∈ V) (t : Fin n → F.val.obj (op V))
+    (m : Fin n → moduleStalk F.val x) (ht : ∀ i, sectionGerm F.val x V hV (t i) = m i) :
+    extStalkMulti n F x m =
+      sectionGerm (moduleSheafExteriorPowerPresheaf n F) x V hV (exteriorPower.ιMulti _ n t) :=
+  sectionGerm_ιMulti_indep n F x _ hV _ t fun i =>
+    ((exists_common_sectionGerm F.val m).choose_spec.choose_spec.choose_spec i).trans (ht i).symm
+
+lemma sectionGerm_update [DecidableEq (Fin n)] {V : Opens X} (hV : x ∈ V) (t : Fin n → F.val.obj (op V))
+    (m : Fin n → moduleStalk F.val x) (ht : ∀ i, sectionGerm F.val x V hV (t i) = m i)
+    (i : Fin n) (s : F.val.obj (op V)) (a : moduleStalk F.val x)
+    (hs : sectionGerm F.val x V hV s = a) (j : Fin n) :
+    sectionGerm F.val x V hV (Function.update t i s j) = Function.update m i a j := by
+  rcases eq_or_ne j i with rfl | hj
+  · rw [Function.update_self, Function.update_self, hs]
+  · rw [Function.update_of_ne hj, Function.update_of_ne hj, ht]
+
+/-- The alternating map `(Fₓ)ⁿ → (⋀^n F)ₓ`, `(m₁, …, mₙ) ↦ (m₁ ∧ ⋯ ∧ mₙ)ₓ`. -/
+noncomputable def extStalkAlt :
+    moduleStalk F.val x [⋀^Fin n]→ₗ[ringSheafStalk R x]
+      moduleStalk (moduleSheafExteriorPowerPresheaf n F) x where
+  toFun := extStalkMulti n F x
+  map_update_add' m i a b := by
+    obtain ⟨V, hV, t, ht⟩ := exists_common_sectionGerm F.val (Sum.elim m ![a, b])
+    have htm : ∀ j, sectionGerm F.val x V hV (t (Sum.inl j)) = m j := fun j => ht (Sum.inl j)
+    have ha : sectionGerm F.val x V hV (t (Sum.inr 0)) = a := ht (Sum.inr 0)
+    have hb : sectionGerm F.val x V hV (t (Sum.inr 1)) = b := ht (Sum.inr 1)
+    have hab : sectionGerm F.val x V hV (t (Sum.inr 0) + t (Sum.inr 1)) = a + b := by
+      rw [map_add, ha, hb]
+    rw [extStalkMulti_eq n F x hV _ _ (sectionGerm_update n F x hV _ m htm i _ _ hab),
+      extStalkMulti_eq n F x hV _ _ (sectionGerm_update n F x hV _ m htm i _ _ ha),
+      extStalkMulti_eq n F x hV _ _ (sectionGerm_update n F x hV _ m htm i _ _ hb),
+      AlternatingMap.map_update_add]
+    exact map_add (sectionGerm (moduleSheafExteriorPowerPresheaf n F) x V hV) _ _
+  map_update_smul' m i c a := by
+    obtain ⟨V, hV, t, ht⟩ := exists_common_sectionGerm F.val (Sum.elim m ![a])
+    obtain ⟨W, hWV, hW, d, rfl⟩ := exists_le_ringGerm x c hV
+    let t' := fun k => res F.val (homOfLE hWV) (t k)
+    have ht' : ∀ k, sectionGerm F.val x W hW (t' k) = Sum.elim m ![a] k := fun k =>
+      (sectionGerm_res F.val x (homOfLE hWV) hW (t k)).trans (ht k)
+    have htm : ∀ j, sectionGerm F.val x W hW (t' (Sum.inl j)) = m j := fun j => ht' (Sum.inl j)
+    have ha : sectionGerm F.val x W hW (t' (Sum.inr 0)) = a := ht' (Sum.inr 0)
+    have hca : sectionGerm F.val x W hW (d • t' (Sum.inr 0)) =
+        TopCat.Presheaf.germ R.obj W x hW d • a := by
+      rw [sectionGerm_smul, ha]
+    rw [extStalkMulti_eq n F x hW _ _ (sectionGerm_update n F x hW _ m htm i _ _ hca),
+      extStalkMulti_eq n F x hW _ _ (sectionGerm_update n F x hW _ m htm i _ _ ha),
+      AlternatingMap.map_update_smul]
+    exact sectionGerm_smul (moduleSheafExteriorPowerPresheaf n F) x W hW d _
+  map_eq_zero_of_eq' m i j hij hne := by
+    obtain ⟨V, hV, t, ht⟩ := exists_common_sectionGerm F.val m
+    obtain ⟨W, hW, iV, iV', he⟩ := TopCat.Presheaf.germ_eq F.val.presheaf x hV hV (t i) (t j)
+      ((ht i).trans (hij.trans (ht j).symm))
+    rw [Subsingleton.elim iV' iV] at he
+    have ht' : ∀ k, sectionGerm F.val x W hW (res F.val iV (t k)) = m k := fun k =>
+      (sectionGerm_res F.val x iV hW (t k)).trans (ht k)
+    rw [extStalkMulti_eq n F x hW _ m ht',
+      AlternatingMap.map_eq_zero_of_eq _ _ (i := i) (j := j) he hne]
+    exact map_zero (sectionGerm (moduleSheafExteriorPowerPresheaf n F) x W hW)
+
+/-- The comparison map `⋀^n Fₓ → (⋀^n F)ₓ`. -/
+noncomputable def extToExtStalk :
+    ⋀[ringSheafStalk R x]^n (moduleStalk F.val x) →ₗ[ringSheafStalk R x]
+      moduleStalk (moduleSheafExteriorPowerPresheaf n F) x :=
+  exteriorPower.alternatingMapLinearEquiv (extStalkAlt n F x)
+
+lemma extToExtStalk_ιMulti (m : Fin n → moduleStalk F.val x) :
+    extToExtStalk n F x (exteriorPower.ιMulti _ n m) = extStalkMulti n F x m :=
+  exteriorPower.alternatingMapLinearEquiv_apply_ιMulti _ _
+
+lemma extToExtStalk_extGerm (U : Opens X) (hU : x ∈ U)
+    (y : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^n (F.val.obj (op U))) :
+    extToExtStalk n F x (extGerm n F x U hU y) =
+      sectionGerm (moduleSheafExteriorPowerPresheaf n F) x U hU y := by
+  have hy : y ∈ Submodule.span ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U))
+      (Set.range (exteriorPower.ιMulti ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)) n
+        (M := F.val.obj (op U)))) := by
+    rw [exteriorPower.ιMulti_span]
+    exact Submodule.mem_top
+  induction hy using Submodule.span_induction with
+  | mem y hy =>
+    obtain ⟨m, rfl⟩ := hy
+    rw [extGerm_ιMulti, extToExtStalk_ιMulti]
+    exact extStalkMulti_eq n F x hU m _ fun _ => rfl
+  | zero =>
+    rw [map_zero, map_zero]
+    exact (map_zero (sectionGerm (moduleSheafExteriorPowerPresheaf n F) x U hU)).symm
+  | add y z _ _ hy hz =>
+    rw [map_add, map_add, hy, hz]
+    exact (map_add (sectionGerm (moduleSheafExteriorPowerPresheaf n F) x U hU) y z).symm
+  | smul c y _ hy =>
+    rw [map_smulₛₗ, LinearMap.map_smul, hy]
+    exact (sectionGerm_smul (moduleSheafExteriorPowerPresheaf n F) x U hU c y).symm
+
+lemma extStalkToExt_extToExtStalk (z : ⋀[ringSheafStalk R x]^n (moduleStalk F.val x)) :
+    extStalkToExt n F x (extToExtStalk n F x z) = z := by
+  have hz : z ∈ Submodule.span (ringSheafStalk R x)
+      (Set.range (exteriorPower.ιMulti (ringSheafStalk R x) n (M := moduleStalk F.val x))) := by
+    rw [exteriorPower.ιMulti_span]
+    exact Submodule.mem_top
+  induction hz using Submodule.span_induction with
+  | mem z hz =>
+    obtain ⟨m, rfl⟩ := hz
+    obtain ⟨V, hV, t, ht⟩ := exists_common_sectionGerm F.val m
+    rw [extToExtStalk_ιMulti, extStalkMulti_eq n F x hV t m ht, extStalkToExt_germ,
+      extGerm_ιMulti]
+    exact congrArg _ (funext ht)
+  | zero => rw [map_zero, map_zero]
+  | add y z _ _ hy hz => rw [map_add, map_add, hy, hz]
+  | smul c y _ hy => rw [LinearMap.map_smul, extStalkToExt_smul, hy]
+
+/-- **Exterior powers commute with stalks.** `⋀^n (Fₓ) ≃ (⋀^n F)ₓ` over `𝒪_{X,x}`, where
+`(⋀^n F)ₓ` is the stalk of the presheaf `U ↦ ⋀^n F(U)`. -/
+noncomputable def extStalkEquiv :
+    ⋀[ringSheafStalk R x]^n (moduleStalk F.val x) ≃ₗ[ringSheafStalk R x]
+      moduleStalk (moduleSheafExteriorPowerPresheaf n F) x where
+  __ := extToExtStalk n F x
+  invFun := extStalkToExt n F x
+  left_inv := extStalkToExt_extToExtStalk n F x
+  right_inv s := by
+    obtain ⟨U, hU, y, rfl⟩ := exists_sectionGerm (moduleSheafExteriorPowerPresheaf n F) x s
+    change extToExtStalk n F x (extStalkToExt n F x _) = _
+    erw [extStalkToExt_germ]
+    exact extToExtStalk_extGerm n F x U hU y
+
+lemma extStalkEquiv_symm_germ (U : Opens X) (hU : x ∈ U)
+    (y : ⋀[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)]^n (F.val.obj (op U))) :
+    (extStalkEquiv n F x).symm (sectionGerm (moduleSheafExteriorPowerPresheaf n F) x U hU y) =
+      extGerm n F x U hU y :=
+  extStalkToExt_germ n F x U hU y
+
+end ExteriorStalk
+
 section Filtration
 
 variable {F' F F'' : SheafOfModules.{u} (ringCatSheafOf R)} (f : F' ⟶ F) (g : F ⟶ F'')
