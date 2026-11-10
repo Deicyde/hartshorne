@@ -28,7 +28,6 @@ on nonclosed scheme points.
 
 - Invariance of local-ring regularity under scheme isomorphisms.
 - Finite-type schemes over a field are Jacobson.
-- A finite-type group scheme over a field of characteristic zero is smooth, providing the special case of the group acting on itself.
 
 ## Sources
 
