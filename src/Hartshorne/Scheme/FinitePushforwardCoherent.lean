@@ -49,7 +49,7 @@ theorem module_finite_pushforward_sections {X Y : Scheme.{u}} (f : X ⟶ Y) [IsF
 
 /-- **Finite pushforward preserves coherence** (Hartshorne II, Exercise 5.5(c)). For a finite
 morphism `f : X ⟶ Y` and a coherent `𝒪_X`-module `F`, `f_* F` is coherent. Hartshorne assumes
-`X` and `Y` locally Noetherian; the proof doesn't use it. -/
+`X` and `Y` noetherian; the proof doesn't use it. -/
 theorem isCoherent_pushforward_of_isFinite {X Y : Scheme.{u}} (f : X ⟶ Y) [IsFinite f]
     {F : X.Modules} (hF : IsCoherent F) : IsCoherent ((Scheme.Modules.pushforward f).obj F) := by
   have hqc : F.IsQuasicoherent := by
