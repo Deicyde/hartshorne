@@ -356,6 +356,14 @@ theorem lift_mulSection (hinj : Function.Injective (x * ·)) (f : 𝒜 →+*ᵍ 
   intro t
   exact mulSection_liftFun hx n hinj f hf hker k hk U t
 
+/-- **Exactness at `𝒪(n)`.** Multiplication by `x` is a kernel of `psi`. -/
+def isLimitMulSection (hinj : Function.Injective (x * ·)) (f : 𝒜 →+*ᵍ ℬ)
+    (hf : Function.Surjective f) (hfx : f x = 0) (hker : ∀ a, f a = 0 → ∃ b, a = x * b) :
+    Limits.IsLimit (Limits.KernelFork.ofι (mulSection hx n) (mulSection_psi hx n f hfx)) :=
+  haveI := mono_mulSection hx n hinj
+  Limits.KernelFork.IsLimit.ofι' _ _ fun k hk =>
+    ⟨lift hx n hinj f hf hker k hk, lift_mulSection hx n hinj f hf hker k hk⟩
+
 end General
 
 section ProjectiveSpace
@@ -450,6 +458,14 @@ theorem exists_eq_X_last_mul {a : MvPolynomial (Fin (m + 2)) A} (ha : hyperplane
   obtain ⟨b, hb⟩ := X_last_dvd_sub A m a
   rw [ha, map_zero, sub_zero] at hb
   exact ⟨b, hb⟩
+
+/-- **Exactness at `𝒪_X(n)`** on `ℙ^{m+1}_A`: multiplication by `x_{m+1}` is a kernel of the
+restriction `𝒪_X(n) ⟶ i_* 𝒪_H(n)`. -/
+def isLimitMulSection_hyperplane (n : ℤ) :
+    Limits.IsLimit (Limits.KernelFork.ofι (mulSection (x_last_mem A m) n)
+      (mulSection_psi_hyperplane A m n)) :=
+  isLimitMulSection _ n MvPolynomial.isRegular_X.left _ (hyperplaneHom_surjective A m)
+    (hyperplaneHom_X_last A m) fun _ ha => exists_eq_X_last_mul A m ha
 
 end ProjectiveSpace
 
