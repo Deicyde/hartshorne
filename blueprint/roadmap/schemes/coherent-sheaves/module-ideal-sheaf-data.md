@@ -2,6 +2,9 @@
 article_id: af_8763f99884b849b82e0825eb
 declaration: equiv
 origin: bridged
+statement: formalized
+proof: formalized
+lean: Hartshorne.quasicoherentIdealSubsheafEquiv Hartshorne.QuasicoherentIdealSubsheaf Hartshorne.quasicoherentIdealSubsheafEquiv_ideal Hartshorne.QuasicoherentIdealSubsheaf.restrictTildeIso
 ---
 
 # Module ideal sheaves and ideal data
