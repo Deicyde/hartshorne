@@ -15,10 +15,11 @@ as `κ(q) ⊗_B Ω_{B/A}`.
 
 ## Main results
 
-* `Hartshorne.finrank_fibre_eq_of_iso_tilde`: for an `𝒪_{Spec R}`-module `G ≅ M~` and a point
-  `y`, `dim_{k(y)} (G_y ⊗ k(y)) = dim_{κ(y)} (κ(y) ⊗_R M)`.
-* `Hartshorne.finrank_fibre_relativeDifferentials_affine`: the comparison for `Ω_{X/Y}` on an
-  affine open.
+* `Hartshorne.rank_fibre_eq_of_iso_tilde`: for an `𝒪_{Spec R}`-module `G ≅ M~` and a point
+  `y`, `dim_{k(y)} (G_y ⊗ k(y)) = dim_{κ(y)} (κ(y) ⊗_R M)` (as `Module.rank`);
+  `Hartshorne.finrank_fibre_eq_of_iso_tilde` is the `finrank` form.
+* `Hartshorne.rank_fibre_relativeDifferentials_affine`: the comparison for `Ω_{X/Y}` on an
+  affine open; `Hartshorne.finrank_fibre_relativeDifferentials_affine` is the `finrank` form.
 -/
 
 open CategoryTheory TensorProduct IsLocalRing Module
@@ -36,12 +37,12 @@ attribute [local instance] freeLocusStalkAlgebra freeLocus_asIdeal_isPrime
 
 /-- The fibre of an `𝒪_{Spec R}`-module `G ≅ M~` at `y` has dimension
 `dim_{κ(y)} (κ(y) ⊗_R M)`. -/
-theorem finrank_fibre_eq_of_iso_tilde {R : CommRingCat.{u}} (G : (Spec R).Modules)
+theorem rank_fibre_eq_of_iso_tilde {R : CommRingCat.{u}} (G : (Spec R).Modules)
     (M : ModuleCat.{u} R) (hG : G ≅ (tilde.functor R).obj M) (y : Spec R) :
-    finrank (ResidueField ((Spec R).presheaf.stalk y))
+    Module.rank (ResidueField ((Spec R).presheaf.stalk y))
         (ResidueField ((Spec R).presheaf.stalk y) ⊗[(Spec R).presheaf.stalk y]
           G.presheaf.stalk y) =
-      finrank y.asIdeal.ResidueField (y.asIdeal.ResidueField ⊗[R] M) := by
+      Module.rank y.asIdeal.ResidueField (y.asIdeal.ResidueField ⊗[R] M) := by
   have : IsIso (Scheme.Modules.fromTildeΓ (R := R) G) :=
     isIso_fromTildeΓ_iff.mpr ⟨M, ⟨hG.symm⟩⟩
   have hloc : IsLocalizing (modulesSpecToSheaf.obj G) :=
@@ -54,12 +55,12 @@ theorem finrank_fibre_eq_of_iso_tilde {R : CommRingCat.{u}} (G : (Spec R).Module
       (germTopLinear G y)).comp
     (TensorProduct.isBaseChange ((Spec R).presheaf.stalk y) (G.presheaf.stalk y)
       (ResidueField ((Spec R).presheaf.stalk y)))
-  have h1 : finrank (ResidueField ((Spec R).presheaf.stalk y))
+  have h1 : Module.rank (ResidueField ((Spec R).presheaf.stalk y))
       (ResidueField ((Spec R).presheaf.stalk y) ⊗[(Spec R).presheaf.stalk y]
         G.presheaf.stalk y) =
-      finrank (ResidueField ((Spec R).presheaf.stalk y))
+      Module.rank (ResidueField ((Spec R).presheaf.stalk y))
         (ResidueField ((Spec R).presheaf.stalk y) ⊗[R] Γ(G, ⊤)) :=
-    hbc.equiv.symm.finrank_eq
+    hbc.equiv.symm.rank_eq
   rw [h1]
   -- compare residue fields
   let O := (Spec R).presheaf.stalk y
@@ -76,12 +77,37 @@ theorem finrank_fibre_eq_of_iso_tilde {R : CommRingCat.{u}} (G : (Spec R).Module
       y.asIdeal.ResidueField, ResidueField.algebraMap_eq]
     congr 1
     exact (IsLocalization.algEquiv y.asIdeal.primeCompl O _).commutes r
-  have hrk := rank_tensorProduct_eq_of_ringEquiv (RingEquiv.refl R) τ hτ e.toAddEquiv
+  exact rank_tensorProduct_eq_of_ringEquiv (RingEquiv.refl R) τ hτ e.toAddEquiv
     (fun r m => e.map_smul r m)
-  exact congrArg Cardinal.toNat hrk
+
+/-- The fibre of an `𝒪_{Spec R}`-module `G ≅ M~` at `y` has dimension
+`dim_{κ(y)} (κ(y) ⊗_R M)` (`finrank` form of `rank_fibre_eq_of_iso_tilde`). -/
+theorem finrank_fibre_eq_of_iso_tilde {R : CommRingCat.{u}} (G : (Spec R).Modules)
+    (M : ModuleCat.{u} R) (hG : G ≅ (tilde.functor R).obj M) (y : Spec R) :
+    finrank (ResidueField ((Spec R).presheaf.stalk y))
+        (ResidueField ((Spec R).presheaf.stalk y) ⊗[(Spec R).presheaf.stalk y]
+          G.presheaf.stalk y) =
+      finrank y.asIdeal.ResidueField (y.asIdeal.ResidueField ⊗[R] M) :=
+  congrArg Cardinal.toNat (rank_fibre_eq_of_iso_tilde G M hG y)
 
 /-- On affine opens `U ⊆ f⁻¹ V`, the fibre of `Ω_{X/Y}` at the point of `U` given by a prime
 `q ⊂ B = Γ(X, U)` has the dimension of `κ(q) ⊗_B Ω_{B/A}`, `A = Γ(Y, V)`. -/
+theorem rank_fibre_relativeDifferentials_affine {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (U : X.affineOpens) (V : Y.affineOpens) (h : (U : X.Opens) ≤ f ⁻¹ᵁ (V : Y.Opens))
+    (y : Spec Γ(X, (U : X.Opens))) :
+    letI := (f.appLE V U h).hom.toAlgebra
+    Module.rank (ResidueField (X.presheaf.stalk (U.2.fromSpec y)))
+        (ResidueField (X.presheaf.stalk (U.2.fromSpec y)) ⊗[X.presheaf.stalk (U.2.fromSpec y)]
+          (Scheme.relativeDifferentials f).presheaf.stalk (U.2.fromSpec y)) =
+      Module.rank y.asIdeal.ResidueField
+        (y.asIdeal.ResidueField ⊗[Γ(X, (U : X.Opens))]
+          Ω[Γ(X, (U : X.Opens))⁄Γ(Y, (V : Y.Opens))]) := by
+  let := (f.appLE V U h).hom.toAlgebra
+  have : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
+  rw [rank_fibre_restrict U.2.fromSpec (Scheme.relativeDifferentials f) y]
+  exact rank_fibre_eq_of_iso_tilde _ _ (RelDiffLocal.affineIso f U V h) y
+
+/-- `finrank` form of `rank_fibre_relativeDifferentials_affine`. -/
 theorem finrank_fibre_relativeDifferentials_affine {X Y : Scheme.{u}} (f : X ⟶ Y)
     (U : X.affineOpens) (V : Y.affineOpens) (h : (U : X.Opens) ≤ f ⁻¹ᵁ (V : Y.Opens))
     (y : Spec Γ(X, (U : X.Opens))) :
@@ -93,9 +119,7 @@ theorem finrank_fibre_relativeDifferentials_affine {X Y : Scheme.{u}} (f : X ⟶
         (y.asIdeal.ResidueField ⊗[Γ(X, (U : X.Opens))]
           Ω[Γ(X, (U : X.Opens))⁄Γ(Y, (V : Y.Opens))]) := by
   let := (f.appLE V U h).hom.toAlgebra
-  have : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
-  rw [finrank_fibre_restrict U.2.fromSpec (Scheme.relativeDifferentials f) y]
-  exact finrank_fibre_eq_of_iso_tilde _ _ (RelDiffLocal.affineIso f U V h) y
+  exact congrArg Cardinal.toNat (rank_fibre_relativeDifferentials_affine f U V h y)
 
 end
 
