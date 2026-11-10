@@ -3,7 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Cohomology.AcyclicResolutionComparison
-import Hartshorne.Cohomology.CechDerivedComparison
+import Hartshorne.Cohomology.SheafifiedCechResolution
 import Hartshorne.Cohomology.SheafCohomologyFlasque
 
 /-!
@@ -62,7 +62,7 @@ def flasqueCechIso (U : ι → Opens X) (hU : IsOpenCover U) (F : X.Sheaf AddCom
   acyclicResolutionIso (sheafSectionsOver (X := X) ⊤) (SheafifiedCech.augmentationHom U F)
       (fun i ↦ isRightAcyclic_sheafSectionsOver_top_of_isFlasque
         (SheafifiedCech.cochainSheaf U F i)) p ≪≫
-    HomologicalComplex.homologyMapIso (CechDerivedComparison.globalSectionsIso U F) p
+    HomologicalComplex.homologyMapIso (SheafifiedCech.globalSectionsIso U F) p
 
 /-- **Flasque sheaves are Čech-acyclic** (Hartshorne III, Proposition 4.3). If `F` is a flasque
 abelian sheaf on `X`, then `Ȟ^p(U, F) = 0` for every open cover `U` of `X` and every `p > 0`. -/
