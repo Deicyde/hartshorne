@@ -17,8 +17,8 @@ A curve over a field `k` is an integral separated scheme of finite type over `k`
 one (`Scheme.IsCurve`); it is nonsingular when all its local rings are regular
 (`Scheme.IsNonsingularCurve`) (Hartshorne II.6, p. 136; Hartshorne takes `k` algebraically
 closed, any field is allowed here). A nonsingular curve satisfies condition `(*)`, so its Weil
-divisors and class group are those of `Hartshorne.Scheme.WeilClassGroup`. Its codimension-one points are exactly its closed points,
-i.e. the points other than the generic point.
+divisors and class group are those of `Hartshorne.Scheme.WeilClassGroup`. Its codimension-one
+points are exactly its closed points, i.e. the points other than the generic point.
 
 For a finite morphism `f : X ⟶ Y` of curves, fibres of `f` are finite and discrete, so `f`
 maps the generic point to the generic point and closed points to closed points; hence `f`
@@ -217,7 +217,8 @@ theorem finiteCurveFunctionFieldMap_algebraMap (hX : X.IsCurve k)
   congr 1
   rw [← CommRingCat.comp_apply, TopCat.Presheaf.stalkSpecializes_comp]
 
-/-- The **degree** of a finite morphism of curves, `deg f = [K(X) : K(Y)]`. -/
+/-- The **degree** of a finite (more generally, locally quasi-finite) morphism of curves,
+`deg f = [K(X) : K(Y)]`. -/
 def finiteCurveDegree (hX : X.IsCurve k) (hY : Y.IsCurve k)
     (f : X ⟶ Y) [LocallyQuasiFinite f] : ℕ :=
   letI := (hX.finiteCurveFunctionFieldMap hY f).toAlgebra
