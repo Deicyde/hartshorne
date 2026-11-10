@@ -487,4 +487,52 @@ theorem isCoherent_of_coherentNear_top [E.IsQuasicoherent] {N : E.val.Submodule}
       (finite_specRestriction_iff _ W.1).mpr W.2.2,
       ⟨@asIso _ _ _ _ (specRestriction (toModules N hN) W.1).fromTildeΓ hiso⟩⟩
 
+/-! ### Extension of coherent subsheaves -/
+
+/-- The core of `exists_isCoherent_extension_of_isNoetherian`, with the coherence of `N` on `U`
+given by the sections of `N` over the affine opens `V ⊆ U`: sections over basic opens of `V`
+extend to `V` after multiplication by a power, and `N(V)` is finitely generated. -/
+theorem exists_isCoherent_eq_on_of_isNoetherian [IsNoetherian X] [E.IsQuasicoherent]
+    {U : X.Opens} {N : E.val.Submodule} (hN : IsLocal N) (hext : ExtendsOver U N)
+    (hfin : ∀ V : X.affineOpens, (V : X.Opens) ≤ U → Module.Finite Γ(X, V) (sub N V)) :
+    ∃ (N' : E.val.Submodule) (hN' : IsLocal N'), IsCoherent (toModules N' hN') ∧
+      ∀ V : X.Opens, V ≤ U → sub N' V = sub N V := by
+  have hU : CoherentNear N U := fun x hx => by
+    obtain ⟨W, hWU, hxW⟩ := exists_affine_le hx
+    exact ⟨W, hWU, hxW, hext.mono hWU, hfin W hWU⟩
+  obtain ⟨N', hN', htop, heq⟩ := exists_coherentNear_top hN hU
+  exact ⟨N', hN', isCoherent_of_coherentNear_top hN' htop, heq⟩
+
+/-- **Extension of coherent subsheaves from an open subset of a Noetherian scheme**
+(Hartshorne II, Exercise 5.15(d), second statement). Let `X` be a Noetherian scheme, `E` a
+quasi-coherent `𝒪_X`-module, `U ⊆ X` open, and `N ⊆ E` a submodule sheaf whose restriction to `U`
+is coherent: over every affine open `V ⊆ U`, `N|_V ≅ M̃` for a finitely generated
+`Γ(X, V)`-module `M`. Then there is a coherent submodule sheaf `N' ⊆ E` with `N'(V) = N(V)` for
+every open `V ⊆ U`, that is, `N'|_U = N|_U` as subsheaves of `E|_U`.
+
+As in `exists_isCoherent_extension`, a subsheaf `F ⊆ E|_U` is given as the restriction to `U` of a
+submodule sheaf `N ⊆ E`. -/
+theorem exists_isCoherent_extension_of_isNoetherian [IsNoetherian X] [E.IsQuasicoherent]
+    {U : X.Opens} {N : E.val.Submodule} (hN : IsLocal N)
+    (hF : ∀ V : X.affineOpens, (V : X.Opens) ≤ U → ∃ M : ModuleCat.{u} Γ(X, (V : X.Opens)),
+      Module.Finite Γ(X, (V : X.Opens)) M ∧
+        Nonempty ((tilde.functor Γ(X, (V : X.Opens))).obj M ≅ specRestriction (toModules N hN) V)) :
+    ∃ (N' : E.val.Submodule) (hN' : IsLocal N'), IsCoherent (toModules N' hN') ∧
+      ∀ V : X.Opens, V ≤ U → sub N' V = sub N V := by
+  refine exists_isCoherent_eq_on_of_isNoetherian hN
+    (extendsOver_of_forall_tilde fun V hVU => (hF V hVU).imp fun _ h => h.2) fun V hVU => ?_
+  obtain ⟨M, hM, ⟨e⟩⟩ := hF V hVU
+  obtain ⟨ei⟩ := module_linearEquiv_sections_of_tilde_iso (toModules N hN) V M e
+  exact Module.Finite.equiv ei
+
+/-- **Extension of coherent sheaves from an open subset of a Noetherian scheme** (Hartshorne II,
+Exercise 5.15(d), first statement). Let `X` be a Noetherian scheme, `U ⊆ X` open and `F` a
+coherent sheaf on `U`. Then there is a coherent sheaf `F'` on `X` with `F'|_U ≅ F`. It is a
+coherent submodule sheaf of the pushforward of `F` to `X`, which is quasi-coherent. -/
+theorem exists_isCoherent_restrict_iso_of_isNoetherian [IsNoetherian X] (U : X.Opens)
+    (F : U.toScheme.Modules) (hF : IsCoherent F) :
+    ∃ F' : X.Modules, IsCoherent F' ∧ Nonempty (F'.restrict U.ι ≅ F) :=
+  exists_isCoherent_restrict_iso_of_eq_on U
+    (fun _ _ hext hfin => exists_isCoherent_eq_on_of_isNoetherian isLocal_top hext hfin) F hF
+
 end Hartshorne

@@ -421,11 +421,16 @@ theorem exists_finite_mem_spanSheaf [IsAffine X] [IsNoetherian X] [E.IsQuasicohe
   rw [e] at key
   exact mem_of_isUnit_smul_mem _ hu key
 
-/-- **Extension of coherent sheaves from an open subset of an affine Noetherian scheme**
-(Hartshorne II, Exercise 5.15(b)). Let `X` be an affine Noetherian scheme, `U ⊆ X` open and `F` a
-coherent sheaf on `U`. Then there is a coherent sheaf `F'` on `X` with `F'|_U ≅ F`. It is a
-coherent submodule sheaf of the pushforward of `F` to `X` (`exists_isCoherent_eq_on`). -/
-theorem exists_isCoherent_restrict_iso [IsAffine X] [IsNoetherian X] (U : X.Opens)
+/-- Every coherent sheaf on an open `U` of a Noetherian scheme `X` is the restriction of a coherent
+sheaf on `X`, provided coherent subsheaves extend from `U` in the form of
+`exists_isCoherent_eq_on`. The extension is a coherent submodule sheaf of the pushforward of the
+sheaf to `X`, which is quasi-coherent. -/
+theorem exists_isCoherent_restrict_iso_of_eq_on [IsNoetherian X] (U : X.Opens)
+    (hcore : ∀ (E : X.Modules) [E.IsQuasicoherent], ExtendsOver U (⊤ : E.val.Submodule) →
+      (∀ V : X.affineOpens, (V : X.Opens) ≤ U →
+        Module.Finite Γ(X, V) (sub (⊤ : E.val.Submodule) V)) →
+      ∃ (N' : E.val.Submodule) (hN' : IsLocal N'), IsCoherent (toModules N' hN') ∧
+        ∀ V : X.Opens, V ≤ U → sub N' V = sub ⊤ V)
     (F : U.toScheme.Modules) (hF : IsCoherent F) :
     ∃ F' : X.Modules, IsCoherent F' ∧ Nonempty (F'.restrict U.ι ≅ F) := by
   have h4F := ((coherent_affine_local_tfae F).out 0 3).mp hF
@@ -460,7 +465,7 @@ theorem exists_isCoherent_restrict_iso [IsAffine X] [IsNoetherian X] (U : X.Open
   have hext : ExtendsOver U (⊤ : E.val.Submodule) := fun V _ g t _ => by
     obtain ⟨n, u, hu⟩ := exists_pow_smul_extension_of_isAffineOpen E V.2 g t
     exact ⟨n, u, trivial, hu⟩
-  obtain ⟨N', hN', hcoh, heq⟩ := exists_isCoherent_eq_on (isLocal_top (E := E)) hext hfin
+  obtain ⟨N', hN', hcoh, heq⟩ := hcore E hext hfin
   let φ : toModules N' hN' ⟶ E := ⟨N'.ι⟩
   have : IsIso ((Scheme.Modules.restrictFunctor U.ι).map φ) := by
     rw [Scheme.Modules.Hom.isIso_iff_isIso_app]
@@ -473,5 +478,15 @@ theorem exists_isCoherent_restrict_iso [IsAffine X] [IsNoetherian X] (U : X.Open
     rw [hsub]
     exact Submodule.mem_top
   exact ⟨toModules N' hN', hcoh, ⟨asIso ((Scheme.Modules.restrictFunctor U.ι).map φ) ≪≫ e⟩⟩
+
+/-- **Extension of coherent sheaves from an open subset of an affine Noetherian scheme**
+(Hartshorne II, Exercise 5.15(b)). Let `X` be an affine Noetherian scheme, `U ⊆ X` open and `F` a
+coherent sheaf on `U`. Then there is a coherent sheaf `F'` on `X` with `F'|_U ≅ F`. It is a
+coherent submodule sheaf of the pushforward of `F` to `X` (`exists_isCoherent_eq_on`). -/
+theorem exists_isCoherent_restrict_iso [IsAffine X] [IsNoetherian X] (U : X.Opens)
+    (F : U.toScheme.Modules) (hF : IsCoherent F) :
+    ∃ F' : X.Modules, IsCoherent F' ∧ Nonempty (F'.restrict U.ι ≅ F) :=
+  exists_isCoherent_restrict_iso_of_eq_on U
+    (fun _ _ hext hfin => exists_isCoherent_eq_on isLocal_top hext hfin) F hF
 
 end Hartshorne
