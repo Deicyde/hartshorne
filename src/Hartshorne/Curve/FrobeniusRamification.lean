@@ -4,7 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Curve.RamificationIndex
 import Hartshorne.Scheme.FrobeniusTwist
-import Hartshorne.Cohomology.SmoothMorphisms.FrobeniusProjectiveLine
+import Hartshorne.Scheme.Differentials.FrobeniusDifferentials
+import Hartshorne.Weil.FiniteFieldFrobenius
 import Hartshorne.Scheme.Differentials.DifferentialsCharacterizeNonsingular
 
 /-!
