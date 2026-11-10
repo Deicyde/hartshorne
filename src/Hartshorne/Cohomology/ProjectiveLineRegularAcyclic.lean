@@ -34,29 +34,6 @@ namespace Hartshorne
 
 universe u
 
-/-- The constant sheaf on an irreducible space is flasque: on a nonempty open set its sections are
-constant. -/
-theorem isFlasque_constantSheaf_of_irreducibleSpace (X : TopCat.{u}) [IrreducibleSpace X]
-    (A : AddCommGrpCat.{u}) : (constantSheaf X A).IsFlasque where
-  epi {U V} i := by
-    rw [AddCommGrpCat.epi_iff_surjective]
-    intro t
-    change LocallyConstant V.unop A at t
-    by_cases hV : (V.unop : Set X).Nonempty
-    · obtain ⟨x, hx⟩ := hV
-      have hpre : IsPreconnected (V.unop : Set X) :=
-        ((IrreducibleSpace.isIrreducible_univ X).isPreirreducible.open_subset V.unop.isOpen
-          (Set.subset_univ _)).isPreconnected
-      have : PreconnectedSpace V.unop := Subtype.preconnectedSpace hpre
-      refine ⟨(LocallyConstant.const U.unop (t ⟨x, hx⟩) : LocallyConstant U.unop A), ?_⟩
-      change LocallyConstant.comap _ (LocallyConstant.const U.unop (t ⟨x, hx⟩)) = t
-      ext y
-      exact (t.apply_eq_of_preconnectedSpace y ⟨x, hx⟩).symm
-    · refine ⟨(0 : LocallyConstant U.unop A), ?_⟩
-      change LocallyConstant.comap _ (0 : LocallyConstant U.unop A) = t
-      ext y
-      exact absurd ⟨y.1, y.2⟩ hV
-
 /-- On a Noetherian space the locally finite sum of skyscraper sheaves is flasque: a section over
 `V ⊆ U` has finite support, so it extends by zero to `U`. -/
 theorem isFlasque_locallyFiniteSumSheaf {X : TopCat.{u}} [NoetherianSpace X]

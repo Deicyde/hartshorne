@@ -624,6 +624,7 @@ import Hartshorne.Scheme.Differentials.CanonicalSheaf
 import Hartshorne.Scheme.ProjTwistCompatibility
 import Hartshorne.Cohomology.FlasqueCechAcyclic
 import Hartshorne.Cohomology.ClosedPushforwardCohomology
+import Hartshorne.Cohomology.ConstantOpenExtensionVanishing
 import Hartshorne.Cohomology.ModuleCohomologyComparison
 import Hartshorne.Cohomology.ProjectiveLineRegularAcyclic
 import Hartshorne.Scheme.Differentials.GeometricGenus

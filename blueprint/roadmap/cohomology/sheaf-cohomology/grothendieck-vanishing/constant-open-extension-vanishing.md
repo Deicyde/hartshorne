@@ -2,6 +2,9 @@
 article_id: af_b91495645b60c6f1dbabbc4a
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.sheafCohomology_isZero_openExtensionByZero_constantSheaf
 ---
 
 # Vanishing for $\mathbb{Z}_U$
