@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.RelativeDifferentials
+import Hartshorne.Scheme.LocallyFreeInvertible
 import Mathlib.AlgebraicGeometry.Modules.Tilde
 import Mathlib.RingTheory.Etale.Kaehler
 import Mathlib.RingTheory.Kaehler.Polynomial
@@ -406,72 +407,36 @@ namespace AlgebraicGeometry.SpecKaehler
 
 open Opposite
 
-/-- The global section of `M^~` determined by an element of `M`. -/
-noncomputable def tildeSection {R : CommRingCat.{u}} {N : ModuleCat.{u} R} (m : N) :
-    (tilde N).sections :=
-  PresheafOfModules.sectionsMk
-    (fun U => ((tilde.toOpen N U.unop).hom m : (tilde N).val.obj U)) (fun _ _ _ => rfl)
+@[deprecated Scheme.Modules.tildeSection (since := "2026-11-09")]
+alias tildeSection := Scheme.Modules.tildeSection
 
 variable (A σ : Type u) [CommRing A]
 
 theorem sectionsMap_dSection (b : MvPolynomial σ A) :
     SheafOfModules.sectionsMap (Scheme.relativeDifferentialsSpecIso A (MvPolynomial σ A)).hom
       (Scheme.relativeDifferentialsDSection _ ((Scheme.ΓSpecIso _).inv b)) =
-      tildeSection (KaehlerDifferential.D A (MvPolynomial σ A) b) :=
+      Scheme.Modules.tildeSection (KaehlerDifferential.D A (MvPolynomial σ A) b) :=
   PresheafOfModules.sections_ext _ _ fun U =>
     Scheme.relativeDifferentialsSpecIso_hom_d A (MvPolynomial σ A) U.unop b
 
-theorem app_toOpen {R : CommRingCat.{u}} {M : (Spec R).Modules} {N : ModuleCat.{u} R}
-    (α : tilde N ⟶ M) (U : (Spec R).Opens) (m : N) :
-    α.val.app (op U) ((tilde.toOpen N U).hom m) =
-      M.val.map U.leTop.op ((tilde.adjunction.homEquiv N M α) m) :=
-  (PresheafOfModules.naturality_apply α.val U.leTop.op ((tilde.toOpen N ⊤).hom m)).trans
-    (congrArg _ (ConcreteCategory.congr_hom (tilde.adjunction.homEquiv_unit _ _ α) m).symm)
+@[deprecated Scheme.Modules.tilde_app_toOpen (since := "2026-11-09")]
+alias app_toOpen := Scheme.Modules.tilde_app_toOpen
 
-set_option backward.isDefEq.respectTransparency false in
+/-- The relative differentials of `A[x_i] / A`, read as `Ω~`, are free on the `d x_i`: a special
+case of `Scheme.Modules.isIso_freeHomEquiv_symm_tildeSection` for the basis `d x_i`. -/
 theorem tilde_free_isIso :
     IsIso ((tilde (kaehlerModule A (B := MvPolynomial σ A))).freeHomEquiv.symm
-      (fun i => tildeSection (KaehlerDifferential.D A (MvPolynomial σ A) (MvPolynomial.X i)))) := by
-  let F : (Spec (CommRingCat.of (MvPolynomial σ A))).Modules := SheafOfModules.free σ
-  let N := (moduleSpecΓFunctor (R := CommRingCat.of (MvPolynomial σ A))).obj F
-  let lin : kaehlerModule A (B := MvPolynomial σ A) ⟶ N :=
-    ConcreteCategory.ofHom (C := ModuleCat (CommRingCat.of (MvPolynomial σ A)))
-      (X := kaehlerModule A) (Y := N)
-      ((Finsupp.linearCombination (CommRingCat.of (MvPolynomial σ A)) (M := N)
-        (fun i => ((SheafOfModules.freeSection i : F.sections).val (op ⊤) : N))) ∘ₗ
-        (KaehlerDifferential.mvPolynomialBasis A σ).repr.toLinearMap)
-  have hlin : ∀ i, lin (KaehlerDifferential.D A (MvPolynomial σ A) (MvPolynomial.X i)) =
-      (SheafOfModules.freeSection i : F.sections).val (op ⊤) := by
-    intro i
-    change Finsupp.linearCombination _ _ ((KaehlerDifferential.mvPolynomialBasis A σ).repr _) = _
-    rw [KaehlerDifferential.mvPolynomialBasis_repr_D_X, Finsupp.linearCombination_single, one_smul]
-  let G := (tilde (kaehlerModule A (B := MvPolynomial σ A))).freeHomEquiv.symm
-      (fun i => tildeSection (KaehlerDifferential.D A (MvPolynomial σ A) (MvPolynomial.X i)))
-  let H : tilde (kaehlerModule A (B := MvPolynomial σ A)) ⟶ F :=
-    (tilde.adjunction.homEquiv (kaehlerModule A) F).symm lin
-  have hH : ∀ (U : (Spec (CommRingCat.of (MvPolynomial σ A))).Opens) (m : Ω[MvPolynomial σ A⁄A]),
-      H.val.app (op U) ((tilde.toOpen (kaehlerModule A) U).hom m) =
-        F.val.map U.leTop.op (lin m) := by
-    intro U m
-    refine (app_toOpen H U m).trans ?_
-    rw [Equiv.apply_symm_apply]
-  refine ⟨H, ?_, ?_⟩
-  · apply F.freeHomEquiv.injective
-    funext i
-    rw [SheafOfModules.freeHomEquiv_comp_apply, Equiv.apply_symm_apply]
-    refine PresheafOfModules.sections_ext _ _ fun U => ?_
-    refine (hH U.unop _).trans ?_
-    rw [hlin]
-    exact PresheafOfModules.sections_property _ _
-  · apply (tilde.adjunction.homEquiv (kaehlerModule A) _).injective
-    rw [Adjunction.homEquiv_naturality_right, Equiv.apply_symm_apply]
-    apply ModuleCat.hom_ext
-    refine (KaehlerDifferential.mvPolynomialBasis A σ).ext fun i => ?_
-    rw [KaehlerDifferential.mvPolynomialBasis_apply]
-    change G.val.app (op ⊤) (lin _) = _
-    rw [hlin, ← app_top_toOpen]
-    exact congrArg (fun s => PresheafOfModules.sections.eval s (op ⊤))
-      (SheafOfModules.sectionsMap_freeHomEquiv_symm_freeSection _ i)
+      (fun i => Scheme.Modules.tildeSection
+        (KaehlerDifferential.D A (MvPolynomial σ A) (MvPolynomial.X i)))) := by
+  have e : (fun i => Scheme.Modules.tildeSection (N := kaehlerModule A (B := MvPolynomial σ A))
+      (KaehlerDifferential.D A (MvPolynomial σ A) (MvPolynomial.X i))) =
+      fun i => Scheme.Modules.tildeSection (N := kaehlerModule A (B := MvPolynomial σ A))
+        (KaehlerDifferential.mvPolynomialBasis A σ i) :=
+    funext fun i => by rw [KaehlerDifferential.mvPolynomialBasis_apply]
+  rw [e]
+  exact Scheme.Modules.isIso_freeHomEquiv_symm_tildeSection
+    (R := CommRingCat.of (MvPolynomial σ A)) (N := kaehlerModule A)
+    (KaehlerDifferential.mvPolynomialBasis A σ)
 
 end AlgebraicGeometry.SpecKaehler
 
@@ -495,7 +460,8 @@ theorem Scheme.relativeDifferentials_mvPolynomial_free :
         (fun i => Scheme.relativeDifferentialsDSection _
           ((Scheme.ΓSpecIso (CommRingCat.of (MvPolynomial σ A))).inv (MvPolynomial.X i))) =
       (tilde (kaehlerModule A (B := MvPolynomial σ A))).freeHomEquiv.symm
-        (fun i => tildeSection (KaehlerDifferential.D A (MvPolynomial σ A) (MvPolynomial.X i))) ≫
+        (fun i => Scheme.Modules.tildeSection
+          (KaehlerDifferential.D A (MvPolynomial σ A) (MvPolynomial.X i))) ≫
         (Scheme.relativeDifferentialsSpecIso A (MvPolynomial σ A)).inv := by
     rw [Iso.eq_comp_inv, SheafOfModules.freeHomEquiv_symm_comp]
     congr 1

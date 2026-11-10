@@ -32,60 +32,18 @@ namespace AlgebraicGeometry.AffineSpaceDifferentials
 
 variable {X U : Scheme.{u}} (j : U ⟶ X) [IsOpenImmersion j]
 
-/-- The restriction of a global section of a module sheaf along an open immersion. -/
-noncomputable def restrictSection (M : X.Modules) (s : M.sections) : (M.restrict j).sections :=
-  PresheafOfModules.sectionsMk (fun W => s.val (op (j ''ᵁ W.unop)))
-    (fun _ _ _ => s.property _)
+@[deprecated Scheme.Modules.restrictSection (since := "2026-11-09")]
+alias restrictSection := Scheme.Modules.restrictSection
 
-/-- Restricting the morphism `𝒪^{(I)} ⟶ M` given by global sections `s i` along an open
-immersion gives the morphism given by the restricted sections. -/
-theorem restrictFreeIso_inv_comp_map_freeHomEquiv_symm (M : X.Modules) {I : Type u}
-    (s : I → M.sections) :
-    (Scheme.Modules.restrictFreeIso j I).inv ≫
-      (Scheme.Modules.restrictFunctor j).map (M.freeHomEquiv.symm s) =
-    (M.restrict j).freeHomEquiv.symm (fun i => restrictSection j M (s i)) := by
-  apply (M.restrict j).freeHomEquiv.injective
-  rw [Equiv.apply_symm_apply]
-  funext i
-  change (M.restrict j).unitHomEquiv (SheafOfModules.ιFree i ≫ _ ≫ _) = _
-  rw [Scheme.Modules.restrictFreeIso, Iso.symm_inv]
-  erw [SheafOfModules.ιFree_mapFreeIso_hom_assoc]
-  erw [← Functor.map_comp]
-  have h : SheafOfModules.ιFree i ≫ M.freeHomEquiv.symm s = M.unitHomEquiv.symm (s i) := by
-    have := SheafOfModules.unitHomEquiv_symm_freeHomEquiv_apply (M.freeHomEquiv.symm s) i
-    rw [Equiv.apply_symm_apply] at this
-    exact this.symm
-  erw [h]
-  refine PresheafOfModules.sections_ext _ _ fun W => ?_
-  have h1 : (Scheme.Modules.restrictUnitIso j).inv.val.app W (1 : U.ringCatSheaf.obj.obj W) =
-      (1 : X.ringCatSheaf.obj.obj (op (j ''ᵁ W.unop))) := by
-    change (j.appIso W.unop).inv 1 = 1
-    exact map_one _
-  have h2 : ((M.unitHomEquiv.symm (s i)).val.app (op (j ''ᵁ W.unop)) (1 : X.ringCatSheaf.obj.obj (op (j ''ᵁ W.unop)))) =
-      (s i).val (op (j ''ᵁ W.unop)) := by
-    have := congrArg (fun t => t.val (op (j ''ᵁ W.unop))) (M.unitHomEquiv.apply_symm_apply (s i))
-    exact this
-  change ((Scheme.Modules.restrictFunctor j).map (M.unitHomEquiv.symm (s i))).val.app W
-    ((Scheme.Modules.restrictUnitIso j).inv.val.app W (1 : U.ringCatSheaf.obj.obj W)) = (s i).val (op (j ''ᵁ W.unop))
-  rw [h1]
-  exact h2
+@[deprecated Scheme.Modules.restrictFreeIso_inv_comp_map_freeHomEquiv_symm (since := "2026-11-09")]
+alias restrictFreeIso_inv_comp_map_freeHomEquiv_symm :=
+  Scheme.Modules.restrictFreeIso_inv_comp_map_freeHomEquiv_symm
 
-omit [IsOpenImmersion j] in
-/-- Two successive restriction maps of a presheaf of rings compose to the restriction map. -/
-theorem presheaf_map_map_apply {T : TopCat.{u}} (F : TopCat.Presheaf CommRingCat.{u} T)
-    {A B C : (Opens T)ᵒᵖ} (p : A ⟶ B) (q : B ⟶ C) (r : A ⟶ C) (x : F.obj A) :
-    F.map q (F.map p x) = F.map r x := by
-  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
-  rfl
+@[deprecated TopCat.Presheaf.map_map_apply (since := "2026-11-09")]
+alias presheaf_map_map_apply := TopCat.Presheaf.map_map_apply
 
-omit [IsOpenImmersion j] in
-/-- Three successive restriction maps of a presheaf of rings compose to the restriction map. -/
-theorem presheaf_map_map_map_apply {T : TopCat.{u}} (F : TopCat.Presheaf CommRingCat.{u} T)
-    {A B C D : (Opens T)ᵒᵖ} (p : A ⟶ B) (q : B ⟶ C) (r : C ⟶ D) (s : A ⟶ D) (x : F.obj A) :
-    F.map r (F.map q (F.map p x)) = F.map s x := by
-  rw [← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, ← Functor.map_comp,
-    ← Functor.map_comp]
-  rfl
+@[deprecated TopCat.Presheaf.map_map_map_apply (since := "2026-11-09")]
+alias presheaf_map_map_map_apply := TopCat.Presheaf.map_map_map_apply
 
 /-- The inverse of `j.appIso W` sends the restriction of `j^♯ c` to the restriction of `c`. -/
 theorem appIso_inv_res_appTop (c : Γ(X, ⊤)) (W : U.Opens) :
@@ -97,7 +55,7 @@ theorem appIso_inv_res_appTop (c : Γ(X, ⊤)) (W : U.Opens) :
   simp only [ConcreteCategory.comp_apply] at h1 h2
   refine h1.trans ?_
   erw [h2]
-  exact presheaf_map_map_apply X.presheaf _ _ _ c
+  exact TopCat.Presheaf.map_map_apply X.presheaf _ _ _ c
 
 variable {Y V : Scheme.{u}} (f : X ⟶ Y) (g : U ⟶ V) (i : V ⟶ Y) [IsOpenImmersion i]
   (w : j ≫ f = g ≫ i)
@@ -107,7 +65,7 @@ to the restriction of `d c`. -/
 theorem sectionsMap_restrictIso_hom_dSection (c : Γ(X, ⊤)) :
     SheafOfModules.sectionsMap (RelDiffLocal.restrictIso f j g i w).hom
       (Scheme.relativeDifferentialsDSection g (j.appTop c)) =
-      restrictSection j _ (Scheme.relativeDifferentialsDSection f c) := by
+      Scheme.Modules.restrictSection j _ (Scheme.relativeDifferentialsDSection f c) := by
   let r := RelDiffLocal.restrictCorepresentable f j g i w
   have he : Scheme.relativeDifferentialsHomEquiv g _ (RelDiffLocal.restrictIso f j g i w).hom =
       r.homEquiv (𝟙 _) := by
@@ -131,7 +89,7 @@ theorem sectionsMap_restrictIso_hom_dSection (c : Γ(X, ⊤)) :
       (X.presheaf.map (homOfLE le_top).op c))) = D.d (X.presheaf.map (j ''ᵁ W.unop).leTop.op c)
   refine (congrArg ((Scheme.relativeDifferentials f).val.map _) (D.d_map _ _).symm).trans ?_
   refine (D.d_map _ _).symm.trans ?_
-  exact congrArg D.d (presheaf_map_map_map_apply X.presheaf _ _ _ _ c)
+  exact congrArg D.d (TopCat.Presheaf.map_map_map_apply X.presheaf _ _ _ _ c)
 
 end AlgebraicGeometry.AffineSpaceDifferentials
 
@@ -210,7 +168,7 @@ theorem Scheme.relativeDifferentials_affineSpaceOver_free :
   let g := Spec.map (CommRingCat.ofHom (algebraMap A (MvPolynomial σ A)))
   let e := RelDiffLocal.restrictIso (𝔸(σ; Y) ↘ Y) j g V'.2.fromSpec (chart_over σ V')
   have hiso : IsIso ((Scheme.Modules.restrictFunctor j).map φ) := by
-    have h := restrictFreeIso_inv_comp_map_freeHomEquiv_symm j _
+    have h := Scheme.Modules.restrictFreeIso_inv_comp_map_freeHomEquiv_symm j _
       (fun k => Scheme.relativeDifferentialsDSection (𝔸(σ; Y) ↘ Y) (AffineSpace.coord Y k))
     have h2 : (Scheme.Modules.restrictFunctor j).map φ = (Scheme.Modules.restrictFreeIso j σ).hom ≫
         ((Scheme.relativeDifferentials g).freeHomEquiv.symm

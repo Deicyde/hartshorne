@@ -27,15 +27,6 @@ namespace Hartshorne
 
 universe u
 
-/-- The structure sheaf of any scheme is coherent: on every affine open `U` it is the sheaf
-associated to `Γ(U, 𝒪_X)` as a module over itself. -/
-theorem isCoherent_structureSheafModule (X : Scheme.{u}) :
-    IsCoherent (SheafOfModules.unit X.ringCatSheaf : X.Modules) := by
-  refine ⟨X.affineOpens, id, iSup_affineOpens_eq_top X, fun U ↦ ?_⟩
-  let : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
-  exact ⟨ModuleCat.of Γ(X, (U : X.Opens)) Γ(X, (U : X.Opens)), Module.Finite.self _,
-    ⟨tildeSelf ≪≫ (Scheme.Modules.restrictUnitIso U.2.fromSpec).symm⟩⟩
-
 /-- The polynomial ring `k[t]` is not a finitely generated `k`-module. -/
 theorem not_moduleFinite_polynomial (k : Type u) [Field k] : ¬ Module.Finite k k[X] := by
   intro _

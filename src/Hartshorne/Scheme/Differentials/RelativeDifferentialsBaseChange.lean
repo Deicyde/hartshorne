@@ -195,7 +195,7 @@ theorem fromSpec_appIso_hom_res (U : X.affineOpens) (W : (Spec Γ(X, (U : X.Open
     ← ConcreteCategory.comp_apply (X.presheaf.map _), Scheme.Hom.naturality,
     ConcreteCategory.comp_apply]
   erw [IsAffineOpen.fromSpec_app_self_apply (U.2 : IsAffineOpen (U : X.Opens)) b]
-  exact AffineSpaceDifferentials.presheaf_map_map_map_apply _ _ _ _ _ _
+  exact TopCat.Presheaf.map_map_map_apply _ _ _ _ _ _
 
 omit [IsOpenImmersion j] in
 /-- Under `Ω_{X/Y}|_U ≅ (Ω_{B/A})~` for affine opens `U ⊆ f⁻¹ V`, the derivative of (the
@@ -637,7 +637,7 @@ theorem baseChange_local_toOpen (b : Γ(X, (U : X.Opens))) :
       (pullback f h).presheaf.map (homOfLE hW).op
         ((pullback.fst f h).appLE U W inf_le_left b) := by
     rw [Scheme.Hom.appLE, CommRingCat.comp_apply]
-    exact (AffineSpaceDifferentials.presheaf_map_map_apply _ _ _ _ _).symm
+    exact (TopCat.Presheaf.map_map_apply _ _ _ _ _).symm
   have e4 := RelDiffLocal.affineIso_hom_d (pullback.snd f h) W V' inf_le_right ⊤ hW
     ((pullback.fst f h).appLE U W inf_le_left b)
   refine (congrArg (fun z => AF.hom.app ⊤ (((specRestrictFunctor W).map

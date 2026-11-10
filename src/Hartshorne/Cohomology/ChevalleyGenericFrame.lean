@@ -5,8 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.CoherentExtensionAffine
 import Hartshorne.Scheme.CoherentFreeLocus
 import Hartshorne.Scheme.FinitePushforwardCoherent
-import Hartshorne.Scheme.CoherentPushforwardCounterexample
-import Hartshorne.Scheme.Differentials.AffineSpaceDifferentials
+import Hartshorne.Scheme.LocallyFreeInvertible
 import Mathlib.AlgebraicGeometry.FunctionField
 import Mathlib.Algebra.Category.ModuleCat.Sheaf.PullbackFree
 import Hartshorne.Scheme.ClosedImmersionIdealSheaf
@@ -32,88 +31,17 @@ the inclusion of `f⁻¹ W`. Their span `M ⊆ E` is coherent (`isCoherent_spanS
 `M(f⁻¹ W) ⊆ E(f⁻¹ W) = B`. This inclusion is onto since it contains the basis, so the `bᵢ` form
 an `A`-basis of `Γ(W, f_* M)`. A morphism from a free sheaf on `Spec A` to a quasi-coherent sheaf
 given by a basis of the global sections is an isomorphism
-(`freeHomEquiv_symm_isIso_of_basis`). Hence `α|_W` is an isomorphism, and so is its stalk at `η`.
+(`Scheme.Modules.isIso_freeHomEquiv_symm_of_basis`). Hence `α|_W` is an isomorphism, and so is
+its stalk at `η`.
 -/
 
 universe u
 
 open CategoryTheory Opposite TopologicalSpace AlgebraicGeometry Limits
-open AlgebraicGeometry.SpecKaehler (tildeSection app_toOpen)
 
 namespace Hartshorne
 
 namespace ChevalleyFrame
-
-/-! ### Free sheaves on an affine scheme -/
-
-/-- A morphism `M̃ ⟶ G` evaluated on the global section of `M̃` attached to `m`. -/
-theorem app_top_toOpen {R : CommRingCat.{u}} {N : ModuleCat.{u} R} {G : (Spec R).Modules}
-    (α : tilde N ⟶ G) (m : N) :
-    α.val.app (op ⊤) ((tilde.toOpen N ⊤).hom m) = (tilde.adjunction.homEquiv N G α) m :=
-  (ConcreteCategory.congr_hom (tilde.adjunction.homEquiv_unit _ _ α) m).symm
-
-set_option backward.isDefEq.respectTransparency false in
-/-- On `Spec R`, the morphism `𝒪^{(ι)} ⟶ Ñ` given by a basis of `N` is an isomorphism. -/
-theorem tilde_freeHomEquiv_symm_isIso {R : CommRingCat.{u}} {N : ModuleCat.{u} R} {ι : Type u}
-    (b : Module.Basis ι R N) :
-    IsIso ((tilde N).freeHomEquiv.symm (fun i => tildeSection (b i))) := by
-  let F : (Spec R).Modules := SheafOfModules.free ι
-  let N' := (moduleSpecΓFunctor (R := R)).obj F
-  let lin : N ⟶ N' :=
-    ConcreteCategory.ofHom (C := ModuleCat R) (X := N) (Y := N')
-      ((Finsupp.linearCombination R (M := N')
-        (fun i => ((SheafOfModules.freeSection i : F.sections).val (op ⊤) : N'))) ∘ₗ
-        b.repr.toLinearMap)
-  have hlin : ∀ i, lin (b i) = (SheafOfModules.freeSection i : F.sections).val (op ⊤) := by
-    intro i
-    change Finsupp.linearCombination _ _ (b.repr (b i)) = _
-    rw [b.repr_self, Finsupp.linearCombination_single, one_smul]
-  let G := (tilde N).freeHomEquiv.symm (fun i => tildeSection (b i))
-  let H : tilde N ⟶ F := (tilde.adjunction.homEquiv N F).symm lin
-  have hH : ∀ (U : (Spec R).Opens) (m : N),
-      H.val.app (op U) ((tilde.toOpen N U).hom m) = F.val.map U.leTop.op (lin m) := by
-    intro U m
-    refine (app_toOpen H U m).trans ?_
-    rw [Equiv.apply_symm_apply]
-  refine ⟨H, ?_, ?_⟩
-  · apply F.freeHomEquiv.injective
-    funext i
-    rw [SheafOfModules.freeHomEquiv_comp_apply, Equiv.apply_symm_apply]
-    refine PresheafOfModules.sections_ext _ _ fun U => ?_
-    refine (hH U.unop _).trans ?_
-    rw [hlin]
-    exact PresheafOfModules.sections_property _ _
-  · apply (tilde.adjunction.homEquiv N _).injective
-    rw [Adjunction.homEquiv_naturality_right, Equiv.apply_symm_apply]
-    apply ModuleCat.hom_ext
-    refine b.ext fun i => ?_
-    change G.val.app (op ⊤) (lin _) = _
-    rw [hlin, ← app_top_toOpen]
-    exact congrArg (fun s => PresheafOfModules.sections.eval s (op ⊤))
-      (SheafOfModules.sectionsMap_freeHomEquiv_symm_freeSection _ i)
-
-set_option backward.isDefEq.respectTransparency false in
-/-- On `Spec R`, a morphism `𝒪^{(ι)} ⟶ P` to a quasi-coherent module, given by global sections
-`tᵢ` whose values form a basis of `Γ(P)`, is an isomorphism. -/
-theorem freeHomEquiv_symm_isIso_of_basis {R : CommRingCat.{u}} (P : (Spec R).Modules)
-    [IsIso P.fromTildeΓ] {ι : Type u} (t : ι → P.sections)
-    (b : Module.Basis ι R ((moduleSpecΓFunctor (R := R)).obj P))
-    (hb : ∀ i, b i = (t i).val (op ⊤)) :
-    IsIso (P.freeHomEquiv.symm t) := by
-  have := tilde_freeHomEquiv_symm_isIso b
-  have h : P.freeHomEquiv.symm t =
-      (tilde ((moduleSpecΓFunctor (R := R)).obj P)).freeHomEquiv.symm
-        (fun i => tildeSection (b i)) ≫ P.fromTildeΓ := by
-    rw [SheafOfModules.freeHomEquiv_symm_comp]
-    congr 1
-    funext i
-    refine PresheafOfModules.sections_ext _ _ fun U => ?_
-    have h1 := ConcreteCategory.congr_hom (Scheme.Modules.toOpen_fromTildeΓ_app P U.unop) (b i)
-    refine Eq.trans ?_ h1.symm
-    rw [hb]
-    exact (PresheafOfModules.sections_property _ _).symm
-  rw [h]
-  infer_instance
 
 /-! ### A free affine chart for `f_* 𝒪_X` -/
 
@@ -189,12 +117,16 @@ noncomputable def globalSection (M : X.Modules) (m : Γ(M, ⊤)) : M.sections :=
   PresheafOfModules.sectionsMk (fun V => res M (le_top : V.unop ≤ ⊤) m)
     (fun _ _ i => res_res M le_top (leOfHom i.unop) m)
 
+/-- The global section of `f_* M` given by `c i`. -/
+noncomputable def frameSection {U : X.Opens} {ι : Type u} (c : ι → Γ(X, U)) (i : ι) :
+    ((Scheme.Modules.pushforward f).obj (frameModule c)).sections :=
+  SheafOfModules.pushforwardSections f.toRingCatSheafHom
+    (globalSection (frameModule c) ⟨chartSection U (c i), chartSection_mem c i⟩)
+
 /-- The frame `𝒪_Y^{(ι)} ⟶ f_* M`, sending the `i`-th basis section to `c i`. -/
 noncomputable def frameMap {U : X.Opens} {ι : Type u} (c : ι → Γ(X, U)) :
     (SheafOfModules.free ι : Y.Modules) ⟶ (Scheme.Modules.pushforward f).obj (frameModule c) :=
-  ((Scheme.Modules.pushforward f).obj (frameModule c)).freeHomEquiv.symm fun i =>
-    SheafOfModules.pushforwardSections f.toRingCatSheafHom
-      (globalSection (frameModule c) ⟨chartSection U (c i), chartSection_mem c i⟩)
+  ((Scheme.Modules.pushforward f).obj (frameModule c)).freeHomEquiv.symm (frameSection f c)
 
 theorem isQuasicoherent_chartSheaf [IsNoetherian X] (U : X.Opens) :
     (chartSheaf U).IsQuasicoherent := by
@@ -219,10 +151,63 @@ theorem presheaf_map_appIso_inv_app (U : X.Opens) (r : Γ(X, U)) :
     X.presheaf.map (homOfLE (le_image_preimage_self U)).op
       ((U.ι.appIso (U.ι ⁻¹ᵁ U)).inv (U.ι.app U r)) = r := by
   rw [← ConcreteCategory.comp_apply (U.ι.app U), Scheme.Hom.app_appIso_inv]
-  exact (AffineSpaceDifferentials.presheaf_map_map_apply X.presheaf _ _ (𝟙 _) r).trans
+  exact (TopCat.Presheaf.map_map_apply X.presheaf _ _ (𝟙 _) r).trans
     (by rw [CategoryTheory.Functor.map_id]; rfl)
 
-set_option maxHeartbeats 1000000 in
+/-- Over the affine chart `W` (with `U = f⁻¹ W`), the sections `Γ(W, f_* M) = M(U)` of the span
+`M`, as a submodule of `E(U)`, compared with `B = Γ(U, 𝒪_X)` by restriction. -/
+noncomputable def chartSectionsMap (W : Y.affineOpens) {ι : Type u}
+    (c : ι → Γ(X, chartPreimage f W)) :
+    haveI := W.2.isOpenImmersion_fromSpec
+    (moduleSpecΓFunctor (R := Γ(Y, (W : Y.Opens)))).obj
+        (((Scheme.Modules.pushforward f).obj (frameModule c)).restrict W.2.fromSpec) →ₗ[
+      Γ(Y, (W : Y.Opens))] Γ(specRestriction (pushStructure f) W, ⊤) :=
+  haveI := W.2.isOpenImmersion_fromSpec
+  let U := chartPreimage f W
+  let A := Γ(Y, (W : Y.Opens))
+  let h := homOfLE (le_image_preimage_self U)
+  let ψ : A → Γ(X, U) := fun a =>
+    f.app (W.2.fromSpec ''ᵁ ⊤) ((W.2.fromSpec.appIso ⊤).inv ((Scheme.ΓSpecIso A).inv a))
+  { toFun := fun n => X.presheaf.map h.op (@id Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U))
+      (n : ↥(sub (spanSheaf (frameSet c)) U)).1)
+    map_add' := fun x y => map_add (X.presheaf.map h.op).hom _ _
+    map_smul' := fun a x => by
+      have smulN : @id Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U))
+          ((a • x : (moduleSpecΓFunctor (R := A)).obj
+            (((Scheme.Modules.pushforward f).obj (frameModule c)).restrict W.2.fromSpec)) :
+            ↥(sub (spanSheaf (frameSet c)) U)).1 =
+          (U.ι.appIso (U.ι ⁻¹ᵁ U)).inv (U.ι.app U (ψ a)) *
+            @id Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U)) (x : ↥(sub (spanSheaf (frameSet c)) U)).1 := rfl
+      have smulB : ∀ b : Γ(specRestriction (pushStructure f) W, ⊤),
+          @id Γ(X, U) (a • b) = ψ a * @id Γ(X, U) b := fun _ => rfl
+      refine (congrArg (fun z => X.presheaf.map h.op z) smulN).trans ?_
+      refine (map_mul (X.presheaf.map h.op).hom _ _).trans ?_
+      rw [presheaf_map_appIso_inv_app]
+      exact (smulB _).symm }
+
+theorem chartSectionsMap_injective (W : Y.affineOpens) {ι : Type u}
+    (c : ι → Γ(X, chartPreimage f W)) : Function.Injective (chartSectionsMap f W c) := by
+  have : IsOpenImmersion W.2.fromSpec := W.2.isOpenImmersion_fromSpec
+  let U := chartPreimage f W
+  intro x y hxy
+  have key : ∀ n, X.presheaf.map (homOfLE (U.ι.image_preimage_le U)).op
+      (chartSectionsMap f W c n) =
+      @id Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U)) (n : ↥(sub (spanSheaf (frameSet c)) U)).1 := fun n =>
+    (TopCat.Presheaf.map_map_apply X.presheaf _ _ (𝟙 _) _).trans
+      (by rw [CategoryTheory.Functor.map_id]; rfl)
+  have := congrArg (X.presheaf.map (homOfLE (U.ι.image_preimage_le U)).op) hxy
+  rw [key, key] at this
+  exact Subtype.ext this
+
+theorem chartSectionsMap_frameSection (W : Y.affineOpens) {ι : Type u}
+    (c : ι → Γ(X, chartPreimage f W)) (i : ι) :
+    haveI := W.2.isOpenImmersion_fromSpec
+    chartSectionsMap f W c
+      ((Scheme.Modules.restrictSection W.2.fromSpec _ (frameSection f c i)).val (op ⊤)) =
+      c i :=
+  (TopCat.Presheaf.map_map_map_apply X.presheaf _ _ _ (𝟙 _) (c i)).trans
+    (by rw [CategoryTheory.Functor.map_id]; rfl)
+
 /-- Over the affine chart `W`, the frame given by a basis of `Γ(f⁻¹ W, 𝒪_X)` is an
 isomorphism. -/
 theorem isIso_restrict_frameMap [IsFinite f] [IsNoetherian X] (W : Y.affineOpens) {ι : Type u}
@@ -232,64 +217,27 @@ theorem isIso_restrict_frameMap [IsFinite f] [IsNoetherian X] (W : Y.affineOpens
     IsIso ((Scheme.Modules.restrictFunctor W.2.fromSpec).map
       (frameMap f (U := chartPreimage f W) (fun i => bas i))) := by
   have : IsOpenImmersion W.2.fromSpec := W.2.isOpenImmersion_fromSpec
-  let U := chartPreimage f W
-  let c : ι → Γ(X, U) := fun i => bas i
-  let s := fun i => SheafOfModules.pushforwardSections f.toRingCatSheafHom
-      (globalSection (frameModule c) ⟨chartSection U (c i), chartSection_mem c i⟩)
-  have hT2 := AffineSpaceDifferentials.restrictFreeIso_inv_comp_map_freeHomEquiv_symm
-    W.2.fromSpec ((Scheme.Modules.pushforward f).obj (frameModule c)) s
+  let c : ι → Γ(X, chartPreimage f W) := fun i => bas i
+  have hT2 := Scheme.Modules.restrictFreeIso_inv_comp_map_freeHomEquiv_symm
+    W.2.fromSpec ((Scheme.Modules.pushforward f).obj (frameModule c)) (frameSection f c)
   let P := ((Scheme.Modules.pushforward f).obj (frameModule c)).restrict W.2.fromSpec
-  let t := fun i => AffineSpaceDifferentials.restrictSection W.2.fromSpec _ (s i)
+  let t := fun i => Scheme.Modules.restrictSection W.2.fromSpec _ (frameSection f c i)
   have hPM := isCoherent_pushforward_of_isFinite f (isCoherent_frameModule c)
   have : IsIso P.fromTildeΓ := (forall_affine_finite_of_isCoherent _ hPM W).2
-  let A := Γ(Y, (W : Y.Opens))
-  let N := (moduleSpecΓFunctor (R := A)).obj P
-  let B := Γ(specRestriction (pushStructure f) W, ⊤)
-  let h := homOfLE (le_image_preimage_self U)
-  let Φf : N → B := fun n =>
-    X.presheaf.map h.op (@id Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U))
-      (n : ↥(sub (spanSheaf (frameSet c)) U)).1)
-  let ψ : A → Γ(X, U) := fun a =>
-    f.app (W.2.fromSpec ''ᵁ ⊤) ((W.2.fromSpec.appIso ⊤).inv ((Scheme.ΓSpecIso A).inv a))
-  have smulN : ∀ (a : A) (n : N),
-      @id Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U)) ((a • n : N) : ↥(sub (spanSheaf (frameSet c)) U)).1 =
-      (U.ι.appIso (U.ι ⁻¹ᵁ U)).inv (U.ι.app U (ψ a)) *
-        @id Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U)) (n : ↥(sub (spanSheaf (frameSet c)) U)).1 :=
-    fun _ _ => rfl
-  have smulB : ∀ (a : A) (b : B), @id Γ(X, U) (a • b : B) = ψ a * @id Γ(X, U) b :=
-    fun _ _ => rfl
-  let Φ : N →ₗ[A] B :=
-    { toFun := Φf
-      map_add' := fun x y => map_add (X.presheaf.map h.op).hom _ _
-      map_smul' := fun a x => by
-        refine (congrArg (fun z => X.presheaf.map h.op z) (smulN a x)).trans ?_
-        refine (map_mul (X.presheaf.map h.op).hom _ _).trans ?_
-        rw [presheaf_map_appIso_inv_app]
-        exact (smulB a (Φf x)).symm }
-  have hK : ∀ i, Φ ((t i).val (op ⊤)) = bas i := fun i =>
-    (AffineSpaceDifferentials.presheaf_map_map_map_apply X.presheaf _ _ _ (𝟙 _) (c i)).trans
-      (by rw [CategoryTheory.Functor.map_id]; rfl)
-  have hinj : Function.Injective Φ := by
-    intro x y hxy
-    have key : ∀ n : N, X.presheaf.map (homOfLE (U.ι.image_preimage_le U)).op (Φ n) =
-        @id Γ(X, U.ι ''ᵁ (U.ι ⁻¹ᵁ U)) (n : ↥(sub (spanSheaf (frameSet c)) U)).1 := fun n =>
-      (AffineSpaceDifferentials.presheaf_map_map_apply X.presheaf _ _ (𝟙 _) _).trans
-        (by rw [CategoryTheory.Functor.map_id]; rfl)
-    have := congrArg (X.presheaf.map (homOfLE (U.ι.image_preimage_le U)).op) hxy
-    rw [key, key] at this
-    exact Subtype.ext this
+  let Φ := chartSectionsMap f W c
   have hsurj : Function.Surjective Φ := by
     intro b
     have := Fintype.ofFinite ι
-    refine ⟨∑ i, bas.repr b i • @id N ((t i).val (op ⊤)), ?_⟩
+    refine ⟨∑ i, bas.repr b i • @id ((moduleSpecΓFunctor (R := Γ(Y, (W : Y.Opens)))).obj P)
+      ((t i).val (op ⊤)), ?_⟩
     rw [map_sum]
     refine (Finset.sum_congr rfl fun i _ => ?_).trans (bas.sum_repr b)
-    exact (Φ.map_smul _ _).trans (congrArg _ (hK i))
-  let Φe := LinearEquiv.ofBijective Φ ⟨hinj, hsurj⟩
-  let b' := bas.map Φe.symm
-  have hb' : ∀ i, b' i = (t i).val (op ⊤) := fun i =>
-    (Module.Basis.map_apply _ _ _).trans (Φe.symm_apply_eq.mpr (hK i).symm)
-  have hiso := freeHomEquiv_symm_isIso_of_basis P t b' hb'
+    exact (Φ.map_smul _ _).trans (congrArg _ (chartSectionsMap_frameSection f W c i))
+  let Φe := LinearEquiv.ofBijective Φ ⟨chartSectionsMap_injective f W c, hsurj⟩
+  have hb' : ∀ i, bas.map Φe.symm i = (t i).val (op ⊤) := fun i =>
+    (Module.Basis.map_apply _ _ _).trans
+      (Φe.symm_apply_eq.mpr (chartSectionsMap_frameSection f W c i).symm)
+  have hiso := Scheme.Modules.isIso_freeHomEquiv_symm_of_basis P t _ hb'
   have hcomp : IsIso ((Scheme.Modules.restrictFreeIso W.2.fromSpec ι).inv ≫
       (Scheme.Modules.restrictFunctor W.2.fromSpec).map (frameMap f c)) := by
     rw [frameMap, hT2]

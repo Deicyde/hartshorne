@@ -34,7 +34,28 @@ Mathlib's `SheafOfModules.IsLocallyFree` expresses the same idea through local g
 over-site; it carries no rank, and its comparison with the present definition is not needed here.
 -/
 
-open CategoryTheory Limits
+open CategoryTheory Limits Opposite
+
+namespace TopCat.Presheaf
+
+universe u
+
+/-- Two successive restriction maps of a presheaf of rings compose to the restriction map. -/
+theorem map_map_apply {T : TopCat.{u}} (F : TopCat.Presheaf CommRingCat.{u} T)
+    {A B C : (TopologicalSpace.Opens T)ᵒᵖ} (p : A ⟶ B) (q : B ⟶ C) (r : A ⟶ C) (x : F.obj A) :
+    F.map q (F.map p x) = F.map r x := by
+  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
+  rfl
+
+/-- Three successive restriction maps of a presheaf of rings compose to the restriction map. -/
+theorem map_map_map_apply {T : TopCat.{u}} (F : TopCat.Presheaf CommRingCat.{u} T)
+    {A B C D : (TopologicalSpace.Opens T)ᵒᵖ} (p : A ⟶ B) (q : B ⟶ C) (r : C ⟶ D) (s : A ⟶ D)
+    (x : F.obj A) : F.map r (F.map q (F.map p x)) = F.map s x := by
+  rw [← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, ← Functor.map_comp,
+    ← Functor.map_comp]
+  rfl
+
+end TopCat.Presheaf
 
 namespace AlgebraicGeometry
 
@@ -74,6 +95,140 @@ def restrictFreeIso {Y : Scheme.{u}} (f : Y ⟶ X) [IsOpenImmersion f] (I : Type
   have : PreservesColimitsOfShape (Discrete I) G :=
     (restrictAdjunction f).leftAdjoint_preservesColimits.{u, u}.preservesColimitsOfShape
   (SheafOfModules.mapFreeIso G I (restrictUnitIso f).symm).symm
+
+/-! ### Morphisms out of free modules -/
+
+section FreeHom
+
+variable {U : Scheme.{u}} (j : U ⟶ X) [IsOpenImmersion j]
+
+/-- The restriction of a global section of a module sheaf along an open immersion. -/
+def restrictSection (M : X.Modules) (s : M.sections) : (M.restrict j).sections :=
+  PresheafOfModules.sectionsMk (fun W => s.val (op (j ''ᵁ W.unop)))
+    (fun _ _ _ => s.property _)
+
+/-- Restricting the morphism `𝒪^{(I)} ⟶ M` given by global sections `s i` along an open
+immersion gives the morphism given by the restricted sections. -/
+theorem restrictFreeIso_inv_comp_map_freeHomEquiv_symm (M : X.Modules) {I : Type u}
+    (s : I → M.sections) :
+    (restrictFreeIso j I).inv ≫ (restrictFunctor j).map (M.freeHomEquiv.symm s) =
+      (M.restrict j).freeHomEquiv.symm (fun i => restrictSection j M (s i)) := by
+  apply (M.restrict j).freeHomEquiv.injective
+  rw [Equiv.apply_symm_apply]
+  funext i
+  change (M.restrict j).unitHomEquiv (SheafOfModules.ιFree i ≫ _ ≫ _) = _
+  rw [restrictFreeIso, Iso.symm_inv]
+  erw [SheafOfModules.ιFree_mapFreeIso_hom_assoc]
+  erw [← Functor.map_comp]
+  have h : SheafOfModules.ιFree i ≫ M.freeHomEquiv.symm s = M.unitHomEquiv.symm (s i) := by
+    have := SheafOfModules.unitHomEquiv_symm_freeHomEquiv_apply (M.freeHomEquiv.symm s) i
+    rw [Equiv.apply_symm_apply] at this
+    exact this.symm
+  erw [h]
+  refine PresheafOfModules.sections_ext _ _ fun W => ?_
+  have h1 : (restrictUnitIso j).inv.val.app W (1 : U.ringCatSheaf.obj.obj W) =
+      (1 : X.ringCatSheaf.obj.obj (op (j ''ᵁ W.unop))) := by
+    change (j.appIso W.unop).inv 1 = 1
+    exact map_one _
+  have h2 : ((M.unitHomEquiv.symm (s i)).val.app (op (j ''ᵁ W.unop))
+      (1 : X.ringCatSheaf.obj.obj (op (j ''ᵁ W.unop)))) = (s i).val (op (j ''ᵁ W.unop)) := by
+    have := congrArg (fun t => t.val (op (j ''ᵁ W.unop))) (M.unitHomEquiv.apply_symm_apply (s i))
+    exact this
+  change ((restrictFunctor j).map (M.unitHomEquiv.symm (s i))).val.app W
+    ((restrictUnitIso j).inv.val.app W (1 : U.ringCatSheaf.obj.obj W)) =
+      (s i).val (op (j ''ᵁ W.unop))
+  rw [h1]
+  exact h2
+
+end FreeHom
+
+section TildeFree
+
+/-- The global section of `Ñ` determined by an element of `N`. -/
+def tildeSection {R : CommRingCat.{u}} {N : ModuleCat.{u} R} (m : N) : (tilde N).sections :=
+  PresheafOfModules.sectionsMk
+    (fun U => ((tilde.toOpen N U.unop).hom m : (tilde N).val.obj U)) (fun _ _ _ => rfl)
+
+/-- A morphism `α : Ñ ⟶ M` sends the section of `Ñ` over `U` attached to `m` to the restriction
+to `U` of the adjoint image of `m` in `Γ(M)`. -/
+theorem tilde_app_toOpen {R : CommRingCat.{u}} {M : (Spec R).Modules} {N : ModuleCat.{u} R}
+    (α : tilde N ⟶ M) (U : (Spec R).Opens) (m : N) :
+    α.val.app (op U) ((tilde.toOpen N U).hom m) =
+      M.val.map U.leTop.op ((tilde.adjunction.homEquiv N M α) m) :=
+  (PresheafOfModules.naturality_apply α.val U.leTop.op ((tilde.toOpen N ⊤).hom m)).trans
+    (congrArg _ (ConcreteCategory.congr_hom (tilde.adjunction.homEquiv_unit _ _ α) m).symm)
+
+/-- A morphism `α : Ñ ⟶ G` sends the global section of `Ñ` attached to `m` to the adjoint image
+of `m`. -/
+theorem tilde_app_top_toOpen {R : CommRingCat.{u}} {N : ModuleCat.{u} R} {G : (Spec R).Modules}
+    (α : tilde N ⟶ G) (m : N) :
+    α.val.app (op ⊤) ((tilde.toOpen N ⊤).hom m) = (tilde.adjunction.homEquiv N G α) m :=
+  (tilde_app_toOpen α ⊤ m).trans (ConcreteCategory.congr_hom (G.val.map_id (op ⊤)) _)
+
+set_option backward.isDefEq.respectTransparency false in
+/-- On `Spec R`, the morphism `𝒪^{(ι)} ⟶ Ñ` given by a basis of `N` is an isomorphism. -/
+theorem isIso_freeHomEquiv_symm_tildeSection {R : CommRingCat.{u}} {N : ModuleCat.{u} R}
+    {ι : Type u} (b : Module.Basis ι R N) :
+    IsIso ((tilde N).freeHomEquiv.symm (fun i => tildeSection (b i))) := by
+  let F : (Spec R).Modules := SheafOfModules.free ι
+  let N' := (moduleSpecΓFunctor (R := R)).obj F
+  let lin : N ⟶ N' :=
+    ConcreteCategory.ofHom (C := ModuleCat R) (X := N) (Y := N')
+      ((Finsupp.linearCombination R (M := N')
+        (fun i => ((SheafOfModules.freeSection i : F.sections).val (op ⊤) : N'))) ∘ₗ
+        b.repr.toLinearMap)
+  have hlin : ∀ i, lin (b i) = (SheafOfModules.freeSection i : F.sections).val (op ⊤) := by
+    intro i
+    change Finsupp.linearCombination _ _ (b.repr (b i)) = _
+    rw [b.repr_self, Finsupp.linearCombination_single, one_smul]
+  let G := (tilde N).freeHomEquiv.symm (fun i => tildeSection (b i))
+  let H : tilde N ⟶ F := (tilde.adjunction.homEquiv N F).symm lin
+  have hH : ∀ (U : (Spec R).Opens) (m : N),
+      H.val.app (op U) ((tilde.toOpen N U).hom m) = F.val.map U.leTop.op (lin m) := by
+    intro U m
+    refine (tilde_app_toOpen H U m).trans ?_
+    rw [Equiv.apply_symm_apply]
+  refine ⟨H, ?_, ?_⟩
+  · apply F.freeHomEquiv.injective
+    funext i
+    rw [SheafOfModules.freeHomEquiv_comp_apply, Equiv.apply_symm_apply]
+    refine PresheafOfModules.sections_ext _ _ fun U => ?_
+    refine (hH U.unop _).trans ?_
+    rw [hlin]
+    exact PresheafOfModules.sections_property _ _
+  · apply (tilde.adjunction.homEquiv N _).injective
+    rw [Adjunction.homEquiv_naturality_right, Equiv.apply_symm_apply]
+    apply ModuleCat.hom_ext
+    refine b.ext fun i => ?_
+    change G.val.app (op ⊤) (lin _) = _
+    rw [hlin, ← tilde_app_top_toOpen]
+    exact congrArg (fun s => PresheafOfModules.sections.eval s (op ⊤))
+      (SheafOfModules.sectionsMap_freeHomEquiv_symm_freeSection _ i)
+
+set_option backward.isDefEq.respectTransparency false in
+/-- On `Spec R`, a morphism `𝒪^{(ι)} ⟶ P` to a quasi-coherent module, given by global sections
+`tᵢ` whose values form a basis of `Γ(P)`, is an isomorphism. -/
+theorem isIso_freeHomEquiv_symm_of_basis {R : CommRingCat.{u}} (P : (Spec R).Modules)
+    [IsIso P.fromTildeΓ] {ι : Type u} (t : ι → P.sections)
+    (b : Module.Basis ι R ((moduleSpecΓFunctor (R := R)).obj P))
+    (hb : ∀ i, b i = (t i).val (op ⊤)) :
+    IsIso (P.freeHomEquiv.symm t) := by
+  have := isIso_freeHomEquiv_symm_tildeSection b
+  have h : P.freeHomEquiv.symm t =
+      (tilde ((moduleSpecΓFunctor (R := R)).obj P)).freeHomEquiv.symm
+        (fun i => tildeSection (b i)) ≫ P.fromTildeΓ := by
+    rw [SheafOfModules.freeHomEquiv_symm_comp]
+    congr 1
+    funext i
+    refine PresheafOfModules.sections_ext _ _ fun U => ?_
+    have h1 := ConcreteCategory.congr_hom (Scheme.Modules.toOpen_fromTildeΓ_app P U.unop) (b i)
+    refine Eq.trans ?_ h1.symm
+    rw [hb]
+    exact (PresheafOfModules.sections_property _ _).symm
+  rw [h]
+  infer_instance
+
+end TildeFree
 
 /-- Over a nonzero commutative ring `A`, if the free modules `𝒪 ^ (⊕ I)` and `𝒪 ^ (⊕ J)` on
 `Spec A` are isomorphic, then `I` and `J` have the same cardinality. -/
