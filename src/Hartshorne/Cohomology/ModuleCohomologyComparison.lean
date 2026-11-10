@@ -17,8 +17,10 @@ Hartshorne, *Algebraic Geometry*, III, Proposition 2.6 and Remark 2.6.1 (p. 208)
 Let `(X, 𝒪_X)` be a ringed space. The right derived functors of the global section functor
 `Γ(X, -) : Mod(𝒪_X) ⟶ Ab`, computed with injective resolutions in the category of
 `𝒪_X`-modules, are naturally isomorphic to the cohomology of the underlying abelian sheaf
-(`Hartshorne.moduleSheafCohomologyIso`, `Hartshorne.moduleSheafCohomologyNatIso`), compatibly with
-the connecting maps of short exact sequences (`Hartshorne.moduleSheafCohomologyNatIso_δ`).
+(`Hartshorne.moduleSheafCohomologyNatIso`), compatibly with the connecting maps of short exact
+sequences (`Hartshorne.moduleSheafCohomologyNatIso_δ`). Separately,
+`Hartshorne.moduleSheafCohomologyIso` is the comparison computed from the underlying acyclic
+resolution; it agrees with `moduleSheafCohomologyNatIso` in degree zero.
 
 Computing the derived functors of `Γ(X, -) : Mod(𝒪_X) ⟶ Mod(Γ(X, 𝒪_X))` instead gives the same
 groups after forgetting the module structure (`Hartshorne.moduleSheafCohomologyModuleNatIso`),
@@ -168,9 +170,9 @@ variable {X : TopCat.{u}} (R : Sheaf (Opens.grothendieckTopology X) RingCat.{u})
 abbrev moduleSheafCohomology (n : ℕ) : SheafOfModules.{u} R ⥤ AddCommGrpCat.{u} :=
   (moduleGlobalSections R).rightDerived n
 
-/-- **Module and abelian-sheaf cohomology agree** (Hartshorne III, Proposition 2.6). For an
-`𝒪_X`-module `M`, the right derived functors of `Γ(X, -)` computed in `𝒪_X`-modules agree with
-the cohomology of the underlying abelian sheaf: `RⁿΓ(X, M) ≅ Hⁿ(X, M)`. -/
+/-- The comparison `RⁿΓ(X, M) ≅ Hⁿ(X, M)` computed from the injective resolution of `M`, whose
+underlying abelian sheaves are flasque, hence acyclic. Its compatibility with connecting maps and
+its agreement with `moduleSheafCohomologyNatIso` in positive degrees are not proved here. -/
 def moduleSheafCohomologyIso (M : SheafOfModules.{u} R) (n : ℕ) :
     (moduleSheafCohomology R n).obj M ≅
       (sheafCohomology X n).obj ((toTopSheaf R).obj M) :=
