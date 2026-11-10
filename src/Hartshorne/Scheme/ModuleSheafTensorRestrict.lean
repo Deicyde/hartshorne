@@ -3,6 +3,8 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.SheafTensorOperations
+import Hartshorne.Scheme.AffineTildeTensor
+import Hartshorne.Scheme.QuasicoherentAbelianClosure
 
 /-!
 # Tensor products of module sheaves restrict to open subschemes
@@ -12,6 +14,10 @@ is `F|_Y ⊗ G|_Y` (`Hartshorne.moduleSheafTensorRestrictIso`), compatibly with 
 bilinear maps (`Hartshorne.moduleSheafTensorRestrictIso_bilinear`). The presheaves
 `U ↦ F(U) ⊗ G(U)` restrict on the nose, and sheafification commutes with restriction
 (`Hartshorne.SheafTensorOperations.sheafificationRestrictHom`).
+
+Consequently the tensor product of quasi-coherent modules on a scheme is quasi-coherent
+(`Hartshorne.isQuasicoherent_moduleSheafTensor`): on an affine open `Spec A` with `F ≅ M̃` and
+`G ≅ Ñ`, `F ⊗ G ≅ M̃ ⊗ Ñ ≅ (M ⊗_A N)~`.
 -/
 
 universe u
@@ -135,5 +141,19 @@ theorem moduleSheafTensorRestrictIso_bilinear (W : (Opens Y)ᵒᵖ)
       ((restrictModule f).obj G)).obj W) := tensorMapₛₗ_tmul _ _ _ a b
   rw [h3] at h2
   exact (congrArg _ h1).trans h2.symm
+
+/-- **Tensor products of quasi-coherent modules are quasi-coherent.** -/
+theorem isQuasicoherent_moduleSheafTensor {X : Scheme.{u}} (F G : X.Modules)
+    [F.IsQuasicoherent] [G.IsQuasicoherent] :
+    (moduleSheafTensor F G : X.Modules).IsQuasicoherent := by
+  refine (QuasicoherentAbelianAux.isQuasicoherent_iff_forall_essImage _).mpr fun U => ?_
+  obtain ⟨M, ⟨eM⟩⟩ := (QuasicoherentAbelianAux.isQuasicoherent_iff_forall_essImage F).mp ‹_› U
+  obtain ⟨N, ⟨eN⟩⟩ := (QuasicoherentAbelianAux.isQuasicoherent_iff_forall_essImage G).mp ‹_› U
+  have : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
+  exact ⟨ModuleCat.of _ (M ⊗ N), ⟨affineTildeTensorIso M N ≪≫
+    (PresheafOfModules.sheafification _).mapIso
+      (MonoidalCategory.tensorIso ((SheafOfModules.forget _).mapIso eM)
+        ((SheafOfModules.forget _).mapIso eN)) ≪≫
+    (moduleSheafTensorRestrictIso U.2.fromSpec F G).symm⟩⟩
 
 end Hartshorne
