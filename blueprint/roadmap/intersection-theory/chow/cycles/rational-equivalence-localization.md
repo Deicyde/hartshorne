@@ -54,6 +54,9 @@ cycle supported on $Y$, that is, a cycle in the image of $i_*$.
 - [Raw cycle pushforward is functorial](raw-cycle-pushforward-functorial.md)
 - [The dimension-codimension formula](../../../schemes/subschemes-and-dimension/dimension-codimension-formula.md)
 - [The reduced induced closed subscheme](../../../schemes/subschemes-and-dimension/reduced-induced-closed-subscheme.md)
+- [The scheme-theoretic image of a reduced source](../../../schemes/subschemes-and-dimension/scheme-theoretic-image-reduced-source.md)
+- [The universal property of normalization](../../../schemes/normalization-and-exercises/normalization-universal-property.md)
+- [Restriction of class groups to open complements](../../../schemes/divisors/weil-divisors/class-group-open-restriction.md)
 
 ## Sources
 
