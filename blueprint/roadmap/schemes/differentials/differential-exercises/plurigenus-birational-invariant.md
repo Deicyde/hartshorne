@@ -2,6 +2,9 @@
 article_id: af_04975e074f0aaf5e92d5445b
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.plurigenus_eq_of_birational Hartshorne.plurigenus Hartshorne.rank_globalSections_le_of_partialIso
 ---
 
 # Birational invariance of plurigenera
