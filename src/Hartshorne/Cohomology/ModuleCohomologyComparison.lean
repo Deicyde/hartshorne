@@ -6,6 +6,8 @@ import Hartshorne.Cohomology.AcyclicResolutionComparison
 import Hartshorne.Cohomology.InjectiveModuleSheafFlasque
 import Hartshorne.Cohomology.ModuleSheavesEnoughInjectives
 import Hartshorne.Cohomology.SheafCohomologyFlasque
+import Hartshorne.Cohomology.SheafCohomologyExtComparison
+import Hartshorne.Cohomology.SheafCohomologyLongExactSequence
 
 /-!
 # Module and abelian-sheaf cohomology agree
@@ -15,11 +17,14 @@ Hartshorne, *Algebraic Geometry*, III, Proposition 2.6 and Remark 2.6.1 (p. 208)
 Let `(X, 𝒪_X)` be a ringed space. The right derived functors of the global section functor
 `Γ(X, -) : Mod(𝒪_X) ⟶ Ab`, computed with injective resolutions in the category of
 `𝒪_X`-modules, are naturally isomorphic to the cohomology of the underlying abelian sheaf
-(`Hartshorne.moduleSheafCohomologyIso`, `Hartshorne.moduleSheafCohomologyNatIso`).
+(`Hartshorne.moduleSheafCohomologyIso`, `Hartshorne.moduleSheafCohomologyNatIso`), compatibly with
+the connecting maps of short exact sequences (`Hartshorne.moduleSheafCohomologyNatIso_δ`).
 
 Computing the derived functors of `Γ(X, -) : Mod(𝒪_X) ⟶ Mod(Γ(X, 𝒪_X))` instead gives the same
 groups after forgetting the module structure (`Hartshorne.moduleSheafCohomologyModuleNatIso`),
-which equips each `Hⁿ(X, M)` with a functorial `Γ(X, 𝒪_X)`-module structure (Remark 2.6.1).
+again compatibly with the connecting maps (`Hartshorne.moduleSheafCohomologyModuleNatIso_δ`).
+This equips each `Hⁿ(X, M)` with a functorial `Γ(X, 𝒪_X)`-module structure (Remark 2.6.1), for
+which the connecting maps are `Γ(X, 𝒪_X)`-linear (`Hartshorne.moduleSheafCohomologyModule_δ_smul`).
 
 ## Proof
 
@@ -29,6 +34,13 @@ Mathlib, and finite colimits because module sheafification computes the underlyi
 sheafification). So an injective resolution `M ⟶ I^•` of `𝒪_X`-modules gives a resolution of the
 underlying abelian sheaf, whose terms are flasque (injective module sheaves are flasque), hence
 `Γ(X, -)`-acyclic. Acyclic resolutions compute derived functors.
+
+For the connecting maps, all three families (`RⁿΓ` in `Ab`, `RⁿΓ` in `Mod(Γ(X, 𝒪_X))` after
+forgetting, and `Hⁿ` of the underlying sheaf) are effaceable cohomological functors on
+`Mod(𝒪_X)`: they have long exact sequences with natural connecting maps and vanish in positive
+degrees on injective `𝒪_X`-modules. The natural isomorphisms are the ones these structures
+determine from degree zero (`Hartshorne.EffaceableCohomologicalFunctor.compIso`), which commute
+with the connecting maps (`Hartshorne.EffaceableCohomologicalFunctor.δ_compIso_hom`).
 -/
 
 noncomputable section
@@ -196,12 +208,70 @@ theorem moduleSheafCohomologyIso_naturality {M N : SheafOfModules.{u} R} (g : M 
   rw [Iso.eq_inv_comp, ← Category.assoc, Iso.comp_inv_eq]
   exact e1.symm
 
+namespace ModuleCohomology
+
+open EffaceableCohomologicalFunctor RightDerivedLES
+
+/-- `RⁿΓ(X, -)` on `𝒪_X`-modules, with the connecting maps of right derived functors, as an
+effaceable cohomological functor. -/
+def moduleSheafCohomologyEffaceable :
+    EffaceableCohomologicalFunctor (SheafOfModules.{u} R) AddCommGrpCat.{u} where
+  F n := moduleSheafCohomology R n
+  δ hS n := rightDerivedδ (moduleGlobalSections R) hS n
+  map_g_comp_δ hS n := Horseshoe.map_g_comp_δ _ hS _ _ n
+  δ_comp_map_f hS n := Horseshoe.δ_comp_map_f _ hS _ _ n
+  exact₃ hS n := rightDerived_exact₃ _ hS n
+  exact₁ hS n := rightDerived_exact₁ _ hS n
+  naturality φ hS₁ hS₂ n := rightDerivedδ_naturality _ φ hS₁ hS₂ n
+  isZero_injective I _ n := Functor.isZero_rightDerived_obj_injective_succ _ n I
+
+/-- The cohomology `Hⁿ(X, -)` of the underlying abelian sheaf, with the connecting maps of sheaf
+cohomology, as an effaceable cohomological functor on `𝒪_X`-modules: the underlying sheaf of an
+injective `𝒪_X`-module is flasque, hence acyclic. -/
+def underlyingSheafCohomologyEffaceable :
+    EffaceableCohomologicalFunctor (SheafOfModules.{u} R) AddCommGrpCat.{u} where
+  F n := toTopSheaf R ⋙ sheafCohomology X n
+  δ hS n := sheafCohomologyδ (hS.map_of_exact (toTopSheaf R)) n
+  map_g_comp_δ hS n := sheafCohomology_map_g_comp_δ (hS.map_of_exact (toTopSheaf R)) n
+  δ_comp_map_f hS n := sheafCohomologyδ_comp_map_f (hS.map_of_exact (toTopSheaf R)) n
+  exact₃ hS n := rightDerived_exact₃ _ (hS.map_of_exact (toTopSheaf R)) n
+  exact₁ hS n := rightDerived_exact₁ _ (hS.map_of_exact (toTopSheaf R)) n
+  naturality φ _ _ n :=
+    rightDerivedδ_naturality _ ((toTopSheaf R).mapShortComplex.map φ) _ _ n
+  isZero_injective I _ n :=
+    have : ((toTopSheaf R).obj I).IsFlasque := injectiveModuleSheaf_isFlasque R I
+    isRightAcyclic_sheafSectionsOver_top_of_isFlasque _ n
+
+end ModuleCohomology
+
+open EffaceableCohomologicalFunctor
+
 /-- **Module and abelian-sheaf cohomology agree** (Hartshorne III, Proposition 2.6), as a natural
-isomorphism of functors `Mod(𝒪_X) ⟶ Ab`: `RⁿΓ(X, -) ≅ Hⁿ(X, -) ∘ (underlying abelian sheaf)`. -/
+isomorphism of functors `Mod(𝒪_X) ⟶ Ab`: `RⁿΓ(X, -) ≅ Hⁿ(X, -) ∘ (underlying abelian sheaf)`,
+compatible with the connecting maps (`Hartshorne.moduleSheafCohomologyNatIso_δ`). In degree zero
+it is `Hartshorne.moduleSheafCohomologyIso`; in higher degrees it is determined by degree zero and
+the connecting maps, both sides being effaceable cohomological functors. -/
 def moduleSheafCohomologyNatIso (n : ℕ) :
     moduleSheafCohomology R n ≅ toTopSheaf R ⋙ sheafCohomology X n :=
-  NatIso.ofComponents (fun M ↦ moduleSheafCohomologyIso R M n)
-    (fun g ↦ moduleSheafCohomologyIso_naturality R g n)
+  compIso (moduleSheafCohomologyEffaceable R) (underlyingSheafCohomologyEffaceable R)
+    (NatIso.ofComponents (fun M ↦ moduleSheafCohomologyIso R M 0)
+      (fun g ↦ moduleSheafCohomologyIso_naturality R g 0)) n
+
+theorem moduleSheafCohomologyNatIso_zero_app (M : SheafOfModules.{u} R) :
+    (moduleSheafCohomologyNatIso R 0).app M = moduleSheafCohomologyIso R M 0 :=
+  rfl
+
+/-- The comparison `RⁿΓ(X, -) ≅ Hⁿ(X, -)` commutes with the connecting maps: for a short exact
+sequence `0 ⟶ M' ⟶ M ⟶ M'' ⟶ 0` of `𝒪_X`-modules, the connecting map of right derived functors
+in `𝒪_X`-modules corresponds to the connecting map of sheaf cohomology of the underlying short
+exact sequence of abelian sheaves. -/
+theorem moduleSheafCohomologyNatIso_δ {S : ShortComplex (SheafOfModules.{u} R)}
+    (hS : S.ShortExact) (n : ℕ) :
+    rightDerivedδ (moduleGlobalSections R) hS n ≫
+        (moduleSheafCohomologyNatIso R (n + 1)).hom.app S.X₁ =
+      (moduleSheafCohomologyNatIso R n).hom.app S.X₃ ≫
+        sheafCohomologyδ (hS.map_of_exact (toTopSheaf R)) n :=
+  δ_compIso_hom (moduleSheafCohomologyEffaceable R) (underlyingSheafCohomologyEffaceable R) _ hS n
 
 namespace ModuleCohomology
 
@@ -254,19 +324,88 @@ theorem moduleSheafCohomologyForgetIso_naturality {M N : SheafOfModules.{u} R} (
   refine ((reassoc_of% e2) _).trans ?_
   exact congrArg (_ ≫ ·) e3.symm
 
+namespace ModuleCohomology
+
+open EffaceableCohomologicalFunctor RightDerivedLES
+
+/-- `RⁿΓ(X, -) : Mod(𝒪_X) ⟶ Mod(Γ(X, 𝒪_X))` followed by forgetting the module structure, with the
+images of the connecting maps of right derived functors, as an effaceable cohomological functor. -/
+def moduleSheafCohomologyModuleEffaceable :
+    EffaceableCohomologicalFunctor (SheafOfModules.{u} R) AddCommGrpCat.{u} where
+  F n := moduleSheafCohomologyModule R n ⋙
+    forget₂ (ModuleCat.{u} (R.obj.obj (op ⊤))) AddCommGrpCat.{u}
+  δ hS n := (forget₂ (ModuleCat.{u} (R.obj.obj (op ⊤))) AddCommGrpCat.{u}).map
+    (rightDerivedδ (SheafOfModules.evaluation.{u} R (op ⊤)) hS n)
+  map_g_comp_δ {S} hS n := by
+    have h : ((SheafOfModules.evaluation.{u} R (op ⊤)).rightDerived n).map S.g ≫
+        rightDerivedδ (SheafOfModules.evaluation.{u} R (op ⊤)) hS n = 0 :=
+      Horseshoe.map_g_comp_δ _ hS _ _ n
+    simp only [Functor.comp_map, ← Functor.map_comp, h, Functor.map_zero]
+  δ_comp_map_f {S} hS n := by
+    have h : rightDerivedδ (SheafOfModules.evaluation.{u} R (op ⊤)) hS n ≫
+        ((SheafOfModules.evaluation.{u} R (op ⊤)).rightDerived (n + 1)).map S.f = 0 :=
+      Horseshoe.δ_comp_map_f _ hS _ _ n
+    simp only [Functor.comp_map, ← Functor.map_comp, h, Functor.map_zero]
+  exact₃ hS n := (rightDerived_exact₃ _ hS n).map
+    (forget₂ (ModuleCat.{u} (R.obj.obj (op ⊤))) AddCommGrpCat.{u})
+  exact₁ hS n := (rightDerived_exact₁ _ hS n).map
+    (forget₂ (ModuleCat.{u} (R.obj.obj (op ⊤))) AddCommGrpCat.{u})
+  naturality φ hS₁ hS₂ n := by
+    simp only [Functor.comp_map]
+    rw [← Functor.map_comp, ← Functor.map_comp, rightDerivedδ_naturality]
+  isZero_injective I _ n :=
+    (forget₂ (ModuleCat.{u} (R.obj.obj (op ⊤))) AddCommGrpCat.{u}).map_isZero
+      (Functor.isZero_rightDerived_obj_injective_succ (SheafOfModules.evaluation.{u} R (op ⊤)) n I)
+
+end ModuleCohomology
+
+open EffaceableCohomologicalFunctor
+
 /-- **The `Γ(X, 𝒪_X)`-module structure on cohomology** (Hartshorne III, Remark 2.6.1). The right
 derived functors of `Γ(X, -) : Mod(𝒪_X) ⟶ Mod(Γ(X, 𝒪_X))` agree, after forgetting the module
-structure, with the cohomology of the underlying abelian sheaf, naturally in the `𝒪_X`-module.
-This equips each `Hⁿ(X, M)` with a functorial `Γ(X, 𝒪_X)`-module structure. -/
+structure, with the cohomology of the underlying abelian sheaf, naturally in the `𝒪_X`-module and
+compatibly with the connecting maps (`Hartshorne.moduleSheafCohomologyModuleNatIso_δ`). This equips
+each `Hⁿ(X, M)` with a functorial `Γ(X, 𝒪_X)`-module structure, for which the connecting maps are
+`Γ(X, 𝒪_X)`-linear (`Hartshorne.moduleSheafCohomologyModule_δ_smul`). In degree zero it is
+`moduleSheafCohomologyForgetIso` followed by `moduleSheafCohomologyIso`. -/
 def moduleSheafCohomologyModuleNatIso (n : ℕ) :
     moduleSheafCohomologyModule R n ⋙
         forget₂ (ModuleCat.{u} (R.obj.obj (op ⊤))) AddCommGrpCat.{u} ≅
       toTopSheaf R ⋙ sheafCohomology X n :=
-  NatIso.ofComponents
-    (fun M ↦ moduleSheafCohomologyForgetIso R M n ≪≫ moduleSheafCohomologyIso R M n)
-    (fun g ↦ by
-      simp only [Functor.comp_map, Iso.trans_hom]
-      rw [reassoc_of% moduleSheafCohomologyForgetIso_naturality,
-        moduleSheafCohomologyIso_naturality, Category.assoc])
+  compIso (moduleSheafCohomologyModuleEffaceable R) (underlyingSheafCohomologyEffaceable R)
+    (NatIso.ofComponents
+      (fun M ↦ moduleSheafCohomologyForgetIso R M 0 ≪≫ moduleSheafCohomologyIso R M 0)
+      (fun g ↦ by
+        simp only [Functor.comp_map, Iso.trans_hom]
+        rw [reassoc_of% moduleSheafCohomologyForgetIso_naturality,
+          moduleSheafCohomologyIso_naturality, Category.assoc]) :
+      moduleSheafCohomologyModule R 0 ⋙
+          forget₂ (ModuleCat.{u} (R.obj.obj (op ⊤))) AddCommGrpCat.{u} ≅
+        toTopSheaf R ⋙ sheafCohomology X 0) n
+
+theorem moduleSheafCohomologyModuleNatIso_zero_app (M : SheafOfModules.{u} R) :
+    (moduleSheafCohomologyModuleNatIso R 0).app M =
+      moduleSheafCohomologyForgetIso R M 0 ≪≫ moduleSheafCohomologyIso R M 0 :=
+  rfl
+
+/-- The comparison of `Γ(X, 𝒪_X)`-module cohomology with abelian-sheaf cohomology commutes with
+the connecting maps of a short exact sequence of `𝒪_X`-modules. -/
+theorem moduleSheafCohomologyModuleNatIso_δ {S : ShortComplex (SheafOfModules.{u} R)}
+    (hS : S.ShortExact) (n : ℕ) :
+    (forget₂ (ModuleCat.{u} (R.obj.obj (op ⊤))) AddCommGrpCat.{u}).map
+          (rightDerivedδ (SheafOfModules.evaluation.{u} R (op ⊤)) hS n) ≫
+        (moduleSheafCohomologyModuleNatIso R (n + 1)).hom.app S.X₁ =
+      (moduleSheafCohomologyModuleNatIso R n).hom.app S.X₃ ≫
+        sheafCohomologyδ (hS.map_of_exact (toTopSheaf R)) n :=
+  δ_compIso_hom (moduleSheafCohomologyModuleEffaceable R)
+    (underlyingSheafCohomologyEffaceable R) _ hS n
+
+/-- The connecting maps of the `Γ(X, 𝒪_X)`-module cohomology are `Γ(X, 𝒪_X)`-linear. -/
+theorem moduleSheafCohomologyModule_δ_smul {S : ShortComplex (SheafOfModules.{u} R)}
+    (hS : S.ShortExact) (n : ℕ) (r : R.obj.obj (op ⊤))
+    (x : (moduleSheafCohomologyModule R n).obj S.X₃) :
+    (rightDerivedδ (SheafOfModules.evaluation.{u} R (op ⊤)) hS n).hom (r • x) =
+      r • (rightDerivedδ (SheafOfModules.evaluation.{u} R (op ⊤)) hS n).hom x :=
+  map_smul _ r x
 
 end Hartshorne
