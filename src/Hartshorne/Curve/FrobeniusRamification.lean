@@ -14,19 +14,19 @@ import Hartshorne.Scheme.Differentials.DifferentialsCharacterizeNonsingular
 Hartshorne, *Algebraic Geometry*, IV.2, Example 2.5.1 (p. 303).
 
 Let `Y` be a nonsingular curve over a perfect field `k` of characteristic `p` (Hartshorne works
-over an algebraically closed field), and let `F : Y^p ⟶ Y` be the `k`-linear Frobenius
+over an algebraically closed field), and let `F : Y_p ⟶ Y` be the `k`-linear Frobenius
 (`frobeniusTwistHom`, the underlying map of `AlgebraicGeometry.Scheme.frobeniusTwistTo`), whose
 underlying scheme map is the absolute Frobenius.
 
 * `frobeniusTwistHom_apply`: `F` is the identity on points.
-* `isNonsingularCurve_frobeniusTwist`, `locallyQuasiFinite_frobeniusTwistHom`: `Y^p` is again a
+* `isNonsingularCurve_frobeniusTwist`, `locallyQuasiFinite_frobeniusTwistHom`: `Y_p` is again a
   nonsingular curve over `k` and `F` is locally quasi-finite, so ramification indices are defined.
 * `ramificationIndex_frobeniusTwistHom`: every closed point has ramification index `p`.
-* `pullbackRelativeDifferentialsToComp_frobeniusTwistHom_eq_zero`: `F^*Ω_{Y/k} ⟶ Ω_{Y^p/k}` is
-  zero, so `Ω_{Y^p/k} ≅ Ω_{Y^p/Y}` (`relativeDifferentialsFrobeniusTwistIso`).
+* `pullbackRelativeDifferentialsToComp_frobeniusTwistHom_eq_zero`: `F^*Ω_{Y/k} ⟶ Ω_{Y_p/k}` is
+  zero, so `Ω_{Y_p/k} ≅ Ω_{Y_p/Y}` (`relativeDifferentialsFrobeniusTwistIso`).
 * `not_isSeparable_frobeniusTwistHom`: `F` is inseparable.
 * `relativeDifferentials_frobeniusTwistHom_isLocallyFreeOfRank_one`: over an algebraically closed
-  field, `Ω_{Y^p/Y}` is locally free of rank one.
+  field, `Ω_{Y_p/Y}` is locally free of rank one.
 -/
 
 noncomputable section
@@ -45,7 +45,7 @@ variable (k) in
 def asOverSpec : Over (Spec (.of k)) := Over.mk (Y ↘ Spec (.of k))
 
 variable (k p) in
-/-- Hartshorne's `Y^p`: the scheme `Y` with structure morphism followed by Frobenius of `k`. -/
+/-- Hartshorne's `Y_p`: the scheme `Y` with structure morphism followed by Frobenius of `k`. -/
 def frobeniusTwistScheme : Scheme.{u} := (frobeniusTwist (p := p) k (asOverSpec k Y)).left
 
 instance : (frobeniusTwistScheme k p Y).Over (Spec (.of k)) :=
@@ -55,7 +55,7 @@ instance [IsIntegral Y] : IsIntegral (frobeniusTwistScheme k p Y) :=
   inferInstanceAs (IsIntegral Y)
 
 variable (k p) in
-/-- Hartshorne's `k`-linear Frobenius `F : Y^p ⟶ Y`; its underlying map is the absolute
+/-- Hartshorne's `k`-linear Frobenius `F : Y_p ⟶ Y`; its underlying map is the absolute
 Frobenius. -/
 def frobeniusTwistHom : frobeniusTwistScheme k p Y ⟶ Y :=
   (frobeniusTwistTo (p := p) k (asOverSpec k Y)).left
@@ -79,7 +79,7 @@ theorem frobeniusTwistHom_comp_structureMap :
     frobeniusTwistHom k p Y ≫ (Y ↘ Spec (.of k)) = frobeniusTwistScheme k p Y ↘ Spec (.of k) :=
   (absoluteFrobenius_comp_structureMap k (asOverSpec k Y))
 
-/-- The first map `F^*Ω_{Y/k} ⟶ Ω_{Y^p/k}` of the transitivity sequence is zero, since
+/-- The first map `F^*Ω_{Y/k} ⟶ Ω_{Y_p/k}` of the transitivity sequence is zero, since
 `d(a ^ p) = 0`. -/
 theorem pullbackRelativeDifferentialsToComp_frobeniusTwistHom_eq_zero :
     pullbackRelativeDifferentialsToComp (frobeniusTwistHom k p Y) (Y ↘ Spec (.of k)) = 0 := by
@@ -88,7 +88,7 @@ theorem pullbackRelativeDifferentialsToComp_frobeniusTwistHom_eq_zero :
   exact relativeDifferentialsDerivation_d_pow_eq_zero _
     (natCast_eq_zero_of_hom_spec (frobeniusTwistHom k p Y ≫ (Y ↘ Spec (.of k))) _) b
 
-/-- `Ω_{Y^p/k} ≅ Ω_{Y^p/Y}`. -/
+/-- `Ω_{Y_p/k} ≅ Ω_{Y_p/Y}`. -/
 def relativeDifferentialsFrobeniusTwistIso :
     relativeDifferentials (frobeniusTwistScheme k p Y ↘ Spec (.of k)) ≅
       relativeDifferentials (frobeniusTwistHom k p Y) :=
@@ -99,7 +99,7 @@ def relativeDifferentialsFrobeniusTwistIso :
 
 variable [IsIntegral Y]
 
-/-- Over a perfect field, `Y^p` is again a nonsingular curve. -/
+/-- Over a perfect field, `Y_p` is again a nonsingular curve. -/
 theorem isNonsingularCurve_frobeniusTwist [PerfectRing k p] (hY : Y.IsNonsingularCurve k) :
     (frobeniusTwistScheme k p Y).IsNonsingularCurve k where
   isSeparated := by
@@ -133,7 +133,7 @@ theorem locallyQuasiFinite_frobeniusTwistHom [PerfectRing k p] (hY : Y.IsNonsing
 
 /-- **Every point of a nonsingular curve is ramified of index `p` under Frobenius**
 (Hartshorne IV.2, Example 2.5.1). At every closed point `P` (a point of codimension one; the
-points of Hartshorne's curve), `e_P = p` for `F : Y^p ⟶ Y`. -/
+points of Hartshorne's curve), `e_P = p` for `F : Y_p ⟶ Y`. -/
 theorem ramificationIndex_frobeniusTwistHom [PerfectRing k p] (hY : Y.IsNonsingularCurve k)
     {P : frobeniusTwistScheme k p Y} (hP : coheight P = 1) :
     letI := locallyQuasiFinite_frobeniusTwistHom Y hY
@@ -173,7 +173,7 @@ theorem IsNonsingularCurve.exists_coheight_eq_one {X : Scheme.{u}} [X.Over (Spec
   rw [hX.topologicalKrullDim_eq_one] at h0
   exact one_ne_zero h0
 
-/-- **Frobenius is inseparable.** The function field extension `F^# : K(Y) → K(Y^p)` is not
+/-- **Frobenius is inseparable.** The function field extension `F^# : K(Y) → K(Y_p)` is not
 separable. -/
 theorem not_isSeparable_frobeniusTwistHom [PerfectRing k p] (hY : Y.IsNonsingularCurve k) :
     letI := locallyQuasiFinite_frobeniusTwistHom Y hY
@@ -230,7 +230,7 @@ theorem not_isSeparable_frobeniusTwistHom [PerfectRing k p] (hY : Y.IsNonsingula
   have := Int.eq_one_of_dvd_one (by positivity) this
   omega
 
-/-- Over an algebraically closed field, `Ω_{Y^p/Y}` is locally free of rank one; in particular it
+/-- Over an algebraically closed field, `Ω_{Y_p/Y}` is locally free of rank one; in particular it
 is not supported on finitely many points. -/
 theorem relativeDifferentials_frobeniusTwistHom_isLocallyFreeOfRank_one [IsAlgClosed k]
     (hY : Y.IsNonsingularCurve k) :

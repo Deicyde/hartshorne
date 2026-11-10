@@ -14,9 +14,9 @@ Hartshorne, *Algebraic Geometry*, IV.2, pp. 301--302.
 
 For a scheme whose local rings have characteristic `p`, the absolute Frobenius is the identity on
 points and raises local sections to their `p`th powers. If `X` is a scheme over a field `k`, then
-Hartshorne's `X^p` has the same underlying scheme and structure map obtained by following the old
+Hartshorne's `X_p` has the same underlying scheme and structure map obtained by following the old
 structure map by Frobenius on `Spec k`. With this convention absolute Frobenius has the
-source-facing orientation `X^p ⟶ X` as a `k`-morphism.
+source-facing orientation `X_p ⟶ X` as a `k`-morphism.
 -/
 
 noncomputable section
@@ -155,7 +155,7 @@ theorem absoluteFrobenius_comp_structureMap
   rw [← hspec]
   simp only [map_pow]
 
-/-- Hartshorne's `X^p`: the same abstract scheme, with structural morphism followed by Frobenius
+/-- Hartshorne's `X_p`: the same abstract scheme, with structural morphism followed by Frobenius
 on `Spec k`. -/
 def frobeniusTwist
     (k : Type u) [Field k] [CharP k p] [Fact p.Prime]
@@ -175,7 +175,7 @@ theorem frobeniusTwist_hom
     (X : CategoryTheory.Over (Spec (.of k))) :
     (frobeniusTwist (p := p) k X).hom = X.hom ≫ specFrobenius p k := rfl
 
-/-- Hartshorne's correctly oriented `k`-linear Frobenius `X^p ⟶ X`. Its underlying scheme map
+/-- Hartshorne's correctly oriented `k`-linear Frobenius `X_p ⟶ X`. Its underlying scheme map
 is absolute Frobenius. -/
 def frobeniusTwistTo
     (k : Type u) [Field k] [CharP k p] [Fact p.Prime]

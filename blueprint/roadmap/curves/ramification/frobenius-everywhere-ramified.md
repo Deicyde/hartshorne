@@ -9,13 +9,13 @@ lean: AlgebraicGeometry.Scheme.ramificationIndex_frobeniusTwistHom AlgebraicGeom
 
 # Frobenius is ramified everywhere
 
-Let $f : Y^p \to Y$ be one $k$-linear Frobenius step for a curve in
+Let $f : Y_p \to Y$ be one $k$-linear Frobenius step for a curve in
 characteristic $p$. It is the identity on points, and every point has
 ramification index $p$. The map
 
-$f^* \Omega _Y \to \Omega _{(Y^p)}$
+$f^* \Omega _Y \to \Omega _{(Y_p)}$
 
-is zero, so $\Omega _{((Y^p)/Y)} \simeq \Omega _{(Y^p)}$.
+is zero, so $\Omega _{((Y_p)/Y)} \simeq \Omega _{(Y_p)}$.
 
 This map is inseparable. Its relative differential sheaf has rank one rather
 than finite torsion support, so the separable ramification divisor is not
