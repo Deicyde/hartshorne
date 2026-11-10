@@ -28,6 +28,7 @@ criterion.
 
 ## Proof depends on
 
+- [Fibres of the differential sheaf on an affine chart](relative-differentials-affine-fibre.md)
 - [The free locus of a coherent sheaf](../../coherent-sheaves/coherent-free-locus.md)
 - [Constant fibre dimension of relative differentials](../../../cohomology/smooth-morphisms/criteria/relative-differentials-rank-of-smooth.md)
 - [Equidimensionality in a flat family](../../../cohomology/flat-families/families-hilbert/flat-equidimensional-total-space-iff-fibers.md)

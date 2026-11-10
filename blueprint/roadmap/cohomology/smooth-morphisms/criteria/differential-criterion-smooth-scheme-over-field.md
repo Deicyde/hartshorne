@@ -38,6 +38,7 @@ makes $T$ smooth over $k$ at every prime.
 - [The dimension formula for a finitely generated domain](../../../affine-varieties/dim-formula-catenary.md)
 - [Equidimensionality in a flat family](../../flat-families/families-hilbert/flat-equidimensional-total-space-iff-fibers.md)
 - [Differentials on affine schemes](../../../schemes/differentials/scheme-differentials/affine-relative-differentials.md)
+- [Fibres of the differential sheaf on an affine chart](../../../schemes/differentials/scheme-differentials/relative-differentials-affine-fibre.md)
 
 ## Sources
 

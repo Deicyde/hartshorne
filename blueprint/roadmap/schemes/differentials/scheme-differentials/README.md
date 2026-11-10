@@ -19,6 +19,7 @@ comparison theorems.
 - [Relative differentials are the conormal sheaf of the diagonal](relative-differentials-diagonal-conormal.md)
 - [Differentials on affine schemes](affine-relative-differentials.md)
 - [Quasi-coherence and coherence of differentials](relative-differentials-quasicoherent.md)
+- [Fibres of the differential sheaf on an affine chart](relative-differentials-affine-fibre.md)
 - [Base change for differential sheaves](relative-differentials-base-change.md)
 - [The transitivity sequence for differential sheaves](relative-differentials-transitivity.md)
 - [The conormal sequence of a closed immersion](closed-immersion-conormal-sequence.md)
