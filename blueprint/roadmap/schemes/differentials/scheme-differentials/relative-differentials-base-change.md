@@ -22,11 +22,11 @@ compatible with the universal derivations.
 - [Base extension](../../fiber-products/base-extension.md)
 - [Pullback preserves quasi-coherence](../../modules-and-quasicoherent/pullback-quasicoherent.md)
 - [Base change for Kähler differentials](../kaehler-differentials/kahler-differential-base-change.md)
+- [The transitivity sequence for differential sheaves](relative-differentials-transitivity.md)
 
 ## Proof depends on
 
 - [Fiber products of affine schemes](../../fiber-products/affine-fiber-product.md)
-- [The transitivity sequence for differential sheaves](relative-differentials-transitivity.md)
 - The affine-local criterion for isomorphisms of quasi-coherent modules.
 
 ## Sources
