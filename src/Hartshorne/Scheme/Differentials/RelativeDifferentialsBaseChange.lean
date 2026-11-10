@@ -119,17 +119,6 @@ theorem unit_pullbackComp_inv (f : X ⟶ Y) (g : Y ⟶ Z) (F : Z.Modules) :
   rw [← this, Category.assoc]
   rfl
 
-/-- The unit of the pullback along `f`, followed by `f^* ≅ g^*` for `f = g`, is the unit along `g`
-up to `f_* ≅ g_*`. -/
-theorem unit_pullbackCongr_hom {f g : X ⟶ Y} (h : f = g) (F : Y.Modules) :
-    (pullbackPushforwardAdjunction f).unit.app F ≫
-      (pushforward f).map ((pullbackCongr h).hom.app F) =
-    (pullbackPushforwardAdjunction g).unit.app F ≫ (pushforwardCongr h).inv.app _ := by
-  subst h
-  ext U : 1
-  simp [pullbackCongr]
-  rfl
-
 /-- For an open immersion, the identification of restriction with pullback is compatible with the
 adjunction units. -/
 theorem unit_restrictFunctorIsoPullback_hom (f : X ⟶ Y) [IsOpenImmersion f] (F : Y.Modules) :
@@ -246,38 +235,6 @@ theorem affineIso_hom_d (U : X.affineOpens) (V : Y.affineOpens)
 
 end AlgebraicGeometry.RelDiffLocal
 
-namespace KaehlerDifferential
-
-open scoped TensorProduct
-
-variable {R S A B : Type*} [CommRing R] [CommRing S] [Algebra R S] [CommRing A] [CommRing B]
-  [Algebra R A] [Algebra R B] [Algebra A B] [Algebra S B] [IsScalarTower R A B]
-  [IsScalarTower R S B]
-
-/-- For `B = S ⊗_R A`, every `B`-linear map `B ⊗_A Ω_{A/R} → Ω_{B/S}` sending `1 ⊗ d a` to
-`d a` is bijective: it is the base-change isomorphism. -/
-theorem bijective_of_tmul_D [Algebra.IsPushout R S A B] (L : B ⊗[A] Ω[A⁄R] →ₗ[B] Ω[B⁄S])
-    (hL : ∀ a : A, L (1 ⊗ₜ D R A a) = D S B (algebraMap A B a)) : Function.Bijective L := by
-  let f : Ω[A⁄R] →ₗ[A] Ω[B⁄S] :=
-    (L.restrictScalars A).comp (TensorProduct.mk A B Ω[A⁄R] 1)
-  let f' : Ω[A⁄R] →ₗ[A] Ω[B⁄S] :=
-    ((tensorKaehlerEquiv R S A B).toLinearMap.restrictScalars A).comp
-      (TensorProduct.mk A B Ω[A⁄R] 1)
-  have hff' : f = f' := by
-    ext a
-    simp [f, f', hL]
-  have hL' : L = (tensorKaehlerEquiv R S A B).toLinearMap := by
-    apply TensorProduct.AlgebraTensorModule.ext
-    intro b ω
-    have h1 : (b ⊗ₜ[A] ω : B ⊗[A] Ω[A⁄R]) = b • (1 ⊗ₜ ω) := by
-      rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
-    rw [h1, map_smul, map_smul]
-    exact congrArg (b • ·) (LinearMap.congr_fun hff' ω)
-  rw [hL']
-  exact (tensorKaehlerEquiv R S A B).bijective
-
-end KaehlerDifferential
-
 namespace AlgebraicGeometry.Scheme
 
 variable {X Y Y' : Scheme.{u}} (f : X ⟶ Y) (h : Y' ⟶ Y)
@@ -305,31 +262,6 @@ theorem baseChangeRelativeDifferentialsMap_unit_d (V : X.Opens) (b : X.presheaf.
   rw [pullbackRelativeDifferentialsToComp_unit_d, relativeDifferentialsCongr_hom_d,
     relativeDifferentialsCompToLeft_d]
 
-section HomExt
-
-variable {X Y X' : Scheme.{u}} (f : X ⟶ Y) (g : X' ⟶ X)
-
-/-- Morphisms out of `g^* Ω_{X/Y}` are determined by their values on the pulled-back
-differentials `g^*(d_{X/Y} b)`. -/
-theorem pullback_relativeDifferentials_hom_ext {N : X'.Modules}
-    {φ ψ : (Modules.pullback g).obj (relativeDifferentials f) ⟶ N}
-    (h : ∀ (V : X.Opens) (b : X.presheaf.obj (op V)),
-      φ.val.app (op (g ⁻¹ᵁ V))
-          (((Modules.pullbackPushforwardAdjunction g).unit.app (relativeDifferentials f)).val.app
-            (op V) ((relativeDifferentialsDerivation f).d b)) =
-        ψ.val.app (op (g ⁻¹ᵁ V))
-          (((Modules.pullbackPushforwardAdjunction g).unit.app (relativeDifferentials f)).val.app
-            (op V) ((relativeDifferentialsDerivation f).d b))) :
-    φ = ψ := by
-  apply ((Modules.pullbackPushforwardAdjunction g).homEquiv _ _).injective
-  rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit]
-  apply (relativeDifferentialsHomEquiv f _).injective
-  rw [relativeDifferentialsHomEquiv_apply, relativeDifferentialsHomEquiv_apply]
-  ext V b
-  exact h V.unop b
-
-end HomExt
-
 end AlgebraicGeometry.Scheme
 
 namespace AlgebraicGeometry.Scheme.Modules
@@ -344,9 +276,9 @@ theorem app_presheaf_map {M N : X.Modules} (φ : M ⟶ N) {U V : X.Opens} (i : V
 /-- Two successive restrictions of sections of a module sheaf compose to a restriction. -/
 theorem presheaf_map_map (M : X.Modules) {A B C : X.Opensᵒᵖ} (p : A ⟶ B) (q : B ⟶ C)
     (r : A ⟶ C) (x : M.presheaf.obj A) :
-    M.presheaf.map q (M.presheaf.map p x) = M.presheaf.map r x := by
-  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
-  rfl
+    M.presheaf.map q (M.presheaf.map p x) = M.presheaf.map r x :=
+  (RelDiffLocal.presheaf_map_map M p q r (𝟙 C) x).trans
+    ((ConcreteCategory.congr_hom (M.presheaf.map_id C) _).trans rfl)
 
 /-- For an open immersion `f`, the identification of restriction with `f^*` sends the restriction
 of `y` to the pulled-back section `f^* y`. -/
