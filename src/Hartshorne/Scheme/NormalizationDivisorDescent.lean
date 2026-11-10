@@ -513,7 +513,8 @@ theorem principalCartierDivisor_restrict_eq_zero_iff {X : Scheme.{u}} [IsIntegra
       ∃ a : Γ(X, V)ˣ, X.presheaf.germ V (genericPoint X) hη a = g := by
   rw [principalCartierDivisor_restrict]
   have h0 : (0 : X.cartierDivisorSheaf.obj.obj (op V)) =
-      X.toCartierDivisorSheaf.hom.app (op V) (Additive.ofMul (1 : X.totalQuotientUnitsSheaf.obj.obj (op V))) :=
+      X.toCartierDivisorSheaf.hom.app (op V)
+        (Additive.ofMul (1 : X.totalQuotientUnitsSheaf.obj.obj (op V))) :=
     ((X.toCartierDivisorSheaf.hom.app (op V)).hom.map_zero).symm
   rw [h0, toCartierDivisorSheaf_apply_eq_iff_ratio, div_one]
   constructor
@@ -678,8 +679,9 @@ theorem exists_cartierPullbackData_of_isIso_morphismRestrict {X Y : Scheme.{u}}
         hU'.elim (fun h ↦ inf_le_left.trans h) (fun h ↦ inf_le_right.trans h)
       have := isIso_app_of_isIso_morphismRestrict f hle
       rw [principalCartierDivisor_restrict_eq_zero_iff_of_isIso_app f hf hηyz,
-        show genericFunctionFieldUnitsMap f hf (g y / g z) = genericFunctionFieldUnitsMap f hf (g y) /
-          genericFunctionFieldUnitsMap f hf (g z) from map_div _ _ _,
+        show genericFunctionFieldUnitsMap f hf (g y / g z) =
+          genericFunctionFieldUnitsMap f hf (g y) / genericFunctionFieldUnitsMap f hf (g z) from
+          map_div _ _ _,
         principalCartierDivisor_globalUnit_div, restrict_sub, sub_eq_zero,
         ← restrict_congr_of_le (show f ⁻¹ᵁ (V y ⊓ V z) ≤ f ⁻¹ᵁ V y from fun _ hx ↦ hx.1) (hEV y),
         ← restrict_congr_of_le (show f ⁻¹ᵁ (V y ⊓ V z) ≤ f ⁻¹ᵁ V z from fun _ hx ↦ hx.2) (hEV z)]
@@ -791,7 +793,8 @@ theorem exists_pullback_iso_of_isVeryAmpleRelative {k : Type u} [Field k] [IsAlg
       (∀ x, ¬ X.IsRegularAt (Hartshorne.absoluteNormalizationMap X x) →
         ∃ V : (Hartshorne.absoluteNormalization X).Opens, x ∈ V ∧ D.restrict V = 0) ∧
       ∃ L₀ : X.Modules, L₀.IsInvertible ∧
-        Nonempty ((Scheme.Modules.pullback (Hartshorne.absoluteNormalizationMap X)).obj L₀ ≅ L) := by
+        Nonempty
+          ((Scheme.Modules.pullback (Hartshorne.absoluteNormalizationMap X)).obj L₀ ≅ L) := by
   obtain ⟨U, hUne, hreg, hiso, D, hDeff, ⟨e⟩, hDtriv⟩ :=
     exists_isIso_effective_divisor_of_isVeryAmpleRelative p hdim hL
   have hf : Hartshorne.FiniteType p := ⟨inferInstance, inferInstance⟩
