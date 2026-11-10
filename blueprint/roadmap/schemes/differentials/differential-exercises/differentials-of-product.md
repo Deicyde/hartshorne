@@ -4,7 +4,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: AlgebraicGeometry.Scheme.relativeDifferentialsProductIso AlgebraicGeometry.Scheme.biprod_inl_relativeDifferentialsProductIso_inv
+lean: AlgebraicGeometry.Scheme.relativeDifferentialsProductIso AlgebraicGeometry.Scheme.biprod_inl_relativeDifferentialsProductIso_inv AlgebraicGeometry.Scheme.biprod_inr_relativeDifferentialsProductIso_inv AlgebraicGeometry.Scheme.relativeDifferentialsFstIso_inv
 ---
 
 # Differentials of a product
