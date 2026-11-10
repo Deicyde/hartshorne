@@ -4,7 +4,7 @@ declaration: equiv
 origin: bridged
 statement: formalized
 proof: formalized
-lean: Hartshorne.quasicoherentIdealSubsheafEquiv Hartshorne.QuasicoherentIdealSubsheaf Hartshorne.quasicoherentIdealSubsheafEquiv_ideal Hartshorne.QuasicoherentIdealSubsheaf.restrictTildeIso
+lean: Hartshorne.quasicoherentIdealSubsheafEquiv Hartshorne.QuasicoherentIdealSubsheaf Hartshorne.quasicoherentIdealSubsheafEquiv_ideal Hartshorne.QuasicoherentIdealSubsheaf.restrictTildeIso Hartshorne.quasicoherentIdealSubsheafEquiv_symm_ideal
 ---
 
 # Module ideal sheaves and ideal data
