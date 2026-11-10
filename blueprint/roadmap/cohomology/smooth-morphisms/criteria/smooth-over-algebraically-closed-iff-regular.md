@@ -2,6 +2,9 @@
 article_id: af_22f01c81477978c9b3e3208c
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.smoothOfRelativeDimension_iff_forall_isRegularAt Hartshorne.smoothOfRelativeDimension_iff_isRegular Hartshorne.topologicalKrullDim_irreducibleComponents_fiber
 ---
 
 # Smoothness and regularity over an algebraically closed field
