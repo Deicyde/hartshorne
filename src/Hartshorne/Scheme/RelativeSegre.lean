@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.ProjChartMorphism
 import Hartshorne.Scheme.ProjectiveSpaceOverScheme
+import Hartshorne.Scheme.GeneratedProjProjective
 
 /-!
 # The relative Segre embedding
@@ -47,10 +48,10 @@ theorem ulift_int_ringHom_ext {B : Type*} [Ring B] (f g : ULift.{u} ℤ →+* B)
     simp
   rw [h, map_intCast, map_intCast]
 
-/-- The polynomial grading on the homogeneous coordinate ring of projective `n`-space over
-the integers. -/
-abbrev segreGrading (n : ℕ) :=
-  homogeneousSubmodule (Fin (n + 1)) (ULift.{u} ℤ)
+open Hartshorne.GeneratedProj (intGrading)
+
+@[deprecated GeneratedProj.intGrading (since := "2026-11-09")]
+alias segreGrading := GeneratedProj.intGrading
 
 /-- The product `ℙʳ ×_ℤ ℙˢ` of projective spaces over the integers. -/
 abbrev segreSource (r s : ℕ) : Scheme.{u} :=
@@ -63,17 +64,17 @@ def segreIndex (r s : ℕ) : Fin (r + 1) × Fin (s + 1) ≃ Fin (r * s + r + s +
 variable (r s : ℕ)
 
 /-- The first projection `ℙʳ ×_ℤ ℙˢ ⟶ ℙʳ`, typed as a morphism to `Proj`. -/
-abbrev segreFst : segreSource.{u} r s ⟶ Proj (segreGrading.{u} r) :=
+abbrev segreFst : segreSource.{u} r s ⟶ Proj (intGrading.{u} r) :=
   pullback.fst _ _
 
 /-- The second projection `ℙʳ ×_ℤ ℙˢ ⟶ ℙˢ`, typed as a morphism to `Proj`. -/
-abbrev segreSnd : segreSource.{u} r s ⟶ Proj (segreGrading.{u} s) :=
+abbrev segreSnd : segreSource.{u} r s ⟶ Proj (intGrading.{u} s) :=
   pullback.snd _ _
 
 /-- The open chart `D₊(xᵢ) ×_ℤ D₊(yⱼ)` of the product. -/
 def segreChartOpen (i : Fin (r + 1)) (j : Fin (s + 1)) : (segreSource.{u} r s).Opens :=
-  segreFst r s ⁻¹ᵁ Proj.basicOpen (segreGrading r) (X i) ⊓
-    segreSnd r s ⁻¹ᵁ Proj.basicOpen (segreGrading s) (X j)
+  segreFst r s ⁻¹ᵁ Proj.basicOpen (intGrading r) (X i) ⊓
+    segreSnd r s ⁻¹ᵁ Proj.basicOpen (intGrading s) (X j)
 
 
 
@@ -84,14 +85,14 @@ variable (r s : ℕ)
 
 /-- The coordinate ratios `xₖ/xᵢ` of the first factor, pulled back to the chart `(i, j)`. -/
 def segreFstSection (i : Fin (r + 1)) (j : Fin (s + 1)) :
-    Away (segreGrading.{u} r) (X i) →+* Γ(segreSource.{u} r s, segreChartOpen r s i j) :=
-  (Proj.awayToSection (segreGrading r) (X i) ≫
+    Away (intGrading.{u} r) (X i) →+* Γ(segreSource.{u} r s, segreChartOpen r s i j) :=
+  (Proj.awayToSection (intGrading r) (X i) ≫
     (segreFst r s).appLE _ (segreChartOpen r s i j) inf_le_left).hom
 
 /-- The coordinate ratios `yₗ/yⱼ` of the second factor, pulled back to the chart `(i, j)`. -/
 def segreSndSection (i : Fin (r + 1)) (j : Fin (s + 1)) :
-    Away (segreGrading.{u} s) (X j) →+* Γ(segreSource.{u} r s, segreChartOpen r s i j) :=
-  (Proj.awayToSection (segreGrading s) (X j) ≫
+    Away (intGrading.{u} s) (X j) →+* Γ(segreSource.{u} r s, segreChartOpen r s i j) :=
+  (Proj.awayToSection (intGrading s) (X j) ≫
     (segreSnd r s).appLE _ (segreChartOpen r s i j) inf_le_right).hom
 
 /-- On the chart `(i, j)`, the Segre map sends `z_{kl}` to `(xₖ/xᵢ)(yₗ/yⱼ)`. -/
@@ -119,7 +120,7 @@ theorem isUnit_segreChartRingMap_X_self (i : Fin (r + 1)) (j : Fin (s + 1)) :
 
 /-- The Segre map on the chart `D₊(xᵢ) ×_ℤ D₊(yⱼ)`, landing in `D₊(z_{ij})`. -/
 def segreChart (i : Fin (r + 1)) (j : Fin (s + 1)) :
-    (segreChartOpen.{u} r s i j).toScheme ⟶ Proj (segreGrading.{u} (r * s + r + s)) :=
+    (segreChartOpen.{u} r s i j).toScheme ⟶ Proj (intGrading.{u} (r * s + r + s)) :=
   (segreChartOpen r s i j).toSpecΓ ≫
     projChartMap (segreChartRingMap r s i j) (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos
       (isUnit_segreChartRingMap_X_self r s i j)
@@ -128,10 +129,10 @@ theorem segreChartOpen_iSup :
     TopologicalSpace.IsOpenCover (fun c : Fin (r + 1) × Fin (s + 1) =>
       segreChartOpen.{u} r s c.1 c.2) := by
   refine TopologicalSpace.IsOpenCover.mk (eq_top_iff.mpr fun x _ => ?_)
-  have h1 : segreFst r s x ∈ ⨆ i, Proj.basicOpen (segreGrading.{u} r) (X i) := by
+  have h1 : segreFst r s x ∈ ⨆ i, Proj.basicOpen (intGrading.{u} r) (X i) := by
     rw [iSup_proj_basicOpen_X_eq_top]
     trivial
-  have h2 : segreSnd r s x ∈ ⨆ j, Proj.basicOpen (segreGrading.{u} s) (X j) := by
+  have h2 : segreSnd r s x ∈ ⨆ j, Proj.basicOpen (intGrading.{u} s) (X j) := by
     rw [iSup_proj_basicOpen_X_eq_top]
     trivial
   obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp h1
@@ -252,7 +253,7 @@ section SegreInt
 variable (r s : ℕ)
 
 /-- The Segre morphism `ℙʳ ×_ℤ ℙˢ ⟶ ℙ^{rs+r+s}` over the integers. -/
-def segreMorphismInt : segreSource.{u} r s ⟶ Proj (segreGrading.{u} (r * s + r + s)) :=
+def segreMorphismInt : segreSource.{u} r s ⟶ Proj (intGrading.{u} (r * s + r + s)) :=
   glueOpens (fun c : Fin (r + 1) × Fin (s + 1) => segreChartOpen r s c.1 c.2)
     (segreChartOpen_iSup r s) (fun c => segreChart r s c.1 c.2) (segreChart_compat r s)
 
@@ -322,13 +323,13 @@ variable (r s : ℕ)
 /-- The coordinate ratios `z_{kj}/z_{ij}` give the first projection on `D₊(z_{ij})`. -/
 def segreFstRetractRingMap (i : Fin (r + 1)) (j : Fin (s + 1)) :
     MvPolynomial (Fin (r + 1)) (ULift.{u} ℤ) →+*
-      Away (segreGrading.{u} (r * s + r + s)) (X (segreIndex r s (i, j))) :=
+      Away (intGrading.{u} (r * s + r + s)) (X (segreIndex r s (i, j))) :=
   eval₂Hom (chartConst _ _) fun k => chartRatio _ (segreIndex r s (i, j)) (segreIndex r s (k, j))
 
 /-- The coordinate ratios `z_{il}/z_{ij}` give the second projection on `D₊(z_{ij})`. -/
 def segreSndRetractRingMap (i : Fin (r + 1)) (j : Fin (s + 1)) :
     MvPolynomial (Fin (s + 1)) (ULift.{u} ℤ) →+*
-      Away (segreGrading.{u} (r * s + r + s)) (X (segreIndex r s (i, j))) :=
+      Away (intGrading.{u} (r * s + r + s)) (X (segreIndex r s (i, j))) :=
   eval₂Hom (chartConst _ _) fun l => chartRatio _ (segreIndex r s (i, j)) (segreIndex r s (i, l))
 
 theorem segreFstRetractRingMap_X_self (i : Fin (r + 1)) (j : Fin (s + 1)) :
@@ -341,7 +342,7 @@ theorem segreSndRetractRingMap_X_self (i : Fin (r + 1)) (j : Fin (s + 1)) :
 
 /-- The morphism `D₊(z_{ij}) ⟶ ℙʳ ×_ℤ ℙˢ` given by the two projections. -/
 def segreRetractToSource (i : Fin (r + 1)) (j : Fin (s + 1)) :
-    Spec (.of (Away (segreGrading.{u} (r * s + r + s)) (X (segreIndex r s (i, j))))) ⟶
+    Spec (.of (Away (intGrading.{u} (r * s + r + s)) (X (segreIndex r s (i, j))))) ⟶
       segreSource.{u} r s :=
   pullback.lift
     (projChartMap (segreFstRetractRingMap r s i j) (X_mem_homogeneousSubmodule_one _ i) Nat.one_pos
@@ -373,13 +374,13 @@ theorem segreRetractToSource_preimage (i : Fin (r + 1)) (j : Fin (s + 1)) :
     projChartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ i) Nat.one_pos,
     projChartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ j) Nat.one_pos,
     segreFstRetractRingMap_X_self, segreSndRetractRingMap_X_self]
-  have h1 : PrimeSpectrum.basicOpen (1 : Away (segreGrading.{u} (r * s + r + s))
+  have h1 : PrimeSpectrum.basicOpen (1 : Away (intGrading.{u} (r * s + r + s))
       (X (segreIndex r s (i, j)))) = ⊤ := PrimeSpectrum.basicOpen_one
   exact (congrArg₂ (· ⊓ ·) h1 h1).trans (inf_top_eq _)
 
 /-- The retraction `D₊(z_{ij}) ⟶ D₊(xᵢ) ×_ℤ D₊(yⱼ)`. -/
 def segreRetract (i : Fin (r + 1)) (j : Fin (s + 1)) :
-    Spec (.of (Away (segreGrading.{u} (r * s + r + s)) (X (segreIndex r s (i, j))))) ⟶
+    Spec (.of (Away (intGrading.{u} (r * s + r + s)) (X (segreIndex r s (i, j))))) ⟶
       (segreChartOpen.{u} r s i j).toScheme :=
   IsOpenImmersion.lift (segreChartOpen r s i j).ι (segreRetractToSource r s i j) (by
     rintro _ ⟨x, rfl⟩
@@ -398,9 +399,9 @@ theorem segreRetract_ι (i : Fin (r + 1)) (j : Fin (s + 1)) :
 `D₊(z_{ij})`. -/
 def segreChartSpec (i : Fin (r + 1)) (j : Fin (s + 1)) :
     (segreChartOpen.{u} r s i j).toScheme ⟶
-      Spec (.of (Away (segreGrading.{u} (r * s + r + s)) (X (segreIndex r s (i, j))))) :=
+      Spec (.of (Away (intGrading.{u} (r * s + r + s)) (X (segreIndex r s (i, j))))) :=
   (segreChartOpen r s i j).toSpecΓ ≫ Spec.map (CommRingCat.ofHom
-    (awayLift (𝒜 := segreGrading (r * s + r + s)) (segreChartRingMap r s i j) _
+    (awayLift (𝒜 := intGrading (r * s + r + s)) (segreChartRingMap r s i j) _
       (isUnit_segreChartRingMap_X_self r s i j)))
 
 theorem segreChart_eq (i : Fin (r + 1)) (j : Fin (s + 1)) :
@@ -413,7 +414,7 @@ theorem segreChartSpec_retract (i : Fin (r + 1)) (j : Fin (s + 1)) :
   rw [← cancel_mono (segreChartOpen r s i j).ι, Category.assoc, segreRetract_ι,
     Category.id_comp]
   have hF1 := segreChartRingMap_X_self.{u} r s i j
-  have hring1 : (awayLift (𝒜 := segreGrading (r * s + r + s)) (segreChartRingMap r s i j) _
+  have hring1 : (awayLift (𝒜 := intGrading (r * s + r + s)) (segreChartRingMap r s i j) _
       (isUnit_segreChartRingMap_X_self r s i j)).comp (segreFstRetractRingMap r s i j) =
       chartPolyMap i (segreFstSection r s i j) := by
     apply MvPolynomial.ringHom_ext'
@@ -423,7 +424,7 @@ theorem segreChartSpec_retract (i : Fin (r + 1)) (j : Fin (s + 1)) :
         eval₂_X]
       rw [awayLift_chartRatio _ _ _ hF1, segreChartRingMap_X, chartRatio_self, map_one,
         mul_one]
-  have hring2 : (awayLift (𝒜 := segreGrading (r * s + r + s)) (segreChartRingMap r s i j) _
+  have hring2 : (awayLift (𝒜 := intGrading (r * s + r + s)) (segreChartRingMap r s i j) _
       (isUnit_segreChartRingMap_X_self r s i j)).comp (segreSndRetractRingMap r s i j) =
       chartPolyMap j (segreSndSection r s i j) := by
     apply MvPolynomial.ringHom_ext'
@@ -470,7 +471,7 @@ instance segreMorphismInt_isClosedImmersion : IsClosedImmersion (segreMorphismIn
     · rw [Proj.opensRange_awayι, Scheme.Opens.opensRange_ι,
         segreMorphismInt_preimage_basicOpen]
   change IsClosedImmersion (pullback.snd (segreMorphismInt r s)
-    (Proj.awayι (segreGrading _) (X (segreIndex r s (i, j)))
+    (Proj.awayι (intGrading _) (X (segreIndex r s (i, j)))
       (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos))
   rw [← h.isoPullback_inv_snd]
   infer_instance

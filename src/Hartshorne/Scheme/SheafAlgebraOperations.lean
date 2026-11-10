@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib.Algebra.Category.ModuleCat.Products
 import Hartshorne.Scheme.SheafTensorOperations
+import Hartshorne.RingedSpace.ModuleSheafMonoidal
 
 /-!
 # Sheafifying presheaves of algebras
@@ -73,43 +74,41 @@ lemma sheafifyMap_unit (f : P ⟶ Q) (U : (Opens X)ᵒᵖ) (p : P.obj U) :
     ((PresheafOfModules.sheafificationAdjunction (𝟙 (ringCatSheafOf R).obj)).unit.naturality
       f)).symm
 
-/-- The map on stalks induced by a morphism of presheaves of `𝒪_X`-modules. -/
-noncomputable def stalkMap (f : M ⟶ N) (x : X) : moduleStalk M x →+ moduleStalk N x :=
-  ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
-    ((PresheafOfModules.toPresheaf _).map f)).hom
+open Hartshorne.Ringed (stalkAddMap stalkAddMap_germ)
 
-lemma stalkMap_germ (f : M ⟶ N) (x : X) (U : Opens X) (hU : x ∈ U) (m : M.obj (op U)) :
-    stalkMap f x (sectionGerm M x U hU m) = sectionGerm N x U hU (f.app (op U) m) :=
-  TopCat.Presheaf.stalkFunctor_map_germ_apply (C := AddCommGrpCat.{u}) U x hU
-    ((PresheafOfModules.toPresheaf _).map f) m
+@[deprecated Ringed.stalkAddMap (since := "2026-11-09")]
+alias stalkMap := Ringed.stalkAddMap
+
+@[deprecated Ringed.stalkAddMap_germ (since := "2026-11-09")]
+alias stalkMap_germ := Ringed.stalkAddMap_germ
 
 lemma stalkMap_smul (f : M ⟶ N) (x : X) (r : ringSheafStalk R x) (s : moduleStalk M x) :
-    stalkMap f x (r • s) = r • stalkMap f x s := by
+    stalkAddMap f x (r • s) = r • stalkAddMap f x s := by
   obtain ⟨U, hU, t, rfl⟩ := exists_sectionGerm M x s
   obtain ⟨W, hWU, hW, c, rfl⟩ := exists_le_ringGerm x r hU
-  rw [← sectionGerm_res M x (homOfLE hWU) hW t, ← sectionGerm_smul, stalkMap_germ, stalkMap_germ,
-    ← sectionGerm_smul]
+  rw [← sectionGerm_res M x (homOfLE hWU) hW t, ← sectionGerm_smul, stalkAddMap_germ,
+    stalkAddMap_germ, ← sectionGerm_smul]
   exact congrArg (sectionGerm N x W hW) ((f.app (op W)).hom.map_smul c _)
 
 /-- The stalk map of a morphism of presheaves of modules, as an `𝒪_{X,x}`-linear map. -/
 noncomputable def stalkMapₗ (f : M ⟶ N) (x : X) :
     moduleStalk M x →ₗ[ringSheafStalk R x] moduleStalk N x where
-  toFun := stalkMap f x
+  toFun := stalkAddMap f x
   map_add' := map_add _
   map_smul' := stalkMap_smul f x
 
 lemma stalkMap_sheafifyUnit_bijective (P : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRingCat RingCat))
-    (x : X) : Function.Bijective (stalkMap (sheafifyUnit P) x) := by
+    (x : X) : Function.Bijective (stalkAddMap (sheafifyUnit P) x) := by
   have := TopCat.Presheaf.stalkFunctor_map_unit_toSheafify_isIso x AddCommGrpCat.{u} P.presheaf
   exact ConcreteCategory.bijective_of_isIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
     (CategoryTheory.toSheafify (Opens.grothendieckTopology X) P.presheaf))
 
 lemma presheafTensorStalkIso_stalkMap (f : M₁ ⟶ N₁) (g : M₂ ⟶ N₂) (x : X)
     (s : moduleStalk (M₁ ⊗ M₂) x) :
-    presheafTensorStalkIso N₁ N₂ x (stalkMap (f ⊗ₘ g) x s) =
+    presheafTensorStalkIso N₁ N₂ x (stalkAddMap (f ⊗ₘ g) x s) =
       TensorProduct.map (stalkMapₗ f x) (stalkMapₗ g x) (presheafTensorStalkIso M₁ M₂ x s) := by
   obtain ⟨U, hU, t, rfl⟩ := exists_sectionGerm (M₁ ⊗ M₂) x s
-  rw [stalkMap_germ]
+  rw [stalkAddMap_germ]
   refine (presheafTensorStalkToTensor_germ N₁ N₂ x U hU _).trans ?_
   refine Eq.trans ?_ (congrArg _ (presheafTensorStalkToTensor_germ M₁ M₂ x U hU t).symm)
   change M₁.obj (op U) ⊗[(R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)] M₂.obj (op U) at t
@@ -120,15 +119,15 @@ lemma presheafTensorStalkIso_stalkMap (f : M₁ ⟶ N₁) (g : M₂ ⟶ N₂) (x
   | tmul a b =>
     rw [TensorProduct.map_tmul, tensorStalkComponent_tmul, tensorStalkComponent_tmul,
       TensorProduct.map_tmul]
-    exact congrArg₂ (· ⊗ₜ ·) (stalkMap_germ f x U hU a).symm (stalkMap_germ g x U hU b).symm
+    exact congrArg₂ (· ⊗ₜ ·) (stalkAddMap_germ f x U hU a).symm (stalkAddMap_germ g x U hU b).symm
   | add a b ha hb => simp only [map_add, ha, hb]
 
 lemma stalkMap_tensorHom_bijective (f : M₁ ⟶ N₁) (g : M₂ ⟶ N₂) (x : X)
-    (hf : Function.Bijective (stalkMap f x)) (hg : Function.Bijective (stalkMap g x)) :
-    Function.Bijective (stalkMap (f ⊗ₘ g) x) := by
+    (hf : Function.Bijective (stalkAddMap f x)) (hg : Function.Bijective (stalkAddMap g x)) :
+    Function.Bijective (stalkAddMap (f ⊗ₘ g) x) := by
   let e := TensorProduct.congr (LinearEquiv.ofBijective (stalkMapₗ f x) hf)
     (LinearEquiv.ofBijective (stalkMapₗ g x) hg)
-  have h : ⇑(stalkMap (f ⊗ₘ g) x) =
+  have h : ⇑(stalkAddMap (f ⊗ₘ g) x) =
       (presheafTensorStalkIso N₁ N₂ x).symm ∘ e ∘ presheafTensorStalkIso M₁ M₂ x := by
     funext s
     simp only [Function.comp_apply]
@@ -140,7 +139,7 @@ lemma stalkMap_tensorHom_bijective (f : M₁ ⟶ N₁) (g : M₂ ⟶ N₂) (x : 
 
 /-- A morphism of presheaves of modules inducing bijections on all stalks becomes an isomorphism
 after sheafification. -/
-lemma isIso_sheafifyMap (f : M ⟶ N) (hf : ∀ x, Function.Bijective (stalkMap f x)) :
+lemma isIso_sheafifyMap (f : M ⟶ N) (hf : ∀ x, Function.Bijective (stalkAddMap f x)) :
     IsIso (sheafifyMap f) := by
   rw [← isIso_iff_of_reflects_iso _ (SheafOfModules.toSheaf (ringCatSheafOf R))]
   let φ := (PresheafOfModules.toPresheaf _).map f
@@ -198,7 +197,7 @@ lemma exists_unit_eq_map (P : PresheafOfModules.{u} (R.obj ⋙ forget₂ CommRin
       (sheafifyUnit P).app (op V) p = (sheafify P).val.map i.op s := by
   obtain ⟨t, ht⟩ := (stalkMap_sheafifyUnit_bijective P x).2 (sectionGerm _ x U hx s)
   obtain ⟨V₁, hV₁, p, rfl⟩ := exists_sectionGerm P x t
-  rw [stalkMap_germ] at ht
+  rw [stalkAddMap_germ] at ht
   obtain ⟨W, hW, iV, iU, e⟩ := TopCat.Presheaf.germ_eq (sheafify P).val.presheaf x hV₁ hx _ _ ht
   refine ⟨W, hW, iU, P.map iV.op p, ?_⟩
   rw [PresheafOfModules.naturality_apply]

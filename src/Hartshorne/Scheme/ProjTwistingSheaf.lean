@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Projective.GradedTwist
 import Hartshorne.Scheme.ProjGradedModuleSheafCoherent
 import Hartshorne.Scheme.LocallyFreeInvertible
+import Hartshorne.Scheme.ProjHomogeneousFraction
 
 /-!
 # The twisting sheaves `𝒪_X(n)` on `X = Proj S`
@@ -54,8 +55,8 @@ namespace ProjTwistingSheaf
 
 variable {𝒜}
 
-theorem pow_mem_of_mem_one {f : A} (f_deg : f ∈ 𝒜 1) (k : ℕ) : f ^ k ∈ 𝒜 k := by
-  simpa using SetLike.pow_mem_graded k f_deg
+@[deprecated pow_mem_graded_one (since := "2026-11-09")]
+alias pow_mem_of_mem_one := pow_mem_graded_one
 
 theorem pow_mem_powers (f : A) (k : ℕ) : f ^ k ∈ Submonoid.powers f :=
   ⟨k, rfl⟩
@@ -68,8 +69,8 @@ with `n⁺ = max n 0` and `n⁻ = max (-n) 0`, which is `f^n / 1` for `n ≥ 0` 
 def twistGenerator :
     HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 n) (Submonoid.powers f) :=
   HomogeneousLocalizedModule.mk (-n).toNat (f ^ n.toNat)
-    ((mem_gradedTwist_of_eq (k := n.toNat) (by omega)).2 (pow_mem_of_mem_one f_deg _))
-    (f ^ (-n).toNat) (pow_mem_of_mem_one f_deg _) (pow_mem_powers f _)
+    ((mem_gradedTwist_of_eq (k := n.toNat) (by omega)).2 (pow_mem_graded_one _ f_deg _))
+    (f ^ (-n).toNat) (pow_mem_graded_one _ f_deg _) (pow_mem_powers f _)
 
 theorem twistGenerator_val :
     (twistGenerator f_deg n).val =
@@ -113,12 +114,12 @@ theorem twistAwayMap_surjective : Function.Surjective (twistAwayMap f_deg n) := 
     rw [HomogeneousLocalizedModule.val_zero, HomogeneousLocalizedModule.val_mk,
       eq_zero_of_mem_gradedTwist hm h, LocalizedModule.zero_mk]
   have hnum : f ^ (-n).toNat * m ∈ 𝒜 (n.toNat + j) := by
-    have := SetLike.GradedMul.mul_mem (pow_mem_of_mem_one f_deg (-n).toNat)
+    have := SetLike.GradedMul.mul_mem (pow_mem_graded_one _ f_deg (-n).toNat)
       (mem_of_mem_gradedTwist hm)
     convert this using 2
     omega
   have hden : f ^ n.toNat * s ∈ 𝒜 (n.toNat + j) :=
-    SetLike.GradedMul.mul_mem (pow_mem_of_mem_one f_deg _) hs
+    SetLike.GradedMul.mul_mem (pow_mem_graded_one _ f_deg _) hs
   refine ⟨HomogeneousLocalization.mk ⟨n.toNat + j, ⟨_, hnum⟩, ⟨_, hden⟩,
     mul_mem (pow_mem_powers f _) hsx⟩, ?_⟩
   ext

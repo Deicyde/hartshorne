@@ -6,6 +6,7 @@ import Hartshorne.Scheme.RelativeDifferentials
 import Mathlib.AlgebraicGeometry.Morphisms.Etale
 import Mathlib.AlgebraicGeometry.Morphisms.Flat
 import Mathlib.Topology.Sheaves.Skyscraper
+import Hartshorne.Scheme.Differentials.RelativeDifferentialsTransitivity
 
 /-!
 # Étale, flat-unramified, and differential criteria
@@ -39,15 +40,13 @@ namespace EtaleCriteria
 
 variable {X Y : Scheme.{u}} (f : X ⟶ Y)
 
-/-- The unit of the inverse-image adjunction. -/
-noncomputable abbrev inverseImageUnit :
-    Y.sheaf ⟶ (TopCat.Sheaf.pushforward CommRingCat f.base).obj (inverseImageStructureSheaf f) :=
-  (TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat.{u} f.base).unit.app Y.sheaf
+@[deprecated inverseImageStructureSheafUnit (since := "2026-11-09")]
+alias inverseImageUnit := inverseImageStructureSheafUnit
 
 /-- The unit of the inverse-image adjunction followed by the structural map `f⁻¹𝒪_Y → 𝒪_X`
 is the comorphism of `f`. -/
 lemma inverseImageUnit_comp (U : Y.Opens) :
-    (inverseImageUnit f).hom.app (op U) ≫
+    (inverseImageStructureSheafUnit f).hom.app (op U) ≫
       (inverseImageStructureSheafMap f).hom.app (op (f ⁻¹ᵁ U)) = f.c.app (op U) := by
   have h := (TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat.{u} f.base).homEquiv_unit
     (X := Y.sheaf) (Y := X.sheaf) (f := inverseImageStructureSheafMap f)
@@ -63,7 +62,7 @@ lemma derivation_d_appLE (M : X.Modules)
   have h1 : f.appLE U V e a = X.presheaf.map (homOfLE e).op (f.app U a) := by
     rw [Scheme.Hom.appLE]; rfl
   have h2 : f.app U a = (inverseImageStructureSheafMap f).hom.app (op (f ⁻¹ᵁ U))
-      ((inverseImageUnit f).hom.app (op U) a) := by
+      ((inverseImageStructureSheafUnit f).hom.app (op U) a) := by
     exact (ConcreteCategory.congr_hom (inverseImageUnit_comp f U) a).symm
   rw [h1, h2]
   erw [D.d_map, D.d_app]
@@ -220,10 +219,10 @@ lemma germ_inverseImage_tensor (W : X.Opens) (h : x ∈ W)
     erw [adj.homEquiv_unit, adj.homEquiv_unit]
     apply Sheaf.hom_ext
     ext ⟨U⟩ : 2
-    change ((inverseImageUnit f).hom.app (op U) ≫
+    change ((inverseImageStructureSheafUnit f).hom.app (op U) ≫
         (inverseImageStructureSheafMap f).hom.app (op (f ⁻¹ᵁ U))) ≫
           (toSky x (stalkTensorLeft f x)).hom.app (op (f ⁻¹ᵁ U)) =
-      ((inverseImageUnit f).hom.app (op U) ≫
+      ((inverseImageStructureSheafUnit f).hom.app (op U) ≫
         (inverseImageStructureSheafMap f).hom.app (op (f ⁻¹ᵁ U))) ≫
           (toSky x (stalkTensorRight f x)).hom.app (op (f ⁻¹ᵁ U))
     erw [inverseImageUnit_comp]

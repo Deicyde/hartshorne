@@ -7,6 +7,7 @@ import Hartshorne.Scheme.CartierDivisorSheaf
 import Hartshorne.Scheme.PrincipalDivisor
 import Hartshorne.Scheme.LocallyFactorial
 import Hartshorne.Scheme.AffineUFDClassGroup
+import Hartshorne.Scheme.AbsoluteNormalizationUniversal
 
 /-!
 # Weil and Cartier divisors on locally factorial schemes
@@ -315,23 +316,8 @@ theorem cartierToWeil_principalCartierDivisor [IsIntegral X] [IsNoetherian X]
   exact cartierToWeil_apply _ f (X.principalCartierDivisor f).restrict_top
     (show x ∈ (⊤ : X.Opens) from trivial)
 
-open Hartshorne in
-/-- On a normal integral scheme, the ring of sections of a nonempty affine open set is integrally
-closed. -/
-theorem isIntegrallyClosed_of_isAffineOpen [IsIntegral X] [IsNormal X] {V : X.Opens}
-    (hV : IsAffineOpen V) [Nonempty V] : IsIntegrallyClosed Γ(X, V) := by
-  apply IsIntegrallyClosed.of_localization_maximal
-  intro P _ hP
-  let y : PrimeSpectrum Γ(X, V) := ⟨P, hP.isPrime⟩
-  have hy : hV.fromSpec y ∈ V := by
-    rw [← SetLike.mem_coe, ← hV.range_fromSpec]; exact Set.mem_range_self y
-  let _ : Algebra Γ(X, V) (X.presheaf.stalk (hV.fromSpec y)) :=
-    TopCat.Presheaf.algebra_section_stalk X.presheaf ⟨hV.fromSpec y, hy⟩
-  have : IsLocalization.AtPrime (X.presheaf.stalk (hV.fromSpec y)) P :=
-    hV.isLocalization_stalk' y hy
-  let e : Localization.AtPrime P ≃ₐ[Γ(X, V)] X.presheaf.stalk (hV.fromSpec y) :=
-    IsLocalization.algEquiv P.primeCompl _ _
-  exact IsIntegrallyClosed.of_equiv e.symm.toRingEquiv
+@[deprecated Hartshorne.isIntegrallyClosed_sections_of_isNormal (since := "2026-11-09")]
+alias isIntegrallyClosed_of_isAffineOpen := Hartshorne.isIntegrallyClosed_sections_of_isNormal
 
 /-- On a normal Noetherian scheme, the local ring at a codimension-one point is a discrete
 valuation ring. -/
@@ -353,7 +339,7 @@ theorem exists_germToFunctionField_eq_of_ord_nonneg [IsIntegral X] [IsNoetherian
     (h : ∀ y ∈ V, Order.coheight y = 1 → 0 ≤ X.ord k y) :
     ∃ a : Γ(X, V), X.germToFunctionField V a = k := by
   have : IsNoetherianRing Γ(X, V) := IsLocallyNoetherian.component_noetherian ⟨V, hV⟩
-  have : IsIntegrallyClosed Γ(X, V) := isIntegrallyClosed_of_isAffineOpen hV
+  have : IsIntegrallyClosed Γ(X, V) := Hartshorne.isIntegrallyClosed_sections_of_isNormal _ hV
   have : IsFractionRing Γ(X, V) X.functionField :=
     functionField_isFractionRing_of_isAffineOpen X V hV
   refine exists_algebraMap_eq_of_forall_height_one X.functionField k fun P hP hheight ↦ ?_

@@ -127,8 +127,8 @@ variable {T} {f : A} (f_deg : f ∈ 𝒜 1) (hfT : f ∈ T)
 def twistGen : HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 n) T :=
   HomogeneousLocalizedModule.mk (-n).toNat (f ^ n.toNat)
     ((mem_gradedTwist_of_eq (k := n.toNat) (by omega)).2
-      (ProjTwistingSheaf.pow_mem_of_mem_one f_deg _))
-    (f ^ (-n).toNat) (ProjTwistingSheaf.pow_mem_of_mem_one f_deg _) (pow_mem hfT _)
+      (pow_mem_graded_one _ f_deg _))
+    (f ^ (-n).toNat) (pow_mem_graded_one _ f_deg _) (pow_mem hfT _)
 
 theorem twistGen_val :
     (twistGen n f_deg hfT).val = LocalizedModule.mk (f ^ n.toNat) ⟨f ^ (-n).toNat, pow_mem hfT _⟩ :=
@@ -145,12 +145,12 @@ theorem exists_smul_twistGen (z : HomogeneousLocalizedModule 𝒜 (gradedTwist �
     rw [HomogeneousLocalizedModule.val_zero, HomogeneousLocalizedModule.val_mk,
       eq_zero_of_mem_gradedTwist ha h, LocalizedModule.zero_mk]
   have hnum : f ^ (-n).toNat * a ∈ 𝒜 (n.toNat + j) := by
-    have := SetLike.GradedMul.mul_mem (ProjTwistingSheaf.pow_mem_of_mem_one f_deg (-n).toNat)
+    have := SetLike.GradedMul.mul_mem (pow_mem_graded_one _ f_deg (-n).toNat)
       (mem_of_mem_gradedTwist ha)
     convert this using 2
     omega
   have hden : f ^ n.toNat * t ∈ 𝒜 (n.toNat + j) :=
-    SetLike.GradedMul.mul_mem (ProjTwistingSheaf.pow_mem_of_mem_one f_deg _) ht
+    SetLike.GradedMul.mul_mem (pow_mem_graded_one _ f_deg _) ht
   refine ⟨HomogeneousLocalization.mk ⟨n.toNat + j, ⟨_, hnum⟩, ⟨_, hden⟩,
     mul_mem (pow_mem hfT _) htT⟩, ?_⟩
   ext
@@ -181,11 +181,11 @@ theorem exists_twistPair_twistGen (w : HomogeneousLocalizedModule 𝒜 (gradedMo
     ∃ y : HomogeneousLocalizedModule 𝒜 ℳ T, twistPair T n y (twistGen n f_deg hfT) = w := by
   obtain ⟨k, m, hm, g, hg, hgT, rfl⟩ := HomogeneousLocalizedModule.mk_surjective w
   have hm' : f ^ (-n).toNat • m ∈ ℳ ((n.toNat + k : ℕ) : ℤ) := by
-    have := smul_mem_graded_nat 𝒜 ℳ (ProjTwistingSheaf.pow_mem_of_mem_one f_deg (-n).toNat) hm
+    have := smul_mem_graded_nat 𝒜 ℳ (pow_mem_graded_one _ f_deg (-n).toNat) hm
     convert this using 2
     push_cast; omega
   refine ⟨HomogeneousLocalizedModule.mk (n.toNat + k) _ hm' (f ^ n.toNat * g)
-    (SetLike.GradedMul.mul_mem (ProjTwistingSheaf.pow_mem_of_mem_one f_deg _) hg)
+    (SetLike.GradedMul.mul_mem (pow_mem_graded_one _ f_deg _) hg)
     (mul_mem (pow_mem hfT _) hgT), ?_⟩
   ext
   rw [val_twistPair, twistGen_val, HomogeneousLocalizedModule.val_mk,
@@ -859,8 +859,8 @@ def twistGenSection (n : ℤ) :
   (⟨fun x => twistGen n f_deg (show f ∈ x.1.asHomogeneousIdeal.toIdeal.primeCompl from x.2),
     fun x => ⟨ProjectiveSpectrum.basicOpen 𝒜 f, x.2, 𝟙 _, (-n).toNat, f ^ n.toNat,
       (mem_gradedTwist_of_eq (k := n.toNat) (by omega)).2
-        (ProjTwistingSheaf.pow_mem_of_mem_one f_deg _),
-      f ^ (-n).toNat, ProjTwistingSheaf.pow_mem_of_mem_one f_deg _,
+        (pow_mem_graded_one _ f_deg _),
+      f ^ (-n).toNat, pow_mem_graded_one _ f_deg _,
       fun y => pow_mem (show f ∈ y.1.asHomogeneousIdeal.toIdeal.primeCompl from y.2) _,
       fun _ => rfl⟩⟩ :
     (sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj (op (ProjectiveSpectrum.basicOpen 𝒜 f)))

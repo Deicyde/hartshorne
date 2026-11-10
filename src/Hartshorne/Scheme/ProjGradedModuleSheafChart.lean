@@ -6,6 +6,7 @@ import Hartshorne.Scheme.ProjGradedModuleSheaf
 import Hartshorne.Projective.HomogeneousLocalizedModuleAway
 import Mathlib.AlgebraicGeometry.Modules.Tilde
 import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Basic
+import Hartshorne.Scheme.ProjPartialMap
 
 /-!
 # The sheaf of a graded module on a standard chart of Proj
@@ -43,16 +44,8 @@ section Chart
 
 variable {f : A} {d : ℕ} (f_deg : f ∈ 𝒜 d) (hd : 0 < d)
 
-set_option backward.isDefEq.respectTransparency false in
-/-- Mathlib's two descriptions of the chart map `D₊(f) → Spec S_(f)` agree as morphisms of
-locally ringed spaces. -/
-theorem forget_basicOpenToSpec (f : A) :
-    Scheme.forgetToLocallyRingedSpace.map (Proj.basicOpenToSpec 𝒜 f) =
-      ProjectiveSpectrum.Proj.toSpec 𝒜 f := by
-  refine Eq.trans ?_ (ΓSpec.locallyRingedSpaceAdjunction.homEquiv_apply _ _ _).symm
-  dsimp [Proj.basicOpenToSpec, Scheme.Opens.toSpecΓ]
-  simp only [Category.assoc, ← Spec.map_comp]
-  rfl
+@[deprecated basicOpenToSpec_toLRSHom (since := "2026-11-09")]
+alias forget_basicOpenToSpec := basicOpenToSpec_toLRSHom
 
 /-- **The point correspondence of the chart.** For a prime `𝔮` of `S_(f)` with image `𝔭` in
 `Proj S`, a fraction `a / f^n` lies in `𝔮` exactly when `a ∈ 𝔭`. -/
@@ -61,7 +54,7 @@ theorem awayι_mem_asIdeal_iff (y : Spec (.of (Away 𝒜 f))) (z : NumDenSameDeg
       (z.num : A) ∈ ((Proj.awayι 𝒜 f f_deg hd).base y).asHomogeneousIdeal := by
   set x' := (Proj.basicOpenIsoSpec 𝒜 f f_deg hd).inv.base y
   have hy : (ProjectiveSpectrum.Proj.toSpec 𝒜 f).base x' = y := by
-    rw [← forget_basicOpenToSpec]
+    rw [← basicOpenToSpec_toLRSHom]
     change (Proj.basicOpenIsoSpec 𝒜 f f_deg hd).hom.base x' = y
     rw [← Scheme.Hom.comp_apply, Iso.inv_hom_id]
     rfl

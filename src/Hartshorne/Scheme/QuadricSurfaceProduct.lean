@@ -43,6 +43,8 @@ open AlgebraicGeometry CategoryTheory CategoryTheory.Limits AddMonoidAlgebra MvP
 
 namespace Hartshorne
 
+open Hartshorne.GeneratedProj (intGrading)
+
 universe u
 
 attribute [local instance] MvPolynomial.gradedAlgebra
@@ -87,7 +89,7 @@ theorem adjoin_quadricSegreCoordinates :
     · exact ⟨segreIndex 1 1 (1, 0), quadricSegreCoordinates_segreIndex k 1 0⟩
 
 /-- The graded homomorphism `ℤ[z₀₀, z₀₁, z₁₀, z₁₁] → ` Segre ring, `z_{ij} ↦ sᵢuⱼ`. -/
-abbrev quadricSegreHom : segreGrading.{u} (1 * 1 + 1 + 1) →+*ᵍ 𝒬 :=
+abbrev quadricSegreHom : intGrading.{u} (1 * 1 + 1 + 1) →+*ᵍ 𝒬 :=
   GeneratedProj.evalGradedHom 𝒬 (quadricSegreCoordinates_mem k)
 
 theorem quadricSegreHom_X (l : Fin (1 * 1 + 1 + 1 + 1)) :
@@ -172,7 +174,7 @@ section Embedding
 
 /-- The morphism `Q ⟶ ℙ³_ℤ` given by the Segre coordinates `z_{ij} = sᵢuⱼ`. -/
 def quadricSurfaceToProjectiveSpaceInt :
-    quadricSurface k ⟶ Proj (segreGrading.{u} (1 * 1 + 1 + 1)) :=
+    quadricSurface k ⟶ Proj (intGrading.{u} (1 * 1 + 1 + 1)) :=
   GeneratedProj.toProjectiveSpaceInt 𝒬 (quadricSegreCoordinates_mem k)
     (adjoin_quadricSegreCoordinates k)
 
@@ -256,7 +258,7 @@ abbrev quadricSegreCover : (quadricSurface k).OpenCover where
 /-- The ring map `Γ(D₊(xᵢ) ×_ℤ D₊(yⱼ)) → ℤ[z]_(z_{ij})` of the retraction of the Segre chart. -/
 def segreRetractRing (i j : Fin (1 + 1)) :
     Γ(segreSource.{u} 1 1, segreChartOpen 1 1 i j) ⟶
-      CommRingCat.of (Away (segreGrading.{u} (1 * 1 + 1 + 1)) (X (segreIndex 1 1 (i, j)))) :=
+      CommRingCat.of (Away (intGrading.{u} (1 * 1 + 1 + 1)) (X (segreIndex 1 1 (i, j)))) :=
   Spec.preimage (segreRetract 1 1 i j ≫ (segreChartOpen 1 1 i j).toSpecΓ)
 
 theorem segreRetractRing_fst (i j a : Fin (1 + 1)) :
@@ -316,7 +318,7 @@ theorem segreRetract_toSpecΓ (i j : Fin (1 + 1)) :
 /-- The chart map `D₊(sᵢuⱼ) ⟶ D₊(z_{ij})` of `Q ⟶ ℙ³_ℤ`, as a morphism of spectra. -/
 abbrev quadricChartToSegreChart (c : Fin (1 + 1) × Fin (1 + 1)) :
     Spec (.of (Away 𝒬 (quadricSegreHom k (X (segreIndex 1 1 c))))) ⟶
-      Spec (.of (Away (segreGrading.{u} (1 * 1 + 1 + 1)) (X (segreIndex 1 1 c)))) :=
+      Spec (.of (Away (intGrading.{u} (1 * 1 + 1 + 1)) (X (segreIndex 1 1 c)))) :=
   Spec.map (CommRingCat.ofHom (Away.map (quadricSegreHom k) (X (segreIndex 1 1 c))))
 
 theorem quadricSegreCover_comp (c : Fin (1 + 1) × Fin (1 + 1)) :

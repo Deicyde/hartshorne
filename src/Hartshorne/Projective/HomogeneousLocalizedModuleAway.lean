@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Projective.HomogeneousLocalizedModule
 import Mathlib.RingTheory.Noetherian.Basic
 import Mathlib.RingTheory.GradedAlgebra.Homogeneous.Ideal
+import Hartshorne.Projective.AwayAtPrime
 
 /-!
 # Degree-zero localizations of a graded module away from an element
@@ -159,16 +160,14 @@ noncomputable def mapOfLELinear (h : T ≤ T') :
 
 section Away
 
-omit [AddSubgroupClass σ A] [GradedRing 𝒜] [AddSubgroupClass σM M] [SetLike.GradedSMul 𝒜 ℳ] in
-theorem powers_le_primeCompl {f : A} (P : Ideal A) [P.IsPrime] (hfP : f ∉ P) :
-    Submonoid.powers f ≤ P.primeCompl :=
-  Submonoid.powers_le.mpr (show f ∈ P.primeCompl from hfP)
+@[deprecated Hartshorne.powers_le_primeCompl (since := "2026-11-09")]
+alias powers_le_primeCompl := Hartshorne.powers_le_primeCompl
 
 variable [DirectSum.Decomposition ℳ]
 
 theorem mapId_away_mk_mul_eq_one {f : A} {d : ℕ} (f_deg : f ∈ 𝒜 d) (P : Ideal A) [P.IsPrime]
     (hfP : f ∉ P) (n : ℕ) (a : A) (ha : a ∈ 𝒜 (n • d)) (haP : a ∉ P) :
-    mapId 𝒜 (powers_le_primeCompl P hfP)
+    mapId 𝒜 (Hartshorne.powers_le_primeCompl P hfP)
         (Away.mk 𝒜 f_deg n a ha) *
       HomogeneousLocalization.mk (𝒜 := 𝒜) (x := P.primeCompl)
         ⟨n • d, ⟨f ^ n, SetLike.pow_mem_graded n f_deg⟩, ⟨a, ha⟩, haP⟩ = 1 := by
@@ -186,11 +185,11 @@ theorem isLocalizedModule_mapOfLE {f : A} {d : ℕ} (f_deg : f ∈ 𝒜 d) (hd :
     (P : Ideal A) [P.IsPrime] (hP : Ideal.IsHomogeneous 𝒜 P) (hfP : f ∉ P)
     (Q : Submonoid (Away 𝒜 f))
     (hQ : ∀ (n : ℕ) (a : A) (ha : a ∈ 𝒜 (n • d)), Away.mk 𝒜 f_deg n a ha ∈ Q ↔ a ∉ P) :
-    letI := moduleOfLE 𝒜 ℳ (powers_le_primeCompl P hfP)
-    IsLocalizedModule Q (mapOfLELinear 𝒜 ℳ (powers_le_primeCompl P hfP)) := by
+    letI := moduleOfLE 𝒜 ℳ (Hartshorne.powers_le_primeCompl P hfP)
+    IsLocalizedModule Q (mapOfLELinear 𝒜 ℳ (Hartshorne.powers_le_primeCompl P hfP)) := by
   classical
   obtain ⟨d, rfl⟩ : ∃ d', d = d' + 1 := ⟨d - 1, by omega⟩
-  set h : Submonoid.powers f ≤ P.primeCompl := powers_le_primeCompl P hfP
+  set h : Submonoid.powers f ≤ P.primeCompl := Hartshorne.powers_le_primeCompl P hfP
   let _ := moduleOfLE 𝒜 ℳ h
   have hfn (n : ℕ) : f ^ n ∈ Submonoid.powers f := ⟨n, rfl⟩
   constructor

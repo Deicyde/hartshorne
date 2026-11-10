@@ -8,6 +8,7 @@ import Hartshorne.Projective.PointIdeal
 import Hartshorne.Projective.AwayAtPrime
 import Hartshorne.Topology.Subspace
 import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Basic
+import Hartshorne.Scheme.Differentials.EulerSequenceMaps
 
 /-!
 # A projective variety completes to `Proj`
@@ -892,25 +893,11 @@ end Sheaf
 
 /-! ### Over `Spec k` -/
 
-/-- Restricting a section over an open `U ⊇ ⊤` to the image of `⊤` and then
-transporting it along `X ≅ ⊤` is restriction to `⊤`. -/
-theorem topIso_inv_appTop_presheaf_map {X : Scheme} {U : X.Opens} (h : ⊤ ≤ U)
-    (φ : op U ⟶ op ((⊤ : X.Opens).ι ''ᵁ ⊤)) (a : Γ(X, U)) :
-    X.topIso.inv.appTop (X.presheaf.map φ a) = X.presheaf.map (homOfLE h).op a := by
-  have hφ : φ = (homOfLE h).op ≫ (homOfLE (x := (⊤ : X.Opens).ι ''ᵁ ⊤) le_top).op := rfl
-  have key : (Scheme.Opens.ι ⊤).appTop ≫ X.topIso.inv.appTop = 𝟙 _ := by
-    rw [← Scheme.Hom.comp_appTop, Scheme.toIso_inv_ι, Scheme.Hom.id_appTop]
-  rw [hφ, Functor.map_comp, CommRingCat.comp_apply, ← Scheme.Opens.ι_appTop]
-  change ((Scheme.Opens.ι ⊤).appTop ≫ X.topIso.inv.appTop) _ = _
-  rw [key]
-  rfl
+@[deprecated EulerSequence.topIso_inv_appTop_presheaf_map (since := "2026-11-09")]
+alias topIso_inv_appTop_presheaf_map := EulerSequence.topIso_inv_appTop_presheaf_map
 
-theorem topIso_inv_appTop_presheaf_map_map {X : Scheme} {U V : X.Opens} (h : ⊤ ≤ U)
-    (ψ : op U ⟶ op V) (φ : op V ⟶ op ((⊤ : X.Opens).ι ''ᵁ ⊤)) (a : Γ(X, U)) :
-    X.topIso.inv.appTop (X.presheaf.map φ (X.presheaf.map ψ a)) =
-      X.presheaf.map (homOfLE h).op a := by
-  rw [← CommRingCat.comp_apply, ← Functor.map_comp]
-  exact topIso_inv_appTop_presheaf_map h _ a
+@[deprecated EulerSequence.topIso_inv_appTop_presheaf_map_map (since := "2026-11-09")]
+alias topIso_inv_appTop_presheaf_map_map := EulerSequence.topIso_inv_appTop_presheaf_map_map
 
 /-- **The structure morphism of `Proj S(Y)` over `k`**: the composite
 `Proj S(Y) → Spec S(Y)₀ → Spec k`, the second map induced by the inclusion of the

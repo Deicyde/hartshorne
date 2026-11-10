@@ -9,6 +9,7 @@ import Mathlib.CategoryTheory.Preadditive.Injective.Basic
 import Mathlib.Topology.Sheaves.Functors
 import Mathlib.Topology.Sheaves.AddCommGrpCat
 import Mathlib.Algebra.Category.ModuleCat.Presheaf.Sheafification
+import Hartshorne.Scheme.GluingSheaves
 
 /-!
 # Injective module sheaves restrict to injectives on open subsets
@@ -60,11 +61,8 @@ theorem le_image_preimage {V : Opens X} (hV : V ≤ U) :
     V ≤ U.isOpenEmbedding.functor.obj ((Opens.map U.inclusion').obj V) :=
   fun x hx => ⟨⟨x, hV hx⟩, hx, rfl⟩
 
-/-- The image of an open of `U` is contained in `U`. -/
-theorem image_le (W : Opens ((Opens.toTopCat X).obj U)) :
-    U.isOpenEmbedding.functor.obj W ≤ U := by
-  rintro _ ⟨y, -, rfl⟩
-  exact y.2
+@[deprecated SheafGluing.functor_le (since := "2026-11-09")]
+alias image_le := SheafGluing.functor_le
 
 /-- Over a thin site, two composites of restriction maps with the same ends agree. -/
 theorem map_map_eq {T : TopCat.{u}} {S : (Opens T)ᵒᵖ ⥤ RingCat.{u}}
@@ -173,7 +171,7 @@ def unitApp (P : PresheafOfModules.{u} (ringRestrict U R)) :
     P ⟶ (presheafRestrict U R).obj ((extend U R).obj P) where
   app W := ModuleCat.ofHom
     { toFun := fun x => ⟨P.map (homOfLE (preimage_image_le U W.unop)).op x,
-        Or.inl (image_le U W.unop)⟩
+        Or.inl (SheafGluing.functor_le U W.unop)⟩
       map_add' := fun x y => Subtype.ext (map_add _ x y)
       map_smul' := fun r x => Subtype.ext ((P.map _).hom.map_smul r x) }
   naturality {W W'} f := by
@@ -269,7 +267,7 @@ def extendAdjunction : extend U R ⊣ presheafRestrict U R where
     ext V ⟨s, hs⟩
     apply Subtype.ext
     change (counitFun U R ((extend U R).obj P) V
-      ⟨P.map (homOfLE (preimage_image_le U _)).op s, Or.inl (image_le U _)⟩).1 = s
+      ⟨P.map (homOfLE (preimage_image_le U _)).op s, Or.inl (SheafGluing.functor_le U _)⟩).1 = s
     by_cases h : V.unop ≤ U
     · rw [counitFun_of_le U R _ V h]
       exact map_map_self P _ _ s
@@ -282,7 +280,7 @@ def extendAdjunction : extend U R ⊣ presheafRestrict U R where
     change counitFun U R M (op (U.isOpenEmbedding.functor.obj W.unop))
       (M.map (U.isOpenEmbedding.functor.map (homOfLE (preimage_image_le U W.unop))).op
         (show M.obj (op (U.isOpenEmbedding.functor.obj W.unop)) from x)) = x
-    rw [counitFun_of_le U R M _ (image_le U W.unop)]
+    rw [counitFun_of_le U R M _ (SheafGluing.functor_le U W.unop)]
     exact map_map_self M _ _ (show M.obj (op (U.isOpenEmbedding.functor.obj W.unop)) from x)
 
 

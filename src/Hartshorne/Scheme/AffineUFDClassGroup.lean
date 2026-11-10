@@ -7,6 +7,7 @@ import Hartshorne.Scheme.Normal
 import Hartshorne.Scheme.WeilClassGroup
 import Mathlib.RingTheory.Ideal.UFD
 import Mathlib.RingTheory.LocalProperties.IntegrallyClosed
+import Hartshorne.Scheme.CoherentFreeLocus
 
 /-!
 # The affine UFD class-group criterion
@@ -102,18 +103,15 @@ theorem mem_ofField_of_one_le_ordFrac [IsDomain A] [IsFractionRing A K] {f : K} 
 
 end DVRLocalization
 
-/-- The structure map from a ring to a stalk of its spectrum, as an algebra. -/
-abbrev specStalkAlgebra (R : CommRingCat.{u}) (x : Spec R) :
-    Algebra R ((Spec R).presheaf.stalk x) :=
-  StructureSheaf.stalkAlgebra R x
+@[deprecated FreeLocusAux.freeLocusStalkAlgebra (since := "2026-11-09")]
+alias specStalkAlgebra := FreeLocusAux.freeLocusStalkAlgebra
 
-attribute [local instance] specStalkAlgebra
+attribute [local instance] FreeLocusAux.freeLocusStalkAlgebra
 
-/-- The prime ideal of a point of `Spec R` is prime. -/
-theorem specPoint_asIdeal_isPrime (R : CommRingCat.{u}) (x : Spec R) : x.asIdeal.IsPrime :=
-  PrimeSpectrum.isPrime (R := R) x
+@[deprecated FreeLocusAux.freeLocus_asIdeal_isPrime (since := "2026-11-09")]
+alias specPoint_asIdeal_isPrime := FreeLocusAux.freeLocus_asIdeal_isPrime
 
-attribute [local instance] specPoint_asIdeal_isPrime
+attribute [local instance] FreeLocusAux.freeLocus_asIdeal_isPrime
 
 /-- The stalk of `Spec R` at a point is the localization of `R` at the
 corresponding prime ideal. -/

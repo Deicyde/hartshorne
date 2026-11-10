@@ -375,7 +375,7 @@ theorem twistNum_mem {k : ℕ} {m : A} (hm : m ∈ gradedTwist 𝒜 n k) :
   by_cases h : n + k < 0
   · rw [eq_zero_of_mem_gradedTwist hm h, mul_zero]
     exact zero_mem _
-  · have := SetLike.GradedMul.mul_mem (ProjTwistingSheaf.pow_mem_of_mem_one g_deg (-n).toNat)
+  · have := SetLike.GradedMul.mul_mem (pow_mem_graded_one _ g_deg (-n).toNat)
       (mem_of_mem_gradedTwist hm)
     convert this using 2
     omega
@@ -385,7 +385,7 @@ theorem twistFrac_smul_twistGen {k : ℕ} {m : A} (hm : m ∈ gradedTwist 𝒜 n
     (ht : t ∈ 𝒜 k) (htT : t ∈ T) :
     (HomogeneousLocalization.mk ⟨n.toNat + k, ⟨_, twistNum_mem g_deg n hm⟩,
         ⟨g ^ n.toNat * t, SetLike.GradedMul.mul_mem
-          (ProjTwistingSheaf.pow_mem_of_mem_one g_deg _) ht⟩,
+          (pow_mem_graded_one _ g_deg _) ht⟩,
         mul_mem (pow_mem hgT _) htT⟩ : HomogeneousLocalization 𝒜 T) • twistGen n g_deg hgT =
       HomogeneousLocalizedModule.mk k m hm t ht htT := by
   ext
@@ -424,7 +424,7 @@ theorem isLocalFrame_twistGenSection :
         (s : (sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj (op V)).2 x
       refine ⟨W, hxW, iWV, n.toNat + k, ⟨_, twistNum_mem g_deg n hm⟩,
         ⟨g ^ n.toNat * t, SetLike.GradedMul.mul_mem
-          (ProjTwistingSheaf.pow_mem_of_mem_one g_deg _) ht⟩,
+          (pow_mem_graded_one _ g_deg _) ht⟩,
         fun y => mul_mem (pow_mem (hgx (iWV y)) _) (t_nin y), fun y => ?_⟩
       exact smul_twistGen_inj g_deg (hgx (iWV y)) n ((hc (iWV y)).symm.trans ((w y).trans
         (twistFrac_smul_twistGen g_deg (hgx (iWV y)) n hm ht (t_nin y)).symm))
@@ -568,7 +568,7 @@ theorem isLocalFrame_psiFrame {g : A} (g_deg : g ∈ 𝒜 1) :
           from s).2 x
       refine ⟨W, hxW, iWV, n.toNat + k, ⟨_, twistNum_mem (f.map_mem g_deg) n hm⟩,
         ⟨f g ^ n.toNat * t, SetLike.GradedMul.mul_mem
-          (ProjTwistingSheaf.pow_mem_of_mem_one (f.map_mem g_deg) _) ht⟩,
+          (pow_mem_graded_one _ (f.map_mem g_deg) _) ht⟩,
         fun y => mul_mem (pow_mem (hgx (iWV y)) _) (t_nin y), fun y => ?_⟩
       exact smul_twistGen_inj (f.map_mem g_deg) (hgx (iWV y)) n ((hc (iWV y)).symm.trans
         ((w y).trans (twistFrac_smul_twistGen (f.map_mem g_deg) (hgx (iWV y)) n hm ht
