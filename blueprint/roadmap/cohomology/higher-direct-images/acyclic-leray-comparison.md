@@ -15,8 +15,8 @@ isomorphism
 
 $H^p(Y,f_*F) \simeq H^p(X,F)$.
 
-This is Exercise 8.1. The unique result is only the acyclic comparison; the
-roadmap does not claim or depend on a full Leray spectral sequence.
+This is Exercise 8.1. It is the degenerate case of the Leray spectral sequence
+(Godement II.4.17.1); the spectral sequence itself is not stated.
 
 ## Depends on
 
