@@ -8,7 +8,7 @@ import Hartshorne.Projective.PointIdeal
 import Hartshorne.Projective.AwayAtPrime
 import Hartshorne.Topology.Subspace
 import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Basic
-import Hartshorne.Scheme.Differentials.EulerSequenceMaps
+import Hartshorne.Scheme.TopIsoRestriction
 
 /-!
 # A projective variety completes to `Proj`
@@ -892,12 +892,6 @@ def projGenericCompletionSheafedSpaceIsoProj :
 end Sheaf
 
 /-! ### Over `Spec k` -/
-
-@[deprecated EulerSequence.topIso_inv_appTop_presheaf_map (since := "2026-11-09")]
-alias topIso_inv_appTop_presheaf_map := EulerSequence.topIso_inv_appTop_presheaf_map
-
-@[deprecated EulerSequence.topIso_inv_appTop_presheaf_map_map (since := "2026-11-09")]
-alias topIso_inv_appTop_presheaf_map_map := EulerSequence.topIso_inv_appTop_presheaf_map_map
 
 /-- **The structure morphism of `Proj S(Y)` over `k`**: the composite
 `Proj S(Y) → Spec S(Y)₀ → Spec k`, the second map induced by the inclusion of the
