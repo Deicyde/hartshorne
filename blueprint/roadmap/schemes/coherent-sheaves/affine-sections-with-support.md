@@ -19,6 +19,7 @@ so it can serve later as the degree-zero local-cohomology construction.
 
 - [Support of a quasi-coherent module](module-sheaf-support.md)
 - [Stalks of an associated affine module](../modules-and-quasicoherent/affine-tilde/tilde-localization.md)
+- [Algebraic local cohomology as derived torsion](../../cohomology/affine-cohomology/local-cohomology-derived-torsion.md)
 
 ## Proof depends on
 
