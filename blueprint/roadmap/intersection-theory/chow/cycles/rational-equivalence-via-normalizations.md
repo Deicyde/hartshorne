@@ -28,6 +28,10 @@ rationally equivalent when their difference belongs to this subgroup.
 - [Linear equivalence and the Weil class group](../../../schemes/divisors/weil-divisors/weil-linear-equivalence.md)
 - [Raw pushforward of cycles](raw-cycle-pushforward.md)
 
+## Proof depends on
+
+- [The reduced induced closed subscheme](../../../schemes/subschemes-and-dimension/reduced-induced-closed-subscheme.md)
+
 ## Sources
 
 - [Hartshorne Appendix A.1, rational-equivalence definition, p.426](../../../../sources/hartshorne-appendix-a-1-2.md)

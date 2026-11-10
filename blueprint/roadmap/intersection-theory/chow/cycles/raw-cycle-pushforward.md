@@ -25,6 +25,10 @@ through rational equivalence.
 - [Function fields of integral schemes](../../../schemes/normalization-and-exercises/function-field-integral-scheme.md)
 - [The dimension-codimension formula](../../../schemes/subschemes-and-dimension/dimension-codimension-formula.md)
 
+## Proof depends on
+
+- [The reduced induced closed subscheme](../../../schemes/subschemes-and-dimension/reduced-induced-closed-subscheme.md)
+
 ## Sources
 
 - [Hartshorne Appendix A.1, cycle pushforward, pp.425–426](../../../../sources/hartshorne-appendix-a-1-2.md)

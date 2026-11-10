@@ -25,6 +25,10 @@ reduced vanishing set.
 - [Finite locally free duality](../../schemes/modules-and-quasicoherent/finite-locally-free-duality.md)
 - [Fundamental cycle of a closed subscheme](../chow/cycles/closed-subscheme-fundamental-cycle.md)
 
+## Proof depends on
+
+- [The graded symmetric-algebra sheaf](../../schemes/projective-geometry/relative-proj-bundles/graded-symmetric-algebra-sheaf.md)
+
 ## Sources
 
 - [Hartshorne Appendix A §3, zero-scheme definition in C6, p.431](../../../sources/hartshorne-appendix-a-3.md)
