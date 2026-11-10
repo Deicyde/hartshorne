@@ -188,6 +188,14 @@ theorem rank_moduleStalk_eq (α : F.over U ≅ SheafOfModules.free I) (hx : x �
   rw [(moduleStalkIsoFree α hx).toLinearEquiv.rank_eq]
   exact rank_finsupp_self' (ringSheafStalk R x)
 
+/-- **Stalks of a locally free module are free** (of arbitrary rank): if `F` is locally free, the
+stalk `F_x` is a free `𝒪_{X,x}`-module. -/
+theorem moduleStalk_free_of_isLocallyFree (hF : IsLocallyFree F) (x : X) :
+    Module.Free (ringSheafStalk R x) ((moduleStalkFunctor x).obj F) := by
+  obtain ⟨U, hx, J, ⟨α⟩⟩ := hF x
+  exact Module.Free.of_basis ((Finsupp.basisSingleOne (R := ringSheafStalk R x) (ι := J)).map
+    (moduleStalkIsoFree α hx).symm.toLinearEquiv)
+
 end Stalk
 
 section Rank
