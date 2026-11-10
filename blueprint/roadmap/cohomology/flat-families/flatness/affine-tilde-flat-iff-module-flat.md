@@ -22,6 +22,7 @@ only if $M$ is flat over $A$.
 
 - [Flatness is local on prime localizations](flat-module-local-on-primes.md)
 - [Localization of an associated sheaf](../../../schemes/modules-and-quasicoherent/affine-tilde/tilde-localization.md)
+- [Localization of a flat module over its base](localization-flat-module-over-base.md)
 
 ## Sources
 

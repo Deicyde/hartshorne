@@ -24,6 +24,7 @@ and duals, so these homomorphisms are functorial.
 - [Duality for finite locally free sheaves](../../modules-and-quasicoherent/finite-locally-free-duality.md)
 - [Tensor products of module sheaves](../../modules-and-quasicoherent/module-tensor-product.md)
 - [Locally free and invertible module sheaves](../../modules-and-quasicoherent/locally-free-and-invertible.md)
+- [Projection formula for finite locally free sheaves](../../modules-and-quasicoherent/finite-locally-free-projection-formula.md)
 
 ## Proof depends on
 

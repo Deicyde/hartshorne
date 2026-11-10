@@ -19,6 +19,7 @@ relative-Proj finiteness hypotheses.
 
 ## Proof depends on
 
+- [Twisting sheaves under localization in degree zero](proj-twist-localization.md)
 - The structure morphism of the Proj of a finitely generated graded algebra is proper.
 - Target locality of properness on the affine cover of $X$.
 

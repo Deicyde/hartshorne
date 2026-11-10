@@ -27,6 +27,7 @@ domains.
 
 ## Proof depends on
 
+- [A regular local ring is an integral domain](../../../nonsingular-varieties/regular-local-ring-domain.md)
 - Associated primes and the depth characterization of $(S2)$.
 - Intersection of height-one localizations in a Noetherian normal domain.
 

@@ -18,6 +18,7 @@ A morphism is of finite type exactly when it is locally of finite type and quasi
 
 ## Proof depends on
 
+- [The affine-target criterion for local finite type](locally-finite-type-affine-target-criterion.md)
 - Exercise 3.3(a), identifying Hartshorne's finite-cover clause with quasi-compactness.
 
 ## Sources

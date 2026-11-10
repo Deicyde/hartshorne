@@ -21,6 +21,9 @@ Reduce to an affine neighbourhood of $P$. Identify the local-ring dimension with
 
 ## Proof depends on
 
+- [A finitely generated algebra over a field has finite dimension](../../affine-varieties/dim-fg-algebra-finite.md)
+- [Dimension of a finitely generated domain](../../affine-varieties/dim-fg-domain.md)
+- [The dimension formula for a finitely generated domain](../../affine-varieties/dim-formula-catenary.md)
 - The dimension formula for a finite-type domain and the identification of local-ring dimension with point coheight.
 
 ## Sources
