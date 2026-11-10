@@ -12,11 +12,14 @@ import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Proper
 /-!
 # The Picard group of projective space
 
-Hartshorne, *Algebraic Geometry*, II.6, Corollary 6.17 (p. 145): for a field `k` and `n ≥ 1`,
-every invertible sheaf on `X = ℙⁿ_k` is isomorphic to `𝒪(l)` for a unique integer `l`
+Hartshorne, *Algebraic Geometry*, II.6, Corollary 6.17 (p. 145): for a field `k` and any `n`,
+every invertible sheaf on `X = ℙⁿ_k` is isomorphic to `𝒪(l)` for some integer `l`
+(`Hartshorne.exists_iso_projTwistingSheaf`). For `n ≥ 1` the integer `l` is unique
 (`Hartshorne.exists_unique_iso_projTwistingSheaf`); equivalently, `Pic X ≅ ℤ` with `𝒪(1) ↦ 1`
 (`Hartshorne.projectiveSpacePicardEquiv`,
-`Hartshorne.projectiveSpacePicardEquiv_projTwistingSheaf`).
+`Hartshorne.projectiveSpacePicardEquiv_projTwistingSheaf`). For `n = 0`, `ℙ⁰_k` has a single
+point (`Hartshorne.ProjectiveSpacePicard.eq_projectiveSpaceGenericPoint_of_eq_zero`), so it has
+no Weil divisors and its Picard group is trivial.
 
 ## Proof
 
@@ -781,6 +784,69 @@ def projTwistingSheafIsoImageDivisorSheaf (l : ℤ) :
     congr 1
     exact congrArg _ (imageDivisor_submodule l).symm)
 
+/-- A homogeneous polynomial of degree `d` in one variable is `c x₀ ^ d`. -/
+theorem eq_C_mul_X_pow_of_isHomogeneous {f : MvPolynomial (Fin 1) k} {d : ℕ}
+    (hf : f.IsHomogeneous d) : f = C (coeff (Finsupp.single 0 d) f) * X 0 ^ d := by
+  ext m
+  rw [coeff_C_mul, coeff_X_pow]
+  by_cases hm : Finsupp.single 0 d = m
+  · subst hm; simp
+  · rw [if_neg hm, mul_zero]
+    by_contra h
+    apply hm
+    have hw := hf h
+    refine Finsupp.ext fun i => ?_
+    fin_cases i
+    simp [Finsupp.weight_apply, Finsupp.sum_fintype] at hw ⊢
+    exact hw.symm
+
+/-- `ℙ⁰_k` has a single point, the generic point. -/
+theorem eq_projectiveSpaceGenericPoint_zero (x : Proj (homogeneousSubmodule (Fin (0 + 1)) k)) :
+    x = projectiveSpaceGenericPoint := by
+  obtain ⟨f, hf1, hfx⟩ := ProjTwistingSheaf.exists_mem_one_notMem (adjoin_one_eq_top k 0) x
+  have hX : (X 0 : MvPolynomial (Fin (0 + 1)) k) ∉ x.asHomogeneousIdeal := by
+    intro hX
+    apply hfx
+    have hf := eq_C_mul_X_pow_of_isHomogeneous ((mem_homogeneousSubmodule _ _).mp hf1)
+    rw [pow_one] at hf
+    rw [hf]
+    exact x.asHomogeneousIdeal.toIdeal.mul_mem_left _ hX
+  have key : ∀ (i : ℕ) (g : MvPolynomial (Fin (0 + 1)) k),
+      g ∈ homogeneousSubmodule (Fin (0 + 1)) k i → g ∈ x.asHomogeneousIdeal → g = 0 := by
+    intro i g hg hgx
+    have hg' := eq_C_mul_X_pow_of_isHomogeneous ((mem_homogeneousSubmodule _ _).mp hg)
+    generalize coeff (Finsupp.single 0 i) g = c at hg'
+    by_contra hne
+    have hc : c ≠ 0 := by
+      rintro rfl
+      apply hne
+      rw [hg', C_0, zero_mul]
+    have hpow : (X 0 : MvPolynomial (Fin (0 + 1)) k) ^ i ∈ x.asHomogeneousIdeal.toIdeal := by
+      have h1 : g ∈ x.asHomogeneousIdeal.toIdeal := hgx
+      have := x.asHomogeneousIdeal.toIdeal.mul_mem_left (C c⁻¹) h1
+      rwa [hg', ← mul_assoc, ← C_mul, inv_mul_cancel₀ hc, C_1, one_mul] at this
+    cases i with
+    | zero => exact x.isPrime.ne_top ((Ideal.eq_top_iff_one _).2 (by simpa using hpow))
+    | succ i => exact hX (x.isPrime.mem_of_pow_mem _ hpow)
+  apply ProjectiveSpectrum.ext
+  apply HomogeneousIdeal.ext'
+  intro i g hg
+  constructor
+  · intro h
+    rw [key i g hg h]
+    exact zero_mem _
+  · intro h
+    have : g = 0 := by
+      have h' : g ∈ (⊥ : HomogeneousIdeal (homogeneousSubmodule (Fin (0 + 1)) k)).toIdeal := h
+      rwa [HomogeneousIdeal.toIdeal_bot, Submodule.mem_bot] at h'
+    rw [this]
+    exact zero_mem _
+
+theorem eq_projectiveSpaceGenericPoint_of_eq_zero (hn : n = 0) (x : Proj 𝒜) :
+    x = projectiveSpaceGenericPoint := by
+  subst hn
+  exact eq_projectiveSpaceGenericPoint_zero x
+
 end ProjectiveSpacePicard
 
 open ProjectiveSpacePicard Ringed
@@ -831,5 +897,35 @@ theorem exists_unique_iso_projTwistingSheaf (hn : 0 < n) (L : (Proj 𝒜).Module
   · have : Pic.mk (R := (Proj 𝒜).sheaf) L hL' = Pic.mk (R := (Proj 𝒜).sheaf) _ (hT l) :=
       (Pic.mk_eq_mk_iff hL' (hT l)).2 ⟨e⟩
     rw [this, projectiveSpacePicardEquiv_projTwistingSheaf]
+
+/-- **Hartshorne II.6, Corollary 6.17.** For a field `k` and every `n ≥ 0`, every invertible
+sheaf on `ℙⁿ_k` is isomorphic to `𝒪(l)` for some integer `l` (on `ℙ⁰_k = Spec k` every invertible
+sheaf is trivial). -/
+theorem exists_iso_projTwistingSheaf (L : (Proj 𝒜).Modules) (hL : L.IsInvertible) :
+    ∃ l : ℤ, Nonempty (L ≅ projTwistingSheaf 𝒜 l) := by
+  rcases Nat.eq_zero_or_pos n with hn | hn
+  · refine ⟨0, ?_⟩
+    have hL' := (Scheme.Modules.isInvertible_iff_ringed _).1 hL
+    have hT := (Scheme.Modules.isInvertible_iff_ringed _).1
+      (projTwistingSheaf_isInvertible (k := k) (n := n) 0)
+    refine (Pic.mk_eq_mk_iff hL' hT).1 ?_
+    apply Additive.ofMul.injective
+    apply (Scheme.weilClassEquivPicard
+      (projectiveSpace_isLocallyFactorial (k := k) (n := n))).symm.injective
+    have hW : ∀ D : (Proj 𝒜).WeilDivisor, D = 0 := fun D =>
+      Subtype.ext (Function.locallyFinsuppWithin.ext fun x => D.2 x (by
+        rw [Order.coheight_eq_zero.mpr fun y _ => by
+          rw [eq_projectiveSpaceGenericPoint_of_eq_zero hn y,
+            eq_projectiveSpaceGenericPoint_of_eq_zero hn x]]
+        norm_num))
+    have hC : ∀ c : (Proj 𝒜).WeilClassGroup
+        (Scheme.satisfiesConditionStar_of_isLocallyFactorial projectiveSpace_isLocallyFactorial),
+        c = 0 := by
+      intro c
+      obtain ⟨D, rfl⟩ := QuotientAddGroup.mk_surjective c
+      rw [hW D]
+      rfl
+    exact (hC _).trans (hC _).symm
+  · exact (exists_unique_iso_projTwistingSheaf hn L hL).exists
 
 end Hartshorne
