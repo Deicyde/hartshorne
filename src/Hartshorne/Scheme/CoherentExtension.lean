@@ -7,7 +7,7 @@ import Hartshorne.Scheme.CoherentExtensionAffine
 /-!
 # Extension of coherent subsheaves on a Noetherian scheme
 
-Hartshorne, *Algebraic Geometry*, II, Exercise 5.15(d)–(e) (p. 127).
+Hartshorne, *Algebraic Geometry*, II, Exercise 5.15(d) (p. 127).
 
 Let `X` be a Noetherian scheme, `E` a quasi-coherent `𝒪_X`-module, `U ⊆ X` open and `N ⊆ E` a
 submodule sheaf whose restriction to `U` is coherent. Then there is a coherent submodule sheaf
