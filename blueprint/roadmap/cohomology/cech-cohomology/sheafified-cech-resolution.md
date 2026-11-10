@@ -26,6 +26,7 @@ global sections of $\mathcal{C}^\bullet(U,F)$ form the ordered Čech complex.
 - [The ordered Čech complex](open-cover-cech-complex.md)
 - [Direct image of a sheaf](../../schemes/sheaf-functors/direct-image.md)
 - [Restriction and stalks](../../schemes/sheaf-functors/restriction-stalk.md)
+- [Zeroth Čech cohomology is global sections](cech-zero-global-sections.md)
 
 ## Proof depends on
 

@@ -19,6 +19,7 @@ cohomology sequence. This is the unique main vanishing result.
 ## Depends on
 
 - [Sheaf cohomology](sheaf-cohomology.md)
+- [Acyclic resolutions compute derived functors](../derived-functors/acyclic-resolution-comparison.md)
 
 ## Proof depends on
 

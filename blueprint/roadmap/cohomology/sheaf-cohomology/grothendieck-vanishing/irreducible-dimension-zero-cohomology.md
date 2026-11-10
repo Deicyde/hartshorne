@@ -26,6 +26,7 @@ cohomological vanishing base case.
 - [The long exact sequence of right derived functors](../../derived-functors/right-derived-long-exact-sequence.md)
 - [Abelian sheaves have enough injectives](../abelian-sheaves-enough-injectives.md)
 - [Flasque closure in short exact sequences](../flasque-short-exact-closure.md)
+- [Acyclic resolutions compute derived functors](../../derived-functors/acyclic-resolution-comparison.md)
 
 ## Sources
 
