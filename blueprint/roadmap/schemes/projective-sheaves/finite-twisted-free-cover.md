@@ -2,6 +2,9 @@
 article_id: af_af1e2ae4cfbebae9dc657103
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_epi_sigma_tensorZPow_of_projective Hartshorne.tensorZPow
 ---
 
 # Finite twisted free covers
