@@ -41,6 +41,77 @@ namespace Hartshorne
 
 universe u
 
+section Helpers
+
+open TopologicalSpace Topology Order
+
+namespace FlatEquidimensional
+
+/-- An element of a catenary order lies below `g` with `height g ≤ height x + coheight x`. -/
+theorem height_le_height_add_coheight {α : Type*} [Preorder α] {g x : α} (hC : CatenaryAt g)
+    (hx : x ≤ g) : height g ≤ height x + coheight x := by
+  obtain ⟨N, hN, h⟩ := hC
+  rw [hN, ← h x hx]
+  gcongr
+  exact coheight_le_coheight_apply_of_strictMono Subtype.val (fun _ _ h => h) _
+
+/-- In a catenary order in which every element lies below a maximal one, the coheight of `x` is
+at most `c` once every maximal `g ≥ x` has `height g ≤ height x + c`. -/
+theorem coheight_le_of_forall_isMax {α : Type*} [Preorder α] (hC : ∀ g : α, CatenaryAt g)
+    (hmax : ∀ z : α, ∃ g, z ≤ g ∧ IsMax g) {x : α} {c : ℕ∞} (hx : height x ≠ ⊤)
+    (h : ∀ g, x ≤ g → IsMax g → height g ≤ height x + c) : coheight x ≤ c := by
+  refine coheight_le fun p hp => ?_
+  obtain ⟨g, hg, hgm⟩ := hmax p.last
+  have hxl : x ≤ p.last := hp ▸ p.monotone (Fin.zero_le _)
+  have hxg : x ≤ g := hxl.trans hg
+  have hlen := length_le_coheight_Iic p hp hg hxg
+  obtain ⟨N, hN, hcat⟩ := hC g
+  have h2 := h g hxg hgm
+  rw [hN, ← hcat x hxg] at h2
+  exact hlen.trans ((WithTop.add_le_add_iff_left hx).mp h2)
+
+variable {S : Scheme.{u}}
+
+/-- Two points of a scheme each specializing to the other are equal. -/
+theorem eq_of_specializes_of_specializes {a b : S} (h₁ : a ⤳ b) (h₂ : b ⤳ a) : a = b :=
+  (Specializes.antisymm h₁ h₂).eq
+
+/-- The generic point of an irreducible component is maximal for the specialization order. -/
+theorem isMax_of_closure_mem_irreducibleComponents {ζ : S}
+    (h : closure {ζ} ∈ irreducibleComponents S) : IsMax ζ := by
+  intro z hz
+  have hsub : closure {ζ} ⊆ closure {z} :=
+    closure_minimal (Set.singleton_subset_iff.2 (specializes_iff_mem_closure.1 hz))
+      isClosed_closure
+  exact specializes_iff_mem_closure.2 (h.2 isIrreducible_singleton.closure hsub
+    (subset_closure rfl))
+
+/-- The closure of a maximal point is an irreducible component. -/
+theorem closure_mem_irreducibleComponents_of_isMax {ζ : S} (h : IsMax ζ) :
+    closure {ζ} ∈ irreducibleComponents S := by
+  obtain ⟨g, hg⟩ := exists_closure_eq (irreducibleComponent_mem_irreducibleComponents ζ)
+  have hle : ζ ≤ g := specializes_iff_mem_closure.mpr (hg ▸ mem_irreducibleComponent)
+  rw [eq_of_specializes_of_specializes (h hle) hle, hg]
+  exact irreducibleComponent_mem_irreducibleComponents ζ
+
+/-- Every point lies below a maximal point, the generic point of an irreducible component. -/
+theorem exists_le_isMax (z : S) : ∃ g, z ≤ g ∧ IsMax g := by
+  obtain ⟨g, hg⟩ := exists_closure_eq (irreducibleComponent_mem_irreducibleComponents z)
+  exact ⟨g, specializes_iff_mem_closure.mpr (hg ▸ mem_irreducibleComponent),
+    isMax_of_closure_mem_irreducibleComponents
+      (hg ▸ irreducibleComponent_mem_irreducibleComponents z)⟩
+
+/-- A generalizing morphism sends maximal points to maximal points. -/
+theorem isMax_apply_of_generalizingMap {T : Scheme.{u}} (f : S ⟶ T) (hf : GeneralizingMap f)
+    {ζ : S} (h : IsMax ζ) : IsMax (f ζ) := by
+  intro w hw
+  obtain ⟨x', hx', rfl⟩ := hf hw
+  exact (h hx').map f.continuous
+
+end FlatEquidimensional
+
+end Helpers
+
 section Algebra
 
 attribute [local instance] Algebra.TensorProduct.rightAlgebra
@@ -258,71 +329,7 @@ section ComponentDimension
 
 open TopologicalSpace Topology Order FlatEquidimensional
 
-/-- An element of a catenary order lies below `g` with `height g ≤ height x + coheight x`. -/
-theorem height_le_height_add_coheight {α : Type*} [Preorder α] {g x : α} (hC : CatenaryAt g)
-    (hx : x ≤ g) : height g ≤ height x + coheight x := by
-  obtain ⟨N, hN, h⟩ := hC
-  rw [hN, ← h x hx]
-  gcongr
-  exact coheight_le_coheight_apply_of_strictMono Subtype.val (fun _ _ h => h) _
-
-/-- In a catenary order in which every element lies below a maximal one, the coheight of `x` is
-at most `c` once every maximal `g ≥ x` has `height g ≤ height x + c`. -/
-theorem coheight_le_of_forall_isMax {α : Type*} [Preorder α] (hC : ∀ g : α, CatenaryAt g)
-    (hmax : ∀ z : α, ∃ g, z ≤ g ∧ IsMax g) {x : α} {c : ℕ∞} (hx : height x ≠ ⊤)
-    (h : ∀ g, x ≤ g → IsMax g → height g ≤ height x + c) : coheight x ≤ c := by
-  refine coheight_le fun p hp => ?_
-  obtain ⟨g, hg, hgm⟩ := hmax p.last
-  have hxl : x ≤ p.last := hp ▸ p.monotone (Fin.zero_le _)
-  have hxg : x ≤ g := hxl.trans hg
-  have hlen := length_le_coheight_Iic p hp hg hxg
-  obtain ⟨N, hN, hcat⟩ := hC g
-  have h2 := h g hxg hgm
-  rw [hN, ← hcat x hxg] at h2
-  exact hlen.trans ((WithTop.add_le_add_iff_left hx).mp h2)
-
-variable {S : Scheme.{u}}
-
-/-- The specialization order on the points of a scheme is antisymmetric. -/
-theorem eq_of_le_of_le {a b : S} (h₁ : a ≤ b) (h₂ : b ≤ a) : a = b :=
-  (Specializes.antisymm h₂ h₁).eq
-
-/-- The generic point of an irreducible component is maximal for the specialization order. -/
-theorem isMax_of_closure_mem_irreducibleComponents {ζ : S}
-    (h : closure {ζ} ∈ irreducibleComponents S) : IsMax ζ := by
-  intro z hz
-  have hsub : closure {ζ} ⊆ closure {z} :=
-    closure_minimal (Set.singleton_subset_iff.2 (specializes_iff_mem_closure.1 hz))
-      isClosed_closure
-  exact specializes_iff_mem_closure.2 (h.2 isIrreducible_singleton.closure hsub
-    (subset_closure rfl))
-
-/-- The closure of a maximal point is an irreducible component. -/
-theorem closure_mem_irreducibleComponents_of_isMax {ζ : S} (h : IsMax ζ) :
-    closure {ζ} ∈ irreducibleComponents S := by
-  obtain ⟨g, hg⟩ := exists_closure_eq (irreducibleComponent_mem_irreducibleComponents ζ)
-  have hle : ζ ≤ g := specializes_iff_mem_closure.mpr (hg ▸ mem_irreducibleComponent)
-  rw [eq_of_le_of_le hle (h hle), hg]
-  exact irreducibleComponent_mem_irreducibleComponents ζ
-
-/-- Every point lies below a maximal point, the generic point of an irreducible component. -/
-theorem exists_le_isMax (z : S) : ∃ g, z ≤ g ∧ IsMax g := by
-  obtain ⟨g, hg⟩ := exists_closure_eq (irreducibleComponent_mem_irreducibleComponents z)
-  exact ⟨g, specializes_iff_mem_closure.mpr (hg ▸ mem_irreducibleComponent),
-    isMax_of_closure_mem_irreducibleComponents
-      (hg ▸ irreducibleComponent_mem_irreducibleComponents z)⟩
-
-/-- A generalizing morphism sends maximal points to maximal points. -/
-theorem isMax_apply_of_generalizingMap {T : Scheme.{u}} (f : S ⟶ T) (hf : GeneralizingMap f)
-    {ζ : S} (h : IsMax ζ) : IsMax (f ζ) := by
-  intro w hw
-  obtain ⟨x', hx', rfl⟩ := hf hw
-  exact (h hx').map f.continuous
-
-/-- `forall_irreducibleComponents_dim_eq_add_iff_forall_fiber` in terms of maximal points: for a
-flat morphism `f : X → Y` of schemes of finite type over a field, `dim cl{ζ} = dim cl{f ζ} + n` for
-every maximal point `ζ` of `X` if and only if every irreducible component of every fibre has
-dimension `n`. -/
+/-- `forall_irreducibleComponents_dim_eq_add_iff_forall_fiber`, for the maximal points `ζ`. -/
 theorem forall_isMax_height_eq_add_iff_forall_fiber {k : Type u} [Field k]
     {X Y : Over (Spec (CommRingCat.of k))}
     (hX : LocallyOfFiniteType X.hom ∧ QuasiCompact X.hom)
@@ -434,7 +441,7 @@ theorem forall_isMax_height_eq_add_iff_forall_fiber {k : Type u} [Field k]
         obtain ⟨x'', hx'', hfx''⟩ := hgen hfx
         obtain ⟨ζ, hζ, hζm⟩ := exists_le_isMax x''
         have hle : η ≤ f.left ζ := hfx'' ▸ hmono hζ
-        have hfζ : f.left ζ = η := eq_of_le_of_le (hηm hle) hle
+        have hfζ : f.left ζ = η := eq_of_specializes_of_specializes hle (hηm hle)
         have e3 := height_le_height_add_coheight (hCX ζ) ((show x₁' ≤ x'' from hx'').trans hζ)
         rw [h ζ hζm, hfζ, hNη, hD, ← hB] at e3
         obtain ⟨m, hm⟩ := ENat.ne_top_iff_exists.mp hhy
@@ -497,7 +504,7 @@ theorem forall_isMax_height_eq_add_iff_forall_fiber {k : Type u} [Field k]
     have hup : ∀ z, f.left.fiberι _ x₁ ≤ z → z ≤ ζ := by
       intro z hz
       have hfz : f.left ζ ≤ f.left z := hfib _ x₁ ▸ hmono hz
-      have hfz' : f.left z = f.left ζ := eq_of_le_of_le (hym hfz) hfz
+      have hfz' : f.left z = f.left ζ := eq_of_specializes_of_specializes hfz (hym hfz)
       obtain ⟨z', rfl⟩ : z ∈ Set.range (f.left.fiberι (f.left ζ)) := by
         rw [Scheme.Hom.range_fiberι]; exact hfz'
       have hz' : x₁ ≤ z' := (f.left.fiberι _).isEmbedding.isInducing.specializes_iff.mp hz
@@ -524,10 +531,8 @@ theorem forall_irreducibleComponents_dim_eq_add_iff_forall_fiber {k : Type u} [F
         f.left '' X' ⊆ Y' → topologicalKrullDim X' = topologicalKrullDim Y' + n) ↔
       ∀ y : Y.left, ∀ Z ∈ irreducibleComponents (f.left.fiber y), topologicalKrullDim Z = n := by
   have : Flat f.left := hf
-  have hgen : GeneralizingMap f.left := AlgebraicGeometry.Flat.generalizingMap f.left
   have hmaxf : ∀ ζ : X.left, IsMax ζ → IsMax (f.left ζ) := fun ζ h =>
-    isMax_apply_of_generalizingMap f.left hgen h
-  -- Hartshorne's clause in terms of maximal points.
+    isMax_apply_of_generalizingMap f.left (AlgebraicGeometry.Flat.generalizingMap f.left) h
   have hiff : (∀ X' ∈ irreducibleComponents X.left, ∀ Y' ∈ irreducibleComponents Y.left,
         f.left '' X' ⊆ Y' → topologicalKrullDim X' = topologicalKrullDim Y' + n) ↔
       ∀ ζ : X.left, IsMax ζ → height ζ = height (f.left ζ) + n := by
@@ -547,7 +552,7 @@ theorem forall_irreducibleComponents_dim_eq_add_iff_forall_fiber {k : Type u} [F
       have hle : f.left ζ ≤ η :=
         specializes_iff_mem_closure.mpr (hsub ⟨ζ, subset_closure rfl, rfl⟩)
       rw [topologicalKrullDim_closure_singleton, topologicalKrullDim_closure_singleton, h ζ hζ,
-        eq_of_le_of_le hle (hmaxf ζ hζ hle)]
+        eq_of_specializes_of_specializes (hmaxf ζ hζ hle) hle]
       norm_cast
   rw [hiff]
   exact forall_isMax_height_eq_add_iff_forall_fiber hX hY f hf n
