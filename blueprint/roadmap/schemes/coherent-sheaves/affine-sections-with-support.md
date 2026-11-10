@@ -13,7 +13,7 @@ Let $A$ be Noetherian, $X = \operatorname{Spec} A$, $Z = V(a)$, and $F=\widetild
 of sections of $F$ supported on $Z$ is canonically isomorphic to the tilde
 sheaf of
 
-$\Gamma _a(M) = \{m | a^n m = 0 \text{for} \text{some} n > 0\}$.
+$\Gamma _a(M) = \{m \in M \mid a^n m = 0 \text{ for some } n > 0\}$.
 
 The statement includes the identification on stalks and on affine basic opens,
 so it can serve later as the degree-zero local-cohomology construction.
