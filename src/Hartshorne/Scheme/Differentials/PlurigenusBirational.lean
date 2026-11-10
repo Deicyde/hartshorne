@@ -18,8 +18,8 @@ For a scheme `X` over `k`, the `m`-th plurigenus is `P_m(X) = dim_k Γ(X, ω_X^{
 (`Hartshorne.plurigenus`). If `X` and `X'` are nonsingular varieties, proper over an algebraically
 closed field and birationally equivalent, then `P_m(X) = P_m(X')`
 (`Hartshorne.plurigenus_eq_of_birational`). For `m = 1` this is Theorem II.8.19, the birational
-invariance of the geometric genus (`Hartshorne.geometricGenus_eq_of_birational`), using
-`T^1 ω ≅ ω`.
+invariance of the geometric genus (`Hartshorne.geometricGenus_eq_of_birational`), proved by the
+same argument with `ω` in place of `ω^{⊗m}`.
 
 ## Proof
 
@@ -609,72 +609,70 @@ end Plurigenus
 
 section GeometricGenus
 
-variable {X : Scheme.{u}}
-
-/-- The morphism `T^1 F ⟶ F`, `x ↦ x`. -/
-def tensorPowerOneHom (F : X.Modules) : moduleSheafTensorPower (R := X.sheaf) 1 F ⟶ F :=
-  (moduleSheafTensorPowerHomEquiv 1 F F).symm
-    { app U := MultilinearMap.ofSubsingleton _ _ _ (0 : Fin 1) LinearMap.id
-      naturality _ _ := rfl }
-
-/-- The morphism `F ⟶ T^1 F`, `x ↦ x`. -/
-def tensorPowerOneInv (F : X.Modules) : F ⟶ moduleSheafTensorPower (R := X.sheaf) 1 F :=
-  ⟨{ app U := ModuleCat.ofHom
-      (((moduleSheafTensorPowerMultilinear 1 F).app U).toLinearMap (fun _ => 0) 0)
-     naturality {U V} i := by
-      ext x
-      change (moduleSheafTensorPowerMultilinear 1 F).app V
-          (Function.update (fun _ => 0) 0 (F.val.map i x)) =
-        (moduleSheafTensorPower (R := X.sheaf) 1 F).val.map i
-          ((moduleSheafTensorPowerMultilinear 1 F).app U (Function.update (fun _ => 0) 0 x))
-      rw [(moduleSheafTensorPowerMultilinear 1 F).naturality]
-      congr 1
-      funext k
-      simp only [Function.update_eq_const_of_subsingleton, Function.const_apply] }⟩
-
-theorem tensorPowerOneInv_app (F : X.Modules) (U : X.Opensᵒᵖ) (x : F.val.obj U) :
-    (tensorPowerOneInv F).val.app U x =
-      (moduleSheafTensorPowerMultilinear 1 F).app U (fun _ => x) :=
-  congrArg ((moduleSheafTensorPowerMultilinear 1 F).app U)
-    (Function.update_eq_const_of_subsingleton _ _ _)
-
-theorem tensorPowerOneHom_comp_inv (F : X.Modules) :
-    tensorPowerOneHom F ≫ tensorPowerOneInv F = 𝟙 _ := by
-  apply moduleSheafTensorPower_hom_ext
-  intro U m
-  have h : (tensorPowerOneHom F).val.app U ((moduleSheafTensorPowerMultilinear 1 F).app U m) =
-      m 0 :=
-    moduleSheafTensorPowerHomEquiv_symm_app _ U m
-  change (tensorPowerOneInv F).val.app U
-    ((tensorPowerOneHom F).val.app U ((moduleSheafTensorPowerMultilinear 1 F).app U m)) = _
-  rw [h]
-  exact (tensorPowerOneInv_app F U (m 0)).trans
-    (congrArg _ (funext fun i => congrArg m (Subsingleton.elim 0 i)))
-
-/-- `T^1 F ⟶ F` is bijective on sections. -/
-theorem bijective_tensorPowerOneHom_app (F : X.Modules) (U : X.Opensᵒᵖ) :
-    Function.Bijective ((tensorPowerOneHom F).val.app U) := by
-  have h₁ : ∀ t, (tensorPowerOneInv F).val.app U ((tensorPowerOneHom F).val.app U t) = t :=
-    fun t => congrArg (fun φ => φ.val.app U t) (tensorPowerOneHom_comp_inv F)
-  have h₂ : ∀ x, (tensorPowerOneHom F).val.app U ((tensorPowerOneInv F).val.app U x) = x :=
-    fun x => (congrArg _ (tensorPowerOneInv_app F U x)).trans
-      (moduleSheafTensorPowerHomEquiv_symm_app _ U (fun _ => x))
-  exact ⟨Function.LeftInverse.injective h₁, Function.RightInverse.surjective h₂⟩
-
 variable {k : Type u} [Field k]
 
-/-- A morphism of modules is `k`-linear on global sections. -/
-def globalSectionsLinearMapOfHom (q : X ⟶ Spec (.of k)) {M N : X.Modules} (φ : M ⟶ N) :
-    GlobalSectionsOver q M →ₗ[k] GlobalSectionsOver q N where
-  toFun s := φ.val.app (op ⊤) s
-  map_add' x y := map_add (φ.val.app (op ⊤)).hom x y
-  map_smul' a s := (φ.val.app (op ⊤)).hom.map_smul (structureRingHom q a) s
-
-/-- The geometric genus is the first plurigenus: `p_g(X) = P_1(X)`. -/
-theorem geometricGenus_eq_plurigenus_one (f : X ⟶ Spec (.of k)) :
-    geometricGenus f = plurigenus f 1 :=
-  (LinearEquiv.ofBijective (globalSectionsLinearMapOfHom f (tensorPowerOneHom (canonicalSheaf f)))
-    (bijective_tensorPowerOneHom_app _ _)).finrank_eq.symm
+/-- **One half of the birational invariance of the geometric genus.** For nonsingular varieties
+`X`, `X'` of dimension `n`, proper over an algebraically closed field `k` and birational over `k`,
+`dim_k Γ(X', ω_{X'}) ≤ dim_k Γ(X, ω_X)` (as cardinals). -/
+theorem rank_globalSections_canonical_le_of_partialIso [IsAlgClosed k] {X X' : Scheme.{u}}
+    (pX : X ⟶ Spec (.of k)) (pX' : X' ⟶ Spec (.of k)) [IsIntegral X] [IsIntegral X']
+    [IsProper pX] [IsProper pX'] (hX : X.IsRegular) (hX' : X'.IsRegular) (e : X.PartialIso X')
+    (he : e.IsOver pX pX') {n : ℕ} (hnX : topologicalKrullDim X = n)
+    (hnX' : topologicalKrullDim X' = n) :
+    Module.rank k (GlobalSectionsOver pX'
+      (moduleSheafExteriorPower (R := X'.sheaf) n (relativeDifferentials pX'))) ≤
+    Module.rank k (GlobalSectionsOver pX
+      (moduleSheafExteriorPower (R := X.sheaf) n (relativeDifferentials pX))) := by
+  let : X.Over (Spec (.of k)) := ⟨pX⟩
+  let : X'.Over (Spec (.of k)) := ⟨pX'⟩
+  have hpX : FiniteType pX := ⟨inferInstance, inferInstance⟩
+  have hpX' : FiniteType pX' := ⟨inferInstance, inferInstance⟩
+  have : X'.IsSeparated := ⟨by
+    rw [show Limits.terminal.from X' = pX' ≫ Limits.terminal.from _ from
+      Limits.terminal.hom_ext _ _]
+    infer_instance⟩
+  -- The birational map `T` and its domain `V`, whose complement has codimension `≥ 2`.
+  let T : X ⤏ X' := e.toRationalMap
+  have hcodim : 2 ≤ codim ((T.domain : Set X)ᶜ) :=
+    (Scheme.RationalMap.codim_compl_domain_birational (k := k)
+      ⟨inferInstance, (inferInstance : IsSeparated pX), (inferInstance : LocallyOfFiniteType pX),
+        (inferInstance : QuasiCompact pX)⟩ hX
+      ⟨inferInstance, (inferInstance : IsProper pX')⟩ T ⟨e, he, rfl⟩).2
+  have : e.toPartialMap.IsOver (Spec (.of k)) := ⟨(Category.assoc _ _ _).trans he⟩
+  let φ : X.PartialMap X' := T.toPartialMap
+  have : φ.IsOver (Spec (.of k)) := inferInstance
+  have hφ : φ.hom ≫ pX' = φ.domain.ι ≫ pX := HomIsOver.comp_over (f := φ.hom) (S := Spec (.of k))
+  let V : X.Opens := φ.domain
+  -- Pullback along `φ` is injective on `Γ(X', ω^{⊗m})`.
+  obtain ⟨W, hWl, hW, hj⟩ := φ.exists_isOpenImmersion e (T.toRationalMap_toPartialMap).symm
+  have hL := canonicalSheaf_isInvertible pX' hpX' hX' n hnX'
+  rw [canonicalSheaf_eq pX' hnX'] at hL
+  have hinj := injective_app_top_of_comp_eq_unit φ.hom (X.homOfLE hWl) hL _ _
+    (exteriorPowerPullback_comp_openImmersionExteriorPowerMap φ.hom (X.homOfLE hWl) pX' n)
+  -- Pullback along `V ⟶ X` is bijective on `Γ(X, ω^{⊗m})`.
+  have : IsNoetherian X := by
+    have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian pX
+    have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace pX
+    exact {}
+  have : IsNormal X := isNormal_of_isRegular hX
+  have hLX := canonicalSheaf_isInvertible pX hpX hX n hnX
+  rw [canonicalSheaf_eq pX hnX] at hLX
+  have himg : V.ι ''ᵁ V.ι ⁻¹ᵁ ⊤ = V := Scheme.Opens.ι_image_top V
+  have hρ := Scheme.Modules.bijective_presheaf_map_top_of_two_le_codim (V.ι ''ᵁ V.ι ⁻¹ᵁ ⊤)
+    (by rw [himg]; exact hcodim) _ hLX
+  have hbij := bijective_app_top_of_restrict V.ι _ _
+    (exteriorPowerPushforwardMap_comp_restrictMap V.ι _ _
+      (relativeDifferentialsToPushforwardComp_comp_restrictMap V.ι pX) n)
+    (restrictLeftComposite_exteriorPower V.ι _ _
+      (restrictLeftComposite_differentials V.ι pX) n) hρ
+  -- Compare ranks.
+  have h1 := LinearMap.rank_le_of_injective (globalSectionsLinearMap φ.hom pX'
+    (exteriorPowerPullback φ.hom pX' n)) hinj
+  have h2 := (LinearEquiv.ofBijective (globalSectionsLinearMap V.ι pX
+    (exteriorPowerPushforwardMap V.ι (relativeDifferentialsToPushforwardComp V.ι pX) n))
+    hbij).rank_eq
+  refine h1.trans (le_of_eq (Eq.trans ?_ h2.symm))
+  rw [hφ]
 
 /-- **Hartshorne, Theorem II.8.19: birational invariance of the geometric genus.** If `X` and `X'`
 are nonsingular varieties, proper over an algebraically closed field `k` and birationally
@@ -686,8 +684,16 @@ theorem geometricGenus_eq_of_birational [IsAlgClosed k] {X X' : Scheme.{u}}
     [IsProper pX] [IsProper pX'] (hX : X.IsRegular) (hX' : X'.IsRegular)
     (hbir : ∃ e : X.PartialIso X', e.IsOver pX pX') :
     geometricGenus pX = geometricGenus pX' := by
-  rw [geometricGenus_eq_plurigenus_one, geometricGenus_eq_plurigenus_one]
-  exact plurigenus_eq_of_birational pX pX' hX hX' hbir 1
+  obtain ⟨e, he⟩ := hbir
+  have hpX : FiniteType pX := ⟨inferInstance, inferInstance⟩
+  have hpX' : FiniteType pX' := ⟨inferInstance, inferInstance⟩
+  obtain ⟨n, hn⟩ := exists_topologicalKrullDim_eq_nat pX hpX
+  have hn' := topologicalKrullDim_eq_of_partialIso pX pX' hpX hpX' e hn
+  unfold geometricGenus
+  rw [canonicalSheaf_eq pX hn, canonicalSheaf_eq pX' hn']
+  exact congrArg Cardinal.toNat (le_antisymm
+    (rank_globalSections_canonical_le_of_partialIso pX' pX hX' hX e.symm he.symm hn' hn)
+    (rank_globalSections_canonical_le_of_partialIso pX pX' hX hX' e he hn hn'))
 
 end GeometricGenus
 
