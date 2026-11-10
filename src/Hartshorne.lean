@@ -640,3 +640,5 @@ import Hartshorne.Scheme.EffectiveCartierIdealSheaf
 import Hartshorne.Cohomology.SmoothMorphisms.SmoothOverAlgClosedRegular
 import Hartshorne.Scheme.Differentials.LocalCompleteIntersection
 import Hartshorne.Scheme.NormalizationDivisorDescent
+import Hartshorne.Scheme.TensorPowerSectionRingMap
+import Hartshorne.Surface.CanonicalSectionRingDivisor
