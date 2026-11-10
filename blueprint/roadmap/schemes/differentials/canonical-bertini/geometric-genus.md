@@ -18,11 +18,6 @@ $p_g(X) = \dim _k \Gamma (X, \omega _X)$.
 
 - [The canonical sheaf](canonical-sheaf.md)
 
-## Proof depends on
-
-- Finite-dimensionality of global sections of a coherent sheaf on a
-  projective variety.
-
 ## Sources
 
 - [Hartshorne II.8, geometric-genus definition (pp.180–181)](../../../../sources/hartshorne-ii-8.md#canonical-sheaves-and-adjunction)
