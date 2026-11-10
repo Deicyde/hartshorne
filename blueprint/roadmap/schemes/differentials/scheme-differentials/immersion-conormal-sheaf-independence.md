@@ -4,7 +4,7 @@ declaration: theorem
 origin: bridged
 statement: formalized
 proof: formalized
-lean: Hartshorne.ConormalIndependence.ClosedFactorization.comparison Hartshorne.ConormalIndependence.ClosedFactorization.comparison_self Hartshorne.ConormalIndependence.ClosedFactorization.comparison_trans Hartshorne.ConormalIndependence.ClosedFactorization.toCanonical Hartshorne.ConormalIndependence.ClosedFactorization.comparison_toCanonical
+lean: Hartshorne.ConormalIndependence.ClosedFactorization.comparison Hartshorne.ConormalIndependence.ClosedFactorization.comparison_self Hartshorne.ConormalIndependence.ClosedFactorization.comparison_trans Hartshorne.ConormalIndependence.ClosedFactorization.toCanonical Hartshorne.ConormalIndependence.ClosedFactorization.comparison_toCanonical Hartshorne.ConormalIndependence.ClosedFactorization.comparison_of_le
 ---
 
 # The conormal sheaf is independent of the closed neighbourhood
