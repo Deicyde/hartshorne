@@ -331,4 +331,22 @@ theorem isClosed_setOf_le_moduleFiberDim_of_isCoherent {Y : Scheme.{u}} (G : Y.M
   simp only [Set.mem_compl_iff, Set.mem_ofPred_eq, not_le] at hy ⊢
   exact lt_of_le_of_lt (by exact_mod_cast hU y' hy') hy
 
+/-- Deprecated: the Noetherian-base form of `exists_nhds_moduleFiberDim_le_of_isCoherent`, whose
+`[IsNoetherian Y]` hypothesis is not needed. -/
+@[deprecated exists_nhds_moduleFiberDim_le_of_isCoherent (since := "2026-11-09"),
+  nolint unusedArguments]
+theorem exists_nhds_moduleFiberDim_le_of_isCoherent_of_isNoetherian {Y : Scheme.{u}}
+    [IsNoetherian Y] (G : Y.Modules) (hG : IsCoherent G) (y : Y) :
+    ∃ U : Y.Opens, y ∈ U ∧ ∀ y' ∈ U, moduleFiberDim G y' ≤ moduleFiberDim G y :=
+  exists_nhds_moduleFiberDim_le_of_isCoherent G hG y
+
+/-- Deprecated: the Noetherian-base form of `isClosed_setOf_le_moduleFiberDim_of_isCoherent`,
+whose `[IsNoetherian Y]` hypothesis is not needed. -/
+@[deprecated isClosed_setOf_le_moduleFiberDim_of_isCoherent (since := "2026-11-09"),
+  nolint unusedArguments]
+theorem isClosed_setOf_le_moduleFiberDim_of_isCoherent_of_isNoetherian {Y : Scheme.{u}}
+    [IsNoetherian Y] (G : Y.Modules) (hG : IsCoherent G) (n : ℤ) :
+    IsClosed {y : Y | n ≤ (moduleFiberDim G y : ℤ)} :=
+  isClosed_setOf_le_moduleFiberDim_of_isCoherent G hG n
+
 end Hartshorne
