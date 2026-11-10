@@ -16,14 +16,22 @@ $\mathfrak q \subset B$, then
 
 $$\dim_{k(x)} \bigl((\Omega_{X/Y})_x \otimes k(x)\bigr) = \dim_{\kappa(\mathfrak q)} \bigl(\kappa(\mathfrak q) \otimes_B \Omega_{B/A}\bigr).$$
 
-Indeed $\Omega_{X/Y}|_U \cong \widetilde{\Omega_{B/A}}$, and for a module $M$ over a ring $R$ the
+## Proof
+
+Restricting to the open subscheme $U$ does not change the fibre at $x$, and
+$\Omega_{X/Y}|_U \cong \widetilde{\Omega_{B/A}}$. For a module $M$ over a ring $R$ the
 stalk of $\widetilde M$ at a prime $\mathfrak p$ is $M_{\mathfrak p}$, so its fibre there is
 $\kappa(\mathfrak p) \otimes_R M$.
 
 ## Depends on
 
+- [The relative differential sheaf](relative-differentials.md)
+
+## Proof depends on
+
 - [Differentials on affine schemes](affine-relative-differentials.md)
 - [Quasi-coherence and coherence of differentials](relative-differentials-quasicoherent.md)
+- [Constant fibre dimension forces local freeness](../../coherent-sheaves/coherent-constant-fibre-rank-locally-free.md)
 
 ## Sources
 
