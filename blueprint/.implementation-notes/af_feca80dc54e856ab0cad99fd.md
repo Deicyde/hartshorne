@@ -1,6 +1,6 @@
 # The differential principal-parts resolution
 
-## Status (42981-w29, frontier/w29b): not started in Lean; Roadmap return
+## Status: not started in Lean; Roadmap return
 
 No Lean has been written for this node. The article takes for granted the inclusions
 `Ω_{X,P} ⊆ Ω_{K/k}` and a principal-parts decomposition over the closed points of a scheme
@@ -21,9 +21,12 @@ curve. Neither is in the project or in the DAG, and each is a substantial develo
   (`Variety`, `regularSheaf`, `locallyFiniteSumSheaf` on `X.carrier`), not on schemes. It cannot
   be reused for a scheme curve without a scheme version of the locally finite sum of skyscrapers
   and of "a nonzero rational section has finitely many poles".
-- **Canonical sheaf of a curve as `Ω_{X/k}`.** `canonicalSheaf f` is `⋀^{dim X} Ω_{X/k}`.
-  Comparing it with `Ω_{X/k}` needs `⋀^1 E ≅ E` for module sheaves; whether the project has this
-  is not yet checked.
+
+## Available ingredients
+
+- **Canonical sheaf of a curve as `Ω_{X/k}`.** This is available via
+  `Hartshorne.moduleSheafExteriorPowerOneIso` (Scheme/RankTwoDualDeterminant.lean) and
+  `canonicalSheaf_eq`.
 
 ## Suggested route once the prerequisites exist
 
