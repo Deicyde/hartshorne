@@ -156,14 +156,15 @@ maps are those of `Hartshorne.EulerSequence.dualEulerComplex` composed with the 
 theorem tangentSequence_projectiveSpace :
     ∃ (a : O0 k n ⟶ ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1)
       (b : (⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) ⟶
-        (dualEulerComplex k n).X₃)
+        tangentSheaf (toBase k n))
       (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact := by
   obtain ⟨e₀⟩ := nonempty_dualEulerComplex_X₁_iso (k := k) (n := n)
   obtain ⟨eE⟩ := nonempty_dualEulerComplex_X₂_iso (k := k) (n := n)
   refine ⟨e₀.inv ≫ (dualEulerComplex k n).f ≫ eE.hom, eE.inv ≫ (dualEulerComplex k n).g, ?_, ?_⟩
   · simp only [Category.assoc, Iso.hom_inv_id_assoc, ShortComplex.zero, comp_zero]
   · exact ShortComplex.shortExact_of_iso
-      (ShortComplex.isoMk e₀ eE (Iso.refl _) (by simp) (by simp)) dualEulerComplex_shortExact
+      (ShortComplex.isoMk e₀ eE (Iso.refl (tangentSheaf (toBase k n))) (by simp) (by simp))
+      dualEulerComplex_shortExact
 
 /-- The last term of `Hartshorne.EulerSequence.dualEulerComplex` is the tangent sheaf. -/
 theorem dualEulerComplex_X₃ : (dualEulerComplex k n).X₃ = tangentSheaf (toBase k n) :=
