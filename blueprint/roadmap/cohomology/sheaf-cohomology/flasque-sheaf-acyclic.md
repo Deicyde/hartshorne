@@ -14,7 +14,7 @@ positive degree $n$.
 
 Embed $F$ into an injective abelian sheaf, use the flasque quotient lemma and
 surjectivity on global sections, and dimension-shift along the long exact
-cohomology sequence. This is the unique main vanishing result.
+cohomology sequence.
 
 ## Depends on
 
