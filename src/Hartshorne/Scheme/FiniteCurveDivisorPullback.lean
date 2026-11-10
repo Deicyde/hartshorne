@@ -11,19 +11,20 @@ import Mathlib.AlgebraicGeometry.Morphisms.QuasiFinite
 /-!
 # Pullback of divisors along finite morphisms of nonsingular curves
 
-Hartshorne, *Algebraic Geometry*, II.6, definitions before Proposition 6.9 (pp. 137–138).
+Hartshorne, *Algebraic Geometry*, II.6, definitions before Proposition 6.9 (p. 137).
 
 A curve over a field `k` is an integral separated scheme of finite type over `k` of dimension
-one; it is nonsingular when all its local rings are regular (Hartshorne II.6, p. 136). Such a
-curve satisfies condition `(*)`, so its Weil divisors and class group are those of
-`Hartshorne.Scheme.WeilClassGroup`. Its codimension-one points are exactly its closed points,
+one (`Scheme.IsCurve`); it is nonsingular when all its local rings are regular
+(`Scheme.IsNonsingularCurve`) (Hartshorne II.6, p. 136; Hartshorne takes `k` algebraically
+closed, any field is allowed here). A nonsingular curve satisfies condition `(*)`, so its Weil
+divisors and class group are those of `Hartshorne.Scheme.WeilClassGroup`. Its codimension-one points are exactly its closed points,
 i.e. the points other than the generic point.
 
-For a finite morphism `f : X ⟶ Y` of nonsingular curves:
+For a finite morphism `f : X ⟶ Y` of curves, fibres of `f` are finite and discrete, so `f`
+maps the generic point to the generic point and closed points to closed points; hence `f`
+induces `f^# : K(Y) →+* K(X)` and its degree `deg f = [K(X) : K(Y)]` is defined
+(`Scheme.IsCurve.finiteCurveDegree`). For a finite morphism `f : X ⟶ Y` of nonsingular curves:
 
-* fibres of `f` are finite and discrete, so `f` maps the generic point to the generic point
-  and closed points to closed points; hence `f` induces `f^# : K(Y) →+* K(X)` and its degree
-  `deg f = [K(X) : K(Y)]` is defined;
 * for a closed point `Q` of `Y` and a local parameter `t` (an irreducible element, i.e. a
   uniformizer, of the discrete valuation ring `𝒪_{Y,Q}`), `f^*Q = ∑_{f(P) = Q} ord_P(t) P`; the
   coefficient does not depend on `t` because two local parameters differ by a unit of `𝒪_{Y,Q}`,
@@ -34,7 +35,10 @@ For a finite morphism `f : X ⟶ Y` of nonsingular curves:
 
 The degree of a curve divisor is the sum of its coefficients. The algebraic closedness of the
 ground field and the `k`-linearity of `f` are part of Hartshorne's setting; they are recorded in
-the main statements but are not needed for these constructions.
+the main statements but are not needed for these constructions; the primed theorems
+(`finiteCurvePointPullback_apply'`, `weilDivisorAddEquivFinsupp_finiteCurvePointPullback'`,
+`finiteCurveDivisorPullback_primeDivisor'`, `finiteCurveDivisorPullback_principalDivisor'`)
+state the formulas without them, and the recorded statements are derived from them.
 -/
 
 noncomputable section
@@ -45,17 +49,23 @@ namespace AlgebraicGeometry
 
 universe u
 
-/-- A **nonsingular curve** over a field `k` (Hartshorne II.6, p. 136): an integral scheme `X`
-over `k` that is separated and of finite type over `k`, has dimension one, and all of whose local
-rings are regular local rings. Integrality is a parameter of the predicate (the instance
+/-- A **curve** over a field `k` (Hartshorne II.6, p. 136; Hartshorne takes `k` algebraically
+closed, any field is allowed here): an integral scheme `X` over `k` that is separated and of finite
+type over `k` and has dimension one. Integrality is a parameter of the predicate (the instance
 `IsIntegral X`, in the style of Mathlib's mixin classes), so the predicate is only stated for
 integral schemes; finite type is spelled as locally of finite type and quasi-compact. -/
-structure Scheme.IsNonsingularCurve (k : Type u) [Field k] (X : Scheme.{u})
+structure Scheme.IsCurve (k : Type u) [Field k] (X : Scheme.{u})
     [X.Over (Spec (.of k))] [IsIntegral X] : Prop where
   isSeparated : IsSeparated (X ↘ Spec (.of k))
   locallyOfFiniteType : LocallyOfFiniteType (X ↘ Spec (.of k))
   quasiCompact : QuasiCompact (X ↘ Spec (.of k))
   topologicalKrullDim_eq_one : topologicalKrullDim X = 1
+
+/-- A **nonsingular curve** over a field `k` (Hartshorne II.6, p. 136; Hartshorne takes `k`
+algebraically closed, any field is allowed here): a curve over `k` (`Scheme.IsCurve`) all of whose
+local rings are regular local rings. -/
+structure Scheme.IsNonsingularCurve (k : Type u) [Field k] (X : Scheme.{u})
+    [X.Over (Spec (.of k))] [IsIntegral X] : Prop extends X.IsCurve k where
   isRegularLocalRing_stalk : ∀ x : X, IsRegularLocalRing (X.presheaf.stalk x)
 
 /-- Points in a common fibre of a locally quasi-finite morphism admit no nontrivial
@@ -84,32 +94,19 @@ private theorem Scheme.weilDivisor_ext {X : Scheme.{u}} {D E : X.WeilDivisor}
     (h : ∀ x, D.1 x = E.1 x) : D = E :=
   Subtype.ext (Function.locallyFinsuppWithin.ext h)
 
-namespace Scheme.IsNonsingularCurve
+namespace Scheme.IsCurve
 
 section OneCurve
 
 variable {k : Type u} [Field k] {X : Scheme.{u}} [X.Over (Spec (.of k))]
 
-/-- A nonsingular curve satisfies Hartshorne's condition `(*)`: it is Noetherian (being of
-finite type over a field), integral, separated, and regular in codimension one. -/
-theorem satisfiesConditionStar [IsIntegral X] (hX : X.IsNonsingularCurve k) :
-    X.SatisfiesConditionStar := by
-  have := hX.isSeparated
-  have := hX.locallyOfFiniteType
-  have := hX.quasiCompact
-  have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian (X ↘ Spec (.of k))
-  have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace (X ↘ Spec (.of k))
-  refine ⟨{}, inferInstance, ⟨?_⟩, fun x _ ↦ hX.isRegularLocalRing_stalk x⟩
-  rw [show terminal.from X = (X ↘ Spec (.of k)) ≫ terminal.from _ from terminal.hom_ext _ _]
-  infer_instance
-
 /-- The Krull dimension of the specialization order of a curve is one. -/
-theorem krullDim_eq_one [IsIntegral X] (hX : X.IsNonsingularCurve k) : krullDim X = 1 := by
+theorem krullDim_eq_one [IsIntegral X] (hX : X.IsCurve k) : krullDim X = 1 := by
   rw [← krullDim_eq_of_orderIso (irreducibleSetEquivPoints (α := X))]
   exact hX.topologicalKrullDim_eq_one
 
 /-- On a curve, the codimension-one points are the points other than the generic point. -/
-theorem coheight_eq_one_iff [IsIntegral X] (hX : X.IsNonsingularCurve k) (x : X) :
+theorem coheight_eq_one_iff [IsIntegral X] (hX : X.IsCurve k) (x : X) :
     coheight x = 1 ↔ x ≠ genericPoint X := by
   have hle : x ≤ genericPoint X := (genericPoint_spec X).specializes trivial
   constructor
@@ -125,7 +122,7 @@ theorem coheight_eq_one_iff [IsIntegral X] (hX : X.IsNonsingularCurve k) (x : X)
     exact le_antisymm h1' (le_trans (by simp) h0)
 
 /-- A curve has a point other than its generic point. -/
-theorem exists_ne_genericPoint [IsIntegral X] (hX : X.IsNonsingularCurve k) :
+theorem exists_ne_genericPoint [IsIntegral X] (hX : X.IsCurve k) :
     ∃ x : X, x ≠ genericPoint X := by
   by_contra! h
   have : Subsingleton X := ⟨fun a b ↦ (h a).trans (h b).symm⟩
@@ -134,7 +131,7 @@ theorem exists_ne_genericPoint [IsIntegral X] (hX : X.IsNonsingularCurve k) :
 
 /-- On a curve, the closed points are exactly the codimension-one points, i.e. the prime
 divisors. -/
-theorem isClosed_singleton_iff_coheight_eq_one [IsIntegral X] (hX : X.IsNonsingularCurve k)
+theorem isClosed_singleton_iff_coheight_eq_one [IsIntegral X] (hX : X.IsCurve k)
     (x : X) : IsClosed ({x} : Set X) ↔ coheight x = 1 := by
   rw [hX.coheight_eq_one_iff]
   constructor
@@ -156,6 +153,118 @@ theorem isClosed_singleton_iff_coheight_eq_one [IsIntegral X] (hX : X.IsNonsingu
     have h3' : coheight y ≤ 1 := by exact_mod_cast h3
     rw [h1] at h2
     exact absurd (h2.trans h3') (by decide)
+
+end OneCurve
+
+section TwoCurves
+
+variable {k : Type u} [Field k] {X Y : Scheme.{u}} [X.Over (Spec (.of k))]
+  [Y.Over (Spec (.of k))] [IsIntegral X] [IsIntegral Y]
+
+/-- A locally quasi-finite (e.g. finite) morphism of curves maps the generic point to the
+generic point. -/
+theorem apply_genericPoint_eq (hX : X.IsCurve k) (hY : Y.IsCurve k)
+    (f : X ⟶ Y) [LocallyQuasiFinite f] : f (genericPoint X) = genericPoint Y := by
+  by_contra hne
+  have hc := (hY.isClosed_singleton_iff_coheight_eq_one _).mpr
+    ((hY.coheight_eq_one_iff _).mpr hne)
+  obtain ⟨x, hx⟩ := hX.exists_ne_genericPoint
+  have hsp : genericPoint X ⤳ x := (genericPoint_spec X).specializes trivial
+  have hmem : f x ∈ closure ({f (genericPoint X)} : Set Y) :=
+    specializes_iff_mem_closure.mp (hsp.map f.continuous)
+  rw [hc.closure_eq] at hmem
+  exact hx (f.eq_of_specializes_of_apply_eq hsp hmem.symm).symm
+
+/-- A locally quasi-finite (e.g. finite) morphism of curves maps codimension-one points to
+codimension-one points. -/
+theorem coheight_apply_eq_one (hX : X.IsCurve k) (hY : Y.IsCurve k)
+    (f : X ⟶ Y) [LocallyQuasiFinite f] {x : X} (hx : coheight x = 1) :
+    coheight (f x) = 1 := by
+  rw [hY.coheight_eq_one_iff]
+  rw [hX.coheight_eq_one_iff] at hx
+  intro h
+  rw [← hX.apply_genericPoint_eq hY f] at h
+  exact hx (f.eq_of_specializes_of_apply_eq
+    ((genericPoint_spec X).specializes trivial) h.symm).symm
+
+/-- Points lying over a codimension-one point have codimension one. -/
+theorem coheight_eq_one_of_coheight_apply_eq_one (hX : X.IsCurve k)
+    (hY : Y.IsCurve k) (f : X ⟶ Y) [LocallyQuasiFinite f] {x : X}
+    (hx : coheight (f x) = 1) : coheight x = 1 := by
+  rw [hX.coheight_eq_one_iff]
+  rintro rfl
+  rw [hX.apply_genericPoint_eq hY f, hY.coheight_eq_one_iff] at hx
+  exact hx rfl
+
+/-- The function-field homomorphism `f^# : K(Y) →+* K(X)` induced by a finite (more generally,
+locally quasi-finite) morphism of curves, which is dominant. -/
+def finiteCurveFunctionFieldMap (hX : X.IsCurve k) (hY : Y.IsCurve k)
+    (f : X ⟶ Y) [LocallyQuasiFinite f] : Y.functionField →+* X.functionField :=
+  (Y.presheaf.stalkSpecializes (specializes_of_eq (hX.apply_genericPoint_eq hY f)) ≫
+    f.stalkMap (genericPoint X)).hom
+
+/-- `f^#` is compatible with the stalk maps `𝒪_{Y,f(x)} → 𝒪_{X,x}`. -/
+theorem finiteCurveFunctionFieldMap_algebraMap (hX : X.IsCurve k)
+    (hY : Y.IsCurve k) (f : X ⟶ Y) [LocallyQuasiFinite f] (x : X)
+    (a : Y.presheaf.stalk (f x)) :
+    hX.finiteCurveFunctionFieldMap hY f (algebraMap _ Y.functionField a) =
+      algebraMap (X.presheaf.stalk x) X.functionField (f.stalkMap x a) := by
+  have hsp : genericPoint X ⤳ x := (genericPoint_spec X).specializes trivial
+  have h := Scheme.Hom.stalkSpecializes_stalkMap_apply f (genericPoint X) x hsp a
+  change (f.stalkMap (genericPoint X)) ((Y.presheaf.stalkSpecializes _)
+    ((Y.presheaf.stalkSpecializes _) a)) = (X.presheaf.stalkSpecializes _) _
+  rw [← h]
+  congr 1
+  rw [← CommRingCat.comp_apply, TopCat.Presheaf.stalkSpecializes_comp]
+
+/-- The **degree** of a finite morphism of curves, `deg f = [K(X) : K(Y)]`. -/
+def finiteCurveDegree (hX : X.IsCurve k) (hY : Y.IsCurve k)
+    (f : X ⟶ Y) [LocallyQuasiFinite f] : ℕ :=
+  letI := (hX.finiteCurveFunctionFieldMap hY f).toAlgebra
+  Module.finrank Y.functionField X.functionField
+
+end TwoCurves
+
+end Scheme.IsCurve
+
+namespace Scheme.IsNonsingularCurve
+
+section OneCurve
+
+variable {k : Type u} [Field k] {X : Scheme.{u}} [X.Over (Spec (.of k))]
+
+/-- A nonsingular curve satisfies Hartshorne's condition `(*)`: it is Noetherian (being of
+finite type over a field), integral, separated, and regular in codimension one. -/
+theorem satisfiesConditionStar [IsIntegral X] (hX : X.IsNonsingularCurve k) :
+    X.SatisfiesConditionStar := by
+  have := hX.isSeparated
+  have := hX.locallyOfFiniteType
+  have := hX.quasiCompact
+  have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian (X ↘ Spec (.of k))
+  have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace (X ↘ Spec (.of k))
+  refine ⟨{}, inferInstance, ⟨?_⟩, fun x _ ↦ hX.isRegularLocalRing_stalk x⟩
+  rw [show terminal.from X = (X ↘ Spec (.of k)) ≫ terminal.from _ from terminal.hom_ext _ _]
+  infer_instance
+
+/-- The Krull dimension of the specialization order of a curve is one. -/
+theorem krullDim_eq_one [IsIntegral X] (hX : X.IsNonsingularCurve k) : krullDim X = 1 :=
+  hX.toIsCurve.krullDim_eq_one
+
+/-- On a curve, the codimension-one points are the points other than the generic point. -/
+theorem coheight_eq_one_iff [IsIntegral X] (hX : X.IsNonsingularCurve k) (x : X) :
+    coheight x = 1 ↔ x ≠ genericPoint X :=
+  hX.toIsCurve.coheight_eq_one_iff x
+
+/-- A curve has a point other than its generic point. -/
+theorem exists_ne_genericPoint [IsIntegral X] (hX : X.IsNonsingularCurve k) :
+    ∃ x : X, x ≠ genericPoint X :=
+  hX.toIsCurve.exists_ne_genericPoint
+
+/-- On a curve, the closed points are exactly the codimension-one points, i.e. the prime
+divisors. -/
+theorem isClosed_singleton_iff_coheight_eq_one [IsIntegral X] (hX : X.IsNonsingularCurve k)
+    (x : X) : IsClosed ({x} : Set X) ↔ coheight x = 1 :=
+  hX.toIsCurve.isClosed_singleton_iff_coheight_eq_one x
 
 /-- On a nonsingular curve, the prime divisors are exactly the closed points. -/
 def primeDivisorEquivClosedPoint [IsIntegral X] (hX : X.IsNonsingularCurve k) :
@@ -232,37 +341,21 @@ variable {k : Type u} [Field k] {X Y : Scheme.{u}} [X.Over (Spec (.of k))]
 /-- A locally quasi-finite (e.g. finite) morphism of curves maps the generic point to the
 generic point. -/
 theorem apply_genericPoint_eq (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k)
-    (f : X ⟶ Y) [LocallyQuasiFinite f] : f (genericPoint X) = genericPoint Y := by
-  by_contra hne
-  have hc := (hY.isClosed_singleton_iff_coheight_eq_one _).mpr
-    ((hY.coheight_eq_one_iff _).mpr hne)
-  obtain ⟨x, hx⟩ := hX.exists_ne_genericPoint
-  have hsp : genericPoint X ⤳ x := (genericPoint_spec X).specializes trivial
-  have hmem : f x ∈ closure ({f (genericPoint X)} : Set Y) :=
-    specializes_iff_mem_closure.mp (hsp.map f.continuous)
-  rw [hc.closure_eq] at hmem
-  exact hx (f.eq_of_specializes_of_apply_eq hsp hmem.symm).symm
+    (f : X ⟶ Y) [LocallyQuasiFinite f] : f (genericPoint X) = genericPoint Y :=
+  hX.toIsCurve.apply_genericPoint_eq hY.toIsCurve f
 
 /-- A locally quasi-finite (e.g. finite) morphism of curves maps codimension-one points to
 codimension-one points. -/
 theorem coheight_apply_eq_one (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k)
     (f : X ⟶ Y) [LocallyQuasiFinite f] {x : X} (hx : coheight x = 1) :
-    coheight (f x) = 1 := by
-  rw [hY.coheight_eq_one_iff]
-  rw [hX.coheight_eq_one_iff] at hx
-  intro h
-  rw [← hX.apply_genericPoint_eq hY f] at h
-  exact hx (f.eq_of_specializes_of_apply_eq
-    ((genericPoint_spec X).specializes trivial) h.symm).symm
+    coheight (f x) = 1 :=
+  hX.toIsCurve.coheight_apply_eq_one hY.toIsCurve f hx
 
 /-- Points lying over a codimension-one point have codimension one. -/
 theorem coheight_eq_one_of_coheight_apply_eq_one (hX : X.IsNonsingularCurve k)
     (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [LocallyQuasiFinite f] {x : X}
-    (hx : coheight (f x) = 1) : coheight x = 1 := by
-  rw [hX.coheight_eq_one_iff]
-  rintro rfl
-  rw [hX.apply_genericPoint_eq hY f, hY.coheight_eq_one_iff] at hx
-  exact hx rfl
+    (hx : coheight (f x) = 1) : coheight x = 1 :=
+  hX.toIsCurve.coheight_eq_one_of_coheight_apply_eq_one hY.toIsCurve f hx
 
 /-- The function-field homomorphism `f^# : K(Y) →+* K(X)` induced by a finite (more generally,
 locally quasi-finite) morphism of curves, which is dominant. -/
@@ -276,20 +369,30 @@ theorem finiteCurveFunctionFieldMap_algebraMap (hX : X.IsNonsingularCurve k)
     (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [LocallyQuasiFinite f] (x : X)
     (a : Y.presheaf.stalk (f x)) :
     hX.finiteCurveFunctionFieldMap hY f (algebraMap _ Y.functionField a) =
-      algebraMap (X.presheaf.stalk x) X.functionField (f.stalkMap x a) := by
-  have hsp : genericPoint X ⤳ x := (genericPoint_spec X).specializes trivial
-  have h := Scheme.Hom.stalkSpecializes_stalkMap_apply f (genericPoint X) x hsp a
-  change (f.stalkMap (genericPoint X)) ((Y.presheaf.stalkSpecializes _)
-    ((Y.presheaf.stalkSpecializes _) a)) = (X.presheaf.stalkSpecializes _) _
-  rw [← h]
-  congr 1
-  rw [← CommRingCat.comp_apply, TopCat.Presheaf.stalkSpecializes_comp]
+      algebraMap (X.presheaf.stalk x) X.functionField (f.stalkMap x a) :=
+  hX.toIsCurve.finiteCurveFunctionFieldMap_algebraMap hY.toIsCurve f x a
 
-/-- The **degree** of a finite morphism of curves, `deg f = [K(X) : K(Y)]`. -/
+/-- The **degree** `deg f = [K(X) : K(Y)]` of a finite morphism of nonsingular curves: the
+degree of `f` as a morphism of curves (`Scheme.IsCurve.finiteCurveDegree`,
+`finiteCurveDegree_eq`). -/
 def finiteCurveDegree (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k)
     (f : X ⟶ Y) [LocallyQuasiFinite f] : ℕ :=
   letI := (hX.finiteCurveFunctionFieldMap hY f).toAlgebra
   Module.finrank Y.functionField X.functionField
+
+/-- On nonsingular curves, `f^#` is the function-field homomorphism of `f` as a morphism of
+curves. -/
+theorem finiteCurveFunctionFieldMap_eq (hX : X.IsNonsingularCurve k)
+    (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [LocallyQuasiFinite f] :
+    hX.finiteCurveFunctionFieldMap hY f = hX.toIsCurve.finiteCurveFunctionFieldMap hY.toIsCurve f :=
+  rfl
+
+/-- **The degree of a finite morphism of nonsingular curves** is its degree as a morphism of
+curves, `[K(X) : K(Y)]`. -/
+theorem finiteCurveDegree_eq (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k)
+    (f : X ⟶ Y) [LocallyQuasiFinite f] :
+    hX.finiteCurveDegree hY f = hX.toIsCurve.finiteCurveDegree hY.toIsCurve f :=
+  rfl
 
 /-- For `f(x) = Q` of codimension one and a local parameter `t` at `Q`,
 `ord_x(f^# g) = ord_Q(g) · ord_x(f^# t)`. -/
@@ -383,7 +486,11 @@ def finiteCurvePointPullback (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingular
       · rfl)
 
 open Classical in
-private theorem finiteCurvePointPullback_apply_aux (hX : X.IsNonsingularCurve k)
+/-- **Independence of the local parameter, over any field.** For a finite morphism `f` of
+nonsingular curves over any field `k` (not necessarily a morphism over `k`), a closed point `Q` of
+`Y` and any local parameter `t` at `Q`, the coefficient of `P` in `f^*Q` is `ord_P(t)` if
+`f(P) = Q` and `0` otherwise. -/
+theorem finiteCurvePointPullback_apply' (hX : X.IsNonsingularCurve k)
     (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f] {Q : Y}
     (hQ : IsClosed ({Q} : Set Y)) {t : Y.presheaf.stalk Q} (ht : Irreducible t) (x : X) :
     let _ := hX.satisfiesConditionStar.isNoetherian
@@ -411,7 +518,7 @@ theorem finiteCurvePointPullback_apply [IsAlgClosed k] (hX : X.IsNonsingularCurv
     (hX.finiteCurvePointPullback hY f Q).1 x =
       if f x = Q then X.ord (hX.finiteCurveFunctionFieldMap hY f (algebraMap _ _ t)) x
       else 0 :=
-  finiteCurvePointPullback_apply_aux hX hY f hQ ht x
+  finiteCurvePointPullback_apply' hX hY f hQ ht x
 
 /-- **Finiteness of the fibre sum.** The support of `f^*Q` lies in the fibre `f⁻¹(Q)`, which
 is finite. -/
@@ -427,11 +534,10 @@ theorem finiteCurvePointPullback_support_subset (hX : X.IsNonsingularCurve k)
   exact if_neg h
 
 open Classical in
-/-- The defining formula `f^*Q = ∑_{f(P) = Q} ord_P(t) P`, as a finite sum in the free abelian
-group on prime divisors, for a closed point `Q` and any local parameter `t` at `Q`. -/
-theorem weilDivisorAddEquivFinsupp_finiteCurvePointPullback [IsAlgClosed k]
-    (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f]
-    [f.IsOver (Spec (.of k))] {Q : Y} (hQ : IsClosed ({Q} : Set Y))
+/-- `weilDivisorAddEquivFinsupp_finiteCurvePointPullback` over any field, for any finite `f`
+(not necessarily a morphism over `k`). -/
+theorem weilDivisorAddEquivFinsupp_finiteCurvePointPullback' (hX : X.IsNonsingularCurve k)
+    (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f] {Q : Y} (hQ : IsClosed ({Q} : Set Y))
     {t : Y.presheaf.stalk Q} (ht : Irreducible t) :
     let _ := hX.satisfiesConditionStar.isNoetherian
     X.weilDivisorAddEquivFinsupp (hX.finiteCurvePointPullback hY f Q) =
@@ -444,7 +550,20 @@ theorem weilDivisorAddEquivFinsupp_finiteCurvePointPullback [IsAlgClosed k]
   simp only [Finsupp.single_apply, Finset.sum_ite_eq', Set.Finite.mem_toFinset, Set.mem_preimage,
     Set.mem_singleton_iff]
   change (hX.finiteCurvePointPullback hY f Q).1 P.1 = _
-  rw [finiteCurvePointPullback_apply_aux hX hY f hQ ht]
+  rw [finiteCurvePointPullback_apply' hX hY f hQ ht]
+
+/-- The defining formula `f^*Q = ∑_{f(P) = Q} ord_P(t) P`, as a finite sum in the free abelian
+group on prime divisors, for a closed point `Q` and any local parameter `t` at `Q`. -/
+theorem weilDivisorAddEquivFinsupp_finiteCurvePointPullback [IsAlgClosed k]
+    (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f]
+    [f.IsOver (Spec (.of k))] {Q : Y} (hQ : IsClosed ({Q} : Set Y))
+    {t : Y.presheaf.stalk Q} (ht : Irreducible t) :
+    let _ := hX.satisfiesConditionStar.isNoetherian
+    X.weilDivisorAddEquivFinsupp (hX.finiteCurvePointPullback hY f Q) =
+      ∑ P ∈ ((f.finite_preimage_singleton Q).preimage Subtype.val_injective.injOn :
+          (Subtype.val ⁻¹' (f ⁻¹' {Q}) : Set X.PrimeDivisor).Finite).toFinset,
+        Finsupp.single P (X.ord (hX.finiteCurveFunctionFieldMap hY f (algebraMap _ _ t)) P.1) :=
+  weilDivisorAddEquivFinsupp_finiteCurvePointPullback' hX hY f hQ ht
 
 /-- The **pullback of divisors** `f^* : Div Y → Div X` along a finite morphism of curves: the
 coefficient of `P` in `f^*D` is `D(f(P)) · ord_P(t)` for a local parameter `t` at `f(P)`. -/
@@ -472,11 +591,10 @@ theorem finiteCurveDivisorPullback_apply (hX : X.IsNonsingularCurve k)
       D.1 (f x) * hX.finiteCurvePullbackMultiplicity hY f x :=
   rfl
 
-/-- `f^*` on divisors is the additive extension of `Q ↦ f^*Q`: it sends the prime divisor `Q`
-(a generator of the free abelian group `Div Y`) to `f^*Q`. -/
-theorem finiteCurveDivisorPullback_primeDivisor [IsAlgClosed k]
-    (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f]
-    [f.IsOver (Spec (.of k))] (Q : Y.PrimeDivisor) :
+/-- `finiteCurveDivisorPullback_primeDivisor` over any field, for any finite `f` (not necessarily
+a morphism over `k`). -/
+theorem finiteCurveDivisorPullback_primeDivisor' (hX : X.IsNonsingularCurve k)
+    (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f] (Q : Y.PrimeDivisor) :
     let _ := hY.satisfiesConditionStar.isNoetherian
     hX.finiteCurveDivisorPullback hY f
         (Y.weilDivisorAddEquivFinsupp.symm (Finsupp.single Q 1)) =
@@ -497,7 +615,21 @@ theorem finiteCurveDivisorPullback_primeDivisor [IsAlgClosed k]
         zero_mul]
     · rw [D.2 _ hc, zero_mul]
 
-private theorem finiteCurveDivisorPullback_principalDivisor_aux (hX : X.IsNonsingularCurve k)
+/-- `f^*` on divisors is the additive extension of `Q ↦ f^*Q`: it sends the prime divisor `Q`
+(a generator of the free abelian group `Div Y`) to `f^*Q`. -/
+theorem finiteCurveDivisorPullback_primeDivisor [IsAlgClosed k]
+    (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f]
+    [f.IsOver (Spec (.of k))] (Q : Y.PrimeDivisor) :
+    let _ := hY.satisfiesConditionStar.isNoetherian
+    hX.finiteCurveDivisorPullback hY f
+        (Y.weilDivisorAddEquivFinsupp.symm (Finsupp.single Q 1)) =
+      hX.finiteCurvePointPullback hY f Q.1 :=
+  finiteCurveDivisorPullback_primeDivisor' hX hY f Q
+
+/-- **Pullback of principal divisors, over any field.** For a finite morphism `f` of nonsingular
+curves over any field `k` (not necessarily a morphism over `k`), `f^*((g)) = (f^# g)` for every
+nonzero rational function `g` on `Y`. -/
+theorem finiteCurveDivisorPullback_principalDivisor' (hX : X.IsNonsingularCurve k)
     (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f] (g : Y.functionFieldˣ) :
     hX.finiteCurveDivisorPullback hY f (Y.principalDivisor hY.satisfiesConditionStar g) =
       X.principalDivisor hX.satisfiesConditionStar
@@ -524,7 +656,7 @@ theorem finiteCurveDivisorPullback_principalDivisor [IsAlgClosed k]
       X.principalDivisor hX.satisfiesConditionStar
         (Units.map (hX.finiteCurveFunctionFieldMap hY f : Y.functionField →* X.functionField)
           g) :=
-  finiteCurveDivisorPullback_principalDivisor_aux hX hY f g
+  finiteCurveDivisorPullback_principalDivisor' hX hY f g
 
 /-- The pullback `f^* : Cl Y → Cl X` on Weil divisor class groups, induced by `f^*` on divisors
 since it maps principal divisors to principal divisors. -/
@@ -538,7 +670,7 @@ def finiteCurveClassGroupPullback (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsin
     change _ ∈ (X.principalDivisorHom hX.satisfiesConditionStar).range
     exact ⟨Additive.ofMul (Units.map
       (hX.finiteCurveFunctionFieldMap hY f : Y.functionField →* X.functionField) g.toMul),
-      (finiteCurveDivisorPullback_principalDivisor_aux hX hY f g.toMul).symm⟩)
+      (finiteCurveDivisorPullback_principalDivisor' hX hY f g.toMul).symm⟩)
 
 /-- `f^*` on class groups is induced by `f^*` on divisors: `f^*[D] = [f^*D]`. -/
 theorem finiteCurveClassGroupPullback_weilDivisorClassHom (hX : X.IsNonsingularCurve k)

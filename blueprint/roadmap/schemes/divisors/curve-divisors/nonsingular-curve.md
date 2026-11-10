@@ -4,7 +4,7 @@ declaration: structure
 origin: cited
 statement: formalized
 proof: formalized
-lean: AlgebraicGeometry.Scheme.IsNonsingularCurve AlgebraicGeometry.Scheme.IsNonsingularCurve.satisfiesConditionStar AlgebraicGeometry.Scheme.IsNonsingularCurve.isClosed_singleton_iff_coheight_eq_one AlgebraicGeometry.Scheme.IsNonsingularCurve.weilDivisorAddEquivClosedPointFinsupp
+lean: AlgebraicGeometry.Scheme.IsNonsingularCurve AlgebraicGeometry.Scheme.IsCurve AlgebraicGeometry.Scheme.IsNonsingularCurve.satisfiesConditionStar AlgebraicGeometry.Scheme.IsNonsingularCurve.isClosed_singleton_iff_coheight_eq_one AlgebraicGeometry.Scheme.IsNonsingularCurve.weilDivisorAddEquivClosedPointFinsupp
 ---
 
 # Nonsingular curves over a field
