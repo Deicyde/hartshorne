@@ -23,7 +23,8 @@ construction is identified with the canonical conormal sheaf `N^*_i = immersionC
 (`ClosedFactorization.toCanonical`). The comparison isomorphisms between two factorizations are
 defined through `N^*_i`. They are the identity for one factorization
 (`ClosedFactorization.comparison_self`) and satisfy the cocycle law for three
-(`ClosedFactorization.comparison_trans`).
+(`ClosedFactorization.comparison_trans`). When `F.U ≤ G.U`, the comparison is the restriction
+isomorphism (`ClosedFactorization.comparison_of_le`).
 -/
 
 universe u
