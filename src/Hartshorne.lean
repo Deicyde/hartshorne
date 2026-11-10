@@ -656,3 +656,5 @@ import Hartshorne.Cohomology.SmoothMorphisms.RegularCotangentFlat
 import Hartshorne.Cohomology.SmoothMorphisms.CotangentRelativeDifferentials
 import Hartshorne.Cohomology.SmoothMorphisms.SmoothTangentCriterion
 import Hartshorne.Scheme.Differentials.CanonicalPullback
+import Hartshorne.Scheme.ModuleSheafTensorRestrict
+import Hartshorne.Scheme.Differentials.ImmersionConormalSheaf
