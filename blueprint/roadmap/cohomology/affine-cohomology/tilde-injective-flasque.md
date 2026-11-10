@@ -2,6 +2,9 @@
 article_id: af_37b83d94dd88c4c091670310
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.tilde_isFlasque
 ---
 
 # The sheaf of an injective module is flasque
