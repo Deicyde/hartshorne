@@ -17,6 +17,7 @@ $\Gamma (X,\mathcal{O}_X)$-module structure, functorially and compatibly with ex
 
 - [Module sheaves have enough injectives](module-sheaves-enough-injectives.md)
 - [Sheaf cohomology](sheaf-cohomology.md)
+- [The long exact sequence of sheaf cohomology](sheaf-cohomology-long-exact-sequence.md)
 
 ## Proof depends on
 
