@@ -57,13 +57,23 @@ theorem ringKrullDim_stalk_of_isClosed_of_equidim (hf : FiniteType f) {n : ℕ}
   rw [ringKrullDim_stalk_eq_coheight, hsum]
   rfl
 
+/-- On a scheme of finite type over a field all of whose irreducible components have dimension
+`n`, the local ring at a maximal ideal of the ring of an affine open has dimension `n`. -/
+@[deprecated ringKrullDim_localization_of_isMaximal_of_forall_isClosed (since := "2026-11-09")]
+theorem ringKrullDim_localization_of_isMaximal_of_equidim (hf : FiniteType f) {n : ℕ}
+    (hC : ∀ C ∈ irreducibleComponents X, topologicalKrullDim C = n) (U : X.affineOpens)
+    (m : Ideal Γ(X, (U : X.Opens))) [m.IsMaximal] :
+    ringKrullDim (Localization.AtPrime m) = n :=
+  ringKrullDim_localization_of_isMaximal_of_forall_isClosed f hf
+    (ringKrullDim_stalk_of_isClosed_of_equidim f hf hC) U m
+
 end DifferentialsNonsingular
 
 open DifferentialsNonsingular TensorProduct IsLocalRing Module in
 /-- Let `X` be a scheme of finite type over an algebraically closed field `k`, all of whose
 irreducible components have dimension `n`. Then every local ring of `X` is regular if and only if
-every fibre `κ(x) ⊗ Ω_{X/k,x}` of the sheaf of differentials has dimension `n`. (Hartshorne II,
-proof of Theorem 8.15.) -/
+every fibre `κ(x) ⊗ Ω_{X/k,x}` of the sheaf of differentials has dimension `n`. (This generalizes
+the argument of Hartshorne II, proof of Theorem 8.15.) -/
 theorem forall_isRegularAt_iff_finrank_fibre {k : Type u} [Field k] [IsAlgClosed k]
     {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (hf : FiniteType f) (n : ℕ)
     (hC : ∀ C ∈ irreducibleComponents X, topologicalKrullDim C = n) :

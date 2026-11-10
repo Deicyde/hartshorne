@@ -190,8 +190,8 @@ theorem isIntegral_of_isRegular {X : Scheme.{u}} [IrreducibleSpace X] (h : X.IsR
 open DifferentialsNonsingular in
 /-- Let `X` be a scheme of finite type over an algebraically closed field `k` whose local rings at
 closed points all have dimension `n`. Then every local ring of `X` is regular if and only if
-every fibre `κ(x) ⊗ Ω_{X/k,x}` of the sheaf of differentials has dimension `n`. (Hartshorne II,
-proof of Theorem 8.15.) -/
+every fibre `κ(x) ⊗ Ω_{X/k,x}` of the sheaf of differentials has dimension `n`. (This generalizes
+the argument of Hartshorne II, proof of Theorem 8.15.) -/
 theorem forall_isRegularAt_iff_finrank_fibre_of_forall_isClosed {k : Type u} [Field k]
     [IsAlgClosed k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (hf : FiniteType f) (n : ℕ)
     (hdim : ∀ z : X, IsClosed ({z} : Set X) → ringKrullDim (X.presheaf.stalk z) = n) :
@@ -322,6 +322,7 @@ theorem isRegular_iff_relativeDifferentials_isLocallyFreeOfRank {k : Type u} [Fi
     -- local freeness of rank `n` gives fibre dimension `n` at every point
     exact ⟨inferInstance, (forall_isRegularAt_iff_finrank_fibre_of_forall_isClosed f hf n hdim).2
       (finrank_fibre_of_isLocallyFreeOfRank _ n h)⟩
+
 end
 
 end Hartshorne
