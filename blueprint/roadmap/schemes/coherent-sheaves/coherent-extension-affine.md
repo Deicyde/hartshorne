@@ -2,6 +2,9 @@
 article_id: af_0bbdf1efed6dcc5ffe5d91e9
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_isCoherent_restrict_iso Hartshorne.exists_isCoherent_extension Hartshorne.exists_finite_mem_spanSheaf Hartshorne.isCoherent_spanSheaf Hartshorne.spanSheaf
 ---
 
 # Affine extension of coherent sheaves

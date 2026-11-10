@@ -627,6 +627,7 @@ import Hartshorne.Cohomology.ClosedPushforwardCohomology
 import Hartshorne.Cohomology.ConstantOpenExtensionVanishing
 import Hartshorne.Cohomology.IrreducibleComponentReduction
 import Hartshorne.Scheme.SectionsWithSupport
+import Hartshorne.Scheme.CoherentExtensionAffine
 import Hartshorne.Cohomology.ModuleCohomologyComparison
 import Hartshorne.Cohomology.ProjectiveLineRegularAcyclic
 import Hartshorne.Scheme.Differentials.GeometricGenus
