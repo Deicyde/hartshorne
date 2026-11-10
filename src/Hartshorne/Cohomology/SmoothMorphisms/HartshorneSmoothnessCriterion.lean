@@ -319,20 +319,16 @@ theorem isMax_apply_of_generalizingMap {T : Scheme.{u}} (f : S ⟶ T) (hf : Gene
   obtain ⟨x', hx', rfl⟩ := hf hw
   exact (h hx').map f.continuous
 
-/-- **Hartshorne's dimension clause and the fibre form.** Let `f : X → Y` be a flat morphism of
-schemes of finite type over a field `k` and `n` a natural number. The condition of Hartshorne's
-definition of smoothness (III.10, p. 268): for irreducible components `X' ⊆ X` and `Y' ⊆ Y` with
-`f(X') ⊆ Y'`, `dim X' = dim Y' + n`, holds if and only if every irreducible component of every
-scheme-theoretic fibre `X_y` has dimension `n`. This supplements Corollary III.9.6, which assumes
-`Y` irreducible; the proof uses Proposition III.9.5 at a closed point of a fibre lying on a single
-component of the fibre, and going-down for flat morphisms. -/
-theorem forall_irreducibleComponents_dim_eq_add_iff_forall_fiber {k : Type u} [Field k]
+/-- `forall_irreducibleComponents_dim_eq_add_iff_forall_fiber` in terms of maximal points: for a
+flat morphism `f : X → Y` of schemes of finite type over a field, `dim cl{ζ} = dim cl{f ζ} + n` for
+every maximal point `ζ` of `X` if and only if every irreducible component of every fibre has
+dimension `n`. -/
+theorem forall_isMax_height_eq_add_iff_forall_fiber {k : Type u} [Field k]
     {X Y : Over (Spec (CommRingCat.of k))}
     (hX : LocallyOfFiniteType X.hom ∧ QuasiCompact X.hom)
     (hY : LocallyOfFiniteType Y.hom ∧ QuasiCompact Y.hom) (f : X ⟶ Y) (hf : Flat f.left)
     (n : ℕ) :
-    (∀ X' ∈ irreducibleComponents X.left, ∀ Y' ∈ irreducibleComponents Y.left,
-        f.left '' X' ⊆ Y' → topologicalKrullDim X' = topologicalKrullDim Y' + n) ↔
+    (∀ ζ : X.left, IsMax ζ → height ζ = height (f.left ζ) + n) ↔
       ∀ y : Y.left, ∀ Z ∈ irreducibleComponents (f.left.fiber y), topologicalKrullDim Z = n := by
   have : LocallyOfFiniteType X.hom := hX.1
   have : LocallyOfFiniteType Y.hom := hY.1
@@ -394,29 +390,6 @@ theorem forall_irreducibleComponents_dim_eq_add_iff_forall_fiber {k : Type u} [F
   have hmaxf : ∀ ζ : X.left, IsMax ζ → IsMax (f.left ζ) := fun ζ h =>
     isMax_apply_of_generalizingMap f.left hgen h
   have hmono : ∀ {a b : X.left}, a ≤ b → f.left a ≤ f.left b := fun h => h.map f.left.continuous
-  -- Hartshorne's clause in terms of maximal points.
-  have hiff : (∀ X' ∈ irreducibleComponents X.left, ∀ Y' ∈ irreducibleComponents Y.left,
-        f.left '' X' ⊆ Y' → topologicalKrullDim X' = topologicalKrullDim Y' + n) ↔
-      ∀ ζ : X.left, IsMax ζ → height ζ = height (f.left ζ) + n := by
-    constructor
-    · intro h ζ hζ
-      have hsub : f.left '' closure {ζ} ⊆ closure {f.left ζ} := by
-        rw [← Set.image_singleton]
-        exact image_closure_subset_closure_image f.left.continuous
-      have h1 := h _ (closure_mem_irreducibleComponents_of_isMax hζ) _
-        (closure_mem_irreducibleComponents_of_isMax (hmaxf ζ hζ)) hsub
-      rw [topologicalKrullDim_closure_singleton, topologicalKrullDim_closure_singleton] at h1
-      exact_mod_cast h1
-    · intro h X' hX' Y' hY' hsub
-      obtain ⟨ζ, rfl⟩ := exists_closure_eq hX'
-      obtain ⟨η, rfl⟩ := exists_closure_eq hY'
-      have hζ := isMax_of_closure_mem_irreducibleComponents hX'
-      have hle : f.left ζ ≤ η :=
-        specializes_iff_mem_closure.mpr (hsub ⟨ζ, subset_closure rfl, rfl⟩)
-      rw [topologicalKrullDim_closure_singleton, topologicalKrullDim_closure_singleton, h ζ hζ,
-        eq_of_le_of_le hle (hmaxf ζ hζ hle)]
-      norm_cast
-  rw [hiff]
   constructor
   · -- Hartshorne's clause implies the fibre form.
     intro h y Z hZ
@@ -534,6 +507,50 @@ theorem forall_irreducibleComponents_dim_eq_add_iff_forall_fiber {k : Type u} [F
     have := coheight_add_height_eq_of_forall (hCX ζ) hle hup
     rw [← h1, hD] at this
     rw [← this, add_comm]
+
+/-- **Hartshorne's dimension clause and the fibre form.** Let `f : X → Y` be a flat morphism of
+schemes of finite type over a field `k` and `n` a natural number. The condition of Hartshorne's
+definition of smoothness (III.10, p. 268): for irreducible components `X' ⊆ X` and `Y' ⊆ Y` with
+`f(X') ⊆ Y'`, `dim X' = dim Y' + n`, holds if and only if every irreducible component of every
+scheme-theoretic fibre `X_y` has dimension `n`. This supplements Corollary III.9.6, which assumes
+`Y` irreducible; the proof uses Proposition III.9.5 at a closed point of a fibre lying on a single
+component of the fibre, and going-down for flat morphisms. -/
+theorem forall_irreducibleComponents_dim_eq_add_iff_forall_fiber {k : Type u} [Field k]
+    {X Y : Over (Spec (CommRingCat.of k))}
+    (hX : LocallyOfFiniteType X.hom ∧ QuasiCompact X.hom)
+    (hY : LocallyOfFiniteType Y.hom ∧ QuasiCompact Y.hom) (f : X ⟶ Y) (hf : Flat f.left)
+    (n : ℕ) :
+    (∀ X' ∈ irreducibleComponents X.left, ∀ Y' ∈ irreducibleComponents Y.left,
+        f.left '' X' ⊆ Y' → topologicalKrullDim X' = topologicalKrullDim Y' + n) ↔
+      ∀ y : Y.left, ∀ Z ∈ irreducibleComponents (f.left.fiber y), topologicalKrullDim Z = n := by
+  have : Flat f.left := hf
+  have hgen : GeneralizingMap f.left := AlgebraicGeometry.Flat.generalizingMap f.left
+  have hmaxf : ∀ ζ : X.left, IsMax ζ → IsMax (f.left ζ) := fun ζ h =>
+    isMax_apply_of_generalizingMap f.left hgen h
+  -- Hartshorne's clause in terms of maximal points.
+  have hiff : (∀ X' ∈ irreducibleComponents X.left, ∀ Y' ∈ irreducibleComponents Y.left,
+        f.left '' X' ⊆ Y' → topologicalKrullDim X' = topologicalKrullDim Y' + n) ↔
+      ∀ ζ : X.left, IsMax ζ → height ζ = height (f.left ζ) + n := by
+    constructor
+    · intro h ζ hζ
+      have hsub : f.left '' closure {ζ} ⊆ closure {f.left ζ} := by
+        rw [← Set.image_singleton]
+        exact image_closure_subset_closure_image f.left.continuous
+      have h1 := h _ (closure_mem_irreducibleComponents_of_isMax hζ) _
+        (closure_mem_irreducibleComponents_of_isMax (hmaxf ζ hζ)) hsub
+      rw [topologicalKrullDim_closure_singleton, topologicalKrullDim_closure_singleton] at h1
+      exact_mod_cast h1
+    · intro h X' hX' Y' hY' hsub
+      obtain ⟨ζ, rfl⟩ := exists_closure_eq hX'
+      obtain ⟨η, rfl⟩ := exists_closure_eq hY'
+      have hζ := isMax_of_closure_mem_irreducibleComponents hX'
+      have hle : f.left ζ ≤ η :=
+        specializes_iff_mem_closure.mpr (hsub ⟨ζ, subset_closure rfl, rfl⟩)
+      rw [topologicalKrullDim_closure_singleton, topologicalKrullDim_closure_singleton, h ζ hζ,
+        eq_of_le_of_le hle (hmaxf ζ hζ hle)]
+      norm_cast
+  rw [hiff]
+  exact forall_isMax_height_eq_add_iff_forall_fiber hX hY f hf n
 
 /-- **Hartshorne III.10, definition of smoothness (p. 268).** Let `f : X → Y` be a morphism of
 schemes of finite type over a field `k`. Then `f` is smooth of relative dimension `n` (Mathlib's
