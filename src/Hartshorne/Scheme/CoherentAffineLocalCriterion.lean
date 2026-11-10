@@ -327,18 +327,25 @@ theorem module_linearEquiv_sections_of_tilde_iso {X : Scheme.{u}} (F : X.Modules
   ⟨(tilde.toTildeΓNatIso.app M ≪≫ moduleSpecΓFunctor.mapIso e).toLinearEquiv.trans
     (sectionsEquiv F U.2).symm⟩
 
+/-- Coherent `𝒪_X`-modules are quasi-coherent. -/
+theorem IsCoherent.isQuasicoherent {X : Scheme.{u}} {F : X.Modules} (h : IsCoherent F) :
+    F.IsQuasicoherent := by
+  obtain ⟨ι, U, hU, h⟩ := h
+  choose M hM e using h
+  have hcov : HasAffineTildeCover F := by
+    unfold HasAffineTildeCover
+    exact ⟨ι, U, hU, fun i ↦ ⟨M i, e i⟩⟩
+  exact ((quasicoherent_affine_local_tfae F).out 1 0).mp hcov
+
 /-- Coherence (finite generation on an affine cover) gives finite generation of sections and
 the canonical tilde description on every affine open. -/
 theorem forall_affine_finite_of_isCoherent {X : Scheme.{u}} (F : X.Modules)
     (h : IsCoherent F) :
     ∀ U : X.affineOpens, Module.Finite Γ(X, (U : X.Opens)) Γ(F, (U : X.Opens)) ∧
       IsIso (specRestriction F U).fromTildeΓ := by
+  have hqc : F.IsQuasicoherent := h.isQuasicoherent
   obtain ⟨ι, U, hU, h⟩ := h
   choose M hM e using h
-  have hcov : HasAffineTildeCover F := by
-    unfold HasAffineTildeCover
-    exact ⟨ι, U, hU, fun i ↦ ⟨M i, e i⟩⟩
-  have hqc : F.IsQuasicoherent := ((quasicoherent_affine_local_tfae F).out 1 0).mp hcov
   have hiso := ((quasicoherent_affine_local_tfae F).out 0 2).mp hqc
   refine fun V ↦ ⟨finite_of_affineCover F U hU (fun i ↦ ?_) V, hiso V⟩
   obtain ⟨ei⟩ := module_linearEquiv_sections_of_tilde_iso F (U i) (M i) (e i).some

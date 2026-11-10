@@ -29,7 +29,7 @@ affine, and so is the projection `ℙʳ_A ⟶ ℙʳ_ℤ`. The pullbacks `s_k` of
 global sections of `L`; the open sets `V_k = X_{s_k}`, the preimages of the standard charts
 `D₊(x_k)`, are affine, cover `X`, and `s_k` trivializes `L` on `V_k`. On `V_j` one has
 `s_k = (x_k/x_j) s_j`, and `x_k/x_j` is invertible exactly on `V_j ∩ V_k`
-(`basicOpen_awayToSection_eq`), which identifies `X_{s_k}` with `V_k`.
+(`AlgebraicGeometry.Proj.basicOpen_awayToSection_eq`), which identifies `X_{s_k}` with `V_k`.
 
 Each `Γ(V_k, F)` is a finitely generated module, say by `g_{k,1}, …, g_{k,m}`. By Lemma 5.14(b),
 in every large degree (`exists_forall_sectionPowSMul_extension`), there is `N` such that for
@@ -50,160 +50,6 @@ open CategoryTheory Opposite TopologicalSpace Limits AlgebraicGeometry
 namespace Hartshorne
 
 variable {X : Scheme.{u}}
-
-private theorem modules_map_map' (F : X.Modules) {U V W : X.Opens} (h₁ : V ≤ U) (h₂ : W ≤ V)
-    (s : Γ(F, U)) : F.presheaf.map (homOfLE h₂).op (F.presheaf.map (homOfLE h₁).op s) =
-      F.presheaf.map (homOfLE (h₂.trans h₁)).op s := by
-  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
-  rfl
-
-private theorem ring_map_map' {U V W : X.Opens} (h₁ : V ≤ U) (h₂ : W ≤ V) (a : Γ(X, U)) :
-    X.presheaf.map (homOfLE h₂).op (X.presheaf.map (homOfLE h₁).op a) =
-      X.presheaf.map (homOfLE (h₂.trans h₁)).op a := by
-  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
-  rfl
-
-/-- **Extension in every large degree** (supplements Hartshorne II, Lemma 5.14(b), which gives
-one `n`). Under the hypotheses of `exists_sectionPowSMul_extension`, with the cover given by
-trivializing sections, there is `N` such that for every `n ≥ N` some global section of
-`F ⊗ L^{⊗ n}` restricts to `f^n t` on `X_f`. -/
-theorem exists_forall_sectionPowSMul_extension {L : X.Modules} (hL : L.IsInvertible)
-    (f : Γ(L, ⊤)) (F : X.Modules) [F.IsQuasicoherent] {ι : Type*} [Finite ι] (U : ι → X.Opens)
-    (hU : ⨆ i, U i = ⊤) (hUaff : ∀ i, IsAffineOpen (U i)) (e : ∀ i, Γ(L, U i))
-    (he : ∀ i, IsTrivializingSection L (U i) (e i))
-    (hUqc : ∀ i j, IsCompact ((U i ⊓ U j : X.Opens) : Set X))
-    (t : Γ(F, nonvanishingLocusOpens hL f)) :
-    ∃ N : ℕ, ∀ n ≥ N, ∃ u : Γ(tensorPowerTwist F L n, ⊤),
-      (tensorPowerTwist F L n).presheaf.map
-          (homOfLE le_top : nonvanishingLocusOpens hL f ⟶ ⊤).op u =
-        sectionPowSMul F L n (L.presheaf.map (homOfLE le_top).op f) t := by
-  classical
-  have := Fintype.ofFinite ι
-  choose g hfg using fun i => (he i).exists_eq_smul f
-  have hD : ∀ i, X.basicOpen (g i) ≤ nonvanishingLocusOpens hL f :=
-    fun i => (he i).basicOpen_le_nonvanishingLocus (hfg i)
-  choose n₀ t₀ ht₀ using fun i =>
-    exists_pow_smul_extension_of_isAffineOpen F (hUaff i) (g i)
-      (F.presheaf.map (homOfLE (hD i)).op t)
-  set nb := Finset.univ.sup n₀ with hnb
-  have hn₀ : ∀ i, n₀ i ≤ nb := fun i => Finset.le_sup (Finset.mem_univ i)
-  let t₁ : ℕ → ∀ i, Γ(F, U i) := fun n i => g i ^ (n - n₀ i) • t₀ i
-  have ht₁ : ∀ n, nb ≤ n → ∀ i, F.presheaf.map (homOfLE (X.basicOpen_le (g i))).op (t₁ n i) =
-      (X.presheaf.map (homOfLE (X.basicOpen_le (g i))).op (g i)) ^ n •
-        F.presheaf.map (homOfLE (hD i)).op t := by
-    intro n hn i
-    simp only [t₁]
-    rw [Scheme.Modules.map_smul, ht₀, map_pow, ← mul_smul, ← pow_add,
-      Nat.sub_add_cancel ((hn₀ i).trans hn)]
-  -- transition functions on the overlaps
-  choose h hh using fun i j => (he i (U i ⊓ U j) inf_le_left).2
-    (L.presheaf.map (homOfLE inf_le_right).op (e j))
-  simp only at hh
-  have hgij : ∀ i j, X.presheaf.map (homOfLE inf_le_left).op (g i) =
-      h i j * X.presheaf.map (homOfLE (inf_le_right : U i ⊓ U j ≤ U j)).op (g j) := by
-    intro i j
-    apply (he i (U i ⊓ U j) inf_le_left).1
-    simp only
-    rw [mul_comm, mul_smul, hh i j, ← Scheme.Modules.map_smul, ← Scheme.Modules.map_smul,
-      ← hfg i, ← hfg j, modules_map_map', modules_map_map']
-  -- the discrepancy in degree `n` is `g^(n - nb)` times the discrepancy in degree `nb`
-  have hdn : ∀ n, nb ≤ n → ∀ i j,
-      F.presheaf.map (homOfLE inf_le_left).op (t₁ n i) -
-          h i j ^ n • F.presheaf.map (homOfLE inf_le_right).op (t₁ n j) =
-        (X.presheaf.map (homOfLE (inf_le_left : U i ⊓ U j ≤ U i)).op (g i)) ^ (n - nb) •
-          (F.presheaf.map (homOfLE inf_le_left).op (t₁ nb i) -
-            h i j ^ nb • F.presheaf.map (homOfLE inf_le_right).op (t₁ nb j)) := by
-    intro n hn i j
-    obtain ⟨k, rfl⟩ := Nat.exists_eq_add_of_le hn
-    have ei : nb + k - n₀ i = k + (nb - n₀ i) := by have := hn₀ i; omega
-    have ej : nb + k - n₀ j = k + (nb - n₀ j) := by have := hn₀ j; omega
-    simp only [t₁, ei, ej, Nat.add_sub_cancel_left, Scheme.Modules.map_smul, map_pow, smul_sub,
-      smul_smul, pow_add, map_mul]
-    rw [hgij i j]
-    congr 1
-    congr 1
-    ring
-  -- the discrepancies in degree `nb` are killed by a further power
-  have hdisc : ∀ p : ι × ι, ∃ m : ℕ,
-      (X.presheaf.map (homOfLE (inf_le_left : U p.1 ⊓ U p.2 ≤ U p.1)).op (g p.1)) ^ m •
-        (F.presheaf.map (homOfLE inf_le_left).op (t₁ nb p.1) -
-          h p.1 p.2 ^ nb • F.presheaf.map (homOfLE inf_le_right).op (t₁ nb p.2)) = 0 := by
-    rintro ⟨i, j⟩
-    refine exists_pow_smul_eq_zero_of_isCompact F (hUqc i j) _ _ ?_
-    set D := X.basicOpen (X.presheaf.map (homOfLE (inf_le_left : U i ⊓ U j ≤ U i)).op (g i))
-    have hDi : D ≤ X.basicOpen (g i) := by
-      simp only [D, Scheme.basicOpen_res]
-      exact inf_le_right
-    have hDj : D ≤ X.basicOpen (g j) := by
-      intro x hx
-      have hxij : x ∈ U i ⊓ U j := X.basicOpen_le _ hx
-      exact ((he j).mem_nonvanishingLocus_iff (hfg j) hxij.2).mp (hD i (hDi hx))
-    have hgD : X.presheaf.map (homOfLE (hDi.trans (X.basicOpen_le (g i)))).op (g i) =
-        X.presheaf.map (homOfLE (X.basicOpen_le _)).op (h i j) *
-          X.presheaf.map (homOfLE (hDj.trans (X.basicOpen_le (g j)))).op (g j) := by
-      have := congrArg (X.presheaf.map (homOfLE (X.basicOpen_le
-        (X.presheaf.map (homOfLE (inf_le_left : U i ⊓ U j ≤ U i)).op (g i)))).op) (hgij i j)
-      rwa [map_mul, ring_map_map', ring_map_map'] at this
-    have e₁ := congrArg (F.presheaf.map (homOfLE hDi).op) (ht₁ nb le_rfl i)
-    have e₂ := congrArg (F.presheaf.map (homOfLE hDj).op) (ht₁ nb le_rfl j)
-    simp only [Scheme.Modules.map_smul, map_pow, modules_map_map', ring_map_map'] at e₁ e₂
-    simp only [map_sub, Scheme.Modules.map_smul, map_pow, modules_map_map']
-    rw [e₁, e₂, smul_smul, ← mul_pow, ← hgD, sub_self]
-  choose m hm using hdisc
-  obtain ⟨M, hmM'⟩ : ∃ M, ∀ p, m p ≤ M :=
-    ⟨Finset.univ.sup m, fun p => Finset.le_sup (Finset.mem_univ p)⟩
-  refine ⟨nb + M, fun n' hn' => ?_⟩
-  obtain ⟨n, rfl⟩ : ∃ n, n' = n + M := ⟨n' - M, by omega⟩
-  have hnb : nb ≤ n := by omega
-  have hmM : ∀ i j, (X.presheaf.map (homOfLE (inf_le_left : U i ⊓ U j ≤ U i)).op (g i)) ^ M •
-        (F.presheaf.map (homOfLE inf_le_left).op (t₁ n i) -
-          h i j ^ n • F.presheaf.map (homOfLE inf_le_right).op (t₁ n j)) = 0 := by
-    intro i j
-    rw [hdn n hnb i j, smul_smul, ← pow_add, add_comm, pow_add, mul_smul,
-      ← Nat.sub_add_cancel (hmM' (i, j)), pow_add, mul_smul, hm (i, j), smul_zero, smul_zero]
-  -- the local sections of `F ⊗ L^{⊗ n'}` and their gluing
-  let t₂ : ∀ i, Γ(F, U i) := fun i => g i ^ M • t₁ n i
-  let u : ∀ i, Γ(tensorPowerTwist F L (n + M), U i) :=
-    fun i => sectionPowSMul F L (n + M) (e i) (t₂ i)
-  have hcompat : TopCat.Presheaf.IsCompatible (tensorPowerTwist F L (n + M)).presheaf U u := by
-    intro i j
-    change (tensorPowerTwist F L (n + M)).presheaf.map (homOfLE inf_le_left).op (u i) =
-      (tensorPowerTwist F L (n + M)).presheaf.map (homOfLE inf_le_right).op (u j)
-    simp only [u, sectionPowSMul_map]
-    rw [← hh i j, sectionPowSMul_smul]
-    congr 1
-    simp only [t₂, Scheme.Modules.map_smul, map_pow]
-    have := hmM i j
-    rw [smul_sub, sub_eq_zero] at this
-    rw [this, hgij i j, smul_smul, smul_smul]
-    congr 1
-    ring
-  obtain ⟨s, hs, -⟩ := TopCat.Sheaf.existsUnique_gluing'
-    ⟨(tensorPowerTwist F L (n + M)).presheaf, (tensorPowerTwist F L (n + M)).isSheaf⟩ U ⊤
-    (fun i => homOfLE le_top) hU.ge u hcompat
-  refine ⟨s, ?_⟩
-  refine TopCat.Presheaf.IsSheaf.section_ext (tensorPowerTwist F L (n + M)).isSheaf
-    (fun x hx => ?_)
-  obtain ⟨i, hxi⟩ := Opens.mem_iSup.mp (hU.ge (Set.mem_univ x))
-  have hxD : x ∈ X.basicOpen (g i) := ((he i).mem_nonvanishingLocus_iff (hfg i) hxi).mp hx
-  refine ⟨X.basicOpen (g i), hD i, hxD, ?_⟩
-  have hsi : (tensorPowerTwist F L (n + M)).presheaf.map (homOfLE le_top : U i ⟶ ⊤).op s =
-      sectionPowSMul F L (n + M) (e i) (t₂ i) := hs i
-  have hL1 : (tensorPowerTwist F L (n + M)).presheaf.map (homOfLE (hD i)).op
-      ((tensorPowerTwist F L (n + M)).presheaf.map
-        (homOfLE le_top : nonvanishingLocusOpens hL f ⟶ ⊤).op s) =
-      (tensorPowerTwist F L (n + M)).presheaf.map (homOfLE (X.basicOpen_le (g i))).op
-        (sectionPowSMul F L (n + M) (e i) (t₂ i)) := by
-    rw [← hsi, modules_map_map', modules_map_map']
-  rw [hL1, sectionPowSMul_map, sectionPowSMul_map]
-  have hf : L.presheaf.map (homOfLE (hD i)).op (L.presheaf.map (homOfLE le_top).op f) =
-      X.presheaf.map (homOfLE (X.basicOpen_le (g i))).op (g i) •
-        L.presheaf.map (homOfLE (X.basicOpen_le (g i))).op (e i) := by
-    rw [← Scheme.Modules.map_smul, ← hfg i, modules_map_map', modules_map_map']
-  rw [hf, sectionPowSMul_smul]
-  congr 1
-  simp only [t₂, Scheme.Modules.map_smul, map_pow]
-  rw [ht₁ n hnb i, smul_smul, ← pow_add, add_comm]
 
 /-- On an affine open `U`, the germs at `x ∈ U` of the sections of a quasi-coherent sheaf over `U`
 generate the stalk. -/
@@ -233,7 +79,8 @@ theorem span_germ_eq_top_of_isAffineOpen (F : X.Modules) [F.IsQuasicoherent] {U 
 
 /-! ### Tensoring with a global section -/
 
-/-- The `𝒪_X`-module `F ⊗ M`, as a sheaf on the scheme `X`. -/
+/-- The `𝒪_X`-module `F ⊗ M`, as a sheaf on the scheme `X` (so that its sections and stalks
+carry the scheme-level module instances). -/
 noncomputable abbrev tensorTwist (F M : X.Modules) : X.Modules :=
   moduleSheafTensor F M
 
@@ -328,7 +175,7 @@ by finitely many global sections for all large `n`. -/
 theorem exists_isGeneratedBySections_of_nonvanishingLocus_cover {L : X.Modules}
     (hL : L.IsInvertible) (F : X.Modules) [F.IsQuasicoherent]
     (hfin : ∀ U : X.affineOpens, Module.Finite Γ(X, U) Γ(F, U))
-    {ι : Type} [Finite ι] (s : ι → Γ(L, ⊤))
+    {ι : Type*} [Finite ι] (s : ι → Γ(L, ⊤))
     (hcov : ⨆ i, nonvanishingLocusOpens hL (s i) = ⊤)
     (haff : ∀ i, IsAffineOpen (nonvanishingLocusOpens hL (s i)))
     (htriv : ∀ i, IsTrivializingSection L (nonvanishingLocusOpens hL (s i))
@@ -344,8 +191,9 @@ theorem exists_isGeneratedBySections_of_nonvanishingLocus_cover {L : X.Modules}
   choose N u hu using fun (p : Σ i, Fin (m i)) =>
     exists_forall_sectionPowSMul_extension hL (s p.1) F (fun i => nonvanishingLocusOpens hL (s i))
       hcov haff (fun i => L.presheaf.map (homOfLE le_top).op (s i)) htriv hqc (G p.1 p.2)
-  refine ⟨Finset.univ.sup N, fun n hn => ⟨ULift.{u} (Σ i, Fin (m i)), inferInstance,
-    fun p => u p.down n ((Finset.le_sup (Finset.mem_univ p.down)).trans hn), fun x => ?_⟩⟩
+  refine ⟨Finset.univ.sup N, fun n hn => ⟨Shrink.{u} (Σ i, Fin (m i)), inferInstance,
+    fun p => u ((equivShrink _).symm p) n ((Finset.le_sup (Finset.mem_univ _)).trans hn),
+    fun x => ?_⟩⟩
   obtain ⟨i, hxi⟩ : ∃ i, x ∈ nonvanishingLocusOpens hL (s i) := by
     have hx : x ∈ (⨆ i, nonvanishingLocusOpens hL (s i) : X.Opens) := hcov ▸ trivial
     exact Opens.mem_iSup.mp hx
@@ -363,7 +211,8 @@ theorem exists_isGeneratedBySections_of_nonvanishingLocus_cover {L : X.Modules}
   have hspan := span_germ_tensorSectionHom F P σ (haff i) hσ (Set.range (G i)) (hG i) hxi
   refine top_unique (le_trans hspan.ge (Submodule.span_mono ?_))
   rintro _ ⟨g, ⟨j, rfl⟩, rfl⟩
-  refine ⟨ULift.up ⟨i, j⟩, ?_⟩
+  refine ⟨equivShrink _ ⟨i, j⟩, ?_⟩
+  simp only [Equiv.symm_apply_apply]
   change (tensorPowerTwist F L n).presheaf.germ ⊤ x trivial
       (u ⟨i, j⟩ n ((Finset.le_sup (Finset.mem_univ _)).trans hn)) =
     (tensorTwist F P).presheaf.germ _ x hxi ((tensorSectionHom F P σ).app _ (G i j))
@@ -377,22 +226,6 @@ theorem exists_isGeneratedBySections_of_nonvanishingLocus_cover {L : X.Modules}
   exact ((moduleSheafTensorPowerMultilinear n L).naturality _ _).symm
 
 /-! ### Covers by trivializing sections with explicit transition functions -/
-
-/-- A one-element local frame is a trivializing section. -/
-theorem isTrivializingSection_of_isLocalFrame {L : X.Modules} {U : X.Opens} {ι : Type u}
-    [Unique ι] [Fintype ι] {e : Γ(L, U)}
-    (h : Ringed.IsLocalFrame (R := X.sheaf) L U (fun _ : ι => e)) :
-    IsTrivializingSection L U e := by
-  intro V hV
-  have key : (fun a : Γ(X, V) => a • L.presheaf.map (homOfLE hV).op e) =
-      ⇑(Ringed.localFrameMap (R := X.sheaf) L (fun _ : ι => e) hV) ∘
-        ⇑(Equiv.funUnique ι Γ(X, V)).symm := by
-    funext a
-    refine Eq.trans ?_ (Ringed.localFrameMap_apply (R := X.sheaf) L _ hV _).symm
-    erw [Fintype.sum_unique]
-    rfl
-  rw [key]
-  exact (h V hV).comp (Equiv.funUnique ι Γ(X, V)).symm.bijective
 
 /-- Transport of a trivializing section along an isomorphism of `𝒪_X`-modules. -/
 theorem IsTrivializingSection.map_iso {M M' : X.Modules} (α : M ≅ M') {U : X.Opens}
@@ -414,15 +247,6 @@ theorem isTrivializingSection_top_of_eq {L : X.Modules} {U U' : X.Opens} (h : U 
   subst h
   exact hs
 
-/-- Coherent `𝒪_X`-modules are quasi-coherent. -/
-theorem isQuasicoherent_of_isCoherent (F : X.Modules) (h : IsCoherent F) : F.IsQuasicoherent := by
-  obtain ⟨ι, U, hU, h⟩ := h
-  choose M hM e using h
-  have hcov : HasAffineTildeCover F := by
-    unfold HasAffineTildeCover
-    exact ⟨ι, U, hU, fun i ↦ ⟨M i, e i⟩⟩
-  exact ((quasicoherent_affine_local_tfae F).out 1 0).mp hcov
-
 /-- **Global generation from an affine cover with transition functions.** Let `L` be invertible
 and let `s_k` be finitely many global sections of `L` such that `s_k` trivializes `L` on an affine
 open `V_k`, the `V_k` cover `X`, and on `V_j` one has `s_k = h_{kj} s_j` with
@@ -431,7 +255,7 @@ affine opens, `F ⊗ L^{⊗ n}` is generated by finitely many global sections fo
 theorem exists_isGeneratedBySections_of_transition {L : X.Modules} (hL : L.IsInvertible)
     (F : X.Modules) [F.IsQuasicoherent]
     (hfin : ∀ U : X.affineOpens, Module.Finite Γ(X, U) Γ(F, U))
-    {ι : Type} [Finite ι] (V : ι → X.Opens) (hV : ⨆ k, V k = ⊤)
+    {ι : Type*} [Finite ι] (V : ι → X.Opens) (hV : ⨆ k, V k = ⊤)
     (hVaff : ∀ k, IsAffineOpen (V k)) (s : ι → Γ(L, ⊤))
     (hs : ∀ k, IsTrivializingSection L (V k) (L.presheaf.map (homOfLE le_top).op (s k)))
     (htr : ∀ k j, ∃ h : Γ(X, V j), L.presheaf.map (homOfLE (le_top : V j ≤ ⊤)).op (s k) =
@@ -496,7 +320,7 @@ theorem pullbackSection_restrict {N : Y.Modules} {W W' : Y.Opens} (i : W' ≤ W)
 theorem IsTrivializingSection.pullback {N : Y.Modules} {W : Y.Opens} {e : Γ(N, W)}
     (he : IsTrivializingSection N W e) :
     IsTrivializingSection ((Scheme.Modules.pullback φ).obj N) (φ ⁻¹ᵁ W) (pullbackSection φ e) :=
-  isTrivializingSection_of_isLocalFrame (ι := ULift.{u} (Fin 1))
+  IsTrivializingSection.of_isLocalFrame (ι := ULift.{u} (Fin 1))
     (Ringed.IsLocalFrame.pullback (φ := φ.toRingCatSheafHom)
       (isLocalFrame_of_isTrivializingSection he))
 
@@ -511,7 +335,8 @@ open HomogeneousLocalization
 variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A] {𝒜 : ℕ → σ}
   [GradedRing 𝒜]
 
-theorem mem_basicOpen_awayToSection_iff {f g : A} (hf : f ∈ 𝒜 1) (hg : g ∈ 𝒜 (1 • 1))
+theorem _root_.AlgebraicGeometry.Proj.mem_basicOpen_awayToSection_iff {f g : A} (hf : f ∈ 𝒜 1)
+    (hg : g ∈ 𝒜 (1 • 1))
     {x : Proj 𝒜} (hx : x ∈ Proj.basicOpen 𝒜 f) :
     x ∈ (Proj 𝒜).basicOpen (Proj.awayToSection 𝒜 f (Away.mk 𝒜 hf 1 g hg)) ↔
       x ∈ Proj.basicOpen 𝒜 g := by
@@ -525,16 +350,17 @@ theorem mem_basicOpen_awayToSection_iff {f g : A} (hf : f ∈ 𝒜 1) (hg : g �
   rfl
 
 /-- On `D₊(f)`, the transition function `g/f` of `𝒪(1)` is invertible exactly on `D₊(g)`. -/
-theorem basicOpen_awayToSection_eq {f g : A} (hf : f ∈ 𝒜 1) (hg : g ∈ 𝒜 (1 • 1)) :
+theorem _root_.AlgebraicGeometry.Proj.basicOpen_awayToSection_eq {f g : A} (hf : f ∈ 𝒜 1)
+    (hg : g ∈ 𝒜 (1 • 1)) :
     (Proj 𝒜).basicOpen (Proj.awayToSection 𝒜 f (Away.mk 𝒜 hf 1 g hg)) =
       Proj.basicOpen 𝒜 f ⊓ Proj.basicOpen 𝒜 g := by
   ext x
   constructor
   · intro hx
     have hxf : x ∈ Proj.basicOpen 𝒜 f := (Proj 𝒜).basicOpen_le _ hx
-    exact ⟨hxf, (mem_basicOpen_awayToSection_iff hf hg hxf).1 hx⟩
+    exact ⟨hxf, (Proj.mem_basicOpen_awayToSection_iff hf hg hxf).1 hx⟩
   · rintro ⟨hxf, hxg⟩
-    exact (mem_basicOpen_awayToSection_iff hf hg hxf).2 hxg
+    exact (Proj.mem_basicOpen_awayToSection_iff hf hg hxf).2 hxg
 
 open ProjTwistingSheaf in
 /-- **Global generation for the pullback of `𝒪(1)` along an affine morphism.** Let `𝒜` be a
@@ -542,9 +368,9 @@ graded ring and `f_k` finitely many elements of degree one with `⋃ D₊(f_k) =
 the pullback of `𝒪(1)` along affine morphisms `X ⟶ P ⟶ Proj 𝒜`, then for every quasi-coherent
 `F` with finitely generated sections over affine opens, `F ⊗ L^{⊗ n}` is generated by finitely
 many global sections for all large `n`. -/
-theorem exists_isGeneratedBySections_of_pullback_projTwistingSheaf {ι : Type} [Finite ι]
+theorem exists_isGeneratedBySections_of_pullback_projTwistingSheaf {ι : Type*} [Finite ι]
     (f : ι → A) (hf : ∀ k, f k ∈ 𝒜 1) (hcov : ⨆ k, Proj.basicOpen 𝒜 (f k) = ⊤)
-    {P : Scheme.{u}} (ψ : X ⟶ P) [IsAffineHom ψ] (q : P ⟶ Proj 𝒜) (hq : IsAffineHom q)
+    {P : Scheme.{u}} (ψ : X ⟶ P) [IsAffineHom ψ] (q : P ⟶ Proj 𝒜) [hq : IsAffineHom q]
     {L : X.Modules} (hL : L.IsInvertible)
     (α : (Scheme.Modules.pullback ψ).obj
       ((Scheme.Modules.pullback q).obj (projTwistingSheaf 𝒜 1)) ≅ L)
@@ -552,7 +378,6 @@ theorem exists_isGeneratedBySections_of_pullback_projTwistingSheaf {ι : Type} [
     (hfin : ∀ U : X.affineOpens, Module.Finite Γ(X, U) Γ(F, U)) :
     ∃ n₀ : ℕ, ∀ n ≥ n₀, ∃ (κ : Type u) (_ : Finite κ) (t : κ → Γ(tensorPowerTwist F L n, ⊤)),
       (tensorPowerTwist F L n).IsGeneratedBySections t := by
-  have := hq
   -- the sections `T e = α (ψ^* q^* e)` of `L`
   let T : ∀ W : (Proj 𝒜).Opens, Γ(projTwistingSheaf 𝒜 1, W) → Γ(L, ψ ⁻¹ᵁ (q ⁻¹ᵁ W)) :=
     fun W e => α.hom.app _ (pullbackSection ψ (pullbackSection q e))
@@ -575,7 +400,7 @@ theorem exists_isGeneratedBySections_of_pullback_projTwistingSheaf {ι : Type} [
     intro k
     refine IsTrivializingSection.map_iso α (IsTrivializingSection.pullback ψ
       (IsTrivializingSection.pullback q ?_))
-    exact isTrivializingSection_of_isLocalFrame (ι := PUnit.{u + 1})
+    exact IsTrivializingSection.of_isLocalFrame (ι := PUnit.{u + 1})
       (ProjTwistingSheaf.isLocalFrame_degreeOneSection (hf k))
   have htop : (⊤ : X.Opens) ≤ ψ ⁻¹ᵁ (q ⁻¹ᵁ ⊤) := fun _ _ => trivial
   let s : ι → Γ(L, ⊤) := fun k =>
@@ -586,7 +411,7 @@ theorem exists_isGeneratedBySections_of_pullback_projTwistingSheaf {ι : Type} [
         (homOfLE (le_top : Proj.basicOpen 𝒜 (f j) ≤ ⊤)).op (degreeOneSection ⟨f k, hf k⟩)) := by
     intro k j
     simp only [s]
-    rw [modules_map_map', ← hTres]
+    rw [Scheme.Modules.map_map_homOfLE, ← hTres]
   refine exists_isGeneratedBySections_of_transition hL F hfin
     (fun k => ψ ⁻¹ᵁ (q ⁻¹ᵁ Proj.basicOpen 𝒜 (f k))) ?_ ?_ s ?_ ?_
   · refine top_unique fun x _ => ?_
@@ -606,7 +431,7 @@ theorem exists_isGeneratedBySections_of_pullback_projTwistingSheaf {ι : Type} [
     · rw [hs k j, hs j j, ProjTwistingSheaf.restrict_degreeOneSection_eq_smul (hf j) (hf k),
         hTsmul]
     · rw [← Scheme.preimage_basicOpen, ← Scheme.preimage_basicOpen,
-        basicOpen_awayToSection_eq]
+        Proj.basicOpen_awayToSection_eq]
       rfl
 
 end ProjTransition
@@ -630,7 +455,7 @@ theorem exists_isGeneratedBySections_tensorPowerTwist_of_projective {A : Type u}
     (hL : IsVeryAmpleRelative p L) (F : X.Modules) (hF : IsCoherent F) :
     ∃ n₀ : ℕ, ∀ n ≥ n₀, ∃ (ι : Type u) (_ : Finite ι) (t : ι → Γ(tensorPowerTwist F L n, ⊤)),
       (tensorPowerTwist F L n).IsGeneratedBySections t := by
-  have := isQuasicoherent_of_isCoherent F hF
+  have := hF.isQuasicoherent
   obtain ⟨hLinv, r, Z, o, c, ho, hc, hoc, ⟨α⟩⟩ := hL
   subst hoc
   have : IsProper ((o ≫ c) ≫ projectiveSpaceOverSchemeProjection r (Spec (.of A))) :=
@@ -644,7 +469,7 @@ theorem exists_isGeneratedBySections_tensorPowerTwist_of_projective {A : Type u}
     (𝒜 := GeneratedProj.intGrading.{u} r) (fun k : Fin (r + 1) => MvPolynomial.X k)
     (fun k => X_mem_homogeneousSubmodule_one _ k) (iSup_proj_basicOpen_X_eq_top _)
     (o ≫ c) (pullback.fst (projectiveSpaceOverIntegersMap r) (schemeToSpecZ (Spec (.of A))))
-    (MorphismProperty.pullback_fst _ _ inferInstance) hLinv α F
+    (hq := MorphismProperty.pullback_fst _ _ inferInstance) hLinv α F
     (fun U => (forall_affine_finite_of_isCoherent F hF U).1)
 
 end Serre
