@@ -85,6 +85,37 @@ theorem nonempty_dual_O1_iso :
   obtain ⟨e⟩ := (Ringed.Pic.mk_eq_mk_iff _ _).mp (h1.trans (Ringed.Pic.inv_mk _))
   exact ⟨modulesIsoOfRinged e.symm⟩
 
+variable (k n) in
+/-- The dual of the Euler sequence, `𝒪^∨ → (𝒪(-1)^{n+1})^∨ → T_X`, as a short complex of
+`𝒪_X`-modules. -/
+noncomputable def dualEulerComplex : ShortComplex (Proj (grading k n)).Modules where
+  X₁ := Ringed.moduleSheafDual (R := (Proj (grading k n)).sheaf) (O0 k n)
+  X₂ := Ringed.moduleSheafDual (R := (Proj (grading k n)).sheaf) (E k n)
+  X₃ := tangentSheaf (toBase k n)
+  f := (Ringed.dualShortComplex (R := (Proj (grading k n)).sheaf)
+    (ShortComplex.mk (alpha k n) (beta k n) alpha_beta)).f
+  g := (Ringed.dualShortComplex (R := (Proj (grading k n)).sheaf)
+    (ShortComplex.mk (alpha k n) (beta k n) alpha_beta)).g
+  zero := (Ringed.dualShortComplex (R := (Proj (grading k n)).sheaf)
+    (ShortComplex.mk (alpha k n) (beta k n) alpha_beta)).zero
+
+theorem dualEulerComplex_shortExact : (dualEulerComplex k n).ShortExact :=
+  dualEulerSequence_shortExact
+
+/-- `(𝒪(-1)^{n+1})^∨ ≅ 𝒪(1)^{n+1}` on `ℙⁿ_k`. -/
+theorem nonempty_dual_E_iso :
+    Nonempty ((dualEulerComplex k n).X₂ ≅
+      ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) := by
+  obtain ⟨e₁⟩ := nonempty_dual_O1_iso (k := k) (n := n)
+  let L : (Proj (grading k n)).Modules :=
+    Ringed.moduleSheafDual (R := (Proj (grading k n)).sheaf) (O1 k n)
+  let e₁' : L ≅ projTwistingSheaf (grading k n) 1 := e₁
+  exact ⟨modulesIsoOfRinged (Ringed.moduleSheafHomBiproductIso (R := (Proj (grading k n)).sheaf)
+        (fun _ : Fin (n + 1) ↦ O1 k n) (O0 k n)
+        (hF := (inferInstance : HasBiproduct fun _ : Fin (n + 1) ↦ O1 k n))
+        (hG := (inferInstance : HasBiproduct fun _ : Fin (n + 1) ↦ L))) ≪≫
+      biproduct.mapIso (f := fun _ : Fin (n + 1) ↦ L) fun _ ↦ e₁'⟩
+
 /-- **Hartshorne II.8, Example 8.20.1 (the tangent sequence).** On `X = ℙⁿ_k` there is an exact
 sequence `0 → 𝒪_X → 𝒪_X(1)^{n+1} → T_X → 0`, obtained by dualizing the Euler sequence (8.13): the
 maps are those of `Hartshorne.EulerSequence.dualEulerSequence_shortExact` composed with the
@@ -95,32 +126,11 @@ theorem tangentSequence_projectiveSpace :
         tangentSheaf (toBase k n))
       (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact := by
   obtain ⟨e₀⟩ := nonempty_dual_O0_iso (k := k) (n := n)
-  obtain ⟨e₁⟩ := nonempty_dual_O1_iso (k := k) (n := n)
-  let D := Ringed.dualShortComplex (R := (Proj (grading k n)).sheaf)
-    (ShortComplex.mk (alpha k n) (beta k n) alpha_beta)
-  -- the dual sequence, as a short complex of `𝒪_X`-modules
-  let A₀ : (Proj (grading k n)).Modules :=
-    Ringed.moduleSheafDual (R := (Proj (grading k n)).sheaf) (O0 k n)
-  let A₁ : (Proj (grading k n)).Modules :=
-    Ringed.moduleSheafDual (R := (Proj (grading k n)).sheaf) (E k n)
-  let L : (Proj (grading k n)).Modules :=
-    Ringed.moduleSheafDual (R := (Proj (grading k n)).sheaf) (O1 k n)
-  let e₀' : A₀ ≅ O0 k n := e₀
-  let e₁' : L ≅ projTwistingSheaf (grading k n) 1 := e₁
-  let f' : A₀ ⟶ A₁ := D.f
-  let g' : A₁ ⟶ tangentSheaf (toBase k n) := D.g
-  have w' : f' ≫ g' = 0 := D.zero
-  have hD' : (ShortComplex.mk f' g' w').ShortExact := dualEulerSequence_shortExact
-  let eE : A₁ ≅ ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1 :=
-    modulesIsoOfRinged (Ringed.moduleSheafHomBiproductIso (R := (Proj (grading k n)).sheaf)
-        (fun _ : Fin (n + 1) ↦ O1 k n) (O0 k n)
-        (hF := (inferInstance : HasBiproduct fun _ : Fin (n + 1) ↦ O1 k n))
-        (hG := (inferInstance : HasBiproduct fun _ : Fin (n + 1) ↦ L))) ≪≫
-      biproduct.mapIso (f := fun _ : Fin (n + 1) ↦ L) fun _ ↦ e₁'
-  refine ⟨e₀'.inv ≫ f' ≫ eE.hom, eE.inv ≫ g', by simp [w'], ?_⟩
-  refine ShortComplex.shortExact_of_iso
-    (ShortComplex.isoMk e₀' eE (Iso.refl (tangentSheaf (toBase k n))) ?_ ?_) hD'
-  · simp
-  · simp
+  obtain ⟨eE⟩ := nonempty_dual_E_iso (k := k) (n := n)
+  let D := dualEulerComplex k n
+  let e₀' : D.X₁ ≅ O0 k n := e₀
+  refine ⟨e₀'.inv ≫ D.f ≫ eE.hom, eE.inv ≫ D.g, by simp, ?_⟩
+  exact ShortComplex.shortExact_of_iso
+    (ShortComplex.isoMk e₀' eE (Iso.refl D.X₃) (by simp) (by simp)) dualEulerComplex_shortExact
 
 end Hartshorne.EulerSequence
