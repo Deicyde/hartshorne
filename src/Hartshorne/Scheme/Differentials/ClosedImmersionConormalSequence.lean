@@ -45,21 +45,21 @@ variable {Z X : Scheme.{u}}
 
 section Restriction
 
-theorem modules_res_res (M : Z.Modules) {A B C : Z.Opens} (h₁ : A ≤ B) (h₂ : B ≤ C)
+private theorem modules_res_res (M : Z.Modules) {A B C : Z.Opens} (h₁ : A ≤ B) (h₂ : B ≤ C)
     (m : Γ(M, C)) :
     M.presheaf.map (homOfLE h₁).op (M.presheaf.map (homOfLE h₂).op m) =
       M.presheaf.map (homOfLE (h₁.trans h₂)).op m := by
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
   rfl
 
-theorem ring_res_res (Z : Scheme.{u}) {A B C : Z.Opens} (h₁ : A ≤ B) (h₂ : B ≤ C)
+private theorem ring_res_res (Z : Scheme.{u}) {A B C : Z.Opens} (h₁ : A ≤ B) (h₂ : B ≤ C)
     (s : Γ(Z, C)) :
     Z.presheaf.map (homOfLE h₁).op (Z.presheaf.map (homOfLE h₂).op s) =
       Z.presheaf.map (homOfLE (h₁.trans h₂)).op s := by
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
   rfl
 
-theorem app_res (i : Z ⟶ X) {U U' : X.Opens} (h : U' ≤ U) (t : Γ(X, U)) :
+private theorem app_res (i : Z ⟶ X) {U U' : X.Opens} (h : U' ≤ U) (t : Γ(X, U)) :
     i.app U' (X.presheaf.map (homOfLE h).op t) =
       Z.presheaf.map (homOfLE (fun _ hx => h hx : i ⁻¹ᵁ U' ≤ i ⁻¹ᵁ U)).op (i.app U t) := by
   have := congr(ConcreteCategory.hom $(i.naturality (homOfLE h).op) t)
@@ -74,12 +74,12 @@ variable (i : Z ⟶ X) [IsClosedImmersion i] {M : Z.Modules}
   (δ : ∀ U : X.Opens, Γ(X, U) →+ Γ(M, i ⁻¹ᵁ U))
 
 /-- `t ∈ Γ(X, U)` lifts `s ∈ Γ(Z, V)` on `W ⊆ i⁻¹ U ∩ V`. -/
-def IsLift {V : Z.Opens} (s : Γ(Z, V)) {U : X.Opens} (t : Γ(X, U)) {W : Z.Opens}
+private def IsLift {V : Z.Opens} (s : Γ(Z, V)) {U : X.Opens} (t : Γ(X, U)) {W : Z.Opens}
     (hWU : W ≤ i ⁻¹ᵁ U) (hWV : W ≤ V) : Prop :=
   Z.presheaf.map (homOfLE hWU).op (i.app U t) = Z.presheaf.map (homOfLE hWV).op s
 
 /-- `m` restricts to `δ t` on every `W` on which `t` lifts `s`. -/
-def Good {V : Z.Opens} (s : Γ(Z, V)) (m : Γ(M, V)) : Prop :=
+private def Good {V : Z.Opens} (s : Γ(Z, V)) (m : Γ(M, V)) : Prop :=
   ∀ (U : X.Opens) (t : Γ(X, U)) (W : Z.Opens) (hWU : W ≤ i ⁻¹ᵁ U) (hWV : W ≤ V),
     IsLift i s t hWU hWV →
       M.presheaf.map (homOfLE hWV).op m = M.presheaf.map (homOfLE hWU).op (δ U t)
@@ -168,9 +168,8 @@ theorem good_of_local {V : Z.Opens} (s : Γ(Z, V)) (m : Γ(M, V))
     ← modules_res_res M (inf_le_right : W' ⊓ W ≤ W) hWV, hm, modules_res_res]
   exact lift_compat i δ hδmap hδker hl hl' inf_le_right inf_le_left
 
-omit [IsClosedImmersion i] in
 /-- Good sections are unique, given local lifts. -/
-theorem good_unique [IsClosedImmersion i] {V : Z.Opens} {s : Γ(Z, V)} {m m' : Γ(M, V)}
+theorem good_unique {V : Z.Opens} {s : Γ(Z, V)} {m m' : Γ(M, V)}
     (hm : Good i δ s m) (hm' : Good i δ s m') : m = m' := by
   rw [← sub_eq_zero]
   refine Scheme.Modules.section_eq_zero_of_locally _ fun z hz => ?_
@@ -195,7 +194,7 @@ theorem exists_good {V : Z.Opens} (s : Γ(Z, V)) : ∃ m : Γ(M, V), Good i δ s
     ⟨U ⟨z, hz⟩, t ⟨z, hz⟩, W ⟨z, hz⟩, hWU _, hWV _, hzW _, hl _, hm ⟨z, hz⟩⟩⟩
 
 /-- The descended map `Γ(Z, V) → Γ(M, V)`. -/
-noncomputable def descD {V : Z.Opens} (s : Γ(Z, V)) : Γ(M, V) :=
+private noncomputable def descD {V : Z.Opens} (s : Γ(Z, V)) : Γ(M, V) :=
   (exists_good i δ hδmap hδker s).choose
 
 theorem good_descD {V : Z.Opens} (s : Γ(Z, V)) : Good i δ s (descD i δ hδmap hδker s) :=
@@ -294,7 +293,7 @@ noncomputable abbrev unitΩ :
   (Modules.pullbackPushforwardAdjunction i).unit.app (relativeDifferentials f)
 
 omit [IsClosedImmersion i] in
-/-- The sections of `I_Y` vanish on `Z`. -/
+/-- The sections of `I` vanish on `Z`. -/
 theorem app_idealSheafι (U : X.Opens) (a : Γ(closedImmersionIdealSheaf i, U)) :
     i.app U ((closedImmersionIdealSheafι i).app U a) = 0 :=
   congrArg (fun φ => Scheme.Modules.Hom.app φ U a)
