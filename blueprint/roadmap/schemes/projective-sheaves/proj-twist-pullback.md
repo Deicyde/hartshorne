@@ -31,6 +31,7 @@ module twists commute with pullback.
 
 ## Proof depends on
 
+- [The projection formula for finite locally free sheaves](../modules-and-quasicoherent/finite-locally-free-projection-formula.md)
 - The affine extension- and restriction-of-scalars formulas on each standard
   chart.
 
