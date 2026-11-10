@@ -16,7 +16,7 @@ $f^* \mathcal{O}_Y(D) \cong \mathcal{O}_X(f^* D)$.
 
 On the left, $f^*$ is pullback of invertible sheaves; inside the right-hand
 divisor, it is the valuation-weighted pullback $\operatorname{Div} Y \to \operatorname{Div} X$. This is
-Exercise 6.8(b), and it is the compatibility used in IV.2.
+a sheaf-level form of Exercise 6.8(b), which implies it, and it is the compatibility used in IV.2.
 
 ## Depends on
 

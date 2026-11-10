@@ -11,7 +11,7 @@ import Mathlib.AlgebraicGeometry.Morphisms.Immersion
 /-!
 # The conormal sheaf of an immersion
 
-Hartshorne, *Algebraic Geometry*, II.8 (pp. 175–176); Stacks Project, Section 29.32.
+Hartshorne, *Algebraic Geometry*, II.8 (pp. 175–176); Stacks Project, tags 01R1–01R3.
 
 For a closed immersion `i : Z ⟶ X` with ideal sheaf `I`, the multiplication `I ⊗ I ⟶ I`,
 `a ⊗ b ↦ a b`, has cokernel `I/I²`. The unit `I ⟶ i_* i^* I` of the pullback–pushforward

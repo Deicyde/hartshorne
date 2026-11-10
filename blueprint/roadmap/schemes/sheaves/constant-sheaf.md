@@ -29,4 +29,5 @@ constant presheaf.
 ## Sources
 
 - [Hartshorne II.1, Example 1.0.3 (p. 62)](../../../sources/hartshorne-ii-1.md#basic-examples-printed-p-62)
+- [Hartshorne II.1, Exercise 1.1 (p. 65), the identification with the sheafified constant presheaf](../../../sources/hartshorne-ii-1.md#adopted-exercises-and-later-use-evidence)
 

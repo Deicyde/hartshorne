@@ -9,7 +9,9 @@ import Hartshorne.Scheme.RegularLocalFactorial
 /-!
 # Pulling back the invertible sheaf of a divisor along a finite morphism of curves
 
-Hartshorne, *Algebraic Geometry*, II, Exercise 6.8(b) (p. 148).
+A sheaf-level form of Hartshorne, *Algebraic Geometry*, II, Exercise 6.8(b) (p. 148), which
+implies it: the exercise states that `f^* : Pic Y → Pic X` corresponds to `f^* : Cl Y → Cl X`
+under the isomorphisms of (6.16).
 
 Let `f : X ⟶ Y` be a finite morphism of nonsingular curves. For every Weil divisor `D` on `Y`,
 `f^* 𝒪_Y(D) ≅ 𝒪_X(f^* D)`, where on the left `f^*` is the pullback of sheaves of modules and on
@@ -128,8 +130,9 @@ def pullbackDivisorSheafIso (hX : X.IsNonsingularCurve k) (hY : Y.IsNonsingularC
   @asIso _ _ _ _ (cartierPullbackMap (hX.cartierPullbackData_finiteCurveDivisorPullback hY f D))
     (isIso_cartierPullbackMap (hX.cartierPullbackData_finiteCurveDivisorPullback hY f D))
 
-/-- **Hartshorne Exercise II.6.8(b).** For a finite morphism `f : X ⟶ Y` of nonsingular curves and
-a Weil divisor `D` on `Y`, `f^* 𝒪_Y(D) ≅ 𝒪_X(f^*D)`. -/
+/-- **A sheaf-level form of Hartshorne Exercise II.6.8(b), which implies it.** For a finite
+morphism `f : X ⟶ Y` of nonsingular curves and a Weil divisor `D` on `Y`,
+`f^* 𝒪_Y(D) ≅ 𝒪_X(f^*D)`. -/
 theorem nonempty_pullbackDivisorSheafIso (hX : X.IsNonsingularCurve k)
     (hY : Y.IsNonsingularCurve k) (f : X ⟶ Y) [IsFinite f] (D : Y.WeilDivisor) :
     Nonempty ((Scheme.Modules.pullback f).obj (hY.divisorSheaf D) ≅

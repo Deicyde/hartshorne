@@ -146,8 +146,12 @@ text.
   prescribed branch points.
 - **Exercise 6.8(a), p.148.** Pullback of invertible sheaves induces
   `f* : Pic Y → Pic X`.
-- **Exercise 6.8(b), p.148.** For a finite morphism of nonsingular curves,
-  `f*O_Y(D) ≅ O_X(f*D)`. IV.2 uses this compatibility explicitly.
+- **Exercise 6.8(b), p.148.** For a finite morphism of nonsingular curves, the
+  homomorphism `f* : Pic Y → Pic X` of (a) corresponds to `f* : Cl Y → Cl X`
+  via the isomorphisms of (6.16). The book states this class-level
+  correspondence, not the sheaf isomorphism `f*O_Y(D) ≅ O_X(f*D)`; the roadmap
+  records that isomorphism as a sheaf-level form which implies the exercise.
+  IV.2 uses this compatibility explicitly.
 - **Exercise 6.10, definition only, p.148.** Define the Grothendieck group
   `K(X)` of coherent sheaves by exact-sequence relations. Later chapters use
   the definition; its calculations and localization sequence are not adopted

@@ -29,7 +29,8 @@ discrete group. Mathlib has both an abstract sheafification-based constant
 sheaf and a sheaf of continuous maps, but the pinned checkout does not contain
 the source-shaped additive comparison. The project now proves that bridge: the
 source-shaped constant sheaf is canonically isomorphic to the sheafification
-of the constant presheaf.
+of the constant presheaf. This identification is Hartshorne's Exercise 1.1
+(p. 65).
 
 The project already has `Hartshorne.Variety.regular` and
 `Hartshorne.Variety.LocalRingAt`. The regular-functions sheaf must reuse the
@@ -104,6 +105,7 @@ original stalk.
 
 | Exercise | Adopted statement | Printed page | Later Chapter II running-text use |
 | --- | --- | --- | --- |
+| 1.1 | The constant sheaf of Example 1.0.3 is the sheaf associated to the constant presheaf `U ↦ A` (`U ≠ ∅`) | 65 | Constant sheaf, Example 1.0.3, p. 62 |
 | 1.2(a–c) | Stalks commute with kernels and images; mono, epi, and exactness are stalkwise | 66 | Caution 1.2.1, p. 65; exactness of `M ↦ M~`, p. 111 |
 | 1.3(a) | An epimorphism is locally liftable on an open cover | 66 | Proposition 5.6 proof, p. 113 |
 | 1.4(a,b) | Sheafification preserves sectionwise injections; the image embeds as a subsheaf | 66 | Definition of image, p. 64 |
@@ -130,7 +132,7 @@ to prove this source-stated characterization.
 
 ## Excluded and deferred exercises
 
-Exercises 1.1, 1.3(b), 1.5–1.7, 1.11, 1.13, 1.17, 1.19(c), and
+Exercises 1.3(b), 1.5–1.7, 1.11, 1.13, 1.17, 1.19(c), and
 1.21 are outside this Chapter II running-text slice. Their conclusions are
 either unused here, already subsumed by Mathlib's categorical API, or examples
 requested only inside the exercise set.
