@@ -10,7 +10,7 @@ not_ready: true
 Construct a proper flat morphism $f : X \to A^2$ over an algebraically closed
 field such that the fibre over the origin is isomorphic to $\mathbb{P}^1$, but no open
 neighbourhood $U$ of the origin admits an isomorphism
-$f^-1(U) \cong U \times \mathbb{P}^1$ over $U$.
+$f^{-1}(U) \cong U \times \mathbb{P}^1$ over $U$.
 
 ## Depends on
 

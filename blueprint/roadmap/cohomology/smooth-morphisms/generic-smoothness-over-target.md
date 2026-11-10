@@ -8,7 +8,7 @@ origin: cited
 
 Let $f : X \to Y$ be a morphism of varieties over an algebraically closed field
 of characteristic zero, with $X$ nonsingular. There is a nonempty open
-$V \subset Y$ such that $f^-1(V) \to V$ is smooth.
+$V \subset Y$ such that $f^{-1}(V) \to V$ is smooth.
 
 No dominance hypothesis is imposed. If the image of $f$ is not dense, $V$
 may be chosen disjoint from its closure and the restricted source is empty.

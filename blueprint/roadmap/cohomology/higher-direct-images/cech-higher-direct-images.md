@@ -27,7 +27,7 @@ The comparison is an isomorphism of module sheaves on $Y$.
 - [Affine fibre products](../../schemes/fiber-products/affine-fiber-product.md)
 - [Closed subschemes of affine schemes are affine](../../schemes/subschemes-and-dimension/affine-closed-subschemes.md)
 - For an affine intersection $W$ of members of the cover and an affine open
-  $V$ of $Y$, identify $W \cap f^-1(V)$ with the inverse image of the
+  $V$ of $Y$, identify $W \cap f^{-1}(V)$ with the inverse image of the
   closed graph of $W \to Y$ inside the affine scheme $W \times V$. The graph is
   closed because $Y$ is separated, so this inverse image is affine.
 - Direct image commutes termwise with the sections defining the Čech

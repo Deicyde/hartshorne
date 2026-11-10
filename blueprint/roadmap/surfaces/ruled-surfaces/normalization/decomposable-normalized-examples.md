@@ -10,7 +10,7 @@ For $E=\mathcal{O}_C\oplus L$:
 
 - if $L=\mathcal{O}_C$, then $\mathbb{P}(E)=C\times \mathbb{P}^1$ and $e=0$;
 - if $g(C )\ge 1$, $\deg (L)=0$, and $L$ is nontrivial, then the two normalized
-  presentations differ by $L^-1$ and there are exactly two distinguished
+  presentations differ by $L^{-1}$ and there are exactly two distinguished
   sections of square zero;
 - if $\deg (L)<0$, the normalized presentation and distinguished section are
   unique, with $e=-\deg (L)>0$ and $C_0^2=-e$.

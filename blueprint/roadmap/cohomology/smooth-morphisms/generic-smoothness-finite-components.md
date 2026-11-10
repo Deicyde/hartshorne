@@ -9,7 +9,7 @@ origin: bridged
 Let $f : X \to Y$ be a separated finite-type morphism over an algebraically
 closed field of characteristic zero, where $X$ is nonsingular with finitely many
 irreducible components and $Y$ is a variety. There is a nonempty open
-$V \subset Y$ such that $f^-1(V) \to V$ is smooth.
+$V \subset Y$ such that $f^{-1}(V) \to V$ is smooth.
 
 Each irreducible component of the regular Noetherian source is
 open, closed, and integral. For a dominant component, shrink $Y$

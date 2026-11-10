@@ -9,7 +9,7 @@ mathlib_file: Mathlib/RingTheory/Flat/Localization.lean
 
 # Localizations are flat
 
-For a commutative ring $R$ and a submonoid $S$, the localization $S^-1 R$ is
+For a commutative ring $R$ and a submonoid $S$, the localization $S^{-1} R$ is
 flat over $R$.
 
 ## Depends on
