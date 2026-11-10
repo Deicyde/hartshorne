@@ -34,15 +34,6 @@ set_option hygiene false in
 /-- `𝒪_X`-modules. -/
 local notation "𝓜" => SheafOfModules.{u} (ringCatSheafOf R)
 
-/-- Tensoring with a module sheaf `M` sends epimorphisms to epimorphisms, by the tensor–Hom
-adjunction. -/
-lemma modulesTensorMap_epi (M : 𝓜) {A B : 𝓜} (g : A ⟶ B) [Epi g] :
-    Epi (modulesTensorMap (𝟙 M) g) where
-  left_cancellation {Z} u v h := by
-    apply (moduleSheafTensorHomAdjunction M B Z).injective
-    rw [← cancel_epi g, ← moduleSheafTensorHomAdjunction_naturality_right,
-      ← moduleSheafTensorHomAdjunction_naturality_right, h]
-
 /-- For a finite locally free `L`, the functor `ℋom(L, -)` sends epimorphisms to epimorphisms. -/
 lemma moduleSheafHomFunctor_map_epi {L : 𝓜} (hL : IsFiniteLocallyFree L) {A B : 𝓜} (g : A ⟶ B)
     [Epi g] : Epi ((moduleSheafHomFunctor L).map g) := by

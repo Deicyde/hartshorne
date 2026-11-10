@@ -1015,6 +1015,15 @@ lemma moduleSheafTensorHomAdjunction_naturality_right
   exact congrArg ((moduleSheafTensorBilinear E F).app (op V) e)
     (ConcreteCategory.congr_hom ((modulesMapPresheaf g).naturality (homOfLE h).op) f)
 
+/-- Tensoring with a module sheaf `M` sends epimorphisms to epimorphisms, by the tensor–Hom
+adjunction. -/
+lemma modulesTensorMap_epi (M : 𝓜) {A B : 𝓜} (g : A ⟶ B) [Epi g] :
+    Epi (modulesTensorMap (𝟙 M) g) where
+  left_cancellation {Z} u v h := by
+    apply (moduleSheafTensorHomAdjunction M B Z).injective
+    rw [← cancel_epi g, ← moduleSheafTensorHomAdjunction_naturality_right,
+      ← moduleSheafTensorHomAdjunction_naturality_right, h]
+
 /-- The tensor–Hom adjunction is natural in `E`. -/
 lemma moduleSheafTensorHomAdjunction_naturality_left
     (f : E' ⟶ E) (φ : @Quiver.Hom 𝓜 _ (moduleSheafTensor E F) G) :

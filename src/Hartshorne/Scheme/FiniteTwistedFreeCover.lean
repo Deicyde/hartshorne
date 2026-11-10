@@ -3,7 +3,6 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.SerreGlobalGeneration
-import Hartshorne.RingedSpace.SheafExtFiniteLocallyFree
 import Hartshorne.RingedSpace.ModuleSheafTensorPowerIso
 
 /-!
@@ -45,24 +44,6 @@ noncomputable def tensorZPow (L : X.Modules) : ℤ → X.Modules
   | .negSucc n => Ringed.moduleSheafDual (R := X.sheaf) (moduleSheafTensorPower (n + 1) L)
 
 set_option backward.isDefEq.respectTransparency.types false in
-/-- For any `𝒪_X`-module `D`, the canonical map `⨁_I D ⟶ D ⊗ ⨁_I 𝒪_X` is an epimorphism. -/
-theorem epi_sigmaDesc_modulesTensorMap_ιFree (D : X.Modules) (I : Type u) :
-    Epi (Sigma.desc fun i : I => (Ringed.moduleSheafUnitTensor (R := X.sheaf) D).inv ≫
-      (Ringed.moduleSheafTensorComm (R := X.sheaf) _ D).hom ≫
-      Ringed.modulesTensorMap (R := X.sheaf) (𝟙 D) (SheafOfModules.ιFree i)) where
-  left_cancellation {Z} u v h := by
-    apply (Ringed.moduleSheafTensorHomAdjunction (R := X.sheaf) D _ Z).injective
-    refine Sigma.hom_ext _ _ fun i => ?_
-    change SheafOfModules.ιFree i ≫ _ = SheafOfModules.ιFree i ≫ _
-    refine (Ringed.moduleSheafTensorHomAdjunction_naturality_right _ u).symm.trans
-      (Eq.trans ?_ (Ringed.moduleSheafTensorHomAdjunction_naturality_right _ v))
-    congr 1
-    have hi := Sigma.ι _ i ≫= h
-    simp only [Sigma.ι_desc_assoc, Category.assoc, Iso.cancel_iso_inv_left,
-      Iso.cancel_iso_hom_left] at hi
-    exact hi
-
-set_option backward.isDefEq.respectTransparency.types false in
 /-- **Hartshorne II, Corollary 5.18.** Let `X` be projective over a ring `A` and let `L` be an
 invertible sheaf on `X` that is very ample relative to `Spec A`. Every coherent `𝒪_X`-module `F` is
 a quotient of a finite direct sum of integer tensor powers `L^{⊗ m_i}`. Hartshorne assumes `A`
@@ -88,7 +69,7 @@ theorem exists_epi_sigma_tensorZPow_of_projective {A : Type u} [CommRing A]
     Sigma.desc fun i : ι => (Ringed.moduleSheafUnitTensor (R := X.sheaf) D).inv ≫
       (Ringed.moduleSheafTensorComm (R := X.sheaf) _ D).hom ≫
       Ringed.modulesTensorMap (R := X.sheaf) (𝟙 D) (SheafOfModules.ιFree i)
-  have hc : Epi c := epi_sigmaDesc_modulesTensorMap_ιFree D ι
+  have hc : Epi c := Ringed.epi_sigmaDesc_modulesTensorMap_ιFree (R := X.sheaf) D ι
   let e : moduleSheafTensor D G ≅ F :=
     Ringed.moduleSheafTensorComm (R := X.sheaf) D G ≪≫
       Ringed.moduleSheafTensorAssoc (R := X.sheaf) F _ D ≪≫

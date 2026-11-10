@@ -363,6 +363,24 @@ noncomputable def moduleSheafUnitTensor (F : 𝓜) :
     rw [moduleSheafTensorHomEquiv_symm_tmul]
     exact one_smul _ f
 
+set_option backward.isDefEq.respectTransparency.types false in
+/-- For any module sheaf `D`, the canonical map `⨁_I D ⟶ D ⊗ ⨁_I 𝒪_X` is an epimorphism, by the
+tensor–Hom adjunction. -/
+theorem epi_sigmaDesc_modulesTensorMap_ιFree (D : 𝓜) (I : Type u) :
+    Epi (Sigma.desc fun i : I => (moduleSheafUnitTensor D).inv ≫
+      (moduleSheafTensorComm _ D).hom ≫ modulesTensorMap (𝟙 D) (SheafOfModules.ιFree i)) where
+  left_cancellation {Z} u v h := by
+    apply (moduleSheafTensorHomAdjunction D _ Z).injective
+    refine Sigma.hom_ext _ _ fun i => ?_
+    change SheafOfModules.ιFree i ≫ _ = SheafOfModules.ιFree i ≫ _
+    refine (moduleSheafTensorHomAdjunction_naturality_right _ u).symm.trans
+      (Eq.trans ?_ (moduleSheafTensorHomAdjunction_naturality_right _ v))
+    congr 1
+    have hi := Sigma.ι _ i ≫= h
+    simp only [Sigma.ι_desc_assoc, Category.assoc, Iso.cancel_iso_inv_left,
+      Iso.cancel_iso_hom_left] at hi
+    exact hi
+
 end TensorIsos
 
 section Frames
