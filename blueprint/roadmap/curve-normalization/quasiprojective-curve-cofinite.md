@@ -34,6 +34,7 @@ once that image is known to be open.
 
 - [Decomposition into irreducible components](../affine-varieties/irreducible-decomposition.md)
 - [Linear fractions separate projective points](../nonsingular-curves/projective-linear-separation.md)
+- [Projective space is a Noetherian space](../projective-varieties/projective-space-noetherian.md)
 
 ## Sources
 

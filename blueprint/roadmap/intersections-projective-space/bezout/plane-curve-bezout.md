@@ -29,6 +29,7 @@ projective dimension theorem makes the components points, each of degree one.
 - [Hypersurface-section components are equidimensional](hypersurface-section-components-equidimensional.md)
 - [A zero-dimensional projective variety is a point](projective-zero-dimensional-variety-point.md)
 - [A projective point has Hilbert polynomial and degree one](projective-point-degree.md)
+- [Projective space is a Noetherian space](../../projective-varieties/projective-space-noetherian.md)
 
 ## Sources
 

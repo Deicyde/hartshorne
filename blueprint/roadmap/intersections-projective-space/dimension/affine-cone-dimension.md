@@ -35,6 +35,7 @@ dimensions.
 
 - [Decomposition into irreducible components](../../affine-varieties/irreducible-decomposition.md)
 - [Projective and quasi-projective varieties](../../projective-varieties/projective-variety.md)
+- [Projective space is a Noetherian space](../../projective-varieties/projective-space-noetherian.md)
 
 ## Sources
 

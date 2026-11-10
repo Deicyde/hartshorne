@@ -25,6 +25,10 @@ into minimality of its prime ideal over the cut ideal.
 - [Algebraic sets and radical ideals](../../affine-varieties/radical-ideal-correspondence.md)
 - [The affine coordinate ring](../../affine-varieties/affine-coordinate-ring.md)
 
+## Proof depends on
+
+- [Every finitely generated domain is a coordinate ring](../../affine-varieties/coordinate-ring-realization.md)
+
 ## Sources
 
 - [Hartshorne I.7, proof of Proposition 7.1, especially components versus minimal primes](../../../sources/hartshorne.md#i7-main-text-and-required-prerequisites)

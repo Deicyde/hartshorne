@@ -30,6 +30,10 @@ module lengths; twists leave leading coefficients unchanged.
 - [Hilbert–Serre](../hilbert/hilbert-serre.md)
 - [Hilbert polynomials and degrees of projective algebraic sets](../hilbert/projective-hilbert-polynomial-and-degree.md)
 
+## Proof depends on
+
+- [Proper closed subsets of projective varieties have smaller dimension](../dimension/projective-proper-closed-dimension-drop.md)
+
 ## Sources
 
 - [Hartshorne I.7, proof of Theorem 7.7 (p. 53)](../../../sources/hartshorne.md#i7-main-text-and-required-prerequisites)

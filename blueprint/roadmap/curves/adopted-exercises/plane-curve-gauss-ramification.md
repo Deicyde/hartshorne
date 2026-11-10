@@ -23,9 +23,12 @@ inflection points.
 
 - [Local intersection multiplicity of plane curves](../adopted-prerequisites/local-plane-curve-intersection-multiplicity.md)
 - [The tangent morphism and dual plane curve](../adopted-prerequisites/plane-curve-dual-tangent-morphism.md)
+- [The function field of an arbitrary variety](../../morphisms/function-field-abstract.md)
 
 ## Proof depends on
 
+- [Quasi-projective curves have the cofinite topology](../../curve-normalization/quasiprojective-curve-cofinite.md)
+- [Local rings of nonsingular curves are DVRs](../../nonsingular-curves/nonsingular-curve-local-ring-dvr.md)
 - A local parameter calculation identifies the differential of $\phi$ with
   first-order variation of the tangent line.
 

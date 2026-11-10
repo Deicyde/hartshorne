@@ -65,6 +65,7 @@ sufficiently large integers agree on an infinite set.
 - [Projective varieties of complementary dimension meet](../dimension/projective-intersection-nonempty.md)
 - [Projective codimension one is a hypersurface](../dimension/projective-codimension-one-hypersurface.md)
 - [Algebraic sets and homogeneous radical ideals](../../projective-varieties/homogeneous-ideal-correspondence.md)
+- [Proper closed subsets of projective varieties have smaller dimension](../dimension/projective-proper-closed-dimension-drop.md)
 
 ## Sources
 

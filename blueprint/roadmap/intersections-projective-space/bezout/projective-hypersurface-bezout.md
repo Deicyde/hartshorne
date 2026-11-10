@@ -31,6 +31,7 @@ module's Hilbert polynomial.
 ## Proof depends on
 
 - [A nonempty projective algebraic set has positive integral degree](hilbert-polynomial-positive-degree.md)
+- [Projective space is a Noetherian space](../../projective-varieties/projective-space-noetherian.md)
 
 ## Sources
 
