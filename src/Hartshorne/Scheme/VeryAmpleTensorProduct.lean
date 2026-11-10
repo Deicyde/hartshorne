@@ -114,38 +114,21 @@ theorem nonempty_iso_of_frames {ι : Type u} {A B : 𝓜} (W : ι → Opens X) (
       (fun _ ↦ hφ i) hV⟩
   exact ⟨asIso φ⟩
 
-end Ringed
-
-end Hartshorne
-
-
-namespace Hartshorne
-
-namespace Ringed
-
-variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
-
-set_option hygiene false in
-local notation "𝓜" => SheafOfModules.{u} (ringCatSheafOf R)
-
-local notation3 "Γ(" M ", " U ")" => (PresheafOfModules.presheaf (SheafOfModules.val M)).obj
-  (Opposite.op U)
-
 /-- Restriction is transitive. -/
-theorem res_res (A : 𝓜) {U V W : Opens X} (h₁ : V ≤ U) (h₂ : W ≤ V) (x : Γ(A, U)) :
+private theorem res_res (A : 𝓜) {U V W : Opens X} (h₁ : V ≤ U) (h₂ : W ≤ V) (x : Γ(A, U)) :
     A.val.presheaf.map (homOfLE h₂).op (A.val.presheaf.map (homOfLE h₁).op x) =
       A.val.presheaf.map (homOfLE (h₂.trans h₁)).op x := by
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
   rfl
 
 /-- Restriction is semilinear over the restriction of scalars. -/
-theorem res_smul (A : 𝓜) {U V : Opens X} (h : V ≤ U) (c : R.obj.obj (op U)) (x : Γ(A, U)) :
+private theorem res_smul (A : 𝓜) {U V : Opens X} (h : V ≤ U) (c : R.obj.obj (op U)) (x : Γ(A, U)) :
     A.val.presheaf.map (homOfLE h).op (c • x) =
       R.obj.map (homOfLE h).op c • A.val.presheaf.map (homOfLE h).op x :=
   A.val.map_smul (homOfLE h).op c x
 
 /-- Restriction commutes with the tensor product of sections. -/
-theorem res_tmul {A B : 𝓜} {U V : Opens X} (h : V ≤ U) (a : Γ(A, U)) (b : Γ(B, U)) :
+private theorem res_tmul {A B : 𝓜} {U V : Opens X} (h : V ≤ U) (a : Γ(A, U)) (b : Γ(B, U)) :
     (moduleSheafTensor A B).val.presheaf.map (homOfLE h).op
         ((moduleSheafTensorBilinear A B).app (op U) a b) =
       (moduleSheafTensorBilinear A B).app (op V) (A.val.presheaf.map (homOfLE h).op a)
@@ -153,12 +136,13 @@ theorem res_tmul {A B : 𝓜} {U V : Opens X} (h : V ≤ U) (a : Γ(A, U)) (b : 
   (moduleSheafTensorBilinear A B).naturality _ _ _
 
 /-- The tensor product of sections is bilinear over the structure sheaf. -/
-theorem tmul_smul_smul {A B : 𝓜} {U : Opens X} (a : Γ(A, U)) (b : Γ(B, U))
+private theorem tmul_smul_smul {A B : 𝓜} {U : Opens X} (a : Γ(A, U)) (b : Γ(B, U))
     (v w : R.obj.obj (op U)) :
     (moduleSheafTensorBilinear A B).app (op U) (v • a) (w • b) =
       (v * w) • (moduleSheafTensorBilinear A B).app (op U) a b := by
   exact ((LinearMap.map_smul₂ ((moduleSheafTensorBilinear A B).app (op U)) v a (w • b)).trans
-    (congrArg (v • ·) (LinearMap.map_smul (((moduleSheafTensorBilinear A B).app (op U)) a) w b))).trans
+    (congrArg (v • ·)
+      (LinearMap.map_smul (((moduleSheafTensorBilinear A B).app (op U)) a) w b))).trans
     (smul_smul v w _)
 
 /-- Global-section form of `nonempty_iso_of_frames`. -/
@@ -177,8 +161,10 @@ theorem nonempty_iso_of_global_frames {ι : Type u} {A B : 𝓜} (W : ι → Ope
   refine nonempty_iso_of_frames W hW _ _ ha hb fun i j ↦ ?_
   obtain ⟨c, hca, hcb⟩ := htrans i j
   refine ⟨R.obj.map (homOfLE (inf_le_left : W i ⊓ W j ≤ W i)).op c, ?_, ?_⟩
-  · rw [res_res, res_res, ← res_res A le_top (inf_le_left : W i ⊓ W j ≤ W i), hca, res_smul, res_res]
-  · rw [res_res, res_res, ← res_res B le_top (inf_le_left : W i ⊓ W j ≤ W i), hcb, res_smul, res_res]
+  · rw [res_res, res_res, ← res_res A le_top (inf_le_left : W i ⊓ W j ≤ W i), hca, res_smul,
+      res_res]
+  · rw [res_res, res_res, ← res_res B le_top (inf_le_left : W i ⊓ W j ≤ W i), hcb, res_smul,
+      res_res]
 
 end Ringed
 
@@ -220,15 +206,15 @@ theorem isLocalFrame_degreeOneSection {f : A} (hf : f ∈ 𝒜 1) :
 
 /-- **Transition functions of `𝒪(1)`.** On `D₊(f)`, the global section `g` of `𝒪(1)` is `g/f`
 times the global section `f`, for `f, g ∈ S_1`. -/
-theorem restrict_degreeOneSection_eq_smul {f g : A} (hf : f ∈ 𝒜 1) (hg : g ∈ 𝒜 1)
-    (hg' : g ∈ 𝒜 (1 • 1)) :
+theorem restrict_degreeOneSection_eq_smul {f g : A} (hf : f ∈ 𝒜 1) (hg : g ∈ 𝒜 1) :
     (projTwistingSheaf 𝒜 1).presheaf.map
         (homOfLE (le_top : Proj.basicOpen 𝒜 f ≤ ⊤)).op
         (degreeOneSection ⟨g, hg⟩) =
-      Proj.awayToSection 𝒜 f (Away.mk 𝒜 hf 1 g hg') •
+      Proj.awayToSection 𝒜 f (Away.mk 𝒜 hf 1 g (by rwa [smul_eq_mul, mul_one])) •
         (projTwistingSheaf 𝒜 1).presheaf.map
           (homOfLE (le_top : Proj.basicOpen 𝒜 f ≤ ⊤)).op
           (degreeOneSection ⟨f, hf⟩) := by
+  have hg' : g ∈ 𝒜 (1 • 1) := by rwa [smul_eq_mul, mul_one]
   apply Subtype.ext
   funext x
   change degreeOneFraction x.1 hg =
@@ -277,7 +263,7 @@ theorem coordSection_restrict_eq_smul (n : ℕ) (i k : Fin (n + 1)) :
         (twistOne.{u} n).presheaf.map
           (homOfLE (le_top : Proj.basicOpen (segreGrading.{u} n) (X i) ≤ ⊤)).op
           (coordSection n i) :=
-  ProjTwistingSheaf.restrict_degreeOneSection_eq_smul _ _ _
+  ProjTwistingSheaf.restrict_degreeOneSection_eq_smul _ _
 
 /-- The coordinate `xᵢ` is a frame of `𝒪(1)` on `D₊(xᵢ)`. -/
 theorem isLocalFrame_coordSection (n : ℕ) (i : Fin (n + 1)) :
@@ -288,9 +274,8 @@ theorem isLocalFrame_coordSection (n : ℕ) (i : Fin (n + 1)) :
           (coordSection n i)) :=
   ProjTwistingSheaf.isLocalFrame_degreeOneSection _
 
-
 /-- The whole space lies in the preimage of the whole space. -/
-theorem topLePreimageTop {X Y : Scheme.{u}} (f : X ⟶ Y) : (⊤ : X.Opens) ≤ f ⁻¹ᵁ ⊤ :=
+theorem top_le_preimage_top {X Y : Scheme.{u}} (f : X ⟶ Y) : (⊤ : X.Opens) ≤ f ⁻¹ᵁ ⊤ :=
   fun _ _ ↦ trivial
 
 /-- `σ^*𝒪(1)` for the Segre morphism `σ`. -/
@@ -313,17 +298,17 @@ noncomputable abbrev segreB : (segreSource.{u} r s).Modules :=
 /-- The coordinate `z_c` of `ℙ^{rs+r+s}_ℤ`, pulled back along the Segre morphism. -/
 noncomputable def segreAlpha (c : Fin (r + 1) × Fin (s + 1)) :
     (segreA.{u} r s).val.presheaf.obj (op ⊤) :=
-  (segreA.{u} r s).val.presheaf.map (homOfLE (topLePreimageTop (segreMorphismInt.{u} r s))).op
+  (segreA.{u} r s).val.presheaf.map (homOfLE (top_le_preimage_top (segreMorphismInt.{u} r s))).op
     (etaSec (φ := (segreMorphismInt.{u} r s).toRingCatSheafHom) (coordSection _ (segreIndex r s c)))
 
 /-- `p₁^* x_i`. -/
 noncomputable def segreFstCoord (i : Fin (r + 1)) : (segreB₁.{u} r s).val.presheaf.obj (op ⊤) :=
-  (segreB₁.{u} r s).val.presheaf.map (homOfLE (topLePreimageTop (segreFst.{u} r s))).op
+  (segreB₁.{u} r s).val.presheaf.map (homOfLE (top_le_preimage_top (segreFst.{u} r s))).op
     (etaSec (φ := (segreFst.{u} r s).toRingCatSheafHom) (coordSection r i))
 
 /-- `p₂^* y_j`. -/
 noncomputable def segreSndCoord (j : Fin (s + 1)) : (segreB₂.{u} r s).val.presheaf.obj (op ⊤) :=
-  (segreB₂.{u} r s).val.presheaf.map (homOfLE (topLePreimageTop (segreSnd.{u} r s))).op
+  (segreB₂.{u} r s).val.presheaf.map (homOfLE (top_le_preimage_top (segreSnd.{u} r s))).op
     (etaSec (φ := (segreSnd.{u} r s).toRingCatSheafHom) (coordSection s j))
 
 /-- The section `p₁^* x_i ⊗ p₂^* y_j` of `p₁^*𝒪(1) ⊗ p₂^*𝒪(1)`. -/
@@ -377,7 +362,8 @@ theorem segreSndCoord_restrict (i : Fin (r + 1)) (j : Fin (s + 1)) (l : Fin (s +
 theorem isLocalFrame_segreBeta (i : Fin (r + 1)) (j : Fin (s + 1)) :
     IsLocalFrame (R := (segreSource.{u} r s).sheaf)
       (moduleSheafTensor (segreB₁.{u} r s) (segreB₂.{u} r s)) (segreChartOpen r s i j)
-      (fun _ : PUnit.{u + 1} => (moduleSheafTensor (segreB₁.{u} r s) (segreB₂.{u} r s)).val.presheaf.map
+      (fun _ : PUnit.{u + 1} =>
+        (moduleSheafTensor (segreB₁.{u} r s) (segreB₂.{u} r s)).val.presheaf.map
         (homOfLE (le_top : segreChartOpen r s i j ≤ ⊤)).op (segreBeta r s (i, j))) := by
   have h1 := ((isLocalFrame_coordSection r i).pullback
     (φ := (segreFst.{u} r s).toRingCatSheafHom)).restrictLE
@@ -522,7 +508,8 @@ theorem nonempty_relativeSegre_pullback_iso (Y : Scheme.{u}) :
         ((Scheme.Modules.pullback (pullback.fst (projectiveSpaceOverSchemeProjection r Y)
           (projectiveSpaceOverSchemeProjection s Y))).obj (projectiveSpaceTwistingSheaf r Y 1))
         ((Scheme.Modules.pullback (pullback.snd (projectiveSpaceOverSchemeProjection r Y)
-          (projectiveSpaceOverSchemeProjection s Y))).obj (projectiveSpaceTwistingSheaf s Y 1))) := by
+          (projectiveSpaceOverSchemeProjection s Y))).obj
+          (projectiveSpaceTwistingSheaf s Y 1))) := by
   obtain ⟨e⟩ := SegreTwist.nonempty_segre_pullback_iso.{u} r s
   let t := relativeSegreSourceToInt r s Y
   have h1 : t ≫ segreFst r s = pullback.fst _ _ ≫ pullback.fst _ _ := pullback.lift_fst _ _ _
