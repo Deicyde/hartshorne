@@ -46,19 +46,8 @@ namespace AlgebraicGeometry.Scheme
 
 variable {X : Scheme.{u}}
 
-/-- Two sections of `K_X` over an open set agree if they agree in the function field whenever
-the open set contains the generic point. -/
-theorem totalQuotientSheaf_ext [IsIntegral X] {W : X.Opens}
-    {a b : X.totalQuotientSheaf.obj.obj (op W)}
-    (h : ∀ hη : genericPoint X ∈ W,
-      totalQuotientSheafEquivFunctionField W hη a = totalQuotientSheafEquivFunctionField W hη b) :
-    a = b := by
-  by_cases hη : genericPoint X ∈ W
-  · exact (totalQuotientSheafEquivFunctionField W hη).injective (h hη)
-  · have hW : W = ⊥ := opens_eq_bot_of_genericPoint_notMem hη
-    have : Subsingleton (X.totalQuotientSheaf.obj.obj (op W)) :=
-      CommRingCat.subsingleton_of_isTerminal (X.totalQuotientSheaf.isTerminalOfEqEmpty hW)
-    exact Subsingleton.elim _ _
+@[deprecated totalQuotientSheaf_ext_of_isIntegral (since := "2026-11-09")]
+alias totalQuotientSheaf_ext := totalQuotientSheaf_ext_of_isIntegral
 
 /-- The identification of sections of `K_X` with the function field sends a regular function to
 its germ at the generic point. -/
@@ -75,13 +64,8 @@ theorem totalQuotientUnitsEquivFunctionField_restrict_top [IsIntegral X] {W : X.
       totalQuotientUnitsEquivFunctionField ⊤ trivial g :=
   totalQuotientUnitsEquivFunctionField_map le_top hη g
 
-/-- The restriction of a principal Cartier divisor to an open set is given by the restricted
-equation. -/
-theorem principalCartierDivisor_restrict (g : X.totalQuotientUnitsSheaf.obj.obj (op ⊤))
-    (W : X.Opens) :
-    (X.principalCartierDivisor g).restrict W = X.toCartierDivisorSheaf.hom.app (op W)
-      (Additive.ofMul (X.totalQuotientUnitsSheaf.obj.map (homOfLE le_top).op g)) :=
-  X.toCartierDivisorSheaf_naturality_apply _ _
+@[deprecated CartierDivisor.principalCartierDivisor_restrict (since := "2026-11-09")]
+alias principalCartierDivisor_restrict := CartierDivisor.principalCartierDivisor_restrict
 
 end AlgebraicGeometry.Scheme
 
@@ -200,7 +184,7 @@ theorem totalQuotientPullback_spec' {U : Y.Opens} (hη : genericPoint X ∈ f �
 theorem totalQuotientPullback_add (U : Y.Opens) (a b : Y.totalQuotientSheaf.obj.obj (op U)) :
     totalQuotientPullback f hf U (a + b) =
       totalQuotientPullback f hf U a + totalQuotientPullback f hf U b := by
-  apply totalQuotientSheaf_ext
+  apply totalQuotientSheaf_ext_of_isIntegral
   intro hη
   rw [map_add, totalQuotientPullback_spec', totalQuotientPullback_spec',
     totalQuotientPullback_spec', map_add, map_add]
@@ -209,7 +193,7 @@ theorem totalQuotientPullback_toK_mul (U : Y.Opens) (c : Γ(Y, U))
     (a : Y.totalQuotientSheaf.obj.obj (op U)) :
     totalQuotientPullback f hf U (Y.toK U c * a) =
       X.toK (f ⁻¹ᵁ U) (f.app U c) * totalQuotientPullback f hf U a := by
-  apply totalQuotientSheaf_ext
+  apply totalQuotientSheaf_ext_of_isIntegral
   intro hη
   rw [map_mul, totalQuotientPullback_spec', totalQuotientPullback_spec', map_mul, map_mul,
     totalQuotientSheafEquivFunctionField_toK, totalQuotientSheafEquivFunctionField_toK,
@@ -220,7 +204,7 @@ theorem totalQuotientPullback_map {U V : Y.Opens} (i : V ≤ U)
     totalQuotientPullback f hf V (Y.totalQuotientSheaf.obj.map (homOfLE i).op a) =
       X.totalQuotientSheaf.obj.map (homOfLE (f.preimage_mono i)).op
         (totalQuotientPullback f hf U a) := by
-  apply totalQuotientSheaf_ext
+  apply totalQuotientSheaf_ext_of_isIntegral
   intro hη
   rw [totalQuotientPullback_spec', totalQuotientPullback_spec,
     totalQuotientSheafEquivFunctionField_map]
@@ -247,14 +231,15 @@ theorem isSection_totalQuotientPullback (hDE : CartierPullbackData f hf D E) {U 
   have hηW : genericPoint X ∈ W ⊓ f ⁻¹ᵁ U := genericPoint_mem_opens_of_mem ⟨hxW, hx⟩
   have hηV : genericPoint Y ∈ V ⊓ U := genericPoint_mem_of_mem_preimage f hf (hW' hηW)
   obtain ⟨r, hr⟩ := hs (V ⊓ U) inf_le_right _
-    (D.restrict_eq_of_le hV'U (hD.trans (principalCartierDivisor_restrict _ V)))
+    (D.restrict_eq_of_le hV'U (hD.trans (CartierDivisor.principalCartierDivisor_restrict _ V)))
   refine ⟨W ⊓ f ⁻¹ᵁ U, inf_le_right, X.totalQuotientUnitsSheaf.obj.map (homOfLE le_top).op
     (globalUnit X (genericFunctionFieldUnitsMap f hf g)), ⟨hxW, hx⟩,
-    (E.restrict_eq_of_le inf_le_left (hE.trans (principalCartierDivisor_restrict _ W))).trans ?_,
+    (E.restrict_eq_of_le inf_le_left
+      (hE.trans (CartierDivisor.principalCartierDivisor_restrict _ W))).trans ?_,
     X.presheaf.map (homOfLE hW').op (f.app (V ⊓ U) r), ?_⟩
   · rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
     rfl
-  · apply totalQuotientSheaf_ext
+  · apply totalQuotientSheaf_ext_of_isIntegral
     intro hη'
     rw [map_mul, totalQuotientPullback_spec f hf inf_le_right hη' s]
     have e1 : totalQuotientSheafEquivFunctionField _ hη'
@@ -307,8 +292,8 @@ theorem isIso_cartierPullbackMap (hDE : CartierPullbackData f hf D E) :
     IsIso (cartierPullbackMap hDE) := by
   refine modules_isIso_of_locally_bijective (R := X.sheaf) _ fun x => ?_
   obtain ⟨V, W, g, hxW, hWV, hD, hE⟩ := hDE x
-  have hDV := hD.trans (principalCartierDivisor_restrict _ V)
-  have hEW := hE.trans (principalCartierDivisor_restrict _ W)
+  have hDV := hD.trans (CartierDivisor.principalCartierDivisor_restrict _ V)
+  have hEW := hE.trans (CartierDivisor.principalCartierDivisor_restrict _ W)
   have hsrc := (IsLocalFrame.pullback (φ := f.toRingCatSheafHom)
     (D.isLocalFrame_inv hDV)).restrictLE hWV
   have htgt := E.isLocalFrame_inv hEW
@@ -322,7 +307,7 @@ theorem isIso_cartierPullbackMap (hDE : CartierPullbackData f hf D E) :
   refine (hnat _).trans ((congrArg _ (cartierPullbackMap_etaSec hDE _)).trans ?_)
   apply Subtype.ext
   change X.totalQuotientSheaf.obj.map (homOfLE hWV).op (totalQuotientPullback f hf V _) = _
-  apply totalQuotientSheaf_ext
+  apply totalQuotientSheaf_ext_of_isIntegral
   intro hη
   rw [totalQuotientPullback_spec, ← coe_totalQuotientUnitsEquivFunctionField,
     ← coe_totalQuotientUnitsEquivFunctionField, map_inv, map_inv,

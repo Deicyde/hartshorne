@@ -38,8 +38,7 @@ namespace AcyclicLeray
 
 variable {X Y : TopCat.{u}} (f : X ⟶ Y)
 
-local instance : (TopCat.Sheaf.pushforward AddCommGrpCat.{u} f).Additive :=
-  Functor.additive_of_preserves_binary_products _
+attribute [local instance] Hartshorne.instAdditiveSheafAddCommGrpCatPushforward_hartshorne
 
 /-- Inverse image of abelian sheaves preserves finite limits. -/
 instance pullback_preservesFiniteLimits :

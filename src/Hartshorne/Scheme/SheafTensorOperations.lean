@@ -1105,7 +1105,7 @@ theorem toSheafify_sheafificationRestrictHom
   rw [h2] at h1
   exact h1.symm
 
-instance 
+instance isIso_sheafificationRestrictHom
     (P : PresheafOfModules.{u} (ringCatSheafOf X.sheaf).obj) :
     IsIso (sheafificationRestrictHom f P) := by
   have h : (SheafOfModules.toSheaf _).map (sheafificationRestrictHom f P) =

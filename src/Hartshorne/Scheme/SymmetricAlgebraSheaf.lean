@@ -1149,9 +1149,8 @@ noncomputable def ModuleSheafAlgebra.restrict {A : SheafOfModules.{u} (ringCatSh
   one_mul W := S.one_mul (f.opensFunctor.op.obj W)
   mul_one W := S.mul_one (f.opensFunctor.op.obj W)
 
-theorem isIso_sheafificationRestrictHom (P : PresheafOfModules.{u} (ringCatSheafOf X.sheaf).obj) :
-    IsIso (sheafificationRestrictHom f P) :=
-  inferInstance
+@[deprecated SheafTensorOperations.isIso_sheafificationRestrictHom (since := "2026-11-09")]
+alias isIso_sheafificationRestrictHom := SheafTensorOperations.isIso_sheafificationRestrictHom
 
 variable (E : SheafOfModules.{u} (ringCatSheafOf X.sheaf))
 
@@ -1196,7 +1195,7 @@ noncomputable def symmetricAlgebraRestrictIso :
   (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf Y.sheaf).obj)).mapIso
       (symmetricAlgebraPresheafRestrictIso f E) ≪≫
     @asIso _ _ _ _ (sheafificationRestrictHom f (moduleSheafSymmetricAlgebraPresheaf E))
-      (isIso_sheafificationRestrictHom f _)
+      (SheafTensorOperations.isIso_sheafificationRestrictHom f _)
 
 theorem symmetricAlgebraRestrictIso_unit (W : (Opens Y)ᵒᵖ)
     (z : (moduleSheafSymmetricAlgebraPresheaf ((restrictModule f).obj E)).obj W) :
