@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.ProjTwistPullback
 import Hartshorne.Scheme.ProjSurjectionClosedImmersion
+import Mathlib.Topology.Sheaves.LocallySurjective
 
 /-!
 # The hyperplane sequence on projective space (partial)
@@ -364,6 +365,89 @@ def isLimitMulSection (hinj : Function.Injective (x * ·)) (f : 𝒜 →+*ᵍ �
   Limits.KernelFork.IsLimit.ofι' _ _ fun k hk =>
     ⟨lift hx n hinj f hf hker k hk, lift_mulSection hx n hinj f hf hker k hk⟩
 
+/-- Elements of `T(n)_d` have preimages in `S(n)_d` under a surjective graded map. -/
+theorem exists_gradedTwist_preimage (f : 𝒜 →+*ᵍ ℬ) (hf : Function.Surjective f) {n d : ℤ}
+    {b : B} (hb : b ∈ gradedTwist ℬ n d) : ∃ a ∈ gradedTwist 𝒜 n d, f a = b := by
+  obtain ⟨hb1, hb2⟩ := hb
+  by_cases h : n + d < 0
+  · exact ⟨0, zero_mem _, by rw [hb2 h, map_zero]⟩
+  obtain ⟨a, ha, rfl⟩ := ProjSurjection.exists_homogeneous_preimage hf hb1
+  exact ⟨a, ⟨ha, fun h' => absurd h' h⟩, rfl⟩
+
+/-- **The restriction `𝒪_{Proj S}(n) ⟶ f_*(𝒪_{Proj T}(n))` is an epimorphism** for a surjective
+graded map `f`. -/
+theorem epi_psi (f : 𝒜 →+*ᵍ ℬ) (hf : Function.Surjective f) (n : ℤ) :
+    Epi (ProjTwistPullback.psi f n) := by
+  have h1 : Epi ((SheafOfModules.toSheaf (Proj 𝒜).ringCatSheaf).map
+      (ProjTwistPullback.psi f n)) := by
+    refine (TopCat.Sheaf.isLocallySurjective_iff_epi _).1
+      ((TopCat.Presheaf.isLocallySurjective_iff _).2 fun U t p hp => ?_)
+    by_cases hker : ∀ a, f a = 0 → a ∈ p.asHomogeneousIdeal
+    · have hzD : liftPoint f hf p hker ∈ projPartialDomain f := by
+        refine (mem_projPartialDomain_iff f _).2 fun hsub => ?_
+        refine p.not_irrelevant_le fun a ha => ?_
+        exact (mem_liftPoint_iff f hf p hker a).1 (hsub ⟨a, ha, rfl⟩)
+      have hcomap : projPartialComapPoint f (liftPoint f hf p hker) hzD = p := by
+        apply ProjectiveSpectrum.ext
+        apply HomogeneousIdeal.ext
+        ext a
+        exact mem_liftPoint_iff f hf p hker a
+      have hzU : liftPoint f hf p hker ∈
+          (projPartialDomain f).ι ''ᵁ (projPartialMap f ⁻¹ᵁ U) := by
+        refine ⟨⟨_, hzD⟩, ?_, rfl⟩
+        change projPartialMap f ⟨_, hzD⟩ ∈ U
+        rw [projPartialMap_apply]
+        have := hp
+        rw [← hcomap] at this
+        exact this
+      obtain ⟨W, hzW, iWD, k, b', hb', g', hg', g_nin, w⟩ := t.2 ⟨_, hzU⟩
+      obtain ⟨_, ⟨c', rfl⟩, hzc, hcW⟩ :=
+        (ProjectiveSpectrum.isTopologicalBasis_basic_opens (𝒜 := ℬ)).exists_subset_of_mem_open
+          hzW W.isOpen
+      obtain ⟨c, rfl⟩ := hf c'
+      obtain ⟨g, hg, rfl⟩ := ProjSurjection.exists_homogeneous_preimage hf hg'
+      obtain ⟨b, hb, rfl⟩ := exists_gradedTwist_preimage f hf hb'
+      have hgp : g ∉ p.asHomogeneousIdeal := fun h =>
+        g_nin ⟨_, hzW⟩ ((mem_liftPoint_iff f hf p hker g).2 h)
+      have hcp : c ∉ p.asHomogeneousIdeal := fun h =>
+        (ProjectiveSpectrum.mem_basicOpen ℬ _ _).1 hzc ((mem_liftPoint_iff f hf p hker c).2 h)
+      let V : (Proj 𝒜).Opens :=
+        U ⊓ ProjectiveSpectrum.basicOpen 𝒜 g ⊓ ProjectiveSpectrum.basicOpen 𝒜 c
+      have hgV : ∀ q : V, g ∉ q.1.asHomogeneousIdeal := fun q =>
+        (ProjectiveSpectrum.mem_basicOpen 𝒜 _ _).1 q.2.1.2
+      let s : (sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj (op V) :=
+        ⟨fun q => HomogeneousLocalizedModule.mk k b hb g hg (hgV q), fun q =>
+          ⟨V, q.2, 𝟙 V, k, b, hb, g, hg, hgV, fun _ => rfl⟩⟩
+      refine ⟨V, fun q hq => hq.1.1, ⟨s, ?_⟩,
+        ⟨⟨hp, (ProjectiveSpectrum.mem_basicOpen 𝒜 _ _).2 hgp⟩,
+          (ProjectiveSpectrum.mem_basicOpen 𝒜 _ _).2 hcp⟩⟩
+      refine Subtype.ext (funext fun z => ?_)
+      have hzV := ProjTwistPullback.comap_mem_of_mem_image f z.2
+      have hzW' : z.1 ∈ W := hcW ((ProjectiveSpectrum.mem_basicOpen ℬ _ _).2
+        fun h => (ProjectiveSpectrum.mem_basicOpen 𝒜 _ _).1 hzV.2 h)
+      exact (twistFiber_mk f n _ k b hb g hg _).trans (w ⟨z.1, hzW'⟩).symm
+    · push Not at hker
+      obtain ⟨a, ha0, ha⟩ := hker
+      refine ⟨U ⊓ ProjectiveSpectrum.basicOpen 𝒜 a, inf_le_left, ⟨0, ?_⟩,
+        ⟨hp, (ProjectiveSpectrum.mem_basicOpen 𝒜 _ _).2 ha⟩⟩
+      refine Subtype.ext (funext fun z => ?_)
+      exfalso
+      have hz := ProjTwistPullback.comap_mem_of_mem_image f z.2
+      exact (ProjectiveSpectrum.mem_basicOpen 𝒜 _ _).1 hz.2
+        (show f a ∈ z.1.asHomogeneousIdeal by rw [ha0]; exact zero_mem _)
+  exact (SheafOfModules.toSheaf _).epi_of_epi_map h1
+
+/-- **The degreewise hyperplane sequence** `0 → 𝒪(n-1) → 𝒪(n) → f_* 𝒪_{Proj T}(n) → 0` is short
+exact, for `x ∈ S_1` a non-zero-divisor and `f` surjective with kernel `(x)`. -/
+theorem shortExact (hx : x ∈ 𝒜 1) (n : ℤ) (hinj : Function.Injective (x * ·))
+    (f : 𝒜 →+*ᵍ ℬ) (hf : Function.Surjective f) (hfx : f x = 0)
+    (hker : ∀ a, f a = 0 → ∃ b, a = x * b) :
+    (ShortComplex.mk (mulSection hx n) (ProjTwistPullback.psi f n)
+      (mulSection_psi hx n f hfx)).ShortExact :=
+  haveI := epi_psi f hf n
+  haveI := mono_mulSection hx n hinj
+  { exact := ShortComplex.exact_of_f_is_kernel _ (isLimitMulSection hx n hinj f hf hfx hker) }
+
 end General
 
 section ProjectiveSpace
@@ -465,6 +549,16 @@ def isLimitMulSection_hyperplane (n : ℤ) :
     Limits.IsLimit (Limits.KernelFork.ofι (mulSection (x_last_mem A m) n)
       (mulSection_psi_hyperplane A m n)) :=
   isLimitMulSection _ n MvPolynomial.isRegular_X.left _ (hyperplaneHom_surjective A m)
+    (hyperplaneHom_X_last A m) fun _ ha => exists_eq_X_last_mul A m ha
+
+/-- **The hyperplane sequence on `ℙ^{m+1}_A`**, degreewise: for `H = V₊(x_{m+1}) ≅ ℙ^m_A` and
+`i : H ⟶ ℙ^{m+1}_A`,
+`0 → 𝒪_X(n-1) → 𝒪_X(n) → i_* 𝒪_H(n) → 0`, with first map multiplication by `x_{m+1}`, is short
+exact. -/
+theorem hyperplane_shortExact (n : ℤ) :
+    (ShortComplex.mk (mulSection (x_last_mem A m) n)
+      (ProjTwistPullback.psi (hyperplaneHom A m) n) (mulSection_psi_hyperplane A m n)).ShortExact :=
+  shortExact _ n MvPolynomial.isRegular_X.left _ (hyperplaneHom_surjective A m)
     (hyperplaneHom_X_last A m) fun _ ha => exists_eq_X_last_mul A m ha
 
 end ProjectiveSpace
