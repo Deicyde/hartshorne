@@ -329,7 +329,8 @@ theorem bijective_idealSheafSqQuotientToPushforward_app :
     rw [Scheme.Hom.image_top_eq_opensRange, V.2.opensRange_fromSpec]
   have hWT : (closedImmersionAffinePreimage i V).2.fromSpec ''ᵁ ⊤ =
       i ⁻¹ᵁ (V.2.fromSpec ''ᵁ ⊤) := by
-    rw [Scheme.Hom.image_top_eq_opensRange, (closedImmersionAffinePreimage i V).2.opensRange_fromSpec,
+    rw [Scheme.Hom.image_top_eq_opensRange,
+      (closedImmersionAffinePreimage i V).2.opensRange_fromSpec,
       hTV]
   have hT := hWT.le
   have hTW : i ⁻¹ᵁ (V.2.fromSpec ''ᵁ ⊤) ≤ (closedImmersionAffinePreimage i V : Z.Opens) :=
