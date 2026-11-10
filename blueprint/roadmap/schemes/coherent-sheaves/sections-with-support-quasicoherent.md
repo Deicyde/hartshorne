@@ -2,6 +2,9 @@
 article_id: af_ec149a8ae82610ce8e1a0129
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.isQuasicoherent_sectionsWithSupport Hartshorne.isCoherent_sectionsWithSupport
 ---
 
 # Quasi-coherence of sections with support
