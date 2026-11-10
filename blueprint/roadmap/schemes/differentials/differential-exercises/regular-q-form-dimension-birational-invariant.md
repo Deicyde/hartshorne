@@ -26,6 +26,7 @@ then $h^{q,0}(X) = h^{q,0}(X')$ for every $q$.
 
 - [Pullback injects canonical sections](../canonical-bertini/canonical-pullback-injective.md)
 - [The canonical sheaf](../canonical-bertini/canonical-sheaf.md)
+- [Serre's criterion for normality](../local-complete-intersections/serre-normality-criterion.md)
 - Pullback of relative differentials on the common birational open subset.
 - Sections of a finite locally free sheaf extend across a codimension-at-least-
   two complement on a normal variety after local trivialization.
