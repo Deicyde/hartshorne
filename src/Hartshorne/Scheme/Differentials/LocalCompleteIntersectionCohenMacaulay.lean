@@ -1,0 +1,325 @@
+/-
+Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
+import Hartshorne.Scheme.Differentials.LocalCompleteIntersection
+import Hartshorne.Scheme.CohenMacaulayRegularSequence
+import Hartshorne.Scheme.RegularLocalCohenMacaulay
+import Hartshorne.Scheme.Regular
+import Hartshorne.Scheme.GloballyGenerated
+import Hartshorne.Scheme.AffineGlobalSectionsExact
+import Hartshorne.Scheme.QuasicoherentIdealSheafData
+
+open CategoryTheory CategoryTheory.Limits Opposite IsLocalRing RingTheory.Sequence AlgebraicGeometry
+
+universe u
+
+namespace Hartshorne.LCICohenMacaulay
+
+section Algebra
+
+attribute [local instance] RingHomInvPair.of_ringEquiv in
+/-- Being a Cohen–Macaulay local ring is invariant under ring isomorphisms. -/
+theorem isCohenMacaulayLocalRing_of_ringEquiv {A B : Type u} [CommRing A] [CommRing B]
+    [IsCohenMacaulayLocalRing A] (e : A ≃+* B) : IsCohenMacaulayLocalRing B := by
+  have : IsLocalRing B := e.isLocalRing
+  have : IsNoetherianRing B := isNoetherianRing_of_ringEquiv A e
+  obtain ⟨rs, hlen, hmem, hrs⟩ :=
+    IsCohenMacaulayLocalRing.exists_isRegular_length_eq_ringKrullDim (A := A)
+  let e' : A ≃ₛₗ[(e : A →+* B)] B :=
+    { e.toAddEquiv with map_smul' := fun a x => by simp [smul_eq_mul] }
+  have hmem' : ∀ r ∈ rs.map e, r ∈ maximalIdeal B := by
+    intro r hr
+    obtain ⟨a, ha, rfl⟩ := List.mem_map.mp hr
+    exact (mem_maximalIdeal _).2 fun hu => (mem_maximalIdeal _).1 (hmem a ha)
+      ((isUnit_map_iff e a).1 hu)
+  refine Hartshorne.CohenMacaulay.isCohenMacaulayLocalRing_of_isRegular B (rs.map e)
+    (by rw [List.length_map, hlen, ringKrullDim_eq_of_ringEquiv e]) hmem' ?_
+  exact IsRegular.of_isWeaklyRegular_of_mem_maximalIdeal _ hmem'
+    ((e'.isWeaklyRegular_congr' rs).mp hrs.toIsWeaklyRegular)
+
+/-- In a Cohen–Macaulay local ring `A`, if `x₁, …, xᵣ` generate a proper ideal with
+`dim A/(x₁, …, xᵣ) + r ≤ dim A`, then `A/(x₁, …, xᵣ)` is Cohen–Macaulay. -/
+theorem isCohenMacaulayLocalRing_quotient_ofList {A : Type u} [CommRing A]
+    [IsCohenMacaulayLocalRing A] (xs : List A) (hne : Ideal.ofList xs ≠ ⊤)
+    (h : ringKrullDim (A ⧸ Ideal.ofList xs) + xs.length ≤ ringKrullDim A) :
+    IsCohenMacaulayLocalRing (A ⧸ Ideal.ofList xs) := by
+  have hxm : ∀ x ∈ xs, x ∈ maximalIdeal A := fun x hx =>
+    le_maximalIdeal hne (Ideal.subset_span hx)
+  have hI : (Ideal.ofList xs • ⊤ : Submodule A A) = Ideal.ofList xs := by
+    rw [smul_eq_mul, Ideal.mul_top]
+  have hge := Hartshorne.CohenMacaulay.supportDim_le_supportDim_quotient_ofList_add_length xs
+    hxm A
+  rw [Module.supportDim_self_eq_ringKrullDim, Module.supportDim_quotient_eq_ringKrullDim, hI]
+    at hge
+  refine IsCohenMacaulayLocalRing.quotient_ofList xs
+    ((IsCohenMacaulayLocalRing.isRegular_iff_ringKrullDim_quotient_ofList_add_length xs hxm).mpr
+      (le_antisymm h hge))
+
+end Algebra
+
+section Order
+
+/-- If `f` is strictly monotone and `r ≤ coheight (f b)` for every `b ≥ a`, then
+`coheight a + r ≤ coheight (f a)`. -/
+theorem coheight_add_le_coheight_of_strictMono {α β : Type*} [Preorder α] [Preorder β]
+    {f : α → β} (hf : StrictMono f) (a : α) {r : ℕ∞}
+    (hr : ∀ b, a ≤ b → r ≤ Order.coheight (f b)) :
+    Order.coheight a + r ≤ Order.coheight (f a) := by
+  by_cases ha : Order.coheight a = ⊤
+  · rw [ha, top_add]
+    exact ha ▸ Order.coheight_le_coheight_apply_of_strictMono f hf a
+  obtain ⟨k, hk⟩ := ENat.ne_top_iff_exists.mp ha
+  obtain ⟨p, hp, hpl⟩ := Order.exists_series_of_le_coheight a (n := k) hk.le
+  have hal : a ≤ p.last := hp ▸ p.head_le_last
+  have hw := hr p.last hal
+  let p' := p.map f hf
+  have hfl : f a ≤ f p.last := by simpa [p', hp] using p'.head_le_last
+  by_cases hr' : r = ⊤
+  · rw [hr', add_top, top_le_iff]
+    rw [hr', top_le_iff] at hw
+    exact top_le_iff.mp (hw ▸ Order.coheight_anti hfl)
+  obtain ⟨m, rfl⟩ := ENat.ne_top_iff_exists.mp hr'
+  obtain ⟨q, hq, hql⟩ := Order.exists_series_of_le_coheight (f p.last) hw
+  have hlast : p'.last = q.head := by simp [p', hq]
+  have := Order.length_le_coheight_head (p := p'.smash q hlast)
+  simpa [p', hp, hpl, hql, ← hk] using this
+
+end Order
+
+section Points
+
+variable {X Y : Scheme.{u}} (i : Y ⟶ X) [IsClosedImmersion i]
+
+/-- A closed immersion is strictly monotone for the specialization orders. -/
+theorem strictMono_of_isClosedImmersion : StrictMono i.base := by
+  intro a b hab
+  refine lt_of_le_not_ge (hab.le.map i.continuous) fun h => hab.not_ge ?_
+  exact i.isClosedEmbedding.isInducing.specializes_iff.mp h
+
+/-- The codimension of a closed subscheme is at most the codimension of the closure of any of its
+points. -/
+theorem codim_range_le_coheight (b : Y) : codim (Set.range i.base) ≤ Order.coheight (i b) := by
+  let e : TopologicalSpace.IrreducibleCloseds X ≃o X := irreducibleSetEquivPoints
+  refine iInf_le_of_le (e.symm (i b)) (iInf_le_of_le ?_ ?_)
+  · simpa [e] using closure_minimal (Set.singleton_subset_iff.mpr (Set.mem_range_self b))
+      i.isClosedEmbedding.isClosed_range
+  · rw [Order.coheight_orderIso e.symm]
+
+/-- For a closed subscheme `Y ⊆ X` and `y ∈ Y`, `dim 𝒪_{Y,y} + codim (Y, X) ≤ dim 𝒪_{X,y}`. -/
+theorem ringKrullDim_stalk_add_codim_le (y : Y) :
+    ringKrullDim (Y.presheaf.stalk y) + codim (Set.range i.base) ≤
+      ringKrullDim (X.presheaf.stalk (i y)) := by
+  rw [ringKrullDim_stalk_eq_coheight, ringKrullDim_stalk_eq_coheight]
+  exact_mod_cast coheight_add_le_coheight_of_strictMono (strictMono_of_isClosedImmersion i) y
+    fun b _ => codim_range_le_coheight i b
+
+end Points
+
+section Stalk
+
+variable {X Y : Scheme.{u}} (i : Y ⟶ X)
+
+/-- An additive map that is semilinear for a ring homomorphism sends a span into the span of the
+image. -/
+theorem mem_span_image_of_map_smul {R R' N N' : Type*} [Semiring R] [Semiring R']
+    [AddCommMonoid N] [AddCommMonoid N'] [Module R N] [Module R' N'] (h : N →+ N')
+    (τ : R →+* R') (hh : ∀ (b : R) (n : N), h (b • n) = τ b • h n) {S : Set N} {n : N}
+    (hn : n ∈ Submodule.span R S) : h n ∈ Submodule.span R' (h '' S) := by
+  induction hn using Submodule.span_induction with
+  | mem n hn => exact Submodule.subset_span ⟨n, hn, rfl⟩
+  | zero => simp
+  | add a b _ _ ha hb => rw [map_add]; exact add_mem ha hb
+  | smul b n _ hn => rw [hh]; exact Submodule.smul_mem _ _ hn
+
+/-- The map `(I_Y)_x → 𝒪_{X,x}` on stalks induced by the inclusion `I_Y ⊆ 𝒪_X`. -/
+noncomputable def idealStalkMap (x : X) :
+    (closedImmersionIdealSheaf i).presheaf.stalk x →+ X.presheaf.stalk x :=
+  (ModuleSheafTensor.stalkDesc (P := (closedImmersionIdealSheaf i).presheaf)
+    (A := AddCommGrpCat.of (X.presheaf.stalk x))
+    (fun U hU => AddCommGrpCat.ofHom ((X.presheaf.germ U x hU).hom.toAddMonoidHom.comp
+      ((closedImmersionIdealSheafι i).app U).hom))
+    (fun U V j hV => by
+      ext s
+      change X.presheaf.germ V x hV ((closedImmersionIdealSheafι i).app V
+        ((closedImmersionIdealSheaf i).presheaf.map (homOfLE j.le).op s)) =
+        X.presheaf.germ U x (j.le hV) ((closedImmersionIdealSheafι i).app U s)
+      rw [modules_app_res]
+      exact X.presheaf.germ_res_apply (homOfLE j.le) x hV _)).hom
+
+theorem idealStalkMap_germ (x : X) (U : X.Opens) (hU : x ∈ U)
+    (s : Γ(closedImmersionIdealSheaf i, U)) :
+    idealStalkMap i x ((closedImmersionIdealSheaf i).presheaf.germ U x hU s) =
+      X.presheaf.germ U x hU ((closedImmersionIdealSheafι i).app U s) :=
+  ModuleSheafTensor.stalkDesc_germ _ _ U hU s
+
+theorem idealStalkMap_smul (x : X) (r : X.presheaf.stalk x)
+    (m : (closedImmersionIdealSheaf i).presheaf.stalk x) :
+    idealStalkMap i x (r • m) = r * idealStalkMap i x m := by
+  induction r, m using FreeLocusAux.stalk_smul_induction x with
+  | h U hx t s =>
+    rw [← schemeModules_germ_smul, idealStalkMap_germ, idealStalkMap_germ]
+    erw [Scheme.Modules.Hom.app_smul]
+    exact map_mul _ _ _
+
+/-- The image of `(I_Y)_x → 𝒪_{X,x}` lies in the kernel of `𝒪_{X,i y} → 𝒪_{Y,y}`. -/
+theorem stalkMap_idealStalkMap (y : Y) (m : (closedImmersionIdealSheaf i).presheaf.stalk (i y)) :
+    i.stalkMap y (idealStalkMap i (i y) m) = 0 := by
+  obtain ⟨U, hU, s, rfl⟩ := (closedImmersionIdealSheaf i).presheaf.exists_germ_eq m
+  rw [idealStalkMap_germ]
+  erw [Scheme.Hom.germ_stalkMap_apply i U y hU]
+  have h0 : i.app U ((closedImmersionIdealSheafι i).app U s) = 0 :=
+    congrArg (fun φ => Scheme.Modules.Hom.app φ U s)
+      (kernel.condition (structureSheafToPushforward i))
+  rw [h0, map_zero]
+
+end Stalk
+
+section Kernel
+
+variable {X Y : Scheme.{u}} (i : Y ⟶ X) [IsClosedImmersion i]
+
+/-- Generating sections of `I_Y|_U` generate the stalks of `I_Y` at the points of `U`. -/
+theorem span_germ_eq_top (U : X.Opens) (x : X) (hx : x ∈ U)
+    (σ : ((Scheme.Modules.restrictFunctor U.ι).obj
+      (closedImmersionIdealSheaf i)).GeneratingSections) :
+    Submodule.span (X.presheaf.stalk x) (Set.range fun j =>
+      (closedImmersionIdealSheaf i).presheaf.germ (U.ι ''ᵁ ⊤) x ⟨⟨x, hx⟩, trivial, rfl⟩
+        (Scheme.Modules.GloballyGenerated.topOfSections _ (σ.s j))) = ⊤ := by
+  set M := (Scheme.Modules.restrictFunctor U.ι).obj (closedImmersionIdealSheaf i)
+  have hgen := Scheme.Modules.GloballyGenerated.isGeneratedBySections_of_epi
+    (M.freeHomEquiv.symm σ.s) ⟨x, hx⟩
+  simp only [Equiv.apply_symm_apply] at hgen
+  rw [eq_top_iff]
+  rintro m -
+  let φ := FreeLocusAux.restrictStalkIso U.ι (closedImmersionIdealSheaf i) ⟨x, hx⟩
+  have hm : φ.inv m ∈ Submodule.span (U.toScheme.presheaf.stalk ⟨x, hx⟩) (Set.range fun j =>
+      M.presheaf.germ ⊤ ⟨x, hx⟩ trivial
+        (Scheme.Modules.GloballyGenerated.topOfSections M (σ.s j))) := by
+    rw [hgen]; exact Submodule.mem_top
+  have h := mem_span_image_of_map_smul φ.hom.hom
+    (FreeLocusAux.stalkRingEquiv U.ι ⟨x, hx⟩).symm.toRingHom
+    (fun b n => FreeLocusAux.restrictStalkIso_hom_smul U.ι _ _ b n) hm
+  have hmm : φ.hom.hom (φ.inv m) = m := φ.inv_hom_id_apply m
+  have hfun : (φ.hom.hom ∘ fun j => M.presheaf.germ ⊤ ⟨x, hx⟩ trivial
+      (Scheme.Modules.GloballyGenerated.topOfSections M (σ.s j))) =
+      fun j => (closedImmersionIdealSheaf i).presheaf.germ (U.ι ''ᵁ ⊤) x ⟨⟨x, hx⟩, trivial, rfl⟩
+        (Scheme.Modules.GloballyGenerated.topOfSections M (σ.s j)) :=
+    funext fun j => FreeLocusAux.restrictStalkIso_hom_germ U.ι _ _ ⊤ trivial _ _
+  rw [hmm, ← Set.range_comp, hfun] at h
+  exact h
+
+/-- The kernel of `𝒪_{X,i y} → 𝒪_{Y,y}` is generated by the germs at `i y` of a family of
+generating sections of `I_Y|_U`. -/
+theorem exists_ker_stalkMap_eq_span (y : Y) (U : X.Opens) (hU : i y ∈ U)
+    (σ : ((Scheme.Modules.restrictFunctor U.ι).obj
+      (closedImmersionIdealSheaf i)).GeneratingSections) :
+    ∃ g : σ.I → X.presheaf.stalk (i y),
+      RingHom.ker (i.stalkMap y).hom = Ideal.span (Set.range g) := by
+  set I := closedImmersionIdealSheaf i
+  refine ⟨fun j => idealStalkMap i (i y) (I.presheaf.germ (U.ι ''ᵁ ⊤) (i y)
+    ⟨⟨i y, hU⟩, trivial, rfl⟩ (Scheme.Modules.GloballyGenerated.topOfSections _ (σ.s j))),
+    le_antisymm ?_ ?_⟩
+  · intro a ha
+    rw [RingHom.mem_ker] at ha
+    obtain ⟨V, hxV, s, rfl⟩ := X.presheaf.exists_germ_eq a
+    erw [Scheme.Hom.germ_stalkMap_apply i V y hxV] at ha
+    obtain ⟨W', hyW', j₁, j₂, hW'⟩ := Y.presheaf.germ_eq y hxV hxV (i.app V s) 0
+      (ha.trans (map_zero _).symm)
+    obtain ⟨t, ht, htW⟩ := i.isClosedEmbedding.isInducing.isOpen_iff.mp W'.2
+    let V' : X.Opens := V ⊓ ⟨t, ht⟩
+    have hyt : y ∈ i ⁻¹' t := by rw [htW]; exact hyW'
+    have hxV' : i y ∈ V' := ⟨hxV, hyt⟩
+    have hle : i ⁻¹ᵁ V' ≤ W' := fun z hz => by
+      have : z ∈ i ⁻¹' t := hz.2
+      rw [htW] at this
+      exact this
+    let s' := X.presheaf.map (homOfLE inf_le_left : V' ⟶ V).op s
+    have hs' : i.app V' s' = 0 := by
+      have hnat := congr(ConcreteCategory.hom $(i.naturality (homOfLE inf_le_left : V' ⟶ V).op) s)
+      rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply] at hnat
+      rw [hnat]
+      have hcomp : ((Opens.map i.base).map (homOfLE inf_le_left : V' ⟶ V)).op =
+          j₁.op ≫ (homOfLE hle).op := rfl
+      rw [hcomp, Functor.map_comp, ConcreteCategory.comp_apply, hW', map_zero, map_zero]
+    obtain ⟨t', ht'⟩ := modules_sections_exact
+      (S := ShortComplex.mk (kernel.ι (structureSheafToPushforward i))
+        (structureSheafToPushforward i) (kernel.condition _))
+      (ShortComplex.exact_of_f_is_kernel _ (kernelIsKernel _))
+      (U := V') s' hs'
+    have hgerm : X.presheaf.germ V (i y) hxV s =
+        idealStalkMap i (i y) (I.presheaf.germ V' (i y) hxV' t') := by
+      rw [idealStalkMap_germ]
+      erw [ht']
+      exact (X.presheaf.germ_res_apply _ _ _ _).symm
+    rw [hgerm]
+    have hmem : I.presheaf.germ V' (i y) hxV' t' ∈ Submodule.span (X.presheaf.stalk (i y))
+        (Set.range fun j => I.presheaf.germ (U.ι ''ᵁ ⊤) (i y) ⟨⟨i y, hU⟩, trivial, rfl⟩
+          (Scheme.Modules.GloballyGenerated.topOfSections _ (σ.s j))) := by
+      rw [span_germ_eq_top i U (i y) hU σ]; exact Submodule.mem_top
+    have h := mem_span_image_of_map_smul (idealStalkMap i (i y)) (RingHom.id _)
+      (fun b n => idealStalkMap_smul i (i y) b n) hmem
+    rw [← Set.range_comp] at h
+    exact h
+  · rw [Ideal.span_le]
+    rintro _ ⟨j, rfl⟩
+    exact stalkMap_idealStalkMap i y _
+
+end Kernel
+
+end Hartshorne.LCICohenMacaulay
+
+namespace Hartshorne
+
+open LCICohenMacaulay
+
+/-- **Local complete intersections are Cohen–Macaulay** (Hartshorne II, Proposition 8.23(a)).
+Let `X` be a regular scheme (every local ring is a Noetherian regular local ring; for example a
+nonsingular variety) and `i : Y ⟶ X` a closed immersion which is a local complete intersection
+in `X`. Then `Y` is Cohen–Macaulay. -/
+theorem isCohenMacaulay_of_isLocalCompleteIntersectionIn {X Y : Scheme.{u}} (hX : X.IsRegular)
+    (i : Y ⟶ X) [IsClosedImmersion i] (h : IsLocalCompleteIntersectionIn i) :
+    Y.IsCohenMacaulay := by
+  have : IsLocallyNoetherian X := hX.1
+  have : IsLocallyNoetherian Y := LocallyOfFiniteType.isLocallyNoetherian i
+  refine ⟨inferInstance, fun y => ?_⟩
+  obtain ⟨U, hU, σ, hcard⟩ := h (i y)
+  obtain ⟨g, hg⟩ := exists_ker_stalkMap_eq_span i y U hU σ
+  let A := X.presheaf.stalk (i y)
+  have : IsRegularLocalRing A := hX.2 (i y)
+  have : IsCohenMacaulayLocalRing A := IsRegularLocalRing.isCohenMacaulayLocalRing A
+  have hdim := ringKrullDim_stalk_add_codim_le i y
+  obtain ⟨d, hd⟩ : ∃ d : ℕ∞, (d : WithBot ℕ∞) = ringKrullDim (Y.presheaf.stalk y) :=
+    WithBot.ne_bot_iff_exists.mp
+      ((WithBot.bot_lt_coe 0).trans_le ringKrullDim_nonneg_of_nontrivial).ne'
+  have hfin : Finite σ.I := by
+    rw [← ENat.card_lt_top, hcard]
+    have h1 : ((d + codim (Set.range i.base) : ℕ∞) : WithBot ℕ∞) < ⊤ := by
+      rw [WithBot.coe_add, hd]
+      exact hdim.trans_lt (ringKrullDim_lt_top (R := A))
+    exact (ENat.add_lt_top.mp (WithBot.coe_lt_top.mp h1)).2
+  have := Fintype.ofFinite σ.I
+  let xs : List A := (Finset.univ : Finset σ.I).toList.map g
+  have hxs : Ideal.ofList xs = RingHom.ker (i.stalkMap y).hom := by
+    rw [hg, Ideal.ofList]
+    congr 1
+    ext a
+    simp [xs]
+  have hlen : ((xs.length : ℕ∞) : WithBot ℕ∞) = codim (Set.range i.base) := by
+    simp [xs, ← hcard, ENat.card_eq_coe_fintype_card]
+  let e : A ⧸ Ideal.ofList xs ≃+* Y.presheaf.stalk y :=
+    (Ideal.quotEquivOfEq hxs).trans
+      (RingHom.quotientKerEquivOfSurjective (i.stalkMap_surjective y))
+  have hne : Ideal.ofList xs ≠ ⊤ := fun htop => by
+    have : Subsingleton (A ⧸ Ideal.ofList xs) := Ideal.Quotient.subsingleton_iff.mpr htop
+    exact not_subsingleton (Y.presheaf.stalk y) e.symm.injective.subsingleton
+  have hle : ringKrullDim (A ⧸ Ideal.ofList xs) + xs.length ≤ ringKrullDim A := by
+    rw [ringKrullDim_eq_of_ringEquiv e]
+    calc ringKrullDim (Y.presheaf.stalk y) + (xs.length : WithBot ℕ∞) =
+        ringKrullDim (Y.presheaf.stalk y) + codim (Set.range i.base) := by
+          rw [← hlen]; norm_cast
+      _ ≤ _ := hdim
+  have := isCohenMacaulayLocalRing_quotient_ofList xs hne hle
+  exact isCohenMacaulayLocalRing_of_ringEquiv e
+
+end Hartshorne
