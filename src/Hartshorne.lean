@@ -652,3 +652,6 @@ import Hartshorne.Scheme.VeryAmpleTensorProduct
 import Hartshorne.Scheme.Differentials.CanonicalSheafProjectiveSpace
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsBaseChange
 import Hartshorne.Cohomology.SmoothMorphisms.GeometricallyRegularFibers
+import Hartshorne.Cohomology.SmoothMorphisms.RegularCotangentFlat
+import Hartshorne.Cohomology.SmoothMorphisms.CotangentRelativeDifferentials
+import Hartshorne.Cohomology.SmoothMorphisms.SmoothTangentCriterion

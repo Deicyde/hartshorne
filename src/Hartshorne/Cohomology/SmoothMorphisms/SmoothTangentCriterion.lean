@@ -232,7 +232,8 @@ theorem injective_localCotangentBaseChange_iff_of_isClosed {k : Type u} [Field k
             (Scheme.relativeDifferentials f.left).presheaf.stalk x) +
         finrank (ResidueField (Y.left.presheaf.stalk (f.left x)))
           (CotangentSpace (Y.left.presheaf.stalk (f.left x))) =
-      finrank (ResidueField (X.left.presheaf.stalk x)) (CotangentSpace (X.left.presheaf.stalk x)) := by
+      finrank (ResidueField (X.left.presheaf.stalk x))
+        (CotangentSpace (X.left.presheaf.stalk x)) := by
   let _ := (f.left.stalkMap x).hom.toAlgebra
   have := isLocalHom_stalkMap_algebraMap f.left x
   -- the base ring `Γ(Spec k, ⊤) ≅ k` is an algebraically closed field
@@ -292,11 +293,13 @@ section Main
 /-- The tangent map at `x` is surjective if and only if the scalar-extended cotangent map is
 injective. -/
 theorem surjective_zariskiTangentMap_iff {X Y : Scheme.{u}} (f : X ⟶ Y) (x : X)
-    [Module.Finite (ResidueField (Y.presheaf.stalk (f x))) (CotangentSpace (Y.presheaf.stalk (f x)))] :
+    [Module.Finite (ResidueField (Y.presheaf.stalk (f x)))
+      (CotangentSpace (Y.presheaf.stalk (f x)))] :
     letI := (f.stalkMap x).hom.toAlgebra
     haveI := isLocalHom_stalkMap_algebraMap f x
     Function.Surjective (zariskiTangentMap f x) ↔
-      Function.Injective (localCotangentBaseChange (Y.presheaf.stalk (f x)) (X.presheaf.stalk x)) := by
+      Function.Injective
+        (localCotangentBaseChange (Y.presheaf.stalk (f x)) (X.presheaf.stalk x)) := by
   let _ := (f.stalkMap x).hom.toAlgebra
   have := isLocalHom_stalkMap_algebraMap f x
   rw [← LinearMap.dualMap_surjective_iff]
@@ -397,7 +400,8 @@ theorem smoothOfRelativeDimension_tfae_of_isRegularAt {k : Type u} [Field k] [Is
     rw [smoothOfRelativeDimension_iff_flat_and_component_dim_and_finrank hX hY f n]
     refine ⟨?_, ?_, fun x ↦ ?_⟩
     · exact flat_of_forall_isClosed f.left fun x hx ↦
-        RegularCotangentFlat.flat_stalkMap_of_surjective_zariskiTangentMap f.left x (hXr x) (hYr _) (h x hx)
+        RegularCotangentFlat.flat_stalkMap_of_surjective_zariskiTangentMap f.left x (hXr x)
+          (hYr _) (h x hx)
     · intro X' hX' Y' hY' _
       rw [eq_univ_of_mem_irreducibleComponents hX', eq_univ_of_mem_irreducibleComponents hY',
         (Homeomorph.Set.univ X.left).isHomeomorph.topologicalKrullDim_eq,

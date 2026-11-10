@@ -202,7 +202,8 @@ theorem cotangentLinIndep_quotient {x : A} (hx : x ∈ maximalIdeal A)
   choose a ha using fun i ↦ (Ideal.mem_map_iff_of_surjective _ Ideal.Quotient.mk_surjective).mp
     (by rw [← hmA]; exact (a' i).2)
   let v : Fin (m + 1) → maximalIdeal A := Fin.cons ⟨x, hx⟩ fun i ↦ ⟨a i, (ha i).1⟩
-  have e1 : localCotangentMap A (A ⧸ Ideal.span {x}) ((maximalIdeal A).toCotangent ⟨x, hx⟩) = 0 := by
+  have e1 :
+      localCotangentMap A (A ⧸ Ideal.span {x}) ((maximalIdeal A).toCotangent ⟨x, hx⟩) = 0 := by
     rw [localCotangentMap_toCotangent, Ideal.toCotangent_eq_zero]
     change Ideal.Quotient.mk _ x ∈ _
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_span_singleton_self x)]
