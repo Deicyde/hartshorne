@@ -1,8 +1,27 @@
 # The hyperplane exact-sequence bridge
 
-## Status: not started in Lean; Roadmap return
+## Status: partial Lean (w30l); not recorded; Roadmap return stands
 
-No Lean has been written for this node.
+`src/Hartshorne/Scheme/ProjectiveHyperplaneSequence.lean` (not imported by the library root)
+has, for a graded map `f : S → T` and `x ∈ S_1` with `f x = 0`:
+
+- `mulSection hx n : 𝒪(n-1) ⟶ 𝒪(n)`, multiplication by `x`, via `projGradedModuleSheafMap`;
+- `mulSection_psi`: `mulSection ≫ ProjTwistPullback.psi f n = 0`;
+- `mono_mulSection`: a monomorphism when `x` is a non-zero-divisor.
+
+For `ℙ^{m+1}_A`: `hyperplaneHom` (`x_{m+1} ↦ 0`, graded and surjective),
+`isClosedImmersion_hyperplane`, `mulSection_psi_hyperplane` and
+`mono_mulSection_hyperplane`.
+
+Still missing for the degreewise sequence: exactness at `𝒪(n)` (every local section killed by
+`psi` is `x` times a section) and that `psi` is an epimorphism (stalks of the closed
+pushforward). The route planned for exactness at `𝒪(n)` is pointwise. Since `x·` is injective on
+fibers, the preimage can be defined pointwise. It is locally a fraction:
+
+- off `H`: `m/g = x m/(x g)`;
+- on `H`: from `psi t = 0`, take `u ∉ p` homogeneous with `u m ∈ ker f = (x)`.
+
+This needs the point of `Proj T` over a point `p ⊇ ker f` of `Proj S`.
 
 ## Why it is returned
 
