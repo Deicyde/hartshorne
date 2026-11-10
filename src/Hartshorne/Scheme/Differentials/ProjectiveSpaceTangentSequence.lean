@@ -20,7 +20,9 @@ on `X = ℙⁿ_k`.
   exact (`Hartshorne.Ringed.dualShortComplex_shortExact`, since `𝒪_X` is locally free).
 * `Hartshorne.EulerSequence.nonempty_dual_O0_iso`, `Hartshorne.EulerSequence.nonempty_dual_O1_iso`:
   `𝒪^∨ ≅ 𝒪` and `𝒪(-1)^∨ ≅ 𝒪(1)`, computed in the Picard group.
-* `Hartshorne.EulerSequence.tangentSequence_projectiveSpace`: the tangent sequence.
+* `Hartshorne.EulerSequence.nonempty_dual_E_iso`: `(𝒪(-1)^{n+1})^∨ ≅ 𝒪(1)^{n+1}`.
+* `Hartshorne.EulerSequence.tangentSequence_projectiveSpace`: the tangent sequence, as the short
+  exact sequence `0 → 𝒪^∨ → (𝒪(-1)^{n+1})^∨ → T_X → 0`.
 -/
 
 open CategoryTheory CategoryTheory.Limits AlgebraicGeometry
@@ -158,79 +160,26 @@ noncomputable def dualEulerComplex : ShortComplex (Proj (grading k n)).Modules :
 theorem dualEulerComplex_shortExact : (dualEulerComplex k n).ShortExact :=
   dualModulesComplex_shortExact (eulerSequence k n).1 (isFiniteLocallyFree_unit _)
 
-theorem nonempty_dualEulerComplex_X₁_iso : Nonempty ((dualEulerComplex k n).X₁ ≅ O0 k n) :=
-  nonempty_dual_O0_iso
-
-theorem nonempty_dualEulerComplex_X₂_iso :
-    Nonempty ((dualEulerComplex k n).X₂ ≅
-      ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) := by
-  obtain ⟨e₁⟩ := nonempty_dual_O1_iso (k := k) (n := n)
-  exact ⟨dualModulesBiproductIso (fun _ : Fin (n + 1) ↦ O1 k n) ≪≫
-    biproduct.mapIso (f := fun _ : Fin (n + 1) ↦ dualModules (O1 k n)) fun _ ↦ e₁⟩
-
-/-- Transport a short exact sequence `0 ⟶ A ⟶ B ⟶ T ⟶ 0` along isomorphisms `A ≅ A'`,
-`B ≅ B'`. -/
-theorem exists_shortExact_of_iso {X : Scheme.{u}} {A B A' B' T : X.Modules}
-    (h : ∃ (a : A ⟶ B) (b : B ⟶ T) (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact)
-    (e₀ : A ≅ A') (eE : B ≅ B') :
-    ∃ (a : A' ⟶ B') (b : B' ⟶ T) (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact := by
-  obtain ⟨a, b, w, hS⟩ := h
-  refine ⟨e₀.inv ≫ a ≫ eE.hom, eE.inv ≫ b, by simp [w], ?_⟩
-  exact ShortComplex.shortExact_of_iso
-    (ShortComplex.isoMk e₀ eE (Iso.refl T) (by simp) (by simp)) hS
-
-/-- The dual Euler sequence with its last term named as the tangent sheaf:
-`0 ⟶ 𝒪^∨ ⟶ (𝒪(-1)^{n+1})^∨ ⟶ T_X ⟶ 0`. -/
-theorem tangentSequence_projectiveSpace_aux :
+/-- **Hartshorne II.8, Example 8.20.1 (the tangent sequence).** On `X = ℙⁿ_k`, dualizing the
+Euler sequence (8.13) `0 → Ω → 𝒪(-1)^{n+1} → 𝒪 → 0` gives a short exact sequence
+`0 → 𝒪^∨ → (𝒪(-1)^{n+1})^∨ → T_X → 0`. Together with `𝒪^∨ ≅ 𝒪`
+(`Hartshorne.EulerSequence.nonempty_dual_O0_iso`) and `(𝒪(-1)^{n+1})^∨ ≅ 𝒪(1)^{n+1}`
+(`Hartshorne.EulerSequence.nonempty_dual_E_iso`) this is the exact sequence
+`0 → 𝒪_X → 𝒪_X(1)^{n+1} → T_X → 0`. -/
+theorem tangentSequence_projectiveSpace :
     ∃ (a : dualModules (O0 k n) ⟶ dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n))
       (b : dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n) ⟶ tangentSheaf (toBase k n))
       (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact :=
   exists_shortExact_tangentSheaf_of_dual (toBase k n) (eulerSequence k n).1
     (isFiniteLocallyFree_unit _) rfl (Iso.refl _) (Iso.refl _)
 
+/-- `(𝒪(-1)^{n+1})^∨ ≅ 𝒪(1)^{n+1}` on `ℙⁿ_k`. -/
 theorem nonempty_dual_E_iso :
     Nonempty (dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n) ≅
       ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) := by
   obtain ⟨e₁⟩ := nonempty_dual_O1_iso (k := k) (n := n)
   exact ⟨dualModulesBiproductIso (fun _ : Fin (n + 1) ↦ O1 k n) ≪≫
     biproduct.mapIso (f := fun _ : Fin (n + 1) ↦ dualModules (O1 k n)) fun _ ↦ e₁⟩
-
--- DIAG1
-example :
-    ∃ (a : dualModules (O0 k n) ⟶ dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n))
-      (b : dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n) ⟶ tangentSheaf (toBase k n))
-      (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact :=
-  exists_shortExact_of_iso tangentSequence_projectiveSpace_aux (Iso.refl _) (Iso.refl _)
-
--- DIAG2
-example (e₀ : dualModules (O0 k n) ≅ O0 k n) :
-    ∃ (a : O0 k n ⟶ dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n))
-      (b : dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n) ⟶ tangentSheaf (toBase k n))
-      (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact :=
-  exists_shortExact_of_iso tangentSequence_projectiveSpace_aux e₀ (Iso.refl _)
-
--- DIAG3
-example (eE : dualModules (⨁ fun _ : Fin (n + 1) ↦ O1 k n) ≅
-      ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) :
-    ∃ (a : dualModules (O0 k n) ⟶ ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1)
-      (b : (⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) ⟶
-        tangentSheaf (toBase k n))
-      (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact :=
-  exists_shortExact_of_iso tangentSequence_projectiveSpace_aux (Iso.refl _) eE
-
-/-- **Hartshorne II.8, Example 8.20.1 (the tangent sequence).** On `X = ℙⁿ_k` there is an exact
-sequence `0 → 𝒪_X → 𝒪_X(1)^{n+1} → T_X → 0`, obtained by dualizing the Euler sequence (8.13)
-(`Hartshorne.EulerSequence.dualEulerComplex`) and identifying `𝒪^∨ ≅ 𝒪` and
-`(𝒪(-1)^{n+1})^∨ ≅ 𝒪(1)^{n+1}`. -/
-set_option maxHeartbeats 1000000 in
-theorem tangentSequence_projectiveSpace :
-    ∃ (a : O0 k n ⟶ ⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1)
-      (b : (⨁ fun _ : Fin (n + 1) ↦ projTwistingSheaf (grading k n) 1) ⟶
-        tangentSheaf (toBase k n))
-      (w : a ≫ b = 0), (ShortComplex.mk a b w).ShortExact := by
-  obtain ⟨e₀⟩ := nonempty_dual_O0_iso (k := k) (n := n)
-  obtain ⟨eE⟩ := nonempty_dual_E_iso (k := k) (n := n)
-  exact exists_shortExact_of_iso tangentSequence_projectiveSpace_aux e₀ eE
 
 /-- The last term of `Hartshorne.EulerSequence.dualEulerComplex` is the tangent sheaf. -/
 theorem dualEulerComplex_X₃ : (dualEulerComplex k n).X₃ = tangentSheaf (toBase k n) :=
