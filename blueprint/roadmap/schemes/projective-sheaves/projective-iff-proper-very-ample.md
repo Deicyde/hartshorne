@@ -23,6 +23,7 @@ $Y$.
 
 - [Projective morphisms are proper](../proper-and-projective/projective-morphism-proper.md)
 - [Proper images are closed](../proper-and-projective/proper-image.md)
+- [Pullback on Picard groups](../divisors/divisor-exercises/picard-pullback.md)
 
 ## Sources
 

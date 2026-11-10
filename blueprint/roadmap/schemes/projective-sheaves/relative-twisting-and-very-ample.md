@@ -20,6 +20,10 @@ $i^* \mathcal{O}(1) \cong L$.
 - [Pullback of twisting sheaves](proj-twist-pullback.md)
 - [Locally free and invertible modules](../modules-and-quasicoherent/locally-free-and-invertible.md)
 
+## Proof depends on
+
+- [Pullback on Picard groups](../divisors/divisor-exercises/picard-pullback.md)
+
 ## Sources
 
 - [Hartshorne II.5, relative twisting and very ample definitions (p.120)](../../../sources/hartshorne-ii-5.md#very-ample-sheaves-and-projective-finiteness)

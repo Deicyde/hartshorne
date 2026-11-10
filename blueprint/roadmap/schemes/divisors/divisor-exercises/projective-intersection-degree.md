@@ -41,6 +41,7 @@ outside this node.
 
 ## Proof depends on
 
+- [Projective space is a Noetherian space](../../../projective-varieties/projective-space-noetherian.md)
 - Equality between the DVR order of a local hypersurface equation and the
   corresponding local intersection multiplicity.
 - Additivity of projective degree over top-dimensional components with
