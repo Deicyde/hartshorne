@@ -93,7 +93,8 @@ theorem toIdealSheaf_app_surjective (W : X.affineOpens) :
     Function.Surjective ((toIdealSheaf hD).app W) := by
   intro t
   set g := toSubschemeX hD
-  have ht : Scheme.Modules.Hom.app g W ((closedImmersionIdealSheafι (subschemeι hD)).app W t) = 0 := by
+  have ht :
+      Scheme.Modules.Hom.app g W ((closedImmersionIdealSheafι (subschemeι hD)).app W t) = 0 := by
     exact congrArg (fun φ => Scheme.Modules.Hom.app φ W t)
       (kernel.condition (structureSheafToPushforward (subschemeι hD)))
   have hmem : (closedImmersionIdealSheafι (subschemeι hD)).app W t ∈
