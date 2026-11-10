@@ -44,25 +44,17 @@ Proved and compiling (branch head faith/item6):
 2. Stalks of a locally free module of arbitrary rank are free (commit bcc44f8a,
    src/Hartshorne/RingedSpace/LocallyFreeRank.lean): `Ringed.moduleStalk_free_of_isLocallyFree`.
 
+3. Exterior powers commute with stalks (commit 60bc72b7, section `ExteriorStalk` of
+   src/Hartshorne/Scheme/ExteriorPowerExactFiltration.lean): `extStalkEquiv n F x :
+   ⋀^n (F_x) ≃ₗ[𝒪_{X,x}] (⋀^n F)_x`, with `extStalkEquiv_symm_germ` (germ of `y` ↦ `extGerm y`).
+   Helpers: `exists_open_le_of_finite`, `exists_common_sectionGerm`, `germₛₗ`, `extGerm`,
+   `extGerm_ιMulti`, `extGerm_res`, `extStalkToExt(_germ/_smul)`, `sectionGerm_ιMulti_res`,
+   `sectionGerm_ιMulti_indep`, `extStalkMulti(_eq)`, `extStalkAlt`, `extToExtStalk`.
+
 (Commit ee4acede in the branch history is a WIP snapshot that does not compile by itself. The
 head does compile.)
 
 Remaining:
-3. Exterior powers commute with stalks: an `𝒪_{X,x}`-linear equivalence
-   `⋀^n (F_x) ≃ (⋀^n F)_x`, where `(⋀^n F)_x` is the stalk of `moduleSheafExteriorPowerPresheaf n F`.
-   The planned construction, modelled on `presheafTensorStalkIso`:
-   - forward: `stalkDesc` of `extGerm U := exteriorPowerMap n germ (sectionGerm)`;
-   - inverse: the alternating map `(F_x)^n → (⋀^n F)_x` that picks representatives over a
-     common neighbourhood (finite intersection) and takes the germ of `ιMulti`. It is
-     well defined by a germ-independence lemma, and turned into a linear map by
-     `exteriorPower.alternatingMapLinearEquiv`;
-   - both composites are the identity (`linearMap_ext` / span induction on germs).
-   Combined with `presheafTensorStalkIso` this gives
-   `(⋀^p F' ⊗ ⋀^q F)_x ≃ ⋀^p F'_x ⊗ ⋀^q F_x`, compatible with `alphaPre` and `betaPre` on germs.
-   An uncompiled draft of the first lemmas (`exists_open_le_of_finite`,
-   `exists_common_sectionGerm`, `germₛₗ`, `extGerm`, `extGerm_res`, `extStalkToExt`,
-   `sectionGerm_ιMulti_indep`) is in the untracked scratch file ScratchW20.lean in the
-   worktree. It is not committed.
 4. Stalk bijectivity of `toGrad` and `toH`, to feed `SheafAlgebraOperations.isIso_sheafifyMap`
    in place of `isIso_sheafifyMap_of_locally_bijective`:
    - Stalk exactness of `0 → F'_x → F_x → F''_x → 0` follows from `app_injective_of_mono`,
