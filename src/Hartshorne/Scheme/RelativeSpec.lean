@@ -9,7 +9,7 @@ import Mathlib.CategoryTheory.IsomorphismClasses
 /-!
 # Relative Spec of a quasi-coherent algebra
 
-Hartshorne II, Exercise 5.17(c,d).
+Hartshorne II, Exercise 5.17(c,d) (p. 128).
 
 ## Encoding of quasi-coherent algebras
 
@@ -26,6 +26,14 @@ compatible with the structure maps (the category `QuasiCoherentAlgebra Y`).
 * `QuasiCoherentAlgebra.relSpec`, `relSpecToBase`: the scheme `Spec_Y A` and the affine morphism
   `Spec_Y A ⟶ Y`, with `relSpecToBase_preimage`, `restrictIso`: over every affine `V ⊆ Y`, the
   inverse image is `Spec A(V)`.
+* `QuasiCoherentAlgebra.map_ι`, `QuasiCoherentAlgebra.restriction`,
+  `restrictIso_inv_homOfLE_restrictIso_hom`: for every inclusion `U ⊆ V` of affine opens, the
+  inclusion `f⁻¹(U) ⟶ f⁻¹(V)` corresponds to the restriction `A(V) ⟶ A(U)`. Since the site only
+  has basic open inclusions, the restriction for a general inclusion is defined as the unique ring
+  map compatible with the restrictions of `A` to every affine open basic in both `U` and `V`
+  (`restriction_map`, `eq_restriction`, `restriction_eq_map`).
+* `QuasiCoherentAlgebra.existsUnique_iso_of_ι`: `(Spec_Y A, f)` is unique: compatible open
+  immersions `Spec A(U) ⟶ X` onto `g⁻¹(U)` over `U` glue to a unique isomorphism over `Y`.
 * `QuasiCoherentAlgebra.pushforwardStructureSheafIso`: `f_* 𝒪_{Spec_Y A} ≅ A`.
 * `QuasiCoherentAlgebra.ofHom`, `relSpecOfHomIso`: an affine morphism `f : X ⟶ Y` gives the
   quasi-coherent algebra `f_* 𝒪_X`, and `Spec_Y (f_* 𝒪_X) ≅ X` over `Y`.
@@ -370,6 +378,160 @@ def ofHomCongr {X : Scheme.{u}} {f f' : X ⟶ Y} (h : f = f') [QuasiCompact f] [
   subst h; exact Iso.refl _
 
 end OfHomIso
+
+/-! ### Exercise 5.17(c): restriction along affine inclusions, and uniqueness -/
+
+section Restriction
+
+variable {U V : Y.AffineZariskiSite}
+
+instance isOpenImmersion_SpecMap_map {W U : Y.AffineZariskiSite} (i : W ⟶ U) :
+    IsOpenImmersion (Spec.map (A.sections.map i.op)) :=
+  inferInstanceAs (IsOpenImmersion (A.gluingData.functor.map i))
+
+lemma range_ι_subset (h : U.toOpens ≤ V.toOpens) : Set.range (A.ι U) ⊆ Set.range (A.ι V) := by
+  intro x hx
+  have hx' : x ∈ A.relSpecToBase ⁻¹ᵁ U.toOpens := by
+    rw [A.relSpecToBase_preimage U]; exact hx
+  have hy : x ∈ A.relSpecToBase ⁻¹ᵁ V.toOpens := A.relSpecToBase.preimage_mono h hx'
+  rw [A.relSpecToBase_preimage V] at hy
+  exact hy
+
+/-- For affine opens `U ⊆ V` of `Y`, the restriction homomorphism `A(V) ⟶ A(U)`: the ring map
+whose spectrum is the inclusion of the piece `Spec A(U)` of `Spec_Y A` into the piece
+`Spec A(V)`. It is the unique ring map compatible with the restrictions of `A` to every affine
+open that is basic in both `U` and `V` (`restriction_map`, `eq_restriction`). -/
+def restriction (h : U.toOpens ≤ V.toOpens) : A.sections.obj (.op V) ⟶ A.sections.obj (.op U) :=
+  Spec.preimage (IsOpenImmersion.lift (A.ι V) (A.ι U) (A.range_ι_subset h))
+
+@[reassoc]
+lemma SpecMap_restriction_ι (h : U.toOpens ≤ V.toOpens) :
+    Spec.map (A.restriction h) ≫ A.ι V = A.ι U := by
+  rw [restriction, Spec.map_preimage, IsOpenImmersion.lift_fac]
+
+lemma restriction_map (h : U.toOpens ≤ V.toOpens) {W : Y.AffineZariskiSite} (i : W ⟶ U)
+    (j : W ⟶ V) : A.restriction h ≫ A.sections.map i.op = A.sections.map j.op := by
+  apply Spec.map_injective
+  rw [← cancel_mono (A.ι V), Spec.map_comp, Category.assoc, SpecMap_restriction_ι, map_ι, map_ι]
+
+lemma eq_restriction (h : U.toOpens ≤ V.toOpens)
+    (ρ : A.sections.obj (.op V) ⟶ A.sections.obj (.op U))
+    (hρ : ∀ (W : Y.AffineZariskiSite) (i : W ⟶ U) (j : W ⟶ V),
+      ρ ≫ A.sections.map i.op = A.sections.map j.op) :
+    ρ = A.restriction h := by
+  apply Spec.map_injective
+  rw [← cancel_mono (A.ι V), SpecMap_restriction_ι]
+  refine Scheme.hom_ext_of_forall _ _ fun x => ?_
+  have hxU : A.relSpecToBase (A.ι U x) ∈ U.toOpens := by
+    have : A.ι U x ∈ A.relSpecToBase ⁻¹ᵁ U.toOpens := by
+      rw [A.relSpecToBase_preimage U]; exact ⟨x, rfl⟩
+    exact this
+  obtain ⟨f, g, hfg, hmem⟩ := exists_basicOpen_le_affine_inter U.2 V.2 _ ⟨hxU, h hxU⟩
+  let W : Y.AffineZariskiSite := U.basicOpen f
+  let i : W ⟶ U := homOfLE (U.basicOpen_le f)
+  let j : W ⟶ V := homOfLE ⟨g, hfg.symm⟩
+  have hxW : x ∈ (Spec.map (A.sections.map i.op)).opensRange := by
+    have : A.ι U x ∈ A.relSpecToBase ⁻¹ᵁ W.toOpens := hmem
+    rw [A.relSpecToBase_preimage W] at this
+    obtain ⟨z, hz⟩ := this
+    refine ⟨z, (A.ι U).isOpenEmbedding.injective ?_⟩
+    rw [← Scheme.Hom.comp_apply, map_ι]
+    exact hz
+  refine ⟨_, hxW, ?_⟩
+  rw [← cancel_epi (Spec.map (A.sections.map i.op)).isoOpensRange.hom,
+    Scheme.Hom.isoOpensRange_hom_ι_assoc, Scheme.Hom.isoOpensRange_hom_ι_assoc,
+    ← Category.assoc, ← Spec.map_comp, hρ W i j, map_ι, map_ι]
+
+/-- Along a basic open inclusion, the restriction homomorphism is the given restriction of `A`. -/
+lemma restriction_eq_map (i : U ⟶ V) :
+    A.restriction (toOpens_mono (leOfHom i)) = A.sections.map i.op := by
+  refine (A.eq_restriction _ _ fun W k j => ?_).symm
+  rw [← Functor.map_comp, ← op_comp, Subsingleton.elim (k ≫ i) j]
+
+/-- The inclusion `f⁻¹(U) ⟶ f⁻¹(V)` for affine opens `U ⊆ V` of `Y`, `f : Spec_Y A ⟶ Y`,
+corresponds under `restrictIso` to the restriction homomorphism `A(V) ⟶ A(U)`. -/
+lemma restrictIso_inv_homOfLE_restrictIso_hom (h : U.toOpens ≤ V.toOpens) :
+    (A.restrictIso U).inv ≫ A.relSpec.homOfLE (A.relSpecToBase.preimage_mono h) ≫
+      (A.restrictIso V).hom = Spec.map (A.restriction h) := by
+  rw [← cancel_mono (A.ι V), SpecMap_restriction_ι]
+  simp [restrictIso]
+
+end Restriction
+
+section Uniqueness
+
+variable {X : Scheme.{u}} (g : X ⟶ Y)
+  (j : ∀ U : Y.AffineZariskiSite, Spec (A.sections.obj (.op U)) ⟶ X)
+  (hmap : ∀ {U V : Y.AffineZariskiSite} (i : U ⟶ V), Spec.map (A.sections.map i.op) ≫ j V = j U)
+
+/-- Open immersions `Spec A(U) ⟶ X` compatible with the restrictions of `A` form a cocone over
+the gluing diagram of `Spec_Y A`. -/
+def coconeOfι : Cocone A.gluingData.functor where
+  pt := X
+  ι :=
+    { app U := j U
+      naturality _ _ i := (hmap i).trans (Category.comp_id _).symm }
+
+/-- The morphism `Spec_Y A ⟶ X` induced by compatible morphisms `j U : Spec A(U) ⟶ X`. -/
+def descOfι : A.relSpec ⟶ X :=
+  colimit.desc _ (A.coconeOfι j hmap)
+
+@[reassoc (attr := simp)]
+lemma ι_descOfι (U : Y.AffineZariskiSite) : A.ι U ≫ A.descOfι j hmap = j U :=
+  colimit.ι_desc _ _
+
+lemma descOfι_unique (φ : A.relSpec ⟶ X) (hφ : ∀ U, A.ι U ≫ φ = j U) :
+    φ = A.descOfι j hmap :=
+  colimit.hom_ext fun U => (hφ U).trans (A.ι_descOfι j hmap U).symm
+
+@[reassoc]
+lemma descOfι_comp (hbase : ∀ U : Y.AffineZariskiSite,
+      j U ≫ g = Spec.map (A.structureMap.app (.op U)) ≫ U.2.fromSpec) :
+    A.descOfι j hmap ≫ g = A.relSpecToBase :=
+  colimit.hom_ext fun U => by
+    change A.ι U ≫ A.descOfι j hmap ≫ g = A.ι U ≫ A.relSpecToBase
+    rw [ι_descOfι_assoc, hbase, ι_relSpecToBase]
+
+lemma isIso_descOfι [∀ U, IsOpenImmersion (j U)] (hbase : ∀ U : Y.AffineZariskiSite,
+      j U ≫ g = Spec.map (A.structureMap.app (.op U)) ≫ U.2.fromSpec)
+    (hrange : ∀ U : Y.AffineZariskiSite, g ⁻¹ᵁ U.toOpens = (j U).opensRange) :
+    IsIso (A.descOfι j hmap) := by
+  rw [← MorphismProperty.isomorphisms.iff,
+    IsZariskiLocalAtTarget.iff_of_iSup_eq_top (P := .isomorphisms _)
+    (fun U : Y.affineOpens => g ⁻¹ᵁ U.1)
+    (by rw [← Scheme.Hom.preimage_iSup, iSup_affineOpens_eq_top, Scheme.Hom.preimage_top])]
+  intro U
+  let V : Y.AffineZariskiSite := ⟨U.1, U.2⟩
+  have hpre : A.descOfι j hmap ⁻¹ᵁ g ⁻¹ᵁ U.1 = (A.ι V).opensRange := by
+    rw [← Scheme.Hom.comp_preimage, A.descOfι_comp g j hmap hbase, A.relSpecToBase_preimage V]
+  let e := IsOpenImmersion.isoOfRangeEq (A.ι V) (A.descOfι j hmap ⁻¹ᵁ g ⁻¹ᵁ U.1).ι
+    (by rw [Scheme.Opens.range_ι, hpre, Scheme.Hom.coe_opensRange])
+  let e' := IsOpenImmersion.isoOfRangeEq (j V) (g ⁻¹ᵁ U.1).ι
+    (by
+      rw [Scheme.Opens.range_ι]
+      exact ((congrArg SetLike.coe (hrange V)).trans (Scheme.Hom.coe_opensRange _)).symm)
+  have key : e.hom ≫ A.descOfι j hmap ∣_ (g ⁻¹ᵁ U.1) = e'.hom := by
+    rw [← cancel_mono (g ⁻¹ᵁ U.1).ι, Category.assoc, morphismRestrict_ι,
+      IsOpenImmersion.isoOfRangeEq_hom_fac_assoc, ι_descOfι, IsOpenImmersion.isoOfRangeEq_hom_fac]
+  have : A.descOfι j hmap ∣_ (g ⁻¹ᵁ U.1) = e.inv ≫ e'.hom := by
+    rw [← key, Iso.inv_hom_id_assoc]
+  rw [MorphismProperty.isomorphisms.iff, this]
+  infer_instance
+
+include hmap in
+/-- **Hartshorne II, Exercise 5.17(c), uniqueness.** Let `g : X ⟶ Y` be a morphism with, for every
+affine open `U ⊆ Y`, an open immersion `j U : Spec A(U) ⟶ X` onto `g⁻¹(U)` over `U`, such that for
+every basic open inclusion `U ⊆ V` the inclusion of pieces corresponds to the restriction
+`A(V) ⟶ A(U)`. Then there is a unique morphism `Spec_Y A ⟶ X` restricting to `j U` on every
+piece, and it is an isomorphism over `Y`. -/
+theorem existsUnique_iso_of_ι [∀ U, IsOpenImmersion (j U)] (hbase : ∀ U : Y.AffineZariskiSite,
+      j U ≫ g = Spec.map (A.structureMap.app (.op U)) ≫ U.2.fromSpec)
+    (hrange : ∀ U : Y.AffineZariskiSite, g ⁻¹ᵁ U.toOpens = (j U).opensRange) :
+    ∃! φ : A.relSpec ⟶ X, IsIso φ ∧ φ ≫ g = A.relSpecToBase ∧ ∀ U, A.ι U ≫ φ = j U :=
+  ⟨A.descOfι j hmap, ⟨A.isIso_descOfι g j hmap hbase hrange, A.descOfι_comp g j hmap hbase,
+    A.ι_descOfι j hmap⟩, fun φ hφ => A.descOfι_unique j hmap φ hφ.2.2⟩
+
+end Uniqueness
 
 end QuasiCoherentAlgebra
 
