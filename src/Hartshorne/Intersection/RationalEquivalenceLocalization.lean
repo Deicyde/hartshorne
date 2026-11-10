@@ -8,6 +8,7 @@ import Hartshorne.Intersection.RawCyclePushforwardFunctorial
 import Hartshorne.Intersection.RationalEquivalenceCodimOne
 import Hartshorne.Scheme.ReducedInducedSubscheme
 import Hartshorne.Scheme.ImageReducedSource
+import Hartshorne.Scheme.DimensionCodimension
 
 /-!
 # The localization sequence for rational equivalence
@@ -471,33 +472,6 @@ theorem exists_subvarietyNormalizationPushforward_eq_of_isIso {T : Scheme.{u}}
   rw [hmap]
 
 section OpenVariety
-
-theorem finiteType_opens_ι_comp {X : Scheme.{u}} (p : X ⟶ Spec (.of k)) (hp : FiniteType p)
-    (U : X.Opens) : FiniteType (U.ι ≫ p) := by
-  have := hp.1
-  have := hp.2
-  have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian p
-  have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace p
-  have : IsNoetherian X := {}
-  exact ⟨inferInstance, inferInstance⟩
-
-/-- A nonempty open subscheme of a variety of dimension `n` has dimension `n`. -/
-theorem topologicalKrullDim_opens_eq {X : Scheme.{u}} (p : X ⟶ Spec (.of k)) [IsIntegral X]
-    (hp : FiniteType p) {n : ℕ} (hn : topologicalKrullDim X = n) (U : X.Opens)
-    [IsIntegral (U : Scheme)] : topologicalKrullDim U = n := by
-  have hpU := finiteType_opens_ι_comp p hp U
-  obtain ⟨u⟩ := (inferInstance : Nonempty (U : Scheme))
-  let V' : (U : Scheme).Opens :=
-    ((U : Scheme).affineCover.f ((U : Scheme).affineCover.idx u)).opensRange
-  have hV' : IsAffineOpen V' := isAffineOpen_opensRange _
-  have : Nonempty V' := ⟨⟨u, (U : Scheme).affineCover.covers u⟩⟩
-  have hV : IsAffineOpen (U.ι ''ᵁ V') := hV'.image_of_isOpenImmersion U.ι
-  have : Nonempty (U.ι ''ᵁ V') := ⟨⟨U.ι u, ⟨u, (U : Scheme).affineCover.covers u, rfl⟩⟩⟩
-  obtain ⟨N, hN, hNU⟩ := DimensionCodimension.exists_ringKrullDim_eq (U.ι ≫ p) hpU V' hV'
-  obtain ⟨N', hN', hN'X⟩ := DimensionCodimension.exists_ringKrullDim_eq p hp (U.ι ''ᵁ V') hV
-  have he : ringKrullDim Γ(X, U.ι ''ᵁ V') = ringKrullDim Γ(U, V') :=
-    ringKrullDim_eq_of_ringEquiv (U.ι.appIso V').commRingCatIsoToRingEquiv
-  rw [hNU, ← hN, ← he, hN', ← hN'X, hn]
 
 /-- A closed subvariety `V` meeting the open `U` has the same codimension as `V ∩ U` in `U`. -/
 theorem codim_range_morphismRestrict {X V : Scheme.{u}} [IsIntegral V] (iV : V ⟶ X)

@@ -8,7 +8,7 @@ import Hartshorne.Scheme.TensorPowerSectionRingMap
 import Hartshorne.Scheme.LocallyFreeRinged
 import Hartshorne.Scheme.SheafAlgebraOperations
 import Hartshorne.RingedSpace.FiniteLocallyFreeDuality
-import Hartshorne.Intersection.RationalEquivalenceLocalization
+import Hartshorne.Scheme.DimensionCodimension
 import Mathlib.AlgebraicGeometry.Birational.Birational
 
 /-!
@@ -160,7 +160,7 @@ variable {W S : Scheme.{u}}
 
 /-- For an open immersion `g : W ⟶ Y` and `p : Y ⟶ S`, the derivation
 `𝒪_W ⟶ Ω_{Y/S}|_W`, `a ↦ d_{Y/S}((g^♯)⁻¹ a)`, relative to `(g ≫ p)^♯`. -/
-noncomputable def openImmersionDerivation {Y : Scheme.{u}} (g : W ⟶ Y) [IsOpenImmersion g]
+def openImmersionDerivation {Y : Scheme.{u}} (g : W ⟶ Y) [IsOpenImmersion g]
     (p : Y ⟶ S) :
     ((relativeDifferentials p).restrict g).val.Derivation
       (F := TopologicalSpace.Opens.map (g ≫ p).base) (g ≫ p).c where
@@ -189,7 +189,7 @@ noncomputable def openImmersionDerivation {Y : Scheme.{u}} (g : W ⟶ Y) [IsOpen
 
 /-- For `f : V ⟶ Y`, `j : W ⟶ V` with `j ≫ f` an open immersion, and `p : Y ⟶ S`, the derivation
 `𝒪_V ⟶ j_*(Ω_{Y/S}|_W)`, `a ↦ d_{Y/S}(((j ≫ f)^♯)⁻¹ (j^♯ a))`, relative to `(f ≫ p)^♯`. -/
-noncomputable def openImmersionPushforwardDerivation {V Y : Scheme.{u}} (f : V ⟶ Y)
+def openImmersionPushforwardDerivation {V Y : Scheme.{u}} (f : V ⟶ Y)
     (j : W ⟶ V) [IsOpenImmersion (j ≫ f)] (p : Y ⟶ S) :
     ((Modules.pushforward j).obj ((relativeDifferentials p).restrict (j ≫ f))).val.Derivation
       (F := TopologicalSpace.Opens.map (f ≫ p).base) (f ≫ p).c where
@@ -208,7 +208,7 @@ noncomputable def openImmersionPushforwardDerivation {V Y : Scheme.{u}} (f : V �
   d_app {T} t := (openImmersionDerivation (j ≫ f) p).d_app (X := T) t
 
 /-- The morphism `Ω_{V/S} ⟶ j_*(Ω_{Y/S}|_W)` attached to `openImmersionPushforwardDerivation`. -/
-noncomputable def openImmersionDifferentialsMap {V Y : Scheme.{u}} (f : V ⟶ Y) (j : W ⟶ V)
+def openImmersionDifferentialsMap {V Y : Scheme.{u}} (f : V ⟶ Y) (j : W ⟶ V)
     [IsOpenImmersion (j ≫ f)] (p : Y ⟶ S) :
     relativeDifferentials (f ≫ p) ⟶
       (Modules.pushforward j).obj ((relativeDifferentials p).restrict (j ≫ f)) :=
@@ -460,8 +460,9 @@ Let `X` and `X'` be nonsingular varieties of the same dimension `n` over an alge
 field `k`, and let `φ` be a `k`-morphism `f : V ⟶ X'` on a dense open `V ⊆ X` representing a
 birational map, i.e. agreeing on a dense open with a partial isomorphism `X ⤏ X'` over `k`. Then
 pullback of differentials `Γ(X', ω_{X'}) → Γ(V, ω_V)` is injective. It is linear, being the
-component at `X'` of the morphism of `𝒪_{X'}`-modules `canonicalPullback`. Of the hypotheses on
-`X`, only integrality, finite type and dimension are used; separatedness of `X'` is not used. -/
+component at `X'` of the morphism of `𝒪_{X'}`-modules `canonicalPullback`. `X` is only assumed
+integral of finite type of dimension `n` (not regular), and neither `X` nor `X'` is assumed
+separated. -/
 theorem canonicalPullback_injective [IsAlgClosed k] [IsIntegral X] [IsIntegral X']
     (hpX : FiniteType pX) (hpX' : FiniteType pX') (hX' : X'.IsRegular) {n : ℕ}
     (hnX : topologicalKrullDim X = n) (hnX' : topologicalKrullDim X' = n) (φ : X.PartialMap X')
