@@ -157,6 +157,147 @@ theorem mono_mulSection (hinj : Function.Injective (x * ·)) : Mono (mulSection 
   apply (SheafOfModules.forget _).mono_of_mono_map
   exact PresheafOfModules.mono_of_injective fun U => mulSection_app_injective hx n hinj U
 
+omit [AddSubgroupClass τ B] [GradedRing ℬ] in
+/-- Elements of `S(n)_d` killed by `f` are `x` times elements of `S(n-1)_d`. -/
+theorem exists_gradedTwist_eq_mul (hx : x ∈ 𝒜 1) (f : 𝒜 →+*ᵍ ℬ)
+    (hker : ∀ a, f a = 0 → ∃ b, a = x * b)
+    {d : ℤ} {a : A} (ha : a ∈ gradedTwist 𝒜 n d) (hfa : f a = 0) :
+    ∃ b ∈ gradedTwist 𝒜 (n - 1) d, a = x * b := by
+  obtain ⟨ha1, ha2⟩ := ha
+  by_cases h : n + d < 0
+  · exact ⟨0, zero_mem _, by rw [ha2 h, mul_zero]⟩
+  obtain ⟨e, he⟩ : ∃ e : ℕ, (n + d).toNat = e := ⟨_, rfl⟩
+  rw [he] at ha1
+  cases e with
+  | zero => exact ⟨0, zero_mem _, by rw [eq_zero_of_mem_zero hx f hker ha1 hfa, mul_zero]⟩
+  | succ e =>
+    rw [show e + 1 = 1 + e by omega] at ha1
+    obtain ⟨b, hb, rfl⟩ := exists_mem_eq_mul hx f hker ha1 hfa
+    exact ⟨b, (mem_gradedTwist_of_eq (by omega)).2 hb, rfl⟩
+
+/-- The fiber of multiplication by `x` at `P`. -/
+abbrev mulFiber (P : Submonoid A) :=
+  gradedLocMap (𝒜 := 𝒜) (ℳ := gradedTwist 𝒜 (n - 1)) (𝒩 := gradedTwist 𝒜 n)
+    (LinearMap.mulLeft A x) (fun _ _ hm => mul_mem_gradedTwist hx n hm) P
+
+omit [AddSubgroupClass τ B] [GradedRing ℬ] in
+/-- If `x b = u m`, then `x · (b / (u g)) = m / g`. -/
+theorem mulFiber_mk {P : Submonoid A} {k i : ℕ} {m b u g : A} (hm : m ∈ gradedTwist 𝒜 n k)
+    (hb : b ∈ gradedTwist 𝒜 (n - 1) ((i + k : ℕ) : ℤ)) (hg : g ∈ 𝒜 k) (hu : u ∈ 𝒜 i)
+    (hgP : g ∈ P) (hugP : u * g ∈ P) (hxb : x * b = u * m) :
+    mulFiber hx n P (HomogeneousLocalizedModule.mk (i + k) b hb (u * g)
+      (SetLike.GradedMul.mul_mem hu hg) hugP) = HomogeneousLocalizedModule.mk k m hm g hg hgP := by
+  apply HomogeneousLocalizedModule.ext
+  change IsLocalizedModule.map P (LocalizedModule.mkLinearMap P A)
+    (LocalizedModule.mkLinearMap P A) (LinearMap.mulLeft A x)
+    (LocalizedModule.mk b ⟨u * g, hugP⟩) = LocalizedModule.mk m ⟨g, hgP⟩
+  rw [IsLocalizedModule.map_LocalizedModules, LocalizedModule.mk_eq]
+  refine ⟨1, ?_⟩
+  simp only [one_smul, Submonoid.smul_def, smul_eq_mul, LinearMap.mulLeft_apply]
+  rw [hxb]
+  ring
+
+omit [AddSubgroupClass τ B] [GradedRing ℬ] [GradedRing 𝒜] in
+theorem mem_gradedTwist_pred {k : ℕ} {m : A} (hm : m ∈ gradedTwist 𝒜 n k) :
+    m ∈ gradedTwist 𝒜 (n - 1) ((1 + k : ℕ) : ℤ) := by
+  obtain ⟨hm1, hm2⟩ := hm
+  have e : n - 1 + ((1 + k : ℕ) : ℤ) = n + (k : ℤ) := by push_cast; ring
+  show m ∈ 𝒜 (n - 1 + ((1 + k : ℕ) : ℤ)).toNat ∧ (n - 1 + ((1 + k : ℕ) : ℤ) < 0 → m = 0)
+  rw [e]
+  exact ⟨hm1, hm2⟩
+
+/-- **Local preimages.** A section `t` of `𝒪(n)` killed by `psi` is, near each point, `x` times
+a fraction `b / g` with `b ∈ S(n-1)`. -/
+theorem exists_local_preimage (f : 𝒜 →+*ᵍ ℬ) (hf : Function.Surjective f)
+    (hker : ∀ a, f a = 0 → ∃ b, a = x * b) {V : (Proj 𝒜).Opens}
+    (t : (sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj (op V))
+    (ht : ProjTwistPullback.psiSections f n V t = 0) (p : V) :
+    ∃ (W : Opens (ProjectiveSpectrum.top 𝒜)) (_ : p.1 ∈ W) (iWV : W ⟶ V) (k : ℕ) (b : A)
+      (hb : b ∈ gradedTwist 𝒜 (n - 1) k) (g : A) (hg : g ∈ 𝒜 k)
+      (g_nin : ∀ y : W, g ∉ y.1.asHomogeneousIdeal),
+      ∀ y : W, mulFiber hx n _ (HomogeneousLocalizedModule.mk k b hb g hg (g_nin y)) =
+        t.1 (iWV y) := by
+  obtain ⟨W, hpW, iWV, k, m, hm, g, hg, g_nin, w⟩ := t.2 p
+  obtain ⟨i, u, hu, hup, b, hb, hxb⟩ : ∃ (i : ℕ) (u : A) (_ : u ∈ 𝒜 i),
+      u ∉ p.1.asHomogeneousIdeal ∧
+        ∃ b ∈ gradedTwist 𝒜 (n - 1) ((i + k : ℕ) : ℤ), x * b = u * m := by
+    by_cases hxp : x ∈ p.1.asHomogeneousIdeal
+    · have hp' : ∀ a, f a = 0 → a ∈ p.1.asHomogeneousIdeal := fun a ha => by
+        obtain ⟨c, rfl⟩ := hker a ha
+        exact Ideal.mul_mem_right _ _ hxp
+      have hzD : liftPoint f hf p.1 hp' ∈ projPartialDomain f := by
+        refine (mem_projPartialDomain_iff f _).2 fun hsub => ?_
+        refine p.1.not_irrelevant_le fun a ha => ?_
+        exact (mem_liftPoint_iff f hf p.1 hp' a).1 (hsub ⟨a, ha, rfl⟩)
+      have hcomap : projPartialComapPoint f (liftPoint f hf p.1 hp') hzD = p.1 := by
+        apply ProjectiveSpectrum.ext
+        apply HomogeneousIdeal.ext
+        ext a
+        exact mem_liftPoint_iff f hf p.1 hp' a
+      have hzV : liftPoint f hf p.1 hp' ∈
+          (projPartialDomain f).ι ''ᵁ (projPartialMap f ⁻¹ᵁ V) := by
+        refine ⟨⟨_, hzD⟩, ?_, rfl⟩
+        change projPartialMap f ⟨_, hzD⟩ ∈ V
+        rw [projPartialMap_apply]
+        have := p.2
+        rw [← hcomap] at this
+        exact this
+      have h0 := congrFun (congrArg Subtype.val ht) ⟨_, hzV⟩
+      have hW : projPartialComapPoint f (liftPoint f hf p.1 hp') hzD ∈ W := by
+        rw [hcomap]
+        exact hpW
+      have h1 := w ⟨_, hW⟩
+      have h2 : twistFiber f n (ProjTwistPullback.primeCompl_le_comap_point f _ hzD)
+          (HomogeneousLocalizedModule.mk k m hm g hg (g_nin ⟨_, hW⟩)) = 0 := by
+        rw [← h1]
+        exact h0
+      rw [twistFiber_mk] at h2
+      have h3 := congrArg HomogeneousLocalizedModule.val h2
+      rw [HomogeneousLocalizedModule.val_mk, HomogeneousLocalizedModule.val_zero,
+        ← LocalizedModule.zero_mk 1, LocalizedModule.mk_eq] at h3
+      obtain ⟨c, hc⟩ := h3
+      simp only [one_smul, smul_zero, Submonoid.smul_def, smul_eq_mul] at hc
+      obtain ⟨j, hj, hjm⟩ := exists_homogeneous_mul_eq_zero (liftPoint f hf p.1 hp')
+        (map_mem_gradedTwist f hm).1 hc c.2
+      obtain ⟨u, hu, hfu⟩ := ProjSurjection.exists_homogeneous_preimage hf
+        (SetLike.coe_mem (DirectSum.decompose ℬ (c : B) j))
+      have hup : u ∉ p.1.asHomogeneousIdeal := fun h =>
+        hj (hfu ▸ (mem_liftPoint_iff f hf p.1 hp' u).2 h)
+      have hum : u * m ∈ gradedTwist 𝒜 n ((j + k : ℕ) : ℤ) := by
+        have := smul_mem_graded_nat 𝒜 (gradedTwist 𝒜 n) hu hm
+        rwa [smul_eq_mul, show ((j : ℕ) : ℤ) + (k : ℤ) = ((j + k : ℕ) : ℤ) by push_cast; ring]
+          at this
+      have hfum : f (u * m) = 0 := by rw [map_mul, hfu, hjm]
+      obtain ⟨b, hb, hb'⟩ := exists_gradedTwist_eq_mul n hx f hker hum hfum
+      exact ⟨j, u, hu, hup, b, hb, hb'.symm⟩
+    · exact ⟨1, x, hx, hxp, m, mem_gradedTwist_pred n hm, rfl⟩
+  refine ⟨W ⊓ ProjectiveSpectrum.basicOpen 𝒜 u,
+    ⟨hpW, (ProjectiveSpectrum.mem_basicOpen 𝒜 _ _).2 hup⟩, Opens.infLELeft _ _ ≫ iWV, i + k, b,
+    hb, u * g, SetLike.GradedMul.mul_mem hu hg, fun y h => ?_, fun y => ?_⟩
+  · rcases y.1.isPrime.mem_or_mem h with h' | h'
+    · exact (ProjectiveSpectrum.mem_basicOpen 𝒜 _ _).1 y.2.2 h'
+    · exact g_nin ⟨y.1, y.2.1⟩ h'
+  · rw [mulFiber_mk hx n hm hb hg hu (g_nin ⟨y.1, y.2.1⟩) _ hxb]
+    exact (w ⟨y.1, y.2.1⟩).symm
+
+/-- **Exactness at `𝒪(n)` on sections.** If `x` is a non-zero-divisor and `ker f = (x)`, every
+section of `𝒪(n)` killed by `psi` is `x` times a section of `𝒪(n-1)`. -/
+theorem exists_mulSection_preimage (hinj : Function.Injective (x * ·)) (f : 𝒜 →+*ᵍ ℬ)
+    (hf : Function.Surjective f) (hker : ∀ a, f a = 0 → ∃ b, a = x * b) {V : (Proj 𝒜).Opens}
+    (t : (sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj (op V))
+    (ht : ProjTwistPullback.psiSections f n V t = 0) :
+    ∃ s, gradedSheafSections (ℳ := gradedTwist 𝒜 (n - 1)) (𝒩 := gradedTwist 𝒜 n)
+      (LinearMap.mulLeft A x) (fun _ _ hm => mul_mem_gradedTwist hx n hm) V s = t := by
+  have hloc := exists_local_preimage hx n f hf hker t ht
+  have hex : ∀ q : V, ∃ y, mulFiber hx n _ y = t.1 q := fun q => by
+    obtain ⟨W, hqW, iWV, k, b, hb, g, hg, g_nin, w⟩ := hloc q
+    exact ⟨_, w ⟨q.1, hqW⟩⟩
+  choose sf hsf using hex
+  refine ⟨⟨sf, fun q => ?_⟩, Subtype.ext (funext fun q => hsf q)⟩
+  obtain ⟨W, hqW, iWV, k, b, hb, g, hg, g_nin, w⟩ := hloc q
+  exact ⟨W, hqW, iWV, k, b, hb, g, hg, g_nin, fun y =>
+    gradedLocMap_mul_injective hx n hinj _ ((hsf _).trans (w y).symm)⟩
+
 end General
 
 section ProjectiveSpace
