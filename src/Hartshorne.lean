@@ -648,3 +648,4 @@ import Hartshorne.Scheme.TensorPowerSectionRingMap
 import Hartshorne.Surface.CanonicalSectionRingDivisor
 import Hartshorne.Scheme.TopIsoRestriction
 import Hartshorne.Scheme.VeryAmpleTensorProduct
+import Hartshorne.Scheme.Differentials.CanonicalSheafProjectiveSpace
