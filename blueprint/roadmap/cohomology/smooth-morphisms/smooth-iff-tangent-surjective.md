@@ -23,6 +23,7 @@ closed field, and assume $\dim X = \dim Y + n$. The following are equivalent:
 ## Proof depends on
 
 - [The transitivity sequence for differential sheaves](../../schemes/differentials/scheme-differentials/relative-differentials-transitivity.md)
+- [Fibre dimension of a coherent sheaf is upper semicontinuous](../semicontinuity/foundations/coherent-fiber-dimension-upper-semicontinuous.md)
 - Regular systems of parameters in regular local rings and iteration of the
   local flatness criterion.
 
