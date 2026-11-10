@@ -1,0 +1,145 @@
+/-
+Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
+import Hartshorne.Scheme.ProjTwistPullback
+import Hartshorne.Scheme.ProjSurjectionClosedImmersion
+
+/-!
+# The hyperplane sequence on projective space (partial)
+
+Hartshorne, *Algebraic Geometry*, III.5, proof of Theorem 5.1(b) (p. 227).
+
+Let `x ∈ S_1` and let `φ : S → T` be a graded ring map with `φ(x) = 0`. Multiplication by `x`
+is a map of graded modules `S(n-1) → S(n)`, which gives `𝒪(n-1) ⟶ 𝒪(n)` (`mulSection`). Its
+composite with the restriction `𝒪_{Proj S}(n) ⟶ f_*(𝒪_{Proj T}(n)|_U)` of the partial Proj
+morphism `f` is zero (`mulSection_psi`).
+
+For `X = ℙ^{m+1}_A = Proj A[x_0, …, x_{m+1}]` and `H = V₊(x_{m+1})`, `hyperplaneHom` is the
+surjective graded map `A[x_0, …, x_{m+1}] → A[x_0, …, x_m]` with `x_{m+1} ↦ 0`. Its partial Proj
+morphism is defined on all of `ℙ^m_A` and is a closed immersion with image `H`.
+-/
+
+universe u
+
+set_option backward.isDefEq.respectTransparency.types false
+
+noncomputable section
+
+namespace Hartshorne.HyperplaneSequence
+
+open AlgebraicGeometry CategoryTheory Opposite TopologicalSpace HomogeneousLocalization
+  ProjGradedModuleSheaf ProjTwistMap
+
+section General
+
+variable {A B σ τ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+  [CommRing B] [SetLike τ B] [AddSubgroupClass τ B]
+  {𝒜 : ℕ → σ} {ℬ : ℕ → τ} [GradedRing 𝒜] [GradedRing ℬ]
+
+/-- Multiplication by a degree-one element maps `S(n-1)_i` into `S(n)_i`. -/
+theorem mul_mem_gradedTwist {x : A} (hx : x ∈ 𝒜 1) (n : ℤ) {i : ℤ} {m : A}
+    (hm : m ∈ gradedTwist 𝒜 (n - 1) i) : x * m ∈ gradedTwist 𝒜 n i := by
+  obtain ⟨hm1, hm2⟩ := hm
+  by_cases h : n - 1 + i < 0
+  · rw [hm2 h, mul_zero]
+    exact zero_mem _
+  · exact (mem_gradedTwist_of_eq (k := 1 + (n - 1 + i).toNat) (by omega)).2
+      (SetLike.GradedMul.mul_mem hx hm1)
+
+variable {x : A} (hx : x ∈ 𝒜 1) (n : ℤ)
+
+/-- Multiplication by `x ∈ S_1`, `𝒪_{Proj S}(n-1) ⟶ 𝒪_{Proj S}(n)`. -/
+def mulSection : projTwistingSheaf 𝒜 (n - 1) ⟶ projTwistingSheaf 𝒜 n :=
+  projGradedModuleSheafMap (ℳ := gradedTwist 𝒜 (n - 1)) (𝒩 := gradedTwist 𝒜 n)
+    (LinearMap.mulLeft A x) fun _ _ hm => mul_mem_gradedTwist hx n hm
+
+/-- On fibers, multiplication by `x` followed by `φ` is zero when `φ(x) = 0`. -/
+theorem twistFiber_gradedLocMap_mul (f : 𝒜 →+*ᵍ ℬ) (hfx : f x = 0) {P : Submonoid A}
+    {Q : Submonoid B} (h : P ≤ Q.comap f)
+    (y : HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 (n - 1)) P) :
+    twistFiber f n h (gradedLocMap (ℳ := gradedTwist 𝒜 (n - 1)) (𝒩 := gradedTwist 𝒜 n)
+      (LinearMap.mulLeft A x) (fun _ _ hm => mul_mem_gradedTwist hx n hm) P y) = 0 := by
+  obtain ⟨k, m, hm, t, ht, htP, rfl⟩ := HomogeneousLocalizedModule.mk_surjective y
+  apply HomogeneousLocalizedModule.ext
+  rw [val_twistFiber]
+  change locMap f h (IsLocalizedModule.map P (LocalizedModule.mkLinearMap P A)
+    (LocalizedModule.mkLinearMap P A) (LinearMap.mulLeft A x)
+    (HomogeneousLocalizedModule.mk k m hm t ht htP).val) = 0
+  rw [HomogeneousLocalizedModule.val_mk, IsLocalizedModule.map_LocalizedModules, locMap_mk]
+  simp [map_mul, hfx]
+
+/-- Multiplication by `x` followed by the restriction to `Proj T` is zero when `φ(x) = 0`. -/
+theorem mulSection_psi (f : 𝒜 →+*ᵍ ℬ) (hfx : f x = 0) :
+    mulSection hx n ≫ ProjTwistPullback.psi f n = 0 := by
+  refine Scheme.Modules.hom_ext _ _ fun V => ?_
+  ext s
+  refine Subtype.ext (funext fun z => ?_)
+  exact twistFiber_gradedLocMap_mul hx n f hfx _ _
+
+end General
+
+section ProjectiveSpace
+
+variable (A : Type u) [CommRing A] (m : ℕ)
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+/-- The coordinate substitution `x_i ↦ x_i` (`i ≤ m`), `x_{m+1} ↦ 0`. -/
+abbrev hyperplaneSubst : Fin (m + 2) → MvPolynomial (Fin (m + 1)) A :=
+  Fin.lastCases 0 MvPolynomial.X
+
+/-- **The hyperplane restriction** `A[x_0, …, x_{m+1}] → A[x_0, …, x_m]`, `x_{m+1} ↦ 0`, as a
+graded ring map. -/
+def hyperplaneHom :
+    MvPolynomial.homogeneousSubmodule (Fin (m + 2)) A →+*ᵍ
+      MvPolynomial.homogeneousSubmodule (Fin (m + 1)) A where
+  toRingHom := (MvPolynomial.aeval (hyperplaneSubst A m)).toRingHom
+  map_mem {k} φ hφ := by
+    have h := (MvPolynomial.mem_homogeneousSubmodule k φ).1 hφ
+    refine (MvPolynomial.mem_homogeneousSubmodule k _).2 ?_
+    have := h.eval₂ (algebraMap A (MvPolynomial (Fin (m + 1)) A)) (hyperplaneSubst A m)
+      (fun r => MvPolynomial.isHomogeneous_C _ r) (n := 1) (fun i => by
+        induction i using Fin.lastCases with
+        | last => simpa using MvPolynomial.isHomogeneous_zero _ _ 1
+        | cast i => simpa using MvPolynomial.isHomogeneous_X A i)
+    rw [one_mul] at this
+    exact this
+
+theorem hyperplaneHom_apply (φ : MvPolynomial (Fin (m + 2)) A) :
+    hyperplaneHom A m φ = MvPolynomial.aeval (hyperplaneSubst A m) φ :=
+  rfl
+
+theorem hyperplaneHom_X_last : hyperplaneHom A m (MvPolynomial.X (Fin.last (m + 1))) = 0 := by
+  simp [hyperplaneHom_apply]
+
+theorem hyperplaneHom_surjective : Function.Surjective (hyperplaneHom A m) := by
+  intro ψ
+  induction ψ using MvPolynomial.induction_on with
+  | C a => exact ⟨MvPolynomial.C a, by simp [hyperplaneHom_apply]⟩
+  | add p q hp hq =>
+    obtain ⟨p', rfl⟩ := hp
+    obtain ⟨q', rfl⟩ := hq
+    exact ⟨p' + q', map_add _ _ _⟩
+  | mul_X p i hp =>
+    obtain ⟨p', rfl⟩ := hp
+    exact ⟨p' * MvPolynomial.X i.castSucc, by simp [hyperplaneHom_apply]⟩
+
+theorem x_last_mem : (MvPolynomial.X (Fin.last (m + 1)) : MvPolynomial (Fin (m + 2)) A) ∈
+    MvPolynomial.homogeneousSubmodule (Fin (m + 2)) A 1 :=
+  (MvPolynomial.mem_homogeneousSubmodule 1 _).2 (MvPolynomial.isHomogeneous_X A _)
+
+/-- The hyperplane `H = V₊(x_{m+1}) ≅ ℙ^m_A` maps to `ℙ^{m+1}_A` by a closed immersion. -/
+theorem isClosedImmersion_hyperplane :
+    IsClosedImmersion (projPartialMap (hyperplaneHom A m)) :=
+  isClosedImmersion_projPartialMap_of_surjective (hyperplaneHom_surjective A m)
+
+/-- **Multiplication by `x_{m+1}` followed by restriction to the hyperplane is zero**:
+`𝒪_X(n-1) ⟶ 𝒪_X(n) ⟶ i_* 𝒪_H(n)`. -/
+theorem mulSection_psi_hyperplane (n : ℤ) :
+    mulSection (x_last_mem A m) n ≫ ProjTwistPullback.psi (hyperplaneHom A m) n = 0 :=
+  mulSection_psi _ n _ (hyperplaneHom_X_last A m)
+
+end ProjectiveSpace
+
+end Hartshorne.HyperplaneSequence
