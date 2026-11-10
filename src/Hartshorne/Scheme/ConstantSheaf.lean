@@ -15,6 +15,9 @@ Hartshorne, *Algebraic Geometry*, Example II.1.0.3 (p. 62).
 For an abelian group `A`, the sections of the constant sheaf over an open set `U` are the
 continuous maps from `U` to `A` with its discrete topology. We present these as locally constant
 maps, with pointwise addition and restriction by precomposition.
+
+* `isFlasque_constantSheaf_of_irreducibleSpace`: on an irreducible space the constant sheaf is
+  flasque, since its sections over a nonempty open set are constant.
 -/
 
 namespace Hartshorne
