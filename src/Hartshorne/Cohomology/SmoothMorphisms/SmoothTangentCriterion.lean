@@ -5,7 +5,9 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Cohomology.SmoothMorphisms.CotangentRelativeDifferentials
 import Hartshorne.Cohomology.Semicontinuity.CoherentFiberDimension
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsAffineFibre
+import Hartshorne.Cohomology.FlatFamilies.NormalFamilyFlat
 import Mathlib.RingTheory.Etale.Kaehler
+import Mathlib.RingTheory.Flat.Localization
 
 /-!
 # Smoothness by tangent-map surjectivity: scheme-level glue
@@ -161,6 +163,48 @@ theorem moduleFiberDim_eq_of_forall_isClosed {X : Scheme.{u}} [JacobsonSpace X] 
     have := (isClosed_setOf_le_moduleFiberDim_of_isCoherent G hG n).closure_subset_iff.mpr hsub
     rw [closure_closedPoints] at this
     exact_mod_cast this (Set.mem_univ x)
+
+/-- Flatness of stalk maps passes to generalizations: if `x ⤳ x₀` and `𝒪_{Y, f x₀} → 𝒪_{X, x₀}`
+is flat, then so is `𝒪_{Y, f x} → 𝒪_{X, x}`. -/
+theorem flat_stalkMap_of_specializes {X Y : Scheme.{u}} (f : X ⟶ Y) {x x₀ : X} (h : x ⤳ x₀)
+    (h₀ : (f.stalkMap x₀).hom.Flat) : (f.stalkMap x).hom.Flat := by
+  have hY : f x ⤳ f x₀ := f.base.hom.map_specializes h
+  let _ : Algebra (Y.presheaf.stalk (f x₀)) (X.presheaf.stalk x₀) := (f.stalkMap x₀).hom.toAlgebra
+  let _ : Algebra (X.presheaf.stalk x₀) (X.presheaf.stalk x) :=
+    (X.presheaf.stalkSpecializes h).hom.toAlgebra
+  let _ : Algebra (Y.presheaf.stalk (f x₀)) (Y.presheaf.stalk (f x)) :=
+    (Y.presheaf.stalkSpecializes hY).hom.toAlgebra
+  let _ : Algebra (Y.presheaf.stalk (f x)) (X.presheaf.stalk x) := (f.stalkMap x).hom.toAlgebra
+  let _ : Algebra (Y.presheaf.stalk (f x₀)) (X.presheaf.stalk x) :=
+    ((algebraMap (X.presheaf.stalk x₀) (X.presheaf.stalk x)).comp
+      (algebraMap (Y.presheaf.stalk (f x₀)) (X.presheaf.stalk x₀))).toAlgebra
+  have : IsScalarTower (Y.presheaf.stalk (f x₀)) (X.presheaf.stalk x₀) (X.presheaf.stalk x) :=
+    IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  have : IsScalarTower (Y.presheaf.stalk (f x₀)) (Y.presheaf.stalk (f x)) (X.presheaf.stalk x) :=
+    IsScalarTower.of_algebraMap_eq fun a ↦ (f.stalkSpecializes_stalkMap_apply x x₀ h a).symm
+  have : Module.Flat (Y.presheaf.stalk (f x₀)) (X.presheaf.stalk x₀) := h₀
+  have hB : IsLocalization.AtPrime (X.presheaf.stalk x)
+      ((maximalIdeal (X.presheaf.stalk x)).comap (X.presheaf.stalkSpecializes h).hom) :=
+    NormalFamily.isLocalization_stalkSpecializes h
+  have : Module.Flat (X.presheaf.stalk x₀) (X.presheaf.stalk x) :=
+    IsLocalization.flat _
+      ((maximalIdeal (X.presheaf.stalk x)).comap (X.presheaf.stalkSpecializes h).hom).primeCompl
+  have : Module.Flat (Y.presheaf.stalk (f x₀)) (X.presheaf.stalk x) :=
+    Module.Flat.trans _ (X.presheaf.stalk x₀) _
+  have hA : IsLocalization.AtPrime (Y.presheaf.stalk (f x))
+      ((maximalIdeal (Y.presheaf.stalk (f x))).comap (Y.presheaf.stalkSpecializes hY).hom) :=
+    NormalFamily.isLocalization_stalkSpecializes hY
+  exact (Module.flat_iff_of_isLocalization (Y.presheaf.stalk (f x))
+    ((maximalIdeal (Y.presheaf.stalk (f x))).comap (Y.presheaf.stalkSpecializes hY).hom).primeCompl
+    (X.presheaf.stalk x)).mpr this
+
+/-- On a Jacobson scheme, a morphism whose stalk maps at closed points are flat is flat. -/
+theorem flat_of_forall_isClosed {X Y : Scheme.{u}} [JacobsonSpace X] (f : X ⟶ Y)
+    (h : ∀ x : X, IsClosed ({x} : Set X) → (f.stalkMap x).hom.Flat) : Flat f := by
+  refine Flat.of_stalkMap f fun x ↦ ?_
+  obtain ⟨x₀, hx₀, hc⟩ := nonempty_inter_closedPoints (Z := closure {x})
+    ⟨x, subset_closure rfl⟩ isClosed_closure.isLocallyClosed
+  exact flat_stalkMap_of_specializes f (specializes_iff_mem_closure.mpr hx₀) (h x₀ hc)
 
 end Scheme
 
