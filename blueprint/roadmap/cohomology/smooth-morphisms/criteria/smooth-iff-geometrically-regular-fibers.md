@@ -2,6 +2,9 @@
 article_id: af_d0d7a6b55a03a721e62350f4
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.smoothOfRelativeDimension_iff_flat_and_geometric_fiber Hartshorne.smoothOfRelativeDimension_iff_baseChange_isRegularAt Hartshorne.finrank_fibre_relativeDifferentials_pullback_snd Hartshorne.finrank_fibre_modulesPullback Hartshorne.finrank_fibre_eq_of_iso
 ---
 
 # Smoothness and geometrically regular fibres
