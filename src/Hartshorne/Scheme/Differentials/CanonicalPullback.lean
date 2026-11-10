@@ -31,10 +31,13 @@ birational map. Pullback of differentials gives an injective map `Γ(X', ω_{X'}
   `⋀^n Ω_{V/k} ⟶ j_*((⋀^n Ω_{Y/k})|_W)` (`Hartshorne.openImmersionExteriorPowerMap`). Composed
   with the pullback, it is the restriction of `⋀^n Ω_{Y/k}` to `W`
   (`Hartshorne.exteriorPowerPullback_comp_openImmersionExteriorPowerMap`).
-* `AlgebraicGeometry.Scheme.Modules.presheaf_map_injective_of_isInvertible`: on an integral
-  scheme, restriction of sections of an invertible sheaf to a nonempty open is injective. Hence
-  the pullback is injective on global sections when `Y` is integral and `⋀^n Ω_{Y/k}` is
-  invertible (`Hartshorne.exteriorPowerPullback_app_top_injective`).
+* `AlgebraicGeometry.Scheme.Modules.presheaf_map_injective_of_isLocallyFreeOfRank`: on an
+  integral scheme, restriction of sections of a locally free sheaf of finite rank to a nonempty
+  open is injective; the invertible case is
+  `AlgebraicGeometry.Scheme.Modules.presheaf_map_injective_of_isInvertible`. Hence the pullback is
+  injective on global sections when `Y` is integral and `⋀^n Ω_{Y/k}` is invertible
+  (`Hartshorne.exteriorPowerPullback_app_top_injective`, from the general
+  `Hartshorne.injective_app_top_of_comp_eq_unit`).
 -/
 universe u
 
@@ -153,7 +156,7 @@ theorem _root_.AlgebraicGeometry.Scheme.Modules.presheaf_map_injective_of_isLoca
 /-- **Sections of an invertible sheaf on an integral scheme are determined on a nonempty open.** -/
 theorem _root_.AlgebraicGeometry.Scheme.Modules.presheaf_map_injective_of_isInvertible
     {X : Scheme.{u}} [IsIntegral X]
-    {L : X.Modules} (hL : L.IsInvertible) {U U' : X.Opens} (h : U ≤ U') [Nonempty U] :
+    {L : X.Modules} (hL : L.IsInvertible) {U U' : X.Opens} (h : U ≤ U') [hU : Nonempty U] :
     Function.Injective (L.val.map (homOfLE h).op) :=
   Scheme.Modules.presheaf_map_injective_of_isLocallyFreeOfRank hL h
 
@@ -357,9 +360,9 @@ open AlgebraicGeometry.Scheme
 variable {Y V W : Scheme.{u}} {F : Y.Modules} {G : V.Modules}
 
 /-- **Injectivity of a pullback on global sections.** Let `j : W ⟶ V` with `j ≫ f : W ⟶ Y` an
-open immersion, `W` nonempty, `Y` integral and `F` locally free of finite rank. If `α : F ⟶ f_*G` admits
-`β : G ⟶ j_*(F|_W)` with `f_*β ∘ α` the restriction of `F` to `W`, then `α` is injective on
-global sections. -/
+open immersion, `W` nonempty, `Y` integral and `F` locally free of finite rank. If
+`α : F ⟶ f_*G` admits `β : G ⟶ j_*(F|_W)` with `f_*β ∘ α` the restriction of `F` to `W`, then
+`α` is injective on global sections. -/
 theorem injective_app_top_of_comp_eq_unit [IsIntegral Y] [Nonempty W] (f : V ⟶ Y) (j : W ⟶ V)
     [IsOpenImmersion (j ≫ f)] {r : ℕ} (hF : F.IsLocallyFreeOfRank r)
     (α : F ⟶ (Modules.pushforward f).obj G)

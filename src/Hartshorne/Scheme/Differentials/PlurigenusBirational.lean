@@ -21,6 +21,11 @@ closed field and birationally equivalent, then `P_m(X) = P_m(X')`
 invariance of the geometric genus (`Hartshorne.geometricGenus_eq_of_birational`), proved by the
 same argument with `ω` in place of `ω^{⊗m}`.
 
+The same argument with `⋀^q Ω_{X/k}`, which on a nonsingular variety of dimension `n` is locally
+free of rank `n choose q`, shows that the dimension `h^{q,0}(X) = dim_k Γ(X, ⋀^q Ω_{X/k})` of the
+space of regular `q`-forms (`Hartshorne.regularFormDimension`) is a birational invariant
+(`Hartshorne.regularFormDimension_eq_of_birational`).
+
 ## Proof
 
 As in the proof of Theorem II.8.19, run the pullback injection for `ω^{⊗m}` in both directions.
@@ -28,7 +33,7 @@ Let `V ⊆ X` be the domain of the birational map `X ⤏ X'` and `φ : V ⟶ X'`
 `X \ V` has codimension at least two. Pullback of differentials along `φ` gives
 `Γ(X', ω_{X'}^{⊗m}) → Γ(V, ⋀^n Ω_V^{⊗m})`. It is injective: on a nonempty open `W ⊆ V` where `φ` is
 an open immersion it is followed by a map back to `ω_{X'}^{⊗m}|_W` and the composite is the
-restriction, which is injective for an invertible sheaf on an integral scheme
+restriction, which is injective for a locally free sheaf of finite rank on an integral scheme
 (`Hartshorne.injective_app_top_of_comp_eq_unit`). Pullback along the inclusion `V ⟶ X` gives
 `Γ(X, ω_X^{⊗m}) → Γ(V, ⋀^n Ω_V^{⊗m})`, which is bijective: for an open immersion `g`, pullback
 followed by the map `Ω_{V/k} ⟶ Ω_{X/k}|_V` is the restriction, and in the other order it is the
@@ -704,9 +709,9 @@ theorem geometricGenus_eq_of_birational [IsAlgClosed k] {X X' : Scheme.{u}}
     (rank_globalSections_exteriorPower_le_of_partialIso pX' pX hX' hX e.symm he.symm hn' hn n)
     (rank_globalSections_exteriorPower_le_of_partialIso pX pX' hX hX' e he hn hn' n))
 
-/-- **Hodge numbers `h^{q,0}` (Hartshorne, Exercise II.8.8).** The dimension
-`h^{q,0}(X) = dim_k Γ(X, ⋀^q Ω_{X/k})` of the space of regular `q`-forms on a scheme `X` over `k`,
-a `k`-vector space through the structure morphism. Hartshorne defines it for a nonsingular
+/-- **Dimension of the space of regular q-forms h^{q,0} (Hartshorne, Exercise II.8.8).**
+`h^{q,0}(X) = dim_k Γ(X, ⋀^q Ω_{X/k})` for a scheme `X` over `k`, where `Γ(X, ⋀^q Ω_{X/k})` is a
+`k`-vector space through the structure morphism. Hartshorne defines it for a nonsingular
 projective variety and `0 ≤ q ≤ dim X`. -/
 def regularFormDimension {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (q : ℕ) : ℕ :=
   Module.finrank k
