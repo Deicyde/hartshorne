@@ -34,13 +34,14 @@ theorem projective_iff_isProper_and_exists_isVeryAmpleRelative {X Y : Scheme.{u}
   · intro hp
     refine ⟨hp.isProper, ?_⟩
     obtain ⟨r, i, hi, rfl⟩ := hp
-    exact ⟨_, Scheme.Modules.IsInvertible.pullback i
-      (isInvertible_projectiveSpaceTwistingSheaf r Y 1), r, i, inferInstance, inferInstance, rfl,
-      ⟨Iso.refl _⟩⟩
-  · rintro ⟨hp, L, -, r, i, hi, -, rfl, -⟩
+    exact ⟨_, Scheme.Modules.IsInvertible.pullback (𝟙 X ≫ i)
+      (isInvertible_projectiveSpaceTwistingSheaf r Y 1), r, X, 𝟙 X, i, inferInstance, hi,
+      by rw [Category.id_comp], ⟨Iso.refl _⟩⟩
+  · rintro ⟨hp, L, -, r, Z, o, c, ho, hc, rfl, -⟩
     have : IsProper (projectiveSpaceOverSchemeProjection r Y) :=
       projectiveSpaceOverSchemeProjection_isProper r Y
-    have : IsProper i := IsProper.of_comp i (projectiveSpaceOverSchemeProjection r Y)
-    exact ⟨r, i, IsClosedImmersion.of_isPreimmersion i i.isClosedMap.isClosed_range, rfl⟩
+    have : IsProper (o ≫ c) := IsProper.of_comp (o ≫ c) (projectiveSpaceOverSchemeProjection r Y)
+    exact ⟨r, o ≫ c,
+      IsClosedImmersion.of_isPreimmersion (o ≫ c) (o ≫ c).isClosedMap.isClosed_range, rfl⟩
 
 end Hartshorne
