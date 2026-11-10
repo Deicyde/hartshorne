@@ -25,6 +25,8 @@ diagonal conormal sheaf to be the relative differential sheaf.
 
 ## Proof depends on
 
+- [Pullback preserves quasi-coherence](../../modules-and-quasicoherent/pullback-quasicoherent.md)
+- [Tilde commutes with tensor products](../../modules-and-quasicoherent/affine-tilde/tilde-tensor-compatibility.md)
 - Restriction and quotient compatibility for module sheaves.
 - Stacks Project, Section 29.32, tags $01R1$–$01R3$, for the conormal sheaf
   and its $I/I^{2}$ description.
