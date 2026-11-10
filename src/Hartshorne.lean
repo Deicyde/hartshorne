@@ -675,3 +675,5 @@ import Hartshorne.Scheme.FiniteTwistedFreeCover
 import Hartshorne.Scheme.CoherentExtension
 import Hartshorne.RingedSpace.ModuleSheafDualExact
 import Hartshorne.Scheme.Differentials.ProjectiveSpaceTangentSequence
+import Hartshorne.Scheme.ProjectiveHyperplaneSequence
+import Hartshorne.Surface.CanonicalRingBirational
