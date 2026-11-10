@@ -2,6 +2,9 @@
 article_id: af_e6085b5482d318aaf9e1af13
 declaration: theorem
 origin: cited
+statement: formalized
+proof: formalized
+lean: Hartshorne.exists_isCoherent_restrict_iso_of_isNoetherian Hartshorne.exists_isCoherent_extension_of_isNoetherian
 ---
 
 # Extension of coherent sheaves
