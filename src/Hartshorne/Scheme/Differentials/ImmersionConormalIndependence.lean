@@ -182,6 +182,47 @@ theorem idealSheafRestrictIso'_hom_ι (j : Z ⟶ V) (κ : V ⟶ U) [IsOpenImmers
 
 end Cocycle
 
+section Transitivity
+
+variable {Z V₁ V₂ U : Scheme.{u}} (j : Z ⟶ V₁) (κ₁ : V₁ ⟶ V₂) (κ₂ : V₂ ⟶ U)
+  [IsOpenImmersion κ₁] [IsOpenImmersion κ₂]
+
+/-- `idealSheafRestrictIso` is transitive along composed open immersions. -/
+theorem idealSheafRestrictIso_trans :
+    (Modules.restrictFunctorComp κ₁ κ₂).app (closedImmersionIdealSheaf ((j ≫ κ₁) ≫ κ₂)) ≪≫
+        (Modules.restrictFunctor κ₁).mapIso (idealSheafRestrictIso (j ≫ κ₁) κ₂) ≪≫
+          idealSheafRestrictIso j κ₁ =
+      idealSheafRestrictIso' j (κ₁ ≫ κ₂) ((j ≫ κ₁) ≫ κ₂) (Category.assoc _ _ _).symm := by
+  ext1
+  rw [← cancel_mono (closedImmersionIdealSheafι j), idealSheafRestrictIso'_hom_ι]
+  have h1 := idealSheafRestrictIso_hom_ι j κ₁
+  have h2 := idealSheafRestrictIso_hom_ι (j ≫ κ₁) κ₂
+  have hC := restrictUnitIso_comp κ₁ κ₂
+  have hN := (Modules.restrictFunctorComp κ₁ κ₂).hom.naturality_assoc
+    (closedImmersionIdealSheafι ((j ≫ κ₁) ≫ κ₂))
+    ((Modules.restrictFunctor κ₁).map (Modules.restrictUnitIso κ₂).hom ≫
+      (Modules.restrictUnitIso κ₁).hom)
+  have s1 := congrArg (fun t =>
+    (Modules.restrictFunctorComp κ₁ κ₂).hom.app (closedImmersionIdealSheaf ((j ≫ κ₁) ≫ κ₂)) ≫
+      (Modules.restrictFunctor κ₁).map (idealSheafRestrictIso (j ≫ κ₁) κ₂).hom ≫ t) h1
+  have s2 := (Functor.map_comp_assoc (Modules.restrictFunctor κ₁)
+    (idealSheafRestrictIso (j ≫ κ₁) κ₂).hom (closedImmersionIdealSheafι (j ≫ κ₁))
+    (Modules.restrictUnitIso κ₁).hom).symm
+  have s3 := congrArg (fun t => (Modules.restrictFunctor κ₁).map t ≫
+    (Modules.restrictUnitIso κ₁).hom) h2
+  have s4 := Functor.map_comp_assoc (Modules.restrictFunctor κ₁)
+    ((Modules.restrictFunctor κ₂).map (closedImmersionIdealSheafι ((j ≫ κ₁) ≫ κ₂)))
+    (Modules.restrictUnitIso κ₂).hom (Modules.restrictUnitIso κ₁).hom
+  have s5 := congrArg (fun t =>
+    (Modules.restrictFunctorComp κ₁ κ₂).hom.app (closedImmersionIdealSheaf ((j ≫ κ₁) ≫ κ₂)) ≫ t)
+    (s2.trans (s3.trans s4))
+  have s6 := congrArg (fun t =>
+    (Modules.restrictFunctor (κ₁ ≫ κ₂)).map (closedImmersionIdealSheafι ((j ≫ κ₁) ≫ κ₂)) ≫ t) hC
+  exact (Category.assoc _ _ _).trans ((Category.assoc _ _ _).trans
+    (s1.trans (s5.trans (hN.symm.trans s6))))
+
+end Transitivity
+
 section Factorization
 
 variable {Z X : Scheme.{u}} (i : Z ⟶ X) [IsImmersion i]
