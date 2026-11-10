@@ -408,6 +408,7 @@ import Hartshorne.Weil.FiniteFieldFrobenius
 import Hartshorne.Scheme.GluingSheaves
 import Hartshorne.Scheme.AffineGlobalSectionsExact
 import Hartshorne.Cohomology.SmoothMorphisms.EtaleCriteria
+import Hartshorne.Scheme.Differentials.FrobeniusDifferentials
 import Hartshorne.Cohomology.SmoothMorphisms.FrobeniusProjectiveLine
 import Hartshorne.Cohomology.SmoothMorphisms.SmoothnessCriterionReduction
 import Hartshorne.Cohomology.SmoothMorphisms.SmoothOverFieldComponentDimension
