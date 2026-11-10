@@ -16,11 +16,20 @@ import Hartshorne.Scheme.GloballyGenerated
 import Hartshorne.Scheme.RelativeVeryAmple
 import Hartshorne.Scheme.VanishingIdealSheaf
 import Mathlib.Algebra.Category.ModuleCat.Sheaf.PullbackFree
+import Hartshorne.Scheme.CartierDivisorPullback
 
 /-!
-# Toward descending a very ample sheaf from the normalization of a curve
+# Descending a very ample sheaf from the normalization of a curve
 
-Building blocks for Hartshorne III, Exercise 5.8(b).
+Hartshorne III, Exercise 5.8(b): for a proper integral curve `X` over an algebraically closed field
+with normalization `ν : X̃ ⟶ X` and a very ample `L` on `X̃`, there is an effective divisor `D` on
+`X̃` with `𝒪(D) ≅ L` whose points lie over nonsingular points of `X`, and an invertible `L₀` on `X`
+with `ν^* L₀ ≅ L` (`AlgebraicGeometry.exists_pullback_iso_of_isVeryAmpleRelative`).
+
+The divisor is the divisor of zeros of a section of `L` avoiding the finite preimage of the
+singular locus (a hyperplane section misses finitely many points over an infinite field). It
+descends along `ν` because `ν` is an isomorphism over a dense open set `U` and `D` is trivial near
+`ν⁻¹(Uᶜ)` (`AlgebraicGeometry.Scheme.exists_cartierPullbackData_of_isIso_morphismRestrict`).
 -/
 
 open CategoryTheory CategoryTheory.Limits Opposite TopologicalSpace
@@ -288,32 +297,34 @@ theorem Scheme.CartierDivisor.IsDivisorOfZeros.exists_restrict_eq_zero {Y : Sche
 open Scheme.CartierDivisor in
 /-- **Reduction of the divisor part of Hartshorne III, Exercise 5.8(b) to choosing a section**,
 germ form. Let `X` be an integral scheme of finite type and dimension one over a perfect field,
-with normalization `ν : X̃ ⟶ X`. There is a finite set `S` of points of `X̃` such that for every
-invertible sheaf `L` on `X̃` and every nonzero global section `s` of `L` generating `L` at each
-point of `S` (for some trivialization near the point), the divisor of zeros `D = (s)₀` is
-effective, `𝒪(D) ≅ L`, and `D` is trivial near every point lying over a singular point of `X`. -/
-theorem exists_finite_set_divisor_of_isUnit_trivGerm {k : Type u} [Field k] [PerfectField k]
-    {X : Scheme.{u}} [IsIntegral X] (f : X ⟶ Spec (.of k)) (hf : Hartshorne.FiniteType f)
-    (hdim : topologicalKrullDim X = 1) :
-    ∃ S : Set (Hartshorne.absoluteNormalization X), S.Finite ∧
+with normalization `ν : X̃ ⟶ X`. There is a nonempty open `U` of regular points of `X`, over which
+`ν` is an isomorphism and whose preimage has finite complement, such that for every invertible
+sheaf `L` on `X̃` and every nonzero global section `s` of `L` generating `L` at each point outside
+`ν⁻¹(U)` (for some trivialization near the point), the divisor of zeros `D = (s)₀` is effective,
+`𝒪(D) ≅ L`, and `D` is trivial near every point outside `ν⁻¹(U)`. -/
+theorem exists_finite_set_divisor_of_isUnit_trivGerm {k : Type u} [Field k]
+    [PerfectField k] {X : Scheme.{u}} [IsIntegral X] (f : X ⟶ Spec (.of k))
+    (hf : Hartshorne.FiniteType f) (hdim : topologicalKrullDim X = 1) :
+    ∃ U : X.Opens, (U : Set X).Nonempty ∧ (∀ x ∈ U, X.IsRegularAt x) ∧
+      IsIso (Hartshorne.absoluteNormalizationMap X ∣_ U) ∧
+      (Hartshorne.absoluteNormalizationMap X ⁻¹' ((U : Set X)ᶜ)).Finite ∧
       ∀ (L : (Hartshorne.absoluteNormalization X).Modules), L.IsInvertible →
         ∀ s : L.val.obj (op ⊤), s ≠ 0 →
-          (∀ x ∈ S, ∃ (V : (Hartshorne.absoluteNormalization X).Opens)
+          (∀ x, x ∉ Hartshorne.absoluteNormalizationMap X ⁻¹ᵁ U →
+            ∃ (V : (Hartshorne.absoluteNormalization X).Opens)
             (ψ : L.over V ≅ SheafOfModules.unit _) (hx : x ∈ V), IsUnit (trivGerm ψ hx s)) →
           ∃ D : (Hartshorne.absoluteNormalization X).CartierDivisor, D.IsEffective ∧
             Nonempty (D.sheaf ≅ L) ∧
-            ∀ x, ¬ X.IsRegularAt (Hartshorne.absoluteNormalizationMap X x) →
+            ∀ x, x ∉ Hartshorne.absoluteNormalizationMap X ⁻¹ᵁ U →
               ∃ V : (Hartshorne.absoluteNormalization X).Opens, x ∈ V ∧ D.restrict V = 0 := by
   have := hf.1
   have := Hartshorne.isNoetherian_of_finiteType f hf
-  obtain ⟨U, hU, hreg, -⟩ := exists_isIso_absoluteNormalizationMap_restrict f
-  refine ⟨Hartshorne.absoluteNormalizationMap X ⁻¹' ((U : Set X)ᶜ),
-    finite_preimage_absoluteNormalizationMap f hf
-      (finite_compl_of_topologicalKrullDim_eq_one hdim hU),
-    fun L hL s hs hgen ↦ ?_⟩
+  obtain ⟨U, hU, hreg, hiso⟩ := exists_isIso_absoluteNormalizationMap_restrict f
+  refine ⟨U, hU, hreg, hiso, finite_preimage_absoluteNormalizationMap f hf
+    (finite_compl_of_topologicalKrullDim_eq_one hdim hU), fun L hL s hs hgen ↦ ?_⟩
   obtain ⟨D, hD, hDeff, hDL⟩ := exists_isDivisorOfZeros_of_isInvertible hL hs
   refine ⟨D, hDeff, hDL, fun x hx ↦ ?_⟩
-  obtain ⟨V, ψ, hxV, hu⟩ := hgen x fun hxU ↦ hx (hreg _ hxU)
+  obtain ⟨V, ψ, hxV, hu⟩ := hgen x hx
   exact hD.exists_restrict_eq_zero ψ hxV hu
 
 /-- The preimage functor on opens of a morphism of schemes is final: every comma category has the
@@ -451,23 +462,298 @@ theorem trivGerm_zero {Y : Scheme.{u}} {L : Y.Modules} {V : Y.Opens}
   have := trivGerm_add ψ hx 0 0
   rwa [add_zero, left_eq_add] at this
 
-open Scheme.CartierDivisor in
-/-- **Hartshorne III, Exercise 5.8(b), the divisor.** Let `X` be a proper integral scheme of
-dimension one over an algebraically closed field `k`, with normalization `ν : X̃ ⟶ X`, and let
-`L` be very ample on `X̃` (relative to `k`). There is an effective Cartier divisor `D` on `X̃`
-with `𝒪(D) ≅ L` all of whose points lie over nonsingular points of `X`: `D` is trivial near
-every point of `X̃` lying over a singular point. -/
-theorem exists_effective_divisor_of_isVeryAmpleRelative {k : Type u} [Field k] [IsAlgClosed k]
-    {X : Scheme.{u}} [IsIntegral X] (p : X ⟶ Spec (.of k)) [IsProper p]
+/-- If `f` is an isomorphism over `U`, then `f` induces isomorphisms on sections over every open
+contained in `U`. -/
+theorem isIso_app_of_isIso_morphismRestrict {X Y : Scheme.{u}} (f : X ⟶ Y) {U : Y.Opens}
+    [IsIso (f ∣_ U)] {V : Y.Opens} (hV : V ≤ U) : IsIso (f.app V) := by
+  have e : U.ι ''ᵁ (U.ι ⁻¹ᵁ V) = V := by
+    rw [Scheme.Hom.image_preimage_eq_opensRange_inf, Scheme.Opens.opensRange_ι]
+    exact inf_eq_right.2 hV
+  have h := morphismRestrict_app f U (U.ι ⁻¹ᵁ V)
+  have : IsIso (f.app (U.ι ''ᵁ (U.ι ⁻¹ᵁ V))) := by
+    have : IsIso ((f ∣_ U).app (U.ι ⁻¹ᵁ V)) := inferInstance
+    rw [h] at this
+    exact @IsIso.of_isIso_comp_right _ _ _ _ _ (f.app _)
+      (X.presheaf.map (eqToHom (image_morphismRestrict_preimage f U (U.ι ⁻¹ᵁ V))).op)
+      inferInstance this
+  rwa [e] at this
+
+/-- If `f` is an isomorphism over `U`, then `f` is injective over `U`. -/
+theorem eq_of_isIso_morphismRestrict {X Y : Scheme.{u}} (f : X ⟶ Y) {U : Y.Opens}
+    [IsIso (f ∣_ U)] {x x' : X} (h : f x = f x') (hx : x ∈ f ⁻¹ᵁ U) : x = x' := by
+  have hinj : Function.Injective (f ∣_ U) := (Scheme.homeoOfIso (asIso (f ∣_ U))).injective
+  have hx' : x' ∈ f ⁻¹ᵁ U := show f x' ∈ U from h ▸ hx
+  have := @hinj ⟨x, hx⟩ ⟨x', hx'⟩ (Subtype.ext ((morphismRestrict_base_coe f U ⟨x, hx⟩).trans
+    (h.trans (morphismRestrict_base_coe f U ⟨x', hx'⟩).symm)))
+  exact congrArg Subtype.val this
+
+/-- If `f` is an isomorphism over `U`, every point of `U` has a preimage. -/
+theorem exists_eq_of_isIso_morphismRestrict {X Y : Scheme.{u}} (f : X ⟶ Y) {U : Y.Opens}
+    [IsIso (f ∣_ U)] {y : Y} (hy : y ∈ U) : ∃ x, f x = y := by
+  obtain ⟨x, hx⟩ := (Scheme.homeoOfIso (asIso (f ∣_ U))).surjective ⟨y, hy⟩
+  refine ⟨x.1, ?_⟩
+  have := congrArg Subtype.val hx
+  simpa using this
+
+namespace Scheme
+
+/-- The principal divisor of a quotient of rational functions. -/
+theorem principalCartierDivisor_globalUnit_div {X : Scheme.{u}} [IsIntegral X]
+    (g g' : X.functionFieldˣ) :
+    X.principalCartierDivisor (globalUnit X (g / g')) =
+      X.principalCartierDivisor (globalUnit X g) - X.principalCartierDivisor (globalUnit X g') := by
+  rw [globalUnit, map_div]
+  exact X.principalCartierDivisorHom.map_sub (Additive.ofMul _) (Additive.ofMul _)
+
+/-- On an open set containing the generic point, the principal divisor of a rational function
+vanishes exactly when the function is a regular unit there. -/
+theorem principalCartierDivisor_restrict_eq_zero_iff {X : Scheme.{u}} [IsIntegral X]
+    {V : X.Opens} (hη : genericPoint X ∈ V) (g : X.functionFieldˣ) :
+    (X.principalCartierDivisor (globalUnit X g)).restrict V = 0 ↔
+      ∃ a : Γ(X, V)ˣ, X.presheaf.germ V (genericPoint X) hη a = g := by
+  rw [principalCartierDivisor_restrict]
+  have h0 : (0 : X.cartierDivisorSheaf.obj.obj (op V)) =
+      X.toCartierDivisorSheaf.hom.app (op V) (Additive.ofMul (1 : X.totalQuotientUnitsSheaf.obj.obj (op V))) :=
+    ((X.toCartierDivisorSheaf.hom.app (op V)).hom.map_zero).symm
+  rw [h0, toCartierDivisorSheaf_apply_eq_iff_ratio, div_one]
+  constructor
+  · rintro ⟨a, ha⟩
+    refine ⟨a, ?_⟩
+    have := congrArg (fun t => (totalQuotientUnitsEquivFunctionField V hη t : X.functionField)) ha
+    simp only at this
+    rw [totalQuotientUnitsEquivFunctionField_restrict_top, MulEquiv.apply_symm_apply] at this
+    exact (totalQuotientUnitsEquivFunctionField_structureUnits V hη a).symm.trans this
+  · rintro ⟨a, ha⟩
+    refine ⟨a, ?_⟩
+    apply (totalQuotientUnitsEquivFunctionField V hη).injective
+    ext
+    rw [totalQuotientUnitsEquivFunctionField_restrict_top, MulEquiv.apply_symm_apply]
+    exact (totalQuotientUnitsEquivFunctionField_structureUnits V hη a).trans ha
+
+/-- A morphism that is an isomorphism on sections over `V` detects whether a principal divisor
+vanishes on `V`. -/
+theorem principalCartierDivisor_restrict_eq_zero_iff_of_isIso_app {X Y : Scheme.{u}}
+    [IsIntegral X] [IsIntegral Y] (f : X ⟶ Y) (hf : f.base (genericPoint X) = genericPoint Y)
+    {V : Y.Opens} (hη : genericPoint Y ∈ V) [IsIso (f.app V)] (g : Y.functionFieldˣ) :
+    (Y.principalCartierDivisor (globalUnit Y g)).restrict V = 0 ↔
+      (X.principalCartierDivisor
+        (globalUnit X (genericFunctionFieldUnitsMap f hf g))).restrict (f ⁻¹ᵁ V) = 0 := by
+  rw [principalCartierDivisor_restrict_eq_zero_iff hη,
+    principalCartierDivisor_restrict_eq_zero_iff (genericPoint_mem_preimage_of_mem f hf hη)]
+  let e : Γ(Y, V) ≃+* Γ(X, f ⁻¹ᵁ V) := (asIso (f.app V)).commRingCatIsoToRingEquiv
+  have he : ∀ r, e r = f.app V r := fun r => rfl
+  constructor
+  · rintro ⟨a, ha⟩
+    refine ⟨Units.map e.toMonoidHom a, ?_⟩
+    rw [Units.coe_map]
+    change X.presheaf.germ _ _ _ (e a) = _
+    rw [he, ← genericFunctionFieldMap_germ f hf hη, ha]
+    rfl
+  · rintro ⟨b, hb⟩
+    refine ⟨Units.map e.symm.toMonoidHom b, ?_⟩
+    apply (f.genericFunctionFieldMap hf).hom.injective
+    rw [Units.coe_map]
+    change f.genericFunctionFieldMap hf (Y.presheaf.germ _ _ _ (e.symm b)) = _
+    rw [genericFunctionFieldMap_germ f hf hη, ← he, e.apply_symm_apply, hb]
+    rfl
+
+end Scheme
+
+namespace Scheme.CartierDivisor
+
+variable {X : Scheme.{u}}
+
+/-- The zero divisor restricts to zero. -/
+theorem restrict_zero (O : X.Opens) : (0 : X.CartierDivisor).restrict O = 0 :=
+  (X.cartierDivisorSheaf.obj.map (homOfLE le_top).op).hom.map_zero
+
+/-- Restriction of Cartier divisors is additive. -/
+theorem restrict_sub (A B : X.CartierDivisor) (O : X.Opens) :
+    (A - B).restrict O = A.restrict O - B.restrict O :=
+  (X.cartierDivisorSheaf.obj.map (homOfLE le_top).op).hom.map_sub A B
+
+/-- Two divisors agreeing on an open set agree on every smaller open set. -/
+theorem restrict_congr_of_le {A B : X.CartierDivisor} {O O' : X.Opens} (h : O' ≤ O)
+    (hAB : A.restrict O = B.restrict O) : A.restrict O' = B.restrict O' := by
+  rw [← A.restrict_restrict h, hAB, B.restrict_restrict]
+
+/-- A Cartier divisor that vanishes near every point of an open set vanishes on it. -/
+theorem restrict_eq_zero_of_locally (E : X.CartierDivisor) {O : X.Opens}
+    (h : ∀ x ∈ O, ∃ W : X.Opens, x ∈ W ∧ E.restrict W = 0) : E.restrict O = 0 := by
+  choose W hxW hW using fun x : O ↦ h x.1 x.2
+  apply X.cartierDivisorSheaf.eq_of_locally_eq' (fun x : O ↦ W x ⊓ O) O
+    (fun _ ↦ homOfLE inf_le_right) (fun x hx ↦ Opens.mem_iSup.mpr ⟨⟨x, hx⟩, hxW _, hx⟩)
+  intro i
+  rw [E.restrict_restrict, ← E.restrict_restrict (inf_le_left : W i ⊓ O ≤ W i), hW i]
+  simp only [map_zero]
+
+end Scheme.CartierDivisor
+
+namespace Scheme
+
+/-- The principal divisor of the constant function `1` is zero. -/
+theorem principalCartierDivisor_globalUnit_one {X : Scheme.{u}} [IsIntegral X] :
+    X.principalCartierDivisor (globalUnit X 1) = 0 := by
+  rw [globalUnit, map_one]
+  exact X.principalCartierDivisorHom.map_zero
+
+open CartierDivisor in
+/-- **Descent of a Cartier divisor along a morphism that is an isomorphism over `U`.** Let
+`f : X ⟶ Y` be a closed morphism of integral schemes that maps the generic point to the generic
+point, induces a surjection of function fields, and is an isomorphism over an open `U`. A Cartier
+divisor on `X` that is trivial near every point outside `f⁻¹(U)` is, locally, the pullback of
+local equations of a Cartier divisor on `Y`. -/
+theorem exists_cartierPullbackData_of_isIso_morphismRestrict {X Y : Scheme.{u}}
+    [IsIntegral X] [IsIntegral Y] (f : X ⟶ Y) (hf : f.base (genericPoint X) = genericPoint Y)
+    (hcl : IsClosedMap f.base) {U : Y.Opens} [IsIso (f ∣_ U)]
+    (hsurj : Function.Surjective (f.genericFunctionFieldMap hf))
+    (E : X.CartierDivisor) (hE : ∀ x, x ∉ f ⁻¹ᵁ U → ∃ W : X.Opens, x ∈ W ∧ E.restrict W = 0) :
+    ∃ D : Y.CartierDivisor, CartierPullbackData f hf D E := by
+  classical
+  have hloc : ∀ y : Y, ∃ (V : Y.Opens) (g : Y.functionFieldˣ), y ∈ V ∧
+      E.restrict (f ⁻¹ᵁ V) = (X.principalCartierDivisor
+        (globalUnit X (genericFunctionFieldUnitsMap f hf g))).restrict (f ⁻¹ᵁ V) ∧
+      (V ≤ U ∨ g = 1) := by
+    intro y
+    by_cases hy : y ∈ U
+    · obtain ⟨x, rfl⟩ := exists_eq_of_isIso_morphismRestrict f hy
+      obtain ⟨V₀, f₀, hxV₀, hf₀⟩ := E.exists_localEquation x
+      have hη₀ : genericPoint X ∈ V₀ := genericPoint_mem_opens_of_mem hxV₀
+      set h := totalQuotientUnitsEquivFunctionField V₀ hη₀ f₀ with hh
+      obtain ⟨g₀, hg₀⟩ := hsurj (h : X.functionField)
+      have hg₀ne : g₀ ≠ 0 := by
+        rintro rfl
+        rw [map_zero] at hg₀
+        exact h.ne_zero hg₀.symm
+      let g : Y.functionFieldˣ := Units.mk0 g₀ hg₀ne
+      have hgh : genericFunctionFieldUnitsMap f hf g = h := Units.ext hg₀
+      have hV₀ : E.restrict V₀ = (X.principalCartierDivisor (globalUnit X h)).restrict V₀ := by
+        rw [hf₀, principalCartierDivisor_restrict]
+        congr 2
+        apply (totalQuotientUnitsEquivFunctionField V₀ hη₀).injective
+        rw [totalQuotientUnitsEquivFunctionField_restrict_top, MulEquiv.apply_symm_apply]
+      let V : Y.Opens := U ⊓ ⟨(f.base '' (V₀ : Set X)ᶜ)ᶜ,
+        (hcl _ V₀.isOpen.isClosed_compl).isOpen_compl⟩
+      have hfV : f ⁻¹ᵁ V ≤ V₀ := by
+        intro x' hx'
+        by_contra hx'V₀
+        exact hx'.2 ⟨x', hx'V₀, rfl⟩
+      refine ⟨V, g, ⟨hy, ?_⟩, ?_, Or.inl inf_le_left⟩
+      · rintro ⟨x', hx', hx'x⟩
+        have hx'U : x' ∈ f ⁻¹ᵁ U := show f.base x' ∈ U from hx'x ▸ hy
+        exact hx' ((eq_of_isIso_morphismRestrict f hx'x hx'U) ▸ hxV₀)
+      · rw [hgh]
+        exact restrict_congr_of_le hfV hV₀
+    · let Z : Set X := {x | ∀ W : X.Opens, x ∈ W → E.restrict W ≠ 0}
+      have hZ : IsClosed Z := by
+        rw [← isOpen_compl_iff, isOpen_iff_forall_mem_open]
+        intro x hx
+        simp only [Z, Set.mem_compl_iff, Set.mem_ofPred_eq, not_forall, not_not] at hx
+        obtain ⟨W, hxW, hW⟩ := hx
+        exact ⟨W, fun x' hx' hZ' ↦ hZ' W hx' hW, W.isOpen, hxW⟩
+      let V : Y.Opens := ⟨(f.base '' Z)ᶜ, (hcl _ hZ).isOpen_compl⟩
+      refine ⟨V, 1, ?_, ?_, Or.inr rfl⟩
+      · rintro ⟨x, hxZ, rfl⟩
+        by_cases hxU : x ∈ f ⁻¹ᵁ U
+        · exact hy hxU
+        · obtain ⟨W, hxW, hW⟩ := hE x hxU
+          exact hxZ W hxW hW
+      · rw [show genericFunctionFieldUnitsMap f hf 1 = 1 from map_one _,
+          principalCartierDivisor_globalUnit_one, restrict_zero]
+        apply restrict_eq_zero_of_locally
+        intro x hx
+        have hxZ : x ∉ Z := fun hxZ ↦ hx ⟨x, hxZ, rfl⟩
+        simp only [Z, Set.mem_ofPred_eq, not_forall, not_not] at hxZ
+        obtain ⟨W, hxW, hW⟩ := hxZ
+        exact ⟨W, hxW, hW⟩
+  choose V g hyV hEV hVU using hloc
+  have hcompat : ∀ y z, (Y.principalCartierDivisor (globalUnit Y (g y))).restrict (V y ⊓ V z) =
+      (Y.principalCartierDivisor (globalUnit Y (g z))).restrict (V y ⊓ V z) := by
+    intro y z
+    have hηyz : genericPoint Y ∈ V y ⊓ V z :=
+      ⟨genericPoint_mem_opens_of_mem (hyV y), genericPoint_mem_opens_of_mem (hyV z)⟩
+    rw [← sub_eq_zero, ← restrict_sub, ← principalCartierDivisor_globalUnit_div]
+    by_cases hU' : V y ≤ U ∨ V z ≤ U
+    · have hle : V y ⊓ V z ≤ U :=
+        hU'.elim (fun h ↦ inf_le_left.trans h) (fun h ↦ inf_le_right.trans h)
+      have := isIso_app_of_isIso_morphismRestrict f hle
+      rw [principalCartierDivisor_restrict_eq_zero_iff_of_isIso_app f hf hηyz,
+        show genericFunctionFieldUnitsMap f hf (g y / g z) = genericFunctionFieldUnitsMap f hf (g y) /
+          genericFunctionFieldUnitsMap f hf (g z) from map_div _ _ _,
+        principalCartierDivisor_globalUnit_div, restrict_sub, sub_eq_zero,
+        ← restrict_congr_of_le (show f ⁻¹ᵁ (V y ⊓ V z) ≤ f ⁻¹ᵁ V y from fun _ hx ↦ hx.1) (hEV y),
+        ← restrict_congr_of_le (show f ⁻¹ᵁ (V y ⊓ V z) ≤ f ⁻¹ᵁ V z from fun _ hx ↦ hx.2) (hEV z)]
+    · simp only [not_or] at hU'
+      rw [(hVU y).resolve_left hU'.1, (hVU z).resolve_left hU'.2, div_one,
+        principalCartierDivisor_globalUnit_one, restrict_zero]
+  obtain ⟨D, hD, -⟩ := Y.cartierDivisorSheaf.existsUnique_gluing' V ⊤ (fun _ ↦ homOfLE le_top)
+    (fun y _ ↦ Opens.mem_iSup.mpr ⟨y, hyV y⟩)
+    (fun y ↦ (Y.principalCartierDivisor (globalUnit Y (g y))).restrict (V y)) (by
+      intro y z
+      exact ((Y.principalCartierDivisor (globalUnit Y (g y))).restrict_restrict inf_le_left).trans
+        ((hcompat y z).trans
+          ((Y.principalCartierDivisor (globalUnit Y (g z))).restrict_restrict inf_le_right).symm))
+  exact ⟨D, fun x ↦ ⟨V (f.base x), f ⁻¹ᵁ V (f.base x), g (f.base x), hyV (f.base x), le_rfl,
+    hD (f.base x), hEV (f.base x)⟩⟩
+
+end Scheme
+
+/-- A morphism of integral schemes that is an isomorphism over a nonempty open set sends the
+generic point to the generic point. -/
+theorem map_genericPoint_of_isIso_morphismRestrict {X Y : Scheme.{u}} [IsIntegral X]
+    [IsIntegral Y] (f : X ⟶ Y) {U : Y.Opens} [IsIso (f ∣_ U)] (hU : (U : Set Y).Nonempty) :
+    f.base (genericPoint X) = genericPoint Y := by
+  obtain ⟨y, hy⟩ := hU
+  obtain ⟨x, hx⟩ :=
+    exists_eq_of_isIso_morphismRestrict f (Scheme.genericPoint_mem_opens_of_mem hy)
+  have h1 := (genericPoint_specializes x).map f.continuous
+  rw [hx] at h1
+  exact (h1.antisymm (genericPoint_specializes _)).eq
+
+/-- A closed morphism of integral schemes that is an isomorphism over an open set containing the
+generic point induces a surjection of function fields. -/
+theorem surjective_genericFunctionFieldMap_of_isIso_morphismRestrict {X Y : Scheme.{u}}
+    [IsIntegral X] [IsIntegral Y] (f : X ⟶ Y) (hf : f.base (genericPoint X) = genericPoint Y)
+    (hcl : IsClosedMap f.base) {U : Y.Opens} [IsIso (f ∣_ U)] (hU : genericPoint Y ∈ U) :
+    Function.Surjective (f.genericFunctionFieldMap hf) := by
+  intro t
+  obtain ⟨W, hW, s, rfl⟩ :=
+    TopCat.Presheaf.exists_germ_eq X.presheaf (show X.presheaf.stalk (genericPoint X) from t)
+  let V : Y.Opens := U ⊓ ⟨(f.base '' (W : Set X)ᶜ)ᶜ,
+    (hcl _ W.isOpen.isClosed_compl).isOpen_compl⟩
+  have hfV : f ⁻¹ᵁ V ≤ W := by
+    intro x' hx'
+    by_contra hx'W
+    exact hx'.2 ⟨x', hx'W, rfl⟩
+  have hηV : genericPoint Y ∈ V := by
+    refine ⟨hU, ?_⟩
+    rintro ⟨x', hx', hx'η⟩
+    have hx'U : x' ∈ f ⁻¹ᵁ U := show f.base x' ∈ U from hx'η ▸ hU
+    exact hx' ((eq_of_isIso_morphismRestrict f (hx'η.trans hf.symm) hx'U) ▸ hW)
+  have := isIso_app_of_isIso_morphismRestrict f (inf_le_left : V ≤ U)
+  refine ⟨Y.presheaf.germ V _ hηV (inv (f.app V) (X.presheaf.map (homOfLE hfV).op s)), ?_⟩
+  rw [Scheme.genericFunctionFieldMap_germ f hf hηV, IsIso.inv_hom_id_apply]
+  exact X.presheaf.germ_res_apply (homOfLE hfV) _ _ s
+
+/-- **The divisor part of Hartshorne III, Exercise 5.8(b), with the open set.** Let `X` be a
+proper integral scheme of dimension one over an algebraically closed field `k`, with normalization
+`ν : X̃ ⟶ X`, and let `L` be very ample on `X̃` (relative to `k`). There are a nonempty open `U` of
+nonsingular points of `X` over which `ν` is an isomorphism and an effective Cartier divisor `D` on
+`X̃` with `𝒪(D) ≅ L` that is trivial near every point outside `ν⁻¹(U)`. -/
+theorem exists_isIso_effective_divisor_of_isVeryAmpleRelative {k : Type u} [Field k]
+    [IsAlgClosed k] {X : Scheme.{u}} [IsIntegral X] (p : X ⟶ Spec (.of k)) [IsProper p]
     (hdim : topologicalKrullDim X = 1) {L : (Hartshorne.absoluteNormalization X).Modules}
     (hL : Hartshorne.IsVeryAmpleRelative (Hartshorne.absoluteNormalizationMap X ≫ p) L) :
-    ∃ D : (Hartshorne.absoluteNormalization X).CartierDivisor, D.IsEffective ∧
-      Nonempty (D.sheaf ≅ L) ∧
-      ∀ x, ¬ X.IsRegularAt (Hartshorne.absoluteNormalizationMap X x) →
-        ∃ V : (Hartshorne.absoluteNormalization X).Opens, x ∈ V ∧ D.restrict V = 0 := by
+    ∃ U : X.Opens, (U : Set X).Nonempty ∧ (∀ x ∈ U, X.IsRegularAt x) ∧
+      IsIso (Hartshorne.absoluteNormalizationMap X ∣_ U) ∧
+      ∃ D : (Hartshorne.absoluteNormalization X).CartierDivisor, D.IsEffective ∧
+        Nonempty (D.sheaf ≅ L) ∧
+        ∀ x, x ∉ Hartshorne.absoluteNormalizationMap X ⁻¹ᵁ U →
+          ∃ V : (Hartshorne.absoluteNormalization X).Opens, x ∈ V ∧ D.restrict V = 0 := by
   classical
   have hf : Hartshorne.FiniteType p := ⟨inferInstance, inferInstance⟩
-  obtain ⟨S, hS, hmain⟩ := exists_finite_set_divisor_of_isUnit_trivGerm p hf hdim
+  obtain ⟨U, hU, hreg, hiso, hS, hmain⟩ :=
+    exists_finite_set_divisor_of_isUnit_trivGerm p hf hdim
   have hinv : L.IsInvertible := hL.1
   have hgg := isGloballyGenerated_of_isVeryAmpleRelative hL
   choose V hxV hψ using fun x ↦ Scheme.Modules.exists_over_iso_unit hinv x
@@ -485,8 +771,42 @@ theorem exists_effective_divisor_of_isVeryAmpleRelative {k : Type u} [Field k] [
     have := hs x₀ (Finset.mem_insert_self _ _)
     rw [trivGerm_zero] at this
     exact not_isUnit_zero this
-  exact hmain L hinv s hs0 fun x hx ↦
+  obtain ⟨D, hDeff, hDL, hDtriv⟩ := hmain L hinv s hs0 fun x hx ↦
     ⟨V x, ψ x, hxV x, hs x (Finset.mem_insert_of_mem (hS.mem_toFinset.mpr hx))⟩
+  exact ⟨U, hU, hreg, hiso, D, hDeff, hDL, hDtriv⟩
+
+open Scheme.CartierDivisor in
+/-- **Hartshorne III, Exercise 5.8(b).** Let `X` be a proper integral scheme of dimension one over
+an algebraically closed field `k`, with normalization `ν : X̃ ⟶ X`, and let `L` be very ample on
+`X̃` (relative to `k`). There is an effective Cartier divisor `D` on `X̃` with `𝒪(D) ≅ L` all of
+whose points lie over nonsingular points of `X` (`D` is trivial near every point of `X̃` lying over
+a singular point). Consequently there is an invertible sheaf `L₀` on `X` with `ν^* L₀ ≅ L`: the
+divisor `D` descends to a Cartier divisor `D₀` on `X` with `ν^* 𝒪(D₀) ≅ 𝒪(D)`. -/
+theorem exists_pullback_iso_of_isVeryAmpleRelative {k : Type u} [Field k] [IsAlgClosed k]
+    {X : Scheme.{u}} [IsIntegral X] (p : X ⟶ Spec (.of k)) [IsProper p]
+    (hdim : topologicalKrullDim X = 1) {L : (Hartshorne.absoluteNormalization X).Modules}
+    (hL : Hartshorne.IsVeryAmpleRelative (Hartshorne.absoluteNormalizationMap X ≫ p) L) :
+    ∃ D : (Hartshorne.absoluteNormalization X).CartierDivisor, D.IsEffective ∧
+      Nonempty (D.sheaf ≅ L) ∧
+      (∀ x, ¬ X.IsRegularAt (Hartshorne.absoluteNormalizationMap X x) →
+        ∃ V : (Hartshorne.absoluteNormalization X).Opens, x ∈ V ∧ D.restrict V = 0) ∧
+      ∃ L₀ : X.Modules, L₀.IsInvertible ∧
+        Nonempty ((Scheme.Modules.pullback (Hartshorne.absoluteNormalizationMap X)).obj L₀ ≅ L) := by
+  obtain ⟨U, hUne, hreg, hiso, D, hDeff, ⟨e⟩, hDtriv⟩ :=
+    exists_isIso_effective_divisor_of_isVeryAmpleRelative p hdim hL
+  have hf : Hartshorne.FiniteType p := ⟨inferInstance, inferInstance⟩
+  have := Hartshorne.isFinite_absoluteNormalizationMap_of_finiteType_field k X p hf
+  have := hiso
+  have hν := map_genericPoint_of_isIso_morphismRestrict (Hartshorne.absoluteNormalizationMap X) hUne
+  have hcl : IsClosedMap (Hartshorne.absoluteNormalizationMap X).base :=
+    (Hartshorne.absoluteNormalizationMap X).isClosedMap
+  have hsurj := surjective_genericFunctionFieldMap_of_isIso_morphismRestrict _ hν hcl
+    (Scheme.genericPoint_mem_opens_of_mem hUne.some_mem)
+  obtain ⟨D₀, hDE⟩ :=
+    Scheme.exists_cartierPullbackData_of_isIso_morphismRestrict _ hν hcl hsurj D hDtriv
+  have := Scheme.isIso_cartierPullbackMap hDE
+  exact ⟨D, hDeff, ⟨e⟩, fun x hx ↦ hDtriv x fun hxU ↦ hx (hreg _ hxU), D₀.sheaf,
+    D₀.isInvertible_sheaf, ⟨asIso (Scheme.cartierPullbackMap hDE) ≪≫ e⟩⟩
 
 end
 
