@@ -11,9 +11,9 @@ import Hartshorne.Scheme.Differentials.DifferentialsCharacterizeNonsingular
 
 Hartshorne, *Algebraic Geometry*, III, Example 10.0.3 (p. 268), with II, Theorems 8.8 and 8.15.
 
-Let `X` be a scheme of finite type over an algebraically closed field `k`, all of whose
-irreducible components have dimension `n`. Then `X ⟶ Spec k` is smooth of relative dimension `n`
-if and only if every local ring of `X` is regular
+Let `X` be a scheme of finite type over an algebraically closed field `k`. Then `X ⟶ Spec k` is
+smooth of relative dimension `n` if and only if every local ring of `X` is regular and every
+irreducible component of `X` has dimension `n`
 (`Hartshorne.smoothOfRelativeDimension_iff_forall_isRegularAt`). For irreducible `X` of
 dimension `n` this says that smoothness is Hartshorne's nonsingularity
 (`Hartshorne.smoothOfRelativeDimension_iff_isRegular`).
@@ -22,10 +22,13 @@ dimension `n` this says that smoothness is Hartshorne's nonsingularity
 
 By Hartshorne's smoothness criterion, `X ⟶ Spec k` is smooth of relative dimension `n` exactly
 when it is flat (automatic over a field), its fibre has all irreducible components of dimension
-`n` (the fibre over the point of `Spec k` is homeomorphic to `X`), and every fibre
-`κ(x) ⊗ Ω_{X/k,x}` has dimension `n`. The last condition is equivalent to regularity of all local
-rings of `X` (`Hartshorne.forall_isRegularAt_iff_finrank_fibre`, from the proof of Theorem 8.15):
-by catenarity (`FlatEquidimensional.catenaryAt_of_finiteType`), the local rings of `X` at closed
+`n`, and every fibre `κ(x) ⊗ Ω_{X/k,x}` has dimension `n`. The fibre over the point of `Spec k`
+is homeomorphic to `X`, so the second condition says that the irreducible components of `X` have
+dimension `n` (`Hartshorne.topologicalKrullDim_irreducibleComponents_fiber` and
+`Hartshorne.topologicalKrullDim_irreducibleComponents_of_fiber`). Given that, the third condition
+is equivalent to regularity of all local rings of `X`
+(`Hartshorne.forall_isRegularAt_iff_finrank_fibre`, from the proof of Theorem 8.15): by
+catenarity (`FlatEquidimensional.catenaryAt_of_finiteType`), the local rings of `X` at closed
 points have dimension `n`.
 -/
 
@@ -101,22 +104,45 @@ theorem topologicalKrullDim_irreducibleComponents_fiber {k : Type u} [Field k]
   rw [← hC _ hZ']
   exact IsHomeomorph.topologicalKrullDim_eq _ (e.image Z).isHomeomorph
 
+/-- Over a field, `X` has all irreducible components of dimension `n` when the fibre of
+`X ⟶ Spec k` does. -/
+theorem topologicalKrullDim_irreducibleComponents_of_fiber {k : Type u} [Field k]
+    {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) {n : ℕ} (y : Spec (.of k))
+    (hZ : ∀ Z ∈ irreducibleComponents (f.fiber y), topologicalKrullDim Z = n) :
+    ∀ C ∈ irreducibleComponents X, topologicalKrullDim C = n := by
+  have hpre : f ⁻¹' {y} = Set.univ :=
+    Set.eq_univ_of_forall fun x ↦ Subsingleton.elim (α := Spec (.of k)) _ _
+  let e : X ≃ₜ f.fiber y :=
+    ((f.fiberHomeo y).trans ((Homeomorph.setCongr hpre).trans (Homeomorph.Set.univ X))).symm
+  intro C hC
+  have hC' : e '' C ∈ irreducibleComponents (f.fiber y) :=
+    image_mem_irreducibleComponents_of_isPreirreducible_fiber e e.continuous e.isOpenMap
+      (fun x ↦ (Set.subsingleton_singleton.preimage e.injective).isPreirreducible) e.surjective hC
+  rw [← hZ _ hC']
+  exact IsHomeomorph.topologicalKrullDim_eq _ (e.image C).isHomeomorph
+
 /-- **Smoothness and regularity over an algebraically closed field** (Hartshorne III,
-Example 10.0.3). Let `X` be a scheme of finite type over an algebraically closed field `k`, all
-of whose irreducible components have dimension `n`. Then `X ⟶ Spec k` is smooth of relative
-dimension `n` if and only if every local ring of `X` is regular. -/
+Example 10.0.3). Let `X` be a scheme of finite type over an algebraically closed field `k`. Then
+`X ⟶ Spec k` is smooth of relative dimension `n` if and only if every local ring of `X` is
+regular and every irreducible component of `X` has dimension `n`. -/
 theorem smoothOfRelativeDimension_iff_forall_isRegularAt {k : Type u} [Field k] [IsAlgClosed k]
-    {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (hf : FiniteType f) (n : ℕ)
-    (hC : ∀ C ∈ irreducibleComponents X, topologicalKrullDim C = n) :
-    SmoothOfRelativeDimension n f ↔ ∀ x : X, X.IsRegularAt x := by
+    {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (hf : FiniteType f) (n : ℕ) :
+    SmoothOfRelativeDimension n f ↔
+      (∀ x : X, X.IsRegularAt x) ∧ ∀ C ∈ irreducibleComponents X, topologicalKrullDim C = n := by
   have h := smoothOfRelativeDimension_iff_flat_and_fiber_dim_and_finrank
     (X := Over.mk f) (Y := Over.mk (𝟙 (Spec (.of k)))) ⟨hf.1, hf.2⟩
     ⟨show LocallyOfFiniteType (𝟙 (Spec (.of k))) from inferInstance,
       show QuasiCompact (𝟙 (Spec (.of k))) from inferInstance⟩ (Over.homMk f (by simp)) n
   change SmoothOfRelativeDimension n f ↔ _ at h
-  rw [h, forall_isRegularAt_iff_finrank_fibre f hf n hC]
-  exact ⟨fun h ↦ h.2.2, fun h ↦ ⟨show Flat f from inferInstance,
-    topologicalKrullDim_irreducibleComponents_fiber f hC, h⟩⟩
+  rw [h]
+  constructor
+  · rintro ⟨-, hfib, hrank⟩
+    have hC := topologicalKrullDim_irreducibleComponents_of_fiber f
+      (Nonempty.some inferInstance) (hfib _)
+    exact ⟨(forall_isRegularAt_iff_finrank_fibre f hf n hC).2 hrank, hC⟩
+  · rintro ⟨hreg, hC⟩
+    exact ⟨show Flat f from inferInstance, topologicalKrullDim_irreducibleComponents_fiber f hC,
+      (forall_isRegularAt_iff_finrank_fibre f hf n hC).1 hreg⟩
 
 /-- For an irreducible `X` of finite type over an algebraically closed field `k`, of dimension
 `n`, smoothness of relative dimension `n` over `k` is Hartshorne's nonsingularity (II.8): `X` is
@@ -126,8 +152,8 @@ theorem smoothOfRelativeDimension_iff_isRegular {k : Type u} [Field k] [IsAlgClo
     (hn : topologicalKrullDim X = n) :
     SmoothOfRelativeDimension n f ↔ X.IsRegular := by
   have : LocallyOfFiniteType f := hf.1
-  rw [smoothOfRelativeDimension_iff_forall_isRegularAt f hf n
-    (DifferentialsNonsingular.topologicalKrullDim_irreducibleComponent hn)]
-  exact ⟨fun h ↦ ⟨LocallyOfFiniteType.isLocallyNoetherian f, h⟩, fun h ↦ h.2⟩
+  have hC := DifferentialsNonsingular.topologicalKrullDim_irreducibleComponent hn
+  rw [smoothOfRelativeDimension_iff_forall_isRegularAt f hf n]
+  exact ⟨fun h ↦ ⟨LocallyOfFiniteType.isLocallyNoetherian f, h.1⟩, fun h ↦ ⟨h.2, hC⟩⟩
 
 end Hartshorne
