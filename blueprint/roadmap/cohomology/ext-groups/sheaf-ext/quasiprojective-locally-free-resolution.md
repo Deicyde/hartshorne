@@ -10,9 +10,6 @@ Let $X$ be quasi-projective over a Noetherian affine scheme. Every coherent
 $\mathcal{O}_X$-module admits a resolution, possibly unbounded to the left, by
 finite-rank locally free sheaves.
 
-The unique main result is existence of the resolution; the successive kernel
-construction is proof data.
-
 ## Depends on
 
 - [Coherent extension](../../../schemes/coherent-sheaves/coherent-extension.md)

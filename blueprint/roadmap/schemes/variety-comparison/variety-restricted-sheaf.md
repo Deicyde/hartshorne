@@ -14,10 +14,10 @@ the closed-point subspace of its associated scheme via $\alpha _V$.  The inverse
 image of the associated scheme's structure sheaf along this homeomorphism is
 canonically isomorphic to the original sheaf of regular functions on $V$.
 
-The unique main artifact is this sheaf isomorphism.  For corresponding opens,
-the associated scheme's sheaf was defined as $\alpha _{V\cdot }\mathcal{O} _V$, so its sections and
-restriction maps agree with those of $\mathcal{O} _V$; sheaf extensionality assembles
-these componentwise identifications.
+For corresponding opens, the associated scheme's sheaf was defined as
+$\alpha _{V\cdot }\mathcal{O} _V$, so its sections and restriction maps agree
+with those of $\mathcal{O} _V$; sheaf extensionality assembles these
+componentwise identifications.
 
 ## Depends on
 

@@ -10,9 +10,8 @@ Let $X=\mathbb{P}^{n}_k$. Choose a $k$-linear isomorphism
 
 $tr_X : H^{n}(X,\omega _X) \simeq k$
 
-using $\omega _X\simeq \mathcal{O}_X(-n-1)$ and the one-dimensional top-twist calculation. The
-unique main result is existence of this chosen trace; no coordinate-invariant
-normalization is asserted here.
+using $\omega _X\simeq \mathcal{O}_X(-n-1)$ and the one-dimensional top-twist
+calculation. No coordinate-invariant normalization of $tr_X$ is asserted.
 
 ## Depends on
 

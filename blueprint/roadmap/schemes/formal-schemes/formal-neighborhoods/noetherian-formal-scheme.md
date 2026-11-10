@@ -12,9 +12,7 @@ along closed subschemes. This is the source definition; it does not require
 the chosen ambient schemes to be affine. Morphisms are exactly morphisms of
 locally ringed spaces.
 
-The unique main artifact is the bundled subtype/category carrying this finite
-formal-affine cover. The structure sheaf remains ring-valued, not a sheaf of
-topological rings.
+The structure sheaf is a sheaf of rings, not a sheaf of topological rings.
 
 ## Depends on
 

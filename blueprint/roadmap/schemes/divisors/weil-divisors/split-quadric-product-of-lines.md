@@ -25,9 +25,8 @@ isomorphism of graded $k$-algebras from $k[x,y,z,w]/(xy - zw)$ onto the span in
 $k[s_0,s_1,u_0,u_1]$ of the monomials of bidegree $(d,d)$, $d \ge 0$, graded by
 $d$.
 
-The identification of $Q$ with $\mathbb{P}^1_k \times_k \mathbb{P}^1_k$ is the unique main
-result; the coordinate-ring isomorphism is its algebraic interface, and it lets
-$Q$ be modelled as $\operatorname{Proj}$ of the Segre ring.
+The coordinate-ring isomorphism lets $Q$ be modelled as $\operatorname{Proj}$ of
+the Segre ring.
 
 Example II.6.6.1 works with $Q$ through this identification. Hartshorne cites
 Exercise I.2.15 for this identification; that exercise is not in the project's

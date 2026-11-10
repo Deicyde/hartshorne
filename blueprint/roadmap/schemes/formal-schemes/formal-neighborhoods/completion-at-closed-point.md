@@ -10,9 +10,8 @@ Let $P$ be a closed point of a Noetherian scheme $X$. The completion of $X$
 along $P$ is isomorphic to the one-point locally ringed space whose structure
 ring is the completion of the local ring $\mathcal{O}_{(X,P)}$ at its maximal ideal.
 
-The one-point locally ringed-space comparison is the unique main result. The
-classification of its coherent modules by finite completed-local-ring modules
-is supplied later by the affine formal module equivalence.
+The classification of its coherent modules by finite completed-local-ring
+modules is supplied later by the affine formal module equivalence.
 
 ## Depends on
 

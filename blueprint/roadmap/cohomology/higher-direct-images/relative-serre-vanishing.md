@@ -12,8 +12,8 @@ $n0$ such that for every $n \ge n0$ and every $i>0$,
 
 $R^i f_* F(n) = 0$.
 
-This is the unique result of Theorem 8.8(c). The integer is uniform in both
-the target and the positive cohomological degree.
+This is Theorem 8.8(c). The integer is uniform in both the target and the
+positive cohomological degree.
 
 ## Depends on
 

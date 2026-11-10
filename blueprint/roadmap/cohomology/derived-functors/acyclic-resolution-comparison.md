@@ -14,9 +14,6 @@ $0 \longrightarrow A \longrightarrow J^{0} \longrightarrow J^{1} \longrightarrow
 $F$-acyclic. There are natural isomorphisms
 $R^{n}F(A) \cong H^{n}(F(J\cdot ))$ for every $n$.
 
-The unique main result is this natural comparison; the definition of
-$F$-acyclic is supporting data.
-
 ## Depends on
 
 - [Right derived functors](right-derived-functors.md)

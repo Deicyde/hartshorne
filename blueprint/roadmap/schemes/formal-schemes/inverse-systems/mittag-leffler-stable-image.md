@@ -15,8 +15,6 @@ of systems induces an isomorphism
 
 $\lim A' \cong \lim A$.
 
-The isomorphism of limits is the unique main result.
-
 ## Depends on
 
 - [Inverse systems and the Mittag–Leffler condition](inverse-system-mittag-leffler.md)

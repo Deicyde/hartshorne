@@ -12,8 +12,6 @@ lean: Hartshorne.Ringed.sheafExt_structureModule Hartshorne.Ringed.sheafExtStruc
 For every $\mathcal{O}_X$-module $G$, construct the natural identification
 $\mathcal{E}xt^0_X(\mathcal{O}_X,G) \cong G$ and prove that $\mathcal{E}xt^i_X(\mathcal{O}_X,G)=0$ for every $i>0$.
 
-The unique main result is the all-degree calculation.
-
 ## Depends on
 
 - [Sheaf Ext](sheaf-ext.md)

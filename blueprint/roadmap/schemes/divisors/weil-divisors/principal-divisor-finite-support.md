@@ -14,9 +14,7 @@ $\operatorname{ord} _x(f) = 0$ for all but finitely many codimension-one points 
 Consequently the coefficients $\operatorname{ord} _x(f)$ define a Weil divisor $(f)$, and
 $f \mapsto (f)$ is a homomorphism from $K(X)^*$ to the additive group $\operatorname{Div} X$.
 
-This is Lemma 6.1 together with the immediately following definition. The
-unique main result is finite support; the divisor and homomorphism are its
-canonical interface.
+This is Lemma 6.1 together with the immediately following definition.
 
 ## Depends on
 

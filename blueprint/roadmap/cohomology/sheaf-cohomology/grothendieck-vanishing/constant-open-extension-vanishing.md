@@ -13,9 +13,10 @@ Let $X$ be irreducible noetherian with $\dim X=n$, and
 assume Grothendieck vanishing is known for all proper closed subspaces of
 $X$. For every open $U \subseteq X$, one has $H^{i}(X,\mathbb{Z}_U)=0$ for $i>n$.
 
-This parameterized induction step is the unique main result. For $Y=X\setminus U$,
-use $0 \longrightarrow \mathbb{Z}_U \longrightarrow \mathbb{Z} \longrightarrow \mathbb{Z}_Y \longrightarrow 0$, flasqueness of $\mathbb{Z}$, closed-pushforward
-cohomology, and strict dimension drop on $Y$.
+For $Y=X\setminus U$, use
+$0 \longrightarrow \mathbb{Z}_U \longrightarrow \mathbb{Z} \longrightarrow \mathbb{Z}_Y \longrightarrow 0$,
+flasqueness of $\mathbb{Z}$, closed-pushforward cohomology, and strict dimension
+drop on $Y$.
 
 ## Depends on
 

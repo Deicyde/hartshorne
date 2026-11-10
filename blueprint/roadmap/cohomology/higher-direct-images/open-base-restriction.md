@@ -12,8 +12,8 @@ the natural isomorphism
 
 $(R^i f_* F)|_V \simeq R^i f'_* (F|_{f^{-1}(V)})$.
 
-This is Corollary 8.2. Its unique main result includes naturality in $F$ and
-compatibility with nested open subsets.
+This is Corollary 8.2. The isomorphism is natural in $F$ and compatible with
+nested open subsets.
 
 ## Depends on
 

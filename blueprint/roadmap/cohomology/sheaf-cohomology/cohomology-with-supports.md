@@ -15,9 +15,8 @@ functors. If $U=X\setminus Y$, there is a natural localization long exact sequen
 
 $0 \longrightarrow H_Y^{0}(X,F) \longrightarrow H^{0}(X,F) \longrightarrow H^{0}(U,F|_U) \longrightarrow H_Y^{1}(X,F) \longrightarrow \cdots$.
 
-The unique main result is the localization sequence. Supporting clauses prove
-that $\Gamma _Y(X,-)$ is left exact, identify the degree-zero kernel using the
-subsheaf with support from II.1.20, and show that flasques are
+The proof shows that $\Gamma _Y(X,-)$ is left exact, identifies the degree-zero
+kernel using the subsheaf with support from II.1.20, and shows that flasques are
 $\Gamma _Y$-acyclic.
 
 ## Depends on

@@ -12,8 +12,6 @@ nonnegative integer $n$ there is an isomorphism of sheaves on $V(I)$
 
 $\mathcal{O}_{\widehat{X}} / J^{n+1} \cong \widetilde{A/I^{n+1}}$.
 
-The quotient-sheaf comparison is the unique main result.
-
 ## Depends on
 
 - [The project formal-spectrum bridge](formal-spectrum.md)

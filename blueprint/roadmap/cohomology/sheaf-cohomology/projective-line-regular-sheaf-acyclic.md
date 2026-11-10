@@ -9,8 +9,8 @@ origin: cited
 For $X = \mathbb{P}^{1}$ over an algebraically closed field, one has
 $H^{i}(X,\mathcal{O}_X)=0$ for all $i>0$.
 
-The unique main result is the cohomological vanishing. It is computed from the
-principal-parts resolution, whose two nonzero resolution terms are flasque.
+The vanishing is computed from the principal-parts resolution, whose two nonzero
+resolution terms are flasque.
 
 ## Depends on
 

@@ -12,9 +12,8 @@ associated to
 
 $V \mapsto H^i(f^{-1}(V), F|_{f^{-1}(V)})$.
 
-This is Proposition 8.1. The unique main result is the natural isomorphism of
-sheaves, including compatibility with restriction maps in $V$ and
-functoriality in $F$.
+This is Proposition 8.1. The isomorphism of sheaves is compatible with
+restriction maps in $V$ and functorial in $F$.
 
 ## Depends on
 

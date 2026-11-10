@@ -14,9 +14,8 @@ $S'=\bigoplus_{n\ge0}\Gamma(X,\mathcal{O}_X(n))$
 
 is the integral closure of $S$ in its fraction field.
 
-This is the unique main result of Exercise 5.14(a). The integrality of $X$ and
-the fact that the sheaf of graded section rings has integrally closed stalks
-are supporting steps.
+This is Exercise 5.14(a). The proof uses the integrality of $X$ and the fact
+that the sheaf of graded section rings has integrally closed stalks.
 
 ## Depends on
 

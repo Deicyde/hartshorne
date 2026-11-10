@@ -14,8 +14,8 @@ finite $A$-modules. If the induced map on maximal-adic completions is
 surjective, then $u$ is surjective. In particular, if the completion of a
 finite module $M$ is zero, then $M=0$.
 
-The unique main result is reflection of surjectivity. Reflection of zero is
-its cokernel specialization and is the form used after formal functions.
+Reflection of zero is the cokernel specialization of reflection of surjectivity,
+and is the form used after formal functions.
 
 ## Depends on
 

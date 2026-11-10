@@ -14,8 +14,8 @@ $f^* f_* F(n) \to F(n)$
 
 is an epimorphism.
 
-This is the unique result of Theorem 8.8(a). The bound is global on the
-Noetherian target, rather than separately chosen on each affine open.
+This is Theorem 8.8(a). The bound is global on the Noetherian target, rather
+than separately chosen on each affine open.
 
 ## Depends on
 

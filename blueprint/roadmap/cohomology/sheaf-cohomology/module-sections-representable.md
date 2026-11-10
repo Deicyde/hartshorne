@@ -16,8 +16,8 @@ isomorphism
 
 $\operatorname{Hom} _{\mathcal{O}_X}(\mathcal{O}_U,F) \cong F(U)$.
 
-This representability bridge is the unique main result needed to translate
-injectivity into surjectivity of restriction maps.
+This isomorphism is used to translate injectivity into surjectivity of
+restriction maps.
 
 ## Depends on
 

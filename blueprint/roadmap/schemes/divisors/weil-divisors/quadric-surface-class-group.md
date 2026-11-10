@@ -21,9 +21,8 @@ cut on $Q$, and every class of $\operatorname{Cl} \mathbb{P}^3_k$ is the class o
 The image of the class of a hyperplane $H$, which generates
 $\operatorname{Cl} \mathbb{P}^3_k$, is $(1,1)$.
 
-The class-group isomorphism is the unique main result. The ruling and
-hyperplane formulas are its source-facing normalization and are used by later
-linear-system, curve, and surface calculations.
+The ruling and hyperplane formulas normalize the isomorphism and are used by
+later linear-system, curve, and surface calculations.
 
 ## Depends on
 

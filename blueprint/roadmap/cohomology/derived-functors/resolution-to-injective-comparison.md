@@ -13,10 +13,8 @@ Let $A \longrightarrow C^{\bullet}$ be a resolution and $A \longrightarrow I^{\b
 abelian category. There is a cochain map $C^{\bullet} \longrightarrow I^{\bullet}$ commuting with the
 augmentations, and any two such maps are cochain-homotopic.
 
-The unique main result is the augmentation-preserving comparison, including
-uniqueness up to homotopy. It is the theorem used to construct the Čech-to-
-derived comparison map; it is more general than comparison of two injective
-resolutions.
+This comparison is used to construct the Čech-to-derived comparison map; it is
+more general than comparison of two injective resolutions.
 
 ## Depends on
 

@@ -9,9 +9,8 @@ mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Affine.lean
 
 # A finite principal-open affine criterion
 
-If $f_{1},\ldots ,f_{r} \in \Gamma (X,\mathcal{O} _X)$ generate the unit ideal and every principal open
-$X_{f_{i}}$ is affine, then $X$ is affine.  This criterion is the unique main
-result of the article.
+If $f_{1},\ldots ,f_{r} \in \Gamma (X,\mathcal{O} _X)$ generate the unit ideal
+and every principal open $X_{f_{i}}$ is affine, then $X$ is affine.
 
 This is Hartshorne's Exercise II.2.17(b). Glue the chart maps to
 $\operatorname{Spec}\Gamma(X,\mathcal{O}_X)$ and use the fact that

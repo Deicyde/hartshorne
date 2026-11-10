@@ -15,9 +15,6 @@ Prove that it is invertible and that this construction is a bijection between
 Cartier divisors and invertible $\mathcal{O}_X$-submodules of $K_X$, where the embedding
 in $K_X$ is part of the data.
 
-The unique main result is this embedded-sheaf correspondence; abstract
-isomorphism classes are handled in the following nodes.
-
 ## Depends on
 
 - [The total quotient sheaf](total-quotient-sheaf.md)

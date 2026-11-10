@@ -19,8 +19,8 @@ $K_{(n')} \to K_n$ is zero. Consequently $\lim K_n = 0$, and the same conclusion
 holds for the associated coherent kernel sheaves on a quasi-compact
 Noetherian scheme, for a coherent ambient module and a coherent ideal sheaf.
 
-The pro-zero assertion is the unique main result. It is stronger than merely
-having zero intersection of all powers.
+The pro-zero assertion is stronger than merely having zero intersection of all
+powers.
 
 ## Depends on
 

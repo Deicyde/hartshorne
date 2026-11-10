@@ -7,9 +7,8 @@ origin: cited
 # Exactness of scheme-theoretic completion
 
 For a Noetherian scheme $X$ completed along a closed subscheme with ideal $I$,
-the functor $F \mapsto \widehat{F}$ from coherent $\mathcal{O}_X$-modules to coherent modules on the
-formal completion is exact. Exactness is the unique main result; the quotient
-and ordinary-tensor comparisons are separate leaves.
+the functor $F \mapsto \widehat{F}$ from coherent $\mathcal{O}_X$-modules to
+coherent modules on the formal completion is exact.
 
 ## Depends on
 

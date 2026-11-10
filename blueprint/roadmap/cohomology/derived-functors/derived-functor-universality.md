@@ -11,9 +11,6 @@ derived functors $R^{n}F$ form a universal delta functor with degree zero $F$.
 Conversely, any universal delta functor $T$ has left exact $T^{0}$ and natural
 isomorphisms $T^{n} \cong R^{n}T^{0}$.
 
-The unique main result is the two-way characterization, including naturality
-of the comparison.
-
 ## Depends on
 
 - [Right derived functors](right-derived-functors.md)

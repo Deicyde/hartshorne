@@ -14,8 +14,8 @@ $Z$ with $\dim Z\le n$ satisfies
 $H^{i}(Z,G)=0$ for all abelian sheaves $G$ and all $i>n$. Then every noetherian
 space $X$ with $\dim X\le n$ satisfies the same vanishing.
 
-The unique main result is this parameterized reduction, proved by induction on
-the finite number of irreducible components and the open–closed exact sequence.
+This is proved by induction on the finite number of irreducible components,
+using the open–closed exact sequence.
 
 ## Depends on
 

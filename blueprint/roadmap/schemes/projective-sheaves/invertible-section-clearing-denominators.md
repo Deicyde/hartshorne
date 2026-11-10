@@ -17,9 +17,6 @@ locus. For quasi-coherent $F$:
 - under Hartshorne's finite affine-cover and quasi-compact-overlap hypotheses,
   every $t \in \Gamma (X_f,F)$ extends after multiplication by some $f^n$.
 
-The unique main result is this two-sided localization theorem; the two clauses
-are its uniqueness and existence halves.
-
 ## Depends on
 
 - [Locally free and invertible modules](../modules-and-quasicoherent/locally-free-and-invertible.md)

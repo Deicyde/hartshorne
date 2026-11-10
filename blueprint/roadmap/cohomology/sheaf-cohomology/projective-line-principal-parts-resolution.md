@@ -14,8 +14,7 @@ $K_X$ the constant sheaf. There is a natural short exact sequence
 
 $0\longrightarrow\mathcal{O}_X\longrightarrow K_X\longrightarrow\bigoplus_{P\in X}i_{P,*}\left(K/\mathcal{O}_{X,P}\right)\longrightarrow0$,
 
-and the final map is surjective on global sections. The unique main result is
-this augmented principal-parts resolution, including global surjectivity.
+and the final map is surjective on global sections.
 
 ## Depends on
 
