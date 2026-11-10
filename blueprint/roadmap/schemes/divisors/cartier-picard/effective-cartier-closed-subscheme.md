@@ -26,6 +26,7 @@ arbitrary principal zero-divisor subscheme from being mislabeled Cartier.
 
 ## Proof depends on
 
+- [The graded symmetric-algebra sheaf](../../projective-geometry/relative-proj-bundles/graded-symmetric-algebra-sheaf.md)
 - Compatible principal ideal sheaves glue to a closed subscheme.
 - A local generator can be recovered from the closed subscheme up to a
   regular unit.
