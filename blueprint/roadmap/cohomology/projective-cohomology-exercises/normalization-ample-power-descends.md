@@ -30,6 +30,8 @@ an isomorphism near the images of the $P_i$.
 - [The normalization is normal and integral](../../schemes/normalization-and-exercises/normalization-normal-integral.md)
 - [Characterizations of discrete valuation rings](../../nonsingular-curves/dvr-characterizations.md)
 - [Projective iff proper and very ample](../../schemes/projective-sheaves/projective-iff-proper-very-ample.md)
+- [Generation by global sections](../../schemes/projective-sheaves/globally-generated-module-sheaf.md)
+- [Clearing denominators with an invertible section](../../schemes/projective-sheaves/invertible-section-clearing-denominators.md)
 - $\widetilde{X}$ is proper over $k$ (being finite over the proper $X$), normal of
   dimension one and hence nonsingular, and therefore a nonsingular projective
   variety, so Proposition II.7.7 applies to it.
