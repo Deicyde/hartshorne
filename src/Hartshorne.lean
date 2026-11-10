@@ -665,3 +665,4 @@ import Hartshorne.Scheme.Differentials.LocalCompleteIntersectionNormal
 import Hartshorne.Scheme.Differentials.PlurigenusBirational
 import Hartshorne.Cohomology.ChevalleyGenericFrame
 import Hartshorne.Cohomology.TildeInjectiveFlasque
+import Hartshorne.Scheme.ProjectiveSpaceSectionRing
