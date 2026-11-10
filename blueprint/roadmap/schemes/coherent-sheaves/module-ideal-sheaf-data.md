@@ -20,6 +20,7 @@ smaller affine opens. This ensures that their tilde sheaves glue.
 - [Sheaves of modules](../modules-and-quasicoherent/sheaves-of-modules.md)
 - [Quasi-coherent affine-local criterion](../modules-and-quasicoherent/quasicoherent-affine-local-criterion.md)
 - [Ideal sheaves of closed immersions](closed-immersion-ideal-sheaf.md)
+- [Product of an ideal sheaf with a submodule sheaf](ideal-power-product.md)
 
 ## Proof depends on
 
