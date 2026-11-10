@@ -251,3 +251,233 @@ theorem descD_mul {V : Z.Opens} (s s' : Γ(Z, V)) :
 end Descent
 
 end Hartshorne.ClosedConormal
+
+namespace Hartshorne.ClosedConormal
+
+open Scheme
+
+variable {Z X Y : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] (f : X ⟶ Y)
+
+/-- The unit `Ω_{X/Y} ⟶ i_* i^* Ω_{X/Y}`. -/
+noncomputable abbrev unitΩ :
+    relativeDifferentials f ⟶
+      (Modules.pushforward i).obj ((Modules.pullback i).obj (relativeDifferentials f)) :=
+  (Modules.pullbackPushforwardAdjunction i).unit.app (relativeDifferentials f)
+
+omit [IsClosedImmersion i] in
+/-- The sections of `I_Y` vanish on `Z`. -/
+theorem app_idealSheafι (U : X.Opens) (a : Γ(closedImmersionIdealSheaf i, U)) :
+    i.app U ((closedImmersionIdealSheafι i).app U a) = 0 :=
+  congrArg (fun φ => Scheme.Modules.Hom.app φ U a)
+    (kernel.condition (structureSheafToPushforward i))
+
+/-- The `𝒪_X`-linear map `I ⟶ i_* i^* Ω_{X/Y}`, `a ↦ 1 ⊗ d a`. -/
+noncomputable def idealToPushforward :
+    closedImmersionIdealSheaf i ⟶
+      (Modules.pushforward i).obj ((Modules.pullback i).obj (relativeDifferentials f)) where
+  val := PresheafOfModules.homMk
+    { app U := AddCommGrpCat.ofHom (((unitΩ i f).val.app U).hom.toAddMonoidHom.comp
+        (((relativeDifferentialsDerivation f).d (X := U)).comp
+          ((closedImmersionIdealSheafι i).val.app U).hom.toAddMonoidHom))
+      naturality U V j := by
+        ext a
+        change (unitΩ i f).val.app V ((relativeDifferentialsDerivation f).d
+            ((closedImmersionIdealSheafι i).val.app V
+              ((closedImmersionIdealSheaf i).val.map j a))) =
+          ((Modules.pushforward i).obj ((Modules.pullback i).obj
+            (relativeDifferentials f))).val.map j ((unitΩ i f).val.app U
+              ((relativeDifferentialsDerivation f).d ((closedImmersionIdealSheafι i).val.app U a)))
+        rw [PresheafOfModules.naturality_apply (closedImmersionIdealSheafι i).val j a]
+        erw [(relativeDifferentialsDerivation f).d_map j]
+        exact PresheafOfModules.naturality_apply (unitΩ i f).val j _ }
+    (fun U r a => by
+      change (unitΩ i f).val.app U ((relativeDifferentialsDerivation f).d
+          ((closedImmersionIdealSheafι i).val.app U (r • a))) =
+        r • (unitΩ i f).val.app U ((relativeDifferentialsDerivation f).d
+          ((closedImmersionIdealSheafι i).val.app U a))
+      rw [((closedImmersionIdealSheafι i).val.app U).hom.map_smul]
+      erw [(relativeDifferentialsDerivation f).d_mul]
+      rw [map_add]
+      erw [((unitΩ i f).val.app U).hom.map_smul, ((unitΩ i f).val.app U).hom.map_smul]
+      have h0 : i.app U.unop ((closedImmersionIdealSheafι i).app U.unop a) = 0 :=
+        app_idealSheafι i U.unop a
+      refine add_eq_left.mpr ?_
+      have hz : ∀ m : Γ((Modules.pullback i).obj (relativeDifferentials f), i ⁻¹ᵁ U.unop),
+          i.app U.unop ((closedImmersionIdealSheafι i).app U.unop a) • m = 0 := fun m => by
+        rw [h0, zero_smul]
+      exact hz _)
+
+/-- The conormal map `i^* I ⟶ i^* Ω_{X/Y}`, adjoint to `a ↦ 1 ⊗ d a`. -/
+noncomputable def conormalToPullback :
+    (Modules.pullback i).obj (closedImmersionIdealSheaf i) ⟶
+      (Modules.pullback i).obj (relativeDifferentials f) :=
+  ((Modules.pullbackPushforwardAdjunction i).homEquiv _ _).symm (idealToPushforward i f)
+
+theorem homEquiv_conormalToPullback :
+    (Modules.pullbackPushforwardAdjunction i).homEquiv _ _ (conormalToPullback i f) =
+      idealToPushforward i f :=
+  Equiv.apply_symm_apply _ _
+
+/-- The adjoint of `i^*Ω_{X/Y} ⟶ Ω_{Z/Y}` is `Ω_{X/Y} ⟶ i_*Ω_{Z/Y}`, `d a ↦ d (i^♯ a)`. -/
+theorem unit_comp_pushforward_map :
+    (Modules.pullbackPushforwardAdjunction i).unit.app (relativeDifferentials f) ≫
+      (Modules.pushforward i).map (pullbackRelativeDifferentialsToComp i f) =
+        relativeDifferentialsToPushforwardComp i f := by
+  rw [← Adjunction.homEquiv_unit, pullbackRelativeDifferentialsToComp_homEquiv]
+
+theorem conormalToPullback_comp :
+    conormalToPullback i f ≫ pullbackRelativeDifferentialsToComp i f = 0 := by
+  apply ((Modules.pullbackPushforwardAdjunction i).homEquiv _ _).injective
+  rw [Adjunction.homEquiv_naturality_right, homEquiv_conormalToPullback,
+    Adjunction.homEquiv_unit, Functor.map_zero, comp_zero]
+  refine Scheme.Modules.hom_ext _ _ fun V => ?_
+  ext a
+  have h1 := congr(($(unit_comp_pushforward_map i f)).val.app (op V)
+    ((relativeDifferentialsDerivation f).d ((closedImmersionIdealSheafι i).val.app (op V) a)))
+  have h2 : (relativeDifferentialsToPushforwardComp i f).val.app (op V)
+      ((relativeDifferentialsDerivation f).d ((closedImmersionIdealSheafι i).val.app (op V) a)) =
+        0 := by
+    rw [relativeDifferentialsToPushforwardComp_d]
+    erw [app_idealSheafι i V a]
+    exact map_zero _
+  exact (h1.trans h2).trans rfl
+
+section Desc
+
+variable {i f} {M : Z.Modules} (τ : (Modules.pullback i).obj (relativeDifferentials f) ⟶ M)
+  (hτ : conormalToPullback i f ≫ τ = 0)
+
+/-- The adjoint `Ω_{X/Y} ⟶ i_* M` of `τ`. -/
+noncomputable abbrev τAdj : relativeDifferentials f ⟶ (Modules.pushforward i).obj M :=
+  (Modules.pullbackPushforwardAdjunction i).homEquiv _ _ τ
+
+/-- `a ↦ τ(1 ⊗ d a)`, as a family of additive maps `Γ(X, U) → Γ(M, i⁻¹ U)`. -/
+noncomputable def descδ (U : X.Opens) : Γ(X, U) →+ Γ(M, i ⁻¹ᵁ U) :=
+  ((τAdj τ).val.app (op U)).hom.toAddMonoidHom.comp
+    ((relativeDifferentialsDerivation f).d (X := op U))
+
+theorem descδ_map {U U' : X.Opens} (h : U' ≤ U) (t : Γ(X, U)) :
+    descδ τ U' (X.presheaf.map (homOfLE h).op t) =
+      M.presheaf.map (homOfLE (fun _ hx => h hx : i ⁻¹ᵁ U' ≤ i ⁻¹ᵁ U)).op (descδ τ U t) := by
+  change (τAdj τ).val.app (op U') ((relativeDifferentialsDerivation f).d
+    (X.presheaf.map (homOfLE h).op t)) = _
+  erw [(relativeDifferentialsDerivation f).d_map]
+  exact PresheafOfModules.naturality_apply (τAdj τ).val (homOfLE h).op _
+
+include hτ in
+theorem descδ_ker (U : X.Opens) (t : Γ(X, U)) (ht : i.app U t = 0) : descδ τ U t = 0 := by
+  let S : ShortComplex X.Modules := ShortComplex.mk (kernel.ι (structureSheafToPushforward i))
+    (structureSheafToPushforward i) (kernel.condition (structureSheafToPushforward i))
+  have : Mono S.f := by change Mono (closedImmersionIdealSheafι i); infer_instance
+  obtain ⟨a, rfl⟩ := modules_sections_exact (S := S)
+    (ShortComplex.exact_of_f_is_kernel _ (kernelIsKernel _)) (U := U) t ht
+  have h0 : idealToPushforward i f ≫ (Modules.pushforward i).map τ = 0 := by
+    rw [← homEquiv_conormalToPullback, ← Adjunction.homEquiv_naturality_right, hτ,
+      Adjunction.homEquiv_unit, Functor.map_zero, comp_zero]
+  have h1 := congr(Scheme.Modules.Hom.app $h0 U a)
+  have h2 : τAdj τ = (Modules.pullbackPushforwardAdjunction i).unit.app _ ≫
+      (Modules.pushforward i).map τ := Adjunction.homEquiv_unit _ _ _ _
+  change (τAdj τ).val.app (op U) ((relativeDifferentialsDerivation f).d
+    ((closedImmersionIdealSheafι i).val.app (op U) a)) = 0
+  rw [h2]
+  exact h1.trans rfl
+
+theorem descδ_mul (U : X.Opens) (a b : Γ(X, U)) :
+    descδ τ U (a * b) = i.app U a • descδ τ U b + i.app U b • descδ τ U a := by
+  change (τAdj τ).val.app (op U) ((relativeDifferentialsDerivation f).d (a * b)) = _
+  erw [(relativeDifferentialsDerivation f).d_mul, map_add,
+    ((τAdj τ).val.app (op U)).hom.map_smul, ((τAdj τ).val.app (op U)).hom.map_smul]
+  rfl
+
+theorem descδ_app (V : Y.Opens) (b : Γ(Y, V)) : descδ τ (f ⁻¹ᵁ V) (f.app V b) = 0 := by
+  change (τAdj τ).val.app (op (f ⁻¹ᵁ V)) ((relativeDifferentialsDerivation f).d
+    (f.c.app (op V) b)) = 0
+  rw [(derivationOfInverseImage f (relativeDifferentialsDerivation f)).d_app b]
+  exact map_zero _
+
+/-- The derivation `𝒪_Z ⟶ M` over `Y` descended from `a ↦ τ(1 ⊗ d a)`. -/
+noncomputable def descDerivation :
+    M.val.Derivation (F := Opens.map (i ≫ f).base) (i ≫ f).c where
+  d {V} := AddMonoidHom.mk' (descD i (descδ τ) (descδ_map τ) (descδ_ker τ hτ) (V := V.unop))
+    (descD_add i (descδ τ) (descδ_map τ) (descδ_ker τ hτ))
+  d_mul {V} a b := descD_mul i (descδ τ) (descδ_map τ) (descδ_ker τ hτ) (descδ_mul τ) a b
+  d_map {V W} j a := descD_res i (descδ τ) (descδ_map τ) (descδ_ker τ hτ) j.unop.le a
+  d_app {V} b := by
+    change descD i (descδ τ) (descδ_map τ) (descδ_ker τ hτ)
+      (i.app (f ⁻¹ᵁ V.unop) (f.app V.unop b)) = 0
+    rw [descD_app]
+    exact descδ_app τ V.unop b
+
+theorem descDerivation_d_app (U : X.Opens) (t : Γ(X, U)) :
+    (descDerivation τ hτ).d (i.app U t) = descδ τ U t :=
+  descD_app i (descδ τ) (descδ_map τ) (descδ_ker τ hτ) U t
+
+/-- The descended map `Ω_{Z/Y} ⟶ M`. -/
+noncomputable def descHom : relativeDifferentials (i ≫ f) ⟶ M :=
+  (relativeDifferentialsHomEquiv (i ≫ f) M).symm
+    (derivationToInverseImage (i ≫ f) (descDerivation τ hτ))
+
+theorem descHom_d {V : Z.Opens} (s : Γ(Z, V)) :
+    (descHom τ hτ).val.app (op V) ((relativeDifferentialsDerivation (i ≫ f)).d s) =
+      (descDerivation τ hτ).d s := by
+  have h : (relativeDifferentialsDerivation (i ≫ f)).postcomp (descHom τ hτ).val =
+      derivationToInverseImage (i ≫ f) (descDerivation τ hτ) := by
+    rw [← relativeDifferentialsHomEquiv_apply]
+    exact Equiv.apply_symm_apply _ _
+  exact PresheafOfModules.Derivation.congr_d h s
+
+end Desc
+
+/-- `i^*Ω_{X/Y} ⟶ Ω_{Z/Y}` is a cokernel of the conormal map `i^* I ⟶ i^*Ω_{X/Y}`. -/
+noncomputable def conormalIsColimit :
+    IsColimit (CokernelCofork.ofπ (pullbackRelativeDifferentialsToComp i f)
+      (conormalToPullback_comp i f)) :=
+  CokernelCofork.IsColimit.ofπ _ _ (fun {M} τ hτ => descHom τ hτ)
+    (fun {M} τ hτ => by
+      apply ((Modules.pullbackPushforwardAdjunction i).homEquiv _ _).injective
+      rw [Adjunction.homEquiv_naturality_right, pullbackRelativeDifferentialsToComp_homEquiv]
+      apply (relativeDifferentialsHomEquiv f _).injective
+      rw [relativeDifferentialsHomEquiv_apply, relativeDifferentialsHomEquiv_apply]
+      ext U a
+      change (descHom τ hτ).val.app (op (i ⁻¹ᵁ U.unop))
+        ((relativeDifferentialsToPushforwardComp i f).val.app U
+          ((relativeDifferentialsDerivation f).d a)) = descδ τ U.unop a
+      rw [relativeDifferentialsToPushforwardComp_d]
+      exact (descHom_d τ hτ _).trans (descDerivation_d_app τ hτ U.unop a))
+    (fun {M} τ hτ m hm => by
+      apply (relativeDifferentialsHomEquiv (i ≫ f) M).injective
+      rw [relativeDifferentialsHomEquiv_apply, relativeDifferentialsHomEquiv_apply]
+      ext V s
+      change m.val.app V ((relativeDifferentialsDerivation (i ≫ f)).d s) =
+        (descHom τ hτ).val.app V ((relativeDifferentialsDerivation (i ≫ f)).d s)
+      rw [descHom_d]
+      refine good_unique i (descδ τ) ?_ (good_descD i (descδ τ) (descδ_map τ) (descδ_ker τ hτ) s)
+      intro U t W hWU hWV hl
+      have hm' : relativeDifferentialsToPushforwardComp i f ≫ (Modules.pushforward i).map m =
+          τAdj τ := by
+        rw [← pullbackRelativeDifferentialsToComp_homEquiv, ← Adjunction.homEquiv_naturality_right,
+          hm]
+      have e₁ := congr(($hm').val.app (op U) ((relativeDifferentialsDerivation f).d t))
+      change m.val.app (op (i ⁻¹ᵁ U)) ((relativeDifferentialsToPushforwardComp i f).val.app (op U)
+        ((relativeDifferentialsDerivation f).d t)) = descδ τ U t at e₁
+      rw [relativeDifferentialsToPushforwardComp_d] at e₁
+      change M.presheaf.map (homOfLE hWV).op (m.val.app (op V.unop)
+        ((relativeDifferentialsDerivation (i ≫ f)).d s)) = _
+      rw [← PresheafOfModules.naturality_apply m.val (homOfLE hWV).op]
+      erw [← (relativeDifferentialsDerivation (i ≫ f)).d_map]
+      unfold IsLift at hl
+      rw [← hl]
+      erw [(relativeDifferentialsDerivation (i ≫ f)).d_map,
+        PresheafOfModules.naturality_apply m.val]
+      exact congrArg _ e₁)
+
+/-- **The conormal sequence of a closed immersion** (Hartshorne II, Proposition 8.12). For a
+closed immersion `i : Z ⟶ X` with ideal sheaf `I` and a morphism `f : X ⟶ Y`, the sequence
+`i^* I ⟶ i^* Ω_{X/Y} ⟶ Ω_{Z/Y} ⟶ 0` of `𝒪_Z`-modules is exact. Here `i^* I` is the conormal sheaf
+of `i`, whose pushforward `i_* i^* I` is `I/I²` (`isIso_idealSheafSqQuotientToPushforward`). -/
+theorem closedImmersion_conormal_exact :
+    (ShortComplex.mk (conormalToPullback i f) (pullbackRelativeDifferentialsToComp i f)
+      (conormalToPullback_comp i f)).Exact ∧ Epi (pullbackRelativeDifferentialsToComp i f) :=
+  (ShortComplex.exact_and_epi_g_iff_g_is_cokernel _).2 ⟨conormalIsColimit i f⟩
+
+end Hartshorne.ClosedConormal
