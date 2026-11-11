@@ -28,6 +28,8 @@ diagonal is represented as a closed immersion.
 ## Proof depends on
 
 - [Differentials on affine schemes](affine-relative-differentials.md)
+- [Base change for differential sheaves](relative-differentials-base-change.md)
+- [The transitivity sequence for differential sheaves](relative-differentials-transitivity.md)
 - Stacks Project, Lemma 29.33.7, tag $08S2$.
 
 ## Sources
