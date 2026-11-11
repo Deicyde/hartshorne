@@ -29,6 +29,8 @@ closed over an algebraically closed field $k$, with scalars in $k$.
 - [The invertible sheaf of a Cartier divisor](../../divisors/cartier-picard/cartier-divisor-associated-sheaf.md)
 - [Arithmetic of associated divisor sheaves](../../divisors/cartier-picard/cartier-associated-sheaf-arithmetic.md)
 - [Effective Cartier divisors as closed subschemes](../../divisors/cartier-picard/effective-cartier-closed-subscheme.md)
+- [Regular points and nonsingular schemes](../../differentials/scheme-differentials/regular-points-and-nonsingular-schemes.md)
+- [Projective morphisms](../../proper-and-projective/projective-morphism.md)
 
 ## Proof depends on
 
@@ -36,6 +38,7 @@ closed over an algebraically closed field $k$, with scalars in $k$.
 - [Global regular functions inside the function field](../../../morphisms/global-functions/global-regular-in-function-field.md)
 - Identification of global sections of $\mathcal{O}(D)$ with rational functions $f$
   satisfying $\operatorname{div} (f) + D \ge 0$.
+- [Projective morphisms are proper](../../proper-and-projective/projective-morphism-proper.md)
 
 ## Sources
 
