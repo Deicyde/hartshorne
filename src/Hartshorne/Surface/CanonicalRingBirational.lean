@@ -641,10 +641,10 @@ a birational invariant. Let `X` and `X'` be nonsingular varieties of dimension `
 algebraically closed field `k`, and `e : X ⤏ X'` a partial isomorphism over `k`. The degree-`m`
 maps `Hartshorne.pluricanonicalTransfer` of the inverse map `e⁻¹` form a ring isomorphism
 `⨁ₘ Γ(X, (⋀^n Ω_{X/k})^{⊗ m}) ≃ ⨁ₘ Γ(X', (⋀^n Ω_{X'/k})^{⊗ m})`, which is the canonical ring
-`R(X, K_X) ≃ R(X', K_{X'})` since `ω = ⋀^n Ω` in dimension `n`. In degree `m` the map restricts a
-section of `ω_X^{⊗ m}` to the domain of definition `V' ⊆ X'` of `e⁻¹` (which contains the dense
-open `e.target`, where it is pullback along `e.iso`), and extends the result across `X' \ V'`,
-which has codimension at least two. Each degree map is `k`-linear and bijective. Here `X`, `X'`
+`R(X, K_X) ≃ R(X', K_{X'})` since `ω = ⋀^n Ω` in dimension `n`. In degree `m` the map pulls a
+section of `ω_X^{⊗ m}` back along `e⁻¹ : V' ⟶ X`, where `V' ⊆ X'` is the domain of definition of
+`e⁻¹` (it contains the dense open `e.target`, on which this is pullback along `e.iso`), and extends
+the result across `X' \ V'`, which has codimension at least two. Each degree map is `k`-linear and bijective. Here `X`, `X'`
 are integral regular schemes proper over `k`, not necessarily projective.
 
 The ring structure on the section rings of `⋀^n Ω` is `TensorPowerSectionRing.gRing`, which this
