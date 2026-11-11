@@ -27,8 +27,9 @@ dimension `n` (`smoothOfRelativeDimension_iff_flat_and_geometric_fiber`).
 
 ## Proof
 
-This follows the route of the proof on p. 270. Let `Z` be a scheme of finite type over a field `K` and `L` an
-algebraically closed extension of `K` (`smoothOfRelativeDimension_iff_baseChange_isRegularAt`).
+This follows the route of the proof on p. 270. Let `Z` be a scheme of finite type over a field `K`
+and `L` an algebraically closed extension of `K`
+(`smoothOfRelativeDimension_iff_baseChange_isRegularAt`).
 
 * If `Z → Spec K` is smooth of relative dimension `n`, so is its base change `Z_L → Spec L`
   (Proposition 10.1(b), `smoothOfRelativeDimension_baseChange`), and then `Z_L` is regular with
