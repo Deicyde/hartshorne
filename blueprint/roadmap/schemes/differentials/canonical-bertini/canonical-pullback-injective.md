@@ -13,7 +13,7 @@ Let $X$ and $X'$ be nonsingular varieties of the same dimension and let
 $f : V \to X'$ represent a birational map on a dense open $V \subset X$.
 Pullback of differentials induces an injective linear map
 
-$\Gamma (X', \omega _X') \to \Gamma (V, \omega _V)$.
+$\Gamma(X', \omega_{X'}) \to \Gamma(V, \omega_V)$.
 
 ## Depends on
 
