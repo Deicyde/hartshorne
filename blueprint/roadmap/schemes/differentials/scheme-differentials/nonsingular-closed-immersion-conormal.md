@@ -3,6 +3,8 @@ article_id: af_14e1851f2b923f93d14ef067
 declaration: theorem
 origin: cited
 lean: Hartshorne.NonsingularConormal.nonsingular_closedImmersion_conormal
+statement: formalized
+proof: formalized
 ---
 
 # The conormal bundle of a nonsingular closed subvariety
