@@ -10,6 +10,8 @@ import Hartshorne.Scheme.CoherentAffineLocalCriterion
 import Hartshorne.RingedSpace.FiniteLocallyFreeProjectionFormula
 import Hartshorne.Scheme.VeryAmpleTensorProduct
 import Hartshorne.Scheme.ProjectiveSpaceChart
+import Hartshorne.Scheme.FinitePushforwardCoherent
+import Hartshorne.RingedSpace.ModuleSheafTensorPowerIso
 
 
 /-!
@@ -24,20 +26,29 @@ relative to `Spec A`, and let `F` be a coherent `𝒪_X`-module. Then there is `
 
 ## Proof
 
-Since `X` is proper over `A`, the immersion `i : X ⟶ ℙʳ_A` with `i^* 𝒪(1) ≅ L` is closed, hence
-affine, and so is the projection `ℙʳ_A ⟶ ℙʳ_ℤ`. The pullbacks `s_k` of the coordinates `x_k` are
-global sections of `L`; the open sets `V_k = X_{s_k}`, the preimages of the standard charts
-`D₊(x_k)`, are affine, cover `X`, and `s_k` trivializes `L` on `V_k`. On `V_j` one has
-`s_k = (x_k/x_j) s_j`, and `x_k/x_j` is invertible exactly on `V_j ∩ V_k`
-(`AlgebraicGeometry.Proj.basicOpen_awayToSection_eq`), which identifies `X_{s_k}` with `V_k`.
+The proof follows Hartshorne's reduction to `ℙʳ_A`. Since `X` is proper over `A`, the immersion
+`i : X ⟶ ℙʳ_A` with `i^* 𝒪(1) ≅ L` is closed, hence finite, so `i_* F` is coherent on `ℙʳ_A`
+(Exercise 5.5, `isCoherent_pushforward_of_isFinite`). By the projection formula (Exercise 5.1(d)),
+`i_*(F ⊗ L^{⊗ n}) ≅ (i_* F) ⊗ 𝒪(1)^{⊗ n}` (`nonempty_pushforward_tensorPowerTwist_iso`), and since
+`F ⊗ L^{⊗ n}` and its pushforward have the same global sections and `i` is an embedding, sections
+generating `i_*(F ⊗ L^{⊗ n})` generate `F ⊗ L^{⊗ n}` (`isGeneratedBySections_of_pushforward`).
+This reduces the theorem to the case `X = ℙʳ_A`
+(`exists_isGeneratedBySections_tensorPowerTwist_projectiveSpace`).
 
-Each `Γ(V_k, F)` is a finitely generated module, say by `g_{k,1}, …, g_{k,m}`. By Lemma 5.14(b),
-in every large degree (`exists_forall_sectionPowSMul_extension`), there is `N` such that for
-`n ≥ N` each `s_k^n g_{k,l}` extends to a global section of `F ⊗ L^{⊗ n}`. On `V_k` the map
-`s ↦ s ⊗ s_k^{⊗ n}` identifies `F` with `F ⊗ L^{⊗ n}` (`tensorSectionHom_app_bijective`), and the
-germs of the `g_{k,l}` generate the stalks of the quasi-coherent sheaf `F` at points of the affine
-open `V_k` (`span_germ_eq_top_of_isAffineOpen`). Hence the finitely many extended sections generate
-every stalk (`exists_isGeneratedBySections_of_nonvanishingLocus_cover`).
+On `ℙʳ_A` the coordinates `x_k` are global sections of `𝒪(1)`; the standard charts `D₊(x_k)` are
+affine, cover `ℙʳ_A`, and `x_k` trivializes `𝒪(1)` on `D₊(x_k)`. On `D₊(x_j)` one has
+`x_k = (x_k/x_j) x_j`, and `x_k/x_j` is invertible exactly on `D₊(x_j) ∩ D₊(x_k)`
+(`AlgebraicGeometry.Proj.basicOpen_awayToSection_eq`). Each `Γ(D₊(x_k), G)` is a finitely
+generated module, say by `g_{k,1}, …, g_{k,m}`. By Lemma 5.14(b), in every large degree
+(`exists_forall_sectionPowSMul_extension`), there is `N` such that for `n ≥ N` each `x_k^n g_{k,l}`
+extends to a global section of `G ⊗ 𝒪(1)^{⊗ n}`. On `D₊(x_k)` the map `s ↦ s ⊗ x_k^{⊗ n}`
+identifies `G` with `G ⊗ 𝒪(1)^{⊗ n}` (`tensorSectionHom_app_bijective`), and the germs of the
+`g_{k,l}` generate the stalks of the quasi-coherent sheaf `G` at points of the affine open
+`D₊(x_k)` (`span_germ_eq_top_of_isAffineOpen`). Hence the finitely many extended sections generate
+every stalk (`exists_isGeneratedBySections_of_nonvanishingLocus_cover`). The chart argument is
+written for the pullback of `𝒪(1)` along any affine morphism to `Proj`
+(`exists_isGeneratedBySections_of_pullback_projTwistingSheaf`), and the case `X = ℙʳ_A` is the
+identity of `ℙʳ_A` composed with the affine projection `ℙʳ_A ⟶ ℙʳ_ℤ`.
 
 The argument does not use that `A` is Noetherian: coherence here means quasi-coherent with
 finitely generated sections over an affine cover, which is all the proof needs.
@@ -436,6 +447,125 @@ theorem exists_isGeneratedBySections_of_pullback_projTwistingSheaf {ι : Type*} 
 
 end ProjTransition
 
+/-! ### Reduction along a closed immersion -/
+
+section Reduction
+
+variable {Y : Scheme.{u}}
+
+/-- Generation by finitely many global sections is invariant under isomorphism. -/
+theorem exists_isGeneratedBySections_of_iso {G G' : X.Modules} (e : G ≅ G') {ι : Type u}
+    {t : ι → Γ(G, ⊤)} (ht : G.IsGeneratedBySections t) :
+    ∃ t' : ι → Γ(G', ⊤), G'.IsGeneratedBySections t' := by
+  let q : SheafOfModules.free ι ⟶ G :=
+    G.freeHomEquiv.symm fun k => Scheme.Modules.GloballyGenerated.sectionsOfTop G (t k)
+  have hq : Epi q := ht.epi
+  have he : Epi e.hom := @IsIso.epi_of_iso _ _ _ _ e.hom ⟨⟨e.inv, e.hom_inv_id, e.inv_hom_id⟩⟩
+  have : Epi (q ≫ e.hom) := @epi_comp _ _ _ _ _ q hq e.hom he
+  exact ⟨_, Scheme.Modules.GloballyGenerated.isGeneratedBySections_of_epi (q ≫ e.hom)⟩
+
+/-- For a morphism `i : X ⟶ Y`, the stalk map `(i_* H)_{i(x)} → H_x`. -/
+noncomputable def pushforwardStalkHom (i : X ⟶ Y) (H : X.Modules) (x : X) :
+    ((Scheme.Modules.pushforward i).obj H).presheaf.stalk (i x) →+ H.presheaf.stalk x :=
+  (TopCat.Presheaf.stalkPushforward AddCommGrpCat.{u} i.base H.presheaf x).hom
+
+theorem pushforwardStalkHom_germ (i : X ⟶ Y) (H : X.Modules) (x : X) (V : Y.Opens)
+    (hx : i x ∈ V) (s : Γ((Scheme.Modules.pushforward i).obj H, V)) :
+    pushforwardStalkHom i H x (((Scheme.Modules.pushforward i).obj H).presheaf.germ V (i x) hx s) =
+      H.presheaf.germ (i ⁻¹ᵁ V) x hx s :=
+  congr($(TopCat.Presheaf.stalkPushforward_germ AddCommGrpCat.{u} i.base H.presheaf V x hx) s)
+
+theorem pushforwardStalkHom_smul (i : X ⟶ Y) (H : X.Modules) (x : X) (c : Y.presheaf.stalk (i x))
+    (m : ((Scheme.Modules.pushforward i).obj H).presheaf.stalk (i x)) :
+    pushforwardStalkHom i H x (c • m) = i.stalkMap x c • pushforwardStalkHom i H x m := by
+  induction c, m using FreeLocusAux.stalk_smul_induction (i x) with
+  | h V hx r s =>
+    rw [← schemeModules_germ_smul, pushforwardStalkHom_germ, pushforwardStalkHom_germ,
+      Scheme.Hom.germ_stalkMap_apply]
+    exact schemeModules_germ_smul H (i ⁻¹ᵁ V) x hx (i.app V r) s
+
+theorem pushforwardStalkHom_surjective (i : X ⟶ Y) (hi : Topology.IsInducing i.base)
+    (H : X.Modules) (x : X) : Function.Surjective (pushforwardStalkHom i H x) := by
+  have := TopCat.Presheaf.stalkPushforward.stalkPushforward_iso_of_isInducing
+    (C := AddCommGrpCat.{u}) hi H.presheaf x
+  exact (ConcreteCategory.bijective_of_isIso
+    (TopCat.Presheaf.stalkPushforward AddCommGrpCat.{u} i.base H.presheaf x)).2
+
+/-- If `i : X ⟶ Y` is a topological embedding (for instance a closed immersion) and the global
+sections `t_k` of `i_* H` generate it, then the same sections, as global sections of `H`,
+generate `H`: the global sections of `H` and of `i_* H` are the same. -/
+theorem isGeneratedBySections_of_pushforward (i : X ⟶ Y) (hi : Topology.IsInducing i.base)
+    {H : X.Modules} {ι : Type u} {t : ι → Γ((Scheme.Modules.pushforward i).obj H, ⊤)}
+    (ht : ((Scheme.Modules.pushforward i).obj H).IsGeneratedBySections t) :
+    H.IsGeneratedBySections
+      (fun k => H.presheaf.map (homOfLE (fun _ _ => trivial : (⊤ : X.Opens) ≤ i ⁻¹ᵁ ⊤)).op
+        (t k)) := by
+  intro x
+  rw [eq_top_iff]
+  rintro m -
+  obtain ⟨m, rfl⟩ := pushforwardStalkHom_surjective i hi H x m
+  have hm : m ∈ Submodule.span (Y.presheaf.stalk (i x))
+      (Set.range fun k => ((Scheme.Modules.pushforward i).obj H).presheaf.germ ⊤ (i x) trivial
+        (t k)) := by
+    rw [ht (i x)]
+    trivial
+  induction hm using Submodule.span_induction with
+  | mem m hm =>
+    obtain ⟨k, rfl⟩ := hm
+    exact Submodule.subset_span ⟨k, (H.presheaf.germ_res_apply
+      (homOfLE (fun _ _ => trivial : (⊤ : X.Opens) ≤ i ⁻¹ᵁ ⊤)) x
+      (show x ∈ (⊤ : X.Opens) from trivial) (t k)).trans
+      (pushforwardStalkHom_germ i H x ⊤ trivial (t k)).symm⟩
+  | zero => rw [map_zero]; exact zero_mem _
+  | add m m' _ _ h h' => rw [map_add]; exact add_mem h h'
+  | smul c m _ h => rw [pushforwardStalkHom_smul]; exact Submodule.smul_mem _ _ h
+
+/-- **Pullback and tensor powers.** For an invertible `𝒪_Y`-module `E` and `i : X ⟶ Y`,
+`i^*(E^{⊗ n}) ≅ (i^*E)^{⊗ n}`. -/
+theorem nonempty_pullback_tensorPower_iso (i : X ⟶ Y) {E : Y.Modules} (hE : E.IsInvertible) :
+    ∀ n : ℕ, Nonempty ((Scheme.Modules.pullback i).obj (moduleSheafTensorPower n E) ≅
+      moduleSheafTensorPower n ((Scheme.Modules.pullback i).obj E))
+  | 0 => by
+    obtain ⟨e⟩ := nonempty_pullback_structureModule_iso i
+    exact ⟨(Scheme.Modules.pullback i).mapIso (Ringed.moduleSheafTensorPowerZeroIso E) ≪≫ e ≪≫
+      (Ringed.moduleSheafTensorPowerZeroIso _).symm⟩
+  | n + 1 => by
+    obtain ⟨e⟩ := nonempty_pullback_tensorPower_iso i hE n
+    have hE' := (Scheme.Modules.isInvertible_iff_ringed E).1 hE
+    exact ⟨(Scheme.Modules.pullback i).mapIso (Ringed.moduleSheafTensorPowerSuccIso E n) ≪≫
+      pullbackTensorIso i (Ringed.isInvertible_moduleSheafTensorPower hE' n) hE' ≪≫
+      Ringed.moduleSheafTensorIsoOfIso e (Iso.refl _) ≪≫
+      (Ringed.moduleSheafTensorPowerSuccIso _ n).symm⟩
+
+/-- Tensor powers of isomorphic module sheaves are isomorphic. -/
+theorem nonempty_tensorPower_iso {E E' : X.Modules} (α : E ≅ E') :
+    ∀ n : ℕ, Nonempty (moduleSheafTensorPower n E ≅ moduleSheafTensorPower n E')
+  | 0 => ⟨Ringed.moduleSheafTensorPowerZeroIso E ≪≫
+      (Ringed.moduleSheafTensorPowerZeroIso E').symm⟩
+  | n + 1 => by
+    obtain ⟨e⟩ := nonempty_tensorPower_iso α n
+    exact ⟨Ringed.moduleSheafTensorPowerSuccIso E n ≪≫ Ringed.moduleSheafTensorIsoOfIso e α ≪≫
+      (Ringed.moduleSheafTensorPowerSuccIso E' n).symm⟩
+
+/-- **Twisting commutes with pushforward** (by the projection formula, Hartshorne II,
+Exercise 5.1(d)). If `E` is invertible on `Y` and `i^* E ≅ L`, then
+`i_*(F ⊗ L^{⊗ n}) ≅ i_* F ⊗ E^{⊗ n}`. -/
+theorem nonempty_pushforward_tensorPowerTwist_iso (i : X ⟶ Y) {E : Y.Modules}
+    (hE : E.IsInvertible) {L : X.Modules} (α : (Scheme.Modules.pullback i).obj E ≅ L)
+    (F : X.Modules) (n : ℕ) :
+    Nonempty ((Scheme.Modules.pushforward i).obj (tensorPowerTwist F L n) ≅
+      tensorPowerTwist ((Scheme.Modules.pushforward i).obj F) E n) := by
+  obtain ⟨e⟩ := nonempty_pullback_tensorPower_iso i hE n
+  obtain ⟨β⟩ := nonempty_tensorPower_iso α.symm n
+  have hEn :=
+    (Scheme.Modules.isInvertible_iff_ringed _).1 (isInvertible_moduleSheafTensorPower hE n)
+  exact ⟨(Scheme.Modules.pushforward i).mapIso
+      (Ringed.moduleSheafTensorIsoOfIso (Iso.refl F) (β ≪≫ e.symm)) ≪≫
+    Ringed.projectionFormulaIso i.toRingCatSheafHom F (moduleSheafTensorPower n E)
+      (Ringed.IsInvertible.isFiniteLocallyFree hEn)⟩
+
+end Reduction
+
 /-! ### Serre's theorem -/
 
 section Serre
@@ -443,6 +573,26 @@ section Serre
 open MvPolynomial
 
 attribute [local instance] MvPolynomial.gradedAlgebra
+
+set_option backward.isDefEq.respectTransparency.types false in
+/-- **Hartshorne II, Theorem 5.17, the case `X = ℙʳ_A`.** For every coherent module `G` on
+`ℙʳ_A` there is `n₀` such that for all `n ≥ n₀`, the sheaf `G(n) = G ⊗ 𝒪(1)^{⊗ n}` is generated by
+a finite family of global sections. The standard charts `D₊(x_k)` cover `ℙʳ_A`, and Lemma 5.14
+extends `x_k^n g` for the finitely many generators `g` of `G` over `D₊(x_k)`. -/
+theorem exists_isGeneratedBySections_tensorPowerTwist_projectiveSpace (r : ℕ) (A : Type u)
+    [CommRing A] (G : (projectiveSpaceOverScheme r (Spec (.of A))).Modules) (hG : IsCoherent G) :
+    ∃ n₀ : ℕ, ∀ n ≥ n₀, ∃ (ι : Type u) (_ : Finite ι)
+      (t : ι → Γ(tensorPowerTwist G (projectiveSpaceTwistingSheaf r (Spec (.of A)) 1) n, ⊤)),
+      (tensorPowerTwist G (projectiveSpaceTwistingSheaf r (Spec (.of A)) 1) n).IsGeneratedBySections
+        t := by
+  have := hG.isQuasicoherent
+  exact exists_isGeneratedBySections_of_pullback_projTwistingSheaf
+    (𝒜 := GeneratedProj.intGrading.{u} r) (fun k : Fin (r + 1) => MvPolynomial.X k)
+    (fun k => X_mem_homogeneousSubmodule_one _ k) (iSup_proj_basicOpen_X_eq_top _)
+    (𝟙 _) (pullback.fst (projectiveSpaceOverIntegersMap r) (schemeToSpecZ (Spec (.of A))))
+    (hq := MorphismProperty.pullback_fst _ _ inferInstance)
+    (isInvertible_projectiveSpaceTwistingSheaf r _ 1) ((Scheme.Modules.pullbackId _).app _) G
+    (fun U => (forall_affine_finite_of_isCoherent G hG U).1)
 
 set_option backward.isDefEq.respectTransparency.types false in
 /-- **Hartshorne II, Theorem 5.17 (Serre).** Let `X` be projective over a ring `A` and let `L`
@@ -455,9 +605,9 @@ theorem exists_isGeneratedBySections_tensorPowerTwist_of_projective {A : Type u}
     (hL : IsVeryAmpleRelative p L) (F : X.Modules) (hF : IsCoherent F) :
     ∃ n₀ : ℕ, ∀ n ≥ n₀, ∃ (ι : Type u) (_ : Finite ι) (t : ι → Γ(tensorPowerTwist F L n, ⊤)),
       (tensorPowerTwist F L n).IsGeneratedBySections t := by
-  have := hF.isQuasicoherent
-  obtain ⟨hLinv, r, Z, o, c, ho, hc, hoc, ⟨α⟩⟩ := hL
+  obtain ⟨-, r, Z, o, c, ho, hc, hoc, ⟨α⟩⟩ := hL
   subst hoc
+  -- the immersion `i = o ≫ c : X ⟶ ℙʳ_A` is closed, since `X` is proper over `A`
   have : IsProper ((o ≫ c) ≫ projectiveSpaceOverSchemeProjection r (Spec (.of A))) :=
     hp.isProper
   have : IsProper (projectiveSpaceOverSchemeProjection r (Spec (.of A))) :=
@@ -465,12 +615,17 @@ theorem exists_isGeneratedBySections_tensorPowerTwist_of_projective {A : Type u}
   have : IsProper (o ≫ c) := IsProper.of_comp (o ≫ c) (projectiveSpaceOverSchemeProjection r _)
   have : IsClosedImmersion (o ≫ c) :=
     IsClosedImmersion.of_isPreimmersion (o ≫ c) (o ≫ c).isClosedMap.isClosed_range
-  exact exists_isGeneratedBySections_of_pullback_projTwistingSheaf
-    (𝒜 := GeneratedProj.intGrading.{u} r) (fun k : Fin (r + 1) => MvPolynomial.X k)
-    (fun k => X_mem_homogeneousSubmodule_one _ k) (iSup_proj_basicOpen_X_eq_top _)
-    (o ≫ c) (pullback.fst (projectiveSpaceOverIntegersMap r) (schemeToSpecZ (Spec (.of A))))
-    (hq := MorphismProperty.pullback_fst _ _ inferInstance) hLinv α F
-    (fun U => (forall_affine_finite_of_isCoherent F hF U).1)
+  -- `i_* F` is coherent on `ℙʳ_A` (Exercise 5.5), so the case `X = ℙʳ_A` applies to it
+  obtain ⟨n₀, hn₀⟩ := exists_isGeneratedBySections_tensorPowerTwist_projectiveSpace r A _
+    (isCoherent_pushforward_of_isFinite (o ≫ c) hF)
+  refine ⟨n₀, fun n hn => ?_⟩
+  obtain ⟨ι, hι, t, ht⟩ := hn₀ n hn
+  -- `i_*(F(n)) ≅ (i_* F)(n)`, and `F(n)`, `i_*(F(n))` have the same global sections
+  obtain ⟨e⟩ := nonempty_pushforward_tensorPowerTwist_iso (o ≫ c)
+    (isInvertible_projectiveSpaceTwistingSheaf r _ 1) α F n
+  obtain ⟨t', ht'⟩ := exists_isGeneratedBySections_of_iso e.symm ht
+  exact ⟨ι, hι, _, isGeneratedBySections_of_pushforward (o ≫ c)
+    (o ≫ c).isClosedEmbedding.isInducing ht'⟩
 
 end Serre
 
