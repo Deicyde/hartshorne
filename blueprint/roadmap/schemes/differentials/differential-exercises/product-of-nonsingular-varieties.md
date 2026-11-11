@@ -21,6 +21,9 @@ $\dim X + \dim Y$.
 - Pullback preserves finite local freeness, and the rank of a direct sum is
   the sum of the ranks.
 - The product dimension formula.
+- [Dimension of a tensor product of affine domains](../../../intersections-projective-space/dimension/tensor-product-dimension.md)
+- [The coordinate ring of an affine product](../../../intersections-projective-space/dimension/affine-product-coordinate-ring.md)
+- [Every finitely generated domain is a coordinate ring](../../../affine-varieties/coordinate-ring-realization.md)
 
 ## Sources
 
