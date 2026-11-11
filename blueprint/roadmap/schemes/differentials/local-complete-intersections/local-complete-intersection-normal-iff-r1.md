@@ -10,7 +10,9 @@ lean: Hartshorne.isNormal_iff_of_isLocalCompleteIntersectionIn
 # Normality of a local complete intersection
 
 Let $Y$ be a local complete intersection subscheme of a nonsingular variety.
-Then $Y$ is normal if and only if it is regular in codimension one.
+Then $Y$ is normal if and only if it is regular in codimension one, that is,
+its local rings of dimension at most one are regular (condition $R_1$ of
+Theorem 8.22A).
 
 ## Depends on
 
