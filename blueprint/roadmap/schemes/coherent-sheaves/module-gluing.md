@@ -41,7 +41,7 @@ linear on each $U_i$.
 
 - [Sheaves of modules](../modules-and-quasicoherent/sheaves-of-modules.md)
 
-## Proof depends on
+## Informally uses
 
 - [Gluing sheaves on an open cover](../sheaf-functors/gluing-sheaves.md)
 
