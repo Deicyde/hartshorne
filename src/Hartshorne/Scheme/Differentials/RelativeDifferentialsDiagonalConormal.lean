@@ -9,23 +9,44 @@ import Hartshorne.Scheme.Differentials.ImmersionConormalIndependence
 /-!
 # Relative differentials and the conormal sheaf of the diagonal
 
-Hartshorne, *Algebraic Geometry*, II.8, p. 175; Stacks Project, tag 08S2.
+Hartshorne, *Algebraic Geometry*, II.8, p. 175, defines `Ω_{X/Y}` as the conormal sheaf of the
+diagonal. Here `Ω_{X/Y}` is the sheafified Kähler sheaf (`Scheme.relativeDifferentials`), and we
+prove that it is isomorphic to the conormal sheaf of the diagonal (Stacks Project, tag 08S2).
 
 Let `f : X ⟶ Y` be a morphism of schemes and `Δ : X ⟶ X ×_Y X` its diagonal, factored as the
 closed immersion `j = Δ.liftCoborder : X ⟶ W` into the open `W = Δ.coborderRange` followed by
 the inclusion. Let `I` be the ideal sheaf of `j` and `N^*_Δ = j^* I` the conormal sheaf.
 
+## The comparison morphism
+
 For a section `a` of `𝒪_X` over `U`, the difference `p₁^* a - p₂^* a` of its two pullbacks is a
 section of `𝒪_W` over `p₁⁻¹ U ∩ p₂⁻¹ U` which `j^♯` sends to `a - a = 0`; hence it is a section
 of `I`, and its image under the unit `I ⟶ j_* j^* I` is a section of `N^*_Δ` over
 `j⁻¹(p₁⁻¹ U ∩ p₂⁻¹ U) = U`. This is a derivation `𝒪_X ⟶ N^*_Δ` over `Y`
-(`Hartshorne.DiagonalConormal.diagonalConormalDerivation`), and the universal property of
-`Ω_{X/Y}` gives the comparison morphism `Ω_{X/Y} ⟶ N^*_Δ`
-(`Hartshorne.DiagonalConormal.relativeDifferentialsToDiagonalConormal`) sending `d a` to the class
-of `p₁^* a - p₂^* a`.
+(`diagonalConormalDerivation`), and the universal property of `Ω_{X/Y}` gives the comparison
+morphism `Ω_{X/Y} ⟶ N^*_Δ` (`relativeDifferentialsToDiagonalConormal`), sending `d a` to the
+class of `p₁^* a - p₂^* a`. The derivation is built more generally for any morphism
+`j : X ⟶ W` with two retractions `q₁, q₂ : W ⟶ X` that agree after composing with `f`.
 
-The derivation is built more generally for any morphism `j : X ⟶ W` with two retractions
-`q₁, q₂ : W ⟶ X` that agree after composing with `f`.
+## It is an isomorphism
+
+* *Surjectivity on affine opens.* For affine opens `U ⊆ X` and `V ⊆ Y` with `f(U) ⊆ V`, the open
+  `U ×_V U = p₁⁻¹ U ∩ p₂⁻¹ U` lies in `W` and is affine, and its ring of functions is the pushout
+  `Γ(U) ⊗_{Γ(V)} Γ(U)`, so every function on it is a sum of products `p₁^* a · p₂^* b`. A section
+  `s` of `I` with `s = Σ p₁^* aᵢ · p₂^* bᵢ` satisfies `Σ aᵢ bᵢ = 0`, so
+  `s = -Σ p₁^* aᵢ (p₁^* bᵢ - p₂^* bᵢ)`. As the unit `I ⟶ j_* j^* I` is surjective on affine
+  sections, the sections of `N^*_Δ` over `U` are spanned by the classes of the
+  `p₁^* b - p₂^* b`, the images of the `d b`.
+* *A left inverse.* The conormal map `j^* I ⟶ j^* Ω_{W/X}` of the closed immersion `j`, relative
+  to `p₂ : W ⟶ X`, followed by base change `Ω_{W/X} ≅ p₁^* Ω_{X/Y}` and `j^* p₁^* ≅ 𝟙` (as
+  `j ≫ p₁ = 𝟙`), sends the class of `p₁^* a - p₂^* a` to `d a`.
+
+Hence the comparison morphism is a split monomorphism and an epimorphism, so an isomorphism
+(`relativeDifferentialsDiagonalConormalIso`). Under `j_* N^*_Δ ≅ I/I²` the image of `d a` is the
+class of `p₁^* a - p₂^* a` modulo `I²` (`relativeDifferentialsDiagonalConormalIso_d`). Finally the
+same construction with any closed factorization of the diagonal through an open `F.U` gives
+the same isomorphism under the identification of the conormal sheaves
+(`factorizationComparison_toCanonical`, `factorizationComparison_comparison`).
 -/
 
 universe u
@@ -539,6 +560,7 @@ noncomputable abbrev diagPullbackIso :
       (relativeDifferentials f)).symm ≪≫
     ((restrictFunctorIsoPullback (pullback.diagonal f).coborderRange.ι).app _).symm
 
+/-- On `W`, `squareMap` is the restriction of the base-change map of `X ×_Y X`. -/
 theorem squareMap_comp_diagRestrictIso :
     squareMap f (diagFst_comp f) ≫ (diagRestrictIso f).hom =
       (diagPullbackIso f).hom ≫ (restrictFunctor (pullback.diagonal f).coborderRange.ι).map
@@ -583,7 +605,8 @@ theorem squareMap_comp_diagRestrictIso :
       (((pullbackComp ι (pullback.fst f f)).inv.app (relativeDifferentials f)).app _
         (((Modules.pullbackPushforwardAdjunction (ι ≫ pullback.fst f f)).unit.app
           (relativeDifferentials f)).app V ((relativeDifferentialsDerivation f).d b))) = _
-    refine (congrArg (((restrictFunctorIsoPullback ι).inv.app _).app (ι ⁻¹ᵁ (pullback.fst f f ⁻¹ᵁ V)))
+    refine (congrArg (((restrictFunctorIsoPullback ι).inv.app _).app
+        (ι ⁻¹ᵁ (pullback.fst f f ⁻¹ᵁ V)))
       (pullbackComp_inv_unit ι (pullback.fst f f) (relativeDifferentials f) V _)).trans ?_
     exact restrictFunctorIsoPullback_inv_unit ι _ (pullback.fst f f ⁻¹ᵁ V) _
   refine lhs.trans ?_
@@ -674,6 +697,7 @@ noncomputable def diagonalConormalToRelativeDifferentials :
     (Modules.pullback (pullback.diagonal f).liftCoborder).map
       (inv (squareMap f (diagFst_comp f))) ≫ diagPullbackPullbackIso f
 
+/-- The left inverse sends the class of `p₁^* a - p₂^* a` to `d a`. -/
 theorem diagonalConormalToRelativeDifferentials_conormalD (U : X.Opens) (a : Γ(X, U)) :
     (diagonalConormalToRelativeDifferentials f).app U
         (conormalD (liftCoborder_diagFst f) (liftCoborder_diagSnd f) U a) =
@@ -760,6 +784,7 @@ noncomputable abbrev chartMap :
     pullback (f.resLE V U hUV) (f.resLE V U hUV) ⟶ pullback f f :=
   pullback.map _ _ _ _ (U : X.Opens).ι (U : X.Opens).ι (V : Y.Opens).ι (by simp) (by simp)
 
+/-- The image of `U ×_V U` in `X ×_Y X` is `p₁⁻¹ U ∩ p₂⁻¹ U`. -/
 theorem range_chartMap :
     Set.range (chartMap f U V hUV) =
       pullback.fst f f ⁻¹' ((U : X.Opens) : Set X) ∩
@@ -767,6 +792,7 @@ theorem range_chartMap :
   rw [Scheme.Pullback.range_map]
   simp only [Scheme.Opens.range_ι]
 
+/-- The diagonal of `U ⟶ V` is the restriction of the diagonal of `f`. -/
 theorem diagonal_chartMap :
     pullback.diagonal (f.resLE V U hUV) ≫ chartMap f U V hUV =
       (U : X.Opens).ι ≫ pullback.diagonal f := by
@@ -776,6 +802,7 @@ theorem diagonal_chartMap :
   · rw [Category.assoc, Category.assoc, pullback.lift_snd, ← Category.assoc,
       pullback.diagonal_snd, Category.id_comp, pullback.diagonal_snd, Category.comp_id]
 
+/-- The preimage of the diagonal of `f` in `U ×_V U` is the diagonal of `U ⟶ V`. -/
 theorem preimage_range_diagonal :
     chartMap f U V hUV ⁻¹' Set.range (pullback.diagonal f) =
       Set.range (pullback.diagonal (f.resLE V U hUV)) := by
@@ -968,10 +995,11 @@ theorem isIso_relativeDifferentialsToDiagonalConormal :
   rw [← cancel_epi (relativeDifferentialsToDiagonalConormal f), ← Category.assoc,
     relativeDifferentialsToDiagonalConormal_comp_inverse, Category.id_comp, Category.comp_id]
 
-/-- **Hartshorne II, p. 175: the relative differentials are the conormal sheaf of the
-diagonal.** For a morphism of schemes `f : X ⟶ Y` with diagonal `Δ : X ⟶ X ×_Y X`, the canonical
+/-- **The relative differentials are the conormal sheaf of the diagonal.** Hartshorne II.8,
+p. 175, defines `Ω_{X/Y}` as the conormal sheaf of the diagonal; for the sheafified Kähler sheaf
+`Ω_{X/Y}` and a morphism of schemes `f : X ⟶ Y` with diagonal `Δ : X ⟶ X ×_Y X`, the canonical
 morphism `Ω_{X/Y} ⟶ N^*_Δ`, sending `d a` to the class of `p₁^* a - p₂^* a`, is an isomorphism
-of `𝒪_X`-modules. -/
+of `𝒪_X`-modules (Stacks Project, tag 08S2). -/
 noncomputable def relativeDifferentialsDiagonalConormalIso :
     relativeDifferentials f ≅ immersionConormalSheaf (pullback.diagonal f) :=
   haveI := isIso_relativeDifferentialsToDiagonalConormal f
@@ -1122,14 +1150,17 @@ noncomputable abbrev factorizationIncl :
     F.U.toScheme ⟶ (pullback.diagonal f).coborderRange.toScheme :=
   (pullback f f).homOfLE (le_coborderRange F)
 
+/-- The closed immersion of a factorization is a section of the first projection. -/
 theorem factorization_retraction₁ : F.j ≫ factorizationIncl f F ≫ diagFst f = 𝟙 X := by
   rw [← Category.assoc, j_homOfLE F]
   exact liftCoborder_diagFst f
 
+/-- The closed immersion of a factorization is a section of the second projection. -/
 theorem factorization_retraction₂ : F.j ≫ factorizationIncl f F ≫ diagSnd f = 𝟙 X := by
   rw [← Category.assoc, j_homOfLE F]
   exact liftCoborder_diagSnd f
 
+/-- The two projections from `F.U` agree after composing with `f`. -/
 theorem factorization_comp :
     (factorizationIncl f F ≫ diagFst f) ≫ f = (factorizationIncl f F ≫ diagSnd f) ≫ f :=
   (Category.assoc _ _ _).trans ((congrArg (factorizationIncl f F ≫ ·) (diagFst_comp f)).trans
@@ -1155,7 +1186,8 @@ theorem factorizationComparison_app_d (U : X.Opens) (a : Γ(X, U)) :
 factorization `F` of the diagonal agrees with the canonical one under the identification
 `toCanonical F` of `F.conormal` with `N^*_Δ`. -/
 theorem factorizationComparison_toCanonical :
-    factorizationComparison f F ≫ (toCanonical F).hom = relativeDifferentialsToDiagonalConormal f := by
+    factorizationComparison f F ≫ (toCanonical F).hom =
+      relativeDifferentialsToDiagonalConormal f := by
   apply (relativeDifferentialsHomEquiv f _).injective
   rw [relativeDifferentialsHomEquiv_apply, relativeDifferentialsHomEquiv_apply]
   ext ⟨U⟩ a
