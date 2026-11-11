@@ -3,6 +3,8 @@ article_id: af_8782dbfdc5ef15986b6ffc56
 declaration: def
 origin: cited
 lean: Hartshorne.kodairaDimension Hartshorne.neg_one_le_kodairaDimension Hartshorne.trdeg_canonicalSectionRing_eq Hartshorne.kodairaDimension_eq_neg_one_iff Hartshorne.kodairaDimension_nonneg_iff Hartshorne.trdeg_divisorMultipleSectionRing_eq Hartshorne.kodairaDimension_eq_of_canonicalDivisorClass Hartshorne.DivisorMultipleSectionRing.instCommRing Hartshorne.DivisorMultipleSectionRing.algebra
+statement: formalized
+proof: formalized
 ---
 
 # Kodaira dimension
