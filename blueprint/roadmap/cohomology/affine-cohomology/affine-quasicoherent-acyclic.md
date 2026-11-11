@@ -22,6 +22,7 @@ sheaf, not a derived functor internal to quasi-coherent modules.
 - [Modules and quasi-coherent sheaves on an affine scheme](../../schemes/modules-and-quasicoherent/affine-quasicoherent-equivalence.md)
 - [Flasque sheaves are acyclic](../sheaf-cohomology/flasque-sheaf-acyclic.md)
 - [Exactness of the tilde functor](../../schemes/modules-and-quasicoherent/affine-tilde/tilde-exactness.md)
+- [Module and abelian-sheaf cohomology agree](../sheaf-cohomology/module-cohomology-comparison.md)
 - The category of modules over the affine coordinate ring has enough injectives.
 
 ## Sources
