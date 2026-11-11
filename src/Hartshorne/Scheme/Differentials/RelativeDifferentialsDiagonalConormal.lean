@@ -351,4 +351,136 @@ theorem relativeDifferentialsToDiagonalConormal_app_d (U : X.Opens) (a : Γ(X, U
 end Diagonal
 
 
+open scoped TensorProduct in
+/-- In a pushout square of commutative rings, every element of the pushout is a sum of products
+`inl a * inr b`. -/
+theorem mem_closure_of_isPushout {R A B P : CommRingCat.{u}} {f : R ⟶ A} {g : R ⟶ B}
+    {inl : A ⟶ P} {inr : B ⟶ P} (h : IsPushout f g inl inr) (x : P) :
+    x ∈ AddSubmonoid.closure (Set.range fun p : A × B => inl p.1 * inr p.2) := by
+  let := f.hom.toAlgebra
+  let := g.hom.toAlgebra
+  have H : IsPushout f g
+      (CommRingCat.ofHom (S := A ⊗[R] B) Algebra.TensorProduct.includeLeftRingHom)
+      (CommRingCat.ofHom (S := A ⊗[R] B) Algebra.TensorProduct.includeRight.toRingHom) :=
+    CommRingCat.isPushout_tensorProduct R A B
+  let e := H.isoIsPushout _ _ h
+  obtain ⟨y, rfl⟩ : ∃ y, e.hom y = x := ⟨e.inv x, by simp⟩
+  induction y using TensorProduct.induction_on with
+  | zero => rw [map_zero]; exact zero_mem _
+  | tmul a b =>
+    have h1 := ConcreteCategory.congr_hom (H.inl_isoIsPushout_hom _ _ h) a
+    have h2 := ConcreteCategory.congr_hom (H.inr_isoIsPushout_hom _ _ h) b
+    refine AddSubmonoid.subset_closure ⟨(a, b), ?_⟩
+    have e3 : (a ⊗ₜ[R] b : A ⊗[R] B) = (a ⊗ₜ[R] (1 : B)) * ((1 : A) ⊗ₜ[R] b) := by
+      rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
+    change inl a * inr b = e.hom (a ⊗ₜ[R] b)
+    rw [e3, map_mul]
+    exact congrArg₂ (· * ·) h1.symm h2.symm
+  | add y z hy hz => rw [map_add]; exact add_mem hy hz
+
+section AffineChart
+
+variable (f : X ⟶ Y) (U : X.affineOpens) (V : Y.affineOpens)
+  (hUV : (U : X.Opens) ≤ f ⁻¹ᵁ (V : Y.Opens))
+
+/-- The open immersion `U ×_V U ⟶ X ×_Y X`. -/
+noncomputable abbrev chartMap :
+    pullback (f.resLE V U hUV) (f.resLE V U hUV) ⟶ pullback f f :=
+  pullback.map _ _ _ _ (U : X.Opens).ι (U : X.Opens).ι (V : Y.Opens).ι (by simp) (by simp)
+
+theorem range_chartMap :
+    Set.range (chartMap f U V hUV) =
+      pullback.fst f f ⁻¹' ((U : X.Opens) : Set X) ∩
+        pullback.snd f f ⁻¹' ((U : X.Opens) : Set X) := by
+  rw [Scheme.Pullback.range_map]
+  simp only [Scheme.Opens.range_ι]
+
+theorem diagonal_chartMap :
+    pullback.diagonal (f.resLE V U hUV) ≫ chartMap f U V hUV =
+      (U : X.Opens).ι ≫ pullback.diagonal f := by
+  apply pullback.hom_ext
+  · rw [Category.assoc, Category.assoc, pullback.lift_fst, ← Category.assoc,
+      pullback.diagonal_fst, Category.id_comp, pullback.diagonal_fst, Category.comp_id]
+  · rw [Category.assoc, Category.assoc, pullback.lift_snd, ← Category.assoc,
+      pullback.diagonal_snd, Category.id_comp, pullback.diagonal_snd, Category.comp_id]
+
+theorem preimage_range_diagonal :
+    chartMap f U V hUV ⁻¹' Set.range (pullback.diagonal f) =
+      Set.range (pullback.diagonal (f.resLE V U hUV)) := by
+  ext z
+  constructor
+  · rintro ⟨x, hx⟩
+    have hxU : x ∈ (U : X.Opens) := by
+      have e : pullback.fst f f (pullback.diagonal f x) = x := by
+        rw [← Scheme.Hom.comp_apply, pullback.diagonal_fst]
+        rfl
+      rw [← e, hx, ← Scheme.Hom.comp_apply, pullback.lift_fst, Scheme.Hom.comp_apply]
+      exact (pullback.fst (f.resLE V U hUV) (f.resLE V U hUV) z).2
+    obtain ⟨u, rfl⟩ : x ∈ Set.range (U : X.Opens).ι := by simpa using hxU
+    refine ⟨u, (chartMap f U V hUV).isOpenEmbedding.injective ?_⟩
+    rw [← Scheme.Hom.comp_apply, diagonal_chartMap, Scheme.Hom.comp_apply, hx]
+  · rintro ⟨u, rfl⟩
+    refine ⟨(U : X.Opens).ι u, ?_⟩
+    rw [← Scheme.Hom.comp_apply, ← diagonal_chartMap, Scheme.Hom.comp_apply]
+
+include hUV in
+/-- The open `U ×_V U = p₁⁻¹ U ∩ p₂⁻¹ U` lies in the open where the diagonal is closed. -/
+theorem chart_le_coborderRange :
+    pullback.fst f f ⁻¹ᵁ (U : X.Opens) ⊓ pullback.snd f f ⁻¹ᵁ (U : X.Opens) ≤
+      (pullback.diagonal f).coborderRange := by
+  intro x hx
+  have hx' : x ∈ Set.range (chartMap f U V hUV) := by
+    rw [range_chartMap]; exact hx
+  obtain ⟨z, rfl⟩ := hx'
+  have hcl : IsClosed (Set.range (pullback.diagonal (f.resLE V U hUV))) :=
+    (pullback.diagonal (f.resLE V U hUV)).isClosedEmbedding.isClosed_range
+  have h := (chartMap f U V hUV).isOpenEmbedding.coborder_preimage
+    (Set.range (pullback.diagonal f))
+  rw [preimage_range_diagonal, coborder_eq_univ_iff.mpr hcl] at h
+  have hz : z ∈ chartMap f U V hUV ⁻¹' coborder (Set.range (pullback.diagonal f)) := by
+    rw [← h]; trivial
+  exact hz
+
+include hUV in
+/-- The open `p₁⁻¹ U ∩ p₂⁻¹ U` of `W` is affine. -/
+theorem isAffineOpen_nbhd : IsAffineOpen (nbhd (diagFst f) (diagSnd f) (U : X.Opens)) :=
+  (IsAffineOpen.pullback_inf U.2 U.2 V.2 hUV hUV).preimage_of_isOpenImmersion
+    (pullback.diagonal f).coborderRange.ι
+    (by rw [Scheme.Opens.opensRange_ι]; exact chart_le_coborderRange f U V hUV)
+
+include hUV in
+/-- Every function on `p₁⁻¹ U ∩ p₂⁻¹ U ⊆ W` is a sum of products `p₁^* a · p₂^* b`. -/
+theorem mem_closure_nbhd (s : Γ((pullback.diagonal f).coborderRange.toScheme,
+      nbhd (diagFst f) (diagSnd f) (U : X.Opens))) :
+    s ∈ AddSubmonoid.closure (Set.range fun p : Γ(X, (U : X.Opens)) × Γ(X, (U : X.Opens)) =>
+      (diagFst f).appLE U _ inf_le_left p.1 * (diagSnd f).appLE U _ inf_le_right p.2) := by
+  have hP := AlgebraicGeometry.Scheme.baseChange_isPushout f f U V U hUV hUV
+  have hle : pullback.fst f f ⁻¹ᵁ (U : X.Opens) ⊓ pullback.snd f f ⁻¹ᵁ (U : X.Opens) ≤
+      (pullback.diagonal f).coborderRange.ι.opensRange := by
+    rw [Scheme.Opens.opensRange_ι]; exact chart_le_coborderRange f U V hUV
+  have hiso := (pullback.diagonal f).coborderRange.ι.isIso_app _ hle
+  obtain ⟨s₀, rfl⟩ := (ConcreteCategory.bijective_of_isIso
+    ((pullback.diagonal f).coborderRange.ι.app
+      (pullback.fst f f ⁻¹ᵁ (U : X.Opens) ⊓ pullback.snd f f ⁻¹ᵁ (U : X.Opens)))).2 s
+  have hs₀ := mem_closure_of_isPushout hP s₀
+  induction hs₀ using AddSubmonoid.closure_induction with
+  | mem x hx =>
+    obtain ⟨⟨a, b⟩, rfl⟩ := hx
+    refine AddSubmonoid.subset_closure ⟨(a, b), ?_⟩
+    dsimp only
+    rw [map_mul]
+    congr 1
+    · rw [← ConcreteCategory.comp_apply,
+        Scheme.Hom.app_eq_appLE (pullback.diagonal f).coborderRange.ι,
+        Scheme.Hom.appLE_comp_appLE]
+      rfl
+    · rw [← ConcreteCategory.comp_apply,
+        Scheme.Hom.app_eq_appLE (pullback.diagonal f).coborderRange.ι,
+        Scheme.Hom.appLE_comp_appLE]
+      rfl
+  | zero => rw [map_zero]; exact zero_mem _
+  | add x y _ _ hx hy => rw [map_add]; exact add_mem hx hy
+
+end AffineChart
+
 end Hartshorne.DiagonalConormal
