@@ -685,3 +685,4 @@ import Hartshorne.Scheme.VeryAmplePowerImpliesAmple
 import Hartshorne.Surface.KodairaDimension
 import Hartshorne.Scheme.Differentials.ProductOfNonsingularVarieties
 import Hartshorne.Cohomology.QuasiProjectiveLocallyFreeResolution
+import Hartshorne.Scheme.InfinitesimalNeighborhoods
