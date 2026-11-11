@@ -29,6 +29,7 @@ resolution terms are flasque.
 - [The principal-parts resolution on $\mathbb{P}^{1}$](projective-line-principal-parts-resolution.md)
 - [Flasque sheaves are acyclic](flasque-sheaf-acyclic.md)
 - [Flasque closure in short exact sequences](flasque-short-exact-closure.md)
+- [The long exact sequence of sheaf cohomology](sheaf-cohomology-long-exact-sequence.md)
 
 ## Sources
 
