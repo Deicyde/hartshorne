@@ -9,6 +9,8 @@ import Hartshorne.Scheme.Differentials.RegularQuotientCotangentIndependent
 import Hartshorne.Scheme.RegularLocalCohenMacaulay
 import Hartshorne.Scheme.DimensionCodimension
 import Hartshorne.Scheme.Differentials.LocalCompleteIntersectionCohenMacaulay
+import Hartshorne.Scheme.ModulePullbackStalk
+import Hartshorne.Scheme.CoherentFibreRank
 
 /-!
 # The conormal bundle of a nonsingular closed subvariety
@@ -19,6 +21,7 @@ Hartshorne, *Algebraic Geometry*, II, Theorem 8.17 (pp. 178–179), forward dire
 universe u v w
 
 open IsLocalRing Ideal Module
+open scoped TensorProduct
 
 namespace Hartshorne
 
@@ -280,6 +283,71 @@ theorem ringKrullDim_stalk_eq_add_codim (p : X ⟶ Spec (.of k)) [IsIntegral X] 
   omega
 
 end Dimension
+
+section Stalks
+
+open CategoryTheory Limits TopologicalSpace Opposite Ringed ModuleSheafTensor
+
+variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+
+/-- A morphism of sheaves of modules on a ringed space is a monomorphism if it is injective on
+all stalks. -/
+theorem mono_of_injective_stalk {M N : SheafOfModules.{u} (ringCatSheafOf R)} (φ : M ⟶ N)
+    (h : ∀ x : X, Function.Injective ((moduleStalkFunctor (R := R) x).map φ)) : Mono φ := by
+  have happ : ∀ U : (Opens X)ᵒᵖ,
+      Function.Injective (((PresheafOfModules.toPresheaf _).map φ.val).app U) := fun U =>
+    TopCat.Presheaf.app_injective_of_stalkFunctor_map_injective (C := AddCommGrpCat.{u})
+      (F := ⟨M.val.presheaf, M.isSheaf⟩) ((PresheafOfModules.toPresheaf _).map φ.val) U.unop
+      (fun x _ => h x)
+  have h1 : Mono ((PresheafOfModules.toPresheaf _).map φ.val) := by
+    have : ∀ U, Mono (((PresheafOfModules.toPresheaf _).map φ.val).app U) := fun U =>
+      (AddCommGrpCat.mono_iff_injective _).mpr (happ U)
+    exact NatTrans.mono_of_mono_app _
+  have h2 : Mono φ.val := (PresheafOfModules.toPresheaf _).mono_of_mono_map h1
+  exact (SheafOfModules.forget _).mono_of_mono_map h2
+
+/-- The stalk functor of a ringed space is right exact: it takes a right exact sequence
+`M₁ ⟶ M₂ ⟶ M₃ ⟶ 0` of sheaves of modules to a right exact sequence of modules over the local
+ring, since it is a left adjoint (of the skyscraper functor). -/
+theorem stalk_exact_and_surjective (S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R)))
+    (hS : S.Exact) [Epi S.g] (x : X) :
+    Function.Exact ((moduleStalkFunctor (R := R) x).map S.f)
+        ((moduleStalkFunctor (R := R) x).map S.g) ∧
+      Function.Surjective ((moduleStalkFunctor (R := R) x).map S.g) := by
+  have hadj := moduleStalkSkyscraperAdjunction (R := R) x
+  have : (moduleStalkFunctor (R := R) x).IsLeftAdjoint := hadj.isLeftAdjoint
+  have hex := hS.map_of_epi_of_preservesCokernel (moduleStalkFunctor (R := R) x) inferInstance
+    inferInstance
+  refine ⟨(ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mp hex, ?_⟩
+  exact (ModuleCat.epi_iff_surjective _).mp inferInstance
+
+end Stalks
+
+section LocallyFreeStalk
+
+open AlgebraicGeometry
+
+/-- The stalks of a module sheaf on a scheme that is locally free of rank `n` are free of
+rank `n`. -/
+theorem nonempty_stalk_equiv_of_isLocallyFreeOfRank {X : Scheme.{u}} (F : X.Modules) (n : ℕ)
+    (hF : F.IsLocallyFreeOfRank n) (x : X) :
+    Nonempty (F.presheaf.stalk x ≃ₗ[X.presheaf.stalk x] (Fin n → X.presheaf.stalk x)) := by
+  obtain ⟨U, hxU, ⟨α⟩⟩ := hF x
+  have hLF : F.IsLocallyFree := fun z => by
+    obtain ⟨V, hzV, ⟨β⟩⟩ := hF z
+    exact ⟨V, hzV, _, ⟨β⟩⟩
+  have : Module.Free (X.presheaf.stalk x) (F.presheaf.stalk x) :=
+    free_stalk_of_isLocallyFree F hLF x
+  have hrank : Module.rank (ResidueField (X.presheaf.stalk x))
+      (ResidueField (X.presheaf.stalk x) ⊗[X.presheaf.stalk x] F.presheaf.stalk x) =
+        Cardinal.mk (ULift.{u} (Fin n)) := rank_fibre_of_restrict_iso_free F α hxU
+  rw [Module.rank_baseChange, Cardinal.mk_uLift, Cardinal.mk_fintype, Fintype.card_fin] at hrank
+  have hr : Module.rank (X.presheaf.stalk x) (F.presheaf.stalk x) = n := by
+    simpa using hrank
+  have := Module.finite_of_rank_eq_nat hr
+  exact ⟨(Module.finBasisOfFinrankEq _ _ (Module.finrank_eq_of_rank_eq hr)).equivFun⟩
+
+end LocallyFreeStalk
 
 end NonsingularConormal
 
