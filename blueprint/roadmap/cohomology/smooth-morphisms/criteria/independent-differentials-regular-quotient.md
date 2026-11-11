@@ -44,10 +44,13 @@ the classes.
 
 ## Proof depends on
 
-- [The conormal exact sequence](../../../schemes/differentials/kaehler-differentials/kahler-conormal-exact-sequence.md)
 - [Localization of Kähler differentials](../../../schemes/differentials/kaehler-differentials/kahler-differential-localization.md)
-- [The cotangent-dimension bound](../../../nonsingular-varieties/cotangent-dimension-bound.md)
 - Krull's height theorem.
+
+## Informally uses
+
+- [The conormal exact sequence](../../../schemes/differentials/kaehler-differentials/kahler-conormal-exact-sequence.md)
+- [The cotangent-dimension bound](../../../nonsingular-varieties/cotangent-dimension-bound.md)
 
 ## Sources
 
