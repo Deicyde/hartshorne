@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.Differentials.ImmersionConormalSheaf
 import Hartshorne.Scheme.Differentials.ClosedImmersionConormalSequence
+import Hartshorne.Scheme.Differentials.ImmersionConormalIndependence
 
 /-!
 # Relative differentials and the conormal sheaf of the diagonal
@@ -1014,5 +1015,180 @@ theorem relativeDifferentialsDiagonalConormalIso_d (U : X.Opens) (a : Γ(X, U)) 
     (Iso.hom_inv_id (asIso (idealSheafSqQuotientToPushforward j)))) _
 
 end Isomorphism
+
+section Restriction
+
+open Scheme Scheme.Modules ConormalIndependence
+
+variable {V : Scheme.{u}} {q₁ q₂ : W ⟶ X} (κ : V ⟶ W) [IsOpenImmersion κ] {j : X ⟶ V}
+  (h₁ : j ≫ κ ≫ q₁ = 𝟙 X) (h₂ : j ≫ κ ≫ q₂ = 𝟙 X)
+
+omit [IsOpenImmersion κ] in
+include h₁ in
+/-- A retraction of `j` through `κ` is a retraction of `j ≫ κ`. -/
+theorem comp_retraction₁ : (j ≫ κ) ≫ q₁ = 𝟙 X := by rw [Category.assoc]; exact h₁
+
+omit [IsOpenImmersion κ] in
+include h₂ in
+/-- A retraction of `j` through `κ` is a retraction of `j ≫ κ`. -/
+theorem comp_retraction₂ : (j ≫ κ) ≫ q₂ = 𝟙 X := by rw [Category.assoc]; exact h₂
+
+/-- The restriction identification of ideal sheaves carries the difference section on the
+smaller neighbourhood to the restriction of the difference section on the larger one. -/
+theorem idealSheafRestrictIso_inv_idealSection (U : X.Opens) (a : Γ(X, U)) :
+    (idealSheafRestrictIso j κ).inv.app (nbhd (κ ≫ q₁) (κ ≫ q₂) U)
+        (idealSection h₁ h₂ U a) =
+      (closedImmersionIdealSheaf (j ≫ κ)).presheaf.map
+        (homOfLE (κ.image_preimage_le (nbhd q₁ q₂ U))).op
+        (idealSection (comp_retraction₁ κ h₁) (comp_retraction₂ κ h₂) U a) := by
+  set T := nbhd q₁ q₂ U
+  set y := (closedImmersionIdealSheaf (j ≫ κ)).presheaf.map
+    (homOfLE (κ.image_preimage_le T)).op
+    (idealSection (comp_retraction₁ κ h₁) (comp_retraction₂ κ h₂) U a)
+  suffices hy : idealSection h₁ h₂ U a = (idealSheafRestrictIso j κ).hom.app (κ ⁻¹ᵁ T) y by
+    rw [hy]
+    exact ConcreteCategory.congr_hom (congrArg (fun φ => Modules.Hom.app φ (κ ⁻¹ᵁ T))
+      (idealSheafRestrictIso j κ).hom_inv_id) y
+  refine idealSection_eq h₁ h₂ a _ ?_
+  have hι := ConcreteCategory.congr_hom (congrArg (fun φ => Modules.Hom.app φ (κ ⁻¹ᵁ T))
+    (idealSheafRestrictIso_hom_ι j κ)) y
+  refine hι.trans ?_
+  change (κ.appIso (κ ⁻¹ᵁ T)).hom ((closedImmersionIdealSheafι (j ≫ κ)).app _ y) = _
+  have hy2 : (closedImmersionIdealSheafι (j ≫ κ)).app _ y =
+      W.presheaf.map (homOfLE (κ.image_preimage_le T)).op (diffSection q₁ q₂ U a) :=
+    (Scheme.Modules.app_presheaf_map _ _ _).trans
+      (congrArg _ (ι_idealSection (comp_retraction₁ κ h₁) (comp_retraction₂ κ h₂) U a))
+  refine (congrArg _ hy2).trans ?_
+  rw [diffSection_apply, diffSection_apply, map_sub, map_sub, Scheme.Hom.appIso_hom']
+  congr 1
+  · rw [← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, Scheme.Hom.map_appLE,
+      ← ConcreteCategory.comp_apply, Scheme.Hom.map_appLE, ← ConcreteCategory.comp_apply,
+      Scheme.Hom.app_eq_appLE q₁, Scheme.Hom.appLE_comp_appLE]
+    rfl
+  · rw [← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, Scheme.Hom.map_appLE,
+      ← ConcreteCategory.comp_apply, Scheme.Hom.map_appLE, ← ConcreteCategory.comp_apply,
+      Scheme.Hom.app_eq_appLE q₂, Scheme.Hom.appLE_comp_appLE]
+    rfl
+
+/-- The restriction identification `j^* I_j ≅ (j ≫ κ)^* I_{j ≫ κ}` of conormal sheaves carries the
+class of `q₁^* a - q₂^* a` computed in the smaller neighbourhood to the one computed in the larger
+neighbourhood. -/
+theorem conormalRestrictIso_conormalD (U : X.Opens) (a : Γ(X, U)) :
+    (conormalRestrictIso j κ).hom.app U (conormalD h₁ h₂ U a) =
+      conormalD (comp_retraction₁ κ h₁) (comp_retraction₂ κ h₂) U a := by
+  set Tq := nbhd q₁ q₂ U
+  set I' := closedImmersionIdealSheaf (j ≫ κ)
+  set tp := idealSection h₁ h₂ U a
+  set tq := idealSection (comp_retraction₁ κ h₁) (comp_retraction₂ κ h₂) U a
+  set ρ := (idealSheafRestrictIso j κ).inv ≫ (restrictFunctorIsoPullback κ).hom.app I'
+  have k2 : ρ.app (κ ⁻¹ᵁ Tq) tp =
+      ((pullbackPushforwardAdjunction κ).unit.app I').app Tq tq := by
+    change ((restrictFunctorIsoPullback κ).hom.app I').app (κ ⁻¹ᵁ Tq)
+      ((idealSheafRestrictIso j κ).inv.app (nbhd (κ ≫ q₁) (κ ≫ q₂) U) tp) = _
+    refine (congrArg _ (idealSheafRestrictIso_inv_idealSection κ h₁ h₂ U a)).trans ?_
+    exact restrictFunctorIsoPullback_hom_restrict_unit κ I' Tq tq
+  have k1 := pullback_map_unit j ρ (κ ⁻¹ᵁ Tq) tp
+  have k3 := pullbackComp_hom_unit j κ I' Tq tq
+  have key : (conormalRestrictIso j κ).hom.app (j ⁻¹ᵁ (κ ⁻¹ᵁ Tq)) (unitApp (j := j) _ tp) =
+      unitApp (j := j ≫ κ) Tq tq := by
+    change ((pullbackComp j κ).hom.app I').app ((j ≫ κ) ⁻¹ᵁ Tq)
+      (((Modules.pullback j).map ρ).app (j ⁻¹ᵁ (κ ⁻¹ᵁ Tq))
+        (((pullbackPushforwardAdjunction j).unit.app (closedImmersionIdealSheaf j)).app
+          (κ ⁻¹ᵁ Tq) tp)) = _
+    rw [k1, k2]
+    exact k3
+  refine (Scheme.Modules.app_presheaf_map _ _ _).trans ?_
+  exact congrArg _ key
+
+end Restriction
+
+section Independence
+
+open Scheme Scheme.Modules ConormalIndependence ConormalIndependence.ClosedFactorization
+
+/-- Transport of `conormalD` along an equality of closed immersions. -/
+theorem eqToHom_conormalD {V : Scheme.{u}} {q₁ q₂ : V ⟶ X} {j j' : X ⟶ V} (h : j = j')
+    (h₁ : j ≫ q₁ = 𝟙 X) (h₂ : j ≫ q₂ = 𝟙 X) (h₁' : j' ≫ q₁ = 𝟙 X) (h₂' : j' ≫ q₂ = 𝟙 X)
+    (U : X.Opens) (a : Γ(X, U)) :
+    (eqToHom (congrArg (fun g => (Modules.pullback g).obj (closedImmersionIdealSheaf g)) h)).app
+        U (conormalD h₁ h₂ U a) = conormalD h₁' h₂' U a := by
+  subst h
+  rfl
+
+variable (f : X ⟶ Y) (F : ClosedFactorization (pullback.diagonal f))
+
+/-- The inclusion of the open `F.U` of a closed factorization of the diagonal into `W`. -/
+noncomputable abbrev factorizationIncl :
+    F.U.toScheme ⟶ (pullback.diagonal f).coborderRange.toScheme :=
+  (pullback f f).homOfLE (le_coborderRange F)
+
+theorem factorization_retraction₁ : F.j ≫ factorizationIncl f F ≫ diagFst f = 𝟙 X := by
+  rw [← Category.assoc, j_homOfLE F]
+  exact liftCoborder_diagFst f
+
+theorem factorization_retraction₂ : F.j ≫ factorizationIncl f F ≫ diagSnd f = 𝟙 X := by
+  rw [← Category.assoc, j_homOfLE F]
+  exact liftCoborder_diagSnd f
+
+theorem factorization_comp :
+    (factorizationIncl f F ≫ diagFst f) ≫ f = (factorizationIncl f F ≫ diagSnd f) ≫ f :=
+  (Category.assoc _ _ _).trans ((congrArg (factorizationIncl f F ≫ ·) (diagFst_comp f)).trans
+    (Category.assoc _ _ _).symm)
+
+/-- The comparison morphism `Ω_{X/Y} ⟶ F.conormal` built from a closed factorization `F` of the
+diagonal through an open `F.U`, sending `d a` to the class of `p₁^* a - p₂^* a` computed on
+`F.U`. -/
+noncomputable def factorizationComparison : relativeDifferentials f ⟶ F.conormal :=
+  (relativeDifferentialsHomEquiv f _).symm
+    (retractionsDerivation (factorization_retraction₁ f F) (factorization_retraction₂ f F) f
+      (factorization_comp f F))
+
+/-- On sections, `factorizationComparison` sends `d a` to the class of `p₁^* a - p₂^* a`. -/
+theorem factorizationComparison_app_d (U : X.Opens) (a : Γ(X, U)) :
+    (factorizationComparison f F).app U ((relativeDifferentialsDerivation f).d (X := op U) a) =
+      conormalD (factorization_retraction₁ f F) (factorization_retraction₂ f F) U a :=
+  congrArg (fun D => PresheafOfModules.Derivation.d D (X := op U) a)
+    ((relativeDifferentialsHomEquiv_apply f _ _).symm.trans
+      ((relativeDifferentialsHomEquiv f _).apply_symm_apply _))
+
+/-- **Independence of the neighbourhood.** The comparison morphism built from any closed
+factorization `F` of the diagonal agrees with the canonical one under the identification
+`toCanonical F` of `F.conormal` with `N^*_Δ`. -/
+theorem factorizationComparison_toCanonical :
+    factorizationComparison f F ≫ (toCanonical F).hom = relativeDifferentialsToDiagonalConormal f := by
+  apply (relativeDifferentialsHomEquiv f _).injective
+  rw [relativeDifferentialsHomEquiv_apply, relativeDifferentialsHomEquiv_apply]
+  ext ⟨U⟩ a
+  change Γ(X, U) at a
+  change (toCanonical F).hom.app U ((factorizationComparison f F).app U
+      ((relativeDifferentialsDerivation f).d (X := op U) a)) =
+    (relativeDifferentialsToDiagonalConormal f).app U
+      ((relativeDifferentialsDerivation f).d (X := op U) a)
+  rw [factorizationComparison_app_d, relativeDifferentialsToDiagonalConormal_app_d]
+  change (eqToHom (congrArg (fun g => (Modules.pullback g).obj (closedImmersionIdealSheaf g))
+    (j_homOfLE F))).app U ((conormalRestrictIso F.j (factorizationIncl f F)).hom.app U
+    (conormalD (factorization_retraction₁ f F) (factorization_retraction₂ f F) U a)) = _
+  rw [conormalRestrictIso_conormalD]
+  exact eqToHom_conormalD (j_homOfLE F) _ _ _ _ U a
+
+/-- The comparison morphism built from any closed factorization is an isomorphism. -/
+theorem isIso_factorizationComparison : IsIso (factorizationComparison f F) := by
+  have := isIso_relativeDifferentialsToDiagonalConormal f
+  have h : factorizationComparison f F =
+      relativeDifferentialsToDiagonalConormal f ≫ (toCanonical F).inv := by
+    rw [← factorizationComparison_toCanonical f F, Category.assoc, Iso.hom_inv_id,
+      Category.comp_id]
+  rw [h]
+  infer_instance
+
+/-- The comparison morphisms built from two closed factorizations correspond under the
+comparison isomorphism of their conormal sheaves. -/
+theorem factorizationComparison_comparison (G : ClosedFactorization (pullback.diagonal f)) :
+    factorizationComparison f F ≫ (comparison F G).hom = factorizationComparison f G := by
+  rw [comparison, Iso.trans_hom, Iso.symm_hom, ← Category.assoc,
+    factorizationComparison_toCanonical, ← factorizationComparison_toCanonical f G,
+    Category.assoc, Iso.hom_inv_id, Category.comp_id]
+
+end Independence
 
 end Hartshorne.DiagonalConormal
