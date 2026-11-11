@@ -21,7 +21,11 @@ immersion `X ⟶ Z` followed by a projective morphism `Z ⟶ Spec A`. Every cohe
 `F` has a resolution `⋯ ⟶ L₁ ⟶ L₀ ⟶ F ⟶ 0`, possibly unbounded to the left, by locally free
 `𝒪_X`-modules of finite rank: a chain complex `L` indexed by `ℕ` with a quasi-isomorphism
 `L ⟶ F[0]` (`Hartshorne.exists_quasiIso_locallyFreeResolution_of_quasiProjective`). This is the
-form of resolution used to compute `ℰxt` in `Hartshorne.Ringed.sheafExtIsoHomologyOfLocallyFreeResolution`.
+form of resolution that computes `ℰxt` (Hartshorne III, Proposition 6.5,
+`Hartshorne.Ringed.sheafExtIsoHomologyOfLocallyFreeResolution`). That result is stated for module
+sheaves on a ringed space, whose category instances differ from those of `X.Modules`. The variant
+`Hartshorne.exists_quasiIso_locallyFreeResolution_of_quasiProjective_sheafOfModules` gives the
+resolution in that category.
 
 ## Proof
 
@@ -56,83 +60,107 @@ namespace QuasiProjectiveResolution
 section Splice
 
 variable {C : Type*} [Category C] [Abelian C] {P : C → Prop} (E : ∀ F, P F → C)
-  (π : ∀ F hF, E F hF ⟶ F) (hK : ∀ F hF, P (kernel (π F hF)))
+  (π : ∀ F hF, E F hF ⟶ F) (hK : ∀ F hF, P (kernel (π F hF))) (F : C) (hF : P F)
 
 /-- The successive kernels: `K₀ = F` and `Kₙ₊₁ = ker(E(Kₙ) ⟶ Kₙ)`. -/
-noncomputable def stage (F : C) (hF : P F) : ℕ → {K : C // P K}
+noncomputable def stage : ℕ → {K : C // P K}
   | 0 => ⟨F, hF⟩
-  | n + 1 => ⟨kernel (π (stage F hF n).1 (stage F hF n).2), hK _ _⟩
+  | n + 1 => ⟨kernel (π (stage n).1 (stage n).2), hK _ _⟩
+
+/-- The `n`-th term `E(Kₙ)` of the resolution. -/
+noncomputable def obj (n : ℕ) : C := E (stage E π hK F hF n).1 (stage E π hK F hF n).2
+
+/-- The epimorphism `E(Kₙ) ⟶ Kₙ`. -/
+noncomputable def pr (n : ℕ) : obj E π hK F hF n ⟶ (stage E π hK F hF n).1 := π _ _
+
+/-- The inclusion `Kₙ₊₁ = ker(E(Kₙ) ⟶ Kₙ) ⟶ E(Kₙ)`. -/
+noncomputable def ιK (n : ℕ) : (stage E π hK F hF (n + 1)).1 ⟶ obj E π hK F hF n :=
+  kernel.ι (pr E π hK F hF n)
+
+@[reassoc (attr := simp)]
+lemma ιK_pr (n : ℕ) : ιK E π hK F hF n ≫ pr E π hK F hF n = 0 := kernel.condition _
+
+instance (n : ℕ) : Mono (ιK E π hK F hF n) := inferInstanceAs (Mono (kernel.ι _))
+
+/-- `Kₙ₊₁ ⟶ E(Kₙ)` is a kernel of `E(Kₙ) ⟶ Kₙ`. -/
+noncomputable def ιKIsLimit (n : ℕ) :
+    IsLimit (KernelFork.ofι (ιK E π hK F hF n) (ιK_pr E π hK F hF n)) :=
+  kernelIsKernel _
 
 /-- The spliced complex `⋯ ⟶ E(K₁) ⟶ E(K₀)`, with differential `E(Kₙ₊₁) ⟶ Kₙ₊₁ ⟶ E(Kₙ)`. -/
-noncomputable def complex (F : C) (hF : P F) : ChainComplex C ℕ :=
-  ChainComplex.of (fun n => E (stage E π hK F hF n).1 (stage E π hK F hF n).2)
-    (fun n => π (stage E π hK F hF (n + 1)).1 (stage E π hK F hF (n + 1)).2 ≫
-      kernel.ι (π (stage E π hK F hF n).1 (stage E π hK F hF n).2))
-    (fun n => by
-      change _ ≫ kernel.ι (π (stage E π hK F hF (n + 1)).1 (stage E π hK F hF (n + 1)).2) ≫
-        π (stage E π hK F hF (n + 1)).1 (stage E π hK F hF (n + 1)).2 ≫ _ = 0
-      rw [kernel.condition_assoc, zero_comp, comp_zero])
+noncomputable def complex : ChainComplex C ℕ :=
+  ChainComplex.of (obj E π hK F hF) (fun n => pr E π hK F hF (n + 1) ≫ ιK E π hK F hF n)
+    (fun n => by simp only [Category.assoc, ιK_pr_assoc, zero_comp, comp_zero])
 
-lemma complex_d_succ (F : C) (hF : P F) (n : ℕ) :
-    (complex E π hK F hF).d (n + 1) n =
-      π (stage E π hK F hF (n + 1)).1 (stage E π hK F hF (n + 1)).2 ≫
-        kernel.ι (π (stage E π hK F hF n).1 (stage E π hK F hF n).2) :=
-  ChainComplex.of_d _ _ _ n
+lemma complex_X (n : ℕ) : (complex E π hK F hF).X n = obj E π hK F hF n := rfl
+
+lemma complex_d_succ (n : ℕ) :
+    (complex E π hK F hF).d (n + 1) n = pr E π hK F hF (n + 1) ≫ ιK E π hK F hF n := by
+  exact ChainComplex.of_d (obj E π hK F hF) (fun n => pr E π hK F hF (n + 1) ≫ ιK E π hK F hF n) n
 
 variable {E π hK} in
-lemma complex_exactAt_succ (hπ : ∀ F hF, Epi (π F hF)) (F : C) (hF : P F) (n : ℕ) :
+lemma exact_pr (hπ : ∀ F hF, Epi (π F hF)) (n : ℕ) :
+    (ShortComplex.mk (pr E π hK F hF (n + 1) ≫ ιK E π hK F hF n) (pr E π hK F hF n)
+      (by simp only [Category.assoc, ιK_pr, comp_zero])).Exact := by
+  have : Epi (pr E π hK F hF (n + 1)) := hπ _ _
+  let α : ShortComplex.mk (pr E π hK F hF (n + 1) ≫ ιK E π hK F hF n) (pr E π hK F hF n)
+      (by simp only [Category.assoc, ιK_pr, comp_zero]) ⟶
+      ShortComplex.mk (ιK E π hK F hF n) (pr E π hK F hF n) (ιK_pr E π hK F hF n) :=
+    { τ₁ := pr E π hK F hF (n + 1)
+      τ₂ := 𝟙 _
+      τ₃ := 𝟙 _
+      comm₁₂ := (Category.comp_id _).symm
+      comm₂₃ := (Category.id_comp _).trans (Category.comp_id _).symm }
+  have : Epi α.τ₁ := hπ _ _
+  have : IsIso α.τ₂ := inferInstanceAs (IsIso (𝟙 _))
+  have : Mono α.τ₃ := inferInstanceAs (Mono (𝟙 _))
+  exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono α).2
+    (ShortComplex.exact_of_f_is_kernel _ (ιKIsLimit E π hK F hF n))
+
+variable {E π hK} in
+lemma complex_exactAt_succ (hπ : ∀ F hF, Epi (π F hF)) (n : ℕ) :
     (complex E π hK F hF).ExactAt (n + 1) := by
   rw [HomologicalComplex.exactAt_iff' _ (n + 1 + 1) (n + 1) n (by simp) (by simp)]
-  let K₁ := stage E π hK F hF (n + 1)
-  let K₀ := stage E π hK F hF n
-  have := hπ (stage E π hK F hF (n + 1 + 1)).1 (stage E π hK F hF (n + 1 + 1)).2
-  let α : (complex E π hK F hF).sc' (n + 1 + 1) (n + 1) n ⟶
-      ShortComplex.mk (kernel.ι (π K₁.1 K₁.2)) (π K₁.1 K₁.2) (kernel.condition _) :=
-    { τ₁ := π (stage E π hK F hF (n + 1 + 1)).1 (stage E π hK F hF (n + 1 + 1)).2
+  let α : ShortComplex.mk (pr E π hK F hF (n + 1 + 1) ≫ ιK E π hK F hF (n + 1))
+      (pr E π hK F hF (n + 1)) (by simp only [Category.assoc, ιK_pr, comp_zero]) ⟶
+      (complex E π hK F hF).sc' (n + 1 + 1) (n + 1) n :=
+    { τ₁ := 𝟙 _
       τ₂ := 𝟙 _
-      τ₃ := kernel.ι (π K₀.1 K₀.2)
-      comm₁₂ := by
-        change _ ≫ 𝟙 _ = (complex E π hK F hF).d (n + 1 + 1) (n + 1) ≫ _
-        rw [complex_d_succ, Category.comp_id]
-      comm₂₃ := by
-        change 𝟙 _ ≫ (complex E π hK F hF).d (n + 1) n = _
-        rw [complex_d_succ, Category.id_comp] }
-  rw [ShortComplex.exact_iff_of_epi_of_isIso_of_mono α]
-  exact ShortComplex.exact_of_f_is_kernel _ (kernelIsKernel _)
+      τ₃ := ιK E π hK F hF n
+      comm₁₂ := (Category.id_comp _).trans
+        ((complex_d_succ E π hK F hF (n + 1)).trans (Category.comp_id _).symm)
+      comm₂₃ := (Category.id_comp _).trans (complex_d_succ E π hK F hF n) }
+  have : Epi α.τ₁ := inferInstanceAs (Epi (𝟙 _))
+  have : IsIso α.τ₂ := inferInstanceAs (IsIso (𝟙 _))
+  have : Mono α.τ₃ := inferInstanceAs (Mono (ιK E π hK F hF n))
+  exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono α).1 (exact_pr F hF hπ (n + 1))
 
 /-- The augmentation `E(K₀) ⟶ K₀ = F`, as a morphism to `F[0]`. -/
-noncomputable def augmentation (F : C) (hF : P F) :
-    complex E π hK F hF ⟶ (ChainComplex.single₀ C).obj F :=
-  (ChainComplex.toSingle₀Equiv _ _).symm ⟨π F hF, by
-    change (complex E π hK F hF).d 1 0 ≫ π F hF = 0
-    rw [complex_d_succ]
-    exact (Category.assoc _ _ _).trans
-      ((congrArg (_ ≫ ·) (kernel.condition (π F hF))).trans comp_zero)⟩
+noncomputable def augmentation : complex E π hK F hF ⟶ (ChainComplex.single₀ C).obj F :=
+  (ChainComplex.toSingle₀Equiv _ _).symm ⟨pr E π hK F hF 0, by
+    exact (congrArg (· ≫ pr E π hK F hF 0) (complex_d_succ E π hK F hF 0)).trans
+      ((Category.assoc _ _ _).trans
+        ((congrArg (pr E π hK F hF 1 ≫ ·) (ιK_pr E π hK F hF 0)).trans comp_zero))⟩
+
+lemma augmentation_f_zero : (augmentation E π hK F hF).f 0 = pr E π hK F hF 0 :=
+  ChainComplex.toSingle₀Equiv_symm_apply_f_zero _ _
 
 variable {E π hK} in
-lemma quasiIso_augmentation (hπ : ∀ F hF, Epi (π F hF)) (F : C) (hF : P F) :
+lemma quasiIso_augmentation (hπ : ∀ F hF, Epi (π F hF)) :
     QuasiIso (augmentation E π hK F hF) := ⟨fun n => by
   cases n
   · rw [ChainComplex.quasiIsoAt₀_iff, ShortComplex.quasiIso_iff_of_zeros']
-    · have := hπ F hF
-      have := hπ (stage E π hK F hF 1).1 (stage E π hK F hF 1).2
-      refine ⟨?_, by dsimp [augmentation]; infer_instance⟩
-      refine (ShortComplex.exact_iff_of_epi_of_isIso_of_mono ?_).2
-        (ShortComplex.exact_of_f_is_kernel _ (kernelIsKernel _))
-      exact
-        { τ₁ := π (stage E π hK F hF 1).1 (stage E π hK F hF 1).2
-          τ₂ := 𝟙 _
-          τ₃ := 𝟙 _
-          comm₁₂ := by
-            change _ ≫ 𝟙 _ = (complex E π hK F hF).d 1 0 ≫ _
-            rw [complex_d_succ, Category.comp_id]
-            rfl
-          comm₂₃ := by
-            dsimp [augmentation]
-            simp }
+    · have : Epi (pr E π hK F hF 0) := hπ _ _
+      refine (ShortComplex.exact_and_epi_g_iff_of_iso ?_).2 ⟨exact_pr F hF hπ 0, by
+        dsimp; infer_instance⟩
+      exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
+        ((Category.id_comp _).trans ((complex_d_succ E π hK F hF 0).symm.trans
+          (Category.comp_id _).symm))
+        ((Category.id_comp _).trans ((augmentation_f_zero E π hK F hF).symm.trans
+          (Category.comp_id _).symm))
     all_goals rfl
   · rw [quasiIsoAt_iff_exactAt']
-    · exact complex_exactAt_succ hπ F hF _
+    · exact complex_exactAt_succ F hF hπ _
     · exact ChainComplex.exactAt_succ_single_obj _ _⟩
 
 end Splice
@@ -146,7 +174,7 @@ theorem exists_quasiIso_toSingle₀ {C : Type*} [Category C] [Abelian C] (P Q : 
     ∃ (L : ChainComplex C ℕ) (π : L ⟶ (ChainComplex.single₀ C).obj F),
       QuasiIso π ∧ ∀ n, Q (L.X n) := by
   choose E π hπ hQ hK using h
-  exact ⟨complex E π hK F hF, augmentation E π hK F hF, quasiIso_augmentation hπ F hF,
+  exact ⟨complex E π hK F hF, augmentation E π hK F hF, quasiIso_augmentation F hF hπ,
     fun n => hQ _ _⟩
 
 /-! ### Finite sums of invertible sheaves -/
@@ -225,8 +253,9 @@ theorem exists_epi_isFiniteLocallyFree {A : Type u} [CommRing A] [IsNoetherianRi
 end QuasiProjectiveResolution
 
 /- As in `Hartshorne.RingedSpace.SheafExtLocallyFreeResolution`, state chain complexes of module
-sheaves with the preadditive structure coming from the abelian structure, so that the resolution
-below can be fed to `Hartshorne.Ringed.sheafExtIsoHomologyOfLocallyFreeResolution`. -/
+sheaves with the preadditive structure coming from the abelian structure, so that the
+`SheafOfModules` form below can be fed to
+`Hartshorne.Ringed.sheafExtIsoHomologyOfLocallyFreeResolution`. -/
 attribute [local instance 2000] Abelian.toPreadditive
 
 open QuasiProjectiveResolution in
@@ -242,6 +271,24 @@ theorem exists_quasiIso_locallyFreeResolution_of_quasiProjective {A : Type u} [C
     ∃ (L : ChainComplex X.Modules ℕ) (π : L ⟶ (ChainComplex.single₀ X.Modules).obj F),
       QuasiIso π ∧ ∀ n, Ringed.IsFiniteLocallyFree (R := X.sheaf) (L.X n) :=
   exists_quasiIso_toSingle₀ IsCoherent (Ringed.IsFiniteLocallyFree (R := X.sheaf))
+    (fun G hG => exists_epi_isFiniteLocallyFree hf G hG) F hF
+
+open QuasiProjectiveResolution in
+/-- **Locally free resolutions on quasi-projective schemes**, in the category of module sheaves
+over the ringed space `(X, 𝒪_X)` (Hartshorne III, Example 6.5.1, p. 235). This is
+`exists_quasiIso_locallyFreeResolution_of_quasiProjective` for `SheafOfModules (ringCatSheafOf
+X.sheaf)`, which is the category of `X.Modules` with different instances. In this form the
+resolution can be passed directly to `Hartshorne.Ringed.sheafExtIsoHomologyOfLocallyFreeResolution`
+(Hartshorne III, Proposition 6.5). -/
+theorem exists_quasiIso_locallyFreeResolution_of_quasiProjective_sheafOfModules {A : Type u}
+    [CommRing A] [IsNoetherianRing A] {X : Scheme.{u}} {f : X ⟶ Spec (.of A)}
+    (hf : QuasiProjective f) (F : SheafOfModules.{u} (ringCatSheafOf X.sheaf))
+    (hF : IsCoherent (X := X) F) :
+    ∃ (L : ChainComplex (SheafOfModules.{u} (ringCatSheafOf X.sheaf)) ℕ)
+      (π : L ⟶ (ChainComplex.single₀ _).obj F),
+      QuasiIso π ∧ ∀ n, Ringed.IsFiniteLocallyFree (L.X n) :=
+  exists_quasiIso_toSingle₀ (C := SheafOfModules.{u} (ringCatSheafOf X.sheaf))
+    (fun G => IsCoherent (X := X) G) Ringed.IsFiniteLocallyFree
     (fun G hG => exists_epi_isFiniteLocallyFree hf G hG) F hF
 
 end Hartshorne
