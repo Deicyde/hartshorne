@@ -558,6 +558,42 @@ theorem stalk_conormal (hp : FiniteType p) [IrreducibleSpace X] (hX : X.IsRegula
     inferInstanceAs (IsLocalRing (Y.presheaf.stalk y))
   exact injective_and_free_of_exact _ _ hex' hsurj eE eF hnqr _ hw
 
+/-- **Hartshorne II, Theorem 8.17** (forward direction; left exactness and the conormal sheaf).
+Let `X` be a nonsingular variety over an algebraically closed field `k` and `Y` an irreducible
+closed subscheme which is nonsingular, of codimension `r`. Then the conormal sequence
+`0 ⟶ i^* I ⟶ i^* Ω_{X/k} ⟶ Ω_{Y/k} ⟶ 0` is short exact, and the conormal sheaf `i^* I`
+(whose pushforward is `I/I²`) is locally free of rank `r`. -/
+theorem shortExact_conormal_and_isLocallyFreeOfRank (hp : FiniteType p) [IrreducibleSpace X]
+    (hX : X.IsRegular) [IrreducibleSpace Y] (hY : Y.IsRegular) (r : ℕ)
+    (hr : codim (Set.range i.base) = r) :
+    (ShortComplex.mk (ClosedConormal.conormalToPullback i p)
+      (Scheme.pullbackRelativeDifferentialsToComp i p)
+      (ClosedConormal.conormalToPullback_comp i p)).ShortExact ∧
+    ((Scheme.Modules.pullback i).obj (closedImmersionIdealSheaf i)).IsLocallyFreeOfRank r := by
+  have key := stalk_conormal p i hp hX hY r hr
+  obtain ⟨hex, hepi⟩ := ClosedConormal.closedImmersion_conormal_exact i p
+  have hmono : Mono (ClosedConormal.conormalToPullback i p) :=
+    mono_of_injective_stalk (R := Y.sheaf) _ fun y => (key y).1
+  refine ⟨{ exact := hex, mono_f := hmono, epi_g := hepi }, ?_⟩
+  have : IsIntegral Y := isIntegral_of_isRegular hY
+  have := hY.1
+  have := hX.1
+  have := hp.2
+  have : CompactSpace X := ⟨by
+    simpa using QuasiCompact.isCompact_preimage (f := p) _ isOpen_univ isCompact_univ⟩
+  have : IsNoetherian X := {}
+  have hcoh := isCoherent_pullback i (isCoherent_closedImmersionIdealSheaf i)
+  rw [isLocallyFreeOfRank_iff_forall_finrank_fibre _ hcoh r]
+  intro y
+  obtain ⟨eC⟩ := (key y).2
+  have eC' : ((Scheme.Modules.pullback i).obj (closedImmersionIdealSheaf i)).presheaf.stalk y ≃ₗ[
+      Y.presheaf.stalk y] (Fin r → Y.presheaf.stalk y) := eC
+  have h1 := (eC'.baseChange (Y.presheaf.stalk y) (ResidueField (Y.presheaf.stalk y)) _ _).finrank_eq
+  have h2 : finrank (ResidueField (Y.presheaf.stalk y)) (ResidueField (Y.presheaf.stalk y) ⊗[
+      Y.presheaf.stalk y] (Fin r → Y.presheaf.stalk y)) = r := by
+    rw [Module.finrank_baseChange, Module.finrank_fin_fun]
+  exact h1.trans h2
+
 end Main
 
 end NonsingularConormal
