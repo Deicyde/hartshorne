@@ -2,6 +2,7 @@
 article_id: af_0054399084d8fcffca7fc1f8
 declaration: def
 origin: cited
+lean: Hartshorne.infinitesimalNeighborhood Hartshorne.infinitesimalNeighborhoodι Hartshorne.QuasicoherentIdealSubsheaf.pow Hartshorne.QuasicoherentIdealSubsheaf.ideal_pow Hartshorne.quasicoherentIdealSubsheafEquiv_pow Hartshorne.ker_infinitesimalNeighborhoodι Hartshorne.quasicoherentIdealSubsheafEquiv_symm_ker_infinitesimalNeighborhoodι Hartshorne.infinitesimalNeighborhoodZeroIso Hartshorne.infinitesimalNeighborhoodZeroIso_hom_comp
 ---
 
 # Infinitesimal neighbourhoods
