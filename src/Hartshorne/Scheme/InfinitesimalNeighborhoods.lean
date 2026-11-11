@@ -11,7 +11,9 @@ Hartshorne, *Algebraic Geometry*, II.9, introductory discussion of formal neighb
 (p. 190), and the definitions on p. 194.
 
 Let `Y ↪ X` be a closed subscheme with quasi-coherent module ideal sheaf `I ⊆ 𝒪_X`. The `n`-th
-infinitesimal neighbourhood `Y_n` is the closed subscheme of `X` cut out by `I ^ (n + 1)`.
+infinitesimal neighbourhood `Y_n` is the closed subscheme of `X` cut out by `I ^ (n + 1)`, so that
+`Y_0 = Y`. Hartshorne indexes these thickenings by `I ^ n` with `n ≥ 1`; our `Y_n` is his
+`(n + 1)`-st.
 
 * `Hartshorne.QuasicoherentIdealSubsheaf.pow`: the power `I ^ k`, taken in the ideal sheaf: the
   sections lying, near every point, in `I(V) ^ k` on an affine open `V`
@@ -86,7 +88,8 @@ lemma pow_one (I : QuasicoherentIdealSubsheaf X) : I ^ 1 = I :=
 end QuasicoherentIdealSubsheaf
 
 /-- **The `n`-th infinitesimal neighbourhood** `Y_n` of the closed subscheme with module ideal
-sheaf `I`: the closed subscheme of `X` cut out by `I ^ (n + 1)` (Hartshorne II.9, p. 190). -/
+sheaf `I`: the closed subscheme of `X` cut out by `I ^ (n + 1)`. Hartshorne (II.9, p. 190) indexes
+these thickenings by `I ^ n` with `n ≥ 1`, so this is his `(n + 1)`-st. -/
 def infinitesimalNeighborhood (I : QuasicoherentIdealSubsheaf X) (n : ℕ) : Scheme.{u} :=
   (quasicoherentIdealSubsheafEquiv (I ^ (n + 1))).subscheme
 
