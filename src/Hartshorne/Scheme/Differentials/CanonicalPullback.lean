@@ -113,7 +113,7 @@ def exteriorPowerPullback (n : ℕ) :
         (moduleSheafExteriorPower (R := V.sheaf) n (Scheme.relativeDifferentials (f ≫ p))) :=
   exteriorPowerPushforwardMap f (Scheme.relativeDifferentialsToPushforwardComp f p) n
 
-/-- `exteriorPowerPullback` is the top exterior power of the map `f^*Ω_{Y/k} ⟶ Ω_{V/k}` of the
+/-- `exteriorPowerPullback` is the `n`-th exterior power of the map `f^*Ω_{Y/k} ⟶ Ω_{V/k}` of the
 transitivity sequence (8.11) (`AlgebraicGeometry.Scheme.pullbackRelativeDifferentialsToComp`),
 transported along the adjunction `f^* ⊣ f_*`. -/
 theorem exteriorPowerPullback_eq_transitivity (n : ℕ) :
