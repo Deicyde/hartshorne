@@ -494,6 +494,105 @@ theorem mem_closure_of_isPushout {R A B P : CommRingCat.{u}} {f : R ⟶ A} {g : 
     exact congrArg₂ (· * ·) h1.symm h2.symm
   | add y z hy hz => rw [map_add]; exact add_mem hy hz
 
+section SquareMap
+
+open Scheme Scheme.Modules
+
+/-- For a commutative square `q₁ ≫ f = q₂ ≫ f`, the map `q₁^* Ω_{X/Y} ⟶ Ω_{W/X}` (relative to
+`q₂`), sending `q₁^*(d b)` to `d (q₁^♯ b)`; for the projections of `X ×_Y X` it is the base-change
+map. -/
+noncomputable def squareMap (f : X ⟶ Y) {q₁ q₂ : W ⟶ X} (hq : q₁ ≫ f = q₂ ≫ f) :
+    (Modules.pullback q₁).obj (relativeDifferentials f) ⟶ relativeDifferentials q₂ :=
+  pullbackRelativeDifferentialsToComp q₁ f ≫ (relativeDifferentialsCongr hq).hom ≫
+    relativeDifferentialsCompToLeft q₂ f
+
+/-- `squareMap` sends `q₁^*(d b)` to `d (q₁^♯ b)`. -/
+theorem squareMap_unit_d (f : X ⟶ Y) {q₁ q₂ : W ⟶ X} (hq : q₁ ≫ f = q₂ ≫ f) (V : X.Opens)
+    (b : Γ(X, V)) :
+    (squareMap f hq).val.app (op (q₁ ⁻¹ᵁ V))
+      (((Modules.pullbackPushforwardAdjunction q₁).unit.app
+        (relativeDifferentials f)).val.app (op V) ((relativeDifferentialsDerivation f).d b)) =
+      (relativeDifferentialsDerivation q₂).d (q₁.app V b) := by
+  change (relativeDifferentialsCompToLeft q₂ f).val.app _
+    ((relativeDifferentialsCongr hq).hom.val.app _
+      ((pullbackRelativeDifferentialsToComp q₁ f).val.app _ _)) = _
+  rw [pullbackRelativeDifferentialsToComp_unit_d, relativeDifferentialsCongr_hom_d,
+    relativeDifferentialsCompToLeft_d]
+
+variable (f : X ⟶ Y)
+
+/-- `Ω_{W/X} ≅ Ω_{(X ×_Y X)/X}|_W`, for `W ⊆ X ×_Y X` mapping to `X` by the second projection. -/
+noncomputable abbrev diagRestrictIso :
+    relativeDifferentials (diagSnd f) ≅
+      (relativeDifferentials (pullback.snd f f)).restrict (pullback.diagonal f).coborderRange.ι :=
+  RelDiffLocal.restrictIso (pullback.snd f f) (pullback.diagonal f).coborderRange.ι (diagSnd f)
+    (𝟙 X) (Category.comp_id _).symm
+
+/-- `p₁^* Ω_{X/Y}` on `W` is the restriction of `p₁^* Ω_{X/Y}` on `X ×_Y X`. -/
+noncomputable abbrev diagPullbackIso :
+    (Modules.pullback (diagFst f)).obj (relativeDifferentials f) ≅
+      ((Modules.pullback (pullback.fst f f)).obj (relativeDifferentials f)).restrict
+        (pullback.diagonal f).coborderRange.ι :=
+  ((pullbackComp (pullback.diagonal f).coborderRange.ι (pullback.fst f f)).app
+      (relativeDifferentials f)).symm ≪≫
+    ((restrictFunctorIsoPullback (pullback.diagonal f).coborderRange.ι).app _).symm
+
+theorem squareMap_comp_diagRestrictIso :
+    squareMap f (diagFst_comp f) ≫ (diagRestrictIso f).hom =
+      (diagPullbackIso f).hom ≫ (restrictFunctor (pullback.diagonal f).coborderRange.ι).map
+        (baseChangeRelativeDifferentialsMap f f) := by
+  set ι := (pullback.diagonal f).coborderRange.ι
+  apply ((Modules.pullbackPushforwardAdjunction (diagFst f)).homEquiv _ _).injective
+  apply (relativeDifferentialsHomEquiv f _).injective
+  rw [relativeDifferentialsHomEquiv_apply, relativeDifferentialsHomEquiv_apply,
+    Adjunction.homEquiv_unit, Adjunction.homEquiv_unit]
+  ext V b
+  change (diagRestrictIso f).hom.val.app _ ((squareMap f (diagFst_comp f)).val.app _
+      (((Modules.pullbackPushforwardAdjunction (diagFst f)).unit.app
+        (relativeDifferentials f)).val.app V ((relativeDifferentialsDerivation f).d b))) =
+    (baseChangeRelativeDifferentialsMap f f).val.app _ ((diagPullbackIso f).hom.val.app _
+      (((Modules.pullbackPushforwardAdjunction (diagFst f)).unit.app
+        (relativeDifferentials f)).val.app V ((relativeDifferentialsDerivation f).d b)))
+  obtain ⟨V⟩ := V
+  change Γ(X, V) at b
+  set Wo : (pullback.diagonal f).coborderRange.toScheme.Opens := diagFst f ⁻¹ᵁ V
+  have hle : ι ''ᵁ Wo ≤ pullback.fst f f ⁻¹ᵁ V := ι.image_preimage_le (pullback.fst f f ⁻¹ᵁ V)
+  set c : Γ(pullback f f, ι ''ᵁ Wo) :=
+    (pullback f f).presheaf.map (homOfLE hle).op (pullback.fst f f |>.app V b)
+  have e2 : (diagFst f).app V b = (ι.appIso Wo).hom c := by
+    rw [Scheme.Hom.appIso_hom', ← ConcreteCategory.comp_apply, Scheme.Hom.map_appLE,
+      ← ConcreteCategory.comp_apply, Scheme.Hom.app_eq_appLE (pullback.fst f f),
+      Scheme.Hom.appLE_comp_appLE, Scheme.Hom.app_eq_appLE]
+  have lhs : (diagRestrictIso f).hom.val.app (op Wo) ((squareMap f (diagFst_comp f)).val.app
+      (op Wo) (((Modules.pullbackPushforwardAdjunction (diagFst f)).unit.app
+        (relativeDifferentials f)).val.app (op V) ((relativeDifferentialsDerivation f).d b))) =
+      (relativeDifferentials (pullback.snd f f)).presheaf.map (homOfLE hle).op
+        ((relativeDifferentialsDerivation (pullback.snd f f)).d
+          (X := op (pullback.fst f f ⁻¹ᵁ V)) ((pullback.fst f f).app V b)) := by
+    rw [squareMap_unit_d, e2, RelDiffLocal.restrictIso_hom_d]
+    exact (relativeDifferentialsDerivation (pullback.snd f f)).d_map _ _
+  have rhs1 : (diagPullbackIso f).hom.val.app (op Wo)
+      (((Modules.pullbackPushforwardAdjunction (diagFst f)).unit.app
+        (relativeDifferentials f)).val.app (op V) ((relativeDifferentialsDerivation f).d b)) =
+      ((Modules.pullback (pullback.fst f f)).obj (relativeDifferentials f)).presheaf.map
+        (homOfLE hle).op (((Modules.pullbackPushforwardAdjunction (pullback.fst f f)).unit.app
+          (relativeDifferentials f)).app V ((relativeDifferentialsDerivation f).d b)) := by
+    change ((restrictFunctorIsoPullback ι).inv.app _).app _
+      (((pullbackComp ι (pullback.fst f f)).inv.app (relativeDifferentials f)).app _
+        (((Modules.pullbackPushforwardAdjunction (ι ≫ pullback.fst f f)).unit.app
+          (relativeDifferentials f)).app V ((relativeDifferentialsDerivation f).d b))) = _
+    refine (congrArg (((restrictFunctorIsoPullback ι).inv.app _).app (ι ⁻¹ᵁ (pullback.fst f f ⁻¹ᵁ V)))
+      (pullbackComp_inv_unit ι (pullback.fst f f) (relativeDifferentials f) V _)).trans ?_
+    exact restrictFunctorIsoPullback_inv_unit ι _ (pullback.fst f f ⁻¹ᵁ V) _
+  refine lhs.trans ?_
+  refine Eq.trans ?_ (congrArg ((baseChangeRelativeDifferentialsMap f f).val.app _) rhs1).symm
+  have h3 := Scheme.Modules.app_presheaf_map (baseChangeRelativeDifferentialsMap f f)
+    (homOfLE hle) (((Modules.pullbackPushforwardAdjunction (pullback.fst f f)).unit.app
+      (relativeDifferentials f)).app V ((relativeDifferentialsDerivation f).d b))
+  exact (h3.trans (congrArg _ (baseChangeRelativeDifferentialsMap_unit_d f f V b))).symm
+
+end SquareMap
+
 section AffineChart
 
 variable (f : X ⟶ Y) (U : X.affineOpens) (V : Y.affineOpens)
