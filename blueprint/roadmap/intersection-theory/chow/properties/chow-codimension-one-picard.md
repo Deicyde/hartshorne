@@ -16,14 +16,14 @@ $A^1(X) \simeq \operatorname{Pic} (X)$.
 
 ## Depends on
 
-- [On a normal variety codimension-one rational equivalence is linear equivalence](../cycles/codimension-one-rational-equals-linear.md)
-- [Regular schemes are locally factorial](../../../schemes/divisors/cartier-picard/regular-locally-factorial.md)
 - [Divisor classes and the Picard group](../../../schemes/divisors/cartier-picard/divisor-class-picard-equivalence.md)
 - [The graded Chow groups](../cycles/chow-groups-graded.md)
 - [Regular points and nonsingular schemes](../../../schemes/differentials/scheme-differentials/regular-points-and-nonsingular-schemes.md)
 
 ## Proof depends on
 
+- [On a normal variety codimension-one rational equivalence is linear equivalence](../cycles/codimension-one-rational-equals-linear.md)
+- [Regular schemes are locally factorial](../../../schemes/divisors/cartier-picard/regular-locally-factorial.md)
 - [Weil classes and the Picard group on a locally factorial scheme](../../../schemes/divisors/cartier-picard/locally-factorial-class-picard-equivalence.md)
 - [Finite type over a Noetherian scheme](../../../schemes/first-properties/finite-type-over-noetherian.md)
 - [Separated-morphism calculus](../../../schemes/separated-morphisms/separated-morphism-calculus.md)
