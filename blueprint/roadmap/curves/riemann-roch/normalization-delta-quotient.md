@@ -39,6 +39,7 @@ only finitely many $\delta _P$ are nonzero.
   scalars; localizing that finite algebra at $P$ gives the semilocal integral
   closure whose maximal localizations are the normalization local rings above
   $P$.
+- [Abelian closure of quasi-coherent sheaves](../../schemes/modules-and-quasicoherent/quasicoherent-abelian-closure.md)
 
 ## Sources
 
