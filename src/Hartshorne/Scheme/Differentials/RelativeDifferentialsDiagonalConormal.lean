@@ -916,4 +916,66 @@ theorem relativeDifferentialsToDiagonalConormal_app_surjective :
 
 end Surjective
 
+section Isomorphism
+
+open Scheme Scheme.Modules
+
+variable (f : X ⟶ Y)
+
+/-- The comparison morphism followed by its left inverse is the identity. -/
+theorem relativeDifferentialsToDiagonalConormal_comp_inverse :
+    relativeDifferentialsToDiagonalConormal f ≫ diagonalConormalToRelativeDifferentials f =
+      𝟙 _ := by
+  apply (relativeDifferentialsHomEquiv f _).injective
+  rw [relativeDifferentialsHomEquiv_apply, relativeDifferentialsHomEquiv_apply]
+  ext ⟨U⟩ a
+  change Γ(X, U) at a
+  change (diagonalConormalToRelativeDifferentials f).app U
+    ((relativeDifferentialsToDiagonalConormal f).app U
+      ((relativeDifferentialsDerivation f).d (X := op U) a)) =
+    (relativeDifferentialsDerivation f).d (X := op U) a
+  exact (congrArg _ (relativeDifferentialsToDiagonalConormal_app_d f U a)).trans
+    (diagonalConormalToRelativeDifferentials_conormalD f U a)
+
+/-- The comparison morphism is an epimorphism: it is locally surjective on sections. -/
+theorem epi_relativeDifferentialsToDiagonalConormal :
+    Epi (relativeDifferentialsToDiagonalConormal f) := by
+  have hls : TopCat.Presheaf.IsLocallySurjective
+      ((SheafOfModules.toSheaf X.ringCatSheaf).map
+        (relativeDifferentialsToDiagonalConormal f)).hom := by
+    rw [TopCat.Presheaf.isLocallySurjective_iff]
+    intro U y x hx
+    obtain ⟨V, hV, hfxV, -⟩ := exists_isAffineOpen_mem_and_subset (U := ⊤) (x := f x) trivial
+    obtain ⟨U', hU', hxU', hU'le⟩ := exists_isAffineOpen_mem_and_subset
+      (U := U ⊓ f ⁻¹ᵁ V) (x := x) ⟨hx, hfxV⟩
+    obtain ⟨ω, hω⟩ := relativeDifferentialsToDiagonalConormal_app_surjective f ⟨U', hU'⟩ ⟨V, hV⟩
+      (hU'le.trans inf_le_right)
+      ((immersionConormalSheaf (pullback.diagonal f)).presheaf.map
+        (homOfLE (hU'le.trans inf_le_left)).op y)
+    exact ⟨U', hU'le.trans inf_le_left, ⟨ω, hω⟩, hxU'⟩
+  have : Epi ((SheafOfModules.toSheaf X.ringCatSheaf).map
+      (relativeDifferentialsToDiagonalConormal f)) :=
+    (TopCat.Sheaf.isLocallySurjective_iff_epi _).mp hls
+  exact (SheafOfModules.toSheaf X.ringCatSheaf).epi_of_epi_map this
+
+/-- The comparison morphism `Ω_{X/Y} ⟶ N^*_Δ` is an isomorphism. -/
+theorem isIso_relativeDifferentialsToDiagonalConormal :
+    IsIso (relativeDifferentialsToDiagonalConormal f) := by
+  have := epi_relativeDifferentialsToDiagonalConormal f
+  refine ⟨diagonalConormalToRelativeDifferentials f,
+    relativeDifferentialsToDiagonalConormal_comp_inverse f, ?_⟩
+  rw [← cancel_epi (relativeDifferentialsToDiagonalConormal f), ← Category.assoc,
+    relativeDifferentialsToDiagonalConormal_comp_inverse, Category.id_comp, Category.comp_id]
+
+/-- **Hartshorne II, p. 175: the relative differentials are the conormal sheaf of the
+diagonal.** For a morphism of schemes `f : X ⟶ Y` with diagonal `Δ : X ⟶ X ×_Y X`, the canonical
+morphism `Ω_{X/Y} ⟶ N^*_Δ`, sending `d a` to the class of `p₁^* a - p₂^* a`, is an isomorphism
+of `𝒪_X`-modules. -/
+noncomputable def relativeDifferentialsDiagonalConormalIso :
+    relativeDifferentials f ≅ immersionConormalSheaf (pullback.diagonal f) :=
+  haveI := isIso_relativeDifferentialsToDiagonalConormal f
+  asIso (relativeDifferentialsToDiagonalConormal f)
+
+end Isomorphism
+
 end Hartshorne.DiagonalConormal
