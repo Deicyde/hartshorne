@@ -2,6 +2,7 @@
 article_id: af_6a1905afbe154ce5f9fd331e
 declaration: theorem
 origin: cited
+lean: Hartshorne.canonicalSheaf_product Hartshorne.nonempty_exteriorPower_relativeDifferentials_product_iso Hartshorne.pullbackExteriorPowerIso Hartshorne.pullbackExteriorPowerMap_isIso
 ---
 
 # The canonical sheaf of a product
