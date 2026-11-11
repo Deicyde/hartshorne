@@ -2,6 +2,7 @@
 article_id: af_01401eb12d08343aa0564e1e
 declaration: isomorphism
 origin: cited
+lean: Hartshorne.isIso_cechToSheafCohomology_of_isQuasicoherent Hartshorne.cechCohomologyIsoOfIsQuasicoherent
 ---
 
 # Affine covers compute quasi-coherent cohomology
