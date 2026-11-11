@@ -350,6 +350,37 @@ theorem nonempty_stalk_equiv_of_isLocallyFreeOfRank {X : Scheme.{u}} (F : X.Modu
 
 end LocallyFreeStalk
 
+section ExtendScalars
+
+open scoped ChangeOfRings
+
+/-- If `v` generates an `R`-module `M`, then the elements `1 ⊗ v j` generate `S ⊗_R M` over `S`. -/
+theorem span_extendScalars_eq_top {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S)
+    (M : ModuleCat.{u} R) {ι : Type*} (v : ι → M)
+    (hv : Submodule.span R (Set.range v) = ⊤) :
+    Submodule.span S (Set.range fun j =>
+      (show ((ModuleCat.extendScalars f).obj M : Type u) from (1 : S) ⊗ₜ[R,f] v j)) = ⊤ := by
+  let N := (ModuleCat.extendScalars f).obj M
+  let u := ModuleCat.ExtendRestrictScalarsAdj.Unit.map f (X := M)
+  let φ : M →+ N := u.hom.toAddMonoidHom
+  have hφ : ∀ (b : R) (m : M), φ (b • m) = f b • φ m := fun b m =>
+    u.hom.map_smul b m
+  rw [eq_top_iff]
+  rintro z -
+  induction z using TensorProduct.induction_on with
+  | zero => exact zero_mem _
+  | tmul s m =>
+    have hm := LCICohenMacaulay.mem_span_image_of_map_smul φ f hφ (hv ▸ Submodule.mem_top (x := m))
+    rw [← Set.range_comp] at hm
+    have h1 := Submodule.smul_mem _ (show S from s) hm
+    have e : (show S from s) • φ m = ((show S from s) * 1) ⊗ₜ[R,f] m :=
+      ModuleCat.ExtendScalars.smul_tmul f _ 1 m
+    rw [e, mul_one] at h1
+    exact h1
+  | add a b ha hb => exact add_mem ha hb
+
+end ExtendScalars
+
 section IdealStalk
 
 open CategoryTheory Limits Opposite AlgebraicGeometry LCICohenMacaulay
