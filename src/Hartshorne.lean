@@ -481,6 +481,7 @@ import Hartshorne.Rational.SchemeMaximalDomain
 import Hartshorne.Scheme.AffineVarietySpec
 import Hartshorne.Cohomology.Flatness.CoherentSelfFlatLocallyFree
 import Hartshorne.Cohomology.QuasicoherentCoherentSubobjects
+import Hartshorne.Cohomology.QuasicoherentFilteredUnionCoherent
 import Hartshorne.Cohomology.SheafCohomology
 import Hartshorne.Cohomology.SheafCohomologyLongExactSequence
 import Hartshorne.Cohomology.SheafCohomologyFlasque
