@@ -12,6 +12,7 @@ namely equal to its dimension two.
 ## Depends on
 
 - [Kodaira dimension](../kodaira/kodaira-dimension.md)
+- [Surfaces and effective curves](../../intersection-theory/foundations/surface-curve-convention.md)
 
 ## Sources
 
