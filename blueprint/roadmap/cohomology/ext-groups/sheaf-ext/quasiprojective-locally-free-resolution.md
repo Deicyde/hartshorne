@@ -14,9 +14,13 @@ finite-rank locally free sheaves.
 
 - [Coherent extension](../../../schemes/coherent-sheaves/coherent-extension.md)
 - [Finite twisted free covers](../../../schemes/projective-sheaves/finite-twisted-free-cover.md)
+- [Quasi-projective morphisms](../../../schemes/proper-and-projective/quasi-projective-morphism.md)
 
 ## Proof depends on
 
+- [Finite type over a Noetherian scheme](../../../schemes/first-properties/finite-type-over-noetherian.md)
+- [Pullback preserves quasi-coherence](../../../schemes/modules-and-quasicoherent/pullback-quasicoherent.md)
+- [The graded symmetric-algebra sheaf](../../../schemes/projective-geometry/relative-proj-bundles/graded-symmetric-algebra-sheaf.md)
 - Realize a quasi-projective scheme as an open subscheme of a projective
   scheme, obtain a finite-rank locally free surjection at each stage, and use
   Noetherian coherence to preserve finite presentation of successive kernels.
