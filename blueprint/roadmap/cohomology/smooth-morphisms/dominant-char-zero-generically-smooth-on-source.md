@@ -16,8 +16,8 @@ $U$ in $X$ such that $U \to Y$ is smooth.
 Shrinking $X$ and $Y$, we may assume both are nonsingular (II.8.16). In
 characteristic zero $K(X)/K(Y)$ is separably generated (I.4.8A), so
 $\Omega_{K(X)/K(Y)}$ has dimension $n = \dim X - \dim Y$ (II.8.6A). Hence
-$\Omega_{X/Y}$ is locally free of rank $n$ on a nonempty open subset of $X$
-(Ex. II.5.7), and $f$ is smooth there by Proposition 10.4.
+$\Omega_{X/Y}$ is locally free of rank $n$ on a nonempty open subset of $X$,
+and $f$ is smooth there by Proposition 10.4.
 
 ## Depends on
 
