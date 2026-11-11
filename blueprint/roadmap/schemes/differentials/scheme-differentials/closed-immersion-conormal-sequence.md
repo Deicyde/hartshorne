@@ -24,13 +24,13 @@ claim that its first map is injective.
 
 - [The relative differential sheaf](relative-differentials.md)
 - [The conormal sheaf of an immersion](immersion-conormal-sheaf.md)
-- [The conormal exact sequence](../kaehler-differentials/kahler-conormal-exact-sequence.md)
 - [Closed immersions and closed subschemes](../../subschemes-and-dimension/closed-immersions.md)
 - [Tensor products of module sheaves](../../modules-and-quasicoherent/module-tensor-product.md)
 - [Pushforward, pullback, and their adjunction](../../modules-and-quasicoherent/module-push-pull-adjunction.md)
 
 ## Proof depends on
 
+- [The conormal exact sequence](../kaehler-differentials/kahler-conormal-exact-sequence.md)
 - [The transitivity sequence for differential sheaves](relative-differentials-transitivity.md)
 - [Closed subschemes of an affine scheme](../../subschemes-and-dimension/affine-closed-subschemes.md)
 - Stalkwise exactness and sheaf quotients.
