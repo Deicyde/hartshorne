@@ -683,3 +683,4 @@ import Hartshorne.Cohomology.AffineQuasicoherentAcyclic
 import Hartshorne.Cohomology.SmoothMorphisms.DominantCharZeroGenericallySmooth
 import Hartshorne.Scheme.VeryAmplePowerImpliesAmple
 import Hartshorne.Surface.KodairaDimension
+import Hartshorne.Scheme.Differentials.ProductOfNonsingularVarieties
