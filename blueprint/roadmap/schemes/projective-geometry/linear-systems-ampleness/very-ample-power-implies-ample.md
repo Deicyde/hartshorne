@@ -2,6 +2,7 @@
 article_id: af_4f93a069a99a51b174419291
 declaration: theorem
 origin: cited
+lean: Hartshorne.isAmple_of_isVeryAmpleRelative_moduleSheafTensorPower
 ---
 
 # A very ample power implies ampleness
