@@ -6,8 +6,11 @@ origin: cited
 
 # Acyclicity of $O$ on the projective line
 
-For $X = \mathbb{P}^{1}$ over an algebraically closed field, one has
-$H^{i}(X,\mathcal{O}_X)=0$ for all $i>0$.
+Let $k$ be an algebraically closed field and let $X = \mathbb{P}^{1}$ be the
+projective line over $k$, as a variety in the sense of Chapter I, with its sheaf
+$\mathcal{O}_X$ of regular functions. Then $H^{i}(X,\mathcal{O}_X)=0$ for all
+$i>0$. The setting is that of Exercise II.1.21, which works with a variety over
+an algebraically closed field as in Chapter I.
 
 The vanishing is computed from the principal-parts resolution, whose two nonzero
 resolution terms are flasque.
@@ -15,7 +18,8 @@ resolution terms are flasque.
 ## Depends on
 
 - [Sheaf cohomology](sheaf-cohomology.md)
-- [Projective space over a scheme](../../schemes/proper-and-projective/projective-space-over-scheme.md)
+- [Projective and quasi-projective varieties](../../projective-varieties/projective-variety.md)
+- [The sheaf of regular functions](../../schemes/sheaves/regular-functions-sheaf.md)
 
 ## Proof depends on
 
