@@ -12,7 +12,8 @@ Hartshorne, *Algebraic Geometry*, III, Lemma 10.5 (p. 271).
 
 Let `f : X ⟶ Y` be a dominant morphism of integral schemes of finite type over an algebraically
 closed field `k` of characteristic zero. Then there is a nonempty open `U` of `X` such that
-`U ⟶ Y` is smooth (`Hartshorne.exists_nonempty_open_smooth_of_isDominant`).
+`U ⟶ Y` is smooth of some relative dimension
+(`Hartshorne.exists_nonempty_open_smooth_of_isDominant`).
 
 ## Proof
 
@@ -22,8 +23,9 @@ fields `K(Y) → K(X)`. It is essentially of finite type because `f` is locally 
 and `K(Y)` has characteristic zero because it is a `k`-algebra, so it is perfect. Hence the
 extension is formally smooth (separable generation, Mathlib's
 `Algebra.FormallySmooth.of_perfectField`), i.e. the generic point of `X` lies in the smooth locus
-of `f`. The smooth locus is open, and the restriction of `f` to it is smooth. The proof does not
-use that `k` is algebraically closed.
+of `f`. The smooth locus is open, and the restriction of `f` to it is smooth. A standard smooth
+chart of this restriction has a relative dimension `n`, and the open of `X` it covers is smooth of
+relative dimension `n` over `Y`. The proof does not use that `k` is algebraically closed.
 -/
 
 universe u
@@ -34,7 +36,8 @@ namespace Hartshorne
 
 /-- **Hartshorne III, Lemma 10.5.** Let `f : X ⟶ Y` be a dominant morphism of integral schemes
 of finite type over an algebraically closed field `k` of characteristic zero. Then there is a
-nonempty open subset `U` of `X` such that the restriction `U ⟶ Y` of `f` is smooth.
+nonempty open subset `U` of `X` such that the restriction `U ⟶ Y` of `f` is smooth, of some
+relative dimension `n`.
 
 The schemes over `k` are given by structure morphisms `pX` and `pY`, and `f` is a morphism over
 `k`. Algebraic closedness of `k` is part of Hartshorne's setting but is not used. -/
@@ -43,7 +46,7 @@ theorem exists_nonempty_open_smooth_of_isDominant {k : Type u} [Field k] [IsAlgC
     (hX : LocallyOfFiniteType pX ∧ QuasiCompact pX)
     (hY : LocallyOfFiniteType pY ∧ QuasiCompact pY)
     [IsIntegral X] [IsIntegral Y] (f : X ⟶ Y) (hf : f ≫ pY = pX) [IsDominant f] :
-    ∃ U : X.Opens, (U : Set X).Nonempty ∧ Smooth (U.ι ≫ f) := by
+    ∃ U : X.Opens, (U : Set X).Nonempty ∧ ∃ n : ℕ, SmoothOfRelativeDimension n (U.ι ≫ f) := by
   have : LocallyOfFiniteType pX := hX.1
   have : LocallyOfFiniteType pY := hY.1
   have : IsLocallyNoetherian Y := LocallyOfFiniteType.isLocallyNoetherian pY
@@ -69,9 +72,38 @@ theorem exists_nonempty_open_smooth_of_isDominant {k : Type u} [Field k] [IsAlgC
     have : CharZero (Y.presheaf.stalk (f (genericPoint X))) :=
       charZero_of_injective_ringHom φ.injective
     exact Algebra.FormallySmooth.of_perfectField
-  refine ⟨f.smoothLocus, ⟨genericPoint X, hmem⟩, ?_⟩
-  rw [← Scheme.Hom.smoothLocus_eq_top_iff, ← Scheme.Hom.preimage_smoothLocus_eq]
-  ext x
-  simp
+  -- the restriction of `f` to its smooth locus is smooth
+  have hg : Smooth (f.smoothLocus.ι ≫ f) := by
+    rw [← Scheme.Hom.smoothLocus_eq_top_iff, ← Scheme.Hom.preimage_smoothLocus_eq]
+    ext x
+    simp
+  -- a standard smooth chart around the generic point has some relative dimension `n`
+  obtain ⟨U', hU', V', hV', hxV', e, hst⟩ :=
+    Smooth.exists_isStandardSmooth (f.smoothLocus.ι ≫ f) ⟨genericPoint X, hmem⟩
+  have hrel : ∃ n : ℕ, ((f.smoothLocus.ι ≫ f).appLE U' V' e).hom.IsStandardSmoothOfRelativeDimension
+      n := by
+    algebraize [((f.smoothLocus.ι ≫ f).appLE U' V' e).hom]
+    obtain ⟨ι, σ, _, _, ⟨P⟩⟩ := hst.toAlgebra.out
+    exact ⟨P.dimension, P.isStandardSmoothOfRelativeDimension rfl⟩
+  obtain ⟨n, hn⟩ := hrel
+  have h₁ : SmoothOfRelativeDimension n ((f.smoothLocus.ι ≫ f).resLE U' V' e) := by
+    have : IsAffine U' := hU'
+    have : IsAffine V' := hV'
+    rw [HasRingHomProperty.iff_of_isAffine (P := @SmoothOfRelativeDimension n)]
+    exact ((RingHom.locally_respectsIso
+      (RingHom.isStandardSmoothOfRelativeDimension_respectsIso (n := n))).arrow_mk_iso_iff
+        (arrowResLEAppIso _ U' V' e)).mpr
+      (RingHom.locally_of (RingHom.isStandardSmoothOfRelativeDimension_respectsIso (n := n)) _ hn)
+  have h₂ : SmoothOfRelativeDimension n (V'.ι ≫ f.smoothLocus.ι ≫ f) := by
+    rw [← Scheme.Hom.resLE_comp_ι _ e]
+    exact smoothOfRelativeDimension_comp n 0 ((f.smoothLocus.ι ≫ f).resLE U' V' e) U'.ι
+  -- transport to the corresponding open of `X`
+  let W : X.Opens := (V'.ι ≫ f.smoothLocus.ι).opensRange
+  refine ⟨W, ⟨_, Scheme.Hom.mem_opensRange.mpr ⟨⟨_, hxV'⟩, rfl⟩⟩, n, ?_⟩
+  have hW : W.ι ≫ f = (V'.ι ≫ f.smoothLocus.ι).isoOpensRange.inv ≫
+      (V'.ι ≫ f.smoothLocus.ι ≫ f) := by
+    rw [Iso.eq_inv_comp, ← Category.assoc, Scheme.Hom.isoOpensRange_hom_ι, Category.assoc]
+  rw [hW, ← zero_add n]
+  infer_instance
 
 end Hartshorne
