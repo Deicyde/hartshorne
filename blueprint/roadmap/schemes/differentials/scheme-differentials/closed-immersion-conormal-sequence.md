@@ -33,6 +33,7 @@ claim that its first map is injective.
 - [The conormal exact sequence](../kaehler-differentials/kahler-conormal-exact-sequence.md)
 - [The transitivity sequence for differential sheaves](relative-differentials-transitivity.md)
 - [Closed subschemes of an affine scheme](../../subschemes-and-dimension/affine-closed-subschemes.md)
+- [Skyscraper module sheaves and the stalk adjunction](../../module-stalks/module-skyscraper-stalk-adjunction.md)
 - Stalkwise exactness and sheaf quotients.
 
 ## Sources
