@@ -14,13 +14,14 @@ Cohen–Macaulay scheme.
 
 ## Depends on
 
-- [Regular local rings are Cohen–Macaulay](regular-local-implies-cohen-macaulay.md)
-- [Regular sequences and Cohen–Macaulay quotients](cohen-macaulay-regular-sequence-quotient.md)
 - [Local complete intersections in a nonsingular ambient variety](local-complete-intersection-in-nonsingular-ambient.md)
-- [The dimension-codimension formula](../../subschemes-and-dimension/dimension-codimension-formula.md)
+- [Cohen–Macaulay local rings and schemes](cohen-macaulay-local-rings-and-schemes.md)
 
 ## Proof depends on
 
+- [Regular local rings are Cohen–Macaulay](regular-local-implies-cohen-macaulay.md)
+- [Regular sequences and Cohen–Macaulay quotients](cohen-macaulay-regular-sequence-quotient.md)
+- [The dimension-codimension formula](../../subschemes-and-dimension/dimension-codimension-formula.md)
 - [Generation by global sections](../../projective-sheaves/globally-generated-module-sheaf.md)
 - The local dimension-codimension formula identifies the number of local ideal
   generators with the dimension drop.
