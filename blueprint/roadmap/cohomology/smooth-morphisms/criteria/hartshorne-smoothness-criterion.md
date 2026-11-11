@@ -29,13 +29,14 @@ Hartshorne's definition and the adopted modern predicate.
 
 ## Depends on
 
-- [Relative differentials of a smooth morphism](relative-differentials-rank-of-smooth.md)
 - [The stalk criterion for flat morphisms](../../flat-families/flatness/flat-morphism-stalk-criterion.md)
 - [The fibre of a morphism](../../../schemes/fiber-products/scheme-fiber.md)
 - [Dimension of a scheme](../../../schemes/subschemes-and-dimension/scheme-dimension.md)
+- [The relative differential sheaf](../../../schemes/differentials/scheme-differentials/relative-differentials.md)
 
 ## Proof depends on
 
+- [Relative differentials of a smooth morphism](relative-differentials-rank-of-smooth.md)
 - The affine-local standard-smooth characterization of smoothness.
 - Flat morphisms satisfy going-down.
 - [The local dimension formula for a flat fibre](../../flat-families/families-hilbert/flat-fiber-local-dimension-formula.md)
