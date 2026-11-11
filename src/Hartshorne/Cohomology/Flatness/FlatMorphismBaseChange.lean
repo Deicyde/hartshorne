@@ -14,7 +14,7 @@ Hartshorne, *Algebraic Geometry*, III.9, Proposition 9.2(b) (p. 254).
 
 Proposition 9.2(b) is stated for an `𝒪_X`-module `F` flat over `Y`; a morphism `f : X → Y` is
 flat when `F = 𝒪_X` is flat over `Y`. This file derives the morphism form from the module form
-`AlgebraicGeometry.Scheme.Modules.FlatOver.baseChange` with `F = 𝒪_X`:
+`Hartshorne.Scheme.Modules.FlatOver.baseChange` with `F = 𝒪_X`:
 
 * the stalk of `𝒪_X`, regarded as an `𝒪_X`-module, is `𝒪_{X,x}` (`unitStalkLinearEquiv`), so
   `𝒪_X` is flat over `Y` exactly when every stalk map `𝒪_{Y,f(x)} → 𝒪_{X,x}` is flat, that is,
