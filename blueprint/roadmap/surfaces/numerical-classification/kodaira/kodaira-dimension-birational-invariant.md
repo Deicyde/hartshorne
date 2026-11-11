@@ -3,6 +3,8 @@ article_id: af_2f77bf5e3da775e05217ca73
 declaration: theorem
 origin: cited
 lean: Hartshorne.kodairaDimension_eq_of_birational
+statement: formalized
+proof: formalized
 ---
 
 # Kodaira dimension is a birational invariant
