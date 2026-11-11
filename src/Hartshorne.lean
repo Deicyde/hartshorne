@@ -680,3 +680,4 @@ import Hartshorne.Scheme.ProjectiveHyperplaneSequence
 import Hartshorne.Surface.CanonicalRingBirational
 import Hartshorne.Cohomology.QuasicoherentFlasqueEnvelope
 import Hartshorne.Cohomology.AffineQuasicoherentAcyclic
+import Hartshorne.Cohomology.SmoothMorphisms.DominantCharZeroGenericallySmooth
