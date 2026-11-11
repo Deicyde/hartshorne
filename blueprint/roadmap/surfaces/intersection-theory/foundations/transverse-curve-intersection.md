@@ -27,6 +27,7 @@ length one there, and their embedded tangent lines are distinct.
 - In the regular local ring of dimension two, two parameters generating the
   maximal ideal form a regular system of parameters.
 - [Dimension at a closed point](../../../schemes/subschemes-and-dimension/dimension-at-closed-point.md)
+- [Elements with independent differentials cut out a regular local ring](../../../cohomology/smooth-morphisms/criteria/independent-differentials-regular-quotient.md)
 
 ## Sources
 
