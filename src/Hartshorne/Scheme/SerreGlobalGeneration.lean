@@ -491,7 +491,7 @@ theorem pushforwardStalkHom_surjective (i : X ⟶ Y) (hi : Topology.IsInducing i
   exact (ConcreteCategory.bijective_of_isIso
     (TopCat.Presheaf.stalkPushforward AddCommGrpCat.{u} i.base H.presheaf x)).2
 
-/-- If `i : X ⟶ Y` is a topological embedding (for instance a closed immersion) and the global
+/-- If `i : X ⟶ Y` has inducing underlying map (for instance a closed immersion) and the global
 sections `t_k` of `i_* H` generate it, then the same sections, as global sections of `H`,
 generate `H`: the global sections of `H` and of `i_* H` are the same. -/
 theorem isGeneratedBySections_of_pushforward (i : X ⟶ Y) (hi : Topology.IsInducing i.base)
