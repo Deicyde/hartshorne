@@ -5,7 +5,9 @@ origin: cited
 mathlib: true
 mathlib_declaration: AlgebraicGeometry.Flat.isStableUnderBaseChange
 mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Flat.lean
-lean: Hartshorne.flat_isStableUnderBaseChange
+lean: Hartshorne.flat_isStableUnderBaseChange Hartshorne.flat_pullback_snd
+statement: formalized
+proof: formalized
 ---
 
 # Flat morphisms are stable under base change
