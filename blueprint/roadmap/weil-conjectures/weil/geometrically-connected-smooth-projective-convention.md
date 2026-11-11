@@ -2,6 +2,7 @@
 article_id: af_dd034000c631c57fe0cb6091
 declaration: structure
 origin: cited
+lean: Hartshorne.IsSmoothProjectiveGeometricallyConnected
 ---
 
 # Smooth projective geometrically connected varieties over a finite field
