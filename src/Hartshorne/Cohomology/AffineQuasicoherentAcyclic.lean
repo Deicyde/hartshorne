@@ -7,6 +7,7 @@ import Hartshorne.Cohomology.SheafCohomologyFlasque
 import Hartshorne.Cohomology.ModuleCohomologyComparison
 import Hartshorne.Scheme.AffineTildeLocalization
 import Mathlib.Algebra.Category.ModuleCat.EnoughInjectives
+import Mathlib.CategoryTheory.Preadditive.Injective.Preserves
 
 /-!
 # Quasi-coherent sheaves on a Noetherian affine scheme are acyclic
@@ -16,6 +17,11 @@ Hartshorne, *Algebraic Geometry*, III, Theorem 3.5 (p. 215).
 Let `X = Spec A` with `A` Noetherian and let `F` be a quasi-coherent `𝒪_X`-module. Then
 `H^i(X, F) = 0` for every `i > 0`, where the cohomology of `F` is that of its underlying abelian
 sheaf (`Hartshorne.sheafCohomology_isZero_of_isQuasicoherent_spec`).
+
+The same vanishing holds on every affine scheme `X` that is (locally) Noetherian
+(`Hartshorne.sheafCohomology_isZero_of_isQuasicoherent_of_isAffine`): transport along the
+isomorphism `X ≅ Spec Γ(X, 𝒪_X)`, using that sheaf cohomology is invariant under homeomorphisms
+(`Hartshorne.sheafCohomologyPushforwardIsoOfIso`).
 
 ## Proof
 
@@ -141,5 +147,101 @@ theorem sheafCohomology_isZero_of_isQuasicoherent_spec {A : CommRingCat.{u}} [Is
     ModuleCohomology.toTopSheaf (Spec (.of A)).ringCatSheaf
   exact (isZero_tilde n _).of_iso
     ((sheafCohomology _ (n + 1)).mapIso (G.mapIso (asIso F.fromTildeΓ))).symm
+
+section Transport
+
+variable {C : Type*} [Category* C] [Abelian C] [HasInjectiveResolutions C]
+  {C' : Type*} [Category* C'] [Abelian C'] [HasInjectiveResolutions C']
+  {D : Type*} [Category* D] [Abelian D]
+
+/-- Right derived functors are compatible with precomposition by an additive equivalence:
+`Rⁿ Γ' (E A) ≅ Rⁿ (E ⋙ Γ') A`. The image under `E` of an injective resolution of `A` is an
+injective resolution of `E A`. -/
+noncomputable def rightDerivedObjIsoOfIsEquivalence (E : C ⥤ C') [E.IsEquivalence] [E.Additive]
+    (Γ' : C' ⥤ D) [Γ'.Additive] (A : C) (n : ℕ) :
+    (Γ'.rightDerived n).obj (E.obj A) ≅ ((E ⋙ Γ').rightDerived n).obj A := by
+  let I := injectiveResolution A
+  let J : InjectiveResolution (E.obj A) :=
+    { cocomplex := (E.mapHomologicalComplex _).obj I.cocomplex
+      injective := fun n => E.injective_obj (I.cocomplex.X n)
+      ι := (HomologicalComplex.singleMapHomologicalComplex E (ComplexShape.up ℕ) 0).inv.app A ≫
+        (E.mapHomologicalComplex _).map I.ι
+      quasiIso := inferInstance }
+  exact J.isoRightDerivedObj Γ' n ≪≫
+    (HomologicalComplex.homologyFunctor _ _ n).mapIso (Iso.refl _) ≪≫
+    (I.isoRightDerivedObj (E ⋙ Γ') n).symm
+
+end Transport
+
+section TopTransport
+
+variable {X Y : TopCat.{u}}
+
+/-- A homeomorphism gives an equivalence of categories of abelian sheaves. -/
+noncomputable def sheafEquivOfIso (H : X ≅ Y) :
+    TopCat.Sheaf AddCommGrpCat.{u} X ≌ TopCat.Sheaf AddCommGrpCat.{u} Y :=
+  CategoryTheory.Equivalence.mk (TopCat.Sheaf.pushforward _ H.hom)
+    (TopCat.Sheaf.pushforward _ H.inv)
+    (NatIso.ofComponents (fun F ↦ ObjectProperty.isoMk _
+      ((TopCat.Presheaf.presheafEquivOfIso _ H).unitIso.app F.obj))
+      (fun f ↦ Sheaf.hom_ext
+        ((TopCat.Presheaf.presheafEquivOfIso _ H).unitIso.hom.naturality f.hom)))
+    (NatIso.ofComponents (fun F ↦ ObjectProperty.isoMk _
+      ((TopCat.Presheaf.presheafEquivOfIso _ H).counitIso.app F.obj))
+      (fun f ↦ Sheaf.hom_ext
+        ((TopCat.Presheaf.presheafEquivOfIso _ H).counitIso.hom.naturality f.hom)))
+
+/-- Sheaf cohomology is invariant under homeomorphisms: `H^n(Y, H_* F) ≅ H^n(X, F)`. -/
+noncomputable def sheafCohomologyPushforwardIsoOfIso (H : X ≅ Y)
+    (F : TopCat.Sheaf AddCommGrpCat.{u} X) (n : ℕ) :
+    (sheafCohomology Y n).obj ((TopCat.Sheaf.pushforward _ H.hom).obj F) ≅
+      (sheafCohomology X n).obj F :=
+  haveI : (TopCat.Sheaf.pushforward AddCommGrpCat.{u} H.hom).IsEquivalence :=
+    (sheafEquivOfIso H).isEquivalence_functor
+  haveI : (TopCat.Sheaf.pushforward AddCommGrpCat.{u} H.hom).Additive :=
+    Functor.additive_of_preserves_binary_products _
+  rightDerivedObjIsoOfIsEquivalence (TopCat.Sheaf.pushforward _ H.hom)
+    (sheafSectionsOver (X := Y) ⊤) F n
+
+end TopTransport
+
+/-- Pushforward along an isomorphism of schemes preserves quasi-coherence. -/
+private lemma isQuasicoherent_pushforward_of_isIso' {X Y : Scheme.{u}} (e : X ⟶ Y) [IsIso e]
+    (G : X.Modules) [G.IsQuasicoherent] :
+    ((Scheme.Modules.pushforward e).obj G).IsQuasicoherent := by
+  let u := (Scheme.Modules.restrictAdjunction e).unit.app (G.restrict (inv e))
+  have hu : IsIso u := by
+    rw [Scheme.Modules.Hom.isIso_iff_isIso_app]
+    intro T
+    simp only [u, Scheme.Modules.restrictAdjunction_unit_app_app]
+    have key : ∀ (M : Y.Modules) {U V : Y.Opens} (h : U ≤ V) (_ : V ≤ U),
+        IsIso (M.presheaf.map (homOfLE h).op) := fun M U V h h' ↦ by
+      have : IsIso (homOfLE h) := ⟨⟨homOfLE h', Subsingleton.elim _ _, Subsingleton.elim _ _⟩⟩
+      infer_instance
+    refine key _ _ ?_
+    rw [Scheme.Hom.image_preimage_eq_opensRange_inf, Scheme.Hom.opensRange_of_isIso]
+    simp
+  let e₂ : (G.restrict (inv e)).restrict e ≅ G :=
+    ((Scheme.Modules.restrictFunctorComp e (inv e)).app G).symm ≪≫
+      (Scheme.Modules.restrictFunctorCongr (IsIso.hom_inv_id e)).app G ≪≫
+        Scheme.Modules.restrictFunctorId.app G
+  exact (SheafOfModules.isQuasicoherent Y.ringCatSheaf).prop_of_iso
+    (@asIso _ _ _ _ u hu ≪≫ (Scheme.Modules.pushforward e).mapIso e₂)
+    (inferInstanceAs ((G.restrict (inv e)).IsQuasicoherent))
+
+/-- **Hartshorne III, Theorem 3.5, for an affine scheme.** Let `X` be an affine scheme which is
+(locally) Noetherian, so that `X ≅ Spec A` with `A = Γ(X, 𝒪_X)` Noetherian, and let `F` be a
+quasi-coherent `𝒪_X`-module. Then `H^i(X, F) = 0` for every `i > 0`; here `H^i(X, F)` is the
+sheaf cohomology of the underlying abelian sheaf of `F`. -/
+theorem sheafCohomology_isZero_of_isQuasicoherent_of_isAffine {X : Scheme.{u}} [IsAffine X]
+    [IsLocallyNoetherian X] (F : X.Modules) [F.IsQuasicoherent] (i : ℕ) (hi : 0 < i) :
+    IsZero ((sheafCohomology X.toTopCat i).obj
+      ((SheafOfModules.toSheaf X.ringCatSheaf).obj F)) := by
+  have : IsNoetherianRing Γ(X, ⊤) :=
+    IsLocallyNoetherian.component_noetherian ⟨⊤, isAffineOpen_top X⟩
+  have := isQuasicoherent_pushforward_of_isIso' X.isoSpec.hom F
+  exact (sheafCohomology_isZero_of_isQuasicoherent_spec
+    ((Scheme.Modules.pushforward X.isoSpec.hom).obj F) i hi).of_iso
+      (sheafCohomologyPushforwardIsoOfIso (Scheme.forgetToTop.mapIso X.isoSpec) _ i).symm
 
 end Hartshorne
