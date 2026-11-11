@@ -21,7 +21,6 @@ is a coherent subsheaf $F' \subseteq G$ with $F'|_U = F$ as subsheaves of $G|_U$
 ## Proof depends on
 
 - [Affine extension of coherent sheaves](coherent-extension-affine.md)
-- [Coherent sheaves are closed under finite sums](../modules-and-quasicoherent/quasicoherent-abelian-closure.md)
 - A finite affine cover of the Noetherian scheme and induction extending over
   one affine open at a time.
 
