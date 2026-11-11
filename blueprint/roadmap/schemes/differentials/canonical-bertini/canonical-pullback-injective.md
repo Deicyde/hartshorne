@@ -4,7 +4,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.canonicalPullback_injective Hartshorne.canonicalPullback Hartshorne.exteriorPowerPullback Hartshorne.exteriorPowerPullback_app_top_injective
+lean: Hartshorne.canonicalPullback_injective Hartshorne.canonicalPullback Hartshorne.exteriorPowerPullback Hartshorne.exteriorPowerPullback_app_top_injective Hartshorne.exteriorPowerPullback_eq_transitivity
 ---
 
 # Pullback injects canonical sections
