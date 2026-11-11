@@ -3,6 +3,8 @@ article_id: af_173242f18c6703fcfab5c4e1
 declaration: definition
 origin: cited
 lean: Hartshorne.Surface.IsGeneralType Hartshorne.Surface.kodairaDimension_le_two Hartshorne.Surface.canonicalSheaf_isInvertible
+statement: formalized
+proof: formalized
 ---
 
 # Surfaces of general type
