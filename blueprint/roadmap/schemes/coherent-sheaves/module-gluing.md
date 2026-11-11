@@ -4,7 +4,7 @@ declaration: theorem
 origin: bridged
 statement: formalized
 proof: formalized
-lean: Hartshorne.ModuleGluing.GluingData.exists_unique_gluing Hartshorne.ModuleGluing.GluingData
+lean: Hartshorne.ModuleGluing.GluingData.exists_unique_gluing Hartshorne.ModuleGluing.GluingData Hartshorne.ModuleGluing.SchemeGluingData.exists_unique_gluing Hartshorne.ModuleGluing.SchemeGluingData
 ---
 
 # Gluing sheaves of modules along open immersions
