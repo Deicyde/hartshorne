@@ -59,8 +59,9 @@ We follow Hartshorne's proof.
   `𝒪_{X,x}`, and Lemma 10.3A applied along it shows that `f` is flat
   (`Hartshorne.RegularCotangentFlat.flat_stalkMap_of_surjective_zariskiTangentMap`). So `f` sends
   the generic point of `X` to that of `Y`, and by II.8.6A the generic fibre `Ω_{K(X)/K(Y)}` has
-  dimension at least `tr.deg K(X)/K(Y) = n`, and at most `n` by semicontinuity. By II.8.9,
-  `Ω_{𝒪_{X,x}/𝒪_{Y,y}}` is free of rank `n` at every closed point, so every fibre of `Ω_{X/Y}`
+  dimension at least `tr.deg K(X)/K(Y) = n`; here it is at most `n` by upper semicontinuity of
+  the fibre dimension (the value at a closed point). By II.8.9, `Ω_{𝒪_{X,x}/𝒪_{Y,y}}`
+  is free of rank `n` at every closed point, so every fibre of `Ω_{X/Y}`
   has dimension `n`, and `f` is smooth of relative dimension `n`.
 -/
 
