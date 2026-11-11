@@ -18,13 +18,16 @@ closed field, and assume $\dim X = \dim Y + n$. The following are equivalent:
 
 ## Depends on
 
-- [Relative differentials of a smooth morphism](criteria/relative-differentials-rank-of-smooth.md)
 - [The Zariski tangent map](zariski-tangent-map.md)
-- [The non-zero-divisor local criterion for flatness](local-flatness-nonzerodivisor-criterion.md)
-- [Smoothness and regularity over an algebraically closed field](criteria/smooth-over-algebraically-closed-iff-regular.md)
+- [Regular points and nonsingular schemes](../../schemes/differentials/scheme-differentials/regular-points-and-nonsingular-schemes.md)
+- [The relative differential sheaf](../../schemes/differentials/scheme-differentials/relative-differentials.md)
+- [Locally free module sheaves](../../schemes/modules-and-quasicoherent/locally-free-and-invertible.md)
 
 ## Proof depends on
 
+- [Smoothness and regularity over an algebraically closed field](criteria/smooth-over-algebraically-closed-iff-regular.md)
+- [The non-zero-divisor local criterion for flatness](local-flatness-nonzerodivisor-criterion.md)
+- [Relative differentials of a smooth morphism](criteria/relative-differentials-rank-of-smooth.md)
 - [The transitivity sequence for differential sheaves](../../schemes/differentials/scheme-differentials/relative-differentials-transitivity.md)
 - [Fibre dimension of a coherent sheaf is upper semicontinuous](../semicontinuity/foundations/coherent-fiber-dimension-upper-semicontinuous.md)
 - Regular systems of parameters in regular local rings and iteration of the
