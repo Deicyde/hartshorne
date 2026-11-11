@@ -9,8 +9,8 @@ import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.Subobject
 /-!
 # Coherent subsheaves of a quasi-coherent sheaf
 
-Hartshorne II, Exercise 5.15(e).  Let `X` be a locally Noetherian scheme and `F` a
-quasi-coherent `𝒪_X`-module.  A coherent subsheaf of `F` is a subobject of `F` in the category
+Toward Hartshorne II, Exercise 5.15(e), which is stated for a Noetherian scheme.  Here `X` is a
+locally Noetherian scheme and `F` a quasi-coherent `𝒪_X`-module.  A coherent subsheaf of `F` is a subobject of `F` in the category
 of `𝒪_X`-modules whose underlying module is coherent.
 
 We show:
