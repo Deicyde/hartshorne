@@ -15,6 +15,12 @@ equivalent to $D_0$; every effective divisor in that class occurs; and two
 sections have the same zero divisor exactly when they differ by a scalar in
 the ground field.
 
+The setting of a nonsingular projective variety is kept as in the source; the
+results hold more generally, the first two for Cartier divisors on any integral
+scheme and for Weil divisors on any Noetherian integral separated locally
+factorial scheme, and the third when such a scheme is moreover universally
+closed over an algebraically closed field $k$, with scalars in $k$.
+
 ## Depends on
 
 - [Regular schemes are locally factorial](../../divisors/cartier-picard/regular-locally-factorial.md)
