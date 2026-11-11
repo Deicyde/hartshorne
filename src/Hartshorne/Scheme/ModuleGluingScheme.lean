@@ -257,6 +257,7 @@ theorem restrictInfIso_eq {V W : X.Opens} (h : V ≤ W) (F : X.Modules) :
   exact (hL x).trans
     (((ConcreteCategory.congr_hom (congrArg F.presheaf.map (Subsingleton.elim g g')) x).trans
     (presheaf_map_eq_val_map F g' x)).trans (hR x).symm)
+
 /-! ### Transport to ringed-space gluing data -/
 
 /-- Naturality of `resOverEquivIso`. -/
