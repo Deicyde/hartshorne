@@ -54,8 +54,20 @@
   `algebraMap` between them can elaborate to `Algebra.id`. State lemmas for a general `P` and
   specialize.
 
-## Not formalized
+## Localizations of `Õ_P` (the fibre over `P`)
 
-- The article's remark that the localizations of `Õ_P` at its maximal ideals are the local rings
-  of `X̃` above `P` is not stated in Lean. The Lean proves that `Õ_P` is the stalk of `ν_* 𝒪_X̃`,
-  is finite, and is semilocal.
+- `exists_normalizationFibre_localization`: for each `Q ∈ ν⁻¹(P)` a ring map
+  `ρ_Q : Õ_P →+* 𝒪_{X̃,Q}` with `𝔫_Q = ρ_Q⁻¹(𝔪_Q)` maximal and
+  `IsLocalization.AtPrime 𝒪_{X̃,Q} 𝔫_Q`; `Q ↦ 𝔫_Q` is injective and hits every maximal ideal.
+  `nonempty_localization_ringEquiv_stalk` gives the ring isomorphism
+  `Localization.AtPrime 𝔫_Q ≃+* 𝒪_{X̃,Q}`.
+- Route (helpers in `NormalizationDeltaAux`, section `Fibre`, for a fixed affine `V ∋ P`):
+  `ψ : B → Õ_P` with `B = Γ(X̃, ν⁻¹ V)`; `isLocalization_ψ` (Õ_P is `B` localized at
+  `Msub`, the image of `Γ(X, V) ∖ 𝔭_P`); `ρ` is `IsLocalization.lift` of the germ map;
+  `isLocalization_ρ` uses `IsLocalization.isLocalization_of_submonoid_le` and
+  `isLocalization_of_is_exists_mul_mem`; `isMaximal_iff` (a prime of `Õ_P` is maximal iff it lies
+  over `𝔭_P`, via integrality over the local ring `𝒪_{X,P}`); `fromSpec_comap` and `comap_qQ`
+  (from `IsAffineOpen.SpecMap_appLE_fromSpec`); `bijective_fibre`.
+- `ρ_Q` depends on the chosen affine `V`; the theorem is existential in `ρ`. A canonical
+  version, compatible with germs of sections over arbitrary opens or with the stalk map of `ν`,
+  is not stated.
