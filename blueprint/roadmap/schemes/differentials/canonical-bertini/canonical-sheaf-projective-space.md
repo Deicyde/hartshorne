@@ -25,12 +25,12 @@ $p_g(\mathbb{P}^n_k) = 0$ for $n \ge 1$.
 - [The tangent sheaf](tangent-sheaf.md)
 - [The canonical sheaf](canonical-sheaf.md)
 - [Geometric genus](geometric-genus.md)
-- [Exterior powers of a short exact sequence](../../module-exercises/exterior-power-exact-filtration.md)
 - [The contravariant long exact sequence of sheaf Ext](../../../cohomology/ext-groups/sheaf-ext/sheaf-ext-contravariant-long-exact.md)
 - [Sheaf Hom as a left-exact functor](../../../cohomology/ext-groups/sheaf-ext/module-sheaf-hom-left-exact.md)
 
 ## Proof depends on
 
+- [Exterior powers of a short exact sequence](../../module-exercises/exterior-power-exact-filtration.md)
 - [Constant fibre dimension of relative differentials](../../../cohomology/smooth-morphisms/criteria/relative-differentials-rank-of-smooth.md)
 - [Projective space is smooth over an arbitrary base](../../../cohomology/smooth-morphisms/space-examples/projective-space-smooth-arbitrary-base.md)
 - [The class group of projective space](../../divisors/weil-divisors/projective-space-class-group.md)
