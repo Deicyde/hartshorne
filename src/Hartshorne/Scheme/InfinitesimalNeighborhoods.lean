@@ -96,9 +96,8 @@ def infinitesimalNeighborhoodι (I : QuasicoherentIdealSubsheaf X) (n : ℕ) :
   (quasicoherentIdealSubsheafEquiv (I ^ (n + 1))).subschemeι
 
 instance (I : QuasicoherentIdealSubsheaf X) (n : ℕ) :
-    IsClosedImmersion (infinitesimalNeighborhoodι I n) := by
-  unfold infinitesimalNeighborhoodι
-  infer_instance
+    IsClosedImmersion (infinitesimalNeighborhoodι I n) :=
+  inferInstanceAs (IsClosedImmersion (quasicoherentIdealSubsheafEquiv (I ^ (n + 1))).subschemeι)
 
 /-- `Y_n` is cut out by `I ^ (n + 1)`: the ideal data of its closed immersion is that of
 `I ^ (n + 1)`. -/
@@ -135,6 +134,10 @@ theorem infinitesimalNeighborhoodZeroIso_hom_comp {Y : Scheme.{u}} (f : Y ⟶ X)
     [IsClosedImmersion f] :
     (infinitesimalNeighborhoodZeroIso f).hom ≫ f =
       infinitesimalNeighborhoodι (quasicoherentIdealSubsheafEquiv.symm f.ker) 0 := by
-  simp [infinitesimalNeighborhoodZeroIso, subschemeIsoOfEq, infinitesimalNeighborhoodι]
+  have hf : inv f.toImage ≫ f = f.imageι := by
+    rw [IsIso.inv_comp_eq, Scheme.Hom.toImage_imageι]
+  change (Scheme.IdealSheafData.inclusion _ ≫ inv f.toImage) ≫ f = _
+  rw [Category.assoc, hf]
+  exact Scheme.IdealSheafData.inclusion_subschemeι _
 
 end Hartshorne
