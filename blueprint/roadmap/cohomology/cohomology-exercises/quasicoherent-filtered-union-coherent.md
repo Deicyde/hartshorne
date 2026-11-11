@@ -2,6 +2,9 @@
 article_id: af_a5beb3c9ba1e532bb2a22aaa
 declaration: theorem
 origin: cited
+lean: Hartshorne.isFiltered_coherentSubobject_and_nonempty_isColimit Hartshorne.CoherentSubobject Hartshorne.coherentSubobjectCocone Hartshorne.exists_coherentSubobject_mem_range
+statement: formalized
+proof: formalized
 ---
 
 # Quasi-coherent sheaves are filtered unions of coherent subsheaves
