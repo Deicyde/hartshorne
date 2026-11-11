@@ -976,6 +976,43 @@ noncomputable def relativeDifferentialsDiagonalConormalIso :
   haveI := isIso_relativeDifferentialsToDiagonalConormal f
   asIso (relativeDifferentialsToDiagonalConormal f)
 
+/-- **The universal derivation under the isomorphism**: through
+`immersionConormalPushforwardIso : j_* N^*_Δ ≅ I/I²`, the image of `d a` is the class modulo `I²`
+of the section `p₁^* a - p₂^* a` of the diagonal ideal `I` over `p₁⁻¹ U ∩ p₂⁻¹ U`
+(`ι_idealSection`). -/
+theorem relativeDifferentialsDiagonalConormalIso_d (U : X.Opens) (a : Γ(X, U)) :
+    (immersionConormalPushforwardIso (pullback.diagonal f)).hom.app
+        (nbhd (diagFst f) (diagSnd f) U)
+      ((immersionConormalSheaf (pullback.diagonal f)).presheaf.map
+        (homOfLE (preimage_nbhd (liftCoborder_diagFst f) (liftCoborder_diagSnd f) U).le).op
+        ((relativeDifferentialsDiagonalConormalIso f).hom.app U
+          ((relativeDifferentialsDerivation f).d (X := op U) a))) =
+      (cokernel.π (idealMul (closedImmersionIdealSheafι (pullback.diagonal f).liftCoborder)
+        (closedImmersionIdealSheaf (pullback.diagonal f).liftCoborder))).app _
+        (idealSection (liftCoborder_diagFst f) (liftCoborder_diagSnd f) U a) := by
+  set j := (pullback.diagonal f).liftCoborder
+  set T := nbhd (diagFst f) (diagSnd f) U
+  set t := idealSection (liftCoborder_diagFst f) (liftCoborder_diagSnd f) U a
+  have hpre := preimage_nbhd (liftCoborder_diagFst f) (liftCoborder_diagSnd f) U
+  have e1 : (relativeDifferentialsDiagonalConormalIso f).hom.app U
+      ((relativeDifferentialsDerivation f).d (X := op U) a) =
+      conormalD (liftCoborder_diagFst f) (liftCoborder_diagSnd f) U a :=
+    relativeDifferentialsToDiagonalConormal_app_d f U a
+  have e2 : (immersionConormalSheaf (pullback.diagonal f)).presheaf.map (homOfLE hpre.le).op
+      (conormalD (liftCoborder_diagFst f) (liftCoborder_diagSnd f) U a) =
+      unitApp (j := j) T t :=
+    (Scheme.Modules.presheaf_map_map _ _ _ (𝟙 _) _).trans
+      (ConcreteCategory.congr_hom (CategoryTheory.Functor.map_id _ _) _)
+  have hπΨ : (idealSheafSqQuotientToPushforward j).app T
+      ((cokernel.π (idealMul (closedImmersionIdealSheafι j) (closedImmersionIdealSheaf j))).app
+        T t) = unitApp (j := j) T t :=
+    ConcreteCategory.congr_hom (congrArg (fun φ => Scheme.Modules.Hom.app φ T)
+      (cokernel.π_desc _ _ (idealMul_comp_unit j))) t
+  have := isIso_idealSheafSqQuotientToPushforward j
+  rw [e1, e2, ← hπΨ]
+  exact ConcreteCategory.congr_hom (congrArg (fun φ => Scheme.Modules.Hom.app φ T)
+    (Iso.hom_inv_id (asIso (idealSheafSqQuotientToPushforward j)))) _
+
 end Isomorphism
 
 end Hartshorne.DiagonalConormal
