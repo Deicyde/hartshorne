@@ -9,9 +9,11 @@ proof: formalized
 
 # Quasi-coherent sheaves are filtered unions of coherent subsheaves
 
-Let $X$ be a Noetherian scheme and $F$ a quasi-coherent $\mathcal{O}_X$-module. The
-poset of coherent quasi-coherent subsheaves of $F$ is filtered, and its
-canonical colimit maps isomorphically to $F$.
+Let $X$ be a Noetherian scheme. Then any quasi-coherent $\mathcal{O}_X$-module
+$F$ is the union of its coherent subsheaves: for every open $U \subseteq X$,
+every section of $F$ over $U$ is a section of some coherent subsheaf of $F$.
+Equivalently, the coherent subsheaves of $F$ form a filtered system whose
+colimit is $F$.
 
 ## Depends on
 
@@ -25,5 +27,5 @@ canonical colimit maps isomorphically to $F$.
 
 ## Sources
 
-- [Hartshorne II.5, Exercise 5.15(e)](../../../sources/hartshorne-ii-5.md#adopted-exercises-and-later-use-evidence)
+- [Hartshorne II.5, Exercise 5.15(e), p.127](../../../sources/hartshorne-ii-5.md#adopted-exercises-and-later-use-evidence)
 - [Its use in Hartshorne III, Exercise 4.8(a)](../../../sources/hartshorne-iii-3-4.md#adopted-exercises-and-later-use)
