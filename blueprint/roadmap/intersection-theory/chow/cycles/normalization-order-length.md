@@ -31,6 +31,10 @@ No project-local statement prerequisites.
 
 ## Proof depends on
 
+No additional project-local results.
+
+## Informally uses
+
 - [Krull dimension is invariant under integral extensions](../../../affine-varieties/dimension-integral-extension.md)
 
 ## Sources
