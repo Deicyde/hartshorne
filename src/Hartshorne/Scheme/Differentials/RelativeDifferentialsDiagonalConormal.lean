@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.Differentials.ImmersionConormalSheaf
+import Hartshorne.Scheme.Differentials.ClosedImmersionConormalSequence
 
 /-!
 # Relative differentials and the conormal sheaf of the diagonal
@@ -591,7 +592,162 @@ theorem squareMap_comp_diagRestrictIso :
       (relativeDifferentials f)).app V ((relativeDifferentialsDerivation f).d b))
   exact (h3.trans (congrArg _ (baseChangeRelativeDifferentialsMap_unit_d f f V b))).symm
 
+/-- The map `p₁^* Ω_{X/Y} ⟶ Ω_{W/X}` on `W` is an isomorphism (base change). -/
+theorem isIso_squareMap : IsIso (squareMap f (diagFst_comp f)) := by
+  have := isIso_baseChangeRelativeDifferentialsMap f f
+  have h : squareMap f (diagFst_comp f) = (diagPullbackIso f).hom ≫
+      (restrictFunctor (pullback.diagonal f).coborderRange.ι).map
+        (baseChangeRelativeDifferentialsMap f f) ≫ (diagRestrictIso f).inv := by
+    rw [← Category.assoc, ← squareMap_comp_diagRestrictIso, Category.assoc, Iso.hom_inv_id,
+      Category.comp_id]
+  rw [h]
+  infer_instance
+
 end SquareMap
+
+section LeftInverse
+
+open Scheme Scheme.Modules
+
+/-- The unit of the pullback along the identity, followed by `𝟙^* ≅ 𝟭`, is the identity. -/
+theorem pullbackId_hom_unit (F : X.Modules) (T : X.Opens) (s : Γ(F, T)) :
+    ((pullbackId X).hom.app F).app T
+      (((pullbackPushforwardAdjunction (𝟙 X)).unit.app F).app T s) = s := by
+  have h := unit_conjugateEquiv Adjunction.id (pullbackPushforwardAdjunction (𝟙 X))
+    (pullbackId X).hom F
+  rw [conjugateEquiv_pullbackId_hom] at h
+  exact (ConcreteCategory.congr_hom (congrArg (fun φ => Modules.Hom.app φ T) h) s).symm
+
+/-- For `k = 𝟙`, `k^* F ≅ F` sends `k^* s` to the restriction of `s`. -/
+theorem pullbackCongr_id_unit {k : X ⟶ X} (hk : k = 𝟙 X) (F : X.Modules) (T : X.Opens)
+    (hT : k ⁻¹ᵁ T ≤ T) (s : Γ(F, T)) :
+    ((pullbackId X).hom.app F).app (k ⁻¹ᵁ T) (((pullbackCongr hk).hom.app F).app (k ⁻¹ᵁ T)
+      (((pullbackPushforwardAdjunction k).unit.app F).app T s)) =
+      F.presheaf.map (homOfLE hT).op s := by
+  subst hk
+  simp only [pullbackCongr, eqToIso_refl, Iso.refl_hom, NatTrans.id_app]
+  refine (pullbackId_hom_unit F T s).trans ?_
+  exact (ConcreteCategory.congr_hom (F.presheaf.map_id _) s).symm
+
+/-- For `j ≫ q = 𝟙`, `j^* q^* F ≅ F` sends `j^* q^* s` to the restriction of `s`. -/
+theorem pullbackPullback_unit {j : X ⟶ W} {q : W ⟶ X} (h : j ≫ q = 𝟙 X) (F : X.Modules)
+    (T : X.Opens) (hT : j ⁻¹ᵁ (q ⁻¹ᵁ T) ≤ T) (s : Γ(F, T)) :
+    ((pullbackComp j q).hom.app F ≫ (pullbackCongr h).hom.app F ≫ (pullbackId X).hom.app F).app
+        (j ⁻¹ᵁ (q ⁻¹ᵁ T))
+      (((pullbackPushforwardAdjunction j).unit.app ((Modules.pullback q).obj F)).app (q ⁻¹ᵁ T)
+        (((pullbackPushforwardAdjunction q).unit.app F).app T s)) =
+      F.presheaf.map (homOfLE hT).op s := by
+  have e1 := pullbackComp_hom_unit j q F T s
+  have e2 := pullbackCongr_id_unit h F T hT s
+  change ((pullbackId X).hom.app F).app ((j ≫ q) ⁻¹ᵁ T)
+    (((pullbackCongr h).hom.app F).app ((j ≫ q) ⁻¹ᵁ T)
+      (((pullbackComp j q).hom.app F).app ((j ≫ q) ⁻¹ᵁ T)
+        (((pullbackPushforwardAdjunction j).unit.app ((Modules.pullback q).obj F)).app (q ⁻¹ᵁ T)
+          (((pullbackPushforwardAdjunction q).unit.app F).app T s)))) = _
+  rw [e1]
+  exact e2
+
+end LeftInverse
+
+section Inverse
+
+open Scheme Scheme.Modules
+
+variable (f : X ⟶ Y)
+
+/-- The identification `j^* p₁^* Ω_{X/Y} ≅ Ω_{X/Y}`, from `j ≫ p₁ = 𝟙`. -/
+noncomputable abbrev diagPullbackPullbackIso :
+    (Modules.pullback (pullback.diagonal f).liftCoborder).obj
+        ((Modules.pullback (diagFst f)).obj (relativeDifferentials f)) ⟶
+      relativeDifferentials f :=
+  (pullbackComp _ (diagFst f)).hom.app _ ≫ (pullbackCongr (liftCoborder_diagFst f)).hom.app _ ≫
+    (pullbackId X).hom.app _
+
+/-- **A left inverse of the comparison morphism**: the conormal map `N^*_Δ ⟶ j^* Ω_{W/X}` of the
+closed immersion `j : X ⟶ W` over `p₂`, followed by `j^* Ω_{W/X} ≅ j^* p₁^* Ω_{X/Y} ≅ Ω_{X/Y}`
+(base change and `j ≫ p₁ = 𝟙`). -/
+noncomputable def diagonalConormalToRelativeDifferentials :
+    immersionConormalSheaf (pullback.diagonal f) ⟶ relativeDifferentials f :=
+  haveI := isIso_squareMap f
+  ClosedConormal.conormalToPullback (pullback.diagonal f).liftCoborder (diagSnd f) ≫
+    (Modules.pullback (pullback.diagonal f).liftCoborder).map
+      (inv (squareMap f (diagFst_comp f))) ≫ diagPullbackPullbackIso f
+
+theorem diagonalConormalToRelativeDifferentials_conormalD (U : X.Opens) (a : Γ(X, U)) :
+    (diagonalConormalToRelativeDifferentials f).app U
+        (conormalD (liftCoborder_diagFst f) (liftCoborder_diagSnd f) U a) =
+      (relativeDifferentialsDerivation f).d (X := op U) a := by
+  have := isIso_squareMap f
+  set j := (pullback.diagonal f).liftCoborder
+  set q₁ := diagFst f
+  set q₂ := diagSnd f
+  set T := nbhd q₁ q₂ U
+  set β := diagonalConormalToRelativeDifferentials f
+  set Ψ := inv (squareMap f (diagFst_comp f))
+  set t := idealSection (liftCoborder_diagFst f) (liftCoborder_diagSnd f) U a
+  have hl : T ≤ q₁ ⁻¹ᵁ U := inf_le_left
+  -- Step C: the conormal map on `j^* t`.
+  have sC : (ClosedConormal.conormalToPullback j q₂).app (j ⁻¹ᵁ T) (unitApp (j := j) T t) =
+      (ClosedConormal.unitΩ j q₂).app T
+        ((relativeDifferentialsDerivation q₂).d ((closedImmersionIdealSheafι j).app T t)) := by
+    have h := ClosedConormal.homEquiv_conormalToPullback j q₂
+    rw [Adjunction.homEquiv_unit] at h
+    exact ConcreteCategory.congr_hom (congrArg (fun φ => Modules.Hom.app φ T) h) t
+  -- Step E: `d (ι t)` is the image of `p₁^*(d a)`.
+  have sE : (relativeDifferentialsDerivation q₂).d ((closedImmersionIdealSheafι j).app T t) =
+      (relativeDifferentials q₂).presheaf.map (homOfLE hl).op
+        ((squareMap f (diagFst_comp f)).app (q₁ ⁻¹ᵁ U)
+          (((Modules.pullbackPushforwardAdjunction q₁).unit.app (relativeDifferentials f)).app U
+            ((relativeDifferentialsDerivation f).d a))) := by
+    have e0 : (relativeDifferentialsDerivation q₂).d (X := op (q₂ ⁻¹ᵁ U)) (q₂.app U a) = 0 :=
+      RelDiffLocal.kills_of_derivation q₂ (relativeDifferentialsDerivation q₂) U a
+    have e1 := (relativeDifferentialsDerivation q₂).d_map (homOfLE hl).op (q₁.app U a)
+    have e2 := (relativeDifferentialsDerivation q₂).d_map
+      (homOfLE (inf_le_right : T ≤ q₂ ⁻¹ᵁ U)).op (q₂.app U a)
+    erw [ι_idealSection, diffSection_apply, map_sub, e1, e2, e0, map_zero, sub_zero]
+    exact congrArg _ (squareMap_unit_d f (diagFst_comp f) U a).symm
+  have ge := (preimage_nbhd (liftCoborder_diagFst f) (liftCoborder_diagSnd f) U).ge
+  have hm : j ⁻¹ᵁ T ≤ j ⁻¹ᵁ (q₁ ⁻¹ᵁ U) := fun x hx => hl hx
+  have hT : (j ≫ q₁) ⁻¹ᵁ U ≤ U := by
+    rw [liftCoborder_diagFst f]; exact le_rfl
+  set z := ((Modules.pullbackPushforwardAdjunction q₁).unit.app (relativeDifferentials f)).app U
+    ((relativeDifferentialsDerivation f).d a)
+  -- Step H: `j^* p₁^* (d a) ↦ d a`.
+  have sH : (diagPullbackPullbackIso f).app (j ⁻¹ᵁ (q₁ ⁻¹ᵁ U))
+      (((Modules.pullbackPushforwardAdjunction j).unit.app
+        ((Modules.pullback q₁).obj (relativeDifferentials f))).app (q₁ ⁻¹ᵁ U) z) =
+      (relativeDifferentials f).presheaf.map (homOfLE hT).op
+        ((relativeDifferentialsDerivation f).d (X := op U) a) := by
+    exact pullbackPullback_unit (liftCoborder_diagFst f) _ U hT _
+  -- Step Ψ: `Ψ (φ z) = z`.
+  have sΨ : Ψ.app (q₁ ⁻¹ᵁ U) ((squareMap f (diagFst_comp f)).app (q₁ ⁻¹ᵁ U) z) = z :=
+    ConcreteCategory.congr_hom (congrArg (fun φ => Modules.Hom.app φ (q₁ ⁻¹ᵁ U))
+      (IsIso.hom_inv_id (squareMap f (diagFst_comp f)))) z
+  refine (Scheme.Modules.app_presheaf_map β (homOfLE ge) (unitApp (j := j) T t)).trans ?_
+  have sB : β.app (j ⁻¹ᵁ T) (unitApp (j := j) T t) = (diagPullbackPullbackIso f).app (j ⁻¹ᵁ T)
+      (((Modules.pullback j).map Ψ).app (j ⁻¹ᵁ T)
+        ((ClosedConormal.conormalToPullback j q₂).app (j ⁻¹ᵁ T) (unitApp (j := j) T t))) := rfl
+  have sD := pullback_map_unit j Ψ T ((relativeDifferentials q₂).presheaf.map (homOfLE hl).op
+    ((squareMap f (diagFst_comp f)).app (q₁ ⁻¹ᵁ U) z))
+  have sΨ' := Scheme.Modules.app_presheaf_map Ψ (homOfLE hl)
+    ((squareMap f (diagFst_comp f)).app (q₁ ⁻¹ᵁ U) z)
+  have sF := Scheme.Modules.app_presheaf_map (((Modules.pullbackPushforwardAdjunction j).unit.app
+      ((Modules.pullback q₁).obj (relativeDifferentials f)))) (homOfLE hl) z
+  have sG := Scheme.Modules.app_presheaf_map (diagPullbackPullbackIso f) (homOfLE hm)
+    (((Modules.pullbackPushforwardAdjunction j).unit.app
+      ((Modules.pullback q₁).obj (relativeDifferentials f))).app (q₁ ⁻¹ᵁ U) z)
+  rw [sB, sC, sE]
+  erw [sD]
+  rw [sΨ', sΨ]
+  erw [sF]
+  erw [sG]
+  erw [sH]
+  exact ((congrArg _ (Scheme.Modules.presheaf_map_map (relativeDifferentials f)
+    (homOfLE hT).op (homOfLE hm).op (homOfLE (hm.trans hT)).op _)).trans
+    (Scheme.Modules.presheaf_map_map _ _ _ (𝟙 (op U)) _)).trans
+    (ConcreteCategory.congr_hom ((relativeDifferentials f).presheaf.map_id _) _)
+
+end Inverse
 
 section AffineChart
 
