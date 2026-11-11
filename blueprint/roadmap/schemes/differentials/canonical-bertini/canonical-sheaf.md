@@ -20,7 +20,6 @@ It is an invertible sheaf.
 
 - [Differentials characterize nonsingularity](../scheme-differentials/differentials-characterize-nonsingular.md)
 - [Sheaf tensor, symmetric, and exterior operations](../../module-exercises/sheaf-tensor-operations.md)
-- [Exterior powers of a short exact sequence](../../module-exercises/exterior-power-exact-filtration.md)
 - [Locally free and invertible module sheaves](../../modules-and-quasicoherent/locally-free-and-invertible.md)
 
 ## Proof depends on
