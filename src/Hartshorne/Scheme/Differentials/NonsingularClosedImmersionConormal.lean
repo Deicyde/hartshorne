@@ -7,6 +7,8 @@ import Mathlib.RingTheory.OrzechProperty
 import Mathlib.RingTheory.KrullDimension.NonZeroDivisors
 import Hartshorne.Scheme.Differentials.RegularQuotientCotangentIndependent
 import Hartshorne.Scheme.RegularLocalCohenMacaulay
+import Hartshorne.Scheme.DimensionCodimension
+import Hartshorne.Scheme.Differentials.LocalCompleteIntersectionCohenMacaulay
 
 /-!
 # The conormal bundle of a nonsingular closed subvariety
@@ -222,9 +224,62 @@ theorem exists_ker_eq_span (ρ : A →+* B) (hρ : Function.Surjective ρ) (c : 
   have hc : Fintype.card b = c := by omega
   refine ⟨fun i => (f ((Fintype.equivFinOfCardEq hc).symm i) : A), ?_⟩
   rw [hker]
-  exact congrArg Ideal.span (EquivLike.range_comp (fun i => (f i : A)) (Fintype.equivFinOfCardEq hc).symm).symm
+  exact congrArg Ideal.span
+    (EquivLike.range_comp (fun i => (f i : A)) (Fintype.equivFinOfCardEq hc).symm).symm
 
 end RegularQuotient
+
+section Dimension
+
+open CategoryTheory AlgebraicGeometry Order
+
+variable {k : Type u} [Field k] {X Y : Scheme.{u}}
+
+/-- On an integral scheme of finite type over a field of dimension `n`, the height and the
+coheight of a point (for the specialization order) add up to `n`. -/
+theorem height_add_coheight_point (p : X ⟶ Spec (.of k)) [IsIntegral X] (hp : FiniteType p)
+    (x : X) : (((height x + coheight x : ℕ∞)) : WithBot ℕ∞) = topologicalKrullDim X := by
+  let e : TopologicalSpace.IrreducibleCloseds X ≃o X := irreducibleSetEquivPoints
+  rw [← DimensionCodimension.height_add_coheight p hp (e.symm x), height_orderIso e.symm x,
+    coheight_orderIso e.symm x]
+
+/-- For an integral closed subscheme `Y` of codimension `r` of an integral scheme `X` of finite
+type over a field, `dim 𝒪_{X,y} = dim 𝒪_{Y,y} + r` at every point `y` of `Y`. -/
+theorem ringKrullDim_stalk_eq_add_codim (p : X ⟶ Spec (.of k)) [IsIntegral X] (hp : FiniteType p)
+    {n : ℕ} (hn : topologicalKrullDim X = n) (i : Y ⟶ X) [IsClosedImmersion i] [IsIntegral Y]
+    (r : ℕ) (hr : codim (Set.range i.base) = r) (y : Y) :
+    ringKrullDim (X.presheaf.stalk (i y)) = ringKrullDim (Y.presheaf.stalk y) + r := by
+  have := hp.1
+  have := hp.2
+  have hp' : FiniteType (i ≫ p) := ⟨inferInstance, inferInstance⟩
+  have hle := LCICohenMacaulay.ringKrullDim_stalk_add_codim_le i y
+  rw [hr] at hle
+  refine le_antisymm ?_ hle
+  have hX := height_add_coheight_point p hp (i y)
+  have hY := height_add_coheight_point (i ≫ p) hp' y
+  have hdc := dimension_codimension_formula p hp (Set.range i.base)
+    i.isClosedEmbedding.isClosed_range (Set.range_nonempty_iff_nonempty.mpr ⟨y⟩)
+  rw [← IsHomeomorph.topologicalKrullDim_eq _
+    (i.isClosedEmbedding.toHomeomorph).isHomeomorph, hr, hn, ← hY] at hdc
+  rw [hn] at hX
+  have hh := height_le_height_apply_of_strictMono _
+    (LCICohenMacaulay.strictMono_of_isClosedImmersion i) y
+  rw [ringKrullDim_stalk_eq_coheight, ringKrullDim_stalk_eq_coheight]
+  have h1 : height (i y) + coheight (i y) = (n : ℕ∞) := by exact_mod_cast hX
+  have h2 : height y + coheight y + r = (n : ℕ∞) := by exact_mod_cast hdc
+  suffices coheight (i y) ≤ coheight y + r by exact_mod_cast this
+  generalize height (i y) = a at h1 hh
+  generalize coheight (i y) = b at h1 ⊢
+  generalize height y = c at h2 hh
+  generalize coheight y = d at h2 ⊢
+  lift a to ℕ using (by rintro rfl; simp at h1)
+  lift b to ℕ using (by rintro rfl; simp at h1)
+  lift c to ℕ using (by rintro rfl; simp at h2)
+  lift d to ℕ using (by rintro rfl; simp at h2)
+  norm_cast at h1 h2 hh ⊢
+  omega
+
+end Dimension
 
 end NonsingularConormal
 
