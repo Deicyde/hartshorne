@@ -690,3 +690,4 @@ import Hartshorne.Cohomology.QuasiProjectiveLocallyFreeResolution
 import Hartshorne.Scheme.InfinitesimalNeighborhoods
 import Hartshorne.Weil.GeometricallyConnectedSmoothProjective
 import Hartshorne.Surface.KodairaDimensionBirational
+import Hartshorne.Surface.GeneralType
