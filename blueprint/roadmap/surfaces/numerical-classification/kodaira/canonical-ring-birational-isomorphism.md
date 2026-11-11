@@ -3,6 +3,8 @@ article_id: af_f9c2e915fe2bf75c96744ae8
 declaration: isomorphism
 origin: cited
 lean: Hartshorne.pluricanonicalSectionRing_ringEquiv_of_birational Hartshorne.canonicalSectionRing_ringEquiv_of_birational Hartshorne.pluricanonicalTransfer Hartshorne.pluricanonicalTransfer_source Hartshorne.pluricanonicalTransfer_mul Hartshorne.pluricanonicalTransfer_oneSec Hartshorne.pluricanonicalTransfer_symm_apply
+statement: formalized
+proof: formalized
 ---
 
 # Birational nonsingular projective varieties have isomorphic canonical rings
