@@ -692,3 +692,4 @@ import Hartshorne.Scheme.InfinitesimalNeighborhoods
 import Hartshorne.Weil.GeometricallyConnectedSmoothProjective
 import Hartshorne.Surface.KodairaDimensionBirational
 import Hartshorne.Surface.GeneralType
+import Hartshorne.Scheme.Differentials.NonsingularClosedImmersionConormal
