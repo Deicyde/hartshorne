@@ -20,6 +20,7 @@ length one there, and their embedded tangent lines are distinct.
 - [Surfaces and effective curves](surface-curve-convention.md)
 - [The conormal sequence of a closed immersion](../../../schemes/differentials/scheme-differentials/closed-immersion-conormal-sequence.md)
 - [Regular local rings](../../../nonsingular-varieties/regular-local-rings.md)
+- [Local intersection multiplicity](local-intersection-multiplicity.md)
 
 ## Proof depends on
 
