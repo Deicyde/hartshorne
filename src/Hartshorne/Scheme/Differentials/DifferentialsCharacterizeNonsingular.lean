@@ -22,21 +22,18 @@ separatedness is not used.
 
 ## Proof
 
-If `X` is regular, its local rings are domains, so `X` is reduced and hence integral; then
-`Ω_{X/k}` is locally free of rank `n` exactly when every fibre `(Ω_{X/k})_x ⊗ k(x)` has dimension
-`n`. Conversely, local freeness of rank `n` gives fibre dimension `n` at every point, with no
-integrality needed. Let `x` lie in an affine open `Spec T`, with prime `q ⊂ T`; the fibre is
-`κ(q) ⊗_T Ω_{T/k}`. Choose a maximal ideal `m ⊇ q`. Its point is closed in `X` (finite-type
-`k`-schemes are Jacobson), so `dim T_m = n` (Exercise II.3.20(a) applied to the reduced scheme
-`X_red`, which is integral, has the same underlying space as `X`, and has the same local
-dimensions), and `T_m` has residue field `k`.
-Since `Ω_{T_m/k} = T_m ⊗_T Ω_{T/k}`, the fibre at `q` is `κ(q) ⊗_{T_m} Ω_{T_m/k}`.
+This follows the printed proof. Let `x` be a closed point. The local ring `B = 𝒪_{X,x}` has
+dimension `n` (Exercise II.3.20(a), applied to the reduced scheme `X_red`, which is integral and
+has the same underlying space and local dimensions as `X`) and residue field `k`. In an affine
+chart `Spec T ∋ x`, where `x` is a maximal ideal `m ⊂ T`, `B = T_m` and the stalk `(Ω_{X/k})_x` is
+the localization of `Ω_{T/k}` at `m`, as is `Ω_{B/k}`. By Theorem 8.8, `(Ω_{X/k})_x` is free of
+rank `n` if and only if `B` is regular.
 
-* If `X` is nonsingular, `T_m` is regular of dimension `n`, so `Ω_{T_m/k}` is free of rank `n`
-  (Theorem 8.8) and every fibre has dimension `n`.
-* Conversely, if every fibre has dimension `n`, then at `m` this gives
-  `dim_k m/m² = dim (κ(m) ⊗ Ω_{T_m/k}) = n = dim T_m`, so `T_m` is regular, and so is its
-  localization `T_q`.
+* If `Ω_{X/k}` is locally free of rank `n`, every local ring at a closed point is regular. Every
+  point specializes to a closed point (finite-type `k`-schemes are Jacobson), and its local ring
+  is a localization of the one there, hence regular by Theorem 8.14A.
+* If `X` is nonsingular, `Ω_{X/k}` is free of rank `n` near every closed point (Exercise
+  II.5.7), and these neighbourhoods cover `X`, since every point specializes to a closed point.
 
 ## Main results
 
@@ -175,6 +172,234 @@ theorem ringKrullDim_localization_of_isMaximal (hf : FiniteType f) {n : ℕ}
 
 end Scheme
 
+section Stalk
+
+attribute [local instance] RingHomInvPair.of_ringEquiv in
+/-- Two presentations of the same localization of a module are free together: if `f : M → M'`
+and `g : M → M''` are localizations at `S`, `M'` is a module over a localization `R₁` and `M''`
+over a localization `R₂` of `R` at `S`, then `M'` is free over `R₁` iff `M''` is free over
+`R₂`. -/
+theorem free_iff_of_isLocalizedModule {R : Type*} [CommRing R] (S : Submonoid R)
+    {M M' M'' : Type*} [AddCommGroup M] [Module R M] [AddCommGroup M'] [Module R M']
+    [AddCommGroup M''] [Module R M''] (f : M →ₗ[R] M') (g : M →ₗ[R] M'')
+    [IsLocalizedModule S f] [IsLocalizedModule S g]
+    (R₁ R₂ : Type*) [CommRing R₁] [CommRing R₂] [Algebra R R₁] [Algebra R R₂]
+    [IsLocalization S R₁] [IsLocalization S R₂] [Module R₁ M'] [IsScalarTower R R₁ M']
+    [Module R₂ M''] [IsScalarTower R R₂ M''] :
+    Module.Free R₁ M' ↔ Module.Free R₂ M'' := by
+  let σ := (IsLocalization.algEquiv S R₁ R₂).toRingEquiv
+  refine Module.Free.iff_of_equiv (σ := (σ : R₁ →+* R₂))
+    { __ := IsLocalizedModule.linearEquiv S f g, map_smul' := ?_ }
+  intro r x
+  obtain ⟨r, s, rfl⟩ := IsLocalization.exists_mk'_eq S r
+  apply ((Module.End.isUnit_iff _).mp (IsLocalizedModule.map_units g s)).1
+  simp [σ, ← map_smul, ← smul_assoc]
+
+attribute [local instance] FreeLocusAux.freeLocusStalkAlgebra
+  FreeLocusAux.freeLocus_asIdeal_isPrime FreeLocusAux.freeLocus_stalk_isLocalization
+  FreeLocusAux.freeLocusStalkModule FreeLocusAux.freeLocus_stalk_isScalarTower
+
+/-- The stalk of `Ω_{X/Y}` at a point is the module of differentials of the local ring: on affine
+opens `U ⊆ f⁻¹ V`, with `A = Γ(Y, V)` and `T = Γ(X, U)`, the stalk at the point given by a prime
+`q ⊂ T` is free over `𝒪_{X,x}` exactly when `Ω_{T_q/A}` is free over `T_q`, since both are the
+localization of `Ω_{T/A}` at `q`. -/
+theorem free_stalk_relativeDifferentials_iff {X Y : Scheme.{u}} (f : X ⟶ Y)
+    (U : X.affineOpens) (V : Y.affineOpens) (h : (U : X.Opens) ≤ f ⁻¹ᵁ (V : Y.Opens))
+    (y : Spec Γ(X, (U : X.Opens))) :
+    letI := (f.appLE V U h).hom.toAlgebra
+    Module.Free (X.presheaf.stalk (U.2.fromSpec y))
+        ((Scheme.relativeDifferentials f).presheaf.stalk (U.2.fromSpec y)) ↔
+      Module.Free (Localization.AtPrime y.asIdeal)
+        Ω[Localization.AtPrime y.asIdeal⁄Γ(Y, (V : Y.Opens))] := by
+  let := (f.appLE V U h).hom.toAlgebra
+  have : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
+  rw [FreeLocusAux.free_stalk_restrict_iff U.2.fromSpec]
+  let T := Γ(X, (U : X.Opens))
+  let G := (Scheme.relativeDifferentials f).restrict U.2.fromSpec
+  let hG : G ≅ (tilde.functor T).obj (ModuleCat.of T Ω[T⁄Γ(Y, (V : Y.Opens))]) :=
+    RelDiffLocal.affineIso f U V h
+  have : IsIso (Scheme.Modules.fromTildeΓ (R := T) G) :=
+    isIso_fromTildeΓ_iff.mpr ⟨_, ⟨hG.symm⟩⟩
+  have hloc : IsLocalizing (modulesSpecToSheaf.obj G) :=
+    (isIso_fromTildeΓ_iff_isLocalizing _).mp this
+  have := FreeLocusAux.isLocalizedModule_germTopLinear G hloc y
+  let e : Γ(G, ⊤) ≃ₗ[T] Ω[T⁄Γ(Y, (V : Y.Opens))] :=
+    (moduleSpecΓFunctor.mapIso hG ≪≫ (tilde.toTildeΓNatIso.app _).symm).toLinearEquiv
+  exact free_iff_of_isLocalizedModule y.asIdeal.primeCompl
+    (FreeLocusAux.germTopLinear G y ∘ₗ e.symm.toLinearMap)
+    (KaehlerDifferential.map Γ(Y, (V : Y.Opens)) Γ(Y, (V : Y.Opens)) T
+      (Localization.AtPrime y.asIdeal)) _ _
+
+/-- On a scheme locally of finite type over `Y`, every fibre `(Ω_{X/Y})_x ⊗ k(x)` is finite
+dimensional. -/
+theorem finite_fibre_relativeDifferentials {X Y : Scheme.{u}} (f : X ⟶ Y)
+    [LocallyOfFiniteType f] (x : X) :
+    Module.Finite (ResidueField (X.presheaf.stalk x))
+      (ResidueField (X.presheaf.stalk x) ⊗[X.presheaf.stalk x]
+        (Scheme.relativeDifferentials f).presheaf.stalk x) := by
+  obtain ⟨_, ⟨V, hV, rfl⟩, hfxV, -⟩ :=
+    Y.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ (f x)) isOpen_univ
+  obtain ⟨_, ⟨U, hU, rfl⟩, hxU, hUV⟩ :=
+    X.isBasis_affineOpens.exists_subset_of_mem_open (show x ∈ f ⁻¹ᵁ V from hfxV)
+      (f ⁻¹ᵁ V).2
+  let Ua : X.affineOpens := ⟨U, hU⟩
+  let Va : Y.affineOpens := ⟨V, hV⟩
+  replace hUV : (Ua : X.Opens) ≤ f ⁻¹ᵁ (Va : Y.Opens) := hUV
+  let := (f.appLE V U hUV).hom.toAlgebra
+  have : Algebra.FiniteType Γ(Y, V) Γ(X, U) := f.finiteType_appLE hV hU hUV
+  obtain ⟨y, rfl⟩ : x ∈ Set.range hU.fromSpec := by rwa [hU.range_fromSpec]
+  rw [← Module.rank_lt_aleph0_iff, rank_fibre_relativeDifferentials_affine f Ua Va hUV y]
+  exact Module.rank_lt_aleph0 _ _
+
+end Stalk
+
+section Closed
+
+variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
+
+/-- The point of `X` given by a maximal ideal of the ring of an affine open is closed, when `X`
+is locally of finite type over a field (so a Jacobson space). -/
+theorem isClosed_fromSpec_of_isMaximal [LocallyOfFiniteType f] (U : X.affineOpens)
+    (y : Spec Γ(X, (U : X.Opens))) (hy : y.asIdeal.IsMaximal) :
+    IsClosed ({U.2.fromSpec y} : Set X) := by
+  have : JacobsonSpace X := LocallyOfFiniteType.jacobsonSpace f
+  have : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
+  apply isClosed_singleton_of_isLocallyClosed_singleton
+  have h1 : IsLocallyClosed ({y} : Set (Spec Γ(X, (U : X.Opens)))) :=
+    ((PrimeSpectrum.isClosed_singleton_iff_isMaximal y).mpr hy).isLocallyClosed
+  have h2 := h1.image U.2.fromSpec.isOpenEmbedding.isInducing
+    U.2.fromSpec.isOpenEmbedding.isOpen_range.isLocallyClosed
+  simpa using h2
+
+/-- A closed point of `X` lying in an affine open corresponds to a maximal ideal of its ring. -/
+theorem isMaximal_of_isClosed_fromSpec {X : Scheme.{u}} (U : X.affineOpens)
+    (y : Spec Γ(X, (U : X.Opens))) (hy : IsClosed ({U.2.fromSpec y} : Set X)) :
+    y.asIdeal.IsMaximal := by
+  have : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
+  have hpre : U.2.fromSpec ⁻¹' {U.2.fromSpec y} = {y} :=
+    Set.ext fun a => ⟨fun ha => U.2.fromSpec.isOpenEmbedding.injective ha,
+      fun ha => by rw [Set.mem_singleton_iff.mp ha]; rfl⟩
+  have := hy.preimage U.2.fromSpec.continuous
+  rw [hpre] at this
+  exact (PrimeSpectrum.isClosed_singleton_iff_isMaximal y).mp this
+
+/-- Inside any affine open `U = Spec T` containing it, every point of a scheme locally of finite
+type over a field specializes to a closed point: if the point corresponds to the prime `q ⊂ T`,
+take a maximal ideal `m ⊇ q`. -/
+theorem exists_isMaximal_specializes [LocallyOfFiniteType f] (U : X.affineOpens)
+    (y : Spec Γ(X, (U : X.Opens))) :
+    ∃ z : Spec Γ(X, (U : X.Opens)), y.asIdeal ≤ z.asIdeal ∧ z.asIdeal.IsMaximal ∧
+      IsClosed ({U.2.fromSpec z} : Set X) ∧ U.2.fromSpec y ⤳ U.2.fromSpec z := by
+  obtain ⟨m, hm, hqm⟩ := Ideal.exists_le_maximal y.asIdeal y.isPrime.ne_top
+  let z : Spec Γ(X, (U : X.Opens)) := ⟨m, hm.isPrime⟩
+  exact ⟨z, hqm, hm, isClosed_fromSpec_of_isMaximal f U z hm,
+    ((PrimeSpectrum.le_iff_specializes y z).mp hqm).map U.2.fromSpec.continuous⟩
+
+/-- Every point of a scheme lies in the image of some affine open chart. -/
+theorem exists_fromSpec_eq {X : Scheme.{u}} (x : X) :
+    ∃ (U : X.affineOpens) (y : Spec Γ(X, (U : X.Opens))), U.2.fromSpec y = x := by
+  obtain ⟨_, ⟨U, hU, rfl⟩, hxU, -⟩ :=
+    X.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ x) isOpen_univ
+  exact ⟨⟨U, hU⟩, hU.primeIdealOf ⟨x, hxU⟩, hU.fromSpec_primeIdealOf ⟨x, hxU⟩⟩
+
+/-- On a scheme locally of finite type over a field, if the local rings at all closed points are
+regular, then all local rings are regular: each local ring is a localization of the local ring at
+a closed point, and localizations of regular local rings are regular (Theorem 8.14A). -/
+theorem forall_isRegularAt_of_forall_isClosed [LocallyOfFiniteType f]
+    (h : ∀ z : X, IsClosed ({z} : Set X) → X.IsRegularAt z) (x : X) : X.IsRegularAt x := by
+  obtain ⟨U, y, rfl⟩ := exists_fromSpec_eq x
+  obtain ⟨z, hqm, -, hz, -⟩ := exists_isMaximal_specializes f U y
+  let T := Γ(X, (U : X.Opens))
+  let m := z.asIdeal
+  have : m.IsPrime := z.isPrime
+  have hstalk (w : Spec T) := U.2.isLocalization_stalk' w (fromSpec_mem U w)
+  have hregm : IsRegularLocalRing (Localization.AtPrime m) := by
+    have : IsRegularLocalRing (X.presheaf.stalk (U.2.fromSpec z)) := h _ hz
+    let := TopCat.Presheaf.algebra_section_stalk X.presheaf ⟨U.2.fromSpec z, fromSpec_mem U z⟩
+    have : IsLocalization.AtPrime (X.presheaf.stalk (U.2.fromSpec z)) m := hstalk z
+    exact IsRegularLocalRing.of_ringEquiv
+      (IsLocalization.algEquiv m.primeCompl (X.presheaf.stalk (U.2.fromSpec z))
+        (Localization.AtPrime m)).toRingEquiv
+  -- `T_q` is a localization of `T_m`, hence regular (Theorem 8.14A)
+  have : y.asIdeal.IsPrime := y.isPrime
+  have hdisj : Disjoint (m.primeCompl : Set T) y.asIdeal :=
+    Set.disjoint_left.mpr fun s hs hsq => hs (hqm hsq)
+  let p := y.asIdeal.map (algebraMap T (Localization.AtPrime m))
+  have : p.IsPrime := IsLocalization.isPrime_of_isPrime_disjoint m.primeCompl _ _ y.isPrime hdisj
+  have hp : p.under T = y.asIdeal :=
+    IsLocalization.under_map_of_isPrime_disjoint m.primeCompl _ y.isPrime hdisj
+  have : IsRegularLocalRing (Localization.AtPrime p) :=
+    RegularLocal.isRegularLocalRing_localization_atPrime _ p
+  have hl : IsLocalization.AtPrime (Localization.AtPrime p) y.asIdeal := by
+    have := IsLocalization.isLocalization_isLocalization_atPrime_isLocalization
+      (M := m.primeCompl) (S := Localization.AtPrime m) (T := Localization.AtPrime p) p
+    have hp' : p.comap (algebraMap T (Localization.AtPrime m)) = y.asIdeal := hp
+    convert this
+    exact hp'.symm
+  let := TopCat.Presheaf.algebra_section_stalk X.presheaf ⟨U.2.fromSpec y, fromSpec_mem U y⟩
+  have : IsLocalization.AtPrime (X.presheaf.stalk (U.2.fromSpec y)) y.asIdeal := hstalk y
+  exact IsRegularLocalRing.of_ringEquiv
+    (IsLocalization.algEquiv y.asIdeal.primeCompl (Localization.AtPrime p)
+      (X.presheaf.stalk (U.2.fromSpec y))).toRingEquiv
+
+/-- **Hartshorne II, proof of Theorem 8.15**, the local step. Let `X` be of finite type over an
+algebraically closed field `k`, and let `x` be a closed point whose local ring `B = 𝒪_{X,x}` has
+dimension `n`. Then `B` has residue field `k`, `Ω_{B/k}` is the stalk `(Ω_{X/k})_x`, and by
+Theorem 8.8 the stalk `(Ω_{X/k})_x` is free of rank `n` (free, with fibre `(Ω_{X/k})_x ⊗ k(x)` of
+dimension `n`) if and only if `B` is a regular local ring. -/
+theorem isRegularAt_iff_free_stalk_relativeDifferentials [IsAlgClosed k] (hf : FiniteType f)
+    (n : ℕ) (x : X) (hx : IsClosed ({x} : Set X)) (hdim : ringKrullDim (X.presheaf.stalk x) = n) :
+    X.IsRegularAt x ↔
+      Module.Free (X.presheaf.stalk x) ((Scheme.relativeDifferentials f).presheaf.stalk x) ∧
+        finrank (ResidueField (X.presheaf.stalk x))
+          (ResidueField (X.presheaf.stalk x) ⊗[X.presheaf.stalk x]
+            (Scheme.relativeDifferentials f).presheaf.stalk x) = n := by
+  have : LocallyOfFiniteType f := hf.1
+  -- the base ring `Γ(Spec k, ⊤) ≅ k` is an algebraically closed field
+  let eA := (Scheme.ΓSpecIso (CommRingCat.of k)).commRingCatIsoToRingEquiv
+  let : Field Γ(Spec (.of k), ⊤) := (eA.toMulEquiv.isField (Field.toIsField k)).toField
+  have : IsAlgClosed Γ(Spec (.of k), ⊤) := IsAlgClosed.of_ringEquiv k _ eA.symm
+  let V : (Spec (.of k)).affineOpens := ⟨⊤, isAffineOpen_top _⟩
+  obtain ⟨U, y, rfl⟩ := exists_fromSpec_eq x
+  have hm : y.asIdeal.IsMaximal := isMaximal_of_isClosed_fromSpec U y hx
+  let T := Γ(X, (U : X.Opens))
+  have hUV : (U : X.Opens) ≤ f ⁻¹ᵁ (V : (Spec (.of k)).Opens) := le_top
+  let : Algebra Γ(Spec (.of k), ⊤) T := (f.appLE ⊤ U hUV).hom.toAlgebra
+  have : Algebra.FiniteType Γ(Spec (.of k), ⊤) T := f.finiteType_appLE V.2 U.2 hUV
+  -- `B = 𝒪_{X,x}` is the localization `T_m` at the maximal ideal `m` of `x`
+  let B := Localization.AtPrime y.asIdeal
+  have : Algebra.EssFiniteType Γ(Spec (.of k), ⊤) B := Algebra.EssFiniteType.comp _ T _
+  let := TopCat.Presheaf.algebra_section_stalk X.presheaf ⟨U.2.fromSpec y, fromSpec_mem U y⟩
+  have : IsLocalization.AtPrime (X.presheaf.stalk (U.2.fromSpec y)) y.asIdeal :=
+    U.2.isLocalization_stalk' y (fromSpec_mem U y)
+  let eB : X.presheaf.stalk (U.2.fromSpec y) ≃+* B :=
+    (IsLocalization.algEquiv y.asIdeal.primeCompl _ B).toRingEquiv
+  -- `B` has dimension `n` and residue field `k`
+  have hdimB : ringKrullDim B = n := (ringKrullDim_eq_of_ringEquiv eB).symm.trans hdim
+  have hbij := bijective_algebraMap_residueField (k := Γ(Spec (.of k), ⊤)) y.asIdeal
+  -- the fibre of `Ω_{X/k}` at `x` is the fibre of `Ω_{B/k}`
+  have hfib : finrank (ResidueField (X.presheaf.stalk (U.2.fromSpec y)))
+      (ResidueField (X.presheaf.stalk (U.2.fromSpec y)) ⊗[X.presheaf.stalk (U.2.fromSpec y)]
+        (Scheme.relativeDifferentials f).presheaf.stalk (U.2.fromSpec y)) =
+      finrank y.asIdeal.ResidueField (y.asIdeal.ResidueField ⊗[B] Ω[B⁄Γ(Spec (.of k), ⊤)]) := by
+    rw [finrank_fibre_relativeDifferentials_affine f U V hUV y]
+    exact finrank_tensor_kaehler_localization y.asIdeal.primeCompl B _
+  have hreg : X.IsRegularAt (U.2.fromSpec y) ↔ IsRegularLocalRing B :=
+    ⟨fun h => have : IsRegularLocalRing (X.presheaf.stalk (U.2.fromSpec y)) := h
+      IsRegularLocalRing.of_ringEquiv eB,
+      fun h => have := h; IsRegularLocalRing.of_ringEquiv eB.symm⟩
+  -- Theorem 8.8
+  rw [hreg, isRegularLocalRing_iff_free_kaehlerDifferential _ B hbij, hdimB, hfib,
+    free_stalk_relativeDifferentials_iff f U V hUV y]
+  constructor
+  · rintro ⟨hfree, hrank⟩
+    exact ⟨hfree, by rw [Module.finrank_baseChange]; exact_mod_cast hrank⟩
+  · rintro ⟨hfree, hrank⟩
+    rw [Module.finrank_baseChange] at hrank
+    exact ⟨hfree, by rw [hrank]⟩
+
+end Closed
+
 end DifferentialsNonsingular
 
 /-- A regular irreducible scheme is integral: its local rings are domains, so it is reduced. -/
@@ -309,19 +534,39 @@ theorem isRegular_iff_relativeDifferentials_isLocallyFreeOfRank {k : Type u} [Fi
     X.IsRegular ↔ (Scheme.relativeDifferentials f).IsLocallyFreeOfRank n := by
   have : LocallyOfFiniteType f := hf.1
   have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f
-  have hdim := ringKrullDim_stalk_of_isClosed f hf hn
+  -- at a closed point `x`, `𝒪_{X,x}` has dimension `n` (Exercise II.3.20(a)), so by
+  -- Theorem 8.8 the stalk of `Ω_{X/k}` there is free of rank `n` iff `𝒪_{X,x}` is regular
+  have key (x : X) (hx : IsClosed ({x} : Set X)) :=
+    isRegularAt_iff_free_stalk_relativeDifferentials f hf n x hx
+      (ringKrullDim_stalk_of_isClosed f hf hn x hx)
+  let F := Scheme.relativeDifferentials f
   constructor
   · intro hX
-    -- a regular irreducible scheme is integral, so the fibre-rank criterion (Ex. II.5.8(c))
-    -- applies to the coherent sheaf `Ω_{X/k}`
-    have : IsIntegral X := isIntegral_of_isRegular hX
-    rw [isLocallyFreeOfRank_iff_forall_finrank_fibre _
-      (Scheme.relativeDifferentials_isCoherent_of_locallyOfFiniteType f) n]
-    exact (forall_isRegularAt_iff_finrank_fibre_of_forall_isClosed f hf n hdim).1 hX.2
+    -- `Ω_{X/k}` is free of rank `n` near every closed point (Exercise II.5.7), and every point
+    -- specializes to a closed point, so these neighbourhoods cover `X`
+    have hnbhd (x : X) : ∃ W : X.Opens, x ∈ W ∧
+        ∃ I : Type u, Nonempty (F.restrict W.ι ≅ SheafOfModules.free I) ∧
+          Cardinal.mk I = n := by
+      obtain ⟨U, y, rfl⟩ := exists_fromSpec_eq x
+      obtain ⟨z, -, -, hz, hyz⟩ := exists_isMaximal_specializes f U y
+      obtain ⟨hfree, hrank⟩ := (key _ hz).1 (hX.2 _)
+      obtain ⟨W, hzW, I, ⟨α⟩⟩ := exists_isFree_restrict_of_free_stalk_of_isLocallyNoetherian F
+        (Scheme.relativeDifferentials_isCoherent_of_locallyOfFiniteType f) _ hfree
+      refine ⟨W, hyz.mem_open W.2 hzW, I, ⟨α⟩, ?_⟩
+      have := finite_fibre_relativeDifferentials f (U.2.fromSpec z)
+      rw [← rank_fibre_of_restrict_iso_free F α hzW, ← Module.finrank_eq_rank, hrank]
+    refine (F.isLocallyFreeOfRank_iff n).mpr ⟨fun x => ?_, fun x => ?_⟩
+    · obtain ⟨W, hxW, I, hα, -⟩ := hnbhd x
+      exact ⟨W, hxW, I, hα⟩
+    · obtain ⟨W, hxW, I, ⟨α⟩, hI⟩ := hnbhd x
+      rw [F.rankAt_eq α hxW, hI]
   · intro h
-    -- local freeness of rank `n` gives fibre dimension `n` at every point
-    exact ⟨inferInstance, (forall_isRegularAt_iff_finrank_fibre_of_forall_isClosed f hf n hdim).2
-      (finrank_fibre_of_isLocallyFreeOfRank _ n h)⟩
+    -- the stalks of `Ω_{X/k}` at closed points are free of rank `n`, so the local rings there
+    -- are regular; every local ring is a localization of one of these (Theorem 8.14A)
+    have hlf : F.IsLocallyFree := ((F.isLocallyFreeOfRank_iff n).mp h).1
+    exact ⟨inferInstance, forall_isRegularAt_of_forall_isClosed f fun z hz =>
+      (key z hz).2 ⟨free_stalk_of_isLocallyFree F hlf z,
+        finrank_fibre_of_isLocallyFreeOfRank F n h z⟩⟩
 
 end
 
