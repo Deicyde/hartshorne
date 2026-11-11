@@ -17,13 +17,15 @@ regular and equidimensional of dimension $n$.
 ## Depends on
 
 - [Smoothness and regularity over an algebraically closed field](smooth-over-algebraically-closed-iff-regular.md)
-- [Smooth relative-dimension calculus](smooth-relative-dimension-calculus.md)
 - [The fibre of a morphism](../../../schemes/fiber-products/scheme-fiber.md)
 
 ## Proof depends on
 
+- [Smooth relative-dimension calculus](smooth-relative-dimension-calculus.md)
 - [Flat morphisms with smooth fibres are smooth](flat-smooth-fibers-smooth.md)
 - [Base change for differential sheaves](../../../schemes/differentials/scheme-differentials/relative-differentials-base-change.md)
+- Faithfully flat descent of local freeness of Kähler differentials along an
+  algebraic closure of a residue field.
 - Faithfully flat, quasi-compact descent of smoothness along the spectrum of an
   algebraic closure of a residue field.
 
