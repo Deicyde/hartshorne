@@ -19,13 +19,13 @@ $\Gamma(X', \omega_{X'}) \to \Gamma(V, \omega_V)$.
 
 - [The canonical sheaf](canonical-sheaf.md)
 - [Relative differential transitivity](../scheme-differentials/relative-differentials-transitivity.md)
-- [Birational varieties have isomorphic open subsets](../../../rational-maps/birational-open-subsets.md)
 
 ## Proof depends on
 
 - Take the top exterior power of the natural differential pullback map.
 - On a dense open where the birational map is an isomorphism, this map is an
   isomorphism; a section of an invertible sheaf vanishing there is zero.
+- [Birational varieties have isomorphic open subsets](../../../rational-maps/birational-open-subsets.md)
 
 ## Sources
 
