@@ -160,6 +160,10 @@ then reuses `IsClosedImmersion.overEquivIdealSheafData`.
   replace `i_*F` by its preimage under `G → i_*(G|_U)`); (d) the same for any
   Noetherian `X`, extending over one open affine at a time. Used on II p.154
   and in Chapter III.
+- **Exercise 5.15(e), p.127.** On a noetherian scheme, any quasi-coherent sheaf
+  is the union of its coherent subsheaves, "union" in the sense of (a): every
+  section over an open set is a section of some coherent subsheaf. Used in
+  III Ex. 4.8(a).
 - **Exercise 5.16, definitions and parts (b),(d), pp.127–128.** Tensor,
   symmetric, and exterior operations; the perfect exterior pairing (with its
   rank-two case `F ≅ F^∨ ⊗ ⋀²F`); and the
@@ -189,7 +193,7 @@ adopted: part (a), upper semicontinuity of `phi`, is represented by the
 III.12 Example 12.7.2 article, and part (b) on its own has no later use.
 Exercise 5.4 is recorded as the representation bridge but is not a separate
 exercise node. Parts 5.7(c),
-5.9(c), 5.10(d), 5.15(e), 5.16(a),(c),(e), and 5.17(e) are not independent
+5.9(c), 5.10(d), 5.16(a),(c),(e), and 5.17(e) are not independent
 targets under the running-text dependency policy. Examples 5.2.1–5.2.5 and
 5.16.2–5.16.3 are examples or tests, not theorem nodes.
 
