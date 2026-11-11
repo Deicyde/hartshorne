@@ -18,6 +18,10 @@ $p_g(X) = \dim _k \Gamma (X, \omega _X)$.
 
 - [The canonical sheaf](canonical-sheaf.md)
 
+## Informally uses
+
+- [Finiteness of projective global sections](../../projective-sheaves/projective-global-sections-finite.md)
+
 ## Sources
 
 - [Hartshorne II.8, geometric-genus definition (pp.180–181)](../../../../sources/hartshorne-ii-8.md#canonical-sheaves-and-adjunction)
