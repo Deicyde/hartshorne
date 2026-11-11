@@ -24,7 +24,10 @@ birational map. Pullback of differentials gives an injective map `Γ(X', ω_{X'}
 * `Hartshorne.exteriorPowerPullback`: for `f : V ⟶ Y` and `p : Y ⟶ Spec k`, the morphism
   `⋀^n Ω_{Y/k} ⟶ f_*(⋀^n Ω_{V/k})`, `ω_1 ∧ ⋯ ∧ ω_n ↦ f^*ω_1 ∧ ⋯ ∧ f^*ω_n`, built from the
   universal property of the exterior power and the pushforward of the universal alternating map
-  (`Hartshorne.ModuleSheafMultilinear.pushforward`).
+  (`Hartshorne.ModuleSheafMultilinear.pushforward`). As in the proof, it is the top exterior
+  power of the map `f^*Ω_{Y/k} ⟶ Ω_{V/k}` from (8.11)
+  (`AlgebraicGeometry.Scheme.pullbackRelativeDifferentialsToComp`), taken in adjoint form
+  (`Hartshorne.exteriorPowerPullback_eq_transitivity`).
 * Compatibility with open immersions: if `j : W ⟶ V` and `j ≫ f` is an open immersion, the
   derivation `a ↦ d_{Y/k}(((j ≫ f)^♯)⁻¹ (j^♯ a))` gives `Ω_{V/k} ⟶ j_*(Ω_{Y/k}|_W)`
   (`Hartshorne.openImmersionDifferentialsMap`), and on exterior powers
@@ -101,12 +104,25 @@ end PushforwardMap
 variable {k : Type u} [Field k] {V Y : Scheme.{u}} (f : V ⟶ Y) (p : Y ⟶ Spec (.of k))
 
 /-- **Pullback of top differential forms.** The morphism
-`⋀^n Ω_{Y/k} ⟶ f_*(⋀^n Ω_{V/k})`, `ω_1 ∧ ⋯ ∧ ω_n ↦ f^*ω_1 ∧ ⋯ ∧ f^*ω_n`. -/
+`⋀^n Ω_{Y/k} ⟶ f_*(⋀^n Ω_{V/k})`, `ω_1 ∧ ⋯ ∧ ω_n ↦ f^*ω_1 ∧ ⋯ ∧ f^*ω_n`: the top exterior
+power of the adjoint form `Ω_{Y/k} ⟶ f_*Ω_{V/k}` of the map `f^*Ω_{Y/k} ⟶ Ω_{V/k}` of the
+transitivity sequence (8.11) (see `Hartshorne.exteriorPowerPullback_eq_transitivity`). -/
 def exteriorPowerPullback (n : ℕ) :
     moduleSheafExteriorPower (R := Y.sheaf) n (Scheme.relativeDifferentials p) ⟶
       (Scheme.Modules.pushforward f).obj
         (moduleSheafExteriorPower (R := V.sheaf) n (Scheme.relativeDifferentials (f ≫ p))) :=
   exteriorPowerPushforwardMap f (Scheme.relativeDifferentialsToPushforwardComp f p) n
+
+/-- `exteriorPowerPullback` is the top exterior power of the map `f^*Ω_{Y/k} ⟶ Ω_{V/k}` of the
+transitivity sequence (8.11) (`AlgebraicGeometry.Scheme.pullbackRelativeDifferentialsToComp`),
+transported along the adjunction `f^* ⊣ f_*`. -/
+theorem exteriorPowerPullback_eq_transitivity (n : ℕ) :
+    exteriorPowerPullback f p n =
+      exteriorPowerPushforwardMap f
+        ((Scheme.Modules.pullbackPushforwardAdjunction f).homEquiv _ _
+          (Scheme.pullbackRelativeDifferentialsToComp f p)) n := by
+  rw [Scheme.pullbackRelativeDifferentialsToComp_homEquiv]
+  rfl
 
 /-- **Sections of a locally free sheaf on an integral scheme are determined on a nonempty open.**
 Locally `L` has a finite frame, and restriction of functions to a nonempty open is injective on an
@@ -504,7 +520,8 @@ theorem canonicalPullback_app_top_injective {V : X.Opens} (f : (V : Scheme) ⟶ 
   Modules.injective_app_eqToHom_comp_comp_eqToHom _ _ _ _ h1
 
 /-- If a partial map `φ` agrees on a dense open with a partial isomorphism, then `φ` is an open
-immersion on a nonempty open of its domain. -/
+immersion on a nonempty open of its domain: the open subsets on which the birational map is an
+isomorphism, as used in the proof of Theorem II.8.19. -/
 theorem _root_.AlgebraicGeometry.Scheme.PartialMap.exists_isOpenImmersion [Nonempty X]
     (φ : X.PartialMap X') (e : X.PartialIso X') (he : e.toRationalMap = φ.toRationalMap) :
     ∃ (W : X.Opens) (hW : W ≤ φ.domain), Nonempty W ∧
