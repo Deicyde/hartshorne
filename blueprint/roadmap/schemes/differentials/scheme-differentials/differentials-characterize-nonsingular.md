@@ -20,14 +20,14 @@ criterion.
 
 ## Depends on
 
-- [The regular-local differential criterion](../kaehler-differentials/regular-local-differential-criterion.md)
-- [Localizations of regular local rings](../kaehler-differentials/regular-localization.md)
 - [Quasi-coherence and coherence of differentials](relative-differentials-quasicoherent.md)
 - [Regular points and nonsingular schemes](regular-points-and-nonsingular-schemes.md)
-- [Dimension at a closed point](../../subschemes-and-dimension/dimension-at-closed-point.md)
 
 ## Proof depends on
 
+- [The regular-local differential criterion](../kaehler-differentials/regular-local-differential-criterion.md)
+- [Localizations of regular local rings](../kaehler-differentials/regular-localization.md)
+- [Dimension at a closed point](../../subschemes-and-dimension/dimension-at-closed-point.md)
 - [Fibres of the differential sheaf on an affine chart](relative-differentials-affine-fibre.md)
 - [The free locus of a coherent sheaf](../../coherent-sheaves/coherent-free-locus.md)
 - [Constant fibre dimension forces local freeness](../../coherent-sheaves/coherent-constant-fibre-rank-locally-free.md)
