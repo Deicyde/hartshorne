@@ -15,7 +15,7 @@ nonsingular varieties over `k`, then `ω_{X ×_k Y} ≅ p_X^* ω_X ⊗ p_Y^* ω_
 
 ## Proof
 
-Following the hint of the exercise:
+Using part (a) and Ex. II.5.16(d):
 
 * `Ω_{X ×_k Y} ≅ p_X^* Ω_X ⊕ p_Y^* Ω_Y` (Exercise 8.3(a),
   `AlgebraicGeometry.Scheme.relativeDifferentialsProductIso`), so `Ω_{X ×_k Y}` sits in the split
