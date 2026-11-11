@@ -599,4 +599,66 @@ theorem mem_closure_nbhd (s : Γ((pullback.diagonal f).coborderRange.toScheme,
 
 end AffineChart
 
+section Surjective
+
+open QuasicoherentAbelianAux in
+/-- For a closed immersion `i` with ideal sheaf `I` and an affine open `O`, the unit
+`I ⟶ i_* i^* I` is surjective on sections over `O`. -/
+theorem unit_app_surjective_of_isAffineOpen {Z : Scheme.{u}} (i : Z ⟶ W) [IsClosedImmersion i]
+    (O : W.Opens) (hO : IsAffineOpen O) :
+    Function.Surjective (((Scheme.Modules.pullbackPushforwardAdjunction i).unit.app
+      (closedImmersionIdealSheaf i)).app O) := by
+  have := isQuasicoherent_closedImmersionIdealSheaf i
+  have : (idealTensor (I := closedImmersionIdealSheaf i)
+      (closedImmersionIdealSheaf i)).IsQuasicoherent :=
+    isQuasicoherent_moduleSheafTensor _ _
+  have : IsOpenImmersion hO.fromSpec := hO.isOpenImmersion_fromSpec
+  have hO' : hO.fromSpec ''ᵁ ⊤ = O := by
+    rw [Scheme.Hom.image_top_eq_opensRange, hO.opensRange_fromSpec]
+  have hb := bijective_idealSheafSqQuotientToPushforward_app i ⟨O, hO⟩
+  have hπ := surjective_cokernel_π_app
+    (idealMul (closedImmersionIdealSheafι i) (closedImmersionIdealSheaf i)) ⟨O, hO⟩
+  have hπΨ : ∀ x, (idealSheafSqQuotientToPushforward i).app (hO.fromSpec ''ᵁ ⊤)
+      ((cokernel.π (idealMul (closedImmersionIdealSheafι i) (closedImmersionIdealSheaf i))).app
+        (hO.fromSpec ''ᵁ ⊤) x) =
+      ((Scheme.Modules.pullbackPushforwardAdjunction i).unit.app
+        (closedImmersionIdealSheaf i)).app (hO.fromSpec ''ᵁ ⊤) x := fun x =>
+    ConcreteCategory.congr_hom (congrArg (fun φ => Scheme.Modules.Hom.app φ (hO.fromSpec ''ᵁ ⊤))
+      (cokernel.π_desc _ _ (idealMul_comp_unit i))) x
+  have key : Function.Surjective (((Scheme.Modules.pullbackPushforwardAdjunction i).unit.app
+      (closedImmersionIdealSheaf i)).app (hO.fromSpec ''ᵁ ⊤)) := by
+    intro y
+    obtain ⟨z, rfl⟩ := hb.2 y
+    obtain ⟨x, rfl⟩ := hπ z
+    exact ⟨x, (hπΨ x).symm⟩
+  rw [hO'] at key
+  exact key
+
+variable (f : X ⟶ Y) (U : X.affineOpens) (V : Y.affineOpens)
+  (hUV : (U : X.Opens) ≤ f ⁻¹ᵁ (V : Y.Opens))
+
+include hUV in
+/-- On an affine open `U` over an affine open of `Y`, the comparison morphism is surjective on
+sections. -/
+theorem relativeDifferentialsToDiagonalConormal_app_surjective :
+    Function.Surjective ((relativeDifferentialsToDiagonalConormal f).app U) := by
+  intro y
+  have hy := mem_span_conormalD (liftCoborder_diagFst f) (liftCoborder_diagSnd f) (U : X.Opens)
+    (mem_closure_nbhd f U V hUV)
+    (unit_app_surjective_of_isAffineOpen _ _ (isAffineOpen_nbhd f U V hUV)) y
+  induction hy using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨b, rfl⟩ := hx
+    exact ⟨_, relativeDifferentialsToDiagonalConormal_app_d f U b⟩
+  | zero => exact ⟨0, map_zero _⟩
+  | add x y _ _ hx hy =>
+    obtain ⟨ω₁, h₁⟩ := hx
+    obtain ⟨ω₂, h₂⟩ := hy
+    exact ⟨ω₁ + ω₂, (map_add _ _ _).trans (congrArg₂ (· + ·) h₁ h₂)⟩
+  | smul r x _ hx =>
+    obtain ⟨ω, hω⟩ := hx
+    exact ⟨r • ω, (Scheme.Modules.Hom.app_smul _ r ω).trans (congrArg (r • ·) hω)⟩
+
+end Surjective
+
 end Hartshorne.DiagonalConormal
