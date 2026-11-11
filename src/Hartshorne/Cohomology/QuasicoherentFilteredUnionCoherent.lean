@@ -45,9 +45,10 @@ instance (N : F.val.Submodule) (hN : IsLocal N) : Mono (toModulesι N hN) := by
   apply Subtype.ext
   exact congr(($e).app U x)
 
-/-- On a Noetherian scheme, every local section of a quasi-coherent module `F` is a section of
-some coherent subsheaf of `F`: extend the subsheaf it spans on its domain (Hartshorne II,
-Exercise 5.15(d)). -/
+/-- **Hartshorne II, Exercise 5.15(e)** (p. 127), in the sense of the union defined in Exercise
+5.15(a): on a Noetherian scheme, every local section of a quasi-coherent module `F` is a section
+of some coherent subsheaf of `F`. The proof extends the subsheaf the section spans on its domain,
+by Exercise 5.15(d). -/
 theorem exists_coherentSubobject_mem_range [IsNoetherian X] [F.IsQuasicoherent]
     (U : X.Opens) (s : Γ(F, U)) :
     ∃ P : CoherentSubobject F, s ∈ Set.range (P.1.arrow.app U) := by
