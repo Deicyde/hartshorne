@@ -13,11 +13,13 @@ $L$ is very ample over the base, then $L$ is ample.
 
 - [Ampleness and tensor powers](ample-power-equivalence.md)
 - [Relative twisting sheaves and very ampleness](../../projective-sheaves/relative-twisting-and-very-ample.md)
+- [Finite type over a Noetherian scheme](../../first-properties/finite-type-over-noetherian.md)
 
 ## Proof depends on
 
 - [Serre global generation](../../projective-sheaves/serre-global-generation.md)
 - [Extension of coherent sheaves](../../coherent-sheaves/coherent-extension.md)
+- [Pullback preserves quasi-coherence](../../modules-and-quasicoherent/pullback-quasicoherent.md)
 
 ## Sources
 
