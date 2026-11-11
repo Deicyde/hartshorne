@@ -35,25 +35,37 @@ over an arbitrary field recorded here is a project bridge.
 
 ## Proof
 
-*The coordinate ring.* Every monomial of bidegree $(d,d)$ is a product of $d$
-monomials $s_iu_j$, so the map is surjective in every degree, and it kills
-$xy - zw$. Since $xy - zw$ is a nonzero form of degree two in a domain, the
-degree-$d$ part of $k[x,y,z,w]/(xy - zw)$ has dimension
-$\binom{d+3}{3} - \binom{d+1}{3} = (d+1)^2$, which is the number of monomials of
-bidegree $(d,d)$. A surjection of finite-dimensional spaces of equal dimension
-is injective.
+*The coordinate ring.* Write $\varphi$ for the map
+$k[x,y,z,w] \to k[s_0,s_1,u_0,u_1]$, $x,y,z,w \mapsto s_0u_0, s_1u_1, s_0u_1, s_1u_0$.
+Every monomial of bidegree $(d,d)$ is a product of $d$ monomials $s_iu_j$, so
+$\varphi$ maps the degree-$d$ part of $k[x,y,z,w]$ onto the degree-$d$ part of the
+Segre ring, and it kills $xy - zw$. The kernel is computed with a normal form.
+Modulo $xy - zw$, every monomial $x^ay^bz^cw^e$ is congruent to one not divisible
+by $xy$: replace $(xy)^{\min(a,b)}$ by $(zw)^{\min(a,b)}$. A monomial not divisible
+by $xy$ is determined by its image under $\varphi$, and every monomial
+$s^{e}u^{g}$ of bidegree $(d,d)$ is such an image. Sending each monomial
+$s^{e}u^{g}$ of the Segre ring to the normal-form monomial with that image gives
+an additive map $\sigma$ from the Segre ring to $k[x,y,z,w]$ with
+$\sigma(\varphi(P)) \equiv P \pmod{xy - zw}$ for every polynomial $P$. Hence
+$\varphi(P) = 0$ forces $P \in (xy - zw)$, so the kernel of $\varphi$ is
+$(xy - zw)$ and $\varphi$ induces the graded isomorphism of the statement.
 
-*The closed immersion.* The graded surjection $k[x,y,z,w] \to k[x,y,z,w]/(xy - zw)$
-gives the closed immersion $Q \to \mathbb{P}^3_k$. Compare it with $\psi$ on the four
-standard charts. On $D_+(x)$, the relative Segre chart is cut out by the
-$2 \times 2$ minors of $(z_{ij})$ with $z_{00} = 1$, which reduce to the single
-equation $z_{11} = z_{01}z_{10}$, that is, $y/x = (z/x)(w/x)$: the chart of $Q$.
-The charts $D_+(y)$, $D_+(z)$, $D_+(w)$ are symmetric. The two closed subschemes of
-$\mathbb{P}^3_k$ therefore agree chart by chart, and $\psi$ factors through an
-isomorphism onto $Q$. Equivalently, on the chart $D_+(s_iu_j)$ of $\operatorname{Proj}$ of the
-Segre ring the degree-zero ring is the polynomial ring in the two ratios
-$s_{i'}/s_i$ and $u_{j'}/u_j$, which is the coordinate ring of the chart
-$D_+(s_i) \times D_+(u_j)$ of $\mathbb{P}^1_k \times_k \mathbb{P}^1_k$.
+*The closed immersion.* The graded surjection from $k[x,y,z,w]$ onto the Segre
+ring gives a closed immersion of $\operatorname{Proj}$ of the Segre ring into
+$\mathbb{P}^3_k$; by the coordinate-ring isomorphism its ideal is $(xy - zw)$, so
+its image is $Q$. To compare it with $\psi$, build morphisms in both directions
+chart by chart and glue. On the chart $D_+(s_iu_j)$ of $Q$, map to the chart
+$D_+(z_{ij})$ of $\mathbb{P}^3_k$ and then to $\mathbb{P}^1_k \times_k \mathbb{P}^1_k$
+by the ratios $z_{kj}/z_{ij}$ and $z_{il}/z_{ij}$; this is compatible with $\psi$
+because $(z_{kj}/z_{ij})(z_{il}/z_{ij}) = z_{kl}/z_{ij}$ on $Q$. Conversely, on the
+chart $D_+(s_i) \times D_+(u_j)$ of $\mathbb{P}^1_k \times_k \mathbb{P}^1_k$, map to
+$D_+(s_iu_j)$ by sending a monomial $s^{e}u^{g}$ of bidegree $(d,d)$ to
+$\prod_a (s_a/s_i)^{e_a} \prod_b (u_b/u_j)^{g_b}$. The first morphism followed by
+$\psi$ is the closed immersion of $Q$, and the second followed by the closed
+immersion of $Q$ is $\psi$. Since both maps to $\mathbb{P}^3_k$ are closed
+immersions, hence monomorphisms, the two morphisms are inverse isomorphisms, and
+$\psi$ is the isomorphism $\mathbb{P}^1_k \times_k \mathbb{P}^1_k \cong Q$ followed by
+the closed immersion of $Q$.
 
 ## Depends on
 
@@ -66,8 +78,8 @@ $D_+(s_i) \times D_+(u_j)$ of $\mathbb{P}^1_k \times_k \mathbb{P}^1_k$.
 
 - [A standard Proj chart is affine](../../projective-spectrum/proj-basic-open.md)
 - [Degree-one-generated Proj is projective](../../proper-and-projective/generated-proj-projective.md)
-- The degree-$d$ parts of $k[x,y,z,w]/(xy - zw)$ and of the Segre ring both
-  have dimension $(d+1)^2$.
+- Modulo $xy - zw$, every monomial in $x,y,z,w$ is congruent to one not
+  divisible by $xy$.
 - Projective space over $\operatorname{Spec} k$, formed by base change from
   $\mathbb{P}^n_{\mathbb{Z}}$, is $\operatorname{Proj} k[x_0,\ldots,x_n]$.
 
