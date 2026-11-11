@@ -11,7 +11,9 @@ import Hartshorne.Surface.CanonicalSectionRing
 This supplements Hartshorne, *Algebraic Geometry*, V.6 (p. 421), where the Kodaira dimension
 `trdeg_k R(X, K) - 1` is said to be a birational invariant: birationally equivalent nonsingular
 varieties, proper over an algebraically closed field, have isomorphic canonical section rings as
-graded `k`-algebras (`Hartshorne.canonicalSectionRing_ringEquiv_of_birational`).
+graded `k`-algebras (`Hartshorne.canonicalSectionRing_ringEquiv_of_birational`), through the
+isomorphism induced by restriction to dense opens and extension across codimension-two
+complements (`Hartshorne.pluricanonicalSectionRing_ringEquiv_of_birational`).
 
 ## Construction
 
@@ -633,16 +635,48 @@ noncomputable def pluricanonicalTransferEquiv (hX : X.IsRegular) (hX' : X'.IsReg
     (LinearMap.ext fun s => pluricanonicalTransfer_symm_apply e hX hX' he hnX hnX' m s)
     (LinearMap.ext fun s => pluricanonicalTransfer_symm_apply e.symm hX' hX he.symm hnX' hnX m s)
 
+/-- **Birational nonsingular varieties have isomorphic canonical rings, through restriction and
+extension.** This supplements Hartshorne, V.6 (p. 421), where the Kodaira dimension is said to be
+a birational invariant. Let `X` and `X'` be nonsingular varieties of dimension `n`, proper over an
+algebraically closed field `k`, and `e : X ⤏ X'` a partial isomorphism over `k`. The degree-`m`
+maps `Hartshorne.pluricanonicalTransfer` of the inverse map `e⁻¹` form a ring isomorphism
+`⨁ₘ Γ(X, (⋀^n Ω_{X/k})^{⊗ m}) ≃ ⨁ₘ Γ(X', (⋀^n Ω_{X'/k})^{⊗ m})`, which is the canonical ring
+`R(X, K_X) ≃ R(X', K_{X'})` since `ω = ⋀^n Ω` in dimension `n`. In degree `m` the map restricts a
+section of `ω_X^{⊗ m}` to the domain of definition `V' ⊆ X'` of `e⁻¹` (which contains the dense
+open `e.target`, where it is pullback along `e.iso`), and extends the result across `X' \ V'`,
+which has codimension at least two. Each degree map is `k`-linear and bijective. Here `X`, `X'`
+are integral regular schemes proper over `k`, not necessarily projective.
+
+The ring structure on the section rings of `⋀^n Ω` is `TensorPowerSectionRing.gRing`, which this
+file installs as a local instance. -/
+theorem pluricanonicalSectionRing_ringEquiv_of_birational (hX : X.IsRegular)
+    (hX' : X'.IsRegular) (e : X.PartialIso X') (he : e.IsOver pX pX') {n : ℕ}
+    (hnX : topologicalKrullDim X = n) (hnX' : topologicalKrullDim X' = n) :
+    ∃ E : (⨁ m, TensorPowerSectionRing.Component (R := X.sheaf)
+          (moduleSheafExteriorPower (R := X.sheaf) n (Scheme.relativeDifferentials pX)) (op ⊤) m) ≃+*
+        ⨁ m, TensorPowerSectionRing.Component (R := X'.sheaf)
+          (moduleSheafExteriorPower (R := X'.sheaf) n (Scheme.relativeDifferentials pX')) (op ⊤) m,
+      (∀ m x, E (DirectSum.of _ m x) =
+        DirectSum.of _ m (pluricanonicalTransfer e.symm hX' he.symm hnX' m x)) ∧
+      ∀ m, Function.Bijective (pluricanonicalTransfer e.symm hX' he.symm hnX' m) := by
+  let ψ := fun m => pluricanonicalTransferEquiv e hX hX' he hnX hnX' m
+  exact ⟨RingEquiv.ofBijective (pluricanonicalTransferRingHom e.symm hX' he.symm hnX')
+    ⟨TensorPowerSectionRing.gradedRingHom_injective _ _ _ _ _ _ _ fun m => (ψ m).injective,
+      TensorPowerSectionRing.gradedRingHom_surjective _ _ _ _ _ _ _ fun m => (ψ m).surjective⟩,
+    fun m x => (RingEquiv.ofBijective_apply _ _ _).trans
+      (pluricanonicalTransferRingHom_of e.symm hX' he.symm hnX' m x),
+    fun m => (ψ m).bijective⟩
+
 /-- **Birational nonsingular varieties have isomorphic canonical rings.** This supplements
 Hartshorne, V.6 (p. 421), where the Kodaira dimension is said to be a birational invariant. Let
 `X` and `X'` be nonsingular varieties, proper over an algebraically closed field `k` and
 birationally equivalent over `k` (a partial isomorphism `X ⤏ X'` over `k`). Then there is a ring
 isomorphism `R(X, K_X) ≃ R(X', K_{X'})` of canonical section rings sending each graded piece
 `H⁰(X, ω_X^{⊗ m})` to `H⁰(X', ω_{X'}^{⊗ m})` through a `k`-linear isomorphism, i.e. a graded
-`k`-algebra isomorphism. The isomorphism constructed in the proof is, in degree `m`, pullback of
-pluricanonical forms along the inverse birational map on its domain of definition `V' ⊆ X'`,
-followed by extension across `X' \ V'` (`Hartshorne.pluricanonicalTransfer`). Here `X`, `X'` are
-integral regular schemes proper over `k`, not necessarily projective. -/
+`k`-algebra isomorphism. That the isomorphism is induced by restriction to dense opens and
+extension across codimension-two complements is
+`Hartshorne.pluricanonicalSectionRing_ringEquiv_of_birational`. Here `X`, `X'` are integral
+regular schemes proper over `k`, not necessarily projective. -/
 theorem canonicalSectionRing_ringEquiv_of_birational (hX : X.IsRegular) (hX' : X'.IsRegular)
     (hbir : ∃ e : X.PartialIso X', e.IsOver pX pX') :
     ∃ (E : CanonicalSectionRing pX ≃+* CanonicalSectionRing pX')
