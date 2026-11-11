@@ -29,6 +29,7 @@ only finitely many $\delta _P$ are nonzero.
 - [Normalization is finite over a finite-type field scheme](../../schemes/normalization-and-exercises/normalization-finite-type-field.md)
 - [Finite pushforward preserves coherence](../../schemes/modules-and-quasicoherent/finite-pushforward-coherent.md)
 - [Sections with support of a quasicoherent sheaf](../../schemes/coherent-sheaves/sections-with-support-quasicoherent.md)
+- [Support of a quasi-coherent module](../../schemes/coherent-sheaves/module-sheaf-support.md)
 
 ## Proof depends on
 
