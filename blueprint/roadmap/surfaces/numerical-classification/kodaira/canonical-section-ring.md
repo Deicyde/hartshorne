@@ -27,6 +27,9 @@ $\bigoplus_{n\ge0}H^0(X,\mathcal{O}_X(nK))\cong R(X,K)$.
 - [The canonical sheaf](../../../schemes/differentials/canonical-bertini/canonical-sheaf.md)
 - [The canonical divisor class](../../../schemes/differentials/canonical-bertini/canonical-divisor-class.md)
 - [Sheaf tensor, symmetric, and exterior operations](../../../schemes/module-exercises/sheaf-tensor-operations.md)
+
+## Proof depends on
+
 - [The global regular functions of a projective variety](../../../morphisms/projective-rings/projective-global-regular.md)
 
 ## Sources
