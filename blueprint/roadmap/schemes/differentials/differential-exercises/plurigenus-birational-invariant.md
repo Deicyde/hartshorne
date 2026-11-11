@@ -26,6 +26,7 @@ $P_m(X) = P_m(X')$ for every $m > 0$.
 
 - [Pullback injects canonical sections](../canonical-bertini/canonical-pullback-injective.md)
 - [Serre's criterion for normality](../local-complete-intersections/serre-normality-criterion.md)
+- [Regular local rings are Cohen–Macaulay](../local-complete-intersections/regular-local-implies-cohen-macaulay.md)
 - Tensor powers of an invertible sheaf remain invertible and their sections
   extend across codimension-at-least-two subsets of a normal variety.
 - Choose dense opens on which the two birational maps are inverse and run the
