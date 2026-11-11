@@ -7,6 +7,7 @@ import Hartshorne.Cohomology.RightDerivedLongExactSequence
 import Mathlib.CategoryTheory.Sites.SheafCohomology.Basic
 import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences
 import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.HasExt
+import Mathlib.CategoryTheory.Preadditive.Yoneda.Limits
 
 /-!
 # Sheaf cohomology as Ext from the constant sheaf
@@ -22,14 +23,25 @@ sequence (`Hartshorne.sheafCohomologyIsoExt_δ`).
 
 ## Construction
 
-Both families are effaceable cohomological functors on a category with enough injectives: they
-have long exact sequences, natural connecting maps, and vanish on injective objects in positive
-degrees. For such families `T₁`, `T₂` and an isomorphism `e₀ : T₁⁰ ≅ T₂⁰`, embedding `A` into
-an injective `I` with cokernel `Q` presents `T^{n+1}(A)` as the cokernel of `T^n(I) ⟶ T^n(Q)`
-via the connecting map, so `e_n` at `Q` descends to `e_{n+1}` at `A`
-(`Hartshorne.EffaceableCohomologicalFunctor.compIso`). Naturality and compatibility with the
-connecting maps of every short exact sequence follow from naturality of the connecting maps,
-by mapping a short exact sequence `0 ⟶ A ⟶ B ⟶ C ⟶ 0` to `0 ⟶ A ⟶ I ⟶ Q ⟶ 0`.
+Evaluation at the global section `1` of `ℤ_X` is a natural isomorphism
+`Hom(ℤ_X,-) ≅ Γ(X,-)` (`Hartshorne.coyonedaZIsoSections`). Applied termwise to an injective
+resolution `F ⟶ I•`, it identifies the complexes `Γ(X,I•)` and `Hom(ℤ_X,I•)`, whose cohomology
+groups are `H^n(X,F)` and `R^n Hom(ℤ_X,-)(F)`; this gives
+`H^n(X,-) ≅ R^n Hom(ℤ_X,-)` (`Hartshorne.sheafCohomologyIsoRightDerivedHom`). Since the
+connecting maps of right derived functors are computed on horseshoe resolutions, and the
+termwise isomorphism is a morphism between the resulting short exact sequences of complexes, it
+commutes with the connecting maps (`Hartshorne.rightDerivedδ_natTrans`).
+
+It remains to identify `R^n Hom(A,-)` with Mathlib's `Ext^n(A,-)`, defined through the derived
+category, compatibly with connecting maps. Both are effaceable cohomological functors on a
+category with enough injectives: they have long exact sequences, natural connecting maps, and
+vanish on injective objects in positive degrees. For such families `T₁`, `T₂` and an
+isomorphism `e₀ : T₁⁰ ≅ T₂⁰`, embedding `A` into an injective `I` with cokernel `Q` presents
+`T^{n+1}(A)` as the cokernel of `T^n(I) ⟶ T^n(Q)` via the connecting map, so `e_n` at `Q`
+descends to `e_{n+1}` at `A` (`Hartshorne.EffaceableCohomologicalFunctor.compIso`). Naturality
+and compatibility with the connecting maps of every short exact sequence follow from
+naturality of the connecting maps, by mapping a short exact sequence `0 ⟶ A ⟶ B ⟶ C ⟶ 0` to
+`0 ⟶ A ⟶ I ⟶ Q ⟶ 0` (`Hartshorne.rightDerivedCoyonedaIsoExt`).
 -/
 
 open CategoryTheory CategoryTheory.Limits Opposite TopologicalSpace
@@ -175,24 +187,177 @@ theorem δ_compIso_hom (e₀ : T₁.F 0 ≅ T₂.F 0) {S : ShortComplex C} (hS :
 
 end EffaceableCohomologicalFunctor
 
-section Sheaf
 
-open Abelian EffaceableCohomologicalFunctor
+section RightDerived
 
-variable (X : TopCat.{u})
+open RightDerivedLES
 
-/-- Sheaf cohomology `H^n(X,-) = R^nΓ(X,-)`, with the connecting maps of right derived functors,
-as an effaceable cohomological functor. -/
-noncomputable def sheafCohomologyEffaceable :
-    EffaceableCohomologicalFunctor (TopCat.Sheaf AddCommGrpCat.{u} X) AddCommGrpCat.{u} where
-  F n := sheafCohomology X n
-  δ hS n := rightDerivedδ (sheafSectionsOver (X := X) ⊤) hS n
-  map_g_comp_δ hS n := RightDerivedLES.Horseshoe.map_g_comp_δ _ hS _ _ n
-  δ_comp_map_f hS n := RightDerivedLES.Horseshoe.δ_comp_map_f _ hS _ _ n
+variable {C : Type u} [Category.{v} C] [Abelian C] [HasInjectiveResolutions C]
+  {D : Type*} [Category* D] [Abelian D]
+
+/-- The right derived functors of an additive functor, with the connecting maps of
+`Hartshorne.rightDerivedδ`, as an effaceable cohomological functor. -/
+noncomputable def rightDerivedEffaceable (G : C ⥤ D) [G.Additive] :
+    EffaceableCohomologicalFunctor C D where
+  F n := G.rightDerived n
+  δ hS n := rightDerivedδ G hS n
+  map_g_comp_δ hS n := Horseshoe.map_g_comp_δ _ hS _ _ n
+  δ_comp_map_f hS n := Horseshoe.δ_comp_map_f _ hS _ _ n
   exact₃ hS n := rightDerived_exact₃ _ hS n
   exact₁ hS n := rightDerived_exact₁ _ hS n
   naturality φ hS₁ hS₂ n := rightDerivedδ_naturality _ φ hS₁ hS₂ n
   isZero_injective I _ n := Functor.isZero_rightDerived_obj_injective_succ _ n I
+
+/-- A natural isomorphism `F ≅ G` of additive functors induces `RⁿF ≅ RⁿG`. On an injective
+resolution `I` it is the isomorphism of complexes `F(I) ≅ G(I)` applied termwise, followed by
+cohomology (`CategoryTheory.InjectiveResolution.rightDerived_app_eq`). -/
+@[simps]
+noncomputable def rightDerivedIsoOfIso {F G : C ⥤ D} [F.Additive] [G.Additive] (e : F ≅ G)
+    (n : ℕ) : F.rightDerived n ≅ G.rightDerived n where
+  hom := NatTrans.rightDerived e.hom n
+  inv := NatTrans.rightDerived e.inv n
+  hom_inv_id := by rw [← NatTrans.rightDerived_comp, e.hom_inv_id, NatTrans.rightDerived_id]
+  inv_hom_id := by rw [← NatTrans.rightDerived_comp, e.inv_hom_id, NatTrans.rightDerived_id]
+
+/-- On the horseshoe resolution built on injective resolutions `I₁` and `I₃` of the ends of a
+short exact sequence, `α : F ⟶ G` applied termwise is a morphism from the short exact sequence
+of complexes obtained by applying `F` to the one obtained by applying `G`; hence the morphism
+`RⁿF ⟶ RⁿG` induced by `α` commutes with the connecting maps. -/
+theorem horseshoeδ_natTrans {F G : C ⥤ D} [F.Additive] [G.Additive] (α : F ⟶ G)
+    {S : ShortComplex C} (hS : S.ShortExact) (I₁ : InjectiveResolution S.X₁)
+    (I₃ : InjectiveResolution S.X₃) (n : ℕ) :
+    Horseshoe.δ F hS I₁ I₃ n ≫ (NatTrans.rightDerived α (n + 1)).app S.X₁ =
+      (NatTrans.rightDerived α n).app S.X₃ ≫ Horseshoe.δ G hS I₁ I₃ n := by
+  let ψ : Horseshoe.shortComplexMap hS I₁ I₃ F ⟶ Horseshoe.shortComplexMap hS I₁ I₃ G :=
+    { τ₁ := (NatTrans.mapHomologicalComplex α _).app _
+      τ₂ := (NatTrans.mapHomologicalComplex α _).app _
+      τ₃ := (NatTrans.mapHomologicalComplex α _).app _
+      comm₁₂ := ((NatTrans.mapHomologicalComplex α _).naturality _).symm
+      comm₂₃ := ((NatTrans.mapHomologicalComplex α _).naturality _).symm }
+  have hnat := HomologicalComplex.HomologySequence.δ_naturality ψ
+    (Horseshoe.shortExact_map hS I₁ I₃ F) (Horseshoe.shortExact_map hS I₁ I₃ G) n (n + 1)
+    (upRel n)
+  have e₁ : (NatTrans.rightDerived α (n + 1)).app S.X₁ = (isoH F I₁ (n + 1)).hom ≫
+      HomologicalComplex.homologyMap ψ.τ₁ (n + 1) ≫ (isoH G I₁ (n + 1)).inv :=
+    InjectiveResolution.rightDerived_app_eq α I₁ (n + 1)
+  have e₃ : (NatTrans.rightDerived α n).app S.X₃ = (isoH F I₃ n).hom ≫
+      HomologicalComplex.homologyMap ψ.τ₃ n ≫ (isoH G I₃ n).inv :=
+    InjectiveResolution.rightDerived_app_eq α I₃ n
+  rw [e₁, e₃]
+  simp only [Horseshoe.δ, Category.assoc, Iso.inv_hom_id_assoc]
+  rw [reassoc_of% hnat]
+
+/-- The morphism `RⁿF ⟶ RⁿG` induced by `α : F ⟶ G` commutes with the connecting maps. -/
+theorem rightDerivedδ_natTrans {F G : C ⥤ D} [F.Additive] [G.Additive] (α : F ⟶ G)
+    {S : ShortComplex C} (hS : S.ShortExact) (n : ℕ) :
+    rightDerivedδ F hS n ≫ (NatTrans.rightDerived α (n + 1)).app S.X₁ =
+      (NatTrans.rightDerived α n).app S.X₃ ≫ rightDerivedδ G hS n :=
+  horseshoeδ_natTrans α hS _ _ n
+
+/-- The canonical map `F ⟶ R⁰F` is natural in the additive functor `F`. -/
+theorem toRightDerivedZero_natTrans {F G : C ⥤ D} [F.Additive] [G.Additive] (α : F ⟶ G) :
+    α ≫ G.toRightDerivedZero = F.toRightDerivedZero ≫ NatTrans.rightDerived α 0 := by
+  ext A
+  let I := injectiveResolution A
+  let φ := (NatTrans.mapHomologicalComplex α _).app I.cocomplex
+  have eF : F.toRightDerivedZero.app A = I.toRightDerivedZero' F ≫
+      (CochainComplex.isoHomologyπ₀ _).hom ≫ (isoH F I 0).inv :=
+    I.toRightDerivedZero_eq F
+  have eG : G.toRightDerivedZero.app A = I.toRightDerivedZero' G ≫
+      (CochainComplex.isoHomologyπ₀ _).hom ≫ (isoH G I 0).inv :=
+    I.toRightDerivedZero_eq G
+  have eα : (NatTrans.rightDerived α 0).app A =
+      (isoH F I 0).hom ≫ HomologicalComplex.homologyMap φ 0 ≫ (isoH G I 0).inv :=
+    I.rightDerived_app_eq α 0
+  have k₁ : α.app A ≫ I.toRightDerivedZero' G =
+      I.toRightDerivedZero' F ≫ HomologicalComplex.cyclesMap φ 0 := by
+    rw [← cancel_mono (HomologicalComplex.iCycles _ _), Category.assoc, Category.assoc,
+      InjectiveResolution.toRightDerivedZero'_comp_iCycles, HomologicalComplex.cyclesMap_i,
+      InjectiveResolution.toRightDerivedZero'_comp_iCycles_assoc]
+    exact (α.naturality _).symm
+  rw [NatTrans.comp_app, NatTrans.comp_app, eF, eG, eα]
+  simp only [Category.assoc, Iso.inv_hom_id_assoc, HomologicalComplex.isoHomologyπ_hom]
+  rw [reassoc_of% k₁, HomologicalComplex.homologyπ_naturality_assoc]
+
+/-- For left exact `F` and `G`, the identifications `R⁰F ≅ F` and `R⁰G ≅ G` carry the map
+`R⁰F ⟶ R⁰G` induced by `α : F ⟶ G` to `α`. -/
+theorem rightDerived_zero_comp_rightDerivedZeroIsoSelf_hom {F G : C ⥤ D} [F.Additive]
+    [G.Additive] [PreservesFiniteLimits F] [PreservesFiniteLimits G] (α : F ⟶ G) :
+    NatTrans.rightDerived α 0 ≫ G.rightDerivedZeroIsoSelf.hom =
+      F.rightDerivedZeroIsoSelf.hom ≫ α := by
+  rw [← cancel_epi F.toRightDerivedZero, ← Category.assoc, ← toRightDerivedZero_natTrans,
+    Category.assoc, Functor.rightDerivedZeroIsoSelf_inv_hom_id, Category.comp_id,
+    Functor.rightDerivedZeroIsoSelf_inv_hom_id_assoc]
+
+end RightDerived
+
+section Ext
+
+open Abelian EffaceableCohomologicalFunctor
+
+variable {C : Type u} [Category.{v} C] [Abelian C] [HasExt.{v} C]
+
+/-- `Ext^n(A,-)`, with the connecting maps given by the Yoneda product with the classes of short
+exact sequences, as an effaceable cohomological functor. -/
+noncomputable def extEffaceable (A : C) : EffaceableCohomologicalFunctor C AddCommGrpCat.{v} where
+  F n := extFunctorObj.{v} A n
+  δ hS n := AddCommGrpCat.ofHom (hS.extClass.{v}.postcomp A rfl)
+  map_g_comp_δ {S} hS n := by
+    refine AddCommGrpCat.ext fun (x : Ext.{v} A S.X₂ n) => ?_
+    change (x.comp (Ext.mk₀ S.g) (add_zero n)).comp hS.extClass.{v} rfl = 0
+    simp only [Ext.comp_assoc_of_second_deg_zero, ShortComplex.ShortExact.comp_extClass,
+      Ext.comp_zero]
+  δ_comp_map_f {S} hS n := by
+    refine AddCommGrpCat.ext fun (x : Ext.{v} A S.X₃ n) => ?_
+    change (x.comp hS.extClass.{v} rfl).comp (Ext.mk₀ S.f) (add_zero (n + 1)) = 0
+    simp only [Ext.comp_assoc_of_third_deg_zero, ShortComplex.ShortExact.extClass_comp,
+      Ext.comp_zero]
+  exact₃ hS n := Ext.covariant_sequence_exact₃' A hS n (n + 1) rfl
+  exact₁ hS n := Ext.covariant_sequence_exact₁' A hS n (n + 1) rfl
+  naturality {S₁ S₂} φ hS₁ hS₂ n := by
+    refine AddCommGrpCat.ext fun (x : Ext.{v} A S₁.X₃ n) => ?_
+    change (x.comp hS₁.extClass.{v} rfl).comp (Ext.mk₀ φ.τ₁) (add_zero (n + 1)) =
+      (x.comp (Ext.mk₀ φ.τ₃) (add_zero n)).comp hS₂.extClass.{v} rfl
+    rw [Ext.comp_assoc_of_third_deg_zero, hS₁.extClass_naturality hS₂ φ,
+      Ext.comp_assoc_of_second_deg_zero]
+  isZero_injective I _ n := by
+    rw [AddCommGrpCat.isZero_iff_subsingleton]
+    exact Ext.subsingleton_of_injective _ _ n
+
+/-- `Hom(A,-) ≅ Ext^0(A,-)`, naturally. -/
+noncomputable def coyonedaIsoExtZero (A : C) :
+    preadditiveCoyoneda.obj (op A) ≅ extFunctorObj.{v} A 0 :=
+  NatIso.ofComponents (fun B => (Ext.addEquiv₀ (X := A) (Y := B)).symm.toAddCommGrpIso)
+    (fun {B B'} f => by
+      ext g
+      exact (Ext.mk₀_comp_mk₀ g f).symm)
+
+variable [EnoughInjectives C]
+
+/-- `R^n Hom(A,-) ≅ Ext^n(A,-)`, extending `R⁰Hom(A,-) ≅ Hom(A,-) ≅ Ext^0(A,-)` compatibly with
+the connecting maps (`Hartshorne.EffaceableCohomologicalFunctor.compIso`). -/
+noncomputable def rightDerivedCoyonedaIsoExt (A : C) (n : ℕ) :
+    (preadditiveCoyoneda.obj (op A)).rightDerived n ≅ extFunctorObj.{v} A n :=
+  compIso (rightDerivedEffaceable (preadditiveCoyoneda.obj (op A))) (extEffaceable A)
+    ((preadditiveCoyoneda.obj (op A)).rightDerivedZeroIsoSelf ≪≫ coyonedaIsoExtZero A) n
+
+/-- The isomorphisms `R^n Hom(A,-) ≅ Ext^n(A,-)` carry the connecting maps of right derived
+functors to the Yoneda product with the class of the short exact sequence. -/
+theorem rightDerivedCoyonedaIsoExt_δ (A : C) {S : ShortComplex C} (hS : S.ShortExact)
+    (n : ℕ) :
+    rightDerivedδ (preadditiveCoyoneda.obj (op A)) hS n ≫
+        (rightDerivedCoyonedaIsoExt A (n + 1)).hom.app S.X₁ =
+      (rightDerivedCoyonedaIsoExt A n).hom.app S.X₃ ≫
+        AddCommGrpCat.ofHom (hS.extClass.{v}.postcomp A rfl) :=
+  δ_compIso_hom (rightDerivedEffaceable _) (extEffaceable A) _ hS n
+
+end Ext
+
+section Sheaf
+
+open Abelian
+
+variable (X : TopCat.{u})
 
 /-- The constant sheaf `ℤ_X` (the sheafification of the constant presheaf with value `ℤ`, here
 `ULift ℤ`), as an abelian sheaf on `X`. -/
@@ -204,34 +369,6 @@ noncomputable abbrev constantSheafZ : TopCat.Sheaf AddCommGrpCat.{u} X :=
 noncomputable def constantSheafZOne : (constantSheafZ X).obj.obj (op ⊤) :=
   (constantSheafAdj (Opens.grothendieckTopology X) AddCommGrpCat.{u}
     (isTerminalTop (α := Opens X))).unit.app (AddCommGrpCat.of (ULift ℤ)) (ULift.up 1)
-
-/-- `Ext^n(ℤ_X,-)` on abelian sheaves, with the connecting maps given by the Yoneda product with
-the classes of short exact sequences, as an effaceable cohomological functor. -/
-noncomputable def extEffaceable :
-    EffaceableCohomologicalFunctor (TopCat.Sheaf AddCommGrpCat.{u} X) AddCommGrpCat.{u} where
-  F n := extFunctorObj.{u} (constantSheafZ X) n
-  δ hS n := AddCommGrpCat.ofHom (hS.extClass.{u}.postcomp (constantSheafZ X) rfl)
-  map_g_comp_δ {S} hS n := by
-    refine AddCommGrpCat.ext fun (x : Ext.{u} (constantSheafZ X) S.X₂ n) => ?_
-    change (x.comp (Ext.mk₀ S.g) (add_zero n)).comp hS.extClass.{u} rfl = 0
-    simp only [Ext.comp_assoc_of_second_deg_zero, ShortComplex.ShortExact.comp_extClass,
-      Ext.comp_zero]
-  δ_comp_map_f {S} hS n := by
-    refine AddCommGrpCat.ext fun (x : Ext.{u} (constantSheafZ X) S.X₃ n) => ?_
-    change (x.comp hS.extClass.{u} rfl).comp (Ext.mk₀ S.f) (add_zero (n + 1)) = 0
-    simp only [Ext.comp_assoc_of_third_deg_zero, ShortComplex.ShortExact.extClass_comp,
-      Ext.comp_zero]
-  exact₃ hS n := Ext.covariant_sequence_exact₃' (constantSheafZ X) hS n (n + 1) rfl
-  exact₁ hS n := Ext.covariant_sequence_exact₁' (constantSheafZ X) hS n (n + 1) rfl
-  naturality {S₁ S₂} φ hS₁ hS₂ n := by
-    refine AddCommGrpCat.ext fun (x : Ext.{u} (constantSheafZ X) S₁.X₃ n) => ?_
-    change (x.comp hS₁.extClass.{u} rfl).comp (Ext.mk₀ φ.τ₁) (add_zero (n + 1)) =
-      (x.comp (Ext.mk₀ φ.τ₃) (add_zero n)).comp hS₂.extClass.{u} rfl
-    rw [Ext.comp_assoc_of_third_deg_zero, hS₁.extClass_naturality hS₂ φ,
-      Ext.comp_assoc_of_second_deg_zero]
-  isZero_injective I _ n := by
-    rw [AddCommGrpCat.isZero_iff_subsingleton]
-    exact Ext.subsingleton_of_injective _ _ n
 
 /-- Evaluation of a morphism `ℤ_X ⟶ F` at the global section `1`. -/
 noncomputable def constantSheafZEvalOne (F : TopCat.Sheaf AddCommGrpCat.{u} X) :
@@ -256,35 +393,20 @@ lemma constantSheafZEvalOne_bijective (F : TopCat.Sheaf AddCommGrpCat.{u} X) :
   rw [h]
   exact (key _).comp (adj.homEquiv _ F).bijective
 
-/-- `Ext^0(ℤ_X,F) = Hom(ℤ_X,F) ≅ Γ(X,F)`, by evaluation at the global section `1`. -/
-noncomputable def constantSheafZExt₀Equiv (F : TopCat.Sheaf AddCommGrpCat.{u} X) :
-    Ext.{u} (constantSheafZ X) F 0 ≃+ F.obj.obj (op ⊤) :=
-  Ext.addEquiv₀.trans (AddEquiv.ofBijective _ (constantSheafZEvalOne_bijective X F))
-
-lemma constantSheafZExt₀Equiv_apply (F : TopCat.Sheaf AddCommGrpCat.{u} X)
-    (x : Ext.{u} (constantSheafZ X) F 0) :
-    constantSheafZExt₀Equiv X F x = (Ext.addEquiv₀ x).hom.app (op ⊤) (constantSheafZOne X) :=
-  rfl
-
-lemma constantSheafZ_addEquiv₀_comp_mk₀ {F G : TopCat.Sheaf AddCommGrpCat.{u} X} (f : F ⟶ G)
-    (x : Ext.{u} (constantSheafZ X) F 0) :
-    Ext.addEquiv₀ (x.comp (Ext.mk₀ f) (add_zero 0)) = Ext.addEquiv₀ x ≫ f := by
-  apply (Ext.mk₀_bijective _ G).injective
-  simp only [Ext.addEquiv₀, AddEquiv.coe_mk, Ext.mk₀_homEquiv₀_apply, ← Ext.mk₀_comp_mk₀]
-
-/-- `Γ(X,F) ≅ Ext^0(ℤ_X,F)`, inverse to evaluation at the global section `1`, naturally in
-`F`. -/
-noncomputable def sectionsIsoExtZero :
-    sheafSectionsOver (X := X) ⊤ ≅ extFunctorObj.{u} (constantSheafZ X) 0 :=
-  NatIso.ofComponents (fun F => (constantSheafZExt₀Equiv X F).symm.toAddCommGrpIso)
+/-- `Hom(ℤ_X,-) ≅ Γ(X,-)`, naturally, by evaluation at the global section `1` of `ℤ_X`. -/
+noncomputable def coyonedaZIsoSections :
+    preadditiveCoyoneda.obj (op (constantSheafZ X)) ≅ sheafSectionsOver (X := X) ⊤ :=
+  NatIso.ofComponents
+    (fun F => (AddEquiv.ofBijective _ (constantSheafZEvalOne_bijective X F)).toAddCommGrpIso)
     (fun {F G} f => by
-    ext x
-    change (constantSheafZExt₀Equiv X G).symm (f.hom.app (op ⊤) x) =
-      ((constantSheafZExt₀Equiv X F).symm x).comp (Ext.mk₀ f) (add_zero 0)
-    rw [AddEquiv.symm_apply_eq, constantSheafZExt₀Equiv_apply, constantSheafZ_addEquiv₀_comp_mk₀]
-    change _ = f.hom.app (op ⊤)
-      (constantSheafZExt₀Equiv X F ((constantSheafZExt₀Equiv X F).symm x))
-    exact congrArg _ ((constantSheafZExt₀Equiv X F).apply_symm_apply x).symm)
+      ext g
+      rfl)
+
+/-- `H^n(X,-) ≅ R^n Hom(ℤ_X,-)`: on an injective resolution `F ⟶ I•`, the isomorphism
+`Γ(X,-) ≅ Hom(ℤ_X,-)` applied termwise identifies the complexes `Γ(X,I•)` and `Hom(ℤ_X,I•)`. -/
+noncomputable def sheafCohomologyIsoRightDerivedHom (n : ℕ) :
+    sheafCohomology X n ≅ (preadditiveCoyoneda.obj (op (constantSheafZ X))).rightDerived n :=
+  rightDerivedIsoOfIso (coyonedaZIsoSections X).symm n
 
 /-- **Sheaf cohomology as Ext from the constant sheaf.** For a topological space `X` and
 `n : ℕ`, an isomorphism `H^n(X,F) ≅ Ext^n(ℤ_X,F)` natural in the abelian sheaf `F`, where
@@ -295,8 +417,7 @@ the abelian category of abelian sheaves on `X` (Mathlib's `Abelian.Ext`; the sam
 (`Hartshorne.sheafCohomologyIsoExt_δ`). -/
 noncomputable def sheafCohomologyIsoExt (n : ℕ) :
     sheafCohomology X n ≅ extFunctorObj.{u} (constantSheafZ X) n :=
-  compIso (sheafCohomologyEffaceable X) (extEffaceable X)
-    (sheafCohomologyZeroIso X ≪≫ sectionsIsoExtZero X) n
+  sheafCohomologyIsoRightDerivedHom X n ≪≫ rightDerivedCoyonedaIsoExt (constantSheafZ X) n
 
 /-- In degree zero, `H^0(X,F) ≅ Ext^0(ℤ_X,F) = Hom(ℤ_X,F)` followed by evaluation at the global
 section `1` of `ℤ_X` is the identification `H^0(X,F) ≅ Γ(X,F)`. -/
@@ -304,8 +425,16 @@ theorem sheafCohomologyIsoExt_zero (F : TopCat.Sheaf AddCommGrpCat.{u} X)
     (x : (sheafCohomology X 0).obj F) :
     (Ext.addEquiv₀ ((sheafCohomologyIsoExt X 0).hom.app F x)).hom.app (op ⊤)
         (constantSheafZOne X) =
-      (sheafCohomologyZeroIso X).hom.app F x :=
-  (constantSheafZExt₀Equiv X F).apply_symm_apply ((sheafCohomologyZeroIso X).hom.app F x)
+      (sheafCohomologyZeroIso X).hom.app F x := by
+  have h := rightDerived_zero_comp_rightDerivedZeroIsoSelf_hom (coyonedaZIsoSections X).inv
+  have hx := ConcreteCategory.congr_hom (congrArg (fun φ => φ.app F) h) x
+  simp only [NatTrans.comp_app, ConcreteCategory.comp_apply] at hx
+  change constantSheafZEvalOne X F (Ext.addEquiv₀ (Ext.addEquiv₀.symm
+    ((preadditiveCoyoneda.obj (op (constantSheafZ X))).rightDerivedZeroIsoSelf.hom.app F
+      ((NatTrans.rightDerived (coyonedaZIsoSections X).inv 0).app F x)))) = _
+  erw [AddEquiv.apply_symm_apply]
+  rw [hx]
+  exact ConcreteCategory.congr_hom ((coyonedaZIsoSections X).inv_hom_id_app F) _
 
 /-- The isomorphisms `H^n(X,-) ≅ Ext^n(ℤ_X,-)` carry the connecting homomorphism
 `H^n(X,F'') ⟶ H^{n+1}(X,F')` of a short exact sequence `0 ⟶ F' ⟶ F ⟶ F'' ⟶ 0` to the Yoneda
@@ -315,8 +444,12 @@ theorem sheafCohomologyIsoExt_δ {S : ShortComplex (TopCat.Sheaf AddCommGrpCat.{
     rightDerivedδ (sheafSectionsOver (X := X) ⊤) hS n ≫
         (sheafCohomologyIsoExt X (n + 1)).hom.app S.X₁ =
       (sheafCohomologyIsoExt X n).hom.app S.X₃ ≫
-        AddCommGrpCat.ofHom (hS.extClass.{u}.postcomp (constantSheafZ X) rfl) :=
-  δ_compIso_hom (sheafCohomologyEffaceable X) (extEffaceable X) _ hS n
+        AddCommGrpCat.ofHom (hS.extClass.{u}.postcomp (constantSheafZ X) rfl) := by
+  simp only [sheafCohomologyIsoExt, sheafCohomologyIsoRightDerivedHom, Iso.trans_hom,
+    NatTrans.comp_app, rightDerivedIsoOfIso_hom, Iso.symm_hom]
+  rw [reassoc_of% (rightDerivedδ_natTrans (coyonedaZIsoSections X).inv hS n),
+    rightDerivedCoyonedaIsoExt_δ]
+  exact (Category.assoc _ _ _).symm
 
 end Sheaf
 
