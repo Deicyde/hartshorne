@@ -11,8 +11,7 @@ proof: formalized
 
 Let $f : X \to Y$ be a dominant morphism of integral finite-type schemes over
 an algebraically closed field of characteristic zero. There is a nonempty open
-$U$ in $X$ such that $U \to Y$ is smooth. The formal proof does not use that
-the field is algebraically closed; that hypothesis is kept from the source.
+$U$ in $X$ such that $U \to Y$ is smooth.
 
 The proof first establishes the stronger field-theoretic form assuming that
 $K(X)/K(Y)$ is separably generated. Characteristic zero supplies precisely
