@@ -826,6 +826,32 @@ lemma isLocalization_ρ :
     rw [hunder] at hm'
     exact hle m.2 hm'
 
+/-- `ρ_Q` extends the stalk map of `ν` at `Q`. -/
+lemma ρ_algebraMap_germ (U : X.Opens) (hU : P ∈ U) (a : Γ(X, U)) :
+    ρ P hV hPV Q hQ (algebraMap (X.presheaf.stalk P) (semilocalIntegralClosure X P)
+      (X.presheaf.germ U P hU a)) =
+      (absoluteNormalization X).presheaf.germ (absoluteNormalizationMap X ⁻¹ᵁ U) Q
+        (by change absoluteNormalizationMap X Q ∈ U; rw [hQ]; exact hU)
+        ((absoluteNormalizationMap X).app U a) := by
+  subst hQ
+  let P' : V := ⟨absoluteNormalizationMap X Q, hPV⟩
+  let _ := TopCat.Presheaf.algebra_section_stalk X.presheaf P'
+  have := hV.isLocalization_stalk P'
+  have key : (ρ _ hV hPV Q rfl).comp
+      (algebraMap (X.presheaf.stalk (absoluteNormalizationMap X Q))
+        (semilocalIntegralClosure X (absoluteNormalizationMap X Q))) =
+      ((absoluteNormalizationMap X).stalkMap Q).hom := by
+    refine IsLocalization.ringHom_ext (hV.primeIdealOf P').asIdeal.primeCompl
+      (S := X.presheaf.stalk P') ?_
+    ext b
+    simp only [RingHom.comp_apply]
+    change ρ _ hV hPV Q rfl (algebraMap _ _ (X.presheaf.germ V _ hPV b)) =
+      (absoluteNormalizationMap X).stalkMap Q (X.presheaf.germ V _ hPV b)
+    rw [← ψ_app _ hV hPV, ρ_ψ, Scheme.Hom.germ_stalkMap_apply]
+  have h := congr($key (X.presheaf.germ U _ hU a))
+  simp only [RingHom.comp_apply] at h
+  rw [h, Scheme.Hom.germ_stalkMap_apply]
+
 omit Q hQ in
 lemma isMaximal_iff (𝔫 : Ideal (semilocalIntegralClosure X P)) [𝔫.IsPrime] :
     𝔫.IsMaximal ↔ (𝔫.comap (ψ P hV hPV)).comap ((absoluteNormalizationMap X).app V).hom =
@@ -908,13 +934,20 @@ end Fibre
 end NormalizationDeltaAux
 
 open NormalizationDeltaAux in
-/-- **Hartshorne IV, Exercise 1.8 (the localizations of `Õ_P`).** For every point `Q` of `X̃`
-over `P` there is a ring map `ρ_Q : Õ_P → 𝒪_{X̃,Q}` such that `𝔫_Q = ρ_Q⁻¹(𝔪_Q)` is a maximal
-ideal of `Õ_P` and `ρ_Q` identifies `𝒪_{X̃,Q}` with the localization of `Õ_P` at `𝔫_Q`; and
-`Q ↦ 𝔫_Q` is a bijection from the fibre `ν⁻¹(P)` onto the maximal ideals of `Õ_P`. -/
+/-- **The localizations of `Õ_P`** (setup for Hartshorne IV, Exercise 1.8, p. 298). For every
+point `Q` of `X̃` over `P` there is a ring map `ρ_Q : Õ_P → 𝒪_{X̃,Q}` extending the stalk map
+`ν^# : 𝒪_{X,P} → 𝒪_{X̃,Q}` (stated on germs), such that `𝔫_Q = ρ_Q⁻¹(𝔪_Q)` is a maximal ideal of
+`Õ_P` and `ρ_Q` identifies `𝒪_{X̃,Q}` with the localization of `Õ_P` at `𝔫_Q`; and `Q ↦ 𝔫_Q` is
+a bijection from the fibre `ν⁻¹(P)` onto the maximal ideals of `Õ_P`. -/
 theorem exists_normalizationFibre_localization (P : X) :
     ∃ ρ : ∀ Q : absoluteNormalizationMap X ⁻¹' {P},
         semilocalIntegralClosure X P →+* (absoluteNormalization X).presheaf.stalk Q.1,
+      (∀ (Q : absoluteNormalizationMap X ⁻¹' {P}) (U : X.Opens) (hU : P ∈ U) (a : Γ(X, U)),
+        ρ Q (algebraMap (X.presheaf.stalk P) (semilocalIntegralClosure X P)
+          (X.presheaf.germ U P hU a)) =
+        (absoluteNormalization X).presheaf.germ (absoluteNormalizationMap X ⁻¹ᵁ U) Q.1
+          (by change absoluteNormalizationMap X Q.1 ∈ U; rw [Q.2]; exact hU)
+          ((absoluteNormalizationMap X).app U a)) ∧
       (∀ Q, ((IsLocalRing.maximalIdeal _).comap (ρ Q)).IsMaximal ∧
         letI := (ρ Q).toAlgebra
         IsLocalization.AtPrime ((absoluteNormalization X).presheaf.stalk Q.1)
@@ -926,7 +959,8 @@ theorem exists_normalizationFibre_localization (P : X) :
     X.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ P) isOpen_univ
   have : Nonempty V := ⟨⟨P, hPV⟩⟩
   have hbij := bijective_fibre P hV hPV
-  refine ⟨fun Q => ρ P hV hPV Q.1 Q.2, fun Q => ⟨?_, isLocalization_ρ P hV hPV Q.1 Q.2⟩,
+  refine ⟨fun Q => ρ P hV hPV Q.1 Q.2, fun Q U hU a => ρ_algebraMap_germ P hV hPV Q.1 Q.2 U hU a,
+    fun Q => ⟨?_, isLocalization_ρ P hV hPV Q.1 Q.2⟩,
     fun Q₁ Q₂ h => hbij.1 (MaximalSpectrum.ext h), fun 𝔫 h𝔫 => ?_⟩
   · exact (isMaximal_iff P hV hPV _).mpr (by
       rw [comap_ψ_comap_ρ P hV hPV Q.1 Q.2]
@@ -934,17 +968,25 @@ theorem exists_normalizationFibre_localization (P : X) :
   · obtain ⟨Q, hQ⟩ := hbij.2 ⟨𝔫, h𝔫⟩
     exact ⟨Q, congrArg MaximalSpectrum.asIdeal hQ⟩
 
-open NormalizationDeltaAux in
-/-- For every point `Q` of `X̃` over `P` there is a maximal ideal `𝔫` of `Õ_P` whose localization
-is isomorphic to the local ring `𝒪_{X̃,Q}`. -/
+/-- For every point `Q` of `X̃` over `P`, the maximal ideal `𝔫_Q = ρ_Q⁻¹(𝔪_Q)` of `Õ_P`, for a
+ring map `ρ_Q : Õ_P → 𝒪_{X̃,Q}` extending `ν^# : 𝒪_{X,P} → 𝒪_{X̃,Q}`, has localization
+isomorphic to the local ring `𝒪_{X̃,Q}`. -/
 theorem nonempty_localization_ringEquiv_stalk (P : X) (Q : absoluteNormalization X)
     (hQ : absoluteNormalizationMap X Q = P) :
-    ∃ (𝔫 : Ideal (semilocalIntegralClosure X P)) (_ : 𝔫.IsMaximal),
-      Nonempty (Localization.AtPrime 𝔫 ≃+* (absoluteNormalization X).presheaf.stalk Q) := by
-  obtain ⟨ρ, h, -⟩ := exists_normalizationFibre_localization X P
+    ∃ ρ : semilocalIntegralClosure X P →+* (absoluteNormalization X).presheaf.stalk Q,
+      (∀ (U : X.Opens) (hU : P ∈ U) (a : Γ(X, U)),
+        ρ (algebraMap (X.presheaf.stalk P) (semilocalIntegralClosure X P)
+          (X.presheaf.germ U P hU a)) =
+        (absoluteNormalization X).presheaf.germ (absoluteNormalizationMap X ⁻¹ᵁ U) Q
+          (by change absoluteNormalizationMap X Q ∈ U; rw [hQ]; exact hU)
+          ((absoluteNormalizationMap X).app U a)) ∧
+      ((IsLocalRing.maximalIdeal _).comap ρ).IsMaximal ∧
+      Nonempty (Localization.AtPrime ((IsLocalRing.maximalIdeal _).comap ρ) ≃+*
+        (absoluteNormalization X).presheaf.stalk Q) := by
+  obtain ⟨ρ, hρ, h, -⟩ := exists_normalizationFibre_localization X P
   obtain ⟨hmax, hloc⟩ := h ⟨Q, hQ⟩
   let := (ρ ⟨Q, hQ⟩).toAlgebra
-  exact ⟨_, hmax, ⟨(IsLocalization.algEquiv
+  exact ⟨ρ ⟨Q, hQ⟩, hρ ⟨Q, hQ⟩, hmax, ⟨(IsLocalization.algEquiv
     ((IsLocalRing.maximalIdeal _).comap (ρ ⟨Q, hQ⟩)).primeCompl
     (Localization.AtPrime ((IsLocalRing.maximalIdeal _).comap (ρ ⟨Q, hQ⟩)))
     ((absoluteNormalization X).presheaf.stalk Q)).toRingEquiv⟩⟩
