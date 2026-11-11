@@ -694,3 +694,4 @@ import Hartshorne.Surface.KodairaDimensionBirational
 import Hartshorne.Surface.GeneralType
 import Hartshorne.Scheme.Differentials.NonsingularClosedImmersionConormal
 import Hartshorne.Scheme.Differentials.CanonicalSheafOfProduct
+import Hartshorne.Curve.NormalizationDeltaQuotient
