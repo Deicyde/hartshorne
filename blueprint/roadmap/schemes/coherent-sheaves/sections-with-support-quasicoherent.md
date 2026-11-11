@@ -17,7 +17,6 @@ coherent, then $\Gamma _Z(F)$ is coherent.
 
 - [Affine sections with support](affine-sections-with-support.md)
 - [Quasi-coherence by local presentations](../modules-and-quasicoherent/quasicoherent-local-presentations.md)
-- [Finite type and finite presentation for module sheaves](../modules-and-quasicoherent/finite-type-and-finite-presentation.md)
 - [Coherent affine-local criterion](../modules-and-quasicoherent/coherent-affine-local-criterion.md)
 
 ## Proof depends on
@@ -25,6 +24,10 @@ coherent, then $\Gamma _Z(F)$ is coherent.
 - [Quasi-coherent affine-local criterion](../modules-and-quasicoherent/quasicoherent-affine-local-criterion.md)
 - [Product of an ideal sheaf with a submodule sheaf](ideal-power-product.md)
 - Noetherian submodules of finite modules are finite.
+
+## Informally uses
+
+- [Finite type and finite presentation for module sheaves](../modules-and-quasicoherent/finite-type-and-finite-presentation.md)
 
 ## Sources
 
