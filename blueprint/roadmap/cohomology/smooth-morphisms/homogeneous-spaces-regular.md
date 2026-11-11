@@ -27,6 +27,9 @@ on nonclosed scheme points.
 ## Proof depends on
 
 - Invariance of local-ring regularity under scheme isomorphisms.
+- Transport of the smooth locus: the smooth locus of $X \to \operatorname{Spec} k$
+  is open, dense when $k$ is algebraically closed, and preserved by
+  automorphisms of $X$ over $k$; a scheme smooth over $k$ is regular.
 - Finite-type schemes over a field are Jacobson.
 
 ## Sources
