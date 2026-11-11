@@ -221,6 +221,13 @@ theorem unitApp_zero (V : W.Opens) :
 
 omit h₁ h₂ in
 variable (j) in
+/-- `unitApp` commutes with negation. -/
+theorem unitApp_neg (V : W.Opens) (x : Γ(closedImmersionIdealSheaf j, V)) :
+    unitApp (j := j) V (-x) = -unitApp (j := j) V x :=
+  map_neg _ x
+
+omit h₁ h₂ in
+variable (j) in
 /-- `unitApp` commutes with restriction. -/
 theorem unitApp_map {V V' : W.Opens} (h : V' ≤ V) (x : Γ(closedImmersionIdealSheaf j, V)) :
     unitApp (j := j) V' ((closedImmersionIdealSheaf j).presheaf.map (homOfLE h).op x) =
@@ -241,17 +248,20 @@ theorem conormalD_add (U : X.Opens) (a b : Γ(X, U)) :
   rw [conormalD, idealSection_add, unitApp_add, map_add]
   rfl
 
+/-- Restricting from `U` to `j⁻¹(nbhd U) = U` and back is the identity. -/
+theorem res_res_nbhd (U : X.Opens) (c : Γ(X, U)) :
+    X.presheaf.map (homOfLE (preimage_nbhd h₁ h₂ U).ge).op
+      (X.presheaf.map (homOfLE (preimage_nbhd h₁ h₂ U).le).op c) = c := by
+  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
+  exact (ConcreteCategory.congr_hom (X.presheaf.map_id (op U)) c)
+
 /-- Leibniz rule for `conormalD`. -/
 theorem conormalD_mul (U : X.Opens) (a b : Γ(X, U)) :
     conormalD h₁ h₂ U (a * b) = a • conormalD h₁ h₂ U b + b • conormalD h₁ h₂ U a := by
   rw [conormalD, idealSection_mul, unitApp_add, unitApp_smul, unitApp_smul, map_add,
     Scheme.Modules.map_smul, Scheme.Modules.map_smul,
     app_res_app q₁ h₁ _ (preimage_nbhd h₁ h₂ U).le, app_res_app q₂ h₂ _ (preimage_nbhd h₁ h₂ U).le]
-  have e : ∀ c : Γ(X, U), X.presheaf.map (homOfLE (preimage_nbhd h₁ h₂ U).ge).op
-      (X.presheaf.map (homOfLE (preimage_nbhd h₁ h₂ U).le).op c) = c := fun c => by
-    rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
-    exact (ConcreteCategory.congr_hom (X.presheaf.map_id (op U)) c)
-  rw [e, e]
+  rw [res_res_nbhd h₁ h₂, res_res_nbhd h₁ h₂]
   rfl
 
 /-- `conormalD` commutes with restriction. -/
@@ -266,6 +276,112 @@ theorem conormalD_map {U V : X.Opens} (i : V ⟶ U) (a : Γ(X, U)) :
     (homOfLE (le_trans i.le (preimage_nbhd h₁ h₂ U).ge)).op
   rw [unitApp_map, Scheme.Modules.presheaf_map_map _ _ _ r,
     Scheme.Modules.presheaf_map_map _ _ _ r]
+
+/-- `j^♯` kills the sections of the ideal sheaf. -/
+theorem app_ι_eq_zero (V : W.Opens) (t : Γ(closedImmersionIdealSheaf j, V)) :
+    j.app V ((closedImmersionIdealSheafι j).app V t) = 0 :=
+  congrArg (fun φ => Scheme.Modules.Hom.app φ V t)
+    (kernel.condition (structureSheafToPushforward j))
+
+include h₁ h₂ in
+/-- **Local generation of the conormal sheaf.** If every function on `nbhd U` is a sum of
+products `q₁^* a · q₂^* b`, and the unit `I ⟶ j_* j^* I` is surjective on sections over
+`nbhd U`, then the sections of `j^* I` over `U` are spanned by the `conormalD a`. -/
+theorem mem_span_conormalD (U : X.Opens)
+    (hgen : ∀ z : Γ(W, nbhd q₁ q₂ U), z ∈ AddSubmonoid.closure
+      (Set.range fun p : Γ(X, U) × Γ(X, U) =>
+        q₁.appLE U _ inf_le_left p.1 * q₂.appLE U _ inf_le_right p.2))
+    (hsurj : Function.Surjective (unitApp (j := j) (nbhd q₁ q₂ U)))
+    (y : Γ((Scheme.Modules.pullback j).obj (closedImmersionIdealSheaf j), U)) :
+    y ∈ Submodule.span Γ(X, U) (Set.range (conormalD h₁ h₂ U)) := by
+  let N := (Scheme.Modules.pullback j).obj (closedImmersionIdealSheaf j)
+  set T := nbhd q₁ q₂ U
+  have hR : IsIso (homOfLE (preimage_nbhd h₁ h₂ U).ge) :=
+    ⟨⟨homOfLE (preimage_nbhd h₁ h₂ U).le, Subsingleton.elim _ _, Subsingleton.elim _ _⟩⟩
+  obtain ⟨y', hy'⟩ := (ConcreteCategory.bijective_of_isIso
+    (N.presheaf.map (homOfLE (preimage_nbhd h₁ h₂ U).ge).op)).2 y
+  obtain ⟨s, hs⟩ := hsurj y'
+  rw [← hy', ← hs]
+  let ρ : Γ(W, T) →+* Γ(X, U) :=
+    (j.app T ≫ X.presheaf.map (homOfLE (preimage_nbhd h₁ h₂ U).ge).op).hom
+  have hρ : ∀ z, ρ z = X.presheaf.map (homOfLE (preimage_nbhd h₁ h₂ U).ge).op (j.app T z) :=
+    fun _ => rfl
+  have hρ₁ : ∀ c, ρ (q₁.appLE U T inf_le_left c) = c := fun c => by
+    rw [hρ]
+    exact (congrArg _ (app_res_app q₁ h₁ _ (preimage_nbhd h₁ h₂ U).le c)).trans
+      (res_res_nbhd h₁ h₂ U c)
+  have hρ₂ : ∀ c, ρ (q₂.appLE U T inf_le_right c) = c := fun c => by
+    rw [hρ]
+    exact (congrArg _ (app_res_app q₂ h₂ _ (preimage_nbhd h₁ h₂ U).le c)).trans
+      (res_res_nbhd h₁ h₂ U c)
+  have hker : ∀ z, j.app T (z - q₁.appLE U T inf_le_left (ρ z)) = 0 := fun z => by
+    rw [map_sub, sub_eq_zero]
+    refine Eq.symm ((app_res_app q₁ h₁ inf_le_left (preimage_nbhd h₁ h₂ U).le (ρ z)).trans ?_)
+    rw [hρ, ← ConcreteCategory.comp_apply, ← Functor.map_comp]
+    exact ConcreteCategory.congr_hom (X.presheaf.map_id _) _
+  have hlift : ∀ z, ∃ t : Γ(closedImmersionIdealSheaf j, T),
+      (closedImmersionIdealSheafι j).app T t = z - q₁.appLE U T inf_le_left (ρ z) := by
+    intro z
+    let S : ShortComplex W.Modules := ShortComplex.mk
+      (closedImmersionIdealSheafι j) (structureSheafToPushforward j)
+      (kernel.condition (structureSheafToPushforward j))
+    have : Mono S.f := inferInstanceAs (Mono (closedImmersionIdealSheafι j))
+    exact modules_sections_exact (S := S)
+      (ShortComplex.exact_of_f_is_kernel _ (kernelIsKernel _)) (U := T) _ (hker z)
+  set M := Submodule.span Γ(X, U) (Set.range (conormalD h₁ h₂ U))
+  suffices key : ∀ z, ∀ t : Γ(closedImmersionIdealSheaf j, T),
+      (closedImmersionIdealSheafι j).app T t = z - q₁.appLE U T inf_le_left (ρ z) →
+      N.presheaf.map (homOfLE (preimage_nbhd h₁ h₂ U).ge).op (unitApp (j := j) T t) ∈ M by
+    refine key ((closedImmersionIdealSheafι j).app T s) s ?_
+    have h0 : ρ ((closedImmersionIdealSheafι j).app T s) = 0 :=
+      (hρ _).trans (by rw [app_ι_eq_zero, map_zero])
+    refine (sub_zero _).symm.trans ?_
+    congr 1
+    exact ((congrArg _ h0).trans (map_zero _)).symm
+  intro z
+  induction hgen z using AddSubmonoid.closure_induction with
+  | mem x hx =>
+    obtain ⟨⟨a, b⟩, rfl⟩ := hx
+    intro t ht
+    dsimp only at ht
+    have e1 : ρ (q₁.appLE U T inf_le_left a * q₂.appLE U T inf_le_right b) = a * b := by
+      rw [map_mul, hρ₁, hρ₂]
+    have ht' : t = -(q₁.appLE U T inf_le_left a • idealSection h₁ h₂ U b) := by
+      refine modules_app_injective (closedImmersionIdealSheafι j) _ (ht.trans ?_)
+      change q₁.appLE U T inf_le_left a * q₂.appLE U T inf_le_right b -
+        q₁.appLE U T inf_le_left (ρ (q₁.appLE U T inf_le_left a *
+          q₂.appLE U T inf_le_right b)) = _
+      rw [e1]
+      erw [map_neg, Scheme.Modules.Hom.app_smul, ι_idealSection]
+      rw [diffSection_apply]
+      change _ = -(q₁.appLE U T inf_le_left a *
+        (q₁.appLE U T inf_le_left b - q₂.appLE U T inf_le_right b))
+      rw [map_mul]
+      ring
+    rw [ht', unitApp_neg, unitApp_smul, map_neg, Scheme.Modules.map_smul]
+    change -(X.presheaf.map _ (j.app T (W.presheaf.map (homOfLE inf_le_left).op
+      (q₁.app U a))) • conormalD h₁ h₂ U b) ∈ M
+    rw [app_res_app q₁ h₁ _ (preimage_nbhd h₁ h₂ U).le, res_res_nbhd h₁ h₂]
+    exact M.neg_mem (M.smul_mem a (Submodule.subset_span ⟨b, rfl⟩))
+  | zero =>
+    intro t ht
+    have ht' : t = 0 := modules_app_injective (closedImmersionIdealSheafι j) _
+      (ht.trans (by rw [map_zero, map_zero, sub_zero, map_zero]; rfl))
+    rw [ht', unitApp_zero, map_zero]
+    exact M.zero_mem
+  | add x y _ _ hx hy =>
+    intro t ht
+    obtain ⟨t₁, ht₁⟩ := hlift x
+    obtain ⟨t₂, ht₂⟩ := hlift y
+    have e2 : (closedImmersionIdealSheafι j).app T (t₁ + t₂) =
+        (x + y) - q₁.appLE U T inf_le_left (ρ (x + y)) := by
+      erw [map_add, ht₁, ht₂]
+      rw [map_add ρ, map_add]
+      abel
+    have ht' : t = t₁ + t₂ := modules_app_injective (closedImmersionIdealSheafι j) _
+      (ht.trans e2.symm)
+    rw [ht', unitApp_add, map_add]
+    exact M.add_mem (hx t₁ ht₁) (hy t₂ ht₂)
 
 end Retractions
 
