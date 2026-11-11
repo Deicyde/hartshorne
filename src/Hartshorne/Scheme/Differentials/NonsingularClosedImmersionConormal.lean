@@ -723,6 +723,51 @@ theorem exists_generatingSections_of_span_germ [IsLocallyNoetherian X] {x : X} {
   exact ⟨⟨ULift (Fin r), fun j => Scheme.Modules.GloballyGenerated.sectionsOfTop F (s j), hs.epi⟩,
     by simp⟩
 
+omit [IsClosedImmersion i] in
+/-- Finitely many elements of a stalk are germs of sections over a common open neighbourhood. -/
+theorem exists_sections_germ_eq (F : X.Modules) (x : X) {r : ℕ} (v : Fin r → F.presheaf.stalk x) :
+    ∃ (V : X.Opens) (hxV : x ∈ V) (t : Fin r → Γ(F, V)), ∀ j, F.presheaf.germ V x hxV (t j) = v j := by
+  classical
+  choose U hxU t' ht' using fun j => F.presheaf.exists_germ_eq (v j)
+  let V : X.Opens := Finset.univ.inf U
+  have hxV : x ∈ V := by
+    change x ∈ ((Finset.univ.inf U : X.Opens) : Set X)
+    rw [TopologicalSpace.Opens.coe_finset_inf]
+    simpa using fun j => hxU j
+  have hVU : ∀ j, V ≤ U j := fun j => Finset.inf_le (Finset.mem_univ j)
+  refine ⟨V, hxV, fun j => F.presheaf.map (homOfLE (hVU j)).op (t' j), fun j => ?_⟩
+  rw [TopCat.Presheaf.germ_res_apply, ht']
+
+/-- Off the closed subscheme, the ideal sheaf is generated near each point by one section, the
+constant function `1`. -/
+theorem exists_section_span_germ_eq_top_of_not_mem {x : X} (hx : x ∉ Set.range i.base) :
+    ∃ (V : X.Opens) (hxV : x ∈ V) (t₀ : Γ(closedImmersionIdealSheaf i, V)),
+      Submodule.span (X.presheaf.stalk x)
+        {(closedImmersionIdealSheaf i).presheaf.germ V x hxV t₀} = ⊤ := by
+  let V : X.Opens := ⟨(Set.range i.base)ᶜ, i.isClosedEmbedding.isClosed_range.isOpen_compl⟩
+  have hV : i ⁻¹ᵁ V = ⊥ := by
+    ext z
+    simp [V]
+  have : Subsingleton Γ(Y, i ⁻¹ᵁ V) := by rw [hV]; infer_instance
+  let S : ShortComplex X.Modules := ShortComplex.mk (kernel.ι (structureSheafToPushforward i))
+    (structureSheafToPushforward i) (kernel.condition (structureSheafToPushforward i))
+  have : Mono S.f := by change Mono (closedImmersionIdealSheafι i); infer_instance
+  obtain ⟨t₀, ht₀⟩ := modules_sections_exact (S := S)
+    (ShortComplex.exact_of_f_is_kernel _ (kernelIsKernel _)) (U := V) (1 : Γ(X, V))
+    (Subsingleton.elim (α := Γ(Y, i ⁻¹ᵁ V)) _ _)
+  let t₁ : Γ(closedImmersionIdealSheaf i, V) := t₀
+  have ht₁ : (closedImmersionIdealSheafι i).app V t₁ = (1 : Γ(X, V)) := ht₀
+  refine ⟨V, hx, t₁, eq_top_iff.mpr fun n _ => ?_⟩
+  have h1 : idealStalkMap i x ((closedImmersionIdealSheaf i).presheaf.germ V x hx t₁) = 1 := by
+    refine (idealStalkMap_germ i x V hx t₁).trans ?_
+    rw [ht₁]
+    exact map_one (X.presheaf.germ V x hx).hom
+  have hn : n = idealStalkMap i x n • (closedImmersionIdealSheaf i).presheaf.germ V x hx t₁ := by
+    apply idealStalkMap_injective i
+    rw [idealStalkMap_smul, h1, mul_one]
+  rw [hn]
+  exact Submodule.smul_mem _ _ (Submodule.subset_span rfl)
+
 end IdealStalk
 
 section Main
