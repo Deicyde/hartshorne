@@ -35,11 +35,14 @@ exactly $d$, and here that quotient is $A/m=k$.
 
 ## Proof depends on
 
-- [Regular local rings are Cohen–Macaulay](../../../schemes/differentials/local-complete-intersections/regular-local-implies-cohen-macaulay.md)
-- [Regular sequences and Cohen–Macaulay quotients](../../../schemes/differentials/local-complete-intersections/cohen-macaulay-regular-sequence-quotient.md)
 - [A regular local ring is an integral domain](../../../nonsingular-varieties/regular-local-ring-domain.md)
 - The quotient of a local ring by a regular sequence of length $d$ in its
   maximal ideal has projective dimension $d$.
+
+## Informally uses
+
+- [Regular local rings are Cohen–Macaulay](../../../schemes/differentials/local-complete-intersections/regular-local-implies-cohen-macaulay.md)
+- [Regular sequences and Cohen–Macaulay quotients](../../../schemes/differentials/local-complete-intersections/cohen-macaulay-regular-sequence-quotient.md)
 
 ## Sources
 
