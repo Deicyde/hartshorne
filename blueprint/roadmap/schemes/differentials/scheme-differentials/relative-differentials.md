@@ -2,7 +2,7 @@
 article_id: af_4e17f763aa8b789939a367cb
 declaration: def
 origin: cited
-lean: AlgebraicGeometry.Scheme.relativeDifferentialsWithDerivation
+lean: AlgebraicGeometry.Scheme.relativeDifferentialsWithDerivation AlgebraicGeometry.Scheme.relativeDifferentials
 statement: formalized
 proof: formalized
 ---
