@@ -2,6 +2,7 @@
 article_id: af_103169a947179990d7f6a8e3
 declaration: theorem
 origin: cited
+lean: Hartshorne.product_nonsingular_variety
 ---
 
 # Products of nonsingular varieties
