@@ -19,11 +19,12 @@ neighbourhood of the generic point.
 
 ## Depends on
 
-- [Differentials of finitely generated field extensions](../kaehler-differentials/field-differentials-dimension.md)
-- [Differentials characterize nonsingular varieties](differentials-characterize-nonsingular.md)
+- [Regular points and nonsingular schemes](regular-points-and-nonsingular-schemes.md)
 
 ## Proof depends on
 
+- [Differentials of finitely generated field extensions](../kaehler-differentials/field-differentials-dimension.md)
+- [Differentials characterize nonsingular varieties](differentials-characterize-nonsingular.md)
 - [The free locus of a coherent sheaf](../../coherent-sheaves/coherent-free-locus.md)
 - [Dimension of a scheme smooth over a field](../../../cohomology/smooth-morphisms/criteria/smooth-over-field-component-dimension.md)
 
