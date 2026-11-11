@@ -2,6 +2,7 @@
 article_id: af_8a23550adc95c85f476bbe2e
 declaration: theorem
 origin: cited
+lean: Hartshorne.exists_quasiIso_locallyFreeResolution_of_quasiProjective Hartshorne.exists_quasiIso_locallyFreeResolution_of_quasiProjective_sheafOfModules
 ---
 
 # Locally free resolutions on quasi-projective schemes
