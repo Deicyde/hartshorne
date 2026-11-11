@@ -20,15 +20,15 @@ then $h^{q,0}(X) = h^{q,0}(X')$ for every $q$.
 
 ## Depends on
 
-- [The domain of a birational map has codimension-two complement](../canonical-bertini/birational-map-domain-codimension-two.md)
-- [Locally free sections extend across codimension two](../canonical-bertini/locally-free-sections-extend-codimension-two.md)
-- [Differentials characterize nonsingularity](../scheme-differentials/differentials-characterize-nonsingular.md)
-- [Relative differential transitivity](../scheme-differentials/relative-differentials-transitivity.md)
 - [Sheaf tensor, symmetric, and exterior operations](../../module-exercises/sheaf-tensor-operations.md)
 - [Geometric genus](../canonical-bertini/geometric-genus.md)
 
 ## Proof depends on
 
+- [The domain of a birational map has codimension-two complement](../canonical-bertini/birational-map-domain-codimension-two.md)
+- [Locally free sections extend across codimension two](../canonical-bertini/locally-free-sections-extend-codimension-two.md)
+- [Differentials characterize nonsingularity](../scheme-differentials/differentials-characterize-nonsingular.md)
+- [Relative differential transitivity](../scheme-differentials/relative-differentials-transitivity.md)
 - [Pullback injects canonical sections](../canonical-bertini/canonical-pullback-injective.md)
 - [The canonical sheaf](../canonical-bertini/canonical-sheaf.md)
 - [Serre's criterion for normality](../local-complete-intersections/serre-normality-criterion.md)
