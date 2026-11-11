@@ -2,6 +2,9 @@
 article_id: af_7a1eda20268695795ed1e259
 declaration: theorem
 origin: cited
+lean: Hartshorne.sheafCohomology_isZero_of_isQuasicoherent_spec
+statement: formalized
+proof: formalized
 ---
 
 # Affine quasi-coherent sheaves are acyclic
