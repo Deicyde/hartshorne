@@ -27,7 +27,12 @@ Let `X` be an integral scheme with normalization `ν : X̃ ⟶ X`
 * at every point `P`, the stalk `(ν_* 𝒪_X̃)_P` is `Õ_P`, the integral closure of `𝒪_{X,P}` in
   the function field `K(X)` (`normalizationPushforwardStalkEquiv`), compatibly with
   `𝒪_{X,P} ⊆ Õ_P` (`normalizationPushforwardStalkEquiv_unit`), and hence
-  `Q_P ≅ Õ_P / 𝒪_{X,P}` (`normalizationDeltaQuotientStalkEquiv`).
+  `Q_P ≅ Õ_P / 𝒪_{X,P}` (`normalizationDeltaQuotientStalkEquiv`);
+* the localizations of `Õ_P` at its maximal ideals are the local rings `𝒪_{X̃,Q}` of the points
+  `Q` over `P`, and `Q ↦ 𝔫_Q` is a bijection from `ν⁻¹(P)` onto the maximal ideals of `Õ_P`
+  (`exists_normalizationFibre_localization`). On an affine `V ∋ P`, `Õ_P` is the localization of
+  `B = Γ(X̃, ν⁻¹ V)` at the image of `Γ(X, V) ∖ 𝔭_P`, `𝒪_{X̃,Q}` is `B_{𝔮_Q}`, and the maximal
+  ideals of `Õ_P` (integral over the local ring `𝒪_{X,P}`) are the primes lying over `𝔭_P`.
 
 If moreover `X` is of finite type over a field (Hartshorne's `X` is projective over an
 algebraically closed field), then `𝒪_X`, `ν_* 𝒪_X̃` and `Q` are coherent, `Õ_P` is a finite
@@ -627,6 +632,322 @@ theorem normalizationDeltaQuotient_spec :
     finite_setOf_normalizationDelta_ne_zero X k s hs hdim⟩
 
 end Curve
+
+/-! ### The local rings of `X̃` above `P` -/
+
+namespace NormalizationDeltaAux
+
+section Fibre
+
+variable {X} (P : X) {V : X.Opens} (hV : IsAffineOpen V) (hPV : P ∈ V) [Nonempty V]
+include hV hPV
+
+/-- The prime `𝔭_P` of `Γ(X, V)` at `P`. -/
+abbrev pP : Ideal Γ(X, V) := (hV.primeIdealOf ⟨P, hPV⟩).asIdeal
+
+/-- The image of `Γ(X, V) ∖ 𝔭_P` in `B = Γ(X̃, ν⁻¹ V)`. -/
+abbrev Msub : Submonoid Γ(absoluteNormalization X, absoluteNormalizationMap X ⁻¹ᵁ V) :=
+  (pP P hV hPV).primeCompl.map ((absoluteNormalizationMap X).app V).hom
+
+lemma φ_mem (s : Γ(absoluteNormalization X, absoluteNormalizationMap X ⁻¹ᵁ V)) :
+    φ X V s ∈ semilocalIntegralClosure X P := by
+  have h := (mem_range_φ_iff X V hV _).mp ⟨s, rfl⟩
+  let _ := TopCat.Presheaf.algebra_section_stalk X.presheaf (⟨P, hPV⟩ : V)
+  have := functionField_isScalarTower X V ⟨P, hPV⟩
+  exact h.tower_top (A := X.presheaf.stalk (⟨P, hPV⟩ : V))
+
+/-- The map `B = Γ(X̃, ν⁻¹ V) → Õ_P`. -/
+def ψ : Γ(absoluteNormalization X, absoluteNormalizationMap X ⁻¹ᵁ V) →+*
+    semilocalIntegralClosure X P :=
+  (φ X V).hom.codRestrict (semilocalIntegralClosure X P) (φ_mem P hV hPV)
+
+lemma ψ_coe (s : Γ(absoluteNormalization X, absoluteNormalizationMap X ⁻¹ᵁ V)) :
+    (ψ P hV hPV s : X.functionField) = φ X V s := rfl
+
+lemma ψ_injective : Function.Injective (ψ P hV hPV) := fun _ _ h =>
+  φ_injective_of_isAffineOpen X V hV (congrArg Subtype.val h)
+
+lemma ψ_app (a : Γ(X, V)) :
+    ψ P hV hPV ((absoluteNormalizationMap X).app V a) =
+      algebraMap (X.presheaf.stalk P) (semilocalIntegralClosure X P)
+        (X.presheaf.germ V P hPV a) := by
+  apply Subtype.ext
+  rw [ψ_coe, Subalgebra.coe_algebraMap]
+  exact (φ_app X V a).trans (Scheme.algebraMap_germ_eq_germToFunctionField X hPV a).symm
+
+lemma isLocalization_ψ :
+    letI := (ψ P hV hPV).toAlgebra
+    IsLocalization (Msub P hV hPV) (semilocalIntegralClosure X P) := by
+  let := (ψ P hV hPV).toAlgebra
+  let P' : V := ⟨P, hPV⟩
+  let _ := TopCat.Presheaf.algebra_section_stalk X.presheaf P'
+  have := hV.isLocalization_stalk P'
+  have := functionField_isScalarTower X V P'
+  rw [isLocalization_iff]
+  refine ⟨?_, ?_, ?_⟩
+  · rintro ⟨_, a, ha, rfl⟩
+    change IsUnit (ψ P hV hPV ((absoluteNormalizationMap X).app V a))
+    rw [ψ_app]
+    exact (IsLocalization.map_units (X.presheaf.stalk P')
+      (⟨a, ha⟩ : (hV.primeIdealOf P').asIdeal.primeCompl)).map _
+  · rintro ⟨z, hz⟩
+    obtain ⟨⟨m, hm⟩, hmx⟩ := IsIntegral.exists_multiple_integral_of_isLocalization
+      (M := (hV.primeIdealOf P').asIdeal.primeCompl) (Rₘ := X.presheaf.stalk P') z hz
+    obtain ⟨s, hs⟩ := (mem_range_φ_iff X V hV _).mpr hmx
+    refine ⟨(s, ⟨(absoluteNormalizationMap X).app V m, m, hm, rfl⟩), ?_⟩
+    change _ * ψ P hV hPV ((absoluteNormalizationMap X).app V m) = ψ P hV hPV s
+    rw [ψ_app]
+    apply Subtype.ext
+    rw [Subalgebra.coe_mul, Subalgebra.coe_algebraMap, ψ_coe, hs, Submonoid.mk_smul,
+      Algebra.smul_def, IsScalarTower.algebraMap_apply Γ(X, V) (X.presheaf.stalk P')
+        X.functionField, mul_comm]
+    rfl
+  · intro x y h
+    exact ⟨1, by rw [ψ_injective P hV hPV h]⟩
+
+omit hPV [Nonempty V] in
+lemma fromSpec_comap
+    (q : PrimeSpectrum Γ(absoluteNormalization X, absoluteNormalizationMap X ⁻¹ᵁ V)) :
+    hV.fromSpec (PrimeSpectrum.comap ((absoluteNormalizationMap X).app V).hom q) =
+      absoluteNormalizationMap X ((hV.preimage _).fromSpec q) := by
+  have h := IsAffineOpen.SpecMap_appLE_fromSpec (absoluteNormalizationMap X) hV (hV.preimage _)
+    le_rfl
+  rw [← Scheme.Hom.app_eq_appLE] at h
+  exact congr($h q)
+
+variable (Q : absoluteNormalization X) (hQ : absoluteNormalizationMap X Q = P)
+include hQ
+
+omit hV [Nonempty V] in
+lemma mem_preimage : Q ∈ absoluteNormalizationMap X ⁻¹ᵁ V := by
+  change absoluteNormalizationMap X Q ∈ V
+  rw [hQ]
+  exact hPV
+
+/-- The prime `𝔮_Q` of `B` at `Q`. -/
+abbrev qQ : Ideal Γ(absoluteNormalization X, absoluteNormalizationMap X ⁻¹ᵁ V) :=
+  ((hV.preimage _).primeIdealOf ⟨Q, mem_preimage P hPV Q hQ⟩).asIdeal
+
+omit [Nonempty V] in
+lemma comap_qQ : (qQ P hV hPV Q hQ).comap ((absoluteNormalizationMap X).app V).hom =
+    pP P hV hPV := by
+  have h := fromSpec_comap hV ((hV.preimage _).primeIdealOf ⟨Q, mem_preimage P hPV Q hQ⟩)
+  rw [IsAffineOpen.fromSpec_primeIdealOf, hQ] at h
+  have h2 : hV.fromSpec (hV.primeIdealOf ⟨P, hPV⟩) = P := hV.fromSpec_primeIdealOf ⟨P, hPV⟩
+  exact congrArg PrimeSpectrum.asIdeal (hV.fromSpec.isOpenEmbedding.injective (h.trans h2.symm))
+
+omit [Nonempty V] in
+lemma isLocalization_stalk_qQ :
+    letI := TopCat.Presheaf.algebra_section_stalk (absoluteNormalization X).presheaf
+      (⟨Q, mem_preimage P hPV Q hQ⟩ : absoluteNormalizationMap X ⁻¹ᵁ V)
+    IsLocalization.AtPrime ((absoluteNormalization X).presheaf.stalk Q) (qQ P hV hPV Q hQ) :=
+  (hV.preimage _).isLocalization_stalk _
+
+/-- The map `Õ_P → 𝒪_{X̃,Q}` extending the germ map `B → 𝒪_{X̃,Q}`. -/
+def ρ : semilocalIntegralClosure X P →+* (absoluteNormalization X).presheaf.stalk Q :=
+  letI := (ψ P hV hPV).toAlgebra
+  haveI := isLocalization_ψ P hV hPV
+  IsLocalization.lift (M := Msub P hV hPV) (S := semilocalIntegralClosure X P)
+    (g := ((absoluteNormalization X).presheaf.germ _ Q (mem_preimage P hPV Q hQ)).hom) (by
+      rintro ⟨_, a, ha, rfl⟩
+      let := TopCat.Presheaf.algebra_section_stalk (absoluteNormalization X).presheaf
+        (⟨Q, mem_preimage P hPV Q hQ⟩ : absoluteNormalizationMap X ⁻¹ᵁ V)
+      have := isLocalization_stalk_qQ P hV hPV Q hQ
+      refine (IsLocalization.AtPrime.isUnit_to_map_iff
+        ((absoluteNormalization X).presheaf.stalk Q) (qQ P hV hPV Q hQ)
+        ((absoluteNormalizationMap X).app V a)).mpr ?_
+      intro hmem
+      apply ha
+      rw [← comap_qQ P hV hPV Q hQ]
+      exact hmem)
+
+lemma ρ_ψ (b : Γ(absoluteNormalization X, absoluteNormalizationMap X ⁻¹ᵁ V)) :
+    ρ P hV hPV Q hQ (ψ P hV hPV b) =
+      (absoluteNormalization X).presheaf.germ _ Q (mem_preimage P hPV Q hQ) b := by
+  let := (ψ P hV hPV).toAlgebra
+  have := isLocalization_ψ P hV hPV
+  exact IsLocalization.lift_eq _ _
+
+lemma comap_ψ_comap_ρ :
+    ((IsLocalRing.maximalIdeal _).comap (ρ P hV hPV Q hQ)).comap (ψ P hV hPV) =
+      qQ P hV hPV Q hQ := by
+  let := TopCat.Presheaf.algebra_section_stalk (absoluteNormalization X).presheaf
+    (⟨Q, mem_preimage P hPV Q hQ⟩ : absoluteNormalizationMap X ⁻¹ᵁ V)
+  have := isLocalization_stalk_qQ P hV hPV Q hQ
+  ext b
+  rw [Ideal.mem_comap, Ideal.mem_comap, ρ_ψ]
+  exact IsLocalization.AtPrime.to_map_mem_maximal_iff
+    ((absoluteNormalization X).presheaf.stalk Q) (qQ P hV hPV Q hQ) b
+
+lemma isLocalization_ρ :
+    letI := (ρ P hV hPV Q hQ).toAlgebra
+    IsLocalization.AtPrime ((absoluteNormalization X).presheaf.stalk Q)
+      ((IsLocalRing.maximalIdeal _).comap (ρ P hV hPV Q hQ)) := by
+  let := (ψ P hV hPV).toAlgebra
+  let := (ρ P hV hPV Q hQ).toAlgebra
+  let := TopCat.Presheaf.algebra_section_stalk (absoluteNormalization X).presheaf
+    (⟨Q, mem_preimage P hPV Q hQ⟩ : absoluteNormalizationMap X ⁻¹ᵁ V)
+  have : IsScalarTower Γ(absoluteNormalization X, absoluteNormalizationMap X ⁻¹ᵁ V)
+      (semilocalIntegralClosure X P) ((absoluteNormalization X).presheaf.stalk Q) :=
+    IsScalarTower.of_algebraMap_eq fun b => (ρ_ψ P hV hPV Q hQ b).symm
+  have hloc1 := isLocalization_ψ P hV hPV
+  have hloc2 := isLocalization_stalk_qQ P hV hPV Q hQ
+  set 𝔫 := (IsLocalRing.maximalIdeal _).comap (ρ P hV hPV Q hQ)
+  have hunder : 𝔫.comap (ψ P hV hPV) = qQ P hV hPV Q hQ := comap_ψ_comap_ρ P hV hPV Q hQ
+  have hle : Msub P hV hPV ≤ (qQ P hV hPV Q hQ).primeCompl := by
+    rintro _ ⟨a, ha, rfl⟩ hmem
+    apply ha
+    rw [← comap_qQ P hV hPV Q hQ]
+    exact hmem
+  have h3 := IsLocalization.isLocalization_of_submonoid_le (S := semilocalIntegralClosure X P)
+    ((absoluteNormalization X).presheaf.stalk Q) (Msub P hV hPV) _ hle
+  refine IsLocalization.isLocalization_of_is_exists_mul_mem
+    (M := (qQ P hV hPV Q hQ).primeCompl.map (algebraMap _ (semilocalIntegralClosure X P)))
+    (N := 𝔫.primeCompl) (S := (absoluteNormalization X).presheaf.stalk Q) ?_ ?_
+  · rintro _ ⟨b, hb, rfl⟩ hmem
+    apply hb
+    rw [← hunder]
+    exact hmem
+  · rintro ⟨x, hx⟩
+    obtain ⟨⟨b, m⟩, e⟩ := IsLocalization.surj (Msub P hV hPV) x
+    refine ⟨algebraMap _ _ (m : Γ(absoluteNormalization X, absoluteNormalizationMap X ⁻¹ᵁ V)), ?_⟩
+    rw [mul_comm]
+    refine ⟨b, ?_, e.symm⟩
+    intro hb
+    apply hx
+    have hbn : algebraMap _ (semilocalIntegralClosure X P) b ∈ 𝔫 := by
+      rw [← hunder] at hb
+      exact hb
+    rw [← e] at hbn
+    refine (Ideal.IsPrime.mem_or_mem inferInstance hbn).resolve_right ?_
+    intro hm
+    have hm' : (m : Γ(absoluteNormalization X, absoluteNormalizationMap X ⁻¹ᵁ V)) ∈
+        𝔫.comap (ψ P hV hPV) := hm
+    rw [hunder] at hm'
+    exact hle m.2 hm'
+
+omit Q hQ in
+lemma isMaximal_iff (𝔫 : Ideal (semilocalIntegralClosure X P)) [𝔫.IsPrime] :
+    𝔫.IsMaximal ↔ (𝔫.comap (ψ P hV hPV)).comap ((absoluteNormalizationMap X).app V).hom =
+      pP P hV hPV := by
+  let P' : V := ⟨P, hPV⟩
+  let _ := TopCat.Presheaf.algebra_section_stalk X.presheaf P'
+  have := hV.isLocalization_stalk P'
+  have key : (𝔫.comap (ψ P hV hPV)).comap ((absoluteNormalizationMap X).app V).hom =
+      (𝔫.comap (algebraMap (X.presheaf.stalk P) (semilocalIntegralClosure X P))).comap
+        (algebraMap Γ(X, V) (X.presheaf.stalk P')) := by
+    ext a
+    simp only [Ideal.mem_comap, ψ_app]
+    rfl
+  have hmax : (IsLocalRing.maximalIdeal (X.presheaf.stalk P')).comap
+      (algebraMap Γ(X, V) (X.presheaf.stalk P')) = pP P hV hPV :=
+    IsLocalization.AtPrime.under_maximalIdeal (X.presheaf.stalk P') (pP P hV hPV)
+  rw [key]
+  constructor
+  · intro h
+    have : (𝔫.comap (algebraMap (X.presheaf.stalk P) (semilocalIntegralClosure X P))).IsMaximal :=
+      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := X.presheaf.stalk P) 𝔫
+    rw [IsLocalRing.eq_maximalIdeal this]
+    exact hmax
+  · intro h
+    apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := X.presheaf.stalk P)
+    have : 𝔫.comap (algebraMap (X.presheaf.stalk P) (semilocalIntegralClosure X P)) =
+        IsLocalRing.maximalIdeal (X.presheaf.stalk P') := by
+      rw [← IsLocalization.map_under (pP P hV hPV).primeCompl (X.presheaf.stalk P')
+          (𝔫.comap (algebraMap (X.presheaf.stalk P) (semilocalIntegralClosure X P))),
+        ← IsLocalization.map_under (pP P hV hPV).primeCompl (X.presheaf.stalk P')
+          (IsLocalRing.maximalIdeal (X.presheaf.stalk P'))]
+      exact congrArg _ (h.trans hmax.symm)
+    rw [this]
+    infer_instance
+
+omit hQ in
+/-- `Q ↦ 𝔫_Q` is a bijection from the fibre `ν⁻¹(P)` onto the maximal ideals of `Õ_P`. -/
+lemma bijective_fibre :
+    Function.Bijective (fun Q : absoluteNormalizationMap X ⁻¹' {P} =>
+      (⟨(IsLocalRing.maximalIdeal _).comap (ρ P hV hPV Q.1 Q.2),
+        (isMaximal_iff P hV hPV _).mpr (by
+          rw [comap_ψ_comap_ρ P hV hPV Q.1 Q.2]
+          exact comap_qQ P hV hPV Q.1 Q.2)⟩ : MaximalSpectrum (semilocalIntegralClosure X P))) := by
+  let := (ψ P hV hPV).toAlgebra
+  have hloc := isLocalization_ψ P hV hPV
+  have hW := hV.preimage (absoluteNormalizationMap X)
+  constructor
+  · rintro ⟨Q₁, hQ₁⟩ ⟨Q₂, hQ₂⟩ h
+    have h1 := congrArg (fun 𝔫 : MaximalSpectrum _ => 𝔫.asIdeal.comap (ψ P hV hPV)) h
+    simp only at h1
+    rw [comap_ψ_comap_ρ P hV hPV Q₁ hQ₁, comap_ψ_comap_ρ P hV hPV Q₂ hQ₂] at h1
+    have h2 := congrArg hW.fromSpec (PrimeSpectrum.ext h1)
+    simp only [IsAffineOpen.fromSpec_primeIdealOf] at h2
+    exact Subtype.ext h2
+  · intro 𝔫
+    let 𝔮 : PrimeSpectrum Γ(absoluteNormalization X, absoluteNormalizationMap X ⁻¹ᵁ V) :=
+      ⟨𝔫.asIdeal.comap (ψ P hV hPV), inferInstance⟩
+    have hcomap := (isMaximal_iff P hV hPV 𝔫.asIdeal).mp 𝔫.isMaximal
+    have hQ : absoluteNormalizationMap X (hW.fromSpec 𝔮) = P := by
+      rw [← fromSpec_comap hV 𝔮]
+      have : PrimeSpectrum.comap ((absoluteNormalizationMap X).app V).hom 𝔮 =
+          hV.primeIdealOf ⟨P, hPV⟩ := PrimeSpectrum.ext hcomap
+      rw [this]
+      exact hV.fromSpec_primeIdealOf ⟨P, hPV⟩
+    refine ⟨⟨hW.fromSpec 𝔮, hQ⟩, ?_⟩
+    have hq : qQ P hV hPV (hW.fromSpec 𝔮) hQ = 𝔮.asIdeal := by
+      have h1 : hW.fromSpec (hW.primeIdealOf ⟨hW.fromSpec 𝔮, mem_preimage P hPV _ hQ⟩) =
+          hW.fromSpec 𝔮 := IsAffineOpen.fromSpec_primeIdealOf _ _
+      exact congrArg PrimeSpectrum.asIdeal (hW.fromSpec.isOpenEmbedding.injective h1)
+    apply MaximalSpectrum.ext
+    change (IsLocalRing.maximalIdeal _).comap (ρ P hV hPV (hW.fromSpec 𝔮) hQ) = 𝔫.asIdeal
+    rw [← IsLocalization.map_under (Msub P hV hPV) (semilocalIntegralClosure X P)
+        ((IsLocalRing.maximalIdeal _).comap (ρ P hV hPV (hW.fromSpec 𝔮) hQ)),
+      ← IsLocalization.map_under (Msub P hV hPV) (semilocalIntegralClosure X P) 𝔫.asIdeal]
+    congr 1
+    exact (comap_ψ_comap_ρ P hV hPV _ hQ).trans hq
+
+end Fibre
+
+end NormalizationDeltaAux
+
+open NormalizationDeltaAux in
+/-- **Hartshorne IV, Exercise 1.8 (the localizations of `Õ_P`).** For every point `Q` of `X̃`
+over `P` there is a ring map `ρ_Q : Õ_P → 𝒪_{X̃,Q}` such that `𝔫_Q = ρ_Q⁻¹(𝔪_Q)` is a maximal
+ideal of `Õ_P` and `ρ_Q` identifies `𝒪_{X̃,Q}` with the localization of `Õ_P` at `𝔫_Q`; and
+`Q ↦ 𝔫_Q` is a bijection from the fibre `ν⁻¹(P)` onto the maximal ideals of `Õ_P`. -/
+theorem exists_normalizationFibre_localization (P : X) :
+    ∃ ρ : ∀ Q : absoluteNormalizationMap X ⁻¹' {P},
+        semilocalIntegralClosure X P →+* (absoluteNormalization X).presheaf.stalk Q.1,
+      (∀ Q, ((IsLocalRing.maximalIdeal _).comap (ρ Q)).IsMaximal ∧
+        letI := (ρ Q).toAlgebra
+        IsLocalization.AtPrime ((absoluteNormalization X).presheaf.stalk Q.1)
+          ((IsLocalRing.maximalIdeal _).comap (ρ Q))) ∧
+      Function.Injective (fun Q => (IsLocalRing.maximalIdeal _).comap (ρ Q)) ∧
+      ∀ 𝔫 : Ideal (semilocalIntegralClosure X P), 𝔫.IsMaximal →
+        ∃ Q, (IsLocalRing.maximalIdeal _).comap (ρ Q) = 𝔫 := by
+  obtain ⟨_, ⟨V, hV, rfl⟩, hPV, -⟩ :=
+    X.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ P) isOpen_univ
+  have : Nonempty V := ⟨⟨P, hPV⟩⟩
+  have hbij := bijective_fibre P hV hPV
+  refine ⟨fun Q => ρ P hV hPV Q.1 Q.2, fun Q => ⟨?_, isLocalization_ρ P hV hPV Q.1 Q.2⟩,
+    fun Q₁ Q₂ h => hbij.1 (MaximalSpectrum.ext h), fun 𝔫 h𝔫 => ?_⟩
+  · exact (isMaximal_iff P hV hPV _).mpr (by
+      rw [comap_ψ_comap_ρ P hV hPV Q.1 Q.2]
+      exact comap_qQ P hV hPV Q.1 Q.2)
+  · obtain ⟨Q, hQ⟩ := hbij.2 ⟨𝔫, h𝔫⟩
+    exact ⟨Q, congrArg MaximalSpectrum.asIdeal hQ⟩
+
+open NormalizationDeltaAux in
+/-- For every point `Q` of `X̃` over `P` there is a maximal ideal `𝔫` of `Õ_P` whose localization
+is isomorphic to the local ring `𝒪_{X̃,Q}`. -/
+theorem nonempty_localization_ringEquiv_stalk (P : X) (Q : absoluteNormalization X)
+    (hQ : absoluteNormalizationMap X Q = P) :
+    ∃ (𝔫 : Ideal (semilocalIntegralClosure X P)) (_ : 𝔫.IsMaximal),
+      Nonempty (Localization.AtPrime 𝔫 ≃+* (absoluteNormalization X).presheaf.stalk Q) := by
+  obtain ⟨ρ, h, -⟩ := exists_normalizationFibre_localization X P
+  obtain ⟨hmax, hloc⟩ := h ⟨Q, hQ⟩
+  let := (ρ ⟨Q, hQ⟩).toAlgebra
+  exact ⟨_, hmax, ⟨(IsLocalization.algEquiv
+    ((IsLocalRing.maximalIdeal _).comap (ρ ⟨Q, hQ⟩)).primeCompl
+    (Localization.AtPrime ((IsLocalRing.maximalIdeal _).comap (ρ ⟨Q, hQ⟩)))
+    ((absoluteNormalization X).presheaf.stalk Q)).toRingEquiv⟩⟩
 
 end
 
