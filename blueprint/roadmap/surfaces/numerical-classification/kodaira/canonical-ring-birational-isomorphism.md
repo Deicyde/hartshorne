@@ -27,6 +27,7 @@ pluricanonical section space.
 
 ## Proof depends on
 
+- [Regular local rings are Cohen–Macaulay](../../../schemes/differentials/local-complete-intersections/regular-local-implies-cohen-macaulay.md)
 - Use the same pullback/restriction maps in every degree as in plurigenus
   invariance and verify that tensor products of sections commute with those
   maps. The inverse birational transformation supplies the inverse graded
