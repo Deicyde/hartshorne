@@ -10,6 +10,7 @@ Let $X$ be a Noetherian scheme and let $Y \hookrightarrow X$ be a closed subsche
 module ideal sheaf $I \hookrightarrow \mathcal{O}_X$. For nonnegative integer $n$, define the $n$th infinitesimal
 neighbourhood $Y n$ to be the closed subscheme cut out by $I^{n+1}$.
 In particular $Y 0 = Y$; there is no artificial quotient by $I^0$.
+The construction itself does not use that $X$ is Noetherian; the hypothesis is kept because it is Hartshorne's setting for formal completions.
 
 The powers are taken in the ideal sheaf. On affine opens, this
 agrees with taking powers of the corresponding ideals.
