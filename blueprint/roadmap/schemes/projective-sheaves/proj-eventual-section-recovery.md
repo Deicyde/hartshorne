@@ -3,6 +3,8 @@ article_id: af_b8a5e47c59222d17169bdad2
 declaration: theorem
 origin: cited
 lean: Hartshorne.EventualSectionRecovery.exists_bijective_alphaComponent Hartshorne.EventualSectionRecovery.alpha Hartshorne.EventualSectionRecovery.alphaComponent Hartshorne.EventualSectionRecovery.alpha_of_mem Hartshorne.EventualSectionRecovery.gammaStarMap Hartshorne.EventualSectionRecovery.gammaStarMap_alpha
+statement: formalized
+proof: formalized
 ---
 
 # Eventual recovery from graded sections
