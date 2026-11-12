@@ -759,6 +759,7 @@ import Hartshorne.Scheme.ProjectiveGlobalSectionsFinite
 import Hartshorne.Scheme.ProjectivePushforwardCoherent
 import Hartshorne.Scheme.ProjEventualSectionRecovery
 import Hartshorne.Scheme.AffineFormalModuleExact
+import Hartshorne.Scheme.SchemeCompletionExact
 import Hartshorne.Scheme.FormalCompletionModuleAffineSections
 import Hartshorne.Scheme.ProjectiveNormalityCriterion
 import Hartshorne.Scheme.LinearSystem
