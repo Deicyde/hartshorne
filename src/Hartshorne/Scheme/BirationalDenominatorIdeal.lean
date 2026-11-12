@@ -242,8 +242,9 @@ variable {X : Scheme.{u}} [IsIntegral X]
 
 /-- **Common denominators for a finite set of local generators** (Hartshorne II, proof of
 Theorem 7.17, Step 4). Let `F` be a coherent `O_X`-module on an integral scheme with a morphism
-`ι : F ⟶ K_X` to the constant sheaf of rational functions. Over every nonempty affine open `U`
-there is a nonzero regular function `a` with `a · ι(F(U)) ⊆ O_X(U)` inside `K_X(U)`. -/
+`ι : F ⟶ K_X` to the constant sheaf of rational functions. Over every affine open `U` containing
+the generic point (equivalently, every nonempty affine open) there is a nonzero regular function
+`a` with `a · ι(F(U)) ⊆ O_X(U)` inside `K_X(U)`. -/
 theorem exists_ne_zero_smul_mem_toK {F : X.Modules} (hF : IsCoherent F)
     (ι : F ⟶ X.totalQuotientModule) (U : X.affineOpens) (hU : genericPoint X ∈ (U : X.Opens)) :
     ∃ a : Γ(X, U), a ≠ 0 ∧ ∀ s : Γ(F, U), ∃ b : Γ(X, U), ι.app U (a • s) = X.toK U b := by
@@ -855,7 +856,8 @@ Theorem 7.17, Step 4, first half). Let `f : Z ⟶ X` be a projective morphism of
 with `X` locally of finite type over a field, mapping the generic point to the generic point and
 inducing a bijection of function fields, and let `L` be invertible on `Z`. Then `f_* L` is a
 coherent sub-`O_X`-module of the constant sheaf `K_X = K(X)`, and its denominator ideal `J` is a
-coherent ideal sheaf of `O_X`, nonzero over every nonempty affine open, with `J · f_* L ⊆ O_X`. -/
+coherent ideal sheaf of `O_X`, nonzero over every affine open containing the generic point
+(equivalently, every nonempty affine open), with `J · f_* L ⊆ O_X`. -/
 theorem exists_denominatorIdealSheaf_of_birational (k : Type u) [Field k] (pX : X ⟶ Spec (.of k))
     [LocallyOfFiniteType pX] (hfp : Hartshorne.Projective f)
     (hbij : Function.Bijective (f.genericFunctionFieldMap hf)) {L : Z.Modules}
