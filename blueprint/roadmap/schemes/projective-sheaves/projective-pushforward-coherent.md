@@ -22,6 +22,7 @@ $Y$ is locally of finite type over the field.
 
 - [Quasi-coherent pushforward](../modules-and-quasicoherent/qcqs-pushforward-quasicoherent.md)
 - [Finiteness of projective global sections](projective-global-sections-finite.md)
+- [Pullback preserves quasi-coherence](../modules-and-quasicoherent/pullback-quasicoherent.md)
 
 ## Sources
 
