@@ -260,6 +260,19 @@ theorem lineBundleTwistProjIsoOfFrame_naturality {U V : X.AffineZariskiSite} (f 
   exact SegreProduct.projIsoOfGenerator_eq _ _ _ _ frameGenerator_mem _
     (frameGenerator_free (isLocalFrame_restrictFrame f he)) hfree'
 
+omit hL in
+/-- **Frames of an invertible sheaf exist locally on affine opens**: every point of `X` has an
+affine open neighbourhood over which `L` has a frame (a single section generating `L` freely). -/
+theorem exists_affine_isLocalFrame (hInv : L.IsInvertible) (x : X) :
+    ∃ U : X.AffineZariskiSite, x ∈ U.1 ∧
+      ∃ e : ULift.{u} (Fin 1) → Γ(L, U.1), Ringed.IsLocalFrame (R := X.sheaf) L U.1 e := by
+  classical
+  obtain ⟨W, hxW, ⟨α⟩⟩ := hInv x
+  obtain ⟨β⟩ := (Scheme.Modules.nonempty_restrict_iso_free_iff L W _).mp ⟨α⟩
+  have he := Ringed.isLocalFrame_of_over_iso (R := X.sheaf) β
+  obtain ⟨_, ⟨V, hV, rfl⟩, hxV, hVW⟩ := X.isBasis_affineOpens.exists_subset_of_mem_open hxW W.2
+  exact ⟨⟨V, hV⟩, hxV, _, he.restrictLE hVW⟩
+
 end QuasiCoherentGradedAlgebra
 
 end Hartshorne
