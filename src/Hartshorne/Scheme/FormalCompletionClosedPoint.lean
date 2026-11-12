@@ -322,7 +322,8 @@ def formalCompletionClosedPointIso (U : X.affineOpens) (hPU : P ∈ (U : X.Opens
 /-- **Completion at a closed point** (Hartshorne II.9, Example 9.3.4, p. 195). Let `P` be a
 closed point of a Noetherian scheme `X`. The completion of `X` along `P` (with its reduced
 structure; by Remark 9.3.1 the completion depends only on the closed set `{P}`) is isomorphic, as
-a locally ringed space, to the one-point locally ringed space whose ring is the completion `Ô_P` of the local ring `𝒪_{X,P}` at its maximal ideal. -/
+a locally ringed space, to the one-point locally ringed space whose ring is the completion `Ô_P`
+of the local ring `𝒪_{X,P}` at its maximal ideal. -/
 theorem formalCompletion_closedPoint_iso :
     Nonempty ((closedPointIdealSubsheaf P hP).formalCompletion ≅
       onePointLocallyRingedSpace (CommRingCat.of
