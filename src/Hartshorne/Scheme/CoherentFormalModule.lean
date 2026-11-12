@@ -32,8 +32,9 @@ is a plain sheaf of rings and `F` is a plain sheaf of modules; no topology is pu
   `X.restrict h`.
 * `Hartshorne.IsCoherentFormalModule F`: `F` is a coherent module on the Noetherian formal
   scheme.
-* `Hartshorne.IsCoherentFormalModule.of_iso`: coherence is invariant under isomorphisms of
+* `Hartshorne.IsCoherentFormalModule.of_iso`: coherence transports along an isomorphism of
   modules.
+* `Hartshorne.IsCoherentFormalModule.iso_iff`: the corresponding iff.
 
 The transport of the completion `F̂ᵢ`, a module over the structure sheaf of `X̂ᵢ`, to `Uᵢ` along a
 chart `eᵢ : Uᵢ ≅ X̂ᵢ` is its pushforward along the inverse isomorphism `eᵢ⁻¹ : X̂ᵢ ⟶ Uᵢ`.
@@ -96,8 +97,8 @@ def IsCoherentFormalModule {X : NoetherianFormalScheme.{u}}
         Nonempty ((structureModuleRestrict X.toLocallyRingedSpace (U i).isOpenEmbedding).obj F ≅
           (structureModulePushforward e.inv).obj (I.moduleCompletion G))
 
-/-- Coherence of a module on a Noetherian formal scheme is invariant under isomorphisms of
-modules. -/
+/-- Coherence of a module on a Noetherian formal scheme transports along an isomorphism
+`F ≅ F'`. -/
 theorem IsCoherentFormalModule.of_iso {X : NoetherianFormalScheme.{u}}
     {F F' : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace)} (φ : F ≅ F')
     (hF : IsCoherentFormalModule F) : IsCoherentFormalModule F' := by
@@ -107,8 +108,8 @@ theorem IsCoherentFormalModule.of_iso {X : NoetherianFormalScheme.{u}}
   exact ⟨Y, hY, I, e, G, hG,
     ⟨((structureModuleRestrict X.toLocallyRingedSpace (U i).isOpenEmbedding).mapIso φ).symm ≪≫ ψ⟩⟩
 
-/-- Coherence of a module on a Noetherian formal scheme is invariant under isomorphisms of
-modules. -/
+/-- Coherence of a module on a Noetherian formal scheme is invariant under isomorphism: if
+`F ≅ F'`, then `F` is coherent iff `F'` is. -/
 theorem IsCoherentFormalModule.iso_iff {X : NoetherianFormalScheme.{u}}
     {F F' : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace)} (φ : F ≅ F') :
     IsCoherentFormalModule F ↔ IsCoherentFormalModule F' :=
