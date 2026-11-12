@@ -2,6 +2,7 @@
 article_id: af_30bc344df7c12848051dfc69
 declaration: theorem
 origin: cited
+lean: Hartshorne.QuasiCoherentGradedAlgebra.lineBundleTwist Hartshorne.QuasiCoherentGradedAlgebra.lineBundleTwistIso Hartshorne.QuasiCoherentGradedAlgebra.lineBundleTwistIso_hom_relProjToBase Hartshorne.QuasiCoherentGradedAlgebra.nonempty_relTwistingSheaf_one_iso AlgebraicGeometry.Scheme.Modules.tensorPowerIsoSymmetricPower
 ---
 
 # Twisting a graded algebra by a line bundle
