@@ -259,6 +259,181 @@ def symm (e : BundleIso G G') : BundleIso G' G where
 
 end BundleIso
 
+/-! ### Invariance of the sheaf of sections -/
+
+section Sections
+
+open Hartshorne Hartshorne.Ringed
+
+/-- A chart lift is determined by its two defining properties. -/
+lemma chartLift_eq_of (G : GeometricVectorBundle f n) (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i)
+    (s : V.toScheme ⟶ X) (hs : s ≫ f = V.ι) (t : V.toScheme ⟶ 𝔸(ULift.{u} (Fin n); V))
+    (h₁ : t ≫ AffineSpace.map _ (Y.homOfLE hi) ≫ G.chart i = s)
+    (h₂ : t ≫ 𝔸(ULift.{u} (Fin n); V) ↘ V = 𝟙 _) : G.chartLift i hi s hs = t := by
+  refine (AffineSpace.isPullback_map (Y.homOfLE hi)).hom_ext ?_ ?_
+  · rw [← cancel_mono ((G.ψ i).inv ≫ (f ⁻¹ᵁ G.U i).ι), Category.assoc, G.chartLift_map,
+      Category.assoc]
+    exact h₁.symm
+  · rw [chartLift_over, h₂]
+
+section SameBase
+
+variable (G₁ G₂ : GeometricVectorBundle f n)
+
+/-- If the chart coordinates of `G₁` are additive for the addition of sections defined by `G₂`,
+the two additions agree. -/
+lemma secAdd_eq_of_coordY
+    (hadd : ∀ (i : G₁.ι) {V : Y.Opens} (hi : V ≤ G₁.U i) (s t : (sectionsPresheaf f).obj (op V)),
+      G₁.coordY i hi (G₂.secAdd s t) = G₁.coordY i hi s + G₁.coordY i hi t)
+    {W : Y.Opens} (s t : (sectionsPresheaf f).obj (op W)) : G₂.secAdd s t = G₁.secAdd s t := by
+  refine G₁.coords_injective W (funext fun p => ?_)
+  rw [coords_secAdd, Pi.add_apply]
+  let _ := G₂.addCommGroupSections W
+  let _ := G₂.addCommGroupSections (p.V : Y.Opens)
+  have h : (sectionsPresheaf f).map (homOfLE p.hW).op (G₂.secAdd s t) =
+      G₂.secAdd ((sectionsPresheaf f).map (homOfLE p.hW).op s)
+        ((sectionsPresheaf f).map (homOfLE p.hW).op t) :=
+    (G₂.resHom (homOfLE p.hW).op).map_add s t
+  rw [coords, h, hadd]
+  rfl
+
+/-- If the chart coordinates of `G₁` are linear for the multiplication of sections by functions
+defined by `G₂`, the two multiplications agree. -/
+lemma secSmul_eq_of_coordY
+    (hsmul : ∀ (i : G₁.ι) {V : Y.Opens} (hi : V ≤ G₁.U i) (r : Γ(Y, V))
+      (s : (sectionsPresheaf f).obj (op V)), G₁.coordY i hi (G₂.secSmul r s) = r • G₁.coordY i hi s)
+    {W : Y.Opens} (r : Γ(Y, W)) (s : (sectionsPresheaf f).obj (op W)) :
+    G₂.secSmul r s = G₁.secSmul r s := by
+  refine G₁.coords_injective W (funext fun p => ?_)
+  rw [coords_secSmul, coords, G₂.resHom_smul, hsmul]
+  rfl
+
+/-- Two bundle structures on the same `f` such that the chart coordinates of `G₁` are linear for
+the operations of `G₂` define the same `𝒪_Y`-module of sections. -/
+def sectionsModuleIsoOfCoordY
+    (hadd : ∀ (i : G₁.ι) {V : Y.Opens} (hi : V ≤ G₁.U i) (s t : (sectionsPresheaf f).obj (op V)),
+      G₁.coordY i hi (G₂.secAdd s t) = G₁.coordY i hi s + G₁.coordY i hi t)
+    (hsmul : ∀ (i : G₁.ι) {V : Y.Opens} (hi : V ≤ G₁.U i) (r : Γ(Y, V))
+      (s : (sectionsPresheaf f).obj (op V)), G₁.coordY i hi (G₂.secSmul r s) = r • G₁.coordY i hi s) :
+    G₂.sectionsModule ≅ G₁.sectionsModule :=
+  let φ : G₂.sectionsModule ⟶ G₁.sectionsModule := modulesHomMk (R := Y.sheaf)
+    (fun W =>
+      { toFun := fun s => (s : (sectionsPresheaf f).obj (op W))
+        map_add' := fun s t => secAdd_eq_of_coordY G₁ G₂ hadd s t
+        map_smul' := fun r s => secSmul_eq_of_coordY G₁ G₂ hsmul r s })
+    (fun _ _ _ _ => rfl)
+  haveI : IsIso φ := modules_isIso_of_locally_bijective _ fun _ =>
+    ⟨⊤, _root_.trivial, fun _ _ => Function.bijective_id⟩
+  asIso φ
+
+end SameBase
+
+/-- The sheaf of sections of a bundle structure agrees with that of its union with a compatible
+one. -/
+def unionSectionsModuleIsoLeft (G G'' : GeometricVectorBundle f n) (h : Compatible G G'') :
+    (union G G'' h).sectionsModule ≅ G.sectionsModule :=
+  sectionsModuleIsoOfCoordY G (union G G'' h)
+    (fun i _ hi s t => (union G G'' h).coordY_secAdd (.inl i) hi s t)
+    (fun i _ hi r s => (union G G'' h).coordY_secSmul (.inl i) hi r s)
+
+/-- The sheaf of sections of a bundle structure agrees with that of its union with a compatible
+one. -/
+def unionSectionsModuleIsoRight (G G'' : GeometricVectorBundle f n) (h : Compatible G G'') :
+    (union G G'' h).sectionsModule ≅ G''.sectionsModule :=
+  sectionsModuleIsoOfCoordY G'' (union G G'' h)
+    (fun j _ hj s t => (union G G'' h).coordY_secAdd (.inr j) hj s t)
+    (fun j _ hj r s => (union G G'' h).coordY_secSmul (.inr j) hj r s)
+
+section Transport
+
+variable (G' : GeometricVectorBundle f' n) (g : X ≅ X') (hg : g.hom ≫ f' = f)
+
+/-- The section `g ∘ s` of `f'` for a section `s` of `f`. -/
+def pushSection {V : Y.Opens} (s : (sectionsPresheaf f).obj (op V)) :
+    (sectionsPresheaf f').obj (op V) :=
+  ⟨s.1 ≫ g.hom, by rw [Category.assoc, hg, s.2]⟩
+
+lemma pushSection_map {V V' : Y.Opens} (i : op V ⟶ op V') (s : (sectionsPresheaf f).obj (op V)) :
+    pushSection g hg ((sectionsPresheaf f).map i s) =
+      (sectionsPresheaf f').map i (pushSection g hg s) :=
+  Subtype.ext (Category.assoc _ _ _)
+
+lemma transport_chartLift (j : G'.ι) {V : Y.Opens} (hj : V ≤ G'.U j) (s : V.toScheme ⟶ X)
+    (hs : s ≫ f = V.ι) (hs' : (s ≫ g.hom) ≫ f' = V.ι) :
+    (G'.transport g hg).chartLift j hj s hs = G'.chartLift j hj (s ≫ g.hom) hs' := by
+  refine chartLift_eq_of (G'.transport g hg) j hj s hs (G'.chartLift j hj (s ≫ g.hom) hs') ?_
+    (G'.chartLift_over j hj (s ≫ g.hom) hs')
+  have h := G'.chartLift_map j hj (s ≫ g.hom) hs'
+  have e := transport_chart G' g hg j
+  simp only [chart] at e
+  simp only [chart]
+  rw [e]
+  simp only [Category.assoc]
+  rw [reassoc_of% h, Iso.hom_inv_id, Category.comp_id]
+
+lemma transport_coordY (j : G'.ι) {V : Y.Opens} (hj : V ≤ G'.U j)
+    (s : (sectionsPresheaf f).obj (op V)) :
+    (G'.transport g hg).coordY j hj s = G'.coordY j hj (pushSection g hg s) := by
+  funext k
+  simp only [coordY, chartCoord]
+  rw [transport_chartLift G' g hg j hj s.1 s.2 (pushSection g hg s).2]
+  rfl
+
+lemma coords_pushSection {W : Y.Opens} (s : (sectionsPresheaf f).obj (op W))
+    (p : G'.ChartPiece W) :
+    G'.coords (pushSection g hg s) p =
+      (G'.transport g hg).coordY p.i p.hi ((sectionsPresheaf f).map (homOfLE p.hW).op s) := by
+  rw [coords, transport_coordY, pushSection_map]
+
+lemma pushSection_secAdd {W : Y.Opens} (s t : (sectionsPresheaf f).obj (op W)) :
+    pushSection g hg ((G'.transport g hg).secAdd s t) =
+      G'.secAdd (pushSection g hg s) (pushSection g hg t) := by
+  refine G'.coords_injective W (funext fun p => ?_)
+  rw [coords_secAdd, Pi.add_apply, coords_pushSection, coords_pushSection, coords_pushSection,
+    coordY_map_secAdd]
+
+lemma pushSection_secSmul {W : Y.Opens} (r : Γ(Y, W)) (s : (sectionsPresheaf f).obj (op W)) :
+    pushSection g hg ((G'.transport g hg).secSmul r s) =
+      G'.secSmul r (pushSection g hg s) := by
+  refine G'.coords_injective W (funext fun p => ?_)
+  rw [coords_secSmul]
+  dsimp only
+  rw [coords_pushSection, coords_pushSection, coordY_map_secSmul]
+
+lemma pushSection_bijective (W : Y.Opens) :
+    Function.Bijective (pushSection (V := W) g hg) := by
+  have hg' : g.inv ≫ f = f' := (Iso.inv_comp_eq g).mpr hg.symm
+  refine Function.bijective_iff_has_inverse.mpr ⟨pushSection g.symm hg', fun s => ?_, fun s => ?_⟩
+  · exact Subtype.ext (by simp [pushSection])
+  · exact Subtype.ext (by simp [pushSection])
+
+/-- **The sections of the transported bundle structure**: `s ↦ g ∘ s` is an isomorphism of
+`𝒪_Y`-modules from the sheaf of sections of `X` with the trivializations `ψ'_j ∘ g` to the sheaf
+of sections of `X'`. -/
+def transportSectionsModuleIso :
+    (G'.transport g hg).sectionsModule ≅ G'.sectionsModule :=
+  let φ : (G'.transport g hg).sectionsModule ⟶ G'.sectionsModule := modulesHomMk (R := Y.sheaf)
+    (fun W =>
+      { toFun := fun s => pushSection g hg (s : (sectionsPresheaf f).obj (op W))
+        map_add' := fun s t => pushSection_secAdd G' g hg s t
+        map_smul' := fun r s => pushSection_secSmul G' g hg r s })
+    (fun _ _ i s => pushSection_map g hg (homOfLE i).op s)
+  haveI : IsIso φ := modules_isIso_of_locally_bijective _ fun _ =>
+    ⟨⊤, _root_.trivial, fun W _ => pushSection_bijective g hg W⟩
+  asIso φ
+
+end Transport
+
+/-- **Isomorphic geometric vector bundles have isomorphic sheaves of sections** (Hartshorne II,
+Exercise 5.18): an isomorphism `g` of geometric vector bundles induces the isomorphism
+`s ↦ g ∘ s` of their sheaves of sections as `𝒪_Y`-modules. -/
+def BundleIso.sectionsModuleIso {G : GeometricVectorBundle f n} {G' : GeometricVectorBundle f' n}
+    (e : BundleIso G G') : G.sectionsModule ≅ G'.sectionsModule :=
+  (unionSectionsModuleIsoLeft G _ e.compatible).symm ≪≫
+    unionSectionsModuleIsoRight G _ e.compatible ≪≫ transportSectionsModuleIso G' e.iso e.over
+
+end Sections
+
 end GeometricVectorBundle
 
 end
