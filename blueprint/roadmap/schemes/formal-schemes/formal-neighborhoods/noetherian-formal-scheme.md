@@ -2,6 +2,7 @@
 article_id: af_a0c8794b480b1073153416e2
 declaration: structure
 origin: cited
+lean: Hartshorne.NoetherianFormalScheme Hartshorne.IsNoetherianFormalScheme Hartshorne.IsNoetherianFormalScheme.of_iso Hartshorne.NoetherianFormalScheme.category
 ---
 
 # Noetherian formal schemes
