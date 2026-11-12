@@ -3,7 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.ReesAlgebraBlowup
-import Hartshorne.Scheme.VeroneseProj
+import Hartshorne.Scheme.VeroneseDuple
 import Hartshorne.Scheme.InfinitesimalNeighborhoods
 import Hartshorne.Scheme.IdealPowerProduct
 
@@ -22,14 +22,11 @@ algebras of `I`: over an affine open `U`, with `J = Γ(U, I)`, the map `p(t) ↦
 with the isomorphism `Proj S ≅ Proj S^{(d)}` of Exercise II.5.13 gives isomorphisms
 `Proj Γ(U, ⨁ₙ Iⁿ) ≅ Proj Γ(U, ⨁ₙ Iⁿᵈ)` over `U` (`projReesPowIso`). They are compatible with
 restriction to basic opens (`projReesPowIso_hom_naturality`, from the naturality of the Veronese
-isomorphism, `Veronese.map_comp_toProj_comp_map`), so they glue to an isomorphism of the relative
-`Proj`s over `X`.
+isomorphism, `Veronese.map_comp_toProj`), so they glue to an isomorphism of the relative `Proj`s
+over `X`.
 
 ## Main definitions and results
 
-* `Veronese.veroneseMap`: the map `S^{(d)} → T^{(d)}` induced by a graded ring map `S → T`.
-* `Veronese.toProj_toSpecZero`, `Veronese.map_comp_toProj_comp_map`: the isomorphism
-  `Proj S ≅ Proj S^{(d)}` commutes with the maps to `Spec S₀` and is natural in `S`.
 * `reesVeronese`, `reesVeroneseInv`, `projReesVeroneseIso`: for `K = Jᵈ`, the graded ring
   isomorphism `⨁ₙ Kⁿ tⁿ ≅ (⨁ₙ Jⁿ tⁿ)^{(d)}` and the induced isomorphism of `Proj`s.
 * `QuasicoherentIdealSubsheaf.isCoherent_pow`: on a Noetherian scheme, `Iᵏ` is coherent.
@@ -40,122 +37,14 @@ isomorphism, `Veronese.map_comp_toProj_comp_map`), so they glue to an isomorphis
 noncomputable section
 
 open CategoryTheory CategoryTheory.Limits
-open HomogeneousIdeal HomogeneousLocalization
-open AlgebraicGeometry Graded
+open HomogeneousIdeal
+open AlgebraicGeometry
 
 universe u
 
 namespace Hartshorne
 
-namespace Veronese
-
-section Naturality
-
-variable {A B C σ τ ψ : Type u} [CommRing A] [CommRing B] [CommRing C]
-  [SetLike σ A] [AddSubgroupClass σ A] [SetLike τ B] [AddSubgroupClass τ B]
-  [SetLike ψ C] [AddSubgroupClass ψ C]
-  {𝒜 : ℕ → σ} {ℬ : ℕ → τ} {𝒞 : ℕ → ψ} [GradedRing 𝒜] [GradedRing ℬ] [GradedRing 𝒞]
-  (d : ℕ)
-
-theorem map_mem_veroneseSubring (φ : 𝒜 →+*ᵍ ℬ) {a : A} (ha : a ∈ veroneseSubring 𝒜 d) :
-    φ a ∈ veroneseSubring ℬ d := by
-  intro i hi
-  rw [← GradedRingHom.map_directSumDecompose, ha i hi, map_zero]
-
-/-- The map `S^{(d)} → T^{(d)}` of Veronese subrings induced by a graded ring map `S → T`. -/
-def veroneseMap (φ : 𝒜 →+*ᵍ ℬ) : veronese 𝒜 d →+*ᵍ veronese ℬ d where
-  toRingHom := (φ.toRingHom.comp (veroneseSubring 𝒜 d).subtype).codRestrict
-    (veroneseSubring ℬ d) fun x => map_mem_veroneseSubring d φ x.2
-  map_mem hx := map_mem φ hx
-
-@[simp] theorem coe_veroneseMap (φ : 𝒜 →+*ᵍ ℬ) (x : veroneseSubring 𝒜 d) :
-    ((veroneseMap d φ x : veroneseSubring ℬ d) : B) = φ (x : A) :=
-  rfl
-
-/-- The identification `S^{(d)}_0 = S_0` of degree-zero parts. -/
-def zeroHom : veronese 𝒜 d 0 →+* 𝒜 0 where
-  toFun x := ⟨((x : veroneseSubring 𝒜 d) : A), by
-    have := mem_veronese_iff.mp x.2
-    rwa [zero_mul] at this⟩
-  map_one' := rfl
-  map_mul' _ _ := rfl
-  map_zero' := rfl
-  map_add' _ _ := rfl
-
-variable [NeZero d]
-
-theorem isIso_awayMap {g : veroneseSubring 𝒜 d} {n : ℕ} (hg : g ∈ veronese 𝒜 d n) :
-    IsIso (CommRingCat.ofHom (awayMap g)) :=
-  (ConcreteCategory.isIso_iff_bijective _).mpr ⟨awayMap_injective g, awayMap_surjective hg⟩
-
-theorem awayMap_fromZeroRingHom (g : veroneseSubring 𝒜 d) (a : veronese 𝒜 d 0) :
-    awayMap g (fromZeroRingHom (veronese 𝒜 d) _ a) = fromZeroRingHom 𝒜 _ (zeroHom d a) := by
-  apply val_injective
-  rw [awayMap, val_hlMap]
-  change IsLocalization.map _ _ _ (Localization.mk _ 1) = Localization.mk _ 1
-  rw [Localization.mk_eq_mk', Localization.mk_eq_mk', IsLocalization.map_mk']
-  rfl
-
-/-- **The Veronese isomorphism commutes with the structure maps to `Spec S₀`.** -/
-@[reassoc] theorem toProj_toSpecZero :
-    toProj d ≫ Proj.toSpecZero (veronese 𝒜 d) =
-      Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (zeroHom d)) := by
-  rw [← cancel_epi (inv (toProj (𝒜 := 𝒜) d)), IsIso.inv_hom_id_assoc]
-  refine (Proj.affineOpenCover (veronese 𝒜 d)).openCover.hom_ext _ _ fun i ↦ ?_
-  obtain ⟨n, g, hg⟩ := i
-  have hn : 0 < (n : ℕ) := n.2
-  change Proj.awayι _ g hg hn ≫ _ = Proj.awayι _ g hg hn ≫ _
-  have := isIso_awayMap d hg
-  rw [← cancel_epi (Spec.map (CommRingCat.ofHom (awayMap g))), Proj.awayι_toSpecZero,
-    ← awayι_comp_toProj_assoc d hn hg, IsIso.hom_inv_id_assoc, Proj.awayι_toSpecZero_assoc,
-    ← Spec.map_comp, ← Spec.map_comp]
-  congr 1
-  ext a : 2
-  exact awayMap_fromZeroRingHom d g a
-
-/-- **Naturality of the Veronese isomorphism.** For graded ring maps `φ : S → T` and
-`θ : R → S^{(d)}`, the square relating `Proj T ⟶ Proj S` and `Proj T^{(d)} ⟶ Proj S^{(d)}` through
-the Veronese isomorphisms commutes, after composing with `Proj S^{(d)} ⟶ Proj R`. -/
-theorem map_comp_toProj_comp_map (φ : 𝒜 →+*ᵍ ℬ) (hφ : ℬ₊ ≤ 𝒜₊.map φ)
-    (θ : 𝒞 →+*ᵍ veronese 𝒜 d) (hθ : (veronese 𝒜 d)₊ ≤ 𝒞₊.map θ)
-    (hχ : (veronese ℬ d)₊ ≤ 𝒞₊.map ((veroneseMap d φ).comp θ)) :
-    Proj.map φ hφ ≫ toProj d ≫ Proj.map θ hθ =
-      toProj d ≫ Proj.map ((veroneseMap d φ).comp θ) hχ := by
-  rw [← cancel_epi (inv (toProj (𝒜 := ℬ) d)), IsIso.inv_hom_id_assoc]
-  refine (Proj.mapAffineOpenCover _ hχ).openCover.hom_ext _ _ fun i ↦ ?_
-  obtain ⟨⟨n, hn⟩, c, hc⟩ := i
-  replace hc : c ∈ 𝒞 n := hc
-  change Proj.awayι (veronese ℬ d) _ (map_mem _ hc) hn ≫ _ =
-    Proj.awayι (veronese ℬ d) _ (map_mem _ hc) hn ≫ _
-  have := isIso_awayMap d (map_mem ((veroneseMap d φ).comp θ) hc)
-  rw [← cancel_epi (Spec.map (CommRingCat.ofHom (awayMap ((veroneseMap d φ).comp θ c)))),
-    ← awayι_comp_toProj_assoc d hn (map_mem _ hc), IsIso.hom_inv_id_assoc,
-    Proj.awayι_comp_map _ hχ hn c hc]
-  have e : Proj.awayι ℬ (((veroneseMap d φ).comp θ c : veroneseSubring ℬ d) : B)
-      (mem_veronese_iff.mp (map_mem _ hc)) (Nat.mul_pos hn (NeZero.pos d)) =
-      Proj.awayι ℬ (φ ((θ c : veroneseSubring 𝒜 d) : A))
-        (map_mem φ (mem_veronese_iff.mp (map_mem θ hc))) (Nat.mul_pos hn (NeZero.pos d)) := rfl
-  rw [e]
-  erw [Proj.awayι_comp_map_assoc φ hφ (Nat.mul_pos hn (NeZero.pos d)) _
-    (mem_veronese_iff.mp (map_mem θ hc))]
-  rw [awayι_comp_toProj_assoc d hn
-    (map_mem θ hc), Proj.awayι_comp_map θ hθ hn c hc, ← Spec.map_comp_assoc,
-    ← Spec.map_comp_assoc, ← Spec.map_comp_assoc]
-  congr 2
-  ext x : 2
-  obtain ⟨k, a, ha, rfl⟩ := Away.mk_surjective 𝒞 hc x
-  simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom, RingHom.comp_apply]
-  rw [Away.map_mk, awayMap_mk, Away.map_mk]
-  change _ = awayMap ((veroneseMap d φ).comp θ c)
-    (Away.map ((veroneseMap d φ).comp θ) c (Away.mk 𝒞 hc k a ha))
-  rw [Away.map_mk, awayMap_mk]
-  rfl
-
-end Naturality
-
-end Veronese
-
-/-! ### Irrelevant ideals under graded maps with a right inverse -/
+/-! ### Irrelevant ideals under graded maps -/
 
 section Irrelevant
 
@@ -172,6 +61,15 @@ theorem irrelevant_le_map_of_rightInverse (f : 𝒜 →+*ᵍ ℬ) (g : ℬ →+*
   refine Ideal.mem_map_of_mem _ ?_
   change GradedRing.proj 𝒜 0 (g x) = 0
   have hx' : GradedRing.proj ℬ 0 x = 0 := hx
+  simp only [GradedRing.proj_apply] at hx' ⊢
+  rw [← GradedRingHom.map_directSumDecompose, hx', map_zero]
+
+/-- A graded ring map sends `𝒜₊` into `ℬ₊`. -/
+theorem map_irrelevant_le (f : 𝒜 →+*ᵍ ℬ) : 𝒜₊.map f ≤ ℬ₊ := by
+  rw [HomogeneousIdeal.map_le_iff_le_comap]
+  intro x hx
+  change GradedRing.proj ℬ 0 (f x) = 0
+  have hx' : GradedRing.proj 𝒜 0 x = 0 := hx
   simp only [GradedRing.proj_apply] at hx' ⊢
   rw [← GradedRingHom.map_directSumDecompose, hx', map_zero]
 
@@ -358,11 +256,11 @@ theorem projReesPowIso_hom_naturality {U V : X.AffineZariskiSite} (f : U ⟶ V) 
     exact Polynomial.map_expand.symm
   have hχ := irrelevant_le_map_comp ((I ^ d).reesAlgebra.irrelevant_le f)
     (I.irrelevant_le_map_reesPowVeronese d U)
-  rw [heq] at hχ
-  rw [projReesPowIso_hom, projReesPowIso_hom]
-  rw [Veronese.map_comp_toProj_comp_map d (I.reesAlgebra.restrict f)
-    (I.reesAlgebra.irrelevant_le f) (I.reesPowVeronese d V)
-    (I.irrelevant_le_map_reesPowVeronese d V) hχ, Category.assoc, ← Proj.map_comp]
+  rw [heq, HomogeneousIdeal.map_comp] at hχ
+  have hφd := hχ.trans (HomogeneousIdeal.map_mono _ (map_irrelevant_le (I.reesPowVeronese d V)))
+  rw [projReesPowIso_hom, projReesPowIso_hom,
+    reassoc_of% (Veronese.map_comp_toProj d (I.reesAlgebra.restrict f)
+      (I.reesAlgebra.irrelevant_le f) hφd), ← Proj.map_comp, Category.assoc, ← Proj.map_comp]
   congr 2
   exact heq.symm
 
@@ -373,7 +271,7 @@ theorem projReesPowIso_hom_projToSpec (U : X.AffineZariskiSite) :
       Spec.map ((I ^ d).reesAlgebra.toZero U) =
     Proj.toSpecZero _ ≫ Spec.map (I.reesAlgebra.toZero U)
   have h1 := projMap_toSpecZero (I.reesPowVeronese d U) (I.irrelevant_le_map_reesPowVeronese d U)
-  have h2 := Veronese.toProj_toSpecZero (𝒜 := I.reesAlgebra.grading U) d
+  have h2 := Veronese.toProj_comp_toSpecZero (𝒜 := I.reesAlgebra.grading U) (d := d)
   rw [Category.assoc]
   erw [reassoc_of% h1]
   erw [reassoc_of% h2]
