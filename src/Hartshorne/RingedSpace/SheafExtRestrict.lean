@@ -19,7 +19,8 @@ restriction `F ↦ F|_U` (`Hartshorne.Ringed.moduleRestrict`) sends `𝒪_X`-mod
 
 `ℋom_X(F, G)|_U ≅ ℋom_U(F|_U, G|_U)`, natural in `G` (`Hartshorne.Ringed.homRestrictIso`),
 
-`ℰxtⁿ_X(F, G)|_U ≅ ℰxtⁿ_U(F|_U, G|_U)` (`Hartshorne.Ringed.sheafExtRestrictIso`).
+`ℰxtⁿ_X(F, G)|_U ≅ ℰxtⁿ_U(F|_U, G|_U)`, natural in `G` (`Hartshorne.Ringed.sheafExtRestrictIso`,
+`Hartshorne.Ringed.sheafExtRestrictIso_hom_naturality`, `Hartshorne.Ringed.sheafExtRestrictNatIso`).
 
 ## Proof
 
@@ -34,6 +35,12 @@ Lemma 6.1, `Hartshorne.injective_moduleSheafRestrict_obj`). Hence it carries an 
 resolution `G ⟶ I^•` to an injective resolution of `G|_U`, and commutes with taking cohomology
 sheaves, so that `ℰxtⁿ_X(F, G)|_U = hⁿ(ℋom_X(F, I^•))|_U ≅ hⁿ(ℋom_U(F|_U, I^•|_U)) ≅
 ℰxtⁿ_U(F|_U, G|_U)`.
+
+This is an instance of a general statement (`Hartshorne.RightDerivedComp.rightDerivedCompIso`):
+for an exact functor `Φ` between abelian categories preserving injectives and an isomorphism
+`H ⋙ Φ ≅ Φ ⋙ H'`, `Φ(RⁿH(G)) ≅ RⁿH'(Φ(G))` naturally in `G`
+(`Hartshorne.RightDerivedComp.rightDerivedCompIso_hom_naturality`). Naturality is proved for a
+morphism `G ⟶ G'` through a chain map of injective resolutions lying over it.
 -/
 
 universe u
@@ -41,6 +48,128 @@ universe u
 open CategoryTheory Opposite TopologicalSpace Limits
 
 namespace Hartshorne
+
+namespace RightDerivedComp
+
+variable {C D : Type*} [Category C] [Category D] [Abelian C] [Abelian D]
+  (Φ : C ⥤ D) [Φ.Additive] [Φ.PreservesHomology]
+
+/-- For a functor `Φ` between abelian categories preserving homology, taking the homology of a
+complex in degree `n` commutes with applying `Φ`, naturally in the complex. -/
+noncomputable def homologyFunctorCompNatIso {ι : Type*} (c : ComplexShape ι) (n : ι) :
+    HomologicalComplex.homologyFunctor C c n ⋙ Φ ≅
+      Φ.mapHomologicalComplex c ⋙ HomologicalComplex.homologyFunctor D c n :=
+  NatIso.ofComponents (fun K => ((K.sc n).mapHomologyIso Φ).symm)
+    (fun φ => ShortComplex.mapHomologyIso_inv_naturality
+      ((HomologicalComplex.shortComplexFunctor C c n).map φ) Φ)
+
+variable {Φ} (hΦ : ∀ I : C, Injective I → Injective (Φ.obj I))
+
+/-- The image of an injective resolution under an exact functor preserving injective objects. -/
+noncomputable abbrev mapInjectiveResolution {G : C} (I : InjectiveResolution G) :
+    InjectiveResolution (Φ.obj G) where
+  cocomplex := (Φ.mapHomologicalComplex _).obj I.cocomplex
+  injective n := hΦ _ (I.injective n)
+  ι := (HomologicalComplex.singleMapHomologicalComplex Φ _ 0).inv.app G ≫
+    (Φ.mapHomologicalComplex _).map I.ι
+  quasiIso := inferInstance
+
+variable [HasInjectiveResolutions C] [HasInjectiveResolutions D]
+  {H : C ⥤ C} [H.Additive] {H' : D ⥤ D} [H'.Additive] (e : H ⋙ Φ ≅ Φ ⋙ H')
+
+/-- Given `H ⋙ Φ ≅ Φ ⋙ H'` with `Φ` preserving homology, `Φ(hⁿ(H(K))) ≅ hⁿ(H'(Φ(K)))`,
+naturally in the cochain complex `K`. -/
+noncomputable def homologyCompIso (n : ℕ) :
+    H.mapHomologicalComplex (ComplexShape.up ℕ) ⋙
+        HomologicalComplex.homologyFunctor C _ n ⋙ Φ ≅
+      Φ.mapHomologicalComplex (ComplexShape.up ℕ) ⋙
+        H'.mapHomologicalComplex (ComplexShape.up ℕ) ⋙ HomologicalComplex.homologyFunctor D _ n :=
+  Functor.isoWhiskerLeft _ (homologyFunctorCompNatIso Φ _ n) ≪≫
+    (Functor.associator _ _ _).symm ≪≫
+    Functor.isoWhiskerRight (Functor.mapHomologicalComplexCompIso (Iso.refl _) _ ≪≫
+      NatIso.mapHomologicalComplex e _ ≪≫
+      (Functor.mapHomologicalComplexCompIso (Iso.refl _) _).symm) _ ≪≫
+    Functor.associator _ _ _
+
+/-- **Right derived functors commute with an exact functor preserving injectives.** If `Φ`
+preserves homology and injective objects and `H ⋙ Φ ≅ Φ ⋙ H'`, then `Φ(RⁿH(G)) ≅ RⁿH'(Φ(G))`:
+apply `Φ` to an injective resolution of `G`. -/
+noncomputable def rightDerivedCompIso (G : C) (n : ℕ) :
+    Φ.obj ((H.rightDerived n).obj G) ≅ (H'.rightDerived n).obj (Φ.obj G) :=
+  Φ.mapIso ((injectiveResolution G).isoRightDerivedObj H n) ≪≫
+    (homologyCompIso e n).app (injectiveResolution G).cocomplex ≪≫
+    ((mapInjectiveResolution hΦ (injectiveResolution G)).isoRightDerivedObj H' n).symm
+
+/-- The isomorphism `Φ(RⁿH(G)) ≅ RⁿH'(Φ(G))` is natural in `G`. -/
+lemma rightDerivedCompIso_hom_naturality {G G' : C} (g : G ⟶ G') (n : ℕ) :
+    Φ.map ((H.rightDerived n).map g) ≫ (rightDerivedCompIso hΦ e G' n).hom =
+      (rightDerivedCompIso hΦ e G n).hom ≫ (H'.rightDerived n).map (Φ.map g) := by
+  have h1 := InjectiveResolution.isoRightDerivedObj_hom_naturality g (injectiveResolution G)
+    (injectiveResolution G') (InjectiveResolution.desc g _ _)
+    (InjectiveResolution.desc_commutes_zero g _ _) H n
+  have h2 := (homologyCompIso e n).hom.naturality
+    (InjectiveResolution.desc g (injectiveResolution G') (injectiveResolution G))
+  have hcc : (mapInjectiveResolution hΦ (injectiveResolution G)).ι ≫
+      (Φ.mapHomologicalComplex _).map
+        (InjectiveResolution.desc g (injectiveResolution G') (injectiveResolution G)) =
+      (CochainComplex.single₀ D).map (Φ.map g) ≫
+        (mapInjectiveResolution hΦ (injectiveResolution G')).ι := by
+    simp only [mapInjectiveResolution, Category.assoc, ← Functor.map_comp,
+      InjectiveResolution.desc_commutes]
+    rw [Functor.map_comp, ← Category.assoc, ← Category.assoc]
+    exact congrArg (· ≫ _)
+      ((HomologicalComplex.singleMapHomologicalComplex Φ _ 0).inv.naturality g).symm
+  have hc : (mapInjectiveResolution hΦ (injectiveResolution G)).ι.f 0 ≫
+      ((Φ.mapHomologicalComplex _).map
+        (InjectiveResolution.desc g (injectiveResolution G') (injectiveResolution G))).f 0 =
+      Φ.map g ≫ (mapInjectiveResolution hΦ (injectiveResolution G')).ι.f 0 := by
+    rw [← HomologicalComplex.comp_f, hcc, HomologicalComplex.comp_f,
+      CochainComplex.single₀_map_f_zero]
+    rfl
+  have h4 := InjectiveResolution.isoRightDerivedObj_hom_naturality (Φ.map g)
+    (mapInjectiveResolution hΦ (injectiveResolution G))
+    (mapInjectiveResolution hΦ (injectiveResolution G'))
+    ((Φ.mapHomologicalComplex _).map
+      (InjectiveResolution.desc g (injectiveResolution G') (injectiveResolution G)))
+    hc H' n
+  have h4' := (Iso.inv_comp_eq _).2 (((Iso.eq_comp_inv _).2 h4).trans (Category.assoc _ _ _))
+  simp only [rightDerivedCompIso, Iso.trans_hom, Functor.mapIso_hom, Iso.app_hom,
+    Iso.symm_hom, Category.assoc]
+  rw [← Functor.map_comp_assoc, h1, Functor.map_comp_assoc]
+  refine congrArg (_ ≫ ·) ?_
+  rw [← Category.assoc]
+  erw [h2]
+  rw [Category.assoc]
+  exact congrArg (_ ≫ ·) h4'.symm
+
+/-- The isomorphism `Φ(E(G)) ≅ E'(Φ(G))` for functors `E` and `E'` equal to `RⁿH` and `RⁿH'`.
+Stating it for such `E`, `E'` (for instance `ℰxtⁿ(F, -)`, defined as a right derived functor)
+keeps its type free of the unfolding of `E`. -/
+noncomputable def rightDerivedCompIsoOf (n : ℕ) (E : C ⥤ C) (hE : H.rightDerived n = E)
+    (E' : D ⥤ D) (hE' : H'.rightDerived n = E') (G : C) :
+    Φ.obj (E.obj G) ≅ E'.obj (Φ.obj G) := by
+  subst hE hE'
+  exact rightDerivedCompIso hΦ e G n
+
+/-- The isomorphism `Φ(E(G)) ≅ E'(Φ(G))` is natural in `G`. -/
+lemma rightDerivedCompIsoOf_hom_naturality (n : ℕ) (E : C ⥤ C) (hE : H.rightDerived n = E)
+    (E' : D ⥤ D) (hE' : H'.rightDerived n = E') {G G' : C} (g : G ⟶ G') :
+    Φ.map (E.map g) ≫ (rightDerivedCompIsoOf hΦ e n E hE E' hE' G').hom =
+      (rightDerivedCompIsoOf hΦ e n E hE E' hE' G).hom ≫ E'.map (Φ.map g) := by
+  subst hE hE'
+  exact rightDerivedCompIso_hom_naturality hΦ e g n
+
+/-- Naturality of any family of isomorphisms `Φ(E(G)) ≅ E'(Φ(G))` equal to
+`rightDerivedCompIsoOf`; stated for such a family so that a definition by `rightDerivedCompIsoOf`
+is compared with it by unfolding the definition only. -/
+lemma hom_naturality_of_eq (n : ℕ) (E : C ⥤ C) (hE : H.rightDerived n = E)
+    (E' : D ⥤ D) (hE' : H'.rightDerived n = E') (iso : ∀ G, Φ.obj (E.obj G) ≅ E'.obj (Φ.obj G))
+    (hiso : ∀ G, iso G = rightDerivedCompIsoOf hΦ e n E hE E' hE' G) {G G' : C} (g : G ⟶ G') :
+    Φ.map (E.map g) ≫ (iso G').hom = (iso G).hom ≫ E'.map (Φ.map g) := by
+  rw [hiso, hiso]
+  exact rightDerivedCompIsoOf_hom_naturality hΦ e n E hE E' hE' g
+
+end RightDerivedComp
 
 namespace Ringed
 
@@ -301,34 +430,37 @@ section Ext
 
 attribute [local instance 2000] Abelian.toPreadditive
 
-variable {U}
-
-/-- The restriction to `U` of an injective resolution of `G` is an injective resolution of
-`G|_U`. -/
-noncomputable abbrev restrictInjectiveResolution {G : SheafOfModules.{u} (ringCatSheafOf R)}
-    (I : InjectiveResolution G) : InjectiveResolution ((moduleRestrict U).obj G) where
-  cocomplex := ((moduleRestrict U).mapHomologicalComplex _).obj I.cocomplex
-  injective n := injective_moduleSheafRestrict_obj U (ringCatSheafOf R) (I.cocomplex.X n)
-  ι := (HomologicalComplex.singleMapHomologicalComplex (moduleRestrict U) _ 0).inv.app G ≫
-    ((moduleRestrict U).mapHomologicalComplex _).map I.ι
-  quasiIso := inferInstance
-
-variable (U)
-
 /-- **Sheaf Ext restricts to open subsets** (Hartshorne III.6, Proposition 6.2):
-`ℰxtⁿ_X(F, G)|_U ≅ ℰxtⁿ_U(F|_U, G|_U)`. -/
+`ℰxtⁿ_X(F, G)|_U ≅ ℰxtⁿ_U(F|_U, G|_U)`. Restriction to `U` is exact and preserves injectives, so
+it carries an injective resolution `G ⟶ I^•` to one of `G|_U`, and `ℋom_X(F, I^•)|_U` is
+`ℋom_U(F|_U, I^•|_U)`. -/
 noncomputable def sheafExtRestrictIso (F G : SheafOfModules.{u} (ringCatSheafOf R)) (n : ℕ) :
     (moduleRestrict U).obj ((sheafExt F n).obj G) ≅
       (sheafExt ((moduleRestrict U).obj F) n).obj ((moduleRestrict U).obj G) :=
-  let I := injectiveResolution G
-  let K := ((moduleSheafHomFunctor F).mapHomologicalComplex _).obj I.cocomplex
-  (moduleRestrict U).mapIso (sheafExtIsoHomology F I n) ≪≫
-    ((K.sc n).mapHomologyIso (moduleRestrict U)).symm ≪≫
-    (HomologicalComplex.homologyFunctor _ _ n).mapIso
-      ((Functor.mapHomologicalComplexCompIso (Iso.refl _) _).app I.cocomplex ≪≫
-        (NatIso.mapHomologicalComplex (homRestrictIso U F) _).app I.cocomplex ≪≫
-        ((Functor.mapHomologicalComplexCompIso (Iso.refl _) _).app I.cocomplex).symm) ≪≫
-    (sheafExtIsoHomology _ (restrictInjectiveResolution I) n).symm
+  RightDerivedComp.rightDerivedCompIsoOf (Φ := moduleRestrict U) (H := moduleSheafHomFunctor F)
+    (H' := moduleSheafHomFunctor ((moduleRestrict U).obj F))
+    (fun I _ => injective_moduleSheafRestrict_obj U (ringCatSheafOf R) I) (homRestrictIso U F) n
+    (sheafExt F n) (sheafExt_eq F n).symm (sheafExt ((moduleRestrict U).obj F) n)
+    (sheafExt_eq _ n).symm G
+
+/-- The isomorphism `ℰxtⁿ_X(F, G)|_U ≅ ℰxtⁿ_U(F|_U, G|_U)` is natural in `G`. -/
+theorem sheafExtRestrictIso_hom_naturality (F : SheafOfModules.{u} (ringCatSheafOf R))
+    {G G' : SheafOfModules.{u} (ringCatSheafOf R)} (g : G ⟶ G') (n : ℕ) :
+    (moduleRestrict U).map ((sheafExt F n).map g) ≫ (sheafExtRestrictIso U F G' n).hom =
+      (sheafExtRestrictIso U F G n).hom ≫
+        (sheafExt ((moduleRestrict U).obj F) n).map ((moduleRestrict U).map g) :=
+  RightDerivedComp.hom_naturality_of_eq (Φ := moduleRestrict U)
+    (H := moduleSheafHomFunctor F) (H' := moduleSheafHomFunctor ((moduleRestrict U).obj F))
+    (fun I _ => injective_moduleSheafRestrict_obj U (ringCatSheafOf R) I) (homRestrictIso U F) n
+    (sheafExt F n) (sheafExt_eq F n).symm (sheafExt ((moduleRestrict U).obj F) n)
+    (sheafExt_eq _ n).symm (fun G => sheafExtRestrictIso U F G n) (fun _ => rfl) g
+
+/-- **Sheaf Ext restricts to open subsets, naturally** (Hartshorne III.6, Proposition 6.2):
+`ℰxtⁿ_X(F, -)|_U ≅ ℰxtⁿ_U(F|_U, (-)|_U)` as functors of `G`. -/
+noncomputable def sheafExtRestrictNatIso (F : SheafOfModules.{u} (ringCatSheafOf R)) (n : ℕ) :
+    sheafExt F n ⋙ moduleRestrict U ≅ moduleRestrict U ⋙ sheafExt ((moduleRestrict U).obj F) n :=
+  NatIso.ofComponents (fun G => sheafExtRestrictIso U F G n)
+    (fun g => sheafExtRestrictIso_hom_naturality U F g n)
 
 end Ext
 
