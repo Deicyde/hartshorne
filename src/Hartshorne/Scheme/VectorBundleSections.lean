@@ -17,6 +17,16 @@ For a morphism `f : X ⟶ Y` and an open `U ⊆ Y`, a *section of `f` over `U`* 
 with restriction along inclusions of opens (`sectionsPresheaf f`); it is a sheaf
 (`isSheaf_sectionsPresheaf`), since morphisms of schemes glue along open covers.
 
+## Chart coordinates
+
+For a geometric vector bundle `G : GeometricVectorBundle f n` and an open `V ⊆ U_i`, a section `s`
+over `V` has coordinates `GeometricVectorBundle.chartCoord i hi s hs ∈ Γ(V, 𝒪)ⁿ`, those of
+`ψ_i ∘ s : V ⟶ 𝔸ⁿ_V`. They identify the sections over `V` with `Γ(V, 𝒪)ⁿ`
+(`chartCoord_bijective`), are compatible with restriction (`chartCoord_restrict`), and on an affine
+`V ⊆ U_i ∩ U_j` the coordinates in the two charts differ by a matrix over `Γ(V, 𝒪)`
+(`exists_chartCoord_transition`, from the linearity of the transition automorphisms). This is the
+local linear structure of `𝒮(X/Y)`.
+
 ## Sections of a relative spectrum
 
 For a quasi-coherent `𝒪_Y`-algebra `A` and an affine open `U ⊆ Y`, the sections of
@@ -240,6 +250,177 @@ lemma restriction_equiv {U V : Y.AffineZariskiSite} (h : U.toOpens ≤ V.toOpens
 end RelSpecSections
 
 /-! ### Sections of `V(E)` and the dual `E^∨` -/
+
+/-! ### Chart coordinates of sections of a geometric vector bundle -/
+
+namespace GeometricVectorBundle
+
+variable {f : X ⟶ Y} {n : ℕ} (G : GeometricVectorBundle f n)
+
+private lemma range_subset_preimage {i : G.ι} {V : Y.Opens} (hi : V ≤ G.U i)
+    (s : V.toScheme ⟶ X) (hs : s ≫ f = V.ι) :
+    Set.range s ⊆ Set.range (f ⁻¹ᵁ G.U i).ι := by
+  rintro _ ⟨x, rfl⟩
+  refine ⟨⟨s x, ?_⟩, rfl⟩
+  change (s ≫ f) x ∈ G.U i
+  rw [hs]
+  exact hi x.2
+
+/-- The restriction `V ⟶ f⁻¹(U_i)` of a section `s` of `f` over an open `V ⊆ U_i`. -/
+private def toPreimage {i : G.ι} {V : Y.Opens} (hi : V ≤ G.U i) (s : V.toScheme ⟶ X)
+    (hs : s ≫ f = V.ι) : V.toScheme ⟶ (f ⁻¹ᵁ G.U i).toScheme :=
+  IsOpenImmersion.lift (f ⁻¹ᵁ G.U i).ι s (range_subset_preimage G hi s hs)
+
+private lemma toPreimage_over {i : G.ι} {V : Y.Opens} (hi : V ≤ G.U i) (s : V.toScheme ⟶ X)
+    (hs : s ≫ f = V.ι) :
+    (toPreimage G hi s hs ≫ (G.ψ i).hom) ≫ 𝔸(ULift.{u} (Fin n); G.U i) ↘ G.U i =
+      𝟙 _ ≫ Y.homOfLE hi := by
+  rw [Category.assoc, G.ψ_over, Category.id_comp, ← cancel_mono (G.U i).ι, Category.assoc,
+    morphismRestrict_ι, toPreimage, IsOpenImmersion.lift_fac_assoc, hs, Scheme.homOfLE_ι]
+
+/-- **A section in the chart `ψ_i`**: for a section `s` of `f` over an open `V ⊆ U_i`, the
+morphism `V ⟶ 𝔸ⁿ_V` over `V` corresponding to `ψ_i ∘ s : V ⟶ 𝔸ⁿ_{U_i}`. -/
+def chartLift (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i) (s : V.toScheme ⟶ X)
+    (hs : s ≫ f = V.ι) : V.toScheme ⟶ 𝔸(ULift.{u} (Fin n); V) :=
+  (AffineSpace.isPullback_map (Y.homOfLE hi)).lift _ _ (toPreimage_over G hi s hs)
+
+lemma chartLift_over (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i) (s : V.toScheme ⟶ X)
+    (hs : s ≫ f = V.ι) : G.chartLift i hi s hs ≫ 𝔸(ULift.{u} (Fin n); V) ↘ V = 𝟙 _ :=
+  IsPullback.lift_snd _ _ _ _
+
+lemma chartLift_map (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i) (s : V.toScheme ⟶ X)
+    (hs : s ≫ f = V.ι) :
+    G.chartLift i hi s hs ≫ AffineSpace.map _ (Y.homOfLE hi) ≫ (G.ψ i).inv ≫
+      (f ⁻¹ᵁ G.U i).ι = s := by
+  rw [← Category.assoc, chartLift, IsPullback.lift_fst, Category.assoc, Iso.hom_inv_id_assoc,
+    toPreimage, IsOpenImmersion.lift_fac]
+
+/-- **The chart coordinates** `(s_1, …, s_n) ∈ Γ(V, 𝒪)ⁿ` of a section `s` of a geometric vector
+bundle over an open `V ⊆ U_i`: the coordinates of `ψ_i ∘ s : V ⟶ 𝔸ⁿ_V`. -/
+def chartCoord (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i) (s : V.toScheme ⟶ X)
+    (hs : s ≫ f = V.ι) (k : ULift.{u} (Fin n)) : Γ(V, ⊤) :=
+  (G.chartLift i hi s hs).appTop (AffineSpace.coord _ k)
+
+instance mono_affineSpace_map_homOfLE {V U : Y.Opens} (h : V ≤ U) :
+    Mono (AffineSpace.map (ULift.{u} (Fin n)) (Y.homOfLE h)) := by
+  refine ⟨fun a b hab => (AffineSpace.isPullback_map (Y.homOfLE h)).hom_ext hab ?_⟩
+  rw [← cancel_mono (Y.homOfLE h), Category.assoc, Category.assoc, ← AffineSpace.map_over,
+    reassoc_of% hab]
+
+/-- The chart coordinates over an affine open `V ⊆ U_i` through the polynomial-ring chart
+`V ⟶ 𝔸ⁿ_V ≅ Spec Γ(V, 𝒪)[x_1, …, x_n]`: the pullback of the variable `x_k`. -/
+private lemma chartCoord_eq (i : G.ι) (V : Y.affineOpens) (hi : (V : Y.Opens) ≤ G.U i)
+    (s : (V : Y.Opens).toScheme ⟶ X) (hs : s ≫ f = (V : Y.Opens).ι) (k : ULift.{u} (Fin n)) :
+    G.chartCoord i hi s hs k = (G.chartLift i hi s hs ≫
+      (AffineSpace.isoOfIsAffine (ULift.{u} (Fin n)) (V : Y.Opens).toScheme).hom).appTop
+        ((Scheme.ΓSpecIso _).inv (MvPolynomial.X k)) := by
+  rw [← AffineSpace.isoOfIsAffine_inv_appTop_coord, ← CommRingCat.comp_apply,
+    ← Scheme.Hom.comp_appTop, Category.assoc, Iso.hom_inv_id, Category.comp_id]
+  rfl
+
+/-- A section in a polynomial-ring chart is a section of `Spec A[x_1, …, x_n] ⟶ Spec A`: it fixes
+the constants. -/
+private lemma chartLift_appTop_C (i : G.ι) (V : Y.affineOpens) (hi : (V : Y.Opens) ≤ G.U i)
+    (s : (V : Y.Opens).toScheme ⟶ X) (hs : s ≫ f = (V : Y.Opens).ι) (r : Γ(V, ⊤)) :
+    (G.chartLift i hi s hs ≫
+      (AffineSpace.isoOfIsAffine (ULift.{u} (Fin n)) (V : Y.Opens).toScheme).hom).appTop
+        ((Scheme.ΓSpecIso _).inv (MvPolynomial.C r)) = r := by
+  have h : (G.chartLift i hi s hs ≫
+      (AffineSpace.isoOfIsAffine (ULift.{u} (Fin n)) (V : Y.Opens).toScheme).hom) ≫
+        Spec.map (CommRingCat.ofHom MvPolynomial.C) = (V : Y.Opens).toScheme.isoSpec.hom := by
+    rw [← cancel_mono (V : Y.Opens).toScheme.isoSpec.inv, Category.assoc, Category.assoc,
+      ← AffineSpace.isoOfIsAffine_inv_over, Iso.hom_inv_id_assoc, chartLift_over, Iso.hom_inv_id]
+  have h' := congrArg (fun g => g.appTop ((Scheme.ΓSpecIso _).inv r)) h
+  simp only [Scheme.Hom.comp_appTop, CommRingCat.comp_apply] at h'
+  rw [← CommRingCat.comp_apply _ (Spec.map _).appTop, ← Scheme.ΓSpecIso_inv_naturality,
+    CommRingCat.comp_apply, Scheme.isoSpec_hom, Scheme.toSpecΓ_appTop] at h'
+  exact h'.trans (Iso.inv_hom_id_apply _ _)
+
+/-- **Linear transitions of chart coordinates** (Hartshorne II, Exercise 5.18): for charts
+`i, j` and an affine open `V ⊆ U_i ∩ U_j`, there is a matrix `(a_{kl})` over `Γ(V, 𝒪)` with
+`s^{(i)}_k = ∑_l a_{kl} s^{(j)}_l` for the chart coordinates of every section `s` over `V`. -/
+theorem exists_chartCoord_transition (i j : G.ι) (V : Y.affineOpens) (hi : (V : Y.Opens) ≤ G.U i)
+    (hj : (V : Y.Opens) ≤ G.U j) :
+    ∃ a : Matrix (ULift.{u} (Fin n)) (ULift.{u} (Fin n)) Γ(V, ⊤),
+      ∀ (s : (V : Y.Opens).toScheme ⟶ X) (hs : s ≫ f = (V : Y.Opens).ι) (k : ULift.{u} (Fin n)),
+        G.chartCoord i hi s hs k = ∑ l, a k l * G.chartCoord j hj s hs l := by
+  obtain ⟨θ, ⟨a, ha⟩, hθ⟩ := G.linear i j V hi hj
+  refine ⟨a, fun s hs k => ?_⟩
+  set e := AffineSpace.isoOfIsAffine (ULift.{u} (Fin n)) (V : Y.Opens).toScheme
+  have ht : ∀ (i' : G.ι) (hi' : (V : Y.Opens) ≤ G.U i'), (G.chartLift i' hi' s hs ≫ e.hom) ≫
+      affineSpaceChart n V hi' ≫ (G.ψ i').inv ≫ (f ⁻¹ᵁ G.U i').ι = s := fun i' hi' => by
+    simp only [affineSpaceChart, Category.assoc, e, Iso.hom_inv_id_assoc]
+    exact G.chartLift_map i' hi' s hs
+  have hmono : Mono (affineSpaceChart n V hi ≫ (G.ψ i).inv ≫ (f ⁻¹ᵁ G.U i).ι) := by
+    unfold affineSpaceChart
+    infer_instance
+  have htij : G.chartLift i hi s hs ≫ e.hom = (G.chartLift j hj s hs ≫ e.hom) ≫
+      Spec.map (CommRingCat.ofHom θ.toRingEquiv.toRingHom) := by
+    rw [← cancel_mono (affineSpaceChart n V hi ≫ (G.ψ i).inv ≫ (f ⁻¹ᵁ G.U i).ι), ht,
+      Category.assoc, ← hθ, ht]
+  let φ : MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤) →+* Γ(V, ⊤) :=
+    ((Scheme.ΓSpecIso _).inv ≫ (G.chartLift j hj s hs ≫ e.hom).appTop).hom
+  have hφ : ∀ x, φ x = (G.chartLift j hj s hs ≫ e.hom).appTop ((Scheme.ΓSpecIso _).inv x) :=
+    fun _ => rfl
+  rw [chartCoord_eq, htij, Scheme.Hom.comp_appTop, CommRingCat.comp_apply,
+    ← CommRingCat.comp_apply _ (Spec.map _).appTop, ← Scheme.ΓSpecIso_inv_naturality,
+    CommRingCat.comp_apply, ← hφ]
+  change φ (θ.toAlgHom (MvPolynomial.X k)) = _
+  rw [ha k, map_sum]
+  refine Finset.sum_congr rfl fun l _ => ?_
+  rw [map_mul, hφ, hφ, chartLift_appTop_C, chartCoord_eq]
+
+/-- **The chart coordinates identify sections with `Γ(V, 𝒪)ⁿ`** (Hartshorne II, Exercise 5.18):
+over an open `V ⊆ U_i`, a section of a geometric vector bundle of rank `n` is the same as `n`
+functions on `V`, its coordinates in the chart `ψ_i`. -/
+theorem chartCoord_bijective (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i) :
+    Function.Bijective (fun s : (sectionsPresheaf f).obj (op V) => G.chartCoord i hi s.1 s.2) := by
+  have hmono : Mono ((G.ψ i).inv ≫ (f ⁻¹ᵁ G.U i).ι) := inferInstance
+  refine ⟨fun s s' hss' => Subtype.ext ?_, fun v => ?_⟩
+  · have hL : G.chartLift i hi s.1 s.2 = G.chartLift i hi s'.1 s'.2 :=
+      AffineSpace.hom_ext (by rw [chartLift_over, chartLift_over]) (congrFun hss')
+    rw [← G.chartLift_map i hi s.1 s.2, hL, G.chartLift_map]
+  · let w : V.toScheme ⟶ 𝔸(ULift.{u} (Fin n); V) := AffineSpace.homOfVector (𝟙 _) v
+    have hψ : (G.ψ i).inv ≫ (f ⁻¹ᵁ G.U i).ι ≫ f =
+        𝔸(ULift.{u} (Fin n); G.U i) ↘ G.U i ≫ (G.U i).ι := by
+      rw [← morphismRestrict_ι, ← G.ψ_over, Category.assoc, Iso.inv_hom_id_assoc]
+    have hs : (w ≫ AffineSpace.map _ (Y.homOfLE hi) ≫ (G.ψ i).inv ≫ (f ⁻¹ᵁ G.U i).ι) ≫ f =
+        V.ι := by
+      simp only [Category.assoc]
+      rw [hψ, AffineSpace.map_over_assoc, AffineSpace.homOfVector_over_assoc, Category.id_comp,
+        Scheme.homOfLE_ι]
+    refine ⟨⟨_, hs⟩, ?_⟩
+    have hL : G.chartLift i hi _ hs = w := by
+      refine (AffineSpace.isPullback_map (Y.homOfLE hi)).hom_ext ?_ ?_
+      · rw [← cancel_mono ((G.ψ i).inv ≫ (f ⁻¹ᵁ G.U i).ι), Category.assoc, G.chartLift_map,
+          Category.assoc]
+      · rw [chartLift_over, AffineSpace.homOfVector_over]
+    funext k
+    change (G.chartLift i hi _ hs).appTop _ = v k
+    rw [hL, AffineSpace.homOfVector_appTop_coord]
+
+/-- **Chart coordinates are compatible with restriction**: for opens `V' ⊆ V ⊆ U_i`, the chart
+coordinates of the restriction `s|_{V'}` are the restrictions of the chart coordinates of `s`. -/
+theorem chartCoord_restrict (i : G.ι) {V V' : Y.Opens} (hi : V ≤ G.U i) (h : V' ≤ V)
+    (s : V.toScheme ⟶ X) (hs : s ≫ f = V.ι) (k : ULift.{u} (Fin n)) :
+    G.chartCoord i (h.trans hi) (Y.homOfLE h ≫ s) (by rw [Category.assoc, hs, Scheme.homOfLE_ι])
+        k = (Y.homOfLE h).appTop (G.chartCoord i hi s hs k) := by
+  have hs' : (Y.homOfLE h ≫ s) ≫ f = V'.ι := by rw [Category.assoc, hs, Scheme.homOfLE_ι]
+  have hL : G.chartLift i (h.trans hi) _ hs' ≫ AffineSpace.map _ (Y.homOfLE h) =
+      Y.homOfLE h ≫ G.chartLift i hi s hs := by
+    refine (AffineSpace.isPullback_map (Y.homOfLE hi)).hom_ext ?_ ?_
+    · rw [← cancel_mono ((G.ψ i).inv ≫ (f ⁻¹ᵁ G.U i).ι), Category.assoc, Category.assoc,
+        ← AffineSpace.map_comp_assoc, Scheme.homOfLE_homOfLE, G.chartLift_map]
+      simp only [Category.assoc]
+      rw [G.chartLift_map i hi s hs]
+    · rw [Category.assoc, AffineSpace.map_over, reassoc_of% (G.chartLift_over i (h.trans hi) _ hs'),
+        Category.assoc, G.chartLift_over, Category.comp_id]
+  change (G.chartLift i (h.trans hi) _ hs').appTop _ = (Y.homOfLE h).appTop
+    ((G.chartLift i hi s hs).appTop _)
+  rw [← AffineSpace.map_appTop_coord (Y.homOfLE h), ← CommRingCat.comp_apply,
+    ← Scheme.Hom.comp_appTop, hL, Scheme.Hom.comp_appTop, CommRingCat.comp_apply]
+
+end GeometricVectorBundle
 
 namespace Scheme.Modules
 
