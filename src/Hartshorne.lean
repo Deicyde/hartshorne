@@ -733,6 +733,7 @@ import Hartshorne.Scheme.ProjGammaStarReconstruction
 import Hartshorne.Scheme.ProjectiveSectionRingIntegralClosure
 import Hartshorne.Weil.ProjectiveLineSchemePoints
 import Hartshorne.Weil.ProjectiveLinePointCount
+import Hartshorne.Weil.ProjectiveLineZeta
 import Hartshorne.Scheme.ProjectiveClosedImmersionChartCriterion
 import Hartshorne.Scheme.ProjectionFromPoint
 import Hartshorne.Scheme.BlowupPowerInvariance
