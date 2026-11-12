@@ -13,6 +13,7 @@ is canonically isomorphic over $X$ to the blowup along $I$.
 
 - [Rees algebras and blowups](rees-algebra-sheaf-and-blowup.md)
 - [Veronese Proj and twists](../../projective-sheaves/veronese-proj-twist.md)
+- [Infinitesimal neighbourhoods](../../formal-schemes/formal-neighborhoods/infinitesimal-neighborhoods.md)
 
 ## Proof depends on
 
