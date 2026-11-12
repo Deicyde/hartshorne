@@ -22,6 +22,7 @@ and $\mathcal{O}(1)$.
 ## Proof depends on
 
 - [Morphisms from generated invertible sheaves](../linear-systems-ampleness/morphism-from-generated-line-bundle.md)
+- [Generation by global sections](../../projective-sheaves/globally-generated-module-sheaf.md)
 
 ## Sources
 
