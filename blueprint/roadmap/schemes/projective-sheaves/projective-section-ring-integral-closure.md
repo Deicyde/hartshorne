@@ -17,6 +17,9 @@ is the integral closure of $S$ in its fraction field.
 This is Exercise 5.14(a). The proof uses the integrality of $X$ and the fact
 that the sheaf of graded section rings has integrally closed stalks.
 
+The proof does not use that $k$ is algebraically closed; the hypothesis is kept because it is
+Hartshorne's setting.
+
 ## Depends on
 
 - [The graded global-sections module](graded-global-sections-module.md)

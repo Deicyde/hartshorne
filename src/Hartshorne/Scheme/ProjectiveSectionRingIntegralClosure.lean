@@ -12,7 +12,23 @@ import Hartshorne.Scheme.ProjectiveSpaceClassGroup
 
 Hartshorne, *Algebraic Geometry*, II, Exercise 5.14(a) (p. 126).
 
-Work in progress.
+Let `k` be algebraically closed and `X ⊆ ℙʳ_k` a connected normal closed subscheme with
+homogeneous coordinate ring `S = k[x₀, …, xᵣ] / I`, `I` saturated, so that `X = Proj S`. Then `S`
+is a domain and `S' = ⨁_{n ≥ 0} Γ(X, 𝒪_X(n))` is the integral closure of `S` in its fraction field
+`K` (`ProjectiveSectionRing.projectiveSectionRing_isIntegralClosure`). The comparison
+`S' → K` is the value at the generic point (`ProjectiveSectionRing.sectionRingToFraction`).
+
+## Proof
+
+Following the hint. `X` is integral: a connected Noetherian scheme whose local rings are
+domains is irreducible (`irreducibleSpace_of_connectedSpace`). Saturation of `I` and the
+integrality of `X` make `S` a domain (`isDomain_of_isIntegral`). All values of a section of
+`𝒪_X(n)` agree in `K`, so `S' → K` is injective. On a chart `D₊(xᵢ)` a section is `a / xᵢ^j`, so
+`xᵢ^j` times it lies in `S`; the determinant trick on `S_{≥N}` makes it integral
+(`isIntegral_of_forall_coord`). Conversely, the sections of `⨁_{n ≥ 0} 𝒪_X(n)` over `D₊(xᵢ)` form
+`S_(xᵢ)[xᵢ]`, a polynomial ring over the integrally closed `S_(xᵢ)`, with fraction field `K`; an
+element of `K` integral over `S` lies in each of these, its degree-`n` parts agree across the
+charts and glue to sections of `𝒪_X(n)` (`mem_range_sectionRingToFraction`).
 -/
 
 universe u
@@ -82,7 +98,8 @@ theorem toFraction_zero (x : Proj 𝒜) : toFraction x 0 = 0 := by
   rw [← LocalizedModule.zero_mk 1, toFraction_mk, map_zero, zero_div]
 
 variable {𝒜} in
-theorem toFraction_add (x : Proj 𝒜) (m m' : LocalizedModule x.asHomogeneousIdeal.toIdeal.primeCompl A) :
+theorem toFraction_add (x : Proj 𝒜)
+    (m m' : LocalizedModule x.asHomogeneousIdeal.toIdeal.primeCompl A) :
     toFraction x (m + m') = toFraction x m + toFraction x m' := by
   induction m using LocalizedModule.induction_on with | h a s =>
   induction m' using LocalizedModule.induction_on with | h b t =>
@@ -380,7 +397,8 @@ theorem eq_zero_of_sum_isHomFrac_eq_zero (F : Finset ℕ) (z : ℕ → FractionR
       rw [hE, ← Finset.add_sum_erase F e hn]
       ring
     rwa [this] at h1
-  have hzb : ∀ n ∈ F, z n * algebraMap A (FractionRing A) D = algebraMap A (FractionRing A) (b n) := by
+  have hzb : ∀ n ∈ F,
+      z n * algebraMap A (FractionRing A) D = algebraMap A (FractionRing A) (b n) := by
     intro n hn
     have hsn := (map_ne_zero_iff _ (IsFractionRing.injective A (FractionRing A))).2 (hs0 n hn)
     rw [hzas n hn, hD, ← Finset.mul_prod_erase F s hn]
@@ -736,7 +754,8 @@ theorem eq_of_mem_irreducibleComponents [∀ x : X, IsDomain (X.presheaf.stalk x
     (hx₁ : x ∈ Z₁) (hx₂ : x ∈ Z₂) : Z₁ = Z₂ := by
   let T : Set X := Set.range (X.fromSpecStalk x)
   have hT : IsIrreducible T := by
-    have := (IrreducibleSpace.isIrreducible_univ (Spec (X.presheaf.stalk x))).image (X.fromSpecStalk x)
+    have := (IrreducibleSpace.isIrreducible_univ (Spec (X.presheaf.stalk x))).image
+      (X.fromSpecStalk x)
       (X.fromSpecStalk x).continuous.continuousOn
     rwa [Set.image_univ] at this
   have key : ∀ {Z : Set X}, Z ∈ irreducibleComponents X → x ∈ Z → Z = closure T := by
@@ -804,7 +823,8 @@ theorem isNilpotent_of_forall_mem {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm :
   intro J hJ
   by_contra hfJ
   have hq := hJ.homogeneousCore (𝒜 := 𝒜)
-  have hfq : f ∉ (J.homogeneousCore 𝒜).toIdeal := fun hf => hfJ (Ideal.toIdeal_homogeneousCore_le 𝒜 J hf)
+  have hfq : f ∉ (J.homogeneousCore 𝒜).toIdeal := fun hf =>
+    hfJ (Ideal.toIdeal_homogeneousCore_le 𝒜 J hf)
   let x : ProjectiveSpectrum 𝒜 := ⟨J.homogeneousCore 𝒜, hq, fun hle => hfq (hle (by
     rw [HomogeneousIdeal.mem_irrelevant_iff, GradedRing.proj_apply,
       DirectSum.decompose_of_mem_ne 𝒜 f_deg (by omega)]))⟩
@@ -843,8 +863,10 @@ theorem forall_pow_mul_eq_zero_or [IsIntegral (Proj 𝒜)] {ι : Type*} (f : ι 
       exact hi ⟨x, h⟩
     obtain ⟨m, hm⟩ := isNilpotent_of_forall_mem (hf i) one_pos hi'
     exact ⟨m, by rw [hm, zero_mul]⟩
-  let Aₐ : ∀ i, Away 𝒜 (f i) := fun i => HomogeneousLocalization.mk ⟨p, ⟨a, ha⟩, ⟨_, hpow i p⟩, p, rfl⟩
-  let Bₐ : ∀ i, Away 𝒜 (f i) := fun i => HomogeneousLocalization.mk ⟨q, ⟨b, hb⟩, ⟨_, hpow i q⟩, q, rfl⟩
+  let Aₐ : ∀ i, Away 𝒜 (f i) := fun i =>
+    HomogeneousLocalization.mk ⟨p, ⟨a, ha⟩, ⟨_, hpow i p⟩, p, rfl⟩
+  let Bₐ : ∀ i, Away 𝒜 (f i) := fun i =>
+    HomogeneousLocalization.mk ⟨q, ⟨b, hb⟩, ⟨_, hpow i q⟩, q, rfl⟩
   have hAB : ∀ i, Aₐ i * Bₐ i = 0 := by
     intro i
     apply HomogeneousLocalization.val_injective
@@ -991,7 +1013,8 @@ theorem exists_mem_mul_monomial {n : ℕ} {z : FractionRing S} {j : Fin (r + 1) 
     conv_lhs => rw [hβ]
     rw [map_add, Finsupp.degree_single]
   refine ⟨a i * Ideal.Quotient.mk I.toIdeal (monomial β' 1), ?_, ?_⟩
-  · have := SetLike.mul_mem_graded (ha i) (mk_mem_of_mem I (isHomogeneous_monomial (d := β') (1 : k) rfl))
+  · have := SetLike.mul_mem_graded (ha i)
+      (mk_mem_of_mem I (isHomogeneous_monomial (d := β') (1 : k) rfl))
     rwa [show j i + n + β'.degree = β.degree + n by omega] at this
   · rw [map_mul, hza i, hβ, monomial_single_add, map_mul, map_mul, map_pow, coord, map_pow]
     ring
@@ -1057,7 +1080,8 @@ theorem isIntegral_of_forall_coord {n : ℕ} {z : FractionRing S} {j : Fin (r + 
     have hmem : algebraMap S (FractionRing S) (coord I i ^ N) ∈ M :=
       Submodule.subset_span ⟨_, ⟨N, le_rfl, by
         simpa using SetLike.pow_mem_graded N (coord_mem I i)⟩, rfl⟩
-    rw [hM, Submodule.mem_bot, map_eq_zero_iff _ (IsFractionRing.injective S (FractionRing S))] at hmem
+    rw [hM, Submodule.mem_bot,
+      map_eq_zero_iff _ (IsFractionRing.injective S (FractionRing S))] at hmem
     exact pow_ne_zero N hi hmem
   refine isIntegral_of_smul_mem_submodule M hM0 hMfg z fun w hw => ?_
   induction hw using Submodule.span_induction with
