@@ -778,3 +778,4 @@ import Hartshorne.Scheme.GeometricVectorBundle
 import Hartshorne.Scheme.BaseLocusBlowup
 import Hartshorne.Scheme.BlowupStrictTransform
 import Hartshorne.Scheme.ProjectiveBundle
+import Hartshorne.Scheme.ProjectiveBundleTrivialization

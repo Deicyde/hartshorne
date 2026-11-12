@@ -28,6 +28,22 @@ quasi-coherent graded algebra over the affine opens of `X`. For `S(E)`:
   (`Hartshorne.SheafAlgebraOperations.PresheafAlgebra.IsGraded.isInternal_sections`).
 
 The result is `Scheme.Modules.symmetricGradedAlgebra`.
+
+## Condition (†) and the projective bundle
+
+* `Scheme.Modules.symmetricGradedAlgebra_degreeZero`: `S(E)₀ = 𝒪_X`, from `S⁰(E) ≅ 𝒪_X`.
+* `Scheme.Modules.symmetricGradedAlgebra_degreeOneCoherent`: `S(E)₁ = S¹(E)` is coherent.
+* `Scheme.Modules.symmetricGrading_generated`: over an affine open `U`, `Γ(U, S(E))` is generated
+  by its sections of degrees `0` and `1`. Over a basic open `D(f) ⊆ U` on which `E` has a frame,
+  `Γ(D(f), S(E))` is the polynomial ring on the frame, whose elements become, after multiplying by
+  a power of `f`, restrictions of sections over `U` (Lemma II.5.3); the basic opens with a frame
+  generate the unit ideal of `Γ(U, 𝒪_X)`.
+* `Scheme.Modules.symmetricRelativeProjData`: `S(E)` satisfies condition (†).
+* `Scheme.Modules.projectiveBundle`, `Scheme.Modules.projectiveBundleProj`: `P(E) = Proj_X S(E)`
+  and `π : P(E) ⟶ X`.
+
+The identification of `P(E)` over an affine open on which `E` is free with projective space is in
+`Hartshorne.Scheme.ProjectiveBundleTrivialization`.
 -/
 
 universe u
@@ -326,11 +342,11 @@ def symmetricRelativeProjData [IsNoetherian X] : RelativeProjData X where
 
 /-- **The projective bundle** `P(E) = Proj_X S(E)` of a locally free `𝒪_X`-module `E` of finite
 rank on a Noetherian scheme `X` (Hartshorne II.7, p. 162). -/
-def projectiveBundle [IsNoetherian X] : Scheme.{u} :=
+abbrev projectiveBundle [IsNoetherian X] : Scheme.{u} :=
   (symmetricRelativeProjData hE hfin).relativeProj
 
 /-- The projection `π : P(E) ⟶ X`. -/
-def projectiveBundleProj [IsNoetherian X] : projectiveBundle hE hfin ⟶ X :=
+abbrev projectiveBundleProj [IsNoetherian X] : projectiveBundle hE hfin ⟶ X :=
   (symmetricRelativeProjData hE hfin).projection
 
 end
