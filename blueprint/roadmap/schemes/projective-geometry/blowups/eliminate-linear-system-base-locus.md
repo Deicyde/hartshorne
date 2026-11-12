@@ -3,6 +3,8 @@ article_id: af_9ddfe55a4b137d8310957472
 declaration: theorem
 origin: cited
 lean: Hartshorne.baseIdeal Hartshorne.baseLocusIdeal_range_ideal_eq_span Hartshorne.isCoherent_baseIdeal Hartshorne.baseBlowup Hartshorne.baseBlowupProjection Hartshorne.baseBlowupSheaf Hartshorne.baseBlowupSheafι Hartshorne.baseBlowupSection Hartshorne.isInvertible_baseBlowupSheaf Hartshorne.isGeneratedBySections_baseBlowupSection Hartshorne.existsUnique_baseBlowupMorphism Hartshorne.baseBlowupMorphism Hartshorne.baseBlowupMorphism_spec Hartshorne.linearSystemDomain_eq_centerCompl Hartshorne.isIso_baseBlowupProjection_restrict Hartshorne.baseBlowupMorphism_restrict Hartshorne.isBasePointFree_baseBlowup
+statement: formalized
+proof: formalized
 ---
 
 # Eliminating the base locus of a linear system
