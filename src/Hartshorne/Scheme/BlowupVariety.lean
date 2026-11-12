@@ -25,9 +25,9 @@ is quasi-projective (resp. projective) over `k`.
   nonempty open subset of `X`, and `π` is an isomorphism over `X \ Y`; so `π` is birational.
 * `X̃` is integral. Over an affine open `U ⊆ X`, the piece `π⁻¹(U) = Proj (⨁_d Γ(U, I)ᵈ tᵈ)` is
   the `Proj` of a subring of the polynomial ring `Γ(U, 𝒪_X)[t]` over a domain, hence is integral
-  whenever it is nonempty (`isIntegral_proj_of_isDomain`). Therefore `X̃` is reduced, and every
-  point of `X̃` lies in an irreducible open meeting `π⁻¹(X \ Y) ≅ X \ Y`, which is irreducible;
-  so `π⁻¹(X \ Y)` is dense and `X̃` is irreducible.
+  whenever it is nonempty (`irreducibleSpace_proj_of_isDomain`, `isDomain_stalk_proj_of_isDomain`).
+  Therefore `X̃` is reduced, and every point of `X̃` lies in an irreducible open meeting
+  `π⁻¹(X \ Y) ≅ X \ Y`, which is irreducible; so `π⁻¹(X \ Y)` is dense and `X̃` is irreducible.
 * The image of `π` is closed (`π` is proper) and contains the dense open `X \ Y`, so `π` is
   surjective.
 * A quasi-projective `X` carries an ample invertible sheaf (the restriction of `𝒪(1)`), so the
@@ -62,7 +62,7 @@ variable {σ : Type*} {A : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass
   (𝒜 : ℕ → σ) [GradedRing 𝒜] [IsDomain A]
 
 /-- For a graded domain `A` with `Proj A` nonempty, `Proj A` is irreducible: the zero ideal is
-a relevant homogeneous prime, specializing to every point. -/
+a relevant homogeneous prime, a generic point specializing to every point. -/
 theorem irreducibleSpace_proj_of_isDomain [Nonempty (Proj 𝒜)] : IrreducibleSpace (Proj 𝒜) := by
   obtain ⟨y⟩ := ‹Nonempty (Proj 𝒜)›
   let g : Proj 𝒜 := ⟨⊥, Ideal.isPrime_bot, fun h => y.not_irrelevant_le (h.trans bot_le)⟩
