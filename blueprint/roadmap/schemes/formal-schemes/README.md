@@ -5,8 +5,8 @@ article_id: af_e7c20f91209b8147bd615731
 # Formal completions and formal schemes
 
 This chapter covers Hartshorne II.9: inverse systems, adic completion, formal
-neighbourhoods, Noetherian formal schemes, and coherent formal modules. It
-uses natural-number systems with the $n$th thickening cut out by $I^{n+1}$.
+neighbourhoods, Noetherian formal schemes, and coherent formal modules. As in
+the book, the $n$th infinitesimal neighbourhood is cut out by $I^{n}$ for $n \ge 1$.
 
 Hartshorne's formal schemes are plain locally ringed spaces with finite covers
 by algebraizable affine charts. The project notation $\operatorname{Spf} _I(A)$ is introduced
