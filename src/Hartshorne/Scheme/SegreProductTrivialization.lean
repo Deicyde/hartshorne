@@ -387,6 +387,55 @@ theorem projIsoOfGenerator_naturality (hfree : ∀ d, ∀ x ∈ 𝒯 d, ∃! a :
 
 end Naturality
 
+/-! ### Generators from a polynomial description -/
+
+section Polynomial
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+omit [GradedRing 𝒯] in
+private theorem eq_C_mul_X_pow_of_isHomogeneous {p : MvPolynomial (Fin 1) A} {d : ℕ}
+    (hp : p.IsHomogeneous d) :
+    p = MvPolynomial.C (p.coeff (Finsupp.single 0 d)) * MvPolynomial.X 0 ^ d := by
+  classical
+  ext m
+  rw [MvPolynomial.X_pow_eq_monomial, MvPolynomial.C_mul_monomial, mul_one,
+    MvPolynomial.coeff_monomial]
+  split_ifs with h
+  · rw [h]
+  · by_contra hm
+    have hdeg := hp hm
+    refine h (Finsupp.ext fun i => ?_)
+    obtain rfl : i = 0 := Subsingleton.elim i 0
+    rw [Finsupp.single_eq_same, ← hdeg, Finsupp.weight_apply, Finsupp.sum_fintype _ _ (by simp)]
+    simp
+
+/-- **Generators from a polynomial description**: if `F : A[x] → T` is a bijective graded ring map
+over `A`, then `t = F(x)` is a generator: every `T_d` is free on `t^d`. -/
+theorem existsUnique_smul_pow_of_bijective
+    (F : MvPolynomial.homogeneousSubmodule (Fin 1) A →+*ᵍ 𝒯) (hF : Function.Bijective F)
+    (hC : ∀ a, F (MvPolynomial.C a) = algebraMap A T a) :
+    ∀ d, ∀ x ∈ 𝒯 d, ∃! a : A, a • F (MvPolynomial.X 0) ^ d = x := by
+  intro d x hx
+  have hFp : F (gradedInvOfBijective F hF x) = x :=
+    (RingEquiv.ofBijective F.toRingHom hF).apply_symm_apply x
+  have hp : gradedInvOfBijective F hF x = MvPolynomial.C ((gradedInvOfBijective F hF x).coeff
+      (Finsupp.single 0 d)) * MvPolynomial.X 0 ^ d := eq_C_mul_X_pow_of_isHomogeneous (A := A)
+    ((MvPolynomial.mem_homogeneousSubmodule d _).1 ((gradedInvOfBijective F hF).map_mem hx))
+  have hsmul : ∀ a : A, a • F (MvPolynomial.X 0) ^ d =
+      F (MvPolynomial.C a * MvPolynomial.X 0 ^ d) := fun a => by
+    rw [map_mul, map_pow, hC, Algebra.smul_def]
+  refine ⟨(gradedInvOfBijective F hF x).coeff (Finsupp.single 0 d), ?_, fun a ha => ?_⟩
+  · change _ • _ = x
+    rw [hsmul, ← hp, hFp]
+  · change _ • _ = x at ha
+    rw [hsmul, ← hFp] at ha
+    have := congr_arg (MvPolynomial.coeff (Finsupp.single 0 d)) (hF.1 ha)
+    rwa [MvPolynomial.X_pow_eq_monomial, MvPolynomial.C_mul_monomial, mul_one,
+      MvPolynomial.coeff_monomial, if_pos rfl] at this
+
+end Polynomial
+
 end SegreProduct
 
 end Hartshorne

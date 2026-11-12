@@ -3,7 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.ProjectiveBundle
-import Hartshorne.Scheme.SegreProductGradedAlgebra
+import Hartshorne.Scheme.SegreProductTrivialization
 
 /-!
 # Twisting a quasi-coherent graded algebra by an invertible sheaf
@@ -147,13 +147,70 @@ theorem mem_diagonalProduct_grading {U : X.AffineZariskiSite} {d : ℕ}
         SegreProduct.component Γ(X, U.1) (S.grading U) (T.grading U) d :=
   SegreProduct.mem_grading_iff
 
+variable (L : X.Modules) (hL : L.IsInvertible)
+
+include hL in
+theorem isLocallyFree_of_isInvertible : L.IsLocallyFree :=
+  ((Scheme.Modules.isInvertible_iff L).1 hL).1
+
+include hL in
+theorem rankAt_lt_of_isInvertible (x : X) : L.rankAt x < Cardinal.aleph0 := by
+  rw [((Scheme.Modules.isInvertible_iff L).1 hL).2 x]
+  exact Cardinal.one_lt_aleph0
+
+/-- The symmetric algebra `Sym(L) = ⊕_d Sym^d(L)` of an invertible sheaf `L`, as a quasi-coherent
+graded `𝒪_X`-algebra; `Sym^d(L)` is the `d`-th power of `L`. -/
+abbrev lineBundleSym : QuasiCoherentGradedAlgebra X :=
+  Scheme.Modules.symmetricGradedAlgebra (E := L) (isLocallyFree_of_isInvertible L hL)
+    (rankAt_lt_of_isInvertible L hL)
+
 /-- **The twist `S · L`** of a quasi-coherent graded `𝒪_X`-algebra `S` by an invertible sheaf `L`
 (Hartshorne II.7, Lemma 7.9): the diagonal product of `S` with `Sym(L) = ⊕_d Sym^d(L)`, so that
 `(S · L)_d = S_d ⊗ Sym^d(L)`, where `Sym^d(L)` is the `d`-th power of `L`. -/
-def lineBundleTwist (L : X.Modules) (hL : L.IsInvertible) : QuasiCoherentGradedAlgebra X :=
-  S.diagonalProduct (Scheme.Modules.symmetricGradedAlgebra (E := L)
-    ((Scheme.Modules.isInvertible_iff L).1 hL).1
-    (fun x => by rw [((Scheme.Modules.isInvertible_iff L).1 hL).2 x]; exact Cardinal.one_lt_aleph0))
+def lineBundleTwist : QuasiCoherentGradedAlgebra X :=
+  S.diagonalProduct (lineBundleSym L hL)
+
+/-! ### The local isomorphism over an affine open with a frame of `L` -/
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+variable {L hL} {U : X.AffineZariskiSite} {e : ULift.{u} (Fin 1) → Γ(L, U.1)}
+
+/-- The section `t ∈ Γ(U, Sym¹ L)` given by a frame `e` of `L` over `U`. -/
+abbrev frameGenerator (e : ULift.{u} (Fin 1) → Γ(L, U.1)) : (lineBundleSym L hL).obj.obj (.op U) :=
+  Scheme.Modules.frameGradedHom (isLocallyFree_of_isInvertible L hL)
+    (rankAt_lt_of_isInvertible L hL) U.2 (n := 0) e (MvPolynomial.X 0)
+
+theorem frameGenerator_mem : frameGenerator (hL := hL) e ∈ (lineBundleSym L hL).grading U 1 :=
+  (Scheme.Modules.frameGradedHom _ _ U.2 (n := 0) e).map_mem
+    ((MvPolynomial.mem_homogeneousSubmodule 1 _).2 (MvPolynomial.isHomogeneous_X _ _))
+
+theorem frameGenerator_free (he : Ringed.IsLocalFrame (R := X.sheaf) L U.1 e) :
+    ∀ d, ∀ x ∈ (lineBundleSym L hL).grading U d, ∃! a : Γ(X, U.1),
+      a • frameGenerator (hL := hL) e ^ d = x :=
+  SegreProduct.existsUnique_smul_pow_of_bijective _ _
+    (Scheme.Modules.frameGradedHom_bijective _ _ U.2 he) fun a => by
+      change L.chartRingHom U.1 e (MvPolynomial.rename ULift.up (MvPolynomial.C a)) = _
+      rw [MvPolynomial.rename_C, Scheme.Modules.chartRingHom_C]
+      rfl
+
+variable (hL) in
+/-- **The local isomorphism** `Proj (S · L)(U) ≅ Proj S(U)` over an affine open `U` with a frame
+`e` of `L`: induced by `s ↦ s ⊗ e^d` for `s ∈ S(U)_d`. -/
+def lineBundleTwistProjIsoOfFrame (he : Ringed.IsLocalFrame (R := X.sheaf) L U.1 e) :
+    Proj ((S.lineBundleTwist L hL).grading U) ≅ Proj (S.grading U) :=
+  SegreProduct.projIsoOfGenerator (S.grading U) ((lineBundleSym L hL).grading U)
+    (S.algebraMap_sections_mem U) ((lineBundleSym L hL).algebraMap_sections_mem U)
+    frameGenerator_mem (frameGenerator_free he)
+
+/-- **Independence of the frame**: two frames of `L` over `U` give the same isomorphism
+`Proj (S · L)(U) ≅ Proj S(U)`. -/
+theorem lineBundleTwistProjIsoOfFrame_eq {e' : ULift.{u} (Fin 1) → Γ(L, U.1)}
+    (he : Ringed.IsLocalFrame (R := X.sheaf) L U.1 e)
+    (he' : Ringed.IsLocalFrame (R := X.sheaf) L U.1 e') :
+    S.lineBundleTwistProjIsoOfFrame hL he' = S.lineBundleTwistProjIsoOfFrame hL he :=
+  SegreProduct.projIsoOfGenerator_eq _ _ _ _ frameGenerator_mem frameGenerator_mem
+    (frameGenerator_free he) (frameGenerator_free he')
 
 end QuasiCoherentGradedAlgebra
 
