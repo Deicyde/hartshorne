@@ -12,7 +12,7 @@ import Hartshorne.Scheme.ModuleIdealSheafData
 
 Hartshorne, *Algebraic Geometry*, II, Corollary 5.16(a) (pp. 119–120).
 
-Let `S = R[x₀, …, xᵣ]` with `r ≥ 1` and `X = ℙʳ_R = Proj S`. For a quasi-coherent ideal sheaf
+Let `S = R[x₀, …, xᵣ]` and `X = ℙʳ_R = Proj S`. For a quasi-coherent ideal sheaf
 `ℐ ⊆ 𝒪_X` (`QuasicoherentIdealSubsheaf`), the inclusion `ℐ ⟶ 𝒪_X` (`idealι`) induces an
 `S`-linear map `Γ_*(ℐ) ⟶ Γ_*(𝒪_X)` (`gammaStarLinear`), and `Γ_*(𝒪_X) = S` (Proposition 5.13,
 `ProjectiveSpaceSectionRing.sectionRingMap`). The homogeneous ideal `Γ_*(ℐ) ∩ S` is
@@ -100,7 +100,6 @@ def gammaStarLinear {F G : (Proj 𝒜).Modules} (φ : F ⟶ G) : GammaStar F →
       | of n x =>
         rw [smul_of _ c.2, gammaStarMap, DirectSum.map_of, DirectSum.map_of, smul_of _ c.2]
         exact congrArg _ (twistGlobalMap_mulGlobal φ n _ c x)
-
 
 /-- Multiplication by `g / 1` is natural in the module. -/
 theorem secMap_naturality {F G : (Proj 𝒜).Modules} (φ : F ⟶ G) (d : ℕ) (g : 𝒜 d) :
@@ -217,11 +216,6 @@ theorem idealι_app {X : Scheme.{u}} (ℐ : QuasicoherentIdealSubsheaf X) {U : X
     (t : Γ(ℐ.toModules, U)) : (idealι ℐ).val.app (op U) t = t.1 :=
   rfl
 
-private theorem of_apply_of_eq {β : ℤ → Type*} [∀ i, AddCommMonoid (β i)] {i j : ℤ}
-    (h : i = j) (y : β i) : DirectSum.of β j (DirectSum.of β i y j) = DirectSum.of β i y := by
-  subst h
-  rw [DirectSum.of_eq_same]
-
 /-- The image in `Γ_*(𝒪_X)` of the degree-`d` part of `s` is the degree-`d` component of the
 image of `s`. -/
 theorem sectionRingMap_decompose (s : MvPolynomial (Fin (r + 1)) R) (d : ℕ) :
@@ -313,6 +307,67 @@ private theorem iSup_basicOpen_X :
     ⨆ i : Fin (r + 1), Proj.basicOpen 𝒮 (X i : MvPolynomial (Fin (r + 1)) R) = ⊤ :=
   Proj.iSup_basicOpen_eq_top' 𝒮 (fun i => X i) (fun i => ⟨1, X_mem i⟩) adjoin_X_eq_top
 
+/-- **Global sections of `𝒪_X(n)`, `n ≥ 0`, on `ℙʳ_R`, for every `r`.** Every global section of
+`𝒪_X(n)` is `b / 1` for some `b ∈ S_n`. For `r ≥ 1` this is part of Proposition 5.13; for
+`r = 0`, `X = D₊(x₀)` and a section is `a / x₀ᵏ` with `a = c x₀^{n+k}`. -/
+theorem exists_mem_sectionRingMap_eq (n : ℕ) (z : twistGlobal 𝒪 n) :
+    ∃ b ∈ 𝒮 n, sectionRingMap R r b n = z := by
+  classical
+  rcases Nat.eq_zero_or_pos r with hr | hr
+  · have hfin : ∀ i : Fin (r + 1), i = 0 := fun i => Fin.ext (by omega)
+    rcases subsingleton_or_nontrivial R with hR | hR
+    · have hsub : ∀ p : MvPolynomial (Fin (r + 1)) R, p = 0 := fun p =>
+        MvPolynomial.ext _ _ fun _ => Subsingleton.elim _ _
+      refine ⟨0, zero_mem _, eq_of_twistValue_eq fun x => ?_⟩
+      generalize twistValue (n : ℤ) (sectionRingMap R r 0 n) x = y
+      generalize twistValue (n : ℤ) z x = y'
+      induction y using LocalizedModule.induction_on with
+      | h p t =>
+        induction y' using LocalizedModule.induction_on with
+        | h p' t' => rw [hsub p, hsub p', LocalizedModule.zero_mk, LocalizedModule.zero_mk]
+    obtain ⟨m, hm⟩ := exists_globalValue_eq_mapOfLE 𝒮 (gradedTwist 𝒮 n)
+      (X_mem 0) one_pos (unitorGlobal n z)
+    obtain ⟨k, a, ha, c, hc, hcx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective m
+    obtain ⟨e, rfl⟩ := hcx
+    have hke : k = e := DirectSum.degree_eq_of_mem_mem 𝒮 hc (X_pow_mem 0 e)
+      (isRegular_X_pow e).ne_zero
+    subst hke
+    have ha0 : a ∈ 𝒮 ((n : ℤ) + k).toNat ∧ ((n : ℤ) + k < 0 → a = 0) := ha
+    have ha' : a ∈ 𝒮 (n + k) := by
+      have h1 := ha0.1
+      rwa [show ((n : ℤ) + k).toNat = n + k by omega] at h1
+    have hdvd : (X 0 : MvPolynomial (Fin (r + 1)) R) ^ k ∣ a := by
+      rw [MvPolynomialDvd.X_pow_dvd_iff]
+      intro d hd
+      apply ((mem_homogeneousSubmodule _ _).1 ha').coeff_eq_zero
+      rw [Finsupp.degree_eq_sum, Finset.sum_eq_single (0 : Fin (r + 1))
+        (fun i _ hi => absurd (hfin i) hi) (by simp)]
+      omega
+    obtain ⟨b₀, hb₀⟩ := hdvd
+    have hab : a = X 0 ^ k * (DirectSum.decompose 𝒮 b₀ n : MvPolynomial (Fin (r + 1)) R) := by
+      have hdec : a = (DirectSum.decompose 𝒮 (X 0 ^ k * b₀) (n + k) :
+          MvPolynomial (Fin (r + 1)) R) := by
+        rw [← hb₀, DirectSum.decompose_of_mem_same 𝒮 ha']
+      rw [hdec, DirectSum.coe_decompose_mul_of_left_mem_of_le 𝒮 (X_pow_mem 0 k) (by omega),
+        Nat.add_sub_cancel]
+    refine ⟨_, SetLike.coe_mem (DirectSum.decompose 𝒮 b₀ n), eq_of_twistValue_eq fun x => ?_⟩
+    have hxtop : x ∈ (⨆ i : Fin (r + 1),
+        Proj.basicOpen 𝒮 (X i : MvPolynomial (Fin (r + 1)) R)) := by
+      rw [iSup_basicOpen_X]
+      trivial
+    obtain ⟨j, hj⟩ := Opens.mem_iSup.1 hxtop
+    obtain rfl := hfin j
+    rw [twistValue_sectionRingMap, degreePart_natCast, DirectSum.decompose_of_mem_same 𝒮
+      (SetLike.coe_mem _)]
+    change _ = (globalValue 𝒮 (gradedTwist 𝒮 n) (unitorGlobal n z) x).val
+    rw [hm x hj, HomogeneousLocalizedModule.mapOfLE_mk, HomogeneousLocalizedModule.val_mk]
+    refine LocalizedModule.mk_eq.2 ⟨1, ?_⟩
+    simp only [Submonoid.smul_def, smul_eq_mul, OneMemClass.coe_one, one_mul, hab]
+  · obtain ⟨b', hb'⟩ := (sectionRingMap_bijective (R := R) hr).2
+      (DirectSum.of (fun k => twistGlobal 𝒪 k) (n : ℤ) z)
+    refine ⟨_, SetLike.coe_mem (DirectSum.decompose 𝒮 b' n), ?_⟩
+    rw [sectionRingMap_decompose, hb', DirectSum.of_eq_same, DirectSum.of_eq_same]
+
 -- Instance search for the sheaf-theoretic instances in `IsQuasicoherent` on `ℙʳ_R` exceeds the
 -- default `synthInstance` budget.
 set_option synthInstance.maxHeartbeats 200000 in
@@ -376,7 +431,7 @@ theorem ker_projQuotientι_le (ℐ : QuasicoherentIdealSubsheaf (Proj 𝒮)) :
 of `ℐ` is, near each point, a fraction `m / s` with `m ∈ Γ(X, ℐ(n))`; by Proposition 5.13 its
 image in `𝒪_X` is `b / s` with `b ∈ S_n`, and then `b ∈ I`, so `b / s` lies in the ideal of
 `Proj (S/I)`. -/
-theorem le_ker_projQuotientι (hr : 0 < r) (ℐ : QuasicoherentIdealSubsheaf (Proj 𝒮)) :
+theorem le_ker_projQuotientι (ℐ : QuasicoherentIdealSubsheaf (Proj 𝒮)) :
     quasicoherentIdealSubsheafEquiv ℐ ≤ (projQuotientι 𝒮 (gammaStarIdeal R r ℐ)).ker := by
   have hqc := ℐ.isQuasicoherent
   have hiso := isIso_gammaStarEval_projectiveSpace ℐ.toModules
@@ -393,13 +448,8 @@ theorem le_ker_projQuotientι (hr : 0 < r) (ℐ : QuasicoherentIdealSubsheaf (Pr
   rw [stalkEval_mk] at hw
   obtain ⟨W, hxW, iU, iV, hWeq⟩ := TopCat.Presheaf.germ_eq ℐ.toModules.presheaf x hsx hx _ _ hw
   -- the numerator `b ∈ S_n`, from Proposition 5.13
-  obtain ⟨b', hb'⟩ := (sectionRingMap_bijective (R := R) hr).2
-    (DirectSum.of (fun k => twistGlobal 𝒪 k) (n : ℤ) (twistGlobalMap (idealι ℐ) n (m n)))
-  have hbmem : (DirectSum.decompose 𝒮 b' n : MvPolynomial (Fin (r + 1)) R) ∈ 𝒮 n :=
-    SetLike.coe_mem _
-  have hbN : sectionRingMap R r (DirectSum.decompose 𝒮 b' n : MvPolynomial (Fin (r + 1)) R) n =
-      twistGlobalMap (idealι ℐ) n (m n) := by
-    rw [sectionRingMap_decompose, hb', DirectSum.of_eq_same, DirectSum.of_eq_same]
+  obtain ⟨b, hbmem, hbN⟩ := exists_mem_sectionRingMap_eq (R := R) n
+    (twistGlobalMap (idealι ℐ) n (m n))
   have hbI := (mem_gammaStarIdeal_iff ℐ hbmem).2 ⟨m n, hbN.symm⟩
   have hfr : (idealι ℐ).val.app _ (fracM ℐ.toModules n ⟨s, hs⟩ m) =
       ringFrac n ⟨_, hbmem⟩ ⟨s, hs⟩ := by
@@ -413,7 +463,7 @@ theorem le_ker_projQuotientι (hr : 0 < r) (ℐ : QuasicoherentIdealSubsheaf (Pr
   have hc := SetLike.GradedMul.mul_mem (X_mem (R := R) j) hbmem
   have hd := SetLike.GradedMul.mul_mem (X_mem (R := R) j) hs
   have hcI : (X j : MvPolynomial (Fin (r + 1)) R) *
-      (DirectSum.decompose 𝒮 b' n : MvPolynomial (Fin (r + 1)) R) ∈ gammaStarIdeal R r ℐ :=
+      b ∈ gammaStarIdeal R r ℐ :=
     (gammaStarIdeal R r ℐ).toIdeal.mul_mem_left _ hbI
   have hmemK : ringFrac (1 + n) ⟨_, hc⟩ ⟨_, hd⟩ ∈
       (idealSheafDataToSubsheaf (projQuotientι 𝒮 (gammaStarIdeal R r ℐ)).ker).ideal
@@ -458,34 +508,34 @@ theorem le_ker_projQuotientι (hr : 0 < r) (ℐ : QuasicoherentIdealSubsheaf (Pr
   exact hres
 
 /-- **Hartshorne II, Corollary 5.16(a), ideal-sheaf form.** Let `X = ℙʳ_R = Proj S`,
-`S = R[x₀, …, xᵣ]`, `r ≥ 1`, and let `ℐ ⊆ 𝒪_X` be a quasi-coherent ideal sheaf. Then the closed
+`S = R[x₀, …, xᵣ]`, and let `ℐ ⊆ 𝒪_X` be a quasi-coherent ideal sheaf. Then the closed
 subscheme `Proj (S/I) ⊆ X` defined by the homogeneous ideal `I = Γ_*(ℐ) ∩ S` has ideal sheaf
 `ℐ`. -/
-theorem ker_projQuotientι_gammaStarIdeal (hr : 0 < r) (ℐ : QuasicoherentIdealSubsheaf (Proj 𝒮)) :
+theorem ker_projQuotientι_gammaStarIdeal (ℐ : QuasicoherentIdealSubsheaf (Proj 𝒮)) :
     (projQuotientι 𝒮 (gammaStarIdeal R r ℐ)).ker = quasicoherentIdealSubsheafEquiv ℐ :=
-  le_antisymm (ker_projQuotientι_le ℐ) (le_ker_projQuotientι hr ℐ)
+  le_antisymm (ker_projQuotientι_le ℐ) (le_ker_projQuotientι ℐ)
 
-/-- **Hartshorne II, Corollary 5.16(a), kernel form.** Let `S = R[x₀, …, xᵣ]` with `r ≥ 1` and
+/-- **Hartshorne II, Corollary 5.16(a), kernel form.** Let `S = R[x₀, …, xᵣ]` and
 let `f : Y ⟶ ℙʳ_R = Proj S` be a morphism with ideal sheaf `I_Y = ker f` (for a closed immersion,
 the module ideal sheaf of the closed subscheme `Y`). Then the closed immersion
 `Proj (S/I) ⟶ ℙʳ_R` defined by the homogeneous ideal `I = Γ_*(I_Y) ∩ S` has the same ideal sheaf
 as `f`. -/
-theorem ker_projQuotientι_gammaStarIdeal_eq_ker (hr : 0 < r) {Y : Scheme.{u}} (f : Y ⟶ Proj 𝒮) :
+theorem ker_projQuotientι_gammaStarIdeal_eq_ker {Y : Scheme.{u}} (f : Y ⟶ Proj 𝒮) :
     (projQuotientι 𝒮 (gammaStarIdeal R r (quasicoherentIdealSubsheafEquiv.symm f.ker))).ker =
       f.ker := by
-  rw [ker_projQuotientι_gammaStarIdeal hr, Equiv.apply_symm_apply]
+  rw [ker_projQuotientι_gammaStarIdeal, Equiv.apply_symm_apply]
 
-/-- **Hartshorne II, Corollary 5.16(a).** Let `S = R[x₀, …, xᵣ]` with `r ≥ 1`. Every closed
+/-- **Hartshorne II, Corollary 5.16(a).** Let `S = R[x₀, …, xᵣ]`. Every closed
 subscheme `f : Y ⟶ ℙʳ_R = Proj S` is the closed subscheme defined by the homogeneous ideal
 `I = Γ_*(I_Y) ∩ S`, where `I_Y` is its module ideal sheaf: `Y` is isomorphic over `ℙʳ_R` to
 `Proj (S/I) ⟶ ℙʳ_R`. -/
-theorem exists_iso_projQuotientι_gammaStarIdeal (hr : 0 < r) {Y : Scheme.{u}} (f : Y ⟶ Proj 𝒮)
+theorem exists_iso_projQuotientι_gammaStarIdeal {Y : Scheme.{u}} (f : Y ⟶ Proj 𝒮)
     [IsClosedImmersion f] :
     ∃ e : Y ≅ Proj (gradedQuotient 𝒮
         (gammaStarIdeal R r (quasicoherentIdealSubsheafEquiv.symm f.ker))),
       e.hom ≫ projQuotientι 𝒮
         (gammaStarIdeal R r (quasicoherentIdealSubsheafEquiv.symm f.ker)) = f := by
-  have h := ker_projQuotientι_gammaStarIdeal_eq_ker hr f
+  have h := ker_projQuotientι_gammaStarIdeal_eq_ker f
   have := IsClosedImmersion.isIso_lift _ _ h
   exact ⟨asIso (IsClosedImmersion.lift _ f h.le), IsClosedImmersion.lift_fac _ _ _⟩
 
