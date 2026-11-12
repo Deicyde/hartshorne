@@ -46,6 +46,7 @@ $\nu_*\operatorname{div}(g)=[Y]$.
 - [Raw pushforward of cycles](raw-cycle-pushforward.md)
 - [Finiteness of normalization over a field](../../../schemes/normalization-and-exercises/normalization-finite-type-field.md)
 - [A graded quotient induces a closed immersion of Proj](../../../schemes/normalization-and-exercises/proj-surjection-closed-immersion.md)
+- [The partial Proj morphism of a graded map](../../../schemes/projective-spectrum/proj-partial-map.md)
 
 ## Sources
 
