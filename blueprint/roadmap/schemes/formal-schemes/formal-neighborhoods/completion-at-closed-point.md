@@ -2,6 +2,9 @@
 article_id: af_5b5223e84c6437d42d3f2ba4
 declaration: theorem
 origin: cited
+lean: Hartshorne.formalCompletion_closedPoint_iso Hartshorne.formalCompletionClosedPointIso Hartshorne.closedPointIdealSubsheaf Hartshorne.onePointLocallyRingedSpace Hartshorne.formalCompletionClosedPointSectionsEquiv Hartshorne.adicCompletionLocalizationEquiv
+statement: formalized
+proof: formalized
 ---
 
 # Completion at a closed point
