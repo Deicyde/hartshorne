@@ -3,6 +3,8 @@ article_id: af_caaa3e08a63e0c689b006588
 declaration: def
 origin: cited
 lean: Hartshorne.tildePullbackIsoModuleCompletion Hartshorne.isIso_tildePullbackToModuleCompletion Hartshorne.tildePullbackToModuleCompletion Hartshorne.QuasicoherentIdealSubsheaf.pullbackToModuleCompletion
+statement: formalized
+proof: formalized
 ---
 
 # Affine completed modules and ordinary tensor product
