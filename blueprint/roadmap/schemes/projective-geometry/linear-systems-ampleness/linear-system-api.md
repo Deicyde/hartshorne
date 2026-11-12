@@ -23,6 +23,7 @@ is assigned when $Y$ lies in the support of $D$.
 - [Divisors of invertible-sheaf sections](divisor-of-invertible-section.md)
 - [Finite-dimensional projective global sections](../../projective-sheaves/projective-global-sections-finite.md)
 - [Ambient hypersurfaces cut divisors](../../divisors/divisor-exercises/projective-intersection-divisor.md)
+- [Morphisms from generated invertible sheaves](morphism-from-generated-line-bundle.md)
 
 ## Proof depends on
 
