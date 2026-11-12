@@ -436,6 +436,141 @@ theorem sectionRingToFraction_injective (h : ¬HomogeneousIdeal.irrelevant 𝒜 
 
 end Fraction
 
+/-! ## Closed subschemes of `ℙʳ_k` -/
+
+section ClosedSubscheme
+
+open MvPolynomial
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+variable {k : Type u} [Field k] {r : ℕ}
+  (I : HomogeneousIdeal (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) k))
+
+local notation "𝒮" => MvPolynomial.homogeneousSubmodule (Fin (r + 1)) k
+local notation "S" => MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal
+local notation "𝒬" => gradedQuotient 𝒮 I
+
+/-- The image `xᵢ ∈ S` of the coordinate `xᵢ`. -/
+def coord (i : Fin (r + 1)) : S := Ideal.Quotient.mk I.toIdeal (X i)
+
+theorem coord_mem (i : Fin (r + 1)) : coord I i ∈ 𝒬 1 :=
+  mk_mem_gradedQuotient (isHomogeneous_X k i)
+
+theorem mk_mem_of_mem {d : ℕ} {p : MvPolynomial (Fin (r + 1)) k} (hp : p ∈ 𝒮 d) :
+    Ideal.Quotient.mk I.toIdeal p ∈ 𝒬 d :=
+  mk_mem_gradedQuotient hp
+
+section Integral
+
+variable [IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)]
+
+omit [IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)] in
+variable {I} in
+/-- One chart: multiplying `z` by `xᵢ^{jᵢ}` (with `xᵢ^{jᵢ} z = aᵢ`) clears it on every monomial
+with `βᵢ ≥ jᵢ`. -/
+theorem exists_mem_mul_monomial {n : ℕ} {z : FractionRing S} {j : Fin (r + 1) → ℕ}
+    {a : Fin (r + 1) → S} (ha : ∀ i, a i ∈ 𝒬 (j i + n))
+    (hza : ∀ i, algebraMap S (FractionRing S) (a i) =
+      algebraMap S (FractionRing S) (coord I i) ^ j i * z)
+    (β : Fin (r + 1) →₀ ℕ) (i : Fin (r + 1)) (hi : j i ≤ β i) :
+    ∃ b ∈ 𝒬 (β.degree + n), algebraMap S (FractionRing S) b =
+      z * algebraMap S (FractionRing S) (Ideal.Quotient.mk I.toIdeal (monomial β 1)) := by
+  set β' := β - Finsupp.single i (j i) with hβ'
+  have hβ : β = Finsupp.single i (j i) + β' := by
+    rw [hβ', add_tsub_cancel_of_le]
+    exact Finsupp.single_le_iff.2 hi
+  have hdeg : β.degree = j i + β'.degree := by
+    conv_lhs => rw [hβ]
+    rw [map_add, Finsupp.degree_single]
+  refine ⟨a i * Ideal.Quotient.mk I.toIdeal (monomial β' 1), ?_, ?_⟩
+  · have := SetLike.mul_mem_graded (ha i) (mk_mem_of_mem I (isHomogeneous_monomial (d := β') (1 : k) rfl))
+    rwa [show j i + n + β'.degree = β.degree + n by omega] at this
+  · rw [map_mul, hza i, hβ, monomial_single_add, map_mul, map_mul, map_pow, coord, map_pow]
+    ring
+
+omit [IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)] in
+variable {I} in
+/-- If `z` is a homogeneous fraction of degree `n` with `xᵢ^{jᵢ} z ∈ S_{jᵢ + n}` for every `i`,
+then `z · S_d ⊆ S_{d + n}` once `d ≥ ∑ jᵢ`. -/
+theorem exists_mem_mul_of_le {n : ℕ} {z : FractionRing S} {j : Fin (r + 1) → ℕ}
+    {a : Fin (r + 1) → S} (ha : ∀ i, a i ∈ 𝒬 (j i + n))
+    (hza : ∀ i, algebraMap S (FractionRing S) (a i) =
+      algebraMap S (FractionRing S) (coord I i) ^ j i * z)
+    {d : ℕ} (hd : ∑ i, j i ≤ d) {g : S} (hg : g ∈ 𝒬 d) :
+    ∃ b ∈ 𝒬 (d + n), algebraMap S (FractionRing S) b = z * algebraMap S (FractionRing S) g := by
+  classical
+  obtain ⟨p, hp, rfl⟩ := mem_gradedQuotient_iff.1 hg
+  have hmono : ∀ β ∈ p.support, ∃ b ∈ 𝒬 (d + n), algebraMap S (FractionRing S) b =
+      z * algebraMap S (FractionRing S) (Ideal.Quotient.mk I.toIdeal (monomial β 1)) := by
+    intro β hβ
+    have hβd : β.degree = d := by
+      rw [Finsupp.degree_apply]
+      exact ((mem_homogeneousSubmodule d p).1 hp).degree_eq_sum_deg_support hβ |>.symm
+    obtain ⟨i, hi⟩ : ∃ i, j i ≤ β i := by
+      by_contra! hlt
+      have : ∑ i, β i < ∑ i, j i :=
+        Finset.sum_lt_sum_of_nonempty Finset.univ_nonempty fun i _ => hlt i
+      rw [← Finsupp.degree_eq_sum, hβd] at this
+      omega
+    have := exists_mem_mul_monomial ha hza β i hi
+    rwa [hβd] at this
+  choose! b hb hbz using hmono
+  refine ⟨∑ β ∈ p.support, Ideal.Quotient.mk I.toIdeal (C (coeff β p)) * b β, ?_, ?_⟩
+  · refine sum_mem fun β hβ => ?_
+    have := SetLike.mul_mem_graded (mk_mem_of_mem I (isHomogeneous_C (Fin (r + 1)) (coeff β p)))
+      (hb β hβ)
+    rwa [zero_add] at this
+  · conv_rhs => rw [p.as_sum]
+    rw [map_sum, map_sum, map_sum, Finset.mul_sum]
+    refine Finset.sum_congr rfl fun β hβ => ?_
+    rw [map_mul, hbz β hβ, show (monomial β (coeff β p) : MvPolynomial (Fin (r + 1)) k) =
+      C (coeff β p) * monomial β 1 by rw [C_mul_monomial, mul_one], map_mul, map_mul]
+    ring
+
+variable {I} in
+/-- **The determinant trick.** A homogeneous fraction `z` of degree `n` with `xᵢ^{jᵢ} z ∈ S` for
+every `i` is integral over `S`: it stabilizes the nonzero finitely generated ideal `S_{≥ ∑ jᵢ}`. -/
+theorem isIntegral_of_forall_coord {n : ℕ} {z : FractionRing S} {j : Fin (r + 1) → ℕ}
+    {a : Fin (r + 1) → S} (ha : ∀ i, a i ∈ 𝒬 (j i + n))
+    (hza : ∀ i, algebraMap S (FractionRing S) (a i) =
+      algebraMap S (FractionRing S) (coord I i) ^ j i * z)
+    (hne : ∃ i, coord I i ≠ 0) :
+    IsIntegral S z := by
+  set N := ∑ i, j i
+  let G : Set S := {g | ∃ d, N ≤ d ∧ g ∈ 𝒬 d}
+  let M : Submodule S (FractionRing S) := Submodule.span S (algebraMap S (FractionRing S) '' G)
+  have hMfg : M.FG := by
+    have h1 : (Submodule.span S G).FG := IsNoetherian.noetherian _
+    have h2 := h1.map (Algebra.linearMap S (FractionRing S))
+    rwa [Submodule.map_span] at h2
+  have hM0 : M ≠ ⊥ := by
+    obtain ⟨i, hi⟩ := hne
+    intro hM
+    have hmem : algebraMap S (FractionRing S) (coord I i ^ N) ∈ M :=
+      Submodule.subset_span ⟨_, ⟨N, le_rfl, by
+        simpa using SetLike.pow_mem_graded N (coord_mem I i)⟩, rfl⟩
+    rw [hM, Submodule.mem_bot, map_eq_zero_iff _ (IsFractionRing.injective S (FractionRing S))] at hmem
+    exact pow_ne_zero N hi hmem
+  refine isIntegral_of_smul_mem_submodule M hM0 hMfg z fun w hw => ?_
+  induction hw using Submodule.span_induction with
+  | mem w hw =>
+    obtain ⟨g, ⟨d, hd, hg⟩, rfl⟩ := hw
+    obtain ⟨b, hb, hbz⟩ := exists_mem_mul_of_le ha hza hd hg
+    rw [smul_eq_mul, ← hbz]
+    exact Submodule.subset_span ⟨b, ⟨d + n, by omega, hb⟩, rfl⟩
+  | zero => simp
+  | add w w' _ _ hw hw' =>
+    rw [smul_add]
+    exact add_mem hw hw'
+  | smul c w _ hw =>
+    rw [smul_comm]
+    exact M.smul_mem c hw
+
+end Integral
+
+end ClosedSubscheme
+
 end ProjectiveSectionRing
 
 end Hartshorne
