@@ -306,6 +306,271 @@ theorem gammaStarMap_alpha (m : M) :
 
 end Naturality
 
+/-! ### Eventual bijectivity -/
+
+section Eventual
+
+/-- `m ↦ m / 1`, `M_n → Γ(X, M(n)~)`. Composed with `M(n)~ ≅ M~(n)` it is `alphaComponent n`. -/
+def constHom (n : ℤ) :
+    ℳ n →+ (projGradedModuleSheaf 𝒜 (gradedModuleTwist ℳ n)).val.obj (op ⊤) where
+  toFun m := constSection ℳ n m.2
+  map_zero' := section_ext fun _ => HomogeneousLocalizedModule.ext (LocalizedModule.zero_mk 1)
+  map_add' m m' := constSection_add ℳ n m.2 m'.2
+
+theorem bijective_alphaComponent_iff (n : ℤ) :
+    Function.Bijective (alphaComponent ℳ hgen n) ↔ Function.Bijective (constHom (𝒜 := 𝒜) ℳ n) := by
+  have h : ⇑(alphaComponent ℳ hgen n) =
+      (twistIso ℳ hgen n).symm.hom.val.app (op ⊤) ∘ constHom (𝒜 := 𝒜) ℳ n := rfl
+  rw [h]
+  exact ⟨fun hb => (Function.Bijective.of_comp_iff' (GammaStarReconstruction.app_bijective_of_iso _ _) _).1 hb,
+    fun hb => (GammaStarReconstruction.app_bijective_of_iso _ _).comp hb⟩
+
+/-- `M_n → Γ(X, M(n)~)` is bijective for all large `n`. -/
+def EventuallyBijective : Prop :=
+  ∃ n₀ : ℤ, ∀ n ≥ n₀, Function.Bijective (constHom (𝒜 := 𝒜) ℳ n)
+
+variable {ℳ}
+variable {M' σM' : Type u} [AddCommGroup M'] [Module A M'] [SetLike σM' M']
+  [AddSubgroupClass σM' M'] {ℳ' : ℤ → σM'} [SetLike.GradedSMul 𝒜 ℳ']
+  {M'' σM'' : Type u} [AddCommGroup M''] [Module A M''] [SetLike σM'' M'']
+  [AddSubgroupClass σM'' M''] {ℳ'' : ℤ → σM''} [SetLike.GradedSMul 𝒜 ℳ'']
+
+theorem gradedMap_constSection (g : M' →ₗ[A] M) (hg : ∀ (i : ℤ) (m : M'), m ∈ ℳ' i → g m ∈ ℳ i)
+    (n : ℤ) {m : M'} (hm : m ∈ ℳ' n) :
+    (projGradedModuleSheafMap (ℳ := gradedModuleTwist ℳ' n) (𝒩 := gradedModuleTwist ℳ n) g
+      (fun i m hm => hg (i + n) m hm)).val.app (op ⊤) (constSection (𝒜 := 𝒜) ℳ' n hm) =
+      constSection ℳ n (hg n m hm) := by
+  refine section_ext fun x => HomogeneousLocalizedModule.ext ?_
+  rw [projGradedModuleSheafMap_app_apply, val_gradedLocMap, constSection_apply,
+    constSection_apply, constFraction_val, constFraction_val]
+  exact IsLocalizedModule.map_LocalizedModules _ _ _ _
+
+private theorem gradedMap_app_injective (g : M' →ₗ[A] M)
+    (hg : ∀ (i : ℤ) (m : M'), m ∈ ℳ' i → g m ∈ ℳ i) (hginj : Function.Injective g) :
+    Function.Injective ((projGradedModuleSheafMap (𝒜 := 𝒜) g hg).val.app (op ⊤)) := by
+  intro t t' htt'
+  refine section_ext fun x => HomogeneousLocalizedModule.ext ?_
+  have := congrArg (fun z : (projGradedModuleSheaf 𝒜 ℳ).val.obj (op ⊤) =>
+    ((z : (sheafInType 𝒜 ℳ).1.obj (op ⊤)).1 x).val) htt'
+  exact IsLocalizedModule.map_injective _ _ _ g hginj this
+
+/-- A graded linear map commutes with taking homogeneous components. -/
+private theorem decompose_map [DirectSum.Decomposition ℳ'] [DirectSum.Decomposition ℳ]
+    (g : M' →ₗ[A] M) (hg : ∀ (i : ℤ) (m : M'), m ∈ ℳ' i → g m ∈ ℳ i) (m : M') (j : ℤ) :
+    (DirectSum.decompose ℳ (g m) j : M) = g (DirectSum.decompose ℳ' m j) := by
+  classical
+  conv_lhs => rw [← DirectSum.sum_support_decompose ℳ' m]
+  rw [map_sum, DirectSum.decompose_sum, DFinsupp.finsetSum_apply, AddSubmonoidClass.coe_finsetSum,
+    Finset.sum_eq_single j]
+  · exact DirectSum.decompose_of_mem_same ℳ (hg j _ (SetLike.coe_mem _))
+  · intro b _ hb
+    exact DirectSum.decompose_of_mem_ne ℳ (hg b _ (SetLike.coe_mem _)) hb
+  · intro hj
+    rw [DFinsupp.notMem_support_iff.1 hj]
+    simp
+
+private theorem pointwise_eq_zero {N σN : Type u} [AddCommGroup N] [Module A N] [SetLike σN N]
+    [AddSubgroupClass σN N] {𝒩 : ℤ → σN} [SetLike.GradedSMul 𝒜 𝒩] (q : M →ₗ[A] N)
+    (hq : ∀ (i : ℤ) (m : M), m ∈ ℳ i → q m ∈ 𝒩 i)
+    {t : (projGradedModuleSheaf 𝒜 ℳ).val.obj (op ⊤)}
+    (ht : (projGradedModuleSheafMap q hq).val.app (op ⊤) t = 0) :
+    ∀ x, gradedLocMap q hq _ ((show (sheafInType 𝒜 ℳ).1.obj (op ⊤) from t).1 x) = 0 := fun x =>
+  congrArg (fun z : (projGradedModuleSheaf 𝒜 𝒩).val.obj (op ⊤) =>
+    (show (sheafInType 𝒜 𝒩).1.obj (op ⊤) from z).1 x) ht
+
+variable [DirectSum.Decomposition ℳ'] [DirectSum.Decomposition ℳ] [DirectSum.Decomposition ℳ'']
+
+/-- **Eventual bijectivity through a short exact sequence.** If `0 → M' → M → M'' → 0` is exact
+and `M' → Γ_*`, `M'' → Γ_*` are eventually bijective, so is `M → Γ_*`: the bottom row
+`0 → Γ(M'(n)~) → Γ(M(n)~) → Γ(M''(n)~)` is left exact. -/
+theorem eventuallyBijective_of_exact (g : M' →ₗ[A] M)
+    (hg : ∀ (i : ℤ) (m : M'), m ∈ ℳ' i → g m ∈ ℳ i) (q : M →ₗ[A] M'')
+    (hq : ∀ (i : ℤ) (m : M), m ∈ ℳ i → q m ∈ ℳ'' i) (hginj : Function.Injective g)
+    (hqsurj : Function.Surjective q) (hexact : ∀ m, q m = 0 → ∃ m', g m' = m)
+    (h' : EventuallyBijective (𝒜 := 𝒜) ℳ') (h'' : EventuallyBijective (𝒜 := 𝒜) ℳ'') :
+    EventuallyBijective (𝒜 := 𝒜) ℳ := by
+  obtain ⟨n₁, hn₁⟩ := h'
+  obtain ⟨n₂, hn₂⟩ := h''
+  refine ⟨max n₁ n₂, fun n hn => ?_⟩
+  obtain ⟨inj', surj'⟩ := hn₁ n (le_of_max_le_left hn)
+  obtain ⟨inj'', surj''⟩ := hn₂ n (le_of_max_le_right hn)
+  have hgn : ∀ (i : ℤ) (m : M'), m ∈ gradedModuleTwist ℳ' n i → g m ∈ gradedModuleTwist ℳ n i :=
+    fun i m hm => hg (i + n) m hm
+  have hqn : ∀ (i : ℤ) (m : M), m ∈ gradedModuleTwist ℳ n i → q m ∈ gradedModuleTwist ℳ'' n i :=
+    fun i m hm => hq (i + n) m hm
+  set G := projGradedModuleSheafMap (𝒜 := 𝒜) g hgn
+  set Q := projGradedModuleSheafMap (𝒜 := 𝒜) q hqn
+  have hG : ∀ m : ℳ' n, G.val.app (op ⊤) (constHom ℳ' n m) = constHom ℳ n ⟨g m, hg n m m.2⟩ :=
+    fun m => gradedMap_constSection g hg n m.2
+  have hQ : ∀ m : ℳ n, Q.val.app (op ⊤) (constHom ℳ n m) = constHom ℳ'' n ⟨q m, hq n m m.2⟩ :=
+    fun m => gradedMap_constSection q hq n m.2
+  -- homogeneous preimages under `g`
+  have hpre : ∀ m : ℳ n, q m = 0 → ∃ m' : ℳ' n, g m' = m := by
+    intro m hm
+    obtain ⟨m₁, hm₁⟩ := hexact m hm
+    refine ⟨DirectSum.decompose ℳ' m₁ n, ?_⟩
+    rw [← decompose_map g hg, hm₁]
+    exact DirectSum.decompose_of_mem_same ℳ m.2
+  refine ⟨(injective_iff_map_eq_zero _).2 fun m hm => ?_, fun t => ?_⟩
+  · have hqm : q m = 0 := by
+      have := hQ m
+      rw [hm, map_zero] at this
+      have h0 := inj'' (this.symm.trans (map_zero _).symm)
+      exact congrArg Subtype.val h0
+    obtain ⟨m', hm'⟩ := hpre m hqm
+    have hc : constHom (𝒜 := 𝒜) ℳ' n m' = 0 := by
+      refine gradedMap_app_injective g hgn hginj ?_
+      change G.val.app (op ⊤) _ = G.val.app (op ⊤) 0
+      rw [hG, map_zero, ← hm]
+      congr 1
+      exact Subtype.ext hm'
+    rw [← map_zero (constHom (𝒜 := 𝒜) ℳ' n)] at hc
+    have := inj' hc
+    apply Subtype.ext
+    rw [← hm', this]
+    simp
+  · obtain ⟨m'', hm''⟩ := surj'' (Q.val.app (op ⊤) t)
+    obtain ⟨m₀, hm₀⟩ := hqsurj m''
+    set m : ℳ n := DirectSum.decompose ℳ m₀ n
+    have hqm : (⟨q m, hq n m m.2⟩ : ℳ'' n) = m'' := by
+      apply Subtype.ext
+      change q (DirectSum.decompose ℳ m₀ n : M) = m''
+      rw [← decompose_map q hq, hm₀]
+      exact DirectSum.decompose_of_mem_same ℳ'' m''.2
+    have hker : Q.val.app (op ⊤) (t - constHom ℳ n m) = 0 := by
+      rw [map_sub, hQ, hqm, hm'', sub_self]
+    obtain ⟨t', ht'⟩ := ProjectiveGlobalSectionsFinite.exists_sections_of_gradedLocMap_eq_zero
+      g hgn q hqn hginj hexact _ (pointwise_eq_zero q hqn hker)
+    obtain ⟨m', hm'⟩ := surj' t'
+    refine ⟨m + ⟨g m', hg n m' m'.2⟩, ?_⟩
+    rw [map_add, ← hG, hm']
+    have : G.val.app (op ⊤) t' = t - constHom ℳ n m := Subtype.ext (funext ht')
+    rw [this, add_sub_cancel]
+
+/-- **Eventual bijectivity along a graded linear bijection.** -/
+theorem eventuallyBijective_of_bijective (g : M' →ₗ[A] M)
+    (hg : ∀ (i : ℤ) (m : M'), m ∈ ℳ' i ↔ g m ∈ ℳ i) (hgbij : Function.Bijective g)
+    (h' : EventuallyBijective (𝒜 := 𝒜) ℳ') : EventuallyBijective (𝒜 := 𝒜) ℳ := by
+  obtain ⟨n₁, hn₁⟩ := h'
+  refine ⟨n₁, fun n hn => ?_⟩
+  obtain ⟨inj', surj'⟩ := hn₁ n hn
+  have hgn : ∀ (i : ℤ) (m : M'), m ∈ gradedModuleTwist ℳ' n i → g m ∈ gradedModuleTwist ℳ n i :=
+    fun i m hm => (hg (i + n) m).1 hm
+  set G := projGradedModuleSheafMap (𝒜 := 𝒜) g hgn
+  have hG : ∀ m : ℳ' n, G.val.app (op ⊤) (constHom ℳ' n m) =
+      constHom ℳ n ⟨g m, (hg n m).1 m.2⟩ :=
+    fun m => gradedMap_constSection g (fun i m => (hg i m).1) n m.2
+  have hpre : ∀ m : ℳ n, ∃ m' : ℳ' n, g m' = m := by
+    intro m
+    obtain ⟨m', hm'⟩ := hgbij.2 m
+    exact ⟨⟨m', (hg n m').2 (hm' ▸ m.2)⟩, hm'⟩
+  refine ⟨(injective_iff_map_eq_zero _).2 fun m hm => ?_, fun t => ?_⟩
+  · obtain ⟨m', hm'⟩ := hpre m
+    have hc : constHom (𝒜 := 𝒜) ℳ' n m' = 0 := by
+      refine gradedMap_app_injective g hgn hgbij.1 ?_
+      change G.val.app (op ⊤) _ = G.val.app (op ⊤) 0
+      rw [hG, map_zero, ← hm]
+      congr 1
+      exact Subtype.ext hm'
+    rw [← map_zero (constHom (𝒜 := 𝒜) ℳ' n)] at hc
+    have := inj' hc
+    apply Subtype.ext
+    rw [← hm', this]
+    simp
+  · have hq : ∀ (i : ℤ) (m : M), m ∈ gradedModuleTwist ℳ n i →
+        (0 : M →ₗ[A] M) m ∈ gradedModuleTwist ℳ n i := fun i m _ => zero_mem _
+    obtain ⟨t', ht'⟩ := ProjectiveGlobalSectionsFinite.exists_sections_of_gradedLocMap_eq_zero
+      (ℳ'' := gradedModuleTwist ℳ n) g hgn 0 hq hgbij.1 (fun m _ => hgbij.2 m) t
+      (fun x => by
+        apply HomogeneousLocalizedModule.ext
+        rw [val_gradedLocMap, map_zero, LinearMap.zero_apply]
+        rfl)
+    obtain ⟨m', hm'⟩ := surj' t'
+    refine ⟨⟨g m', (hg n m').1 m'.2⟩, ?_⟩
+    rw [← hG, hm']
+    exact Subtype.ext (funext ht')
+
+end Eventual
+
+/-! ### Reduction to the factors `(S/𝔭)(l)` of a graded prime filtration -/
+
+section Filtration
+
+open ProjectiveGlobalSectionsFinite ProjectiveSectionRing
+
+attribute [local instance] gradedSMul_of_intGrading
+
+variable {ℳ} [DirectSum.Decomposition ℳ]
+
+/-- **Reduction to the prime factors** (as in Hartshorne's proof of Theorem 5.19). Let `S` be
+Noetherian and `M` a finitely generated graded `S`-module. If `M → Γ_*` is eventually bijective for
+every factor `(S/𝔭)(l)`, `𝔭` a homogeneous prime, then it is eventually bijective for `M`. -/
+theorem eventuallyBijective_of_primeFactors [IsNoetherianRing A] [Module.Finite A M]
+    (hfac : ∀ (p : PrimeSpectrum A) (hp : p.1.IsHomogeneous (intGrading 𝒜)) (l : ℤ),
+      EventuallyBijective (𝒜 := 𝒜) (primeFactor 𝒜 p hp l)) :
+    EventuallyBijective (𝒜 := 𝒜) ℳ := by
+  classical
+  obtain ⟨s, hhead, hlast⟩ := exists_gradedPrimeFiltration (intGrading 𝒜) (intModuleGrading ℳ)
+  let P : HomogeneousSubmodule (intGrading 𝒜) (intModuleGrading ℳ) → Prop := fun N =>
+    EventuallyBijective (𝒜 := 𝒜) (gradedSubmodulePiece (intGrading 𝒜) (intModuleGrading ℳ) N)
+  have hbot : P ⊥ := by
+    have h0 : Subsingleton (⊥ : HomogeneousSubmodule (intGrading 𝒜) (intModuleGrading ℳ)) :=
+      ⟨fun a b => Subtype.ext (((Submodule.mem_bot A).1 a.2).trans
+        ((Submodule.mem_bot A).1 b.2).symm)⟩
+    have : ∀ T : Submonoid A, Subsingleton (LocalizedModule T
+        (⊥ : HomogeneousSubmodule (intGrading 𝒜) (intModuleGrading ℳ))) := fun T =>
+      ⟨fun a b => by
+        induction a using LocalizedModule.induction_on with | h m t =>
+        induction b using LocalizedModule.induction_on with | h m' t' =>
+        rw [Subsingleton.elim m 0, Subsingleton.elim m' 0, LocalizedModule.zero_mk,
+          LocalizedModule.zero_mk]⟩
+    refine ⟨0, fun n _ => ⟨fun a b _ => Subtype.ext (Subsingleton.elim _ _), fun t => ⟨0, ?_⟩⟩⟩
+    exact globalValue_injective 𝒜 _ (funext fun x =>
+      HomogeneousLocalizedModule.ext (Subsingleton.elim _ _))
+  have hstep : ∀ N₁ N₂, IsGradedPrimeFiltrationStep (intGrading 𝒜) (intModuleGrading ℳ) N₁ N₂ →
+      P N₁ → P N₂ := by
+    rintro N₁ N₂ ⟨h, p, hp, l, ⟨e⟩⟩ hN₁
+    let g : N₁ →ₗ[A] N₂ :=
+      { toFun := fun m => ⟨m.1, h m.2⟩
+        map_add' := fun _ _ => rfl
+        map_smul' := fun _ _ => rfl }
+    let q := e.toLinearEquiv.symm.toLinearMap ∘ₗ (gradedSubmoduleOf _ _ N₁ N₂ h).toSubmodule.mkQ
+    refine eventuallyBijective_of_exact (ℳ' := gradedSubmodulePiece _ _ N₁)
+      (ℳ := gradedSubmodulePiece _ _ N₂) (ℳ'' := primeFactor 𝒜 p hp l) g
+      (fun _ _ hm => hm) q (fun i m hm => ?_)
+      (fun a b hab => Subtype.ext (congrArg (fun z : N₂ => (z : M)) hab))
+      (e.toLinearEquiv.symm.surjective.comp (Submodule.mkQ_surjective _)) (fun m hm => ?_)
+      hN₁ (hfac p hp l)
+    · obtain ⟨x, hx, hxe⟩ := (Set.ext_iff.1 (e.map_piece i)
+        ((gradedSubmoduleOf _ _ N₁ N₂ h).toSubmodule.mkQ m)).2 ⟨m, hm, rfl⟩
+      change e.toLinearEquiv.symm _ ∈ _
+      rw [← hxe]
+      simpa using hx
+    · have hm' : (gradedSubmoduleOf _ _ N₁ N₂ h).toSubmodule.mkQ m = 0 :=
+        e.toLinearEquiv.symm.injective (hm.trans (map_zero _).symm)
+      have hmem : m ∈ (gradedSubmoduleOf _ _ N₁ N₂ h).toSubmodule :=
+        (Submodule.Quotient.mk_eq_zero (gradedSubmoduleOf _ _ N₁ N₂ h).toSubmodule).1 hm'
+      exact ⟨⟨m.1, hmem⟩, rfl⟩
+  have hall : ∀ i, P (s i) := by
+    intro i
+    induction i using Fin.induction with
+    | zero =>
+      change P s.head
+      rw [hhead]
+      exact hbot
+    | succ i ih => exact hstep _ _ (s.step i) ih
+  have htop : P ⊤ := hlast ▸ hall (Fin.last _)
+  let ι : (⊤ : HomogeneousSubmodule (intGrading 𝒜) (intModuleGrading ℳ)) →ₗ[A] M :=
+    { toFun := fun m => m.1
+      map_add' := fun _ _ => rfl
+      map_smul' := fun _ _ => rfl }
+  exact eventuallyBijective_of_bijective
+    (ℳ' := gradedSubmodulePiece (intGrading 𝒜) (intModuleGrading ℳ) ⊤) (ℳ := ℳ) ι
+    (fun _ _ => Iff.rfl) ⟨fun a b hab => Subtype.ext hab,
+      fun m => ⟨⟨m, show m ∈ (⊤ : Submodule A M) from Submodule.mem_top⟩, rfl⟩⟩ htop
+
+end Filtration
+
 end EventualSectionRecovery
 
 end Hartshorne
