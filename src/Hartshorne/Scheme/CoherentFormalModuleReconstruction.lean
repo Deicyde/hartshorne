@@ -978,7 +978,7 @@ theorem moduleCompletionPowShortComplex_exact [IsLocallyNoetherian X] [G.IsQuasi
     (I.mem_sectionsSmul_of_moduleCompletionπ_eq_zero G n ⟨U, hU⟩ x hx)⟩, rfl⟩
 
 /-- **`F̂ ⟶ (F / I ^ (n + 1) F)|_Y` is an epimorphism** for `F` quasi-coherent. -/
-instance epi_moduleCompletionπ' [IsLocallyNoetherian X] [G.IsQuasicoherent] (n : ℕ) :
+instance epi_moduleCompletionπ' [G.IsQuasicoherent] (n : ℕ) :
     Epi (I.moduleCompletionπ' G n) := by
   have hχ := I.toFormalCompletionRingCatSheaf_compat
   have h : (ShortComplex.mk (I.moduleCompletionπ' G n) (0 : _ ⟶ I.moduleCompletionObj' G n)
