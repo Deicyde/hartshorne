@@ -9,8 +9,9 @@ proof: formalized
 
 # Adjunction for an effective Cartier divisor
 
-Let $Y$ be a nonsingular effective Cartier divisor in a nonsingular variety
-$X$, and let $L = \mathcal{O}_X(Y)$ be its associated invertible sheaf. Then
+Let $X$ be a nonsingular variety over $k$, and let $Y$ be a nonsingular
+subvariety of $X$ that is an effective Cartier divisor (so of codimension one),
+with associated invertible sheaf $L = \mathcal{O}_X(Y)$. Then
 
 $\omega _Y \simeq (\omega _X \otimes L)|_Y$.
 
