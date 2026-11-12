@@ -1216,6 +1216,82 @@ theorem exists_lift_projectivePoint_comp_pointProjection {p h q : Fin (n + 2) �
 
 end GeneralProperties
 
+/-! ### The coordinate case -/
+
+section CoordinateCase
+
+open Matrix
+
+variable (k : Type u) [Field k] (n : ℕ)
+
+theorem single_last_dotProduct_ne_zero :
+    (Pi.single (Fin.last (n + 1)) (1 : k) : Fin (n + 2) → k) ⬝ᵥ Pi.single (Fin.last (n + 1)) 1 ≠
+      0 := by
+  simp
+
+/-- For `P = (0 : ⋯ : 0 : 1)` and `H = {x_{n+1} = 0}`, `U_P` is `U = D₊(x₀) ∪ ⋯ ∪ D₊(xₙ)`. -/
+theorem pointProjectionDomain_single_last :
+    pointProjectionDomain k (Pi.single (Fin.last (n + 1)) 1) (Pi.single (Fin.last (n + 1)) 1) =
+      projectionDomain n (Spec (CommRingCat.of k)) := by
+  refine SetLike.coe_injective ?_
+  rw [pointProjectionDomain_eq_compl_range (single_last_dotProduct_ne_zero k n),
+    projectionDomain_eq_compl_range]
+  rfl
+
+/-- **The coordinate case of the general projection.** For `P = (0 : ⋯ : 0 : 1)` and
+`H = {x_{n+1} = 0}`, the projection `U_P ⟶ ℙⁿ⁺¹_k` is `projectionFromPoint` followed by the
+identification `(x₀ : ⋯ : xₙ) ↦ (x₀ : ⋯ : xₙ : 0)` of `ℙⁿ_k` with `H`. -/
+theorem pointProjection_single_last :
+    pointProjection k (Pi.single (Fin.last (n + 1)) 1) (Pi.single (Fin.last (n + 1)) 1) =
+      (Scheme.isoOfEq _ (pointProjectionDomain_single_last k n)).hom ≫
+        projectionFromPoint n _ ≫ hyperplaneInclusion n _ := by
+  symm
+  rw [← eq_pointProjection_iff]
+  set ι' := (Scheme.isoOfEq _ (pointProjectionDomain_single_last k n)).hom
+  have hι : ι' ≫ (projectionDomain n (Spec (CommRingCat.of k))).ι =
+      (pointProjectionDomain k (Pi.single (Fin.last (n + 1)) 1)
+        (Pi.single (Fin.last (n + 1)) 1)).ι := Scheme.isoOfEq_hom_ι _ _
+  obtain ⟨hj, ej, hej⟩ := hyperplaneInclusion_spec n (Spec (CommRingCat.of k))
+  obtain ⟨hπ, eπ, heπ⟩ := projectionFromPoint_spec n (Spec (CommRingCat.of k))
+  obtain ⟨e1, he1⟩ := exists_iso_of_comp (projectionFromPoint n _) _ rfl ej hej
+  obtain ⟨e2, he2⟩ := exists_iso_of_comp ι' (projectionFromPoint n _ ≫ hyperplaneInclusion n _)
+    rfl (e1 ≪≫ eπ)
+    (s := fun i => eπ.hom.app ⊤ (pullbackGlobalSection (projectionFromPoint n _)
+      (hyperplaneSections n _ i))) (fun i => by
+        simp only [Iso.trans_hom, Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply]
+        rw [he1])
+  obtain ⟨e3, he3⟩ := exists_iso_of_comp_all ι' _ hι (Iso.refl (projectionDomainTwist n _))
+  refine ⟨by rw [Category.assoc, Category.assoc, hj, hπ, ← Category.assoc, hι],
+    e2 ≪≫ e3.symm, fun i => ?_⟩
+  simp only [Iso.trans_hom, Iso.symm_hom, Scheme.Modules.Hom.comp_app,
+    ConcreteCategory.comp_apply]
+  rw [he2]
+  have hee : (Pi.single (Fin.last (n + 1)) (1 : k) : Fin (n + 2) → k) ⬝ᵥ
+      Pi.single (Fin.last (n + 1)) 1 = 1 := by simp
+  induction i using Fin.lastCases with
+  | last =>
+    have h0 : projectionVector k (Pi.single (Fin.last (n + 1)) 1)
+        (Pi.single (Fin.last (n + 1)) 1) (Fin.last (n + 1)) = 0 := by
+      simp [projectionVector, hee]
+    simp only [hyperplaneSections, Fin.lastCases_last, pointProjectionSections,
+      projectionLinearSections, h0]
+    have hl : linearSection k (n + 1) 0 = 0 := by simp [linearSection]
+    rw [pullbackGlobalSection_zero, map_zero, pullbackGlobalSection_zero, map_zero, hl,
+      pullbackGlobalSection_zero]
+  | cast i =>
+    have h1 : projectionVector k (Pi.single (Fin.last (n + 1)) 1)
+        (Pi.single (Fin.last (n + 1)) 1) i.castSucc = Pi.single i.castSucc 1 := by
+      simp [projectionVector, hee]
+    simp only [hyperplaneSections, Fin.lastCases_castSucc, heπ, pointProjectionSections,
+      projectionLinearSections, h1, linearSection_single]
+    have h2 : e3.hom.app ⊤ (pullbackGlobalSection (pointProjectionDomain k
+        (Pi.single (Fin.last (n + 1)) 1) (Pi.single (Fin.last (n + 1)) 1)).ι
+        (projectiveSpaceCoordinate (n + 1) _ i.castSucc)) =
+        pullbackGlobalSection ι' (projectionSections n _ i) := he3 _
+    exact iso_inv_app_eq_of_hom_app_eq e3 h2
+
+end CoordinateCase
+
 /-! ### Summary -/
 
 section Summary
