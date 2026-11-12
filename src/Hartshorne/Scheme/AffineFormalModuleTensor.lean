@@ -347,6 +347,56 @@ private lemma unitToModuleCompletionUnit_π (n : ℕ) (U : X.Opens)
   refine (map_smul ((I.moduleCompletionπ _ n).val.app _).hom x _).trans ?_
   exact congrArg (x • ·) ((congrArg ((I.moduleCompletionπ _ n).val.app _) h2).trans h3)
 
+/-- Scalars acting on a pushforward act through the ring map. -/
+private lemma pushforward_smul_congr {C D : Type*} [Category C] [Category D]
+    {J : GrothendieckTopology C} {K : GrothendieckTopology D} {G : C ⥤ D} [G.IsContinuous J K]
+    {R : Sheaf J RingCat.{u}} {S : Sheaf K RingCat.{u}}
+    (φ : R ⟶ (G.sheafPushforwardContinuous RingCat.{u} J K).obj S) (M : SheafOfModules.{u} S)
+    (V : Cᵒᵖ) {r r' : R.obj.obj V} (h : φ.hom.app V r = φ.hom.app V r')
+    (m : ((SheafOfModules.pushforward.{u} φ).obj M).val.obj V) : r • m = r' • m :=
+  congrArg (fun (a : S.obj.obj (op (G.obj V.unop))) =>
+    (a • (show M.val.obj (op (G.obj V.unop)) from m) : M.val.obj (op (G.obj V.unop)))) h
+
+/-- Scalars acting on a pushforward act through the ring map. -/
+private lemma pushforward_smul_eq {C D : Type*} [Category C] [Category D]
+    {J : GrothendieckTopology C} {K : GrothendieckTopology D} {G : C ⥤ D} [G.IsContinuous J K]
+    {R : Sheaf J RingCat.{u}} {S : Sheaf K RingCat.{u}}
+    (φ : R ⟶ (G.sheafPushforwardContinuous RingCat.{u} J K).obj S) (M : SheafOfModules.{u} S)
+    (V : Cᵒᵖ) (r : R.obj.obj V) (m : ((SheafOfModules.pushforward.{u} φ).obj M).val.obj V) :
+    (r • m : ((SheafOfModules.pushforward.{u} φ).obj M).val.obj V) =
+      ((show S.obj.obj (op (G.obj V.unop)) from φ.hom.app V r) •
+        (show M.val.obj (op (G.obj V.unop)) from m) : M.val.obj (op (G.obj V.unop))) :=
+  rfl
+
+/-- The canonical map at level `n` on a function `a`, as `a` times the image of `1`. -/
+private lemma moduleCompletionLevelMap_unit_apply (n : ℕ) (U : X.Opens) (a : Γ(X, U)) :
+    (show (I.moduleCompletionObj (SheafOfModules.unit.{u} X.ringCatSheaf) n).val.obj
+        (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U)) from
+      (I.moduleCompletionLevelMap I.structureSheafToFormalCompletionRingCat
+        I.structureSheafToFormalCompletionRingCat_compat (SheafOfModules.unit.{u} X.ringCatSheaf) n).val.app (op U) a) =
+      (show I.formalCompletionRingCatSheaf.obj.obj (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U)) from
+        I.structureSheafToFormalCompletionRingCat.hom.app (op U) a) •
+        (show (I.moduleCompletionObj (SheafOfModules.unit.{u} X.ringCatSheaf) n).val.obj
+            (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U)) from
+          (I.moduleCompletionLevelMap I.structureSheafToFormalCompletionRingCat
+            I.structureSheafToFormalCompletionRingCat_compat (SheafOfModules.unit.{u} X.ringCatSheaf) n).val.app (op U)
+            (1 : Γ(X, U))) :=
+  (congrArg ((I.moduleCompletionLevelMap I.structureSheafToFormalCompletionRingCat
+      I.structureSheafToFormalCompletionRingCat_compat (SheafOfModules.unit.{u} X.ringCatSheaf) n).val.app (op U)) (mul_one a).symm).trans
+    ((map_smul ((I.moduleCompletionLevelMap I.structureSheafToFormalCompletionRingCat
+      I.structureSheafToFormalCompletionRingCat_compat (SheafOfModules.unit.{u} X.ringCatSheaf) n).val.app (op U)).hom
+      (show X.ringCatSheaf.obj.obj (op U) from a)
+      (show (SheafOfModules.unit.{u} X.ringCatSheaf).val.obj (op U) from (1 : Γ(X, U)))).trans (pushforward_smul_eq I.structureSheafToFormalCompletionRingCat
+        (I.moduleCompletionObj (SheafOfModules.unit.{u} X.ringCatSheaf) n) (op U) a _))
+
+/-- The projection of `𝒪_X ⟶ i_* 𝒪_X̂` to level `n` is restriction to `Y_(n+1)`. -/
+private lemma formalCompletionRingCatSheafπ_structureSheafToFormalCompletionRingCat (n : ℕ)
+    (U : X.Opens) (a : Γ(X, U)) :
+    (I.formalCompletionRingCatSheafπ n).hom.app (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U))
+        (I.structureSheafToFormalCompletionRingCat.hom.app (op U) a) =
+      I.formalCompletionSheafObjSectionsMap n U a :=
+  congrArg (fun g => g.hom a) (I.formalCompletionSectionsMap_π U n)
+
 end RankOne
 
 end QuasicoherentIdealSubsheaf
