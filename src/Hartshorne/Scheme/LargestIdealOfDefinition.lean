@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.IdealOfDefinition
+import Hartshorne.Scheme.ReducedInducedSubscheme
 
 /-!
 # The largest ideal of definition
@@ -11,14 +12,17 @@ Hartshorne, *Algebraic Geometry*, II.9, Proposition 9.5(b) (p. 197).
 
 * `Hartshorne.vanishingIdealSubsheaf X`: for a locally ringed space `X`, the ideal subsheaf of
   `𝒪_X` of sections vanishing at every point, i.e. whose germ at every point `x` lies in the
-  maximal ideal of `𝒪_{X,x}`. On a Noetherian formal scheme this is the candidate `J_red`.
+  maximal ideal of `𝒪_{X,x}`. On a Noetherian formal scheme this is `J_red`.
+* `Hartshorne.IsIdealOfDefinition.isGreatest_vanishingIdealSubsheaf`: on a Noetherian formal
+  scheme `X`, `J_red` is the largest ideal of definition, and an ideal of definition `J` has
+  reduced quotient scheme `(X, 𝒪_X / J)` if and only if `J = J_red`.
+* `Hartshorne.IsIdealOfDefinition.isIdealOfDefinition_vanishingIdealSubsheaf`: `J_red` is an ideal
+  of definition (in particular ideals of definition exist).
 * `Hartshorne.IsIdealOfDefinition.le_vanishingIdealSubsheaf`: every ideal of definition `J` is
   contained in `J_red` (only `Supp (𝒪_X / J) = X` is used).
 * `Hartshorne.IsIdealOfDefinition.isReduced_quotientScheme_iff`: for an ideal of definition `J`,
   the scheme `(X, 𝒪_X / J)` is reduced if and only if `J = J_red`.
-* `Hartshorne.IsIdealOfDefinition.isGreatest_of_isIdealOfDefinition_vanishingIdealSubsheaf`:
-  once `J_red` is an ideal of definition, it is the largest one, and it is the only ideal of
-  definition with reduced quotient scheme.
+* `Hartshorne.sheafSupport_quotientAb_vanishingIdealSubsheaf`: `Supp (𝒪_X / J_red) = X`.
 
 Proof outline. If `Supp (𝒪_X / J) = X` then `1 ∉ J` near any point, so no section of `J` has a
 unit germ, i.e. `J ⊆ J_red`. On the Noetherian scheme `Y = (X, 𝒪_X / J)`, the image of a section
@@ -27,8 +31,15 @@ point, with `g t ∈ J_red`), hence empty principal open; on a reduced scheme th
 zero, so `J_red ⊆ J`. Conversely if `J = J_red`, a nilpotent section of `𝒪_X / J` is locally the
 image of a section `s` with `s ^ n ∈ J_red`, and since maximal ideals are prime, `s ∈ J_red`.
 
-The remaining part of Proposition 9.5(b), that `J_red` is an ideal of definition (in particular
-that ideals of definition exist), is not proved here.
+That `J_red` is an ideal of definition is proved locally. On a chart `X ⊇ U ≅ Ŷ` (the completion of
+a Noetherian scheme `Y` along `I`, with underlying space `|Y_1|`), consider the reduced induced
+subscheme `Z = (Y_1)_red` and the composite `Z ⟶ Y_1 ⟶ Ŷ ≅ U ⊆ X`, where `Y_1 ⟶ Ŷ` is given by
+`π₀ : 𝒪_Ŷ ⟶ 𝒪_{Y_1}`. Restricted to an affine open `Spec R ⊆ Z` this is an open embedding with
+surjective stalk maps from the spectrum of a reduced Noetherian ring. Any such morphism `g` from a
+reduced scheme kills `J_red`, so it factors through `(X, 𝒪_X / J_red)`, and the factorization is
+an open immersion (its stalk maps are bijective). These affine charts make `(X, 𝒪_X / J_red)` a
+scheme, Noetherian because the chart rings are Noetherian and `X` is quasi-compact. Since `J_red`
+is defined intrinsically, no gluing of the local constructions is needed.
 -/
 
 noncomputable section
@@ -396,6 +407,192 @@ private lemma exists_isNoetherian_iso_quotientSheafedSpace [CompactSpace X] :
 
 end scheme
 
+section charts
+
+/-! ### Reduced Noetherian affine charts of a Noetherian formal scheme -/
+
+/-- A morphism of locally ringed spaces which is an open embedding with surjective stalk maps. -/
+private def IsChartMap {A B : LocallyRingedSpace.{u}} (f : A ⟶ B) : Prop :=
+  IsOpenEmbedding f.base ∧ ∀ a, Function.Surjective (f.stalkMap a)
+
+private lemma IsChartMap.comp {A B C : LocallyRingedSpace.{u}} {f : A ⟶ B} {g : B ⟶ C}
+    (hf : IsChartMap f) (hg : IsChartMap g) : IsChartMap (f ≫ g) := by
+  refine ⟨?_, fun a => ?_⟩
+  · rw [LocallyRingedSpace.comp_base, TopCat.coe_comp]
+    exact hg.1.comp hf.1
+  · rw [LocallyRingedSpace.stalkMap_comp]
+    exact (hf.2 a).comp (hg.2 _)
+
+private lemma isChartMap_of_isOpenImmersion {A B : LocallyRingedSpace.{u}} (f : A ⟶ B)
+    [H : LocallyRingedSpace.IsOpenImmersion f] : IsChartMap f :=
+  ⟨H.base_open, fun a =>
+    (@ConcreteCategory.bijective_of_isIso _ _ _ _ _ _ _ _ (f.stalkMap a)
+      (LocallyRingedSpace.IsOpenImmersion.stalk_iso f a)).2⟩
+
+/-- Two open immersions of locally ringed spaces with the same image have isomorphic sources.
+Copied from the private declaration of the same name in
+`Hartshorne.Scheme.NoetherianFormalScheme`. -/
+private def isoOfRangeEqOpenImmersion {X Y Z : LocallyRingedSpace.{u}} (f : X ⟶ Z) (g : Y ⟶ Z)
+    [LocallyRingedSpace.IsOpenImmersion f] [LocallyRingedSpace.IsOpenImmersion g]
+    (e : Set.range f.base = Set.range g.base) : X ≅ Y where
+  hom := LocallyRingedSpace.IsOpenImmersion.lift g f e.le
+  inv := LocallyRingedSpace.IsOpenImmersion.lift f g e.ge
+  hom_inv_id := by rw [← cancel_mono f]; simp
+  inv_hom_id := by rw [← cancel_mono g]; simp
+
+variable {Y : Scheme.{u}} (I : QuasicoherentIdealSubsheaf Y)
+
+/-- `Y_1` with its structure sheaf pulled back along the homeomorphism `Y_1 ⟶ Y_(0+1)`; this is
+the target `𝒪_{Y_1}` of `π₀ : 𝒪_{X̂} ⟶ 𝒪_{Y_1}`. -/
+private abbrev neighborhoodRestrict : LocallyRingedSpace.{u} :=
+  (I.infinitesimalNeighborhood 1).toLocallyRingedSpace.restrict
+    (I.isOpenEmbedding_infinitesimalNeighborhoodFromOne 0)
+
+/-- The morphism of ringed spaces `Y_1 ⟶ X̂` given by `π₀`. -/
+private def fromNeighborhoodHom :
+    (neighborhoodRestrict I).toPresheafedSpace ⟶ I.formalCompletion.toPresheafedSpace where
+  base := 𝟙 _
+  c := (I.formalCompletionπ 0).hom
+
+private lemma surjective_stalkMap_fromNeighborhoodHom (y : neighborhoodRestrict I) :
+    Function.Surjective ((fromNeighborhoodHom I).stalkMap y) := by
+  intro b
+  obtain ⟨V, hyV, t, rfl⟩ := (neighborhoodRestrict I).presheaf.exists_germ_eq b
+  obtain ⟨V', hV'V, ⟨s, hs⟩, hyV'⟩ := (TopCat.Presheaf.isLocallySurjective_iff _).mp
+    (I.isLocallySurjective_formalCompletionπ 0) V t y hyV
+  refine ⟨I.formalCompletion.presheaf.germ V' y hyV' s, ?_⟩
+  refine (PresheafedSpace.stalkMap_germ_apply (fromNeighborhoodHom I) V' y hyV' s).trans ?_
+  exact (congrArg ((neighborhoodRestrict I).presheaf.germ V' y hyV') hs).trans
+    ((neighborhoodRestrict I).presheaf.germ_res_apply (homOfLE hV'V) y hyV' t)
+
+/-- The morphism of locally ringed spaces `Y_1 ⟶ X̂` given by `π₀`. -/
+private def fromNeighborhood : neighborhoodRestrict I ⟶ I.formalCompletion :=
+  ⟨fromNeighborhoodHom I, fun y =>
+    haveI : IsLocalRing (I.formalCompletion.presheaf.stalk ((fromNeighborhoodHom I).base y)) :=
+      I.formalCompletion.isLocalRing _
+    IsLocalHom.of_surjective _ (surjective_stalkMap_fromNeighborhoodHom I y)⟩
+
+private lemma isChartMap_fromNeighborhood : IsChartMap (fromNeighborhood I) :=
+  ⟨IsOpenEmbedding.id, surjective_stalkMap_fromNeighborhoodHom I⟩
+
+/-- The reduced scheme `(Y_1)_red` underlying the formal completion. -/
+private abbrev reducedNeighborhood : Scheme.{u} :=
+  reducedInducedSubscheme (⊤ : TopologicalSpace.Closeds (I.infinitesimalNeighborhood 1))
+
+private lemma range_neighborhoodRestrict_ofRestrict :
+    Set.range ((I.infinitesimalNeighborhood 1).toLocallyRingedSpace.ofRestrict
+      (I.isOpenEmbedding_infinitesimalNeighborhoodFromOne 0)).base = Set.univ :=
+  (I.infinitesimalNeighborhoodFromOne_surjective 0).range_eq
+
+/-- The identification of `Y_1` with `neighborhoodRestrict I`. -/
+private def neighborhoodIso :
+    (I.infinitesimalNeighborhood 1).toLocallyRingedSpace ≅ neighborhoodRestrict I :=
+  isoOfRangeEqOpenImmersion (𝟙 _) ((I.infinitesimalNeighborhood 1).toLocallyRingedSpace.ofRestrict
+      (I.isOpenEmbedding_infinitesimalNeighborhoodFromOne 0))
+    ((range_neighborhoodRestrict_ofRestrict I).trans
+      (Set.range_id (α := I.infinitesimalNeighborhood 1)).symm).symm
+
+/-- The morphism `(Y_1)_red ⟶ X̂`. -/
+private def reducedToFormalCompletion :
+    (reducedNeighborhood I).toLocallyRingedSpace ⟶ I.formalCompletion :=
+  (reducedInducedSubschemeι _).toLRSHom ≫ (neighborhoodIso I).hom ≫ fromNeighborhood I
+
+private lemma isChartMap_reducedToFormalCompletion :
+    IsChartMap (reducedToFormalCompletion I) := by
+  refine IsChartMap.comp ⟨⟨(reducedInducedSubschemeι _).isClosedEmbedding.isEmbedding, ?_⟩,
+    (reducedInducedSubschemeι _).stalkMap_surjective⟩
+    ((isChartMap_of_isOpenImmersion _).comp (isChartMap_fromNeighborhood I))
+  change IsOpen (Set.range (reducedInducedSubschemeι _))
+  rw [range_reducedInducedSubschemeι]
+  exact isOpen_univ
+
+private lemma surjective_reducedToFormalCompletion :
+    Function.Surjective (reducedToFormalCompletion I).base := by
+  intro y
+  obtain ⟨z, hz⟩ : (neighborhoodIso I).inv.base y ∈
+      Set.range (reducedInducedSubschemeι (⊤ : TopologicalSpace.Closeds
+        (I.infinitesimalNeighborhood 1))) := by
+    rw [range_reducedInducedSubschemeι]
+    trivial
+  refine ⟨z, ?_⟩
+  change (fromNeighborhood I).base ((neighborhoodIso I).hom.base
+    (reducedInducedSubschemeι _ z)) = y
+  rw [hz]
+  exact (congrArg (fun p => (fromNeighborhood I).base p)
+    (LocallyRingedSpace.iso_inv_base_hom_base_apply (neighborhoodIso I) y)).trans rfl
+
+end charts
+
+/-- **Reduced Noetherian affine charts.** Every point of a Noetherian formal scheme `X` lies in
+the image of a morphism of locally ringed spaces `Spec R ⟶ X`, with `R` a reduced Noetherian ring,
+which is an open embedding with surjective stalk maps. -/
+private lemma exists_reduced_chart (X : NoetherianFormalScheme.{u}) (x : X.toLocallyRingedSpace) :
+    ∃ (R : CommRingCat.{u}) (_ : IsNoetherianRing R) (_ : _root_.IsReduced R)
+      (g : (Spec R).toLocallyRingedSpace ⟶ X.toLocallyRingedSpace), IsOpenEmbedding g.base ∧
+        (∀ w, Function.Surjective (g.stalkMap w)) ∧ x ∈ Set.range g.base := by
+  obtain ⟨ι, hι, U, hU, hchart⟩ := X.isNoetherianFormalScheme
+  obtain ⟨i, hi⟩ : ∃ i, x ∈ U i := Opens.mem_iSup.mp (hU.symm ▸ trivial)
+  obtain ⟨Y, hY, I, ⟨e⟩⟩ := hchart i
+  let T := reducedToFormalCompletion I ≫ e.inv ≫
+    X.toLocallyRingedSpace.ofRestrict (U i).isOpenEmbedding
+  have hT : IsChartMap T := (isChartMap_reducedToFormalCompletion I).comp
+    ((isChartMap_of_isOpenImmersion e.inv).comp (isChartMap_of_isOpenImmersion _))
+  obtain ⟨z, hz⟩ := surjective_reducedToFormalCompletion I (e.hom.base ⟨x, hi⟩)
+  have hTz : T.base z = x := by
+    change (X.toLocallyRingedSpace.ofRestrict (U i).isOpenEmbedding).base
+      (e.inv.base ((reducedToFormalCompletion I).base z)) = x
+    rw [hz]
+    exact (congrArg (fun p => (X.toLocallyRingedSpace.ofRestrict (U i).isOpenEmbedding).base p)
+      (LocallyRingedSpace.iso_hom_base_inv_base_apply e ⟨x, hi⟩)).trans rfl
+  let Z := reducedNeighborhood I
+  have : IsLocallyNoetherian Z :=
+    haveI : IsLocallyNoetherian (I.infinitesimalNeighborhood 1) :=
+      LocallyOfFiniteType.isLocallyNoetherian (I.infinitesimalNeighborhoodι 1)
+    LocallyOfFiniteType.isLocallyNoetherian (reducedInducedSubschemeι _)
+  obtain ⟨V, hV, hzV, -⟩ := Opens.isBasis_iff_nbhd.mp Z.isBasis_affineOpens
+    (show z ∈ (⊤ : Z.Opens) from trivial)
+  obtain ⟨w, hw⟩ : z ∈ Set.range hV.fromSpec := by rw [hV.range_fromSpec]; exact hzV
+  have : LocallyRingedSpace.IsOpenImmersion hV.fromSpec.toLRSHom :=
+    IsAffineOpen.isOpenImmersion_fromSpec hV
+  refine ⟨Γ(Z, V), IsLocallyNoetherian.component_noetherian ⟨V, hV⟩, inferInstance,
+    hV.fromSpec.toLRSHom ≫ T, ?_, ?_, ⟨w, ?_⟩⟩
+  · exact ((isChartMap_of_isOpenImmersion hV.fromSpec.toLRSHom).comp hT).1
+  · exact ((isChartMap_of_isOpenImmersion hV.fromSpec.toLRSHom).comp hT).2
+  · change T.base (hV.fromSpec w) = x
+    rw [hw, hTz]
+
+
+/-- A Noetherian formal scheme is quasi-compact: it is covered by finitely many opens
+homeomorphic to closed subsets of Noetherian schemes. -/
+private lemma compactSpace_noetherianFormalScheme (X : NoetherianFormalScheme.{u}) :
+    CompactSpace X.toLocallyRingedSpace := by
+  obtain ⟨ι, hι, U, hU, hchart⟩ := X.isNoetherianFormalScheme
+  have hcpt : ∀ i, IsCompact (SetLike.coe (U i)) := by
+    intro i
+    obtain ⟨Y, hY, I, ⟨e⟩⟩ := hchart i
+    have : CompactSpace (I.infinitesimalNeighborhood 1) :=
+      (I.infinitesimalNeighborhoodι 1).isClosedEmbedding.compactSpace
+    have : CompactSpace I.formalCompletion.toPresheafedSpace :=
+      inferInstanceAs (CompactSpace (I.infinitesimalNeighborhood 1))
+    let f := e.inv ≫ X.toLocallyRingedSpace.ofRestrict (U i).isOpenEmbedding
+    have hrange : SetLike.coe (U i) = Set.range f.base := by
+      ext y
+      constructor
+      · intro hy
+        refine ⟨e.hom.base ⟨y, hy⟩, ?_⟩
+        exact (congrArg (fun p => (X.toLocallyRingedSpace.ofRestrict (U i).isOpenEmbedding).base p)
+          (LocallyRingedSpace.iso_hom_base_inv_base_apply e ⟨y, hy⟩)).trans rfl
+      · rintro ⟨p, rfl⟩
+        exact (e.inv.base p).2
+    rw [hrange]
+    exact isCompact_range f.base.hom.continuous
+  refine ⟨?_⟩
+  have hcov : Set.univ = ⋃ i, SetLike.coe (U i) := by
+    rw [← Opens.coe_iSup, hU]
+    rfl
+  rw [hcov]
+  exact isCompact_iUnion hcpt
+
 namespace IsIdealOfDefinition
 
 variable {X : NoetherianFormalScheme.{u}}
@@ -512,16 +709,30 @@ theorem isReduced_quotientScheme_iff (h : IsIdealOfDefinition X J) :
     refine (mem_vanishingIdealSubsheaf_iff (X := X.toLocallyRingedSpace) _).mp hpow y hy ?_
     exact (map_pow (X.presheaf.germ V y hy).hom s n).symm ▸ hu.pow n
 
-/-- **The largest ideal of definition, assuming `J_red` is one** (part of Hartshorne II,
-Proposition 9.5(b), p. 197). If `J_red` is an ideal of definition of the Noetherian formal scheme
-`X`, then it is the largest ideal of definition, and an ideal of definition `J` has reduced
-quotient scheme `(X, 𝒪_X / J)` if and only if `J = J_red`. -/
-theorem isGreatest_of_isIdealOfDefinition_vanishingIdealSubsheaf
-    (hred : IsIdealOfDefinition X (vanishingIdealSubsheaf X.toLocallyRingedSpace)) :
+variable (X) in
+/-- **`J_red` is an ideal of definition** (part of Hartshorne II, Proposition 9.5(b), p. 197; in
+particular, every Noetherian formal scheme has an ideal of definition). For a Noetherian formal
+scheme `X`, the ideal `J_red` of sections vanishing at every point has `Supp (𝒪_X / J_red) = X`,
+and `(X, 𝒪_X / J_red)` is a Noetherian scheme. -/
+theorem isIdealOfDefinition_vanishingIdealSubsheaf :
+    IsIdealOfDefinition X (vanishingIdealSubsheaf X.toLocallyRingedSpace) where
+  support_eq_univ := sheafSupport_quotientAb_vanishingIdealSubsheaf
+  isNoetherianScheme :=
+    haveI := compactSpace_noetherianFormalScheme X
+    exists_isNoetherian_iso_quotientSheafedSpace _ (exists_reduced_chart X)
+
+variable (X) in
+/-- **The largest ideal of definition** (Hartshorne II, Proposition 9.5(b), p. 197). Let `X` be a
+Noetherian formal scheme. The ideal `J_red` of sections of `𝒪_X` vanishing at every point is the
+largest ideal of definition of `X` (so the largest ideal of definition exists and is unique), and
+it is characterized by reducedness: an ideal of definition `J` has reduced quotient scheme
+`(X, 𝒪_X / J)` if and only if `J = J_red`. -/
+theorem isGreatest_vanishingIdealSubsheaf :
     IsGreatest {J | IsIdealOfDefinition X J} (vanishingIdealSubsheaf X.toLocallyRingedSpace) ∧
       ∀ (J : IdealSubsheaf X.toLocallyRingedSpace.sheaf) (h : IsIdealOfDefinition X J),
         IsReduced h.quotientScheme ↔ J = vanishingIdealSubsheaf X.toLocallyRingedSpace :=
-  ⟨⟨hred, fun _ h => h.le_vanishingIdealSubsheaf⟩, fun _ h => h.isReduced_quotientScheme_iff⟩
+  ⟨⟨isIdealOfDefinition_vanishingIdealSubsheaf X, fun _ h => h.le_vanishingIdealSubsheaf⟩,
+    fun _ h => h.isReduced_quotientScheme_iff⟩
 
 end IsIdealOfDefinition
 
