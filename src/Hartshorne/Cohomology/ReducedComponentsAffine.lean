@@ -278,7 +278,7 @@ end ReducedComponentsAffine
 
 namespace ReducedComponentsAffine
 
-/-- Hartshorne III, Ex. 3.2, conditional on the remaining input `TwoPieceSequences`: a reduced
+/-- Hartshorne III, Ex. 3.2, derived from `TwoPieceSequences`: a reduced
 Noetherian scheme is affine iff each irreducible component with its reduced induced structure is
 affine. -/
 theorem isAffine_iff_of_twoPieceSequences (h : TwoPieceSequences.{u}) (X : Scheme.{u})
