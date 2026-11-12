@@ -3,6 +3,8 @@ article_id: af_7c2fc3456491984ed097eb91
 declaration: equivalence
 origin: bridged
 lean: Hartshorne.ProjectiveLinePoints.Point Hartshorne.ProjectiveLinePoints.coordinateMap Hartshorne.ProjectiveLinePoints.kernel Hartshorne.ProjectiveLinePoints.equivQuotient Hartshorne.ProjectiveLinePoints.equivQuotient_apply_coe Hartshorne.ProjectiveLinePoints.quotientEquivDualLine Hartshorne.ProjectiveLinePoints.equivProjectiveSpace Hartshorne.ProjectiveLinePoints.equivProjectiveSpace_eq_mk Hartshorne.ProjectiveLinePoints.Point.map Hartshorne.ProjectiveLinePoints.coordinateBaseChange Hartshorne.ProjectiveLinePoints.equivProjectiveSpace_map
+statement: formalized
+proof: formalized
 ---
 
 # Scheme-valued points of the projective line
