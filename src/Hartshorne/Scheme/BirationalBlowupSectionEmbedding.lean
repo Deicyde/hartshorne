@@ -53,7 +53,7 @@ abbrev proj : Z ⟶ X := i ≫ projectiveSpaceOverSchemeProjection r X
 /-- **A section-algebra model** of `f = π ∘ i` in degree `d` (Hartshorne II, proof of
 Theorem 7.17, Steps 1–3): data for relative Proj together with isomorphisms
 `E : Γ(f⁻¹(U), L^{md}) ≅ S(U)_m` for `m ≥ 1` and `U` affine, compatible with restriction,
-`Γ(U, 𝒪_X)`-linear and multiplicative. -/
+`Γ(U, 𝒪_X)`-linear and multiplicative, and an isomorphism `Proj_X S ≅ Z` over `X`. -/
 structure SectionModel [IsNoetherian X] (d : ℕ) where
   /-- The quasi-coherent graded `𝒪_X`-algebra `S` with condition (†). -/
   data : RelativeProjData X
@@ -79,6 +79,10 @@ structure SectionModel [IsNoetherian X] (d : ℕ) where
         (eqToHom (congrArg (tensorPowerL i) (Nat.add_mul a b d).symm)) _
         (tensorPowerMulSection i s t)) : data.algebra.obj.obj (op U)) =
       (E U ha s : data.algebra.obj.obj (op U)) * E U hb t
+  /-- The identification `Proj_X S ≅ Z`. -/
+  iso : data.relativeProj ≅ Z
+  /-- `Proj_X S ≅ Z` is an isomorphism over `X`. -/
+  iso_hom : iso.hom ≫ proj i = data.projection
 
 /-! ### Generic coefficients of sections of `L^{n}` over `f⁻¹(U)` -/
 
