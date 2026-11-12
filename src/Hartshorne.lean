@@ -743,3 +743,4 @@ import Hartshorne.Scheme.Differentials.CanonicalSheafSmoothHypersurface
 import Hartshorne.Scheme.EmbeddedCurveDegree
 import Hartshorne.Scheme.ProjectiveClosedSubschemeHomogeneousIdeal
 import Hartshorne.Scheme.CoherentFormalModule
+import Hartshorne.Scheme.ProjectiveSchemeAsProj
