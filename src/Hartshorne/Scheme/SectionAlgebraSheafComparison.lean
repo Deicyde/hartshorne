@@ -198,6 +198,50 @@ theorem toSpecZero_comp_appLE {X : Scheme.{u}} {U : X.Opens} (hU : IsAffineOpen 
 
 end ToSpecZero
 
+/-! ### Generalities on sections -/
+
+section Sections
+
+variable {Y : Scheme.{u}}
+
+/-- The sections of an isomorphism of `𝒪_Y`-modules are bijective. -/
+theorem bijective_app_of_iso {M N : Y.Modules} (e : M ≅ N) (V : Y.Opens) :
+    Function.Bijective (e.hom.app V) := by
+  refine Function.bijective_iff_has_inverse.mpr ⟨e.inv.app V, fun x => ?_, fun y => ?_⟩
+  · have := ConcreteCategory.congr_hom
+      (congrArg (fun φ => Scheme.Modules.Hom.app φ V) e.hom_inv_id) x
+    rw [Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply] at this
+    exact this.trans rfl
+  · have := ConcreteCategory.congr_hom
+      (congrArg (fun φ => Scheme.Modules.Hom.app φ V) e.inv_hom_id) y
+    rw [Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply] at this
+    exact this.trans rfl
+
+/-- Restriction between equal opens is bijective. -/
+theorem bijective_map_of_eq (M : Y.Modules) {V W : Y.Opens} (h : V ≤ W) (h' : W ≤ V) :
+    Function.Bijective (M.presheaf.map (homOfLE h).op) := by
+  obtain rfl : V = W := le_antisymm h h'
+  rw [show homOfLE h = 𝟙 V from rfl, op_id, CategoryTheory.Functor.map_id]
+  exact Function.bijective_id
+
+/-- For an open immersion `j` and `W` inside its image, `W(M) → (j^* M)(j⁻¹ W)` is bijective. -/
+theorem bijective_pullbackSection_of_le {Y' : Scheme.{u}} (j : Y' ⟶ Y) [IsOpenImmersion j]
+    (M : Y.Modules) {W : Y.Opens} (hW : W ≤ j.opensRange) :
+    Function.Bijective (pullbackSection (N := M) j (W := W)) := by
+  have h : ∀ y : Γ(M, W), pullbackSection j y =
+      ((Scheme.Modules.restrictFunctorIsoPullback j).hom.app M).app (j ⁻¹ᵁ W)
+        (M.presheaf.map (homOfLE (j.image_preimage_le W)).op y) := fun y =>
+    (Scheme.Modules.restrictFunctorIsoPullback_hom_restrict_unit j M W y).symm
+  have hle : W ≤ j ''ᵁ (j ⁻¹ᵁ W) := by
+    intro x hx
+    obtain ⟨y, rfl⟩ := hW hx
+    exact ⟨y, hx, rfl⟩
+  rw [show (pullbackSection (N := M) j (W := W)) = _ from funext h]
+  exact (bijective_app_of_iso ((Scheme.Modules.restrictFunctorIsoPullback j).app M) _).comp
+    (bijective_map_of_eq M _ hle)
+
+end Sections
+
 /-! ### The charts `Proj T(U) ⟶ Z` over `ℙʳ_ℤ` and over `X` -/
 
 section Chart
@@ -254,6 +298,83 @@ theorem coordToZ_comp_app (U : X.AffineZariskiSite) (a : Γ(X, U.1)) :
   exact key _ _ ((coordToZ_base i U).trans (QuasiCoherentGradedAlgebra.projToOpen_ι _ U))
 
 end Chart
+
+/-! ### The comparison `T(U)_n ≅ Γ(f⁻¹(U), 𝒪(n)|_Z)` -/
+
+section Comparison
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+variable {r : ℕ} {X Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r X)
+
+/-- `Z ⟶ ℙʳ_X ⟶ ℙʳ_ℤ`. -/
+abbrev toIntProj : Z ⟶ Proj (GeneratedProj.intGrading.{u} r) :=
+  i ≫ pullback.fst (projectiveSpaceOverIntegersMap r) (schemeToSpecZ X)
+
+/-- The twisting sheaf `𝒪(n)` of `ℙʳ_ℤ` pulled back to `Z`. -/
+abbrev twistOnZ (n : ℕ) : Z.Modules :=
+  (Scheme.Modules.pullback (toIntProj i)).obj
+    (projTwistingSheaf (GeneratedProj.intGrading.{u} r) n)
+
+theorem monomial_mem_intGrading {n : ℕ} {α : Fin (r + 1) →₀ ℕ} (h : α.degree = n) :
+    MvPolynomial.monomial α (1 : ULift.{u} ℤ) ∈ GeneratedProj.intGrading.{u} r n :=
+  MvPolynomial.isHomogeneous_monomial _ h
+
+/-- The pulled-back monomial `x^α`, a global section of `𝒪(n)` on `Z` (zero unless `|α| = n`). -/
+def monomialSection (n : ℕ) (α : Fin (r + 1) →₀ ℕ) : Γ(twistOnZ i n, ⊤) :=
+  if h : α.degree = n then
+    pullbackGlobalSection (N := projTwistingSheaf (GeneratedProj.intGrading.{u} r) n)
+      (toIntProj i) (twistSection n ⟨_, monomial_mem_intGrading h⟩ (op ⊤))
+  else 0
+
+/-- **The comparison map** `Γ(X, U)[x₀, …, xᵣ] → Γ(f⁻¹(U), 𝒪(n)|_Z)`,
+`∑ a_α x^α ↦ ∑ f^*(a_α) x^α` (only the monomials of degree `n` contribute). -/
+def polySection (U : X.Opens) (n : ℕ) (p : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
+    Γ(twistOnZ i n, (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U) :=
+  (AddMonoidAlgebra.coeff p).sum fun α a => (i ≫ projectiveSpaceOverSchemeProjection r X).app U a •
+    (twistOnZ i n).presheaf.map (homOfLE le_top).op (monomialSection i n α)
+
+theorem polySection_add (U : X.Opens) (n : ℕ) (p q : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
+    polySection i U n (p + q) = polySection i U n p + polySection i U n q :=
+  (congrArg (Finsupp.sum · _) (AddMonoidAlgebra.coeff_add p q)).trans <| Finsupp.sum_add_index' (fun _ => by rw [map_zero, zero_smul])
+    (fun _ _ _ => by rw [map_add, add_smul])
+
+theorem polySection_zero (U : X.Opens) (n : ℕ) : polySection i U n 0 = 0 :=
+  (congrArg (Finsupp.sum · _) (AddMonoidAlgebra.coeff_zero)).trans Finsupp.sum_zero_index
+
+theorem polySection_monomial (U : X.Opens) (n : ℕ) (α : Fin (r + 1) →₀ ℕ) (a : Γ(X, U)) :
+    polySection i U n (MvPolynomial.monomial α a) =
+      (i ≫ projectiveSpaceOverSchemeProjection r X).app U a •
+        (twistOnZ i n).presheaf.map (homOfLE le_top).op (monomialSection i n α) :=
+  (congrArg (Finsupp.sum · _) (AddMonoidAlgebra.coeff_single α a)).trans
+    (Finsupp.sum_single_index (by rw [map_zero, zero_smul]))
+
+/-- The comparison map is `Γ(X, U)`-linear. -/
+theorem polySection_C_mul (U : X.Opens) (n : ℕ) (b : Γ(X, U))
+    (p : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
+    polySection i U n (MvPolynomial.C b * p) =
+      (i ≫ projectiveSpaceOverSchemeProjection r X).app U b • polySection i U n p := by
+  induction p using MvPolynomial.induction_on' with
+  | monomial α a =>
+    rw [MvPolynomial.C_mul_monomial, polySection_monomial, polySection_monomial, map_mul, mul_smul]
+  | add p q hp hq => rw [mul_add, polySection_add, polySection_add, hp, hq, smul_add]
+
+/-- The comparison map is compatible with restriction. -/
+theorem polySection_restrict {U V : X.Opens} (h : V ≤ U) (n : ℕ)
+    (p : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
+    (twistOnZ i n).presheaf.map
+        (homOfLE ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono h)).op
+        (polySection i U n p) =
+      polySection i V n (polyMap (r := r) (X.presheaf.map (homOfLE h).op).hom p) := by
+  induction p using MvPolynomial.induction_on' with
+  | monomial α a =>
+    rw [polyMap_apply, MvPolynomial.map_monomial, polySection_monomial, polySection_monomial,
+      Scheme.Modules.map_smul, Scheme.Modules.map_map_homOfLE]
+    congr 1
+    exact congr($((i ≫ projectiveSpaceOverSchemeProjection r X).naturality (homOfLE h).op) a).symm
+  | add p q hp hq => rw [map_add, polySection_add, polySection_add, map_add, hp, hq]
+
+end Comparison
 
 end SectionAlgebraModel
 
