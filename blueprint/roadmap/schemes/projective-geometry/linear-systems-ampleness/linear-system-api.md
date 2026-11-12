@@ -24,6 +24,7 @@ is assigned when $Y$ lies in the support of $D$.
 - [Finite-dimensional projective global sections](../../projective-sheaves/projective-global-sections-finite.md)
 - [Ambient hypersurfaces cut divisors](../../divisors/divisor-exercises/projective-intersection-divisor.md)
 - [Morphisms from generated invertible sheaves](morphism-from-generated-line-bundle.md)
+- [Finite-dimensional linear systems on an arbitrary variety](../../../cohomology/smooth-morphisms/finite-dimensional-linear-system-on-variety.md)
 
 ## Proof depends on
 
