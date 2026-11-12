@@ -856,6 +856,24 @@ theorem exists_lift_of_isRegular (hA : (Spec (CommRingCat.of A)).IsRegular)
   -- (c)
   exact exists_lift_of_presentation g π hπ hinj hproj hg hI f
 
+/-- **Hartshorne II, Exercise 8.6** (p.188), in the book's setting. Let `k` be an algebraically
+closed field and `A` a finitely generated `k`-algebra such that `Spec A` is a nonsingular variety
+over `k`: `A` is a domain and every local ring of `Spec A` is regular. Let `g : B' → B` be a
+surjection of `k`-algebras whose kernel `I` satisfies `I² = 0`, and let `f : A → B` be a
+`k`-algebra homomorphism. Then there is a `k`-algebra homomorphism `f' : A → B'` with
+`g ∘ f' = f`.
+
+The domain hypothesis is the book's (`Spec A` is a variety) and is not used by the proof; see
+`exists_lift_of_isRegular`. -/
+@[nolint unusedArguments]
+theorem exists_lift_of_isDomain_of_isRegular [IsDomain A]
+    (hA : (Spec (CommRingCat.of A)).IsRegular)
+    {B' B : Type v} [CommRing B'] [CommRing B] [Algebra k B'] [Algebra k B]
+    (g : B' →ₐ[k] B) (hg : Function.Surjective g) (hI : RingHom.ker g ^ 2 = ⊥)
+    (f : A →ₐ[k] B) :
+    ∃ f' : A →ₐ[k] B', g.comp f' = f :=
+  exists_lift_of_isRegular hA g hg hI f
+
 end Main
 
 end AffineNonsingularLifting
