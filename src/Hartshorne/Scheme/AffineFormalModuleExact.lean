@@ -30,6 +30,11 @@ This file contains the parts of that argument proved so far.
   quotient transition maps, and the maps `(F / I ^ (n + 1) F)|_Y ⟶ (G / I ^ (n + 1) G)|_Y` of
   modules over the completed structure sheaf
   (`Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionObjHom`).
+* Naturality of the transition maps
+  (`Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionObjHom_comp_moduleCompletionMap`), the
+  induced morphism of inverse systems (`moduleCompletionDiagramHom`), the completion of a morphism
+  `F̂ ⟶ Ĝ` (`moduleCompletionHom`) and the completion functor `F ↦ F̂`
+  (`Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionFunctor`).
 -/
 
 noncomputable section
@@ -206,6 +211,79 @@ lemma moduleCompletionObjHom_comp (n : ℕ) :
   simp only [moduleCompletionObjHom]
   rw [moduleCompletionQuotientHom_comp, Functor.map_comp]
   exact Functor.map_comp _ _ _
+
+/-- **Naturality of the transition maps** of the completion: the maps
+`(F / I ^ (n + 1) F)|_Y ⟶ (G / I ^ (n + 1) G)|_Y` induced by `φ : F ⟶ G` commute with the
+transition maps. -/
+@[reassoc]
+lemma moduleCompletionObjHom_comp_moduleCompletionMap (n : ℕ) :
+    I.moduleCompletionObjHom φ (n + 1) ≫ I.moduleCompletionMap G n =
+      I.moduleCompletionMap F n ≫ I.moduleCompletionObjHom φ n := by
+  rw [moduleCompletionMap_eq, moduleCompletionMap_eq]
+  exact pullbackUnitTransitionRestrict_naturality (I.infinitesimalNeighborhoodSucc n)
+    (I.infinitesimalNeighborhoodι (n + 1 + 1)) (I.infinitesimalNeighborhoodι (n + 1))
+    (Scheme.IdealSheafData.inclusion_subschemeι _)
+    (I.functorToPreimageInfinitesimalNeighborhoodSucc n)
+    (I.formalCompletionRingCatSheafπ (n + 1)) (I.formalCompletionRingCatSheafπ n)
+    (fun V r => I.formalCompletionSheafMap_limit_π_apply n V.unop r)
+    (I.moduleCompletionQuotientMap F n) (I.moduleCompletionQuotientMap G n)
+    (I.moduleCompletionQuotientHom φ (n + 1)) (I.moduleCompletionQuotientHom φ n)
+    (I.moduleCompletionQuotientHom_comp_moduleCompletionQuotientMap φ n).symm
+
+/-- The morphism of inverse systems `(F / I ^ (n + 1) F)|_Y ⟶ (G / I ^ (n + 1) G)|_Y` induced by
+`φ : F ⟶ G`. -/
+def moduleCompletionDiagramHom : I.moduleCompletionDiagram F ⟶ I.moduleCompletionDiagram G :=
+  NatTrans.ofOpSequence (fun n => I.moduleCompletionObjHom φ n) (fun n => by
+    simp only [moduleCompletionDiagram, Functor.ofOpSequence_map_homOfLE_succ]
+    exact (I.moduleCompletionObjHom_comp_moduleCompletionMap φ n).symm)
+
+@[simp]
+lemma moduleCompletionDiagramHom_app (n : ℕ) :
+    (I.moduleCompletionDiagramHom φ).app (op n) = I.moduleCompletionObjHom φ n :=
+  rfl
+
+/-- **The completion of a morphism**: `φ : F ⟶ G` induces `F̂ ⟶ Ĝ`, the limit of the maps
+`(F / I ^ (n + 1) F)|_Y ⟶ (G / I ^ (n + 1) G)|_Y`. -/
+def moduleCompletionHom : I.moduleCompletion F ⟶ I.moduleCompletion G :=
+  limMap (I.moduleCompletionDiagramHom φ)
+
+@[reassoc (attr := simp)]
+lemma moduleCompletionHom_π (n : ℕ) :
+    I.moduleCompletionHom φ ≫ I.moduleCompletionπ G n =
+      I.moduleCompletionπ F n ≫ I.moduleCompletionObjHom φ n :=
+  limMap_π _ _
+
+lemma moduleCompletionDiagramHom_id :
+    I.moduleCompletionDiagramHom (𝟙 F) = 𝟙 (I.moduleCompletionDiagram F) := by
+  ext ⟨n⟩ : 2
+  exact I.moduleCompletionObjHom_id n
+
+lemma moduleCompletionDiagramHom_comp :
+    I.moduleCompletionDiagramHom (φ ≫ ψ) =
+      I.moduleCompletionDiagramHom φ ≫ I.moduleCompletionDiagramHom ψ := by
+  ext ⟨n⟩ : 2
+  exact I.moduleCompletionObjHom_comp φ ψ n
+
+lemma moduleCompletionHom_id : I.moduleCompletionHom (𝟙 F) = 𝟙 (I.moduleCompletion F) := by
+  refine limit.hom_ext fun ⟨n⟩ => ?_
+  change I.moduleCompletionHom (𝟙 F) ≫ I.moduleCompletionπ F n = 𝟙 _ ≫ I.moduleCompletionπ F n
+  rw [moduleCompletionHom_π, moduleCompletionObjHom_id, Category.comp_id, Category.id_comp]
+
+lemma moduleCompletionHom_comp :
+    I.moduleCompletionHom (φ ≫ ψ) = I.moduleCompletionHom φ ≫ I.moduleCompletionHom ψ := by
+  refine limit.hom_ext fun ⟨n⟩ => ?_
+  change I.moduleCompletionHom (φ ≫ ψ) ≫ I.moduleCompletionπ H n =
+    (I.moduleCompletionHom φ ≫ I.moduleCompletionHom ψ) ≫ I.moduleCompletionπ H n
+  rw [moduleCompletionHom_π, Category.assoc, moduleCompletionHom_π, moduleCompletionHom_π_assoc,
+    moduleCompletionObjHom_comp]
+
+/-- **The completion functor** `F ↦ F̂ = lim_n (F / I ^ (n + 1) F)|_Y` from `𝒪_X`-modules to
+modules over the structure sheaf of the formal completion. -/
+def moduleCompletionFunctor : X.Modules ⥤ SheafOfModules.{u} I.formalCompletionRingCatSheaf where
+  obj F := I.moduleCompletion F
+  map φ := I.moduleCompletionHom φ
+  map_id _ := I.moduleCompletionHom_id
+  map_comp φ ψ := I.moduleCompletionHom_comp φ ψ
 
 end Functoriality
 
