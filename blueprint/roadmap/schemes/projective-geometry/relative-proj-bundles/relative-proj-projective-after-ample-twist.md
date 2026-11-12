@@ -2,6 +2,7 @@
 article_id: af_8329279da82a12fa27f3a310
 declaration: theorem
 origin: cited
+lean: Hartshorne.RelativeProjData.projective_projection_and_isVeryAmpleRelative_of_isAmple
 ---
 
 # An ample twist makes relative Proj projective
