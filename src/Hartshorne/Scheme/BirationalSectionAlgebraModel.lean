@@ -279,10 +279,11 @@ variable {R : Type u} [CommRing R] {r : ℕ}
 local notation "𝒮" => MvPolynomial.homogeneousSubmodule (Fin (r + 1)) R
 
 /-- The map `A → (A[x]/I)₀`. -/
-private def chartZeroHom (I : HomogeneousIdeal 𝒮) : R →+* gradedQuotient 𝒮 I 0 :=
+def chartZeroHom (I : HomogeneousIdeal 𝒮) : R →+* gradedQuotient 𝒮 I 0 :=
   (gradedQuotientMk 𝒮 I).gradedZeroRingHom.comp (algebraMap R (𝒮 0))
 
-private theorem chartZeroHom_surjective (I : HomogeneousIdeal 𝒮) :
+/-- `A → (A[x]/I)₀` is surjective. -/
+theorem chartZeroHom_surjective (I : HomogeneousIdeal 𝒮) :
     Function.Surjective (chartZeroHom I) := by
   intro y
   obtain ⟨b, hb, hby⟩ := mem_gradedQuotient_iff.mp y.2
@@ -293,7 +294,7 @@ private theorem chartZeroHom_surjective (I : HomogeneousIdeal 𝒮) :
   exact hby
 
 /-- The images of `x₀, …, xᵣ` generate `A[x]/I` over its degree-zero part. -/
-private theorem adjoin_coord_eq_top (I : HomogeneousIdeal 𝒮) :
+theorem adjoin_coord_eq_top (I : HomogeneousIdeal 𝒮) :
     Algebra.adjoin (gradedQuotient 𝒮 I 0)
       (Set.range fun j : Fin (r + 1) => Ideal.Quotient.mk I.toIdeal (MvPolynomial.X j)) = ⊤ := by
   rw [eq_top_iff]

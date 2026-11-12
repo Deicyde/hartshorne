@@ -153,6 +153,17 @@ theorem veronese_toZero_zeroEquiv (U : X.AffineZariskiSite) :
       S.toZero U :=
   rfl
 
+/-- `S^{(d)}_0 = S_0`: if `S₀ = 𝒪_X` then `S^{(d)}_0 = 𝒪_X`. -/
+theorem DegreeZeroIsStructureSheaf.veronese (h : S.DegreeZeroIsStructureSheaf) :
+    (S.veronese d).DegreeZeroIsStructureSheaf := by
+  intro U
+  have e : ⇑((S.veronese d).toZero U) =
+      (Veronese.zeroEquiv (S.grading U) d).symm ∘ ⇑(S.toZero U) := by
+    funext a
+    rfl
+  rw [e]
+  exact (Veronese.zeroEquiv (S.grading U) d).symm.bijective.comp (h U)
+
 /-- `Proj S(U)^{(d)} ≅ Proj S(U)` lies over `U`. -/
 theorem projIso_inv_projToOpen (U : X.AffineZariskiSite) :
     (Veronese.projIso (S.grading U) d).inv ≫ S.projToOpen U = (S.veronese d).projToOpen U := by
