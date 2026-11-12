@@ -18,6 +18,8 @@ by $S_{1}$ as an $A$-algebra.
 
 - [Homogeneous ideals define projective closed subschemes](projective-closed-subscheme-homogeneous-ideal.md)
 - [A degree-one-generated Proj is projective](../proper-and-projective/generated-proj-projective.md)
+- [Homogeneous ideals and truncation define the same Proj subscheme](../normalization-and-exercises/proj-closed-subscheme-truncation.md)
+- [The split quadric surface is $\mathbb{P}^1 \times \mathbb{P}^1$](../divisors/weil-divisors/split-quadric-product-of-lines.md)
 
 ## Sources
 
