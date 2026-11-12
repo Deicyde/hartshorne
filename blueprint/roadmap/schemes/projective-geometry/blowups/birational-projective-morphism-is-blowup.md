@@ -16,6 +16,7 @@ ideal sheaf on $X$.
 - [The denominator ideal of a birational line bundle](birational-denominator-ideal.md)
 - [Rees algebras and blowups](rees-algebra-sheaf-and-blowup.md)
 - [Twisting a graded algebra by a line bundle](../relative-proj-bundles/relative-proj-line-bundle-twist.md)
+- [Quasi-projective morphisms](../../proper-and-projective/quasi-projective-morphism.md)
 
 ## Proof depends on
 
