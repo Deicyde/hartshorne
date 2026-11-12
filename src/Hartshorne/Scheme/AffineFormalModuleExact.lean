@@ -10,36 +10,43 @@ import Hartshorne.Scheme.FormalSpectrum
 import Hartshorne.Scheme.CoherentAffineLocalCriterion
 
 /-!
-# Toward exactness of affine module completion
+# Exactness of affine module completion
 
 Hartshorne, *Algebraic Geometry*, II, Proposition 9.4(c) (pp. 195–196): for a Noetherian ring `A`
 and an ideal `I`, the functor `M ↦ M^Δ` from finite `A`-modules to modules on `Spf_I(A)` is exact.
-The proof checks exactness on stalks: on the basic opens `D(f) ∩ V(I)` the sections of `M^Δ` are
+Hartshorne checks exactness on stalks: on the basic opens `D(f) ∩ V(I)` the sections of `M^Δ` are
 the completions of the `M_f`, completion is exact on finite modules, and stalks are filtered
-colimits of sections over basic neighbourhoods.
+colimits of sections over basic neighbourhoods. The proof here follows that route.
 
-This file contains the parts of that argument proved so far.
-
+* `Hartshorne.moduleCompletion_tilde_exact`: the main result. For an exact sequence
+  `M' ⟶ M ⟶ M''` of `A`-modules with `M` and `M''` finite, the completions of `M'~ ⟶ M~ ⟶ M''~`
+  along `V(I)` form an exact sequence of modules over the structure sheaf of `Spf_I(A)`.
+  `Hartshorne.moduleCompletion_tilde_shortExact` is the short exact form.
 * `Hartshorne.sheaf_exact_of_isBasis_sections`,
   `Hartshorne.sheafOfModules_exact_of_isBasis_sections`: a complex of sheaves of abelian groups,
   or of sheaves of modules over a sheaf of rings, is exact once, over every open of a basis of the
   topology, sections in the kernel of the second map come from the first term. This is the stalk
-  criterion (Hartshorne II, Exercise 1.2) specialised to a basis.
-* Levelwise functoriality of the completion `F̂ = lim_n (F / I ^ (n + 1) F)|_Y`: a morphism
-  `φ : F ⟶ G` of `𝒪_X`-modules induces `I ^ (n + 1) F ⟶ I ^ (n + 1) G`
-  (`Hartshorne.QuasicoherentIdealSubsheaf.powSmulHom`), the maps of quotients
-  `F / I ^ (n + 1) F ⟶ G / I ^ (n + 1) G`
-  (`Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionQuotientHom`), compatible with the
-  quotient transition maps, and the maps `(F / I ^ (n + 1) F)|_Y ⟶ (G / I ^ (n + 1) G)|_Y` of
-  modules over the completed structure sheaf
-  (`Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionObjHom`).
-* The sections of the levels `(F / I ^ (n + 1) F)|_Y` over affine opens are computed in
-  `Hartshorne.Scheme.FormalCompletionModuleAffineSections`.
-* Naturality of the transition maps
-  (`Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionObjHom_comp_moduleCompletionMap`), the
-  induced morphism of inverse systems (`moduleCompletionDiagramHom`), the completion of a morphism
-  `F̂ ⟶ Ĝ` (`moduleCompletionHom`) and the completion functor `F ↦ F̂`
-  (`Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionFunctor`).
+  criterion (Hartshorne II, Exercise 1.2) specialised to a basis;
+  `Hartshorne.sheafOfModules_exact_of_isBasis_pushforward_sections` phrases it through a
+  pushforward.
+* `Hartshorne.adicCompletion_map_exact`, `Hartshorne.exists_lift_of_exact`: over a Noetherian
+  ring, adic completion preserves exactness at the middle of `N' ⟶ N ⟶ N''` for `N`, `N''`
+  finite (from Mathlib's `AdicCompletion.map_exact`), and its consequence for compatible
+  sequences.
+* Functoriality of the completion `F̂ = lim_n (F / I ^ (n + 1) F)|_Y`: `powSmulHom`,
+  `moduleCompletionQuotientHom`, `moduleCompletionObjHom`, the naturality of the transition maps
+  (`moduleCompletionObjHom_comp_moduleCompletionMap`), `moduleCompletionDiagramHom`,
+  `moduleCompletionHom` and the functor `moduleCompletionFunctor`, which preserves zero
+  morphisms (`moduleCompletionHom_zero`).
+* `Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionHom_exists_preimage`: over an affine open
+  `U` whose sections form an exact sequence of finite modules over the Noetherian ring
+  `Γ(U, 𝒪_X)`, a section of `F̂` over `U ∩ |Y|` killed by `F̂ ⟶ F̂''` comes from `F̂'`; and
+  `moduleCompletionHom_exact_of_isBasis`, exactness of `F̂' ⟶ F̂ ⟶ F̂''` from such a basis. The
+  sections of `F̂` over `U ∩ |Y|` are handled through the canonical maps
+  `F ⟶ i_* (F / I ^ (n + 1) F)|_Y` of `Hartshorne.Scheme.FormalCompletionModuleAffineSections`.
+* `Hartshorne.tilde_map_app_basicOpen_exact`, `Hartshorne.tilde_finite_basicOpen`: on a basic open
+  `D(g)` of `Spec A`, sections of `M ↦ M~` are exact (localization at `g`) and finite for `M`
+  finite.
 -/
 
 noncomputable section
@@ -757,8 +764,9 @@ end Tilde
 
 /-- **Hartshorne II, Proposition 9.4(c)** (module form): for a Noetherian ring `A` and an ideal
 `I ⊆ A`, the functor `M ↦ (M~)^` sending an `A`-module to the completion of `M~` along `V(I)`, a
-module over the structure sheaf of `Spf_I(A)`, is exact on finite modules: it carries an exact
-sequence `M' ⟶ M ⟶ M''` with `M`, `M''` finite to an exact sequence. -/
+module over the structure sheaf of `Spf_I(A)`, is exact on finite modules. Stated here for exact
+sequences `M' ⟶ M ⟶ M''`, which are carried to exact sequences; only `M` and `M''` need to be
+finite. -/
 theorem moduleCompletion_tilde_exact {A : CommRingCat.{u}} [IsNoetherianRing A] (I : Ideal A)
     (S : ShortComplex (ModuleCat.{u} A)) (hS : S.Exact) [Module.Finite A S.X₂]
     [Module.Finite A S.X₃] :
@@ -788,5 +796,23 @@ theorem moduleCompletion_tilde_exact {A : CommRingCat.{u}} [IsNoetherianRing A] 
   subst hg
   exact ⟨IsLocallyNoetherian.component_noetherian ⟨_, hU⟩, tilde_finite_basicOpen _ g, tilde_finite_basicOpen _ g,
     tilde_map_app_basicOpen_exact S hS g⟩
+
+
+/-- **Hartshorne II, Proposition 9.4(c)**, short exact form: on finite `A`-modules the functor
+`M ↦ (M~)^` carries short exact sequences to short exact sequences. -/
+theorem moduleCompletion_tilde_shortExact {A : CommRingCat.{u}} [IsNoetherianRing A]
+    (I : Ideal A) (S : ShortComplex (ModuleCat.{u} A)) (hS : S.ShortExact)
+    [Module.Finite A S.X₁] [Module.Finite A S.X₂] [Module.Finite A S.X₃] :
+    (S.map (tilde.functor A ⋙ (specIdealSubsheaf A I).moduleCompletionFunctor)).ShortExact := by
+  let Φ := tilde.functor A ⋙ (specIdealSubsheaf A I).moduleCompletionFunctor
+  let T := ShortComplex.mk (0 : ModuleCat.of A PUnit ⟶ S.X₁) S.f zero_comp
+  let T' := ShortComplex.mk S.g (0 : S.X₃ ⟶ ModuleCat.of A PUnit) comp_zero
+  have hT : T.Exact := (ShortComplex.exact_iff_mono T rfl).2 hS.mono_f
+  have hT' : T'.Exact := (ShortComplex.exact_iff_epi T' rfl).2 hS.epi_g
+  have h1 := moduleCompletion_tilde_exact I T hT
+  have h2 := moduleCompletion_tilde_exact I T' hT'
+  refine ShortComplex.ShortExact.mk' (moduleCompletion_tilde_exact I S hS.exact) ?_ ?_
+  · exact (ShortComplex.exact_iff_mono (T.map Φ) (Φ.map_zero _ _)).1 h1
+  · exact (ShortComplex.exact_iff_epi (T'.map Φ) (Φ.map_zero _ _)).1 h2
 
 end Hartshorne

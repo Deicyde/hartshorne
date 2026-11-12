@@ -38,6 +38,15 @@ ideal of `I`, its sections over `U ∩ |Y|` are `Γ(U, F) / I(U) ^ (n + 1) Γ(U,
 * `pushforward_pullback_cokernelπ_comp_moduleCompletionMap`: the transition map composed with the
   pullback of `F ⟶ F / I ^ (n + 2) F` equals restriction from `Y_(n+2)` to `Y_(n+1)` followed by the
   pullback of `F ⟶ F / I ^ (n + 1) F` (a square of morphisms over the completed structure sheaf).
+* `Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionLevelMap I χ hχ F n`: for `i : |Y| ⟶ X`
+  and a map `χ : 𝒪_X ⟶ i_* 𝒪_{X̂_Y}` compatible with the projections, the canonical map
+  `F ⟶ i_* (F / I ^ (n + 1) F)|_Y` as a morphism of `𝒪_X`-modules; on sections it is
+  `moduleCompletionSectionsMap` (`moduleCompletionLevelMap_val_app`), and it is compatible with
+  the transition maps as morphisms (`moduleCompletionLevelMap_comp_moduleCompletionMap`) and on
+  sections (`moduleCompletionMap_val_app_moduleCompletionLevelMap`). The compatibility comes from
+  the generic `Hartshorne.unit_restrictToComp_pullbackUnitTransitionRestrict` (the unit of
+  `a^* ⊣ a_*` against `pullbackUnitTransitionRestrict`), with restriction maps
+  `Hartshorne.sheafOfModulesPushforwardRestrictToComp`.
 
 Hartshorne works with a coherent sheaf on a Noetherian scheme; the computation uses only
 quasi-coherence.
