@@ -12,10 +12,10 @@ Hartshorne, *Algebraic Geometry*, II.9, Proposition 9.6(a) (pp. 197–198): the 
 
 Let `(T, R)` be a ringed space, `J` an ideal subsheaf of `R` and `M` an `R`-module.
 
-* `Hartshorne.IdealSubsheaf.smul J M`: the submodule sheaf `J M ⊆ M`, the sections lying, near
-  every point, in `J(V) M(V)`; this is the image of `J ⊗ M ⟶ M`.
+* `Hartshorne.IdealSubsheaf.smulSubmodule J M`: the submodule sheaf `J M ⊆ M`, the sections
+  lying, near every point, in `J(V) M(V)`; this is the image of `J ⊗ M ⟶ M`.
   `IdealSubsheaf.smulModules J M` is `J M` as an `R`-module and `IdealSubsheaf.smulι J M` its
-  inclusion into `M`; `IdealSubsheaf.smul_mono` says `J ⊆ J'` gives `J M ⊆ J' M`.
+  inclusion into `M`; `IdealSubsheaf.smulSubmodule_mono` says `J ⊆ J'` gives `J M ⊆ J' M`.
 * `Hartshorne.IdealSubsheaf.powQuotient J M n`: the `R`-module `M / J ^ (n + 1) M`, the cokernel
   of `J ^ (n + 1) M ⟶ M`, with the projection `IdealSubsheaf.powQuotientπ J M n`, the
   transition maps `IdealSubsheaf.powQuotientMap J M n : M / J ^ (n + 2) M ⟶ M / J ^ (n + 1) M`,
@@ -82,6 +82,29 @@ namespace IdealSubsheaf
 variable {T : TopCat.{u}} {R : TopCat.Sheaf CommRingCat.{u} T} (J : IdealSubsheaf R)
   (M : SheafOfModules.{u} (ringCatSheafOf R))
 
+/-- If `J ⊆ J'` then `J ^ k ⊆ J' ^ k`. -/
+lemma pow_le_pow_left {J J' : IdealSubsheaf R} (h : J ≤ J') (k : ℕ) : J ^ k ≤ J' ^ k := by
+  refine le_iff.mpr fun V s hs x hx => ?_
+  obtain ⟨W, hWV, hxW, hsW⟩ := hs x hx
+  exact ⟨W, hWV, hxW, Ideal.pow_right_mono (le_iff.mp h W) k hsW⟩
+
+/-- `J ^ (a m) ⊆ (J ^ a) ^ m`. -/
+lemma pow_mul_le_pow_pow (a m : ℕ) : J ^ (a * m) ≤ (J ^ a) ^ m := by
+  refine le_iff.mpr fun V s hs x hx => ?_
+  obtain ⟨W, hWV, hxW, hsW⟩ := hs x hx
+  refine ⟨W, hWV, hxW, ?_⟩
+  have hsW' : R.presheaf.map (homOfLE hWV).op s ∈ (J.ideal W ^ a) ^ m := by
+    rw [← pow_mul]
+    exact hsW
+  exact Ideal.pow_right_mono (J.ideal_pow_le_ideal_pow a W) m hsW'
+
+/-- If `J₂ ^ a ⊆ J₁` with `a > 0`, then every `J₁ ^ (n + 1)` contains some `J₂ ^ (k + 1)`. -/
+lemma exists_pow_succ_le_pow_succ {J₁ J₂ : IdealSubsheaf R} {a : ℕ} (ha : 0 < a)
+    (h : J₂ ^ a ≤ J₁) (n : ℕ) : ∃ k, J₂ ^ (k + 1) ≤ J₁ ^ (n + 1) := by
+  refine ⟨a * (n + 1) - 1, ?_⟩
+  rw [Nat.sub_add_cancel (Nat.mul_pos ha n.succ_pos)]
+  exact (J₂.pow_mul_le_pow_pow a (n + 1)).trans (pow_le_pow_left h (n + 1))
+
 /-- The submodule `J(V) M(V)` of the sections of `M` over `V`. -/
 def sectionsSmul (V : Opens T) :
     Submodule ((ringCatSheafOf R).obj.obj (op V)) (M.val.obj (op V)) :=
@@ -112,7 +135,7 @@ lemma map_mem_sectionsSmul {V W : Opens T} (h : W ≤ V) {s : M.val.obj (op V)}
 
 /-- **The submodule sheaf `J M`** of an `R`-module `M`, for an ideal subsheaf `J` of `R`: the
 sections lying, near every point, in `J(V) M(V)`. It is the image of `J ⊗ M ⟶ M`. -/
-def smul : M.val.Submodule where
+def smulSubmodule : M.val.Submodule where
   obj V :=
     { carrier := {s | ∀ x ∈ V.unop, ∃ (W : Opens T) (h : W ≤ V.unop), x ∈ W ∧
         res M h s ∈ J.sectionsSmul M W}
@@ -147,23 +170,24 @@ def smul : M.val.Submodule where
     rw [key]
     exact J.map_mem_sectionsSmul M _ hsW
 
-lemma mem_smul_iff (V : Opens T) (s : M.val.obj (op V)) :
-    s ∈ (J.smul M).obj (op V) ↔ ∀ x ∈ V, ∃ (W : Opens T) (h : W ≤ V), x ∈ W ∧
+lemma mem_smulSubmodule_iff (V : Opens T) (s : M.val.obj (op V)) :
+    s ∈ (J.smulSubmodule M).obj (op V) ↔ ∀ x ∈ V, ∃ (W : Opens T) (h : W ≤ V), x ∈ W ∧
       M.val.restrictₛₗ (homOfLE h).op s ∈ J.sectionsSmul M W :=
   Iff.rfl
 
 /-- `J(V) M(V) ⊆ (J M)(V)`. -/
-lemma sectionsSmul_le_smul (V : Opens T) : J.sectionsSmul M V ≤ (J.smul M).obj (op V) := by
+lemma sectionsSmul_le_smulSubmodule (V : Opens T) :
+    J.sectionsSmul M V ≤ (J.smulSubmodule M).obj (op V) := by
   intro s hs x hx
   refine ⟨V, le_rfl, hx, ?_⟩
   rw [res_refl]
   exact hs
 
 /-- The sections of `J M` are local. -/
-lemma smul_isLocal (U : Opens T) (s : M.val.obj (op U))
+lemma smulSubmodule_isLocal (U : Opens T) (s : M.val.obj (op U))
     (hs : ∀ x ∈ U, ∃ (V : Opens T) (hVU : V ≤ U), x ∈ V ∧
-      M.val.map (homOfLE hVU).op s ∈ (J.smul M).obj (op V)) :
-    s ∈ (J.smul M).obj (op U) := by
+      M.val.map (homOfLE hVU).op s ∈ (J.smulSubmodule M).obj (op V)) :
+    s ∈ (J.smulSubmodule M).obj (op U) := by
   intro x hx
   obtain ⟨V, hVU, hxV, hsV⟩ := hs x hx
   obtain ⟨W, hWV, hxW, hsW⟩ := hsV x hxV
@@ -172,7 +196,8 @@ lemma smul_isLocal (U : Opens T) (s : M.val.obj (op U))
   exact hsW
 
 /-- If `J ⊆ J'` then `J M ⊆ J' M`. -/
-lemma smul_mono {J J' : IdealSubsheaf R} (hJ : J ≤ J') : J.smul M ≤ J'.smul M := by
+lemma smulSubmodule_mono {J J' : IdealSubsheaf R} (hJ : J ≤ J') :
+    J.smulSubmodule M ≤ J'.smulSubmodule M := by
   intro V s hs x hx
   obtain ⟨W, h, hxW, hsW⟩ := hs x hx
   refine ⟨W, h, hxW, Submodule.smul_mono_left ?_ hsW⟩
@@ -180,21 +205,26 @@ lemma smul_mono {J J' : IdealSubsheaf R} (hJ : J ≤ J') : J.smul M ≤ J'.smul 
 
 /-- The submodule sheaf `J M`, as an `R`-module. -/
 def smulModules : SheafOfModules.{u} (ringCatSheafOf R) :=
-  ⟨(J.smul M).toPresheafOfModules, isSheaf_submodule_of_local'' (J.smul M) (J.smul_isLocal M)⟩
+  ⟨(J.smulSubmodule M).toPresheafOfModules,
+    isSheaf_submodule_of_local'' (J.smulSubmodule M) (J.smulSubmodule_isLocal M)⟩
 
 /-- The inclusion `J M ⟶ M`. -/
 def smulι : J.smulModules M ⟶ M :=
-  ⟨(J.smul M).ι⟩
+  ⟨(J.smulSubmodule M).ι⟩
 
 /-- For `J M ⊆ J' M`, the inclusion `J M ⟶ J' M`. -/
-def smulInclusion {J J' : IdealSubsheaf R} (hJ : J.smul M ≤ J'.smul M) :
+def smulInclusion {J J' : IdealSubsheaf R} (hJ : J.smulSubmodule M ≤ J'.smulSubmodule M) :
     J.smulModules M ⟶ J'.smulModules M :=
   ⟨PresheafOfModules.Submodule.homOfLE hJ⟩
 
 @[reassoc (attr := simp)]
-lemma smulInclusion_smulι {J J' : IdealSubsheaf R} (hJ : J.smul M ≤ J'.smul M) :
+lemma smulInclusion_smulι {J J' : IdealSubsheaf R} (hJ : J.smulSubmodule M ≤ J'.smulSubmodule M) :
     smulInclusion M hJ ≫ J'.smulι M = J.smulι M :=
   SheafOfModules.Hom.ext (PresheafOfModules.Submodule.homOfLE_ι _)
+
+/-- The submodule sheaf `J ^ (k + 1) M`. -/
+abbrev powSubmodule (k : ℕ) : M.val.Submodule :=
+  (J ^ (k + 1)).smulSubmodule M
 
 /-- **The quotient `M / J ^ (n + 1) M`**: the cokernel of the inclusion `J ^ (n + 1) M ⟶ M`. -/
 def powQuotient (n : ℕ) : SheafOfModules.{u} (ringCatSheafOf R) :=
@@ -208,7 +238,8 @@ def powQuotientπ (n : ℕ) : M ⟶ J.powQuotient M n :=
 since `J ^ (n + 2) M ⊆ J ^ (n + 1) M`. -/
 def powQuotientMap (n : ℕ) : J.powQuotient M (n + 1) ⟶ J.powQuotient M n :=
   cokernel.desc _ (J.powQuotientπ M n)
-    ((smulInclusion_smulι_assoc M (smul_mono M (J.pow_le_pow_right (Nat.le_succ (n + 1)))) _).symm.trans
+    ((smulInclusion_smulι_assoc M
+      (smulSubmodule_mono M (J.pow_le_pow_right (Nat.le_succ (n + 1)))) _).symm.trans
       ((congrArg (smulInclusion M _ ≫ ·) (cokernel.condition _)).trans comp_zero))
 
 @[reassoc (attr := simp)]
@@ -246,7 +277,7 @@ variable {J' J'' : IdealSubsheaf R}
 
 /-- For `J ^ (k + 1) M ⊆ J' ^ (n + 1) M`, the map `M / J ^ (k + 1) M ⟶ M / J' ^ (n + 1) M` induced
 by the identity of `M`. -/
-def powQuotientDesc {k n : ℕ} (hkn : (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M) :
+def powQuotientDesc {k n : ℕ} (hkn : J.powSubmodule M k ≤ J'.powSubmodule M n) :
     J.powQuotient M k ⟶ J'.powQuotient M n :=
   cokernel.desc _ (J'.powQuotientπ M n)
     ((smulInclusion_smulι_assoc M hkn _).symm.trans
@@ -254,36 +285,36 @@ def powQuotientDesc {k n : ℕ} (hkn : (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).s
 
 @[reassoc (attr := simp)]
 lemma powQuotientπ_powQuotientDesc {k n : ℕ}
-    (hkn : (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M) :
+    (hkn : J.powSubmodule M k ≤ J'.powSubmodule M n) :
     J.powQuotientπ M k ≫ J.powQuotientDesc M hkn = J'.powQuotientπ M n :=
   cokernel.π_desc _ _ _
 
 instance (n : ℕ) : Epi (J.powQuotientπ M n) :=
   inferInstanceAs (Epi (cokernel.π _))
 
-lemma powQuotientDesc_self (n : ℕ) : J.powQuotientDesc M (le_refl ((J ^ (n + 1)).smul M)) = 𝟙 _ :=
+lemma powQuotientDesc_self (n : ℕ) : J.powQuotientDesc M (le_refl (J.powSubmodule M n)) = 𝟙 _ :=
   (cancel_epi (J.powQuotientπ M n)).mp (by simp)
 
 @[reassoc]
-lemma powQuotientDesc_comp {k m n : ℕ} (hkm : (J ^ (k + 1)).smul M ≤ (J' ^ (m + 1)).smul M)
-    (hmn : (J' ^ (m + 1)).smul M ≤ (J'' ^ (n + 1)).smul M) :
+lemma powQuotientDesc_comp {k m n : ℕ} (hkm : J.powSubmodule M k ≤ J'.powSubmodule M m)
+    (hmn : J'.powSubmodule M m ≤ J''.powSubmodule M n) :
     J.powQuotientDesc M hkm ≫ J'.powQuotientDesc M hmn = J.powQuotientDesc M (hkm.trans hmn) :=
   (cancel_epi (J.powQuotientπ M k)).mp (by simp)
 
 lemma powQuotientDiagram_map_eq {k k' : ℕ} (h : k ≤ k') :
     (J.powQuotientDiagram M).map (homOfLE h).op =
-      J.powQuotientDesc M (smul_mono M (J.pow_le_pow_right (Nat.succ_le_succ h))) :=
+      J.powQuotientDesc M (smulSubmodule_mono M (J.pow_le_pow_right (Nat.succ_le_succ h))) :=
   (cancel_epi (J.powQuotientπ M k')).mp
     (((J.powQuotientCone M).w (homOfLE h).op).trans (J.powQuotientπ_powQuotientDesc M _).symm)
 
 /-- The composite `lim_k M / J ^ (k + 1) M ⟶ M / J ^ (k + 1) M ⟶ M / J' ^ (n + 1) M` does not
 depend on `k`. -/
-lemma limit_π_powQuotientDesc {k k' n : ℕ} (hkn : (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M)
-    (hk'n : (J ^ (k' + 1)).smul M ≤ (J' ^ (n + 1)).smul M) :
+lemma limit_π_powQuotientDesc {k k' n : ℕ} (hkn : J.powSubmodule M k ≤ J'.powSubmodule M n)
+    (hk'n : J.powSubmodule M k' ≤ J'.powSubmodule M n) :
     limit.π (J.powQuotientDiagram M) (op k) ≫ J.powQuotientDesc M hkn =
       limit.π (J.powQuotientDiagram M) (op k') ≫ J.powQuotientDesc M hk'n := by
-  have key : ∀ {a b : ℕ} (hab : a ≤ b) (ha : (J ^ (a + 1)).smul M ≤ (J' ^ (n + 1)).smul M)
-      (hb : (J ^ (b + 1)).smul M ≤ (J' ^ (n + 1)).smul M),
+  have key : ∀ {a b : ℕ} (hab : a ≤ b) (ha : J.powSubmodule M a ≤ J'.powSubmodule M n)
+      (hb : J.powSubmodule M b ≤ J'.powSubmodule M n),
       limit.π (J.powQuotientDiagram M) (op a) ≫ J.powQuotientDesc M ha =
         limit.π (J.powQuotientDiagram M) (op b) ≫ J.powQuotientDesc M hb := by
     intro a b hab ha hb
@@ -292,32 +323,31 @@ lemma limit_π_powQuotientDesc {k k' n : ℕ} (hkn : (J ^ (k + 1)).smul M ≤ (J
       ((Category.assoc _ _ _).trans (congrArg (limit.π (J.powQuotientDiagram M) (op b) ≫ ·)
         ((congrArg (· ≫ J.powQuotientDesc M ha) (J.powQuotientDiagram_map_eq M hab)).trans
           (J.powQuotientDesc_comp M _ ha))))
-  exact (key (le_max_left k k') hkn
-    ((smul_mono M (J.pow_le_pow_right (Nat.succ_le_succ (le_max_left k k')))).trans hkn)).trans
-    (key (le_max_right k k') hk'n
-      ((smul_mono M (J.pow_le_pow_right (Nat.succ_le_succ (le_max_left k k')))).trans hkn)).symm
+  have hmax : J.powSubmodule M (max k k') ≤ J'.powSubmodule M n :=
+    (smulSubmodule_mono M (J.pow_le_pow_right (Nat.succ_le_succ (le_max_left k k')))).trans hkn
+  exact (key (le_max_left k k') hkn hmax).trans (key (le_max_right k k') hk'n hmax).symm
 
 variable {J M}
 
 /-- If every `J' ^ (n + 1) M` contains some `J ^ (k + 1) M`, the components
 `lim_k M / J ^ (k + 1) M ⟶ M / J' ^ (n + 1) M` of the induced map of limits. -/
-def limitPowQuotientMapApp (hJJ' : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M)
+def limitPowQuotientMapApp (hJJ' : ∀ n, ∃ k, J.powSubmodule M k ≤ J'.powSubmodule M n)
     (n : ℕ) : limit (J.powQuotientDiagram M) ⟶ J'.powQuotient M n :=
   limit.π (J.powQuotientDiagram M) (op (hJJ' n).choose) ≫ J.powQuotientDesc M (hJJ' n).choose_spec
 
-lemma limitPowQuotientMapApp_eq (hJJ' : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M)
-    {k n : ℕ} (hkn : (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M) :
+lemma limitPowQuotientMapApp_eq (hJJ' : ∀ n, ∃ k, J.powSubmodule M k ≤ J'.powSubmodule M n)
+    {k n : ℕ} (hkn : J.powSubmodule M k ≤ J'.powSubmodule M n) :
     limitPowQuotientMapApp hJJ' n =
       limit.π (J.powQuotientDiagram M) (op k) ≫ J.powQuotientDesc M hkn :=
   J.limit_π_powQuotientDesc M _ _
 
 lemma powQuotientMap_eq_powQuotientDesc (n : ℕ) :
     J.powQuotientMap M n =
-      J.powQuotientDesc M (smul_mono M (J.pow_le_pow_right (Nat.le_succ (n + 1)))) :=
+      J.powQuotientDesc M (smulSubmodule_mono M (J.pow_le_pow_right (Nat.le_succ (n + 1)))) :=
   (cancel_epi (J.powQuotientπ M (n + 1))).mp (by simp)
 
 lemma limitPowQuotientMapApp_comp
-    (hJJ' : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M) (n : ℕ) :
+    (hJJ' : ∀ n, ∃ k, J.powSubmodule M k ≤ J'.powSubmodule M n) (n : ℕ) :
     limitPowQuotientMapApp hJJ' (n + 1) ≫ J'.powQuotientMap M n =
       limitPowQuotientMapApp hJJ' n :=
   (congrArg (limitPowQuotientMapApp hJJ' (n + 1) ≫ ·)
@@ -328,7 +358,7 @@ lemma limitPowQuotientMapApp_comp
 
 /-- If every `J' ^ (n + 1) M` contains some `J ^ (k + 1) M`, the induced map
 `lim_k M / J ^ (k + 1) M ⟶ lim_n M / J' ^ (n + 1) M`. -/
-def limitPowQuotientMap (hJJ' : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M) :
+def limitPowQuotientMap (hJJ' : ∀ n, ∃ k, J.powSubmodule M k ≤ J'.powSubmodule M n) :
     limit (J.powQuotientDiagram M) ⟶ limit (J'.powQuotientDiagram M) :=
   limit.lift (J'.powQuotientDiagram M)
     { pt := limit (J.powQuotientDiagram M)
@@ -338,14 +368,14 @@ def limitPowQuotientMap (hJJ' : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J' ^ (n 
             (Functor.ofOpSequence_map_homOfLE_succ _ n).symm))) }
 
 @[reassoc (attr := simp)]
-lemma limitPowQuotientMap_π (hJJ' : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M)
-    {k n : ℕ} (hkn : (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M) :
+lemma limitPowQuotientMap_π (hJJ' : ∀ n, ∃ k, J.powSubmodule M k ≤ J'.powSubmodule M n)
+    {k n : ℕ} (hkn : J.powSubmodule M k ≤ J'.powSubmodule M n) :
     limitPowQuotientMap hJJ' ≫ limit.π (J'.powQuotientDiagram M) (op n) =
       limit.π (J.powQuotientDiagram M) (op k) ≫ J.powQuotientDesc M hkn :=
   (limit.lift_π _ _).trans (limitPowQuotientMapApp_eq hJJ' hkn)
 
 lemma toLimitPowQuotient_limitPowQuotientMap
-    (hJJ' : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M) :
+    (hJJ' : ∀ n, ∃ k, J.powSubmodule M k ≤ J'.powSubmodule M n) :
     J.toLimitPowQuotient M ≫ limitPowQuotientMap hJJ' = J'.toLimitPowQuotient M := by
   refine limit.hom_ext fun ⟨n⟩ => ?_
   obtain ⟨k, hk⟩ := hJJ' n
@@ -353,9 +383,9 @@ lemma toLimitPowQuotient_limitPowQuotientMap
   exact (J.toLimitPowQuotient_π_assoc M k _).trans (J.powQuotientπ_powQuotientDesc M hk)
 
 lemma limitPowQuotientMap_comp
-    (hJJ' : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M)
-    (hJ'J'' : ∀ n, ∃ k, (J' ^ (k + 1)).smul M ≤ (J'' ^ (n + 1)).smul M)
-    (hJJ'' : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J'' ^ (n + 1)).smul M) :
+    (hJJ' : ∀ n, ∃ k, J.powSubmodule M k ≤ J'.powSubmodule M n)
+    (hJ'J'' : ∀ n, ∃ k, J'.powSubmodule M k ≤ J''.powSubmodule M n)
+    (hJJ'' : ∀ n, ∃ k, J.powSubmodule M k ≤ J''.powSubmodule M n) :
     limitPowQuotientMap hJJ' ≫ limitPowQuotientMap hJ'J'' = limitPowQuotientMap hJJ'' := by
   refine limit.hom_ext fun ⟨n⟩ => ?_
   obtain ⟨m, hm⟩ := hJ'J'' n
@@ -365,10 +395,10 @@ lemma limitPowQuotientMap_comp
   exact (limitPowQuotientMap_π_assoc hJJ' hk _).trans
     ((Category.assoc _ _ _).trans (congrArg (_ ≫ ·) (J.powQuotientDesc_comp M hk hm)))
 
-lemma limitPowQuotientMap_self (hJJ : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J ^ (n + 1)).smul M) :
+lemma limitPowQuotientMap_self (hJJ : ∀ n, ∃ k, J.powSubmodule M k ≤ J.powSubmodule M n) :
     limitPowQuotientMap hJJ = 𝟙 _ := by
   refine limit.hom_ext fun ⟨n⟩ => ?_
-  simp only [limitPowQuotientMap_π hJJ (le_refl ((J ^ (n + 1)).smul M)), powQuotientDesc_self,
+  simp only [limitPowQuotientMap_π hJJ (le_refl (J.powSubmodule M n)), powQuotientDesc_self,
     Category.id_comp]
   exact Category.comp_id _
 
@@ -376,8 +406,8 @@ lemma limitPowQuotientMap_self (hJJ : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J 
 `J' ^ (n + 1) M` are mutually cofinal, then `lim_n M / J ^ (n + 1) M ≅ lim_n M / J' ^ (n + 1) M`,
 compatibly with the canonical maps from `M`. -/
 def limitPowQuotientIsoOfCofinal
-    (hJJ' : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M)
-    (hJ'J : ∀ n, ∃ k, (J' ^ (k + 1)).smul M ≤ (J ^ (n + 1)).smul M) :
+    (hJJ' : ∀ n, ∃ k, J.powSubmodule M k ≤ J'.powSubmodule M n)
+    (hJ'J : ∀ n, ∃ k, J'.powSubmodule M k ≤ J.powSubmodule M n) :
     limit (J.powQuotientDiagram M) ≅ limit (J'.powQuotientDiagram M) where
   hom := limitPowQuotientMap hJJ'
   inv := limitPowQuotientMap hJ'J
@@ -389,8 +419,8 @@ def limitPowQuotientIsoOfCofinal
 /-- If the systems `J ^ (n + 1) M` and `J' ^ (n + 1) M` are mutually cofinal, then
 `M ⟶ lim_n M / J ^ (n + 1) M` is an isomorphism iff `M ⟶ lim_n M / J' ^ (n + 1) M` is. -/
 theorem isIso_toLimitPowQuotient_iff_of_cofinal
-    (hJJ' : ∀ n, ∃ k, (J ^ (k + 1)).smul M ≤ (J' ^ (n + 1)).smul M)
-    (hJ'J : ∀ n, ∃ k, (J' ^ (k + 1)).smul M ≤ (J ^ (n + 1)).smul M) :
+    (hJJ' : ∀ n, ∃ k, J.powSubmodule M k ≤ J'.powSubmodule M n)
+    (hJ'J : ∀ n, ∃ k, J'.powSubmodule M k ≤ J.powSubmodule M n) :
     IsIso (J.toLimitPowQuotient M) ↔ IsIso (J'.toLimitPowQuotient M) := by
   have e : J.toLimitPowQuotient M ≫ (limitPowQuotientIsoOfCofinal hJJ' hJ'J).hom =
       J'.toLimitPowQuotient M :=
@@ -412,6 +442,21 @@ namespace IsIdealOfDefinition
 
 variable {X : NoetherianFormalScheme.{u}} {J : IdealSubsheaf X.toLocallyRingedSpace.sheaf}
   (h : IsIdealOfDefinition X J)
+
+/-- **The completion does not depend on the ideal of definition.** For two ideals of definition
+`J₁`, `J₂` of a Noetherian formal scheme `X` and an `𝒪_X`-module `F`, the canonical map
+`F ⟶ lim_n F / J₁ ^ (n + 1) F` is an isomorphism iff `F ⟶ lim_n F / J₂ ^ (n + 1) F` is: by
+Proposition 9.5(a) the two systems of powers are cofinal. -/
+theorem isIso_toLimitPowQuotient_iff {J₁ J₂ : IdealSubsheaf X.toLocallyRingedSpace.sheaf}
+    (h₁ : IsIdealOfDefinition X J₁) (h₂ : IsIdealOfDefinition X J₂)
+    (F : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace)) :
+    IsIso (J₁.toLimitPowQuotient F) ↔ IsIso (J₂.toLimitPowQuotient F) := by
+  obtain ⟨a, b, ha, hb, hab, hba⟩ := exists_pow_le_and_pow_le h₁ h₂
+  refine IdealSubsheaf.isIso_toLimitPowQuotient_iff_of_cofinal (fun n => ?_) (fun n => ?_)
+  · obtain ⟨k, hk⟩ := IdealSubsheaf.exists_pow_succ_le_pow_succ hb hba n
+    exact ⟨k, IdealSubsheaf.smulSubmodule_mono F hk⟩
+  · obtain ⟨k, hk⟩ := IdealSubsheaf.exists_pow_succ_le_pow_succ ha hab n
+    exact ⟨k, IdealSubsheaf.smulSubmodule_mono F hk⟩
 
 /-- The identity of the underlying space of `X`, from `(X, 𝒪_X / J)` to `X`, induces a continuous
 functor on opens. (Instance synthesis does not always find this, since the two underlying spaces
