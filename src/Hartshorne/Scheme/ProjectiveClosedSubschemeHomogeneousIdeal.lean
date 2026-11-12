@@ -12,11 +12,12 @@ import Hartshorne.Scheme.ModuleIdealSheafData
 
 Hartshorne, *Algebraic Geometry*, II, Corollary 5.16(a) (pp. 119–120).
 
-Let `S = R[x₀, …, xᵣ]` and `X = ℙʳ_R = Proj S`. For a quasi-coherent ideal sheaf
-`ℐ ⊆ 𝒪_X` (`QuasicoherentIdealSubsheaf`), the inclusion `ℐ ⟶ 𝒪_X` (`idealι`) induces an
-`S`-linear map `Γ_*(ℐ) ⟶ Γ_*(𝒪_X)` (`gammaStarLinear`), and `Γ_*(𝒪_X) = S` (Proposition 5.13,
-`ProjectiveSpaceSectionRing.sectionRingMap`). The homogeneous ideal `Γ_*(ℐ) ∩ S` is
-`gammaStarIdeal R r ℐ`: the elements of `S` whose image in `Γ_*(𝒪_X)` comes from `Γ_*(ℐ)`.
+Let `S = R[x₀, …, xᵣ]` and `X = ℙʳ_R = Proj S`. For a quasi-coherent ideal sheaf `ℐ ⊆ 𝒪_X`
+(`QuasicoherentIdealSubsheaf`), the inclusion `ℐ ⟶ 𝒪_X` (`idealι`) induces an `S`-linear map
+`Γ_*(ℐ) ⟶ Γ_*(𝒪_X)` (`gammaStarLinear`), and `S → Γ_*(𝒪_X)`
+(`ProjectiveSpaceSectionRing.sectionRingMap`) is an isomorphism for `r ≥ 1` (Proposition 5.13). The
+homogeneous ideal `Γ_*(ℐ) ∩ S` is `gammaStarIdeal R r ℐ`: the elements of `S` whose image in
+`Γ_*(𝒪_X)` comes from `Γ_*(ℐ)`.
 
 * `ker_projQuotientι_gammaStarIdeal`: the closed subscheme `Proj (S/I) ⟶ X` defined by
   `I = Γ_*(ℐ) ∩ S` (`projQuotientι`, Exercise II.3.12) has ideal sheaf `ℐ`.
@@ -428,9 +429,9 @@ theorem ker_projQuotientι_le (ℐ : QuasicoherentIdealSubsheaf (Proj 𝒮)) :
   exact hres
 
 /-- `ℐ` is contained in the ideal of `Proj (S/I)`, `I = Γ_*(ℐ) ∩ S`. By Proposition 5.15 a section
-of `ℐ` is, near each point, a fraction `m / s` with `m ∈ Γ(X, ℐ(n))`; by Proposition 5.13 its
-image in `𝒪_X` is `b / s` with `b ∈ S_n`, and then `b ∈ I`, so `b / s` lies in the ideal of
-`Proj (S/I)`. -/
+of `ℐ` is, near each point, a fraction `m / s` with `m ∈ Γ(X, ℐ(n))`; by Proposition 5.13 (for
+`r = 0`, directly: `exists_mem_sectionRingMap_eq`) its image in `𝒪_X` is `b / s` with `b ∈ S_n`, and
+then `b ∈ I`, so `b / s` lies in the ideal of `Proj (S/I)`. -/
 theorem le_ker_projQuotientι (ℐ : QuasicoherentIdealSubsheaf (Proj 𝒮)) :
     quasicoherentIdealSubsheafEquiv ℐ ≤ (projQuotientι 𝒮 (gammaStarIdeal R r ℐ)).ker := by
   have hqc := ℐ.isQuasicoherent
@@ -447,7 +448,7 @@ theorem le_ker_projQuotientι (ℐ : QuasicoherentIdealSubsheaf (Proj 𝒮)) :
   obtain ⟨n, m, hm, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective w
   rw [stalkEval_mk] at hw
   obtain ⟨W, hxW, iU, iV, hWeq⟩ := TopCat.Presheaf.germ_eq ℐ.toModules.presheaf x hsx hx _ _ hw
-  -- the numerator `b ∈ S_n`, from Proposition 5.13
+  -- the numerator `b ∈ S_n` (Proposition 5.13 for `r ≥ 1`; `r = 0` by hand)
   obtain ⟨b, hbmem, hbN⟩ := exists_mem_sectionRingMap_eq (R := R) n
     (twistGlobalMap (idealι ℐ) n (m n))
   have hbI := (mem_gammaStarIdeal_iff ℐ hbmem).2 ⟨m n, hbN.symm⟩
