@@ -2,7 +2,7 @@
 article_id: af_b8bd33e236bd945e0f270310
 declaration: theorem
 origin: cited
-lean: Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletion_exact Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletion_shortExact
+lean: Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletion_exact Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletion_shortExact Hartshorne.QuasicoherentIdealSubsheaf.isCoherentFormalModule_moduleCompletion
 ---
 
 # Exactness of scheme-theoretic completion
