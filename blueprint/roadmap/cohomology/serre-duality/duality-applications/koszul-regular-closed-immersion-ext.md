@@ -2,6 +2,7 @@
 article_id: af_f04792053490cdb3cfea1350
 declaration: isomorphism
 origin: cited
+lean: Hartshorne.Koszul.IsKoszulRegular Hartshorne.IsKoszulRegularImmersion Hartshorne.isKoszulRegular_sections_of_isFiniteLocallyFree Hartshorne.IsKoszulRegularImmersion.exists_isKoszulRegular_sections Hartshorne.Koszul.koszulDualEquiv Hartshorne.Koszul.exact_lcomp_sequenceKoszulComplex_d Hartshorne.Koszul.injective_lcomp_sequenceKoszulComplex_d Hartshorne.Koszul.koszulDualTopMap Hartshorne.Koszul.exact_koszulDualTopMap Hartshorne.Koszul.koszulDualTopMap_apply Hartshorne.Koszul.koszulDualTopMap_changeOfBasis Hartshorne.IsKoszulRegularImmersion.exists_koszulDual
 ---
 
 # Sheaf Ext for a Koszul-regular immersion
