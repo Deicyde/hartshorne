@@ -460,6 +460,108 @@ abbrev coordinateAlgebra : QuasiCoherentGradedAlgebra X where
 
 end CoordinateAlgebra
 
+/-! ### `Proj_X T ≅ Z` -/
+
+section RelProj
+
+open Scheme.AffineZariskiSite
+
+variable {X Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r X) [IsClosedImmersion i]
+  [IsIntegral Z]
+
+/-- A graded ring with no homogeneous primes avoiding the irrelevant ideal has empty `Proj`; here,
+the zero ring. -/
+private instance isEmpty_proj_quotient_top {A : Type u} [CommRing A] {σ : Type u} [SetLike σ A]
+    [AddSubgroupClass σ A] {𝒜 : ℕ → σ} [GradedRing 𝒜] [Subsingleton A] : IsEmpty (Proj 𝒜) :=
+  ⟨fun x => x.isPrime.ne_top (Subsingleton.elim _ _)⟩
+
+omit [IsClosedImmersion i] [IsIntegral Z] in
+private theorem projMap_apply_asHomogeneousIdeal {A B σ τ : Type u} [CommRing A] [SetLike σ A]
+    [AddSubgroupClass σ A] [CommRing B] [SetLike τ B] [AddSubgroupClass τ B]
+    {𝒜 : ℕ → σ} {ℬ : ℕ → τ} [GradedRing 𝒜] [GradedRing ℬ] (φ : 𝒜 →+*ᵍ ℬ)
+    (hf : HomogeneousIdeal.irrelevant ℬ ≤ (HomogeneousIdeal.irrelevant 𝒜).map φ) (x : Proj ℬ) :
+    (Proj.map φ hf x).asHomogeneousIdeal = x.asHomogeneousIdeal.comap φ :=
+  rfl
+
+omit [IsClosedImmersion i] [IsIntegral Z] in
+private theorem asHomogeneousIdeal_eq_bot_of_specializes {A σ : Type u} [CommRing A] [SetLike σ A]
+    [AddSubgroupClass σ A] {𝒜 : ℕ → σ} [GradedRing 𝒜] {x y : Proj 𝒜} (h : x ⤳ y)
+    (hy : y.asHomogeneousIdeal = ⊥) : x.asHomogeneousIdeal = ⊥ :=
+  le_antisymm (hy ▸ (ProjectiveSpectrum.le_iff_mem_closure (𝒜 := 𝒜) x y).mpr
+    (specializes_iff_mem_closure.mp h)) bot_le
+
+/-- **`f⁻¹(U)` is `Proj` of `Γ(X, U)[x] / I_U`.** -/
+theorem exists_chartIso (U : X.Opens) (hU : IsAffineOpen U) :
+    ∃ e : ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme ≅
+        Proj (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U))
+          (chartIdeal i U hU)),
+      e.hom ≫ projQuotientι _ (chartIdeal i U hU) ≫
+          (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).hom = chartEmbedding i hU := by
+  by_cases hη : genericPoint Z ∈ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U
+  · obtain ⟨I, -, e, hfac, -, hdom⟩ := exists_iso_proj_homogeneousCoordinateRing
+      (chartEmbedding i hU)
+    have : Nonempty ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme := ⟨⟨_, hη⟩⟩
+    have : IsIntegral ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme :=
+      isIntegral_of_isOpenImmersion (Scheme.Opens.ι _)
+    have := hdom inferInstance
+    let η' : ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme := ⟨_, hη⟩
+    have hirr : ¬HomogeneousIdeal.irrelevant
+        (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) _) I) ≤ ⊥ :=
+      fun h => (e.hom η').not_irrelevant_le (h.trans bot_le)
+    -- The image of the generic point is the homogeneous prime `(0)` of the domain `S/I`.
+    have hgen : (e.hom η').asHomogeneousIdeal = ⊥ := by
+      refine le_antisymm ?_ bot_le
+      have hsp : η' ⤳ e.inv (ProjectiveSectionRing.genericPoint hirr) :=
+        (subtype_specializes_iff _ _).mpr (genericPoint_specializes _)
+      have hsp' := hsp.map e.hom.continuous
+      have hinv : e.hom (e.inv (ProjectiveSectionRing.genericPoint hirr)) =
+          ProjectiveSectionRing.genericPoint hirr := by
+        rw [← Scheme.Hom.comp_apply, Iso.inv_hom_id]
+        rfl
+      rw [hinv] at hsp'
+      exact (asHomogeneousIdeal_eq_bot_of_specializes hsp' rfl).le
+    have hI : chartIdeal i U hU = I := by
+      rw [chartIdeal_of_mem i hU hη]
+      have hpt : chartPoint i hU η' = projQuotientι _ I (e.hom η') := by
+        have key : (e.hom ≫ projQuotientι _ I ≫
+            (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).hom) ≫
+              (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).inv = e.hom ≫ projQuotientι _ I := by
+          rw [Category.assoc, Category.assoc, Iso.hom_inv_id, Category.comp_id]
+        rw [chartPoint, ← hfac, ← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply]
+        exact congr($key η')
+      rw [hpt, projQuotientι_eq_map, projMap_apply_asHomogeneousIdeal, hgen]
+      apply HomogeneousIdeal.toIdeal_injective
+      rw [HomogeneousIdeal.toIdeal_comap, HomogeneousIdeal.toIdeal_bot]
+      exact Ideal.mk_ker
+    subst hI
+    exact ⟨e, hfac⟩
+  · have hempty : IsEmpty ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme := by
+      refine ⟨fun z => hη ?_⟩
+      exact ((genericPoint_spec Z).mem_open_set_iff ((i ≫ projectiveSpaceOverSchemeProjection r X)
+        ⁻¹ᵁ U).isOpen).mpr ⟨z.1, trivial, z.2⟩
+    have hI : chartIdeal i U hU = ⊤ := chartIdeal_of_not_mem i hU hη
+    have : Subsingleton (MvPolynomial (Fin (r + 1)) Γ(X, U) ⧸ (chartIdeal i U hU).toIdeal) :=
+      Ideal.Quotient.subsingleton_iff.mpr (by rw [hI]; rfl)
+    let e := (isInitialOfIsEmpty (X := ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ
+      U).toScheme)).uniqueUpToIso (isInitialOfIsEmpty (X := Proj (gradedQuotient
+        (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) (chartIdeal i U hU))))
+    exact ⟨e, isInitialOfIsEmpty.hom_ext _ _⟩
+
+/-- The isomorphism `f⁻¹(U) ≅ Proj (Γ(X, U)[x] / I_U)` over `ℙʳ_{Spec Γ(X, U)}`. -/
+def chartIso (U : X.Opens) (hU : IsAffineOpen U) :
+    ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme ≅
+      Proj (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U))
+        (chartIdeal i U hU)) :=
+  Classical.choose (exists_chartIso i U hU)
+
+@[reassoc]
+theorem chartIso_hom_comp (U : X.Opens) (hU : IsAffineOpen U) :
+    (chartIso i U hU).hom ≫ projQuotientι _ (chartIdeal i U hU) ≫
+        (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).hom = chartEmbedding i hU :=
+  Classical.choose_spec (exists_chartIso i U hU)
+
+end RelProj
+
 end SectionAlgebraModel
 
 end Hartshorne
