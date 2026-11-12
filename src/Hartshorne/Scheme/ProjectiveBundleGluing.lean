@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.ProjectiveBundleTrivialization
 import Hartshorne.Scheme.ProjectiveMorphismCalculus
 import Hartshorne.Scheme.RelativeProjDesc
+import Hartshorne.Scheme.MorphismFromGeneratedLineBundle
 
 /-!
 # Projective bundles of free modules over an arbitrary open
@@ -113,6 +114,34 @@ theorem exists_iso_of_openImmersions_over {Y Z B : Scheme.{u}} (f : Y ⟶ B) (g 
   exact ⟨asIso Φ, hΦg, hΦ⟩
 
 end GlueIso
+
+namespace ProjTwistMap
+
+open HomogeneousIdeal
+
+variable {A B σ τ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+  [CommRing B] [SetLike τ B] [AddSubgroupClass τ B]
+  {𝒜 : ℕ → σ} {ℬ : ℕ → τ} [GradedRing 𝒜] [GradedRing ℬ]
+
+/-- **Restricting degree-one sections.** For a graded `φ : S → T` whose `Proj` map is an open
+immersion, the morphism `𝒪_{Proj S}(1)|_{Proj T} ⟶ 𝒪_{Proj T}(1)` sends the global section `s` of
+`𝒪_{Proj S}(1)` given by `s ∈ S_1` to the global section `φ(s)` of `𝒪_{Proj T}(1)`. -/
+theorem twistRestrictHom_app_degreeOneSection (φ : 𝒜 →+*ᵍ ℬ) (hf : ℬ₊ ≤ 𝒜₊.map φ)
+    [IsOpenImmersion (Proj.map φ hf)] {s : A} (hs : s ∈ 𝒜 1) :
+    (twistRestrictHom φ hf 1).app ⊤
+        ((projTwistingSheaf 𝒜 1).presheaf.map (homOfLE le_top).op
+          (ProjTwistingSheaf.degreeOneSection ⟨s, hs⟩)) =
+      ProjTwistingSheaf.degreeOneSection ⟨φ s, φ.map_mem hs⟩ := by
+  apply Subtype.ext
+  funext y
+  rw [twistRestrictHom_app_apply]
+  change twistFiber φ 1 _ (ProjTwistingSheaf.degreeOneFraction _ hs) =
+    ProjTwistingSheaf.degreeOneFraction y.1 (φ.map_mem hs)
+  rw [ProjTwistingSheaf.degreeOneFraction, twistFiber_mk]
+  simp only [map_one]
+  rfl
+
+end ProjTwistMap
 
 end Hartshorne
 
