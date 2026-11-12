@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.RelativeProjLineBundleTwist
+import Hartshorne.Scheme.RelativeProjLineBundleTwistFrames
 
 /-!
 # The twisting sheaf of `Proj_X (S · L)`
