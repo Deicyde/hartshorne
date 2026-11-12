@@ -343,6 +343,143 @@ theorem ρ_bijective : Function.Bijective (P.ρ U hU hp) :=
       (sectionToPoly_injective P.hf P.hθ P.he P.hW P.M U hU))
     (P.exists_mem_one_φ_eq U hU hp)
 
+
+theorem ρ_eq_iff (x : P.S.obj.obj (op U)) (y : P.I.reesAlgebra.obj.obj (op U)) :
+    P.ρ U hU hp x = y ↔ Polynomial.map (X.presheaf.germ U.1 (genericPoint X) hU).hom
+      (ReesAlgebraSheaf.toPolynomial _ y) = P.φ U hU p x :=
+  reesRingHom_eq_iff (germ_injective_of_isIntegral X _ hU) _ _ _ _ _ _ _ x y
+
+end Setup
+
+/-! ### Naturality and independence of the frame -/
+
+namespace Setup
+
+open SectionAlgebraModel Scheme QuasiCoherentGradedAlgebra
+
+variable {r : ℕ} {X Z : Scheme.{u}} {i : Z ⟶ projectiveSpaceOverScheme r X} [IsIntegral X]
+  [IsIntegral Z] [IsNoetherian X] {d : ℕ} (P : Setup i d)
+
+theorem t_app_map {U V : X.Opens} (h : V ≤ U) (ψ : Γ(P.D, U)) :
+    P.t.app V (P.D.presheaf.map (homOfLE h).op ψ) =
+      X.presheaf.map (homOfLE h).op (P.t.app U ψ) := by
+  have htn := ConcreteCategory.congr_hom (P.t.mapPresheaf.naturality (homOfLE h).op) ψ
+  simp only [Modules.mapPresheaf_app, ConcreteCategory.comp_apply] at htn
+  exact htn
+
+theorem frameConst_restrict {U V : X.AffineZariskiSite} (g : V ⟶ U) (hV : genericPoint X ∈ V.1)
+    (p : ULift.{u} (Fin 1) → Γ(P.D, U.1)) :
+    P.frameConst V hV (restrictFrame g p) =
+      P.frameConst U (AffineZariskiSite.toOpens_mono g.le hV) p := by
+  rw [frameConst, frameConst, restrictFrame]
+  refine (congrArg _ (P.t_app_map _ (p default))).trans ?_
+  exact TopCat.Presheaf.germ_res_apply _ _ _ _ _
+
+theorem φ_restrict {U V : X.AffineZariskiSite} (g : V ⟶ U) (hV : genericPoint X ∈ V.1)
+    (p : ULift.{u} (Fin 1) → Γ(P.D, U.1)) (x : P.S.obj.obj (op U)) :
+    P.φ V hV (restrictFrame g p) (P.S.restrict g x) =
+      P.φ U (AffineZariskiSite.toOpens_mono g.le hV) p x := by
+  rw [RingHom.comp_apply, RingHom.comp_apply, frameConst_restrict,
+    sectionToPoly_restrict P.hf P.hθ P.he P.hW P.M U (AffineZariskiSite.toOpens_mono g.le hV) g hV]
+
+/-- **Naturality of the identification `S(U) ≅ ⊕_m I(U)ᵐ`** under restriction, with the restricted
+frame. -/
+theorem ρ_restrict {U V : X.AffineZariskiSite} (g : V ⟶ U) (hV : genericPoint X ∈ V.1)
+    {p : ULift.{u} (Fin 1) → Γ(P.D, U.1)} (hp : Ringed.IsLocalFrame (R := X.sheaf) P.D U.1 p) :
+    (P.I.reesAlgebra.restrict g).comp (P.ρ U (AffineZariskiSite.toOpens_mono g.le hV) hp) =
+      (P.ρ V hV (isLocalFrame_restrictFrame g hp)).comp (P.S.restrict g) := by
+  refine GradedRingHom.ext fun x =>
+    ((P.ρ_eq_iff V hV (isLocalFrame_restrictFrame g hp) _ _).2 ?_).symm
+  change Polynomial.map _ (ReesAlgebraSheaf.toPolynomial _
+    ((ReesAlgebraSheaf.functor _).map g.op (P.ρ U _ hp x))) = _
+  rw [ReesAlgebraSheaf.toPolynomial_functor_map, Polynomial.map_map]
+  refine Eq.trans ?_ (P.φ_restrict g hV p x).symm
+  rw [← P.map_ρ U (AffineZariskiSite.toOpens_mono g.le hV) hp x]
+  congr 1
+  rw [← CommRingCat.hom_comp]
+  exact congrArg CommRingCat.Hom.hom (X.presheaf.germ_res _ _ _)
+
+attribute [local instance] sectionsAlgebra
+
+theorem φ_scale (U : X.AffineZariskiSite) (hU : genericPoint X ∈ U.1)
+    {p p' : ULift.{u} (Fin 1) → Γ(P.D, U.1)} (v : Γ(X, U.1)) (hv : p' default = v • p default)
+    (x : P.S.obj.obj (op U)) :
+    P.φ U hU p (SegreProduct.scale (P.S.grading U) (P.S.algebraMap_sections_mem U) v x) =
+      P.φ U hU p' x := by
+  have key := SegreProduct.ringHom_ext_of_homogeneous (𝒮 := P.S.grading U)
+    (f := (P.φ U hU p).comp (SegreProduct.scale (P.S.grading U)
+      (P.S.algebraMap_sections_mem U) v).toRingHom) (g := P.φ U hU p') fun m y hy => by
+      change P.φ U hU p (SegreProduct.scale _ _ v y) = _
+      rw [SegreProduct.scale_of_mem _ _ _ hy, Algebra.smul_def, map_mul, φ_of_mem P U hU p hy,
+        φ_of_mem P U hU p' hy]
+      change P.φ U hU p (P.S.structureMap.app (op U) (v ^ m)) * _ = _
+      rw [φ_structureMap, C_mul_monomial]
+      congr 1
+      have ht : (show Γ(X, U.1) from P.t.app U.1 (v • p default)) =
+          v * (show Γ(X, U.1) from P.t.app U.1 (p default)) :=
+        Modules.Hom.app_smul P.t v (p default)
+      have hc : P.frameConst U hU p' =
+          X.presheaf.germ U.1 (genericPoint X) hU v * P.frameConst U hU p := by
+        rw [frameConst, frameConst, hv, ← map_mul]
+        exact congrArg _ ht
+      rw [hc, map_pow, mul_pow, mul_assoc]
+  exact congr($key x)
+
+/-- **Changing the frame** `ψ` to `v ψ` composes the identification with `s ↦ vᵐ s`. -/
+theorem ρ_smul (U : X.AffineZariskiSite) (hU : genericPoint X ∈ U.1)
+    {p p' : ULift.{u} (Fin 1) → Γ(P.D, U.1)} (hp : Ringed.IsLocalFrame (R := X.sheaf) P.D U.1 p)
+    (hp' : Ringed.IsLocalFrame (R := X.sheaf) P.D U.1 p') (v : Γ(X, U.1))
+    (hv : p' default = v • p default) :
+    P.ρ U hU hp' = (P.ρ U hU hp).comp
+      (SegreProduct.scale (P.S.grading U) (P.S.algebraMap_sections_mem U) v) :=
+  GradedRingHom.ext fun x => (P.ρ_eq_iff U hU hp' _ _).2 (by
+    change Polynomial.map _ (ReesAlgebraSheaf.toPolynomial _ (P.ρ U hU hp _)) = _
+    exact (P.map_ρ U hU hp _).trans (φ_scale P U hU v hv x))
+
+private theorem exists_eq_smul_of_trivializing {V : X.Opens} {e : Γ(P.D, V)}
+    (he : IsTrivializingSection P.D V e) (x : Γ(P.D, V)) : ∃ c : Γ(X, V), x = c • e := by
+  obtain ⟨c, hc⟩ := (he V le_rfl).2 x
+  refine ⟨c, hc.symm.trans ?_⟩
+  change c • P.D.presheaf.map (𝟙 _) e = c • e
+  rw [CategoryTheory.Functor.map_id]
+  rfl
+
+private theorem smul_left_injective_of_trivializing {V : X.Opens} {e : Γ(P.D, V)}
+    (he : IsTrivializingSection P.D V e) {c c' : Γ(X, V)} (h : c • e = c' • e) : c = c' := by
+  refine (he V le_rfl).1 ?_
+  change c • P.D.presheaf.map (𝟙 _) e = c' • P.D.presheaf.map (𝟙 _) e
+  rw [CategoryTheory.Functor.map_id]
+  exact h
+
+private theorem projMap_congr {A B : Type u} [CommRing A] [CommRing B] {𝒜 : ℕ → AddSubgroup A}
+    {ℬ : ℕ → AddSubgroup B} [GradedRing 𝒜] [GradedRing ℬ] {φ ψ : 𝒜 →+*ᵍ ℬ} (e : φ = ψ)
+    (hφ : HomogeneousIdeal.irrelevant ℬ ≤ (HomogeneousIdeal.irrelevant 𝒜).map φ)
+    (hψ : HomogeneousIdeal.irrelevant ℬ ≤ (HomogeneousIdeal.irrelevant 𝒜).map ψ) :
+    Proj.map φ hφ = Proj.map ψ hψ := by
+  subst e
+  rfl
+
+/-- **Independence of the frame**: two frames of `D` over `U` give the same isomorphism
+`Proj (⊕_m I(U)ᵐ) ≅ Proj S(U)`. -/
+theorem projIso_ρ_eq (U : X.AffineZariskiSite) (hU : genericPoint X ∈ U.1)
+    {p p' : ULift.{u} (Fin 1) → Γ(P.D, U.1)} (hp : Ringed.IsLocalFrame (R := X.sheaf) P.D U.1 p)
+    (hp' : Ringed.IsLocalFrame (R := X.sheaf) P.D U.1 p') :
+    projIsoOfBijective (P.ρ U hU hp') (P.ρ_bijective U hU hp') =
+      projIsoOfBijective (P.ρ U hU hp) (P.ρ_bijective U hU hp) := by
+  have ht : IsTrivializingSection P.D U.1 (p default) := IsTrivializingSection.of_isLocalFrame hp
+  have ht' : IsTrivializingSection P.D U.1 (p' default) :=
+    IsTrivializingSection.of_isLocalFrame hp'
+  obtain ⟨v, hv⟩ := P.exists_eq_smul_of_trivializing ht (p' default)
+  obtain ⟨w, hw⟩ := P.exists_eq_smul_of_trivializing ht' (p default)
+  have hvw : v * w = 1 := P.smul_left_injective_of_trivializing ht'
+    (by rw [mul_smul, ← hw, ← hv, one_smul])
+  have hu : IsUnit v := IsUnit.of_mul_eq_one w hvw
+  refine Iso.ext ?_
+  rw [projIsoOfBijective_hom, projIsoOfBijective_hom]
+  exact (projMap_congr (P.ρ_smul U hU hp hp' v hv) _ _).trans ((Proj.map_comp _ _
+    (SegreProduct.irrelevant_le_scale _ _ hu) _).trans (by
+      rw [SegreProduct.projMap_scale _ _ hu, Category.comp_id]))
+
 end Setup
 
 end Hartshorne.BirationalBlowup
