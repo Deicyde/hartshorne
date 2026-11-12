@@ -809,6 +809,7 @@ import Hartshorne.Scheme.InvertibleSymmetricPower
 import Hartshorne.Scheme.RelativeProjLineBundleTwistSheaf
 import Hartshorne.Scheme.RelativeProjPushforwardTwist
 import Hartshorne.Scheme.ProjectiveBundlePushforward
+import Hartshorne.Scheme.ProjectiveBundleTautologicalQuotient
 import Hartshorne.Scheme.BlowupInvertibleFactorInvariance
 import Hartshorne.Scheme.RelativeProjAmpleTwistCharts
 import Hartshorne.Scheme.RelativeProjAmpleTwistEmbedding
