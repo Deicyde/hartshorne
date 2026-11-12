@@ -539,7 +539,7 @@ lemma krullDimLE_one_stalk (hdim : topologicalKrullDim X = 1) (P : X) :
   exact (Order.coheight_le_krullDim P).trans hkd
 
 omit [IsIntegral X] in
-/-- In a `T0` space of Krull dimension at most one in which `X` itself is irreducible, a point
+/-- In a `T0` space of Krull dimension at most one in which `T` itself is irreducible, a point
 whose closure is not everything is closed. -/
 lemma isClosed_singleton_of_closure_ne_univ {T : Type*} [TopologicalSpace T] [T0Space T]
     [IrreducibleSpace T] (hdim : topologicalKrullDim T ≤ 1) {P : T}
