@@ -474,6 +474,7 @@ theorem tensorPowerTwistOnZIso_hom_tprod_eq_monomialSection {n : ℕ} (hn : 0 < 
   congr 2
   exact Subtype.ext hu
 
+/-- `0 < p + q` whenever `0 < p`. -/
 theorem pos_add_of_pos {p : ℕ} (hp : 0 < p) (q : ℕ) : 0 < p + q := by omega
 
 /-- The product of sections of tensor powers of `L = i^* 𝒪(1)`,
