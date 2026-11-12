@@ -775,6 +775,7 @@ import Hartshorne.Scheme.SectionAlgebraSheafComparison
 import Hartshorne.Scheme.CoherentFormalModuleReconstruction
 import Hartshorne.Scheme.CoherentFormalModuleLocality
 import Hartshorne.Scheme.CoherentFormalModuleChart
+import Hartshorne.Scheme.CoherentFormalModuleReduction
 import Hartshorne.Scheme.SeparatesPointsTangentVectors
 import Hartshorne.Scheme.BirationalDenominatorIdeal
 import Hartshorne.Scheme.ProjectivelyNormalVeronese
