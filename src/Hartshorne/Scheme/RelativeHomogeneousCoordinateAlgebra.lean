@@ -560,6 +560,93 @@ theorem chartIso_hom_comp (U : X.Opens) (hU : IsAffineOpen U) :
         (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).hom = chartEmbedding i hU :=
   Classical.choose_spec (exists_chartIso i U hU)
 
+omit [IsClosedImmersion i] [IsIntegral Z] in
+private theorem projectiveSpaceOverSchemeMap_comp' {Y Y' Y'' : Scheme.{u}} (g : Y'' ⟶ Y')
+    (g' : Y' ⟶ Y) :
+    projectiveSpaceOverSchemeMap r g ≫ projectiveSpaceOverSchemeMap r g' =
+      projectiveSpaceOverSchemeMap r (g ≫ g') := by
+  apply pullback.hom_ext
+  · rw [Category.assoc, projectiveSpaceOverSchemeMap_fst, projectiveSpaceOverSchemeMap_fst,
+      projectiveSpaceOverSchemeMap_fst]
+  · change _ ≫ projectiveSpaceOverSchemeProjection r _ = _ ≫ projectiveSpaceOverSchemeProjection r _
+    rw [Category.assoc, projectiveSpaceOverSchemeMap_projection,
+      projectiveSpaceOverSchemeMap_projection_assoc, projectiveSpaceOverSchemeMap_projection]
+
+/-- `Proj (Γ(X, U)[x] / I_U) ⊆ ℙʳ_{Spec Γ(X, U)} ⟶ ℙʳ_X`. -/
+private def chartToProjectiveSpace (U : X.Opens) (hU : IsAffineOpen U) :
+    Proj (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U))
+      (chartIdeal i U hU)) ⟶ projectiveSpaceOverScheme r X :=
+  Proj.map (gradedQuotientMk _ (chartIdeal i U hU))
+      (ProjTruncation.irrelevant_le_map_of_surjective (gradedQuotientMk_surjective _ _)) ≫
+    (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).hom ≫
+      projectiveSpaceOverSchemeMap r hU.fromSpec
+
+/-- The open immersions `Proj T(U) ≅ f⁻¹(U) ⊆ Z`. -/
+def coordToZ (U : X.AffineZariskiSite) : Proj ((coordinateAlgebra i).grading U) ⟶ Z :=
+  (chartIso i U.1 U.2).inv ≫ ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1).ι
+
+instance (U : X.AffineZariskiSite) : IsOpenImmersion (coordToZ i U) := by
+  unfold coordToZ
+  infer_instance
+
+private theorem coordToZ_comp (U : X.AffineZariskiSite) :
+    coordToZ i U ≫ i = chartToProjectiveSpace i U.1 U.2 := by
+  rw [coordToZ, Category.assoc, ← chartEmbedding_comp, ← chartIso_hom_comp_assoc,
+    Iso.inv_hom_id_assoc, chartToProjectiveSpace, projQuotientι_eq_map]
+
+private theorem coordToZ_map {U V : X.AffineZariskiSite} (f : U ⟶ V) :
+    Proj.map ((coordinateAlgebra i).restrict f) ((coordinateAlgebra i).irrelevant_le f) ≫
+      coordToZ i V = coordToZ i U := by
+  have h : U.1 ≤ V.1 := toOpens_mono f.le
+  have hcomp : ((coordinateAlgebra i).restrict f).comp
+      (gradedQuotientMk _ (chartIdeal i V.1 V.2)) =
+        (gradedQuotientMk _ (chartIdeal i U.1 U.2)).comp
+          (polyMap (r := r) (X.presheaf.map (homOfLE h).op).hom) :=
+    GradedRingHom.ext fun p => coordRestrict_mk i U.2 V.2 h p
+  have e1 : Proj.map ((coordinateAlgebra i).restrict f) ((coordinateAlgebra i).irrelevant_le f) ≫
+      Proj.map (gradedQuotientMk _ (chartIdeal i V.1 V.2))
+        (ProjTruncation.irrelevant_le_map_of_surjective (gradedQuotientMk_surjective _ _)) =
+      Proj.map (gradedQuotientMk _ (chartIdeal i U.1 U.2))
+        (ProjTruncation.irrelevant_le_map_of_surjective (gradedQuotientMk_surjective _ _)) ≫
+      Proj.map (polyMap (r := r) (X.presheaf.map (homOfLE h).op).hom)
+        (irrelevant_le_map_polyMap _) := by
+    rw [← Proj.map_comp, ← Proj.map_comp]
+    exact projMap_congr hcomp _ _
+  rw [← cancel_mono i, Category.assoc, coordToZ_comp, coordToZ_comp, chartToProjectiveSpace,
+    chartToProjectiveSpace, reassoc_of% e1,
+    reassoc_of% projMap_polyMap_comp_projectiveSpaceOverSpecIso (r := r)
+      (X.presheaf.map (homOfLE h).op),
+    projectiveSpaceOverSchemeMap_comp', V.2.map_fromSpec U.2 (homOfLE h).op]
+
+private theorem coordToZ_base (U : X.AffineZariskiSite) :
+    coordToZ i U ≫ (i ≫ projectiveSpaceOverSchemeProjection r X) =
+      (coordinateAlgebra i).projToOpen U ≫ U.1.ι := by
+  rw [QuasiCoherentGradedAlgebra.projToOpen_ι, reassoc_of% coordToZ_comp, chartToProjectiveSpace,
+    Category.assoc, Category.assoc, projectiveSpaceOverSchemeMap_projection,
+    projectiveSpaceOverSpecIso_hom, projToProjectiveSpaceOverSpec_projection_assoc,
+    reassoc_of% projMap_toSpecZero, ← Spec.map_comp_assoc]
+  rfl
+
+private theorem coordToZ_range (U : X.AffineZariskiSite) :
+    (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1 = (coordToZ i U).opensRange := by
+  change _ = ((chartIso i U.1 U.2).inv ≫
+    ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1).ι).opensRange
+  rw [Scheme.Hom.opensRange_comp_of_isIso, Scheme.Opens.opensRange_ι]
+
+/-- **`Proj_X T ≅ Z`** (Hartshorne II, proof of Theorem 7.17, Step 3): the relative `Proj` of the
+relative homogeneous coordinate algebra of `Z ⊆ ℙʳ_X` is `Z`, glued from the isomorphisms
+`Proj T(U) ≅ f⁻¹(U)`. -/
+def relProjCoordinateAlgebraIso : (coordinateAlgebra i).relProj ≅ Z :=
+  (coordinateAlgebra i).relProjIsoOfProj (coordToZ i) (fun f => coordToZ_map i f)
+    (i ≫ projectiveSpaceOverSchemeProjection r X) (coordToZ_base i) (coordToZ_range i)
+
+/-- The isomorphism `Proj_X T ≅ Z` lies over `X`. -/
+theorem relProjCoordinateAlgebraIso_hom_comp :
+    (relProjCoordinateAlgebraIso i).hom ≫ (i ≫ projectiveSpaceOverSchemeProjection r X) =
+      (coordinateAlgebra i).relProjToBase :=
+  (coordinateAlgebra i).relProjDesc_comp (coordToZ i) (fun f => coordToZ_map i f)
+    (i ≫ projectiveSpaceOverSchemeProjection r X) (coordToZ_base i)
+
 end RelProj
 
 end SectionAlgebraModel
