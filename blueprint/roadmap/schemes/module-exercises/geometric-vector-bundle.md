@@ -22,6 +22,7 @@ $\operatorname{Spec} \operatorname{Sym} (E)$, not $\operatorname{Spec} \operator
 - [Relative Spec of a quasi-coherent algebra](relative-spec.md)
 - [Sheaf tensor, symmetric, and exterior operations](sheaf-tensor-operations.md)
 - [Locally free and invertible modules](../modules-and-quasicoherent/locally-free-and-invertible.md)
+- [The graded symmetric-algebra sheaf](../projective-geometry/relative-proj-bundles/graded-symmetric-algebra-sheaf.md)
 
 ## Sources
 
