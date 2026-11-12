@@ -2,7 +2,7 @@
 Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Hartshorne.Scheme.FiniteLinearSystem
+import Hartshorne.Scheme.LinearSystemBase
 import Hartshorne.Scheme.ProjectionFromPoint
 import Hartshorne.Scheme.ProjectiveClosedImmersionChartCriterion
 import Hartshorne.Scheme.ProjectiveSpaceProper
