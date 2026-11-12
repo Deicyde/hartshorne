@@ -3,6 +3,8 @@ article_id: af_8d779e3d58dffdd26009eac1
 declaration: theorem
 origin: cited
 lean: Hartshorne.InfinitesimalExtension.nonempty_trivialIso Hartshorne.InfinitesimalExtension Hartshorne.InfinitesimalExtension.TrivialIso Hartshorne.InfinitesimalExtension.trivialExtensionPresheaf
+statement: formalized
+proof: formalized
 ---
 
 # Infinitesimal extensions of a nonsingular affine scheme
