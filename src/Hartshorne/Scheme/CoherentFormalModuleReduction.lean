@@ -6,6 +6,43 @@ import Hartshorne.Scheme.CoherentFormalModuleChart
 import Hartshorne.Scheme.SchemeCompletionTensor
 import Hartshorne.Scheme.PullbackQuasicoherent
 
+/-!
+# Coherence of the reductions of a coherent formal module
+
+Hartshorne, *Algebraic Geometry*, II.9, Proposition 9.6(a) (pp. 197–198): for a Noetherian formal
+scheme `X`, an ideal of definition `J` and a coherent `𝒪_X`-module `F`, every
+`F_n = F / J ^ (n + 1) F` is a coherent module on the scheme `(X, 𝒪_X / J ^ (n + 1))`, and the
+canonical map `F ⟶ lim_n F_n` is an isomorphism
+(`Hartshorne.IsIdealOfDefinition.reconstruction`).
+
+Pullback of modules along a morphism `f : A ⟶ B` of locally ringed spaces:
+
+* `Hartshorne.structureModulePullback f`: the left adjoint `f^*` of the pushforward `f_*`, with
+  `structureModulePullbackComp` (`(f ≫ g)^* ≅ f^* ∘ g^*`), `structureModulePullbackCongr`,
+  `structureModulePullbackIsoPushforward` (`e^* ≅ (e⁻¹)_*` for an isomorphism `e`),
+  `structureModuleRestrictIsoPullback` (restriction to an open subspace is the pullback along the
+  inclusion) and `schemeModulesPullbackIso` (for schemes it is `Scheme.Modules.pullback`).
+* `Hartshorne.IsIdealOfDefinition.quotientLRSHom`: the morphism of locally ringed spaces
+  `(X, 𝒪_X / J) ⟶ X`; `IsIdealOfDefinition.quotientPullbackIso` identifies the pullback along it
+  with `quotientPullback`.
+* `Hartshorne.QuasicoherentIdealSubsheaf.formalCompletionLRSHom`: the morphism of locally ringed
+  spaces `Ŷ ⟶ Y` from the completion of a scheme along a closed subscheme;
+  `QuasicoherentIdealSubsheaf.pullbackFormalCompletionIso` identifies the pullback along it with
+  the module pullback of Corollary 9.8.
+
+Coherence:
+
+* `Hartshorne.IsIdealOfDefinition.reductionIso`: `F_n ≅ i^* F` for
+  `i : (X, 𝒪_X / J ^ (n + 1)) ⟶ X`, since the pullback is right exact and kills `J ^ (n + 1) F`.
+* `Hartshorne.isCoherent_of_isCoherent_restrict`: on a locally Noetherian scheme, coherence is
+  local.
+* `Hartshorne.IsIdealOfDefinition.isCoherent_restrict_pullback_chart`: on a chart `U ≅ Ŷ` of `F`,
+  `(i^* F)|_U` is the pullback of a coherent module along a morphism of schemes
+  `(U, 𝒪_U / J ^ (n + 1)) ⟶ Y`, hence coherent (Proposition 5.8(b)); this uses
+  `Ĝ ≅ f^* G` (Corollary 9.8).
+* `Hartshorne.IsIdealOfDefinition.isCoherent_reduction`: `F_n` is coherent.
+-/
+
 noncomputable section
 open CategoryTheory Limits Opposite TopologicalSpace AlgebraicGeometry
 
@@ -16,11 +53,15 @@ section StructureModulePullback
 
 variable {A B C : LocallyRingedSpace.{u}}
 
+/-- The pushforward of presheaves of modules along a morphism of locally ringed spaces has a left
+adjoint. -/
 instance (f : A ⟶ B) :
     (PresheafOfModules.pushforward.{u} (structureRingCatSheafHom f).hom).IsRightAdjoint :=
   Functor.isRightAdjoint_of_leftAdjointObjIsDefined_eq_top
     (PresheafOfModules.pullbackObjIsDefined_eq_top _)
 
+/-- The pushforward of sheaves of modules along a morphism of locally ringed spaces has a left
+adjoint. -/
 instance (f : A ⟶ B) : (structureModulePushforward f).IsRightAdjoint :=
   (SheafOfModules.PullbackConstruction.adjunction.{u} (structureRingCatSheafHom f)).isRightAdjoint
 
@@ -37,7 +78,8 @@ def structureModulePullbackAdjunction (f : A ⟶ B) :
 
 /-- Pushforward along a composite is the composite of the pushforwards. -/
 def structureModulePushforwardComp (f : A ⟶ B) (g : B ⟶ C) :
-    structureModulePushforward (f ≫ g) ≅ structureModulePushforward f ⋙ structureModulePushforward g :=
+    structureModulePushforward (f ≫ g) ≅
+      structureModulePushforward f ⋙ structureModulePushforward g :=
   Iso.refl _
 
 /-- Pullback along a composite is the composite of the pullbacks. -/
@@ -65,7 +107,8 @@ def structureModulePushforwardCongr {f g : A ⟶ B} (h : f = g) :
 are inverse equivalences. -/
 def structureModulePushforwardEquivalence (e : A ≅ B) :
     SheafOfModules.{u} (structureRingCatSheaf B) ≌ SheafOfModules.{u} (structureRingCatSheaf A) :=
-  CategoryTheory.Equivalence.mk (structureModulePushforward e.inv) (structureModulePushforward e.hom)
+  CategoryTheory.Equivalence.mk (structureModulePushforward e.inv)
+    (structureModulePushforward e.hom)
     ((structureModulePushforwardId B).symm ≪≫ structureModulePushforwardCongr e.inv_hom_id.symm ≪≫
       structureModulePushforwardComp e.inv e.hom)
     ((structureModulePushforwardComp e.hom e.inv).symm ≪≫
@@ -122,6 +165,8 @@ def quotientPresheafedSpaceHom :
   base := 𝟙 X.toLocallyRingedSpace.toTopCat
   c := J.quotientπ.hom
 
+/-- The stalk maps of `(X, 𝒪_X / J) ⟶ X` are surjective, since `𝒪_X ⟶ 𝒪_X / J` is locally
+surjective. -/
 lemma surjective_stalkMap_quotientPresheafedSpaceHom (x : X.toLocallyRingedSpace) :
     Function.Surjective ((quotientPresheafedSpaceHom h).stalkMap x) := by
   intro b
@@ -157,6 +202,9 @@ def formalCompletionPresheafedSpaceHom :
   base := (I.infinitesimalNeighborhoodι 1).base
   c := I.structureSheafToFormalCompletion.hom
 
+/-- The stalk maps of `(|Y_1|, 𝒪_Ŷ) ⟶ (Y, 𝒪_Y)` are local: if the image in `𝒪_Ŷ` of a section
+`s` of `𝒪_Y` near `y` has a unit germ, then near `y` its image in `𝒪_{Y_1}` is a unit, so the germ
+of `s` is a unit because `Y_1 ⟶ Y` is a morphism of schemes. -/
 lemma isLocalHom_stalkMap_formalCompletionPresheafedSpaceHom (y : I.formalCompletion) :
     IsLocalHom ((I.formalCompletionPresheafedSpaceHom).stalkMap y).hom := by
   refine ⟨fun a ha => ?_⟩
