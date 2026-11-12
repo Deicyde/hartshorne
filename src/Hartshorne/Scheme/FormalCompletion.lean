@@ -194,7 +194,8 @@ def formalCompletionDiagram :
     ℕᵒᵖ ⥤ TopCat.Sheaf CommRingCat.{u} (I.infinitesimalNeighborhood 1) :=
   CategoryTheory.Functor.ofOpSequence I.formalCompletionSheafMap
 
-/-- **The structure sheaf of the formal completion** (Hartshorne II.9, p. 194):
+/-- **The structure sheaf of the formal completion** (Hartshorne II.9, p. 194, there for
+Noetherian `X`):
 `𝒪_{X̂_Y} = lim_(n ≥ 1) (𝒪_X / I ^ n)|_Y`, an inverse limit of sheaves of rings on `|Y|`. -/
 def formalCompletionSheaf : TopCat.Sheaf CommRingCat.{u} (I.infinitesimalNeighborhood 1) :=
   limit I.formalCompletionDiagram
@@ -272,8 +273,8 @@ instance isLocalRing_stalk_formalCompletionSheaf (y : I.infinitesimalNeighborhoo
   exact p.hom.domain_isLocalRing
 
 /-- **The formal completion** `X̂_Y` of `X` along the closed subscheme `Y` cut out by `I`
-(Hartshorne II.9, p. 194): the locally ringed space with underlying space `|Y|` and structure
-sheaf `lim_(n ≥ 1) (𝒪_X / I ^ n)|_Y`. -/
+(Hartshorne II.9, p. 194, there for Noetherian `X`): the locally ringed space with underlying
+space `|Y|` and structure sheaf `lim_(n ≥ 1) (𝒪_X / I ^ n)|_Y`. -/
 def formalCompletion : LocallyRingedSpace.{u} where
   carrier := (I.infinitesimalNeighborhood 1).toTopCat
   presheaf := I.formalCompletionSheaf.presheaf
