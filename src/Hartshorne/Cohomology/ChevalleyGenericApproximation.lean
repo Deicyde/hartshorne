@@ -411,22 +411,32 @@ def homData : RelSpecModuleData (QuasiCoherentAlgebra.ofHom f) where
 /-- **The approximating module** `G` on `X`: the module glued from the sheaves associated to the
 `Γ(f⁻¹ U, 𝒪_X)`-modules `Hom_{Γ(U, 𝒪_Y)}(Γ(U, f_* M), Γ(U, F))`, transported along
 `Spec_Y (f_* 𝒪_X) ≅ X`. -/
-def approx : X.Modules := (homData f M F).glue.restrict (relSpecOfHomIso f).inv
+def approx : X.Modules :=
+  (Scheme.Modules.pushforward (relSpecOfHomIso f).hom).obj (homData f M F).glue
 
-theorem fromSpec_relSpecOfHomIso_inv (U : Y.AffineZariskiSite) :
-    (U.2.preimage f).fromSpec ≫ (relSpecOfHomIso f).inv = (QuasiCoherentAlgebra.ofHom f).ι U := by
-  have h := ι_relSpecOfHomHom f U
-  have h2 : relSpecOfHomHom f ≫ (relSpecOfHomIso f).inv = 𝟙 _ := (relSpecOfHomIso f).hom_inv_id
-  erw [← h, Category.assoc, h2, Category.comp_id]
+theorem fromSpec_eq_ι_comp (U : Y.AffineZariskiSite) :
+    (U.2.preimage f).fromSpec = (QuasiCoherentAlgebra.ofHom f).ι U ≫ (relSpecOfHomIso f).hom :=
+  (ι_relSpecOfHomHom f U).symm
 
 /-- The restriction of `G` to the affine open `f⁻¹ U` is the sheaf associated to `homSec U`. -/
 def approxRestrictIso (U : Y.AffineZariskiSite) :
     (approx f M F).restrict (U.2.preimage f).fromSpec ≅ tilde (homSec f M F U.1) :=
-  ((Scheme.Modules.restrictFunctorComp (U.2.preimage f).fromSpec (relSpecOfHomIso f).inv).app
-      (homData f M F).glue).symm ≪≫
-    (@Scheme.Modules.restrictFunctorCongr _ _ _ _ (fromSpec_relSpecOfHomIso_inv f U) inferInstance
-      (QuasiCoherentAlgebra.isOpenImmersion_ι (ofHom f) U)).app _ ≪≫
+  (@Scheme.Modules.restrictFunctorCongr _ _ _ _ (fromSpec_eq_ι_comp f U) inferInstance
+      (@IsOpenImmersion.comp _ _ _ _ _ (QuasiCoherentAlgebra.isOpenImmersion_ι (ofHom f) U)
+        inferInstance)).app _ ≪≫
+    (@Scheme.Modules.restrictFunctorComp _ _ _ _ _
+      (QuasiCoherentAlgebra.isOpenImmersion_ι (ofHom f) U) inferInstance).app _ ≪≫
+    (@Scheme.Modules.restrictFunctor _ _ _
+      (QuasiCoherentAlgebra.isOpenImmersion_ι (ofHom f) U)).mapIso
+      ((asIso (Scheme.Modules.restrictAdjunction (relSpecOfHomIso f).hom).counit).app _) ≪≫
     (homData f M F).ψ U
+
+/-- `f_* G` is the pushforward of the glued module along `Spec_Y (f_* 𝒪_X) ⟶ Y`. -/
+def pushforwardApproxIso :
+    (Scheme.Modules.pushforward f).obj (approx f M F) ≅
+      (Scheme.Modules.pushforward (ofHom f).relSpecToBase).obj (homData f M F).glue :=
+  (Scheme.Modules.pushforwardComp (relSpecOfHomIso f).hom f).app _ ≪≫
+    (Scheme.Modules.pushforwardCongr (relSpecOfHomIso_hom_comp f)).app _
 
 /-- `homSec U` is a finite `Γ(f⁻¹ U, 𝒪_X)`-module when `Γ(U, f_* M)` and `Γ(U, F)` are finite over
 the Noetherian ring `Γ(U, 𝒪_Y)`. -/
