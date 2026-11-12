@@ -166,7 +166,6 @@ def moduleCompletionRestrictedModule :
   (SheafOfModules.restrictScalars.{u} I.restrictedStructureSheafToFormalCompletionRingCat).obj
     (I.moduleCompletion F)
 
-
 /-- The map `𝒪_X ⟶ i_* 𝒪_X̂` is compatible with the projections `𝒪_X̂ ⟶ 𝒪_{Y_(n+1)}` and the
 restrictions `𝒪_X ⟶ 𝒪_{Y_(n+1)}`, on sections over `U ∩ |Y|`. -/
 lemma structureSheafToFormalCompletionRingCat_compat (n : ℕ) (V : X.Opensᵒᵖ)
@@ -268,7 +267,6 @@ lemma pullbackToModuleCompletion_naturality {F G : X.Modules} (φ : F ⟶ G) :
     ((SheafOfModules.pullbackPushforwardAdjunction.{u}
       I.structureSheafToFormalCompletionRingCat).homEquiv_naturality_right_symm _ _)
 
-
 section RankOne
 
 /-- The functor `U ↦ U ∩ |Y|` on opens is final: `⊤` is terminal in each comma category. -/
@@ -347,7 +345,7 @@ private lemma unitToModuleCompletionUnit_π (n : ℕ) (U : X.Opens)
   refine (map_smul ((I.moduleCompletionπ _ n).val.app _).hom x _).trans ?_
   exact congrArg (x • ·) ((congrArg ((I.moduleCompletionπ _ n).val.app _) h2).trans h3)
 
-/-- Scalars acting on a pushforward act through the ring map. -/
+/-- Scalars with the same image under the ring map act equally on a pushforward. -/
 private lemma pushforward_smul_congr {C D : Type*} [Category C] [Category D]
     {J : GrothendieckTopology C} {K : GrothendieckTopology D} {G : C ⥤ D} [G.IsContinuous J K]
     {R : Sheaf J RingCat.{u}} {S : Sheaf K RingCat.{u}}
@@ -357,7 +355,8 @@ private lemma pushforward_smul_congr {C D : Type*} [Category C] [Category D]
   congrArg (fun (a : S.obj.obj (op (G.obj V.unop))) =>
     (a • (show M.val.obj (op (G.obj V.unop)) from m) : M.val.obj (op (G.obj V.unop)))) h
 
-/-- Scalars acting on a pushforward act through the ring map. -/
+/-- The action of `r` on a section of a pushforward is the action of its image under the ring
+map. -/
 private lemma pushforward_smul_eq {C D : Type*} [Category C] [Category D]
     {J : GrothendieckTopology C} {K : GrothendieckTopology D} {G : C ⥤ D} [G.IsContinuous J K]
     {R : Sheaf J RingCat.{u}} {S : Sheaf K RingCat.{u}}
