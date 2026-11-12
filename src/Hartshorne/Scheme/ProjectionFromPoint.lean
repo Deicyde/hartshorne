@@ -302,4 +302,151 @@ theorem projectionFromPoint_spec :
 
 end Projection
 
+/-! ### The domain is the complement of the coordinate point -/
+
+section CoordinatePoint
+
+variable (k : Type u) [Field k] (n : ℕ)
+
+theorem pullbackGlobalSection_zero {X Y : Scheme.{u}} (f : X ⟶ Y) (N : Y.Modules) :
+    pullbackGlobalSection f (0 : Γ(N, ⊤)) = 0 := by
+  have h := pullbackSection_smul f (0 : Γ(Y, ⊤)) (0 : Γ(N, ⊤))
+  rw [zero_smul, map_zero, zero_smul] at h
+  rw [pullbackGlobalSection, h, map_zero]
+
+theorem single_last_ne_zero : (Pi.single (Fin.last (n + 1)) (1 : k) : Fin (n + 2) → k) ≠ 0 := by
+  intro h
+  simpa using congrFun h (Fin.last _)
+
+/-- **The coordinate point `P = (0 : ⋯ : 0 : 1)` of `ℙⁿ⁺¹_k`**, as a `k`-rational point. -/
+def coordinatePoint :
+    Spec (CommRingCat.of k) ⟶ projectiveSpaceOverScheme (n + 1) (Spec (CommRingCat.of k)) :=
+  projectivePoint k (Pi.single (Fin.last (n + 1)) 1) (single_last_ne_zero k n)
+
+theorem coordinatePoint_notMem_projectionDomain (y : Spec (CommRingCat.of k)) :
+    coordinatePoint k n y ∉ projectionDomain n (Spec (CommRingCat.of k)) := by
+  intro h
+  obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp h
+  rw [coordinatePoint, projectivePoint_mem_projectiveSpaceChart_iff] at hi
+  exact hi (Pi.single_eq_of_ne (Fin.castSucc_ne_last i) _)
+
+/-- A morphism from a reduced scheme to `ℙⁿ⁺¹_k` whose image avoids `U` (so `x₀, …, xₙ` vanish
+on its image) factors through the coordinate point `P`: by Theorem 7.1 it is defined by the
+pulled-back coordinates, of which only the last is nonzero. -/
+theorem eq_comp_coordinatePoint {T : Scheme.{u}} [IsReduced T]
+    (g : T ⟶ projectiveSpaceOverScheme (n + 1) (Spec (CommRingCat.of k)))
+    (hg : ∀ y, g y ∉ projectionDomain n (Spec (CommRingCat.of k))) :
+    g = (g ≫ projectiveSpaceOverSchemeProjection (n + 1) _) ≫ coordinatePoint k n := by
+  set c := g ≫ projectiveSpaceOverSchemeProjection (n + 1) (Spec (CommRingCat.of k))
+  set M := (Scheme.Modules.pullback g).obj (projectiveSpaceTwistingSheaf (n + 1) _ 1)
+  set t : Fin (n + 2) → Γ(M, ⊤) := fun i =>
+    pullbackGlobalSection g (projectiveSpaceCoordinate (n + 1) _ i)
+  have hM : M.IsInvertible := isInvertible_pullback_projectiveSpaceTwistingSheaf g
+  have ht : M.IsGeneratedBySections (fun i : ULift.{u} (Fin (n + 2)) => t i.down) :=
+    isGeneratedBySections_pullback_projectiveSpaceCoordinate g
+  have hpre : ∀ i, g ⁻¹ᵁ projectiveSpaceChart (n + 1) _ i = nonvanishingLocusOpens hM (t i) :=
+    fun i => preimage_projectiveSpaceChart_eq_nonvanishingLocusOpens hM t g (Iso.refl _)
+      (fun _ => rfl) i
+  -- `x₀, …, xₙ` vanish on `T`
+  have hzero : ∀ (i : Fin (n + 1)) y, y ∉ nonvanishingLocus M (t i.castSucc) := by
+    intro i y hy
+    have hy' : y ∈ g ⁻¹ᵁ projectiveSpaceChart (n + 1) _ i.castSucc := by
+      rw [hpre]
+      exact hy
+    exact hg y (TopologicalSpace.Opens.mem_iSup.mpr ⟨i, hy'⟩)
+  have hlast : ∀ y, y ∈ nonvanishingLocus M (t (Fin.last _)) := by
+    intro y
+    obtain ⟨⟨j⟩, hj⟩ := exists_mem_nonvanishingLocus_of_isGeneratedBySections hM ht y
+    induction j using Fin.lastCases with
+    | last => exact hj
+    | cast i => exact absurd hj (hzero i y)
+  -- so `x_{n+1}` trivializes the pullback of `𝒪(1)` and the other coordinates are zero
+  have htriv : IsTrivializingSection M ⊤ (t (Fin.last _)) :=
+    IsTrivializingSection.of_local fun y _ => ⟨nonvanishingLocusOpens hM (t (Fin.last _)),
+      le_top, hlast y, isTrivializingSection_nonvanishingLocusOpens hM _⟩
+  have ht0 : ∀ i : Fin (n + 1), t i.castSucc = 0 := by
+    intro i
+    obtain ⟨r, hr⟩ := htriv.exists_eq_smul (t i.castSucc)
+    have hb := htriv.nonvanishingLocus_inter_eq hr
+    have hr0 : r = 0 := by
+      rw [← basicOpen_eq_bot_iff]
+      refine SetLike.coe_injective (hb.symm.trans ?_)
+      ext y
+      simp only [Set.mem_inter_iff, TopologicalSpace.Opens.coe_bot, Set.mem_empty_iff_false,
+        iff_false, not_and]
+      exact fun h _ => hzero i y h
+    rw [map_homOfLE_top, hr0, zero_smul] at hr
+    exact hr
+  -- the corresponding data for `c ≫ P`
+  have hu : IsTrivializingSection ((Scheme.Modules.pullback c).obj (structureModule _)) ⊤
+      (pullbackGlobalSection c (unitSection _ 1)) :=
+    (IsTrivializingSection.pullback c (isTrivializingSection_unitSection_one _)).restrict
+      (Scheme.Hom.preimage_top c).ge
+  have σ : PUnit.{u + 1} ≃ ULift.{u} (Fin 1) := Equiv.ofUnique _ _
+  obtain ⟨α, hα⟩ := Ringed.exists_iso_of_frames (R := T.sheaf)
+    (fun _ : PUnit.{u + 1} => ⊤) (le_iSup (fun _ : PUnit.{u + 1} => ⊤) PUnit.unit)
+    (A := M) (B := (Scheme.Modules.pullback c).obj (structureModule _))
+    (fun _ => t (Fin.last _)) (fun _ => pullbackGlobalSection c (unitSection _ 1))
+    (fun _ => (isLocalFrame_of_isTrivializingSection htriv).reindex σ)
+    (fun _ => (isLocalFrame_of_isTrivializingSection hu).reindex σ)
+    (fun _ _ => ⟨1, by rw [one_smul], by rw [one_smul]⟩)
+  let α' : M ≅ (Scheme.Modules.pullback c).obj (structureModule _) := α
+  have hα' : α'.hom.app ⊤ (t (Fin.last _)) = pullbackGlobalSection c (unitSection _ 1) :=
+    hα PUnit.unit
+  have hsec : ∀ i, pullbackGlobalSection c (pointSections k (Pi.single (Fin.last (n + 1)) 1) i) =
+      α'.hom.app ⊤ (t i) := by
+    intro i
+    induction i using Fin.lastCases with
+    | last =>
+      refine Eq.trans ?_ hα'.symm
+      simp only [pointSections, Pi.single_eq_same]
+      rw [show specConst k 1 = 1 from map_one _]
+    | cast i =>
+      rw [ht0 i, map_zero]
+      simp only [pointSections, Pi.single_eq_of_ne (Fin.castSucc_ne_last i)]
+      rw [specConst_zero]
+      exact pullbackGlobalSection_zero c _
+  obtain ⟨-, e, he⟩ := projectivePoint_spec k (Pi.single (Fin.last (n + 1)) 1)
+    (single_last_ne_zero k n)
+  obtain ⟨e', he'⟩ := exists_iso_of_comp c _ rfl e he
+  have hgen : ((Scheme.Modules.pullback c).obj (structureModule _)).IsGeneratedBySections
+      (fun i : ULift.{u} (Fin (n + 2)) =>
+        pullbackGlobalSection c (pointSections k (Pi.single (Fin.last (n + 1)) 1) i.down)) := by
+    refine isGeneratedBySections_of_isTrivializingSection _ fun y =>
+      ⟨⟨Fin.last _⟩, ⊤, trivial, ?_⟩
+    rw [map_homOfLE_top, hsec, hα']
+    exact hu
+  have hc : (c ≫ coordinatePoint k n) ≫ projectiveSpaceOverSchemeProjection (n + 1) _ = c := by
+    rw [Category.assoc, coordinatePoint, (projectivePoint_spec k _ _).1, Category.comp_id]
+  exact (existsUnique_morphism_of_isGeneratedBySections c
+    (Scheme.Modules.IsInvertible.pullback c (isInvertible_structureModule _))
+    (fun i => pullbackGlobalSection c (pointSections k (Pi.single (Fin.last (n + 1)) 1) i))
+    hgen).unique
+    (y₁ := g) (y₂ := c ≫ coordinatePoint k n) ⟨rfl, α', fun i => (hsec i).symm⟩ ⟨hc, e', he'⟩
+
+/-- A point of `ℙⁿ⁺¹_k` at which `x₀, …, xₙ` all vanish is the coordinate point: apply
+`eq_comp_coordinatePoint` to `Spec κ(x) ⟶ ℙⁿ⁺¹_k`. -/
+theorem mem_range_coordinatePoint {x : projectiveSpaceOverScheme (n + 1) (Spec (CommRingCat.of k))}
+    (hx : x ∉ projectionDomain n (Spec (CommRingCat.of k))) :
+    x ∈ Set.range (coordinatePoint k n) := by
+  have hgx : ∀ y, Scheme.fromSpecResidueField _ x y = x := fun y =>
+    Scheme.fromSpecResidueField_apply x y
+  have h := eq_comp_coordinatePoint k n (Scheme.fromSpecResidueField _ x)
+    (fun y => (hgx y).symm ▸ hx)
+  refine ⟨(Scheme.fromSpecResidueField _ x ≫
+    projectiveSpaceOverSchemeProjection (n + 1) _) default, ?_⟩
+  rw [← Scheme.Hom.comp_apply, ← h]
+  exact hgx default
+
+/-- **`U` is `ℙⁿ⁺¹_k` minus the coordinate point `P = (0 : ⋯ : 0 : 1)`.** -/
+theorem projectionDomain_eq_compl_range :
+    (projectionDomain n (Spec (CommRingCat.of k)) : Set _) =
+      (Set.range (coordinatePoint k n))ᶜ := by
+  ext x
+  refine ⟨fun hx ⟨y, hy⟩ => coordinatePoint_notMem_projectionDomain k n y (hy ▸ hx), fun hx => ?_⟩
+  by_contra h
+  exact hx (mem_range_coordinatePoint k n h)
+
+end CoordinatePoint
+
 end Hartshorne
