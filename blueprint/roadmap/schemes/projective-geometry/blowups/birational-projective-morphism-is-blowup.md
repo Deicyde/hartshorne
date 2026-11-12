@@ -23,6 +23,7 @@ ideal sheaf on $X$.
 
 - Identification of every graded piece with the corresponding power of the
   denominator ideal inside the function field.
+- [A very ample power implies ampleness](../linear-systems-ampleness/very-ample-power-implies-ample.md)
 
 ## Sources
 
