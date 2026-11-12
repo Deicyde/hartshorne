@@ -83,7 +83,8 @@ theorem eq_top_of_mem {U : (Spec (CommRingCat.of K)).Opens} {x : Spec (CommRingC
 `K ≅ Γ(Spec K, 𝒪)`. -/
 theorem smul_eq_ΓSpecIso_inv_smul {M : (Spec (CommRingCat.of K)).Modules} (a : K)
     (t : Γ(M, ⊤)) : a • t = (Scheme.ΓSpecIso (CommRingCat.of K)).inv a • t := by
-  rw [show a • t = (Spec (CommRingCat.of K)).presheaf.map (⊤ : (Spec (CommRingCat.of K)).Opens).leTop.op
+  rw [show a • t = (Spec (CommRingCat.of K)).presheaf.map
+      (⊤ : (Spec (CommRingCat.of K)).Opens).leTop.op
       ((Scheme.ΓSpecIso (CommRingCat.of K)).inv a) • t from rfl]
   rw [show (⊤ : (Spec (CommRingCat.of K)).Opens).leTop.op = 𝟙 _ from rfl,
     CategoryTheory.Functor.map_id]
@@ -122,8 +123,9 @@ theorem bijective_smul_of_isTrivializingSection {L : (Spec (CommRingCat.of K)).M
   exact h1.comp (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (CommRingCat.of K)).inv)
 
 /-- A nonzero `K`-multiple of a global trivializing section is trivializing. -/
-theorem _root_.Hartshorne.IsTrivializingSection.smul_of_ne_zero {L : (Spec (CommRingCat.of K)).Modules}
-    {e : Γ(L, ⊤)} (he : IsTrivializingSection L ⊤ e) {c : K} (hc : c ≠ 0) :
+theorem _root_.Hartshorne.IsTrivializingSection.smul_of_ne_zero
+    {L : (Spec (CommRingCat.of K)).Modules} {e : Γ(L, ⊤)} (he : IsTrivializingSection L ⊤ e)
+    {c : K} (hc : c ≠ 0) :
     IsTrivializingSection L ⊤ (c • e) := by
   rw [smul_eq_ΓSpecIso_inv_smul]
   exact he.unit_smul ((Ne.isUnit hc).map (Scheme.ΓSpecIso (CommRingCat.of K)).inv.hom)
@@ -299,8 +301,8 @@ theorem exists_kernel_eq (p : Spec (CommRingCat.of K) ⟶ Y) (W : Submodule K (F
     exact zero_ne_one hW
   obtain ⟨l₀, hl₀⟩ := hft
   have hgen : O.IsGeneratedBySections (fun l : ULift.{u} (Fin (1 + 1)) => t l.down) :=
-    isGeneratedBySections_of_isTrivializingSection (s := fun l : ULift.{u} (Fin (1 + 1)) => t l.down)
-      ⟨l₀⟩ (h1.smul_of_ne_zero hl₀)
+    isGeneratedBySections_of_isTrivializingSection
+      (s := fun l : ULift.{u} (Fin (1 + 1)) => t l.down) ⟨l₀⟩ (h1.smul_of_ne_zero hl₀)
   obtain ⟨φ, ⟨hφ, e, he⟩, -⟩ := existsUnique_morphism_of_isGeneratedBySections p hO t hgen
   refine ⟨φ, hφ, ?_⟩
   have hlin : appTopLinear e.hom ∘ₗ coordinateMap φ =
