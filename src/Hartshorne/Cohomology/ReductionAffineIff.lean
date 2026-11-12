@@ -348,12 +348,187 @@ theorem redSMul_spec (V : (red X).Opens) (a : Γ((red X), V)) (s : Γ(Q, redOpen
     res Q hW (redSMul hQ V a s) = b • res Q hW s :=
   (exists_glue hQ V a s).choose_spec W hW b hb
 
+theorem isLift_one (V : (red X).Opens) {W : X.Opens} (hW : W ≤ redOpen V) :
+    IsLift (1 : Γ(red X, V)) hW 1 := by
+  unfold IsLift
+  rw [map_one, map_one]
+
+theorem IsLift.mul {V : (red X).Opens} {a a' : Γ(red X, V)} {W : X.Opens} {hW : W ≤ redOpen V}
+    {b b' : Γ(X, W)} (hb : IsLift a hW b) (hb' : IsLift a' hW b') : IsLift (a * a') hW (b * b') := by
+  unfold IsLift at *
+  rw [map_mul, map_mul, hb, hb']
+
+theorem IsLift.add {V : (red X).Opens} {a a' : Γ(red X, V)} {W : X.Opens} {hW : W ≤ redOpen V}
+    {b b' : Γ(X, W)} (hb : IsLift a hW b) (hb' : IsLift a' hW b') : IsLift (a + a') hW (b + b') := by
+  unfold IsLift at *
+  rw [map_add, map_add, hb, hb']
+
+theorem isLift_zero (V : (red X).Opens) {W : X.Opens} (hW : W ≤ redOpen V) :
+    IsLift (0 : Γ(red X, V)) hW 0 := by
+  unfold IsLift
+  rw [map_zero, map_zero]
+
+/-- `Γ(Q, V)` as a `Γ(X_red, V)`-module. -/
+@[instance_reducible]
+def redModule (V : (red X).Opens) : Module Γ(red X, V) Γ(Q, redOpen V) where
+  smul := redSMul hQ V
+  one_smul s := ext_of_affine Q fun W hW =>
+    (redSMul_spec hQ V 1 s hW (isLift_one V hW)).trans (one_smul _ _)
+  mul_smul a a' s := ext_of_affine Q fun W hW => by
+    obtain ⟨b, hb⟩ := exists_isLift a W hW
+    obtain ⟨b', hb'⟩ := exists_isLift a' W hW
+    change res Q hW (redSMul hQ V (a * a') s) = res Q hW (redSMul hQ V a (redSMul hQ V a' s))
+    rw [redSMul_spec hQ V _ s hW (hb.mul hb'), redSMul_spec hQ V a _ hW hb,
+      redSMul_spec hQ V a' s hW hb', mul_smul]
+  smul_zero a := ext_of_affine Q fun W hW => by
+    obtain ⟨b, hb⟩ := exists_isLift a W hW
+    change res Q hW (redSMul hQ V a 0) = res Q hW 0
+    rw [redSMul_spec hQ V a 0 hW hb, map_zero, smul_zero]
+  smul_add a s s' := ext_of_affine Q fun W hW => by
+    obtain ⟨b, hb⟩ := exists_isLift a W hW
+    change res Q hW (redSMul hQ V a (s + s')) =
+      res Q hW (redSMul hQ V a s + redSMul hQ V a s')
+    rw [redSMul_spec hQ V a _ hW hb, map_add, map_add, smul_add, redSMul_spec hQ V a s hW hb,
+      redSMul_spec hQ V a s' hW hb]
+  add_smul a a' s := ext_of_affine Q fun W hW => by
+    obtain ⟨b, hb⟩ := exists_isLift a W hW
+    obtain ⟨b', hb'⟩ := exists_isLift a' W hW
+    change res Q hW (redSMul hQ V (a + a') s) =
+      res Q hW (redSMul hQ V a s + redSMul hQ V a' s)
+    rw [redSMul_spec hQ V _ s hW (hb.add hb'), map_add, add_smul, redSMul_spec hQ V a s hW hb,
+      redSMul_spec hQ V a' s hW hb']
+  zero_smul s := ext_of_affine Q fun W hW => by
+    change res Q hW (redSMul hQ V 0 s) = res Q hW 0
+    rw [redSMul_spec hQ V 0 s hW (isLift_zero V hW), zero_smul, map_zero]
+
+theorem redOpen_mono {V V' : (red X).Opens} (h : V' ≤ V) : redOpen V' ≤ redOpen V :=
+  fun _ hx => h hx
+
+/-- The action of `Γ(X_red, -)` is compatible with restriction. -/
+theorem redSMul_res {V V' : (red X).Opens} (h : V' ≤ V) (a : Γ(red X, V))
+    (s : Γ(Q, redOpen V)) :
+    res Q (redOpen_mono h) (redSMul hQ V a s) =
+      redSMul hQ V' ((red X).presheaf.map (homOfLE h).op a) (res Q (redOpen_mono h) s) := by
+  refine ext_of_affine Q fun W hW => ?_
+  obtain ⟨b, hb⟩ := exists_isLift a W (hW.trans (redOpen_mono h))
+  have hb' : IsLift ((red X).presheaf.map (homOfLE h).op a) hW b := by
+    unfold IsLift at hb ⊢
+    rw [hb, ← ConcreteCategory.comp_apply, ← Functor.map_comp]
+    rfl
+  rw [res_res, redSMul_spec hQ V a s _ hb, redSMul_spec hQ V' _ _ hW hb', res_res]
+
+/-- The underlying presheaf of abelian groups of `Q`, on `X_red`. -/
+abbrev redPresheaf (Q : X.Modules) : (Opens (red X).toTopCat)ᵒᵖ ⥤ AddCommGrpCat.{u} :=
+  (Opens.map (redInv X)).op ⋙ Q.presheaf
+
+/-- An `𝒪_X`-module killed by the nilpotent sections of `𝒪_X`, viewed as an
+`𝒪_{X_red}`-module. -/
+def redModules : (red X).Modules where
+  val :=
+    letI : ∀ V : (Opens (red X).toTopCat)ᵒᵖ,
+        Module ((red X).ringCatSheaf.obj.obj V) ((redPresheaf Q).obj V) :=
+      fun V => redModule hQ V.unop
+    PresheafOfModules.ofPresheaf (redPresheaf Q)
+      (fun _ _ f a s => redSMul_res hQ (leOfHom f.unop) a s)
+  isSheaf := ((TopCat.Sheaf.pushforward AddCommGrpCat.{u} (redInv X)).obj
+    ⟨Q.val.presheaf, Q.isSheaf⟩).property
+
+theorem redSMul_eq_of (V : (red X).Opens) (a : Γ(red X, V)) (s : Γ(Q, redOpen V))
+    (b : Γ(X, redOpen V)) (hb : (redι X).app (redOpen V) b = a) : redSMul hQ V a s = b • s := by
+  have hb' : IsLift a le_rfl b := by
+    unfold IsLift
+    rw [hb]
+    change a = (red X).presheaf.map (𝟙 (op V)) a
+    rw [CategoryTheory.Functor.map_id]
+    rfl
+  have := redSMul_spec hQ V a s le_rfl hb'
+  rwa [res_refl, res_refl] at this
+
+theorem exists_pow_smul_eq_zero_aux [Q.IsQuasicoherent] (U : X.affineOpens) (g : Γ(X, U)) {W : X.Opens}
+    (hW : W = X.basicOpen g) (hWU : W ≤ U) (s : Γ(Q, U)) (hs : res Q hWU s = 0) :
+    ∃ n : ℕ, g ^ n • s = 0 := by
+  subst hW
+  exact exists_pow_smul_eq_zero_of_isAffineOpen Q U.2 g s hs
+
+theorem exists_pow_smul_extension_aux [Q.IsQuasicoherent] (U : X.affineOpens) (g : Γ(X, U))
+    {W : X.Opens} (hW : W = X.basicOpen g) (hWU : W ≤ U) (t : Γ(Q, W)) :
+    ∃ (n : ℕ) (s : Γ(Q, U)), res Q hWU s = (X.presheaf.map (homOfLE hWU).op g) ^ n • t := by
+  subst hW
+  exact exists_pow_smul_extension_of_isAffineOpen Q U.2 g t
+
+/-- The affine open `U ∩ X_red` of `X_red`. -/
+def redAffine (U : X.affineOpens) : (red X).affineOpens :=
+  ⟨(redι X) ⁻¹ᵁ (U : X.Opens), U.2.preimage _⟩
+
+theorem iSup_redAffine : (⨆ U : X.affineOpens, ((redAffine U : (red X).affineOpens) :
+    (red X).Opens)) = ⊤ := by
+  rw [eq_top_iff]
+  intro z _
+  obtain ⟨U, -, hU⟩ := exists_affine_le (show (redι X) z ∈ (⊤ : X.Opens) from trivial)
+  exact Opens.mem_iSup.mpr ⟨U, hU⟩
+
+theorem isIso_fromTildeΓ_redModules [Q.IsQuasicoherent] (U : X.affineOpens) :
+    IsIso (specRestriction (redModules hQ) (redAffine U)).fromTildeΓ := by
+  refine isIso_fromTildeΓ_of_pow_smul _ _ (fun g s hs => ?_) (fun g t => ?_)
+  · obtain ⟨g', rfl⟩ := X.nilradical.subschemeι_app_surjective U g
+    have hD : redOpen ((red X).basicOpen ((redι X).app U g')) = X.basicOpen g' :=
+      (congrArg redOpen (Scheme.preimage_basicOpen (redι X) g')).symm
+    obtain ⟨n, hn⟩ := exists_pow_smul_eq_zero_aux U g' hD
+      (redOpen_mono ((red X).basicOpen_le _)) (show Γ(Q, (U : X.Opens)) from s) hs
+    refine ⟨n, ?_⟩
+    change redSMul hQ _ (((redι X).app U g') ^ n) s = 0
+    exact (redSMul_eq_of hQ _ _ s (g' ^ n) (map_pow _ g' n)).trans hn
+  · obtain ⟨g', rfl⟩ := X.nilradical.subschemeι_app_surjective U g
+    have hD : redOpen ((red X).basicOpen ((redι X).app U g')) = X.basicOpen g' :=
+      (congrArg redOpen (Scheme.preimage_basicOpen (redι X) g')).symm
+    have hWU := redOpen_mono ((red X).basicOpen_le ((redι X).app U g'))
+    obtain ⟨n, s, hs⟩ := exists_pow_smul_extension_aux U g' hD hWU t
+    refine ⟨n, s, ?_⟩
+    change res Q hWU s = redSMul hQ _ _ t
+    rw [redSMul_eq_of hQ _ _ t ((X.presheaf.map (homOfLE hWU).op g') ^ n)]
+    · exact hs
+    · exact (map_pow _ _ n).trans (congrArg (· ^ n) (app_res hWU g'))
+
+theorem isQuasicoherent_redModules [Q.IsQuasicoherent] : (redModules hQ).IsQuasicoherent := by
+  have h : HasAffineTildeCover (redModules hQ) :=
+    ⟨X.affineOpens, redAffine, iSup_redAffine, fun U =>
+      ⟨_, ⟨@asIso _ _ _ _ (specRestriction (redModules hQ) (redAffine U)).fromTildeΓ
+        (isIso_fromTildeΓ_redModules hQ U)⟩⟩⟩
+  exact ((quasicoherent_affine_local_tfae _).out 1 0).mp h
+
+theorem isLocallyNoetherian_red [IsLocallyNoetherian X] : IsLocallyNoetherian (red X) := by
+  refine isLocallyNoetherian_of_affine_cover iSup_redAffine fun U => ?_
+  have : IsNoetherianRing Γ(X, (U : X.Opens)) := IsLocallyNoetherian.component_noetherian U
+  exact isNoetherianRing_of_surjective _ _ _ (X.nilradical.subschemeι_app_surjective U)
+
+include hQ in
+/-- **`H^1` of a module killed by the nilradical** (Hartshorne III, Exercise 3.1, the step using
+Lemma III.2.10). If `X_red` is affine and Noetherian and `Q` is a quasi-coherent `𝒪_X`-module
+killed by the nilpotent sections of `𝒪_X`, then `H^1(X, Q) = 0`: `Q` is a quasi-coherent
+`𝒪_{X_red}`-module (`redModules`) on the same underlying space, so its cohomology vanishes by
+Theorem III.3.5. -/
+theorem isZero_H1_of_isAffine_red [IsLocallyNoetherian (red X)] [IsAffine (red X)]
+    [Q.IsQuasicoherent] : IsZero (H 1 Q) := by
+  have := isQuasicoherent_redModules hQ
+  have h := sheafCohomology_isZero_of_isQuasicoherent_of_isAffine (redModules hQ) 1 one_pos
+  exact h.of_iso (sheafCohomologyPushforwardIsoOfIso (redHomeo X).symm
+    ((SheafOfModules.toSheaf X.ringCatSheaf).obj Q) 1).symm
+
 end Descent
 
 /-- A closed subscheme of an affine scheme is affine; in particular `X_red` is affine when `X`
 is. -/
 theorem isAffine_reduced_of_isAffine [IsAffine X] : IsAffine X.nilradical.subscheme :=
   (IsClosedImmersion.isAffine_surjective_of_isAffine X.nilradical.subschemeι).1
+
+/-- **Affineness is invariant under reduction** (Hartshorne III, Exercise 3.1). A Noetherian
+scheme `X` is affine if and only if its reduction `X_red` (the closed subscheme cut out by the
+nilradical) is affine. -/
+theorem isAffine_iff_isAffine_reduced (X : Scheme.{u}) [IsNoetherian X] :
+    IsAffine X ↔ IsAffine X.nilradical.subscheme := by
+  refine ⟨fun _ => isAffine_reduced_of_isAffine, fun _ => ?_⟩
+  have : IsLocallyNoetherian (red X) := isLocallyNoetherian_red
+  exact isAffine_of_forall_isZero_H1 fun Q _ hQ => isZero_H1_of_isAffine_red hQ
 
 end ReductionAffine
 
