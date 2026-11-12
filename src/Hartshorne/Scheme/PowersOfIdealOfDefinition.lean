@@ -10,24 +10,38 @@ import Hartshorne.Scheme.IdealsOfDefinitionCofinal
 
 Hartshorne, *Algebraic Geometry*, II.9, Proposition 9.5(c) (p. 197).
 
-* `Hartshorne.IdealSubsheaf.pow_le_pow_right`, `Hartshorne.IdealSubsheaf.pow_succ_le_self`:
-  `J ^ l ⊆ J ^ k` for `k ≤ l`; in particular `J ^ (n + 1) ⊆ J`.
+* `Hartshorne.IsIdealOfDefinition.pow_succ`: if `J` is an ideal of definition of a Noetherian
+  formal scheme `X`, then so is `J ^ (n + 1)` for every `n`.
+* `Hartshorne.IsIdealOfDefinition.sheafSupport_quotientAb_pow`: `Supp (𝒪_X / J ^ (n + 1)) = X`.
 * `Hartshorne.sheafSupport_quotientAb_of_le_vanishingIdealSubsheaf`: on a locally ringed space,
   an ideal subsheaf contained in `J_red` (the sections vanishing at every point) has quotient of
   full support.
-* `Hartshorne.IsIdealOfDefinition.sheafSupport_quotientAb_pow`: if `J` is an ideal of definition
-  of a Noetherian formal scheme `X`, then `Supp (𝒪_X / J ^ (n + 1)) = X`.
+* `Hartshorne.IdealSubsheaf.pow_le_pow_right`, `Hartshorne.IdealSubsheaf.pow_succ_le_self`:
+  `J ^ l ⊆ J ^ k` for `k ≤ l`; in particular `J ^ (n + 1) ⊆ J`.
+* `Hartshorne.IdealSubsheaf.stalkIdeal J x`: the stalk `J_x ⊆ R_x`, the germs of sections of `J`;
+  `IdealSubsheaf.germ_mem_stalkIdeal_iff` and `IdealSubsheaf.stalkIdeal_pow`
+  (`(J ^ k)_x = (J_x) ^ k`).
 * `Hartshorne.IdealSubsheaf.IsKernelChart J g`: a morphism of locally ringed spaces `g : W ⟶ X`
-  from a scheme which is an open embedding with surjective stalk maps, and whose stalk maps have
-  kernel exactly the germs of `J`.
+  from a scheme which is an open embedding with surjective stalk maps whose stalk kernels are the
+  stalks of `J` (`IdealSubsheaf.isKernelChart_iff`).
 * `Hartshorne.IdealSubsheaf.exists_isNoetherian_iso_quotientSheafedSpace_of_charts`: if `X` is
   quasi-compact and every point of `X` lies in the image of a kernel chart `Spec R ⟶ X` of `J`
   with `R` Noetherian, then `(X, 𝒪_X / J)` is a Noetherian scheme.
 
-The last two items generalize the chart construction used for `J_red` in
-`Hartshorne.Scheme.LargestIdealOfDefinition`: a kernel chart `g` kills `J`, so it factors through
-the ringed space `(X, 𝒪_X / J)`, and the factorization is an open immersion because its stalk
-maps are bijective.
+Proof outline. The support statement holds because `J ^ (n + 1) ⊆ J ⊆ J_red`. For the scheme
+structure we produce Noetherian affine kernel charts of `J ^ (n + 1)`. By cofinality
+(Proposition 9.5(a)) and since `J_red` is an ideal of definition (Proposition 9.5(b)),
+`J_red ^ a ⊆ J` for some `a > 0`. Near a point `x`, a chart `X ⊇ U ≅ Ŷ` and an affine open
+`Spec B` of the thickening `Y_(m+1)`, `m + 1 = a (n + 1)`, give an open embedding
+`g : Spec B ⟶ X` with surjective stalk maps whose stalk kernels are the `(m+1)`-st powers of the
+stalks of `ker (𝒪_{Ŷ} ⟶ 𝒪_{Y_1})` (Proposition 9.4), hence lie in `J_red_x ^ (a (n + 1))`, hence
+in `J_x ^ (n + 1)`. Since `(X, 𝒪_X / J)` is a scheme, the induced morphism from its open
+subscheme `g(Spec B)` to `Spec B` is a closed immersion, so it is `Spec (B ⧸ c)` for an ideal `c`
+whose localizations are the images of the stalks of `J`: this is the coherence of the image of
+`J` on the Noetherian thickening. Then `Spec (B ⧸ c ^ (n + 1)) ⟶ Spec B ⟶ X` is a kernel chart of
+`J ^ (n + 1)`. Gluing these charts (as for `J_red` in
+`Hartshorne.Scheme.LargestIdealOfDefinition`) makes `(X, 𝒪_X / J ^ (n + 1))` a scheme, which is
+Noetherian because the charts are Noetherian and `X` is quasi-compact.
 -/
 
 noncomputable section
@@ -724,7 +738,8 @@ private lemma exists_ideal_map_eq (h : IsIdealOfDefinition X J) {B : CommRingCat
     (hs : ∀ w, Function.Surjective (g.stalkMap w))
     (hker : ∀ w, RingHom.ker (g.stalkMap w).hom ≤ J.stalkIdeal (g.base w)) :
     ∃ a : Ideal B, ∀ w : PrimeSpectrum B,
-      a.map (StructureSheaf.toStalk B w).hom = (J.stalkIdeal (g.base w)).map (g.stalkMap w).hom := by
+      a.map (StructureSheaf.toStalk B w).hom =
+        (J.stalkIdeal (g.base w)).map (g.stalkMap w).hom := by
   set Z := h.quotientScheme
   have hK := isKernelChart_kerIdeal hg hs hker
   have hkill : IdealSubsheaf.Kills (kerIdeal J g) (quotientSchemeHom h) := fun V s hs =>
@@ -1064,7 +1079,8 @@ private lemma exists_chart (X : NoetherianFormalScheme.{u}) (x : X.toLocallyRing
     (I.isOpenEmbedding_infinitesimalNeighborhoodFromOne m)
     (I.infinitesimalNeighborhoodFromOne_surjective m))
   let Z := I.infinitesimalNeighborhood (m + 1)
-  have : IsLocallyNoetherian Z := LocallyOfFiniteType.isLocallyNoetherian (I.infinitesimalNeighborhoodι (m + 1))
+  have : IsLocallyNoetherian Z :=
+    LocallyOfFiniteType.isLocallyNoetherian (I.infinitesimalNeighborhoodι (m + 1))
   let y : I.formalCompletion := e.hom.base ⟨x, hi⟩
   let z : Z := ι0.inv.base y
   obtain ⟨V, hV, hzV, -⟩ := Opens.isBasis_iff_nbhd.mp Z.isBasis_affineOpens
@@ -1094,8 +1110,8 @@ private lemma exists_chart (X : NoetherianFormalScheme.{u}) (x : X.toLocallyRing
   set y' := F1.base w'
   change Ideal.comap (T.stalkMap y').hom (RingHom.ker (FN.stalkMap y').hom) ≤ _
   refine (le_of_eq (congrArg (Ideal.comap (T.stalkMap y').hom)
-    (ker_stalkMap_fromNeighborhood I _ _ _ (m + 1) (I.mem_formalCompletionIdealPow_iff m) y'))).trans
-    ?_
+    (ker_stalkMap_fromNeighborhood I _ _ _ (m + 1) (I.mem_formalCompletionIdealPow_iff m)
+      y'))).trans ?_
   have hτ : Function.Bijective (T.stalkMap y').hom :=
     ⟨injective_stalkMap_of_isOpenImmersion T y', hT.2 y'⟩
   set K := (formalIdeal I).stalkIdeal y'
