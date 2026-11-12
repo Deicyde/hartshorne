@@ -35,6 +35,7 @@ only finitely many $\delta _P$ are nonzero.
 - [Finite pushforward preserves coherence](../../schemes/modules-and-quasicoherent/finite-pushforward-coherent.md)
 - [Sections with support of a quasicoherent sheaf](../../schemes/coherent-sheaves/sections-with-support-quasicoherent.md)
 - [Support of a quasi-coherent module](../../schemes/coherent-sheaves/module-sheaf-support.md)
+- [Skyscraper module sheaves and the stalk adjunction](../../schemes/module-stalks/module-skyscraper-stalk-adjunction.md)
 
 ## Proof depends on
 
