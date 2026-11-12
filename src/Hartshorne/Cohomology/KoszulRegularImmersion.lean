@@ -10,6 +10,7 @@ import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
 import Mathlib.RingTheory.Flat.Localization
 import Mathlib.LinearAlgebra.Contraction
 import Mathlib.Algebra.Category.ModuleCat.Biproducts
+import Mathlib.RingTheory.Ideal.Cotangent
 import Mathlib.Algebra.Category.ModuleCat.Sheaf.Abelian
 
 /-!
@@ -53,6 +54,12 @@ sections of `𝒪_Y` over `U`.
   `f` by `f Q` for an invertible matrix `Q` multiplies the top identification by `det Q`.
 * `Hartshorne.IsKoszulRegularImmersion.exists_koszulDual`: the local Koszul calculation for a
   Koszul-regular immersion and a finite locally free `M`.
+* The conormal module of a Koszul-regular sequence (`Hartshorne.Koszul.cotangentBasis`): if `f` is
+  Koszul-regular on `A` and `I = (f₁, …, f_r)`, the classes of `f₁, …, f_r` form a basis of
+  `I/I²` over `A/I` (`Hartshorne.Koszul.mem_of_sum_mul_mem_sq`). If `∑ aⱼ fⱼ ∈ I²`, subtracting
+  an expression `∑ cⱼ fⱼ` with `cⱼ ∈ I` gives a Koszul `1`-cycle, which is a boundary; the
+  Koszul differentials take values in `I K_•` (`Hartshorne.Koszul.contraction_mem_smul_top`), so
+  every `aⱼ` lies in `I`.
 
 ## Proof
 
@@ -583,6 +590,135 @@ theorem koszulDualTopMap_changeOfBasis {s : ℕ} (f : Fin (s + 1) → A)
   rfl
 
 end Duality
+
+section Conormal
+
+variable {V : Type u} [AddCommGroup V] [Module A V]
+
+/-- The contraction by `φ` takes values in `φ(V) · ⋀ⁿ V`. -/
+lemma contraction_mem_smul_top (φ : Module.Dual A V) (n : ℕ) (x : ⋀[A]^(n + 1) V) :
+    contraction φ n x ∈ (LinearMap.range φ : Ideal A) • (⊤ : Submodule A (⋀[A]^n V)) := by
+  have hx : x ∈ Submodule.span A (Set.range (exteriorPower.ιMulti A (n + 1) (M := V))) := by
+    rw [exteriorPower.ιMulti_span]; trivial
+  induction hx using Submodule.span_induction with
+  | mem y hy =>
+    obtain ⟨v, rfl⟩ := hy
+    rw [contraction_ιMulti]
+    refine Submodule.sum_mem _ fun j _ => ?_
+    rw [mul_smul]
+    exact Submodule.smul_mem _ _
+      (Submodule.smul_mem_smul (LinearMap.mem_range_self φ _) Submodule.mem_top)
+  | zero => rw [map_zero]; exact Submodule.zero_mem _
+  | add y z _ _ hy hz => rw [map_add]; exact add_mem hy hz
+  | smul a y _ hy => rw [map_smul]; exact Submodule.smul_mem _ a hy
+
+/-- The contraction by `φ`, tensored with `M`, takes values in `φ(V) · (⋀ⁿ V ⊗ M)`. -/
+lemma rTensor_contraction_mem_smul_top (φ : Module.Dual A V) (M : Type u) [AddCommGroup M]
+    [Module A M] (n : ℕ) (x : ⋀[A]^(n + 1) V ⊗[A] M) :
+    (contraction φ n).rTensor M x ∈
+      (LinearMap.range φ : Ideal A) • (⊤ : Submodule A (⋀[A]^n V ⊗[A] M)) := by
+  induction x using TensorProduct.induction_on with
+  | zero => rw [map_zero]; exact Submodule.zero_mem _
+  | add x y hx hy => rw [map_add]; exact add_mem hx hy
+  | tmul w m =>
+    rw [LinearMap.rTensor_tmul]
+    refine Submodule.smul_induction_on (contraction_mem_smul_top φ n w) (fun a ha y _ => ?_)
+      (fun y z hy hz => ?_)
+    · rw [← TensorProduct.smul_tmul']
+      exact Submodule.smul_mem_smul ha Submodule.mem_top
+    · rw [TensorProduct.add_tmul]; exact add_mem hy hz
+
+/-- **The conormal module of a Koszul-regular sequence is free on the generators.** If `f` is
+Koszul-regular on `A` and `∑ aⱼ fⱼ ∈ I²`, `I = (f₁, …, f_r)`, then every `aⱼ` lies in `I`. -/
+theorem mem_of_sum_mul_mem_sq (hf : IsKoszulRegular f (ModuleCat.of A A)) (a : Fin r → A)
+    (ha : ∑ j, a j * f j ∈ Ideal.span (Set.range f) ^ 2) (j : Fin r) :
+    a j ∈ Ideal.span (Set.range f) := by
+  set I := Ideal.span (Set.range f)
+  rw [pow_two, ← Ideal.smul_eq_mul] at ha
+  have ha' : ∑ j, a j * f j ∈ I • Submodule.span A (Set.range f) := ha
+  obtain ⟨c, hcI, hc⟩ := (Submodule.mem_ideal_smul_span_iff_exists_sum I f _).1 ha'
+  rw [Finsupp.sum_fintype _ _ (fun i => zero_smul A (f i))] at hc
+  let b : Fin r → A := a - c
+  have hb : koszulForm f b = 0 := by
+    rw [koszulForm_apply]
+    simp only [b, Pi.sub_apply, sub_mul, Finset.sum_sub_distrib, ← hc, smul_eq_mul, sub_self]
+  let x : ⋀[A]^1 (Fin r → A) ⊗[A] A :=
+    (exteriorPower.oneEquiv A (Fin r → A)).symm b ⊗ₜ[A] (1 : A)
+  have hx0 : (contraction (koszulForm f) 0).rTensor A x = 0 := by
+    apply (degreeZeroEquiv (V := Fin r → A) A).injective
+    rw [degreeZeroEquiv_contraction_tmul, LinearEquiv.apply_symm_apply, hb, zero_smul,
+      LinearEquiv.map_zero]
+  have hx : ((sequenceKoszulComplex f (ModuleCat.of A A)).d 1 0).hom x = 0 := by
+    rw [koszulComplex_d]; exact hx0
+  have hex := hf 0
+  rw [HomologicalComplex.exactAt_iff' _ 2 1 0 (by simp) (by simp)] at hex
+  have hrange := (ShortComplex.moduleCat_exact_iff_range_eq_ker _).1 hex
+  have hxr : x ∈ LinearMap.range ((sequenceKoszulComplex f (ModuleCat.of A A)).d 2 1).hom := by
+    have h : x ∈ LinearMap.ker
+        ((sequenceKoszulComplex f (ModuleCat.of A A)).sc' 2 1 0).g.hom := hx
+    rw [← hrange] at h
+    exact h
+  obtain ⟨w, hw⟩ := hxr
+  have hxI := rTensor_contraction_mem_smul_top (koszulForm f) A 1 w
+  rw [range_koszulForm] at hxI
+  have hw' : (contraction (koszulForm f) 1).rTensor A w = x := by
+    rw [← hw, koszulComplex_d]; rfl
+  rw [hw'] at hxI
+  let ψ : ⋀[A]^1 (Fin r → A) ⊗[A] A →ₗ[A] A :=
+    LinearMap.proj j ∘ₗ (exteriorPower.oneEquiv A (Fin r → A)).toLinearMap ∘ₗ
+      (TensorProduct.rid A (⋀[A]^1 (Fin r → A))).toLinearMap
+  have hψ : ψ x = b j := by
+    simp [ψ, x]
+  have hle : I • (⊤ : Submodule A (⋀[A]^1 (Fin r → A) ⊗[A] A)) ≤
+      Submodule.comap ψ I := Submodule.smul_le.2 fun s hs m _ => by
+    rw [Submodule.mem_comap, map_smul, smul_eq_mul]
+    exact I.mul_mem_right _ hs
+  have hbj : b j ∈ I := hψ ▸ hle hxI
+  have : a j = b j + c j := by simp [b]
+  rw [this]
+  exact add_mem hbj (hcI j)
+
+/-- **The conormal module of a Koszul-regular sequence.** If `f` is Koszul-regular on `A`, the
+classes of `f₁, …, f_r` form a basis of `I/I²` over `A/I`, where `I = (f₁, …, f_r)`. -/
+noncomputable def cotangentBasis (hf : IsKoszulRegular f (ModuleCat.of A A)) :
+    Module.Basis (Fin r) (A ⧸ Ideal.span (Set.range f))
+      (Ideal.Cotangent (Ideal.span (Set.range f))) :=
+  Module.Basis.mk (v := fun j => Ideal.toCotangent (Ideal.span (Set.range f))
+      ⟨f j, Ideal.subset_span ⟨j, rfl⟩⟩)
+    (by
+      rw [Fintype.linearIndependent_iff]
+      intro g hg j
+      choose a ha using fun j => Ideal.Quotient.mk_surjective (I := Ideal.span (Set.range f)) (g j)
+      have hsmul : ∀ k, g k • Ideal.toCotangent (Ideal.span (Set.range f))
+          ⟨f k, Ideal.subset_span ⟨k, rfl⟩⟩ = Ideal.toCotangent (Ideal.span (Set.range f))
+            (a k • ⟨f k, Ideal.subset_span ⟨k, rfl⟩⟩) := by
+        intro k
+        rw [← ha k, map_smul, ← Ideal.Quotient.algebraMap_eq, algebraMap_smul]
+      simp only [hsmul, ← map_sum, Ideal.toCotangent_eq_zero] at hg
+      have hsum : ∑ k, a k * f k ∈ Ideal.span (Set.range f) ^ 2 := by
+        convert hg using 1
+        simp [smul_eq_mul]
+      rw [← ha j, Ideal.Quotient.eq_zero_iff_mem]
+      exact mem_of_sum_mul_mem_sq f hf a hsum j)
+    (by
+      rintro x -
+      obtain ⟨⟨y, hy⟩, rfl⟩ := Ideal.toCotangent_surjective (Ideal.span (Set.range f)) x
+      obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun A).1 hy
+      have hy' : (⟨y, hy⟩ : Ideal.span (Set.range f)) =
+          ∑ k, c k • ⟨f k, Ideal.subset_span ⟨k, rfl⟩⟩ := by
+        apply Subtype.ext
+        simp [← hc]
+      rw [hy', map_sum]
+      refine Submodule.sum_mem _ fun k _ => ?_
+      rw [map_smul, ← algebraMap_smul (A ⧸ Ideal.span (Set.range f))]
+      exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨k, rfl⟩))
+
+lemma cotangentBasis_apply (hf : IsKoszulRegular f (ModuleCat.of A A)) (j : Fin r) :
+    cotangentBasis f hf j =
+      Ideal.toCotangent (Ideal.span (Set.range f)) ⟨f j, Ideal.subset_span ⟨j, rfl⟩⟩ :=
+  Module.Basis.mk_apply _ _ _
+
+end Conormal
 
 end Koszul
 
