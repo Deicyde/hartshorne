@@ -492,6 +492,7 @@ theorem chartTwistSection_monomialSection (U : X.AffineZariskiSite) {n : ℕ}
   rw [monomialSection, dif_pos h]
   exact pullbackPullbackTwistIso_pullbackTop _ _ _ _ _ _ _ _ _
 
+omit [IsClosedImmersion i] in
 /-- `ℤ[x] → T(U)` sends the monomial `x^α` to the class of `x^α`. -/
 theorem coordHom_monomial (U : X.AffineZariskiSite) (α : Fin (r + 1) →₀ ℕ) :
     (coordHom i U (MvPolynomial.monomial α 1) : MvPolynomial (Fin (r + 1)) Γ(X, U.1) ⧸
@@ -540,6 +541,7 @@ theorem twistSection_zero (n : ℕ) : twistSection n (0 : 𝒜 n) (op ⊤) = 0 :
   rw [ZeroMemClass.coe_zero, LocalizedModule.zero_mk]
 end TS
 
+omit [IsClosedImmersion i] in
 /-- The class of the degree-`n` component of `p` lies in `T(U)_n`. -/
 theorem mk_homogeneousComponent_mem (U : X.AffineZariskiSite) (n : ℕ)
     (p : MvPolynomial (Fin (r + 1)) Γ(X, U.1)) :
@@ -547,6 +549,7 @@ theorem mk_homogeneousComponent_mem (U : X.AffineZariskiSite) (n : ℕ)
       (coordinateAlgebra i).grading U n :=
   mk_mem_gradedQuotient (MvPolynomial.homogeneousComponent_mem n p)
 
+omit [IsClosedImmersion i] in
 /-- If the degree-`n` component of `p` vanishes, so does its section `p_n / 1`. -/
 theorem twistSection_mk_homogeneousComponent_eq_zero (U : X.AffineZariskiSite) {n : ℕ}
     {p : MvPolynomial (Fin (r + 1)) Γ(X, U.1)} (hp : MvPolynomial.homogeneousComponent n p = 0) :
@@ -608,16 +611,19 @@ theorem chartTwistSection_polyTwistSection_of_mem (U : X.AffineZariskiSite) {n :
       change Ideal.Quotient.mk _ _ = Ideal.Quotient.mk _ _
       rw [MvPolynomial.homogeneousComponent_of_mem hp, if_pos rfl])))
 
+omit [IsClosedImmersion i] in
 /-- A homogeneous lift to `Γ(X, U)[x₀, …, xᵣ]_n` of an element of `T(U)_n`. -/
 noncomputable def coordLift (U : X.AffineZariskiSite) {n : ℕ}
     (x : (coordinateAlgebra i).grading U n) : MvPolynomial (Fin (r + 1)) Γ(X, U.1) :=
   Classical.choose (mem_gradedQuotient_iff.mp x.2)
 
+omit [IsClosedImmersion i] in
 /-- The lift is homogeneous of degree `n`. -/
 theorem coordLift_mem (U : X.AffineZariskiSite) {n : ℕ} (x : (coordinateAlgebra i).grading U n) :
     coordLift i U x ∈ MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U.1) n :=
   (Classical.choose_spec (mem_gradedQuotient_iff.mp x.2)).1
 
+omit [IsClosedImmersion i] in
 /-- The lift is a lift. -/
 theorem mk_coordLift (U : X.AffineZariskiSite) {n : ℕ} (x : (coordinateAlgebra i).grading U n) :
     Ideal.Quotient.mk (chartIdeal i U.1 U.2).toIdeal (coordLift i U x) = x :=
@@ -682,6 +688,7 @@ theorem coordTwistSection_restrict {U V : X.AffineZariskiSite} (h : V ⟶ U) {n 
   rw [← mk_coordLift i U x, coordRestrict_mk]
   rfl
 
+omit [IsClosedImmersion i] in
 /-- `T(U)_n` is a `Γ(X, U)`-submodule of `T(U)`. -/
 theorem structureMap_mul_mem (U : X.AffineZariskiSite) {n : ℕ} (a : Γ(X, U.1))
     (x : (coordinateAlgebra i).grading U n) :
@@ -714,10 +721,12 @@ theorem coordTwistSection_bijective (U : X.AffineZariskiSite) {n : ℕ}
   rw [e]
   exact hbij
 
+omit [IsClosedImmersion i] [IsIntegral Z] in
 /-- The tensor power `L^{n}` of `L = i^* 𝒪(1)`, as an `𝒪_Z`-module. -/
 abbrev tensorPowerL (n : ℕ) : Z.Modules :=
   moduleSheafTensorPower n ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1))
 
+omit [IsClosedImmersion i] [IsIntegral Z] in
 /-- `L^{n} ≅ 𝒪(n)|_Z` for `n > 0` (Proposition 5.12(b), pulled back to `Z`). -/
 noncomputable def tensorPowerTwistOnZIso (n : ℕ) (hn : 0 < n) : tensorPowerL i n ≅ twistOnZ i n :=
   eqToIso (by rw [Nat.sub_add_cancel hn]) ≪≫
@@ -765,6 +774,7 @@ theorem veroneseTwistSection_restrict (d : ℕ) [NeZero d] {U V : X.AffineZarisk
     coordTwistSection_restrict i h]
   exact congrArg _ (congrArg _ (Subtype.ext rfl))
 
+omit [IsClosedImmersion i] in
 /-- `T(U)^{(d)}_m` is a `Γ(X, U)`-submodule of `T(U)^{(d)}`. -/
 theorem veronese_structureMap_mul_mem (d : ℕ) [NeZero d] (U : X.AffineZariskiSite) {m : ℕ}
     (a : Γ(X, U.1)) (y : ((coordinateAlgebra i).veronese d).grading U m) :
