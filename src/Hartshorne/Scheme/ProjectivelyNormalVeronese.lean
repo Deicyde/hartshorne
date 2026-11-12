@@ -481,6 +481,100 @@ theorem mem_dupleIdeal_of_pow_mul_mem [NeZero d] [IsDomain S] (hne : ∃ i, coor
 
 end Duple
 
+/-! ### The `d`-uple embedding of `X` -/
+
+section DupleEmbedding
+
+variable (d : ℕ) [NeZero d]
+
+local notation "𝒮N" => MvPolynomial.homogeneousSubmodule (Fin (Veronese.dupleN r d + 1)) k
+
+/-- The graded homomorphism `k[y_I] → (S/I)^{(d)}`, `y_I ↦ x^I` (`y_I` of degree one). -/
+def dupleGradedHom : 𝒮N →+*ᵍ veronese 𝒬 d where
+  __ := dupleHomV I d
+  map_mem := by
+    intro i p hp
+    exact dupleHom_mem I d hp
+
+theorem dupleGradedHom_surjective : Function.Surjective (dupleGradedHom I d) :=
+  dupleHomV_surjective I d
+
+/-- **The `d`-uple embedding of `X = Proj (S/I)`** into `ℙᴺ_k = Proj k[y_I]`: the isomorphism
+`Proj (S/I) ≅ Proj (S/I)^{(d)}` followed by the morphism induced by `y_I ↦ x^I`, the monomials of
+degree `d` in the coordinates. -/
+def dupleEmbedding : Proj 𝒬 ⟶ Proj 𝒮N :=
+  (Veronese.projIso 𝒬 d).hom ≫
+    Proj.map (dupleGradedHom I d) (irrelevant_le_map_of_surjective (dupleGradedHom_surjective I d))
+
+/-- The graded isomorphism `k[y_I] / J_d → (S/I)^{(d)}`. -/
+def dupleQuotientHom : gradedQuotient 𝒮N (dupleIdeal I d) →+*ᵍ veronese 𝒬 d where
+  __ := (dupleQuotientEquiv I d).toRingHom
+  map_mem := by
+    intro i x hx
+    obtain ⟨a, ha, rfl⟩ := mem_gradedQuotient_iff.mp hx
+    exact dupleHom_mem I d ha
+
+theorem dupleQuotientHom_mk (p : MvPolynomial (Fin (Veronese.dupleN r d + 1)) k) :
+    dupleQuotientHom I d (Ideal.Quotient.mk _ p) = dupleGradedHom I d p :=
+  rfl
+
+theorem dupleQuotientHom_surjective : Function.Surjective (dupleQuotientHom I d) :=
+  (dupleQuotientEquiv I d).surjective
+
+theorem dupleQuotientHom_bijective (n : ℕ) :
+    Function.Bijective ((dupleQuotientHom I d).gradedAddHom n) := by
+  constructor
+  · intro x y h
+    exact Subtype.ext ((dupleQuotientEquiv I d).injective (congrArg Subtype.val h))
+  · intro y
+    obtain ⟨a, ha⟩ := dupleGradedHom_surjective I d y
+    refine ⟨⟨Ideal.Quotient.mk _ (DirectSum.decompose 𝒮N a n : MvPolynomial _ k),
+      mk_mem_gradedQuotient (DirectSum.decompose 𝒮N a n).2⟩, Subtype.ext ?_⟩
+    rw [GradedRingHom.gradedAddHom_apply_coe]
+    change dupleGradedHom I d (DirectSum.decompose 𝒮N a n : MvPolynomial _ k) = y
+    rw [GradedRingHom.map_directSumDecompose, ha]
+    exact DirectSum.decompose_of_mem_same (veronese 𝒬 d) y.2
+
+theorem isIso_map_dupleQuotientHom :
+    IsIso (Proj.map (dupleQuotientHom I d)
+      (irrelevant_le_map_of_surjective (dupleQuotientHom_surjective I d))) := by
+  have hiso : IsIso (projPartialMap (dupleQuotientHom I d)) :=
+    isIso_projPartialMap_of_bijective (d₀ := 0) fun n _ => dupleQuotientHom_bijective I d n
+  have hι : IsIso (projPartialDomain (dupleQuotientHom I d)).ι := by
+    rw [isIso_iff_isOpenImmersion_and_surjective]
+    refine ⟨inferInstance, ⟨fun y => ?_⟩⟩
+    have hy : y ∈ projPartialDomain (dupleQuotientHom I d) := by
+      rw [projPartialDomain_eq_top_of_surjective (dupleQuotientHom_surjective I d)]
+      trivial
+    exact ⟨⟨y, hy⟩, rfl⟩
+  rw [projPartialMap_eq_map
+    (irrelevant_le_map_of_surjective (dupleQuotientHom_surjective I d))] at hiso
+  exact IsIso.of_isIso_comp_left (projPartialDomain (dupleQuotientHom I d)).ι _
+
+/-- **The `d`-uple image of `X` is `Proj (k[y_I] / J_d)`**: the `d`-uple embedding is an
+isomorphism `X ≅ Proj (k[y_I] / J_d)` followed by the closed immersion
+`Proj (k[y_I] / J_d) ⟶ ℙᴺ_k`. -/
+theorem dupleEmbedding_eq :
+    dupleEmbedding I d = (Veronese.projIso 𝒬 d).hom ≫
+      Proj.map (dupleQuotientHom I d)
+        (irrelevant_le_map_of_surjective (dupleQuotientHom_surjective I d)) ≫
+      projQuotientι 𝒮N (dupleIdeal I d) := by
+  rw [dupleEmbedding, projQuotientι_eq_map, ← Proj.map_comp]
+  rfl
+
+instance isClosedImmersion_dupleEmbedding : IsClosedImmersion (dupleEmbedding I d) := by
+  have := isIso_map_dupleQuotientHom I d
+  rw [dupleEmbedding_eq]
+  infer_instance
+
+/-- The ideal sheaf of the `d`-uple image of `X` is the one cut out by `J_d`. -/
+theorem ker_dupleEmbedding :
+    (dupleEmbedding I d).ker = (projQuotientι 𝒮N (dupleIdeal I d)).ker := by
+  have := isIso_map_dupleQuotientHom I d
+  rw [dupleEmbedding_eq, Scheme.Hom.ker_comp_of_isIso, Scheme.Hom.ker_comp_of_isIso]
+
+end DupleEmbedding
+
 variable [IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)]
 
 /-- **Hartshorne II, Exercise 5.14(b).** For a closed subscheme `X = Proj (S/I)` of `ℙʳ_k` with
@@ -614,9 +708,56 @@ theorem exists_isProjectivelyNormal_dupleImage [IsAlgClosed k]
     (exists_coord_ne_zero I x))).trans (dupleQuotientEquiv I d)
   exact ⟨e.injective.isDomain (e : _ →+* veroneseSubring 𝒬 d), IsIntegrallyClosed.of_equiv e.symm⟩
 
+omit [IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)] [NeZero d] in
+/-- **Hartshorne II, Exercise 5.14(b,c), for a saturated homogeneous ideal.** Let `k` be
+algebraically closed and let `X = Proj (S/I) ⊆ ℙʳ_k` be connected and normal, `S = k[x₀, …, xᵣ]`,
+`I` saturated. For all sufficiently large `d`, the image of `X` under its `d`-uple embedding
+(`dupleEmbedding`, a closed immersion into `ℙᴺ_k`) is projectively normal. -/
+theorem exists_isProjectivelyNormal_dupleEmbedding_of_saturated [IsAlgClosed k]
+    (hsat : ∀ s : MvPolynomial (Fin (r + 1)) k, (∀ i, ∃ n : ℕ, X i ^ n * s ∈ I.toIdeal) →
+      s ∈ I.toIdeal)
+    [ConnectedSpace (Proj 𝒬)] [Hartshorne.IsNormal (Proj 𝒬)] :
+    ∃ d₀ : ℕ, 0 < d₀ ∧ ∀ (d : ℕ) [NeZero d], d₀ ≤ d →
+      IsProjectivelyNormal (quasicoherentIdealSubsheafEquiv.symm (dupleEmbedding I d).ker) := by
+  obtain ⟨d₀, hd₀, h⟩ := exists_isProjectivelyNormal_dupleImage I hsat
+  refine ⟨d₀, hd₀, fun d _ hd => ?_⟩
+  rw [ker_dupleEmbedding]
+  exact h d hd
+
 end DupleNormal
 
 end ClosedSubscheme
+
+/-! ### Closed subschemes given by their ideal sheaf -/
+
+section IdealSheaf
+
+open MvPolynomial ProjectiveClosedSubscheme ProjectiveNormality
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+variable {k : Type u} [Field k] {r : ℕ}
+
+local notation "𝒮" => MvPolynomial.homogeneousSubmodule (Fin (r + 1)) k
+
+/-- **Hartshorne II, Exercise 5.14(b,c).** Let `k` be algebraically closed and let `X ⊆ ℙʳ_k` be
+a connected normal closed subscheme with ideal sheaf `ℐ`, realized as `X = Proj (S/I)` for its
+homogeneous ideal `I = Γ_*(ℐ)` (Corollary 5.16). Then for all sufficiently large `d`, the
+`d`-uple embedding `X ⟶ ℙᴺ_k` (`dupleEmbedding`, a closed immersion) has projectively normal
+image: the homogeneous coordinate ring of the closed subscheme of `ℙᴺ_k` with ideal sheaf
+`ker (X ⟶ ℙᴺ_k)` is an integrally closed domain. -/
+theorem exists_isProjectivelyNormal_dupleEmbedding [IsAlgClosed k]
+    (ℐ : QuasicoherentIdealSubsheaf (Proj 𝒮))
+    [ConnectedSpace (Proj (gradedQuotient 𝒮 (gammaStarIdeal k r ℐ)))]
+    [Hartshorne.IsNormal (Proj (gradedQuotient 𝒮 (gammaStarIdeal k r ℐ)))] :
+    ∃ d₀ : ℕ, 0 < d₀ ∧ ∀ (d : ℕ) [NeZero d], d₀ ≤ d →
+      IsProjectivelyNormal (quasicoherentIdealSubsheafEquiv.symm
+        (dupleEmbedding (gammaStarIdeal k r ℐ) d).ker) := by
+  refine exists_isProjectivelyNormal_dupleEmbedding_of_saturated _ fun s hs => ?_
+  rw [← saturation_gammaStarIdeal ℐ]
+  exact mem_saturation.2 hs
+
+end IdealSheaf
 
 end ProjectivelyNormalVeronese
 
