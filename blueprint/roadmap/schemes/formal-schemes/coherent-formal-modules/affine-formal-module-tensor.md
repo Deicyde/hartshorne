@@ -21,6 +21,7 @@ defines nor invokes a completed tensor product.
 - [Coherent modules on a Noetherian formal scheme](coherent-formal-module.md)
 - [Affine formal schemes](../formal-neighborhoods/formal-spectrum.md)
 - [Tensor products of module sheaves](../../modules-and-quasicoherent/module-tensor-product.md)
+- [Pushforward, pullback, and their adjunction](../../modules-and-quasicoherent/module-push-pull-adjunction.md)
 
 ## Proof depends on
 
