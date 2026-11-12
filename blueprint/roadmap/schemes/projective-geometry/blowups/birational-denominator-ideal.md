@@ -2,6 +2,7 @@
 article_id: af_bf35d9766bdb3d61d239bfe0
 declaration: theorem
 origin: cited
+lean: AlgebraicGeometry.Scheme.exists_mono_moduleSheafDual_tensor_pushforward
 ---
 
 # The denominator ideal of a birational line bundle
