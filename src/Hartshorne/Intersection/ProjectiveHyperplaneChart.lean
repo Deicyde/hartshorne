@@ -16,7 +16,7 @@ immersion `ℙ^N_k ⟶ ℙ^{N+1}_k` over `k` (`hyperplaneEmbedding`) whose image
 `H = V(x_{N+1})` (`mem_range_hyperplaneEmbedding_of_X_last_mem`) and which maps the linear
 subspace `L_m` of `ℙ^N_k` to the linear subspace `L_m` of `ℙ^{N+1}_k`
 (`hyperplaneEmbedding_linearSubspacePoint`). The complement `D₊(x_{N+1})` of `H` is isomorphic to
-affine space `Spec k[y₀, …, y_N]` (`hyperplaneComplementIsoSpec`).
+affine space `Spec k[y₀, …, y_N]` (`hyperplaneComplementIso`).
 -/
 
 noncomputable section
@@ -143,5 +143,116 @@ theorem hyperplaneEmbedding_comp_structureMorphism :
   apply Subtype.ext
   change hyperplaneRestrict N (algebraMap k _ a) = algebraMap k _ a
   exact (hyperplaneRestrict N).commutes a
+
+/-- The hyperplane embedding maps the linear subspace `L_m` of `ℙ^N_k` to the linear subspace
+`L_m` of `ℙ^{N+1}_k`, for `m ≤ N`. -/
+theorem hyperplaneEmbedding_linearSubspacePoint {m : ℕ} (hm : m ≤ N) :
+    hyperplaneEmbedding N (linearSubspacePoint (k := k) (n := N) m) =
+      linearSubspacePoint (k := k) (n := N + 1) m := by
+  classical
+  apply ProjectiveSpectrum.ext
+  apply HomogeneousIdeal.toIdeal_injective
+  rw [hyperplaneEmbedding_asHomogeneousIdeal, linearSubspacePoint_asHomogeneousIdeal,
+    linearSubspacePoint_asHomogeneousIdeal, HomogeneousIdeal.toIdeal_comap,
+    linearSubspaceIdeal_toIdeal, linearSubspaceIdeal_toIdeal,
+    ← ker_aeval_ite_eq_span_X_image, ← ker_aeval_ite_eq_span_X_image]
+  set s : Set (Fin (N + 2)) := {i | m < (i : ℕ)}
+  set s' : Set (Fin (N + 1)) := {i | m < (i : ℕ)}
+  have hfac : (aeval fun i : Fin (N + 2) => if i ∈ s then (0 : MvPolynomial (Fin (N + 2)) k)
+      else X i) = (rename Fin.castSucc).comp ((aeval fun i : Fin (N + 1) =>
+        if i ∈ s' then (0 : MvPolynomial (Fin (N + 1)) k) else X i).comp
+          (hyperplaneRestrict N)) := by
+    ext i : 1
+    induction i using Fin.lastCases with
+    | last =>
+      have : Fin.last (N + 1) ∈ s := by
+        change m < ((Fin.last (N + 1) : Fin (N + 2)) : ℕ)
+        rw [Fin.val_last]
+        omega
+      simp [this, hyperplaneRestrict]
+    | cast j =>
+      have hj : (Fin.castSucc j ∈ s) ↔ j ∈ s' := by
+        change m < ((Fin.castSucc j : Fin (N + 2)) : ℕ) ↔ m < (j : ℕ)
+        rw [Fin.val_castSucc]
+      by_cases h : j ∈ s'
+      · simp [hyperplaneRestrict, h, hj.mpr h]
+      · simp [hyperplaneRestrict, h, mt hj.mp h]
+  ext f
+  simp only [Ideal.mem_comap, RingHom.mem_ker, AlgHom.toRingHom_eq_coe, AlgHom.coe_toRingHom]
+  rw [hfac, AlgHom.comp_apply, AlgHom.comp_apply]
+  change _ ↔ rename Fin.castSucc _ = 0
+  constructor
+  · intro h
+    rw [hyperplaneRestrictHom_apply] at h
+    rw [h, map_zero]
+  · intro h
+    rw [hyperplaneRestrictHom_apply]
+    exact rename_injective _ (Fin.castSucc_injective _) (by rw [h, map_zero])
+
+/-- Every point of `V(x_{N+1})` lies in the image of the hyperplane embedding. -/
+theorem mem_range_hyperplaneEmbedding_of_X_last_mem
+    (x : Proj (homogeneousSubmodule (Fin (N + 2)) k))
+    (hx : (X (Fin.last (N + 1)) : MvPolynomial (Fin (N + 2)) k) ∈ x.asHomogeneousIdeal) :
+    x ∈ Set.range (hyperplaneEmbedding (k := k) N) := by
+  let φ := hyperplaneRestrictHom (k := k) N
+  have hsurj : Function.Surjective φ := hyperplaneRestrict_surjective N
+  have hker : RingHom.ker φ.toRingHom ≤ x.asHomogeneousIdeal.toIdeal := by
+    change RingHom.ker (hyperplaneRestrict (k := k) N).toRingHom ≤ _
+    rw [ker_hyperplaneRestrict, Ideal.span_le, Set.singleton_subset_iff]
+    exact hx
+  have hcomap : (x.asHomogeneousIdeal.map φ).toIdeal.comap φ.toRingHom =
+      x.asHomogeneousIdeal.toIdeal := by
+    rw [HomogeneousIdeal.toIdeal_map]
+    exact Ideal.comap_map_of_surjective' _ hsurj _ |>.trans (sup_eq_left.mpr hker)
+  have : x.asHomogeneousIdeal.toIdeal.IsPrime := x.isPrime
+  have hprime : (x.asHomogeneousIdeal.map φ).toIdeal.IsPrime := by
+    rw [HomogeneousIdeal.toIdeal_map]
+    exact Ideal.map_isPrime_of_surjective hsurj hker
+  let y : Proj (homogeneousSubmodule (Fin (N + 1)) k) :=
+    ⟨x.asHomogeneousIdeal.map φ, hprime, fun hle => x.not_irrelevant_le (by
+      intro a ha
+      have h1 : a ∈ (x.asHomogeneousIdeal.map φ).toIdeal.comap φ.toRingHom := by
+        change φ a ∈ (x.asHomogeneousIdeal.map φ).toIdeal
+        apply hle
+        rw [HomogeneousIdeal.mem_irrelevant_iff] at ha ⊢
+        rw [GradedRing.proj_apply, ← GradedRingHom.map_directSumDecompose, ← GradedRing.proj_apply,
+          ha, map_zero]
+      rw [hcomap] at h1
+      exact h1)⟩
+  refine ⟨y, ProjectiveSpectrum.ext (HomogeneousIdeal.toIdeal_injective ?_)⟩
+  rw [hyperplaneEmbedding_asHomogeneousIdeal, HomogeneousIdeal.toIdeal_comap]
+  exact hcomap
+
+/-- The complement `D₊(x_{N+1})` of the hyperplane `V(x_{N+1})`. -/
+def hyperplaneComplement : (Proj (homogeneousSubmodule (Fin (N + 2)) k)).Opens :=
+  Proj.basicOpen _ (X (Fin.last (N + 1)))
+
+theorem mem_range_hyperplaneEmbedding_of_notMem (x : Proj (homogeneousSubmodule (Fin (N + 2)) k))
+    (hx : x ∉ hyperplaneComplement (k := k) N) :
+    x ∈ Set.range (hyperplaneEmbedding (k := k) N) := by
+  refine mem_range_hyperplaneEmbedding_of_X_last_mem N x ?_
+  by_contra h
+  exact hx ((Proj.mem_basicOpen _ _ _).mpr h)
+
+/-- The ring of the chart `D₊(x_{N+1})` is a polynomial ring in `N + 1` variables. -/
+def hyperplaneComplementRingEquiv :
+    HomogeneousLocalization.Away (homogeneousSubmodule (Fin (N + 2)) k) (X (Fin.last (N + 1))) ≃+*
+      MvPolynomial (Option (Fin N)) k :=
+  (chartAwayEquiv k (Fin.last (N + 1))).trans
+    (renameEquiv k ((finSuccAboveEquiv (Fin.last (N + 1))).symm.trans (finSuccEquiv N))).toRingEquiv
+
+/-- **The complement of the hyperplane is affine space**: an isomorphism
+`Spec k[y₀, …, y_N] ≅ D₊(x_{N+1})`. -/
+def hyperplaneComplementIso :
+    Spec (.of (MvPolynomial (Option (Fin N)) k)) ≅ (hyperplaneComplement (k := k) N : Scheme) :=
+  Scheme.Spec.mapIso (hyperplaneComplementRingEquiv N).toCommRingCatIso.op ≪≫
+    (Proj.basicOpenIsoSpec _ (X (Fin.last (N + 1))) (X_mem_homogeneousSubmodule_one k _)
+      zero_lt_one).symm
+
+instance : Nonempty (hyperplaneComplement (k := k) N) :=
+  ⟨(hyperplaneComplementIso N).hom (⊥ : PrimeSpectrum (MvPolynomial (Option (Fin N)) k))⟩
+
+instance : IsIntegral (hyperplaneComplement (k := k) N : Scheme) :=
+  isIntegral_of_isOpenImmersion (hyperplaneComplement N).ι
 
 end Hartshorne
