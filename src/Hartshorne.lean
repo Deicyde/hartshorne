@@ -700,6 +700,7 @@ import Hartshorne.Scheme.FormalSpectrumCompletion
 import Hartshorne.Scheme.FormalCompletionSupport
 import Hartshorne.Scheme.NoetherianFormalScheme
 import Hartshorne.Scheme.FormalCompletionClosedPoint
+import Hartshorne.Scheme.AlgebraizableFormalScheme
 import Hartshorne.Weil.GeometricallyConnectedSmoothProjective
 import Hartshorne.Surface.KodairaDimensionBirational
 import Hartshorne.Surface.GeneralType
