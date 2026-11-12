@@ -261,6 +261,10 @@ def sectionRingToFraction :
     (DirectSum ℕ fun n => twistGlobal (𝟙_ (Proj 𝒜).Modules) (n : ℤ)) →+ FractionRing A :=
   DirectSum.toAddMonoid fun n => sectionToFraction 𝒜 n
 
+theorem sectionRingToFraction_of (n : ℕ) (t : twistGlobal (𝟙_ (Proj 𝒜).Modules) (n : ℤ)) :
+    sectionRingToFraction 𝒜 (DirectSum.of _ n t) = sectionToFraction 𝒜 n t :=
+  DirectSum.toAddMonoid_of _ _ _
+
 /-- **The product on `Γ_*(𝒪_X)`**, degreewise, through the unitors and the multiplication
 `𝒪_X(n) ⊗ 𝒪_X(m) → 𝒪_X(n + m)`. -/
 def sectionMul (n m : ℤ) (y : twistGlobal (𝟙_ (Proj 𝒜).Modules) n)
@@ -434,6 +438,51 @@ theorem sectionRingToFraction_injective (h : ¬HomogeneousIdeal.irrelevant 𝒜 
   · exact sectionToFraction_injective h n ((h0 n hn).trans (map_zero _).symm)
   · simpa using hn
 
+omit [IsDomain A] in
+variable {𝒜} in
+theorem not_irrelevant_le_bot_of_mem_one {f : A} (f_deg : f ∈ 𝒜 1) (hf : f ≠ 0) :
+    ¬HomogeneousIdeal.irrelevant 𝒜 ≤ ⊥ := by
+  intro h
+  have hmem : f ∈ HomogeneousIdeal.irrelevant 𝒜 := by
+    rw [HomogeneousIdeal.mem_irrelevant_iff, GradedRing.proj_apply,
+      DirectSum.decompose_of_mem_ne 𝒜 f_deg (by omega)]
+  have h0 : f ∈ (⊥ : HomogeneousIdeal 𝒜).toIdeal := h hmem
+  rw [HomogeneousIdeal.toIdeal_bot, Ideal.mem_bot] at h0
+  exact hf h0
+
+variable {𝒜} in
+/-- **One chart.** On `D₊(f)` with `f ∈ S₁` nonzero, a global section of `𝒪_X(n)` is a single
+fraction `a / f^j` with `a ∈ S_{j + n}`; so `f^j` times its image in `K` lies in `S_{j + n}`. -/
+theorem exists_mem_eq_pow_mul_sectionToFraction {f : A} (f_deg : f ∈ 𝒜 1) (hf : f ≠ 0) (n : ℕ)
+    (t : twistGlobal (𝟙_ (Proj 𝒜).Modules) (n : ℤ)) :
+    ∃ (j : ℕ) (a : A), a ∈ 𝒜 (j + n) ∧ algebraMap A (FractionRing A) a =
+      algebraMap A (FractionRing A) f ^ j * sectionToFraction 𝒜 n t := by
+  have h := not_irrelevant_le_bot_of_mem_one f_deg hf
+  obtain ⟨m, hm⟩ := exists_globalValue_eq_mapOfLE 𝒜 (gradedTwist 𝒜 n) f_deg one_pos
+    (unitorGlobal (n : ℤ) t)
+  have hη : genericPoint h ∈ Proj.basicOpen 𝒜 f := by
+    rw [Proj.mem_basicOpen]
+    intro hmem
+    have h0 : f ∈ (⊥ : HomogeneousIdeal 𝒜).toIdeal := hmem
+    rw [HomogeneousIdeal.toIdeal_bot, Ideal.mem_bot] at h0
+    exact hf h0
+  obtain ⟨d, a, ha, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective m
+  obtain ⟨j, rfl⟩ := hsx
+  have hfj : f ^ j ≠ 0 := pow_ne_zero j hf
+  have hdj : d = j := DirectSum.degree_eq_of_mem_mem 𝒜 hs
+    (by simpa using SetLike.pow_mem_graded j f_deg) hfj
+  subst hdj
+  refine ⟨d, a, ?_, ?_⟩
+  · have := ha.1
+    rwa [show ((n : ℤ) + ((d : ℕ) : ℤ)).toNat = d + n by omega] at this
+  · rw [sectionToFraction_apply h _ _ (genericPoint h)]
+    unfold sectionValue
+    rw [hm _ hη, HomogeneousLocalizedModule.mapOfLE_mk, HomogeneousLocalizedModule.val_mk,
+      toFraction_mk]
+    have := (map_ne_zero_iff _ (IsFractionRing.injective A (FractionRing A))).2 hfj
+    simp only [map_pow] at this ⊢
+    field_simp
+
 end Fraction
 
 /-! ## Closed subschemes of `ℙʳ_k` -/
@@ -491,7 +540,7 @@ theorem exists_mem_mul_monomial {n : ℕ} {z : FractionRing S} {j : Fin (r + 1) 
 
 omit [IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)] in
 variable {I} in
-/-- If `z` is a homogeneous fraction of degree `n` with `xᵢ^{jᵢ} z ∈ S_{jᵢ + n}` for every `i`,
+/-- If `z ∈ K` satisfies `xᵢ^{jᵢ} z ∈ S_{jᵢ + n}` for every `i`,
 then `z · S_d ⊆ S_{d + n}` once `d ≥ ∑ jᵢ`. -/
 theorem exists_mem_mul_of_le {n : ℕ} {z : FractionRing S} {j : Fin (r + 1) → ℕ}
     {a : Fin (r + 1) → S} (ha : ∀ i, a i ∈ 𝒬 (j i + n))
@@ -529,8 +578,8 @@ theorem exists_mem_mul_of_le {n : ℕ} {z : FractionRing S} {j : Fin (r + 1) →
     ring
 
 variable {I} in
-/-- **The determinant trick.** A homogeneous fraction `z` of degree `n` with `xᵢ^{jᵢ} z ∈ S` for
-every `i` is integral over `S`: it stabilizes the nonzero finitely generated ideal `S_{≥ ∑ jᵢ}`. -/
+/-- **The determinant trick.** An element `z ∈ K` with `xᵢ^{jᵢ} z ∈ S_{jᵢ + n}` for every `i` is
+integral over `S`: it stabilizes the nonzero finitely generated ideal `S_{≥ ∑ jᵢ}`. -/
 theorem isIntegral_of_forall_coord {n : ℕ} {z : FractionRing S} {j : Fin (r + 1) → ℕ}
     {a : Fin (r + 1) → S} (ha : ∀ i, a i ∈ 𝒬 (j i + n))
     (hza : ∀ i, algebraMap S (FractionRing S) (a i) =
@@ -566,6 +615,30 @@ theorem isIntegral_of_forall_coord {n : ℕ} {z : FractionRing S} {j : Fin (r + 
   | smul c w _ hw =>
     rw [smul_comm]
     exact M.smul_mem c hw
+
+/-- **The image of `S'` consists of integral elements** (the first half of Exercise 5.14(a)):
+each section of `𝒪_X(n)` is, on every chart `D₊(xᵢ)`, a fraction `a / xᵢ^{j}`. -/
+theorem isIntegral_sectionToFraction (hne : ∃ i, coord I i ≠ 0) (n : ℕ)
+    (t : twistGlobal (𝟙_ (Proj 𝒬).Modules) (n : ℤ)) :
+    IsIntegral (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal) (sectionToFraction 𝒬 n t) := by
+  classical
+  have hchart : ∀ i, ∃ (j : ℕ) (a : MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal), a ∈ 𝒬 (j + n) ∧
+      algebraMap _ (FractionRing (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)) a =
+        algebraMap _ _ (coord I i) ^ j * sectionToFraction 𝒬 n t := by
+    intro i
+    by_cases hi : coord I i = 0
+    · exact ⟨1, 0, zero_mem _, by rw [hi, map_zero, zero_pow one_ne_zero, zero_mul]⟩
+    · exact exists_mem_eq_pow_mul_sectionToFraction (coord_mem I i) hi n t
+  choose j a ha hza using hchart
+  exact isIntegral_of_forall_coord ha hza hne
+
+theorem isIntegral_sectionRingToFraction (hne : ∃ i, coord I i ≠ 0)
+    (y : DirectSum ℕ fun n => twistGlobal (𝟙_ (Proj 𝒬).Modules) (n : ℤ)) :
+    IsIntegral (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal) (sectionRingToFraction 𝒬 y) := by
+  induction y using DirectSum.induction_on with
+  | zero => rw [map_zero]; exact isIntegral_zero
+  | of n t => rw [sectionRingToFraction_of]; exact isIntegral_sectionToFraction I hne n t
+  | add y y' hy hy' => rw [map_add]; exact hy.add hy'
 
 end Integral
 
