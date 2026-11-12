@@ -6,6 +6,7 @@ import Hartshorne.Scheme.ReesAlgebraBlowup
 import Hartshorne.Scheme.RelativeSpec
 import Hartshorne.Scheme.RelativeProjTwistingSheaf
 import Hartshorne.Scheme.EffectiveCartierIdealSheaf
+import Hartshorne.Scheme.Differentials.RelativeDifferentialsBaseChange
 
 /-!
 # The exceptional ideal of a blowing-up
@@ -394,6 +395,119 @@ theorem twistDivX_eq_zero (hT : ∃ f ∈ reesGrading I 1, f ∈ T)
   linear_combination (s : A[X]) * h3
 
 end Algebra
+
+/-! ### Morphisms into a module glued along a locally directed cover -/
+
+namespace CompatibleFamilies
+
+variable {T : TopCat.{u}} (S : Sheaf (Opens.grothendieckTopology T) RingCat.{u})
+  {ι B : Type u} (P : ι → SheafOfModules.{u} S) (src tgt : B → ι)
+  (α : ∀ b, P (src b) ⟶ P (tgt b))
+
+/-- A morphism into the sheaf of compatible families, from compatible morphisms into the
+components. -/
+noncomputable def lift {G : SheafOfModules.{u} S} (φ : ∀ i, G ⟶ P i)
+    (hφ : ∀ b, φ (src b) ≫ α b = φ (tgt b)) : G ⟶ sheaf S P src tgt α where
+  val :=
+    { app V := ModuleCat.ofHom (X := G.val.obj V) (Y := (sheaf S P src tgt α).val.obj V)
+        { toFun t := ⟨fun i => (φ i).val.app V t, fun b => by
+            change ((φ (src b)).val ≫ (α b).val).app V t = _
+            rw [← SheafOfModules.comp_val, hφ b]⟩
+          map_add' _ _ := Subtype.ext <| funext fun i => map_add _ _ _
+          map_smul' _ _ := Subtype.ext <| funext fun i => map_smul _ _ _ }
+      naturality f := by
+        ext t
+        exact Subtype.ext <| funext fun i => PresheafOfModules.naturality_apply (φ i).val f t }
+
+@[reassoc (attr := simp)]
+theorem lift_π {G : SheafOfModules.{u} S} (φ : ∀ i, G ⟶ P i)
+    (hφ : ∀ b, φ (src b) ≫ α b = φ (tgt b)) (i : ι) :
+    lift S P src tgt α φ hφ ≫ π S P src tgt α i = φ i :=
+  SheafOfModules.hom_ext <| PresheafOfModules.hom_ext fun _ => by ext; rfl
+
+end CompatibleFamilies
+
+namespace DirectedModuleGluing.Data
+
+open Scheme.Modules
+
+variable {Y : Scheme.{u}} {𝒰 : Scheme.OpenCover.{u} Y} [Category.{u} 𝒰.I₀]
+  [Quiver.IsThin 𝒰.I₀] [𝒰.LocallyDirected] (D : Data 𝒰) (G : Y.Modules)
+  (e : ∀ k, G.restrict (𝒰.f k) ≅ D.M k)
+
+/-- Isomorphisms `G|_{𝒰.X k} ≅ M k` compatible with the transition isomorphisms, in the form of
+`Data.ψ_compat`. -/
+def CompatibleIsos : Prop :=
+  ∀ {i j : 𝒰.I₀} (f : i ⟶ j),
+    (restrictFunctorCongr (𝒰.trans_map f)).inv.app G ≫
+      (restrictFunctorComp (𝒰.trans f) (𝒰.f j)).hom.app G ≫
+      (restrictFunctor (𝒰.trans f)).map (e j).hom ≫ (D.θ f).hom = (e i).hom
+
+/-- The adjoint `G ⟶ (𝒰.f k)_* M k` of `e k`. -/
+noncomputable def liftComponent (k : 𝒰.I₀) : G ⟶ D.P k :=
+  (restrictAdjunction (𝒰.f k)).homEquiv _ _ (e k).hom
+
+omit [Quiver.IsThin 𝒰.I₀] in
+theorem liftComponent_app (k : 𝒰.I₀) (W : Y.Opens) (t : Γ(G, W)) :
+    (D.liftComponent G e k).app W t = (e k).hom.app (𝒰.f k ⁻¹ᵁ W)
+      (G.presheaf.map (homOfLE ((𝒰.f k).image_preimage_le W)).op t) := by
+  simp [liftComponent, Adjunction.homEquiv_unit]
+  rfl
+
+omit [Quiver.IsThin 𝒰.I₀] in
+theorem liftComponent_compat (he : D.CompatibleIsos G e) (b : Arr (𝒰 := 𝒰)) :
+    D.liftComponent G e b.2.1 ≫ D.α b = D.liftComponent G e b.1 := by
+  obtain ⟨i, j, f⟩ := b
+  apply Scheme.Modules.hom_ext
+  intro W
+  ext t
+  change (D.α ⟨i, j, f⟩).app W ((D.liftComponent G e j).app W t) =
+    (D.liftComponent G e i).app W t
+  rw [liftComponent_app, liftComponent_app, ← he f]
+  erw [D.α_apply ⟨i, j, f⟩ W]
+  simp only [Hom.comp_app, restrictFunctorCongr_inv_app_app, restrictFunctorComp_hom_app_app]
+  change (D.θ f).hom.app (𝒰.f i ⁻¹ᵁ W) ((D.M j).presheaf.map _
+      ((e j).hom.app (𝒰.f j ⁻¹ᵁ W) (G.presheaf.map _ t))) =
+    (D.θ f).hom.app (𝒰.f i ⁻¹ᵁ W) ((e j).hom.app (𝒰.trans f ''ᵁ (𝒰.f i ⁻¹ᵁ W))
+      (G.presheaf.map _ (G.presheaf.map _ (G.presheaf.map _ t))))
+  congr 1
+  erw [← modules_app_res]
+  congr 1
+  change G.presheaf.map _ (G.presheaf.map _ t) =
+    G.presheaf.map _ (G.presheaf.map _ (G.presheaf.map _ t))
+  rw [pmap_comp_apply, pmap_comp_apply, pmap_comp_apply]
+  exact congrArg (fun k => G.presheaf.map k t) (Subsingleton.elim _ _)
+
+/-- The morphism `G ⟶ glue` into the glued module, from compatible isomorphisms
+`G|_{𝒰.X k} ≅ M k`; its components are the adjoints of the given isomorphisms. -/
+noncomputable def liftHom (he : D.CompatibleIsos G e) : G ⟶ D.glue :=
+  CompatibleFamilies.lift Y.ringCatSheaf D.P (fun b : Arr (𝒰 := 𝒰) => b.2.1) (fun b => b.1) D.α
+    (D.liftComponent G e) (D.liftComponent_compat G e he)
+
+theorem restrict_liftHom_ψ (he : D.CompatibleIsos G e) (k : 𝒰.I₀) :
+    (restrictFunctor (𝒰.f k)).map (D.liftHom G e he) ≫ (D.ψ k).hom = (e k).hom := by
+  change _ ≫ (restrictFunctor (𝒰.f k)).map (D.πk k) ≫
+    (restrictAdjunction (𝒰.f k)).counit.app (D.M k) = _
+  rw [← Category.assoc, ← Functor.map_comp]
+  change (restrictFunctor (𝒰.f k)).map (D.liftComponent G e k) ≫ _ = _
+  exact ((restrictAdjunction (𝒰.f k)).homEquiv_counit (g := D.liftComponent G e k)).symm.trans
+    (Equiv.symm_apply_apply _ _)
+
+instance isIso_liftHom (he : D.CompatibleIsos G e) : IsIso (D.liftHom G e he) := by
+  refine Scheme.Modules.isIso_of_isIso_restrictFunctor_map _ fun x => ?_
+  refine ⟨_, 𝒰.f (𝒰.idx x), inferInstance, ?_, ?_⟩
+  · exact (𝒰.covers x)
+  · have h : (restrictFunctor (𝒰.f (𝒰.idx x))).map (D.liftHom G e he) =
+        (e _).hom ≫ (D.ψ _).inv := by
+      rw [← restrict_liftHom_ψ D G e he, Category.assoc, Iso.hom_inv_id, Category.comp_id]
+    rw [h]
+    infer_instance
+
+/-- **A module with compatible identifications with the pieces is the glued module.** -/
+noncomputable def liftIso (he : D.CompatibleIsos G e) : G ≅ D.glue :=
+  asIso (D.liftHom G e he)
+
+end DirectedModuleGluing.Data
 
 /-! ### A monomorphism into `𝒪_X` is isomorphic to the ideal sheaf of its image -/
 
