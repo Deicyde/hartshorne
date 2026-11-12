@@ -32,9 +32,9 @@ a sheaf of `𝒪_{X̂_Y}`-modules on `|Y|`.
   the quotient map `F / I ^ (n + 2) F ⟶ F / I ^ (n + 1) F` and restriction along
   `Y_(n+1) ⟶ Y_(n+2)`.
   Both transition maps are instances of the generic constructions
-  `Hartshorne.pullbackUnitTransition` and `Hartshorne.pullbackUnitTransitionRestrict` (`moduleCompletionNeighborhoodMap_eq`,
-  `moduleCompletionMap_eq`), which are natural in the quotient map
-  (`pullbackUnitTransition_naturality`, `pullbackUnitTransitionRestrict_naturality`).
+  `Hartshorne.pullbackUnitTransition` and `Hartshorne.pullbackUnitTransitionRestrict`
+  (`moduleCompletionNeighborhoodMap_eq`, `moduleCompletionMap_eq`), which are natural in the
+  quotient map (`pullbackUnitTransition_naturality`, `pullbackUnitTransitionRestrict_naturality`).
 * `Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionDiagram I F`: the inverse system.
 * `Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletion I F`: its limit `F̂`, a sheaf of modules
   over the structure sheaf of `X̂_Y`.
