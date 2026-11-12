@@ -4,9 +4,11 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Cohomology.KoszulRegularSequence
 import Hartshorne.RingedSpace.LocallyFree
+import Hartshorne.Scheme.ExteriorPerfectPairing
 import Mathlib.AlgebraicGeometry.IdealSheaf.Basic
 import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
 import Mathlib.RingTheory.Flat.Localization
+import Mathlib.LinearAlgebra.Contraction
 import Mathlib.Algebra.Category.ModuleCat.Biproducts
 import Mathlib.Algebra.Category.ModuleCat.Sheaf.Abelian
 
@@ -111,6 +113,270 @@ lemma IsKoszulRegular.baseChange (h : IsKoszulRegular f (ModuleCat.of A A)) (B :
   have h' : IsKoszulRegular (fun i => algebraMap A B (f i)) (ModuleCat.of B (B ⊗[A] A)) :=
     fun n => (hK n).of_iso (sequenceKoszulBaseChangeIso f B (ModuleCat.of A A))
   exact h'.of_iso _ (TensorProduct.AlgebraTensorModule.rid A B B).toModuleIso
+
+section Duality
+
+/-! ### Self-duality of the Koszul complex -/
+
+open ExteriorAlgebra
+
+variable {V : Type u} [AddCommGroup V] [Module A V]
+
+lemma mul_mem_exteriorPower {p q : ℕ} {x y : ExteriorAlgebra A V} (hx : x ∈ ⋀[A]^p V)
+    (hy : y ∈ ⋀[A]^q V) : x * y ∈ ⋀[A]^(p + q) V := by
+  rw [exteriorPower, pow_add]
+  exact Submodule.mul_mem_mul hx hy
+
+/-- Contraction by a linear form is a graded derivation of the exterior algebra:
+`φ ⌋ (x y) = (φ ⌋ x) y + (-1)^p x (φ ⌋ y)` for `x` of degree `p`. -/
+lemma contractLeft_mul_of_mem (φ : Module.Dual A V) :
+    ∀ (p : ℕ) {x : ExteriorAlgebra A V}, x ∈ ⋀[A]^p V → ∀ y : ExteriorAlgebra A V,
+      CliffordAlgebra.contractLeft φ (x * y) =
+        CliffordAlgebra.contractLeft φ x * y +
+          (-1 : A) ^ p • (x * CliffordAlgebra.contractLeft φ y)
+  | 0, x, hx, y => by
+    rw [exteriorPower, pow_zero, Submodule.mem_one] at hx
+    obtain ⟨a, rfl⟩ := hx
+    rw [CliffordAlgebra.contractLeft_algebraMap_mul, CliffordAlgebra.contractLeft_algebraMap,
+      zero_mul, zero_add, pow_zero, one_smul]
+  | p + 1, x, hx, y => by
+    rw [exteriorPower, pow_succ'] at hx
+    induction hx using Submodule.mul_induction_on' with
+    | mem_mul_mem m hm z hz =>
+      obtain ⟨v, rfl⟩ := hm
+      rw [mul_assoc, CliffordAlgebra.contractLeft_ι_mul, CliffordAlgebra.contractLeft_ι_mul,
+        contractLeft_mul_of_mem φ p hz y]
+      simp only [pow_succ, mul_add, sub_mul, smul_mul_assoc, mul_smul_comm, mul_assoc,
+        mul_neg_one, neg_smul]
+      abel
+    | add a _ b _ ha hb => rw [add_mul, map_add, map_add, ha, hb, add_mul, add_mul, smul_add]; abel
+
+
+variable (r : ℕ)
+
+/-- The top subset `{1, …, r}` of `Fin r`, indexing the basis `e₁ ∧ ⋯ ∧ e_r` of `⋀^r A^r`. -/
+def topIndex : Set.powersetCard (Fin r) r :=
+  ⟨Finset.univ, Set.powersetCard.mem_iff.2 (by simp)⟩
+
+instance : Subsingleton (Set.powersetCard (Fin r) r) :=
+  ExteriorPerfectPairing.powersetCard_subsingleton (r := r) (s := 0) (by simp)
+
+/-- The coefficient of `e₁ ∧ ⋯ ∧ e_r` in an element of the exterior algebra of `A^r`. -/
+noncomputable def topCoord : ExteriorAlgebra A (Fin r → A) →ₗ[A] A :=
+  ((Pi.basisFun A (Fin r)).exteriorPower r).coord (topIndex r) ∘ₗ
+    DirectSum.component A ℕ (fun i : ℕ => ⋀[A]^i (Fin r → A)) r ∘ₗ
+      (DirectSum.decomposeLinearEquiv (fun i : ℕ => ⋀[A]^i (Fin r → A))).toLinearMap
+
+variable {r}
+
+lemma topCoord_of_mem_ne {n : ℕ} {x : ExteriorAlgebra A (Fin r → A)} (hx : x ∈ ⋀[A]^n (Fin r → A))
+    (hn : n ≠ r) : topCoord r x = 0 := by
+  have : DirectSum.decompose (fun i : ℕ => ⋀[A]^i (Fin r → A)) x r = 0 :=
+    Subtype.ext (DirectSum.decompose_of_mem_ne _ hx hn)
+  change ((Pi.basisFun A (Fin r)).exteriorPower r).coord (topIndex r)
+    (DirectSum.decompose (fun i : ℕ => ⋀[A]^i (Fin r → A)) x r) = 0
+  rw [this, map_zero]
+
+lemma topCoord_of_mem {x : ExteriorAlgebra A (Fin r → A)} (hx : x ∈ ⋀[A]^r (Fin r → A)) :
+    topCoord r x = ((Pi.basisFun A (Fin r)).exteriorPower r).coord (topIndex r) ⟨x, hx⟩ := by
+  have : DirectSum.decompose (fun i : ℕ => ⋀[A]^i (Fin r → A)) x r = ⟨x, hx⟩ :=
+    Subtype.ext (DirectSum.decompose_of_mem_same _ hx)
+  change ((Pi.basisFun A (Fin r)).exteriorPower r).coord (topIndex r)
+    (DirectSum.decompose (fun i : ℕ => ⋀[A]^i (Fin r → A)) x r) = _
+  rw [this]
+
+/-- The exterior powers of `A^r` above the rank vanish. -/
+lemma eq_zero_of_mem_exteriorPower_of_lt {n : ℕ} (hn : r < n) {x : ExteriorAlgebra A (Fin r → A)}
+    (hx : x ∈ ⋀[A]^n (Fin r → A)) : x = 0 := by
+  have : IsEmpty (Set.powersetCard (Fin r) n) := ⟨fun t => by
+    have := Set.powersetCard.card_eq t
+    have := Finset.card_le_univ (t : Finset (Fin r))
+    simp at this
+    omega⟩
+  have h := ((Pi.basisFun A (Fin r)).exteriorPower n).sum_repr ⟨x, hx⟩
+  rw [Finset.univ_eq_empty, Finset.sum_empty] at h
+  exact congrArg Subtype.val h.symm
+
+/-- The multiplication `⋀^q A^r × ⋀^p A^r → ⋀^{q+p} A^r`. -/
+noncomputable def wedgeMul (q p : ℕ) :
+    ⋀[A]^q (Fin r → A) →ₗ[A] ⋀[A]^p (Fin r → A) →ₗ[A] ⋀[A]^(q + p) (Fin r → A) :=
+  LinearMap.mk₂ A (fun x y => ⟨(x : ExteriorAlgebra A (Fin r → A)) * y, mul_mem_exteriorPower x.2 y.2⟩)
+    (fun _ _ _ => Subtype.ext (add_mul _ _ _)) (fun _ _ _ => Subtype.ext (smul_mul_assoc _ _ _))
+    (fun _ _ _ => Subtype.ext (mul_add _ _ _)) (fun _ _ _ => Subtype.ext (mul_smul_comm _ _ _))
+
+/-- The pairing `⋀^q A^r → (⋀^p A^r)^∨`, `η ↦ (ω ↦ [η ∧ ω])`, where `[-]` is the coefficient of
+`e₁ ∧ ⋯ ∧ e_r`. -/
+noncomputable def wedgeDual (q p : ℕ) : ⋀[A]^q (Fin r → A) →ₗ[A] Module.Dual A (⋀[A]^p (Fin r → A)) :=
+  ((LinearMap.mul A (ExteriorAlgebra A (Fin r → A))).compl₁₂ (⋀[A]^q (Fin r → A)).subtype
+    (⋀[A]^p (Fin r → A)).subtype).compr₂ (topCoord r)
+
+lemma wedgeDual_apply (q p : ℕ) (η : ⋀[A]^q (Fin r → A)) (ω : ⋀[A]^p (Fin r → A)) :
+    wedgeDual q p η ω =
+      topCoord r ((η : ExteriorAlgebra A (Fin r → A)) * (ω : ExteriorAlgebra A (Fin r → A))) :=
+  rfl
+
+/-- **The perfect exterior pairing of `A^r`**: for `q + p = r`, `η ↦ (ω ↦ [η ∧ ω])` is a bijection
+`⋀^q A^r → (⋀^p A^r)^∨`. -/
+lemma wedgeDual_bijective {q p : ℕ} (h : q + p = r) :
+    Function.Bijective (wedgeDual (A := A) (r := r) q p) := by
+  classical
+  let b := Pi.basisFun A (Fin r)
+  have hμ := ExteriorPerfectPairing.bijective_μ_basis (wedgeMul q p) (fun _ _ => rfl) b
+    (by simpa using h)
+  -- the top coordinate is a bijection on `⋀^{q+p} A^r`
+  have htop : Function.Bijective fun z : ⋀[A]^(q + p) (Fin r → A) =>
+      topCoord r (z : ExteriorAlgebra A (Fin r → A)) := by
+    subst h
+    have hB : ∀ z : ⋀[A]^(q + p) (Fin (q + p) → A),
+        topCoord (q + p) (z : ExteriorAlgebra A (Fin (q + p) → A)) =
+          (b.exteriorPower (q + p)).repr z (topIndex (q + p)) := fun z => by
+      rw [topCoord_of_mem z.2]
+      rfl
+    refine ⟨fun z z' hzz' => ?_, fun a => ⟨a • b.exteriorPower (q + p) (topIndex (q + p)), ?_⟩⟩
+    · simp only [hB] at hzz'
+      apply (b.exteriorPower (q + p)).repr.injective
+      ext t
+      rwa [Subsingleton.elim t (topIndex (q + p))]
+    · simp only [hB, map_smul, Module.Basis.repr_self, Finsupp.smul_single, smul_eq_mul,
+        mul_one, Finsupp.single_eq_same]
+  let e₁ : Module.Dual A (⋀[A]^p (Fin r → A)) ≃ₗ[A] (Set.powersetCard (Fin r) p → A) :=
+    ((b.exteriorPower p).constr A).symm
+  have hcomp : (e₁ ∘ wedgeDual q p) =
+      (fun g : Set.powersetCard (Fin r) p → ⋀[A]^(q + p) (Fin r → A) =>
+          fun J => topCoord r (g J : ExteriorAlgebra A (Fin r → A))) ∘
+        (fun x : ⋀[A]^q (Fin r → A) => fun J : Set.powersetCard (Fin r) p =>
+          wedgeMul q p x (exteriorPower.ιMulti_family A p b J)) := by
+    funext x J
+    simp only [Function.comp_apply, e₁, Module.Basis.constr_symm_apply, exteriorPower.basis_apply]
+    rfl
+  have : Function.Bijective (e₁ ∘ wedgeDual q p) := by
+    rw [hcomp]
+    refine Function.Bijective.comp ⟨fun g g' hg => ?_, fun g => ?_⟩ hμ
+    · funext J
+      exact htop.1 (congrFun hg J)
+    · exact ⟨fun J => (htop.2 (g J)).choose, funext fun J => (htop.2 (g J)).choose_spec⟩
+  exact (Function.Bijective.of_comp_iff' e₁.bijective _).1 this
+
+/-- **Koszul duality**: for `q + p = r`, the isomorphism `⋀^q A^r ⊗ P ≅ Hom(⋀^p A^r, P)`,
+`η ⊗ m ↦ (ω ↦ [η ∧ ω] m)`. -/
+noncomputable def koszulDualEquiv {q p : ℕ} (h : q + p = r) (P : Type u) [AddCommGroup P]
+    [Module A P] : (⋀[A]^q (Fin r → A) ⊗[A] P) ≃ₗ[A] (⋀[A]^p (Fin r → A) →ₗ[A] P) :=
+  (LinearEquiv.ofBijective _ (wedgeDual_bijective h)).rTensor P ≪≫ₗ
+    dualTensorHomEquiv A (⋀[A]^p (Fin r → A)) P
+
+lemma koszulDualEquiv_tmul {q p : ℕ} (h : q + p = r) (P : Type u) [AddCommGroup P] [Module A P]
+    (η : ⋀[A]^q (Fin r → A)) (m : P) (ω : ⋀[A]^p (Fin r → A)) :
+    koszulDualEquiv h P (η ⊗ₜ m) ω =
+      topCoord r ((η : ExteriorAlgebra A (Fin r → A)) * (ω : ExteriorAlgebra A (Fin r → A))) • m :=
+  rfl
+
+/-- Under Koszul duality the transpose of the contraction is the contraction, up to the sign
+`(-1)^q`: `[(φ ⌋ η) ∧ ω] = (-1)^q [η ∧ (φ ⌋ ω)]` for `η` of degree `q + 1`. -/
+lemma lcomp_contraction_comp_koszulDualEquiv (φ : Module.Dual A (Fin r → A)) {q p : ℕ}
+    (h₁ : q + 1 + p = r) (h₂ : q + (p + 1) = r) (P : Type u) [AddCommGroup P] [Module A P] :
+    LinearMap.lcomp A P (contraction φ p) ∘ₗ (koszulDualEquiv h₁ P).toLinearMap =
+      (koszulDualEquiv h₂ P).toLinearMap ∘ₗ ((-1 : A) ^ q • (contraction φ q).rTensor P) := by
+  refine TensorProduct.ext' fun η m => LinearMap.ext fun ω => ?_
+  simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearMap.lcomp_apply,
+    LinearMap.smul_apply, map_smul, LinearMap.rTensor_tmul, LinearMap.smul_apply,
+    koszulDualEquiv_tmul, coe_contraction]
+  have hzero : (η : ExteriorAlgebra A (Fin r → A)) * (ω : ExteriorAlgebra A (Fin r → A)) = 0 :=
+    eq_zero_of_mem_exteriorPower_of_lt (n := q + 1 + (p + 1)) (by omega)
+      (mul_mem_exteriorPower η.2 ω.2)
+  have hder := contractLeft_mul_of_mem φ (q + 1) η.2 (ω : ExteriorAlgebra A (Fin r → A))
+  rw [hzero, map_zero, eq_comm, add_eq_zero_iff_eq_neg] at hder
+  have hsq : ((-1 : A) ^ q * (-1) ^ q) = 1 := by rw [← mul_pow]; simp
+  have key : topCoord r (CliffordAlgebra.contractLeft φ (η : ExteriorAlgebra A (Fin r → A)) *
+      (ω : ExteriorAlgebra A (Fin r → A))) = (-1) ^ q * topCoord r
+        ((η : ExteriorAlgebra A (Fin r → A)) *
+          CliffordAlgebra.contractLeft φ (ω : ExteriorAlgebra A (Fin r → A))) := by
+    rw [hder, map_neg, map_smul, smul_eq_mul, pow_succ]
+    ring
+  rw [key, smul_smul, ← mul_assoc, hsq, one_mul]
+
+/-- Exactness of `M₁ → M₂ → M₃` is unchanged when both maps are multiplied by units. -/
+lemma exact_smul_iff {M₁ M₂ M₃ : Type*} [AddCommMonoid M₁] [Module A M₁] [AddCommMonoid M₂]
+    [Module A M₂] [AddCommMonoid M₃] [Module A M₃] (F : M₁ →ₗ[A] M₂) (G : M₂ →ₗ[A] M₃) {a b : A}
+    (ha : IsUnit a) (hb : IsUnit b) :
+    Function.Exact (a • F) (b • G) ↔ Function.Exact F G := by
+  have hr : Set.range (a • F) = Set.range F := by
+    ext y
+    constructor
+    · rintro ⟨x, rfl⟩
+      exact ⟨a • x, by simp⟩
+    · rintro ⟨x, rfl⟩
+      refine ⟨((ha.unit⁻¹ : Aˣ) : A) • x, ?_⟩
+      rw [LinearMap.smul_apply, map_smul, smul_smul, IsUnit.mul_val_inv, one_smul]
+  refine forall_congr' fun y => ?_
+  rw [LinearMap.smul_apply, hb.smul_eq_zero, hr]
+
+lemma isUnit_neg_one_pow (n : ℕ) : IsUnit ((-1 : A) ^ n) := (isUnit_one.neg).pow n
+
+/-- **Koszul duality, middle degrees.** If the Koszul complex `K_•(φ; P)` is exact in positive
+degrees, then the dual complex `Hom(⋀^• A^r, P)` is exact in degrees `1, …, r - 1`. -/
+theorem exact_lcomp_contraction (φ : Module.Dual A (Fin r → A)) (P : Type u) [AddCommGroup P]
+    [Module A P] (hP : ∀ n, Function.Exact ((contraction φ (n + 1)).rTensor P)
+      ((contraction φ n).rTensor P)) {p : ℕ} (hp : p + 2 ≤ r) :
+    Function.Exact (LinearMap.lcomp A P (contraction φ p))
+      (LinearMap.lcomp A P (contraction φ (p + 1))) := by
+  obtain ⟨q, rfl⟩ : ∃ q, r = q + 1 + 1 + p := ⟨r - p - 2, by omega⟩
+  have hsq₁ := lcomp_contraction_comp_koszulDualEquiv φ (q := q + 1) (p := p) (by omega)
+    (by omega) P
+  have hsq₂ := lcomp_contraction_comp_koszulDualEquiv φ (q := q) (p := p + 1) (by omega)
+    (by omega) P
+  rw [Function.Exact.iff_of_ladder_linearEquiv hsq₁ hsq₂]
+  exact (exact_smul_iff ((contraction φ (q + 1)).rTensor P) ((contraction φ q).rTensor P)
+    (isUnit_neg_one_pow (q + 1)) (isUnit_neg_one_pow q)).2 (hP q)
+
+/-- **Koszul duality, degree zero.** If `K_•(φ; P)` is exact in positive degrees and `r > 0`, the
+first map `Hom(⋀^0 A^r, P) → Hom(⋀^1 A^r, P)` of the dual complex is injective. -/
+theorem injective_lcomp_contraction_zero (φ : Module.Dual A (Fin r → A)) (P : Type u)
+    [AddCommGroup P] [Module A P] (hP : ∀ n, Function.Exact ((contraction φ (n + 1)).rTensor P)
+      ((contraction φ n).rTensor P)) (hr : 0 < r) :
+    Function.Injective (LinearMap.lcomp A P (contraction φ 0)) := by
+  obtain ⟨q, rfl⟩ : ∃ q, r = q + 1 := ⟨r - 1, by omega⟩
+  have hsq := lcomp_contraction_comp_koszulDualEquiv φ (q := q) (p := 0) (by omega) (by omega) P
+  have hinj : Function.Injective ((contraction φ q).rTensor P) := by
+    have : Subsingleton (⋀[A]^(q + 1 + 1) (Fin (q + 1) → A) ⊗[A] P) := by
+      have : Subsingleton (⋀[A]^(q + 1 + 1) (Fin (q + 1) → A)) :=
+        ⟨fun x y => Subtype.ext ((eq_zero_of_mem_exteriorPower_of_lt (by omega) x.2).trans
+          (eq_zero_of_mem_exteriorPower_of_lt (by omega) y.2).symm)⟩
+      infer_instance
+    refine (injective_iff_map_eq_zero _).2 fun x hx => ?_
+    obtain ⟨y, hy⟩ := ((hP q) x).1 hx
+    rw [← hy, Subsingleton.elim y 0, map_zero]
+  have hcomp : Function.Injective
+      (LinearMap.lcomp A P (contraction φ 0) ∘ₗ (koszulDualEquiv (A := A) (r := q + 1) (q := q + 1) (p := 0)
+        (by omega) P).toLinearMap) := by
+    rw [hsq, LinearMap.coe_comp]
+    refine (koszulDualEquiv _ P).injective.comp ?_
+    intro x y hxy
+    rw [LinearMap.smul_apply, LinearMap.smul_apply,
+      (isUnit_neg_one_pow q).smul_left_cancel] at hxy
+    exact hinj hxy
+  rw [LinearMap.coe_comp] at hcomp
+  exact (Function.Injective.of_comp_iff' _ (koszulDualEquiv _ P).bijective).1 hcomp
+
+/-- **Koszul duality, top degree.** If `K_•(φ; P)` is exact in positive degrees and `r > 0`, the
+cokernel of the last map `Hom(⋀^{r-1} A^r, P) → Hom(⋀^r A^r, P)` of the dual complex is
+`P / I P`, `I = φ(A^r)`: the map `Hom(⋀^r A^r, P) → P / I P` below is surjective with kernel the
+image of that map. -/
+theorem exact_lcomp_contraction_top (φ : Module.Dual A (Fin r → A)) (P : Type u)
+    [AddCommGroup P] [Module A P] {s : ℕ} (hs : s + 1 = r) :
+    Function.Exact (LinearMap.lcomp A P (contraction φ s))
+        (augmentationLinearMap φ P ∘ₗ (koszulDualEquiv (A := A) (r := r) (q := 0) (p := s + 1) (by omega) P).symm.toLinearMap) ∧
+      Function.Surjective
+        (augmentationLinearMap φ P ∘ₗ (koszulDualEquiv (A := A) (r := r) (q := 0) (p := s + 1) (by omega) P).symm.toLinearMap) := by
+  subst hs
+  have hsq := lcomp_contraction_comp_koszulDualEquiv φ (q := 0) (p := s) (by omega) (by omega) P
+  rw [pow_zero, one_smul] at hsq
+  refine ⟨?_, (augmentationLinearMap_surjective φ P).comp (LinearEquiv.surjective _)⟩
+  refine (Function.Exact.iff_of_ladder_linearEquiv (e₃ := LinearEquiv.refl A _) hsq ?_).2
+    (exact_contraction_augmentationLinearMap φ P)
+  ext x
+  simp
+
+end Duality
 
 end Koszul
 
