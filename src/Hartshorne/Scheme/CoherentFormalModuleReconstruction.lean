@@ -631,7 +631,8 @@ private lemma toSheaf_preservesColimit {K : Type} [SmallCategory K]
   exact preservesColimit_of_iso_diagram _ e.symm
 
 /-- An epimorphism of `R`-modules is locally surjective on sections. -/
-private lemma exists_local_lift (g : A ⟶ B) [Epi g] {U : Opens T} (t : B.val.obj (op U)) {x : T}
+lemma _root_.Hartshorne.sheafOfModules_exists_local_lift (g : A ⟶ B) [Epi g] {U : Opens T}
+    (t : B.val.obj (op U)) {x : T}
     (hx : x ∈ U) : ∃ (V : Opens T) (hVU : V ≤ U), x ∈ V ∧
       ∃ s : A.val.obj (op V), g.val.app (op V) s = B.val.map (homOfLE hVU).op t := by
   have h := toSheaf_preservesColimit (span g g)
@@ -644,7 +645,7 @@ private lemma exists_local_lift (g : A ⟶ B) [Epi g] {U : Opens T} (t : B.val.o
   exact ⟨V, hVU, hxV, s, hs⟩
 
 /-- A section of an `R`-module which vanishes near every point vanishes. -/
-private lemma eq_zero_of_locally {U : Opens T} (s : A.val.obj (op U))
+lemma _root_.Hartshorne.sheafOfModules_eq_zero_of_locally {U : Opens T} (s : A.val.obj (op U))
     (hs : ∀ x ∈ U, ∃ (V : Opens T) (hVU : V ≤ U), x ∈ V ∧ A.val.map (homOfLE hVU).op s = 0) :
     s = 0 := by
   choose V hVU hxV hV using hs
@@ -663,8 +664,8 @@ theorem annihilates_cokernel_smulι : J.Annihilates (cokernel (J.smulι M)) := b
   intro V
   refine eq_bot_iff.mpr (Submodule.smul_le.mpr fun r hr q _ => ?_)
   rw [Submodule.mem_bot]
-  refine eq_zero_of_locally _ fun x hx => ?_
-  obtain ⟨W, hWV, hxW, f, hf⟩ := exists_local_lift (cokernel.π (J.smulι M)) q hx
+  refine sheafOfModules_eq_zero_of_locally _ fun x hx => ?_
+  obtain ⟨W, hWV, hxW, f, hf⟩ := sheafOfModules_exists_local_lift (cokernel.π (J.smulι M)) q hx
   refine ⟨W, hWV, hxW, ?_⟩
   have hrW : R.presheaf.map (homOfLE hWV).op r ∈ J.ideal W := J.ideal_le_comap hWV hr
   have hmem : (show (ringCatSheafOf R).obj.obj (op W) from R.presheaf.map (homOfLE hWV).op r) • f ∈
@@ -745,7 +746,7 @@ lemma smulι_moduleCompletionπ [IsLocallyNoetherian X] (n : ℕ) :
           (op ((I.isOpenEmbedding_infinitesimalNeighborhoodFromOne n).functor.obj W)) from
           (I.formalCompletionRingCatSheafπ n).hom.app (op W) a) = 0 from h1, zero_smul]
     · rw [map_add, hy, hz, add_zero]
-  refine IdealSubsheaf.eq_zero_of_locally _ fun x hx => ?_
+  refine sheafOfModules_eq_zero_of_locally _ fun x hx => ?_
   obtain ⟨W, hWV, hxW, hsW⟩ := hs x hx
   refine ⟨W, hWV, hxW, ?_⟩
   exact (PresheafOfModules.naturality_apply (I.moduleCompletionπ' G n).val (homOfLE hWV).op

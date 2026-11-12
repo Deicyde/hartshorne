@@ -771,6 +771,7 @@ import Hartshorne.Scheme.RelativeProjVeronese
 import Hartshorne.Scheme.RelativeHomogeneousCoordinateAlgebra
 import Hartshorne.Scheme.SectionAlgebraUniformBound
 import Hartshorne.Scheme.CoherentFormalModuleReconstruction
+import Hartshorne.Scheme.CoherentFormalModuleLocality
 import Hartshorne.Scheme.SeparatesPointsTangentVectors
 import Hartshorne.Scheme.BirationalDenominatorIdeal
 import Hartshorne.Scheme.ProjectivelyNormalVeronese
