@@ -2,6 +2,7 @@
 article_id: af_16f5867968e88deb67584246
 declaration: theorem
 origin: cited
+lean: Hartshorne.adjunction_effectiveCartierDivisor Hartshorne.adjunctionEffectiveCartierDivisorIso Hartshorne.normalSheafIsoPullbackCartierDivisorSheaf AlgebraicGeometry.Scheme.CartierDivisor.codim_range_subschemeι
 ---
 
 # Adjunction for an effective Cartier divisor
