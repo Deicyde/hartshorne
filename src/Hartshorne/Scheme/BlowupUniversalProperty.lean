@@ -775,4 +775,29 @@ end ReesAlgebraSheaf
 
 end Uniqueness
 
+/-! ### The universal property of the blowing-up -/
+
+namespace QuasicoherentIdealSubsheaf
+
+open AlgebraicGeometry
+
+variable {X : Scheme.{u}} [IsNoetherian X] (I : QuasicoherentIdealSubsheaf X)
+  (hI : IsCoherent I.toModules)
+
+/-- **Hartshorne II, Proposition 7.14 (universal property of blowing up).** Let `X` be a
+Noetherian scheme, `I` a coherent sheaf of ideals and `π : X̃ ⟶ X` the blowing-up of `I`. If
+`f : Z ⟶ X` is a morphism such that the inverse image ideal sheaf `f⁻¹I · 𝒪_Z` (as an
+`𝒪_Z`-module, the ideal sheaf of the closed subscheme it cuts out) is invertible, then `f` factors
+uniquely as `g ≫ π`. -/
+theorem existsUnique_blowup_lift {Z : Scheme.{u}} (f : Z ⟶ X)
+    (hf : (closedImmersionIdealSheaf
+      (inverseImageIdeal f (quasicoherentIdealSubsheafEquiv I)).subschemeι).IsInvertible) :
+    ∃! g : Z ⟶ I.blowup hI, g ≫ I.blowupProjection hI = f := by
+  have hloc := isLocallyPrincipalNonZeroDivisor_of_isInvertible _ hf
+  obtain ⟨g, hg⟩ := ReesAlgebraSheaf.exists_lift_of_isLocallyPrincipalNonZeroDivisor _ hloc
+  exact ⟨g, hg, fun g' hg' =>
+    ReesAlgebraSheaf.hom_ext_of_isLocallyPrincipalNonZeroDivisor _ hloc hg' hg⟩
+
+end QuasicoherentIdealSubsheaf
+
 end Hartshorne
