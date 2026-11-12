@@ -2,6 +2,7 @@
 article_id: af_0754912666b82a9d3d2e387d
 declaration: isomorphism
 origin: cited
+lean: AlgebraicGeometry.sectionsPresheaf AlgebraicGeometry.isSheaf_sectionsPresheaf AlgebraicGeometry.GeometricVectorBundle.coordY AlgebraicGeometry.GeometricVectorBundle.sectionsModule AlgebraicGeometry.GeometricVectorBundle.sectionsModuleForgetIso AlgebraicGeometry.GeometricVectorBundle.coordY_add AlgebraicGeometry.GeometricVectorBundle.coordY_smul AlgebraicGeometry.GeometricVectorBundle.sectionsModule_isLocallyFreeOfRank AlgebraicGeometry.Scheme.Modules.vectorBundleSectionsIso AlgebraicGeometry.Scheme.Modules.vectorBundleSectionsIso_hom_eval AlgebraicGeometry.Scheme.Modules.vectorBundleSectionsModuleIso
 ---
 
 # Sections of a geometric vector bundle
