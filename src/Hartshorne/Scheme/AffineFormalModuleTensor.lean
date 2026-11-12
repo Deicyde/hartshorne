@@ -14,39 +14,38 @@ import Mathlib.Algebra.Category.ModuleCat.Sheaf.ChangeOfRings
 import Mathlib.CategoryTheory.Sites.Pullback
 
 /-!
-# Completed modules and the ordinary tensor product (infrastructure)
+# Completed modules and the ordinary tensor product
 
 Hartshorne, *Algebraic Geometry*, II.9, Proposition 9.4(b) (pp. 195–196): for a Noetherian ring
 `A`, an ideal `I` and a finite `A`-module `M`, the completion of `M~` on `X̂ = Spf_I(A)` is
 `M~|_{V(I)} ⊗_{𝒪_{Spec A}|_{V(I)}} 𝒪_X̂`, an ordinary tensor product of sheaves of modules.
 
-This file builds the objects in that statement, for any scheme `X`, quasi-coherent ideal subsheaf
-`I` cutting out `Y`, and `𝒪_X`-module `F`, with `i : |Y| ⟶ X` the inclusion of the support:
+For a scheme `X`, a quasi-coherent ideal subsheaf `I` cutting out `Y`, and `i : |Y| ⟶ X` the
+inclusion of the support, `𝒪_X ⟶ i_* 𝒪_X̂` makes `f : (|Y|, 𝒪_X̂) ⟶ (X, 𝒪_X)` a morphism of ringed
+spaces. Its module pullback is `f^* F = i⁻¹ F ⊗_{i⁻¹ 𝒪_X} 𝒪_X̂`, Hartshorne's definition of the
+inverse image of modules (II.5), which is the tensor product in the statement.
 
-* `Hartshorne.QuasicoherentIdealSubsheaf.restrictedStructureSheaf I`: the sheaf of rings
-  `𝒪_X|_{|Y|} = i⁻¹ 𝒪_X` on `|Y|` (the topological inverse image).
-* `Hartshorne.QuasicoherentIdealSubsheaf.restrictedStructureSheafUnit I`: the adjunction unit
-  `𝒪_X ⟶ i_* i⁻¹ 𝒪_X`.
-* `Hartshorne.QuasicoherentIdealSubsheaf.structureSheafToFormalCompletion I`: the canonical map
-  `𝒪_X ⟶ i_* 𝒪_X̂` (on sections, `formalCompletionSectionsMap`).
-* `Hartshorne.QuasicoherentIdealSubsheaf.restrictedStructureSheafToFormalCompletion I`: its
-  adjoint `𝒪_X|_{|Y|} ⟶ 𝒪_X̂`, a map of sheaves of rings on `|Y|`.
-* `Hartshorne.QuasicoherentIdealSubsheaf.restrictedModule I F`: `F|_{|Y|} = i⁻¹ F` as an
-  `𝒪_X|_{|Y|}`-module, the module inverse image along `𝒪_X ⟶ i_* i⁻¹ 𝒪_X`.
-* `Hartshorne.QuasicoherentIdealSubsheaf.formalCompletionRestrictedModule I`: `𝒪_X̂` as an
-  `𝒪_X|_{|Y|}`-module.
-* `Hartshorne.QuasicoherentIdealSubsheaf.restrictedModuleTensorFormalCompletion I F`: the ordinary
-  tensor product `F|_{|Y|} ⊗_{𝒪_X|_{|Y|}} 𝒪_X̂` of sheaves of `𝒪_X|_{|Y|}`-modules.
-* `Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionRestrictedModule I F`: the completion
-  `F̂` viewed as an `𝒪_X|_{|Y|}`-module.
+* `Hartshorne.QuasicoherentIdealSubsheaf.toModuleCompletionPushforward`: the canonical map
+  `F ⟶ i_* F̂` into the completion `F̂ = lim_n (F / I ^ (n + 1) F)|_Y`, from the canonical maps
+  `moduleCompletionLevelMap` of `Hartshorne.Scheme.FormalCompletionModuleAffineSections`.
+* `Hartshorne.QuasicoherentIdealSubsheaf.pullbackToModuleCompletion`: its adjoint, the canonical map
+  `f^* F ⟶ F̂` of `𝒪_X̂`-modules, natural in `F` (`pullbackToModuleCompletion_naturality`).
+* `Hartshorne.QuasicoherentIdealSubsheaf.isIso_pullbackToModuleCompletion_unit`: for `F = 𝒪_X` this
+  map is an isomorphism, `(𝒪_X)^ ≅ 𝒪_X̂`, checked on sections over the affine opens using the
+  description of the sections of `𝒪_X̂` as adic completions.
+* `Hartshorne.isIso_app_of_finite_of_isIso_app_self`: a natural transformation between functors on
+  `A`-modules (`A` Noetherian), the source right exact and the target exact on finite modules, is
+  an isomorphism at every finite module once it is one at `A`.
+* `Hartshorne.isIso_tildePullbackToModuleCompletion`, `Hartshorne.tildePullbackIsoModuleCompletion`:
+  Proposition 9.4(b), `f^* (M~) ≅ (M~)^` for `M` finite over the Noetherian ring `A`. The proof
+  reduces to `M = A` by right exactness of both sides (the completion side is exact by
+  Proposition 9.4(c), `Hartshorne.moduleCompletion_tilde_shortExact`).
 
-The comparison map between the last two and Proposition 9.4(b) itself are not yet formalized; see
-the implementation note of the article. The private helpers at the end prepare the comparison map
-`F ⟶ i_* F̂`: its components `F ⟶ i_* (F / I ^ (n + 1) F)|_Y` (the quotient map, the unit of
-the pullback–pushforward adjunction along `Y_(n+1) ⟶ X`, and restriction of sections along
-equal opens), the adjunction identity relating the units along `Y_(n+1) ⟶ Y_(n+2) ⟶ X` and
-`Y_(n+1) ⟶ X`, and the section-level identities relating these restrictions to the transition
-maps of the completion.
+The file also builds the sheaf of rings `i⁻¹ 𝒪_X` on `|Y|`
+(`Hartshorne.QuasicoherentIdealSubsheaf.restrictedStructureSheaf`), the factorization of
+`𝒪_X ⟶ i_* 𝒪_X̂` through it (`restrictedStructureSheafUnit_comp_toFormalCompletion`), and the
+explicit tensor product `i⁻¹ F ⊗_{i⁻¹ 𝒪_X} 𝒪_X̂` of sheaves of `i⁻¹ 𝒪_X`-modules
+(`restrictedModuleTensorFormalCompletion`), which are not used in the proof.
 -/
 
 noncomputable section
@@ -155,8 +154,8 @@ def formalCompletionRestrictedModule :
     (SheafOfModules.unit _)
 
 /-- **The ordinary tensor product `F|_{|Y|} ⊗_{𝒪_X|_{|Y|}} 𝒪_X̂`** of sheaves of
-`𝒪_X|_{|Y|}`-modules on `|Y|` (Hartshorne II.9, Proposition 9.4(b), right-hand side). No
-completed tensor product is involved. -/
+`𝒪_X|_{|Y|}`-modules on `|Y|`, written out with the tensor product of module sheaves and viewed as
+an `𝒪_X|_{|Y|}`-module. No completed tensor product is involved. -/
 def restrictedModuleTensorFormalCompletion :
     SheafOfModules.{u} (ringCatSheafOf I.restrictedStructureSheaf) :=
   moduleSheafTensor (I.restrictedModule F) I.formalCompletionRestrictedModule
