@@ -31,6 +31,10 @@ a sheaf of `𝒪_{X̂_Y}`-modules on `|Y|`.
 * `Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionMap I F n`: the transition map, induced by
   the quotient map `F / I ^ (n + 2) F ⟶ F / I ^ (n + 1) F` and restriction along
   `Y_(n+1) ⟶ Y_(n+2)`.
+  Both transition maps are instances of the generic constructions
+  `Hartshorne.pullbackUnitTransition` and `Hartshorne.pullbackUnitTransitionRestrict` (`moduleCompletionNeighborhoodMap_eq`,
+  `moduleCompletionMap_eq`), which are natural in the quotient map
+  (`pullbackUnitTransition_naturality`, `pullbackUnitTransitionRestrict_naturality`).
 * `Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionDiagram I F`: the inverse system.
 * `Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletion I F`: its limit `F̂`, a sheaf of modules
   over the structure sheaf of `X̂_Y`.
@@ -87,7 +91,85 @@ lemma sheafOfModulesPushforwardCompRestrict_val_app (M : SheafOfModules.{u} S) (
       M.val.map (α.app V.unop).op x :=
   rfl
 
+/-- Restriction of sections along `α` is natural in the sheaf of modules. -/
+@[reassoc]
+lemma sheafOfModulesPushforwardCompRestrict_naturality {M N : SheafOfModules.{u} S} (g : M ⟶ N) :
+    sheafOfModulesPushforwardCompRestrict α ψ φ₂ φ₁ h M ≫
+        (SheafOfModules.pushforward.{u} φ₁).map g =
+      (SheafOfModules.pushforward.{u} φ₂).map ((SheafOfModules.pushforward.{u} ψ).map g) ≫
+        sheafOfModulesPushforwardCompRestrict α ψ φ₂ φ₁ h N := by
+  ext V x
+  exact congrArg (fun f => f.hom x) (g.val.naturality (α.app V.unop).op)
+
 end PushforwardRestrict
+
+section PullbackUnitTransition
+
+variable {Z Y W : Scheme.{u}} (s : Z ⟶ Y) (a : Y ⟶ W) (b : Z ⟶ W) (h : s ≫ a = b)
+
+/-- For morphisms of schemes `s : Z ⟶ Y`, `a : Y ⟶ W` with `s ≫ a = b`, a morphism `q : Q' ⟶ Q`
+of `𝒪_W`-modules induces `a^* Q' ⟶ s_* b^* Q`: pull back `q` along `a`, then apply the unit of
+the adjunction `s^* ⊣ s_*` and identify `s^* a^* Q` with `b^* Q`. -/
+def pullbackUnitTransition {Q' Q : W.Modules} (q : Q' ⟶ Q) :
+    (Scheme.Modules.pullback a).obj Q' ⟶
+      (Scheme.Modules.pushforward s).obj ((Scheme.Modules.pullback b).obj Q) :=
+  (Scheme.Modules.pullback a).map q ≫
+    (Scheme.Modules.pullbackPushforwardAdjunction s).unit.app _ ≫
+    (Scheme.Modules.pushforward s).map
+      ((Scheme.Modules.pullbackComp s a).hom.app _ ≫ (Scheme.Modules.pullbackCongr h).hom.app _)
+
+/-- `pullbackUnitTransition` is natural: a commutative square `q₁ ≫ u = u' ≫ q₂` of
+`𝒪_W`-modules gives a commutative square of the induced maps. -/
+lemma pullbackUnitTransition_naturality {Q₁' Q₁ Q₂' Q₂ : W.Modules} (q₁ : Q₁' ⟶ Q₁)
+    (q₂ : Q₂' ⟶ Q₂) (u' : Q₁' ⟶ Q₂') (u : Q₁ ⟶ Q₂) (w : q₁ ≫ u = u' ≫ q₂) :
+    (Scheme.Modules.pullback a).map u' ≫ pullbackUnitTransition s a b h q₂ =
+      pullbackUnitTransition s a b h q₁ ≫
+        (Scheme.Modules.pushforward s).map ((Scheme.Modules.pullback b).map u) := by
+  unfold pullbackUnitTransition
+  rw [← Functor.map_comp_assoc, ← w, Functor.map_comp_assoc, ← Adjunction.unit_naturality_assoc,
+    ← Functor.map_comp, Category.assoc, Category.assoc, ← Functor.map_comp, Category.assoc,
+    ← NatTrans.naturality, ← NatTrans.naturality_assoc]
+  rfl
+
+private lemma map_comp_restrict_square {D₁ D₂ : Type*} [Category D₁] [Category D₂] (P : D₁ ⥤ D₂)
+    {x₁ x₂ x₃ x₄ : D₁} {y₃ y₄ : D₂} {A : x₁ ⟶ x₂} {N₂ : x₂ ⟶ x₄} {N₁ : x₁ ⟶ x₃} {B' : x₃ ⟶ x₄}
+    {R₂ : P.obj x₄ ⟶ y₄} {R₁ : P.obj x₃ ⟶ y₃} {B : y₃ ⟶ y₄} (h₁ : A ≫ N₂ = N₁ ≫ B')
+    (h₂ : R₁ ≫ B = P.map B' ≫ R₂) :
+    P.map A ≫ P.map N₂ ≫ R₂ = (P.map N₁ ≫ R₁) ≫ B := by
+  rw [← Functor.map_comp_assoc, h₁, Functor.map_comp_assoc, ← h₂, Category.assoc]
+
+variable {C : Type*} [Category C] {J : GrothendieckTopology C}
+  {F₁ : C ⥤ Opens Z} {F₂ : C ⥤ Opens Y}
+  [F₁.IsContinuous J (Opens.grothendieckTopology Z)]
+  [F₂.IsContinuous J (Opens.grothendieckTopology Y)]
+  {T : Sheaf J RingCat.{u}} (α : F₁ ⟶ F₂ ⋙ Opens.map s.base)
+  (φ₂ : T ⟶ (F₂.sheafPushforwardContinuous RingCat.{u} _ _).obj Y.ringCatSheaf)
+  (φ₁ : T ⟶ (F₁.sheafPushforwardContinuous RingCat.{u} _ _).obj Z.ringCatSheaf)
+  (hφ : ∀ (V : Cᵒᵖ) (r : T.obj.obj V),
+    Z.ringCatSheaf.obj.map (α.app V.unop).op
+        (s.toRingCatSheafHom.hom.app (op (F₂.obj V.unop)) (φ₂.hom.app V r)) = φ₁.hom.app V r)
+
+/-- `pullbackUnitTransition` transported to modules over `T` along `φ₂`, followed by restriction
+of sections along `α`, landing in the transport of `b^* Q` along `φ₁`. -/
+def pullbackUnitTransitionRestrict {Q' Q : W.Modules} (q : Q' ⟶ Q) :
+    (SheafOfModules.pushforward.{u} φ₂).obj ((Scheme.Modules.pullback a).obj Q') ⟶
+      (SheafOfModules.pushforward.{u} φ₁).obj ((Scheme.Modules.pullback b).obj Q) :=
+  (SheafOfModules.pushforward.{u} φ₂).map (pullbackUnitTransition s a b h q) ≫
+    sheafOfModulesPushforwardCompRestrict α s.toRingCatSheafHom φ₂ φ₁ hφ
+      ((Scheme.Modules.pullback b).obj Q)
+
+/-- `pullbackUnitTransitionRestrict` is natural: a commutative square `q₁ ≫ u = u' ≫ q₂` of
+`𝒪_W`-modules gives a commutative square of the induced maps of `T`-modules. -/
+lemma pullbackUnitTransitionRestrict_naturality {Q₁' Q₁ Q₂' Q₂ : W.Modules} (q₁ : Q₁' ⟶ Q₁)
+    (q₂ : Q₂' ⟶ Q₂) (u' : Q₁' ⟶ Q₂') (u : Q₁ ⟶ Q₂) (w : q₁ ≫ u = u' ≫ q₂) :
+    (SheafOfModules.pushforward.{u} φ₂).map ((Scheme.Modules.pullback a).map u') ≫
+        pullbackUnitTransitionRestrict s a b h α φ₂ φ₁ hφ q₂ =
+      pullbackUnitTransitionRestrict s a b h α φ₂ φ₁ hφ q₁ ≫
+        (SheafOfModules.pushforward.{u} φ₁).map ((Scheme.Modules.pullback b).map u) :=
+  map_comp_restrict_square _ (pullbackUnitTransition_naturality s a b h q₁ q₂ u' u w)
+    (sheafOfModulesPushforwardCompRestrict_naturality _ _ _ _ _ _)
+
+end PullbackUnitTransition
 
 namespace QuasicoherentIdealSubsheaf
 
@@ -200,13 +282,19 @@ def moduleCompletionNeighborhoodMap (n : ℕ) :
     I.moduleCompletionNeighborhood F (n + 1) ⟶
       (Scheme.Modules.pushforward (I.infinitesimalNeighborhoodSucc n)).obj
         (I.moduleCompletionNeighborhood F n) :=
-  (Scheme.Modules.pullback (I.infinitesimalNeighborhoodι (n + 2))).map
-      (I.moduleCompletionQuotientMap F n) ≫
-    (Scheme.Modules.pullbackPushforwardAdjunction (I.infinitesimalNeighborhoodSucc n)).unit.app _ ≫
-    (Scheme.Modules.pushforward (I.infinitesimalNeighborhoodSucc n)).map
-      ((Scheme.Modules.pullbackComp (I.infinitesimalNeighborhoodSucc n)
-          (I.infinitesimalNeighborhoodι (n + 2))).hom.app _ ≫
-        (Scheme.Modules.pullbackCongr (I.infinitesimalNeighborhoodSucc_comp_ι' n)).hom.app _)
+  pullbackUnitTransition (I.infinitesimalNeighborhoodSucc n)
+    (I.infinitesimalNeighborhoodι (n + 1 + 1)) (I.infinitesimalNeighborhoodι (n + 1))
+    (I.infinitesimalNeighborhoodSucc_comp_ι' n)
+    (I.moduleCompletionQuotientMap F n)
+
+/-- `moduleCompletionNeighborhoodMap` is the map `pullbackUnitTransition` induced by the quotient
+map `F / I ^ (n + 2) F ⟶ F / I ^ (n + 1) F`, for `Y_(n+1) ⟶ Y_(n+2) ⟶ X`. -/
+lemma moduleCompletionNeighborhoodMap_eq (n : ℕ) :
+    I.moduleCompletionNeighborhoodMap F n =
+      pullbackUnitTransition (I.infinitesimalNeighborhoodSucc n)
+        (I.infinitesimalNeighborhoodι (n + 1 + 1)) (I.infinitesimalNeighborhoodι (n + 1))
+        (Scheme.IdealSheafData.inclusion_subschemeι _) (I.moduleCompletionQuotientMap F n) :=
+  rfl
 
 /-- **`(F / I ^ (n + 1) F)|_Y` as an `𝒪_{X̂_Y}`-module**: the `𝒪_{Y_(n+1)}`-module
 `moduleCompletionNeighborhood I F n`, transported to `|Y|` along the homeomorphism `Y ⟶ Y_(n+1)`
@@ -219,14 +307,25 @@ def moduleCompletionObj (n : ℕ) : SheafOfModules.{u} I.formalCompletionRingCat
 on `|Y|`: induced by the quotient map, followed by restriction along `Y_(n+1) ⟶ Y_(n+2)`. -/
 def moduleCompletionMap (n : ℕ) :
     I.moduleCompletionObj F (n + 1) ⟶ I.moduleCompletionObj F n :=
-  (SheafOfModules.pushforward.{u} (I.formalCompletionRingCatSheafπ (n + 1))).map
-      (I.moduleCompletionNeighborhoodMap F n) ≫
-    sheafOfModulesPushforwardCompRestrict (I.functorToPreimageInfinitesimalNeighborhoodSucc n)
-      (I.infinitesimalNeighborhoodSucc n).toRingCatSheafHom
-        (I.formalCompletionRingCatSheafπ (n + 1))
-      (I.formalCompletionRingCatSheafπ n)
-      (fun V r => I.formalCompletionSheafMap_limit_π_apply n V.unop r)
-      (I.moduleCompletionNeighborhood F n)
+  pullbackUnitTransitionRestrict (I.infinitesimalNeighborhoodSucc n)
+    (I.infinitesimalNeighborhoodι (n + 1 + 1)) (I.infinitesimalNeighborhoodι (n + 1))
+    (I.infinitesimalNeighborhoodSucc_comp_ι' n) (I.functorToPreimageInfinitesimalNeighborhoodSucc n)
+    (I.formalCompletionRingCatSheafπ (n + 1)) (I.formalCompletionRingCatSheafπ n)
+    (fun V r => I.formalCompletionSheafMap_limit_π_apply n V.unop r)
+    (I.moduleCompletionQuotientMap F n)
+
+/-- `moduleCompletionMap` is the map `pullbackUnitTransitionRestrict` induced by the quotient map
+`F / I ^ (n + 2) F ⟶ F / I ^ (n + 1) F`. -/
+lemma moduleCompletionMap_eq (n : ℕ) :
+    I.moduleCompletionMap F n =
+      pullbackUnitTransitionRestrict (I.infinitesimalNeighborhoodSucc n)
+        (I.infinitesimalNeighborhoodι (n + 1 + 1)) (I.infinitesimalNeighborhoodι (n + 1))
+        (Scheme.IdealSheafData.inclusion_subschemeι _)
+        (I.functorToPreimageInfinitesimalNeighborhoodSucc n)
+        (I.formalCompletionRingCatSheafπ (n + 1)) (I.formalCompletionRingCatSheafπ n)
+        (fun V r => I.formalCompletionSheafMap_limit_π_apply n V.unop r)
+        (I.moduleCompletionQuotientMap F n) :=
+  rfl
 
 /-- **The inverse system of the completion of `F`**: `n ↦ (F / I ^ (n + 1) F)|_Y`, as
 `𝒪_{X̂_Y}`-modules on `|Y|`, for `n ≥ 0`, that is Hartshorne's `F / I ^ n F` for `n ≥ 1`. -/
