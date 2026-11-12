@@ -22,6 +22,7 @@ $\mathcal{O}(1) \otimes \pi ^* L^n$ is very ample relative to $X$.
 - Finite global generation of $S_1 \otimes L^n$.
 - [Relative Proj is proper](relative-proj-proper.md)
 - [Projective space is proper](../../proper-and-projective/projective-space-proper.md)
+- [The relative Segre embedding](../../proper-and-projective/relative-segre-closed-immersion.md)
 
 ## Sources
 
