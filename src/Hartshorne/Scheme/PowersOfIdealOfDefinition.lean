@@ -612,6 +612,87 @@ private lemma isKernelChart_kerIdeal (hg : IsOpenEmbedding g.base)
     exact (LocallyRingedSpace.stalkMap_germ_apply g V w hw s).trans
       ((congrArg _ h0).trans (map_zero _))
 
+/-- The germ of the image of `s` in `R / J` vanishes exactly when the germ of `s` lies in `J_x`. -/
+private lemma germ_quotientπ_eq_zero_iff {T : TopCat.{u}} {R : TopCat.Sheaf CommRingCat.{u} T}
+    (J : IdealSubsheaf R) {x : T} {V : Opens T} (hx : x ∈ V) (s : R.presheaf.obj (op V)) :
+    J.quotient.presheaf.germ V x hx (J.quotientπ.hom.app (op V) s) = 0 ↔
+      R.presheaf.germ V x hx s ∈ J.stalkIdeal x := by
+  rw [J.germ_mem_stalkIdeal_iff hx s]
+  constructor
+  · intro h0
+    obtain ⟨W, hxW, iU, iV, hW⟩ := J.quotient.presheaf.germ_eq x hx hx _ 0
+      (h0.trans (map_zero _).symm)
+    rw [map_zero, show iU = homOfLE (leOfHom iU) from rfl, ← J.quotientπ_app_res,
+      J.quotientπ_app_eq_zero_iff] at hW
+    exact ⟨W, leOfHom iU, hxW, hW⟩
+  · rintro ⟨V', h, hxV', hs⟩
+    rw [← J.quotient.presheaf.germ_res_apply (homOfLE h) x hxV', ← J.quotientπ_app_res,
+      (J.quotientπ_app_eq_zero_iff _ _).mpr hs, map_zero]
+
+/-- Transport of germs along an equality of points. -/
+private lemma eqToHom_germ_apply {T : TopCat.{u}} (F : TopCat.Presheaf CommRingCat.{u} T)
+    {x x' : T} (h : x = x') (p : F.stalk x = F.stalk x') {U : Opens T} (hx : x ∈ U)
+    (t : F.obj (op U)) :
+    (eqToHom p) (F.germ U x hx t) = F.germ U x' (h ▸ hx) t := by
+  subst h
+  simp
+
+/-- If `ψ = e ≫ (Spec (B ⧸ a) ⟶ Spec B)`, the stalk kernels of `ψ` are the localizations of `a`. -/
+private lemma ker_stalkMap_of_eq_comp {Z : Scheme.{u}} {B : CommRingCat.{u}} (ψ : Z ⟶ Spec B)
+    (a : Ideal B) (e : Z ≅ Spec (CommRingCat.of (B ⧸ a)))
+    (he : ψ = e.hom ≫ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk a))) (z : Z) :
+    RingHom.ker (ψ.stalkMap z).hom =
+      a.map (StructureSheaf.toStalk B (ψ.base z)).hom := by
+  subst he
+  rw [Scheme.Hom.stalkMap_comp]
+  change RingHom.ker ((e.hom.stalkMap z).hom.comp
+    ((Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk a))).stalkMap (e.hom z)).hom) = _
+  rw [← RingHom.comap_ker]
+  have hinj : Function.Injective (e.hom.stalkMap z).hom :=
+    (ConcreteCategory.bijective_of_isIso (e.hom.stalkMap z)).1
+  rw [(RingHom.injective_iff_ker_eq_bot _).mp hinj, ← RingHom.ker_eq_comap_bot]
+  exact ker_stalkMap_specMap_quotient a (e.hom.base z)
+
 end quotientIdeal
+
+section quotientSchemeHom
+
+open Spec (structureSheaf)
+
+variable {X : NoetherianFormalScheme.{u}} {J : IdealSubsheaf X.toLocallyRingedSpace.sheaf}
+  (h : IsIdealOfDefinition X J)
+
+/-- The morphism of ringed spaces `(X, 𝒪_X / J) ⟶ X` given by the projection `𝒪_X ⟶ 𝒪_X / J`. -/
+private def quotientSchemePHom :
+    h.quotientScheme.toPresheafedSpace ⟶ X.toLocallyRingedSpace.toPresheafedSpace where
+  base := 𝟙 X.toLocallyRingedSpace.toTopCat
+  c := J.quotientπ.hom
+
+private lemma quotientSchemePHom_stalkMap_germ (x : X.toLocallyRingedSpace)
+    (V : Opens X.toLocallyRingedSpace) (hx : x ∈ V)
+    (s : X.toLocallyRingedSpace.presheaf.obj (op V)) :
+    (quotientSchemePHom h).stalkMap x (X.toLocallyRingedSpace.presheaf.germ V x hx s) =
+      J.quotient.presheaf.germ V x hx (J.quotientπ.hom.app (op V) s) :=
+  PresheafedSpace.stalkMap_germ_apply (quotientSchemePHom h) V x hx s
+
+private lemma surjective_stalkMap_quotientSchemePHom (x : X.toLocallyRingedSpace) :
+    Function.Surjective ((quotientSchemePHom h).stalkMap x) := by
+  intro b
+  obtain ⟨V, hxV, t, rfl⟩ := J.quotient.presheaf.exists_germ_eq b
+  obtain ⟨V', hV'V, s, hxV', hs⟩ := J.exists_quotientπ_app_eq V t x hxV
+  refine ⟨X.toLocallyRingedSpace.presheaf.germ V' x hxV' s, ?_⟩
+  refine (quotientSchemePHom_stalkMap_germ h x V' hxV' s).trans ?_
+  exact (congrArg (J.quotient.presheaf.germ V' x hxV') hs).trans
+    (J.quotient.presheaf.germ_res_apply (homOfLE hV'V) x hxV' t)
+
+/-- The morphism of locally ringed spaces `(X, 𝒪_X / J) ⟶ X`. -/
+private def quotientSchemeHom :
+    h.quotientScheme.toLocallyRingedSpace ⟶ X.toLocallyRingedSpace :=
+  ⟨quotientSchemePHom h, fun x =>
+    haveI : IsLocalRing (X.toLocallyRingedSpace.presheaf.stalk x) :=
+      X.toLocallyRingedSpace.isLocalRing x
+    IsLocalHom.of_surjective _ (surjective_stalkMap_quotientSchemePHom h x)⟩
+
+end quotientSchemeHom
 
 end Hartshorne
