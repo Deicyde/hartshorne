@@ -361,6 +361,31 @@ theorem twistDivX_smul (hT : ∃ f ∈ reesGrading I 1, f ∈ T) (c : Homogeneou
   simp only [smul_eq_mul]
   exact reesShift_mul_of_coeff_zero I _ _ (coeff_zero_of_mem_twist I hm)
 
+theorem twistDivX_eq_zero (hT : ∃ f ∈ reesGrading I 1, f ∈ T)
+    (y : HomogeneousLocalizedModule (reesGrading I) (gradedTwist (reesGrading I) 1) T)
+    (hy : twistDivX I T y = 0) : y = 0 := by
+  obtain ⟨n, m, hm, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective y
+  rw [twistDivX_mk I T hT] at hy
+  have hy' := congrArg HomogeneousLocalization.val hy
+  rw [HomogeneousLocalization.val_mk, HomogeneousLocalization.val_zero, ← Localization.mk_zero 1,
+    Localization.mk_eq_mk_iff, Localization.r_iff_exists] at hy'
+  obtain ⟨⟨c, hc⟩, hc'⟩ := hy'
+  simp only [OneMemClass.coe_one, one_mul, mul_zero] at hc'
+  ext
+  rw [HomogeneousLocalizedModule.val_mk, HomogeneousLocalizedModule.val_zero,
+    ← LocalizedModule.zero_mk ⟨s, hsx⟩, LocalizedModule.mk_eq]
+  refine ⟨⟨c, hc⟩, ?_⟩
+  simp only [Submonoid.mk_smul, smul_eq_mul, smul_zero]
+  have h2 := X_mul_divX_add (m : A[X])
+  rw [coeff_zero_of_mem_twist I hm, C_0, add_zero] at h2
+  apply Subtype.ext
+  have h3 := congrArg (fun p : reesAlgebra I => X * (p : A[X])) hc'
+  simp only [Subalgebra.coe_mul, ZeroMemClass.coe_zero, mul_zero] at h3
+  change (c : A[X]) * ((s : A[X]) * m) = 0
+  rw [← h2]
+  change X * ((c : A[X]) * divX (m : A[X])) = 0 at h3
+  linear_combination (s : A[X]) * h3
+
 end Algebra
 
 /-! ### A monomorphism into `𝒪_X` is isomorphic to the ideal sheaf of its image -/
@@ -492,6 +517,30 @@ noncomputable def twistDivXHom :
       naturality := fun _ _ _ => rfl }
     fun _ r s => Subtype.ext <| funext fun x =>
       twistDivX_smul I _ (exists_reesGrading_one_mem_primeCompl I x.1) (r.1 x) (s.1 x)⟩
+
+theorem twistDivXSections_injective (U : Opens (ProjectiveSpectrum.top (reesGrading I))) :
+    Function.Injective (twistDivXSections I U) := by
+  refine (injective_iff_map_eq_zero _).2 fun s hs => Subtype.ext <| funext fun x => ?_
+  exact twistDivX_eq_zero I _ (exists_reesGrading_one_mem_primeCompl I x.1) _
+    (congrFun (congrArg Subtype.val hs) x)
+
+instance mono_twistDivXHom : Mono (twistDivXHom I) := by
+  refine ⟨fun g h e => Scheme.Modules.hom_ext _ _ fun V => ?_⟩
+  ext s
+  apply twistDivXSections_injective I V
+  exact congrArg (fun ψ => Scheme.Modules.Hom.app ψ V s) e
+
+instance isQuasicoherent_projTwistingSheaf_reesGrading :
+    (projTwistingSheaf (reesGrading I) 1).IsQuasicoherent :=
+  ProjGradedModuleSheaf.isQuasicoherent _ _
+
+/-- **`𝒪(1)` on `Proj A[It]` is the ideal sheaf of the image of division by `t`**: the explicit
+isomorphism `𝒪(1) ≅ ker (𝒪 ⟶ i_* 𝒪_Z)`, `Z` the closed subscheme cut out by the image of
+`twistDivXHom`. -/
+noncomputable def projTwistingSheafIsoImageIdealSheaf :
+    projTwistingSheaf (reesGrading I) 1 ≅
+      closedImmersionIdealSheaf (idealSheafDataOfHom (twistDivXHom I)).subschemeι :=
+  imageIdealSheafIso (twistDivXHom I)
 
 end ProjMap
 
