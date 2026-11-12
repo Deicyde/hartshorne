@@ -2,6 +2,7 @@
 article_id: af_9beba574a4fcba63ef574292
 declaration: theorem
 origin: cited
+lean: Hartshorne.isAffine_iff_forall_irreducibleComponents_isAffine
 ---
 
 # Affineness of reduced irreducible components
