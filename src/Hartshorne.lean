@@ -761,3 +761,4 @@ import Hartshorne.Scheme.ProjectiveNormalityCriterion
 import Hartshorne.Scheme.LinearSystem
 import Hartshorne.Scheme.BirationalSectionAlgebraModel
 import Hartshorne.Scheme.CoherentFormalModuleReconstruction
+import Hartshorne.Scheme.SeparatesPointsTangentVectors
