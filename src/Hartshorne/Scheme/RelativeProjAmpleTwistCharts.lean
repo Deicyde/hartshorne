@@ -129,6 +129,15 @@ theorem isImmersion_of_forall_isClosedImmersion_morphismRestrict {X Y : Scheme.{
   rw [show φ = inv (φ ⁻¹ᵁ U).ι ≫ (φ ⁻¹ᵁ U).ι ≫ φ by simp]
   infer_instance
 
+/-- For an open immersion `f : P ⟶ Q` and `g : Q ⟶ Y`, pulling back a function along `f ≫ g` to
+`W` and transporting along `Γ(Q, f(W)) ≅ Γ(P, W)` is pulling it back along `g` to `f(W)`. -/
+theorem appIso_inv_comp_appLE {P Q Y : Scheme.{u}} (f : P ⟶ Q) [IsOpenImmersion f] (g : Q ⟶ Y)
+    (U : Y.Opens) (W : P.Opens) (h : W ≤ (f ≫ g) ⁻¹ᵁ U) (h' : f ''ᵁ W ≤ g ⁻¹ᵁ U)
+    (r : Γ(Y, U)) :
+    (f.appIso W).inv ((f ≫ g).appLE U W h r) = g.appLE U (f ''ᵁ W) h' r := by
+  rw [← Scheme.Hom.appLE_comp_appLE f g U (f ''ᵁ W) W h' (f.preimage_image_eq W).ge,
+    CommRingCat.comp_apply, ← Scheme.Hom.appIso_hom', Iso.hom_inv_id_apply]
+
 end Charts
 
 section Away
