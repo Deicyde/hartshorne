@@ -1,0 +1,140 @@
+/-
+Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
+import Hartshorne.Scheme.RelativeProjLineBundleTwistFrames
+
+universe u
+
+noncomputable section
+
+open CategoryTheory Opposite TopologicalSpace AlgebraicGeometry
+
+open scoped TensorProduct
+
+namespace Hartshorne
+
+namespace QuasiCoherentGradedAlgebra
+
+attribute [local instance] sectionsAlgebra
+
+variable {X : Scheme.{u}} {S : QuasiCoherentGradedAlgebra X} {L : X.Modules} (hL : L.IsInvertible)
+
+set_option backward.isDefEq.respectTransparency false in
+theorem frameGenerator_eq_smul {U : X.AffineZariskiSite} {e e' : ULift.{u} (Fin 1) → Γ(L, U.1)}
+    (v : Γ(X, U.1)) (hv : e' default = v • e default) :
+    frameGenerator (hL := hL) e' =
+      algebraMap Γ(X, U.1) ((lineBundleSym L hL).obj.obj (.op U)) v * frameGenerator (hL := hL) e := by
+  change L.chartRingHom U.1 e' (MvPolynomial.rename ULift.up (MvPolynomial.X 0)) =
+    _ * L.chartRingHom U.1 e (MvPolynomial.rename ULift.up (MvPolynomial.X 0))
+  rw [MvPolynomial.rename_X, Scheme.Modules.chartRingHom_X, Scheme.Modules.chartRingHom_X]
+  exact (congrArg _ hv).trans (Scheme.Modules.symDegreeOne_smul _ _ _ _)
+
+set_option backward.isDefEq.respectTransparency false in
+theorem ofGenerator_eq_smul {U : X.AffineZariskiSite} {e e' : ULift.{u} (Fin 1) → Γ(L, U.1)}
+    (v : Γ(X, U.1)) (hv : e' default = v • e default) {t : S.obj.obj (.op U)}
+    (ht : t ∈ S.grading U 1) :
+    SegreProduct.ofGenerator Γ(X, U.1) (S.grading U) ((lineBundleSym L hL).grading U)
+        (frameGenerator_mem (hL := hL) (e := e')) t =
+      algebraMap Γ(X, U.1) (S.diagonalSections (lineBundleSym L hL) U) v *
+        SegreProduct.ofGenerator Γ(X, U.1) (S.grading U) ((lineBundleSym L hL).grading U)
+          (frameGenerator_mem (hL := hL) (e := e)) t := by
+  apply Subtype.ext
+  change (SegreProduct.ofGenerator Γ(X, U.1) (S.grading U) ((lineBundleSym L hL).grading U)
+        (frameGenerator_mem (hL := hL) (e := e')) t : S.obj.obj (.op U) ⊗[Γ(X, U.1)]
+          (lineBundleSym L hL).obj.obj (.op U)) =
+    algebraMap Γ(X, U.1) _ v * (SegreProduct.ofGenerator Γ(X, U.1) (S.grading U)
+      ((lineBundleSym L hL).grading U) (frameGenerator_mem (hL := hL) (e := e)) t :
+        S.obj.obj (.op U) ⊗[Γ(X, U.1)] (lineBundleSym L hL).obj.obj (.op U))
+  rw [SegreProduct.coe_ofGenerator_of_mem _ _ _ ht, SegreProduct.coe_ofGenerator_of_mem _ _ _ ht,
+    pow_one, pow_one, frameGenerator_eq_smul hL v hv, ← Algebra.smul_def, ← Algebra.smul_def,
+    TensorProduct.tmul_smul]
+
+theorem appLE_appIso_inv {P Y : Scheme.{u}} (f : P ⟶ Y) [IsOpenImmersion f] (W : P.Opens)
+    (h : W ≤ f ⁻¹ᵁ (f ''ᵁ W)) (x : Γ(P, W)) : f.appLE (f ''ᵁ W) W h ((f.appIso W).inv x) = x := by
+  rw [← Scheme.Hom.appIso_hom']
+  exact Iso.inv_hom_id_apply _ _
+
+theorem map_appLE_awayToSection {A B σ τ : Type u} [CommRing A] [SetLike σ A]
+    [AddSubgroupClass σ A] [CommRing B] [SetLike τ B] [AddSubgroupClass τ B] {𝒜 : ℕ → σ}
+    {ℬ : ℕ → τ} [GradedRing 𝒜] [GradedRing ℬ] (f : 𝒜 →+*ᵍ ℬ)
+    (hf : HomogeneousIdeal.irrelevant ℬ ≤ (HomogeneousIdeal.irrelevant 𝒜).map f) {i : ℕ} {s : A}
+    (hs : s ∈ 𝒜 i) (h : Proj.basicOpen ℬ (f s) ≤ Proj.map f hf ⁻¹ᵁ Proj.basicOpen 𝒜 s)
+    (x : HomogeneousLocalization.Away 𝒜 s) :
+    (Proj.map f hf).appLE (Proj.basicOpen 𝒜 s) (Proj.basicOpen ℬ (f s)) h
+        (Proj.awayToSection 𝒜 s x) =
+      Proj.awayToSection ℬ (f s) (HomogeneousLocalization.Away.map f s x) :=
+  ConcreteCategory.congr_hom (Proj.awayToSection_comp_appLE f hf hs) x
+
+namespace TwistChart
+
+set_option backward.isDefEq.respectTransparency false in
+theorem away_map_gen_mul (i : TwistChart S L) {e' : ULift.{u} (Fin 1) → Γ(L, i.U.1)}
+    (v : Γ(X, i.U.1)) (hv : e' default = v • i.e default) {t : S.obj.obj (.op i.U)}
+    (ht : t ∈ S.grading i.U 1) :
+    HomogeneousLocalization.Away.map (i.gen hL) i.s
+        (HomogeneousLocalization.Away.mk (S.grading i.U) i.hs 1 t (by rwa [smul_eq_mul, mul_one])) *
+      HomogeneousLocalization.fromZeroRingHom _ _ ((S.lineBundleTwist L hL).toZero i.U v) =
+    HomogeneousLocalization.Away.mk _ (i.gen_mem hL) 1
+      (SegreProduct.ofGenerator Γ(X, i.U.1) (S.grading i.U) ((lineBundleSym L hL).grading i.U)
+        (frameGenerator_mem (hL := hL) (e := e')) t)
+      (by rw [smul_eq_mul, mul_one]; exact (SegreProduct.ofGenerator _ _ _ _).map_mem ht) := by
+  rw [HomogeneousLocalization.Away.map_mk]
+  apply HomogeneousLocalization.val_injective
+  rw [HomogeneousLocalization.val_mul, HomogeneousLocalization.Away.val_mk,
+    HomogeneousLocalization.Away.val_mk]
+  change _ * Localization.mk _ 1 = _
+  rw [Localization.mk_mul, mul_one]
+  congr 1
+  rw [ofGenerator_eq_smul hL v hv ht, mul_comm]
+  rfl
+
+theorem opens_le_base (i : TwistChart S L) :
+    i.opens hL ≤ (S.lineBundleTwist L hL).relProjToBase ⁻¹ᵁ i.U.1 :=
+  (i.opens_le_piece hL).trans (i.piece_le_base hL)
+
+set_option backward.isDefEq.respectTransparency false in
+theorem appIso_inv_awayToSection_eq_mul (i : TwistChart S L)
+    {e' : ULift.{u} (Fin 1) → Γ(L, i.U.1)} (v : Γ(X, i.U.1)) (hv : e' default = v • i.e default)
+    {t : S.obj.obj (.op i.U)} (ht : t ∈ S.grading i.U 1) :
+    (((S.lineBundleTwist L hL).projι i.U).appIso (Proj.basicOpen _ (i.gen hL i.s))).inv
+        (Proj.awayToSection _ (i.gen hL i.s) (HomogeneousLocalization.Away.mk _ (i.gen_mem hL) 1
+          (SegreProduct.ofGenerator Γ(X, i.U.1) (S.grading i.U) ((lineBundleSym L hL).grading i.U)
+            (frameGenerator_mem (hL := hL) (e := e')) t)
+          (by rw [smul_eq_mul, mul_one]; exact (SegreProduct.ofGenerator _ _ _ _).map_mem ht))) =
+      (S.lineBundleTwist L hL).relProj.presheaf.map (homOfLE (i.opens_le_preimage hL)).op
+          ((S.lineBundleTwistHom hL).app _ (((S.projι i.U).appIso (Proj.basicOpen _ i.s)).inv
+            (Proj.awayToSection _ i.s (HomogeneousLocalization.Away.mk _ i.hs 1 t
+              (by rwa [smul_eq_mul, mul_one]))))) *
+        (S.lineBundleTwist L hL).relProj.presheaf.map (homOfLE (i.opens_le_base hL)).op
+          ((S.lineBundleTwist L hL).relProjToBase.app i.U.1 v) := by
+  apply (ConcreteCategory.bijective_of_isIso
+    (((S.lineBundleTwist L hL).projι i.U).appIso (Proj.basicOpen _ (i.gen hL i.s))).hom).1
+  obtain ⟨h, hφ⟩ := i.projι_lineBundleTwistHom_eq hL
+  have h1 := appIso_hom_map_app ((S.lineBundleTwist L hL).projι i.U) (S.lineBundleTwistHom hL)
+    (Proj.basicOpen _ (i.gen hL i.s)) _ (i.opens_le_preimage hL) (by
+      rw [hφ]; exact fun z hz => ⟨_, hz, rfl⟩) (((S.projι i.U).appIso (Proj.basicOpen _ i.s)).inv
+            (Proj.awayToSection _ i.s (HomogeneousLocalization.Away.mk _ i.hs 1 t
+              (by rwa [smul_eq_mul, mul_one]))))
+  have h2 := appIso_hom_map_app ((S.lineBundleTwist L hL).projι i.U)
+    (S.lineBundleTwist L hL).relProjToBase (Proj.basicOpen _ (i.gen hL i.s)) i.U.1
+      (i.opens_le_base hL) (fun z _ => (i.piece_le_base hL) ⟨z, trivial, rfl⟩) v
+  rw [Iso.inv_hom_id_apply, map_mul]
+  refine Eq.trans ?_ (congrArg₂ (· * ·) h1.symm h2.symm)
+  rw [projι_relProjToBase_appLE (hx := i.gen_mem hL), appLE_eq_of_eq hφ]
+  have e₂ : Proj.basicOpen _ (i.gen hL i.s) ≤ Proj.map (i.gen hL) h ⁻¹ᵁ Proj.basicOpen _ i.s :=
+    le_of_eq (Proj.map_preimage_basicOpen _ _ _).symm
+  rw [← Scheme.Hom.appLE_comp_appLE (Proj.map (i.gen hL) h) (S.projι i.U) _
+    (Proj.basicOpen _ i.s) _ (Scheme.Hom.preimage_image_eq _ _).ge e₂]
+  rw [CommRingCat.comp_apply, appLE_appIso_inv]
+  have h3 := map_appLE_awayToSection (i.gen hL) h i.hs e₂ (HomogeneousLocalization.Away.mk _ i.hs 1 t
+    (by rwa [smul_eq_mul, mul_one]))
+  refine Eq.trans ?_ (congrArg (· * _) h3.symm)
+  refine Eq.trans ?_ (map_mul _ _ _)
+  exact congrArg _ (away_map_gen_mul hL i v hv ht).symm
+
+end TwistChart
+
+end QuasiCoherentGradedAlgebra
+
+end Hartshorne
