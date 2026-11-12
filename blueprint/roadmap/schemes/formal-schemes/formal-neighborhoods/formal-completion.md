@@ -7,12 +7,12 @@ origin: cited
 # Formal completion as a locally ringed space
 
 For $X$, $Y$, and $I$ as in the infinitesimal-neighbourhood construction,
-define the formal completion $\widehat{X} _Y$ to have topological space $|Y|$ and
+define the formal completion $\widehat{X}_Y$ to have topological space $|Y|$ and
 structure sheaf
 
-$\mathcal{O}_{(\widehat{X} _Y)} = \lim _n (\mathcal{O}_X / I^{n+1})|_{|Y|}$.
+$\mathcal{O}_{\widehat{X}_Y} = \varprojlim_{n \ge 1} (\mathcal{O}_X / I^{n})|_{|Y|}$.
 
-Equip every stalk with its induced local-ring structure, making $\widehat{X} _Y$ a
+Equip every stalk with its induced local-ring structure, making $\widehat{X}_Y$ a
 locally ringed space. This is Hartshorne's plain ring-valued construction: no
 topology is added to section rings.
 
