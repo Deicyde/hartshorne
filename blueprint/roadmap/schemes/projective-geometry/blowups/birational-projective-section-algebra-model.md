@@ -3,6 +3,8 @@ article_id: af_71c31784b121f118b423a44a
 declaration: theorem
 origin: cited
 lean: Hartshorne.SectionAlgebraModel.exists_sectionAlgebraModel_multiplicative Hartshorne.SectionAlgebraModel.veroneseTwistSection_mul Hartshorne.SectionAlgebraModel.tensorPowerMulSection_coordTwistSection
+statement: formalized
+proof: formalized
 ---
 
 # The section-algebra model of a birational projective morphism
