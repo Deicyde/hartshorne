@@ -236,8 +236,11 @@ a coherent `𝒪_X`-module `ω°`, a `k`-linear trace `t : Hⁿ(X, ω°) ⟶ k`,
 every coherent `𝒪_X`-module `F` the map `Hom_X(F, ω°) ⟶ Hⁿ(X, F)^∨`, `φ ↦ t ∘ Hⁿ(φ)`, induced by
 the pairing `Hom_X(F, ω°) × Hⁿ(X, F) ⟶ Hⁿ(X, ω°) ⟶ k`, is bijective. That map is `k`-linear and
 natural in `F` (`Hartshorne.dualityPairingMap_naturality`), so this gives natural `k`-linear
-isomorphisms `Hom_X(F, ω°) ≃ Hⁿ(X, F)^∨` (`Hartshorne.DualizingSheaf.dualityEquiv`). -/
-structure DualizingSheaf (f : X ⟶ Spec (CommRingCat.of k)) [IsProper f] (n : ℕ) (hdim : topologicalKrullDim X = n) where
+isomorphisms `Hom_X(F, ω°) ≃ Hⁿ(X, F)^∨` (`Hartshorne.DualizingSheaf.dualityEquiv`).
+
+Properness of `f` and `hdim` are the book's standing hypotheses; no field uses them. -/
+structure DualizingSheaf (f : X ⟶ Spec (CommRingCat.of k)) [IsProper f] (n : ℕ)
+    (hdim : topologicalKrullDim X = n) where
   /-- The dualizing module `ω°_X`. -/
   sheaf : X.Modules
   /-- `ω°_X` is coherent. -/
