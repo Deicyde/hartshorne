@@ -22,7 +22,8 @@ projective morphism from an integral scheme to a quasi-projective variety over a
 * Step 5: over an affine open on which `D` has a frame, every graded piece `S_m ⊗ D^m` is
   identified with `Iᵐ` inside `K(X)`, so `S · D ≅ ⊕_m Iᵐ` locally; gluing and Lemma 7.9 give
   `Bl_I X = Proj_X (⊕_m Iᵐ) ≅ Proj_X (S · D) ≅ Proj_X S ≅ Z` over `X`
-  (`Hartshorne.BirationalBlowup.Setup.blowupIso`). `I` is nonzero because `Z` is nonempty.
+  (`Hartshorne.BirationalBlowup.Setup.blowupIso`). (The nonzeroness of `I`, which follows
+  because `Z` is nonempty, is this formalization's addition.)
 -/
 
 universe u
@@ -235,8 +236,8 @@ generic point of `Z` to that of `X` and induces an isomorphism `K(X) ≅ K(Z)` o
 Then there is a nonzero coherent sheaf of ideals `I` on `X` such that `Z` is isomorphic over `X` to
 the blowing-up `Bl_I X = Proj_X (⊕_m Iᵐ)`.
 
-The book takes `k` algebraically closed and `Z` a variety; the proof here works over any field
-and uses only that `Z` is integral. -/
+The book takes `k` algebraically closed and `Z` a variety; the proof here works over any field,
+uses only that `Z` is integral, and also shows that `I` is nonzero. -/
 theorem exists_iso_blowup_of_birational_projective {k : Type u} [Field k] {X Z : Scheme.{u}}
     (p : X ⟶ Spec (.of k)) [IsIntegral X] (hp : FiniteType p) (hq : QuasiProjective p)
     [IsIntegral Z] (f : Z ⟶ X) (hfp : Projective f)
