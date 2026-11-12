@@ -12,8 +12,8 @@ Hartshorne, *Algebraic Geometry*, II, proof of Theorem 7.17, Steps 1–3 (pp. 16
 Let `i : Z ⟶ ℙʳ_X` be a closed immersion of an integral scheme, `f = π ∘ i`, `L = i^* 𝒪(1)` and
 `T(U) = Γ(X, U)[x₀, …, xᵣ] / I_U` the relative homogeneous coordinate algebra. The comparison
 `T(U)_n ≅ Γ(f⁻¹(U), L^{n})` of `SectionAlgebraSheafComparison` turns the multiplication of `T(U)`
-into the product `L^{p} ⊗ L^{q} → L^{p+q}`; this file proves it on monomials and provides the
-algebra of these products (bilinearity, compatibility with restriction).
+into the product `L^{p} ⊗ L^{q} → L^{p+q}`; this file proves this, together with the algebra of
+these products (bilinearity, compatibility with restriction).
 
 * `Ringed.moduleSheafTensorPowerAddIso_hom_tprod_append`: `T^{a+b} F ≅ T^a F ⊗ T^b F` on
   elementary tensors; `Ringed.moduleSheafTensorPowerMulSection`, the induced product of sections.
@@ -22,7 +22,17 @@ algebra of these products (bilinearity, compatibility with restriction).
   (Proposition 5.12(b) on sections).
 * `SectionAlgebraModel.tensorPowerMulSection_monomialSection`: the pulled-back monomials multiply,
   `x^β · x^γ = x^{β+γ}`; `tensorPowerMulSection_polyTwistSection_monomial`: so do the comparison
-  sections `f^*(a) x^α` over `f⁻¹(U)`.
+  sections `f^*(a) x^α` over `f⁻¹(U)`, and `tensorPowerMulSection_polyTwistSection`: so do those
+  of arbitrary polynomials.
+* `SectionAlgebraModel.tensorPowerMulSection_coordTwistSection`,
+  `SectionAlgebraModel.veroneseTwistSection_mul`: the comparisons `T(U)_n ≅ Γ(f⁻¹(U), L^{n})` and
+  `T(U)^{(d)}_m ≅ Γ(f⁻¹(U), L^{md})` are multiplicative.
+* `SectionAlgebraModel.exists_sectionAlgebraModel_multiplicative`: the section-algebra model of
+  Theorem 7.17, Steps 1–3, with comparison isomorphisms that are natural, linear and
+  multiplicative.
+
+The route to multiplicativity (reduction to pulled-back monomials on `Z`) is this formalization's
+own and is not taken from Hartshorne.
 -/
 universe u
 
@@ -1054,6 +1064,137 @@ theorem veroneseTwistSection_mul (ha : 0 < a) (hb : 0 < b) :
   exact Eq.trans h₅ (Eq.trans h₆ (Eq.symm (Eq.trans h₇ h₈)))
 
 end VeroneseMul
+
+/-! ### The section-algebra model, multiplicative form -/
+
+section Model
+
+open Scheme.AffineZariskiSite
+
+variable [IsNoetherian X] [IsIntegral X]
+  (hf : (i ≫ projectiveSpaceOverSchemeProjection r X) (genericPoint Z) = genericPoint X)
+  (d : ℕ) [NeZero d]
+  (E : ∀ (U : X.AffineZariskiSite) {m : ℕ}, 0 < m →
+    Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1) ≃+
+      (sectionAlgebraRelativeProjData i hf d).algebra.grading U m)
+  (hE : ∀ (U : X.AffineZariskiSite) {m : ℕ} (hm : 0 < m)
+    (s : Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)),
+    veroneseTwistSection i d U hm (E U hm s) = s)
+  (hV : ∀ (U : X.AffineZariskiSite) {m : ℕ} (hm : 0 < m),
+    Function.Injective (veroneseTwistSection i d U hm))
+
+include hE hV
+
+/-- A right inverse `E` of the injective comparison maps commutes with restriction. -/
+theorem sectionAlgebraModel_restrict (U V : X.AffineZariskiSite) (h : V ⟶ U) {m : ℕ} (hm : 0 < m)
+    (s : Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)) :
+    (E V hm ((tensorPowerL i (m * d)).presheaf.map
+        (homOfLE ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono
+          (toOpens_mono h.le))).op s) :
+        (sectionAlgebraRelativeProjData i hf d).algebra.obj.obj (op V)) =
+      (sectionAlgebraRelativeProjData i hf d).algebra.obj.map h.op (E U hm s) := by
+  have key := veroneseTwistSection_restrict i d h hm (E U hm s)
+  have := hV V hm ((hE V hm _).trans ((congrArg (fun t => (tensorPowerL i (m * d)).presheaf.map
+      (homOfLE ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono
+        (toOpens_mono h.le))).op t) (hE U hm s).symm).trans key))
+  exact congrArg Subtype.val this
+
+/-- A right inverse `E` of the injective comparison maps is `Γ(X, U)`-linear. -/
+theorem sectionAlgebraModel_structureMap_mul (U : X.AffineZariskiSite) {m : ℕ} (hm : 0 < m)
+    (a : Γ(X, U.1))
+    (s : Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)) :
+    (E U hm ((i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a • s) :
+        (sectionAlgebraRelativeProjData i hf d).algebra.obj.obj (op U)) =
+      (sectionAlgebraRelativeProjData i hf d).algebra.structureMap.app (op U) a * E U hm s := by
+  have key := veroneseTwistSection_structureMap_mul i d U hm a (E U hm s)
+  have := hV U hm ((hE U hm _).trans ((congrArg (fun t =>
+    (i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a • t) (hE U hm s).symm).trans key.symm))
+  exact congrArg Subtype.val this
+
+/-- A right inverse `E` of the injective comparison maps is multiplicative: it sends the product
+`L^{ad} × L^{bd} → L^{ad+bd} = L^{(a+b)d}` to the multiplication of `T^{(d)}(U)`. -/
+theorem sectionAlgebraModel_mul (U : X.AffineZariskiSite) {a b : ℕ} (ha : 0 < a) (hb : 0 < b)
+    (s : Γ(tensorPowerL i (a * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1))
+    (t : Γ(tensorPowerL i (b * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)) :
+    (E U (pos_add_of_pos ha b) (Scheme.Modules.Hom.app
+        (eqToHom (congrArg (tensorPowerL i) (Nat.add_mul a b d).symm)) _
+        (tensorPowerMulSection i s t)) :
+        (sectionAlgebraRelativeProjData i hf d).algebra.obj.obj (op U)) =
+      (E U ha s : (sectionAlgebraRelativeProjData i hf d).algebra.obj.obj (op U)) * E U hb t := by
+  have key := veroneseTwistSection_mul i d U (E U ha s) (E U hb t) ha hb
+  have h₁ := congrArg₂ (fun s t => Scheme.Modules.Hom.app
+    (eqToHom (congrArg (tensorPowerL i) (Nat.add_mul a b d).symm)) _
+    (tensorPowerMulSection i s t)) (hE U ha s) (hE U hb t)
+  have := hV U (pos_add_of_pos ha b) ((hE U _ _).trans (h₁.symm.trans key))
+  exact congrArg Subtype.val this
+
+omit hE hV
+
+end Model
+
+-- Checking the assembled existential (the comparison maps `E` inside `∃`, with `S` given by
+-- `sectionAlgebraRelativeProjData`) takes the kernel about three minutes; the default heartbeats
+-- are not enough.
+set_option maxHeartbeats 1000000 in
+open Scheme.AffineZariskiSite in
+/-- **The section-algebra model of a projective birational morphism** (Hartshorne II, proof of
+Theorem 7.17, Steps 1–3). Let `X` be an integral quasi-compact scheme locally of finite type over a
+field `k`, `i : Z ⟶ ℙʳ_X` a closed immersion of an integral scheme, `f = π ∘ i` sending the generic
+point of `Z` to that of `X` (only this dominance is used, not birationality), and `L = i^* 𝒪(1)`.
+There is a `d₀` such that for every `d ≥ d₀` there is a quasi-coherent graded `𝒪_X`-algebra `S`
+satisfying the hypotheses for relative Proj (`S₀ = 𝒪_X`, `S₁` coherent, generated by `S₁`) with
+`Proj_X S ≅ Z` over `X`, together with isomorphisms `E : Γ(f⁻¹(U), L^{md}) ≅ S(U)_m` (`U` affine,
+`m ≥ 1`) that are compatible with restriction, `Γ(X, U)`-linear, and multiplicative: `E` sends the
+product `L^{ad} × L^{bd} → L^{(a+b)d}` (from `L^{ad} ⊗ L^{bd} ≅ L^{ad+bd}`) to the multiplication of
+`S(U)`. Thus `𝒪_X ⊕ ⨁_{m ≥ 1} f_* L^{md} ≅ S` as graded `𝒪_X`-algebras on the affine opens. -/
+theorem exists_sectionAlgebraModel_multiplicative (k : Type u) [Field k] [IsIntegral X]
+    [CompactSpace X] (pX : X ⟶ Spec (.of k)) [LocallyOfFiniteType pX]
+    (hf : (i ≫ projectiveSpaceOverSchemeProjection r X) (genericPoint Z) = genericPoint X) :
+    letI : IsNoetherian X :=
+      { toIsLocallyNoetherian := LocallyOfFiniteType.isLocallyNoetherian pX }
+    ∃ d₀ : ℕ, ∀ (d : ℕ) [NeZero d], d₀ ≤ d → ∃ D : RelativeProjData X,
+      ∃ E : ∀ (U : X.AffineZariskiSite) {m : ℕ}, 0 < m →
+        Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1) ≃+
+          D.algebra.grading U m,
+      (∀ (U V : X.AffineZariskiSite) (h : V ⟶ U) {m : ℕ} (hm : 0 < m)
+          (s : Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)),
+        (E V hm ((tensorPowerL i (m * d)).presheaf.map
+            (homOfLE ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono
+              (toOpens_mono h.le))).op s) : D.algebra.obj.obj (op V)) =
+          D.algebra.obj.map h.op (E U hm s)) ∧
+      (∀ (U : X.AffineZariskiSite) {m : ℕ} (hm : 0 < m) (a : Γ(X, U.1))
+          (s : Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)),
+        (E U hm ((i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a • s) :
+            D.algebra.obj.obj (op U)) =
+          D.algebra.structureMap.app (op U) a * E U hm s) ∧
+      (∀ (U : X.AffineZariskiSite) {a b : ℕ} (ha : 0 < a) (hb : 0 < b)
+          (s : Γ(tensorPowerL i (a * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1))
+          (t : Γ(tensorPowerL i (b * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)),
+        (E U (pos_add_of_pos ha b) (Scheme.Modules.Hom.app
+            (eqToHom (congrArg (tensorPowerL i) (Nat.add_mul a b d).symm)) _
+            (tensorPowerMulSection i s t)) : D.algebra.obj.obj (op U)) =
+          (E U ha s : D.algebra.obj.obj (op U)) * E U hb t) ∧
+      ∃ e : D.relativeProj ≅ Z, e.hom ≫ (i ≫ projectiveSpaceOverSchemeProjection r X) =
+        D.projection := by
+  let : IsNoetherian X :=
+    { toIsLocallyNoetherian := LocallyOfFiniteType.isLocallyNoetherian pX }
+  obtain ⟨d₀, hd₀⟩ := exists_bound_bijective_twistSection i k pX
+  refine ⟨d₀, fun d _ hd => ?_⟩
+  have hG : ∀ (U : X.AffineZariskiSite) {m : ℕ} (hm : 0 < m),
+      Function.Bijective (veroneseTwistSection i d U hm) := fun U m hm =>
+    veroneseTwistSection_bijective i d U hm
+      (hd₀ U (m * d) (hd.trans (Nat.le_mul_of_pos_left d hm)))
+  have hE : ∀ (U : X.AffineZariskiSite) {m : ℕ} (hm : 0 < m)
+      (s : Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)),
+      veroneseTwistSection i d U hm
+        ((AddEquiv.ofBijective (veroneseTwistSection i d U hm) (hG U hm)).symm s) = s :=
+    fun U m hm s => AddEquiv.ofBijective_apply_symm_apply _ (hG U hm)
+  exact ⟨sectionAlgebraRelativeProjData i hf d,
+    fun U m hm => (AddEquiv.ofBijective (veroneseTwistSection i d U hm) (hG U hm)).symm,
+    sectionAlgebraModel_restrict i hf d _ hE (fun U m hm => (hG U hm).1),
+    sectionAlgebraModel_structureMap_mul i hf d _ hE (fun U m hm => (hG U hm).1),
+    sectionAlgebraModel_mul i hf d _ hE (fun U m hm => (hG U hm).1),
+    sectionAlgebraRelativeProjIso i hf d, sectionAlgebraRelativeProjIso_hom_comp i hf d⟩
 
 end Local
 
