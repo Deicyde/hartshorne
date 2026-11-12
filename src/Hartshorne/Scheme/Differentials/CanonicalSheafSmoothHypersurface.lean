@@ -8,6 +8,7 @@ import Hartshorne.Scheme.Differentials.PlurigenusBirational
 import Hartshorne.Scheme.InvertibleSectionDivisor
 import Hartshorne.Scheme.CartierLinearEquivalenceSheaf
 import Hartshorne.Scheme.ProjTwistPullback
+import Hartshorne.Scheme.ProjectiveGlobalSectionsFinite
 
 /-!
 # The canonical sheaf of a smooth hypersurface
@@ -32,8 +33,9 @@ the formalization of adjunction. `𝒪_Y(m)` is the pullback `i^* 𝒪_X(m)`.
   `Γ(Y, ω_Y) ≠ 0`, as `𝒪_Y(m)`, `m ≥ 0`, has the nonzero section `ℓ^m` for a linear form `ℓ` not
   vanishing at some point of `Y`
   (`Hartshorne.SmoothHypersurface.exists_pullback_projTwistingSheaf_globalSection_ne_zero`).
-  Hence `p_g(Y) > 0` once `Γ(Y, ω_Y)` is known to be finite-dimensional
-  (`Hartshorne.SmoothHypersurface.geometricGenus_pos`).
+* `Hartshorne.SmoothHypersurface.geometricGenus_pos`: for `d ≥ n + 1`, `p_g(Y) > 0`, since
+  `Γ(Y, ω_Y)` is finite-dimensional (Theorem 5.19): `Y` is projective over `k` and `ω_Y` is
+  coherent, being isomorphic to `𝒪_Y(d - n - 1)`.
 * `Hartshorne.SmoothHypersurface.not_rational`: for `n ≥ 2` and `d ≥ n + 1`, `Y` is not birational
   to any `ℙᵐ_k`: for `m ≥ 1`, `Γ(ℙᵐ_k, ω) = 0` and the dimension of the space of canonical
   sections is a birational invariant (Theorem 8.19); for `m = 0`, `Y` would be a point, whose image
@@ -243,17 +245,40 @@ theorem nontrivial_globalSections_canonicalSheaf [IsAlgClosed k]
     rw [← h2, h, map_zero])
   exact ⟨⟨e.inv.app ⊤ t, 0, key⟩⟩
 
-/-- **Hartshorne II, Example 8.20.3: positive geometric genus**, granted finite-dimensionality of
-`Γ(Y, ω_Y)` (Hartshorne II.5.19). If `Y ⊆ ℙⁿ_k` is a nonsingular hypersurface of degree
-`d ≥ n + 1`, then `p_g(Y) > 0`. -/
+/-- The hypersurface `Y ⊆ ℙⁿ_k` is projective over `k`: the closed immersion `Y ⟶ ℙⁿ_k` followed
+by the structure morphism of `ℙⁿ_k`. -/
+theorem projective_structureMorphism (s : (projTwistingSheaf 𝒜 (d : ℤ)).val.obj (op ⊤))
+    {D : (Proj 𝒜).CartierDivisor} (hD : IsDivisorOfZeros (projTwistingSheaf 𝒜 (d : ℤ)) s D) :
+    Hartshorne.Projective (hypersurfaceι s hD ≫ toBase k n) :=
+  Hartshorne.Projective.mk n
+    (hypersurfaceι s hD ≫ projToProjectiveSpaceOverSpec k n (Equiv.refl _))
+    (by rw [Category.assoc, projToProjectiveSpaceOverSpec_projection]; rfl)
+
+/-- The canonical sheaf of a nonsingular hypersurface `Y ⊆ ℙⁿ_k` is coherent, being isomorphic to
+the pullback `𝒪_Y(d - n - 1)` of the coherent sheaf `𝒪(d - n - 1)` (Proposition 5.11(c)). -/
+theorem isCoherent_canonicalSheaf [IsAlgClosed k]
+    {s : (projTwistingSheaf 𝒜 (d : ℤ)).val.obj (op ⊤)} {D : (Proj 𝒜).CartierDivisor} (hs : s ≠ 0)
+    (hD : IsDivisorOfZeros (projTwistingSheaf 𝒜 (d : ℤ)) s D)
+    [IrreducibleSpace (hypersurface s hD)] (hY : (hypersurface s hD).IsRegular) :
+    IsCoherent (canonicalSheaf (hypersurfaceι s hD ≫ toBase k n)) := by
+  obtain ⟨e⟩ := canonicalSheaf_smoothHypersurface hs hD hY
+  exact isCoherent_of_iso e.symm (isCoherent_pullback _
+    (ProjGradedModuleSheaf.isCoherent 𝒜 (gradedTwist 𝒜 ((d : ℤ) - n - 1))))
+
+/-- **Hartshorne II, Example 8.20.3: positive geometric genus.** If `Y ⊆ ℙⁿ_k` is a nonsingular
+hypersurface of degree `d ≥ n + 1`, then `p_g(Y) > 0`: `Γ(Y, ω_Y) ≠ 0`, and `Γ(Y, ω_Y)` is
+finite-dimensional over `k` (Theorem 5.19), as `Y` is projective over `k` and `ω_Y` is coherent. -/
 theorem geometricGenus_pos [IsAlgClosed k] {s : (projTwistingSheaf 𝒜 (d : ℤ)).val.obj (op ⊤)}
     {D : (Proj 𝒜).CartierDivisor} (hs : s ≠ 0)
     (hD : IsDivisorOfZeros (projTwistingSheaf 𝒜 (d : ℤ)) s D)
     [IrreducibleSpace (hypersurface s hD)] (hY : (hypersurface s hD).IsRegular)
-    (hdn : n + 1 ≤ d) [Module.Finite k (GlobalSectionsOver (hypersurfaceι s hD ≫ toBase k n)
-      (canonicalSheaf (hypersurfaceι s hD ≫ toBase k n)))] :
+    (hdn : n + 1 ≤ d) :
     0 < geometricGenus (hypersurfaceι s hD ≫ toBase k n) := by
   have := nontrivial_globalSections_canonicalSheaf hs hD hY hdn
+  have : FiniteDimensional k (GlobalSectionsOver (hypersurfaceι s hD ≫ toBase k n)
+      (canonicalSheaf (hypersurfaceι s hD ≫ toBase k n))) :=
+    finiteDimensional_globalSections_of_projective _ (projective_structureMorphism s hD) _
+      (isCoherent_canonicalSheaf hs hD hY)
   exact Module.finrank_pos
 
 /-- `Γ(ℙᵐ_k, ω) = 0` for `m ≥ 1`. -/
