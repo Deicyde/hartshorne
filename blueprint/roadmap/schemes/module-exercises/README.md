@@ -24,7 +24,7 @@ duplicated here.
 - [Sections of a geometric vector bundle](vector-bundle-sections.md)
 - [Vector bundles and locally free sheaves](vector-bundle-equivalence.md)
 
-## Adopted exercises represented by sibling nodes
+## Represented elsewhere
 
 - [Finite locally free duality](../modules-and-quasicoherent/finite-locally-free-duality.md)
 - [Finite locally free projection formula](../modules-and-quasicoherent/finite-locally-free-projection-formula.md)
