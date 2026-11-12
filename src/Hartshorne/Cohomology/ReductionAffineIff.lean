@@ -211,6 +211,145 @@ theorem isAffine_of_forall_isZero_H1 [IsNoetherian X]
   exact h0.of_iso ((sheafCohomology X.toTopCat 1).mapIso
     ((SheafOfModules.toSheaf X.ringCatSheaf).mapIso (filtZeroIso J).symm))
 
+/-! ### Modules killed by the nilradical as modules on `X_red` -/
+
+section Descent
+
+variable (X) in
+/-- The reduction `X_red`: the closed subscheme cut out by the nilradical. -/
+abbrev red : Scheme.{u} := X.nilradical.subscheme
+
+variable (X) in
+/-- The closed immersion `X_red ⟶ X`. -/
+abbrev redι : red X ⟶ X := X.nilradical.subschemeι
+
+/-- Two sections of an `𝒪_X`-module agreeing on every affine open inside are equal. -/
+theorem ext_of_affine (F : X.Modules) {U : X.Opens} {s t : Γ(F, U)}
+    (h : ∀ (W : X.affineOpens) (hW : (W : X.Opens) ≤ U), res F hW s = res F hW t) : s = t := by
+  rw [← sub_eq_zero]
+  apply eq_zero_of_locally
+  intro x hx
+  obtain ⟨W, hWU, hxW⟩ := exists_affine_le hx
+  exact ⟨W, hWU, hxW, by rw [map_sub, h W hWU, sub_self]⟩
+
+theorem mem_support_nilradical (x : X) : x ∈ X.nilradical.support := by
+  rw [Scheme.support_nilradical]
+  trivial
+
+variable (X) in
+/-- The inverse of the homeomorphism `X_red ⟶ X`. -/
+def redInv : X.toTopCat ⟶ (red X).toTopCat :=
+  TopCat.ofHom ⟨fun x => ⟨x, mem_support_nilradical x⟩,
+    continuous_id.subtype_mk mem_support_nilradical⟩
+
+variable (X) in
+/-- The closed immersion `X_red ⟶ X` is a homeomorphism. -/
+def redHomeo : (red X).toTopCat ≅ X.toTopCat where
+  hom := (redι X).base
+  inv := redInv X
+  hom_inv_id := by ext z; rfl
+  inv_hom_id := by ext x; rfl
+
+/-- The open of `X` corresponding to an open of `X_red`. -/
+abbrev redOpen (V : (red X).Opens) : X.Opens := (Opens.map (redInv X)).obj V
+
+theorem preimage_redOpen (V : (red X).Opens) : (redι X) ⁻¹ᵁ redOpen V = V := rfl
+
+theorem redOpen_preimage (U : X.Opens) : redOpen ((redι X) ⁻¹ᵁ U) = U := rfl
+
+/-- Restriction of sections of `𝒪_X` is compatible with `X_red ⟶ X`. -/
+theorem app_res {U W : X.Opens} (h : W ≤ U) (c : Γ(X, U)) :
+    (redι X).app W (X.presheaf.map (homOfLE h).op c) =
+      (red X).presheaf.map (homOfLE (fun _ hz => h hz : (redι X) ⁻¹ᵁ W ≤ (redι X) ⁻¹ᵁ U)).op ((redι X).app U c) := by
+  exact congrArg (fun φ => φ.hom c) ((redι X).naturality (homOfLE h).op)
+
+variable {Q : X.Modules}
+  (hQ : ∀ (U : X.Opens) (a : Γ(X, U)), IsNilpotent a → ∀ s : Γ(Q, U), a • s = 0)
+
+include hQ in
+/-- Sections of `𝒪_X` vanishing on `X_red` kill `Q`. -/
+theorem smul_eq_zero_of_app_eq_zero {U : X.Opens} (c : Γ(X, U)) (hc : (redι X).app U c = 0)
+    (s : Γ(Q, U)) : c • s = 0 := by
+  apply eq_zero_of_locally _ (c • s)
+  intro x hx
+  obtain ⟨W, hWU, hxW⟩ := exists_affine_le hx
+  refine ⟨W, hWU, hxW, ?_⟩
+  rw [LinearMap.map_smulₛₗ]
+  apply hQ
+  have h1 : (redι X).app W (X.presheaf.map (homOfLE hWU).op c) = 0 := by
+    rw [app_res, hc, map_zero]
+  have h2 : X.presheaf.map (homOfLE hWU).op c ∈ RingHom.ker ((redι X).app W).hom := h1
+  rw [Scheme.IdealSheafData.ker_subschemeι_app] at h2
+  simp only [Scheme.nilradical, Scheme.IdealSheafData.radical_ideal,
+    Scheme.IdealSheafData.ideal_bot, Pi.bot_apply] at h2
+  exact mem_nilradical.mp h2
+
+/-- `b` lifts `a` over `W`. -/
+def IsLift {V : (red X).Opens} (a : Γ((red X), V)) {W : X.Opens} (hW : W ≤ redOpen V) (b : Γ(X, W)) :
+    Prop :=
+  (redι X).app W b = (red X).presheaf.map (homOfLE (fun _ hz => hW hz : (redι X) ⁻¹ᵁ W ≤ V)).op a
+
+theorem exists_isLift {V : (red X).Opens} (a : Γ((red X), V)) (W : X.affineOpens)
+    (hW : (W : X.Opens) ≤ redOpen V) : ∃ b : Γ(X, W), IsLift a hW b :=
+  X.nilradical.subschemeι_app_surjective W _
+
+theorem IsLift.res {V : (red X).Opens} {a : Γ((red X), V)} {W : X.Opens} {hW : W ≤ redOpen V}
+    {b : Γ(X, W)} (hb : IsLift a hW b) {W' : X.Opens} (h : W' ≤ W) :
+    IsLift a (h.trans hW) (X.presheaf.map (homOfLE h).op b) := by
+  unfold IsLift at hb ⊢
+  rw [app_res, hb, ← ConcreteCategory.comp_apply, ← Functor.map_comp]
+  rfl
+
+include hQ in
+theorem IsLift.smul_eq {V : (red X).Opens} {a : Γ((red X), V)} {W : X.Opens} {hW : W ≤ redOpen V}
+    {b b' : Γ(X, W)} (hb : IsLift a hW b) (hb' : IsLift a hW b') (s : Γ(Q, W)) :
+    b • s = b' • s := by
+  rw [← sub_eq_zero, ← sub_smul]
+  refine smul_eq_zero_of_app_eq_zero hQ _ ?_ s
+  rw [map_sub]
+  exact sub_eq_zero.mpr (hb.trans hb'.symm)
+
+include hQ in
+theorem exists_glue (V : (red X).Opens) (a : Γ((red X), V)) (s : Γ(Q, redOpen V)) :
+    ∃ t : Γ(Q, redOpen V), ∀ (W : X.Opens) (hW : W ≤ redOpen V) (b : Γ(X, W)),
+      IsLift a hW b → res Q hW t = b • res Q hW s := by
+  let ι := {W : X.affineOpens // (W : X.Opens) ≤ redOpen V}
+  let Wf : ι → X.Opens := fun W => W.1
+  choose b hb using fun W : ι => exists_isLift a W.1 W.2
+  let M' : TopCat.Sheaf AddCommGrpCat.{u} X := ⟨Q.val.presheaf, Q.isSheaf⟩
+  have hcover : redOpen V ≤ iSup Wf := fun x hx => by
+    obtain ⟨W, hWU, hxW⟩ := exists_affine_le hx
+    exact Opens.mem_iSup.mpr ⟨⟨W, hWU⟩, hxW⟩
+  let sf : ∀ W : ι, ToType (M'.1.obj (op (Wf W))) := fun W => b W • res Q W.2 s
+  have hsf : TopCat.Presheaf.IsCompatible M'.1 Wf sf := by
+    intro W₁ W₂
+    have h₁ := (hb W₁).res (inf_le_left : (W₁.1 : X.Opens) ⊓ W₂.1 ≤ W₁.1)
+    have h₂ := (hb W₂).res (inf_le_right : (W₁.1 : X.Opens) ⊓ W₂.1 ≤ W₂.1)
+    change res Q inf_le_left (b W₁ • res Q W₁.2 s) = res Q inf_le_right (b W₂ • res Q W₂.2 s)
+    rw [LinearMap.map_smulₛₗ, LinearMap.map_smulₛₗ, res_res, res_res]
+    exact h₁.smul_eq hQ h₂ _
+  obtain ⟨t₀, ht, -⟩ := M'.existsUnique_gluing' Wf (redOpen V)
+    (fun W => CategoryTheory.homOfLE W.2) hcover sf hsf
+  let t : Γ(Q, redOpen V) := t₀
+  refine ⟨t, fun W hW c hc => ?_⟩
+  refine ext_of_affine Q fun W' hW' => ?_
+  rw [res_res, LinearMap.map_smulₛₗ, res_res]
+  have e1 : res Q (hW'.trans hW) t = b ⟨W', hW'.trans hW⟩ • res Q (hW'.trans hW) s :=
+    ht ⟨W', hW'.trans hW⟩
+  rw [e1]
+  exact (hb ⟨W', hW'.trans hW⟩).smul_eq hQ (hc.res hW') _
+
+/-- The action of `Γ(X_red, V)` on `Γ(Q, V)`. -/
+def redSMul (V : (red X).Opens) (a : Γ((red X), V)) (s : Γ(Q, redOpen V)) : Γ(Q, redOpen V) :=
+  (exists_glue hQ V a s).choose
+
+theorem redSMul_spec (V : (red X).Opens) (a : Γ((red X), V)) (s : Γ(Q, redOpen V)) {W : X.Opens}
+    (hW : W ≤ redOpen V) {b : Γ(X, W)} (hb : IsLift a hW b) :
+    res Q hW (redSMul hQ V a s) = b • res Q hW s :=
+  (exists_glue hQ V a s).choose_spec W hW b hb
+
+end Descent
+
 /-- A closed subscheme of an affine scheme is affine; in particular `X_red` is affine when `X`
 is. -/
 theorem isAffine_reduced_of_isAffine [IsAffine X] : IsAffine X.nilradical.subscheme :=
