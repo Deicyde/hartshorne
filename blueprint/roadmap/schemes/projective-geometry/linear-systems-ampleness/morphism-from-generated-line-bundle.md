@@ -2,6 +2,7 @@
 article_id: af_f5323dfa4f9073430b7a3ba2
 declaration: theorem
 origin: cited
+lean: Hartshorne.projectiveSpaceIntCoordinate Hartshorne.projectiveSpaceCoordinate Hartshorne.pullbackGlobalSection Hartshorne.isInvertible_pullback_projectiveSpaceTwistingSheaf Hartshorne.isGeneratedBySections_pullback_projectiveSpaceCoordinate Hartshorne.existsUnique_morphism_of_isGeneratedBySections
 ---
 
 # Morphisms from generated invertible sheaves
