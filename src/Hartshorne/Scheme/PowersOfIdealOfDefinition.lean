@@ -125,15 +125,15 @@ def stalkIdeal (x : T) : Ideal (R.presheaf.stalk x) where
   zero_mem' := ⟨⊤, trivial, 0, zero_mem _, map_zero _⟩
   add_mem' := by
     rintro _ _ ⟨V₁, hx₁, s₁, hs₁, rfl⟩ ⟨V₂, hx₂, s₂, hs₂, rfl⟩
-    refine ⟨V₁ ⊓ V₂, (show x ∈ V₁ ⊓ V₂ from ⟨hx₁, hx₂⟩), R.presheaf.map (homOfLE inf_le_left).op s₁ +
-      R.presheaf.map (homOfLE inf_le_right).op s₂,
+    refine ⟨V₁ ⊓ V₂, (show x ∈ V₁ ⊓ V₂ from ⟨hx₁, hx₂⟩),
+      R.presheaf.map (homOfLE inf_le_left).op s₁ + R.presheaf.map (homOfLE inf_le_right).op s₂,
       add_mem (J.ideal_le_comap inf_le_left hs₁) (J.ideal_le_comap inf_le_right hs₂), ?_⟩
     rw [map_add, R.presheaf.germ_res_apply, R.presheaf.germ_res_apply]
   smul_mem' := by
     rintro r _ ⟨V, hx, s, hs, rfl⟩
     obtain ⟨V₀, hx₀, r₀, rfl⟩ := R.presheaf.exists_germ_eq r
-    refine ⟨V₀ ⊓ V, (show x ∈ V₀ ⊓ V from ⟨hx₀, hx⟩), R.presheaf.map (homOfLE inf_le_left).op r₀ *
-      R.presheaf.map (homOfLE inf_le_right).op s,
+    refine ⟨V₀ ⊓ V, (show x ∈ V₀ ⊓ V from ⟨hx₀, hx⟩),
+      R.presheaf.map (homOfLE inf_le_left).op r₀ * R.presheaf.map (homOfLE inf_le_right).op s,
       Ideal.mul_mem_left _ _ (J.ideal_le_comap inf_le_right hs), ?_⟩
     rw [map_mul, R.presheaf.germ_res_apply, R.presheaf.germ_res_apply, smul_eq_mul]
 
@@ -269,10 +269,13 @@ lemma isKernelChart_iff {W : Scheme.{u}} (g : W.toLocallyRingedSpace ⟶ X) :
 
 variable {J} {W : Scheme.{u}} {g : W.toLocallyRingedSpace ⟶ X}
 
+/-- `g` kills `J`: the structure map of `g` vanishes on sections of `J`. -/
+private def Kills (J : IdealSubsheaf X.sheaf) (g : W.toLocallyRingedSpace ⟶ X) : Prop :=
+  ∀ (V : Opens X) (s : X.presheaf.obj (op V)), s ∈ J.ideal V → g.c.app (op V) s = 0
+
 /-- A kernel chart of `J` kills `J`. -/
-private lemma c_app_eq_zero_of_mem (hg : J.IsKernelChart g) {V : Opens X}
-    (s : X.presheaf.obj (op V)) (hs : s ∈ J.ideal V) :
-    g.c.app (op V) s = 0 := by
+private lemma IsKernelChart.kills (hg : J.IsKernelChart g) : Kills J g := by
+  intro V s hs
   refine TopCat.Presheaf.section_ext W.sheaf ((Opens.map g.base).obj V) _ 0 fun w hw => ?_
   have h0 := (hg.2.2 w V hw s).mpr ⟨V, le_rfl, hw, J.ideal_le_comap le_rfl hs⟩
   exact ((LocallyRingedSpace.stalkMap_germ_apply g V w hw s).symm.trans h0).trans
@@ -283,10 +286,10 @@ private lemma isSheaf_pushforward :
   TopCat.Sheaf.pushforward_sheaf_of_sheaf g.base W.IsSheaf
 
 /-- The map of presheaves `𝒪_X(V) ⧸ J(V) → 𝒪_W(g⁻¹ V)` induced by a kernel chart `g`. -/
-private def quotientPresheafLift (hg : J.IsKernelChart g) :
+private def quotientPresheafLift (hk : Kills J g) :
     idealQuotientPresheaf X.sheaf J.ideal J.ideal_le_comap ⟶ g.base _* W.presheaf where
   app V := CommRingCat.ofHom (Ideal.Quotient.lift (J.ideal V.unop)
-    (g.c.app V).hom (fun s hs => c_app_eq_zero_of_mem hg s hs))
+    (g.c.app V).hom (fun s hs => hk _ s hs))
   naturality V V' i := by
     ext x
     obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective
@@ -294,60 +297,62 @@ private def quotientPresheafLift (hg : J.IsKernelChart g) :
     exact NatTrans.naturality_apply g.c i s
 
 /-- The map of sheaves of rings `𝒪_X / J ⟶ g_* 𝒪_W` induced by a kernel chart `g`. -/
-private def quotientLift (hg : J.IsKernelChart g) :
+private def quotientLift (hk : Kills J g) :
     J.quotient.presheaf ⟶ g.base _* W.presheaf :=
-  sheafifyLift (Opens.grothendieckTopology X) (quotientPresheafLift hg) isSheaf_pushforward
+  sheafifyLift (Opens.grothendieckTopology X) (quotientPresheafLift hk) isSheaf_pushforward
 
-private lemma quotientLift_app_quotientπ (hg : J.IsKernelChart g) {V : Opens X}
+private lemma quotientLift_app_quotientπ (hk : Kills J g) {V : Opens X}
     (s : X.sheaf.presheaf.obj (op V)) :
-    (quotientLift hg).app (op V) (J.quotientπ.hom.app (op V) s) = g.c.app (op V) s := by
+    (quotientLift hk).app (op V) (J.quotientπ.hom.app (op V) s) = g.c.app (op V) s := by
   rw [quotientπ_app_apply]
-  change (toSheafify (Opens.grothendieckTopology X) _ ≫ quotientLift hg).app (op V)
+  change (toSheafify (Opens.grothendieckTopology X) _ ≫ quotientLift hk).app (op V)
     (Ideal.Quotient.mk _ s) = _
   rw [quotientLift, toSheafify_sheafifyLift]
   rfl
 
 /-- The morphism of ringed spaces `W ⟶ (X, 𝒪_X / J)` through which a kernel chart `g`
 factors. -/
-private def toQuotient (hg : J.IsKernelChart g) : W.toSheafedSpace ⟶ J.quotientSheafedSpace :=
-  InducedCategory.homMk { base := g.base, c := quotientLift hg }
+private def toQuotient (hk : Kills J g) : W.toSheafedSpace ⟶ J.quotientSheafedSpace :=
+  InducedCategory.homMk { base := g.base, c := quotientLift hk }
 
-private lemma toQuotient_stalkMap_germ (hg : J.IsKernelChart g) (w : W) (V : Opens X)
+private lemma toQuotient_stalkMap_germ (hk : Kills J g) (w : W) (V : Opens X)
     (hw : g.base w ∈ V) (s : X.sheaf.presheaf.obj (op V)) :
-    (toQuotient hg).hom.stalkMap w (J.quotient.presheaf.germ V
+    (toQuotient hk).hom.stalkMap w (J.quotient.presheaf.germ V
         (g.base w) hw (J.quotientπ.hom.app (op V) s)) =
       g.stalkMap w (X.presheaf.germ V (g.base w) hw s) := by
-  refine (PresheafedSpace.stalkMap_germ_apply (toQuotient hg).hom V w hw _).trans ?_
+  refine (PresheafedSpace.stalkMap_germ_apply (toQuotient hk).hom V w hw _).trans ?_
   refine Eq.trans ?_ (LocallyRingedSpace.stalkMap_germ_apply g V w hw s).symm
-  exact congrArg _ (quotientLift_app_quotientπ hg s)
+  exact congrArg _ (quotientLift_app_quotientπ hk s)
 
 /-- The factorization of a kernel chart through `(X, 𝒪_X / J)` has bijective stalk maps. -/
 private lemma isIso_toQuotient_stalkMap (hg : J.IsKernelChart g) (w : W) :
-    IsIso ((toQuotient hg).hom.stalkMap w) := by
+    IsIso ((toQuotient hg.kills).hom.stalkMap w) := by
   rw [ConcreteCategory.isIso_iff_bijective]
   constructor
-  · refine (injective_iff_map_eq_zero ((toQuotient hg).hom.stalkMap w).hom).mpr fun a ha => ?_
+  · refine (injective_iff_map_eq_zero ((toQuotient hg.kills).hom.stalkMap w).hom).mpr
+      fun a ha => ?_
     obtain ⟨V, hw, t, rfl⟩ := J.quotient.presheaf.exists_germ_eq a
     revert ha
-    change ∀ _ : (toQuotient hg).hom.stalkMap w (J.quotient.presheaf.germ V (g.base w) hw t) = 0,
+    change ∀ _ : (toQuotient hg.kills).hom.stalkMap w
+        (J.quotient.presheaf.germ V (g.base w) hw t) = 0,
       J.quotient.presheaf.germ V (g.base w) hw t = 0
     intro ha
     obtain ⟨V', hV'V, s, hwV', hs⟩ := J.exists_quotientπ_app_eq V t (g.base w) hw
     rw [← J.quotient.presheaf.germ_res_apply (homOfLE hV'V) (g.base w) hwV', ← hs] at ha ⊢
-    rw [toQuotient_stalkMap_germ hg w V' hwV' s] at ha
+    rw [toQuotient_stalkMap_germ hg.kills w V' hwV' s] at ha
     obtain ⟨V'', hV''V', hwV'', hmem⟩ := (hg.2.2 w V' hwV' s).mp ha
     rw [← J.quotient.presheaf.germ_res_apply (homOfLE hV''V') (g.base w) hwV'',
       ← J.quotientπ_app_res, (J.quotientπ_app_eq_zero_iff _ _).mpr hmem, map_zero]
   · intro b
     obtain ⟨a, rfl⟩ := hg.2.1 w b
     obtain ⟨V, hw, s, rfl⟩ := X.presheaf.exists_germ_eq a
-    exact ⟨_, toQuotient_stalkMap_germ hg w V hw s⟩
+    exact ⟨_, toQuotient_stalkMap_germ hg.kills w V hw s⟩
 
 /-- The factorization of a kernel chart through `(X, 𝒪_X / J)` is an open immersion. -/
 private lemma isOpenImmersion_toQuotient (hg : J.IsKernelChart g) :
-    SheafedSpace.IsOpenImmersion (toQuotient hg) :=
+    SheafedSpace.IsOpenImmersion (toQuotient hg.kills) :=
   haveI := isIso_toQuotient_stalkMap hg
-  SheafedSpace.IsOpenImmersion.of_stalk_iso (toQuotient hg) hg.1
+  SheafedSpace.IsOpenImmersion.of_stalk_iso (toQuotient hg.kills) hg.1
 
 end kernelChart
 
@@ -363,7 +368,7 @@ include h in
 private lemma isLocalRing_stalk_quotient (x : X) :
     IsLocalRing (J.quotient.presheaf.stalk x) := by
   obtain ⟨R, -, g, hg, w, rfl⟩ := h x
-  set φ := (toQuotient hg).hom.stalkMap w
+  set φ := (toQuotient hg.kills).hom.stalkMap w
   have : IsIso φ := isIso_toQuotient_stalkMap hg w
   have hφ : Function.Surjective φ := (ConcreteCategory.bijective_of_isIso φ).2
   have : Nontrivial (J.quotient.presheaf.stalk (g.base w)) := hφ.nontrivial
@@ -382,7 +387,8 @@ private def quotientLRS : LocallyRingedSpace.{u} where
 private def chartLRSHom {R : CommRingCat.{u}} {g : (Spec R).toLocallyRingedSpace ⟶ X}
     (hg : J.IsKernelChart g) :
     Spec.toLocallyRingedSpace.obj (op R) ⟶ quotientLRS J h :=
-  ⟨(toQuotient hg).hom, fun w => @isLocalHom_of_isIso _ _ ((toQuotient hg).hom.stalkMap w)
+  ⟨(toQuotient hg.kills).hom, fun w =>
+    @isLocalHom_of_isIso _ _ ((toQuotient hg.kills).hom.stalkMap w)
     (isIso_toQuotient_stalkMap hg w)⟩
 
 private lemma isOpenImmersion_chartLRSHom {R : CommRingCat.{u}}
@@ -513,5 +519,99 @@ private lemma isKernelChart_comp_specMap_quotient {X : LocallyRingedSpace.{u}}
     exact (congrArg (Ideal.comap (g.stalkMap _).hom) hk).trans (hc _)
 
 end specQuotient
+
+section quotientIdeal
+
+/-! ### The image of an ideal of definition in an affine chart
+
+Let `g : Spec B ⟶ X` be an open embedding with surjective stalk maps into a Noetherian formal
+scheme, whose stalk kernels lie in the stalks of an ideal of definition `J`. Since `(X, 𝒪_X / J)`
+is a scheme, the induced morphism from its open subscheme `g(Spec B)` to `Spec B` is a closed
+immersion; hence the image of `J` in `B` is the localization of an ideal of `B`. -/
+
+open Spec (structureSheaf)
+
+variable {X : LocallyRingedSpace.{u}} (J : IdealSubsheaf X.sheaf) {W : Scheme.{u}}
+  (g : W.toLocallyRingedSpace ⟶ X)
+
+/-- The ideal subsheaf `J ∩ ker g` of `𝒪_X`. -/
+private def kerIdeal : IdealSubsheaf X.sheaf :=
+  IdealSubsheaf.ofIdeals X.sheaf (fun V => J.ideal V ⊓ RingHom.ker (g.c.app (op V)).hom)
+    (fun {V V'} h s hs => by
+      refine ⟨J.ideal_le_comap h hs.1, ?_⟩
+      have h0 : g.c.app (op V) s = 0 := hs.2
+      change g.c.app (op V') (X.presheaf.map (homOfLE h).op s) = 0
+      rw [NatTrans.naturality_apply g.c (homOfLE h).op s]
+      erw [h0]
+      exact map_zero _)
+    (fun {U} s hs => by
+      refine ⟨J.mem_ideal_of_locally s fun x hx => ?_, ?_⟩
+      · obtain ⟨V, hVU, hxV, hsV⟩ := hs x hx
+        exact ⟨V, hVU, hxV, hsV.1⟩
+      · change g.c.app (op U) s = 0
+        refine TopCat.Presheaf.section_ext W.sheaf ((Opens.map g.base).obj U) _ 0 fun w hw => ?_
+        obtain ⟨V, hVU, hwV, hsV⟩ := hs (g.base w) hw
+        have h0 : g.c.app (op V) (X.presheaf.map (homOfLE hVU).op s) = 0 := hsV.2
+        calc W.presheaf.germ _ w hw (g.c.app (op U) s)
+            = g.stalkMap w (X.presheaf.germ U (g.base w) hw s) :=
+              (LocallyRingedSpace.stalkMap_germ_apply g U w hw s).symm
+          _ = g.stalkMap w (X.presheaf.germ V (g.base w) hwV
+                (X.presheaf.map (homOfLE hVU).op s)) :=
+              congrArg _ (X.presheaf.germ_res_apply (homOfLE hVU) (g.base w) hwV s).symm
+          _ = W.presheaf.germ _ w hwV (g.c.app (op V) (X.presheaf.map (homOfLE hVU).op s)) :=
+              LocallyRingedSpace.stalkMap_germ_apply g V w hwV _
+          _ = 0 := (congrArg _ h0).trans (map_zero _)
+          _ = _ := (map_zero _).symm)
+
+variable {J g}
+
+/-- If the stalk kernels of `g` lie in `J`, then `g` is a kernel chart of `J ∩ ker g`. -/
+private lemma isKernelChart_kerIdeal (hg : IsOpenEmbedding g.base)
+    (hs : ∀ w, Function.Surjective (g.stalkMap w))
+    (hker : ∀ w, RingHom.ker (g.stalkMap w).hom ≤ J.stalkIdeal (g.base w)) :
+    (kerIdeal J g).IsKernelChart g := by
+  rw [IdealSubsheaf.isKernelChart_iff]
+  refine ⟨hg, hs, fun w => le_antisymm ?_ ?_⟩
+  · intro a ha
+    obtain ⟨V, hw, s, rfl⟩ := X.presheaf.exists_germ_eq a
+    obtain ⟨V₁, h₁, hw₁, hs₁⟩ := (J.germ_mem_stalkIdeal_iff hw s).mp (hker w ha)
+    rw [RingHom.mem_ker, LocallyRingedSpace.stalkMap_germ_apply] at ha
+    obtain ⟨N, hwN, iN, iN', hN⟩ := W.presheaf.germ_eq (U := (Opens.map g.base).obj V)
+      (V := (Opens.map g.base).obj V) w hw hw _ 0 (ha.trans (map_zero _).symm)
+    rw [map_zero] at hN
+    let V'' : Opens X := ⟨g.base '' (N : Set W), hg.isOpenMap _ N.2⟩ ⊓ V₁
+    have hV''V₁ : V'' ≤ V₁ := inf_le_right
+    have hV''V : V'' ≤ V := hV''V₁.trans h₁
+    have hwV'' : g.base w ∈ V'' := ⟨⟨w, hwN, rfl⟩, hw₁⟩
+    refine ((kerIdeal J g).germ_mem_stalkIdeal_iff hw s).mpr ⟨V'', hV''V, hwV'', ?_, ?_⟩
+    · have := J.ideal_le_comap hV''V₁ hs₁
+      rw [Ideal.mem_comap] at this
+      erw [← CommRingCat.comp_apply, ← Functor.map_comp] at this
+      exact this
+    · change g.c.app (op V'') (X.presheaf.map (homOfLE hV''V).op s) = 0
+      refine TopCat.Presheaf.section_ext W.sheaf ((Opens.map g.base).obj V'') _ 0
+        fun w' hw' => ?_
+      have hw'' := hw'
+      obtain ⟨⟨n, hnN, hn⟩, -⟩ := hw''
+      obtain rfl : n = w' := hg.injective hn
+      refine Eq.trans ?_ (map_zero _).symm
+      calc W.presheaf.germ _ n hw' (g.c.app (op V'') (X.presheaf.map (homOfLE hV''V).op s))
+          = g.stalkMap n (X.presheaf.germ V'' (g.base n) hw'
+              (X.presheaf.map (homOfLE hV''V).op s)) :=
+            (LocallyRingedSpace.stalkMap_germ_apply g V'' n hw' _).symm
+        _ = g.stalkMap n (X.presheaf.germ V (g.base n) (hV''V hw') s) :=
+            congrArg _ (X.presheaf.germ_res_apply (homOfLE hV''V) (g.base n) hw' s)
+        _ = W.presheaf.germ _ n (hV''V hw') (g.c.app (op V) s) :=
+            LocallyRingedSpace.stalkMap_germ_apply g V n _ s
+        _ = W.presheaf.germ N n hnN (W.presheaf.map iN.op (g.c.app (op V) s)) :=
+            (W.presheaf.germ_res_apply iN n hnN _).symm
+        _ = 0 := (congrArg _ hN).trans (map_zero _)
+  · rintro _ ⟨V, hw, s, hs, rfl⟩
+    have h0 : g.c.app (op V) s = 0 := hs.2
+    show g.stalkMap w (X.presheaf.germ V (g.base w) hw s) = 0
+    exact (LocallyRingedSpace.stalkMap_germ_apply g V w hw s).trans
+      ((congrArg _ h0).trans (map_zero _))
+
+end quotientIdeal
 
 end Hartshorne
