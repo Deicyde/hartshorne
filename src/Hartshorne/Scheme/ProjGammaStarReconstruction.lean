@@ -835,7 +835,7 @@ theorem tensorIsoX_hom_bilinear {X : Scheme.{u}} (F G : X.Modules) {U : X.Opens}
   moduleSheafTensorIsoTensor_hom_bilinear F G f g
 
 /-- `𝒪_X(e)^{⊗ N} ⟶ 𝒪_X(eN)`, multiplying the factors. -/
-def powMap (e : ℕ) : ∀ N : ℕ,
+noncomputable def powMap (e : ℕ) : ∀ N : ℕ,
     moduleSheafTensorPower N (projTwistingSheaf 𝒜 e) ⟶ projTwistingSheaf 𝒜 ((e * N : ℕ) : ℤ)
   | 0 => zeroHomX (projTwistingSheaf 𝒜 e) ≫ twistHom 0 ⟨1, SetLike.GradedOne.one_mem⟩
   | N + 1 => succHomX (projTwistingSheaf 𝒜 e) N ≫
