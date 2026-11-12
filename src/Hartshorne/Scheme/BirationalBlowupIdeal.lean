@@ -195,6 +195,18 @@ private theorem app_frame_ne_zero {D : X.Modules} (t : D ⟶ SheafOfModules.unit
   erw [hres, hnat']
   exact smul_zero _
 
+/-- On an integral scheme, a nonzero morphism `t : D ⟶ 𝒪_X` does not vanish on a frame of `D` at
+the generic point. -/
+theorem germ_app_frame_ne_zero {D : X.Modules} (t : D ⟶ SheafOfModules.unit X.ringCatSheaf)
+    (ht0 : t ≠ 0) {V : X.Opens} {p : ULift.{u} (Fin 1) → Γ(D, V)}
+    (hp : Ringed.IsLocalFrame (R := X.sheaf) D V p) (hV : genericPoint X ∈ V) :
+    X.presheaf.germ V (genericPoint X) hV (t.app V (p default)) ≠ 0 := by
+  intro h
+  apply app_frame_ne_zero t ht0 hp (le_refl V) hV
+  rw [show D.presheaf.map (homOfLE (le_refl V)).op (p default) = p default from
+    congr($(D.presheaf.map_id (op V)) (p default))]
+  exact germ_injective_of_isIntegral X (U := V) _ hV (h.trans (map_zero _).symm)
+
 end Twist
 
 section Multiplication
