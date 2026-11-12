@@ -3,6 +3,8 @@ article_id: af_765c0204b1db21f247c49009
 declaration: def
 origin: cited
 lean: Hartshorne.infinitesimalFiber Hartshorne.infinitesimalFiberι Hartshorne.infinitesimalFiberTransition Hartshorne.isClosedImmersion_infinitesimalFiberTransition Hartshorne.infinitesimalFiberModule Hartshorne.isCoherent_infinitesimalFiberModule Hartshorne.infinitesimalFiberModulePullbackIso Hartshorne.infinitesimalFiberModuleMap Hartshorne.infinitesimalFiberOneIso Hartshorne.infinitesimalFiberOneIso_hom_fiberι Hartshorne.isHomeomorph_infinitesimalFiberTransition Hartshorne.infinitesimalFiberHomeomorph Hartshorne.range_infinitesimalFiberι
+statement: formalized
+proof: formalized
 ---
 
 # Infinitesimal fibres
