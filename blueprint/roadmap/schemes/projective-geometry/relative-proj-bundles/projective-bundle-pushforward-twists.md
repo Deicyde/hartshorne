@@ -3,6 +3,8 @@ article_id: af_68c90e98d598e1577f8f1ce4
 declaration: theorem
 origin: cited
 lean: AlgebraicGeometry.Scheme.Modules.projectiveBundlePushforwardTwistHom AlgebraicGeometry.Scheme.Modules.isIso_projectiveBundlePushforwardTwistHom AlgebraicGeometry.Scheme.Modules.projectiveBundlePushforwardTwistIso AlgebraicGeometry.Scheme.Modules.isZero_pushforward_projectiveBundleTwistingSheaf AlgebraicGeometry.Scheme.Modules.projectiveBundlePushforwardTwistZeroIso AlgebraicGeometry.Scheme.Modules.projectiveBundlePushforwardTwistOneIso AlgebraicGeometry.Scheme.Modules.projectiveBundlePushforwardTwistHom_app_restrict AlgebraicGeometry.Scheme.Modules.projectiveBundlePushforwardTwistHom_mul
+statement: formalized
+proof: formalized
 ---
 
 # Pushforwards of projective-bundle twists
