@@ -3,6 +3,8 @@ article_id: af_1c551cbfa54d20b0877b5c0d
 declaration: theorem
 origin: cited
 lean: Hartshorne.affineFormal_globalSections_shortExact
+statement: formalized
+proof: formalized
 ---
 
 # Exactness of affine formal global sections
