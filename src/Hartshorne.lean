@@ -696,3 +696,4 @@ import Hartshorne.Scheme.Differentials.NonsingularClosedImmersionConormal
 import Hartshorne.Scheme.Differentials.CanonicalSheafOfProduct
 import Hartshorne.Curve.NormalizationDeltaQuotient
 import Hartshorne.Cohomology.Flatness.FlatMorphismBaseChange
+import Hartshorne.Cohomology.SerreAffinenessCriterion
