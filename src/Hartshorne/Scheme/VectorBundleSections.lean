@@ -572,6 +572,50 @@ lemma isBasis_affineFrame (hE : E.IsLocallyFreeOfRank n) :
   exact ⟨V, ⟨⟨⟨V, hV⟩, _, c.isLocalFrame.restrictLE fun x hx => (hVW hx).1⟩, rfl⟩, hyV,
     fun x hx => (hVW hx).2⟩
 
+/-- **The chart coordinates of a section of `V(E)` are the values of its linear form on the
+frame**: for the atlas `vectorBundleAtlas` of `V(E)`, a frame `e` over `c.V` and an affine open
+`V ⊆ c.V`, the `k`-th chart coordinate of a section `s` over `V` is the value of the linear form
+`E(V) ⟶ 𝒪_Y(V)` of `s` on `e_k|_V`. Hence the chart-wise linear structure of `𝒮(V(E)/Y)` is the
+one of `E^∨` (compare `localFrameEval_sectionDual`). -/
+theorem vectorBundleAtlas_chartCoord (c : AffineFrame E n) (V : Y.affineOpens)
+    (hV : (V : Y.Opens) ≤ c.V)
+    (s : (sectionsPresheaf (vectorBundleProj E hE)).obj (op (V : Y.Opens)))
+    (k : ULift.{u} (Fin n)) :
+    (vectorBundleAtlas hE).chartCoord c hV s.1 s.2 k = (V : Y.Opens).topIso.inv
+      (sectionLinearForm hE V s (E.presheaf.map (homOfLE hV).op (c.e k))) := by
+  have hnat : ∀ {R S : CommRingCat.{u}} (φ : R ⟶ S) (x : R),
+      (Spec.map φ).appTop ((Scheme.ΓSpecIso R).inv x) = (Scheme.ΓSpecIso S).inv (φ x) :=
+    fun φ x => by rw [← CommRingCat.comp_apply, ← Scheme.ΓSpecIso_inv_naturality,
+      CommRingCat.comp_apply]
+  set G := vectorBundleAtlas hE
+  set A := symmetricQuasiCoherentAlgebra E hE
+  set he' := c.isLocalFrame.restrictLE hV
+  set t := G.chartLift c hV s.1 s.2 ≫
+    (AffineSpace.isoOfIsAffine (ULift.{u} (Fin n)) (V : Y.Opens).toScheme).hom
+  have ht : t ≫ affineSpaceChart n V hV ≫ (G.ψ c).inv ≫
+      (vectorBundleProj E hE ⁻¹ᵁ G.U c).ι = s.1 := by
+    simp only [t, affineSpaceChart, Category.assoc, Iso.hom_inv_id_assoc]
+    exact G.chartLift_map c hV s.1 s.2
+  have h1 : t ≫ Spec.map (frameChartIso hE V he').inv ≫ A.ι (affineSite V) = s.1 := by
+    rw [← affineSpaceChart_frameTrivialization_inv hE c.V V hV c.isLocalFrame]
+    exact ht
+  have h2 := RelSpecSections.sectionOfHom_homOfSection A (affineSite V) s.1 s.2
+  rw [RelSpecSections.sectionOfHom] at h2
+  have h3 : t ≫ Spec.map (frameChartIso hE V he').inv = (V : Y.Opens).toSpecΓ ≫
+      Spec.map (RelSpecSections.homOfSection A (affineSite V) s.1 s.2) := by
+    rw [← cancel_mono (A.ι (affineSite V)), Category.assoc, h1, Category.assoc]
+    exact h2.symm
+  have hX : (frameChartIso hE V he').hom (MvPolynomial.X k) =
+      E.symDegreeOne V (E.presheaf.map (homOfLE hV).op (c.e k)) := by
+    rw [frameChartIso_hom_apply, MvPolynomial.map_X, chartRingHom_X]
+    rfl
+  have h4 := congrArg (fun g => g.appTop ((Scheme.ΓSpecIso _).inv
+    ((frameChartIso hE V he').hom (MvPolynomial.X k)))) h3
+  simp only [Scheme.Hom.comp_appTop, CommRingCat.comp_apply, hnat,
+    Scheme.Opens.toSpecΓ_appTop, Iso.hom_inv_id_apply] at h4
+  rw [GeometricVectorBundle.chartCoord_eq, h4, hX, hnat, Iso.inv_hom_id_apply]
+  rfl
+
 variable (E) in
 /-- The dual `E^∨ = ℋom(E, 𝒪_Y)` as a sheaf of sets. -/
 def dualTypeSheaf : TopCat.Sheaf (Type u) Y :=
