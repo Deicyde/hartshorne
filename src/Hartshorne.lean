@@ -623,6 +623,8 @@ import Hartshorne.Surface.TransverseIntersection
 import Hartshorne.Surface.ContractibleCurve
 import Hartshorne.Surface.PointMonoidalTransformation
 import Hartshorne.Surface.PointBlowupFundamentalPoint
+import Hartshorne.Scheme.RegularLocalInitialForm
+import Hartshorne.Surface.PointMultiplicity
 import Hartshorne.RingedSpace.ModuleGluing
 import Hartshorne.Scheme.ModuleGluingDirected
 import Hartshorne.Scheme.ModuleGluingScheme
