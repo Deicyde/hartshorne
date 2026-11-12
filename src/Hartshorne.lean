@@ -370,6 +370,7 @@ import Hartshorne.Scheme.ProjectiveSpaceNoetherian
 import Hartshorne.Cohomology.SmoothMorphisms.ProjectiveSpaceSmooth
 import Hartshorne.Weil.TraceExponentialDeterminant
 import Hartshorne.Scheme.Differentials.RegularHypersurfaceCriterion
+import Hartshorne.Scheme.Differentials.BertiniBadHyperplaneIncidence
 import Hartshorne.Scheme.HeightOneLocalizationIntersection
 import Hartshorne.Cohomology.SmoothMorphisms.LocalFlatnessNonZeroDivisor
 import Hartshorne.Scheme.ProjPartialMap
