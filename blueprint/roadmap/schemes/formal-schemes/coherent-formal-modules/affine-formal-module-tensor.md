@@ -26,6 +26,7 @@ defines nor invokes a completed tensor product.
 
 - [Finite-module completion as tensor product](../adic-completion/finite-module-completion-tensor.md)
 - [Affine sections of a formal completion](../formal-neighborhoods/formal-completion-affine-sections.md)
+- [Exactness of affine module completion](affine-formal-module-exact.md)
 - Comparison on an affine basis followed by sheaf isomorphism extensionality.
 
 ## Sources
