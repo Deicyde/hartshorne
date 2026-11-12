@@ -21,6 +21,7 @@ $A \to B$, there is a lift $A \to B'$.
 - Embed $A$ as a quotient of a polynomial algebra and split the resulting
   conormal sequence after applying $\operatorname{Hom} (-, I)$.
 - The infinitesimal lifting property of a formally smooth algebra.
+- [The differential criterion for smoothness over a field](../../../cohomology/smooth-morphisms/criteria/differential-criterion-smooth-over-field.md)
 
 ## Sources
 
