@@ -9,6 +9,23 @@ import Hartshorne.Scheme.ProjectionFromPoint
 # The section-algebra model as a sheaf of graded algebras
 
 Hartshorne, *Algebraic Geometry*, II, proof of Theorem 7.17, Steps 1–3 (pp. 166–167).
+
+Toward identifying the graded pieces of the model `T^{(d)}` with `f_* L^{md}` as sheaves. Let
+`i : Z ⟶ ℙʳ_X` be a closed immersion of an integral scheme, `f = π ∘ i`, and `𝒪(n)|_Z` the pullback
+of `𝒪(n)` along `Z ⟶ ℙʳ_X ⟶ ℙʳ_ℤ`.
+
+* `SectionAlgebraModel.polyTwistSection`: `Γ(X, U)[x₀, …, xᵣ] → Γ(f⁻¹(U), 𝒪(n)|_Z)`,
+  `∑ a_α x^α ↦ ∑ f^*(a_α) x^α` (degree-`n` monomials), defined for every open `U`; it is additive,
+  `Γ(X, U)`-linear (`polyTwistSection_C_mul`) and compatible with restriction
+  (`polyTwistSection_restrict`), because it is built from global sections pulled back from `ℙʳ_ℤ`.
+* `SectionAlgebraModel.chartTwistSection`: for an affine open `U`, the bijection
+  `Γ(f⁻¹(U), 𝒪(n)|_Z) → Γ(Proj T(U), 𝒪(n))` obtained by pulling back along the chart
+  `Proj T(U) ≅ f⁻¹(U)` (`chartTwistSection_bijective`), which sends the pulled-back monomial `x^α`
+  to `x^α / 1` (`chartTwistSection_monomialSection`).
+* Supporting results: `projMapTwistIso_hom_pullbackGlobalSection` (the isomorphism
+  `(Proj.map φ)^* 𝒪(n) ≅ 𝒪(n)` sends the pullback of `s / 1` to `φ(s) / 1`),
+  `toSpecZero_appTop_smul_twistSection` (a function pulled back from `t ∈ S₀` multiplies `s / 1`
+  by `t`), `coordToZ_comp_fst`, `coordToZ_comp_app`.
 -/
 
 universe u
