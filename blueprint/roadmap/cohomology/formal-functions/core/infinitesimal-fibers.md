@@ -7,15 +7,15 @@ origin: cited
 # Infinitesimal fibres
 
 Let $f : X \to Y$ be a morphism of Noetherian schemes, let $F$ be a coherent
-$\mathcal{O}_X$-module, and let $y \in Y$. For nonnegative integer $n$, define
+$\mathcal{O}_X$-module, and let $y \in Y$. For every integer $n \ge 1$, define
 
-$X_n = X \times _Y \operatorname{Spec} (\mathcal{O}_{(Y,y)} / m_y^{n+1})$
+$X_n = X \times_Y \operatorname{Spec} (\mathcal{O}_{Y,y} / m_y^{n})$
 
 and define $F_n$ as the module pullback of $F$ to $X_n$. Construct the
-transition morphisms $X_{(n+1)} \to X_n$, their compatible maps of module
-sheaves, and the natural morphisms $X_n \to X$.
+closed immersions $X_n \to X_{n+1}$, the compatible maps of module sheaves
+$F_{n+1} \to F_n$ along them, and the natural morphisms $X_n \to X$.
 
-Prove that $X_0$ is canonically the scheme-theoretic fibre $X_y$ and every
+Prove that $X_1$ is canonically the scheme-theoretic fibre $X_y$ and every
 $X_n$ has the same underlying topological space as $X_y$. These are fibre
 thickenings over the local scheme at $y$; they are not silently identified
 with powers of a globally defined closed-subscheme ideal when $y$ is not
