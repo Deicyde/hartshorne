@@ -58,7 +58,8 @@ vector bundles* if `X`, the union of the two coverings, and the trivializations 
   `e^{(i)}` in the chart `ψ_j`, and the dual frames differ by the same substitution, so the pieces
   agree and glue (`Hartshorne.exists_iso_of_openImmersions_over`). Hence
   `vectorBundleClass_sectionsDualClass`.
-* `GeometricVectorBundle.vectorBundleEquiv`: the bijection between isomorphism classes of locally
+* `GeometricVectorBundle.vectorBundleClass_sectionsDualClass_inverse`,
+  `GeometricVectorBundle.vectorBundleEquiv`: the bijection between isomorphism classes of locally
   free sheaves of rank `n` and isomorphism classes of geometric vector bundles of rank `n`,
   `[E] ↦ [V(E)]`, with inverse `[X] ↦ [𝒮(X/Y)^∨]` (Hartshorne II, Exercise 5.18(d)).
 -/
@@ -1599,6 +1600,17 @@ dual of the sheaf of sections of a geometric vector bundle is the class of the b
 theorem vectorBundleClass_sectionsDualClass (q : IsoClasses Y n) :
     vectorBundleClass (sectionsDualClass q) = q :=
   Quotient.inductionOn q fun B => Quotient.sound (nonempty_bundleIso_vectorBundleAtlas B.2 _)
+
+/-- **Vector bundles and locally free sheaves** (Hartshorne II, Exercise 5.18(d)): the map
+`[E] ↦ [V(E)]` from isomorphism classes of locally free `𝒪_Y`-modules of rank `n` to isomorphism
+classes of geometric vector bundles of rank `n` over `Y` and the map `[X] ↦ [𝒮(X/Y)^∨]` sending
+the class of a bundle to the class of the dual of its sheaf of sections are inverse bijections. -/
+theorem vectorBundleClass_sectionsDualClass_inverse :
+    Function.LeftInverse (sectionsDualClass : IsoClasses Y n → LocallyFreeIsoClasses Y n)
+        vectorBundleClass ∧
+      Function.RightInverse (sectionsDualClass : IsoClasses Y n → LocallyFreeIsoClasses Y n)
+        vectorBundleClass :=
+  ⟨sectionsDualClass_vectorBundleClass, vectorBundleClass_sectionsDualClass⟩
 
 /-- **Vector bundles and locally free sheaves** (Hartshorne II, Exercise 5.18(d)): the bijection
 between isomorphism classes of locally free `𝒪_Y`-modules of rank `n` and isomorphism classes of
