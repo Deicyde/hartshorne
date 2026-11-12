@@ -401,6 +401,37 @@ noncomputable def lineBundleTwistIso : (S.lineBundleTwist L hL).relProj ≅ S.re
     rw [← Category.assoc, projι_lineBundleTwistInv, Category.assoc, projι_lineBundleTwistHom,
       Iso.inv_hom_id_assoc, Category.comp_id]
 
+set_option backward.isDefEq.respectTransparency false in
+theorem framedIso_hom_toSpec (U : (framedAffines L).FullSubcategory) :
+    (S.framedIso (hL := hL) U).hom ≫ Proj.toSpecZero (S.grading U.obj) ≫ Spec.map (S.toZero U.obj) =
+      Proj.toSpecZero ((S.lineBundleTwist L hL).grading U.obj) ≫
+        Spec.map ((S.lineBundleTwist L hL).toZero U.obj) := by
+  obtain ⟨h, e⟩ := SegreProduct.projIsoOfGenerator_hom (S.grading U.obj)
+    ((lineBundleSym L hL).grading U.obj) (S.algebraMap_sections_mem U.obj)
+    ((lineBundleSym L hL).algebraMap_sections_mem U.obj) frameGenerator_mem
+    (frameGenerator_free U.property.choose_spec)
+  unfold framedIso lineBundleTwistProjIsoOfFrame
+  let := SegreProduct.gradedRing Γ(X, U.obj.1) (S.grading U.obj)
+    ((lineBundleSym L hL).grading U.obj) (S.algebraMap_sections_mem U.obj)
+    ((lineBundleSym L hL).algebraMap_sections_mem U.obj)
+  rw [e, ← Category.assoc, projMap_toSpecZero, Category.assoc, ← Spec.map_comp]
+  congr 2
+  ext a
+  exact congrArg Subtype.val
+    (SegreProduct.ofGenerator_algebraMap _ _ (S.algebraMap_sections_mem U.obj) _ a)
+
+set_option backward.isDefEq.respectTransparency false in
+/-- **`φ` is an isomorphism over `X`**. -/
+theorem lineBundleTwistIso_hom_relProjToBase :
+    (S.lineBundleTwistIso hL).hom ≫ S.relProjToBase = (S.lineBundleTwist L hL).relProjToBase :=
+  (framedCover hL (S.lineBundleTwist L hL)).hom_ext _ _ fun U => by
+    change (S.lineBundleTwist L hL).projι U.obj ≫ S.lineBundleTwistHom hL ≫ _ =
+      (S.lineBundleTwist L hL).projι U.obj ≫ _
+    rw [← Category.assoc, projι_lineBundleTwistHom, Category.assoc, projι_relProjToBase,
+      projι_relProjToBase, projToOpen_ι, projToOpen_ι, ← Category.assoc, ← Category.assoc,
+      ← Category.assoc, Category.assoc _ (Proj.toSpecZero _), framedIso_hom_toSpec,
+      Category.assoc]
+
 end QuasiCoherentGradedAlgebra
 
 end Hartshorne
