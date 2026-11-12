@@ -740,3 +740,4 @@ import Hartshorne.Scheme.ProjectionFromPoint
 import Hartshorne.Scheme.BlowupPowerInvariance
 import Hartshorne.Scheme.Differentials.CanonicalSheafSmoothHypersurface
 import Hartshorne.Scheme.EmbeddedCurveDegree
+import Hartshorne.Scheme.ProjectiveClosedSubschemeHomogeneousIdeal
