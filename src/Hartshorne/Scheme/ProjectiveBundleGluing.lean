@@ -159,12 +159,12 @@ private abbrev siteOf {V : X.Opens} (hV : IsAffineOpen V) : X.AffineZariskiSite 
 
 /-- The coordinates of a frame `e` over an affine open `V`, as the graded homomorphism
 `ℤ[z₀, …, zₙ] → Γ(V, S(E))`, `z_k ↦ e_k`. -/
-private def frameIntHom {V : X.Opens} (hV : IsAffineOpen V) {n : ℕ}
+def frameIntHom {V : X.Opens} (hV : IsAffineOpen V) {n : ℕ}
     (e : ULift.{u} (Fin (n + 1)) → Γ(E, V)) :
     GeneratedProj.intGrading.{u} n →+*ᵍ (symmetricGradedAlgebra hE hfin).grading (siteOf hV) :=
   (frameGradedHom hE hfin hV e).comp (projectiveSpaceComparisonHom Γ(X, V) n (Equiv.refl _))
 
-private lemma frameIntHom_X {V : X.Opens} (hV : IsAffineOpen V) {n : ℕ}
+lemma frameIntHom_X {V : X.Opens} (hV : IsAffineOpen V) {n : ℕ}
     (e : ULift.{u} (Fin (n + 1)) → Γ(E, V)) (k : Fin (n + 1)) :
     frameIntHom hE hfin hV e (MvPolynomial.X k) = E.symDegreeOne V (e (ULift.up k)) := by
   change frameGradedHom hE hfin hV e (projectiveSpaceComparisonHom Γ(X, V) n (Equiv.refl _)
@@ -175,7 +175,7 @@ private lemma frameIntHom_X {V : X.Opens} (hV : IsAffineOpen V) {n : ℕ}
 
 /-- Followed by the projection to `ℙⁿ_ℤ`, the identification `π⁻¹(V) ≅ ℙⁿ_V` is the morphism
 `π⁻¹(V) ≅ Proj Γ(V, S(E)) ⟶ ℙⁿ_ℤ` given by `z_k ↦ e_k`. -/
-private lemma projectiveBundleFrameIso_hom_fst [IsNoetherian X] {V : X.Opens}
+lemma projectiveBundleFrameIso_hom_fst [IsNoetherian X] {V : X.Opens}
     (hV : IsAffineOpen V) {n : ℕ} {e : ULift.{u} (Fin (n + 1)) → Γ(E, V)}
     (he : Ringed.IsLocalFrame (R := X.sheaf) E V e) :
     ∃ h, (projectiveBundleFrameIso hE hfin hV he).hom ≫ pullback.fst _ _ =
