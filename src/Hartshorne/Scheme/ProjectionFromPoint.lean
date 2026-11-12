@@ -22,7 +22,8 @@ coordinates `x₀, …, xₙ`.
 * `Hartshorne.projectivePoint k a`: the `k`-rational point `(a₀ : ⋯ : a_m)` of `ℙᵐ_k`, the
   morphism `Spec k ⟶ ℙᵐ_k` defined (Hartshorne II, Theorem 7.1) by the sections `aᵢ` of
   `𝒪_{Spec k}`.
-* `Hartshorne.linearSection k m v`: the linear form `∑ vⱼ xⱼ`, a global section of `𝒪(1)`.
+* `Hartshorne.linearSection k m v` (in `Hartshorne.Scheme.MorphismFromGeneratedLineBundle`): the
+  linear form `∑ vⱼ xⱼ`, a global section of `𝒪(1)`.
 * `Hartshorne.pointProjectionDomain k p h`, `Hartshorne.pointProjection k p h`: for
   `P = (p₀ : ⋯ : p_{n+1})` and `H = {h = 0}`, the open `U_P` where the sections
   `sᵢ = h(P) xᵢ − pᵢ h` of `𝒪(1)` have no common zero, and the morphism `U_P ⟶ ℙⁿ⁺¹_k` they
@@ -160,19 +161,6 @@ theorem exists_iso_of_comp_all (f : X' ⟶ X) (φ : X ⟶ projectiveSpaceOverSch
     Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply]
   rw [pullbackComp_inv_pullbackGlobalSection, pullback_map_pullbackGlobalSection]
 
-/-- Sections generate an `𝒪_X`-module if near every point one of them trivializes it. -/
-theorem isGeneratedBySections_of_forall_isTrivializingSection {L : X.Modules} {ι : Type u}
-    (s : ι → Γ(L, ⊤))
-    (h : ∀ x, ∃ i, ∃ W : X.Opens, x ∈ W ∧
-      IsTrivializingSection L W (L.presheaf.map (homOfLE le_top).op (s i))) :
-    L.IsGeneratedBySections s := by
-  intro x
-  obtain ⟨i, W, hx, he⟩ := h x
-  refine top_unique fun z _ => ?_
-  obtain ⟨b, rfl⟩ := he.exists_smul_germ_eq hx z
-  rw [TopCat.Presheaf.germ_res_apply]
-  exact Submodule.smul_mem _ b (Submodule.subset_span ⟨i, rfl⟩)
-
 /-- The zero section vanishes everywhere. -/
 theorem nonvanishingLocus_zero (L : X.Modules) : nonvanishingLocus L 0 = ∅ := by
   ext x
@@ -226,10 +214,6 @@ end Unit
 section RationalPoints
 
 variable (k : Type u) [Field k]
-
-/-- The constant function `c` on `Spec k`. -/
-def specConst (c : k) : Γ(Spec (CommRingCat.of k), ⊤) :=
-  (Scheme.ΓSpecIso (CommRingCat.of k)).inv c
 
 /-- A nonzero constant is a unit. -/
 theorem isUnit_specConst {c : k} (hc : c ≠ 0) : IsUnit (specConst k c) :=
@@ -725,63 +709,15 @@ section Linear
 
 variable {X Y : Scheme.{u}}
 
-/-- `f^*` is additive on global sections. -/
-theorem pullbackGlobalSection_add (f : X ⟶ Y) {N : Y.Modules} (a b : Γ(N, ⊤)) :
-    pullbackGlobalSection f (a + b) = pullbackGlobalSection f a + pullbackGlobalSection f b := by
-  have h : pullbackSection f (a + b) = pullbackSection f a + pullbackSection f b :=
-    Ringed.etaSec_add (φ := f.toRingCatSheafHom) a b
-  rw [pullbackGlobalSection, h, map_add]
-  rfl
-
-/-- `f^*`, as an additive map on global sections. -/
-def pullbackGlobalSectionAddHom (f : X ⟶ Y) (N : Y.Modules) :
-    Γ(N, ⊤) →+ Γ((Scheme.Modules.pullback f).obj N, ⊤) :=
-  AddMonoidHom.mk' (pullbackGlobalSection f) (pullbackGlobalSection_add f)
-
-/-- `f^*` commutes with finite sums of global sections. -/
-theorem pullbackGlobalSection_sum (f : X ⟶ Y) {N : Y.Modules} {ι : Type*} (S : Finset ι)
-    (g : ι → Γ(N, ⊤)) :
-    pullbackGlobalSection f (∑ i ∈ S, g i) = ∑ i ∈ S, pullbackGlobalSection f (g i) :=
-  map_sum (pullbackGlobalSectionAddHom f N) g S
-
 /-- `f^*` commutes with differences of global sections. -/
 theorem pullbackGlobalSection_sub (f : X ⟶ Y) {N : Y.Modules} (a b : Γ(N, ⊤)) :
     pullbackGlobalSection f (a - b) = pullbackGlobalSection f a - pullbackGlobalSection f b :=
   map_sub (pullbackGlobalSectionAddHom f N) a b
 
-/-- `f^* (r t) = f^#(r) f^* t` for a global function `r`. -/
-theorem pullbackGlobalSection_smul (f : X ⟶ Y) {N : Y.Modules} (r : Γ(Y, ⊤)) (t : Γ(N, ⊤)) :
-    pullbackGlobalSection f (r • t) = f.appTop r • pullbackGlobalSection f t := by
-  rw [pullbackGlobalSection, pullbackSection_smul, Scheme.Modules.map_smul]
-  congr 1
-  rw [show (homOfLE (Scheme.Hom.preimage_top f).ge : (⊤ : X.Opens) ⟶ f ⁻¹ᵁ ⊤) = 𝟙 _ from rfl]
-  erw [op_id, X.presheaf.map_id]
-  rfl
-
 variable {k : Type u} [Field k]
-
-/-- The constant `c ∈ k` as a function on a scheme `X` over `Spec k` (structure morphism `q`). -/
-def kConst (q : X ⟶ Spec (CommRingCat.of k)) : k →+* Γ(X, ⊤) :=
-  q.appTop.hom.comp (Scheme.ΓSpecIso (CommRingCat.of k)).inv.hom
-
-/-- `kConst q c` is the pullback along `q` of the constant `c` on `Spec k`. -/
-theorem kConst_apply (q : X ⟶ Spec (CommRingCat.of k)) (c : k) :
-    kConst q c = q.appTop (specConst k c) := rfl
-
-/-- Constants pull back to constants. -/
-theorem appTop_kConst (f : X ⟶ Y) (q : Y ⟶ Spec (CommRingCat.of k)) (c : k) :
-    f.appTop (kConst q c) = kConst (f ≫ q) c := by
-  rw [kConst_apply, kConst_apply, Scheme.Hom.comp_appTop, CommRingCat.comp_apply]
 
 /-- On `Spec k`, `kConst` is `specConst`. -/
 theorem kConst_id (c : k) : kConst (𝟙 (Spec (CommRingCat.of k))) c = specConst k c := rfl
-
-variable (k) in
-/-- The linear form `v₀ x₀ + ⋯ + v_m x_m`, a global section of `𝒪(1)` on `ℙᵐ_k`. -/
-def linearSection (m : ℕ) (v : Fin (m + 1) → k) :
-    Γ(projectiveSpaceTwistingSheaf m (Spec (CommRingCat.of k)) 1, ⊤) :=
-  ∑ j, kConst (projectiveSpaceOverSchemeProjection m _) (v j) •
-    projectiveSpaceCoordinate m _ j
 
 /-- The linear form of a difference. -/
 theorem linearSection_sub {m : ℕ} (v w : Fin (m + 1) → k) :
@@ -804,21 +740,6 @@ theorem linearSection_single {m : ℕ} (i : Fin (m + 1)) :
   · intro h
     exact absurd (Finset.mem_univ i) h
 
-/-- **Evaluating a linear form along a morphism defined by sections.** If `φ : X ⟶ ℙᵐ_k` over
-`r : X ⟶ Spec k` is defined by the sections `sⱼ` of `L`, it pulls the linear form `∑ vⱼ xⱼ` back
-to `∑ vⱼ sⱼ`. -/
-theorem iso_app_linearSection {m : ℕ}
-    {φ : X ⟶ projectiveSpaceOverScheme m (Spec (CommRingCat.of k))}
-    {r : X ⟶ Spec (CommRingCat.of k)} (hφ : φ ≫ projectiveSpaceOverSchemeProjection m _ = r)
-    {L : X.Modules} {s : Fin (m + 1) → Γ(L, ⊤)}
-    (e : (Scheme.Modules.pullback φ).obj (projectiveSpaceTwistingSheaf m _ 1) ≅ L)
-    (he : ∀ i, e.hom.app ⊤ (pullbackGlobalSection φ (projectiveSpaceCoordinate m _ i)) = s i)
-    (v : Fin (m + 1) → k) :
-    e.hom.app ⊤ (pullbackGlobalSection φ (linearSection k m v)) = ∑ j, kConst r (v j) • s j := by
-  rw [linearSection, pullbackGlobalSection_sum, map_sum]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  rw [pullbackGlobalSection_smul, Scheme.Modules.Hom.app_smul, he, appTop_kConst, hφ]
-
 end Linear
 
 /-! ### Nonvanishing loci under pullback -/
@@ -826,20 +747,6 @@ end Linear
 section Loci
 
 variable {X Y : Scheme.{u}}
-
-private theorem germ_smul' (F : X.Modules) {U : X.Opens} (x : X) (hx : x ∈ U) (r : Γ(X, U))
-    (m : Γ(F, U)) :
-    F.presheaf.germ U x hx (r • m) = X.presheaf.germ U x hx r • F.presheaf.germ U x hx m :=
-  let M : PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat RingCat) := F.val
-  PresheafOfModules.germ_smul M x U hx r m
-
-/-- If `t = r • s` for global sections, `t` vanishes wherever `s` does. -/
-theorem nonvanishingLocus_smul_subset (L : X.Modules) (r : Γ(X, ⊤)) (s : Γ(L, ⊤)) :
-    nonvanishingLocus L (r • s) ⊆ nonvanishingLocus L s := by
-  intro x hx hs
-  apply hx
-  convert Submodule.smul_mem _ (X.presheaf.germ ⊤ x trivial r) hs using 1
-  exact germ_smul' L (U := ⊤) x trivial r s
 
 /-- **The nonvanishing locus of a pulled-back section is the preimage of the nonvanishing
 locus.** -/
@@ -856,22 +763,6 @@ theorem mem_nonvanishingLocus_pullbackGlobalSection_iff (f : X ⟶ Y) {L : Y.Mod
   rw [(he.pullback f).mem_nonvanishingLocus_iff hg' (show x ∈ f ⁻¹ᵁ W from hxW),
     he.mem_nonvanishingLocus_iff hg hxW, ← Scheme.preimage_basicOpen]
   rfl
-
-/-- On a reduced scheme, a section of an invertible sheaf vanishing at every point is zero. -/
-theorem eq_zero_of_forall_notMem_nonvanishingLocus [IsReduced X] {L : X.Modules}
-    (hL : L.IsInvertible) {s : Γ(L, ⊤)} (hs : ∀ x, x ∉ nonvanishingLocus L s) : s = 0 := by
-  refine TopCat.Presheaf.IsSheaf.section_ext L.isSheaf fun x _ => ?_
-  obtain ⟨W, e, hxW, he⟩ := exists_isTrivializingSection hL x
-  obtain ⟨g, hg⟩ := he.exists_eq_smul s
-  have hg0 : g = 0 := by
-    rw [← basicOpen_eq_bot_iff]
-    refine SetLike.coe_injective ((he.nonvanishingLocus_inter_eq hg).symm.trans ?_)
-    ext y
-    simp only [Set.mem_inter_iff, TopologicalSpace.Opens.coe_bot, Set.mem_empty_iff_false,
-      iff_false, not_and]
-    exact fun h _ => hs y h
-  refine ⟨W, le_top, hxW, ?_⟩
-  rw [hg, hg0, zero_smul, map_zero]
 
 end Loci
 
