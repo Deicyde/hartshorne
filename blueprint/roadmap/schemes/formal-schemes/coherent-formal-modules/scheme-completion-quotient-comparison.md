@@ -2,6 +2,7 @@
 article_id: af_fd3f8843d61d7ea77d575edd
 declaration: theorem
 origin: cited
+lean: Hartshorne.QuasicoherentIdealSubsheaf.isIso_powQuotientToModuleCompletionObj Hartshorne.QuasicoherentIdealSubsheaf.powQuotientToModuleCompletionObj Hartshorne.QuasicoherentIdealSubsheaf.powQuotientπ_powQuotientToModuleCompletionObj
 ---
 
 # Quotients of completed coherent modules
