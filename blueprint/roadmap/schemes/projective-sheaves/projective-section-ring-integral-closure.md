@@ -27,6 +27,13 @@ Hartshorne's setting.
 - [Normal schemes](../normalization-and-exercises/normal-scheme.md)
 - [The section ring of projective space](projective-space-section-ring.md)
 
+## Proof depends on
+
+- [Homogeneous ideals and truncation define the same Proj subscheme](../normalization-and-exercises/proj-closed-subscheme-truncation.md)
+- [A graded quotient induces a closed immersion of Proj](../normalization-and-exercises/proj-surjection-closed-immersion.md)
+- [Regular points and nonsingular schemes](../differentials/scheme-differentials/regular-points-and-nonsingular-schemes.md)
+- [The projective-space case of Bertini](../differentials/canonical-bertini/bertini-projective-space-case.md)
+
 ## Sources
 
 - [Hartshorne II.5, Exercise 5.14(a) (p.126)](../../../sources/hartshorne-ii-5.md#adopted-exercises-and-later-use-evidence)
