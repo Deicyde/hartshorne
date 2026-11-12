@@ -565,7 +565,8 @@ theorem chartMorphism_compat (k l : Fin (n + 1)) :
     rfl
   rw [e1, e2, isHomogeneous_eval₂_mul_left hhom]
 
-theorem locus_isOpenCover (hs : L.IsGeneratedBySections (fun i : ULift.{u} (Fin (n + 1)) => s i.down)) :
+theorem locus_isOpenCover
+    (hs : L.IsGeneratedBySections (fun i : ULift.{u} (Fin (n + 1)) => s i.down)) :
     TopologicalSpace.IsOpenCover (locus hL s) := by
   refine TopologicalSpace.IsOpenCover.mk (eq_top_iff.mpr fun x _ => ?_)
   obtain ⟨⟨i⟩, hi⟩ := exists_mem_nonvanishingLocus_of_isGeneratedBySections hL hs x
@@ -763,9 +764,10 @@ theorem exists_iso_of_chartData :
           ((pullbackTwist φ).presheaf.map (homOfLE le_top).op
             (pullbackGlobalSection φ (projectiveSpaceCoordinate n Y j.down))) =
         X.presheaf.map (homOfLE (inf_le_left : W i ⊓ W j ≤ W i)).op
-          (sectionRatio hL s i.down j.down) • (pullbackTwist φ).presheaf.map (homOfLE inf_le_left).op
-          ((pullbackTwist φ).presheaf.map (homOfLE le_top).op
-            (pullbackGlobalSection φ (projectiveSpaceCoordinate n Y i.down)))
+          (sectionRatio hL s i.down j.down) •
+            (pullbackTwist φ).presheaf.map (homOfLE inf_le_left).op
+              ((pullbackTwist φ).presheaf.map (homOfLE le_top).op
+                (pullbackGlobalSection φ (projectiveSpaceCoordinate n Y i.down)))
       rw [Scheme.Modules.map_map_homOfLE, Scheme.Modules.map_map_homOfLE]
       exact restrict_pullbackGlobalSection_locus hL s φ hV hc _ _ _, by
       change L.presheaf.map (homOfLE inf_le_right).op
