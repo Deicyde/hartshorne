@@ -810,3 +810,4 @@ import Hartshorne.Scheme.BlowupInvertibleFactorInvariance
 import Hartshorne.Scheme.RelativeProjAmpleTwistCharts
 import Hartshorne.Scheme.RelativeProjAmpleTwistEmbedding
 import Hartshorne.Scheme.RelativeProjAmpleTwist
+import Hartshorne.Scheme.BlowupVariety
