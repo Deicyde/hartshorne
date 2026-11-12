@@ -73,7 +73,7 @@ variable {k : Type u} [Field k] {X : Scheme.{u}} (q : X ⟶ Spec (CommRingCat.of
 
 /-- The constants `k → 𝒪_{X,P}` of a scheme over `k` (structure morphism `q`): the image of
 `kConst q` in the stalk at `P`. This is the `k`-structure on the stalks of `𝒪_X`-modules. -/
-def stalkConst (P : X) : k →+* X.presheaf.stalk P :=
+def kConstStalk (P : X) : k →+* X.presheaf.stalk P :=
   (X.presheaf.germ ⊤ P trivial).hom.comp (kConst q)
 
 /-- **Separation of points** (Hartshorne II, p. 152). A set `V` of global sections of an
@@ -107,7 +107,7 @@ def SectionsSeparateTangentVectors (V : Set Γ(L, ⊤)) : Prop :=
       (∀ i, t i ∈ V ∧ L.presheaf.germ ⊤ P trivial (t i) ∈
         IsLocalRing.maximalIdeal (X.presheaf.stalk P) •
           (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P))) ∧
-      z - ∑ i, stalkConst q P (c i) • L.presheaf.germ ⊤ P trivial (t i) ∈
+      z - ∑ i, kConstStalk q P (c i) • L.presheaf.germ ⊤ P trivial (t i) ∈
         IsLocalRing.maximalIdeal (X.presheaf.stalk P) ^ 2 •
           (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P))
 
@@ -305,10 +305,10 @@ variable {k : Type u} [Field k] {X : Scheme.{u}} (q : X ⟶ Spec (CommRingCat.of
 
 include hφ in
 /-- The constants of `𝒪_{X,P}` are the images of the constants of `𝒪_{ℙⁿ, φ(P)}`. -/
-private theorem stalkConst_eq_stalkMap (P : X) (c : k) :
-    stalkConst q P c = φ.stalkMap P ((projectiveSpaceOverScheme n _).presheaf.germ ⊤ (φ P) trivial
+private theorem kConstStalk_eq_stalkMap (P : X) (c : k) :
+    kConstStalk q P c = φ.stalkMap P ((projectiveSpaceOverScheme n _).presheaf.germ ⊤ (φ P) trivial
       (kConst (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) c)) := by
-  rw [stalkConst, RingHom.comp_apply, ← hφ, ← appTop_kConst]
+  rw [kConstStalk, RingHom.comp_apply, ← hφ, ← appTop_kConst]
   exact (Scheme.Hom.germ_stalkMap_apply φ ⊤ P trivial _).symm
 
 include hL hφ he in
@@ -336,7 +336,7 @@ private theorem germ_linearSystemSection_eq {P : X} (i : Fin (n + 1))
   simp only [linearSystemSection, map_sum, Finset.sum_smul, map_mul, mul_smul]
   refine Finset.sum_congr rfl fun l _ => ?_
   refine (germ_smul_module L (U := ⊤) P trivial _ _).trans ?_
-  rw [hsl, ← stalkConst_eq_stalkMap q φ hφ]
+  rw [hsl, ← kConstStalk_eq_stalkMap q φ hφ]
   rfl
 
 include hL hφ he in
@@ -370,9 +370,9 @@ theorem maximalIdealToCotangent_surjective_of_sectionsSeparateTangentVectors
   let lam : (Fin (n + 1) → k) → (projectiveSpaceOverScheme n _).presheaf.stalk (φ P) := fun a =>
     ∑ l, (projectiveSpaceOverScheme n _).presheaf.germ ⊤ (φ P) trivial (kConst π (a l)) *
       (projectiveSpaceOverScheme n _).presheaf.germ _ (φ P) hW (projectiveSpaceChartRatio n _ i l)
-  have hconst : ∀ c : k, stalkConst q P c =
+  have hconst : ∀ c : k, kConstStalk q P c =
       f ((projectiveSpaceOverScheme n _).presheaf.germ ⊤ (φ P) trivial (kConst π c)) :=
-    stalkConst_eq_stalkMap q φ hφ P
+    kConstStalk_eq_stalkMap q φ hφ P
   have hgerm : ∀ a, L.presheaf.germ ⊤ P trivial (linearSystemSection q s a) =
       f (lam a) • εP :=
     germ_linearSystemSection_eq q hL s φ hφ e he i hPU hW
@@ -396,7 +396,7 @@ theorem maximalIdealToCotangent_surjective_of_sectionsSeparateTangentVectors
   have hα : α ∈ IsLocalRing.maximalIdeal ((projectiveSpaceOverScheme n _).presheaf.stalk (φ P)) :=
     Ideal.sum_mem _ fun j _ => Ideal.mul_mem_left _ _ (hlam j)
   refine ⟨⟨α, hα⟩, ?_⟩
-  have hsum : ∑ j, stalkConst q P (c j) • L.presheaf.germ ⊤ P trivial (t j) =
+  have hsum : ∑ j, kConstStalk q P (c j) • L.presheaf.germ ⊤ P trivial (t j) =
       f α • εP := by
     simp only [← ha, hgerm, hconst, smul_smul, ← map_mul, ← Finset.sum_smul, ← map_sum, α]
   rw [hsum, ← sub_smul, smul_germ_mem_smul_top_iff hε hPU] at hrest
@@ -1031,7 +1031,7 @@ theorem sectionsSeparateTangentVectors_of_isClosedImmersion [IsClosedImmersion �
     · rfl
     · refine Finset.sum_congr rfl fun l _ => ?_
       rw [germ_linearSystemSection_eq q hL s φ hφ e he i hPU hW, hlam,
-        stalkConst_eq_stalkMap q φ hφ, smul_smul, ← map_mul]
+        kConstStalk_eq_stalkMap q φ hφ, smul_smul, ← map_mul]
 
 end ForwardTangents
 
