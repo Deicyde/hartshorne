@@ -15,14 +15,20 @@ For a nonsingular closed subvariety `Y` of a nonsingular variety `X`, dualizing 
 sequence `0 ⟶ J/J² ⟶ Ω_X ⊗ 𝒪_Y ⟶ Ω_Y ⟶ 0` (Theorem II.8.17) gives a short exact sequence
 `0 ⟶ T_Y ⟶ T_X|_Y ⟶ N_{Y/X} ⟶ 0`.
 
-* `Hartshorne.tangentNormal_shortExact`: the tangent-normal sequence
-  `0 ⟶ T_Y ⟶ (i^* Ω_X)^∨ ⟶ N_{Y/X} ⟶ 0`. The conormal sequence is short exact by
-  Theorem II.8.17 and `Ω_Y` is locally free of finite rank by Theorem II.8.15, so its dual is short
-  exact (`Hartshorne.Ringed.dualShortComplex_shortExact`).
-
-The middle term is the dual `(i^* Ω_{X/k})^∨` of `Ω_{X/k} ⊗ 𝒪_Y = i^* Ω_{X/k}`. Hartshorne writes
-it `T_X|_Y = i^* T_X`; the two agree because pullback commutes with duals of finite locally free
-modules, which is not formalized here.
+* `Hartshorne.pullbackDualIso`: for a morphism of schemes `f : X ⟶ Y` and an `𝒪_Y`-module `E`
+  locally free of finite rank, the canonical map `f^*(E^∨) ⟶ (f^*E)^∨`
+  (`Hartshorne.pullbackDualMap`, adjoint to the pairing `f^*E ⊗ f^*(E^∨) ≅ f^*(E ⊗ E^∨) ⟶ 𝒪_X`)
+  is an isomorphism (`Hartshorne.pullbackDualMap_isIso`). Near every point it sends the pullback
+  of the dual of a frame of `E` to the dual of the pullback frame. The input is that pullback
+  commutes with tensor products of locally free sheaves of finite rank
+  (`Hartshorne.pullbackTensorMap_isIso_of_isLocallyFreeOfRank`).
+* `Hartshorne.tangentNormal_shortExact`: the dual of the conormal sequence,
+  `0 ⟶ T_Y ⟶ (i^* Ω_{X/k})^∨ ⟶ N_{Y/X} ⟶ 0`. The conormal sequence is short exact by
+  Theorem II.8.17 and `Ω_{Y/k}` is locally free of finite rank by Theorem II.8.15, so its dual is
+  short exact (`Hartshorne.Ringed.dualShortComplex_shortExact`).
+* `Hartshorne.exists_tangentNormal_shortExact`: the tangent-normal sequence
+  `0 ⟶ T_Y ⟶ i^* T_X ⟶ N_{Y/X} ⟶ 0`, where `T_X|_Y = i^* T_X` is identified with
+  `(i^* Ω_{X/k})^∨` by `Hartshorne.pullbackDualIso`.
 -/
 
 universe u
@@ -126,8 +132,12 @@ theorem pullbackTensorMap_isIso_of_isLocallyFreeOfRank {L M : Y.Modules} {r s : 
     Ringed.IsLocalFrame.app_bijective_of_map _ hsrc htgt
       (fun _ => pullbackTensorMap_app_unit _ _) hV⟩
 
-instance : (SheafOfModules.pushforward.{u} f.toRingCatSheafHom).IsRightAdjoint :=
+/-- The pushforward of module sheaves along a morphism of schemes is a right adjoint. -/
+lemma pushforward_isRightAdjoint :
+    (SheafOfModules.pushforward.{u} f.toRingCatSheafHom).IsRightAdjoint :=
   (Scheme.Modules.pullbackPushforwardAdjunction f).isRightAdjoint
+
+attribute [local instance] pushforward_isRightAdjoint
 
 /-- The pairing `f^*E ⊗ f^*(E^∨) ≅ f^*(E ⊗ E^∨) ⟶ f^*𝒪_Y ≅ 𝒪_X`, for `E` locally free of finite
 rank. -/
@@ -347,6 +357,34 @@ theorem tangentNormal_shortExact [IsAlgClosed k] (hp : FiniteType p) [Irreducibl
       (Ringed.structureModule Y.sheaf))
     (by exact (Category.id_comp _).trans (Category.comp_id _).symm)
     (by exact Category.id_comp _)
+
+/-- **Hartshorne II.8 (p. 182), the tangent-normal sequence `0 ⟶ T_Y ⟶ T_X|_Y ⟶ N_{Y/X} ⟶ 0`.**
+Let `X` be a nonsingular variety over an algebraically closed field `k` and `i : Y ⟶ X` a
+nonsingular irreducible closed subscheme. Then there is a short exact sequence
+`0 ⟶ T_Y ⟶ i^* T_X ⟶ N_{Y/X} ⟶ 0`. It is the dual of the conormal sequence
+(`Hartshorne.tangentNormal_shortExact`), with `(i^* Ω_{X/k})^∨` identified with `i^* T_X` because
+pullback commutes with duals of locally free sheaves of finite rank
+(`Hartshorne.pullbackDualIso`). As in the formalization of Theorem II.8.17, `X` is irreducible,
+regular and of finite type over `k`, and `Y` is irreducible and regular; separatedness is not
+used. -/
+theorem exists_tangentNormal_shortExact [IsAlgClosed k] (hp : FiniteType p) [IrreducibleSpace X]
+    (hX : X.IsRegular) [IrreducibleSpace Y] (hY : Y.IsRegular) :
+    ∃ (a : tangentSheaf (i ≫ p) ⟶ (Scheme.Modules.pullback i).obj (tangentSheaf p))
+      (b : (Scheme.Modules.pullback i).obj (tangentSheaf p) ⟶ normalSheaf i) (w : a ≫ b = 0),
+      (ShortComplex.mk a b w).ShortExact := by
+  have : IsIntegral X := isIntegral_of_isRegular hX
+  obtain ⟨n, hn, -⟩ := exists_topologicalKrullDim_eq_trdeg p hp
+  have hΩ := (isRegular_iff_relativeDifferentials_isLocallyFreeOfRank p hp n hn).mp hX
+  rw [Scheme.Modules.isLocallyFreeOfRank_iff_ringed] at hΩ
+  let e := pullbackDualIso i (Scheme.relativeDifferentials p) hΩ
+  have hS := tangentNormal_shortExact p i hp hX hY
+  refine ⟨tangentToPullbackDual p i ≫ e.inv, e.hom ≫ pullbackDualToNormal p i, ?_, ?_⟩
+  · exact (Category.assoc _ _ _).trans ((congrArg (tangentToPullbackDual p i ≫ ·)
+      (Iso.inv_hom_id_assoc e _)).trans (tangentToPullbackDual_comp_pullbackDualToNormal p i))
+  · refine ShortComplex.shortExact_of_iso ?_ hS
+    exact ShortComplex.isoMk (Iso.refl _) e.symm (Iso.refl _)
+      (by exact (Category.id_comp _))
+      (by exact (Iso.inv_hom_id_assoc e _).trans (Category.comp_id _).symm)
 
 end TangentNormal
 
