@@ -24,6 +24,7 @@ sheaf to the invertible sheaf.
 
 - A generating family of sections defines a projective-space morphism on each local trivialization.
 - Gluing scheme morphisms and uniqueness on the standard affine cover.
+- [Clearing denominators with an invertible section](../../projective-sheaves/invertible-section-clearing-denominators.md)
 
 ## Sources
 
