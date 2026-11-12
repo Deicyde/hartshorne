@@ -22,6 +22,7 @@ global sections before taking this cokernel is asserted.
 - [Skyscraper and closed extension by zero](../../../schemes/sheaf-functors/closed-extension-by-zero.md)
 - [The canonical sheaf](../../../schemes/differentials/canonical-bertini/canonical-sheaf.md)
 - [The function field of a projective variety](../../../morphisms/projective-rings/projective-function-field.md)
+- [Nonsingular curves over a field](../../../schemes/divisors/curve-divisors/nonsingular-curve.md)
 
 ## Proof depends on
 
