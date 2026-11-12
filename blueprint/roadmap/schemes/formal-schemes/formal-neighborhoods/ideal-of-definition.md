@@ -14,9 +14,6 @@ module ideal subsheaf $J \hookrightarrow \mathcal{O}_{\widehat{X}}$ such that $\
 underlying space and the quotient locally ringed space $(\widehat{X} ,\mathcal{O}_{\widehat{X}} /J)$ is a
 Noetherian scheme.
 
-The ideal is stored as an actual submodule sheaf. Affine-open ideal data may
-be used only after an explicit representation bridge.
-
 ## Depends on
 
 - [Noetherian formal schemes](noetherian-formal-scheme.md)
