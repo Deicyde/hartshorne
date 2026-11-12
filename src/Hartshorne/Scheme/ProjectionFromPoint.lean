@@ -449,4 +449,160 @@ theorem projectionDomain_eq_compl_range :
 
 end CoordinatePoint
 
+/-! ### The hyperplane `x_{n+1} = 0` -/
+
+section Hyperplane
+
+variable (n : ℕ) (Y : Scheme.{u})
+
+/-- The sections `x₀, …, xₙ, 0` of `𝒪(1)` on `ℙⁿ_Y`. -/
+abbrev hyperplaneSections : Fin (n + 2) → Γ(projectiveSpaceTwistingSheaf n Y 1, ⊤) :=
+  Fin.lastCases 0 (projectiveSpaceCoordinate n Y)
+
+theorem isGeneratedBySections_hyperplaneSections :
+    (projectiveSpaceTwistingSheaf n Y 1).IsGeneratedBySections
+      (fun i : ULift.{u} (Fin (n + 2)) => hyperplaneSections n Y i.down) := by
+  refine isGeneratedBySections_of_isTrivializingSection _ fun y => ?_
+  obtain ⟨i, hi⟩ := exists_mem_chartPreimage (𝟙 (projectiveSpaceOverScheme n Y)) y
+  refine ⟨⟨i.castSucc⟩, projectiveSpaceChart n Y i, hi, ?_⟩
+  simp only [hyperplaneSections, Fin.lastCases_castSucc]
+  exact isTrivializingSection_projectiveSpaceChart n Y i
+
+theorem existsUnique_hyperplaneInclusion :
+    ∃! j : projectiveSpaceOverScheme n Y ⟶ projectiveSpaceOverScheme (n + 1) Y,
+      j ≫ projectiveSpaceOverSchemeProjection (n + 1) Y = projectiveSpaceOverSchemeProjection n Y ∧
+      ∃ e : (Scheme.Modules.pullback j).obj (projectiveSpaceTwistingSheaf (n + 1) Y 1) ≅
+          projectiveSpaceTwistingSheaf n Y 1,
+        ∀ i, e.hom.app ⊤ (pullbackGlobalSection j (projectiveSpaceCoordinate (n + 1) Y i)) =
+          hyperplaneSections n Y i :=
+  existsUnique_morphism_of_isGeneratedBySections _ (isInvertible_projectiveSpaceTwistingSheaf _ _ _)
+    (hyperplaneSections n Y) (isGeneratedBySections_hyperplaneSections n Y)
+
+/-- **The coordinate hyperplane `H ≅ ℙⁿ_Y`**: the morphism `ℙⁿ_Y ⟶ ℙⁿ⁺¹_Y`,
+`(x₀ : ⋯ : xₙ) ↦ (x₀ : ⋯ : xₙ : 0)`, defined (Hartshorne II, Theorem 7.1) by the sections
+`x₀, …, xₙ, 0` of `𝒪(1)` on `ℙⁿ_Y`. Its image lies in the hyperplane `x_{n+1} = 0`
+(`hyperplaneInclusion_notMem_projectiveSpaceChart_last`). -/
+def hyperplaneInclusion : projectiveSpaceOverScheme n Y ⟶ projectiveSpaceOverScheme (n + 1) Y :=
+  (existsUnique_hyperplaneInclusion n Y).exists.choose
+
+theorem hyperplaneInclusion_spec :
+    hyperplaneInclusion n Y ≫ projectiveSpaceOverSchemeProjection (n + 1) Y =
+        projectiveSpaceOverSchemeProjection n Y ∧
+      ∃ e : (Scheme.Modules.pullback (hyperplaneInclusion n Y)).obj
+          (projectiveSpaceTwistingSheaf (n + 1) Y 1) ≅ projectiveSpaceTwistingSheaf n Y 1,
+        ∀ i, e.hom.app ⊤ (pullbackGlobalSection (hyperplaneInclusion n Y)
+          (projectiveSpaceCoordinate (n + 1) Y i)) = hyperplaneSections n Y i :=
+  (existsUnique_hyperplaneInclusion n Y).exists.choose_spec
+
+/-- The image of `ℙⁿ_Y` lies in the hyperplane `H = {x_{n+1} = 0}` of `ℙⁿ⁺¹_Y`. -/
+theorem hyperplaneInclusion_notMem_projectiveSpaceChart_last (y : projectiveSpaceOverScheme n Y) :
+    hyperplaneInclusion n Y y ∉ projectiveSpaceChart (n + 1) Y (Fin.last (n + 1)) := by
+  obtain ⟨-, e, he⟩ := hyperplaneInclusion_spec n Y
+  have h := preimage_projectiveSpaceChart_eq_nonvanishingLocusOpens
+    (isInvertible_projectiveSpaceTwistingSheaf _ _ _) (hyperplaneSections n Y) _ e he
+    (Fin.last (n + 1))
+  intro hy
+  change y ∈ hyperplaneInclusion n Y ⁻¹ᵁ projectiveSpaceChart (n + 1) Y (Fin.last (n + 1)) at hy
+  rw [h] at hy
+  change y ∈ nonvanishingLocus _ _ at hy
+  simp only [hyperplaneSections, Fin.lastCases_last] at hy
+  rw [nonvanishingLocus_zero] at hy
+  exact hy
+
+end Hyperplane
+
+/-! ### Projection of rational points -/
+
+section RationalProjection
+
+variable {k : Type u} [Field k] {n : ℕ}
+
+theorem Scheme.Modules.inv_app_eq_of_hom_app_eq {X : Scheme.{u}} {M N : X.Modules} (e : M ≅ N)
+    {U : X.Opens} {s : Γ(M, U)} {t : Γ(N, U)} (h : e.hom.app U s = t) : e.inv.app U t = s := by
+  rw [← h]
+  exact ConcreteCategory.congr_hom (congrArg (fun φ => Scheme.Modules.Hom.app φ U) e.hom_inv_id) s
+
+theorem ne_zero_of_comp_castSucc_ne_zero {a : Fin (n + 2) → k}
+    (ha : (fun i : Fin (n + 1) => a i.castSucc) ≠ 0) : a ≠ 0 := by
+  rintro rfl
+  exact ha rfl
+
+theorem projectivePoint_congr {m : ℕ} {a b : Fin (m + 1) → k} (ha : a ≠ 0) (hb : b ≠ 0)
+    (h : a = b) : projectivePoint k a ha = projectivePoint k b hb := by
+  subst h
+  rfl
+
+/-- The hyperplane inclusion sends `(b₀ : ⋯ : bₙ)` to `(b₀ : ⋯ : bₙ : 0)`. -/
+theorem projectivePoint_comp_hyperplaneInclusion {b : Fin (n + 1) → k} (hb : b ≠ 0)
+    (hb' : (Fin.lastCases 0 b : Fin (n + 2) → k) ≠ 0) :
+    projectivePoint k b hb ≫ hyperplaneInclusion n _ = projectivePoint k (Fin.lastCases 0 b) hb' := by
+  obtain ⟨hp, eb, heb⟩ := projectivePoint_spec k b hb
+  obtain ⟨hj, ej, hej⟩ := hyperplaneInclusion_spec n (Spec (CommRingCat.of k))
+  obtain ⟨e', he'⟩ := exists_iso_of_comp (projectivePoint k b hb) _ rfl ej hej
+  refine eq_projectivePoint hb' (by rw [Category.assoc, hj, hp]) (e' ≪≫ eb) fun i => ?_
+  rw [Iso.trans_hom, Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply, he']
+  induction i using Fin.lastCases with
+  | last =>
+    simp only [hyperplaneSections, Fin.lastCases_last, pointSections]
+    rw [pullbackGlobalSection_zero, map_zero, specConst_zero]
+    rfl
+  | cast i =>
+    simp only [hyperplaneSections, Fin.lastCases_castSucc]
+    rw [heb]
+    simp only [pointSections, Fin.lastCases_castSucc]
+
+/-- The rational point `Q = (a₀ : ⋯ : a_{n+1})` lies in `U` (i.e. `Q ≠ P`) when
+`(a₀, …, aₙ) ≠ 0`, and then the projection sends it to `(a₀ : ⋯ : aₙ)`. -/
+theorem exists_lift_projectivePoint_comp_projectionFromPoint {a : Fin (n + 2) → k}
+    (ha : (fun i : Fin (n + 1) => a i.castSucc) ≠ 0) :
+    ∃ Q : Spec (CommRingCat.of k) ⟶ (projectionDomain n (Spec (CommRingCat.of k))).toScheme,
+      Q ≫ (projectionDomain n _).ι = projectivePoint k a (ne_zero_of_comp_castSucc_ne_zero ha) ∧
+      Q ≫ projectionFromPoint n _ = projectivePoint k (fun i : Fin (n + 1) => a i.castSucc) ha := by
+  have ha0 := ne_zero_of_comp_castSucc_ne_zero ha
+  have hrange : Set.range (projectivePoint k a ha0) ⊆
+      Set.range (projectionDomain n (Spec (CommRingCat.of k))).ι := by
+    rintro _ ⟨y, rfl⟩
+    rw [Scheme.Opens.range_ι]
+    obtain ⟨j, hj⟩ := Function.ne_iff.mp ha
+    exact TopologicalSpace.Opens.mem_iSup.mpr
+      ⟨j, (projectivePoint_mem_projectiveSpaceChart_iff ha0 _ y).mpr hj⟩
+  set Q := IsOpenImmersion.lift _ _ hrange
+  have hQ : Q ≫ (projectionDomain n _).ι = projectivePoint k a ha0 := IsOpenImmersion.lift_fac _ _ _
+  refine ⟨Q, hQ, ?_⟩
+  obtain ⟨hpa, ea, hea⟩ := projectivePoint_spec k a ha0
+  obtain ⟨hπ, eπ, heπ⟩ := projectionFromPoint_spec n (Spec (CommRingCat.of k))
+  obtain ⟨e1, he1⟩ := exists_iso_of_comp Q _ hQ (Iso.refl (projectionDomainTwist n _))
+    (s := fun i => pullbackGlobalSection (projectionDomain n _).ι
+      (projectiveSpaceCoordinate (n + 1) _ i)) (fun _ => rfl)
+  obtain ⟨e2, he2⟩ := exists_iso_of_comp Q _ rfl eπ heπ
+  refine eq_projectivePoint ha (by rw [Category.assoc, hπ, ← Category.assoc, hQ, hpa])
+    (e2 ≪≫ e1.symm ≪≫ ea) fun i => ?_
+  simp only [Iso.trans_hom, Iso.symm_hom, Scheme.Modules.Hom.comp_app,
+    ConcreteCategory.comp_apply]
+  rw [he2, Scheme.Modules.inv_app_eq_of_hom_app_eq e1 (he1 i.castSucc), hea]
+
+/-- **Projection of a rational point is the intersection of a line with `H`.** For
+`Q = (a₀ : ⋯ : a_{n+1}) ≠ P = (0 : ⋯ : 0 : 1)`, the image of `π(Q)` in `H` is the point
+`(a₀ : ⋯ : aₙ : 0) = Q − a_{n+1} P`: it lies on the line through `P` and `Q`, and on
+`H = {x_{n+1} = 0}`. -/
+theorem exists_lift_projectivePoint_comp_projectionFromPoint_hyperplaneInclusion
+    {a : Fin (n + 2) → k} (ha : (fun i : Fin (n + 1) => a i.castSucc) ≠ 0)
+    (ha' : a - a (Fin.last (n + 1)) • Pi.single (Fin.last (n + 1)) 1 ≠ 0) :
+    ∃ Q : Spec (CommRingCat.of k) ⟶ (projectionDomain n (Spec (CommRingCat.of k))).toScheme,
+      Q ≫ (projectionDomain n _).ι = projectivePoint k a (ne_zero_of_comp_castSucc_ne_zero ha) ∧
+      Q ≫ projectionFromPoint n _ ≫ hyperplaneInclusion n _ =
+        projectivePoint k (a - a (Fin.last (n + 1)) • Pi.single (Fin.last (n + 1)) 1) ha' := by
+  obtain ⟨Q, hQ, hπ⟩ := exists_lift_projectivePoint_comp_projectionFromPoint ha
+  have hv : (Fin.lastCases 0 (fun i : Fin (n + 1) => a i.castSucc) : Fin (n + 2) → k) =
+      a - a (Fin.last (n + 1)) • Pi.single (Fin.last (n + 1)) 1 := by
+    funext i
+    induction i using Fin.lastCases with
+    | last => simp
+    | cast i => simp
+  refine ⟨Q, hQ, ?_⟩
+  rw [← Category.assoc, hπ, projectivePoint_comp_hyperplaneInclusion ha (hv ▸ ha')]
+  exact projectivePoint_congr _ _ hv
+
+end RationalProjection
+
 end Hartshorne
