@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Intersection.NormalizationPushforwardOrder
 import Mathlib.Data.ENat.BigOperators
+import Hartshorne.Scheme.AbsoluteNormalizationFinite
 
 /-!
 # The fibre order formula for the normalization
@@ -219,6 +220,83 @@ theorem fibreOrdFormula_specMap_integralClosure (Q : Spec D) (hQ : coheight Q = 
       fun h ↦ ha0 (closureHom_injective D (h.trans (map_zero _).symm))
   · exact (map_ne_zero_iff _ (IsFractionRing.injective (closureRing D) _)).mpr
       fun h ↦ hb0 (closureHom_injective D (h.trans (map_zero _).symm))
+
+
+omit [IsNoetherianRing D] [Module.Finite D (integralClosure D (FractionRing D))] in
+private theorem birational_closureHom (a : integralClosure D (FractionRing D)) :
+    ∃ d₁ d₂ : D, d₂ ≠ 0 ∧ algebraMap D (integralClosure D (FractionRing D)) d₂ * a =
+      algebraMap D (integralClosure D (FractionRing D)) d₁ := by
+  obtain ⟨d₁, d₂, hd₂, h⟩ := IsFractionRing.div_surjective D (a : FractionRing D)
+  have hd₂' : algebraMap D (FractionRing D) d₂ ≠ 0 :=
+    IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors hd₂
+  refine ⟨d₁, d₂, nonZeroDivisors.ne_zero hd₂, Subtype.ext ?_⟩
+  change algebraMap D (FractionRing D) d₂ * (a : FractionRing D) = algebraMap D (FractionRing D) d₁
+  rw [← h, mul_div_cancel₀ _ hd₂']
+
+/-- **The fibre order formula for the normalization.** Let `V` be an integral scheme of finite
+type over a field `k` whose normalization `ν : Ṽ ⟶ V` is locally Noetherian. At every point `y`
+of codimension one of `V` and for every nonzero rational function `g` on `V`,
+`∑_{ν(z) = y} ord_z(g) [κ(z) : κ(y)] = ord_y(g)`. -/
+theorem fibreOrdFormula_absoluteNormalizationMap {k : Type u} [Field k] {V : Scheme.{u}}
+    [IsIntegral V] [IsLocallyNoetherian V] [IsLocallyNoetherian (absoluteNormalization V)]
+    (s : V ⟶ Spec (.of k)) (hs : FiniteType s)
+    (hν : absoluteNormalizationMap V (genericPoint (absoluteNormalization V)) = genericPoint V)
+    {y : V} (hy : coheight y = 1) : FibreOrdFormula (absoluteNormalizationMap V) hν y := by
+  obtain ⟨_, ⟨W, hW, rfl⟩, hyW, -⟩ :=
+    V.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ y) isOpen_univ
+  replace hW : IsAffineOpen W := hW
+  have : Nonempty W := ⟨⟨y, hyW⟩⟩
+  let R : CommRingCat.{u} := Γ(V, W)
+  have : IsNoetherianRing R := IsLocallyNoetherian.component_noetherian ⟨W, hW⟩
+  -- the normalization of `Spec R` is `Spec O`, `O` the integral closure of `R`
+  let O := integralClosure R (FractionRing R)
+  let j : R →+* O := algebraMap R O
+  have hj : Function.Injective j := closureHom_injective R
+  have : IsIntegrallyClosed O := integralClosure.isIntegrallyClosedOfFiniteExtension (FractionRing R)
+  obtain ⟨e, he, heν⟩ := exists_isIso_absoluteNormalization_spec (D := R) (O := O) j hj
+    (fun a ↦ integralClosure.isIntegral a) (fun a ↦ birational_closureHom (D := R) a)
+  have hfinR : IsFinite (absoluteNormalizationMap (Spec R)) := by
+    have : QuasiCompact (hW.fromSpec ≫ s) := inferInstance
+    have : LocallyOfFiniteType s := hs.1
+    have : IsOpenImmersion hW.fromSpec := IsAffineOpen.isOpenImmersion_fromSpec hW
+    have : LocallyOfFiniteType hW.fromSpec := locallyOfFiniteType_of_isOpenImmersion _
+    have : LocallyOfFiniteType (hW.fromSpec ≫ s) := inferInstance
+    exact isFinite_absoluteNormalizationMap_of_finiteType_field k (Spec R) (hW.fromSpec ≫ s)
+      ⟨inferInstance, inferInstance⟩
+  have : Module.Finite R O := by
+    have h : IsFinite (Spec.map (CommRingCat.ofHom j)) := by
+      rw [← heν]
+      infer_instance
+    exact RingHom.finite_algebraMap.mp ((IsFinite.SpecMap_iff _).mp h)
+  -- the normalization of `W`, and its identification with `Spec O`
+  have : IsIntegral (W : Scheme) := isIntegral_of_isOpenImmersion (Scheme.Opens.ι W)
+  obtain ⟨h, hh, hhν, hrange⟩ := exists_isOpenImmersion_absoluteNormalization W
+  obtain ⟨et, het, hetν⟩ := exists_isIso_absoluteNormalization hW.isoSpec.inv
+  let a : Spec (closureRing R) ⟶ absoluteNormalization V := e ≫ et ≫ h
+  have : IsOpenImmersion a := inferInstance
+  have : IsOpenImmersion hW.fromSpec := IsAffineOpen.isOpenImmersion_fromSpec hW
+  have hsq : a ≫ absoluteNormalizationMap V =
+      Spec.map (R := R) (CommRingCat.ofHom (algebraMap R O)) ≫ hW.fromSpec := by
+    have heν' : e ≫ absoluteNormalizationMap (Spec R) =
+        Spec.map (R := R) (CommRingCat.ofHom (algebraMap R O)) := heν
+    simp only [a, Category.assoc, hhν]
+    rw [reassoc_of% hetν, ← IsAffineOpen.isoSpec_inv_ι, reassoc_of% heν']
+  obtain ⟨Q, hQy⟩ : y ∈ Set.range hW.fromSpec := by rw [hW.range_fromSpec]; exact hyW
+  have hQ : coheight Q = 1 := (coheight_eq_of_isOpenImmersion hW.fromSpec).symm.trans
+    (hQy ▸ hy)
+  have hfib : absoluteNormalizationMap V ⁻¹' {hW.fromSpec Q} ⊆ Set.range a := by
+    intro z hz
+    have hz' : z ∈ Set.range h := by
+      rw [hrange]
+      change absoluteNormalizationMap V z ∈ W
+      rw [show absoluteNormalizationMap V z = hW.fromSpec Q from hz, hQy]
+      exact hyW
+    obtain ⟨w, rfl⟩ := hz'
+    obtain ⟨w', rfl⟩ := (ConcreteCategory.bijective_of_isIso (e ≫ et).base).2 w
+    exact ⟨w', rfl⟩
+  have key := FibreOrdFormula.of_isOpenImmersion a hW.fromSpec hsq hν
+    (specMap_integralClosure_genericPoint R) hfib (fibreOrdFormula_specMap_integralClosure (D := R) Q hQ)
+  rwa [hQy] at key
 
 end SpecFibre
 
