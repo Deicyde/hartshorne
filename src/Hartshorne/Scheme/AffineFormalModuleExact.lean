@@ -6,6 +6,8 @@ import Hartshorne.Cohomology.ModuleCohomologyComparison
 import Hartshorne.Scheme.FormalCompletionModuleAffineSections
 import Mathlib.Topology.Sheaves.Abelian
 import Mathlib.RingTheory.AdicCompletion.Exactness
+import Hartshorne.Scheme.FormalSpectrum
+import Hartshorne.Scheme.CoherentAffineLocalCriterion
 
 /-!
 # Toward exactness of affine module completion
@@ -447,6 +449,37 @@ def moduleCompletionFunctor : X.Modules ⥤ SheafOfModules.{u} I.formalCompletio
 
 end Functoriality
 
+section Zero
+
+lemma moduleCompletionQuotientHom_zero (F G : X.Modules) (n : ℕ) :
+    I.moduleCompletionQuotientHom (0 : F ⟶ G) n = 0 := by
+  refine (cancel_epi (cokernel.π (I.powSmulι F n))).1 ?_
+  rw [I.π_moduleCompletionQuotientHom, zero_comp]
+  exact (comp_zero).symm
+
+lemma moduleCompletionObjHom_zero (F G : X.Modules) (n : ℕ) :
+    I.moduleCompletionObjHom (0 : F ⟶ G) n = 0 := by
+  have : (PresheafOfModules.pushforward.{u} (I.formalCompletionRingCatSheafπ n).hom).IsRightAdjoint :=
+    Functor.isRightAdjoint_of_leftAdjointObjIsDefined_eq_top
+      (PresheafOfModules.pullbackObjIsDefined_eq_top _)
+  have : (SheafOfModules.pushforward.{u} (I.formalCompletionRingCatSheafπ n)).IsRightAdjoint :=
+    (SheafOfModules.PullbackConstruction.adjunction.{u} _).isRightAdjoint
+  unfold moduleCompletionObjHom
+  rw [I.moduleCompletionQuotientHom_zero, Functor.map_zero]
+  exact Functor.map_zero _ _ _
+
+/-- The completion of the zero morphism is zero. -/
+lemma moduleCompletionHom_zero (F G : X.Modules) :
+    I.moduleCompletionHom (0 : F ⟶ G) = 0 := by
+  refine limit.hom_ext fun ⟨n⟩ => ?_
+  change I.moduleCompletionHom (0 : F ⟶ G) ≫ I.moduleCompletionπ G n = 0 ≫ I.moduleCompletionπ G n
+  rw [moduleCompletionHom_π, moduleCompletionObjHom_zero, comp_zero, zero_comp]
+
+instance : I.moduleCompletionFunctor.PreservesZeroMorphisms where
+  map_zero F G := I.moduleCompletionHom_zero F G
+
+end Zero
+
 section AffineExactness
 
 open Scheme.Modules
@@ -671,5 +704,89 @@ theorem moduleCompletionHom_exact_of_isBasis {F' F F'' : X.Modules} [F'.IsQuasic
 end AffineBasis
 
 end QuasicoherentIdealSubsheaf
+
+/-- Preimages of a basis of opens under an inducing continuous map form a basis. -/
+lemma opens_isBasis_map_image {X Y : TopCat.{u}} (f : X ⟶ Y) (hf : IsInducing f)
+    {B : Set (Opens Y)} (hB : Opens.IsBasis B) : Opens.IsBasis ((Opens.map f).obj '' B) := by
+  unfold Opens.IsBasis at *
+  convert hB.isInducing hf using 1
+  rw [Set.image_image, Set.image_image]
+  rfl
+
+section Tilde
+
+variable {R : CommRingCat.{u}}
+
+
+/-- On a basic open `D(g)` of `Spec R`, sections of `M ↦ M~` turn an exact sequence of
+`R`-modules into an exact sequence (localization at `g` is exact). -/
+lemma tilde_map_app_basicOpen_exact (S : ShortComplex (ModuleCat.{u} R)) (hS : S.Exact) (g : R) :
+    Function.Exact ((tilde.map S.f).app (CoherentAux.D g)) ((tilde.map S.g).app (CoherentAux.D g)) := by
+  have hex : Function.Exact S.f.hom S.g.hom :=
+    (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact S).1 hS
+  let U : (Spec R).Opens := CoherentAux.D g
+  have h := IsLocalizedModule.map_exact (Submonoid.powers g) (tilde.toOpen S.X₁ U).hom
+    (tilde.toOpen S.X₂ U).hom (tilde.toOpen S.X₃ U).hom S.f.hom S.g.hom hex
+  have e₁ : IsLocalizedModule.map (Submonoid.powers g) (tilde.toOpen S.X₁ U).hom (tilde.toOpen S.X₂ U).hom
+      S.f.hom = ((modulesSpecToSheaf.map (tilde.map S.f)).1.app (op U)).hom := by
+    refine IsLocalizedModule.linearMap_ext (Submonoid.powers g) (tilde.toOpen S.X₁ U).hom
+      (tilde.toOpen S.X₂ U).hom ?_
+    rw [IsLocalizedModule.map_comp]
+    have := congrArg ModuleCat.Hom.hom (tilde.toOpen_map_app S.f U)
+    simp only [ModuleCat.hom_comp] at this
+    exact this.symm
+  have e₂ : IsLocalizedModule.map (Submonoid.powers g) (tilde.toOpen S.X₂ U).hom (tilde.toOpen S.X₃ U).hom
+      S.g.hom = ((modulesSpecToSheaf.map (tilde.map S.g)).1.app (op U)).hom := by
+    refine IsLocalizedModule.linearMap_ext (Submonoid.powers g) (tilde.toOpen S.X₂ U).hom
+      (tilde.toOpen S.X₃ U).hom ?_
+    rw [IsLocalizedModule.map_comp]
+    have := congrArg ModuleCat.Hom.hom (tilde.toOpen_map_app S.g U)
+    simp only [ModuleCat.hom_comp] at this
+    exact this.symm
+  rw [e₁, e₂] at h
+  exact h
+
+/-- Sections of `M~` over a basic open `D(g)` are finite over `Γ(D(g), 𝒪)` for `M` finite. -/
+lemma tilde_finite_basicOpen (M : ModuleCat.{u} R) [Module.Finite R M] (g : R) :
+    Module.Finite Γ(Spec R, CoherentAux.D g)
+      Γ(tilde M, CoherentAux.D g) := by
+  have : Module.Finite R Γ(tilde M, ⊤) := Module.Finite.equiv (tilde.isoTop M).toLinearEquiv
+  exact CoherentAux.finite_basicOpen_of_finite (tilde M) (isLocalizing_tilde M) g
+
+end Tilde
+
+/-- **Hartshorne II, Proposition 9.4(c)** (module form): for a Noetherian ring `A` and an ideal
+`I ⊆ A`, the functor `M ↦ (M~)^` sending an `A`-module to the completion of `M~` along `V(I)`, a
+module over the structure sheaf of `Spf_I(A)`, is exact on finite modules: it carries an exact
+sequence `M' ⟶ M ⟶ M''` with `M`, `M''` finite to an exact sequence. -/
+theorem moduleCompletion_tilde_exact {A : CommRingCat.{u}} [IsNoetherianRing A] (I : Ideal A)
+    (S : ShortComplex (ModuleCat.{u} A)) (hS : S.Exact) [Module.Finite A S.X₂]
+    [Module.Finite A S.X₃] :
+    (S.map (tilde.functor A ⋙ (specIdealSubsheaf A I).moduleCompletionFunctor)).Exact := by
+  set J := specIdealSubsheaf A I
+  let B : Set (Spec A).affineOpens := {U | ∃ g : A, (U : (Spec A).Opens) = CoherentAux.D g}
+  have hD : ∀ g : A, IsAffineOpen (CoherentAux.D g : (Spec A).Opens) := fun g => by
+    have := (isAffineOpen_top (Spec A)).basicOpen ((Scheme.ΓSpecIso A).inv g)
+    rwa [basicOpen_eq_of_affine] at this
+  have himg : (fun U : (Spec A).affineOpens => (U : (Spec A).Opens)) '' B =
+      Set.range (fun g : A => (CoherentAux.D g : (Spec A).Opens)) := by
+    ext V
+    constructor
+    · rintro ⟨U, ⟨g, hg⟩, rfl⟩
+      exact ⟨g, hg.symm⟩
+    · rintro ⟨g, rfl⟩
+      exact ⟨⟨CoherentAux.D g, hD g⟩, ⟨g, rfl⟩, rfl⟩
+  have hB : Opens.IsBasis ((Opens.map (J.infinitesimalNeighborhoodι 1).base).obj ''
+      ((fun U : (Spec A).affineOpens => (U : (Spec A).Opens)) '' B)) := by
+    rw [himg]
+    exact opens_isBasis_map_image _ (J.infinitesimalNeighborhoodι 1).isClosedEmbedding.isInducing
+      PrimeSpectrum.isBasis_basic_opens
+  refine J.moduleCompletionHom_exact_of_isBasis ((tilde.functor A).map S.f)
+    ((tilde.functor A).map S.g) _ B hB ?_
+  rintro ⟨U, hU⟩ ⟨g, hg⟩
+  change U = CoherentAux.D g at hg
+  subst hg
+  exact ⟨IsLocallyNoetherian.component_noetherian ⟨_, hU⟩, tilde_finite_basicOpen _ g, tilde_finite_basicOpen _ g,
+    tilde_map_app_basicOpen_exact S hS g⟩
 
 end Hartshorne
