@@ -234,4 +234,90 @@ theorem isLocallyPrincipalNonZeroDivisor_of_isInvertible {Z : Scheme.{u}} (K : Z
 
 end InvertibleIdeal
 
+/-! ### Ring maps out of a chart of the Rees algebra -/
+
+section ReesChartAlgebra
+
+open _root_.Polynomial HomogeneousLocalization
+
+variable {A : Type u} [CommRing A] (I : Ideal A) {a : A} (ha : a ∈ I)
+
+private theorem coe_reesDegOne_pow (k : ℕ) :
+    ((reesDegOne I ha ^ k : reesAlgebra I) : A[X]) = monomial k (a ^ k) := by
+  rw [Subalgebra.coe_pow]
+  change (monomial 1 a : A[X]) ^ k = _
+  rw [monomial_pow, one_mul]
+
+/-- **Ring maps out of a chart of the Rees algebra.** Two ring maps `A[It]_(a t) → R` which agree
+on `A` and send `a` to a non-zero-divisor agree: an element `y / (a t)ⁿ` with `y = b tⁿ` satisfies
+`aⁿ · (y / (a t)ⁿ) = b`. -/
+theorem reesAway_ringHom_ext {R : Type*} [CommRing R]
+    {ρ₁ ρ₂ : Away (reesGrading I) (reesDegOne I ha) →+* R}
+    (h : ρ₁.comp (reesAwayMap I ha) = ρ₂.comp (reesAwayMap I ha))
+    (hnzd : ρ₁ (reesAwayMap I ha a) ∈ nonZeroDivisors R) : ρ₁ = ρ₂ := by
+  ext z
+  obtain ⟨⟨n, ⟨x, hx⟩, ⟨s, hs⟩, hsm⟩, hz⟩ := mk_surjective z
+  obtain ⟨k, hk⟩ := hsm
+  simp only at hk
+  subst hk
+  have hθ : ∀ r, ρ₂ (reesAwayMap I ha r) = ρ₁ (reesAwayMap I ha r) := fun r =>
+    (RingHom.congr_fun h r).symm
+  by_cases hnk : n = k
+  · subst hnk
+    have key : reesAwayMap I ha a ^ n * z = reesAwayMap I ha ((x : A[X]).coeff n) := by
+      rw [← hz]
+      apply val_injective
+      rw [val_mul, val_pow, val_mk, val_reesAwayMap, val_reesAwayMap, Localization.mk_pow,
+        Localization.mk_mul, Localization.mk_eq_mk_iff, Localization.r_iff_exists]
+      refine ⟨1, Subtype.ext ?_⟩
+      have hx' := mem_reesGrading_iff.1 hx
+      simp only [OneMemClass.coe_one, one_mul, one_pow, Subalgebra.coe_mul,
+        Subalgebra.coe_pow]
+      set b := (x : A[X]).coeff n
+      change (C a) ^ n * (x : A[X]) = (monomial 1 a) ^ n * C b
+      rw [hx', ← C_pow, C_mul_monomial, monomial_pow, one_mul, monomial_mul_C, mul_comm]
+    have hpow : ρ₁ (reesAwayMap I ha a) ^ n ∈ nonZeroDivisors R := pow_mem hnzd n
+    have e1 : ρ₁ (reesAwayMap I ha a) ^ n * ρ₁ z = ρ₁ (reesAwayMap I ha ((x : A[X]).coeff n)) := by
+      rw [← map_pow, ← map_mul, key]
+    have e2 : ρ₁ (reesAwayMap I ha a) ^ n * ρ₂ z = ρ₁ (reesAwayMap I ha ((x : A[X]).coeff n)) := by
+      rw [← hθ, ← map_pow, ← map_mul, key, hθ]
+    exact sub_eq_zero.1 ((mem_nonZeroDivisors_iff_left.1 hpow) _ (by rw [mul_sub, e1, e2, sub_self]))
+  · have hak : a ^ k = 0 := by
+      have := hs k (Ne.symm hnk)
+      rwa [coe_reesDegOne_pow, coeff_monomial_same] at this
+    have h0 : ρ₁ (reesAwayMap I ha a) ^ k = 0 := by
+      rw [← map_pow, ← map_pow, hak, map_zero, map_zero]
+    have h1 : (1 : R) = 0 := by
+      have := pow_mem hnzd k
+      rw [h0] at this
+      exact (mem_nonZeroDivisors_iff_right.1 this) 1 (mul_zero 1)
+    exact (subsingleton_of_zero_eq_one h1.symm).elim _ _
+
+/-- On the chart `D₊(b t)`, `a = b · (a t)/(b t)`. -/
+theorem reesAwayMap_eq_mul_isLocalizationElem {b : A} (hb : b ∈ I) :
+    reesAwayMap I hb a =
+      reesAwayMap I hb b * Away.isLocalizationElem (reesDegOne_mem I hb) (reesDegOne_mem I ha) := by
+  apply val_injective
+  rw [val_mul, val_reesAwayMap, val_reesAwayMap, Away.val_mk, Localization.mk_mul,
+    Localization.mk_eq_mk_iff, Localization.r_iff_exists]
+  refine ⟨1, Subtype.ext ?_⟩
+  simp only [OneMemClass.coe_one, one_mul, pow_one, Subalgebra.coe_mul]
+  change (monomial 1 b : A[X]) * C a = C b * monomial 1 a
+  rw [monomial_mul_C, C_mul_monomial, mul_comm]
+
+end ReesChartAlgebra
+
+/-- If `x` and a non-zero-divisor `γ` generate the same principal ideal, `x` is a
+non-zero-divisor. -/
+private theorem mem_nonZeroDivisors_of_span_eq {R : Type*} [CommRing R] {x γ : R}
+    (hγ : γ ∈ nonZeroDivisors R) (h : Ideal.span {x} = Ideal.span {γ}) :
+    x ∈ nonZeroDivisors R := by
+  obtain ⟨u, hu⟩ := Ideal.mem_span_singleton'.1 (h ▸ Ideal.mem_span_singleton_self x)
+  obtain ⟨v, hv⟩ := Ideal.mem_span_singleton'.1 (h.symm ▸ Ideal.mem_span_singleton_self γ)
+  have hvu : v * u = 1 := by
+    have : (v * u - 1) * γ = 0 := by rw [sub_mul, mul_assoc, hu, hv, one_mul, sub_self]
+    exact sub_eq_zero.1 ((mem_nonZeroDivisors_iff_right.1 hγ) _ this)
+  rw [← hu]
+  exact mul_mem (IsUnit.of_mul_eq_one_right v hvu).mem_nonZeroDivisors hγ
+
 end Hartshorne
