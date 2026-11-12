@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.Differentials.GenericDifferentials
 import Hartshorne.Scheme.Differentials.DifferentialsCharacterizeNonsingular
 import Hartshorne.Scheme.FiniteCurveDivisorPullback
+import Hartshorne.Cohomology.LocallyFiniteSumSheaf
 
 /-!
 # The differential principal-parts resolution of a curve
@@ -244,5 +245,130 @@ theorem differentialsToGeneric_app_injective [Nontrivial (functionFieldDifferent
     rw [hs, map_zero]
 
 end GlobalInjective
+
+section Topology
+
+variable {k : Type u} [Field k] {X : Scheme.{u}} [X.Over (Spec (.of k))] [IsIntegral X]
+
+/-- On a curve, every point other than the generic point is closed. -/
+theorem isClosed_singleton_of_ne_genericPoint (hX : X.IsNonsingularCurve k) {x : X}
+    (hx : x ≠ genericPoint X) : IsClosed ({x} : Set X) :=
+  (hX.isClosed_singleton_iff_coheight_eq_one x).2 ((hX.coheight_eq_one_iff x).2 hx)
+
+/-- On a curve, a closed set not containing the generic point is finite. -/
+theorem finite_of_isClosed_of_genericPoint_notMem (hX : X.IsNonsingularCurve k) {Z : Set X}
+    (hZ : IsClosed Z) (hη : genericPoint X ∉ Z) : Z.Finite := by
+  have : IsNoetherian X := hX.satisfiesConditionStar.isNoetherian
+  obtain ⟨S, hSf, hSc, hSi, rfl⟩ := NoetherianSpace.exists_finite_set_isClosed_irreducible hZ
+  refine hSf.sUnion fun t ht => ?_
+  obtain ⟨z, hz⟩ := QuasiSober.sober (hSi t ht) (hSc t ht)
+  have hzt : z ∈ t := hz.mem
+  have hzη : z ≠ genericPoint X := fun h => hη ⟨t, ht, h ▸ hzt⟩
+  have : t = {z} := by
+    rw [← hz.def, (isClosed_singleton_of_ne_genericPoint hX hzη).closure_eq]
+  rw [this]
+  exact Set.finite_singleton z
+
+/-- On a curve, the complement of a nonempty open set is finite. -/
+theorem finite_compl_of_nonempty (hX : X.IsNonsingularCurve k) (U : X.Opens) (hU : Nonempty U) :
+    ((U : Set X)ᶜ).Finite := by
+  obtain ⟨x⟩ := hU
+  exact finite_of_isClosed_of_genericPoint_notMem hX U.isOpen.isClosed_compl
+    fun h => h (genericPoint_mem_of_mem x.2)
+
+/-- On a curve, a finite set of points other than the generic point is closed. -/
+theorem isClosed_of_finite_of_genericPoint_notMem (hX : X.IsNonsingularCurve k) {Z : Set X}
+    (hZ : Z.Finite) (hη : genericPoint X ∉ Z) : IsClosed Z := by
+  rw [← Set.biUnion_of_singleton Z]
+  exact hZ.isClosed_biUnion fun x hx =>
+    isClosed_singleton_of_ne_genericPoint hX fun h => hη (h ▸ hx)
+
+end Topology
+
+section StalkRange
+
+variable {k : Type u} [Field k] {X : Scheme.{u}} [IsIntegral X] (f : X ⟶ Spec (.of k))
+
+theorem differentialsGenericValue_neg {U : X.Opens} (s : Γ(Scheme.relativeDifferentials f, U))
+    (y : U) : differentialsGenericValue f (-s) y = -differentialsGenericValue f s y := by
+  have h := map_neg ((differentialsToGeneric f).app U).hom s
+  exact congrArg (fun m => (show LocallyConstant U (functionFieldDifferentials f) from m) y) h
+
+/-- **The stalk `Ω_{X,P}` inside `Ω_{K/k}`**: the generic values of sections of `Ω_{X/k}` over
+open neighbourhoods of `P`. It is the image of the stalk of `Ω_{X/k}` at `P`
+(`range_differentialsStalkToGeneric`), which embeds into `Ω_{K/k}` on a nonsingular curve. -/
+def differentialsStalkRange (P : X) : AddSubgroup (functionFieldDifferentials f) where
+  carrier := {ω | ∃ (U : X.Opens) (hP : P ∈ U) (s : Γ(Scheme.relativeDifferentials f, U)),
+    differentialsGenericValue f s ⟨P, hP⟩ = ω}
+  zero_mem' := ⟨⊤, trivial, 0, differentialsGenericValue_zero f _⟩
+  add_mem' := by
+    rintro _ _ ⟨U₁, h₁, s₁, rfl⟩ ⟨U₂, h₂, s₂, rfl⟩
+    refine ⟨U₁ ⊓ U₂, ⟨h₁, h₂⟩,
+      (Scheme.relativeDifferentials f).presheaf.map (homOfLE inf_le_left).op s₁ +
+        (Scheme.relativeDifferentials f).presheaf.map (homOfLE inf_le_right).op s₂, ?_⟩
+    rw [differentialsGenericValue_add, differentialsToGeneric_res, differentialsToGeneric_res]
+  neg_mem' := by
+    rintro _ ⟨U, h, s, rfl⟩
+    exact ⟨U, h, -s, differentialsGenericValue_neg f s _⟩
+
+theorem differentialsGenericValue_mem {U : X.Opens} (s : Γ(Scheme.relativeDifferentials f, U))
+    (y : U) : differentialsGenericValue f s y ∈ differentialsStalkRange f y.1 :=
+  ⟨U, y.2, s, rfl⟩
+
+/-- At the generic point, every rational differential is regular. -/
+theorem differentialsStalkRange_genericPoint :
+    differentialsStalkRange f (genericPoint X) = ⊤ := by
+  refine eq_top_iff.2 fun ω _ => ?_
+  obtain ⟨U, ⟨x⟩, s, hs⟩ := exists_differentialsToGeneric_eq f ω
+  have hη : genericPoint X ∈ U := genericPoint_mem_of_mem x.2
+  exact ⟨U, hη, s, hs _⟩
+
+/-- The stalk map `(Ω_{X/k})_P → Ω_{K/k}`, induced by the generic values of sections. -/
+noncomputable def differentialsStalkToGeneric (P : X) :
+    (Scheme.relativeDifferentials f).presheaf.stalk P ⟶
+      AddCommGrpCat.of (functionFieldDifferentials f) :=
+  Limits.colimit.desc ((OpenNhds.inclusion P).op ⋙ (Scheme.relativeDifferentials f).presheaf)
+    { pt := AddCommGrpCat.of (functionFieldDifferentials f)
+      ι :=
+        { app U := AddCommGrpCat.ofHom
+            { toFun s := differentialsGenericValue f (U := U.unop.1) s ⟨P, U.unop.2⟩
+              map_zero' := differentialsGenericValue_zero f _
+              map_add' s t := differentialsGenericValue_add f s t _ }
+          naturality U V i := by
+            ext s
+            exact differentialsToGeneric_res f i.unop s _ } }
+
+theorem differentialsStalkToGeneric_germ (P : X) {U : X.Opens} (hP : P ∈ U)
+    (s : Γ(Scheme.relativeDifferentials f, U)) :
+    differentialsStalkToGeneric f P ((Scheme.relativeDifferentials f).presheaf.germ U P hP s) =
+      differentialsGenericValue f s ⟨P, hP⟩ := by
+  rw [TopCat.Presheaf.germ, differentialsStalkToGeneric]
+  erw [← ConcreteCategory.comp_apply, Limits.colimit.ι_desc]
+  rfl
+
+/-- `Ω_{X,P}` is the image of the stalk. -/
+theorem range_differentialsStalkToGeneric (P : X) :
+    (differentialsStalkToGeneric f P).hom.range = differentialsStalkRange f P := by
+  ext ω
+  constructor
+  · rintro ⟨t, rfl⟩
+    obtain ⟨U, hP, s, rfl⟩ := (Scheme.relativeDifferentials f).presheaf.exists_germ_eq t
+    exact ⟨U, hP, s, (differentialsStalkToGeneric_germ f P hP s).symm⟩
+  · rintro ⟨U, hP, s, rfl⟩
+    exact ⟨_, differentialsStalkToGeneric_germ f P hP s⟩
+
+/-- On a nonsingular curve the stalk of `Ω_{X/k}` embeds into `Ω_{K/k}`. -/
+theorem differentialsStalkToGeneric_injective [Nontrivial (functionFieldDifferentials f)]
+    (hfree : (Scheme.relativeDifferentials f).IsLocallyFreeOfRank 1) (P : X) :
+    Function.Injective (differentialsStalkToGeneric f P) := by
+  rw [injective_iff_map_eq_zero]
+  intro t ht
+  obtain ⟨U, hP, s, rfl⟩ := (Scheme.relativeDifferentials f).presheaf.exists_germ_eq t
+  rw [differentialsStalkToGeneric_germ] at ht
+  have hs : differentialsGenericValue f s = 0 :=
+    LocallyConstant.ext fun y => (differentialsGenericValue_eq f s y ⟨P, hP⟩).trans ht
+  rw [differentialsToGeneric_app_injective f hfree U (hs.trans (map_zero _).symm), map_zero]
+
+end StalkRange
 
 end Hartshorne
