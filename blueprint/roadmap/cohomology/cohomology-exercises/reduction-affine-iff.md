@@ -2,6 +2,7 @@
 article_id: af_944457c173b01cba681de033
 declaration: theorem
 origin: cited
+lean: Hartshorne.ReductionAffine.isAffine_iff_isAffine_reduced Hartshorne.ReductionAffine.isReduced_reduced
 ---
 
 # Affineness is invariant under reduction
