@@ -19,6 +19,7 @@ isomorphism $\widetilde{X}-E \simeq X-P$.
 - [Surfaces and effective curves](../../intersection-theory/foundations/surface-curve-convention.md)
 - [Blowing up a variety](../../../schemes/projective-geometry/blowups/blowup-of-variety.md)
 - [A blowup is an isomorphism off its center](../../../schemes/projective-geometry/blowups/isomorphism-off-center.md)
+- [The exceptional ideal is invertible](../../../schemes/projective-geometry/blowups/exceptional-ideal-is-invertible.md)
 
 ## Sources
 
