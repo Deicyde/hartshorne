@@ -10,6 +10,46 @@ import Hartshorne.Scheme.VeroneseDuple
 # Projectively normal Veronese embeddings
 
 Hartshorne, *Algebraic Geometry*, II, Exercise 5.14(b,c) (p. 126).
+
+Let `k` be algebraically closed, `S = k[x₀, …, xᵣ]`, and let `X ⊆ ℙʳ_k` be a connected normal
+closed subscheme with homogeneous coordinate ring `S(X) = S/I`, `I` saturated, so `X = Proj (S/I)`
+(Corollary 5.16). For `d > 0` let `y_I` be the homogeneous coordinates of `ℙᴺ_k` indexed by the
+monomials `x^I` of degree `d`.
+
+## Main definitions
+
+* `projDupleMap`: the `d`-uple embedding `ρ_d : ℙʳ_k ⟶ ℙᴺ_k`, `Proj S ≅ Proj S^{(d)}` followed by
+  the morphism induced by `y_I ↦ x^I`.
+* `projDupleEmbedding`: the `d`-uple embedding of `X`, the same construction for `S/I`; it is the
+  restriction of `ρ_d` (`projQuotientι_comp_projDupleMap`) and a closed immersion.
+* `dupleIdeal`: the kernel `J_d` of `y_I ↦ x^I`, `k[y_I] → S/I`, a homogeneous ideal.
+
+## Main results
+
+* `isIntegrallyClosed_veroneseSubring`: a criterion for a Veronese subring `A^{(d)}` of a graded
+  domain to be integrally closed; components of degree not divisible by `d` of an element of the
+  fraction field integral over `A^{(d)}` vanish (`sum_filter_not_dvd_eq_zero`).
+* `exists_mem_algebraMap_eq_sectionToFraction` (Exercise 5.14(b)): by Exercise 5.9, every global
+  section of `𝒪_X(n)`, `n ≫ 0`, comes from `(S/I)_n`: `S_n = S'_n` in the fraction field.
+* `exists_isIntegrallyClosed_veroneseSubring`: `(S/I)^{(d)}` is integrally closed for `d ≫ 0`.
+* `projDupleEmbedding_eq`, `dupleQuotientEquiv`: the image of `X` under the `d`-uple embedding is
+  the closed subscheme `Proj (k[y_I] / J_d)`, and `k[y_I] / J_d ≅ (S/I)^{(d)}`.
+* `exists_isProjectivelyNormal_image_projDupleMap` (Exercise 5.14(b,c)): for `d ≫ 0` the image of
+  `X` under `ρ_d` is projectively normal.
+
+## Proof
+
+Following the book. By Exercise 5.14(a)
+(`ProjectiveSectionRing.projectiveSectionRing_isIntegralClosure`) `S/I` is a domain and `S' = ⨁_{n ≥ 0} Γ(X, 𝒪_X(n))` is its integral closure in its fraction field
+`K`, embedded by values at the generic point. By Exercise 5.9
+(`EventualSectionRecovery.exists_bijective_alphaComponent`, for the graded module `S/I`) every
+section of `𝒪_X(n)` is `s / 1` with `s ∈ (S/I)_n` once `n ≥ n₀`; in degree `0` an element of `K`
+integral over `S/I` is integral over `(S/I)₀ = k` (`exists_monic_coeff_mem_zero`), hence in `k`.
+So `S_n = S'_n` for `n = 0` and `n ≥ n₀`, and for `d ≥ n₀` an element of the fraction field of
+`(S/I)^{(d)}` integral over it lies in `S'`, has no components of degree prime to `d`, and its
+remaining components lie in `(S/I)_{nd}`. Finally `J_d` is saturated, so it is the homogeneous
+ideal `Γ_*(ℐ) ∩ k[y_I]` of the image (Exercise 5.10, `gammaStarIdeal_ker_projQuotientι`), whose
+homogeneous coordinate ring `k[y_I] / J_d ≅ (S/I)^{(d)}` is therefore an integrally closed domain.
 -/
 
 universe u
@@ -39,7 +79,7 @@ variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
 /-- An element of degree `0` of the fraction field which is integral over `A` is a root of a
 monic polynomial with coefficients in `A₀`: take the degree-`0` parts of the coefficients of an
 integral equation. -/
-theorem exists_monic_coeff_mem_zero {w : FractionRing A} (hw : IsHomFrac (𝒜 := 𝒜) 0 w)
+private theorem exists_monic_coeff_mem_zero {w : FractionRing A} (hw : IsHomFrac (𝒜 := 𝒜) 0 w)
     (hint : IsIntegral A w) :
     ∃ p : A[X], p.Monic ∧ (∀ i, p.coeff i ∈ 𝒜 0) ∧ aeval w p = 0 := by
   obtain ⟨e, a, s, ha, hs, hs0, rfl⟩ := hw
@@ -113,18 +153,18 @@ variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
 variable (𝒜) in
 open Classical in
 /-- The sum of the homogeneous components of degree not divisible by `d`. -/
-def offProj (d : ℕ) : A →+ A :=
+private def offProj (d : ℕ) : A →+ A :=
   (DirectSum.toAddMonoid fun n => if d ∣ n then 0 else AddSubmonoidClass.subtype (𝒜 n)).comp
     (DirectSum.decomposeAddEquiv 𝒜).toAddMonoidHom
 
-theorem offProj_of_mem {d n : ℕ} {a : A} (ha : a ∈ 𝒜 n) :
+private theorem offProj_of_mem {d n : ℕ} {a : A} (ha : a ∈ 𝒜 n) :
     offProj 𝒜 d a = if d ∣ n then 0 else a := by
   classical
   simp only [offProj, AddMonoidHom.coe_comp, Function.comp_apply, AddEquiv.coe_toAddMonoidHom,
     DirectSum.decomposeAddEquiv_apply, DirectSum.decompose_of_mem 𝒜 ha, DirectSum.toAddMonoid_of]
   split_ifs <;> rfl
 
-theorem offProj_mul {d : ℕ} {x : A} (hx : x ∈ veroneseSubring 𝒜 d) (c : A) :
+private theorem offProj_mul {d : ℕ} {x : A} (hx : x ∈ veroneseSubring 𝒜 d) (c : A) :
     offProj 𝒜 d (x * c) = x * offProj 𝒜 d c := by
   classical
   rw [← DirectSum.sum_support_decompose 𝒜 x, ← DirectSum.sum_support_decompose 𝒜 c,
@@ -140,7 +180,8 @@ theorem offProj_mul {d : ℕ} {x : A} (hx : x ∈ veroneseSubring 𝒜 d) (c : A
     · rw [if_neg (fun h => hj ((Nat.dvd_add_right hi).1 h)), if_neg hj]
   · rw [Veronese.mem_veroneseSubring_iff.1 hx i hi, zero_mul, zero_mul, map_zero]
 
-theorem offProj_eq_zero {d : ℕ} {x : A} (hx : x ∈ veroneseSubring 𝒜 d) : offProj 𝒜 d x = 0 := by
+private theorem offProj_eq_zero {d : ℕ} {x : A} (hx : x ∈ veroneseSubring 𝒜 d) :
+    offProj 𝒜 d x = 0 := by
   have := offProj_mul hx 1
   rwa [mul_one, offProj_of_mem (SetLike.GradedOne.one_mem (A := 𝒜)), if_pos (dvd_zero d),
     mul_zero] at this
@@ -148,13 +189,14 @@ theorem offProj_eq_zero {d : ℕ} {x : A} (hx : x ∈ veroneseSubring 𝒜 d) : 
 variable [IsDomain A]
 
 /-- Finitely many homogeneous fractions have a common denominator. -/
-theorem exists_common_denom (F : Finset ℕ) (w : ℕ → FractionRing A)
+private theorem exists_common_denom (F : Finset ℕ) (w : ℕ → FractionRing A)
     (hw : ∀ n ∈ F, IsHomFrac (𝒜 := 𝒜) n (w n)) :
     ∃ (E : ℕ) (D : A) (c : ℕ → A), D ∈ 𝒜 E ∧ D ≠ 0 ∧ ∀ n ∈ F, c n ∈ 𝒜 (E + n) ∧
       algebraMap A (FractionRing A) D * w n = algebraMap A (FractionRing A) (c n) := by
   classical
   induction F using Finset.induction_on with
-  | empty => exact ⟨0, 1, 0, SetLike.GradedOne.one_mem, one_ne_zero, fun n hn => absurd hn (by simp)⟩
+  | empty =>
+    exact ⟨0, 1, 0, SetLike.GradedOne.one_mem, one_ne_zero, fun n hn => absurd hn (by simp)⟩
   | insert m F hm ih =>
     obtain ⟨E, D, c, hD, hD0, hc⟩ := ih fun n hn => hw n (Finset.mem_insert_of_mem hn)
     obtain ⟨e, a, s, ha, hs, hs0, has⟩ := hw m (Finset.mem_insert_self m F)
@@ -179,7 +221,7 @@ theorem exists_common_denom (F : Finset ℕ) (w : ℕ → FractionRing A)
         ring
 
 /-- The same, with the degree of the common denominator divisible by `d > 0`. -/
-theorem exists_common_denom_dvd {d : ℕ} (hd : 0 < d) (F : Finset ℕ) (w : ℕ → FractionRing A)
+private theorem exists_common_denom_dvd {d : ℕ} (hd : 0 < d) (F : Finset ℕ) (w : ℕ → FractionRing A)
     (hw : ∀ n ∈ F, IsHomFrac (𝒜 := 𝒜) n (w n)) :
     ∃ (E : ℕ) (D : A) (c : ℕ → A), d ∣ E ∧ D ∈ 𝒜 E ∧ D ≠ 0 ∧ ∀ n ∈ F, c n ∈ 𝒜 (E + n) ∧
       algebraMap A (FractionRing A) D * w n = algebraMap A (FractionRing A) (c n) := by
@@ -295,7 +337,7 @@ theorem isIntegrallyClosed_veroneseSubring {d : ℕ} (hd : 0 < d) (P : ℕ → F
     ← Finset.sum_filter_add_sum_filter_not F (fun n => d ∣ n), hoff, add_zero]
   exact Finset.sum_congr rfl fun n hn => hfsn n hn
 
-theorem exists_finset_sectionRingToFraction_eq
+private theorem exists_finset_sectionRingToFraction_eq
     (y : DirectSum ℕ fun n => twistGlobal (𝟙_ (Proj 𝒜).Modules) (n : ℤ)) :
     ∃ F : Finset ℕ, sectionRingToFraction 𝒜 y = ∑ n ∈ F, sectionToFraction 𝒜 n (y n) := by
   classical
@@ -322,10 +364,10 @@ local notation "S" => MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal
 local notation "𝒬" => gradedQuotient 𝒮 I
 
 /-- The map `k → (S/I)₀`. -/
-def quotientZeroHom : k →+* 𝒬 0 :=
+private def quotientZeroHom : k →+* 𝒬 0 :=
   (gradedQuotientMk 𝒮 I).gradedZeroRingHom.comp (algebraMap k (𝒮 0))
 
-theorem exists_algebraMap_eq_of_mem_zero {a : S} (ha : a ∈ 𝒬 0) :
+private theorem exists_algebraMap_eq_of_mem_zero {a : S} (ha : a ∈ 𝒬 0) :
     ∃ c : k, algebraMap k S c = a := by
   obtain ⟨b, hb, rfl⟩ := mem_gradedQuotient_iff.1 ha
   obtain ⟨c, hc⟩ := (bijective_algebraMap_mvPolynomial_homogeneousSubmodule_zero k r).2 ⟨b, hb⟩
@@ -334,11 +376,11 @@ theorem exists_algebraMap_eq_of_mem_zero {a : S} (ha : a ∈ 𝒬 0) :
   congr 1
   simpa using congrArg Subtype.val hc
 
-theorem algebraMap_mem_zero (c : k) : algebraMap k S c ∈ 𝒬 0 := by
+private theorem algebraMap_mem_zero (c : k) : algebraMap k S c ∈ 𝒬 0 := by
   rw [← Ideal.Quotient.mk_algebraMap, MvPolynomial.algebraMap_eq]
   exact mk_mem_gradedQuotient (isHomogeneous_C _ c)
 
-theorem quotientZeroHom_surjective : Function.Surjective (quotientZeroHom I) := by
+private theorem quotientZeroHom_surjective : Function.Surjective (quotientZeroHom I) := by
   intro y
   obtain ⟨c, hc⟩ := exists_algebraMap_eq_of_mem_zero I y.2
   refine ⟨c, Subtype.ext ?_⟩
@@ -584,7 +626,7 @@ variable (d : ℕ) [NeZero d]
 local notation "𝒮N" => MvPolynomial.homogeneousSubmodule (Fin (Veronese.dupleN r d + 1)) k
 
 omit [NeZero d] in
-theorem dupleHom₀_mem {n : ℕ} {p : MvPolynomial (Fin (Veronese.dupleN r d + 1)) k}
+private theorem dupleHom₀_mem {n : ℕ} {p : MvPolynomial (Fin (Veronese.dupleN r d + 1)) k}
     (hp : p ∈ 𝒮N n) : dupleHom₀ (k := k) (r := r) d p ∈ 𝒮 (n * d) := by
   have h : (dupleHom₀ (k := k) (r := r) d p).IsHomogeneous (d * n) :=
     IsHomogeneous.aeval hp _ fun j => isHomogeneous_monomial _ (Veronese.dupleEquiv r d j).2
@@ -592,7 +634,7 @@ theorem dupleHom₀_mem {n : ℕ} {p : MvPolynomial (Fin (Veronese.dupleN r d + 
   exact h
 
 omit [NeZero d] in
-theorem dupleHom₀_mem_veroneseSubring (p : MvPolynomial (Fin (Veronese.dupleN r d + 1)) k) :
+private theorem dupleHom₀_mem_veroneseSubring (p : MvPolynomial (Fin (Veronese.dupleN r d + 1)) k) :
     dupleHom₀ (k := k) (r := r) d p ∈ veroneseSubring 𝒮 d := by
   classical
   rw [← DirectSum.sum_support_decompose 𝒮N p, map_sum]
@@ -616,7 +658,7 @@ theorem veroneseMap_gradedQuotientMk_surjective :
   exact ⟨dupleMapHom d p, by rw [← hp, ← veroneseMap_comp_dupleMapHom]; rfl⟩
 
 omit [NeZero d] in
-theorem adjoin_X_eq_top :
+private theorem adjoin_X_eq_top :
     Algebra.adjoin (𝒮 0) (Set.range (X : Fin (r + 1) → MvPolynomial (Fin (r + 1)) k)) = ⊤ := by
   rw [eq_top_iff]
   rintro p -
@@ -726,7 +768,8 @@ omit [IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)] in
 and its Veronese subring `(S/I)^{(d)} = ⨁_n (S/I)_{nd}` is integrally closed for all large `d`.
 
 Following the book: `S' = ⨁_{n ≥ 0} Γ(X, 𝒪_X(n))` is the integral closure of `S/I`
-(Exercise 5.14(a)), `(S/I)_n = S'_n` for large `n` (Exercise 5.9, `exists_mem_algebraMap_eq_sectionToFraction`)
+(Exercise 5.14(a)), `(S/I)_n = S'_n` for large `n` (Exercise 5.9,
+`exists_mem_algebraMap_eq_sectionToFraction`)
 and for `n = 0` (`S'_0` is integral over `k`), and the components of degree not divisible by `d`
 of an element of the fraction field of `(S/I)^{(d)}` integral over it vanish
 (`isIntegrallyClosed_veroneseSubring`). -/
