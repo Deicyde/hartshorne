@@ -1515,8 +1515,8 @@ theorem moduleFinite_globalSections_of_projective (k : Type u) [Field k] {A : Ty
     f.appTop ((Scheme.ΓSpecIso (.of A)).inv (φ.symm c)) • (show Γ(F, ⊤) from n)
   rw [this]
 
-/-- **Hartshorne II, Theorem 5.19**, over a field: `Γ(X, F)` is a finite-dimensional
-`k`-vector space for `X` projective over `k` and `F` coherent. -/
+/-- **Hartshorne II, Theorem 5.19 and Remark 5.19.1**, over a field: `Γ(X, F)` is a
+finite-dimensional `k`-vector space for `X` projective over `k` and `F` coherent. -/
 theorem finiteDimensional_globalSections_of_projective {k : Type u} [Field k] {X : Scheme.{u}}
     (f : X ⟶ Spec (.of k)) (hf : Projective f) (F : X.Modules) (hF : IsCoherent F) :
     FiniteDimensional k
