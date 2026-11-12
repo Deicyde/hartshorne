@@ -16,6 +16,8 @@ equations $f,g \in \mathcal{O}_{X,P}$ to generate the maximal ideal.
 The condition is independent of the chosen local equations. If $C ,D$ are transverse at
 $P$, each is regular at $P$, the scheme-theoretic intersection is reduced of
 length one there, and their embedded tangent lines are distinct.
+Hartshorne states only that $C$ and $D$ are nonsingular at $P$ (p.357); the length-one and
+tangent-line clauses are project additions.
 
 ## Depends on
 
