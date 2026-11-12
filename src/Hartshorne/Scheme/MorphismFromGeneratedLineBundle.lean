@@ -320,6 +320,206 @@ theorem exists_mem_nonvanishingLocus_of_isGeneratedBySections {L : X.Modules}
 
 end Nonvanishing
 
+/-! ### Part (b): the ratios `sₗ/sₖ` on `X_{sₖ}` -/
+
+section Ratios
+
+variable {n : ℕ} {X : Scheme.{u}} {L : X.Modules} (hL : L.IsInvertible)
+  (s : Fin (n + 1) → Γ(L, ⊤))
+
+/-- The nonvanishing locus `X_{sₖ}`. -/
+abbrev locus (k : Fin (n + 1)) : X.Opens := nonvanishingLocusOpens hL (s k)
+
+theorem isTrivializingSection_locus (k : Fin (n + 1)) :
+    IsTrivializingSection L (locus hL s k) (L.presheaf.map (homOfLE le_top).op (s k)) :=
+  isTrivializingSection_nonvanishingLocusOpens hL (s k)
+
+/-- The ratio `sₗ/sₖ`, a function on `X_{sₖ}`: the unique `g` with `sₗ = g sₖ` there. -/
+def sectionRatio (k l : Fin (n + 1)) : Γ(X, locus hL s k) :=
+  ((isTrivializingSection_locus hL s k).exists_eq_smul (s l)).choose
+
+theorem sectionRatio_spec (k l : Fin (n + 1)) :
+    L.presheaf.map (homOfLE (le_top : locus hL s k ≤ ⊤)).op (s l) =
+      sectionRatio hL s k l • L.presheaf.map (homOfLE (le_top : locus hL s k ≤ ⊤)).op (s k) :=
+  ((isTrivializingSection_locus hL s k).exists_eq_smul (s l)).choose_spec
+
+/-- On an open `V ⊆ X_{sₖ}`, `sₗ = (sₗ/sₖ) sₖ`. -/
+theorem restrict_eq_sectionRatio_smul (k l : Fin (n + 1)) {V : X.Opens} (h : V ≤ locus hL s k) :
+    L.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op (s l) =
+      X.presheaf.map (homOfLE h).op (sectionRatio hL s k l) •
+        L.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op (s k) := by
+  rw [← Scheme.Modules.map_map_homOfLE L le_top h, sectionRatio_spec, Scheme.Modules.map_smul,
+    Scheme.Modules.map_map_homOfLE]
+
+/-- On an open `V ⊆ X_{sₖ}`, coefficients with respect to `sₖ` are unique. -/
+theorem eq_of_smul_eq (k : Fin (n + 1)) {V : X.Opens} (h : V ≤ locus hL s k) {a b : Γ(X, V)}
+    (hab : a • L.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op (s k) =
+      b • L.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op (s k)) : a = b := by
+  refine (isTrivializingSection_locus hL s k V h).1 ?_
+  simp only [Scheme.Modules.map_map_homOfLE]
+  exact hab
+
+theorem sectionRatio_self (k : Fin (n + 1)) : sectionRatio hL s k k = 1 := by
+  have h := restrict_eq_sectionRatio_smul hL s k k (le_refl (locus hL s k))
+  refine eq_of_smul_eq hL s k le_rfl ?_
+  rw [one_smul]
+  conv_rhs => rw [h]
+  simp only [homOfLE_refl, op_id, CategoryTheory.Functor.map_id]
+  rfl
+
+/-- The cocycle identity `sₘ/sₖ = (sₗ/sₖ)(sₘ/sₗ)` on `X_{sₖ} ∩ X_{sₗ}`. -/
+theorem sectionRatio_cocycle (k l m : Fin (n + 1)) {V : X.Opens} (h₁ : V ≤ locus hL s k)
+    (h₂ : V ≤ locus hL s l) :
+    X.presheaf.map (homOfLE h₁).op (sectionRatio hL s k m) =
+      X.presheaf.map (homOfLE h₁).op (sectionRatio hL s k l) *
+        X.presheaf.map (homOfLE h₂).op (sectionRatio hL s l m) := by
+  refine eq_of_smul_eq hL s k h₁ ?_
+  rw [← restrict_eq_sectionRatio_smul, mul_comm, mul_smul, ← restrict_eq_sectionRatio_smul,
+    ← restrict_eq_sectionRatio_smul]
+
+theorem isUnit_sectionRatio (k l : Fin (n + 1)) {V : X.Opens} (h₁ : V ≤ locus hL s k)
+    (h₂ : V ≤ locus hL s l) : IsUnit (X.presheaf.map (homOfLE h₁).op (sectionRatio hL s k l)) := by
+  have h := sectionRatio_cocycle hL s k l k h₁ h₂
+  rw [sectionRatio_self, map_one] at h
+  exact IsUnit.of_mul_eq_one _ h.symm
+
+/-- `D(sₗ/sₖ) = X_{sₖ} ∩ X_{sₗ}`. -/
+theorem basicOpen_sectionRatio (k l : Fin (n + 1)) :
+    X.basicOpen (sectionRatio hL s k l) = locus hL s k ⊓ locus hL s l := by
+  ext x
+  have h := (isTrivializingSection_locus hL s k).nonvanishingLocus_inter_eq
+    (sectionRatio_spec hL s k l)
+  have hx := congrArg (x ∈ ·) h
+  simp only [Set.mem_inter_iff, eq_iff_iff] at hx
+  change x ∈ (X.basicOpen (sectionRatio hL s k l) : Set X) ↔ _
+  rw [← hx]
+  exact ⟨fun h => ⟨h.2, h.1⟩, fun h => ⟨h.2, h.1⟩⟩
+
+end Ratios
+
+/-! ### Part (b): construction of the morphism -/
+
+section Construction
+
+variable {n : ℕ} {X : Scheme.{u}} {L : X.Modules} (hL : L.IsInvertible)
+  (s : Fin (n + 1) → Γ(L, ⊤))
+
+/-- The ring map `ℤ[x₀, …, xₙ] → Γ(X_{sₖ}, 𝒪)`, `xₗ ↦ sₗ/sₖ`. -/
+def chartRingMap (k : Fin (n + 1)) :
+    MvPolynomial (Fin (n + 1)) (ULift.{u} ℤ) →+* Γ(X, locus hL s k) :=
+  eval₂Hom ((Int.castRingHom _).comp ULift.ringEquiv.toRingHom) fun l => sectionRatio hL s k l
+
+theorem chartRingMap_X (k l : Fin (n + 1)) :
+    chartRingMap hL s k (MvPolynomial.X l) = sectionRatio hL s k l := by
+  simp [chartRingMap]
+
+theorem chartRingMap_X_self (k : Fin (n + 1)) : chartRingMap hL s k (MvPolynomial.X k) = 1 := by
+  rw [chartRingMap_X, sectionRatio_self]
+
+theorem isUnit_chartRingMap_X_self (k : Fin (n + 1)) :
+    IsUnit (chartRingMap hL s k (MvPolynomial.X k)) := by
+  rw [chartRingMap_X_self]
+  exact isUnit_one
+
+/-- **The chart morphism** `X_{sₖ} ⟶ D₊(xₖ) ⊆ ℙⁿ_ℤ` given by `xₗ/xₖ ↦ sₗ/sₖ`. -/
+def chartMorphism (k : Fin (n + 1)) : (locus hL s k).toScheme ⟶ projInt.{u} n :=
+  (locus hL s k).toSpecΓ ≫
+    projChartMap (chartRingMap hL s k) (X_mem_homogeneousSubmodule_one _ k) Nat.one_pos
+      (isUnit_chartRingMap_X_self hL s k)
+
+theorem chartMorphism_compat (k l : Fin (n + 1)) :
+    X.homOfLE (inf_le_left : locus hL s k ⊓ locus hL s l ≤ _) ≫ chartMorphism hL s k =
+      X.homOfLE (inf_le_right : locus hL s k ⊓ locus hL s l ≤ _) ≫ chartMorphism hL s l := by
+  set ρ := X.presheaf.map (homOfLE (inf_le_left : locus hL s k ⊓ locus hL s l ≤ _)).op with hρ
+  set ρ' := X.presheaf.map (homOfLE (inf_le_right : locus hL s k ⊓ locus hL s l ≤ _)).op
+    with hρ'
+  have hunit_c : IsUnit ((ρ.hom.comp (chartRingMap hL s k)) (MvPolynomial.X k)) := by
+    simp [chartRingMap_X_self]
+  have hunit_c' : IsUnit ((ρ'.hom.comp (chartRingMap hL s l)) (MvPolynomial.X l)) := by
+    simp [chartRingMap_X_self]
+  have hunit_x : IsUnit ((ρ.hom.comp (chartRingMap hL s k)) (MvPolynomial.X l)) := by
+    rw [RingHom.comp_apply, chartRingMap_X]
+    exact isUnit_sectionRatio hL s k l inf_le_left inf_le_right
+  simp only [chartMorphism]
+  rw [← Scheme.Opens.toSpecΓ_SpecMap_presheaf_map_assoc,
+    ← Scheme.Opens.toSpecΓ_SpecMap_presheaf_map_assoc, SpecMap_projChartMap _ _ _ _ _ hunit_c,
+    SpecMap_projChartMap _ _ _ _ _ hunit_c']
+  congr 1
+  rw [projChartMap_eq _ _ _ hunit_c (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos hunit_x]
+  symm
+  apply projChartMap_eq_of_scale _ _ (ρ' (chartRingMap hL s l (MvPolynomial.X k)))
+  intro d a ha
+  have hgen : ∀ j, (ρ'.hom.comp (chartRingMap hL s l)) (MvPolynomial.X j) =
+      ρ' (chartRingMap hL s l (MvPolynomial.X k)) *
+        (ρ.hom.comp (chartRingMap hL s k)) (MvPolynomial.X j) := by
+    intro j
+    rw [RingHom.comp_apply, RingHom.comp_apply, chartRingMap_X, chartRingMap_X, chartRingMap_X]
+    exact sectionRatio_cocycle hL s l k j inf_le_right inf_le_left
+  have hcoef : (ρ'.hom.comp (chartRingMap hL s l)).comp C =
+      (ρ.hom.comp (chartRingMap hL s k)).comp C := ulift_int_ringHom_ext _ _
+  have hhom : a.IsHomogeneous d := (mem_homogeneousSubmodule d a).1 ha
+  have e1 : (ρ'.hom.comp (chartRingMap hL s l)) a =
+      eval₂ ((ρ.hom.comp (chartRingMap hL s k)).comp C)
+        (fun j => ρ' (chartRingMap hL s l (MvPolynomial.X k)) *
+          (ρ.hom.comp (chartRingMap hL s k)) (MvPolynomial.X j)) a := by
+    conv_lhs => rw [← eval₂_eta a]
+    rw [eval₂_comp_left, hcoef]
+    congr 1
+    funext j
+    exact hgen j
+  have e2 : (ρ.hom.comp (chartRingMap hL s k)) a =
+      eval₂ ((ρ.hom.comp (chartRingMap hL s k)).comp C)
+        (fun j => (ρ.hom.comp (chartRingMap hL s k)) (MvPolynomial.X j)) a := by
+    conv_lhs => rw [← eval₂_eta a]
+    rw [eval₂_comp_left]
+    rfl
+  rw [e1, e2, isHomogeneous_eval₂_mul_left hhom]
+
+theorem locus_isOpenCover (hs : L.IsGeneratedBySections (fun i : ULift.{u} (Fin (n + 1)) => s i.down)) :
+    TopologicalSpace.IsOpenCover (locus hL s) := by
+  refine TopologicalSpace.IsOpenCover.mk (eq_top_iff.mpr fun x _ => ?_)
+  obtain ⟨⟨i⟩, hi⟩ := exists_mem_nonvanishingLocus_of_isGeneratedBySections hL hs x
+  exact TopologicalSpace.Opens.mem_iSup.mpr ⟨i, hi⟩
+
+variable (hs : L.IsGeneratedBySections (fun i : ULift.{u} (Fin (n + 1)) => s i.down))
+
+/-- **The morphism `X ⟶ ℙⁿ_ℤ` determined by generating sections**, glued from the chart
+morphisms `X_{sₖ} ⟶ D₊(xₖ)`. -/
+def morphismToProjInt : X ⟶ projInt.{u} n :=
+  glueOpens (locus hL s) (locus_isOpenCover hL s hs) (chartMorphism hL s)
+    (chartMorphism_compat hL s)
+
+@[reassoc (attr := simp)]
+theorem ι_morphismToProjInt (k : Fin (n + 1)) :
+    (locus hL s k).ι ≫ morphismToProjInt hL s hs = chartMorphism hL s k :=
+  ι_glueOpens _ _ _ _ k
+
+theorem morphismToProjInt_preimage (m : Fin (n + 1)) :
+    morphismToProjInt hL s hs ⁻¹ᵁ chartInt n m = locus hL s m := by
+  apply opens_eq_of_cover _ (locus_isOpenCover hL s hs)
+  intro k
+  rw [← Scheme.Hom.comp_preimage, ι_morphismToProjInt, chartMorphism, Scheme.Hom.comp_preimage,
+    projChartMap_preimage_basicOpen _ _ _ _ (X_mem_homogeneousSubmodule_one _ _) Nat.one_pos,
+    Scheme.Opens.toSpecΓ_preimage_basicOpen, chartRingMap_X, basicOpen_sectionRatio,
+    Scheme.Hom.preimage_inf, Scheme.Opens.ι_preimage_self, top_inf_eq]
+
+/-- On `X_{sₖ}`, the morphism pulls `xₗ/xₖ` back to `sₗ/sₖ`. -/
+theorem morphismToProjInt_appLE (k l : Fin (n + 1)) :
+    (morphismToProjInt hL s hs).appLE (chartInt n k) (locus hL s k)
+        (morphismToProjInt_preimage hL s hs k).ge (ratioInt n k l) = sectionRatio hL s k l := by
+  have h1 := ι_comp_eq_toSpecΓ_SpecMap (morphismToProjInt hL s hs) (locus hL s k)
+    (X_mem_homogeneousSubmodule_one _ k) Nat.one_pos (morphismToProjInt_preimage hL s hs k).ge
+  rw [ι_morphismToProjInt, chartMorphism, projChartMap] at h1
+  simp only [← Category.assoc] at h1
+  rw [cancel_mono] at h1
+  have h2 := congrArg (fun φ => φ.hom (chartRatio (ULift.{u} ℤ) k l))
+    (toSpecΓ_SpecMap_injective _ h1)
+  simp only [CommRingCat.hom_ofHom] at h2
+  rw [awayLift_chartRatio _ _ _ (chartRingMap_X_self hL s k), chartRingMap_X] at h2
+  exact h2.symm
+
+end Construction
+
 /-! ### Part (a) -/
 
 section PartA
