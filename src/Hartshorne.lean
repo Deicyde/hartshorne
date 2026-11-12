@@ -704,6 +704,7 @@ import Hartshorne.Cohomology.SerreAffinenessCriterion
 import Hartshorne.Cohomology.AffineCoverComparison
 import Hartshorne.Cohomology.InfinitesimalFibers
 import Hartshorne.Scheme.Differentials.AffineNonsingularInfinitesimalLifting
+import Hartshorne.Scheme.Differentials.AffineNonsingularInfinitesimalExtensions
 import Hartshorne.Cohomology.AffineCoverCohomologicalDimension
 import Hartshorne.Cohomology.AffineMorphismCohomologyPushforward
 import Hartshorne.Cohomology.DualizingSheaf

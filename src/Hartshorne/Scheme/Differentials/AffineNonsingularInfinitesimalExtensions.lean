@@ -12,6 +12,36 @@ import Hartshorne.Scheme.Differentials.AffineNonsingularInfinitesimalLifting
 # Infinitesimal extensions of a nonsingular affine scheme
 
 Hartshorne, *Algebraic Geometry*, II, Exercise 8.7 (pp. 189–190).
+
+Let `X` be a scheme over `k` and `F` an `𝒪_X`-module. An *infinitesimal extension* of `X` by `F`
+(`Hartshorne.InfinitesimalExtension`) is a `k`-scheme `X'` with a sheaf of ideals `I` such that
+`I² = 0`, `(X', 𝒪_{X'}/I) ≅ X` over `k`, and `I ≅ F` as `𝒪_X`-modules. The *trivial extension*
+is the topological space of `X` with the sheaf of rings `𝒪_X ⊕ F`, where
+`(a ⊕ f)(a' ⊕ f') = a a' ⊕ (a f' + a' f)`
+(`Hartshorne.InfinitesimalExtension.trivialExtensionPresheaf`). An isomorphism of an extension
+with the trivial one is recorded by `Hartshorne.InfinitesimalExtension.TrivialIso`.
+
+The main result (`Hartshorne.InfinitesimalExtension.nonempty_trivialIso`): if `k` is
+algebraically closed, `X` is affine, nonsingular and of finite type over `k`, and `F` is
+coherent, then every infinitesimal extension of `X` by `F` is isomorphic to the trivial one.
+
+## Proof
+
+* The ideal `I` is nil, so the closed immersion `ι : X ⟶ X'` is surjective, hence a homeomorphism
+  (`Hartshorne.InfinitesimalExtension.isHomeomorph`).
+* On an affine open `U ⊆ X'`, `Γ(U, 𝒪_{X'})` is an extension of the Noetherian ring
+  `Γ(ι⁻¹ U, 𝒪_X)` by the finitely generated module `Γ(ι⁻¹ U, F)`, so it is Noetherian; thus `X'`
+  is Noetherian. Its reduction is a closed subscheme of the affine scheme `X`, so `X'` is affine
+  by Hartshorne III, Exercise 3.1 (`Hartshorne.InfinitesimalExtension.isAffine_scheme`).
+* Hence `Γ(X', 𝒪_{X'}) → Γ(X, 𝒪_X)` is a surjection of `k`-algebras with square-zero kernel, and
+  the infinitesimal lifting property (Hartshorne II, Exercise 8.6) lifts the identity of
+  `Γ(X, 𝒪_X)` to a section. As `X` is affine this is a retraction `ρ : X' ⟶ X` of `ι` over `k`
+  (`Hartshorne.InfinitesimalExtension.exists_retraction`).
+* On every open `U ⊆ X'`, `(a, m) ↦ ρ^# a + m` is a ring isomorphism
+  `Γ(ι⁻¹ U, 𝒪_X) ⊕ Γ(ι⁻¹ U, F) → Γ(U, 𝒪_{X'})`: it is a section of `ι^#` plus the inclusion of
+  the kernel `I ≅ F` of `ι^#` (`Hartshorne.InfinitesimalExtension.splitHom_bijective`). These
+  maps form an isomorphism of presheaves of rings `ι_* (𝒪_X ⊕ F) ≅ 𝒪_{X'}`
+  (`Hartshorne.InfinitesimalExtension.split`).
 -/
 
 noncomputable section
@@ -35,7 +65,10 @@ abbrev opModule : Module Rᵐᵒᵖ M := Module.compHom M (RingEquiv.toOpposite 
 
 attribute [local instance] opModule
 
-instance : IsCentralScalar R M := ⟨fun _ _ => rfl⟩
+/-- The two actions of `R` on `M` given by `opModule` agree. -/
+theorem opModule_isCentralScalar : IsCentralScalar R M := ⟨fun _ _ => rfl⟩
+
+attribute [local instance] opModule_isCentralScalar
 
 /-- The ring homomorphism `R ⊕ M → S ⊕ N`, `(r, m) ↦ (φ r, ψ m)`, of trivial square-zero
 extensions along a ring homomorphism `φ` and a `φ`-semilinear map `ψ`. -/
@@ -71,7 +104,7 @@ theorem liftHom_apply {A : Type*} [CommRing A] (f : R →+* A) (g : M →+ A)
 
 end Ring
 
-attribute [local instance] opModule
+attribute [local instance] opModule opModule_isCentralScalar
 
 /-! ### The trivial extension of a scheme by a module -/
 
@@ -130,6 +163,33 @@ structure InfinitesimalExtension {k : Type u} [CommRing k] {X : Scheme.{u}}
 
 namespace InfinitesimalExtension
 
+attribute [local instance] opModule opModule_isCentralScalar
+
+variable {k : Type u} [CommRing k] {X : Scheme.{u}} {pX : X ⟶ Spec (.of k)} {F : X.Modules}
+
+/-- An **isomorphism of an infinitesimal extension `(X', I)` of `X` by `F` with the trivial
+extension** `(X, 𝒪_X ⊕ F)` (Hartshorne II, Exercise 8.7): an isomorphism of sheaves of rings
+`𝒪_{X'} ≅ ι_* (𝒪_X ⊕ F)` along `ι` (an isomorphism of ringed spaces
+`(X', 𝒪_{X'}) ≅ (X, 𝒪_X ⊕ F)` when `ι` is a homeomorphism), which
+* is compatible with the identifications of `X` with `(X', 𝒪_{X'}/I)` and with
+  `(X, (𝒪_X ⊕ F)/F)`, i.e. with `ι^# : 𝒪_{X'} → ι_* 𝒪_X` and the projection `𝒪_X ⊕ F → 𝒪_X`;
+* is compatible with the structures over `k`;
+* restricts to the given isomorphism `I ≅ F` on the ideals. -/
+structure TrivialIso (E : InfinitesimalExtension pX F) where
+  /-- The isomorphism of sheaves of rings `𝒪_{X'} ≅ ι_* (𝒪_X ⊕ F)`. -/
+  iso : E.scheme.presheaf ≅ E.ι.base _* trivialExtensionPresheaf F
+  comp_fst : iso.hom ≫ (TopCat.Presheaf.pushforward _ E.ι.base).map (trivialExtensionFst F) =
+    E.ι.c
+  app_over (c : Γ(Spec (.of k), ⊤)) :
+    iso.hom.app (op ⊤) (E.over.appTop c) = TrivSqZeroExt.inl (pX.appTop c)
+  app_ideal (U : E.scheme.Opens) (m : Γ(F, E.ι ⁻¹ᵁ U)) :
+    iso.hom.app (op U) (show Γ(E.scheme, U) from Scheme.Modules.Hom.app
+      (closedImmersionIdealSheafι E.ι) U (E.iso.hom.app U m)) = TrivSqZeroExt.inr m
+
+end InfinitesimalExtension
+
+namespace InfinitesimalExtension
+
 /-! ### Sections of the ideal sheaf of a closed immersion -/
 
 section KernelSections
@@ -181,6 +241,7 @@ variable {k : Type u} [CommRing k] {X : Scheme.{u}} {pX : X ⟶ Spec (.of k)} {F
   (E : InfinitesimalExtension pX F)
 
 attribute [local instance] InfinitesimalExtension.isClosedImmersion opModule
+  opModule_isCentralScalar
 
 /-- The ideal sheaf of an infinitesimal extension lies in the nilradical. -/
 theorem ker_le_nilradical : E.ι.ker ≤ E.scheme.nilradical := by
@@ -443,6 +504,7 @@ end InfinitesimalExtension
 namespace InfinitesimalExtension
 
 attribute [local instance] InfinitesimalExtension.isClosedImmersion opModule
+  opModule_isCentralScalar
 
 variable {k : Type u} [Field k] {X : Scheme.{u}} {pX : X ⟶ Spec (.of k)} {F : X.Modules}
   (E : InfinitesimalExtension pX F)
@@ -495,6 +557,42 @@ theorem exists_retraction [IsAlgClosed k] [LocallyOfFiniteType pX] [IsAffine X]
     ext c
     obtain ⟨c, rfl⟩ := (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (.of k)).inv).2 c
     exact s.commutes c
+
+
+/-- **Hartshorne II, Exercise 8.7.** Let `k` be an algebraically closed field, `X` an affine
+nonsingular scheme of finite type over `k`, and `F` a coherent `𝒪_X`-module. Then every
+infinitesimal extension `(X', I)` of `X` by `F` is isomorphic to the trivial extension
+`(X, 𝒪_X ⊕ F)`: the closed immersion `ι : X ⟶ X'` is a homeomorphism, and there is an isomorphism
+of sheaves of rings `𝒪_{X'} ≅ ι_* (𝒪_X ⊕ F)` compatible with the projections onto `𝒪_X`, the
+structures over `k`, and the identification `I ≅ F`. -/
+theorem nonempty_trivialIso [IsAlgClosed k] [LocallyOfFiniteType pX] [IsAffine X]
+    (hX : X.IsRegular) (hF : IsCoherent F) :
+    IsHomeomorph E.ι.base ∧ Nonempty E.TrivialIso := by
+  obtain ⟨ρ, hρ, hρk⟩ := E.exists_retraction hX hF
+  have hinv : ∀ (U : E.scheme.Opensᵒᵖ) y,
+      (inv (E.split ρ hρ)).app U ((E.split ρ hρ).app U y) = y := fun U y =>
+    ConcreteCategory.congr_hom ((asIso (E.split ρ hρ)).hom_inv_id_app U) y
+  refine ⟨E.isHomeomorph, ⟨⟨(asIso (E.split ρ hρ)).symm, ?_, ?_, ?_⟩⟩⟩
+  · rw [Iso.symm_hom, asIso_inv, IsIso.inv_comp_eq]
+    ext U x
+    exact (E.app_splitHom ρ hρ U x).symm
+  · intro c
+    have : E.over.appTop c = (E.split ρ hρ).app (op ⊤) (TrivSqZeroExt.inl (pX.appTop c)) := by
+      change _ = ρ.appLE (E.ι ⁻¹ᵁ ⊤) ⊤ (E.le_preimage ρ hρ ⊤) (pX.appTop c) + E.idealIncl ⊤ 0
+      have h : ρ.appLE (E.ι ⁻¹ᵁ ⊤) ⊤ (E.le_preimage ρ hρ ⊤) = ρ.appTop :=
+        ρ.appLE_eq_app (U := ⊤)
+      rw [map_zero, add_zero, ← hρk, h]
+      rfl
+    rw [this]
+    exact hinv _ _
+  · intro U m
+    have : (show Γ(E.scheme, U) from Scheme.Modules.Hom.app (closedImmersionIdealSheafι E.ι) U
+        (E.iso.hom.app U m)) = (E.split ρ hρ).app (op U) (TrivSqZeroExt.inr m) := by
+      change _ = ρ.appLE (E.ι ⁻¹ᵁ U) U (E.le_preimage ρ hρ U) 0 + E.idealIncl U m
+      rw [map_zero, zero_add]
+      rfl
+    rw [this]
+    exact hinv _ _
 
 end InfinitesimalExtension
 
