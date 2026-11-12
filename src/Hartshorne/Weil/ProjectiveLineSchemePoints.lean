@@ -23,7 +23,11 @@ For a field extension `k → K`:
   turns a one-dimensional quotient of `V` into a line in `V^∨`.
 * `Hartshorne.ProjectiveLinePoints.equivProjectiveSpace`: composing with the standard-basis
   identification `(K²)^∨ ≅ K²`, the points are the lines through the origin in `K²`, i.e.
-  the classical projective line `ℙ¹(K)`.
+  the classical projective line `ℙ¹(K)`. `equivProjectiveSpace_eq_mk` says the point is
+  `[c₀ : c₁]` when `φ^* xᵢ = cᵢ t`.
+* `Hartshorne.ProjectiveLinePoints.equivProjectiveSpace_map`: the identification is natural in
+  `K`: for a `k`-embedding `ι : K → K'`, composing with `Spec K' ⟶ Spec K` corresponds to
+  `[c₀ : c₁] ↦ [ι c₀ : ι c₁]`.
 
 ## Proof
 
@@ -34,7 +38,9 @@ of the `sᵢ` as a global trivializing section, so `Γ(Spec K, L)` is a one-dime
 morphisms with the same kernel have isomorphic pulled-back data, so they agree by the
 uniqueness in Theorem 7.1(b). Conversely a codimension-one subspace `W` is the kernel of a
 functional `f : K² → K`, and the structure sheaf with the sections `f(e₀), f(e₁)` gives,
-by Theorem 7.1(b), a morphism with kernel `W`.
+by Theorem 7.1(b), a morphism with kernel `W`. For naturality, on `Spec K` the morphism
+lands in a chart `D₊(x_k)` and `φ^* x_l = φ^#(x_l / x_k) · φ^* x_k`; these ratios are
+compatible with composition.
 -/
 
 noncomputable section
@@ -414,6 +420,118 @@ theorem equivProjectiveSpace_eq_mk {k K : Type u} [Field k] [Field K] [Algebra k
   rfl
 
 end Equivalences
+
+/-! ### Naturality in the field -/
+
+section Naturality
+
+variable {K : Type u} [Field K]
+
+/-- For `T : Spec K ⟶ ℙ¹_ℤ` landing in the chart `D₊(x_k)`, the coordinate ratio
+`T^#(x_l / x_k) ∈ K`. -/
+def chartCoordinate (T : Spec (CommRingCat.of K) ⟶ projInt.{u} 1) (k l : Fin 2)
+    (h : ⊤ ≤ T ⁻¹ᵁ chartInt 1 k) : K :=
+  (Scheme.ΓSpecIso (CommRingCat.of K)).hom (T.appLE (chartInt 1 k) ⊤ h (ratioInt 1 k l))
+
+theorem chartCoordinate_congr {T₁ T₂ : Spec (CommRingCat.of K) ⟶ projInt.{u} 1} (hT : T₁ = T₂)
+    (k l : Fin 2) (h₁ : ⊤ ≤ T₁ ⁻¹ᵁ chartInt 1 k) (h₂ : ⊤ ≤ T₂ ⁻¹ᵁ chartInt 1 k) :
+    chartCoordinate T₁ k l h₁ = chartCoordinate T₂ k l h₂ := by
+  subst hT
+  rfl
+
+/-- Chart coordinates are compatible with field homomorphisms. -/
+theorem chartCoordinate_comp {K' : Type u} [Field K'] (ι : K →+* K')
+    (T : Spec (CommRingCat.of K) ⟶ projInt.{u} 1) (k l : Fin 2) (h : ⊤ ≤ T ⁻¹ᵁ chartInt 1 k)
+    (h' : ⊤ ≤ (Spec.map (CommRingCat.ofHom ι) ≫ T) ⁻¹ᵁ chartInt 1 k) :
+    chartCoordinate (Spec.map (CommRingCat.ofHom ι) ≫ T) k l h' = ι (chartCoordinate T k l h) := by
+  have key : (Spec.map (CommRingCat.ofHom ι) ≫ T).appLE (chartInt 1 k) ⊤ h' ≫
+      (Scheme.ΓSpecIso (CommRingCat.of K')).hom =
+      T.appLE (chartInt 1 k) ⊤ h ≫ (Scheme.ΓSpecIso (CommRingCat.of K)).hom ≫
+        CommRingCat.ofHom ι := by
+    rw [← Scheme.ΓSpecIso_naturality, ← Category.assoc]
+    congr 1
+  exact ConcreteCategory.congr_hom key (ratioInt 1 k l)
+
+variable {Y : Scheme.{u}}
+
+/-- On `Spec K`, every point lies in one chart preimage, which is then everything. -/
+theorem exists_top_le_chartPreimage
+    (φ : Spec (CommRingCat.of K) ⟶ projectiveSpaceOverScheme 1 Y) :
+    ∃ k, ⊤ ≤ chartPreimage φ k := by
+  obtain ⟨k, hk⟩ := exists_mem_chartPreimage φ ((default : PrimeSpectrum K) :
+    Spec (CommRingCat.of K))
+  exact ⟨k, (eq_top_of_mem hk).ge⟩
+
+/-- On the chart preimage, `φ^* x_l = T^#(x_l / x_k) · φ^* x_k`, written over `K`. -/
+theorem pullbackGlobalSection_eq_chartCoordinate_smul
+    (φ : Spec (CommRingCat.of K) ⟶ projectiveSpaceOverScheme 1 Y) (k l : Fin 2)
+    (h : ⊤ ≤ chartPreimage φ k) :
+    pullbackGlobalSection φ (projectiveSpaceCoordinate 1 Y l) =
+      chartCoordinate (toIntMap φ) k l h •
+        pullbackGlobalSection φ (projectiveSpaceCoordinate 1 Y k) := by
+  have h1 := congrArg ((pullbackTwist φ).presheaf.map (homOfLE h).op)
+    (restrict_pullbackGlobalSection_eq_smul φ k l)
+  rw [Scheme.Modules.map_map_homOfLE, Scheme.Modules.map_smul, Scheme.Modules.map_map_homOfLE,
+    show (homOfLE (h.trans le_top : (⊤ : (Spec (CommRingCat.of K)).Opens) ≤ ⊤)).op = 𝟙 _ from rfl,
+    CategoryTheory.Functor.map_id] at h1
+  rw [smul_eq_ΓSpecIso_inv_smul, chartCoordinate, ← ConcreteCategory.comp_apply, Iso.hom_inv_id]
+  exact h1
+
+/-- Base change of homogeneous coordinates along a field homomorphism `ι : K → K'`,
+`(c₀, c₁) ↦ (ι c₀, ι c₁)`, as an `ι`-semilinear map `K² → K'²`. -/
+def coordinateBaseChange {K' : Type u} [Field K'] (ι : K →+* K') :
+    (Fin 2 → K) →ₛₗ[ι] (Fin 2 → K') where
+  toFun c i := ι (c i)
+  map_add' _ _ := funext fun _ => map_add ι _ _
+  map_smul' _ _ := funext fun _ => map_mul ι _ _
+
+theorem coordinateBaseChange_injective {K' : Type u} [Field K'] (ι : K →+* K') :
+    Function.Injective (coordinateBaseChange ι) :=
+  fun _ _ h => funext fun i => ι.injective (congrFun h i)
+
+end Naturality
+
+namespace Point
+
+variable {k K K' : Type u} [Field k] [Field K] [Field K'] [Algebra k K] [Algebra k K']
+
+/-- A `k`-embedding `K → K'` sends `K`-points to `K'`-points, by composing with
+`Spec K' ⟶ Spec K`. -/
+def map (ι : K →ₐ[k] K') (φ : Point k K) : Point k K' :=
+  ⟨Spec.map (CommRingCat.ofHom (ι : K →+* K')) ≫ φ.1, by
+    rw [Category.assoc, φ.2, ← Spec.map_comp, ← CommRingCat.ofHom_comp, AlgHom.comp_algebraMap]⟩
+
+end Point
+
+/-- **Naturality in `K`.** For a `k`-embedding `ι : K → K'`, the identification of
+`K`-points of `ℙ¹_k` with `ℙ¹(K)` is compatible with `ι`: the point `Spec K' ⟶ Spec K ⟶ ℙ¹_k`
+corresponds to the image of `[c₀ : c₁]` under `[c₀ : c₁] ↦ [ι c₀ : ι c₁]`. -/
+theorem equivProjectiveSpace_map {k K K' : Type u} [Field k] [Field K] [Field K'] [Algebra k K]
+    [Algebra k K'] (ι : K →ₐ[k] K') (φ : Point k K) :
+    equivProjectiveSpace k K' (Point.map ι φ) =
+      Projectivization.map (coordinateBaseChange (ι : K →+* K'))
+        (coordinateBaseChange_injective _) (equivProjectiveSpace k K φ) := by
+  obtain ⟨j, hj⟩ := exists_isTrivializingSection_coordinate φ.1
+  obtain ⟨k₀, h⟩ := exists_top_le_chartPreimage φ.1
+  set c : Fin 2 → K := fun l => chartCoordinate (toIntMap φ.1) k₀ l h with hc_def
+  have hcs : ∀ l, pullbackGlobalSection φ.1 (projectiveSpaceCoordinate 1 _ l) =
+      c l • pullbackGlobalSection φ.1 (projectiveSpaceCoordinate 1 _ k₀) :=
+    fun l => pullbackGlobalSection_eq_chartCoordinate_smul φ.1 k₀ l h
+  have hc : c ≠ 0 := by
+    intro hc0
+    refine one_ne_zero ((bijective_smul_of_isTrivializingSection hj).1 (a₁ := 1) (a₂ := 0) ?_)
+    change (1 : K) • _ = (0 : K) • _
+    rw [hcs j, hc0, Pi.zero_apply, zero_smul, smul_zero, zero_smul]
+  rw [equivProjectiveSpace_eq_mk φ _ c hc hcs, Projectivization.map_mk]
+  have h' : ⊤ ≤ chartPreimage (Point.map ι φ).1 k₀ := fun x _ => h (Set.mem_univ
+    ((Spec.map (CommRingCat.ofHom (ι : K →+* K'))).base x))
+  refine equivProjectiveSpace_eq_mk _
+    (pullbackGlobalSection (Point.map ι φ).1 (projectiveSpaceCoordinate 1 _ k₀)) _ _ fun l => ?_
+  rw [pullbackGlobalSection_eq_chartCoordinate_smul _ k₀ l h']
+  congr 1
+  refine (chartCoordinate_congr (Category.assoc _ _ _) k₀ l h' ?_).trans
+    (chartCoordinate_comp (ι : K →+* K') _ k₀ l h _)
+  exact h'
 
 end ProjectiveLinePoints
 
