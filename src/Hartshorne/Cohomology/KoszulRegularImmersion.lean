@@ -376,6 +376,94 @@ theorem exact_lcomp_contraction_top (φ : Module.Dual A (Fin r → A)) (P : Type
   ext x
   simp
 
+/-! ### The dual of the Koszul resolution -/
+
+/-- `Hom(⋀^n A^r ⊗ A, P) ≅ Hom(⋀^n A^r, P)`, precomposition with `ω ↦ ω ⊗ 1`. -/
+noncomputable def homRid (n : ℕ) (P : Type u) [AddCommGroup P] [Module A P] :
+    (⋀[A]^n (Fin r → A) ⊗[A] A →ₗ[A] P) ≃ₗ[A] (⋀[A]^n (Fin r → A) →ₗ[A] P) :=
+  LinearEquiv.arrowCongr (TensorProduct.rid A _) (LinearEquiv.refl A P)
+
+lemma lcomp_contraction_comp_homRid (φ : Module.Dual A (Fin r → A)) (p : ℕ) (P : Type u)
+    [AddCommGroup P] [Module A P] :
+    LinearMap.lcomp A P (contraction φ p) ∘ₗ (homRid p P).toLinearMap =
+      (homRid (p + 1) P).toLinearMap ∘ₗ LinearMap.lcomp A P ((contraction φ p).rTensor A) := by
+  ext g ω
+  simp [homRid]
+
+variable (f : Fin r → A)
+
+lemma sequenceKoszulComplex_d_hom (n : ℕ) :
+    ((sequenceKoszulComplex f (ModuleCat.of A A)).d (n + 1) n).hom =
+      (contraction (koszulForm f) n).rTensor A := by
+  rw [koszulComplex_d]
+  rfl
+
+/-- **The dual of the Koszul resolution is exact below the top degree** (Hartshorne III.7, proof
+of Theorem 7.11). If `f₁, …, f_r` is Koszul-regular on `P`, the complex
+`Hom_A(K_•(f; A), P)` is exact in degrees `1, …, r - 1`. -/
+theorem exact_lcomp_sequenceKoszulComplex_d (P : Type u) [AddCommGroup P] [Module A P]
+    (hP : IsKoszulRegular f (ModuleCat.of A P)) {p : ℕ} (hp : p + 2 ≤ r) :
+    Function.Exact
+      (LinearMap.lcomp A P ((sequenceKoszulComplex f (ModuleCat.of A A)).d (p + 1) p).hom)
+      (LinearMap.lcomp A P
+        ((sequenceKoszulComplex f (ModuleCat.of A A)).d (p + 1 + 1) (p + 1)).hom) := by
+  rw [sequenceKoszulComplex_d_hom, sequenceKoszulComplex_d_hom]
+  refine (Function.Exact.iff_of_ladder_linearEquiv
+    (lcomp_contraction_comp_homRid (koszulForm f) p P)
+    (lcomp_contraction_comp_homRid (koszulForm f) (p + 1) P)).1 ?_
+  exact exact_lcomp_contraction (koszulForm f) P ((isKoszulRegular_iff_exact f _).1 hP) hp
+
+/-- **The dual of the Koszul resolution is injective in degree zero** (for `r > 0`): if
+`f₁, …, f_r` is Koszul-regular on `P`, then `Hom_A(K_0, P) → Hom_A(K_1, P)` is injective. -/
+theorem injective_lcomp_sequenceKoszulComplex_d (P : Type u) [AddCommGroup P] [Module A P]
+    (hP : IsKoszulRegular f (ModuleCat.of A P)) (hr : 0 < r) :
+    Function.Injective
+      (LinearMap.lcomp A P ((sequenceKoszulComplex f (ModuleCat.of A A)).d (0 + 1) 0).hom) := by
+  rw [sequenceKoszulComplex_d_hom]
+  have h := injective_lcomp_contraction_zero (koszulForm f) P
+    ((isKoszulRegular_iff_exact f (ModuleCat.of A P)).1 hP) hr
+  have hsq := lcomp_contraction_comp_homRid (koszulForm f) 0 P
+  have : Function.Injective ((homRid (0 + 1) P).toLinearMap ∘ₗ
+      LinearMap.lcomp A P ((contraction (koszulForm f) 0).rTensor A)) := by
+    rw [← hsq, LinearMap.coe_comp]
+    exact h.comp (homRid 0 P).injective
+  rw [LinearMap.coe_comp] at this
+  exact Function.Injective.of_comp this
+
+/-- The map `Hom_A(K_r, P) → P / (f₁, …, f_r) P` identifying the top cohomology of the dual of
+the Koszul resolution: through Koszul duality `Hom_A(K_r, P) ≅ ⋀^0 A^r ⊗ P = P`, followed by the
+quotient map. -/
+noncomputable def koszulDualTopMap {s : ℕ} (hs : s + 1 = r) (P : Type u) [AddCommGroup P]
+    [Module A P] :
+    ((sequenceKoszulComplex f (ModuleCat.of A A)).X (s + 1) →ₗ[A] P) →ₗ[A]
+      P ⧸ (Ideal.span (Set.range f) • ⊤ : Submodule A P) :=
+  (Submodule.quotEquivOfEq _ _ (koszulSubmodule_koszulForm f P)).toLinearMap ∘ₗ
+    augmentationLinearMap (koszulForm f) P ∘ₗ
+      (koszulDualEquiv (A := A) (r := r) (q := 0) (p := s + 1) (by omega) P).symm.toLinearMap ∘ₗ
+        (homRid (s + 1) P).toLinearMap
+
+/-- **The top cohomology of the dual of the Koszul resolution is `P / I P`** (Hartshorne III.7,
+proof of Theorem 7.11), `I = (f₁, …, f_r)`: the map `koszulDualTopMap` is surjective and its
+kernel is the image of `Hom_A(K_{r-1}, P) → Hom_A(K_r, P)`. No regularity is needed. -/
+theorem exact_koszulDualTopMap {s : ℕ} (hs : s + 1 = r) (P : Type u) [AddCommGroup P]
+    [Module A P] :
+    Function.Exact
+        (LinearMap.lcomp A P ((sequenceKoszulComplex f (ModuleCat.of A A)).d (s + 1) s).hom)
+        (koszulDualTopMap f hs P) ∧
+      Function.Surjective (koszulDualTopMap f hs P) := by
+  obtain ⟨hex, hsurj⟩ := exact_lcomp_contraction_top (koszulForm f) P hs
+  rw [sequenceKoszulComplex_d_hom]
+  refine ⟨?_, ?_⟩
+  · have := (Function.Exact.iff_of_ladder_linearEquiv
+      (e₃ := Submodule.quotEquivOfEq _ _ (koszulSubmodule_koszulForm f P).symm)
+      (lcomp_contraction_comp_homRid (koszulForm f) s P) (g₂₃ := augmentationLinearMap
+        (koszulForm f) P ∘ₗ (koszulDualEquiv (A := A) (r := r) (q := 0) (p := s + 1) (by omega)
+          P).symm.toLinearMap) (f₂₃ := koszulDualTopMap f hs P) (by ext; rfl)).1 hex
+    exact this
+  · simp only [koszulDualTopMap, LinearMap.coe_comp]
+    exact (Submodule.quotEquivOfEq _ _ _).surjective.comp
+      (hsurj.comp (homRid (s + 1) P).surjective)
+
 end Duality
 
 end Koszul
@@ -475,6 +563,35 @@ theorem IsKoszulRegularImmersion.exists_isKoszulRegular_sections
     hfg, hMg⟩
   rw [← i.ker.map_ideal_basicOpen U g, hI, Ideal.map_span, ← Set.range_comp]
   rfl
+
+/-- **The local Koszul calculation for a Koszul-regular immersion** (Hartshorne III.7, proof of
+Theorem 7.11). For a codimension-`r` Koszul-regular closed immersion `i : X ⟶ Y` with ideal sheaf
+`I` and a finite locally free `𝒪_Y`-module `M`, every point of `Y` has an affine open
+neighbourhood `U` with generators `f₁, …, f_r` of `I(U)` such that, writing `A = Γ(Y, U)` and
+`P = Γ(M, U)`, the dual `Hom_A(K_•(f; A), P)` of the Koszul resolution of `A / I(U)` is exact in
+degrees `0, …, r - 1` (injective in degree `0`), and its top cohomology is `P / I(U) P`. -/
+theorem IsKoszulRegularImmersion.exists_koszulDual
+    (h : IsKoszulRegularImmersion i r) {M : Y.Modules}
+    (hM : Ringed.IsFiniteLocallyFree (R := Y.sheaf) M) (y : Y) :
+    ∃ U : Y.affineOpens, y ∈ (U : Y.Opens) ∧
+      ∃ f : Fin r → Γ(Y, U), i.ker.ideal U = Ideal.span (Set.range f) ∧
+        IsKoszulRegular f (ModuleCat.of Γ(Y, U) Γ(Y, U)) ∧
+        (0 < r → Function.Injective (LinearMap.lcomp Γ(Y, U) Γ(M, U)
+          ((sequenceKoszulComplex f (ModuleCat.of Γ(Y, U) Γ(Y, U))).d (0 + 1) 0).hom)) ∧
+        (∀ p, p + 2 ≤ r → Function.Exact
+          (LinearMap.lcomp Γ(Y, U) Γ(M, U)
+            ((sequenceKoszulComplex f (ModuleCat.of Γ(Y, U) Γ(Y, U))).d (p + 1) p).hom)
+          (LinearMap.lcomp Γ(Y, U) Γ(M, U)
+            ((sequenceKoszulComplex f (ModuleCat.of Γ(Y, U) Γ(Y, U))).d (p + 1 + 1) (p + 1)).hom)) ∧
+        (∀ (s : ℕ) (hs : s + 1 = r), Function.Exact
+            (LinearMap.lcomp Γ(Y, U) Γ(M, U)
+              ((sequenceKoszulComplex f (ModuleCat.of Γ(Y, U) Γ(Y, U))).d (s + 1) s).hom)
+            (koszulDualTopMap f hs Γ(M, U)) ∧
+          Function.Surjective (koszulDualTopMap f hs Γ(M, U))) := by
+  obtain ⟨U, hyU, f, hI, hf, hMf⟩ := h.exists_isKoszulRegular_sections hM y
+  exact ⟨U, hyU, f, hI, hf, fun hr => injective_lcomp_sequenceKoszulComplex_d f _ hMf hr,
+    fun p hp => exact_lcomp_sequenceKoszulComplex_d f _ hMf hp,
+    fun s hs => exact_koszulDualTopMap f hs _⟩
 
 end Immersion
 
