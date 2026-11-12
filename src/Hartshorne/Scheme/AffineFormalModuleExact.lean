@@ -103,6 +103,22 @@ theorem sheafOfModules_exact_of_isBasis_sections {X : TopCat.{u}}
   rw [← ShortComplex.exact_map_iff_of_faithful S (ModuleCohomology.toTopSheaf R)]
   exact sheaf_exact_of_isBasis_sections _ hB (fun U hU x hx => h U hU x hx)
 
+/-- Exactness of sheaves of modules from sections, over a basis, of the pushforward along a
+functor `P` into the opens. -/
+theorem sheafOfModules_exact_of_isBasis_pushforward_sections {X : TopCat.{u}}
+    {R : Sheaf (Opens.grothendieckTopology X) RingCat.{u}} (S : ShortComplex (SheafOfModules.{u} R))
+    {C' : Type*} [Category C'] {J' : GrothendieckTopology C'} {R' : Sheaf J' RingCat.{u}}
+    {P : C' ⥤ Opens X} [P.IsContinuous J' (Opens.grothendieckTopology X)]
+    (χ : R' ⟶ (P.sheafPushforwardContinuous RingCat.{u} J' _).obj R) {B : Set C'}
+    (hB : Opens.IsBasis (P.obj '' B))
+    (h : ∀ U ∈ B, ∀ x : ((SheafOfModules.pushforward.{u} χ).obj S.X₂).val.obj (op U),
+      ((SheafOfModules.pushforward.{u} χ).map S.g).val.app (op U) x = 0 →
+        ∃ y, ((SheafOfModules.pushforward.{u} χ).map S.f).val.app (op U) y = x) :
+    S.Exact := by
+  refine sheafOfModules_exact_of_isBasis_sections S hB ?_
+  rintro _ ⟨U, hU, rfl⟩ x hx
+  exact h U hU x hx
+
 end BasisExactness
 
 section AdicLift
@@ -602,6 +618,57 @@ theorem moduleCompletionHom_exists_preimage {F' F F'' : X.Modules} [F'.IsQuasico
   exact sub_eq_zero.1 ((map_sub _ _ _).symm.trans ((hker F n _).2 (ht2 n)))
 
 end AffineExactness
+
+section AffineBasis
+
+open Scheme.Modules
+
+/-- The canonical map `𝒪_X ⟶ i_* 𝒪_{X̂_Y}` of sheaves of commutative rings. -/
+private def toFormalCompletionSheaf :
+    X.sheaf ⟶ ((Opens.map (I.infinitesimalNeighborhoodι 1).base).sheafPushforwardContinuous
+      CommRingCat.{u} _ _).obj I.formalCompletionSheaf where
+  hom :=
+    { app U := I.formalCompletionSectionsMap U.unop
+      naturality _ _ f := (I.formalCompletionSectionsMap_naturality (leOfHom f.unop)).symm }
+
+/-- The canonical map `𝒪_X ⟶ i_* 𝒪_{X̂_Y}` of sheaves of rings in `RingCat`. -/
+private def toFormalCompletionRingCatSheaf :
+    X.ringCatSheaf ⟶ ((Opens.map (I.infinitesimalNeighborhoodι 1).base).sheafPushforwardContinuous
+      RingCat.{u} _ _).obj I.formalCompletionRingCatSheaf where
+  hom := Functor.whiskerRight I.toFormalCompletionSheaf.hom (forget₂ CommRingCat RingCat.{u})
+
+private lemma toFormalCompletionRingCatSheaf_compat (n : ℕ) (V : X.Opensᵒᵖ)
+    (r : X.ringCatSheaf.obj.obj V) :
+    (I.infinitesimalNeighborhood (n + 1)).ringCatSheaf.obj.map
+        ((I.functorToPreimageInfinitesimalNeighborhoodι n).app V.unop).op
+        ((I.infinitesimalNeighborhoodι (n + 1)).toRingCatSheafHom.hom.app V r) =
+      (I.formalCompletionRingCatSheafπ n).hom.app
+        (op ((Opens.map (I.infinitesimalNeighborhoodι 1).base).obj V.unop))
+        (I.toFormalCompletionRingCatSheaf.hom.app V r) :=
+  (congrArg (fun g => g.hom r) (I.formalCompletionSectionsMap_π V.unop n)).symm
+
+/-- **Exactness of the completion, from an affine basis.** Let `F' ⟶ F ⟶ F''` be quasi-coherent
+`𝒪_X`-modules and `B` a set of affine opens of `X` whose traces on `|Y|` form a basis, such that
+over every `U ∈ B` the sections form an exact sequence of finite modules over the Noetherian ring
+`Γ(U, 𝒪_X)`. Then `F̂' ⟶ F̂ ⟶ F̂''` is exact. -/
+theorem moduleCompletionHom_exact_of_isBasis {F' F F'' : X.Modules} [F'.IsQuasicoherent]
+    [F.IsQuasicoherent] [F''.IsQuasicoherent] (u : F' ⟶ F) (v : F ⟶ F'')
+    (w : I.moduleCompletionHom u ≫ I.moduleCompletionHom v = 0) (B : Set X.affineOpens)
+    (hB : Opens.IsBasis ((Opens.map (I.infinitesimalNeighborhoodι 1).base).obj ''
+      ((fun U : X.affineOpens => (U : X.Opens)) '' B)))
+    (hU : ∀ U ∈ B, IsNoetherianRing Γ(X, (U : X.Opens)) ∧
+      Module.Finite Γ(X, (U : X.Opens)) Γ(F, (U : X.Opens)) ∧
+      Module.Finite Γ(X, (U : X.Opens)) Γ(F'', (U : X.Opens)) ∧
+      Function.Exact (u.app U) (v.app U)) :
+    (ShortComplex.mk _ _ w).Exact := by
+  refine sheafOfModules_exact_of_isBasis_pushforward_sections _
+    I.toFormalCompletionRingCatSheaf hB ?_
+  rintro _ ⟨U, hU', rfl⟩ x hx
+  obtain ⟨h1, h2, h3, h4⟩ := hU U hU'
+  exact I.moduleCompletionHom_exists_preimage I.toFormalCompletionRingCatSheaf
+    I.toFormalCompletionRingCatSheaf_compat u v U h4 x hx
+
+end AffineBasis
 
 end QuasicoherentIdealSubsheaf
 
