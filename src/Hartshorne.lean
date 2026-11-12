@@ -754,5 +754,6 @@ import Hartshorne.Scheme.FiniteLinearSystem
 import Hartshorne.Scheme.ProjectiveIdealSaturation
 import Hartshorne.Scheme.ProjectiveGlobalSectionsFinite
 import Hartshorne.Scheme.ProjectivePushforwardCoherent
+import Hartshorne.Scheme.ProjEventualSectionRecovery
 import Hartshorne.Scheme.AffineFormalModuleExact
 import Hartshorne.Scheme.ProjectiveNormalityCriterion
