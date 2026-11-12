@@ -170,34 +170,36 @@ theorem Spec.stalkIso_hom_stalkMap {R S : CommRingCat.{u}} (f : R ⟶ S) (q : Pr
   exact Iso.inv_hom_id_apply (Spec.stalkIso S q) _
 
 /-- The residue degree of `Spec O ⟶ Spec D` at `𝔔` is the inertia degree of `𝔔` over `D`. -/
-theorem Spec.residueDegree_map_eq_inertiaDeg {D O : CommRingCat.{u}} (j : D ⟶ O) (𝔔 : Spec O) :
-    letI := j.hom.toAlgebra
-    (Spec.map j).residueDegree 𝔔 = 𝔔.asIdeal.inertiaDeg D := by
-  let _ := j.hom.toAlgebra
+theorem Spec.residueDegree_map_eq_inertiaDeg {D O : Type u} [CommRing D] [CommRing O]
+    [Algebra D O] (𝔔 : Spec (.of O)) :
+    (Spec.map (CommRingCat.ofHom (algebraMap D O))).residueDegree 𝔔 = 𝔔.asIdeal.inertiaDeg D := by
+  let j : CommRingCat.of D ⟶ CommRingCat.of O := CommRingCat.ofHom (algebraMap D O)
+  have : 𝔔.asIdeal.IsPrime := 𝔔.isPrime
   let p : Ideal D := 𝔔.asIdeal.under D
+  have : p.IsPrime := Ideal.IsPrime.under D 𝔔.asIdeal
   let _ := Localization.AtPrime.algebraOfLiesOver p 𝔔.asIdeal
   rw [Ideal.inertiaDeg_eq p 𝔔.asIdeal, Scheme.Hom.residueDegree]
-  let x : Spec D := PrimeSpectrum.comap j.hom 𝔔
-  let i1 := (Scheme.Spec.residueFieldIso D x).commRingCatIsoToRingEquiv
-  let i2 := (Scheme.Spec.residueFieldIso O 𝔔).commRingCatIsoToRingEquiv
+  let x : Spec (.of D) := PrimeSpectrum.comap j.hom 𝔔
+  let i1 := (Scheme.Spec.residueFieldIso (.of D) x).commRingCatIsoToRingEquiv
+  let i2 := (Scheme.Spec.residueFieldIso (.of O) 𝔔).commRingCatIsoToRingEquiv
   let _ := ((Spec.map j).residueFieldMap 𝔔).hom.toAlgebra
-  refine Algebra.finrank_eq_of_equiv_equiv (S₀ := (Spec O).residueField 𝔔)
+  refine Algebra.finrank_eq_of_equiv_equiv (S₀ := (Spec (.of O)).residueField 𝔔)
     (R₁ := p.ResidueField) (S₁ := 𝔔.asIdeal.ResidueField) i1 i2 ?_
   ext z
-  obtain ⟨s, rfl⟩ := (Spec D).residue_surjective x z
-  change algebraMap p.ResidueField 𝔔.asIdeal.ResidueField (i1 ((Spec D).residue x s)) =
-    i2 (((Spec.map j).residueFieldMap 𝔔) ((Spec D).residue x s))
-  have h1 := ConcreteCategory.congr_hom (Scheme.Spec.residue_residueFieldIso_hom D x) s
-  have h2 : (Spec.map j).residueFieldMap 𝔔 ((Spec D).residue x s) =
-      (Spec O).residue 𝔔 ((Spec.map j).stalkMap 𝔔 s) :=
+  obtain ⟨s, rfl⟩ := (Spec (.of D)).residue_surjective x z
+  change algebraMap p.ResidueField 𝔔.asIdeal.ResidueField (i1 ((Spec (.of D)).residue x s)) =
+    i2 (((Spec.map j).residueFieldMap 𝔔) ((Spec (.of D)).residue x s))
+  have h1 := ConcreteCategory.congr_hom (Scheme.Spec.residue_residueFieldIso_hom (.of D) x) s
+  have h2 : (Spec.map j).residueFieldMap 𝔔 ((Spec (.of D)).residue x s) =
+      (Spec (.of O)).residue 𝔔 ((Spec.map j).stalkMap 𝔔 s) :=
     ConcreteCategory.congr_hom (Scheme.residue_residueFieldMap (Spec.map j) 𝔔) s
-  have h3 := ConcreteCategory.congr_hom (Scheme.Spec.residue_residueFieldIso_hom O 𝔔)
+  have h3 := ConcreteCategory.congr_hom (Scheme.Spec.residue_residueFieldIso_hom (.of O) 𝔔)
     ((Spec.map j).stalkMap 𝔔 s)
   simp only [ConcreteCategory.comp_apply] at h1 h3
-  have h4 : (Spec.stalkIso O 𝔔).hom ((Spec.map j).stalkMap 𝔔 s) =
-      Localization.localRingHom x.asIdeal 𝔔.asIdeal j.hom rfl ((Spec.stalkIso D x).hom s) :=
+  have h4 : (Spec.stalkIso (.of O) 𝔔).hom ((Spec.map j).stalkMap 𝔔 s) =
+      Localization.localRingHom x.asIdeal 𝔔.asIdeal j.hom rfl ((Spec.stalkIso (.of D) x).hom s) :=
     Spec.stalkIso_hom_stalkMap j 𝔔 s
-  rw [show i1 ((Spec D).residue x s) = _ from h1, h2, show i2 _ = _ from h3, h4]
+  rw [show i1 ((Spec (.of D)).residue x s) = _ from h1, h2, show i2 _ = _ from h3, h4]
   rfl
 
 end Spec
