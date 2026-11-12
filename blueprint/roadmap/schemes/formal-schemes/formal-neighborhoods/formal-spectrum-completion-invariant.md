@@ -9,18 +9,13 @@ proof: formalized
 
 # Formal spectrum is invariant under adic completion
 
-For Noetherian $A$ and ideal $I$, let $\widehat{A}$ be the $I$-adic completion and
-let $\widehat{I} = I \widehat{A}$. Assume the usual topological formal spectrum of the
-$\widehat{I}$-adic ring $\widehat{A}$ is formed from the open-prime space and the limit of
-the sheaves of its discrete quotients. After forgetting the topology on
-sections, construct a canonical locally ringed-space isomorphism
+For a Noetherian ring $A$ with an ideal $I$, let $\widehat{A}$ be the $I$-adic completion and
+$\widehat{I} = I \widehat{A}$. Then, canonically, as locally ringed spaces,
 
 $\operatorname{Spf} _I(A) \cong \operatorname{Spf} _{\widehat{I}} (\widehat{A} )$.
 
-This is an explicitly project-authored comparison justifying project $\operatorname{Spf}$
-notation. Its assumptions include the open-prime/$V(I)$ homeomorphism and the
-ordinary ring-valued forgetful comparison for the limit structure sheaf. It
-does not identify Hartshorne's morphisms with continuous ring homomorphisms.
+Here $\operatorname{Spf} _{\widehat{I}} (\widehat{A} )$ is the space of open primes of $\widehat{A}$ with the limit of
+the sheaves $(\widehat{A} /\widehat{I} ^n)^\sim$.
 
 ## Depends on
 
