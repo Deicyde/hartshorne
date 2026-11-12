@@ -3,6 +3,8 @@ article_id: af_5c36a2b93ae48c083e7b7a4e
 declaration: def
 origin: cited
 lean: Hartshorne.IsIdealOfDefinition Hartshorne.IdealSubsheaf Hartshorne.IdealSubsheaf.quotient Hartshorne.IsIdealOfDefinition.quotientScheme
+statement: formalized
+proof: formalized
 ---
 
 # Ideals of definition
