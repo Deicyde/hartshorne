@@ -15,6 +15,7 @@ components, with the reduced induced structure, is affine.
 - [Reduced schemes](../../schemes/first-properties/reduced-scheme.md)
 - [Irreducible schemes](../../schemes/first-properties/irreducible-scheme.md)
 - [Noetherian schemes and finite affine covers](../../schemes/first-properties/noetherian-scheme.md)
+- [The reduced induced closed subscheme](../../schemes/subschemes-and-dimension/reduced-induced-closed-subscheme.md)
 
 ## Proof depends on
 
