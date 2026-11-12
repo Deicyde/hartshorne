@@ -75,7 +75,7 @@ theorem exists_ord_eq_ite_of_span_isPrime (R : CommRingCat.{u}) [IsDomain R] [Is
   have hcoh : coheight z = 1 := by
     rw [← idealHeight_eq_coheight]
     exact hzh
-  -- the principal divisor of `g` on `Spec B[t]` is `[z]`
+  -- the principal divisor of `g` on `Spec R` is `[z]`
   let gK : (Spec R).functionField := algebraMap R _ g
   have hgK : gK ≠ 0 :=
     IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors (mem_nonZeroDivisors_of_ne_zero hg0)

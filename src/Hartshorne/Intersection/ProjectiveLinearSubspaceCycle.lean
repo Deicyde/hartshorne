@@ -121,7 +121,8 @@ def projectiveSpaceStructureMorphism : Proj 𝒜 ⟶ Spec (.of k) :=
   Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap k (𝒜 0)))
 
 instance : IsIso (CommRingCat.ofHom (algebraMap k (𝒜 0))) :=
-  (RingEquiv.ofBijective _ bijective_algebraMap_homogeneousSubmodule_zero).toCommRingCatIso.isIso_hom
+  (RingEquiv.ofBijective _
+    bijective_algebraMap_homogeneousSubmodule_zero).toCommRingCatIso.isIso_hom
 
 /-- `ℙⁿ_k` is of finite type over `k`. -/
 theorem finiteType_projectiveSpaceStructureMorphism :
@@ -236,8 +237,8 @@ theorem projectiveSpectrumToPrimeSpectrum_lt_irrelevant (x : ProjectiveSpectrum 
 theorem krullDim_primeSpectrum_mvPolynomial :
     krullDim (PrimeSpectrum 𝕊) = (n + 1 : ℕ) := by
   change ringKrullDim 𝕊 = _
-  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field, Nat.card_eq_fintype_card,
-    Fintype.card_fin, zero_add]
+  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field,
+    Nat.card_eq_fintype_card, Fintype.card_fin, zero_add]
 
 /-- The height plus `1` plus the coheight of a point of `ℙⁿ_k` (computed among homogeneous primes
 of `k[x₀, …, xₙ]`) is at most `n + 1`. -/
@@ -250,7 +251,8 @@ theorem height_add_coheight_projectiveSpectrumToPrimeSpectrum_le (x : Projective
       coheight (projectiveSpectrumToPrimeSpectrum x) : ℕ∞) ≤
       ⨆ a : PrimeSpectrum 𝕊, height a + coheight a :=
     le_iSup (fun a : PrimeSpectrum 𝕊 ↦ height a + coheight a) _
-  have h'' : ((⨆ a : PrimeSpectrum 𝕊, height a + coheight a : ℕ∞) : WithBot ℕ∞) = ((n + 1 : ℕ) : ℕ∞) :=
+  have h'' : ((⨆ a : PrimeSpectrum 𝕊, height a + coheight a : ℕ∞) : WithBot ℕ∞) =
+      ((n + 1 : ℕ) : ℕ∞) :=
     h.symm
   exact h'.trans (WithBot.coe_le_coe.mp h''.le)
 
@@ -276,7 +278,8 @@ theorem height_projectiveSpectrum_le (x : ProjectiveSpectrum 𝒜) : height x �
 /-- The coheight of `Lₘ` in `Spec k[x₀, …, xₙ]` is at least `m + 1` (for `m ≤ n`). -/
 theorem coheight_linearSubspaceSpectrumPoint_ge {m : ℕ} (hm : m ≤ n) :
     ((m + 1 : ℕ) : ℕ∞) ≤
-      coheight (projectiveSpectrumToPrimeSpectrum (linearSubspaceSpectrumPoint (k := k) (n := n) m)) := by
+      coheight (projectiveSpectrumToPrimeSpectrum
+        (linearSubspaceSpectrumPoint (k := k) (n := n) m)) := by
   induction m with
   | zero => simpa using one_le_coheight_projectiveSpectrumToPrimeSpectrum _
   | succ m ih =>
@@ -312,7 +315,8 @@ theorem height_linearSubspaceSpectrumPoint {m : ℕ} (hm : m ≤ n) :
     (linearSubspaceSpectrumPoint (k := k) (n := n) m)
   have h3 := coheight_linearSubspaceSpectrumPoint_ge (k := k) hm
   refine h1.trans ?_
-  have h4 : height (projectiveSpectrumToPrimeSpectrum (linearSubspaceSpectrumPoint (k := k) (n := n) m)) +
+  have h4 : height (projectiveSpectrumToPrimeSpectrum
+        (linearSubspaceSpectrumPoint (k := k) (n := n) m)) +
       ((m + 1 : ℕ) : ℕ∞) ≤ ((n - m : ℕ) : ℕ∞) + ((m + 1 : ℕ) : ℕ∞) := by
     refine (add_le_add le_rfl h3).trans (h2.trans ?_)
     rw [← Nat.cast_add]
@@ -446,7 +450,8 @@ theorem hilbertFunction_linearSubspace [IsAlgClosed k] {m : ℕ} (hm : m ≤ n) 
       (l + m).choose m := by
   rw [hilbertFunction, integerProjCoordGrading_ofNat]
   set Y := projZeroSet ((linearSubspaceIdeal (k := k) n m).toIdeal : Set 𝕊)
-  have hI : homogeneousVanishingIdeal Y = RingHom.ker (linearSubspaceRestrict (k := k) n m).toRingHom := by
+  have hI : homogeneousVanishingIdeal Y =
+      RingHom.ker (linearSubspaceRestrict (k := k) n m).toRingHom := by
     rw [homogeneousVanishingIdeal_linearSubspace, ker_linearSubspaceRestrict hm]
   let e : homogeneousCoordinateRing Y ≃ₐ[k] MvPolynomial (Fin (m + 1)) k :=
     (Ideal.quotientEquivAlgOfEq k hI).trans
@@ -461,7 +466,8 @@ theorem hilbertFunction_linearSubspace [IsAlgClosed k] {m : ℕ} (hm : m ≤ n) 
       rw [he, mem_homogeneousSubmodule]
       have hp' : p.IsHomogeneous l := (mem_homogeneousSubmodule l p).mp hp
       have h := hp'.eval₂ (algebraMap k (MvPolynomial (Fin (m + 1)) k))
-        (fun i : Fin (n + 1) ↦ if h : (i : ℕ) ≤ m then (X ⟨i, by omega⟩ : MvPolynomial (Fin (m + 1)) k) else 0)
+        (fun i : Fin (n + 1) ↦
+          if h : (i : ℕ) ≤ m then (X ⟨i, by omega⟩ : MvPolynomial (Fin (m + 1)) k) else 0)
         (fun r ↦ isHomogeneous_C _ r) (fun i ↦ by
           by_cases h : (i : ℕ) ≤ m
           · simp only [dif_pos h]
@@ -522,6 +528,7 @@ def pointCodimensionCycle {X : Scheme.{u}} (x : X) {r : ℕ}
     exact hx⟩
 
 open scoped Classical in
+/-- The cycle `[closure {x}]` has coefficient `1` at `x` and `0` at every other point. -/
 theorem pointCodimensionCycle_apply {X : Scheme.{u}} (x : X) {r : ℕ}
     (hx : codim (closure ({x} : Set X)) = r) (y : X) :
     (pointCodimensionCycle x hx : AlgebraicCycle X ℤ) y = if y = x then 1 else 0 := by
@@ -533,7 +540,8 @@ theorem eq_linearSubspacePoint_of_codim_eq_zero {y : Proj 𝒜}
     (hy : codim (closure ({y} : Set (Proj 𝒜))) = 0) :
     y = linearSubspacePoint (k := k) (n := n) n := by
   rw [codim_closure_projectiveSpace_point, height_eq_zero] at hy
-  have hle : linearSubspaceSpectrumPoint (k := k) (n := n) n ≤ (show ProjectiveSpectrum 𝒜 from y) := by
+  have hle : linearSubspaceSpectrumPoint (k := k) (n := n) n ≤
+      (show ProjectiveSpectrum 𝒜 from y) := by
     intro f hf
     change f ∈ Ideal.span (X '' {i : Fin (n + 1) | n < (i : ℕ)}) at hf
     have hempty : {i : Fin (n + 1) | n < (i : ℕ)} = ∅ :=
@@ -623,7 +631,8 @@ theorem rationallyEquivalent_degree_smul_linearSubspace_of_codim_eq_one [IsAlgCl
       Nat.sub_sub_self hn])
     convert h using 2
     rw [hH]
-  have hdeg : projectiveSpectrumPointDegree y = projectiveSpaceWeilDivisorDegree P.toWeilDivisor := by
+  have hdeg : projectiveSpectrumPointDegree y =
+      projectiveSpaceWeilDivisorDegree P.toWeilDivisor := by
     rw [projectiveSpaceWeilDivisorDegree_toWeilDivisor]
     exact projectiveSpectrumPointDegree_primeDivisor hn P
   rw [hY, hL, ← map_zsmul, rationallyEquivalent_weilDivisorToCodimOneCycles_iff, hdeg]
