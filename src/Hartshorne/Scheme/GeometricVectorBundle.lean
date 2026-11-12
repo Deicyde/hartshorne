@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib.AlgebraicGeometry.AffineSpace
 import Hartshorne.Scheme.QuasiCoherentAlgebraOfModule
-import Hartshorne.Scheme.SymmetricAlgebraSheaf
+import Hartshorne.Scheme.SymmetricAlgebraAffineSections
 
 /-!
 # Geometric vector bundles
@@ -126,11 +126,6 @@ theorem symmetricAlgebra_isQuasicoherent_of_isLocallyFreeOfRank
     (hE : E.IsLocallyFreeOfRank n) : SheafOfModules.IsQuasicoherent.{u, u, u} E.symmetricAlgebra :=
   ((isLocallyFreeOfRank_iff_ringed E n).mp hE).isFiniteLocallyFree
     |>.isQuasicoherent_moduleSheafSymmetricAlgebra
-
-/-- The multiplication of `Sym(E)` is commutative. -/
-theorem symmetricAlgebraStructure_isCommutative (E : Y.Modules) :
-    ModuleSheafAlgebra.IsCommutative E.symmetricAlgebraStructure :=
-  moduleSheafSymmetricAlgebra_mul_comm (R := Y.sheaf) E
 
 /-- **`Sym(E)` as a quasi-coherent `𝒪_Y`-algebra**, for a locally free `E` of rank `n`: its ring
 of sections over an affine open `U` is `Γ(U, Sym(E))`. -/

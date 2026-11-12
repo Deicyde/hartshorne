@@ -769,4 +769,6 @@ import Hartshorne.Scheme.BirationalDenominatorIdeal
 import Hartshorne.Scheme.ProjectivelyNormalVeronese
 import Hartshorne.Scheme.BasePointFree
 import Hartshorne.Scheme.QuasiCoherentAlgebraOfModule
+import Hartshorne.RingedSpace.PolynomialSheafSections
+import Hartshorne.Scheme.SymmetricAlgebraAffineSections
 import Hartshorne.Scheme.GeometricVectorBundle
