@@ -21,6 +21,7 @@ Proj is isomorphic to $Z$.
 ## Proof depends on
 
 - [Coherence of projective pushforward](../../projective-sheaves/projective-pushforward-coherent.md)
+- [Saturation of projective ideals](../../projective-sheaves/projective-ideal-saturation.md)
 - Hartshorne's omitted Step-2 argument comparing the section algebra with the
   embedded homogeneous coordinate algebra in all sufficiently large degrees.
 
