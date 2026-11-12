@@ -23,6 +23,7 @@ Proj is isomorphic to $Z$.
 - [Coherence of projective pushforward](../../projective-sheaves/projective-pushforward-coherent.md)
 - [Saturation of projective ideals](../../projective-sheaves/projective-ideal-saturation.md)
 - [The projective section ring is the integral closure](../../projective-sheaves/projective-section-ring-integral-closure.md)
+- [Morphisms from generated invertible sheaves](../linear-systems-ampleness/morphism-from-generated-line-bundle.md)
 - Hartshorne's omitted Step-2 argument comparing the section algebra with the
   embedded homogeneous coordinate algebra in all sufficiently large degrees.
 
