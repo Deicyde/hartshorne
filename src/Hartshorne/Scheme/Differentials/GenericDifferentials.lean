@@ -225,7 +225,8 @@ def genericDKerSheafι : genericDKerSheaf f ⟶ X.sheaf :=
       naturality _ _ _ := rfl }
 
 omit [IsIntegral X] in
-theorem eq_top_of_mem_preimage {V : (Spec (.of k)).Opens} {x : X} (hx : x ∈ f ⁻¹ᵁ V) :
+theorem specField_opens_eq_top_of_mem_preimage {V : (Spec (.of k)).Opens} {x : X}
+    (hx : x ∈ f ⁻¹ᵁ V) :
     V = ⊤ := by
   ext y
   simp only [Opens.coe_top, Set.mem_univ, iff_true]
@@ -236,7 +237,7 @@ theorem eq_top_of_mem_preimage {V : (Spec (.of k)).Opens} {x : X} (hx : x ∈ f 
 theorem c_app_mem_genericDKerSubring (V : (Spec (.of k)).Opens) (t : Γ(Spec (.of k), V)) :
     f.app V t ∈ genericDKerSubring f (f ⁻¹ᵁ V) := by
   intro x
-  obtain rfl := eq_top_of_mem_preimage f x.2
+  obtain rfl := specField_opens_eq_top_of_mem_preimage f x.2
   exact functionFieldD_germ_app_top f t
 
 /-- The structure map of `X` over `Spec k` factors through the vanishing subsheaf. -/
@@ -350,7 +351,7 @@ theorem differentialsGenericValue_eq {U : X.Opens} (s : Γ(Scheme.relativeDiffer
   exact (differentialsGenericValue f s).isLocallyConstant.apply_eq_of_preconnectedSpace y z
 
 /-- The generic values of sections over nonempty open sets form a `K`-submodule. -/
-def genericValues : Submodule X.functionField (functionFieldDifferentials f) where
+def differentialsGenericValues : Submodule X.functionField (functionFieldDifferentials f) where
   carrier := {ω | ∃ (U : X.Opens) (_ : Nonempty U) (s : Γ(Scheme.relativeDifferentials f, U)),
     ∀ y : U, differentialsGenericValue f s y = ω}
   zero_mem' := ⟨⊤, ⟨⟨genericPoint X, trivial⟩⟩, 0, fun y => differentialsGenericValue_zero f y⟩
@@ -361,7 +362,8 @@ def genericValues : Submodule X.functionField (functionFieldDifferentials f) whe
     refine ⟨U₁ ⊓ U₂, ⟨⟨_, hη⟩⟩,
       (Scheme.relativeDifferentials f).presheaf.map (homOfLE inf_le_left).op s₁ +
         (Scheme.relativeDifferentials f).presheaf.map (homOfLE inf_le_right).op s₂, fun y => ?_⟩
-    rw [differentialsGenericValue_add, differentialsToGeneric_res, differentialsToGeneric_res, h₁, h₂]
+    rw [differentialsGenericValue_add, differentialsToGeneric_res, differentialsToGeneric_res, h₁,
+      h₂]
   smul_mem' z {ω} := by
     rintro ⟨U, ⟨x⟩, s, h⟩
     obtain ⟨W, hW, e, rfl⟩ := X.presheaf.exists_germ_eq z
@@ -377,7 +379,8 @@ value of a section of `Ω_{X/k}` over some nonempty open set. -/
 theorem exists_differentialsToGeneric_eq (ω : functionFieldDifferentials f) :
     ∃ (U : X.Opens) (_ : Nonempty U) (s : Γ(Scheme.relativeDifferentials f, U)),
       ∀ y : U, differentialsGenericValue f s y = ω := by
-  have hle : Submodule.span X.functionField (Set.range (functionFieldD f)) ≤ genericValues f := by
+  have hle : Submodule.span X.functionField (Set.range (functionFieldD f)) ≤
+      differentialsGenericValues f := by
     rw [Submodule.span_le]
     rintro _ ⟨z, rfl⟩
     obtain ⟨W, hW, a, rfl⟩ := X.presheaf.exists_germ_eq z

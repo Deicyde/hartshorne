@@ -5,7 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.Differentials.GenericDifferentials
 import Hartshorne.Scheme.Differentials.DifferentialsCharacterizeNonsingular
 import Hartshorne.Scheme.FiniteCurveDivisorPullback
-import Hartshorne.Cohomology.LocallyFiniteSumSheaf
+import Hartshorne.Cohomology.ProjectiveLineRegularAcyclic
 import Mathlib.Topology.Sheaves.Abelian
 import Mathlib.Topology.Sheaves.LocallySurjective
 
@@ -13,11 +13,52 @@ import Mathlib.Topology.Sheaves.LocallySurjective
 # The differential principal-parts resolution of a curve
 
 Hartshorne, *Algebraic Geometry*, III.7, the residue discussion on p. 248.
+
+Let `X` be a nonsingular curve over an algebraically closed field `k`, with function field `K`.
+Let `Ω_X = Ω_{X/k}` and let `Ω_K` be the constant sheaf with value `Ω_{K/k}`. There is a flasque
+resolution
+
+`0 → Ω_X → Ω_K → ⨁_{P closed} i_{P,*}(Ω_{K/k}/Ω_{X,P}) → 0`,
+
+and hence `H¹(X, Ω_X)` is the cokernel of the principal-parts map on global sections.
+
+## The objects
+
+* `Ω_X ⟶ Ω_K` sends a section to its generic value (`Hartshorne.differentialsToGeneric`).
+* `Ω_{X,P} ⊆ Ω_{K/k}` is the set of generic values of sections near `P`; it is the image of the
+  stalk of `Ω_X` at `P`, and the stalk embeds.
+* The direct sum is the sheaf of locally finitely supported families of principal parts
+  `(ω_P mod Ω_{X,P})_P` (`Hartshorne.locallyFiniteSumSheaf`). The summand at the generic point is
+  zero, and the sheaf is the coproduct of the skyscrapers over the closed points.
+
+## The proof
+
+* `Ω_{K/k} ≠ 0`: otherwise `K/k` would be formally unramified, hence separable algebraic, while
+  `trdeg_k K = 1`.
+* Injectivity: `Ω_X` is invertible (Hartshorne II.8.15). On an open set where `Ω_X ≅ 𝒪_X`
+  with generator `ω₀`, a section is `a ω₀` and goes to `a_η · ω₀,η`. Here `ω₀,η ≠ 0`, since
+  otherwise `d(a_η) = 0` for all functions `a`, so `Ω_{K/k} = 0`.
+* Finitely many poles: every `ω ∈ Ω_{K/k}` is the generic value of a section over a nonempty open
+  set `A`, so `ω ∈ Ω_{X,P}` for `P ∈ A`, and the complement of `A` is finite.
+* Exactness in the middle, on stalks: a locally constant map with values in the `Ω_{X,y}` is
+  constant on a connected neighbourhood. Local preimages are compatible by injectivity, and they
+  glue.
+* Local surjectivity: near `x`, a family of principal parts is the image of one rational
+  differential with the given principal part at `x`. It suffices to remove the finitely many
+  other points of the support and the poles of that differential.
+* Flasqueness: `Ω_K` is constant on an irreducible space, and a locally finite sum of
+  skyscrapers on a Noetherian space is flasque. The long exact sequence then identifies `H¹(X, Ω_X)`
+  with the cokernel of `Γ(X, Ω_K) → Γ(X, ⨁_P i_{P,*}(Ω_{K/k}/Ω_{X,P}))`.
+
+## Main results
+
+* `Hartshorne.curveDifferential_principalPartsResolution`
+* `Hartshorne.sheafCohomology_one_curveDifferentials_iso_cokernel`
 -/
 
 noncomputable section
 
-open CategoryTheory TopologicalSpace Opposite AlgebraicGeometry
+open CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite AlgebraicGeometry
 
 namespace Hartshorne
 
@@ -98,45 +139,45 @@ variable {k : Type u} [Field k] {X : Scheme.{u}} [IsIntegral X] (f : X ⟶ Spec 
     unitModuleOf W.toScheme)
 
 /-- The unit section of the structure sheaf over `V`, as a section of a module. -/
-def unitSection {Y : Scheme.{u}} (V : Y.Opens) : Γ(unitModuleOf Y, V) :=
+def unitModuleSection {Y : Scheme.{u}} (V : Y.Opens) : Γ(unitModuleOf Y, V) :=
   (1 : Γ(Y, V))
 
 /-- A section of the structure sheaf, regarded as a section of a module, as a function. -/
-def unitSectionVal {Y : Scheme.{u}} {V : Y.Opens} (a : Γ(unitModuleOf Y, V)) : Γ(Y, V) :=
+def unitModuleSectionVal {Y : Scheme.{u}} {V : Y.Opens} (a : Γ(unitModuleOf Y, V)) : Γ(Y, V) :=
   a
 
-theorem smul_unitSection {Y : Scheme.{u}} {V : Y.Opens} (a : Γ(unitModuleOf Y, V)) :
-    unitSectionVal a • unitSection V = a :=
-  mul_one (unitSectionVal a)
+theorem smul_unitModuleSection {Y : Scheme.{u}} {V : Y.Opens} (a : Γ(unitModuleOf Y, V)) :
+    unitModuleSectionVal a • unitModuleSection V = a :=
+  mul_one (unitModuleSectionVal a)
 
-theorem unitSection_res {Y : Scheme.{u}} {V V' : Y.Opens} (i : V' ⟶ V) :
-    (unitModuleOf Y).presheaf.map i.op (unitSection V) = unitSection V' :=
+theorem unitModuleSection_res {Y : Scheme.{u}} {V V' : Y.Opens} (i : V' ⟶ V) :
+    (unitModuleOf Y).presheaf.map i.op (unitModuleSection V) = unitModuleSection V' :=
   map_one (Y.presheaf.map i.op).hom
 
 /-- A generator of `Ω_{X/k}` over an open set `W` on which it is trivialized. -/
 def localGenerator : Γ(Scheme.relativeDifferentials f, W.ι ''ᵁ ⊤) :=
-  β.inv.app ⊤ (unitSection ⊤)
+  β.inv.app ⊤ (unitModuleSection ⊤)
 
 omit [IsIntegral X] in
-theorem image_le_image_top (V : W.toScheme.Opens) : W.ι ''ᵁ V ≤ W.ι ''ᵁ ⊤ :=
+theorem ι_image_le_ι_image_top (V : W.toScheme.Opens) : W.ι ''ᵁ V ≤ W.ι ''ᵁ ⊤ :=
   W.ι.image_mono le_top
 
 omit [IsIntegral X] in
 /-- Over an open subset of `W`, every section of `Ω_{X/k}` is a multiple of the generator. -/
 theorem eq_smul_localGenerator (V : W.toScheme.Opens)
     (s : Γ(Scheme.relativeDifferentials f, W.ι ''ᵁ V)) :
-    s = (W.ι.appIso V).inv (unitSectionVal (β.hom.app V s)) •
-      (Scheme.relativeDifferentials f).presheaf.map (homOfLE (image_le_image_top W V)).op
+    s = (W.ι.appIso V).inv (unitModuleSectionVal (β.hom.app V s)) •
+      (Scheme.relativeDifferentials f).presheaf.map (homOfLE (ι_image_le_ι_image_top W V)).op
         (localGenerator f W β) := by
   have h1 : β.inv.app V (β.hom.app V s) = s :=
     congrArg (fun φ => (Scheme.Modules.Hom.app φ V) s) β.hom_inv_id
   have h4 := ConcreteCategory.congr_hom
     ((Scheme.Modules.Hom.mapPresheaf β.inv).naturality (homOfLE (le_top : V ≤ ⊤)).op)
-    (unitSection ⊤)
-  rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply, unitSection_res] at h4
+    (unitModuleSection ⊤)
+  rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply, unitModuleSection_res] at h4
   show @Eq Γ((Scheme.relativeDifferentials f).restrict W.ι, V) s _
   refine h1.symm.trans ?_
-  conv_lhs => rw [← smul_unitSection (β.hom.app V s)]
+  conv_lhs => rw [← smul_unitModuleSection (β.hom.app V s)]
   rw [Scheme.Modules.Hom.app_smul]
   erw [h4]
   rfl
@@ -145,13 +186,14 @@ theorem eq_smul_localGenerator (V : W.toScheme.Opens)
 theorem differentialsGenericValue_eq_smul (V : W.toScheme.Opens)
     (s : Γ(Scheme.relativeDifferentials f, W.ι ''ᵁ V)) (y : W.ι ''ᵁ V) :
     differentialsGenericValue f s y =
-      genericGerm _ y ((W.ι.appIso V).inv (unitSectionVal (β.hom.app V s))) •
-        differentialsGenericValue f (localGenerator f W β) ⟨y.1, image_le_image_top W V y.2⟩ := by
+      genericGerm _ y ((W.ι.appIso V).inv (unitModuleSectionVal (β.hom.app V s))) •
+        differentialsGenericValue f (localGenerator f W β)
+          ⟨y.1, ι_image_le_ι_image_top W V y.2⟩ := by
   conv_lhs => rw [eq_smul_localGenerator f W β V s]
   rw [differentialsToGeneric_smul, differentialsToGeneric_res]
 
 omit [IsIntegral X] in
-theorem mem_of_mem_image_top {y : X} (hy : y ∈ W.ι ''ᵁ ⊤) : y ∈ W := by
+theorem mem_of_mem_ι_image_top {y : X} (hy : y ∈ W.ι ''ᵁ ⊤) : y ∈ W := by
   rwa [Scheme.Hom.image_top_eq_opensRange, Scheme.Opens.opensRange_ι] at hy
 
 /-- The image of the generator in `Ω_{K/k}` is nonzero. -/
@@ -170,7 +212,7 @@ theorem differentialsGenericValue_localGenerator_ne_zero
     obtain ⟨W', hW', e, rfl⟩ := X.presheaf.exists_germ_eq z
     have hmem : genericPoint X ∈ W.ι ''ᵁ (W.ι ⁻¹ᵁ W') := by
       rw [Scheme.Hom.image_preimage_eq_opensRange_inf, Scheme.Opens.opensRange_ι]
-      exact ⟨genericPoint_mem_of_mem (mem_of_mem_image_top W y.2), hW'⟩
+      exact ⟨genericPoint_mem_of_mem (mem_of_mem_ι_image_top W y.2), hW'⟩
     have h := hD _ (X.presheaf.map (homOfLE (W.ι.image_preimage_le W')).op e) ⟨_, hmem⟩
     rwa [genericGerm_res] at h
   have hle : Submodule.span X.functionField (Set.range (functionFieldD f)) ≤ ⊥ := by
@@ -195,7 +237,7 @@ theorem differentialsToGeneric_app_injective_of_iso [Nontrivial (functionFieldDi
   rw [differentialsGenericValue_eq_smul f W β V s y₀] at hval
   have hgerm := (smul_eq_zero.1 hval).resolve_right
     (differentialsGenericValue_localGenerator_ne_zero f W β _)
-  have hr : (W.ι.appIso V).inv (unitSectionVal (β.hom.app V s)) = 0 :=
+  have hr : (W.ι.appIso V).inv (unitModuleSectionVal (β.hom.app V s)) = 0 :=
     germ_injective_of_isIntegral X _ _ (hgerm.trans (map_zero _).symm)
   rw [eq_smul_localGenerator f W β V s, hr, zero_smul]
 
@@ -272,7 +314,8 @@ theorem finite_of_isClosed_of_genericPoint_notMem (hX : X.IsNonsingularCurve k) 
   exact Set.finite_singleton z
 
 /-- On a curve, the complement of a nonempty open set is finite. -/
-theorem finite_compl_of_nonempty (hX : X.IsNonsingularCurve k) (U : X.Opens) (hU : Nonempty U) :
+theorem finite_compl_of_isNonsingularCurve (hX : X.IsNonsingularCurve k) (U : X.Opens)
+    (hU : Nonempty U) :
     ((U : Set X)ᶜ).Finite := by
   obtain ⟨x⟩ := hU
   exact finite_of_isClosed_of_genericPoint_notMem hX U.isOpen.isClosed_compl
@@ -413,7 +456,8 @@ theorem locallyFiniteSupport_differentialPrincipalPart (hX : X.IsNonsingularCurv
   have hW : IsOpen W := s.isLocallyConstant.isOpen_fiber _
   let V : X.Opens := ⟨Subtype.val '' W, U.isOpen.isOpenMap_subtype_val W hW⟩
   refine ⟨V, ⟨x, rfl, rfl⟩, ?_⟩
-  refine ((finite_compl_of_nonempty hX A ⟨a⟩).preimage Subtype.val_injective.injOn).subset ?_
+  refine ((finite_compl_of_isNonsingularCurve hX A ⟨a⟩).preimage
+    Subtype.val_injective.injOn).subset ?_
   rintro y ⟨⟨w, hwW, hwy⟩, hy⟩ hyA
   apply hy
   have hwy' : w = y := Subtype.ext hwy
@@ -578,7 +622,8 @@ theorem epi_rationalToPrincipalParts (hX : X.IsNonsingularCurve k) :
   obtain ⟨A, ⟨a⟩, r, hr⟩ := exists_differentialsToGeneric_eq (X ↘ Spec (.of k)) ω
   obtain ⟨V₀, hxV₀, hfin⟩ := t.2 ⟨x, hxU⟩
   let E : Set X := ((Subtype.val '' {y : U | y.1 ∈ V₀ ∧ t.1 y ≠ 0}) ∪ (A : Set X)ᶜ) \ {x}
-  have hEfin : E.Finite := ((hfin.image _).union (finite_compl_of_nonempty hX A ⟨a⟩)).sdiff
+  have hEfin : E.Finite :=
+    ((hfin.image _).union (finite_compl_of_isNonsingularCurve hX A ⟨a⟩)).sdiff
   have hηA : genericPoint X ∈ A := genericPoint_mem_of_mem a.2
   have hηE : genericPoint X ∉ E := by
     rintro ⟨h | h, -⟩
@@ -613,6 +658,139 @@ theorem differentialPrincipalPartsComplex_shortExact [IsAlgClosed k]
     mono_f := mono_differentialsToRational hX
     epi_g := epi_rationalToPrincipalParts hX }
 
+/-- `Ω_K` is flasque, being a constant sheaf on an irreducible space. -/
+theorem isFlasque_rationalDifferentialsSheaf : (rationalDifferentialsSheaf k X).IsFlasque :=
+  have : IrreducibleSpace X.toTopCat := inferInstanceAs (IrreducibleSpace X)
+  isFlasque_constantSheaf_of_irreducibleSpace X.toTopCat _
+
+/-- The sum of skyscrapers `⨁_P i_{P,*}(Ω_{K/k}/Ω_{X,P})` is flasque, `X` being Noetherian. -/
+theorem isFlasque_differentialPrincipalPartsSheaf (hX : X.IsNonsingularCurve k) :
+    (differentialPrincipalPartsSheaf k X).IsFlasque :=
+  have : IsNoetherian X := hX.satisfiesConditionStar.isNoetherian
+  have : NoetherianSpace X.toTopCat := inferInstanceAs (NoetherianSpace X)
+  isFlasque_locallyFiniteSumSheaf _
+
+/-- **`H¹(X, Ω_X)` is the cokernel of the principal-parts map on global sections**
+`Γ(X, Ω_K) → Γ(X, ⨁_P i_{P,*}(Ω_{K/k}/Ω_{X,P}))`, by the long exact cohomology sequence of the
+flasque resolution. -/
+theorem sheafCohomology_one_curveDifferentials_iso_cokernel [IsAlgClosed k]
+    (hX : X.IsNonsingularCurve k) :
+    Nonempty ((sheafCohomology X.toTopCat 1).obj (curveDifferentialsSheaf k X) ≅
+      Limits.cokernel ((rationalToPrincipalParts hX).hom.app (op ⊤))) := by
+  have hS := differentialPrincipalPartsComplex_shortExact hX
+  set S := differentialPrincipalPartsComplex hX
+  have : S.X₂.IsFlasque := isFlasque_rationalDifferentialsSheaf
+  have hδ : Epi (sheafCohomologyδ hS 0) :=
+    (sheafCohomology_exact₁ hS 0).epi_f
+      ((sheafCohomology_isZero_of_isFlasque S.X₂ 0).eq_of_tgt _ _)
+  have hcok := (sheafCohomology_exact₃ hS 0).gIsCokernel
+  let e₁ := IsColimit.coconePointUniqueUpToIso hcok
+    (Limits.cokernelIsCokernel ((sheafCohomology X.toTopCat 0).map S.g))
+  let e₂ : Limits.cokernel ((sheafCohomology X.toTopCat 0).map S.g) ≅
+      Limits.cokernel ((sheafSectionsOver (X := X.toTopCat) ⊤).map S.g) :=
+    Limits.cokernel.mapIso _ _ ((sheafCohomologyZeroIso X.toTopCat).app S.X₂)
+      ((sheafCohomologyZeroIso X.toTopCat).app S.X₃)
+      ((sheafCohomologyZeroIso X.toTopCat).hom.naturality S.g)
+  exact ⟨e₁ ≪≫ e₂⟩
+
 end Resolution
+
+section ClosedPoints
+
+/-- A colimit cofan whose summands outside `p` are zero restricts to a colimit cofan indexed by
+the indices satisfying `p`. -/
+def isColimitCofanSubtypeOfIsZero {C : Type*} [Category C] {ι : Type*} {F : ι → C}
+    {c : Cofan F} (hc : IsColimit c) (p : ι → Prop) (hz : ∀ i, ¬ p i → IsZero (F i)) :
+    IsColimit (Cofan.mk c.pt (fun j : {i // p i} => c.inj j.1)) := by
+  classical
+  exact Cofan.IsColimit.mk _
+    (fun s => Cofan.IsColimit.desc hc fun i =>
+      if h : p i then s.inj ⟨i, h⟩ else (hz i h).to_ s.pt)
+    (fun s j => by
+      change c.inj j.1 ≫ _ = _
+      rw [Cofan.IsColimit.fac, dif_pos j.2])
+    (fun s m hm => Cofan.IsColimit.hom_ext hc _ _ fun i => by
+      rw [Cofan.IsColimit.fac]
+      split_ifs with h
+      · exact hm ⟨i, h⟩
+      · exact (hz i h).eq_of_src _ _)
+
+/-- A skyscraper sheaf with zero value is zero. -/
+theorem isZero_pointSheaf {T : TopCat.{u}} (P : T) (B : AddCommGrpCat.{u})
+    (hB : ∀ b : B, b = 0) : IsZero (pointSheaf P B) := by
+  rw [IsZero.iff_id_eq_zero]
+  apply ObjectProperty.hom_ext
+  ext U s
+  exact LocallyConstant.ext fun x => (hB _).trans (hB _).symm
+
+variable (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsIntegral X]
+
+/-- The cofan of the skyscrapers `i_{P,*}(Ω_{K/k}/Ω_{X,P})` over the closed points `P`. -/
+def differentialPrincipalPartsClosedCofan :
+    Cofan (fun P : {P : X // IsClosed ({P} : Set X)} =>
+      pointSheaf (X := X.toTopCat) P.1 (differentialPrincipalPartsGroup k X P.1)) :=
+  Cofan.mk (differentialPrincipalPartsSheaf k X)
+    (fun P => pointToLocallyFiniteSum (X := X.toTopCat) (differentialPrincipalPartsGroup k X) P.1)
+
+variable {k X}
+
+/-- **The sheaf of differential principal parts is the direct sum
+`⨁_{P closed} i_{P,*}(Ω_{K/k}/Ω_{X,P})`**: the coproduct of the skyscrapers over the closed
+points, with the summand inclusions as coprojections. The only other point is the generic point,
+where `Ω_{X,η} = Ω_{K/k}`. -/
+def isColimitDifferentialPrincipalPartsClosedCofan (hX : X.IsNonsingularCurve k) :
+    IsColimit (differentialPrincipalPartsClosedCofan k X) :=
+  have : IsNoetherian X := hX.satisfiesConditionStar.isNoetherian
+  have : NoetherianSpace X.toTopCat := inferInstanceAs (NoetherianSpace X)
+  isColimitCofanSubtypeOfIsZero
+    (isColimitLocallyFiniteSumCofan (X := X.toTopCat) (A := differentialPrincipalPartsGroup k X))
+    (fun P => IsClosed ({P} : Set X)) fun P hP => by
+    have hPη : P = genericPoint X := by
+      by_contra h
+      exact hP (isClosed_singleton_of_ne_genericPoint hX h)
+    subst hPη
+    exact isZero_pointSheaf _ _ differentialPrincipalPartsGroup_genericPoint_eq_zero
+
+end ClosedPoints
+
+section Main
+
+variable {k : Type u} [Field k] [IsAlgClosed k] {X : Scheme.{u}} [X.Over (Spec (.of k))]
+  [IsIntegral X]
+
+/-- **The differential principal-parts resolution** (Hartshorne III.7, p. 248). Let `X` be a
+nonsingular curve over an algebraically closed field `k`, with function field `K`, `Ω_X = Ω_{X/k}`
+and `Ω_K` the constant sheaf with value `Ω_{K/k}`. Then:
+
+* for every point `P`, the stalk `Ω_{X,P}` embeds into `Ω_{K/k}`, with image the subgroup used to
+  form the principal parts `Ω_{K/k}/Ω_{X,P}`;
+* `0 → Ω_X → Ω_K → ⨁_P i_{P,*}(Ω_{K/k}/Ω_{X,P}) → 0` is a short exact sequence of sheaves of
+  abelian groups;
+* its last two terms are flasque;
+* the third term is the direct sum of the skyscrapers `i_{P,*}(Ω_{K/k}/Ω_{X,P})` over the closed
+  points `P`, with the summand inclusions as coprojections;
+* consequently `H¹(X, Ω_X)` is the cokernel of the principal-parts map on global sections.
+
+Hartshorne states this for a complete curve; completeness is not used. -/
+theorem curveDifferential_principalPartsResolution (hX : X.IsNonsingularCurve k) :
+    (∀ P : X, Function.Injective (differentialsStalkToGeneric (X ↘ Spec (.of k)) P) ∧
+      (differentialsStalkToGeneric (X ↘ Spec (.of k)) P).hom.range =
+        differentialsStalkRange (X ↘ Spec (.of k)) P) ∧
+    (differentialPrincipalPartsComplex hX).ShortExact ∧
+    (differentialPrincipalPartsComplex hX).X₂.IsFlasque ∧
+    (differentialPrincipalPartsComplex hX).X₃.IsFlasque ∧
+    Nonempty (IsColimit (differentialPrincipalPartsClosedCofan k X)) ∧
+    Nonempty ((sheafCohomology X.toTopCat 1).obj (differentialPrincipalPartsComplex hX).X₁ ≅
+      cokernel ((differentialPrincipalPartsComplex hX).g.hom.app (op ⊤))) := by
+  have := functionFieldDifferentials_nontrivial hX
+  exact ⟨fun P => ⟨differentialsStalkToGeneric_injective _
+      (relativeDifferentials_isLocallyFreeOfRank_one hX) P,
+      range_differentialsStalkToGeneric _ P⟩,
+    differentialPrincipalPartsComplex_shortExact hX, isFlasque_rationalDifferentialsSheaf,
+    isFlasque_differentialPrincipalPartsSheaf hX,
+    ⟨isColimitDifferentialPrincipalPartsClosedCofan hX⟩,
+    sheafCohomology_one_curveDifferentials_iso_cokernel hX⟩
+
+end Main
 
 end Hartshorne
