@@ -700,6 +700,7 @@ import Hartshorne.Scheme.FormalSpectrumCompletion
 import Hartshorne.Scheme.FormalCompletionSupport
 import Hartshorne.Scheme.NoetherianFormalScheme
 import Hartshorne.Scheme.IdealOfDefinition
+import Hartshorne.Scheme.IdealsOfDefinitionCofinal
 import Hartshorne.Scheme.FormalCompletionClosedPoint
 import Hartshorne.Scheme.AlgebraizableFormalScheme
 import Hartshorne.Scheme.SchemeAsFormalScheme
