@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.GradedGlobalSections
 import Hartshorne.Scheme.InvertibleSectionClearingDenominators
 import Hartshorne.Scheme.SerreGlobalGeneration
+import Hartshorne.Scheme.ModuleSheafTensorRestrict
 
 /-!
 # Reconstruction of a quasi-coherent sheaf on `Proj` from `Γ_*`
@@ -880,6 +881,95 @@ theorem exists_homogeneous_basicOpen_le (x : Proj 𝒜) (W : (Proj 𝒜).Opens) 
   exact hy ((y.asHomogeneousIdeal.isHomogeneous.mem_iff).1 hr i)
 
 end Nonvanishing
+
+/-! ### Bijectivity on stalks, by Lemma 5.14 -/
+
+section Bijective
+
+variable (F : (Proj 𝒜).Modules)
+
+attribute [local instance] gammaStarModule
+
+/-- `stalkEval` as an additive map. -/
+def stalkEvalHom (x : Proj 𝒜) :
+    HomogeneousLocalizedModule 𝒜 (gammaStarGrading F) x.asHomogeneousIdeal.toIdeal.primeCompl →+
+      F.presheaf.stalk x where
+  toFun := stalkEval F x
+  map_zero' := by
+    have h := stalkEval_add F x 0 0
+    rw [add_zero] at h
+    exact add_eq_left.mp h.symm
+  map_add' := stalkEval_add F x
+
+theorem nonvanishingLocusOpens_twistSection (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 : Set A) = ⊤)
+    {e : ℕ} (h : 𝒜 e) (hL : (projTwistingSheaf 𝒜 e).IsInvertible) :
+    nonvanishingLocusOpens hL (twistSection e h (op ⊤)) = Proj.basicOpen 𝒜 (h : A) :=
+  Opens.ext (Set.ext fun x => mem_nonvanishingLocus_twistSection hgen h x)
+
+theorem mulMap_eq_secMap (n : ℤ) (d : ℕ) (s : 𝒜 d) :
+    mulMap F n d s =
+      secMap (F ⊗ projTwistingSheaf 𝒜 n) d s ≫ (α_ _ _ _).hom ≫ (F ◁ twistMulHom 𝒜 n d) := by
+  simp only [mulMap, secMap, Category.assoc]
+
+theorem mulGlobal_eq_zero_of_tmulSection {n : ℤ} {d : ℕ} (s : 𝒜 d) (m : twistGlobal F n)
+    (hm : tmulSection (F ⊗ projTwistingSheaf 𝒜 n) (projTwistingSheaf 𝒜 d) m
+      (twistSection d s (op ⊤)) = 0) :
+    mulGlobal F n d s m = 0 := by
+  change (mulMap F n d s).val.app (op ⊤) m = 0
+  rw [mulMap_eq_secMap, comp_app_apply, secMap_app]
+  exact (congrArg _ hm).trans (map_zero _)
+
+theorem isQuasicoherent_twist [F.IsQuasicoherent] (n : ℤ) :
+    (F ⊗ projTwistingSheaf 𝒜 n).IsQuasicoherent := by
+  have : (projTwistingSheaf 𝒜 n).IsQuasicoherent :=
+    ProjGradedModuleSheaf.isQuasicoherent 𝒜 (gradedTwist 𝒜 n)
+  exact (SheafOfModules.isQuasicoherent (Proj 𝒜).ringCatSheaf).prop_of_iso
+    (moduleSheafTensorIsoTensor F _) (isQuasicoherent_moduleSheafTensor F _)
+
+/-- **Injectivity on stalks** (from Lemma 5.14(a)): if `m / s` has germ zero at `x`, then `m`
+vanishes on some `D₊(h) ∋ x`, so a power `h^N` kills `m` in `Γ_*(F)`. -/
+theorem stalkEval_injective (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 : Set A) = ⊤)
+    [CompactSpace (Proj 𝒜)] [F.IsQuasicoherent] (x : Proj 𝒜) :
+    Function.Injective (stalkEval F x) := by
+  refine (injective_iff_map_eq_zero (stalkEvalHom F x)).2 fun z hz => ?_
+  obtain ⟨n, m, hm, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective z
+  change stalkEval F x _ = 0 at hz
+  rw [stalkEval_mk] at hz
+  obtain ⟨W, hxW, iW, iV, hW⟩ := F.presheaf.germ_eq (U := Proj.basicOpen 𝒜 s)
+    (V := Proj.basicOpen 𝒜 s) x hsx hsx _ 0 (hz.trans (map_zero _).symm)
+  rw [map_zero] at hW
+  obtain ⟨e, h, hxh, hhW⟩ := exists_homogeneous_basicOpen_le x W hxW
+  have hhs : Proj.basicOpen 𝒜 (h : A) ≤ Proj.basicOpen 𝒜 s := hhW.trans iW.le
+  have h2 : F.presheaf.map (homOfLE hhs).op (frac F n ⟨s, hs⟩ (m n)) = 0 := by
+    rw [← Scheme.Modules.map_map_homOfLE F iW.le hhW]
+    change F.presheaf.map _ (F.presheaf.map iW.op (fracM F n ⟨s, hs⟩ m)) = 0
+    rw [hW, map_zero]
+  have hm0 : (F ⊗ projTwistingSheaf 𝒜 n).presheaf.map
+      (homOfLE le_top : Proj.basicOpen 𝒜 (h : A) ⟶ ⊤).op (m n) = 0 := by
+    have h1 := secMap_frac_res F n ⟨s, hs⟩ (m n) hhs
+    rw [show F.val.map (homOfLE hhs).op (frac F n ⟨s, hs⟩ (m n)) = 0 from h2] at h1
+    exact h1.symm.trans (map_zero _)
+  have hL := ProjTwistingSheaf.isInvertible hgen (e : ℤ)
+  have := isQuasicoherent_twist F (n : ℤ)
+  have hXf := nonvanishingLocusOpens_twistSection hgen h hL
+  obtain ⟨N, -, hN⟩ := exists_sectionPowSMul_eq_zero hL (twistSection e h (op ⊤))
+    (F ⊗ projTwistingSheaf 𝒜 n) (m n) (by
+      rw [← Scheme.Modules.map_map_homOfLE _ (le_top : Proj.basicOpen 𝒜 (h : A) ≤ ⊤) hXf.le,
+        hm0, map_zero])
+  have h3 := (powTwistMap_sectionPowSMul (F ⊗ projTwistingSheaf 𝒜 n) e N h ⊤ (m n)).symm.trans
+    ((congrArg ((powTwistMap (F ⊗ projTwistingSheaf 𝒜 n) e N).val.app (op ⊤)) hN).trans
+      (map_zero _))
+  have h4 := mulGlobal_eq_zero_of_tmulSection F ⟨(h : A) ^ N, pow_mem_mul h.2 N⟩ (m n) h3
+  have h5 : ((h : A) ^ N) • m = 0 := by
+    rw [smul_apply_of_mem F hm ⟨(h : A) ^ N, pow_mem_mul h.2 N⟩, h4, map_zero]
+  ext
+  rw [HomogeneousLocalizedModule.val_mk, HomogeneousLocalizedModule.val_zero]
+  refine (LocalizedModule.mk_eq.2 ⟨⟨(h : A) ^ N,
+    x.asHomogeneousIdeal.toIdeal.primeCompl.pow_mem hxh N⟩, ?_⟩).trans (LocalizedModule.zero_mk 1)
+  simp only [one_smul, smul_zero, Submonoid.smul_def]
+  exact h5
+
+end Bijective
 
 end GammaStarReconstruction
 
