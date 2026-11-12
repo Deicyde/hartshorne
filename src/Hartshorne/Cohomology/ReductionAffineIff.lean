@@ -1,0 +1,221 @@
+/-
+Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
+import Hartshorne.Cohomology.SerreAffinenessCriterion
+import Hartshorne.Scheme.IdealPowerProduct
+
+/-!
+# Affineness is invariant under reduction
+
+Hartshorne, *Algebraic Geometry*, III, Exercise 3.1 (p. 216).
+
+For a Noetherian scheme `X`, `X` is affine if and only if `X_red` is affine. Here `X_red` is the
+closed subscheme cut out by the nilradical (`X.nilradical.subscheme`).
+
+## Proof
+
+A closed subscheme of an affine scheme is affine, which gives one direction
+(`Hartshorne.ReductionAffine.isAffine_reduced_of_isAffine`).
+
+For the converse we use Serre's criterion (Hartshorne III.3.7): it suffices that
+`H^1(X, J) = 0` for every coherent ideal sheaf `J`. The nilradical `𝒩` is nilpotent on a Noetherian
+scheme (`exists_nilradical_pow_eq_bot`), so `J ⊇ 𝒩 J ⊇ 𝒩^2 J ⊇ ⋯ ⊇ 𝒩^m J = 0`. Each quotient
+`𝒩^k J / 𝒩^{k+1} J` is a quasi-coherent `𝒪_X`-module killed by the nilpotent sections of `𝒪_X`
+(`smul_eq_zero_cokernel`). The long exact sequence of cohomology and descending induction on `k`
+reduce the vanishing of `H^1(X, J)` to that of `H^1` of these quotients
+(`isAffine_of_forall_isZero_H1`).
+-/
+
+noncomputable section
+
+universe u
+
+open CategoryTheory Limits Opposite TopologicalSpace AlgebraicGeometry
+
+namespace Hartshorne
+
+namespace ReductionAffine
+
+open SerreAffineness ArtinReesKernelSheaf
+
+variable {X : Scheme.{u}}
+
+/-- A section of an `𝒪_X`-module which vanishes near every point is zero. -/
+theorem eq_zero_of_locally (F : X.Modules) {U : X.Opens} (s : Γ(F, U))
+    (h : ∀ x ∈ U, ∃ (V : X.Opens) (hVU : V ≤ U), x ∈ V ∧ res F hVU s = 0) : s = 0 := by
+  choose V hVU hxV hV using h
+  let ι := {x : X // x ∈ U}
+  let W : ι → X.Opens := fun x => V x.1 x.2
+  let M' : TopCat.Sheaf AddCommGrpCat.{u} X := ⟨F.val.presheaf, F.isSheaf⟩
+  have hcover : U ≤ iSup W := fun x hx => Opens.mem_iSup.mpr ⟨⟨x, hx⟩, hxV x hx⟩
+  apply M'.eq_of_locally_eq' W U (fun i => CategoryTheory.homOfLE (hVU _ _)) hcover
+  intro i
+  refine (hV i.1 i.2).trans ?_
+  exact (map_zero (res F (hVU i.1 i.2))).symm
+
+/-- On a Noetherian scheme the nilradical is nilpotent: `𝒩 ^ m = 0` for some `m`. -/
+theorem exists_nilradical_pow_eq_bot [IsNoetherian X] : ∃ m : ℕ, X.nilradical ^ m = ⊥ := by
+  have hcover : (Set.univ : Set X) ⊆ ⋃ U : X.affineOpens, ((U : X.Opens) : Set X) := by
+    intro x _
+    obtain ⟨U, -, hxU⟩ := exists_affine_le (show x ∈ (⊤ : X.Opens) from trivial)
+    exact Set.mem_iUnion.mpr ⟨U, hxU⟩
+  obtain ⟨t, ht⟩ := isCompact_univ.elim_finite_subcover _
+    (fun U : X.affineOpens => (U : X.Opens).isOpen) hcover
+  have hnil : ∀ U : X.affineOpens, ∃ n : ℕ, nilradical Γ(X, (U : X.Opens)) ^ n = ⊥ := fun U => by
+    have : IsNoetherianRing Γ(X, (U : X.Opens)) := IsLocallyNoetherian.component_noetherian U
+    obtain ⟨n, hn⟩ := IsNoetherianRing.isNilpotent_nilradical Γ(X, (U : X.Opens))
+    exact ⟨n, hn⟩
+  choose n hn using hnil
+  refine ⟨t.sup n, ?_⟩
+  refine Scheme.IdealSheafData.ext_of_iSup_eq_top (fun U : t => U.1) ?_ fun U => ?_
+  · rw [eq_top_iff]
+    intro x _
+    obtain ⟨U, hU, hxU⟩ := Set.mem_iUnion₂.mp (ht (Set.mem_univ x))
+    exact Opens.mem_iSup.mpr ⟨⟨U, hU⟩, hxU⟩
+  · simp only [Scheme.IdealSheafData.ideal_pow, Pi.pow_apply, Scheme.IdealSheafData.ideal_bot,
+      Pi.bot_apply, Scheme.nilradical, Scheme.IdealSheafData.radical_ideal]
+    refine le_bot_iff.mp ((Ideal.pow_le_pow_right (Finset.le_sup U.2)).trans ?_)
+    exact (hn U.1).le
+
+/-- The nilradical kills the sections of `𝒩^m J` for `𝒩^m = 0`. -/
+theorem powSmul_eq_bot_of_pow_eq_bot {E : X.Modules} {m : ℕ} (hm : X.nilradical ^ m = ⊥)
+    (N : E.val.Submodule) : powSmul X.nilradical m N = ⊥ := by
+  refine le_antisymm (fun U s hs => ?_) bot_le
+  change s ∈ (⊥ : Submodule _ _)
+  rw [Submodule.mem_bot]
+  apply eq_zero_of_locally E s
+  intro x hx
+  obtain ⟨V, hVU, hxV, hV⟩ := hs x hx
+  refine ⟨V, hVU, hxV, ?_⟩
+  change _ ∈ X.nilradical.ideal V ^ m • sub N V at hV
+  have h0 : X.nilradical.ideal V ^ m = ⊥ := by
+    have := congrArg (fun I : X.IdealSheafData => I.ideal V) hm
+    simpa only [Scheme.IdealSheafData.ideal_pow, Pi.pow_apply,
+      Scheme.IdealSheafData.ideal_bot, Pi.bot_apply] using this
+  rw [h0, Submodule.bot_smul, Submodule.mem_bot] at hV
+  exact hV
+
+/-- A nilpotent section multiplies `𝒩^k N` into `𝒩^{k+1} N`. -/
+theorem smul_mem_powSmul_succ {E : X.Modules} (N : E.val.Submodule) {k : ℕ} {V : X.Opens}
+    (a : Γ(X, V)) (ha : IsNilpotent a) {s : Γ(E, V)}
+    (hs : s ∈ sub (powSmul X.nilradical k N) V) :
+    a • s ∈ sub (powSmul X.nilradical (k + 1) N) V := by
+  intro y hy
+  obtain ⟨W, hWV, hyW, hW⟩ := hs y hy
+  refine ⟨W, hWV, hyW, ?_⟩
+  change res E hWV (a • s) ∈ X.nilradical.ideal W ^ (k + 1) • sub N W
+  change res E hWV s ∈ X.nilradical.ideal W ^ k • sub N W at hW
+  rw [LinearMap.map_smulₛₗ, pow_succ', Submodule.mul_smul]
+  refine Submodule.smul_mem_smul ?_ hW
+  have hnil : IsNilpotent ((X.presheaf.map (homOfLE hWV).op).hom a) := ha.map _
+  simp only [Scheme.nilradical, Scheme.IdealSheafData.radical_ideal,
+    Scheme.IdealSheafData.ideal_bot, Pi.bot_apply]
+  exact mem_nilradical.mpr hnil
+
+section Filtration
+
+variable (J : QuasicoherentIdealSubsheaf X)
+
+/-- The ideal sheaf `𝒩^k J`, as an `𝒪_X`-module. -/
+abbrev filt (k : ℕ) : X.Modules :=
+  toModules (powSmul X.nilradical k J.carrier) (isLocal_powSmul _ _ _)
+
+/-- The inclusion `𝒩^{k+1} J ⟶ 𝒩^k J`. -/
+abbrev filtι (k : ℕ) : filt J (k + 1) ⟶ filt J k :=
+  inclusion _ _ (powSmul_antitone _ _ (Nat.le_succ k))
+
+instance (k : ℕ) : Mono (filtι J k) := by
+  have : Mono ((SheafOfModules.forget X.ringCatSheaf).map (filtι J k)) :=
+    inferInstanceAs (Mono (PresheafOfModules.Submodule.homOfLE _))
+  exact (SheafOfModules.forget X.ringCatSheaf).mono_of_mono_map this
+
+/-- The short exact sequence `0 ⟶ 𝒩^{k+1} J ⟶ 𝒩^k J ⟶ 𝒩^k J / 𝒩^{k+1} J ⟶ 0`. -/
+abbrev filtSC (k : ℕ) : ShortComplex X.Modules :=
+  ShortComplex.mk (filtι J k) (cokernel.π (filtι J k)) (cokernel.condition _)
+
+theorem filtSC_shortExact (k : ℕ) : (filtSC J k).ShortExact :=
+  ShortComplex.ShortExact.mk' ((filtSC J k).exact_of_g_is_cokernel (cokernelIsCokernel _))
+    inferInstance inferInstance
+
+instance isQuasicoherent_filt (k : ℕ) : (filt J k).IsQuasicoherent := by
+  have := J.isQuasicoherent
+  exact isQuasicoherent_powSmul X.nilradical k J.isLocal
+
+instance isQuasicoherent_cokernel_filtι (k : ℕ) : (cokernel (filtι J k)).IsQuasicoherent :=
+  isQuasicoherent_cokernel _
+
+/-- The quotient `𝒩^k J / 𝒩^{k+1} J` is killed by the nilpotent sections of `𝒪_X`. -/
+theorem smul_eq_zero_cokernel (k : ℕ) {U : X.Opens} (a : Γ(X, U)) (ha : IsNilpotent a)
+    (s : Γ(cokernel (filtι J k), U)) : a • s = 0 := by
+  apply eq_zero_of_locally _ (a • s)
+  intro x hx
+  obtain ⟨V, hVU, hxV, t, ht⟩ := modules_exists_local_lift (cokernel.π (filtι J k)) s hx
+  refine ⟨V, hVU, hxV, ?_⟩
+  set a' := (X.presheaf.map (homOfLE hVU).op).hom a
+  have hmem := smul_mem_powSmul_succ J.carrier a' (ha.map _)
+    (t : sub (powSmul X.nilradical k J.carrier) V).2
+  let t' : Γ(filt J (k + 1), V) := ⟨_, hmem⟩
+  have ht' : (filtι J k).app V t' = a' • t := Subtype.ext rfl
+  have h0 : (cokernel.π (filtι J k)).app V ((filtι J k).app V t') = 0 := by
+    rw [← ConcreteCategory.comp_apply, ← Scheme.Modules.Hom.comp_app, cokernel.condition]
+    rfl
+  rw [res_apply, Scheme.Modules.map_smul, ← ht, ← Scheme.Modules.Hom.app_smul, ← ht', h0]
+
+/-- `𝒩^0 J = J`. -/
+def filtZeroIso : filt J 0 ≅ J.toModules where
+  hom := inclusion _ _ (powSmul_le J.isLocal)
+  inv := inclusion _ _ (powSmul_zero _ J.isLocal).ge
+  hom_inv_id := rfl
+  inv_hom_id := rfl
+
+theorem isZero_filt {m : ℕ} (hm : X.nilradical ^ m = ⊥) : IsZero (filt J m) := by
+  rw [IsZero.iff_id_eq_zero]
+  ext U s : 3
+  have hs := PresheafOfModules.Submodule.le_iff.1
+    (powSmul_eq_bot_of_pow_eq_bot hm J.carrier).le _ (s : sub (powSmul X.nilradical m J.carrier) U).2
+  change s = 0
+  exact Subtype.ext ((Submodule.mem_bot _).mp hs)
+
+end Filtration
+
+/-- **Reduction to modules killed by the nilradical** (the filtration step of Hartshorne III,
+Exercise 3.1). On a Noetherian scheme `X`, if `H^1(X, Q) = 0` for every quasi-coherent
+`𝒪_X`-module `Q` killed by the nilpotent sections of `𝒪_X`, then `X` is affine. -/
+theorem isAffine_of_forall_isZero_H1 [IsNoetherian X]
+    (h : ∀ (Q : X.Modules) [Q.IsQuasicoherent],
+      (∀ (U : X.Opens) (a : Γ(X, U)), IsNilpotent a → ∀ s : Γ(Q, U), a • s = 0) →
+        IsZero (H 1 Q)) :
+    IsAffine X := by
+  refine isAffine_of_isZero_H1 fun J => ?_
+  obtain ⟨m, hm⟩ := exists_nilradical_pow_eq_bot (X := X)
+  have key : ∀ j, j ≤ m → IsZero (H 1 (filt J (m - j))) := by
+    intro j
+    induction j with
+    | zero =>
+      intro _
+      exact isZero_H_of_isZero (by simpa using isZero_filt J hm) 1
+    | succ j ih =>
+      intro hj
+      obtain ⟨k, hk⟩ : ∃ k, m - j = k + 1 := ⟨m - j - 1, by omega⟩
+      have hk' : m - (j + 1) = k := by omega
+      rw [hk']
+      have h₁ : IsZero (H 1 (filt J (k + 1))) := by
+        rw [← hk]
+        exact ih (by omega)
+      have h₃ : IsZero (H 1 (cokernel (filtι J k))) :=
+        h (cokernel (filtι J k)) fun U a ha s => smul_eq_zero_cokernel J k a ha s
+      exact isZero_H1_of_shortExact (S := filtSC J k) (filtSC_shortExact J k) h₁ h₃
+  have h0 := key m le_rfl
+  rw [Nat.sub_self] at h0
+  exact h0.of_iso ((sheafCohomology X.toTopCat 1).mapIso
+    ((SheafOfModules.toSheaf X.ringCatSheaf).mapIso (filtZeroIso J).symm))
+
+/-- A closed subscheme of an affine scheme is affine; in particular `X_red` is affine when `X`
+is. -/
+theorem isAffine_reduced_of_isAffine [IsAffine X] : IsAffine X.nilradical.subscheme :=
+  (IsClosedImmersion.isAffine_surjective_of_isAffine X.nilradical.subschemeι).1
+
+end ReductionAffine
+
+end Hartshorne

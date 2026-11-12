@@ -708,3 +708,4 @@ import Hartshorne.Cohomology.AffineCoverCohomologicalDimension
 import Hartshorne.Cohomology.AffineMorphismCohomologyPushforward
 import Hartshorne.Cohomology.DualizingSheaf
 import Hartshorne.Cohomology.ReducedComponentsAffine
+import Hartshorne.Cohomology.ReductionAffineIff
