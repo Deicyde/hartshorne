@@ -59,6 +59,7 @@ $\deg\nu_*\operatorname{div}(g)=\sum_j\deg F_j\deg V-\sum_l\deg G_l\deg V=e\deg 
 - [Orders via the normalization are lengths](normalization-order-length.md)
 - [Intersection multiplicity with a hypersurface](../../../intersections-projective-space/bezout/projective-intersection-multiplicity.md)
 - [Bézout for a projective variety and a hypersurface](../../../intersections-projective-space/bezout/projective-hypersurface-bezout.md)
+- [Raw cycle pushforward is functorial](raw-cycle-pushforward-functorial.md)
 
 ## Sources
 
