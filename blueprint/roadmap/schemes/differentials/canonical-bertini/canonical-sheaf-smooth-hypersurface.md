@@ -2,7 +2,6 @@
 article_id: af_a111454a295d1e3b1e42242b
 declaration: theorem
 origin: cited
-lean: Hartshorne.SmoothHypersurface.canonicalSheaf_smoothHypersurface Hartshorne.SmoothHypersurface.canonicalSheafIsoPullbackTwist Hartshorne.SmoothHypersurface.hypersurface Hartshorne.SmoothHypersurface.hypersurfaceι Hartshorne.SmoothHypersurface.nonempty_sheaf_iso_of_isDivisorOfZeros Hartshorne.SmoothHypersurface.exists_pullback_projTwistingSheaf_globalSection_ne_zero Hartshorne.SmoothHypersurface.nontrivial_globalSections_canonicalSheaf Hartshorne.SmoothHypersurface.geometricGenus_pos Hartshorne.SmoothHypersurface.not_rational
 ---
 
 # The canonical sheaf of a smooth hypersurface
