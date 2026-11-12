@@ -375,6 +375,44 @@ def equivProjectiveSpace : Point k K ≃ ProjectiveSpace K (Fin 2) :=
     (linesCongr K (Pi.basisFun K (Fin 2)).toDualEquiv.symm).trans
       (Projectivization.equivSubmodule K (Fin 2 → K)).symm
 
+/-- **The point in homogeneous coordinates.** If the pulled-back coordinates of
+`φ : Spec K ⟶ ℙ¹_k` are `φ^* xᵢ = cᵢ t` for a global section `t` of `φ^* 𝒪(1)` and
+`c = (c₀, c₁) ≠ 0`, then `φ` corresponds to the point `[c₀ : c₁]` of `ℙ¹(K)`. -/
+theorem equivProjectiveSpace_eq_mk {k K : Type u} [Field k] [Field K] [Algebra k K]
+    (φ : Point k K)
+    (t : Γ((Scheme.Modules.pullback φ.1).obj
+      (projectiveSpaceTwistingSheaf 1 (Spec (CommRingCat.of k)) 1), ⊤))
+    (c : Fin 2 → K) (hc : c ≠ 0)
+    (h : ∀ i, pullbackGlobalSection φ.1 (projectiveSpaceCoordinate 1 _ i) = c i • t) :
+    equivProjectiveSpace k K φ = Projectivization.mk K c hc := by
+  obtain ⟨i, hi⟩ := exists_isTrivializingSection_coordinate φ.1
+  have ht : t ≠ 0 := by
+    rintro rfl
+    refine one_ne_zero ((bijective_smul_of_isTrivializingSection hi).1 (a₁ := 1) (a₂ := 0) ?_)
+    change (1 : K) • _ = (0 : K) • _
+    rw [h, smul_zero, smul_zero, smul_zero]
+  set f : Module.Dual K (Fin 2 → K) := (Pi.basisFun K (Fin 2)).toDual c with hf
+  have hfa : ∀ a : Fin 2 → K, f a = a 0 * c 0 + a 1 * c 1 := by
+    intro a
+    conv_lhs => rw [← (Pi.basisFun K (Fin 2)).sum_repr a]
+    simp only [hf, Fin.sum_univ_two, map_add, map_smul, Basis.toDual_apply_left,
+      Pi.basisFun_repr, smul_eq_mul]
+  have hker : kernel φ.1 = (K ∙ f).dualCoannihilator := by
+    ext a
+    rw [← SetLike.mem_coe (p := (K ∙ f).dualCoannihilator), Submodule.coe_dualCoannihilator_span]
+    simp only [Set.mem_singleton_iff, forall_eq, Set.mem_ofPred_eq]
+    rw [mem_kernel_iff, h, h, smul_smul, smul_smul, ← add_smul, smul_eq_zero, or_iff_left ht, hfa]
+  apply (Projectivization.equivSubmodule K (Fin 2 → K)).injective
+  rw [equivProjectiveSpace, Equiv.trans_apply, Equiv.trans_apply, Equiv.trans_apply,
+    Equiv.apply_symm_apply]
+  apply Subtype.ext
+  change Submodule.map (Pi.basisFun K (Fin 2)).toDualEquiv.symm.toLinearMap
+    (kernel φ.1).dualAnnihilator = (Projectivization.mk K c hc).submodule
+  rw [Projectivization.submodule_mk, hker, Subspace.dualCoannihilator_dualAnnihilator_eq]
+  refine (Submodule.map_symm_eq_iff _).mpr ?_
+  rw [Submodule.map_span, Set.image_singleton]
+  rfl
+
 end Equivalences
 
 end ProjectiveLinePoints
