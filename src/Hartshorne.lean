@@ -603,6 +603,7 @@ import Hartshorne.RingedSpace.SheafExtFiniteLocallyFree
 import Hartshorne.RingedSpace.SheafExtLocallyFreeResolution
 import Hartshorne.Intersection.ProjectiveHyperplaneChart
 import Hartshorne.RingedSpace.SheafExtRestrict
+import Hartshorne.RingedSpace.ScalarExtensionSheaf
 import Hartshorne.Intersection.ProjectiveLinearSubspaceCycle
 import Hartshorne.Intersection.ProjectiveLinearSubspaceGeneration
 import Hartshorne.Scheme.ProjHomogeneousFraction
