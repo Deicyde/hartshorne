@@ -726,5 +726,6 @@ import Hartshorne.Cohomology.KoszulRegularImmersion
 import Hartshorne.Scheme.ProjGammaStarReconstruction
 import Hartshorne.Scheme.ProjectiveSectionRingIntegralClosure
 import Hartshorne.Weil.ProjectiveLineSchemePoints
+import Hartshorne.Weil.ProjectiveLinePointCount
 import Hartshorne.Scheme.ProjectiveClosedImmersionChartCriterion
 import Hartshorne.Scheme.ProjectionFromPoint
