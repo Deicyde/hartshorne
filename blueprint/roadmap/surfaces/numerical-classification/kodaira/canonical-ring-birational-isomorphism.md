@@ -13,7 +13,7 @@ If $X$ and $X'$ are birationally equivalent nonsingular projective integral
 varieties, restriction to inverse dense opens and extension across their
 codimension-two complements induce a graded $k$-algebra isomorphism
 
-$R(X,K_X) \simeq R(X',K_X')$.
+$R(X,K_X) \simeq R(X',K_{X'})$.
 
 The comparison preserves multiplication, not only the dimension of each
 pluricanonical section space.
