@@ -443,6 +443,38 @@ theorem isCoherent_restrict_pullback_chart
     ((schemeModulesPullbackIso g).app G).symm
   exact isCoherent_of_iso χ.symm (isCoherent_pullback g hG)
 
+/-- **`F_n` is coherent**: for a coherent `𝒪_X`-module `F` on a Noetherian formal scheme and an
+ideal of definition `J`, the reduction `F_n = F / J ^ (n + 1) F` is a coherent module on the
+Noetherian scheme `(X, 𝒪_X / J ^ (n + 1))`. It is the pullback of `F`
+(`IsIdealOfDefinition.reductionIso`), coherence is local, and on each chart of `F` the pullback is
+coherent (`IsIdealOfDefinition.isCoherent_restrict_pullback_chart`). -/
+theorem isCoherent_reduction {F : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace)}
+    (hF : IsCoherentFormalModule F) (n : ℕ) : IsCoherent (h.reduction F n) := by
+  let h' := h.pow_succ n
+  obtain ⟨ι, -, U, hU, hchart⟩ := hF
+  have key : IsCoherent (show h'.quotientScheme.Modules from
+      (structureModulePullback h'.quotientLRSHom).obj F) := by
+    refine isCoherent_of_isCoherent_restrict _
+      (fun i => (Opens.map h'.quotientLRSHom.base).obj (U i)) ?_ fun i => ?_
+    · exact (Opens.map_iSup h'.quotientLRSHom.base U).symm.trans
+        ((congrArg (Opens.map h'.quotientLRSHom.base).obj hU).trans rfl)
+    · obtain ⟨Y, hY, I, e, G, hG, ⟨ψ⟩⟩ := hchart i
+      exact h'.isCoherent_restrict_pullback_chart F (U i) I e G hG ψ
+  exact isCoherent_of_iso (h.reductionIso F n ≪≫ h'.quotientPullbackIso.app F).symm key
+
 end IsIdealOfDefinition
+
+/-- **Reconstruction from infinitesimal reductions** (Hartshorne II.9, Proposition 9.6(a)). Let
+`X` be a Noetherian formal scheme, `J` an ideal of definition and `F` a coherent `𝒪_X`-module, and
+let `F_n` be `F / J ^ (n + 1) F` as a module on the scheme `(X, 𝒪_X / J ^ (n + 1))`. Then every
+`F_n` is coherent, the canonical map `F / J ^ (n + 1) F ⟶ F_n` (with `F_n` pushed forward to `X`)
+is an isomorphism, and the canonical map `F ⟶ lim_n F / J ^ (n + 1) F` is an isomorphism. -/
+theorem IsIdealOfDefinition.reconstruction {X : NoetherianFormalScheme.{u}}
+    {J : IdealSubsheaf X.toLocallyRingedSpace.sheaf} (h : IsIdealOfDefinition X J)
+    {F : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace)}
+    (hF : IsCoherentFormalModule F) :
+    (∀ n, IsCoherent (h.reduction F n)) ∧ (∀ n, IsIso (h.toReduction F n)) ∧
+      IsIso (J.toLimitPowQuotient F) :=
+  ⟨h.isCoherent_reduction hF, h.isIso_toReduction F, h.isIso_toLimitPowQuotient hF⟩
 
 end Hartshorne
