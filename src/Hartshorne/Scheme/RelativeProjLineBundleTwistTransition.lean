@@ -66,6 +66,32 @@ theorem map_appLE_awayToSection {A B σ τ : Type u} [CommRing A] [SetLike σ A]
       Proj.awayToSection ℬ (f s) (HomogeneousLocalization.Away.map f s x) :=
   ConcreteCategory.congr_hom (Proj.awayToSection_comp_appLE f hf hs) x
 
+/-- If `x = c • y` near `W ⊆ W'`, then the pulled-back sections `η x`, `η y` satisfy the same
+relation with `f^# c` on any open inside `f⁻¹ W`. -/
+theorem etaSec_map_eq_smul {Y Z : Scheme.{u}} (f : Y ⟶ Z) (M : Z.Modules) {W W' : Z.Opens}
+    (hW : W ≤ W') {O : Y.Opens} (hO : O ≤ f ⁻¹ᵁ W) (x y : Γ(M, W')) (c : Γ(Z, W))
+    (hxy : M.presheaf.map (homOfLE hW).op x = c • M.presheaf.map (homOfLE hW).op y) :
+    ((Scheme.Modules.pullback f).obj M).presheaf.map (homOfLE (hO.trans (f.preimage_mono hW))).op
+        (Ringed.etaSec (φ := f.toRingCatSheafHom) x) =
+      Y.presheaf.map (homOfLE hO).op (f.app W c) •
+        ((Scheme.Modules.pullback f).obj M).presheaf.map
+          (homOfLE (hO.trans (f.preimage_mono hW))).op
+          (Ringed.etaSec (φ := f.toRingCatSheafHom) y) := by
+  refine ((Scheme.Modules.map_map_homOfLE _ (f.preimage_mono hW) hO _).symm.trans ?_).trans
+    (congrArg _ (Scheme.Modules.map_map_homOfLE _ (f.preimage_mono hW) hO _))
+  refine (congrArg (((Scheme.Modules.pullback f).obj M).presheaf.map (homOfLE hO).op)
+    (Ringed.etaSec_restrict (φ := f.toRingCatSheafHom) hW x).symm).trans ?_
+  refine Eq.trans ?_ (congrArg (fun z => Y.presheaf.map (homOfLE hO).op (f.app W c) •
+    ((Scheme.Modules.pullback f).obj M).presheaf.map (homOfLE hO).op z)
+      (Ringed.etaSec_restrict (φ := f.toRingCatSheafHom) hW y))
+  dsimp only
+  refine (congrArg (fun z => ((Scheme.Modules.pullback f).obj M).presheaf.map (homOfLE hO).op
+    (Ringed.etaSec (φ := f.toRingCatSheafHom) z)) hxy).trans ?_
+  refine (congrArg (((Scheme.Modules.pullback f).obj M).presheaf.map (homOfLE hO).op)
+    (Ringed.etaSec_smul (φ := f.toRingCatSheafHom) c
+      (M.presheaf.map (homOfLE hW).op y))).trans ?_
+  exact Scheme.Modules.map_smul _ _ _ _
+
 namespace TwistChart
 
 set_option backward.isDefEq.respectTransparency false in
@@ -132,6 +158,73 @@ theorem appIso_inv_awayToSection_eq_mul (i : TwistChart S L)
   refine Eq.trans ?_ (congrArg (· * _) h3.symm)
   refine Eq.trans ?_ (map_mul _ _ _)
   exact congrArg _ (away_map_gen_mul hL i v hv ht).symm
+
+variable (MT : (S.lineBundleTwist L hL).relProj.Modules)
+  (αT : ∀ U, MT.restrict ((S.lineBundleTwist L hL).projι U) ≅
+    (S.lineBundleTwist L hL).twistingSheaf 1 U)
+  (MS : S.relProj.Modules) (αS : ∀ U, MS.restrict (S.projι U) ≅ S.twistingSheaf 1 U)
+
+theorem bilinear_smul_smul {Y : Scheme.{u}} {F G : Y.Modules} {W : Y.Opens} (r r' : Γ(Y, W))
+    (a : Γ(F, W)) (b : Γ(G, W)) :
+    (moduleSheafTensorBilinear F G).app (op W) (r • a) (r' • b) =
+      @HSMul.hSMul Γ(Y, W) Γ(tensorModule F G, W) Γ(tensorModule F G, W) _ (r * r')
+        ((moduleSheafTensorBilinear F G).app (op W) a b) := by
+  refine (((moduleSheafTensorBilinear F G).app (op W) (r • a)).map_smul r' b).trans ?_
+  refine (congrArg (fun x : Γ(tensorModule F G, W) => r' • x)
+    (LinearMap.map_smul₂ ((moduleSheafTensorBilinear F G).app (op W)) r a b)).trans ?_
+  exact (smul_smul (α := Γ(tensorModule F G, W)) r' r _).trans
+    (congrArg (fun c : Γ(Y, W) => (c • _ : Γ(tensorModule F G, W))) (mul_comm r' r))
+
+/-- **Transition on one piece, tensor side**: for two charts over the same affine `U`, with frames
+`e' = v • e` and elements `s, t ∈ S(U)₁`, the section `φ^* t ⊗ π^* e'` is `φ^#(t/s) · π^# v` times
+`φ^* s ⊗ π^* e` over the open of the first chart. -/
+theorem bTop_restrict_eq_smul (i : TwistChart S L) {e' : ULift.{u} (Fin 1) → Γ(L, i.U.1)}
+    (he' : Ringed.IsLocalFrame (R := X.sheaf) L i.U.1 e') (v : Γ(X, i.U.1))
+    (hv : e' default = v • i.e default) {t : S.obj.obj (.op i.U)} (ht : t ∈ S.grading i.U 1) :
+    (tensorModule (pullS hL MS) (pullL L hL)).presheaf.map (homOfLE (i.opens_le_piece hL)).op
+        ((⟨i.U, e', he', t, ht⟩ : TwistChart S L).bTop hL MS αS) =
+      ((S.lineBundleTwist L hL).relProj.presheaf.map (homOfLE (i.opens_le_preimage hL)).op
+          ((S.lineBundleTwistHom hL).app _ (((S.projι i.U).appIso (Proj.basicOpen _ i.s)).inv
+            (Proj.awayToSection _ i.s (HomogeneousLocalization.Away.mk _ i.hs 1 t
+              (by rwa [smul_eq_mul, mul_one]))))) *
+        (S.lineBundleTwist L hL).relProj.presheaf.map (homOfLE (i.opens_le_base hL)).op
+          ((S.lineBundleTwist L hL).relProjToBase.app i.U.1 v)) • i.bSec hL MS αS := by
+  have hS := etaSec_map_eq_smul (S.lineBundleTwistHom hL) MS
+    (Scheme.Hom.image_mono _ (le_top : Proj.basicOpen (S.grading i.U) i.s ≤ ⊤))
+    (i.opens_le_preimage hL) _ _ _ (pieceDegreeOneSection_eq_smul αS i.hs ht)
+  have hL' := etaSec_map_eq_smul (S.lineBundleTwist L hL).relProjToBase L (le_refl i.U.1)
+    (i.opens_le_base hL) (e' default) (i.e default) v (by
+      simp only [homOfLE_refl, op_id, CategoryTheory.Functor.map_id]
+      exact hv)
+  rw [bSec, bTop, bTop, tmul_section_restrict, tmul_section_restrict]
+  refine (congrArg₂ (fun a b => (moduleSheafTensorBilinear _ _).app _ a b)
+    ((Scheme.Modules.map_map_homOfLE _ _ _ _).trans hS)
+    ((Scheme.Modules.map_map_homOfLE _ _ _ _).trans hL')).trans ?_
+  refine (bilinear_smul_smul _ _ _ _).trans ?_
+  exact congrArg _ (congrArg₂ (fun a b => (moduleSheafTensorBilinear _ _).app _ a b)
+    (Scheme.Modules.map_map_homOfLE _ _ _ _).symm (Scheme.Modules.map_map_homOfLE _ _ _ _).symm)
+
+variable {MT αT MS αS} in
+/-- **Transition on one piece**: for two charts over the same affine `U` (frames `e`, `e'` of `L`
+and `s, t ∈ S(U)₁`), over the open of the first chart the frames `t ⊗ e'` and `φ^* t ⊗ π^* e'`
+are the same multiple of `s ⊗ e` and `φ^* s ⊗ π^* e`, respectively. -/
+theorem exists_eq_smul_samePiece (i : TwistChart S L) {e' : ULift.{u} (Fin 1) → Γ(L, i.U.1)}
+    (he' : Ringed.IsLocalFrame (R := X.sheaf) L i.U.1 e') {t : S.obj.obj (.op i.U)}
+    (ht : t ∈ S.grading i.U 1) :
+    ∃ c : Γ((S.lineBundleTwist L hL).relProj, i.opens hL),
+      MT.presheaf.map (homOfLE (i.opens_le_piece hL)).op
+          (pieceDegreeOneSection MT αT i.U ((⟨i.U, e', he', t, ht⟩ : TwistChart S L).gen_mem hL)) =
+        c • i.aSec hL MT αT ∧
+      (tensorModule (pullS hL MS) (pullL L hL)).presheaf.map (homOfLE (i.opens_le_piece hL)).op
+          ((⟨i.U, e', he', t, ht⟩ : TwistChart S L).bTop hL MS αS) =
+        c • i.bSec hL MS αS := by
+  obtain ⟨v, hv⟩ := (IsTrivializingSection.of_isLocalFrame (ι := ULift.{u} (Fin 1))
+    i.he).exists_eq_smul_section (e' default)
+  refine ⟨_, pieceDegreeOneSection_eq_smul αT (i.gen_mem hL)
+    ((⟨i.U, e', he', t, ht⟩ : TwistChart S L).gen_mem hL), ?_⟩
+  refine (bTop_restrict_eq_smul hL MS αS i he' v hv ht).trans ?_
+  exact congrArg (fun c : Γ((S.lineBundleTwist L hL).relProj, i.opens hL) => c • i.bSec hL MS αS)
+    (appIso_inv_awayToSection_eq_mul hL i v hv ht).symm
 
 end TwistChart
 
