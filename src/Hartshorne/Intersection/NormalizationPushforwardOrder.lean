@@ -221,7 +221,8 @@ theorem Spec.stalkMap_algebraMap {R S : CommRingCat.{u}} (f : R ⟶ S) (q : Spec
 
 /-- Orders of quotients: `ord(f / g) = ord f - ord g` for nonzero `f, g`. -/
 theorem Scheme.ord_div {X : Scheme.{u}} [IsIntegral X] [IsLocallyNoetherian X]
-    {f g : X.functionField} (hf : f ≠ 0) (hg : g ≠ 0) (x : X) : X.ord (f / g) x = X.ord f x - X.ord g x := by
+    {f g : X.functionField} (hf : f ≠ 0) (hg : g ≠ 0) (x : X) :
+    X.ord (f / g) x = X.ord f x - X.ord g x := by
   have h := Scheme.ord_mul (x := x) (div_ne_zero hf hg) hg
   rw [div_mul_cancel₀ f hg] at h
   omega

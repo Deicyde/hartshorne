@@ -13,7 +13,8 @@ import Hartshorne.Scheme.ProjectiveSpaceClassGroup
 # The degree of cycles on projective space is invariant under rational equivalence
 
 Let `k` be algebraically closed. The degree `deg (∑ nᵢ [Yᵢ]) = ∑ nᵢ deg Yᵢ` of cycles on `ℙⁿ_k`
-vanishes on rational equivalence (`cycleProjectiveDegree_eq_zero_of_mem_rationalEquivalenceSubgroup`)
+vanishes on rational equivalence
+(`cycleProjectiveDegree_eq_zero_of_mem_rationalEquivalenceSubgroup`)
 and hence descends to the Chow groups (`chowGroupProjectiveDegree`).
 
 For an integral closed subvariety `i : V ⟶ ℙⁿ_k` with homogeneous prime `𝔭` and a nonzero rational
@@ -42,11 +43,13 @@ local notation "S" => MvPolynomial (Fin (n + 1)) k
 section Multiplicity
 
 private theorem X_pow_mem (j : Fin (n + 1)) (e : ℕ) : (X j : S) ^ e ∈ 𝒜 e :=
-  (mem_homogeneousSubmodule e _).mpr (isHomogeneous_pow_of_isHomogeneous_one (isHomogeneous_X k j) e)
+  (mem_homogeneousSubmodule e _).mpr
+    (isHomogeneous_pow_of_isHomogeneous_one (isHomogeneous_X k j) e)
 
 /-- The multiplicity `μ_y(F)` of `S / (𝔭 + F)` at the homogeneous prime of `y`, `𝔭` the prime
 of `V`. -/
-private noncomputable def hypersurfaceMult {V : Scheme.{u}} [IsIntegral V] (i : V ⟶ Proj 𝒜) [IsClosedImmersion i]
+private noncomputable def hypersurfaceMult {V : Scheme.{u}} [IsIntegral V]
+    (i : V ⟶ Proj 𝒜) [IsClosedImmersion i]
     (F : S) (y : V) : ℕ :=
   (gradedMultiplicity S (S ⧸ ((i (genericPoint V)).asHomogeneousIdeal.toIdeal ⊔ Ideal.span {F}))
     ⟨(i y).asHomogeneousIdeal.toIdeal, (i y).isPrime⟩).toNat
@@ -61,14 +64,16 @@ private theorem gradedMultiplicity_quotient_eq_zero {A : Type u} [CommRing A] {I
   exact Ideal.eq_top_of_isUnit_mem _ (Ideal.mem_map_of_mem _ hsI)
     (IsLocalization.map_units _ (⟨s, hs⟩ : 𝔮.asIdeal.primeCompl))
 
-private theorem hypersurfaceMult_eq_zero {V : Scheme.{u}} [IsIntegral V] (i : V ⟶ Proj 𝒜) [IsClosedImmersion i]
+private theorem hypersurfaceMult_eq_zero {V : Scheme.{u}} [IsIntegral V]
+    (i : V ⟶ Proj 𝒜) [IsClosedImmersion i]
     {F : S} {y : V}
     (hF : F ∉ (i y).asHomogeneousIdeal) : hypersurfaceMult i F y = 0 := by
   rw [hypersurfaceMult, gradedMultiplicity_quotient_eq_zero
     (Ideal.mem_sup_right (Ideal.mem_span_singleton_self F)) hF]
   rfl
 
-private theorem functionFieldQuot_ne_zero {V : Scheme.{u}} [IsIntegral V] (i : V ⟶ Proj 𝒜) [IsClosedImmersion i]
+private theorem functionFieldQuot_ne_zero {V : Scheme.{u}} [IsIntegral V]
+    (i : V ⟶ Proj 𝒜) [IsClosedImmersion i]
     {d : ℕ} {F G : S} (hF : F ∈ 𝒜 d) (hG : G ∈ 𝒜 d)
     (hGv : G ∉ (i (genericPoint V)).asHomogeneousIdeal)
     (hFv : F ∉ (i (genericPoint V)).asHomogeneousIdeal) :
@@ -76,7 +81,8 @@ private theorem functionFieldQuot_ne_zero {V : Scheme.{u}} [IsIntegral V] (i : V
   hFv ((stalkMap_stalkQuot_eq_zero_iff i (genericPoint V) hF hG hGv).mp h)
 
 /-- Multiplicities are additive: `μ_y(F₁ F₂) = μ_y(F₁) + μ_y(F₂)` at codimension-one points. -/
-private theorem hypersurfaceMult_mul {V : Scheme.{u}} [IsIntegral V] (i : V ⟶ Proj 𝒜) [IsClosedImmersion i] [IsLocallyNoetherian V]
+private theorem hypersurfaceMult_mul {V : Scheme.{u}} [IsIntegral V]
+    (i : V ⟶ Proj 𝒜) [IsClosedImmersion i] [IsLocallyNoetherian V]
     {y : V} (hy : coheight y = 1) {e₁ e₂ : ℕ} {F₁ F₂ : S}
     (hF₁ : F₁ ∈ 𝒜 e₁) (hF₂ : F₂ ∈ 𝒜 e₂) (hF₁v : F₁ ∉ (i (genericPoint V)).asHomogeneousIdeal)
     (hF₂v : F₂ ∉ (i (genericPoint V)).asHomogeneousIdeal) :
@@ -102,7 +108,8 @@ private theorem hypersurfaceMult_mul {V : Scheme.{u}} [IsIntegral V] (i : V ⟶ 
   exact_mod_cast h₁₂.symm
 
 /-- The order of `F / G` at a codimension-one point is `μ_y(F) - μ_y(G)`. -/
-private theorem ord_functionFieldQuot_eq_sub {V : Scheme.{u}} [IsIntegral V] (i : V ⟶ Proj 𝒜) [IsClosedImmersion i] [IsLocallyNoetherian V]
+private theorem ord_functionFieldQuot_eq_sub {V : Scheme.{u}} [IsIntegral V]
+    (i : V ⟶ Proj 𝒜) [IsClosedImmersion i] [IsLocallyNoetherian V]
     {y : V} (hy : coheight y = 1) {d : ℕ} {F G : S}
     (hF : F ∈ 𝒜 d) (hG : G ∈ 𝒜 d) (hGv : G ∉ (i (genericPoint V)).asHomogeneousIdeal)
     (hFv : F ∉ (i (genericPoint V)).asHomogeneousIdeal) :
@@ -122,7 +129,8 @@ private theorem ord_functionFieldQuot_eq_sub {V : Scheme.{u}} [IsIntegral V] (i 
   rfl
 
 /-- Every rational function on `V` is a quotient `F / G` of forms of the same degree. -/
-private theorem exists_eq_functionFieldQuot {V : Scheme.{u}} [IsIntegral V] (i : V ⟶ Proj 𝒜) [IsClosedImmersion i]
+private theorem exists_eq_functionFieldQuot {V : Scheme.{u}} [IsIntegral V]
+    (i : V ⟶ Proj 𝒜) [IsClosedImmersion i]
     (g : V.functionField) :
     ∃ (d : ℕ) (F G : S) (hF : F ∈ 𝒜 d) (hG : G ∈ 𝒜 d)
       (hGv : G ∉ (i (genericPoint V)).asHomogeneousIdeal), g = functionFieldQuot i hF hG hGv := by
@@ -133,7 +141,8 @@ private theorem exists_eq_functionFieldQuot {V : Scheme.{u}} [IsIntegral V] (i :
   rw [hf, Iso.hom_inv_id_apply]
 
 /-- Finitely many codimension-one points of `V` lie on the hypersurface `F = 0`. -/
-private theorem finite_coheight_eq_one_mem {V : Scheme.{u}} [IsIntegral V] (i : V ⟶ Proj 𝒜) [IsClosedImmersion i]
+private theorem finite_coheight_eq_one_mem {V : Scheme.{u}} [IsIntegral V]
+    (i : V ⟶ Proj 𝒜) [IsClosedImmersion i]
     {e : ℕ} {F : S} (hF : F.IsHomogeneous e)
     (hFv : F ∉ (i (genericPoint V)).asHomogeneousIdeal) :
     {y : V | coheight y = 1 ∧ F ∈ (i y).asHomogeneousIdeal}.Finite := by

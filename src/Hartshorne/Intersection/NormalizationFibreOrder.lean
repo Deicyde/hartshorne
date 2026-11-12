@@ -13,7 +13,13 @@ Let `D` be a Noetherian domain whose integral closure `O` in its fraction field 
 `D`-module, and `Q` a prime of `D` of height one. For every nonzero rational function `g` on
 `Spec D`, `∑_{𝔔 ∩ D = Q} ord_𝔔(g) [κ(𝔔) : κ(Q)] = ord_Q(g)`
 (`fibreOrdFormula_specMap_integralClosure`): the fibre order formula holds for
-`Spec O ⟶ Spec D` at `Q`.
+`Spec O ⟶ Spec D` at `Q`. The inputs are the length formula for orders through the
+normalization and the identification of orders and residue degrees on `Spec`.
+
+For an integral scheme `V` of finite type over a field, the normalization `ν : Ṽ ⟶ V` is covered
+by affine charts of this shape. Hence the fibre order formula holds for `ν` at every point of
+codimension one (`fibreOrdFormula_absoluteNormalizationMap`), and `ν` induces an isomorphism of
+function fields (`genericFunctionFieldMap_absoluteNormalizationMap_bijective`).
 -/
 
 universe u
@@ -253,7 +259,8 @@ private theorem exists_chart_absoluteNormalization {k : Type u} [Field k] {V : S
   let O := integralClosure R (FractionRing R)
   let j : R →+* O := algebraMap R O
   have hj : Function.Injective j := closureHom_injective R
-  have : IsIntegrallyClosed O := integralClosure.isIntegrallyClosedOfFiniteExtension (FractionRing R)
+  have : IsIntegrallyClosed O :=
+    integralClosure.isIntegrallyClosedOfFiniteExtension (FractionRing R)
   obtain ⟨e, he, heν⟩ := exists_isIso_absoluteNormalization_spec (D := R) (O := O) j hj
     (fun a ↦ integralClosure.isIntegral a) (fun a ↦ birational_closureHom (D := R) a)
   have : IsOpenImmersion hW.fromSpec := IsAffineOpen.isOpenImmersion_fromSpec hW
