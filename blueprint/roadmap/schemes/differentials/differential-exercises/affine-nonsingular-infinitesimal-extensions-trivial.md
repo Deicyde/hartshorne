@@ -21,6 +21,7 @@ $\mathcal{O}_X\oplus F$ with square-zero multiplication on $F$.
 
 - Apply the affine lifting theorem to split the quotient of global section
   rings and sheafify the resulting square-zero algebra isomorphism.
+- [Affineness is invariant under reduction](../../../cohomology/cohomology-exercises/reduction-affine-iff.md)
 
 ## Sources
 
