@@ -20,6 +20,7 @@ $\mathcal{O}(1) \otimes \pi ^* L^n$ is very ample relative to $X$.
 
 - [A graded quotient induces a closed immersion of Proj](../../normalization-and-exercises/proj-surjection-closed-immersion.md)
 - Finite global generation of $S_1 \otimes L^n$.
+- [Relative Proj is proper](relative-proj-proper.md)
 
 ## Sources
 
