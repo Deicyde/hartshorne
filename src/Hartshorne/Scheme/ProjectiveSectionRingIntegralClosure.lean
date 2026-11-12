@@ -483,6 +483,53 @@ theorem exists_mem_eq_pow_mul_sectionToFraction {f : A} (f_deg : f ∈ 𝒜 1) (
     simp only [map_pow] at this ⊢
     field_simp
 
+variable {𝒜} in
+/-- **Gluing a section of `𝒪_X(n)` from charts.** Let `fᵢ ∈ S₁` be such that the `D₊(fᵢ)` cover
+`Proj S`. If `z ∈ K` is, on every chart, a fraction `a / fᵢ^{j}` with `a ∈ S_{j + n}`, then `z` is
+the image of a global section of `𝒪_X(n)`. -/
+theorem exists_sectionToFraction_eq {ι : Type*} (f : ι → A) (hf : ∀ i, f i ∈ 𝒜 1)
+    (hcover : ∀ x : Proj 𝒜, ∃ i, f i ∉ x.asHomogeneousIdeal)
+    (h : ¬HomogeneousIdeal.irrelevant 𝒜 ≤ ⊥) (n : ℕ) (z : FractionRing A)
+    (hz : ∀ i, f i ≠ 0 → ∃ (j : ℕ) (a : A), a ∈ 𝒜 (j + n) ∧
+      algebraMap A (FractionRing A) a = algebraMap A (FractionRing A) (f i) ^ j * z) :
+    ∃ t : twistGlobal (𝟙_ (Proj 𝒜).Modules) (n : ℤ), sectionToFraction 𝒜 n t = z := by
+  classical
+  choose ix hix using hcover
+  have hne : ∀ x : Proj 𝒜, f (ix x) ≠ 0 := fun x h0 => hix x (h0 ▸ zero_mem _)
+  choose jx ax hax hzx using fun x => hz _ (hne x)
+  have hmem : ∀ x : Proj 𝒜, ax x ∈ gradedTwist 𝒜 (n : ℤ) (jx x : ℕ) := fun x =>
+    (mem_gradedTwist_of_eq (by push_cast; ring)).2 (hax x)
+  have hpow : ∀ x : Proj 𝒜, f (ix x) ^ jx x ∈ 𝒜 (jx x) := fun x =>
+    by simpa using SetLike.pow_mem_graded (jx x) (hf (ix x))
+  have hnot : ∀ (x y : Proj 𝒜), f (ix x) ∉ y.asHomogeneousIdeal →
+      f (ix x) ^ jx x ∈ y.asHomogeneousIdeal.toIdeal.primeCompl := fun x y hy hp =>
+    hy (y.isPrime.mem_of_pow_mem _ hp)
+  have hfrac : ∀ (x y : Proj 𝒜) (hy : f (ix x) ∉ y.asHomogeneousIdeal),
+      toFraction y (HomogeneousLocalizedModule.mk (jx x) (ax x) (hmem x) (f (ix x) ^ jx x)
+        (hpow x) (hnot x y hy)).val = z := by
+    intro x y hy
+    rw [HomogeneousLocalizedModule.val_mk, toFraction_mk]
+    have h0 := (map_ne_zero_iff _ (IsFractionRing.injective A (FractionRing A))).2
+      (pow_ne_zero (jx x) (hne x))
+    rw [div_eq_iff h0, hzx x, map_pow, mul_comm]
+  let val : ∀ x : (⊤ : Opens (ProjectiveSpectrum.top 𝒜)),
+      HomogeneousLocalizedModule 𝒜 (gradedTwist 𝒜 n) x.1.asHomogeneousIdeal.toIdeal.primeCompl :=
+    fun x => HomogeneousLocalizedModule.mk (jx x.1) (ax x.1) (hmem x.1) (f (ix x.1) ^ jx x.1)
+      (hpow x.1) (hnot x.1 x.1 (hix x.1))
+  have hval : ∀ x : (⊤ : Opens (ProjectiveSpectrum.top 𝒜)), toFraction x.1 (val x).val = z :=
+    fun x => hfrac x.1 x.1 (hix x.1)
+  let g : (sheafInType 𝒜 (gradedTwist 𝒜 n)).1.obj (op ⊤) := ⟨val, fun x =>
+    ⟨ProjectiveSpectrum.basicOpen 𝒜 (f (ix x.1)), hix x.1, homOfLE le_top, jx x.1, ax x.1,
+      hmem x.1, f (ix x.1) ^ jx x.1, hpow x.1, fun y => hnot x.1 y.1 y.2, fun y =>
+        HomogeneousLocalizedModule.val_injective (toFraction_injective y.1
+          ((hval ⟨y.1, trivial⟩).trans (hfrac x.1 y.1 y.2).symm))⟩⟩
+  obtain ⟨t, ht⟩ := (unitorGlobal_bijective (𝒜 := 𝒜) (n : ℤ)).2 g
+  refine ⟨t, ?_⟩
+  rw [sectionToFraction_apply h _ _ (genericPoint h)]
+  unfold sectionValue
+  rw [ht]
+  exact hval ⟨genericPoint h, trivial⟩
+
 end Fraction
 
 /-! ## Closed subschemes of `ℙʳ_k` -/
