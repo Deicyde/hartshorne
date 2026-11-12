@@ -149,7 +149,7 @@ section Order
 open GradedLocalizationLength
 
 /-- A fraction `a / s` in the homogeneous localization at `𝔭` is a unit exactly when `a ∉ 𝔭`. -/
-theorem isUnit_mk_iff (𝔭 : Ideal A) [𝔭.IsPrime]
+private theorem isUnit_mk_iff (𝔭 : Ideal A) [𝔭.IsPrime]
     (f : HomogeneousLocalization.NumDenSameDeg 𝒜 𝔭.primeCompl) :
     IsUnit (HomogeneousLocalization.mk f : HomogeneousLocalization.AtPrime 𝒜 𝔭) ↔
       (f.num : A) ∉ 𝔭 := by
@@ -261,7 +261,8 @@ theorem ord_functionFieldQuot_pow [IsDomain A] [IsLocallyNoetherian V] {y : V}
       · rw [Ideal.span_le]
         rintro _ rfl
         rw [SetLike.mem_coe, Ideal.mem_comap, HomogeneousLocalization.algebraMap_apply,
-          show a0 = HomogeneousLocalization.mk ⟨e, ⟨F, hF⟩, ⟨L ^ e, hLe⟩, hLex⟩ from rfl, val_mk, Localization.mk_eq_mk', IsLocalization.mk'_eq_mul_mk'_one]
+          show a0 = HomogeneousLocalization.mk ⟨e, ⟨F, hF⟩, ⟨L ^ e, hLe⟩, hLex⟩ from rfl, val_mk,
+          Localization.mk_eq_mk', IsLocalization.mk'_eq_mul_mk'_one]
         exact Ideal.mul_mem_right _ _
           (Ideal.mem_map_of_mem _ (Ideal.mem_sup_right (Ideal.mem_span_singleton_self F)))
     · rw [Ideal.map_le_iff_le_comap]

@@ -17,14 +17,13 @@ the generic point, and `y ∈ V`. We say that the *fibre order formula* holds at
 orders of vanishing. The formula is transported along open immersions
 (`FibreOrdFormula.of_isOpenImmersion`).
 
-For a Noetherian domain `D` whose integral closure `O` in its fraction field is finite over `D`,
-the formula holds for `Spec O ⟶ Spec D` at every point of codimension one
-(`fibreOrdFormula_specMap_integralClosure`): this is the length formula for orders through the
-normalization, in the form `Hartshorne.NormalizationLocalOrder.length_quotient_eq_finsum_primesOver`.
-Covering a variety by affine opens, the formula holds for the normalization of any integral
-scheme of finite type over a field at every point of codimension one
-(`fibreOrdFormula_absoluteNormalizationMap`). Equivalently, the pushforward along the
-normalization of the principal divisor of `g` has coefficient `ord_y(g)` at `y`.
+On `Spec`, orders of elements are lengths over the localization (`Spec.ord_algebraMap`), stalk
+maps of `Spec S ⟶ Spec R` are the induced local homomorphisms (`Spec.stalkIso_hom_stalkMap`,
+`Spec.stalkMap_algebraMap`), and residue degrees are inertia degrees
+(`Spec.residueDegree_map_eq_inertiaDeg`). Together with the length formula for orders through the
+normalization in the form `Hartshorne.NormalizationLocalOrder.length_quotient_eq_finsum_primesOver`,
+these are the inputs for the fibre order formula for `Spec O ⟶ Spec D`, `O` the integral closure
+of a Noetherian domain `D`.
 -/
 
 universe u
@@ -37,7 +36,7 @@ section General
 
 /-- The order of vanishing of the image of a nonzero element of a codimension-one stalk is the
 length of the quotient of the stalk by it. -/
-theorem Scheme.ord_algebraMap_stalk {X : Scheme.{u}} [IsIntegral X] [IsLocallyNoetherian X]
+private theorem Scheme.ord_algebraMap_stalk {X : Scheme.{u}} [IsIntegral X] [IsLocallyNoetherian X]
     {x : X} (hx : coheight x = 1) {s : X.presheaf.stalk x} (hs : s ≠ 0) :
     X.ord (algebraMap _ X.functionField s) x = (Ring.ord (X.presheaf.stalk x) s).toNat := by
   have : Ring.KrullDimLE 1 (X.presheaf.stalk x) := krullDimLE_of_coheight_le hx.le
@@ -201,6 +200,31 @@ theorem Spec.residueDegree_map_eq_inertiaDeg {D O : Type u} [CommRing D] [CommRi
     Spec.stalkIso_hom_stalkMap j 𝔔 s
   rw [show i1 ((Spec (.of D)).residue x s) = _ from h1, h2, show i2 _ = _ from h3, h4]
   rfl
+
+/-- The stalk map of `Spec S ⟶ Spec R` sends the image of `r ∈ R` to the image of `f(r)`. -/
+theorem Spec.stalkMap_algebraMap {R S : CommRingCat.{u}} (f : R ⟶ S) (q : Spec S) (r : R) :
+    (Spec.map f).stalkMap q (algebraMap R ((Spec R).presheaf.stalk (Spec.map f q)) r) =
+      algebraMap S ((Spec S).presheaf.stalk q) (f r) := by
+  apply (ConcreteCategory.bijective_of_isIso (Spec.stalkIso S q).hom).1
+  have e1 : algebraMap R ((Spec R).presheaf.stalk (Spec.map f q)) r =
+      (Spec.stalkIso R (PrimeSpectrum.comap f.hom q)).inv
+        (algebraMap R (Localization.AtPrime (PrimeSpectrum.comap f.hom q).asIdeal) r) :=
+    Spec.algebraMap_stalk_eq_stalkIso_inv R _ r
+  have e2 := Spec.algebraMap_stalk_eq_stalkIso_inv S q (f r)
+  refine (Spec.stalkIso_hom_stalkMap f q _).trans ?_
+  calc _ = Localization.localRingHom (PrimeSpectrum.comap f.hom q).asIdeal q.asIdeal f.hom rfl
+        (algebraMap R _ r) :=
+        congrArg _ ((congrArg _ e1).trans (Iso.inv_hom_id_apply _ _))
+    _ = algebraMap S (Localization.AtPrime q.asIdeal) (f.hom r) :=
+        Localization.localRingHom_to_map _ _ _ _ _
+    _ = _ := ((congrArg _ e2).trans (Iso.inv_hom_id_apply _ _)).symm
+
+/-- Orders of quotients: `ord(f / g) = ord f - ord g` for nonzero `f, g`. -/
+theorem Scheme.ord_div {X : Scheme.{u}} [IsIntegral X] [IsLocallyNoetherian X]
+    {f g : X.functionField} (hf : f ≠ 0) (hg : g ≠ 0) (x : X) : X.ord (f / g) x = X.ord f x - X.ord g x := by
+  have h := Scheme.ord_mul (x := x) (div_ne_zero hf hg) hg
+  rw [div_mul_cancel₀ f hg] at h
+  omega
 
 end Spec
 
