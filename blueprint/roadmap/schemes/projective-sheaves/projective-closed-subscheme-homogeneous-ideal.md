@@ -3,6 +3,8 @@ article_id: af_511d6546eb658c67f5a07753
 declaration: theorem
 origin: cited
 lean: Hartshorne.ProjectiveClosedSubscheme.exists_iso_projQuotientι_gammaStarIdeal Hartshorne.ProjectiveClosedSubscheme.ker_projQuotientι_gammaStarIdeal_eq_ker Hartshorne.ProjectiveClosedSubscheme.ker_projQuotientι_gammaStarIdeal Hartshorne.ProjectiveClosedSubscheme.gammaStarIdeal Hartshorne.ProjectiveClosedSubscheme.mem_gammaStarIdeal_iff Hartshorne.ProjectiveClosedSubscheme.gammaStarLinear Hartshorne.ProjectiveClosedSubscheme.gammaStarMap Hartshorne.ProjectiveClosedSubscheme.idealι
+statement: formalized
+proof: formalized
 ---
 
 # Homogeneous ideals define projective closed subschemes
