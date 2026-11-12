@@ -77,7 +77,8 @@ def pushforwardCohomologyIso (G : Z.Modules) (n : ℕ) :
         ((rangeIso i).hom ≫ closedSubspaceInclusion X.toTopCat S)).obj F)
     rw [← base_eq]
     rfl
-  exact eqToIso e₁ ≪≫ (closedPushforwardCohomologyIso S i.isClosedEmbedding.isClosed_range _ n).symm ≪≫
+  exact eqToIso e₁ ≪≫
+    (closedPushforwardCohomologyIso S i.isClosedEmbedding.isClosed_range _ n).symm ≪≫
     sheafCohomologyPushforwardIsoOfIso (rangeIso i) F n
 
 /-- For a closed immersion `i : Z ⟶ X` with `Z` affine and Noetherian and a quasi-coherent
