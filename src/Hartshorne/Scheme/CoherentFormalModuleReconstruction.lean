@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.CoherentFormalModule
 import Hartshorne.Scheme.PowersOfIdealOfDefinition
+import Hartshorne.Scheme.AffineFormalModuleExact
 
 /-!
 # Reconstruction of a coherent formal module from its infinitesimal reductions
@@ -47,6 +48,23 @@ Modules killed by an ideal subsheaf (`IdealSubsheaf.Annihilates J M`: `J(V) M(V)
   killed by an ideal of definition `J`, the unit `Q ⟶ i_* i^* Q` along `𝒪_X ⟶ 𝒪_X / J` is an
   isomorphism. The pushforward along `𝒪_X ⟶ 𝒪_X / J` is fully faithful, since that map is locally
   surjective, and `Q` is the pushforward of `IsIdealOfDefinition.quotientModule h hQ`.
+
+The chart computation. Let `X` be a locally Noetherian scheme, `I` a quasi-coherent ideal subsheaf,
+`X̂` the formal completion along `I`, `J = ker (𝒪_{X̂} ⟶ 𝒪_Y)`
+(`QuasicoherentIdealSubsheaf.formalCompletionIdealSubsheaf I`) and `F` a quasi-coherent
+`𝒪_X`-module, with completion `F̂ = lim_n (F / I ^ (n + 1) F)|_Y`:
+
+* `Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionPowShortComplex_exact`: the kernel of
+  `F̂ ⟶ (F / I ^ (n + 1) F)|_Y` is `J ^ (n + 1) F̂`; the projection is an epimorphism
+  (`epi_moduleCompletionπ'`). Over an affine open `U` of `X` this is
+  `mem_sectionsSmul_of_moduleCompletionπ_eq_zero`: a compatible sequence of sections of `F` over
+  `U` whose `n`-th term lies in `I(U) ^ (n + 1) Γ(U, F)` is rewritten, using finitely many
+  generators `fᵢ` of `I(U) ^ (n + 1)`, as `∑ fᵢ yᵢ` with `yᵢ` sections of `F̂`.
+* `Hartshorne.QuasicoherentIdealSubsheaf.powQuotientModuleCompletionIso`:
+  `F̂ / J ^ (n + 1) F̂ ≅ (F / I ^ (n + 1) F)|_Y`, compatibly with the transition maps
+  (`powQuotientMap_powQuotientModuleCompletionIso_hom`).
+* `Hartshorne.QuasicoherentIdealSubsheaf.isIso_toLimitPowQuotient_moduleCompletion`: `F̂` is
+  complete for `J`, that is `F̂ ⟶ lim_n F̂ / J ^ (n + 1) F̂` is an isomorphism.
 -/
 
 noncomputable section
@@ -662,6 +680,398 @@ theorem annihilates_cokernel_smulι : J.Annihilates (cokernel (J.smulι M)) := b
 end Annihilates
 
 end IdealSubsheaf
+
+/-! ### The completion of a module is complete for `J`
+
+Let `I` be a quasi-coherent ideal subsheaf of `𝒪_X`, `X` locally Noetherian, and `J` the ideal
+subsheaf `ker (𝒪_{X̂} ⟶ 𝒪_Y)` of the structure sheaf of the formal completion `X̂` along `I`.
+For a quasi-coherent `𝒪_X`-module `F`, the kernel of `F̂ ⟶ (F / I ^ (n + 1) F)|_Y` is
+`J ^ (n + 1) F̂`, so `F̂ / J ^ (n + 1) F̂ ≅ (F / I ^ (n + 1) F)|_Y`, and `F̂` is the limit of the
+`F̂ / J ^ (n + 1) F̂`. -/
+
+namespace QuasicoherentIdealSubsheaf
+
+variable {X : Scheme.{u}} (I : QuasicoherentIdealSubsheaf X)
+
+/-- The ideal subsheaf `J = ker (𝒪_{X̂} ⟶ 𝒪_Y)` of the structure sheaf of the formal completion. -/
+def formalCompletionIdealSubsheaf : IdealSubsheaf I.formalCompletionSheaf :=
+  IdealSubsheaf.ofIdeals _ I.formalCompletionIdeal (fun h => I.formalCompletionIdeal_le_comap h)
+    (fun s hs => I.mem_formalCompletionIdeal_of_locally s hs)
+
+lemma formalCompletionIdealSubsheaf_pow_ideal (k : ℕ) (V : Opens (I.infinitesimalNeighborhood 1)) :
+    (I.formalCompletionIdealSubsheaf ^ k).ideal V = I.formalCompletionIdealPow k V :=
+  rfl
+
+
+variable (G : X.Modules)
+
+/-- The completion `F̂`, as a module over `𝒪_{X̂}` in the form used for ideal subsheaves. -/
+abbrev moduleCompletion' : SheafOfModules.{u} (ringCatSheafOf I.formalCompletionSheaf) :=
+  I.moduleCompletion G
+
+/-- `(F / I ^ (n + 1) F)|_Y`, as a module over `𝒪_{X̂}` in the form used for ideal subsheaves. -/
+abbrev moduleCompletionObj' (n : ℕ) : SheafOfModules.{u} (ringCatSheafOf I.formalCompletionSheaf) :=
+  I.moduleCompletionObj G n
+
+/-- The projection `F̂ ⟶ (F / I ^ (n + 1) F)|_Y`. -/
+abbrev moduleCompletionπ' (n : ℕ) : I.moduleCompletion' G ⟶ I.moduleCompletionObj' G n :=
+  I.moduleCompletionπ G n
+
+/-- `J ^ (n + 1)` maps `F̂` to zero in `(F / I ^ (n + 1) F)|_Y`. -/
+lemma smulι_moduleCompletionπ [IsLocallyNoetherian X] (n : ℕ) :
+    (I.formalCompletionIdealSubsheaf ^ (n + 1)).smulι (I.moduleCompletion' G) ≫
+      I.moduleCompletionπ' G n = 0 := by
+  refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun V => ?_)
+  ext ⟨s, hs⟩
+  change (I.moduleCompletionπ' G n).val.app V s = 0
+  -- the image of `a • y`, `a ∈ J ^ (n + 1)`, vanishes
+  have key : ∀ (W : Opens (I.infinitesimalNeighborhood 1))
+      (t : (I.moduleCompletion' G).val.obj (op W)),
+      t ∈ (I.formalCompletionIdealSubsheaf ^ (n + 1)).sectionsSmul (I.moduleCompletion' G) W →
+        (I.moduleCompletionπ' G n).val.app (op W) t = 0 := by
+    intro W t ht
+    refine Submodule.smul_induction_on ht (fun a ha y _ => ?_) (fun y z hy hz => ?_)
+    · rw [map_smul]
+      have h0 : (I.formalCompletionπ n).hom.app (op W) a = 0 :=
+        (I.mem_formalCompletionIdealPow_iff n W a).mp ha
+      have h1 : (I.formalCompletionRingCatSheafπ n).hom.app (op W) a = 0 := h0
+      change (show (I.infinitesimalNeighborhood (n + 1)).ringCatSheaf.obj.obj
+          (op ((I.isOpenEmbedding_infinitesimalNeighborhoodFromOne n).functor.obj W)) from
+          (I.formalCompletionRingCatSheafπ n).hom.app (op W) a) •
+        (show (I.moduleCompletionNeighborhood G n).val.obj
+          (op ((I.isOpenEmbedding_infinitesimalNeighborhoodFromOne n).functor.obj W)) from
+          (I.moduleCompletionπ' G n).val.app (op W) y) = 0
+      rw [show (show (I.infinitesimalNeighborhood (n + 1)).ringCatSheaf.obj.obj
+          (op ((I.isOpenEmbedding_infinitesimalNeighborhoodFromOne n).functor.obj W)) from
+          (I.formalCompletionRingCatSheafπ n).hom.app (op W) a) = 0 from h1, zero_smul]
+    · rw [map_add, hy, hz, add_zero]
+  refine IdealSubsheaf.eq_zero_of_locally _ fun x hx => ?_
+  obtain ⟨W, hWV, hxW, hsW⟩ := hs x hx
+  refine ⟨W, hWV, hxW, ?_⟩
+  exact (PresheafOfModules.naturality_apply (I.moduleCompletionπ' G n).val (homOfLE hWV).op
+    s).symm.trans (key W _ hsW)
+
+
+/-- An element of `span {f i} • N` is a combination `∑ f i • c i` with `c i ∈ N`. -/
+private lemma exists_sum_of_mem_span_smul {A M : Type*} [CommRing A] [AddCommGroup M] [Module A M]
+    {r : ℕ} (f : Fin r → A) (N : Submodule A M) {m : M}
+    (hm : m ∈ Submodule.span A (Set.range f) • N) :
+    ∃ c : Fin r → M, (∀ i, c i ∈ N) ∧ m = ∑ i, f i • c i := by
+  refine Submodule.smul_induction_on hm (fun a ha y hy => ?_) (fun y z hy hz => ?_)
+  · obtain ⟨b, rfl⟩ := (Submodule.mem_span_range_iff_exists_fun _).mp ha
+    refine ⟨fun i => b i • y, fun i => N.smul_mem _ hy, ?_⟩
+    rw [Finset.sum_smul]
+    exact Finset.sum_congr rfl fun i _ => by rw [smul_smul, smul_eq_mul, mul_comm]
+  · obtain ⟨c, hc, rfl⟩ := hy
+    obtain ⟨d, hd, rfl⟩ := hz
+    exact ⟨c + d, fun i => N.add_mem (hc i) (hd i), by
+      simp only [Pi.add_apply, smul_add, Finset.sum_add_distrib]⟩
+
+/-- The canonical map `𝒪_X ⟶ i_* 𝒪_{X̂_Y}` of sheaves of commutative rings. -/
+private def toFormalCompletionSheaf :
+    X.sheaf ⟶ ((Opens.map (I.infinitesimalNeighborhoodι 1).base).sheafPushforwardContinuous
+      CommRingCat.{u} _ _).obj I.formalCompletionSheaf where
+  hom :=
+    { app U := I.formalCompletionSectionsMap U.unop
+      naturality _ _ f := (I.formalCompletionSectionsMap_naturality (leOfHom f.unop)).symm }
+
+/-- The canonical map `𝒪_X ⟶ i_* 𝒪_{X̂_Y}` of sheaves of rings in `RingCat`. -/
+private def toFormalCompletionRingCatSheaf :
+    X.ringCatSheaf ⟶ ((Opens.map (I.infinitesimalNeighborhoodι 1).base).sheafPushforwardContinuous
+      RingCat.{u} _ _).obj I.formalCompletionRingCatSheaf where
+  hom := Functor.whiskerRight I.toFormalCompletionSheaf.hom (forget₂ CommRingCat RingCat.{u})
+
+private lemma toFormalCompletionRingCatSheaf_compat (n : ℕ) (V : X.Opensᵒᵖ)
+    (r : X.ringCatSheaf.obj.obj V) :
+    (I.infinitesimalNeighborhood (n + 1)).ringCatSheaf.obj.map
+        ((I.functorToPreimageInfinitesimalNeighborhoodι n).app V.unop).op
+        ((I.infinitesimalNeighborhoodι (n + 1)).toRingCatSheafHom.hom.app V r) =
+      (I.formalCompletionRingCatSheafπ n).hom.app
+        (op ((Opens.map (I.infinitesimalNeighborhoodι 1).base).obj V.unop))
+        (I.toFormalCompletionRingCatSheaf.hom.app V r) :=
+  (congrArg (fun g => g.hom r) (I.formalCompletionSectionsMap_π V.unop n)).symm
+
+/-- `𝒪_X(U) ⟶ 𝒪_{X̂}(U ∩ |Y|)` carries `I(U)` into `J(U ∩ |Y|)`, for `U` affine. -/
+private lemma toFormalCompletionRingCatSheaf_mem (U : X.affineOpens) {a : Γ(X, (U : X.Opens))}
+    (ha : a ∈ I.ideal U) :
+    I.toFormalCompletionRingCatSheaf.hom.app (op (U : X.Opens)) a ∈
+      I.formalCompletionIdeal ((Opens.map (I.infinitesimalNeighborhoodι 1).base).obj U) := by
+  have hk : RingHom.ker ((I.infinitesimalNeighborhoodι (0 + 1)).app U).hom = I.ideal U ^ (0 + 1) :=
+    (Scheme.IdealSheafData.ker_subschemeι_app _ U).trans (I.ideal_pow (0 + 1) U)
+  have hker : (I.infinitesimalNeighborhoodι (0 + 1)).app U a = 0 := by
+    have : a ∈ RingHom.ker ((I.infinitesimalNeighborhoodι (0 + 1)).app U).hom := by
+      rw [hk, _root_.pow_one]
+      exact ha
+    exact this
+  have h := I.toFormalCompletionRingCatSheaf_compat 0 (op (U : X.Opens)) a
+  have h0 : (I.infinitesimalNeighborhood (0 + 1)).ringCatSheaf.obj.map
+      ((I.functorToPreimageInfinitesimalNeighborhoodι 0).app U).op
+      ((I.infinitesimalNeighborhoodι (0 + 1)).toRingCatSheafHom.hom.app (op U) a) = 0 := by
+    change (I.infinitesimalNeighborhood (0 + 1)).ringCatSheaf.obj.map _
+      ((I.infinitesimalNeighborhoodι (0 + 1)).app U a) = 0
+    rw [hker]
+    exact map_zero _
+  exact (I.mem_formalCompletionIdeal_iff _ _).mpr (h.symm.trans h0)
+
+
+open Scheme.Modules in
+/-- **The kernel of `F̂ ⟶ (F / I ^ (n + 1) F)|_Y` is `J ^ (n + 1) F̂`, over an affine open.** For
+`X` locally Noetherian, `F` quasi-coherent and `U` affine, a section of `F̂` over `U ∩ |Y|` with
+vanishing image in `(F / I ^ (n + 1) F)|_Y` lies in `J(U ∩ |Y|) ^ (n + 1) F̂(U ∩ |Y|)`. -/
+theorem mem_sectionsSmul_of_moduleCompletionπ_eq_zero [IsLocallyNoetherian X] [G.IsQuasicoherent]
+    (n : ℕ) (U : X.affineOpens)
+    (x : ((SheafOfModules.pushforward.{u} I.toFormalCompletionRingCatSheaf).obj
+      (I.moduleCompletion G)).val.obj (op (U : X.Opens)))
+    (hx : ((SheafOfModules.pushforward.{u} I.toFormalCompletionRingCatSheaf).map
+      (I.moduleCompletionπ G n)).val.app (op (U : X.Opens)) x = 0) :
+    (show (I.moduleCompletion' G).val.obj
+      (op ((Opens.map (I.infinitesimalNeighborhoodι 1).base).obj U)) from x) ∈
+      (I.formalCompletionIdealSubsheaf ^ (n + 1)).sectionsSmul (I.moduleCompletion' G)
+        ((Opens.map (I.infinitesimalNeighborhoodι 1).base).obj U) := by
+  have hχ := I.toFormalCompletionRingCatSheaf_compat
+  -- lifts of the components of `x`
+  choose s hs using fun k => I.moduleCompletionSectionsMap_surjective G k U
+    (((SheafOfModules.pushforward.{u} I.toFormalCompletionRingCatSheaf).map
+      (I.moduleCompletionπ G k)).val.app (op (U : X.Opens)) x)
+  have hs' : ∀ k, (I.moduleCompletionLevelMap I.toFormalCompletionRingCatSheaf hχ G k).val.app
+      (op (U : X.Opens)) (s k) =
+      ((SheafOfModules.pushforward.{u} I.toFormalCompletionRingCatSheaf).map
+        (I.moduleCompletionπ G k)).val.app (op (U : X.Opens)) x := fun k =>
+    (I.moduleCompletionLevelMap_val_app I.toFormalCompletionRingCatSheaf hχ G k U (s k)).trans
+      (hs k)
+  have hker : ∀ (k : ℕ) (t : Γ(G, (U : X.Opens))),
+      (I.moduleCompletionLevelMap I.toFormalCompletionRingCatSheaf hχ G k).val.app
+        (op (U : X.Opens)) t = 0 ↔
+      t ∈ I.ideal U ^ (k + 1) • (⊤ : Submodule Γ(X, (U : X.Opens)) Γ(G, (U : X.Opens))) :=
+    fun k t => I.moduleCompletionSectionsMap_eq_zero_iff G k U t
+  have hxs := fun k => I.moduleCompletionMap_val_app_moduleCompletionπ
+    I.toFormalCompletionRingCatSheaf G k U x
+  -- the lifts form a Cauchy sequence
+  have hS : ∀ k, s (k + 1) - s k ∈
+      I.ideal U ^ (k + 1) • (⊤ : Submodule Γ(X, (U : X.Opens)) Γ(G, (U : X.Opens))) := by
+    intro k
+    have a1 := (I.moduleCompletionMap_val_app_moduleCompletionLevelMap
+      I.toFormalCompletionRingCatSheaf hχ G k U (s (k + 1))).symm.trans
+      ((congrArg (fun y => ((SheafOfModules.pushforward.{u} I.toFormalCompletionRingCatSheaf).map
+        (I.moduleCompletionMap G k)).val.app (op (U : X.Opens)) y) (hs' (k + 1))).trans (hxs k))
+    exact (hker k _).1 ((map_sub _ _ _).trans (sub_eq_zero.2 (a1.trans (hs' k).symm)))
+  -- `s n ∈ I(U) ^ (n + 1) Γ(U, G)`
+  have hsn : s n ∈ I.ideal U ^ (n + 1) • (⊤ : Submodule Γ(X, (U : X.Opens)) Γ(G, (U : X.Opens))) :=
+    (hker n _).1 ((hs' n).trans hx)
+  have htel : ∀ k m, s (k + m) - s k ∈
+      I.ideal U ^ (k + 1) • (⊤ : Submodule Γ(X, (U : X.Opens)) Γ(G, (U : X.Opens))) := by
+    intro k m
+    induction m with
+    | zero => simp
+    | succ m ih =>
+      rw [show s (k + (m + 1)) - s k = (s (k + m + 1) - s (k + m)) + (s (k + m) - s k) by
+        rw [← add_assoc]; abel]
+      exact add_mem (Submodule.smul_mono_left (Ideal.pow_le_pow_right (by omega)) (hS (k + m))) ih
+  -- generators of `I(U) ^ (n + 1)`
+  have : IsNoetherianRing Γ(X, (U : X.Opens)) := IsLocallyNoetherian.component_noetherian U
+  obtain ⟨r, f, hf⟩ := Submodule.fg_iff_exists_fin_generating_family.mp
+    (IsNoetherian.noetherian (I.ideal U ^ (n + 1)))
+  have hd : ∀ j, ∃ d : Fin r → Γ(G, (U : X.Opens)),
+      (∀ i, d i ∈ I.ideal U ^ j • (⊤ : Submodule Γ(X, (U : X.Opens)) Γ(G, (U : X.Opens)))) ∧
+        s (n + j + 1) - s (n + j) = ∑ i, f i • d i := by
+    intro j
+    refine exists_sum_of_mem_span_smul f _ ?_
+    rw [hf, ← Submodule.mul_smul, ← pow_add, show n + 1 + j = n + j + 1 by omega]
+    exact hS (n + j)
+  choose d hd hd' using hd
+  obtain ⟨c₀, -, hc₀⟩ := exists_sum_of_mem_span_smul f
+    (⊤ : Submodule Γ(X, (U : X.Opens)) Γ(G, (U : X.Opens))) (by rw [hf]; exact hsn)
+  let c : ℕ → Fin r → Γ(G, (U : X.Opens)) := fun j => c₀ + ∑ k ∈ Finset.range j, d k
+  have hc : ∀ j, s (n + j) = ∑ i, f i • c j i := by
+    intro j
+    induction j with
+    | zero => simpa [c] using hc₀
+    | succ j ih =>
+      rw [show n + (j + 1) = n + j + 1 by omega, ← sub_add_cancel (s (n + j + 1)) (s (n + j)),
+        hd' j, ih, ← Finset.sum_add_distrib]
+      refine Finset.sum_congr rfl fun i _ => ?_
+      simp only [c, Finset.sum_range_succ, Pi.add_apply, Finset.sum_apply, smul_add]
+      abel
+  have hcC : ∀ i j, c (j + 1 + 1) i - c (j + 1) i ∈
+      I.ideal U ^ (j + 1) • (⊤ : Submodule Γ(X, (U : X.Opens)) Γ(G, (U : X.Opens))) := by
+    intro i j
+    simp only [c, Finset.sum_range_succ (n := j + 1), Pi.add_apply, Finset.sum_apply]
+    convert hd (j + 1) i using 1
+    abel
+  choose y hy using fun i => I.exists_moduleCompletion_sections I.toFormalCompletionRingCatSheaf
+    hχ G U (fun j => c (j + 1) i) (hcC i)
+  have : (PresheafOfModules.pushforward.{u} I.toFormalCompletionRingCatSheaf.hom).IsRightAdjoint :=
+    Functor.isRightAdjoint_of_leftAdjointObjIsDefined_eq_top
+      (PresheafOfModules.pullbackObjIsDefined_eq_top _)
+  have : (SheafOfModules.pushforward.{u} I.toFormalCompletionRingCatSheaf).IsRightAdjoint :=
+    (SheafOfModules.PullbackConstruction.adjunction.{u} _).isRightAdjoint
+  have hlim := isLimitOfPreserves (SheafOfModules.pushforward.{u} I.toFormalCompletionRingCatSheaf)
+    (limit.isLimit (I.moduleCompletionDiagram G))
+  -- `x = ∑ f i • y i`
+  have hxy : x = ∑ i, (show X.ringCatSheaf.obj.obj (op (U : X.Opens)) from f i) • y i := by
+    refine sections_isLimit_mapCone_ext hlim (op (U : X.Opens)) _ _ fun k => ?_
+    change _ = ((SheafOfModules.pushforward.{u} I.toFormalCompletionRingCatSheaf).map
+      (I.moduleCompletionπ G k)).val.app (op (U : X.Opens)) (∑ i, _ • y i)
+    have e1 : ∀ i, ((SheafOfModules.pushforward.{u} I.toFormalCompletionRingCatSheaf).map
+        (I.moduleCompletionπ G k)).val.app (op (U : X.Opens))
+          ((show X.ringCatSheaf.obj.obj (op (U : X.Opens)) from f i) • y i) =
+        (show X.ringCatSheaf.obj.obj (op (U : X.Opens)) from f i) •
+          (I.moduleCompletionLevelMap I.toFormalCompletionRingCatSheaf hχ G k).val.app
+            (op (U : X.Opens)) (c (k + 1) i) := fun i =>
+      ((((SheafOfModules.pushforward.{u} I.toFormalCompletionRingCatSheaf).map
+        (I.moduleCompletionπ G k)).val.app (op (U : X.Opens))).hom.map_smul _ (y i)).trans
+        (congrArg _ (hy i k))
+    have e2 : (I.moduleCompletionLevelMap I.toFormalCompletionRingCatSheaf hχ G k).val.app
+        (op (U : X.Opens)) (∑ i, f i • c (k + 1) i) =
+        ∑ i, (show X.ringCatSheaf.obj.obj (op (U : X.Opens)) from f i) •
+          (I.moduleCompletionLevelMap I.toFormalCompletionRingCatSheaf hχ G k).val.app
+            (op (U : X.Opens)) (c (k + 1) i) :=
+      (map_sum _ _ _).trans (Finset.sum_congr rfl fun i _ =>
+        ((I.moduleCompletionLevelMap I.toFormalCompletionRingCatSheaf hχ G k).val.app
+          (op (U : X.Opens))).hom.map_smul _ _)
+    have e3 : (I.moduleCompletionLevelMap I.toFormalCompletionRingCatSheaf hχ G k).val.app
+        (op (U : X.Opens)) (s k) =
+        (I.moduleCompletionLevelMap I.toFormalCompletionRingCatSheaf hχ G k).val.app
+          (op (U : X.Opens)) (s (n + (k + 1))) := by
+      have hm := htel k (n + 1)
+      rw [show k + (n + 1) = n + (k + 1) by omega] at hm
+      exact (sub_eq_zero.1 ((map_sub _ _ _).symm.trans ((hker k _).2 hm))).symm
+    exact ((hs' k).symm.trans (e3.trans ((congrArg _ (hc (k + 1))).trans
+      (e2.trans (Finset.sum_congr rfl fun i _ => (e1 i).symm))))).trans (map_sum _ _ _).symm
+  -- the coefficients lie in `J ^ (n + 1)`
+  have hmem : ∀ i, (I.toFormalCompletionSheaf.hom.app (op (U : X.Opens))) (f i) ∈
+      (I.formalCompletionIdealSubsheaf ^ (n + 1)).ideal
+        ((Opens.map (I.infinitesimalNeighborhoodι 1).base).obj U) := by
+    intro i
+    have hfi : f i ∈ I.ideal U ^ (n + 1) := hf ▸ Submodule.subset_span ⟨i, rfl⟩
+    have h1 : Ideal.map (I.toFormalCompletionSheaf.hom.app (op (U : X.Opens))).hom (I.ideal U) ≤
+        I.formalCompletionIdealSubsheaf.ideal
+          ((Opens.map (I.infinitesimalNeighborhoodι 1).base).obj U) :=
+      Ideal.map_le_iff_le_comap.mpr fun a ha => I.toFormalCompletionRingCatSheaf_mem U ha
+    refine IdealSubsheaf.ideal_pow_le_ideal_pow _ _ _ (Ideal.pow_right_mono h1 (n + 1) ?_)
+    exact (Ideal.map_pow (I.toFormalCompletionSheaf.hom.app (op (U : X.Opens))).hom
+      (I := I.ideal U) (n + 1)).le (Ideal.mem_map_of_mem _ hfi)
+  subst hxy
+  exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem_smul (hmem i) Submodule.mem_top
+
+
+/-- The opens `U ∩ |Y|`, `U` affine, form a basis of `|Y|`. -/
+private lemma isBasis_affineOpens_preimage :
+    Opens.IsBasis ((Opens.map (I.infinitesimalNeighborhoodι 1).base).obj ''
+      {U : X.Opens | IsAffineOpen U}) := by
+  refine Opens.isBasis_iff_nbhd.mpr fun {V x} hx => ?_
+  obtain ⟨U, hxU, hUV⟩ := I.exists_affineOpens_preimage_le hx
+  exact ⟨_, ⟨U, U.2, rfl⟩, hxU, hUV⟩
+
+/-- The short complex `J ^ (n + 1) F̂ ⟶ F̂ ⟶ (F / I ^ (n + 1) F)|_Y`. -/
+abbrev moduleCompletionPowShortComplex [IsLocallyNoetherian X] (n : ℕ) :
+    ShortComplex (SheafOfModules.{u} (ringCatSheafOf I.formalCompletionSheaf)) :=
+  ShortComplex.mk _ _ (I.smulι_moduleCompletionπ G n)
+
+/-- **`J ^ (n + 1) F̂ ⟶ F̂ ⟶ (F / I ^ (n + 1) F)|_Y` is exact** for `X` locally Noetherian and `F`
+quasi-coherent. -/
+theorem moduleCompletionPowShortComplex_exact [IsLocallyNoetherian X] [G.IsQuasicoherent]
+    (n : ℕ) : (I.moduleCompletionPowShortComplex G n).Exact := by
+  refine sheafOfModules_exact_of_isBasis_sections _ I.isBasis_affineOpens_preimage ?_
+  rintro _ ⟨U, hU, rfl⟩ x hx
+  exact ⟨⟨x, (I.formalCompletionIdealSubsheaf ^ (n + 1)).sectionsSmul_le_smulSubmodule _ _
+    (I.mem_sectionsSmul_of_moduleCompletionπ_eq_zero G n ⟨U, hU⟩ x hx)⟩, rfl⟩
+
+/-- **`F̂ ⟶ (F / I ^ (n + 1) F)|_Y` is an epimorphism** for `F` quasi-coherent. -/
+instance epi_moduleCompletionπ' [IsLocallyNoetherian X] [G.IsQuasicoherent] (n : ℕ) :
+    Epi (I.moduleCompletionπ' G n) := by
+  have hχ := I.toFormalCompletionRingCatSheaf_compat
+  have h : (ShortComplex.mk (I.moduleCompletionπ' G n) (0 : _ ⟶ I.moduleCompletionObj' G n)
+      comp_zero).Exact := by
+    refine sheafOfModules_exact_of_isBasis_sections _ I.isBasis_affineOpens_preimage ?_
+    rintro _ ⟨U, hU, rfl⟩ x -
+    obtain ⟨t, ht⟩ := I.moduleCompletionSectionsMap_surjective G n ⟨U, hU⟩ x
+    obtain ⟨z, hz⟩ := I.exists_moduleCompletion_sections I.toFormalCompletionRingCatSheaf hχ G
+      ⟨U, hU⟩ (fun _ => t) (fun k => by simp)
+    exact ⟨z, (hz n).trans ((I.moduleCompletionLevelMap_val_app _ hχ G n U t).trans ht)⟩
+  exact (ShortComplex.exact_iff_epi _ rfl).mp h
+
+/-- **`F̂ / J ^ (n + 1) F̂ ≅ (F / I ^ (n + 1) F)|_Y`**, for `X` locally Noetherian and `F`
+quasi-coherent, induced by the projection `F̂ ⟶ (F / I ^ (n + 1) F)|_Y`. -/
+def powQuotientModuleCompletionIso [IsLocallyNoetherian X] [G.IsQuasicoherent] (n : ℕ) :
+    I.formalCompletionIdealSubsheaf.powQuotient (I.moduleCompletion' G) n ≅
+      I.moduleCompletionObj' G n :=
+  (colimit.isColimit _).coconePointUniqueUpToIso
+    (I.moduleCompletionPowShortComplex_exact G n).gIsCokernel
+
+@[reassoc (attr := simp)]
+lemma powQuotientπ_powQuotientModuleCompletionIso_hom [IsLocallyNoetherian X] [G.IsQuasicoherent]
+    (n : ℕ) :
+    I.formalCompletionIdealSubsheaf.powQuotientπ (I.moduleCompletion' G) n ≫
+      (I.powQuotientModuleCompletionIso G n).hom = I.moduleCompletionπ' G n :=
+  (colimit.isColimit _).comp_coconePointUniqueUpToIso_hom _ WalkingParallelPair.one
+
+
+/-- The inverse system of the completion, in the form used for ideal subsheaves. -/
+abbrev moduleCompletionDiagram' :
+    ℕᵒᵖ ⥤ SheafOfModules.{u} (ringCatSheafOf I.formalCompletionSheaf) :=
+  I.moduleCompletionDiagram G
+
+/-- `F̂` is the limit of its inverse system, in the form used for ideal subsheaves. -/
+def isLimitModuleCompletionCone' :
+    IsLimit (show Cone (I.moduleCompletionDiagram' G) from
+      limit.cone (I.moduleCompletionDiagram G)) :=
+  limit.isLimit (I.moduleCompletionDiagram G)
+
+@[reassoc]
+lemma powQuotientMap_powQuotientModuleCompletionIso_hom [IsLocallyNoetherian X] [G.IsQuasicoherent]
+    (n : ℕ) :
+    I.formalCompletionIdealSubsheaf.powQuotientMap (I.moduleCompletion' G) n ≫
+      (I.powQuotientModuleCompletionIso G n).hom =
+      (I.powQuotientModuleCompletionIso G (n + 1)).hom ≫
+        (show I.moduleCompletionObj' G (n + 1) ⟶ I.moduleCompletionObj' G n from
+          I.moduleCompletionMap G n) := by
+  refine (cancel_epi
+    (I.formalCompletionIdealSubsheaf.powQuotientπ (I.moduleCompletion' G) (n + 1))).mp ?_
+  rw [IdealSubsheaf.powQuotientπ_powQuotientMap_assoc,
+    powQuotientπ_powQuotientModuleCompletionIso_hom,
+    powQuotientπ_powQuotientModuleCompletionIso_hom_assoc]
+  exact (I.moduleCompletionπ_comp_moduleCompletionMap G n).symm
+
+
+/-- The isomorphisms `F̂ / J ^ (n + 1) F̂ ≅ (F / I ^ (n + 1) F)|_Y` as a map of inverse systems. -/
+def powQuotientDiagramToModuleCompletionDiagram [IsLocallyNoetherian X] [G.IsQuasicoherent] :
+    I.formalCompletionIdealSubsheaf.powQuotientDiagram (I.moduleCompletion' G) ⟶
+      I.moduleCompletionDiagram' G :=
+  NatTrans.ofOpSequence (fun n => (I.powQuotientModuleCompletionIso G n).hom) (fun n => by
+    rw [show (I.formalCompletionIdealSubsheaf.powQuotientDiagram (I.moduleCompletion' G)).map
+        (homOfLE (n.le_add_right 1)).op =
+        I.formalCompletionIdealSubsheaf.powQuotientMap (I.moduleCompletion' G) n from
+      Functor.ofOpSequence_map_homOfLE_succ _ n,
+      show (I.moduleCompletionDiagram' G).map (homOfLE (n.le_add_right 1)).op =
+        I.moduleCompletionMap G n from Functor.ofOpSequence_map_homOfLE_succ _ n]
+    exact I.powQuotientMap_powQuotientModuleCompletionIso_hom G n)
+
+instance [IsLocallyNoetherian X] [G.IsQuasicoherent] :
+    IsIso (I.powQuotientDiagramToModuleCompletionDiagram G) :=
+  have : ∀ n : ℕᵒᵖ, IsIso ((I.powQuotientDiagramToModuleCompletionDiagram G).app n) :=
+    fun ⟨n⟩ => inferInstanceAs (IsIso (I.powQuotientModuleCompletionIso G n).hom)
+  NatIso.isIso_of_isIso_app _
+
+/-- **`F̂` is complete for `J`**: `F̂ ⟶ lim_n F̂ / J ^ (n + 1) F̂` is an isomorphism, for `X`
+locally Noetherian and `F` quasi-coherent. -/
+theorem isIso_toLimitPowQuotient_moduleCompletion [IsLocallyNoetherian X] [G.IsQuasicoherent] :
+    IsIso (I.formalCompletionIdealSubsheaf.toLimitPowQuotient (I.moduleCompletion' G)) := by
+  let E := asIso (I.powQuotientDiagramToModuleCompletionDiagram G)
+  have h1 : IsLimit ((Cone.postcompose E.hom).obj
+      (I.formalCompletionIdealSubsheaf.powQuotientCone (I.moduleCompletion' G))) :=
+    (I.isLimitModuleCompletionCone' G).ofIsoLimit (Cone.ext (Iso.refl _) fun ⟨n⟩ => by
+      change I.moduleCompletionπ G n = 𝟙 _ ≫
+        I.formalCompletionIdealSubsheaf.powQuotientπ (I.moduleCompletion' G) n ≫
+          (I.powQuotientModuleCompletionIso G n).hom
+      rw [Category.id_comp, powQuotientπ_powQuotientModuleCompletionIso_hom])
+  have hc := (IsLimit.postcomposeHomEquiv E _) h1
+  have : I.formalCompletionIdealSubsheaf.toLimitPowQuotient (I.moduleCompletion' G) =
+      (hc.conePointUniqueUpToIso (limit.isLimit _)).hom := rfl
+  rw [this]
+  exact (hc.conePointUniqueUpToIso (limit.isLimit _)).isIso_hom
+
+end QuasicoherentIdealSubsheaf
 
 namespace IsIdealOfDefinition
 
