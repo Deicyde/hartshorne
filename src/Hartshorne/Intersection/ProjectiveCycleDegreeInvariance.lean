@@ -49,7 +49,7 @@ private theorem X_pow_mem (j : Fin (n + 1)) (e : ℕ) : (X j : S) ^ e ∈ 𝒜 e
 /-- The multiplicity `μ_y(F)` of `S / (𝔭 + F)` at the homogeneous prime of `y`, `𝔭` the prime
 of `V`. -/
 private noncomputable def hypersurfaceMult {V : Scheme.{u}} [IsIntegral V]
-    (i : V ⟶ Proj 𝒜) [IsClosedImmersion i]
+    (i : V ⟶ Proj 𝒜)
     (F : S) (y : V) : ℕ :=
   (gradedMultiplicity S (S ⧸ ((i (genericPoint V)).asHomogeneousIdeal.toIdeal ⊔ Ideal.span {F}))
     ⟨(i y).asHomogeneousIdeal.toIdeal, (i y).isPrime⟩).toNat
@@ -65,8 +65,7 @@ private theorem gradedMultiplicity_quotient_eq_zero {A : Type u} [CommRing A] {I
     (IsLocalization.map_units _ (⟨s, hs⟩ : 𝔮.asIdeal.primeCompl))
 
 private theorem hypersurfaceMult_eq_zero {V : Scheme.{u}} [IsIntegral V]
-    (i : V ⟶ Proj 𝒜) [IsClosedImmersion i]
-    {F : S} {y : V}
+    (i : V ⟶ Proj 𝒜) {F : S} {y : V}
     (hF : F ∉ (i y).asHomogeneousIdeal) : hypersurfaceMult i F y = 0 := by
   rw [hypersurfaceMult, gradedMultiplicity_quotient_eq_zero
     (Ideal.mem_sup_right (Ideal.mem_span_singleton_self F)) hF]
