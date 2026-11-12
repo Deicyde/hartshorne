@@ -591,6 +591,194 @@ theorem tensorPowerMulSection_polyTwistSection_monomial (U : X.Opens) {p q : ℕ
     ← tensorPowerMulSection_restrict, tensorPowerMulSection_monomialSection i hp hq hα hβ,
     map_mul]
 
+/-- An isomorphism of `𝒪_Z`-modules composed with an additive map is additive. -/
+theorem iso_inv_app_comp_add {M N : Z.Modules} (e : M ≅ N) {W : Z.Opens} {A : Type*} [Add A]
+    (f : A → Γ(N, W)) (hf : ∀ a b, f (a + b) = f a + f b) (a b : A) :
+    e.inv.app W (f (a + b)) = e.inv.app W (f a) + e.inv.app W (f b) := by
+  rw [hf, map_add]
+
+/-- An isomorphism of `𝒪_Z`-modules composed with a map sending `0` to `0` sends `0` to `0`. -/
+theorem iso_inv_app_comp_zero {M N : Z.Modules} (e : M ≅ N) {W : Z.Opens} {A : Type*} [Zero A]
+    (f : A → Γ(N, W)) (hf : f 0 = 0) :
+    e.inv.app W (f 0) = 0 := by
+  rw [hf, map_zero]
+
+/-- The product of the homogeneous components of degrees `p` and `q` of two monomials. -/
+theorem homogeneousComponent_monomial_mul {σ R : Type*} [CommSemiring R] {p q : ℕ}
+    (α β : σ →₀ ℕ) (a b : R) :
+    MvPolynomial.homogeneousComponent p (MvPolynomial.monomial α a) *
+        MvPolynomial.homogeneousComponent q (MvPolynomial.monomial β b) =
+      if α.degree = p ∧ β.degree = q then MvPolynomial.monomial (α + β) (a * b) else 0 := by
+  rw [MvPolynomial.homogeneousComponent_of_mem (MvPolynomial.isHomogeneous_monomial a rfl),
+    MvPolynomial.homogeneousComponent_of_mem (MvPolynomial.isHomogeneous_monomial b rfl)]
+  by_cases hα : α.degree = p
+  · subst hα
+    by_cases hβ : β.degree = q
+    · subst hβ
+      simp [MvPolynomial.monomial_mul]
+    · simp [hβ, Ne.symm hβ]
+  · simp [hα, Ne.symm hα]
+
+/-- `L^{n} ≅ 𝒪(n)|_Z` on the comparison section of a monomial of the wrong degree. -/
+theorem invApp_polyTwistSection_monomial_eq_zero (U : X.Opens) {n : ℕ} (hn : 0 < n)
+    {α : Fin (r + 1) →₀ ℕ} (hα : ¬ α.degree = n) (a : Γ(X, U)) :
+    (tensorPowerTwistOnZIso i n hn).inv.app _ (polyTwistSection i U n (MvPolynomial.monomial α a))
+      = 0 :=
+  (congrArg (fun z => (tensorPowerTwistOnZIso i n hn).inv.app _ z)
+    (polyTwistSection_monomial_eq_zero i U hα a)).trans (iso_inv_app_zero _)
+
+section PolyMul
+
+/-! The steps of `tensorPowerMulSection_polyTwistSection`, stated separately (and composed with
+explicit `Eq.trans`) so that the kernel compares syntactically equal terms only. -/
+
+variable (U : X.Opens) {p q : ℕ} (hp : 0 < p) (hq : 0 < q)
+
+private theorem polyMul_add_left (x x' y : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
+    tensorPowerMulSection i
+      ((tensorPowerTwistOnZIso i p hp).inv.app _ (polyTwistSection i U p (x + x')))
+      ((tensorPowerTwistOnZIso i q hq).inv.app _ (polyTwistSection i U q y)) =
+    tensorPowerMulSection i
+      ((tensorPowerTwistOnZIso i p hp).inv.app _ (polyTwistSection i U p x))
+      ((tensorPowerTwistOnZIso i q hq).inv.app _ (polyTwistSection i U q y)) +
+    tensorPowerMulSection i
+      ((tensorPowerTwistOnZIso i p hp).inv.app _ (polyTwistSection i U p x'))
+      ((tensorPowerTwistOnZIso i q hq).inv.app _ (polyTwistSection i U q y)) :=
+  Eq.trans (congrArg (fun z => tensorPowerMulSection i z _)
+      (iso_inv_app_comp_add _ _ (polyTwistSection_add i U p) x x'))
+    (tensorPowerMulSection_add_left i _ _ _)
+
+private theorem polyMul_add_right (x y y' : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
+    tensorPowerMulSection i
+      ((tensorPowerTwistOnZIso i p hp).inv.app _ (polyTwistSection i U p x))
+      ((tensorPowerTwistOnZIso i q hq).inv.app _ (polyTwistSection i U q (y + y'))) =
+    tensorPowerMulSection i
+      ((tensorPowerTwistOnZIso i p hp).inv.app _ (polyTwistSection i U p x))
+      ((tensorPowerTwistOnZIso i q hq).inv.app _ (polyTwistSection i U q y)) +
+    tensorPowerMulSection i
+      ((tensorPowerTwistOnZIso i p hp).inv.app _ (polyTwistSection i U p x))
+      ((tensorPowerTwistOnZIso i q hq).inv.app _ (polyTwistSection i U q y')) :=
+  Eq.trans (congrArg (fun z => tensorPowerMulSection i _ z)
+      (iso_inv_app_comp_add _ _ (polyTwistSection_add i U q) y y'))
+    (tensorPowerMulSection_add_right i _ _ _)
+
+private theorem polyMulComp_add_left (x x' y : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
+    (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+        (polyTwistSection i U (p + q)
+          (MvPolynomial.homogeneousComponent p (x + x') * MvPolynomial.homogeneousComponent q y)) =
+    (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+        (polyTwistSection i U (p + q)
+          (MvPolynomial.homogeneousComponent p x * MvPolynomial.homogeneousComponent q y)) +
+    (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+        (polyTwistSection i U (p + q)
+          (MvPolynomial.homogeneousComponent p x' * MvPolynomial.homogeneousComponent q y)) :=
+  Eq.trans (congrArg (fun z => (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+      (polyTwistSection i U (p + q) z)) (by rw [map_add, add_mul]))
+    (iso_inv_app_comp_add _ _ (polyTwistSection_add i U (p + q)) _ _)
+
+private theorem polyMulComp_add_right (x y y' : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
+    (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+        (polyTwistSection i U (p + q)
+          (MvPolynomial.homogeneousComponent p x * MvPolynomial.homogeneousComponent q (y + y'))) =
+    (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+        (polyTwistSection i U (p + q)
+          (MvPolynomial.homogeneousComponent p x * MvPolynomial.homogeneousComponent q y)) +
+    (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+        (polyTwistSection i U (p + q)
+          (MvPolynomial.homogeneousComponent p x * MvPolynomial.homogeneousComponent q y')) :=
+  Eq.trans (congrArg (fun z => (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+      (polyTwistSection i U (p + q) z)) (by rw [map_add, mul_add]))
+    (iso_inv_app_comp_add _ _ (polyTwistSection_add i U (p + q)) _ _)
+
+private theorem polyMul_monomial_eq_zero_left {α : Fin (r + 1) →₀ ℕ} (hα : ¬ α.degree = p)
+    (a : Γ(X, U)) (β : Fin (r + 1) →₀ ℕ) (b : Γ(X, U)) :
+    tensorPowerMulSection i
+      ((tensorPowerTwistOnZIso i p hp).inv.app _ (polyTwistSection i U p
+        (MvPolynomial.monomial α a)))
+      ((tensorPowerTwistOnZIso i q hq).inv.app _ (polyTwistSection i U q
+        (MvPolynomial.monomial β b))) = 0 :=
+  Eq.trans (congrArg (fun z => tensorPowerMulSection i z _)
+      (invApp_polyTwistSection_monomial_eq_zero i U hp hα a))
+    (tensorPowerMulSection_zero_left i _)
+
+private theorem polyMul_monomial_eq_zero_right (α : Fin (r + 1) →₀ ℕ) (a : Γ(X, U))
+    {β : Fin (r + 1) →₀ ℕ} (hβ : ¬ β.degree = q) (b : Γ(X, U)) :
+    tensorPowerMulSection i
+      ((tensorPowerTwistOnZIso i p hp).inv.app _ (polyTwistSection i U p
+        (MvPolynomial.monomial α a)))
+      ((tensorPowerTwistOnZIso i q hq).inv.app _ (polyTwistSection i U q
+        (MvPolynomial.monomial β b))) = 0 :=
+  Eq.trans (congrArg (fun z => tensorPowerMulSection i _ z)
+      (invApp_polyTwistSection_monomial_eq_zero i U hq hβ b))
+    (tensorPowerMulSection_zero_right i _)
+
+private theorem polyMulComp_monomial_eq_zero (α : Fin (r + 1) →₀ ℕ) (a : Γ(X, U))
+    (β : Fin (r + 1) →₀ ℕ) (b : Γ(X, U)) (h : ¬ (α.degree = p ∧ β.degree = q)) :
+    (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+        (polyTwistSection i U (p + q)
+          (MvPolynomial.homogeneousComponent p (MvPolynomial.monomial α a) *
+            MvPolynomial.homogeneousComponent q (MvPolynomial.monomial β b))) = 0 :=
+  Eq.trans (congrArg (fun z => (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+      (polyTwistSection i U (p + q) z))
+      (Eq.trans (homogeneousComponent_monomial_mul α β a b) (if_neg h)))
+    (iso_inv_app_comp_zero _ _ (polyTwistSection_zero i U (p + q)))
+
+private theorem polyMul_monomial (α : Fin (r + 1) →₀ ℕ) (a : Γ(X, U)) (β : Fin (r + 1) →₀ ℕ)
+    (b : Γ(X, U)) :
+    tensorPowerMulSection i
+      ((tensorPowerTwistOnZIso i p hp).inv.app _ (polyTwistSection i U p
+        (MvPolynomial.monomial α a)))
+      ((tensorPowerTwistOnZIso i q hq).inv.app _ (polyTwistSection i U q
+        (MvPolynomial.monomial β b))) =
+    (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+        (polyTwistSection i U (p + q)
+          (MvPolynomial.homogeneousComponent p (MvPolynomial.monomial α a) *
+            MvPolynomial.homogeneousComponent q (MvPolynomial.monomial β b))) := by
+  by_cases hα : α.degree = p
+  · by_cases hβ : β.degree = q
+    · exact Eq.trans (tensorPowerMulSection_polyTwistSection_monomial i U hp hq hα hβ a b)
+        (congrArg (fun z => (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+          (polyTwistSection i U (p + q) z))
+          (Eq.symm (Eq.trans (homogeneousComponent_monomial_mul α β a b) (if_pos ⟨hα, hβ⟩))))
+    · exact Eq.trans (polyMul_monomial_eq_zero_right i U hp hq α a hβ b)
+        (Eq.symm (polyMulComp_monomial_eq_zero i U hp α a β b fun h => hβ h.2))
+  · exact Eq.trans (polyMul_monomial_eq_zero_left i U hp hq hα a β b)
+      (Eq.symm (polyMulComp_monomial_eq_zero i U hp α a β b fun h => hα h.1))
+
+end PolyMul
+
+/-- The monomial case, for polynomials only known to be equal to monomials (so that the
+monomials coming from `MvPolynomial.induction_on'` are compared at the level of polynomials). -/
+private theorem polyMul_of_eq_monomial (U : X.Opens) {p q : ℕ} (hp : 0 < p) (hq : 0 < q)
+    (α : Fin (r + 1) →₀ ℕ) (a : Γ(X, U)) (β : Fin (r + 1) →₀ ℕ) (b : Γ(X, U))
+    (P Q : MvPolynomial (Fin (r + 1)) Γ(X, U)) (hP : P = MvPolynomial.monomial α a)
+    (hQ : Q = MvPolynomial.monomial β b) :
+    tensorPowerMulSection i ((tensorPowerTwistOnZIso i p hp).inv.app _ (polyTwistSection i U p P))
+        ((tensorPowerTwistOnZIso i q hq).inv.app _ (polyTwistSection i U q Q)) =
+      (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+        (polyTwistSection i U (p + q)
+          (MvPolynomial.homogeneousComponent p P * MvPolynomial.homogeneousComponent q Q)) := by
+  subst hP hQ
+  exact polyMul_monomial i U hp hq α a β b
+
+/-- **Multiplicativity of the comparison over `f⁻¹(U)`.** For polynomials `P`, `Q` over `Γ(X, U)`,
+the comparison sections of `P` in degree `p` and of `Q` in degree `q` multiply, under
+`L^{p} × L^{q} → L^{p+q}`, to the comparison section of `P_p Q_q` in degree `p + q`. -/
+theorem tensorPowerMulSection_polyTwistSection (U : X.Opens) {p q : ℕ} (hp : 0 < p) (hq : 0 < q)
+    (P Q : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
+    tensorPowerMulSection i ((tensorPowerTwistOnZIso i p hp).inv.app _ (polyTwistSection i U p P))
+        ((tensorPowerTwistOnZIso i q hq).inv.app _ (polyTwistSection i U q Q)) =
+      (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+        (polyTwistSection i U (p + q)
+          (MvPolynomial.homogeneousComponent p P * MvPolynomial.homogeneousComponent q Q)) :=
+  MvPolynomial.induction_on' P
+    (fun α a => MvPolynomial.induction_on' Q
+      (fun β b => polyMul_of_eq_monomial i U hp hq α a β b _ _ rfl rfl)
+      (fun y y' hy hy' => Eq.trans (polyMul_add_right i U hp hq _ y y')
+        (Eq.trans (congrArg₂ (· + ·) hy hy') (Eq.symm (polyMulComp_add_right i U hp _ y y')))))
+    (fun x x' hx hx' => Eq.trans (polyMul_add_left i U hp hq x x' Q)
+      (Eq.trans (congrArg₂ (· + ·) hx hx') (Eq.symm (polyMulComp_add_left i U hp x x' Q))))
+
 variable [IsClosedImmersion i] [IsIntegral Z]
 
 omit [IsClosedImmersion i] [IsIntegral Z] in
@@ -611,6 +799,261 @@ theorem eqToHom_app_coordTwistSection (U : X.AffineZariskiSite) {n n' : ℕ} (h 
     (h₂ : z ∈ (coordinateAlgebra i).grading U n) =>
       (tensorPowerTwistOnZIso i n h₁).inv.app _ (coordTwistSection i U n ⟨z, h₂⟩))
     (Subsingleton.elim hn hn') (Subsingleton.elim hz hz'))
+
+/-! ### The comparison `T(U)_n ≅ Γ(f⁻¹(U), L^{n})` is multiplicative
+
+The statements below are spelled out in full (with local notation) and every step of a proof is
+stated with its type: the kernel then only compares syntactically equal terms, whereas comparing
+two presentations of the same section under `tensorPowerTwistOnZIso` unfolds the isomorphism. -/
+
+set_option hygiene false in
+local notation "Φ⁻¹[" n ", " h "]" => (tensorPowerTwistOnZIso i n h).inv.app _
+
+set_option hygiene false in
+local notation "𝒯" => (coordinateAlgebra i).obj.obj (op U)
+
+set_option hygiene false in
+local notation "𝒢" => (coordinateAlgebra i).grading U
+
+/-- The comparison `T(U)_n → Γ(f⁻¹(U), 𝒪(n)|_Z)` on the chosen homogeneous lift. -/
+theorem coordTwistSection_apply (U : X.AffineZariskiSite) {n : ℕ} (x : 𝒢 n) :
+    coordTwistSection i U n x = polyTwistSection i U.1 n (coordLift i U x) :=
+  congrFun (AddMonoidHom.mk'_apply _ _) x
+
+omit [IsClosedImmersion i] in
+private theorem coordLift_mul_mem (U : X.AffineZariskiSite) {p q : ℕ} (x : 𝒢 p) (y : 𝒢 q) :
+    coordLift i U x * coordLift i U y ∈
+      MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U.1) (p + q) :=
+  (MvPolynomial.mem_homogeneousSubmodule _ _).2
+    (((MvPolynomial.mem_homogeneousSubmodule _ _).1 (coordLift_mem i U x)).mul
+      ((MvPolynomial.mem_homogeneousSubmodule _ _).1 (coordLift_mem i U y)))
+
+omit [IsClosedImmersion i] in
+private theorem homogeneousComponent_coordLift_mul (U : X.AffineZariskiSite) {p q : ℕ} (x : 𝒢 p)
+    (y : 𝒢 q) :
+    MvPolynomial.homogeneousComponent p (coordLift i U x) *
+        MvPolynomial.homogeneousComponent q (coordLift i U y) =
+      coordLift i U x * coordLift i U y :=
+  congrArg₂ (· * ·)
+    ((MvPolynomial.homogeneousComponent_of_mem (coordLift_mem i U x)).trans (if_pos rfl))
+    ((MvPolynomial.homogeneousComponent_of_mem (coordLift_mem i U y)).trans (if_pos rfl))
+
+omit [IsClosedImmersion i] in
+private theorem mk_coordLift_mul (U : X.AffineZariskiSite) {p q : ℕ} (x : 𝒢 p) (y : 𝒢 q) :
+    (⟨_, mk_mem_gradedQuotient (I := chartIdeal i U.1 U.2) (coordLift_mul_mem i U x y)⟩ :
+        𝒢 (p + q)) = ⟨(x : 𝒯) * (y : 𝒯), SetLike.mul_mem_graded x.2 y.2⟩ :=
+  Subtype.ext ((map_mul _ _ _).trans (congrArg₂ (· * ·) (mk_coordLift i U x) (mk_coordLift i U y)))
+
+section CoordMul
+
+variable (U : X.AffineZariskiSite) {p q : ℕ} (hp : 0 < p) (hq : 0 < q) (x : 𝒢 p) (y : 𝒢 q)
+
+private theorem coordMul_step1 :
+    tensorPowerMulSection i (Φ⁻¹[p, hp] (coordTwistSection i U p x))
+        (Φ⁻¹[q, hq] (coordTwistSection i U q y)) =
+      tensorPowerMulSection i (Φ⁻¹[p, hp] (polyTwistSection i U.1 p (coordLift i U x)))
+        (Φ⁻¹[q, hq] (polyTwistSection i U.1 q (coordLift i U y))) :=
+  congrArg₂ (fun u v => tensorPowerMulSection i (Φ⁻¹[p, hp] u) (Φ⁻¹[q, hq] v))
+    (coordTwistSection_apply i U x) (coordTwistSection_apply i U y)
+
+omit [IsClosedImmersion i] in
+private theorem coordMul_step3 :
+    Φ⁻¹[p + q, pos_add_of_pos hp q] (polyTwistSection i U.1 (p + q)
+        (MvPolynomial.homogeneousComponent p (coordLift i U x) *
+          MvPolynomial.homogeneousComponent q (coordLift i U y))) =
+      Φ⁻¹[p + q, pos_add_of_pos hp q]
+        (polyTwistSection i U.1 (p + q) (coordLift i U x * coordLift i U y)) :=
+  congrArg (fun z => Φ⁻¹[p + q, pos_add_of_pos hp q] (polyTwistSection i U.1 (p + q) z))
+    (homogeneousComponent_coordLift_mul i U x y)
+
+private theorem coordMul_step4 :
+    Φ⁻¹[p + q, pos_add_of_pos hp q]
+        (polyTwistSection i U.1 (p + q) (coordLift i U x * coordLift i U y)) =
+      Φ⁻¹[p + q, pos_add_of_pos hp q] (coordTwistSection i U (p + q)
+        ⟨_, mk_mem_gradedQuotient (I := chartIdeal i U.1 U.2) (coordLift_mul_mem i U x y)⟩) :=
+  congrArg (fun z => Φ⁻¹[p + q, pos_add_of_pos hp q] z)
+    (coordTwistSection_mk i U (coordLift_mul_mem i U x y)).symm
+
+private theorem coordMul_step5 :
+    Φ⁻¹[p + q, pos_add_of_pos hp q] (coordTwistSection i U (p + q)
+        ⟨_, mk_mem_gradedQuotient (I := chartIdeal i U.1 U.2) (coordLift_mul_mem i U x y)⟩) =
+      Φ⁻¹[p + q, pos_add_of_pos hp q] (coordTwistSection i U (p + q)
+        ⟨(x : 𝒯) * (y : 𝒯), SetLike.mul_mem_graded x.2 y.2⟩) :=
+  congrArg (fun z => Φ⁻¹[p + q, pos_add_of_pos hp q] (coordTwistSection i U (p + q) z))
+    (mk_coordLift_mul i U x y)
+
+/-- **Multiplicativity of the comparison** `T(U)_n ≅ Γ(f⁻¹(U), L^{n})`: the sections of `L^{p}`
+and `L^{q}` attached to `x ∈ T(U)_p` and `y ∈ T(U)_q` multiply, under `L^{p} × L^{q} → L^{p+q}`,
+to the section attached to `xy`. -/
+theorem tensorPowerMulSection_coordTwistSection :
+    tensorPowerMulSection i (Φ⁻¹[p, hp] (coordTwistSection i U p x))
+        (Φ⁻¹[q, hq] (coordTwistSection i U q y)) =
+      Φ⁻¹[p + q, pos_add_of_pos hp q] (coordTwistSection i U (p + q)
+        ⟨(x : 𝒯) * (y : 𝒯), SetLike.mul_mem_graded x.2 y.2⟩) := by
+  have h₁ : tensorPowerMulSection i (Φ⁻¹[p, hp] (coordTwistSection i U p x))
+        (Φ⁻¹[q, hq] (coordTwistSection i U q y)) =
+      tensorPowerMulSection i (Φ⁻¹[p, hp] (polyTwistSection i U.1 p (coordLift i U x)))
+        (Φ⁻¹[q, hq] (polyTwistSection i U.1 q (coordLift i U y))) :=
+    coordMul_step1 i U hp hq x y
+  have h₂ : tensorPowerMulSection i (Φ⁻¹[p, hp] (polyTwistSection i U.1 p (coordLift i U x)))
+        (Φ⁻¹[q, hq] (polyTwistSection i U.1 q (coordLift i U y))) =
+      Φ⁻¹[p + q, pos_add_of_pos hp q] (polyTwistSection i U.1 (p + q)
+        (MvPolynomial.homogeneousComponent p (coordLift i U x) *
+          MvPolynomial.homogeneousComponent q (coordLift i U y))) :=
+    tensorPowerMulSection_polyTwistSection i U.1 hp hq _ _
+  have h₃ : Φ⁻¹[p + q, pos_add_of_pos hp q] (polyTwistSection i U.1 (p + q)
+        (MvPolynomial.homogeneousComponent p (coordLift i U x) *
+          MvPolynomial.homogeneousComponent q (coordLift i U y))) =
+      Φ⁻¹[p + q, pos_add_of_pos hp q]
+        (polyTwistSection i U.1 (p + q) (coordLift i U x * coordLift i U y)) :=
+    coordMul_step3 i U hp x y
+  have h₄ : Φ⁻¹[p + q, pos_add_of_pos hp q]
+        (polyTwistSection i U.1 (p + q) (coordLift i U x * coordLift i U y)) =
+      Φ⁻¹[p + q, pos_add_of_pos hp q] (coordTwistSection i U (p + q)
+        ⟨_, mk_mem_gradedQuotient (I := chartIdeal i U.1 U.2) (coordLift_mul_mem i U x y)⟩) :=
+    coordMul_step4 i U hp x y
+  have h₅ : Φ⁻¹[p + q, pos_add_of_pos hp q] (coordTwistSection i U (p + q)
+        ⟨_, mk_mem_gradedQuotient (I := chartIdeal i U.1 U.2) (coordLift_mul_mem i U x y)⟩) =
+      Φ⁻¹[p + q, pos_add_of_pos hp q] (coordTwistSection i U (p + q)
+        ⟨(x : 𝒯) * (y : 𝒯), SetLike.mul_mem_graded x.2 y.2⟩) :=
+    coordMul_step5 i U hp x y
+  exact Eq.trans h₁ (Eq.trans h₂ (Eq.trans h₃ (Eq.trans h₄ h₅)))
+
+end CoordMul
+
+/-! ### The Veronese comparison `T(U)^{(d)}_m ≅ Γ(f⁻¹(U), L^{md})` is multiplicative -/
+
+set_option hygiene false in
+local notation "𝒱" => ((coordinateAlgebra i).veronese d).obj.obj (op U)
+
+set_option hygiene false in
+local notation "𝒢ᵈ" => ((coordinateAlgebra i).veronese d).grading U
+
+set_option hygiene false in
+local notation "ϖ" => veronesePieceEquiv ((coordinateAlgebra i).grading U) d
+
+set_option hygiene false in
+local notation "Γᴸ[" n "]" =>
+  Γ(tensorPowerL i n, (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)
+
+omit [IsClosedImmersion i] [IsIntegral Z] in
+private theorem ab_hom_apply {A B : Ab.{u}} (f : A ⟶ B) (x : A) : f.hom x = f x := rfl
+
+omit [IsClosedImmersion i] [IsIntegral Z] in
+/-- `md > 0` for `m > 0` and `d ≠ 0`. -/
+theorem pos_mul_neZero (d : ℕ) [NeZero d] {m : ℕ} (hm : 0 < m) : 0 < m * d :=
+  Nat.mul_pos hm (Nat.pos_of_ne_zero (NeZero.ne d))
+
+/-- The comparison `T(U)^{(d)}_m → Γ(f⁻¹(U), L^{md})` unfolded: `y ↦ Φ⁻¹(c(y))` for the comparison
+`c : T(U)_{md} → Γ(f⁻¹(U), 𝒪(md)|_Z)` and `Φ : L^{md} ≅ 𝒪(md)|_Z`. -/
+theorem veroneseTwistSection_apply (d : ℕ) [NeZero d] (U : X.AffineZariskiSite) {m : ℕ}
+    (hm : 0 < m) (h : 0 < m * d) (y : 𝒢ᵈ m) :
+    veroneseTwistSection i d U hm y = Φ⁻¹[m * d, h] (coordTwistSection i U (m * d) (ϖ m y)) := by
+  obtain ⟨h₀, e₁⟩ : ∃ h₀ : 0 < m * d, veroneseTwistSection i d U hm =
+      ((Φ⁻¹[m * d, h₀]).hom.comp ((coordTwistSection i U (m * d)).comp (ϖ m).toAddMonoidHom) :
+        𝒢ᵈ m →+ Γᴸ[m * d]) :=
+    ⟨_, veroneseTwistSection.eq_1 i d U hm⟩
+  have e₂ : veroneseTwistSection i d U hm y =
+      ((Φ⁻¹[m * d, h₀]).hom.comp ((coordTwistSection i U (m * d)).comp (ϖ m).toAddMonoidHom) :
+        𝒢ᵈ m →+ Γᴸ[m * d]) y :=
+    DFunLike.congr_fun e₁ y
+  have e₃ : ((Φ⁻¹[m * d, h₀]).hom.comp ((coordTwistSection i U (m * d)).comp (ϖ m).toAddMonoidHom) :
+        𝒢ᵈ m →+ Γᴸ[m * d]) y =
+      (Φ⁻¹[m * d, h₀]).hom (((coordTwistSection i U (m * d)).comp (ϖ m).toAddMonoidHom :
+        𝒢ᵈ m →+ Γ(twistOnZ i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)) y) :=
+    AddMonoidHom.comp_apply _ _ y
+  have e₄ : ((coordTwistSection i U (m * d)).comp (ϖ m).toAddMonoidHom :
+        𝒢ᵈ m →+ Γ(twistOnZ i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)) y =
+      coordTwistSection i U (m * d) (((ϖ m).toAddMonoidHom : 𝒢ᵈ m →+ 𝒢 (m * d)) y) :=
+    AddMonoidHom.comp_apply _ _ y
+  have e₅ : ((ϖ m).toAddMonoidHom : 𝒢ᵈ m →+ 𝒢 (m * d)) y = ϖ m y := rfl
+  have e₆ : (Φ⁻¹[m * d, h₀]).hom (((coordTwistSection i U (m * d)).comp (ϖ m).toAddMonoidHom :
+        𝒢ᵈ m →+ Γ(twistOnZ i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)) y) =
+      (Φ⁻¹[m * d, h₀]).hom (coordTwistSection i U (m * d) (ϖ m y)) :=
+    congrArg (fun z => (Φ⁻¹[m * d, h₀]).hom z)
+      (Eq.trans e₄ (congrArg (fun z => coordTwistSection i U (m * d) z) e₅))
+  have e₇ : (Φ⁻¹[m * d, h₀]).hom (coordTwistSection i U (m * d) (ϖ m y)) =
+      Φ⁻¹[m * d, h₀] (coordTwistSection i U (m * d) (ϖ m y)) :=
+    ab_hom_apply _ _
+  have e₈ : Φ⁻¹[m * d, h₀] (coordTwistSection i U (m * d) (ϖ m y)) =
+      Φ⁻¹[m * d, h] (coordTwistSection i U (m * d) (ϖ m y)) :=
+    congrArg (fun h' => Φ⁻¹[m * d, h'] (coordTwistSection i U (m * d) (ϖ m y)))
+      (Subsingleton.elim h₀ h)
+  exact Eq.trans e₂ (Eq.trans e₃ (Eq.trans e₆ (Eq.trans e₇ e₈)))
+
+section VeroneseMul
+
+variable (d : ℕ) [NeZero d] (U : X.AffineZariskiSite) {a b : ℕ} (x : 𝒢ᵈ a) (y : 𝒢ᵈ b)
+
+omit [IsClosedImmersion i] in
+private theorem veronesePieceEquiv_mul
+    (hz : ((ϖ a x : 𝒢 (a * d)) : 𝒯) * ((ϖ b y : 𝒢 (b * d)) : 𝒯) ∈ 𝒢 ((a + b) * d)) :
+    ϖ (a + b) (⟨(x : 𝒱) * (y : 𝒱), SetLike.mul_mem_graded x.2 y.2⟩ : 𝒢ᵈ (a + b)) =
+      ⟨((ϖ a x : 𝒢 (a * d)) : 𝒯) * ((ϖ b y : 𝒢 (b * d)) : 𝒯), hz⟩ :=
+  Subtype.ext rfl
+
+set_option hygiene false in
+local notation "τ" =>
+  Scheme.Modules.Hom.app (eqToHom (congrArg (tensorPowerL i) (Nat.add_mul a b d).symm)) _
+
+set_option hygiene false in
+local notation "𝔵𝔶" => (⟨(x : 𝒱) * (y : 𝒱), SetLike.mul_mem_graded x.2 y.2⟩ : 𝒢ᵈ (a + b))
+
+set_option hygiene false in
+local notation "𝔛𝔜" => ((ϖ a x : 𝒢 (a * d)) : 𝒯) * ((ϖ b y : 𝒢 (b * d)) : 𝒯)
+
+/-- **Multiplicativity of the comparison** `T(U)^{(d)}_m ≅ Γ(f⁻¹(U), L^{md})`: for `x` of degree
+`a` and `y` of degree `b`, the product of the sections of `L^{ad}` and `L^{bd}` attached to `x` and
+`y`, transported along `L^{ad+bd} = L^{(a+b)d}`, is the section attached to `xy`. -/
+theorem veroneseTwistSection_mul (ha : 0 < a) (hb : 0 < b) :
+    τ (tensorPowerMulSection i (veroneseTwistSection i d U ha x)
+        (veroneseTwistSection i d U hb y)) =
+      veroneseTwistSection i d U (pos_add_of_pos ha b) 𝔵𝔶 := by
+  have hz : 𝔛𝔜 ∈ 𝒢 ((a + b) * d) := (ϖ (a + b) 𝔵𝔶).2
+  have h₁ : veroneseTwistSection i d U ha x =
+      Φ⁻¹[a * d, pos_mul_neZero d ha] (coordTwistSection i U (a * d) (ϖ a x)) :=
+    veroneseTwistSection_apply i d U ha _ x
+  have h₂ : veroneseTwistSection i d U hb y =
+      Φ⁻¹[b * d, pos_mul_neZero d hb] (coordTwistSection i U (b * d) (ϖ b y)) :=
+    veroneseTwistSection_apply i d U hb _ y
+  have h₃ : tensorPowerMulSection i (veroneseTwistSection i d U ha x)
+        (veroneseTwistSection i d U hb y) =
+      tensorPowerMulSection i
+        (Φ⁻¹[a * d, pos_mul_neZero d ha] (coordTwistSection i U (a * d) (ϖ a x)))
+        (Φ⁻¹[b * d, pos_mul_neZero d hb] (coordTwistSection i U (b * d) (ϖ b y))) :=
+    congrArg₂ (tensorPowerMulSection i) h₁ h₂
+  have h₄ : tensorPowerMulSection i
+        (Φ⁻¹[a * d, pos_mul_neZero d ha] (coordTwistSection i U (a * d) (ϖ a x)))
+        (Φ⁻¹[b * d, pos_mul_neZero d hb] (coordTwistSection i U (b * d) (ϖ b y))) =
+      Φ⁻¹[a * d + b * d, pos_add_of_pos (pos_mul_neZero d ha) (b * d)]
+        (coordTwistSection i U (a * d + b * d)
+          ⟨𝔛𝔜, SetLike.mul_mem_graded (ϖ a x).2 (ϖ b y).2⟩) :=
+    tensorPowerMulSection_coordTwistSection i U (pos_mul_neZero d ha) (pos_mul_neZero d hb) _ _
+  have h₅ : τ (tensorPowerMulSection i (veroneseTwistSection i d U ha x)
+        (veroneseTwistSection i d U hb y)) =
+      τ (Φ⁻¹[a * d + b * d, pos_add_of_pos (pos_mul_neZero d ha) (b * d)]
+        (coordTwistSection i U (a * d + b * d)
+          ⟨𝔛𝔜, SetLike.mul_mem_graded (ϖ a x).2 (ϖ b y).2⟩)) :=
+    congrArg (fun z => τ z) (Eq.trans h₃ h₄)
+  have h₆ : τ (Φ⁻¹[a * d + b * d, pos_add_of_pos (pos_mul_neZero d ha) (b * d)]
+        (coordTwistSection i U (a * d + b * d)
+          ⟨𝔛𝔜, SetLike.mul_mem_graded (ϖ a x).2 (ϖ b y).2⟩)) =
+      Φ⁻¹[(a + b) * d, pos_mul_neZero d (pos_add_of_pos ha b)]
+        (coordTwistSection i U ((a + b) * d) ⟨𝔛𝔜, hz⟩) :=
+    eqToHom_app_coordTwistSection i U (Nat.add_mul a b d).symm _ _ _ _ _ _
+  have h₇ : veroneseTwistSection i d U (pos_add_of_pos ha b) 𝔵𝔶 =
+      Φ⁻¹[(a + b) * d, pos_mul_neZero d (pos_add_of_pos ha b)]
+        (coordTwistSection i U ((a + b) * d) (ϖ (a + b) 𝔵𝔶)) :=
+    veroneseTwistSection_apply i d U _ _ _
+  have h₈ : Φ⁻¹[(a + b) * d, pos_mul_neZero d (pos_add_of_pos ha b)]
+        (coordTwistSection i U ((a + b) * d) (ϖ (a + b) 𝔵𝔶)) =
+      Φ⁻¹[(a + b) * d, pos_mul_neZero d (pos_add_of_pos ha b)]
+        (coordTwistSection i U ((a + b) * d) ⟨𝔛𝔜, hz⟩) :=
+    congrArg (fun z => Φ⁻¹[(a + b) * d, pos_mul_neZero d (pos_add_of_pos ha b)]
+      (coordTwistSection i U ((a + b) * d) z)) (veronesePieceEquiv_mul i d U x y hz)
+  exact Eq.trans h₅ (Eq.trans h₆ (Eq.symm (Eq.trans h₇ h₈)))
+
+end VeroneseMul
 
 end Local
 
