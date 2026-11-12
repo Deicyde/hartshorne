@@ -2,6 +2,7 @@
 article_id: af_56636760e63acc3203c2e28c
 declaration: theorem
 origin: cited
+lean: Hartshorne.QuasicoherentIdealSubsheaf.formalCompletion_support_invariant Hartshorne.QuasicoherentIdealSubsheaf.formalCompletionIsoOfSupportEq Hartshorne.QuasicoherentIdealSubsheaf.formalCompletionIsoOfSupportEq_hom_c_app_π Hartshorne.QuasicoherentIdealSubsheaf.infinitesimalNeighborhoodι_formalCompletionIsoOfSupportEq_hom_base Hartshorne.QuasicoherentIdealSubsheaf.exists_pow_carrier_le_of_support_le
 ---
 
 # Completion depends only on the closed support
