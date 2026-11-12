@@ -6,6 +6,8 @@ import Hartshorne.Scheme.Differentials.GenericDifferentials
 import Hartshorne.Scheme.Differentials.DifferentialsCharacterizeNonsingular
 import Hartshorne.Scheme.FiniteCurveDivisorPullback
 import Hartshorne.Cohomology.LocallyFiniteSumSheaf
+import Mathlib.Topology.Sheaves.Abelian
+import Mathlib.Topology.Sheaves.LocallySurjective
 
 /-!
 # The differential principal-parts resolution of a curve
@@ -370,5 +372,247 @@ theorem differentialsStalkToGeneric_injective [Nontrivial (functionFieldDifferen
   rw [differentialsToGeneric_app_injective f hfree U (hs.trans (map_zero _).symm), map_zero]
 
 end StalkRange
+
+section Resolution
+
+variable (k : Type u) [Field k] (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsIntegral X]
+
+/-- The sheaf of differentials `Ω_X = Ω_{X/k}`, as a sheaf of abelian groups. -/
+abbrev curveDifferentialsSheaf : TopCat.Sheaf AddCommGrpCat.{u} X.toTopCat :=
+  (SheafOfModules.toSheaf X.ringCatSheaf).obj (Scheme.relativeDifferentials (X ↘ Spec (.of k)))
+
+/-- The constant sheaf `Ω_K` with value `Ω_{K/k}`. -/
+abbrev rationalDifferentialsSheaf : TopCat.Sheaf AddCommGrpCat.{u} X.toTopCat :=
+  constantSheaf X.toTopCat (AddCommGrpCat.of (functionFieldDifferentials (X ↘ Spec (.of k))))
+
+/-- The group `Ω_{K/k}/Ω_{X,P}` of differential principal parts at `P`. -/
+abbrev differentialPrincipalPartsGroup (P : X) : AddCommGrpCat.{u} :=
+  AddCommGrpCat.of
+    (functionFieldDifferentials (X ↘ Spec (.of k)) ⧸ differentialsStalkRange (X ↘ Spec (.of k)) P)
+
+/-- The sheaf `⨁_P i_{P,*}(Ω_{K/k}/Ω_{X,P})` of locally finitely supported families of
+differential principal parts. -/
+abbrev differentialPrincipalPartsSheaf : TopCat.Sheaf AddCommGrpCat.{u} X.toTopCat :=
+  locallyFiniteSumSheaf (X := X.toTopCat) (differentialPrincipalPartsGroup k X)
+
+/-- The map `Ω_X ⟶ Ω_K`, sending a section to its generic value. -/
+def differentialsToRational : curveDifferentialsSheaf k X ⟶ rationalDifferentialsSheaf k X :=
+  (SheafOfModules.toSheaf X.ringCatSheaf).map (differentialsToGeneric (X ↘ Spec (.of k)))
+
+variable {k X}
+
+/-- A rational differential has finitely many poles: the principal parts of a locally constant
+map to `Ω_{K/k}` have locally finite support. -/
+theorem locallyFiniteSupport_differentialPrincipalPart (hX : X.IsNonsingularCurve k)
+    {U : X.Opens} (s : LocallyConstant U (functionFieldDifferentials (X ↘ Spec (.of k)))) :
+    LocallyFiniteSupport (X := X.toTopCat) (differentialPrincipalPartsGroup k X)
+      (fun x : U => (QuotientAddGroup.mk (s x) : differentialPrincipalPartsGroup k X x.1)) := by
+  intro x
+  obtain ⟨A, ⟨a⟩, t, ht⟩ := exists_differentialsToGeneric_eq (X ↘ Spec (.of k)) (s x)
+  let W : Set U := s ⁻¹' {s x}
+  have hW : IsOpen W := s.isLocallyConstant.isOpen_fiber _
+  let V : X.Opens := ⟨Subtype.val '' W, U.isOpen.isOpenMap_subtype_val W hW⟩
+  refine ⟨V, ⟨x, rfl, rfl⟩, ?_⟩
+  refine ((finite_compl_of_nonempty hX A ⟨a⟩).preimage Subtype.val_injective.injOn).subset ?_
+  rintro y ⟨⟨w, hwW, hwy⟩, hy⟩ hyA
+  apply hy
+  have hwy' : w = y := Subtype.ext hwy
+  subst hwy'
+  rw [QuotientAddGroup.eq_zero_iff]
+  have hsw : s w = s x := hwW
+  rw [hsw, ← ht ⟨w.1, hyA⟩]
+  exact differentialsGenericValue_mem _ t ⟨w.1, hyA⟩
+
+/-- **The principal-parts map `Ω_K ⟶ ⨁_P i_{P,*}(Ω_{K/k}/Ω_{X,P})`**: a locally constant map
+`s : U → Ω_{K/k}` goes to the family of its principal parts `(s(P) mod Ω_{X,P})_{P ∈ U}`. -/
+def rationalToPrincipalParts (hX : X.IsNonsingularCurve k) :
+    rationalDifferentialsSheaf k X ⟶ differentialPrincipalPartsSheaf k X :=
+  ObjectProperty.homMk
+    { app U := AddCommGrpCat.ofHom
+        { toFun := fun s => ⟨fun x : U.unop =>
+              (QuotientAddGroup.mk (s x) : differentialPrincipalPartsGroup k X x.1),
+            locallyFiniteSupport_differentialPrincipalPart hX s⟩
+          map_zero' := Subtype.ext (funext fun _ => QuotientAddGroup.mk_zero _)
+          map_add' := fun _ _ => Subtype.ext (funext fun _ => QuotientAddGroup.mk_add _ _ _) }
+      naturality := fun _ _ _ => rfl }
+
+theorem differentialsToRational_comp_rationalToPrincipalParts (hX : X.IsNonsingularCurve k) :
+    differentialsToRational k X ≫ rationalToPrincipalParts hX = 0 := by
+  apply ObjectProperty.hom_ext
+  ext U s
+  apply Subtype.ext
+  funext x
+  exact (QuotientAddGroup.eq_zero_iff _).2 (differentialsGenericValue_mem _ s x)
+
+/-- **The differential principal-parts complex**
+`Ω_X ⟶ Ω_K ⟶ ⨁_P i_{P,*}(Ω_{K/k}/Ω_{X,P})`. -/
+def differentialPrincipalPartsComplex (hX : X.IsNonsingularCurve k) :
+    ShortComplex (TopCat.Sheaf AddCommGrpCat.{u} X.toTopCat) :=
+  ShortComplex.mk (differentialsToRational k X) (rationalToPrincipalParts hX)
+    (differentialsToRational_comp_rationalToPrincipalParts hX)
+
+/-- On a nonsingular curve over an algebraically closed field, `Ω_{X/k}` is invertible
+(Hartshorne II.8.15). -/
+theorem relativeDifferentials_isLocallyFreeOfRank_one [IsAlgClosed k]
+    (hX : X.IsNonsingularCurve k) :
+    (Scheme.relativeDifferentials (X ↘ Spec (.of k))).IsLocallyFreeOfRank 1 := by
+  have : IsNoetherian X := hX.satisfiesConditionStar.isNoetherian
+  have hf : FiniteType (X ↘ Spec (.of k)) := ⟨hX.locallyOfFiniteType, hX.quasiCompact⟩
+  have hn : topologicalKrullDim X = ((1 : ℕ) : WithBot ℕ∞) := by
+    simpa using hX.topologicalKrullDim_eq_one
+  exact (isRegular_iff_relativeDifferentials_isLocallyFreeOfRank _ hf 1 hn).1
+    ⟨inferInstance, hX.isRegularLocalRing_stalk⟩
+
+/-- `Ω_X ⟶ Ω_K` is a monomorphism. -/
+theorem mono_differentialsToRational [IsAlgClosed k] (hX : X.IsNonsingularCurve k) :
+    Mono (differentialsToRational k X) := by
+  have := functionFieldDifferentials_nontrivial hX
+  have hU : ∀ U, Mono ((differentialsToRational k X).hom.app U) := fun U =>
+    (AddCommGrpCat.mono_iff_injective _).2 (differentialsToGeneric_app_injective _
+      (relativeDifferentials_isLocallyFreeOfRank_one hX) U.unop)
+  have : Mono (differentialsToRational k X).hom := NatTrans.mono_of_mono_app _
+  exact Sheaf.Hom.mono_of_presheaf_mono _ _ _
+
+/-- **Gluing local representatives.** A locally constant map to `Ω_{K/k}` whose values lie in
+the stalks `Ω_{X,y}` is the image of a section of `Ω_X`. -/
+theorem exists_differentialsGenericValue_eq [IsAlgClosed k] (hX : X.IsNonsingularCurve k)
+    {W : X.Opens} (s : LocallyConstant W (functionFieldDifferentials (X ↘ Spec (.of k))))
+    (hs : ∀ y : W, s y ∈ differentialsStalkRange (X ↘ Spec (.of k)) y.1) :
+    ∃ t : Γ(Scheme.relativeDifferentials (X ↘ Spec (.of k)), W),
+      differentialsGenericValue _ t = s := by
+  have := functionFieldDifferentials_nontrivial hX
+  have hfree := relativeDifferentials_isLocallyFreeOfRank_one hX
+  by_cases hW : Nonempty W
+  · obtain ⟨y₀⟩ := hW
+    have hpre : PreconnectedSpace W := Subtype.preconnectedSpace
+      ((PreirreducibleSpace.isPreirreducible_univ (X := X)).open_subset W.isOpen
+        (Set.subset_univ _)).isPreconnected
+    have hconst : ∀ y : W, s y = s y₀ := fun y =>
+      s.isLocallyConstant.apply_eq_of_preconnectedSpace y y₀
+    choose U hyU t ht using fun y : W => hs y
+    let B : W → X.Opens := fun y => U y ⊓ W
+    let F := curveDifferentialsSheaf k X
+    let sf : ∀ y : W, ToType (F.obj.obj (op (B y))) := fun y =>
+      (Scheme.relativeDifferentials (X ↘ Spec (.of k))).presheaf.map (homOfLE inf_le_left).op (t y)
+    have hval : ∀ (y : W) (V : X.Opens) (i : V ⟶ B y) (z : V),
+        differentialsGenericValue _
+          ((Scheme.relativeDifferentials (X ↘ Spec (.of k))).presheaf.map i.op (sf y)) z =
+          s y₀ := by
+      intro y V i z
+      rw [differentialsToGeneric_res, differentialsToGeneric_res,
+        differentialsGenericValue_eq _ _ _ ⟨y.1, hyU y⟩, ht y, hconst y]
+    have hcompat : TopCat.Presheaf.IsCompatible F.obj B sf := by
+      intro y z
+      apply differentialsToGeneric_app_injective _ hfree
+      refine LocallyConstant.ext fun p => ?_
+      exact (hval y _ _ p).trans (hval z _ _ p).symm
+    obtain ⟨t', ht', -⟩ := TopCat.Sheaf.existsUnique_gluing' F B W
+      (fun y => homOfLE inf_le_right) (fun y hy => Opens.mem_iSup.2 ⟨⟨y, hy⟩, hyU _, hy⟩) sf
+      hcompat
+    refine ⟨t', LocallyConstant.ext fun y => ?_⟩
+    have h1 := differentialsToGeneric_res _ (homOfLE (inf_le_right : B y ≤ W)) t'
+      ⟨y.1, hyU y, y.2⟩
+    have h2 : (Scheme.relativeDifferentials (X ↘ Spec (.of k))).presheaf.map
+        (homOfLE inf_le_right).op t' =
+        sf y := ht' y
+    rw [h2] at h1
+    refine h1.symm.trans (Eq.trans ?_ (hconst y).symm)
+    have h3 := hval y (B y) (𝟙 _) ⟨y.1, hyU y, y.2⟩
+    rwa [op_id, (Scheme.relativeDifferentials (X ↘ Spec (.of k))).presheaf.map_id,
+      ConcreteCategory.id_apply] at h3
+  · exact ⟨0, LocallyConstant.ext fun y => (hW ⟨y⟩).elim⟩
+
+/-- **Exactness at `Ω_K`**, checked on stalks. -/
+theorem differentialPrincipalPartsComplex_exact [IsAlgClosed k] (hX : X.IsNonsingularCurve k) :
+    (differentialPrincipalPartsComplex hX).Exact := by
+  rw [TopCat.Sheaf.exact_iff_stalkFunctor_map_exact]
+  intro x
+  rw [ShortComplex.ab_exact_iff]
+  intro t ht
+  obtain ⟨U, hxU, s, rfl⟩ := (rationalDifferentialsSheaf k X).presheaf.exists_germ_eq t
+  change (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map (rationalToPrincipalParts hX).hom
+    ((rationalDifferentialsSheaf k X).presheaf.germ U x hxU s) = 0 at ht
+  rw [TopCat.Presheaf.stalkFunctor_map_germ_apply] at ht
+  have ht' : (differentialPrincipalPartsSheaf k X).presheaf.germ U x hxU
+      ((rationalToPrincipalParts hX).hom.app (op U) s) =
+      (differentialPrincipalPartsSheaf k X).presheaf.germ U x hxU 0 := by
+    rw [ht]
+    exact (map_zero _).symm
+  obtain ⟨W, hxW, iU, iV, hW⟩ :=
+    (differentialPrincipalPartsSheaf k X).presheaf.germ_eq x hxU hxU _ _ ht'
+  rw [map_zero] at hW
+  let sW : LocallyConstant W (functionFieldDifferentials (X ↘ Spec (.of k))) :=
+    (rationalDifferentialsSheaf k X).presheaf.map iU.op s
+  have hsW : (rationalToPrincipalParts hX).hom.app (op W) sW = 0 := by
+    rw [← hW]
+    exact (ConcreteCategory.congr_hom ((rationalToPrincipalParts hX).hom.naturality iU.op) s)
+  have hmem : ∀ y : W, sW y ∈ differentialsStalkRange _ y.1 := by
+    intro y
+    have hy := congrFun (congrArg Subtype.val hsW) y
+    exact (QuotientAddGroup.eq_zero_iff _).1 hy
+  obtain ⟨r, hr⟩ := exists_differentialsGenericValue_eq hX sW hmem
+  refine ⟨(curveDifferentialsSheaf k X).presheaf.germ W x hxW r, ?_⟩
+  refine (TopCat.Presheaf.stalkFunctor_map_germ_apply (F := (curveDifferentialsSheaf k X).presheaf)
+    (G := (rationalDifferentialsSheaf k X).presheaf) W x hxW
+    (differentialsToRational k X).hom r).trans ?_
+  change (rationalDifferentialsSheaf k X).presheaf.germ W x hxW (differentialsGenericValue _ r) = _
+  rw [hr]
+  exact (rationalDifferentialsSheaf k X).presheaf.germ_res_apply iU x hxW s
+
+/-- The principal parts at the generic point vanish. -/
+theorem differentialPrincipalPartsGroup_genericPoint_eq_zero
+    (a : differentialPrincipalPartsGroup k X (genericPoint X)) : a = 0 := by
+  obtain ⟨ω, rfl⟩ := QuotientAddGroup.mk_surjective a
+  rw [QuotientAddGroup.eq_zero_iff, differentialsStalkRange_genericPoint]
+  exact AddSubgroup.mem_top ω
+
+/-- **Local surjectivity of the principal-parts map**: near a point `x`, a family of principal
+parts is the image of a single rational differential with the prescribed principal part at `x`,
+on a neighbourhood avoiding the other points of the support and the poles of that differential. -/
+theorem epi_rationalToPrincipalParts (hX : X.IsNonsingularCurve k) :
+    Epi (rationalToPrincipalParts hX) := by
+  rw [← TopCat.Sheaf.isLocallySurjective_iff_epi, TopCat.Presheaf.isLocallySurjective_iff]
+  intro U t x hxU
+  classical
+  obtain ⟨ω, hω⟩ := QuotientAddGroup.mk_surjective (t.1 ⟨x, hxU⟩)
+  obtain ⟨A, ⟨a⟩, r, hr⟩ := exists_differentialsToGeneric_eq (X ↘ Spec (.of k)) ω
+  obtain ⟨V₀, hxV₀, hfin⟩ := t.2 ⟨x, hxU⟩
+  let E : Set X := ((Subtype.val '' {y : U | y.1 ∈ V₀ ∧ t.1 y ≠ 0}) ∪ (A : Set X)ᶜ) \ {x}
+  have hEfin : E.Finite := ((hfin.image _).union (finite_compl_of_nonempty hX A ⟨a⟩)).sdiff
+  have hηA : genericPoint X ∈ A := genericPoint_mem_of_mem a.2
+  have hηE : genericPoint X ∉ E := by
+    rintro ⟨h | h, -⟩
+    · obtain ⟨⟨y, hyU⟩, ⟨-, hy⟩, hyη⟩ := h
+      change y = genericPoint X at hyη
+      subst hyη
+      exact hy (differentialPrincipalPartsGroup_genericPoint_eq_zero _)
+    · exact h hηA
+  have hEc : IsClosed E := isClosed_of_finite_of_genericPoint_notMem hX hEfin hηE
+  let V : X.Opens := U ⊓ V₀ ⊓ ⟨Eᶜ, hEc.isOpen_compl⟩
+  refine ⟨V, fun y hy => hy.1.1, ⟨LocallyConstant.const V ω, ?_⟩, ⟨⟨hxU, hxV₀⟩, fun h => h.2 rfl⟩⟩
+  apply Subtype.ext
+  funext y
+  obtain ⟨y, ⟨⟨hyU, hyV₀⟩, hyE⟩⟩ := y
+  change (QuotientAddGroup.mk ω : differentialPrincipalPartsGroup k X y) = t.1 ⟨y, hyU⟩
+  by_cases hyx : y = x
+  · subst hyx
+    exact hω
+  · have hyA : y ∈ A := by
+      by_contra h
+      exact hyE ⟨Or.inr h, hyx⟩
+    have ht0 : t.1 ⟨y, hyU⟩ = 0 := by
+      by_contra h
+      exact hyE ⟨Or.inl ⟨⟨y, hyU⟩, ⟨hyV₀, h⟩, rfl⟩, hyx⟩
+    rw [ht0, QuotientAddGroup.eq_zero_iff, ← hr ⟨y, hyA⟩]
+    exact differentialsGenericValue_mem _ r ⟨y, hyA⟩
+
+/-- The differential principal-parts complex is a short exact sequence. -/
+theorem differentialPrincipalPartsComplex_shortExact [IsAlgClosed k]
+    (hX : X.IsNonsingularCurve k) : (differentialPrincipalPartsComplex hX).ShortExact :=
+  { exact := differentialPrincipalPartsComplex_exact hX
+    mono_f := mono_differentialsToRational hX
+    epi_g := epi_rationalToPrincipalParts hX }
+
+end Resolution
 
 end Hartshorne
