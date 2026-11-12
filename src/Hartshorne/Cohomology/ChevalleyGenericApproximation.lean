@@ -479,6 +479,82 @@ theorem isCoherent_approx [IsLocallyNoetherian Y]
   haveI : IsNoetherianRing Γ(Y, U.1) := IsLocallyNoetherian.component_noetherian ⟨U.1, U.2⟩
   exact finite_homSec f M F U
 
+/-! ### Sections of the glued module over the pieces -/
+
+theorem piece_eq (U : Y.AffineZariskiSite) :
+    (ofHom f).ι U ''ᵁ ⊤ = (ofHom f).relSpecToBase ⁻¹ᵁ U.1 := by
+  rw [Scheme.Hom.image_top_eq_opensRange]
+  exact ((ofHom f).relSpecToBase_preimage U).symm
+
+theorem piece_le {V : Y.Opens} {U : Y.AffineZariskiSite} (h : U.1 ≤ V) :
+    (ofHom f).ι U ''ᵁ ⊤ ≤ (ofHom f).relSpecToBase ⁻¹ᵁ V := by
+  rw [piece_eq]
+  exact Scheme.Hom.preimage_mono _ h
+
+theorem piece_mono {U V : Y.AffineZariskiSite} (i : U ⟶ V) :
+    (ofHom f).ι U ''ᵁ ⊤ ≤ (ofHom f).ι V ''ᵁ ⊤ := by
+  rw [piece_eq, piece_eq]
+  exact Scheme.Hom.preimage_mono _ (le_of_hom i)
+
+theorem image_trans_le {U V : Y.AffineZariskiSite} (i : U ⟶ V) :
+    (ofHom f).ι V ''ᵁ (Spec.map ((ofHom f).sections.map i.op) ''ᵁ ⊤) ≤ (ofHom f).ι U ''ᵁ ⊤ := by
+  rintro _ ⟨_, ⟨y, -, rfl⟩, rfl⟩
+  exact ⟨y, trivial, by rw [← (ofHom f).map_ι i]; rfl⟩
+
+/-- The homomorphism attached to a section of the glued module over the piece over `U`. -/
+def homOf (U : Y.AffineZariskiSite) (x : Γ((homData f M F).glue, (ofHom f).ι U ''ᵁ ⊤)) :
+    homSec f M F U.1 :=
+  (tilde.isoTop (homSec f M F U.1)).inv (((homData f M F).ψ U).hom.app ⊤ x)
+
+theorem toOpen_homOf (U : Y.AffineZariskiSite)
+    (x : Γ((homData f M F).glue, (ofHom f).ι U ''ᵁ ⊤)) :
+    (tilde.toOpen (homSec f M F U.1) ⊤).hom (homOf f M F U x) =
+      ((homData f M F).ψ U).hom.app ⊤ x :=
+  (tilde.isoTop (homSec f M F U.1)).inv_hom_id_apply _
+
+theorem homOf_injective (U : Y.AffineZariskiSite) : Function.Injective (homOf f M F U) :=
+  (ConcreteCategory.bijective_of_isIso (tilde.isoTop (homSec f M F U.1)).inv).1.comp
+    (ConcreteCategory.bijective_of_isIso (((homData f M F).ψ U).hom.app ⊤)).1
+
+theorem homOf_surjective (U : Y.AffineZariskiSite) : Function.Surjective (homOf f M F U) :=
+  (ConcreteCategory.bijective_of_isIso (tilde.isoTop (homSec f M F U.1)).inv).2.comp
+    (ConcreteCategory.bijective_of_isIso (((homData f M F).ψ U).hom.app ⊤)).2
+
+theorem homOf_add (U : Y.AffineZariskiSite) (x y : Γ((homData f M F).glue, (ofHom f).ι U ''ᵁ ⊤)) :
+    homOf f M F U (x + y) = homOf f M F U x + homOf f M F U y := by
+  rw [homOf, homOf, homOf]
+  erw [map_add, map_add]
+
+theorem homOf_zero (U : Y.AffineZariskiSite) : homOf f M F U 0 = 0 := by
+  have h := homOf_add f M F U 0 0
+  rw [add_zero] at h
+  exact left_eq_add.mp h
+
+/-- Restricting a section from the piece over `U` to the piece over a basic open `W ⊆ U`
+restricts the attached homomorphism. -/
+theorem homOf_res {W U : Y.AffineZariskiSite} (i : W ⟶ U)
+    (x : Γ((homData f M F).glue, (ofHom f).ι U ''ᵁ ⊤)) :
+    homSec.lin f M F (homOf f M F W ((homData f M F).glue.presheaf.map
+      (homOfLE (piece_mono f i)).op x)) = homRes f M F i (homSec.lin f M F (homOf f M F U x)) := by
+  apply (ConcreteCategory.bijective_of_isIso (tilde.isoTop (homSec f M F W.1)).hom).1
+  change (tilde.toOpen (homSec f M F W.1) ⊤).hom (homOf f M F W _) =
+    (tilde.toOpen (homSec f M F W.1) ⊤).hom ((homResHom f M F i).hom (homOf f M F U x))
+  rw [toOpen_homOf, (homData f M F).ψ_hom_app_top i (image_trans_le f i)]
+  have h1 : ((homData f M F).ψ U).hom.app (Spec.map ((ofHom f).sections.map i.op) ''ᵁ ⊤)
+      ((homData f M F).glue.presheaf.map (homOfLE (image_trans_le f i)).op
+        ((homData f M F).glue.presheaf.map (homOfLE (piece_mono f i)).op x)) =
+      (tilde.toOpen (homSec f M F U.1) (Spec.map ((ofHom f).sections.map i.op) ''ᵁ ⊤)).hom
+        (homOf f M F U x) := by
+    rw [DirectedModuleGluing.pmap_map]
+    have h2 := ConcreteCategory.congr_hom (((homData f M F).ψ U).hom.mapPresheaf.naturality
+      (homOfLE (le_top : Spec.map ((ofHom f).sections.map i.op) ''ᵁ ⊤ ≤ ⊤)).op) x
+    refine h2.trans ?_
+    change (tilde (homSec f M F U.1)).presheaf.map _ (((homData f M F).ψ U).hom.app ⊤ x) = _
+    rw [← toOpen_homOf]
+    rfl
+  rw [h1]
+  exact (homData f M F).θ_hom_app_top_toOpen i (homOf f M F U x)
+
 end Glue
 
 end ChevalleyApprox
