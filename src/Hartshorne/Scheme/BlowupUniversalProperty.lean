@@ -320,4 +320,75 @@ private theorem mem_nonZeroDivisors_of_span_eq {R : Type*} [CommRing R] {x γ : 
   rw [← hu]
   exact mul_mem (IsUnit.of_mul_eq_one_right v hvu).mem_nonZeroDivisors hγ
 
+/-! ### Uniqueness of the factorization through the blowing-up -/
+
+section Uniqueness
+
+open AlgebraicGeometry
+
+/-- Two morphisms mapping an open `V` into an affine open `C` agree on `V` when they induce the
+same ring map `Γ(C) → Γ(V)`. -/
+private theorem ι_comp_eq_of_appLE_eq {Y Z : Scheme.{u}} {g₁ g₂ : Z ⟶ Y} {C : Y.Opens}
+    (hC : IsAffineOpen C) {V : Z.Opens} (h₁ : V ≤ g₁ ⁻¹ᵁ C) (h₂ : V ≤ g₂ ⁻¹ᵁ C)
+    (h : g₁.appLE C V h₁ = g₂.appLE C V h₂) : V.ι ≫ g₁ = V.ι ≫ g₂ := by
+  rw [← g₁.resLE_comp_ι h₁, ← g₂.resLE_comp_ι h₂]
+  congr 1
+  have : IsAffine C.toScheme := hC
+  refine ext_of_isAffine ?_
+  simp only [Scheme.Hom.appTop, Scheme.Hom.resLE_app_top, h]
+
+set_option backward.isDefEq.respectTransparency false in
+private theorem appLE_specMap_fromSpec' {X : Scheme.{u}} {R : CommRingCat.{u}} {V : X.Opens}
+    (hV : IsAffineOpen V) (φ : Γ(X, V) ⟶ R) (h : (⊤ : (Spec R).Opens) ≤ (Spec.map φ ≫ hV.fromSpec) ⁻¹ᵁ V) :
+    (Spec.map φ ≫ hV.fromSpec).appLE V ⊤ h = φ ≫ (Scheme.ΓSpecIso R).inv := by
+  rw [← cancel_mono (Scheme.ΓSpecIso R).hom, Scheme.Hom.comp_appLE_assoc,
+    IsAffineOpen.fromSpec_app_self, Category.assoc, Scheme.Hom.map_appLE_assoc,
+    SpecMap_appLE_top_ΓSpecIso, Iso.inv_hom_id_assoc, Category.assoc, Iso.inv_hom_id,
+    Category.comp_id]
+
+private theorem appLE_congr_hom {X Y : Scheme.{u}} {φ ψ : X ⟶ Y} (hφψ : φ = ψ) (U : Y.Opens)
+    (V : X.Opens) (e : V ≤ φ ⁻¹ᵁ U) (e' : V ≤ ψ ⁻¹ᵁ U) : φ.appLE U V e = ψ.appLE U V e' := by
+  subst hφψ; rfl
+
+namespace QuasiCoherentGradedAlgebra
+
+variable {X : Scheme.{u}} (S : QuasiCoherentGradedAlgebra X)
+
+theorem chartι_image_le (U : X.AffineZariskiSite) {a : S.obj.obj (.op U)}
+    (a_deg : a ∈ S.grading U 1) : S.chartι U a_deg ''ᵁ ⊤ ≤ S.relProjToBase ⁻¹ᵁ U.1 := by
+  rintro _ ⟨w, -, rfl⟩
+  change (S.chartι U a_deg ≫ S.relProjToBase) w ∈ U.1
+  rw [chartι_relProjToBase, Scheme.Hom.comp_apply]
+  exact U.2.range_fromSpec.le ⟨_, rfl⟩
+
+/-- On the chart `D₊(a)`, the structure map `Γ(U, 𝒪_X) → S(U)_(a) ≅ Γ(D₊(a), 𝒪)` is the ring map
+of the projection. -/
+theorem chartMap_comp_chartSectionsIso_hom (U : X.AffineZariskiSite) {a : S.obj.obj (.op U)}
+    (a_deg : a ∈ S.grading U 1) :
+    S.chartMap U a ≫ (S.chartSectionsIso U a_deg).hom =
+      S.relProjToBase.appLE U.1 (S.chartι U a_deg ''ᵁ ⊤) (S.chartι_image_le U a_deg) := by
+  rw [← cancel_mono ((S.chartι U a_deg).appIso ⊤).hom, chartSectionsIso, Iso.trans_hom,
+    Iso.symm_hom, Iso.symm_hom, Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id,
+    Scheme.Hom.appIso_hom', Scheme.Hom.appLE_comp_appLE]
+  have e' : (⊤ : (Spec (.of (HomogeneousLocalization.Away (S.grading U) a))).Opens) ≤
+      (Spec.map (S.chartMap U a) ≫ U.2.fromSpec) ⁻¹ᵁ U.1 := fun x _ => by
+    change (Spec.map (S.chartMap U a) ≫ U.2.fromSpec) x ∈ U.1
+    rw [Scheme.Hom.comp_apply]
+    exact U.2.range_fromSpec.le ⟨_, rfl⟩
+  rw [appLE_congr_hom (S.chartι_relProjToBase U a_deg) _ _ _ e', appLE_specMap_fromSpec']
+
+/-- For `g : Z ⟶ Proj_X S` over `f : Z ⟶ X` mapping `V` into the chart `D₊(a)`, the ring map
+`S(U)_(a) → Γ(V, 𝒪_Z)` restricts on `Γ(U, 𝒪_X)` to the ring map of `f`. -/
+theorem chartMap_comp_appLE {Z : Scheme.{u}} {f : Z ⟶ X} {g : Z ⟶ S.relProj}
+    (hg : g ≫ S.relProjToBase = f) (U : X.AffineZariskiSite) {a : S.obj.obj (.op U)}
+    (a_deg : a ∈ S.grading U 1) {V : Z.Opens} (hV : V ≤ g ⁻¹ᵁ (S.chartι U a_deg ''ᵁ ⊤))
+    (hVf : V ≤ f ⁻¹ᵁ U.1) :
+    S.chartMap U a ≫ (S.chartSectionsIso U a_deg).hom ≫ g.appLE _ V hV = f.appLE U.1 V hVf := by
+  rw [← Category.assoc, chartMap_comp_chartSectionsIso_hom, Scheme.Hom.appLE_comp_appLE]
+  exact appLE_congr_hom hg _ _ _ _
+
+end QuasiCoherentGradedAlgebra
+
+end Uniqueness
+
 end Hartshorne
