@@ -2,6 +2,7 @@
 article_id: af_22776d0fa8f18f49063c6e2d
 declaration: theorem
 origin: cited
+lean: Hartshorne.hasseWeilZetaSeries_projectiveLine
 ---
 
 # The zeta function of the projective line
