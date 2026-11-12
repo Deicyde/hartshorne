@@ -19,6 +19,10 @@ and $\mathcal{O}(1)$.
 - [Projective space over a scheme](../../proper-and-projective/projective-space-over-scheme.md)
 - [Relative twisting sheaves and very ampleness](../../projective-sheaves/relative-twisting-and-very-ample.md)
 
+## Proof depends on
+
+- [Morphisms from generated invertible sheaves](../linear-systems-ampleness/morphism-from-generated-line-bundle.md)
+
 ## Sources
 
 - [Hartshorne II.7, projective-bundle definition (p.162) and Exercise 7.10(b) (pp.170–171)](../../../../sources/hartshorne-ii-7.md#relative-proj-and-projective-bundles)
