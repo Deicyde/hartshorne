@@ -3,6 +3,8 @@ article_id: af_161869b17d76a0768818f127
 declaration: def
 origin: bridged
 lean: Hartshorne.Spf Hartshorne.IsAffineNoetherianFormalScheme Hartshorne.specIdealSubsheaf Hartshorne.range_specIdealSubsheaf_infinitesimalNeighborhoodι Hartshorne.spfHomeomorph
+statement: formalized
+proof: formalized
 ---
 
 # The project formal-spectrum bridge
