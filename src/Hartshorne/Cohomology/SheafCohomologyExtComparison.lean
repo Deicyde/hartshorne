@@ -30,7 +30,8 @@ groups are `H^n(X,F)` and `R^n Hom(ℤ_X,-)(F)`; this gives
 `H^n(X,-) ≅ R^n Hom(ℤ_X,-)` (`Hartshorne.sheafCohomologyIsoRightDerivedHom`). Since the
 connecting maps of right derived functors are computed on horseshoe resolutions, and the
 termwise isomorphism is a morphism between the resulting short exact sequences of complexes, it
-commutes with the connecting maps (`Hartshorne.rightDerivedδ_natTrans`).
+commutes with the connecting maps (`Hartshorne.rightDerivedδ_natTrans`). Hartshorne III.6
+(p. 233) defines `Ext^n(F,-)` as `R^n Hom(F,-)`, so this is the comparison of the book.
 
 It remains to identify `R^n Hom(A,-)` with Mathlib's `Ext^n(A,-)`, defined through the derived
 category, compatibly with connecting maps. Both are effaceable cohomological functors on a
@@ -186,7 +187,6 @@ theorem δ_compIso_hom (e₀ : T₁.F 0 ≅ T₂.F 0) {S : ShortComplex C} (hS :
   rw [Category.assoc, δ_succApp_hom, NatTrans.naturality_assoc]
 
 end EffaceableCohomologicalFunctor
-
 
 section RightDerived
 
