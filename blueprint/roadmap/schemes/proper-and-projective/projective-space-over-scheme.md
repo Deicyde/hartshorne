@@ -4,7 +4,7 @@ declaration: abbrev
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.projectiveSpaceOverScheme Hartshorne.projectiveSpaceOverSchemeProjection
+lean: Hartshorne.projectiveSpaceOverScheme Hartshorne.projectiveSpaceOverSchemeProjection Hartshorne.projectiveSpaceOverSpecIso Hartshorne.projectiveSpaceOverSpecIso_hom Hartshorne.projToProjectiveSpaceOverSpec Hartshorne.projToProjectiveSpaceOverSpec_fst Hartshorne.projToProjectiveSpaceOverSpec_projection
 ---
 
 # Projective space over a scheme
