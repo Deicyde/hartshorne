@@ -4,8 +4,6 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.BirationalSectionAlgebraModel
 import Hartshorne.Scheme.RelativeProjVeronese
-import Hartshorne.Scheme.QcqsPushforwardQuasicoherent
-import Hartshorne.Scheme.InvertibleSectionClearingDenominators
 
 /-!
 # The relative homogeneous coordinate algebra of a closed subscheme of `ℙʳ_X`
@@ -32,13 +30,10 @@ graded `𝒪_X`-algebra.
   `SectionAlgebraModel.sectionAlgebraRelativeProjIso`: for `d > 0`, the Veronese subalgebra
   `T^{(d)}` satisfies Hartshorne's hypotheses for relative Proj (`T₀ = 𝒪_X` when `f` is dominant
   onto an integral `X`; `T_d` coherent; generated in degree one), and `Proj_X T^{(d)} ≅ Z` over `X`.
-* `SectionAlgebraModel.exists_finite_cover_addEquiv_sections_veronese`,
-  `SectionAlgebraModel.exists_sectionAlgebraModel_of_finiteCover`: over a finite affine cover of a
-  quasi-compact `X` of finite type over a field, with a uniform `d₀`, the degree-`m` part of
-  `T^{(d)}` is the group of sections of `L^{md}`, `L = i^* 𝒪(1)` (Step 2, `d ≥ d₀`, `m ≥ 1`).
 
-The comparison of `T^{(d)}` with `𝒪_X ⊕ ⨁_{m ≥ 1} f_* L^{md}` is proved here over the members of a
-finite affine cover only; Hartshorne's statement is about the sheaves.
+The comparison of the graded pieces of `T^{(d)}` with the sections of `L^{md}`, `L = i^* 𝒪(1)`, on
+every affine open with one bound `d₀` (Step 2), and the resulting section-algebra model, are in
+`Hartshorne.Scheme.SectionAlgebraUniformBound`.
 -/
 
 universe u
@@ -839,127 +834,7 @@ def veronesePieceEquiv {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupC
   right_inv _ := rfl
   map_add' _ _ := rfl
 
-variable (k : Type u) [Field k] {X Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r X)
-  [IsClosedImmersion i] [IsIntegral Z]
-
-/-- **Step 2 on an affine open, for the relative homogeneous coordinate algebra**: for all large
-`n`, the sections of `L^{⊗n}` over `f⁻¹(U)` are `T(U)_n`, where `L = i^* 𝒪(1)`. -/
-theorem exists_addEquiv_sections_tensorPower_coordinateAlgebra (U : X.AffineZariskiSite)
-    [Algebra k Γ(X, U.1)] [Algebra.FiniteType k Γ(X, U.1)] :
-    ∃ n₀ : ℕ, ∀ n ≥ n₀, Nonempty (Γ(moduleSheafTensorPower n
-        ((Scheme.Modules.pullback ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1).ι).obj
-          ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1))), ⊤) ≃+
-      (coordinateAlgebra i).grading U n) := by
-  obtain ⟨n₀, hn₀⟩ := exists_addEquiv_sections_tensorPower_of_fac k i U.2 _ (chartIso i U.1 U.2)
-    (chartIso_hom_comp i U.1 U.2)
-  refine ⟨n₀ + 1, fun n hn => ?_⟩
-  obtain ⟨N, rfl⟩ : ∃ N, n = N + 1 := ⟨n - 1, by omega⟩
-  exact hn₀ N (by omega)
-
-/-- **The uniform bound over a finite affine cover** (Hartshorne II, proof of Theorem 7.17,
-Step 2). Let `X` be quasi-compact and locally of finite type over a field `k`. There are finitely
-many affine opens covering `X` and a `d₀` such that for every `d ≥ d₀`, every `m ≥ 1` and every
-affine `U` of the cover, the degree-`m` part of `T(U)^{(d)}` is the group of sections of `L^{⊗md}`
-over `f⁻¹(U)`. -/
-theorem exists_finite_cover_addEquiv_sections_veronese [CompactSpace X]
-    (pX : X ⟶ Spec (.of k)) [LocallyOfFiniteType pX] :
-    ∃ s : Finset X.affineOpens, (∀ x : X, ∃ U ∈ s, x ∈ (U : X.Opens)) ∧
-      ∃ d₀ : ℕ, ∀ U ∈ s, ∀ (d : ℕ) [NeZero d], d₀ ≤ d → ∀ m : ℕ, 0 < m →
-        Nonempty (Γ(moduleSheafTensorPower (m * d)
-            ((Scheme.Modules.pullback ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ
-              (U : X.Opens)).ι).obj
-              ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1))), ⊤) ≃+
-          ((coordinateAlgebra i).veronese d).grading ⟨U.1, U.2⟩ m) := by
-  classical
-  have hbound : ∀ U : X.affineOpens, ∃ n₀ : ℕ, ∀ n ≥ n₀, Nonempty (Γ(moduleSheafTensorPower n
-      ((Scheme.Modules.pullback ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ
-        (U : X.Opens)).ι).obj
-        ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1))), ⊤) ≃+
-      (coordinateAlgebra i).grading ⟨U.1, U.2⟩ n) := fun U => by
-    obtain ⟨_, _⟩ := exists_algebra_finiteType_of_locallyOfFiniteType k pX U.2
-    exact exists_addEquiv_sections_tensorPower_coordinateAlgebra k i ⟨U.1, U.2⟩
-  choose n₀ hn₀ using hbound
-  obtain ⟨s, hs⟩ := isCompact_univ.elim_finite_subcover (fun U : X.affineOpens => (U : Set X))
-    (fun U => U.1.isOpen) (fun x _ => by
-      obtain ⟨W, hW, hxW, -⟩ := exists_isAffineOpen_mem_and_subset (x := x)
-        (U := (⊤ : X.Opens)) trivial
-      exact Set.mem_iUnion.mpr ⟨⟨W, hW⟩, hxW⟩)
-  refine ⟨s, fun x => ?_, s.sup n₀, fun U hU d _ hd m hm => ?_⟩
-  · obtain ⟨U, hU, hxU⟩ := Set.mem_iUnion₂.mp (hs (Set.mem_univ x))
-    exact ⟨U, hU, hxU⟩
-  · have hle : n₀ U ≤ m * d :=
-      (Finset.le_sup hU).trans (hd.trans (Nat.le_mul_of_pos_left d hm))
-    obtain ⟨e⟩ := hn₀ U (m * d) hle
-    exact ⟨e.trans (veronesePieceEquiv _ d m).symm⟩
-
 end Comparison
-
-/-! ### Sections of `f_* F` over basic opens -/
-
-section PushforwardLocalization
-
-variable {X Z : Scheme.{u}} (f : Z ⟶ X) [QuasiCompact f] [QuasiSeparated f] (F : Z.Modules)
-  [F.IsQuasicoherent]
-
-/-- **Hartshorne II, Lemma 5.3(a), applied to `f_* F`** (`f` quasi-compact and
-quasi-separated, `F` quasi-coherent, `U ⊆ X` affine): a section of `F` over `f⁻¹(U)` vanishing on
-`f⁻¹(D(g))` is killed by a power of `g`. -/
-theorem exists_pow_smul_eq_zero_of_isAffineOpen_preimage {U : X.Opens} (hU : IsAffineOpen U)
-    (g : Γ(X, U)) (s : Γ(F, f ⁻¹ᵁ U))
-    (hs : F.presheaf.map (homOfLE (f.preimage_mono (X.basicOpen_le g))).op s = 0) :
-    ∃ n : ℕ, f.app U g ^ n • s = 0 := by
-  have := isQuasicoherent_pushforward_of_qcqs f F
-  obtain ⟨n, hn⟩ :=
-    exists_pow_smul_eq_zero_of_isAffineOpen ((Scheme.Modules.pushforward f).obj F) hU g s hs
-  exact ⟨n, by rw [← map_pow]; exact hn⟩
-
-/-- **Hartshorne II, Lemma 5.3(b), applied to `f_* F`**: for a section `t` of `F` over
-`f⁻¹(D(g))`, some `g^n t` extends to `f⁻¹(U)`. -/
-theorem exists_pow_smul_extension_of_isAffineOpen_preimage {U : X.Opens} (hU : IsAffineOpen U)
-    (g : Γ(X, U)) (t : Γ(F, f ⁻¹ᵁ X.basicOpen g)) :
-    ∃ (n : ℕ) (t' : Γ(F, f ⁻¹ᵁ U)),
-      F.presheaf.map (homOfLE (f.preimage_mono (X.basicOpen_le g))).op t' =
-        f.app (X.basicOpen g) (X.presheaf.map (homOfLE (X.basicOpen_le g)).op g) ^ n • t := by
-  have := isQuasicoherent_pushforward_of_qcqs f F
-  obtain ⟨n, t', ht'⟩ :=
-    exists_pow_smul_extension_of_isAffineOpen ((Scheme.Modules.pushforward f).obj F) hU g t
-  exact ⟨n, t', by rw [← map_pow]; exact ht'⟩
-
-end PushforwardLocalization
-
-/-! ### The section-algebra model (partial form of the theorem) -/
-
-/-- **The section-algebra model of a projective birational morphism** (Hartshorne II, proof of
-Theorem 7.17, Steps 1–3), with the identification of the graded pieces established over a finite
-affine cover. Let `X` be an integral quasi-compact scheme locally of finite type over a field `k`,
-`i : Z ⟶ ℙʳ_X` a closed immersion of an integral scheme, `f = π ∘ i` sending the generic point of
-`Z` to that of `X`, and `L = i^* 𝒪(1)`. There are finitely many affine opens covering `X` and a
-`d₀` such that for every `d ≥ d₀` there is a quasi-coherent graded `𝒪_X`-algebra `S` satisfying
-Hartshorne's hypotheses for relative Proj (`S₀ = 𝒪_X`, `S₁` coherent, generated by `S₁`), whose
-degree-`m` part over each affine `U` of the cover is `Γ(f⁻¹(U), L^{md})` (`m ≥ 1`), and whose
-relative Proj is isomorphic to `Z` over `X`. -/
-theorem exists_sectionAlgebraModel_of_finiteCover (k : Type u) [Field k] {X Z : Scheme.{u}}
-    [IsIntegral X] [IsIntegral Z] [CompactSpace X] (pX : X ⟶ Spec (.of k)) [LocallyOfFiniteType pX]
-    (i : Z ⟶ projectiveSpaceOverScheme r X) [IsClosedImmersion i]
-    (hf : (i ≫ projectiveSpaceOverSchemeProjection r X) (genericPoint Z) = genericPoint X) :
-    letI : IsNoetherian X :=
-      { toIsLocallyNoetherian := LocallyOfFiniteType.isLocallyNoetherian pX }
-    ∃ s : Finset X.affineOpens, (∀ x : X, ∃ U ∈ s, x ∈ (U : X.Opens)) ∧
-      ∃ d₀ : ℕ, ∀ (d : ℕ) [NeZero d], d₀ ≤ d → ∃ D : RelativeProjData X,
-        (∀ U ∈ s, ∀ m : ℕ, 0 < m →
-          Nonempty (Γ(moduleSheafTensorPower (m * d)
-            ((Scheme.Modules.pullback ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ
-              (U : X.Opens)).ι).obj
-              ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1))), ⊤) ≃+
-            D.algebra.grading ⟨U.1, U.2⟩ m)) ∧
-        ∃ e : D.relativeProj ≅ Z, e.hom ≫ (i ≫ projectiveSpaceOverSchemeProjection r X) =
-          D.projection := by
-  let : IsNoetherian X :=
-    { toIsLocallyNoetherian := LocallyOfFiniteType.isLocallyNoetherian pX }
-  obtain ⟨s, hs, d₀, hd₀⟩ := exists_finite_cover_addEquiv_sections_veronese k i pX
-  exact ⟨s, hs, d₀, fun d _ hd => ⟨sectionAlgebraRelativeProjData i hf d,
-    fun U hU m hm => hd₀ U hU d hd m hm, sectionAlgebraRelativeProjIso i hf d,
-    sectionAlgebraRelativeProjIso_hom_comp i hf d⟩⟩
 
 end SectionAlgebraModel
 
