@@ -631,6 +631,171 @@ theorem isLinearTransition_of_locally (G₁ G₂ : GeometricVectorBundle f n) (i
 
 end Trans
 
+namespace BundleIso
+
+variable {X'' : Scheme.{u}} {f'' : X'' ⟶ Y} {G : GeometricVectorBundle f n}
+  {G' : GeometricVectorBundle f' n} {G'' : GeometricVectorBundle f'' n}
+
+/-- Every point of an open `V ⊆ Y` has an affine neighbourhood inside `V` and inside a member of
+the covering of a bundle structure. -/
+private lemma exists_affine_chart (G' : GeometricVectorBundle f' n) {V : Y.Opens} {y : Y}
+    (hy : y ∈ V) : ∃ (j : G'.ι) (W : Y.affineOpens), (W : Y.Opens) ≤ V ∧
+      y ∈ (W : Y.Opens) ∧ (W : Y.Opens) ≤ G'.U j := by
+  obtain ⟨j, hj⟩ := Opens.mem_iSup.mp (G'.iSup_eq_top.ge (Set.mem_univ y))
+  obtain ⟨_, ⟨W, hW, rfl⟩, hyW, hWle⟩ :=
+    Y.isBasis_affineOpens.exists_subset_of_mem_open (a := y) (u := (V ⊓ G'.U j : Y.Opens))
+      ⟨hy, hj⟩ (V ⊓ G'.U j).isOpen
+  exact ⟨j, ⟨W, hW⟩, fun x hx => (hWle hx).1, hyW, fun x hx => (hWle hx).2⟩
+
+lemma trans_over (e₁ : BundleIso G G') (e₂ : BundleIso G' G'') :
+    (e₁.iso ≪≫ e₂.iso).hom ≫ f'' = f := by
+  rw [Iso.trans_hom, Category.assoc, e₂.over, e₁.over]
+
+/-- **The composite of two isomorphisms of geometric vector bundles** is an isomorphism of
+geometric vector bundles: on an affine `V ⊆ U_i ∩ U''_k`, the transition is linear near every
+point, as the composite of two linear transitions through a chart of the middle bundle, hence
+linear on `V` (`isLinearTransition_of_locally`). -/
+def trans (e₁ : BundleIso G G') (e₂ : BundleIso G' G'') : BundleIso G G'' where
+  iso := e₁.iso ≪≫ e₂.iso
+  over := trans_over e₁ e₂
+  compatible a b V ha hb := by
+    have hc : ∀ k, (G''.transport (e₁.iso ≪≫ e₂.iso) (trans_over e₁ e₂)).chart k =
+        (G''.chart k ≫ e₂.iso.inv) ≫ e₁.iso.inv := fun k => by
+      rw [transport_chart, Iso.trans_inv, Category.assoc]
+    have hc₁ : ∀ j, (G'.transport e₁.iso e₁.over).chart j = G'.chart j ≫ e₁.iso.inv :=
+      transport_chart G' e₁.iso e₁.over
+    have hc₂ : ∀ k, (G''.transport e₂.iso e₂.over).chart k = G''.chart k ≫ e₂.iso.inv :=
+      transport_chart G'' e₂.iso e₂.over
+    cases a with
+    | inl i =>
+      cases b with
+      | inl j => exact G.linear i j V ha hb
+      | inr k =>
+        change IsLinearTransition V ha hb (G.chart i)
+          ((G''.transport (e₁.iso ≪≫ e₂.iso) (trans_over e₁ e₂)).chart k)
+        refine isLinearTransition_of_locally G _ i k V ha hb fun y hy => ?_
+        obtain ⟨j, W, hWV, hyW, hWj⟩ := exists_affine_chart G' hy
+        refine ⟨W, hWV, hyW, ?_⟩
+        have t₁ := e₁.compatible (.inl i) (.inr j) W (hWV.trans ha) hWj
+        change IsLinearTransition W _ _ (G.chart i)
+          ((G'.transport e₁.iso e₁.over).chart j) at t₁
+        have t₂ := (e₂.compatible (.inl j) (.inr k) W hWj (hWV.trans hb)).comp e₁.iso.inv
+        change IsLinearTransition W _ _ (G'.chart j ≫ e₁.iso.inv)
+          ((G''.transport e₂.iso e₂.over).chart k ≫ e₁.iso.inv) at t₂
+        rw [hc₁] at t₁
+        rw [hc₂] at t₂
+        rw [hc]
+        exact t₁.trans t₂
+    | inr k =>
+      cases b with
+      | inl i =>
+        change IsLinearTransition V ha hb
+          ((G''.transport (e₁.iso ≪≫ e₂.iso) (trans_over e₁ e₂)).chart k) (G.chart i)
+        refine isLinearTransition_of_locally _ G k i V ha hb fun y hy => ?_
+        obtain ⟨j, W, hWV, hyW, hWj⟩ := exists_affine_chart G' hy
+        refine ⟨W, hWV, hyW, ?_⟩
+        have t₁ := e₁.compatible (.inr j) (.inl i) W hWj (hWV.trans hb)
+        change IsLinearTransition W _ _ ((G'.transport e₁.iso e₁.over).chart j)
+          (G.chart i) at t₁
+        have t₂ := (e₂.compatible (.inr k) (.inl j) W (hWV.trans ha) hWj).comp e₁.iso.inv
+        change IsLinearTransition W _ _ ((G''.transport e₂.iso e₂.over).chart k ≫ e₁.iso.inv)
+          (G'.chart j ≫ e₁.iso.inv) at t₂
+        rw [hc₁] at t₁
+        rw [hc₂] at t₂
+        rw [hc]
+        exact t₂.trans t₁
+      | inr k' =>
+        exact (G''.transport (e₁.iso ≪≫ e₂.iso) (trans_over e₁ e₂)).linear k k' V ha hb
+
+end BundleIso
+
+/-! ### Isomorphism classes -/
+
+variable (Y n) in
+/-- A geometric vector bundle of rank `n` over `Y`: a scheme over `Y` together with a geometric
+vector bundle structure of rank `n`. -/
+abbrev Bundled := Σ X : Over Y, GeometricVectorBundle X.hom n
+
+variable (Y n) in
+/-- Being isomorphic as geometric vector bundles is an equivalence relation. -/
+instance isoSetoid : Setoid (Bundled Y n) where
+  r B B' := Nonempty (BundleIso B.2 B'.2)
+  iseqv :=
+    { refl := fun B => ⟨BundleIso.refl B.2⟩
+      symm := fun ⟨e⟩ => ⟨e.symm⟩
+      trans := fun ⟨e₁⟩ ⟨e₂⟩ => ⟨e₁.trans e₂⟩ }
+
+variable (Y n) in
+/-- **Isomorphism classes of geometric vector bundles of rank `n` over `Y`** (Hartshorne II,
+Exercise 5.18). -/
+abbrev IsoClasses := Quotient (isoSetoid Y n)
+
+end GeometricVectorBundle
+
+
+/-! ### Isomorphism classes of locally free sheaves -/
+
+namespace Scheme.Modules
+
+open Hartshorne Hartshorne.Ringed
+
+variable (Y n) in
+/-- Locally free `𝒪_Y`-modules of rank `n`. -/
+abbrev LocallyFreeOfRank := {E : Y.Modules // E.IsLocallyFreeOfRank n}
+
+variable (Y n) in
+/-- Isomorphism of `𝒪_Y`-modules, on locally free modules of rank `n`. -/
+instance locallyFreeIsoSetoid : Setoid (LocallyFreeOfRank Y n) where
+  r E E' := Nonempty (E.1 ≅ E'.1)
+  iseqv :=
+    { refl := fun _ => ⟨Iso.refl _⟩
+      symm := fun ⟨e⟩ => ⟨e.symm⟩
+      trans := fun ⟨e₁⟩ ⟨e₂⟩ => ⟨e₁ ≪≫ e₂⟩ }
+
+variable (Y n) in
+/-- **Isomorphism classes of locally free `𝒪_Y`-modules of rank `n`.** -/
+abbrev LocallyFreeIsoClasses := Quotient (locallyFreeIsoSetoid Y n)
+
+/-- The dual of a locally free module of rank `n` is locally free of rank `n`. -/
+private lemma isLocallyFreeOfRank_moduleSheafDual {E : Y.Modules} (hE : E.IsLocallyFreeOfRank n) :
+    Scheme.Modules.IsLocallyFreeOfRank (moduleSheafDual (R := Y.sheaf) E) n := by
+  classical
+  rw [isLocallyFreeOfRank_iff_ringed] at hE ⊢
+  intro x
+  obtain ⟨U, hx, ⟨α⟩⟩ := hE x
+  exact ⟨U, hx, nonempty_over_iso_free_of_isLocalFrame (isLocalFrame_of_over_iso α).dual⟩
+
+end Scheme.Modules
+
+namespace GeometricVectorBundle
+
+open Hartshorne Hartshorne.Ringed Scheme.Modules
+
+/-- **The class of the dual of the sheaf of sections** (Hartshorne II, Exercise 5.18(d)): the map
+sending the class of a geometric vector bundle `X` of rank `n` to the class of the locally free
+sheaf `𝒮(X/Y)^∨` of rank `n`. It is well defined since isomorphic bundles have isomorphic sheaves
+of sections (`BundleIso.sectionsModuleIso`). -/
+def sectionsDualClass : IsoClasses Y n → LocallyFreeIsoClasses Y n :=
+  Quotient.map
+    (fun B => ⟨moduleSheafDual (R := Y.sheaf) B.2.sectionsModule,
+      isLocallyFreeOfRank_moduleSheafDual B.2.sectionsModule_isLocallyFreeOfRank⟩)
+    (fun _ _ ⟨e⟩ => ⟨moduleSheafDualIsoOfIso e.sectionsModuleIso⟩)
+
+/-- **`V(E)` is sent back to `E`** (Hartshorne II, Exercise 5.18(d)): the dual of the sheaf of
+sections of `V(E)` is `(E^∨)^∨ ≅ E`. -/
+theorem sectionsDualClass_vectorBundle (E : Y.Modules) (hE : E.IsLocallyFreeOfRank n) :
+    sectionsDualClass (Quotient.mk _ ⟨Over.mk (vectorBundleProj E hE), vectorBundleAtlas hE⟩) =
+      Quotient.mk _ ⟨E, hE⟩ :=
+  Quotient.sound ⟨moduleSheafDualIsoOfIso (vectorBundleSectionsModuleIso hE) ≪≫
+    (moduleSheafDoubleDualIso E
+      ((isLocallyFreeOfRank_iff_ringed E n).mp hE).isFiniteLocallyFree).symm⟩
+
+/-- Every isomorphism class of locally free sheaves of rank `n` is the class of the dual of the
+sheaf of sections of a geometric vector bundle, namely of `V(E)`. -/
+theorem sectionsDualClass_surjective :
+    Function.Surjective (sectionsDualClass : IsoClasses Y n → LocallyFreeIsoClasses Y n) :=
+  fun q => Quotient.inductionOn q fun E => ⟨_, sectionsDualClass_vectorBundle E.1 E.2⟩
+
 end GeometricVectorBundle
 
 end
