@@ -2,6 +2,7 @@
 article_id: af_b68156c114d04440f9ad68bd
 declaration: def
 origin: cited
+lean: AlgebraicGeometry.GeometricVectorBundle AlgebraicGeometry.Scheme.Modules.vectorBundle AlgebraicGeometry.Scheme.Modules.vectorBundleAtlas
 ---
 
 # Geometric vector bundles from locally free sheaves
