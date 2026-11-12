@@ -253,6 +253,20 @@ def IsKernelChart {W : Scheme.{u}} (g : W.toLocallyRingedSpace ⟶ X) : Prop :=
         ∃ (V' : Opens X) (hV'V : V' ≤ V), g.base w ∈ V' ∧
           X.sheaf.presheaf.map (homOfLE hV'V).op s ∈ J.ideal V'
 
+/-- **Kernel charts, stalkwise.** `g` is a kernel chart of `J` exactly when it is an open
+embedding with surjective stalk maps whose kernels are the stalks `J_{g w}`. -/
+lemma isKernelChart_iff {W : Scheme.{u}} (g : W.toLocallyRingedSpace ⟶ X) :
+    J.IsKernelChart g ↔ IsOpenEmbedding g.base ∧ (∀ w, Function.Surjective (g.stalkMap w)) ∧
+      ∀ w, RingHom.ker (g.stalkMap w).hom = J.stalkIdeal (g.base w) := by
+  refine and_congr Iff.rfl (and_congr Iff.rfl ⟨fun h w => ?_, fun h w V hw s => ?_⟩)
+  · ext a
+    obtain ⟨V, hw, s, rfl⟩ := X.presheaf.exists_germ_eq a
+    rw [RingHom.mem_ker]
+    exact (h w V hw s).trans (J.germ_mem_stalkIdeal_iff hw s).symm
+  · have := J.germ_mem_stalkIdeal_iff hw s
+    rw [← h w] at this
+    exact RingHom.mem_ker.symm.trans this
+
 variable {J} {W : Scheme.{u}} {g : W.toLocallyRingedSpace ⟶ X}
 
 /-- A kernel chart of `J` kills `J`. -/
@@ -457,6 +471,46 @@ private lemma ker_stalkMap_specMap_quotient {B : CommRingCat.{u}} (c : Ideal B)
   change _ * IsLocalization.mk' _ a s ∈ _
   rw [IsLocalization.mk'_eq_mul_mk'_one, ← mul_assoc, ← map_mul]
   exact Ideal.mul_mem_right _ _ (Ideal.mem_map_of_mem _ hta)
+
+open Spec (structureSheaf) in
+/-- **Kernel charts from quotients.** Let `g : Spec B ⟶ X` be an open embedding with surjective
+stalk maps, `L` an ideal subsheaf of `𝒪_X` with proper stalks, and `c` an ideal of `B` whose
+localization at every `w ∈ Spec B` pulls back to `L_{g w}`. Then `Spec (B ⧸ c) ⟶ Spec B ⟶ X` is a
+kernel chart of `L`. -/
+private lemma isKernelChart_comp_specMap_quotient {X : LocallyRingedSpace.{u}}
+    (L : IdealSubsheaf X.sheaf) {B : CommRingCat.{u}} (g : (Spec B).toLocallyRingedSpace ⟶ X)
+    (hg : IsOpenEmbedding g.base) (hs : ∀ w, Function.Surjective (g.stalkMap w)) (c : Ideal B)
+    (hc : ∀ w : PrimeSpectrum B, Ideal.comap (g.stalkMap w).hom
+      (c.map (algebraMap B ((structureSheaf B).presheaf.stalk w))) = L.stalkIdeal (g.base w))
+    (hL : ∀ x, L.stalkIdeal x ≠ ⊤) :
+    L.IsKernelChart ((Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk c))).toLRSHom ≫ g) := by
+  set f : B ⟶ CommRingCat.of (B ⧸ c) := CommRingCat.ofHom (Ideal.Quotient.mk c)
+  have hcw : ∀ w : PrimeSpectrum B, c ≤ w.asIdeal := by
+    intro w b hb
+    by_contra hbw
+    have hu := IsLocalization.map_units ((structureSheaf B).presheaf.stalk w)
+      (⟨b, hbw⟩ : w.asIdeal.primeCompl)
+    refine hL (g.base w) ?_
+    rw [← hc w, Ideal.eq_top_of_isUnit_mem _ (Ideal.mem_map_of_mem _ hb) hu]
+    exact Ideal.comap_top
+  have hsurj : Function.Surjective (Spec.map f).base := by
+    intro w
+    have hw : w ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk c)) := by
+      rw [range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective,
+        Ideal.mk_ker]
+      exact hcw w
+    exact hw
+  rw [IdealSubsheaf.isKernelChart_iff]
+  refine ⟨?_, fun v => ?_, fun v => ?_⟩
+  · rw [LocallyRingedSpace.comp_base, TopCat.coe_comp]
+    exact hg.comp ((Spec.map f).isClosedEmbedding.isEmbedding.isOpenEmbedding_of_surjective hsurj)
+  · rw [LocallyRingedSpace.stalkMap_comp]
+    exact ((Spec.map f).stalkMap_surjective v).comp (hs _)
+  · rw [LocallyRingedSpace.stalkMap_comp]
+    change RingHom.ker (((Spec.map f).toLRSHom.stalkMap v).hom.comp (g.stalkMap _).hom) = _
+    rw [← RingHom.comap_ker]
+    have hk := ker_stalkMap_specMap_quotient c v
+    exact (congrArg (Ideal.comap (g.stalkMap _).hom) hk).trans (hc _)
 
 end specQuotient
 
