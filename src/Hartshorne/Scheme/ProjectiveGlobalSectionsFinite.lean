@@ -693,6 +693,61 @@ theorem moduleFinite_sections_of_injective [IsNoetherianRing (𝒜 0)]
     (fun z : (projGradedModuleSheaf 𝒜 ℳ).val.obj (op ⊤) =>
       (show (sheafInType 𝒜 ℳ).1.obj (op ⊤) from z).1 x) htt')
 
+omit [DirectSum.Decomposition ℳ'] in
+/-- **Surjectivity on global sections from the charts.** Let `g : M' → M` be injective and
+graded, and let the charts `D₊(fᵢ)`, `fᵢ ∈ S₁`, cover `Proj S`. If every `M'_(fᵢ) → M_(fᵢ)` is
+surjective, every global section of `M~` comes from a global section of `M'~`: on `D₊(fᵢ)` it is
+a single fraction, which lifts to `M'_(fᵢ)`, and the lifts agree pointwise by injectivity. -/
+theorem exists_sections_of_surjective_charts {f : ι → A} (hf : ∀ i, f i ∈ 𝒜 1)
+    (hcov : ∀ x : Proj 𝒜, ∃ i, f i ∉ x.asHomogeneousIdeal) (hginj : Function.Injective g)
+    (hsurj : ∀ i, Function.Surjective (gradedLocMap (𝒜 := 𝒜) g hg (Submonoid.powers (f i))))
+    (t : (projGradedModuleSheaf 𝒜 ℳ).val.obj (op ⊤)) :
+    ∃ s : (sheafInType 𝒜 ℳ').1.obj (op ⊤), ∀ x, gradedLocMap g hg _ (s.1 x) =
+      globalValue 𝒜 ℳ t x.1 := by
+  classical
+  have hloc : ∀ x : (⊤ : Opens (ProjectiveSpectrum.top 𝒜)), ∃ (i : ι) (k : ℕ) (m : M')
+      (hm : m ∈ ℳ' k) (j : ℕ) (hj : f i ^ j ∈ 𝒜 k), f i ∉ x.1.asHomogeneousIdeal ∧
+      ∀ (y : Proj 𝒜) (hy : f i ∉ y.asHomogeneousIdeal),
+        gradedLocMap g hg _ (HomogeneousLocalizedModule.mk k m hm (f i ^ j) hj
+          (show f i ^ j ∈ y.asHomogeneousIdeal.toIdeal.primeCompl from
+            fun hmem => hy (y.isPrime.mem_of_pow_mem _ hmem))) = globalValue 𝒜 ℳ t y := by
+    intro x
+    obtain ⟨i, hi⟩ := hcov x.1
+    obtain ⟨n, hn⟩ := exists_globalValue_eq_mapOfLE 𝒜 ℳ (hf i) one_pos t
+    obtain ⟨m', hm'⟩ := hsurj i n
+    obtain ⟨k, m, hm, s0, hs0, hs0T, rfl⟩ := HomogeneousLocalizedModule.mk_surjective m'
+    obtain ⟨j, rfl⟩ := hs0T
+    refine ⟨i, k, m, hm, j, hs0, hi, fun y hy => ?_⟩
+    rw [hn y hy, ← hm', gradedLocMap_mk, gradedLocMap_mk, HomogeneousLocalizedModule.mapOfLE_mk]
+  have hpt : ∀ x : (⊤ : Opens (ProjectiveSpectrum.top 𝒜)), ∃ y',
+      gradedLocMap g hg _ y' = globalValue 𝒜 ℳ t x.1 := by
+    intro x
+    obtain ⟨i, k, m, hm, j, hj, hi, w⟩ := hloc x
+    exact ⟨_, w x.1 hi⟩
+  choose s0 hs0 using hpt
+  refine ⟨⟨s0, fun x => ?_⟩, hs0⟩
+  obtain ⟨i, k, m, hm, j, hj, hi, w⟩ := hloc x
+  refine ⟨ProjectiveSpectrum.basicOpen 𝒜 (f i), hi, homOfLE le_top, k, m, hm, f i ^ j, hj,
+    fun y hmem => y.2 (y.1.isPrime.mem_of_pow_mem _ hmem), fun y => ?_⟩
+  exact gradedLocMap_injective g hg hginj _ ((hs0 _).trans (w y.1 y.2).symm)
+
+omit [DirectSum.Decomposition ℳ'] in
+include hg in
+/-- **Finiteness from the charts.** Under the hypotheses of `exists_sections_of_surjective_charts`,
+if `Γ(Proj S, M'~)` is a finite `S₀`-module, so is `Γ(Proj S, M~)`. -/
+theorem moduleFinite_sections_of_surjective_charts {f : ι → A} (hf : ∀ i, f i ∈ 𝒜 1)
+    (hcov : ∀ x : Proj 𝒜, ∃ i, f i ∉ x.asHomogeneousIdeal) (hginj : Function.Injective g)
+    (hsurj : ∀ i, Function.Surjective (gradedLocMap (𝒜 := 𝒜) g hg (Submonoid.powers (f i))))
+    [Module.Finite (𝒜 0) ((ModuleCat.restrictScalars (degreeZeroToGlobal 𝒜)).obj
+      ((projGradedModuleSheaf 𝒜 ℳ').val.obj (op ⊤)))] :
+    Module.Finite (𝒜 0) ((ModuleCat.restrictScalars (degreeZeroToGlobal 𝒜)).obj
+      ((projGradedModuleSheaf 𝒜 ℳ).val.obj (op ⊤))) := by
+  let G' := ((ModuleCat.restrictScalars (degreeZeroToGlobal 𝒜)).map
+    ((projGradedModuleSheafMap g hg).val.app (op ⊤))).hom
+  refine Module.Finite.of_surjective G' fun t => ?_
+  obtain ⟨s, hs⟩ := exists_sections_of_surjective_charts g hg hf hcov hginj hsurj t
+  exact ⟨s, globalValue_injective 𝒜 ℳ (funext fun x => hs ⟨x, trivial⟩)⟩
+
 end LeftExact
 
 /-! ### Reduction to the factors of a graded prime filtration -/
