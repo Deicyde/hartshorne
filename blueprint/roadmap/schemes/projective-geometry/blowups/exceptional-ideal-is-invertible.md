@@ -12,10 +12,9 @@ proof: formalized
 For $\pi : Bl_I(X) \to X$, the inverse-image ideal
 $I_E = \pi ^{-1}I \cdot \mathcal{O}_{Bl_I(X)}$ is invertible and canonically isomorphic to
 $\mathcal{O}(1)$. If $E$ denotes its associated effective Cartier divisor, then
+$I_E \cong \mathcal{O}(-E)$ by (6.18), so
 
 $I_E \cong \mathcal{O}(1) \cong \mathcal{O}(-E)$.
-
-This statement fixes Hartshorne's Rees grading and sign convention.
 
 ## Depends on
 
