@@ -19,6 +19,7 @@ part in regular local parameters.
 
 - [Surfaces and effective curves](../../intersection-theory/foundations/surface-curve-convention.md)
 - [Regular local rings](../../../nonsingular-varieties/regular-local-rings.md)
+- [Local intersection multiplicity](../../intersection-theory/foundations/local-intersection-multiplicity.md)
 
 ## Sources
 
