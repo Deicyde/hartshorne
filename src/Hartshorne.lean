@@ -765,3 +765,4 @@ import Hartshorne.Scheme.CoherentFormalModuleReconstruction
 import Hartshorne.Scheme.SeparatesPointsTangentVectors
 import Hartshorne.Scheme.BirationalDenominatorIdeal
 import Hartshorne.Scheme.ProjectivelyNormalVeronese
+import Hartshorne.Scheme.BasePointFree
