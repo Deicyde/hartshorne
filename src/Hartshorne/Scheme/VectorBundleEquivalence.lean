@@ -434,6 +434,203 @@ def BundleIso.sectionsModuleIso {G : GeometricVectorBundle f n} {G' : GeometricV
 
 end Sections
 
+/-! ### Composition of isomorphisms of geometric vector bundles -/
+
+section Trans
+
+lemma isLinearPolynomialAlgHom_comp {A : Type u} [CommRing A]
+    {θ₁ θ₂ : MvPolynomial (ULift.{u} (Fin n)) A →ₐ[A] MvPolynomial (ULift.{u} (Fin n)) A}
+    (h₁ : IsLinearPolynomialAlgHom θ₁) (h₂ : IsLinearPolynomialAlgHom θ₂) :
+    IsLinearPolynomialAlgHom (θ₁.comp θ₂) := by
+  obtain ⟨a, ha⟩ := h₁
+  obtain ⟨b, hb⟩ := h₂
+  have hC : ∀ c, θ₁ (MvPolynomial.C c) = MvPolynomial.C c := θ₁.commutes
+  refine ⟨b * a, fun k => ?_⟩
+  rw [AlgHom.comp_apply, hb, map_sum]
+  simp only [map_mul, hC, ha, Matrix.mul_apply, map_sum, Finset.mul_sum, Finset.sum_mul, mul_assoc]
+  exact Finset.sum_comm
+
+lemma IsLinearTransition.trans {Z : Scheme.{u}} {V : Y.affineOpens} {U U' U'' : Y.Opens}
+    {h : (V : Y.Opens) ≤ U} {h' : (V : Y.Opens) ≤ U'} {h'' : (V : Y.Opens) ≤ U''}
+    {c : 𝔸(ULift.{u} (Fin n); U) ⟶ Z} {c' : 𝔸(ULift.{u} (Fin n); U') ⟶ Z}
+    {c'' : 𝔸(ULift.{u} (Fin n); U'') ⟶ Z} (h₁ : IsLinearTransition V h h' c c')
+    (h₂ : IsLinearTransition V h' h'' c' c'') : IsLinearTransition V h h'' c c'' := by
+  obtain ⟨θ₁, hθ₁, e₁⟩ := h₁
+  obtain ⟨θ₂, hθ₂, e₂⟩ := h₂
+  refine ⟨θ₁.trans θ₂, isLinearPolynomialAlgHom_comp hθ₂ hθ₁, ?_⟩
+  rw [e₂, e₁, ← Spec.map_comp_assoc]
+  rfl
+
+/-- The chart of affine space at an affine `W ⊆ V` through the chart at `V`. -/
+@[reassoc]
+lemma affineSpaceChart_restrict {U : Y.Opens} (V W : Y.affineOpens) (h : (V : Y.Opens) ≤ U)
+    (hWV : (W : Y.Opens) ≤ V) :
+    affineSpaceChart n W (hWV.trans h) =
+      Spec.map (CommRingCat.ofHom (MvPolynomial.map (Y.homOfLE hWV).appTop.hom)) ≫
+        affineSpaceChart n V h := by
+  simp only [affineSpaceChart]
+  rw [← AffineSpace.isoOfIsAffine_inv_map_hom, Category.assoc, Category.assoc,
+    Iso.hom_inv_id_assoc, ← AffineSpace.map_comp, Scheme.homOfLE_homOfLE]
+
+private lemma isOpenImmersion_affineSpaceChart {U : Y.Opens} (V : Y.affineOpens)
+    (h : (V : Y.Opens) ≤ U) : IsOpenImmersion (affineSpaceChart n V h) := by
+  have : IsOpenImmersion (AffineSpace.map (ULift.{u} (Fin n)) (Y.homOfLE h)) :=
+    MorphismProperty.of_isPullback (P := @IsOpenImmersion)
+      (AffineSpace.isPullback_map (n := ULift.{u} (Fin n)) (Y.homOfLE h)).flip inferInstance
+  unfold affineSpaceChart
+  infer_instance
+
+lemma chart_comp (G : GeometricVectorBundle f n) (i : G.ι) :
+    G.chart i ≫ f = 𝔸(ULift.{u} (Fin n); G.U i) ↘ G.U i ≫ (G.U i).ι := by
+  rw [chart, Category.assoc, ← morphismRestrict_ι, ← G.ψ_over, Category.assoc,
+    Iso.inv_hom_id_assoc]
+
+lemma affineSpaceChart_chart_comp (G : GeometricVectorBundle f n) (i : G.ι) (V : Y.affineOpens)
+    (h : (V : Y.Opens) ≤ G.U i) :
+    affineSpaceChart n V h ≫ G.chart i ≫ f =
+      (AffineSpace.isoOfIsAffine _ (V : Y.Opens).toScheme).inv ≫
+        𝔸(ULift.{u} (Fin n); V) ↘ V ≫ (V : Y.Opens).ι := by
+  rw [chart_comp, affineSpaceChart, Category.assoc, AffineSpace.map_over_assoc,
+    Scheme.homOfLE_ι]
+
+/-- The chart of a bundle structure at an affine `V ⊆ U_i` is onto `f⁻¹(V)`. -/
+private lemma range_affineSpaceChart_chart (G : GeometricVectorBundle f n) (i : G.ι)
+    (V : Y.affineOpens) (h : (V : Y.Opens) ≤ G.U i) :
+    Set.range (affineSpaceChart n V h ≫ G.chart i) = f ⁻¹' ((V : Y.Opens) : Set Y) := by
+  ext x
+  constructor
+  · rintro ⟨z, rfl⟩
+    change (affineSpaceChart n V h ≫ G.chart i ≫ f) z ∈ (V : Y.Opens)
+    rw [affineSpaceChart_chart_comp]
+    exact Subtype.prop _
+  · intro hx
+    have hxU : x ∈ f ⁻¹ᵁ G.U i := h hx
+    let w : (f ⁻¹ᵁ G.U i).toScheme := ⟨x, hxU⟩
+    have hz : (𝔸(ULift.{u} (Fin n); G.U i) ↘ G.U i) ((G.ψ i).hom w) =
+        Y.homOfLE h ⟨f x, hx⟩ := by
+      rw [← Scheme.Hom.comp_apply, G.ψ_over]
+      apply (G.U i).ι.isOpenEmbedding.injective
+      rw [← Scheme.Hom.comp_apply, morphismRestrict_ι, ← Scheme.Hom.comp_apply, Scheme.homOfLE_ι]
+      rfl
+    obtain ⟨t, ht, -⟩ := Scheme.exists_preimage_of_isPullback
+      (AffineSpace.isPullback_map (n := ULift.{u} (Fin n)) (Y.homOfLE h)) _ _ hz
+    refine ⟨(AffineSpace.isoOfIsAffine _ (V : Y.Opens).toScheme).hom t, ?_⟩
+    rw [affineSpaceChart, chart, ← Scheme.Hom.comp_apply]
+    simp only [Category.assoc, Iso.hom_inv_id_assoc]
+    rw [Scheme.Hom.comp_apply, ht, ← Scheme.Hom.comp_apply, Iso.hom_inv_id_assoc]
+    rfl
+
+private lemma coeff_single_linear {A : Type u} [CommRing A] (b : ULift.{u} (Fin n) → A)
+    (l : ULift.{u} (Fin n)) :
+    MvPolynomial.coeff (Finsupp.single l 1) (∑ m, MvPolynomial.C (b m) * MvPolynomial.X m) =
+      b l := by
+  classical
+  simp [MvPolynomial.coeff_sum, MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X,
+    Finsupp.single_left_inj]
+
+/-- Polynomials over `Γ(V, 𝒪)` whose images over the members of an open covering of `V` agree are
+equal. -/
+private lemma eq_of_locally_map (V : Y.affineOpens)
+    (p p' : MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤))
+    (h : ∀ y ∈ (V : Y.Opens), ∃ (W : Y.Opens) (hWV : W ≤ V), y ∈ W ∧
+      MvPolynomial.map (Y.homOfLE hWV).appTop.hom p =
+        MvPolynomial.map (Y.homOfLE hWV).appTop.hom p') : p = p' := by
+  ext m
+  apply (ConcreteCategory.bijective_of_isIso (V : Y.Opens).topIso.hom).1
+  choose W hWV hyW hW using h
+  refine Y.sheaf.eq_of_locally_eq' (fun y : (V : Y.Opens) => W y.1 y.2) V
+    (fun y => homOfLE (hWV y.1 y.2)) (fun y hy => Opens.mem_iSup.mpr ⟨⟨y, hy⟩, hyW _ _⟩) _ _
+    fun y => ?_
+  have e := congrArg (MvPolynomial.coeff m) (hW y.1 y.2)
+  rw [MvPolynomial.coeff_map, MvPolynomial.coeff_map] at e
+  change Y.presheaf.map _ ((V : Y.Opens).topIso.hom _) =
+    Y.presheaf.map _ ((V : Y.Opens).topIso.hom _)
+  rw [← CommRingCat.comp_apply, ← CommRingCat.comp_apply,
+    ← Scheme.Modules.homOfLE_appTop_topIso_hom, CommRingCat.comp_apply, CommRingCat.comp_apply]
+  exact congrArg _ e
+
+/-- **Linearity of transitions is local**: for two bundle structures on `f`, charts `i`, `k` and an
+affine `V ⊆ U_i ∩ U''_k`, if every point of `V` has an affine neighbourhood `W ⊆ V` on which the
+transition is linear, then the transition is linear on `V`. -/
+theorem isLinearTransition_of_locally (G₁ G₂ : GeometricVectorBundle f n) (i : G₁.ι) (k : G₂.ι)
+    (V : Y.affineOpens) (h₁ : (V : Y.Opens) ≤ G₁.U i) (h₂ : (V : Y.Opens) ≤ G₂.U k)
+    (hloc : ∀ y ∈ (V : Y.Opens), ∃ (W : Y.affineOpens) (hWV : (W : Y.Opens) ≤ V),
+      y ∈ (W : Y.Opens) ∧
+        IsLinearTransition W (hWV.trans h₁) (hWV.trans h₂) (G₁.chart i) (G₂.chart k)) :
+    IsLinearTransition V h₁ h₂ (G₁.chart i) (G₂.chart k) := by
+  set c₁ := affineSpaceChart n V h₁ ≫ G₁.chart i with hc₁
+  set c₂ := affineSpaceChart n V h₂ ≫ G₂.chart k with hc₂
+  have : IsOpenImmersion (affineSpaceChart n V h₁) := isOpenImmersion_affineSpaceChart V h₁
+  have : IsOpenImmersion (affineSpaceChart n V h₂) := isOpenImmersion_affineSpaceChart V h₂
+  have : IsOpenImmersion c₁ := by rw [hc₁, chart]; infer_instance
+  have : IsOpenImmersion c₂ := by rw [hc₂, chart]; infer_instance
+  have r : Set.range c₁ = Set.range c₂ := by
+    rw [hc₁, hc₂, range_affineSpaceChart_chart, range_affineSpaceChart_chart]
+  let φ := IsOpenImmersion.lift c₁ c₂ r.ge
+  let ψ := IsOpenImmersion.lift c₂ c₁ r.le
+  have hφ : φ ≫ c₁ = c₂ := IsOpenImmersion.lift_fac _ _ _
+  have hψ : ψ ≫ c₂ = c₁ := IsOpenImmersion.lift_fac _ _ _
+  have hψφ : ψ ≫ φ = 𝟙 _ := by
+    rw [← cancel_mono c₁, Category.assoc, hφ, hψ, Category.id_comp]
+  have hφψ : φ ≫ ψ = 𝟙 _ := by
+    rw [← cancel_mono c₂, Category.assoc, hψ, hφ, Category.id_comp]
+  set θ₀ := Spec.preimage φ with hθ₀
+  set θ₀' := Spec.preimage ψ
+  have e₁ : θ₀ ≫ θ₀' = 𝟙 _ := Spec.map_injective (by
+    rw [Spec.map_comp, Spec.map_preimage, Spec.map_preimage, hψφ, Spec.map_id])
+  have e₂ : θ₀' ≫ θ₀ = 𝟙 _ := Spec.map_injective (by
+    rw [Spec.map_comp, Spec.map_preimage, Spec.map_preimage, hφψ, Spec.map_id])
+  -- `φ` lies over `Spec Γ(V, 𝒪)`
+  have hover : φ ≫ Spec.map (CommRingCat.ofHom MvPolynomial.C) =
+      Spec.map (CommRingCat.ofHom MvPolynomial.C) := by
+    have h0 : c₁ ≫ f = c₂ ≫ f := by
+      rw [hc₁, hc₂, Category.assoc, Category.assoc, affineSpaceChart_chart_comp,
+        affineSpaceChart_chart_comp]
+    have h1 : φ ≫ c₁ ≫ f = c₁ ≫ f := by rw [← Category.assoc, hφ, h0]
+    rw [hc₁, Category.assoc, affineSpaceChart_chart_comp,
+      AffineSpace.isoOfIsAffine_inv_over_assoc] at h1
+    rw [← cancel_mono ((V : Y.Opens).toScheme.isoSpec.inv ≫ (V : Y.Opens).ι)]
+    simpa only [Category.assoc] using h1
+  have hC : ∀ a, θ₀.hom (MvPolynomial.C a) = MvPolynomial.C a := by
+    have : CommRingCat.ofHom MvPolynomial.C ≫ θ₀ = CommRingCat.ofHom MvPolynomial.C :=
+      Spec.map_injective (by rw [Spec.map_comp, hθ₀, Spec.map_preimage, hover])
+    exact fun a => congrArg (fun g => g.hom a) this
+  let θR : MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤) ≃+* MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤) :=
+    (⟨θ₀, θ₀', e₁, e₂⟩ : CommRingCat.of (MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤)) ≅
+      CommRingCat.of (MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤))).commRingCatIsoToRingEquiv
+  let θ : MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤) ≃ₐ[Γ(V, ⊤)]
+      MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤) := AlgEquiv.ofRingEquiv (f := θR) hC
+  have hθφ : Spec.map (CommRingCat.ofHom θ.toRingEquiv.toRingHom) = φ := by
+    rw [← Spec.map_preimage φ]
+    rfl
+  refine ⟨θ, ?_, by rw [hθφ]; exact hφ.symm⟩
+  refine ⟨fun k' l => MvPolynomial.coeff (Finsupp.single l 1) (θ₀.hom (MvPolynomial.X k')),
+    fun k' => ?_⟩
+  change θ₀.hom (MvPolynomial.X k') = _
+  refine eq_of_locally_map V _ _ fun y hy => ?_
+  obtain ⟨W, hWV, hyW, θW, ⟨aW, haW⟩, eW⟩ := hloc y hy
+  refine ⟨W, hWV, hyW, ?_⟩
+  have key : θ₀ ≫ CommRingCat.ofHom (MvPolynomial.map (Y.homOfLE hWV).appTop.hom) =
+      CommRingCat.ofHom (MvPolynomial.map (Y.homOfLE hWV).appTop.hom) ≫
+        CommRingCat.ofHom θW.toRingEquiv.toRingHom := by
+    apply Spec.map_injective
+    rw [Spec.map_comp, Spec.map_comp, hθ₀, Spec.map_preimage, ← cancel_mono c₁, Category.assoc,
+      hφ, Category.assoc, hc₁, hc₂, ← affineSpaceChart_restrict_assoc, eW,
+      affineSpaceChart_restrict_assoc]
+  have k1 : MvPolynomial.map (Y.homOfLE hWV).appTop.hom (θ₀.hom (MvPolynomial.X k')) =
+      ∑ l, MvPolynomial.C (aW k' l) * MvPolynomial.X l := by
+    have := congrArg (fun g => g.hom (MvPolynomial.X k')) key
+    simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom, RingHom.comp_apply,
+      MvPolynomial.map_X] at this
+    rw [this]
+    exact haW k'
+  rw [k1, map_sum]
+  refine Finset.sum_congr rfl fun l _ => ?_
+  rw [map_mul, MvPolynomial.map_C, MvPolynomial.map_X, ← MvPolynomial.coeff_map, k1,
+    coeff_single_linear]
+
+end Trans
+
 end GeometricVectorBundle
 
 end
