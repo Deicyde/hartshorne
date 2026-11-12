@@ -577,7 +577,7 @@ theorem cechOneVanishes_of_surjective_cokernel (G : SheafOfModules.{u} R) {ι : 
     intro i
     have h := congrArg (presheafRes G.val.presheaf (le_inf le_rfl le_rfl : U i ≤ U i ⊓ U i))
       (hcompk i i)
-    simp only [map_sub, presheafRes_res, presheafRes_self, hc0, map_zero, sub_zero] at h
+    simp only [presheafRes_res, presheafRes_self, hc0, map_zero, sub_zero] at h
     exact h
   refine ⟨a, fun i j => ?_⟩
   have h := congrArg (presheafRes G.val.presheaf (le_inf inf_le_right inf_le_left :
