@@ -353,6 +353,84 @@ theorem isIso_app_of_finite_of_rightExact [IsNoetherianRing A]
     mono_τ₃_of_exact_of_epi (S.mapNatTrans c) (h₂ S hS hK hF hM).1
   exact isIso_of_mono_of_epi _
 
+/-- The linear map `A ^ n ⟶ A ^ (n + 1)`, `w ↦ (0, w)`. -/
+private def consZeroLinear (n : ℕ) : (Fin n → A) →ₗ[A] (Fin (n + 1) → A) where
+  toFun w := Fin.cons 0 w
+  map_add' w w' := by
+    ext i
+    refine Fin.cases ?_ (fun j => ?_) i <;> simp
+  map_smul' a w := by
+    ext i
+    refine Fin.cases ?_ (fun j => ?_) i <;> simp
+
+/-- The split short exact sequence `0 ⟶ A ^ n ⟶ A ^ (n + 1) ⟶ A ⟶ 0`. -/
+private def consShortComplex (n : ℕ) : ShortComplex (ModuleCat.{u} A) :=
+  ShortComplex.mk (X₁ := ModuleCat.of A (Fin n → A)) (X₂ := ModuleCat.of A (Fin (n + 1) → A))
+    (X₃ := ModuleCat.of A A) (ModuleCat.ofHom (consZeroLinear n))
+    (ModuleCat.ofHom (LinearMap.proj 0)) (by ext w; rfl)
+
+private lemma consShortComplex_shortExact (n : ℕ) : (consShortComplex (A := A) n).ShortExact := by
+  refine ShortComplex.ShortExact.mk' ?_ ?_ ?_
+  · refine (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).2 (fun v => ?_)
+    constructor
+    · intro hv
+      refine ⟨Fin.tail v, ?_⟩
+      funext i
+      refine Fin.cases ?_ (fun j => ?_) i
+      · exact hv.symm
+      · rfl
+    · rintro ⟨w, rfl⟩
+      rfl
+  · refine (ModuleCat.mono_iff_injective _).2 (fun w w' h => ?_)
+    funext j
+    exact congrFun h j.succ
+  · exact (ModuleCat.epi_iff_surjective _).2 (fun a => ⟨fun _ => a, rfl⟩)
+
+private instance (n : ℕ) : IsSplitMono (consShortComplex (A := A) n).f :=
+  IsSplitMono.mk' ⟨ModuleCat.ofHom (LinearMap.pi fun j => LinearMap.proj j.succ), by ext w; rfl⟩
+
+/-- Under the hypotheses of `isIso_app_of_finite_of_rightExact`, with `Φ₂` exact on short exact
+sequences of finite modules, an isomorphism at `A` gives isomorphisms at all `A ^ n`. -/
+private lemma isIso_app_free
+    (h₁ : ∀ S : ShortComplex (ModuleCat.{u} A), S.ShortExact →
+      (S.map Φ₁).Exact ∧ Epi (Φ₁.map S.g))
+    (h₂ : ∀ S : ShortComplex (ModuleCat.{u} A), S.ShortExact → Module.Finite A S.X₁ →
+      Module.Finite A S.X₂ → Module.Finite A S.X₃ → (S.map Φ₂).ShortExact)
+    (hA : IsIso (c.app (ModuleCat.of A A))) (n : ℕ) :
+    IsIso (c.app (ModuleCat.of A (Fin n → A))) := by
+  induction n with
+  | zero =>
+    have hz : IsZero (ModuleCat.of A (Fin 0 → A)) :=
+      ModuleCat.isZero_of_subsingleton _
+    have h1 := Φ₁.map_isZero hz
+    have h2 := Φ₂.map_isZero hz
+    exact ⟨⟨h2.to_ _, h1.eq_of_src _ _, h2.eq_of_src _ _⟩⟩
+  | succ n ih =>
+    let S := consShortComplex (A := A) n
+    have hS := consShortComplex_shortExact (A := A) n
+    have hF : ∀ k : ℕ, Module.Finite A (ModuleCat.of A (Fin k → A)) := fun k =>
+      inferInstanceAs (Module.Finite A (Fin k → A))
+    have hA' : Module.Finite A (ModuleCat.of A A) := inferInstanceAs (Module.Finite A A)
+    have h₁S : (S.map Φ₁).ShortExact :=
+      ShortComplex.ShortExact.mk' (h₁ S hS).1 (inferInstanceAs (Mono (Φ₁.map S.f))) (h₁ S hS).2
+    have : IsIso (S.mapNatTrans c).τ₁ := ih
+    have : IsIso (S.mapNatTrans c).τ₃ := hA
+    exact ShortComplex.isIso₂_of_shortExact_of_isIso₁₃ (S.mapNatTrans c) h₁S (h₂ S hS (hF n) (hF (n + 1)) hA')
+
+/-- **Natural transformations between right exact functors on finite modules**, from the rank one
+free module: as `isIso_app_of_finite_of_rightExact`, with `Φ₂` exact on short exact sequences of
+finite modules and `c` an isomorphism at `A`. -/
+theorem isIso_app_of_finite_of_isIso_app_self [IsNoetherianRing A]
+    (h₁ : ∀ S : ShortComplex (ModuleCat.{u} A), S.ShortExact →
+      (S.map Φ₁).Exact ∧ Epi (Φ₁.map S.g))
+    (h₂ : ∀ S : ShortComplex (ModuleCat.{u} A), S.ShortExact → Module.Finite A S.X₁ →
+      Module.Finite A S.X₂ → Module.Finite A S.X₃ → (S.map Φ₂).ShortExact)
+    (hA : IsIso (c.app (ModuleCat.of A A))) (M : ModuleCat.{u} A) [Module.Finite A M] :
+    IsIso (c.app M) :=
+  isIso_app_of_finite_of_rightExact c h₁
+    (fun S hS h1 h2 h3 => ⟨(h₂ S hS h1 h2 h3).exact, (h₂ S hS h1 h2 h3).epi_g⟩)
+    (isIso_app_free c h₁ h₂ hA) M
+
 end FiniteModuleNatTrans
 
 end Hartshorne
