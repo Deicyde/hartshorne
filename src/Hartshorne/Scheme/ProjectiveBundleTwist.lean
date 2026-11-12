@@ -421,6 +421,88 @@ private lemma exists_globalSection (i : Fin (n + 1)) :
             ((X.basicOpen_le _).trans k.2.2) (T p) (hRT p).symm])
   exact ⟨s, fun V hV hVU => hs ⟨V, hV, hVU⟩⟩
 
+/-- `M|_{π⁻¹(U)}` restricted to the affine piece over `V` is `𝒪_{Proj Γ(V, S(E))}(1)`. -/
+private def pieceIso {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U) :
+    (M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).restrict (pieceι hE hfin hV hVU) ≅
+      (symmetricGradedAlgebra hE hfin).twistingSheaf 1 (site hV) :=
+  ((restrictFunctorComp (pieceι hE hfin hV hVU) (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).app
+      M).symm ≪≫
+    (restrictFunctorCongr (pieceι_ι hE hfin hV hVU)).app M ≪≫ α (site hV)
+
+private lemma projι_image_le_pieceι {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U)
+    (D : (Proj ((symmetricGradedAlgebra hE hfin).grading (site hV))).Opens) :
+    (symmetricGradedAlgebra hE hfin).projι (site hV) ''ᵁ D ≤
+      (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι ''ᵁ (pieceι hE hfin hV hVU ''ᵁ D) := by
+  rintro _ ⟨y, hy, rfl⟩
+  exact ⟨pieceι hE hfin hV hVU y, ⟨y, hy, rfl⟩, by rw [← pieceι_ι hE hfin hV hVU]; rfl⟩
+
+private lemma pieceIso_hom_app {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U)
+    (D : (Proj ((symmetricGradedAlgebra hE hfin).grading (site hV))).Opens)
+    (y : Γ(M, (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι ''ᵁ (pieceι hE hfin hV hVU ''ᵁ D))) :
+    (pieceIso hE hfin M α hV hVU).hom.app D y = (α (site hV)).hom.app D
+      (M.presheaf.map (homOfLE (projι_image_le_pieceι hE hfin hV hVU D)).op y) := by
+  simp only [pieceIso, Iso.trans_hom, Iso.symm_hom, Iso.app_hom, Scheme.Modules.Hom.comp_app,
+    Scheme.Modules.restrictFunctorCongr_hom_app_app]
+  exact congrArg ((α (site hV)).hom.app D) (DirectedModuleGluing.pmap_map M _ _ _ y)
+
+private lemma pieceIso_hom_app_global {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U)
+    (i : Fin (n + 1)) (s : Γ(M, (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι ''ᵁ ⊤))
+    (hs : M.presheaf.map (homOfLE (projι_image_top_le hE hfin hV hVU)).op s =
+      pieceSection hE hfin (e := e) M α hV hVU i)
+    (D : (Proj ((symmetricGradedAlgebra hE hfin).grading (site hV))).Opens) :
+    (pieceIso hE hfin M α hV hVU).hom.app D
+        (M.presheaf.map (homOfLE (Scheme.Hom.image_mono _
+          (le_top : pieceι hE hfin hV hVU ''ᵁ D ≤ ⊤))).op s) =
+      (projTwistingSheaf ((symmetricGradedAlgebra hE hfin).grading (site hV)) 1).presheaf.map
+        (homOfLE (le_top : D ≤ ⊤)).op
+        (ProjTwistingSheaf.degreeOneSection ⟨pieceElt hE hfin (e := e) hV hVU i,
+          pieceElt_mem hE hfin hV hVU i⟩) := by
+  rw [pieceIso_hom_app, DirectedModuleGluing.pmap_map_eq M _ _ (homOfLE (projι_image_top_le hE hfin hV hVU)).op
+    (homOfLE (Scheme.Hom.image_mono _ (le_top : D ≤ ⊤))).op, hs, pieceSection_spec]
+
+omit [IsNoetherian X] in
+private lemma degreeOne_restrict_smul {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U)
+    (i j : Fin (n + 1)) (D : (Proj ((symmetricGradedAlgebra hE hfin).grading (site hV))).Opens)
+    (hD : D ≤ Proj.basicOpen _ (pieceElt hE hfin (e := e) hV hVU i)) :
+    (projTwistingSheaf ((symmetricGradedAlgebra hE hfin).grading (site hV)) 1).presheaf.map
+        (homOfLE (le_top : D ≤ ⊤)).op
+        (ProjTwistingSheaf.degreeOneSection ⟨pieceElt hE hfin (e := e) hV hVU j,
+          pieceElt_mem hE hfin hV hVU j⟩) =
+      (Proj ((symmetricGradedAlgebra hE hfin).grading (site hV))).presheaf.map (homOfLE hD).op
+          (Proj.awayToSection _ (pieceElt hE hfin (e := e) hV hVU i)
+            (HomogeneousLocalization.Away.mk _ (pieceElt_mem hE hfin hV hVU i) 1
+              (pieceElt hE hfin (e := e) hV hVU j)
+              (by simpa using pieceElt_mem hE hfin hV hVU j))) •
+        (projTwistingSheaf ((symmetricGradedAlgebra hE hfin).grading (site hV)) 1).presheaf.map
+          (homOfLE (le_top : D ≤ ⊤)).op
+          (ProjTwistingSheaf.degreeOneSection ⟨pieceElt hE hfin (e := e) hV hVU i,
+            pieceElt_mem hE hfin hV hVU i⟩) := by
+  have h0 := ProjTwistingSheaf.restrict_degreeOneSection_eq_smul
+    (pieceElt_mem hE hfin (e := e) hV hVU i) (pieceElt_mem hE hfin (e := e) hV hVU j)
+  have h := congrArg (fun x => (projTwistingSheaf ((symmetricGradedAlgebra hE hfin).grading
+    (site hV)) 1).presheaf.map (homOfLE hD).op x) h0
+  simp only at h
+  rw [Scheme.Modules.map_map_homOfLE, Scheme.Modules.map_smul,
+    Scheme.Modules.map_map_homOfLE] at h
+  exact h
+
+include hψ in
+private lemma pieceι_appIso_ratio {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U)
+    (i j : Fin (n + 1)) :
+    ((pieceι hE hfin hV hVU).appIso (pieceι hE hfin hV hVU ⁻¹ᵁ chartPreimage ψ.hom i)).hom
+        ((projectiveBundleProj hE hfin ⁻¹ᵁ U).toScheme.presheaf.map
+          (homOfLE (Scheme.Hom.image_preimage_le _ _)).op
+          ((toIntMap ψ.hom).app (chartInt n i) (ratioInt n i j))) =
+      (Proj ((symmetricGradedAlgebra hE hfin).grading (site hV))).presheaf.map
+          (homOfLE (pieceι_preimage_chart hE hfin he ψ hψ hV hVU i).le).op
+          (Proj.awayToSection _ (pieceElt hE hfin (e := e) hV hVU i)
+            (HomogeneousLocalization.Away.mk _ (pieceElt_mem hE hfin hV hVU i) 1
+              (pieceElt hE hfin (e := e) hV hVU j)
+              (by simpa using pieceElt_mem hE hfin hV hVU j))) := by
+  rw [Scheme.Hom.appIso_hom', ← pieceι_appLE_ratio hE hfin he ψ hψ hV hVU i j]
+  rw [← ConcreteCategory.comp_apply, Scheme.Hom.map_appLE]
+  conv_rhs => rw [← ConcreteCategory.comp_apply, Scheme.Hom.appLE_map]
+
 end Abstract2
 
 end AlgebraicGeometry.Scheme.Modules
