@@ -798,6 +798,169 @@ theorem sectionsDualClass_surjective :
 
 end GeometricVectorBundle
 
+
+/-! ### Functoriality of `V` in isomorphisms -/
+
+namespace Scheme.Modules
+
+open Hartshorne Hartshorne.SheafAlgebraOperations Hartshorne.SheafTensorOperations
+  Hartshorne.ModuleSheafAlgebra
+
+section QuasiCoherentAlgebraIso
+
+variable {M M' : Y.Modules} {S : ModuleSheafAlgebra (R := Y.sheaf) M}
+  {S' : ModuleSheafAlgebra (R := Y.sheaf) M'} (hS : S.IsCommutative) (hS' : S'.IsCommutative)
+  (e : M ≅ M')
+  (hmul : ∀ U a b, e.hom.val.app U (S.mul.app U a b) =
+    S'.mul.app U (e.hom.val.app U a) (e.hom.val.app U b))
+  (hone : ∀ U, e.hom.val.app U (S.one U) = S'.one U)
+
+/-- A multiplicative and unital isomorphism of commutative sheaves of algebras, on rings of
+sections. -/
+def sectionsRingEquiv (U : Y.Opens) : sectionsRing hS U ≃+* sectionsRing hS' U where
+  toFun a := toSectionsRing hS' (e.hom.val.app (op U) (ofSectionsRing hS a))
+  invFun a := toSectionsRing hS (e.inv.val.app (op U) (ofSectionsRing hS' a))
+  left_inv a := by
+    change (e.hom ≫ e.inv).val.app (op U) a = a
+    rw [e.hom_inv_id]
+    rfl
+  right_inv a := by
+    change (e.inv ≫ e.hom).val.app (op U) a = a
+    rw [e.inv_hom_id]
+    rfl
+  map_mul' a b := hmul (op U) a b
+  map_add' a b := map_add (e.hom.val.app (op U)).hom a b
+
+lemma sectionsRingEquiv_apply (U : Y.Opens) (a : Γ(M, U)) :
+    sectionsRingEquiv hS hS' e hmul U (toSectionsRing hS a) =
+      toSectionsRing hS' (e.hom.val.app (op U) a) := rfl
+
+variable [M.IsQuasicoherent] [M'.IsQuasicoherent]
+
+open Scheme.AffineZariskiSite in
+/-- The natural isomorphism of the rings of sections over the affine opens. -/
+def sectionsFunctorIso : sectionsFunctor hS ≅ sectionsFunctor hS' :=
+  NatIso.ofComponents
+    (fun U => (sectionsRingEquiv hS hS' e hmul ((toOpensFunctor Y).obj U.unop)).toCommRingCatIso)
+    (fun {U V} i => by
+      ext a
+      exact PresheafOfModules.naturality_apply e.hom.val ((toOpensFunctor Y).map i.unop).op
+        (ofSectionsRing hS a))
+
+include hone in
+/-- **A multiplicative and unital isomorphism of commutative sheaves of algebras on
+quasi-coherent modules is an isomorphism of quasi-coherent algebras.** -/
+def toQuasiCoherentAlgebraIso : toQuasiCoherentAlgebra hS ≅ toQuasiCoherentAlgebra hS' :=
+  (ObjectProperty.fullyFaithfulι _).preimageIso
+    (Under.isoMk (sectionsFunctorIso hS hS' e hmul) (by
+      ext U r
+      let W : Y.Opens := (Scheme.AffineZariskiSite.toOpensFunctor Y).obj U.unop
+      change e.hom.val.app (op W) ((show Γ(Y, W) from r) • oneSection S W) =
+        (show Γ(Y, W) from r) • oneSection S' W
+      rw [(e.hom.val.app (op W)).hom.map_smul]
+      exact congrArg ((show Γ(Y, W) from r) • ·) (hone _)))
+
+end QuasiCoherentAlgebraIso
+
+
+section SymmetricAlgebraIso
+
+variable {E E' E'' : Y.Modules}
+
+/-- `E` as a sheaf of modules over the ringed space of `Y`. -/
+private abbrev ringedModule (E : Y.Modules) : SheafOfModules.{u} (ringCatSheafOf Y.sheaf) := E
+
+/-- `α` as a morphism of sheaves of modules over the ringed space of `Y`. -/
+private abbrev ringedHom (α : E ⟶ E') : ringedModule E ⟶ ringedModule E' := α
+
+/-- `Sym(α)` on the presheaf `U ↦ Sym(E(U))`, for a morphism `α : E ⟶ E'`. -/
+def symmetricAlgebraPresheafMap (α : E ⟶ E') :
+    moduleSheafSymmetricAlgebraPresheaf (R := Y.sheaf) E ⟶
+      moduleSheafSymmetricAlgebraPresheaf (R := Y.sheaf) E' where
+  app U := ModuleCat.ofHom (symmetricAlgebraMap (RingHom.id _) ((ringedHom α).val.app U).hom)
+  naturality {U V} i := by
+    ext x
+    have h1 := symmetricAlgebraMap_comp (fun _ => rfl) ((ringedHom α).val.app U).hom
+      ((ringedModule E').val.restrictₛₗ i)
+      (((ringedModule E').val.restrictₛₗ i).comp ((ringedHom α).val.app U).hom) (fun _ => rfl) x
+    have h2 := symmetricAlgebraMap_comp (fun _ => rfl) ((ringedModule E).val.restrictₛₗ i)
+      ((ringedHom α).val.app V).hom
+      (((ringedModule E').val.restrictₛₗ i).comp ((ringedHom α).val.app U).hom)
+      (fun m => (PresheafOfModules.naturality_apply (ringedHom α).val i m).symm) x
+    exact h2.symm.trans h1
+
+lemma symmetricAlgebraPresheafMap_comp (α : E ⟶ E') (β : E' ⟶ E'') :
+    symmetricAlgebraPresheafMap (α ≫ β) =
+      symmetricAlgebraPresheafMap α ≫ symmetricAlgebraPresheafMap β := by
+  ext U x
+  exact symmetricAlgebraMap_comp (fun _ => rfl) _ _ _ (fun _ => rfl) x
+
+lemma symmetricAlgebraPresheafMap_id :
+    symmetricAlgebraPresheafMap (𝟙 E) = 𝟙 _ := by
+  ext U x
+  exact symmetricAlgebraMap_id (fun _ => rfl) _ (fun _ => rfl) x
+
+/-- `Sym(α)` on presheaves, for an isomorphism `α : E ≅ E'`. -/
+def symmetricAlgebraPresheafIso (α : E ≅ E') :
+    moduleSheafSymmetricAlgebraPresheaf (R := Y.sheaf) E ≅
+      moduleSheafSymmetricAlgebraPresheaf (R := Y.sheaf) E' where
+  hom := symmetricAlgebraPresheafMap α.hom
+  inv := symmetricAlgebraPresheafMap α.inv
+  hom_inv_id := by
+    rw [← symmetricAlgebraPresheafMap_comp, α.hom_inv_id, symmetricAlgebraPresheafMap_id]
+  inv_hom_id := by
+    rw [← symmetricAlgebraPresheafMap_comp, α.inv_hom_id, symmetricAlgebraPresheafMap_id]
+
+/-- **`Sym(α) : Sym(E) ≅ Sym(E')`** for an isomorphism `α : E ≅ E'`, the sheafification of
+`Sym(α(U)) : Sym(E(U)) ≅ Sym(E'(U))`. -/
+def symmetricAlgebraIso (α : E ≅ E') : E.symmetricAlgebra ≅ E'.symmetricAlgebra :=
+  (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf Y.sheaf).obj)).mapIso
+    (symmetricAlgebraPresheafIso α)
+
+lemma symmetricAlgebraIso_hom_mul (α : E ≅ E') (U : Y.Opensᵒᵖ)
+    (a b : E.symmetricAlgebra.val.obj U) :
+    (symmetricAlgebraIso α).hom.val.app U (E.symmetricAlgebraStructure.mul.app U a b) =
+      E'.symmetricAlgebraStructure.mul.app U ((symmetricAlgebraIso α).hom.val.app U a)
+        ((symmetricAlgebraIso α).hom.val.app U b) :=
+  PresheafAlgebra.sheafifyMap_mul _ _ _ (fun _ x y => symmetricAlgebraMap_mul _ _ x y) U a b
+
+lemma symmetricAlgebraIso_hom_one (α : E ≅ E') (U : Y.Opensᵒᵖ) :
+    (symmetricAlgebraIso α).hom.val.app U (E.symmetricAlgebraStructure.one U) =
+      E'.symmetricAlgebraStructure.one U :=
+  PresheafAlgebra.sheafifyMap_one _ _ _
+    (fun _ => map_one (symmetricAlgebraRingHom (RingHom.id _) _)) U
+
+lemma symmetricAlgebraIso_hom_symDegreeOne (α : E ≅ E') (U : Y.Opens) (m : Γ(E, U)) :
+    (symmetricAlgebraIso α).hom.val.app (op U) (ofSectionsRing _ (E.symDegreeOne U m)) =
+      ofSectionsRing _ (E'.symDegreeOne U (α.hom.val.app (op U) m)) :=
+  (sheafifyMap_unit _ (op U) _).trans
+    (congrArg _ (symmetricAlgebraRingHom_ι (RingHom.id _)
+      ((ringedHom α.hom).val.app (op U)).hom (show (ringedModule E).val.obj (op U) from m)))
+
+variable (hE : E.IsLocallyFreeOfRank n) (hE' : E'.IsLocallyFreeOfRank n)
+
+/-- **`Sym(α)` as an isomorphism of quasi-coherent `𝒪_Y`-algebras**, for an isomorphism
+`α : E ≅ E'` of locally free sheaves of rank `n`. -/
+def symmetricQuasiCoherentAlgebraIso (α : E ≅ E') :
+    symmetricQuasiCoherentAlgebra E hE ≅ symmetricQuasiCoherentAlgebra E' hE' :=
+  haveI := symmetricAlgebra_isQuasicoherent_of_isLocallyFreeOfRank hE
+  haveI := symmetricAlgebra_isQuasicoherent_of_isLocallyFreeOfRank hE'
+  toQuasiCoherentAlgebraIso _ _ (symmetricAlgebraIso α) (symmetricAlgebraIso_hom_mul α)
+    (symmetricAlgebraIso_hom_one α)
+
+/-- **`V(α) : V(E) ≅ V(E')`** for an isomorphism `α : E ≅ E'` of locally free sheaves of rank
+`n`: the isomorphism of relative spectra induced by `Sym(α)`. -/
+def vectorBundleIso (α : E ≅ E') : vectorBundle E hE ≅ vectorBundle E' hE' :=
+  QuasiCoherentAlgebra.relSpecIso (symmetricQuasiCoherentAlgebraIso hE hE' α)
+
+lemma vectorBundleIso_hom_proj (α : E ≅ E') :
+    (vectorBundleIso hE hE' α).hom ≫ vectorBundleProj E' hE' = vectorBundleProj E hE :=
+  QuasiCoherentAlgebra.relSpecIso_hom_relSpecToBase _
+
+end SymmetricAlgebraIso
+
+end Scheme.Modules
+
 end
 
 end AlgebraicGeometry
