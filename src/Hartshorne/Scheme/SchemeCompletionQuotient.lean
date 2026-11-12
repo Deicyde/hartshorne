@@ -13,8 +13,9 @@ Let `X` be a scheme, `I` a quasi-coherent ideal subsheaf of `𝒪_X` cutting out
 `Y`, `X̂` the formal completion of `X` along `Y`, a locally ringed space on `|Y|`, and
 `J = ker (𝒪_{X̂} ⟶ 𝒪_Y)` the completed ideal of `I`
 (`QuasicoherentIdealSubsheaf.formalCompletionIdealSubsheaf I`, whose ideals of sections are
-`QuasicoherentIdealSubsheaf.formalCompletionIdeal I`; on an affine open `U = Spec A` with
-`I(U) = 𝔞` it is the completion of `𝔞` in the `𝔞`-adic completion of `A`). For an `𝒪_X`-module `F`
+`QuasicoherentIdealSubsheaf.formalCompletionIdeal I`; on `U ∩ |Y|`, `U = Spec A` affine with
+`I(U) = 𝔞`, its sections are the image of the completion of `𝔞` in the `𝔞`-adic completion of
+`A`). For an `𝒪_X`-module `F`
 let `F̂ = lim_n (F / I ^ (n + 1) F)|_Y` be its completion, a module over `𝒪_{X̂}`. Here
 `(F / I ^ (n + 1) F)|_Y` (`QuasicoherentIdealSubsheaf.moduleCompletionObj I F n`) is the quotient
 `F / I ^ (n + 1) F`, a module supported on `|Y|`, restricted to `|Y|` and viewed as an
@@ -27,7 +28,7 @@ let `F̂ = lim_n (F / I ^ (n + 1) F)|_Y` be its completion, a module over `𝒪_
 * `Hartshorne.QuasicoherentIdealSubsheaf.isIso_powQuotientToModuleCompletionObj`: for `X` locally
   Noetherian and `F` quasi-coherent, this map is an isomorphism for every `n ≥ 0`.
 
-Hartshorne states the corollary for `X` Noetherian and `F` coherent; the result here supplements it
+Hartshorne states the corollary for `X` Noetherian and `F` coherent; the result here generalizes it
 to `X` locally Noetherian and `F` quasi-coherent. The proof identifies the kernel of
 `F̂ ⟶ (F / I ^ (n + 1) F)|_Y` with `J ^ (n + 1) F̂` and shows that this projection is an
 epimorphism (`QuasicoherentIdealSubsheaf.moduleCompletionPowShortComplex_exact`,
