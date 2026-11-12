@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.RingedSpace.ModuleSheafDualExact
 import Hartshorne.Scheme.Differentials.NormalConormalSheaves
+import Hartshorne.Scheme.PicardPullback
 
 /-!
 # The tangent-normal exact sequence
@@ -29,6 +30,240 @@ universe u
 open CategoryTheory Limits AlgebraicGeometry
 
 namespace Hartshorne
+
+namespace Ringed
+
+section Frames
+
+open TopologicalSpace Opposite
+
+variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+
+set_option hygiene false in
+/-- `𝒪_X`-modules. -/
+local notation "𝓜" => SheafOfModules.{u} (ringCatSheafOf R)
+
+/-- Sections of the structure sheaf over an open. -/
+local notation3 "𝒪(" U ")" => R.obj.obj (Opposite.op U)
+
+/-- Sections of a module sheaf over an open, as an abelian group. -/
+local notation3 "Γ(" M ", " U ")" => (PresheafOfModules.presheaf (SheafOfModules.val M)).obj
+  (Opposite.op U)
+
+/-- **Frames of a tensor product.** If `a` is a frame of `A` over `W` and `b` a frame of `B` over
+`W`, then the sections `a i ⊗ b k` form a frame of `A ⊗ B` over `W`. -/
+lemma IsLocalFrame.tensor_prod {ι κ : Type*} [Fintype ι] [Fintype κ] {A B : 𝓜}
+    {W : Opens X} {a : ι → Γ(A, W)} {b : κ → Γ(B, W)} (ha : IsLocalFrame A W a)
+    (hb : IsLocalFrame B W b) :
+    IsLocalFrame (moduleSheafTensor A B) W
+      (fun p : ι × κ => (moduleSheafTensorBilinear A B).app (Opposite.op W) (a p.1) (b p.2)) := by
+  classical
+  intro V hV
+  let c : (ι × κ → 𝒪(V)) ≃ (κ → ι → 𝒪(V)) :=
+    { toFun := fun r k i => r (i, k), invFun := fun s p => s p.2 p.1,
+      left_inv := fun _ => rfl, right_inv := fun _ => rfl }
+  have key : ⇑(localFrameMap (moduleSheafTensor A B)
+      (fun p : ι × κ => (moduleSheafTensorBilinear A B).app (Opposite.op W) (a p.1) (b p.2)) hV) =
+      tensorFrameMap A b hV ∘ (fun s k => localFrameMap A a hV (s k)) ∘ c := by
+    funext r
+    refine (localFrameMap_apply _ _ _ _).trans ?_
+    simp only [Function.comp_apply, tensorFrameMap, localFrameMap_apply]
+    rw [Fintype.sum_prod_type, Finset.sum_comm]
+    refine Finset.sum_congr rfl fun k _ => ?_
+    refine Eq.trans ?_ (LinearMap.map_sum₂ ((moduleSheafTensorBilinear A B).app _) _ _ _).symm
+    refine Finset.sum_congr rfl fun i _ => ?_
+    refine Eq.trans ?_ (LinearMap.map_smul₂ ((moduleSheafTensorBilinear A B).app _) _ _ _).symm
+    congr 1
+    exact (moduleSheafTensorBilinear A B).naturality _ _ _
+  rw [key]
+  exact (hb.tensorFrameMap_bijective (F := A) hV).comp
+    ((Function.Bijective.piMap fun _ => ha V hV).comp c.bijective)
+
+lemma modules_map_refl (A : 𝓜) {U : Opens X} (x : Γ(A, U)) :
+    A.val.presheaf.map (homOfLE (le_refl U)).op x = x := by
+  rw [show (homOfLE (le_refl U)) = 𝟙 U from rfl, op_id, CategoryTheory.Functor.map_id]
+  rfl
+
+/-- The evaluation pairing `E ⊗ E^∨ ⟶ 𝒪_X`, `e ⊗ σ ↦ σ(e)`. -/
+noncomputable def moduleSheafDualPairing (E : 𝓜) :
+    @Quiver.Hom 𝓜 _ (moduleSheafTensor E (moduleSheafDual E)) (structureModule R) :=
+  (moduleSheafTensorHomAdjunction E (moduleSheafDual E) (structureModule R)).symm (𝟙 _)
+
+lemma moduleSheafDualPairing_tmul (E : 𝓜) {U : Opens X} (e : Γ(E, U))
+    (σ : Γ(moduleSheafDual E, U)) :
+    sectionsMap (moduleSheafDualPairing E) U
+        ((moduleSheafTensorBilinear E (moduleSheafDual E)).app (op U) e σ) =
+      moduleSheafHomEval σ (le_refl U) e := by
+  have h := moduleSheafTensorHomAdjunction_app_eval (moduleSheafDualPairing E) U σ (le_refl U) e
+  rw [moduleSheafDualPairing, Equiv.apply_symm_apply, modules_map_refl] at h
+  exact h.symm
+
+end Frames
+
+end Ringed
+
+section PullbackDual
+
+open TopologicalSpace Opposite
+
+variable {X Y : Scheme.{u}} (f : X ⟶ Y)
+
+/-- **Pullback commutes with tensor products of locally free sheaves of finite rank.** This
+generalizes `Hartshorne.pullbackTensorMap_isIso` from invertible sheaves, by the same argument. -/
+theorem pullbackTensorMap_isIso_of_isLocallyFreeOfRank {L M : Y.Modules} {r s : ℕ}
+    (hL : Ringed.IsLocallyFreeOfRank (R := Y.sheaf) L r)
+    (hM : Ringed.IsLocallyFreeOfRank (R := Y.sheaf) M s) : IsIso (pullbackTensorMap f L M) := by
+  classical
+  refine Ringed.modules_isIso_of_locally_bijective (R := X.sheaf) _ fun x => ?_
+  obtain ⟨U₁, l, hx₁, hl⟩ := Ringed.exists_isLocalFrame_of_isLocallyFreeOfRank hL (f.base x)
+  obtain ⟨U₂, m, hx₂, hm⟩ := Ringed.exists_isLocalFrame_of_isLocallyFreeOfRank hM (f.base x)
+  have hl' := hl.restrictLE (inf_le_left : U₁ ⊓ U₂ ≤ U₁)
+  have hm' := hm.restrictLE (inf_le_right : U₁ ⊓ U₂ ≤ U₂)
+  have hsrc := Ringed.IsLocalFrame.pullback (φ := f.toRingCatSheafHom) (hl'.tensor_prod hm')
+  have htgt := (Ringed.IsLocalFrame.pullback (φ := f.toRingCatSheafHom) hl').tensor_prod
+    (Ringed.IsLocalFrame.pullback (φ := f.toRingCatSheafHom) hm')
+  exact ⟨f ⁻¹ᵁ (U₁ ⊓ U₂), ⟨hx₁, hx₂⟩, fun V hV =>
+    Ringed.IsLocalFrame.app_bijective_of_map _ hsrc htgt
+      (fun _ => pullbackTensorMap_app_unit _ _) hV⟩
+
+instance : (SheafOfModules.pushforward.{u} f.toRingCatSheafHom).IsRightAdjoint :=
+  (Scheme.Modules.pullbackPushforwardAdjunction f).isRightAdjoint
+
+/-- The pairing `f^*E ⊗ f^*(E^∨) ≅ f^*(E ⊗ E^∨) ⟶ f^*𝒪_Y ≅ 𝒪_X`, for `E` locally free of finite
+rank. -/
+noncomputable def pullbackDualPairing (E : Y.Modules) {r : ℕ}
+    (hE : Ringed.IsLocallyFreeOfRank (R := Y.sheaf) E r) :
+    moduleSheafTensor ((Scheme.Modules.pullback f).obj E)
+        ((Scheme.Modules.pullback f).obj (Ringed.moduleSheafDual (R := Y.sheaf) E)) ⟶
+      SheafOfModules.unit X.ringCatSheaf :=
+  (@asIso X.Modules _ _ _ (pullbackTensorMap f E (Ringed.moduleSheafDual (R := Y.sheaf) E))
+      (pullbackTensorMap_isIso_of_isLocallyFreeOfRank f hE
+        (Ringed.IsLocallyFreeOfRank.moduleSheafDual hE))).inv ≫
+    (Scheme.Modules.pullback f).map (Ringed.moduleSheafDualPairing (R := Y.sheaf) E) ≫
+    SheafOfModules.pullbackObjUnitToUnit f.toRingCatSheafHom
+
+/-- The canonical comparison map `f^*(E^∨) ⟶ (f^*E)^∨` for a locally free `E` of finite rank:
+adjoint, under the tensor–Hom adjunction, to `Hartshorne.pullbackDualPairing`. -/
+noncomputable def pullbackDualMap (E : Y.Modules) {r : ℕ}
+    (hE : Ringed.IsLocallyFreeOfRank (R := Y.sheaf) E r) :
+    (Scheme.Modules.pullback f).obj (Ringed.moduleSheafDual (R := Y.sheaf) E) ⟶
+      Ringed.moduleSheafDual (R := X.sheaf) ((Scheme.Modules.pullback f).obj E) :=
+  Ringed.moduleSheafTensorHomAdjunction (R := X.sheaf) _ _ _ (pullbackDualPairing f E hE)
+
+/-- Sections of a module sheaf over an open, as an abelian group. -/
+local notation3 "Γₘ(" M ", " U ")" => (PresheafOfModules.presheaf (SheafOfModules.val M)).obj
+  (Opposite.op U)
+
+lemma pullback_map_etaSec {A B : Y.Modules} (g : A ⟶ B) {U : Y.Opens} (x : Γₘ(A, U)) :
+    Ringed.sectionsMap (R := X.sheaf) ((Scheme.Modules.pullback f).map g) (f ⁻¹ᵁ U)
+        (Ringed.etaSec (φ := f.toRingCatSheafHom) x) =
+      Ringed.etaSec (φ := f.toRingCatSheafHom) (Ringed.sectionsMap (R := Y.sheaf) g U x) :=
+  (ConcreteCategory.congr_hom (congrArg (fun φ => Ringed.sectionsMap (R := Y.sheaf) φ U)
+    ((SheafOfModules.pullbackPushforwardAdjunction f.toRingCatSheafHom).unit.naturality g)) x).symm
+
+lemma pullbackObjUnitToUnit_etaSec {U : Y.Opens}
+    (a : Γₘ(SheafOfModules.unit Y.ringCatSheaf, U)) :
+    Ringed.sectionsMap (R := X.sheaf)
+        (SheafOfModules.pullbackObjUnitToUnit f.toRingCatSheafHom) (f ⁻¹ᵁ U)
+        (Ringed.etaSec (φ := f.toRingCatSheafHom) a) =
+      Ringed.phiApp f.toRingCatSheafHom U a := by
+  have h : Ringed.pullbackUnit f.toRingCatSheafHom (SheafOfModules.unit _) ≫
+      (SheafOfModules.pushforward f.toRingCatSheafHom).map
+        (SheafOfModules.pullbackObjUnitToUnit f.toRingCatSheafHom) =
+      SheafOfModules.unitToPushforwardObjUnit f.toRingCatSheafHom :=
+    ((SheafOfModules.pullbackPushforwardAdjunction f.toRingCatSheafHom).homEquiv_unit
+      _ _ _).symm.trans
+      (SheafOfModules.pullbackPushforwardAdjunction_homEquiv_pullbackObjUnitToUnit _)
+  exact ConcreteCategory.congr_hom (congrArg (fun φ => Ringed.sectionsMap (R := Y.sheaf) φ U) h) a
+
+lemma pullbackTensorMap_inv_etaSec {L M : Y.Modules} (hiso : IsIso (pullbackTensorMap f L M))
+    {U : Y.Opens} (l : Γₘ(L, U)) (m : Γₘ(M, U)) :
+    Ringed.sectionsMap (R := X.sheaf) (@asIso X.Modules _ _ _ (pullbackTensorMap f L M) hiso).inv
+        (f ⁻¹ᵁ U)
+        ((moduleSheafTensorBilinear ((Scheme.Modules.pullback f).obj L)
+          ((Scheme.Modules.pullback f).obj M)).app (op (f ⁻¹ᵁ U))
+          (Ringed.etaSec (φ := f.toRingCatSheafHom) l)
+          (Ringed.etaSec (φ := f.toRingCatSheafHom) m)) =
+      Ringed.etaSec (φ := f.toRingCatSheafHom) (E := moduleSheafTensor L M)
+        ((moduleSheafTensorBilinear L M).app (op U) l m) := by
+  have h := pullbackTensorMap_app_unit (f := f) l m
+  have h2 := ConcreteCategory.congr_hom (congrArg (fun φ => Ringed.sectionsMap (R := X.sheaf) φ
+    (f ⁻¹ᵁ U)) (@asIso X.Modules _ _ _ (pullbackTensorMap f L M) hiso).hom_inv_id)
+    (Ringed.etaSec (φ := f.toRingCatSheafHom) (E := moduleSheafTensor L M)
+      ((moduleSheafTensorBilinear L M).app (op U) l m))
+  exact (congrArg (fun y => Ringed.sectionsMap (R := X.sheaf)
+    (@asIso X.Modules _ _ _ (pullbackTensorMap f L M) hiso).inv (f ⁻¹ᵁ U) y) h.symm).trans h2
+
+lemma pullbackDualPairing_etaSec (E : Y.Modules) {r : ℕ}
+    (hE : Ringed.IsLocallyFreeOfRank (R := Y.sheaf) E r) {U : Y.Opens} (e : Γₘ(E, U))
+    (σ : Γₘ(Ringed.moduleSheafDual (R := Y.sheaf) E, U)) :
+    Ringed.sectionsMap (R := X.sheaf) (pullbackDualPairing f E hE) (f ⁻¹ᵁ U)
+        ((moduleSheafTensorBilinear _ _).app (op (f ⁻¹ᵁ U))
+          (Ringed.etaSec (φ := f.toRingCatSheafHom) e)
+          (Ringed.etaSec (φ := f.toRingCatSheafHom) σ)) =
+      Ringed.phiApp f.toRingCatSheafHom U (Ringed.moduleSheafHomEval σ (le_refl U) e) := by
+  have hiso := pullbackTensorMap_isIso_of_isLocallyFreeOfRank f hE
+    (Ringed.IsLocallyFreeOfRank.moduleSheafDual hE)
+  have h1 := pullbackTensorMap_inv_etaSec f hiso e σ
+  have h2 := pullback_map_etaSec f (Ringed.moduleSheafDualPairing (R := Y.sheaf) E)
+    ((moduleSheafTensorBilinear E (Ringed.moduleSheafDual (R := Y.sheaf) E)).app (op U) e σ)
+  have h3 := Ringed.moduleSheafDualPairing_tmul (R := Y.sheaf) E e σ
+  have h4 := pullbackObjUnitToUnit_etaSec f (Ringed.moduleSheafHomEval σ (le_refl U) e)
+  exact (congrArg (fun y => Ringed.sectionsMap (R := X.sheaf)
+      (SheafOfModules.pullbackObjUnitToUnit f.toRingCatSheafHom) (f ⁻¹ᵁ U)
+      (Ringed.sectionsMap (R := X.sheaf)
+        ((Scheme.Modules.pullback f).map (Ringed.moduleSheafDualPairing (R := Y.sheaf) E))
+        (f ⁻¹ᵁ U) y)) h1).trans
+    ((congrArg (fun y => Ringed.sectionsMap (R := X.sheaf)
+      (SheafOfModules.pullbackObjUnitToUnit f.toRingCatSheafHom) (f ⁻¹ᵁ U) y) h2).trans
+    ((congrArg (fun y => Ringed.sectionsMap (R := X.sheaf)
+      (SheafOfModules.pullbackObjUnitToUnit f.toRingCatSheafHom) (f ⁻¹ᵁ U)
+      (Ringed.etaSec (φ := f.toRingCatSheafHom) y)) h3).trans h4))
+
+private lemma ringHom_pi_single {ι A B : Type*} [DecidableEq ι] [Semiring A] [Semiring B]
+    (φ : A →+* B) (i j : ι) :
+    φ ((Pi.single i 1 : ι → A) j) = (Pi.single i 1 : ι → B) j := by
+  by_cases hij : j = i
+  · subst hij
+    simp
+  · simp [Pi.single_eq_of_ne hij]
+
+/-- **Pullback commutes with duals of locally free sheaves of finite rank.** For a morphism of
+schemes `f : X ⟶ Y` and an `𝒪_Y`-module `E` locally free of rank `r`, the comparison map
+`f^*(E^∨) ⟶ (f^*E)^∨` is an isomorphism: near every point, it sends the pullback of the dual of a
+frame of `E` to the dual of the pullback frame. -/
+theorem pullbackDualMap_isIso (E : Y.Modules) {r : ℕ}
+    (hE : Ringed.IsLocallyFreeOfRank (R := Y.sheaf) E r) : IsIso (pullbackDualMap f E hE) := by
+  classical
+  refine Ringed.modules_isIso_of_locally_bijective (R := X.sheaf) _ fun x => ?_
+  obtain ⟨U, e, hx, he⟩ := Ringed.exists_isLocalFrame_of_isLocallyFreeOfRank hE (f.base x)
+  have hsrc := Ringed.IsLocalFrame.pullback (φ := f.toRingCatSheafHom) he.dual
+  have hpe := Ringed.IsLocalFrame.pullback (φ := f.toRingCatSheafHom) he
+  refine ⟨f ⁻¹ᵁ U, hx, fun V hV =>
+    Ringed.IsLocalFrame.app_bijective_of_map _ hsrc hpe.dual (fun i => ?_) hV⟩
+  refine hpe.hom_ext (le_refl _) ?_
+  have hR := hpe.localFrameEval_dualLocalFrame (le_refl _) i
+  erw [Ringed.modules_map_refl] at hR
+  erw [hR]
+  funext j
+  have hY := he.localFrameEval_dualLocalFrame (le_refl U) i
+  erw [Ringed.modules_map_refl] at hY
+  have hj := congrFun hY j
+  erw [Ringed.localFrameEval_apply, Ringed.modules_map_refl] at hj
+  erw [Ringed.localFrameEval_apply, pullbackDualMap,
+    Ringed.moduleSheafTensorHomAdjunction_app_eval, Ringed.modules_map_refl,
+    Ringed.modules_map_refl, pullbackDualPairing_etaSec, hj]
+  exact ringHom_pi_single (Ringed.phiApp f.toRingCatSheafHom U) i j
+
+/-- **Pullback commutes with duals of locally free sheaves of finite rank:** the canonical
+isomorphism `f^*(E^∨) ≅ (f^*E)^∨`. -/
+noncomputable def pullbackDualIso (E : Y.Modules) {r : ℕ}
+    (hE : Ringed.IsLocallyFreeOfRank (R := Y.sheaf) E r) :
+    (Scheme.Modules.pullback f).obj (Ringed.moduleSheafDual (R := Y.sheaf) E) ≅
+      Ringed.moduleSheafDual (R := X.sheaf) ((Scheme.Modules.pullback f).obj E) :=
+  @asIso X.Modules _ _ _ (pullbackDualMap f E hE) (pullbackDualMap_isIso f E hE)
+
+end PullbackDual
 
 section TangentNormal
 
