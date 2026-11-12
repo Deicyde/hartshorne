@@ -10,13 +10,10 @@ proof: formalized
 # Coherent modules on a Noetherian formal scheme
 
 Let $\widehat{X}$ be a Noetherian formal scheme. Define an $\mathcal{O}_{\widehat{X}}$-module $F$ to be
-coherent when there is a finite formal-affine cover by charts obtained from
-Noetherian schemes $X i$, and on every chart $F$ is isomorphic to the
-completion of a coherent $\mathcal{O}_{(X i)}$-module.
-
-This is a property of an actual sheaf of modules on Hartshorne's plain locally
-ringed space. It is not defined through topological modules or affine-open
-ideal data.
+coherent when there is a finite open cover $\{U_i\}$ of $\widehat{X}$ with $U_i \cong \widehat{X_i}$, the
+completion of a Noetherian scheme $X_i$ along a closed subscheme, and for each $i$ a
+coherent $\mathcal{O}_{X_i}$-module $F_i$ with $F|_{U_i} \cong \widehat{F_i}$. The schemes $X_i$
+need not be affine.
 
 ## Depends on
 
