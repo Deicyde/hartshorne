@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.ProjectiveSpaceSectionRing
 import Hartshorne.Scheme.ProjClosedSubschemeTruncation
 import Hartshorne.Scheme.AbsoluteNormalizationUniversal
+import Hartshorne.Scheme.ProjectiveSpaceClassGroup
 
 /-!
 # The projective section ring is the integral closure
@@ -921,6 +922,51 @@ theorem coord_mem (i : Fin (r + 1)) : coord I i ∈ 𝒬 1 :=
 theorem mk_mem_of_mem {d : ℕ} {p : MvPolynomial (Fin (r + 1)) k} (hp : p ∈ 𝒮 d) :
     Ideal.Quotient.mk I.toIdeal p ∈ 𝒬 d :=
   mk_mem_gradedQuotient hp
+
+instance noetherianSpace_proj : TopologicalSpace.NoetherianSpace (Proj 𝒬) :=
+  (projQuotientι 𝒮 I).isClosedEmbedding.isInducing.noetherianSpace
+
+/-- **A connected normal closed subscheme of `ℙʳ_k` is integral.** -/
+theorem isIntegral_proj [ConnectedSpace (Proj 𝒬)] [Hartshorne.IsNormal (Proj 𝒬)] :
+    IsIntegral (Proj 𝒬) :=
+  isIntegral_of_connectedSpace (Proj 𝒬)
+
+/-- **The homogeneous coordinate ring is a domain** (Exercise 5.14(a)): `X = Proj S` is integral
+and `I` is saturated. -/
+theorem isDomain_of_isIntegral [IsIntegral (Proj 𝒬)]
+    (hsat : ∀ s : MvPolynomial (Fin (r + 1)) k, (∀ i, ∃ n : ℕ, X i ^ n * s ∈ I.toIdeal) →
+      s ∈ I.toIdeal) :
+    IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal) := by
+  obtain ⟨x⟩ := (inferInstance : Nonempty (Proj 𝒬))
+  have hsat' : ∀ {d : ℕ} {a : MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal}, a ∈ 𝒬 d →
+      (∀ i, ∃ m : ℕ, coord I i ^ m * a = 0) → a = 0 := by
+    intro d a ha h
+    obtain ⟨P, -, rfl⟩ := mem_gradedQuotient_iff.1 ha
+    rw [Ideal.Quotient.eq_zero_iff_mem]
+    refine hsat P fun i => ?_
+    obtain ⟨m, hm⟩ := h i
+    exact ⟨m, by rwa [coord, ← map_pow, ← map_mul, Ideal.Quotient.eq_zero_iff_mem] at hm⟩
+  have hbot : (⊥ : Ideal (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)).IsPrime := by
+    have hhom : (⊥ : Ideal (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)).IsHomogeneous 𝒬 := by
+      have := (⊥ : HomogeneousIdeal 𝒬).isHomogeneous
+      rwa [HomogeneousIdeal.toIdeal_bot] at this
+    refine hhom.isPrime_of_homogeneous_mem_or_mem ?_ ?_
+    · intro htop
+      apply x.isPrime.ne_top
+      rw [eq_top_iff]
+      intro y _
+      have : (1 : MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal) = 0 := by
+        rw [← Ideal.mem_bot, htop]
+        trivial
+      rw [← one_mul y, this, zero_mul]
+      exact zero_mem _
+    · rintro a b ⟨p, ha⟩ ⟨q, hb⟩ hab
+      rw [Ideal.mem_bot] at hab ⊢
+      rw [Ideal.mem_bot]
+      rcases forall_pow_mul_eq_zero_or (coord I) (coord_mem I) ha hb hab with h | h
+      · exact Or.inl (hsat' ha h)
+      · exact Or.inr (hsat' hb h)
+  exact IsDomain.of_bot_isPrime _
 
 section Integral
 
