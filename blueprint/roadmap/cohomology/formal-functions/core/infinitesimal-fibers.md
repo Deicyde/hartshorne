@@ -14,6 +14,9 @@ $X_n = X \times_Y \operatorname{Spec} (\mathcal{O}_{Y,y} / m_y^{n})$
 and define $F_n$ as the module pullback of $F$ to $X_n$. Construct the
 closed immersions $X_n \to X_{n+1}$, the compatible maps of module sheaves
 $F_{n+1} \to F_n$ along them, and the natural morphisms $X_n \to X$.
+The constructions and the two identifications below use neither that $X$ and $Y$ are
+Noetherian nor that $F$ is coherent; these hypotheses are kept as Hartshorne's setting for the
+theorem on formal functions.
 
 Prove that $X_1$ is canonically the scheme-theoretic fibre $X_y$ and every
 $X_n$ has the same underlying topological space as $X_y$. These are fibre
