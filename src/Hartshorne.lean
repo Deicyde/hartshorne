@@ -696,6 +696,7 @@ import Hartshorne.Scheme.FormalCompletionModule
 import Hartshorne.Scheme.FormalCompletionAffineSections
 import Hartshorne.Scheme.FormalSpectrum
 import Hartshorne.Scheme.AffineFormalThickenings
+import Hartshorne.Scheme.FormalSpectrumCompletion
 import Hartshorne.Scheme.FormalCompletionSupport
 import Hartshorne.Scheme.NoetherianFormalScheme
 import Hartshorne.Scheme.FormalCompletionClosedPoint
