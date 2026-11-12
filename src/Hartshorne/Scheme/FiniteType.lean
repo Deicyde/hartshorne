@@ -87,6 +87,48 @@ theorem finiteType_iff_everyAffineTarget
       rw [isCompact_iff_compactSpace]
       exact 𝒱.openCover.compactSpace
 
+/-- Hartshorne's definition of a morphism of finite type (II.3, p. 84).
+
+A morphism `f : X ⟶ Y` is of finite type if and only if there is a covering of
+`Y` by open affine subsets `V i` such that, for each `i`, the inverse image
+`f ⁻¹ᵁ V i` is covered by finitely many open affine subsets `U i j`, each of
+whose coordinate rings `Γ(X, U i j)` is a finitely generated `Γ(Y, V i)`-algebra
+via the induced map `f.appLE`. -/
+theorem finiteType_iff_exists_affine_cover {X Y : Scheme.{u}} (f : X ⟶ Y) :
+    FiniteType f ↔
+      ∃ (ι : Type u) (V : ι → Y.affineOpens), (⨆ i, (V i : Y.Opens)) = ⊤ ∧
+        ∀ i, ∃ (κ : Type u) (_ : Finite κ) (U : κ → X.affineOpens)
+          (hU : (⨆ j, (U j : X.Opens)) = f ⁻¹ᵁ (V i : Y.Opens)),
+          ∀ j, (f.appLE (V i) (U j)
+            ((le_iSup (fun j ↦ (U j : X.Opens)) j).trans hU.le)).hom.FiniteType := by
+  constructor
+  · rintro ⟨hLocallyOfFiniteType, hQuasiCompact⟩
+    refine ⟨Y.affineOpens, fun V ↦ V, iSup_affineOpens_eq_top Y, fun V ↦ ?_⟩
+    obtain ⟨s, hs, hsV⟩ := isCompact_iff_finite_and_eq_biUnion_affineOpens.mp
+      (quasiCompact_iff_forall_isAffineOpen.mp hQuasiCompact (V : Y.Opens) V.2)
+    refine ⟨s, hs.to_subtype, Subtype.val, ?_, fun j ↦ ?_⟩
+    · rw [hsV, iSup_subtype]
+    · exact HasRingHomProperty.appLE (P := @LocallyOfFiniteType) f
+        hLocallyOfFiniteType _ _ _
+  · rintro ⟨ι, V, hV, hU⟩
+    choose κ hκ U hUV hUf using hU
+    refine ⟨(HasRingHomProperty.iff_exists_appLE (P := @LocallyOfFiniteType)
+      (RingHom.finiteType_stableUnderComposition.stableUnderCompositionWithLocalizationAway
+        RingHom.finiteType_holdsForLocalizationAway).left).mpr fun x ↦ ?_, ?_⟩
+    · obtain ⟨i, hi⟩ : ∃ i, f x ∈ (V i : Y.Opens) :=
+        TopologicalSpace.Opens.mem_iSup.mp (hV.symm ▸ TopologicalSpace.Opens.mem_top (f x))
+      obtain ⟨j, hj⟩ : ∃ j, x ∈ (U i j : X.Opens) :=
+        TopologicalSpace.Opens.mem_iSup.mp ((hUV i).symm ▸ hi)
+      exact ⟨V i, U i j, hj, _, hUf i j⟩
+    · set_option backward.isDefEq.respectTransparency.types false in
+      refine (HasAffineProperty.iff_of_iSup_eq_top (P := @QuasiCompact) V hV).mpr
+        fun i ↦ ?_
+      let _ : Finite (κ i) := hκ i
+      refine isCompact_iff_compactSpace.mp
+        (show IsCompact (f ⁻¹ᵁ (V i : Y.Opens) : Set X) from ?_)
+      rw [← hUV i, TopologicalSpace.Opens.coe_iSup]
+      exact isCompact_iUnion fun j ↦ (U i j).2.isCompact
+
 /-- The closed points of a scheme of finite type over a field are dense. -/
 theorem closedPoints_dense_of_finiteType
     {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
