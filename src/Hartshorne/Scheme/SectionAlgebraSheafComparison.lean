@@ -10,7 +10,7 @@ import Hartshorne.Scheme.ProjectionFromPoint
 
 Hartshorne, *Algebraic Geometry*, II, proof of Theorem 7.17, Steps 1–3 (pp. 166–167).
 
-Toward identifying the graded pieces of the model `T^{(d)}` with `f_* L^{md}` as sheaves. Let
+Identifying the graded pieces of the model `T^{(d)}` with `f_* L^{md}` as sheaves. Let
 `i : Z ⟶ ℙʳ_X` be a closed immersion of an integral scheme, `f = π ∘ i`, and `𝒪(n)|_Z` the pullback
 of `𝒪(n)` along `Z ⟶ ℙʳ_X ⟶ ℙʳ_ℤ`.
 
@@ -22,6 +22,12 @@ of `𝒪(n)` along `Z ⟶ ℙʳ_X ⟶ ℙʳ_ℤ`.
   `Γ(f⁻¹(U), 𝒪(n)|_Z) → Γ(Proj T(U), 𝒪(n))` obtained by pulling back along the chart
   `Proj T(U) ≅ f⁻¹(U)` (`chartTwistSection_bijective`), which sends the pulled-back monomial `x^α`
   to `x^α / 1` (`chartTwistSection_monomialSection`).
+* `SectionAlgebraModel.coordTwistSection`: `T(U)_n → Γ(f⁻¹(U), 𝒪(n)|_Z)`, `[p] ↦ ∑ f^*(a_α) x^α`,
+  natural (`coordTwistSection_restrict`), `Γ(X, U)`-linear (`coordTwistSection_structureMap_mul`)
+  and bijective whenever `s ↦ s / 1` is (`coordTwistSection_bijective`); the key identity is
+  `chartTwistSection_polyTwistSection`.
+* `SectionAlgebraModel.exists_sectionAlgebraModel_natural`: the model `S = T^{(d)}` with
+  `Γ(f⁻¹(U), L^{md}) ≅ S(U)_m` compatible with restriction and `Γ(X, U)`-linear.
 * Supporting results: `projMapTwistIso_hom_pullbackGlobalSection` (the isomorphism
   `(Proj.map φ)^* 𝒪(n) ≅ 𝒪(n)` sends the pullback of `s / 1` to `φ(s) / 1`),
   `toSpecZero_appTop_smul_twistSection` (a function pulled back from `t ∈ S₀` multiplies `s / 1`
@@ -485,6 +491,368 @@ theorem chartTwistSection_monomialSection (U : X.AffineZariskiSite) {n : ℕ}
         (coordHom i U).map_mem (monomial_mem_intGrading h)⟩ (op ⊤) := by
   rw [monomialSection, dif_pos h]
   exact pullbackPullbackTwistIso_pullbackTop _ _ _ _ _ _ _ _ _
+
+/-- `ℤ[x] → T(U)` sends the monomial `x^α` to the class of `x^α`. -/
+theorem coordHom_monomial (U : X.AffineZariskiSite) (α : Fin (r + 1) →₀ ℕ) :
+    (coordHom i U (MvPolynomial.monomial α 1) : MvPolynomial (Fin (r + 1)) Γ(X, U.1) ⧸
+      (chartIdeal i U.1 U.2).toIdeal) = Ideal.Quotient.mk _ (MvPolynomial.monomial α 1) := by
+  change Ideal.Quotient.mk _ (GeneratedProj.evalRingHom _ (MvPolynomial.monomial α 1)) = _
+  congr 1
+  rw [GeneratedProj.evalRingHom, MvPolynomial.coe_eval₂Hom, MvPolynomial.eval₂_monomial,
+    MvPolynomial.monomial_eq]
+  simp [projectiveSpaceGenerators]
+
+-- The presentations of `Proj T(U)` in the types of `coordToZ` and `chartTwistIso` differ by
+-- auxiliary proof terms; unifying them needs more than the default heartbeats.
+set_option maxHeartbeats 1000000 in
+/-- **`Γ(X, U)`-scalars pass through the chart map.** For `a ∈ Γ(X, U)`, the chart comparison
+sends `f^*(a) • s` to the function pulled back from `a` along `Proj T(U) ⟶ Z ⟶ X` times the image
+of `s`. -/
+theorem chartTwistSection_smul (U : X.AffineZariskiSite) (n : ℕ) (a : Γ(X, U.1))
+    (s : Γ(twistOnZ i n, (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)) :
+    chartTwistSection i U n ((i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a • s) =
+      (coordToZ i U ≫ i ≫ projectiveSpaceOverSchemeProjection r X).appLE U.1 ⊤
+        (preimage_coordToZ_comp i U).ge a • chartTwistSection i U n s :=
+  iso_comp_pullbackTopAddHom_smul (coordToZ i U) (twistOnZ i n)
+    (i ≫ projectiveSpaceOverSchemeProjection r X) (preimage_preimage_coordToZ i U).ge
+    (chartTwistIso i U n) a _ (preimage_coordToZ_comp i U).ge rfl s
+
+section TS
+variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+  {𝒜 : ℕ → σ} [GradedRing 𝒜]
+
+/-- `s ↦ s / 1`, `S_n → Γ(Proj S, 𝒪(n))`, is additive. -/
+theorem twistSection_add (n : ℕ) (s s' : 𝒜 n) :
+    twistSection n (s + s') (op ⊤) = twistSection n s (op ⊤) + twistSection n s' (op ⊤) := by
+  apply ProjGradedModuleSheaf.section_ext
+  intro x
+  apply HomogeneousLocalizedModule.ext
+  change LocalizedModule.mk ((s : A) + s') 1 =
+    LocalizedModule.mk (s : A) 1 + LocalizedModule.mk (s' : A) 1
+  rw [LocalizedModule.mk_add_mk, one_smul, one_smul, mul_one]
+
+/-- `0 / 1 = 0` in `Γ(Proj S, 𝒪(n))`. -/
+theorem twistSection_zero (n : ℕ) : twistSection n (0 : 𝒜 n) (op ⊤) = 0 := by
+  apply ProjGradedModuleSheaf.section_ext
+  intro x
+  apply HomogeneousLocalizedModule.ext
+  change LocalizedModule.mk ((0 : 𝒜 n) : A) 1 = 0
+  rw [ZeroMemClass.coe_zero, LocalizedModule.zero_mk]
+end TS
+
+/-- The class of the degree-`n` component of `p` lies in `T(U)_n`. -/
+theorem mk_homogeneousComponent_mem (U : X.AffineZariskiSite) (n : ℕ)
+    (p : MvPolynomial (Fin (r + 1)) Γ(X, U.1)) :
+    Ideal.Quotient.mk (chartIdeal i U.1 U.2).toIdeal (MvPolynomial.homogeneousComponent n p) ∈
+      (coordinateAlgebra i).grading U n :=
+  mk_mem_gradedQuotient (MvPolynomial.homogeneousComponent_mem n p)
+
+/-- If the degree-`n` component of `p` vanishes, so does its section `p_n / 1`. -/
+theorem twistSection_mk_homogeneousComponent_eq_zero (U : X.AffineZariskiSite) {n : ℕ}
+    {p : MvPolynomial (Fin (r + 1)) Γ(X, U.1)} (hp : MvPolynomial.homogeneousComponent n p = 0) :
+    twistSection (𝒜 := (coordinateAlgebra i).grading U) n
+      ⟨_, mk_homogeneousComponent_mem i U n p⟩ (op ⊤) = 0 := by
+  have : (⟨_, mk_homogeneousComponent_mem i U n p⟩ : (coordinateAlgebra i).grading U n) = 0 :=
+    Subtype.ext (by simp only [hp, map_zero]; rfl)
+  exact (congrArg (fun x => twistSection n x (op ⊤)) this).trans (twistSection_zero n)
+
+-- The presentations of `Proj T(U)` in the types of `coordToZ` and `chartTwistIso` differ by
+-- auxiliary proof terms; unifying them needs more than the default heartbeats.
+set_option maxHeartbeats 1000000 in
+/-- **The key identity.** For every `p ∈ Γ(X, U)[x₀, …, xᵣ]`, the chart comparison sends
+`∑ f^*(a_α) x^α` (degree-`n` monomials) to the section `p_n / 1` of `𝒪(n)` on `Proj T(U)`, where
+`p_n` is the class in `T(U)` of the degree-`n` component of `p`. -/
+theorem chartTwistSection_polyTwistSection (U : X.AffineZariskiSite) (n : ℕ)
+    (p : MvPolynomial (Fin (r + 1)) Γ(X, U.1)) :
+    chartTwistSection i U n (polyTwistSection i U.1 n p) =
+      twistSection (𝒜 := (coordinateAlgebra i).grading U) n
+        ⟨_, mk_homogeneousComponent_mem i U n p⟩ (op ⊤) := by
+  induction p using MvPolynomial.induction_on' with
+  | monomial α a =>
+    by_cases h : α.degree = n
+    · simp only [polyTwistSection_monomial]
+      erw [chartTwistSection_smul]
+      refine (congrArg (fun x => _ • x) (chartTwistSection_monomialSection i U h)).trans ?_
+      rw [coordToZ_comp_app]
+      refine (toSpecZero_appTop_smul_twistSection _ n _).trans ?_
+      refine congrArg (fun x => twistSection n x (op ⊤)) (Subtype.ext ?_)
+      change ((coordinateAlgebra i).toZero U a : MvPolynomial (Fin (r + 1)) Γ(X, U.1) ⧸
+        (chartIdeal i U.1 U.2).toIdeal) * (coordHom i U (MvPolynomial.monomial α 1) : _) =
+        Ideal.Quotient.mk _ (MvPolynomial.homogeneousComponent n (MvPolynomial.monomial α a))
+      rw [MvPolynomial.homogeneousComponent_of_mem ((MvPolynomial.mem_homogeneousSubmodule _ _).2
+        (MvPolynomial.isHomogeneous_monomial a h)), if_pos rfl]
+      change Ideal.Quotient.mk _ (MvPolynomial.C a) *
+        (coordHom i U (MvPolynomial.monomial α 1) : _) = _
+      rw [coordHom_monomial, ← map_mul, MvPolynomial.C_mul_monomial, mul_one]
+    · have h0 : MvPolynomial.homogeneousComponent n (MvPolynomial.monomial α a) = 0 := by
+        rw [MvPolynomial.homogeneousComponent_of_mem ((MvPolynomial.mem_homogeneousSubmodule _ _).2
+          (MvPolynomial.isHomogeneous_monomial a rfl)), if_neg (Ne.symm h)]
+      refine Eq.trans ?_ (twistSection_mk_homogeneousComponent_eq_zero i U h0).symm
+      simp only [polyTwistSection_monomial, monomialSection, dif_neg h, map_zero, smul_zero]
+      rfl
+  | add p q hp hq =>
+    simp only [polyTwistSection_add, map_add]
+    rw [hp, hq]
+    exact (twistSection_add n ⟨_, mk_homogeneousComponent_mem i U n p⟩
+      ⟨_, mk_homogeneousComponent_mem i U n q⟩).symm
+
+/-- The key identity for `p` homogeneous of degree `n`: the image is `[p] / 1`. -/
+theorem chartTwistSection_polyTwistSection_of_mem (U : X.AffineZariskiSite) {n : ℕ}
+    {p : MvPolynomial (Fin (r + 1)) Γ(X, U.1)}
+    (hp : p ∈ MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U.1) n) :
+    chartTwistSection i U n (polyTwistSection i U.1 n p) =
+      twistSection (𝒜 := (coordinateAlgebra i).grading U) n
+        ⟨_, mk_mem_gradedQuotient (I := chartIdeal i U.1 U.2) hp⟩ (op ⊤) :=
+  (chartTwistSection_polyTwistSection i U n p).trans
+    (congrArg (fun x => twistSection n x (op ⊤)) (Subtype.ext (by
+      change Ideal.Quotient.mk _ _ = Ideal.Quotient.mk _ _
+      rw [MvPolynomial.homogeneousComponent_of_mem hp, if_pos rfl])))
+
+/-- A homogeneous lift to `Γ(X, U)[x₀, …, xᵣ]_n` of an element of `T(U)_n`. -/
+noncomputable def coordLift (U : X.AffineZariskiSite) {n : ℕ}
+    (x : (coordinateAlgebra i).grading U n) : MvPolynomial (Fin (r + 1)) Γ(X, U.1) :=
+  Classical.choose (mem_gradedQuotient_iff.mp x.2)
+
+/-- The lift is homogeneous of degree `n`. -/
+theorem coordLift_mem (U : X.AffineZariskiSite) {n : ℕ} (x : (coordinateAlgebra i).grading U n) :
+    coordLift i U x ∈ MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U.1) n :=
+  (Classical.choose_spec (mem_gradedQuotient_iff.mp x.2)).1
+
+/-- The lift is a lift. -/
+theorem mk_coordLift (U : X.AffineZariskiSite) {n : ℕ} (x : (coordinateAlgebra i).grading U n) :
+    Ideal.Quotient.mk (chartIdeal i U.1 U.2).toIdeal (coordLift i U x) = x :=
+  (Classical.choose_spec (mem_gradedQuotient_iff.mp x.2)).2
+
+/-- The chart comparison sends the section built from the lift of `x` to `x / 1`. -/
+theorem chartTwistSection_polyTwistSection_coordLift (U : X.AffineZariskiSite) {n : ℕ}
+    (x : (coordinateAlgebra i).grading U n) :
+    chartTwistSection i U n (polyTwistSection i U.1 n (coordLift i U x)) =
+      twistSection n x (op ⊤) :=
+  (chartTwistSection_polyTwistSection_of_mem i U (coordLift_mem i U x)).trans
+    (congrArg (fun x => twistSection n x (op ⊤)) (Subtype.ext (mk_coordLift i U x)))
+
+/-- The section built from the lift is additive in `x`. -/
+theorem polyTwistSection_coordLift_add (U : X.AffineZariskiSite) {n : ℕ}
+    (x y : (coordinateAlgebra i).grading U n) :
+    polyTwistSection i U.1 n (coordLift i U (x + y)) =
+      polyTwistSection i U.1 n (coordLift i U x) + polyTwistSection i U.1 n (coordLift i U y) :=
+  (chartTwistSection_bijective i U n).1 <|
+    (chartTwistSection_polyTwistSection_coordLift i U (x + y)).trans <|
+      (twistSection_add n x y).trans <|
+        ((congrArg₂ (· + ·) (chartTwistSection_polyTwistSection_coordLift i U x)
+          (chartTwistSection_polyTwistSection_coordLift i U y)).symm.trans (map_add _ _ _).symm)
+
+/-- **The comparison `T(U)_n → Γ(f⁻¹(U), 𝒪(n)|_Z)`**, `[p] ↦ ∑ f^*(a_α) x^α` for homogeneous `p`
+of degree `n` (well defined by the key identity, since the chart comparison is injective). -/
+noncomputable def coordTwistSection (U : X.AffineZariskiSite) (n : ℕ) :
+    (coordinateAlgebra i).grading U n →+
+      Γ(twistOnZ i n, (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1) :=
+  AddMonoidHom.mk' (fun x => polyTwistSection i U.1 n (coordLift i U x))
+    (polyTwistSection_coordLift_add i U)
+
+/-- Followed by the chart comparison, the comparison is `x ↦ x / 1`. -/
+theorem chartTwistSection_coordTwistSection (U : X.AffineZariskiSite) {n : ℕ}
+    (x : (coordinateAlgebra i).grading U n) :
+    chartTwistSection i U n (coordTwistSection i U n x) = twistSection n x (op ⊤) :=
+  chartTwistSection_polyTwistSection_coordLift i U x
+
+/-- The comparison sends `[p]` to `∑ f^*(a_α) x^α` for `p` homogeneous of degree `n`. -/
+theorem coordTwistSection_mk (U : X.AffineZariskiSite) {n : ℕ}
+    {p : MvPolynomial (Fin (r + 1)) Γ(X, U.1)}
+    (hp : p ∈ MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U.1) n) :
+    coordTwistSection i U n ⟨_, mk_mem_gradedQuotient (I := chartIdeal i U.1 U.2) hp⟩ =
+      polyTwistSection i U.1 n p :=
+  (chartTwistSection_bijective i U n).1 ((chartTwistSection_coordTwistSection i U _).trans
+    (chartTwistSection_polyTwistSection_of_mem i U hp).symm)
+
+open Scheme.AffineZariskiSite in
+/-- **Naturality**: the comparison commutes with restriction along affine opens `V ⊆ U`. -/
+theorem coordTwistSection_restrict {U V : X.AffineZariskiSite} (h : V ⟶ U) {n : ℕ}
+    (x : (coordinateAlgebra i).grading U n) :
+    (twistOnZ i n).presheaf.map
+        (homOfLE ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono
+          (toOpens_mono h.le))).op (coordTwistSection i U n x) =
+      coordTwistSection i V n ⟨(coordinateAlgebra i).restrict h x,
+        (coordinateAlgebra i).map_mem h x.2⟩ := by
+  have hV := (polyMap (r := r) (X.presheaf.map (homOfLE (toOpens_mono h.le)).op).hom).map_mem
+    (coordLift_mem i U x)
+  refine (polyTwistSection_restrict i (toOpens_mono h.le) n (coordLift i U x)).trans
+    ((coordTwistSection_mk i V hV).symm.trans (congrArg _ (Subtype.ext ?_)))
+  change _ = coordRestrict i V.2 U.2 (toOpens_mono h.le) (x : _)
+  rw [← mk_coordLift i U x, coordRestrict_mk]
+  rfl
+
+/-- `T(U)_n` is a `Γ(X, U)`-submodule of `T(U)`. -/
+theorem structureMap_mul_mem (U : X.AffineZariskiSite) {n : ℕ} (a : Γ(X, U.1))
+    (x : (coordinateAlgebra i).grading U n) :
+    (coordinateAlgebra i).structureMap.app (op U) a * x ∈ (coordinateAlgebra i).grading U n := by
+  simpa using SetLike.mul_mem_graded ((coordinateAlgebra i).structureMap_mem U a) x.2
+
+/-- **Linearity**: the comparison is `Γ(X, U)`-linear. -/
+theorem coordTwistSection_structureMap_mul (U : X.AffineZariskiSite) {n : ℕ} (a : Γ(X, U.1))
+    (x : (coordinateAlgebra i).grading U n) :
+    coordTwistSection i U n ⟨_, structureMap_mul_mem i U a x⟩ =
+      (i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a • coordTwistSection i U n x := by
+  have hC : MvPolynomial.C a * coordLift i U x ∈
+      MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U.1) n := by
+    simpa using SetLike.mul_mem_graded ((MvPolynomial.mem_homogeneousSubmodule _ _).2
+      (MvPolynomial.isHomogeneous_C (Fin (r + 1)) a)) (coordLift_mem i U x)
+  refine (congrArg _ (Subtype.ext ?_)).trans ((coordTwistSection_mk i U hC).trans
+    (polyTwistSection_C_mul i U.1 n a _))
+  change Ideal.Quotient.mk (chartIdeal i U.1 U.2).toIdeal (MvPolynomial.C a) * (x : _) = _
+  rw [← mk_coordLift i U x, ← map_mul]
+
+/-- The comparison `T(U)_n → Γ(f⁻¹(U), 𝒪(n)|_Z)` is bijective in every degree in which
+`T(U)_n → Γ(Proj T(U), 𝒪(n))`, `s ↦ s / 1`, is. -/
+theorem coordTwistSection_bijective (U : X.AffineZariskiSite) {n : ℕ}
+    (hbij : Function.Bijective (fun a : gradedQuotient (MvPolynomial.homogeneousSubmodule
+      (Fin (r + 1)) Γ(X, U.1)) (chartIdeal i U.1 U.2) n => twistSection n a (op ⊤))) :
+    Function.Bijective (coordTwistSection i U n) := by
+  refine (Function.Bijective.of_comp_iff' (chartTwistSection_bijective i U n) _).mp ?_
+  have e : (chartTwistSection i U n ∘ coordTwistSection i U n) = fun a => twistSection n a (op ⊤) :=
+    funext (chartTwistSection_coordTwistSection i U)
+  rw [e]
+  exact hbij
+
+/-- The tensor power `L^{n}` of `L = i^* 𝒪(1)`, as an `𝒪_Z`-module. -/
+abbrev tensorPowerL (n : ℕ) : Z.Modules :=
+  moduleSheafTensorPower n ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1))
+
+/-- `L^{n} ≅ 𝒪(n)|_Z` for `n > 0` (Proposition 5.12(b), pulled back to `Z`). -/
+noncomputable def tensorPowerTwistOnZIso (n : ℕ) (hn : 0 < n) : tensorPowerL i n ≅ twistOnZ i n :=
+  eqToIso (by rw [Nat.sub_add_cancel hn]) ≪≫
+    tensorPowerPullbackProjectiveSpaceTwistIso i (n - 1) ≪≫
+    (Scheme.Modules.pullbackComp i
+      (pullback.fst (projectiveSpaceOverIntegersMap r) (schemeToSpecZ X))).app _ ≪≫
+    eqToIso (by rw [Nat.sub_add_cancel hn]; rfl)
+
+private theorem mul_pos_of_neZero {m : ℕ} (d : ℕ) [NeZero d] (hm : 0 < m) : 0 < m * d :=
+  Nat.mul_pos hm (Nat.pos_of_ne_zero (NeZero.ne d))
+
+/-- **The comparison `T(U)^{(d)}_m → Γ(f⁻¹(U), L^{md})`** (`m > 0`): `T(U)^{(d)}_m = T(U)_{md}`,
+then the comparison with `𝒪(md)|_Z`, then `𝒪(md)|_Z ≅ L^{md}`. -/
+noncomputable def veroneseTwistSection (d : ℕ) [NeZero d] (U : X.AffineZariskiSite) {m : ℕ}
+    (hm : 0 < m) :
+    ((coordinateAlgebra i).veronese d).grading U m →+
+      Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1) :=
+  ((tensorPowerTwistOnZIso i (m * d) (mul_pos_of_neZero d hm)).inv.app _).hom.comp
+    ((coordTwistSection i U (m * d)).comp (veronesePieceEquiv _ d m).toAddMonoidHom)
+
+/-- The comparison is bijective when `s ↦ s / 1` is bijective in degree `md`. -/
+theorem veroneseTwistSection_bijective (d : ℕ) [NeZero d] (U : X.AffineZariskiSite) {m : ℕ}
+    (hm : 0 < m)
+    (hbij : Function.Bijective (fun a : gradedQuotient (MvPolynomial.homogeneousSubmodule
+      (Fin (r + 1)) Γ(X, U.1)) (chartIdeal i U.1 U.2) (m * d) => twistSection (m * d) a (op ⊤))) :
+    Function.Bijective (veroneseTwistSection i d U hm) :=
+  (bijective_app_of_iso (tensorPowerTwistOnZIso i (m * d) (mul_pos_of_neZero d hm)).symm _).comp
+    ((coordTwistSection_bijective i U hbij).comp (veronesePieceEquiv _ d m).bijective)
+
+-- The presentations of `Proj T(U)` in the types of `coordToZ` and `chartTwistIso` differ by
+-- auxiliary proof terms; unifying them needs more than the default heartbeats.
+set_option maxHeartbeats 1000000 in
+open Scheme.AffineZariskiSite in
+/-- The comparison commutes with restriction along affine opens `V ⊆ U`. -/
+theorem veroneseTwistSection_restrict (d : ℕ) [NeZero d] {U V : X.AffineZariskiSite} (h : V ⟶ U)
+    {m : ℕ} (hm : 0 < m) (y : ((coordinateAlgebra i).veronese d).grading U m) :
+    (tensorPowerL i (m * d)).presheaf.map
+        (homOfLE ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono
+          (toOpens_mono h.le))).op (veroneseTwistSection i d U hm y) =
+      veroneseTwistSection i d V hm
+        ⟨((coordinateAlgebra i).veronese d).restrict h y,
+          ((coordinateAlgebra i).veronese d).map_mem h y.2⟩ := by
+  simp only [veroneseTwistSection, AddMonoidHom.coe_comp, Function.comp_apply]
+  rw [← hom_app_map, AddEquiv.coe_toAddMonoidHom, AddEquiv.coe_toAddMonoidHom,
+    coordTwistSection_restrict i h]
+  exact congrArg _ (congrArg _ (Subtype.ext rfl))
+
+/-- `T(U)^{(d)}_m` is a `Γ(X, U)`-submodule of `T(U)^{(d)}`. -/
+theorem veronese_structureMap_mul_mem (d : ℕ) [NeZero d] (U : X.AffineZariskiSite) {m : ℕ}
+    (a : Γ(X, U.1)) (y : ((coordinateAlgebra i).veronese d).grading U m) :
+    ((coordinateAlgebra i).veronese d).structureMap.app (op U) a * y ∈
+      ((coordinateAlgebra i).veronese d).grading U m := by
+  simpa using SetLike.mul_mem_graded (((coordinateAlgebra i).veronese d).structureMap_mem U a) y.2
+
+-- The presentations of `Proj T(U)` in the types of `coordToZ` and `chartTwistIso` differ by
+-- auxiliary proof terms; unifying them needs more than the default heartbeats.
+set_option maxHeartbeats 1000000 in
+/-- The comparison is `Γ(X, U)`-linear. -/
+theorem veroneseTwistSection_structureMap_mul (d : ℕ) [NeZero d] (U : X.AffineZariskiSite)
+    {m : ℕ} (hm : 0 < m) (a : Γ(X, U.1)) (y : ((coordinateAlgebra i).veronese d).grading U m) :
+    veroneseTwistSection i d U hm ⟨_, veronese_structureMap_mul_mem i d U a y⟩ =
+      (i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a •
+        veroneseTwistSection i d U hm y := by
+  simp only [veroneseTwistSection, AddMonoidHom.coe_comp, Function.comp_apply,
+    AddEquiv.coe_toAddMonoidHom]
+  rw [← Scheme.Modules.Hom.app_smul, ← coordTwistSection_structureMap_mul]
+  exact congrArg _ (congrArg _ (Subtype.ext rfl))
+
+-- The presentations of `Proj T(U)` in the types of `coordToZ` and `chartTwistIso` differ by
+-- auxiliary proof terms; unifying them needs more than the default heartbeats.
+set_option maxHeartbeats 1000000 in
+open Scheme.AffineZariskiSite in
+/-- **The section-algebra model of a projective birational morphism, sheaf form** (Hartshorne II,
+proof of Theorem 7.17, Steps 1–3). Let `X` be an integral quasi-compact scheme locally of finite
+type over a field `k`, `i : Z ⟶ ℙʳ_X` a closed immersion of an integral scheme, `f = π ∘ i`
+sending the generic point of `Z` to that of `X`, and `L = i^* 𝒪(1)`. There is a `d₀` such that for
+every `d ≥ d₀` there is a quasi-coherent graded `𝒪_X`-algebra `S` satisfying the hypotheses for
+relative Proj (`S₀ = 𝒪_X`, `S₁` coherent, generated by `S₁`) with `Proj_X S ≅ Z` over `X`, together
+with isomorphisms `Γ(f⁻¹(U), L^{md}) ≅ S(U)_m` (`U` affine, `m ≥ 1`) compatible with restriction
+and `Γ(X, U)`-linear: an isomorphism `f_* L^{md} ≅ S_m` of `𝒪_X`-modules on the affine opens. -/
+theorem exists_sectionAlgebraModel_natural (k : Type u) [Field k] [IsIntegral X] [CompactSpace X]
+    (pX : X ⟶ Spec (.of k)) [LocallyOfFiniteType pX]
+    (hf : (i ≫ projectiveSpaceOverSchemeProjection r X) (genericPoint Z) = genericPoint X) :
+    letI : IsNoetherian X :=
+      { toIsLocallyNoetherian := LocallyOfFiniteType.isLocallyNoetherian pX }
+    ∃ d₀ : ℕ, ∀ (d : ℕ) [NeZero d], d₀ ≤ d → ∃ D : RelativeProjData X,
+      ∃ E : ∀ (U : X.AffineZariskiSite) {m : ℕ}, 0 < m →
+        Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1) ≃+
+          D.algebra.grading U m,
+      (∀ (U V : X.AffineZariskiSite) (h : V ⟶ U) {m : ℕ} (hm : 0 < m)
+          (s : Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)),
+        (E V hm ((tensorPowerL i (m * d)).presheaf.map
+            (homOfLE ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono
+              (toOpens_mono h.le))).op s) : D.algebra.obj.obj (op V)) =
+          D.algebra.obj.map h.op (E U hm s)) ∧
+      (∀ (U : X.AffineZariskiSite) {m : ℕ} (hm : 0 < m) (a : Γ(X, U.1))
+          (s : Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)),
+        (E U hm ((i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a • s) :
+            D.algebra.obj.obj (op U)) =
+          D.algebra.structureMap.app (op U) a * E U hm s) ∧
+      ∃ e : D.relativeProj ≅ Z, e.hom ≫ (i ≫ projectiveSpaceOverSchemeProjection r X) =
+        D.projection := by
+  let : IsNoetherian X :=
+    { toIsLocallyNoetherian := LocallyOfFiniteType.isLocallyNoetherian pX }
+  obtain ⟨d₀, hd₀⟩ := exists_bound_bijective_twistSection i k pX
+  refine ⟨d₀, fun d _ hd => ?_⟩
+  have hG : ∀ (U : X.AffineZariskiSite) {m : ℕ} (hm : 0 < m),
+      Function.Bijective (veroneseTwistSection i d U hm) := fun U m hm =>
+    veroneseTwistSection_bijective i d U hm
+      (hd₀ U (m * d) (hd.trans (Nat.le_mul_of_pos_left d hm)))
+  refine ⟨sectionAlgebraRelativeProjData i hf d,
+    fun U m hm => (AddEquiv.ofBijective (veroneseTwistSection i d U hm) (hG U hm)).symm,
+    fun U V h m hm s => ?_, fun U m hm a s => ?_, sectionAlgebraRelativeProjIso i hf d,
+    sectionAlgebraRelativeProjIso_hom_comp i hf d⟩
+  · have hy := AddEquiv.ofBijective_apply_symm_apply (n := s) (veroneseTwistSection i d U hm)
+      (hG U hm)
+    have hz := AddEquiv.ofBijective_apply_symm_apply (veroneseTwistSection i d V hm) (hG V hm)
+      (n := (tensorPowerL i (m * d)).presheaf.map
+        (homOfLE ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono
+          (toOpens_mono h.le))).op s)
+    have key := veroneseTwistSection_restrict i d h hm
+      ((AddEquiv.ofBijective (veroneseTwistSection i d U hm) (hG U hm)).symm s)
+    have := (hG V hm).1 (hz.trans ((congrArg (fun t => (tensorPowerL i (m * d)).presheaf.map
+        (homOfLE ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono
+          (toOpens_mono h.le))).op t) hy.symm).trans key))
+    exact congrArg Subtype.val this
+  · have hy := AddEquiv.ofBijective_apply_symm_apply (n := s) (veroneseTwistSection i d U hm)
+      (hG U hm)
+    have hz := AddEquiv.ofBijective_apply_symm_apply (veroneseTwistSection i d U hm) (hG U hm)
+      (n := (i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a • s)
+    have key := veroneseTwistSection_structureMap_mul i d U hm a
+      ((AddEquiv.ofBijective (veroneseTwistSection i d U hm) (hG U hm)).symm s)
+    have := (hG U hm).1 (hz.trans ((congrArg (fun t =>
+      (i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a • t) hy.symm).trans key.symm))
+    exact congrArg Subtype.val this
 
 end Comparison
 
