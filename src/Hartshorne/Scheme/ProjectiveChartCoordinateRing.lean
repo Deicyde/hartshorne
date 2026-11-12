@@ -28,6 +28,13 @@ line bundle `L = 𝒪(1)|_Z` of the embedding as `𝒪_{Proj T}(1)`.
   `i : Z ⟶ ℙʳ_{Spec A}` there is a saturated homogeneous ideal `I` (Exercise 5.10) and an
   isomorphism `e : Z ≅ Proj (A[x]/I)` over `ℙʳ_{Spec A}` with `i^* 𝒪(n) ≅ e^* 𝒪_{Proj (A[x]/I)}(n)`
   for all `n`; if `Z` is integral, `A[x]/I` is a domain.
+* `SectionAlgebraModel.tensorPowerPullbackTwistIso`,
+  `SectionAlgebraModel.tensorPowerPullbackProjectiveSpaceTwistIso`: for `L = ψ^* 𝒪(1)`, the tensor
+  power `L^{N+1}` is `ψ^* 𝒪(N + 1)` (Proposition 5.12(b) pulled back).
+* `SectionAlgebraModel.chartEmbedding`, `isClosedImmersion_chartEmbedding`,
+  `pullbackChartEmbeddingTwistIso`: for `i : Z ⟶ ℙʳ_X` and an affine open `U ⊆ X`, the closed
+  immersion `f⁻¹(U) ⟶ ℙʳ_{Spec Γ(X, U)}` induced by `i` (`f = π ∘ i`), along which `𝒪(n)` pulls
+  back to the restriction of `i^* 𝒪(n)`.
 -/
 
 universe u

@@ -31,8 +31,21 @@ comparison of Hartshorne's (omitted) Step 2 on this chart:
   degree-zero part. Its `Proj` is therefore `Proj T^{(d)} ≅ Proj T` (Exercise 5.13,
   `Veronese.projIso`).
 
+For a closed immersion `i : Z ⟶ ℙʳ_X` with `f = π ∘ i` and `L = i^* 𝒪(1)`, these are applied on
+every affine open `U ⊆ X` through the embedding `f⁻¹(U) ⟶ ℙʳ_{Spec Γ(X, U)}`
+(`SectionAlgebraModel.chartEmbedding`) and the identification `f⁻¹(U) ≅ Proj T`
+(`SectionAlgebraModel.exists_iso_proj_homogeneousCoordinateRing`):
+
+* `SectionAlgebraModel.exists_iso_proj_sectionAlgebraPiece_eq_veronese` (over `Spec A`) and
+  `SectionAlgebraModel.exists_iso_proj_sectionAlgebraPiece_eq_veronese_of_isAffineOpen` (over an
+  affine open of `X`): `T` is a domain when `Z` is integral, `L` corresponds to `𝒪_{Proj T}(1)`,
+  and the conclusions above hold for the section algebra of `L^d`.
+* `SectionAlgebraModel.exists_addEquiv_sections_tensorPower_of_isAffineOpen`: for all large `N`,
+  the sections over `f⁻¹(U)` of the `N`-th tensor power of `L` are `T_N`.
+
 The global statement (gluing these over the affine opens of `X` into a quasi-coherent graded
-`𝒪_X`-algebra and identifying its relative `Proj` with `Z`) is not proved here.
+`𝒪_X`-algebra and identifying its relative `Proj` with `Z`) is not proved here; the gluing step is
+`QuasiCoherentGradedAlgebra.relProjIsoOfProj`.
 -/
 
 universe u
