@@ -725,3 +725,4 @@ import Hartshorne.Cohomology.KoszulRegularImmersion
 import Hartshorne.Scheme.ProjGammaStarReconstruction
 import Hartshorne.Scheme.ProjectiveSectionRingIntegralClosure
 import Hartshorne.Weil.ProjectiveLineSchemePoints
+import Hartshorne.Scheme.ProjectiveClosedImmersionChartCriterion
