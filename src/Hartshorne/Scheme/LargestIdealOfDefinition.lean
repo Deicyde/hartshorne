@@ -561,7 +561,6 @@ private lemma exists_reduced_chart (X : NoetherianFormalScheme.{u}) (x : X.toLoc
   · change T.base (hV.fromSpec w) = x
     rw [hw, hTz]
 
-
 /-- A Noetherian formal scheme is quasi-compact: it is covered by finitely many opens
 homeomorphic to closed subsets of Noetherian schemes. -/
 private lemma compactSpace_noetherianFormalScheme (X : NoetherianFormalScheme.{u}) :
