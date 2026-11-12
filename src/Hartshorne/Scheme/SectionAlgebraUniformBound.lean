@@ -39,7 +39,7 @@ noncomputable section
 
 namespace Hartshorne
 
-open AlgebraicGeometry CategoryTheory Opposite
+open AlgebraicGeometry CategoryTheory Opposite GradedGlobalSections
 
 namespace SectionAlgebraModel
 
@@ -200,6 +200,193 @@ theorem chartGood_of_forall_exists_pow_mul {ι κ : Type*} [Fintype κ] (x : ι 
     _ = a := by rw [← Finset.sum_mul, hsum, one_mul]
 
 end Algebra
+
+/-! ### The relative homogeneous coordinate algebra -/
+
+section Application
+
+open Scheme.AffineZariskiSite
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+variable {r : ℕ} {X Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r X) [IsClosedImmersion i]
+  [IsIntegral Z]
+
+omit [IsClosedImmersion i] in
+private theorem subsingleton_of_not_mem {U : X.AffineZariskiSite}
+    (hη : genericPoint Z ∉ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1) :
+    Subsingleton ((coordinateAlgebra i).obj.obj (op U)) :=
+  Ideal.Quotient.subsingleton_iff.mpr (by rw [chartIdeal_of_not_mem i U.2 hη]; rfl)
+
+omit [IsClosedImmersion i] in
+private theorem isDomain_of_mem {U : X.AffineZariskiSite}
+    (hη : genericPoint Z ∈ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1) :
+    IsDomain ((coordinateAlgebra i).obj.obj (op U)) := by
+  have : (chartIdeal i U.1 U.2).toIdeal.IsPrime := by
+    rw [chartIdeal_of_mem i U.2 hη]
+    exact (chartPoint i U.2 ⟨_, hη⟩).isPrime
+  exact Ideal.Quotient.isDomain _
+
+omit [IsClosedImmersion i] in
+private theorem chartGood_of_not_mem {U : X.AffineZariskiSite}
+    (hη : genericPoint Z ∉ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1) (n : ℕ) :
+    ChartGood ((coordinateAlgebra i).grading U) (coordGen i U) n := by
+  have := subsingleton_of_not_mem i hη
+  intro a s hs
+  exact absurd (Subsingleton.elim s 0) hs
+
+private theorem not_irrelevant_le_bot {U : X.AffineZariskiSite}
+    (hη : genericPoint Z ∈ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1) :
+    ¬HomogeneousIdeal.irrelevant ((coordinateAlgebra i).grading U) ≤ ⊥ := fun hle =>
+  ((chartIso i U.1 U.2).hom ⟨_, hη⟩).not_irrelevant_le (hle.trans bot_le)
+
+/-- Over an affine open `U` with `f⁻¹(U)` nonempty, `T(U)_n → Γ(Proj T(U), 𝒪(n))` is bijective
+exactly when `T(U)` satisfies the chart condition in degree `n`. -/
+private theorem bijective_iff_chartGood {U : X.AffineZariskiSite}
+    (hη : genericPoint Z ∈ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1) (n : ℕ) :
+    Function.Bijective (fun a : gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1))
+        Γ(X, U.1)) (chartIdeal i U.1 U.2) n => twistSection n a (op ⊤)) ↔
+      ChartGood ((coordinateAlgebra i).grading U) (coordGen i U) n := by
+  have := isDomain_of_mem i hη
+  exact bijective_twistSection_iff_chartGood (coordGen i U) (coordGen_mem i U)
+    (exists_coord_notMem_of_quotient _) (not_irrelevant_le_bot i hη) n
+
+/-- In a degree where `T(U)` satisfies the chart condition, `T(U)_n → Γ(Proj T(U), 𝒪(n))` is
+bijective. -/
+private theorem bijective_of_chartGood {U : X.AffineZariskiSite} {n : ℕ}
+    (h : ChartGood ((coordinateAlgebra i).grading U) (coordGen i U) n) :
+    Function.Bijective (fun a : gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1))
+      Γ(X, U.1)) (chartIdeal i U.1 U.2) n => twistSection n a (op ⊤)) := by
+  by_cases hη : genericPoint Z ∈ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1
+  · exact (bijective_iff_chartGood i hη n).2 h
+  · have := subsingleton_of_not_mem i hη
+    refine ⟨fun a b _ => Subtype.ext (Subsingleton.elim _ _), fun σ => ⟨0, ?_⟩⟩
+    apply ProjGradedModuleSheaf.section_ext
+    intro x
+    exact (x.1.isPrime.ne_top (Subsingleton.elim _ _)).elim
+
+omit [IsClosedImmersion i] in
+private theorem coordRestrict_comp_coordGen (U : X.AffineZariskiSite) (g : Γ(X, U.1)) :
+    coordRestrict i (U.basicOpen g).2 U.2 (X.basicOpen_le g) ∘ coordGen i U =
+      coordGen i (U.basicOpen g) := by
+  funext j
+  simp only [Function.comp_apply, coordGen, coordRestrict_mk, MvPolynomial.map_X]
+
+omit [IsClosedImmersion i] in
+private theorem coordRestrict_mem (U : X.AffineZariskiSite) (g : Γ(X, U.1)) (d : ℕ)
+    (a : (coordinateAlgebra i).obj.obj (op U)) (ha : a ∈ (coordinateAlgebra i).grading U d) :
+    coordRestrict i (U.basicOpen g).2 U.2 (X.basicOpen_le g) a ∈
+      (coordinateAlgebra i).grading (U.basicOpen g) d := by
+  obtain ⟨p, hp, rfl⟩ := mem_gradedQuotient_iff.mp ha
+  rw [coordRestrict_mk]
+  exact mk_mem_gradedQuotient ((polyMap (r := r) _).map_mem hp)
+
+omit [IsClosedImmersion i] in
+private theorem C_mem_grading_zero (U : X.AffineZariskiSite) (g : Γ(X, U.1)) :
+    Ideal.Quotient.mk (chartIdeal i U.1 U.2).toIdeal (MvPolynomial.C g) ∈
+      (coordinateAlgebra i).grading U 0 :=
+  mk_mem_gradedQuotient ((MvPolynomial.mem_homogeneousSubmodule _ _).2
+    (MvPolynomial.isHomogeneous_C _ g))
+
+omit [IsClosedImmersion i] in
+/-- The chart condition for `T(U)` passes to `T(D(g)) = T(U)[1/g]`. -/
+private theorem chartGood_basicOpen {U : X.AffineZariskiSite} (g : Γ(X, U.1)) {n : ℕ}
+    (h : ChartGood ((coordinateAlgebra i).grading U) (coordGen i U) n) :
+    ChartGood ((coordinateAlgebra i).grading (U.basicOpen g)) (coordGen i (U.basicOpen g)) n := by
+  by_cases hη : genericPoint Z ∈ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1
+  · have := isDomain_of_mem i hη
+    have := chartGood_of_isLocalizationAway (𝒜 := (coordinateAlgebra i).grading U)
+      (ℬ := (coordinateAlgebra i).grading (U.basicOpen g))
+      (coordRestrict i (U.basicOpen g).2 U.2 (X.basicOpen_le g)) (coordRestrict_mem i U g)
+      (C_mem_grading_zero i U g) (coordinateAlgebra_isLocalizationAway i U g) (coordGen i U) h
+    rwa [coordRestrict_comp_coordGen] at this
+  · exact chartGood_of_not_mem i
+      (fun h' => hη ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono
+        (X.basicOpen_le g) h')) n
+
+omit [IsClosedImmersion i] in
+/-- The chart condition for `T(U)` follows from the chart condition for the `T(D(f))`, `f ∈ t`,
+when `t` generates the unit ideal of `Γ(X, U)`. -/
+private theorem chartGood_of_cover {U : X.AffineZariskiSite} (t : Finset Γ(X, U.1))
+    (ht : Ideal.span (t : Set Γ(X, U.1)) = ⊤) {n : ℕ}
+    (h : ∀ f ∈ t, ChartGood ((coordinateAlgebra i).grading (U.basicOpen f))
+      (coordGen i (U.basicOpen f)) n) :
+    ChartGood ((coordinateAlgebra i).grading U) (coordGen i U) n := by
+  classical
+  by_cases hη : genericPoint Z ∈ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1
+  · have := isDomain_of_mem i hη
+    refine chartGood_of_forall_exists_pow_mul (coordGen i U)
+      (fun f : {x // x ∈ t} => Ideal.Quotient.mk (chartIdeal i U.1 U.2).toIdeal
+        (MvPolynomial.C f.1)) (fun f => C_mem_grading_zero i U f.1) (fun N => ?_)
+      (fun f a s hs hcond => ?_)
+    · have h1 : (1 : Γ(X, U.1)) ∈ Ideal.span (Set.range fun f : {x // x ∈ t} => f.1 ^ N) := by
+        have := Ideal.span_range_pow_eq_top (t : Set Γ(X, U.1)) ht (fun _ => N)
+        rw [Ideal.eq_top_iff_one] at this
+        exact this
+      obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun Γ(X, U.1)).1 h1
+      refine ⟨fun f => Ideal.Quotient.mk (chartIdeal i U.1 U.2).toIdeal (MvPolynomial.C (c f)),
+        fun f => C_mem_grading_zero i U (c f), ?_⟩
+      simp only [← map_pow, ← map_mul, ← map_sum]
+      rw [show ∑ f : {x // x ∈ t}, c f * f.1 ^ N = 1 by simpa only [smul_eq_mul] using hc,
+        map_one, map_one]
+    · have hf := h f.1 f.2
+      rw [← coordRestrict_comp_coordGen] at hf
+      exact exists_pow_mul_of_chartGood (𝒜 := (coordinateAlgebra i).grading U)
+        (ℬ := (coordinateAlgebra i).grading (U.basicOpen f.1))
+        (coordRestrict i (U.basicOpen f.1).2 U.2 (X.basicOpen_le f.1))
+        (coordRestrict_mem i U f.1) (C_mem_grading_zero i U f.1)
+        (coordinateAlgebra_isLocalizationAway i U f.1) (coordGen i U) hf a s hs hcond
+  · exact chartGood_of_not_mem i hη n
+
+/-- **The uniform bound** (Hartshorne II, proof of Theorem 7.17, Step 2). Let `X` be quasi-compact
+and locally of finite type over a field `k`. There is a `d₀` such that for every affine open
+`U ⊆ X` and every `n ≥ d₀`, `T(U)_n → Γ(Proj T(U), 𝒪(n))`, `s ↦ s / 1`, is bijective. -/
+theorem exists_bound_bijective_twistSection (k : Type u) [Field k] [CompactSpace X]
+    (pX : X ⟶ Spec (.of k)) [LocallyOfFiniteType pX] :
+    ∃ d₀ : ℕ, ∀ (U : X.AffineZariskiSite) (n : ℕ), d₀ ≤ n →
+      Function.Bijective (fun a : gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1))
+        Γ(X, U.1)) (chartIdeal i U.1 U.2) n => twistSection n a (op ⊤)) := by
+  classical
+  have hbound : ∀ U : X.AffineZariskiSite, ∃ n₀ : ℕ, ∀ n ≥ n₀,
+      ChartGood ((coordinateAlgebra i).grading U) (coordGen i U) n := fun U => by
+    obtain ⟨_, _⟩ := exists_algebra_finiteType_of_locallyOfFiniteType k pX U.2
+    obtain ⟨n₀, hn₀⟩ := exists_bijective_twistSection_quotient k (chartIdeal i U.1 U.2)
+    refine ⟨n₀, fun n hn => ?_⟩
+    by_cases hη : genericPoint Z ∈ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1
+    · exact (bijective_iff_chartGood i hη n).1 (hn₀ n hn)
+    · exact chartGood_of_not_mem i hη n
+  let n₀ : X.AffineZariskiSite → ℕ := fun U => (hbound U).choose
+  have hn₀ : ∀ U, ∀ n ≥ n₀ U, ChartGood ((coordinateAlgebra i).grading U) (coordGen i U) n :=
+    fun U => (hbound U).choose_spec
+  have hcov : ∃ s : Finset X.affineOpens, ∀ x : X, ∃ V ∈ s, x ∈ (V : X.Opens) := by
+    obtain ⟨s, hs⟩ := isCompact_univ.elim_finite_subcover (fun U : X.affineOpens => (U : Set X))
+      (fun U => U.1.isOpen) (fun x _ => by
+        obtain ⟨W, hW, hxW, -⟩ := exists_isAffineOpen_mem_and_subset (x := x)
+          (U := (⊤ : X.Opens)) trivial
+        exact Set.mem_iUnion.mpr ⟨⟨W, hW⟩, hxW⟩)
+    refine ⟨s, fun x => ?_⟩
+    obtain ⟨V, hV, hxV⟩ := Set.mem_iUnion₂.mp (hs (Set.mem_univ x))
+    exact ⟨V, hV, hxV⟩
+  obtain ⟨s, hs⟩ := hcov
+  refine ⟨s.sup fun V => n₀ ⟨V.1, V.2⟩, fun U n hn => bijective_of_chartGood i ?_⟩
+  have hspan : Ideal.span {f : Γ(X, U.1) | ChartGood ((coordinateAlgebra i).grading
+      (U.basicOpen f)) (coordGen i (U.basicOpen f)) n} = ⊤ := by
+    rw [← U.2.self_le_iSup_basicOpen_iff]
+    intro x hx
+    obtain ⟨V, hV, hxV⟩ := hs x
+    obtain ⟨f, g, hfg, hxf⟩ := exists_basicOpen_le_affine_inter U.2 V.2 x ⟨hx, hxV⟩
+    have hgood := chartGood_basicOpen i (U := ⟨V.1, V.2⟩) g (hn₀ ⟨V.1, V.2⟩ n
+      ((Finset.le_sup (f := fun V : X.affineOpens => n₀ ⟨V.1, V.2⟩) hV).trans hn))
+    have heq : U.basicOpen f = Scheme.AffineZariskiSite.basicOpen ⟨V.1, V.2⟩ g := Subtype.ext hfg
+    have hf : ChartGood ((coordinateAlgebra i).grading (U.basicOpen f))
+        (coordGen i (U.basicOpen f)) n := by
+      rw [heq]
+      exact hgood
+    exact TopologicalSpace.Opens.mem_iSup.mpr ⟨⟨f, hf⟩, hxf⟩
+  obtain ⟨t, hts, ht⟩ := (Ideal.span_eq_top_iff_finite _).1 hspan
+  exact chartGood_of_cover i t ht fun f hf => hts hf
+
+end Application
 
 end SectionAlgebraModel
 
