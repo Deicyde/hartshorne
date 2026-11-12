@@ -7,13 +7,17 @@ lean: Hartshorne.ProjectiveNormality.isProjectivelyNormal_iff Hartshorne.Project
 
 # The projective-normality criterion
 
-Let $k$ be algebraically closed. A closed subscheme $X \subseteq \mathbb{P}^r_{k}$ is
+Let $k$ be algebraically closed. A connected closed subscheme $X \subseteq \mathbb{P}^r_{k}$ is
 projectively normal if and only if $X$ is normal and, for every $n \ge 0$, the
 restriction map
 
 $\Gamma (\mathbb{P}^r_{k},\mathcal{O}(n)) \to \Gamma (X,\mathcal{O}_X(n))$
 
 is surjective.
+
+Here the homogeneous coordinate ring of $X$ is $S(X)=k[x_{0},\ldots ,x_{r}]/I$ with
+$I=\Gamma _*(\mathcal{I}_X)$, and $X$ is projectively normal if $S(X)$ is an integrally closed
+domain.
 
 ## Depends on
 
