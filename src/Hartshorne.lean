@@ -763,6 +763,7 @@ import Hartshorne.Scheme.ProjectiveNormalityCriterion
 import Hartshorne.Scheme.LinearSystem
 import Hartshorne.Scheme.TorsionLinearSystem
 import Hartshorne.Scheme.BirationalSectionAlgebraModel
+import Hartshorne.Scheme.ProjectiveChartCoordinateRing
 import Hartshorne.Scheme.CoherentFormalModuleReconstruction
 import Hartshorne.Scheme.SeparatesPointsTangentVectors
 import Hartshorne.Scheme.BirationalDenominatorIdeal
