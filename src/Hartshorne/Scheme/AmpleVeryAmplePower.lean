@@ -188,7 +188,8 @@ theorem IsAmple.exists_isVeryAmpleRelative_moduleSheafTensorPower {A : CommRingC
     top_unique fun x _ => TopologicalSpace.Opens.mem_iSup.mpr (hVcov x)
   -- Each `Γ(X_{sᵢ}, 𝒪_X)` is a finitely generated `A`-algebra.
   have hft : ∀ i, (f.appLE ⊤ (V i) le_top).hom.FiniteType := fun i =>
-    HasRingHomProperty.appLE @LocallyOfFiniteType f hf.1 ⟨⊤, isAffineOpen_top _⟩ ⟨V i, hVaff i⟩ le_top
+    HasRingHomProperty.appLE @LocallyOfFiniteType f hf.1 ⟨⊤, isAffineOpen_top _⟩ ⟨V i, hVaff i⟩
+      le_top
   have hgen : ∀ i, ∃ G : Finset Γ(X, V i), ∀ z : Γ(X, V i),
       z ∈ Subring.closure (Set.range (f.appLE ⊤ (V i) le_top) ∪ (G : Set Γ(X, V i))) := by
     intro i
