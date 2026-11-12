@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.IdealOfDefinitionTransition
+import Hartshorne.Scheme.AffineFormalIdealOfDefinition
 
 /-!
 # Exactness of global sections on an affine formal scheme
@@ -11,10 +12,11 @@ Hartshorne, *Algebraic Geometry*, II.9, Exercise 9.3(a,b) (pp. 199–200): on an
 formal scheme `X`, global sections of a short exact sequence `0 ⟶ F' ⟶ F ⟶ F'' ⟶ 0` of
 `𝒪_X`-modules with `F'` coherent form a short exact sequence.
 
-This file proves the surjectivity `Γ(X, F) ⟶ Γ(X, F'')` for a Noetherian formal scheme `X` with an
-ideal of definition `J`, under two hypotheses on the thickenings `Xₙ = (X, 𝒪_X / J ^ (n + 1))`:
-every `Xₙ` is affine, and the transition maps
-`Γ(X, F' / J ^ (n + 2) F') ⟶ Γ(X, F' / J ^ (n + 1) F')` are surjective.
+Injectivity and exactness in the middle hold on every ringed space (left exactness of sections).
+The surjectivity `Γ(X, F) ⟶ Γ(X, F'')` is proved for a Noetherian formal scheme `X` with an ideal
+of definition `J` all of whose thickenings `Xₙ = (X, 𝒪_X / J ^ (n + 1))` are affine; an affine
+formal scheme has such an ideal of definition
+(`Hartshorne.exists_isIdealOfDefinition_forall_isAffine`).
 
 * `Hartshorne.IsIdealOfDefinition.cechOneVanishes_powQuotient`: if `Xₙ` is affine, every Čech
   1-cocycle of `F' / J ^ (n + 1) F'` on a cover of `X` is a coboundary. The module is the
@@ -24,7 +26,11 @@ every `Xₙ` is affine, and the transition maps
   global section of `F''` lifts locally; since `X` is quasi-compact, finitely many opens suffice.
   As `F' = lim_n F' / J ^ (n + 1) F'` (Proposition 9.6(a)), the Čech 1-cocycles of `F'` on that
   cover are coboundaries by the Mittag–Leffler argument (Proposition 9.1(b)), so the local lifts
-  can be corrected to glue.
+  can be corrected to glue. The transition maps
+  `Γ(X, F' / J ^ (n + 2) F') ⟶ Γ(X, F' / J ^ (n + 1) F')` are surjective, which supplies the
+  Mittag–Leffler condition (`Hartshorne.IsIdealOfDefinition.surjective_powQuotientMap`).
+* `Hartshorne.affineFormal_globalSections_shortExact`: the exactness of
+  `0 ⟶ Γ(X, F') ⟶ Γ(X, F) ⟶ Γ(X, F'') ⟶ 0`.
 -/
 
 noncomputable section
@@ -73,8 +79,7 @@ theorem cechOneVanishes_powQuotient
 
 /-- **Surjectivity of global sections under affine thickenings.** Let `X` be a Noetherian formal
 scheme with ideal of definition `J`, `0 ⟶ F' ⟶ F ⟶ F'' ⟶ 0` a short exact sequence of
-`𝒪_X`-modules with `F'` coherent. Suppose every `Xₙ = (X, 𝒪_X / J ^ (n + 1))` is affine and the
-transition maps `Γ(X, F' / J ^ (n + 2) F') ⟶ Γ(X, F' / J ^ (n + 1) F')` are surjective. Then
+`𝒪_X`-modules with `F'` coherent. Suppose every `Xₙ = (X, 𝒪_X / J ^ (n + 1))` is affine. Then
 `Γ(X, F) ⟶ Γ(X, F'')` is surjective. -/
 theorem globalSections_surjective_of_isAffine
     {S : ShortComplex (SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace))}
@@ -128,5 +133,22 @@ theorem globalSections_surjective_of_isAffine
   exact this
 
 end IsIdealOfDefinition
+
+/-- **Exactness of global sections on an affine formal scheme** (Hartshorne II, Exercise 9.3(a,b)).
+Let `X` be an affine Noetherian formal scheme and `0 ⟶ F' ⟶ F ⟶ F'' ⟶ 0` a short exact sequence of
+`𝒪_X`-modules with `F'` coherent. Then
+`0 ⟶ Γ(X, F') ⟶ Γ(X, F) ⟶ Γ(X, F'') ⟶ 0` is exact. Neither `F` nor `F''` is assumed coherent. -/
+theorem affineFormal_globalSections_shortExact {X : NoetherianFormalScheme.{u}}
+    (hX : IsAffineNoetherianFormalScheme X.toLocallyRingedSpace)
+    {S : ShortComplex (SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace))}
+    (hS : S.ShortExact) (hF : IsCoherentFormalModule S.X₁) :
+    (S.map (SheafOfModules.evaluation _ (op ⊤))).ShortExact := by
+  obtain ⟨J, h, haff⟩ := exists_isIdealOfDefinition_forall_isAffine hX
+  have hsurj := h.globalSections_surjective_of_isAffine hS hF haff
+  obtain ⟨hinj, hex⟩ := sheafOfModules_sections_exact hS ⊤
+  exact
+    { exact := (ShortComplex.moduleCat_exact_iff _).mpr fun x hx => (hex x).mp hx
+      mono_f := (ModuleCat.mono_iff_injective _).mpr hinj
+      epi_g := (ModuleCat.epi_iff_surjective _).mpr hsurj }
 
 end Hartshorne

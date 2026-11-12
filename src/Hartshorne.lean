@@ -779,6 +779,7 @@ import Hartshorne.Scheme.CoherentFormalModuleChart
 import Hartshorne.Scheme.CoherentFormalModuleReduction
 import Hartshorne.Scheme.SheafCechOneLift
 import Hartshorne.Scheme.IdealOfDefinitionTransition
+import Hartshorne.Scheme.AffineFormalIdealOfDefinition
 import Hartshorne.Scheme.AffineFormalGlobalSectionsExact
 import Hartshorne.Scheme.SeparatesPointsTangentVectors
 import Hartshorne.Scheme.BirationalDenominatorIdeal

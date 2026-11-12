@@ -69,6 +69,8 @@ end IdealSubsheaf
 
 namespace IsIdealOfDefinition
 
+section SchemeMap
+
 variable {X : NoetherianFormalScheme.{u}} {J K : IdealSubsheaf X.toLocallyRingedSpace.sheaf}
   (hJ : IsIdealOfDefinition X J) (hK : IsIdealOfDefinition X K) (hKJ : K ≤ J)
 
@@ -116,6 +118,8 @@ def quotientPushforwardSchemeMapIso (G : hJ.quotientScheme.Modules) :
   hom_inv_id := rfl
   inv_hom_id := rfl
 
+end SchemeMap
+
 section Reduction
 
 variable {X : NoetherianFormalScheme.{u}} {J : IdealSubsheaf X.toLocallyRingedSpace.sheaf}
@@ -137,7 +141,8 @@ module `F / J ^ (n + 1) F` is the pushforward of the coherent `𝒪_{Xₙ}`-modu
 closed immersion `Xₙ ⟶ X_(n+1)`, so it is quasi-coherent (Proposition 5.8(c)); the kernel of the
 epimorphism `F_(n+1) ⟶ F / J ^ (n + 1) F` is then quasi-coherent, and global sections on the
 affine scheme `X_(n+1)` are exact (Proposition 5.6). -/
-theorem surjective_powQuotientMap {F : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace)}
+theorem surjective_powQuotientMap
+    {F : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace)}
     (hF : IsCoherentFormalModule F) (n : ℕ) [IsAffine (h.pow_succ (n + 1)).quotientScheme] :
     Function.Surjective ((sheafOfModulesAbMap (J.powQuotientMap F n)).app (op ⊤)) := by
   let h0 := h.pow_succ n
@@ -163,8 +168,8 @@ theorem surjective_powQuotientMap {F : SheafOfModules.{u} (structureRingCatSheaf
   let g : h1.quotientPushforward.obj (h.reduction F (n + 1)) ⟶ h1.quotientPushforward.obj M :=
     (asIso (h.toReduction F (n + 1))).inv ≫ J.powQuotientMap F n ≫ ι.inv
   let φ := h1.quotientPushforward.preimage g
-  have : Epi (J.powQuotientπ F n) := inferInstanceAs
-    (Epi (J.powQuotientπ (show SheafOfModules (ringCatSheafOf X.toLocallyRingedSpace.sheaf) from F) n))
+  have : Epi (J.powQuotientπ F n) := inferInstanceAs (Epi (J.powQuotientπ
+    (show SheafOfModules (ringCatSheafOf X.toLocallyRingedSpace.sheaf) from F) n))
   have : Epi (J.powQuotientMap F n) := epi_of_epi_fac (J.powQuotientπ_powQuotientMap F n)
   have : Epi g := by
     have e1 : Epi (asIso (h.toReduction F (n + 1))).inv :=
