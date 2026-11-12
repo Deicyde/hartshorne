@@ -829,4 +829,144 @@ private lemma exists_ideal_map_eq (h : IsIdealOfDefinition X J) {B : CommRingCat
 
 end quotientSchemeHom
 
+section thickeningCharts
+
+/-! ### Affine charts of a Noetherian formal scheme from the thickenings `Y_(m+1)` -/
+
+/-- Restriction of germs of `𝒪_X`. Copied from the private lemma of the same name in
+`Hartshorne.Scheme.LargestIdealOfDefinition`. -/
+private lemma germ_sheaf_res (X : LocallyRingedSpace.{u}) {U V : Opens X} (h : V ≤ U) (x : X)
+    (hx : x ∈ V) (s : X.sheaf.presheaf.obj (op U)) :
+    X.presheaf.germ V x hx (X.sheaf.presheaf.map (homOfLE h).op s) =
+      X.presheaf.germ U x (h hx) s :=
+  X.presheaf.germ_res_apply (homOfLE h) x hx s
+
+/-- If the base map of `f : A ⟶ X` is open, the stalk kernels of `f` lie in `J_red`. -/
+private lemma ker_stalkMap_le_stalkIdeal_vanishing {A X : LocallyRingedSpace.{u}} (f : A ⟶ X)
+    (hopen : IsOpenMap f.base) (a : A) :
+    RingHom.ker (f.stalkMap a).hom ≤ (vanishingIdealSubsheaf X).stalkIdeal (f.base a) := by
+  intro u hu
+  obtain ⟨V, ha, s, rfl⟩ := X.presheaf.exists_germ_eq u
+  rw [RingHom.mem_ker, LocallyRingedSpace.stalkMap_germ_apply] at hu
+  obtain ⟨N, haN, iN, iN', hN⟩ := A.presheaf.germ_eq (U := (Opens.map f.base).obj V)
+    (V := (Opens.map f.base).obj V) a ha ha _ 0 (hu.trans (map_zero _).symm)
+  rw [map_zero] at hN
+  let V' : Opens X := ⟨f.base '' (SetLike.coe N), hopen _ N.2⟩ ⊓ V
+  have hV'V : V' ≤ V := inf_le_right
+  refine ((vanishingIdealSubsheaf X).germ_mem_stalkIdeal_iff ha s).mpr
+    ⟨V', hV'V, ⟨⟨a, haN, rfl⟩, ha⟩, ?_⟩
+  refine (mem_vanishingIdealSubsheaf_iff (X := X) _).mpr fun y hy hunit => ?_
+  rw [germ_sheaf_res X hV'V y hy s] at hunit
+  obtain ⟨n, hnN, rfl⟩ : ∃ n ∈ SetLike.coe N, f.base n = y := hy.1
+  have hu' := hunit.map (f.stalkMap n).hom
+  change IsUnit (f.stalkMap n (X.presheaf.germ V (f.base n) _ s)) at hu'
+  rw [LocallyRingedSpace.stalkMap_germ_apply f V n _ s,
+    ← A.presheaf.germ_res_apply iN n hnN, hN, map_zero] at hu'
+  exact not_isUnit_zero hu'
+
+/-- Kernels of stalk maps of a composite whose first factor has injective stalk maps. -/
+private lemma ker_stalkMap_comp_of_injective {A B C : LocallyRingedSpace.{u}} (f : A ⟶ B)
+    (k : B ⟶ C) (hf : ∀ a, Function.Injective (f.stalkMap a)) (a : A) :
+    RingHom.ker ((f ≫ k).stalkMap a).hom = RingHom.ker (k.stalkMap (f.base a)).hom := by
+  rw [LocallyRingedSpace.stalkMap_comp]
+  change RingHom.ker ((f.stalkMap a).hom.comp (k.stalkMap (f.base a)).hom) = _
+  rw [← RingHom.comap_ker, (RingHom.injective_iff_ker_eq_bot _).mp (hf a),
+    ← RingHom.ker_eq_comap_bot]
+
+/-- Two open immersions of locally ringed spaces with the same image have isomorphic sources.
+Copied from the private declaration of the same name in
+`Hartshorne.Scheme.NoetherianFormalScheme`. -/
+private def isoOfRangeEqOpenImmersion {X Y Z : LocallyRingedSpace.{u}} (f : X ⟶ Z) (g : Y ⟶ Z)
+    [LocallyRingedSpace.IsOpenImmersion f] [LocallyRingedSpace.IsOpenImmersion g]
+    (e : Set.range f.base = Set.range g.base) : X ≅ Y where
+  hom := LocallyRingedSpace.IsOpenImmersion.lift g f e.le
+  inv := LocallyRingedSpace.IsOpenImmersion.lift f g e.ge
+  hom_inv_id := by rw [← cancel_mono f]; simp
+  inv_hom_id := by rw [← cancel_mono g]; simp
+
+/-! The constructions below are stated for an arbitrary open embedding `f : Y_1 ⟶ Z` (later
+`Y_1 ⟶ Y_(m+1)`) and a morphism `π : 𝒪_{X̂} ⟶ f⁻¹ 𝒪_Z` (later `πₘ`), which keeps kernel
+type checking cheap. -/
+
+variable {Y : Scheme.{u}} (I : QuasicoherentIdealSubsheaf Y) {Z : Scheme.{u}}
+  (f : I.infinitesimalNeighborhood 1 ⟶ Z) (hf : IsOpenEmbedding f)
+  (π : I.formalCompletionSheaf.presheaf ⟶ hf.functor.op ⋙ Z.presheaf)
+
+/-- The morphism of ringed spaces `Z ⟶ X̂` given by `π`, on `Z` restricted along `f`. -/
+private def fromNeighborhoodHom :
+    (Z.toLocallyRingedSpace.restrict hf).toPresheafedSpace ⟶
+      I.formalCompletion.toPresheafedSpace where
+  base := 𝟙 _
+  c := π
+
+private lemma fromNeighborhoodHom_stalkMap_germ (y : Z.toLocallyRingedSpace.restrict hf)
+    (V : Opens I.formalCompletion) (hy : y ∈ V) (s : I.formalCompletion.presheaf.obj (op V)) :
+    (fromNeighborhoodHom I f hf π).stalkMap y (I.formalCompletion.presheaf.germ V y hy s) =
+      (Z.toLocallyRingedSpace.restrict hf).presheaf.germ V y hy (π.app (op V) s) :=
+  PresheafedSpace.stalkMap_germ_apply (fromNeighborhoodHom I f hf π) V y hy s
+
+variable {π} in
+private lemma surjective_stalkMap_fromNeighborhoodHom (hπ : TopCat.Presheaf.IsLocallySurjective π)
+    (y : Z.toLocallyRingedSpace.restrict hf) :
+    Function.Surjective ((fromNeighborhoodHom I f hf π).stalkMap y) := by
+  intro b
+  obtain ⟨V, hyV, t, rfl⟩ := (Z.toLocallyRingedSpace.restrict hf).presheaf.exists_germ_eq b
+  obtain ⟨V', hV'V, ⟨s, hs⟩, hyV'⟩ := (TopCat.Presheaf.isLocallySurjective_iff _).mp hπ V t y hyV
+  refine ⟨I.formalCompletion.presheaf.germ V' y hyV' s, ?_⟩
+  refine (fromNeighborhoodHom_stalkMap_germ I f hf π y V' hyV' s).trans ?_
+  exact (congrArg ((Z.toLocallyRingedSpace.restrict hf).presheaf.germ V' y hyV') hs).trans
+    ((Z.toLocallyRingedSpace.restrict hf).presheaf.germ_res_apply (homOfLE hV'V) y hyV' t)
+
+variable {π} in
+/-- The morphism of locally ringed spaces `Z ⟶ X̂` given by `π`. -/
+private def fromNeighborhood (hπ : TopCat.Presheaf.IsLocallySurjective π) :
+    Z.toLocallyRingedSpace.restrict hf ⟶ I.formalCompletion :=
+  ⟨fromNeighborhoodHom I f hf π, fun y =>
+    haveI : IsLocalRing (I.formalCompletion.presheaf.stalk
+        ((fromNeighborhoodHom I f hf π).base y)) :=
+      I.formalCompletion.isLocalRing _
+    IsLocalHom.of_surjective _ (surjective_stalkMap_fromNeighborhoodHom I f hf hπ y)⟩
+
+/-- For surjective `f`, the identification of `Z` with its restriction along `f`. -/
+private def neighborhoodIso (hfs : Function.Surjective f) :
+    Z.toLocallyRingedSpace ≅ Z.toLocallyRingedSpace.restrict hf :=
+  isoOfRangeEqOpenImmersion (𝟙 _) (Z.toLocallyRingedSpace.ofRestrict hf)
+    ((hfs.range_eq.trans (Set.range_id (α := Z)).symm).symm)
+
+/-- The ideal `J = ker π₀` of `𝒪_{X̂}` as an ideal subsheaf. -/
+private def formalIdeal : IdealSubsheaf I.formalCompletionSheaf :=
+  IdealSubsheaf.ofIdeals _ I.formalCompletionIdeal (fun h => I.formalCompletionIdeal_le_comap h)
+    (fun s hs => I.mem_formalCompletionIdeal_of_locally s hs)
+
+variable {π} in
+/-- If the kernel of `π` is `J ^ k`, the stalk kernels of `Z ⟶ X̂` are the `k`-th powers of the
+stalks of `J`. -/
+private lemma ker_stalkMap_fromNeighborhood (hπ : TopCat.Presheaf.IsLocallySurjective π) (k : ℕ)
+    (hker : ∀ (V : Opens (I.infinitesimalNeighborhood 1))
+      (s : I.formalCompletionSheaf.presheaf.obj (op V)),
+      s ∈ I.formalCompletionIdealPow k V ↔ π.app (op V) s = 0)
+    (y : Z.toLocallyRingedSpace.restrict hf) :
+    RingHom.ker ((fromNeighborhood I f hf hπ).stalkMap y).hom =
+      (formalIdeal I).stalkIdeal y ^ k := by
+  refine Eq.trans ?_ (IdealSubsheaf.stalkIdeal_pow _ k y)
+  ext u
+  obtain ⟨V, hy, s, rfl⟩ := I.formalCompletion.presheaf.exists_germ_eq u
+  rw [RingHom.mem_ker]
+  refine Iff.trans ?_ ((formalIdeal I ^ k).germ_mem_stalkIdeal_iff hy s).symm
+  refine (Iff.of_eq (congrArg (· = 0) (fromNeighborhoodHom_stalkMap_germ I f hf π y V hy s))).trans
+    ?_
+  constructor
+  · intro h0
+    obtain ⟨W, hyW, iU, iV, hW⟩ := (Z.toLocallyRingedSpace.restrict hf).presheaf.germ_eq y hy hy
+      _ 0 (h0.trans (map_zero _).symm)
+    rw [map_zero] at hW
+    exact ⟨W, leOfHom iU, hyW, (hker W _).mpr ((NatTrans.naturality_apply π iU.op s).trans hW)⟩
+  · rintro ⟨W, hWV, hyW, hsW⟩
+    have h0 := (hker W _).mp hsW
+    exact ((Z.toLocallyRingedSpace.restrict hf).presheaf.germ_res_apply (homOfLE hWV) y hyW
+      _).symm.trans ((congrArg _ ((NatTrans.naturality_apply π (homOfLE hWV).op s).symm.trans
+        h0)).trans (map_zero _))
+
+end thickeningCharts
+
 end Hartshorne
