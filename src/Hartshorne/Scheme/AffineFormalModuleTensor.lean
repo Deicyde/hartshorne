@@ -38,9 +38,12 @@ This file builds the objects in that statement, for any scheme `X`, quasi-cohere
   `F̂` viewed as an `𝒪_X|_{|Y|}`-module.
 
 The comparison map between the last two and Proposition 9.4(b) itself are not yet formalized; see
-the implementation note of the article. The private helpers at the end are the components
-`F ⟶ i_* (F / I ^ (n + 1) F)|_Y` of the comparison map and the adjunction identity used to check
-their compatibility with the transition maps.
+the implementation note of the article. The private helpers at the end prepare the comparison map
+`F ⟶ i_* F̂`: its components `F ⟶ i_* (F / I ^ (n + 1) F)|_Y` (the quotient map, the unit of
+the pullback–pushforward adjunction along `Y_(n+1) ⟶ X`, and restriction of sections along
+equal opens), the adjunction identity relating the units along `Y_(n+1) ⟶ Y_(n+2) ⟶ X` and
+`Y_(n+1) ⟶ X`, and the section-level identities relating these restrictions to the transition
+maps of the completion.
 -/
 
 noncomputable section
@@ -200,6 +203,101 @@ private lemma pushforwardRestrictToComp_val_app (M : SheafOfModules.{u} S) (V : 
 
 end PushforwardRestrictInv
 
+section PushforwardTransition
+
+variable {C D E₀ E₁ : Type*} [Category C] [Category D] [Category E₀] [Category E₁]
+  {J : GrothendieckTopology C} {K : GrothendieckTopology D}
+  {L₀ : GrothendieckTopology E₀} {L₁ : GrothendieckTopology E₁}
+  {A : C ⥤ E₁} {S : E₁ ⥤ E₀} {P : C ⥤ D} {H₁ : D ⥤ E₁} {H₀ : D ⥤ E₀}
+  [A.IsContinuous J L₁] [S.IsContinuous L₁ L₀] [P.IsContinuous J K]
+  [H₁.IsContinuous K L₁] [H₀.IsContinuous K L₀]
+  {T : Sheaf J RingCat.{u}} {Rd : Sheaf K RingCat.{u}}
+  {R₀ : Sheaf L₀ RingCat.{u}} {R₁ : Sheaf L₁ RingCat.{u}}
+  (φA : T ⟶ (A.sheafPushforwardContinuous RingCat.{u} J L₁).obj R₁)
+  (σ : R₁ ⟶ (S.sheafPushforwardContinuous RingCat.{u} L₁ L₀).obj R₀)
+  (χ : T ⟶ (P.sheafPushforwardContinuous RingCat.{u} J K).obj Rd)
+  (π₀ : Rd ⟶ (H₀.sheafPushforwardContinuous RingCat.{u} K L₀).obj R₀)
+  (α₀ : P ⋙ H₀ ⟶ A ⋙ S)
+  (h₀ : ∀ (V : Cᵒᵖ) (r : T.obj.obj V),
+    R₀.obj.map (α₀.app V.unop).op (σ.hom.app (op (A.obj V.unop)) (φA.hom.app V r)) =
+      π₀.hom.app (op (P.obj V.unop)) (χ.hom.app V r))
+
+include h₀ in
+/-- The map `A_* S_* N ⟶ P_* (H₀)_* N` restricting sections along `α₀ : P ⋙ H₀ ⟶ A ⋙ S`. -/
+private def pushforwardPushforwardRestrict (N : SheafOfModules.{u} R₀) :
+    (SheafOfModules.pushforward.{u} φA).obj ((SheafOfModules.pushforward.{u} σ).obj N) ⟶
+      (SheafOfModules.pushforward.{u} χ).obj ((SheafOfModules.pushforward.{u} π₀).obj N) :=
+  ⟨PresheafOfModules.homMk
+    { app V := N.val.presheaf.map (α₀.app V.unop).op
+      naturality V W f := by
+        change N.val.presheaf.map _ ≫ N.val.presheaf.map _ =
+          N.val.presheaf.map _ ≫ N.val.presheaf.map _
+        rw [← Functor.map_comp, ← Functor.map_comp]
+        exact congrArg (fun g => N.val.presheaf.map g)
+          (congrArg Quiver.Hom.op (α₀.naturality f.unop).symm) }
+    (fun V r m => (N.val.map_smul (α₀.app V.unop).op _ m).trans
+      (congrArg (fun a => a • N.val.map (α₀.app V.unop).op m) (h₀ V r)))⟩
+
+variable (π₁ : Rd ⟶ (H₁.sheafPushforwardContinuous RingCat.{u} K L₁).obj R₁)
+  (α₁ : P ⋙ H₁ ⟶ A)
+  (h₁ : ∀ (V : Cᵒᵖ) (r : T.obj.obj V),
+    R₁.obj.map (α₁.app V.unop).op (φA.hom.app V r) =
+      π₁.hom.app (op (P.obj V.unop)) (χ.hom.app V r))
+  (β : H₀ ⟶ H₁ ⋙ S)
+  (hβ : ∀ (V : Dᵒᵖ) (r : Rd.obj.obj V),
+    R₀.obj.map (β.app V.unop).op (σ.hom.app (op (H₁.obj V.unop)) (π₁.hom.app V r)) =
+      π₀.hom.app V r)
+
+/-- Restricting along `α₁` and then applying `g` and restricting along `β` is applying `g` and
+restricting along `α₀`, when `α₀ = β ≫ S α₁`. -/
+private lemma pushforwardRestrictToComp_comp_transition
+    (hα : ∀ U : C, α₀.app U = β.app (P.obj U) ≫ S.map (α₁.app U))
+    {N : SheafOfModules.{u} R₀} {N' : SheafOfModules.{u} R₁}
+    (g : N' ⟶ (SheafOfModules.pushforward.{u} σ).obj N) :
+    pushforwardRestrictToComp α₁ π₁ χ φA h₁ N' ≫
+      (SheafOfModules.pushforward.{u} χ).map
+        ((SheafOfModules.pushforward.{u} π₁).map g ≫
+          sheafOfModulesPushforwardCompRestrict β σ π₁ π₀ hβ N) =
+    (SheafOfModules.pushforward.{u} φA).map g ≫ pushforwardPushforwardRestrict φA σ χ π₀ α₀ h₀ N := by
+  refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext (fun U => ?_))
+  ext y
+  change N.val.map (β.app (P.obj U.unop)).op
+      (g.val.app (op (H₁.obj (P.obj U.unop))) (N'.val.map (α₁.app U.unop).op y)) =
+    N.val.map (α₀.app U.unop).op (g.val.app (op (A.obj U.unop)) y)
+  have hg := PresheafOfModules.naturality_apply g.val (α₁.app U.unop).op y
+  refine (congrArg (N.val.map (β.app (P.obj U.unop)).op) hg).trans ?_
+  change N.val.map (β.app (P.obj U.unop)).op
+      (N.val.map (S.map (α₁.app U.unop)).op (g.val.app (op (A.obj U.unop)) y)) = _
+  refine (PresheafOfModules.map_comp_apply N.val (S.map (α₁.app U.unop)).op
+    (β.app (P.obj U.unop)).op _).symm.trans ?_
+  rw [hα, op_comp]
+
+variable {B : C ⥤ E₀} [B.IsContinuous J L₀]
+  (φB : T ⟶ (B.sheafPushforwardContinuous RingCat.{u} J L₀).obj R₀)
+  (δ : A ⋙ S ⟶ B) (α₀' : P ⋙ H₀ ⟶ B)
+  (h₀' : ∀ (V : Cᵒᵖ) (r : T.obj.obj V),
+    R₀.obj.map (α₀'.app V.unop).op (φB.hom.app V r) =
+      π₀.hom.app (op (P.obj V.unop)) (χ.hom.app V r))
+
+/-- A map `B_* N ⟶ A_* S_* N` restricting sections along `δ : A ⋙ S ⟶ B`, followed by restriction
+along `α₀`, is restriction along `α₀ ≫ δ`. -/
+private lemma comp_pushforwardPushforwardRestrict (hδ : ∀ U : C, α₀'.app U = α₀.app U ≫ δ.app U)
+    {N : SheafOfModules.{u} R₀}
+    (θ : (SheafOfModules.pushforward.{u} φB).obj N ⟶
+      (SheafOfModules.pushforward.{u} φA).obj ((SheafOfModules.pushforward.{u} σ).obj N))
+    (hθ : ∀ (U : Cᵒᵖ) (y : N.val.obj (op (B.obj U.unop))),
+      θ.val.app U y = N.val.map (δ.app U.unop).op y) :
+    θ ≫ pushforwardPushforwardRestrict φA σ χ π₀ α₀ h₀ N =
+      pushforwardRestrictToComp α₀' π₀ χ φB h₀' N := by
+  refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext (fun U => ?_))
+  ext y
+  change N.val.map (α₀.app U.unop).op (θ.val.app U y) = N.val.map (α₀'.app U.unop).op y
+  refine (congrArg (N.val.map (α₀.app U.unop).op) (hθ U y)).trans ?_
+  refine (PresheafOfModules.map_comp_apply N.val (δ.app U.unop).op (α₀.app U.unop).op _).symm.trans ?_
+  rw [hδ, op_comp]
+
+end PushforwardTransition
+
 namespace QuasicoherentIdealSubsheaf
 
 variable {X : Scheme.{u}} (I : QuasicoherentIdealSubsheaf X) (F : X.Modules)
@@ -347,6 +445,87 @@ private lemma succ_ι_app_restrict (n : ℕ) (U : X.Opens) (r : Γ(X, U)) :
   simp only [Scheme.Hom.appLE, CommRingCat.hom_comp, RingHom.comp_apply, homOfLE_refl, op_id,
     CategoryTheory.Functor.map_id, CommRingCat.hom_id, RingHom.id_apply] at h'
   exact h'
+
+/-- For a module `N` on `Y_(n+1)`, the pushforward along `Y_(n+1) ⟶ Y_(n+2) ⟶ X` mapped to the
+transport of `N` to `|Y|` pushed forward along `|Y| ⟶ X` (restriction of sections). -/
+private def succRestrict (n : ℕ) (N : (I.infinitesimalNeighborhood (n + 1)).Modules) :
+    (SheafOfModules.pushforward.{u} (I.infinitesimalNeighborhoodι (n + 2)).toRingCatSheafHom).obj
+        ((SheafOfModules.pushforward.{u} (I.infinitesimalNeighborhoodSucc n).toRingCatSheafHom).obj
+          N) ⟶
+      (SheafOfModules.pushforward.{u} I.structureSheafToFormalCompletionRingCat).obj
+        ((SheafOfModules.pushforward.{u} (I.formalCompletionRingCatSheafπ n)).obj N) :=
+  pushforwardPushforwardRestrict
+    (P := Opens.map (I.infinitesimalNeighborhoodι 1).base)
+    (H₀ := (I.isOpenEmbedding_infinitesimalNeighborhoodFromOne n).functor)
+    (I.infinitesimalNeighborhoodι (n + 2)).toRingCatSheafHom
+    (I.infinitesimalNeighborhoodSucc n).toRingCatSheafHom
+    I.structureSheafToFormalCompletionRingCat (I.formalCompletionRingCatSheafπ n)
+    { app U := homOfLE (I.functor_obj_le_preimage_succ_ι n U) }
+    (fun V r => (I.succ_ι_app_restrict n V.unop r).trans
+      (congrArg (fun g => g.hom r) (I.formalCompletionSectionsMap_π V.unop n)).symm)
+    N
+
+private lemma preimage_comp_le_of_eq {Z₀ Z₁ W' : Scheme.{u}} {s : Z₀ ⟶ Z₁} {a : Z₁ ⟶ W'}
+    {b : Z₀ ⟶ W'} (hs : s ≫ a = b) (U : W'.Opens) : s ⁻¹ᵁ (a ⁻¹ᵁ U) ≤ b ⁻¹ᵁ U := by
+  subst hs
+  exact le_rfl
+
+/-- The sections of `b_* N ≅ (s ≫ a)_* N ≅ a_* s_* N` (for `s ≫ a = b`) are restrictions along
+the equality of opens. -/
+private lemma pushforwardCongr_inv_comp_pushforwardComp_inv_val_app {Z₀ Z₁ W' : Scheme.{u}}
+    {s : Z₀ ⟶ Z₁} {a : Z₁ ⟶ W'} {b : Z₀ ⟶ W'} (hs : s ≫ a = b) (N : Z₀.Modules)
+    (U : W'.Opensᵒᵖ) (y : N.val.obj (op (b ⁻¹ᵁ U.unop))) :
+    ((Scheme.Modules.pushforwardCongr hs).inv.app N ≫
+        (Scheme.Modules.pushforwardComp s a).inv.app N).val.app U y =
+      N.val.map (homOfLE (preimage_comp_le_of_eq hs U.unop)).op y := by
+  subst hs
+  rfl
+
+private lemma neighborhoodRestrict_comp_transition (n : ℕ)
+    (N : (I.infinitesimalNeighborhood (n + 1)).Modules)
+    (N' : (I.infinitesimalNeighborhood (n + 1 + 1)).Modules)
+    (g : N' ⟶ (Scheme.Modules.pushforward (I.infinitesimalNeighborhoodSucc n)).obj N) :
+    I.neighborhoodRestrict (n + 1) N' ≫
+      (SheafOfModules.pushforward.{u} I.structureSheafToFormalCompletionRingCat).map
+        ((SheafOfModules.pushforward.{u} (I.formalCompletionRingCatSheafπ (n + 1))).map g ≫
+          sheafOfModulesPushforwardCompRestrict (I.functorToPreimageInfinitesimalNeighborhoodSucc n)
+            (I.infinitesimalNeighborhoodSucc n).toRingCatSheafHom
+            (I.formalCompletionRingCatSheafπ (n + 1)) (I.formalCompletionRingCatSheafπ n)
+            (fun V r => I.formalCompletionSheafMap_limit_π_apply n V.unop r) N) =
+    (SheafOfModules.pushforward.{u} (I.infinitesimalNeighborhoodι (n + 2)).toRingCatSheafHom).map g ≫
+      I.succRestrict n N :=
+  pushforwardRestrictToComp_comp_transition _ _ _ _ _ _ _ _ _ _ _ (fun _ => Subsingleton.elim _ _) g
+
+private lemma pushforwardCongr_comp_succRestrict (n : ℕ)
+    (N : (I.infinitesimalNeighborhood (n + 1)).Modules) :
+    ((Scheme.Modules.pushforwardCongr (I.infinitesimalNeighborhoodSucc_comp_ι n)).inv.app N ≫
+        (Scheme.Modules.pushforwardComp (I.infinitesimalNeighborhoodSucc n)
+          (I.infinitesimalNeighborhoodι (n + 2))).inv.app N) ≫ I.succRestrict n N =
+      I.neighborhoodRestrict n N :=
+by
+  have key := comp_pushforwardPushforwardRestrict
+    (P := Opens.map (I.infinitesimalNeighborhoodι 1).base)
+    (H₀ := (I.isOpenEmbedding_infinitesimalNeighborhoodFromOne n).functor)
+    (I.infinitesimalNeighborhoodι (n + 2)).toRingCatSheafHom
+    (I.infinitesimalNeighborhoodSucc n).toRingCatSheafHom
+    I.structureSheafToFormalCompletionRingCat (I.formalCompletionRingCatSheafπ n)
+    { app U := homOfLE (I.functor_obj_le_preimage_succ_ι n U) }
+    (fun V r => (I.succ_ι_app_restrict n V.unop r).trans
+      (congrArg (fun g => g.hom r) (I.formalCompletionSectionsMap_π V.unop n)).symm)
+    (I.infinitesimalNeighborhoodι (n + 1)).toRingCatSheafHom
+    { app U := homOfLE (preimage_comp_le_of_eq (I.infinitesimalNeighborhoodSucc_comp_ι n) U) }
+    { app U := homOfLE (I.functor_obj_preimage_infinitesimalNeighborhoodι n U).le }
+    (fun V r => by
+      have := congrArg (fun g => g.hom r) (I.formalCompletionSectionsMap_π V.unop n)
+      exact this.symm)
+    (fun _ => Subsingleton.elim _ _)
+    (N := N)
+    ((Scheme.Modules.pushforwardCongr (I.infinitesimalNeighborhoodSucc_comp_ι n)).inv.app N ≫
+        (Scheme.Modules.pushforwardComp (I.infinitesimalNeighborhoodSucc n)
+          (I.infinitesimalNeighborhoodι (n + 2))).inv.app N)
+    (pushforwardCongr_inv_comp_pushforwardComp_inv_val_app
+      (I.infinitesimalNeighborhoodSucc_comp_ι n) N)
+  exact key
 
 end QuasicoherentIdealSubsheaf
 
