@@ -124,11 +124,6 @@ theorem toSheaf_genericConstantModule :
       constantSheaf X.toTopCat (AddCommGrpCat.of V) :=
   rfl
 
-theorem genericConstantModule_smul_apply (U : X.Opens) (r : Γ(X, U))
-    (s : Γ(genericConstantModule V, U)) (x : U) :
-    (show LocallyConstant U V from r • s) x = genericGerm U x r • (show LocallyConstant U V from s) x :=
-  rfl
-
 end Module
 
 section Derivation
@@ -301,10 +296,15 @@ def differentialsToGeneric :
     Scheme.relativeDifferentials f ⟶ genericConstantModule (functionFieldDifferentials f) :=
   (Scheme.relativeDifferentialsHomEquiv f _).symm (genericDerivation f)
 
+/-- The image in `Ω_K` of a section of `Ω_{X/k}` over `U`, a locally constant map
+`U → Ω_{K/k}`. -/
+abbrev differentialsGenericValue {U : X.Opens} (s : Γ(Scheme.relativeDifferentials f, U)) :
+    LocallyConstant U (functionFieldDifferentials f) :=
+  (differentialsToGeneric f).app U s
+
 /-- The map `Ω_{X/k} ⟶ Ω_K` sends `d a` to the constant map with value `d(a_η)`. -/
 theorem differentialsToGeneric_d (U : X.Opens) (a : Γ(X, U)) (x : U) :
-    (show LocallyConstant U (functionFieldDifferentials f) from
-      (differentialsToGeneric f).app U ((Scheme.relativeDifferentialsD f).hom.app (op U) a)) x =
+    differentialsGenericValue f ((Scheme.relativeDifferentialsD f).hom.app (op U) a) x =
       functionFieldD f (genericGerm U x a) := by
   have h := Scheme.relativeDifferentialsHomEquiv_apply f _ (differentialsToGeneric f)
   rw [differentialsToGeneric, Equiv.apply_symm_apply] at h
@@ -315,10 +315,8 @@ theorem differentialsToGeneric_d (U : X.Opens) (a : Γ(X, U)) (x : U) :
 /-- The value at a point of the image of a restricted section. -/
 theorem differentialsToGeneric_res {U W : X.Opens} (i : W ⟶ U)
     (s : Γ(Scheme.relativeDifferentials f, U)) (y : W) :
-    (show LocallyConstant W (functionFieldDifferentials f) from (differentialsToGeneric f).app W
-      ((Scheme.relativeDifferentials f).presheaf.map i.op s)) y =
-      (show LocallyConstant U (functionFieldDifferentials f) from
-        (differentialsToGeneric f).app U s) ⟨y.1, i.le y.2⟩ := by
+    differentialsGenericValue f ((Scheme.relativeDifferentials f).presheaf.map i.op s) y =
+      differentialsGenericValue f s ⟨y.1, i.le y.2⟩ := by
   have h := ConcreteCategory.congr_hom
     ((Scheme.Modules.Hom.mapPresheaf (differentialsToGeneric f)).naturality i.op) s
   rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply] at h
@@ -327,19 +325,35 @@ theorem differentialsToGeneric_res {U W : X.Opens} (i : W ⟶ U)
 /-- The value at a point of the image of a multiple of a section. -/
 theorem differentialsToGeneric_smul {U : X.Opens} (r : Γ(X, U))
     (s : Γ(Scheme.relativeDifferentials f, U)) (y : U) :
-    (show LocallyConstant U (functionFieldDifferentials f) from (differentialsToGeneric f).app U
-      (r • s)) y = genericGerm U y r •
-      (show LocallyConstant U (functionFieldDifferentials f) from
-        (differentialsToGeneric f).app U s) y := by
-  rw [Scheme.Modules.Hom.app_smul]
-  rfl
+    differentialsGenericValue f (r • s) y =
+      genericGerm U y r • differentialsGenericValue f s y := by
+  have h := Scheme.Modules.Hom.app_smul (differentialsToGeneric f) r s
+  exact congrArg (fun m => (show LocallyConstant U (functionFieldDifferentials f) from m) y) h
+
+theorem differentialsGenericValue_add {U : X.Opens} (s t : Γ(Scheme.relativeDifferentials f, U))
+    (y : U) : differentialsGenericValue f (s + t) y =
+      differentialsGenericValue f s y + differentialsGenericValue f t y := by
+  have h := map_add ((differentialsToGeneric f).app U).hom s t
+  exact congrArg (fun m => (show LocallyConstant U (functionFieldDifferentials f) from m) y) h
+
+theorem differentialsGenericValue_zero {U : X.Opens} (y : U) :
+    differentialsGenericValue f (0 : Γ(Scheme.relativeDifferentials f, U)) y = 0 := by
+  have h := map_zero ((differentialsToGeneric f).app U).hom
+  exact congrArg (fun m => (show LocallyConstant U (functionFieldDifferentials f) from m) y) h
+
+/-- The image of a section is constant, since a nonempty open subset of `X` is irreducible. -/
+theorem differentialsGenericValue_eq {U : X.Opens} (s : Γ(Scheme.relativeDifferentials f, U))
+    (y z : U) : differentialsGenericValue f s y = differentialsGenericValue f s z := by
+  have : PreconnectedSpace U := Subtype.preconnectedSpace
+    ((PreirreducibleSpace.isPreirreducible_univ (X := X)).open_subset U.isOpen
+      (Set.subset_univ _)).isPreconnected
+  exact (differentialsGenericValue f s).isLocallyConstant.apply_eq_of_preconnectedSpace y z
 
 /-- The generic values of sections over nonempty open sets form a `K`-submodule. -/
 def genericValues : Submodule X.functionField (functionFieldDifferentials f) where
   carrier := {ω | ∃ (U : X.Opens) (_ : Nonempty U) (s : Γ(Scheme.relativeDifferentials f, U)),
-    ∀ y : U, (show LocallyConstant U (functionFieldDifferentials f) from
-      (differentialsToGeneric f).app U s) y = ω}
-  zero_mem' := ⟨⊤, ⟨⟨genericPoint X, trivial⟩⟩, 0, fun y => by rw [map_zero]; rfl⟩
+    ∀ y : U, differentialsGenericValue f s y = ω}
+  zero_mem' := ⟨⊤, ⟨⟨genericPoint X, trivial⟩⟩, 0, fun y => differentialsGenericValue_zero f y⟩
   add_mem' {ω₁ ω₂} := by
     rintro ⟨U₁, ⟨x₁⟩, s₁, h₁⟩ ⟨U₂, ⟨x₂⟩, s₂, h₂⟩
     have hη : genericPoint X ∈ U₁ ⊓ U₂ :=
@@ -347,10 +361,7 @@ def genericValues : Submodule X.functionField (functionFieldDifferentials f) whe
     refine ⟨U₁ ⊓ U₂, ⟨⟨_, hη⟩⟩,
       (Scheme.relativeDifferentials f).presheaf.map (homOfLE inf_le_left).op s₁ +
         (Scheme.relativeDifferentials f).presheaf.map (homOfLE inf_le_right).op s₂, fun y => ?_⟩
-    rw [map_add]
-    change (show LocallyConstant (U₁ ⊓ U₂ : X.Opens) (functionFieldDifferentials f) from _) y +
-      (show LocallyConstant (U₁ ⊓ U₂ : X.Opens) (functionFieldDifferentials f) from _) y = _
-    rw [differentialsToGeneric_res, differentialsToGeneric_res, h₁, h₂]
+    rw [differentialsGenericValue_add, differentialsToGeneric_res, differentialsToGeneric_res, h₁, h₂]
   smul_mem' z {ω} := by
     rintro ⟨U, ⟨x⟩, s, h⟩
     obtain ⟨W, hW, e, rfl⟩ := X.presheaf.exists_germ_eq z
@@ -365,8 +376,7 @@ def genericValues : Submodule X.functionField (functionFieldDifferentials f) whe
 value of a section of `Ω_{X/k}` over some nonempty open set. -/
 theorem exists_differentialsToGeneric_eq (ω : functionFieldDifferentials f) :
     ∃ (U : X.Opens) (_ : Nonempty U) (s : Γ(Scheme.relativeDifferentials f, U)),
-      ∀ y : U, (show LocallyConstant U (functionFieldDifferentials f) from
-        (differentialsToGeneric f).app U s) y = ω := by
+      ∀ y : U, differentialsGenericValue f s y = ω := by
   have hle : Submodule.span X.functionField (Set.range (functionFieldD f)) ≤ genericValues f := by
     rw [Submodule.span_le]
     rintro _ ⟨z, rfl⟩
