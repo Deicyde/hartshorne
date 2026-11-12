@@ -61,6 +61,7 @@ $\deg\nu_*\operatorname{div}(g)=\sum_j\deg F_j\deg V-\sum_l\deg G_l\deg V=e\deg 
 - [Bézout for a projective variety and a hypersurface](../../../intersections-projective-space/bezout/projective-hypersurface-bezout.md)
 - [Raw cycle pushforward is functorial](raw-cycle-pushforward-functorial.md)
 - [A zero-dimensional projective variety is a point](../../../intersections-projective-space/bezout/projective-zero-dimensional-variety-point.md)
+- [Degree of a projective Weil divisor](../../../schemes/divisors/divisor-exercises/projective-weil-divisor-degree.md)
 
 ## Sources
 
