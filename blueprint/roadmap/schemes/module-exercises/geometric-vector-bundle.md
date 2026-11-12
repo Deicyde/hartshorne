@@ -24,6 +24,10 @@ $\operatorname{Spec} \operatorname{Sym} (E)$, not $\operatorname{Spec} \operator
 - [Locally free and invertible modules](../modules-and-quasicoherent/locally-free-and-invertible.md)
 - [The graded symmetric-algebra sheaf](../projective-geometry/relative-proj-bundles/graded-symmetric-algebra-sheaf.md)
 
+## Proof depends on
+
+- [Duality for finite locally free sheaves](../modules-and-quasicoherent/finite-locally-free-duality.md)
+
 ## Sources
 
 - [Hartshorne II.5, Exercise 5.18(a) (p.128)](../../../sources/hartshorne-ii-5.md#adopted-exercises-and-later-use-evidence)
