@@ -37,7 +37,7 @@ namespace):
 
 * `Hartshorne.QuasicoherentIdealSubsheaf.isIdealOfDefinition_formalCompletionIdealSubsheaf`: the
   kernel of `𝒪_{Ŷ} ⟶ 𝒪_{Y_1}` is an ideal of definition of `Ŷ`; `(Ŷ, 𝒪_{Ŷ} / J)` is `Y_1`
-  (`QuasicoherentIdealSubsheaf.reductionSchemeIso`).
+  (`QuasicoherentIdealSubsheaf.infinitesimalNeighborhoodOneRestrictIso`).
 
 On a chart `e : U ≅ Ŷ` of `X` (`IsIdealOfDefinition` namespace):
 
@@ -209,26 +209,27 @@ def quotientFormalCompletionIdealSubsheafIso [IsLocallyNoetherian Y] :
   eqToIso (congrArg IdealSubsheaf.quotient I.formalCompletionIdealSubsheaf.pow_one).symm ≪≫
     I.formalCompletionQuotientIso 0
 
-/-- The scheme `Y_1` restricted along the homeomorphism `Y_1 ⟶ Y_1`: its structure sheaf is
-`I.formalCompletionSheafObj 0`. -/
-abbrev reductionScheme : Scheme.{u} :=
+/-- The scheme `Y_1` restricted along the homeomorphism `Y ⟶ Y_1`: a scheme with underlying space
+`|Y|` and structure sheaf `𝒪_{Y_1}` read on `|Y|`. -/
+abbrev infinitesimalNeighborhoodOneRestrict : Scheme.{u} :=
   (I.infinitesimalNeighborhood (0 + 1)).restrict
     (I.isOpenEmbedding_infinitesimalNeighborhoodFromOne 0)
 
-instance [IsNoetherian Y] : IsNoetherian I.reductionScheme := by
+instance [IsNoetherian Y] : IsNoetherian I.infinitesimalNeighborhoodOneRestrict := by
   have : IsLocallyNoetherian (I.infinitesimalNeighborhood (0 + 1)) :=
     LocallyOfFiniteType.isLocallyNoetherian (I.infinitesimalNeighborhoodι (0 + 1))
-  have : IsLocallyNoetherian I.reductionScheme :=
+  have : IsLocallyNoetherian I.infinitesimalNeighborhoodOneRestrict :=
     isLocallyNoetherian_of_isOpenImmersion (Scheme.ofRestrict _ _)
   have : CompactSpace (I.infinitesimalNeighborhood 1) :=
     (I.infinitesimalNeighborhoodι 1).isClosedEmbedding.compactSpace
-  have : CompactSpace I.reductionScheme :=
+  have : CompactSpace I.infinitesimalNeighborhoodOneRestrict :=
     inferInstanceAs (CompactSpace (I.infinitesimalNeighborhood 1))
   exact {}
 
 /-- `(Ŷ, 𝒪_{Ŷ} / J)` is the scheme `Y_1`, as a ringed space. -/
-def reductionSchemeIso [IsLocallyNoetherian Y] :
-    I.reductionScheme.toSheafedSpace ≅ I.formalCompletionIdealSubsheaf.quotientSheafedSpace :=
+def infinitesimalNeighborhoodOneRestrictIso [IsLocallyNoetherian Y] :
+    I.infinitesimalNeighborhoodOneRestrict.toSheafedSpace ≅
+      I.formalCompletionIdealSubsheaf.quotientSheafedSpace :=
   InducedCategory.isoMk (PresheafedSpace.isoOfComponents (Iso.refl _)
     ((sheafToPresheaf _ _).mapIso (I.quotientFormalCompletionIdealSubsheafIso).symm))
 
@@ -239,7 +240,8 @@ theorem isIdealOfDefinition_formalCompletionIdealSubsheaf [IsNoetherian Y] :
     IsIdealOfDefinition I.toNoetherianFormalScheme I.formalCompletionIdealSubsheaf where
   support_eq_univ := sheafSupport_quotientAb_of_le_vanishingIdealSubsheaf
     (X := I.formalCompletion) I.formalCompletionIdealSubsheaf_le_vanishingIdealSubsheaf
-  isNoetherianScheme := ⟨I.reductionScheme, inferInstance, ⟨I.reductionSchemeIso⟩⟩
+  isNoetherianScheme := ⟨I.infinitesimalNeighborhoodOneRestrict, inferInstance,
+    ⟨I.infinitesimalNeighborhoodOneRestrictIso⟩⟩
 
 end QuasicoherentIdealSubsheaf
 
