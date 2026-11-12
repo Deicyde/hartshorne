@@ -18,6 +18,7 @@ is surjective.
 
 - [Normal schemes](../normalization-and-exercises/normal-scheme.md)
 - [Homogeneous ideals define projective closed subschemes](projective-closed-subscheme-homogeneous-ideal.md)
+- [Twisting sheaves under localization in degree zero](../projective-geometry/relative-proj-bundles/proj-twist-localization.md)
 
 ## Proof depends on
 
