@@ -363,6 +363,87 @@ theorem twistDivX_smul (hT : ∃ f ∈ reesGrading I 1, f ∈ T) (c : Homogeneou
 
 end Algebra
 
+/-! ### A monomorphism into `𝒪_X` is isomorphic to the ideal sheaf of its image -/
+
+section MonoToUnit
+
+open CategoryTheory.Limits
+
+variable {X : Scheme.{u}} {F : X.Modules} [F.IsQuasicoherent]
+  (φ : F ⟶ SheafOfModules.unit X.ringCatSheaf)
+
+private theorem comp_structureSheafToPushforward_eq_zero :
+    φ ≫ structureSheafToPushforward (idealSheafDataOfHom φ).subschemeι = 0 := by
+  refine Scheme.Modules.hom_ext _ _ fun V => ?_
+  ext s
+  change Scheme.Modules.Hom.app (structureSheafToPushforward (idealSheafDataOfHom φ).subschemeι)
+    V (φ.app V s) = 0
+  refine Scheme.Modules.section_eq_zero_of_locally _ fun x hx => ?_
+  obtain ⟨W, hW, hxW, hWV⟩ := exists_isAffineOpen_mem_and_subset hx
+  refine ⟨W, hWV, hxW, ?_⟩
+  erw [← modules_app_res (structureSheafToPushforward (idealSheafDataOfHom φ).subschemeι) hWV,
+    ← modules_app_res φ hWV]
+  have hmem : φ.app W (F.presheaf.map (homOfLE hWV).op s) ∈
+      RingHom.ker ((idealSheafDataOfHom φ).subschemeι.app W).hom := by
+    rw [ker_subschemeι_app_idealSheafDataOfHom φ ⟨W, hW⟩]
+    exact ⟨_, rfl⟩
+  exact hmem
+
+/-- The comparison of `F` with the ideal sheaf of the image of `φ : F ⟶ 𝒪_X`. -/
+noncomputable def toImageIdealSheaf :
+    F ⟶ closedImmersionIdealSheaf (idealSheafDataOfHom φ).subschemeι :=
+  kernel.lift _ φ (comp_structureSheafToPushforward_eq_zero φ)
+
+@[reassoc (attr := simp)]
+theorem toImageIdealSheaf_ι :
+    toImageIdealSheaf φ ≫ closedImmersionIdealSheafι (idealSheafDataOfHom φ).subschemeι = φ :=
+  kernel.lift_ι _ _ _
+
+private theorem toImageIdealSheaf_app_surjective (W : X.affineOpens) :
+    Function.Surjective ((toImageIdealSheaf φ).app W) := by
+  intro t
+  have ht : Scheme.Modules.Hom.app (structureSheafToPushforward (idealSheafDataOfHom φ).subschemeι)
+      W ((closedImmersionIdealSheafι (idealSheafDataOfHom φ).subschemeι).app W t) = 0 :=
+    congrArg (fun ψ => Scheme.Modules.Hom.app ψ W t)
+      (kernel.condition (structureSheafToPushforward (idealSheafDataOfHom φ).subschemeι))
+  have hmem : (closedImmersionIdealSheafι (idealSheafDataOfHom φ).subschemeι).app W t ∈
+      RingHom.ker ((idealSheafDataOfHom φ).subschemeι.app W).hom := ht
+  rw [ker_subschemeι_app_idealSheafDataOfHom] at hmem
+  obtain ⟨s, hs⟩ := hmem
+  refine ⟨s, modules_app_injective
+    (closedImmersionIdealSheafι (idealSheafDataOfHom φ).subschemeι) (W : X.Opens) ?_⟩
+  change (toImageIdealSheaf φ ≫ closedImmersionIdealSheafι _).app W s = _
+  rw [toImageIdealSheaf_ι]
+  exact hs
+
+instance [Mono φ] : Mono (toImageIdealSheaf φ) := mono_of_mono_fac (toImageIdealSheaf_ι φ)
+
+instance : Epi (toImageIdealSheaf φ) := by
+  refine Preadditive.epi_of_cokernel_zero (Scheme.Modules.hom_ext _ _ fun V => ?_)
+  ext u
+  change (cokernel.π (toImageIdealSheaf φ)).app V u = 0
+  refine Scheme.Modules.section_eq_zero_of_locally _ fun x hx => ?_
+  obtain ⟨W, hW, hxW, hWV⟩ := exists_isAffineOpen_mem_and_subset hx
+  refine ⟨W, hWV, hxW, ?_⟩
+  rw [← modules_app_res (cokernel.π (toImageIdealSheaf φ)) hWV u]
+  obtain ⟨s, hs⟩ := toImageIdealSheaf_app_surjective φ ⟨W, hW⟩
+    ((closedImmersionIdealSheaf (idealSheafDataOfHom φ).subschemeι).presheaf.map
+      (homOfLE hWV).op u)
+  erw [← hs]
+  change (toImageIdealSheaf φ ≫ cokernel.π (toImageIdealSheaf φ)).app W s = 0
+  rw [cokernel.condition]
+  rfl
+
+/-- **A monomorphism `φ : F ⟶ 𝒪_X` from a quasi-coherent module identifies `F` with the ideal
+sheaf of its image**, compatibly with the inclusions into `𝒪_X` (`toImageIdealSheaf_ι`); the
+argument of Hartshorne II, Proposition 6.18, for an arbitrary such `φ`. -/
+noncomputable def imageIdealSheafIso [Mono φ] :
+    F ≅ closedImmersionIdealSheaf (idealSheafDataOfHom φ).subschemeι :=
+  haveI : IsIso (toImageIdealSheaf φ) := isIso_of_mono_of_epi _
+  asIso (toImageIdealSheaf φ)
+
+end MonoToUnit
+
 /-! ### The map `𝒪(1) ⟶ 𝒪` on `Proj A[It]` -/
 
 section ProjMap
