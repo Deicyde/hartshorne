@@ -359,7 +359,7 @@ private theorem finsum_hypersurfaceMult [IsAlgClosed k] (hn : 0 < n) {V : Scheme
       rw [Nat.pos_iff_ne_zero]
       rintro rfl
       have hc := totalDegree_eq_zero_iff_eq_C.mp (hj.totalDegree hp.ne_zero)
-      apply hp.not_unit
+      apply hp.not_isUnit
       rw [hc]
       refine (isUnit_iff_ne_zero.mpr fun h0 ↦ hp.ne_zero ?_).map C
       rw [hc, h0, map_zero]
@@ -383,6 +383,62 @@ private theorem finsum_hypersurfaceMult [IsAlgClosed k] (hn : 0 < n) {V : Scheme
       finsum_hypersurfaceMult_irreducible hn i hdim hj hj0 hp.irreducible hpv, ih ha ha0 hav]
     push_cast [Nat.cast_sub hje]
     ring
+
+/-- **Principal divisors on an integral subvariety of `ℙⁿ_k` have degree zero.** For a nonzero
+rational function `g` on an integral closed subvariety `V` of `ℙⁿ_k`,
+`∑_Y ord_Y(g) deg Y = 0`, the sum running over the codimension-one points of `V`. -/
+theorem finsum_ord_mul_projectiveSpectrumPointDegree_eq_zero [IsAlgClosed k] {V : Scheme.{u}}
+    [IsIntegral V] (i : V ⟶ Proj 𝒜) [IsClosedImmersion i] [IsLocallyNoetherian V]
+    {g : V.functionField} (hg : g ≠ 0) :
+    ∑ᶠ y : V, V.ord g y * projectiveSpectrumPointDegree (i y) = 0 := by
+  by_cases hcod : ∃ y : V, coheight y = 1
+  swap
+  · push Not at hcod
+    exact finsum_eq_zero_of_forall_eq_zero fun y ↦ by
+      rw [Scheme.ord_eq_zero_of_coheight_neq_one (hcod y), zero_mul]
+  obtain ⟨y₀, hy₀⟩ := hcod
+  have hy₀ξ : y₀ ≠ genericPoint V := by
+    rintro rfl
+    rw [coheight_genericPoint] at hy₀
+    exact zero_ne_one hy₀
+  have hdim : Nontrivial V := ⟨⟨y₀, genericPoint V, hy₀ξ⟩⟩
+  -- `n ≥ 1`, since `ℙⁿ_k` contains the chain `i(ξ) ⤳ i(y₀)`
+  have hn : 0 < n := by
+    rw [Nat.pos_iff_ne_zero]
+    intro hn0
+    let x : ProjectiveSpectrum 𝒜 := i.base y₀
+    let x₀ : ProjectiveSpectrum 𝒜 := i.base (genericPoint V)
+    have hle : x₀.asHomogeneousIdeal ≤ x.asHomogeneousIdeal :=
+      (closedImmersion_specializes_iff i _ _).mp (genericPoint_specializes y₀)
+    have hlt : x₀ < x := lt_of_le_of_ne hle fun h ↦ hy₀ξ
+      (closedImmersion_eq_of_asHomogeneousIdeal_eq i
+        (congrArg (fun z ↦ z.asHomogeneousIdeal.toIdeal) h)).symm
+    have h0 : height x ≤ 0 :=
+      (height_projectiveSpectrum_le (k := k) (n := n) x).trans (by simp [hn0])
+    rw [nonpos_iff_eq_zero, Order.height_eq_zero] at h0
+    exact h0.not_lt hlt
+  -- write `g = F / G`
+  obtain ⟨d, F, G, hF, hG, hGv, rfl⟩ := exists_eq_functionFieldQuot i g
+  have hFv : F ∉ (i (genericPoint V)).asHomogeneousIdeal := fun h ↦
+    hg ((stalkMap_stalkQuot_eq_zero_iff i (genericPoint V) hF hG hGv).mpr h)
+  have hF0 : F ≠ 0 := fun h ↦ hFv (h ▸ zero_mem _)
+  have hG0 : G ≠ 0 := fun h ↦ hGv (h ▸ zero_mem _)
+  have hFh : F.IsHomogeneous d := (mem_homogeneousSubmodule d F).mp hF
+  have hGh : G.IsHomogeneous d := (mem_homogeneousSubmodule d G).mp hG
+  have hsplit : ∀ y : V, V.ord (functionFieldQuot i hF hG hGv) y *
+      projectiveSpectrumPointDegree (i y) =
+      (if coheight y = 1 then (hypersurfaceMult i F y : ℤ) else 0) *
+        projectiveSpectrumPointDegree (i y) -
+      (if coheight y = 1 then (hypersurfaceMult i G y : ℤ) else 0) *
+        projectiveSpectrumPointDegree (i y) := by
+    intro y
+    by_cases h1 : coheight y = 1
+    · rw [if_pos h1, if_pos h1, ord_functionFieldQuot_eq_sub i h1 hF hG hGv hFv, sub_mul]
+    · rw [if_neg h1, if_neg h1, Scheme.ord_eq_zero_of_coheight_neq_one h1]
+      ring
+  rw [finsum_congr hsplit, finsum_sub_distrib (finite_support_hypersurfaceMult i hFh hFv)
+    (finite_support_hypersurfaceMult i hGh hGv), finsum_hypersurfaceMult hn i hdim hFh hF0 hFv,
+    finsum_hypersurfaceMult hn i hdim hGh hG0 hGv, sub_self]
 
 end Bezout
 
