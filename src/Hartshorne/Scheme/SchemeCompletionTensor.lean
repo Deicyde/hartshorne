@@ -380,8 +380,8 @@ private lemma toAdic_pullbackToModuleCompletion_tensorToPullback
 variable [IsNoetherianRing Γ(X, (U : X.Opens))]
   [Module.Finite Γ(X, (U : X.Opens)) Γ(F, (U : X.Opens))]
 
-/-- **The inverse on sections over `U ∩ |Y|`**: `Γ(U ∩ |Y|, F̂) ≅ Γ(U, 𝒪_X)^ ⊗ Γ(U, F)` (the
-adic completion of the finite module `Γ(U, F)`), followed by `b ⊗ s ↦ b · s` into
+/-- **The inverse on sections over `U ∩ |Y|`**: the injective map to the adic completion of the
+finite module `Γ(U, F)`, then `Γ(U, F)^ ≅ Γ(U, 𝒪_X)^ ⊗ Γ(U, F)`, followed by `b ⊗ s ↦ b · s` into
 `Γ(U ∩ |Y|, f^* F)`. -/
 private def completionToPullback :
     ((𝒫).obj (I.moduleCompletion F)).val.obj (op (U : X.Opens)) →+
