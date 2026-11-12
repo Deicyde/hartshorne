@@ -245,6 +245,123 @@ theorem isIso_affineFormalTildeAdjunction_unit_app [IsAdicComplete I A] (N : Mod
         (asIso ((specIdealSubsheaf A I).pullbackToModuleCompletion (tilde N))))).isIso_hom
   exact @IsIso.of_isIso_comp_right _ _ _ _ _ _ _ h2 hT
 
+
+/-- For `A` Noetherian and `N` a finite `A`-module, `N~` is coherent on `Spec A`. -/
+theorem isCoherent_tilde_of_finite (N : ModuleCat.{u} A) [Module.Finite A N] :
+    IsCoherent (tilde N) := by
+  obtain ⟨Q, hQ⟩ := CoherentAux.exists_finite_presentation_tilde N
+  have h₁ : Finite Q.generators.I :=
+    (SheafOfModules.Presentation.IsFinite.isFiniteType_generators (p := Q)).finite
+  have h₂ : Finite Q.relations.I :=
+    (SheafOfModules.Presentation.IsFinite.isFiniteType_relations (p := Q)).finite
+  have hσ : Q.quasicoherentData.IsFinitePresentation := by
+    constructor
+    intro x
+    exact ⟨⟨inferInstanceAs (Finite Q.generators.I)⟩, ⟨inferInstanceAs (Finite Q.relations.I)⟩⟩
+  have : (tilde N).IsFinitePresentation :=
+    SheafOfModules.IsFinitePresentation.mk.{u, u, u} ⟨Q.quasicoherentData, hσ⟩
+  exact isCoherent_of_isFinitePresentation _
+
+/-- For `A` Noetherian and `I`-adically complete and `N` a finite `A`-module, the counit
+`(Γ(X̂, F)~)|_{V(I)} ⊗ 𝒪_X̂ ⟶ F` is an isomorphism at `F = (N~)|_{V(I)} ⊗ 𝒪_X̂`. -/
+theorem isIso_affineFormalTildeAdjunction_counit_app [IsAdicComplete I A] (N : ModuleCat.{u} A)
+    [Module.Finite A N] :
+    IsIso ((affineFormalTildeAdjunction I).counit.app
+      ((tilde.functor A ⋙ SheafOfModules.pullback.{u}
+        (specIdealSubsheaf A I).structureSheafToFormalCompletionRingCat).obj N)) := by
+  have := isIso_affineFormalTildeAdjunction_unit_app I N
+  exact IsIso.of_isIso_fac_left ((affineFormalTildeAdjunction I).left_triangle_components N)
+
+
+/-- **Extensions of completed finite modules on an affine formal scheme.** Let `A` be a Noetherian
+ring, complete for an ideal `I`, and `X̂ = Spf_I(A)`. Let `0 ⟶ F' ⟶ F ⟶ F'' ⟶ 0` be a short exact
+sequence of `𝒪_X̂`-modules with `F' ≅ (M'~)^` and `F'' ≅ (M''~)^` for finite `A`-modules `M'`,
+`M''`. Then `M = Γ(X̂, F)` is a finite `A`-module and `F ≅ (M~)^`. -/
+theorem affineFormal_extension_moduleCompletion [IsAdicComplete I A]
+    {S : ShortComplex (SheafOfModules.{u} (specIdealSubsheaf A I).formalCompletionRingCatSheaf)}
+    (hS : S.ShortExact) (M' M'' : ModuleCat.{u} A) [Module.Finite A M'] [Module.Finite A M'']
+    (e₁ : S.X₁ ≅ (specIdealSubsheaf A I).moduleCompletion (tilde M'))
+    (e₃ : S.X₃ ≅ (specIdealSubsheaf A I).moduleCompletion (tilde M'')) :
+    ∃ M : ModuleCat.{u} A, Module.Finite A M ∧
+      Nonempty (S.X₂ ≅ (specIdealSubsheaf A I).moduleCompletion (tilde M)) := by
+  let adj := affineFormalTildeAdjunction I
+  let L := tilde.functor A ⋙ SheafOfModules.pullback.{u}
+    (specIdealSubsheaf A I).structureSheafToFormalCompletionRingCat
+  let R := SheafOfModules.pushforward.{u}
+    (specIdealSubsheaf A I).structureSheafToFormalCompletionRingCat ⋙ moduleSpecΓFunctor
+  have hε : ∀ (F : SheafOfModules.{u} (specIdealSubsheaf A I).formalCompletionRingCatSheaf)
+      (N : ModuleCat.{u} A) [Module.Finite A N],
+      (F ≅ (specIdealSubsheaf A I).moduleCompletion (tilde N)) → IsIso (adj.counit.app F) := by
+    intro F N _ e
+    have := isIso_affineFormalTildeAdjunction_counit_app I N
+    exact (NatTrans.isIso_app_iff_of_iso adj.counit
+      (e ≪≫ (tildePullbackIsoModuleCompletion I N).symm)).2 this
+  have : R.IsRightAdjoint := adj.isRightAdjoint
+  have : L.IsLeftAdjoint := adj.isLeftAdjoint
+  have hR : ∀ (F : SheafOfModules.{u} (specIdealSubsheaf A I).formalCompletionRingCatSheaf)
+      (N : ModuleCat.{u} A) [Module.Finite A N],
+      (F ≅ (specIdealSubsheaf A I).moduleCompletion (tilde N)) → Nonempty (R.obj F ≅ N) := by
+    intro F N _ e
+    have := isIso_affineFormalTildeAdjunction_unit_app I N
+    exact ⟨R.mapIso (e ≪≫ (tildePullbackIsoModuleCompletion I N).symm) ≪≫
+      (asIso (adj.unit.app N)).symm⟩
+  have hRS : (S.map R).ShortExact := by
+    have hcoh : IsCoherentFormalModule (X := (specIdealSubsheaf A I).toNoetherianFormalScheme)
+        S.X₁ :=
+      ((specIdealSubsheaf A I).isCoherentFormalModule_moduleCompletion (tilde M')
+        (isCoherent_tilde_of_finite M')).of_iso e₁.symm
+    have h := affineFormal_globalSections_shortExact (isAffineNoetherianFormalScheme_Spf A I) hS
+      hcoh
+    have hinj := (ModuleCat.mono_iff_injective _).1 h.mono_f
+    have hsurj := (ModuleCat.epi_iff_surjective _).1 h.epi_g
+    have hex := (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).1 h.exact
+    exact
+      { exact := (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).2 hex
+        mono_f := (ModuleCat.mono_iff_injective _).2 hinj
+        epi_g := (ModuleCat.epi_iff_surjective _).2 hsurj }
+  have f₁ : Module.Finite A (S.map R).X₁ :=
+    Module.Finite.equiv (hR _ M' e₁).some.toLinearEquiv.symm
+  have f₃ : Module.Finite A (S.map R).X₃ :=
+    Module.Finite.equiv (hR _ M'' e₃).some.toLinearEquiv.symm
+  have f₂ : Module.Finite A (R.obj S.X₂) :=
+    Module.Finite.of_exact ((ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mp
+      hRS.exact) ((ModuleCat.epi_iff_surjective _).mp hRS.epi_g)
+  have hLRS : ((S.map R).map L).ShortExact := by
+    have f₂' : Module.Finite A (S.map R).X₂ := f₂
+    have h := moduleCompletion_tilde_shortExact I (S.map R) hRS
+    let c := tildePullbackToModuleCompletion I
+    have hc : ∀ (N : ModuleCat.{u} A) [Module.Finite A N], IsIso (c.app N) :=
+      fun N _ => isIso_tildePullbackToModuleCompletion I N
+    refine ShortComplex.shortExact_of_iso (ShortComplex.isoMk
+      (@asIso _ _ _ _ (c.app _) (hc _)) (@asIso _ _ _ _ (c.app _) (hc _))
+      (@asIso _ _ _ _ (c.app _) (hc _)) (c.naturality _).symm (c.naturality _).symm).symm h
+  let φ : (S.map R).map L ⟶ S :=
+    { τ₁ := adj.counit.app S.X₁
+      τ₂ := adj.counit.app S.X₂
+      τ₃ := adj.counit.app S.X₃
+      comm₁₂ := (adj.counit.naturality S.f).symm
+      comm₂₃ := (adj.counit.naturality S.g).symm }
+  have : IsIso φ.τ₁ := hε _ M' e₁
+  have : IsIso φ.τ₃ := hε _ M'' e₃
+  have : IsIso φ.τ₂ := ShortComplex.isIso₂_of_shortExact_of_isIso₁₃ φ hLRS hS
+  exact ⟨R.obj S.X₂, f₂, ⟨(asIso φ.τ₂).symm ≪≫
+    tildePullbackIsoModuleCompletion I (R.obj S.X₂)⟩⟩
+
+
+/-- On `X̂ = Spf_I(A)` with `A` Noetherian and `I`-adically complete, an extension of `(M''~)^` by
+`(M'~)^`, for finite `A`-modules `M'` and `M''`, is a coherent module on the Noetherian formal
+scheme `X̂`. -/
+theorem affineFormal_extension_isCoherentFormalModule [IsAdicComplete I A]
+    {S : ShortComplex (SheafOfModules.{u} (structureRingCatSheaf
+      (specIdealSubsheaf A I).toNoetherianFormalScheme.toLocallyRingedSpace))}
+    (hS : S.ShortExact) (M' M'' : ModuleCat.{u} A) [Module.Finite A M'] [Module.Finite A M'']
+    (e₁ : S.X₁ ≅ (specIdealSubsheaf A I).moduleCompletion (tilde M'))
+    (e₃ : S.X₃ ≅ (specIdealSubsheaf A I).moduleCompletion (tilde M'')) :
+    IsCoherentFormalModule S.X₂ := by
+  obtain ⟨M, hM, ⟨e⟩⟩ := affineFormal_extension_moduleCompletion I hS M' M'' e₁ e₃
+  exact ((specIdealSubsheaf A I).isCoherentFormalModule_moduleCompletion (tilde M)
+    (isCoherent_tilde_of_finite M)).of_iso e.symm
+
 end Affine
 
 end Hartshorne
