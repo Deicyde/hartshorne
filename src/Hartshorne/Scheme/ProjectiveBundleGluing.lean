@@ -345,4 +345,15 @@ theorem exists_projectiveBundleIso_of_frame {U : X.Opens} {n : ℕ}
   refine ⟨Φ, ?_, fun V hV hVU => hΦ ⟨V, hV, hVU⟩⟩
   rw [← cancel_mono U.ι, Category.assoc, hΦg, morphismRestrict_ι]
 
+/-- **`P(E)` over an open on which `E` is free** (Hartshorne II.7, p. 162): if
+`E|_U ≅ 𝒪_U^{n+1}` on an open `U ⊆ X`, then `π⁻¹(U) ≅ ℙⁿ_U` over `U`. -/
+theorem nonempty_projectiveBundle_iso_of_restrict_iso_free_open {U : X.Opens} {n : ℕ}
+    (α : E.restrict U.ι ≅ SheafOfModules.free (ULift.{u} (Fin (n + 1)))) :
+    ∃ ψ : (projectiveBundleProj hE hfin ⁻¹ᵁ U).toScheme ≅ projectiveSpaceOverScheme n U,
+      ψ.hom ≫ projectiveSpaceOverSchemeProjection n U = projectiveBundleProj hE hfin ∣_ U := by
+  obtain ⟨β⟩ := (nonempty_restrict_iso_free_iff E U _).mp ⟨α⟩
+  obtain ⟨ψ, hψ, -⟩ := exists_projectiveBundleIso_of_frame hE hfin
+    (Ringed.isLocalFrame_of_over_iso (R := X.sheaf) β)
+  exact ⟨ψ, hψ⟩
+
 end AlgebraicGeometry.Scheme.Modules
