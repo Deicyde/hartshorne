@@ -23,6 +23,14 @@ This is the setting used in Hartshorne's Remark III.10.9.2.
 - [Locally free module sheaves](../../schemes/modules-and-quasicoherent/locally-free-and-invertible.md)
 - [Effective Cartier divisors as closed subschemes](../../schemes/divisors/cartier-picard/effective-cartier-closed-subscheme.md)
 - [Projective space over a scheme](../../schemes/proper-and-projective/projective-space-over-scheme.md)
+- [Morphisms from generated invertible sheaves](../../schemes/projective-geometry/linear-systems-ampleness/morphism-from-generated-line-bundle.md)
+- [The zero scheme of a section of a locally free sheaf](../../intersection-theory/chern-classes/section-zero-scheme.md)
+- [Clearing denominators with an invertible section](../../schemes/projective-sheaves/invertible-section-clearing-denominators.md)
+- [Projection from a point is a morphism](../../curves/projective-embeddings/prerequisites/projection-from-point-morphism.md)
+
+## Proof depends on
+
+- [Rees algebras and blowups](../../schemes/projective-geometry/blowups/rees-algebra-sheaf-and-blowup.md)
 
 ## Sources
 
