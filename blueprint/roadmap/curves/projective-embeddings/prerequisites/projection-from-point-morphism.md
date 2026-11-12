@@ -3,6 +3,8 @@ article_id: af_250fea92495f2285d2e325da
 declaration: theorem
 origin: cited
 lean: Hartshorne.pointProjection_isProjection Hartshorne.pointProjectionDomain Hartshorne.pointProjection Hartshorne.pointProjectionTwist Hartshorne.pointProjectionSections Hartshorne.projectionLinearSections Hartshorne.projectionVector Hartshorne.linearSection Hartshorne.projectivePoint Hartshorne.projectionFromPoint_isProjection Hartshorne.projectionDomain Hartshorne.projectionFromPoint Hartshorne.projectionDomainTwist Hartshorne.projectionSections Hartshorne.coordinatePoint Hartshorne.hyperplaneInclusion
+statement: formalized
+proof: formalized
 ---
 
 # Projection from a point is a morphism
