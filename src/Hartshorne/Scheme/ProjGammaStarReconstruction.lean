@@ -706,6 +706,121 @@ theorem isIso_gammaStarEval_of_bijective (h : ∀ x : Proj 𝒜, Function.Biject
 
 end Eval
 
+/-! ### Tensor powers of `𝒪_X(e)` and the sections `f^n s` of Lemma 5.14 -/
+
+section TensorPower
+
+theorem pow_mem_mul {e : ℕ} {h : A} (hh : h ∈ 𝒜 e) (N : ℕ) : h ^ N ∈ 𝒜 (e * N) := by
+  have := SetLike.pow_mem_graded N hh
+  rwa [smul_eq_mul, mul_comm] at this
+
+omit [GradedRing 𝒜] in
+/-- `T^{N+1} L ≅ T^N L ⊗ L`, as an isomorphism of `𝒪_X`-modules on a scheme. -/
+def succIsoX {X : Scheme.{u}} (L : X.Modules) (N : ℕ) :
+    moduleSheafTensorPower (N + 1) L ≅ moduleSheafTensor (moduleSheafTensorPower N L) L :=
+  Ringed.moduleSheafTensorPowerSuccIso L N
+
+omit [GradedRing 𝒜] in
+/-- `T^0 L ≅ 𝒪_X`, as an isomorphism of `𝒪_X`-modules on a scheme. -/
+def zeroIsoX {X : Scheme.{u}} (L : X.Modules) :
+    moduleSheafTensorPower 0 L ≅ 𝟙_ X.Modules :=
+  Ringed.moduleSheafTensorPowerZeroIso L
+
+omit [GradedRing 𝒜] in
+/-- The comparison `moduleSheafTensor F G ≅ F ⊗ G`, on a scheme. -/
+def tensorIsoX {X : Scheme.{u}} (F G : X.Modules) : moduleSheafTensor F G ≅ F ⊗ G :=
+  moduleSheafTensorIsoTensor F G
+
+omit [GradedRing 𝒜] in
+theorem tensorIsoX_hom_bilinear {X : Scheme.{u}} (F G : X.Modules) {U : X.Opens} (f : Γ(F, U))
+    (g : Γ(G, U)) :
+    (tensorIsoX F G).hom.val.app (op U) ((moduleSheafTensorBilinear F G).app (op U) f g) =
+      tmulSection F G f g :=
+  moduleSheafTensorIsoTensor_hom_bilinear F G f g
+
+/-- `𝒪_X(e)^{⊗ N} ⟶ 𝒪_X(eN)`, multiplying the factors. -/
+def powMap (e : ℕ) : ∀ N : ℕ,
+    moduleSheafTensorPower N (projTwistingSheaf 𝒜 e) ⟶ projTwistingSheaf 𝒜 ((e * N : ℕ) : ℤ)
+  | 0 => (zeroIsoX (projTwistingSheaf 𝒜 e)).hom ≫ twistHom 0 ⟨1, SetLike.GradedOne.one_mem⟩
+  | N + 1 => (succIsoX (projTwistingSheaf 𝒜 e) N).hom ≫
+      (tensorIsoX _ _).hom ≫ (powMap e N ▷ projTwistingSheaf 𝒜 e) ≫
+        twistMulHom 𝒜 ((e * N : ℕ) : ℤ) e
+
+theorem twistSection_congr {d d' : ℕ} (hd : d = d') (g : 𝒜 d) (g' : 𝒜 d') (hg : (g : A) = g')
+    (U : (Opens (ProjectiveSpectrum.top 𝒜))ᵒᵖ) :
+    HEq (twistSection d g U) (twistSection d' g' U) := by
+  subst hd
+  obtain rfl : g = g' := Subtype.ext hg
+  rfl
+
+theorem comp_app_apply {X : Scheme.{u}} {F G H : X.Modules} (f : F ⟶ G) (g : G ⟶ H)
+    (U : X.Opensᵒᵖ) (x : F.val.obj U) : (f ≫ g).val.app U x = g.val.app U (f.val.app U x) :=
+  rfl
+
+omit [GradedRing 𝒜] in
+theorem succIso_tprod {X : Scheme.{u}} (L : X.Modules) (N : ℕ) (U : X.Opens)
+    (m : Fin (N + 1) → Γ(L, U)) :
+    (succIsoX L N).hom.val.app (op U)
+        ((moduleSheafTensorPowerMultilinear (N + 1) L).app (op U) m) =
+      (moduleSheafTensorBilinear (moduleSheafTensorPower N L) L).app (op U)
+        ((moduleSheafTensorPowerMultilinear N L).app (op U) (Fin.init m)) (m (Fin.last N)) :=
+  Ringed.moduleSheafTensorPowerHomEquiv_symm_tprod _ U m
+
+/-- `powMap` sends `h^{⊗ N}` to `h^N`, for `h ∈ S_e`. -/
+theorem powMap_tprod (e : ℕ) (h : 𝒜 e) (U : (Proj 𝒜).Opens) : ∀ N : ℕ,
+    (powMap e N).val.app (op U)
+        ((moduleSheafTensorPowerMultilinear N (projTwistingSheaf 𝒜 e)).app (op U)
+          (fun _ => twistSection e h (op U))) =
+      twistSection (e * N) ⟨(h : A) ^ N, pow_mem_mul h.2 N⟩ (op U)
+  | 0 => by
+    change (twistHom 0 ⟨1, SetLike.GradedOne.one_mem⟩).val.app (op U)
+      (Ringed.sectionsMap (Ringed.moduleSheafTensorPowerZeroIso (projTwistingSheaf 𝒜 e)).hom U
+        ((moduleSheafTensorPowerMultilinear 0 (projTwistingSheaf 𝒜 e)).app (op U) _)) = _
+    erw [Ringed.moduleSheafTensorPowerHomEquiv_symm_tprod]
+    erw [twistHom_app_one]
+    apply section_ext
+    intro x
+    apply HomogeneousLocalizedModule.ext
+    rw [twistSection_apply, twistSection_apply, twistFraction_val, twistFraction_val]
+    change LocalizedModule.mk (1 : A) 1 = LocalizedModule.mk ((h : A) ^ 0) 1
+    rw [pow_zero]
+  | N + 1 => by
+    rw [powMap]
+    erw [comp_app_apply, comp_app_apply, comp_app_apply]
+    erw [succIso_tprod (projTwistingSheaf 𝒜 e) N U (fun _ => twistSection e h (op U))]
+    erw [tensorIsoX_hom_bilinear (moduleSheafTensorPower N (projTwistingSheaf 𝒜 e))
+      (projTwistingSheaf 𝒜 e)]
+    erw [scheme_whiskerRight_tmulSection (powMap e N) (G := projTwistingSheaf 𝒜 e)]
+    erw [powMap_tprod e h U N]
+    refine (twistMulHom_twistSection (e * N) e ⟨(h : A) ^ N, pow_mem_mul h.2 N⟩ h (op U)).trans ?_
+    apply section_ext
+    intro x
+    apply HomogeneousLocalizedModule.ext
+    rw [twistSection_apply, twistSection_apply, twistFraction_val, twistFraction_val]
+    change LocalizedModule.mk ((h : A) ^ N * h) 1 = LocalizedModule.mk ((h : A) ^ (N + 1)) 1
+    rw [pow_succ]
+
+variable (G : (Proj 𝒜).Modules)
+
+/-- `G ⊗ 𝒪_X(e)^{⊗ N} ⟶ G ⊗ 𝒪_X(eN)`. -/
+def powTwistMap (e N : ℕ) :
+    tensorPowerTwist G (projTwistingSheaf 𝒜 e) N ⟶ G ⊗ projTwistingSheaf 𝒜 ((e * N : ℕ) : ℤ) :=
+  (tensorIsoX G _).hom ≫ (G ◁ powMap e N)
+
+/-- `powTwistMap` sends the section `h^N t` of Lemma 5.14 to `t ⊗ h^N / 1`. -/
+theorem powTwistMap_sectionPowSMul (e N : ℕ) (h : 𝒜 e) (U : (Proj 𝒜).Opens) (t : Γ(G, U)) :
+    (powTwistMap G e N).val.app (op U)
+        (sectionPowSMul G (projTwistingSheaf 𝒜 e) N (twistSection e h (op U)) t) =
+      tmulSection _ _ t (twistSection (e * N) ⟨(h : A) ^ N, pow_mem_mul h.2 N⟩ (op U)) := by
+  rw [powTwistMap]
+  erw [comp_app_apply]
+  rw [sectionPowSMul]
+  erw [tensorIsoX_hom_bilinear]
+  rw [scheme_whiskerLeft_tmulSection]
+  exact congrArg (tmulSection _ _ t) (powMap_tprod e h U N)
+
+end TensorPower
+
 end GammaStarReconstruction
 
 end Hartshorne
