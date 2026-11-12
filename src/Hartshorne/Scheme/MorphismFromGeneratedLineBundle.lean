@@ -79,6 +79,66 @@ def projectiveSpaceCoordinate (Y : Scheme.{u}) (i : Fin (n + 1)) :
 
 end Coordinates
 
+/-! ### Gluing an isomorphism from local frames -/
+
+namespace Ringed
+
+variable {T : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology T) CommRingCat.{u}}
+
+/-- **Invertible sheaves with matching frames are isomorphic, compatibly with the frames.** If
+`A` and `B` have one-element frames `a i`, `b i` on the members of an open cover, and on each
+overlap the two families have the same transition function, then there is an isomorphism
+`A ≅ B` carrying each `a i` to `b i`. (This is `Ringed.nonempty_iso_of_frames`, keeping track
+of the frames.) -/
+theorem exists_iso_of_frames {ι : Type u} {A B : SheafOfModules.{u} (ringCatSheafOf R)}
+    (W : ι → Opens T) (hW : ⊤ ≤ iSup W)
+    (a : ∀ i, A.val.presheaf.obj (op (W i))) (b : ∀ i, B.val.presheaf.obj (op (W i)))
+    (ha : ∀ i, IsLocalFrame A (W i) (fun _ : PUnit.{u + 1} => a i))
+    (hb : ∀ i, IsLocalFrame B (W i) (fun _ : PUnit.{u + 1} => b i))
+    (htrans : ∀ i j, ∃ c : R.obj.obj (op (W i ⊓ W j)),
+      A.val.presheaf.map (homOfLE inf_le_right).op (a j) =
+          c • A.val.presheaf.map (homOfLE inf_le_left).op (a i) ∧
+        B.val.presheaf.map (homOfLE inf_le_right).op (b j) =
+          c • B.val.presheaf.map (homOfLE inf_le_left).op (b i)) :
+    ∃ φ : A ≅ B, ∀ i, sectionsMap φ.hom (W i) (a i) = b i := by
+  let φl : ∀ i, (moduleSheafHom A B).val.presheaf.obj (op (W i)) :=
+    fun i ↦ (ha i).homOfValues (le_refl _) (fun _ ↦ b i)
+  have hcompat : ∀ i j, (moduleSheafHom A B).val.presheaf.map
+      (homOfLE (inf_le_left : W i ⊓ W j ≤ W i)).op (φl i) =
+      (moduleSheafHom A B).val.presheaf.map (homOfLE (inf_le_right : W i ⊓ W j ≤ W j)).op
+        (φl j) := by
+    intro i j
+    obtain ⟨c, hca, hcb⟩ := htrans i j
+    refine (ha j).hom_ext inf_le_right ?_
+    funext k
+    rw [localFrameEval_apply, localFrameEval_apply, moduleSheafHomEval_restrict,
+      moduleSheafHomEval_restrict]
+    refine Eq.trans ?_ ((ha j).homOfValues_eval_self (b j) (le_refl _ |>.trans inf_le_right)).symm
+    rw [show ((le_refl (W i ⊓ W j)).trans (inf_le_left : W i ⊓ W j ≤ W i)) = inf_le_left from rfl,
+      show ((le_refl (W i ⊓ W j)).trans (inf_le_right : W i ⊓ W j ≤ W j)) = inf_le_right from rfl,
+      hca, map_smul, (ha i).homOfValues_eval_self (b i) inf_le_left, ← hcb]
+  obtain ⟨ψ, hψ, -⟩ := TopCat.Sheaf.existsUnique_gluing'
+    (⟨(moduleSheafHom A B).val.presheaf, (moduleSheafHom A B).isSheaf⟩ :
+      TopCat.Sheaf AddCommGrpCat.{u} T) W ⊤ (fun i ↦ homOfLE le_top) hW φl
+    (by intro i j; exact hcompat i j)
+  let φ : A ⟶ B := moduleSheafHomGlobalSectionsAddEquiv A B ψ
+  have hφ : ∀ i, sectionsMap φ (W i) (a i) = b i := by
+    intro i
+    have h1 : sectionsMap φ (W i) (a i) = moduleSheafHomEval ψ le_top (a i) := rfl
+    rw [h1, ← moduleSheafHomEval_restrict ψ le_top (le_refl (W i))]
+    erw [hψ i]
+    have h2 := (ha i).homOfValues_eval_self (b i) (le_refl (W i))
+    rw [show (homOfLE (le_refl (W i))).op = 𝟙 (op (W i)) from rfl,
+      CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id] at h2
+    exact h2
+  have : IsIso φ := modules_isIso_of_locally_bijective φ fun x ↦ by
+    obtain ⟨i, hi⟩ := Opens.mem_iSup.mp (hW (show x ∈ (⊤ : Opens T) from trivial))
+    exact ⟨W i, hi, fun V hV ↦ IsLocalFrame.app_bijective_of_map φ (ha i) (hb i)
+      (fun _ ↦ hφ i) hV⟩
+  exact ⟨asIso φ, hφ⟩
+
+end Ringed
+
 /-! ### The pulled-back twisting sheaf on the preimages of the charts -/
 
 section Charts
@@ -519,6 +579,181 @@ theorem morphismToProjInt_appLE (k l : Fin (n + 1)) :
   exact h2.symm
 
 end Construction
+
+/-! ### Part (b): uniqueness -/
+
+section Uniqueness
+
+variable {n : ℕ}
+
+/-- **A morphism into `ℙⁿ_ℤ` is determined by the preimages of the standard charts and the
+pullbacks of the coordinate ratios `xₗ/xₖ` on them.** -/
+theorem projInt_hom_ext {T : Scheme.{u}} {g h : T ⟶ projInt.{u} n} (U : Fin (n + 1) → T.Opens)
+    (hg : ∀ k, g ⁻¹ᵁ chartInt n k = U k) (hh : ∀ k, h ⁻¹ᵁ chartInt n k = U k)
+    (happ : ∀ k l, g.appLE (chartInt n k) (U k) (hg k).ge (ratioInt n k l) =
+      h.appLE (chartInt n k) (U k) (hh k).ge (ratioInt n k l)) : g = h := by
+  have hU : TopologicalSpace.IsOpenCover U := by
+    refine TopologicalSpace.IsOpenCover.mk (eq_top_iff.mpr fun x _ => ?_)
+    have hx : g x ∈ ⨆ j, chartInt.{u} n j := by
+      rw [iSup_proj_basicOpen_X_eq_top]
+      trivial
+    obtain ⟨k, hk⟩ := TopologicalSpace.Opens.mem_iSup.mp hx
+    refine TopologicalSpace.Opens.mem_iSup.mpr ⟨k, ?_⟩
+    rw [← hg k]
+    exact hk
+  refine (T.openCoverOfIsOpenCover U hU).hom_ext _ _ fun (k : Fin (n + 1)) => ?_
+  change (U k).ι ≫ g = (U k).ι ≫ h
+  rw [ι_comp_eq_toSpecΓ_SpecMap g (U k) (X_mem_homogeneousSubmodule_one _ k) Nat.one_pos
+      (hg k).ge,
+    ι_comp_eq_toSpecΓ_SpecMap h (U k) (X_mem_homogeneousSubmodule_one _ k) Nat.one_pos
+      (hh k).ge]
+  have key : Proj.awayToSection _ (MvPolynomial.X k) ≫ g.appLE (chartInt n k) (U k) (hg k).ge =
+      Proj.awayToSection _ (MvPolynomial.X k) ≫ h.appLE (chartInt n k) (U k) (hh k).ge := by
+    ext1
+    refine chart_ringHom_ext k (fun r => ?_) (fun j => happ k j)
+    exact congrArg (fun F : ULift.{u} ℤ →+* Γ(T, U k) => F r)
+      (ulift_int_ringHom_ext
+        ((Proj.awayToSection _ (MvPolynomial.X k) ≫ g.appLE (chartInt n k) (U k) (hg k).ge).hom.comp
+          (chartConst (ULift.{u} ℤ) k))
+        ((Proj.awayToSection _ (MvPolynomial.X k) ≫ h.appLE (chartInt n k) (U k) (hh k).ge).hom.comp
+          (chartConst (ULift.{u} ℤ) k)))
+  rw [key]
+
+variable {X Y : Scheme.{u}} {L : X.Modules} (hL : L.IsInvertible) (s : Fin (n + 1) → Γ(L, ⊤))
+  (φ : X ⟶ projectiveSpaceOverScheme n Y) (e : pullbackTwist φ ≅ L)
+  (he : ∀ i, e.hom.app ⊤ (pullbackGlobalSection φ (projectiveSpaceCoordinate n Y i)) = s i)
+
+include he in
+/-- Under an isomorphism `φ^* 𝒪(1) ≅ L` carrying `φ^* xᵢ` to `sᵢ`, on `Vₖ = φ⁻¹(D₊(xₖ))` one has
+`sₗ = φ^#(xₗ/xₖ) sₖ`. -/
+theorem restrict_eq_smul_of_iso (k l : Fin (n + 1)) :
+    L.presheaf.map (homOfLE (le_top : chartPreimage φ k ≤ ⊤)).op (s l) =
+      (toIntMap φ).app (chartInt n k) (ratioInt n k l) •
+        L.presheaf.map (homOfLE (le_top : chartPreimage φ k ≤ ⊤)).op (s k) := by
+  rw [← he l, ← he k, ← hom_app_map, ← hom_app_map, restrict_pullbackGlobalSection_eq_smul,
+    Scheme.Modules.Hom.app_smul]
+
+include he in
+theorem isTrivializingSection_of_iso (k : Fin (n + 1)) :
+    IsTrivializingSection L (chartPreimage φ k)
+      (L.presheaf.map (homOfLE (le_top : chartPreimage φ k ≤ ⊤)).op (s k)) := by
+  rw [← he k, ← hom_app_map]
+  exact (isTrivializingSection_chartPreimage φ k).map_iso e
+
+include he in
+/-- **The preimage of `D₊(xₖ)` is `X_{sₖ}`.** -/
+theorem chartPreimage_eq_locus (k : Fin (n + 1)) : chartPreimage φ k = locus hL s k := by
+  refine le_antisymm (fun x hx => ?_) (fun x hx => ?_)
+  · have h := (isTrivializingSection_of_iso s φ e he k).germ_not_mem hx
+    rw [TopCat.Presheaf.germ_res_apply] at h
+    exact h
+  · obtain ⟨j, hj⟩ := exists_mem_chartPreimage φ x
+    have h := ((isTrivializingSection_of_iso s φ e he j).mem_nonvanishingLocus_iff
+      (restrict_eq_smul_of_iso s φ e he j k) hj).mp hx
+    rw [← Scheme.preimage_basicOpen] at h
+    have h' : x ∈ toIntMap φ ⁻¹ᵁ (chartInt n j ⊓ chartInt n k) := by
+      rw [← Proj.basicOpen_awayToSection_eq (X_mem_homogeneousSubmodule_one _ j)
+        (by simpa using X_mem_homogeneousSubmodule_one (ULift.{u} ℤ) k)]
+      exact h
+    exact h'.2
+
+include he in
+/-- **On `X_{sₖ}`, `φ` pulls `xₗ/xₖ` back to `sₗ/sₖ`.** -/
+theorem appLE_ratioInt_of_iso (k l : Fin (n + 1)) :
+    (toIntMap φ).appLE (chartInt n k) (locus hL s k)
+        (chartPreimage_eq_locus hL s φ e he k).ge (ratioInt n k l) = sectionRatio hL s k l := by
+  have h1 := congrArg (L.presheaf.map (homOfLE (chartPreimage_eq_locus hL s φ e he k).ge).op)
+    (restrict_eq_smul_of_iso s φ e he k l)
+  rw [Scheme.Modules.map_map_homOfLE, Scheme.Modules.map_smul,
+    Scheme.Modules.map_map_homOfLE] at h1
+  refine eq_of_smul_eq hL s k le_rfl ?_
+  rw [← sectionRatio_spec]
+  exact h1.symm
+
+end Uniqueness
+
+/-! ### Part (b): the isomorphism `φ^* 𝒪(1) ≅ L` -/
+
+section Isomorphism
+
+variable {n : ℕ} {X Y : Scheme.{u}} {L : X.Modules} (hL : L.IsInvertible)
+  (s : Fin (n + 1) → Γ(L, ⊤))
+  (hs : L.IsGeneratedBySections (fun i : ULift.{u} (Fin (n + 1)) => s i.down))
+  (φ : X ⟶ projectiveSpaceOverScheme n Y)
+  (hV : ∀ k, chartPreimage φ k = locus hL s k)
+  (hc : ∀ k l, (toIntMap φ).appLE (chartInt n k) (locus hL s k) (hV k).ge (ratioInt n k l) =
+    sectionRatio hL s k l)
+
+include hc in
+theorem restrict_pullbackGlobalSection_locus (k i : Fin (n + 1)) {V : X.Opens}
+    (h : V ≤ locus hL s k) :
+    (pullbackTwist φ).presheaf.map (homOfLE (le_top : V ≤ ⊤)).op
+        (pullbackGlobalSection φ (projectiveSpaceCoordinate n Y i)) =
+      X.presheaf.map (homOfLE h).op (sectionRatio hL s k i) •
+        (pullbackTwist φ).presheaf.map (homOfLE (le_top : V ≤ ⊤)).op
+          (pullbackGlobalSection φ (projectiveSpaceCoordinate n Y k)) := by
+  have h1 := congrArg ((pullbackTwist φ).presheaf.map (homOfLE (h.trans (hV k).ge)).op)
+    (restrict_pullbackGlobalSection_eq_smul φ k i)
+  rw [Scheme.Modules.map_map_homOfLE, Scheme.Modules.map_smul,
+    Scheme.Modules.map_map_homOfLE] at h1
+  rw [h1, ← hc k i]
+  change _ = X.presheaf.map (homOfLE h).op (X.presheaf.map (homOfLE (hV k).ge).op
+    ((toIntMap φ).app _ (ratioInt n k i))) • _
+  rw [Scheme.presheaf_map_map_homOfLE]
+
+include hs hc in
+/-- **The isomorphism `φ^* 𝒪(1) ≅ L` carrying `φ^* xᵢ` to `sᵢ`**, glued from the local
+isomorphisms `φ^* xₖ ↦ sₖ` on `X_{sₖ}`. -/
+theorem exists_iso_of_chartData :
+    ∃ e : pullbackTwist φ ≅ L,
+      ∀ i, e.hom.app ⊤ (pullbackGlobalSection φ (projectiveSpaceCoordinate n Y i)) = s i := by
+  have hcov := locus_isOpenCover hL s hs
+  let W : ULift.{u} (Fin (n + 1)) → X.Opens := fun k => locus hL s k.down
+  have hW : ⊤ ≤ iSup W := by
+    intro x _
+    have hx : x ∈ ⨆ k, locus hL s k := by rw [hcov.iSup_eq_top]; trivial
+    obtain ⟨k, hk⟩ := TopologicalSpace.Opens.mem_iSup.mp hx
+    exact TopologicalSpace.Opens.mem_iSup.mpr ⟨⟨k⟩, hk⟩
+  let a : ∀ k, Γ(pullbackTwist φ, W k) := fun k =>
+    (pullbackTwist φ).presheaf.map (homOfLE le_top).op
+      (pullbackGlobalSection φ (projectiveSpaceCoordinate n Y k.down))
+  let b : ∀ k, Γ(L, W k) := fun k => L.presheaf.map (homOfLE le_top).op (s k.down)
+  have hta : ∀ k, IsTrivializingSection (pullbackTwist φ) (W k) (a k) := by
+    intro k
+    have h := (isTrivializingSection_chartPreimage φ k.down).restrict (hV k.down).ge
+    rw [Scheme.Modules.map_map_homOfLE] at h
+    exact h
+  have σ : PUnit.{u + 1} ≃ ULift.{u} (Fin 1) := Equiv.ofUnique _ _
+  obtain ⟨e, he⟩ := Ringed.exists_iso_of_frames (R := X.sheaf) W hW a b
+    (fun k => (isLocalFrame_of_isTrivializingSection (hta k)).reindex σ)
+    (fun k => (isLocalFrame_of_isTrivializingSection
+      (isTrivializingSection_locus hL s k.down)).reindex σ)
+    (fun i j => ⟨X.presheaf.map (homOfLE inf_le_left).op (sectionRatio hL s i.down j.down), by
+      change (pullbackTwist φ).presheaf.map (homOfLE inf_le_right).op
+          ((pullbackTwist φ).presheaf.map (homOfLE le_top).op
+            (pullbackGlobalSection φ (projectiveSpaceCoordinate n Y j.down))) =
+        X.presheaf.map (homOfLE (inf_le_left : W i ⊓ W j ≤ W i)).op
+          (sectionRatio hL s i.down j.down) • (pullbackTwist φ).presheaf.map (homOfLE inf_le_left).op
+          ((pullbackTwist φ).presheaf.map (homOfLE le_top).op
+            (pullbackGlobalSection φ (projectiveSpaceCoordinate n Y i.down)))
+      rw [Scheme.Modules.map_map_homOfLE, Scheme.Modules.map_map_homOfLE]
+      exact restrict_pullbackGlobalSection_locus hL s φ hV hc _ _ _, by
+      change L.presheaf.map (homOfLE inf_le_right).op
+          (L.presheaf.map (homOfLE le_top).op (s j.down)) =
+        X.presheaf.map (homOfLE (inf_le_left : W i ⊓ W j ≤ W i)).op
+          (sectionRatio hL s i.down j.down) •
+            L.presheaf.map (homOfLE inf_le_left).op (L.presheaf.map (homOfLE le_top).op (s i.down))
+      rw [Scheme.Modules.map_map_homOfLE, Scheme.Modules.map_map_homOfLE]
+      exact restrict_eq_sectionRatio_smul hL s _ _ _⟩)
+  refine ⟨e, fun i => TopCat.Presheaf.IsSheaf.section_ext L.isSheaf fun x _ => ?_⟩
+  obtain ⟨⟨k⟩, hk⟩ := TopologicalSpace.Opens.mem_iSup.mp (hW (show x ∈ ⊤ from trivial))
+  refine ⟨W ⟨k⟩, le_top, hk, ?_⟩
+  rw [← hom_app_map, restrict_pullbackGlobalSection_locus hL s φ hV hc k i le_rfl,
+    Scheme.Modules.Hom.app_smul, restrict_eq_sectionRatio_smul hL s k i le_rfl]
+  congr 1
+  exact he ⟨k⟩
+
+end Isomorphism
 
 /-! ### Part (a) -/
 
