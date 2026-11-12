@@ -3,7 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Cohomology.ModuleCohomologyComparison
-import Hartshorne.Scheme.FormalCompletionModule
+import Hartshorne.Scheme.FormalCompletionModuleAffineSections
 import Mathlib.Topology.Sheaves.Abelian
 
 /-!
@@ -30,8 +30,8 @@ This file contains the parts of that argument proved so far.
   quotient transition maps, and the maps `(F / I ^ (n + 1) F)|_Y ⟶ (G / I ^ (n + 1) G)|_Y` of
   modules over the completed structure sheaf
   (`Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionObjHom`).
-* `Hartshorne.pullbackUnitTransitionRestrict_val_app`: the generic transition map behind
-  `moduleCompletionMap` (see `moduleCompletionMap_eq`) on sections.
+* The sections of the levels `(F / I ^ (n + 1) F)|_Y` over affine opens are computed in
+  `Hartshorne.Scheme.FormalCompletionModuleAffineSections`.
 * Naturality of the transition maps
   (`Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionObjHom_comp_moduleCompletionMap`), the
   induced morphism of inverse systems (`moduleCompletionDiagramHom`), the completion of a morphism
@@ -103,30 +103,6 @@ theorem sheafOfModules_exact_of_isBasis_sections {X : TopCat.{u}}
   exact sheaf_exact_of_isBasis_sections _ hB (fun U hU x hx => h U hU x hx)
 
 end BasisExactness
-
-section TransitionSections
-
-variable {Z Y W : Scheme.{u}} (s : Z ⟶ Y) (a : Y ⟶ W) (b : Z ⟶ W) (h : s ≫ a = b)
-  {C : Type*} [Category C] {J : GrothendieckTopology C} {F₁ : C ⥤ Opens Z} {F₂ : C ⥤ Opens Y}
-  [F₁.IsContinuous J (Opens.grothendieckTopology Z)]
-  [F₂.IsContinuous J (Opens.grothendieckTopology Y)]
-  {T : Sheaf J RingCat.{u}} (α : F₁ ⟶ F₂ ⋙ Opens.map s.base)
-  (φ₂ : T ⟶ (F₂.sheafPushforwardContinuous RingCat.{u} _ _).obj Y.ringCatSheaf)
-  (φ₁ : T ⟶ (F₁.sheafPushforwardContinuous RingCat.{u} _ _).obj Z.ringCatSheaf)
-  (hφ : ∀ (V : Cᵒᵖ) (r : T.obj.obj V),
-    Z.ringCatSheaf.obj.map (α.app V.unop).op
-        (s.toRingCatSheafHom.hom.app (op (F₂.obj V.unop)) (φ₂.hom.app V r)) = φ₁.hom.app V r)
-
-/-- On sections, `pullbackUnitTransitionRestrict` is `pullbackUnitTransition` followed by
-restriction along `α`. -/
-lemma pullbackUnitTransitionRestrict_val_app {Q' Q : W.Modules} (q : Q' ⟶ Q) (V : Cᵒᵖ)
-    (x : ((Scheme.Modules.pullback a).obj Q').val.obj (op (F₂.obj V.unop))) :
-    (pullbackUnitTransitionRestrict s a b h α φ₂ φ₁ hφ q).val.app V x =
-      ((Scheme.Modules.pullback b).obj Q).val.map (α.app V.unop).op
-        ((pullbackUnitTransition s a b h q).val.app (op (F₂.obj V.unop)) x) :=
-  rfl
-
-end TransitionSections
 
 namespace QuasicoherentIdealSubsheaf
 
