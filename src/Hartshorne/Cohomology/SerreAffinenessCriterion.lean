@@ -201,12 +201,12 @@ theorem smulHom_app (f : Γ(X, ⊤)) (M : X.Modules) (U : X.Opens) (x : Γ(M, U)
 
 open ZeroObject in
 /-- The free module `𝒪_X^{l}` on a list of global sections. -/
-def freeL : List Γ(X, ⊤) → X.Modules
+noncomputable def freeL : List Γ(X, ⊤) → X.Modules
   | [] => 0
   | _ :: l => unitMod X ⊞ freeL l
 
 /-- The map `𝒪_X^{l} ⟶ 𝒪_X`, `(a_f) ↦ Σ f a_f`. -/
-def αL : (l : List Γ(X, ⊤)) → (freeL l ⟶ unitMod X)
+noncomputable def αL : (l : List Γ(X, ⊤)) → (freeL l ⟶ unitMod X)
   | [] => 0
   | f :: l => biprod.desc (smulHom f (unitMod X)) (αL l)
 
