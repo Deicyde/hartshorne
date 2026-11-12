@@ -25,7 +25,8 @@ For a curve (effective divisor) `D` on a surface and a point `P` with local equa
 The definition makes sense at every point; additivity holds at every point, since every local
 ring of the surface is regular with residue field containing the infinite field `k`. Additivity
 and the initial-form statement rest on `Hartshorne.RegularLocal.eval_notMem_pow_succ`: the classes
-of a regular system of parameters in `gr_𝔪(𝒪_{X,P})` are algebraically independent.
+of a regular system of parameters in `gr_𝔪(𝒪_{X,P})` are algebraically independent (the
+residue field being infinite).
 -/
 
 universe u
