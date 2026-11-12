@@ -2,6 +2,7 @@
 article_id: af_8e803ce5c700cb235a8e2730
 declaration: theorem
 origin: cited
+lean: Hartshorne.tangentNormal_shortExact Hartshorne.tangentToPullbackDual Hartshorne.pullbackDualToNormal Hartshorne.tangentToPullbackDual_comp_pullbackDualToNormal
 ---
 
 # The tangent-normal exact sequence
