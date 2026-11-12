@@ -12,7 +12,8 @@ Hartshorne, *Algebraic Geometry*, II, Proposition 7.11(a) (p. 162).
 
 Let `X` be a Noetherian scheme, `E` a locally free `𝒪_X`-module of finite rank at least two,
 `π : P(E) = Proj_X S(E) ⟶ X` the projective bundle and `𝒪(l)` its twisting sheaves. Then
-`S(E) ≅ ⊕_{l ∈ ℤ} π_* 𝒪(l)` as graded modules: for `l ≥ 0` the natural map
+`S(E) ≅ ⊕_{l ∈ ℤ} π_* 𝒪(l)`, degreewise and compatibly with the products on the affine pieces:
+for `l ≥ 0` the natural map
 `S^l(E) ⟶ π_* 𝒪(l)`, which over an affine open `U` sends `s ∈ Γ(U, S^l(E)) = Γ(U, S(E))_l` to
 the section `s / 1` of `𝒪_{Proj Γ(U, S(E))}(l)` on `π⁻¹(U) = Proj Γ(U, S(E))`, is an
 isomorphism, and `π_* 𝒪(l) = 0` for `l < 0`. In particular `π_* 𝒪(0) ≅ 𝒪_X` and
