@@ -854,6 +854,368 @@ theorem eq_zero_of_forall_notMem_nonvanishingLocus [IsReduced X] {L : X.Modules}
 
 end Loci
 
+/-! ### Projection from an arbitrary rational point to an arbitrary hyperplane -/
+
+section General
+
+open Matrix
+
+variable (k : Type u) [Field k] {n : ℕ}
+
+/-- The coefficient vector `h(P) eᵢ − pᵢ h` of the linear form `h(P) xᵢ − pᵢ h`. -/
+def projectionVector (p h : Fin (n + 2) → k) (i : Fin (n + 2)) : Fin (n + 2) → k :=
+  (h ⬝ᵥ p) • Pi.single i 1 - p i • h
+
+/-- The sections `sᵢ = h(P) xᵢ − pᵢ h` of `𝒪(1)` on `ℙⁿ⁺¹_k`, where `P = (p₀ : ⋯ : p_{n+1})` and
+`h = ∑ hⱼ xⱼ`. At a point `Q`, `(s₀(Q) : ⋯ : s_{n+1}(Q)) = h(P) Q − h(Q) P`. -/
+def projectionLinearSections (p h : Fin (n + 2) → k) (i : Fin (n + 2)) :
+    Γ(projectiveSpaceTwistingSheaf (n + 1) (Spec (CommRingCat.of k)) 1, ⊤) :=
+  linearSection k (n + 1) (projectionVector k p h i)
+
+/-- The open `U_P` of `ℙⁿ⁺¹_k` where the sections `sᵢ` have no common zero. When
+`h(P) ≠ 0` it is `ℙⁿ⁺¹_k − {P}` (`pointProjectionDomain_eq_compl_range`). -/
+def pointProjectionDomain (p h : Fin (n + 2) → k) :
+    (projectiveSpaceOverScheme (n + 1) (Spec (CommRingCat.of k))).Opens :=
+  ⨆ i, nonvanishingLocusOpens (isInvertible_projectiveSpaceTwistingSheaf _ _ 1)
+    (projectionLinearSections k p h i)
+
+/-- `𝒪(1)|_{U_P}`. -/
+abbrev pointProjectionTwist (p h : Fin (n + 2) → k) : (pointProjectionDomain k p h).toScheme.Modules :=
+  (Scheme.Modules.pullback (pointProjectionDomain k p h).ι).obj
+    (projectiveSpaceTwistingSheaf (n + 1) _ 1)
+
+/-- The restrictions of the `sᵢ` to `U_P`. -/
+abbrev pointProjectionSections (p h : Fin (n + 2) → k) (i : Fin (n + 2)) :
+    Γ(pointProjectionTwist k p h, ⊤) :=
+  pullbackGlobalSection (pointProjectionDomain k p h).ι (projectionLinearSections k p h i)
+
+theorem isGeneratedBySections_pointProjectionSections (p h : Fin (n + 2) → k) :
+    (pointProjectionTwist k p h).IsGeneratedBySections
+      (fun i : ULift.{u} (Fin (n + 2)) => pointProjectionSections k p h i.down) := by
+  refine isGeneratedBySections_of_isTrivializingSection _ fun y => ?_
+  obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp y.2
+  refine ⟨⟨i⟩, (pointProjectionDomain k p h).ι ⁻¹ᵁ nonvanishingLocusOpens
+    (isInvertible_projectiveSpaceTwistingSheaf _ _ 1) (projectionLinearSections k p h i), hi, ?_⟩
+  rw [pullbackGlobalSection_restrict]
+  exact IsTrivializingSection.pullback _ (isTrivializingSection_nonvanishingLocusOpens _ _)
+
+/-- Theorem 7.1(b) for the sections `sᵢ` of `𝒪(1)|_{U_P}`. -/
+theorem existsUnique_pointProjection (p h : Fin (n + 2) → k) :
+    ∃! π : (pointProjectionDomain k p h).toScheme ⟶
+        projectiveSpaceOverScheme (n + 1) (Spec (CommRingCat.of k)),
+      π ≫ projectiveSpaceOverSchemeProjection (n + 1) _ =
+        (pointProjectionDomain k p h).ι ≫ projectiveSpaceOverSchemeProjection (n + 1) _ ∧
+      ∃ e : (Scheme.Modules.pullback π).obj (projectiveSpaceTwistingSheaf (n + 1) _ 1) ≅
+          pointProjectionTwist k p h,
+        ∀ i, e.hom.app ⊤ (pullbackGlobalSection π (projectiveSpaceCoordinate (n + 1) _ i)) =
+          pointProjectionSections k p h i :=
+  existsUnique_morphism_of_isGeneratedBySections _
+    (Scheme.Modules.IsInvertible.pullback _ (isInvertible_projectiveSpaceTwistingSheaf _ _ _))
+    (pointProjectionSections k p h) (isGeneratedBySections_pointProjectionSections k p h)
+
+/-- **Projection from the point `P = (p₀ : ⋯ : p_{n+1})` to the hyperplane `H = {h = 0}`**: the
+morphism `U_P ⟶ ℙⁿ⁺¹_k` defined (Hartshorne II, Theorem 7.1) by the sections
+`sᵢ = h(P) xᵢ − pᵢ h`, sending `Q` to `h(P) Q − h(Q) P`. -/
+def pointProjection (p h : Fin (n + 2) → k) :
+    (pointProjectionDomain k p h).toScheme ⟶
+      projectiveSpaceOverScheme (n + 1) (Spec (CommRingCat.of k)) :=
+  (existsUnique_pointProjection k p h).exists.choose
+
+/-- The defining property of `pointProjection`. -/
+theorem pointProjection_spec (p h : Fin (n + 2) → k) :
+    pointProjection k p h ≫ projectiveSpaceOverSchemeProjection (n + 1) _ =
+        (pointProjectionDomain k p h).ι ≫ projectiveSpaceOverSchemeProjection (n + 1) _ ∧
+      ∃ e : (Scheme.Modules.pullback (pointProjection k p h)).obj
+          (projectiveSpaceTwistingSheaf (n + 1) _ 1) ≅ pointProjectionTwist k p h,
+        ∀ i, e.hom.app ⊤ (pullbackGlobalSection (pointProjection k p h)
+          (projectiveSpaceCoordinate (n + 1) _ i)) = pointProjectionSections k p h i :=
+  (existsUnique_pointProjection k p h).exists.choose_spec
+
+/-- `pointProjection` is the unique `k`-morphism `U_P ⟶ ℙⁿ⁺¹_k` pulling `𝒪(1)` back to
+`𝒪(1)|_{U_P}` with `xᵢ ↦ sᵢ|_{U_P}`. -/
+theorem eq_pointProjection_iff (p h : Fin (n + 2) → k)
+    (π : (pointProjectionDomain k p h).toScheme ⟶
+      projectiveSpaceOverScheme (n + 1) (Spec (CommRingCat.of k))) :
+    (π ≫ projectiveSpaceOverSchemeProjection (n + 1) _ =
+        (pointProjectionDomain k p h).ι ≫ projectiveSpaceOverSchemeProjection (n + 1) _ ∧
+      ∃ e : (Scheme.Modules.pullback π).obj (projectiveSpaceTwistingSheaf (n + 1) _ 1) ≅
+          pointProjectionTwist k p h,
+        ∀ i, e.hom.app ⊤ (pullbackGlobalSection π (projectiveSpaceCoordinate (n + 1) _ i)) =
+          pointProjectionSections k p h i) ↔ π = pointProjection k p h :=
+  ⟨fun hπ => (existsUnique_pointProjection k p h).unique hπ (pointProjection_spec k p h),
+    fun hπ => hπ ▸ pointProjection_spec k p h⟩
+
+variable {k}
+
+theorem ne_zero_of_dotProduct_ne_zero {p h : Fin (n + 2) → k} (hph : h ⬝ᵥ p ≠ 0) : p ≠ 0 := by
+  rintro rfl
+  exact hph (dotProduct_zero h)
+
+/-- `h(P) xᵢ − pᵢ h`, written with the constant functions on `ℙⁿ⁺¹_k`. -/
+theorem projectionLinearSections_eq (p h : Fin (n + 2) → k) (i : Fin (n + 2)) :
+    projectionLinearSections k p h i =
+      kConst (projectiveSpaceOverSchemeProjection (n + 1) _) (h ⬝ᵥ p) •
+          projectiveSpaceCoordinate (n + 1) _ i -
+        kConst (projectiveSpaceOverSchemeProjection (n + 1) _) (p i) • linearSection k (n + 1) h := by
+  rw [projectionLinearSections, projectionVector, linearSection_sub, linearSection_smul,
+    linearSection_smul, linearSection_single]
+
+/-- `∑ hᵢ sᵢ = 0`: the sections `sᵢ` satisfy the equation of `H`. -/
+theorem sum_smul_projectionLinearSections (p h : Fin (n + 2) → k) :
+    ∑ i, kConst (projectiveSpaceOverSchemeProjection (n + 1) _) (h i) •
+      projectionLinearSections k p h i = 0 := by
+  simp only [projectionLinearSections_eq, smul_sub, Finset.sum_sub_distrib, smul_smul, ← map_mul]
+  rw [sub_eq_zero, ← Finset.sum_smul, ← map_sum]
+  simp only [mul_comm (h _) (h ⬝ᵥ p), map_mul, ← smul_smul, ← Finset.smul_sum]
+  rfl
+
+end General
+
+/-! ### Properties of the general projection -/
+
+section GeneralProperties
+
+open Matrix
+
+variable {k : Type u} [Field k] {n : ℕ}
+
+theorem specConst_mul (a b : k) : specConst k (a * b) = specConst k a * specConst k b :=
+  map_mul (Scheme.ΓSpecIso (CommRingCat.of k)).inv.hom a b
+
+theorem specConst_sum {ι : Type*} (S : Finset ι) (g : ι → k) :
+    specConst k (∑ i ∈ S, g i) = ∑ i ∈ S, specConst k (g i) :=
+  map_sum (Scheme.ΓSpecIso (CommRingCat.of k)).inv.hom g S
+
+theorem unitSection_mul {X : Scheme.{u}} (r s : Γ(X, ⊤)) :
+    unitSection X (r * s) = r • unitSection X s := rfl
+
+theorem unitSection_sum {X : Scheme.{u}} {ι : Type*} (S : Finset ι) (g : ι → Γ(X, ⊤)) :
+    unitSection X (∑ i ∈ S, g i) = ∑ i ∈ S, unitSection X (g i) := by
+  classical
+  induction S using Finset.induction_on with
+  | empty => rfl
+  | insert a S ha ih => rw [Finset.sum_insert ha, Finset.sum_insert ha, ← ih]; rfl
+
+/-- At the rational point `(a₀ : ⋯ : a_m)`, the linear form `∑ vⱼ xⱼ` takes the value
+`∑ vⱼ aⱼ`. -/
+theorem iso_app_linearSection_projectivePoint {m : ℕ} {a : Fin (m + 1) → k} (ha : a ≠ 0)
+    {e : (Scheme.Modules.pullback (projectivePoint k a ha)).obj
+      (projectiveSpaceTwistingSheaf m _ 1) ≅ unitModule (Spec (CommRingCat.of k))}
+    (he : ∀ i, e.hom.app ⊤ (pullbackGlobalSection (projectivePoint k a ha)
+      (projectiveSpaceCoordinate m _ i)) = pointSections k a i) (v : Fin (m + 1) → k) :
+    e.hom.app ⊤ (pullbackGlobalSection (projectivePoint k a ha) (linearSection k m v)) =
+      unitSection _ (specConst k (v ⬝ᵥ a)) := by
+  rw [iso_app_linearSection (projectivePoint_spec k a ha).1 e he v, dotProduct, specConst_sum,
+    unitSection_sum]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  rw [kConst_id, specConst_mul, unitSection_mul]
+
+/-- The rational point `(a₀ : ⋯ : a_m)` lies off the hyperplane `∑ vⱼ xⱼ = 0` exactly when
+`∑ vⱼ aⱼ ≠ 0`. -/
+theorem projectivePoint_mem_nonvanishingLocus_linearSection_iff {m : ℕ} {a : Fin (m + 1) → k}
+    (ha : a ≠ 0) (v : Fin (m + 1) → k) (y : Spec (CommRingCat.of k)) :
+    projectivePoint k a ha y ∈ nonvanishingLocus _ (linearSection k m v) ↔ v ⬝ᵥ a ≠ 0 := by
+  obtain ⟨-, e, he⟩ := projectivePoint_spec k a ha
+  rw [← mem_nonvanishingLocus_pullbackGlobalSection_iff _
+    (isInvertible_projectiveSpaceTwistingSheaf _ _ _)]
+  rw [← iso_inv_app_eq_of_hom_app_eq e (iso_app_linearSection_projectivePoint ha he v)]
+  by_cases hz : v ⬝ᵥ a = 0
+  · rw [hz, specConst_zero, show unitSection (Spec (CommRingCat.of k)) 0 = 0 from rfl, map_zero,
+      nonvanishingLocus_zero]
+    simp
+  · simp only [ne_eq, hz, not_false_eq_true, iff_true]
+    have ht : IsTrivializingSection _ ⊤ (e.inv.app ⊤ (unitSection _ (specConst k (v ⬝ᵥ a)))) :=
+      (isTrivializingSection_unitSection (isUnit_specConst k hz)).map_iso e.symm
+    rw [(ht.mem_nonvanishingLocus_iff (g := 1) (by rw [map_homOfLE_top, one_smul]) trivial),
+      Scheme.basicOpen_one]
+    trivial
+
+theorem projectionVector_dotProduct (p h q : Fin (n + 2) → k) (i : Fin (n + 2)) :
+    projectionVector k p h i ⬝ᵥ q = ((h ⬝ᵥ p) • q - (h ⬝ᵥ q) • p) i := by
+  simp only [projectionVector, sub_dotProduct, smul_dotProduct, single_dotProduct, one_mul,
+    smul_eq_mul, Pi.sub_apply, Pi.smul_apply]
+  ring
+
+/-- `𝒪_{Spec k}` pulled back along `c` is generated by the pulled-back constants `aᵢ`, `a ≠ 0`. -/
+theorem isGeneratedBySections_pullback_pointSections {T : Scheme.{u}}
+    (c : T ⟶ Spec (CommRingCat.of k)) {m : ℕ} {a : Fin (m + 1) → k} (ha : a ≠ 0) :
+    ((Scheme.Modules.pullback c).obj (unitModule _)).IsGeneratedBySections
+      (fun i : ULift.{u} (Fin (m + 1)) => pullbackGlobalSection c (pointSections k a i.down)) := by
+  obtain ⟨j, hj⟩ := Function.ne_iff.mp ha
+  refine isGeneratedBySections_of_isTrivializingSection _ fun y => ⟨⟨j⟩, ⊤, trivial, ?_⟩
+  rw [map_homOfLE_top]
+  exact (IsTrivializingSection.pullback c (isTrivializingSection_unitSection
+    (isUnit_specConst k hj))).restrict (Scheme.Hom.preimage_top c).ge
+
+/-- A morphism from a reduced scheme to `ℙⁿ⁺¹_k` whose image avoids `U_P` factors through `P`:
+the pulled-back `sᵢ = h(P) xᵢ − pᵢ h` vanish, so the pulled-back coordinates are
+`xᵢ = (pᵢ / h(P)) h`, and Theorem 7.1 identifies the morphism with the one through `P`. -/
+theorem eq_comp_projectivePoint_of_notMem {p h : Fin (n + 2) → k} (hph : h ⬝ᵥ p ≠ 0)
+    {T : Scheme.{u}} [IsReduced T]
+    (g : T ⟶ projectiveSpaceOverScheme (n + 1) (Spec (CommRingCat.of k)))
+    (hg : ∀ y, g y ∉ pointProjectionDomain k p h) :
+    g = (g ≫ projectiveSpaceOverSchemeProjection (n + 1) _) ≫
+      projectivePoint k p (ne_zero_of_dotProduct_ne_zero hph) := by
+  have hp := ne_zero_of_dotProduct_ne_zero hph
+  have hO := isInvertible_projectiveSpaceTwistingSheaf (n + 1) (Spec (CommRingCat.of k)) 1
+  set c := g ≫ projectiveSpaceOverSchemeProjection (n + 1) (Spec (CommRingCat.of k)) with hcdef
+  set M := (Scheme.Modules.pullback g).obj (projectiveSpaceTwistingSheaf (n + 1) _ 1)
+  set t : Fin (n + 2) → Γ(M, ⊤) := fun i =>
+    pullbackGlobalSection g (projectiveSpaceCoordinate (n + 1) _ i)
+  set τ : Γ(M, ⊤) := pullbackGlobalSection g (linearSection k (n + 1) h)
+  have hM : M.IsInvertible := isInvertible_pullback_projectiveSpaceTwistingSheaf g
+  have hgen : M.IsGeneratedBySections (fun i : ULift.{u} (Fin (n + 2)) => t i.down) :=
+    isGeneratedBySections_pullback_projectiveSpaceCoordinate g
+  -- the pulled-back `sᵢ` vanish
+  have hs0 : ∀ i, pullbackGlobalSection g (projectionLinearSections k p h i) = 0 := fun i =>
+    eq_zero_of_forall_notMem_nonvanishingLocus hM fun y hy =>
+      hg y (TopologicalSpace.Opens.mem_iSup.mpr
+        ⟨i, (mem_nonvanishingLocus_pullbackGlobalSection_iff g hO _ y).mp hy⟩)
+  have ht : ∀ j, t j = kConst c (p j / (h ⬝ᵥ p)) • τ := by
+    intro j
+    have h0 := hs0 j
+    rw [projectionLinearSections_eq, pullbackGlobalSection_sub, pullbackGlobalSection_smul,
+      pullbackGlobalSection_smul, appTop_kConst, appTop_kConst, sub_eq_zero, ← hcdef] at h0
+    have h1 := congrArg (kConst c (h ⬝ᵥ p)⁻¹ • ·) h0
+    simp only [smul_smul, ← map_mul, inv_mul_cancel₀ hph, map_one, one_smul] at h1
+    exact h1.trans (by rw [div_eq_inv_mul])
+  -- `τ = h` pulled back vanishes nowhere, so it trivializes `M`
+  have hτ : ∀ y, y ∈ nonvanishingLocus M τ := by
+    intro y
+    obtain ⟨⟨j⟩, hj⟩ := exists_mem_nonvanishingLocus_of_isGeneratedBySections hM hgen y
+    have hj' : y ∈ nonvanishingLocus M (t j) := hj
+    rw [ht j] at hj'
+    exact nonvanishingLocus_smul_subset M _ τ hj'
+  have htriv : IsTrivializingSection M ⊤ τ :=
+    IsTrivializingSection.of_local fun y _ => ⟨nonvanishingLocusOpens hM τ, le_top, hτ y,
+      isTrivializingSection_nonvanishingLocusOpens hM τ⟩
+  -- the matching frame of `c^* 𝒪_{Spec k}`
+  set u := pullbackGlobalSection c (unitSection _ (specConst k (h ⬝ᵥ p)))
+  have hu : IsTrivializingSection ((Scheme.Modules.pullback c).obj (unitModule _)) ⊤ u :=
+    (IsTrivializingSection.pullback c (isTrivializingSection_unitSection
+      (isUnit_specConst k hph))).restrict (Scheme.Hom.preimage_top c).ge
+  have σ : PUnit.{u + 1} ≃ ULift.{u} (Fin 1) := Equiv.ofUnique _ _
+  obtain ⟨α, hα⟩ := Ringed.exists_iso_of_frames (R := T.sheaf)
+    (fun _ : PUnit.{u + 1} => ⊤) (le_iSup (fun _ : PUnit.{u + 1} => ⊤) PUnit.unit)
+    (A := M) (B := (Scheme.Modules.pullback c).obj (unitModule _))
+    (fun _ => τ) (fun _ => u)
+    (fun _ => (isLocalFrame_of_isTrivializingSection htriv).reindex σ)
+    (fun _ => (isLocalFrame_of_isTrivializingSection hu).reindex σ)
+    (fun _ _ => ⟨1, by rw [one_smul], by rw [one_smul]⟩)
+  let α' : M ≅ (Scheme.Modules.pullback c).obj (unitModule _) := α
+  have hα' : α'.hom.app ⊤ τ = u := hα PUnit.unit
+  have hsec : ∀ j, α'.hom.app ⊤ (t j) = pullbackGlobalSection c (pointSections k p j) := by
+    intro j
+    rw [ht j, Scheme.Modules.Hom.app_smul, hα', kConst_apply, ← pullbackGlobalSection_smul,
+      ← unitSection_mul, ← specConst_mul, div_mul_cancel₀ _ hph]
+  obtain ⟨-, eP, heP⟩ := projectivePoint_spec k p hp
+  obtain ⟨e', he'⟩ := exists_iso_of_comp c _ rfl eP heP
+  have hc : (c ≫ projectivePoint k p hp) ≫ projectiveSpaceOverSchemeProjection (n + 1) _ = c := by
+    rw [Category.assoc, (projectivePoint_spec k _ _).1, Category.comp_id]
+  exact (existsUnique_morphism_of_isGeneratedBySections c
+    (Scheme.Modules.IsInvertible.pullback c (isInvertible_unitModule _))
+    (fun i => pullbackGlobalSection c (pointSections k p i))
+    (isGeneratedBySections_pullback_pointSections c hp)).unique
+    (y₁ := g) (y₂ := c ≫ projectivePoint k p hp) ⟨rfl, α', hsec⟩ ⟨hc, e', he'⟩
+
+/-- **`U_P = ℙⁿ⁺¹_k − {P}`** when `P` is not on `H`. -/
+theorem pointProjectionDomain_eq_compl_range {p h : Fin (n + 2) → k} (hph : h ⬝ᵥ p ≠ 0) :
+    (pointProjectionDomain k p h : Set _) =
+      (Set.range (projectivePoint k p (ne_zero_of_dotProduct_ne_zero hph)))ᶜ := by
+  have hp := ne_zero_of_dotProduct_ne_zero hph
+  ext x
+  refine ⟨fun hx ⟨y, hy⟩ => ?_, fun hx => ?_⟩
+  · subst hy
+    obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp hx
+    have hi' := (projectivePoint_mem_nonvanishingLocus_linearSection_iff hp _ y).mp hi
+    apply hi'
+    rw [projectionVector_dotProduct]
+    simp [mul_comm]
+  · by_contra hxU
+    apply hx
+    have hgx : ∀ y, Scheme.fromSpecResidueField _ x y = x := fun y =>
+      Scheme.fromSpecResidueField_apply x y
+    have h' := eq_comp_projectivePoint_of_notMem hph (Scheme.fromSpecResidueField _ x)
+      (fun y => (hgx y).symm ▸ hxU)
+    refine ⟨(Scheme.fromSpecResidueField _ x ≫
+      projectiveSpaceOverSchemeProjection (n + 1) _) default, ?_⟩
+    rw [← Scheme.Hom.comp_apply, ← h']
+    exact hgx default
+
+/-- **The projection lands in `H`**, scheme-theoretically: it pulls the equation `h` of `H` back
+to zero. -/
+theorem pullbackGlobalSection_pointProjection_linearSection (p h : Fin (n + 2) → k) :
+    pullbackGlobalSection (pointProjection k p h) (linearSection k (n + 1) h) = 0 := by
+  obtain ⟨hπ, eπ, heπ⟩ := pointProjection_spec k p h
+  refine (iso_inv_app_eq_of_hom_app_eq eπ ?_).symm.trans (map_zero _)
+  rw [iso_app_linearSection hπ eπ heπ h]
+  simp only [pointProjectionSections, ← appTop_kConst, ← pullbackGlobalSection_smul,
+    ← pullbackGlobalSection_sum, sum_smul_projectionLinearSections]
+  exact pullbackGlobalSection_zero _ _
+
+/-- **The projection lands in `H`**, on points: no point of the image lies off `H = {h = 0}`. -/
+theorem pointProjection_notMem_nonvanishingLocus (p h : Fin (n + 2) → k)
+    (y : (pointProjectionDomain k p h).toScheme) :
+    pointProjection k p h y ∉ nonvanishingLocus _ (linearSection k (n + 1) h) := by
+  rw [← mem_nonvanishingLocus_pullbackGlobalSection_iff _
+    (isInvertible_projectiveSpaceTwistingSheaf _ _ _),
+    pullbackGlobalSection_pointProjection_linearSection, nonvanishingLocus_zero]
+  exact Set.notMem_empty _
+
+theorem ne_zero_of_projection_ne_zero {p h q : Fin (n + 2) → k}
+    (hq : (h ⬝ᵥ p) • q - (h ⬝ᵥ q) • p ≠ 0) : q ≠ 0 := by
+  rintro rfl
+  simp at hq
+
+/-- `h(P) Q − h(Q) P = 0` exactly when `Q` is a multiple of `P`, i.e. the point `Q` is `P`. -/
+theorem projection_eq_zero_iff {p h q : Fin (n + 2) → k} (hph : h ⬝ᵥ p ≠ 0) :
+    (h ⬝ᵥ p) • q - (h ⬝ᵥ q) • p = 0 ↔ ∃ t : k, q = t • p := by
+  constructor
+  · intro hz
+    refine ⟨(h ⬝ᵥ q) / (h ⬝ᵥ p), ?_⟩
+    rw [sub_eq_zero] at hz
+    rw [div_eq_inv_mul, mul_smul, ← hz, smul_smul, inv_mul_cancel₀ hph, one_smul]
+  · rintro ⟨t, rfl⟩
+    rw [dotProduct_smul, smul_smul, smul_eq_mul, mul_comm, sub_self]
+
+/-- **Projection of a rational point is the intersection of a line with `H`.** For a rational
+point `Q = (q₀ : ⋯ : q_{n+1}) ≠ P` (`h(P) q − h(q) p ≠ 0`), `Q` lies in `U_P` and the projection
+sends it to `h(P) Q − h(Q) P`, which lies on the line `PQ` and on `H`. -/
+theorem exists_lift_projectivePoint_comp_pointProjection {p h q : Fin (n + 2) → k}
+    (hq : (h ⬝ᵥ p) • q - (h ⬝ᵥ q) • p ≠ 0) :
+    ∃ Q : Spec (CommRingCat.of k) ⟶ (pointProjectionDomain k p h).toScheme,
+      Q ≫ (pointProjectionDomain k p h).ι =
+          projectivePoint k q (ne_zero_of_projection_ne_zero hq) ∧
+        Q ≫ pointProjection k p h = projectivePoint k _ hq := by
+  have hq0 := ne_zero_of_projection_ne_zero hq
+  have hrange : Set.range (projectivePoint k q hq0) ⊆
+      Set.range (pointProjectionDomain k p h).ι := by
+    rintro _ ⟨y, rfl⟩
+    rw [Scheme.Opens.range_ι]
+    obtain ⟨i, hi⟩ := Function.ne_iff.mp hq
+    refine TopologicalSpace.Opens.mem_iSup.mpr ⟨i, ?_⟩
+    exact (projectivePoint_mem_nonvanishingLocus_linearSection_iff hq0 _ y).mpr
+      (by rw [projectionVector_dotProduct]; exact hi)
+  set Q := IsOpenImmersion.lift _ _ hrange
+  have hQ : Q ≫ (pointProjectionDomain k p h).ι = projectivePoint k q hq0 :=
+    IsOpenImmersion.lift_fac _ _ _
+  refine ⟨Q, hQ, ?_⟩
+  obtain ⟨hπ, eπ, heπ⟩ := pointProjection_spec k p h
+  obtain ⟨hqp, eq, heq⟩ := projectivePoint_spec k q hq0
+  obtain ⟨e2, he2⟩ := exists_iso_of_comp Q _ rfl eπ heπ
+  obtain ⟨e1, he1⟩ := exists_iso_of_comp_all Q _ hQ (Iso.refl (pointProjectionTwist k p h))
+  refine eq_projectivePoint hq (by rw [Category.assoc, hπ, ← Category.assoc, hQ, hqp])
+    (e2 ≪≫ e1.symm ≪≫ eq) fun i => ?_
+  have h1 : e1.hom.app ⊤ (pullbackGlobalSection (projectivePoint k q hq0)
+      (projectionLinearSections k p h i)) =
+      pullbackGlobalSection Q (pointProjectionSections k p h i) := he1 _
+  simp only [Iso.trans_hom, Iso.symm_hom, Scheme.Modules.Hom.comp_app,
+    ConcreteCategory.comp_apply]
+  rw [he2, iso_inv_app_eq_of_hom_app_eq e1 h1, projectionLinearSections,
+    iso_app_linearSection_projectivePoint hq0 heq, projectionVector_dotProduct]
+
+end GeneralProperties
+
 /-! ### Summary -/
 
 section Summary
