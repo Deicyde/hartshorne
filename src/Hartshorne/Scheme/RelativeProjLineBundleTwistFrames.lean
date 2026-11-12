@@ -33,7 +33,6 @@ isomorphisms to the twisting sheaves of the affine pieces.
 
 universe u
 
-
 noncomputable section
 
 open CategoryTheory Opposite TopologicalSpace AlgebraicGeometry

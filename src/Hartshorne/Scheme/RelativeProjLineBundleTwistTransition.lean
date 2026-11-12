@@ -73,9 +73,9 @@ theorem appLE_image_appIso_inv_apply {P Y : Scheme.{u}} (f : P ⟶ Y) [IsOpenImm
     f.appLE (f ''ᵁ W) W h ((f.appIso W).inv x) = x := by
   rw [← Scheme.Hom.appIso_hom']
   exact Iso.inv_hom_id_apply _ _
+
 /-- Pulling back the section `x ∈ A_{(s)}` of `D₊(s)` along `Proj B → Proj A` gives the image
 of `x` in `B_{(f s)}`. -/
-
 theorem map_appLE_awayToSection {A B σ τ : Type u} [CommRing A] [SetLike σ A]
     [AddSubgroupClass σ A] [CommRing B] [SetLike τ B] [AddSubgroupClass τ B] {𝒜 : ℕ → σ}
     {ℬ : ℕ → τ} [GradedRing 𝒜] [GradedRing ℬ] (f : 𝒜 →+*ᵍ ℬ)
