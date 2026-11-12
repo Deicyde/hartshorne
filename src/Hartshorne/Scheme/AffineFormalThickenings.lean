@@ -247,7 +247,8 @@ lemma mem_formalCompletionIdeal_of_locally {V : Opens (I.infinitesimalNeighborho
 /-- The opens `U ∩ |Y|`, `U` affine, form a basis of `|Y|`. -/
 lemma exists_affineOpens_preimage_le {V : Opens (I.infinitesimalNeighborhood 1)}
     {x : I.infinitesimalNeighborhood 1} (hx : x ∈ V) :
-    ∃ U : X.affineOpens, x ∈ (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)) ∧ (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)) ≤ V := by
+    ∃ U : X.affineOpens, x ∈ (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)) ∧
+      (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)) ≤ V := by
   obtain ⟨t, ht, hV⟩ := ((I.infinitesimalNeighborhoodι 1).isClosedEmbedding.isInducing.isOpen_iff
     (s := (V : Set (I.infinitesimalNeighborhood 1)))).mp V.isOpen
   have hxt : (I.infinitesimalNeighborhoodι 1) x ∈ t := by
@@ -267,7 +268,8 @@ variable (U : X.affineOpens)
 /-- On `U ∩ |Y|`, `U = Spec B` affine, the kernel of `πₙ` corresponds to the kernel of the
 reduction `B̂ → B ⧸ I(U) ^ (n + 1)`. -/
 lemma formalCompletionπ_eq_zero_iff (n : ℕ)
-    (s : I.formalCompletionSheaf.presheaf.obj (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)))) :
+    (s : I.formalCompletionSheaf.presheaf.obj
+      (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)))) :
     (I.formalCompletionπ n).hom.app (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens))) s = 0 ↔
       AdicCompletion.evalₐ (I.ideal U) (n + 1) (I.formalCompletionAffineSectionsIso U s) = 0 := by
   refine Iff.trans ?_ (map_eq_zero_iff _ (I.formalCompletionSheafObjAffineEquiv U n).injective)
@@ -289,7 +291,8 @@ variable [IsLocallyNoetherian X]
 corresponds under `Γ(U ∩ |Y|, 𝒪_{X̂}) ≅ B̂` to the extension `I(U) B̂` of `I(U)`, that is, to the
 completion `Î(U)` of `I(U)` (Hartshorne II.9.3A, `completedIdealMap_range`). -/
 theorem formalCompletionAffineSectionsIso_formalCompletionIdeal :
-    (I.formalCompletionIdeal (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens))).map (I.formalCompletionAffineSectionsIso U) =
+    (I.formalCompletionIdeal (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens))).map
+        (I.formalCompletionAffineSectionsIso U) =
       (I.ideal U).map (algebraMap Γ(X, U) (AdicCompletion (I.ideal U) Γ(X, U))) := by
   have := IsLocallyNoetherian.component_noetherian U
   rw [← Ideal.comap_symm]
@@ -306,9 +309,11 @@ theorem formalCompletionAffineSectionsIso_formalCompletionIdeal :
 /-- On `U ∩ |Y|`, `U` affine, `J(U ∩ |Y|) ^ (n + 1)` is the kernel of `πₙ`. -/
 theorem formalCompletionIdeal_pow_eq_ker (n : ℕ) :
     I.formalCompletionIdeal (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)) ^ (n + 1) =
-      RingHom.ker ((I.formalCompletionπ n).hom.app (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)))).hom := by
+      RingHom.ker ((I.formalCompletionπ n).hom.app
+        (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)))).hom := by
   have := IsLocallyNoetherian.component_noetherian U
-  have hker : RingHom.ker ((I.formalCompletionπ n).hom.app (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)))).hom =
+  have hker : RingHom.ker ((I.formalCompletionπ n).hom.app
+        (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)))).hom =
       ((I.ideal U ^ (n + 1)).map (algebraMap Γ(X, U) (AdicCompletion (I.ideal U) Γ(X, U)))).map
         (I.formalCompletionAffineSectionsIso U).symm := by
     rw [Ideal.map_symm, ← ker_evalₐ_eq_map]
@@ -322,7 +327,8 @@ end Affine
 
 /-- `πₙ` is surjective on the sections over `U ∩ |Y|` for `U` affine. -/
 lemma surjective_formalCompletionπ_app (n : ℕ) (U : X.affineOpens) :
-    Function.Surjective ((I.formalCompletionπ n).hom.app (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)))).hom := by
+    Function.Surjective ((I.formalCompletionπ n).hom.app
+      (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)))).hom := by
   intro t
   obtain ⟨a, rfl⟩ := I.surjective_formalCompletionSheafObjSectionsMap n U t
   exact ⟨I.formalCompletionSectionsMap U a,
@@ -356,7 +362,8 @@ theorem mem_formalCompletionIdealPow_iff [IsLocallyNoetherian X] (n : ℕ)
     obtain ⟨W, h, hxW, hsW⟩ := hs x hx
     obtain ⟨U, hxU, hUW⟩ := I.exists_affineOpens_preimage_le hxW
     have hU : I.formalCompletionSheaf.presheaf.map (homOfLE (hUW.trans h)).op s ∈
-        RingHom.ker ((I.formalCompletionπ n).hom.app (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)))).hom := by
+        RingHom.ker ((I.formalCompletionπ n).hom.app
+          (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens)))).hom := by
       rw [← formalCompletionIdeal_pow_eq_ker]
       have e : I.formalCompletionSheaf.presheaf.map (homOfLE (hUW.trans h)).op =
           I.formalCompletionSheaf.presheaf.map (homOfLE h).op ≫
@@ -428,7 +435,8 @@ private lemma ker_appTop_spec_map_quotient_mk (J : Ideal A) :
     ← RingHom.comap_ker, CommRingCat.hom_ofHom, Ideal.mk_ker]
 
 /-- The `k`-th power of the ideal sheaf attached to `I` is the ideal sheaf attached to `I ^ k`. -/
-theorem specIdealSubsheaf_pow (k : ℕ) : specIdealSubsheaf A I ^ k = specIdealSubsheaf A (I ^ k) := by
+theorem specIdealSubsheaf_pow (k : ℕ) :
+    specIdealSubsheaf A I ^ k = specIdealSubsheaf A (I ^ k) := by
   apply quasicoherentIdealSubsheafEquiv.injective
   rw [quasicoherentIdealSubsheafEquiv_pow]
   simp only [specIdealSubsheaf, Equiv.apply_symm_apply]
@@ -482,7 +490,8 @@ end SpecThickening
 
 /-- **Hartshorne II.9, Proposition 9.4(a).** Let `A` be a Noetherian ring, `I ⊆ A` an ideal, and
 `X̂ = Spf_I(A)` the completion of `Spec A` along `V(I)`, with structure sheaf `𝒪_{X̂}` on `V(I)`.
-Let `J ⊆ 𝒪_{X̂}` be the ideal of sections vanishing in `𝒪_{Y_1} = 𝒪_{Spec (A ⧸ I)}`. Then
+Let `J ⊆ 𝒪_{X̂}` be the ideal of sections vanishing in `𝒪_{Y_1} = 𝒪_{Spec (A ⧸ I)}` (Hartshorne
+defines `J` as the completion of `Ĩ`; the second item below identifies the two). Then
 * `J` is an ideal subsheaf of `𝒪_{X̂}` (stable under restriction, and local);
 * `J` is the completion of the ideal sheaf `Ĩ`: over `U ∩ V(I)`, `U = Spec B` affine, under
   `Γ(U ∩ V(I), 𝒪_{X̂}) ≅ B̂` it is the image of the completion `Î(U)` of the ideal `I(U) ⊆ B`;
@@ -515,7 +524,8 @@ theorem affineFormalThickenings (A : Type u) [CommRing A] [IsNoetherianRing A] (
           (specIdealSubsheaf A I).infinitesimalNeighborhoodι (n + 1) :=
   ⟨fun h => (specIdealSubsheaf A I).formalCompletionIdeal_le_comap h,
     fun s hs => (specIdealSubsheaf A I).mem_formalCompletionIdeal_of_locally s hs,
-    fun U => (specIdealSubsheaf A I).formalCompletionAffineSectionsIso_formalCompletionIdeal_eq_range U,
+    fun U =>
+      (specIdealSubsheaf A I).formalCompletionAffineSectionsIso_formalCompletionIdeal_eq_range U,
     fun n => ⟨⟨(specIdealSubsheaf A I).formalCompletionQuotientIso n⟩,
       specIdealSubsheafNeighborhoodIso A I (n + 1),
       specIdealSubsheafNeighborhoodIso_hom_comp A I (n + 1)⟩⟩
