@@ -171,7 +171,89 @@ theorem toSpecZero_appTop_smul_twistSection (t : 𝒜 0) (d : ℕ) (m : 𝒜 d) 
   rw [twistFraction_val, twistFraction_val]
   exact (LocalizedModule.mk_smul_mk _ _ _ _).trans (by rw [smul_eq_mul, mul_one])
 
+/-- The functions on `Proj S` pulled back from `Γ(X, U)` along `Proj S ⟶ Spec S₀ ⟶ Spec Γ(X, U) ≅ U`
+are those pulled back from `S₀`. -/
+theorem toSpecZero_comp_appLE {X : Scheme.{u}} {U : X.Opens} (hU : IsAffineOpen U)
+    (α : Γ(X, U) ⟶ CommRingCat.of (𝒜 0))
+    (hle : ⊤ ≤ (Proj.toSpecZero 𝒜 ≫ Spec.map α ≫ hU.fromSpec) ⁻¹ᵁ U) :
+    (Proj.toSpecZero 𝒜 ≫ Spec.map α ≫ hU.fromSpec).appLE U ⊤ hle =
+      α ≫ (Scheme.ΓSpecIso _).inv ≫ (Proj.toSpecZero 𝒜).appTop := by
+  have h1 : hU.fromSpec.appLE U ⊤ hU.fromSpec_preimage_self.ge = (Scheme.ΓSpecIso _).inv := by
+    rw [Scheme.Hom.appLE, hU.fromSpec_app_self, Category.assoc, ← Functor.map_comp]
+    convert Category.comp_id _
+    exact (Spec Γ(X, U)).presheaf.map_id _
+  calc (Proj.toSpecZero 𝒜 ≫ Spec.map α ≫ hU.fromSpec).appLE U ⊤ hle =
+      hU.fromSpec.appLE U ⊤ hU.fromSpec_preimage_self.ge ≫
+        (Spec.map α).appLE ⊤ ⊤ le_rfl ≫ (Proj.toSpecZero 𝒜).appLE ⊤ ⊤ le_rfl := by
+        rw [Scheme.Hom.appLE_comp_appLE, Scheme.Hom.appLE_comp_appLE]
+        simp only [Category.assoc]
+    _ = α ≫ (Scheme.ΓSpecIso _).inv ≫ (Proj.toSpecZero 𝒜).appTop := by
+        have htop : ∀ {Y Y' : Scheme.{u}} (g : Y ⟶ Y') (h : ⊤ ≤ g ⁻¹ᵁ ⊤), g.appLE ⊤ ⊤ h = g.appTop :=
+          fun g h => by
+            rw [Scheme.Hom.appLE, show homOfLE h = 𝟙 _ from rfl]
+            exact (congrArg (Scheme.Hom.app g ⊤ ≫ ·) (CategoryTheory.Functor.map_id _ _)).trans
+              (Category.comp_id _)
+        rw [h1, htop, htop, ← Category.assoc,
+          ← Scheme.ΓSpecIso_inv_naturality, Category.assoc]
+
 end ToSpecZero
+
+/-! ### The charts `Proj T(U) ⟶ Z` over `ℙʳ_ℤ` and over `X` -/
+
+section Chart
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+variable {r : ℕ} {X Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r X) [IsClosedImmersion i]
+  [IsIntegral Z]
+
+/-- The graded homomorphism `ℤ[x₀, …, xᵣ] → T(U) = Γ(X, U)[x₀, …, xᵣ] / I_U`. -/
+def coordHom (U : X.AffineZariskiSite) :
+    GeneratedProj.intGrading.{u} r →+*ᵍ (coordinateAlgebra i).grading U :=
+  (gradedQuotientMk _ (chartIdeal i U.1 U.2)).comp
+    (projectiveSpaceComparisonHom Γ(X, U.1) r (Equiv.refl _))
+
+omit [IsClosedImmersion i] in
+theorem irrelevant_le_coordHom (U : X.AffineZariskiSite) :
+    HomogeneousIdeal.irrelevant ((coordinateAlgebra i).grading U) ≤
+      (HomogeneousIdeal.irrelevant (GeneratedProj.intGrading.{u} r)).map (coordHom i U) :=
+  HomogeneousIdeal.irrelevant_le_map_comp
+    (GeneratedProj.irrelevant_le_map_evalGradedHom _ (projectiveSpaceGenerators_mem Γ(X, U.1) r _)
+      (adjoin_projectiveSpaceGenerators Γ(X, U.1) r _))
+    (ProjTruncation.irrelevant_le_map_of_surjective (gradedQuotientMk_surjective _ _))
+
+/-- **The chart `Proj T(U) ⟶ Z` over `ℙʳ_ℤ`**: followed by `Z ⟶ ℙʳ_X ⟶ ℙʳ_ℤ` it is the morphism
+`Proj T(U) ⟶ Proj ℤ[x]` induced by `ℤ[x] → T(U)`. -/
+theorem coordToZ_comp_fst (U : X.AffineZariskiSite) :
+    coordToZ i U ≫ i ≫ pullback.fst (projectiveSpaceOverIntegersMap r) (schemeToSpecZ X) =
+      Proj.map (coordHom i U) (irrelevant_le_coordHom i U) := by
+  rw [reassoc_of% coordToZ_comp, chartToProjectiveSpace, Category.assoc, Category.assoc,
+    projectiveSpaceOverSchemeMap_fst, projectiveSpaceOverSpecIso_hom,
+    projToProjectiveSpaceOverSpec_fst]
+  exact (Proj.map_comp _ _ _ _).symm
+
+theorem preimage_coordToZ_comp (U : X.AffineZariskiSite) :
+    (coordToZ i U ≫ i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1 = ⊤ := by
+  rw [coordToZ_base]
+  ext x
+  simp
+
+/-- The functions on `Proj T(U)` pulled back from `Γ(X, U)` along `Proj T(U) ⟶ Z ⟶ X` are those
+pulled back from `T(U)₀` along `Proj T(U) ⟶ Spec T(U)₀`. -/
+theorem coordToZ_comp_app (U : X.AffineZariskiSite) (a : Γ(X, U.1)) :
+    (coordToZ i U ≫ i ≫ projectiveSpaceOverSchemeProjection r X).appLE U.1 ⊤
+        (preimage_coordToZ_comp i U).ge a =
+      (Proj.toSpecZero ((coordinateAlgebra i).grading U)).appTop
+        ((Scheme.ΓSpecIso _).inv ((coordinateAlgebra i).toZero U a)) := by
+  have key : ∀ (g : Proj ((coordinateAlgebra i).grading U) ⟶ X) (hle : ⊤ ≤ g ⁻¹ᵁ U.1)
+      (_ : g = Proj.toSpecZero _ ≫ Spec.map ((coordinateAlgebra i).toZero U) ≫ U.2.fromSpec),
+      g.appLE U.1 ⊤ hle a = (Proj.toSpecZero ((coordinateAlgebra i).grading U)).appTop
+          ((Scheme.ΓSpecIso _).inv ((coordinateAlgebra i).toZero U a)) := by
+    rintro _ hle rfl
+    exact congr($(toSpecZero_comp_appLE U.2 _ hle) a)
+  exact key _ _ ((coordToZ_base i U).trans (QuasiCoherentGradedAlgebra.projToOpen_ι _ U))
+
+end Chart
 
 end SectionAlgebraModel
 

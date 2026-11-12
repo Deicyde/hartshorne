@@ -586,7 +586,7 @@ private theorem projectiveSpaceOverSchemeMap_comp' {Y Y' Y'' : Scheme.{u}} (g : 
       projectiveSpaceOverSchemeMap_projection_assoc, projectiveSpaceOverSchemeMap_projection]
 
 /-- `Proj (Γ(X, U)[x] / I_U) ⊆ ℙʳ_{Spec Γ(X, U)} ⟶ ℙʳ_X`. -/
-private def chartToProjectiveSpace (U : X.Opens) (hU : IsAffineOpen U) :
+def chartToProjectiveSpace (U : X.Opens) (hU : IsAffineOpen U) :
     Proj (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U))
       (chartIdeal i U hU)) ⟶ projectiveSpaceOverScheme r X :=
   Proj.map (gradedQuotientMk _ (chartIdeal i U hU))
@@ -602,7 +602,8 @@ instance (U : X.AffineZariskiSite) : IsOpenImmersion (coordToZ i U) := by
   unfold coordToZ
   infer_instance
 
-private theorem coordToZ_comp (U : X.AffineZariskiSite) :
+/-- `Proj T(U) ≅ f⁻¹(U) ⊆ Z ⟶ ℙʳ_X` is `Proj T(U) ⊆ ℙʳ_{Spec Γ(X, U)} ⟶ ℙʳ_X`. -/
+theorem coordToZ_comp (U : X.AffineZariskiSite) :
     coordToZ i U ≫ i = chartToProjectiveSpace i U.1 U.2 := by
   rw [coordToZ, Category.assoc, ← chartEmbedding_comp, ← chartIso_hom_comp_assoc,
     Iso.inv_hom_id_assoc, chartToProjectiveSpace, projQuotientι_eq_map]
@@ -631,7 +632,8 @@ private theorem coordToZ_map {U V : X.AffineZariskiSite} (f : U ⟶ V) :
       (X.presheaf.map (homOfLE h).op),
     projectiveSpaceOverSchemeMap_comp', V.2.map_fromSpec U.2 (homOfLE h).op]
 
-private theorem coordToZ_base (U : X.AffineZariskiSite) :
+/-- `Proj T(U) ⟶ Z ⟶ X` is the structure map `Proj T(U) ⟶ U ⊆ X`. -/
+theorem coordToZ_base (U : X.AffineZariskiSite) :
     coordToZ i U ≫ (i ≫ projectiveSpaceOverSchemeProjection r X) =
       (coordinateAlgebra i).projToOpen U ≫ U.1.ι := by
   rw [QuasiCoherentGradedAlgebra.projToOpen_ι, reassoc_of% coordToZ_comp, chartToProjectiveSpace,
@@ -640,7 +642,8 @@ private theorem coordToZ_base (U : X.AffineZariskiSite) :
     reassoc_of% projMap_toSpecZero, ← Spec.map_comp_assoc]
   rfl
 
-private theorem coordToZ_range (U : X.AffineZariskiSite) :
+/-- The image of `Proj T(U) ⟶ Z` is `f⁻¹(U)`. -/
+theorem coordToZ_range (U : X.AffineZariskiSite) :
     (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1 = (coordToZ i U).opensRange := by
   change _ = ((chartIso i U.1 U.2).inv ≫
     ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1).ι).opensRange
