@@ -127,6 +127,52 @@ theorem projMapTwistIso_hom_pullbackGlobalSection (d : ℕ) (s : 𝒜 d) :
 
 end ProjMap
 
+
+/-! ### Functions from `Spec S₀` acting on twisted sections -/
+
+section ToSpecZero
+
+variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+  {𝒜 : ℕ → σ} [GradedRing 𝒜]
+
+/-- The value at `x` of the function on `Proj S` pulled back from `t ∈ S₀` along
+`Proj S ⟶ Spec S₀` is `t / 1`. -/
+theorem toSpecZero_appTop_val (t : 𝒜 0) (x : Proj 𝒜) :
+    (((Proj.toSpecZero 𝒜).appTop ((Scheme.ΓSpecIso (.of (𝒜 0))).inv t)).1 ⟨x, trivial⟩).val =
+      Localization.mk (t : A) 1 := by
+  simp only [Proj.toSpecZero, Scheme.Hom.comp_appTop, CommRingCat.comp_apply]
+  rw [← CommRingCat.comp_apply (Scheme.ΓSpecIso _).inv, ← Scheme.ΓSpecIso_inv_naturality,
+    CommRingCat.comp_apply]
+  rw [show Scheme.Hom.appTop (Proj.basicOpenToSpec 𝒜 1) = _ from Proj.basicOpenToSpec_app_top _ 1]
+  simp only [CommRingCat.comp_apply, Iso.inv_hom_id_apply]
+  simp only [Scheme.isoOfEq_inv, Scheme.homOfLE_appTop, Scheme.Opens.topIso_inv]
+  have h1 : (⊤ : (Proj 𝒜).Opens) ≤ Proj.basicOpen 𝒜 1 := by rw [Proj.basicOpen_one]
+  erw [topIso_inv_appTop_presheaf_map_map h1]
+  change (((Proj.awayToSection 𝒜 1).hom (HomogeneousLocalization.fromZeroRingHom 𝒜
+    (Submonoid.powers 1) t)).1 ⟨x, h1 trivial⟩).val = _
+  erw [ProjectiveSpectrum.Proj.awayToSection_apply]
+  change IsLocalization.map _ _ _ (Localization.mk (t : A) 1) = _
+  rw [Localization.mk_one_eq_algebraMap, IsLocalization.map_eq, RingHom.id_apply,
+    Localization.mk_one_eq_algebraMap]
+
+/-- The function pulled back from `t ∈ S₀` along `Proj S ⟶ Spec S₀` multiplies `s / 1` by `t`. -/
+theorem toSpecZero_appTop_smul_twistSection (t : 𝒜 0) (d : ℕ) (m : 𝒜 d) :
+    ((Proj.toSpecZero 𝒜).appTop ((Scheme.ΓSpecIso (.of (𝒜 0))).inv t)) •
+        (show Γ(projTwistingSheaf 𝒜 d, ⊤) from twistSection d m (op ⊤)) =
+      twistSection d ⟨(t : A) * m, by simpa using SetLike.mul_mem_graded t.2 m.2⟩ (op ⊤) := by
+  refine ProjGradedModuleSheaf.section_ext (𝒜 := 𝒜) (ℳ := gradedTwist 𝒜 d) (U := op ⊤)
+    fun x => ?_
+  change ((Proj.toSpecZero 𝒜).appTop ((Scheme.ΓSpecIso (.of (𝒜 0))).inv t)).1 x •
+    twistFraction d x.1 m.2 = twistFraction d x.1
+      (show (t : A) * m ∈ 𝒜 d by simpa using SetLike.mul_mem_graded t.2 m.2)
+  ext
+  rw [HomogeneousLocalizedModule.val_smul]
+  erw [toSpecZero_appTop_val t x.1]
+  rw [twistFraction_val, twistFraction_val]
+  exact (LocalizedModule.mk_smul_mk _ _ _ _).trans (by rw [smul_eq_mul, mul_one])
+
+end ToSpecZero
+
 end SectionAlgebraModel
 
 end Hartshorne
