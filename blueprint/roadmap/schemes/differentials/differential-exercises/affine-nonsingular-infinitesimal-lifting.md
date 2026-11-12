@@ -2,6 +2,7 @@
 article_id: af_84d5f368413d6cf560e50055
 declaration: theorem
 origin: cited
+lean: Hartshorne.AffineNonsingularLifting.exists_lift_of_isRegular
 ---
 
 # Infinitesimal lifting for a nonsingular affine scheme
