@@ -598,6 +598,114 @@ theorem stalkEval_smul (x : Proj 𝒜)
 
 end Graded
 
+/-! ### The evaluation morphism `Γ_*(F)~ ⟶ F` -/
+
+section Eval
+
+variable (F : (Proj 𝒜).Modules)
+
+attribute [local instance] gammaStarModule
+
+/-- The value at a point of a section of `Γ_*(F)~`. -/
+abbrev secVal {U : (Proj 𝒜).Opens} (s : Γ(gammaStarTilde F, U)) (x : U) :
+    HomogeneousLocalizedModule 𝒜 (gammaStarGrading F) x.1.asHomogeneousIdeal.toIdeal.primeCompl :=
+  ((s : (gammaStarTilde F).val.obj (op U)) :
+    (sheafInType 𝒜 (gammaStarGrading F)).1.obj (op U)).1 x
+
+theorem existsUnique_evalSection {U : (Proj 𝒜).Opens} (s : Γ(gammaStarTilde F, U)) :
+    ∃! t : Γ(F, U), ∀ x : U, F.presheaf.germ U x.1 x.2 t = stalkEval F x.1 (secVal F s x) := by
+  apply existsUnique_section_of_germ
+  intro x
+  obtain ⟨V, hxV, i, n, m, hm, g, hg, nin, w⟩ :=
+    ((s : (gammaStarTilde F).val.obj (op U)) :
+      (sheafInType 𝒜 (gammaStarGrading F)).1.obj (op U)).2 x
+  have hVg : V ≤ Proj.basicOpen 𝒜 g := fun y hy => nin ⟨y, hy⟩
+  refine ⟨V, hxV, i.le, F.presheaf.map (homOfLE hVg).op (fracM F n ⟨g, hg⟩ m), fun y hy => ?_⟩
+  refine (TopCat.Presheaf.germ_res_apply F.presheaf (homOfLE hVg) y hy _).trans ?_
+  exact ((congrArg (stalkEval F y) (w ⟨y, hy⟩)).trans (stalkEval_mk F y n m hm g hg _)).symm
+
+/-- The evaluation map on sections over `U`: the section of `F` whose germ at each `x ∈ U` is
+`stalkEval` of the value at `x`. -/
+def evalSection {U : (Proj 𝒜).Opens} (s : Γ(gammaStarTilde F, U)) : Γ(F, U) :=
+  (existsUnique_evalSection F s).exists.choose
+
+theorem germ_evalSection {U : (Proj 𝒜).Opens} (s : Γ(gammaStarTilde F, U)) (x : U) :
+    F.presheaf.germ U x.1 x.2 (evalSection F s) = stalkEval F x.1 (secVal F s x) :=
+  (existsUnique_evalSection F s).exists.choose_spec x
+
+theorem eq_evalSection {U : (Proj 𝒜).Opens} (s : Γ(gammaStarTilde F, U)) (t : Γ(F, U))
+    (ht : ∀ x : U, F.presheaf.germ U x.1 x.2 t = stalkEval F x.1 (secVal F s x)) :
+    t = evalSection F s :=
+  (existsUnique_evalSection F s).unique ht (germ_evalSection F s)
+
+theorem germ_eq_stalkRingHomInv {U : (Proj 𝒜).Opens} (r : Γ(Proj 𝒜, U)) (x : U) :
+    (Proj 𝒜).presheaf.germ U x.1 x.2 r = stalkRingHomInv 𝒜 x.1 (r.1 x) :=
+  (RingEquiv.eq_symm_apply _).2 (Proj.stalkIso'_germ 𝒜 _ x.1 x.2 _)
+
+theorem evalSection_add {U : (Proj 𝒜).Opens} (s s' : Γ(gammaStarTilde F, U)) :
+    evalSection F (s + s') = evalSection F s + evalSection F s' := by
+  refine (eq_evalSection F _ _ fun x => ?_).symm
+  erw [map_add, germ_evalSection, germ_evalSection]
+  exact (stalkEval_add F x.1 _ _).symm
+
+theorem evalSection_smul {U : (Proj 𝒜).Opens} (r : Γ(Proj 𝒜, U)) (s : Γ(gammaStarTilde F, U)) :
+    evalSection F (r • s) = r • evalSection F s := by
+  refine (eq_evalSection F _ _ fun x => ?_).symm
+  rw [germ_smul_section, germ_evalSection, germ_eq_stalkRingHomInv]
+  exact (stalkEval_smul F x.1 _ _).symm
+
+theorem evalSection_res {U V : (Proj 𝒜).Opens} (h : V ≤ U) (s : Γ(gammaStarTilde F, U)) :
+    evalSection F ((gammaStarTilde F).presheaf.map (homOfLE h).op s) =
+      F.presheaf.map (homOfLE h).op (evalSection F s) := by
+  refine (eq_evalSection F _ _ fun x => ?_).symm
+  rw [TopCat.Presheaf.germ_res_apply]
+  exact germ_evalSection F s ⟨x.1, h x.2⟩
+
+/-- **The evaluation morphism** `Γ_*(F)~ ⟶ F` (Hartshorne II.5, proof of Proposition 5.15): on
+`D₊(g)` the section `m / g` of `Γ_*(F)~` goes to the section `m / g` of `F`, the unique section
+whose product with `g / 1 ∈ Γ(D₊(g), 𝒪_X(d))` is `m|_{D₊(g)} ∈ Γ(D₊(g), F(d))`. -/
+def gammaStarEval : gammaStarTilde F ⟶ F :=
+  Ringed.modulesHomMk (R := (Proj 𝒜).sheaf)
+    (fun U =>
+      { toFun := evalSection F (U := U)
+        map_add' := evalSection_add F
+        map_smul' := evalSection_smul F })
+    (fun _ _ i s => evalSection_res F i s)
+
+theorem gammaStarEval_app {U : (Proj 𝒜).Opens} (s : Γ(gammaStarTilde F, U)) :
+    (gammaStarEval F).val.app (op U) s = evalSection F s := rfl
+
+/-- On stalks, the evaluation morphism is `stalkEval` composed with the stalk formula
+`Γ_*(F)~_x ≅ Γ_*(F)_(x)`. -/
+theorem stalk_gammaStarEval (x : Proj 𝒜) (w : (gammaStarTilde F).presheaf.stalk x) :
+    (TopCat.Presheaf.stalkFunctor Ab x).map
+        ((SheafOfModules.toSheaf (Proj 𝒜).ringCatSheaf).map (gammaStarEval F)).hom w =
+      stalkEval F x (stalkLinearEquiv 𝒜 (gammaStarGrading F) x w) := by
+  obtain ⟨U, hxU, s, rfl⟩ := (gammaStarTilde F).presheaf.exists_germ_eq w
+  erw [TopCat.Presheaf.stalkFunctor_map_germ_apply]
+  erw [stalkLinearEquiv_germ]
+  exact germ_evalSection F s ⟨x, hxU⟩
+
+/-- If `stalkEval` is bijective at every point, the evaluation morphism is an isomorphism. -/
+theorem isIso_gammaStarEval_of_bijective (h : ∀ x : Proj 𝒜, Function.Bijective (stalkEval F x)) :
+    IsIso (gammaStarEval F) := by
+  have : IsIso ((SheafOfModules.toSheaf.{u} (Proj 𝒜).ringCatSheaf).map (gammaStarEval F)) := by
+    apply (TopCat.Presheaf.isIso_iff_stalkFunctor_map_iso _).2
+    intro x
+    rw [ConcreteCategory.isIso_iff_bijective]
+    have hfun : ⇑((TopCat.Presheaf.stalkFunctor Ab x).map
+        ((SheafOfModules.toSheaf (Proj 𝒜).ringCatSheaf).map (gammaStarEval F)).hom) =
+        stalkEval F x ∘ stalkLinearEquiv 𝒜 (gammaStarGrading F) x := by
+      funext w
+      exact stalk_gammaStarEval F x w
+    rw [hfun]
+    exact (h x).comp (stalkLinearEquiv 𝒜 (gammaStarGrading F) x).bijective
+  have hr : (SheafOfModules.toSheaf.{u} (Proj 𝒜).ringCatSheaf).ReflectsIsomorphisms :=
+    inferInstance
+  exact hr.reflects (gammaStarEval F)
+
+end Eval
+
 end GammaStarReconstruction
 
 end Hartshorne
