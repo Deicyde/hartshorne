@@ -83,8 +83,8 @@ nonsingular. Let `g : B' → B` be a surjection of `k`-algebras whose kernel `I`
 `I² = 0`, and let `f : A → B` be a `k`-algebra homomorphism. Then there is a `k`-algebra
 homomorphism `f' : A → B'` with `g ∘ f' = f`.
 
-Hartshorne asks for `Spec A` to be a nonsingular variety; here `Spec A` is only assumed regular
-at every point, not irreducible. -/
+This generalizes Hartshorne's statement, which asks for `Spec A` to be a nonsingular variety:
+here `Spec A` is only assumed regular at every point, not irreducible. -/
 theorem exists_lift_of_isRegular (hA : (Spec (CommRingCat.of A)).IsRegular)
     {B' B : Type v} [CommRing B'] [CommRing B] [Algebra k B'] [Algebra k B]
     (g : B' →ₐ[k] B) (hg : Function.Surjective g) (hI : RingHom.ker g ^ 2 = ⊥)
