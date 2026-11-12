@@ -13,6 +13,7 @@ to its completed module sheaf on $\operatorname{Spf} _I(A)$ is exact.
 
 - [Completion of a coherent module](completed-coherent-module.md)
 - [Coherent modules on a Noetherian formal scheme](coherent-formal-module.md)
+- [Affine formal schemes](../formal-neighborhoods/formal-spectrum.md)
 
 ## Proof depends on
 
