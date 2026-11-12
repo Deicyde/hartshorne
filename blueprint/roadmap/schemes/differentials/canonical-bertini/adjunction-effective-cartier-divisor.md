@@ -22,6 +22,7 @@ $\omega _Y \simeq (\omega _X \otimes L)|_Y$.
 - The identifications $J/J^2 \simeq L^{-1}|_Y$ and
   $N_{(Y/X)} \simeq L|_Y$.
 - [The tangent-normal exact sequence](tangent-normal-exact-sequence.md)
+- [Pullback on Picard groups](../../divisors/divisor-exercises/picard-pullback.md)
 
 ## Sources
 
