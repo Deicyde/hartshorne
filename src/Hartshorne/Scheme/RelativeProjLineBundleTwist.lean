@@ -273,6 +273,134 @@ theorem exists_affine_isLocalFrame (hInv : L.IsInvertible) (x : X) :
   obtain ⟨_, ⟨V, hV, rfl⟩, hxV, hVW⟩ := X.isBasis_affineOpens.exists_subset_of_mem_open hxW W.2
   exact ⟨⟨V, hV⟩, hxV, _, he.restrictLE hVW⟩
 
+/-! ### The global isomorphism `Proj_X (S · L) ≅ Proj_X S` -/
+
+variable (L) in
+/-- The affine opens of `X` over which `L` has a frame. -/
+def framedAffines : ObjectProperty X.AffineZariskiSite :=
+  fun U => ∃ e : ULift.{u} (Fin 1) → Γ(L, U.1), Ringed.IsLocalFrame (R := X.sheaf) L U.1 e
+
+theorem framedAffines_of_hom {U V : X.AffineZariskiSite} (f : U ⟶ V) (hV : framedAffines L V) :
+    framedAffines L U :=
+  ⟨restrictFrame f hV.choose, isLocalFrame_restrictFrame f hV.choose_spec⟩
+
+variable (hL) in
+/-- The open cover of `Proj_X A` by the affine pieces `Proj A(U)` over the affine opens `U` on
+which `L` has a frame. -/
+noncomputable def framedCover (A : QuasiCoherentGradedAlgebra X) : A.relProj.OpenCover where
+  I₀ := (framedAffines L).FullSubcategory
+  X i := Proj (A.grading i.obj)
+  f i := A.projι i.obj
+  mem₀ := by
+    rw [Scheme.presieve₀_mem_precoverage_iff]
+    refine ⟨fun x => ?_, fun i => inferInstance⟩
+    obtain ⟨U, hxU, e, he⟩ := exists_affine_isLocalFrame hL (A.relProjToBase x)
+    have hx : x ∈ A.relProjToBase ⁻¹ᵁ U.1 := hxU
+    rw [A.relProjToBase_preimage U] at hx
+    obtain ⟨y, hy⟩ := hx
+    exact ⟨⟨U, e, he⟩, y, hy⟩
+
+instance (A : QuasiCoherentGradedAlgebra X) : Category (framedCover hL A).I₀ :=
+  inferInstanceAs (Category (framedAffines L).FullSubcategory)
+
+set_option backward.isDefEq.respectTransparency false in
+instance (A : QuasiCoherentGradedAlgebra X) : (framedCover hL A).LocallyDirected where
+  trans {i j} hij := A.relativeGluingData.cover.trans hij.hom
+  trans_id i := A.relativeGluingData.cover.trans_id i.obj
+  trans_comp hij hjk := A.relativeGluingData.cover.trans_comp hij.hom hjk.hom
+  w hij := A.relativeGluingData.cover.trans_map hij.hom
+  directed {i j} x := by
+    obtain ⟨k, hki, hkj, y, hy⟩ := A.relativeGluingData.cover.exists_lift_trans_eq
+      (i := i.obj) (j := j.obj) x
+    exact ⟨⟨k, framedAffines_of_hom hki i.property⟩, ObjectProperty.homMk hki,
+      ObjectProperty.homMk hkj, y, hy⟩
+  property_trans hij := A.relativeGluingData.cover.property_trans hij.hom
+
+theorem framedCover_trans (A : QuasiCoherentGradedAlgebra X)
+    {i j : (framedCover hL A).I₀} (hij : i ⟶ j) :
+    (framedCover hL A).trans hij = Proj.map (A.restrict hij.hom) (A.irrelevant_le hij.hom) :=
+  rfl
+
+theorem restrict_projι (A : QuasiCoherentGradedAlgebra X) {U V : X.AffineZariskiSite}
+    (f : U ⟶ V) : Proj.map (A.restrict f) (A.irrelevant_le f) ≫ A.projι V = A.projι U :=
+  A.relativeGluingData.cover.trans_map f
+
+/-- The local isomorphism over a framed affine open, with the chosen frame. -/
+noncomputable def framedIso (U : (framedAffines L).FullSubcategory) :
+    Proj ((S.lineBundleTwist L hL).grading U.obj) ≅ Proj (S.grading U.obj) :=
+  S.lineBundleTwistProjIsoOfFrame hL U.property.choose_spec
+
+theorem framedIso_naturality {U V : (framedAffines L).FullSubcategory} (f : U ⟶ V) :
+    Proj.map ((S.lineBundleTwist L hL).restrict f.hom)
+        ((S.lineBundleTwist L hL).irrelevant_le f.hom) ≫ (S.framedIso (hL := hL) V).hom =
+      (S.framedIso (hL := hL) U).hom ≫ Proj.map (S.restrict f.hom) (S.irrelevant_le f.hom) := by
+  rw [framedIso, lineBundleTwistProjIsoOfFrame_naturality, framedIso,
+    lineBundleTwistProjIsoOfFrame_eq]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem lineBundleTwistHom_compat {U V : (framedCover hL (S.lineBundleTwist L hL)).I₀}
+    (f : U ⟶ V) :
+    (framedCover hL (S.lineBundleTwist L hL)).trans f ≫
+        (S.framedIso (hL := hL) V).hom ≫ S.projι V.obj =
+      (S.framedIso (hL := hL) U).hom ≫ S.projι U.obj := by
+  rw [framedCover_trans, ← Category.assoc, framedIso_naturality, Category.assoc, restrict_projι]
+
+set_option backward.isDefEq.respectTransparency false in
+theorem lineBundleTwistInv_compat {U V : (framedCover hL S).I₀} (f : U ⟶ V) :
+    (framedCover hL S).trans f ≫
+        (S.framedIso (hL := hL) V).inv ≫ (S.lineBundleTwist L hL).projι V.obj =
+      (S.framedIso (hL := hL) U).inv ≫ (S.lineBundleTwist L hL).projι U.obj := by
+  rw [framedCover_trans, ← Category.assoc, ← restrict_projι _ f.hom, ← Category.assoc]
+  congr 1
+  rw [Iso.comp_inv_eq, Category.assoc, framedIso_naturality, Iso.inv_hom_id_assoc]
+
+set_option backward.isDefEq.respectTransparency false in
+variable (hL) in
+/-- **The isomorphism** `φ : Proj_X (S · L) → Proj_X S`, glued from the local isomorphisms
+`Proj (S · L)(U) ≅ Proj S(U)` over the affine opens `U` on which `L` has a frame. -/
+noncomputable def lineBundleTwistHom : (S.lineBundleTwist L hL).relProj ⟶ S.relProj :=
+  (framedCover hL (S.lineBundleTwist L hL)).glueMorphismsOfLocallyDirected
+    (fun U => (S.framedIso (hL := hL) U).hom ≫ S.projι U.obj) (S.lineBundleTwistHom_compat)
+
+set_option backward.isDefEq.respectTransparency false in
+variable (hL) in
+/-- The inverse `Proj_X S → Proj_X (S · L)`, glued from the inverses of the local isomorphisms. -/
+noncomputable def lineBundleTwistInv : S.relProj ⟶ (S.lineBundleTwist L hL).relProj :=
+  (framedCover hL S).glueMorphismsOfLocallyDirected
+    (fun U => (S.framedIso (hL := hL) U).inv ≫ (S.lineBundleTwist L hL).projι U.obj)
+    (S.lineBundleTwistInv_compat)
+
+set_option backward.isDefEq.respectTransparency false in
+theorem projι_lineBundleTwistHom (U : (framedAffines L).FullSubcategory) :
+    (S.lineBundleTwist L hL).projι U.obj ≫ S.lineBundleTwistHom hL =
+      (S.framedIso (hL := hL) U).hom ≫ S.projι U.obj :=
+  by
+    exact Scheme.OpenCover.map_glueMorphismsOfLocallyDirected
+      (framedCover hL (S.lineBundleTwist L hL)) _ (S.lineBundleTwistHom_compat) U
+
+set_option backward.isDefEq.respectTransparency false in
+theorem projι_lineBundleTwistInv (U : (framedAffines L).FullSubcategory) :
+    S.projι U.obj ≫ S.lineBundleTwistInv hL =
+      (S.framedIso (hL := hL) U).inv ≫ (S.lineBundleTwist L hL).projι U.obj :=
+  by
+    exact Scheme.OpenCover.map_glueMorphismsOfLocallyDirected
+      (framedCover hL S) _ (S.lineBundleTwistInv_compat) U
+
+set_option backward.isDefEq.respectTransparency false in
+variable (hL) in
+/-- **`Proj_X (S · L) ≅ Proj_X S`** (Hartshorne II.7, Lemma 7.9, the isomorphism `φ`). -/
+noncomputable def lineBundleTwistIso : (S.lineBundleTwist L hL).relProj ≅ S.relProj where
+  hom := S.lineBundleTwistHom hL
+  inv := S.lineBundleTwistInv hL
+  hom_inv_id := (framedCover hL (S.lineBundleTwist L hL)).hom_ext _ _ fun U => by
+    change (S.lineBundleTwist L hL).projι U.obj ≫ _ = (S.lineBundleTwist L hL).projι U.obj ≫ _
+    rw [← Category.assoc, projι_lineBundleTwistHom, Category.assoc, projι_lineBundleTwistInv,
+      Iso.hom_inv_id_assoc, Category.comp_id]
+  inv_hom_id := (framedCover hL S).hom_ext _ _ fun U => by
+    change S.projι U.obj ≫ _ = S.projι U.obj ≫ _
+    rw [← Category.assoc, projι_lineBundleTwistInv, Category.assoc, projι_lineBundleTwistHom,
+      Iso.inv_hom_id_assoc, Category.comp_id]
+
 end QuasiCoherentGradedAlgebra
 
 end Hartshorne
