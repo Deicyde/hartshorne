@@ -7,6 +7,8 @@ import Hartshorne.Scheme.ProjectiveIntersectionDegree
 import Hartshorne.Scheme.ProjectiveIntersectionDegreeFormula
 import Hartshorne.Intersection.ProjectivePointDegree
 import Hartshorne.Projective.LinearSeparation
+import Hartshorne.Scheme.InvertibleSectionDivisor
+import Hartshorne.Scheme.VeryAmpleTensorProduct
 
 /-!
 # The degree of an embedded curve and hyperplane sections
@@ -157,5 +159,175 @@ theorem projectiveSpectrumPointDegree_eq_divisorDegree_hyperplane [IsAlgClosed k
   exact h.symm
 
 end Curve
+
+section DivisorOfZeros
+
+open Opposite TopologicalSpace Scheme.CartierDivisor
+
+variable {X : Scheme.{u}}
+
+/-- Associated germs have the same order. -/
+private theorem ord_algebraMap_stalk_eq_of_associated'' [IsIntegral X] [IsLocallyNoetherian X]
+    {x : X} {a b : X.presheaf.stalk x} (hab : Associated a b) (ha : a ≠ 0) :
+    X.ord (algebraMap _ X.functionField b) x = X.ord (algebraMap _ X.functionField a) x := by
+  obtain ⟨u, rfl⟩ := hab
+  have hinj := IsFractionRing.injective (X.presheaf.stalk x) X.functionField
+  have ha' : algebraMap _ X.functionField a ≠ 0 :=
+    (map_ne_zero_iff _ hinj).mpr ha
+  have hu' : algebraMap _ X.functionField (u : X.presheaf.stalk x) ≠ 0 :=
+    (map_ne_zero_iff _ hinj).mpr u.ne_zero
+  rw [map_mul, Scheme.ord_mul ha' hu', add_eq_left]
+  exact ord_algebraMap_stalk_of_isUnit u.isUnit
+
+/-- On `D₊(x_j)`, the chart function `x_i / x_j` is `Away.mk`. -/
+private theorem hypersurfaceChartEquation_X_X (i j : Fin (n + 1)) :
+    hypersurfaceChartEquation (MvPolynomial.X i : S) (MvPolynomial.X j) (isHomogeneous_X k i)
+        (isHomogeneous_X k j) =
+      Proj.awayToSection 𝒜 (MvPolynomial.X j)
+        (HomogeneousLocalization.Away.mk 𝒜 (X_mem_homogeneousSubmodule_one (R := k) j) 1
+          (MvPolynomial.X i) (by
+            rw [smul_eq_mul, mul_one]; exact X_mem_homogeneousSubmodule_one (R := k) i)) := by
+  rw [hypersurfaceChartEquation]
+  congr 1
+  apply HomogeneousLocalization.val_injective
+  rw [HomogeneousLocalization.Away.val_mk, HomogeneousLocalization.val_mk]
+  congr 1
+  exact Subtype.ext (pow_one _).symm
+
+/-- The chart function `x_i / x_j` is a local equation of the hyperplane `V(x_i)` on
+`D₊(x_j)`. -/
+private theorem isProjectiveHypersurfaceLocalEquation_hyperplane (hn : 0 < n) (i j : Fin (n + 1)) :
+    IsProjectiveHypersurfaceLocalEquation
+      (projectiveHypersurfacePrimeDivisor hn (isHomogeneous_X k i)
+        (MvPolynomial.X_prime (R := k) (i := i)).irreducible)
+      (Proj.basicOpen 𝒜 (MvPolynomial.X j))
+      (hypersurfaceChartEquation (MvPolynomial.X i : S) (MvPolynomial.X j) (isHomogeneous_X k i)
+        (isHomogeneous_X k j)) :=
+  fun _ hq ↦ ⟨_, _, 1, isHomogeneous_X k i, isHomogeneous_X k j, hq, rfl, Associated.refl _⟩
+
+/-- **The hyperplane section is the divisor of zeros of the pulled-back coordinate** (Hartshorne
+IV, Example 3.3.2, second step). Let `ι : X ⟶ ℙⁿ_k` (`n ≥ 1`) be a morphism from a scheme
+satisfying `(*)` with `ι^* 𝒪(1)` isomorphic to some `𝒪_X(D₀)`, and let the coordinate hyperplane
+`H = V(xᵢ)` not contain the image of `X`. If `C` is the divisor of zeros of the pulled-back section `ι^* xᵢ` of
+`ι^* 𝒪(1)`, then the Weil divisor of `C` is `H · X`: on the open set where `x_j ≠ 0`, the section
+`ι^* xᵢ` is `ι^#(xᵢ / x_j)` times the generator `ι^* x_j`. -/
+theorem cartierToWeil_eq_projectiveIntersectionDivisor_hyperplane
+    (hX : X.SatisfiesConditionStar) (ι : X ⟶ Proj 𝒜) (hn : 0 < n) (i : Fin (n + 1))
+    (hXV : ¬Set.range ι ⊆ closure ({(projectiveHypersurfacePrimeDivisor hn (isHomogeneous_X k i)
+      (MvPolynomial.X_prime (R := k) (i := i)).irreducible).1} : Set (Proj 𝒜)))
+    {D₀ : X.CartierDivisor}
+    (φ : (Scheme.Modules.pullback ι).obj (projTwistingSheaf 𝒜 1) ≅ D₀.sheaf)
+    {C : X.CartierDivisor}
+    (hC : IsDivisorOfZeros ((Scheme.Modules.pullback ι).obj (projTwistingSheaf 𝒜 1))
+      (Ringed.etaSec (φ := ι.toRingCatSheafHom) (E := projTwistingSheaf 𝒜 1) (W := ⊤)
+        (ProjTwistingSheaf.degreeOneSection ⟨MvPolynomial.X i, X_mem_homogeneousSubmodule_one (R := k) i⟩))
+      C) :
+    let _ : IsIntegral X := hX.isIntegral
+    let _ : IsNoetherian X := hX.isNoetherian
+    Scheme.cartierToWeil C = projectiveIntersectionDivisor ι hX
+      (projectiveHypersurfacePrimeDivisor hn (isHomogeneous_X k i)
+        (MvPolynomial.X_prime (R := k) (i := i)).irreducible) := by
+  intro _ _
+  set E := projTwistingSheaf 𝒜 1
+  set L := (Scheme.Modules.pullback ι).obj E
+  set V := projectiveHypersurfacePrimeDivisor hn (isHomogeneous_X k i)
+    (MvPolynomial.X_prime (R := k) (i := i)).irreducible
+  let sec : Fin (n + 1) → Γ(E, ⊤) := fun l ↦
+    ProjTwistingSheaf.degreeOneSection ⟨MvPolynomial.X l, X_mem_homogeneousSubmodule_one (R := k) l⟩
+  apply Subtype.ext
+  apply Function.locallyFinsuppWithin.ext
+  intro x
+  obtain ⟨j, hj⟩ := exists_X_notMem_projectiveSpace (ι.base x)
+  set Dj : (Proj 𝒜).Opens := Proj.basicOpen 𝒜 (MvPolynomial.X j)
+  have hxDj : ι.base x ∈ Dj := hj
+  set h := hypersurfaceChartEquation (MvPolynomial.X i : S) (MvPolynomial.X j)
+    (isHomogeneous_X k i) (isHomogeneous_X k j)
+  rw [projectiveIntersectionDivisor_apply_eq_ord ι hX V hXV x Dj h hxDj
+    (isProjectiveHypersurfaceLocalEquation_hyperplane hn i j)]
+  obtain ⟨U, hxU, ⟨ψ⟩⟩ := exists_trivialization φ x
+  obtain ⟨f, hf, hCU⟩ := hC U ψ
+  rw [Scheme.cartierToWeil_apply C f hCU hxU]
+  have hU : Nonempty U := ⟨⟨x, hxU⟩⟩
+  have hη := Scheme.genericPoint_mem_opens_of_mem hxU
+  set s := Ringed.etaSec (φ := ι.toRingCatSheafHom) (E := E) (W := ⊤) (sec i) with hs
+  set t := Ringed.etaSec (φ := ι.toRingCatSheafHom) (E := E) (W := ⊤) (sec j) with ht
+  set r := trivApply ψ (resTop L U s) with hr
+  set g := trivApply ψ (resTop L U t) with hg
+  have hcoef : (Scheme.totalQuotientUnitsEquivFunctionField U hη f : X.functionField) =
+      algebraMap _ X.functionField (X.presheaf.germ U x hxU r) := by
+    change Scheme.totalQuotientSheafEquivFunctionField U hη (Scheme.kUnitVal f) = _
+    rw [Scheme.algebraMap_germ_eq_germToFunctionField, ← hf]
+    exact Scheme.totalQuotientSheafEquivFunctionField_toTotalQuotientSheaf U hη r
+  rw [hcoef]
+  have hr0 : X.presheaf.germ U x hxU r ≠ 0 := by
+    intro h0
+    have hr' : r = 0 := (map_eq_zero_iff _ (germ_injective_of_isIntegral X x hxU)).mp h0
+    have : Nontrivial (X.totalQuotientSheaf.obj.obj (op U)) :=
+      (Scheme.totalQuotientSheafEquivFunctionField (X := X) U hη).symm.injective.nontrivial
+    apply Units.ne_zero (show (X.totalQuotientSheaf.obj.obj (op U))ˣ from f)
+    change Scheme.kUnitVal f = 0
+    rw [← hf, hr', map_zero]
+  have hxW : x ∈ (Opens.map ι.base).obj Dj := hxDj
+  set V' : X.Opens := U ⊓ (Opens.map ι.base).obj Dj
+  have hV'U : V' ≤ U := inf_le_left
+  have hV'W : V' ≤ (Opens.map ι.base).obj Dj := inf_le_right
+  have hxV' : x ∈ V' := ⟨hxU, hxW⟩
+  have res_res : ∀ {U₁ U₂ U₃ : X.Opens} (h₁ : U₂ ≤ U₁) (h₂ : U₃ ≤ U₂)
+      (y : L.val.presheaf.obj (op U₁)),
+      L.val.presheaf.map (homOfLE h₂).op (L.val.presheaf.map (homOfLE h₁).op y) =
+        L.val.presheaf.map (homOfLE (h₂.trans h₁)).op y := by
+    intro U₁ U₂ U₃ h₁ h₂ y
+    rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
+    rfl
+  obtain hrel := by
+    have h1 := ProjTwistingSheaf.restrict_degreeOneSection_eq_smul
+      (X_mem_homogeneousSubmodule_one (R := k) j) (X_mem_homogeneousSubmodule_one (R := k) i)
+    rw [← hypersurfaceChartEquation_X_X] at h1
+    have h2 := congrArg (Ringed.etaSec (φ := ι.toRingCatSheafHom) (E := E) (W := Dj)) h1
+    have h3 := h2.trans (Ringed.etaSec_smul (φ := ι.toRingCatSheafHom) (E := E) (W := Dj) h _)
+    erw [Ringed.etaSec_restrict, Ringed.etaSec_restrict] at h3
+    exact h3
+  have hfr := Ringed.IsLocalFrame.pullback (φ := ι.toRingCatSheafHom)
+    (ProjTwistingSheaf.isLocalFrame_degreeOneSection
+      (X_mem_homogeneousSubmodule_one (R := k) j))
+  let A : (Over U)ᵒᵖ := op (Over.mk (homOfLE hV'U))
+  have hnat : ∀ y : L.val.obj (op U), ψ.hom.val.app A (L.val.presheaf.map (homOfLE hV'U).op y) =
+      X.presheaf.map (homOfLE hV'U).op (trivApply ψ y) := fun y ↦
+    ConcreteCategory.congr_hom (ψ.hom.val.naturality
+      (Over.homMk (homOfLE hV'U) : Over.mk (homOfLE hV'U) ⟶ Over.mk (𝟙 U)).op) y
+  let one : (SheafOfModules.unit (X.ringCatSheaf.over U)).val.obj A :=
+    show Γ(X, V') from 1
+  have hψ1 : (show Γ(X, V') from ψ.hom.val.app A (ψ.inv.val.app A one)) = 1 :=
+    ConcreteCategory.congr_hom (congrArg (fun φ ↦ φ.val.app A) ψ.inv_hom_id) one
+  obtain ⟨a, ha⟩ := (hfr V' hV'W).2 (ψ.inv.val.app A one)
+  have key := (congrArg (fun y ↦ ψ.hom.val.app A y) ha).trans hψ1
+  simp only at key
+  erw [Ringed.localFrameMap_apply, Fintype.sum_unique] at key
+  erw [(ψ.hom.val.app A).hom.map_smul] at key
+  have hT := hnat (resTop L U t)
+  erw [res_res] at hT
+  erw [Ringed.etaSec_restrict, res_res, hT] at key
+  have hS := hnat (resTop L U s)
+  erw [res_res] at hS
+  have hrel' := congrArg (fun y ↦ L.val.presheaf.map (homOfLE hV'W).op y) hrel
+  simp only at hrel'
+  erw [res_res, PresheafOfModules.map_smul, res_res] at hrel'
+  have key2 := congrArg (fun y ↦ ψ.hom.val.app A y) hrel'
+  simp only at key2
+  erw [(ψ.hom.val.app A).hom.map_smul, hS, hT] at key2
+  have k1 : (show Γ(X, V') from a PUnit.unit) * X.presheaf.map (homOfLE hV'U).op g = 1 := key
+  have k2 : X.presheaf.map (homOfLE hV'U).op r =
+      X.presheaf.map (homOfLE hV'W).op (ι.app Dj h) * X.presheaf.map (homOfLE hV'U).op g := key2
+  have hgu : IsUnit (X.presheaf.germ U x hxU g) := by
+    rw [← X.presheaf.germ_res_apply (homOfLE hV'U) x hxV' g]
+    exact (IsUnit.of_mul_eq_one _ ((mul_comm _ _).trans k1)).map _
+  have hassoc : Associated (X.presheaf.germ (ι ⁻¹ᵁ Dj) x hxDj (ι.app Dj h))
+      (X.presheaf.germ U x hxU r) := by
+    refine ⟨hgu.unit, ?_⟩
+    rw [IsUnit.unit_spec, ← X.presheaf.germ_res_apply (homOfLE hV'U) x hxV' r, k2, map_mul,
+      X.presheaf.germ_res_apply, X.presheaf.germ_res_apply]
+  exact (ord_algebraMap_stalk_eq_of_associated'' hassoc.symm hr0).symm
+
+end DivisorOfZeros
 
 end Hartshorne
