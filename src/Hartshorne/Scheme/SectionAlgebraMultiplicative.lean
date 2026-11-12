@@ -479,6 +479,50 @@ theorem tensorPowerMulSection_monomialSection {p q : ℕ} (hp : 0 < p) (hq : 0 <
 
 end Monomials
 
+/-! ### Multiplicativity of the comparison -/
+
+section Local
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+variable {r : ℕ} {X Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r X)
+
+theorem tensorPowerMulSection_restrict {p q : ℕ} {W W' : Z.Opens} (h : W' ≤ W)
+    (s : Γ(tensorPowerL i p, W)) (t : Γ(tensorPowerL i q, W)) :
+    (tensorPowerL i (p + q)).presheaf.map (homOfLE h).op (tensorPowerMulSection i s t) =
+      tensorPowerMulSection i ((tensorPowerL i p).presheaf.map (homOfLE h).op s)
+        ((tensorPowerL i q).presheaf.map (homOfLE h).op t) :=
+  Ringed.moduleSheafTensorPowerMulSection_restrict h s t
+
+theorem tensorPowerMulSection_smul_smul {p q : ℕ} {W : Z.Opens} (c c' : Γ(Z, W))
+    (s : Γ(tensorPowerL i p, W)) (t : Γ(tensorPowerL i q, W)) :
+    tensorPowerMulSection i (c • s) (c' • t) = (c * c') • tensorPowerMulSection i s t :=
+  (Ringed.moduleSheafTensorPowerMulSection_smul_left (R := Z.sheaf)
+    (show (Z.sheaf.obj ⋙ forget₂ CommRingCat RingCat).obj (op W) from c) s (c' • t)).trans
+    ((congrArg (c • ·) (Ringed.moduleSheafTensorPowerMulSection_smul_right (R := Z.sheaf)
+      (show (Z.sheaf.obj ⋙ forget₂ CommRingCat RingCat).obj (op W) from c') s t)).trans
+      (smul_smul c c' _))
+
+theorem tensorPowerMulSection_add_left {p q : ℕ} {W : Z.Opens} (s s' : Γ(tensorPowerL i p, W))
+    (t : Γ(tensorPowerL i q, W)) :
+    tensorPowerMulSection i (s + s') t = tensorPowerMulSection i s t + tensorPowerMulSection i s' t :=
+  Ringed.moduleSheafTensorPowerMulSection_add_left s s' t
+
+theorem tensorPowerMulSection_add_right {p q : ℕ} {W : Z.Opens} (s : Γ(tensorPowerL i p, W))
+    (t t' : Γ(tensorPowerL i q, W)) :
+    tensorPowerMulSection i s (t + t') = tensorPowerMulSection i s t + tensorPowerMulSection i s t' :=
+  Ringed.moduleSheafTensorPowerMulSection_add_right s t t'
+
+theorem tensorPowerMulSection_zero_left {p q : ℕ} {W : Z.Opens} (t : Γ(tensorPowerL i q, W)) :
+    tensorPowerMulSection i (0 : Γ(tensorPowerL i p, W)) t = 0 :=
+  Ringed.moduleSheafTensorPowerMulSection_zero_left t
+
+theorem tensorPowerMulSection_zero_right {p q : ℕ} {W : Z.Opens} (s : Γ(tensorPowerL i p, W)) :
+    tensorPowerMulSection i s (0 : Γ(tensorPowerL i q, W)) = 0 :=
+  Ringed.moduleSheafTensorPowerMulSection_zero_right s
+
+end Local
+
 end SectionAlgebraModel
 
 end Hartshorne

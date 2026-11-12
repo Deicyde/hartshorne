@@ -15,7 +15,8 @@ subscheme `Z ⊆ ℙʳ_X` (`SectionAlgebraModel.coordinateAlgebra`). Over each a
 Hartshorne's Step 2 needs one bound for all `U`. This file obtains it from a finite affine cover.
 
 The surjectivity of `T_n → Γ(Proj T, 𝒪(n))` for a graded domain `T` is equivalent to an algebraic
-condition (`SectionAlgebraModel.ChartGood`, `SectionAlgebraModel.bijective_twistSection_iff_chartGood`):
+condition (`SectionAlgebraModel.ChartGood`,
+`SectionAlgebraModel.bijective_twistSection_iff_chartGood`):
 every fraction `a / s` such that each `xᵢ^j a / s` lies in `T_{j+n}` lies in `T_n`. This condition
 passes to localizations `T[1/g]`, `g ∈ T₀` (`SectionAlgebraModel.chartGood_of_isLocalizationAway`),
 and descends from a cover `T[1/gⱼ]` with `(gⱼ) = 1`
