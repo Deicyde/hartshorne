@@ -312,6 +312,52 @@ theorem exists_iso_proj_sectionAlgebraPiece_eq_veronese (k : Type u) [Field k] [
       (fun j => mk_mem_gradedQuotient (MvPolynomial.isHomogeneous_X R j))
       (adjoin_coord_eq_top I) hirr⟩
 
+/-- **Step 2 of the proof of Theorem 7.17 over an affine open of the base** (Hartshorne II,
+pp. 166–167). Let `i : Z ⟶ ℙʳ_X` be a closed immersion of an integral scheme, `f = π ∘ i`, and
+`L = i^* 𝒪(1)`. Let `U ⊆ X` be an affine open with `Γ(X, U)` a finitely generated algebra over a
+field `k` and `f⁻¹(U)` nonempty. Then `f⁻¹(U) ≅ Proj T` over `ℙʳ_{Spec Γ(X, U)}` for the
+homogeneous coordinate ring `T = Γ(X, U)[x₀, …, xᵣ]/I` of `f⁻¹(U) ⊆ ℙʳ_{Spec Γ(X, U)}` (`I`
+saturated, `T` a domain), `L^{n}|_{f⁻¹(U)}` corresponds to `𝒪_{Proj T}(n)`, and for all large `d`
+the section algebra of `L^d` over `f⁻¹(U)` (inside the fraction field of `T`) is the Veronese ring
+`T^{(d)}` in every degree and is generated in degree one. -/
+theorem exists_iso_proj_sectionAlgebraPiece_eq_veronese_of_isAffineOpen (k : Type u) [Field k]
+    {X Z : Scheme.{u}} [IsIntegral Z] (i : Z ⟶ projectiveSpaceOverScheme r X)
+    [IsClosedImmersion i] {U : X.Opens} (hU : IsAffineOpen U) [Algebra k Γ(X, U)]
+    [Algebra.FiniteType k Γ(X, U)]
+    (hne : ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U : Set Z).Nonempty) :
+    ∃ (I : HomogeneousIdeal (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)))
+      (_ : IsDomain (MvPolynomial (Fin (r + 1)) Γ(X, U) ⧸ I.toIdeal)),
+      ProjectiveClosedSubscheme.saturation I.toIdeal = I.toIdeal ∧
+      ∃ e : ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme ≅
+          Proj (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I),
+        e.hom ≫ projQuotientι _ I ≫
+            (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).hom = chartEmbedding i hU ∧
+        (∀ n : ℤ, Nonempty ((Scheme.Modules.pullback
+            ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).ι).obj
+              ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X n)) ≅
+          (Scheme.Modules.pullback e.hom).obj (projTwistingSheaf (gradedQuotient _ I) n))) ∧
+        ∃ d₀ : ℕ, ∀ d ≥ d₀, 0 < d ∧
+          (∀ m, sectionAlgebraPiece (gradedQuotient _ I) d m =
+            gradedImage (gradedQuotient _ I) (m * d)) ∧
+          (∀ m, (sectionAlgebraPiece (gradedQuotient _ I) d m :
+              Set (FractionRing (MvPolynomial (Fin (r + 1)) Γ(X, U) ⧸ I.toIdeal))) ⊆
+            (Subring.closure (sectionAlgebraPiece (gradedQuotient _ I) d 0 ∪
+              sectionAlgebraPiece (gradedQuotient _ I) d 1 :
+                Set (FractionRing (MvPolynomial (Fin (r + 1)) Γ(X, U) ⧸ I.toIdeal))) :
+              Set (FractionRing (MvPolynomial (Fin (r + 1)) Γ(X, U) ⧸ I.toIdeal)))) ∧
+          Subring.closure (⋃ m, (sectionAlgebraPiece (gradedQuotient _ I) d m :
+              Set (FractionRing (MvPolynomial (Fin (r + 1)) Γ(X, U) ⧸ I.toIdeal)))) =
+            (veroneseSubring (gradedQuotient _ I) d).map
+              (algebraMap _ (FractionRing (MvPolynomial (Fin (r + 1)) Γ(X, U) ⧸ I.toIdeal))) := by
+  have : Nonempty ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme :=
+    ⟨⟨hne.some, hne.some_mem⟩⟩
+  have : IsIntegral ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme :=
+    isIntegral_of_isOpenImmersion (Scheme.Opens.ι _)
+  obtain ⟨I, hdom, hsat, e, hfac, htw, hd⟩ :=
+    exists_iso_proj_sectionAlgebraPiece_eq_veronese k (chartEmbedding i hU)
+  exact ⟨I, hdom, hsat, e, hfac,
+    fun n => ⟨(pullbackChartEmbeddingTwistIso i hU n).symm ≪≫ (htw n).some⟩, hd⟩
+
 end Chart
 
 end SectionAlgebraModel
