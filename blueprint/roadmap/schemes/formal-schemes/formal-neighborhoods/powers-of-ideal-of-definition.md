@@ -2,6 +2,7 @@
 article_id: af_4e42dcd4bd8198090a5fcd96
 declaration: theorem
 origin: cited
+lean: Hartshorne.IsIdealOfDefinition.pow_succ
 ---
 
 # Powers of an ideal of definition
