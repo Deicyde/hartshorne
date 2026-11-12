@@ -194,7 +194,8 @@ private theorem finrank_eq_one_of_linearEquivalent_zero [IsAlgClosed k] [IsInteg
     obtain ⟨E, hE, hEeff, hElin⟩ := exists_isDivisorOfZeros φ hs
     rwa [eq_zero_of_isEffective_of_linearEquivalent_zero q hEeff
       (linearEquivalent_trans' hElin hD₀)] at hE
-  refine (finrank_eq_one_iff_of_nonzero' (K := k) (V := globalSectionsOverField q M) s₀ hs₀).2 fun w => ?_
+  refine (finrank_eq_one_iff_of_nonzero' (K := k) (V := globalSectionsOverField q M) s₀ hs₀).2
+    fun w => ?_
   by_cases hw : w = 0
   · exact ⟨0, by rw [hw, zero_smul]⟩
   · obtain ⟨c, hc⟩ := (divisor_eq_iff hM hs₀ hw hs₀D (key w hw)).1 rfl
@@ -248,11 +249,11 @@ private theorem dim_complete_of_iso_nsmul [IsAlgClosed k] [IsIntegral X]
     norm_num
 
 /-- **Torsion linear systems** (Hartshorne II, Exercise 7.6(b)), invertible-sheaf form. Let `X`
-be an integral scheme projective over an algebraically closed field `k` (Hartshorne: a nonsingular
-projective variety), and let the class of the invertible sheaf `L` in `Pic X` have finite order
-`r`. If `M` is an invertible sheaf whose class is the `n`-th power of that of `L` (so `|M|` is the
-linear system `|nD|` for `L ≅ 𝒪_X(D)`), then `dim |M| = 0` when `r ∣ n` and `dim |M| = -1`
-otherwise. -/
+be an integral scheme projective over an algebraically closed field `k` (more general than
+Hartshorne's nonsingular projective variety), and let the class of the invertible sheaf `L` in
+`Pic X` have finite order `r`. If `M` is an invertible sheaf whose class is the `n`-th power of
+that of `L` (so `|M|` is the linear system `|nD|` for `L ≅ 𝒪_X(D)`), then `dim |M| = 0` when
+`r ∣ n` and `dim |M| = -1` otherwise. -/
 theorem dim_complete_of_orderOf_eq [IsAlgClosed k] [IsIntegral X] {q : X ⟶ Spec (.of k)}
     (hq : Projective q) {L : X.Modules} (hL : L.IsInvertible) {r : ℕ} (hr0 : 0 < r)
     (hr : orderOf (Pic.mk (R := X.sheaf) L ((Modules.isInvertible_iff_ringed L).1 hL)) = r)
@@ -272,8 +273,9 @@ theorem dim_complete_of_orderOf_eq [IsAlgClosed k] [IsIntegral X] {q : X ⟶ Spe
   rw [hD, addOrderOf_ofMul_eq_orderOf, hr]
 
 /-- **Torsion linear systems** (Hartshorne II, Exercise 7.6(b)), Cartier-divisor form. Let `X` be
-an integral scheme projective over an algebraically closed field `k` (Hartshorne: a nonsingular
-projective variety), and let `D` be a Cartier divisor whose class in `Pic X` has finite order `r`.
+an integral scheme projective over an algebraically closed field `k` (more general than
+Hartshorne's nonsingular projective variety), and let `D` be a Cartier divisor whose class in
+`Pic X` has finite order `r`.
 Then the complete linear system `|nD|` of `𝒪_X(nD)` has dimension `0` when `r ∣ n` and `-1`
 otherwise. -/
 theorem dim_complete_nsmul_of_addOrderOf_eq [IsAlgClosed k] [IsIntegral X]
@@ -303,8 +305,9 @@ theorem dim_complete_weil_nsmul_of_addOrderOf_eq [IsAlgClosed k] [IsIntegral X]
       addOrderOf (weilClassEquivPicard hreg.isLocallyFactorial
         (X.weilDivisorClassHom (satisfiesConditionStar_of_isLocallyFactorial
           hreg.isLocallyFactorial) D)) = r →
-      ∀ n : ℕ, (complete hq (weilCartierEquiv hreg.isLocallyFactorial (n • D)).isInvertible_sheaf).dim =
-        if r ∣ n then 0 else -1 := by
+      ∀ n : ℕ,
+        (complete hq (weilCartierEquiv hreg.isLocallyFactorial (n • D)).isInvertible_sheaf).dim =
+          if r ∣ n then 0 else -1 := by
   let := isNoetherian_of_projective q hq
   let := isSeparated_of_projective q hq
   intro D r hr0 hr n
