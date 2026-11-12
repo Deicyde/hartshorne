@@ -19,9 +19,9 @@ coordinates `x₀, …, xₙ`.
 
 ## Main definitions
 
-* `Hartshorne.projectivePoint k a`: the `k`-rational point `(a₀ : ⋯ : a_m)` of `ℙᵐ_k`, the
-  morphism `Spec k ⟶ ℙᵐ_k` defined (Hartshorne II, Theorem 7.1) by the sections `aᵢ` of
-  `𝒪_{Spec k}`.
+* `Hartshorne.projectivePoint k a` (in `Hartshorne.Scheme.MorphismFromGeneratedLineBundle`): the
+  `k`-rational point `(a₀ : ⋯ : a_m)` of `ℙᵐ_k`, the morphism `Spec k ⟶ ℙᵐ_k` defined
+  (Hartshorne II, Theorem 7.1) by the sections `aᵢ` of `𝒪_{Spec k}`.
 * `Hartshorne.linearSection k m v` (in `Hartshorne.Scheme.MorphismFromGeneratedLineBundle`): the
   linear form `∑ vⱼ xⱼ`, a global section of `𝒪(1)`.
 * `Hartshorne.pointProjectionDomain k p h`, `Hartshorne.pointProjection k p h`: for
@@ -120,12 +120,6 @@ section Data
 
 variable {n : ℕ} {X' X Y : Scheme.{u}}
 
-/-- Restricting a global section to `⊤` does nothing. -/
-theorem map_homOfLE_top (L : X.Modules) (t : Γ(L, ⊤)) :
-    L.presheaf.map (homOfLE (le_top : (⊤ : X.Opens) ≤ ⊤)).op t = t := by
-  simp only [homOfLE_refl, op_id, CategoryTheory.Functor.map_id]
-  rfl
-
 /-- **Composition with the morphism defined by sections.** If `φ : X ⟶ ℙⁿ_Y` is defined by the
 sections `sᵢ` of `L` (that is, `φ^* 𝒪(1) ≅ L` carrying each `φ^* xᵢ` to `sᵢ`) and `f : X' ⟶ X`,
 then `f ≫ φ` is defined by the sections `f^* sᵢ` of `f^* L`. -/
@@ -170,113 +164,17 @@ theorem nonvanishingLocus_zero (L : X.Modules) : nonvanishingLocus L 0 = ∅ := 
 
 end Data
 
-/-! ### The structure sheaf as a module -/
-
-section Unit
-
-variable (X : Scheme.{u})
-
-/-- The structure sheaf `𝒪_X`, as an `𝒪_X`-module. -/
-abbrev structureModuleOf : X.Modules := SheafOfModules.unit X.ringCatSheaf
-
-/-- A function `r ∈ Γ(U, 𝒪_X)`, as a section of the `𝒪_X`-module `𝒪_X`. -/
-def structureModuleSection {U : X.Opens} (r : Γ(X, U)) : Γ(structureModuleOf X, U) := r
-
-/-- `𝒪_X` is invertible. -/
-theorem isInvertible_structureModuleOf : (structureModuleOf X).IsInvertible :=
-  (Scheme.Modules.isInvertible_iff_ringed _).mpr
-    (Ringed.structureModule_isInvertible (R := X.sheaf))
-
-/-- The section `1` trivializes `𝒪_X`. -/
-theorem isTrivializingSection_structureModuleSection_one :
-    IsTrivializingSection (structureModuleOf X) ⊤ (structureModuleSection X 1) :=
-  IsTrivializingSection.of_isLocalFrame (ι := ULift.{u} (Fin 1))
-    (Ringed.structureModule_isLocalFrame (R := X.sheaf))
-
-variable {X}
-
-/-- A function `r`, as a section of `𝒪_X`, is `r • 1`. -/
-theorem structureModuleSection_eq_smul {U : X.Opens} (r : Γ(X, U)) :
-    structureModuleSection X r = r • structureModuleSection X 1 := by
-  change r = r * 1
-  rw [mul_one]
-
-/-- A unit trivializes `𝒪_X`. -/
-theorem isTrivializingSection_structureModuleSection {r : Γ(X, ⊤)} (hr : IsUnit r) :
-    IsTrivializingSection (structureModuleOf X) ⊤ (structureModuleSection X r) := by
-  rw [structureModuleSection_eq_smul]
-  exact (isTrivializingSection_structureModuleSection_one X).unit_smul hr
-
-end Unit
-
 /-! ### Rational points in homogeneous coordinates -/
 
 section RationalPoints
 
 variable (k : Type u) [Field k]
 
-/-- A nonzero constant is a unit. -/
-theorem isUnit_specConst {c : k} (hc : c ≠ 0) : IsUnit (specConst k c) :=
-  (IsUnit.mk0 c hc).map _
-
 /-- The constant `0` is `0`. -/
 theorem specConst_zero : specConst k 0 = 0 :=
   map_zero _
 
-/-- The constants `aᵢ`, as global sections of `𝒪_{Spec k}`. -/
-abbrev pointSections {m : ℕ} (a : Fin (m + 1) → k) :
-    Fin (m + 1) → Γ(structureModuleOf (Spec (CommRingCat.of k)), ⊤) :=
-  fun i => structureModuleSection _ (specConst k (a i))
-
-/-- For `a ≠ 0`, the constants `a₀, …, a_m` generate `𝒪_{Spec k}`. -/
-theorem isGeneratedBySections_pointSections {m : ℕ} {a : Fin (m + 1) → k} (ha : a ≠ 0) :
-    (structureModuleOf (Spec (CommRingCat.of k))).IsGeneratedBySections
-      (fun i : ULift.{u} (Fin (m + 1)) => pointSections k a i.down) := by
-  obtain ⟨j, hj⟩ := Function.ne_iff.mp ha
-  refine isGeneratedBySections_of_forall_isTrivializingSection _ fun x => ⟨⟨j⟩, ⊤, trivial, ?_⟩
-  rw [map_homOfLE_top]
-  exact isTrivializingSection_structureModuleSection (isUnit_specConst k hj)
-
-/-- Theorem 7.1(b) for the sections `a₀, …, a_m` of `𝒪_{Spec k}`. -/
-theorem existsUnique_projectivePoint {m : ℕ} (a : Fin (m + 1) → k) (ha : a ≠ 0) :
-    ∃! φ : Spec (CommRingCat.of k) ⟶ projectiveSpaceOverScheme m (Spec (CommRingCat.of k)),
-      φ ≫ projectiveSpaceOverSchemeProjection m _ = 𝟙 _ ∧
-      ∃ e : (Scheme.Modules.pullback φ).obj (projectiveSpaceTwistingSheaf m _ 1) ≅
-          structureModuleOf (Spec (CommRingCat.of k)),
-        ∀ i, e.hom.app ⊤ (pullbackGlobalSection φ (projectiveSpaceCoordinate m _ i)) =
-          pointSections k a i :=
-  existsUnique_morphism_of_isGeneratedBySections (𝟙 _) (isInvertible_structureModuleOf _)
-    (pointSections k a) (isGeneratedBySections_pointSections k ha)
-
-/-- **The `k`-rational point `(a₀ : ⋯ : a_m)` of `ℙᵐ_k`**, for `a ≠ 0`: the `k`-morphism
-`Spec k ⟶ ℙᵐ_k` defined (Hartshorne II, Theorem 7.1) by the global sections `a₀, …, a_m` of
-`𝒪_{Spec k}`. -/
-def projectivePoint {m : ℕ} (a : Fin (m + 1) → k) (ha : a ≠ 0) :
-    Spec (CommRingCat.of k) ⟶ projectiveSpaceOverScheme m (Spec (CommRingCat.of k)) :=
-  (existsUnique_projectivePoint k a ha).exists.choose
-
-/-- The defining property of `projectivePoint`. -/
-theorem projectivePoint_spec {m : ℕ} (a : Fin (m + 1) → k) (ha : a ≠ 0) :
-    projectivePoint k a ha ≫ projectiveSpaceOverSchemeProjection m _ = 𝟙 _ ∧
-      ∃ e : (Scheme.Modules.pullback (projectivePoint k a ha)).obj
-          (projectiveSpaceTwistingSheaf m _ 1) ≅ structureModuleOf (Spec (CommRingCat.of k)),
-        ∀ i, e.hom.app ⊤ (pullbackGlobalSection (projectivePoint k a ha)
-          (projectiveSpaceCoordinate m _ i)) = pointSections k a i :=
-  (existsUnique_projectivePoint k a ha).exists.choose_spec
-
 variable {k}
-
-/-- A `k`-morphism `Spec k ⟶ ℙᵐ_k` pulling `𝒪(1)` back to `𝒪_{Spec k}` with `xᵢ ↦ aᵢ` is
-`(a₀ : ⋯ : a_m)`. -/
-theorem eq_projectivePoint {m : ℕ} {a : Fin (m + 1) → k} (ha : a ≠ 0)
-    {φ : Spec (CommRingCat.of k) ⟶ projectiveSpaceOverScheme m (Spec (CommRingCat.of k))}
-    (hφ : φ ≫ projectiveSpaceOverSchemeProjection m _ = 𝟙 _)
-    (e : (Scheme.Modules.pullback φ).obj (projectiveSpaceTwistingSheaf m _ 1) ≅
-      structureModuleOf (Spec (CommRingCat.of k)))
-    (he : ∀ i, e.hom.app ⊤ (pullbackGlobalSection φ (projectiveSpaceCoordinate m _ i)) =
-      pointSections k a i) :
-    φ = projectivePoint k a ha :=
-  (existsUnique_projectivePoint k a ha).unique ⟨hφ, e, he⟩ (projectivePoint_spec k a ha)
 
 /-- The point `(a₀ : ⋯ : a_m)` lies in the standard open `D₊(xᵢ)` exactly when `aᵢ ≠ 0`. -/
 theorem projectivePoint_mem_projectiveSpaceChart_iff {m : ℕ} {a : Fin (m + 1) → k} (ha : a ≠ 0)
