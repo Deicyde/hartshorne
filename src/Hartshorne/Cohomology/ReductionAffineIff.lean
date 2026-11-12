@@ -268,10 +268,6 @@ def redHomeo : (red X).toTopCat ≅ X.toTopCat where
 /-- The open of `X` corresponding to an open of `X_red`. -/
 abbrev redOpen (V : (red X).Opens) : X.Opens := (Opens.map (redInv X)).obj V
 
-theorem preimage_redOpen (V : (red X).Opens) : (redι X) ⁻¹ᵁ redOpen V = V := rfl
-
-theorem redOpen_preimage (U : X.Opens) : redOpen ((redι X) ⁻¹ᵁ U) = U := rfl
-
 /-- Restriction of sections of `𝒪_X` is compatible with `X_red ⟶ X`. -/
 theorem app_res {U W : X.Opens} (h : W ≤ U) (c : Γ(X, U)) :
     (redι X).app W (X.presheaf.map (homOfLE h).op c) =
