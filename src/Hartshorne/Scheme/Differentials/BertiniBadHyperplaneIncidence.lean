@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.SeparatesPointsTangentVectors
 import Hartshorne.Scheme.Differentials.RegularHypersurfaceCriterion
 import Hartshorne.Scheme.DimensionAtClosedPoint
+import Hartshorne.Scheme.Regular
 
 /-!
 # Bad hyperplanes at a point
@@ -454,6 +455,81 @@ theorem germ_mem_maximalIdeal_sq_smul_top_iff [IsIntegral X] (t : Γ(L, ⊤)) (x
       ((isRegularLocalRing_quotient_span_singleton_iff_notMem_sq (hb0 ht) hbm).mpr hsq))
 
 end ZeroScheme
+
+/-! ### Hyperplanes that are bad at a closed point -/
+
+section Hyperplanes
+
+variable {k : Type u} [Field k] {n : ℕ} {X : Scheme.{u}}
+  (φ : X ⟶ projectiveSpaceOverScheme n (Spec (CommRingCat.of k)))
+
+/-- The hyperplane section `H_a ∩ X = φ⁻¹(H_a)` of `X` by the hyperplane `H_a = {∑ aᵢ xᵢ = 0}`
+of `ℙⁿ_k`, as a closed subscheme of `X`: the preimage of the zero scheme of the linear form
+`∑ aᵢ xᵢ ∈ Γ(ℙⁿ_k, 𝒪(1))`. -/
+def hyperplaneSectionIdeal (a : Fin (n + 1) → k) : X.IdealSheafData :=
+  (invertibleZeroIdeal (isInvertible_projectiveSpaceTwistingSheaf n _ 1)
+    (linearSection k n a)).comap φ
+
+/-- The hyperplane `H_a` is **bad at `x`** when it contains `X`, or when `x` lies on the
+hyperplane section `H_a ∩ X` and `H_a ∩ X` is not regular at `x`. -/
+def IsBadHyperplaneAt (a : Fin (n + 1) → k) (x : X) : Prop :=
+  (∀ y : X, y ∈ (hyperplaneSectionIdeal φ a).support) ∨
+    ∃ z : (hyperplaneSectionIdeal φ a).subscheme, (hyperplaneSectionIdeal φ a).subschemeι z = x ∧
+      ¬ IsRegularLocalRing ((hyperplaneSectionIdeal φ a).subscheme.presheaf.stalk z)
+
+/-- The sections `φ^* xᵢ` of `φ^* 𝒪(1)` defining `φ`. -/
+def pulledBackCoordinates :
+    Fin (n + 1) → Γ((Scheme.Modules.pullback φ).obj (projectiveSpaceTwistingSheaf n _ 1), ⊤) :=
+  fun i => pullbackGlobalSection φ (projectiveSpaceCoordinate n _ i)
+
+/-- The coefficient vectors `a` whose linear form `∑ aᵢ xᵢ`, pulled back to `X`, lies in
+`𝔪_x² 𝒪_X(1)_x` at `x`. -/
+def badHyperplaneSubspace (x : X) : Submodule k (Fin (n + 1) → k) :=
+  badSubspace (φ ≫ projectiveSpaceOverSchemeProjection n _) (pulledBackCoordinates φ) x
+
+theorem linearSystemSection_pulledBackCoordinates (a : Fin (n + 1) → k) :
+    linearSystemSection (φ ≫ projectiveSpaceOverSchemeProjection n _) (pulledBackCoordinates φ) a =
+      pullbackGlobalSection φ (linearSection k n a) :=
+  (iso_app_linearSection rfl (Iso.refl _) (fun _ => rfl) a).symm
+
+theorem hyperplaneSectionIdeal_eq (a : Fin (n + 1) → k) :
+    hyperplaneSectionIdeal φ a = invertibleZeroIdeal (isInvertible_pullback_projectiveSpaceTwistingSheaf φ)
+      (pullbackGlobalSection φ (linearSection k n a)) :=
+  (invertibleZeroIdeal_pullbackGlobalSection _ φ _).symm
+
+/-- **Bad hyperplanes are the linear forms vanishing to second order** (Hartshorne II, proof of
+Theorem 8.18). If `X` is integral and `𝒪_{X,x}` is regular, the hyperplane `H_a` is bad at `x`
+exactly when the pulled-back linear form `∑ aᵢ xᵢ` lies in `𝔪_x² 𝒪_X(1)_x`. -/
+theorem mem_badHyperplaneSubspace_iff [IsIntegral X] (x : X)
+    [IsRegularLocalRing (X.presheaf.stalk x)] (a : Fin (n + 1) → k) :
+    a ∈ badHyperplaneSubspace φ x ↔ IsBadHyperplaneAt φ a x := by
+  have hL := isInvertible_pullback_projectiveSpaceTwistingSheaf φ
+  rw [badHyperplaneSubspace, mem_badSubspace_iff, linearSystemSection_pulledBackCoordinates,
+    germ_mem_maximalIdeal_sq_smul_top_iff hL, IsBadHyperplaneAt, hyperplaneSectionIdeal_eq]
+  refine or_congr ?_ Iff.rfl
+  set t := pullbackGlobalSection φ (linearSection k n a)
+  simp only [mem_support_invertibleZeroIdeal_iff]
+  refine ⟨fun h y hy => hy ?_, fun h => eq_zero_of_forall_notMem_nonvanishingLocus hL h⟩
+  rw [h, map_zero]
+  exact zero_mem _
+
+/-- **The bad hyperplanes at a closed point form a linear system of dimension `n - r - 1`**
+(Hartshorne II, proof of Theorem 8.18). Let `k` be algebraically closed and `X ⊆ ℙⁿ_k` a
+nonsingular closed subvariety of dimension `r`. At a closed point `x`, the coefficient vectors of
+the bad hyperplanes form a subspace of `kⁿ⁺¹` of dimension `n - r`. -/
+theorem finrank_badHyperplaneSubspace [IsAlgClosed k] [IsClosedImmersion φ] [IsIntegral X]
+    (hX : X.IsRegular) {r : ℕ} (hr : topologicalKrullDim X = r) (x : X) (hx : IsClosed {x}) :
+    Module.finrank k (badHyperplaneSubspace φ x) = n - r := by
+  have : IsProper (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) :=
+    projectiveSpaceOverSchemeProjection_isProper n _
+  have : IsRegularLocalRing (X.presheaf.stalk x) := hX.2 x
+  have hdim := dimension_at_closed_point (φ ≫ projectiveSpaceOverSchemeProjection n _)
+    ⟨inferInstance, inferInstance⟩ x hx
+  rw [hr] at hdim
+  exact finrank_badSubspace _ (isInvertible_pullback_projectiveSpaceTwistingSheaf φ) _ φ rfl
+    (Iso.refl _) (fun _ => rfl) x hx hdim.symm
+
+end Hyperplanes
 
 end BertiniIncidence
 
