@@ -72,6 +72,13 @@ lemma IsLinearTransition.comp {Z Z' : Scheme.{u}} {V : Y.affineOpens} {U U' : Y.
   obtain ⟨θ, hθ, e⟩ := hc
   exact ⟨θ, hθ, by simp only [← Category.assoc] at e ⊢; rw [e]⟩
 
+/-- A geometric vector bundle is an affine morphism: over each `U_i` it is `𝔸ⁿ_{U_i} ⟶ U_i`. -/
+theorem isAffineHom (G : GeometricVectorBundle f n) : IsAffineHom f := by
+  rw [IsZariskiLocalAtTarget.iff_of_iSup_eq_top (P := @IsAffineHom) G.U G.iSup_eq_top]
+  intro i
+  rw [← G.ψ_over i]
+  infer_instance
+
 lemma isLinearTransition_chart (G : GeometricVectorBundle f n) (i j : G.ι) (V : Y.affineOpens)
     (hi : (V : Y.Opens) ≤ G.U i) (hj : (V : Y.Opens) ≤ G.U j) :
     IsLinearTransition V hi hj (G.chart i) (G.chart j) :=
