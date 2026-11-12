@@ -713,3 +713,4 @@ import Hartshorne.Scheme.Differentials.AdjunctionDeterminantNormalBundle
 import Hartshorne.Scheme.Differentials.TangentNormalExactSequence
 import Hartshorne.Scheme.MorphismFromGeneratedLineBundle
 import Hartshorne.Scheme.ReesAlgebraBlowup
+import Hartshorne.Scheme.CoordinateNonvanishingOpen
