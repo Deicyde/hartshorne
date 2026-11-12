@@ -31,7 +31,10 @@ target.
   defined by `I`.
 * `QuasicoherentIdealSubsheaf.isIso_blowupProjection_restrict_centerCompl`,
   `QuasicoherentIdealSubsheaf.blowupIsoOffCenter`: **Hartshorne II.7.13(b)**, the restriction
-  `π⁻¹(X \ Y) ⟶ X \ Y` of the blowing-up is an isomorphism.
+  `π⁻¹(X \ Y) ⟶ X \ Y` of the blowing-up is an isomorphism; `blowupIsoOffCenter_hom` says its
+  `hom` is that restriction.
+* `QuasicoherentIdealSubsheaf.coe_blowupProjection_preimage_centerCompl`: the source `π⁻¹(X \ Y)`
+  is `X̃ \ π⁻¹(Y)`.
 -/
 
 noncomputable section
