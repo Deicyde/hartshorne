@@ -33,7 +33,7 @@ the sheafification of `U ↦ ⋀^r F(U)`) carries the standard filtration `F^p` 
   is such a filtration). The finite-rank versions `exteriorPower_exact_filtration` and
   `exists_exteriorPower_exact_filtration` are deprecated;
 * `exteriorPower_exact_det`: if `F'`, `F`, `F''` are locally free of ranks `n'`, `n`, `n''`, then
-  `⋀^n F ≅ ⋀^{n'} F' ⊗ ⋀^{n''} F''`.
+  `⋀^n F ≅ ⋀^{n'} F' ⊗ ⋀^{n''} F''`; `exteriorPowerExactDetIso` is the explicit isomorphism.
 
 Proof. Everything is first done for presheaves of sections. The presheaf filtration `filPre` is
 given on each open `U` by the module-level filtration of
@@ -1703,20 +1703,25 @@ lemma exists_rank_data {S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))
   · exact hV.trans (inf_le_left.trans inf_le_right)
   · exact hV.trans inf_le_right
 
-/-- **Hartshorne II, Exercise 5.16(d), top degree.** If `0 → F' → F → F'' → 0` is a short exact
-sequence of `𝒪_X`-modules with `F'`, `F`, `F''` locally free of ranks `n'`, `n`, `n''`, then
-`⋀^n F ≅ ⋀^{n'} F' ⊗ ⋀^{n''} F''`, that is, `det F ≅ det F' ⊗ det F''`. -/
-theorem exteriorPower_exact_det
+/-- **Hartshorne II, Exercise 5.16(d), top degree**, as an explicit isomorphism. If
+`0 → F' → F → F'' → 0` is a short exact sequence of `𝒪_X`-modules with `F'`, `F`, `F''` locally
+free of ranks `n'`, `n`, `n''`, then `⋀^n F ≅ ⋀^{n'} F' ⊗ ⋀^{n''} F''`.
+
+If `n = n' + n''`, the filtration of `⋀^n F` collapses: `F^{n'} = ⋀^n F` and `F^{n'+1} = 0`, so
+the isomorphism is `⋀^n F = F^{n'} ≅ F^{n'} / F^{n'+1} ≅ ⋀^{n'} F' ⊗ ⋀^{n-n'} F''`, the last map
+being the graded-piece isomorphism of the filtration. Otherwise `𝒪_X` vanishes near every point,
+both sides are zero, and the isomorphism is the unique one between zero objects. -/
+noncomputable def exteriorPowerExactDetIso
     (S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))) (hS : S.ShortExact)
     {n' n n'' : ℕ} (h₁ : Ringed.IsLocallyFreeOfRank S.X₁ n')
     (h₂ : Ringed.IsLocallyFreeOfRank S.X₂ n) (h₃ : Ringed.IsLocallyFreeOfRank S.X₃ n'') :
-    Nonempty (Iso (C := SheafOfModules.{u} (ringCatSheafOf R))
+    Iso (C := SheafOfModules.{u} (ringCatSheafOf R))
       (moduleSheafExteriorPower n S.X₂)
       (moduleSheafTensor (moduleSheafExteriorPower n' S.X₁)
-        (moduleSheafExteriorPower n'' S.X₃))) := by
+        (moduleSheafExteriorPower n'' S.X₃)) :=
   have hdata := exists_rank_data hS h₁ h₂ h₃
-  by_cases hn : n = n' + n''
-  · have hloc : ∀ x : X, ∃ U : Opens X, x ∈ U ∧
+  if hn : n = n' + n'' then
+    have hloc : ∀ x : X, ∃ U : Opens X, x ∈ U ∧
         ∀ V : Opens X, V ≤ U → IsSplitAt S.f S.g (op V) := fun x => by
       obtain ⟨U, hx, hU⟩ := hdata x
       exact ⟨U, hx, fun V hV => (hU V hV).1⟩
@@ -1741,10 +1746,11 @@ theorem exteriorPower_exact_det
           (by simp only [Fintype.card_ulift, Fintype.card_fin]; omega))
     have hle : filSh S.f n (n' + 1) ≤ filSh S.f n n' := filSh_antitone S.f n (Nat.le_succ n')
     have hp : n' ≤ n := by omega
-    exact ⟨(Subobject.isoOfEqMk _ (𝟙 _) (htop.trans (Subobject.mk_eq_top_of_isIso _).symm)).symm ≪≫
+    (Subobject.isoOfEqMk _ (𝟙 _) (htop.trans (Subobject.mk_eq_top_of_isIso _).symm)).symm ≪≫
       (cokernelOfLEBotIso hbot hle).symm ≪≫ gradedIso S.f S.g hloc hp hle ≪≫
-      eqToIso (by rw [show n - n' = n'' by omega])⟩
-  · have hzero : ∀ x : X, ∃ U : Opens X, x ∈ U ∧
+      eqToIso (by rw [show n - n' = n'' by omega])
+  else
+    have hzero : ∀ x : X, ∃ U : Opens X, x ∈ U ∧
         Subsingleton ((R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)) := fun x => by
       obtain ⟨U, hx, hU⟩ := hdata x
       refine ⟨U, hx, ?_⟩
@@ -1764,7 +1770,21 @@ theorem exteriorPower_exact_det
           Module.finrank_eq_card_basis b₃] at e
         simp only [Fintype.card_ulift, Fintype.card_fin] at e
         omega
-    exact ⟨(isZero_of_locally_subsingleton hzero _).iso (isZero_of_locally_subsingleton hzero _)⟩
+    (isZero_of_locally_subsingleton hzero _).iso (isZero_of_locally_subsingleton hzero _)
+
+/-- **Hartshorne II, Exercise 5.16(d), top degree.** If `0 → F' → F → F'' → 0` is a short exact
+sequence of `𝒪_X`-modules with `F'`, `F`, `F''` locally free of ranks `n'`, `n`, `n''`, then
+`⋀^n F ≅ ⋀^{n'} F' ⊗ ⋀^{n''} F''`, that is, `det F ≅ det F' ⊗ det F''`. The isomorphism is
+`exteriorPowerExactDetIso`. -/
+theorem exteriorPower_exact_det
+    (S : ShortComplex (SheafOfModules.{u} (ringCatSheafOf R))) (hS : S.ShortExact)
+    {n' n n'' : ℕ} (h₁ : Ringed.IsLocallyFreeOfRank S.X₁ n')
+    (h₂ : Ringed.IsLocallyFreeOfRank S.X₂ n) (h₃ : Ringed.IsLocallyFreeOfRank S.X₃ n'') :
+    Nonempty (Iso (C := SheafOfModules.{u} (ringCatSheafOf R))
+      (moduleSheafExteriorPower n S.X₂)
+      (moduleSheafTensor (moduleSheafExteriorPower n' S.X₁)
+        (moduleSheafExteriorPower n'' S.X₃))) :=
+  ⟨exteriorPowerExactDetIso S hS h₁ h₂ h₃⟩
 
 end MainTheorem
 

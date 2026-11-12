@@ -228,35 +228,47 @@ open Ringed
 variable {k : Type u} [Field k] [IsAlgClosed k] {X Y : Scheme.{u}} (p : X ⟶ Spec (.of k))
   (i : Y ⟶ X) [IsClosedImmersion i]
 
-/-- **Hartshorne II, Proposition 8.20** (first part). Let `X` be a nonsingular variety over an
-algebraically closed field `k` and `i : Y ⟶ X` a nonsingular irreducible closed subscheme of
-codimension `r`. Then `ω_Y ≅ ω_X|_Y ⊗ ⋀^r N_{Y/X}`, where `ω_X|_Y = i^* ω_X` and
-`N_{Y/X} = (N^*_{Y/X})^∨` is the normal sheaf.
+omit [IsAlgClosed k] in
+/-- The dimension of `X`, as a natural number, is `dim X` when `X` is integral of finite type over
+`k`. -/
+private lemma topologicalKrullDim_eq_toNat [IsIntegral X] (hp : FiniteType p) :
+    topologicalKrullDim X = ((WithBot.unbotD 0 (topologicalKrullDim X)).toNat : ℕ) := by
+  obtain ⟨N, hN⟩ := ProductNonsingular.exists_topologicalKrullDim_eq p hp
+  rw [hN]
+  rfl
 
-The isomorphism is the composite of the determinant isomorphism of the conormal sequence
-`0 → N^*_{Y/X} → i^* Ω_X → Ω_Y → 0` (Theorem 8.17, Exercise II.5.16(d)), the isomorphism
-`i^*(⋀^n Ω_X) ≅ ⋀^n (i^* Ω_X)`, the isomorphism `⋀^r (N^*)^∨ ≅ (⋀^r N^*)^∨` given by the
-determinant pairing, and the evaluation `⋀^r N^* ⊗ (⋀^r N^*)^∨ ≅ 𝒪_Y` of the invertible sheaf
+/-- **Hartshorne II, Proposition 8.20** (first part), as an explicit isomorphism. Let `X` be a
+nonsingular variety over an algebraically closed field `k` and `i : Y ⟶ X` a nonsingular
+irreducible closed subscheme of codimension `r`. Then `ω_Y ≅ ω_X|_Y ⊗ ⋀^r N_{Y/X}`, where
+`ω_X|_Y = i^* ω_X` and `N_{Y/X} = (N^*_{Y/X})^∨` is the normal sheaf.
+
+With `n = dim X` and `m = dim Y`, the isomorphism is the inverse of the composite
+`i^* ω_X ⊗ ⋀^r (N^*)^∨ ≅ (⋀^r N^* ⊗ ω_Y) ⊗ (⋀^r N^*)^∨ ≅ ω_Y ⊗ (⋀^r N^* ⊗ (⋀^r N^*)^∨) ≅ ω_Y`
+built from: the isomorphism `i^*(⋀^n Ω_X) ≅ ⋀^n (i^* Ω_X)`; the determinant isomorphism
+`⋀^n (i^* Ω_X) ≅ ⋀^r N^* ⊗ ω_Y` of the conormal sequence `0 → N^*_{Y/X} → i^* Ω_X → Ω_Y → 0`
+(Theorem 8.17, Exercise II.5.16(d)); the isomorphism `⋀^r (N^*)^∨ ≅ (⋀^r N^*)^∨` given by the
+determinant pairing; and the evaluation `⋀^r N^* ⊗ (⋀^r N^*)^∨ ≅ 𝒪_Y` of the invertible sheaf
 `⋀^r N^*`. As in the formalization of Theorem 8.17, `X` is irreducible, regular and of finite
 type over `k`, and `Y` is irreducible and regular; separatedness is not used. -/
-theorem adjunction_determinant_normalSheaf (hp : FiniteType p) [IrreducibleSpace X]
+noncomputable def adjunctionDeterminantNormalSheafIso (hp : FiniteType p) [IrreducibleSpace X]
     (hX : X.IsRegular) [IrreducibleSpace Y] (hY : Y.IsRegular) (r : ℕ)
     (hr : codim (Set.range i.base) = r) :
-    Nonempty (canonicalSheaf (i ≫ p) ≅
+    canonicalSheaf (i ≫ p) ≅
       moduleSheafTensor (R := Y.sheaf) ((Scheme.Modules.pullback i).obj (canonicalSheaf p))
-        (moduleSheafExteriorPower (R := Y.sheaf) r (normalSheaf i))) := by
-  have := hp.1
-  have := hp.2
+        (moduleSheafExteriorPower (R := Y.sheaf) r (normalSheaf i)) :=
+  haveI := hp.1
+  haveI := hp.2
   have hq : FiniteType (i ≫ p) := ⟨inferInstance, inferInstance⟩
-  have : IsIntegral X := isIntegral_of_isRegular hX
-  have : IsIntegral Y := isIntegral_of_isRegular hY
-  obtain ⟨n, hn⟩ := ProductNonsingular.exists_topologicalKrullDim_eq p hp
-  obtain ⟨m, hm⟩ := ProductNonsingular.exists_topologicalKrullDim_eq (i ≫ p) hq
+  haveI : IsIntegral X := isIntegral_of_isRegular hX
+  haveI : IsIntegral Y := isIntegral_of_isRegular hY
+  -- `n = dim X` and `m = dim Y`, so that `ω_X = ⋀^n Ω_X` and `ω_Y = ⋀^m Ω_Y` by definition
+  let n := (WithBot.unbotD 0 (topologicalKrullDim X)).toNat
+  let m := (WithBot.unbotD 0 (topologicalKrullDim Y)).toNat
+  have hn : topologicalKrullDim X = n := topologicalKrullDim_eq_toNat p hp
+  have hm : topologicalKrullDim Y = m := topologicalKrullDim_eq_toNat (i ≫ p) hq
   have hΩX := (isRegular_iff_relativeDifferentials_isLocallyFreeOfRank p hp n hn).1 hX
   have hΩY := (isRegular_iff_relativeDifferentials_isLocallyFreeOfRank (i ≫ p) hq m hm).1 hY
-  have hE := ProductNonsingular.isLocallyFreeOfRank_pullback i hΩX
-  have hC := immersionConormalSheaf_isLocallyFreeOfRank i p hp hX hY r hr
-  obtain ⟨hS, -, -⟩ := NonsingularConormal.nonsingular_closedImmersion_conormal p i hp hX hY r hr
+  have hS := (NonsingularConormal.nonsingular_closedImmersion_conormal p i hp hX hY r hr).1
   -- the conormal sequence `0 → N^* → i^* Ω_X → Ω_Y → 0`, with `N^*` the conormal sheaf
   let T : ShortComplex Y.Modules :=
     ShortComplex.mk ((immersionConormalSheafIso i).hom ≫ ClosedConormal.conormalToPullback i p)
@@ -266,22 +278,44 @@ theorem adjunction_determinant_normalSheaf (hp : FiniteType p) [IrreducibleSpace
     refine ShortComplex.shortExact_of_iso ?_ hS
     exact ShortComplex.isoMk (immersionConormalSheafIso i).symm (Iso.refl _) (Iso.refl _)
       (by simp [T]) (by simp [T])
-  have hΩX' := hΩX
-  rw [Scheme.Modules.isLocallyFreeOfRank_iff_ringed] at hE hC hΩY hΩX'
-  -- determinant of the conormal sequence: `⋀^n (i^* Ω_X) ≅ ⋀^r N^* ⊗ ω_Y`
-  obtain ⟨φ⟩ := ExteriorPowerExactFiltration.exteriorPower_exact_det T hT hC hE hΩY
-  rw [canonicalSheaf_eq _ hm, canonicalSheaf_eq _ hn]
+  have hE := (Scheme.Modules.isLocallyFreeOfRank_iff_ringed _ _).1
+    (ProductNonsingular.isLocallyFreeOfRank_pullback i hΩX)
+  have hC := (Scheme.Modules.isLocallyFreeOfRank_iff_ringed _ _).1
+    (immersionConormalSheaf_isLocallyFreeOfRank i p hp hX hY r hr)
+  have hΩY' := (Scheme.Modules.isLocallyFreeOfRank_iff_ringed _ _).1 hΩY
   have hL : IsInvertible (moduleSheafExteriorPower r (immersionConormalSheaf i)) := by
     have := hC.moduleSheafExteriorPower r
     rwa [Nat.choose_self] at this
   let W := moduleSheafExteriorPower (R := Y.sheaf) m (Scheme.relativeDifferentials (i ≫ p))
   let L := moduleSheafExteriorPower (R := Y.sheaf) r (immersionConormalSheaf i)
-  exact ⟨(moduleSheafTensorIsoOfIso (pullbackExteriorPowerIso i hΩX n ≪≫ φ)
+  -- determinant of the conormal sequence: `⋀^n (i^* Ω_X) ≅ ⋀^r N^* ⊗ ω_Y`
+  let φ := ExteriorPowerExactFiltration.exteriorPowerExactDetIso T hT hC hE hΩY'
+  (moduleSheafTensorIsoOfIso (pullbackExteriorPowerIso i hΩX n ≪≫ φ)
       (ExteriorDual.exteriorPowerDualIso _ r hC) ≪≫
     moduleSheafTensorIsoOfIso (moduleSheafTensorComm L W) (Iso.refl _) ≪≫
     moduleSheafTensorAssoc W L (moduleSheafDual L) ≪≫
     moduleSheafTensorIsoOfIso (Iso.refl W) (moduleSheafDualEvalIso L hL) ≪≫
-    moduleSheafTensorComm W (structureModule Y.sheaf) ≪≫ moduleSheafUnitTensor W).symm⟩
+    moduleSheafTensorComm W (structureModule Y.sheaf) ≪≫ moduleSheafUnitTensor W).symm
+
+/-- **Hartshorne II, Proposition 8.20** (first part). Let `X` be a nonsingular variety over an
+algebraically closed field `k` and `i : Y ⟶ X` a nonsingular irreducible closed subscheme of
+codimension `r`. Then `ω_Y ≅ ω_X|_Y ⊗ ⋀^r N_{Y/X}`, where `ω_X|_Y = i^* ω_X` and
+`N_{Y/X} = (N^*_{Y/X})^∨` is the normal sheaf.
+
+The isomorphism is `adjunctionDeterminantNormalSheafIso`: the composite of the determinant
+isomorphism of the conormal sequence `0 → N^*_{Y/X} → i^* Ω_X → Ω_Y → 0` (Theorem 8.17,
+Exercise II.5.16(d)), the isomorphism `i^*(⋀^n Ω_X) ≅ ⋀^n (i^* Ω_X)`, the isomorphism
+`⋀^r (N^*)^∨ ≅ (⋀^r N^*)^∨` given by the determinant pairing, and the evaluation
+`⋀^r N^* ⊗ (⋀^r N^*)^∨ ≅ 𝒪_Y` of the invertible sheaf `⋀^r N^*`. As in the formalization of
+Theorem 8.17, `X` is irreducible, regular and of finite type over `k`, and `Y` is irreducible and
+regular; separatedness is not used. -/
+theorem adjunction_determinant_normalSheaf (hp : FiniteType p) [IrreducibleSpace X]
+    (hX : X.IsRegular) [IrreducibleSpace Y] (hY : Y.IsRegular) (r : ℕ)
+    (hr : codim (Set.range i.base) = r) :
+    Nonempty (canonicalSheaf (i ≫ p) ≅
+      moduleSheafTensor (R := Y.sheaf) ((Scheme.Modules.pullback i).obj (canonicalSheaf p))
+        (moduleSheafExteriorPower (R := Y.sheaf) r (normalSheaf i))) :=
+  ⟨adjunctionDeterminantNormalSheafIso p i hp hX hY r hr⟩
 
 end Adjunction
 
