@@ -39,6 +39,20 @@ sections of `𝒪_Y` over `U`.
 * `Hartshorne.IsKoszulRegularImmersion.exists_isKoszulRegular_sections`: for a Koszul-regular
   immersion and a finite locally free `M`, the defining sequences can be chosen near every point
   to be Koszul-regular on `M` as well.
+* Koszul self-duality (`Hartshorne.Koszul.koszulDualEquiv`): for `q + p = r`,
+  `⋀^q A^r ⊗ P ≅ Hom(⋀^p A^r, P)`, `η ⊗ m ↦ (ω ↦ [η ∧ ω] m)`, where `[-]` is the coefficient of
+  `e₁ ∧ ⋯ ∧ e_r`; under it the transpose of the Koszul differential is the Koszul differential up
+  to sign (`Hartshorne.Koszul.lcomp_contraction_comp_koszulDualEquiv`).
+* The dual `Hom_A(K_•(f; A), P)` of the Koszul resolution of `A / (f)` is exact in degrees
+  `0, …, r - 1` when `f` is Koszul-regular on `P`
+  (`Hartshorne.Koszul.injective_lcomp_sequenceKoszulComplex_d`,
+  `Hartshorne.Koszul.exact_lcomp_sequenceKoszulComplex_d`), and its top cohomology is
+  `P / (f) P` through evaluation at `e₁ ∧ ⋯ ∧ e_r ⊗ 1` (`Hartshorne.Koszul.koszulDualTopMap`,
+  `Hartshorne.Koszul.exact_koszulDualTopMap`, `Hartshorne.Koszul.koszulDualTopMap_apply`).
+* The determinant transition law (`Hartshorne.Koszul.koszulDualTopMap_changeOfBasis`): replacing
+  `f` by `f Q` for an invertible matrix `Q` multiplies the top identification by `det Q`.
+* `Hartshorne.IsKoszulRegularImmersion.exists_koszulDual`: the local Koszul calculation for a
+  Koszul-regular immersion and a finite locally free `M`.
 
 ## Proof
 
@@ -47,6 +61,13 @@ over `Γ(Y, U)`, and Koszul-regularity is preserved by flat base change. Choosin
 open on which `M` is free, `Γ(M, D(g))` is a free, hence flat, `Γ(Y, D(g))`-module, and
 Koszul-regularity passes to flat modules: if `K_•(f; A)` is exact then so is
 `K_•(f; A) ⊗_A M = K_•(f; M)`.
+
+For the duality, contraction `φ ⌋ -` is a graded derivation of the exterior algebra
+(`Hartshorne.Koszul.contractLeft_mul_of_mem`); since `η ∧ ω = 0` in degree `r + 1`, this gives
+`[(φ ⌋ η) ∧ ω] = (-1)^q [η ∧ (φ ⌋ ω)]` for `η` of degree `q + 1`. The wedge pairing
+`⋀^q A^r → (⋀^p A^r)^∨` is perfect (`Hartshorne.Koszul.wedgeDual_bijective`, from the perfect
+exterior pairing of a free module), so `Hom(K_p, P) ≅ K_{r-p}(f; P)` compatibly with the
+differentials up to sign, and `Hᵖ(Hom(K_•(f; A), P)) ≅ H_{r-p}(K_•(f; P))`.
 -/
 
 universe u
@@ -200,13 +221,15 @@ lemma eq_zero_of_mem_exteriorPower_of_lt {n : ℕ} (hn : r < n) {x : ExteriorAlg
 /-- The multiplication `⋀^q A^r × ⋀^p A^r → ⋀^{q+p} A^r`. -/
 noncomputable def wedgeMul (q p : ℕ) :
     ⋀[A]^q (Fin r → A) →ₗ[A] ⋀[A]^p (Fin r → A) →ₗ[A] ⋀[A]^(q + p) (Fin r → A) :=
-  LinearMap.mk₂ A (fun x y => ⟨(x : ExteriorAlgebra A (Fin r → A)) * y, mul_mem_exteriorPower x.2 y.2⟩)
+  LinearMap.mk₂ A
+    (fun x y => ⟨(x : ExteriorAlgebra A (Fin r → A)) * y, mul_mem_exteriorPower x.2 y.2⟩)
     (fun _ _ _ => Subtype.ext (add_mul _ _ _)) (fun _ _ _ => Subtype.ext (smul_mul_assoc _ _ _))
     (fun _ _ _ => Subtype.ext (mul_add _ _ _)) (fun _ _ _ => Subtype.ext (mul_smul_comm _ _ _))
 
 /-- The pairing `⋀^q A^r → (⋀^p A^r)^∨`, `η ↦ (ω ↦ [η ∧ ω])`, where `[-]` is the coefficient of
 `e₁ ∧ ⋯ ∧ e_r`. -/
-noncomputable def wedgeDual (q p : ℕ) : ⋀[A]^q (Fin r → A) →ₗ[A] Module.Dual A (⋀[A]^p (Fin r → A)) :=
+noncomputable def wedgeDual (q p : ℕ) :
+    ⋀[A]^q (Fin r → A) →ₗ[A] Module.Dual A (⋀[A]^p (Fin r → A)) :=
   ((LinearMap.mul A (ExteriorAlgebra A (Fin r → A))).compl₁₂ (⋀[A]^q (Fin r → A)).subtype
     (⋀[A]^p (Fin r → A)).subtype).compr₂ (topCoord r)
 
@@ -346,8 +369,9 @@ theorem injective_lcomp_contraction_zero (φ : Module.Dual A (Fin r → A)) (P :
     obtain ⟨y, hy⟩ := ((hP q) x).1 hx
     rw [← hy, Subsingleton.elim y 0, map_zero]
   have hcomp : Function.Injective
-      (LinearMap.lcomp A P (contraction φ 0) ∘ₗ (koszulDualEquiv (A := A) (r := q + 1) (q := q + 1) (p := 0)
-        (by omega) P).toLinearMap) := by
+      (LinearMap.lcomp A P (contraction φ 0) ∘ₗ
+        (koszulDualEquiv (A := A) (r := q + 1) (q := q + 1) (p := 0)
+          (by omega) P).toLinearMap) := by
     rw [hsq, LinearMap.coe_comp]
     refine (koszulDualEquiv _ P).injective.comp ?_
     intro x y hxy
@@ -364,9 +388,12 @@ image of that map. -/
 theorem exact_lcomp_contraction_top (φ : Module.Dual A (Fin r → A)) (P : Type u)
     [AddCommGroup P] [Module A P] {s : ℕ} (hs : s + 1 = r) :
     Function.Exact (LinearMap.lcomp A P (contraction φ s))
-        (augmentationLinearMap φ P ∘ₗ (koszulDualEquiv (A := A) (r := r) (q := 0) (p := s + 1) (by omega) P).symm.toLinearMap) ∧
+        (augmentationLinearMap φ P ∘ₗ
+          (koszulDualEquiv (A := A) (r := r) (q := 0) (p := s + 1) (by omega) P).symm.toLinearMap) ∧
       Function.Surjective
-        (augmentationLinearMap φ P ∘ₗ (koszulDualEquiv (A := A) (r := r) (q := 0) (p := s + 1) (by omega) P).symm.toLinearMap) := by
+        (augmentationLinearMap φ P ∘ₗ
+          (koszulDualEquiv (A := A) (r := r) (q := 0) (p := s + 1) (by omega)
+            P).symm.toLinearMap) := by
   subst hs
   have hsq := lcomp_contraction_comp_koszulDualEquiv φ (q := 0) (p := s) (by omega) (by omega) P
   rw [pow_zero, one_smul] at hsq
