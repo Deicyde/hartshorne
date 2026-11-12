@@ -1104,8 +1104,6 @@ theorem twistRestrictHom_comp_twistDivXHom :
 
 end Transition
 
-
-
 /-! ### The image of division by `t` on the charts -/
 
 section ChartPart
@@ -1283,7 +1281,6 @@ theorem idealSheafDataOfHom_pieceDivX (U : X.AffineZariskiSite) :
 
 end ReesAlgebraSheaf
 
-
 end ChartPart
 
 namespace ReesAlgebraSheaf
@@ -1435,7 +1432,8 @@ theorem compatibleIsos_exceptionalIdealSheafRestrictIso :
       (I.exceptionalIdealSheafRestrictIso hI) := by
   refine DirectedModuleGluing.DataTr.compatibleIsos_of_comp_unit
     ((I.blowupData hI).algebra.twistData 1) (I.exceptionalIdealSheafRel hI)
-    (I.exceptionalIdealSheafRestrictIso hI) (fun U => I.pieceDivX hI U) (fun U => I.mono_pieceDivX hI U)
+    (I.exceptionalIdealSheafRestrictIso hI) (fun U => I.pieceDivX hI U)
+    (fun U => I.mono_pieceDivX hI U)
     (closedImmersionIdealSheafι (I.exceptionalIdealRel hI).subschemeι) ?_ ?_
   · intro U
     exact I.exceptionalIdealSheafRestrictIso_hom_comp hI U
@@ -1448,7 +1446,8 @@ def exceptionalIdealSheafIsoTwistingSheaf :
   ((I.blowupData hI).algebra.twistData 1).toData.liftIso (I.exceptionalIdealSheafRel hI) _
     (I.compatibleIsos_exceptionalIdealSheafRestrictIso hI)
 
-/-- **Hartshorne II, Proposition 7.13(a), `𝒪(1) ≅ 𝒪(-E)`.** -/
+/-- **`𝒪(1) ≅ 𝒪(-E)`**: Hartshorne II, Proposition 7.13(a) (`I_E ≅ 𝒪(1)`) combined with
+Proposition 6.18 (`I_E ≅ 𝒪(-E)`). -/
 def twistingSheafIsoDivisorSheaf :
     (I.blowupData hI).algebra.relTwistingSheaf 1 ≅ (-(I.exceptionalDivisor hI)).sheaf :=
   (I.exceptionalIdealSheafIsoTwistingSheaf hI).symm ≪≫ I.exceptionalIdealSheafIsoDivisorSheaf hI
