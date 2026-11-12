@@ -2,8 +2,7 @@
 Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Hartshorne.Scheme.CoherentFormalModuleReduction
-import Hartshorne.Scheme.SheafCechOneLift
+import Hartshorne.Scheme.IdealOfDefinitionTransition
 
 /-!
 # Exactness of global sections on an affine formal scheme
@@ -80,9 +79,7 @@ transition maps `Γ(X, F' / J ^ (n + 2) F') ⟶ Γ(X, F' / J ^ (n + 1) F')` are 
 theorem globalSections_surjective_of_isAffine
     {S : ShortComplex (SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace))}
     (hS : S.ShortExact) (hF : IsCoherentFormalModule S.X₁)
-    (haff : ∀ n, IsAffine (h.pow_succ n).quotientScheme)
-    (hML : ∀ n, Function.Surjective
-      ((sheafOfModulesAbMap (J.powQuotientMap S.X₁ n)).app (op ⊤))) :
+    (haff : ∀ n, IsAffine (h.pow_succ n).quotientScheme) :
     Function.Surjective ((sheafOfModulesAbMap S.g).app (op ⊤)) := by
   intro s
   have : Epi S.g := hS.epi_g
@@ -126,7 +123,8 @@ theorem globalSections_surjective_of_isAffine
         ((J.powQuotientDiagram S.X₁).map (homOfLE (Nat.le_succ n)).op)).app (op ⊤))
       rw [show (J.powQuotientDiagram S.X₁).map (homOfLE (Nat.le_succ n)).op =
         J.powQuotientMap S.X₁ n from hmap]
-      exact hML n)
+      have := haff (n + 1)
+      exact h.surjective_powQuotientMap hF n)
   exact this
 
 end IsIdealOfDefinition
