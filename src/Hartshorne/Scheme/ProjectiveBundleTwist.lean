@@ -66,6 +66,28 @@ theorem DirectedModuleGluing.DataTr.ψ_hom_app_top {Y : Scheme.{u}}
   exact congrArg (fun y => (E.θ f).hom.app ⊤ ((E.ψ j).hom.app (E.tr f ''ᵁ ⊤) y))
     (DirectedModuleGluing.pmap_map E.glue _ _ _ x)
 
+/-- Scalars act on the sections of a restriction along an open immersion through `appIso`. -/
+theorem smul_eq_restrict_smul {Z Y : Scheme.{u}} (f : Z ⟶ Y) [IsOpenImmersion f] (N : Y.Modules)
+    (D : Z.Opens) (a : Γ(Y, f ''ᵁ D)) (t : Γ(N, f ''ᵁ D)) :
+    (a • t : Γ(N, f ''ᵁ D)) =
+      ((f.appIso D).hom a • (show Γ(N.restrict f, D) from t) : Γ(N.restrict f, D)) := by
+  change _ = (f.appIso D).inv ((f.appIso D).hom a) • t
+  rw [Iso.hom_inv_id_apply]
+
+/-- A relation `x₂ = r x₁` over `W₁` between restrictions of global sections gives the
+corresponding relation on `W₁ ⊓ W₂`. -/
+theorem restrict_inf_smul {Z : Scheme.{u}} {N : Z.Modules} {W₁ W₂ : Z.Opens} (x₁ x₂ : Γ(N, ⊤))
+    (r : Γ(Z, W₁))
+    (h : N.presheaf.map (homOfLE (le_top : W₁ ≤ ⊤)).op x₂ =
+      r • N.presheaf.map (homOfLE (le_top : W₁ ≤ ⊤)).op x₁) :
+    N.presheaf.map (homOfLE (inf_le_right : W₁ ⊓ W₂ ≤ W₂)).op
+        (N.presheaf.map (homOfLE (le_top : W₂ ≤ ⊤)).op x₂) =
+      Z.presheaf.map (homOfLE (inf_le_left : W₁ ⊓ W₂ ≤ W₁)).op r •
+        N.presheaf.map (homOfLE (inf_le_left : W₁ ⊓ W₂ ≤ W₁)).op
+          (N.presheaf.map (homOfLE (le_top : W₁ ≤ ⊤)).op x₁) := by
+  rw [Scheme.Modules.map_map_homOfLE, ← Scheme.Modules.map_map_homOfLE N le_top
+    (inf_le_left : W₁ ⊓ W₂ ≤ W₁), h, Scheme.Modules.map_smul]
+
 end Hartshorne
 
 namespace AlgebraicGeometry.Scheme.Modules
@@ -285,5 +307,120 @@ private lemma pieceSection_basicOpen {V : X.Opens} (hV : IsAffineOpen V) (hVU : 
   exact Subtype.ext (pieceElt_restrict hE hfin hV hVU r i)
 
 end Abstract
+
+/-- The affine opens contained in `U`. -/
+private abbrev AffinesIn (U : X.Opens) : Type u := {V : X.Opens // IsAffineOpen V ∧ V ≤ U}
+
+omit [IsNoetherian X] in
+private lemma projι_image_top {V : X.Opens} (hV : IsAffineOpen V) :
+    (symmetricGradedAlgebra hE hfin).projι (site hV) ''ᵁ ⊤ =
+      (symmetricGradedAlgebra hE hfin).relProjToBase ⁻¹ᵁ V := by
+  rw [Scheme.Hom.image_top_eq_opensRange]
+  exact ((symmetricGradedAlgebra hE hfin).relProjToBase_preimage (site hV)).symm
+
+private lemma ιU_image_top :
+    (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι ''ᵁ ⊤ = projectiveBundleProj hE hfin ⁻¹ᵁ U := by
+  rw [Scheme.Hom.image_top_eq_opensRange, Scheme.Opens.opensRange_ι]
+
+private lemma projι_image_top_le {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U) :
+    (symmetricGradedAlgebra hE hfin).projι (site hV) ''ᵁ ⊤ ≤
+      (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι ''ᵁ ⊤ := by
+  rw [projι_image_top, ιU_image_top]
+  exact Scheme.Hom.preimage_mono _ hVU
+
+/-- Every point of `π⁻¹(U)` lies on one of the affine pieces. -/
+private lemma exists_pieceι_eq (x : (projectiveBundleProj hE hfin ⁻¹ᵁ U).toScheme) :
+    ∃ (V : AffinesIn U) (y : Proj ((symmetricGradedAlgebra hE hfin).grading (site V.2.1))),
+      pieceι hE hfin V.2.1 V.2.2 y = x := by
+  obtain ⟨V, hV, hxV, hVU⟩ := Opens.isBasis_iff_nbhd.mp X.isBasis_affineOpens
+    (show projectiveBundleProj hE hfin x.1 ∈ U from x.2)
+  refine ⟨⟨V, hV, hVU⟩, ((Scheme.Opens.isoOfLE (Scheme.Hom.preimage_mono
+    (projectiveBundleProj hE hfin) hVU)).hom ≫
+      ((symmetricGradedAlgebra hE hfin).restrictIso (site hV)).hom) ⟨x, hxV⟩, ?_⟩
+  rw [← Scheme.Hom.comp_apply, pieceι, Category.assoc, Iso.hom_inv_id_assoc,
+    Iso.hom_inv_id_assoc]
+  rfl
+
+section Abstract2
+
+variable (M : (projectiveBundle hE hfin).Modules)
+  (α : ∀ V : X.AffineZariskiSite, M.restrict ((symmetricGradedAlgebra hE hfin).projι V) ≅
+    (symmetricGradedAlgebra hE hfin).twistingSheaf 1 V)
+  (hα : ∀ {V : X.Opens} (hV : IsAffineOpen V) (r : Γ(X, V))
+    (x : Γ(M, (symmetricGradedAlgebra hE hfin).projι (site (hV.basicOpen r)) ''ᵁ ⊤)),
+    (α (site (hV.basicOpen r))).hom.app ⊤ x =
+      ((symmetricGradedAlgebra hE hfin).twistTransition 1 (basicArrow hV r)).hom.app ⊤
+        ((α (site hV)).hom.app _
+          (M.presheaf.map (homOfLE (projι_image_basicArrow hE hfin hV r)).op x)))
+
+include hα in
+private lemma pieceSection_basicOpen' {V W : X.Opens} (hV : IsAffineOpen V)
+    (hW : IsAffineOpen W) (hVU : V ≤ U) (hWU : W ≤ U) (r : Γ(X, V)) (hWr : X.basicOpen r = W)
+    (i : Fin (n + 1))
+    (hle : (symmetricGradedAlgebra hE hfin).projι (site hW) ''ᵁ ⊤ ≤
+      (symmetricGradedAlgebra hE hfin).projι (site hV) ''ᵁ ⊤) :
+    M.presheaf.map (homOfLE hle).op (pieceSection hE hfin (e := e) M α hV hVU i) =
+      pieceSection hE hfin (e := e) M α hW hWU i := by
+  subst hWr
+  exact pieceSection_basicOpen hE hfin M α hα hV hVU r i hle
+
+include hα in
+/-- The sections `e_i` over the affine pieces glue to a section of `M` over `π⁻¹(U)`. -/
+private lemma exists_globalSection (i : Fin (n + 1)) :
+    ∃ s : Γ(M, (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι ''ᵁ ⊤),
+      ∀ (V : X.Opens) (hV : IsAffineOpen V) (hVU : V ≤ U),
+        M.presheaf.map (homOfLE (projι_image_top_le hE hfin hV hVU)).op s =
+          pieceSection hE hfin (e := e) M α hV hVU i := by
+  let Wf : AffinesIn U → (projectiveBundle hE hfin).Opens :=
+    fun V => (symmetricGradedAlgebra hE hfin).projι (site V.2.1) ''ᵁ ⊤
+  have hcov : (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι ''ᵁ ⊤ ≤ iSup Wf := by
+    rw [ιU_image_top]
+    intro p hp
+    obtain ⟨V, hV, hpV, hVU⟩ := Opens.isBasis_iff_nbhd.mp X.isBasis_affineOpens hp
+    refine Opens.mem_iSup.2 ⟨⟨V, hV, hVU⟩, ?_⟩
+    change p ∈ (symmetricGradedAlgebra hE hfin).projι (site hV) ''ᵁ ⊤
+    rw [projι_image_top]
+    exact hpV
+  obtain ⟨s, hs⟩ := DirectedModuleGluing.mod_glue M Wf
+    (fun V => projι_image_top_le hE hfin V.2.1 V.2.2) hcov
+    (fun V => (pieceSection hE hfin (e := e) M α V.2.1 V.2.2 i : Γ(M, Wf V))) (by
+      intro k l
+      have hx : ∀ p : ↥(Wf k ⊓ Wf l), (symmetricGradedAlgebra hE hfin).relProjToBase p.1 ∈
+          k.1 ⊓ l.1 := by
+        intro p
+        have h := p.2
+        simp only [Wf, projι_image_top] at h
+        exact h
+      choose R T hRT hpR using fun p => exists_basicOpen_le_affine_inter k.2.1 l.2.1 _ (hx p)
+      have hD : ∀ p, (symmetricGradedAlgebra hE hfin).projι (site (k.2.1.basicOpen (R p))) ''ᵁ ⊤ =
+          (symmetricGradedAlgebra hE hfin).relProjToBase ⁻¹ᵁ X.basicOpen (R p) :=
+        fun p => projι_image_top hE hfin _
+      have h1 : ∀ p, (symmetricGradedAlgebra hE hfin).projι (site (k.2.1.basicOpen (R p))) ''ᵁ ⊤ ≤
+          Wf k := fun p => by
+        simp only [Wf]
+        rw [hD, projι_image_top]
+        exact Scheme.Hom.preimage_mono _ (X.basicOpen_le _)
+      have h2 : ∀ p, (symmetricGradedAlgebra hE hfin).projι (site (k.2.1.basicOpen (R p))) ''ᵁ ⊤ ≤
+          Wf l := fun p => by
+        simp only [Wf]
+        rw [hD, projι_image_top, hRT]
+        exact Scheme.Hom.preimage_mono _ (X.basicOpen_le _)
+      refine DirectedModuleGluing.mod_ext M
+        (fun p => (symmetricGradedAlgebra hE hfin).projι (site (k.2.1.basicOpen (R p))) ''ᵁ ⊤)
+        (fun p => le_inf (h1 p) (h2 p)) ?_ _ _ fun p => ?_
+      · intro q hq
+        refine Opens.mem_iSup.2 ⟨⟨q, hq⟩, ?_⟩
+        change q ∈ (symmetricGradedAlgebra hE hfin).projι (site (k.2.1.basicOpen (R ⟨q, hq⟩))) ''ᵁ ⊤
+        rw [hD]
+        exact hpR ⟨q, hq⟩
+      · rw [DirectedModuleGluing.pmap_map M _ _ (homOfLE (h1 p)).op,
+          DirectedModuleGluing.pmap_map M _ _ (homOfLE (h2 p)).op,
+          pieceSection_basicOpen' hE hfin M α hα k.2.1 (k.2.1.basicOpen (R p)) k.2.2
+            ((X.basicOpen_le _).trans k.2.2) (R p) rfl,
+          pieceSection_basicOpen' hE hfin M α hα l.2.1 (k.2.1.basicOpen (R p)) l.2.2
+            ((X.basicOpen_le _).trans k.2.2) (T p) (hRT p).symm])
+  exact ⟨s, fun V hV hVU => hs ⟨V, hV, hVU⟩⟩
+
+end Abstract2
 
 end AlgebraicGeometry.Scheme.Modules
