@@ -3,6 +3,8 @@ article_id: af_221c99b8c5543399c08f93ab
 declaration: theorem
 origin: background
 lean: Hartshorne.cycleProjectiveDegree Hartshorne.cycleProjectiveDegree_eq_zero_of_mem_rationalEquivalenceSubgroup Hartshorne.chowGroupProjectiveDegree Hartshorne.chowGroupProjectiveDegree_mk
+statement: formalized
+proof: formalized
 ---
 
 # The degree of cycles on projective space is invariant under rational equivalence
