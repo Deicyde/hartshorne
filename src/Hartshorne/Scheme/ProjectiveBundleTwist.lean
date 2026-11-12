@@ -120,11 +120,11 @@ variable {X : Scheme.{u}} {E : X.Modules} (hE : E.IsLocallyFree)
   (hfin : ∀ x, E.rankAt x < Cardinal.aleph0) [IsNoetherian X]
 
 /-- An affine open as an object of the affine Zariski site. -/
-private abbrev site {V : X.Opens} (hV : IsAffineOpen V) : X.AffineZariskiSite := ⟨V, hV⟩
+abbrev site {V : X.Opens} (hV : IsAffineOpen V) : X.AffineZariskiSite := ⟨V, hV⟩
 
 /-- The affine piece `Proj Γ(V, S(E))` over an affine open `V ⊆ U`, as an open subscheme of
 `π⁻¹(U)`. -/
-private def pieceι {U V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U) :
+def pieceι {U V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U) :
     Proj ((symmetricGradedAlgebra hE hfin).grading (site hV)) ⟶
       (projectiveBundleProj hE hfin ⁻¹ᵁ U).toScheme :=
   ((symmetricGradedAlgebra hE hfin).restrictIso (site hV)).inv ≫
@@ -169,19 +169,20 @@ private lemma pieceι_toIntMap {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ 
   rfl
 
 /-- The degree-one element `e_i ∈ Γ(V, S(E))` given by the restricted frame. -/
-private abbrev pieceElt {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U) (i : Fin (n + 1)) :
+abbrev pieceElt {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U) (i : Fin (n + 1)) :
     (symmetricGradedAlgebra hE hfin).obj.obj (op (site hV)) :=
   frameIntHom hE hfin hV (fun k => E.presheaf.map (homOfLE hVU).op (e k)) (MvPolynomial.X i)
 
 omit [IsNoetherian X] in
-private lemma pieceElt_mem {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U) (i : Fin (n + 1)) :
+/-- The element `e_i ∈ Γ(V, S(E))` of the restricted frame has degree one. -/
+lemma pieceElt_mem {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U) (i : Fin (n + 1)) :
     pieceElt hE hfin (e := e) hV hVU i ∈ (symmetricGradedAlgebra hE hfin).grading (site hV) 1 :=
   (frameIntHom hE hfin hV _).map_mem (Hartshorne.X_mem_homogeneousSubmodule_one _ i)
 
 include hψ in
 /-- On the affine piece over `V`, the preimage of the chart `D₊(z_i)` under `π⁻¹(U) ≅ ℙⁿ_U` is
 `D₊(e_i)`. -/
-private lemma pieceι_preimage_chart {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U)
+lemma pieceι_preimage_chart {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U)
     (i : Fin (n + 1)) :
     pieceι hE hfin hV hVU ⁻¹ᵁ chartPreimage ψ.hom i =
       Proj.basicOpen _ (pieceElt hE hfin (e := e) hV hVU i) := by
@@ -191,7 +192,7 @@ private lemma pieceι_preimage_chart {V : X.Opens} (hV : IsAffineOpen V) (hVU : 
 include hψ in
 /-- On the affine piece over `V`, the isomorphism `π⁻¹(U) ≅ ℙⁿ_U` pulls `z_j/z_i` back to
 `e_j/e_i`. -/
-private lemma pieceι_appLE_ratio {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U)
+lemma pieceι_appLE_ratio {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U)
     (i j : Fin (n + 1)) :
     (pieceι hE hfin hV hVU).appLE (chartPreimage ψ.hom i)
         (Proj.basicOpen _ (pieceElt hE hfin (e := e) hV hVU i))
@@ -263,7 +264,7 @@ variable (M : (projectiveBundle hE hfin).Modules)
 
 /-- The degree-one section `e_i` of `𝒪_{Proj Γ(V, S(E))}(1)`, as a section of `M` over the affine
 piece over `V`. -/
-private def pieceSection {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U) (i : Fin (n + 1)) :
+def pieceSection {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U) (i : Fin (n + 1)) :
     Γ(M.restrict ((symmetricGradedAlgebra hE hfin).projι (site hV)), ⊤) :=
   (α (site hV)).inv.app ⊤
     (ProjTwistingSheaf.degreeOneSection ⟨pieceElt hE hfin (e := e) hV hVU i,
@@ -548,8 +549,10 @@ private lemma iso_inv_hom_app {Z : Scheme.{u}} {M N : Z.Modules} (α : M ≅ N) 
   rfl
 
 include he hψ in
-/-- **Transition functions.** On `ψ⁻¹(D₊(z_i))`, the glued section `s_j` is `ψ^#(z_j/z_i) s_i`. -/
-private lemma global_transition
+/-- **Transition functions.** Let `s_0, …, s_n` be sections of `M|_{π⁻¹(U)}` which restrict, on the
+affine piece over every affine open `V ⊆ U`, to the degree-one sections `e_i` (under `α`). Then on
+`ψ⁻¹(D₊(z_i))` the section `s_j` is `ψ^#(z_j/z_i) s_i`. -/
+lemma global_transition
     (s : Fin (n + 1) → Γ(M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι, ⊤))
     (hs : ∀ i (V : X.Opens) (hV : IsAffineOpen V) (hVU : V ≤ U),
       M.presheaf.map (homOfLE (projι_image_top_le hE hfin hV hVU)).op
@@ -582,8 +585,10 @@ private lemma global_transition
     exact degreeOne_restrict_smul hE hfin hV hVU i j _ _
 
 include he hψ in
-/-- **Frames.** On `ψ⁻¹(D₊(z_i))`, the glued section `s_i` trivializes `M|_{π⁻¹(U)}`. -/
-private lemma global_trivializing (i : Fin (n + 1))
+/-- **Frames.** Let `s` be a section of `M|_{π⁻¹(U)}` which restricts, on the affine piece over
+every affine open `V ⊆ U`, to the degree-one section `e_i` (under `α`). Then on `ψ⁻¹(D₊(z_i))`
+the section `s` trivializes `M|_{π⁻¹(U)}`. -/
+lemma global_trivializing (i : Fin (n + 1))
     (s : Γ(M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι, ⊤))
     (hs : ∀ (V : X.Opens) (hV : IsAffineOpen V) (hVU : V ≤ U),
       M.presheaf.map (homOfLE (projι_image_top_le hE hfin hV hVU)).op
