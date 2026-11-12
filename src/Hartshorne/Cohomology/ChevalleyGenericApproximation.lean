@@ -112,6 +112,163 @@ theorem isLocalizedModule_resₗ (hU : IsAffineOpen U) [IsIso (P.restrict hU.fro
 
 end BasicOpen
 
+/-! ### The modules of homomorphisms over affine opens -/
+
+section HomModule
+
+variable {X Y : Scheme.{u}} (f : X ⟶ Y) (M : X.Modules) (F : Y.Modules)
+
+/-- Multiplication by a section `b` of `𝒪_X` over `f⁻¹ U` on `Γ(U, f_* M)`, which is
+`Γ(U, 𝒪_Y)`-linear. -/
+def mulB (U : Y.Opens) (b : Γ(X, f ⁻¹ᵁ U)) :
+    Γ((Scheme.Modules.pushforward f).obj M, U) →ₗ[Γ(Y, U)]
+      Γ((Scheme.Modules.pushforward f).obj M, U) where
+  toFun m := (b • (show Γ(M, f ⁻¹ᵁ U) from m) : Γ(M, f ⁻¹ᵁ U))
+  map_add' x y := smul_add b (show Γ(M, f ⁻¹ᵁ U) from x) y
+  map_smul' a m := by
+    change b • (f.app U a • (show Γ(M, f ⁻¹ᵁ U) from m)) =
+      f.app U a • (b • (show Γ(M, f ⁻¹ᵁ U) from m))
+    rw [smul_smul, smul_smul, mul_comm]
+
+theorem mulB_app (U : Y.Opens) (a : Γ(Y, U)) (m : Γ((Scheme.Modules.pushforward f).obj M, U)) :
+    mulB f M U (f.app U a) m = a • m := rfl
+
+/-- The `Γ(f⁻¹ U, 𝒪_X)`-module structure on `Hom_{Γ(U, 𝒪_Y)}(Γ(U, f_* M), Γ(U, F))`, by
+precomposition with multiplication. -/
+@[reducible] def homModule (U : Y.Opens) :
+    Module Γ(X, f ⁻¹ᵁ U) (Γ((Scheme.Modules.pushforward f).obj M, U) →ₗ[Γ(Y, U)] Γ(F, U)) where
+  smul b h := h ∘ₗ mulB f M U b
+  one_smul h := LinearMap.ext fun m => congrArg h (one_smul _ (show Γ(M, f ⁻¹ᵁ U) from m))
+  mul_smul b b' h := LinearMap.ext fun m => congrArg h (by
+    change (b * b') • (show Γ(M, f ⁻¹ᵁ U) from m) = b' • b • (show Γ(M, f ⁻¹ᵁ U) from m)
+    rw [mul_comm, mul_smul])
+  smul_zero b := LinearMap.zero_comp _
+  smul_add b h h' := LinearMap.add_comp _ _ _
+  add_smul b b' h := LinearMap.ext fun m => by
+    change h ((b + b') • (show Γ(M, f ⁻¹ᵁ U) from m)) =
+      h (b • (show Γ(M, f ⁻¹ᵁ U) from m)) + h (b' • (show Γ(M, f ⁻¹ᵁ U) from m))
+    rw [add_smul]
+    exact map_add h _ _
+  zero_smul h := LinearMap.ext fun m => by
+    change h ((0 : Γ(X, f ⁻¹ᵁ U)) • (show Γ(M, f ⁻¹ᵁ U) from m)) = 0
+    rw [zero_smul]
+    exact map_zero h
+
+/-- The module `Hom_{Γ(U, 𝒪_Y)}(Γ(U, f_* M), Γ(U, F))` over `Γ(f⁻¹ U, 𝒪_X)`. -/
+def homSec (U : Y.Opens) : ModuleCat.{u} Γ(X, f ⁻¹ᵁ U) :=
+  letI := homModule f M F U
+  ModuleCat.of Γ(X, f ⁻¹ᵁ U) (Γ((Scheme.Modules.pushforward f).obj M, U) →ₗ[Γ(Y, U)] Γ(F, U))
+
+/-- An element of `homSec` as a linear map. -/
+def homSec.lin {U : Y.Opens} (h : homSec f M F U) :
+    Γ((Scheme.Modules.pushforward f).obj M, U) →ₗ[Γ(Y, U)] Γ(F, U) := h
+
+theorem homSec.smul_lin {U : Y.Opens} (b : Γ(X, f ⁻¹ᵁ U)) (h : homSec f M F U)
+    (m : Γ((Scheme.Modules.pushforward f).obj M, U)) :
+    homSec.lin f M F (b • h) m = homSec.lin f M F h (mulB f M U b m) := rfl
+
+theorem homSec.lin_add {U : Y.Opens} (h h' : homSec f M F U) :
+    homSec.lin f M F (h + h') = homSec.lin f M F h + homSec.lin f M F h' := rfl
+
+/-- On `homSec`, sections of `𝒪_Y` act through `f` as they act on the values. -/
+theorem homSec.app_smul {U : Y.Opens} (a : Γ(Y, U)) (h : homSec f M F U) :
+    homSec.lin f M F (f.app U a • h) = a • homSec.lin f M F h :=
+  LinearMap.ext fun m => (homSec.smul_lin f M F _ h m).trans ((homSec.lin f M F h).map_smul a m)
+
+end HomModule
+
+/-! ### Restriction of homomorphisms to basic opens -/
+
+section Restriction
+
+open RelSpecModuleData
+
+variable {X Y : Scheme.{u}} (f : X ⟶ Y) (M : X.Modules) (F : Y.Modules)
+
+theorem le_of_hom {U V : Y.AffineZariskiSite} (i : U ⟶ V) : U.1 ≤ V.1 :=
+  Scheme.AffineZariskiSite.toOpens_mono (leOfHom i)
+
+/-- The restriction `Γ(V, 𝒪_Y) → Γ(U, 𝒪_Y)` as an algebra. -/
+abbrev transAlgebra {U V : Y.AffineZariskiSite} (i : U ⟶ V) : Algebra Γ(Y, V.1) Γ(Y, U.1) :=
+  (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom.toAlgebra
+
+theorem transIsLocalization {U V : Y.AffineZariskiSite} (i : U ⟶ V) :
+    letI := transAlgebra i
+    IsLocalization.Away (transElt i) Γ(Y, U.1) := by
+  have hr := basicOpen_transElt i
+  revert hr
+  generalize transElt i = r
+  intro hr
+  obtain rfl : U = V.basicOpen r := Subtype.ext hr.symm
+  exact V.2.isLocalization_basicOpen r
+
+variable [((Scheme.Modules.pushforward f).obj M).IsQuasicoherent] [F.IsQuasicoherent]
+
+/-- **Restriction of homomorphisms**: for a basic open `U = D(r) ⊆ V`, a homomorphism
+`Γ(V, f_* M) → Γ(V, F)` induces `Γ(U, f_* M) = Γ(V, f_* M)_r → Γ(V, F)_r = Γ(U, F)`. -/
+def homRes {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    (h : Γ((Scheme.Modules.pushforward f).obj M, V.1) →ₗ[Γ(Y, V.1)] Γ(F, V.1)) :
+    Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1) :=
+  letI := transAlgebra i
+  letI := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
+    (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  letI := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
+    IsScalarTower.of_compHom _ _ _
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
+  haveI := transIsLocalization i
+  haveI := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
+    (le_of_hom i) (basicOpen_transElt i)
+  haveI := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
+  IsLocalizedModule.mapExtendScalars (Submonoid.powers (transElt i))
+    (resₗ ((Scheme.Modules.pushforward f).obj M) (le_of_hom i)) (resₗ F (le_of_hom i))
+    Γ(Y, U.1) h
+
+theorem homRes_res {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    (h : Γ((Scheme.Modules.pushforward f).obj M, V.1) →ₗ[Γ(Y, V.1)] Γ(F, V.1))
+    (m : Γ((Scheme.Modules.pushforward f).obj M, V.1)) :
+    homRes f M F i h (((Scheme.Modules.pushforward f).obj M).presheaf.map
+      (homOfLE (le_of_hom i)).op m) = F.presheaf.map (homOfLE (le_of_hom i)).op (h m) := by
+  letI := transAlgebra i
+  letI := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
+    (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  letI := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
+    IsScalarTower.of_compHom _ _ _
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
+  haveI := transIsLocalization i
+  haveI := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
+    (le_of_hom i) (basicOpen_transElt i)
+  haveI := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
+  exact IsLocalizedModule.map_apply (Submonoid.powers (transElt i))
+    (resₗ ((Scheme.Modules.pushforward f).obj M) (le_of_hom i)) (resₗ F (le_of_hom i)) h m
+
+/-- Homomorphisms over a basic open are determined by their values on restricted sections. -/
+theorem homRes_ext {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    {g g' : Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1)}
+    (H : ∀ m : Γ((Scheme.Modules.pushforward f).obj M, V.1),
+      g (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom i)).op m) =
+        g' (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom i)).op m)) :
+    g = g' := by
+  letI := transAlgebra i
+  letI := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
+    (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  letI := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
+    IsScalarTower.of_compHom _ _ _
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
+  haveI := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
+    (le_of_hom i) (basicOpen_transElt i)
+  haveI := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
+  have := IsLocalizedModule.ext (Submonoid.powers (transElt i))
+    (resₗ ((Scheme.Modules.pushforward f).obj M) (le_of_hom i))
+    (IsLocalizedModule.map_units (resₗ F (le_of_hom i)))
+    (j := g.restrictScalars Γ(Y, V.1)) (k := g'.restrictScalars Γ(Y, V.1))
+    (LinearMap.ext H)
+  exact LinearMap.ext fun m => LinearMap.congr_fun this m
+
+end Restriction
+
 end ChevalleyApprox
 
 end Hartshorne

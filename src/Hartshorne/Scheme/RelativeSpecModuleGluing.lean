@@ -155,10 +155,19 @@ variable {Y : Scheme.{u}} (A : QuasiCoherentAlgebra Y)
 instance : Quiver.IsThin A.gluingData.cover.I₀ :=
   inferInstanceAs (Quiver.IsThin Y.AffineZariskiSite)
 
+/-- A section `r` of `Y` over `V` with `U = D(r)`, for a basic open inclusion `U ⟶ V`. -/
+def RelSpecModuleData.transElt {U V : Y.AffineZariskiSite} (i : U ⟶ V) : Γ(Y, V.1) :=
+  (leOfHom i).choose
+
+theorem RelSpecModuleData.basicOpen_transElt {U V : Y.AffineZariskiSite} (i : U ⟶ V) :
+    Y.basicOpen (RelSpecModuleData.transElt i) = U.1 :=
+  (leOfHom i).choose_spec
+
 /-- **A quasi-coherent module over a quasi-coherent algebra `A`**, recorded through its modules of
 sections over the affine opens: an `A(U)`-module `N(U)` for every affine open `U ⊆ Y` and, for
-every basic open inclusion `U = D(r) ⊆ V`, a semilinear map `N(V) ⟶ N(U)` which is a localization
-at the powers of the image of `r` in `A(V)`, compatibly with composition. -/
+every basic open inclusion `U = D(r) ⊆ V` (with `r = transElt i` chosen), a semilinear map
+`N(V) ⟶ N(U)` which is a localization at the powers of the image of `r` in `A(V)`, compatibly
+with composition. -/
 structure RelSpecModuleData where
   /-- The module of sections over an affine open. -/
   N : ∀ U : Y.AffineZariskiSite, ModuleCat.{u} (A.sections.obj (op U))
@@ -167,9 +176,9 @@ structure RelSpecModuleData where
     N V ⟶ (ModuleCat.restrictScalars (A.sections.map i.op).hom).obj (N U)
   ρ_comp : ∀ {U V W : Y.AffineZariskiSite} (i : U ⟶ V) (j : V ⟶ W) (n : N W),
     (ρ (i ≫ j)).hom n = (ρ i).hom ((ρ j).hom n)
-  isLocalizedModule : ∀ {U V : Y.AffineZariskiSite} (i : U ⟶ V) (r : Γ(Y, V.1)),
-    Y.basicOpen r = U.1 →
-      IsLocalizedModule (Submonoid.powers (A.structureMap.app (op V) r)) (ρ i).hom
+  isLocalizedModule : ∀ {U V : Y.AffineZariskiSite} (i : U ⟶ V),
+    IsLocalizedModule (Submonoid.powers (A.structureMap.app (op V) (RelSpecModuleData.transElt i)))
+      (ρ i).hom
 
 namespace RelSpecModuleData
 
@@ -178,13 +187,6 @@ variable {A}
 instance isOpenImmersion_specMap {U V : Y.AffineZariskiSite} (i : U ⟶ V) :
     IsOpenImmersion (Spec.map (A.sections.map i.op)) :=
   inferInstanceAs (IsOpenImmersion (A.gluingData.functor.map i))
-
-/-- A section `r` of `Y` over `V` with `U = D(r)`, for a basic open inclusion `U ⟶ V`. -/
-def transElt {U V : Y.AffineZariskiSite} (i : U ⟶ V) : Γ(Y, V.1) := (leOfHom i).choose
-
-theorem basicOpen_transElt {U V : Y.AffineZariskiSite} (i : U ⟶ V) :
-    Y.basicOpen (transElt i) = U.1 :=
-  (leOfHom i).choose_spec
 
 theorem image_top_eq {U V : Y.AffineZariskiSite} (i : U ⟶ V) (r : Γ(Y, V.1))
     (hr : Y.basicOpen r = U.1) :
@@ -214,14 +216,14 @@ variable (D : RelSpecModuleData A)
 /-- The transition isomorphisms `N(V)~|_{Spec A(U)} ≅ N(U)~`. -/
 def θ {U V : Y.AffineZariskiSite} (i : U ⟶ V) :
     (tilde (D.N V)).restrict (Spec.map (A.sections.map i.op)) ≅ tilde (D.N U) :=
-  haveI := D.isLocalizedModule i (transElt i) (basicOpen_transElt i)
+  haveI := D.isLocalizedModule i
   TildeRestrict.iso (A.sections.map i.op) (A.structureMap.app (op V) (transElt i))
     (image_top_eq i _ (basicOpen_transElt i)) (isLocalization i _ (basicOpen_transElt i)) (D.ρ i)
 
 theorem θ_hom_app_top_toOpen {U V : Y.AffineZariskiSite} (i : U ⟶ V) (n : D.N V) :
     (D.θ i).hom.app ⊤ ((tilde.toOpen (D.N V) (Spec.map (A.sections.map i.op) ''ᵁ ⊤)).hom n) =
       (tilde.toOpen (D.N U) ⊤).hom ((D.ρ i).hom n) :=
-  haveI := D.isLocalizedModule i (transElt i) (basicOpen_transElt i)
+  haveI := D.isLocalizedModule i
   TildeRestrict.iso_hom_app_top_toOpen _ _ _ _ _ n
 
 /-- The global sections of `N(V)~|_{Spec A(U)}` are generated, up to the units `s ^ k`, by the
@@ -306,6 +308,19 @@ def glue : A.relSpec.Modules := D.dataTr.glue
 
 /-- The restriction of the glued module to the piece `Spec A(U)` is `N(U)~`. -/
 def ψ (U : Y.AffineZariskiSite) : D.glue.restrict (A.ι U) ≅ tilde (D.N U) := D.dataTr.ψ U
+
+/-- Compatibility of the restrictions `ψ` with the transition isomorphisms `θ`, on sections over
+the pieces. -/
+theorem ψ_hom_app_top {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    (hle : A.ι V ''ᵁ (Spec.map (A.sections.map i.op) ''ᵁ ⊤) ≤ A.ι U ''ᵁ ⊤)
+    (x : Γ(D.glue, A.ι U ''ᵁ ⊤)) :
+    (D.ψ U).hom.app ⊤ x = (D.θ i).hom.app ⊤ ((D.ψ V).hom.app (Spec.map (A.sections.map i.op) ''ᵁ ⊤)
+      (D.glue.presheaf.map (homOfLE hle).op x)) := by
+  have hc := D.dataTr.ψ_compat i (A.map_ι i)
+  have h1 := ConcreteCategory.congr_hom (congrArg (fun g => Scheme.Modules.Hom.app g ⊤) hc) x
+  simp only [Scheme.Modules.Hom.comp_app, Scheme.Modules.restrictFunctorComp_hom_app_app] at h1
+  refine h1.symm.trans ?_
+  erw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply, ConcreteCategory.comp_apply]
 
 end RelSpecModuleData
 
