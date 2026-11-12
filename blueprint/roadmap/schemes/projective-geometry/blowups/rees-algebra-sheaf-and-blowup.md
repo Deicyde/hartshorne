@@ -17,6 +17,7 @@ it is distinct from the module pullback $f^*I$ itself.
 
 - [Relative Proj](../relative-proj-bundles/relative-proj.md)
 - [Module and ideal-sheaf data](../../coherent-sheaves/module-ideal-sheaf-data.md)
+- [The affine-local criterion for coherence](../../modules-and-quasicoherent/coherent-affine-local-criterion.md)
 
 ## Proof depends on
 
