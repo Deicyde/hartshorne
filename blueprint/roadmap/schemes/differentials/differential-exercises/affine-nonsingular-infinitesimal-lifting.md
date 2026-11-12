@@ -19,15 +19,20 @@ hypothesis is kept because it is Hartshorne's setting.
 
 ## Depends on
 
-- [The conormal sequence for a nonsingular closed immersion](../scheme-differentials/nonsingular-closed-immersion-conormal.md)
-- [Differentials characterize nonsingularity](../scheme-differentials/differentials-characterize-nonsingular.md)
+No project-local statement prerequisites.
 
 ## Proof depends on
 
-- Embed $A$ as a quotient of a polynomial algebra and split the resulting
-  conormal sequence after applying $\operatorname{Hom} (-, I)$.
-- The infinitesimal lifting property of a formally smooth algebra.
-- [The differential criterion for smoothness over a field](../../../cohomology/smooth-morphisms/criteria/differential-criterion-smooth-over-field.md)
+- [The conormal sequence for a nonsingular closed immersion](../scheme-differentials/nonsingular-closed-immersion-conormal.md)
+- [Differentials characterize nonsingularity](../scheme-differentials/differentials-characterize-nonsingular.md)
+- Follow the book's steps (a)–(c), with $I$ the kernel of $B' \to B$: two lifts
+  $A \to B'$ of $A \to B$ differ by an $A$-module map $\Omega_{A/k} \to I$; write
+  $A = P/J$ with $P = k[x_{1}, \ldots, x_{n}]$ and lift $P \to A \to B$ to
+  $h \colon P \to B'$; by Theorem 8.17 the sequence
+  $0 \to J/J^{2} \to \Omega_{P/k} \otimes A \to \Omega_{A/k} \to 0$ is exact, and since
+  $\Omega_{A/k}$ is locally free (Theorem 8.15) it stays exact after applying
+  $\operatorname{Hom}_{A}(-, I)$, so $h|_{J}$ extends to a derivation $\theta \colon P \to I$
+  and $h - \theta$ induces the lift $A \to B'$.
 
 ## Sources
 
