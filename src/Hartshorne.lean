@@ -729,3 +729,4 @@ import Hartshorne.Weil.ProjectiveLineSchemePoints
 import Hartshorne.Weil.ProjectiveLinePointCount
 import Hartshorne.Scheme.ProjectiveClosedImmersionChartCriterion
 import Hartshorne.Scheme.ProjectionFromPoint
+import Hartshorne.Scheme.BlowupPowerInvariance
