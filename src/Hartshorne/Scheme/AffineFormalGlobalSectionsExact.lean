@@ -14,8 +14,8 @@ formal scheme `X`, global sections of a short exact sequence `0 ⟶ F' ⟶ F ⟶
 
 This file proves the surjectivity `Γ(X, F) ⟶ Γ(X, F'')` for a Noetherian formal scheme `X` with an
 ideal of definition `J`, under two hypotheses on the thickenings `Xₙ = (X, 𝒪_X / J ^ (n + 1))`:
-every `Xₙ` is affine, and the transition maps `Γ(X, F' / J ^ (n + 2) F') ⟶ Γ(X, F' / J ^ (n + 1) F')`
-are surjective.
+every `Xₙ` is affine, and the transition maps
+`Γ(X, F' / J ^ (n + 2) F') ⟶ Γ(X, F' / J ^ (n + 1) F')` are surjective.
 
 * `Hartshorne.IsIdealOfDefinition.cechOneVanishes_powQuotient`: if `Xₙ` is affine, every Čech
   1-cocycle of `F' / J ^ (n + 1) F'` on a cover of `X` is a coboundary. The module is the

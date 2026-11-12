@@ -120,7 +120,8 @@ variable {T : TopCat.{u}} {ι : Type} (U : ι → Opens T)
 
 /-- The `0`-cochains `∏ᵢ F(Uᵢ)` of a sheaf of abelian groups on the family `U`, as a functor. -/
 @[simps! obj]
-def cechZeroFunctor : Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u} ⥤ AddCommGrpCat.{u} where
+def cechZeroFunctor :
+    Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u} ⥤ AddCommGrpCat.{u} where
   obj F := AddCommGrpCat.of (∀ i, F.obj.obj (op (U i)))
   map φ := AddCommGrpCat.ofHom
     (AddMonoidHom.pi fun i => (φ.hom.app (op (U i))).hom.comp (Pi.evalAddMonoidHom _ i))
@@ -144,7 +145,8 @@ def cechOneCocycles (F : Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u})
 
 /-- The Čech `1`-cocycles on `U`, as a functor. -/
 @[simps! obj]
-def cechOneFunctor : Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u} ⥤ AddCommGrpCat.{u} where
+def cechOneFunctor :
+    Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u} ⥤ AddCommGrpCat.{u} where
   obj F := AddCommGrpCat.of (cechOneCocycles U F)
   map {F G} φ := AddCommGrpCat.ofHom
     { toFun := fun c => ⟨fun i j => φ.hom.app _ (c.1 i j), fun i j k => by
@@ -157,7 +159,8 @@ def cechOneFunctor : Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u} ⥤ 
 
 /-- Global sections of sheaves of abelian groups, as a functor. -/
 @[simps! obj]
-def sheafGlobalSectionsFunctor : Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u} ⥤ AddCommGrpCat.{u} :=
+def sheafGlobalSectionsFunctor :
+    Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u} ⥤ AddCommGrpCat.{u} :=
   sheafToPresheaf _ _ ⋙ (evaluation _ _).obj (op ⊤)
 
 /-- Restriction of global sections to the `0`-cochains. -/
@@ -190,7 +193,8 @@ def cechZeroDiff : cechZeroFunctor U ⟶ cechOneFunctor U where
 
 variable {U}
 
-lemma cechZeroOfGlobal_injective (hU : iSup U = ⊤) (F : Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u}) :
+lemma cechZeroOfGlobal_injective (hU : iSup U = ⊤)
+    (F : Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u}) :
     Function.Injective ((cechZeroOfGlobal U).app F) := by
   rw [injective_iff_map_eq_zero]
   intro s hs
@@ -198,7 +202,8 @@ lemma cechZeroOfGlobal_injective (hU : iSup U = ⊤) (F : Sheaf (Opens.grothendi
   rw [map_zero]
   exact congrFun hs i
 
-lemma cechZero_exact (hU : iSup U = ⊤) (F : Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u}) :
+lemma cechZero_exact (hU : iSup U = ⊤)
+    (F : Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u}) :
     Function.Exact ((cechZeroOfGlobal U).app F) ((cechZeroDiff U).app F) := by
   intro a
   constructor
@@ -206,7 +211,8 @@ lemma cechZero_exact (hU : iSup U = ⊤) (F : Sheaf (Opens.grothendieckTopology 
     have hcompat : TopCat.Presheaf.IsCompatible F.obj U a := fun i j => by
       have := congrArg (fun c => c.1 i j) ha
       exact sub_eq_zero.mp this
-    obtain ⟨s, hs, -⟩ := TopCat.Sheaf.existsUnique_gluing' (F := F) U ⊤ (fun i => homOfLE le_top) hU.ge a hcompat
+    obtain ⟨s, hs, -⟩ := TopCat.Sheaf.existsUnique_gluing' (F := F) U ⊤ (fun i => homOfLE le_top)
+      hU.ge a hcompat
     exact ⟨s, funext hs⟩
   · rintro ⟨s, rfl⟩
     apply Subtype.ext
@@ -247,7 +253,8 @@ suppose every `Qₙ` has vanishing first Čech cohomology on `U` and the transit
 The levelwise sequences `0 ⟶ Γ(T, Qₙ) ⟶ ∏ᵢ Qₙ(Uᵢ) ⟶ Z¹(U, Qₙ) ⟶ 0` are exact, the first
 system is Mittag–Leffler, so the sequence of inverse limits is exact (Hartshorne II,
 Proposition 9.1(b)). -/
-theorem cechOneVanishes_of_isLimit (Q : ℕᵒᵖ ⥤ Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u}) (c : Cone Q)
+theorem cechOneVanishes_of_isLimit
+    (Q : ℕᵒᵖ ⥤ Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u}) (c : Cone Q)
     (hext : ∀ (V : Opens T) (x y : c.pt.obj.obj (op V)),
       (∀ n, (c.π.app (op n) : c.pt ⟶ Q.obj (op n)).hom.app (op V) x =
         (c.π.app (op n) : c.pt ⟶ Q.obj (op n)).hom.app (op V) y) → x = y)
@@ -322,7 +329,8 @@ lemma sheafOfModules_limit_ext {K : Type} [SmallCategory K] {F : K ⥤ SheafOfMo
 lemma sheafOfModules_limit_exists {K : Type} [SmallCategory K] {F : K ⥤ SheafOfModules.{u} R}
     {c : Cone F} (hc : IsLimit c) (V : Opens T) (y : ∀ j, (F.obj j).val.presheaf.obj (op V))
     (hy : ∀ ⦃j j' : K⦄ (f : j ⟶ j'), (sheafOfModulesAbMap (F.map f)).app (op V) (y j) = y j') :
-    ∃ x : c.pt.val.presheaf.obj (op V), ∀ j, (sheafOfModulesAbMap (c.π.app j)).app (op V) x = y j := by
+    ∃ x : c.pt.val.presheaf.obj (op V),
+      ∀ j, (sheafOfModulesAbMap (c.π.app j)).app (op V) x = y j := by
   have hc' := isLimitOfPreserves (SheafOfModules.evaluation R (op V) ⋙ forget _) hc
   refine ⟨(Types.isLimitEquivSections hc').symm ⟨y, fun {j j'} f => hy f⟩, fun j => ?_⟩
   exact Types.isLimitEquivSections_symm_apply hc' _ j
@@ -371,8 +379,9 @@ theorem sheafOfModules_exists_lift_of_cechOneVanishes {S : ShortComplex (SheafOf
     rw [hc, map_sub] at this
     convert sub_eq_zero.mpr this using 1
     abel
-  obtain ⟨t0, ht0, -⟩ := TopCat.Sheaf.existsUnique_gluing' (F := (SheafOfModules.toSheaf R).obj S.X₂)
-    U ⊤ (fun i => homOfLE le_top) hU.ge t' hcompat
+  obtain ⟨t0, ht0, -⟩ :=
+    TopCat.Sheaf.existsUnique_gluing' (F := (SheafOfModules.toSheaf R).obj S.X₂)
+      U ⊤ (fun i => homOfLE le_top) hU.ge t' hcompat
   refine ⟨t0, TopCat.Sheaf.eq_of_locally_eq' (F := (SheafOfModules.toSheaf R).obj S.X₃) U ⊤
     (fun i => homOfLE le_top) hU.ge _ _ fun i => ?_⟩
   show presheafRes S.X₃.val.presheaf le_top ((sheafOfModulesAbMap S.g).app _ t0) =
