@@ -15,7 +15,7 @@ import Hartshorne.RingedSpace.FiniteLocallyFreeTensorInjective
 /-!
 # The denominator ideal of a birational line bundle
 
-Hartshorne, *Algebraic Geometry*, II.7, proof of Theorem 7.17, Step 4 (p. 167), first half.
+Hartshorne, *Algebraic Geometry*, II.7, proof of Theorem 7.17, Step 4 (p. 167).
 
 Let `f : Z ⟶ X` be a morphism of integral schemes sending the generic point to the generic point
 whose pullback of rational functions `K(X) → K(Z)` is bijective, so that `X` and `Z` have the same
@@ -42,7 +42,12 @@ Thus `f_* L` is a coherent fractional ideal. For any coherent `O_X`-module `F` w
   (`AlgebraicGeometry.Scheme.exists_isGloballyGenerated_denominatorIdealSheaf_tensor`).
 
 `AlgebraicGeometry.Scheme.exists_denominatorIdealSheaf_of_birational` collects these facts for
-`F = f_* L`.
+`F = f_* L`. Finally a nonzero global section of `J ⊗ A^n ≅ ℋom(A^{-n}, J)` is a nonzero morphism
+`t : A^{-n} ⟶ J`, and `ψ ⊗ s ↦ t(ψ) · s` embeds `A^{-n} ⊗ F` in `O_X`
+(`AlgebraicGeometry.Scheme.exists_mono_moduleSheafDual_tensor_of_isGloballyGenerated`). For
+`F = f_* L` this is the statement of the step
+(`AlgebraicGeometry.Scheme.exists_mono_moduleSheafDual_tensor_pushforward`): for `A` ample and some
+`n > 0`, `A^{-n} ⊗ f_* L` is isomorphic to a coherent ideal sheaf of `O_X`.
 
 ## Construction
 
@@ -58,6 +63,12 @@ section of `F` over `V` is `t / c` with `t ∈ F(U)` and `c` invertible there
 (`AlgebraicGeometry.Scheme.exists_res_smul_eq_toK`); conversely if `a / g^m` clears the
 denominators of the restrictions of finitely many generators of `F(U)`, then so does `g^k a` over
 `U` for large `k`.
+
+Injectivity of `A^{-n} ⊗ F ⟶ O_X` is checked locally: near every point `A^{-n}` has a one-element
+frame `d`, every section of `F ⊗ A^{-n}` is `s ⊗ d`
+(`Hartshorne.Ringed.IsLocalFrame.tensorFrameMap_bijective`), and `t(d) · s = 0` forces `s = 0`
+because `t(d)` is a nonzero element of the field `K(X)`; `t(d)` cannot vanish on a nonempty open
+set since `X` is integral and `t ≠ 0`.
 -/
 
 universe u
@@ -553,6 +564,287 @@ theorem exists_isGloballyGenerated_denominatorIdealSheaf_tensor [IsNoetherian X]
 
 end DenominatorIdeal
 
+section Twist
+
+variable {X : Scheme.{u}}
+
+/-- A globally generated module with a nonzero section has a nonzero global section. -/
+private theorem exists_global_ne_zero {G : X.Modules} (hG : G.IsGloballyGenerated)
+    {U : X.Opens} {s : Γ(G, U)} (hs : s ≠ 0) : ∃ σ : Γ(G, ⊤), σ ≠ 0 := by
+  by_contra h
+  push Not at h
+  obtain ⟨ι, f, hf⟩ := hG
+  apply hs
+  let G' : TopCat.Sheaf AddCommGrpCat.{u} X := ⟨G.presheaf, G.isSheaf⟩
+  refine TopCat.Presheaf.section_ext G' U s 0 fun x hx ↦ ?_
+  have hbot : Submodule.span (X.presheaf.stalk x)
+      (Set.range fun i => G.presheaf.germ ⊤ x trivial (f i)) = ⊥ := by
+    rw [Submodule.span_eq_bot]
+    rintro _ ⟨i, rfl⟩
+    change G.presheaf.germ ⊤ x trivial (f i) = 0
+    rw [h (f i), map_zero]
+  have hmem : G.presheaf.germ U x hx s ∈
+      (⊤ : Submodule (X.presheaf.stalk x) (G.presheaf.stalk x)) := Submodule.mem_top
+  rw [← hf x, hbot, Submodule.mem_bot] at hmem
+  change G.presheaf.germ U x hx s = G.presheaf.germ U x hx 0
+  rw [hmem, map_zero]
+
+variable [IsIntegral X]
+
+/-- On an integral scheme, a nonzero morphism `t : D ⟶ O_X` does not vanish on a local frame of
+`D` over any open set containing the generic point. -/
+private theorem app_frame_ne_zero {D : X.Modules} (t : D ⟶ SheafOfModules.unit X.ringCatSheaf)
+    (ht : t ≠ 0) {W : X.Opens} {d : ULift.{u} (Fin 1) → Γ(D, W)}
+    (hd : Ringed.IsLocalFrame (R := X.sheaf) D W d) {V : X.Opens} (hVW : V ≤ W)
+    (hV : genericPoint X ∈ V) :
+    t.app V (D.presheaf.map (homOfLE hVW).op (d default)) ≠ 0 := by
+  intro h0
+  apply ht
+  refine Modules.hom_ext _ _ fun U' ↦ ?_
+  ext ψ
+  rw [Modules.Hom.zero_app]
+  change (show Γ(X, U') from t.app U' ψ) = 0
+  by_cases hU' : genericPoint X ∈ U'
+  swap
+  · have : Subsingleton Γ(X, U') :=
+      CommRingCat.subsingleton_of_isTerminal
+        (X.sheaf.isTerminalOfEqEmpty (opens_eq_bot_of_genericPoint_notMem hU'))
+    exact Subsingleton.elim _ _
+  have hV' : genericPoint X ∈ U' ⊓ V := ⟨hU', hV⟩
+  have : Nonempty (U' ⊓ V : X.Opens) := ⟨⟨_, hV'⟩⟩
+  apply map_injective_of_isIntegral X (homOfLE (inf_le_left : U' ⊓ V ≤ U'))
+  rw [map_zero]
+  have hnat := ConcreteCategory.congr_hom
+    (t.mapPresheaf.naturality (homOfLE (inf_le_left : U' ⊓ V ≤ U')).op) ψ
+  simp only [Modules.mapPresheaf_app, ConcreteCategory.comp_apply] at hnat
+  change (Modules.presheaf (SheafOfModules.unit X.ringCatSheaf : X.Modules)).map
+    (homOfLE (inf_le_left : U' ⊓ V ≤ U')).op (t.app U' ψ) = 0
+  rw [← hnat]
+  obtain ⟨c, hc⟩ := (hd (U' ⊓ V) (inf_le_right.trans hVW)).2
+    (D.presheaf.map (homOfLE (inf_le_left : U' ⊓ V ≤ U')).op ψ)
+  rw [← hc, Ringed.localFrameMap_apply, Fintype.sum_unique, Modules.Hom.app_smul]
+  have hnat' := ConcreteCategory.congr_hom
+    (t.mapPresheaf.naturality (homOfLE (inf_le_right : U' ⊓ V ≤ V)).op)
+    (D.presheaf.map (homOfLE hVW).op (d default))
+  simp only [Modules.mapPresheaf_app, ConcreteCategory.comp_apply] at hnat'
+  rw [h0, map_zero] at hnat'
+  have hres : D.presheaf.map (homOfLE (inf_le_right.trans hVW)).op (d default) =
+      D.presheaf.map (homOfLE (inf_le_right : U' ⊓ V ≤ V)).op
+        (D.presheaf.map (homOfLE hVW).op (d default)) := by
+    rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
+    rfl
+  erw [hres, hnat']
+  exact smul_zero _
+
+end Twist
+
+section Multiplication
+
+variable {X : Scheme.{u}} [IsIntegral X] {F : X.Modules} (hF : IsCoherent F)
+  (ι : F ⟶ X.totalQuotientModule)
+
+/-- The regular function `a s` for `a` in the denominator ideal and `s` a section of `F`. -/
+private def mulVal {V : X.Opens} {a : Γ(X, V)} (ha : a ∈ (denominatorIdealSheaf hF ι).ideal V)
+    (s : Γ(F, V)) : Γ(X, V) :=
+  Classical.choose (exists_smul_eq_toK_of_mem_denominatorIdealSheaf hF ι ha s)
+
+private theorem mulVal_spec {V : X.Opens} {a : Γ(X, V)}
+    (ha : a ∈ (denominatorIdealSheaf hF ι).ideal V) (s : Γ(F, V)) :
+    ι.app V (a • s) = X.toK V (mulVal hF ι ha s) :=
+  Classical.choose_spec (exists_smul_eq_toK_of_mem_denominatorIdealSheaf hF ι ha s)
+
+private theorem mulVal_eq_iff {V : X.Opens} {a : Γ(X, V)}
+    (ha : a ∈ (denominatorIdealSheaf hF ι).ideal V) (s : Γ(F, V)) (b : Γ(X, V)) :
+    mulVal hF ι ha s = b ↔ ι.app V (a • s) = X.toK V b := by
+  rw [mulVal_spec]
+  exact (toK_injective V).eq_iff.symm
+
+variable {D : X.Modules} (t : D ⟶ SheafOfModules.unit X.ringCatSheaf)
+
+/-- The values of a morphism `t : D ⟶ O_X` as regular functions. -/
+private abbrev tVal (V : X.Opens) (ψ : Γ(D, V)) : Γ(X, V) := t.app V ψ
+
+omit [IsIntegral X] in
+private theorem tVal_add (V : X.Opens) (ψ ψ' : Γ(D, V)) :
+    tVal t V (ψ + ψ') = tVal t V ψ + tVal t V ψ' :=
+  map_add _ ψ ψ'
+
+omit [IsIntegral X] in
+private theorem tVal_smul (V : X.Opens) (r : Γ(X, V)) (ψ : Γ(D, V)) :
+    tVal t V (r • ψ) = r * tVal t V ψ :=
+  Modules.Hom.app_smul t r ψ
+
+omit [IsIntegral X] in
+private theorem tVal_map {U V : X.Opens} (i : V ⟶ U) (ψ : Γ(D, U)) :
+    tVal t V (D.presheaf.map i.op ψ) = X.presheaf.map i.op (tVal t U ψ) := by
+  have htn := ConcreteCategory.congr_hom (t.mapPresheaf.naturality i.op) ψ
+  simp only [Modules.mapPresheaf_app, ConcreteCategory.comp_apply] at htn
+  change t.app V (D.presheaf.map i.op ψ) =
+    (Modules.presheaf (SheafOfModules.unit X.ringCatSheaf : X.Modules)).map i.op (t.app U ψ)
+  exact htn
+
+variable (ht : ∀ (V : X.Opens) (ψ : Γ(D, V)), tVal t V ψ ∈ (denominatorIdealSheaf hF ι).ideal V)
+
+private theorem mulVal_map {U V : X.Opens} (j : V ⟶ U) (s : Γ(F, U)) (ψ : Γ(D, U)) :
+    mulVal hF ι (ht V (D.presheaf.map j.op ψ)) (F.presheaf.map j.op s) =
+      X.presheaf.map j.op (mulVal hF ι (ht U ψ) s) := by
+  rw [mulVal_eq_iff, tVal_map, ← Modules.map_smul]
+  have hιn := ConcreteCategory.congr_hom (ι.mapPresheaf.naturality j.op) (tVal t U ψ • s)
+  simp only [Modules.mapPresheaf_app, ConcreteCategory.comp_apply] at hιn
+  erw [hιn]
+  rw [mulVal_spec]
+  exact toK_naturality (leOfHom j) _
+
+/-- The bilinear map `F × D → O_X`, `(s, ψ) ↦ t(ψ) · s`, for a morphism `t : D ⟶ O_X` with
+values in the denominator ideal. -/
+private def mulBilinear : ModuleSheafBilinear F D (SheafOfModules.unit X.ringCatSheaf) where
+  app U := LinearMap.mk₂ _
+    (fun (s : Γ(F, U.unop)) (ψ : Γ(D, U.unop)) => mulVal hF ι (ht U.unop ψ) s)
+    (fun s s' ψ => by
+      rw [mulVal_eq_iff, smul_add, map_add, mulVal_spec, mulVal_spec, map_add])
+    (fun r s ψ => by
+      change mulVal hF ι _ ((show Γ(X, U.unop) from r) • s) =
+        (show Γ(X, U.unop) from r) * mulVal hF ι _ s
+      rw [mulVal_eq_iff, smul_comm, Modules.Hom.app_smul, mulVal_spec, map_mul]
+      rfl)
+    (fun s ψ ψ' => by
+      rw [mulVal_eq_iff]
+      change ι.app U.unop (tVal t U.unop (ψ + ψ') • s) = _
+      rw [tVal_add, add_smul, map_add, mulVal_spec, mulVal_spec, map_add])
+    (fun r s ψ => by
+      change mulVal hF ι _ s = (show Γ(X, U.unop) from r) * mulVal hF ι _ s
+      rw [mulVal_eq_iff]
+      change ι.app U.unop (tVal t U.unop ((show Γ(X, U.unop) from r) • ψ) • s) = _
+      rw [tVal_smul, mul_smul, Modules.Hom.app_smul, mulVal_spec, map_mul]
+      rfl)
+  naturality {U V} i s ψ := (mulVal_map hF ι t ht i.unop s ψ).symm
+
+private theorem mulBilinear_app (U : X.Opens) (s : Γ(F, U)) (ψ : Γ(D, U)) :
+    ι.app U (tVal t U ψ • s) = X.toK U ((mulBilinear hF ι t ht).app (op U) s ψ) :=
+  mulVal_spec hF ι (ht U ψ) s
+
+/-- The morphism `F ⊗ D ⟶ O_X`, `s ⊗ ψ ↦ t(ψ) · s`. -/
+private def mulHom :
+    @Quiver.Hom X.Modules _ (moduleSheafTensor F D) (SheafOfModules.unit X.ringCatSheaf) :=
+  (moduleSheafTensorHomEquiv F D _).symm (mulBilinear hF ι t ht)
+
+/-- **Injectivity.** If `ι` is injective, `D` is invertible and `t ≠ 0`, the morphism
+`F ⊗ D ⟶ O_X`, `s ⊗ ψ ↦ t(ψ) · s`, is a monomorphism: near every point `D` has a frame `d`,
+every section of `F ⊗ D` is `s ⊗ d`, and `t(d) · s = 0` forces `s = 0` because `t(d) ≠ 0` in the
+field `K(X)`. -/
+private theorem mono_mulHom (hι : ∀ U : X.Opens, Function.Injective (ι.app U))
+    (hD : Ringed.IsInvertible (R := X.sheaf) D) (ht0 : t ≠ 0) : Mono (mulHom hF ι t ht) := by
+  refine mono_of_app_injective _ fun U ↦ ?_
+  refine (injective_iff_map_eq_zero ((mulHom hF ι t ht).app U).hom).2 fun x hx ↦ ?_
+  let T : X.Modules := moduleSheafTensor F D
+  let T' : TopCat.Sheaf AddCommGrpCat.{u} X := ⟨T.presheaf, T.isSheaf⟩
+  refine TopCat.Presheaf.section_ext T' U x 0 fun y hy ↦ ?_
+  obtain ⟨W, d, hyW, hd⟩ := Ringed.exists_isLocalFrame_of_isLocallyFreeOfRank hD y
+  have hVW : U ⊓ W ≤ W := inf_le_right
+  have hVU : U ⊓ W ≤ U := inf_le_left
+  have hyV : y ∈ U ⊓ W := ⟨hy, hyW⟩
+  have hη : genericPoint X ∈ U ⊓ W := genericPoint_mem_opens_of_mem hyV
+  obtain ⟨c, hc⟩ := (hd.tensorFrameMap_bijective (F := F) hVW).2
+    (T.presheaf.map (homOfLE hVU).op x)
+  have h1 : (mulHom hF ι t ht).app (U ⊓ W) (T.presheaf.map (homOfLE hVU).op x) = 0 := by
+    have hn := ConcreteCategory.congr_hom
+      ((mulHom hF ι t ht).mapPresheaf.naturality (homOfLE hVU).op) x
+    simp only [Modules.mapPresheaf_app, ConcreteCategory.comp_apply] at hn
+    erw [hn, hx, map_zero]
+  rw [← hc, Ringed.tensorFrameMap, Fintype.sum_unique] at h1
+  erw [Ringed.moduleSheafTensorHomEquiv_symm_tmul] at h1
+  have h2 := mulBilinear_app hF ι t ht (U ⊓ W) (c default)
+    (D.presheaf.map (homOfLE hVW).op (d default))
+  have h1' : (mulBilinear hF ι t ht).app (op (U ⊓ W)) (c default)
+      (D.presheaf.map (homOfLE hVW).op (d default)) = 0 := h1
+  rw [h1', map_zero, Modules.Hom.app_smul] at h2
+  have h3 := app_frame_ne_zero t ht0 hd hVW hη
+  have hc0 : c default = 0 := by
+    apply hι (U ⊓ W)
+    rw [map_zero]
+    apply (totalQuotientSheafEquivFunctionField (U ⊓ W) hη).injective
+    have := congrArg (totalQuotientSheafEquivFunctionField (U ⊓ W) hη) h2
+    change totalQuotientSheafEquivFunctionField (U ⊓ W) hη
+      (X.toK (U ⊓ W) (tVal t (U ⊓ W) (D.presheaf.map (homOfLE hVW).op (d default))) *
+        (show X.totalQuotientSheaf.obj.obj (op (U ⊓ W)) from ι.app (U ⊓ W) (c default))) = _
+      at this
+    rw [map_mul, map_zero, totalQuotientSheafEquivFunctionField_toK] at this
+    rw [map_zero]
+    refine (mul_eq_zero.1 this).resolve_left fun h ↦ h3 ?_
+    exact germ_injective_of_isIntegral X _ hη (h.trans (map_zero _).symm)
+  have hc' : c = 0 := funext fun i ↦ by rw [Subsingleton.elim i default]; exact hc0
+  change T.presheaf.germ U y hy x = T.presheaf.germ U y hy 0
+  rw [← TopCat.Presheaf.germ_res_apply T.presheaf (homOfLE hVU) y hyV x, ← hc, hc',
+    Ringed.tensorFrameMap, Fintype.sum_unique]
+  simp only [Pi.zero_apply, map_zero, LinearMap.zero_apply]
+
+end Multiplication
+
+section TwistEmbedding
+
+variable {X : Scheme.{u}} [IsIntegral X] {F : X.Modules} (hF : IsCoherent F)
+  (ι : F ⟶ X.totalQuotientModule)
+
+/-- **Hartshorne II, proof of Theorem 7.17, Step 4.** Let `F` be a coherent `O_X`-module on an
+integral scheme with an injective morphism `ι : F ⟶ K_X`, and let `P` be an invertible sheaf such
+that `J ⊗ P` is generated by global sections, where `J` is the denominator ideal of `F`. Then
+`P^{-1} ⊗ F` embeds in `O_X`. A nonzero global section of `J ⊗ P ≅ ℋom(P^{-1}, J)` is a nonzero
+morphism `t : P^{-1} ⟶ J`, and `ψ ⊗ s ↦ t(ψ) · s` is injective. -/
+theorem exists_mono_moduleSheafDual_tensor_of_isGloballyGenerated
+    (hι : ∀ U : X.Opens, Function.Injective (ι.app U)) {P : X.Modules}
+    (hP : Ringed.IsInvertible (R := X.sheaf) P)
+    (hG : Modules.IsGloballyGenerated
+      (moduleSheafTensor (denominatorIdealSheaf hF ι).toModules P)) :
+    ∃ φ : moduleSheafTensor (Ringed.moduleSheafDual (R := X.sheaf) P) F ⟶
+      SheafOfModules.unit X.ringCatSheaf, Mono φ := by
+  set J := denominatorIdealSheaf hF ι
+  set D := Ringed.moduleSheafDual (R := X.sheaf) P
+  have hD : Ringed.IsInvertible (R := X.sheaf) D := Ringed.isInvertible_moduleSheafDual hP
+  -- A nonzero section of `J ⊗ P` near the generic point.
+  obtain ⟨U, -, hηU⟩ := ArtinReesKernelSheaf.exists_affine_le (X := X) (U := ⊤)
+    (x := genericPoint X) trivial
+  obtain ⟨a, ha, ha0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot
+    (denominatorIdealSheaf_ideal_ne_bot hF ι U hηU)
+  obtain ⟨W, p, hηW, hp⟩ := Ringed.exists_isLocalFrame_of_isLocallyFreeOfRank hP (genericPoint X)
+  have hVU : (U : X.Opens) ⊓ W ≤ U := inf_le_left
+  have hVW : (U : X.Opens) ⊓ W ≤ W := inf_le_right
+  have hηV : genericPoint X ∈ (U : X.Opens) ⊓ W := ⟨hηU, hηW⟩
+  have : Nonempty ((U : X.Opens) ⊓ W : X.Opens) := ⟨⟨_, hηV⟩⟩
+  have ha' : X.presheaf.map (homOfLE hVU).op a ∈ J.ideal ((U : X.Opens) ⊓ W) :=
+    ArtinReesKernelSheaf.res_mem _ hVU ha
+  have ha'0 : X.presheaf.map (homOfLE hVU).op a ≠ 0 := fun h ↦
+    ha0 (map_injective_of_isIntegral X (homOfLE hVU) (h.trans (map_zero _).symm))
+  let sJ : Γ(J.toModules, (U : X.Opens) ⊓ W) := ⟨_, ha'⟩
+  have hx0 : Ringed.tensorFrameMap J.toModules p hVW (fun _ ↦ sJ) ≠ 0 := by
+    intro h0
+    have h0' : Ringed.tensorFrameMap J.toModules p hVW (fun _ ↦ sJ) =
+        Ringed.tensorFrameMap J.toModules p hVW 0 := by
+      rw [h0, Ringed.tensorFrameMap, Fintype.sum_unique]
+      simp only [Pi.zero_apply, map_zero, LinearMap.zero_apply]
+    have := congrFun ((hp.tensorFrameMap_bijective (F := J.toModules) hVW).1 h0') default
+    exact ha'0 (congrArg Subtype.val this)
+  obtain ⟨σ, hσ⟩ := exists_global_ne_zero hG hx0
+  -- The corresponding morphism `t₀ : D ⟶ J`.
+  let e := Ringed.moduleSheafTensorComm (R := X.sheaf) J.toModules P ≪≫
+    Ringed.tensorIsoHomDual hP J.toModules
+  have hτ : Ringed.sectionsMap e.hom ⊤ σ ≠ 0 := fun h ↦
+    hσ (Ringed.modules_injective_app_of_mono e.hom ⊤ (h.trans (map_zero _).symm))
+  let t₀ : @Quiver.Hom X.Modules _ D J.toModules :=
+    Ringed.moduleSheafHomGlobalSectionsAddEquiv D J.toModules (Ringed.sectionsMap e.hom ⊤ σ)
+  have ht₀ : t₀ ≠ 0 := fun h ↦ hτ ((AddEquiv.map_eq_zero_iff
+    (Ringed.moduleSheafHomGlobalSectionsAddEquiv D J.toModules)).1 h)
+  let jι : J.toModules ⟶ SheafOfModules.unit X.ringCatSheaf := ⟨J.carrier.ι⟩
+  have : Mono jι := (SheafOfModules.forget _).mono_of_mono_map (inferInstanceAs (Mono J.carrier.ι))
+  let t : D ⟶ SheafOfModules.unit X.ringCatSheaf := t₀ ≫ jι
+  have ht0 : t ≠ 0 := fun h ↦ ht₀ ((cancel_mono jι).1 (h.trans zero_comp.symm))
+  have ht : ∀ (V : X.Opens) (ψ : Γ(D, V)), tVal t V ψ ∈ J.ideal V := fun V ψ ↦ (t₀.app V ψ).2
+  have hmono := mono_mulHom hF ι t ht hι hD ht0
+  let c := Ringed.moduleSheafTensorComm (R := X.sheaf) D F
+  have : IsIso (C := X.Modules) c.hom := ⟨c.inv, c.hom_inv_id, c.inv_hom_id⟩
+  exact ⟨c.hom ≫ mulHom hF ι t ht, mono_comp _ _⟩
+
+end TwistEmbedding
+
 section Birational
 
 variable {X Z : Scheme.{u}} [IsIntegral X] [IsIntegral Z] (f : Z ⟶ X)
@@ -583,6 +875,49 @@ theorem exists_denominatorIdealSheaf_of_birational (k : Type u) [Field k] (pX : 
   exact ⟨ι, mono_of_app_injective ι hι, isCoherent_denominatorIdealSheaf _ ι,
     fun U hU ↦ denominatorIdealSheaf_ideal_ne_bot _ ι U hU,
     fun V a ha s ↦ exists_smul_eq_toK_of_mem_denominatorIdealSheaf _ ι ha s⟩
+
+/-- **The denominator ideal of a birational line bundle** (Hartshorne II, proof of
+Theorem 7.17, Step 4). Let `f : Z ⟶ X` be a projective morphism of integral schemes, with `X`
+Noetherian and locally of finite type over a field `k`, mapping the generic point to the generic
+point and inducing a bijection of function fields, and let `L` be invertible on `Z`. Then `f_* L`
+is a coherent sub-`O_X`-module of the constant sheaf `K_X = K(X)` (a coherent fractional ideal),
+and for every ample invertible sheaf `A` on `X` there is `n > 0` such that `A^{-n} ⊗ f_* L` is
+coherent and embeds in `O_X`, i.e. is isomorphic to a coherent ideal sheaf of `O_X`. Here
+`A^{-n}` is the dual `(A^{⊗ n})^∨` of the `n`-th tensor power.
+
+In the book `X` is a quasi-projective variety; the proof here uses only the hypotheses above, the
+ample sheaf `A` being given. -/
+theorem exists_mono_moduleSheafDual_tensor_pushforward (k : Type u) [Field k] [IsNoetherian X]
+    (pX : X ⟶ Spec (.of k)) [LocallyOfFiniteType pX] (hfp : Hartshorne.Projective f)
+    (hbij : Function.Bijective (f.genericFunctionFieldMap hf)) {L : Z.Modules}
+    (hL : L.IsInvertible) {A : X.Modules} (hA : A.IsAmple) :
+    ∃ ι : (Modules.pushforward f).obj L ⟶ X.totalQuotientModule, Mono ι ∧
+      IsCoherent ((Modules.pushforward f).obj L) ∧
+      ∃ n : ℕ, 0 < n ∧
+        IsCoherent (moduleSheafTensor
+          (Ringed.moduleSheafDual (R := X.sheaf) (moduleSheafTensorPower n A))
+          ((Modules.pushforward f).obj L)) ∧
+        ∃ φ : moduleSheafTensor
+            (Ringed.moduleSheafDual (R := X.sheaf) (moduleSheafTensorPower n A))
+            ((Modules.pushforward f).obj L) ⟶ SheafOfModules.unit X.ringCatSheaf, Mono φ := by
+  have hF := isCoherent_pushforward_of_isInvertible f k pX hfp hL
+  obtain ⟨ι, hι⟩ := exists_pushforward_toTotalQuotientModule_injective f hf hbij hL
+  obtain ⟨n, hn, hG⟩ := exists_isGloballyGenerated_denominatorIdealSheaf_tensor hF ι hA
+  have hA' : Ringed.IsInvertible (R := X.sheaf) A :=
+    (Modules.isInvertible_iff_ringed A).mp hA.1
+  have hP := Ringed.isInvertible_moduleSheafTensorPower hA' n
+  have hD : Modules.IsInvertible (X := X)
+      (Ringed.moduleSheafDual (R := X.sheaf) (moduleSheafTensorPower n A)) :=
+    (Modules.isInvertible_iff_ringed _).mpr (Ringed.isInvertible_moduleSheafDual hP)
+  obtain ⟨φ, hφ⟩ := exists_mono_moduleSheafDual_tensor_of_isGloballyGenerated hF ι hι hP hG
+  let c := Ringed.moduleSheafTensorComm (R := X.sheaf) ((Modules.pushforward f).obj L)
+    (Ringed.moduleSheafDual (R := X.sheaf) (moduleSheafTensorPower n A))
+  have hc : IsCoherent (moduleSheafTensor
+      (Ringed.moduleSheafDual (R := X.sheaf) (moduleSheafTensorPower n A))
+      ((Modules.pushforward f).obj L)) :=
+    isCoherent_of_iso (X := X) ⟨c.hom, c.inv, c.hom_inv_id, c.inv_hom_id⟩
+      (isCoherent_moduleSheafTensor_of_isInvertible hF hD)
+  exact ⟨ι, mono_of_app_injective ι hι, hF, n, hn, hc, φ, hφ⟩
 
 end Birational
 
