@@ -9,6 +9,7 @@ origin: cited
 For a Noetherian scheme $X$ completed along a closed subscheme with ideal $I$,
 the functor $F \mapsto \widehat{F}$ from coherent $\mathcal{O}_X$-modules to
 coherent modules on the formal completion is exact.
+Exactness holds more generally for $X$ locally Noetherian, and for an exact sequence $F' \to F \to F''$ with $F'$ only quasi-coherent; the Noetherian and coherence hypotheses are kept because they are Hartshorne's setting.
 
 ## Depends on
 
