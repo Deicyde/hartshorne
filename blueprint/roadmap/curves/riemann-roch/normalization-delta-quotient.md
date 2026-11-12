@@ -17,7 +17,10 @@ $0 \to \mathcal{O}_X \to \nu _* \mathcal{O}_{\widetilde{X}} \to Q \to 0$,
 
 where $Q$ has finite support and
 
-$Q_P \simeq \widetilde{\mathcal{O}} _P / \mathcal{O}_{X,P}$.
+$Q_P \simeq \widetilde{\mathcal{O}} _P / \mathcal{O}_{X,P}$;
+
+that is, $Q \simeq \bigoplus_{P \in X} \widetilde{\mathcal{O}}_P / \mathcal{O}_{X,P}$, the direct sum of
+the skyscraper sheaves at $P$ with these stalks, of which only finitely many are nonzero.
 
 Here $\widetilde{\mathcal{O}} _P$ is the finite semilocal integral closure of $\mathcal{O}_{X,P}$ in
 $K(X)$, namely the stalk $(\nu _*\mathcal{O}_{\widetilde{X}})_P$. Its localizations at maximal
