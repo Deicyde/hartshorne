@@ -372,6 +372,7 @@ import Hartshorne.Weil.TraceExponentialDeterminant
 import Hartshorne.Scheme.Differentials.RegularHypersurfaceCriterion
 import Hartshorne.Scheme.Differentials.BertiniBadHyperplaneIncidence
 import Hartshorne.Scheme.Differentials.BertiniJetFrame
+import Hartshorne.Scheme.Differentials.BertiniIncidenceLocalEquations
 import Hartshorne.Scheme.HeightOneLocalizationIntersection
 import Hartshorne.Cohomology.SmoothMorphisms.LocalFlatnessNonZeroDivisor
 import Hartshorne.Scheme.ProjPartialMap
