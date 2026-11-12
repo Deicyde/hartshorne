@@ -269,9 +269,9 @@ private lemma projectiveSpaceAffineChart_inv {U : X.Opens} {n : ℕ}
   simp only [projectiveBundleFrameIso, Iso.trans_inv, Category.assoc, asIso_inv,
     IsIso.hom_inv_id_assoc, Iso.hom_inv_id_assoc]
 
-/-- **`P(E)` is a projective `n`-space bundle** (Hartshorne II, Exercise 7.10(b)): for `E` locally
-free of rank `n + 1`, the covering of `X` by the affine opens `V` on which `E` has a frame `e`,
-with the identifications `π⁻¹(V) ≅ ℙⁿ_V` sending the coordinate `x_k` to `e_k`
+/-- **`P(E)` is a projective `n`-space bundle** (Hartshorne II, Exercise 7.10(b)), with this atlas:
+for `E` locally free of rank `n + 1`, the covering of `X` by the affine opens `V` on which `E` has
+a frame `e`, with the identifications `π⁻¹(V) ≅ ℙⁿ_V` sending the coordinate `x_k` to `e_k`
 (`exists_projectiveBundleIso_of_frame`), makes `π : P(E) ⟶ X` a projective `n`-space bundle. On an
 affine `W ⊆ V ∩ V'`, the transition is the linear substitution expressing the frame `e|_W` in the
 frame `e'|_W` (`frameGradedHom_comp_linearSubstitution`). -/
@@ -313,7 +313,8 @@ def projectiveBundleAtlas {n : ℕ} (hrank : ∀ x, E.rankAt x = (n + 1 : ℕ)) 
 
 /-- **`P(E)` is a projective `n`-space bundle** (Hartshorne II, Exercise 7.10(b)): if `E` is
 locally free of rank `n + 1` on a Noetherian scheme `X`, then `π : P(E) ⟶ X` is a projective
-`n`-space bundle. -/
+`n`-space bundle. (The finiteness hypothesis `hfin` follows from `hrank` and is needed only to
+form `P(E)`.) -/
 theorem nonempty_projectiveSpaceBundle_projectiveBundleProj {n : ℕ}
     (hrank : ∀ x, E.rankAt x = (n + 1 : ℕ)) :
     Nonempty (ProjectiveSpaceBundle (projectiveBundleProj hE hfin) n) :=
