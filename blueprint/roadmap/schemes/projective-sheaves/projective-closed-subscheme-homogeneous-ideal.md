@@ -17,6 +17,7 @@ ideal; that refinement is not assumed here.
 
 - [Closed subschemes and ideal data](../coherent-sheaves/closed-subschemes-ideal-data.md)
 - [The graded global-sections module](graded-global-sections-module.md)
+- [Homogeneous ideals and truncation define the same Proj subscheme](../normalization-and-exercises/proj-closed-subscheme-truncation.md)
 
 ## Proof depends on
 
