@@ -319,6 +319,34 @@ private lemma unitToModuleCompletionUnit_app_χ (U : X.Opens) (a : Γ(X, U)) :
       (I.toModuleCompletionPushforward _).val.app (op U) a :=
   congrArg (fun f => f.val.app (op U) a) I.unitToPushforwardObjUnit_comp_unitToModuleCompletionUnit
 
+/-- On sections over `U ∩ |Y|`, the map `𝒪_X̂ ⟶ (𝒪_X)^` followed by the projection to level `n` is
+multiplication by the canonical image of `1` at level `n`. -/
+private lemma unitToModuleCompletionUnit_π (n : ℕ) (U : X.Opens)
+    (x : I.formalCompletionRingCatSheaf.obj.obj (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U))) :
+    (I.moduleCompletionπ _ n).val.app _ (I.unitToModuleCompletionUnit.val.app _ x) =
+      x • (show (I.moduleCompletionObj (SheafOfModules.unit.{u} X.ringCatSheaf) n).val.obj
+          (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U)) from
+        (I.moduleCompletionLevelMap I.structureSheafToFormalCompletionRingCat
+          I.structureSheafToFormalCompletionRingCat_compat _ n).val.app (op U)
+          (1 : Γ(X, U))) := by
+  let one : (SheafOfModules.unit.{u} I.formalCompletionRingCatSheaf).val.obj
+      (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U)) :=
+    (1 : I.formalCompletionRingCatSheaf.obj.obj (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U)))
+  have h1 : I.unitToModuleCompletionUnit.val.app (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U)) x =
+      x • I.unitToModuleCompletionUnit.val.app (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U)) one :=
+    (congrArg _ (mul_one x).symm).trans
+      (map_smul (I.unitToModuleCompletionUnit.val.app _).hom x one)
+  have h2 : I.unitToModuleCompletionUnit.val.app (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U)) one =
+      (I.toModuleCompletionPushforward _).val.app (op U) (1 : Γ(X, U)) :=
+    (congrArg (I.unitToModuleCompletionUnit.val.app _)
+      (map_one (I.structureSheafToFormalCompletionRingCat.hom.app (op U)).hom).symm).trans
+      (I.unitToModuleCompletionUnit_app_χ U 1)
+  have h3 := congrArg (fun f => f.val.app (op U) (1 : Γ(X, U)))
+    (I.toModuleCompletionPushforward_π (SheafOfModules.unit.{u} X.ringCatSheaf) n)
+  refine (congrArg ((I.moduleCompletionπ _ n).val.app _) h1).trans ?_
+  refine (map_smul ((I.moduleCompletionπ _ n).val.app _).hom x _).trans ?_
+  exact congrArg (x • ·) ((congrArg ((I.moduleCompletionπ _ n).val.app _) h2).trans h3)
+
 end RankOne
 
 end QuasicoherentIdealSubsheaf
