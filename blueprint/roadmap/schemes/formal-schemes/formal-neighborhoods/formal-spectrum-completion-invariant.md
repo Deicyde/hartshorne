@@ -23,6 +23,7 @@ does not identify Hartshorne's morphisms with continuous ring homomorphisms.
 
 - [The project formal-spectrum bridge](formal-spectrum.md)
 - [Adic completion of rings and modules](../adic-completion/adic-completion.md)
+- [Noetherianity of adic completion](../adic-completion/adic-completion-noetherian.md)
 
 ## Proof depends on
 
