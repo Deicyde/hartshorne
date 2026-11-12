@@ -59,7 +59,8 @@ section ClosedImmersion
 variable {X Y : Scheme.{u}} (i : Y ⟶ X) [IsClosedImmersion i]
 
 /-- **Hartshorne II.8 (p. 182).** For a closed immersion `i : Y ⟶ X` with ideal sheaf `J`, the
-conormal sheaf is `J/J²`: the pushforward `i_* N^*_{Y/X}` is isomorphic to `J/J²`. -/
+conormal sheaf is `J/J²`: the pushforward `i_* N^*_{Y/X}` is isomorphic to `J/J²`. Hartshorne
+defines it for a nonsingular closed subvariety; this holds for any closed immersion. -/
 noncomputable def immersionConormalSheafPushforwardIso :
     (Scheme.Modules.pushforward i).obj (immersionConormalSheaf i) ≅ idealSheafSqQuotient i :=
   (Scheme.Modules.pushforward i).mapIso (immersionConormalSheafIso i) ≪≫
