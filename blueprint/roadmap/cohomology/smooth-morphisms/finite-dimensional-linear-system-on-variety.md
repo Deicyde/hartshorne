@@ -16,6 +16,9 @@ hyperplane.
 If $X$ is nonsingular, each nonzero section defines an effective
 Cartier zero scheme away from components on which it vanishes
 identically. No projectivity hypothesis on $X$ is required.
+The formalization proves more: the base locus, morphism and hyperplane assertions hold for any
+scheme over the field, and the Cartier assertion holds for every nonzero section on an integral
+$X$, nonsingular or not.
 This is the setting used in Hartshorne's Remark III.10.9.2.
 
 ## Depends on
