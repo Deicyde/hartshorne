@@ -230,6 +230,20 @@ def toQuasiCoherentAlgebra : QuasiCoherentAlgebra Y :=
 lemma toQuasiCoherentAlgebra_sections_obj (U : Y.AffineZariskiSite) :
     (toQuasiCoherentAlgebra hS).sections.obj (op U) = sectionsRing hS U.toOpens := rfl
 
+omit [M.IsQuasicoherent] in
+lemma sectionsRestrict_comp {U V W : Y.Opens} (i : V ⟶ U) (j : W ⟶ V) (k : W ⟶ U) :
+    sectionsRestrict hS i ≫ sectionsRestrict hS j = sectionsRestrict hS k := by
+  ext a
+  change M.presheaf.map j.op (M.presheaf.map i.op (ofSectionsRing hS a)) =
+    M.presheaf.map k.op (ofSectionsRing hS a)
+  rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, ← op_comp, Subsingleton.elim (j ≫ i) k]
+
+/-- For affine opens `U ⊆ V`, the restriction homomorphism of the quasi-coherent algebra is the
+restriction of sections. -/
+lemma toQuasiCoherentAlgebra_restriction {U V : Y.AffineZariskiSite} (h : U.toOpens ≤ V.toOpens) :
+    (toQuasiCoherentAlgebra hS).restriction h = sectionsRestrict hS (homOfLE h) :=
+  ((toQuasiCoherentAlgebra hS).eq_restriction h _ fun _ _ _ => sectionsRestrict_comp hS _ _ _).symm
+
 end ModuleSheafAlgebra
 
 end

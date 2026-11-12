@@ -42,11 +42,40 @@ variable {X Y : Scheme.{u}}
 /-- The standard chart `Spec A[x_1, …, x_n] ≅ 𝔸ⁿ_V ⊆ 𝔸ⁿ_U` of affine `n`-space over an open `U` of
 `Y`, at an affine open `V ⊆ U` with ring of sections `A = Γ(V, 𝒪_V)`: the inverse of the
 identification `𝔸ⁿ_V ≅ Spec A[x_1, …, x_n]`, followed by `𝔸ⁿ_V ⟶ 𝔸ⁿ_U`. -/
-def affineSpaceChart (n : ℕ) {U V : Y.Opens} (hV : IsAffineOpen V) (h : V ≤ U) :
+def affineSpaceChart (n : ℕ) {U : Y.Opens} (V : Y.affineOpens) (h : (V : Y.Opens) ≤ U) :
     Spec (.of (MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤))) ⟶ 𝔸(ULift.{u} (Fin n); U) :=
-  haveI : IsAffine V := hV
   (AffineSpace.isoOfIsAffine (ULift.{u} (Fin n)) V).inv ≫
     AffineSpace.map (ULift.{u} (Fin n)) (Y.homOfLE h)
+
+/-- Over affine bases `S`, `T`, the map `𝔸ⁿ_S ⟶ 𝔸ⁿ_T` induced by `f : S ⟶ T` is, under the
+identifications `𝔸ⁿ_S ≅ Spec Γ(S)[x_1, …, x_n]`, the spectrum of the map of polynomial rings. -/
+lemma AffineSpace.isoOfIsAffine_inv_map_hom (n : Type u) {S T : Scheme.{u}} [IsAffine S]
+    [IsAffine T] (f : S ⟶ T) :
+    (AffineSpace.isoOfIsAffine n S).inv ≫ AffineSpace.map n f ≫ (AffineSpace.isoOfIsAffine n T).hom =
+      Spec.map (CommRingCat.ofHom (MvPolynomial.map f.appTop.hom)) := by
+  apply ext_of_isAffine
+  rw [← cancel_epi (Scheme.ΓSpecIso _).inv, ← cancel_mono (Scheme.ΓSpecIso _).hom]
+  simp only [Scheme.Hom.comp_appTop, Category.assoc, Scheme.ΓSpecIso_naturality,
+    Iso.inv_hom_id_assoc, AffineSpace.isoOfIsAffine_hom_appTop]
+  have hC : CommRingCat.ofHom (MvPolynomial.C (σ := n)) ≫ CommRingCat.ofHom
+      (MvPolynomial.eval₂Hom (Scheme.Hom.appTop (𝔸(n; T) ↘ T)).hom (AffineSpace.coord T)) ≫
+        Scheme.Hom.appTop (AffineSpace.map n f) ≫
+          Scheme.Hom.appTop (AffineSpace.isoOfIsAffine n S).inv ≫ (Scheme.ΓSpecIso _).hom =
+      f.appTop ≫ CommRingCat.ofHom MvPolynomial.C := by
+    rw [← Category.assoc, ← CommRingCat.ofHom_comp, MvPolynomial.eval₂Hom_comp_C,
+      CommRingCat.ofHom_hom, ← Category.assoc, ← Scheme.Hom.comp_appTop, AffineSpace.map_over,
+      Scheme.Hom.comp_appTop, Category.assoc, ← Category.assoc (Scheme.Hom.appTop (𝔸(n; S) ↘ S)),
+      ← Scheme.Hom.comp_appTop, AffineSpace.isoOfIsAffine_inv_over, Scheme.Hom.comp_appTop,
+      Category.assoc, Scheme.ΓSpecIso_naturality]
+    have h1 : (Scheme.ΓSpecIso Γ(S, ⊤)).hom = S.isoSpec.hom.appTop :=
+      (Scheme.toSpecΓ_appTop S).symm
+    rw [h1, ← Category.assoc (Scheme.Hom.appTop S.isoSpec.inv), ← Scheme.Hom.comp_appTop,
+      Iso.hom_inv_id]
+    simp
+  ext1
+  refine MvPolynomial.ringHom_ext (fun a => ?_) (fun k => ?_)
+  · exact (congrArg (fun φ => φ.hom a) hC).trans (MvPolynomial.map_C _ _).symm
+  · simp
 
 /-- An `A`-algebra endomorphism `θ` of `A[x_1, …, x_n]` is *linear* if
 `θ(x_k) = ∑_l a_{kl} x_l` for a matrix `(a_{kl})` with entries in `A`. -/
@@ -77,13 +106,13 @@ structure GeometricVectorBundle (f : X ⟶ Y) (n : ℕ) where
   /-- The trivializations `ψ_i : f⁻¹(U_i) ≅ 𝔸ⁿ_{U_i}`. -/
   ψ : ∀ i, (f ⁻¹ᵁ U i).toScheme ≅ 𝔸(ULift.{u} (Fin n); U i)
   ψ_over : ∀ i, (ψ i).hom ≫ 𝔸(ULift.{u} (Fin n); U i) ↘ U i = f ∣_ U i
-  linear : ∀ (i j : ι) (V : Y.Opens) (hV : IsAffineOpen V) (hi : V ≤ U i) (hj : V ≤ U j),
+  linear : ∀ (i j : ι) (V : Y.affineOpens) (hi : (V : Y.Opens) ≤ U i) (hj : (V : Y.Opens) ≤ U j),
     ∃ θ : MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤) ≃ₐ[Γ(V, ⊤)]
         MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤),
       IsLinearPolynomialAlgHom θ.toAlgHom ∧
-      affineSpaceChart n hV hj ≫ (ψ j).inv ≫ (f ⁻¹ᵁ U j).ι =
+      affineSpaceChart n V hj ≫ (ψ j).inv ≫ (f ⁻¹ᵁ U j).ι =
         Spec.map (CommRingCat.ofHom θ.toRingEquiv.toRingHom) ≫
-          affineSpaceChart n hV hi ≫ (ψ i).inv ≫ (f ⁻¹ᵁ U i).ι
+          affineSpaceChart n V hi ≫ (ψ i).inv ≫ (f ⁻¹ᵁ U i).ι
 
 /-- An isomorphism `S ≅ T` induces `𝔸(n; S) ≅ 𝔸(n; T)`. -/
 private def affineSpaceIsoOfIso (n : Type u) {S T : Scheme.{u}} (e : S ≅ T) :
@@ -109,7 +138,7 @@ def GeometricVectorBundle.trivial (Y : Scheme.{u}) (n : ℕ) :
       AffineSpace.map _ Y.topIso.inv ≫ _ ≫ _ = _
     rw [AffineSpace.map_over_assoc, Scheme.toIso_inv_ι, Category.comp_id,
       Scheme.isoOfEq_hom_ι_assoc]
-  linear i j V hV hi hj := by
+  linear i j V hi hj := by
     refine ⟨AlgEquiv.refl, ⟨1, fun k => ?_⟩, ?_⟩
     · simp [Matrix.one_apply]
     · cases i; cases j
@@ -147,6 +176,70 @@ abbrev vectorBundleProj (E : Y.Modules) (hE : E.IsLocallyFreeOfRank n) :
 
 instance (E : Y.Modules) (hE : E.IsLocallyFreeOfRank n) : IsAffineHom (vectorBundleProj E hE) :=
   inferInstance
+
+/-! ### Local trivializations of `V(E)` -/
+
+/-- An affine open of `Y` as an object of the affine Zariski site. -/
+abbrev affineSite (V : Y.affineOpens) : Y.AffineZariskiSite := ⟨V.1, V.2⟩
+
+/-- For a frame `e` of `E` over an affine open `V` (a basis of `E|_V`), the ring isomorphism
+`A[x_1, …, x_n] ≅ Γ(V, Sym(E))`, `x_k ↦ e_k`, where `A = Γ(V, 𝒪_V)`. -/
+def frameChartRingEquiv (V : Y.affineOpens) {e : ULift.{u} (Fin n) → Γ(E, V)}
+    (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e) :
+    MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤) ≃+* E.symSections V :=
+  (MvPolynomial.mapEquiv _ (V : Y.Opens).topIso.commRingCatIsoToRingEquiv).trans
+    (RingEquiv.ofBijective (E.chartRingHom V e) (E.chartRingHom_bijective V.2 he))
+
+lemma frameChartRingEquiv_apply (V : Y.affineOpens)
+    {e : ULift.{u} (Fin n) → Γ(E, V)} (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e)
+    (p : MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤)) :
+    frameChartRingEquiv V he p = E.chartRingHom V e (MvPolynomial.map (V : Y.Opens).topIso.hom.hom p) := rfl
+
+/-- `frameChartRingEquiv` as an isomorphism onto the ring of sections of the quasi-coherent algebra
+`Sym(E)` over `V`. -/
+def frameChartIso (hE : E.IsLocallyFreeOfRank n) (V : Y.affineOpens)
+    {e : ULift.{u} (Fin n) → Γ(E, V)} (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e) :
+    CommRingCat.of (MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤)) ≅
+      (symmetricQuasiCoherentAlgebra E hE).sections.obj (op (affineSite V)) :=
+  (frameChartRingEquiv V he).toCommRingCatIso
+
+lemma frameChartIso_hom_apply (hE : E.IsLocallyFreeOfRank n) (V : Y.affineOpens)
+    {e : ULift.{u} (Fin n) → Γ(E, V)} (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e)
+    (p : MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤)) :
+    (frameChartIso hE V he).hom p = E.chartRingHom V e (MvPolynomial.map (V : Y.Opens).topIso.hom.hom p) :=
+  rfl
+
+/-- **The local trivialization `ψ_V : f⁻¹(V) ≅ 𝔸ⁿ_V` of `V(E)`** given by a frame `e` of `E` over an
+affine open `V`: `f⁻¹(V) ≅ Spec Γ(V, Sym(E)) ≅ Spec A[x_1, …, x_n] ≅ 𝔸ⁿ_V`. -/
+def frameTrivialization (hE : E.IsLocallyFreeOfRank n) (V : Y.affineOpens)
+    {e : ULift.{u} (Fin n) → Γ(E, V)} (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e) :
+    ((vectorBundleProj E hE) ⁻¹ᵁ V).toScheme ≅ 𝔸(ULift.{u} (Fin n); V) :=
+  (symmetricQuasiCoherentAlgebra E hE).restrictIso (affineSite V) ≪≫
+    Scheme.Spec.mapIso (frameChartIso hE V he).op ≪≫
+    (AffineSpace.isoOfIsAffine _ V).symm
+
+/-- The trivialization `ψ_V` is an isomorphism over `V`. -/
+lemma frameTrivialization_hom_over (hE : E.IsLocallyFreeOfRank n) (V : Y.affineOpens)
+    {e : ULift.{u} (Fin n) → Γ(E, V)}
+    (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e) :
+    (frameTrivialization hE V he).hom ≫ 𝔸(ULift.{u} (Fin n); V) ↘ V =
+      vectorBundleProj E hE ∣_ V := by
+  rw [← cancel_mono (V : Y.Opens).ι, morphismRestrict_ι]
+  simp only [frameTrivialization, Iso.trans_hom, Iso.symm_hom, Category.assoc]
+  rw [← (symmetricQuasiCoherentAlgebra E hE).restrictIso_hom_fromSpec (affineSite V)]
+  congr 1
+  rw [AffineSpace.isoOfIsAffine_inv_over_assoc, IsAffineOpen.fromSpec, IsAffineOpen.isoSpec]
+  simp only [Iso.trans_inv, Functor.mapIso_hom, Functor.mapIso_inv, Category.assoc,
+    Scheme.Spec_map, Iso.op_hom, Iso.op_inv, Quiver.Hom.unop_op]
+  have hring : CommRingCat.ofHom MvPolynomial.C ≫ (frameChartIso hE V he).hom =
+      (V : Y.Opens).topIso.symm.inv ≫
+        (symmetricQuasiCoherentAlgebra E hE).structureMap.app (op (affineSite V)) := by
+    ext a
+    change E.chartRingHom V e (MvPolynomial.map (V : Y.Opens).topIso.hom.hom (MvPolynomial.C a)) =
+      ModuleSheafAlgebra.unitRingHom _ _ ((V : Y.Opens).topIso.hom a)
+    rw [MvPolynomial.map_C, chartRingHom_C]
+  rw [← Spec.map_comp_assoc, hring]
+  exact (congrArg (· ≫ _) (Spec.map_comp _ _)).trans (Category.assoc _ _ _)
 
 end Scheme.Modules
 
