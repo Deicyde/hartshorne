@@ -17,6 +17,7 @@ $cd(X) \le r$.
 ## Proof depends on
 
 - [Affine covers compute quasi-coherent cohomology](../cech-cohomology/affine-cover-comparison.md)
+- [The ordered Čech complex](../cech-cohomology/open-cover-cech-complex.md)
 - The ordered Čech complex of an $r+1$ member cover has no terms above
   degree $r$.
 
