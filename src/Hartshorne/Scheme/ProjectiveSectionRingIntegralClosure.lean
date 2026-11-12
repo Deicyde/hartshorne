@@ -319,7 +319,7 @@ variable {𝒜} in
 /-- `s · 1 = s / 1` on values, for `s ∈ S_d`. -/
 theorem globalValue_mulGlobal_unitSection {d : ℕ} {s : A} (hs : s ∈ 𝒜 d) (x : Proj 𝒜) :
     (globalValue 𝒜 (gradedTwist 𝒜 (0 + d))
-      (unitorGlobal (0 + d) (mulGlobal _ 0 d ⟨s, hs⟩ (unitSection 𝒜))) x).val =
+      (unitorGlobal (0 + d) (mulGlobal (𝟙_ (Proj 𝒜).Modules) 0 d ⟨s, hs⟩ (unitSection 𝒜))) x).val =
       LocalizedModule.mk s 1 := by
   let h := (twistMulHom 𝒜 0 d).val.app (op ⊤) (tmulSection _ _
     (twistSection 0 ⟨1, SetLike.GradedOne.one_mem⟩ (op ⊤)) (twistSection d ⟨s, hs⟩ (op ⊤)))
@@ -342,7 +342,7 @@ variable {𝒜} in
 `s`. -/
 theorem sectionToFraction_mulGlobal_unitSection (h : ¬HomogeneousIdeal.irrelevant 𝒜 ≤ ⊥)
     {d : ℕ} {s : A} (hs : s ∈ 𝒜 d) :
-    sectionToFraction 𝒜 (0 + d) (mulGlobal _ 0 d ⟨s, hs⟩ (unitSection 𝒜)) =
+    sectionToFraction 𝒜 (0 + d) (mulGlobal (𝟙_ (Proj 𝒜).Modules) 0 d ⟨s, hs⟩ (unitSection 𝒜)) =
       algebraMap A (FractionRing A) s := by
   rw [sectionToFraction_apply h _ _ (genericPoint h)]
   unfold sectionValue
@@ -1193,7 +1193,63 @@ theorem mem_range_sectionRingToFraction [IsIntegral (Proj 𝒬)] [Hartshorne.IsN
   refine Finset.sum_congr rfl fun n _ => ?_
   rw [sectionRingToFraction_of, htz]
 
+omit [IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)] in
+theorem exists_coord_ne_zero (x : Proj 𝒬) : ∃ i, coord I i ≠ 0 := by
+  obtain ⟨i, hi⟩ := exists_coord_notMem I x
+  exact ⟨i, fun h0 => hi (h0 ▸ zero_mem _)⟩
+
+/-- **`S'` is the integral closure of `S`**, for a domain `S` with `Proj S` integral and normal:
+the map `S' → K` is injective and multiplicative, and its image is the integral closure of `S`
+in `K`. (It is the identity on `S`: `sectionToFraction_mulGlobal_unitSection`.) -/
+theorem sectionRing_isIntegralClosure [IsIntegral (Proj 𝒬)] [Hartshorne.IsNormal (Proj 𝒬)] :
+    Function.Injective (sectionRingToFraction 𝒬) ∧
+    (∀ (n m : ℤ) (y : twistGlobal (𝟙_ (Proj 𝒬).Modules) n)
+      (z : twistGlobal (𝟙_ (Proj 𝒬).Modules) m),
+      sectionToFraction 𝒬 (n + m) (sectionMul 𝒬 n m y z) =
+        sectionToFraction 𝒬 n y * sectionToFraction 𝒬 m z) ∧
+    Set.range (sectionRingToFraction 𝒬) =
+      (integralClosure (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)
+        (FractionRing (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)) :
+            Set (FractionRing (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal))) := by
+  have hne := exists_coord_ne_zero I
+    (Classical.choice (AlgebraicGeometry.IsIntegral.nonempty : Nonempty (Proj 𝒬)))
+  have h := not_irrelevant_le_bot_of_mem_one (coord_mem I hne.choose) hne.choose_spec
+  refine ⟨sectionRingToFraction_injective (𝒜 := 𝒬) h,
+    fun n m y z => sectionToFraction_sectionMul (𝒜 := 𝒬) n m y z, ?_⟩
+  exact Set.Subset.antisymm
+    (Set.range_subset_iff.2 fun y => isIntegral_sectionRingToFraction I hne y)
+    fun _ hz => mem_range_sectionRingToFraction I hne hz
+
 end Integral
+
+/-- **Hartshorne II, Exercise 5.14(a).** Let `k` be algebraically closed and let `X ⊆ ℙʳ_k` be a
+connected normal closed subscheme, presented as `X = Proj S` for its homogeneous coordinate ring
+`S = k[x₀, …, xᵣ] / I`, where `I = Γ_*(ℐ_X)` is the saturated homogeneous ideal of `X`
+(hypothesis `hsat`; Corollary 5.16 and Exercise 5.10). Then `S` is a domain, and
+`S' = ⨁_{n ≥ 0} Γ(X, 𝒪_X(n))` is the integral closure of `S` in its fraction field `K`:
+the natural map `S' → K` (`sectionRingToFraction`, the value at the generic point) is injective
+and multiplicative, and its image is exactly `integralClosure S K`. On `S` it is the inclusion
+`S ⊆ K` (`sectionToFraction_mulGlobal_unitSection`). The algebraic closedness of `k` is the
+book's standing hypothesis; the proof does not use it. -/
+theorem projectiveSectionRing_isIntegralClosure [IsAlgClosed k]
+    (hsat : ∀ s : MvPolynomial (Fin (r + 1)) k, (∀ i, ∃ n : ℕ, X i ^ n * s ∈ I.toIdeal) →
+      s ∈ I.toIdeal)
+    [ConnectedSpace (Proj 𝒬)] [Hartshorne.IsNormal (Proj 𝒬)] :
+    IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal) ∧
+      ∀ [IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)],
+        Function.Injective (sectionRingToFraction 𝒬) ∧
+        (∀ (n m : ℤ) (y : twistGlobal (𝟙_ (Proj 𝒬).Modules) n)
+          (z : twistGlobal (𝟙_ (Proj 𝒬).Modules) m),
+          sectionToFraction 𝒬 (n + m) (sectionMul 𝒬 n m y z) =
+            sectionToFraction 𝒬 n y * sectionToFraction 𝒬 m z) ∧
+        Set.range (sectionRingToFraction 𝒬) =
+          (integralClosure (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)
+            (FractionRing (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)) :
+              Set (FractionRing (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal))) := by
+  have := isIntegral_proj I
+  refine ⟨isDomain_of_isIntegral I hsat, ?_⟩
+  intro _
+  exact sectionRing_isIntegralClosure I
 
 end ClosedSubscheme
 
