@@ -2,6 +2,7 @@
 article_id: af_a933157095e6b109ea006613
 declaration: theorem
 origin: cited
+lean: Hartshorne.projectiveSpaceChart Hartshorne.projectiveSpaceChartRatio Hartshorne.preimage_projectiveSpaceChart_eq_nonvanishingLocusOpens Hartshorne.appLE_projectiveSpaceChartRatio_smul Hartshorne.existsUnique_chartRingHom_of_iso
 ---
 
 # Coordinate nonvanishing opens
