@@ -34,8 +34,19 @@ and an `𝒪_X`-module `F`:
   module on the scheme `(X, 𝒪_X / J ^ (n + 1))`, the pullback of the `𝒪_X`-module
   `F / J ^ (n + 1) F` along `𝒪_X ⟶ 𝒪_X / J ^ (n + 1)` (the scheme exists by Proposition 9.5(c),
   `IsIdealOfDefinition.pow_succ`). As `F / J ^ (n + 1) F` is killed by `J ^ (n + 1)`, its
-  pushforward back to `X` is `F / J ^ (n + 1) F` again (the identification is not formalized
-  here).
+  pushforward back to `X` is `F / J ^ (n + 1) F` again: the unit
+  `IsIdealOfDefinition.toReduction h F n` is an isomorphism
+  (`IsIdealOfDefinition.isIso_toReduction`).
+
+Modules killed by an ideal subsheaf (`IdealSubsheaf.Annihilates J M`: `J(V) M(V) = 0` for all `V`):
+
+* `Hartshorne.IdealSubsheaf.annihilates_cokernel_smulι`: `J` kills `M / J M`.
+* `Hartshorne.IdealSubsheaf.Annihilates.quotientModule`: a module killed by `J` is a module over
+  `R / J`, with the same underlying sheaf (`Annihilates.quotientπ_smul`).
+* `Hartshorne.IsIdealOfDefinition.isIso_quotientAdjunction_unit_app`: for an `𝒪_X`-module `Q`
+  killed by an ideal of definition `J`, the unit `Q ⟶ i_* i^* Q` along `𝒪_X ⟶ 𝒪_X / J` is an
+  isomorphism. The pushforward along `𝒪_X ⟶ 𝒪_X / J` is fully faithful, since that map is locally
+  surjective, and `Q` is the pushforward of `IsIdealOfDefinition.quotientModule h hQ`.
 -/
 
 noncomputable section
@@ -436,6 +447,220 @@ theorem isIso_toLimitPowQuotient_iff_of_cofinal
 
 end Cofinal
 
+/-- **`J` kills `M`**: `J(V) M(V) = 0` for every open `V`. -/
+def Annihilates : Prop := ∀ V : Opens T, J.sectionsSmul M V = ⊥
+
+/-! ### Modules killed by an ideal subsheaf
+
+A module `M` killed by `J` is a module over `R / J`: the sections `M(V)` are modules over
+`R(V) ⧸ J(V)`, and the sheafification of this presheaf of modules has underlying sheaf `M`. The
+quotient `M / J M` is killed by `J`. -/
+
+section Annihilates
+
+variable {J M}
+
+/-- If `J` kills `M`, every section of `J` kills every section of `M`. -/
+lemma Annihilates.smul_eq_zero (hM : J.Annihilates M) {V : Opens T} {r : R.presheaf.obj (op V)}
+    (hr : r ∈ J.ideal V) (m : M.val.obj (op V)) :
+    (show (ringCatSheafOf R).obj.obj (op V) from r) • m = 0 := by
+  have : (show (ringCatSheafOf R).obj.obj (op V) from r) • m ∈ J.sectionsSmul M V :=
+    Submodule.smul_mem_smul hr trivial
+  rw [hM V] at this
+  exact this
+
+variable (J) in
+private lemma quotientπ_hom_eq :
+    J.quotientπ.hom = J.quotientPresheafπ ≫ toSheafify (Opens.grothendieckTopology T)
+        (idealQuotientPresheaf R J.ideal J.ideal_le_comap) := by
+  rw [toSheafify_naturality]
+  rfl
+
+variable (J) in
+private lemma quotientπ_app_apply (U : Opens T) (s : R.presheaf.obj (op U)) :
+    J.quotientπ.hom.app (op U) s = (toSheafify (Opens.grothendieckTopology T)
+        (idealQuotientPresheaf R J.ideal J.ideal_le_comap)).app (op U)
+        (Ideal.Quotient.mk (J.ideal U) s) := by
+  rw [quotientπ_hom_eq]
+  rfl
+
+variable (J) in
+/-- The projection `R ⟶ R / J` is locally surjective. -/
+lemma isLocallySurjective_quotientπ :
+    Presheaf.IsLocallySurjective (Opens.grothendieckTopology T) J.quotientπ.hom := by
+  refine (TopCat.Presheaf.isLocallySurjective_iff _).mpr fun U t x hx => ?_
+  obtain ⟨V, hVU, ⟨q, hq⟩, hxV⟩ := (TopCat.Presheaf.isLocallySurjective_iff
+    (toSheafify (Opens.grothendieckTopology T)
+      (idealQuotientPresheaf R J.ideal J.ideal_le_comap))).mp
+    (inferInstanceAs (Presheaf.IsLocallySurjective (Opens.grothendieckTopology T) _)) U t x hx
+  obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective q
+  exact ⟨V, hVU, ⟨s, by rw [quotientπ_app_apply]; exact hq⟩, hxV⟩
+
+variable (J) in
+/-- The presheaf of rings `V ↦ R(V) ⧸ J(V)` in `RingCat`. -/
+abbrev quotientPresheafRingCat : (Opens T)ᵒᵖ ⥤ RingCat.{u} :=
+  idealQuotientPresheaf R J.ideal J.ideal_le_comap ⋙ forget₂ CommRingCat RingCat.{u}
+
+variable (J) in
+/-- The sheafification map from the presheaf `V ↦ R(V) ⧸ J(V)` to `R / J`, in `RingCat`. -/
+def quotientPresheafToSheaf : J.quotientPresheafRingCat ⟶ (ringCatSheafOf J.quotient).obj :=
+  Functor.whiskerRight (toSheafify (Opens.grothendieckTopology T)
+    (idealQuotientPresheaf R J.ideal J.ideal_le_comap)) (forget₂ CommRingCat RingCat.{u})
+
+variable (J) in
+instance : Presheaf.IsLocallySurjective (Opens.grothendieckTopology T) J.quotientPresheafToSheaf :=
+  ⟨fun {_} s => (Presheaf.isLocallySurjective_toSheafify' (J := Opens.grothendieckTopology T)
+    (idealQuotientPresheaf R J.ideal J.ideal_le_comap)).imageSieve_mem s⟩
+
+variable (J) in
+instance : Presheaf.IsLocallyInjective (Opens.grothendieckTopology T) J.quotientPresheafToSheaf :=
+  ⟨fun {_} s t h => (Presheaf.isLocallyInjective_toSheafify' (J := Opens.grothendieckTopology T)
+    (idealQuotientPresheaf R J.ideal J.ideal_le_comap)).equalizerSieve_mem s t h⟩
+
+/-- For `M` killed by `J`, the module structure of `M(V)` over `R(V) ⧸ J(V)`. -/
+@[instance_reducible]
+def Annihilates.sectionsModule (hM : J.Annihilates M) (V : (Opens T)ᵒᵖ) :
+    Module (J.quotientPresheafRingCat.obj V) (M.val.presheaf.obj V) :=
+  @Module.IsTorsionBySet.module ((ringCatSheafOf R).obj.obj V) (M.val.obj V) _ _ _
+    (J.ideal V.unop) _ (fun m r => hM.smul_eq_zero r.2 m)
+
+/-- The class of `r` acts on `M(V)` as `r` does. -/
+lemma Annihilates.mk_smul (hM : J.Annihilates M) (V : (Opens T)ᵒᵖ) (r : R.presheaf.obj V)
+    (m : M.val.obj V) :
+    letI := hM.sectionsModule V
+    (show J.quotientPresheafRingCat.obj V from Ideal.Quotient.mk (J.ideal V.unop) r) •
+      (show M.val.presheaf.obj V from m) =
+      (show (ringCatSheafOf R).obj.obj V from r) • m :=
+  rfl
+
+/-- For `M` killed by `J`, `M` as a presheaf of modules over `V ↦ R(V) ⧸ J(V)`. -/
+def Annihilates.presheafModule (hM : J.Annihilates M) :
+    PresheafOfModules.{u} J.quotientPresheafRingCat :=
+  letI := hM.sectionsModule
+  PresheafOfModules.ofPresheaf M.val.presheaf (by
+    intro V W f r m
+    obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective r
+    exact M.val.map_smul f r m)
+
+variable (M) in
+/-- The sheaf of abelian groups underlying `M`. -/
+abbrev toAbSheaf : Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{u} :=
+  ⟨M.val.presheaf, M.isSheaf⟩
+
+/-- The identity of the underlying sheaf of `M` is a sheafification map. -/
+lemma Annihilates.isLocallyInjective_id (hM : J.Annihilates M) :
+    Presheaf.IsLocallyInjective (Opens.grothendieckTopology T)
+      (show hM.presheafModule.presheaf ⟶ (toAbSheaf M).obj from 𝟙 _) :=
+  Presheaf.isLocallyInjective_of_injective _ _ fun _ => Function.injective_id
+
+/-- The identity of the underlying sheaf of `M` is a sheafification map. -/
+lemma Annihilates.isLocallySurjective_id (hM : J.Annihilates M) :
+    Presheaf.IsLocallySurjective (Opens.grothendieckTopology T)
+      (show hM.presheafModule.presheaf ⟶ (toAbSheaf M).obj from 𝟙 _) :=
+  Presheaf.isLocallySurjective_of_surjective _ _ fun _ => Function.surjective_id
+
+/-- **A module killed by `J` is a module over `R / J`**: the sheafification of `M`, viewed as a
+presheaf of modules over `V ↦ R(V) ⧸ J(V)`, whose underlying sheaf is `M` itself. -/
+def Annihilates.quotientModule (hM : J.Annihilates M) :
+    SheafOfModules.{u} (ringCatSheafOf J.quotient) :=
+  @PresheafOfModules.sheafify _ _ _ _ _ J.quotientPresheafToSheaf _ _ hM.presheafModule
+    (toAbSheaf M) (show hM.presheafModule.presheaf ⟶ (toAbSheaf M).obj from 𝟙 _)
+    hM.isLocallyInjective_id hM.isLocallySurjective_id
+
+/-- On `hM.quotientModule`, the image of `r ∈ R(V)` in `(R / J)(V)` acts as `r` acts on `M`. -/
+lemma Annihilates.quotientπ_smul (hM : J.Annihilates M) (V : Opens T) (r : R.presheaf.obj (op V))
+    (m : M.val.obj (op V)) :
+    (show (ringCatSheafOf J.quotient).obj.obj (op V) from J.quotientπ.hom.app (op V) r) •
+      (show hM.quotientModule.val.obj (op V) from m) =
+      (show M.val.obj (op V) from (show (ringCatSheafOf R).obj.obj (op V) from r) • m) := by
+  have := hM.isLocallyInjective_id
+  have := hM.isLocallySurjective_id
+  have := PresheafOfModules.Sheafify.map_smul_eq J.quotientPresheafToSheaf
+    (M₀ := hM.presheafModule) (A := toAbSheaf M)
+    (show hM.presheafModule.presheaf ⟶ (toAbSheaf M).obj from 𝟙 _)
+    (J.quotientπ.hom.app (op V) r) m (𝟙 _) (Ideal.Quotient.mk (J.ideal V) r)
+    (by rw [CategoryTheory.Functor.map_id]; exact (J.quotientπ_app_apply V r).symm) m
+    (by rw [CategoryTheory.Functor.map_id]; rfl)
+  rw [CategoryTheory.Functor.map_id] at this
+  exact this
+
+section LocalLift
+
+variable {A B : SheafOfModules.{u} (ringCatSheafOf R)}
+
+private lemma toSheaf_preservesColimit {K : Type} [SmallCategory K]
+    (D : K ⥤ SheafOfModules.{u} (ringCatSheafOf R)) :
+    PreservesColimit D (SheafOfModules.toSheaf (ringCatSheafOf R)) := by
+  let adj := PresheafOfModules.sheafificationAdjunction (𝟙 (ringCatSheafOf R).obj)
+  let D₀ : K ⥤ PresheafOfModules.{u} (ringCatSheafOf R).obj := D ⋙ SheafOfModules.forget _
+  let D' : K ⥤ SheafOfModules.{u} (ringCatSheafOf R) :=
+    D₀ ⋙ PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj)
+  let e : D ≅ D' := Functor.isoWhiskerLeft D (asIso adj.counit).symm
+  have hc₀ := colimit.isColimit D₀
+  have : PreservesColimitsOfSize.{0, 0}
+      (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj)) :=
+    adj.leftAdjoint_preservesColimits
+  have h2 : PreservesColimit D₀
+      (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj) ⋙
+        SheafOfModules.toSheaf (ringCatSheafOf R)) :=
+    preservesColimit_of_natIso D₀
+      (PresheafOfModules.sheafificationCompToSheaf (𝟙 (ringCatSheafOf R).obj)).symm
+  have : PreservesColimit D' (SheafOfModules.toSheaf (ringCatSheafOf R)) :=
+    preservesColimit_of_preserves_colimit_cocone
+      (isColimitOfPreserves (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj)) hc₀)
+      (isColimitOfPreserves (PresheafOfModules.sheafification (𝟙 (ringCatSheafOf R).obj) ⋙
+        SheafOfModules.toSheaf (ringCatSheafOf R)) hc₀)
+  exact preservesColimit_of_iso_diagram _ e.symm
+
+/-- An epimorphism of `R`-modules is locally surjective on sections. -/
+private lemma exists_local_lift (g : A ⟶ B) [Epi g] {U : Opens T} (t : B.val.obj (op U)) {x : T}
+    (hx : x ∈ U) : ∃ (V : Opens T) (hVU : V ≤ U), x ∈ V ∧
+      ∃ s : A.val.obj (op V), g.val.app (op V) s = B.val.map (homOfLE hVU).op t := by
+  have h := toSheaf_preservesColimit (span g g)
+  have : Epi ((SheafOfModules.toSheaf (ringCatSheafOf R)).map g) :=
+    @preserves_epi_of_preservesColimit _ _ _ _ (SheafOfModules.toSheaf (ringCatSheafOf R)) _ _ g h
+      ‹Epi g›
+  have h := (TopCat.Sheaf.isLocallySurjective_iff_epi
+    ((SheafOfModules.toSheaf (ringCatSheafOf R)).map g)).mpr this
+  obtain ⟨V, hVU, ⟨s, hs⟩, hxV⟩ := (TopCat.Presheaf.isLocallySurjective_iff _).mp h U t x hx
+  exact ⟨V, hVU, hxV, s, hs⟩
+
+/-- A section of an `R`-module which vanishes near every point vanishes. -/
+private lemma eq_zero_of_locally {U : Opens T} (s : A.val.obj (op U))
+    (hs : ∀ x ∈ U, ∃ (V : Opens T) (hVU : V ≤ U), x ∈ V ∧ A.val.map (homOfLE hVU).op s = 0) :
+    s = 0 := by
+  choose V hVU hxV hV using hs
+  let A' : TopCat.Sheaf AddCommGrpCat.{u} T := ⟨A.val.presheaf, A.isSheaf⟩
+  refine A'.eq_of_locally_eq' (U := fun x : U => V x.1 x.2) U
+    (fun x => homOfLE (hVU x.1 x.2))
+    (fun x hx => Opens.mem_iSup.mpr ⟨⟨x, hx⟩, hxV x hx⟩) s 0 fun x => ?_
+  exact (hV x.1 x.2).trans (map_zero _).symm
+
+end LocalLift
+
+variable (J M) in
+/-- **`J` kills `M / J M`**: near every point a section of `M / J M` is the class of a section of
+`M`, and `J` maps those into `J M`. -/
+theorem annihilates_cokernel_smulι : J.Annihilates (cokernel (J.smulι M)) := by
+  intro V
+  refine eq_bot_iff.mpr (Submodule.smul_le.mpr fun r hr q _ => ?_)
+  rw [Submodule.mem_bot]
+  refine eq_zero_of_locally _ fun x hx => ?_
+  obtain ⟨W, hWV, hxW, f, hf⟩ := exists_local_lift (cokernel.π (J.smulι M)) q hx
+  refine ⟨W, hWV, hxW, ?_⟩
+  have hrW : R.presheaf.map (homOfLE hWV).op r ∈ J.ideal W := J.ideal_le_comap hWV hr
+  have hmem : (show (ringCatSheafOf R).obj.obj (op W) from R.presheaf.map (homOfLE hWV).op r) • f ∈
+      (J.smulSubmodule M).obj (op W) :=
+    J.sectionsSmul_le_smulSubmodule M W (Submodule.smul_mem_smul hrW trivial)
+  have h0 : (cokernel.π (J.smulι M)).val.app (op W)
+      ((J.smulι M).val.app (op W) ⟨_, hmem⟩) = 0 := by
+    have := congrArg (fun k => k.val.app (op W) ⟨_, hmem⟩) (cokernel.condition (J.smulι M))
+    exact this
+  rw [(cokernel (J.smulι M)).val.map_smul, ← hf]
+  exact (((cokernel.π (J.smulι M)).val.app (op W)).hom.map_smul _ f).symm.trans h0
+
+end Annihilates
+
 end IdealSubsheaf
 
 namespace IsIdealOfDefinition
@@ -514,6 +739,54 @@ def quotientAdjunction : h.quotientPullback ⊣ h.quotientPushforward :=
     h.isRightAdjoint_quotientPushforward
   SheafOfModules.pullbackPushforwardAdjunction.{u} h.quotientRingCatSheafHom
 
+/-- The projection `𝒪_X ⟶ 𝒪_X / J` is locally surjective. -/
+lemma isLocallySurjective_quotientRingCatSheafHom :
+    Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.toLocallyRingedSpace.carrier)
+      h.quotientRingCatSheafHom.hom :=
+  ⟨fun {_} s => J.isLocallySurjective_quotientπ.imageSieve_mem s⟩
+
+/-- The pushforward along `𝒪_X ⟶ 𝒪_X / J` is faithful: it does not change the sections. -/
+instance : h.quotientPushforward.Faithful where
+  map_injective {M N} f g hfg := by
+    refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun V => ?_)
+    ext x
+    exact congrArg (fun k => k.val.app V x) hfg
+
+/-- The pushforward along `𝒪_X ⟶ 𝒪_X / J` is full: since `𝒪_X ⟶ 𝒪_X / J` is locally
+surjective, an `𝒪_X`-linear map of `𝒪_X / J`-modules is `𝒪_X / J`-linear. -/
+instance : h.quotientPushforward.Full where
+  map_surjective {M N} f := by
+    have := h.isLocallySurjective_quotientRingCatSheafHom
+    exact ⟨⟨(PresheafOfModules.restrictHomEquivOfIsLocallySurjective h.quotientRingCatSheafHom.hom
+      (M₁ := (PresheafOfModules.pushforward₀ _ _).obj M.val)
+      (M₂ := (PresheafOfModules.pushforward₀ _ _).obj N.val)
+      (h.quotientPushforward.obj N).isSheaf).symm f.val⟩, rfl⟩
+
+section Annihilates
+
+variable {Q : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace)}
+
+/-- An `𝒪_X`-module `Q` killed by `J`, as a module on the scheme `(X, 𝒪_X / J)`. -/
+def quotientModule (hQ : J.Annihilates Q) : h.quotientScheme.Modules :=
+  hQ.quotientModule
+
+/-- Pushing `quotientModule h hQ` forward to `X` gives back `Q`. -/
+def quotientPushforwardQuotientModuleIso (hQ : J.Annihilates Q) :
+    h.quotientPushforward.obj (h.quotientModule hQ) ≅ Q where
+  hom := ⟨PresheafOfModules.homMk (𝟙 Q.val.presheaf) (fun V r m => hQ.quotientπ_smul V.unop r m)⟩
+  inv := ⟨PresheafOfModules.homMk (𝟙 Q.val.presheaf)
+    (fun V r m => (hQ.quotientπ_smul V.unop r m).symm)⟩
+  hom_inv_id := rfl
+  inv_hom_id := rfl
+
+/-- **Modules killed by `J` come from `(X, 𝒪_X / J)`**: for an `𝒪_X`-module `Q` killed by `J`, the
+unit `Q ⟶ i_* i^* Q` of the adjunction along `𝒪_X ⟶ 𝒪_X / J` is an isomorphism. -/
+theorem isIso_quotientAdjunction_unit_app (hQ : J.Annihilates Q) :
+    IsIso (h.quotientAdjunction.unit.app Q) :=
+  h.quotientAdjunction.isIso_unit_app_of_iso (h.quotientPushforwardQuotientModuleIso hQ).symm
+
+end Annihilates
+
 variable (F : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace))
 
 /-- **The reduction `F_n = F / J ^ (n + 1) F`** (Hartshorne II.9, Proposition 9.6(a)), as a module
@@ -528,6 +801,12 @@ unit of the adjunction. -/
 def toReduction (n : ℕ) :
     J.powQuotient F n ⟶ (h.pow_succ n).quotientPushforward.obj (h.reduction F n) :=
   (h.pow_succ n).quotientAdjunction.unit.app (J.powQuotient F n)
+
+/-- **`F_n` pushed forward to `X` is `F / J ^ (n + 1) F`**: the map `toReduction h F n` is an
+isomorphism, since `F / J ^ (n + 1) F` is killed by `J ^ (n + 1)`. -/
+theorem isIso_toReduction (n : ℕ) : IsIso (h.toReduction F n) :=
+  (h.pow_succ n).isIso_quotientAdjunction_unit_app
+    (IdealSubsheaf.annihilates_cokernel_smulι (J ^ (n + 1)) F)
 
 end IsIdealOfDefinition
 
