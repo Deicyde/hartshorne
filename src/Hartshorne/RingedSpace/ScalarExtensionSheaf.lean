@@ -356,6 +356,31 @@ lemma homOfLinear_app_tmul (G : PresheafOfModules.{u} (ringCatSheafOf R).obj)
         (show G.obj (op ⊤) from g m)) :=
   homEquiv_symm_tmul _ _ _ _
 
+lemma presheafMap_comp_homOfLinear {N' : ModuleCat.{u} A}
+    (G : PresheafOfModules.{u} (ringCatSheafOf R).obj) (g : N' ⟶ N)
+    (c : N ⟶ (ModuleCat.restrictScalars (baseMap φ ⊤)).obj (G.obj (op ⊤))) :
+    presheafMap φ g ≫ homOfLinear φ G c = homOfLinear φ G (g ≫ c) := by
+  ext V t
+  induction t using TensorProduct.induction_on with
+  | zero => exact (map_zero _).trans (map_zero _).symm
+  | tmul a m =>
+    exact (homOfLinear_app_tmul φ G c V a (g m)).trans
+      (homOfLinear_app_tmul φ G (g ≫ c) V a m).symm
+  | add t t' ht ht' =>
+    exact (map_add _ _ _).trans ((congrArg₂ (· + ·) ht ht').trans (map_add _ _ _).symm)
+
+lemma homOfLinear_zero (G : PresheafOfModules.{u} (ringCatSheafOf R).obj) :
+    homOfLinear φ G (0 : N ⟶ (ModuleCat.restrictScalars (baseMap φ ⊤)).obj (G.obj (op ⊤))) =
+      0 := by
+  ext V t
+  induction t using TensorProduct.induction_on with
+  | zero => exact map_zero _
+  | tmul a m =>
+    refine (homOfLinear_app_tmul φ G 0 V a m).trans ?_
+    change a • G.map _ (0 : G.obj (op ⊤)) = 0
+    rw [map_zero, smul_zero]
+  | add t t' ht ht' => exact (map_add _ _ _).trans ((congrArg₂ (· + ·) ht ht').trans (add_zero _))
+
 variable [Module.Free A N] [Module.Finite A N] (G : SheafOfModules.{u} (ringCatSheafOf R))
 
 /-- The morphism `(𝒪_X ⊗_A N)|_W ⟶ G|_W` determined by an `A`-linear map `N → G(W)`. -/
