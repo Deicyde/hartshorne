@@ -27,6 +27,7 @@ $\Gamma (X,\mathcal{O}_X)$-module structure, functorially and compatibly with ex
 - [Injective module sheaves are flasque](injective-module-sheaf-flasque.md)
 - [Flasque sheaves are acyclic](flasque-sheaf-acyclic.md)
 - [Acyclic resolutions compute derived functors](../derived-functors/acyclic-resolution-comparison.md)
+- [Abelian closure of quasi-coherent sheaves](../../schemes/modules-and-quasicoherent/quasicoherent-abelian-closure.md)
 
 ## Sources
 
