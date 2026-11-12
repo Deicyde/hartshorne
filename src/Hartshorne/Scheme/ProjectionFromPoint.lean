@@ -161,7 +161,7 @@ theorem exists_iso_of_comp_all (f : X' ⟶ X) (φ : X ⟶ projectiveSpaceOverSch
   rw [pullbackComp_inv_pullbackGlobalSection, pullback_map_pullbackGlobalSection]
 
 /-- Sections generate an `𝒪_X`-module if near every point one of them trivializes it. -/
-theorem isGeneratedBySections_of_isTrivializingSection {L : X.Modules} {ι : Type u}
+theorem isGeneratedBySections_of_forall_isTrivializingSection {L : X.Modules} {ι : Type u}
     (s : ι → Γ(L, ⊤))
     (h : ∀ x, ∃ i, ∃ W : X.Opens, x ∈ W ∧
       IsTrivializingSection L W (L.presheaf.map (homOfLE le_top).op (s i))) :
@@ -249,7 +249,7 @@ theorem isGeneratedBySections_pointSections {m : ℕ} {a : Fin (m + 1) → k} (h
     (structureModuleOf (Spec (CommRingCat.of k))).IsGeneratedBySections
       (fun i : ULift.{u} (Fin (m + 1)) => pointSections k a i.down) := by
   obtain ⟨j, hj⟩ := Function.ne_iff.mp ha
-  refine isGeneratedBySections_of_isTrivializingSection _ fun x => ⟨⟨j⟩, ⊤, trivial, ?_⟩
+  refine isGeneratedBySections_of_forall_isTrivializingSection _ fun x => ⟨⟨j⟩, ⊤, trivial, ?_⟩
   rw [map_homOfLE_top]
   exact isTrivializingSection_structureModuleSection (isUnit_specConst k hj)
 
@@ -344,7 +344,7 @@ on `U`. -/
 theorem isGeneratedBySections_projectionSections :
     (projectionDomainTwist n Y).IsGeneratedBySections
       (fun i : ULift.{u} (Fin (n + 1)) => projectionSections n Y i.down) := by
-  refine isGeneratedBySections_of_isTrivializingSection _ fun y => ?_
+  refine isGeneratedBySections_of_forall_isTrivializingSection _ fun y => ?_
   have hy : (projectionDomain n Y).ι y ∈ projectionDomain n Y :=
     y.2
   obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp hy
@@ -509,7 +509,7 @@ theorem eq_comp_coordinatePoint {T : Scheme.{u}} [IsReduced T]
   have hgen : ((Scheme.Modules.pullback c).obj (structureModuleOf _)).IsGeneratedBySections
       (fun i : ULift.{u} (Fin (n + 2)) =>
         pullbackGlobalSection c (pointSections k (Pi.single (Fin.last (n + 1)) 1) i.down)) := by
-    refine isGeneratedBySections_of_isTrivializingSection _ fun y =>
+    refine isGeneratedBySections_of_forall_isTrivializingSection _ fun y =>
       ⟨⟨Fin.last _⟩, ⊤, trivial, ?_⟩
     rw [map_homOfLE_top, hsec, hα']
     exact hu
@@ -560,7 +560,7 @@ abbrev hyperplaneSections : Fin (n + 2) → Γ(projectiveSpaceTwistingSheaf n Y 
 theorem isGeneratedBySections_hyperplaneSections :
     (projectiveSpaceTwistingSheaf n Y 1).IsGeneratedBySections
       (fun i : ULift.{u} (Fin (n + 2)) => hyperplaneSections n Y i.down) := by
-  refine isGeneratedBySections_of_isTrivializingSection _ fun y => ?_
+  refine isGeneratedBySections_of_forall_isTrivializingSection _ fun y => ?_
   obtain ⟨i, hi⟩ := exists_mem_chartPreimage (𝟙 (projectiveSpaceOverScheme n Y)) y
   refine ⟨⟨i.castSucc⟩, projectiveSpaceChart n Y i, hi, ?_⟩
   simp only [hyperplaneSections, Fin.lastCases_castSucc]
@@ -914,7 +914,7 @@ abbrev pointProjectionSections (p h : Fin (n + 2) → k) (i : Fin (n + 2)) :
 theorem isGeneratedBySections_pointProjectionSections (p h : Fin (n + 2) → k) :
     (pointProjectionTwist k p h).IsGeneratedBySections
       (fun i : ULift.{u} (Fin (n + 2)) => pointProjectionSections k p h i.down) := by
-  refine isGeneratedBySections_of_isTrivializingSection _ fun y => ?_
+  refine isGeneratedBySections_of_forall_isTrivializingSection _ fun y => ?_
   obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp y.2
   refine ⟨⟨i⟩, (pointProjectionDomain k p h).ι ⁻¹ᵁ nonvanishingLocusOpens
     (isInvertible_projectiveSpaceTwistingSheaf _ _ 1) (projectionLinearSections k p h i), hi, ?_⟩
@@ -1073,7 +1073,7 @@ theorem isGeneratedBySections_pullback_pointSections {T : Scheme.{u}}
     ((Scheme.Modules.pullback c).obj (structureModuleOf _)).IsGeneratedBySections
       (fun i : ULift.{u} (Fin (m + 1)) => pullbackGlobalSection c (pointSections k a i.down)) := by
   obtain ⟨j, hj⟩ := Function.ne_iff.mp ha
-  refine isGeneratedBySections_of_isTrivializingSection _ fun y => ⟨⟨j⟩, ⊤, trivial, ?_⟩
+  refine isGeneratedBySections_of_forall_isTrivializingSection _ fun y => ⟨⟨j⟩, ⊤, trivial, ?_⟩
   rw [map_homOfLE_top]
   exact (IsTrivializingSection.pullback c (isTrivializingSection_structureModuleSection
     (isUnit_specConst k hj))).restrict (Scheme.Hom.preimage_top c).ge
