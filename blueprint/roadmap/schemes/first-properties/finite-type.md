@@ -4,7 +4,7 @@ declaration: theorem
 origin: cited
 statement: formalized
 proof: formalized
-lean: Hartshorne.finiteType_iff_everyAffineTarget
+lean: Hartshorne.finiteType_iff_exists_affine_cover
 ---
 
 # Morphisms of finite type
