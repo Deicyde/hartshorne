@@ -25,6 +25,7 @@ Cohen–Macaulay nor that $\omega ^{\circ} _X$ is invertible.
 - [The affine-local criterion for coherent modules](../../../schemes/modules-and-quasicoherent/coherent-affine-local-criterion.md)
 - [Module and abelian-sheaf cohomology agree](../../sheaf-cohomology/module-cohomology-comparison.md)
 - [Module sections are representable](../../sheaf-cohomology/module-sections-representable.md)
+- [The sheaf Hom of module sheaves](../../../schemes/modules-and-quasicoherent/module-sheaf-hom.md)
 
 ## Proof depends on
 
