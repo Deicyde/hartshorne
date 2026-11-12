@@ -141,7 +141,6 @@ theorem eq_of_smul_twistFraction_eq {d : ℕ} {g : A} (hg : g ∈ 𝒜 d) (x : P
       exact Localization.mk_self ⟨g, hgx⟩
   exact hu.mul_right_cancel h'
 
-
 /-! ### The section `g / 1` trivializes `𝒪_X(d)` on `D₊(g)` -/
 
 theorem twistingSheaf_smul_apply {n : ℤ} {V : (Proj 𝒜).Opens}
@@ -360,7 +359,8 @@ theorem frac_res_mulGlobal (d e : ℕ) (g : 𝒜 d) (a : 𝒜 e) (m : twistGloba
     F.presheaf.map (homOfLE (hV.trans (ProjectiveSpectrum.basicOpen_mul_le_left 𝒜 _ _))).op
         (frac F d g m) =
       F.presheaf.map (homOfLE hV).op
-        (frac F (d + e) ⟨(g : A) * a, SetLike.GradedMul.mul_mem g.2 a.2⟩ (mulGlobal F d e a m)) := by
+        (frac F (d + e) ⟨(g : A) * a, SetLike.GradedMul.mul_mem g.2 a.2⟩
+          (mulGlobal F d e a m)) := by
   refine eq_frac_res F (d + e) ⟨(g : A) * a, SetLike.GradedMul.mul_mem g.2 a.2⟩
     (mulGlobal F d e a m) hV _ ?_
   rw [secMap_app]
@@ -437,7 +437,8 @@ theorem frac_res_mulGlobal_eq_smul (d j : ℕ) (g : 𝒜 d) (c h : 𝒜 j) (m : 
   apply HomogeneousLocalizedModule.ext
   rw [HomogeneousLocalizedModule.val_smul, twistMulHom_tmul_twistSection_apply,
     twistSection_apply, twistSection_apply, twistFraction_val, twistFraction_val]
-  change (HomogeneousLocalization.mk (𝒜 := 𝒜) ⟨j, c, h, ProjectiveSpectrum.basicOpen_mul_le_right 𝒜 _ _ (hV y.2)⟩).val •
+  change (HomogeneousLocalization.mk (𝒜 := 𝒜)
+      ⟨j, c, h, ProjectiveSpectrum.basicOpen_mul_le_right 𝒜 _ _ (hV y.2)⟩).val •
       LocalizedModule.mk ((g : A) * h) 1 = (c : A) • LocalizedModule.mk (g : A) 1
   rw [HomogeneousLocalization.val_mk, LocalizedModule.smul'_mk]
   change Localization.mk (c : A) ⟨h, _⟩ * Localization.mk ((g : A) * h) 1 =
