@@ -2,6 +2,7 @@
 article_id: af_b00e2a99d738dfdf6b9cd5b7
 declaration: theorem
 origin: cited
+lean: Hartshorne.QuasicoherentIdealSubsheaf.blowup_variety Hartshorne.QuasicoherentIdealSubsheaf.isIntegral_blowup
 ---
 
 # Blowing up a variety
