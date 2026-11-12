@@ -6,6 +6,10 @@ import Hartshorne.Scheme.FiniteLinearSystem
 import Hartshorne.Scheme.ProjectiveClosedImmersionChartCriterion
 import Hartshorne.Scheme.ProjectiveSpaceProper
 import Hartshorne.Scheme.CotangentSurjectivity
+import Hartshorne.Scheme.ProjectivePushforwardCoherent
+import Hartshorne.Scheme.ProjectiveMorphismCalculus
+import Hartshorne.Scheme.CoherentAffineLocalCriterion
+import Hartshorne.Cohomology.Flatness.CoherentSelfFlatLocallyFree
 import Mathlib.AlgebraicGeometry.AlgClosed.Basic
 
 /-!
@@ -525,5 +529,135 @@ theorem isClosedImmersion_of_sectionsSeparatePoints_of_moduleFinite (hX : Projec
     (stalkMap_surjective_of_sectionsSeparateTangentVectors q hL s φ hφ e he htan hPc (hfin P hPc))
 
 end Assembly
+
+
+/-! ### Finiteness of the local rings, via Corollary 5.20 -/
+
+section Finiteness
+
+variable {X Y : Scheme.{u}} (f : X ⟶ Y)
+
+/-- The germ maps `Γ(f⁻¹V, 𝒪_X) → 𝒪_{X,x}`, as a cocone over the neighbourhoods of `f(x)` in the
+abelian presheaf underlying `f_* 𝒪_X`. -/
+private def pushforwardStalkCocone (x : X) :
+    Cocone ((OpenNhds.inclusion (f x)).op ⋙
+      ((Scheme.Modules.pushforward f).obj (SheafOfModules.unit X.ringCatSheaf)).presheaf) where
+  pt := AddCommGrpCat.of (X.presheaf.stalk x)
+  ι :=
+    { app := fun V ↦ AddCommGrpCat.ofHom
+        (X.presheaf.germ (f ⁻¹ᵁ V.unop.1) x V.unop.2).hom.toAddMonoidHom
+      naturality := fun V W i ↦ by
+        ext s
+        exact X.presheaf.germ_res_apply
+          ((Opens.map f.base).map ((OpenNhds.inclusion (f x)).map i.unop)) x W.unop.2 s }
+
+/-- The map `(f_* 𝒪_X)_{f(x)} → 𝒪_{X,x}` sending the germ of a section over `V` to its germ. -/
+private def pushforwardStalkToStalk (x : X) :
+    ((Scheme.Modules.pushforward f).obj (SheafOfModules.unit X.ringCatSheaf)).presheaf.stalk
+      (f x) →+ X.presheaf.stalk x :=
+  (colimit.desc _ (pushforwardStalkCocone f x)).hom
+
+private theorem pushforwardStalkToStalk_germ (x : X) (V : Y.Opens) (hx : f x ∈ V)
+    (s : Γ(X, f ⁻¹ᵁ V)) :
+    pushforwardStalkToStalk f x
+        (((Scheme.Modules.pushforward f).obj (SheafOfModules.unit X.ringCatSheaf)).presheaf.germ
+          V (f x) hx s) =
+      X.presheaf.germ (f ⁻¹ᵁ V) x hx s :=
+  colimit.ι_desc_apply (C := AddCommGrpCat.{u}) (pushforwardStalkCocone f x)
+    (op (⟨V, hx⟩ : OpenNhds (f x))) s
+
+private theorem pushforwardStalkToStalk_smul (x : X) (r : Y.presheaf.stalk (f x))
+    (m : ((Scheme.Modules.pushforward f).obj (SheafOfModules.unit X.ringCatSheaf)).presheaf.stalk
+      (f x)) :
+    pushforwardStalkToStalk f x (r • m) = f.stalkMap x r * pushforwardStalkToStalk f x m := by
+  induction r, m using FreeLocusAux.stalk_smul_induction (f x) with
+  | h V hx t s =>
+    rw [← schemeModules_germ_smul]
+    erw [pushforwardStalkToStalk_germ f x V hx (t • s), pushforwardStalkToStalk_germ f x V hx s]
+    rw [Scheme.Hom.germ_stalkMap_apply]
+    exact map_mul (X.presheaf.germ _ x hx).hom (f.app V t) s
+
+/-- For a topological embedding `f`, every germ at `x` comes from `f_* 𝒪_X`. -/
+private theorem pushforwardStalkToStalk_surjective (hf : Topology.IsInducing f) (x : X) :
+    Function.Surjective (pushforwardStalkToStalk f x) := by
+  intro b
+  obtain ⟨W, hxW, τ, rfl⟩ := X.presheaf.exists_germ_eq b
+  obtain ⟨V, hV, hVW⟩ := hf.isOpen_iff.mp W.isOpen
+  let V' : Y.Opens := ⟨V, hV⟩
+  have hle : f ⁻¹ᵁ V' ≤ W := fun y hy => by
+    change y ∈ (W : Set X)
+    rw [← hVW]
+    exact hy
+  have hx : f x ∈ V' := by
+    change x ∈ f ⁻¹' V
+    rw [hVW]
+    exact hxW
+  exact ⟨_, (pushforwardStalkToStalk_germ f x V' hx (X.presheaf.map (homOfLE hle).op τ)).trans
+    (X.presheaf.germ_res_apply (homOfLE hle) x hx τ)⟩
+
+variable {k : Type u} [Field k] (q : X ⟶ Spec (CommRingCat.of k))
+  {L : X.Modules} {n : ℕ} (s : Fin (n + 1) → Γ(L, ⊤))
+  (φ : X ⟶ projectiveSpaceOverScheme n (Spec (CommRingCat.of k)))
+  (hφ : φ ≫ projectiveSpaceOverSchemeProjection n _ = q)
+  (e : (Scheme.Modules.pullback φ).obj (projectiveSpaceTwistingSheaf n _ 1) ≅ L)
+  (he : ∀ i, e.hom.app ⊤ (pullbackGlobalSection φ (projectiveSpaceCoordinate n _ i)) = s i)
+
+include hφ he in
+/-- **The local rings are finite** (Hartshorne II, proof of Proposition 7.3). Let `X` be
+projective over `k`, and let the subspace `V` spanned by the sections `sᵢ` defining
+`φ : X ⟶ ℙⁿ_k` separate points. Then for every point `P`, `𝒪_{X,P}` is a finite
+`𝒪_{ℙⁿ, φ(P)}`-module: `φ_* 𝒪_X` is coherent (Corollary 5.20), and since `φ` is a homeomorphism
+onto its image, its stalk at `φ(P)` maps onto `𝒪_{X,P}`. -/
+theorem moduleFinite_stalk_of_sectionsSeparatePoints (hX : Projective q)
+    (hsep : SectionsSeparatePoints (linearSystem q s)) (P : X) :
+    letI := (φ.stalkMap P).hom.toAlgebra
+    Module.Finite ((projectiveSpaceOverScheme n (Spec (CommRingCat.of k))).presheaf.stalk (φ P))
+      (X.presheaf.stalk P) := by
+  let _ := (φ.stalkMap P).hom.toAlgebra
+  have : IsProper (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) :=
+    projectiveSpaceOverSchemeProjection_isProper n _
+  have hproj : Projective φ :=
+    Projective.of_comp φ (projectiveSpaceOverSchemeProjection n _) (by rw [hφ]; exact hX)
+  have hM := isCoherent_pushforward_of_projective_of_locallyOfFiniteType k
+    (projectiveSpaceOverSchemeProjection n _) φ hproj _ (isCoherent_structureSheafModule X)
+  have := finite_stalk_of_isCoherent _ hM (φ P)
+  let Ψ : ((Scheme.Modules.pushforward φ).obj (SheafOfModules.unit X.ringCatSheaf)).presheaf.stalk
+      (φ P) →ₗ[(projectiveSpaceOverScheme n (Spec (CommRingCat.of k))).presheaf.stalk (φ P)]
+      X.presheaf.stalk P :=
+    { toFun := pushforwardStalkToStalk φ P
+      map_add' := map_add _
+      map_smul' := fun r m => pushforwardStalkToStalk_smul φ P r m }
+  exact Module.Finite.of_surjective Ψ (pushforwardStalkToStalk_surjective φ
+    (isClosedEmbedding_of_sectionsSeparatePoints q s φ hφ e he hX hsep).isInducing P)
+
+end Finiteness
+
+
+/-! ### Proposition 7.3, (⇐) -/
+
+section Converse
+
+variable {k : Type u} [Field k] [IsAlgClosed k] {X : Scheme.{u}}
+  (q : X ⟶ Spec (CommRingCat.of k))
+  {L : X.Modules} (hL : L.IsInvertible) {n : ℕ} (s : Fin (n + 1) → Γ(L, ⊤))
+  (φ : X ⟶ projectiveSpaceOverScheme n (Spec (CommRingCat.of k)))
+  (hφ : φ ≫ projectiveSpaceOverSchemeProjection n _ = q)
+  (e : (Scheme.Modules.pullback φ).obj (projectiveSpaceTwistingSheaf n _ 1) ≅ L)
+  (he : ∀ i, e.hom.app ⊤ (pullbackGlobalSection φ (projectiveSpaceCoordinate n _ i)) = s i)
+
+include hL hφ he in
+/-- **Hartshorne II, Proposition 7.3, (⇐).** Let `X` be projective over an algebraically closed
+field `k`, and let `φ : X ⟶ ℙⁿ_k` be the morphism defined by global sections `s₀, …, sₙ` of an
+invertible sheaf `L` (an isomorphism `φ^* 𝒪(1) ≅ L` carrying each `φ^* xᵢ` to `sᵢ`). If the
+subspace `V` spanned by the `sᵢ` separates points and tangent vectors, then `φ` is a closed
+immersion. -/
+theorem isClosedImmersion_of_sectionsSeparatePoints_of_sectionsSeparateTangentVectors
+    (hX : Projective q) (hsep : SectionsSeparatePoints (linearSystem q s))
+    (htan : SectionsSeparateTangentVectors q (linearSystem q s)) :
+    IsClosedImmersion φ :=
+  isClosedImmersion_of_sectionsSeparatePoints_of_moduleFinite q hL s φ hφ e he hX hsep htan
+    fun P _ => moduleFinite_stalk_of_sectionsSeparatePoints q s φ hφ e he hX hsep P
+
+end Converse
 
 end Hartshorne
