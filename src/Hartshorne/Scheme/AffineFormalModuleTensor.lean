@@ -419,6 +419,25 @@ private lemma unit_comp_pushforward_transition {Z Y' W : Scheme.{u}} (s : Z ⟶ 
   rw [reassoc_of% e1', hn, ← Functor.map_comp_assoc, Iso.inv_hom_id_app,
     CategoryTheory.Functor.map_id, Category.id_comp]
 
+private lemma unit_comp_pushforward_transition' {Z Y' W : Scheme.{u}} (s : Z ⟶ Y')
+    (a : Y' ⟶ W) (b : Z ⟶ W) (hs : s ≫ a = b) {Q' Q : W.Modules} (q : Q' ⟶ Q)
+    {N' : Y'.Modules} (p : N' ⟶ (Scheme.Modules.pullback a).obj Q)
+    (v : Q' ⟶ (Scheme.Modules.pushforward a).obj N')
+    (hv : v ≫ (Scheme.Modules.pushforward a).map p =
+      q ≫ (Scheme.Modules.pullbackPushforwardAdjunction a).unit.app Q) :
+    v ≫ (Scheme.Modules.pushforward a).map
+        (p ≫ (Scheme.Modules.pullbackPushforwardAdjunction s).unit.app _ ≫
+          (Scheme.Modules.pushforward s).map
+            ((Scheme.Modules.pullbackComp s a).hom.app Q ≫
+              (Scheme.Modules.pullbackCongr hs).hom.app Q)) =
+    q ≫ (Scheme.Modules.pullbackPushforwardAdjunction b).unit.app Q ≫
+      (Scheme.Modules.pushforwardCongr hs).inv.app _ ≫
+      (Scheme.Modules.pushforwardComp s a).inv.app _ := by
+  have h := unit_comp_pushforward_transition s a b hs (𝟙 Q)
+  rw [CategoryTheory.Functor.map_id, Category.id_comp, Category.id_comp] at h
+  rw [Functor.map_comp, reassoc_of% hv]
+  congr 1
+
 end UnitLemmas
 
 /-- The open of `Y_(n+1)` corresponding to `U ∩ |Y|` lies in the preimage of `U` along
