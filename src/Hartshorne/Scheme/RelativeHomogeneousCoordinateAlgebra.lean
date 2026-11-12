@@ -807,6 +807,74 @@ theorem sectionAlgebraRelativeProjIso_hom_comp :
 
 end Model
 
+/-! ### Comparison with the sections of `L^{md}` -/
+
+section Comparison
+
+/-- The degree-`m` part of `S^{(d)}` is `S_{md}`. -/
+def veronesePieceEquiv {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
+    (𝒜 : ℕ → σ) [GradedRing 𝒜] (d m : ℕ) : Hartshorne.veronese 𝒜 d m ≃+ 𝒜 (m * d) where
+  toFun x := ⟨(x.1 : A), Veronese.mem_veronese_iff.mp x.2⟩
+  invFun y := ⟨Veronese.ofMem y.2, Veronese.ofMem_mem _⟩
+  left_inv _ := rfl
+  right_inv _ := rfl
+  map_add' _ _ := rfl
+
+variable (k : Type u) [Field k] {X Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r X)
+  [IsClosedImmersion i] [IsIntegral Z]
+
+/-- **Step 2 on an affine open, for the relative homogeneous coordinate algebra**: for all large
+`n`, the sections of `L^{⊗n}` over `f⁻¹(U)` are `T(U)_n`, where `L = i^* 𝒪(1)`. -/
+theorem exists_addEquiv_sections_tensorPower_coordinateAlgebra (U : X.AffineZariskiSite)
+    [Algebra k Γ(X, U.1)] [Algebra.FiniteType k Γ(X, U.1)] :
+    ∃ n₀ : ℕ, ∀ n ≥ n₀, Nonempty (Γ(moduleSheafTensorPower n
+        ((Scheme.Modules.pullback ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1).ι).obj
+          ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1))), ⊤) ≃+
+      (coordinateAlgebra i).grading U n) := by
+  obtain ⟨n₀, hn₀⟩ := exists_addEquiv_sections_tensorPower_of_fac k i U.2 _ (chartIso i U.1 U.2)
+    (chartIso_hom_comp i U.1 U.2)
+  refine ⟨n₀ + 1, fun n hn => ?_⟩
+  obtain ⟨N, rfl⟩ : ∃ N, n = N + 1 := ⟨n - 1, by omega⟩
+  exact hn₀ N (by omega)
+
+/-- **The uniform bound over a finite affine cover** (Hartshorne II, proof of Theorem 7.17,
+Step 2). Let `X` be quasi-compact and locally of finite type over a field `k`. There are finitely
+many affine opens covering `X` and a `d₀` such that for every `d ≥ d₀`, every `m ≥ 1` and every
+affine `U` of the cover, the degree-`m` part of `T(U)^{(d)}` is the group of sections of `L^{⊗md}`
+over `f⁻¹(U)`. -/
+theorem exists_finite_cover_addEquiv_sections_veronese [CompactSpace X]
+    (pX : X ⟶ Spec (.of k)) [LocallyOfFiniteType pX] :
+    ∃ s : Finset X.affineOpens, (∀ x : X, ∃ U ∈ s, x ∈ (U : X.Opens)) ∧
+      ∃ d₀ : ℕ, ∀ U ∈ s, ∀ (d : ℕ) [NeZero d], d₀ ≤ d → ∀ m : ℕ, 0 < m →
+        Nonempty (Γ(moduleSheafTensorPower (m * d)
+            ((Scheme.Modules.pullback ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ
+              (U : X.Opens)).ι).obj
+              ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1))), ⊤) ≃+
+          ((coordinateAlgebra i).veronese d).grading ⟨U.1, U.2⟩ m) := by
+  classical
+  have hbound : ∀ U : X.affineOpens, ∃ n₀ : ℕ, ∀ n ≥ n₀, Nonempty (Γ(moduleSheafTensorPower n
+      ((Scheme.Modules.pullback ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ
+        (U : X.Opens)).ι).obj
+        ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1))), ⊤) ≃+
+      (coordinateAlgebra i).grading ⟨U.1, U.2⟩ n) := fun U => by
+    obtain ⟨_, _⟩ := exists_algebra_finiteType_of_locallyOfFiniteType k pX U.2
+    exact exists_addEquiv_sections_tensorPower_coordinateAlgebra k i ⟨U.1, U.2⟩
+  choose n₀ hn₀ using hbound
+  obtain ⟨s, hs⟩ := isCompact_univ.elim_finite_subcover (fun U : X.affineOpens => (U : Set X))
+    (fun U => U.1.isOpen) (fun x _ => by
+      obtain ⟨W, hW, hxW, -⟩ := exists_isAffineOpen_mem_and_subset (x := x)
+        (U := (⊤ : X.Opens)) trivial
+      exact Set.mem_iUnion.mpr ⟨⟨W, hW⟩, hxW⟩)
+  refine ⟨s, fun x => ?_, s.sup n₀, fun U hU d _ hd m hm => ?_⟩
+  · obtain ⟨U, hU, hxU⟩ := Set.mem_iUnion₂.mp (hs (Set.mem_univ x))
+    exact ⟨U, hU, hxU⟩
+  · have hle : n₀ U ≤ m * d :=
+      (Finset.le_sup hU).trans (hd.trans (Nat.le_mul_of_pos_left d hm))
+    obtain ⟨e⟩ := hn₀ U (m * d) hle
+    exact ⟨e.trans (veronesePieceEquiv _ d m).symm⟩
+
+end Comparison
+
 end SectionAlgebraModel
 
 end Hartshorne

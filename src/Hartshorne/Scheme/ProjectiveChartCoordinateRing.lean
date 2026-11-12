@@ -208,6 +208,26 @@ private theorem isDomain_of_isIntegral_proj (I : HomogeneousIdeal 𝒮)
       · exact Or.inr (hsat' hb h)
   exact IsDomain.of_bot_isPrime _
 
+/-- **`𝒪(n)` restricted to a closed subscheme `Z ≅ Proj (A[x]/I)` of `ℙʳ_{Spec A}`.** If
+`i : Z ⟶ ℙʳ_{Spec A}` factors as `Z ≅ Proj (A[x]/I) ⟶ Proj A[x] ≅ ℙʳ_{Spec A}`, then
+`i^* 𝒪(n) ≅ e^* 𝒪_{Proj (A[x]/I)}(n)` (Hartshorne II, Proposition 5.12(c)). -/
+def pullbackTwistIsoOfFac {Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r (Spec (.of R)))
+    (I : HomogeneousIdeal 𝒮) (e : Z ≅ Proj (gradedQuotient 𝒮 I))
+    (hfac : e.hom ≫ projQuotientι 𝒮 I ≫ (projectiveSpaceOverSpecIso R r (Equiv.refl _)).hom = i)
+    (n : ℤ) :
+    (Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r (Spec (.of R)) n) ≅
+      (Scheme.Modules.pullback e.hom).obj (projTwistingSheaf (gradedQuotient 𝒮 I) n) :=
+  (Scheme.Modules.pullbackCongr hfac.symm).app _ ≪≫
+    ((Scheme.Modules.pullbackComp e.hom
+      (projQuotientι 𝒮 I ≫ (projectiveSpaceOverSpecIso R r (Equiv.refl _)).hom)).app _).symm ≪≫
+    (Scheme.Modules.pullback e.hom).mapIso
+      (((Scheme.Modules.pullbackComp (projQuotientι 𝒮 I)
+          (projectiveSpaceOverSpecIso R r (Equiv.refl _)).hom).app _).symm ≪≫
+        (Scheme.Modules.pullback (projQuotientι 𝒮 I)).mapIso
+          (pullbackProjectiveSpaceOverSpecTwistIso R r n) ≪≫
+        (Scheme.Modules.pullbackCongr (projQuotientι_eq_map I)).app _ ≪≫
+        pullbackProjMapTwistIso _ _ (adjoin_one_eq_top R r) n)
+
 /-- **A closed subscheme of `ℙʳ_A` is `Proj` of its homogeneous coordinate ring, with its
 `𝒪(1)`** (Hartshorne II, Corollary 5.16 and Exercise 5.10, as used in the proof of Theorem 7.17,
 Step 2). Let `i : Z ⟶ ℙʳ_{Spec A}` be a closed immersion. There is a homogeneous ideal `I` of
@@ -239,15 +259,7 @@ theorem exists_iso_proj_homogeneousCoordinateRing {Z : Scheme.{u}}
   have hfac : e.hom ≫ projQuotientι 𝒮 I ≫ P.hom = i := by
     rw [← Category.assoc, he]
     simp [g]
-  refine ⟨I, hsat, e, hfac, fun n => ⟨?_⟩, fun hZ => ?_⟩
-  · exact (Scheme.Modules.pullbackCongr hfac.symm).app _ ≪≫
-      ((Scheme.Modules.pullbackComp e.hom (projQuotientι 𝒮 I ≫ P.hom)).app _).symm ≪≫
-      (Scheme.Modules.pullback e.hom).mapIso
-        (((Scheme.Modules.pullbackComp (projQuotientι 𝒮 I) P.hom).app _).symm ≪≫
-          (Scheme.Modules.pullback (projQuotientι 𝒮 I)).mapIso
-            (pullbackProjectiveSpaceOverSpecTwistIso R r n) ≪≫
-          (Scheme.Modules.pullbackCongr (projQuotientι_eq_map I)).app _ ≪≫
-          pullbackProjMapTwistIso _ _ (adjoin_one_eq_top R r) n)
+  refine ⟨I, hsat, e, hfac, fun n => ⟨pullbackTwistIsoOfFac i I e hfac n⟩, fun hZ => ?_⟩
   · have : Nonempty (Proj (gradedQuotient 𝒮 I)) := ⟨e.hom (Nonempty.some inferInstance)⟩
     have : IsIntegral (Proj (gradedQuotient 𝒮 I)) := isIntegral_of_isOpenImmersion e.inv
     refine isDomain_of_isIntegral_proj I fun s hs => ?_
