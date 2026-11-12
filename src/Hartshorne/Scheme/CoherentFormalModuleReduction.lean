@@ -312,4 +312,87 @@ def reductionIso (n : ℕ) : h.reduction F n ≅ (h.pow_succ n).quotientPullback
 
 end IsIdealOfDefinition
 
+section CoherentLocality
+
+/-- A presentation of the restriction `M|_W` of a module on a scheme to an open `W` gives a
+presentation of `M` over `W`, with the same generators and relations. -/
+def presentationOverOfRestrict {Z : Scheme.{u}} (M : Z.Modules) (W : Z.Opens)
+    (P : (M.restrict W.ι).Presentation) : (M.over W).Presentation := by
+  let Q := @SheafOfModules.Presentation.map _ _ _ _ _ _ _ _ _ _ _ _ _ P
+    (Scheme.Modules.overEquiv W).inverse
+    ((Scheme.Modules.overEquiv W).symm.toAdjunction.leftAdjoint_preservesColimits)
+    (W.sheafOfModulesEquivOverInverseUnit Z.ringCatSheaf).symm
+  let e : M.over W ≅ (Scheme.Modules.overEquiv W).inverse.obj (M.restrict W.ι) :=
+    (Scheme.Modules.overEquiv W).unitIso.app (M.over W) ≪≫
+      (Scheme.Modules.overEquiv W).inverse.mapIso ((Scheme.Modules.overFunctorEquiv W).app M)
+  letI : IsIso e.inv := e.isIso_inv
+  exact SheafOfModules.Presentation.ofIsIso e.inv Q
+
+set_option backward.isDefEq.respectTransparency false in
+/-- A module on a scheme which near every point has a finite presentation is of finite
+presentation. -/
+theorem isFinitePresentation_of_forall_exists {Z : Scheme.{u}} (M : Z.Modules)
+    (h : ∀ x : Z, ∃ (W : Z.Opens) (_ : x ∈ W) (P : (M.restrict W.ι).Presentation), P.IsFinite) :
+    M.IsFinitePresentation := by
+  choose W hxW P hP using h
+  have hcov : (Opens.grothendieckTopology Z).CoversTop W := by
+    rw [Opens.coversTop_iff, IsOpenCover]
+    exact eq_top_iff.mpr fun x _ => Opens.mem_iSup.mpr ⟨x, hxW x⟩
+  let σ : M.QuasicoherentData :=
+    SheafOfModules.QuasicoherentData.mk.{u, u, u, u} Z W hcov
+      (fun x => presentationOverOfRestrict M (W x) (P x))
+  have hσ : σ.IsFinitePresentation := by
+    constructor
+    intro x
+    have h₁ : Finite (P x).generators.I :=
+      (SheafOfModules.Presentation.IsFinite.isFiniteType_generators (p := P x)).finite
+    have h₂ : Finite (P x).relations.I :=
+      (SheafOfModules.Presentation.IsFinite.isFiniteType_relations (p := P x)).finite
+    exact ⟨⟨inferInstanceAs (Finite (P x).generators.I)⟩,
+      ⟨inferInstanceAs (Finite (P x).relations.I)⟩⟩
+  exact SheafOfModules.IsFinitePresentation.mk.{u, u, u} ⟨σ, hσ⟩
+
+set_option backward.isDefEq.respectTransparency false in
+/-- If the restriction of `M` along an open immersion `o : V ⟶ Z` from a locally Noetherian
+scheme is coherent, then near every point of the image `M` has a finite presentation. -/
+theorem exists_presentation_of_isCoherent_restrict {Z V : Scheme.{u}} [IsLocallyNoetherian V]
+    (o : V ⟶ Z) [IsOpenImmersion o] (M : Z.Modules) (hM : IsCoherent (M.restrict o)) (v : V) :
+    ∃ (W : Z.Opens) (_ : o v ∈ W) (P : (M.restrict W.ι).Presentation), P.IsFinite := by
+  obtain ⟨W₀, hW₀, hvW₀, -⟩ := exists_isAffineOpen_mem_and_subset (U := ⊤) (x := v) trivial
+  have h3 := (coherent_affine_local_tfae (M.restrict o)).out 0 2 |>.mp hM
+  obtain ⟨N, hN, ⟨φ⟩⟩ := h3 ⟨W₀, hW₀⟩
+  have : IsNoetherianRing Γ(V, W₀) := IsLocallyNoetherian.component_noetherian ⟨W₀, hW₀⟩
+  obtain ⟨P₀, hP₀⟩ := CoherentAux.exists_finite_presentation_tilde N
+  have : IsOpenImmersion hW₀.fromSpec := hW₀.isOpenImmersion_fromSpec
+  let j := hW₀.fromSpec ≫ o
+  let P₁ : ((M.restrict o).restrict hW₀.fromSpec).Presentation := P₀.ofIsIso φ.hom
+  let P₂ : (M.restrict j).Presentation :=
+    P₁.ofIsIso ((Scheme.Modules.restrictFunctorComp hW₀.fromSpec o).app M).inv
+  let P₃ := Scheme.Modules.presentationRestrict j.isoOpensRange.inv P₂
+  let P₄ : (M.restrict j.opensRange.ι).Presentation :=
+    P₃.ofIsIso (((Scheme.Modules.restrictFunctorComp j.isoOpensRange.inv j).app M).inv ≫
+      (Scheme.Modules.restrictFunctorCongr (Scheme.Hom.isoOpensRange_inv_comp j)).hom.app M)
+  have h₁ : Finite P₀.generators.I :=
+    (SheafOfModules.Presentation.IsFinite.isFiniteType_generators (p := P₀)).finite
+  have h₂ : Finite P₀.relations.I :=
+    (SheafOfModules.Presentation.IsFinite.isFiniteType_relations (p := P₀)).finite
+  have hv : v ∈ Set.range hW₀.fromSpec := by rw [hW₀.range_fromSpec]; exact hvW₀
+  obtain ⟨w, hw⟩ := hv
+  refine ⟨j.opensRange, ⟨w, ?_⟩, P₄, ⟨⟨inferInstanceAs (Finite P₀.generators.I)⟩,
+    ⟨inferInstanceAs (Finite P₀.relations.I)⟩⟩⟩
+  simp [j, hw]
+
+/-- **Coherence is local**: a module on a locally Noetherian scheme whose restrictions to the
+members of an open cover are coherent is coherent. -/
+theorem isCoherent_of_isCoherent_restrict {Z : Scheme.{u}} [IsLocallyNoetherian Z] (M : Z.Modules)
+    {ι : Type*} (U : ι → Z.Opens) (hU : ⨆ i, U i = ⊤) (h : ∀ i, IsCoherent (M.restrict (U i).ι)) :
+    IsCoherent M := by
+  have : M.IsFinitePresentation := isFinitePresentation_of_forall_exists M fun x => by
+    obtain ⟨i, hi⟩ := Opens.mem_iSup.mp (hU.ge (Set.mem_univ x))
+    obtain ⟨W, hW, P, hP⟩ := exists_presentation_of_isCoherent_restrict (U i).ι M (h i) ⟨x, hi⟩
+    exact ⟨W, hW, P, hP⟩
+  exact isCoherent_of_isFinitePresentation M
+
+end CoherentLocality
+
 end Hartshorne
