@@ -3,6 +3,8 @@ article_id: af_c4ff0da4543858563f2d8240
 declaration: theorem
 origin: cited
 lean: Hartshorne.QuasicoherentIdealSubsheaf.isNoetherianFormalScheme_formalCompletion Hartshorne.IsAlgebraizable Hartshorne.QuasicoherentIdealSubsheaf.isAlgebraizable_formalCompletion Hartshorne.IsAlgebraizable.isNoetherianFormalScheme Hartshorne.QuasicoherentIdealSubsheaf.toNoetherianFormalScheme
+statement: formalized
+proof: formalized
 ---
 
 # Scheme completions are formal schemes
