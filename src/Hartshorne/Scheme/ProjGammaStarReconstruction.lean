@@ -235,12 +235,71 @@ theorem secMap_app (d : ℕ) (g : 𝒜 d) {U : (Opens (ProjectiveSpectrum.top �
   change (F ◁ twistHom d g).val.app U ((ρ_ F).inv.val.app U s) = _
   rw [rightUnitor_inv_app, scheme_whiskerLeft_tmulSection, twistHom_app_one]
 
+omit [GradedRing 𝒜] in
+/-- `a ↦ a ⊗ b₀` is bijective when `r ↦ r • b₀` is. -/
+theorem tmul_right_bijective {R M L : Type*} [CommRing R] [AddCommGroup M] [Module R M]
+    [AddCommGroup L] [Module R L] (b₀ : L) (hb : Function.Bijective fun r : R => r • b₀) :
+    Function.Bijective fun a : M => a ⊗ₜ[R] b₀ := by
+  let eL : R ≃ₗ[R] L := LinearEquiv.ofBijective (LinearMap.toSpanSingleton R L b₀) hb
+  have key : (fun a : M => a ⊗ₜ[R] b₀) =
+      (TensorProduct.congr (LinearEquiv.refl R M) eL) ∘ (TensorProduct.rid R M).symm := by
+    funext a
+    simp [eL]
+  rw [key]
+  exact (TensorProduct.congr (LinearEquiv.refl R M) eL).bijective.comp
+    (TensorProduct.rid R M).symm.bijective
+
+open ModuleSheafTensor in
+/-- At a point of `D₊(g)`, `s ↦ s ⊗ g / 1` is bijective on stalks. -/
+theorem tensorSectionHom_stalk_bijective (d : ℕ) (g : 𝒜 d) (x : Proj 𝒜)
+    (hx : x ∈ Proj.basicOpen 𝒜 (g : A)) :
+    Function.Bijective (stalkAddMap
+      (tensorSectionHom F (projTwistingSheaf 𝒜 d) (twistSection d g (op ⊤))).val x) := by
+  set L := projTwistingSheaf 𝒜 d
+  set e := moduleSheafTensorStalkIso F L x
+  set b₀ : moduleStalk L.val x := sectionGerm L.val x (Proj.basicOpen 𝒜 (g : A)) hx
+    (twistSection d g (op (Proj.basicOpen 𝒜 (g : A))))
+  have hΦ : ∀ a, e (stalkAddMap (tensorSectionHom F L (twistSection d g (op ⊤))).val x a) =
+      a ⊗ₜ b₀ := by
+    intro a
+    obtain ⟨U, hU, s, rfl⟩ := exists_sectionGerm F.val x a
+    rw [stalkAddMap_germ]
+    have h1 := moduleSheafTensorStalkIso_germ F L x U hU s (twistSection d g (op U))
+    refine h1.trans ?_
+    congr 1
+    have h2 := TopCat.Presheaf.germ_res_apply L.presheaf
+      (homOfLE (inf_le_right : U ⊓ Proj.basicOpen 𝒜 (g : A) ≤ _)) x ⟨hU, hx⟩
+      (twistSection d g (op (Proj.basicOpen 𝒜 (g : A))))
+    have h3 := TopCat.Presheaf.germ_res_apply L.presheaf
+      (homOfLE (inf_le_left : U ⊓ Proj.basicOpen 𝒜 (g : A) ≤ _)) x ⟨hU, hx⟩
+      (twistSection d g (op U))
+    exact h3.symm.trans h2
+  have he := isTrivializingSection_twistSection g
+  have hb : Function.Bijective fun r : ringSheafStalk (Proj 𝒜).sheaf x => r • b₀ := by
+    refine ⟨fun r r' hr => ?_, fun z => ?_⟩
+    · have h0 : (r - r') • b₀ = 0 := by
+        rw [sub_smul]
+        exact sub_eq_zero.2 hr
+      exact sub_eq_zero.1 (he.eq_zero_of_smul_germ_eq_zero hx (r - r') h0)
+    · exact he.exists_smul_germ_eq hx z
+  have hbij := tmul_right_bijective (M := moduleStalk F.val x) b₀ hb
+  have h : ⇑(stalkAddMap (tensorSectionHom F L (twistSection d g (op ⊤))).val x) =
+      e.symm ∘ fun a => a ⊗ₜ b₀ := by
+    funext a
+    rw [Function.comp_apply, ← hΦ, LinearEquiv.symm_apply_apply]
+  rw [h]
+  exact e.symm.bijective.comp hbij
+
 /-- On opens inside `D₊(g)`, `s ↦ s ⊗ g / 1` is bijective. -/
 theorem secMap_app_bijective (d : ℕ) (g : 𝒜 d) {V : (Proj 𝒜).Opens}
     (hV : V ≤ Proj.basicOpen 𝒜 (g : A)) :
     Function.Bijective ((secMap F d g).val.app (op V)) := by
-  have h := tensorSectionHom_app_bijective F (projTwistingSheaf 𝒜 d) (twistSection d g (op ⊤))
-    (W := Proj.basicOpen 𝒜 (g : A)) (isTrivializingSection_twistSection g) hV
+  have h : Function.Bijective
+      ((tensorSectionHom F (projTwistingSheaf 𝒜 d) (twistSection d g (op ⊤))).app V) :=
+    TopCat.Presheaf.app_bijective_of_stalkFunctor_map_bijective
+      ((SheafOfModules.toSheaf (Proj 𝒜).ringCatSheaf).map
+        (tensorSectionHom F (projTwistingSheaf 𝒜 d) (twistSection d g (op ⊤)))) V
+      fun x hx => tensorSectionHom_stalk_bijective F d g x (hV hx)
   have key : ⇑((secMap F d g).val.app (op V)) =
       ⇑((moduleSheafTensorIsoTensor F (projTwistingSheaf 𝒜 d)).hom.val.app (op V)) ∘
         ⇑((tensorSectionHom F (projTwistingSheaf 𝒜 d) (twistSection d g (op ⊤))).app V) := by
@@ -750,16 +809,17 @@ theorem pow_mem_mul {e : ℕ} {h : A} (hh : h ∈ 𝒜 e) (N : ℕ) : h ^ N ∈ 
   rwa [smul_eq_mul, mul_comm] at this
 
 omit [GradedRing 𝒜] in
-/-- `T^{N+1} L ≅ T^N L ⊗ L`, as an isomorphism of `𝒪_X`-modules on a scheme. -/
-def succIsoX {X : Scheme.{u}} (L : X.Modules) (N : ℕ) :
-    moduleSheafTensorPower (N + 1) L ≅ moduleSheafTensor (moduleSheafTensorPower N L) L :=
-  Ringed.moduleSheafTensorPowerSuccIso L N
+/-- `T^{N+1} L ⟶ T^N L ⊗ L`, `l₁ ⊗ ⋯ ⊗ l_{N+1} ↦ (l₁ ⊗ ⋯ ⊗ l_N) ⊗ l_{N+1}`, on a scheme (the
+morphism underlying `Ringed.moduleSheafTensorPowerSuccIso`). -/
+def succHomX {X : Scheme.{u}} (L : X.Modules) (N : ℕ) :
+    moduleSheafTensorPower (N + 1) L ⟶ moduleSheafTensor (moduleSheafTensorPower N L) L :=
+  (moduleSheafTensorPowerHomEquiv _ _ _).symm (Ringed.tensorPowerSuccMultilinear L N)
 
 omit [GradedRing 𝒜] in
-/-- `T^0 L ≅ 𝒪_X`, as an isomorphism of `𝒪_X`-modules on a scheme. -/
-def zeroIsoX {X : Scheme.{u}} (L : X.Modules) :
-    moduleSheafTensorPower 0 L ≅ 𝟙_ X.Modules :=
-  Ringed.moduleSheafTensorPowerZeroIso L
+/-- `T^0 L ⟶ 𝒪_X`, sending the empty tensor to `1`, on a scheme (the morphism underlying
+`Ringed.moduleSheafTensorPowerZeroIso`). -/
+def zeroHomX {X : Scheme.{u}} (L : X.Modules) : moduleSheafTensorPower 0 L ⟶ 𝟙_ X.Modules :=
+  (moduleSheafTensorPowerHomEquiv _ _ _).symm (Ringed.tensorPowerZeroMultilinear L)
 
 omit [GradedRing 𝒜] in
 /-- The comparison `moduleSheafTensor F G ≅ F ⊗ G`, on a scheme. -/
@@ -776,30 +836,23 @@ theorem tensorIsoX_hom_bilinear {X : Scheme.{u}} (F G : X.Modules) {U : X.Opens}
 /-- `𝒪_X(e)^{⊗ N} ⟶ 𝒪_X(eN)`, multiplying the factors. -/
 def powMap (e : ℕ) : ∀ N : ℕ,
     moduleSheafTensorPower N (projTwistingSheaf 𝒜 e) ⟶ projTwistingSheaf 𝒜 ((e * N : ℕ) : ℤ)
-  | 0 => (zeroIsoX (projTwistingSheaf 𝒜 e)).hom ≫ twistHom 0 ⟨1, SetLike.GradedOne.one_mem⟩
-  | N + 1 => (succIsoX (projTwistingSheaf 𝒜 e) N).hom ≫
+  | 0 => zeroHomX (projTwistingSheaf 𝒜 e) ≫ twistHom 0 ⟨1, SetLike.GradedOne.one_mem⟩
+  | N + 1 => succHomX (projTwistingSheaf 𝒜 e) N ≫
       (tensorIsoX _ _).hom ≫ (powMap e N ▷ projTwistingSheaf 𝒜 e) ≫
         twistMulHom 𝒜 ((e * N : ℕ) : ℤ) e
-
-theorem twistSection_congr {d d' : ℕ} (hd : d = d') (g : 𝒜 d) (g' : 𝒜 d') (hg : (g : A) = g')
-    (U : (Opens (ProjectiveSpectrum.top 𝒜))ᵒᵖ) :
-    HEq (twistSection d g U) (twistSection d' g' U) := by
-  subst hd
-  obtain rfl : g = g' := Subtype.ext hg
-  rfl
 
 theorem comp_app_apply {X : Scheme.{u}} {F G H : X.Modules} (f : F ⟶ G) (g : G ⟶ H)
     (U : X.Opensᵒᵖ) (x : F.val.obj U) : (f ≫ g).val.app U x = g.val.app U (f.val.app U x) :=
   rfl
 
 omit [GradedRing 𝒜] in
-theorem succIso_tprod {X : Scheme.{u}} (L : X.Modules) (N : ℕ) (U : X.Opens)
+theorem succHomX_tprod {X : Scheme.{u}} (L : X.Modules) (N : ℕ) (U : X.Opens)
     (m : Fin (N + 1) → Γ(L, U)) :
-    (succIsoX L N).hom.val.app (op U)
+    (succHomX L N).val.app (op U)
         ((moduleSheafTensorPowerMultilinear (N + 1) L).app (op U) m) =
       (moduleSheafTensorBilinear (moduleSheafTensorPower N L) L).app (op U)
         ((moduleSheafTensorPowerMultilinear N L).app (op U) (Fin.init m)) (m (Fin.last N)) :=
-  Ringed.moduleSheafTensorPowerHomEquiv_symm_tprod _ U m
+  Ringed.moduleSheafTensorPowerHomEquiv_symm_tprod (Ringed.tensorPowerSuccMultilinear L N) U m
 
 /-- `powMap` sends `h^{⊗ N}` to `h^N`, for `h ∈ S_e`. -/
 theorem powMap_tprod (e : ℕ) (h : 𝒜 e) (U : (Proj 𝒜).Opens) : ∀ N : ℕ,
@@ -809,7 +862,7 @@ theorem powMap_tprod (e : ℕ) (h : 𝒜 e) (U : (Proj 𝒜).Opens) : ∀ N : �
       twistSection (e * N) ⟨(h : A) ^ N, pow_mem_mul h.2 N⟩ (op U)
   | 0 => by
     change (twistHom 0 ⟨1, SetLike.GradedOne.one_mem⟩).val.app (op U)
-      (Ringed.sectionsMap (Ringed.moduleSheafTensorPowerZeroIso (projTwistingSheaf 𝒜 e)).hom U
+      (Ringed.sectionsMap (zeroHomX (projTwistingSheaf 𝒜 e)) U
         ((moduleSheafTensorPowerMultilinear 0 (projTwistingSheaf 𝒜 e)).app (op U) _)) = _
     erw [Ringed.moduleSheafTensorPowerHomEquiv_symm_tprod]
     erw [twistHom_app_one]
@@ -822,7 +875,7 @@ theorem powMap_tprod (e : ℕ) (h : 𝒜 e) (U : (Proj 𝒜).Opens) : ∀ N : �
   | N + 1 => by
     rw [powMap]
     erw [comp_app_apply, comp_app_apply, comp_app_apply]
-    erw [succIso_tprod (projTwistingSheaf 𝒜 e) N U (fun _ => twistSection e h (op U))]
+    erw [succHomX_tprod (projTwistingSheaf 𝒜 e) N U (fun _ => twistSection e h (op U))]
     erw [tensorIsoX_hom_bilinear (moduleSheafTensorPower N (projTwistingSheaf 𝒜 e))
       (projTwistingSheaf 𝒜 e)]
     erw [scheme_whiskerRight_tmulSection (powMap e N) (G := projTwistingSheaf 𝒜 e)]
