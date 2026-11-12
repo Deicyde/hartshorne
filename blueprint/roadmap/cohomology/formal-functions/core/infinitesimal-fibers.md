@@ -34,8 +34,8 @@ closed.
 
 ## Proof depends on
 
-- The spectrum of $\mathcal{O}_{(Y,y)}/m_y^{n+1}$ has one point and reduction modulo the
-  maximal ideal gives $\operatorname{Spec} k(y)$.
+- For $n \ge 1$ the spectrum of $\mathcal{O}_{Y,y}/m_y^{n}$ has one point, and reduction
+  modulo the maximal ideal gives $\operatorname{Spec} k(y)$.
 - Pullback pasting for the local morphism $\operatorname{Spec} \mathcal{O}_{(Y,y)} \to Y$.
 
 ## Sources
