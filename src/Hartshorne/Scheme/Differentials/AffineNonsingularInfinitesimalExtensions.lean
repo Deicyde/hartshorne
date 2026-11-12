@@ -263,7 +263,6 @@ theorem surjective : Function.Surjective E.ι.base := by
 theorem isHomeomorph : IsHomeomorph E.ι.base :=
   isHomeomorph_iff_isEmbedding_surjective.mpr ⟨E.ι.isClosedEmbedding.isEmbedding, E.surjective⟩
 
-
 /-! ### `X'` is Noetherian and affine -/
 
 /-- Restriction of scalars along a surjective ring homomorphism preserves Noetherian modules. -/
@@ -353,7 +352,6 @@ theorem isAffine_scheme [IsAffine X] [IsLocallyNoetherian X] (hF : IsCoherent F)
     infer_instance
   have : IsClosedImmersion j := IsClosedImmersion.of_comp_isClosedImmersion j E.ι
   exact isAffine_of_isAffineHom j
-
 
 /-! ### The ideal sheaf as a subsheaf of `𝒪_{X'}` -/
 
@@ -489,7 +487,6 @@ instance isIso_split : IsIso (E.split ρ hρ) := by
 
 end Retraction
 
-
 /-! ### A retraction from the infinitesimal lifting property -/
 
 /-- Regularity is invariant under isomorphism. -/
@@ -557,7 +554,6 @@ theorem exists_retraction [IsAlgClosed k] [LocallyOfFiniteType pX] [IsAffine X]
     ext c
     obtain ⟨c, rfl⟩ := (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (.of k)).inv).2 c
     exact s.commutes c
-
 
 /-- **Hartshorne II, Exercise 8.7.** Let `k` be an algebraically closed field, `X` an affine
 nonsingular scheme of finite type over `k`, and `F` a coherent `𝒪_X`-module. Then every
