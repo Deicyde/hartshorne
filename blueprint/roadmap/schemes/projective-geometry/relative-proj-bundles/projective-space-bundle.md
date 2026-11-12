@@ -2,6 +2,7 @@
 article_id: af_0b225b32d588e72963878689
 declaration: def
 origin: cited
+lean: AlgebraicGeometry.ProjectiveSpaceBundle AlgebraicGeometry.linearSubstitutionGradedHom AlgebraicGeometry.projLinearAut AlgebraicGeometry.projectiveSpaceAffineChart AlgebraicGeometry.Scheme.Modules.nonempty_projectiveSpaceBundle_projectiveBundleProj
 ---
 
 # Projective-space bundles
