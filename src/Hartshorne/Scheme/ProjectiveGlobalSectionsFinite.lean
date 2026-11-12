@@ -6,6 +6,7 @@ import Hartshorne.Scheme.ProjectiveSectionRingIntegralClosure
 import Hartshorne.Scheme.FiniteIntegralClosureField
 import Hartshorne.Scheme.TopIsoRestriction
 import Hartshorne.Intersection.GradedPrimeFiltration
+import Hartshorne.Scheme.ProjGammaStarReconstruction
 
 /-!
 # Finiteness of projective global sections on `Proj S`
@@ -1212,6 +1213,8 @@ theorem moduleFinite_sections_of_finite (k : Type u) [Field k] [Algebra k A]
 
 end PrimeFactorFinite
 
+section IntegralCase
+
 variable [IsDomain A]
 
 /-- Multiplication by the constant `c ∈ S₀` multiplies values in `K` by `c`. -/
@@ -1354,6 +1357,136 @@ theorem moduleFinite_projTwistingSheaf_of_isDomain (k : Type u) [Field k] [Algeb
   rw [key]
   exact sum_mem fun v hv => Submodule.smul_mem _ _
     (Submodule.subset_span (Finset.mem_coe.2 (Finset.mem_image_of_mem _ hv)))
+
+end IntegralCase
+
+/-! ### Homogeneous spans -/
+
+section HomogeneousSpan
+
+variable {M σM : Type u} [AddCommGroup M] [Module A M] [SetLike σM M] [AddSubgroupClass σM M]
+  {ℳ : ℤ → σM} [SetLike.GradedSMul 𝒜 ℳ] [DirectSum.Decomposition ℳ]
+
+/-- The component of `a • m` in degree `i`, for `m` homogeneous of degree `d`, is
+`a_{i - d} • m`. -/
+private theorem coe_decompose_smul_of_mem (a : A) {d : ℤ} {m : M} (hm : m ∈ intModuleGrading ℳ d)
+    (i : ℤ) : (DirectSum.decompose (intModuleGrading ℳ) (a • m) i : M) =
+      (DirectSum.decompose (intGrading 𝒜) a (i - d) : A) • m := by
+  classical
+  have hmem : ∀ e : ℤ, (DirectSum.decompose (intGrading 𝒜) a e : A) • m ∈
+      intModuleGrading ℳ (e + d) := fun e =>
+    SetLike.GradedSMul.smul_mem (A := intGrading 𝒜) (SetLike.coe_mem _) hm
+  conv_lhs => rw [← DirectSum.sum_support_decompose (intGrading 𝒜) a]
+  rw [Finset.sum_smul, DirectSum.decompose_sum, DFinsupp.finsetSum_apply,
+    AddSubmonoidClass.coe_finsetSum]
+  by_cases hsupp : i - d ∈ (DirectSum.decompose (intGrading 𝒜) a).support
+  · rw [Finset.sum_eq_single (i - d)]
+    · have := hmem (i - d)
+      rw [sub_add_cancel] at this
+      exact DirectSum.decompose_of_mem_same _ this
+    · intro b _ hb
+      exact DirectSum.decompose_of_mem_ne _ (hmem b) (by omega)
+    · intro h
+      exact absurd hsupp h
+  · rw [DFinsupp.notMem_support_iff.1 hsupp, ZeroMemClass.coe_zero, zero_smul]
+    refine Finset.sum_eq_zero fun b hb => ?_
+    exact DirectSum.decompose_of_mem_ne _ (hmem b) (by rintro h; exact hsupp (by
+      have : b = i - d := by omega
+      exact this ▸ hb))
+
+variable (𝒜) in
+/-- The homogeneous submodule spanned by a set of homogeneous elements. -/
+def homogeneousSpan (S : Set M) (hS : ∀ m ∈ S, ∃ d, m ∈ intModuleGrading ℳ d) :
+    HomogeneousSubmodule (intGrading 𝒜) (intModuleGrading ℳ) where
+  toSubmodule := Submodule.span A S
+  is_homogeneous' := by
+    classical
+    intro i m hm
+    induction hm using Submodule.span_induction generalizing i with
+    | mem x hx =>
+      obtain ⟨d, hd⟩ := hS x hx
+      by_cases hid : i = d
+      · subst hid
+        rw [DirectSum.decompose_of_mem_same _ hd]
+        exact Submodule.subset_span hx
+      · rw [DirectSum.decompose_of_mem_ne _ hd (Ne.symm hid)]
+        exact zero_mem _
+    | zero => simp
+    | add x y _ _ hx hy =>
+      rw [DirectSum.decompose_add, DirectSum.add_apply, AddMemClass.coe_add]
+      exact add_mem (hx i) (hy i)
+    | smul a x _ hx =>
+      rw [← DirectSum.sum_support_decompose (intModuleGrading ℳ) x, Finset.smul_sum,
+        DirectSum.decompose_sum, DFinsupp.finsetSum_apply, AddSubmonoidClass.coe_finsetSum]
+      refine sum_mem fun j _ => ?_
+      rw [coe_decompose_smul_of_mem (𝒜 := 𝒜) a (SetLike.coe_mem _) i]
+      exact Submodule.smul_mem _ _ (hx j)
+
+end HomogeneousSpan
+
+/-! ### Coherent sheaves on `Proj S` -/
+
+section Coherent
+
+open GammaStarReconstruction GradedGlobalSections
+
+set_option backward.isDefEq.respectTransparency false in
+/-- If the sections of `M~` over `D₊(f)` are a finite module, so is `M_(f)` over `S_(f)` (the
+converse of `ProjGradedModuleSheaf.finite_sections_basicOpen`). -/
+theorem finite_away_of_finite_sections {M σM : Type u} [AddCommGroup M] [Module A M]
+    [SetLike σM M] [AddSubgroupClass σM M] {ℳ : ℤ → σM} [SetLike.GradedSMul 𝒜 ℳ]
+    [DirectSum.Decomposition ℳ] {f : A} {d : ℕ} (f_deg : f ∈ 𝒜 d) (hd : 0 < d)
+    (h : Module.Finite Γ(Proj 𝒜, Proj.basicOpen 𝒜 f)
+      Γ(projGradedModuleSheaf 𝒜 ℳ, Proj.basicOpen 𝒜 f)) :
+    Module.Finite (Away 𝒜 f) (HomogeneousLocalizedModule 𝒜 ℳ (Submonoid.powers f)) := by
+  have hD : (Proj.awayι 𝒜 f f_deg hd) ''ᵁ ⊤ = Proj.basicOpen 𝒜 f :=
+    (Scheme.Hom.image_top_eq_opensRange _).trans (Proj.opensRange_awayι 𝒜 f f_deg hd)
+  have h₃ := (CoherentAux.finite_congr_opens (projGradedModuleSheaf 𝒜 ℳ) hD).2 h
+  have h₂ := (CoherentAux.finite_restrict_iff (Proj.awayι 𝒜 f f_deg hd)
+    (projGradedModuleSheaf 𝒜 ℳ) ⊤).2 h₃
+  let _ : Module Γ(Spec (.of (Away 𝒜 f)), ⊤) (chartSections 𝒜 ℳ f_deg hd ⊤) :=
+    inferInstanceAs (Module Γ(Spec (.of (Away 𝒜 f)), ⊤)
+      Γ(chartModule 𝒜 ℳ f_deg hd, ⊤))
+  have h₁ : Module.Finite (Away 𝒜 f) (chartSections 𝒜 ℳ f_deg hd ⊤) := by
+    refine (CoherentAux.finite_iff_of_ringEquiv (N := chartSections 𝒜 ℳ f_deg hd ⊤)
+      (Scheme.ΓSpecIso (CommRingCat.of (Away 𝒜 f))).symm.commRingCatIsoToRingEquiv
+      (fun a n => ?_)).2 h₂
+    have : (⊤ : (Spec (.of (Away 𝒜 f))).Opens).leTop = 𝟙 ⊤ := Subsingleton.elim _ _
+    change ((Spec (.of (Away 𝒜 f))).presheaf.map (⊤ : (Spec (.of (Away 𝒜 f))).Opens).leTop.op
+      ((Scheme.ΓSpecIso _).inv a)) • n = _
+    rw [this, op_id, CategoryTheory.Functor.map_id]
+    rfl
+  exact Module.Finite.equiv (awayModuleIsoChartSections 𝒜 ℳ f_deg hd).symm.toLinearEquiv
+
+variable (F : (Proj 𝒜).Modules)
+
+/-- `Γ(X, F(n)) → Γ_*(F)_n`. -/
+private def gammaStarGradingIncl (n : ℤ) : twistGlobal F n →+ gammaStarGrading F n where
+  toFun y := ⟨DirectSum.of _ n y, y, rfl⟩
+  map_zero' := Subtype.ext (map_zero _)
+  map_add' _ _ := Subtype.ext (map_add _ _ _)
+
+/-- `Γ_*(F) = ⨁ₙ Γ(X, F(n))` is decomposed by its summands. -/
+noncomputable instance gammaStarGrading.decomposition :
+    DirectSum.Decomposition (gammaStarGrading F) :=
+  .ofAddHom (gammaStarGrading F) (DirectSum.map (gammaStarGradingIncl F))
+    (by
+      classical
+      refine DirectSum.addHom_ext fun n y => ?_
+      simp only [AddMonoidHom.coe_comp, Function.comp_apply, DirectSum.map_of,
+        DirectSum.coeAddMonoidHom_of, AddMonoidHom.id_apply]
+      rfl)
+    (by
+      classical
+      refine DirectSum.addHom_ext fun n z => ?_
+      obtain ⟨_, y, rfl⟩ := z
+      simp only [AddMonoidHom.coe_comp, Function.comp_apply, DirectSum.coeAddMonoidHom_of,
+        AddMonoidHom.id_apply]
+      change DirectSum.map (gammaStarGradingIncl F) (DirectSum.of _ n y) = _
+      rw [DirectSum.map_of]
+      rfl)
+
+end Coherent
 
 end ProjectiveGlobalSectionsFinite
 
