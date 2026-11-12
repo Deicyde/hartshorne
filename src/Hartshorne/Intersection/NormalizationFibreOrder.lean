@@ -233,15 +233,16 @@ private theorem birational_closureHom (a : integralClosure D (FractionRing D)) :
   change algebraMap D (FractionRing D) d₂ * (a : FractionRing D) = algebraMap D (FractionRing D) d₁
   rw [← h, mul_div_cancel₀ _ hd₂']
 
-/-- **The fibre order formula for the normalization.** Let `V` be an integral scheme of finite
-type over a field `k` whose normalization `ν : Ṽ ⟶ V` is locally Noetherian. At every point `y`
-of codimension one of `V` and for every nonzero rational function `g` on `V`,
-`∑_{ν(z) = y} ord_z(g) [κ(z) : κ(y)] = ord_y(g)`. -/
-theorem fibreOrdFormula_absoluteNormalizationMap {k : Type u} [Field k] {V : Scheme.{u}}
-    [IsIntegral V] [IsLocallyNoetherian V] [IsLocallyNoetherian (absoluteNormalization V)]
-    (s : V ⟶ Spec (.of k)) (hs : FiniteType s)
-    (hν : absoluteNormalizationMap V (genericPoint (absoluteNormalization V)) = genericPoint V)
-    {y : V} (hy : coheight y = 1) : FibreOrdFormula (absoluteNormalizationMap V) hν y := by
+/-- An affine chart of the normalization: around every point of `V` there is an open affine
+`Spec R ⟶ V` whose preimage in the normalization is `Spec O`, `O` the integral closure of `R`
+(a finite `R`-module). -/
+private theorem exists_chart_absoluteNormalization {k : Type u} [Field k] {V : Scheme.{u}}
+    [IsIntegral V] [IsLocallyNoetherian V] (s : V ⟶ Spec (.of k)) (hs : FiniteType s) (y : V) :
+    ∃ (R : CommRingCat.{u}) (_ : IsDomain R) (_ : IsNoetherianRing R)
+      (_ : Module.Finite R (integralClosure R (FractionRing R))) (b : Spec R ⟶ V)
+      (_ : IsOpenImmersion b) (a : Spec (closureRing R) ⟶ absoluteNormalization V)
+      (_ : IsOpenImmersion a), a ≫ absoluteNormalizationMap V = Spec.map (closureHom R) ≫ b ∧
+      y ∈ Set.range b ∧ absoluteNormalizationMap V ⁻¹' Set.range b ⊆ Set.range a := by
   obtain ⟨_, ⟨W, hW, rfl⟩, hyW, -⟩ :=
     V.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ y) isOpen_univ
   replace hW : IsAffineOpen W := hW
@@ -255,10 +256,10 @@ theorem fibreOrdFormula_absoluteNormalizationMap {k : Type u} [Field k] {V : Sch
   have : IsIntegrallyClosed O := integralClosure.isIntegrallyClosedOfFiniteExtension (FractionRing R)
   obtain ⟨e, he, heν⟩ := exists_isIso_absoluteNormalization_spec (D := R) (O := O) j hj
     (fun a ↦ integralClosure.isIntegral a) (fun a ↦ birational_closureHom (D := R) a)
+  have : IsOpenImmersion hW.fromSpec := IsAffineOpen.isOpenImmersion_fromSpec hW
   have hfinR : IsFinite (absoluteNormalizationMap (Spec R)) := by
     have : QuasiCompact (hW.fromSpec ≫ s) := inferInstance
     have : LocallyOfFiniteType s := hs.1
-    have : IsOpenImmersion hW.fromSpec := IsAffineOpen.isOpenImmersion_fromSpec hW
     have : LocallyOfFiniteType hW.fromSpec := locallyOfFiniteType_of_isOpenImmersion _
     have : LocallyOfFiniteType (hW.fromSpec ≫ s) := inferInstance
     exact isFinite_absoluteNormalizationMap_of_finiteType_field k (Spec R) (hW.fromSpec ≫ s)
@@ -272,31 +273,94 @@ theorem fibreOrdFormula_absoluteNormalizationMap {k : Type u} [Field k] {V : Sch
   have : IsIntegral (W : Scheme) := isIntegral_of_isOpenImmersion (Scheme.Opens.ι W)
   obtain ⟨h, hh, hhν, hrange⟩ := exists_isOpenImmersion_absoluteNormalization W
   obtain ⟨et, het, hetν⟩ := exists_isIso_absoluteNormalization hW.isoSpec.inv
-  let a : Spec (closureRing R) ⟶ absoluteNormalization V := e ≫ et ≫ h
-  have : IsOpenImmersion a := inferInstance
-  have : IsOpenImmersion hW.fromSpec := IsAffineOpen.isOpenImmersion_fromSpec hW
-  have hsq : a ≫ absoluteNormalizationMap V =
-      Spec.map (R := R) (CommRingCat.ofHom (algebraMap R O)) ≫ hW.fromSpec := by
-    have heν' : e ≫ absoluteNormalizationMap (Spec R) =
+  refine ⟨R, inferInstance, inferInstance, inferInstance, hW.fromSpec, inferInstance,
+    e ≫ et ≫ h, inferInstance, ?_, by rw [hW.range_fromSpec]; exact hyW, ?_⟩
+  · have heν' : e ≫ absoluteNormalizationMap (Spec R) =
         Spec.map (R := R) (CommRingCat.ofHom (algebraMap R O)) := heν
-    simp only [a, Category.assoc, hhν]
+    simp only [Category.assoc, hhν]
     rw [reassoc_of% hetν, ← IsAffineOpen.isoSpec_inv_ι, reassoc_of% heν']
-  obtain ⟨Q, hQy⟩ : y ∈ Set.range hW.fromSpec := by rw [hW.range_fromSpec]; exact hyW
-  have hQ : coheight Q = 1 := (coheight_eq_of_isOpenImmersion hW.fromSpec).symm.trans
-    (hQy ▸ hy)
-  have hfib : absoluteNormalizationMap V ⁻¹' {hW.fromSpec Q} ⊆ Set.range a := by
-    intro z hz
+  · intro z hz
     have hz' : z ∈ Set.range h := by
-      rw [hrange]
-      change absoluteNormalizationMap V z ∈ W
-      rw [show absoluteNormalizationMap V z = hW.fromSpec Q from hz, hQy]
-      exact hyW
+      rw [hrange, ← hW.range_fromSpec]
+      exact hz
     obtain ⟨w, rfl⟩ := hz'
     obtain ⟨w', rfl⟩ := (ConcreteCategory.bijective_of_isIso (e ≫ et).base).2 w
     exact ⟨w', rfl⟩
-  have key := FibreOrdFormula.of_isOpenImmersion a hW.fromSpec hsq hν
-    (specMap_integralClosure_genericPoint R) hfib (fibreOrdFormula_specMap_integralClosure (D := R) Q hQ)
+
+/-- **The fibre order formula for the normalization.** Let `V` be an integral scheme of finite
+type over a field `k` whose normalization `ν : Ṽ ⟶ V` is locally Noetherian. At every point `y`
+of codimension one of `V` and for every nonzero rational function `g` on `V`,
+`∑_{ν(z) = y} ord_z(g) [κ(z) : κ(y)] = ord_y(g)`. -/
+theorem fibreOrdFormula_absoluteNormalizationMap {k : Type u} [Field k] {V : Scheme.{u}}
+    [IsIntegral V] [IsLocallyNoetherian V] [IsLocallyNoetherian (absoluteNormalization V)]
+    (s : V ⟶ Spec (.of k)) (hs : FiniteType s)
+    (hν : absoluteNormalizationMap V (genericPoint (absoluteNormalization V)) = genericPoint V)
+    {y : V} (hy : coheight y = 1) : FibreOrdFormula (absoluteNormalizationMap V) hν y := by
+  obtain ⟨R, _, _, _, b, _, a, _, hsq, ⟨Q, hQy⟩, hfib⟩ := exists_chart_absoluteNormalization s hs y
+  have hQ : coheight Q = 1 := (coheight_eq_of_isOpenImmersion b).symm.trans (hQy ▸ hy)
+  have hfib' : absoluteNormalizationMap V ⁻¹' {b Q} ⊆ Set.range a := fun z hz ↦
+    hfib ⟨Q, (show absoluteNormalizationMap V z = b Q from hz).symm⟩
+  have key := FibreOrdFormula.of_isOpenImmersion a b hsq hν
+    (specMap_integralClosure_genericPoint R) hfib'
+    (fibreOrdFormula_specMap_integralClosure (D := R) Q hQ)
   rwa [hQy] at key
+
+/-- The normalization of an integral scheme of finite type over a field induces an isomorphism
+of function fields: the pullback `K(V) → K(Ṽ)` is bijective. -/
+theorem genericFunctionFieldMap_absoluteNormalizationMap_bijective {k : Type u} [Field k]
+    {V : Scheme.{u}} [IsIntegral V] [IsLocallyNoetherian V] (s : V ⟶ Spec (.of k))
+    (hs : FiniteType s)
+    (hν : absoluteNormalizationMap V (genericPoint (absoluteNormalization V)) = genericPoint V) :
+    Function.Bijective ((absoluteNormalizationMap V).genericFunctionFieldMap hν) := by
+  refine ⟨((absoluteNormalizationMap V).genericFunctionFieldMap hν).hom.injective, ?_⟩
+  obtain ⟨R, _, _, _, b, _, a, _, hsq, -, -⟩ := exists_chart_absoluteNormalization s hs
+    (genericPoint V)
+  let ν := absoluteNormalizationMap V
+  let ν' := Spec.map (closureHom R)
+  have ha := genericPoint_eq_of_isOpenImmersion a
+  have hb := genericPoint_eq_of_isOpenImmersion b
+  have hν' := specMap_integralClosure_genericPoint R
+  have hab : (a ≫ ν).base (genericPoint (Spec (closureRing R))) = genericPoint V := by
+    rw [Scheme.Hom.comp_base, TopCat.comp_app, ha, hν]
+  have hcomp : ∀ g, ν'.genericFunctionFieldMap hν' (b.genericFunctionFieldMap hb g) =
+      a.genericFunctionFieldMap ha (ν.genericFunctionFieldMap hν g) := by
+    intro g
+    have h1 := Scheme.Hom.genericFunctionFieldMap_comp a ν ha hν hab
+    have h2 := Scheme.Hom.genericFunctionFieldMap_comp ν' b hν' hb (by rw [← hsq]; exact hab)
+    rw [Scheme.Hom.genericFunctionFieldMap_congr hsq hab (by rw [← hsq]; exact hab), h2] at h1
+    exact (ConcreteCategory.congr_hom h1 g).trans rfl
+  -- `K(Spec R) → K(Spec O)` is surjective
+  have hsurj : Function.Surjective (ν'.genericFunctionFieldMap hν') := by
+    intro G
+    obtain ⟨x, y, hy, rfl⟩ := IsFractionRing.div_surjective (closureRing R) G
+    obtain ⟨d₁, d₂, hd₂, h₁⟩ := birational_closureHom (D := R) x
+    obtain ⟨e₁, e₂, he₂, h₂⟩ := birational_closureHom (D := R) y
+    refine ⟨algebraMap R (Spec R).functionField (d₁ * e₂) /
+      algebraMap R (Spec R).functionField (d₂ * e₁), ?_⟩
+    have hy0 : y ≠ 0 := nonZeroDivisors.ne_zero hy
+    have hinj := IsFractionRing.injective (closureRing R) (Spec (closureRing R)).functionField
+    have he₁ : e₁ ≠ 0 := by
+      rintro rfl
+      rw [map_zero] at h₂
+      exact hy0 ((mul_eq_zero.mp h₂).resolve_left
+        fun h ↦ he₂ (closureHom_injective R (h.trans (map_zero _).symm)))
+    have hden : algebraMap (closureRing R) (Spec (closureRing R)).functionField
+        (closureHom R (d₂ * e₁)) ≠ 0 :=
+      (map_ne_zero_iff _ hinj).mpr fun h ↦
+        mul_ne_zero hd₂ he₁ (closureHom_injective R (h.trans (map_zero _).symm))
+    rw [map_div₀, genericFunctionFieldMap_closureHom, genericFunctionFieldMap_closureHom,
+      div_eq_div_iff hden ((map_ne_zero_iff _ hinj).mpr hy0), ← map_mul, ← map_mul]
+    congr 1
+    change algebraMap R _ (d₁ * e₂) * y = x * algebraMap R _ (d₂ * e₁)
+    rw [map_mul, map_mul, ← h₁, ← h₂]
+    ring
+  intro G
+  have haG := (ConcreteCategory.bijective_of_isIso (functionFieldIsoOfIsOpenImmersion a).hom)
+  have hbG := (ConcreteCategory.bijective_of_isIso (functionFieldIsoOfIsOpenImmersion b).hom)
+  obtain ⟨u, hu⟩ := hsurj (a.genericFunctionFieldMap ha G)
+  obtain ⟨g, rfl⟩ := hbG.2 u
+  refine ⟨g, haG.1 ?_⟩
+  exact (hcomp g).symm.trans hu
 
 end SpecFibre
 
