@@ -346,6 +346,7 @@ variable {A' S' T' : Type u} [CommRing A'] [CommRing S'] [CommRing T'] [Algebra 
   (hσ : ∀ a, σ (algebraMap A S a) = algebraMap A' S' (α a))
   (hτ : ∀ a, τ (algebraMap A T a) = algebraMap A' T' (α a))
 
+variable {𝒮 𝒯} in
 /-- The map of diagonal products induced by `σ`, `τ` over `α`, as a graded ring map. -/
 def diagonalGradedMap : grading A 𝒮 𝒯 →+*ᵍ grading A' 𝒮' 𝒯' where
   __ := diagonalMap α σ τ hσ hτ
@@ -363,6 +364,26 @@ theorem diagonalMap_ofGenerator (s : S) :
       rw [coe_ofGenerator_of_mem 𝒮 𝒯 ht hs, tensorMap_tmul, map_pow]
       exact (coe_ofGenerator_of_mem 𝒮' 𝒯' (τ.map_mem ht) (σ.map_mem hs)).symm
   exact congr($this s)
+
+/-- **Naturality of the local isomorphism**: for graded maps `σ`, `τ` over `α` with `τ t` again a
+generator, the isomorphisms `Proj (S ×_A T) ≅ Proj S` and `Proj (S' ×_{A'} T') ≅ Proj S'` commute
+with the induced maps of `Proj`. -/
+theorem projIsoOfGenerator_naturality (hfree : ∀ d, ∀ x ∈ 𝒯 d, ∃! a : A, a • t ^ d = x)
+    (hfree' : ∀ d, ∀ x ∈ 𝒯' d, ∃! a : A', a • τ t ^ d = x) :
+    letI := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
+    letI := gradedRing A' 𝒮' 𝒯' h𝒮' h𝒯'
+    ∀ (hD : HomogeneousIdeal.irrelevant (grading A' 𝒮' 𝒯') ≤
+        (HomogeneousIdeal.irrelevant (grading A 𝒮 𝒯)).map (diagonalGradedMap α σ τ hσ hτ))
+      (hS : HomogeneousIdeal.irrelevant 𝒮' ≤ (HomogeneousIdeal.irrelevant 𝒮).map σ),
+    Proj.map (diagonalGradedMap α σ τ hσ hτ) hD ≫ (projIsoOfGenerator 𝒮 𝒯 h𝒮 h𝒯 ht hfree).hom =
+      (projIsoOfGenerator 𝒮' 𝒯' h𝒮' h𝒯' (τ.map_mem ht) hfree').hom ≫ Proj.map σ hS := by
+  let := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
+  let := gradedRing A' 𝒮' 𝒯' h𝒮' h𝒯'
+  intro hD hS
+  obtain ⟨h₁, e₁⟩ := projIsoOfGenerator_hom 𝒮 𝒯 h𝒮 h𝒯 ht hfree
+  obtain ⟨h₂, e₂⟩ := projIsoOfGenerator_hom 𝒮' 𝒯' h𝒮' h𝒯' (τ.map_mem ht) hfree'
+  rw [e₁, e₂, ← Proj.map_comp, ← Proj.map_comp]
+  exact projMap_congr (GradedRingHom.ext (diagonalMap_ofGenerator 𝒮 𝒯 ht α σ τ hσ hτ)) _ _
 
 end Naturality
 
