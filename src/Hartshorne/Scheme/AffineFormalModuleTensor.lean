@@ -270,4 +270,89 @@ lemma pullbackToModuleCompletion_naturality {F G : X.Modules} (φ : F ⟶ G) :
 
 end QuasicoherentIdealSubsheaf
 
+section FiniteModuleNatTrans
+
+variable {C : Type*} [Category C] [Abelian C]
+
+/-- A four lemma: for a morphism `φ` of short complexes with `S₂` exact, `S₁.g` epi, `φ.τ₁` epi
+and `φ.τ₂` mono, the map `φ.τ₃` is mono. -/
+private lemma mono_τ₃_of_exact_of_epi {S₁ S₂ : ShortComplex C} (φ : S₁ ⟶ S₂) (h₂ : S₂.Exact)
+    [Epi S₁.g] [Epi φ.τ₁] [Mono φ.τ₂] : Mono φ.τ₃ := by
+  refine Preadditive.mono_of_cancel_zero _ (fun {A} f₃ hf₃ => ?_)
+  obtain ⟨A₁, π₁, _, f₂, hf₂⟩ := surjective_up_to_refinements_of_epi S₁.g f₃
+  have h : (f₂ ≫ φ.τ₂) ≫ S₂.g = 0 := by
+    rw [Category.assoc, φ.comm₂₃, ← Category.assoc, ← hf₂, Category.assoc, hf₃, comp_zero]
+  obtain ⟨A₂, π₂, _, g₁, hg₁⟩ := h₂.exact_up_to_refinements _ h
+  obtain ⟨A₃, π₃, _, f₁, hf₁⟩ := surjective_up_to_refinements_of_epi φ.τ₁ g₁
+  have h' : f₁ ≫ S₁.f = π₃ ≫ π₂ ≫ f₂ := by
+    rw [← cancel_mono φ.τ₂, Category.assoc, ← φ.comm₁₂, ← reassoc_of% hf₁, ← hg₁]
+    simp only [Category.assoc]
+  rw [← cancel_epi π₁, comp_zero, hf₂, ← cancel_epi π₂, ← cancel_epi π₃, comp_zero, comp_zero,
+    ← Category.assoc π₂, ← Category.assoc π₃, ← Category.assoc π₃, Category.assoc _ π₂ f₂, ← h',
+    Category.assoc, S₁.zero, comp_zero]
+
+variable {A : Type u} [CommRing A] {Φ₁ Φ₂ : ModuleCat.{u} A ⥤ C}
+  [Φ₁.PreservesZeroMorphisms] [Φ₂.PreservesZeroMorphisms] (c : Φ₁ ⟶ Φ₂)
+
+/-- The short exact sequence `0 ⟶ ker p ⟶ M ⟶ N ⟶ 0` of a surjective linear map `p`. -/
+private def kerShortComplex {M N : ModuleCat.{u} A} (p : M ⟶ N) : ShortComplex (ModuleCat.{u} A) :=
+  ShortComplex.mk (ModuleCat.ofHom (LinearMap.ker p.hom).subtype) p (by ext x; exact x.2)
+
+private lemma kerShortComplex_shortExact {M N : ModuleCat.{u} A} (p : M ⟶ N)
+    (hp : Function.Surjective p) : (kerShortComplex p).ShortExact := by
+  refine ShortComplex.ShortExact.mk' ?_ ?_ ?_
+  · exact (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).2
+      (LinearMap.exact_subtype_ker_map p.hom)
+  · exact (ModuleCat.mono_iff_injective _).2 Subtype.val_injective
+  · exact (ModuleCat.epi_iff_surjective _).2 hp
+
+omit [Abelian C] [Φ₁.PreservesZeroMorphisms] [Φ₂.PreservesZeroMorphisms] in
+/-- A natural transformation `c : Φ₁ ⟶ Φ₂` of functors from `A`-modules to an abelian category is
+epi at every finite module once it is an isomorphism at the finite free modules and `Φ₂` sends
+surjections of finite modules to epimorphisms. -/
+private lemma epi_app_of_finite
+    (hepi : ∀ {M N : ModuleCat.{u} A} (p : M ⟶ N), Module.Finite A M → Module.Finite A N →
+      Function.Surjective p → Epi (Φ₂.map p))
+    (hfree : ∀ n : ℕ, IsIso (c.app (ModuleCat.of A (Fin n → A))))
+    (M : ModuleCat.{u} A) [Module.Finite A M] : Epi (c.app M) := by
+  obtain ⟨n, f, hf⟩ := Module.Finite.exists_fin' A M
+  have := hepi (ModuleCat.ofHom f) inferInstance inferInstance hf
+  have : Epi (Φ₁.map (ModuleCat.ofHom f) ≫ c.app M) := by
+    rw [c.naturality]
+    infer_instance
+  exact epi_of_epi (Φ₁.map (ModuleCat.ofHom f)) (c.app M)
+
+/-- **Natural transformations between right exact functors on finite modules.** Let `A` be a
+Noetherian ring, `Φ₁ Φ₂` functors from `A`-modules to an abelian category and `c : Φ₁ ⟶ Φ₂`.
+Suppose `Φ₁` is right exact on short exact sequences, `Φ₂` is right exact on short exact
+sequences of finite modules, and `c` is an isomorphism at the finite free modules `A ^ n`. Then
+`c` is an isomorphism at every finite module. -/
+theorem isIso_app_of_finite_of_rightExact [IsNoetherianRing A]
+    (h₁ : ∀ S : ShortComplex (ModuleCat.{u} A), S.ShortExact →
+      (S.map Φ₁).Exact ∧ Epi (Φ₁.map S.g))
+    (h₂ : ∀ S : ShortComplex (ModuleCat.{u} A), S.ShortExact → Module.Finite A S.X₁ →
+      Module.Finite A S.X₂ → Module.Finite A S.X₃ → (S.map Φ₂).Exact ∧ Epi (Φ₂.map S.g))
+    (hfree : ∀ n : ℕ, IsIso (c.app (ModuleCat.of A (Fin n → A))))
+    (M : ModuleCat.{u} A) [Module.Finite A M] : IsIso (c.app M) := by
+  have hepi : ∀ {M N : ModuleCat.{u} A} (p : M ⟶ N), Module.Finite A M → Module.Finite A N →
+      Function.Surjective p → Epi (Φ₂.map p) := fun {M N} p hM hN hp =>
+    (h₂ (kerShortComplex p) (kerShortComplex_shortExact p hp)
+      (Module.Finite.of_injective (LinearMap.ker p.hom).subtype Subtype.val_injective) hM hN).2
+  obtain ⟨n, f, hf⟩ := Module.Finite.exists_fin' A M
+  let S := kerShortComplex (ModuleCat.ofHom f)
+  have hS := kerShortComplex_shortExact (ModuleCat.ofHom f) hf
+  have hK : Module.Finite A S.X₁ :=
+    Module.Finite.of_injective (LinearMap.ker f).subtype Subtype.val_injective
+  have hF : Module.Finite A S.X₂ := inferInstanceAs (Module.Finite A (Fin n → A))
+  have hM : Module.Finite A S.X₃ := inferInstanceAs (Module.Finite A M)
+  have : Epi (S.map Φ₁).g := (h₁ S hS).2
+  have : Epi (S.mapNatTrans c).τ₁ := epi_app_of_finite c hepi hfree S.X₁
+  have := epi_app_of_finite c hepi hfree M
+  have : Mono (S.mapNatTrans c).τ₂ := inferInstanceAs (Mono (c.app (ModuleCat.of A (Fin n → A))))
+  have : Mono (c.app M) :=
+    mono_τ₃_of_exact_of_epi (S.mapNatTrans c) (h₂ S hS hK hF hM).1
+  exact isIso_of_mono_of_epi _
+
+end FiniteModuleNatTrans
+
 end Hartshorne
