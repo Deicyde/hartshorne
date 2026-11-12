@@ -4,6 +4,20 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.RelativeProjLineBundleTwistFrames
 
+/-!
+# Transition functions of the frames of `𝒪_{Proj_X (S · L)}(1)`
+
+Hartshorne, *Algebraic Geometry*, II.7, Lemma 7.9 (p. 161), the formula for `𝒪(1)`.
+
+For two charts `(U, e, s)`, `(U, e', t)` over the same affine `U` (frames `e`, `e' = v • e` of `L`,
+elements `s, t ∈ S(U)₁`), the frame `t ⊗ e'` of `𝒪_{Proj_X (S · L)}(1)` is `(t ⊗ e')/(s ⊗ e)` times
+`s ⊗ e` over the open `D₊(s ⊗ e)`, and the frame `φ^* t ⊗ π^* e'` of
+`φ^* 𝒪_{Proj_X S}(1) ⊗ π^* L` is `φ^#(t/s) · π^# v` times `φ^* s ⊗ π^* e`; the two coefficients
+agree since `t ⊗ e' = v · (t ⊗ e)` (`exists_eq_smul_samePiece`). Restricting two arbitrary charts to
+an affine open basic in both reduces the overlaps to this case (`exists_eq_smul_overlap`), and the
+frames glue to an isomorphism (`nonempty_iso_tensorModule`).
+-/
+
 universe u
 
 noncomputable section
@@ -21,16 +35,19 @@ attribute [local instance] sectionsAlgebra
 variable {X : Scheme.{u}} {S : QuasiCoherentGradedAlgebra X} {L : X.Modules} (hL : L.IsInvertible)
 
 set_option backward.isDefEq.respectTransparency false in
+/-- If `e' = v • e`, then the section of `Sym¹ L` given by `e'` is `v` times that given by `e`. -/
 theorem frameGenerator_eq_smul {U : X.AffineZariskiSite} {e e' : ULift.{u} (Fin 1) → Γ(L, U.1)}
     (v : Γ(X, U.1)) (hv : e' default = v • e default) :
     frameGenerator (hL := hL) e' =
-      algebraMap Γ(X, U.1) ((lineBundleSym L hL).obj.obj (.op U)) v * frameGenerator (hL := hL) e := by
+      algebraMap Γ(X, U.1) ((lineBundleSym L hL).obj.obj (.op U)) v *
+        frameGenerator (hL := hL) e := by
   change L.chartRingHom U.1 e' (MvPolynomial.rename ULift.up (MvPolynomial.X 0)) =
     _ * L.chartRingHom U.1 e (MvPolynomial.rename ULift.up (MvPolynomial.X 0))
   rw [MvPolynomial.rename_X, Scheme.Modules.chartRingHom_X, Scheme.Modules.chartRingHom_X]
   exact (congrArg _ hv).trans (Scheme.Modules.symDegreeOne_smul _ _ _ _)
 
 set_option backward.isDefEq.respectTransparency false in
+/-- If `e' = v • e`, then `t ⊗ e' = v · (t ⊗ e)` in `(S · L)(U)` for `t ∈ S(U)₁`. -/
 theorem ofGenerator_eq_smul {U : X.AffineZariskiSite} {e e' : ULift.{u} (Fin 1) → Γ(L, U.1)}
     (v : Γ(X, U.1)) (hv : e' default = v • e default) {t : S.obj.obj (.op U)}
     (ht : t ∈ S.grading U 1) :
@@ -50,10 +67,14 @@ theorem ofGenerator_eq_smul {U : X.AffineZariskiSite} {e e' : ULift.{u} (Fin 1) 
     pow_one, pow_one, frameGenerator_eq_smul hL v hv, ← Algebra.smul_def, ← Algebra.smul_def,
     TensorProduct.tmul_smul]
 
-theorem appLE_appIso_inv {P Y : Scheme.{u}} (f : P ⟶ Y) [IsOpenImmersion f] (W : P.Opens)
-    (h : W ≤ f ⁻¹ᵁ (f ''ᵁ W)) (x : Γ(P, W)) : f.appLE (f ''ᵁ W) W h ((f.appIso W).inv x) = x := by
+/-- For an open immersion `f`, restricting `(f.appIso W).inv x` along `f` gives back `x`. -/
+theorem appLE_image_appIso_inv_apply {P Y : Scheme.{u}} (f : P ⟶ Y) [IsOpenImmersion f]
+    (W : P.Opens) (h : W ≤ f ⁻¹ᵁ (f ''ᵁ W)) (x : Γ(P, W)) :
+    f.appLE (f ''ᵁ W) W h ((f.appIso W).inv x) = x := by
   rw [← Scheme.Hom.appIso_hom']
   exact Iso.inv_hom_id_apply _ _
+/-- Pulling back the section `x ∈ A_{(s)}` of `D₊(s)` along `Proj B → Proj A` gives the image
+of `x` in `B_{(f s)}`. -/
 
 theorem map_appLE_awayToSection {A B σ τ : Type u} [CommRing A] [SetLike σ A]
     [AddSubgroupClass σ A] [CommRing B] [SetLike τ B] [AddSubgroupClass τ B] {𝒜 : ℕ → σ}
@@ -113,6 +134,8 @@ theorem map_eq_smul_of_restrict {Y : Scheme.{u}} (F : Y.Modules) {Pi Pj P Oi Oj 
 namespace TwistChart
 
 set_option backward.isDefEq.respectTransparency false in
+/-- In `(S · L)(U)_{(s ⊗ e)}`, the product of `(t ⊗ e)/(s ⊗ e)` with `v/1` is
+`(t ⊗ e')/(s ⊗ e)` when `e' = v • e`. -/
 theorem away_map_gen_mul (i : TwistChart S L) {e' : ULift.{u} (Fin 1) → Γ(L, i.U.1)}
     (v : Γ(X, i.U.1)) (hv : e' default = v • i.e default) {t : S.obj.obj (.op i.U)}
     (ht : t ∈ S.grading i.U 1) :
@@ -133,11 +156,14 @@ theorem away_map_gen_mul (i : TwistChart S L) {e' : ULift.{u} (Fin 1) → Γ(L, 
   rw [ofGenerator_eq_smul hL v hv ht, mul_comm]
   rfl
 
+/-- The open of a chart lies over the affine open `U` of the chart. -/
 theorem opens_le_base (i : TwistChart S L) :
     i.opens hL ≤ (S.lineBundleTwist L hL).relProjToBase ⁻¹ᵁ i.U.1 :=
   (i.opens_le_piece hL).trans (i.piece_le_base hL)
 
 set_option backward.isDefEq.respectTransparency false in
+/-- **The transition scalar**: over the open of a chart `(U, e, s)`, the function
+`(t ⊗ e')/(s ⊗ e)` is the product of `φ^#(t/s)` and `π^# v`, when `e' = v • e`. -/
 theorem appIso_inv_awayToSection_eq_mul (i : TwistChart S L)
     {e' : ULift.{u} (Fin 1) → Γ(L, i.U.1)} (v : Γ(X, i.U.1)) (hv : e' default = v • i.e default)
     {t : S.obj.obj (.op i.U)} (ht : t ∈ S.grading i.U 1) :
@@ -170,9 +196,9 @@ theorem appIso_inv_awayToSection_eq_mul (i : TwistChart S L)
     le_of_eq (Proj.map_preimage_basicOpen _ _ _).symm
   rw [← Scheme.Hom.appLE_comp_appLE (Proj.map (i.gen hL) h) (S.projι i.U) _
     (Proj.basicOpen _ i.s) _ (Scheme.Hom.preimage_image_eq _ _).ge e₂]
-  rw [CommRingCat.comp_apply, appLE_appIso_inv]
-  have h3 := map_appLE_awayToSection (i.gen hL) h i.hs e₂ (HomogeneousLocalization.Away.mk _ i.hs 1 t
-    (by rwa [smul_eq_mul, mul_one]))
+  rw [CommRingCat.comp_apply, appLE_image_appIso_inv_apply]
+  have h3 := map_appLE_awayToSection (i.gen hL) h i.hs e₂
+    (HomogeneousLocalization.Away.mk _ i.hs 1 t (by rwa [smul_eq_mul, mul_one]))
   refine Eq.trans ?_ (congrArg (· * _) h3.symm)
   refine Eq.trans ?_ (map_mul _ _ _)
   exact congrArg _ (away_map_gen_mul hL i v hv ht).symm
@@ -182,6 +208,7 @@ variable (MT : (S.lineBundleTwist L hL).relProj.Modules)
     (S.lineBundleTwist L hL).twistingSheaf 1 U)
   (MS : S.relProj.Modules) (αS : ∀ U, MS.restrict (S.projι U) ≅ S.twistingSheaf 1 U)
 
+/-- The tensor product of sections is bilinear: `(r a) ⊗ (r' b) = (r r') (a ⊗ b)`. -/
 theorem bilinear_smul_smul {Y : Scheme.{u}} {F G : Y.Modules} {W : Y.Opens} (r r' : Γ(Y, W))
     (a : Γ(F, W)) (b : Γ(G, W)) :
     (moduleSheafTensorBilinear F G).app (op W) (r • a) (r' • b) =
@@ -280,6 +307,20 @@ theorem exists_eq_smul_overlap (hαT : PieceIsosCompatible MT αT)
   · exact map_eq_smul_of_restrict _ _ _ (piece_le_piece fi _) (piece_le_piece fj _)
       ((i.restrictChart fi).opens_le_piece hL) inf_le_left hOk _ _ _ _
       (restrict_bTop hL hαS i fi) (restrict_bTop hL hαS j fj) c hcb
+
+variable {MT αT MS αS} in
+/-- **Assembly**: a module `M_T` on `Proj_X (S · L)` and a module `M_S` on `Proj_X S`, with
+compatible isomorphisms to the twisting sheaves `𝒪(1)` of the affine pieces, satisfy
+`M_T ≅ φ^* M_S ⊗ π^* L` when `S` is generated by `S₁`: the frames `s ⊗ e` and `φ^* s ⊗ π^* e` on
+the opens of the charts have the same transition functions. -/
+theorem nonempty_iso_tensorModule (hαT : PieceIsosCompatible MT αT)
+    (hαS : PieceIsosCompatible MS αS) (hS : S.GeneratedInDegreeOne) :
+    Nonempty (MT ≅ tensorModule (pullS hL MS) (pullL L hL)) :=
+  nonempty_iso_of_isTrivializingSection_local (fun i : TwistChart S L => i.opens hL)
+    (iSup_opens hL hS) (fun i => i.aSec hL MT αT) (fun i => i.bSec hL MS αS)
+    (fun i => i.isTrivializingSection_aSec hL MT αT)
+    (fun i => i.isTrivializingSection_bSec hL MS αS)
+    (fun i j y hy => exists_eq_smul_overlap hL hαT hαS i j y hy)
 
 end TwistChart
 
