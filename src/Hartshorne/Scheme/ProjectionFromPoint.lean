@@ -577,10 +577,11 @@ theorem existsUnique_hyperplaneInclusion :
   existsUnique_morphism_of_isGeneratedBySections _ (isInvertible_projectiveSpaceTwistingSheaf _ _ _)
     (hyperplaneSections n Y) (isGeneratedBySections_hyperplaneSections n Y)
 
-/-- **The coordinate hyperplane `H ≅ ℙⁿ_Y`**: the morphism `ℙⁿ_Y ⟶ ℙⁿ⁺¹_Y`,
+/-- **The coordinate hyperplane embedding `ℙⁿ_Y ⟶ ℙⁿ⁺¹_Y`**:
 `(x₀ : ⋯ : xₙ) ↦ (x₀ : ⋯ : xₙ : 0)`, defined (Hartshorne II, Theorem 7.1) by the sections
 `x₀, …, xₙ, 0` of `𝒪(1)` on `ℙⁿ_Y`. Its image lies in the hyperplane `x_{n+1} = 0`
-(`hyperplaneInclusion_notMem_projectiveSpaceChart_last`). -/
+(`hyperplaneInclusion_notMem_projectiveSpaceChart_last`); that it is a closed immersion onto
+`x_{n+1} = 0` is not proved here. -/
 def hyperplaneInclusion : projectiveSpaceOverScheme n Y ⟶ projectiveSpaceOverScheme (n + 1) Y :=
   (existsUnique_hyperplaneInclusion n Y).exists.choose
 
