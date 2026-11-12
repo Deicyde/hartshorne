@@ -23,6 +23,7 @@ $\omega _Y \simeq (\omega _X \otimes L)|_Y$.
   $N_{(Y/X)} \simeq L|_Y$.
 - [The tangent-normal exact sequence](tangent-normal-exact-sequence.md)
 - [Pullback on Picard groups](../../divisors/divisor-exercises/picard-pullback.md)
+- [A rank-two locally free sheaf is its dual twisted by its determinant](../../module-exercises/rank-two-dual-determinant.md)
 
 ## Sources
 
