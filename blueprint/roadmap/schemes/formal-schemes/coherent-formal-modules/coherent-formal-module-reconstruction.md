@@ -30,6 +30,7 @@ is an isomorphism.
 - [Thickenings of an affine formal scheme](../formal-neighborhoods/affine-formal-thickenings.md)
 - [Completion and ordinary sheaf tensor product](scheme-completion-tensor-comparison.md)
 - [Scheme completions are formal schemes](../formal-neighborhoods/completion-is-formal-scheme.md)
+- [Pullback preserves quasi-coherence](../../modules-and-quasicoherent/pullback-quasicoherent.md)
 - Locality on a finite formal-affine cover.
 
 ## Sources
