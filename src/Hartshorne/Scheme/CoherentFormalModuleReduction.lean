@@ -219,4 +219,97 @@ def pullbackFormalCompletionIso :
 
 end QuasicoherentIdealSubsheaf
 
+namespace IdealSubsheaf
+
+variable {T : TopCat.{u}} {R : TopCat.Sheaf CommRingCat.{u} T} (J : IdealSubsheaf R)
+
+/-- A section of `J` maps to zero in `R / J`. -/
+lemma quotientπ_app_eq_zero_of_mem {U : Opens T} {s : R.presheaf.obj (op U)}
+    (hs : s ∈ J.ideal U) : J.quotientπ.hom.app (op U) s = 0 := by
+  have h : J.quotientπ.hom = J.quotientPresheafπ ≫ toSheafify (Opens.grothendieckTopology T)
+      (idealQuotientPresheaf R J.ideal J.ideal_le_comap) := by
+    rw [toSheafify_naturality]
+    rfl
+  rw [h]
+  change (toSheafify (Opens.grothendieckTopology T)
+    (idealQuotientPresheaf R J.ideal J.ideal_le_comap)).app (op U)
+      (Ideal.Quotient.mk (J.ideal U) s) = 0
+  rw [Ideal.Quotient.eq_zero_iff_mem.mpr hs]
+  exact map_zero _
+
+end IdealSubsheaf
+
+namespace IsIdealOfDefinition
+
+variable {X : NoetherianFormalScheme.{u}} {J : IdealSubsheaf X.toLocallyRingedSpace.sheaf}
+  (h : IsIdealOfDefinition X J)
+  (F : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace))
+
+/-- The pullback along `𝒪_X ⟶ 𝒪_X / J` kills the inclusion `J F ⟶ F`: its adjoint, the
+composite of `J F ⟶ F` with the unit `F ⟶ i_* i^* F`, vanishes since `J` acts by zero on
+`i_* i^* F`. -/
+lemma quotientPullback_map_smulι : h.quotientPullback.map (J.smulι F) = 0 := by
+  let K : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace) := J.smulModules F
+  let ι : K ⟶ F := J.smulι F
+  have h0 : ι ≫ h.quotientAdjunction.unit.app F = 0 := by
+    refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun V => ?_)
+    ext ⟨s, hs⟩
+    change (h.quotientAdjunction.unit.app F).val.app V s = 0
+    induction V using Opposite.rec with | op V => ?_
+    refine sheafOfModules_eq_zero_of_locally
+      (A := h.quotientPushforward.obj (h.quotientPullback.obj F)) _ fun x hx => ?_
+    obtain ⟨W, hWV, hxW, hsW⟩ := hs x hx
+    refine ⟨W, hWV, hxW, ?_⟩
+    refine (PresheafOfModules.naturality_apply (h.quotientAdjunction.unit.app F).val
+      (homOfLE hWV).op s).symm.trans ?_
+    let F' : SheafOfModules.{u} (ringCatSheafOf X.toLocallyRingedSpace.sheaf) := F
+    have key : ∀ t : F'.val.obj (op W), t ∈ J.sectionsSmul F' W →
+        (h.quotientAdjunction.unit.app F).val.app (op W) t = 0 := by
+      intro t ht
+      refine Submodule.smul_induction_on ht (fun r hr m _ => ?_) (fun a b ha hb => ?_)
+      · refine (((h.quotientAdjunction.unit.app F).val.app (op W)).hom.map_smul r m).trans ?_
+        have hr0 : (show h.quotientScheme.ringCatSheaf.obj.obj (op W) from
+            (h.quotientRingCatSheafHom.hom.app (op W)).hom r) = 0 :=
+          J.quotientπ_app_eq_zero_of_mem hr
+        have e : (show (structureRingCatSheaf X.toLocallyRingedSpace).obj.obj (op W) from r) •
+            (show (h.quotientPushforward.obj (h.quotientPullback.obj F)).val.obj (op W) from
+              ((h.quotientAdjunction.unit.app F).val.app (op W)).hom m) =
+            (show h.quotientScheme.ringCatSheaf.obj.obj (op W) from
+              (h.quotientRingCatSheafHom.hom.app (op W)).hom r) •
+              (show (h.quotientPullback.obj F).val.obj (op W) from
+                ((h.quotientAdjunction.unit.app F).val.app (op W)).hom m) := rfl
+        have z : (0 : h.quotientScheme.ringCatSheaf.obj.obj (op W)) •
+            (show (h.quotientPullback.obj F).val.obj (op W) from
+              ((h.quotientAdjunction.unit.app F).val.app (op W)).hom m) = 0 := zero_smul _ _
+        exact e.trans ((congrArg (· • _) hr0).trans z)
+      · rw [map_add, ha, hb, add_zero]
+    exact key _ hsW
+  calc h.quotientPullback.map (J.smulι F) =
+        h.quotientPullback.map ι ≫ (h.quotientPullback.map (h.quotientAdjunction.unit.app F) ≫
+          h.quotientAdjunction.counit.app (h.quotientPullback.obj F)) := by
+        rw [h.quotientAdjunction.left_triangle_components F, Category.comp_id]
+    _ = h.quotientPullback.map (ι ≫ h.quotientAdjunction.unit.app F) ≫
+          h.quotientAdjunction.counit.app (h.quotientPullback.obj F) := by
+        rw [Functor.map_comp, Category.assoc]
+    _ = 0 := by
+        have := h.quotientAdjunction.isLeftAdjoint
+        rw [h0, Functor.map_zero, zero_comp]
+
+/-- The pullback to `(X, 𝒪_X / J)` of `F / J F` is the pullback of `F`: the pullback is right
+exact and kills `J F ⟶ F`. -/
+def quotientPullbackCokernelIso :
+    h.quotientPullback.obj (cokernel (J.smulι F)) ≅ h.quotientPullback.obj F := by
+  haveI := h.quotientAdjunction.leftAdjoint_preservesColimits
+  let K : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace) := J.smulModules F
+  let ι : K ⟶ F := J.smulι F
+  exact PreservesCokernel.iso h.quotientPullback ι ≪≫
+    cokernelIsoOfEq (h.quotientPullback_map_smulι F) ≪≫ cokernelZeroIsoTarget
+
+/-- **`F_n` is the pullback of `F`**: `F_n = i^* (F / J ^ (n + 1) F) ≅ i^* F` along
+`i : (X, 𝒪_X / J ^ (n + 1)) ⟶ X`. -/
+def reductionIso (n : ℕ) : h.reduction F n ≅ (h.pow_succ n).quotientPullback.obj F :=
+  (h.pow_succ n).quotientPullbackCokernelIso F
+
+end IsIdealOfDefinition
+
 end Hartshorne
