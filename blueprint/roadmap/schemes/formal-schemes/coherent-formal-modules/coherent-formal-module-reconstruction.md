@@ -2,6 +2,7 @@
 article_id: af_7db5ec1a9029123711d00706
 declaration: theorem
 origin: cited
+lean: Hartshorne.IsIdealOfDefinition.reconstruction
 ---
 
 # Reconstruction from infinitesimal reductions
