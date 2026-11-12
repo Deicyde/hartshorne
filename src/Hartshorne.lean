@@ -555,6 +555,7 @@ import Hartshorne.Cohomology.ProjectiveLinePartialFractions
 import Hartshorne.Cohomology.ProjectiveLinePrincipalParts
 import Hartshorne.Scheme.RelativeProjProper
 import Hartshorne.Scheme.RelativeProjTwist
+import Hartshorne.Intersection.AffineNormalizationSpec
 import Hartshorne.Intersection.LinearNoetherNormalization
 import Hartshorne.Intersection.LocalPlaneCurveMultiplicity
 import Hartshorne.Intersection.ProjectiveLineCurveMultiplicity
