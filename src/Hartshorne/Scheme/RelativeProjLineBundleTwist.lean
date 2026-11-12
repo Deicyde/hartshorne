@@ -28,6 +28,18 @@ The graded algebra `S · L` is the diagonal product of `S` with the symmetric al
 `Sym(L) = ⊕_d Sym^d(L)` of `L` (`AlgebraicGeometry.Scheme.Modules.symmetricGradedAlgebra`), whose
 degree-`d` part `Sym^d(L)` is the `d`-th power of the invertible sheaf `L`
 (`Hartshorne.QuasiCoherentGradedAlgebra.lineBundleTwist`).
+
+## The isomorphism `Proj_X (S · L) ≅ Proj_X S`
+
+Following the proof of Lemma 7.9: over an affine open `U` on which `L` has a frame `e`,
+`s ↦ s ⊗ e^d` identifies `S(U)` with `(S · L)(U)` as graded rings, hence
+`Proj (S · L)(U) ≅ Proj S(U)` (`lineBundleTwistProjIsoOfFrame`). This isomorphism does not depend
+on the frame (`lineBundleTwistProjIsoOfFrame_eq`: changing `e` to `u e` composes with
+`s ↦ u^d s`, which is the identity on `Proj`) and is compatible with restriction to basic opens
+(`lineBundleTwistProjIsoOfFrame_naturality`). The affine opens with a frame cover `X`
+(`exists_affine_isLocalFrame`), so the local isomorphisms glue to an isomorphism
+`φ : Proj_X (S · L) ≅ Proj_X S` (`lineBundleTwistIso`) over `X`
+(`lineBundleTwistIso_hom_relProjToBase`).
 -/
 
 universe u
