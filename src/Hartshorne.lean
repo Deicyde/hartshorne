@@ -597,6 +597,7 @@ import Hartshorne.Cohomology.Flatness.ModuleSheafFlatBaseChange
 import Hartshorne.RingedSpace.GlobalToSheafExt
 import Hartshorne.RingedSpace.SheafExtFiniteLocallyFree
 import Hartshorne.RingedSpace.SheafExtLocallyFreeResolution
+import Hartshorne.Intersection.ProjectiveHyperplaneChart
 import Hartshorne.Intersection.ProjectiveLinearSubspaceCycle
 import Hartshorne.Scheme.ProjHomogeneousFraction
 import Hartshorne.Scheme.QuadricSurface
