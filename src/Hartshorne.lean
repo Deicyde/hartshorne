@@ -833,3 +833,8 @@ import Hartshorne.Scheme.BlowupVariety
 import Hartshorne.Scheme.Differentials.GenericDifferentials
 import Hartshorne.Cohomology.CurveDifferentialPrincipalParts
 import Hartshorne.Scheme.ProjectiveBundleRankOne
+import Hartshorne.Scheme.BirationalBlowupGenericCoefficient
+import Hartshorne.Scheme.BirationalBlowupSectionEmbedding
+import Hartshorne.Scheme.BirationalBlowupIdeal
+import Hartshorne.Scheme.BirationalBlowupRees
+import Hartshorne.Scheme.BirationalProjectiveBlowup
