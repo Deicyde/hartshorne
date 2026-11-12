@@ -250,4 +250,99 @@ theorem scalePoly_injective {c : K} (hc : c ≠ 0) : Function.Injective (scalePo
 
 end Scale
 
+/-! ### The local identification `S(U) ≅ ⊕_m I(U)ᵐ` over a framed affine open -/
+
+namespace Setup
+
+open SectionAlgebraModel Scheme
+
+variable {r : ℕ} {X Z : Scheme.{u}} {i : Z ⟶ projectiveSpaceOverScheme r X} [IsIntegral X]
+  [IsIntegral Z] [IsNoetherian X] {d : ℕ} (P : Setup i d)
+  (U : X.AffineZariskiSite) (hU : genericPoint X ∈ U.1) (p : ULift.{u} (Fin 1) → Γ(P.D, U.1))
+
+/-- The embedding `S(U) → K(X)[T]` twisted by `t(ψ)`: `s ↦ t(ψ)ᵐ c(s) Tᵐ` for `s ∈ S(U)_m`. -/
+abbrev φ : P.S.obj.obj (op U) →+* X.functionField[X] :=
+  (scalePoly (P.frameConst U hU p)).comp (P.β U hU)
+
+theorem φ_of_mem {m : ℕ} {x : P.S.obj.obj (op U)} (hx : x ∈ P.S.grading U m) :
+    P.φ U hU p x = monomial m (P.frameConst U hU p ^ m *
+      pieceCoeff P.hf P.θ P.he P.hW P.M U hU m ⟨x, hx⟩) := by
+  rw [RingHom.comp_apply, sectionToPoly_of_mem, scalePoly_monomial]
+
+theorem φ_structureMap (a : Γ(X, U.1)) :
+    P.φ U hU p (P.S.structureMap.app (op U) a) = C (X.presheaf.germ U.1 (genericPoint X) hU a) := by
+  rw [RingHom.comp_apply, sectionToPoly_structureMap, scalePoly_C]
+
+theorem germ_eq_of_frac (s : Γ((Modules.pushforward (proj i)).obj (tensorPowerL i (1 * d)), U.1))
+    (b : Γ(X, U.1))
+    (hb : P.ι.app U.1 ((show Γ(X, U.1) from P.t.app U.1 (p default)) • s) = X.toK U.1 b) :
+    X.presheaf.germ U.1 (genericPoint X) hU b =
+      P.frameConst U hU p * coeffK P.hf P.θ P.he P.hW (1 * d) hU s := by
+  have h2 : fracApp P.hf P.θ P.he P.hW (1 * d) U.1
+      ((proj i).app U.1 (show Γ(X, U.1) from P.t.app U.1 (p default)) •
+        (show Γ(tensorPowerL i (1 * d), proj i ⁻¹ᵁ U.1) from s)) = X.toK U.1 b := hb
+  have := congrArg (totalQuotientSheafEquivFunctionField U.1 hU) h2
+  rw [fracApp_spec, totalQuotientSheafEquivFunctionField_toK, coeffK_smul P.hf P.hθ] at this
+  exact this.symm
+
+variable {p} (hp : Ringed.IsLocalFrame (R := X.sheaf) P.D U.1 p)
+
+include hp in
+theorem exists_φ_eq_of_mem_one (x : P.S.obj.obj (op U)) (hx : x ∈ P.S.grading U 1) :
+    ∃ a ∈ ReesAlgebraSheaf.idealOn (quasicoherentIdealSubsheafEquiv P.I) U,
+      P.φ U hU p x = monomial 1 (X.presheaf.germ U.1 (genericPoint X) hU a) := by
+  set s := (P.M.E U Nat.one_pos).symm ⟨x, hx⟩
+  obtain ⟨b, hb⟩ := exists_smul_eq_toK_of_mem_denominatorIdealSheaf P.hF P.ι
+    (P.ht U.1 (p default)) s
+  refine ⟨b, (mem_blowupIdeal_iff P.hF P.ι P.ι_injective P.hD P.t P.ht P.ht0 hp b).2 ⟨s, hb⟩, ?_⟩
+  rw [φ_of_mem P U hU p hx, pow_one, germ_eq_of_frac P U hU p s b hb,
+    pieceCoeff_pos P.hf P.he P.hW P.M U hU Nat.one_pos]
+
+include hp in
+theorem exists_mem_one_φ_eq (a : Γ(X, U.1))
+    (ha : a ∈ ReesAlgebraSheaf.idealOn (quasicoherentIdealSubsheafEquiv P.I) U) :
+    ∃ x ∈ P.S.grading U 1,
+      P.φ U hU p x = monomial 1 (X.presheaf.germ U.1 (genericPoint X) hU a) := by
+  obtain ⟨s, hs⟩ := (mem_blowupIdeal_iff P.hF P.ι P.ι_injective P.hD P.t P.ht P.ht0 hp a).1 ha
+  refine ⟨_, (P.M.E U Nat.one_pos s).2, ?_⟩
+  rw [φ_of_mem P U hU p (P.M.E U Nat.one_pos s).2, pow_one, germ_eq_of_frac P U hU p s a hs,
+    pieceCoeff_pos P.hf P.he P.hW P.M U hU Nat.one_pos]
+  simp
+
+theorem exists_structureMap_eq (x : P.S.obj.obj (op U)) (hx : x ∈ P.S.grading U 0) :
+    ∃ a, P.S.structureMap.app (op U) a = x := by
+  obtain ⟨a, ha⟩ := (P.M.data.degreeZero U).2 ⟨x, hx⟩
+  exact ⟨a, congrArg Subtype.val ha⟩
+
+theorem exists_φ_eq_monomial (m : ℕ) (x : P.S.obj.obj (op U)) (hx : x ∈ P.S.grading U m) :
+    ∃ b, P.φ U hU p x = monomial m b :=
+  ⟨_, φ_of_mem P U hU p hx⟩
+
+/-- **The identification `S(U) ≅ ⊕_m I(U)ᵐ`** over an affine open `U` containing the generic point
+on which `D` has a frame `ψ`: `s ∈ S(U)_m` goes to the function `t(ψ)ᵐ c(s)`. -/
+def ρ : P.S.grading U →+*ᵍ P.I.reesAlgebra.grading U :=
+  reesHomOfEmbedding (κ := (X.presheaf.germ U.1 (genericPoint X) hU).hom)
+    (germ_injective_of_isIntegral X _ hU)
+    (ReesAlgebraSheaf.idealOn (quasicoherentIdealSubsheafEquiv P.I) U)
+    (P.S.structureMap.app (op U)).hom (P.φ U hU p) (P.M.data.generated U)
+    (P.exists_structureMap_eq U) (P.φ_structureMap U hU p) (P.exists_φ_eq_of_mem_one U hU hp)
+    (P.exists_φ_eq_monomial U hU (p := p))
+
+theorem map_ρ (x : P.S.obj.obj (op U)) :
+    Polynomial.map (X.presheaf.germ U.1 (genericPoint X) hU).hom
+        (ReesAlgebraSheaf.toPolynomial _ (P.ρ U hU hp x)) = P.φ U hU p x :=
+  map_reesHomOfEmbedding _ _ _ _ _ _ _ _ _ x
+
+theorem ρ_structureMap (a : Γ(X, U.1)) :
+    P.ρ U hU hp (P.S.structureMap.app (op U) a) = P.I.reesAlgebra.structureMap.app (op U) a :=
+  reesHomOfEmbedding_algebraMap _ _ _ _ _ _ _ _ _ a
+
+theorem ρ_bijective : Function.Bijective (P.ρ U hU hp) :=
+  reesHomOfEmbedding_bijective _ _ _ _ _ _ _ _ _
+    ((scalePoly_injective (germ_app_frame_ne_zero P.t P.ht0 hp hU)).comp
+      (sectionToPoly_injective P.hf P.hθ P.he P.hW P.M U hU))
+    (P.exists_mem_one_φ_eq U hU hp)
+
+end Setup
+
 end Hartshorne.BirationalBlowup
