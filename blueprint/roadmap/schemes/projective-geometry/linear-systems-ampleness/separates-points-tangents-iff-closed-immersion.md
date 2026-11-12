@@ -2,6 +2,7 @@
 article_id: af_627dca979866d07d4785c513
 declaration: theorem
 origin: cited
+lean: Hartshorne.SectionsSeparatePoints Hartshorne.SectionsSeparateTangentVectors Hartshorne.isClosedImmersion_iff_sectionsSeparatePoints_and_sectionsSeparateTangentVectors
 ---
 
 # Separation of points and tangent vectors
