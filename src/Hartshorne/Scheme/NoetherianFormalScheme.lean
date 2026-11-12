@@ -98,7 +98,7 @@ namespace NoetherianFormalScheme
 
 /-- Morphisms of Noetherian formal schemes are exactly morphisms of the underlying locally ringed
 spaces (Hartshorne II.9, p. 194). -/
-instance : Category NoetherianFormalScheme.{u} where
+instance category : Category NoetherianFormalScheme.{u} where
   Hom X Y := X.toLocallyRingedSpace ⟶ Y.toLocallyRingedSpace
   id X := 𝟙 X.toLocallyRingedSpace
   comp f g := f ≫ g
