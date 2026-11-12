@@ -3,6 +3,8 @@ article_id: af_2582575ac95299bd630af302
 declaration: theorem
 origin: cited
 lean: Hartshorne.adjunction_determinant_normalSheaf Hartshorne.ExteriorDual.exteriorPowerDualMap Hartshorne.ExteriorDual.exteriorPowerDualMap_isIso Hartshorne.ExteriorDual.exteriorPowerDualIso
+statement: formalized
+proof: formalized
 ---
 
 # Adjunction via the determinant of the normal bundle
