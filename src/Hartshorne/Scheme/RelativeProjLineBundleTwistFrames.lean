@@ -479,6 +479,66 @@ end TwistChart
 
 end Charts
 
+/-! ### Scalars on the pieces -/
+
+section Scalars
+
+theorem appIso_hom_map_app {P Y Z : Scheme.{u}} (ι : P ⟶ Y) [IsOpenImmersion ι] (f : Y ⟶ Z)
+    (W : P.Opens) (O : Z.Opens) (h : ι ''ᵁ W ≤ f ⁻¹ᵁ O) (hle : W ≤ (ι ≫ f) ⁻¹ᵁ O)
+    (r : Γ(Z, O)) :
+    (ι.appIso W).hom (Y.presheaf.map (homOfLE h).op (f.app O r)) = (ι ≫ f).appLE O W hle r := by
+  rw [Scheme.Hom.appIso_hom', ← Scheme.Hom.appLE_comp_appLE ι f O (ι ''ᵁ W) W h]
+  rfl
+
+theorem appLE_eq_of_eq {P Y : Scheme.{u}} {f g : P ⟶ Y} (h : f = g) (O : Y.Opens) (W : P.Opens)
+    (e : W ≤ f ⁻¹ᵁ O) : f.appLE O W e = g.appLE O W (h ▸ e) := by
+  subst h; rfl
+
+variable {A σ : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A] {𝒜 : ℕ → σ}
+  [GradedRing 𝒜]
+
+theorem awayι_appLE_injective {x : A} (hx : x ∈ 𝒜 1) :
+    Function.Injective ((Proj.awayι 𝒜 x hx one_pos).appLE (Proj.basicOpen 𝒜 x) ⊤
+      (ProjTwistPullback.top_le_awayι_preimage hx one_pos)) := by
+  have hD : Proj.awayι 𝒜 x hx one_pos ''ᵁ ⊤ = Proj.basicOpen 𝒜 x := by
+    rw [Scheme.Hom.image_top_eq_opensRange, Proj.opensRange_awayι]
+  have e : (Proj.awayι 𝒜 x hx one_pos).appLE (Proj.basicOpen 𝒜 x) ⊤
+      (ProjTwistPullback.top_le_awayι_preimage hx one_pos) =
+      (Proj 𝒜).presheaf.map (eqToHom hD).op ≫ ((Proj.awayι 𝒜 x hx one_pos).appIso ⊤).hom := by
+    rw [Scheme.Hom.appIso_hom', Scheme.Hom.map_appLE]
+  rw [e]
+  exact (ConcreteCategory.bijective_of_isIso _).1
+
+end Scalars
+
+/-- **The base scalars on a piece**: over `D₊(x) ⊆ Proj A(V)`, a function `v` on `V` pulls back
+along `Proj A(V) ⟶ X` to the degree-zero fraction `v/1`. -/
+theorem projι_relProjToBase_appLE {X : Scheme.{u}} (A : QuasiCoherentGradedAlgebra X)
+    (V : X.AffineZariskiSite) {x : A.obj.obj (.op V)} (hx : x ∈ A.grading V 1)
+    (h : Proj.basicOpen (A.grading V) x ≤ (A.projι V ≫ A.relProjToBase) ⁻¹ᵁ V.1)
+    (v : Γ(X, V.1)) :
+    (A.projι V ≫ A.relProjToBase).appLE V.1 (Proj.basicOpen (A.grading V) x) h v =
+      Proj.awayToSection (A.grading V) x
+        (HomogeneousLocalization.fromZeroRingHom (A.grading V) _ (A.toZero V v)) := by
+  apply awayι_appLE_injective hx
+  rw [ProjTwistPullback.awayι_appLE_awayToSection]
+  have key : Proj.awayι (A.grading V) x hx one_pos ≫ A.projι V ≫ A.relProjToBase =
+      Spec.map (A.toZero V ≫ CommRingCat.ofHom
+        (HomogeneousLocalization.fromZeroRingHom (A.grading V) _)) ≫ V.2.fromSpec := by
+    rw [projι_relProjToBase, projToOpen_ι, ← Category.assoc, Proj.awayι_toSpecZero,
+      ← Category.assoc, ← Spec.map_comp]
+  rw [← CommRingCat.comp_apply, Scheme.Hom.appLE_comp_appLE, appLE_eq_of_eq key,
+    Scheme.Hom.comp_appLE, IsAffineOpen.fromSpec_app_self, Category.assoc]
+  erw [Scheme.Hom.map_appLE]
+  rw [show (Spec.map (A.toZero V ≫ CommRingCat.ofHom
+      (HomogeneousLocalization.fromZeroRingHom (A.grading V) _))).appLE ⊤ ⊤ _ =
+      (Spec.map (A.toZero V ≫ CommRingCat.ofHom
+        (HomogeneousLocalization.fromZeroRingHom (A.grading V) _))).appTop from
+    Scheme.Hom.appLE_eq_app _]
+  erw [← Scheme.ΓSpecIso_inv_naturality]
+  rfl
+
+
 end QuasiCoherentGradedAlgebra
 
 end Hartshorne
