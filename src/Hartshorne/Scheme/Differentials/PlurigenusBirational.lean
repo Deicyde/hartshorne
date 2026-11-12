@@ -44,6 +44,14 @@ so `dim_k Γ(X', ω_{X'}^{⊗m}) ≤ dim_k Γ(X, ω_X^{⊗m})`, and symmetricall
 Both compatibilities are proved for `Ω`, then carried to `⋀^n` and `⊗^m` through their universal
 properties (`Hartshorne.exteriorPowerPushforwardMap`, `Hartshorne.exteriorPowerRestrictMap`,
 `Hartshorne.tensorPowerPushforwardMap`, `Hartshorne.tensorPowerRestrictMap`).
+
+For regular `q`-forms the argument is the same with `⋀^q Ω` in place of `ω^{⊗m}`, written as in the
+proof of Theorem II.8.19. The map along `φ` is the `q`-th exterior power of the map
+`φ^*Ω_{X'/k} ⟶ Ω_{V/k}` of (8.11) (`AlgebraicGeometry.Scheme.pullbackRelativeDifferentialsToComp`,
+in adjoint form; `Hartshorne.exteriorPowerPullback_eq_transitivity`), and likewise along the
+inclusion `V ⟶ X`. `⋀^q Ω_{X/k}` is locally free of rank `n choose q` because `Ω_{X/k}` is locally
+free of rank `n` on a nonsingular variety (Theorem II.8.15), so its sections extend across the
+codimension-two complement of `V`.
 -/
 
 universe u
@@ -629,7 +637,11 @@ theorem isLocallyFreeOfRank_exteriorPower_relativeDifferentials [IsAlgClosed k] 
 
 /-- **One half of the birational invariance of regular `q`-forms.** For nonsingular varieties
 `X`, `X'` of dimension `n`, proper over an algebraically closed field `k` and birational over `k`,
-`dim_k Γ(X', ⋀^q Ω_{X'/k}) ≤ dim_k Γ(X, ⋀^q Ω_{X/k})` (as cardinals). -/
+`dim_k Γ(X', ⋀^q Ω_{X'/k}) ≤ dim_k Γ(X, ⋀^q Ω_{X/k})` (as cardinals). As in the proof of
+Theorem II.8.19: let `V` be the domain of the birational map `φ : V ⟶ X'`. The `q`-th exterior
+power of the map `φ^*Ω_{X'/k} ⟶ Ω_{V/k}` of (8.11) gives an injection
+`Γ(X', ⋀^q Ω_{X'/k}) → Γ(V, ⋀^q Ω_{V/k})`, and `Γ(V, ⋀^q Ω_{V/k}) ≅ Γ(X, ⋀^q Ω_{X/k})` since
+`X \ V` has codimension at least two and `⋀^q Ω_{X/k}` is locally free. -/
 theorem rank_globalSections_exteriorPower_le_of_partialIso [IsAlgClosed k] {X X' : Scheme.{u}}
     (pX : X ⟶ Spec (.of k)) (pX' : X' ⟶ Spec (.of k)) [IsIntegral X] [IsIntegral X']
     [IsProper pX] [IsProper pX'] (hX : X.IsRegular) (hX' : X'.IsRegular) (e : X.PartialIso X')
@@ -659,12 +671,22 @@ theorem rank_globalSections_exteriorPower_le_of_partialIso [IsAlgClosed k] {X X'
   have : φ.IsOver (Spec (.of k)) := inferInstance
   have hφ : φ.hom ≫ pX' = φ.domain.ι ≫ pX := HomIsOver.comp_over (f := φ.hom) (S := Spec (.of k))
   let V : X.Opens := φ.domain
-  -- Pullback along `φ` is injective on `Γ(X', ⋀^q Ω_{X'/k})`.
+  -- The map `φ^*Ω_{X'/k} ⟶ Ω_{V/k}` of (8.11), in adjoint form `Ω_{X'/k} ⟶ φ_*Ω_{V/k}`; its
+  -- `q`-th exterior power gives `Γ(X', ⋀^q Ω_{X'/k}) → Γ(V, ⋀^q Ω_{V/k})`.
+  let ψ : relativeDifferentials pX' ⟶ (Modules.pushforward φ.hom).obj
+      (relativeDifferentials (φ.hom ≫ pX')) :=
+    (Modules.pullbackPushforwardAdjunction φ.hom).homEquiv _ _
+      (pullbackRelativeDifferentialsToComp φ.hom pX')
+  -- It is injective: on a nonempty open `W ⊆ V` where `φ` is an isomorphism onto its image it is
+  -- followed by a map back to `⋀^q Ω_{X'/k}|_W`, the composite being the restriction.
   obtain ⟨W, hWl, hW, hj⟩ := φ.exists_isOpenImmersion e (T.toRationalMap_toPartialMap).symm
-  have hinj := injective_app_top_of_comp_eq_unit φ.hom (X.homOfLE hWl)
-    (isLocallyFreeOfRank_exteriorPower_relativeDifferentials pX' hpX' hX' hnX' q) _ _
-    (exteriorPowerPullback_comp_openImmersionExteriorPowerMap φ.hom (X.homOfLE hWl) pX' q)
-  -- Pullback along `V ⟶ X` is bijective on `Γ(X, ⋀^q Ω_{X/k})`.
+  have hcomp :=
+    exteriorPowerPullback_comp_openImmersionExteriorPowerMap φ.hom (X.homOfLE hWl) pX' q
+  rw [exteriorPowerPullback_eq_transitivity] at hcomp
+  have hinj : Function.Injective ((exteriorPowerPushforwardMap φ.hom ψ q).val.app (op ⊤)) :=
+    injective_app_top_of_comp_eq_unit φ.hom (X.homOfLE hWl)
+      (isLocallyFreeOfRank_exteriorPower_relativeDifferentials pX' hpX' hX' hnX' q) _ _ hcomp
+  -- Sections of the locally free sheaf `⋀^q Ω_{X/k}` extend across `X \ V`, of codimension `≥ 2`.
   have : IsNoetherian X := by
     have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian pX
     have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace pX
@@ -674,17 +696,27 @@ theorem rank_globalSections_exteriorPower_le_of_partialIso [IsAlgClosed k] {X X'
   have hρ := Scheme.Modules.bijective_presheaf_map_top_of_two_le_codim (V.ι ''ᵁ V.ι ⁻¹ᵁ ⊤)
     (by rw [himg]; exact hcodim) _
     (isLocallyFreeOfRank_exteriorPower_relativeDifferentials pX hpX hX hnX q)
+  -- For the inclusion `V ⟶ X` the map of (8.11) identifies `⋀^q Ω_{V/k}` with
+  -- `(⋀^q Ω_{X/k})|_V`, so `Γ(X, ⋀^q Ω_{X/k}) → Γ(V, ⋀^q Ω_{V/k})` is bijective.
+  let ρ : relativeDifferentials pX ⟶ (Modules.pushforward V.ι).obj
+      (relativeDifferentials (V.ι ≫ pX)) :=
+    (Modules.pullbackPushforwardAdjunction V.ι).homEquiv _ _
+      (pullbackRelativeDifferentialsToComp V.ι pX)
+  have hρ₁ : ρ ≫ (Modules.pushforward V.ι).map (openImmersionDifferentialsRestrictMap V.ι pX) =
+      (Modules.restrictAdjunction V.ι).unit.app (relativeDifferentials pX) := by
+    simp only [ρ, pullbackRelativeDifferentialsToComp_homEquiv]
+    exact relativeDifferentialsToPushforwardComp_comp_restrictMap V.ι pX
+  have hρ₂ : restrictLeftComposite V.ι ρ (openImmersionDifferentialsRestrictMap V.ι pX) = 𝟙 _ := by
+    simp only [ρ, pullbackRelativeDifferentialsToComp_homEquiv]
+    exact restrictLeftComposite_differentials V.ι pX
   have hbij := bijective_app_top_of_restrict V.ι _ _
-    (exteriorPowerPushforwardMap_comp_restrictMap V.ι _ _
-      (relativeDifferentialsToPushforwardComp_comp_restrictMap V.ι pX) q)
-    (restrictLeftComposite_exteriorPower V.ι _ _
-      (restrictLeftComposite_differentials V.ι pX) q) hρ
+    (exteriorPowerPushforwardMap_comp_restrictMap V.ι _ _ hρ₁ q)
+    (restrictLeftComposite_exteriorPower V.ι _ _ hρ₂ q) hρ
   -- Compare ranks.
   have h1 := LinearMap.rank_le_of_injective (globalSectionsLinearMap φ.hom pX'
-    (exteriorPowerPullback φ.hom pX' q)) hinj
+    (exteriorPowerPushforwardMap φ.hom ψ q)) hinj
   have h2 := (LinearEquiv.ofBijective (globalSectionsLinearMap V.ι pX
-    (exteriorPowerPushforwardMap V.ι (relativeDifferentialsToPushforwardComp V.ι pX) q))
-    hbij).rank_eq
+    (exteriorPowerPushforwardMap V.ι ρ q)) hbij).rank_eq
   refine h1.trans (le_of_eq (Eq.trans ?_ h2.symm))
   rw [hφ]
 
