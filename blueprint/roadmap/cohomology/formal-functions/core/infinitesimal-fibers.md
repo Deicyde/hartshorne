@@ -36,7 +36,7 @@ closed.
 
 - For $n \ge 1$ the spectrum of $\mathcal{O}_{Y,y}/m_y^{n}$ has one point, and reduction
   modulo the maximal ideal gives $\operatorname{Spec} k(y)$.
-- Pullback pasting for the local morphism $\operatorname{Spec} \mathcal{O}_{(Y,y)} \to Y$.
+- Pullback pasting for the local morphism $\operatorname{Spec} \mathcal{O}_{Y,y} \to Y$.
 
 ## Sources
 
