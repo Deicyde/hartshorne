@@ -771,6 +771,7 @@ import Hartshorne.Scheme.RelativeProjDesc
 import Hartshorne.Scheme.RelativeProjVeronese
 import Hartshorne.Scheme.RelativeHomogeneousCoordinateAlgebra
 import Hartshorne.Scheme.SectionAlgebraUniformBound
+import Hartshorne.Scheme.SectionAlgebraSheafComparison
 import Hartshorne.Scheme.CoherentFormalModuleReconstruction
 import Hartshorne.Scheme.CoherentFormalModuleLocality
 import Hartshorne.Scheme.CoherentFormalModuleChart
