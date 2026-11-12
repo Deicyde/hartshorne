@@ -2,6 +2,7 @@
 article_id: af_b32b1cace25e021fd314ca17
 declaration: example
 origin: cited
+lean: Hartshorne.Surface.pointBlowupPartialIso Hartshorne.Surface.toRationalMap_pointBlowupProjection Hartshorne.Surface.pointBlowupInverse Hartshorne.Surface.dom_toRationalMap_pointBlowupProjection Hartshorne.Surface.dom_pointBlowupInverse Hartshorne.Surface.fundamentalPoints_pointBlowupInverse Hartshorne.Surface.totalTransform_pointBlowupInverse_singleton
 ---
 
 # The inverse of a point blowup has the center as a fundamental point
