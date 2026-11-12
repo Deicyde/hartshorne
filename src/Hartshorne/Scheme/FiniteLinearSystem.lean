@@ -346,7 +346,7 @@ theorem existsUnique_linearSystemMorphism (s : Fin (n + 1) → Γ(L, ⊤)) :
   existsUnique_morphism_of_isGeneratedBySections _ (hL.pullback _)
     (linearSystemSections hL s) (isGeneratedBySections_linearSystemSections hL s)
 
-/-- **The morphism `X - B ⟶ ℙⁿ_k` defined by the linear system** with basis `s₀, …, sₙ`
+/-- **The morphism `X - B ⟶ ℙⁿ_k` defined by the linear system** with spanning family `s₀, …, sₙ`
 (Hartshorne II, Theorem 7.1): the unique `k`-morphism pulling `𝒪(1)` back to `L|_U` with
 `xᵢ ↦ sᵢ|_U`. -/
 def linearSystemMorphism (s : Fin (n + 1) → Γ(L, ⊤)) :
