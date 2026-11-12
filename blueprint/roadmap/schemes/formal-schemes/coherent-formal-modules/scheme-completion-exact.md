@@ -16,6 +16,7 @@ Exactness holds more generally for $X$ locally Noetherian, and for an exact sequ
 
 - [Completion of a coherent module](completed-coherent-module.md)
 - [Coherent modules on a Noetherian formal scheme](coherent-formal-module.md)
+- [Scheme completions are formal schemes](../formal-neighborhoods/completion-is-formal-scheme.md)
 
 ## Proof depends on
 
