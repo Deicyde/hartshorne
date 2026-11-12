@@ -92,6 +92,24 @@ theorem etaSec_map_eq_smul {Y Z : Scheme.{u}} (f : Y ⟶ Z) (M : Z.Modules) {W W
       (M.presheaf.map (homOfLE hW).op y))).trans ?_
   exact Scheme.Modules.map_smul _ _ _ _
 
+/-- Transport of a transition relation along restrictions: if `x_i, x_j` restrict to `x_i', x_j'`
+on `P` and `x_j' = c • x_i'` on `O_k ⊆ P`, then the same holds, with `c|_O`, for the restrictions of
+`x_i|_{O_i}, x_j|_{O_j}` to any `O ⊆ O_i ∩ O_j ∩ O_k`. -/
+theorem map_eq_smul_of_restrict {Y : Scheme.{u}} (F : Y.Modules) {Pi Pj P Oi Oj Ok O : Y.Opens}
+    (hi : Oi ≤ Pi) (hj : Oj ≤ Pj) (hPi : P ≤ Pi) (hPj : P ≤ Pj) (hk : Ok ≤ P)
+    (hO : O ≤ Oi ⊓ Oj) (hOk : O ≤ Ok) (xi : Γ(F, Pi)) (xj : Γ(F, Pj)) (xi' xj' : Γ(F, P))
+    (hxi : F.presheaf.map (homOfLE hPi).op xi = xi')
+    (hxj : F.presheaf.map (homOfLE hPj).op xj = xj') (c : Γ(Y, Ok))
+    (hc : F.presheaf.map (homOfLE hk).op xj' = c • F.presheaf.map (homOfLE hk).op xi') :
+    F.presheaf.map (homOfLE (hO.trans inf_le_right)).op (F.presheaf.map (homOfLE hj).op xj) =
+      Y.presheaf.map (homOfLE hOk).op c •
+        F.presheaf.map (homOfLE (hO.trans inf_le_left)).op (F.presheaf.map (homOfLE hi).op xi) := by
+  rw [Scheme.Modules.map_map_homOfLE, Scheme.Modules.map_map_homOfLE,
+    ← Scheme.Modules.map_map_homOfLE F hPj (hOk.trans hk), hxj,
+    ← Scheme.Modules.map_map_homOfLE F hPi (hOk.trans hk), hxi,
+    ← Scheme.Modules.map_map_homOfLE F hk hOk, hc, Scheme.Modules.map_smul,
+    Scheme.Modules.map_map_homOfLE]
+
 namespace TwistChart
 
 set_option backward.isDefEq.respectTransparency false in
@@ -225,6 +243,43 @@ theorem exists_eq_smul_samePiece (i : TwistChart S L) {e' : ULift.{u} (Fin 1) �
   refine (bTop_restrict_eq_smul hL MS αS i he' v hv ht).trans ?_
   exact congrArg (fun c : Γ((S.lineBundleTwist L hL).relProj, i.opens hL) => c • i.bSec hL MS αS)
     (appIso_inv_awayToSection_eq_mul hL i v hv ht).symm
+
+variable {MT αT MS αS} in
+/-- **Transitions on overlaps**: near every point of the intersection of the opens of two charts,
+the two families of frames have the same transition function. -/
+theorem exists_eq_smul_overlap (hαT : PieceIsosCompatible MT αT)
+    (hαS : PieceIsosCompatible MS αS) (i j : TwistChart S L) (y : (S.lineBundleTwist L hL).relProj)
+    (hy : y ∈ i.opens hL ⊓ j.opens hL) :
+    ∃ (O : (S.lineBundleTwist L hL).relProj.Opens) (hO : O ≤ i.opens hL ⊓ j.opens hL), y ∈ O ∧
+      ∃ c : Γ((S.lineBundleTwist L hL).relProj, O),
+        MT.presheaf.map (homOfLE (hO.trans inf_le_right)).op (j.aSec hL MT αT) =
+            c • MT.presheaf.map (homOfLE (hO.trans inf_le_left)).op (i.aSec hL MT αT) ∧
+          (tensorModule (pullS hL MS) (pullL L hL)).presheaf.map
+              (homOfLE (hO.trans inf_le_right)).op (j.bSec hL MS αS) =
+            c • (tensorModule (pullS hL MS) (pullL L hL)).presheaf.map
+              (homOfLE (hO.trans inf_le_left)).op (i.bSec hL MS αS) := by
+  obtain ⟨f, g, hfg, hx⟩ := exists_basicOpen_le_affine_inter i.U.2 j.U.2
+    ((S.lineBundleTwist L hL).relProjToBase y) ⟨i.opens_le_base hL hy.1, j.opens_le_base hL hy.2⟩
+  let V : X.AffineZariskiSite := i.U.basicOpen f
+  let fi : V ⟶ i.U := homOfLE (i.U.basicOpen_le f)
+  let fj : V ⟶ j.U := homOfLE ⟨g, hfg.symm⟩
+  have hyV : y ∈ (S.lineBundleTwist L hL).projι V ''ᵁ ⊤ := by
+    rw [Scheme.Hom.image_top_eq_opensRange, ← relProjToBase_preimage]
+    exact hx
+  let O := i.opens hL ⊓ j.opens hL ⊓ (S.lineBundleTwist L hL).projι V ''ᵁ ⊤
+  have hOk : O ≤ (i.restrictChart fi).opens hL := fun z hz =>
+    i.mem_opens_restrictChart hL fi hz.1.1 hz.2
+  obtain ⟨c, hca, hcb⟩ := exists_eq_smul_samePiece hL (MT := MT) (αT := αT) (MS := MS) (αS := αS)
+    (i.restrictChart fi) (j.restrictChart fj).he (j.restrictChart fj).hs
+  refine ⟨O, inf_le_left, ⟨hy, hyV⟩,
+    (S.lineBundleTwist L hL).relProj.presheaf.map (homOfLE hOk).op c, ?_, ?_⟩
+  · exact map_eq_smul_of_restrict MT _ _ (piece_le_piece fi _) (piece_le_piece fj _)
+      ((i.restrictChart fi).opens_le_piece hL) inf_le_left hOk _ _ _ _
+      (restrict_pieceDegreeOneSection_gen hL hαT i fi)
+      (restrict_pieceDegreeOneSection_gen hL hαT j fj) c hca
+  · exact map_eq_smul_of_restrict _ _ _ (piece_le_piece fi _) (piece_le_piece fj _)
+      ((i.restrictChart fi).opens_le_piece hL) inf_le_left hOk _ _ _ _
+      (restrict_bTop hL hαS i fi) (restrict_bTop hL hαS j fj) c hcb
 
 end TwistChart
 
