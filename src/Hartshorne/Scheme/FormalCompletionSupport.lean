@@ -102,8 +102,8 @@ theorem exists_pow_carrier_le_of_support_le [IsNoetherian X] {I J : Quasicoheren
 end QuasicoherentIdealSubsheaf
 
 /-- `appLE` along equal morphisms. -/
-private lemma Scheme.Hom.appLE_congr_hom {A B : Scheme.{u}} {f g : A ⟶ B} (h : f = g) (U : B.Opens)
-    (V : A.Opens) (e : V ≤ f ⁻¹ᵁ U) : f.appLE U V e = g.appLE U V (h ▸ e) := by
+private lemma Scheme.Hom.appLE_congr_hom {A B : Scheme.{u}} {f g : A ⟶ B} (h : f = g)
+    (U : B.Opens) (V : A.Opens) (e : V ≤ f ⁻¹ᵁ U) : f.appLE U V e = g.appLE U V (h ▸ e) := by
   subst h
   rfl
 
