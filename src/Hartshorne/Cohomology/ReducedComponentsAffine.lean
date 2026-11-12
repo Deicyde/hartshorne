@@ -31,7 +31,13 @@ This module contains the pieces proved so far.
   reduced induced subscheme on `W ⊇ A`, the reduced induced subscheme on `A` is the one taken in
   `X` (`ReducedComponentsAffine.isAffine_reducedInducedSubscheme_preimageCloseds`).
 
-The two-piece case itself (via Serre's criterion, III, Theorem 3.7) is not yet proved.
+* Serre's criterion (III, Theorem 3.7) reduces the two-piece case to the sheaf-theoretic
+  statement `ReducedComponentsAffine.TwoPieceSequences`
+  (`ReducedComponentsAffine.twoPieceAffine_of_twoPieceSequences`), and the exercise follows from
+  it (`ReducedComponentsAffine.isAffine_iff_of_twoPieceSequences`).
+
+`TwoPieceSequences` is not yet proved: it needs that an `𝒪_Y`-module killed by the ideal of a
+closed subscheme `i : Z ⟶ Y` is `i_*` of a quasi-coherent `𝒪_Z`-module.
 -/
 
 noncomputable section
@@ -166,6 +172,29 @@ def TwoPieceAffine : Prop :=
   ∀ (Y : Scheme.{u}) [IsReduced Y] [IsNoetherian Y] (A B : Closeds Y), A ⊔ B = ⊤ →
     IsAffine (reducedInducedSubscheme A) → IsAffine (reducedInducedSubscheme B) → IsAffine Y
 
+/-- The remaining sheaf-theoretic input for the two-piece case: on a reduced Noetherian `Y = A ∪ B`,
+every quasi-coherent ideal sheaf `J` sits in a short exact sequence `0 ⟶ F' ⟶ J ⟶ F'' ⟶ 0` with
+`F'` the pushforward of a quasi-coherent module on the reduced induced subscheme on `B` and `F''`
+that of one on the reduced induced subscheme on `A` (in the book's argument, `F' = I_A J`, killed
+by `I_B`, and `F'' = J / I_A J`, killed by `I_A`). -/
+def TwoPieceSequences : Prop :=
+  ∀ (Y : Scheme.{u}) [IsReduced Y] [IsNoetherian Y] (A B : Closeds Y), A ⊔ B = ⊤ →
+    ∀ J : QuasicoherentIdealSubsheaf Y, ∃ (S : ShortComplex Y.Modules) (_ : S.ShortExact)
+      (_ : S.X₂ ≅ J.toModules) (G₁ : (reducedInducedSubscheme B).Modules)
+      (G₂ : (reducedInducedSubscheme A).Modules) (_ : G₁.IsQuasicoherent)
+      (_ : G₂.IsQuasicoherent),
+      Nonempty (S.X₁ ≅ (Scheme.Modules.pushforward (reducedInducedSubschemeι B)).obj G₁) ∧
+        Nonempty (S.X₃ ≅ (Scheme.Modules.pushforward (reducedInducedSubschemeι A)).obj G₂)
+
+/-- Serre's criterion (Hartshorne III, Theorem 3.7, (iii) ⇒ (i)) reduces the two-piece case to
+`TwoPieceSequences`. -/
+theorem twoPieceAffine_of_twoPieceSequences (h : TwoPieceSequences.{u}) : TwoPieceAffine.{u} := by
+  intro Y _ _ A B hAB hA hB
+  refine ((isAffine_tfae_sheafCohomology Y).out 2 0).mp fun J _ => ?_
+  obtain ⟨S, hS, e, G₁, G₂, _, _, ⟨e₁⟩, ⟨e₃⟩⟩ := h Y A B hAB J
+  exact (isZero_H1_of_shortExact_pushforward _ _ hS G₁ G₂ e₁ e₃).of_iso
+    ((sheafCohomology Y.toTopCat 1).mapIso ((SheafOfModules.toSheaf Y.ringCatSheaf).mapIso e.symm))
+
 /-- From the two-piece case: if the reduced induced subschemes on closed `A` and `B` are affine,
 so is the one on `A ∪ B`. -/
 theorem isAffine_reducedInducedSubscheme_sup (h2 : TwoPieceAffine.{u}) [IsNoetherian X]
@@ -238,6 +267,20 @@ theorem isAffine_of_forall_irreducibleComponents_of_twoPiece (h2 : TwoPieceAffin
     Closeds.ext (isClosed_of_mem_irreducibleComponents Z hZ').closure_eq
   rw [hf]
   exact h Z hZ'
+
+end ReducedComponentsAffine
+
+namespace ReducedComponentsAffine
+
+/-- Hartshorne III, Ex. 3.2, conditional on the remaining input `TwoPieceSequences`: a reduced
+Noetherian scheme is affine iff each irreducible component with its reduced induced structure is
+affine. -/
+theorem isAffine_iff_of_twoPieceSequences (h : TwoPieceSequences.{u}) (X : Scheme.{u})
+    [IsReduced X] [IsNoetherian X] :
+    IsAffine X ↔ ∀ (Z : Set X) (hZ : Z ∈ irreducibleComponents X),
+      IsAffine (reducedInducedSubscheme ⟨Z, isClosed_of_mem_irreducibleComponents Z hZ⟩) :=
+  ⟨fun _ => forall_irreducibleComponents_isAffine_of_isAffine X,
+    isAffine_of_forall_irreducibleComponents_of_twoPiece (twoPieceAffine_of_twoPieceSequences h) X⟩
 
 end ReducedComponentsAffine
 
