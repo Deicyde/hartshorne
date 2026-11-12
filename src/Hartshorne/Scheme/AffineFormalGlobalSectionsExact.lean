@@ -21,7 +21,7 @@ formal scheme has such an ideal of definition
 * `Hartshorne.IsIdealOfDefinition.cechOneVanishes_powQuotient`: if `Xₙ` is affine, every Čech
   1-cocycle of `F' / J ^ (n + 1) F'` on a cover of `X` is a coboundary. The module is the
   pushforward of the coherent `𝒪_{Xₙ}`-module `F'ₙ` (Proposition 9.6(a)), and on the affine scheme
-  `Xₙ` global sections lift along every monomorphism out of `F'ₙ` (Proposition 5.6).
+  `Xₙ`, for a monomorphism out of `F'ₙ`, global sections of the quotient lift (Proposition 5.6).
 * `Hartshorne.IsIdealOfDefinition.globalSections_surjective_of_isAffine`: the surjectivity. A
   global section of `F''` lifts locally; since `X` is quasi-compact, finitely many opens suffice.
   As `F' = lim_n F' / J ^ (n + 1) F'` (Proposition 9.6(a)), the Čech 1-cocycles of `F'` on that
@@ -46,8 +46,8 @@ namespace IsIdealOfDefinition
 variable {X : NoetherianFormalScheme.{u}} {J : IdealSubsheaf X.toLocallyRingedSpace.sheaf}
   (h : IsIdealOfDefinition X J)
 
-/-- On an affine scheme, global sections lift along every monomorphism out of a quasi-coherent
-module (Hartshorne II, Proposition 5.6). -/
+/-- On an affine scheme, for a monomorphism `f : G ⟶ P` out of a quasi-coherent module, every
+global section of `P / G` lifts to `P` (Hartshorne II, Proposition 5.6). -/
 lemma surjective_cokernel_of_isAffine {Y : Scheme.{u}} [IsAffine Y] (G : Y.Modules)
     [G.IsQuasicoherent] (P : Y.Modules) (f : G ⟶ P) (hf : Mono f) :
     Function.Surjective ((sheafOfModulesAbMap (cokernel.π f)).app (op ⊤)) := by
@@ -61,7 +61,7 @@ lemma surjective_cokernel_of_isAffine {Y : Scheme.{u}} [IsAffine Y] (G : Y.Modul
 scheme with ideal of definition `J`, and suppose the scheme `Xₙ = (X, 𝒪_X / J ^ (n + 1))` is
 affine. Then on every cover of `X`, every Čech 1-cocycle of `F / J ^ (n + 1) F` is a coboundary:
 this module is the pushforward of the coherent `𝒪_{Xₙ}`-module `Fₙ`, on the same space, and on the
-affine scheme `Xₙ` global sections lift along monomorphisms out of `Fₙ`. -/
+affine scheme `Xₙ`, for a monomorphism out of `Fₙ`, global sections of the quotient lift. -/
 theorem cechOneVanishes_powQuotient
     {F : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace)}
     (hF : IsCoherentFormalModule F) (n : ℕ) [IsAffine (h.pow_succ n).quotientScheme] {ι : Type}

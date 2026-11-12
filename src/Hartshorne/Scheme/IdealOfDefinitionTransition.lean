@@ -96,7 +96,7 @@ lemma surjective_stalkMap_quotientSchemePresheafedSpaceMap (x : X.toLocallyRinge
   exact (congrArg (J.quotient.presheaf.germ V' x hxV') hs).trans
     (J.quotient.presheaf.germ_res_apply (homOfLE hV'V) x hxV' t)
 
-/-- **The closed immersion between thickenings.** For ideals of definition `K ≤ J`, the morphism of
+/-- **The morphism between thickenings.** For ideals of definition `K ≤ J`, the morphism of
 schemes `(X, 𝒪_X / J) ⟶ (X, 𝒪_X / K)`, the identity on spaces and the projection
 `𝒪_X / K ⟶ 𝒪_X / J` on structure sheaves. -/
 def quotientSchemeMap : hJ.quotientScheme ⟶ hK.quotientScheme :=
@@ -138,7 +138,7 @@ lemma annihilates_powQuotient_succ (n : ℕ) : (J ^ (n + 1 + 1)).Annihilates (J.
 formal scheme with ideal of definition `J`, and suppose `X_(n+1) = (X, 𝒪_X / J ^ (n + 2))` is
 affine. Then `Γ(X, F / J ^ (n + 2) F) ⟶ Γ(X, F / J ^ (n + 1) F)` is surjective. On `X_(n+1)`, the
 module `F / J ^ (n + 1) F` is the pushforward of the coherent `𝒪_{Xₙ}`-module `Fₙ` along the
-closed immersion `Xₙ ⟶ X_(n+1)`, so it is quasi-coherent (Proposition 5.8(c)); the kernel of the
+morphism `Xₙ ⟶ X_(n+1)`, so it is quasi-coherent (Proposition 5.8(c)); the kernel of the
 epimorphism `F_(n+1) ⟶ F / J ^ (n + 1) F` is then quasi-coherent, and global sections on the
 affine scheme `X_(n+1)` are exact (Proposition 5.6). -/
 theorem surjective_powQuotientMap
