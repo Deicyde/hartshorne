@@ -25,6 +25,7 @@ subring.
 - [The projective section ring is the integral closure](projective-section-ring-integral-closure.md)
 - [Eventual recovery from graded sections](proj-eventual-section-recovery.md)
 - [Veronese Proj and twists](veronese-proj-twist.md)
+- [Saturation of projective ideals](projective-ideal-saturation.md)
 - A sufficiently high Veronese subring of a graded normal domain is normal.
 
 ## Sources
