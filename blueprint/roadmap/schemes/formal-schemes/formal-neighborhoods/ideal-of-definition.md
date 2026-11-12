@@ -18,6 +18,7 @@ be used only after an explicit representation bridge.
 
 - [Noetherian formal schemes](noetherian-formal-scheme.md)
 - [The support of sections and sheaves](../../sheaf-functors/support-of-sections-and-sheaves.md)
+- [Thickenings of an affine formal scheme](affine-formal-thickenings.md)
 
 ## Proof depends on
 
