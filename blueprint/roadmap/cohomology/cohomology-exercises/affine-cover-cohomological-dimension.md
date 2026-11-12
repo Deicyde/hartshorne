@@ -2,6 +2,7 @@
 article_id: af_601f4f9c174c5f501bae1fe4
 declaration: theorem
 origin: cited
+lean: Hartshorne.cohomologicalDimension_le_of_affine_cover Hartshorne.isCohomologicalDimensionBound_of_affine_cover
 ---
 
 # Cohomological dimension from an affine cover
