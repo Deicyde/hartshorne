@@ -5,7 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.VectorBundleSections
 
 /-!
-# Isomorphisms of geometric vector bundles
+# Isomorphism classes of geometric vector bundles and locally free sheaves
 
 Hartshorne II, Exercise 5.18 (pp. 128–129).
 
@@ -22,7 +22,11 @@ vector bundles* if `X`, the union of the two coverings, and the trivializations 
   union of the coverings with all the trivializations satisfies the linearity condition of a
   geometric vector bundle; `GeometricVectorBundle.union` is the combined structure.
 * `GeometricVectorBundle.BundleIso`: an isomorphism of geometric vector bundles, with
-  `BundleIso.refl` and `BundleIso.symm`.
+  `BundleIso.refl`, `BundleIso.symm` and `BundleIso.trans`. The composite is an isomorphism since
+  linearity of a transition is local on the base (`isLinearTransition_of_locally`).
+* `GeometricVectorBundle.IsoClasses Y n`: isomorphism classes of geometric vector bundles of rank
+  `n` over `Y`; `Scheme.Modules.LocallyFreeIsoClasses Y n`: isomorphism classes of locally free
+  `𝒪_Y`-modules of rank `n`.
 
 ## Invariance of the sheaf of sections
 
@@ -30,6 +34,21 @@ vector bundles* if `X`, the union of the two coverings, and the trivializations 
   `g` induces the isomorphism `𝒮(X/Y) ≅ 𝒮(X'/Y)`, `s ↦ g ∘ s`, of the sheaves of sections with
   their `𝒪_Y`-module structures given by the charts. Thus the sheaf of sections, as an
   `𝒪_Y`-module, depends only on the isomorphism class of the bundle.
+
+## Functoriality of `V` in isomorphisms
+
+* `Scheme.Modules.symmetricQuasiCoherentAlgebraIso`, `Scheme.Modules.vectorBundleIso`: an
+  isomorphism `α : E ≅ E'` of locally free sheaves of rank `n` induces `Sym(E) ≅ Sym(E')` and
+  `V(E) ≅ V(E')` over `Y`.
+* `Scheme.Modules.vectorBundleBundleIso`: `V(α)` is an isomorphism of geometric vector bundles.
+
+## The two maps on isomorphism classes
+
+* `GeometricVectorBundle.vectorBundleClass`: `[E] ↦ [V(E)]`.
+* `GeometricVectorBundle.sectionsDualClass`: `[X] ↦ [𝒮(X/Y)^∨]`.
+* `GeometricVectorBundle.sectionsDualClass_vectorBundleClass`: `𝒮(V(E)/Y)^∨ ≅ E^∨∨ ≅ E`, so the
+  second map is a left inverse of the first; in particular `sectionsDualClass` is surjective
+  (`sectionsDualClass_surjective`) and `vectorBundleClass` is injective.
 -/
 
 universe u
