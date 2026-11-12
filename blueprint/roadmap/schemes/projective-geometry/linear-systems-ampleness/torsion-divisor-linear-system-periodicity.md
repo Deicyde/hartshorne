@@ -15,6 +15,7 @@ dimension function is periodic of period $r$.
 - [Linear systems](linear-system-api.md)
 - [Divisor classes and the Picard group](../../divisors/cartier-picard/divisor-class-picard-equivalence.md)
 - [The global regular functions of a projective variety](../../../morphisms/projective-rings/projective-global-regular.md)
+- [Weil classes and the Picard group on a locally factorial scheme](../../divisors/cartier-picard/locally-factorial-class-picard-equivalence.md)
 
 ## Proof depends on
 
