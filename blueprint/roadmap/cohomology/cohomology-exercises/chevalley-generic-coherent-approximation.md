@@ -6,10 +6,11 @@ origin: cited
 
 # Generic coherent pushforward approximation
 
-Under the hypotheses of the generic finite-module frame, for every coherent
-module $F$ on $Y$ there are a coherent module $G$ on $X$ and a morphism
+Under the hypotheses of the generic finite-module frame, let $r > 0$ be the integer it
+provides. For every coherent module $F$ on $Y$ there are a coherent module $G$ on $X$ and a
+morphism
 
-$f_*G \longrightarrow F$
+$f_*G \longrightarrow F^{r}$
 
 which is an isomorphism at the generic point of $Y$.
 
