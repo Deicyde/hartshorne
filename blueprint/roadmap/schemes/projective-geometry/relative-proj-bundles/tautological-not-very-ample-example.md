@@ -2,6 +2,7 @@
 article_id: af_3def4f590f2f16016529bc97
 declaration: example
 origin: cited
+lean: AlgebraicGeometry.Scheme.Modules.projectiveBundleIsoOfIsInvertible AlgebraicGeometry.Scheme.Modules.projectiveBundleIsoOfIsInvertible_hom AlgebraicGeometry.Scheme.Modules.nonempty_pullback_projectiveBundleIsoOfIsInvertible_inv_iso AlgebraicGeometry.Scheme.Modules.isIso_projectiveBundleTautologicalQuotient_of_isInvertible AlgebraicGeometry.Scheme.Modules.not_isVeryAmpleRelative_projectiveBundleTwistingSheaf Hartshorne.projectiveBundle_projectiveLine_twist_neg_one
 ---
 
 # The tautological sheaf need not be very ample
