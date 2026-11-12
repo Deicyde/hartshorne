@@ -221,6 +221,12 @@ lemma toOne_comp_infinitesimalNeighborhoodFromOne (n : ℕ) :
       toSubscheme Z ((powChain I hI).obj (op n)) :=
   Scheme.IdealSheafData.inclusion_comp _ _
 
+@[reassoc]
+lemma toOne_comp_infinitesimalNeighborhoodι :
+    toOne I hI ≫ I.infinitesimalNeighborhoodι 1 =
+      (Scheme.IdealSheafData.vanishingIdeal Z).subschemeι :=
+  toSubscheme_comp_subschemeι Z ((powChain I hI).obj (op 0))
+
 lemma functor_obj_preimage_toOne (n : ℕ) (W : Opens (I.infinitesimalNeighborhood 1)) :
     (isOpenEmbedding_toSubscheme Z ((powChain I hI).obj (op n))).functor.obj
         ((Opens.map (toOne I hI).base).obj W) =
@@ -352,6 +358,37 @@ def formalCompletionIsoOfSupportEq [IsNoetherian X] {I J : QuasicoherentIdealSub
     I.formalCompletion ≅ J.formalCompletion :=
   LocallyRingedSpace.isoOfSheafedSpaceIso
     ((sheafedSpaceIso I rfl).symm ≪≫ sheafedSpaceIso J h.symm)
+
+/-- The isomorphism `formalCompletionIsoOfSupportEq` is the identity on points of the common
+support: it commutes with the inclusions of `|Y_1|` into `X`. -/
+theorem infinitesimalNeighborhoodι_formalCompletionIsoOfSupportEq_hom_base [IsNoetherian X]
+    {I J : QuasicoherentIdealSubsheaf X}
+    (h : (quasicoherentIdealSubsheafEquiv I).support = (quasicoherentIdealSubsheafEquiv J).support)
+    (y : I.formalCompletion) :
+    J.infinitesimalNeighborhoodι 1 ((formalCompletionIsoOfSupportEq h).hom.base y) =
+      I.infinitesimalNeighborhoodι 1 y := by
+  obtain ⟨z, rfl⟩ := toSubscheme_surjective _ ((powChain I rfl).obj (op 0)) y
+  change J.infinitesimalNeighborhoodι 1 ((homeomorphToOne J h.symm).hom
+      ((homeomorphToOne I rfl).inv ((homeomorphToOne I rfl).hom z))) =
+    I.infinitesimalNeighborhoodι 1 (toOne I rfl z)
+  rw [Iso.hom_inv_id_apply]
+  change J.infinitesimalNeighborhoodι 1 (toOne J h.symm z) = _
+  rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, toOne_comp_infinitesimalNeighborhoodι,
+    toOne_comp_infinitesimalNeighborhoodι]
+
+/-- **The formal completion depends only on the closed support** (Hartshorne II.9,
+Remark 9.3.1, p. 194). Let `I` and `J` be quasi-coherent ideal sheaves on a Noetherian scheme `X`
+whose closed subschemes have the same support. Then a positive power of each is contained in the
+other, and the formal completions along `I` and along `J` are isomorphic as locally ringed spaces,
+by an isomorphism which is the identity on the points of the common support. -/
+theorem formalCompletion_support_invariant [IsNoetherian X] {I J : QuasicoherentIdealSubsheaf X}
+    (h : (quasicoherentIdealSubsheafEquiv I).support = (quasicoherentIdealSubsheafEquiv J).support) :
+    (∃ a, 0 < a ∧ (I ^ a).carrier ≤ J.carrier) ∧ (∃ b, 0 < b ∧ (J ^ b).carrier ≤ I.carrier) ∧
+      ∃ e : I.formalCompletion ≅ J.formalCompletion, ∀ y : I.formalCompletion,
+        J.infinitesimalNeighborhoodι 1 (e.hom.base y) = I.infinitesimalNeighborhoodι 1 y :=
+  ⟨exists_pow_carrier_le_of_support_le h.ge, exists_pow_carrier_le_of_support_le h.le,
+    formalCompletionIsoOfSupportEq h,
+    infinitesimalNeighborhoodι_formalCompletionIsoOfSupportEq_hom_base h⟩
 
 end QuasicoherentIdealSubsheaf
 
