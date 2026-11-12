@@ -569,6 +569,53 @@ theorem exists_isIntegrallyClosed_veroneseSubring [IsAlgClosed k]
     · have := Nat.le_of_dvd hn hdn
       exact hn₀ n (by omega) t
 
+section DupleNormal
+
+open ProjectiveClosedSubscheme
+
+variable (d : ℕ) [NeZero d]
+
+local notation "𝒮N" => MvPolynomial.homogeneousSubmodule (Fin (Veronese.dupleN r d + 1)) k
+
+/-- The ideal sheaf of the closed subscheme `Proj (k[y_I] / J_d) ⊆ ℙᴺ_k` cut out by the
+homogeneous ideal `J_d` of the `d`-uple image of `X`. -/
+def dupleImageIdealSheaf : QuasicoherentIdealSubsheaf (Proj 𝒮N) :=
+  quasicoherentIdealSubsheafEquiv.symm (projQuotientι 𝒮N (dupleIdeal I d)).ker
+
+omit [IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)] in
+/-- `J_d` is the homogeneous ideal `Γ_*(ℐ) ∩ k[y_I]` of the closed subscheme it defines: it is
+saturated (Exercise 5.10). -/
+theorem gammaStarIdeal_dupleImageIdealSheaf [IsDomain S] (hne : ∃ i, coord I i ≠ 0) :
+    (gammaStarIdeal k (Veronese.dupleN r d) (dupleImageIdealSheaf I d)).toIdeal =
+      (dupleIdeal I d).toIdeal := by
+  rw [dupleImageIdealSheaf, gammaStarIdeal_ker_projQuotientι]
+  exact le_antisymm (fun s hs => mem_dupleIdeal_of_pow_mul_mem I d hne s (mem_saturation.1 hs))
+    (le_saturation _)
+
+omit [IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)] [NeZero d] in
+/-- **Hartshorne II, Exercise 5.14(b,c).** Let `k` be algebraically closed and let
+`X = Proj (S/I) ⊆ ℙʳ_k` be a connected normal closed subscheme, `S = k[x₀, …, xᵣ]`, `I` its
+saturated homogeneous ideal. For all sufficiently large `d`, the image of `X` under the `d`-uple
+embedding, the closed subscheme of `ℙᴺ_k` cut out by the kernel `J_d` of `y_I ↦ x^I`,
+`k[y_I] → S/I`, is projectively normal: its homogeneous coordinate ring
+`k[y_I] / J_d ≅ (S/I)^{(d)}` is an integrally closed domain. -/
+theorem exists_isProjectivelyNormal_dupleImage [IsAlgClosed k]
+    (hsat : ∀ s : MvPolynomial (Fin (r + 1)) k, (∀ i, ∃ n : ℕ, X i ^ n * s ∈ I.toIdeal) →
+      s ∈ I.toIdeal)
+    [ConnectedSpace (Proj 𝒬)] [Hartshorne.IsNormal (Proj 𝒬)] :
+    ∃ d₀ : ℕ, 0 < d₀ ∧ ∀ (d : ℕ) [NeZero d], d₀ ≤ d →
+      IsProjectivelyNormal (dupleImageIdealSheaf I d) := by
+  obtain ⟨hdom, d₀, hd₀, hic⟩ := exists_isIntegrallyClosed_veroneseSubring I hsat
+  refine ⟨d₀, hd₀, fun d _ hd => ?_⟩
+  have := ProjectiveSectionRing.isIntegral_proj I
+  obtain ⟨x⟩ : Nonempty (Proj 𝒬) := AlgebraicGeometry.IsIntegral.nonempty
+  have := hic d hd
+  let e := (Ideal.quotEquivOfEq (gammaStarIdeal_dupleImageIdealSheaf I d
+    (exists_coord_ne_zero I x))).trans (dupleQuotientEquiv I d)
+  exact ⟨e.injective.isDomain (e : _ →+* veroneseSubring 𝒬 d), IsIntegrallyClosed.of_equiv e.symm⟩
+
+end DupleNormal
+
 end ClosedSubscheme
 
 end ProjectivelyNormalVeronese
