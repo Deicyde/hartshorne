@@ -3,6 +3,8 @@ article_id: af_2d321ba1dda8b1030bb0580d
 declaration: def
 origin: cited
 lean: Hartshorne.QuasicoherentIdealSubsheaf.formalCompletion Hartshorne.QuasicoherentIdealSubsheaf.formalCompletionSheaf Hartshorne.QuasicoherentIdealSubsheaf.formalCompletionDiagram Hartshorne.QuasicoherentIdealSubsheaf.isLocalRing_stalk_formalCompletionSheaf Hartshorne.QuasicoherentIdealSubsheaf.isUnit_formalCompletionSheaf_iff
+statement: formalized
+proof: formalized
 ---
 
 # Formal completion as a locally ringed space
