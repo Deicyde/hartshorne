@@ -17,6 +17,7 @@ ideal sheaf on $X$.
 - [Rees algebras and blowups](rees-algebra-sheaf-and-blowup.md)
 - [Twisting a graded algebra by a line bundle](../relative-proj-bundles/relative-proj-line-bundle-twist.md)
 - [Quasi-projective morphisms](../../proper-and-projective/quasi-projective-morphism.md)
+- [Finite type over a Noetherian scheme](../../first-properties/finite-type-over-noetherian.md)
 
 ## Proof depends on
 
