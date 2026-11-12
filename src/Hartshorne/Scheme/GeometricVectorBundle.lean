@@ -37,6 +37,8 @@ namespace AlgebraicGeometry
 
 noncomputable section
 
+set_option backward.isDefEq.respectTransparency false
+
 variable {X Y : Scheme.{u}}
 
 /-- The standard chart `Spec A[x_1, …, x_n] ≅ 𝔸ⁿ_V ⊆ 𝔸ⁿ_U` of affine `n`-space over an open `U` of
@@ -49,6 +51,7 @@ def affineSpaceChart (n : ℕ) {U : Y.Opens} (V : Y.affineOpens) (h : (V : Y.Ope
 
 /-- Over affine bases `S`, `T`, the map `𝔸ⁿ_S ⟶ 𝔸ⁿ_T` induced by `f : S ⟶ T` is, under the
 identifications `𝔸ⁿ_S ≅ Spec Γ(S)[x_1, …, x_n]`, the spectrum of the map of polynomial rings. -/
+@[reassoc]
 lemma AffineSpace.isoOfIsAffine_inv_map_hom (n : Type u) {S T : Scheme.{u}} [IsAffine S]
     [IsAffine T] (f : S ⟶ T) :
     (AffineSpace.isoOfIsAffine n S).inv ≫ AffineSpace.map n f ≫ (AffineSpace.isoOfIsAffine n T).hom =
@@ -240,6 +243,58 @@ lemma frameTrivialization_hom_over (hE : E.IsLocallyFreeOfRank n) (V : Y.affineO
     rw [MvPolynomial.map_C, chartRingHom_C]
   rw [← Spec.map_comp_assoc, hring]
   exact (congrArg (· ≫ _) (Spec.map_comp _ _)).trans (Category.assoc _ _ _)
+
+lemma _root_.Hartshorne.QuasiCoherentAlgebra.restrictIso_inv_ι (A : QuasiCoherentAlgebra Y)
+    (U : Y.AffineZariskiSite) :
+    (A.restrictIso U).inv ≫ (A.relSpecToBase ⁻¹ᵁ U.toOpens).ι = A.ι U := by
+  simp [QuasiCoherentAlgebra.restrictIso]
+
+lemma symmetricQuasiCoherentAlgebra_restriction (hE : E.IsLocallyFreeOfRank n)
+    {U V : Y.AffineZariskiSite} (h : U.toOpens ≤ V.toOpens) :
+    (symmetricQuasiCoherentAlgebra E hE).restriction h =
+      ModuleSheafAlgebra.sectionsRestrict _ (homOfLE h) :=
+  haveI := symmetricAlgebra_isQuasicoherent_of_isLocallyFreeOfRank hE
+  ModuleSheafAlgebra.toQuasiCoherentAlgebra_restriction _ h
+
+/-- Restriction of sections of `𝒪_Y` from an affine open `V` to `V' ⊆ V`, in terms of the rings of
+sections `Γ(V, 𝒪_V)` of the open subschemes. -/
+lemma homOfLE_appTop_topIso_hom {V V' : Y.Opens} (h : V' ≤ V) :
+    (Y.homOfLE h).appTop ≫ V'.topIso.hom = V.topIso.hom ≫ Y.presheaf.map (homOfLE h).op := by
+  simp only [Scheme.homOfLE_appTop, Scheme.Opens.topIso]
+  change Y.presheaf.map _ ≫ Y.presheaf.map _ = Y.presheaf.map _ ≫ Y.presheaf.map _
+  rw [← Functor.map_comp, ← Functor.map_comp]
+  rfl
+
+/-- **The charts of `V(E)`**: for affine opens `V' ⊆ V` and a frame `e` of `E` over `V`, the chart of
+`𝔸ⁿ_V` at `V'` followed by `ψ_V⁻¹` is the open immersion `Spec A'[x_1, …, x_n] ≅ Spec Γ(V', Sym(E))`
+of the piece of `V(E)` over `V'`, for the restricted frame `e|_{V'}`. -/
+lemma affineSpaceChart_frameTrivialization_inv (hE : E.IsLocallyFreeOfRank n) (V V' : Y.affineOpens)
+    (h : (V' : Y.Opens) ≤ V) {e : ULift.{u} (Fin n) → Γ(E, V)}
+    (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e) :
+    affineSpaceChart n V' h ≫ (frameTrivialization hE V he).inv ≫
+        (vectorBundleProj E hE ⁻¹ᵁ (V : Y.Opens)).ι =
+      Spec.map (frameChartIso hE V' (he.restrictLE h)).inv ≫
+        (symmetricQuasiCoherentAlgebra E hE).ι (affineSite V') := by
+  simp only [affineSpaceChart, frameTrivialization, Iso.trans_inv, Iso.symm_inv, Category.assoc,
+    Functor.mapIso_inv, Iso.op_inv, Scheme.Spec_map, Quiver.Hom.unop_op,
+    QuasiCoherentAlgebra.restrictIso_inv_ι, AffineSpace.isoOfIsAffine_inv_map_hom_assoc]
+  rw [← (symmetricQuasiCoherentAlgebra E hE).SpecMap_restriction_ι
+    (U := affineSite V') (V := affineSite V) h, symmetricQuasiCoherentAlgebra_restriction]
+  have hring : (frameChartIso hE V he).inv ≫
+      CommRingCat.ofHom (MvPolynomial.map (Y.homOfLE h).appTop.hom) =
+      ModuleSheafAlgebra.sectionsRestrict _ (homOfLE h) ≫
+        (frameChartIso hE V' (he.restrictLE h)).inv := by
+    rw [Iso.inv_comp_eq, ← Category.assoc, Iso.eq_comp_inv]
+    refine CommRingCat.hom_ext (RingHom.ext fun p => ?_)
+    change E.chartRingHom V' _ (MvPolynomial.map (V' : Y.Opens).topIso.hom.hom
+      (MvPolynomial.map (Y.homOfLE h).appTop.hom p)) =
+      ModuleSheafAlgebra.sectionsRestrict _ (homOfLE h)
+        (E.chartRingHom V e (MvPolynomial.map (V : Y.Opens).topIso.hom.hom p))
+    rw [chartRingHom_naturality, MvPolynomial.map_map, MvPolynomial.map_map]
+    exact congrArg (fun φ => E.chartRingHom (V' : Y.Opens)
+      (fun k => E.presheaf.map (homOfLE h).op (e k)) (MvPolynomial.map φ p))
+      (congrArg CommRingCat.Hom.hom (homOfLE_appTop_topIso_hom h))
+  rw [← Spec.map_comp_assoc, ← Spec.map_comp_assoc, hring]
 
 end Scheme.Modules
 
