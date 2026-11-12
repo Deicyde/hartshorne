@@ -23,8 +23,7 @@ on `X`, and let `y : Y`. For `n >= 1`, define
 
 and let `F_n` be the pullback of `F` to `X_n`. Thus `X_1` is the
 scheme-theoretic fibre and every `X_n` has the same underlying topological
-space. In a natural-number implementation, stage `n` uses `m_y^(n+1)` so that
-stage zero is Hartshorne's `X_1`.
+space. The project follows the book's indexing: stage `n` uses `m_y^n` for `n ≥ 1`.
 
 The higher-direct-image base-change map, the affine-target description of
 higher direct images, and passage to inverse limits give the natural map
