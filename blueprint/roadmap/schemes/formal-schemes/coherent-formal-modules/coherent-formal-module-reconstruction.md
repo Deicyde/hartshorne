@@ -34,7 +34,6 @@ is an isomorphism.
 - [Completion and ordinary sheaf tensor product](scheme-completion-tensor-comparison.md)
 - [Scheme completions are formal schemes](../formal-neighborhoods/completion-is-formal-scheme.md)
 - [Pullback preserves quasi-coherence](../../modules-and-quasicoherent/pullback-quasicoherent.md)
-- [Module and abelian-sheaf cohomology agree](../../../cohomology/sheaf-cohomology/module-cohomology-comparison.md)
 - Locality on a finite formal-affine cover.
 
 ## Sources
