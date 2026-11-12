@@ -40,7 +40,7 @@ def IsAlgebraizable (X : LocallyRingedSpace.{u}) : Prop :=
   ∃ (Y : Scheme.{u}) (_ : IsNoetherian Y) (I : QuasicoherentIdealSubsheaf Y),
     Nonempty (X ≅ I.formalCompletion)
 
-/-- An algebraizable locally ringed space is a Noetherian formal scheme (Hartshorne II.9,
+/-- An algebraizable locally ringed space is a Noetherian formal scheme (cf. Hartshorne II.9,
 Example 9.3.2, p. 195): the whole space is a one-member cover by a completion of a Noetherian
 scheme. -/
 theorem IsAlgebraizable.isNoetherianFormalScheme {X : LocallyRingedSpace.{u}}
