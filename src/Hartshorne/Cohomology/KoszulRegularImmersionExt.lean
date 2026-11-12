@@ -257,6 +257,41 @@ lemma exists_d_eq_tmul_k₀ (W : Opens X) (a : R.obj.obj (op W))
 
 end KoszulSheaf
 
+section Locality
+
+variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+
+/-- An `𝒪_X`-module all of whose sections vanish is zero. -/
+lemma isZero_of_forall_eq_zero {S : SheafOfModules.{u} (ringCatSheafOf R)}
+    (h : ∀ (V : Opens X) (s : S.val.obj (op V)), s = 0) : IsZero S := by
+  rw [IsZero.iff_id_eq_zero]
+  apply SheafOfModules.hom_ext
+  ext V s
+  exact h V.unop s
+
+/-- **Vanishing is local.** An `𝒪_X`-module whose restrictions to the opens of a cover vanish is
+zero. -/
+lemma isZero_of_isZero_moduleRestrict {S : SheafOfModules.{u} (ringCatSheafOf R)}
+    (h : ∀ x : X, ∃ U : Opens X, x ∈ U ∧ IsZero ((moduleRestrict U).obj S)) : IsZero S := by
+  choose U hxU hU using h
+  refine isZero_of_forall_eq_zero fun V s => ?_
+  let W' : (x : V) → Opens ((Opens.toTopCat X).obj (U x.1)) := fun x =>
+    ⟨Subtype.val ⁻¹' (V : Set X), V.isOpen.preimage continuous_subtype_val⟩
+  let W : V → Opens X := fun x => (U x.1).isOpenEmbedding.functor.obj (W' x)
+  have hW : ∀ x, W x ≤ V := by
+    rintro x _ ⟨z, hz, rfl⟩
+    exact hz
+  refine ModuleGluing.sheaf_ext _ S W hW ?_ s 0 (fun x => ?_)
+  · intro z hz
+    exact Opens.mem_iSup.2 ⟨⟨z, hz⟩, ⟨⟨z, hxU z⟩, hz, rfl⟩⟩
+  · rw [map_zero]
+    have hz := (hU x.1).eq_of_src (𝟙 _) 0
+    exact congrArg (fun φ => φ.val.app (op (W' x))
+      (show ((moduleRestrict (U x.1)).obj S).val.obj (op (W' x)) from
+        S.val.map (homOfLE (hW x)).op s)) hz
+
+end Locality
+
 end Ringed
 
 open AlgebraicGeometry Koszul
@@ -489,5 +524,38 @@ theorem isZero_moduleRestrict_sheafExt [IsClosedImmersion i]
 end Local
 
 
+
+section Immersion
+
+variable {X Y : Scheme.{u}} {i : X ⟶ Y} {r : ℕ}
+
+/-- The Koszul-regular defining sequences of `i` may be chosen on affine opens inside any given
+neighbourhood. -/
+theorem IsKoszulRegularImmersion.exists_le (h : IsKoszulRegularImmersion i r) (y : Y)
+    {W₀ : Y.Opens} (hy : y ∈ W₀) :
+    ∃ U : Y.affineOpens, y ∈ (U : Y.Opens) ∧ (U : Y.Opens) ≤ W₀ ∧
+      ∃ f : Fin r → Γ(Y, U), i.ker.ideal U = Ideal.span (Set.range f) ∧
+        IsKoszulRegular f (ModuleCat.of Γ(Y, U) Γ(Y, U)) := by
+  obtain ⟨U, hyU, f, hI, hf⟩ := h.exists_isKoszulRegular y
+  obtain ⟨g, hgW, hyg⟩ := U.2.exists_basicOpen_le ⟨y, hy⟩ hyU
+  refine ⟨Y.affineBasicOpen g, hyg, hgW, fun j => algebraMap Γ(Y, U) Γ(Y, Y.basicOpen g) (f j),
+    ?_, isKoszulRegular_basicOpen U.2 hf g⟩
+  rw [← i.ker.map_ideal_basicOpen U g, hI, Ideal.map_span, ← Set.range_comp]
+  rfl
+
+/-- **The lower sheaf Exts vanish** (Hartshorne III.7, proof of Theorem 7.11; Stacks Project,
+Lemma 48.15.5). For a codimension-`r` Koszul-regular closed immersion `i : X ⟶ Y` and a finite
+locally free `𝒪_Y`-module `M`, `ℰxtⁿ_Y(i_* 𝒪_X, M) = 0` for `n < r`. -/
+theorem IsKoszulRegularImmersion.isZero_sheafExt (h : IsKoszulRegularImmersion i r)
+    {M : Y.Modules} (hM : Ringed.IsFiniteLocallyFree (R := Y.sheaf) M) {n : ℕ} (hn : n < r) :
+    IsZero ((Ringed.sheafExt (R := Y.sheaf)
+      ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf)) n).obj M) := by
+  have := h.isClosedImmersion
+  refine Ringed.isZero_of_isZero_moduleRestrict (fun y => ?_)
+  obtain ⟨W₀, hyW₀, m, ⟨α⟩⟩ := hM y
+  obtain ⟨V₀, hyV₀, hle, f, hI, hf⟩ := h.exists_le y hyW₀
+  exact ⟨V₀, hyV₀, isZero_moduleRestrict_sheafExt V₀.2 i f hI hf α hle hn⟩
+
+end Immersion
 
 end Hartshorne
