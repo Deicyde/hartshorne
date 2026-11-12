@@ -16,9 +16,10 @@ Hartshorne II, Exercise 5.18 (pp. 128–129).
 Hartshorne defines a *geometric vector bundle of rank `n`* over a scheme `Y` as a scheme `f : X ⟶ Y`
 over `Y` together with the additional data of an open covering `{U_i}` of `Y` and isomorphisms
 `ψ_i : f⁻¹(U_i) ≅ 𝔸ⁿ_{U_i}` over `U_i`, such that for every `i, j` and every open affine
-`U = Spec A ⊆ U_i ∩ U_j`, the automorphism `ψ = ψ_i ∘ ψ_j⁻¹` of `𝔸ⁿ_U = Spec A[x_1, …, x_n]` is
+`U = Spec A ⊆ U_i ∩ U_j`, the automorphism `ψ = ψ_j ∘ ψ_i⁻¹` of `𝔸ⁿ_U = Spec A[x_1, …, x_n]` is
 given by a linear automorphism `θ` of `A[x_1, …, x_n]`: `θ(a) = a` for `a ∈ A` and
-`θ(x_k) = ∑_l a_{kl} x_l` with `a_{kl} ∈ A`. This is `GeometricVectorBundle f n`.
+`θ(x_k) = ∑_l a_{kl} x_l` with `a_{kl} ∈ A`. This is `GeometricVectorBundle f n`, which states the
+condition for `ψ_i ∘ ψ_j⁻¹`; since `i, j` range over all pairs, this is the same condition.
 
 ## The vector bundle of a locally free sheaf
 
@@ -69,7 +70,8 @@ identifications `𝔸ⁿ_S ≅ Spec Γ(S)[x_1, …, x_n]`, the spectrum of the m
 @[reassoc]
 lemma AffineSpace.isoOfIsAffine_inv_map_hom (n : Type u) {S T : Scheme.{u}} [IsAffine S]
     [IsAffine T] (f : S ⟶ T) :
-    (AffineSpace.isoOfIsAffine n S).inv ≫ AffineSpace.map n f ≫ (AffineSpace.isoOfIsAffine n T).hom =
+    (AffineSpace.isoOfIsAffine n S).inv ≫ AffineSpace.map n f ≫
+      (AffineSpace.isoOfIsAffine n T).hom =
       Spec.map (CommRingCat.ofHom (MvPolynomial.map f.appTop.hom)) := by
   apply ext_of_isAffine
   rw [← cancel_epi (Scheme.ΓSpecIso _).inv, ← cancel_mono (Scheme.ΓSpecIso _).hom]
@@ -211,7 +213,8 @@ def frameChartRingEquiv (V : Y.affineOpens) {e : ULift.{u} (Fin n) → Γ(E, V)}
 lemma frameChartRingEquiv_apply (V : Y.affineOpens)
     {e : ULift.{u} (Fin n) → Γ(E, V)} (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e)
     (p : MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤)) :
-    frameChartRingEquiv V he p = E.chartRingHom V e (MvPolynomial.map (V : Y.Opens).topIso.hom.hom p) := rfl
+    frameChartRingEquiv V he p =
+      E.chartRingHom V e (MvPolynomial.map (V : Y.Opens).topIso.hom.hom p) := rfl
 
 /-- `frameChartRingEquiv` as an isomorphism onto the ring of sections of the quasi-coherent algebra
 `Sym(E)` over `V`. -/
@@ -224,7 +227,8 @@ def frameChartIso (hE : E.IsLocallyFreeOfRank n) (V : Y.affineOpens)
 lemma frameChartIso_hom_apply (hE : E.IsLocallyFreeOfRank n) (V : Y.affineOpens)
     {e : ULift.{u} (Fin n) → Γ(E, V)} (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e)
     (p : MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤)) :
-    (frameChartIso hE V he).hom p = E.chartRingHom V e (MvPolynomial.map (V : Y.Opens).topIso.hom.hom p) :=
+    (frameChartIso hE V he).hom p =
+      E.chartRingHom V e (MvPolynomial.map (V : Y.Opens).topIso.hom.hom p) :=
   rfl
 
 /-- **The local trivialization `ψ_V : f⁻¹(V) ≅ 𝔸ⁿ_V` of `V(E)`** given by a frame `e` of `E` over an
@@ -280,9 +284,10 @@ lemma homOfLE_appTop_topIso_hom {V V' : Y.Opens} (h : V' ≤ V) :
   rw [← Functor.map_comp, ← Functor.map_comp]
   rfl
 
-/-- **The charts of `V(E)`**: for affine opens `V' ⊆ V` and a frame `e` of `E` over `V`, the chart of
-`𝔸ⁿ_V` at `V'` followed by `ψ_V⁻¹` is the open immersion `Spec A'[x_1, …, x_n] ≅ Spec Γ(V', Sym(E))`
-of the piece of `V(E)` over `V'`, for the restricted frame `e|_{V'}`. -/
+/-- **The charts of `V(E)`**: for affine opens `V' ⊆ V` and a frame `e` of `E` over `V`, the chart
+of `𝔸ⁿ_V` at `V'` followed by `ψ_V⁻¹` is the open immersion
+`Spec A'[x_1, …, x_n] ≅ Spec Γ(V', Sym(E))` of the piece of `V(E)` over `V'`, for the restricted
+frame `e|_{V'}`. -/
 lemma affineSpaceChart_frameTrivialization_inv (hE : E.IsLocallyFreeOfRank n) (V V' : Y.affineOpens)
     (h : (V' : Y.Opens) ≤ V) {e : ULift.{u} (Fin n) → Γ(E, V)}
     (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e) :
@@ -331,8 +336,8 @@ theorem exists_affineFrame (hE : E.IsLocallyFreeOfRank n) (y : Y) :
     Y.isBasis_affineOpens.exists_subset_of_mem_open hyU U.isOpen
   exact ⟨⟨⟨V, hV⟩, _, he.restrictLE hVU⟩, hyV⟩
 
-/-- The change of frames `θ = ψ_j ∘ ψ_i⁻¹` on the polynomial ring over an affine open, for two
-frames over that open. -/
+/-- The change of frames `θ = φ_{e'}⁻¹ ∘ φ_e` on the polynomial ring over an affine open, for two
+frames `e, e'` over that open, so that `Spec θ = ψ_e ∘ ψ_{e'}⁻¹`. -/
 def frameChange {V : Y.affineOpens} {e e' : ULift.{u} (Fin n) → Γ(E, V)}
     (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e)
     (he' : Ringed.IsLocalFrame (R := Y.sheaf) E V e') :

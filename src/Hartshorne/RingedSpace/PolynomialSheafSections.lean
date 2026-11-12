@@ -68,7 +68,8 @@ theorem sheafifyUnit_injective_of_polynomial {W : Opens X} (hW : W ≤ U) :
   refine mvPolynomial_ext_of_locally ι p q fun x hx => ?_
   have hgerm : Ringed.stalkAddMap (sheafifyUnit P) x
       (ModuleSheafTensor.sectionGerm _ x W hx (ρ W hW p)) =
-      Ringed.stalkAddMap (sheafifyUnit P) x (ModuleSheafTensor.sectionGerm _ x W hx (ρ W hW q)) := by
+      Ringed.stalkAddMap (sheafifyUnit P) x
+        (ModuleSheafTensor.sectionGerm _ x W hx (ρ W hW q)) := by
     rw [Ringed.stalkAddMap_germ, Ringed.stalkAddMap_germ, hpq]
   obtain ⟨V, hV, i₁, i₂, e⟩ := TopCat.Presheaf.germ_eq P.presheaf x hx hx
     _ _ ((stalkMap_sheafifyUnit_bijective _ x).1 hgerm)
