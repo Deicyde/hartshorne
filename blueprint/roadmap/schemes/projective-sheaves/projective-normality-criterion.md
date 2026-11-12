@@ -19,6 +19,9 @@ Here the homogeneous coordinate ring of $X$ is $S(X)=k[x_{0},\ldots ,x_{r}]/I$ w
 $I=\Gamma _*(\mathcal{I}_X)$, and $X$ is projectively normal if $S(X)$ is an integrally closed
 domain.
 
+The proof does not use that $k$ is algebraically closed; the hypothesis is kept because it is
+Hartshorne's setting.
+
 ## Depends on
 
 - [Normal schemes](../normalization-and-exercises/normal-scheme.md)
