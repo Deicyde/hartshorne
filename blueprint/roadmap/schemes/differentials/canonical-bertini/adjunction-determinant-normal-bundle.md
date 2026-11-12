@@ -24,6 +24,7 @@ $\omega_Y\simeq\omega_X|_Y\otimes\bigwedge^r N_{Y/X}$.
   free sheaves.
 - Formation of the top exterior power commutes with duals.
 - [The canonical sheaf of a product](../differential-exercises/canonical-sheaf-of-product.md)
+- [The Picard group of a ringed space](../../divisors/cartier-picard/invertible-sheaf-group.md)
 
 ## Sources
 
