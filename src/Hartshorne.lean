@@ -774,3 +774,4 @@ import Hartshorne.Scheme.QuasiCoherentAlgebraOfModule
 import Hartshorne.RingedSpace.PolynomialSheafSections
 import Hartshorne.Scheme.SymmetricAlgebraAffineSections
 import Hartshorne.Scheme.GeometricVectorBundle
+import Hartshorne.Scheme.BaseLocusBlowup
