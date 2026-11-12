@@ -25,7 +25,7 @@ Let `X` be a scheme over a field `k` (structure morphism `q`), `L` an invertible
 * `LinearSystem.isBasePointFree_iff_isGeneratedBySections_of_span_eq`: the same for a spanning
   family `s₀, …, sₙ` of `V` (for instance a basis).
 * `LinearSystem.existsUnique_morphism_of_isBasePointFree`, `LinearSystem.morphism`: Remark 7.8.1:
-  a base-point-free `𝔡` with a basis (more generally, a spanning family) `s₀, …, sₙ` of `V`
+  a base-point-free `𝔡` with a family `s₀, …, sₙ` spanning `V`
   determines a unique `k`-morphism `φ : X ⟶ ℙⁿ_k` with `φ^* 𝒪(1) ≅ L` carrying `φ^* xᵢ` to `sᵢ`
   (Theorem 7.1). Conversely the coordinate sections `φ^* xᵢ` of any `φ : X ⟶ ℙⁿ_k` span a
   base-point-free linear system of `φ^* 𝒪(1)` (`LinearSystem.isBasePointFree_ofFamily_pullback`).
@@ -168,8 +168,8 @@ theorem isBasePointFree_iff_isGeneratedBySections_of_span_eq (𝔡 : LinearSyste
   simp only [IsBasePointFree, 𝔡.isBasePoint_iff_of_span_eq s hs, not_forall, not_not,
     ULift.exists]
 
-/-- **Hartshorne II, Remark 7.8.1.** A base-point-free linear system `𝔡` together with a basis
-`s₀, …, sₙ` of its subspace `V` (more generally, any spanning family) determines a unique
+/-- **Hartshorne II, Remark 7.8.1.** A base-point-free linear system `𝔡` together with a family
+`s₀, …, sₙ` spanning its subspace `V` determines a unique
 `k`-morphism `φ : X ⟶ ℙⁿ_k` with an isomorphism `φ^* 𝒪(1) ≅ L` carrying each `φ^* xᵢ` to `sᵢ`
 (Theorem 7.1). -/
 theorem existsUnique_morphism_of_isBasePointFree (𝔡 : LinearSystem q L)
@@ -183,8 +183,8 @@ theorem existsUnique_morphism_of_isBasePointFree (𝔡 : LinearSystem q L)
   existsUnique_morphism_of_isGeneratedBySections q 𝔡.isInvertible (fun i => toSection (s i))
     ((𝔡.isBasePointFree_iff_isGeneratedBySections_of_span_eq s hs).mp h𝔡)
 
-/-- **The morphism determined by a base-point-free linear system** and a basis (more generally, a
-spanning family) `s₀, …, sₙ` of its subspace (Hartshorne II, Remark 7.8.1). -/
+/-- **The morphism determined by a base-point-free linear system** and a family
+`s₀, …, sₙ` spanning its subspace (Hartshorne II, Remark 7.8.1). -/
 def morphism (𝔡 : LinearSystem q L) (h𝔡 : 𝔡.IsBasePointFree) {n : ℕ}
     (s : Fin (n + 1) → globalSectionsOverField q L)
     (hs : Submodule.span k (Set.range s) = 𝔡.sections) :
@@ -254,8 +254,8 @@ theorem isClosedImmersion_iff_of_span_eq [IsAlgClosed k] (hX : Projective q)
     𝔡.isInvertible _ φ hφ e he hX
 
 /-- **Hartshorne II, Remark 7.8.2.** Let `X` be projective over an algebraically closed field `k`
-and `𝔡` a base-point-free linear system with a basis (more generally, a spanning family)
-`s₀, …, sₙ` of its subspace `V`. The morphism `φ : X ⟶ ℙⁿ_k` it determines (Remark 7.8.1) is a
+and `𝔡` a base-point-free linear system with a family
+`s₀, …, sₙ` spanning its subspace `V`. The morphism `φ : X ⟶ ℙⁿ_k` it determines (Remark 7.8.1) is a
 closed immersion exactly when `V` separates points and tangent vectors. (Hartshorne takes `X` a
 projective variety.) -/
 theorem isClosedImmersion_morphism_iff [IsAlgClosed k] (hX : Projective q)
