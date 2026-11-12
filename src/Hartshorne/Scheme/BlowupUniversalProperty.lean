@@ -6,6 +6,7 @@ import Hartshorne.Scheme.BlowupExceptionalIdeal
 import Hartshorne.RingedSpace.FiniteLocallyFreeDuality
 import Hartshorne.Scheme.LocallyFreeRinged
 import Hartshorne.Scheme.AffineGlobalSectionsExact
+import Hartshorne.Scheme.ProjChartMorphism
 
 /-!
 # The universal property of a blowing-up
@@ -306,6 +307,71 @@ theorem reesAwayMap_eq_mul_isLocalizationElem {b : A} (hb : b ∈ I) :
   rw [monomial_mul_C, C_mul_monomial, mul_comm]
 
 end ReesChartAlgebra
+
+section ReesChartLift
+
+open _root_.Polynomial HomogeneousLocalization
+
+variable {A : Type u} [CommRing A] (I : Ideal A) {a : A} (ha : a ∈ I)
+  {R : Type u} [CommRing R] (θ : A →+* R)
+
+/-- `p(t) ↦ θ(p)(1 / θ(a))`, from the Rees algebra `A[It]` to `R[1 / θ(a)]`. -/
+private noncomputable def reesLiftLoc : reesAlgebra I →+* Localization.Away (θ a) :=
+  (eval₂RingHom ((algebraMap R (Localization.Away (θ a))).comp θ)
+    (IsLocalization.Away.invSelf (θ a))).comp (reesAlgebra I).val.toRingHom
+
+private theorem reesLiftLoc_mem (hdiv : ∀ b ∈ I, θ b ∈ Ideal.span {θ a}) (p : reesAlgebra I) :
+    reesLiftLoc I θ p ∈ (algebraMap R (Localization.Away (θ a))).range := by
+  obtain ⟨p, hp⟩ := p
+  have hcoeff : ∀ n, ∃ c : R, θ (p.coeff n) = c * θ a ^ n := by
+    intro n
+    have h1 : θ (p.coeff n) ∈ (I.map θ) ^ n := by
+      rw [← Ideal.map_pow]
+      exact Ideal.mem_map_of_mem _ ((mem_reesAlgebra_iff I p).1 hp n)
+    have h2 : I.map θ ≤ Ideal.span {θ a} := Ideal.map_le_iff_le_comap.2 hdiv
+    have h3 := Ideal.pow_right_mono h2 n h1
+    rw [Ideal.span_singleton_pow] at h3
+    obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.1 h3
+    exact ⟨c, hc.symm⟩
+  choose c hc using hcoeff
+  change eval₂ _ _ p ∈ _
+  rw [eval₂_eq_sum_range]
+  refine Subring.sum_mem _ fun n _ => ⟨c n, ?_⟩
+  rw [RingHom.comp_apply, hc, map_mul, map_pow, mul_assoc, ← mul_pow,
+    IsLocalization.Away.mul_invSelf, one_pow, mul_one]
+
+/-- **Ring maps out of a chart of the Rees algebra, existence.** If `θ : A → R` sends `a ∈ I` to
+a non-zero-divisor dividing `θ(I)`, then `θ` extends to `A[It]_(a t) → R`, `y/(a t)ⁿ ↦ c` where
+`θ(y/tⁿ) = c θ(a)ⁿ`. -/
+theorem exists_reesAway_ringHom (hnzd : θ a ∈ nonZeroDivisors R)
+    (hdiv : ∀ b ∈ I, θ b ∈ Ideal.span {θ a}) :
+    ∃ ψ : Away (reesGrading I) (reesDegOne I ha) →+* R, ψ.comp (reesAwayMap I ha) = θ := by
+  set ι := algebraMap R (Localization.Away (θ a))
+  have hinj : Function.Injective ι :=
+    IsLocalization.injective (Localization.Away (θ a)) (Submonoid.powers_le.2 hnzd)
+  let e := RingEquiv.ofBijective ι.rangeRestrict
+    ⟨fun x y h => hinj (congrArg Subtype.val h), ι.rangeRestrict_surjective⟩
+  let F : reesAlgebra I →+* R :=
+    e.symm.toRingHom.comp ((reesLiftLoc I θ).codRestrict _ (reesLiftLoc_mem I θ hdiv))
+  have hF : ∀ p, ι (F p) = reesLiftLoc I θ p := fun p =>
+    congrArg Subtype.val (e.apply_symm_apply ⟨_, reesLiftLoc_mem I θ hdiv p⟩)
+  have hFr : ∀ r, F (algebraMap A (reesAlgebra I) r) = θ r := fun r => hinj (by
+    rw [hF]
+    change eval₂ _ _ (C r) = _
+    rw [eval₂_C]
+    rfl)
+  have hF1 : IsUnit (F (reesDegOne I ha)) := by
+    have : F (reesDegOne I ha) = 1 := hinj (by
+      rw [hF, map_one]
+      change eval₂ _ _ (monomial 1 a) = _
+      rw [eval₂_monomial, pow_one, RingHom.comp_apply, IsLocalization.Away.mul_invSelf])
+    rw [this]; exact isUnit_one
+  refine ⟨awayLift F (reesDegOne I ha) hF1, RingHom.ext fun r => ?_⟩
+  rw [RingHom.comp_apply, awayLift, RingHom.comp_apply, HomogeneousLocalization.algebraMap_apply,
+    val_reesAwayMap, Localization.mk_one_eq_algebraMap, IsLocalization.Away.lift,
+    IsLocalization.lift_eq, hFr]
+
+end ReesChartLift
 
 /-- If `x` and a non-zero-divisor `γ` generate the same principal ideal, `x` is a
 non-zero-divisor. -/
