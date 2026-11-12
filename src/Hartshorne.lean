@@ -693,6 +693,7 @@ import Hartshorne.Weil.GeometricallyConnectedSmoothProjective
 import Hartshorne.Surface.KodairaDimensionBirational
 import Hartshorne.Surface.GeneralType
 import Hartshorne.Scheme.Differentials.NonsingularClosedImmersionConormal
+import Hartshorne.Scheme.Differentials.NormalConormalSheaves
 import Hartshorne.Scheme.Differentials.CanonicalSheafOfProduct
 import Hartshorne.Curve.NormalizationDeltaQuotient
 import Hartshorne.Cohomology.Flatness.FlatMorphismBaseChange
