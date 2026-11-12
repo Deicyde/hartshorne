@@ -710,3 +710,4 @@ import Hartshorne.Cohomology.DualizingSheaf
 import Hartshorne.Cohomology.ReducedComponentsAffine
 import Hartshorne.Cohomology.ReductionAffineIff
 import Hartshorne.Scheme.Differentials.AdjunctionDeterminantNormalBundle
+import Hartshorne.Scheme.Differentials.TangentNormalExactSequence
