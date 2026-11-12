@@ -584,6 +584,7 @@ import Hartshorne.Intersection.ChowGroups
 import Hartshorne.Intersection.NormalizationOrderLength
 import Hartshorne.Intersection.NormalizationLocalOrder
 import Hartshorne.Intersection.NormalizationPushforwardOrder
+import Hartshorne.Intersection.NormalizationFibreOrder
 import Hartshorne.Intersection.RationalEquivalenceLocalization
 import Hartshorne.RingedSpace.ModuleSheafTensorPowerIso
 import Hartshorne.Scheme.AmplePowerEquivalence
