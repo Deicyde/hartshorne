@@ -331,9 +331,9 @@ private theorem exists_codim_range_eq (hp : FiniteType p) [IsIntegral X] [Nonemp
 over an algebraically closed field `k` and `i : Y ⟶ X` a nonsingular irreducible closed
 subscheme. Dualizing the conormal sequence `0 ⟶ N^*_{Y/X} ⟶ i^* Ω_{X/k} ⟶ Ω_{Y/k} ⟶ 0`
 (Theorem II.8.17) gives the short exact sequence `0 ⟶ T_Y ⟶ (i^* Ω_{X/k})^∨ ⟶ N_{Y/X} ⟶ 0`,
-whose middle term is Hartshorne's `T_X|_Y`. As in the formalization of Theorem II.8.17, `X` is
-irreducible, regular and of finite type over `k`, and `Y` is irreducible and regular;
-separatedness is not used. -/
+whose middle term is identified with Hartshorne's `T_X|_Y` by `Hartshorne.pullbackDualIso`. As in
+the formalization of Theorem II.8.17, `X` is irreducible, regular and of finite type over `k`, and
+`Y` is irreducible and regular; separatedness is not used. -/
 theorem tangentNormal_shortExact [IsAlgClosed k] (hp : FiniteType p) [IrreducibleSpace X]
     (hX : X.IsRegular) [IrreducibleSpace Y] (hY : Y.IsRegular) :
     (ShortComplex.mk (tangentToPullbackDual p i) (pullbackDualToNormal p i)
@@ -385,6 +385,23 @@ theorem exists_tangentNormal_shortExact [IsAlgClosed k] (hp : FiniteType p) [Irr
     exact ShortComplex.isoMk (Iso.refl _) e.symm (Iso.refl _)
       (by exact (Category.id_comp _))
       (by exact (Iso.inv_hom_id_assoc e _).trans (Category.comp_id _).symm)
+
+/-- **Hartshorne II.8 (p. 182), the tangent-normal sequence `0 ⟶ T_Y ⟶ T_X|_Y ⟶ N_{Y/X} ⟶ 0`**,
+with explicit maps: the dual of the conormal sequence (`Hartshorne.tangentNormal_shortExact`),
+with `(i^* Ω_{X/k})^∨` identified with `i^* T_X` by `Hartshorne.pullbackDualIso`. The hypothesis
+that `Ω_{X/k}` is locally free of finite rank follows from the others (Theorem II.8.15). -/
+theorem tangentNormal_shortExact_pullback [IsAlgClosed k] (hp : FiniteType p)
+    [IrreducibleSpace X] (hX : X.IsRegular) [IrreducibleSpace Y] (hY : Y.IsRegular) {n : ℕ}
+    (hΩ : Ringed.IsLocallyFreeOfRank (R := X.sheaf) (Scheme.relativeDifferentials p) n) :
+    (ShortComplex.mk (tangentToPullbackDual p i ≫ (pullbackDualIso i _ hΩ).inv)
+      ((pullbackDualIso i _ hΩ).hom ≫ pullbackDualToNormal p i)
+      ((Category.assoc _ _ _).trans ((congrArg (tangentToPullbackDual p i ≫ ·)
+        (Iso.inv_hom_id_assoc _ _)).trans
+          (tangentToPullbackDual_comp_pullbackDualToNormal p i)))).ShortExact := by
+  refine ShortComplex.shortExact_of_iso ?_ (tangentNormal_shortExact p i hp hX hY)
+  exact ShortComplex.isoMk (Iso.refl _) (pullbackDualIso i _ hΩ).symm (Iso.refl _)
+    (by exact (Category.id_comp _))
+    (by exact (Iso.inv_hom_id_assoc _ _).trans (Category.comp_id _).symm)
 
 end TangentNormal
 
