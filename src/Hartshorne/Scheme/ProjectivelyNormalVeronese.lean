@@ -41,7 +41,8 @@ monomials `x^I` of degree `d`.
 
 Following the book. By Exercise 5.14(a)
 (`ProjectiveSectionRing.projectiveSectionRing_isIntegralClosure`) `S/I` is a domain and
-`S' = ⨁_{n ≥ 0} Γ(X, 𝒪_X(n))` is its integral closure in its fraction field `K`, embedded by values at the generic point. By Exercise 5.9
+`S' = ⨁_{n ≥ 0} Γ(X, 𝒪_X(n))` is its integral closure in its fraction field `K`,
+embedded by values at the generic point. By Exercise 5.9
 (`EventualSectionRecovery.exists_bijective_alphaComponent`, for the graded module `S/I`) every
 section of `𝒪_X(n)` is `s / 1` with `s ∈ (S/I)_n` once `n ≥ n₀`; in degree `0` an element of `K`
 integral over `S/I` is integral over `(S/I)₀ = k` (`exists_monic_coeff_mem_zero`), hence in `k`.
