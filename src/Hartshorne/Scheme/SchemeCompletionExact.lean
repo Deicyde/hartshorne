@@ -5,13 +5,15 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.AffineFormalModuleExact
 import Hartshorne.Scheme.AffineGlobalSectionsExact
 import Hartshorne.Scheme.QuasicoherentAbelianClosure
+import Hartshorne.Scheme.CoherentFormalModule
+import Hartshorne.Scheme.AlgebraizableFormalScheme
 
 /-!
 # Exactness of completion along a closed subscheme
 
 Hartshorne, *Algebraic Geometry*, II, Corollary 9.8 (p. 198): for a Noetherian scheme `X` and a
 closed subscheme `Y` with ideal sheaf `I`, the functor `F ↦ F̂` from coherent `𝒪_X`-modules to
-modules over the structure sheaf of the formal completion `X̂_Y` is exact.
+coherent `𝒪_{X̂_Y}`-modules is exact. Exactness is proved here among all `𝒪_{X̂_Y}`-modules.
 
 Exactness of a complex of sheaves is local, and is checked here on the basis of `|Y|` formed by
 the traces of the affine opens `U` of `X`. Over such a `U`, the sections of an exact sequence of
@@ -28,6 +30,10 @@ is exact) applies.
   of modules over the structure sheaf of `X̂_Y`.
 * `Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletion_shortExact`: the short exact form, for
   short exact sequences of coherent modules.
+* `Hartshorne.QuasicoherentIdealSubsheaf.isCoherentFormalModule_moduleCompletion`: on a
+  Noetherian scheme, the completion `F̂` of a coherent module is a coherent module on the
+  Noetherian formal scheme `X̂_Y`, so the functor lands in coherent formal modules. The proof uses
+  the one-chart cover of `X̂_Y` by itself, with `F` as the coherent module on the chart.
 -/
 
 noncomputable section
@@ -129,6 +135,53 @@ theorem moduleCompletion_shortExact [IsLocallyNoetherian X] (S : ShortComplex X.
   refine ShortComplex.ShortExact.mk' (I.moduleCompletion_exact S hS.exact h₂ h₃) ?_ ?_
   · exact (ShortComplex.exact_iff_mono (T.map Φ) (Φ.map_zero _ _)).1 h1
   · exact (ShortComplex.exact_iff_epi (T'.map Φ) (Φ.map_zero _ _)).1 h2
+
+/-- **The completion of a coherent module is coherent** (Hartshorne II.9, p. 194, for the target
+of Corollary 9.8): on a Noetherian scheme, `F̂` is a coherent module on `X̂_Y`. Here `X̂_Y` is
+covered by the single chart `X̂_Y` itself, the completion of `X` along `Y`, on which `F̂` is the
+completion of the coherent module `F`; the remaining isomorphism identifies the restriction of
+`F̂` to the whole space with its pushforward along the canonical isomorphism. -/
+theorem isCoherentFormalModule_moduleCompletion [IsNoetherian X] (F : X.Modules)
+    (hF : IsCoherent F) :
+    IsCoherentFormalModule (X := I.toNoetherianFormalScheme) (I.moduleCompletion F) := by
+  refine ⟨Unit, inferInstance, fun _ => ⊤, by simp, fun _ => ⟨X, inferInstance, I,
+    LocallyRingedSpace.restrictTopIso _, F, hF, ⟨?_⟩⟩⟩
+  dsimp only [structureModuleRestrict, structureModulePushforward]
+  have e := @SheafOfModules.pushforwardCongr₂ _ _ _ _ (Opens.grothendieckTopology _)
+    (Opens.grothendieckTopology _)
+    (Opens.map (LocallyRingedSpace.restrictTopIso I.formalCompletion).inv.base)
+    (@Opens.isOpenEmbedding I.formalCompletion.carrier ⊤).functor
+    (structureRingCatSheaf (I.formalCompletion.restrict
+      (@Opens.isOpenEmbedding I.formalCompletion.carrier ⊤)))
+    (structureRingCatSheaf I.formalCompletion) inferInstance
+    (@Opens.isOpenEmbedding I.formalCompletion.carrier ⊤).functor_isContinuous
+    (𝟙 _) (structureRingCatSheafHom (LocallyRingedSpace.restrictTopIso I.formalCompletion).inv)
+    (eqToIso (Opens.inclusion'_top_functor I.formalCompletion.carrier).symm) ?_
+  · exact e.app _
+  have hc : (LocallyRingedSpace.restrictTopIso I.formalCompletion).inv.c =
+      eqToHom (PresheafedSpace.restrict_top_presheaf _) := rfl
+  refine Sheaf.hom_ext (NatTrans.ext (funext fun U => ?_))
+  erw [Category.id_comp]
+  simp only [Functor.sheafPushforwardContinuousNatTrans, ObjectProperty.ι_obj,
+    Functor.whiskerRight_app, Functor.op_obj, structureRingCatSheafHom, hc]
+  have key : ∀ {A B : (Opens I.formalCompletion.carrier)ᵒᵖ} (f : A ⟶ B) (hAB : A = B),
+      (structureRingCatSheaf I.formalCompletion).obj.map f =
+        eqToHom (congrArg (structureRingCatSheaf I.formalCompletion).obj.obj hAB) := by
+    intro A B f hAB
+    subst hAB
+    rw [show f = 𝟙 A from Quiver.Hom.unop_inj (Subsingleton.elim _ _),
+      CategoryTheory.Functor.map_id]
+    rfl
+  have key2 : ∀ {C : Type u} [Category.{u} C] {F₁ F₂ : C ⥤ CommRingCat.{u}} (h : F₁ = F₂)
+      (V : C), (Functor.whiskerRight (eqToHom h) (forget₂ CommRingCat RingCat.{u})).app V =
+        eqToHom (by rw [h]) := by
+    intro C _ F₁ F₂ h V
+    subst h
+    simp
+  refine (key _ ?_).trans
+    (key2 (PresheafedSpace.restrict_top_presheaf I.formalCompletion.toPresheafedSpace) U).symm
+  exact congrArg (fun G => op (G.obj (unop U)))
+    (Opens.inclusion'_top_functor I.formalCompletion.carrier)
 
 end QuasicoherentIdealSubsheaf
 
