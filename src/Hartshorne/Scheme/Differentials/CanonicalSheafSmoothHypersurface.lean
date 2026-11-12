@@ -5,7 +5,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.Differentials.AdjunctionEffectiveCartierDivisor
 import Hartshorne.Scheme.Differentials.CanonicalSheafProjectiveSpace
 import Hartshorne.Scheme.Differentials.PlurigenusBirational
-import Hartshorne.Scheme.NormalizationDivisorDescent
+import Hartshorne.Scheme.InvertibleSectionDivisor
+import Hartshorne.Scheme.CartierLinearEquivalenceSheaf
 import Hartshorne.Scheme.ProjTwistPullback
 
 /-!
@@ -102,16 +103,18 @@ theorem isEffective_of_isDivisorOfZeros {s : (projTwistingSheaf 𝒜 (d : ℤ)).
     (ProjectiveSpacePicard.projTwistingSheafIsoImageDivisorSheaf (k := k) (n := n) _)
 
 /-- **The divisor sheaf of a degree-`d` hypersurface is `𝒪(d)`.** If `D` is the divisor of zeros
-of a nonzero global section `s` of `𝒪(d)` on `ℙⁿ_k`, then `𝒪_X(D) ≅ 𝒪(d)`. -/
+of a nonzero global section `s` of `𝒪(d)` on `ℙⁿ_k`, then `𝒪_X(D) ≅ 𝒪(d)`: `D` is linearly
+equivalent to the divisor `D_d` with `𝒪(d) ≅ 𝒪_X(D_d)` (Proposition 7.7(a)), so
+`𝒪_X(D) ≅ 𝒪_X(D_d) ≅ 𝒪(d)` (Proposition 6.13(c)). -/
 theorem nonempty_sheaf_iso_of_isDivisorOfZeros {s : (projTwistingSheaf 𝒜 (d : ℤ)).val.obj (op ⊤)}
     {D : (Proj 𝒜).CartierDivisor} (hs : s ≠ 0)
     (hD : IsDivisorOfZeros (projTwistingSheaf 𝒜 (d : ℤ)) s D) :
     Nonempty (D.sheaf ≅ projTwistingSheaf 𝒜 (d : ℤ)) := by
-  obtain ⟨D', hD', -, ⟨e⟩⟩ := exists_isDivisorOfZeros_of_isInvertible
-    (ProjectiveSpacePicard.projTwistingSheaf_isInvertible (k := k) (n := n) _) hs
-  rw [hD.unique (ProjectiveSpacePicard.projTwistingSheafIsoImageDivisorSheaf (k := k) (n := n) _)
-    hD']
-  exact ⟨e⟩
+  let φ := ProjectiveSpacePicard.projTwistingSheafIsoImageDivisorSheaf (k := k) (n := n) (d : ℤ)
+  obtain ⟨D', hD', -, hlin⟩ := exists_isDivisorOfZeros φ hs
+  rw [hD.unique φ hD']
+  obtain ⟨e⟩ := (linearEquivalent_iff_nonempty_iso _ _).1 hlin
+  exact ⟨e ≪≫ φ.symm⟩
 
 /-- The hypersurface `Y = (s)₀ ⊆ ℙⁿ_k`: the closed subscheme of the divisor of zeros `D` of a
 global section `s` of `𝒪(d)`. -/
