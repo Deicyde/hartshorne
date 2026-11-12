@@ -29,7 +29,9 @@ claimed.
 ## Proof
 
 Hartshorne's proof: the statement follows from the algebraic conormal sequence (8.4A),
-`Hartshorne.kaehlerConormal_rightExact`. Exactness of a sequence of `𝒪_Z`-modules is checked on
+`Hartshorne.kaehlerConormal_rightExact`.
+
+Here (8.4A) is applied on stalks. Exactness of a sequence of `𝒪_Z`-modules is checked on
 stalks (`modules_exact_of_stalk`, `modules_epi_of_stalk`). Fix `z ∈ Z` with image `x = i z` and
 `y = f x`, and put `A = 𝒪_{Y,y}`, `B = 𝒪_{X,x}` and `C = 𝒪_{Z,z}`; the stalk map `B → C` is
 surjective, so (8.4A) gives the exact sequence
