@@ -20,6 +20,7 @@ to its completed module sheaf on $\operatorname{Spf} _I(A)$ is exact.
 - [Exactness of finite-module completion](../adic-completion/finite-module-completion-exact.md)
 - [Exactness is detected on stalks](../../sheaves/stalkwise-exactness.md)
 - [Affine sections of a formal completion](../formal-neighborhoods/formal-completion-affine-sections.md)
+- [Module and abelian-sheaf cohomology agree](../../../cohomology/sheaf-cohomology/module-cohomology-comparison.md)
 
 ## Sources
 
