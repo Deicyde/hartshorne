@@ -17,6 +17,7 @@ and $\mathcal{O}(1)$.
 - [The relative twisting sheaf](relative-proj-twisting-sheaf.md)
 - [The graded symmetric-algebra sheaf](graded-symmetric-algebra-sheaf.md)
 - [Projective space over a scheme](../../proper-and-projective/projective-space-over-scheme.md)
+- [Relative twisting sheaves and very ampleness](../../projective-sheaves/relative-twisting-and-very-ample.md)
 
 ## Sources
 
