@@ -803,3 +803,4 @@ import Hartshorne.Scheme.InvertibleSymmetricPower
 import Hartshorne.Scheme.RelativeProjLineBundleTwistSheaf
 import Hartshorne.Scheme.RelativeProjPushforwardTwist
 import Hartshorne.Scheme.ProjectiveBundlePushforward
+import Hartshorne.Scheme.BlowupInvertibleFactorInvariance
