@@ -128,4 +128,78 @@ theorem FibreOrdFormula.of_isOpenImmersion {W' V' : Scheme.{u}} [IsIntegral W'] 
 
 end FibreOrdFormula
 
+section Spec
+
+attribute [local instance] FreeLocusAux.freeLocusStalkAlgebra
+  FreeLocusAux.freeLocus_asIdeal_isPrime specStalk_functionField_isScalarTower
+
+/-- The canonical map from `R` to the stalk of `Spec R` at `x` is `Rₓ → 𝒪_{Spec R, x}`
+precomposed with `R → Rₓ`. -/
+theorem Spec.algebraMap_stalk_eq_stalkIso_inv (R : CommRingCat.{u}) (x : Spec R) (a : R) :
+    algebraMap R ((Spec R).presheaf.stalk x) a =
+      (Spec.stalkIso R x).inv (algebraMap R (Localization.AtPrime x.asIdeal) a) := by
+  have h := ConcreteCategory.congr_hom (Spec.algebraMap_stalkIso_inv (R := R) x) a
+  simp only [CommRingCat.comp_apply, CommRingCat.hom_ofHom] at h
+  rw [h]
+  rfl
+
+/-- On `Spec R` for a Noetherian domain `R`, the order at a codimension-one point `x` of
+`a ∈ R ∖ 0` is `ord_{Rₓ}(a)`. -/
+theorem Spec.ord_algebraMap (R : CommRingCat.{u}) [IsDomain R] [IsNoetherianRing R]
+    {x : Spec R} (hx : coheight x = 1) {a : R} (ha : a ≠ 0) :
+    (Spec R).ord (algebraMap R (Spec R).functionField a) x =
+      (Ring.ord (Localization.AtPrime x.asIdeal) (algebraMap R _ a)).toNat := by
+  have hloc : algebraMap R (Localization.AtPrime x.asIdeal) a ≠ 0 :=
+    (map_ne_zero_iff _ (IsLocalization.injective _ x.asIdeal.primeCompl_le_nonZeroDivisors)).mpr ha
+  rw [IsScalarTower.algebraMap_apply R ((Spec R).presheaf.stalk x),
+    Spec.algebraMap_stalk_eq_stalkIso_inv, Scheme.ord_algebraMap_stalk hx]
+  · exact congrArg (fun t : ℕ∞ ↦ ((t.toNat : ℕ) : ℤ))
+      (ring_ord_ringEquiv (Spec.stalkIso R x).commRingCatIsoToRingEquiv.symm _)
+  · exact (map_ne_zero_iff _ (ConcreteCategory.bijective_of_isIso
+      (Spec.stalkIso R x).inv).1).mpr hloc
+
+/-- Under the identifications `𝒪_{Spec R, x} ≅ Rₓ`, the stalk map of `Spec S ⟶ Spec R` is the
+induced local homomorphism. -/
+theorem Spec.stalkIso_hom_stalkMap {R S : CommRingCat.{u}} (f : R ⟶ S) (q : PrimeSpectrum S)
+    (s : (Spec R).presheaf.stalk (Spec.map f q)) :
+    (Spec.stalkIso S q).hom ((Spec.map f).stalkMap q s) =
+      Localization.localRingHom (PrimeSpectrum.comap f.hom q).asIdeal q.asIdeal f.hom rfl
+        ((Spec.stalkIso R (PrimeSpectrum.comap f.hom q)).hom s) := by
+  have h := Scheme.localRingHom_comp_stalkIso_apply f q s
+  refine (congrArg (fun t ↦ (Spec.stalkIso S q).hom t) h).symm.trans ?_
+  exact Iso.inv_hom_id_apply (Spec.stalkIso S q) _
+
+/-- The residue degree of `Spec O ⟶ Spec D` at `𝔔` is the inertia degree of `𝔔` over `D`. -/
+theorem Spec.residueDegree_map_eq_inertiaDeg {D O : CommRingCat.{u}} (j : D ⟶ O) (𝔔 : Spec O) :
+    letI := j.hom.toAlgebra
+    (Spec.map j).residueDegree 𝔔 = 𝔔.asIdeal.inertiaDeg D := by
+  let _ := j.hom.toAlgebra
+  let p : Ideal D := 𝔔.asIdeal.under D
+  let _ := Localization.AtPrime.algebraOfLiesOver p 𝔔.asIdeal
+  rw [Ideal.inertiaDeg_eq p 𝔔.asIdeal, Scheme.Hom.residueDegree]
+  let x : Spec D := PrimeSpectrum.comap j.hom 𝔔
+  let i1 := (Scheme.Spec.residueFieldIso D x).commRingCatIsoToRingEquiv
+  let i2 := (Scheme.Spec.residueFieldIso O 𝔔).commRingCatIsoToRingEquiv
+  let _ := ((Spec.map j).residueFieldMap 𝔔).hom.toAlgebra
+  refine Algebra.finrank_eq_of_equiv_equiv (S₀ := (Spec O).residueField 𝔔)
+    (R₁ := p.ResidueField) (S₁ := 𝔔.asIdeal.ResidueField) i1 i2 ?_
+  ext z
+  obtain ⟨s, rfl⟩ := (Spec D).residue_surjective x z
+  change algebraMap p.ResidueField 𝔔.asIdeal.ResidueField (i1 ((Spec D).residue x s)) =
+    i2 (((Spec.map j).residueFieldMap 𝔔) ((Spec D).residue x s))
+  have h1 := ConcreteCategory.congr_hom (Scheme.Spec.residue_residueFieldIso_hom D x) s
+  have h2 : (Spec.map j).residueFieldMap 𝔔 ((Spec D).residue x s) =
+      (Spec O).residue 𝔔 ((Spec.map j).stalkMap 𝔔 s) :=
+    ConcreteCategory.congr_hom (Scheme.residue_residueFieldMap (Spec.map j) 𝔔) s
+  have h3 := ConcreteCategory.congr_hom (Scheme.Spec.residue_residueFieldIso_hom O 𝔔)
+    ((Spec.map j).stalkMap 𝔔 s)
+  simp only [ConcreteCategory.comp_apply] at h1 h3
+  have h4 : (Spec.stalkIso O 𝔔).hom ((Spec.map j).stalkMap 𝔔 s) =
+      Localization.localRingHom x.asIdeal 𝔔.asIdeal j.hom rfl ((Spec.stalkIso D x).hom s) :=
+    Spec.stalkIso_hom_stalkMap j 𝔔 s
+  rw [show i1 ((Spec D).residue x s) = _ from h1, h2, show i2 _ = _ from h3, h4]
+  rfl
+
+end Spec
+
 end Hartshorne
