@@ -14,10 +14,6 @@ if and only if both:
 1. $\Omega_{Y/k}$ is locally free; and
 2. the conormal sequence is exact on the left.
 
-The completion criterion for this node is the equivalence.  The conormal-rank
-and local-generation conclusions belong to the preceding forward-direction
-node.
-
 ## Depends on
 
 - [The conormal bundle of a nonsingular closed subvariety](nonsingular-closed-immersion-conormal.md)
