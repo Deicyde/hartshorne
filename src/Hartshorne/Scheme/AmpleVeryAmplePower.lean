@@ -24,8 +24,8 @@ The proof follows Hartshorne's.
 * Each `Bᵢ = Γ(X_{sᵢ}, 𝒪_X)` is a finitely generated `A`-algebra, with generators `b`.
 * By Lemma II.5.14(b), for one `m > 0` each `sᵢ^m b` extends to a global section `c_{i b}` of
   `𝒪_X ⊗ L'^{⊗ m} ≅ L^{⊗ nm}` (`exists_forall_sectionPowSMul_extension`).
-* The sections `sᵢ^m` and `c_{i b}` generate `𝒪_X ⊗ L'^{⊗ m}` (since `X_{sᵢ^m} = X_{sᵢ}` cover
-  `X`), so they define a morphism `φ : X ⟶ ℙᴺ_A` with `φ^* 𝒪(1) ≅ 𝒪_X ⊗ L'^{⊗ m}` (Theorem 7.1).
+* The sections `sᵢ^m` and `c_{i b}` (together with one zero section, so that the index set is never
+  empty) generate `𝒪_X ⊗ L'^{⊗ m}` (since `X_{sᵢ^m} = X_{sᵢ}` cover `X`), so they define a morphism `φ : X ⟶ ℙᴺ_A` with `φ^* 𝒪(1) ≅ 𝒪_X ⊗ L'^{⊗ m}` (Theorem 7.1).
 * Over the standard open `D₊(xᵢ)` of the coordinate `sᵢ^m`, the preimage is the affine `X_{sᵢ}`
   and the ring map onto `Bᵢ` is surjective, because it hits `A` and each `b = c_{i b}/sᵢ^m`; so
   `φ` restricted over `D₊(xᵢ)` is a closed immersion (the chart criterion behind
