@@ -13,6 +13,7 @@ map induces an isomorphism
 $\widehat{F} / J^{n+1} \widehat{F} \cong F / I^{n+1} F$
 
 on the common closed support.
+The isomorphism holds more generally for $X$ locally Noetherian and $F$ quasi-coherent; the Noetherian and coherence hypotheses are kept because they are Hartshorne's setting.
 
 ## Depends on
 

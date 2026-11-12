@@ -761,6 +761,7 @@ import Hartshorne.Scheme.ProjEventualSectionRecovery
 import Hartshorne.Scheme.AffineFormalModuleExact
 import Hartshorne.Scheme.SchemeCompletionExact
 import Hartshorne.Scheme.SchemeCompletionTensor
+import Hartshorne.Scheme.SchemeCompletionQuotient
 import Hartshorne.Scheme.FormalCompletionModuleAffineSections
 import Hartshorne.Scheme.ProjectiveNormalityCriterion
 import Hartshorne.Scheme.LinearSystem
