@@ -2,6 +2,7 @@
 article_id: af_126b2677e599617eaf60af08
 declaration: theorem
 origin: cited
+lean: Hartshorne.ProjectiveSectionRing.projectiveSectionRing_isIntegralClosure Hartshorne.ProjectiveSectionRing.sectionRing_isIntegralClosure Hartshorne.ProjectiveSectionRing.sectionRingToFraction Hartshorne.ProjectiveSectionRing.sectionToFraction Hartshorne.ProjectiveSectionRing.sectionMul Hartshorne.ProjectiveSectionRing.sectionToFraction_sectionMul Hartshorne.ProjectiveSectionRing.unitSection Hartshorne.ProjectiveSectionRing.sectionToFraction_mulGlobal_unitSection Hartshorne.ProjectiveSectionRing.isDomain_of_isIntegral Hartshorne.ProjectiveSectionRing.isIntegral_of_connectedSpace
 ---
 
 # The projective section ring is the integral closure
