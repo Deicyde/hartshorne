@@ -43,9 +43,9 @@ every affine open `U ⊆ X` through the embedding `f⁻¹(U) ⟶ ℙʳ_{Spec Γ(
 * `SectionAlgebraModel.exists_addEquiv_sections_tensorPower_of_isAffineOpen`: for all large `N`,
   the sections over `f⁻¹(U)` of the `N`-th tensor power of `L` are `T_N`.
 
-The global statement (gluing these over the affine opens of `X` into a quasi-coherent graded
-`𝒪_X`-algebra and identifying its relative `Proj` with `Z`) is not proved here; the gluing step is
-`QuasiCoherentGradedAlgebra.relProjIsoOfProj`.
+The gluing of these over the affine opens of `X` into a quasi-coherent graded `𝒪_X`-algebra and
+the identification of its relative `Proj` with `Z` are in
+`Hartshorne.Scheme.RelativeHomogeneousCoordinateAlgebra`.
 -/
 
 universe u

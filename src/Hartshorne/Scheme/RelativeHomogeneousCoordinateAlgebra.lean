@@ -22,6 +22,21 @@ graded `𝒪_X`-algebra.
 * `SectionAlgebraModel.homOfLE_chartEmbedding`: the embeddings over `U ⊆ V` are compatible.
 * `SectionAlgebraModel.comap_chartIdeal`: `I_V` is the preimage of `I_U` under
   `Γ(X, V)[x] → Γ(X, U)[x]`.
+* `SectionAlgebraModel.coordinateAlgebra`: `U ↦ T(U)` as a `QuasiCoherentGradedAlgebra X`
+  (quasi-coherence: `T(D(g)) = T(U)_g`).
+* `SectionAlgebraModel.chartIso`, `SectionAlgebraModel.relProjCoordinateAlgebraIso`:
+  `f⁻¹(U) ≅ Proj T(U)`, glued to `Proj_X T ≅ Z` over `X` (Step 3).
+* `SectionAlgebraModel.sectionAlgebraRelativeProjData`,
+  `SectionAlgebraModel.sectionAlgebraRelativeProjIso`: for `d > 0`, the Veronese subalgebra
+  `T^{(d)}` satisfies Hartshorne's hypotheses for relative Proj (`T₀ = 𝒪_X` when `f` is dominant
+  onto an integral `X`; `T_d` coherent; generated in degree one), and `Proj_X T^{(d)} ≅ Z` over `X`.
+* `SectionAlgebraModel.exists_finite_cover_addEquiv_sections_veronese`,
+  `SectionAlgebraModel.exists_sectionAlgebraModel_of_finiteCover`: over a finite affine cover of a
+  quasi-compact `X` of finite type over a field, with a uniform `d₀`, the degree-`m` part of
+  `T^{(d)}` is the group of sections of `L^{md}`, `L = i^* 𝒪(1)` (Step 2, `d ≥ d₀`, `m ≥ 1`).
+
+The comparison of `T^{(d)}` with `𝒪_X ⊕ ⨁_{m ≥ 1} f_* L^{md}` is proved here over the members of a
+finite affine cover only; Hartshorne's statement is about the sheaves.
 -/
 
 universe u
