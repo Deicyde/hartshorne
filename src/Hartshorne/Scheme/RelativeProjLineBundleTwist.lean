@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.ProjectiveBundle
 import Hartshorne.Scheme.SegreProductTrivialization
 import Hartshorne.RingedSpace.PicardGroup
+import Hartshorne.Scheme.InvertibleSymmetricPower
 
 /-!
 # Twisting a quasi-coherent graded algebra by an invertible sheaf
@@ -27,7 +28,10 @@ quasi-coherent graded `𝒪_X`-algebra (`Hartshorne.QuasiCoherentGradedAlgebra.d
 The graded algebra `S · L` is the diagonal product of `S` with the symmetric algebra
 `Sym(L) = ⊕_d Sym^d(L)` of `L` (`AlgebraicGeometry.Scheme.Modules.symmetricGradedAlgebra`), whose
 degree-`d` part `Sym^d(L)` is the `d`-th power of the invertible sheaf `L`
-(`Hartshorne.QuasiCoherentGradedAlgebra.lineBundleTwist`).
+(`Hartshorne.QuasiCoherentGradedAlgebra.lineBundleTwist`): the canonical map
+`L^{⊗ d} → Sym^d(L)` is an isomorphism for invertible `L`
+(`AlgebraicGeometry.Scheme.Modules.tensorPowerIsoSymmetricPower`), so
+`(S · L)_d = S_d ⊗ L^{⊗ d}`.
 
 ## The isomorphism `Proj_X (S · L) ≅ Proj_X S`
 
@@ -179,7 +183,8 @@ abbrev lineBundleSym : QuasiCoherentGradedAlgebra X :=
 
 /-- **The twist `S · L`** of a quasi-coherent graded `𝒪_X`-algebra `S` by an invertible sheaf `L`
 (Hartshorne II.7, Lemma 7.9): the diagonal product of `S` with `Sym(L) = ⊕_d Sym^d(L)`, so that
-`(S · L)_d = S_d ⊗ Sym^d(L)`, where `Sym^d(L)` is the `d`-th power of `L`. -/
+`(S · L)_d = S_d ⊗ Sym^d(L)`, where `Sym^d(L) ≅ L^{⊗ d}` is the `d`-th power of `L`
+(`AlgebraicGeometry.Scheme.Modules.tensorPowerIsoSymmetricPower`). -/
 def lineBundleTwist : QuasiCoherentGradedAlgebra X :=
   S.diagonalProduct (lineBundleSym L hL)
 
