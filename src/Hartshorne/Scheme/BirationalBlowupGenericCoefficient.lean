@@ -23,7 +23,8 @@ when sections of `F` are determined on a nonempty open, for instance when `F` is
 
 For an invertible sheaf `L` with trivializing section `e` over `W ∋ η`, the tensor powers `L^{n}`
 are trivialized by `e ⊗ ⋯ ⊗ e`, and the generic coefficients turn the products
-`L^{p} × L^{q} → L^{p+q}` into multiplication in `K(Z)` (`genericCoeff_mulSection`).
+`L^{p} × L^{q} → L^{p+q}` into multiplication in `K(Z)` (`genericCoeff_mulSection`). These
+generic coefficients are this formalization's means of viewing sections inside `K(Z)`.
 -/
 
 universe u

@@ -8,7 +8,21 @@ import Hartshorne.Scheme.BlowupVariety
 /-!
 # A birational projective morphism is a blowup
 
-Hartshorne, *Algebraic Geometry*, II, Theorem 7.17 (pp. 166–168).
+Hartshorne, *Algebraic Geometry*, II, Theorem 7.17 (pp. 166–168):
+`Hartshorne.exists_iso_blowup_of_birational_projective`. Let `f : Z ⟶ X` be a birational
+projective morphism from an integral scheme to a quasi-projective variety over a field.
+
+* Steps 1–3: write `f = π ∘ i` for a closed immersion `i : Z ⟶ ℙʳ_X` and take a section-algebra
+  model `S` of `f` in a degree `d`: `S(U)_m ≅ Γ(f⁻¹(U), L^{md})`, `Proj_X S ≅ Z` over `X`
+  (`Hartshorne.SectionAlgebraModel.exists_sectionAlgebraModel_multiplicative`).
+* Step 4: `f_* L^{d}` is a coherent fractional ideal; for an ample `A` and `D = A^{-n}` with `n`
+  large there is a nonzero `t : D ⟶ 𝒪_X` with values in its denominator ideal, and the image `I`
+  of `f_* L^{d} ⊗ D ⟶ 𝒪_X` is a coherent sheaf of ideals
+  (`Hartshorne.BirationalBlowup.nonempty_setup`).
+* Step 5: over an affine open on which `D` has a frame, every graded piece `S_m ⊗ D^m` is
+  identified with `Iᵐ` inside `K(X)`, so `S · D ≅ ⊕_m Iᵐ` locally; gluing and Lemma 7.9 give
+  `Bl_I X = Proj_X (⊕_m Iᵐ) ≅ Proj_X (S · D) ≅ Proj_X S ≅ Z` over `X`
+  (`Hartshorne.BirationalBlowup.Setup.blowupIso`). `I` is nonzero because `Z` is nonempty.
 -/
 
 universe u
@@ -104,7 +118,8 @@ theorem localIso_naturality {U V : (framedAffines P.D).FullSubcategory} (f : U �
 theorem localIso_hom_toSpec (U : (framedAffines P.D).FullSubcategory) :
     (P.localIso U).hom ≫ Proj.toSpecZero ((P.S.lineBundleTwist P.D P.hD).grading U.obj) ≫
         Spec.map ((P.S.lineBundleTwist P.D P.hD).toZero U.obj) =
-      Proj.toSpecZero (P.I.reesAlgebra.grading U.obj) ≫ Spec.map (P.I.reesAlgebra.toZero U.obj) := by
+      Proj.toSpecZero (P.I.reesAlgebra.grading U.obj) ≫
+        Spec.map (P.I.reesAlgebra.toZero U.obj) := by
   by_cases hU : genericPoint X ∈ U.obj.1
   swap
   · have := isEmpty_proj P.I.reesAlgebra U.obj hU

@@ -28,7 +28,8 @@ of `X`, sending a homogeneous `s ∈ S(U)_m` to `c(s) Tᵐ`, where `c(s)` is the
 ring homomorphism `S(U) → K(X)[T]` (`Hartshorne.BirationalBlowup.sectionToPoly`), injective in
 every degree and compatible with restriction. Thus every graded piece of the section algebra is
 identified with a sub-`Γ(U, 𝒪_X)`-module of the function field, and the multiplication of `S`
-with the multiplication of `K(X)`.
+with the multiplication of `K(X)`. Describing this embedding through generic coefficients with
+respect to a trivialization of `L` is this formalization's own device.
 -/
 
 universe u

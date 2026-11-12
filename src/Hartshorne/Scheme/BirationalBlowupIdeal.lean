@@ -79,7 +79,8 @@ theorem fracApp_smul (V : X.Opens) (a : Γ(X, V)) (s : Γ(tensorPowerL i n, proj
     fracApp hf θ he hW n V ((proj i).app V a • s) =
       X.toK V a * fracApp hf θ he hW n V s := by
   refine totalQuotientSheaf_ext_of_isIntegral fun h ↦ ?_
-  rw [map_mul, fracApp_spec, fracApp_spec, coeffK_smul hf hθ, totalQuotientSheafEquivFunctionField_toK]
+  rw [map_mul, fracApp_spec, fracApp_spec, coeffK_smul hf hθ,
+    totalQuotientSheafEquivFunctionField_toK]
 
 theorem fracApp_map {U V : X.Opens} (h : V ≤ U) (s : Γ(tensorPowerL i n, proj i ⁻¹ᵁ U)) :
     fracApp hf θ he hW n V
@@ -365,7 +366,8 @@ theorem exists_dual_hom_denominator {P : X.Modules} (hP : Ringed.IsInvertible (R
     (hG : Modules.IsGloballyGenerated
       (moduleSheafTensor (denominatorIdealSheaf hF ι).toModules P)) :
     ∃ t : @Quiver.Hom X.Modules _ (Ringed.moduleSheafDual (R := X.sheaf) P)
-        (SheafOfModules.unit X.ringCatSheaf), t ≠ 0 ∧ ∀ (V : X.Opens) (ψ : Γ(Ringed.moduleSheafDual (R := X.sheaf) P, V)),
+        (SheafOfModules.unit X.ringCatSheaf), t ≠ 0 ∧
+      ∀ (V : X.Opens) (ψ : Γ(Ringed.moduleSheafDual (R := X.sheaf) P, V)),
         t.app V ψ ∈ (denominatorIdealSheaf hF ι).ideal V := by
   set J := denominatorIdealSheaf hF ι
   set D := Ringed.moduleSheafDual (R := X.sheaf) P
