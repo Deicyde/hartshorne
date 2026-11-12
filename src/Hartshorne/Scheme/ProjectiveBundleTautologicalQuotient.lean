@@ -479,7 +479,6 @@ theorem twistCompatible_one : TwistCompatible (S := (symmetricRelativeProjData h
     (projectiveBundleTwistingSheaf hE hfin 1) (twistOneRestrictIso hE hfin) :=
   twistCompatible_relTwistingSheaf _ 1
 
-
 /-! ### The tautological quotient of `P(E)` -/
 
 /-- **The tautological quotient `π^* E ⟶ 𝒪_{P(E)}(1)`** (Hartshorne II, Proposition 7.11(b)):
@@ -565,7 +564,6 @@ def projectiveBundleInvertibleQuotientOfHom (φ : Y ⟶ projectiveBundle hE hfin
     (isInvertible_relTwistingSheaf _ 1 (symmetricRelativeProjData hE hfin).generated)
   quotient := projectiveBundlePullbackQuotient hE hfin φ hφ
   epi := inferInstance
-
 
 /-- The section `f^* T` of `f^* N` over all of `Y`, for a section `T` of `N` over an open whose
 preimage is all of `Y`. -/
@@ -701,14 +699,12 @@ theorem exists_frameChart_iso :
 
 end FrameChart
 
-
 section Represent2
 
 variable (M : (projectiveBundle hE hfin).Modules)
   (α : ∀ V, M.restrict ((symmetricGradedAlgebra hE hfin).projι V) ≅
     (symmetricGradedAlgebra hE hfin).twistingSheaf ((1 : ℕ) : ℤ) V)
   (hα : TwistCompatible M α)
-
 
 /-- The quotient `g^* E ≅ φ^* π^* E ⟶ φ^* M` attached to `φ : Y ⟶ P(E)` over `X`. -/
 abbrev quotientOfHom (φ : Y ⟶ projectiveBundle hE hfin)
@@ -794,7 +790,6 @@ theorem RepresentsQuotient.of_cover {φ : Y ⟶ projectiveBundle hE hfin}
   simp
 
 end RepresentLemmas
-
 
 section PullbackSectionTop
 
@@ -1005,7 +1000,6 @@ theorem exists_represents_local {L : Y.Modules} (hL : L.IsInvertible)
 
 end Local
 
-
 section Global
 
 variable {M : (projectiveBundle hE hfin).Modules}
@@ -1157,8 +1151,6 @@ theorem exists_represents {L : Y.Modules} (hL : L.IsInvertible)
 
 end Global
 
-
-
 /-! ### Proposition 7.12 and Exercise 7.8 -/
 
 section Main
@@ -1261,5 +1253,12 @@ def projectiveBundleSectionEquiv :
       Quotient (InvertibleQuotient.setoid E) :=
   (projectiveBundleHomEquiv hE hfin (𝟙 X)).trans
     (InvertibleQuotient.quotientEquivOfIso ((Scheme.Modules.pullbackId X).app E).symm)
+
+/-- The bijection sends a section `s` to the class of `E ≅ s^* π^* E ⟶ s^* 𝒪(1)`. -/
+theorem projectiveBundleSectionEquiv_apply (s : X ⟶ projectiveBundle hE hfin)
+    (hs : s ≫ projectiveBundleProj hE hfin = 𝟙 X) :
+    projectiveBundleSectionEquiv hE hfin ⟨s, hs⟩ =
+      ⟦InvertibleQuotient.ofIso ((Scheme.Modules.pullbackId X).app E).symm
+        (projectiveBundleInvertibleQuotientOfHom hE hfin s hs)⟧ := rfl
 
 end AlgebraicGeometry.Scheme.Modules
