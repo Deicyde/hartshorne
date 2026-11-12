@@ -3,6 +3,8 @@ article_id: af_72a1a080625f60e38ac74daf
 declaration: def
 origin: cited
 lean: Hartshorne.LinearSystem Hartshorne.globalSectionsOverField Hartshorne.LinearSystem.divisors Hartshorne.LinearSystem.divisor_eq_iff Hartshorne.LinearSystem.complete Hartshorne.LinearSystem.mem_divisors_complete_iff Hartshorne.LinearSystem.mem_divisors_complete_iff_weil Hartshorne.LinearSystem.divisors_mono Hartshorne.LinearSystem.le_complete Hartshorne.LinearSystem.dim Hartshorne.LinearSystem.IsBasePoint Hartshorne.LinearSystem.isBasePoint_iff Hartshorne.LinearSystem.mem_support_baseLocusIdeal_iff Hartshorne.LinearSystem.restrictionMap Hartshorne.LinearSystem.trace Hartshorne.IsDivisorIntersection Hartshorne.LinearSystem.mem_trace_divisors_iff Hartshorne.LinearSystem.pullbackGlobalSection_ne_zero_iff AlgebraicGeometry.Scheme.CartierDivisor.IsDivisorOfZeros.idealSheafData_eq_invertibleZeroIdeal
+statement: formalized
+proof: formalized
 ---
 
 # Linear systems
