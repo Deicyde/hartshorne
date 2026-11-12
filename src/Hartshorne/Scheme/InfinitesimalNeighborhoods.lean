@@ -219,4 +219,7 @@ theorem infinitesimalNeighborhoodZeroIso_hom_comp {Y : Scheme.{u}} (f : Y ⟶ X)
   rw [Category.assoc, hf]
   exact Scheme.IdealSheafData.inclusion_subschemeι _
 
+attribute [deprecated infinitesimalNeighborhoodOneIso_hom_comp_assoc (since := "2026-11-11")]
+  infinitesimalNeighborhoodZeroIso_hom_comp_assoc
+
 end Hartshorne
