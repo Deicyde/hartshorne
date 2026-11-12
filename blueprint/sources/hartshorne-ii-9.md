@@ -65,9 +65,9 @@ Atiyah–Macdonald, pp.108–109 and p.113, for (a–d), and Bourbaki, Chapter I
   Their inverse limit is the formal neighbourhood inside the ambient scheme.
 - **Definitions and Remark 9.3.1, p.194.** For a Noetherian scheme `X` and a
   closed subscheme `Y` with module ideal sheaf `I`, the completion has space
-  `|Y|` and structure sheaf `lim O_X/I^(n+1)`. It is a locally ringed space,
-  depends only on the closed support, and has completed affine section rings.
-  For coherent `F`, its completion is `lim F/I^(n+1)F`.
+  `|Y|` and structure sheaf `lim O_X/I^n` (over `n ≥ 1`). It is a locally
+  ringed space, depends only on the closed support, and has completed affine
+  section rings. For coherent `F`, its completion is `lim F/I^nF`.
 
 The completion uses the subsheaves `I^n F`. That they are quasi-coherent, coherent for
 coherent `F` on a Noetherian scheme, and have sections `I(V)^n F(V)` on an affine open `V` is
