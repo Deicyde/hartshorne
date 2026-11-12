@@ -690,6 +690,7 @@ import Hartshorne.Surface.KodairaDimension
 import Hartshorne.Scheme.Differentials.ProductOfNonsingularVarieties
 import Hartshorne.Cohomology.QuasiProjectiveLocallyFreeResolution
 import Hartshorne.Scheme.InfinitesimalNeighborhoods
+import Hartshorne.Scheme.FormalCompletion
 import Hartshorne.Weil.GeometricallyConnectedSmoothProjective
 import Hartshorne.Surface.KodairaDimensionBirational
 import Hartshorne.Surface.GeneralType
