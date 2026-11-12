@@ -16,11 +16,13 @@ $A^{-n} \otimes f_*L$ embeds as a coherent ideal of $\mathcal{O}_X$.
 - [Ample invertible sheaves](../linear-systems-ampleness/ample-invertible-sheaf.md)
 - [Birational varieties have isomorphic function fields](../../../rational-maps/birational-function-fields.md)
 - [Coherence of projective pushforward](../../projective-sheaves/projective-pushforward-coherent.md)
+- [The invertible sheaf associated to a Cartier divisor](../../divisors/cartier-picard/cartier-divisor-associated-sheaf.md)
 
 ## Proof depends on
 
 - [Global regular functions inside the function field](../../../morphisms/global-functions/global-regular-in-function-field.md)
 - [Functoriality of function fields](../../../morphisms/function-field-functorial.md)
+- [Cartier classes and the Picard group of an integral scheme](../../divisors/cartier-picard/divisor-class-picard-equivalence.md)
 - Common denominators for a finite set of local generators.
 - [Generation by global sections](../../projective-sheaves/globally-generated-module-sheaf.md)
   applied to a sufficiently positive twist of the denominator ideal.
