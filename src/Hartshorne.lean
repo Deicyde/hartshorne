@@ -775,3 +775,4 @@ import Hartshorne.RingedSpace.PolynomialSheafSections
 import Hartshorne.Scheme.SymmetricAlgebraAffineSections
 import Hartshorne.Scheme.GeometricVectorBundle
 import Hartshorne.Scheme.BaseLocusBlowup
+import Hartshorne.Scheme.BlowupStrictTransform
