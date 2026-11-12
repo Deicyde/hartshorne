@@ -786,6 +786,361 @@ theorem moduleFinite_sections_of_primeFactors [IsNoetherianRing A] [IsNoetherian
 
 end Filtration
 
+/-! ### The prime factors `(S/𝔭)(l)` -/
+
+section PrimeFactor
+
+attribute [local instance] gradedSMul_of_intGrading
+
+/-- The `𝒜`-component of `r` in degree `k` is its `intGrading 𝒜`-component. -/
+private theorem coe_decompose_intGrading (r : A) (k : ℕ) :
+    (DirectSum.decompose (intGrading 𝒜) r (k : ℤ) : A) = DirectSum.decompose 𝒜 r k := by
+  classical
+  conv_lhs => rw [← DirectSum.sum_support_decompose 𝒜 r]
+  rw [DirectSum.decompose_sum, DFinsupp.finsetSum_apply, AddSubmonoidClass.coe_finsetSum,
+    Finset.sum_eq_single k]
+  · exact DirectSum.decompose_of_mem_same _ (mem_intGrading_natCast.2 (SetLike.coe_mem _))
+  · intro b _ hb
+    exact DirectSum.decompose_of_mem_ne _ (mem_intGrading_natCast.2 (SetLike.coe_mem _))
+      (by exact_mod_cast hb)
+  · intro hk
+    rw [DFinsupp.notMem_support_iff.1 hk]
+    simp
+
+private theorem isHomogeneous_of_intGrading {I : Ideal A}
+    (hI : I.IsHomogeneous (intGrading 𝒜)) : I.IsHomogeneous 𝒜 := fun k r hr => by
+  rw [← coe_decompose_intGrading]
+  exact hI (k : ℤ) hr
+
+/-- `a / s ↦ a / s̄ ∈ Frac(S/𝔭)`, for denominators outside `𝔭`. -/
+private def toFracQ (I : Ideal A) [I.IsPrime] {T : Submonoid A} (hT : T ≤ I.primeCompl)
+    (m : LocalizedModule T (A ⧸ I)) : FractionRing (A ⧸ I) :=
+  m.liftOn (fun q => algebraMap (A ⧸ I) (FractionRing (A ⧸ I)) q.1 /
+      algebraMap (A ⧸ I) (FractionRing (A ⧸ I)) (Ideal.Quotient.mk I q.2)) (by
+    rintro ⟨a, s⟩ ⟨b, t⟩ ⟨w, hw⟩
+    have hne : ∀ u : T, algebraMap (A ⧸ I) (FractionRing (A ⧸ I))
+        (Ideal.Quotient.mk I u) ≠ 0 := fun u => by
+      rw [map_ne_zero_iff _ (IsFractionRing.injective _ _), ne_eq,
+        Ideal.Quotient.eq_zero_iff_mem]
+      exact hT u.2
+    simp only [Submonoid.smul_def] at hw
+    rw [Algebra.smul_def, Algebra.smul_def, Algebra.smul_def, Algebra.smul_def] at hw
+    simp only [Ideal.Quotient.algebraMap_eq] at hw
+    have h := congrArg (algebraMap (A ⧸ I) (FractionRing (A ⧸ I))) hw
+    simp only [map_mul] at h
+    change algebraMap (A ⧸ I) (FractionRing (A ⧸ I)) a /
+        algebraMap (A ⧸ I) (FractionRing (A ⧸ I)) (Ideal.Quotient.mk I s) =
+      algebraMap (A ⧸ I) (FractionRing (A ⧸ I)) b /
+        algebraMap (A ⧸ I) (FractionRing (A ⧸ I)) (Ideal.Quotient.mk I t)
+    rw [div_eq_div_iff (hne s) (hne t)]
+    have := mul_left_cancel₀ (hne w) h
+    linear_combination this)
+
+private theorem toFracQ_mk (I : Ideal A) [I.IsPrime] {T : Submonoid A} (hT : T ≤ I.primeCompl) (a : A ⧸ I) (s : T) :
+    toFracQ I hT (LocalizedModule.mk a s) =
+      algebraMap (A ⧸ I) (FractionRing (A ⧸ I)) a /
+        algebraMap (A ⧸ I) (FractionRing (A ⧸ I)) (Ideal.Quotient.mk I s) :=
+  LocalizedModule.liftOn_mk _ _ _
+
+private theorem toFracQ_add (I : Ideal A) [I.IsPrime] {T : Submonoid A} (hT : T ≤ I.primeCompl)
+    (m m' : LocalizedModule T (A ⧸ I)) : toFracQ I hT (m + m') = toFracQ I hT m + toFracQ I hT m' := by
+  induction m using LocalizedModule.induction_on with | h a s =>
+  induction m' using LocalizedModule.induction_on with | h b t =>
+  have hne : ∀ u : T, algebraMap (A ⧸ I) (FractionRing (A ⧸ I))
+      (Ideal.Quotient.mk I u) ≠ 0 := fun u => by
+    rw [map_ne_zero_iff _ (IsFractionRing.injective _ _), ne_eq, Ideal.Quotient.eq_zero_iff_mem]
+    exact hT u.2
+  have hs := hne s
+  have ht := hne t
+  rw [LocalizedModule.mk_add_mk, toFracQ_mk, toFracQ_mk, toFracQ_mk]
+  simp only [Submonoid.smul_def, Algebra.smul_def, Ideal.Quotient.algebraMap_eq, Submonoid.coe_mul,
+    map_add, map_mul]
+  field_simp
+
+private theorem toFracQ_mk_smul (I : Ideal A) [I.IsPrime] {T : Submonoid A} (hT : T ≤ I.primeCompl) (c : A)
+    (m : LocalizedModule T (A ⧸ I)) :
+    toFracQ I hT ((Localization.mk c 1 : Localization T) • m) =
+      algebraMap (A ⧸ I) (FractionRing (A ⧸ I)) (Ideal.Quotient.mk I c) * toFracQ I hT m := by
+  induction m using LocalizedModule.induction_on with | h b t =>
+  rw [LocalizedModule.mk_smul_mk, toFracQ_mk, toFracQ_mk, one_mul, Algebra.smul_def,
+    Ideal.Quotient.algebraMap_eq, map_mul, mul_div_assoc]
+
+variable (p : PrimeSpectrum A) (hp : p.1.IsHomogeneous (intGrading 𝒜))
+
+variable (𝒜) in
+/-- The prime `𝔭` as a homogeneous ideal of `S`. -/
+private def primeIdeal : HomogeneousIdeal 𝒜 := ⟨p.1, isHomogeneous_of_intGrading hp⟩
+
+/-- The point `𝔭` of `Proj S`, when `S₊ ⊄ 𝔭`. -/
+private def primePoint (h : ¬HomogeneousIdeal.irrelevant 𝒜 ≤ primeIdeal 𝒜 p hp) : Proj 𝒜 :=
+  (⟨primeIdeal 𝒜 p hp, p.isPrime, h⟩ : ProjectiveSpectrum 𝒜)
+
+private instance primeIdeal_isPrime : (primeIdeal 𝒜 p hp).toIdeal.IsPrime := p.isPrime
+
+/-- Away from `V₊(𝔭)` the sheaf `(S/𝔭)(l)~` vanishes: an element `a ∈ 𝔭` outside the point
+kills every fraction. -/
+private theorem globalValue_val_eq_zero (l : ℤ) (x : Proj 𝒜) {a : A} (hap : a ∈ p.1)
+    (hax : a ∉ x.asHomogeneousIdeal)
+    (s : (projGradedModuleSheaf 𝒜 (primeFactor 𝒜 p hp l)).val.obj (op ⊤)) :
+    (globalValue 𝒜 (primeFactor 𝒜 p hp l) s x).val = 0 := by
+  generalize (globalValue 𝒜 (primeFactor 𝒜 p hp l) s x).val = y
+  induction y using LocalizedModule.induction_on with | h m t =>
+  rw [← LocalizedModule.mk_cancel_common_left ⟨a, hax⟩ t m]
+  have ham : a • m = 0 := by
+    induction m using Submodule.Quotient.induction_on with | H b =>
+    rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero, smul_eq_mul]
+    exact p.1.mul_mem_right b hap
+  rw [Submonoid.smul_def]
+  change LocalizedModule.mk (a • m) _ = 0
+  rw [ham, LocalizedModule.zero_mk]
+
+variable (l : ℤ) (h : ¬HomogeneousIdeal.irrelevant 𝒜 ≤ primeIdeal 𝒜 p hp)
+
+/-- The value in `Frac(S/𝔭)` at the point `𝔭` of a global section of `(S/𝔭)(l)~`. -/
+private def primeValue (s : (projGradedModuleSheaf 𝒜 (primeFactor 𝒜 p hp l)).val.obj (op ⊤)) :
+    FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) :=
+  toFracQ (primeIdeal 𝒜 p hp).toIdeal le_rfl (globalValue 𝒜 (primeFactor 𝒜 p hp l) s (primePoint p hp h)).val
+
+private theorem primeValue_add (s s' : (projGradedModuleSheaf 𝒜 (primeFactor 𝒜 p hp l)).val.obj (op ⊤)) :
+    primeValue p hp l h (s + s') = primeValue p hp l h s + primeValue p hp l h s' :=
+  toFracQ_add _ le_rfl _ _
+
+private theorem primeValue_smul (c : 𝒜 0)
+    (s : (projGradedModuleSheaf 𝒜 (primeFactor 𝒜 p hp l)).val.obj (op ⊤)) :
+    primeValue p hp l h (degreeZeroToGlobal 𝒜 c • s) =
+      algebraMap (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal)) (Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal c) *
+        primeValue p hp l h s := by
+  unfold primeValue
+  change toFracQ (primeIdeal 𝒜 p hp).toIdeal le_rfl (((degreeZeroToGlobal 𝒜 c).1 ⟨primePoint p hp h, trivial⟩ •
+    globalValue 𝒜 (primeFactor 𝒜 p hp l) s (primePoint p hp h)).val) = _
+  rw [HomogeneousLocalizedModule.val_smul, degreeZeroToGlobal_val]
+  erw [toFracQ_mk_smul]
+
+private theorem eq_zero_of_primeValue_eq_zero
+    {s : (projGradedModuleSheaf 𝒜 (primeFactor 𝒜 p hp l)).val.obj (op ⊤)}
+    (hs : primeValue p hp l h s = 0) : s = 0 := by
+  apply globalValue_injective 𝒜 (primeFactor 𝒜 p hp l)
+  funext x
+  apply HomogeneousLocalizedModule.ext
+  change (globalValue 𝒜 (primeFactor 𝒜 p hp l) s x).val = 0
+  let s' : (sheafInType 𝒜 (primeFactor 𝒜 p hp l)).1.obj (op ⊤) := s
+  by_cases hpx : p.1 ≤ x.asHomogeneousIdeal.toIdeal
+  · obtain ⟨V, hxV, i, d, m, hm, f, hf, f_nin, w⟩ := s'.2 ⟨x, trivial⟩
+    beta_reduce at w
+    have hηV : (primePoint p hp h : ProjectiveSpectrum 𝒜) ∈ V := by
+      have hcl : x ∈ closure ({(primePoint p hp h : ProjectiveSpectrum 𝒜)} :
+          Set (ProjectiveSpectrum 𝒜)) :=
+        (ProjectiveSpectrum.le_iff_mem_closure (𝒜 := 𝒜) _ x).1 hpx
+      obtain ⟨y, hyV, hy⟩ := mem_closure_iff.1 hcl (show Set (ProjectiveSpectrum 𝒜) from V.1)
+        V.2 hxV
+      rw [Set.mem_singleton_iff.1 hy] at hyV
+      exact hyV
+    have e1 := congrArg HomogeneousLocalizedModule.val (w ⟨x, hxV⟩)
+    have e2 := congrArg HomogeneousLocalizedModule.val (w ⟨_, hηV⟩)
+    unfold primeValue at hs
+    change toFracQ (primeIdeal 𝒜 p hp).toIdeal le_rfl (s'.1 (i ⟨_, hηV⟩)).val = 0 at hs
+    rw [e2, HomogeneousLocalizedModule.val_mk] at hs
+    erw [toFracQ_mk] at hs
+    rw [div_eq_zero_iff] at hs
+    have hm0 : m = 0 := by
+      rcases hs with hs | hs
+      · exact (map_eq_zero_iff (algebraMap (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal)))
+          (IsFractionRing.injective (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal)))).1 hs
+      · exfalso
+        rw [map_eq_zero_iff (algebraMap (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal)))
+          (IsFractionRing.injective (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal))),
+          Ideal.Quotient.eq_zero_iff_mem] at hs
+        exact f_nin ⟨_, hηV⟩ hs
+    change (s'.1 (i ⟨x, hxV⟩)).val = 0
+    rw [e1, HomogeneousLocalizedModule.val_mk]
+    subst hm0
+    exact LocalizedModule.zero_mk _
+  · obtain ⟨a, hap, hax⟩ := Set.not_subset.1 hpx
+    exact globalValue_val_eq_zero p hp l x hap hax s
+
+
+/-- On a chart `D₊(f)` with `f ∈ S₁`, `f ∉ 𝔭`, the value of a section of `(S/𝔭)(l)~` is
+`ā / f̄^j` with `a ∈ S_{j + l}` (zero if `j + l < 0`). -/
+private theorem exists_primeValue_chart {f : A} (f_deg : f ∈ 𝒜 1) (hf : f ∉ p.1)
+    (s : (projGradedModuleSheaf 𝒜 (primeFactor 𝒜 p hp l)).val.obj (op ⊤)) :
+    ∃ (j : ℕ) (a : A), a ∈ intGrading 𝒜 (j + l) ∧
+      algebraMap (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal))
+          (Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal a) =
+        algebraMap (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal))
+          (Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal f) ^ j * primeValue p hp l h s := by
+  obtain ⟨m, hm⟩ := exists_globalValue_eq_mapOfLE 𝒜 (primeFactor 𝒜 p hp l) f_deg one_pos s
+  have hη : primePoint p hp h ∈ Proj.basicOpen 𝒜 f := hf
+  obtain ⟨d, a', ha', t, ht, htx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective m
+  obtain ⟨j, rfl⟩ := htx
+  have hfj : f ^ j ∉ p.1 := fun hmem => hf (p.isPrime.mem_of_pow_mem _ hmem)
+  have hdj : d = j := DirectSum.degree_eq_of_mem_mem 𝒜 ht
+    (by simpa using SetLike.pow_mem_graded j f_deg) (fun h0 => hfj (by
+      simp only at h0
+      rw [h0]
+      exact zero_mem _))
+  subst hdj
+  obtain ⟨a, ha, rfl⟩ := ha'
+  refine ⟨d, a, ha, ?_⟩
+  unfold primeValue
+  rw [hm _ hη, HomogeneousLocalizedModule.mapOfLE_mk, HomogeneousLocalizedModule.val_mk]
+  erw [toFracQ_mk]
+  have h0 : algebraMap (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal))
+      (Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal (f ^ d)) ≠ 0 := by
+    rw [map_ne_zero_iff _ (IsFractionRing.injective _ _), ne_eq, Ideal.Quotient.eq_zero_iff_mem]
+    exact hfj
+  rw [map_pow, map_pow] at h0 ⊢
+  field_simp
+  rfl
+
+/-- The value of a section of `(S/𝔭)(l)~`, multiplied by `f̄_{i₀}^m` with `l + m = d ≥ 0`,
+satisfies the chart condition in degree `d` for `S/𝔭` and the images of the `fᵢ`. -/
+private theorem chartCond_primeValue {f : ι → A} (hf : ∀ i, f i ∈ 𝒜 1) {m d : ℕ}
+    (hlmd : l + m = d) (i₀ : ι)
+    (s : (projGradedModuleSheaf 𝒜 (primeFactor 𝒜 p hp l)).val.obj (op ⊤)) :
+    ChartCond (gradedQuotient 𝒜 (primeIdeal 𝒜 p hp))
+      (fun i => Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal (f i)) d
+      (algebraMap (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal))
+        (Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal (f i₀)) ^ m * primeValue p hp l h s) := by
+  intro i hi
+  have hfi : f i ∉ p.1 := fun hmem => hi (Ideal.Quotient.eq_zero_iff_mem.2 hmem)
+  obtain ⟨j, a, ha, hza⟩ := exists_primeValue_chart p hp l h (hf i) hfi s
+  have hne : algebraMap (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal))
+      (Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal (f i)) ^ j ≠ 0 :=
+    pow_ne_zero _ ((map_ne_zero_iff _ (IsFractionRing.injective _ _)).2 hi)
+  by_cases hneg : 0 + ((j : ℤ) + l) < 0
+  · refine ⟨0, 0, zero_mem _, ?_⟩
+    rw [eq_zero_of_mem_gradedTwist ha hneg, map_zero, map_zero] at hza
+    rw [(mul_eq_zero.1 hza.symm).resolve_left hne]
+    simp
+  · refine ⟨j, Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal (a * f i₀ ^ m), ?_, ?_⟩
+    · apply mk_mem_gradedQuotient
+      have h1 : a ∈ 𝒜 (0 + ((j : ℤ) + l)).toNat := mem_of_mem_gradedTwist ha
+      have := SetLike.mul_mem_graded h1 (by simpa using SetLike.pow_mem_graded m (hf i₀))
+      rwa [show (0 + ((j : ℤ) + l)).toNat + m = j + d by omega] at this
+    · rw [map_mul, map_mul, hza, map_pow, map_pow]
+      ring
+
+end PrimeFactor
+
+section PrimeFactorFinite
+
+attribute [local instance] gradedSMul_of_intGrading
+
+variable (p : PrimeSpectrum A) (hp : p.1.IsHomogeneous (intGrading 𝒜))
+
+/-- **Hartshorne II, Theorem 5.19, for the factor `(S/𝔭)(l)`** (the last step of Hartshorne's
+proof: `(S/𝔭)(l)~` is `𝒪_Y(l)` on the integral closed subscheme `Y = V₊(𝔭)`). Let `S` be a
+finite-type algebra over a field `k`, generated over `S₀` by finitely many `fᵢ ∈ S₁`, and `𝔭` a
+homogeneous prime. Then `Γ(Proj S, (S/𝔭)(l)~)` is a finite `S₀`-module for every `l ∈ ℤ`. -/
+theorem moduleFinite_sections_primeFactor (k : Type u) [Field k] [Algebra k A]
+    [Algebra.FiniteType k A] [Fintype ι] {f : ι → A} (hf : ∀ i, f i ∈ 𝒜 1)
+    (hgen : Algebra.adjoin (𝒜 0) (Set.range f) = ⊤) (l : ℤ) :
+    Module.Finite (𝒜 0) ((ModuleCat.restrictScalars (degreeZeroToGlobal 𝒜)).obj
+      ((projGradedModuleSheaf 𝒜 (primeFactor 𝒜 p hp l)).val.obj (op ⊤))) := by
+  classical
+  have : IsNoetherianRing A := Algebra.FiniteType.isNoetherianRing k A
+  have hcov : ∀ x : Proj 𝒜, ∃ i, f i ∉ x.asHomogeneousIdeal := by
+    intro x
+    have hx : x ∈ (⊤ : (Proj 𝒜).Opens) := trivial
+    rw [← Proj.iSup_basicOpen_eq_top' 𝒜 f (fun i => ⟨1, hf i⟩) hgen] at hx
+    obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.1 hx
+    exact ⟨i, hi⟩
+  by_cases h : HomogeneousIdeal.irrelevant 𝒜 ≤ primeIdeal 𝒜 p hp
+  · -- `S₊ ⊆ 𝔭`: the sheaf vanishes
+    have : Subsingleton ((ModuleCat.restrictScalars (degreeZeroToGlobal 𝒜)).obj
+      ((projGradedModuleSheaf 𝒜 (primeFactor 𝒜 p hp l)).val.obj (op ⊤))) := ⟨fun s s' => globalValue_injective 𝒜 _ (funext fun x => by
+      obtain ⟨i, hi⟩ := hcov x
+      have hfi : f i ∈ p.1 := h (by
+        rw [HomogeneousIdeal.mem_irrelevant_iff, GradedRing.proj_apply,
+          DirectSum.decompose_of_mem_ne 𝒜 (hf i) (by omega)])
+      exact HomogeneousLocalizedModule.ext ((globalValue_val_eq_zero p hp l x hfi hi s).trans
+        (globalValue_val_eq_zero p hp l x hfi hi s').symm))⟩
+    exact ⟨⟨∅, Subsingleton.elim _ _⟩⟩
+  have : Algebra.FiniteType k (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) :=
+    Algebra.FiniteType.of_surjective (Ideal.Quotient.mkₐ k (primeIdeal 𝒜 p hp).toIdeal)
+      (Ideal.Quotient.mkₐ_surjective k (primeIdeal 𝒜 p hp).toIdeal)
+  have hfb : ∀ i, Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal (f i) ∈ gradedQuotient 𝒜 (primeIdeal 𝒜 p hp) 1 :=
+    fun i => mk_mem_gradedQuotient (hf i)
+  have hgenb : Algebra.adjoin (gradedQuotient 𝒜 (primeIdeal 𝒜 p hp) 0)
+      (Set.range fun i => Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal (f i)) = ⊤ := by
+    rw [eq_top_iff]
+    rintro t -
+    obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective t
+    have ha : a ∈ Algebra.adjoin (𝒜 0) (Set.range f) := hgen ▸ Algebra.mem_top
+    induction ha using Algebra.adjoin_induction with
+    | mem x hx =>
+      obtain ⟨i, rfl⟩ := hx
+      exact Algebra.subset_adjoin ⟨i, rfl⟩
+    | algebraMap c =>
+      exact Subalgebra.algebraMap_mem _
+        (⟨Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal c, mk_mem_gradedQuotient c.2⟩ :
+          gradedQuotient 𝒜 (primeIdeal 𝒜 p hp) 0)
+    | add x y _ _ hx hy =>
+      rw [map_add]
+      exact add_mem hx hy
+    | mul x y _ _ hx hy =>
+      rw [map_mul]
+      exact mul_mem hx hy
+  obtain ⟨i₀, hi₀⟩ : ∃ i, f i ∉ p.1 := hcov (primePoint p hp h)
+  have hfb0 : Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal (f i₀) ≠ 0 := fun h0 => hi₀ (Ideal.Quotient.eq_zero_iff_mem.1 h0)
+  have hfin : Module.Finite (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (integralClosure (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal))) :=
+    moduleFinite_integralClosure_of_finiteType_of_field k (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal)) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal))
+  obtain ⟨m, d, hlmd⟩ : ∃ m d : ℕ, l + m = d := ⟨(-l).toNat, (l + (-l).toNat).toNat, by omega⟩
+  set u := algebraMap (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) (FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal)) (Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal (f i₀)) ^ m
+  have hu : u ≠ 0 := pow_ne_zero _ ((map_ne_zero_iff _ (IsFractionRing.injective _ _)).2 hfb0)
+  let sv : (projGradedModuleSheaf 𝒜 (primeFactor 𝒜 p hp l)).val.obj (op ⊤) →+ FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) :=
+    AddMonoidHom.mk' (primeValue p hp l h) (primeValue_add p hp l h)
+  let sv' := (AddMonoidHom.mulLeft u).comp sv
+  obtain ⟨G, hGV, hG⟩ := exists_finset_of_chartCond hfin hfb hgenb ⟨i₀, hfb0⟩ d (Set.range sv')
+    (by rintro _ ⟨g, rfl⟩; exact chartCond_primeValue p hp l h hf hlmd i₀ g)
+  have hpre : ∀ v ∈ G, ∃ g, sv' g = v := fun v hv => hGV hv
+  choose! pre hpre using hpre
+  let pre' : FractionRing (A ⧸ (primeIdeal 𝒜 p hp).toIdeal) → ((ModuleCat.restrictScalars (degreeZeroToGlobal 𝒜)).obj
+      ((projGradedModuleSheaf 𝒜 (primeFactor 𝒜 p hp l)).val.obj (op ⊤))) := pre
+  refine ⟨⟨G.image pre', ?_⟩⟩
+  rw [eq_top_iff]
+  rintro g -
+  obtain ⟨c, hc⟩ := hG (sv' g) ⟨g, rfl⟩
+  have hlift : ∀ v, ∃ c' : 𝒜 0, Ideal.Quotient.mk (primeIdeal 𝒜 p hp).toIdeal (c' : A) = (c v : (A ⧸ (primeIdeal 𝒜 p hp).toIdeal)) := fun v => by
+    obtain ⟨a, ha, hae⟩ := mem_gradedQuotient_iff.1 (c v).2
+    exact ⟨⟨a, ha⟩, hae⟩
+  choose c' hc' using hlift
+  have key : (show (projGradedModuleSheaf 𝒜 (primeFactor 𝒜 p hp l)).val.obj (op ⊤) from g) =
+      ∑ v ∈ G, degreeZeroToGlobal 𝒜 (c' v) • pre v := by
+    rw [← sub_eq_zero]
+    apply eq_zero_of_primeValue_eq_zero p hp l h
+    refine (mul_eq_zero.1 (?_ : sv' (_ - _) = 0)).resolve_left hu
+    rw [map_sub, map_sum, sub_eq_zero, hc]
+    refine Finset.sum_congr rfl fun v hv => ?_
+    have e : u * primeValue p hp l h (pre v) = v := hpre v hv
+    change _ = u * primeValue p hp l h (degreeZeroToGlobal 𝒜 (c' v) • pre v)
+    rw [primeValue_smul, hc' v, mul_left_comm, e, Algebra.smul_def]
+  change g = ∑ v ∈ G, c' v • pre' v at key
+  rw [key]
+  exact sum_mem fun v hv => Submodule.smul_mem _ _
+    (Submodule.subset_span (Finset.mem_coe.2 (Finset.mem_image_of_mem _ hv)))
+
+/-- **Hartshorne II, Theorem 5.19, for `M~`.** Let `S` be a graded ring which is a finite-type
+algebra over a field `k`, generated over `S₀` by finitely many elements `fᵢ` of degree one, and let
+`M` be a finitely generated graded `S`-module. Then `Γ(Proj S, M~)` is a finite `S₀`-module.
+Following Hartshorne: filter `M` with factors `(S/𝔭)(l)` (Proposition I.7.4), use left exactness
+of global sections, and treat each factor by integrality over `S/𝔭`. -/
+theorem moduleFinite_sections_of_finite (k : Type u) [Field k] [Algebra k A]
+    [Algebra.FiniteType k A] [Fintype ι] {f : ι → A} (hf : ∀ i, f i ∈ 𝒜 1)
+    (hgen : Algebra.adjoin (𝒜 0) (Set.range f) = ⊤)
+    {M σM : Type u} [AddCommGroup M] [Module A M] [SetLike σM M] [AddSubgroupClass σM M]
+    {ℳ : ℤ → σM} [SetLike.GradedSMul 𝒜 ℳ] [DirectSum.Decomposition ℳ] [Module.Finite A M] :
+    Module.Finite (𝒜 0) ((ModuleCat.restrictScalars (degreeZeroToGlobal 𝒜)).obj
+      ((projGradedModuleSheaf 𝒜 ℳ).val.obj (op ⊤))) := by
+  have : IsNoetherianRing A := Algebra.FiniteType.isNoetherianRing k A
+  have : IsNoetherianRing (𝒜 0) :=
+    isNoetherianRing_of_surjective A (𝒜 0) (GradedRing.projZeroRingHom' 𝒜)
+      fun a => ⟨a, GradedRing.projZeroRingHom'_apply_coe 𝒜 a⟩
+  exact moduleFinite_sections_of_primeFactors fun p hp l =>
+    moduleFinite_sections_primeFactor p hp k hf hgen l
+
+end PrimeFactorFinite
+
 variable [IsDomain A]
 
 /-- Multiplication by the constant `c ∈ S₀` multiplies values in `K` by `c`. -/
