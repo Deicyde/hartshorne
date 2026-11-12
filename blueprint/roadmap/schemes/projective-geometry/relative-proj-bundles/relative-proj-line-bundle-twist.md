@@ -18,6 +18,7 @@ formula for $\mathcal{O}(1)$.
 - [Relative Proj](relative-proj.md)
 - [The relative twisting sheaf](relative-proj-twisting-sheaf.md)
 - [Module tensor product](../../modules-and-quasicoherent/module-tensor-product.md)
+- [The graded symmetric-algebra sheaf](graded-symmetric-algebra-sheaf.md)
 
 ## Proof depends on
 
