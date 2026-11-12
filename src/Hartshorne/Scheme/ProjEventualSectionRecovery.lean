@@ -863,6 +863,78 @@ theorem exists_bound_of_chartCond [Fintype ι] [IsDomain A] [IsNoetherianRing A]
 
 end Bound
 
+/-! ### Degree-zero sections and regrading -/
+
+section DegreeZero
+
+variable {N σN : Type u} [AddCommGroup N] [Module A N] [SetLike σN N] [AddSubgroupClass σN N]
+
+omit [AddCommGroup N] [Module A N] [AddSubgroupClass σN N] in
+theorem mem_zero_natCast {𝒩 : ℤ → σN} {m : N} (hm : m ∈ 𝒩 0) : m ∈ 𝒩 ((0 : ℕ) : ℤ) := by
+  rwa [Nat.cast_zero]
+
+/-- The global section `x ↦ m / 1` of `N~`, for `m ∈ N_0`. -/
+def constSection0 (𝒩 : ℤ → σN) [SetLike.GradedSMul 𝒜 𝒩] {m : N} (hm : m ∈ 𝒩 0) :
+    (projGradedModuleSheaf 𝒜 𝒩).val.obj (op ⊤) :=
+  (⟨fun y => HomogeneousLocalizedModule.mk 0 m (mem_zero_natCast hm) 1
+      SetLike.GradedOne.one_mem y.1.asHomogeneousIdeal.toIdeal.primeCompl.one_mem, fun y =>
+    ⟨⊤, y.2, 𝟙 _, 0, m, mem_zero_natCast hm, 1, SetLike.GradedOne.one_mem,
+      fun z => z.1.asHomogeneousIdeal.toIdeal.primeCompl.one_mem, fun _ => rfl⟩⟩ :
+    (sheafInType 𝒜 𝒩).1.obj (op ⊤))
+
+theorem constSection0_val (𝒩 : ℤ → σN) [SetLike.GradedSMul 𝒜 𝒩] {m : N} (hm : m ∈ 𝒩 0)
+    (x : (⊤ : Opens (Proj 𝒜))) :
+    (((constSection0 𝒩 hm : (sheafInType 𝒜 𝒩).1.obj (op ⊤)).1 x).val) =
+      LocalizedModule.mk m 1 := rfl
+
+/-- `m ↦ m / 1`, `N_0 → Γ(X, N~)`. -/
+def constHom0 (𝒩 : ℤ → σN) [SetLike.GradedSMul 𝒜 𝒩] :
+    𝒩 0 →+ (projGradedModuleSheaf 𝒜 𝒩).val.obj (op ⊤) where
+  toFun m := constSection0 𝒩 m.2
+  map_zero' := section_ext fun _ => HomogeneousLocalizedModule.ext (LocalizedModule.zero_mk 1)
+  map_add' m m' := by
+    refine section_ext fun x => HomogeneousLocalizedModule.ext ?_
+    change LocalizedModule.mk ((m : N) + m') 1 =
+      LocalizedModule.mk (m : N) 1 + LocalizedModule.mk (m' : N) 1
+    rw [LocalizedModule.mk_add_mk, one_smul, one_smul, mul_one]
+
+theorem bijective_constHom_iff (n : ℤ) :
+    Function.Bijective (constHom (𝒜 := 𝒜) ℳ n) ↔
+      Function.Bijective (constHom0 (𝒜 := 𝒜) (gradedModuleTwist ℳ n)) := by
+  have hmem : ∀ m : M, m ∈ ℳ n ↔ m ∈ gradedModuleTwist ℳ n 0 := fun m => by
+    change m ∈ ℳ n ↔ m ∈ ℳ (0 + n)
+    rw [zero_add]
+  let e : ℳ n ≃ ↥(gradedModuleTwist ℳ n 0 : σM) :=
+    { toFun := fun m => ⟨m, (hmem m).1 m.2⟩
+      invFun := fun m => ⟨m, (hmem m).2 m.2⟩
+      left_inv := fun _ => rfl
+      right_inv := fun _ => rfl }
+  have h : ⇑(constHom (𝒜 := 𝒜) ℳ n) = constHom0 (𝒜 := 𝒜) (gradedModuleTwist ℳ n) ∘ e := rfl
+  rw [h]
+  exact Function.Bijective.of_comp_iff _ e.bijective
+
+/-- Bijectivity of `N_0 → Γ(X, N~)` depends only on the homogeneous pieces. -/
+theorem bijective_constHom0_congr {σN' : Type u} [SetLike σN' N] [AddSubgroupClass σN' N]
+    (𝒩 : ℤ → σN) [SetLike.GradedSMul 𝒜 𝒩] (𝒩' : ℤ → σN') [SetLike.GradedSMul 𝒜 𝒩']
+    (h : ∀ (i : ℤ) (m : N), m ∈ 𝒩 i ↔ m ∈ 𝒩' i) :
+    Function.Bijective (constHom0 (𝒜 := 𝒜) 𝒩) ↔ Function.Bijective (constHom0 (𝒜 := 𝒜) 𝒩') := by
+  let e : 𝒩 0 ≃ 𝒩' 0 :=
+    { toFun := fun m => ⟨m, (h 0 m).1 m.2⟩
+      invFun := fun m => ⟨m, (h 0 m).2 m.2⟩
+      left_inv := fun _ => rfl
+      right_inv := fun _ => rfl }
+  have hc : ⇑((regradeIso 𝒩 𝒩' h).hom.val.app (op ⊤)) ∘ constHom0 (𝒜 := 𝒜) 𝒩 =
+      constHom0 (𝒜 := 𝒜) 𝒩' ∘ e := by
+    funext m
+    refine section_ext fun x => HomogeneousLocalizedModule.ext ?_
+    exact regradeIso_hom_app_val h _ x
+  rw [← Function.Bijective.of_comp_iff _ e.bijective, ← hc]
+  exact ⟨fun hb => (GammaStarReconstruction.app_bijective_of_iso _ _).comp hb,
+    fun hb => (Function.Bijective.of_comp_iff' (GammaStarReconstruction.app_bijective_of_iso _ _)
+      _).1 hb⟩
+
+end DegreeZero
+
 end EventualSectionRecovery
 
 end Hartshorne
