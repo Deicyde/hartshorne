@@ -19,32 +19,41 @@ coordinates `x₀, …, xₙ`.
 
 ## Main definitions
 
-* `Hartshorne.projectionDomain n Y`: the open `U = D₊(x₀) ∪ ⋯ ∪ D₊(xₙ)` of `ℙⁿ⁺¹_Y`.
-* `Hartshorne.projectionFromPoint n Y : U ⟶ ℙⁿ_Y`: the morphism defined (Hartshorne II,
-  Theorem 7.1) by the sections `x₀, …, xₙ` of `𝒪(1)|_U`, which generate it.
 * `Hartshorne.projectivePoint k a`: the `k`-rational point `(a₀ : ⋯ : a_m)` of `ℙᵐ_k`, the
-  morphism `Spec k ⟶ ℙᵐ_k` defined by the sections `aᵢ` of `𝒪_{Spec k}`;
-  `Hartshorne.coordinatePoint k n` is `P = (0 : ⋯ : 0 : 1)`.
-* `Hartshorne.hyperplaneInclusion n Y : ℙⁿ_Y ⟶ ℙⁿ⁺¹_Y`, `(x₀ : ⋯ : xₙ) ↦ (x₀ : ⋯ : xₙ : 0)`.
+  morphism `Spec k ⟶ ℙᵐ_k` defined (Hartshorne II, Theorem 7.1) by the sections `aᵢ` of
+  `𝒪_{Spec k}`.
+* `Hartshorne.linearSection k m v`: the linear form `∑ vⱼ xⱼ`, a global section of `𝒪(1)`.
+* `Hartshorne.pointProjectionDomain k p h`, `Hartshorne.pointProjection k p h`: for
+  `P = (p₀ : ⋯ : p_{n+1})` and `H = {h = 0}`, the open `U_P` where the sections
+  `sᵢ = h(P) xᵢ − pᵢ h` of `𝒪(1)` have no common zero, and the morphism `U_P ⟶ ℙⁿ⁺¹_k` they
+  define.
+* The coordinate case `P = (0 : ⋯ : 0 : 1)`, `H = {x_{n+1} = 0}`:
+  `Hartshorne.projectionDomain n Y = D₊(x₀) ∪ ⋯ ∪ D₊(xₙ)`,
+  `Hartshorne.projectionFromPoint n Y : U ⟶ ℙⁿ_Y` defined by `x₀, …, xₙ`,
+  `Hartshorne.coordinatePoint k n = P`, and
+  `Hartshorne.hyperplaneInclusion n Y : ℙⁿ_Y ⟶ ℙⁿ⁺¹_Y`, `(x₀ : ⋯ : xₙ) ↦ (x₀ : ⋯ : xₙ : 0)`.
 
 ## Main results
 
-* `Hartshorne.projectionDomain_eq_compl_range`: over a field, `U = ℙⁿ⁺¹_k − {P}`.
-* `Hartshorne.eq_projectionFromPoint_iff`: `projectionFromPoint` is the unique `Y`-morphism
-  pulling `𝒪(1)` back to `𝒪(1)|_U` with `xᵢ ↦ xᵢ|_U`.
-* `Hartshorne.exists_lift_projectivePoint_comp_projectionFromPoint_hyperplaneInclusion`: for a
-  rational point `Q = (a₀ : ⋯ : a_{n+1}) ≠ P`, the image of `π(Q)` in `H` is
-  `(a₀ : ⋯ : aₙ : 0) = Q − a_{n+1} P`, the intersection of the line `PQ` with `H`.
-* `Hartshorne.projectionFromPoint_isProjection`: the summary statement.
+* `Hartshorne.pointProjection_isProjection`: for `h(P) ≠ 0`, `U_P = ℙⁿ⁺¹_k − {P}`; the projection
+  is the morphism defined by the `sᵢ`; it pulls `h` back to `0`, so maps into `H`; and it sends
+  a rational point `Q ≠ P` to `h(P) Q − h(Q) P`, the intersection of the line `PQ` with `H`.
+* `Hartshorne.projectionFromPoint_isProjection`: the coordinate case, where the projection is
+  the morphism to `ℙⁿ_k` defined by the remaining coordinates, and its comparison
+  `pointProjection_single_last` with the general projection.
+
+That `hyperplaneInclusion` is a closed immersion onto `H` (so that `H ≅ ℙⁿ_k`) is not proved
+here.
 
 ## Proof
 
-The sections `x₀, …, xₙ` trivialize `𝒪(1)` on the charts `D₊(x₀), …, D₊(xₙ)` covering `U`, so
-they generate `𝒪(1)|_U` and Theorem 7.1(b) gives the morphism. A point `x` outside `U` is `P`:
-the morphism `Spec κ(x) ⟶ ℙⁿ⁺¹_k` is defined by the pulled-back coordinates, the first `n + 1`
-of which vanish, so by the uniqueness in Theorem 7.1 it factors through `P`. Values on rational
-points are computed with the uniqueness in Theorem 7.1, using that a composite `f ≫ φ` is
-defined by the pulled-back sections (`exists_iso_of_comp`).
+Off `P` some `sᵢ` is nonzero, so the `sᵢ` generate `𝒪(1)|_{U_P}` and Theorem 7.1(b) gives the
+morphism. A point `x` outside `U_P` is `P`: on `Spec κ(x)` (reduced) the pulled-back `sᵢ`
+vanish, so the pulled-back coordinates are `xᵢ = (pᵢ / h(P)) h` and, by the uniqueness in
+Theorem 7.1, `Spec κ(x) ⟶ ℙⁿ⁺¹_k` factors through `P`. Since `∑ hᵢ sᵢ = 0`, the projection
+pulls `h` back to `0`. Values on rational points are computed with the uniqueness in
+Theorem 7.1, using that a composite `f ≫ φ` is defined by the pulled-back sections
+(`exists_iso_of_comp`).
 -/
 
 noncomputable section
@@ -715,6 +724,7 @@ section Linear
 
 variable {X Y : Scheme.{u}}
 
+/-- `f^*` is additive on global sections. -/
 theorem pullbackGlobalSection_add (f : X ⟶ Y) {N : Y.Modules} (a b : Γ(N, ⊤)) :
     pullbackGlobalSection f (a + b) = pullbackGlobalSection f a + pullbackGlobalSection f b := by
   have h : pullbackSection f (a + b) = pullbackSection f a + pullbackSection f b :=
@@ -727,15 +737,18 @@ def pullbackGlobalSectionAddHom (f : X ⟶ Y) (N : Y.Modules) :
     Γ(N, ⊤) →+ Γ((Scheme.Modules.pullback f).obj N, ⊤) :=
   AddMonoidHom.mk' (pullbackGlobalSection f) (pullbackGlobalSection_add f)
 
+/-- `f^*` commutes with finite sums of global sections. -/
 theorem pullbackGlobalSection_sum (f : X ⟶ Y) {N : Y.Modules} {ι : Type*} (S : Finset ι)
     (g : ι → Γ(N, ⊤)) :
     pullbackGlobalSection f (∑ i ∈ S, g i) = ∑ i ∈ S, pullbackGlobalSection f (g i) :=
   map_sum (pullbackGlobalSectionAddHom f N) g S
 
+/-- `f^*` commutes with differences of global sections. -/
 theorem pullbackGlobalSection_sub (f : X ⟶ Y) {N : Y.Modules} (a b : Γ(N, ⊤)) :
     pullbackGlobalSection f (a - b) = pullbackGlobalSection f a - pullbackGlobalSection f b :=
   map_sub (pullbackGlobalSectionAddHom f N) a b
 
+/-- `f^* (r t) = f^#(r) f^* t` for a global function `r`. -/
 theorem pullbackGlobalSection_smul (f : X ⟶ Y) {N : Y.Modules} (r : Γ(Y, ⊤)) (t : Γ(N, ⊤)) :
     pullbackGlobalSection f (r • t) = f.appTop r • pullbackGlobalSection f t := by
   rw [pullbackGlobalSection, pullbackSection_smul, Scheme.Modules.map_smul]
@@ -750,13 +763,16 @@ variable {k : Type u} [Field k]
 def kConst (q : X ⟶ Spec (CommRingCat.of k)) : k →+* Γ(X, ⊤) :=
   q.appTop.hom.comp (Scheme.ΓSpecIso (CommRingCat.of k)).inv.hom
 
+/-- `kConst q c` is the pullback along `q` of the constant `c` on `Spec k`. -/
 theorem kConst_apply (q : X ⟶ Spec (CommRingCat.of k)) (c : k) :
     kConst q c = q.appTop (specConst k c) := rfl
 
+/-- Constants pull back to constants. -/
 theorem appTop_kConst (f : X ⟶ Y) (q : Y ⟶ Spec (CommRingCat.of k)) (c : k) :
     f.appTop (kConst q c) = kConst (f ≫ q) c := by
   rw [kConst_apply, kConst_apply, Scheme.Hom.comp_appTop, CommRingCat.comp_apply]
 
+/-- On `Spec k`, `kConst` is `specConst`. -/
 theorem kConst_id (c : k) : kConst (𝟙 (Spec (CommRingCat.of k))) c = specConst k c := rfl
 
 variable (k) in
@@ -766,15 +782,18 @@ def linearSection (m : ℕ) (v : Fin (m + 1) → k) :
   ∑ j, kConst (projectiveSpaceOverSchemeProjection m _) (v j) •
     projectiveSpaceCoordinate m _ j
 
+/-- The linear form of a difference. -/
 theorem linearSection_sub {m : ℕ} (v w : Fin (m + 1) → k) :
     linearSection k m (v - w) = linearSection k m v - linearSection k m w := by
   simp only [linearSection, Pi.sub_apply, map_sub, sub_smul, Finset.sum_sub_distrib]
 
+/-- The linear form of a scalar multiple. -/
 theorem linearSection_smul {m : ℕ} (a : k) (v : Fin (m + 1) → k) :
     linearSection k m (a • v) =
       kConst (projectiveSpaceOverSchemeProjection m _) a • linearSection k m v := by
   simp only [linearSection, Pi.smul_apply, smul_eq_mul, map_mul, mul_smul, Finset.smul_sum]
 
+/-- The linear form of `eᵢ` is the coordinate `xᵢ`. -/
 theorem linearSection_single {m : ℕ} (i : Fin (m + 1)) :
     linearSection k m (Pi.single i 1) = projectiveSpaceCoordinate m _ i := by
   rw [linearSection, Finset.sum_eq_single i]
@@ -787,7 +806,8 @@ theorem linearSection_single {m : ℕ} (i : Fin (m + 1)) :
 /-- **Evaluating a linear form along a morphism defined by sections.** If `φ : X ⟶ ℙᵐ_k` over
 `r : X ⟶ Spec k` is defined by the sections `sⱼ` of `L`, it pulls the linear form `∑ vⱼ xⱼ` back
 to `∑ vⱼ sⱼ`. -/
-theorem iso_app_linearSection {m : ℕ} {φ : X ⟶ projectiveSpaceOverScheme m (Spec (CommRingCat.of k))}
+theorem iso_app_linearSection {m : ℕ}
+    {φ : X ⟶ projectiveSpaceOverScheme m (Spec (CommRingCat.of k))}
     {r : X ⟶ Spec (CommRingCat.of k)} (hφ : φ ≫ projectiveSpaceOverSchemeProjection m _ = r)
     {L : X.Modules} {s : Fin (m + 1) → Γ(L, ⊤)}
     (e : (Scheme.Modules.pullback φ).obj (projectiveSpaceTwistingSheaf m _ 1) ≅ L)
@@ -880,7 +900,8 @@ def pointProjectionDomain (p h : Fin (n + 2) → k) :
     (projectionLinearSections k p h i)
 
 /-- `𝒪(1)|_{U_P}`. -/
-abbrev pointProjectionTwist (p h : Fin (n + 2) → k) : (pointProjectionDomain k p h).toScheme.Modules :=
+abbrev pointProjectionTwist (p h : Fin (n + 2) → k) :
+    (pointProjectionDomain k p h).toScheme.Modules :=
   (Scheme.Modules.pullback (pointProjectionDomain k p h).ι).obj
     (projectiveSpaceTwistingSheaf (n + 1) _ 1)
 
@@ -889,6 +910,7 @@ abbrev pointProjectionSections (p h : Fin (n + 2) → k) (i : Fin (n + 2)) :
     Γ(pointProjectionTwist k p h, ⊤) :=
   pullbackGlobalSection (pointProjectionDomain k p h).ι (projectionLinearSections k p h i)
 
+/-- The `sᵢ` generate `𝒪(1)|_{U_P}`: each trivializes it where it does not vanish. -/
 theorem isGeneratedBySections_pointProjectionSections (p h : Fin (n + 2) → k) :
     (pointProjectionTwist k p h).IsGeneratedBySections
       (fun i : ULift.{u} (Fin (n + 2)) => pointProjectionSections k p h i.down) := by
@@ -947,6 +969,7 @@ theorem eq_pointProjection_iff (p h : Fin (n + 2) → k)
 
 variable {k}
 
+/-- If `h(P) ≠ 0` then `p ≠ 0`. -/
 theorem ne_zero_of_dotProduct_ne_zero {p h : Fin (n + 2) → k} (hph : h ⬝ᵥ p ≠ 0) : p ≠ 0 := by
   rintro rfl
   exact hph (dotProduct_zero h)
@@ -956,7 +979,8 @@ theorem projectionLinearSections_eq (p h : Fin (n + 2) → k) (i : Fin (n + 2)) 
     projectionLinearSections k p h i =
       kConst (projectiveSpaceOverSchemeProjection (n + 1) _) (h ⬝ᵥ p) •
           projectiveSpaceCoordinate (n + 1) _ i -
-        kConst (projectiveSpaceOverSchemeProjection (n + 1) _) (p i) • linearSection k (n + 1) h := by
+        kConst (projectiveSpaceOverSchemeProjection (n + 1) _) (p i) •
+          linearSection k (n + 1) h := by
   rw [projectionLinearSections, projectionVector, linearSection_sub, linearSection_smul,
     linearSection_smul, linearSection_single]
 
@@ -979,16 +1003,20 @@ open Matrix
 
 variable {k : Type u} [Field k] {n : ℕ}
 
+/-- `specConst` is multiplicative. -/
 theorem specConst_mul (a b : k) : specConst k (a * b) = specConst k a * specConst k b :=
   map_mul (Scheme.ΓSpecIso (CommRingCat.of k)).inv.hom a b
 
+/-- `specConst` commutes with finite sums. -/
 theorem specConst_sum {ι : Type*} (S : Finset ι) (g : ι → k) :
     specConst k (∑ i ∈ S, g i) = ∑ i ∈ S, specConst k (g i) :=
   map_sum (Scheme.ΓSpecIso (CommRingCat.of k)).inv.hom g S
 
+/-- `r s`, as a section of `𝒪_X`, is `r • s`. -/
 theorem unitSection_mul {X : Scheme.{u}} (r s : Γ(X, ⊤)) :
     unitSection X (r * s) = r • unitSection X s := rfl
 
+/-- `unitSection` commutes with finite sums. -/
 theorem unitSection_sum {X : Scheme.{u}} {ι : Type*} (S : Finset ι) (g : ι → Γ(X, ⊤)) :
     unitSection X (∑ i ∈ S, g i) = ∑ i ∈ S, unitSection X (g i) := by
   classical
@@ -1030,6 +1058,7 @@ theorem projectivePoint_mem_nonvanishingLocus_linearSection_iff {m : ℕ} {a : F
       Scheme.basicOpen_one]
     trivial
 
+/-- The value of `sᵢ` at `Q` is the `i`-th coordinate of `h(P) Q − h(Q) P`. -/
 theorem projectionVector_dotProduct (p h q : Fin (n + 2) → k) (i : Fin (n + 2)) :
     projectionVector k p h i ⬝ᵥ q = ((h ⬝ᵥ p) • q - (h ⬝ᵥ q) • p) i := by
   simp only [projectionVector, sub_dotProduct, smul_dotProduct, single_dotProduct, one_mul,
@@ -1162,6 +1191,7 @@ theorem pointProjection_notMem_nonvanishingLocus (p h : Fin (n + 2) → k)
     pullbackGlobalSection_pointProjection_linearSection, nonvanishingLocus_zero]
   exact Set.notMem_empty _
 
+/-- If `h(P) Q − h(Q) P ≠ 0` then `q ≠ 0`. -/
 theorem ne_zero_of_projection_ne_zero {p h q : Fin (n + 2) → k}
     (hq : (h ⬝ᵥ p) • q - (h ⬝ᵥ q) • p ≠ 0) : q ≠ 0 := by
   rintro rfl
@@ -1224,6 +1254,7 @@ open Matrix
 
 variable (k : Type u) [Field k] (n : ℕ)
 
+/-- The coordinate point `(0 : ⋯ : 0 : 1)` is off `x_{n+1} = 0`. -/
 theorem single_last_dotProduct_ne_zero :
     (Pi.single (Fin.last (n + 1)) (1 : k) : Fin (n + 2) → k) ⬝ᵥ Pi.single (Fin.last (n + 1)) 1 ≠
       0 := by
@@ -1296,9 +1327,70 @@ end CoordinateCase
 
 section Summary
 
+open Matrix
+
+variable {k : Type u} [Field k] {n : ℕ}
+
+/-- If `Q` is not a multiple of `P`, then `h(P) Q − h(Q) P ≠ 0`. -/
+theorem projection_ne_zero {p h q : Fin (n + 2) → k} (hph : h ⬝ᵥ p ≠ 0)
+    (hq : ¬∃ t : k, q = t • p) : (h ⬝ᵥ p) • q - (h ⬝ᵥ q) • p ≠ 0 :=
+  fun hz => hq ((projection_eq_zero_iff hph).mp hz)
+
+/-- `h(P) Q − h(Q) P` lies on `H = {h = 0}`. -/
+theorem dotProduct_projection (p h q : Fin (n + 2) → k) :
+    h ⬝ᵥ ((h ⬝ᵥ p) • q - (h ⬝ᵥ q) • p) = 0 := by
+  simp only [dotProduct_sub, dotProduct_smul, smul_eq_mul]
+  ring
+
+/-- **Projection from a point is a morphism** (Hartshorne I, Exercise 3.14(a)). Let
+`P = (p₀ : ⋯ : p_{n+1})` be a rational point of `ℙⁿ⁺¹_k` and `H = {h = 0}`, `h = ∑ hⱼ xⱼ`, a
+hyperplane not containing `P` (`h(P) ≠ 0`), and let `π = pointProjection k p h : U_P ⟶ ℙⁿ⁺¹_k`.
+Then:
+
+* `U_P = ℙⁿ⁺¹_k − {P}`;
+* `π` is a morphism, namely the unique `k`-morphism defined (Hartshorne II, Theorem 7.1) by the
+  sections `h(P) xᵢ − pᵢ h` of `𝒪(1)`;
+* `π` maps into `H`: it pulls the equation `h` back to zero, and no point of its image lies
+  off `H`;
+* on rational points, `π(Q)` is the intersection of the line `PQ` with `H`: for
+  `Q = (q₀ : ⋯ : q_{n+1}) ≠ P` (that is, `q` is not a multiple of `p`), `Q` lies in `U_P` and
+  `π(Q) = h(P) Q − h(Q) P`, a point of the line `PQ` lying on `H`.
+
+The book works with varieties over an algebraically closed field; here `k` is any field. The
+target is `ℙⁿ⁺¹_k`, with image in `H`. -/
+theorem pointProjection_isProjection {p h : Fin (n + 2) → k} (hph : h ⬝ᵥ p ≠ 0) :
+    (pointProjectionDomain k p h : Set _) =
+        (Set.range (projectivePoint k p (ne_zero_of_dotProduct_ne_zero hph)))ᶜ ∧
+      (∀ π : (pointProjectionDomain k p h).toScheme ⟶
+          projectiveSpaceOverScheme (n + 1) (Spec (CommRingCat.of k)),
+        (π ≫ projectiveSpaceOverSchemeProjection (n + 1) _ =
+            (pointProjectionDomain k p h).ι ≫ projectiveSpaceOverSchemeProjection (n + 1) _ ∧
+          ∃ e : (Scheme.Modules.pullback π).obj (projectiveSpaceTwistingSheaf (n + 1) _ 1) ≅
+              pointProjectionTwist k p h,
+            ∀ i, e.hom.app ⊤ (pullbackGlobalSection π (projectiveSpaceCoordinate (n + 1) _ i)) =
+              pointProjectionSections k p h i) ↔ π = pointProjection k p h) ∧
+      pullbackGlobalSection (pointProjection k p h) (linearSection k (n + 1) h) = 0 ∧
+      (∀ y, pointProjection k p h y ∉ nonvanishingLocus _ (linearSection k (n + 1) h)) ∧
+      ∀ (q : Fin (n + 2) → k) (hq : ¬∃ t : k, q = t • p),
+        h ⬝ᵥ ((h ⬝ᵥ p) • q - (h ⬝ᵥ q) • p) = 0 ∧
+        ∃ Q : Spec (CommRingCat.of k) ⟶ (pointProjectionDomain k p h).toScheme,
+          Q ≫ (pointProjectionDomain k p h).ι =
+              projectivePoint k q (ne_zero_of_projection_ne_zero (projection_ne_zero hph hq)) ∧
+            Q ≫ pointProjection k p h =
+              projectivePoint k ((h ⬝ᵥ p) • q - (h ⬝ᵥ q) • p) (projection_ne_zero hph hq) :=
+  ⟨pointProjectionDomain_eq_compl_range hph, eq_pointProjection_iff k p h,
+    pullbackGlobalSection_pointProjection_linearSection p h,
+    pointProjection_notMem_nonvanishingLocus p h,
+    fun q hq => ⟨dotProduct_projection p h q,
+      exists_lift_projectivePoint_comp_pointProjection (projection_ne_zero hph hq)⟩⟩
+
+end Summary
+
+section CoordinateSummary
+
 variable (k : Type u) [Field k] (n : ℕ)
 
-/-- **Projection from a point is a morphism** (Hartshorne I, Exercise 3.14(a), in the coordinates
+/-- **Projection from a point, in coordinates** (Hartshorne I, Exercise 3.14(a), in the coordinates
 in which the point `P` is the omitted coordinate point `(0 : ⋯ : 0 : 1)` of `ℙⁿ⁺¹_k` and the
 hyperplane `H` is `x_{n+1} = 0`, identified with `ℙⁿ_k` by `(x₀ : ⋯ : xₙ) ↦ (x₀ : ⋯ : xₙ : 0)`).
 Let `U ⊆ ℙⁿ⁺¹_k` be the open where one of `x₀, …, xₙ` is nonzero, and `π : U ⟶ ℙⁿ_k`
@@ -1311,10 +1403,10 @@ Let `U ⊆ ℙⁿ⁺¹_k` be the open where one of `x₀, …, xₙ` is nonzero,
 * the identification `ℙⁿ_k ⟶ ℙⁿ⁺¹_k`, `(x₀ : ⋯ : xₙ) ↦ (x₀ : ⋯ : xₙ : 0)`, lands in `H`;
 * on rational points, `π(Q)` is the intersection of the line `PQ` with `H`: for
   `Q = (a₀ : ⋯ : a_{n+1}) ≠ P`, `Q` lies in `U` and `π(Q)` is the point
-  `(a₀ : ⋯ : aₙ : 0) = Q − a_{n+1} P` of `H`.
+  `(a₀ : ⋯ : aₙ : 0) = Q − a_{n+1} P` of `H`;
+* `π` followed by `ℙⁿ_k ⟶ H` is the general projection `pointProjection` for this `P` and `H`.
 
-The book works with varieties over an algebraically closed field and a general point and
-hyperplane; here `k` is any field and the scheme-theoretic statement is over `Spec k`. -/
+The general point and hyperplane are `pointProjection_isProjection`. -/
 theorem projectionFromPoint_isProjection :
     (projectionDomain n (Spec (CommRingCat.of k)) : Set _) =
         (Set.range (coordinatePoint k n))ᶜ ∧
@@ -1328,17 +1420,22 @@ theorem projectionFromPoint_isProjection :
               projectionSections n _ i) ↔ π = projectionFromPoint n _) ∧
       (∀ y, hyperplaneInclusion n (Spec (CommRingCat.of k)) y ∉
         projectiveSpaceChart (n + 1) _ (Fin.last (n + 1))) ∧
-      ∀ (a : Fin (n + 2) → k) (ha : (fun i : Fin (n + 1) => a i.castSucc) ≠ 0),
+      (∀ (a : Fin (n + 2) → k) (ha : (fun i : Fin (n + 1) => a i.castSucc) ≠ 0),
         ∃ Q : Spec (CommRingCat.of k) ⟶ (projectionDomain n (Spec (CommRingCat.of k))).toScheme,
           Q ≫ (projectionDomain n _).ι =
               projectivePoint k a (ne_zero_of_comp_castSucc_ne_zero ha) ∧
             Q ≫ projectionFromPoint n _ ≫ hyperplaneInclusion n _ =
               projectivePoint k (a - a (Fin.last (n + 1)) • Pi.single (Fin.last (n + 1)) 1)
-                (sub_smul_single_last_ne_zero ha) :=
+                (sub_smul_single_last_ne_zero ha)) ∧
+      ∃ hU : pointProjectionDomain k (Pi.single (Fin.last (n + 1)) 1)
+          (Pi.single (Fin.last (n + 1)) 1) = projectionDomain n (Spec (CommRingCat.of k)),
+        pointProjection k (Pi.single (Fin.last (n + 1)) 1) (Pi.single (Fin.last (n + 1)) 1) =
+          (Scheme.isoOfEq _ hU).hom ≫ projectionFromPoint n _ ≫ hyperplaneInclusion n _ :=
   ⟨projectionDomain_eq_compl_range k n, eq_projectionFromPoint_iff n _,
     hyperplaneInclusion_notMem_projectiveSpaceChart_last n _,
-    fun _ ha => exists_lift_projectivePoint_comp_projectionFromPoint_hyperplaneInclusion ha⟩
+    fun _ ha => exists_lift_projectivePoint_comp_projectionFromPoint_hyperplaneInclusion ha,
+    pointProjectionDomain_single_last k n, pointProjection_single_last k n⟩
 
-end Summary
+end CoordinateSummary
 
 end Hartshorne
