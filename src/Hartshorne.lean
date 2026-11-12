@@ -2,6 +2,7 @@ import Hartshorne.Basic
 import Hartshorne.Scheme.AbelianSheafHom
 import Hartshorne.RingedSpace.ModuleSheafHom
 import Hartshorne.RingedSpace.ModuleSheafHomLeftExact
+import Hartshorne.Scheme.LinearSystemBase
 import Hartshorne.Scheme.ProjectiveSpace
 import Hartshorne.Scheme.ProjectiveSpaceOverScheme
 import Hartshorne.Scheme.ProjectiveSpaceProper
