@@ -18,6 +18,7 @@ one. For a linear system this makes its pullback base-point-free.
 - [A blowup is an isomorphism off its center](isomorphism-off-center.md)
 - [Morphisms from generated invertible sheaves](../linear-systems-ampleness/morphism-from-generated-line-bundle.md)
 - [Base-point-freeness and global generation](../linear-systems-ampleness/basepoint-free-iff-generated.md)
+- [Finite-dimensional linear systems on an arbitrary variety](../../../cohomology/smooth-morphisms/finite-dimensional-linear-system-on-variety.md)
 
 ## Sources
 
