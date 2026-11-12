@@ -45,6 +45,86 @@ theorem pullbackId_hom_pullbackGlobalSection {X : Scheme.{u}} {N : X.Modules} (e
   rw [pullbackGlobalSection, hom_app_map, h2]
   exact ConcreteCategory.congr_hom (N.presheaf.map_id _) e
 
+/-! ### Generalities on sections -/
+
+section Sections
+
+variable {Y : Scheme.{u}}
+
+/-- The sections of an isomorphism of `𝒪_Y`-modules are bijective. -/
+theorem bijective_app_of_iso {M N : Y.Modules} (e : M ≅ N) (V : Y.Opens) :
+    Function.Bijective (e.hom.app V) := by
+  refine Function.bijective_iff_has_inverse.mpr ⟨e.inv.app V, fun x => ?_, fun y => ?_⟩
+  · have := ConcreteCategory.congr_hom
+      (congrArg (fun φ => Scheme.Modules.Hom.app φ V) e.hom_inv_id) x
+    rw [Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply] at this
+    exact this.trans rfl
+  · have := ConcreteCategory.congr_hom
+      (congrArg (fun φ => Scheme.Modules.Hom.app φ V) e.inv_hom_id) y
+    rw [Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply] at this
+    exact this.trans rfl
+
+/-- Restriction between equal opens is bijective. -/
+theorem bijective_map_of_eq (M : Y.Modules) {V W : Y.Opens} (h : V ≤ W) (h' : W ≤ V) :
+    Function.Bijective (M.presheaf.map (homOfLE h).op) := by
+  obtain rfl : V = W := le_antisymm h h'
+  rw [show homOfLE h = 𝟙 V from rfl, op_id, CategoryTheory.Functor.map_id]
+  exact Function.bijective_id
+
+/-- For an open immersion `j` and `W` inside its image, `W(M) → (j^* M)(j⁻¹ W)` is bijective. -/
+theorem bijective_pullbackSection_of_le {Y' : Scheme.{u}} (j : Y' ⟶ Y) [IsOpenImmersion j]
+    (M : Y.Modules) {W : Y.Opens} (hW : W ≤ j.opensRange) :
+    Function.Bijective (pullbackSection (N := M) j (W := W)) := by
+  have h : ∀ y : Γ(M, W), pullbackSection j y =
+      ((Scheme.Modules.restrictFunctorIsoPullback j).hom.app M).app (j ⁻¹ᵁ W)
+        (M.presheaf.map (homOfLE (j.image_preimage_le W)).op y) := fun y =>
+    (Scheme.Modules.restrictFunctorIsoPullback_hom_restrict_unit j M W y).symm
+  have hle : W ≤ j ''ᵁ (j ⁻¹ᵁ W) := by
+    intro x hx
+    obtain ⟨y, rfl⟩ := hW hx
+    exact ⟨y, hx, rfl⟩
+  rw [show (pullbackSection (N := M) j (W := W)) = _ from funext h]
+  exact (bijective_app_of_iso ((Scheme.Modules.restrictFunctorIsoPullback j).app M) _).comp
+    (bijective_map_of_eq M _ hle)
+
+/-- For `⊤ ≤ j⁻¹(W)`, the additive map `W(M) → (j^* M)(⊤)`, `s ↦ j^* s`. -/
+def pullbackTopAddHom {Y' : Scheme.{u}} (j : Y' ⟶ Y) (M : Y.Modules) {W : Y.Opens}
+    (hW : ⊤ ≤ j ⁻¹ᵁ W) : Γ(M, W) →+ Γ((Scheme.Modules.pullback j).obj M, ⊤) :=
+  AddMonoidHom.mk' (fun s => ((Scheme.Modules.pullback j).obj M).presheaf.map (homOfLE hW).op
+      (pullbackSection j s)) fun a b => by
+    have h : pullbackSection j (a + b) = pullbackSection j a + pullbackSection j b :=
+      Ringed.etaSec_add (φ := j.toRingCatSheafHom) a b
+    simp only [h, map_add]
+
+theorem pullbackTopAddHom_apply {Y' : Scheme.{u}} (j : Y' ⟶ Y) (M : Y.Modules) {W : Y.Opens}
+    (hW : ⊤ ≤ j ⁻¹ᵁ W) (s : Γ(M, W)) :
+    pullbackTopAddHom j M hW s =
+      ((Scheme.Modules.pullback j).obj M).presheaf.map (homOfLE hW).op (pullbackSection j s) :=
+  rfl
+
+/-- `e ∘ j^*` is bijective on `W`, for an open immersion `j` with `W` inside its image. -/
+theorem bijective_iso_comp_pullbackTopAddHom {Y' : Scheme.{u}} (j : Y' ⟶ Y) [IsOpenImmersion j]
+    (M : Y.Modules) {W : Y.Opens} (hW : ⊤ ≤ j ⁻¹ᵁ W) (hWj : W ≤ j.opensRange) {N : Y'.Modules}
+    (e : (Scheme.Modules.pullback j).obj M ≅ N) :
+    Function.Bijective ((e.hom.app ⊤).hom.comp (pullbackTopAddHom j M hW)) :=
+  (bijective_app_of_iso e ⊤).comp ((bijective_map_of_eq _ hW le_top).comp
+    (bijective_pullbackSection_of_le j M hWj))
+
+/-- `e ∘ j^*` is semilinear along `j^*`. -/
+theorem iso_comp_pullbackTopAddHom_smul {Y' : Scheme.{u}} (j : Y' ⟶ Y) (M : Y.Modules)
+    {X' : Scheme.{u}} (g : Y ⟶ X') {V : X'.Opens} (hW : ⊤ ≤ j ⁻¹ᵁ (g ⁻¹ᵁ V)) {N : Y'.Modules}
+    (e : (Scheme.Modules.pullback j).obj M ≅ N) (a : Γ(X', V)) (c : Γ(Y', ⊤))
+    (hW' : ⊤ ≤ (j ≫ g) ⁻¹ᵁ V) (hc : (j ≫ g).appLE V ⊤ hW' a = c) (s : Γ(M, g ⁻¹ᵁ V)) :
+    (e.hom.app ⊤).hom.comp (pullbackTopAddHom j M hW) (g.app V a • s) =
+      c • (e.hom.app ⊤).hom.comp (pullbackTopAddHom j M hW) s := by
+  subst hc
+  simp only [AddMonoidHom.coe_comp, Function.comp_apply, pullbackTopAddHom_apply]
+  rw [pullbackSection_smul, Scheme.Modules.map_smul, Scheme.Modules.Hom.app_smul,
+    Scheme.Hom.comp_appLE]
+  rfl
+
+end Sections
+
 /-! ### Pulled-back sections of twisting sheaves along `Proj.map` -/
 
 section ProjMap
@@ -125,6 +205,32 @@ theorem projMapTwistIso_hom_pullbackGlobalSection (d : ℕ) (s : 𝒜 d) :
     Iso.app_inv, Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply]
   rw [e1, e2, e3, psiAdj_restrict_pullbackGlobalSection, e5, e6, e7]
 
+/-- `j^* ε^* 𝒪(n) ≅ 𝒪(n)` for `j ≫ ε = Proj.map φ`. -/
+def pullbackPullbackTwistIso {Y : Scheme.{u}} (ε : Y ⟶ Proj 𝒜) (j : Proj ℬ ⟶ Y)
+    (h : j ≫ ε = Proj.map φ hf) (n : ℤ) :
+    (Scheme.Modules.pullback j).obj ((Scheme.Modules.pullback ε).obj (projTwistingSheaf 𝒜 n)) ≅
+      projTwistingSheaf ℬ n :=
+  (Scheme.Modules.pullbackComp j ε).app _ ≪≫ (Scheme.Modules.pullbackCongr h).app _ ≪≫
+    projMapTwistIso φ hf hgen n
+
+theorem pullbackPullbackTwistIso_pullbackTop {Y : Scheme.{u}} (ε : Y ⟶ Proj 𝒜)
+    (j : Proj ℬ ⟶ Y) (h : j ≫ ε = Proj.map φ hf) {W : Y.Opens} (hW : ⊤ ≤ j ⁻¹ᵁ W) (d : ℕ)
+    (s : 𝒜 d) :
+    ((pullbackPullbackTwistIso φ hf hgen ε j h d).hom.app ⊤).hom.comp
+        (pullbackTopAddHom j ((Scheme.Modules.pullback ε).obj (projTwistingSheaf 𝒜 d)) hW)
+        (((Scheme.Modules.pullback ε).obj (projTwistingSheaf 𝒜 d)).presheaf.map
+          (homOfLE le_top).op (pullbackGlobalSection (N := projTwistingSheaf 𝒜 d) ε
+            (twistSection d s (op ⊤)))) =
+      twistSection d ⟨φ s, φ.map_mem s.2⟩ (op ⊤) := by
+  simp only [AddMonoidHom.coe_comp, Function.comp_apply, pullbackTopAddHom_apply]
+  rw [pullbackSection_restrict, Scheme.Modules.map_map_homOfLE]
+  change ((pullbackPullbackTwistIso φ hf hgen ε j h d).hom.app ⊤)
+    (pullbackGlobalSection j _) = _
+  simp only [pullbackPullbackTwistIso, Iso.trans_hom, Iso.app_hom, Scheme.Modules.Hom.comp_app,
+    ConcreteCategory.comp_apply]
+  rw [pullbackComp_hom_pullbackGlobalSection, pullbackCongr_hom_pullbackGlobalSection,
+    projMapTwistIso_hom_pullbackGlobalSection]
+
 end ProjMap
 
 
@@ -198,49 +304,6 @@ theorem toSpecZero_comp_appLE {X : Scheme.{u}} {U : X.Opens} (hU : IsAffineOpen 
 
 end ToSpecZero
 
-/-! ### Generalities on sections -/
-
-section Sections
-
-variable {Y : Scheme.{u}}
-
-/-- The sections of an isomorphism of `𝒪_Y`-modules are bijective. -/
-theorem bijective_app_of_iso {M N : Y.Modules} (e : M ≅ N) (V : Y.Opens) :
-    Function.Bijective (e.hom.app V) := by
-  refine Function.bijective_iff_has_inverse.mpr ⟨e.inv.app V, fun x => ?_, fun y => ?_⟩
-  · have := ConcreteCategory.congr_hom
-      (congrArg (fun φ => Scheme.Modules.Hom.app φ V) e.hom_inv_id) x
-    rw [Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply] at this
-    exact this.trans rfl
-  · have := ConcreteCategory.congr_hom
-      (congrArg (fun φ => Scheme.Modules.Hom.app φ V) e.inv_hom_id) y
-    rw [Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply] at this
-    exact this.trans rfl
-
-/-- Restriction between equal opens is bijective. -/
-theorem bijective_map_of_eq (M : Y.Modules) {V W : Y.Opens} (h : V ≤ W) (h' : W ≤ V) :
-    Function.Bijective (M.presheaf.map (homOfLE h).op) := by
-  obtain rfl : V = W := le_antisymm h h'
-  rw [show homOfLE h = 𝟙 V from rfl, op_id, CategoryTheory.Functor.map_id]
-  exact Function.bijective_id
-
-/-- For an open immersion `j` and `W` inside its image, `W(M) → (j^* M)(j⁻¹ W)` is bijective. -/
-theorem bijective_pullbackSection_of_le {Y' : Scheme.{u}} (j : Y' ⟶ Y) [IsOpenImmersion j]
-    (M : Y.Modules) {W : Y.Opens} (hW : W ≤ j.opensRange) :
-    Function.Bijective (pullbackSection (N := M) j (W := W)) := by
-  have h : ∀ y : Γ(M, W), pullbackSection j y =
-      ((Scheme.Modules.restrictFunctorIsoPullback j).hom.app M).app (j ⁻¹ᵁ W)
-        (M.presheaf.map (homOfLE (j.image_preimage_le W)).op y) := fun y =>
-    (Scheme.Modules.restrictFunctorIsoPullback_hom_restrict_unit j M W y).symm
-  have hle : W ≤ j ''ᵁ (j ⁻¹ᵁ W) := by
-    intro x hx
-    obtain ⟨y, rfl⟩ := hW hx
-    exact ⟨y, hx, rfl⟩
-  rw [show (pullbackSection (N := M) j (W := W)) = _ from funext h]
-  exact (bijective_app_of_iso ((Scheme.Modules.restrictFunctorIsoPullback j).app M) _).comp
-    (bijective_map_of_eq M _ hle)
-
-end Sections
 
 /-! ### The charts `Proj T(U) ⟶ Z` over `ℙʳ_ℤ` and over `X` -/
 
@@ -329,50 +392,82 @@ def monomialSection (n : ℕ) (α : Fin (r + 1) →₀ ℕ) : Γ(twistOnZ i n, �
 
 /-- **The comparison map** `Γ(X, U)[x₀, …, xᵣ] → Γ(f⁻¹(U), 𝒪(n)|_Z)`,
 `∑ a_α x^α ↦ ∑ f^*(a_α) x^α` (only the monomials of degree `n` contribute). -/
-def polySection (U : X.Opens) (n : ℕ) (p : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
+def polyTwistSection (U : X.Opens) (n : ℕ) (p : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
     Γ(twistOnZ i n, (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U) :=
   (AddMonoidAlgebra.coeff p).sum fun α a => (i ≫ projectiveSpaceOverSchemeProjection r X).app U a •
     (twistOnZ i n).presheaf.map (homOfLE le_top).op (monomialSection i n α)
 
-theorem polySection_add (U : X.Opens) (n : ℕ) (p q : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
-    polySection i U n (p + q) = polySection i U n p + polySection i U n q :=
+theorem polyTwistSection_add (U : X.Opens) (n : ℕ) (p q : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
+    polyTwistSection i U n (p + q) = polyTwistSection i U n p + polyTwistSection i U n q :=
   (congrArg (Finsupp.sum · _) (AddMonoidAlgebra.coeff_add p q)).trans <| Finsupp.sum_add_index' (fun _ => by rw [map_zero, zero_smul])
     (fun _ _ _ => by rw [map_add, add_smul])
 
-theorem polySection_zero (U : X.Opens) (n : ℕ) : polySection i U n 0 = 0 :=
+theorem polyTwistSection_zero (U : X.Opens) (n : ℕ) : polyTwistSection i U n 0 = 0 :=
   (congrArg (Finsupp.sum · _) (AddMonoidAlgebra.coeff_zero)).trans Finsupp.sum_zero_index
 
-theorem polySection_monomial (U : X.Opens) (n : ℕ) (α : Fin (r + 1) →₀ ℕ) (a : Γ(X, U)) :
-    polySection i U n (MvPolynomial.monomial α a) =
+theorem polyTwistSection_monomial (U : X.Opens) (n : ℕ) (α : Fin (r + 1) →₀ ℕ) (a : Γ(X, U)) :
+    polyTwistSection i U n (MvPolynomial.monomial α a) =
       (i ≫ projectiveSpaceOverSchemeProjection r X).app U a •
         (twistOnZ i n).presheaf.map (homOfLE le_top).op (monomialSection i n α) :=
   (congrArg (Finsupp.sum · _) (AddMonoidAlgebra.coeff_single α a)).trans
     (Finsupp.sum_single_index (by rw [map_zero, zero_smul]))
 
 /-- The comparison map is `Γ(X, U)`-linear. -/
-theorem polySection_C_mul (U : X.Opens) (n : ℕ) (b : Γ(X, U))
+theorem polyTwistSection_C_mul (U : X.Opens) (n : ℕ) (b : Γ(X, U))
     (p : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
-    polySection i U n (MvPolynomial.C b * p) =
-      (i ≫ projectiveSpaceOverSchemeProjection r X).app U b • polySection i U n p := by
+    polyTwistSection i U n (MvPolynomial.C b * p) =
+      (i ≫ projectiveSpaceOverSchemeProjection r X).app U b • polyTwistSection i U n p := by
   induction p using MvPolynomial.induction_on' with
   | monomial α a =>
-    rw [MvPolynomial.C_mul_monomial, polySection_monomial, polySection_monomial, map_mul, mul_smul]
-  | add p q hp hq => rw [mul_add, polySection_add, polySection_add, hp, hq, smul_add]
+    rw [MvPolynomial.C_mul_monomial, polyTwistSection_monomial, polyTwistSection_monomial, map_mul, mul_smul]
+  | add p q hp hq => rw [mul_add, polyTwistSection_add, polyTwistSection_add, hp, hq, smul_add]
 
 /-- The comparison map is compatible with restriction. -/
-theorem polySection_restrict {U V : X.Opens} (h : V ≤ U) (n : ℕ)
+theorem polyTwistSection_restrict {U V : X.Opens} (h : V ≤ U) (n : ℕ)
     (p : MvPolynomial (Fin (r + 1)) Γ(X, U)) :
     (twistOnZ i n).presheaf.map
         (homOfLE ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono h)).op
-        (polySection i U n p) =
-      polySection i V n (polyMap (r := r) (X.presheaf.map (homOfLE h).op).hom p) := by
+        (polyTwistSection i U n p) =
+      polyTwistSection i V n (polyMap (r := r) (X.presheaf.map (homOfLE h).op).hom p) := by
   induction p using MvPolynomial.induction_on' with
   | monomial α a =>
-    rw [polyMap_apply, MvPolynomial.map_monomial, polySection_monomial, polySection_monomial,
+    rw [polyMap_apply, MvPolynomial.map_monomial, polyTwistSection_monomial, polyTwistSection_monomial,
       Scheme.Modules.map_smul, Scheme.Modules.map_map_homOfLE]
     congr 1
     exact congr($((i ≫ projectiveSpaceOverSchemeProjection r X).naturality (homOfLE h).op) a).symm
-  | add p q hp hq => rw [map_add, polySection_add, polySection_add, map_add, hp, hq]
+  | add p q hp hq => rw [map_add, polyTwistSection_add, polyTwistSection_add, map_add, hp, hq]
+
+variable [IsClosedImmersion i] [IsIntegral Z]
+
+/-- `j_U^* (𝒪(n)|_Z) ≅ 𝒪_{Proj T(U)}(n)` along the chart `j_U : Proj T(U) ⟶ Z`. -/
+def chartTwistIso (U : X.AffineZariskiSite) (n : ℕ) :
+    (Scheme.Modules.pullback (coordToZ i U)).obj (twistOnZ i n) ≅
+      projTwistingSheaf ((coordinateAlgebra i).grading U) n :=
+  pullbackPullbackTwistIso (coordHom i U) (irrelevant_le_coordHom i U)
+    (adjoin_intGrading_one_eq_top r) (toIntProj i) (coordToZ i U) (coordToZ_comp_fst i U) n
+
+theorem preimage_preimage_coordToZ (U : X.AffineZariskiSite) :
+    coordToZ i U ⁻¹ᵁ ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1) = ⊤ :=
+  preimage_coordToZ_comp i U
+
+/-- **The chart comparison** `Γ(f⁻¹(U), 𝒪(n)|_Z) → Γ(Proj T(U), 𝒪(n))`: pull back along the chart
+`Proj T(U) ≅ f⁻¹(U)` and identify the pulled-back twisting sheaf. -/
+def chartTwistSection (U : X.AffineZariskiSite) (n : ℕ) :=
+  ((chartTwistIso i U n).hom.app ⊤).hom.comp
+    (pullbackTopAddHom (coordToZ i U) (twistOnZ i n) (preimage_preimage_coordToZ i U).ge)
+
+theorem chartTwistSection_bijective (U : X.AffineZariskiSite) (n : ℕ) :
+    Function.Bijective (chartTwistSection i U n) :=
+  bijective_iso_comp_pullbackTopAddHom _ _ _ (coordToZ_range i U).le _
+
+theorem chartTwistSection_monomialSection (U : X.AffineZariskiSite) {n : ℕ}
+    {α : Fin (r + 1) →₀ ℕ} (h : α.degree = n) :
+    chartTwistSection i U n ((twistOnZ i n).presheaf.map (homOfLE le_top).op
+        (monomialSection i n α)) =
+      twistSection n ⟨coordHom i U (MvPolynomial.monomial α 1),
+        (coordHom i U).map_mem (monomial_mem_intGrading h)⟩ (op ⊤) := by
+  rw [monomialSection, dif_pos h]
+  exact pullbackPullbackTwistIso_pullbackTop _ _ _ _ _ _ _ _ _
 
 end Comparison
 
