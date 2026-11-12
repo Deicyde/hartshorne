@@ -258,6 +258,25 @@ noncomputable def sheafMap [Module.Free A N] [Module.Finite A N] {N' : ModuleCat
     [Module.Free A N'] [Module.Finite A N'] (g : N ⟶ N') : sheaf φ N ⟶ sheaf φ N' :=
   ⟨presheafMap φ g⟩
 
+variable {N} in
+lemma sheafMap_comp [Module.Free A N] [Module.Finite A N] {N' N'' : ModuleCat.{u} A}
+    [Module.Free A N'] [Module.Finite A N'] [Module.Free A N''] [Module.Finite A N'']
+    (g : N ⟶ N') (g' : N' ⟶ N'') :
+    sheafMap φ (g ≫ g') = sheafMap φ g ≫ sheafMap φ g' :=
+  SheafOfModules.hom_ext ((functor φ).map_comp g g')
+
+variable {N} in
+lemma sheafMap_zero [Module.Free A N] [Module.Finite A N] {N' : ModuleCat.{u} A}
+    [Module.Free A N'] [Module.Finite A N'] : sheafMap φ (0 : N ⟶ N') = 0 := by
+  apply SheafOfModules.hom_ext
+  ext V t
+  induction t using TensorProduct.induction_on with
+  | zero => exact map_zero _
+  | tmul a m =>
+    exact TensorProduct.tmul_zero (M := (ModuleCat.restrictScalars (baseMap φ V.unop)).obj
+      (ModuleCat.of (R.obj.obj V) (R.obj.obj V))) _ _
+  | add t t' ht ht' => exact (map_add _ _ _).trans ((congrArg₂ (· + ·) ht ht').trans (add_zero _))
+
 /-- The sheaf `𝒪_X ⊗_A N` of a finite free `A`-module `N` is locally free of finite rank. -/
 theorem isFiniteLocallyFree_sheaf [Module.Free A N] [Module.Finite A N] :
     IsFiniteLocallyFree (sheaf φ N) := by
