@@ -183,6 +183,84 @@ private theorem range_sectionToFraction_eq (h : ¬HomogeneousIdeal.irrelevant �
     obtain ⟨t, ht⟩ := (unitorGlobal_bijective (𝒜 := 𝒜) (n : ℤ)).2 (twistSection n a (op ⊤))
     exact ⟨t, sectionToFraction_eq_of_unitorGlobal h t a ht⟩
 
+omit [IsDomain A] in
+variable (𝒜) in
+/-- **The chart condition determines elements of degree `n`.** For elements `x i ∈ T₁` (the
+coordinates of a projective embedding), every fraction `a / s` (`s ≠ 0`) such that, for every `i`,
+some `x i ^ j · a / s` lies in `T_{j + n}`, already lies in `T_n`. For a graded domain `T` whose
+coordinates cover `Proj T` this says that `T_n → Γ(Proj T, 𝒪(n))` is surjective
+(`bijective_twistSection_iff_chartGood`); unlike that statement, it is purely algebraic, so it can
+be localized on `Spec T₀`. -/
+def ChartGood {ι : Type*} (x : ι → A) (n : ℕ) : Prop :=
+  ∀ a s : A, s ≠ 0 → (∀ i, ∃ (j : ℕ) (c : A), c ∈ 𝒜 (j + n) ∧ c * s = x i ^ j * a) →
+    ∃ c ∈ 𝒜 n, c * s = a
+
+/-- **`T_n → Γ(Proj T, 𝒪(n))` is bijective exactly when the chart condition determines the elements
+of degree `n`**, for a graded domain `T` with `Proj T` nonempty and covered by the charts
+`D₊(x i)`, `x i ∈ T₁`. -/
+theorem bijective_twistSection_iff_chartGood {ι : Type*} (x : ι → A) (hx : ∀ i, x i ∈ 𝒜 1)
+    (hcover : ∀ p : Proj 𝒜, ∃ i, x i ∉ p.asHomogeneousIdeal)
+    (h : ¬HomogeneousIdeal.irrelevant 𝒜 ≤ ⊥) (n : ℕ) :
+    Function.Bijective (fun a : 𝒜 n => twistSection n a (op ⊤)) ↔ ChartGood 𝒜 x n := by
+  have hinj : Function.Injective (algebraMap A (FractionRing A)) := IsFractionRing.injective _ _
+  -- The fraction `a / s` satisfies the chart condition exactly when `c s = xᵢʲ a`.
+  have key : ∀ {a s c : A} {j : ℕ} {z : FractionRing A}, s ≠ 0 →
+      z = algebraMap A (FractionRing A) a / algebraMap A (FractionRing A) s → ∀ y : A,
+      (algebraMap A (FractionRing A) c = algebraMap A (FractionRing A) y ^ j * z ↔
+        c * s = y ^ j * a) := by
+    intro a s c j z hs hz y
+    have hs' : algebraMap A (FractionRing A) s ≠ 0 := (map_ne_zero_iff _ hinj).2 hs
+    rw [hz, ← hinj.eq_iff, map_mul, map_mul, map_pow]
+    constructor
+    · intro e
+      rw [e]
+      field_simp
+    · intro e
+      field_simp
+      exact e
+  constructor
+  · intro hn a s hs hcond
+    let z := algebraMap A (FractionRing A) a / algebraMap A (FractionRing A) s
+    obtain ⟨t, ht⟩ := exists_sectionToFraction_eq x hx hcover h n z fun i _ => by
+      obtain ⟨j, c, hc, hcs⟩ := hcond i
+      exact ⟨j, c, hc, (key hs rfl (x i)).2 hcs⟩
+    obtain ⟨b, hb⟩ := hn.2 (unitorGlobal (n : ℤ) t)
+    have hbt := sectionToFraction_eq_of_unitorGlobal h t b hb.symm
+    refine ⟨b, b.2, ?_⟩
+    have e1 : algebraMap A (FractionRing A) (b : A) = algebraMap A (FractionRing A) 1 ^ 0 * z := by
+      rw [pow_zero, one_mul, ← hbt, ht]
+    have := (key hs rfl 1).1 e1
+    rwa [pow_zero, one_mul] at this
+  · intro hg
+    have hsec : ∀ b : 𝒜 n, ∃ t, unitorGlobal (n : ℤ) t = twistSection n b (op ⊤) ∧
+        sectionToFraction 𝒜 n t = algebraMap A (FractionRing A) b := fun b => by
+      obtain ⟨t, ht⟩ := (unitorGlobal_bijective (𝒜 := 𝒜) (n : ℤ)).2 (twistSection n b (op ⊤))
+      exact ⟨t, ht, sectionToFraction_eq_of_unitorGlobal h t b ht⟩
+    refine ⟨fun a b hab => ?_, fun σ => ?_⟩
+    · obtain ⟨ta, hta, hta'⟩ := hsec a
+      obtain ⟨tb, htb, htb'⟩ := hsec b
+      have htab : ta = tb := (unitorGlobal_bijective n).1 (hta.trans (hab.trans htb.symm))
+      exact Subtype.ext (hinj (hta'.symm.trans (htab ▸ htb')))
+    · obtain ⟨t, rfl⟩ := (unitorGlobal_bijective (𝒜 := 𝒜) (n : ℤ)).2 σ
+      obtain ⟨a, s, hs, hz⟩ := IsFractionRing.div_surjective (A := A) (sectionToFraction 𝒜 n t)
+      have hs0 : s ≠ 0 := nonZeroDivisors.ne_zero hs
+      obtain ⟨b, hb, hbs⟩ := hg a s hs0 fun i => by
+        by_cases hxi : x i = 0
+        · exact ⟨1, 0, zero_mem _, by rw [hxi, zero_mul, zero_pow one_ne_zero, zero_mul]⟩
+        · obtain ⟨j, c, hc, hcz⟩ := exists_mem_eq_pow_mul_sectionToFraction (hx i) hxi n t
+          exact ⟨j, c, hc, (key hs0 hz.symm (x i)).1 hcz⟩
+      obtain ⟨tb, htb, htb'⟩ := hsec ⟨b, hb⟩
+      refine ⟨⟨b, hb⟩, ?_⟩
+      change twistSection n ⟨b, hb⟩ (op ⊤) = _
+      rw [← htb]
+      congr 1
+      apply sectionToFraction_injective h
+      have e1 : b * s = 1 ^ 0 * a := by rw [pow_zero, one_mul]; exact hbs
+      have := (key hs0 hz.symm 1).2 e1
+      rw [map_one, one_pow, one_mul] at this
+      rw [htb']
+      exact this
+
 /-- **The section algebra of a sufficiently high power of `L`, on an affine chart** (Hartshorne
 II, proof of Theorem 7.17, Step 2). Let `T` be a graded domain with `T₀` a finitely generated
 algebra over a field, generated over `T₀` by `x₀, …, xᵣ ∈ T₁` (the homogeneous coordinates of a
@@ -310,6 +388,50 @@ theorem adjoin_coord_eq_top (I : HomogeneousIdeal 𝒮) :
     rw [map_mul]
     exact mul_mem hp (Algebra.subset_adjoin ⟨j, rfl⟩)
 
+/-- The charts `D₊(xⱼ)` cover `Proj (A[x]/I)`. -/
+theorem exists_coord_notMem_of_quotient (I : HomogeneousIdeal 𝒮) (p : Proj (gradedQuotient 𝒮 I)) :
+    ∃ j : Fin (r + 1), Ideal.Quotient.mk I.toIdeal (MvPolynomial.X j) ∉ p.asHomogeneousIdeal := by
+  classical
+  by_contra! hall
+  apply p.not_irrelevant_le
+  intro a ha
+  rw [← DirectSum.sum_support_decompose (gradedQuotient 𝒮 I) a]
+  refine sum_mem fun d _ => ?_
+  rcases Nat.eq_zero_or_pos d with rfl | hd
+  · have : (DirectSum.decompose (gradedQuotient 𝒮 I) a 0 :
+        MvPolynomial (Fin (r + 1)) R ⧸ I.toIdeal) = 0 := ha
+    rw [this]
+    exact zero_mem _
+  · obtain ⟨q, hq, hqa⟩ := mem_gradedQuotient_iff.1 (DirectSum.decompose (gradedQuotient 𝒮 I) a d).2
+    rw [← hqa]
+    have hspan : q ∈ Ideal.span (MvPolynomial.X '' (Set.univ : Set (Fin (r + 1)))) := by
+      rw [MvPolynomial.mem_ideal_span_X_image]
+      intro m hm
+      have hdeg := ((MvPolynomial.mem_homogeneousSubmodule d q).1 hq).degree_eq_sum_deg_support hm
+      obtain ⟨i, hi⟩ : m.support.Nonempty := by
+        rw [Finset.nonempty_iff_ne_empty]
+        intro h0
+        rw [h0, Finset.sum_empty] at hdeg
+        omega
+      exact ⟨i, Set.mem_univ _, Finsupp.mem_support_iff.1 hi⟩
+    have hmap := Ideal.mem_map_of_mem (Ideal.Quotient.mk I.toIdeal) hspan
+    rw [Ideal.map_span] at hmap
+    refine (Ideal.span_le.2 ?_) hmap
+    rintro _ ⟨_, ⟨i, -, rfl⟩, rfl⟩
+    exact hall i
+
+/-- `exists_bijective_twistSection` for `A[x]/I`, `A` a finitely generated algebra over a field. -/
+theorem exists_bijective_twistSection_quotient (k : Type u) [Field k] [Algebra k R]
+    [Algebra.FiniteType k R] (I : HomogeneousIdeal 𝒮) :
+    ∃ n₀ : ℕ, ∀ n ≥ n₀, Function.Bijective
+      (fun a : gradedQuotient 𝒮 I n => twistSection n a (op ⊤)) := by
+  let : Algebra k (gradedQuotient 𝒮 I 0) := ((chartZeroHom I).comp (algebraMap k R)).toAlgebra
+  let φ : R →ₐ[k] gradedQuotient 𝒮 I 0 := { chartZeroHom I with commutes' := fun _ => rfl }
+  have : Algebra.FiniteType k (gradedQuotient 𝒮 I 0) :=
+    Algebra.FiniteType.of_surjective φ (chartZeroHom_surjective I)
+  exact exists_bijective_twistSection_range k _
+    (fun j => mk_mem_gradedQuotient (MvPolynomial.isHomogeneous_X _ j)) (adjoin_coord_eq_top I)
+
 /-- **The section algebra of a sufficiently high power of `L`, for a closed subscheme of `ℙʳ_A`**
 (Hartshorne II, proof of Theorem 7.17, Step 2, over an affine open `U = Spec A` of the base). Let
 `A` be a finitely generated algebra over a field `k`, and `i : Z ⟶ ℙʳ_{Spec A}` a closed immersion
@@ -427,34 +549,26 @@ private def sectionsPullbackIso {Y W : Scheme.{u}} (e : Y ≅ W) (F : W.Modules)
     (F.presheaf.mapIso (eqToIso (by rw [Scheme.Hom.image_top_eq_opensRange,
       Scheme.Hom.opensRange_of_isIso] : e.hom ''ᵁ ⊤ = ⊤)).op).symm
 
-/-- **The sections of `L^N` over `f⁻¹(U)` are the degree-`N` part of a homogeneous coordinate ring
-of `f⁻¹(U) ⊆ ℙʳ_{Spec Γ(X, U)}`, for large `N`.** Let `i : Z ⟶ ℙʳ_X` be a closed immersion,
-`f = π ∘ i`, `L = i^* 𝒪(1)`, `U ⊆ X` an affine open with `Γ(X, U)` a finitely generated algebra over
-a field `k`, and `e : f⁻¹(U) ≅ Proj (Γ(X, U)[x]/I)` an isomorphism over `ℙʳ_{Spec Γ(X, U)}`. Then
-for all large `N`, `Γ(f⁻¹(U), L^{N}) ≅ (Γ(X, U)[x]/I)_N` (through `s ↦ s / 1`, Exercise 5.9). -/
-theorem exists_addEquiv_sections_tensorPower_of_fac (k : Type u) [Field k]
+/-- **The sections of `L^{N+1}` over `f⁻¹(U)` in a degree where `s ↦ s / 1` is bijective.** Let
+`i : Z ⟶ ℙʳ_X` be a closed immersion, `f = π ∘ i`, `L = i^* 𝒪(1)`, `U ⊆ X` an affine open and
+`e : f⁻¹(U) ≅ Proj (Γ(X, U)[x]/I)` an isomorphism over `ℙʳ_{Spec Γ(X, U)}`. If
+`(Γ(X, U)[x]/I)_{N+1} → Γ(Proj (Γ(X, U)[x]/I), 𝒪(N + 1))` is bijective, then
+`Γ(f⁻¹(U), L^{N+1}) ≅ (Γ(X, U)[x]/I)_{N+1}`. -/
+theorem nonempty_addEquiv_sections_tensorPower_of_bijective
     {X Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r X)
-    {U : X.Opens} (hU : IsAffineOpen U) [Algebra k Γ(X, U)] [Algebra.FiniteType k Γ(X, U)]
+    {U : X.Opens} (hU : IsAffineOpen U)
     (I : HomogeneousIdeal (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)))
     (e : ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme ≅
       Proj (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I))
     (hfac : e.hom ≫ projQuotientι _ I ≫
-      (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).hom = chartEmbedding i hU) :
-    ∃ n₀ : ℕ, ∀ N ≥ n₀, Nonempty (Γ(moduleSheafTensorPower (N + 1)
+      (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).hom = chartEmbedding i hU) (N : ℕ)
+    (hN : Function.Bijective (fun a : gradedQuotient
+      (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I (N + 1) =>
+        twistSection (N + 1) a (op ⊤))) :
+    Nonempty (Γ(moduleSheafTensorPower (N + 1)
         ((Scheme.Modules.pullback ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).ι).obj
           ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1))), ⊤) ≃+
       gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I (N + 1)) := by
-  let : Algebra k (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I 0) :=
-    ((chartZeroHom I).comp (algebraMap k Γ(X, U))).toAlgebra
-  let φ : Γ(X, U) →ₐ[k]
-      gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I 0 :=
-    { chartZeroHom I with commutes' := fun _ => rfl }
-  have : Algebra.FiniteType k
-      (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I 0) :=
-    Algebra.FiniteType.of_surjective φ (chartZeroHom_surjective I)
-  obtain ⟨n₀, hn₀⟩ := exists_bijective_twistSection_range k _
-    (fun j => mk_mem_gradedQuotient (MvPolynomial.isHomogeneous_X _ j)) (adjoin_coord_eq_top I)
-  refine ⟨n₀, fun N hN => ⟨?_⟩⟩
   let ι := ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).ι
   let fst := Limits.pullback.fst (projectiveSpaceOverIntegersMap r) (schemeToSpecZ X)
   let α : (Scheme.Modules.pullback ι).obj
@@ -473,8 +587,29 @@ theorem exists_addEquiv_sections_tensorPower_of_fac (k : Type u) [Field k]
     (pullbackChartEmbeddingTwistIso i hU _).symm ≪≫
     pullbackTwistIsoOfFac (chartEmbedding i hU) I e hfac _
   let δ := ((Scheme.Modules.toPresheaf _).mapIso γ).app (op ⊤) ≪≫ sectionsPullbackIso e _
-  exact δ.addCommGroupIsoToAddEquiv.trans
-    (AddEquiv.ofBijective (twistSectionHom (N + 1)) (hn₀ (N + 1) (by omega))).symm
+  exact ⟨δ.addCommGroupIsoToAddEquiv.trans
+    (AddEquiv.ofBijective (twistSectionHom (N + 1)) hN).symm⟩
+
+/-- **The sections of `L^N` over `f⁻¹(U)` are the degree-`N` part of a homogeneous coordinate ring
+of `f⁻¹(U) ⊆ ℙʳ_{Spec Γ(X, U)}`, for large `N`.** Let `i : Z ⟶ ℙʳ_X` be a closed immersion,
+`f = π ∘ i`, `L = i^* 𝒪(1)`, `U ⊆ X` an affine open with `Γ(X, U)` a finitely generated algebra over
+a field `k`, and `e : f⁻¹(U) ≅ Proj (Γ(X, U)[x]/I)` an isomorphism over `ℙʳ_{Spec Γ(X, U)}`. Then
+for all large `N`, `Γ(f⁻¹(U), L^{N}) ≅ (Γ(X, U)[x]/I)_N` (through `s ↦ s / 1`, Exercise 5.9). -/
+theorem exists_addEquiv_sections_tensorPower_of_fac (k : Type u) [Field k]
+    {X Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r X)
+    {U : X.Opens} (hU : IsAffineOpen U) [Algebra k Γ(X, U)] [Algebra.FiniteType k Γ(X, U)]
+    (I : HomogeneousIdeal (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)))
+    (e : ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme ≅
+      Proj (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I))
+    (hfac : e.hom ≫ projQuotientι _ I ≫
+      (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).hom = chartEmbedding i hU) :
+    ∃ n₀ : ℕ, ∀ N ≥ n₀, Nonempty (Γ(moduleSheafTensorPower (N + 1)
+        ((Scheme.Modules.pullback ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).ι).obj
+          ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1))), ⊤) ≃+
+      gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I (N + 1)) := by
+  obtain ⟨n₀, hn₀⟩ := exists_bijective_twistSection_quotient k I
+  exact ⟨n₀, fun N hN => nonempty_addEquiv_sections_tensorPower_of_bijective i hU I e hfac N
+    (hn₀ (N + 1) (by omega))⟩
 
 /-- **Step 2 of the proof of Theorem 7.17: the sections of `L^N` over `f⁻¹(U)` are the degree-`N`
 part of the homogeneous coordinate ring, for large `N`** (Hartshorne II, pp. 166–167). Let
