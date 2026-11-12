@@ -3,6 +3,8 @@ article_id: af_28e4d896c7840d0127c7184f
 declaration: theorem
 origin: cited
 lean: Hartshorne.isCoherent_pushforward_of_projective Hartshorne.isCoherent_pushforward_of_projective_of_locallyOfFiniteType
+statement: formalized
+proof: formalized
 ---
 
 # Coherence of projective pushforward
