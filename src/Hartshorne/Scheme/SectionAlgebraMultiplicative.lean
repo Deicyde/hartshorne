@@ -12,8 +12,8 @@ Hartshorne, *Algebraic Geometry*, II, proof of Theorem 7.17, Steps 1–3 (pp. 16
 Let `i : Z ⟶ ℙʳ_X` be a closed immersion of an integral scheme, `f = π ∘ i`, `L = i^* 𝒪(1)` and
 `T(U) = Γ(X, U)[x₀, …, xᵣ] / I_U` the relative homogeneous coordinate algebra. The comparison
 `T(U)_n ≅ Γ(f⁻¹(U), L^{n})` of `SectionAlgebraSheafComparison` turns the multiplication of `T(U)`
-into the product `L^{p} ⊗ L^{q} → L^{p+q}`; this file proves it for the pulled-back monomials
-and provides the algebra of these products (bilinearity, compatibility with restriction).
+into the product `L^{p} ⊗ L^{q} → L^{p+q}`; this file proves it on monomials and provides the
+algebra of these products (bilinearity, compatibility with restriction).
 
 * `Ringed.moduleSheafTensorPowerAddIso_hom_tprod_append`: `T^{a+b} F ≅ T^a F ⊗ T^b F` on
   elementary tensors; `Ringed.moduleSheafTensorPowerMulSection`, the induced product of sections.
@@ -21,7 +21,8 @@ and provides the algebra of these products (bilinearity, compatibility with rest
   `L^{N+1} ≅ ψ^* 𝒪(N + 1)` sends `ψ^*(u₁ / 1) ⊗ ⋯ ⊗ ψ^*(u_{N+1} / 1)` to `ψ^*(u₁ ⋯ u_{N+1} / 1)`
   (Proposition 5.12(b) on sections).
 * `SectionAlgebraModel.tensorPowerMulSection_monomialSection`: the pulled-back monomials multiply,
-  `x^β · x^γ = x^{β+γ}`.
+  `x^β · x^γ = x^{β+γ}`; `tensorPowerMulSection_polyTwistSection_monomial`: so do the comparison
+  sections `f^*(a) x^α` over `f⁻¹(U)`.
 -/
 universe u
 
@@ -546,6 +547,49 @@ theorem polyTwistSection_monomial_eq_zero (U : X.Opens) {n : ℕ} {α : Fin (r +
     (hα : ¬ α.degree = n) (a : Γ(X, U)) :
     polyTwistSection i U n (MvPolynomial.monomial α a) = 0 := by
   rw [polyTwistSection_monomial, monomialSection, dif_neg hα, map_zero, smul_zero]
+
+/-- An isomorphism of `𝒪_Z`-modules is `Γ(Z, W)`-linear and commutes with restriction from `Z`.
+(Stated for arbitrary modules so that instances are checked once.) -/
+theorem iso_inv_app_smul_map {M N : Z.Modules} (e : M ≅ N) {W : Z.Opens} (c : Γ(Z, W))
+    (x : Γ(N, ⊤)) :
+    e.inv.app W (c • N.presheaf.map (homOfLE le_top).op x) =
+      c • M.presheaf.map (homOfLE le_top).op (e.inv.app ⊤ x) := by
+  rw [Scheme.Modules.Hom.app_smul, hom_app_map]
+
+/-- An isomorphism of `𝒪_Z`-modules is additive on sections. -/
+theorem iso_inv_app_add {M N : Z.Modules} (e : M ≅ N) {W : Z.Opens} (x y : Γ(N, W)) :
+    e.inv.app W (x + y) = e.inv.app W x + e.inv.app W y :=
+  map_add _ x y
+
+/-- An isomorphism of `𝒪_Z`-modules sends `0` to `0`. -/
+theorem iso_inv_app_zero {M N : Z.Modules} (e : M ≅ N) {W : Z.Opens} :
+    e.inv.app W (0 : Γ(N, W)) = 0 :=
+  map_zero _
+
+/-- `L^{p} ≅ 𝒪(p)|_Z` on a monomial section: `f^*(a) x^α ↦ f^*(a) · (x^α)|`. -/
+theorem invApp_polyTwistSection_monomial (U : X.Opens) {p : ℕ} (hp : 0 < p)
+    (α : Fin (r + 1) →₀ ℕ) (a : Γ(X, U)) :
+    (tensorPowerTwistOnZIso i p hp).inv.app _ (polyTwistSection i U p (MvPolynomial.monomial α a)) =
+      (i ≫ projectiveSpaceOverSchemeProjection r X).app U a •
+        (tensorPowerL i p).presheaf.map (homOfLE le_top).op
+          ((tensorPowerTwistOnZIso i p hp).inv.app ⊤ (monomialSection i p α)) := by
+  rw [polyTwistSection_monomial]
+  exact iso_inv_app_smul_map _ _ _
+
+/-- The comparison sections of two monomials multiply to that of their product. -/
+theorem tensorPowerMulSection_polyTwistSection_monomial (U : X.Opens) {p q : ℕ} (hp : 0 < p)
+    (hq : 0 < q) {α β : Fin (r + 1) →₀ ℕ} (hα : α.degree = p) (hβ : β.degree = q)
+    (a b : Γ(X, U)) :
+    tensorPowerMulSection i ((tensorPowerTwistOnZIso i p hp).inv.app _
+        (polyTwistSection i U p (MvPolynomial.monomial α a)))
+        ((tensorPowerTwistOnZIso i q hq).inv.app _
+          (polyTwistSection i U q (MvPolynomial.monomial β b))) =
+      (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app _
+        (polyTwistSection i U (p + q) (MvPolynomial.monomial (α + β) (a * b))) := by
+  rw [invApp_polyTwistSection_monomial, invApp_polyTwistSection_monomial,
+    invApp_polyTwistSection_monomial, tensorPowerMulSection_smul_smul,
+    ← tensorPowerMulSection_restrict, tensorPowerMulSection_monomialSection i hp hq hα hβ,
+    map_mul]
 
 variable [IsClosedImmersion i] [IsIntegral Z]
 
