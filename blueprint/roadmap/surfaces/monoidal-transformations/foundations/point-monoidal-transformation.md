@@ -20,6 +20,7 @@ isomorphism $\widetilde{X}-E \simeq X-P$.
 - [Blowing up a variety](../../../schemes/projective-geometry/blowups/blowup-of-variety.md)
 - [A blowup is an isomorphism off its center](../../../schemes/projective-geometry/blowups/isomorphism-off-center.md)
 - [The exceptional ideal is invertible](../../../schemes/projective-geometry/blowups/exceptional-ideal-is-invertible.md)
+- [Effective Cartier divisors and locally principal subschemes](../../../schemes/divisors/cartier-picard/effective-cartier-closed-subscheme.md)
 
 ## Sources
 
