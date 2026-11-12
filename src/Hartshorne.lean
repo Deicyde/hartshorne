@@ -702,3 +702,4 @@ import Hartshorne.Cohomology.Flatness.FlatMorphismBaseChange
 import Hartshorne.Cohomology.SerreAffinenessCriterion
 import Hartshorne.Cohomology.AffineCoverComparison
 import Hartshorne.Cohomology.InfinitesimalFibers
+import Hartshorne.Scheme.Differentials.AffineNonsingularInfinitesimalLifting
