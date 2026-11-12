@@ -464,6 +464,97 @@ theorem exact_koszulDualTopMap {s : ℕ} (hs : s + 1 = r) (P : Type u) [AddCommG
     exact (Submodule.quotEquivOfEq _ _ _).surjective.comp
       (hsurj.comp (homRid (s + 1) P).surjective)
 
+/-! ### The top degree and the determinant transition law -/
+
+variable (r) in
+/-- The top exterior product `e₁ ∧ ⋯ ∧ e_r ∈ ⋀^r A^r`. -/
+noncomputable def topForm : ⋀[A]^r (Fin r → A) :=
+  exteriorPower.ιMulti_family A r (Pi.basisFun A (Fin r)) (topIndex r)
+
+lemma topCoord_topForm : topCoord r (topForm (A := A) r : ExteriorAlgebra A (Fin r → A)) = 1 := by
+  rw [topCoord_of_mem (topForm r).2, topForm, ← exteriorPower.basis_apply,
+    Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_eq_same]
+
+lemma eq_topCoord_smul_topForm (ω : ⋀[A]^r (Fin r → A)) :
+    ω = topCoord r (ω : ExteriorAlgebra A (Fin r → A)) • topForm r := by
+  rw [topCoord_of_mem ω.2]
+  conv_lhs => rw [← ((Pi.basisFun A (Fin r)).exteriorPower r).sum_repr ω]
+  rw [Fintype.sum_subsingleton _ (topIndex r), exteriorPower.basis_apply]
+  rfl
+
+/-- `⋀^r Q (e₁ ∧ ⋯ ∧ e_r) = det Q · e₁ ∧ ⋯ ∧ e_r` for an `r × r` matrix `Q`. -/
+lemma exteriorPower_map_topForm (Q : Matrix (Fin r) (Fin r) A) :
+    exteriorPower.map r (Matrix.toLin' Q) (topForm r) = Q.det • topForm r := by
+  conv_lhs => rw [eq_topCoord_smul_topForm (exteriorPower.map r (Matrix.toLin' Q) (topForm r))]
+  congr 1
+  let b := Pi.basisFun A (Fin r)
+  let g : (Fin r → A) [⋀^Fin r]→ₗ[A] A :=
+    (topCoord r ∘ₗ (⋀[A]^r (Fin r → A)).subtype).compAlternatingMap (exteriorPower.ιMulti A r)
+  have hg : ∀ v, g v = g b * b.det v := fun v => by
+    conv_lhs => rw [g.eq_smul_basis_det b]
+    rfl
+  let v := b ∘ (Set.powersetCard.ofFinEmbEquiv.symm (topIndex r))
+  have h1 : g v = 1 := topCoord_topForm
+  have h2 : topCoord r (exteriorPower.map r (Matrix.toLin' Q) (topForm r) :
+      ExteriorAlgebra A (Fin r → A)) = g (Matrix.toLin' Q ∘ v) := by
+    rw [topForm, exteriorPower.ιMulti_family, exteriorPower.map_apply_ιMulti]
+    rfl
+  rw [h2, hg, Module.Basis.det_comp, LinearMap.det_toLin']
+  have h3 := hg v
+  rw [h1] at h3
+  linear_combination (-Q.det) * h3
+
+/-- Koszul duality in the top degree: `Hom(⋀^r A^r, P) ≅ ⋀^0 A^r ⊗ P = P` is evaluation at
+`e₁ ∧ ⋯ ∧ e_r`. -/
+lemma koszulDualEquiv_symm_top (P : Type u) [AddCommGroup P] [Module A P]
+    (ψ : ⋀[A]^r (Fin r → A) →ₗ[A] P) :
+    (koszulDualEquiv (A := A) (r := r) (q := 0) (p := r) (zero_add r) P).symm ψ =
+      exteriorPower.ιMulti A 0 Fin.elim0 ⊗ₜ ψ (topForm r) := by
+  apply (koszulDualEquiv (A := A) (r := r) (q := 0) (p := r) (zero_add r) P).injective
+  rw [LinearEquiv.apply_symm_apply]
+  refine LinearMap.ext fun ω => ?_
+  rw [koszulDualEquiv_tmul, exteriorPower.ιMulti_apply_coe, ExteriorAlgebra.ιMulti_zero_apply,
+    one_mul, ← map_smul, ← eq_topCoord_smul_topForm]
+
+/-- The top map `Hom_A(K_r, P) → P / I P` is evaluation at `e₁ ∧ ⋯ ∧ e_r ⊗ 1` followed by the
+quotient map. -/
+lemma koszulDualTopMap_apply {s : ℕ} (f : Fin (s + 1) → A) (P : Type u) [AddCommGroup P]
+    [Module A P] (ψ : (sequenceKoszulComplex f (ModuleCat.of A A)).X (s + 1) →ₗ[A] P) :
+    koszulDualTopMap f rfl P ψ = Submodule.Quotient.mk (ψ (topForm (s + 1) ⊗ₜ 1)) := by
+  change Submodule.quotEquivOfEq _ _ (koszulSubmodule_koszulForm f P)
+    (augmentationLinearMap (koszulForm f) P
+    ((koszulDualEquiv (A := A) (r := s + 1) (q := 0) (p := s + 1) (zero_add _) P).symm
+      (homRid (s + 1) P ψ))) = _
+  rw [koszulDualEquiv_symm_top]
+  simp [homRid, augmentationLinearMap, degreeZeroEquiv, exteriorPower.zeroEquiv_ιMulti]
+  rfl
+
+/-- Changing generators by an invertible matrix does not change the ideal. -/
+lemma span_range_vecMul {r : ℕ} (f : Fin r → A) (Q : Matrix (Fin r) (Fin r) A) [Invertible Q] :
+    Ideal.span (Set.range (Matrix.vecMul f Q)) = Ideal.span (Set.range f) := by
+  rw [← range_koszulForm, ← range_koszulForm, ← koszulForm_comp_toLin',
+    LinearMap.range_comp_of_range_eq_top]
+  exact LinearMap.range_eq_top.2 (Matrix.toLinearEquiv' Q inferInstance).surjective
+
+/-- **The determinant transition law** (Hartshorne III.7, proof of Theorem 7.11). If the
+generators `f₁, …, f_r` are replaced by `f Q` for an invertible matrix `Q`, then under the
+change-of-basis map `K_•(f Q; A) → K_•(f; A)` the top identification
+`Hom_A(K_r, P) → P / I P` is multiplied by `det Q`. -/
+theorem koszulDualTopMap_changeOfBasis {s : ℕ} (f : Fin (s + 1) → A)
+    (Q : Matrix (Fin (s + 1)) (Fin (s + 1)) A) [Invertible Q] (P : Type u) [AddCommGroup P]
+    [Module A P] (ψ : (sequenceKoszulComplex f (ModuleCat.of A A)).X (s + 1) →ₗ[A] P) :
+    koszulDualTopMap (Matrix.vecMul f Q) rfl P
+        (ψ ∘ₗ ((sequenceKoszulChangeOfBasis f Q (ModuleCat.of A A)).f (s + 1)).hom) =
+      Submodule.quotEquivOfEq _ _ (by rw [span_range_vecMul])
+        (Q.det • koszulDualTopMap f rfl P ψ) := by
+  rw [koszulDualTopMap_apply, koszulDualTopMap_apply, map_smul]
+  change Submodule.Quotient.mk (ψ ((exteriorPower.map (s + 1) (Matrix.toLin' Q)).rTensor A
+    (topForm (s + 1) ⊗ₜ 1))) = _
+  rw [LinearMap.rTensor_tmul, exteriorPower_map_topForm, ← TensorProduct.smul_tmul']
+  erw [ψ.map_smul]
+  rw [Submodule.Quotient.mk_smul]
+  rfl
+
 end Duality
 
 end Koszul
