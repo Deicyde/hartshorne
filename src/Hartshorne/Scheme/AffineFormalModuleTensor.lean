@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.FormalCompletionModule
 import Hartshorne.Scheme.FormalCompletionModuleAffineSections
 import Hartshorne.Scheme.AffineFormalModuleExact
+import Hartshorne.Scheme.ClosedImmersionIdealSheaf
 import Hartshorne.Scheme.FormalCompletionAffineSections
 import Hartshorne.Scheme.FormalSpectrum
 import Hartshorne.Scheme.ModuleSheafTensor
@@ -396,6 +397,132 @@ private lemma formalCompletionRingCatSheafπ_structureSheafToFormalCompletionRin
         (I.structureSheafToFormalCompletionRingCat.hom.app (op U) a) =
       I.formalCompletionSheafObjSectionsMap n U a :=
   congrArg (fun g => g.hom a) (I.formalCompletionSectionsMap_π U n)
+
+private lemma mem_of_mem_smul_top {R : Type*} [CommRing R] (J : Ideal R) {x : R}
+    (h : x ∈ J • (⊤ : Submodule R R)) : x ∈ J := by
+  rwa [smul_eq_mul, Ideal.mul_top] at h
+
+/-- On sections over `U ∩ |Y|` with `U` affine, `𝒪_X̂ ⟶ (𝒪_X)^` is injective. -/
+private lemma unitToModuleCompletionUnit_injective (U : X.affineOpens)
+    (x : I.formalCompletionRingCatSheaf.obj.obj
+      (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens))))
+    (hx : I.unitToModuleCompletionUnit.val.app _ x = 0) : x = 0 := by
+  have : (SheafOfModules.unit.{u} X.ringCatSheaf : X.Modules).IsQuasicoherent :=
+    ClosedImmersionIdeal.isQuasicoherent_unit X
+  have hπ : ∀ n, (limit.π I.formalCompletionDiagram (op n)).hom.app
+      (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens))) x = 0 := by
+    intro n
+    obtain ⟨a, ha⟩ := I.surjective_formalCompletionSheafObjSectionsMap n U
+      ((limit.π I.formalCompletionDiagram (op n)).hom.app _ x)
+    have hlev : I.moduleCompletionSectionsMap (SheafOfModules.unit.{u} X.ringCatSheaf) n U a = 0 :=
+      (I.moduleCompletionLevelMap_unit_apply n U a).trans
+        ((pushforward_smul_congr (I.formalCompletionRingCatSheafπ n)
+          (I.moduleCompletionNeighborhood (SheafOfModules.unit.{u} X.ringCatSheaf) n) _
+          ((I.formalCompletionRingCatSheafπ_structureSheafToFormalCompletionRingCat n U a).trans ha)
+          _).trans ((I.unitToModuleCompletionUnit_π n U x).symm.trans
+            ((congrArg _ hx).trans (map_zero _))))
+    have hmem := (I.moduleCompletionSectionsMap_eq_zero_iff (SheafOfModules.unit.{u} X.ringCatSheaf) n U a).1 hlev
+    have ha' : a ∈ RingHom.ker (I.formalCompletionSheafObjSectionsMap n U).hom := by
+      rw [I.ker_formalCompletionSheafObjSectionsMap n U]
+      exact mem_of_mem_smul_top _ hmem
+    exact ha.symm.trans ha'
+  refine (I.formalCompletionAffineSectionsIso U).injective
+    ((adicCompletion_ext_succ fun n => ?_).trans (map_zero _).symm)
+  refine (I.formalCompletionSheafObjAffineEquiv U n).injective ?_
+  exact (formalCompletionSheafObjAffineEquiv_evalₐ_formalCompletionAffineSectionsIso I U n x).trans
+    ((hπ n).trans ((congrArg _ (map_zero _)).trans (map_zero _)).symm)
+
+/-- On sections over `U ∩ |Y|` with `U` affine, `𝒪_X̂ ⟶ (𝒪_X)^` is surjective. -/
+private lemma unitToModuleCompletionUnit_surjective (U : X.affineOpens)
+    (z : ((SheafOfModules.pushforward.{u} I.structureSheafToFormalCompletionRingCat).obj
+      (I.moduleCompletion (SheafOfModules.unit.{u} X.ringCatSheaf))).val.obj (op (U : X.Opens))) :
+    ∃ x, ((SheafOfModules.pushforward.{u} I.structureSheafToFormalCompletionRingCat).map
+      I.unitToModuleCompletionUnit).val.app (op (U : X.Opens)) x = z := by
+  have : (SheafOfModules.unit.{u} X.ringCatSheaf : X.Modules).IsQuasicoherent :=
+    ClosedImmersionIdeal.isQuasicoherent_unit X
+  choose t ht using fun n => I.moduleCompletionSectionsMap_surjective (SheafOfModules.unit.{u} X.ringCatSheaf) n U
+    (((SheafOfModules.pushforward.{u} I.structureSheafToFormalCompletionRingCat).map
+      (I.moduleCompletionπ (SheafOfModules.unit.{u} X.ringCatSheaf) n)).val.app (op (U : X.Opens)) z)
+  have hs' : ∀ n, (I.moduleCompletionLevelMap I.structureSheafToFormalCompletionRingCat
+      I.structureSheafToFormalCompletionRingCat_compat (SheafOfModules.unit.{u} X.ringCatSheaf) n).val.app
+        (op (U : X.Opens)) (t n) =
+      ((SheafOfModules.pushforward.{u} I.structureSheafToFormalCompletionRingCat).map
+        (I.moduleCompletionπ (SheafOfModules.unit.{u} X.ringCatSheaf) n)).val.app (op (U : X.Opens)) z := fun n =>
+    (I.moduleCompletionLevelMap_val_app I.structureSheafToFormalCompletionRingCat
+      I.structureSheafToFormalCompletionRingCat_compat (SheafOfModules.unit.{u} X.ringCatSheaf) n U (t n)).trans (ht n)
+  let t' : ℕ → Γ(X, (U : X.Opens)) := t
+  have hS : ∀ n, t' (n + 1) - t' n ∈ I.ideal U ^ (n + 1) := by
+    intro n
+    have a1 := (I.moduleCompletionMap_val_app_moduleCompletionLevelMap
+      I.structureSheafToFormalCompletionRingCat I.structureSheafToFormalCompletionRingCat_compat
+      (SheafOfModules.unit.{u} X.ringCatSheaf) n U (t (n + 1))).symm.trans
+      ((congrArg (fun y => ((SheafOfModules.pushforward.{u}
+        I.structureSheafToFormalCompletionRingCat).map
+        (I.moduleCompletionMap (SheafOfModules.unit.{u} X.ringCatSheaf) n)).val.app (op (U : X.Opens)) y) (hs' (n + 1))).trans
+        (I.moduleCompletionMap_val_app_moduleCompletionπ
+          I.structureSheafToFormalCompletionRingCat (SheafOfModules.unit.{u} X.ringCatSheaf) n U z))
+    have hmem := (I.moduleCompletionSectionsMap_eq_zero_iff (SheafOfModules.unit.{u} X.ringCatSheaf) n U _).1
+      ((map_sub _ _ _).trans (sub_eq_zero.2 (a1.trans (hs' n).symm)))
+    exact mem_of_mem_smul_top _ hmem
+  let f : AdicCompletion.AdicCauchySequence (I.ideal U) Γ(X, (U : X.Opens)) :=
+    AdicCompletion.AdicCauchySequence.mk (I.ideal U) Γ(X, (U : X.Opens))
+      t' (fun n => by
+      refine SModEq.sub_mem.2 ?_
+      have hmem : t' n - t' (n + 1) ∈ I.ideal U ^ n :=
+        Ideal.pow_le_pow_right (Nat.le_succ n) (by rw [← neg_sub]; exact neg_mem (hS n))
+      rw [smul_eq_mul, Ideal.mul_top]
+      exact hmem)
+  let x := (I.formalCompletionAffineSectionsIso U).symm (AdicCompletion.mk _ _ f)
+  have hx : ∀ n, (limit.π I.formalCompletionDiagram (op n)).hom.app
+      (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ (U : X.Opens))) x =
+        I.formalCompletionSheafObjSectionsMap n U (t' n) := by
+    intro n
+    rw [← formalCompletionSheafObjAffineEquiv_evalₐ_formalCompletionAffineSectionsIso,
+      RingEquiv.apply_symm_apply, AdicCompletion.evalₐ_mk, formalCompletionSheafObjAffineEquiv_mk]
+    exact (RingHom.sub_mem_ker_iff (I.formalCompletionSheafObjSectionsMap n U).hom).1 (by
+      rw [I.ker_formalCompletionSheafObjSectionsMap n U]
+      exact hS n)
+  refine ⟨x, ?_⟩
+  have hc := isLimitOfPreserves (SheafOfModules.pushforward.{u}
+    I.structureSheafToFormalCompletionRingCat)
+    (limit.isLimit (I.moduleCompletionDiagram (SheafOfModules.unit.{u} X.ringCatSheaf)))
+  refine sections_isLimit_mapCone_ext hc (op (U : X.Opens)) _ z (fun n => ?_)
+  exact (I.unitToModuleCompletionUnit_π n U x).trans
+    ((pushforward_smul_congr (I.formalCompletionRingCatSheafπ n)
+      (I.moduleCompletionNeighborhood (SheafOfModules.unit.{u} X.ringCatSheaf) n) _
+      ((hx n).trans
+        (I.formalCompletionRingCatSheafπ_structureSheafToFormalCompletionRingCat n U (t n)).symm)
+      _).trans ((I.moduleCompletionLevelMap_unit_apply n U (t n)).symm.trans (hs' n)))
+
+/-- `𝒪_X̂ ⟶ (𝒪_X)^` is an isomorphism. -/
+private lemma isIso_unitToModuleCompletionUnit : IsIso I.unitToModuleCompletionUnit := by
+  have hB : Opens.IsBasis ((Opens.map (I.infinitesimalNeighborhoodι 1).base).obj ''
+      X.affineOpens) :=
+    opens_isBasis_map_image _ (I.infinitesimalNeighborhoodι 1).isClosedEmbedding.isInducing
+      X.isBasis_affineOpens
+  have hmono : Mono I.unitToModuleCompletionUnit := by
+    let S := ShortComplex.mk (0 : SheafOfModules.unit.{u} I.formalCompletionRingCatSheaf ⟶ _)
+      I.unitToModuleCompletionUnit zero_comp
+    have hS : S.Exact := sheafOfModules_exact_of_isBasis_pushforward_sections S
+      I.structureSheafToFormalCompletionRingCat hB (fun U hU x hx =>
+        ⟨0, (map_zero _).trans (I.unitToModuleCompletionUnit_injective ⟨U, hU⟩ x hx).symm⟩)
+    exact (S.exact_iff_mono rfl).1 hS
+  have hepi : Epi I.unitToModuleCompletionUnit := by
+    let S := ShortComplex.mk I.unitToModuleCompletionUnit
+      (0 : _ ⟶ I.moduleCompletion (SheafOfModules.unit.{u} X.ringCatSheaf)) comp_zero
+    have hS : S.Exact := sheafOfModules_exact_of_isBasis_pushforward_sections S
+      I.structureSheafToFormalCompletionRingCat hB (fun U hU x _ =>
+        I.unitToModuleCompletionUnit_surjective ⟨U, hU⟩ x)
+    exact (S.exact_iff_epi rfl).1 hS
+  exact isIso_of_mono_of_epi _
+
+/-- **The completion of the structure sheaf.** The canonical map `f^* 𝒪_X ⟶ (𝒪_X)^` is an
+isomorphism: `(𝒪_X)^ ≅ 𝒪_X̂`. -/
+theorem isIso_pullbackToModuleCompletion_unit :
+    IsIso (I.pullbackToModuleCompletion (SheafOfModules.unit.{u} X.ringCatSheaf)) := by
+  have := I.isIso_unitToModuleCompletionUnit
+  rw [← I.pullbackObjUnitToUnit_comp_unitToModuleCompletionUnit]
+  infer_instance
 
 end RankOne
 
