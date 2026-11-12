@@ -13,14 +13,14 @@ Let $X$ be an integral projective one-dimensional scheme over an
 algebraically closed field and let $\nu:\widetilde X\to X$ be its normalization.
 There is an exact sequence of coherent sheaves
 
-$0 \to \mathcal{O}_X \to \nu _* \mathcal{O}_\widetilde{X} \to Q \to 0$,
+$0 \to \mathcal{O}_X \to \nu _* \mathcal{O}_{\widetilde{X}} \to Q \to 0$,
 
 where $Q$ has finite support and
 
 $Q_P \simeq \widetilde{\mathcal{O}} _P / \mathcal{O}_{X,P}$.
 
 Here $\widetilde{\mathcal{O}} _P$ is the finite semilocal integral closure of $\mathcal{O}_{X,P}$ in
-$K(X)$, namely the stalk $(\nu _*\mathcal{O}_\widetilde{X})_P$. Its localizations at maximal
+$K(X)$, namely the stalk $(\nu _*\mathcal{O}_{\widetilde{X}})_P$. Its localizations at maximal
 ideals are the normalization local rings above $P$; it is not replaced by
 their product. Define $\delta _P$ as the finite module length of this quotient;
 only finitely many $\delta _P$ are nonzero.
