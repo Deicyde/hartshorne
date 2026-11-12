@@ -3,6 +3,8 @@ article_id: af_a111454a295d1e3b1e42242b
 declaration: theorem
 origin: cited
 lean: Hartshorne.SmoothHypersurface.canonicalSheaf_smoothHypersurface Hartshorne.SmoothHypersurface.geometricGenus_pos Hartshorne.SmoothHypersurface.not_rational
+statement: formalized
+proof: formalized
 ---
 
 # The canonical sheaf of a smooth hypersurface
