@@ -537,5 +537,191 @@ theorem moduleCompletionSectionsMap_eq_zero_iff (n : ℕ) (U : X.affineOpens) (s
 
 end QuasicoherentIdealSubsheaf
 
-end Hartshorne
+section PushforwardRestrictToComp
 
+variable {C D E : Type*} [Category C] [Category D] [Category E]
+  {J : GrothendieckTopology C} {K : GrothendieckTopology D} {L : GrothendieckTopology E}
+  {F₁ : C ⥤ E} {F₂ : C ⥤ D} {G : D ⥤ E}
+  [F₁.IsContinuous J L] [F₂.IsContinuous J K] [G.IsContinuous K L]
+  {T : Sheaf J RingCat.{u}} {R : Sheaf K RingCat.{u}} {S : Sheaf L RingCat.{u}}
+  (α : F₂ ⋙ G ⟶ F₁) (ψ : R ⟶ (G.sheafPushforwardContinuous RingCat.{u} K L).obj S)
+  (φ₂ : T ⟶ (F₂.sheafPushforwardContinuous RingCat.{u} J K).obj R)
+  (φ₁ : T ⟶ (F₁.sheafPushforwardContinuous RingCat.{u} J L).obj S)
+  (h : ∀ (V : Cᵒᵖ) (r : T.obj.obj V),
+    S.obj.map (α.app V.unop).op (φ₁.hom.app V r) =
+      ψ.hom.app (op (F₂.obj V.unop)) (φ₂.hom.app V r))
+
+include h in
+/-- Given functors `F₁ : C ⥤ E`, `F₂ : C ⥤ D`, `G : D ⥤ E` and a natural transformation
+`α : F₂ ⋙ G ⟶ F₁`, compatible ring maps give a map of sheaves of modules from the pushforward
+along `F₁` to the pushforward along `G` and then `F₂`, restricting sections along `α`. -/
+def sheafOfModulesPushforwardRestrictToComp (M : SheafOfModules.{u} S) :
+    (SheafOfModules.pushforward.{u} φ₁).obj M ⟶
+      (SheafOfModules.pushforward.{u} φ₂).obj ((SheafOfModules.pushforward.{u} ψ).obj M) :=
+  ⟨PresheafOfModules.homMk
+    { app V := M.val.presheaf.map (α.app V.unop).op
+      naturality V W f := by
+        change M.val.presheaf.map _ ≫ M.val.presheaf.map _ =
+          M.val.presheaf.map _ ≫ M.val.presheaf.map _
+        rw [← Functor.map_comp, ← Functor.map_comp]
+        exact congrArg (fun g => M.val.presheaf.map g)
+          (congrArg Quiver.Hom.op (α.naturality f.unop).symm) }
+    (fun V r m => (M.val.map_smul (α.app V.unop).op (φ₁.hom.app V r) m).trans
+      (congrArg (fun a => a • M.val.map (α.app V.unop).op m) (h V r)))⟩
+
+/-- On sections, `sheafOfModulesPushforwardRestrictToComp` is restriction along `α`. -/
+lemma sheafOfModulesPushforwardRestrictToComp_val_app (M : SheafOfModules.{u} S) (V : Cᵒᵖ) (x) :
+    (sheafOfModulesPushforwardRestrictToComp α ψ φ₂ φ₁ h M).val.app V x =
+      M.val.map (α.app V.unop).op x :=
+  rfl
+
+/-- Restriction of sections along `α` is natural in the sheaf of modules. -/
+@[reassoc]
+lemma sheafOfModulesPushforwardRestrictToComp_naturality {M N : SheafOfModules.{u} S}
+    (g : M ⟶ N) :
+    (SheafOfModules.pushforward.{u} φ₁).map g ≫ sheafOfModulesPushforwardRestrictToComp α ψ φ₂ φ₁ h N =
+      sheafOfModulesPushforwardRestrictToComp α ψ φ₂ φ₁ h M ≫
+        (SheafOfModules.pushforward.{u} φ₂).map ((SheafOfModules.pushforward.{u} ψ).map g) := by
+  ext V x
+  exact (congrArg (fun f => f.hom x) (g.val.naturality (α.app V.unop).op)).symm
+
+end PushforwardRestrictToComp
+
+section UnitTransitionRestrict
+
+open Scheme.Modules
+
+variable {Z Y W : Scheme.{u}} (s : Z ⟶ Y) (a : Y ⟶ W) (b : Z ⟶ W) (h : s ≫ a = b)
+  {C : Type*} [Category C] {J : GrothendieckTopology C} {F₁ : C ⥤ Opens Z} {F₂ : C ⥤ Opens Y}
+  [F₁.IsContinuous J (Opens.grothendieckTopology Z)]
+  [F₂.IsContinuous J (Opens.grothendieckTopology Y)]
+  {T : Sheaf J RingCat.{u}} (α : F₁ ⟶ F₂ ⋙ Opens.map s.base)
+  (φ₂ : T ⟶ (F₂.sheafPushforwardContinuous RingCat.{u} _ _).obj Y.ringCatSheaf)
+  (φ₁ : T ⟶ (F₁.sheafPushforwardContinuous RingCat.{u} _ _).obj Z.ringCatSheaf)
+  (hφ : ∀ (V : Cᵒᵖ) (r : T.obj.obj V),
+    Z.ringCatSheaf.obj.map (α.app V.unop).op
+        (s.toRingCatSheafHom.hom.app (op (F₂.obj V.unop)) (φ₂.hom.app V r)) = φ₁.hom.app V r)
+  {P : Opens W ⥤ C} [P.IsContinuous (Opens.grothendieckTopology W) J]
+  (χ : W.ringCatSheaf ⟶ (P.sheafPushforwardContinuous RingCat.{u} _ _).obj T)
+  (βa : P ⋙ F₂ ⟶ Opens.map a.base)
+  (hβa : ∀ (V : (Opens W)ᵒᵖ) (r : W.ringCatSheaf.obj.obj V),
+    Y.ringCatSheaf.obj.map (βa.app V.unop).op (a.toRingCatSheafHom.hom.app V r) =
+      φ₂.hom.app (op (P.obj V.unop)) (χ.hom.app V r))
+  (βb : P ⋙ F₁ ⟶ Opens.map b.base)
+  (hβb : ∀ (V : (Opens W)ᵒᵖ) (r : W.ringCatSheaf.obj.obj V),
+    Z.ringCatSheaf.obj.map (βb.app V.unop).op (b.toRingCatSheafHom.hom.app V r) =
+      φ₁.hom.app (op (P.obj V.unop)) (χ.hom.app V r))
+
+/-- **The unit and the transition maps.** For `s ≫ a = b`, a site `C` mapping to the opens of `Z`
+and `Y` (data of `pullbackUnitTransitionRestrict`) and a functor `P` from the opens of `W` to `C`
+with compatible ring maps, the unit of `a^* ⊣ a_*`, restricted to `C` and followed by the
+transition map induced by `q : Q' ⟶ Q`, is `q` followed by the unit of `b^* ⊣ b_*`, restricted
+to `C`. -/
+theorem unit_restrictToComp_pullbackUnitTransitionRestrict {Q' Q : W.Modules} (q : Q' ⟶ Q) :
+    (pullbackPushforwardAdjunction a).unit.app Q' ≫
+        sheafOfModulesPushforwardRestrictToComp βa φ₂ χ a.toRingCatSheafHom hβa
+          ((Scheme.Modules.pullback a).obj Q') ≫
+        (SheafOfModules.pushforward.{u} χ).map
+          (pullbackUnitTransitionRestrict s a b h α φ₂ φ₁ hφ q) =
+      q ≫ (pullbackPushforwardAdjunction b).unit.app Q ≫
+        sheafOfModulesPushforwardRestrictToComp βb φ₁ χ b.toRingCatSheafHom hβb
+          ((Scheme.Modules.pullback b).obj Q) := by
+  ext U x
+  exact pullbackUnitTransitionRestrict_val_app_unit s a b h α φ₂ φ₁ hφ q (P.obj U) U
+    (leOfHom (βa.app U)) (leOfHom (βb.app U)) x
+
+end UnitTransitionRestrict
+
+section SectionsOfComp
+
+/-- Sections of a composite, for a factorization `f ≫ g = h`. Stated generically so that it can
+be instantiated without unfolding the objects. -/
+lemma sheafOfModules_val_app_apply_of_comp_eq {C : Type*} [Category C]
+    {J : GrothendieckTopology C} {R : Sheaf J RingCat.{u}} {M N P : SheafOfModules.{u} R}
+    {f : M ⟶ N} {g : N ⟶ P} {h : M ⟶ P} (e : f ≫ g = h) (V : Cᵒᵖ) (x : M.val.obj V) :
+    g.val.app V (f.val.app V x) = h.val.app V x := by
+  rw [← e]; rfl
+
+end SectionsOfComp
+
+namespace QuasicoherentIdealSubsheaf
+
+open Scheme.Modules
+
+variable {X : Scheme.{u}} (I : QuasicoherentIdealSubsheaf X)
+
+/-- The image in `Y_(n+1)` of `U ∩ |Y|` is contained in (in fact equal to) the preimage of `U`,
+as a natural transformation of functors on the opens of `X`. -/
+def functorToPreimageInfinitesimalNeighborhoodι (n : ℕ) :
+    Opens.map (I.infinitesimalNeighborhoodι 1).base ⋙
+        (I.isOpenEmbedding_infinitesimalNeighborhoodFromOne n).functor ⟶
+      Opens.map (I.infinitesimalNeighborhoodι (n + 1)).base where
+  app U := homOfLE (I.functor_obj_preimage_infinitesimalNeighborhoodι n U).le
+
+variable (χ : X.ringCatSheaf ⟶
+    ((Opens.map (I.infinitesimalNeighborhoodι 1).base).sheafPushforwardContinuous
+      RingCat.{u} _ _).obj I.formalCompletionRingCatSheaf)
+  (hχ : ∀ (n : ℕ) (V : X.Opensᵒᵖ) (r : X.ringCatSheaf.obj.obj V),
+    (I.infinitesimalNeighborhood (n + 1)).ringCatSheaf.obj.map
+        ((I.functorToPreimageInfinitesimalNeighborhoodι n).app V.unop).op
+        ((I.infinitesimalNeighborhoodι (n + 1)).toRingCatSheafHom.hom.app V r) =
+      (I.formalCompletionRingCatSheafπ n).hom.app
+        (op ((Opens.map (I.infinitesimalNeighborhoodι 1).base).obj V.unop)) (χ.hom.app V r))
+
+variable (F : X.Modules)
+
+/-- **The canonical maps `F ⟶ i_* (F / I ^ (n + 1) F)|_Y`**, for `i : |Y| ⟶ X` and a map
+`χ : 𝒪_X ⟶ i_* 𝒪_{X̂_Y}` compatible with the projections to the `𝒪_{Y_(n+1)}`: the quotient map
+`F ⟶ F / I ^ (n + 1) F`, the unit of the pullback to `Y_(n+1)`, and restriction of sections along
+the equality of `U ∩ |Y|` (in `Y_(n+1)`) with the preimage of `U`. -/
+def moduleCompletionLevelMap (n : ℕ) :
+    F ⟶ (SheafOfModules.pushforward.{u} χ).obj (I.moduleCompletionObj F n) :=
+  cokernel.π (I.powSmulι F n) ≫
+    (pullbackPushforwardAdjunction (I.infinitesimalNeighborhoodι (n + 1))).unit.app
+      (I.moduleCompletionQuotient F n) ≫
+    sheafOfModulesPushforwardRestrictToComp (I.functorToPreimageInfinitesimalNeighborhoodι n)
+      (I.formalCompletionRingCatSheafπ n) χ
+      (I.infinitesimalNeighborhoodι (n + 1)).toRingCatSheafHom (hχ n)
+      (I.moduleCompletionNeighborhood F n)
+
+/-- **The canonical maps are compatible with the transition maps** of the completion. -/
+lemma moduleCompletionLevelMap_comp_moduleCompletionMap (n : ℕ) :
+    I.moduleCompletionLevelMap χ hχ F (n + 1) ≫
+        (SheafOfModules.pushforward.{u} χ).map (I.moduleCompletionMap F n) =
+      I.moduleCompletionLevelMap χ hχ F n := by
+  have key := unit_restrictToComp_pullbackUnitTransitionRestrict
+    (I.infinitesimalNeighborhoodSucc n)
+    (I.infinitesimalNeighborhoodι (n + 1 + 1)) (I.infinitesimalNeighborhoodι (n + 1))
+    (Scheme.IdealSheafData.inclusion_subschemeι _)
+    (I.functorToPreimageInfinitesimalNeighborhoodSucc n)
+    (I.formalCompletionRingCatSheafπ (n + 1)) (I.formalCompletionRingCatSheafπ n)
+    (fun V r => I.formalCompletionSheafMap_limit_π_apply n V.unop r)
+    χ (I.functorToPreimageInfinitesimalNeighborhoodι (n + 1)) (hχ (n + 1))
+    (I.functorToPreimageInfinitesimalNeighborhoodι n) (hχ n)
+    (I.moduleCompletionQuotientMap F n)
+  rw [moduleCompletionMap_eq]
+  unfold moduleCompletionLevelMap
+  refine (Category.assoc _ _ _).trans ?_
+  refine (congrArg (cokernel.π (I.powSmulι F (n + 1)) ≫ ·)
+    ((Category.assoc _ _ _).trans key)).trans ?_
+  exact (Category.assoc _ _ _).symm.trans
+    (congrArg (· ≫ _) (I.π_moduleCompletionQuotientMap F n))
+
+/-- On sections, the canonical map is `moduleCompletionSectionsMap`. -/
+lemma moduleCompletionLevelMap_val_app (n : ℕ) (U : X.Opens) (s : Γ(F, U)) :
+    (I.moduleCompletionLevelMap χ hχ F n).val.app (op U) s =
+      I.moduleCompletionSectionsMap F n U s :=
+  rfl
+
+/-- **Compatibility on sections**: the transition map sends the image of `s ∈ Γ(U, F)` at level
+`n + 1` to its image at level `n` (sections of the pushforwards to `X`). -/
+lemma moduleCompletionMap_val_app_moduleCompletionLevelMap (n : ℕ) (U : X.Opens) (s : Γ(F, U)) :
+    ((SheafOfModules.pushforward.{u} χ).map (I.moduleCompletionMap F n)).val.app (op U)
+        ((I.moduleCompletionLevelMap χ hχ F (n + 1)).val.app (op U) s) =
+      (I.moduleCompletionLevelMap χ hχ F n).val.app (op U) s :=
+  sheafOfModules_val_app_apply_of_comp_eq
+    (I.moduleCompletionLevelMap_comp_moduleCompletionMap χ hχ F n) (op U) s
+
+end QuasicoherentIdealSubsheaf
+
+end Hartshorne
