@@ -2,6 +2,7 @@
 article_id: af_db0c348bdcc039a837b2f8b9
 declaration: def
 origin: cited
+lean: Hartshorne.QuasicoherentIdealSubsheaf.pullbackIsoModuleCompletion Hartshorne.QuasicoherentIdealSubsheaf.isIso_pullbackToModuleCompletion
 ---
 
 # Completion and ordinary sheaf tensor product
