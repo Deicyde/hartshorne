@@ -263,8 +263,9 @@ theorem twistMulHom_twistSection (d e : ℕ) (g : 𝒜 d) (a : 𝒜 e)
 /-- **`m / g = a m / a g`** on `D₊(a g)`, for `a ∈ S_e`. -/
 theorem frac_res_mulGlobal (d e : ℕ) (g : 𝒜 d) (a : 𝒜 e) (m : twistGlobal F d)
     {V : (Proj 𝒜).Opens} (hV : V ≤ Proj.basicOpen 𝒜 ((g : A) * a)) :
-    F.val.map (homOfLE (hV.trans (ProjectiveSpectrum.basicOpen_mul_le_left 𝒜 _ _))).op (frac F d g m) =
-      F.val.map (homOfLE hV).op
+    F.presheaf.map (homOfLE (hV.trans (ProjectiveSpectrum.basicOpen_mul_le_left 𝒜 _ _))).op
+        (frac F d g m) =
+      F.presheaf.map (homOfLE hV).op
         (frac F (d + e) ⟨(g : A) * a, SetLike.GradedMul.mul_mem g.2 a.2⟩ (mulGlobal F d e a m)) := by
   refine eq_frac_res F (d + e) ⟨(g : A) * a, SetLike.GradedMul.mul_mem g.2 a.2⟩
     (mulGlobal F d e a m) hV _ ?_
@@ -351,6 +352,251 @@ theorem frac_res_mulGlobal_eq_smul (d j : ℕ) (g : 𝒜 d) (c h : 𝒜 j) (m : 
   exact ⟨1, by simp only [OneMemClass.coe_one, one_mul, Submonoid.coe_mul, smul_eq_mul]; ring⟩
 
 end Frac
+
+/-! ### `Γ_*(F)` as a graded module and the fractions `m / g` -/
+
+section Graded
+
+variable (F : (Proj 𝒜).Modules)
+
+attribute [local instance] gammaStarModule
+
+/-- The grading of `Γ_*(F) = ⨁ₙ Γ(X, F(n))` by its summands. -/
+def gammaStarGrading (n : ℤ) : AddSubgroup (GammaStar F) :=
+  (DirectSum.of (fun m => twistGlobal F m) n).range
+
+theorem of_mem_gammaStarGrading (n : ℤ) (y : twistGlobal F n) :
+    DirectSum.of (fun m => twistGlobal F m) n y ∈ gammaStarGrading F n :=
+  ⟨y, rfl⟩
+
+theorem eq_of_mem_gammaStarGrading {n : ℤ} {z : GammaStar F} (hz : z ∈ gammaStarGrading F n) :
+    DirectSum.of (fun m => twistGlobal F m) n (z n) = z := by
+  obtain ⟨y, rfl⟩ := hz
+  rw [DirectSum.of_eq_same]
+
+instance gammaStarGrading.gradedSMul : SetLike.GradedSMul 𝒜 (gammaStarGrading F) where
+  smul_mem := by
+    rintro i j a z ha ⟨y, rfl⟩
+    rw [smul_of F ha]
+    change _ ∈ gammaStarGrading F ((i : ℤ) + j)
+    rw [add_comm (i : ℤ) j]
+    exact of_mem_gammaStarGrading F _ _
+
+/-- **Hartshorne's `Γ_*(F)~`**: the sheaf on `Proj S` of the graded `S`-module `Γ_*(F)`. -/
+def gammaStarTilde : (Proj 𝒜).Modules :=
+  projGradedModuleSheaf 𝒜 (gammaStarGrading F)
+
+/-- The fraction `z / g` of `F` over `D₊(g)`, for `z ∈ Γ_*(F)` and `g ∈ S_n`, through the degree
+`n` component of `z`. -/
+def fracM (n : ℕ) (g : 𝒜 n) (z : GammaStar F) : F.val.obj (op (Proj.basicOpen 𝒜 (g : A))) :=
+  frac F n g (z n)
+
+theorem germ_fracM_congr {n n' : ℕ} (hn : n = n') (g : 𝒜 n) (g' : 𝒜 n') (hg : (g : A) = g')
+    {z z' : GammaStar F} (hz : z = z') (x : Proj 𝒜) (hx : x ∈ Proj.basicOpen 𝒜 (g : A))
+    (hx' : x ∈ Proj.basicOpen 𝒜 (g' : A)) :
+    F.presheaf.germ _ x hx (fracM F n g z) = F.presheaf.germ _ x hx' (fracM F n' g' z') := by
+  subst hn hz
+  obtain rfl : g = g' := Subtype.ext hg
+  rfl
+
+theorem smul_apply_of_mem {k e : ℕ} {z : GammaStar F} (hz : z ∈ gammaStarGrading F k)
+    (a : 𝒜 e) : (a : A) • z = DirectSum.of (fun m => twistGlobal F m) ((k : ℤ) + e)
+      (mulGlobal F k e a (z k)) := by
+  conv_lhs => rw [← eq_of_mem_gammaStarGrading F hz]
+  exact smul_of F a.2 k (z k)
+
+/-- **`z / g = a z / a g`** at the level of germs, for `z ∈ Γ(X, F(k))` and `a ∈ S_e`. -/
+theorem germ_fracM_smul {k e : ℕ} (g : 𝒜 k) (a : 𝒜 e) {z : GammaStar F}
+    (hz : z ∈ gammaStarGrading F k) (x : Proj 𝒜)
+    (hx : x ∈ Proj.basicOpen 𝒜 ((g : A) * a)) :
+    F.presheaf.germ _ x hx (fracM F (k + e) ⟨(g : A) * a, SetLike.GradedMul.mul_mem g.2 a.2⟩
+        ((a : A) • z)) =
+      F.presheaf.germ _ x (ProjectiveSpectrum.basicOpen_mul_le_left 𝒜 _ _ hx) (fracM F k g z) := by
+  have hc : ((a : A) • z) ((k + e : ℕ) : ℤ) = mulGlobal F k e a (z k) := by
+    rw [smul_apply_of_mem F hz a]
+    exact DirectSum.of_eq_same _ _
+  have h := congrArg (F.presheaf.germ _ x hx) (frac_res_mulGlobal F k e g a (z k) le_rfl)
+  rw [TopCat.Presheaf.germ_res_apply, TopCat.Presheaf.germ_res_apply] at h
+  unfold fracM
+  rw [hc]
+  exact h.symm
+
+theorem mulGlobal_zero (k : ℤ) (e : ℕ) (y : twistGlobal F k) : mulGlobal F k e 0 y = 0 := by
+  change (mulMap F k e 0).val.app (op ⊤) y = 0
+  rw [mulMap_zero]
+  rfl
+
+/-- If `u z = 0` for a homogeneous `z ∈ Γ_*(F)`, then every homogeneous component of `u` kills
+`z`. -/
+theorem decompose_smul_eq_zero {k : ℤ} {z : GammaStar F} (hz : z ∈ gammaStarGrading F k) {u : A}
+    (hu : u • z = 0) (j : ℕ) : (DirectSum.decompose 𝒜 u j : A) • z = 0 := by
+  classical
+  obtain ⟨y, rfl⟩ := hz
+  have hsum : u • DirectSum.of (fun m => twistGlobal F m) k y =
+      ∑ i ∈ (DirectSum.decompose 𝒜 u).support, DirectSum.of (fun m => twistGlobal F m) (k + i)
+        (mulGlobal F k i (DirectSum.decompose 𝒜 u i) y) := by
+    conv_lhs => rw [← DirectSum.sum_support_decompose 𝒜 u]
+    rw [Finset.sum_smul]
+    exact Finset.sum_congr rfl fun i _ => smul_of F (DirectSum.decompose 𝒜 u i).2 k y
+  rw [smul_of F (DirectSum.decompose 𝒜 u j).2]
+  have hcomp := congrArg (fun w : GammaStar F => w (k + j)) (hsum.symm.trans hu)
+  simp only [DirectSum.zero_apply] at hcomp
+  rw [DFinsupp.finsetSum_apply, Finset.sum_eq_single j] at hcomp
+  · rw [DirectSum.of_eq_same] at hcomp
+    exact (congrArg (DirectSum.of (fun m => twistGlobal F m) (k + j)) hcomp).trans (map_zero _)
+  · intro i _ hij
+    exact DirectSum.of_eq_of_ne _ _ _ (by omega)
+  · intro hj
+    rw [DFinsupp.notMem_support_iff.1 hj, DirectSum.of_eq_same, mulGlobal_zero]
+
+/-- **Equal fractions have equal germs**: if `m / s = m' / s'` in `Γ_*(F)_(x)`, then the sections
+`m / s` and `m' / s'` of `F` have the same germ at `x`. -/
+theorem germ_fracM_eq_of_mk_eq (x : Proj 𝒜) {n n' : ℕ} {m m' : GammaStar F}
+    (hm : m ∈ gammaStarGrading F n) (hm' : m' ∈ gammaStarGrading F n') {s s' : A}
+    (hs : s ∈ 𝒜 n) (hs' : s' ∈ 𝒜 n') (hsx : s ∈ x.asHomogeneousIdeal.toIdeal.primeCompl)
+    (hsx' : s' ∈ x.asHomogeneousIdeal.toIdeal.primeCompl)
+    (h : HomogeneousLocalizedModule.mk n m hm s hs hsx =
+      HomogeneousLocalizedModule.mk n' m' hm' s' hs' hsx') :
+    F.presheaf.germ (Proj.basicOpen 𝒜 s) x hsx (fracM F n ⟨s, hs⟩ m) =
+      F.presheaf.germ (Proj.basicOpen 𝒜 s') x hsx' (fracM F n' ⟨s', hs'⟩ m') := by
+  have h' := congrArg HomogeneousLocalizedModule.val h
+  simp only [HomogeneousLocalizedModule.val_mk] at h'
+  obtain ⟨u, hu⟩ := LocalizedModule.mk_eq.1 h'
+  simp only [Submonoid.smul_def] at hu
+  have hD : (u : A) • (s' • m - s • m') = 0 := by
+    rw [smul_sub, sub_eq_zero]
+    exact hu
+  have h1 : s' • m ∈ gammaStarGrading F ((n + n' : ℕ) : ℤ) := by
+    have := smul_mem_graded_nat 𝒜 (gammaStarGrading F) hs' hm
+    rwa [show ((n' : ℕ) : ℤ) + n = ((n + n' : ℕ) : ℤ) by push_cast; ring] at this
+  have h2 : s • m' ∈ gammaStarGrading F ((n + n' : ℕ) : ℤ) := by
+    have := smul_mem_graded_nat 𝒜 (gammaStarGrading F) hs hm'
+    rwa [show ((n : ℕ) : ℤ) + n' = ((n + n' : ℕ) : ℤ) by push_cast; ring] at this
+  obtain ⟨j, hj⟩ : ∃ j, (DirectSum.decompose 𝒜 (u : A) j : A) ∉ x.asHomogeneousIdeal := by
+    by_contra hcon
+    exact u.2 ((x.asHomogeneousIdeal.isHomogeneous.mem_iff).2
+      fun i => not_not.1 (not_exists.1 hcon i))
+  set t := DirectSum.decompose 𝒜 (u : A) j
+  have ht := decompose_smul_eq_zero F (sub_mem h1 h2) hD j
+  have heq : ((t : A) * s') • m = ((t : A) * s) • m' := by
+    rw [mul_smul, mul_smul, ← sub_eq_zero, ← smul_sub]
+    exact ht
+  have hx1 : x ∈ Proj.basicOpen 𝒜 (s * ((t : A) * s')) :=
+    x.asHomogeneousIdeal.toIdeal.primeCompl.mul_mem hsx
+      (x.asHomogeneousIdeal.toIdeal.primeCompl.mul_mem hj hsx')
+  have hx2 : x ∈ Proj.basicOpen 𝒜 (s' * ((t : A) * s)) :=
+    x.asHomogeneousIdeal.toIdeal.primeCompl.mul_mem hsx'
+      (x.asHomogeneousIdeal.toIdeal.primeCompl.mul_mem hj hsx)
+  refine ((germ_fracM_smul F ⟨s, hs⟩ ⟨(t : A) * s', SetLike.GradedMul.mul_mem t.2 hs'⟩
+    hm x hx1).symm.trans ?_).trans
+    (germ_fracM_smul F ⟨s', hs'⟩ ⟨(t : A) * s, SetLike.GradedMul.mul_mem t.2 hs⟩ hm' x hx2)
+  exact germ_fracM_congr F (show n + (j + n') = n' + (j + n) by omega)
+    ⟨s * ((t : A) * s'), SetLike.GradedMul.mul_mem hs (SetLike.GradedMul.mul_mem t.2 hs')⟩
+    ⟨s' * ((t : A) * s), SetLike.GradedMul.mul_mem hs' (SetLike.GradedMul.mul_mem t.2 hs)⟩
+    (by simp only; ring) heq x _ _
+
+theorem exists_stalkEval (x : Proj 𝒜)
+    (z : HomogeneousLocalizedModule 𝒜 (gammaStarGrading F)
+      x.asHomogeneousIdeal.toIdeal.primeCompl) :
+    ∃ w : F.presheaf.stalk x, ∀ (n : ℕ) (m : GammaStar F) (hm : m ∈ gammaStarGrading F n)
+      (s : A) (hs : s ∈ 𝒜 n) (hsx : s ∈ x.asHomogeneousIdeal.toIdeal.primeCompl),
+      z = HomogeneousLocalizedModule.mk n m hm s hs hsx →
+        w = F.presheaf.germ (Proj.basicOpen 𝒜 s) x hsx (fracM F n ⟨s, hs⟩ m) := by
+  obtain ⟨n, m, hm, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective z
+  exact ⟨_, fun n' m' hm' s' hs' hsx' h => germ_fracM_eq_of_mk_eq F x hm hm' hs hs' hsx hsx' h⟩
+
+/-- **The evaluation map on stalks**, `Γ_*(F)_(x) → F_x`, `m / s ↦` the germ of `m / s`. -/
+def stalkEval (x : Proj 𝒜)
+    (z : HomogeneousLocalizedModule 𝒜 (gammaStarGrading F)
+      x.asHomogeneousIdeal.toIdeal.primeCompl) : F.presheaf.stalk x :=
+  (exists_stalkEval F x z).choose
+
+theorem stalkEval_mk (x : Proj 𝒜) (n : ℕ) (m : GammaStar F) (hm : m ∈ gammaStarGrading F n)
+    (s : A) (hs : s ∈ 𝒜 n) (hsx : s ∈ x.asHomogeneousIdeal.toIdeal.primeCompl) :
+    stalkEval F x (HomogeneousLocalizedModule.mk n m hm s hs hsx) =
+      F.presheaf.germ (Proj.basicOpen 𝒜 s) x hsx (fracM F n ⟨s, hs⟩ m) :=
+  (exists_stalkEval F x _).choose_spec n m hm s hs hsx rfl
+
+theorem smul_mem_gammaStarGrading {n n' : ℕ} {s' : A} (hs' : s' ∈ 𝒜 n') {m : GammaStar F}
+    (hm : m ∈ gammaStarGrading F n) : s' • m ∈ gammaStarGrading F ((n + n' : ℕ) : ℤ) := by
+  have := smul_mem_graded_nat 𝒜 (gammaStarGrading F) hs' hm
+  rwa [show ((n' : ℕ) : ℤ) + n = ((n + n' : ℕ) : ℤ) by push_cast; ring] at this
+
+theorem fracM_add (n : ℕ) (g : 𝒜 n) (z z' : GammaStar F) :
+    fracM F n g (z + z') = fracM F n g z + fracM F n g z' := by
+  unfold fracM
+  rw [DirectSum.add_apply, frac_add]
+
+theorem stalkEval_add (x : Proj 𝒜)
+    (z z' : HomogeneousLocalizedModule 𝒜 (gammaStarGrading F)
+      x.asHomogeneousIdeal.toIdeal.primeCompl) :
+    stalkEval F x (z + z') = stalkEval F x z + stalkEval F x z' := by
+  obtain ⟨n, m, hm, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective z
+  obtain ⟨n', m', hm', s', hs', hsx', rfl⟩ := HomogeneousLocalizedModule.mk_surjective z'
+  have hsum : HomogeneousLocalizedModule.mk n m hm s hs hsx +
+      HomogeneousLocalizedModule.mk n' m' hm' s' hs' hsx' =
+      HomogeneousLocalizedModule.mk (n + n') (s' • m + s • m')
+        (add_mem (smul_mem_gammaStarGrading F hs' hm)
+          (by rw [add_comm n n']; exact smul_mem_gammaStarGrading F hs hm'))
+        (s * s') (SetLike.GradedMul.mul_mem hs hs')
+        (x.asHomogeneousIdeal.toIdeal.primeCompl.mul_mem hsx hsx') := by
+    ext
+    simp only [HomogeneousLocalizedModule.val_add, HomogeneousLocalizedModule.val_mk,
+      LocalizedModule.mk_add_mk]
+    rfl
+  rw [hsum, stalkEval_mk, stalkEval_mk, stalkEval_mk, fracM_add]
+  erw [map_add]
+  congr 1
+  · exact germ_fracM_smul F ⟨s, hs⟩ ⟨s', hs'⟩ hm x _
+  · refine (germ_fracM_congr F (show n + n' = n' + n by omega)
+      ⟨s * s', SetLike.GradedMul.mul_mem hs hs'⟩ ⟨s' * s, SetLike.GradedMul.mul_mem hs' hs⟩
+      (mul_comm _ _) rfl x _ ?_).trans (germ_fracM_smul F ⟨s', hs'⟩ ⟨s, hs⟩ hm' x _)
+    exact x.asHomogeneousIdeal.toIdeal.primeCompl.mul_mem hsx' hsx
+
+theorem germ_smul_section {V : (Proj 𝒜).Opens} (x : Proj 𝒜) (hx : x ∈ V) (r : Γ(Proj 𝒜, V))
+    (t : Γ(F, V)) :
+    F.presheaf.germ V x hx (r • t) = (Proj 𝒜).presheaf.germ V x hx r • F.presheaf.germ V x hx t :=
+  let M : PresheafOfModules.{u} ((Proj 𝒜).presheaf ⋙ forget₂ CommRingCat RingCat) := F.val
+  PresheafOfModules.germ_smul M x V hx r t
+
+theorem germ_ringFrac (j : ℕ) (c h : 𝒜 j) (x : Proj 𝒜) (hx : x ∈ Proj.basicOpen 𝒜 (h : A)) :
+    (Proj 𝒜).presheaf.germ _ x hx (ringFrac j c h) =
+      stalkRingHomInv 𝒜 x (HomogeneousLocalization.mk ⟨j, c, h, hx⟩) :=
+  (RingEquiv.eq_symm_apply _).2 (Proj.stalkIso'_germ 𝒜 _ x hx _)
+
+theorem stalkEval_smul (x : Proj 𝒜)
+    (c : HomogeneousLocalization.AtPrime 𝒜 x.asHomogeneousIdeal.toIdeal)
+    (z : HomogeneousLocalizedModule 𝒜 (gammaStarGrading F)
+      x.asHomogeneousIdeal.toIdeal.primeCompl) :
+    stalkEval F x (c • z) = stalkRingHomInv 𝒜 x c • stalkEval F x z := by
+  obtain ⟨⟨j, a, h, hh⟩, rfl⟩ := HomogeneousLocalization.mk_surjective c
+  obtain ⟨n, m, hm, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective z
+  have hx : x ∈ Proj.basicOpen 𝒜 (s * (h : A)) :=
+    x.asHomogeneousIdeal.toIdeal.primeCompl.mul_mem hsx hh
+  have hprod : HomogeneousLocalization.mk ⟨j, a, h, hh⟩ •
+      HomogeneousLocalizedModule.mk n m hm s hs hsx =
+      HomogeneousLocalizedModule.mk (n + j) ((a : A) • m) (smul_mem_gammaStarGrading F a.2 hm)
+        (s * h) (SetLike.GradedMul.mul_mem hs h.2) hx := by
+    ext
+    rw [HomogeneousLocalizedModule.val_smul, HomogeneousLocalization.val_mk,
+      HomogeneousLocalizedModule.val_mk, HomogeneousLocalizedModule.val_mk]
+    rw [LocalizedModule.mk_smul_mk]
+    congr 1
+    exact Subtype.ext (mul_comm _ _)
+  rw [hprod, stalkEval_mk, stalkEval_mk]
+  have key := congrArg (F.presheaf.germ _ x hx)
+    (frac_res_mulGlobal_eq_smul F n j ⟨s, hs⟩ a h (m n) (V := Proj.basicOpen 𝒜 (s * (h : A)))
+      le_rfl)
+  rw [TopCat.Presheaf.germ_res_apply, germ_smul_section, TopCat.Presheaf.germ_res_apply,
+    TopCat.Presheaf.germ_res_apply] at key
+  have hc : ((a : A) • m) ((n + j : ℕ) : ℤ) = mulGlobal F n j a (m n) := by
+    rw [smul_apply_of_mem F hm a]
+    exact DirectSum.of_eq_same _ _
+  unfold fracM
+  rw [hc, ← germ_ringFrac j a h x hh]
+  exact key
+
+end Graded
 
 end GammaStarReconstruction
 
