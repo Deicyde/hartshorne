@@ -36,7 +36,7 @@ theorem symmetricAlgebraStructure_isCommutative :
   moduleSheafSymmetricAlgebra_mul_comm (R := Y.sheaf) E
 
 /-- `E` as a sheaf of modules on the ringed space `(Y, 𝒪_Y)`. -/
-abbrev ringed : SheafOfModules.{u} (ringCatSheafOf Y.sheaf) := E
+private abbrev ringed : SheafOfModules.{u} (ringCatSheafOf Y.sheaf) := E
 
 /-- The commutative ring `Γ(U, Sym(E))`. -/
 abbrev symSections (U : Y.Opens) : CommRingCat.{u} :=
