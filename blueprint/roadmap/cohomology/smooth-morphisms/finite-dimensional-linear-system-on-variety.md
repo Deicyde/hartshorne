@@ -1,6 +1,6 @@
 ---
 article_id: af_81dbc7a4e0db6808ddcfb8a4
-declaration: structure
+declaration: def
 origin: bridged
 ---
 
