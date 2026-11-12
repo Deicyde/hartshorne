@@ -17,15 +17,22 @@ For a morphism `f : X ⟶ Y` and an open `U ⊆ Y`, a *section of `f` over `U`* 
 with restriction along inclusions of opens (`sectionsPresheaf f`); it is a sheaf
 (`isSheaf_sectionsPresheaf`), since morphisms of schemes glue along open covers.
 
-## Chart coordinates
+## Chart coordinates and the module of sections
 
 For a geometric vector bundle `G : GeometricVectorBundle f n` and an open `V ⊆ U_i`, a section `s`
 over `V` has coordinates `GeometricVectorBundle.chartCoord i hi s hs ∈ Γ(V, 𝒪)ⁿ`, those of
 `ψ_i ∘ s : V ⟶ 𝔸ⁿ_V`. They identify the sections over `V` with `Γ(V, 𝒪)ⁿ`
 (`chartCoord_bijective`), are compatible with restriction (`chartCoord_restrict`), and on an affine
 `V ⊆ U_i ∩ U_j` the coordinates in the two charts differ by a matrix over `Γ(V, 𝒪)`
-(`exists_chartCoord_transition`, from the linearity of the transition automorphisms). This is the
-local linear structure of `𝒮(X/Y)`.
+(`exists_chartCoord_transition`, from the linearity of the transition automorphisms).
+
+Hence the linear structure of the charts glues: `GeometricVectorBundle.sectionsModule G` is the
+`𝒪_Y`-module whose sections over `W` are the sections of `f` over `W`, added and multiplied by
+functions in the coordinates of the charts (`coordY_secAdd`, `coordY_secSmul`); it is locally
+free of rank `n` (`sectionsModule_isLocallyFreeOfRank`), the chart `ψ_i` giving a frame over
+`U_i` (`isLocalFrame_frameSection`). The operations are defined by gluing coordinates on the
+affine opens inside the chart domains (`exists_coords_eq`), using the sheaf property of the
+sections.
 
 ## Sections of a relative spectrum
 
@@ -42,7 +49,11 @@ sets (Hartshorne II, Exercise 5.18(c)): over an affine open `V`, a section is an
 map `Γ(V, Sym(E)) ⟶ 𝒪_Y(V)`, and such a map is determined by the `𝒪_Y(V)`-linear map
 `E(V) ⟶ 𝒪_Y(V)` it restricts to (`vectorBundleSectionsIso_hom_eval`). Over the affine opens on which
 `E` has a frame, `Γ(V, Sym(E))` is a polynomial ring on the frame, which gives the bijectivity
-(`sectionDual_bijective`); the isomorphism is the extension from this basis of `Y`.
+(`sectionDual_bijective`); the isomorphism is the extension from this basis of `Y`. The chart
+coordinates of a section for the atlas `vectorBundleAtlas` are the values of its linear form on the
+frame (`vectorBundleAtlas_chartCoord`), so the isomorphism is `𝒪_Y`-linear:
+`Scheme.Modules.vectorBundleSectionsModuleIso` is the isomorphism of `𝒪_Y`-modules
+`(vectorBundleAtlas hE).sectionsModule ≅ E^∨`.
 -/
 
 universe u
@@ -105,25 +116,30 @@ theorem isSheaf_sectionsPresheaf (f : X ⟶ Y) : (sectionsPresheaf f).IsSheaf :=
   have hle : ∀ i, U i ≤ W := fun i => le_iSup U i
   -- `V i ⟶ U i`, the restriction of `W.ι`
   let r : ∀ i, (V i).toScheme ⟶ (Scheme.Opens.toScheme (X := Y) (U i)) := fun i => W.ι ∣_ U i
-  have hr : ∀ i, r i ≫ (Scheme.Opens.ι (X := Y) (U i)) = (V i).ι ≫ W.ι := fun i => morphismRestrict_ι _ _
+  have hr : ∀ i, r i ≫ (Scheme.Opens.ι (X := Y) (U i)) = (V i).ι ≫ W.ι :=
+    fun i => morphismRestrict_ι _ _
   have hVι : ∀ i, (V i).ι = r i ≫ Y.homOfLE (hle i) := fun i => by
     rw [← cancel_mono W.ι, Category.assoc, Scheme.homOfLE_ι, hr]
   have hcomp : ∀ i j, W.toScheme.homOfLE (inf_le_left : V i ⊓ V j ≤ V i) ≫ r i ≫ (sf i).1 =
       W.toScheme.homOfLE (inf_le_right : V i ⊓ V j ≤ V j) ≫ r j ≫ (sf j).1 := by
     intro i j
-    have hm : Set.range ((V i ⊓ V j).ι ≫ W.ι) ⊆ Set.range (Scheme.Opens.ι (X := Y) (U i ⊓ U j)) := by
+    have hm : Set.range ((V i ⊓ V j).ι ≫ W.ι) ⊆
+        Set.range (Scheme.Opens.ι (X := Y) (U i ⊓ U j)) := by
       rintro _ ⟨x, rfl⟩
       refine ⟨⟨W.ι ((V i ⊓ V j).ι x), ?_⟩, rfl⟩
       exact ⟨(x.2 : _ ∈ V i ⊓ V j).1, (x.2 : _ ∈ V i ⊓ V j).2⟩
     let m := IsOpenImmersion.lift (Scheme.Opens.ι (X := Y) (U i ⊓ U j)) ((V i ⊓ V j).ι ≫ W.ι) hm
-    have hm' : (V i ⊓ V j).ι ≫ W.ι = m ≫ (Scheme.Opens.ι (X := Y) (U i ⊓ U j)) := (IsOpenImmersion.lift_fac _ _ _).symm
+    have hm' : (V i ⊓ V j).ι ≫ W.ι = m ≫ (Scheme.Opens.ι (X := Y) (U i ⊓ U j)) :=
+      (IsOpenImmersion.lift_fac _ _ _).symm
     have hi : W.toScheme.homOfLE (inf_le_left : V i ⊓ V j ≤ V i) ≫ r i =
         m ≫ Y.homOfLE (inf_le_left : U i ⊓ U j ≤ U i) := by
-      rw [← cancel_mono (Scheme.Opens.ι (X := Y) (U i)), Category.assoc, hr, Category.assoc, Scheme.homOfLE_ι_assoc,
+      rw [← cancel_mono (Scheme.Opens.ι (X := Y) (U i)), Category.assoc, hr, Category.assoc,
+        Scheme.homOfLE_ι_assoc,
         Scheme.homOfLE_ι, hm']
     have hj : W.toScheme.homOfLE (inf_le_right : V i ⊓ V j ≤ V j) ≫ r j =
         m ≫ Y.homOfLE (inf_le_right : U i ⊓ U j ≤ U j) := by
-      rw [← cancel_mono (Scheme.Opens.ι (X := Y) (U j)), Category.assoc, hr, Category.assoc, Scheme.homOfLE_ι_assoc,
+      rw [← cancel_mono (Scheme.Opens.ι (X := Y) (U j)), Category.assoc, hr, Category.assoc,
+        Scheme.homOfLE_ι_assoc,
         Scheme.homOfLE_ι, hm']
     have hc := congrArg Subtype.val (hsf i j)
     simp only [sectionsPresheaf_map_coe] at hc
@@ -584,16 +600,12 @@ lemma map_resPiece {W : Y.Opens} (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤
   rw [resPiece, resPiece, ← CommRingCat.comp_apply, ← Functor.map_comp]
   rfl
 
-/-- A family of coordinates obtained linearly from coordinates of sections is compatible. -/
-private lemma compat_of {W : Y.Opens} (x : ∀ p : G.ChartPiece W, ULift.{u} (Fin n) → Γ(Y, p.V))
-    (hx : ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V), G.transferHom p q h (x p) = x q) :
-    ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V), G.transfer p q h (x p) = x q := hx
-
 variable {W : Y.Opens}
 
 private lemma compat_secAdd (s t : (sectionsPresheaf f).obj (op W)) :
     ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V),
-      G.transfer p q h ((G.coords s + G.coords t) p) = (G.coords s + G.coords t) q := fun p q h => by
+      G.transfer p q h ((G.coords s + G.coords t) p) = (G.coords s + G.coords t) q :=
+  fun p q h => by
     rw [Pi.add_apply, transfer_add, coords_transfer, coords_transfer]; rfl
 
 /-- The sum of two sections, in coordinates. -/
@@ -606,7 +618,9 @@ lemma coords_secAdd (s t : (sectionsPresheaf f).obj (op W)) :
 
 private lemma compat_secZero (W : Y.Opens) :
     ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V),
-      G.transfer p q h ((0 : ∀ p : G.ChartPiece W, ULift.{u} (Fin n) → Γ(Y, p.V)) p) = (0 : ∀ p : G.ChartPiece W, ULift.{u} (Fin n) → Γ(Y, p.V)) q := fun p q h => by
+      G.transfer p q h ((0 : ∀ p : G.ChartPiece W, ULift.{u} (Fin n) → Γ(Y, p.V)) p) =
+        (0 : ∀ p : G.ChartPiece W, ULift.{u} (Fin n) → Γ(Y, p.V)) q :=
+  fun p q h => by
     rw [← transferHom_apply]; exact map_zero _
 
 /-- The zero section, in coordinates. -/
@@ -633,7 +647,8 @@ lemma coords_secNeg (s : (sectionsPresheaf f).obj (op W)) :
 
 private lemma compat_secSub (s t : (sectionsPresheaf f).obj (op W)) :
     ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V),
-      G.transfer p q h ((G.coords s - G.coords t) p) = (G.coords s - G.coords t) q := fun p q h => by
+      G.transfer p q h ((G.coords s - G.coords t) p) = (G.coords s - G.coords t) q :=
+  fun p q h => by
     rw [Pi.sub_apply, ← transferHom_apply, map_sub, transferHom_apply, transferHom_apply,
       coords_transfer, coords_transfer]
     rfl
@@ -676,7 +691,9 @@ lemma coords_secNsmul (m : ℕ) (s : (sectionsPresheaf f).obj (op W)) :
 
 private lemma compat_secSmul (r : Γ(Y, W)) (s : (sectionsPresheaf f).obj (op W)) :
     ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V),
-      G.transfer p q h ((fun p => G.resPiece p r • G.coords s p) p) = (fun p => G.resPiece p r • G.coords s p) q := fun p q h => by
+      G.transfer p q h ((fun p => G.resPiece p r • G.coords s p) p) =
+        (fun p => G.resPiece p r • G.coords s p) q :=
+  fun p q h => by
     rw [transfer_smul, coords_transfer, map_resPiece]
 
 /-- The product of a function `r ∈ 𝒪_Y(W)` with a section, in coordinates. -/
@@ -1139,7 +1156,8 @@ instance isIso_sectionsToDual : IsIso (sectionsToDual hE) := by
       change IsIso ((sectionsToDual hE).app (op (c.V : Y.Opens)))
       rw [sectionsToDual_app, isIso_iff_bijective]
       exact sectionDual_bijective hE c
-  exact inferInstanceAs (IsIso ((sheafToPresheaf _ _).map (ObjectProperty.homMk (sectionsToDual hE) :
+  exact inferInstanceAs (IsIso ((sheafToPresheaf _ _).map
+    (ObjectProperty.homMk (sectionsToDual hE) :
     F ⟶ dualTypeSheaf E)))
 
 /-- **The sections of `V(E)` are the dual `E^∨`** (Hartshorne II, Exercise 5.18(c)): for a locally
