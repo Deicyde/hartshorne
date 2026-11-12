@@ -428,6 +428,74 @@ instance isIso_split : IsIso (E.split ρ hρ) := by
 
 end Retraction
 
+
+/-! ### A retraction from the infinitesimal lifting property -/
+
+/-- Regularity is invariant under isomorphism. -/
+theorem isRegular_of_iso {Y Z : Scheme.{u}} (e : Y ≅ Z) (hZ : Z.IsRegular) : Y.IsRegular := by
+  have := hZ.1
+  refine ⟨isLocallyNoetherian_of_isOpenImmersion e.hom, fun y => ?_⟩
+  have : IsRegularLocalRing (Z.presheaf.stalk (e.hom.base y)) := hZ.2 _
+  exact IsRegularLocalRing.of_ringEquiv (asIso (e.hom.stalkMap y)).commRingCatIsoToRingEquiv
+
+end InfinitesimalExtension
+
+namespace InfinitesimalExtension
+
+attribute [local instance] InfinitesimalExtension.isClosedImmersion opModule
+
+variable {k : Type u} [Field k] {X : Scheme.{u}} {pX : X ⟶ Spec (.of k)} {F : X.Modules}
+  (E : InfinitesimalExtension pX F)
+
+/-- If `k` is algebraically closed, `X` is affine, nonsingular and of finite type over `k`, and
+`F` is coherent, then the closed immersion `ι : X ⟶ X'` has a retraction over `k`: `X'` is
+affine, and by the infinitesimal lifting property (Hartshorne II, Exercise 8.6) the identity of
+`Γ(X, 𝒪_X)` lifts along the surjection `Γ(X', 𝒪_{X'}) → Γ(X, 𝒪_X)`, whose kernel has square
+zero. -/
+theorem exists_retraction [IsAlgClosed k] [LocallyOfFiniteType pX] [IsAffine X]
+    (hX : X.IsRegular) (hF : IsCoherent F) :
+    ∃ ρ : E.scheme ⟶ X, E.ι ≫ ρ = 𝟙 X ∧ ρ ≫ pX = E.over := by
+  have := hX.1
+  have := E.isAffine_scheme hF
+  let φk : k →+* Γ(Spec (.of k), ⊤) := (Scheme.ΓSpecIso (.of k)).inv.hom
+  let : Algebra k Γ(X, ⊤) := (pX.appTop.hom.comp φk).toAlgebra
+  let : Algebra k Γ(E.scheme, ⊤) := (E.over.appTop.hom.comp φk).toAlgebra
+  have : Algebra.FiniteType k Γ(X, ⊤) := by
+    have h1 : pX.appTop.hom.FiniteType := HasRingHomProperty.appTop @LocallyOfFiniteType pX ‹_›
+    exact h1.comp (RingHom.FiniteType.of_surjective _
+      (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (.of k)).inv).2)
+  have hcomm : ∀ c, E.ι.appTop (E.over.appTop c) = pX.appTop c := fun c =>
+    congrArg (fun φ : X ⟶ Spec (.of k) => φ.appTop c) E.ι_over
+  let g : Γ(E.scheme, ⊤) →ₐ[k] Γ(X, ⊤) :=
+    { E.ι.appTop.hom with commutes' := fun c => hcomm (φk c) }
+  have hg : Function.Surjective g := (IsClosedImmersion.isAffine_surjective_of_isAffine E.ι).2
+  have hI : RingHom.ker g ^ 2 = ⊥ := by
+    rw [pow_two, eq_bot_iff, Ideal.mul_le]
+    intro x hx y hy
+    obtain ⟨a, rfl⟩ := exists_closedImmersionIdealSheafι_app E.ι ⊤ x hx
+    obtain ⟨b, rfl⟩ := exists_closedImmersionIdealSheafι_app E.ι ⊤ y hy
+    exact Ideal.mem_bot.mpr (E.sq_eq_zero ⊤ a b)
+  have hreg : (Spec (CommRingCat.of Γ(X, ⊤))).IsRegular := isRegular_of_iso X.isoSpec.symm hX
+  obtain ⟨s, hs⟩ := AffineNonsingularLifting.exists_lift_of_isRegular hreg g hg hI (AlgHom.id k _)
+  let ρ : E.scheme ⟶ X :=
+    E.scheme.toSpecΓ ≫ Spec.map (CommRingCat.ofHom s.toRingHom) ≫ X.isoSpec.inv
+  have hinv : X.isoSpec.inv.appTop = (Scheme.ΓSpecIso Γ(X, ⊤)).inv := by
+    rw [← cancel_epi (Scheme.ΓSpecIso Γ(X, ⊤)).hom, Iso.hom_inv_id, ← Scheme.toSpecΓ_appTop,
+      ← Scheme.Hom.comp_appTop, Scheme.isoSpec_inv_toSpecΓ]
+    rfl
+  have hρ : ρ.appTop = CommRingCat.ofHom s.toRingHom := by
+    simp only [ρ, Scheme.Hom.comp_appTop, hinv, Scheme.toSpecΓ_appTop, Category.assoc,
+      Scheme.ΓSpecIso_naturality]
+    exact Iso.inv_hom_id_assoc _ _
+  refine ⟨ρ, ext_of_isAffine ?_, ext_of_isAffine ?_⟩
+  · rw [Scheme.Hom.comp_appTop, hρ]
+    ext a
+    exact congr($hs a)
+  · rw [Scheme.Hom.comp_appTop, hρ]
+    ext c
+    obtain ⟨c, rfl⟩ := (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (.of k)).inv).2 c
+    exact s.commutes c
+
 end InfinitesimalExtension
 
 end Hartshorne
