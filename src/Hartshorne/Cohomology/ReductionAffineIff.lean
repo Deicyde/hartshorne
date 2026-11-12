@@ -187,7 +187,7 @@ theorem isAffine_of_forall_isZero_H1 [IsNoetherian X]
       (∀ (U : X.Opens) (a : Γ(X, U)), IsNilpotent a → ∀ s : Γ(Q, U), a • s = 0) →
         IsZero (H 1 Q)) :
     IsAffine X := by
-  refine isAffine_of_isZero_H1 fun J => ?_
+  refine ((isAffine_tfae_sheafCohomology X).out 2 0).mp fun J _ => ?_
   obtain ⟨m, hm⟩ := exists_nilradical_pow_eq_bot (X := X)
   have key : ∀ j, j ≤ m → IsZero (H 1 (filt J (m - j))) := by
     intro j
