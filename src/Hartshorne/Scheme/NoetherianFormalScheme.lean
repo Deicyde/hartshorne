@@ -86,9 +86,9 @@ theorem IsNoetherianFormalScheme.iso_iff {X Y : LocallyRingedSpace.{u}} (e : X �
     IsNoetherianFormalScheme X ↔ IsNoetherianFormalScheme Y :=
   ⟨fun h => h.of_iso e.symm, fun h => h.of_iso e⟩
 
-/-- **The category of Noetherian formal schemes** (Hartshorne II.9, p. 194): a Noetherian formal
-scheme is a locally ringed space that is a Noetherian formal scheme in the sense of
-`IsNoetherianFormalScheme`. -/
+/-- **Noetherian formal schemes** (Hartshorne II.9, p. 194): a locally ringed space together with
+a proof that it is a Noetherian formal scheme in the sense of `IsNoetherianFormalScheme`;
+morphisms are given by `NoetherianFormalScheme.category`. -/
 structure NoetherianFormalScheme extends LocallyRingedSpace.{u} where
   /-- The underlying locally ringed space has a finite cover by completions of Noetherian
   schemes along closed subschemes. -/
