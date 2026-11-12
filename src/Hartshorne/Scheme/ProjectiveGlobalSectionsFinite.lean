@@ -1488,6 +1488,121 @@ noncomputable instance gammaStarGrading.decomposition :
 
 end Coherent
 
+/-- Isomorphic modules have linearly isomorphic sections. -/
+private theorem finite_sections_iff_of_iso {X : Scheme.{u}} {G H : X.Modules} (e : G ≅ H)
+    (U : X.Opens) : Module.Finite Γ(X, U) Γ(G, U) ↔ Module.Finite Γ(X, U) Γ(H, U) :=
+  CoherentAux.finite_iff_of_ringEquiv_addEquiv (RingEquiv.refl _)
+    (((Scheme.Modules.toPresheaf X).mapIso e).app (op U)).addCommGroupIsoToAddEquiv
+    (fun a n => Scheme.Modules.Hom.app_smul e.hom a n)
+
+/-- Isomorphic modules on `Proj S` have `S₀`-linearly isomorphic global sections. -/
+private theorem finite_globalSections_iff_of_iso {G H : (Proj 𝒜).Modules} (e : G ≅ H) :
+    Module.Finite (𝒜 0) ((ModuleCat.restrictScalars (degreeZeroToGlobal 𝒜)).obj
+      (G.val.obj (op ⊤))) ↔ Module.Finite (𝒜 0) ((ModuleCat.restrictScalars
+        (degreeZeroToGlobal 𝒜)).obj (H.val.obj (op ⊤))) :=
+  CoherentAux.finite_iff_of_ringEquiv_addEquiv (RingEquiv.refl _)
+    (((Scheme.Modules.toPresheaf (Proj 𝒜)).mapIso e).app (op ⊤)).addCommGroupIsoToAddEquiv
+    (fun a n => Scheme.Modules.Hom.app_smul e.hom (degreeZeroToGlobal 𝒜 a) n)
+
+section CoherentFinite
+
+open GammaStarReconstruction GradedGlobalSections
+
+attribute [local instance] gammaStarModule gradedSMul_of_intGrading
+
+/-- **Hartshorne II, Theorem 5.19, on `Proj S`.** Let `S` be a graded ring which is a finite-type
+algebra over a field `k`, generated over `S₀` by finitely many elements `fᵢ` of degree one, and let
+`F` be a coherent sheaf on `Proj S`. Then `Γ(Proj S, F)` is a finite `S₀`-module. By
+Proposition 5.15, `F ≅ Γ_*(F)~`; on each chart `D₊(fᵢ)` the module `Γ_*(F)_(fᵢ) = Γ(D₊(fᵢ), F)` is
+finitely generated, by finitely many fractions `m / fᵢ^j`; the graded submodule `M` spanned by
+these `m` is finitely generated, `Γ(Proj S, M~) → Γ(Proj S, Γ_*(F)~)` is surjective, and
+`Γ(Proj S, M~)` is finite (`moduleFinite_sections_of_finite`). -/
+theorem moduleFinite_sections_of_isCoherent (k : Type u) [Field k] [Algebra k A]
+    [Algebra.FiniteType k A] [Fintype ι] {f : ι → A} (hf : ∀ i, f i ∈ 𝒜 1)
+    (hgen : Algebra.adjoin (𝒜 0) (Set.range f) = ⊤) (F : (Proj 𝒜).Modules) (hF : IsCoherent F) :
+    Module.Finite (𝒜 0) ((ModuleCat.restrictScalars (degreeZeroToGlobal 𝒜)).obj
+      (F.val.obj (op ⊤))) := by
+  classical
+  have hqc : F.IsQuasicoherent := hF.isQuasicoherent
+  have hs : ∀ a ∈ Finset.univ.image f, a ∈ 𝒜 1 := by
+    intro a ha
+    obtain ⟨i, -, rfl⟩ := Finset.mem_image.1 ha
+    exact hf i
+  have hgens : Algebra.adjoin (𝒜 0) ((Finset.univ.image f : Finset A) : Set A) = ⊤ := by
+    rw [Finset.coe_image, Finset.coe_univ, Set.image_univ]
+    exact hgen
+  have hcov : ∀ x : Proj 𝒜, ∃ i, f i ∉ x.asHomogeneousIdeal := by
+    intro x
+    have hx : x ∈ (⊤ : (Proj 𝒜).Opens) := trivial
+    rw [← Proj.iSup_basicOpen_eq_top' 𝒜 f (fun i => ⟨1, hf i⟩) hgen] at hx
+    obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.1 hx
+    exact ⟨i, hi⟩
+  -- `Γ_*(F)_(fᵢ)` is finitely generated
+  have hchart : ∀ i, Module.Finite (Away 𝒜 (f i))
+      (HomogeneousLocalizedModule 𝒜 (gammaStarGrading F) (Submonoid.powers (f i))) := by
+    intro i
+    have hU := Proj.isAffineOpen_basicOpen 𝒜 (f i) (hf i) one_pos
+    have h1 : Module.Finite Γ(Proj 𝒜, Proj.basicOpen 𝒜 (f i)) Γ(F, Proj.basicOpen 𝒜 (f i)) :=
+      (forall_affine_finite_of_isCoherent F hF ⟨_, hU⟩).1
+    have h2 : Module.Finite Γ(Proj 𝒜, Proj.basicOpen 𝒜 (f i))
+        Γ(projGradedModuleSheaf 𝒜 (gammaStarGrading F), Proj.basicOpen 𝒜 (f i)) :=
+      (finite_sections_iff_of_iso (gammaStarIso hs hgens F).symm _).1 h1
+    exact finite_away_of_finite_sections (hf i) one_pos h2
+  -- finitely many fractions `m / fᵢ^j` generate each `Γ_*(F)_(fᵢ)`
+  have hfin := fun i => @Module.Finite.exists_fin (Away 𝒜 (f i)) _ _ _ _ (hchart i)
+  choose n gens hspan using hfin
+  have hrep : ∀ i (t : Fin (n i)), ∃ (k : ℕ) (m : GammaStar F) (hm : m ∈ gammaStarGrading F k)
+      (j : ℕ) (hj : f i ^ j ∈ 𝒜 k), gens i t =
+        HomogeneousLocalizedModule.mk k m hm (f i ^ j) hj
+          (show f i ^ j ∈ Submonoid.powers (f i) from ⟨j, rfl⟩) := by
+    intro i t
+    obtain ⟨k, m, hm, s0, hs0, ⟨j, rfl⟩, he⟩ := HomogeneousLocalizedModule.mk_surjective (gens i t)
+    exact ⟨k, m, hm, j, hs0, he⟩
+  choose K Mm hMm J hJ hrepr using hrep
+  -- the graded submodule they span
+  let S : Set (GammaStar F) := Set.range fun q : Σ i, Fin (n i) => Mm q.1 q.2
+  have hS : ∀ m ∈ S, ∃ d, m ∈ intModuleGrading (gammaStarGrading F) d := by
+    rintro _ ⟨q, rfl⟩
+    exact ⟨K q.1 q.2, hMm q.1 q.2⟩
+  let Msub := homogeneousSpan 𝒜 S hS
+  have hMfin : Module.Finite A Msub := Module.Finite.span_of_finite A (Set.finite_range _)
+  let g : Msub →ₗ[A] GammaStar F :=
+    { toFun := fun x => x.1
+      map_add' := fun _ _ => rfl
+      map_smul' := fun _ _ => rfl }
+  have hg : ∀ (i : ℤ) (m : Msub),
+      m ∈ gradedSubmodulePiece (intGrading 𝒜) (intModuleGrading (gammaStarGrading F)) Msub i →
+        g m ∈ gammaStarGrading F i := fun _ _ hm => hm
+  have hginj : Function.Injective g := fun a b h => Subtype.ext h
+  have hsurj : ∀ i, Function.Surjective
+      (gradedLocMap (𝒜 := 𝒜) g hg (Submonoid.powers (f i))) := by
+    intro i y
+    have hy : y ∈ Submodule.span (Away 𝒜 (f i)) (Set.range (gens i)) := by
+      rw [hspan i]
+      exact Submodule.mem_top
+    have hle : Submodule.span (Away 𝒜 (f i)) (Set.range (gens i)) ≤
+        LinearMap.range (gradedLocMap (𝒜 := 𝒜) g hg (Submonoid.powers (f i))) := by
+      rw [Submodule.span_le]
+      rintro _ ⟨t, rfl⟩
+      rw [hrepr i t]
+      have hmem : (⟨Mm i t, Submodule.subset_span ⟨⟨i, t⟩, rfl⟩⟩ : Msub) ∈
+          gradedSubmodulePiece (intGrading 𝒜) (intModuleGrading (gammaStarGrading F)) Msub
+            (K i t) := hMm i t
+      refine ⟨HomogeneousLocalizedModule.mk (K i t) _ hmem (f i ^ J i t) (hJ i t)
+        (show f i ^ J i t ∈ Submonoid.powers (f i) from ⟨J i t, rfl⟩), ?_⟩
+      exact gradedLocMap_mk g hg _ _ _ _ _ _
+    exact LinearMap.mem_range.1 (hle hy)
+  have hM : Module.Finite (𝒜 0) ((ModuleCat.restrictScalars (degreeZeroToGlobal 𝒜)).obj
+      ((projGradedModuleSheaf 𝒜 (gradedSubmodulePiece (intGrading 𝒜)
+        (intModuleGrading (gammaStarGrading F)) Msub)).val.obj (op ⊤))) :=
+    moduleFinite_sections_of_finite k hf hgen
+  have hN : Module.Finite (𝒜 0) ((ModuleCat.restrictScalars (degreeZeroToGlobal 𝒜)).obj
+      ((projGradedModuleSheaf 𝒜 (gammaStarGrading F)).val.obj (op ⊤))) :=
+    moduleFinite_sections_of_surjective_charts g hg hf hcov hginj hsurj
+  exact (finite_globalSections_iff_of_iso (gammaStarIso hs hgens F)).1 hN
+
+end CoherentFinite
+
 end ProjectiveGlobalSectionsFinite
 
 end Hartshorne
