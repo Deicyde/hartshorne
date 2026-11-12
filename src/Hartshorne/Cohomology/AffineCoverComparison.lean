@@ -331,7 +331,6 @@ end Data
 
 end ResolutionDelta
 
-
 namespace AffineCoverComparison
 
 open HomologicalComplex CochainComplex TopologicalSpace Opposite
@@ -465,7 +464,6 @@ theorem sections_surjective [S.X₁.IsQuasicoherent] {V : X.Opens} (hV : IsAffin
   rw [ConcreteCategory.comp_apply, hs, ← ConcreteCategory.comp_apply, ← Functor.map_comp,
     ← op_comp, eqToHom_trans, eqToHom_refl, op_id, CategoryTheory.Functor.map_id]
   rfl
-
 
 /-- A short complex of `𝒪_X`-modules, as a short complex in `SheafOfModules`. -/
 abbrev toSOM (S : ShortComplex X.Modules) : ShortComplex (SheafOfModules.{u} X.ringCatSheaf) :=
