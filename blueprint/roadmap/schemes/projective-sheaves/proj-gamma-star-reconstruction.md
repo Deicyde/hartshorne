@@ -3,6 +3,8 @@ article_id: af_b1f191530efdad41750722bd
 declaration: isomorphism
 origin: cited
 lean: Hartshorne.GammaStarReconstruction.isIso_gammaStarEval Hartshorne.GammaStarReconstruction.gammaStarIso Hartshorne.GammaStarReconstruction.gammaStarEval Hartshorne.GammaStarReconstruction.gammaStarTilde Hartshorne.GammaStarReconstruction.gammaStarGrading
+statement: formalized
+proof: formalized
 ---
 
 # Reconstruction from graded global sections
