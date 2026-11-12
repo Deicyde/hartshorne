@@ -8,10 +8,12 @@ import Hartshorne.Scheme.ProjectiveBundleGluing
 # The twisting sheaf of a projective bundle over an open where the module is free
 
 Hartshorne, *Algebraic Geometry*, II.7, p. 162: if `E` is free of rank `n + 1` over an open
-`U ⊆ X`, then `P(E)|_U ≅ ℙⁿ_U`, compatibly with the projection and with `𝒪(1)`.
+`U ⊆ X`, then `π⁻¹(U) ≅ ℙⁿ_U`. Here the isomorphism is moreover shown to be compatible with the
+projection and with `𝒪(1)`.
 
-For a frame `e` of `E` over an arbitrary open `U`, `Scheme.Modules.exists_projectiveBundleIso_of_frame`
-gives `ψ : π⁻¹(U) ≅ ℙⁿ_U` over `U`. Here we show `ψ^* 𝒪_{ℙⁿ_U}(1) ≅ 𝒪_{P(E)}(1)|_{π⁻¹(U)}`
+For a frame `e` of `E` over an arbitrary open `U`,
+`Scheme.Modules.exists_projectiveBundleIso_of_frame` gives `ψ : π⁻¹(U) ≅ ℙⁿ_U` over `U`. Here we
+show `ψ^* 𝒪_{ℙⁿ_U}(1) ≅ 𝒪_{P(E)}(1)|_{π⁻¹(U)}`
 (`Scheme.Modules.exists_projectiveBundleIso_of_frame_twist`, and
 `Scheme.Modules.nonempty_projectiveBundle_iso_twist_of_restrict_iso_free` from `E|_U ≅ 𝒪_U^{n+1}`).
 
@@ -247,7 +249,6 @@ private lemma pieceElt_restrict {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤
   rw [← Functor.map_comp]
   rfl
 
-
 /-! ### Sections of a module glued from the twisting sheaves of the affine pieces
 
 To keep the kernel away from the construction of `𝒪_{P(E)}(1)`, the following is stated for any
@@ -475,7 +476,8 @@ private lemma pieceIso_hom_app_global {V : X.Opens} (hV : IsAffineOpen V) (hVU :
         (homOfLE (le_top : D ≤ ⊤)).op
         (ProjTwistingSheaf.degreeOneSection ⟨pieceElt hE hfin (e := e) hV hVU i,
           pieceElt_mem hE hfin hV hVU i⟩) := by
-  rw [pieceIso_hom_app, DirectedModuleGluing.pmap_map_eq M _ _ (homOfLE (projι_image_top_le hE hfin hV hVU)).op
+  rw [pieceIso_hom_app, DirectedModuleGluing.pmap_map_eq M _ _
+    (homOfLE (projι_image_top_le hE hfin hV hVU)).op
     (homOfLE (Scheme.Hom.image_mono _ (le_top : D ≤ ⊤))).op, hs, pieceSection_spec]
 
 omit [IsNoetherian X] in
@@ -656,9 +658,9 @@ private lemma nonempty_pullbackTwist_iso :
   exact ⟨φ⟩
 
 include he in
-/-- **`P(E)` over an open with a frame, with its twisting sheaf** (Hartshorne II.7, p. 162): a
-frame `e` of `E` of rank `n + 1` over an arbitrary open `U ⊆ X` gives an isomorphism
-`ψ : π⁻¹(U) ≅ ℙⁿ_U` over `U` with `ψ^* 𝒪_{ℙⁿ_U}(1) ≅ 𝒪_{P(E)}(1)|_{π⁻¹(U)}`. -/
+/-- **`P(E)` over an open with a frame, with its twisting sheaf**: a frame `e` of `E` of rank
+`n + 1` over an arbitrary open `U ⊆ X` gives an isomorphism `ψ : π⁻¹(U) ≅ ℙⁿ_U`
+(Hartshorne II.7, p. 162), here over `U` and with `ψ^* 𝒪_{ℙⁿ_U}(1) ≅ 𝒪_{P(E)}(1)|_{π⁻¹(U)}`. -/
 theorem exists_projectiveBundleIso_of_frame_twist :
     ∃ ψ : (projectiveBundleProj hE hfin ⁻¹ᵁ U).toScheme ≅ projectiveSpaceOverScheme n U,
       ψ.hom ≫ projectiveSpaceOverSchemeProjection n U = projectiveBundleProj hE hfin ∣_ U ∧
@@ -675,9 +677,9 @@ theorem exists_projectiveBundleIso_of_frame_twist :
 
 end Abstract2
 
-/-- **Projective bundles of free modules** (Hartshorne II.7, p. 162): if `E` is free of rank
-`n + 1` on an open `U ⊆ X`, i.e. `E|_U ≅ 𝒪_U^{n+1}`, then `P(E)|_U = π⁻¹(U) ≅ ℙⁿ_U` over `U`,
-by an isomorphism `ψ` with `ψ^* 𝒪_{ℙⁿ_U}(1) ≅ 𝒪_{P(E)}(1)|_{π⁻¹(U)}`. -/
+/-- **Projective bundles of free modules**: if `E` is free of rank `n + 1` on an open `U ⊆ X`,
+i.e. `E|_U ≅ 𝒪_U^{n+1}`, then `P(E)|_U = π⁻¹(U) ≅ ℙⁿ_U` (Hartshorne II.7, p. 162), here over
+`U` and by an isomorphism `ψ` with `ψ^* 𝒪_{ℙⁿ_U}(1) ≅ 𝒪_{P(E)}(1)|_{π⁻¹(U)}`. -/
 theorem nonempty_projectiveBundle_iso_twist_of_restrict_iso_free {U : X.Opens} {n : ℕ}
     (α : E.restrict U.ι ≅ SheafOfModules.free (ULift.{u} (Fin (n + 1)))) :
     ∃ ψ : (projectiveBundleProj hE hfin ⁻¹ᵁ U).toScheme ≅ projectiveSpaceOverScheme n U,
