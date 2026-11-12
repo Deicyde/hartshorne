@@ -783,3 +783,5 @@ import Hartshorne.Scheme.ProjectiveBundle
 import Hartshorne.Scheme.ProjectiveBundleTrivialization
 import Hartshorne.Scheme.VectorBundleSections
 import Hartshorne.Scheme.ProjectiveBundleGluing
+import Hartshorne.Scheme.SegreProductGradedAlgebra
+import Hartshorne.Scheme.RelativeProjLineBundleTwist
