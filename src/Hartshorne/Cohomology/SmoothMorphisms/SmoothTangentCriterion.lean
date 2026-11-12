@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Cohomology.SmoothMorphisms.CotangentRelativeDifferentials
 import Hartshorne.Cohomology.Semicontinuity.CoherentFiberDimension
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsAffineFibre
+import Hartshorne.Scheme.Differentials.ClosedImmersionConormalSequence
 import Hartshorne.Cohomology.FlatFamilies.NormalFamilyFlat
 import Hartshorne.Cohomology.SmoothMorphisms.HartshorneSmoothnessCriterion
 import Hartshorne.Cohomology.SmoothMorphisms.RegularCotangentFlat
@@ -40,6 +41,12 @@ Hartshorne, *Algebraic Geometry*, III, Proposition 10.4 (pp. 270–271).
   at `x` has the dimension of `κ(x) ⊗ Ω_{𝒪_{X,x}/𝒪_{Y,f x}}`.
 * `Hartshorne.SmoothTangent.moduleFiberDim_relativeDifferentials_eq_of_specializes`: if `z ⤳ x`,
   the fibre of `Ω_{X/Y}` at `z` is computed from `Ω_{𝒪_{X,x}/𝒪_{Y,f x}}`.
+* `Hartshorne.SmoothTangent.stalk_kaehler_transitivity_exact`: the stalk at `x` of the exact
+  sequence `f^*Ω_{Y/S} → Ω_{X/S} → Ω_{X/Y} → 0` of II.8.11 is the sequence
+  `𝒪_{X,x} ⊗ Ω_{𝒪_{Y,f x}/𝒪_{S,s}} → Ω_{𝒪_{X,x}/𝒪_{S,s}} → Ω_{𝒪_{X,x}/𝒪_{Y,f x}}`, which is
+  therefore exact.
+* `Hartshorne.SmoothTangent.stalk_exact_of_isColimit`: on a ringed space, the stalk functor carries
+  a cokernel presentation of modules to an exact sequence.
 
 ## Proof
 
@@ -50,9 +57,13 @@ We follow Hartshorne's proof.
   locally free of ranks `dim X` and `dim Y` (Example 10.0.2), and by II.8.7 the cotangent spaces
   at closed points have these dimensions. At a closed point `x` the fibre of the exact sequence
   `f^*Ω_{Y/k} → Ω_{X/k} → Ω_{X/Y} → 0` of II.8.11 is, after the identifications of II.8.7, the
-  exact sequence `k(x) ⊗ 𝔪_y/𝔪_y² → 𝔪_x/𝔪_x² → Ω_{X/Y} ⊗ k(x) → 0`
-  (`Hartshorne.CotangentKaehler.injective_localCotangentBaseChange_iff`, proved from the
-  transitivity sequence of the local rings); this local form is what we use. Counting dimensions,
+  exact sequence `k(x) ⊗ 𝔪_y/𝔪_y² → 𝔪_x/𝔪_x² → Ω_{X/Y} ⊗ k(x) → 0`. Concretely: the stalk
+  functor preserves cokernels, so the stalk at `x` of the sequence of II.8.11
+  (`AlgebraicGeometry.Scheme.relativeDifferentialsTransitivityIsColimit`) is exact; it is
+  identified with the sequence of Kähler modules of the local rings
+  (`stalk_kaehler_transitivity_exact`); tensoring with `k(x)` (right exactness) and the
+  identifications of II.8.7 give the cotangent sequence
+  (`Hartshorne.CotangentKaehler.injective_localCotangentBaseChange_iff`). Counting dimensions,
   the cotangent map is injective, so the tangent map is surjective.
 * (3) ⇒ (1): reversing the count, `Ω_{X/Y} ⊗ k(x)` has dimension `n` at every closed point.
   At each closed point a regular system of parameters of `𝒪_{Y,y}` maps to part of one of
@@ -66,6 +77,10 @@ We follow Hartshorne's proof.
 -/
 
 namespace Hartshorne
+
+-- A definitionally equal duplicate of `schemeModulesStalkModule`, the instance used by
+-- `moduleFiberDim`; erased so that the fibre-dimension lemmas below apply syntactically.
+attribute [-instance] moduleSheafStalkModule
 
 noncomputable section
 
@@ -148,7 +163,256 @@ theorem finrank_tensor_kaehler_eq_of_isLocalization (q : Ideal T) [q.IsPrime]
       finrank q.ResidueField (q.ResidueField ⊗[T] Ω[T⁄R]) := Module.finrank_baseChange
   rw [e₂.finrank_eq, ← e₃.finrank_eq, hbase]
 
+omit [IsLocalRing B] in
+/-- Let `R → T` with `Ω_{T/R} = 0`, and let `T → A → B`. If `B ⊗_A Ω_{A/T} → Ω_{B/T} → Ω_{B/A}` is
+exact, then so is `B ⊗_A Ω_{A/R} → Ω_{B/R} → Ω_{B/A}`. -/
+theorem exact_mapBaseChange_map_of_subsingleton [Algebra T A] [IsScalarTower R T A]
+    [IsScalarTower T A B] [Subsingleton Ω[T⁄R]]
+    (h : Function.Exact (mapBaseChange T A B) (map T A B B)) :
+    Function.Exact (mapBaseChange R A B) (map R A B B) := by
+  -- `Ω_{B/R} → Ω_{B/T}` is injective, and compatible with the maps to `Ω_{B/A}`
+  have hinj : Function.Injective (map R T B B) := map_injective_of_subsingleton
+  have hmap : ∀ ω, map T A B B (map R T B B ω) = map R A B B ω := fun ω ↦ by
+    have hω : ω ∈ Submodule.span B (Set.range (D R B)) := by
+      rw [span_range_derivation]; trivial
+    induction hω using Submodule.span_induction with
+    | mem _ h =>
+      obtain ⟨b, rfl⟩ := h
+      simp only [map_D, Algebra.algebraMap_self, RingHom.id_apply]
+    | zero => simp only [map_zero]
+    | add x y _ _ hx hy => rw [map_add, map_add, map_add, hx, hy]
+    | smul c x _ hx => rw [map_smul, map_smul, map_smul, hx]
+  -- and with the maps from `B ⊗_A Ω_{A/R}` and `B ⊗_A Ω_{A/T}`
+  have hbc : ∀ u, map R T B B (mapBaseChange R A B u) =
+      mapBaseChange T A B ((map R T A A).lTensor B u) := fun u ↦ by
+    induction u using TensorProduct.induction_on with
+    | zero => simp only [map_zero]
+    | tmul b α =>
+      have hα : α ∈ Submodule.span A (Set.range (D R A)) := by
+        rw [span_range_derivation]; trivial
+      induction hα using Submodule.span_induction generalizing b with
+      | mem _ h =>
+        obtain ⟨a, rfl⟩ := h
+        rw [LinearMap.lTensor_tmul, mapBaseChange_tmul, mapBaseChange_tmul, map_smul]
+        simp only [map_D, Algebra.algebraMap_self, RingHom.id_apply]
+      | zero => simp only [TensorProduct.tmul_zero, map_zero]
+      | add x y _ _ hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
+      | smul a x _ h => rw [← TensorProduct.smul_tmul, h]
+    | add u v hu hv => rw [map_add, map_add, map_add, map_add, hu, hv]
+  intro ω
+  constructor
+  · intro hω
+    obtain ⟨u', hu'⟩ := (h (map R T B B ω)).mp (by rw [hmap, hω])
+    obtain ⟨u, rfl⟩ := LinearMap.lTensor_surjective B (map_surjective R T A) u'
+    exact ⟨u, hinj (by rw [hbc, hu'])⟩
+  · rintro ⟨u, rfl⟩
+    rw [← hmap, hbc]
+    exact (h _).mpr ⟨_, rfl⟩
+
 end Algebra
+
+section StalkTransitivity
+
+open Ringed ModuleSheafTensor ClosedConormal CategoryTheory.Limits Scheme
+
+/-- On a ringed space, the stalk functor at a point carries a cokernel presentation
+`M ⟶ N ⟶ P ⟶ 0` of `𝒪_X`-modules to an exact sequence of `𝒪_{X,x}`-modules: the stalk functor is
+a left adjoint, so it preserves cokernels. -/
+theorem stalk_exact_of_isColimit {T : TopCat.{u}}
+    {R : Sheaf (Opens.grothendieckTopology T) CommRingCat.{u}} (x : T)
+    {M N P : SheafOfModules.{u} (ringCatSheafOf R)} {φ : M ⟶ N} {ψ : N ⟶ P} (w : φ ≫ ψ = 0)
+    (hc : IsColimit (CokernelCofork.ofπ ψ w)) :
+    Function.Exact ((moduleStalkFunctor x).map φ) ((moduleStalkFunctor x).map ψ) ∧
+      Function.Surjective ((moduleStalkFunctor x).map ψ) := by
+  have := (moduleStalkSkyscraperAdjunction (R := R) x).isLeftAdjoint
+  have := (moduleStalkSkyscraperAdjunction (R := R) x).leftAdjoint_preservesColimits
+  let S := ShortComplex.mk ((moduleStalkFunctor x).map φ) ((moduleStalkFunctor x).map ψ)
+    (by rw [← Functor.map_comp, w, Functor.map_zero])
+  obtain ⟨hS, hepi⟩ := S.exact_and_epi_g_iff_g_is_cokernel.mpr
+    ⟨CokernelCofork.mapIsColimit _ hc (moduleStalkFunctor x)⟩
+  exact ⟨(ShortComplex.ShortExact.moduleCat_exact_iff_function_exact S).mp hS,
+    (ModuleCat.epi_iff_surjective _).mp hepi⟩
+
+/-- On stalks, the map `Ω_{X/S} ⟶ Ω_{X/Y}` of II.8.11 sends `(d s)_x` to `(d s)_x`. -/
+theorem map_stalkD_relativeDifferentialsCompToLeft {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ S)
+    (x : X) (r : ringSheafStalk X.sheaf x) :
+    (moduleStalkFunctor (R := X.sheaf) x).map (relativeDifferentialsCompToLeft f g)
+      (stalkD (f ≫ g) x r) = stalkD f x r := by
+  obtain ⟨U, hU, s, rfl⟩ := TopCat.Presheaf.exists_germ_eq X.sheaf.obj r
+  erw [stalkD_germ, stalkD_germ]
+  unfold germD
+  erw [moduleStalkFunctor_map_germ, relativeDifferentialsCompToLeft_d]
+
+/-- **The stalk of the exact sequence of Hartshorne II, Proposition 8.11.** For morphisms
+`f : X ⟶ Y` and `g : Y ⟶ S` and a point `x ∈ X`, put `A = 𝒪_{S,g(f x)}`, `B = 𝒪_{Y,f x}` and
+`C = 𝒪_{X,x}`. Then `C ⊗_B Ω_{B/A} → Ω_{C/A} → Ω_{C/B}` is exact.
+
+This is deduced from the sheaf-level sequence `f^*Ω_{Y/S} ⟶ Ω_{X/S} ⟶ Ω_{X/Y} ⟶ 0`
+(`relativeDifferentialsTransitivityIsColimit`): its stalk at `x` is exact, and it is compared with
+the algebraic sequence by `1 ⊗ db ↦ (f^* d b)_x`, which is surjective, and `dc ↦ (d c)_x`, which
+is bijective for both `Ω_{C/A}` and `Ω_{C/B}`. -/
+theorem stalk_kaehler_transitivity_exact {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ S) (x : X) :
+    letI := (f.stalkMap x).hom.toAlgebra
+    letI := (g.stalkMap (f x)).hom.toAlgebra
+    letI : Algebra (S.presheaf.stalk (g (f x))) (X.presheaf.stalk x) :=
+      ((f.stalkMap x).hom.comp (g.stalkMap (f x)).hom).toAlgebra
+    haveI : IsScalarTower (S.presheaf.stalk (g (f x))) (Y.presheaf.stalk (f x))
+        (X.presheaf.stalk x) := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+    Function.Exact
+      (mapBaseChange (S.presheaf.stalk (g (f x))) (Y.presheaf.stalk (f x)) (X.presheaf.stalk x))
+      (map (S.presheaf.stalk (g (f x))) (Y.presheaf.stalk (f x)) (X.presheaf.stalk x)
+        (X.presheaf.stalk x)) := by
+  let A := ringSheafStalk S.sheaf (g (f x))
+  let B := ringSheafStalk Y.sheaf (f x)
+  let C := ringSheafStalk X.sheaf x
+  let _ : Algebra B C := (stalkHom f x).toAlgebra
+  let _ : Algebra A B := (stalkHom g (f x)).toAlgebra
+  let _ : Algebra A C := ((stalkHom f x).comp (stalkHom g (f x))).toAlgebra
+  have _ : IsScalarTower A B C := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  -- the stalk at `x` of the exact sequence `f^*Ω_{Y/S} ⟶ Ω_{X/S} ⟶ Ω_{X/Y} ⟶ 0` of II.8.11
+  have hex := (stalk_exact_of_isColimit (R := X.sheaf) x _
+    (relativeDifferentialsTransitivityIsColimit f g)).1
+  let T1 := (moduleStalkFunctor (R := X.sheaf) x).obj
+    ((Modules.pullback f).obj (relativeDifferentials g))
+  let T2 := (moduleStalkFunctor (R := X.sheaf) x).obj (relativeDifferentials (f ≫ g))
+  let T3 := (moduleStalkFunctor (R := X.sheaf) x).obj (relativeDifferentials f)
+  let _ : Module B T1 := Module.compHom T1 (stalkHom f x)
+  have _ : IsScalarTower B C T1 := ⟨fun a b c ↦ mul_smul (stalkHom f x a) b c⟩
+  let _ : Module A T1 := Module.compHom T1 (algebraMap A C)
+  have _ : IsScalarTower A B T1 := ⟨fun a b c ↦ by
+    change (stalkHom f x (stalkHom g (f x) a * b)) • c =
+      (stalkHom f x (stalkHom g (f x) a)) • (stalkHom f x b • c)
+    rw [map_mul, mul_smul]⟩
+  let _ : Module A T2 := Module.compHom T2 (algebraMap A C)
+  have _ : IsScalarTower A C T2 := ⟨fun a b c ↦ mul_smul (algebraMap A C a) b c⟩
+  let _ : Module B T3 := Module.compHom T3 (algebraMap B C)
+  have _ : IsScalarTower B C T3 := ⟨fun a b c ↦ mul_smul (algebraMap B C a) b c⟩
+  -- the sections `d (g^♯ t)` and `d (f^♯ t)` vanish
+  have hk1 : ∀ a : A, stalkUnitD f g x (algebraMap A B a) = 0 := fun a ↦ by
+    obtain ⟨V, hV, t, rfl⟩ := TopCat.Presheaf.exists_germ_eq S.sheaf.obj a
+    erw [Scheme.Hom.germ_stalkMap_apply]
+    exact stalkUnitD_app f g x V t hV
+  have hk2 : ∀ a : A, stalkD (f ≫ g) x (algebraMap A C a) = 0 := fun a ↦ by
+    obtain ⟨V, hV, t, rfl⟩ := TopCat.Presheaf.exists_germ_eq S.sheaf.obj a
+    erw [stalkHom_stalkHom_germ f g x V t hV]
+    exact stalkD_app (f ≫ g) x V t hV
+  have hk3 : ∀ b : B, stalkD f x (algebraMap B C b) = 0 := fun b ↦ by
+    obtain ⟨V, hV, t, rfl⟩ := TopCat.Presheaf.exists_germ_eq Y.sheaf.obj b
+    erw [Scheme.Hom.germ_stalkMap_apply]
+    exact stalkD_app f x V t hV
+  -- the derivations `B → (f^*Ω_{Y/S})_x`, `C → (Ω_{X/S})_x` and `C → (Ω_{X/Y})_x`
+  let D1 : Derivation A B T1 := Derivation.mk'
+    { toFun := stalkUnitD f g x
+      map_add' := stalkUnitD_add f g x
+      map_smul' := fun a r ↦ by
+        change stalkUnitD f g x (algebraMap A B a * r) = algebraMap A C a • _
+        rw [stalkUnitD_mul, hk1, smul_zero, add_zero]
+        rfl }
+    (stalkUnitD_mul f g x)
+  let D2 : Derivation A C T2 := Derivation.mk'
+    { toFun := stalkD (f ≫ g) x
+      map_add' := stalkD_add (f ≫ g) x
+      map_smul' := fun a r ↦ by
+        change stalkD (f ≫ g) x (algebraMap A C a * r) = algebraMap A C a • _
+        rw [stalkD_mul, hk2, smul_zero, add_zero] }
+    (stalkD_mul (f ≫ g) x)
+  let D3 : Derivation B C T3 := Derivation.mk'
+    { toFun := stalkD f x
+      map_add' := stalkD_add f x
+      map_smul' := fun b r ↦ by
+        change stalkD f x (algebraMap B C b * r) = algebraMap B C b • _
+        rw [stalkD_mul, hk3, smul_zero, add_zero] }
+    (stalkD_mul f x)
+  let φ1 : C ⊗[B] Ω[B⁄A] →ₗ[C] T1 := D1.liftKaehlerDifferential.liftBaseChange C
+  let φ2 : Ω[C⁄A] →ₗ[C] T2 := D2.liftKaehlerDifferential
+  let φ3 : Ω[C⁄B] →ₗ[C] T3 := D3.liftKaehlerDifferential
+  let p := ((moduleStalkFunctor (R := X.sheaf) x).map
+    (pullbackRelativeDifferentialsToComp f g)).hom
+  let q := ((moduleStalkFunctor (R := X.sheaf) x).map (relativeDifferentialsCompToLeft f g)).hom
+  -- the comparison squares commute
+  have hcomm1 : ∀ w, p (φ1 w) = φ2 (mapBaseChange A B C w) := by
+    intro w
+    induction w using TensorProduct.induction_on with
+    | zero => rw [map_zero, map_zero, map_zero, map_zero]
+    | tmul c ω =>
+      have hω : ω ∈ Submodule.span B (Set.range (D A B)) := by
+        rw [span_range_derivation]; trivial
+      induction hω using Submodule.span_induction generalizing c with
+      | mem _ h =>
+        obtain ⟨r, rfl⟩ := h
+        rw [LinearMap.liftBaseChange_tmul, mapBaseChange_tmul, map_smul, map_smul, map_D,
+          Derivation.liftKaehlerDifferential_comp_D, Derivation.liftKaehlerDifferential_comp_D]
+        exact congrArg (c • ·) (map_stalkUnitD f g x r)
+      | zero => rw [TensorProduct.tmul_zero, map_zero, map_zero, map_zero, map_zero]
+      | add x y _ _ hx hy => rw [TensorProduct.tmul_add, map_add, map_add, hx, hy, map_add, map_add]
+      | smul r ω _ h => rw [← TensorProduct.smul_tmul, h]
+    | add w w' hw hw' => rw [map_add, map_add, hw, hw', map_add, map_add]
+  have hcomm2 : ∀ ω, q (φ2 ω) = φ3 (map A B C C ω) := by
+    intro ω
+    have hω : ω ∈ Submodule.span C (Set.range (D A C)) := by
+      rw [span_range_derivation]; trivial
+    induction hω using Submodule.span_induction with
+    | mem _ h =>
+      obtain ⟨r, rfl⟩ := h
+      rw [map_D, Derivation.liftKaehlerDifferential_comp_D,
+        Derivation.liftKaehlerDifferential_comp_D]
+      exact map_stalkD_relativeDifferentialsCompToLeft f g x r
+    | zero => rw [map_zero, map_zero, map_zero, map_zero]
+    | add x y _ _ hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
+    | smul r ω _ h => rw [map_smul, map_smul, map_smul, map_smul, h]
+  -- `C ⊗_B Ω_{B/A} ⟶ (f^*Ω_{Y/S})_x` is surjective
+  have hφ1 : Function.Surjective φ1 := by
+    rw [← LinearMap.range_eq_top, eq_top_iff, ← span_germUnitD f g x, Submodule.span_le]
+    rintro _ ⟨U, hU, s, rfl⟩
+    refine ⟨1 ⊗ₜ D A B (TopCat.Presheaf.germ Y.sheaf.obj U (f x) hU s), ?_⟩
+    rw [LinearMap.liftBaseChange_tmul, one_smul, Derivation.liftKaehlerDifferential_comp_D]
+    exact stalkUnitD_germ f g x U hU s
+  -- `Ω_{C/A} ⟶ (Ω_{X/S})_x` and `Ω_{C/B} ⟶ (Ω_{X/Y})_x` are injective
+  have hφ2 : Function.Injective φ2 := by
+    obtain ⟨b, hb⟩ := exists_stalkD_inverse (f ≫ g) x (A := A) fun V t hz ↦ by
+      erw [← stalkHom_stalkHom_germ f g x V t hz]
+      exact (D A C).map_algebraMap _
+    refine Function.LeftInverse.injective (g := b) fun ω ↦ ?_
+    have hω : ω ∈ Submodule.span C (Set.range (D A C)) := by
+      rw [span_range_derivation]; trivial
+    induction hω using Submodule.span_induction with
+    | mem _ h =>
+      obtain ⟨r, rfl⟩ := h
+      obtain ⟨U, hU, s, rfl⟩ := TopCat.Presheaf.exists_germ_eq X.sheaf.obj r
+      rw [Derivation.liftKaehlerDifferential_comp_D]
+      exact (congrArg b (stalkD_germ (f ≫ g) x U hU s)).trans (hb U hU s)
+    | zero => rw [map_zero, map_zero]
+    | add x y _ _ hx hy => rw [map_add, map_add, hx, hy]
+    | smul r x _ h => rw [map_smul, map_smul, h]
+  have hφ3 : Function.Injective φ3 := by
+    obtain ⟨b, hb⟩ := exists_stalkD_inverse f x (A := B) fun V t hz ↦ by
+      erw [← Scheme.Hom.germ_stalkMap_apply f V x hz t]
+      exact (D B C).map_algebraMap _
+    refine Function.LeftInverse.injective (g := b) fun ω ↦ ?_
+    have hω : ω ∈ Submodule.span C (Set.range (D B C)) := by
+      rw [span_range_derivation]; trivial
+    induction hω using Submodule.span_induction with
+    | mem _ h =>
+      obtain ⟨r, rfl⟩ := h
+      obtain ⟨U, hU, s, rfl⟩ := TopCat.Presheaf.exists_germ_eq X.sheaf.obj r
+      rw [Derivation.liftKaehlerDifferential_comp_D]
+      exact (congrArg b (stalkD_germ f x U hU s)).trans (hb U hU s)
+    | zero => rw [map_zero, map_zero]
+    | add x y _ _ hx hy => rw [map_add, map_add, hx, hy]
+    | smul r x _ h => rw [map_smul, map_smul, h]
+  change Function.Exact (mapBaseChange A B C) (map A B C C)
+  intro ω
+  constructor
+  · intro hω
+    obtain ⟨t, ht⟩ := (hex (φ2 ω)).mp (by change q (φ2 ω) = 0; rw [hcomm2, hω, map_zero])
+    obtain ⟨w, rfl⟩ := hφ1 t
+    exact ⟨w, hφ2 (by rw [← hcomm1]; exact ht)⟩
+  · rintro ⟨w, rfl⟩
+    apply hφ3
+    rw [← hcomm2, ← hcomm1, map_zero]
+    exact (hex _).mpr ⟨_, rfl⟩
+
+end StalkTransitivity
 
 section Scheme
 
@@ -401,7 +665,9 @@ theorem finrank_cotangentSpace_eq_of_isRegularAt {k : Type u} [Field k] [IsAlgCl
 /-- At a closed point `x` of a scheme of finite type over an algebraically closed field `k`, for a
 `k`-morphism `f : X ⟶ Y`, the scalar-extended cotangent map
 `κ(x) ⊗ 𝔪_{f x}/𝔪_{f x}² → 𝔪_x/𝔪_x²` is injective if and only if
-`dim κ(x) ⊗ (Ω_{X/Y})_x + dim 𝔪_{f x}/𝔪_{f x}² = dim 𝔪_x/𝔪_x²`. -/
+`dim κ(x) ⊗ (Ω_{X/Y})_x + dim 𝔪_{f x}/𝔪_{f x}² = dim 𝔪_x/𝔪_x²`. This is the dimension count in the
+fibre at `x` of the exact sequence `f^*Ω_{Y/k} → Ω_{X/k} → Ω_{X/Y} → 0` of II.8.11, taken on stalks
+(`stalk_kaehler_transitivity_exact`) and identified with the cotangent sequence by II.8.7. -/
 theorem injective_localCotangentBaseChange_iff_of_isClosed {k : Type u} [Field k]
     [IsAlgClosed k] {X Y : Over (Spec (CommRingCat.of k))} (hX : LocallyOfFiniteType X.hom)
     (f : X ⟶ Y) (x : X.left) (hx : IsClosed ({x} : Set X.left))
@@ -439,7 +705,44 @@ theorem injective_localCotangentBaseChange_iff_of_isClosed {k : Type u} [Field k
   have hk : Function.Bijective
       (algebraMap Γ(Spec (.of k), ⊤) (ResidueField (X.left.presheaf.stalk x))) :=
     bijective_residue_germ_appTop X.hom x hx
-  rw [CotangentKaehler.injective_localCotangentBaseChange_iff Γ(Spec (.of k), ⊤) _ _ hk,
+  -- the stalk at `x` of the exact sequence of II.8.11 for `X ⟶ Y ⟶ Spec k`, over the stalk `S₀`
+  -- of `Spec k`, and then over `k` itself
+  have hex : Function.Exact
+      (mapBaseChange Γ(Spec (.of k), ⊤) (Y.left.presheaf.stalk (f.left x))
+        (X.left.presheaf.stalk x))
+      (map Γ(Spec (.of k), ⊤) (Y.left.presheaf.stalk (f.left x)) (X.left.presheaf.stalk x)
+        (X.left.presheaf.stalk x)) := by
+    let S₀ := (Spec (.of k)).presheaf.stalk (Y.hom (f.left x))
+    let _ : Algebra S₀ (Y.left.presheaf.stalk (f.left x)) :=
+      (Y.hom.stalkMap (f.left x)).hom.toAlgebra
+    let _ : Algebra S₀ (X.left.presheaf.stalk x) :=
+      ((f.left.stalkMap x).hom.comp (Y.hom.stalkMap (f.left x)).hom).toAlgebra
+    have : IsScalarTower S₀ (Y.left.presheaf.stalk (f.left x)) (X.left.presheaf.stalk x) :=
+      IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+    let p : (⊤ : (Spec (.of k)).Opens) := ⟨Y.hom (f.left x), trivial⟩
+    let : Algebra Γ(Spec (.of k), ⊤) S₀ :=
+      TopCat.Presheaf.algebra_section_stalk (Spec (.of k)).presheaf p
+    have : IsLocalization.AtPrime S₀ ((isAffineOpen_top (Spec (.of k))).primeIdealOf p).asIdeal :=
+      (isAffineOpen_top (Spec (.of k))).isLocalization_stalk p
+    have : Algebra.FormallyUnramified Γ(Spec (.of k), ⊤) S₀ :=
+      Algebra.FormallyUnramified.of_isLocalization
+        ((isAffineOpen_top (Spec (.of k))).primeIdealOf p).asIdeal.primeCompl
+    have hY : ∀ c : Γ(Spec (.of k), ⊤), Y.hom.stalkMap (f.left x)
+        ((Spec (.of k)).presheaf.germ ⊤ (Y.hom (f.left x)) trivial c) =
+          Y.left.presheaf.germ ⊤ (f.left x) trivial (Y.hom.appTop c) := fun c ↦
+      Scheme.Hom.germ_stalkMap_apply Y.hom ⊤ (f.left x) trivial c
+    have : IsScalarTower Γ(Spec (.of k), ⊤) S₀ (Y.left.presheaf.stalk (f.left x)) :=
+      IsScalarTower.of_algebraMap_eq fun c ↦ (hY c).symm
+    have : IsScalarTower Γ(Spec (.of k), ⊤) S₀ (X.left.presheaf.stalk x) :=
+      IsScalarTower.of_algebraMap_eq fun c ↦ by
+        change X.left.presheaf.germ ⊤ x trivial (X.hom.appTop c) =
+          f.left.stalkMap x (Y.hom.stalkMap (f.left x)
+            ((Spec (.of k)).presheaf.germ ⊤ (Y.hom (f.left x)) trivial c))
+        rw [hY, ← Over.w f]
+        exact (Scheme.Hom.germ_stalkMap_apply f.left ⊤ x trivial (Y.hom.appTop c)).symm
+    exact exact_mapBaseChange_map_of_subsingleton (T := S₀)
+      (stalk_kaehler_transitivity_exact f.left Y.hom x)
+  rw [CotangentKaehler.injective_localCotangentBaseChange_iff Γ(Spec (.of k), ⊤) _ _ hk hex,
     finrank_fibre_relativeDifferentials_eq_stalk]
 
 end ClosedPoint

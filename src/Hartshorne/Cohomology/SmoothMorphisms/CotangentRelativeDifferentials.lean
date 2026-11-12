@@ -18,7 +18,10 @@ isomorphically onto the residue field `κ_B` of `B`. Then the sequence of `κ_B`
 
 is exact, where the second map sends the class of `b` to `1 ⊗ db`. This is the fibre at the
 closed point of the exact sequence `f^* Ω_Y → Ω_X → Ω_{X/Y} → 0` after the identifications
-`Ω_X ⊗ k(x) ≅ 𝔪_x/𝔪_x²` of Hartshorne II.8.7.
+`Ω_X ⊗ k(x) ≅ 𝔪_x/𝔪_x²` of Hartshorne II.8.7. Exactness in the middle is deduced from the
+exactness of `B ⊗_A Ω_{A/k} → Ω_{B/k} → Ω_{B/A}`, the stalk of II.8.11, taken as a hypothesis
+(at a point of a scheme it is supplied by
+`Hartshorne.SmoothTangent.stalk_kaehler_transitivity_exact`).
 
 ## Main results
 
@@ -123,9 +126,12 @@ theorem cotangentToFiber_localCotangentMap (ω : CotangentSpace A) :
   simp
 
 /-- Exactness in the middle, the hard inclusion: an element of `𝔪_B/𝔪_B²` with `1 ⊗ db = 0` in
-`κ_B ⊗_B Ω_{B/A}` comes from `κ_B ⊗_{κ_A} 𝔪_A/𝔪_A²`. -/
+`κ_B ⊗_B Ω_{B/A}` comes from `κ_B ⊗_{κ_A} 𝔪_A/𝔪_A²`, given that
+`B ⊗_A Ω_{A/k} → Ω_{B/k} → Ω_{B/A}` is exact. -/
 theorem mem_range_of_cotangentToFiber_eq_zero
-    (hk : Function.Bijective (algebraMap k (ResidueField B))) (ξ : CotangentSpace B)
+    (hk : Function.Bijective (algebraMap k (ResidueField B)))
+    (hex : Function.Exact (KaehlerDifferential.mapBaseChange k A B)
+      (KaehlerDifferential.map k A B B)) (ξ : CotangentSpace B)
     (hξ : cotangentToFiber A B ξ = 0) :
     ξ ∈ LinearMap.range (localCotangentBaseChange A B) := by
   set W := LinearMap.range (localCotangentBaseChange A B)
@@ -134,10 +140,9 @@ theorem mem_range_of_cotangentToFiber_eq_zero
     intro ξ
     obtain ⟨b, rfl⟩ := Ideal.toCotangent_surjective _ ξ
     simp [cotangentToFiber_toCotangent]
-  have hex := lTensor_exact (ResidueField B) (KaehlerDifferential.exact_mapBaseChange_map k A B)
-    (KaehlerDifferential.map_surjective k A B)
+  have hex' := lTensor_exact (ResidueField B) hex (KaehlerDifferential.map_surjective k A B)
   rw [hcomp] at hξ
-  obtain ⟨t, ht⟩ := (hex _).mp hξ
+  obtain ⟨t, ht⟩ := (hex' _).mp hξ
   have gen : ∀ (c : ResidueField B) (a : A), ∃ η ∈ W,
       cotangentToFiber k B η = c ⊗ₜ D k B (algebraMap A B a) := by
     intro c a
@@ -204,11 +209,13 @@ theorem mem_range_of_cotangentToFiber_eq_zero
   rwa [cotangentToFiber_injective B hk (hηt.trans ht)] at hη
 
 /-- **Exactness in the middle** of `κ_B ⊗_{κ_A} 𝔪_A/𝔪_A² → 𝔪_B/𝔪_B² → κ_B ⊗_B Ω_{B/A}`, for local
-`k`-algebras with `k ≅ κ_B`. -/
-theorem ker_cotangentToFiber (hk : Function.Bijective (algebraMap k (ResidueField B))) :
+`k`-algebras with `k ≅ κ_B`, given that `B ⊗_A Ω_{A/k} → Ω_{B/k} → Ω_{B/A}` is exact. -/
+theorem ker_cotangentToFiber (hk : Function.Bijective (algebraMap k (ResidueField B)))
+    (hex : Function.Exact (KaehlerDifferential.mapBaseChange k A B)
+      (KaehlerDifferential.map k A B B)) :
     LinearMap.ker (cotangentToFiber A B) = LinearMap.range (localCotangentBaseChange A B) := by
   ext ξ
-  refine ⟨mem_range_of_cotangentToFiber_eq_zero k A B hk ξ, ?_⟩
+  refine ⟨mem_range_of_cotangentToFiber_eq_zero k A B hk hex ξ, ?_⟩
   rintro ⟨t, rfl⟩
   rw [LinearMap.mem_ker]
   induction t using TensorProduct.induction_on with
@@ -218,29 +225,35 @@ theorem ker_cotangentToFiber (hk : Function.Bijective (algebraMap k (ResidueFiel
   | add x y hx hy => rw [map_add, map_add, hx, hy, add_zero]
 
 /-- **Dimension count.** For a local homomorphism `A → B` of local `k`-algebras with `k ≅ κ_B` and
-`B` Noetherian, `dim κ_B ⊗_B Ω_{B/A} + rank (κ_B ⊗ 𝔪_A/𝔪_A² → 𝔪_B/𝔪_B²) = dim 𝔪_B/𝔪_B²`. -/
+`B` Noetherian, `dim κ_B ⊗_B Ω_{B/A} + rank (κ_B ⊗ 𝔪_A/𝔪_A² → 𝔪_B/𝔪_B²) = dim 𝔪_B/𝔪_B²`, given
+that `B ⊗_A Ω_{A/k} → Ω_{B/k} → Ω_{B/A}` is exact. -/
 theorem finrank_fiber_add_finrank_range [IsNoetherianRing B]
-    (hk : Function.Bijective (algebraMap k (ResidueField B))) :
+    (hk : Function.Bijective (algebraMap k (ResidueField B)))
+    (hex : Function.Exact (KaehlerDifferential.mapBaseChange k A B)
+      (KaehlerDifferential.map k A B B)) :
     finrank (ResidueField B) (ResidueField B ⊗[B] Ω[B⁄A]) +
         finrank (ResidueField B) (LinearMap.range (localCotangentBaseChange A B)) =
       finrank (ResidueField B) (CotangentSpace B) := by
-  rw [← ker_cotangentToFiber k A B hk,
+  rw [← ker_cotangentToFiber k A B hk hex,
     ← LinearMap.finrank_range_add_finrank_ker (cotangentToFiber A B),
     LinearMap.range_eq_top.mpr (cotangentToFiber_surjective k A B hk.2), finrank_top]
 
 /-- **Hartshorne III, proof of Proposition 10.4** (local form). For a local homomorphism `A → B`
-of Noetherian local `k`-algebras with `k ≅ κ_B`, the scalar-extended cotangent map
+of Noetherian local `k`-algebras with `k ≅ κ_B` such that `B ⊗_A Ω_{A/k} → Ω_{B/k} → Ω_{B/A}` is
+exact (the stalk of the sequence of II.8.11), the scalar-extended cotangent map
 `κ_B ⊗_{κ_A} 𝔪_A/𝔪_A² → 𝔪_B/𝔪_B²` is injective if and only if
 `dim κ_B ⊗_B Ω_{B/A} + dim 𝔪_A/𝔪_A² = dim 𝔪_B/𝔪_B²`. -/
 theorem injective_localCotangentBaseChange_iff [IsNoetherianRing A] [IsNoetherianRing B]
-    (hk : Function.Bijective (algebraMap k (ResidueField B))) :
+    (hk : Function.Bijective (algebraMap k (ResidueField B)))
+    (hex : Function.Exact (KaehlerDifferential.mapBaseChange k A B)
+      (KaehlerDifferential.map k A B B)) :
     Function.Injective (localCotangentBaseChange A B) ↔
       finrank (ResidueField B) (ResidueField B ⊗[B] Ω[B⁄A]) +
           finrank (ResidueField A) (CotangentSpace A) =
         finrank (ResidueField B) (CotangentSpace B) := by
   have hbc : finrank (ResidueField B) (ResidueField B ⊗[ResidueField A] CotangentSpace A) =
       finrank (ResidueField A) (CotangentSpace A) := Module.finrank_baseChange
-  rw [← finrank_fiber_add_finrank_range k A B hk, Nat.add_left_cancel_iff, ← hbc]
+  rw [← finrank_fiber_add_finrank_range k A B hk hex, Nat.add_left_cancel_iff, ← hbc]
   constructor
   · exact fun h ↦ (LinearMap.finrank_range_of_inj h).symm
   · intro h
