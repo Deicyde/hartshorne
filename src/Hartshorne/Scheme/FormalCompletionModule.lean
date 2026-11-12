@@ -222,7 +222,8 @@ def moduleCompletionMap (n : ℕ) :
   (SheafOfModules.pushforward.{u} (I.formalCompletionRingCatSheafπ (n + 1))).map
       (I.moduleCompletionNeighborhoodMap F n) ≫
     sheafOfModulesPushforwardCompRestrict (I.functorToPreimageInfinitesimalNeighborhoodSucc n)
-      (I.infinitesimalNeighborhoodSucc n).toRingCatSheafHom (I.formalCompletionRingCatSheafπ (n + 1))
+      (I.infinitesimalNeighborhoodSucc n).toRingCatSheafHom
+        (I.formalCompletionRingCatSheafπ (n + 1))
       (I.formalCompletionRingCatSheafπ n)
       (fun V r => I.formalCompletionSheafMap_limit_π_apply n V.unop r)
       (I.moduleCompletionNeighborhood F n)
