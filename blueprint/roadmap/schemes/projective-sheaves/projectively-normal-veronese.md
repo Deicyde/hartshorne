@@ -18,6 +18,7 @@ subring.
 ## Depends on
 
 - [Normal schemes](../normalization-and-exercises/normal-scheme.md)
+- [The projective-normality criterion](projective-normality-criterion.md)
 
 ## Proof depends on
 
