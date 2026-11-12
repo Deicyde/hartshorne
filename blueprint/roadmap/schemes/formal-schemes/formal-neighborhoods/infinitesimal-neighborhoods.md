@@ -10,9 +10,9 @@ proof: formalized
 # Infinitesimal neighbourhoods
 
 Let $X$ be a Noetherian scheme and let $Y \hookrightarrow X$ be a closed subscheme with
-module ideal sheaf $I \hookrightarrow \mathcal{O}_X$. For nonnegative integer $n$, define the $n$th infinitesimal
-neighbourhood $Y n$ to be the closed subscheme cut out by $I^{n+1}$.
-In particular $Y 0 = Y$; there is no artificial quotient by $I^0$.
+module ideal sheaf $I \hookrightarrow \mathcal{O}_X$. For every integer $n \ge 1$, define the
+closed subscheme $Y_n$ of $X$ to be the one cut out by the $n$th power $I^{n}$ of $I$. In
+particular $Y_1 = Y$.
 The construction itself does not use that $X$ is Noetherian; the hypothesis is kept because it is Hartshorne's setting for formal completions.
 
 The powers are taken in the ideal sheaf. On affine opens, this
