@@ -10,6 +10,8 @@ For a Noetherian ring $A$ and ideal $I$, define project notation
 
 $\operatorname{Spf}_I(A)=\widehat{\operatorname{Spec}A}_{V(I)}$.
 
+The construction does not use that $A$ is Noetherian; the hypothesis is kept because it is Hartshorne's setting for formal schemes.
+
 An affine Noetherian formal scheme is one isomorphic to such an object. This
 is a representation bridge for Hartshorne's affine-completion definition;
 Hartshorne does not introduce the notation $\operatorname{Spf}$, and this node asserts no
