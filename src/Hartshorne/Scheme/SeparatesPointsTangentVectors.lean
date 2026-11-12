@@ -31,15 +31,29 @@ separates points and tangent vectors.
 
 ## Main results
 
-* `germ_mem_maximalIdeal_smul_top_iff`: `s_P ∈ 𝔪_P L_P` iff `P` is not in the nonvanishing locus
-  `X_s`.
+* `isClosedImmersion_iff_sectionsSeparatePoints_and_sectionsSeparateTangentVectors`:
+  Proposition 7.3.
+* `isClosedImmersion_of_sectionsSeparatePoints_of_sectionsSeparateTangentVectors`: the direction
+  (⇐); `sectionsSeparatePoints_of_injective` and
+  `sectionsSeparateTangentVectors_of_isClosedImmersion`: the direction (⇒).
+
+Steps of (⇐), following Hartshorne:
+
 * `mem_nonvanishingLocus_linearSystemSection_iff`: the section `∑ aᵢ sᵢ ∈ V` is the pullback of
-  the linear form `∑ aᵢ xᵢ`, so `X_{∑ aᵢ sᵢ} = φ⁻¹(D₊(∑ aᵢ xᵢ))`: the hyperplane `∑ aᵢ xᵢ = 0`
-  pulls back to the zeros of `∑ aᵢ sᵢ`.
-* `eq_of_sectionsSeparatePoints`: if `V` separates points, `φ` is injective on closed points.
-* `injective_of_sectionsSeparatePoints`, `isClosedEmbedding_of_sectionsSeparatePoints`: for `X`
-  projective over `k`, if `V` separates points then `φ` is injective and a homeomorphism onto a
-  closed subset of `ℙⁿ_k` (the first step of the proof of (⇐)).
+  the linear form `∑ aᵢ xᵢ`, so the hyperplane `∑ aᵢ xᵢ = 0` pulls back to its zeros;
+* `isClosedEmbedding_of_sectionsSeparatePoints`: separation of points makes `φ` injective, and `φ`
+  is proper, so `φ` is a homeomorphism onto a closed subset;
+* `moduleFinite_stalk_of_sectionsSeparatePoints`: `φ_* 𝒪_X` is coherent (Corollary 5.20), so
+  `𝒪_{X,P}` is a finite `𝒪_{ℙⁿ, φ(P)}`-module;
+* `residueField_map_bijective_of_isClosed` and
+  `maximalIdealToCotangent_surjective_of_sectionsSeparateTangentVectors`: at a closed point the
+  residue fields agree and `𝔪_{φ(P)} → 𝔪_P / 𝔪_P²` is surjective, so by Lemma 7.4
+  (`stalkMap_surjective_of_sectionsSeparateTangentVectors`) `𝒪_{ℙⁿ, φ(P)} → 𝒪_{X,P}` is
+  surjective; surjectivity at the other points follows by localization.
+
+For (⇒), a closed point of `ℙⁿ_k` is a `k`-point `(a₀ : ⋯ : aₙ)`, so hyperplanes separate the
+images of distinct closed points, and the maximal ideal of `𝒪_{ℙⁿ, z}` at such a point is spanned
+modulo its square by linear functions.
 -/
 
 noncomputable section
@@ -214,9 +228,9 @@ theorem eq_of_sectionsSeparatePoints (hsep : SectionsSeparatePoints (linearSyste
 include hφ he in
 /-- **Separation of points makes `φ` injective** (Hartshorne II, proof of Proposition 7.3). Let
 `X` be projective over `k`. If the subspace `V` spanned by the sections `sᵢ` defining
-`φ : X ⟶ ℙⁿ_k` separates points, then `φ` is injective. Hartshorne argues on closed points;
-since `φ` is proper, hence closed, and `X` is a Jacobson space, injectivity on closed points
-gives injectivity. -/
+`φ : X ⟶ ℙⁿ_k` separates points, then `φ` is injective: it is injective on closed points, and
+since `φ` is proper, hence closed, and `X` is a Jacobson space, this gives injectivity on all
+points. -/
 theorem injective_of_sectionsSeparatePoints (hX : Projective q)
     (hsep : SectionsSeparatePoints (linearSystem q s)) : Function.Injective φ := by
   have : IsProper q := hX.isProper
@@ -289,6 +303,42 @@ variable {k : Type u} [Field k] {X : Scheme.{u}} (q : X ⟶ Spec (CommRingCat.of
   (e : (Scheme.Modules.pullback φ).obj (projectiveSpaceTwistingSheaf n _ 1) ≅ L)
   (he : ∀ i, e.hom.app ⊤ (pullbackGlobalSection φ (projectiveSpaceCoordinate n _ i)) = s i)
 
+include hφ in
+/-- The constants of `𝒪_{X,P}` are the images of the constants of `𝒪_{ℙⁿ, φ(P)}`. -/
+private theorem stalkConst_eq_stalkMap (P : X) (c : k) :
+    stalkConst q P c = φ.stalkMap P ((projectiveSpaceOverScheme n _).presheaf.germ ⊤ (φ P) trivial
+      (kConst (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) c)) := by
+  rw [stalkConst, RingHom.comp_apply, ← hφ, ← appTop_kConst]
+  exact (Scheme.Hom.germ_stalkMap_apply φ ⊤ P trivial _).symm
+
+include hL hφ he in
+/-- On a chart `X_{sᵢ} ∋ P`, the germ of `∑ aⱼ sⱼ` is `φ^#(∑ aⱼ xⱼ/xᵢ) · (sᵢ)_P`. -/
+private theorem germ_linearSystemSection_eq {P : X} (i : Fin (n + 1))
+    (hPU : P ∈ nonvanishingLocusOpens hL (s i))
+    (hW : φ P ∈ projectiveSpaceChart n (Spec (CommRingCat.of k)) i) (a : Fin (n + 1) → k) :
+    L.presheaf.germ ⊤ P trivial (linearSystemSection q s a) =
+      φ.stalkMap P (∑ l, (projectiveSpaceOverScheme n _).presheaf.germ ⊤ (φ P) trivial
+          (kConst (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) (a l)) *
+        (projectiveSpaceOverScheme n _).presheaf.germ _ (φ P) hW
+          (projectiveSpaceChartRatio n _ i l)) •
+      L.presheaf.germ _ P hPU (L.presheaf.map (homOfLE le_top).op (s i)) := by
+  have hsl : ∀ l, L.presheaf.germ ⊤ P trivial (s l) =
+      φ.stalkMap P ((projectiveSpaceOverScheme n _).presheaf.germ _ (φ P) hW
+        (projectiveSpaceChartRatio n _ i l)) •
+        L.presheaf.germ _ P hPU (L.presheaf.map (homOfLE le_top).op (s i)) := by
+    intro l
+    calc L.presheaf.germ ⊤ P trivial (s l)
+        = L.presheaf.germ _ P hPU (L.presheaf.map (homOfLE le_top).op (s l)) :=
+          (TopCat.Presheaf.germ_res_apply L.presheaf (homOfLE le_top) P hPU _).symm
+      _ = _ := by rw [← appLE_projectiveSpaceChartRatio_smul hL s φ e he i l]
+      _ = _ := germ_smul_module L P hPU _ _
+      _ = _ := by rw [germ_appLE_eq_stalkMap]
+  simp only [linearSystemSection, map_sum, Finset.sum_smul, map_mul, mul_smul]
+  refine Finset.sum_congr rfl fun l _ => ?_
+  refine (germ_smul_module L (U := ⊤) P trivial _ _).trans ?_
+  rw [hsl, ← stalkConst_eq_stalkMap q φ hφ]
+  rfl
+
 include hL hφ he in
 /-- **Separation of tangent vectors gives a surjection on cotangent spaces** (Hartshorne II,
 proof of Proposition 7.3). If the subspace `V` spanned by the sections `sᵢ` defining
@@ -321,28 +371,11 @@ theorem maximalIdealToCotangent_surjective_of_sectionsSeparateTangentVectors
     ∑ l, (projectiveSpaceOverScheme n _).presheaf.germ ⊤ (φ P) trivial (kConst π (a l)) *
       (projectiveSpaceOverScheme n _).presheaf.germ _ (φ P) hW (projectiveSpaceChartRatio n _ i l)
   have hconst : ∀ c : k, stalkConst q P c =
-      f ((projectiveSpaceOverScheme n _).presheaf.germ ⊤ (φ P) trivial (kConst π c)) := by
-    intro c
-    rw [stalkConst, RingHom.comp_apply, ← hφ, ← appTop_kConst]
-    exact (Scheme.Hom.germ_stalkMap_apply φ ⊤ P trivial _).symm
-  have hsl : ∀ l, L.presheaf.germ ⊤ P trivial (s l) =
-      f ((projectiveSpaceOverScheme n _).presheaf.germ _ (φ P) hW
-        (projectiveSpaceChartRatio n _ i l)) • εP := by
-    intro l
-    calc L.presheaf.germ ⊤ P trivial (s l)
-        = L.presheaf.germ _ P hPU (L.presheaf.map (homOfLE le_top).op (s l)) :=
-          (TopCat.Presheaf.germ_res_apply L.presheaf (homOfLE le_top) P hPU _).symm
-      _ = _ := by rw [← appLE_projectiveSpaceChartRatio_smul hL s φ e he i l]
-      _ = _ := germ_smul_module L P hPU _ _
-      _ = _ := by rw [germ_appLE_eq_stalkMap]
+      f ((projectiveSpaceOverScheme n _).presheaf.germ ⊤ (φ P) trivial (kConst π c)) :=
+    stalkConst_eq_stalkMap q φ hφ P
   have hgerm : ∀ a, L.presheaf.germ ⊤ P trivial (linearSystemSection q s a) =
-      f (lam a) • εP := by
-    intro a
-    simp only [linearSystemSection, map_sum, lam, Finset.sum_smul, map_mul, mul_smul]
-    refine Finset.sum_congr rfl fun l _ => ?_
-    refine (germ_smul_module L (U := ⊤) P trivial _ _).trans ?_
-    rw [hsl, ← hconst]
-    rfl
+      f (lam a) • εP :=
+    germ_linearSystemSection_eq q hL s φ hφ e he i hPU hW
   intro ω
   obtain ⟨⟨b, hb⟩, rfl⟩ := (IsLocalRing.maximalIdeal (X.presheaf.stalk P)).toCotangent_surjective ω
   have hz : b • εP ∈ IsLocalRing.maximalIdeal (X.presheaf.stalk P) •
@@ -773,7 +806,8 @@ theorem sectionsSeparatePoints_of_injective (hinj : Function.Injective φ) :
     obtain ⟨l, hl⟩ := Function.ne_iff.mp hab
     let v : Fin (n + 1) → k := Pi.single l 1 - a l • Pi.single j 1
     refine ⟨linearSystemSection q s v, ⟨v, rfl⟩, Or.inl ⟨?_, ?_⟩⟩
-    · rw [germ_mem_maximalIdeal_smul_top_iff, mem_nonvanishingLocus_linearSystemSection_iff q s φ hφ e he,
+    · rw [germ_mem_maximalIdeal_smul_top_iff,
+        mem_nonvanishingLocus_linearSystemSection_iff q s φ hφ e he,
         ← hσP_apply y₀, hσa, projectivePoint_mem_nonvanishingLocus_linearSection_iff, not_not]
       simp [v, sub_dotProduct, smul_dotProduct, single_dotProduct, haj]
     · rw [germ_mem_maximalIdeal_smul_top_iff, not_not,
@@ -787,5 +821,251 @@ theorem sectionsSeparatePoints_of_injective (hinj : Function.Injective φ) :
       exact hjP
 
 end ForwardPoints
+
+
+/-! ### Proposition 7.3, (⇒): separation of tangent vectors -/
+
+section ForwardTangents
+
+/-- The ratio `xⱼ/xⱼ` on `D₊(xⱼ)` is `1`. -/
+private theorem projectiveSpaceChartRatio_self (n : ℕ) (Y : Scheme.{u}) (j : Fin (n + 1)) :
+    projectiveSpaceChartRatio n Y j j = 1 := by
+  rw [projectiveSpaceChartRatio, ratioInt, chartRatio_self, map_one, map_one]
+  rfl
+
+variable {k : Type u} [Field k] [IsAlgClosed k]
+
+/-- At a closed point of a scheme locally of finite type over an algebraically closed field `k`,
+every element of the local ring is congruent to a constant modulo the maximal ideal. -/
+private theorem exists_sub_const_mem_maximalIdeal {Z : Scheme.{u}}
+    (p : Z ⟶ Spec (CommRingCat.of k)) [LocallyOfFiniteType p] {z : Z} (hz : IsClosed {z})
+    (a : Z.presheaf.stalk z) :
+    ∃ c : k, a - Z.presheaf.germ ⊤ z trivial (kConst p c) ∈
+      IsLocalRing.maximalIdeal (Z.presheaf.stalk z) := by
+  obtain ⟨c, hc⟩ :=
+    (ConcreteCategory.bijective_of_isIso (residueFieldIsoBase p z hz).inv).2
+      (IsLocalRing.residue (Z.presheaf.stalk z) a)
+  refine ⟨c, ?_⟩
+  rw [residueFieldIsoBase_inv_eq, CommRingCat.comp_apply, CommRingCat.comp_apply] at hc
+  rw [← IsLocalRing.residue_eq_zero_iff, map_sub, sub_eq_zero]
+  exact hc.symm
+
+variable {n : ℕ}
+
+/-- **The maximal ideal at a closed point of `ℙⁿ_k`** (`k` algebraically closed). Let `z ∈ D₊(xⱼ)`
+be closed, with coordinates `cₗ ∈ k`, `xₗ/xⱼ ≡ cₗ` modulo `𝔪_z`. Then modulo `𝔪_z²`, every element
+of `𝔪_z` is a `k`-linear combination of the germs of `xₗ/xⱼ - cₗ`: the chart ring is generated by
+the `xₗ/xⱼ` over `k`. -/
+private theorem exists_sub_sum_mem_maximalIdeal_sq
+    {z : projectiveSpaceOverScheme n (Spec (CommRingCat.of k))} (hz : IsClosed {z})
+    (j : Fin (n + 1)) (hW : z ∈ projectiveSpaceChart n (Spec (CommRingCat.of k)) j)
+    (α : (projectiveSpaceOverScheme n (Spec (CommRingCat.of k))).presheaf.stalk z)
+    (hα : α ∈ IsLocalRing.maximalIdeal _) :
+    ∃ c d : Fin (n + 1) → k,
+      (∀ l, (projectiveSpaceOverScheme n _).presheaf.germ _ z hW
+            (projectiveSpaceChartRatio n _ j l) -
+          (projectiveSpaceOverScheme n _).presheaf.germ ⊤ z trivial
+            (kConst (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) (c l)) ∈
+        IsLocalRing.maximalIdeal _) ∧
+      α - ∑ l, (projectiveSpaceOverScheme n _).presheaf.germ ⊤ z trivial
+          (kConst (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) (d l)) *
+        ((projectiveSpaceOverScheme n _).presheaf.germ _ z hW
+            (projectiveSpaceChartRatio n _ j l) -
+          (projectiveSpaceOverScheme n _).presheaf.germ ⊤ z trivial
+            (kConst (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) (c l))) ∈
+        IsLocalRing.maximalIdeal _ ^ 2 := by
+  let Pn := projectiveSpaceOverScheme n (Spec (CommRingCat.of k))
+  let π := projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))
+  let W := projectiveSpaceChart n (Spec (CommRingCat.of k)) j
+  have : IsProper π := projectiveSpaceOverSchemeProjection_isProper n _
+  let κA : k →+* Pn.presheaf.stalk z := (Pn.presheaf.germ ⊤ z trivial).hom.comp (kConst π)
+  let yA : Fin (n + 1) → Pn.presheaf.stalk z := fun l =>
+    Pn.presheaf.germ W z hW (projectiveSpaceChartRatio n _ j l)
+  choose c hc using fun l => exists_sub_const_mem_maximalIdeal π hz (yA l)
+  let g : Fin (n + 1) → Pn.presheaf.stalk z := fun l => yA l - κA (c l)
+  have hg : ∀ l, g l ∈ IsLocalRing.maximalIdeal _ := hc
+  -- Every germ of a function on the chart is a constant plus a combination of the `g l`.
+  have hdec : ∀ r : Γ(Pn, W), ∃ (κ : k) (w : Fin (n + 1) → Pn.presheaf.stalk z),
+      Pn.presheaf.germ W z hW r = κA κ + ∑ l, w l * g l := by
+    intro r
+    obtain ⟨p, rfl⟩ := projectiveSpaceChartPolynomialMap_surjective n _ j r
+    induction p using MvPolynomial.induction_on with
+    | C a =>
+      refine ⟨(Scheme.ΓSpecIso (CommRingCat.of k)).hom a, 0, ?_⟩
+      simp only [Pi.zero_apply, zero_mul, Finset.sum_const_zero, add_zero]
+      rw [projectiveSpaceChartPolynomialMap, MvPolynomial.eval₂Hom_C]
+      have hinv : (Scheme.ΓSpecIso (CommRingCat.of k)).inv
+          ((Scheme.ΓSpecIso (CommRingCat.of k)).hom a) = a := by
+        rw [← CommRingCat.comp_apply, Iso.hom_inv_id]
+        rfl
+      change Pn.presheaf.germ W z hW (π.appLE ⊤ W le_top a) =
+        Pn.presheaf.germ ⊤ z trivial (π.appTop ((Scheme.ΓSpecIso (CommRingCat.of k)).inv
+          ((Scheme.ΓSpecIso (CommRingCat.of k)).hom a)))
+      rw [hinv]
+      exact TopCat.Presheaf.germ_res_apply Pn.presheaf (homOfLE le_top) z hW (π.app ⊤ a)
+    | add p₁ p₂ h₁ h₂ =>
+      obtain ⟨κ₁, w₁, e₁⟩ := h₁
+      obtain ⟨κ₂, w₂, e₂⟩ := h₂
+      refine ⟨κ₁ + κ₂, w₁ + w₂, ?_⟩
+      rw [map_add, map_add, e₁, e₂, map_add]
+      simp only [Pi.add_apply, add_mul, Finset.sum_add_distrib]
+      ring
+    | mul_X p l h =>
+      obtain ⟨κ₁, w₁, e₁⟩ := h
+      refine ⟨κ₁ * c l, fun m => w₁ m * yA l + if m = l then κA κ₁ else 0, ?_⟩
+      rw [map_mul, map_mul, e₁]
+      have hX : Pn.presheaf.germ W z hW (projectiveSpaceChartPolynomialMap n _ j
+          (MvPolynomial.X l)) = yA l := by
+        rw [projectiveSpaceChartPolynomialMap, MvPolynomial.eval₂Hom_X']
+      rw [hX]
+      simp only [add_mul, Finset.sum_add_distrib, ite_mul, zero_mul, Finset.sum_ite_eq',
+        Finset.mem_univ, if_true, Finset.sum_mul, map_mul]
+      simp only [g]
+      ring_nf
+  -- Write `α = r / u` with `r, u ∈ Γ(D₊(xⱼ), 𝒪)`, `u(z) ≠ 0`.
+  have hWa : IsAffineOpen W := isAffineOpen_projectiveSpaceChart n _ j
+  let _ : Algebra Γ(Pn, W) (Pn.presheaf.stalk z) :=
+    TopCat.Presheaf.algebra_section_stalk Pn.presheaf ⟨z, hW⟩
+  have hloc := hWa.isLocalization_stalk ⟨z, hW⟩
+  obtain ⟨⟨r, u⟩, hru⟩ :=
+    IsLocalization.surj (M := (hWa.primeIdealOf ⟨z, hW⟩).asIdeal.primeCompl) α
+  have hu : IsUnit (Pn.presheaf.germ W z hW u) :=
+    IsLocalization.map_units (M := (hWa.primeIdealOf ⟨z, hW⟩).asIdeal.primeCompl) _ u
+  have hru' : α * Pn.presheaf.germ W z hW u = Pn.presheaf.germ W z hW r := hru
+  obtain ⟨κ, w, hr⟩ := hdec r
+  have hsum : ∑ l, w l * g l ∈ IsLocalRing.maximalIdeal (Pn.presheaf.stalk z) :=
+    Ideal.sum_mem _ fun l _ => Ideal.mul_mem_left _ _ (hg l)
+  have hκ : κ = 0 := by
+    by_contra hκ
+    have h1 : Pn.presheaf.germ W z hW r ∈ IsLocalRing.maximalIdeal (Pn.presheaf.stalk z) :=
+      hru' ▸ Ideal.mul_mem_right _ _ hα
+    rw [hr] at h1
+    have h2 := Ideal.sub_mem _ h1 hsum
+    rw [add_sub_cancel_right] at h2
+    exact (IsLocalRing.mem_maximalIdeal _).mp h2 ((IsUnit.mk0 κ hκ).map κA)
+  have hαeq : α = ∑ l, (w l * ↑hu.unit⁻¹) * g l := by
+    calc α = α * Pn.presheaf.germ W z hW u * ↑hu.unit⁻¹ := by
+          rw [mul_assoc, IsUnit.mul_val_inv, mul_one]
+      _ = (κA κ + ∑ l, w l * g l) * ↑hu.unit⁻¹ := by rw [hru', hr]
+      _ = _ := by
+          rw [hκ, map_zero, zero_add, Finset.sum_mul]
+          exact Finset.sum_congr rfl fun l _ => by ring
+  choose d hd using fun l => exists_sub_const_mem_maximalIdeal π hz (w l * ↑hu.unit⁻¹)
+  refine ⟨c, d, hg, ?_⟩
+  rw [hαeq, ← Finset.sum_sub_distrib]
+  refine Ideal.sum_mem _ fun l _ => ?_
+  rw [pow_two]
+  convert Ideal.mul_mem_mul (hd l) (hg l) using 1
+  simp only [g, κA, yA, RingHom.comp_apply]
+  ring
+
+variable {X : Scheme.{u}} (q : X ⟶ Spec (CommRingCat.of k))
+  {L : X.Modules} (hL : L.IsInvertible) (s : Fin (n + 1) → Γ(L, ⊤))
+  (φ : X ⟶ projectiveSpaceOverScheme n (Spec (CommRingCat.of k)))
+  (hφ : φ ≫ projectiveSpaceOverSchemeProjection n _ = q)
+  (e : (Scheme.Modules.pullback φ).obj (projectiveSpaceTwistingSheaf n _ 1) ≅ L)
+  (he : ∀ i, e.hom.app ⊤ (pullbackGlobalSection φ (projectiveSpaceCoordinate n _ i)) = s i)
+
+include hL hφ he in
+/-- **Hartshorne II, Proposition 7.3, (⇒), for tangent vectors.** Let `k` be algebraically closed
+and let `φ : X ⟶ ℙⁿ_k`, defined by the sections `sᵢ`, be a closed immersion. Then the subspace `V`
+spanned by the `sᵢ` separates tangent vectors: `𝒪_{ℙⁿ, φ(P)} → 𝒪_{X,P}` is surjective, and modulo
+`𝔪²` the maximal ideal at the `k`-point `φ(P) ∈ D₊(xᵢ)` is spanned by the linear functions
+`xₗ/xᵢ - cₗ`, which pull back to the sections `sₗ - cₗ sᵢ` of `V` divided by `sᵢ`. -/
+theorem sectionsSeparateTangentVectors_of_isClosedImmersion [IsClosedImmersion φ] :
+    SectionsSeparateTangentVectors q (linearSystem q s) := by
+  intro P hP z hz
+  let π := projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))
+  let f := (φ.stalkMap P).hom
+  obtain ⟨i, hi⟩ := exists_mem_chartPreimage φ P
+  have hW : φ P ∈ projectiveSpaceChart n (Spec (CommRingCat.of k)) i := hi
+  have hPU : P ∈ nonvanishingLocusOpens hL (s i) := by
+    rw [← preimage_projectiveSpaceChart_eq_nonvanishingLocusOpens hL s φ e he i]
+    exact hW
+  have hε := isTrivializingSection_nonvanishingLocusOpens hL (s i)
+  obtain ⟨b, rfl⟩ := hε.exists_smul_germ_eq hPU z
+  replace hz := (smul_germ_mem_smul_top_iff hε hPU _ b).mp hz
+  obtain ⟨α, rfl⟩ := φ.stalkMap_surjective P b
+  have hmap : ∀ a, a ∈ IsLocalRing.maximalIdeal
+      ((projectiveSpaceOverScheme n (Spec (CommRingCat.of k))).presheaf.stalk (φ P)) →
+      f a ∈ IsLocalRing.maximalIdeal (X.presheaf.stalk P) := fun a ha =>
+    (IsLocalRing.mem_maximalIdeal _).mpr
+      ((map_mem_nonunits_iff f a).mpr ((IsLocalRing.mem_maximalIdeal _).mp ha))
+  have hα : α ∈ IsLocalRing.maximalIdeal
+      ((projectiveSpaceOverScheme n (Spec (CommRingCat.of k))).presheaf.stalk (φ P)) := by
+    by_contra h
+    exact (IsLocalRing.mem_maximalIdeal _).mp hz (((IsLocalRing.notMem_maximalIdeal).mp h).map f)
+  have hzc : IsClosed {φ P} := by
+    simpa [Set.image_singleton] using φ.isClosedEmbedding.isClosedMap _ hP
+  obtain ⟨c, d, hg, hrest⟩ := exists_sub_sum_mem_maximalIdeal_sq hzc i hW α hα
+  have hlam : ∀ l, (∑ m, (projectiveSpaceOverScheme n _).presheaf.germ ⊤ (φ P) trivial
+        (kConst π ((Pi.single l 1 - c l • Pi.single i 1 : Fin (n + 1) → k) m)) *
+      (projectiveSpaceOverScheme n _).presheaf.germ _ (φ P) hW
+        (projectiveSpaceChartRatio n _ i m)) =
+      (projectiveSpaceOverScheme n _).presheaf.germ _ (φ P) hW
+          (projectiveSpaceChartRatio n _ i l) -
+        (projectiveSpaceOverScheme n _).presheaf.germ ⊤ (φ P) trivial (kConst π (c l)) := by
+    intro l
+    simp only [Pi.single_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, mul_ite, mul_one,
+      mul_zero, map_sub, sub_mul, Finset.sum_sub_distrib]
+    rw [Finset.sum_eq_single l (fun m _ hm => by simp [hm]) (by simp),
+      Finset.sum_eq_single i (fun m _ hm => by simp [hm]) (by simp)]
+    simp [projectiveSpaceChartRatio_self]
+  have hsq : ∀ x ∈ IsLocalRing.maximalIdeal
+      ((projectiveSpaceOverScheme n (Spec (CommRingCat.of k))).presheaf.stalk (φ P)) ^ 2,
+      f x ∈ IsLocalRing.maximalIdeal (X.presheaf.stalk P) ^ 2 := by
+    intro x hx
+    rw [pow_two] at hx ⊢
+    refine Submodule.mul_induction_on hx (fun a ha b hb => ?_) (fun x y hx hy => ?_)
+    · rw [map_mul]
+      exact Ideal.mul_mem_mul (hmap a ha) (hmap b hb)
+    · rw [map_add]
+      exact add_mem hx hy
+  refine ⟨n + 1, d, fun l => linearSystemSection q s (Pi.single l 1 - c l • Pi.single i 1),
+    fun l => ⟨⟨_, rfl⟩, ?_⟩, ?_⟩
+  · rw [germ_linearSystemSection_eq q hL s φ hφ e he i hPU hW, hlam]
+    exact (smul_germ_mem_smul_top_iff hε hPU _ _).mpr (hmap _ (hg l))
+  · have key := (smul_germ_mem_smul_top_iff hε hPU _ _).mpr (hsq _ hrest)
+    simp only [map_sub, sub_smul, map_sum, Finset.sum_smul] at key
+    convert key using 2
+    · rfl
+    · refine Finset.sum_congr rfl fun l _ => ?_
+      rw [germ_linearSystemSection_eq q hL s φ hφ e he i hPU hW, hlam,
+        stalkConst_eq_stalkMap q φ hφ, smul_smul, ← map_mul]
+
+end ForwardTangents
+
+
+/-! ### Proposition 7.3 -/
+
+section Main
+
+variable {k : Type u} [Field k] [IsAlgClosed k] {X : Scheme.{u}}
+  (q : X ⟶ Spec (CommRingCat.of k))
+  {L : X.Modules} (hL : L.IsInvertible) {n : ℕ} (s : Fin (n + 1) → Γ(L, ⊤))
+  (φ : X ⟶ projectiveSpaceOverScheme n (Spec (CommRingCat.of k)))
+  (hφ : φ ≫ projectiveSpaceOverSchemeProjection n _ = q)
+  (e : (Scheme.Modules.pullback φ).obj (projectiveSpaceTwistingSheaf n _ 1) ≅ L)
+  (he : ∀ i, e.hom.app ⊤ (pullbackGlobalSection φ (projectiveSpaceCoordinate n _ i)) = s i)
+
+include hL hφ he in
+/-- **Hartshorne II, Proposition 7.3.** Let `X` be projective over an algebraically closed field
+`k` (structure morphism `q`), and let `φ : X ⟶ ℙⁿ_k` be the morphism defined by global sections
+`s₀, …, sₙ` of an invertible sheaf `L`, i.e. with an isomorphism `φ^* 𝒪(1) ≅ L` carrying each
+`φ^* xᵢ` to `sᵢ` (Theorem 7.1; such `sᵢ` generate `L`). Let `V ⊆ Γ(X, L)` be the subspace spanned
+by the `sᵢ`. Then `φ` is a closed immersion iff `V` separates points and separates tangent
+vectors. -/
+theorem isClosedImmersion_iff_sectionsSeparatePoints_and_sectionsSeparateTangentVectors
+    (hX : Projective q) :
+    IsClosedImmersion φ ↔ SectionsSeparatePoints (linearSystem q s) ∧
+      SectionsSeparateTangentVectors q (linearSystem q s) := by
+  refine ⟨fun h => ?_, fun h =>
+    isClosedImmersion_of_sectionsSeparatePoints_of_sectionsSeparateTangentVectors
+      q hL s φ hφ e he hX h.1 h.2⟩
+  have : IsProper q := hX.isProper
+  exact ⟨sectionsSeparatePoints_of_injective q hL s φ hφ e he φ.isClosedEmbedding.injective,
+    sectionsSeparateTangentVectors_of_isClosedImmersion q hL s φ hφ e he⟩
+
+end Main
 
 end Hartshorne
