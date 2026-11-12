@@ -65,6 +65,10 @@ def liftHom {A : Type*} [CommRing A] (f : R →+* A) (g : M →+ A) (hg : ∀ m 
   map_zero' := by simp
   map_add' x y := by simp only [TrivSqZeroExt.fst_add, TrivSqZeroExt.snd_add, map_add]; ring
 
+theorem liftHom_apply {A : Type*} [CommRing A] (f : R →+* A) (g : M →+ A)
+    (hg : ∀ m m', g m * g m' = 0) (hfg : ∀ (r : R) (m : M), g (r • m) = f r * g m)
+    (x : TrivSqZeroExt R M) : liftHom f g hg hfg x = f x.fst + g x.snd := rfl
+
 end Ring
 
 attribute [local instance] opModule
@@ -176,7 +180,7 @@ end KernelSections
 variable {k : Type u} [CommRing k] {X : Scheme.{u}} {pX : X ⟶ Spec (.of k)} {F : X.Modules}
   (E : InfinitesimalExtension pX F)
 
-attribute [local instance] InfinitesimalExtension.isClosedImmersion
+attribute [local instance] InfinitesimalExtension.isClosedImmersion opModule
 
 /-- The ideal sheaf of an infinitesimal extension lies in the nilradical. -/
 theorem ker_le_nilradical : E.ι.ker ≤ E.scheme.nilradical := by
@@ -288,6 +292,141 @@ theorem isAffine_scheme [IsAffine X] [IsLocallyNoetherian X] (hF : IsCoherent F)
     infer_instance
   have : IsClosedImmersion j := IsClosedImmersion.of_comp_isClosedImmersion j E.ι
   exact isAffine_of_isAffineHom j
+
+
+/-! ### The ideal sheaf as a subsheaf of `𝒪_{X'}` -/
+
+/-- The composite `Γ(ι⁻¹ U, F) ≅ Γ(U, I) ⊆ Γ(U, 𝒪_{X'})`. -/
+def idealIncl (U : E.scheme.Opens) : Γ(F, E.ι ⁻¹ᵁ U) →+ Γ(E.scheme, U) :=
+  ((closedImmersionIdealSheafι E.ι).val.app (op U)).hom.toAddMonoidHom.comp
+    (E.iso.hom.app U).hom
+
+theorem idealIncl_mul (U : E.scheme.Opens) (m m' : Γ(F, E.ι ⁻¹ᵁ U)) :
+    E.idealIncl U m * E.idealIncl U m' = 0 :=
+  E.sq_eq_zero U _ _
+
+theorem idealIncl_smul (U : E.scheme.Opens) (b : Γ(E.scheme, U)) (m : Γ(F, E.ι ⁻¹ᵁ U)) :
+    E.idealIncl U (E.ι.app U b • m) = b * E.idealIncl U m := by
+  change Scheme.Modules.Hom.app (closedImmersionIdealSheafι E.ι) U (E.iso.hom.app U
+    (b • (show Γ((Scheme.Modules.pushforward E.ι).obj F, U) from m))) = _
+  rw [Scheme.Modules.Hom.app_smul]
+  exact ((closedImmersionIdealSheafι E.ι).val.app (op U)).hom.map_smul b _
+
+theorem app_idealIncl (U : E.scheme.Opens) (m : Γ(F, E.ι ⁻¹ᵁ U)) :
+    E.ι.app U (E.idealIncl U m) = 0 :=
+  app_closedImmersionIdealSheafι_app E.ι U _
+
+theorem idealIncl_injective (U : E.scheme.Opens) : Function.Injective (E.idealIncl U) := by
+  intro m m' h
+  have h' := closedImmersionIdealSheafι_app_injective E.ι U h
+  have := congr(E.iso.inv.app U $h')
+  change (E.iso.hom ≫ E.iso.inv).app U m = (E.iso.hom ≫ E.iso.inv).app U m' at this
+  rwa [E.iso.hom_inv_id] at this
+
+theorem exists_idealIncl (U : E.scheme.Opens) (x : Γ(E.scheme, U)) (hx : E.ι.app U x = 0) :
+    ∃ m, E.idealIncl U m = x := by
+  obtain ⟨a, rfl⟩ := exists_closedImmersionIdealSheafι_app E.ι U x hx
+  refine ⟨E.iso.inv.app U a, ?_⟩
+  change Scheme.Modules.Hom.app (closedImmersionIdealSheafι E.ι) U
+    ((E.iso.inv ≫ E.iso.hom).app U a) = _
+  rw [E.iso.inv_hom_id]
+  rfl
+
+theorem idealIncl_naturality {U V : E.scheme.Opensᵒᵖ} (h : U ⟶ V) (m : Γ(F, E.ι ⁻¹ᵁ U.unop)) :
+    E.scheme.presheaf.map h (E.idealIncl U.unop m) =
+      E.idealIncl V.unop (F.presheaf.map ((Opens.map E.ι.base).map h.unop).op m) := by
+  have h1 : E.iso.hom.app V.unop (((Scheme.Modules.pushforward E.ι).obj F).presheaf.map h m) =
+      (closedImmersionIdealSheaf E.ι).presheaf.map h (E.iso.hom.app U.unop m) :=
+    ConcreteCategory.congr_hom (E.iso.hom.mapPresheaf.naturality h) m
+  have h2 : Scheme.Modules.Hom.app (closedImmersionIdealSheafι E.ι) V.unop
+      ((closedImmersionIdealSheaf E.ι).presheaf.map h (E.iso.hom.app U.unop m)) =
+      E.scheme.presheaf.map h (E.idealIncl U.unop m) :=
+    ConcreteCategory.congr_hom
+      ((Scheme.Modules.Hom.mapPresheaf (closedImmersionIdealSheafι E.ι)).naturality h)
+      (E.iso.hom.app U.unop m)
+  change _ = Scheme.Modules.Hom.app (closedImmersionIdealSheafι E.ι) V.unop
+    (E.iso.hom.app V.unop (((Scheme.Modules.pushforward E.ι).obj F).presheaf.map h m))
+  rw [h1, h2]
+
+/-! ### Splitting `𝒪_{X'}` along a retraction `X' ⟶ X` -/
+
+section Retraction
+
+variable (ρ : E.scheme ⟶ X) (hρ : E.ι ≫ ρ = 𝟙 X)
+
+include hρ in
+theorem ι_ρ_apply (x : E.scheme) : E.ι.base (ρ.base x) = x := by
+  obtain ⟨y, rfl⟩ := E.surjective x
+  have : ρ.base (E.ι.base y) = y := by
+    rw [← Scheme.Hom.comp_apply, hρ]
+    rfl
+  rw [this]
+
+include hρ in
+theorem le_preimage (U : E.scheme.Opens) : U ≤ ρ ⁻¹ᵁ (E.ι ⁻¹ᵁ U) := fun x hx => by
+  change E.ι.base (ρ.base x) ∈ U
+  rwa [E.ι_ρ_apply ρ hρ]
+
+include hρ in
+theorem app_appLE (U : E.scheme.Opens) (a : Γ(X, E.ι ⁻¹ᵁ U)) :
+    E.ι.app U (ρ.appLE (E.ι ⁻¹ᵁ U) U (E.le_preimage ρ hρ U) a) = a := by
+  have key : ∀ φ : X ⟶ X, φ = 𝟙 X → ∀ (V : X.Opens) (e : V ≤ φ ⁻¹ᵁ V),
+      φ.appLE V V e = 𝟙 _ := by
+    rintro _ rfl V e
+    simp only [Scheme.Hom.appLE]
+    exact (Category.id_comp _).trans (X.presheaf.map_id (op V))
+  rw [Scheme.Hom.app_eq_appLE, ← ConcreteCategory.comp_apply, Scheme.Hom.appLE_comp_appLE,
+    key _ hρ]
+  rfl
+
+/-- The ring homomorphism `Γ(ι⁻¹ U, 𝒪_X) ⊕ Γ(ι⁻¹ U, F) → Γ(U, 𝒪_{X'})`, `(a, m) ↦ ρ^# a + m`,
+given by a retraction `ρ` of `ι` and the inclusion `F ≅ I ⊆ 𝒪_{X'}`. -/
+def splitHom (U : E.scheme.Opens) :
+    TrivSqZeroExt Γ(X, E.ι ⁻¹ᵁ U) Γ(F, E.ι ⁻¹ᵁ U) →+* Γ(E.scheme, U) :=
+  liftHom (ρ.appLE (E.ι ⁻¹ᵁ U) U (E.le_preimage ρ hρ U)).hom (E.idealIncl U) (E.idealIncl_mul U)
+    (fun r m => by
+      conv_lhs => rw [← E.app_appLE ρ hρ U r]
+      exact E.idealIncl_smul U _ m)
+
+theorem app_splitHom (U : E.scheme.Opens) (x : TrivSqZeroExt Γ(X, E.ι ⁻¹ᵁ U) Γ(F, E.ι ⁻¹ᵁ U)) :
+    E.ι.app U (E.splitHom ρ hρ U x) = x.fst := by
+  rw [splitHom, liftHom_apply, map_add, E.app_idealIncl, add_zero]
+  exact E.app_appLE ρ hρ U x.fst
+
+theorem splitHom_bijective (U : E.scheme.Opens) : Function.Bijective (E.splitHom ρ hρ U) := by
+  refine ⟨(injective_iff_map_eq_zero _).mpr fun x hx => ?_, fun y => ?_⟩
+  · have h1 : x.fst = 0 := by rw [← E.app_splitHom ρ hρ U x, hx, map_zero]
+    rw [splitHom, liftHom_apply, h1, map_zero, zero_add] at hx
+    exact TrivSqZeroExt.ext h1 (E.idealIncl_injective U (hx.trans (map_zero _).symm))
+  · obtain ⟨m, hm⟩ := E.exists_idealIncl U
+      (y - ρ.appLE (E.ι ⁻¹ᵁ U) U (E.le_preimage ρ hρ U) (E.ι.app U y))
+      (by rw [map_sub, E.app_appLE ρ hρ, sub_self])
+    refine ⟨show TrivSqZeroExt _ _ from (E.ι.app U y, m), ?_⟩
+    change ρ.appLE (E.ι ⁻¹ᵁ U) U (E.le_preimage ρ hρ U) (E.ι.app U y) + E.idealIncl U m = y
+    rw [hm, add_sub_cancel]
+
+/-- The morphism of presheaves of rings `ι_* (𝒪_X ⊕ F) ⟶ 𝒪_{X'}` given by a retraction `ρ`. -/
+def split : E.ι.base _* trivialExtensionPresheaf F ⟶ E.scheme.presheaf where
+  app U := CommRingCat.ofHom (E.splitHom ρ hρ U.unop)
+  naturality U V h := by
+    ext x
+    change ρ.appLE (E.ι ⁻¹ᵁ V.unop) V.unop (E.le_preimage ρ hρ V.unop)
+        (X.presheaf.map ((Opens.map E.ι.base).map h.unop).op x.fst) +
+        E.idealIncl V.unop (F.presheaf.map ((Opens.map E.ι.base).map h.unop).op x.snd) =
+      E.scheme.presheaf.map h (ρ.appLE (E.ι ⁻¹ᵁ U.unop) U.unop (E.le_preimage ρ hρ U.unop) x.fst +
+        E.idealIncl U.unop x.snd)
+    rw [map_add, E.idealIncl_naturality]
+    congr 1
+    change (X.presheaf.map _ ≫ ρ.appLE _ _ _) x.fst = (ρ.appLE _ _ _ ≫ E.scheme.presheaf.map h)
+      x.fst
+    rw [Scheme.Hom.map_appLE, Scheme.Hom.appLE_map]
+    rfl
+
+instance isIso_split : IsIso (E.split ρ hρ) := by
+  refine (NatTrans.isIso_iff_isIso_app _).mpr fun U => ?_
+  exact (ConcreteCategory.isIso_iff_bijective _).mpr (E.splitHom_bijective ρ hρ U.unop)
+
+end Retraction
 
 end InfinitesimalExtension
 
