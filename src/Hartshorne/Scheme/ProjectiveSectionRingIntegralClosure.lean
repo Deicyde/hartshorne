@@ -695,6 +695,31 @@ theorem exists_chartPoly_eq_of_isIntegral {f : A} (hf : f ≠ 0) (f_deg : f ∈ 
   obtain ⟨p, hp⟩ := IsIntegrallyClosed.isIntegral_iff.1 hint
   exact ⟨p, hp⟩
 
+variable {𝒜} in
+theorem genericPoint_mem_basicOpen (h : ¬HomogeneousIdeal.irrelevant 𝒜 ≤ ⊥) {f : A}
+    (hf : f ≠ 0) : genericPoint h ∈ Proj.basicOpen 𝒜 f := by
+  rw [Proj.mem_basicOpen]
+  intro hmem
+  have h0 : f ∈ (⊥ : HomogeneousIdeal 𝒜).toIdeal := hmem
+  rw [HomogeneousIdeal.toIdeal_bot, Ideal.mem_bot] at h0
+  exact hf h0
+
+variable {𝒜} in
+theorem IsHomFrac.sub {n : ℕ} {z w : FractionRing A} (hz : IsHomFrac (𝒜 := 𝒜) n z)
+    (hw : IsHomFrac (𝒜 := 𝒜) n w) : IsHomFrac (𝒜 := 𝒜) n (z - w) := by
+  obtain ⟨e, a, s, ha, hs, hs0, rfl⟩ := hz
+  obtain ⟨e', b, t, hb, ht, ht0, rfl⟩ := hw
+  refine ⟨e + e', a * t - b * s, s * t, sub_mem ?_ ?_, SetLike.mul_mem_graded hs ht,
+    mul_ne_zero hs0 ht0, ?_⟩
+  · have := SetLike.mul_mem_graded ha ht
+    rwa [show e + n + e' = e + e' + n by ring] at this
+  · have := SetLike.mul_mem_graded hb hs
+    rwa [show e' + n + e = e + e' + n by ring] at this
+  · have h1 := (map_ne_zero_iff _ (IsFractionRing.injective A (FractionRing A))).2 hs0
+    have h2 := (map_ne_zero_iff _ (IsFractionRing.injective A (FractionRing A))).2 ht0
+    rw [map_sub, map_mul, map_mul, map_mul]
+    field_simp
+
 end Fraction
 
 /-! ## Closed subschemes of `ℙʳ_k` -/
@@ -851,6 +876,101 @@ theorem isIntegral_sectionRingToFraction (hne : ∃ i, coord I i ≠ 0)
   | zero => rw [map_zero]; exact isIntegral_zero
   | of n t => rw [sectionRingToFraction_of]; exact isIntegral_sectionToFraction I hne n t
   | add y y' hy hy' => rw [map_add]; exact hy.add hy'
+
+omit [IsDomain (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)] in
+theorem exists_coord_notMem (x : Proj 𝒬) : ∃ i, coord I i ∉ x.asHomogeneousIdeal := by
+  classical
+  by_contra! hall
+  apply x.not_irrelevant_le
+  intro a ha
+  rw [← DirectSum.sum_support_decompose 𝒬 a]
+  refine sum_mem fun d _ => ?_
+  rcases Nat.eq_zero_or_pos d with rfl | hd
+  · have : (DirectSum.decompose 𝒬 a 0 : MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal) = 0 := ha
+    rw [this]
+    exact zero_mem _
+  · obtain ⟨p, hp, hpa⟩ := mem_gradedQuotient_iff.1 (DirectSum.decompose 𝒬 a d).2
+    rw [← hpa]
+    have hspan : p ∈ Ideal.span (X '' (Set.univ : Set (Fin (r + 1)))) := by
+      rw [mem_ideal_span_X_image]
+      intro m hm
+      have hdeg := ((mem_homogeneousSubmodule d p).1 hp).degree_eq_sum_deg_support hm
+      obtain ⟨i, hi⟩ : m.support.Nonempty := by
+        rw [Finset.nonempty_iff_ne_empty]
+        intro h0
+        rw [h0, Finset.sum_empty] at hdeg
+        omega
+      exact ⟨i, Set.mem_univ _, Finsupp.mem_support_iff.1 hi⟩
+    have hmap := Ideal.mem_map_of_mem (Ideal.Quotient.mk I.toIdeal) hspan
+    rw [Ideal.map_span] at hmap
+    refine (Ideal.span_le.2 ?_) hmap
+    rintro _ ⟨_, ⟨i, -, rfl⟩, rfl⟩
+    exact hall i
+
+/-- **Normality of the charts.** On a normal integral `X = Proj S`, the coordinate ring
+`S_(xᵢ) = 𝒪_X(D₊(xᵢ))` of each nonempty chart is integrally closed. -/
+theorem isIntegrallyClosed_away [IsIntegral (Proj 𝒬)] [Hartshorne.IsNormal (Proj 𝒬)]
+    (i : Fin (r + 1)) (hi : coord I i ≠ 0) : IsIntegrallyClosed (Away 𝒬 (coord I i)) := by
+  have hU := Proj.isAffineOpen_basicOpen 𝒬 (coord I i) (coord_mem I i) one_pos
+  have h := not_irrelevant_le_bot_of_mem_one (coord_mem I i) hi
+  have : Nonempty (Proj.basicOpen 𝒬 (coord I i)) :=
+    ⟨⟨genericPoint h, genericPoint_mem_basicOpen h hi⟩⟩
+  have := isIntegrallyClosed_sections_of_isNormal (Proj 𝒬) hU
+  exact IsIntegrallyClosed.of_equiv
+    (Proj.basicOpenIsoAway 𝒬 (coord I i) (coord_mem I i) one_pos).commRingCatIsoToRingEquiv.symm
+
+/-- **Every element of `K` integral over `S` comes from `S'`** (the second half of
+Exercise 5.14(a)). On each chart `z ∈ S_(xᵢ)[xᵢ]`; the degree-`n` parts agree across the charts,
+so each glues to a section of `𝒪_X(n)`. -/
+theorem mem_range_sectionRingToFraction [IsIntegral (Proj 𝒬)] [Hartshorne.IsNormal (Proj 𝒬)]
+    (hne : ∃ i, coord I i ≠ 0) {z : FractionRing (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal)}
+    (hz : IsIntegral (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal) z) :
+    z ∈ Set.range (sectionRingToFraction 𝒬) := by
+  classical
+  obtain ⟨i0, hi0⟩ := hne
+  have h := not_irrelevant_le_bot_of_mem_one (coord_mem I i0) hi0
+  have hp : ∀ i (hi : coord I i ≠ 0), ∃ p : Polynomial (Away 𝒬 (coord I i)),
+      chartPoly hi p = z := fun i hi => by
+    have := isIntegrallyClosed_away I i hi
+    exact exists_chartPoly_eq_of_isIntegral hi (coord_mem I i) hz
+  choose p hpz using hp
+  let comp : ∀ i, coord I i ≠ 0 → ℕ → FractionRing (MvPolynomial (Fin (r + 1)) k ⧸ I.toIdeal) :=
+    fun i hi n => awayToFraction hi ((p i hi).coeff n) * algebraMap _ _ (coord I i) ^ n
+  let N : ℕ := ∑ i, if hi : coord I i ≠ 0 then (p i hi).natDegree + 1 else 0
+  have hN : ∀ i (hi : coord I i ≠ 0), (p i hi).natDegree < N := by
+    intro i hi
+    have := Finset.single_le_sum (f := fun i => if hi : coord I i ≠ 0 then
+      (p i hi).natDegree + 1 else 0) (fun _ _ => Nat.zero_le _) (Finset.mem_univ i)
+    simp only [dif_pos hi] at this
+    omega
+  have hsum : ∀ i (hi : coord I i ≠ 0), z = ∑ n ∈ Finset.range N, comp i hi n := fun i hi =>
+    (hpz i hi).symm.trans (chartPoly_eq_sum hi (p i hi) (hN i hi))
+  have huniq : ∀ i (hi : coord I i ≠ 0) n, n < N → comp i hi n = comp i0 hi0 n := by
+    intro i hi
+    have h0 := eq_zero_of_sum_isHomFrac_eq_zero (Finset.range N)
+      (fun n => comp i hi n - comp i0 hi0 n)
+      (fun n _ => (isHomFrac_awayToFraction_mul_pow hi (coord_mem I i) _ n).sub
+        (isHomFrac_awayToFraction_mul_pow hi0 (coord_mem I i0) _ n))
+      (by rw [Finset.sum_sub_distrib, ← hsum, ← hsum, sub_self])
+    intro n hn
+    exact sub_eq_zero.1 (h0 n (Finset.mem_range.2 hn))
+  have ht : ∀ n : ℕ, ∃ t : twistGlobal (𝟙_ (Proj 𝒬).Modules) (n : ℤ),
+      sectionToFraction 𝒬 n t = comp i0 hi0 n := by
+    intro n
+    refine exists_sectionToFraction_eq (coord I) (coord_mem I) (exists_coord_notMem I) h n _ ?_
+    intro i hi
+    by_cases hn : n < N
+    · rw [← huniq i hi n hn]
+      exact exists_mem_eq_pow_mul_awayToFraction hi (coord_mem I i) _ n
+    · have hc : (p i0 hi0).coeff n = 0 :=
+        Polynomial.coeff_eq_zero_of_natDegree_lt (by have := hN i0 hi0; omega)
+      refine ⟨0, 0, zero_mem _, ?_⟩
+      simp only [comp, hc, map_zero, zero_mul, mul_zero]
+  choose t htz using ht
+  refine ⟨∑ n ∈ Finset.range N, DirectSum.of _ n (t n), ?_⟩
+  rw [map_sum, hsum i0 hi0]
+  refine Finset.sum_congr rfl fun n _ => ?_
+  rw [sectionRingToFraction_of, htz]
 
 end Integral
 
