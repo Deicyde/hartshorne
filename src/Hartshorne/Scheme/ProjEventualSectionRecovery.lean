@@ -571,6 +571,298 @@ theorem eventuallyBijective_of_primeFactors [IsNoetherianRing A] [Module.Finite 
 
 end Filtration
 
+/-! ### A uniform degree bound for the chart condition
+
+The private helpers below are copied from `Hartshorne.Scheme.ProjectiveGlobalSectionsFinite`
+(the proof of Theorem 5.19), where they are private. -/
+
+section Bound
+
+open ProjectiveGlobalSectionsFinite ProjectiveSectionRing
+
+variable {ι : Type*}
+
+/-! ### Monomials in degree-one generators -/
+
+private theorem prod_pow_mem {f : ι → A} (hf : ∀ i, f i ∈ 𝒜 1) (β : ι →₀ ℕ) :
+    (β.prod fun i e => f i ^ e) ∈ 𝒜 β.degree := by
+  rw [Finsupp.prod, Finsupp.degree_apply]
+  exact SetLike.prod_mem_graded 𝒜 (fun i => β i) (fun i => f i ^ β i) fun i _ => by
+    simpa using SetLike.pow_mem_graded (β i) (hf i)
+
+/-- If `fᵢ^{jᵢ} z = aᵢ ∈ S_{jᵢ + n}` for every `i`, then `z` times a monomial of degree `d ≥ ∑ jᵢ`
+in the `fᵢ` lies in `S_{d + n}`. -/
+private theorem exists_mem_mul_monomial [Fintype ι] [Nonempty ι] {f : ι → A}
+    (hf : ∀ i, f i ∈ 𝒜 1) {n : ℕ} {z : FractionRing A} {j : ι → ℕ} {a : ι → A}
+    (ha : ∀ i, a i ∈ 𝒜 (j i + n))
+    (hza : ∀ i, algebraMap A (FractionRing A) (a i) =
+      algebraMap A (FractionRing A) (f i) ^ j i * z)
+    {d : ℕ} (hd : ∑ i, j i ≤ d) (β : ι →₀ ℕ) (hβd : β.degree = d) :
+    ∃ b ∈ 𝒜 (d + n), algebraMap A (FractionRing A) b =
+      z * algebraMap A (FractionRing A) (β.prod fun i e => f i ^ e) := by
+  obtain ⟨i, hi⟩ : ∃ i, j i ≤ β i := by
+    by_contra! hlt
+    have : ∑ i, β i < ∑ i, j i :=
+      Finset.sum_lt_sum_of_nonempty Finset.univ_nonempty fun i _ => hlt i
+    rw [← Finsupp.degree_eq_sum, hβd] at this
+    omega
+  set β' := β - Finsupp.single i (j i) with hβ'
+  have hβ : β = Finsupp.single i (j i) + β' := by
+    rw [hβ', add_tsub_cancel_of_le]
+    exact Finsupp.single_le_iff.2 hi
+  have hdeg : d = j i + β'.degree := by
+    rw [← hβd, hβ, map_add, Finsupp.degree_single]
+  have hprod : (β.prod fun i e => f i ^ e) = f i ^ j i * β'.prod fun i e => f i ^ e := by
+    rw [hβ, Finsupp.prod_add_index' (fun _ => pow_zero _) (fun _ _ _ => pow_add _ _ _)]
+    congr 1
+    exact Finsupp.prod_single_index (pow_zero _)
+  refine ⟨a i * β'.prod fun i e => f i ^ e, ?_, ?_⟩
+  · have := SetLike.mul_mem_graded (ha i) (prod_pow_mem hf β')
+    rwa [show j i + n + β'.degree = d + n by omega] at this
+  · rw [hprod, map_mul, map_mul, hza i, map_pow]
+    ring
+
+/-- If `fᵢ^{jᵢ} z = aᵢ ∈ S_{jᵢ + n}` for every `i`, and the `fᵢ ∈ S₁` generate `S` over `S₀`, then
+`z · S_d ⊆ S_{d + n}` once `d ≥ ∑ jᵢ`. -/
+private theorem exists_mem_mul_of_le [Fintype ι] [Nonempty ι] {f : ι → A}
+    (hf : ∀ i, f i ∈ 𝒜 1) (hgen : Algebra.adjoin (𝒜 0) (Set.range f) = ⊤)
+    {n : ℕ} {z : FractionRing A} {j : ι → ℕ} {a : ι → A}
+    (ha : ∀ i, a i ∈ 𝒜 (j i + n))
+    (hza : ∀ i, algebraMap A (FractionRing A) (a i) =
+      algebraMap A (FractionRing A) (f i) ^ j i * z)
+    {d : ℕ} (hd : ∑ i, j i ≤ d) {g : A} (hg : g ∈ 𝒜 d) :
+    ∃ b ∈ 𝒜 (d + n), algebraMap A (FractionRing A) b = z * algebraMap A (FractionRing A) g := by
+  classical
+  have hmono := fun β hβ => exists_mem_mul_monomial hf ha hza hd β hβ
+  choose! b hb hbz using hmono
+  obtain ⟨P, rfl⟩ : ∃ P : MvPolynomial ι (𝒜 0), MvPolynomial.aeval f P = g := by
+    have : g ∈ Algebra.adjoin (𝒜 0) (Set.range f) := hgen ▸ Algebra.mem_top
+    rw [Algebra.adjoin_range_eq_range_aeval] at this
+    exact this
+  have hmem : ∀ β : ι →₀ ℕ, ((P.coeff β).1 * β.prod fun i e => f i ^ e) ∈ 𝒜 β.degree := by
+    intro β
+    have := SetLike.mul_mem_graded (P.coeff β).2 (prod_pow_mem hf β)
+    rwa [zero_add] at this
+  have h1 : MvPolynomial.aeval f P =
+      ∑ β ∈ P.support, (P.coeff β).1 * β.prod fun i e => f i ^ e := by
+    conv_lhs => rw [P.as_sum]
+    rw [map_sum]
+    refine Finset.sum_congr rfl fun β _ => ?_
+    rw [MvPolynomial.aeval_monomial]
+    rfl
+  have hexp : MvPolynomial.aeval f P =
+      ∑ β ∈ P.support with β.degree = d, (P.coeff β).1 * β.prod fun i e => f i ^ e := by
+    calc MvPolynomial.aeval f P
+        = (DirectSum.decompose 𝒜 (MvPolynomial.aeval f P) d : A) :=
+          (DirectSum.decompose_of_mem_same 𝒜 hg).symm
+      _ = ∑ β ∈ P.support,
+          (DirectSum.decompose 𝒜 ((P.coeff β).1 * β.prod fun i e => f i ^ e) d : A) := by
+          rw [h1, DirectSum.decompose_sum, DFinsupp.finsetSum_apply,
+            AddSubmonoidClass.coe_finsetSum]
+      _ = _ := by
+          rw [Finset.sum_filter]
+          refine Finset.sum_congr rfl fun β _ => ?_
+          split_ifs with h
+          · exact DirectSum.decompose_of_mem_same 𝒜 (h ▸ hmem β)
+          · exact DirectSum.decompose_of_mem_ne 𝒜 (hmem β) h
+  refine ⟨∑ β ∈ P.support with β.degree = d, (P.coeff β).1 * b β, ?_, ?_⟩
+  · refine sum_mem fun β hβ => ?_
+    have := SetLike.mul_mem_graded (P.coeff β).2 (hb β (Finset.mem_filter.1 hβ).2)
+    rwa [zero_add] at this
+  · rw [hexp, map_sum, map_sum, Finset.mul_sum]
+    refine Finset.sum_congr rfl fun β hβ => ?_
+    rw [map_mul, map_mul, hbz β (Finset.mem_filter.1 hβ).2]
+    ring
+
+/-! ### The chart condition and integrality -/
+
+omit [GradedRing 𝒜] in
+private theorem chartCond_choose {f : ι → A} {n : ℕ} {z : FractionRing A}
+    (hz : ChartCond 𝒜 f n z) :
+    ∃ (j : ι → ℕ) (a : ι → A), (∀ i, a i ∈ 𝒜 (j i + n)) ∧
+      ∀ i, algebraMap A (FractionRing A) (a i) = algebraMap A (FractionRing A) (f i) ^ j i * z := by
+  classical
+  have h : ∀ i, ∃ (j : ℕ) (a : A), a ∈ 𝒜 (j + n) ∧
+      algebraMap A (FractionRing A) a = algebraMap A (FractionRing A) (f i) ^ j * z := by
+    intro i
+    by_cases hi : f i = 0
+    · exact ⟨1, 0, zero_mem _, by rw [hi, map_zero, zero_pow one_ne_zero, zero_mul]⟩
+    · exact hz i hi
+  choose j a ha hza using h
+  exact ⟨j, a, ha, hza⟩
+
+/-- **The determinant trick.** An element `z ∈ K` satisfying the chart condition is integral over
+`S`: it multiplies the nonzero finitely generated ideal `S_{≥ ∑ jᵢ}` into itself. -/
+private theorem isIntegral_of_chartCond [Fintype ι] [IsDomain A] [IsNoetherianRing A]
+    {f : ι → A} (hf : ∀ i, f i ∈ 𝒜 1) (hgen : Algebra.adjoin (𝒜 0) (Set.range f) = ⊤)
+    (hne : ∃ i, f i ≠ 0) {n : ℕ} {z : FractionRing A} (hz : ChartCond 𝒜 f n z) :
+    IsIntegral A z := by
+  obtain ⟨j, a, ha, hza⟩ := chartCond_choose hz
+  obtain ⟨i₀, hi₀⟩ := hne
+  have : Nonempty ι := ⟨i₀⟩
+  set N := ∑ i, j i
+  let G : Set A := {g | ∃ d, N ≤ d ∧ g ∈ 𝒜 d}
+  let M : Submodule A (FractionRing A) :=
+    Submodule.span A (algebraMap A (FractionRing A) '' G)
+  have hMfg : M.FG := by
+    have h1 : (Submodule.span A G).FG := IsNoetherian.noetherian _
+    have h2 := h1.map (Algebra.linearMap A (FractionRing A))
+    rwa [Submodule.map_span] at h2
+  have hM0 : M ≠ ⊥ := by
+    intro hM
+    have hmem : algebraMap A (FractionRing A) (f i₀ ^ N) ∈ M :=
+      Submodule.subset_span ⟨_, ⟨N, le_rfl, by
+        simpa using SetLike.pow_mem_graded N (hf i₀)⟩, rfl⟩
+    rw [hM, Submodule.mem_bot,
+      map_eq_zero_iff _ (IsFractionRing.injective A (FractionRing A))] at hmem
+    exact pow_ne_zero N hi₀ hmem
+  refine isIntegral_of_smul_mem_submodule M hM0 hMfg z fun w hw => ?_
+  induction hw using Submodule.span_induction with
+  | mem w hw =>
+    obtain ⟨g, ⟨d, hd, hg⟩, rfl⟩ := hw
+    obtain ⟨b, hb, hbz⟩ := exists_mem_mul_of_le hf hgen ha hza hd hg
+    rw [smul_eq_mul, ← hbz]
+    exact Submodule.subset_span ⟨b, ⟨d + n, by omega, hb⟩, rfl⟩
+  | zero => simp
+  | add w w' _ _ hw hw' =>
+    rw [smul_add]
+    exact add_mem hw hw'
+  | smul c w _ hw =>
+    rw [smul_comm]
+    exact M.smul_mem c hw
+
+/-! ### Homogeneous fractions -/
+
+section HomFrac
+
+variable [IsDomain A]
+
+private theorem isHomFrac_zero (n : ℕ) : IsHomFrac (𝒜 := 𝒜) n 0 :=
+  ⟨0, 0, 1, zero_mem _, SetLike.GradedOne.one_mem, one_ne_zero, by simp⟩
+
+private theorem isHomFrac_add {n : ℕ} {z w : FractionRing A} (hz : IsHomFrac (𝒜 := 𝒜) n z)
+    (hw : IsHomFrac (𝒜 := 𝒜) n w) : IsHomFrac (𝒜 := 𝒜) n (z + w) := by
+  have := hz.sub ((isHomFrac_zero n).sub hw)
+  rwa [zero_sub, sub_neg_eq_add] at this
+
+private theorem isHomFrac_smul {n e : ℕ} {z : FractionRing A} (hz : IsHomFrac (𝒜 := 𝒜) n z)
+    {c : A} (hc : c ∈ 𝒜 e) : IsHomFrac (𝒜 := 𝒜) (n + e) (c • z) := by
+  obtain ⟨e', a, s, ha, hs, hs0, rfl⟩ := hz
+  refine ⟨e', c * a, s, ?_, hs, hs0, ?_⟩
+  · have := SetLike.mul_mem_graded hc ha
+    rwa [show e + (e' + n) = e' + (n + e) by ring] at this
+  · rw [Algebra.smul_def, map_mul, mul_div_assoc]
+
+private theorem isHomFrac_of_chartCond {f : ι → A} (hf : ∀ i, f i ∈ 𝒜 1) {n : ℕ}
+    {z : FractionRing A} (hz : ChartCond 𝒜 f n z) {i : ι} (hi : f i ≠ 0) :
+    IsHomFrac (𝒜 := 𝒜) n z := by
+  obtain ⟨j, a, ha, hza⟩ := hz i hi
+  have h0 : algebraMap A (FractionRing A) (f i ^ j) ≠ 0 :=
+    (map_ne_zero_iff _ (IsFractionRing.injective A (FractionRing A))).2 (pow_ne_zero j hi)
+  refine ⟨j, a, f i ^ j, ha, by simpa using SetLike.pow_mem_graded j (hf i), pow_ne_zero j hi, ?_⟩
+  rw [eq_div_iff h0, hza, map_pow, mul_comm]
+
+
+end HomFrac
+
+/-- **A uniform degree bound.** Let `S` be a Noetherian graded domain, generated over `S₀` by
+finitely many `fᵢ ∈ S₁`, not all zero, whose integral closure in `K` is a finite `S`-module. Then
+there is `N` such that every `z ∈ K` satisfying the chart condition in a degree `n ≥ N` lies in
+`S_n`. The span of all elements satisfying a chart condition is finitely generated (it lies in the
+integral closure); a generator `g` of degree `n_g` multiplies `S_d` into `S_{d + n_g}` for
+`d ≥ D_g`, and comparing homogeneous components of `z = ∑ c_g g` gives `z ∈ S_n` once
+`n ≥ ∑ (n_g + D_g)`. -/
+theorem exists_bound_of_chartCond [Fintype ι] [IsDomain A] [IsNoetherianRing A]
+    (hfin : Module.Finite A (integralClosure A (FractionRing A)))
+    {f : ι → A} (hf : ∀ i, f i ∈ 𝒜 1) (hgen : Algebra.adjoin (𝒜 0) (Set.range f) = ⊤)
+    (hne : ∃ i, f i ≠ 0) :
+    ∃ N : ℕ, ∀ n ≥ N, ∀ z, ChartCond 𝒜 f n z →
+      ∃ b ∈ 𝒜 n, algebraMap A (FractionRing A) b = z := by
+  classical
+  obtain ⟨i₀, hi₀⟩ := hne
+  let V : Set (FractionRing A) := {z | ∃ n, ChartCond 𝒜 f n z}
+  have hle : Submodule.span A V ≤ Subalgebra.toSubmodule (integralClosure A (FractionRing A)) := by
+    rw [Submodule.span_le]
+    rintro z ⟨n, hz⟩
+    exact isIntegral_of_chartCond hf hgen ⟨i₀, hi₀⟩ hz
+  have hfg : (Submodule.span A V).FG := Submodule.FG.of_le (Module.Finite.iff_fg.1 hfin) hle
+  obtain ⟨G, hGV, hspan⟩ := (Submodule.fg_span_iff_fg_span_finset_subset V).1 hfg
+  have hG : ∀ g ∈ G, ∃ (n D : ℕ), ChartCond 𝒜 f n g ∧ ∀ d, D ≤ d → ∀ c ∈ 𝒜 d,
+      ∃ b ∈ 𝒜 (d + n), algebraMap A (FractionRing A) b = g * algebraMap A (FractionRing A) c := by
+    intro g hg
+    obtain ⟨n, hn⟩ := hGV hg
+    obtain ⟨j, a, ha, hza⟩ := chartCond_choose hn
+    have : Nonempty ι := ⟨i₀⟩
+    exact ⟨n, ∑ i, j i, hn, fun d hd c hc => exists_mem_mul_of_le hf hgen ha hza hd hc⟩
+  choose! deg D hcc hD using hG
+  refine ⟨∑ g ∈ G, (deg g + D g), fun n hn z hz => ?_⟩
+  have hbound : ∀ g ∈ G, deg g + D g ≤ n := fun g hg =>
+    le_trans (Finset.single_le_sum (f := fun g => deg g + D g) (fun _ _ => Nat.zero_le _) hg) hn
+  have hzG : z ∈ Submodule.span A (G : Set (FractionRing A)) :=
+    hspan ▸ Submodule.subset_span ⟨n, hz⟩
+  obtain ⟨c, -, hcz⟩ := Submodule.mem_span_finset.1 hzG
+  -- the components of the coefficients
+  let comp : FractionRing A → ℕ → A := fun g m =>
+    if deg g ≤ m then (DirectSum.decompose 𝒜 (c g) (m - deg g) : A) else 0
+  have hcomp_mem : ∀ g ∈ G, ∀ m, IsHomFrac (𝒜 := 𝒜) m (comp g m • g) := by
+    intro g hg m
+    by_cases hm : deg g ≤ m
+    · have h1 := isHomFrac_smul (isHomFrac_of_chartCond hf (hcc g hg) hi₀)
+        (SetLike.coe_mem (DirectSum.decompose 𝒜 (c g) (m - deg g)))
+      rw [show deg g + (m - deg g) = m by omega] at h1
+      simpa [comp, hm] using h1
+    · simpa [comp, hm] using isHomFrac_zero (𝒜 := 𝒜) m
+  let E : Finset ℕ := insert n (G.biUnion fun g =>
+    (DirectSum.decompose 𝒜 (c g)).support.image (· + deg g))
+  let u : ℕ → FractionRing A := fun m =>
+    (∑ g ∈ G, comp g m • g) - if m = n then z else 0
+  have hu : ∀ m ∈ E, IsHomFrac (𝒜 := 𝒜) m (u m) := by
+    intro m _
+    refine IsHomFrac.sub (Finset.sum_induction _ (IsHomFrac (𝒜 := 𝒜) m)
+      (fun _ _ => isHomFrac_add) (isHomFrac_zero _) fun g hg => hcomp_mem g hg m) ?_
+    split_ifs with h
+    · rw [h]
+      exact isHomFrac_of_chartCond hf hz hi₀
+    · exact isHomFrac_zero _
+  have hsum_g : ∀ g ∈ G, ∑ m ∈ E, comp g m = c g := by
+    intro g hg
+    have hsub : (DirectSum.decompose 𝒜 (c g)).support.image (· + deg g) ⊆ E := fun m hm =>
+      Finset.mem_insert_of_mem (Finset.mem_biUnion.2 ⟨g, hg, hm⟩)
+    rw [← Finset.sum_subset hsub, Finset.sum_image (fun _ _ _ _ h => Nat.add_right_cancel h)]
+    · conv_rhs => rw [← DirectSum.sum_support_decompose 𝒜 (c g)]
+      refine Finset.sum_congr rfl fun e _ => ?_
+      simp only [comp, if_pos (Nat.le_add_left (deg g) e)]
+      rw [Nat.add_sub_cancel]
+    · intro m _ hm
+      simp only [comp]
+      split_ifs with h
+      · have : m - deg g ∉ (DirectSum.decompose 𝒜 (c g)).support := fun h' =>
+          hm (Finset.mem_image.2 ⟨m - deg g, h', by omega⟩)
+        rw [DFinsupp.notMem_support_iff.1 this]
+        rfl
+      · rfl
+  have hsum : ∑ m ∈ E, u m = 0 := by
+    simp only [u, Finset.sum_sub_distrib]
+    rw [Finset.sum_comm, Finset.sum_ite_eq' E n (fun _ => z), if_pos (Finset.mem_insert_self _ _),
+      sub_eq_zero, ← hcz]
+    refine Finset.sum_congr rfl fun g hg => ?_
+    rw [← Finset.sum_smul, hsum_g g hg]
+  have h0 := eq_zero_of_sum_isHomFrac_eq_zero E u hu hsum n (Finset.mem_insert_self _ _)
+  replace h0 : ∑ g ∈ G, comp g n • g = z := by simpa [u, sub_eq_zero] using h0
+  -- each term of the degree-`n` part lies in `S_n`
+  have hterm : ∀ g ∈ G, ∃ b ∈ 𝒜 n, algebraMap A (FractionRing A) b = comp g n • g := by
+    intro g hg
+    have hle' : deg g ≤ n := by have := hbound g hg; omega
+    obtain ⟨b, hb, hbe⟩ := hD g hg (n - deg g) (by have := hbound g hg; omega) _
+      (SetLike.coe_mem (DirectSum.decompose 𝒜 (c g) (n - deg g)))
+    refine ⟨b, by rwa [show n - deg g + deg g = n by omega] at hb, ?_⟩
+    rw [hbe, Algebra.smul_def, mul_comm]
+    simp [comp, hle']
+  choose! b hb hbe using hterm
+  exact ⟨∑ g ∈ G, b g, sum_mem hb, by rw [map_sum, ← h0]; exact Finset.sum_congr rfl hbe⟩
+
+end Bound
+
 end EventualSectionRecovery
 
 end Hartshorne
