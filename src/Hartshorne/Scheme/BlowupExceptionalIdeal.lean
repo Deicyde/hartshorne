@@ -215,7 +215,204 @@ theorem reesTwistAwayToAway_mk (n : ℕ) (y : reesAlgebra I)
   rw [← reesShift_mul_reesDegOne I ha hy']
   ring
 
+/-! #### Division by `t` on the degree-zero localizations of `S(1)` -/
+
+theorem reesShift_mul_of_mem_one {f : reesAlgebra I} (hf : f ∈ reesGrading I 1) {n : ℕ}
+    {y : reesAlgebra I} (hy : y ∈ reesGrading I (n + 1)) :
+    reesShift I y * f = y * algebraMap A (reesAlgebra I) ((f : A[X]).coeff 1) := by
+  have hc : (f : A[X]).coeff 1 ∈ I := by
+    simpa using (mem_reesAlgebra_iff I _).1 f.2 1
+  have hfe : f = reesDegOne I hc := Subtype.ext (mem_reesGrading_iff.1 hf)
+  exact (congrArg (reesShift I y * ·) hfe).trans (reesShift_mul_reesDegOne I hc hy)
+
+theorem reesShift_add (y z : reesAlgebra I) : reesShift I (y + z) = reesShift I y + reesShift I z :=
+  Subtype.ext divX_add
+
+theorem reesShift_mul_of_coeff_zero (c y : reesAlgebra I) (hy : (y : A[X]).coeff 0 = 0) :
+    reesShift I (c * y) = c * reesShift I y := by
+  apply Subtype.ext
+  change divX ((c : A[X]) * (y : A[X])) = (c : A[X]) * divX (y : A[X])
+  have h1 := X_mul_divX_add ((c : A[X]) * (y : A[X]))
+  have h2 := X_mul_divX_add (y : A[X])
+  rw [mul_coeff_zero, hy, mul_zero, C_0, add_zero] at h1
+  rw [hy, C_0, add_zero] at h2
+  have h3 : X * (divX ((c : A[X]) * (y : A[X])) - (c : A[X]) * divX (y : A[X])) = 0 := by
+    linear_combination h1 - (c : A[X]) * h2
+  exact sub_eq_zero.1 ((monic_X.mul_right_eq_zero_iff).1 h3)
+
+variable (T : Submonoid (reesAlgebra I))
+
+/-- Representations `m / s` of elements of `S(1)_T`: `m ∈ S(1)_n`, `s ∈ S_n ∩ T`. -/
+private abbrev TwistData :=
+  (n : ℕ) × {m : reesAlgebra I // m ∈ gradedTwist (reesGrading I) 1 n} ×
+    {s : reesAlgebra I // s ∈ reesGrading I n ∧ s ∈ T}
+
+private noncomputable def TwistData.toHLM (d : TwistData I T) :
+    HomogeneousLocalizedModule (reesGrading I) (gradedTwist (reesGrading I) 1) T :=
+  HomogeneousLocalizedModule.mk d.1 d.2.1.1 d.2.1.2 d.2.2.1 d.2.2.2.1 d.2.2.2.2
+
+theorem mem_reesGrading_succ_of_mem_twist {n : ℕ} {m : reesAlgebra I}
+    (hm : m ∈ gradedTwist (reesGrading I) 1 n) : m ∈ reesGrading I (n + 1) :=
+  (mem_gradedTwist_of_eq (k := n + 1) (by push_cast; ring)).1 hm
+
+private noncomputable def TwistData.divX (d : TwistData I T) :
+    HomogeneousLocalization (reesGrading I) T :=
+  HomogeneousLocalization.mk ⟨d.1, ⟨reesShift I d.2.1.1,
+    reesShift_mem I (mem_reesGrading_succ_of_mem_twist I d.2.1.2)⟩, ⟨d.2.2.1, d.2.2.2.1⟩,
+    d.2.2.2.2⟩
+
+private theorem TwistData.divX_congr (hT : ∃ f ∈ reesGrading I 1, f ∈ T) (d d' : TwistData I T)
+    (h : d.toHLM = d'.toHLM) : d.divX = d'.divX := by
+  obtain ⟨f, hf1, hfT⟩ := hT
+  obtain ⟨n, ⟨m, hm⟩, ⟨s, hs, hsx⟩⟩ := d
+  obtain ⟨n', ⟨m', hm'⟩, ⟨s', hs', hsx'⟩⟩ := d'
+  have he' := congrArg HomogeneousLocalizedModule.val h
+  simp only [TwistData.toHLM, HomogeneousLocalizedModule.val_mk, LocalizedModule.mk_eq] at he'
+  obtain ⟨⟨c, hc⟩, hc'⟩ := he'
+  simp only [Submonoid.mk_smul, smul_eq_mul] at hc'
+  apply HomogeneousLocalization.val_injective
+  simp only [TwistData.divX]
+  rw [HomogeneousLocalization.val_mk, HomogeneousLocalization.val_mk, Localization.mk_eq_mk_iff,
+    Localization.r_iff_exists]
+  refine ⟨⟨c * f, mul_mem hc hfT⟩, ?_⟩
+  have k1 := reesShift_mul_of_mem_one I hf1 (mem_reesGrading_succ_of_mem_twist I hm)
+  have k2 := reesShift_mul_of_mem_one I hf1 (mem_reesGrading_succ_of_mem_twist I hm')
+  simp only
+  linear_combination (c * s') * k1 - (c * s) * k2 +
+    algebraMap A (reesAlgebra I) ((f : A[X]).coeff 1) * hc'
+
+/-- A chosen representation of an element of `S(1)_T`. -/
+private noncomputable def twistRep
+    (y : HomogeneousLocalizedModule (reesGrading I) (gradedTwist (reesGrading I) 1) T) :
+    {d : TwistData I T // y = d.toHLM} :=
+  Classical.choice <| by
+    obtain ⟨n, m, hm, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective y
+    exact ⟨⟨⟨n, ⟨m, hm⟩, ⟨s, hs, hsx⟩⟩, rfl⟩⟩
+
+/-- **Division by `t`**, `S(1)_T → S_T`, `m / s ↦ (m / t) / s` (`val_twistDivX_mk`), when `T`
+contains an element of degree one. -/
+noncomputable def twistDivX
+    (y : HomogeneousLocalizedModule (reesGrading I) (gradedTwist (reesGrading I) 1) T) :
+    HomogeneousLocalization (reesGrading I) T :=
+  (twistRep I T y).1.divX
+
+theorem twistDivX_mk (hT : ∃ f ∈ reesGrading I 1, f ∈ T) (n : ℕ) (m : reesAlgebra I)
+    (hm : m ∈ gradedTwist (reesGrading I) 1 n) (s : reesAlgebra I) (hs : s ∈ reesGrading I n)
+    (hsx : s ∈ T) :
+    twistDivX I T (HomogeneousLocalizedModule.mk n m hm s hs hsx) =
+      HomogeneousLocalization.mk ⟨n, ⟨reesShift I m,
+        reesShift_mem I (mem_reesGrading_succ_of_mem_twist I hm)⟩, ⟨s, hs⟩, hsx⟩ :=
+  TwistData.divX_congr I T hT _ ⟨n, ⟨m, hm⟩, ⟨s, hs, hsx⟩⟩ (twistRep I T _).2.symm
+
+theorem coeff_zero_of_mem_twist {n : ℕ} {m : reesAlgebra I}
+    (hm : m ∈ gradedTwist (reesGrading I) 1 n) : (m : A[X]).coeff 0 = 0 :=
+  mem_reesGrading_succ_of_mem_twist I hm 0 (by omega)
+
+theorem twistDivX_add (hT : ∃ f ∈ reesGrading I 1, f ∈ T)
+    (y z : HomogeneousLocalizedModule (reesGrading I) (gradedTwist (reesGrading I) 1) T) :
+    twistDivX I T (y + z) = twistDivX I T y + twistDivX I T z := by
+  obtain ⟨n, m, hm, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective y
+  obtain ⟨n', m', hm', s', hs', hsx', rfl⟩ := HomogeneousLocalizedModule.mk_surjective z
+  have hmem : s' • m + s • m' ∈ gradedTwist (reesGrading I) 1 ((n + n' : ℕ) : ℤ) := by
+    refine add_mem ?_ ?_
+    · have := smul_mem_graded_nat (reesGrading I) (gradedTwist (reesGrading I) 1) hs' hm
+      rwa [show ((n' : ℕ) : ℤ) + n = ((n + n' : ℕ) : ℤ) by push_cast; ring] at this
+    · have := smul_mem_graded_nat (reesGrading I) (gradedTwist (reesGrading I) 1) hs hm'
+      rwa [show ((n : ℕ) : ℤ) + n' = ((n + n' : ℕ) : ℤ) by push_cast; ring] at this
+  have e : HomogeneousLocalizedModule.mk n m hm s hs hsx +
+      HomogeneousLocalizedModule.mk n' m' hm' s' hs' hsx' =
+      HomogeneousLocalizedModule.mk (n + n') (s' • m + s • m') hmem (s * s')
+        (SetLike.GradedMul.mul_mem hs hs') (mul_mem hsx hsx') := by
+    ext
+    simp only [HomogeneousLocalizedModule.val_add, HomogeneousLocalizedModule.val_mk]
+    rw [LocalizedModule.mk_add_mk]
+    rfl
+  rw [e, twistDivX_mk I T hT, twistDivX_mk I T hT, twistDivX_mk I T hT]
+  apply HomogeneousLocalization.val_injective
+  rw [HomogeneousLocalization.val_add, HomogeneousLocalization.val_mk,
+    HomogeneousLocalization.val_mk, HomogeneousLocalization.val_mk, Localization.add_mk]
+  congr 1
+  simp only [smul_eq_mul]
+  rw [reesShift_add, reesShift_mul_of_coeff_zero I _ _ (coeff_zero_of_mem_twist I hm),
+    reesShift_mul_of_coeff_zero I _ _ (coeff_zero_of_mem_twist I hm')]
+  ring
+
+theorem twistDivX_smul (hT : ∃ f ∈ reesGrading I 1, f ∈ T) (c : HomogeneousLocalization (reesGrading I) T)
+    (y : HomogeneousLocalizedModule (reesGrading I) (gradedTwist (reesGrading I) 1) T) :
+    twistDivX I T (c • y) = c * twistDivX I T y := by
+  obtain ⟨n, m, hm, s, hs, hsx, rfl⟩ := HomogeneousLocalizedModule.mk_surjective y
+  obtain ⟨⟨i, ⟨a, ha⟩, ⟨b, hb⟩, hbx⟩, rfl⟩ := HomogeneousLocalization.mk_surjective c
+  have hmem : a • m ∈ gradedTwist (reesGrading I) 1 ((i + n : ℕ) : ℤ) := by
+    have := smul_mem_graded_nat (reesGrading I) (gradedTwist (reesGrading I) 1) ha hm
+    rwa [show ((i : ℕ) : ℤ) + n = ((i + n : ℕ) : ℤ) by push_cast; ring] at this
+  have e : HomogeneousLocalization.mk ⟨i, ⟨a, ha⟩, ⟨b, hb⟩, hbx⟩ •
+      HomogeneousLocalizedModule.mk n m hm s hs hsx =
+      HomogeneousLocalizedModule.mk (i + n) (a • m) hmem (b * s)
+        (SetLike.GradedMul.mul_mem hb hs) (mul_mem hbx hsx) := by
+    ext
+    rw [HomogeneousLocalizedModule.val_smul, HomogeneousLocalizedModule.val_mk,
+      HomogeneousLocalizedModule.val_mk, HomogeneousLocalization.val_mk]
+    exact LocalizedModule.mk_smul_mk _ _ _ _
+  rw [e, twistDivX_mk I T hT, twistDivX_mk I T hT]
+  apply HomogeneousLocalization.val_injective
+  rw [HomogeneousLocalization.val_mul, HomogeneousLocalization.val_mk,
+    HomogeneousLocalization.val_mk, HomogeneousLocalization.val_mk, Localization.mk_mul]
+  congr 1
+  simp only [smul_eq_mul]
+  exact reesShift_mul_of_coeff_zero I _ _ (coeff_zero_of_mem_twist I hm)
+
 end Algebra
+
+/-! ### The map `𝒪(1) ⟶ 𝒪` on `Proj A[It]` -/
+
+section ProjMap
+
+open TopologicalSpace Opposite ProjGradedModuleSheaf
+
+variable {A : Type u} [CommRing A] (I : Ideal A)
+
+theorem adjoin_reesGrading_one_eq_top :
+    Algebra.adjoin (reesGrading I 0) (reesGrading I 1 : Set (reesAlgebra I)) = ⊤ := by
+  refine eq_top_iff.2 fun x _ => ?_
+  have hx : x ∈ Subring.closure
+      ((reesGrading I 0 : Set (reesAlgebra I)) ∪ reesGrading I 1) := by
+    rw [closure_reesGrading_zero_union_one]; exact Subring.mem_top x
+  refine Subring.closure_le (t := (Algebra.adjoin (reesGrading I 0)
+    (reesGrading I 1 : Set (reesAlgebra I))).toSubring) |>.2 ?_ hx
+  rintro y (hy | hy)
+  · exact Subalgebra.algebraMap_mem _ (⟨y, hy⟩ : reesGrading I 0)
+  · exact Algebra.subset_adjoin hy
+
+theorem exists_reesGrading_one_mem_primeCompl (x : ProjectiveSpectrum (reesGrading I)) :
+    ∃ f ∈ reesGrading I 1, f ∈ x.asHomogeneousIdeal.toIdeal.primeCompl :=
+  ProjTwistingSheaf.exists_mem_one_notMem (adjoin_reesGrading_one_eq_top I) x
+
+/-- Division by `t` on the sections of `𝒪(1) = S(1)~` over `U`, pointwise. -/
+noncomputable def twistDivXSections (U : Opens (ProjectiveSpectrum.top (reesGrading I))) :
+    (sheafInType (reesGrading I) (gradedTwist (reesGrading I) 1)).1.obj (op U) →+
+      (ProjectiveSpectrum.Proj.structureSheaf (reesGrading I)).1.obj (op U) :=
+  AddMonoidHom.mk' (fun s => ⟨fun x => twistDivX I _ (s.1 x), fun x => by
+    obtain ⟨V, hxV, i, n, m, hm, t, ht, t_nin, w⟩ := s.2 x
+    refine ⟨V, hxV, i, n, ⟨reesShift I m, reesShift_mem I (mem_reesGrading_succ_of_mem_twist I hm)⟩,
+      ⟨t, ht⟩, t_nin, fun y => ?_⟩
+    exact (congrArg (twistDivX I _) (w y)).trans
+      (twistDivX_mk I _ (exists_reesGrading_one_mem_primeCompl I _) _ _ _ _ _ _)⟩)
+    fun s t => Subtype.ext <| funext fun x =>
+      twistDivX_add I _ (exists_reesGrading_one_mem_primeCompl I x.1) (s.1 x) (t.1 x)
+
+set_option backward.isDefEq.respectTransparency false in
+/-- **The map `𝒪(1) ⟶ 𝒪` on `Proj A[It]`**: pointwise division by `t`,
+`S(1)_(x) → S_(x)`, `m / s ↦ (m / t) / s`. -/
+noncomputable def twistDivXHom :
+    projTwistingSheaf (reesGrading I) 1 ⟶
+      SheafOfModules.unit (Proj (reesGrading I)).ringCatSheaf :=
+  ⟨PresheafOfModules.homMk
+    { app := fun U => AddCommGrpCat.ofHom (twistDivXSections I U.unop)
+      naturality := fun _ _ _ => rfl }
+    fun _ r s => Subtype.ext <| funext fun x =>
+      twistDivX_smul I _ (exists_reesGrading_one_mem_primeCompl I x.1) (r.1 x) (s.1 x)⟩
+
+end ProjMap
 
 section Scheme
 
