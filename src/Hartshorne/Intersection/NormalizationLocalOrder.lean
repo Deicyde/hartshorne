@@ -198,4 +198,73 @@ theorem length_quotient_eq_finsum_primesOver (hQ : ringKrullDim (Localization.At
       (Algebra.algebraMapSubmonoid O Q.primeCompl) m.asIdeal,
       inertiaDeg_eq_of_isLocalization (O := O) (B := B) Q.primeCompl m.asIdeal]
 
+/-- Under the hypotheses of `length_quotient_eq_finsum_primesOver`, every prime `𝔔` of `O` lying
+over `Q` has `dim O_𝔔 = 1`: `O_𝔔` is the localization of the semilocal Dedekind domain `B` at a
+maximal ideal. -/
+theorem ringKrullDim_localization_of_comap_eq (hQ : ringKrullDim (Localization.AtPrime Q) = 1)
+    [Module.Finite D (integralClosure D (FractionRing D))]
+    (𝔔 : PrimeSpectrum (integralClosure D (FractionRing D)))
+    (h𝔔 : 𝔔.asIdeal.comap (algebraMap D _) = Q) :
+    ringKrullDim (Localization.AtPrime 𝔔.asIdeal) = 1 := by
+  classical
+  let K := FractionRing D
+  let A := Localization.AtPrime Q
+  let O := integralClosure D K
+  let φAK := Localization.mapToFractionRing K Q.primeCompl A Q.primeCompl_le_nonZeroDivisors
+  let _ : Algebra A K := φAK.toRingHom.toAlgebra
+  have : IsScalarTower D A K := IsScalarTower.of_algebraMap_eq fun d ↦ (φAK.commutes d).symm
+  have : IsFractionRing A K :=
+    IsFractionRing.isFractionRing_of_isDomain_of_isLocalization Q.primeCompl A K
+  let B := integralClosure A K
+  let ι : O →+* B :=
+    { toFun := fun x ↦ ⟨x, IsIntegral.tower_top (A := A) x.2⟩
+      map_one' := rfl
+      map_mul' := fun _ _ ↦ rfl
+      map_zero' := rfl
+      map_add' := fun _ _ ↦ rfl }
+  let _ : Algebra O B := ι.toAlgebra
+  have : IsScalarTower O B K := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  have : IsScalarTower D O B := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  have : IsScalarTower D A B := IsScalarTower.of_algebraMap_eq fun d ↦ by
+    apply Subtype.ext
+    exact IsScalarTower.algebraMap_apply D A K d
+  have : IsLocalization (Algebra.algebraMapSubmonoid K Q.primeCompl) K :=
+    IsLocalization.self fun x ⟨d, hd, hx⟩ ↦ by
+      rw [← hx]
+      exact (IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors
+        (Q.primeCompl_le_nonZeroDivisors hd)).isUnit
+  have hloc : IsLocalization (Algebra.algebraMapSubmonoid O Q.primeCompl) B :=
+    IsLocalization.integralClosure (R := D) (S := K) (Rf := A) (Sf := K) Q.primeCompl
+  have : Module.Finite A B := Module.Finite.of_isLocalization D O Q.primeCompl
+  have hdisj : Disjoint (Algebra.algebraMapSubmonoid O Q.primeCompl : Set O) 𝔔.asIdeal := by
+    refine Set.disjoint_left.mpr ?_
+    rintro _ ⟨s, hs, rfl⟩ hs𝔔
+    exact hs (h𝔔 ▸ (Ideal.mem_comap.mpr hs𝔔))
+  let m := 𝔔.asIdeal.map (algebraMap O B)
+  have hmprime : m.IsPrime := IsLocalization.isPrime_of_isPrime_disjoint
+    (Algebra.algebraMapSubmonoid O Q.primeCompl) B _ 𝔔.isPrime hdisj
+  have hcomap : m.comap (algebraMap O B) = 𝔔.asIdeal :=
+    IsLocalization.under_map_of_isPrime_disjoint _ B 𝔔.isPrime hdisj
+  have hmA : m.comap (algebraMap A B) = maximalIdeal A := by
+    have : (m.comap (algebraMap A B)).IsPrime := Ideal.IsPrime.comap _
+    apply (IsLocalization.orderEmbedding Q.primeCompl A).injective
+    change Ideal.comap _ _ = Ideal.comap _ _
+    rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq, IsScalarTower.algebraMap_eq D O B,
+      ← Ideal.comap_comap, hcomap, h𝔔]
+    exact (IsLocalization.AtPrime.under_maximalIdeal A Q).symm
+  have hmmax : m.IsMaximal := Ideal.isMaximal_of_isIntegral_of_isMaximal_comap _
+    (by rw [hmA]; exact maximalIdeal.isMaximal A)
+  have := NormalizationOrderLength.isDiscreteValuationRing_localization K hQ m
+  let 𝔔' : PrimeSpectrum O := ⟨m.comap (algebraMap O B), Ideal.IsPrime.comap _⟩
+  have h𝔔' : 𝔔' = 𝔔 := PrimeSpectrum.ext hcomap
+  have : IsLocalization.AtPrime (Localization.AtPrime m) 𝔔'.asIdeal :=
+    IsLocalization.isLocalization_isLocalization_atPrime_isLocalization
+      (Algebra.algebraMapSubmonoid O Q.primeCompl) (Localization.AtPrime m) m
+  let e := IsLocalization.algEquiv 𝔔'.asIdeal.primeCompl (Localization.AtPrime m)
+    (Localization.AtPrime 𝔔'.asIdeal)
+  have h : ringKrullDim (Localization.AtPrime 𝔔'.asIdeal) = 1 := by
+    rw [← ringKrullDim_eq_of_ringEquiv e.toRingEquiv]
+    exact IsDiscreteValuationRing.ringKrullDim_eq_one (Localization.AtPrime m)
+  exact h𝔔' ▸ h
+
 end Hartshorne.NormalizationLocalOrder
