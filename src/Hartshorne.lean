@@ -751,3 +751,4 @@ import Hartshorne.Scheme.ProjectiveSchemeAsProj
 import Hartshorne.Scheme.FiniteLinearSystem
 import Hartshorne.Scheme.ProjectiveIdealSaturation
 import Hartshorne.Scheme.ProjectiveGlobalSectionsFinite
+import Hartshorne.Scheme.AffineFormalModuleExact
