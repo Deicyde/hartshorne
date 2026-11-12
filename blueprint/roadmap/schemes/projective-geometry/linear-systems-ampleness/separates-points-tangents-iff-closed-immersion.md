@@ -16,6 +16,7 @@ closed points and tangent vectors.
 - [Morphisms from generated invertible sheaves](morphism-from-generated-line-bundle.md)
 - [A cotangent criterion for surjectivity of a local map](local-map-surjective-from-cotangent.md)
 - [Tangent vectors and the dual numbers](../../foundational-properties/tangent-vectors-dual-numbers.md)
+- [Finite-dimensional linear systems on an arbitrary variety](../../../cohomology/smooth-morphisms/finite-dimensional-linear-system-on-variety.md)
 
 ## Proof depends on
 
