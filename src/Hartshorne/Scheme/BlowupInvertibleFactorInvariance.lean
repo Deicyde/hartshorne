@@ -10,7 +10,7 @@ import Hartshorne.Scheme.RelativeProjLineBundleTwist
 
 Hartshorne, *Algebraic Geometry*, II, Exercise 7.11(b) (p. 171): for a coherent sheaf of ideals
 `I` and an invertible sheaf of ideals `L` on a Noetherian scheme `X`, the blowups of `X` along `I`
-and along `I · L` are canonically isomorphic over `X`.
+and along `I · L` are isomorphic; the isomorphism constructed here is canonical and lies over `X`.
 
 ## The product of sheaves of ideals
 
@@ -463,9 +463,10 @@ theorem projReesMulTwistIso_hom_toSpec (U : (framedAffines L.toModules).FullSubc
 
 variable [IsNoetherian X] (hI : IsCoherent I.toModules)
 
-/-- **Blowups are invariant under invertible factors** (Hartshorne II, Exercise 7.11(b)). For a
-coherent sheaf of ideals `I` and an invertible sheaf of ideals `L` on a Noetherian scheme `X`, the
-blowup of `X` along `I · L` is canonically isomorphic to the blowup along `I`, over `X`
+/-- **Blowups are invariant under invertible factors** (Hartshorne II, Exercise 7.11(b): the two
+blowups are isomorphic). For a coherent sheaf of ideals `I` and an invertible sheaf of ideals `L` on
+a Noetherian scheme `X`, the blowup of `X` along `I · L` is canonically isomorphic to the blowup
+along `I`, over `X`
 (`blowupMulIso_hom_blowupProjection`). It is the composite
 `Proj_X (⨁ₙ (I · L)ⁿ) ≅ Proj_X ((⨁ₙ Iⁿ) · L) ≅ Proj_X (⨁ₙ Iⁿ)`: the first isomorphism is glued
 from the identifications `Γ(U, ⨁ₙ (I · L)ⁿ) ≅ Γ(U, ⨁ₙ Iⁿ) ≅ Γ(U, (⨁ₙ Iⁿ) · L)` over the affine opens
