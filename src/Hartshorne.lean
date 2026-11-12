@@ -700,3 +700,4 @@ import Hartshorne.Curve.NormalizationDeltaQuotient
 import Hartshorne.Cohomology.Flatness.FlatMorphismBaseChange
 import Hartshorne.Cohomology.SerreAffinenessCriterion
 import Hartshorne.Cohomology.AffineCoverComparison
+import Hartshorne.Cohomology.InfinitesimalFibers
