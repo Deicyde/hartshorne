@@ -14,7 +14,7 @@ import Hartshorne.Scheme.CoherentAffineLocalCriterion
 
 Hartshorne, *Algebraic Geometry*, II, Proposition 9.4(c) (pp. 195–196): for a Noetherian ring `A`
 and an ideal `I`, the functor `M ↦ M^Δ` from finite `A`-modules to modules on `Spf_I(A)` is exact.
-Hartshorne checks exactness on stalks: on the basic opens `D(f) ∩ V(I)` the sections of `M^Δ` are
+The proof here checks exactness on stalks: on the basic opens `D(f) ∩ V(I)` the sections of `M^Δ` are
 the completions of the `M_f`, completion is exact on finite modules, and stalks are filtered
 colimits of sections over basic neighbourhoods. The proof here follows that route.
 
