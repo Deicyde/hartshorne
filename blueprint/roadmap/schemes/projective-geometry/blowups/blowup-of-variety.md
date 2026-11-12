@@ -16,6 +16,7 @@ projective.
 - [Relative Proj is proper](../relative-proj-bundles/relative-proj-proper.md)
 - [An ample twist makes relative Proj projective](../relative-proj-bundles/relative-proj-projective-after-ample-twist.md)
 - [A blowup is an isomorphism off its center](isomorphism-off-center.md)
+- [Quasi-projective morphisms](../../proper-and-projective/quasi-projective-morphism.md)
 
 ## Proof depends on
 
