@@ -735,3 +735,4 @@ import Hartshorne.Scheme.ProjectiveClosedImmersionChartCriterion
 import Hartshorne.Scheme.ProjectionFromPoint
 import Hartshorne.Scheme.BlowupPowerInvariance
 import Hartshorne.Scheme.Differentials.CanonicalSheafSmoothHypersurface
+import Hartshorne.Scheme.EmbeddedCurveDegree
