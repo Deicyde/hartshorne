@@ -232,8 +232,8 @@ lemma infinitesimalFiberTransition_isPullback {k n : ℕ} (h : k ≤ n) :
     (infinitesimalFiber_isPullback f y n)
   simpa using infinitesimalFiber_isPullback f y k
 
-/-- **Hartshorne III.11, p. 276.** For `k ≤ n` the morphism `X_k ⟶ X_n` is a closed immersion;
-in particular so is `X_n ⟶ X_{n+1}`. -/
+/-- **Generalising Hartshorne III.11, p. 276.** For `k ≤ n` the morphism `X_k ⟶ X_n` is a
+closed immersion; in particular so is `X_n ⟶ X_{n+1}`. -/
 instance isClosedImmersion_infinitesimalFiberTransition {k n : ℕ} (h : k ≤ n) :
     IsClosedImmersion (infinitesimalFiberTransition f y h) :=
   MorphismProperty.of_isPullback (P := @IsClosedImmersion)
@@ -244,8 +244,8 @@ instance surjective_infinitesimalFiberTransition {k n : ℕ} [NeZero k] (h : k �
   MorphismProperty.of_isPullback (P := @Surjective)
     (infinitesimalFiberTransition_isPullback f y h).flip inferInstance
 
-/-- **Hartshorne III.11, p. 276.** For `1 ≤ k ≤ n` the closed immersion `X_k ⟶ X_n` is a
-homeomorphism: all infinitesimal fibres have the same underlying space. -/
+/-- **Generalising Hartshorne III.11, p. 276.** For `1 ≤ k ≤ n` the closed immersion
+`X_k ⟶ X_n` is a homeomorphism: all infinitesimal fibres have the same underlying space. -/
 theorem isHomeomorph_infinitesimalFiberTransition {k n : ℕ} (hk : 1 ≤ k) (h : k ≤ n) :
     IsHomeomorph (infinitesimalFiberTransition f y h) := by
   have : NeZero k := ⟨by omega⟩
