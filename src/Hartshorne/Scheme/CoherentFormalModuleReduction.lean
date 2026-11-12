@@ -395,4 +395,54 @@ theorem isCoherent_of_isCoherent_restrict {Z : Scheme.{u}} [IsLocallyNoetherian 
 
 end CoherentLocality
 
+namespace IsIdealOfDefinition
+
+variable {X : NoetherianFormalScheme.{u}} {J : IdealSubsheaf X.toLocallyRingedSpace.sheaf}
+  (h : IsIdealOfDefinition X J)
+
+/-- **The pullback of a coherent formal module is coherent on a chart.** Let `U` be an open of
+`X` with a chart `e : U ≅ Ŷ` onto the completion of a locally Noetherian scheme `Y`, on which
+`F|_U` is the transport of the completion `Ĝ` of a coherent `𝒪_Y`-module `G`. Then the pullback
+of `F` to `(X, 𝒪_X / J)`, restricted to `U`, is the pullback of `G` along the morphism of schemes
+`(U, 𝒪_U / J|_U) ⟶ U ≅ Ŷ ⟶ Y`, since `Ĝ` is the pullback of `G` along `Ŷ ⟶ Y`; it is coherent. -/
+theorem isCoherent_restrict_pullback_chart
+    (F : SheafOfModules.{u} (structureRingCatSheaf X.toLocallyRingedSpace))
+    (U : Opens X.carrier) {Y : Scheme.{u}} [IsLocallyNoetherian Y]
+    (I : QuasicoherentIdealSubsheaf Y) (e : X.restrict U.isOpenEmbedding ≅ I.formalCompletion)
+    (G : Y.Modules) (hG : IsCoherent G)
+    (ψ : (structureModuleRestrict X.toLocallyRingedSpace U.isOpenEmbedding).obj F ≅
+      (structureModulePushforward e.inv).obj (I.moduleCompletion G)) :
+    IsCoherent (Scheme.Modules.restrict
+      (show h.quotientScheme.Modules from (structureModulePullback h.quotientLRSHom).obj F)
+      (Scheme.Opens.ι (X := h.quotientScheme) ((Opens.map h.quotientLRSHom.base).obj U))) := by
+  let p := h.quotientLRSHom
+  let U' : h.quotientScheme.Opens := (Opens.map p.base).obj U
+  have H : Set.range (U'.ι.toLRSHom ≫ p).base ⊆
+      Set.range (X.toLocallyRingedSpace.ofRestrict U.isOpenEmbedding).base := by
+    rintro _ ⟨x, rfl⟩
+    exact ⟨⟨x.1, x.2⟩, rfl⟩
+  let q := LocallyRingedSpace.IsOpenImmersion.lift
+    (X.toLocallyRingedSpace.ofRestrict U.isOpenEmbedding) (U'.ι.toLRSHom ≫ p) H
+  have hq : q ≫ X.toLocallyRingedSpace.ofRestrict U.isOpenEmbedding = U'.ι.toLRSHom ≫ p :=
+    LocallyRingedSpace.IsOpenImmersion.lift_fac _ _ _
+  let g : U'.toScheme ⟶ Y := Scheme.Hom.mk (q ≫ e.hom ≫ I.formalCompletionLRSHom)
+  let M : h.quotientScheme.Modules := (structureModulePullback p).obj F
+  let χ : M.restrict U'.ι ≅ (Scheme.Modules.pullback g).obj G :=
+    (Scheme.Modules.restrictFunctorIsoPullback U'.ι).app M ≪≫
+    (schemeModulesPullbackIso U'.ι).app M ≪≫
+    ((structureModulePullbackComp U'.ι.toLRSHom p).app F).symm ≪≫
+    (structureModulePullbackCongr hq.symm).app F ≪≫
+    (structureModulePullbackComp q _).app F ≪≫
+    (structureModulePullback q).mapIso
+      (((structureModuleRestrictIsoPullback _ U.isOpenEmbedding).app F).symm ≪≫ ψ ≪≫
+        ((structureModulePullbackIsoPushforward e).app _).symm ≪≫
+        (structureModulePullback e.hom).mapIso
+          ((I.pullbackIsoModuleCompletion G hG).symm ≪≫ I.pullbackFormalCompletionIso.app G) ≪≫
+        ((structureModulePullbackComp e.hom I.formalCompletionLRSHom).app G).symm) ≪≫
+    ((structureModulePullbackComp q (e.hom ≫ I.formalCompletionLRSHom)).app G).symm ≪≫
+    ((schemeModulesPullbackIso g).app G).symm
+  exact isCoherent_of_iso χ.symm (isCoherent_pullback g hG)
+
+end IsIdealOfDefinition
+
 end Hartshorne
