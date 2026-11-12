@@ -722,6 +722,181 @@ theorem IsHomFrac.sub {n : ℕ} {z w : FractionRing A} (hz : IsHomFrac (𝒜 := 
 
 end Fraction
 
+/-! ## Integrality of a connected normal scheme -/
+
+section ConnectedNormal
+
+variable (X : Scheme.{u})
+
+/-- On a scheme whose local rings are domains, two irreducible components through a point
+coincide: both contain the image of `Spec 𝒪_{X,x}`, which is irreducible. -/
+theorem eq_of_mem_irreducibleComponents [∀ x : X, IsDomain (X.presheaf.stalk x)] {Z₁ Z₂ : Set X}
+    (h₁ : Z₁ ∈ irreducibleComponents X) (h₂ : Z₂ ∈ irreducibleComponents X) {x : X}
+    (hx₁ : x ∈ Z₁) (hx₂ : x ∈ Z₂) : Z₁ = Z₂ := by
+  let T : Set X := Set.range (X.fromSpecStalk x)
+  have hT : IsIrreducible T := by
+    have := (IrreducibleSpace.isIrreducible_univ (Spec (X.presheaf.stalk x))).image (X.fromSpecStalk x)
+      (X.fromSpecStalk x).continuous.continuousOn
+    rwa [Set.image_univ] at this
+  have key : ∀ {Z : Set X}, Z ∈ irreducibleComponents X → x ∈ Z → Z = closure T := by
+    intro Z hZ hxZ
+    have hη := hZ.1.isGenericPoint_genericPoint (isClosed_of_mem_irreducibleComponents Z hZ)
+    have hηT : hZ.1.genericPoint ∈ T := by
+      change _ ∈ Set.range (X.fromSpecStalk x)
+      rw [Scheme.range_fromSpecStalk]
+      exact hη.specializes hxZ
+    have hle : Z ⊆ closure T := by
+      rw [← hη.def]
+      exact closure_mono (Set.singleton_subset_iff.2 hηT)
+    exact le_antisymm hle (hZ.2 hT.closure hle)
+  exact (key h₁ hx₁).trans (key h₂ hx₂).symm
+
+/-- **A connected Noetherian scheme whose local rings are domains is irreducible.** The
+irreducible components are disjoint, finitely many and closed, hence open. -/
+theorem irreducibleSpace_of_connectedSpace [TopologicalSpace.NoetherianSpace X] [ConnectedSpace X]
+    [∀ x : X, IsDomain (X.presheaf.stalk x)] : IrreducibleSpace X := by
+  obtain ⟨x⟩ := (inferInstance : Nonempty X)
+  set Z := irreducibleComponent x
+  have hZ : Z ∈ irreducibleComponents X := irreducibleComponent_mem_irreducibleComponents x
+  have hcompl : Zᶜ = ⋃ W ∈ irreducibleComponents X \ {Z}, W := by
+    ext y
+    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_sdiff, Set.mem_singleton_iff,
+      exists_prop]
+    constructor
+    · intro hy
+      refine ⟨irreducibleComponent y, ⟨irreducibleComponent_mem_irreducibleComponents y, ?_⟩,
+        mem_irreducibleComponent⟩
+      rintro he
+      exact hy (he ▸ mem_irreducibleComponent)
+    · rintro ⟨W, ⟨hW, hWZ⟩, hyW⟩ hyZ
+      exact hWZ (eq_of_mem_irreducibleComponents X hW hZ hyW hyZ)
+  have hopen : IsOpen Z := by
+    rw [← isClosed_compl_iff, hcompl]
+    exact ((TopologicalSpace.NoetherianSpace.finite_irreducibleComponents).sdiff).isClosed_biUnion
+      fun W hW => isClosed_of_mem_irreducibleComponents W hW.1
+  have huniv : Z = Set.univ := IsClopen.eq_univ ⟨isClosed_irreducibleComponent, hopen⟩
+    ⟨x, mem_irreducibleComponent⟩
+  rw [irreducibleSpace_def]
+  change IsIrreducible (Set.univ : Set X)
+  rw [← huniv]
+  exact isIrreducible_irreducibleComponent
+
+/-- **A connected normal Noetherian scheme is integral** (the first step of the hint to
+Exercise 5.14(a)). -/
+theorem isIntegral_of_connectedSpace [TopologicalSpace.NoetherianSpace X] [ConnectedSpace X]
+    [Hartshorne.IsNormal X] : IsIntegral X := by
+  have := irreducibleSpace_of_connectedSpace X
+  have : IsReduced X := isReduced_of_isReduced_stalk X
+  exact isIntegral_of_irreducibleSpace_of_isReduced X
+
+end ConnectedNormal
+
+/-! ## The graded ring of an integral `Proj` -/
+
+section IntegralProj
+
+variable {𝒜}
+
+theorem isNilpotent_of_forall_mem {f : A} {m : ℕ} (f_deg : f ∈ 𝒜 m) (hm : 0 < m)
+    (h : ∀ x : Proj 𝒜, f ∈ x.asHomogeneousIdeal) : IsNilpotent f := by
+  rw [nilpotent_iff_mem_prime]
+  intro J hJ
+  by_contra hfJ
+  have hq := hJ.homogeneousCore (𝒜 := 𝒜)
+  have hfq : f ∉ (J.homogeneousCore 𝒜).toIdeal := fun hf => hfJ (Ideal.toIdeal_homogeneousCore_le 𝒜 J hf)
+  let x : ProjectiveSpectrum 𝒜 := ⟨J.homogeneousCore 𝒜, hq, fun hle => hfq (hle (by
+    rw [HomogeneousIdeal.mem_irrelevant_iff, GradedRing.proj_apply,
+      DirectSum.decompose_of_mem_ne 𝒜 f_deg (by omega)]))⟩
+  exact hfq (h x)
+
+theorem away_mk_eq_zero_iff {f : A} (c : NumDenSameDeg 𝒜 (Submonoid.powers f)) :
+    HomogeneousLocalization.mk c = 0 ↔ ∃ m : ℕ, f ^ m * c.num = 0 := by
+  rw [← (HomogeneousLocalization.val_injective _).eq_iff, HomogeneousLocalization.val_mk,
+    HomogeneousLocalization.val_zero, Localization.mk_eq_mk', IsLocalization.mk'_eq_zero_iff]
+  constructor
+  · rintro ⟨⟨_, m, rfl⟩, hm⟩
+    exact ⟨m, hm⟩
+  · rintro ⟨m, hm⟩
+    exact ⟨⟨f ^ m, m, rfl⟩, hm⟩
+
+theorem isDomain_away_of_isIntegral [IsIntegral (Proj 𝒜)] {f : A} (f_deg : f ∈ 𝒜 1)
+    {x : Proj 𝒜} (hx : f ∉ x.asHomogeneousIdeal) : IsDomain (Away 𝒜 f) := by
+  have : Nonempty (Proj.basicOpen 𝒜 f) := ⟨⟨x, hx⟩⟩
+  have e := (Proj.basicOpenIsoAway 𝒜 f f_deg one_pos).commRingCatIsoToRingEquiv
+  exact e.injective.isDomain e.toRingHom
+
+/-- **Homogeneous zero divisors on an integral `Proj`.** Let `fᵢ ∈ S₁` be such that the charts
+`D₊(fᵢ)` cover `Proj S`. If `X = Proj S` is integral and `a ∈ S_p`, `b ∈ S_q` satisfy `ab = 0`,
+then `a` or `b` is killed by a power of every `fᵢ`. -/
+theorem forall_pow_mul_eq_zero_or [IsIntegral (Proj 𝒜)] {ι : Type*} (f : ι → A)
+    (hf : ∀ i, f i ∈ 𝒜 1) {a b : A} {p q : ℕ} (ha : a ∈ 𝒜 p) (hb : b ∈ 𝒜 q) (hab : a * b = 0) :
+    (∀ i, ∃ m : ℕ, f i ^ m * a = 0) ∨ (∀ i, ∃ m : ℕ, f i ^ m * b = 0) := by
+  classical
+  have hpow : ∀ i (d : ℕ), f i ^ d ∈ 𝒜 d := fun i d => by
+    simpa using SetLike.pow_mem_graded d (hf i)
+  let good : ι → Prop := fun i => ∃ x : Proj 𝒜, f i ∉ x.asHomogeneousIdeal
+  have hbad : ∀ i, ¬good i → ∀ c : A, ∃ m : ℕ, f i ^ m * c = 0 := by
+    intro i hi c
+    have hi' : ∀ x : Proj 𝒜, f i ∈ x.asHomogeneousIdeal := fun x => by
+      by_contra h
+      exact hi ⟨x, h⟩
+    obtain ⟨m, hm⟩ := isNilpotent_of_forall_mem (hf i) one_pos hi'
+    exact ⟨m, by rw [hm, zero_mul]⟩
+  let Aₐ : ∀ i, Away 𝒜 (f i) := fun i => HomogeneousLocalization.mk ⟨p, ⟨a, ha⟩, ⟨_, hpow i p⟩, p, rfl⟩
+  let Bₐ : ∀ i, Away 𝒜 (f i) := fun i => HomogeneousLocalization.mk ⟨q, ⟨b, hb⟩, ⟨_, hpow i q⟩, q, rfl⟩
+  have hAB : ∀ i, Aₐ i * Bₐ i = 0 := by
+    intro i
+    apply HomogeneousLocalization.val_injective
+    rw [HomogeneousLocalization.val_mul, HomogeneousLocalization.val_mk,
+      HomogeneousLocalization.val_mk, HomogeneousLocalization.val_zero, Localization.mk_mul]
+    change Localization.mk (a * b) _ = 0
+    rw [hab, Localization.mk_zero]
+  have hA0 : ∀ i, Aₐ i = 0 ↔ ∃ m : ℕ, f i ^ m * a = 0 := fun i => away_mk_eq_zero_iff _
+  have hB0 : ∀ i, Bₐ i = 0 ↔ ∃ m : ℕ, f i ^ m * b = 0 := fun i => away_mk_eq_zero_iff _
+  -- if `a` survives on one chart, it survives on every chart
+  have hcross : ∀ i j, good i → good j → Aₐ i ≠ 0 → Aₐ j ≠ 0 := by
+    rintro i j ⟨x, hx⟩ ⟨y, hy⟩ hAi hAj
+    have := isDomain_away_of_isIntegral (hf i) hx
+    obtain ⟨m, hm⟩ := (hA0 j).1 hAj
+    let R : Away 𝒜 (f i) := HomogeneousLocalization.mk ⟨1, ⟨f j, hf j⟩, ⟨f i, hf i⟩, 1, pow_one _⟩
+    have hRA : R ^ m * Aₐ i = 0 := by
+      apply HomogeneousLocalization.val_injective
+      rw [HomogeneousLocalization.val_mul, HomogeneousLocalization.val_pow,
+        HomogeneousLocalization.val_mk, HomogeneousLocalization.val_mk,
+        HomogeneousLocalization.val_zero, Localization.mk_pow, Localization.mk_mul]
+      change Localization.mk (f j ^ m * a) _ = 0
+      rw [hm, Localization.mk_zero]
+    have hR : R = 0 := (pow_eq_zero_iff'.1 ((mul_eq_zero.1 hRA).resolve_right hAi)).1
+    obtain ⟨l, hl⟩ := (away_mk_eq_zero_iff _).1 hR
+    obtain ⟨z, hzi, hzj⟩ := nonempty_preirreducible_inter (Proj.basicOpen 𝒜 (f i)).isOpen
+      (Proj.basicOpen 𝒜 (f j)).isOpen ⟨x, hx⟩ ⟨y, hy⟩
+    have hnil : f i ^ (l + 1) * f j ∈ z.asHomogeneousIdeal := by
+      rw [pow_succ, mul_assoc, mul_comm (f i), ← mul_assoc]
+      change f i ^ l * f j * f i ∈ _
+      rw [show f i ^ l * f j = 0 from hl, zero_mul]
+      exact zero_mem _
+    rcases z.isPrime.mem_or_mem hnil with h1 | h1
+    · exact hzi (z.isPrime.mem_of_pow_mem _ h1)
+    · exact hzj h1
+  by_cases hex : ∃ i, good i ∧ Aₐ i ≠ 0
+  · obtain ⟨i, hgi, hAi⟩ := hex
+    right
+    intro j
+    by_cases hgj : good j
+    · obtain ⟨y, hy⟩ := hgj
+      have := isDomain_away_of_isIntegral (hf j) hy
+      exact (hB0 j).1 ((mul_eq_zero.1 (hAB j)).resolve_left (hcross i j hgi ⟨y, hy⟩ hAi))
+    · exact hbad j hgj b
+  · left
+    intro i
+    by_cases hgi : good i
+    · exact (hA0 i).1 (by
+        by_contra h
+        exact hex ⟨i, hgi, h⟩)
+    · exact hbad i hgi a
+
+end IntegralProj
+
 /-! ## Closed subschemes of `ℙʳ_k` -/
 
 section ClosedSubscheme
