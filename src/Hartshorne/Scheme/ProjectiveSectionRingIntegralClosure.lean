@@ -344,6 +344,96 @@ theorem sectionToFraction_mulGlobal_unitSection (h : ¬HomogeneousIdeal.irreleva
   rw [globalValue_mulGlobal_unitSection hs, toFraction_mk]
   simp
 
+/-! ### Homogeneous fractions and the directness of degrees -/
+
+variable {𝒜} in
+/-- `z ∈ K` is a homogeneous fraction of degree `n`: `z = a / s` with `s ≠ 0` homogeneous of some
+degree `e` and `a` homogeneous of degree `e + n`. -/
+def IsHomFrac (n : ℕ) (z : FractionRing A) : Prop :=
+  ∃ (e : ℕ) (a s : A), a ∈ 𝒜 (e + n) ∧ s ∈ 𝒜 e ∧ s ≠ 0 ∧
+    z = algebraMap A (FractionRing A) a / algebraMap A (FractionRing A) s
+
+variable {𝒜} in
+/-- **Homogeneous fractions of distinct degrees are independent**: a finite sum of homogeneous
+fractions of pairwise distinct degrees vanishes only if every term does. -/
+theorem eq_zero_of_sum_isHomFrac_eq_zero (F : Finset ℕ) (z : ℕ → FractionRing A)
+    (hz : ∀ n ∈ F, IsHomFrac (𝒜 := 𝒜) n (z n)) (hsum : ∑ n ∈ F, z n = 0) :
+    ∀ n ∈ F, z n = 0 := by
+  classical
+  choose! e a s ha hs hs0 hzas using hz
+  set D := ∏ m ∈ F, s m with hD
+  set E := ∑ m ∈ F, e m with hE
+  have hD0 : algebraMap A (FractionRing A) D ≠ 0 := by
+    rw [map_ne_zero_iff _ (IsFractionRing.injective A (FractionRing A)), hD]
+    exact Finset.prod_ne_zero_iff.2 hs0
+  let b : ℕ → A := fun n => a n * ∏ m ∈ F.erase n, s m
+  have hb : ∀ n ∈ F, b n ∈ 𝒜 (E + n) := by
+    intro n hn
+    have h1 := SetLike.mul_mem_graded (ha n hn)
+      (SetLike.prod_mem_graded 𝒜 e s (F := F.erase n) fun m hm => hs m (Finset.mem_of_mem_erase hm))
+    have : e n + n + ∑ m ∈ F.erase n, e m = E + n := by
+      rw [hE, ← Finset.add_sum_erase F e hn]
+      ring
+    rwa [this] at h1
+  have hzb : ∀ n ∈ F, z n * algebraMap A (FractionRing A) D = algebraMap A (FractionRing A) (b n) := by
+    intro n hn
+    have hsn := (map_ne_zero_iff _ (IsFractionRing.injective A (FractionRing A))).2 (hs0 n hn)
+    rw [hzas n hn, hD, ← Finset.mul_prod_erase F s hn]
+    simp only [b, map_mul]
+    field_simp
+  have hbsum : ∑ n ∈ F, b n = 0 := by
+    apply IsFractionRing.injective A (FractionRing A)
+    rw [map_sum, map_zero, ← Finset.sum_congr rfl hzb, ← Finset.sum_mul, hsum, zero_mul]
+  intro n0 hn0
+  have key : (DirectSum.decompose 𝒜 (∑ n ∈ F, b n) (E + n0) : A) = b n0 := by
+    rw [DirectSum.decompose_sum, DFinsupp.finsetSum_apply, AddSubmonoidClass.coe_finsetSum,
+      Finset.sum_eq_single n0]
+    · exact DirectSum.decompose_of_mem_same 𝒜 (hb n0 hn0)
+    · intro m hm hmn
+      exact DirectSum.decompose_of_mem_ne 𝒜 (hb m hm) (by omega)
+    · intro h
+      exact absurd hn0 h
+  rw [hbsum, DirectSum.decompose_zero] at key
+  have hb0 : b n0 = 0 := by rw [← key]; rfl
+  have := hzb n0 hn0
+  rw [hb0, map_zero] at this
+  exact (mul_eq_zero.1 this).resolve_right hD0
+
+variable {𝒜} in
+theorem isHomFrac_sectionToFraction (h : ¬HomogeneousIdeal.irrelevant 𝒜 ≤ ⊥) (n : ℕ)
+    (t : twistGlobal (𝟙_ (Proj 𝒜).Modules) (n : ℤ)) :
+    IsHomFrac (𝒜 := 𝒜) n (sectionToFraction 𝒜 n t) := by
+  rw [sectionToFraction_apply h _ _ (genericPoint h)]
+  unfold sectionValue
+  obtain ⟨d, m, hm, f, hf, hfx, he⟩ := HomogeneousLocalizedModule.mk_surjective
+    (globalValue 𝒜 (gradedTwist 𝒜 n) (unitorGlobal (n : ℤ) t) (genericPoint h))
+  rw [he, HomogeneousLocalizedModule.val_mk, toFraction_mk]
+  refine ⟨d, m, f, ?_, hf, ?_, rfl⟩
+  · have := hm.1
+    rwa [show ((n : ℤ) + ((d : ℕ) : ℤ)).toNat = d + n by omega] at this
+  · intro h0
+    exact hfx (h0 ▸ zero_mem _)
+
+variable {𝒜} in
+/-- **`S' → K` is injective.** -/
+theorem sectionRingToFraction_injective (h : ¬HomogeneousIdeal.irrelevant 𝒜 ≤ ⊥) :
+    Function.Injective (sectionRingToFraction 𝒜) := by
+  classical
+  rw [injective_iff_map_eq_zero]
+  intro y hy
+  have hsum : sectionRingToFraction 𝒜 y =
+      ∑ n ∈ y.support, sectionToFraction 𝒜 n (y n) := by
+    conv_lhs => rw [← DirectSum.sum_support_of y]
+    rw [map_sum]
+    exact Finset.sum_congr rfl fun n _ => DirectSum.toAddMonoid_of _ _ _
+  rw [hsum] at hy
+  have h0 := eq_zero_of_sum_isHomFrac_eq_zero y.support (fun n => sectionToFraction 𝒜 n (y n))
+    (fun n _ => isHomFrac_sectionToFraction h n (y n)) hy
+  ext n
+  by_cases hn : n ∈ y.support
+  · exact sectionToFraction_injective h n ((h0 n hn).trans (map_zero _).symm)
+  · simpa using hn
+
 end Fraction
 
 end ProjectiveSectionRing
