@@ -10,6 +10,9 @@ Let $f : X \to Y$ be projective, with $X$ and $Y$ of finite type over a field.
 For every coherent sheaf $F$ on $X$, the direct image $f_*F$ is coherent on
 $Y$.
 
+The finite type of $X$ is kept as in the source; the argument uses only that
+$Y$ is locally of finite type over the field.
+
 ## Depends on
 
 - [Projective morphisms](../proper-and-projective/projective-morphism.md)
