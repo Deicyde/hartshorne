@@ -3,6 +3,8 @@ article_id: af_d0eb9f3cd8aa2aeb54f741fb
 declaration: theorem
 origin: cited
 lean: Hartshorne.ProjectiveNormality.isProjectivelyNormal_iff Hartshorne.ProjectiveNormality.IsProjectivelyNormal Hartshorne.ProjectiveNormality.restrictTwist Hartshorne.ProjectiveNormality.isDomain_and_isIntegrallyClosed_iff
+statement: formalized
+proof: formalized
 ---
 
 # The projective-normality criterion
