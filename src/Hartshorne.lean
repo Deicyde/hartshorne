@@ -736,6 +736,7 @@ import Hartshorne.Scheme.ReesAlgebraBlowup
 import Hartshorne.Scheme.BlowupIsoOffCenter
 import Hartshorne.Scheme.BlowupExceptionalIdeal
 import Hartshorne.Scheme.BlowupUniversalProperty
+import Hartshorne.Scheme.BlowupFunctoriality
 import Hartshorne.Scheme.CoordinateNonvanishingOpen
 import Hartshorne.Cohomology.KoszulRegularImmersion
 import Hartshorne.Scheme.ProjGammaStarReconstruction
