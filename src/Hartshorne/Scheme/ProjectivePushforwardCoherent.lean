@@ -20,7 +20,7 @@ coherent sheaf `F` on `X`, the direct image `f_* F` is coherent
 ## Proof
 
 Following Hartshorne. The pushforward `f_* F` is quasi-coherent because `f` is proper, hence
-quasi-compact and separated (`isQuasicoherent_pushforward_of_qcqs`). Coherence is then checked
+quasi-compact and quasi-separated (`isQuasicoherent_pushforward_of_qcqs`). Coherence is then checked
 on the affine opens `V = Spec A` of `Y` (`coherent_affine_local_tfae`, `Y` is locally
 Noetherian). Such an `A` is a finitely generated `k`-algebra, the restriction `f⁻¹ V ⟶ V` is
 projective (projectivity is stable under base change), and `Γ(V, f_* F) = Γ(f⁻¹ V, F)` is a
@@ -100,9 +100,10 @@ private theorem finite_pushforward_sections {X Y : Scheme.{u}} (f : X ⟶ Y) (F 
 end ProjectivePushforwardCoherent
 
 open ProjectivePushforwardCoherent in
-/-- **Hartshorne II, Corollary 5.20**, assuming only that the target is locally of finite type
-over the field: let `k` be a field, `Y` a scheme locally of finite type over `k` and
-`f : X ⟶ Y` projective. For every coherent sheaf `F` on `X`, `f_* F` is coherent on `Y`. -/
+/-- Generalizes **Hartshorne II, Corollary 5.20** to a target that is only locally of finite
+type over the field, with no hypothesis on the source: let `k` be a field, `Y` a scheme locally
+of finite type over `k` and `f : X ⟶ Y` projective. For every coherent sheaf `F` on `X`,
+`f_* F` is coherent on `Y`. -/
 theorem isCoherent_pushforward_of_projective_of_locallyOfFiniteType (k : Type u) [Field k]
     {X Y : Scheme.{u}} (pY : Y ⟶ Spec (.of k)) [LocallyOfFiniteType pY] (f : X ⟶ Y)
     (hf : Projective f) (F : X.Modules) (hF : IsCoherent F) :
