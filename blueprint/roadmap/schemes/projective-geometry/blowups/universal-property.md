@@ -2,6 +2,7 @@
 article_id: af_65374443c368263bedb9a175
 declaration: theorem
 origin: cited
+lean: Hartshorne.QuasicoherentIdealSubsheaf.existsUnique_blowup_lift Hartshorne.Ringed.isIso_of_epi_of_isInvertible Hartshorne.isIso_of_epi_of_isInvertible
 ---
 
 # The universal property of a blowup
