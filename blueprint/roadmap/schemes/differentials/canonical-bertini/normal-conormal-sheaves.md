@@ -15,6 +15,10 @@ $N_{(Y/X)}$. The latter is locally free of rank $\operatorname{codim} (Y,X)$.
 - [The conormal sequence for a nonsingular closed immersion](../scheme-differentials/nonsingular-closed-immersion-conormal.md)
 - [Finite locally free duality](../../modules-and-quasicoherent/finite-locally-free-duality.md)
 
+## Proof depends on
+
+- [The tangent sheaf](tangent-sheaf.md)
+
 ## Sources
 
 - [Hartshorne II.8, normal and conormal sheaf definitions (p.182)](../../../../sources/hartshorne-ii-8.md#canonical-sheaves-and-adjunction)
