@@ -428,6 +428,47 @@ def approxRestrictIso (U : Y.AffineZariskiSite) :
       (QuasiCoherentAlgebra.isOpenImmersion_ι (ofHom f) U)).app _ ≪≫
     (homData f M F).ψ U
 
+/-- `homSec U` is a finite `Γ(f⁻¹ U, 𝒪_X)`-module when `Γ(U, f_* M)` and `Γ(U, F)` are finite over
+the Noetherian ring `Γ(U, 𝒪_Y)`. -/
+theorem finite_homSec (U : Y.AffineZariskiSite) [IsNoetherianRing Γ(Y, U.1)]
+    [Module.Finite Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1)]
+    [Module.Finite Γ(Y, U.1) Γ(F, U.1)] :
+    Module.Finite Γ(X, f ⁻¹ᵁ U.1) (homSec f M F U.1) := by
+  letI : Algebra Γ(Y, U.1) Γ(X, f ⁻¹ᵁ U.1) := (f.app U.1).hom.toAlgebra
+  letI := homModule f M F U.1
+  haveI : Module.Finite Γ(Y, U.1)
+      (Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1)) :=
+    finite_linearMap_of_isNoetherianRing
+  haveI : IsScalarTower Γ(Y, U.1) Γ(X, f ⁻¹ᵁ U.1)
+      (Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1)) := by
+    refine ⟨fun a b h => LinearMap.ext fun m => ?_⟩
+    change h (mulB f M U.1 (f.app U.1 a * b) m) = a • h (mulB f M U.1 b m)
+    rw [← map_smul]
+    congr 1
+    change (f.app U.1 a * b) • (show Γ(M, f ⁻¹ᵁ U.1) from m) =
+      f.app U.1 a • b • (show Γ(M, f ⁻¹ᵁ U.1) from m)
+    rw [mul_smul]
+  exact Module.Finite.of_restrictScalars_finite Γ(Y, U.1) Γ(X, f ⁻¹ᵁ U.1)
+    (Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1))
+
+theorem iSup_preimage_eq_top :
+    (⨆ U : Y.AffineZariskiSite, f ⁻¹ᵁ U.1) = ⊤ := by
+  refine eq_top_iff.mpr fun x _ => ?_
+  obtain ⟨_, ⟨V, hV, rfl⟩, hxV, -⟩ :=
+    Y.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ (f x)) isOpen_univ
+  exact Opens.mem_iSup.mpr ⟨⟨V, hV⟩, hxV⟩
+
+/-- **`G` is coherent.** -/
+theorem isCoherent_approx [IsLocallyNoetherian Y]
+    [∀ U : Y.AffineZariskiSite,
+      Module.Finite Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1)]
+    [∀ U : Y.AffineZariskiSite, Module.Finite Γ(Y, U.1) Γ(F, U.1)] :
+    IsCoherent (approx f M F) := by
+  refine ⟨Y.AffineZariskiSite, fun U => ⟨f ⁻¹ᵁ U.1, U.2.preimage f⟩, iSup_preimage_eq_top f,
+    fun U => ⟨homSec f M F U.1, ?_, ⟨(approxRestrictIso f M F U).symm⟩⟩⟩
+  haveI : IsNoetherianRing Γ(Y, U.1) := IsLocallyNoetherian.component_noetherian ⟨U.1, U.2⟩
+  exact finite_homSec f M F U
+
 end Glue
 
 end ChevalleyApprox
