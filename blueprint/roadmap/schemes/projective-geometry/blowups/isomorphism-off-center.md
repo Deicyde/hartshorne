@@ -2,6 +2,9 @@
 article_id: af_adddc0049c24204ca01d8ca6
 declaration: theorem
 origin: cited
+lean: Hartshorne.QuasicoherentIdealSubsheaf.centerCompl Hartshorne.QuasicoherentIdealSubsheaf.isIso_blowupProjection_restrict_centerCompl Hartshorne.QuasicoherentIdealSubsheaf.blowupIsoOffCenter Hartshorne.QuasicoherentIdealSubsheaf.blowupIsoOffCenter_hom Hartshorne.QuasicoherentIdealSubsheaf.coe_blowupProjection_preimage_centerCompl
+statement: formalized
+proof: formalized
 ---
 
 # A blowup is an isomorphism off its center
