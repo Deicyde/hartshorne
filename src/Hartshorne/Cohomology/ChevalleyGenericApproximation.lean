@@ -378,6 +378,58 @@ theorem isLocalizedModule_homResHom {U V : Y.AffineZariskiSite} (i : U ⟶ V)
 
 end Restriction
 
+/-- Over a Noetherian ring, homomorphisms between finite modules form a finite module. -/
+theorem finite_linearMap_of_isNoetherianRing {R P Q : Type*} [CommRing R] [IsNoetherianRing R]
+    [AddCommGroup P] [Module R P] [AddCommGroup Q] [Module R Q] [Module.Finite R P]
+    [Module.Finite R Q] : Module.Finite R (P →ₗ[R] Q) := by
+  obtain ⟨n, v, hv⟩ := Module.Finite.exists_fin (R := R) (M := P)
+  let Φ : (P →ₗ[R] Q) →ₗ[R] (Fin n → Q) := LinearMap.pi fun j => LinearMap.applyₗ (v j)
+  have hΦ : Function.Injective Φ := fun h h' e =>
+    LinearMap.ext_on_range hv fun j => congrFun e j
+  haveI : IsNoetherian R (P →ₗ[R] Q) := isNoetherian_of_injective Φ hΦ
+  infer_instance
+
+/-! ### The glued module -/
+
+section Glue
+
+open RelSpecModuleData QuasiCoherentAlgebra
+
+variable {X Y : Scheme.{u}} (f : X ⟶ Y) [IsAffineHom f] (M : X.Modules) (F : Y.Modules)
+  [((Scheme.Modules.pushforward f).obj M).IsQuasicoherent] [F.IsQuasicoherent]
+  [hfp : ∀ V : Y.AffineZariskiSite,
+    Module.FinitePresentation Γ(Y, V.1) Γ((Scheme.Modules.pushforward f).obj M, V.1)]
+
+/-- The modules `Hom_{Γ(U, 𝒪_Y)}(Γ(U, f_* M), Γ(U, F))` with their restriction maps, as a
+quasi-coherent module over `f_* 𝒪_X`. -/
+def homData : RelSpecModuleData (QuasiCoherentAlgebra.ofHom f) where
+  N U := homSec f M F U.1
+  ρ i := homResHom f M F i
+  ρ_comp i j h := homRes_comp f M F i j (homSec.lin f M F h)
+  isLocalizedModule i := isLocalizedModule_homResHom f M F i
+
+/-- **The approximating module** `G` on `X`: the module glued from the sheaves associated to the
+`Γ(f⁻¹ U, 𝒪_X)`-modules `Hom_{Γ(U, 𝒪_Y)}(Γ(U, f_* M), Γ(U, F))`, transported along
+`Spec_Y (f_* 𝒪_X) ≅ X`. -/
+def approx : X.Modules := (homData f M F).glue.restrict (relSpecOfHomIso f).inv
+
+theorem fromSpec_relSpecOfHomIso_inv (U : Y.AffineZariskiSite) :
+    (U.2.preimage f).fromSpec ≫ (relSpecOfHomIso f).inv = (QuasiCoherentAlgebra.ofHom f).ι U := by
+  have h := ι_relSpecOfHomHom f U
+  have h2 : relSpecOfHomHom f ≫ (relSpecOfHomIso f).inv = 𝟙 _ := (relSpecOfHomIso f).hom_inv_id
+  erw [← h, Category.assoc, h2, Category.comp_id]
+
+/-- The restriction of `G` to the affine open `f⁻¹ U` is the sheaf associated to `homSec U`. -/
+def approxRestrictIso (U : Y.AffineZariskiSite) :
+    (approx f M F).restrict (U.2.preimage f).fromSpec ≅ tilde (homSec f M F U.1) :=
+  ((Scheme.Modules.restrictFunctorComp (U.2.preimage f).fromSpec (relSpecOfHomIso f).inv).app
+      (homData f M F).glue).symm ≪≫
+    (@Scheme.Modules.restrictFunctorCongr _ _ _ _ (fromSpec_relSpecOfHomIso_inv f U) inferInstance
+      (QuasiCoherentAlgebra.isOpenImmersion_ι (ofHom f) U)).app _ ≪≫
+    (homData f M F).ψ U
+
+end Glue
+
 end ChevalleyApprox
 
 end Hartshorne
