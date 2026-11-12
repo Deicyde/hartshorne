@@ -2,6 +2,7 @@
 article_id: af_c25452c2234849d3af094f90
 declaration: theorem
 origin: cited
+lean: Hartshorne.pointCountSequence_projectiveLine
 ---
 
 # The projective line has $q^r+1$ points over $\mathbb F_{q^r}$
