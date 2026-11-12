@@ -389,6 +389,78 @@ theorem chartMap_comp_appLE {Z : Scheme.{u}} {f : Z ⟶ X} {g : Z ⟶ S.relProj}
 
 end QuasiCoherentGradedAlgebra
 
+namespace ReesAlgebraSheaf
+
+variable {X : Scheme.{u}} (J : X.IdealSheafData)
+
+/-- Over an affine open `U`, `Proj_X (⨁ Jᵈ)` is covered by the charts `D₊(a t)`, `a ∈ J(U)`. -/
+theorem exists_mem_chartι_image (U : X.AffineZariskiSite) {p : (reesAlgebraSheaf J).relProj}
+    (hp : p ∈ (reesAlgebraSheaf J).relProjToBase ⁻¹ᵁ U.1) :
+    ∃ (a : Γ(X, U.1)) (ha : a ∈ idealOn J U),
+      p ∈ (reesAlgebraSheaf J).chartι U (chartElt_mem J U ha) ''ᵁ ⊤ := by
+  rw [QuasiCoherentGradedAlgebra.relProjToBase_preimage] at hp
+  obtain ⟨y, rfl⟩ := hp
+  obtain ⟨f, f_deg, hfy⟩ := ProjTwistingSheaf.exists_mem_one_notMem
+    ((reesAlgebraSheaf J).adjoin_eq_top_of_generatedInDegreeOne (generatedInDegreeOne J) U) y
+  obtain ⟨a, ha, hfa⟩ := (mem_grading_iff J U 1 f).1 f_deg
+  rw [pow_one] at ha
+  obtain rfl : f = chartElt J U ha := Subtype.ext hfa
+  obtain ⟨z, hz⟩ := (reesAlgebraSheaf J).exists_chartι_eq U (chartElt_mem J U ha) y hfy
+  exact ⟨a, ha, z, trivial, hz⟩
+
+/-- Let `g : Z ⟶ Proj_X (⨁ Jᵈ)` lie over `f : Z ⟶ X` and map `V` into the chart `D₊(b t)`. If the
+pull-back of `a` is a non-zero-divisor on `V` dividing the pull-back of `b`, then `g` maps `V`
+into the chart `D₊(a t)`: on `D₊(b t)`, `a = b · (a t)/(b t)`, so `(a t)/(b t)` pulls back to a
+unit. -/
+theorem le_preimage_chartι_image {Z : Scheme.{u}} {f : Z ⟶ X}
+    {g : Z ⟶ (reesAlgebraSheaf J).relProj} (hg : g ≫ (reesAlgebraSheaf J).relProjToBase = f)
+    (U : X.AffineZariskiSite) {a b : Γ(X, U.1)} (ha : a ∈ idealOn J U) (hb : b ∈ idealOn J U)
+    {V : Z.Opens} (hVb : V ≤ g ⁻¹ᵁ ((reesAlgebraSheaf J).chartι U (chartElt_mem J U hb) ''ᵁ ⊤))
+    (hVf : V ≤ f ⁻¹ᵁ U.1) (hnzd : f.appLE U.1 V hVf a ∈ nonZeroDivisors Γ(Z, V))
+    (hspan : f.appLE U.1 V hVf b ∈ Ideal.span {f.appLE U.1 V hVf a}) :
+    V ≤ g ⁻¹ᵁ ((reesAlgebraSheaf J).chartι U (chartElt_mem J U ha) ''ᵁ ⊤) := by
+  set e := HomogeneousLocalization.Away.isLocalizationElem (chartElt_mem J U hb)
+    (chartElt_mem J U ha)
+  set ρ := ((reesAlgebraSheaf J).chartSectionsIso U (chartElt_mem J U hb)).hom ≫ g.appLE _ V hVb
+  have hθ := (reesAlgebraSheaf J).chartMap_comp_appLE hg U (chartElt_mem J U hb) hVb hVf
+  have hθx : ∀ x, ρ ((reesAlgebraSheaf J).chartMap U (chartElt J U hb) x) = f.appLE U.1 V hVf x := fun x => by
+    rw [← hθ]; rfl
+  have key : f.appLE U.1 V hVf a = f.appLE U.1 V hVf b * ρ e := by
+    rw [← hθx, ← hθx, chartMap_apply, chartMap_apply,
+      reesAwayMap_eq_mul_isLocalizationElem _ ha hb]
+    exact map_mul ρ.hom _ _
+  obtain ⟨w, hw⟩ := Ideal.mem_span_singleton'.1 hspan
+  have hunit : IsUnit (ρ e) := by
+    have : (w * ρ e - 1) * f.appLE U.1 V hVf a = 0 := by
+      rw [sub_mul, one_mul, mul_right_comm, hw, ← key, sub_self]
+    exact IsUnit.of_mul_eq_one_right w
+      (sub_eq_zero.1 ((mem_nonZeroDivisors_iff_right.1 hnzd) _ this))
+  set s := ((reesAlgebraSheaf J).chartSectionsIso U (chartElt_mem J U hb)).hom e
+  have h1 : V ≤ g ⁻¹ᵁ ((reesAlgebraSheaf J).relProj.basicOpen s) := by
+    rw [Scheme.preimage_basicOpen]
+    have : Z.basicOpen (g.appLE _ V hVb s) = V := Z.basicOpen_of_isUnit hunit
+    rw [← this, Scheme.Hom.appLE, CommRingCat.comp_apply, Scheme.basicOpen_res]
+    exact inf_le_right
+  refine h1.trans fun z hz => ?_
+  change g z ∈ (reesAlgebraSheaf J).relProj.basicOpen s at hz
+  change g z ∈ (reesAlgebraSheaf J).chartι U (chartElt_mem J U ha) ''ᵁ ⊤
+  rw [show s = (((reesAlgebraSheaf J).chartι U (chartElt_mem J U hb)).appIso ⊤).inv
+      ((Scheme.ΓSpecIso _).inv e) from rfl, ← Scheme.image_basicOpen,
+    basicOpen_eq_of_affine] at hz
+  obtain ⟨q, hq, hqz⟩ := hz
+  have hq' : q ∈ Proj.awayι _ _ (chartElt_mem J U hb) one_pos ⁻¹ᵁ
+      Proj.basicOpen _ (chartElt J U ha) := by
+    rw [Proj.awayι_preimage_basicOpen]; exacts [hq, one_pos]
+  rw [← Proj.opensRange_awayι _ _ (chartElt_mem J U ha) one_pos] at hq'
+  obtain ⟨w', hw'⟩ := hq'
+  refine ⟨w', trivial, ?_⟩
+  rw [← hqz]
+  change ((reesAlgebraSheaf J).projι U) ((Proj.awayι _ _ (chartElt_mem J U ha) one_pos) w') =
+    ((reesAlgebraSheaf J).projι U) ((Proj.awayι _ _ (chartElt_mem J U hb) one_pos) q)
+  rw [hw']
+
+end ReesAlgebraSheaf
+
 end Uniqueness
 
 end Hartshorne
