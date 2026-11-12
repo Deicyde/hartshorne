@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Intersection.AffineNormalizationSpec
+import Hartshorne.Intersection.LinearNoetherNormalization
 import Hartshorne.Intersection.MonicPrimeDivisorAlgebra
 import Hartshorne.Intersection.ProjectiveLinearSubspaceCycle
 import Hartshorne.Intersection.RationalEquivalenceLocalization
@@ -19,6 +20,13 @@ the image of `t` in `K(Y)` over `B` the ideal `(g)` is prime with contraction `P
 (`exists_minpoly_span_isPrime_comap_eq`). Hence `div g` is the single prime divisor `(g)` with
 multiplicity one, mapping onto `Y` with residue degree one, and `ν_* div g = [Y]`
 (`pointCodimensionCycle_mem_rationalEquivalenceSubgroup_of_monic`).
+
+For `k` infinite, a linear change of coordinates puts any integral subvariety of positive
+codimension of `𝔸ⁿ⁺¹_k = Spec k[x₁, …, xₙ, t]` in this position
+(`exists_optionShear_leadingCoeff_eq_C`), and rational equivalence is transported along
+isomorphisms (`pointCodimensionCycle_mem_rationalEquivalenceSubgroup_of_isIso`). Hence every
+cycle of positive codimension on a variety isomorphic to affine space is rationally equivalent to
+zero (`mem_rationalEquivalenceSubgroup_of_isIso_spec_mvPolynomial`).
 -/
 
 namespace Hartshorne
@@ -267,5 +275,163 @@ theorem pointCodimensionCycle_mem_rationalEquivalenceSubgroup_of_monic
     rw [hνez]
   rw [rationalEquivalenceSubgroup_eq_closure_principalDivisor, ← hgen]
   exact AddSubgroup.subset_closure ⟨V, inferInstance, i, inferInstance, hV, f, rfl⟩
+
+section Transport
+
+variable {k : Type u} [Field k]
+
+/-- Membership in rational equivalence depends only on the underlying cycle, not on the
+codimension index it is regarded in. -/
+theorem mem_rationalEquivalenceSubgroup_of_coe_eq {X : Scheme.{u}} (p : X ⟶ Spec (.of k))
+    [IsIntegral X] (hp : FiniteType p) [IsSeparated p] {n : ℕ} (hn : topologicalKrullDim X = n)
+    {a b : ℕ} (hab : a = b) {c : codimensionCycles X a} {d : codimensionCycles X b}
+    (hcd : (c : AlgebraicCycle X ℤ) = d) (hc : c ∈ rationalEquivalenceSubgroup p hp hn a) :
+    d ∈ rationalEquivalenceSubgroup p hp hn b := by
+  subst hab
+  rwa [← Subtype.ext hcd]
+
+open scoped Classical in
+/-- A codimension-`r` cycle is the sum of its coefficients times the cycles of the points of its
+support; so it is rationally equivalent to zero when every codimension-`r` point is. -/
+theorem mem_rationalEquivalenceSubgroup_of_forall_point {X : Scheme.{u}} (p : X ⟶ Spec (.of k))
+    [IsIntegral X] (hp : FiniteType p) [IsSeparated p] {n : ℕ} (hn : topologicalKrullDim X = n)
+    {r : ℕ} (hpt : ∀ (x : X) (hx : codim (closure ({x} : Set X)) = r),
+      pointCodimensionCycle x hx ∈ rationalEquivalenceSubgroup p hp hn r)
+    (c : codimensionCycles X r) : c ∈ rationalEquivalenceSubgroup p hp hn r := by
+  have hc : c = ∑ x ∈ c.2.1.toFinset.attach, (c : AlgebraicCycle X ℤ) x.1 •
+      pointCodimensionCycle x.1 (c.2.2 x.1 (c.2.1.mem_toFinset.mp x.2)) := by
+    apply Subtype.ext
+    refine Function.locallyFinsuppWithin.ext fun w => ?_
+    rw [AddSubgroup.val_finsetSum, Function.locallyFinsuppWithin.coe_sum, Finset.sum_apply]
+    simp only [AddSubgroup.coe_zsmul, Function.locallyFinsuppWithin.coe_zsmul, Pi.smul_apply,
+      pointCodimensionCycle_apply, smul_eq_mul, mul_ite, mul_one, mul_zero]
+    rw [Finset.sum_attach c.2.1.toFinset (fun x => if w = x then (c : AlgebraicCycle X ℤ) x else 0),
+      Finset.sum_ite_eq]
+    split_ifs with hw
+    · rfl
+    · exact Function.notMem_support.mp fun h => hw (c.2.1.mem_toFinset.mpr h)
+  rw [hc]
+  exact AddSubgroup.sum_mem _ fun x _ => AddSubgroup.zsmul_mem _ (hpt _ _) _
+
+open scoped Classical in
+/-- The pushforward of the cycle of a point along a closed immersion is the cycle of its
+image. -/
+theorem coe_rawCyclePushforward_pointCodimensionCycle {X Y : Scheme.{u}} (p : X ⟶ Spec (.of k))
+    [IsIntegral X] [IsIntegral Y] (hp : FiniteType p) {n m : ℕ} (hn : topologicalKrullDim X = n)
+    (hm : topologicalKrullDim Y = m) (e : Y ⟶ X) [IsClosedImmersion e] (y : Y) {r r' : ℕ}
+    (hy : codim (closure ({y} : Set Y)) = r) (hey : codim (closure ({e y} : Set X)) = r') :
+    (rawCyclePushforward (e ≫ p) p (finiteType_comp_of_isClosedImmersion p hp e) hp e rfl hm hn r
+      (pointCodimensionCycle y hy) : AlgebraicCycle X ℤ) = pointCodimensionCycle (e y) hey := by
+  refine Function.locallyFinsuppWithin.ext fun w => ?_
+  change rawCyclePushforwardUngraded e r _ w = _
+  rw [rawCyclePushforwardUngraded_apply_apply, pointCodimensionCycle_apply]
+  have hmem : y ∈ (pointCodimensionCycle y hy).2.1.toFinset := by
+    rw [Set.Finite.mem_toFinset]
+    change (pointCodimensionCycle y hy : AlgebraicCycle Y ℤ) y ≠ 0
+    rw [pointCodimensionCycle_apply, if_pos rfl]
+    exact one_ne_zero
+  rw [Finset.sum_eq_single_of_mem y hmem fun x _ hx => by
+    rw [pointCodimensionCycle_apply, if_neg hx, zero_mul]]
+  rw [pointCodimensionCycle_apply, if_pos rfl, one_mul,
+    rawCyclePushforwardCoeff_eq_one_of_isClosedImmersion]
+
+/-- **Transport along an isomorphism.** If `e : Y ⟶ X` is an isomorphism and the cycle of a point
+`y` of `Y` is rationally equivalent to zero on `Y` (over `k` through `e`), then so is the cycle of
+`e y` on `X`. -/
+theorem pointCodimensionCycle_mem_rationalEquivalenceSubgroup_of_isIso {X Y : Scheme.{u}}
+    (p : X ⟶ Spec (.of k)) [IsIntegral X] (hp : FiniteType p) [IsSeparated p] {n : ℕ}
+    (hn : topologicalKrullDim X = n) [IsIntegral Y] (hm : topologicalKrullDim Y = n)
+    (e : Y ⟶ X) [IsIso e] (y : Y) {r : ℕ} (hy : codim (closure ({y} : Set Y)) = r)
+    (hey : codim (closure ({e y} : Set X)) = r)
+    (h : pointCodimensionCycle y hy ∈ rationalEquivalenceSubgroup (e ≫ p)
+      (finiteType_comp_of_isClosedImmersion p hp e) hm r) :
+    pointCodimensionCycle (e y) hey ∈ rationalEquivalenceSubgroup p hp hn r := by
+  have h1 := map_rationalEquivalenceSubgroup_le_of_isClosedImmersion p hp hn e hm r
+    (AddSubgroup.mem_map_of_mem _ h)
+  exact mem_rationalEquivalenceSubgroup_of_coe_eq p hp hn (Nat.add_sub_cancel r n)
+    (coe_rawCyclePushforward_pointCodimensionCycle p hp hn hm e y hy _) h1
+
+end Transport
+
+section AffineSpace
+
+variable {k : Type u} [Field k] {τ : Type u} [Finite τ]
+
+/-- **Cycles of positive codimension on affine space are rationally equivalent to zero.** Let
+`k` be infinite and `X` a variety over `k` of dimension `n` isomorphic to affine space
+`Spec k[x_i, t]`. Every codimension-`r` cycle on `X` with `r > 0` is rationally equivalent to
+zero: after a linear change of coordinates, an integral subvariety of positive codimension lies
+in Noether position. -/
+theorem mem_rationalEquivalenceSubgroup_of_isIso_spec_mvPolynomial [Infinite k] {X : Scheme.{u}}
+    (p : X ⟶ Spec (.of k)) [IsIntegral X] (hp : FiniteType p) [IsSeparated p] {n : ℕ}
+    (hn : topologicalKrullDim X = n) (e : Spec (.of (MvPolynomial (Option τ) k)) ⟶ X) [IsIso e]
+    {r : ℕ} (hr : 0 < r) (c : codimensionCycles X r) :
+    c ∈ rationalEquivalenceSubgroup p hp hn r := by
+  refine mem_rationalEquivalenceSubgroup_of_forall_point p hp hn (fun x hx => ?_) c
+  let A := MvPolynomial (Option τ) k
+  let S := MvPolynomial τ k
+  have hehomeo := ConcreteCategory.bijective_of_isIso e.base
+  obtain ⟨y, rfl⟩ := hehomeo.2 x
+  -- the prime of `y` is nonzero
+  have hy0 : y.asIdeal ≠ ⊥ := by
+    intro hbot
+    have hgen : y = genericPoint (Spec (.of A)) := by
+      rw [genericPoint_eq_bot_of_affine]
+      exact PrimeSpectrum.ext hbot
+    have : codim (closure ({e y} : Set X)) = 0 := by
+      rw [codim_closure_singleton_eq_coheight, coheight_eq_of_isOpenImmersion e, hgen,
+        coheight_eq_zero]
+      intro b hb
+      exact (genericPoint_spec (Spec (.of A))).specializes trivial
+    rw [hx] at this
+    exact hr.ne' (by exact_mod_cast this)
+  obtain ⟨f, hfy, hf0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hy0
+  obtain ⟨c₀, u, hu, hlead⟩ := exists_optionShear_leadingCoeff_eq_C hf0
+  -- the coordinate change `A ≃ S[t]`
+  let ψ : A ≃+* S[X] := ((optionShear c₀).trans (MvPolynomial.optionEquivLeft k τ)).toRingEquiv
+  let E : Spec (.of S[X]) ⟶ Spec (.of A) := Spec.map ψ.toCommRingCatIso.hom
+  have : IsIso E := inferInstance
+  let P : Spec (.of S[X]) := (inv E) y
+  have hEP : E P = y := by
+    change (inv E ≫ E) y = y
+    rw [IsIso.inv_hom_id]
+    rfl
+  have hPa : P.asIdeal = y.asIdeal.comap ψ.symm.toRingHom := by
+    have h1 : (Spec.map ψ.toCommRingCatIso.hom) P = y := hEP
+    rw [← h1]
+    ext a
+    change a ∈ P.asIdeal ↔ ψ (ψ.symm a) ∈ P.asIdeal
+    rw [RingEquiv.apply_symm_apply]
+  -- a monic polynomial in `P`
+  have hψf : (ψ f).leadingCoeff = MvPolynomial.C u := hlead
+  let hmonic := C (MvPolynomial.C u⁻¹) * ψ f
+  have hmon : hmonic.Monic := by
+    rw [Polynomial.Monic, Polynomial.leadingCoeff_C_mul_of_isUnit, hψf, ← map_mul,
+      inv_mul_cancel₀ hu, map_one]
+    exact (isUnit_iff_ne_zero.mpr (inv_ne_zero hu)).map MvPolynomial.C
+  have hmemP : hmonic ∈ P.asIdeal := by
+    rw [hPa]
+    refine Ideal.mul_mem_left _ _ ?_
+    change ψ.symm (ψ f) ∈ y.asIdeal
+    rw [RingEquiv.symm_apply_apply]
+    exact hfy
+  -- apply the Noether-position case on `Spec S[t]` and transport
+  have hEe : IsIso (E ≫ e) := inferInstance
+  have hdimS : topologicalKrullDim (Spec (.of S[X])) = n := by
+    rw [← hn]
+    exact IsHomeomorph.topologicalKrullDim_eq _
+      (TopCat.homeoOfIso (Scheme.forgetToTop.mapIso (asIso (E ≫ e)))).isHomeomorph
+  have hPr : codim (closure ({P} : Set (Spec (.of S[X])))) = r := by
+    rw [codim_closure_singleton_eq_coheight, ← coheight_eq_of_isOpenImmersion (E ≫ e),
+      ← codim_closure_singleton_eq_coheight, Scheme.Hom.comp_apply, hEP]
+    exact hx
+  have hcore := pointCodimensionCycle_mem_rationalEquivalenceSubgroup_of_monic ((E ≫ e) ≫ p)
+    (finiteType_comp_of_isClosedImmersion p hp (E ≫ e)) hdimS P hmon hmemP hPr
+  have := pointCodimensionCycle_mem_rationalEquivalenceSubgroup_of_isIso p hp hn hdimS (E ≫ e) P
+    hPr (by rw [Scheme.Hom.comp_apply, hEP]; exact hx) hcore
+  convert this using 2
+  rw [Scheme.Hom.comp_apply, hEP]
+
+end AffineSpace
 
 end Hartshorne
