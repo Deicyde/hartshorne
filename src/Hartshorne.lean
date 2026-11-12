@@ -305,6 +305,7 @@ import Hartshorne.Intersection.HilbertFunction
 import Hartshorne.Intersection.GradedPrimeFiltration
 import Hartshorne.Intersection.PrimeFiltrationSupport
 import Hartshorne.Intersection.GradedMultiplicity
+import Hartshorne.Intersection.GradedLocalizationLength
 import Hartshorne.Intersection.ProjectiveIntersectionMultiplicity
 import Hartshorne.Intersection.ProjectiveCodimensionOne
 import Hartshorne.Intersection.HilbertSerre
