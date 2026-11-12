@@ -33,7 +33,7 @@ variable {k : Type u} [Field k] (N : ℕ)
 
 /-- The `k`-algebra map `k[x₀, …, x_{N+1}] → k[x₀, …, x_N]` sending `x_{N+1}` to `0` and
 `x_i` to `x_i` for `i ≤ N`. -/
-def hyperplaneRestrict : MvPolynomial (Fin (N + 2)) k →ₐ[k] MvPolynomial (Fin (N + 1)) k :=
+def hyperplaneRestrict : MvPolynomial (Fin (N + 1 + 1)) k →ₐ[k] MvPolynomial (Fin (N + 1)) k :=
   aeval (Fin.lastCases 0 X)
 
 theorem hyperplaneRestrict_rename_castSucc (f : MvPolynomial (Fin (N + 1)) k) :
@@ -51,8 +51,8 @@ theorem hyperplaneRestrict_surjective : Function.Surjective (hyperplaneRestrict 
 `hyperplaneRestrict` followed by the inclusion. -/
 theorem rename_castSucc_hyperplaneRestrict :
     (rename Fin.castSucc).comp (hyperplaneRestrict (k := k) N) =
-      aeval fun i : Fin (N + 2) =>
-        if i ∈ ({Fin.last (N + 1)} : Set (Fin (N + 2))) then 0 else X i := by
+      aeval fun i : Fin (N + 1 + 1) =>
+        if i ∈ ({Fin.last (N + 1)} : Set (Fin (N + 1 + 1))) then 0 else X i := by
   ext i : 1
   induction i using Fin.lastCases with
   | last => simp [hyperplaneRestrict]
@@ -60,9 +60,9 @@ theorem rename_castSucc_hyperplaneRestrict :
 
 theorem ker_hyperplaneRestrict :
     RingHom.ker (hyperplaneRestrict (k := k) N).toRingHom =
-      Ideal.span {(X (Fin.last (N + 1)) : MvPolynomial (Fin (N + 2)) k)} := by
+      Ideal.span {(X (Fin.last (N + 1)) : MvPolynomial (Fin (N + 1 + 1)) k)} := by
   classical
-  have h := ker_aeval_ite_eq_span_X_image (R := k) ({Fin.last (N + 1)} : Set (Fin (N + 2)))
+  have h := ker_aeval_ite_eq_span_X_image (R := k) ({Fin.last (N + 1)} : Set (Fin (N + 1 + 1)))
   rw [Set.image_singleton] at h
   rw [← h, ← rename_castSucc_hyperplaneRestrict]
   ext f
@@ -75,7 +75,7 @@ theorem ker_hyperplaneRestrict :
 
 /-- `hyperplaneRestrict` as a graded ring homomorphism. -/
 def hyperplaneRestrictHom :
-    homogeneousSubmodule (Fin (N + 2)) k →+*ᵍ homogeneousSubmodule (Fin (N + 1)) k where
+    homogeneousSubmodule (Fin (N + 1 + 1)) k →+*ᵍ homogeneousSubmodule (Fin (N + 1)) k where
   toRingHom := (hyperplaneRestrict N).toRingHom
   map_mem {d x} hx := by
     rw [mem_homogeneousSubmodule] at hx ⊢
@@ -89,13 +89,13 @@ def hyperplaneRestrictHom :
     rw [aeval_def]
     exact this
 
-theorem hyperplaneRestrictHom_apply (f : MvPolynomial (Fin (N + 2)) k) :
+theorem hyperplaneRestrictHom_apply (f : MvPolynomial (Fin (N + 1 + 1)) k) :
     hyperplaneRestrictHom N f = hyperplaneRestrict N f :=
   rfl
 
 theorem irrelevant_le_map_hyperplaneRestrictHom :
     HomogeneousIdeal.irrelevant (homogeneousSubmodule (Fin (N + 1)) k) ≤
-      (HomogeneousIdeal.irrelevant (homogeneousSubmodule (Fin (N + 2)) k)).map
+      (HomogeneousIdeal.irrelevant (homogeneousSubmodule (Fin (N + 1 + 1)) k)).map
         (hyperplaneRestrictHom N) := by
   change _ ≤ Ideal.map _ _
   refine (irrelevant_le_span_range_X k).trans (Ideal.span_le.mpr ?_)
@@ -107,7 +107,7 @@ theorem irrelevant_le_map_hyperplaneRestrictHom :
 
 /-- **The hyperplane embedding** `ℙ^N_k ⟶ ℙ^{N+1}_k` onto `V(x_{N+1})`. -/
 def hyperplaneEmbedding :
-    Proj (homogeneousSubmodule (Fin (N + 1)) k) ⟶ Proj (homogeneousSubmodule (Fin (N + 2)) k) :=
+    Proj (homogeneousSubmodule (Fin (N + 1)) k) ⟶ Proj (homogeneousSubmodule (Fin (N + 1 + 1)) k) :=
   Proj.map (hyperplaneRestrictHom N) (irrelevant_le_map_hyperplaneRestrictHom N)
 
 theorem hyperplaneEmbedding_asHomogeneousIdeal (x : Proj (homogeneousSubmodule (Fin (N + 1)) k)) :
@@ -156,9 +156,9 @@ theorem hyperplaneEmbedding_linearSubspacePoint {m : ℕ} (hm : m ≤ N) :
     linearSubspacePoint_asHomogeneousIdeal, HomogeneousIdeal.toIdeal_comap,
     linearSubspaceIdeal_toIdeal, linearSubspaceIdeal_toIdeal,
     ← ker_aeval_ite_eq_span_X_image, ← ker_aeval_ite_eq_span_X_image]
-  set s : Set (Fin (N + 2)) := {i | m < (i : ℕ)}
+  set s : Set (Fin (N + 1 + 1)) := {i | m < (i : ℕ)}
   set s' : Set (Fin (N + 1)) := {i | m < (i : ℕ)}
-  have hfac : (aeval fun i : Fin (N + 2) => if i ∈ s then (0 : MvPolynomial (Fin (N + 2)) k)
+  have hfac : (aeval fun i : Fin (N + 1 + 1) => if i ∈ s then (0 : MvPolynomial (Fin (N + 1 + 1)) k)
       else X i) = (rename Fin.castSucc).comp ((aeval fun i : Fin (N + 1) =>
         if i ∈ s' then (0 : MvPolynomial (Fin (N + 1)) k) else X i).comp
           (hyperplaneRestrict N)) := by
@@ -166,13 +166,13 @@ theorem hyperplaneEmbedding_linearSubspacePoint {m : ℕ} (hm : m ≤ N) :
     induction i using Fin.lastCases with
     | last =>
       have : Fin.last (N + 1) ∈ s := by
-        change m < ((Fin.last (N + 1) : Fin (N + 2)) : ℕ)
+        change m < ((Fin.last (N + 1) : Fin (N + 1 + 1)) : ℕ)
         rw [Fin.val_last]
         omega
       simp [this, hyperplaneRestrict]
     | cast j =>
       have hj : (Fin.castSucc j ∈ s) ↔ j ∈ s' := by
-        change m < ((Fin.castSucc j : Fin (N + 2)) : ℕ) ↔ m < (j : ℕ)
+        change m < ((Fin.castSucc j : Fin (N + 1 + 1)) : ℕ) ↔ m < (j : ℕ)
         rw [Fin.val_castSucc]
       by_cases h : j ∈ s'
       · simp [hyperplaneRestrict, h, hj.mpr h]
@@ -191,8 +191,8 @@ theorem hyperplaneEmbedding_linearSubspacePoint {m : ℕ} (hm : m ≤ N) :
 
 /-- Every point of `V(x_{N+1})` lies in the image of the hyperplane embedding. -/
 theorem mem_range_hyperplaneEmbedding_of_X_last_mem
-    (x : Proj (homogeneousSubmodule (Fin (N + 2)) k))
-    (hx : (X (Fin.last (N + 1)) : MvPolynomial (Fin (N + 2)) k) ∈ x.asHomogeneousIdeal) :
+    (x : Proj (homogeneousSubmodule (Fin (N + 1 + 1)) k))
+    (hx : (X (Fin.last (N + 1)) : MvPolynomial (Fin (N + 1 + 1)) k) ∈ x.asHomogeneousIdeal) :
     x ∈ Set.range (hyperplaneEmbedding (k := k) N) := by
   let φ := hyperplaneRestrictHom (k := k) N
   have hsurj : Function.Surjective φ := hyperplaneRestrict_surjective N
@@ -224,10 +224,12 @@ theorem mem_range_hyperplaneEmbedding_of_X_last_mem
   exact hcomap
 
 /-- The complement `D₊(x_{N+1})` of the hyperplane `V(x_{N+1})`. -/
-def hyperplaneComplement : (Proj (homogeneousSubmodule (Fin (N + 2)) k)).Opens :=
+def hyperplaneComplement : (Proj (homogeneousSubmodule (Fin (N + 1 + 1)) k)).Opens :=
   Proj.basicOpen _ (X (Fin.last (N + 1)))
 
-theorem mem_range_hyperplaneEmbedding_of_notMem (x : Proj (homogeneousSubmodule (Fin (N + 2)) k))
+/-- Every point outside `D₊(x_{N+1})` lies on the image of the hyperplane embedding. -/
+theorem mem_range_hyperplaneEmbedding_of_notMem
+    (x : Proj (homogeneousSubmodule (Fin (N + 1 + 1)) k))
     (hx : x ∉ hyperplaneComplement (k := k) N) :
     x ∈ Set.range (hyperplaneEmbedding (k := k) N) := by
   refine mem_range_hyperplaneEmbedding_of_X_last_mem N x ?_
@@ -236,8 +238,8 @@ theorem mem_range_hyperplaneEmbedding_of_notMem (x : Proj (homogeneousSubmodule 
 
 /-- The ring of the chart `D₊(x_{N+1})` is a polynomial ring in `N + 1` variables. -/
 def hyperplaneComplementRingEquiv :
-    HomogeneousLocalization.Away (homogeneousSubmodule (Fin (N + 2)) k) (X (Fin.last (N + 1))) ≃+*
-      MvPolynomial (Option (Fin N)) k :=
+    HomogeneousLocalization.Away (homogeneousSubmodule (Fin (N + 1 + 1)) k)
+      (X (Fin.last (N + 1))) ≃+* MvPolynomial (Option (Fin N)) k :=
   (chartAwayEquiv k (Fin.last (N + 1))).trans
     (renameEquiv k ((finSuccAboveEquiv (Fin.last (N + 1))).symm.trans (finSuccEquiv N))).toRingEquiv
 

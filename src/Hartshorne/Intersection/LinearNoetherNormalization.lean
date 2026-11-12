@@ -166,7 +166,8 @@ end Degree
 /-- A nonzero homogeneous polynomial over an infinite field does not vanish at some point with
 last coordinate `1`. -/
 theorem exists_eval_option_elim_ne_zero [Infinite k] {h : MvPolynomial (Option τ) k} {d : ℕ}
-    (hh : h.IsHomogeneous d) (h0 : h ≠ 0) : ∃ c : τ → k, eval (fun o => Option.elim o 1 c) h ≠ 0 := by
+    (hh : h.IsHomogeneous d) (h0 : h ≠ 0) :
+    ∃ c : τ → k, eval (fun o => Option.elim o 1 c) h ≠ 0 := by
   by_contra hc
   push Not at hc
   apply h0

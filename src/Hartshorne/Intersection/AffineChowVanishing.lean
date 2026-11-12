@@ -179,7 +179,8 @@ theorem pointCodimensionCycle_mem_rationalEquivalenceSubgroup_of_monic
       if w = e z then 1 else 0 := by
     intro w
     obtain ⟨x, rfl⟩ := hebij.2 w
-    have h1 := ord_functionFieldIsoOfIsOpenImmersion_hom e (f : (absoluteNormalization V).functionField) x
+    have h1 := ord_functionFieldIsoOfIsOpenImmersion_hom e
+      (f : (absoluteNormalization V).functionField) x
     have h2 : φ.hom (f : (absoluteNormalization V).functionField) = gK := by
       change φ.hom (φ.inv gK) = gK
       rw [← CommRingCat.comp_apply, Iso.inv_hom_id]
@@ -241,7 +242,8 @@ theorem pointCodimensionCycle_mem_rationalEquivalenceSubgroup_of_monic
   rw [FlatEquidimensional.topologicalKrullDim_closure_singleton, hr, hn] at hXd
   have hVd := dimension_codimension_formula (ν' ≫ p) hp' (closure {e z}) isClosed_closure
     ⟨e z, subset_closure rfl⟩
-  rw [FlatEquidimensional.topologicalKrullDim_closure_singleton, codim_closure_singleton_eq_coheight,
+  rw [FlatEquidimensional.topologicalKrullDim_closure_singleton,
+    codim_closure_singleton_eq_coheight,
     coheight_eq_of_isOpenImmersion e, hcoh, hheight] at hVd
   have hsum := topologicalKrullDim_absoluteNormalization_add_codim p hp i
   rw [hn] at hsum
@@ -291,13 +293,12 @@ theorem mem_rationalEquivalenceSubgroup_of_coe_eq {X : Scheme.{u}} (p : X ⟶ Sp
   rwa [← Subtype.ext hcd]
 
 open scoped Classical in
-/-- A codimension-`r` cycle is the sum of its coefficients times the cycles of the points of its
-support; so it is rationally equivalent to zero when every codimension-`r` point is. -/
-theorem mem_rationalEquivalenceSubgroup_of_forall_point {X : Scheme.{u}} (p : X ⟶ Spec (.of k))
-    [IsIntegral X] (hp : FiniteType p) [IsSeparated p] {n : ℕ} (hn : topologicalKrullDim X = n)
-    {r : ℕ} (hpt : ∀ (x : X) (hx : codim (closure ({x} : Set X)) = r),
-      pointCodimensionCycle x hx ∈ rationalEquivalenceSubgroup p hp hn r)
-    (c : codimensionCycles X r) : c ∈ rationalEquivalenceSubgroup p hp hn r := by
+/-- An additive subgroup of the codimension-`r` cycles containing the cycle of every
+codimension-`r` point contains every codimension-`r` cycle. -/
+theorem mem_of_forall_pointCodimensionCycle_mem {X : Scheme.{u}} {r : ℕ}
+    (H : AddSubgroup (codimensionCycles X r))
+    (hpt : ∀ (x : X) (hx : codim (closure ({x} : Set X)) = r), pointCodimensionCycle x hx ∈ H)
+    (c : codimensionCycles X r) : c ∈ H := by
   have hc : c = ∑ x ∈ c.2.1.toFinset.attach, (c : AlgebraicCycle X ℤ) x.1 •
       pointCodimensionCycle x.1 (c.2.2 x.1 (c.2.1.mem_toFinset.mp x.2)) := by
     apply Subtype.ext
@@ -312,6 +313,15 @@ theorem mem_rationalEquivalenceSubgroup_of_forall_point {X : Scheme.{u}} (p : X 
     · exact Function.notMem_support.mp fun h => hw (c.2.1.mem_toFinset.mpr h)
   rw [hc]
   exact AddSubgroup.sum_mem _ fun x _ => AddSubgroup.zsmul_mem _ (hpt _ _) _
+
+/-- A codimension-`r` cycle is rationally equivalent to zero when every codimension-`r` point
+is. -/
+theorem mem_rationalEquivalenceSubgroup_of_forall_point {X : Scheme.{u}} (p : X ⟶ Spec (.of k))
+    [IsIntegral X] (hp : FiniteType p) [IsSeparated p] {n : ℕ} (hn : topologicalKrullDim X = n)
+    {r : ℕ} (hpt : ∀ (x : X) (hx : codim (closure ({x} : Set X)) = r),
+      pointCodimensionCycle x hx ∈ rationalEquivalenceSubgroup p hp hn r)
+    (c : codimensionCycles X r) : c ∈ rationalEquivalenceSubgroup p hp hn r :=
+  mem_of_forall_pointCodimensionCycle_mem _ hpt c
 
 open scoped Classical in
 /-- The pushforward of the cycle of a point along a closed immersion is the cycle of its
@@ -355,7 +365,7 @@ end Transport
 
 section AffineSpace
 
-variable {k : Type u} [Field k] {τ : Type u} [Finite τ]
+variable {k : Type u} [Field k] {τ : Type} [Finite τ]
 
 /-- **Cycles of positive codimension on affine space are rationally equivalent to zero.** Let
 `k` be infinite and `X` a variety over `k` of dimension `n` isomorphic to affine space

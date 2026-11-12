@@ -599,6 +599,7 @@ import Hartshorne.RingedSpace.SheafExtFiniteLocallyFree
 import Hartshorne.RingedSpace.SheafExtLocallyFreeResolution
 import Hartshorne.Intersection.ProjectiveHyperplaneChart
 import Hartshorne.Intersection.ProjectiveLinearSubspaceCycle
+import Hartshorne.Intersection.ProjectiveLinearSubspaceGeneration
 import Hartshorne.Scheme.ProjHomogeneousFraction
 import Hartshorne.Scheme.QuadricSurface
 import Hartshorne.Scheme.QuadricSurfaceSegre
