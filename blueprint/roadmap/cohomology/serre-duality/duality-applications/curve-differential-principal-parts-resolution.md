@@ -29,6 +29,7 @@ global sections before taking this cokernel is asserted.
 - [Exactness is detected on stalks](../../../schemes/sheaves/stalkwise-exactness.md)
 - [Flasque sheaves are acyclic](../../sheaf-cohomology/flasque-sheaf-acyclic.md)
 - [The long exact sequence of sheaf cohomology](../../sheaf-cohomology/sheaf-cohomology-long-exact-sequence.md)
+- [Acyclicity of $O$ on the projective line](../../sheaf-cohomology/projective-line-regular-sheaf-acyclic.md)
 - Local freeness of $\Omega _X$ of rank one.
 - The general curve principal-parts decomposition over closed points, proved
   stalkwise rather than imported from the special $\mathbb{P}^{1}$ case.
