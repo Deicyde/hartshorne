@@ -264,6 +264,11 @@ private theorem iso_hom_inv_app {M N : Z.Modules} (e : M ≅ N) {U : Z.Opens} (y
   rw [← ConcreteCategory.comp_apply, ← Scheme.Modules.Hom.comp_app, Iso.inv_hom_id]
   rfl
 
+private theorem iso_inv_hom_app {M N : Z.Modules} (e : M ≅ N) {U : Z.Opens} (y : Γ(M, U)) :
+    e.inv.app U (e.hom.app U y) = y := by
+  rw [← ConcreteCategory.comp_apply, ← Scheme.Modules.Hom.comp_app, Iso.hom_inv_id]
+  rfl
+
 /-- **Elementary tensors of degree-one sections** (Proposition 5.12(b), on sections). For
 `L ≅ ψ^* 𝒪(1)` and `u₁, …, u_{N+1} ∈ S₁`, the isomorphism `L^{N+1} ≅ ψ^* 𝒪(N + 1)` sends
 `ψ^*(u₁ / 1) ⊗ ⋯ ⊗ ψ^*(u_{N+1} / 1)` to `ψ^*(u₁ ⋯ u_{N+1} / 1)`. -/
@@ -372,6 +377,107 @@ theorem tensorPowerPullbackTwistIso_hom_tprod : ∀ (N : ℕ) (u : Fin (N + 1) �
     exact (Fin.prod_univ_castSucc (fun k => (u k : A))).symm
 
 end TensorPowerTwist
+
+/-! ### Products of pulled-back monomials -/
+
+section Monomials
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+variable {r : ℕ} {X Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r X)
+
+/-- The global section `f^*(u / 1)` of `L = i^* 𝒪(1)` for `u ∈ ℤ[x₀, …, xᵣ]₁`. -/
+abbrev lineSection (u : GeneratedProj.intGrading.{u} r 1) :
+    Γ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1), ⊤) :=
+  degreeOneLineSection (𝒜 := GeneratedProj.intGrading.{u} r) (toIntProj i)
+    ((Scheme.Modules.pullbackComp _ _).app _) u
+
+/-- `L^{N+1} ≅ 𝒪(N + 1)|_Z` sends `f^*(u₁ / 1) ⊗ ⋯ ⊗ f^*(u_{N+1} / 1)` to `f^*(u₁ ⋯ u_{N+1} / 1)`. -/
+theorem tensorPowerTwistOnZIso_hom_tprod (N : ℕ) (hN : 0 < N + 1)
+    (u : Fin (N + 1) → GeneratedProj.intGrading.{u} r 1) :
+    (tensorPowerTwistOnZIso i (N + 1) hN).hom.app ⊤
+        ((moduleSheafTensorPowerMultilinear (N + 1) _).app (op ⊤) fun k => lineSection i (u k)) =
+      pullbackGlobalSection
+        (N := projTwistingSheaf (GeneratedProj.intGrading.{u} r) ((N + 1 : ℕ) : ℤ)) (toIntProj i)
+        (twistSection (N + 1) ⟨∏ k, (u k : MvPolynomial (Fin (r + 1)) (ULift.{u} ℤ)),
+          prod_mem_degree u⟩ (op ⊤)) := by
+  rw [← tensorPowerPullbackTwistIso_hom_tprod (adjoin_intGrading_one_eq_top r) (toIntProj i)
+    ((Scheme.Modules.pullbackComp _ _).app _) N u]
+  have key := iso_hom_inv_app ((Scheme.Modules.pullbackComp i
+    (pullback.fst (projectiveSpaceOverIntegersMap r) (schemeToSpecZ X))).app
+      (projTwistingSheaf (GeneratedProj.intGrading.{u} r) ((N + 1 : ℕ) : ℤ)))
+    (Scheme.Modules.Hom.app (X := Z) (tensorPowerPullbackTwistIso (adjoin_intGrading_one_eq_top r)
+      (toIntProj i) ((Scheme.Modules.pullbackComp _ _).app _) N).hom ⊤
+      ((moduleSheafTensorPowerMultilinear (N + 1) _).app (op ⊤) fun k => lineSection i (u k)))
+  exact key
+
+/-- A monomial of degree `n` is a product of `n` elements of degree one. -/
+theorem exists_prod_eq_monomial : ∀ (n : ℕ) (β : Fin (r + 1) →₀ ℕ), β.degree = n →
+    ∃ u : Fin n → GeneratedProj.intGrading.{u} r 1,
+      ∏ k, (u k : MvPolynomial (Fin (r + 1)) (ULift.{u} ℤ)) = MvPolynomial.monomial β 1
+  | 0, β, h => ⟨Fin.elim0, by simp [(Finsupp.degree_eq_zero_iff β).mp h]⟩
+  | n + 1, β, h => by
+    obtain ⟨j, hj⟩ : ∃ j, β j ≠ 0 := by
+      by_contra hc
+      push Not at hc
+      have : β = 0 := Finsupp.ext hc
+      simp [this] at h
+    have hle : Finsupp.single j 1 ≤ β := Finsupp.single_le_iff.mpr (Nat.one_le_iff_ne_zero.mpr hj)
+    have hdeg : (β - Finsupp.single j 1).degree = n := by
+      have := map_add Finsupp.degree (β - Finsupp.single j 1) (Finsupp.single j 1)
+      rw [tsub_add_cancel_of_le hle, h, Finsupp.degree_single] at this
+      omega
+    obtain ⟨u, hu⟩ := exists_prod_eq_monomial n _ hdeg
+    refine ⟨Fin.snoc u ⟨MvPolynomial.X j, MvPolynomial.isHomogeneous_X _ j⟩, ?_⟩
+    rw [Fin.prod_univ_castSucc]
+    simp only [Fin.snoc_castSucc, Fin.snoc_last]
+    rw [hu, MvPolynomial.X, MvPolynomial.monomial_mul, one_mul, tsub_add_cancel_of_le hle]
+
+/-- `L^{n} ≅ 𝒪(n)|_Z` sends `f^*(u₁ / 1) ⊗ ⋯ ⊗ f^*(uₙ / 1)` to the pulled-back monomial
+`x^β = u₁ ⋯ uₙ`. -/
+theorem tensorPowerTwistOnZIso_hom_tprod_eq_monomialSection {n : ℕ} (hn : 0 < n)
+    {β : Fin (r + 1) →₀ ℕ} (hβ : β.degree = n) (u : Fin n → GeneratedProj.intGrading.{u} r 1)
+    (hu : ∏ k, (u k : MvPolynomial (Fin (r + 1)) (ULift.{u} ℤ)) = MvPolynomial.monomial β 1) :
+    (tensorPowerTwistOnZIso i n hn).hom.app ⊤
+        ((moduleSheafTensorPowerMultilinear n _).app (op ⊤) fun k => lineSection i (u k)) =
+      monomialSection i n β := by
+  obtain ⟨N, rfl⟩ : ∃ N, n = N + 1 := ⟨n - 1, by omega⟩
+  rw [tensorPowerTwistOnZIso_hom_tprod, monomialSection, dif_pos hβ]
+  congr 2
+  exact Subtype.ext hu
+
+/-- The product of sections of tensor powers of `L = i^* 𝒪(1)`,
+`Γ(W, L^{p}) × Γ(W, L^{q}) → Γ(W, L^{p+q})`, induced by `L^{p} ⊗ L^{q} ≅ L^{p+q}`. -/
+noncomputable def tensorPowerMulSection {p q : ℕ} {W : Z.Opens} (s : Γ(tensorPowerL i p, W))
+    (t : Γ(tensorPowerL i q, W)) : Γ(tensorPowerL i (p + q), W) :=
+  Ringed.moduleSheafTensorPowerMulSection (R := Z.sheaf) s t
+
+/-- **Products of pulled-back monomials.** Under `L^{n} ≅ 𝒪(n)|_Z`, the product
+`L^{p} × L^{q} → L^{p+q}` sends the pulled-back monomials `x^β` and `x^γ` to `x^{β+γ}`. -/
+theorem tensorPowerMulSection_monomialSection {p q : ℕ} (hp : 0 < p) (hq : 0 < q)
+    {β γ : Fin (r + 1) →₀ ℕ} (hβ : β.degree = p) (hγ : γ.degree = q) :
+    tensorPowerMulSection i ((tensorPowerTwistOnZIso i p hp).inv.app ⊤ (monomialSection i p β))
+        ((tensorPowerTwistOnZIso i q hq).inv.app ⊤ (monomialSection i q γ)) =
+      (tensorPowerTwistOnZIso i (p + q) (by omega)).inv.app ⊤
+        (monomialSection i (p + q) (β + γ)) := by
+  obtain ⟨u, hu⟩ := exists_prod_eq_monomial p β hβ
+  obtain ⟨v, hv⟩ := exists_prod_eq_monomial q γ hγ
+  have e3 := tensorPowerTwistOnZIso_hom_tprod_eq_monomialSection i (n := p + q) (by omega)
+    (show (β + γ).degree = p + q by rw [map_add, hβ, hγ]) (Fin.append u v) (by
+      rw [Fin.prod_univ_add]
+      simp only [Fin.append_left, Fin.append_right]
+      rw [hu, hv, MvPolynomial.monomial_mul, one_mul])
+  rw [← tensorPowerTwistOnZIso_hom_tprod_eq_monomialSection i hp hβ u hu,
+    ← tensorPowerTwistOnZIso_hom_tprod_eq_monomialSection i hq hγ v hv, ← e3,
+    iso_inv_hom_app, iso_inv_hom_app, iso_inv_hom_app, tensorPowerMulSection,
+    Ringed.moduleSheafTensorPowerMulSection_tprod]
+  congr 1
+  funext k
+  refine Fin.addCases (fun k => ?_) (fun k => ?_) k
+  · simp only [Fin.append_left]
+  · simp only [Fin.append_right]
+
+end Monomials
 
 end SectionAlgebraModel
 
