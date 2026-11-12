@@ -959,6 +959,147 @@ lemma vectorBundleIso_hom_proj (α : E ≅ E') :
 
 end SymmetricAlgebraIso
 
+
+/-! ### `V(α)` is an isomorphism of geometric vector bundles -/
+
+section VectorBundleBundleIso
+
+variable {E E' : Y.Modules}
+
+private lemma relSpecIso_ι_hom {A B : QuasiCoherentAlgebra Y} (e : A ≅ B)
+    (U : Y.AffineZariskiSite) :
+    A.ι U ≫ (QuasiCoherentAlgebra.relSpecIso e).hom =
+      Spec.map ((QuasiCoherentAlgebra.sectionsIso e).inv.app (op U)) ≫ B.ι U :=
+  CategoryTheory.Limits.HasColimit.isoOfNatIso_ι_hom _ _
+
+private lemma relSpecIso_ι_inv {A B : QuasiCoherentAlgebra Y} (e : A ≅ B)
+    (U : Y.AffineZariskiSite) :
+    B.ι U ≫ (QuasiCoherentAlgebra.relSpecIso e).inv =
+      Spec.map ((QuasiCoherentAlgebra.sectionsIso e).hom.app (op U)) ≫ A.ι U :=
+  CategoryTheory.Limits.HasColimit.isoOfNatIso_ι_inv _ _
+
+/-- The change of charts `φ_{e'}⁻¹ ∘ s ∘ φ_e` between frames `e` of `E` and `e'` of `E'` over an
+affine open, through a ring isomorphism `s : Γ(V, Sym(E)) ≅ Γ(V, Sym(E'))` of
+`Γ(V, 𝒪_Y)`-algebras. -/
+private def chartChange {V : Y.affineOpens} {e : ULift.{u} (Fin n) → Γ(E, V)}
+    (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e) {e' : ULift.{u} (Fin n) → Γ(E', V)}
+    (he' : Ringed.IsLocalFrame (R := Y.sheaf) E' V e')
+    (s : E.symSections V ≃+* E'.symSections V)
+    (hs : ∀ r, s (unitRingHom E.symmetricAlgebraStructure_isCommutative V r) =
+      unitRingHom E'.symmetricAlgebraStructure_isCommutative V r) :
+    MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤) ≃ₐ[Γ(V, ⊤)] MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤) :=
+  AlgEquiv.ofRingEquiv
+    (f := ((frameChartRingEquiv V he).trans s).trans (frameChartRingEquiv V he').symm) fun a => by
+      rw [RingEquiv.trans_apply, RingEquiv.trans_apply, RingEquiv.symm_apply_eq]
+      change s (E.chartRingHom V e (MvPolynomial.map (V : Y.Opens).topIso.hom.hom
+        (MvPolynomial.C a))) = E'.chartRingHom V e' (MvPolynomial.map (V : Y.Opens).topIso.hom.hom
+          (MvPolynomial.C a))
+      rw [MvPolynomial.map_C, chartRingHom_C, chartRingHom_C, hs]
+
+private lemma isLinearPolynomialAlgHom_chartChange {V : Y.affineOpens}
+    {e : ULift.{u} (Fin n) → Γ(E, V)} (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e)
+    {e' : ULift.{u} (Fin n) → Γ(E', V)} (he' : Ringed.IsLocalFrame (R := Y.sheaf) E' V e')
+    (s : E.symSections V ≃+* E'.symSections V)
+    (hs : ∀ r, s (unitRingHom E.symmetricAlgebraStructure_isCommutative V r) =
+      unitRingHom E'.symmetricAlgebraStructure_isCommutative V r) (β : Γ(E, V) → Γ(E', V))
+    (hβ : ∀ m, s (E.symDegreeOne V m) = E'.symDegreeOne V (β m)) :
+    IsLinearPolynomialAlgHom (chartChange he he' s hs).toAlgHom := by
+  obtain ⟨a, ha⟩ := E'.chartRingHom_transition he' (fun k => β (e k))
+  refine ⟨fun k l => (V : Y.Opens).topIso.inv (a k l), fun k => ?_⟩
+  change (frameChartRingEquiv V he').symm (s (frameChartRingEquiv V he (MvPolynomial.X k))) = _
+  rw [RingEquiv.symm_apply_eq]
+  change s (E.chartRingHom V e (MvPolynomial.map (V : Y.Opens).topIso.hom.hom
+    (MvPolynomial.X k))) = E'.chartRingHom V e' (MvPolynomial.map (V : Y.Opens).topIso.hom.hom _)
+  rw [MvPolynomial.map_X, chartRingHom_X, hβ, ← chartRingHom_X (e := fun k => β (e k)), ha k]
+  congr 1
+  rw [map_sum]
+  refine Finset.sum_congr rfl fun l _ => ?_
+  rw [map_mul, MvPolynomial.map_C, MvPolynomial.map_X]
+  congr 2
+  exact (ConcreteCategory.congr_hom (V : Y.Opens).topIso.inv_hom_id (a k l)).symm
+
+variable (hE : E.IsLocallyFreeOfRank n) (hE' : E'.IsLocallyFreeOfRank n) (α : E ≅ E')
+
+/-- `Sym(α)` on the ring of sections over an open. -/
+private abbrev symSectionsEquiv (α : E ≅ E') (V : Y.Opens) :
+    E.symSections V ≃+* E'.symSections V :=
+  sectionsRingEquiv _ _ (symmetricAlgebraIso α) (symmetricAlgebraIso_hom_mul α) V
+
+private lemma symSectionsEquiv_unit (α : E ≅ E') (V : Y.Opens) (r : Γ(Y, V)) :
+    symSectionsEquiv α V (unitRingHom E.symmetricAlgebraStructure_isCommutative V r) =
+      unitRingHom E'.symmetricAlgebraStructure_isCommutative V r := by
+  change (symmetricAlgebraIso α).hom.val.app (op V) (r • oneSection E.symmetricAlgebraStructure V) =
+    r • oneSection E'.symmetricAlgebraStructure V
+  rw [((symmetricAlgebraIso α).hom.val.app (op V)).hom.map_smul]
+  exact congrArg (r • ·) (symmetricAlgebraIso_hom_one α (op V))
+
+private lemma symSectionsEquiv_symDegreeOne (α : E ≅ E') (V : Y.Opens) (m : Γ(E, V)) :
+    symSectionsEquiv α V (E.symDegreeOne V m) =
+      E'.symDegreeOne V (α.hom.val.app (op V) m) :=
+  congrArg (toSectionsRing _) (symmetricAlgebraIso_hom_symDegreeOne α V m)
+
+/-- **`V(α)` is an isomorphism of geometric vector bundles** (Hartshorne II, Exercise 5.18): for an
+isomorphism `α : E ≅ E'` of locally free sheaves of rank `n`, on an affine open `V` with frames
+`e` of `E` and `e'` of `E'`, the charts of `V(E)` and `V(E')` differ by the linear substitution
+expressing `α(e)` in the frame `e'`. -/
+def vectorBundleBundleIso :
+    GeometricVectorBundle.BundleIso (vectorBundleAtlas hE) (vectorBundleAtlas hE') where
+  iso := vectorBundleIso hE hE' α
+  over := vectorBundleIso_hom_proj hE hE' α
+  compatible a b V ha hb := by
+    have hc := GeometricVectorBundle.transport_chart (vectorBundleAtlas hE')
+      (vectorBundleIso hE hE' α) (vectorBundleIso_hom_proj hE hE' α)
+    cases a with
+    | inl c =>
+      cases b with
+      | inl d => exact (vectorBundleAtlas hE).linear c d V ha hb
+      | inr d =>
+        change GeometricVectorBundle.IsLinearTransition V ha hb ((vectorBundleAtlas hE).chart c)
+          ((GeometricVectorBundle.transport (vectorBundleAtlas hE') _ _).chart d)
+        rw [hc]
+        refine ⟨chartChange (c.isLocalFrame.restrictLE ha) (d.isLocalFrame.restrictLE hb)
+          (symSectionsEquiv α V) (symSectionsEquiv_unit α V),
+          isLinearPolynomialAlgHom_chartChange _ _ _ _ _ (symSectionsEquiv_symDegreeOne α V), ?_⟩
+        simp only [GeometricVectorBundle.chart, vectorBundleAtlas, Category.assoc]
+        rw [reassoc_of% (affineSpaceChart_frameTrivialization_inv hE' d.V V hb d.isLocalFrame),
+          affineSpaceChart_frameTrivialization_inv hE c.V V ha c.isLocalFrame,
+          vectorBundleIso, relSpecIso_ι_inv, ← Spec.map_comp_assoc, ← Spec.map_comp_assoc]
+        congr 2
+        refine CommRingCat.hom_ext (RingHom.ext fun x => ?_)
+        change (frameChartRingEquiv V (d.isLocalFrame.restrictLE hb)).symm
+            (symSectionsEquiv α V x) =
+          (frameChartRingEquiv V (d.isLocalFrame.restrictLE hb)).symm (symSectionsEquiv α V
+            (frameChartRingEquiv V (c.isLocalFrame.restrictLE ha)
+              ((frameChartRingEquiv V (c.isLocalFrame.restrictLE ha)).symm x)))
+        rw [RingEquiv.apply_symm_apply]
+    | inr d =>
+      cases b with
+      | inl c =>
+        change GeometricVectorBundle.IsLinearTransition V ha hb
+          ((GeometricVectorBundle.transport (vectorBundleAtlas hE') _ _).chart d)
+          ((vectorBundleAtlas hE).chart c)
+        rw [hc]
+        refine ⟨chartChange (d.isLocalFrame.restrictLE ha) (c.isLocalFrame.restrictLE hb)
+          (symSectionsEquiv α.symm V) (symSectionsEquiv_unit α.symm V),
+          isLinearPolynomialAlgHom_chartChange _ _ _ _ _
+            (symSectionsEquiv_symDegreeOne α.symm V), ?_⟩
+        simp only [GeometricVectorBundle.chart, vectorBundleAtlas, Category.assoc]
+        rw [affineSpaceChart_frameTrivialization_inv hE c.V V hb c.isLocalFrame,
+          reassoc_of% (affineSpaceChart_frameTrivialization_inv hE' d.V V ha d.isLocalFrame),
+          vectorBundleIso, relSpecIso_ι_inv, ← Spec.map_comp_assoc, ← Spec.map_comp_assoc]
+        congr 2
+        refine CommRingCat.hom_ext (RingHom.ext fun x => ?_)
+        change (frameChartRingEquiv V (c.isLocalFrame.restrictLE hb)).symm x =
+          (frameChartRingEquiv V (c.isLocalFrame.restrictLE hb)).symm
+            ((symSectionsEquiv α V).symm (frameChartRingEquiv V (d.isLocalFrame.restrictLE ha)
+              ((frameChartRingEquiv V (d.isLocalFrame.restrictLE ha)).symm
+                (symSectionsEquiv α V x))))
+        rw [RingEquiv.apply_symm_apply, RingEquiv.symm_apply_apply]
+      | inr d' =>
+        exact (GeometricVectorBundle.transport (vectorBundleAtlas hE') _ _).linear d d' V ha hb
+
+end VectorBundleBundleIso
+
 end Scheme.Modules
 
 end
