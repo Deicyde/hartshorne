@@ -29,6 +29,7 @@ recorded as applications of this formula rather than separate graph nodes.
 - [Linear equivalence is isomorphism of divisor sheaves](../../divisors/cartier-picard/cartier-linear-equivalence-sheaf-iso.md)
 - [Divisors of invertible-sheaf sections](../../projective-geometry/linear-systems-ampleness/divisor-of-invertible-section.md)
 - [Finiteness of projective global sections](../../projective-sheaves/projective-global-sections-finite.md)
+- [Projective space is proper](../../proper-and-projective/projective-space-proper.md)
 
 ## Sources
 
