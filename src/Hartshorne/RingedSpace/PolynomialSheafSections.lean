@@ -6,15 +6,19 @@ import Hartshorne.Scheme.SymmetricAlgebraSheaf
 import Hartshorne.Scheme.ExteriorPerfectPairing
 
 /-!
-# Sections of the polynomial algebra sheaf over quasi-compact opens
+# Sections of polynomial-like sheafifications over quasi-compact opens
 
-Supplements Hartshorne II, Exercise 5.18(a) (p. 128). On a ringed space `(X, 𝒪_X)`, the
-polynomial algebra sheaf `𝒪_X[T_i]` is the sheafification of the presheaf
-`U ↦ 𝒪_X(U)[T_i]` (`polynomialAlgebraSheaf`). This presheaf is separated, so the canonical map
-`𝒪_X(U)[T_i] → 𝒪_X[T_i](U)` is injective for every open `U`
-(`sheafifyUnit_polynomialPresheaf_injective`); over a quasi-compact open `U` it is bijective
-(`sheafifyUnit_polynomialPresheaf_bijective`): a section of the sheafification is locally a
-polynomial, finitely many such local polynomials suffice, and their coefficients glue.
+Supplements Hartshorne II, Exercise 5.18 (p. 128). On a ringed space `(X, 𝒪_X)`, let `P` be a
+presheaf of `𝒪_X`-modules which over every open `W ⊆ U` is identified with `𝒪_X(W)[T_i]`,
+compatibly with restriction. Then the canonical map from `P(W)` to the sections of the
+sheafification of `P` is injective for `W ⊆ U` (`sheafifyUnit_injective_of_polynomial`), and
+bijective over `U` when `U` is quasi-compact (`sheafifyUnit_bijective_of_polynomial`): a section of
+the sheafification is locally a polynomial, finitely many local polynomials suffice, and their
+finitely many nonzero coefficients glue.
+
+Applied to the presheaf `W ↦ S(E(W))` of a module `E` with a frame `e` over `U`
+(`frameSymmetricAlgebraEquiv`), this computes the sections of the symmetric algebra sheaf `S(E)`
+over a quasi-compact `U`: they are `S(E(U))` (`moduleSheafSymmetricAlgebra_sheafifyUnit_bijective`).
 -/
 
 universe u

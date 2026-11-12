@@ -8,7 +8,7 @@ import Hartshorne.RingedSpace.PolynomialSheafSections
 /-!
 # Sections of `Sym(E)` over affine opens on which `E` is free
 
-Supplements Hartshorne II, Exercise 5.18(a) (p. 128). Let `E` be an `𝒪_Y`-module and let
+Supplements Hartshorne II, Exercise 5.18 (p. 128). Let `E` be an `𝒪_Y`-module and let
 `e = (e_k)` be a frame of `E` over an open `U` of `Y` (`Hartshorne.Ringed.IsLocalFrame`), that is,
 `E|_U ≅ 𝒪_U^{⊕ κ}` with basis `e`. The `Γ(U, 𝒪_Y)`-algebra homomorphism
 `Γ(U, 𝒪_Y)[x_k] → Γ(U, Sym(E))`, `x_k ↦ e_k` (`chartRingHom`), is bijective when `U` is affine

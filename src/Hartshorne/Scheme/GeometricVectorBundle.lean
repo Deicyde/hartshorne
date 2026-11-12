@@ -22,11 +22,26 @@ given by a linear automorphism `θ` of `A[x_1, …, x_n]`: `θ(a) = a` for `a �
 
 ## The vector bundle of a locally free sheaf
 
-For a locally free sheaf `E` of rank `n` on `Y`, Hartshorne's Exercise 5.18(a) defines
+For a locally free sheaf `E` of rank `n` on `Y`, Hartshorne's Exercise 5.18 defines
 `V(E) = Spec_Y Sym(E)` (with Hartshorne's convention: `Sym(E)`, not `Sym(E^∨)`). Here
 `Scheme.Modules.vectorBundle E hE` is the relative spectrum of the quasi-coherent
 `𝒪_Y`-algebra `Sym(E)` (`Scheme.Modules.symmetricQuasiCoherentAlgebra`), an affine scheme over
 `Y` (`Scheme.Modules.vectorBundleProj`).
+
+## Main results
+
+* `Scheme.Modules.frameTrivialization`: a frame `e` of `E` over an affine open `V` (a basis of
+  `E|_V`) gives `ψ_V : f⁻¹(V) = Spec Γ(V, Sym(E)) ≅ Spec A[x_1, …, x_n] ≅ 𝔸ⁿ_V`, `x_k ↦ e_k`, over
+  `V` (`frameTrivialization_hom_over`), using that `Γ(V, Sym(E))` is the polynomial ring on the
+  frame (`chartRingHom_bijective`).
+* `Scheme.Modules.affineSpaceChart_frameTrivialization_inv`: on an affine `V' ⊆ V`, `ψ_V⁻¹` is the
+  piece of `V(E)` over `V'`, identified through the restricted frame.
+* `Scheme.Modules.vectorBundleAtlas`, `nonempty_geometricVectorBundle_vectorBundle`: **`V(E)` is a
+  geometric vector bundle of rank `n`**, with the covering by all affine opens carrying a frame of
+  `E`; the transition maps are the linear changes of frames (`frameChange`,
+  `isLinearPolynomialAlgHom_frameChange`). The covering and the trivializations are determined by
+  `E` and its frames, with no choices.
+* `GeometricVectorBundle.trivial`: `𝔸ⁿ_Y` is a geometric vector bundle of rank `n`.
 -/
 
 universe u
@@ -167,7 +182,7 @@ def symmetricQuasiCoherentAlgebra (E : Y.Modules) (hE : E.IsLocallyFreeOfRank n)
   ModuleSheafAlgebra.toQuasiCoherentAlgebra (symmetricAlgebraStructure_isCommutative E)
 
 /-- **The geometric vector bundle `V(E) = Spec_Y Sym(E)`** of a locally free sheaf `E` of rank `n`
-(Hartshorne II, Exercise 5.18(a)), with Hartshorne's convention `Sym(E)`, not `Sym(E^∨)`. It is
+(Hartshorne II, Exercise 5.18), with Hartshorne's convention `Sym(E)`, not `Sym(E^∨)`. It is
 defined from `E` alone, so it does not depend on any choice of trivializations of `E`. -/
 abbrev vectorBundle (E : Y.Modules) (hE : E.IsLocallyFreeOfRank n) : Scheme.{u} :=
   (symmetricQuasiCoherentAlgebra E hE).relSpec
@@ -295,6 +310,91 @@ lemma affineSpaceChart_frameTrivialization_inv (hE : E.IsLocallyFreeOfRank n) (V
       (fun k => E.presheaf.map (homOfLE h).op (e k)) (MvPolynomial.map φ p))
       (congrArg CommRingCat.Hom.hom (homOfLE_appTop_topIso_hom h))
   rw [← Spec.map_comp_assoc, ← Spec.map_comp_assoc, hring]
+
+variable (E n) in
+/-- A frame of `E` over an affine open of `Y`: an index of the covering by which `V(E)` is a
+geometric vector bundle. -/
+structure AffineFrame where
+  /-- The affine open. -/
+  V : Y.affineOpens
+  /-- The frame. -/
+  e : ULift.{u} (Fin n) → Γ(E, V)
+  isLocalFrame : Ringed.IsLocalFrame (R := Y.sheaf) E V e
+
+/-- A locally free sheaf of rank `n` has frames over affine opens covering `Y`. -/
+theorem exists_affineFrame (hE : E.IsLocallyFreeOfRank n) (y : Y) :
+    ∃ c : AffineFrame E n, y ∈ (c.V : Y.Opens) := by
+  obtain ⟨U, hyU, hU⟩ := hE y
+  obtain ⟨α⟩ := (nonempty_restrict_iso_free_iff E U _).mp hU
+  have he := Ringed.isLocalFrame_of_over_iso (R := Y.sheaf) α
+  obtain ⟨_, ⟨V, hV, rfl⟩, hyV, hVU⟩ :=
+    Y.isBasis_affineOpens.exists_subset_of_mem_open hyU U.isOpen
+  exact ⟨⟨⟨V, hV⟩, _, he.restrictLE hVU⟩, hyV⟩
+
+/-- The change of frames `θ = ψ_j ∘ ψ_i⁻¹` on the polynomial ring over an affine open, for two
+frames over that open. -/
+def frameChange {V : Y.affineOpens} {e e' : ULift.{u} (Fin n) → Γ(E, V)}
+    (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e)
+    (he' : Ringed.IsLocalFrame (R := Y.sheaf) E V e') :
+    MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤) ≃ₐ[Γ(V, ⊤)] MvPolynomial (ULift.{u} (Fin n)) Γ(V, ⊤) :=
+  AlgEquiv.ofRingEquiv (f := (frameChartRingEquiv V he).trans (frameChartRingEquiv V he').symm)
+    fun a => by
+      rw [RingEquiv.trans_apply, RingEquiv.symm_apply_eq]
+      change E.chartRingHom V e (MvPolynomial.map (V : Y.Opens).topIso.hom.hom
+        (MvPolynomial.C a)) = E.chartRingHom V e' (MvPolynomial.map (V : Y.Opens).topIso.hom.hom
+          (MvPolynomial.C a))
+      rw [MvPolynomial.map_C, chartRingHom_C, chartRingHom_C]
+
+lemma isLinearPolynomialAlgHom_frameChange {V : Y.affineOpens}
+    {e e' : ULift.{u} (Fin n) → Γ(E, V)} (he : Ringed.IsLocalFrame (R := Y.sheaf) E V e)
+    (he' : Ringed.IsLocalFrame (R := Y.sheaf) E V e') :
+    IsLinearPolynomialAlgHom (frameChange he he').toAlgHom := by
+  obtain ⟨a, ha⟩ := E.chartRingHom_transition he' e
+  refine ⟨fun k l => (V : Y.Opens).topIso.inv (a k l), fun k => ?_⟩
+  change (frameChartRingEquiv V he').symm (frameChartRingEquiv V he (MvPolynomial.X k)) = _
+  rw [RingEquiv.symm_apply_eq]
+  change E.chartRingHom V e (MvPolynomial.map (V : Y.Opens).topIso.hom.hom (MvPolynomial.X k)) =
+    E.chartRingHom V e' (MvPolynomial.map (V : Y.Opens).topIso.hom.hom _)
+  rw [MvPolynomial.map_X, ha k]
+  congr 1
+  rw [map_sum]
+  refine Finset.sum_congr rfl fun l _ => ?_
+  rw [map_mul, MvPolynomial.map_C, MvPolynomial.map_X]
+  congr 2
+  exact (ConcreteCategory.congr_hom (V : Y.Opens).topIso.inv_hom_id (a k l)).symm
+
+/-- **`V(E)` is a geometric vector bundle of rank `n`** (Hartshorne II, Exercise 5.18): over the
+affine opens `V` on which `E` has a frame `e` (a basis of `E|_V`), the frames identify
+`f⁻¹(V) = Spec Γ(V, Sym(E))` with `𝔸ⁿ_V = Spec A[x_1, …, x_n]`, `x_k ↦ e_k`
+(`frameTrivialization`), and on an affine `V' ⊆ V_i ∩ V_j` the change of trivializations is the
+linear substitution expressing the frame `e_i|_{V'}` in the frame `e_j|_{V'}`
+(`frameChange`, `isLinearPolynomialAlgHom_frameChange`). -/
+def vectorBundleAtlas (hE : E.IsLocallyFreeOfRank n) :
+    GeometricVectorBundle (vectorBundleProj E hE) n where
+  ι := AffineFrame E n
+  U c := c.V
+  iSup_eq_top := eq_top_iff.mpr fun y _ => by
+    obtain ⟨c, hc⟩ := exists_affineFrame hE y
+    exact Opens.mem_iSup.mpr ⟨c, hc⟩
+  ψ c := frameTrivialization hE c.V c.isLocalFrame
+  ψ_over c := frameTrivialization_hom_over hE c.V c.isLocalFrame
+  linear i j V hi hj := by
+    refine ⟨frameChange (i.isLocalFrame.restrictLE hi) (j.isLocalFrame.restrictLE hj),
+      isLinearPolynomialAlgHom_frameChange _ _, ?_⟩
+    rw [affineSpaceChart_frameTrivialization_inv, affineSpaceChart_frameTrivialization_inv,
+      ← Spec.map_comp_assoc]
+    congr 2
+    refine CommRingCat.hom_ext (RingHom.ext fun x => ?_)
+    change (frameChartRingEquiv V (j.isLocalFrame.restrictLE hj)).symm x =
+      (frameChartRingEquiv V (j.isLocalFrame.restrictLE hj)).symm
+        (frameChartRingEquiv V (i.isLocalFrame.restrictLE hi)
+          ((frameChartRingEquiv V (i.isLocalFrame.restrictLE hi)).symm x))
+    rw [RingEquiv.apply_symm_apply]
+
+/-- **`V(E)` is a geometric vector bundle of rank `n`** (Hartshorne II, Exercise 5.18). -/
+theorem nonempty_geometricVectorBundle_vectorBundle (hE : E.IsLocallyFreeOfRank n) :
+    Nonempty (GeometricVectorBundle (vectorBundleProj E hE) n) :=
+  ⟨vectorBundleAtlas hE⟩
 
 end Scheme.Modules
 
