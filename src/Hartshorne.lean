@@ -768,3 +768,5 @@ import Hartshorne.Scheme.SeparatesPointsTangentVectors
 import Hartshorne.Scheme.BirationalDenominatorIdeal
 import Hartshorne.Scheme.ProjectivelyNormalVeronese
 import Hartshorne.Scheme.BasePointFree
+import Hartshorne.Scheme.QuasiCoherentAlgebraOfModule
+import Hartshorne.Scheme.GeometricVectorBundle
