@@ -21,6 +21,7 @@ $0 \to T_Y \to T_X|_Y \to N_{(Y/X)} \to 0$.
 
 - Dualizing a short exact sequence of finite locally free sheaves preserves
   exactness and reverses its arrows.
+- [The canonical sheaf of projective space](canonical-sheaf-projective-space.md)
 
 ## Sources
 
