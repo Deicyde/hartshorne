@@ -530,6 +530,171 @@ theorem exists_sectionToFraction_eq {ι : Type*} (f : ι → A) (hf : ∀ i, f i
   rw [ht]
   exact hval ⟨genericPoint h, trivial⟩
 
+/-! ### The chart rings `S_(f)` and `S_(f)[f]` inside `K` -/
+
+variable {𝒜} in
+theorem powers_le_nonZeroDivisors {f : A} (hf : f ≠ 0) :
+    Submonoid.powers f ≤ nonZeroDivisors A :=
+  Submonoid.powers_le.2 (mem_nonZeroDivisors_of_ne_zero hf)
+
+variable {𝒜} in
+/-- The degree-zero localization `S_(f)` inside the fraction field `K`. -/
+def awayToFraction {f : A} (hf : f ≠ 0) : Away 𝒜 f →+* FractionRing A :=
+  (Localization.mapToFractionRing (FractionRing A) (Submonoid.powers f) (Localization.Away f)
+    (powers_le_nonZeroDivisors hf)).toRingHom.comp
+    (algebraMap (Away 𝒜 f) (Localization.Away f))
+
+variable {𝒜} in
+theorem awayToFraction_mk {f : A} (hf : f ≠ 0) (c : NumDenSameDeg 𝒜 (Submonoid.powers f)) :
+    awayToFraction hf (HomogeneousLocalization.mk c) =
+      algebraMap A (FractionRing A) c.num / algebraMap A (FractionRing A) c.den := by
+  simp only [awayToFraction, RingHom.coe_comp, Function.comp_apply,
+    HomogeneousLocalization.algebraMap_apply, HomogeneousLocalization.val_mk,
+    AlgHom.toRingHom_eq_coe, RingHom.coe_coe, Localization.mapToFractionRing_apply,
+    Localization.mk_eq_mk', IsLocalization.lift_mk']
+  rw [div_eq_mul_inv, Units.val_inv_eq_inv_val, IsUnit.coe_liftRight]
+  rfl
+
+omit [AddSubgroupClass σ A] [GradedRing 𝒜] in
+variable {𝒜} in
+theorem den_ne_zero {f : A} (hf : f ≠ 0) (c : NumDenSameDeg 𝒜 (Submonoid.powers f)) :
+    (c.den : A) ≠ 0 := by
+  obtain ⟨m, hm⟩ := c.den_mem
+  rw [← hm]
+  exact pow_ne_zero m hf
+
+variable {𝒜} in
+theorem awayToFraction_injective {f : A} (hf : f ≠ 0) :
+    Function.Injective (awayToFraction (𝒜 := 𝒜) hf) := by
+  rw [injective_iff_map_eq_zero]
+  intro c hc
+  obtain ⟨c, rfl⟩ := HomogeneousLocalization.mk_surjective c
+  rw [awayToFraction_mk, div_eq_zero_iff, map_eq_zero_iff _ (IsFractionRing.injective A _),
+    map_eq_zero_iff _ (IsFractionRing.injective A _)] at hc
+  rcases hc with hc | hc
+  · apply HomogeneousLocalization.val_injective
+    rw [HomogeneousLocalization.val_mk, HomogeneousLocalization.val_zero, hc, Localization.mk_zero]
+  · exact absurd hc (den_ne_zero hf c)
+
+variable {𝒜} in
+theorem isHomFrac_awayToFraction_mul_pow {f : A} (hf : f ≠ 0) (f_deg : f ∈ 𝒜 1)
+    (c : Away 𝒜 f) (n : ℕ) :
+    IsHomFrac (𝒜 := 𝒜) n
+      (awayToFraction hf c * algebraMap A (FractionRing A) f ^ n) := by
+  obtain ⟨c, rfl⟩ := HomogeneousLocalization.mk_surjective c
+  refine ⟨c.deg, c.num * f ^ n, c.den, ?_, c.den.2, den_ne_zero hf c, ?_⟩
+  · exact SetLike.mul_mem_graded c.num.2 (by simpa using SetLike.pow_mem_graded n f_deg)
+  · rw [awayToFraction_mk, map_mul, map_pow, div_mul_eq_mul_div]
+
+variable {𝒜} in
+/-- A chart component `c · f^n` with `c ∈ S_(f)` is `a / f^j` with `a ∈ S_{j + n}`. -/
+theorem exists_mem_eq_pow_mul_awayToFraction {f : A} (hf : f ≠ 0) (f_deg : f ∈ 𝒜 1)
+    (c : Away 𝒜 f) (n : ℕ) :
+    ∃ (j : ℕ) (a : A), a ∈ 𝒜 (j + n) ∧ algebraMap A (FractionRing A) a =
+      algebraMap A (FractionRing A) f ^ j *
+        (awayToFraction hf c * algebraMap A (FractionRing A) f ^ n) := by
+  obtain ⟨c, rfl⟩ := HomogeneousLocalization.mk_surjective c
+  obtain ⟨m, hm⟩ := c.den_mem
+  have hdeg : c.deg = m := DirectSum.degree_eq_of_mem_mem 𝒜 c.den.2
+    (by rw [← hm]; simpa using SetLike.pow_mem_graded m f_deg) (den_ne_zero hf c)
+  refine ⟨m, c.num * f ^ n, ?_, ?_⟩
+  · rw [← hdeg]
+    exact SetLike.mul_mem_graded c.num.2 (by simpa using SetLike.pow_mem_graded n f_deg)
+  · have h0 := (map_ne_zero_iff _ (IsFractionRing.injective A (FractionRing A))).2
+      (pow_ne_zero m hf)
+    rw [awayToFraction_mk, ← hm]
+    simp only [map_mul, map_pow] at h0 ⊢
+    field_simp
+
+variable {𝒜} in
+/-- The polynomial ring `S_(f)[T]` mapped to `K` by `T ↦ f`. -/
+def chartPoly {f : A} (hf : f ≠ 0) : Polynomial (Away 𝒜 f) →+* FractionRing A :=
+  Polynomial.eval₂RingHom (awayToFraction hf) (algebraMap A (FractionRing A) f)
+
+variable {𝒜} in
+theorem chartPoly_eq_sum {f : A} (hf : f ≠ 0) (p : Polynomial (Away 𝒜 f)) {N : ℕ}
+    (hN : p.natDegree < N) :
+    chartPoly hf p = ∑ n ∈ Finset.range N,
+      awayToFraction hf (p.coeff n) * algebraMap A (FractionRing A) f ^ n :=
+  Polynomial.eval₂_eq_sum_range' _ hN _
+
+variable {𝒜} in
+theorem chartPoly_injective {f : A} (hf : f ≠ 0) (f_deg : f ∈ 𝒜 1) :
+    Function.Injective (chartPoly (𝒜 := 𝒜) hf) := by
+  rw [injective_iff_map_eq_zero]
+  intro p hp
+  rw [chartPoly_eq_sum hf p (Nat.lt_succ_self _)] at hp
+  have h0 := eq_zero_of_sum_isHomFrac_eq_zero _ _
+    (fun n _ => isHomFrac_awayToFraction_mul_pow hf f_deg (p.coeff n) n) hp
+  refine Polynomial.ext fun n => ?_
+  rw [Polynomial.coeff_zero]
+  by_cases hn : n < p.natDegree.succ
+  · have := h0 n (Finset.mem_range.2 hn)
+    have hfn := (map_ne_zero_iff _ (IsFractionRing.injective A (FractionRing A))).2
+      (pow_ne_zero n hf)
+    rw [map_pow] at hfn
+    exact awayToFraction_injective hf
+      (((mul_eq_zero.1 this).resolve_right hfn).trans (map_zero _).symm)
+  · exact Polynomial.coeff_eq_zero_of_natDegree_lt (p := p) (by omega)
+
+variable {𝒜} in
+/-- `S ⊆ S_(f)[f]`: each `s_d ∈ S_d` is `(s_d / f^d) · f^d`. -/
+theorem exists_chartPoly_eq_algebraMap {f : A} (hf : f ≠ 0) (f_deg : f ∈ 𝒜 1) (s : A) :
+    ∃ p : Polynomial (Away 𝒜 f), chartPoly hf p = algebraMap A (FractionRing A) s := by
+  classical
+  have hfd : ∀ d : ℕ, f ^ d ∈ 𝒜 d := fun d => by simpa using SetLike.pow_mem_graded d f_deg
+  let e : ℕ → Away 𝒜 f := fun d => HomogeneousLocalization.mk
+    ⟨d, ⟨(DirectSum.decompose 𝒜 s d : A), (DirectSum.decompose 𝒜 s d).2⟩, ⟨f ^ d, hfd d⟩, ⟨d, rfl⟩⟩
+  refine ⟨∑ d ∈ (DirectSum.decompose 𝒜 s).support, Polynomial.C (e d) * Polynomial.X ^ d, ?_⟩
+  conv_rhs => rw [← DirectSum.sum_support_decompose 𝒜 s]
+  rw [map_sum, map_sum]
+  refine Finset.sum_congr rfl fun d _ => ?_
+  have h0 := (map_ne_zero_iff _ (IsFractionRing.injective A (FractionRing A))).2
+    (pow_ne_zero d hf)
+  rw [map_mul, map_pow, chartPoly, Polynomial.coe_eval₂RingHom, Polynomial.eval₂_C,
+    Polynomial.eval₂_X, awayToFraction_mk]
+  rw [map_pow] at h0
+  change algebraMap A (FractionRing A) (DirectSum.decompose 𝒜 s d : A) /
+    algebraMap A (FractionRing A) (f ^ d) * _ = _
+  rw [map_pow]
+  field_simp
+
+variable {𝒜} in
+/-- **One normal chart.** If `S_(f)` is integrally closed, every `z ∈ K` integral over `S` lies in
+`S_(f)[f]`: that ring is a polynomial ring over `S_(f)`, hence integrally closed, contains `S`, and
+has fraction field `K`. -/
+theorem exists_chartPoly_eq_of_isIntegral {f : A} (hf : f ≠ 0) (f_deg : f ∈ 𝒜 1)
+    [IsIntegrallyClosed (Away 𝒜 f)] {z : FractionRing A} (hz : IsIntegral A z) :
+    ∃ p : Polynomial (Away 𝒜 f), chartPoly hf p = z := by
+  have : IsDomain (Away 𝒜 f) := (awayToFraction_injective hf).isDomain (awayToFraction hf)
+  let _ : Algebra (Polynomial (Away 𝒜 f)) (FractionRing A) := (chartPoly hf).toAlgebra
+  have : FaithfulSMul (Polynomial (Away 𝒜 f)) (FractionRing A) :=
+    (faithfulSMul_iff_algebraMap_injective _ _).2 (chartPoly_injective hf f_deg)
+  have : IsFractionRing (Polynomial (Away 𝒜 f)) (FractionRing A) :=
+    IsFractionRing.of_field (Polynomial (Away 𝒜 f)) (FractionRing A) fun w => by
+      obtain ⟨a, b, -, rfl⟩ := IsFractionRing.div_surjective (A := A) w
+      obtain ⟨p, hp⟩ := exists_chartPoly_eq_algebraMap hf f_deg a
+      obtain ⟨q, hq⟩ := exists_chartPoly_eq_algebraMap hf f_deg b
+      exact ⟨p, q, by rw [← hp, ← hq]; rfl⟩
+  have hint : IsIntegral (Polynomial (Away 𝒜 f)) z := by
+    obtain ⟨P, hPm, hPz⟩ := hz
+    have hdeg : P.natDegree ≠ 0 := by
+      intro h0
+      rw [hPm.natDegree_eq_zero] at h0
+      rw [h0, Polynomial.eval₂_one] at hPz
+      exact one_ne_zero hPz
+    refine IsIntegral.of_aeval_monic_of_isIntegral_coeff (p := P.map (algebraMap A _))
+      (hPm.map _) (by rwa [hPm.natDegree_map]) ?_ ?_
+    · rw [Polynomial.eval_map, hPz]
+      exact isIntegral_zero
+    · intro i
+      rw [Polynomial.coeff_map]
+      obtain ⟨p, hp⟩ := exists_chartPoly_eq_algebraMap hf f_deg (P.coeff i)
+      rw [← hp]
+      exact isIntegral_algebraMap
+  obtain ⟨p, hp⟩ := IsIntegrallyClosed.isIntegral_iff.1 hint
+  exact ⟨p, hp⟩
+
 end Fraction
 
 /-! ## Closed subschemes of `ℙʳ_k` -/
