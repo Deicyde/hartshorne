@@ -838,6 +838,28 @@ lemma coordY_secSmul (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i) (r : Γ(Y, V))
   simp only [Pi.smul_apply, smul_eq_mul, map_mul]
   rw [← res_coordY G i hi s q]
 
+/-- Chart coordinates of the restriction of a sum. -/
+lemma coordY_map_secAdd (i : G.ι) {W V : Y.Opens} (hV : V ≤ W) (hi : V ≤ G.U i)
+    (s t : (sectionsPresheaf f).obj (op W)) :
+    G.coordY i hi ((sectionsPresheaf f).map (homOfLE hV).op (G.secAdd s t)) =
+      G.coordY i hi ((sectionsPresheaf f).map (homOfLE hV).op s) +
+        G.coordY i hi ((sectionsPresheaf f).map (homOfLE hV).op t) := by
+  let _ := G.addCommGroupSections W
+  let _ := G.addCommGroupSections V
+  have : (sectionsPresheaf f).map (homOfLE hV).op (G.secAdd s t) =
+      G.secAdd ((sectionsPresheaf f).map (homOfLE hV).op s)
+        ((sectionsPresheaf f).map (homOfLE hV).op t) :=
+    (G.resHom (homOfLE hV).op).map_add s t
+  rw [this, coordY_secAdd]
+
+/-- Chart coordinates of the restriction of a multiple. -/
+lemma coordY_map_secSmul (i : G.ι) {W V : Y.Opens} (hV : V ≤ W) (hi : V ≤ G.U i)
+    (r : Γ(Y, W)) (s : (sectionsPresheaf f).obj (op W)) :
+    G.coordY i hi ((sectionsPresheaf f).map (homOfLE hV).op (G.secSmul r s)) =
+      Y.presheaf.map (homOfLE hV).op r •
+        G.coordY i hi ((sectionsPresheaf f).map (homOfLE hV).op s) := by
+  rw [resHom_smul, coordY_secSmul]
+
 /-- The frame of the sections over `U_i` given by the chart `ψ_i`: the sections with chart
 coordinates the standard basis vectors. -/
 def frameSection (i : G.ι) (k : ULift.{u} (Fin n)) : (sectionsPresheaf f).obj (op (G.U i)) :=
@@ -1182,6 +1204,110 @@ theorem vectorBundleSectionsIso_hom_eval {W : Y.Opens}
     ((sectionsPresheaf (vectorBundleProj E hE)).map (homOfLE h).op s)
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
   rfl
+
+/-- On a framed affine open, the linear form of a section is given by its chart coordinates for
+the atlas `vectorBundleAtlas`: `x = ∑ x_k e_k ↦ ∑ x_k s_k`. -/
+private lemma sectionLinearForm_eq_sum (c : AffineFrame E n)
+    (σ : (sectionsPresheaf (vectorBundleProj E hE)).obj (op (c.V : Y.Opens))) (x : Γ(E, c.V)) :
+    sectionLinearForm hE c.V σ x =
+      ∑ k, (show Γ(Y, c.V) from c.isLocalFrame.coord le_rfl x k) *
+        (show Γ(Y, c.V) from (vectorBundleAtlas hE).coordY c le_rfl σ k) := by
+  conv_lhs => rw [← c.isLocalFrame.localFrameMap_coord le_rfl x, localFrameMap_apply, map_sum]
+  refine Finset.sum_congr rfl fun k _ => ?_
+  have hk : (vectorBundleAtlas hE).coordY c le_rfl σ k =
+      sectionLinearForm hE c.V σ (E.presheaf.map (homOfLE le_rfl).op (c.e k)) := by
+    change (c.V : Y.Opens).topIso.hom ((vectorBundleAtlas hE).chartCoord c le_rfl σ.1 σ.2 k) = _
+    rw [vectorBundleAtlas_chartCoord hE c c.V le_rfl σ k, Iso.inv_hom_id_apply]
+  rw [LinearMap.map_smul]
+  change _ = _ * (vectorBundleAtlas hE).coordY c le_rfl σ k
+  rw [hk]
+  rfl
+
+/-- The image of a section `s` over `W` in `E^∨`, evaluated on `x ∈ E(V)` and restricted to a
+framed affine open `c.V ⊆ V`, in terms of the chart coordinates of `s`. -/
+private lemma res_eval_vectorBundleSectionsIso {W V : Y.Opens} (h : V ≤ W)
+    (s : (sectionsPresheaf (vectorBundleProj E hE)).obj (op W)) (x : Γ(E, V))
+    (c : AffineFrame E n) (hc : (c.V : Y.Opens) ≤ V) :
+    Y.presheaf.map (homOfLE hc).op
+        (moduleSheafHomEval ((vectorBundleSectionsIso hE).hom.app (op W) s) h x) =
+      ∑ k, (show Γ(Y, c.V) from c.isLocalFrame.coord le_rfl (E.presheaf.map (homOfLE hc).op x) k) *
+        (show Γ(Y, c.V) from (vectorBundleAtlas hE).coordY c le_rfl
+          ((sectionsPresheaf (vectorBundleProj E hE)).map (homOfLE (hc.trans h)).op s) k) := by
+  have := moduleSheafHomEval_natural ((vectorBundleSectionsIso hE).hom.app (op W) s) h hc x
+  refine this.symm.trans ?_
+  rw [vectorBundleSectionsIso_hom_eval hE s (V := c.V) (hc.trans h)]
+  exact sectionLinearForm_eq_sum hE c _ _
+
+include hE in
+/-- Elements of `𝒪_Y(V)` agreeing on all framed affine opens inside `V` are equal. -/
+private lemma eq_of_framed {V : Y.Opens} (a b : Γ(Y, V))
+    (hab : ∀ (c : AffineFrame E n) (hc : (c.V : Y.Opens) ≤ V),
+      Y.presheaf.map (homOfLE hc).op a = Y.presheaf.map (homOfLE hc).op b) : a = b := by
+  have hB := isBasis_affineFrame hE
+  have hc : ∀ y : V, ∃ c : AffineFrame E n, y.1 ∈ (c.V : Y.Opens) ∧ (c.V : Y.Opens) ≤ V :=
+    fun y => by
+      obtain ⟨_, ⟨c, rfl⟩, hy, hle⟩ := Opens.isBasis_iff_nbhd.mp hB y.2
+      exact ⟨c, hy, hle⟩
+  choose c hyc hcV using hc
+  exact Y.sheaf.eq_of_locally_eq' (fun y => (c y).V) V (fun y => homOfLE (hcV y))
+    (fun y hy => Opens.mem_iSup.mpr ⟨⟨y, hy⟩, hyc ⟨y, hy⟩⟩) _ _ fun y => hab (c y) (hcV y)
+
+/-- The isomorphism `𝒮(V(E)/Y) ≅ E^∨` on sections over `W`, as an `𝒪_Y(W)`-linear map. -/
+def vectorBundleSectionsLinear (W : Y.Opens) :
+    Γ((vectorBundleAtlas hE).sectionsModule, W) →ₗ[Γ(Y, W)]
+      Γ(moduleSheafDual (R := Y.sheaf) E, W) where
+  toFun s := (vectorBundleSectionsIso hE).hom.app (op W) s
+  map_add' s t := by
+    change (vectorBundleSectionsIso hE).hom.app (op W) ((vectorBundleAtlas hE).secAdd s t) = _
+    refine moduleSheafHomEval_ext fun V h => LinearMap.ext fun x => ?_
+    rw [moduleSheafHomEval_add, LinearMap.add_apply]
+    refine eq_of_framed hE _ _ fun c hc => ?_
+    have h1 := res_eval_vectorBundleSectionsIso hE h ((vectorBundleAtlas hE).secAdd s t) x c hc
+    have h2 := res_eval_vectorBundleSectionsIso hE h s x c hc
+    have h3 := res_eval_vectorBundleSectionsIso hE h t x c hc
+    rw [GeometricVectorBundle.coordY_map_secAdd] at h1
+    refine h1.trans ?_
+    refine Eq.trans ?_ (map_add (Y.presheaf.map (homOfLE hc).op).hom _ _).symm
+    refine Eq.trans ?_ (congrArg₂ (· + ·) h2 h3).symm
+    simp only [Pi.add_apply, mul_add, Finset.sum_add_distrib]
+  map_smul' r s := by
+    change (vectorBundleSectionsIso hE).hom.app (op W) ((vectorBundleAtlas hE).secSmul r s) = _
+    refine moduleSheafHomEval_ext fun V h => LinearMap.ext fun x => ?_
+    rw [RingHom.id_apply, moduleSheafHomEval_smul]
+    refine eq_of_framed hE _ _ fun c hc => ?_
+    have h1 := res_eval_vectorBundleSectionsIso hE h ((vectorBundleAtlas hE).secSmul r s) x c hc
+    have h2 := res_eval_vectorBundleSectionsIso hE h s x c hc
+    rw [GeometricVectorBundle.coordY_map_secSmul] at h1
+    refine h1.trans ?_
+    refine Eq.trans ?_ (map_mul (Y.presheaf.map (homOfLE hc).op).hom _ _).symm
+    refine Eq.trans ?_ (congrArg₂ (· * ·) rfl h2).symm
+    rw [Finset.mul_sum]
+    refine Finset.sum_congr rfl fun k _ => ?_
+    simp only [Pi.smul_apply, smul_eq_mul]
+    rw [mul_left_comm]
+    congr 1
+    change Y.presheaf.map (homOfLE (hc.trans h)).op r =
+      Y.presheaf.map (homOfLE hc).op (Y.presheaf.map (homOfLE h).op r)
+    rw [← CommRingCat.comp_apply, ← Functor.map_comp]
+    rfl
+
+/-- **The sections of `V(E)` are `E^∨` as `𝒪_Y`-modules** (Hartshorne II, Exercise 5.18(c)):
+with the module structure of the chart coordinates of the geometric vector bundle `V(E)`
+(`vectorBundleAtlas`), the sheaf of sections of `V(E) = Spec_Y Sym(E)` is isomorphic to
+`E^∨ = ℋom(E, 𝒪_Y)`; on sections this is `vectorBundleSectionsIso`. -/
+def vectorBundleSectionsModuleIso :
+    (vectorBundleAtlas hE).sectionsModule ≅ moduleSheafDual (R := Y.sheaf) E :=
+  haveI : IsIso (modulesHomMk (R := Y.sheaf) (vectorBundleSectionsLinear hE) fun _ _ i x =>
+      ConcreteCategory.congr_hom ((vectorBundleSectionsIso hE).hom.naturality (homOfLE i).op) x) :=
+    modules_isIso_of_locally_bijective _ fun _ => ⟨⊤, trivial, fun V _ =>
+      (isIso_iff_bijective ((vectorBundleSectionsIso hE).hom.app (op V))).mp inferInstance⟩
+  asIso (modulesHomMk (R := Y.sheaf) (vectorBundleSectionsLinear hE) fun _ _ i x =>
+      ConcreteCategory.congr_hom ((vectorBundleSectionsIso hE).hom.naturality (homOfLE i).op) x)
+
+lemma vectorBundleSectionsModuleIso_hom_apply (W : Y.Opens)
+    (s : (sectionsPresheaf (vectorBundleProj E hE)).obj (op W)) :
+    sectionsMap (vectorBundleSectionsModuleIso hE).hom W s =
+      (vectorBundleSectionsIso hE).hom.app (op W) s := rfl
 
 end Scheme.Modules
 
