@@ -9,8 +9,20 @@ import Hartshorne.Scheme.SectionAlgebraSheafComparison
 
 Hartshorne, *Algebraic Geometry*, II, proof of Theorem 7.17, Steps 1–3 (pp. 166–167).
 
--/
+Let `i : Z ⟶ ℙʳ_X` be a closed immersion of an integral scheme, `f = π ∘ i`, `L = i^* 𝒪(1)` and
+`T(U) = Γ(X, U)[x₀, …, xᵣ] / I_U` the relative homogeneous coordinate algebra. The comparison
+`T(U)_n ≅ Γ(f⁻¹(U), L^{n})` of `SectionAlgebraSheafComparison` turns the multiplication of `T(U)`
+into the product `L^{p} ⊗ L^{q} → L^{p+q}`; this file proves it for the pulled-back monomials
+and provides the algebra of these products (bilinearity, compatibility with restriction).
 
+* `Ringed.moduleSheafTensorPowerAddIso_hom_tprod_append`: `T^{a+b} F ≅ T^a F ⊗ T^b F` on
+  elementary tensors; `Ringed.moduleSheafTensorPowerMulSection`, the induced product of sections.
+* `SectionAlgebraModel.tensorPowerPullbackTwistIso_hom_tprod`: for `L ≅ ψ^* 𝒪(1)` on `Proj S`,
+  `L^{N+1} ≅ ψ^* 𝒪(N + 1)` sends `ψ^*(u₁ / 1) ⊗ ⋯ ⊗ ψ^*(u_{N+1} / 1)` to `ψ^*(u₁ ⋯ u_{N+1} / 1)`
+  (Proposition 5.12(b) on sections).
+* `SectionAlgebraModel.tensorPowerMulSection_monomialSection`: the pulled-back monomials multiply,
+  `x^β · x^γ = x^{β+γ}`.
+-/
 universe u
 
 set_option backward.isDefEq.respectTransparency.types false
@@ -298,13 +310,16 @@ theorem tensorPowerPullbackTwistIso_hom_tprod : ∀ (N : ℕ) (u : Fin (N + 1) �
       (U := ⊤) (show (Ringed.structureModule Z.sheaf).val.obj (op ⊤) from
         (1 : (Z.sheaf.obj ⋙ forget₂ CommRingCat RingCat).obj (op ⊤)))
       (degreeOneLineSection ψ α (u (Fin.last 0)))
-    refine (congrArg (fun y => α.hom.app ⊤ (Scheme.Modules.Hom.app (X := Z) (Ringed.moduleSheafUnitTensor L).hom ⊤
+    refine (congrArg (fun y => α.hom.app ⊤
+      (Scheme.Modules.Hom.app (X := Z) (Ringed.moduleSheafUnitTensor L).hom ⊤
       (Scheme.Modules.Hom.app (X := Z) (Ringed.moduleSheafTensorIsoTensor _ _ ≪≫
         MonoidalCategory.tensorIso (Ringed.moduleSheafTensorPowerZeroIso _) (Iso.refl _) ≪≫
         (Ringed.moduleSheafTensorIsoTensor _ _).symm).hom ⊤ y))) s1).trans ?_
-    refine (congrArg (fun y => α.hom.app ⊤ (Scheme.Modules.Hom.app (X := Z) (Ringed.moduleSheafUnitTensor L).hom ⊤ y))
+    refine (congrArg (fun y => α.hom.app ⊤
+      (Scheme.Modules.Hom.app (X := Z) (Ringed.moduleSheafUnitTensor L).hom ⊤ y))
       s2).trans ?_
-    refine (congrArg (fun y => α.hom.app ⊤ (Scheme.Modules.Hom.app (X := Z) (Ringed.moduleSheafUnitTensor L).hom ⊤
+    refine (congrArg (fun y => α.hom.app ⊤
+      (Scheme.Modules.Hom.app (X := Z) (Ringed.moduleSheafUnitTensor L).hom ⊤
       ((moduleSheafTensorBilinear _ _).app (op ⊤) y
         (degreeOneLineSection ψ α (u (Fin.last 0)))))) s3).trans ?_
     refine (congrArg (fun y => α.hom.app ⊤ y) (s4.trans
@@ -372,7 +387,8 @@ theorem tensorPowerPullbackTwistIso_hom_tprod : ∀ (N : ℕ) (u : Fin (N + 1) �
       ((twistMulHom 𝒜 ((N + 1 : ℕ) : ℤ) 1).val.app (op ⊤) y))
       (Ringed.moduleSheafTensorIsoTensor_hom_bilinear _ _ _ _)).trans ?_
     refine (congrArg (fun y => Scheme.Modules.Hom.app (X := Proj 𝒜) (eqToHom hdeg) ⊤ y)
-      (GammaStarReconstruction.twistMulHom_twistSection (N + 1) 1 _ (u (Fin.last (N + 1))) (op ⊤))).trans ?_
+      (GammaStarReconstruction.twistMulHom_twistSection (N + 1) 1 _ (u (Fin.last (N + 1)))
+        (op ⊤))).trans ?_
     refine congrArg (fun x => twistSection (N + 1 + 1) x (op ⊤)) (Subtype.ext ?_)
     exact (Fin.prod_univ_castSucc (fun k => (u k : A))).symm
 
@@ -392,7 +408,8 @@ abbrev lineSection (u : GeneratedProj.intGrading.{u} r 1) :
   degreeOneLineSection (𝒜 := GeneratedProj.intGrading.{u} r) (toIntProj i)
     ((Scheme.Modules.pullbackComp _ _).app _) u
 
-/-- `L^{N+1} ≅ 𝒪(N + 1)|_Z` sends `f^*(u₁ / 1) ⊗ ⋯ ⊗ f^*(u_{N+1} / 1)` to `f^*(u₁ ⋯ u_{N+1} / 1)`. -/
+/-- `L^{N+1} ≅ 𝒪(N + 1)|_Z` sends `f^*(u₁ / 1) ⊗ ⋯ ⊗ f^*(u_{N+1} / 1)` to
+`f^*(u₁ ⋯ u_{N+1} / 1)`. -/
 theorem tensorPowerTwistOnZIso_hom_tprod (N : ℕ) (hN : 0 < N + 1)
     (u : Fin (N + 1) → GeneratedProj.intGrading.{u} r 1) :
     (tensorPowerTwistOnZIso i (N + 1) hN).hom.app ⊤
@@ -446,6 +463,8 @@ theorem tensorPowerTwistOnZIso_hom_tprod_eq_monomialSection {n : ℕ} (hn : 0 < 
   congr 2
   exact Subtype.ext hu
 
+theorem pos_add_of_pos {p : ℕ} (hp : 0 < p) (q : ℕ) : 0 < p + q := by omega
+
 /-- The product of sections of tensor powers of `L = i^* 𝒪(1)`,
 `Γ(W, L^{p}) × Γ(W, L^{q}) → Γ(W, L^{p+q})`, induced by `L^{p} ⊗ L^{q} ≅ L^{p+q}`. -/
 noncomputable def tensorPowerMulSection {p q : ℕ} {W : Z.Opens} (s : Γ(tensorPowerL i p, W))
@@ -458,11 +477,11 @@ theorem tensorPowerMulSection_monomialSection {p q : ℕ} (hp : 0 < p) (hq : 0 <
     {β γ : Fin (r + 1) →₀ ℕ} (hβ : β.degree = p) (hγ : γ.degree = q) :
     tensorPowerMulSection i ((tensorPowerTwistOnZIso i p hp).inv.app ⊤ (monomialSection i p β))
         ((tensorPowerTwistOnZIso i q hq).inv.app ⊤ (monomialSection i q γ)) =
-      (tensorPowerTwistOnZIso i (p + q) (by omega)).inv.app ⊤
+      (tensorPowerTwistOnZIso i (p + q) (pos_add_of_pos hp q)).inv.app ⊤
         (monomialSection i (p + q) (β + γ)) := by
   obtain ⟨u, hu⟩ := exists_prod_eq_monomial p β hβ
   obtain ⟨v, hv⟩ := exists_prod_eq_monomial q γ hγ
-  have e3 := tensorPowerTwistOnZIso_hom_tprod_eq_monomialSection i (n := p + q) (by omega)
+  have e3 := tensorPowerTwistOnZIso_hom_tprod_eq_monomialSection i (pos_add_of_pos hp q)
     (show (β + γ).degree = p + q by rw [map_add, hβ, hγ]) (Fin.append u v) (by
       rw [Fin.prod_univ_add]
       simp only [Fin.append_left, Fin.append_right]
@@ -505,12 +524,14 @@ theorem tensorPowerMulSection_smul_smul {p q : ℕ} {W : Z.Opens} (c c' : Γ(Z, 
 
 theorem tensorPowerMulSection_add_left {p q : ℕ} {W : Z.Opens} (s s' : Γ(tensorPowerL i p, W))
     (t : Γ(tensorPowerL i q, W)) :
-    tensorPowerMulSection i (s + s') t = tensorPowerMulSection i s t + tensorPowerMulSection i s' t :=
+    tensorPowerMulSection i (s + s') t =
+      tensorPowerMulSection i s t + tensorPowerMulSection i s' t :=
   Ringed.moduleSheafTensorPowerMulSection_add_left s s' t
 
 theorem tensorPowerMulSection_add_right {p q : ℕ} {W : Z.Opens} (s : Γ(tensorPowerL i p, W))
     (t t' : Γ(tensorPowerL i q, W)) :
-    tensorPowerMulSection i s (t + t') = tensorPowerMulSection i s t + tensorPowerMulSection i s t' :=
+    tensorPowerMulSection i s (t + t') =
+      tensorPowerMulSection i s t + tensorPowerMulSection i s t' :=
   Ringed.moduleSheafTensorPowerMulSection_add_right s t t'
 
 theorem tensorPowerMulSection_zero_left {p q : ℕ} {W : Z.Opens} (t : Γ(tensorPowerL i q, W)) :
@@ -520,6 +541,32 @@ theorem tensorPowerMulSection_zero_left {p q : ℕ} {W : Z.Opens} (t : Γ(tensor
 theorem tensorPowerMulSection_zero_right {p q : ℕ} {W : Z.Opens} (s : Γ(tensorPowerL i p, W)) :
     tensorPowerMulSection i s (0 : Γ(tensorPowerL i q, W)) = 0 :=
   Ringed.moduleSheafTensorPowerMulSection_zero_right s
+
+theorem polyTwistSection_monomial_eq_zero (U : X.Opens) {n : ℕ} {α : Fin (r + 1) →₀ ℕ}
+    (hα : ¬ α.degree = n) (a : Γ(X, U)) :
+    polyTwistSection i U n (MvPolynomial.monomial α a) = 0 := by
+  rw [polyTwistSection_monomial, monomialSection, dif_neg hα, map_zero, smul_zero]
+
+variable [IsClosedImmersion i] [IsIntegral Z]
+
+omit [IsClosedImmersion i] [IsIntegral Z] in
+private theorem eqToHom_app_self {M : Z.Modules} (e : M = M) {W : Z.Opens} (y : Γ(M, W)) :
+    Scheme.Modules.Hom.app (eqToHom e) W y = y := by
+  rw [eqToHom_refl, Scheme.Modules.Hom.id_app, ConcreteCategory.id_apply]
+
+/-- Transport of the comparison along an equality of degrees. -/
+theorem eqToHom_app_coordTwistSection (U : X.AffineZariskiSite) {n n' : ℕ} (h : n = n')
+    (hn : 0 < n) (hn' : 0 < n') (e : tensorPowerL i n = tensorPowerL i n')
+    (z : (coordinateAlgebra i).obj.obj (op U)) (hz : z ∈ (coordinateAlgebra i).grading U n)
+    (hz' : z ∈ (coordinateAlgebra i).grading U n') :
+    Scheme.Modules.Hom.app (eqToHom e) _
+        ((tensorPowerTwistOnZIso i n hn).inv.app _ (coordTwistSection i U n ⟨z, hz⟩)) =
+      (tensorPowerTwistOnZIso i n' hn').inv.app _ (coordTwistSection i U n' ⟨z, hz'⟩) := by
+  subst h
+  exact (eqToHom_app_self e _).trans (congrArg₂ (fun (h₁ : 0 < n)
+    (h₂ : z ∈ (coordinateAlgebra i).grading U n) =>
+      (tensorPowerTwistOnZIso i n h₁).inv.app _ (coordTwistSection i U n ⟨z, h₂⟩))
+    (Subsingleton.elim hn hn') (Subsingleton.elim hz hz'))
 
 end Local
 
