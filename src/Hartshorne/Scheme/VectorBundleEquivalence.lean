@@ -1102,6 +1102,37 @@ end VectorBundleBundleIso
 
 end Scheme.Modules
 
+
+/-! ### The two maps on isomorphism classes -/
+
+namespace GeometricVectorBundle
+
+open Scheme.Modules
+
+/-- **The class of `V(E)`** (Hartshorne II, Exercise 5.18(d)): the map sending the class of a
+locally free sheaf `E` of rank `n` to the class of the geometric vector bundle `V(E)`. It is well
+defined since an isomorphism `E ≅ E'` induces an isomorphism of geometric vector bundles
+`V(E) ≅ V(E')` (`Scheme.Modules.vectorBundleBundleIso`). -/
+def vectorBundleClass : LocallyFreeIsoClasses Y n → IsoClasses Y n :=
+  Quotient.map (fun E => ⟨Over.mk (vectorBundleProj E.1 E.2), vectorBundleAtlas E.2⟩)
+    (fun E E' ⟨α⟩ => ⟨vectorBundleBundleIso E.2 E'.2 α⟩)
+
+lemma vectorBundleClass_mk (E : Y.Modules) (hE : E.IsLocallyFreeOfRank n) :
+    vectorBundleClass (Quotient.mk _ ⟨E, hE⟩) =
+      Quotient.mk _ ⟨Over.mk (vectorBundleProj E hE), vectorBundleAtlas hE⟩ := rfl
+
+/-- **`𝒮(V(E)/Y)^∨ ≅ E`**: the class of the dual of the sheaf of sections is a left inverse of
+`E ↦ V(E)` on isomorphism classes. -/
+theorem sectionsDualClass_vectorBundleClass (q : LocallyFreeIsoClasses Y n) :
+    sectionsDualClass (vectorBundleClass q) = q :=
+  Quotient.inductionOn q fun E => sectionsDualClass_vectorBundle E.1 E.2
+
+lemma vectorBundleClass_injective :
+    Function.Injective (vectorBundleClass : LocallyFreeIsoClasses Y n → IsoClasses Y n) :=
+  Function.LeftInverse.injective sectionsDualClass_vectorBundleClass
+
+end GeometricVectorBundle
+
 end
 
 end AlgebraicGeometry
