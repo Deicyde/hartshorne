@@ -6,6 +6,47 @@ import Hartshorne.Scheme.CoordinateNonvanishingOpen
 import Hartshorne.RingedSpace.PicardGroup
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsBaseChange
 
+/-!
+# Projection from a point
+
+Hartshorne, *Algebraic Geometry*, I, Exercise 3.14(a) (p. 22), in scheme form.
+
+Let `H ≅ ℙⁿ_k` be a hyperplane in `ℙⁿ⁺¹_k` and `P ∉ H` a point. Projection from `P` sends
+`Q ≠ P` to the intersection of the line `PQ` with `H`. In projective coordinates with
+`P = (0 : ⋯ : 0 : 1)` and `H = {x_{n+1} = 0}`, identified with `ℙⁿ_k` by
+`(x₀ : ⋯ : xₙ) ↦ (x₀ : ⋯ : xₙ : 0)`, it is the morphism defined by the remaining homogeneous
+coordinates `x₀, …, xₙ`.
+
+## Main definitions
+
+* `Hartshorne.projectionDomain n Y`: the open `U = D₊(x₀) ∪ ⋯ ∪ D₊(xₙ)` of `ℙⁿ⁺¹_Y`.
+* `Hartshorne.projectionFromPoint n Y : U ⟶ ℙⁿ_Y`: the morphism defined (Hartshorne II,
+  Theorem 7.1) by the sections `x₀, …, xₙ` of `𝒪(1)|_U`, which generate it.
+* `Hartshorne.projectivePoint k a`: the `k`-rational point `(a₀ : ⋯ : a_m)` of `ℙᵐ_k`, the
+  morphism `Spec k ⟶ ℙᵐ_k` defined by the sections `aᵢ` of `𝒪_{Spec k}`;
+  `Hartshorne.coordinatePoint k n` is `P = (0 : ⋯ : 0 : 1)`.
+* `Hartshorne.hyperplaneInclusion n Y : ℙⁿ_Y ⟶ ℙⁿ⁺¹_Y`, `(x₀ : ⋯ : xₙ) ↦ (x₀ : ⋯ : xₙ : 0)`.
+
+## Main results
+
+* `Hartshorne.projectionDomain_eq_compl_range`: over a field, `U = ℙⁿ⁺¹_k − {P}`.
+* `Hartshorne.eq_projectionFromPoint_iff`: `projectionFromPoint` is the unique `Y`-morphism
+  pulling `𝒪(1)` back to `𝒪(1)|_U` with `xᵢ ↦ xᵢ|_U`.
+* `Hartshorne.exists_lift_projectivePoint_comp_projectionFromPoint_hyperplaneInclusion`: for a
+  rational point `Q = (a₀ : ⋯ : a_{n+1}) ≠ P`, the image of `π(Q)` in `H` is
+  `(a₀ : ⋯ : aₙ : 0) = Q − a_{n+1} P`, the intersection of the line `PQ` with `H`.
+* `Hartshorne.projectionFromPoint_isProjection`: the summary statement.
+
+## Proof
+
+The sections `x₀, …, xₙ` trivialize `𝒪(1)` on the charts `D₊(x₀), …, D₊(xₙ)` covering `U`, so
+they generate `𝒪(1)|_U` and Theorem 7.1(b) gives the morphism. A point `x` outside `U` is `P`:
+the morphism `Spec κ(x) ⟶ ℙⁿ⁺¹_k` is defined by the pulled-back coordinates, the first `n + 1`
+of which vanish, so by the uniqueness in Theorem 7.1 it factors through `P`. Values on rational
+points are computed with the uniqueness in Theorem 7.1, using that a composite `f ≫ φ` is
+defined by the pulled-back sections (`exists_iso_of_comp`).
+-/
+
 noncomputable section
 
 universe u
@@ -18,6 +59,7 @@ section Functoriality
 
 variable {X' X Y : Scheme.{u}}
 
+/-- `pullbackSection f e` is the adjunction unit applied to `e`. -/
 theorem pullbackSection_eq_unit (f : X ⟶ Y) {N : Y.Modules} {W : Y.Opens} (e : Γ(N, W)) :
     pullbackSection f e =
       ((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app N).app W e := rfl
@@ -127,9 +169,11 @@ abbrev structureModule : X.Modules := SheafOfModules.unit X.ringCatSheaf
 /-- A function `r ∈ Γ(U, 𝒪_X)`, as a section of the `𝒪_X`-module `𝒪_X`. -/
 def unitSection {U : X.Opens} (r : Γ(X, U)) : Γ(structureModule X, U) := r
 
+/-- `𝒪_X` is invertible. -/
 theorem isInvertible_structureModule : (structureModule X).IsInvertible :=
   (Scheme.Modules.isInvertible_iff_ringed _).mpr (Ringed.structureModule_isInvertible (R := X.sheaf))
 
+/-- The section `1` trivializes `𝒪_X`. -/
 theorem isTrivializingSection_unitSection_one :
     IsTrivializingSection (structureModule X) ⊤ (unitSection X 1) :=
   IsTrivializingSection.of_isLocalFrame (ι := ULift.{u} (Fin 1))
@@ -137,11 +181,13 @@ theorem isTrivializingSection_unitSection_one :
 
 variable {X}
 
+/-- A function `r`, as a section of `𝒪_X`, is `r • 1`. -/
 theorem unitSection_eq_smul {U : X.Opens} (r : Γ(X, U)) :
     unitSection X r = r • unitSection X 1 := by
   change r = r * 1
   rw [mul_one]
 
+/-- A unit trivializes `𝒪_X`. -/
 theorem isTrivializingSection_unitSection {r : Γ(X, ⊤)} (hr : IsUnit r) :
     IsTrivializingSection (structureModule X) ⊤ (unitSection X r) := by
   rw [unitSection_eq_smul]
@@ -159,9 +205,11 @@ variable (k : Type u) [Field k]
 def specConst (c : k) : Γ(Spec (CommRingCat.of k), ⊤) :=
   (Scheme.ΓSpecIso (CommRingCat.of k)).inv c
 
+/-- A nonzero constant is a unit. -/
 theorem isUnit_specConst {c : k} (hc : c ≠ 0) : IsUnit (specConst k c) :=
   (IsUnit.mk0 c hc).map _
 
+/-- The constant `0` is `0`. -/
 theorem specConst_zero : specConst k 0 = 0 :=
   map_zero _
 
@@ -170,6 +218,7 @@ abbrev pointSections {m : ℕ} (a : Fin (m + 1) → k) :
     Fin (m + 1) → Γ(structureModule (Spec (CommRingCat.of k)), ⊤) :=
   fun i => unitSection _ (specConst k (a i))
 
+/-- For `a ≠ 0`, the constants `a₀, …, a_m` generate `𝒪_{Spec k}`. -/
 theorem isGeneratedBySections_pointSections {m : ℕ} {a : Fin (m + 1) → k} (ha : a ≠ 0) :
     (structureModule (Spec (CommRingCat.of k))).IsGeneratedBySections
       (fun i : ULift.{u} (Fin (m + 1)) => pointSections k a i.down) := by
@@ -178,6 +227,7 @@ theorem isGeneratedBySections_pointSections {m : ℕ} {a : Fin (m + 1) → k} (h
   rw [map_homOfLE_top]
   exact isTrivializingSection_unitSection (isUnit_specConst k hj)
 
+/-- Theorem 7.1(b) for the sections `a₀, …, a_m` of `𝒪_{Spec k}`. -/
 theorem existsUnique_projectivePoint {m : ℕ} (a : Fin (m + 1) → k) (ha : a ≠ 0) :
     ∃! φ : Spec (CommRingCat.of k) ⟶ projectiveSpaceOverScheme m (Spec (CommRingCat.of k)),
       φ ≫ projectiveSpaceOverSchemeProjection m _ = 𝟙 _ ∧
@@ -195,6 +245,7 @@ def projectivePoint {m : ℕ} (a : Fin (m + 1) → k) (ha : a ≠ 0) :
     Spec (CommRingCat.of k) ⟶ projectiveSpaceOverScheme m (Spec (CommRingCat.of k)) :=
   (existsUnique_projectivePoint k a ha).exists.choose
 
+/-- The defining property of `projectivePoint`. -/
 theorem projectivePoint_spec {m : ℕ} (a : Fin (m + 1) → k) (ha : a ≠ 0) :
     projectivePoint k a ha ≫ projectiveSpaceOverSchemeProjection m _ = 𝟙 _ ∧
       ∃ e : (Scheme.Modules.pullback (projectivePoint k a ha)).obj
@@ -205,6 +256,8 @@ theorem projectivePoint_spec {m : ℕ} (a : Fin (m + 1) → k) (ha : a ≠ 0) :
 
 variable {k}
 
+/-- A `k`-morphism `Spec k ⟶ ℙᵐ_k` pulling `𝒪(1)` back to `𝒪_{Spec k}` with `xᵢ ↦ aᵢ` is
+`(a₀ : ⋯ : a_m)`. -/
 theorem eq_projectivePoint {m : ℕ} {a : Fin (m + 1) → k} (ha : a ≠ 0)
     {φ : Spec (CommRingCat.of k) ⟶ projectiveSpaceOverScheme m (Spec (CommRingCat.of k))}
     (hφ : φ ≫ projectiveSpaceOverSchemeProjection m _ = 𝟙 _)
@@ -273,6 +326,7 @@ theorem isGeneratedBySections_projectionSections :
   rw [pullbackGlobalSection_restrict]
   exact IsTrivializingSection.pullback _ (isTrivializingSection_projectiveSpaceChart _ _ _)
 
+/-- Theorem 7.1(b) for the sections `x₀, …, xₙ` of `𝒪(1)|_U`. -/
 theorem existsUnique_projection :
     ∃! π : (projectionDomain n Y).toScheme ⟶ projectiveSpaceOverScheme n Y,
       π ≫ projectiveSpaceOverSchemeProjection n Y =
@@ -291,6 +345,7 @@ open `U` where they have no common zero. -/
 def projectionFromPoint : (projectionDomain n Y).toScheme ⟶ projectiveSpaceOverScheme n Y :=
   (existsUnique_projection n Y).exists.choose
 
+/-- The defining property of `projectionFromPoint`. -/
 theorem projectionFromPoint_spec :
     projectionFromPoint n Y ≫ projectiveSpaceOverSchemeProjection n Y =
         (projectionDomain n Y).ι ≫ projectiveSpaceOverSchemeProjection (n + 1) Y ∧
@@ -300,6 +355,19 @@ theorem projectionFromPoint_spec :
           (projectiveSpaceCoordinate n Y i)) = projectionSections n Y i :=
   (existsUnique_projection n Y).exists.choose_spec
 
+/-- `projectionFromPoint` is the unique `Y`-morphism `U ⟶ ℙⁿ_Y` defined by the remaining
+coordinates: the one pulling `𝒪(1)` back to `𝒪(1)|_U` with each `xᵢ` going to `xᵢ|_U`. -/
+theorem eq_projectionFromPoint_iff
+    (π : (projectionDomain n Y).toScheme ⟶ projectiveSpaceOverScheme n Y) :
+    (π ≫ projectiveSpaceOverSchemeProjection n Y =
+        (projectionDomain n Y).ι ≫ projectiveSpaceOverSchemeProjection (n + 1) Y ∧
+      ∃ e : (Scheme.Modules.pullback π).obj (projectiveSpaceTwistingSheaf n Y 1) ≅
+          projectionDomainTwist n Y,
+        ∀ i, e.hom.app ⊤ (pullbackGlobalSection π (projectiveSpaceCoordinate n Y i)) =
+          projectionSections n Y i) ↔ π = projectionFromPoint n Y :=
+  ⟨fun h => (existsUnique_projection n Y).unique h (projectionFromPoint_spec n Y),
+    fun h => h ▸ projectionFromPoint_spec n Y⟩
+
 end Projection
 
 /-! ### The domain is the complement of the coordinate point -/
@@ -308,12 +376,14 @@ section CoordinatePoint
 
 variable (k : Type u) [Field k] (n : ℕ)
 
+/-- The pullback of the zero section is zero. -/
 theorem pullbackGlobalSection_zero {X Y : Scheme.{u}} (f : X ⟶ Y) (N : Y.Modules) :
     pullbackGlobalSection f (0 : Γ(N, ⊤)) = 0 := by
   have h := pullbackSection_smul f (0 : Γ(Y, ⊤)) (0 : Γ(N, ⊤))
   rw [zero_smul, map_zero, zero_smul] at h
   rw [pullbackGlobalSection, h, map_zero]
 
+/-- The coordinate vector `(0, …, 0, 1)` is nonzero. -/
 theorem single_last_ne_zero : (Pi.single (Fin.last (n + 1)) (1 : k) : Fin (n + 2) → k) ≠ 0 := by
   intro h
   simpa using congrFun h (Fin.last _)
@@ -323,6 +393,7 @@ def coordinatePoint :
     Spec (CommRingCat.of k) ⟶ projectiveSpaceOverScheme (n + 1) (Spec (CommRingCat.of k)) :=
   projectivePoint k (Pi.single (Fin.last (n + 1)) 1) (single_last_ne_zero k n)
 
+/-- The coordinate point `P` does not lie in `U`. -/
 theorem coordinatePoint_notMem_projectionDomain (y : Spec (CommRingCat.of k)) :
     coordinatePoint k n y ∉ projectionDomain n (Spec (CommRingCat.of k)) := by
   intro h
@@ -459,6 +530,7 @@ variable (n : ℕ) (Y : Scheme.{u})
 abbrev hyperplaneSections : Fin (n + 2) → Γ(projectiveSpaceTwistingSheaf n Y 1, ⊤) :=
   Fin.lastCases 0 (projectiveSpaceCoordinate n Y)
 
+/-- The sections `x₀, …, xₙ, 0` generate `𝒪(1)` on `ℙⁿ_Y`. -/
 theorem isGeneratedBySections_hyperplaneSections :
     (projectiveSpaceTwistingSheaf n Y 1).IsGeneratedBySections
       (fun i : ULift.{u} (Fin (n + 2)) => hyperplaneSections n Y i.down) := by
@@ -468,6 +540,7 @@ theorem isGeneratedBySections_hyperplaneSections :
   simp only [hyperplaneSections, Fin.lastCases_castSucc]
   exact isTrivializingSection_projectiveSpaceChart n Y i
 
+/-- Theorem 7.1(b) for the sections `x₀, …, xₙ, 0` of `𝒪(1)` on `ℙⁿ_Y`. -/
 theorem existsUnique_hyperplaneInclusion :
     ∃! j : projectiveSpaceOverScheme n Y ⟶ projectiveSpaceOverScheme (n + 1) Y,
       j ≫ projectiveSpaceOverSchemeProjection (n + 1) Y = projectiveSpaceOverSchemeProjection n Y ∧
@@ -485,6 +558,7 @@ theorem existsUnique_hyperplaneInclusion :
 def hyperplaneInclusion : projectiveSpaceOverScheme n Y ⟶ projectiveSpaceOverScheme (n + 1) Y :=
   (existsUnique_hyperplaneInclusion n Y).exists.choose
 
+/-- The defining property of `hyperplaneInclusion`. -/
 theorem hyperplaneInclusion_spec :
     hyperplaneInclusion n Y ≫ projectiveSpaceOverSchemeProjection (n + 1) Y =
         projectiveSpaceOverSchemeProjection n Y ∧
@@ -517,16 +591,27 @@ section RationalProjection
 
 variable {k : Type u} [Field k] {n : ℕ}
 
+/-- If an isomorphism sends `s` to `t`, its inverse sends `t` to `s`. -/
 theorem Scheme.Modules.inv_app_eq_of_hom_app_eq {X : Scheme.{u}} {M N : X.Modules} (e : M ≅ N)
     {U : X.Opens} {s : Γ(M, U)} {t : Γ(N, U)} (h : e.hom.app U s = t) : e.inv.app U t = s := by
   rw [← h]
   exact ConcreteCategory.congr_hom (congrArg (fun φ => Scheme.Modules.Hom.app φ U) e.hom_inv_id) s
 
+/-- If `(a₀, …, aₙ) ≠ 0` then `(a₀, …, a_{n+1}) ≠ 0`. -/
 theorem ne_zero_of_comp_castSucc_ne_zero {a : Fin (n + 2) → k}
     (ha : (fun i : Fin (n + 1) => a i.castSucc) ≠ 0) : a ≠ 0 := by
   rintro rfl
   exact ha rfl
 
+/-- If `(a₀, …, aₙ) ≠ 0` then `(a₀, …, aₙ, 0) ≠ 0`. -/
+theorem sub_smul_single_last_ne_zero {a : Fin (n + 2) → k}
+    (ha : (fun i : Fin (n + 1) => a i.castSucc) ≠ 0) :
+    a - a (Fin.last (n + 1)) • Pi.single (Fin.last (n + 1)) 1 ≠ 0 := by
+  intro h
+  refine ha (funext fun i => ?_)
+  simpa [Pi.single_eq_of_ne (Fin.castSucc_ne_last i)] using congrFun h i.castSucc
+
+/-- Equal coordinate vectors give equal points. -/
 theorem projectivePoint_congr {m : ℕ} {a b : Fin (m + 1) → k} (ha : a ≠ 0) (hb : b ≠ 0)
     (h : a = b) : projectivePoint k a ha = projectivePoint k b hb := by
   subst h
@@ -586,12 +671,12 @@ theorem exists_lift_projectivePoint_comp_projectionFromPoint {a : Fin (n + 2) �
 `(a₀ : ⋯ : aₙ : 0) = Q − a_{n+1} P`: it lies on the line through `P` and `Q`, and on
 `H = {x_{n+1} = 0}`. -/
 theorem exists_lift_projectivePoint_comp_projectionFromPoint_hyperplaneInclusion
-    {a : Fin (n + 2) → k} (ha : (fun i : Fin (n + 1) => a i.castSucc) ≠ 0)
-    (ha' : a - a (Fin.last (n + 1)) • Pi.single (Fin.last (n + 1)) 1 ≠ 0) :
+    {a : Fin (n + 2) → k} (ha : (fun i : Fin (n + 1) => a i.castSucc) ≠ 0) :
     ∃ Q : Spec (CommRingCat.of k) ⟶ (projectionDomain n (Spec (CommRingCat.of k))).toScheme,
       Q ≫ (projectionDomain n _).ι = projectivePoint k a (ne_zero_of_comp_castSucc_ne_zero ha) ∧
       Q ≫ projectionFromPoint n _ ≫ hyperplaneInclusion n _ =
-        projectivePoint k (a - a (Fin.last (n + 1)) • Pi.single (Fin.last (n + 1)) 1) ha' := by
+        projectivePoint k (a - a (Fin.last (n + 1)) • Pi.single (Fin.last (n + 1)) 1)
+          (sub_smul_single_last_ne_zero ha) := by
   obtain ⟨Q, hQ, hπ⟩ := exists_lift_projectivePoint_comp_projectionFromPoint ha
   have hv : (Fin.lastCases 0 (fun i : Fin (n + 1) => a i.castSucc) : Fin (n + 2) → k) =
       a - a (Fin.last (n + 1)) • Pi.single (Fin.last (n + 1)) 1 := by
@@ -600,9 +685,59 @@ theorem exists_lift_projectivePoint_comp_projectionFromPoint_hyperplaneInclusion
     | last => simp
     | cast i => simp
   refine ⟨Q, hQ, ?_⟩
-  rw [← Category.assoc, hπ, projectivePoint_comp_hyperplaneInclusion ha (hv ▸ ha')]
+  rw [← Category.assoc, hπ,
+    projectivePoint_comp_hyperplaneInclusion ha (hv ▸ sub_smul_single_last_ne_zero ha)]
   exact projectivePoint_congr _ _ hv
 
 end RationalProjection
+
+/-! ### Summary -/
+
+section Summary
+
+variable (k : Type u) [Field k] (n : ℕ)
+
+/-- **Projection from a point is a morphism** (Hartshorne I, Exercise 3.14(a), in the coordinates
+in which the point `P` is the omitted coordinate point `(0 : ⋯ : 0 : 1)` of `ℙⁿ⁺¹_k` and the
+hyperplane `H` is `x_{n+1} = 0`, identified with `ℙⁿ_k` by `(x₀ : ⋯ : xₙ) ↦ (x₀ : ⋯ : xₙ : 0)`).
+Let `U ⊆ ℙⁿ⁺¹_k` be the open where one of `x₀, …, xₙ` is nonzero, and `π : U ⟶ ℙⁿ_k`
+`projectionFromPoint`. Then:
+
+* `U = ℙⁿ⁺¹_k − {P}`;
+* `π` is the morphism defined (Hartshorne II, Theorem 7.1) by the remaining homogeneous
+  coordinates `x₀, …, xₙ`: it is the unique `k`-morphism `U ⟶ ℙⁿ_k` pulling `𝒪(1)` back to
+  `𝒪(1)|_U` with each `xᵢ` going to `xᵢ|_U`;
+* the identification `ℙⁿ_k ⟶ ℙⁿ⁺¹_k`, `(x₀ : ⋯ : xₙ) ↦ (x₀ : ⋯ : xₙ : 0)`, lands in `H`;
+* on rational points, `π(Q)` is the intersection of the line `PQ` with `H`: for
+  `Q = (a₀ : ⋯ : a_{n+1}) ≠ P`, `Q` lies in `U` and `π(Q)` is the point
+  `(a₀ : ⋯ : aₙ : 0) = Q − a_{n+1} P` of `H`.
+
+The book works with varieties over an algebraically closed field and a general point and
+hyperplane; here `k` is any field and the scheme-theoretic statement is over `Spec k`. -/
+theorem projectionFromPoint_isProjection :
+    (projectionDomain n (Spec (CommRingCat.of k)) : Set _) =
+        (Set.range (coordinatePoint k n))ᶜ ∧
+      (∀ π : (projectionDomain n (Spec (CommRingCat.of k))).toScheme ⟶
+          projectiveSpaceOverScheme n (Spec (CommRingCat.of k)),
+        (π ≫ projectiveSpaceOverSchemeProjection n _ =
+            (projectionDomain n _).ι ≫ projectiveSpaceOverSchemeProjection (n + 1) _ ∧
+          ∃ e : (Scheme.Modules.pullback π).obj (projectiveSpaceTwistingSheaf n _ 1) ≅
+              projectionDomainTwist n _,
+            ∀ i, e.hom.app ⊤ (pullbackGlobalSection π (projectiveSpaceCoordinate n _ i)) =
+              projectionSections n _ i) ↔ π = projectionFromPoint n _) ∧
+      (∀ y, hyperplaneInclusion n (Spec (CommRingCat.of k)) y ∉
+        projectiveSpaceChart (n + 1) _ (Fin.last (n + 1))) ∧
+      ∀ (a : Fin (n + 2) → k) (ha : (fun i : Fin (n + 1) => a i.castSucc) ≠ 0),
+        ∃ Q : Spec (CommRingCat.of k) ⟶ (projectionDomain n (Spec (CommRingCat.of k))).toScheme,
+          Q ≫ (projectionDomain n _).ι =
+              projectivePoint k a (ne_zero_of_comp_castSucc_ne_zero ha) ∧
+            Q ≫ projectionFromPoint n _ ≫ hyperplaneInclusion n _ =
+              projectivePoint k (a - a (Fin.last (n + 1)) • Pi.single (Fin.last (n + 1)) 1)
+                (sub_smul_single_last_ne_zero ha) :=
+  ⟨projectionDomain_eq_compl_range k n, eq_projectionFromPoint_iff n _,
+    hyperplaneInclusion_notMem_projectiveSpaceChart_last n _,
+    fun _ ha => exists_lift_projectivePoint_comp_projectionFromPoint_hyperplaneInclusion ha⟩
+
+end Summary
 
 end Hartshorne
