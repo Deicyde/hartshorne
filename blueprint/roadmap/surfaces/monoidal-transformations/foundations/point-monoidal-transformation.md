@@ -2,7 +2,9 @@
 article_id: af_113b403543c556f355b96fcb
 declaration: def
 origin: cited
-lean: Hartshorne.Surface.pointIdeal Hartshorne.Surface.pointBlowup Hartshorne.Surface.pointBlowupProjection Hartshorne.Surface.isIntegral_pointBlowup Hartshorne.Surface.pointBlowup_projective Hartshorne.Surface.pointBlowupExceptional Hartshorne.Surface.idealSheafData_pointBlowupExceptional Hartshorne.Surface.coe_support_pointBlowupExceptional Hartshorne.Surface.pointCompl Hartshorne.Surface.pointBlowupExceptionalCompl Hartshorne.Surface.pointBlowupIsoOffCenter Hartshorne.Surface.pointBlowupIsoOffCenter_hom_ι
+lean: Hartshorne.Surface.pointIdeal Hartshorne.Surface.pointBlowup Hartshorne.Surface.pointBlowupProjection Hartshorne.Surface.isIntegral_pointBlowup Hartshorne.Surface.pointBlowup_projective Hartshorne.Surface.pointBlowupExceptional Hartshorne.Surface.idealSheafData_pointBlowupExceptional Hartshorne.Surface.coe_support_pointBlowupExceptional Hartshorne.Surface.pointCompl Hartshorne.Surface.pointBlowupExceptionalCompl Hartshorne.Surface.pointBlowupIsoOffCenter Hartshorne.Surface.pointBlowupIsoOffCenter_hom_ι Hartshorne.Surface.pointBlowupExceptional_isEffective
+statement: formalized
+proof: formalized
 ---
 
 # Monoidal transformation at a point
