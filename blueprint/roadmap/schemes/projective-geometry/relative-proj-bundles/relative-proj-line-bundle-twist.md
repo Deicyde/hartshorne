@@ -24,6 +24,7 @@ formula for $\mathcal{O}(1)$.
 
 - Independence of the local Proj isomorphism from the chosen trivialization of
   $L$, while retaining its transition factor on $\mathcal{O}(1)$.
+- [Generation by global sections](../../projective-sheaves/globally-generated-module-sheaf.md)
 
 ## Sources
 
