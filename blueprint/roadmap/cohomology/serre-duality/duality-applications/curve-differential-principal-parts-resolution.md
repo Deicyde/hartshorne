@@ -2,6 +2,7 @@
 article_id: af_feca80dc54e856ab0cad99fd
 declaration: short exact sequence
 origin: cited
+lean: Hartshorne.differentialPrincipalPartsComplex Hartshorne.curveDifferential_principalPartsResolution
 ---
 
 # The differential principal-parts resolution
