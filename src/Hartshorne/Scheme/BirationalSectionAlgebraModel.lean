@@ -88,6 +88,38 @@ theorem exists_bijective_twistSection (k : Type u) [Field k] [Algebra k (𝒜 0)
   rw [h]
   exact h1.comp e.bijective
 
+/-- `exists_bijective_twistSection` for generators indexed by `Fin (r + 1)`. -/
+private theorem exists_bijective_twistSection_range (k : Type u) [Field k] [Algebra k (𝒜 0)]
+    [Algebra.FiniteType k (𝒜 0)] {r : ℕ} (x : Fin (r + 1) → A) (hx : ∀ i, x i ∈ 𝒜 1)
+    (hgen : Algebra.adjoin (𝒜 0) (Set.range x) = ⊤) :
+    ∃ n₀ : ℕ, ∀ n ≥ n₀, Function.Bijective (fun a : 𝒜 n => twistSection n a (op ⊤)) := by
+  classical
+  have hs : ∀ a ∈ Finset.univ.image x, a ∈ 𝒜 1 := by
+    intro a ha
+    obtain ⟨i, -, rfl⟩ := Finset.mem_image.1 ha
+    exact hx i
+  have hgen' : Algebra.adjoin (𝒜 0) ((Finset.univ.image x : Finset A) : Set A) = ⊤ := by
+    rw [Finset.coe_image, Finset.coe_univ, Set.image_univ]
+    exact hgen
+  exact exists_bijective_twistSection k hs hgen'
+
+/-- The additive map `T_n → Γ(Proj T, 𝒪(n))`, `s ↦ s / 1`. -/
+private def twistSectionHom (n : ℕ) : 𝒜 n →+ (projTwistingSheaf 𝒜 n).val.obj (op ⊤) where
+  toFun a := twistSection n a (op ⊤)
+  map_zero' := by
+    apply section_ext
+    intro x
+    apply HomogeneousLocalizedModule.ext
+    change LocalizedModule.mk ((0 : 𝒜 n) : A) 1 = 0
+    rw [ZeroMemClass.coe_zero, LocalizedModule.zero_mk]
+  map_add' s s' := by
+    apply section_ext
+    intro x
+    apply HomogeneousLocalizedModule.ext
+    change LocalizedModule.mk ((s : A) + s') 1 =
+      LocalizedModule.mk (s : A) 1 + LocalizedModule.mk (s' : A) 1
+    rw [LocalizedModule.mk_add_mk, one_smul, one_smul, mul_one]
+
 /-! ### The section algebra of `𝒪(d)` for a graded domain -/
 
 section Domain
@@ -357,6 +389,68 @@ theorem exists_iso_proj_sectionAlgebraPiece_eq_veronese_of_isAffineOpen (k : Typ
     exists_iso_proj_sectionAlgebraPiece_eq_veronese k (chartEmbedding i hU)
   exact ⟨I, hdom, hsat, e, hfac,
     fun n => ⟨(pullbackChartEmbeddingTwistIso i hU n).symm ≪≫ (htw n).some⟩, hd⟩
+
+/-- Sections over `⊤` of a pullback along an isomorphism. -/
+private def sectionsPullbackIso {Y W : Scheme.{u}} (e : Y ≅ W) (F : W.Modules) :
+    Γ((Scheme.Modules.pullback e.hom).obj F, ⊤) ≅ Γ(F, ⊤) :=
+  ((Scheme.Modules.toPresheaf Y).mapIso
+      ((Scheme.Modules.restrictFunctorIsoPullback e.hom).app F).symm).app (op ⊤) ≪≫
+    F.restrictAppIso e.hom ⊤ ≪≫
+    (F.presheaf.mapIso (eqToIso (by rw [Scheme.Hom.image_top_eq_opensRange,
+      Scheme.Hom.opensRange_of_isIso] : e.hom ''ᵁ ⊤ = ⊤)).op).symm
+
+/-- **Step 2 of the proof of Theorem 7.17: the sections of `L^N` over `f⁻¹(U)` are the degree-`N`
+part of the homogeneous coordinate ring, for large `N`** (Hartshorne II, pp. 166–167). Let
+`i : Z ⟶ ℙʳ_X` be a closed immersion, `f = π ∘ i`, `L = i^* 𝒪(1)`, and `U ⊆ X` an affine open
+with `Γ(X, U)` a finitely generated algebra over a field `k`. Let `T = Γ(X, U)[x₀, …, xᵣ]/I` be
+the homogeneous coordinate ring of `f⁻¹(U) ⊆ ℙʳ_{Spec Γ(X, U)}` (`I` saturated), so that
+`f⁻¹(U) ≅ Proj T`. Then for all large `N`, `Γ(f⁻¹(U), L^{N}) ≅ T_N`, the sections of the `N`-th
+tensor power of `L|_{f⁻¹(U)}` (through `T_N → Γ(Proj T, 𝒪(N))`, `s ↦ s / 1`, Exercise 5.9). -/
+theorem exists_addEquiv_sections_tensorPower_of_isAffineOpen (k : Type u) [Field k]
+    {X Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r X) [IsClosedImmersion i]
+    {U : X.Opens} (hU : IsAffineOpen U) [Algebra k Γ(X, U)] [Algebra.FiniteType k Γ(X, U)] :
+    ∃ I : HomogeneousIdeal (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)),
+      ProjectiveClosedSubscheme.saturation I.toIdeal = I.toIdeal ∧
+      ∃ e : ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme ≅
+          Proj (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I),
+        e.hom ≫ projQuotientι _ I ≫
+            (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).hom = chartEmbedding i hU ∧
+        ∃ n₀ : ℕ, ∀ N ≥ n₀, Nonempty (Γ(moduleSheafTensorPower (N + 1)
+            ((Scheme.Modules.pullback ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).ι).obj
+              ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1))), ⊤) ≃+
+          gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I (N + 1)) := by
+  obtain ⟨I, hsat, e, hfac, htw, -⟩ :=
+    exists_iso_proj_homogeneousCoordinateRing (chartEmbedding i hU)
+  let : Algebra k (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I 0) :=
+    ((chartZeroHom I).comp (algebraMap k Γ(X, U))).toAlgebra
+  let φ : Γ(X, U) →ₐ[k]
+      gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I 0 :=
+    { chartZeroHom I with commutes' := fun _ => rfl }
+  have : Algebra.FiniteType k
+      (gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U)) I 0) :=
+    Algebra.FiniteType.of_surjective φ (chartZeroHom_surjective I)
+  obtain ⟨n₀, hn₀⟩ := exists_bijective_twistSection_range k _
+    (fun j => mk_mem_gradedQuotient (MvPolynomial.isHomogeneous_X _ j)) (adjoin_coord_eq_top I)
+  refine ⟨I, hsat, e, hfac, n₀, fun N hN => ⟨?_⟩⟩
+  let ι := ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).ι
+  let fst := Limits.pullback.fst (projectiveSpaceOverIntegersMap r) (schemeToSpecZ X)
+  let α : (Scheme.Modules.pullback ι).obj
+      ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X 1)) ≅
+      (Scheme.Modules.pullback (ι ≫ i ≫ fst)).obj
+        (projTwistingSheaf (GeneratedProj.intGrading r) 1) :=
+    (Scheme.Modules.pullback ι).mapIso ((Scheme.Modules.pullbackComp i fst).app _) ≪≫
+      (Scheme.Modules.pullbackComp ι (i ≫ fst)).app _
+  let β : (Scheme.Modules.pullback (ι ≫ i ≫ fst)).obj
+      (projTwistingSheaf (GeneratedProj.intGrading r) ((N + 1 : ℕ) : ℤ)) ≅
+      (Scheme.Modules.pullback ι).obj
+        ((Scheme.Modules.pullback i).obj (projectiveSpaceTwistingSheaf r X ((N + 1 : ℕ) : ℤ))) :=
+    ((Scheme.Modules.pullbackComp ι (i ≫ fst)).app _).symm ≪≫
+      (Scheme.Modules.pullback ι).mapIso ((Scheme.Modules.pullbackComp i fst).app _).symm
+  let γ := tensorPowerPullbackTwistIso (adjoin_intGrading_one_eq_top r) (ι ≫ i ≫ fst) α N ≪≫ β ≪≫
+    (pullbackChartEmbeddingTwistIso i hU _).symm ≪≫ (htw _).some
+  let δ := ((Scheme.Modules.toPresheaf _).mapIso γ).app (op ⊤) ≪≫ sectionsPullbackIso e _
+  exact δ.addCommGroupIsoToAddEquiv.trans
+    (AddEquiv.ofBijective (twistSectionHom (N + 1)) (hn₀ (N + 1) (by omega))).symm
 
 end Chart
 
