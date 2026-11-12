@@ -691,4 +691,55 @@ theorem isIso_app_of_finite_of_isIso_app_self [IsNoetherianRing A]
 
 end FiniteModuleNatTrans
 
+section AffineTensor
+
+variable {A : CommRingCat.{u}} (I : Ideal A)
+
+/-- **The canonical map `f^* (M~) ⟶ (M~)^`**, natural in the `A`-module `M`, for
+`f : (V(I), 𝒪_X̂) ⟶ Spec A` the morphism of ringed spaces of `X̂ = Spf_I(A)`. Here
+`f^* (M~) = M~|_{V(I)} ⊗_{𝒪_{Spec A}|_{V(I)}} 𝒪_X̂` is the module pullback. -/
+def tildePullbackToModuleCompletion :
+    tilde.functor A ⋙ SheafOfModules.pullback.{u}
+        (specIdealSubsheaf A I).structureSheafToFormalCompletionRingCat ⟶
+      tilde.functor A ⋙ (specIdealSubsheaf A I).moduleCompletionFunctor where
+  app M := (specIdealSubsheaf A I).pullbackToModuleCompletion ((tilde.functor A).obj M)
+  naturality _ _ φ :=
+    (specIdealSubsheaf A I).pullbackToModuleCompletion_naturality ((tilde.functor A).map φ)
+
+/-- **Hartshorne II, Proposition 9.4(b)**: for a Noetherian ring `A`, an ideal `I` and a finite
+`A`-module `M`, the canonical map `M~|_{V(I)} ⊗_{𝒪_{Spec A}|_{V(I)}} 𝒪_X̂ ⟶ (M~)^` on
+`X̂ = Spf_I(A)` is an isomorphism. The left side is the module pullback `f^* (M~)` along the
+morphism of ringed spaces `f : (V(I), 𝒪_X̂) ⟶ Spec A`, an ordinary tensor product. -/
+theorem isIso_tildePullbackToModuleCompletion [IsNoetherianRing A] (M : ModuleCat.{u} A)
+    [Module.Finite A M] :
+    IsIso ((specIdealSubsheaf A I).pullbackToModuleCompletion (tilde M)) := by
+  let adj := tilde.adjunction.comp (SheafOfModules.pullbackPushforwardAdjunction.{u}
+    (specIdealSubsheaf A I).structureSheafToFormalCompletionRingCat)
+  have : (tilde.functor A ⋙ SheafOfModules.pullback.{u}
+      (specIdealSubsheaf A I).structureSheafToFormalCompletionRingCat).IsLeftAdjoint :=
+    adj.isLeftAdjoint
+  have : (tilde.functor A ⋙ SheafOfModules.pullback.{u}
+      (specIdealSubsheaf A I).structureSheafToFormalCompletionRingCat).PreservesZeroMorphisms :=
+    Functor.preservesZeroMorphisms_of_isLeftAdjoint _
+  have := adj.leftAdjoint_preservesColimits
+  refine isIso_app_of_finite_of_isIso_app_self (tildePullbackToModuleCompletion I) ?_ ?_ ?_ M
+  · intro S hS
+    have := hS.epi_g
+    exact ⟨hS.exact.map_of_epi_of_preservesCokernel _ hS.epi_g inferInstance, inferInstance⟩
+  · intro S hS h1 h2 h3
+    exact moduleCompletion_tilde_shortExact I S hS
+  · exact (specIdealSubsheaf A I).isIso_pullbackToModuleCompletion_unit
+
+/-- **Hartshorne II, Proposition 9.4(b)** (the isomorphism): for `A` Noetherian and `M` a finite
+`A`-module, `M~|_{V(I)} ⊗_{𝒪_{Spec A}|_{V(I)}} 𝒪_X̂ ≅ (M~)^` as `𝒪_X̂`-modules on
+`X̂ = Spf_I(A)`, the left side being the module pullback along `(V(I), 𝒪_X̂) ⟶ Spec A`. -/
+def tildePullbackIsoModuleCompletion [IsNoetherianRing A] (M : ModuleCat.{u} A)
+    [Module.Finite A M] :
+    (SheafOfModules.pullback.{u} (specIdealSubsheaf A I).structureSheafToFormalCompletionRingCat).obj
+        (tilde M) ≅ (specIdealSubsheaf A I).moduleCompletion (tilde M) :=
+  have := isIso_tildePullbackToModuleCompletion I M
+  asIso ((specIdealSubsheaf A I).pullbackToModuleCompletion (tilde M))
+
+end AffineTensor
+
 end Hartshorne
