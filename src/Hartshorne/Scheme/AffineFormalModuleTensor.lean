@@ -268,6 +268,59 @@ lemma pullbackToModuleCompletion_naturality {F G : X.Modules} (φ : F ⟶ G) :
     ((SheafOfModules.pullbackPushforwardAdjunction.{u}
       I.structureSheafToFormalCompletionRingCat).homEquiv_naturality_right_symm _ _)
 
+
+section RankOne
+
+/-- The functor `U ↦ U ∩ |Y|` on opens is final: `⊤` is terminal in each comma category. -/
+private instance final_opensMap_infinitesimalNeighborhoodι :
+    (Opens.map (I.infinitesimalNeighborhoodι 1).base).Final := by
+  constructor
+  intro U
+  refine isConnected_of_isTerminal _ (x := StructuredArrow.mk
+    (homOfLE le_top : U ⟶ (Opens.map (I.infinitesimalNeighborhoodι 1).base).obj ⊤)) ?_
+  refine IsTerminal.ofUniqueHom
+    (fun A ↦ StructuredArrow.homMk (homOfLE le_top) (Subsingleton.elim _ _)) ?_
+  intro A m
+  ext
+  exact Subsingleton.elim _ _
+
+private instance isIso_pullbackObjUnitToUnit :
+    IsIso (SheafOfModules.pullbackObjUnitToUnit.{u} I.structureSheafToFormalCompletionRingCat) :=
+  @SheafOfModules.instIsIsoPullbackObjUnitToUnitOfFinal _ _ _ _ _ _ _ _ _ _ _ _
+    (final_opensMap_infinitesimalNeighborhoodι I)
+
+/-- The map `𝒪_X̂ ⟶ (𝒪_X)^` of `𝒪_X̂`-modules, `f^* 𝒪_X ⟶ (𝒪_X)^` composed with `𝒪_X̂ ≅ f^* 𝒪_X`. -/
+private def unitToModuleCompletionUnit :
+    SheafOfModules.unit.{u} I.formalCompletionRingCatSheaf ⟶
+      I.moduleCompletion (SheafOfModules.unit.{u} X.ringCatSheaf) :=
+  inv (SheafOfModules.pullbackObjUnitToUnit.{u} I.structureSheafToFormalCompletionRingCat) ≫
+    I.pullbackToModuleCompletion (SheafOfModules.unit.{u} X.ringCatSheaf)
+
+private lemma pullbackObjUnitToUnit_comp_unitToModuleCompletionUnit :
+    SheafOfModules.pullbackObjUnitToUnit.{u} I.structureSheafToFormalCompletionRingCat ≫
+      I.unitToModuleCompletionUnit = I.pullbackToModuleCompletion _ :=
+  IsIso.hom_inv_id_assoc
+    (SheafOfModules.pullbackObjUnitToUnit.{u} I.structureSheafToFormalCompletionRingCat) _
+
+private lemma unitToPushforwardObjUnit_comp_unitToModuleCompletionUnit :
+    SheafOfModules.unitToPushforwardObjUnit.{u} I.structureSheafToFormalCompletionRingCat ≫
+      (SheafOfModules.pushforward.{u} I.structureSheafToFormalCompletionRingCat).map
+        I.unitToModuleCompletionUnit =
+      I.toModuleCompletionPushforward (SheafOfModules.unit.{u} X.ringCatSheaf) := by
+  apply ((SheafOfModules.pullbackPushforwardAdjunction.{u}
+    I.structureSheafToFormalCompletionRingCat).homEquiv _ _).symm.injective
+  exact ((SheafOfModules.pullbackPushforwardAdjunction.{u}
+    I.structureSheafToFormalCompletionRingCat).homEquiv_naturality_right_symm _ _).trans
+    I.pullbackObjUnitToUnit_comp_unitToModuleCompletionUnit
+
+private lemma unitToModuleCompletionUnit_app_χ (U : X.Opens) (a : Γ(X, U)) :
+    I.unitToModuleCompletionUnit.val.app (op (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U))
+        (I.structureSheafToFormalCompletionRingCat.hom.app (op U) a) =
+      (I.toModuleCompletionPushforward _).val.app (op U) a :=
+  congrArg (fun f => f.val.app (op U) a) I.unitToPushforwardObjUnit_comp_unitToModuleCompletionUnit
+
+end RankOne
+
 end QuasicoherentIdealSubsheaf
 
 section FiniteModuleNatTrans
