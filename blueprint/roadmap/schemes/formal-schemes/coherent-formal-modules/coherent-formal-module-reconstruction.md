@@ -28,6 +28,7 @@ is an isomorphism.
 - [Completion of a coherent module](completed-coherent-module.md)
 - [Powers of an ideal of definition](../formal-neighborhoods/powers-of-ideal-of-definition.md)
 - [Thickenings of an affine formal scheme](../formal-neighborhoods/affine-formal-thickenings.md)
+- [Completion and ordinary sheaf tensor product](scheme-completion-tensor-comparison.md)
 - Locality on a finite formal-affine cover.
 
 ## Sources
