@@ -182,7 +182,8 @@ lemma π_moduleCompletionQuotientMap (n : ℕ) :
 
 /-- **`(F / I ^ (n + 1) F)|_Y` as a module on `Y_(n+1)`**: the pullback of `F / I ^ (n + 1) F`
 along the closed immersion `Y_(n+1) ⟶ X`. As `F / I ^ (n + 1) F` is killed by `I ^ (n + 1)`, this
-is the restriction of `F / I ^ (n + 1) F` to `Y` with its `𝒪_{Y_(n+1)}`-module structure. -/
+agrees with the restriction of `F / I ^ (n + 1) F` to `Y` with its `𝒪_{Y_(n+1)}`-module structure
+(the identification is not formalized here). -/
 def moduleCompletionNeighborhood (n : ℕ) : (I.infinitesimalNeighborhood (n + 1)).Modules :=
   (Scheme.Modules.pullback (I.infinitesimalNeighborhoodι (n + 1))).obj
     (I.moduleCompletionQuotient F n)
