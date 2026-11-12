@@ -745,3 +745,4 @@ import Hartshorne.Scheme.EmbeddedCurveDegree
 import Hartshorne.Scheme.ProjectiveClosedSubschemeHomogeneousIdeal
 import Hartshorne.Scheme.CoherentFormalModule
 import Hartshorne.Scheme.ProjectiveSchemeAsProj
+import Hartshorne.Scheme.FiniteLinearSystem
