@@ -3,6 +3,8 @@ article_id: af_eb929e5a457734c167168974
 declaration: def
 origin: cited
 lean: Hartshorne.IsCoherentFormalModule Hartshorne.IsCoherentFormalModule.of_iso Hartshorne.IsCoherentFormalModule.iso_iff Hartshorne.structureModuleRestrict Hartshorne.structureModulePushforward Hartshorne.structureRingCatSheafHom Hartshorne.structureRingCatSheaf
+statement: formalized
+proof: formalized
 ---
 
 # Coherent modules on a Noetherian formal scheme
