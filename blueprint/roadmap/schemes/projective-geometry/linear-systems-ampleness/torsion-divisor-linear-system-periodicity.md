@@ -2,6 +2,7 @@
 article_id: af_9f3b0117c213d469e13c2d73
 declaration: theorem
 origin: cited
+lean: Hartshorne.LinearSystem.dim_complete_of_orderOf_eq Hartshorne.LinearSystem.dim_complete_nsmul_of_addOrderOf_eq Hartshorne.LinearSystem.periodic_dim_complete_nsmul Hartshorne.LinearSystem.dim_complete_weil_nsmul_of_addOrderOf_eq Hartshorne.LinearSystem.periodic_dim_complete_weil_nsmul
 ---
 
 # Torsion divisor linear systems are periodic
