@@ -12,6 +12,7 @@ and let $F$ be coherent. Construct the canonical isomorphism
 $\widehat{F}\cong\left.F\right|_{|\widehat{X}|}\otimes_{\left.\mathcal{O}_X\right|_{|\widehat{X}|}}\mathcal{O}_{\widehat{X}}$.
 
 The tensor product is the ordinary tensor product of module sheaves.
+The isomorphism holds more generally for $X$ locally Noetherian; the Noetherian hypothesis is kept because it is Hartshorne's setting.
 
 ## Depends on
 
