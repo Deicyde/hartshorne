@@ -323,6 +323,31 @@ private lemma unit_comp_pushforward_transition {Z Y' W : Scheme.{u}} (s : Z ⟶ 
 
 end UnitLemmas
 
+/-- The open of `Y_(n+1)` corresponding to `U ∩ |Y|` lies in the preimage of `U` along
+`Y_(n+1) ⟶ Y_(n+2) ⟶ X`. -/
+private lemma functor_obj_le_preimage_succ_ι (n : ℕ) (U : X.Opens) :
+    (I.isOpenEmbedding_infinitesimalNeighborhoodFromOne n).functor.obj
+        (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U) ≤
+      I.infinitesimalNeighborhoodSucc n ⁻¹ᵁ (I.infinitesimalNeighborhoodι (n + 2) ⁻¹ᵁ U) := by
+  rw [I.functor_obj_preimage_infinitesimalNeighborhoodι n U, ← Scheme.Hom.comp_preimage,
+    I.infinitesimalNeighborhoodSucc_comp_ι n]
+
+private lemma succ_ι_app_restrict (n : ℕ) (U : X.Opens) (r : Γ(X, U)) :
+    (I.infinitesimalNeighborhood (n + 1)).presheaf.map
+        (homOfLE (I.functor_obj_le_preimage_succ_ι n U)).op
+        ((I.infinitesimalNeighborhoodSucc n).app _ ((I.infinitesimalNeighborhoodι (n + 2)).app U r)) =
+      I.formalCompletionSheafObjSectionsMap n U r := by
+  have h := Scheme.Hom.appLE_comp_appLE (I.infinitesimalNeighborhoodSucc n)
+    (I.infinitesimalNeighborhoodι (n + 2)) U (I.infinitesimalNeighborhoodι (n + 2) ⁻¹ᵁ U)
+    ((I.isOpenEmbedding_infinitesimalNeighborhoodFromOne n).functor.obj
+      (I.infinitesimalNeighborhoodι 1 ⁻¹ᵁ U)) le_rfl (I.functor_obj_le_preimage_succ_ι n U)
+  have h' := congrArg (fun φ => φ.hom r) (h.trans (Scheme.Hom.appLE_congr_hom
+    (I.infinitesimalNeighborhoodSucc_comp_ι n) _ _ _
+    (I.functor_obj_preimage_infinitesimalNeighborhoodι n U).le))
+  simp only [Scheme.Hom.appLE, CommRingCat.hom_comp, RingHom.comp_apply, homOfLE_refl, op_id,
+    CategoryTheory.Functor.map_id, CommRingCat.hom_id, RingHom.id_apply] at h'
+  exact h'
+
 end QuasicoherentIdealSubsheaf
 
 end Hartshorne
