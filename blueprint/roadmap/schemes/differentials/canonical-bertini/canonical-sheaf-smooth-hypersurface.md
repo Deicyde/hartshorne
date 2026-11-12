@@ -26,7 +26,6 @@ recorded as applications of this formula rather than separate graph nodes.
 
 - The divisor sheaf of a degree-$d$ hypersurface is $\mathcal{O}(d)$.
 - Nonnegative projective twists have a nonzero global section.
-- [Divisors of invertible-sheaf sections](../../projective-geometry/linear-systems-ampleness/divisor-of-invertible-section.md)
 
 ## Sources
 
