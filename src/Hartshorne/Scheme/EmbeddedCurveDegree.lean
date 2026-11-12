@@ -210,9 +210,9 @@ private theorem isProjectiveHypersurfaceLocalEquation_hyperplane (hn : 0 < n) (i
 /-- **The hyperplane section is the divisor of zeros of the pulled-back coordinate** (Hartshorne
 IV, Example 3.3.2, second step). Let `ι : X ⟶ ℙⁿ_k` (`n ≥ 1`) be a morphism from a scheme
 satisfying `(*)` with `ι^* 𝒪(1)` isomorphic to some `𝒪_X(D₀)`, and let the coordinate hyperplane
-`H = V(xᵢ)` not contain the image of `X`. If `C` is the divisor of zeros of the pulled-back section `ι^* xᵢ` of
-`ι^* 𝒪(1)`, then the Weil divisor of `C` is `H · X`: on the open set where `x_j ≠ 0`, the section
-`ι^* xᵢ` is `ι^#(xᵢ / x_j)` times the generator `ι^* x_j`. -/
+`H = V(xᵢ)` not contain the image of `X`. If `C` is the divisor of zeros of the pulled-back section
+`ι^* xᵢ` of `ι^* 𝒪(1)`, then the Weil divisor of `C` is `H · X`: on the open set where
+`x_j ≠ 0`, the section `ι^* xᵢ` is `ι^#(xᵢ / x_j)` times the generator `ι^* x_j`. -/
 theorem cartierToWeil_eq_projectiveIntersectionDivisor_hyperplane
     (hX : X.SatisfiesConditionStar) (ι : X ⟶ Proj 𝒜) (hn : 0 < n) (i : Fin (n + 1))
     (hXV : ¬Set.range ι ⊆ closure ({(projectiveHypersurfacePrimeDivisor hn (isHomogeneous_X k i)
@@ -222,7 +222,8 @@ theorem cartierToWeil_eq_projectiveIntersectionDivisor_hyperplane
     {C : X.CartierDivisor}
     (hC : IsDivisorOfZeros ((Scheme.Modules.pullback ι).obj (projTwistingSheaf 𝒜 1))
       (Ringed.etaSec (φ := ι.toRingCatSheafHom) (E := projTwistingSheaf 𝒜 1) (W := ⊤)
-        (ProjTwistingSheaf.degreeOneSection ⟨MvPolynomial.X i, X_mem_homogeneousSubmodule_one (R := k) i⟩))
+        (ProjTwistingSheaf.degreeOneSection
+          ⟨MvPolynomial.X i, X_mem_homogeneousSubmodule_one (R := k) i⟩))
       C) :
     let _ : IsIntegral X := hX.isIntegral
     let _ : IsNoetherian X := hX.isNoetherian
