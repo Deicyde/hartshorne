@@ -15,6 +15,7 @@ graph total transform is the exceptional curve.
 
 - [Monoidal transformation at a point](../../monoidal-transformations/foundations/point-monoidal-transformation.md)
 - [The graph and set-theoretic total transform](birational-graph-total-transform.md)
+- [Dimension at a closed point](../../../schemes/subschemes-and-dimension/dimension-at-closed-point.md)
 
 ## Sources
 
