@@ -790,5 +790,6 @@ import Hartshorne.Scheme.RelativeProjLineBundleTwist
 import Hartshorne.Scheme.SegreProductTrivialization
 import Hartshorne.Scheme.VectorBundleEquivalence
 import Hartshorne.Scheme.ProjectiveBundleTwist
+import Hartshorne.Scheme.ProjectiveSpaceBundle
 import Hartshorne.Scheme.InvertibleSymmetricPower
 import Hartshorne.Scheme.RelativeProjLineBundleTwistSheaf
