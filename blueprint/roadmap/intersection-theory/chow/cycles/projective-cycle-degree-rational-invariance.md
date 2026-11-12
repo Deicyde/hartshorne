@@ -60,6 +60,7 @@ $\deg\nu_*\operatorname{div}(g)=\sum_j\deg F_j\deg V-\sum_l\deg G_l\deg V=e\deg 
 - [Intersection multiplicity with a hypersurface](../../../intersections-projective-space/bezout/projective-intersection-multiplicity.md)
 - [Bézout for a projective variety and a hypersurface](../../../intersections-projective-space/bezout/projective-hypersurface-bezout.md)
 - [Raw cycle pushforward is functorial](raw-cycle-pushforward-functorial.md)
+- [A zero-dimensional projective variety is a point](../../../intersections-projective-space/bezout/projective-zero-dimensional-variety-point.md)
 
 ## Sources
 
