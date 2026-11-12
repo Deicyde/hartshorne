@@ -23,6 +23,7 @@ $\omega_Y\simeq\omega_X|_Y\otimes\bigwedge^r N_{Y/X}$.
 - The determinant isomorphism for a short exact sequence of finite locally
   free sheaves.
 - Formation of the top exterior power commutes with duals.
+- [The canonical sheaf of a product](../differential-exercises/canonical-sheaf-of-product.md)
 
 ## Sources
 
