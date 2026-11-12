@@ -20,6 +20,7 @@ defined by the remaining homogeneous coordinates.
 
 - [Projective space over a scheme](../../../schemes/proper-and-projective/projective-space-over-scheme.md)
 - [Morphisms from generated invertible sheaves](../../../schemes/projective-geometry/linear-systems-ampleness/morphism-from-generated-line-bundle.md)
+- [Coordinate nonvanishing opens](../../../schemes/projective-geometry/linear-systems-ampleness/coordinate-nonvanishing-open.md)
 
 ## Proof depends on
 
