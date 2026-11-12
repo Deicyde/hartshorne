@@ -420,6 +420,473 @@ theorem chartCoord_restrict (i : G.ι) {V V' : Y.Opens} (hi : V ≤ G.U i) (h : 
   rw [← AffineSpace.map_appTop_coord (Y.homOfLE h), ← CommRingCat.comp_apply,
     ← Scheme.Hom.comp_appTop, hL, Scheme.Hom.comp_appTop, CommRingCat.comp_apply]
 
+/-! ### The `𝒪_Y`-module of sections of a geometric vector bundle -/
+
+/-- The chart coordinates as sections of `𝒪_Y` over `V`. -/
+def coordY (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i) (s : (sectionsPresheaf f).obj (op V))
+    (k : ULift.{u} (Fin n)) : Γ(Y, V) :=
+  V.topIso.hom (G.chartCoord i hi s.1 s.2 k)
+
+lemma coordY_bijective (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i) :
+    Function.Bijective (G.coordY i hi) := by
+  have he : Function.Bijective (fun (x : ULift.{u} (Fin n) → Γ(V, ⊤)) k => V.topIso.hom (x k)) :=
+    ⟨fun x y h => funext fun k => (ConcreteCategory.bijective_of_isIso V.topIso.hom).1
+      (congrFun h k), fun y => ⟨fun k => V.topIso.inv (y k), funext fun k =>
+        Iso.inv_hom_id_apply _ _⟩⟩
+  exact he.comp (G.chartCoord_bijective i hi)
+
+lemma coordY_restrict (i : G.ι) {V V' : Y.Opens} (hi : V ≤ G.U i) (h : V' ≤ V)
+    (s : (sectionsPresheaf f).obj (op V)) (k : ULift.{u} (Fin n)) :
+    G.coordY i (h.trans hi) ((sectionsPresheaf f).map (homOfLE h).op s) k =
+      Y.presheaf.map (homOfLE h).op (G.coordY i hi s k) := by
+  rw [coordY, coordY]
+  change V'.topIso.hom (G.chartCoord i (h.trans hi) (Y.homOfLE h ≫ s.1) _ k) = _
+  rw [chartCoord_restrict, ← CommRingCat.comp_apply, Scheme.Modules.homOfLE_appTop_topIso_hom,
+    CommRingCat.comp_apply]
+
+lemma exists_coordY_transition (i j : G.ι) (V : Y.affineOpens) (hi : (V : Y.Opens) ≤ G.U i)
+    (hj : (V : Y.Opens) ≤ G.U j) :
+    ∃ a : Matrix (ULift.{u} (Fin n)) (ULift.{u} (Fin n)) Γ(Y, V),
+      ∀ (s : (sectionsPresheaf f).obj (op (V : Y.Opens))) (k : ULift.{u} (Fin n)),
+        G.coordY i hi s k = ∑ l, a k l * G.coordY j hj s l := by
+  obtain ⟨a, ha⟩ := G.exists_chartCoord_transition i j V hi hj
+  refine ⟨fun k l => (V : Y.Opens).topIso.hom (a k l), fun s k => ?_⟩
+  rw [coordY, ha, map_sum]
+  simp only [map_mul]
+  rfl
+
+/-- A choice of transition matrix for the chart coordinates on an affine `V ⊆ U_i ∩ U_j`. -/
+def transMatrix (i j : G.ι) (V : Y.affineOpens) (hi : (V : Y.Opens) ≤ G.U i)
+    (hj : (V : Y.Opens) ≤ G.U j) : Matrix (ULift.{u} (Fin n)) (ULift.{u} (Fin n)) Γ(Y, V) :=
+  (G.exists_coordY_transition i j V hi hj).choose
+
+lemma coordY_transMatrix (i j : G.ι) (V : Y.affineOpens) (hi : (V : Y.Opens) ≤ G.U i)
+    (hj : (V : Y.Opens) ≤ G.U j) (s : (sectionsPresheaf f).obj (op (V : Y.Opens)))
+    (k : ULift.{u} (Fin n)) :
+    G.coordY i hi s k = ∑ l, G.transMatrix i j V hi hj k l * G.coordY j hj s l :=
+  (G.exists_coordY_transition i j V hi hj).choose_spec s k
+
+/-- An affine open `V ⊆ W` contained in the domain `U_i` of a chart. -/
+structure ChartPiece (W : Y.Opens) where
+  /-- The chart. -/
+  i : G.ι
+  /-- The affine open. -/
+  V : Y.affineOpens
+  hi : (V : Y.Opens) ≤ G.U i
+  hW : (V : Y.Opens) ≤ W
+
+/-- The chart pieces of `W` cover `W`. -/
+lemma le_iSup_chartPiece (W : Y.Opens) : W ≤ ⨆ p : G.ChartPiece W, (p.V : Y.Opens) := by
+  intro y hy
+  obtain ⟨i, hi⟩ := Opens.mem_iSup.mp (G.iSup_eq_top.ge (Set.mem_univ y))
+  obtain ⟨_, ⟨V, hV, rfl⟩, hyV, hVW⟩ :=
+    Y.isBasis_affineOpens.exists_subset_of_mem_open (a := y) (u := (G.U i ⊓ W : Y.Opens))
+      ⟨hi, hy⟩ (G.U i ⊓ W).isOpen
+  exact Opens.mem_iSup.mpr ⟨⟨i, ⟨V, hV⟩, fun x hx => (hVW hx).1, fun x hx => (hVW hx).2⟩, hyV⟩
+
+/-- The transfer `Γ(V_p, 𝒪)ⁿ ⟶ Γ(V_q, 𝒪)ⁿ` from the coordinates in the chart of `p` to those in the
+chart of `q`, for chart pieces `V_q ⊆ V_p`: restrict, then change chart. -/
+def transfer {W : Y.Opens} (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V)
+    (x : ULift.{u} (Fin n) → Γ(Y, p.V)) (k : ULift.{u} (Fin n)) : Γ(Y, q.V) :=
+  ∑ l, G.transMatrix q.i p.i q.V q.hi (h.trans p.hi) k l * Y.presheaf.map (homOfLE h).op (x l)
+
+lemma coordY_restrict_transfer {W : Y.Opens} (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V)
+    (s : (sectionsPresheaf f).obj (op (p.V : Y.Opens))) :
+    G.coordY q.i q.hi ((sectionsPresheaf f).map (homOfLE h).op s) =
+      G.transfer p q h (G.coordY p.i p.hi s) := by
+  funext k
+  rw [coordY_transMatrix G q.i p.i q.V q.hi (h.trans p.hi), transfer]
+  refine Finset.sum_congr rfl fun l _ => ?_
+  rw [coordY_restrict]
+
+lemma transfer_add {W : Y.Opens} (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V)
+    (x y : ULift.{u} (Fin n) → Γ(Y, p.V)) :
+    G.transfer p q h (x + y) = G.transfer p q h x + G.transfer p q h y := by
+  funext k
+  simp only [transfer, Pi.add_apply, map_add, mul_add, Finset.sum_add_distrib]
+
+lemma transfer_smul {W : Y.Opens} (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V)
+    (r : Γ(Y, p.V)) (x : ULift.{u} (Fin n) → Γ(Y, p.V)) :
+    G.transfer p q h (r • x) = Y.presheaf.map (homOfLE h).op r • G.transfer p q h x := by
+  funext k
+  simp only [transfer, Pi.smul_apply, smul_eq_mul, map_mul, Finset.mul_sum]
+  refine Finset.sum_congr rfl fun l _ => ?_
+  ring
+
+/-- The coordinates `Φ(s)` of a section `s` over `W` in all its chart pieces. -/
+def coords {W : Y.Opens} (s : (sectionsPresheaf f).obj (op W)) (p : G.ChartPiece W) :
+    ULift.{u} (Fin n) → Γ(Y, p.V) :=
+  G.coordY p.i p.hi ((sectionsPresheaf f).map (homOfLE p.hW).op s)
+
+lemma coords_transfer {W : Y.Opens} (s : (sectionsPresheaf f).obj (op W)) (p q : G.ChartPiece W)
+    (h : (q.V : Y.Opens) ≤ p.V) : G.transfer p q h (G.coords s p) = G.coords s q := by
+  rw [coords, coords, ← coordY_restrict_transfer, ← ConcreteCategory.comp_apply,
+    ← Functor.map_comp]
+  rfl
+
+private abbrev sheafOfSections : TopCat.Sheaf (Type u) Y :=
+  ⟨sectionsPresheaf f, isSheaf_sectionsPresheaf f⟩
+
+lemma coords_injective (W : Y.Opens) : Function.Injective (G.coords (W := W)) := by
+  intro s t hst
+  refine (sheafOfSections (f := f)).eq_of_locally_eq' (fun p : G.ChartPiece W => (p.V : Y.Opens))
+    W (fun p => homOfLE p.hW) (G.le_iSup_chartPiece W) s t fun p => ?_
+  exact (G.coordY_bijective p.i p.hi).1 (congrFun hst p)
+
+/-- **Gluing coordinates**: a family of coordinates on the chart pieces of `W` that is compatible
+with the transfers comes from a section over `W`. -/
+lemma exists_coords_eq {W : Y.Opens} (x : ∀ p : G.ChartPiece W, ULift.{u} (Fin n) → Γ(Y, p.V))
+    (hx : ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V), G.transfer p q h (x p) = x q) :
+    ∃ s : (sectionsPresheaf f).obj (op W), G.coords s = x := by
+  choose u hu using fun p : G.ChartPiece W => (G.coordY_bijective p.i p.hi).2 (x p)
+  have hcomp : TopCat.Presheaf.IsCompatible (sectionsPresheaf f)
+      (fun p : G.ChartPiece W => (p.V : Y.Opens)) u := by
+    intro p p'
+    refine (sheafOfSections (f := f)).eq_of_locally_eq'
+      (fun q : G.ChartPiece ((p.V : Y.Opens) ⊓ p'.V) => (q.V : Y.Opens)) _
+      (fun q => homOfLE q.hW) (G.le_iSup_chartPiece _) _ _ fun q => ?_
+    let q' : G.ChartPiece W := ⟨p.i, q.V, q.hW.trans (inf_le_left.trans p.hi),
+      q.hW.trans (inf_le_left.trans p.hW)⟩
+    have h1 : (q.V : Y.Opens) ≤ p.V := q.hW.trans inf_le_left
+    have h2 : (q.V : Y.Opens) ≤ p'.V := q.hW.trans inf_le_right
+    apply (G.coordY_bijective q'.i q'.hi).1
+    change G.coordY q'.i q'.hi ((sectionsPresheaf f).map (homOfLE q.hW).op
+      ((sectionsPresheaf f).map (homOfLE inf_le_left).op (u p))) =
+      G.coordY q'.i q'.hi ((sectionsPresheaf f).map (homOfLE q.hW).op
+      ((sectionsPresheaf f).map (homOfLE inf_le_right).op (u p')))
+    rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, ← ConcreteCategory.comp_apply,
+      ← Functor.map_comp]
+    change G.coordY q'.i q'.hi ((sectionsPresheaf f).map (homOfLE h1).op (u p)) =
+      G.coordY q'.i q'.hi ((sectionsPresheaf f).map (homOfLE h2).op (u p'))
+    rw [G.coordY_restrict_transfer p q' h1, G.coordY_restrict_transfer p' q' h2, hu, hu, hx, hx]
+  obtain ⟨s, hs, -⟩ := (sheafOfSections (f := f)).existsUnique_gluing'
+    (fun p : G.ChartPiece W => (p.V : Y.Opens)) W (fun p => homOfLE p.hW)
+    (G.le_iSup_chartPiece W) u hcomp
+  refine ⟨s, funext fun p => ?_⟩
+  rw [coords]
+  change G.coordY p.i p.hi ((sectionsPresheaf f).map (homOfLE p.hW).op s) = x p
+  rw [show (sectionsPresheaf f).map (homOfLE p.hW).op s = u p from hs p, hu]
+
+/-- `transfer` as an additive map. -/
+def transferHom {W : Y.Opens} (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V) :
+    (ULift.{u} (Fin n) → Γ(Y, p.V)) →+ (ULift.{u} (Fin n) → Γ(Y, q.V)) :=
+  AddMonoidHom.mk' (G.transfer p q h) (G.transfer_add p q h)
+
+lemma transferHom_apply {W : Y.Opens} (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V)
+    (x : ULift.{u} (Fin n) → Γ(Y, p.V)) : G.transferHom p q h x = G.transfer p q h x := rfl
+
+/-- The restriction `Γ(Y, W) ⟶ Γ(Y, V_p)` to a chart piece. -/
+abbrev resPiece {W : Y.Opens} (p : G.ChartPiece W) (r : Γ(Y, W)) : Γ(Y, p.V) :=
+  Y.presheaf.map (homOfLE p.hW).op r
+
+lemma map_resPiece {W : Y.Opens} (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V)
+    (r : Γ(Y, W)) : Y.presheaf.map (homOfLE h).op (G.resPiece p r) = G.resPiece q r := by
+  rw [resPiece, resPiece, ← CommRingCat.comp_apply, ← Functor.map_comp]
+  rfl
+
+/-- A family of coordinates obtained linearly from coordinates of sections is compatible. -/
+private lemma compat_of {W : Y.Opens} (x : ∀ p : G.ChartPiece W, ULift.{u} (Fin n) → Γ(Y, p.V))
+    (hx : ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V), G.transferHom p q h (x p) = x q) :
+    ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V), G.transfer p q h (x p) = x q := hx
+
+variable {W : Y.Opens}
+
+private lemma compat_secAdd (s t : (sectionsPresheaf f).obj (op W)) :
+    ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V),
+      G.transfer p q h ((G.coords s + G.coords t) p) = (G.coords s + G.coords t) q := fun p q h => by
+    rw [Pi.add_apply, transfer_add, coords_transfer, coords_transfer]; rfl
+
+/-- The sum of two sections, in coordinates. -/
+def secAdd (s t : (sectionsPresheaf f).obj (op W)) : (sectionsPresheaf f).obj (op W) :=
+  (G.exists_coords_eq (G.coords s + G.coords t) (G.compat_secAdd s t)).choose
+
+lemma coords_secAdd (s t : (sectionsPresheaf f).obj (op W)) :
+    G.coords (G.secAdd s t) = G.coords s + G.coords t :=
+  (G.exists_coords_eq _ (G.compat_secAdd s t)).choose_spec
+
+private lemma compat_secZero (W : Y.Opens) :
+    ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V),
+      G.transfer p q h ((0 : ∀ p : G.ChartPiece W, ULift.{u} (Fin n) → Γ(Y, p.V)) p) = (0 : ∀ p : G.ChartPiece W, ULift.{u} (Fin n) → Γ(Y, p.V)) q := fun p q h => by
+    rw [← transferHom_apply]; exact map_zero _
+
+/-- The zero section, in coordinates. -/
+def secZero (W : Y.Opens) : (sectionsPresheaf f).obj (op W) :=
+  (G.exists_coords_eq (0 : ∀ p : G.ChartPiece W, ULift.{u} (Fin n) → Γ(Y, p.V))
+    (G.compat_secZero W)).choose
+
+lemma coords_secZero (W : Y.Opens) : G.coords (G.secZero W) = 0 :=
+  (G.exists_coords_eq _ (G.compat_secZero W)).choose_spec
+
+private lemma compat_secNeg (s : (sectionsPresheaf f).obj (op W)) :
+    ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V),
+      G.transfer p q h ((- G.coords s) p) = (- G.coords s) q := fun p q h => by
+    rw [Pi.neg_apply, ← transferHom_apply, map_neg, transferHom_apply, coords_transfer]
+    rfl
+
+/-- The negative of a section, in coordinates. -/
+def secNeg (s : (sectionsPresheaf f).obj (op W)) : (sectionsPresheaf f).obj (op W) :=
+  (G.exists_coords_eq (- G.coords s) (G.compat_secNeg s)).choose
+
+lemma coords_secNeg (s : (sectionsPresheaf f).obj (op W)) :
+    G.coords (G.secNeg s) = - G.coords s :=
+  (G.exists_coords_eq _ (G.compat_secNeg s)).choose_spec
+
+private lemma compat_secSub (s t : (sectionsPresheaf f).obj (op W)) :
+    ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V),
+      G.transfer p q h ((G.coords s - G.coords t) p) = (G.coords s - G.coords t) q := fun p q h => by
+    rw [Pi.sub_apply, ← transferHom_apply, map_sub, transferHom_apply, transferHom_apply,
+      coords_transfer, coords_transfer]
+    rfl
+
+/-- The difference of two sections, in coordinates. -/
+def secSub (s t : (sectionsPresheaf f).obj (op W)) : (sectionsPresheaf f).obj (op W) :=
+  (G.exists_coords_eq (G.coords s - G.coords t) (G.compat_secSub s t)).choose
+
+lemma coords_secSub (s t : (sectionsPresheaf f).obj (op W)) :
+    G.coords (G.secSub s t) = G.coords s - G.coords t :=
+  (G.exists_coords_eq _ (G.compat_secSub s t)).choose_spec
+
+private lemma compat_secZsmul (m : ℤ) (s : (sectionsPresheaf f).obj (op W)) :
+    ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V),
+      G.transfer p q h ((m • G.coords s) p) = (m • G.coords s) q := fun p q h => by
+    rw [Pi.smul_apply, ← transferHom_apply, map_zsmul, transferHom_apply, coords_transfer]
+    rfl
+
+/-- Integer multiples of a section, in coordinates. -/
+def secZsmul (m : ℤ) (s : (sectionsPresheaf f).obj (op W)) : (sectionsPresheaf f).obj (op W) :=
+  (G.exists_coords_eq (m • G.coords s) (G.compat_secZsmul m s)).choose
+
+lemma coords_secZsmul (m : ℤ) (s : (sectionsPresheaf f).obj (op W)) :
+    G.coords (G.secZsmul m s) = m • G.coords s :=
+  (G.exists_coords_eq _ (G.compat_secZsmul m s)).choose_spec
+
+private lemma compat_secNsmul (m : ℕ) (s : (sectionsPresheaf f).obj (op W)) :
+    ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V),
+      G.transfer p q h ((m • G.coords s) p) = (m • G.coords s) q := fun p q h => by
+    rw [Pi.smul_apply, ← transferHom_apply, map_nsmul, transferHom_apply, coords_transfer]
+    rfl
+
+/-- Natural multiples of a section, in coordinates. -/
+def secNsmul (m : ℕ) (s : (sectionsPresheaf f).obj (op W)) : (sectionsPresheaf f).obj (op W) :=
+  (G.exists_coords_eq (m • G.coords s) (G.compat_secNsmul m s)).choose
+
+lemma coords_secNsmul (m : ℕ) (s : (sectionsPresheaf f).obj (op W)) :
+    G.coords (G.secNsmul m s) = m • G.coords s :=
+  (G.exists_coords_eq _ (G.compat_secNsmul m s)).choose_spec
+
+private lemma compat_secSmul (r : Γ(Y, W)) (s : (sectionsPresheaf f).obj (op W)) :
+    ∀ (p q : G.ChartPiece W) (h : (q.V : Y.Opens) ≤ p.V),
+      G.transfer p q h ((fun p => G.resPiece p r • G.coords s p) p) = (fun p => G.resPiece p r • G.coords s p) q := fun p q h => by
+    rw [transfer_smul, coords_transfer, map_resPiece]
+
+/-- The product of a function `r ∈ 𝒪_Y(W)` with a section, in coordinates. -/
+def secSmul (r : Γ(Y, W)) (s : (sectionsPresheaf f).obj (op W)) :
+    (sectionsPresheaf f).obj (op W) :=
+  (G.exists_coords_eq (fun p => G.resPiece p r • G.coords s p) (G.compat_secSmul r s)).choose
+
+lemma coords_secSmul (r : Γ(Y, W)) (s : (sectionsPresheaf f).obj (op W)) :
+    G.coords (G.secSmul r s) = fun p => G.resPiece p r • G.coords s p :=
+  (G.exists_coords_eq _ (G.compat_secSmul r s)).choose_spec
+
+variable (W) in
+/-- **The additive group of sections** of a geometric vector bundle over `W`, transported from
+the chart coordinates. -/
+abbrev addCommGroupSections : AddCommGroup ((sectionsPresheaf f).obj (op W)) :=
+  letI : Zero ((sectionsPresheaf f).obj (op W)) := ⟨G.secZero W⟩
+  letI : Add ((sectionsPresheaf f).obj (op W)) := ⟨G.secAdd⟩
+  letI : Neg ((sectionsPresheaf f).obj (op W)) := ⟨G.secNeg⟩
+  letI : Sub ((sectionsPresheaf f).obj (op W)) := ⟨G.secSub⟩
+  letI : SMul ℕ ((sectionsPresheaf f).obj (op W)) := ⟨G.secNsmul⟩
+  letI : SMul ℤ ((sectionsPresheaf f).obj (op W)) := ⟨G.secZsmul⟩
+  Function.Injective.addCommGroup (G.coords (W := W)) (G.coords_injective W)
+    (G.coords_secZero W) G.coords_secAdd G.coords_secNeg G.coords_secSub
+    (fun s m => G.coords_secNsmul m s) (fun s m => G.coords_secZsmul m s)
+
+variable (W) in
+/-- **The `𝒪_Y(W)`-module of sections** of a geometric vector bundle over `W`: the module
+structure of the chart coordinates (Hartshorne II, Exercise 5.18). -/
+abbrev moduleSections :
+    letI := G.addCommGroupSections W
+    Module Γ(Y, W) ((sectionsPresheaf f).obj (op W)) :=
+  letI := G.addCommGroupSections W
+  { smul := G.secSmul
+    one_smul := fun s => G.coords_injective W (by
+      change G.coords (G.secSmul 1 s) = _
+      rw [coords_secSmul]; funext p; simp)
+    mul_smul := fun r r' s => G.coords_injective W (by
+      change G.coords (G.secSmul _ _) = G.coords (G.secSmul _ (G.secSmul _ _))
+      rw [coords_secSmul, coords_secSmul, coords_secSmul]; funext p; simp [mul_smul])
+    smul_zero := fun r => G.coords_injective W (by
+      change G.coords (G.secSmul _ (G.secZero W)) = G.coords (G.secZero W)
+      rw [coords_secSmul, coords_secZero]; funext p; simp)
+    smul_add := fun r s t => G.coords_injective W (by
+      change G.coords (G.secSmul _ (G.secAdd _ _)) =
+        G.coords (G.secAdd (G.secSmul _ _) (G.secSmul _ _))
+      rw [coords_secSmul, coords_secAdd, coords_secAdd, coords_secSmul, coords_secSmul]
+      funext p; simp [smul_add])
+    add_smul := fun r r' s => G.coords_injective W (by
+      change G.coords (G.secSmul _ _) = G.coords (G.secAdd (G.secSmul _ _) (G.secSmul _ _))
+      rw [coords_secSmul, coords_secAdd, coords_secSmul, coords_secSmul]
+      funext p; simp [add_smul])
+    zero_smul := fun s => G.coords_injective W (by
+      change G.coords (G.secSmul _ _) = G.coords (G.secZero W)
+      rw [coords_secSmul, coords_secZero]; funext p; simp) }
+
+/-- Coordinates of a restriction: the coordinates on the chart pieces of the smaller open. -/
+lemma coords_map {W W' : Y.Opens} (i : op W ⟶ op W') (s : (sectionsPresheaf f).obj (op W))
+    (q : G.ChartPiece W') :
+    G.coords ((sectionsPresheaf f).map i s) q =
+      G.coords s ⟨q.i, q.V, q.hi, q.hW.trans (leOfHom i.unop)⟩ := by
+  rw [coords, coords, ← ConcreteCategory.comp_apply, ← Functor.map_comp]
+  rfl
+
+/-- The restriction maps of sections, as additive maps. -/
+def resHom {W W' : Y.Opens} (i : op W ⟶ op W') :
+    letI := G.addCommGroupSections W
+    letI := G.addCommGroupSections W'
+    (sectionsPresheaf f).obj (op W) →+ (sectionsPresheaf f).obj (op W') :=
+  letI := G.addCommGroupSections W
+  letI := G.addCommGroupSections W'
+  { toFun := (sectionsPresheaf f).map i
+    map_zero' := G.coords_injective W' (by
+      change G.coords ((sectionsPresheaf f).map i (G.secZero W)) = G.coords (G.secZero W')
+      funext q
+      rw [coords_map, coords_secZero, coords_secZero]
+      rfl)
+    map_add' := fun s t => G.coords_injective W' (by
+      change G.coords ((sectionsPresheaf f).map i (G.secAdd s t)) =
+        G.coords (G.secAdd ((sectionsPresheaf f).map i s) ((sectionsPresheaf f).map i t))
+      funext q
+      rw [coords_map, coords_secAdd, coords_secAdd, Pi.add_apply, Pi.add_apply, coords_map,
+        coords_map]) }
+
+lemma resHom_smul {W W' : Y.Opens} (i : op W ⟶ op W') (r : Γ(Y, W))
+    (s : (sectionsPresheaf f).obj (op W)) :
+    (sectionsPresheaf f).map i (G.secSmul r s) =
+      G.secSmul (Y.presheaf.map i r) ((sectionsPresheaf f).map i s) := by
+  refine G.coords_injective W' (funext fun q => ?_)
+  rw [coords_map, coords_secSmul, coords_secSmul]
+  dsimp only
+  rw [coords_map, resPiece, resPiece, ← CommRingCat.comp_apply, ← Functor.map_comp]
+  rfl
+
+/-- The sections of a geometric vector bundle as a presheaf of abelian groups. -/
+def sectionsAb : (Opens Y)ᵒᵖ ⥤ Ab.{u} where
+  obj W := @AddCommGrpCat.of ((sectionsPresheaf f).obj W) (G.addCommGroupSections W.unop)
+  map {W W'} i := @AddCommGrpCat.ofHom _ _ (G.addCommGroupSections W.unop)
+    (G.addCommGroupSections W'.unop) (G.resHom i)
+  map_id W := AddCommGrpCat.ext fun s =>
+    ConcreteCategory.congr_hom ((sectionsPresheaf f).map_id W) s
+  map_comp i j := AddCommGrpCat.ext fun s =>
+    ConcreteCategory.congr_hom ((sectionsPresheaf f).map_comp i j) s
+
+/-- **The sheaf of sections of a geometric vector bundle as an `𝒪_Y`-module** (Hartshorne II,
+Exercise 5.18): sections of `f` with the module structure of the chart coordinates. -/
+def sectionsModule : Y.Modules where
+  val := @PresheafOfModules.ofPresheaf _ _ _ G.sectionsAb
+    (fun W => G.moduleSections W.unop) (by
+      intro W W' i r s
+      change (sectionsPresheaf f).map i (G.secSmul r s) =
+        G.secSmul (Y.presheaf.map i r) ((sectionsPresheaf f).map i s)
+      exact G.resHom_smul i r s)
+  isSheaf := by
+    have e : G.sectionsAb ⋙ CategoryTheory.forget Ab ≅ sectionsPresheaf f :=
+      NatIso.ofComponents (fun W => Iso.refl _) (fun _ => by ext; rfl)
+    rw [PresheafOfModules.ofPresheaf_presheaf, Presheaf.isSheaf_iff_isSheaf_comp _ _
+      (CategoryTheory.forget Ab), Presheaf.isSheaf_of_iso_iff e]
+    exact isSheaf_sectionsPresheaf f
+
+/-- Families of functions on an open `V` agreeing on all chart pieces of `V` are equal. -/
+private lemma coordY_eq_of_pieces {V : Y.Opens}
+    (x y : ULift.{u} (Fin n) → Γ(Y, V))
+    (h : ∀ q : G.ChartPiece V, (fun k => Y.presheaf.map (homOfLE q.hW).op (x k)) =
+      fun k => Y.presheaf.map (homOfLE q.hW).op (y k)) : x = y := by
+  funext k
+  exact Y.sheaf.eq_of_locally_eq' (fun q : G.ChartPiece V => (q.V : Y.Opens)) V
+    (fun q => homOfLE q.hW) (G.le_iSup_chartPiece V) _ _ fun q => congrFun (h q) k
+
+/-- The chart piece of `V` with chart `i` on the affine open of a chart piece `q`. -/
+private abbrev pieceIn (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i) (q : G.ChartPiece V) :
+    G.ChartPiece V :=
+  ⟨i, q.V, q.hW.trans hi, q.hW⟩
+
+private lemma res_coordY (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i)
+    (s : (sectionsPresheaf f).obj (op V)) (q : G.ChartPiece V) :
+    (fun k => Y.presheaf.map (homOfLE q.hW).op (G.coordY i hi s k)) =
+      G.coords s (G.pieceIn i hi q) := by
+  funext k
+  rw [← coordY_restrict]
+  rfl
+
+/-- **The chart coordinates are additive** for the module structure of the sections. -/
+lemma coordY_secAdd (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i)
+    (s t : (sectionsPresheaf f).obj (op V)) :
+    G.coordY i hi (G.secAdd s t) = G.coordY i hi s + G.coordY i hi t := by
+  refine G.coordY_eq_of_pieces _ _ fun q => ?_
+  rw [res_coordY, coords_secAdd]
+  funext k
+  simp only [Pi.add_apply, map_add]
+  rw [← res_coordY G i hi s q, ← res_coordY G i hi t q]
+
+/-- **The chart coordinates are `𝒪_Y(V)`-linear** for the module structure of the sections. -/
+lemma coordY_secSmul (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i) (r : Γ(Y, V))
+    (s : (sectionsPresheaf f).obj (op V)) :
+    G.coordY i hi (G.secSmul r s) = r • G.coordY i hi s := by
+  refine G.coordY_eq_of_pieces _ _ fun q => ?_
+  rw [res_coordY, coords_secSmul]
+  funext k
+  simp only [Pi.smul_apply, smul_eq_mul, map_mul]
+  rw [← res_coordY G i hi s q]
+
+/-- The frame of the sections over `U_i` given by the chart `ψ_i`: the sections with chart
+coordinates the standard basis vectors. -/
+def frameSection (i : G.ι) (k : ULift.{u} (Fin n)) : (sectionsPresheaf f).obj (op (G.U i)) :=
+  ((G.coordY_bijective i le_rfl).2 (Pi.single k 1)).choose
+
+lemma coordY_frameSection (i : G.ι) (k : ULift.{u} (Fin n)) :
+    G.coordY i le_rfl (G.frameSection i k) = Pi.single k 1 :=
+  ((G.coordY_bijective i le_rfl).2 (Pi.single k 1)).choose_spec
+
+/-- **The chart `ψ_i` gives a frame of the sheaf of sections over `U_i`.** -/
+theorem isLocalFrame_frameSection (i : G.ι) :
+    Hartshorne.Ringed.IsLocalFrame (R := Y.sheaf) G.sectionsModule (G.U i) (G.frameSection i) := by
+  intro V h
+  have key : ∀ a, G.coordY i h
+      (Hartshorne.Ringed.localFrameMap (R := Y.sheaf) G.sectionsModule (G.frameSection i) h a) =
+        a := fun a => by
+    rw [Hartshorne.Ringed.localFrameMap_apply]
+    let _ := G.addCommGroupSections V
+    let φ : (sectionsPresheaf f).obj (op V) →+ (ULift.{u} (Fin n) → Γ(Y, V)) :=
+      AddMonoidHom.mk' (G.coordY i h) (G.coordY_secAdd i h)
+    change φ (∑ k, G.secSmul (a k) ((sectionsPresheaf f).map (homOfLE h).op
+      (G.frameSection i k))) = a
+    rw [map_sum]
+    change ∑ k, G.coordY i h (G.secSmul (a k) ((sectionsPresheaf f).map (homOfLE h).op
+      (G.frameSection i k))) = a
+    simp_rw [coordY_secSmul]
+    have hres : ∀ k, G.coordY i h ((sectionsPresheaf f).map (homOfLE h).op
+        (G.frameSection i k)) = Pi.single k 1 := fun k => by
+      funext l
+      have := G.coordY_restrict i (le_refl (G.U i)) h (G.frameSection i k) l
+      rw [coordY_frameSection] at this
+      refine this.trans ?_
+      by_cases hkl : l = k
+      · subst hkl; rw [Pi.single_eq_same, Pi.single_eq_same, map_one]
+      · rw [Pi.single_eq_of_ne hkl, Pi.single_eq_of_ne hkl, map_zero]
+    simp_rw [hres]
+    funext l
+    simp [Finset.sum_apply, Pi.single_apply]
+  refine ⟨fun a b hab => (key a).symm.trans ((congrArg _ hab).trans (key b)), fun s => ?_⟩
+  exact ⟨G.coordY i h s, (G.coordY_bijective i h).1 (key _)⟩
+
+/-- **The sections of a geometric vector bundle of rank `n` form a locally free `𝒪_Y`-module of
+rank `n`** (Hartshorne II, Exercise 5.18): over each `U_i`, the chart `ψ_i` gives a frame. -/
+theorem sectionsModule_isLocallyFreeOfRank : G.sectionsModule.IsLocallyFreeOfRank n := by
+  rw [Scheme.Modules.isLocallyFreeOfRank_iff_ringed]
+  refine Hartshorne.Ringed.isLocallyFreeOfRank_of_isLocalFrame fun y => ?_
+  obtain ⟨i, hi⟩ := Opens.mem_iSup.mp (G.iSup_eq_top.ge (Set.mem_univ y))
+  exact ⟨G.U i, G.frameSection i, hi, G.isLocalFrame_frameSection i⟩
+
 end GeometricVectorBundle
 
 namespace Scheme.Modules
