@@ -280,4 +280,22 @@ def projectiveBundleFrameIsoTwist [IsNoetherian X] {V : X.Opens} (hV : IsAffineO
       (Scheme.Modules.pullback p).mapIso (((Scheme.Modules.pullbackComp c m).app _).symm ≪≫
         (Scheme.Modules.pullback c).mapIso im ≪≫ ic) ≪≫ ip) ≪≫ ir
 
+/-- **`P(E)` over an affine open on which `E` is free** (Hartshorne II.7, p. 162, for an affine
+open): if `E|_V ≅ 𝒪_V^{n+1}` on an affine open `V`, then `π⁻¹(V) ≅ ℙⁿ_V` over `V`, and the
+isomorphism pulls `𝒪_{ℙⁿ_V}(k)` back to `𝒪_{P(E)}(k)|_{π⁻¹(V)}` for every `k`. -/
+theorem nonempty_projectiveBundle_iso_of_restrict_iso_free [IsNoetherian X] {V : X.Opens}
+    (hV : IsAffineOpen V) {n : ℕ}
+    (α : E.restrict V.ι ≅ SheafOfModules.free (ULift.{u} (Fin (n + 1)))) :
+    ∃ ψ : (projectiveBundleProj hE hfin ⁻¹ᵁ V).toScheme ≅ projectiveSpaceOverScheme n V,
+      ψ.hom ≫ projectiveSpaceOverSchemeProjection n V = projectiveBundleProj hE hfin ∣_ V ∧
+        ∀ k : ℤ, Nonempty ((Scheme.Modules.pullback ψ.hom).obj
+          (projectiveSpaceTwistingSheaf n V k) ≅
+            (projectiveBundleTwistingSheaf hE hfin k).restrict
+              (projectiveBundleProj hE hfin ⁻¹ᵁ V).ι) := by
+  obtain ⟨β⟩ := (nonempty_restrict_iso_free_iff E V _).mp ⟨α⟩
+  have he := Ringed.isLocalFrame_of_over_iso (R := X.sheaf) β
+  exact ⟨projectiveBundleFrameIso hE hfin hV he,
+    projectiveBundleFrameIso_hom_projection hE hfin hV he,
+    fun k => ⟨projectiveBundleFrameIsoTwist hE hfin hV he k⟩⟩
+
 end AlgebraicGeometry.Scheme.Modules
