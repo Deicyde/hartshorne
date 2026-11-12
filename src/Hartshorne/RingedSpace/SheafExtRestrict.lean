@@ -52,6 +52,7 @@ variable {X : TopCat.{u}} (U : Opens X)
 abbrev incl : Opens ((Opens.toTopCat X).obj U) ⥤ Opens X :=
   U.overEquivalence.inverse ⋙ Over.forget U
 
+/-- The inclusion of the opens of `U` preserves covers. -/
 lemma incl_coverPreserving :
     CoverPreserving (Opens.grothendieckTopology ((Opens.toTopCat X).obj U))
       (Opens.grothendieckTopology X) (incl U) :=
@@ -60,14 +61,17 @@ lemma incl_coverPreserving :
     ((Opens.grothendieckTopology X).over U) U.overEquivalence.inverse)
     (GrothendieckTopology.over_forget_coverPreserving (Opens.grothendieckTopology X) U)
 
+/-- The inclusion of the opens of `U` is cocontinuous. -/
 instance : (incl U).IsCocontinuous (Opens.grothendieckTopology ((Opens.toTopCat X).obj U))
     (Opens.grothendieckTopology X) where
   cover_lift hS := U.overEquivalence.inverse.cover_lift (Opens.grothendieckTopology U)
     ((Opens.grothendieckTopology X).over U)
     ((Over.forget U).cover_lift ((Opens.grothendieckTopology X).over U) _ hS)
 
+/-- The inclusion of the opens of `U` is faithful. -/
 instance : (incl U).Faithful := ⟨fun _ => Subsingleton.elim _ _⟩
 
+/-- The inclusion of the opens of `U` is full. -/
 instance : (incl U).Full where
   map_surjective {V V'} f := ⟨homOfLE (fun x hx => by
     obtain ⟨y, hy, hyx⟩ := leOfHom f ⟨x, hx, rfl⟩
@@ -85,6 +89,7 @@ def back : Over ((incl U).obj W) ⥤ Over W where
       exact this ▸ hy))
   map f := Over.homMk (homOfLE (fun x hx => leOfHom f.left hx))
 
+/-- Every open of `X` contained in `W` is the image of an open of `U`. -/
 instance : (Over.post (X := W) (incl U)).EssSurj where
   mem_essImage B := ⟨(back W).obj B, ⟨Over.isoMk (eqToIso (by
     ext x
@@ -94,8 +99,10 @@ instance : (Over.post (X := W) (incl U)).EssSurj where
       exact ⟨⟨x, ((leOfHom B.hom).trans (leOfHom (U.overEquivalence.inverse.obj W).hom)) hx⟩,
         hx, rfl⟩))⟩⟩
 
+/-- The opens of `U` and of `X` contained in `W` correspond. -/
 instance : (Over.post (X := W) (incl U)).IsEquivalence where
 
+/-- The correspondence of opens contained in `W` identifies the two sites. -/
 instance : (Over.post (X := W) (incl U)).IsDenseSubsite
     ((Opens.grothendieckTopology ((Opens.toTopCat X).obj U)).over W)
     ((Opens.grothendieckTopology X).over ((incl U).obj W)) where
@@ -113,11 +120,13 @@ instance : (Over.post (X := W) (incl U)).IsDenseSubsite
 noncomputable abbrev overEquiv : Over W ≌ Over ((incl U).obj W) :=
   (Over.post (X := W) (incl U)).asEquivalence
 
+/-- The forward functor of `overEquiv` is continuous. -/
 instance : (overEquiv W).functor.IsContinuous
     ((Opens.grothendieckTopology ((Opens.toTopCat X).obj U)).over W)
     ((Opens.grothendieckTopology X).over ((incl U).obj W)) :=
   inferInstanceAs ((Over.post (X := W) (incl U)).IsContinuous _ _)
 
+/-- The inverse functor of `overEquiv` is continuous. -/
 instance : (overEquiv W).inverse.IsContinuous
     ((Opens.grothendieckTopology X).over ((incl U).obj W))
     ((Opens.grothendieckTopology ((Opens.toTopCat X).obj U)).over W) := by
@@ -271,17 +280,20 @@ noncomputable def moduleRestrictAdjunction :
       openPushforward (R := R) U :=
   (restrictionAdjunction U).comp (U.sheafOfModulesEquivOver (ringCatSheafOf R)).toAdjunction
 
+/-- Restriction to an open subset preserves finite limits (it is a right adjoint). -/
 instance : PreservesFiniteLimits (moduleRestrict (R := R) U) := by
   have : PreservesLimitsOfSize.{u, u} (moduleRestrict (R := R) U) :=
     (SheafOfModules.PullbackConstruction.adjunction.{u}
       (restrictedRingHom U (ringCatSheafOf R))).rightAdjoint_preservesLimits
   exact PreservesLimitsOfSize.preservesFiniteLimits _
 
+/-- Restriction to an open subset preserves finite colimits (it is a left adjoint). -/
 instance : PreservesFiniteColimits (moduleRestrict (R := R) U) := by
   have : PreservesColimitsOfSize.{u, u} (moduleRestrict (R := R) U) :=
     (moduleRestrictAdjunction (R := R) U).leftAdjoint_preservesColimits
   exact PreservesColimitsOfSize.preservesFiniteColimits _
 
+/-- Restriction to an open subset is additive. -/
 instance : (moduleRestrict (R := R) U).Additive :=
   Functor.additive_of_preserves_binary_products _
 

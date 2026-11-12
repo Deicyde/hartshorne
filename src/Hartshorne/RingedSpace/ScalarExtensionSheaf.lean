@@ -75,11 +75,14 @@ noncomputable def semilinear :
         ((congrArg₂ (· + ·) ht ht').trans ((smul_add _ _ _).symm.trans
           (congrArg _ (map_add _ t t').symm))))
 
+/-- `semilinear` on elementary tensors. -/
 lemma semilinear_tmul (s : S) (m : N) :
     semilinear φ ψ ρ h N (s ⊗ₜ[A, φ] m) = ρ s ⊗ₜ[A, ψ] m := rfl
 
 end Linear
 
+/-- The extension-of-scalars adjunction on elementary tensors: the adjoint of `k` sends
+`s ⊗ m` to `s • k m`. -/
 lemma homEquiv_symm_tmul {A S : Type u} [CommRing A] [CommRing S]
     (φ : A →+* S) {M : ModuleCat.{u} A} {N : ModuleCat.{u} S}
     (k : M ⟶ (ModuleCat.restrictScalars φ).obj N) (s : S) (m : M) :
@@ -102,6 +105,7 @@ variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.
 noncomputable def baseMap (V : Opens X) : A →+* R.obj.obj (op V) :=
   (R.obj.map (homOfLE le_top : V ⟶ ⊤).op).hom.comp φ
 
+/-- The structure maps `A → 𝒪_X(V)` are compatible with restriction. -/
 lemma baseMap_comp {U V : Opens X} (i : op U ⟶ op V) :
     (R.obj.map i).hom.comp (baseMap φ U) = baseMap φ V := by
   ext a
@@ -132,6 +136,7 @@ noncomputable def presheaf : PresheafOfModules.{u} (ringCatSheafOf R).obj :=
         rw [R.obj.map_comp]; rfl
       | add t t' ht ht' => simp only [map_add, ht, ht'])
 
+/-- Restriction in `𝒪_X(-) ⊗_A N` on elementary tensors. -/
 lemma presheaf_map_tmul {U V : (Opens X)ᵒᵖ} (i : U ⟶ V) (a : R.obj.obj U) (m : N) :
     (presheaf φ N).map i (a ⊗ₜ[A, baseMap φ U.unop] m) =
       (R.obj.map i a) ⊗ₜ[A, baseMap φ V.unop] m :=
@@ -150,6 +155,7 @@ noncomputable def presheafMap {N' : ModuleCat.{u} A} (g : N ⟶ N') :
     | add t t' ht ht' =>
       exact (map_add _ _ _).trans ((congrArg₂ (· + ·) ht ht').trans (map_add _ _ _).symm)
 
+/-- `presheafMap` on elementary tensors. -/
 lemma presheafMap_app_tmul {N' : ModuleCat.{u} A} (g : N ⟶ N') (U : (Opens X)ᵒᵖ) (a : R.obj.obj U)
     (m : N) :
     (presheafMap φ g).app U (a ⊗ₜ[A, baseMap φ U.unop] m) = a ⊗ₜ[A, baseMap φ U.unop] g m :=
@@ -210,6 +216,8 @@ noncomputable def basisMap (V : Opens X) (a : ι → R.obj.obj (op V)) : (preshe
   ∑ i, a i ⊗ₜ[A, baseMap φ V] b i
 
 omit [Fintype ι] in
+/-- For a basis `b` of `N` indexed by a finite type, `(a_i) ↦ ∑ a_i ⊗ b_i` is a bijection
+`M^ι → M ⊗_A N`. -/
 lemma sum_tmul_bijective [Finite ι] {M : Type u} [AddCommGroup M] [Module A M] :
     Function.Bijective (fun a : ι → M => ∑ᶠ i, a i ⊗ₜ[A] b i) := by
   classical
@@ -227,12 +235,14 @@ lemma sum_tmul_bijective [Finite ι] {M : Type u} [AddCommGroup M] [Module A M] 
   exact (TensorProduct.equivFinsuppOfBasisRight (M := M) b).symm.bijective.comp
     (Finsupp.equivFunOnFinite (α := ι) (M := M)).symm.bijective
 
+/-- For a basis `b` of `N`, `(a_i) ↦ ∑ a_i ⊗ b_i` is bijective. -/
 lemma basisMap_bijective (V : Opens X) : Function.Bijective (basisMap φ N b V) := by
   have h := sum_tmul_bijective N b (M := (ModuleCat.restrictScalars (baseMap φ V)).obj
     (ModuleCat.of (R.obj.obj (op V)) (R.obj.obj (op V))))
   simp only [finsum_eq_sum_of_fintype] at h
   exact h
 
+/-- `basisMap` commutes with restriction. -/
 lemma presheaf_map_basisMap {U V : Opens X} (i : U ⟶ V) (a : ι → R.obj.obj (op V)) :
     (presheaf φ N).map i.op (basisMap φ N b V a) =
       basisMap φ N b U (fun j => R.obj.map i.op (a j)) := by
@@ -240,6 +250,7 @@ lemma presheaf_map_basisMap {U V : Opens X} (i : U ⟶ V) (a : ι → R.obj.obj 
   rfl
 
 include b in
+/-- `𝒪_X(-) ⊗_A N` is a sheaf when `N` has a finite basis. -/
 lemma isSheaf_of_basis : TopCat.Presheaf.IsSheaf (presheaf φ N).presheaf :=
   isSheaf_of_pi_bijection (basisMap φ N b) (basisMap_bijective φ N b)
     (fun i a => presheaf_map_basisMap φ N b i a)
@@ -259,6 +270,7 @@ noncomputable def sheafMap [Module.Free A N] [Module.Finite A N] {N' : ModuleCat
   ⟨presheafMap φ g⟩
 
 variable {N} in
+/-- `sheafMap` is functorial. -/
 lemma sheafMap_comp [Module.Free A N] [Module.Finite A N] {N' N'' : ModuleCat.{u} A}
     [Module.Free A N'] [Module.Finite A N'] [Module.Free A N''] [Module.Finite A N'']
     (g : N ⟶ N') (g' : N' ⟶ N'') :
@@ -266,6 +278,7 @@ lemma sheafMap_comp [Module.Free A N] [Module.Finite A N] {N' N'' : ModuleCat.{u
   SheafOfModules.hom_ext ((functor φ).map_comp g g')
 
 variable {N} in
+/-- `sheafMap` of the zero map is zero. -/
 lemma sheafMap_zero [Module.Free A N] [Module.Finite A N] {N' : ModuleCat.{u} A}
     [Module.Free A N'] [Module.Finite A N'] : sheafMap φ (0 : N ⟶ N') = 0 := by
   apply SheafOfModules.hom_ext
@@ -322,6 +335,7 @@ noncomputable def resLinear (G : PresheafOfModules.{u} (ringCatSheafOf R).obj) {
         congr 1
         exact congrArg (fun k => k a) (baseMap_comp φ (homOfLE h).op) }
 
+/-- `resLinear` is restriction. -/
 lemma resLinear_apply (G : PresheafOfModules.{u} (ringCatSheafOf R).obj) {V W : Opens X}
     (h : V ≤ W) (x : (ModuleCat.restrictScalars (baseMap φ W)).obj (G.obj (op W))) :
     resLinear φ G h x = G.map (homOfLE h).op x := rfl
@@ -348,6 +362,7 @@ noncomputable def homOfLinear (G : PresheafOfModules.{u} (ringCatSheafOf R).obj)
       rfl
     | add t t' ht ht' => simp only [map_add, ht, ht']
 
+/-- `homOfLinear` on elementary tensors. -/
 lemma homOfLinear_app_tmul (G : PresheafOfModules.{u} (ringCatSheafOf R).obj)
     (g : N ⟶ (ModuleCat.restrictScalars (baseMap φ ⊤)).obj (G.obj (op ⊤))) (V : (Opens X)ᵒᵖ)
     (a : R.obj.obj V) (m : N) :
@@ -356,6 +371,7 @@ lemma homOfLinear_app_tmul (G : PresheafOfModules.{u} (ringCatSheafOf R).obj)
         (show G.obj (op ⊤) from g m)) :=
   homEquiv_symm_tmul _ _ _ _
 
+/-- Precomposing `homOfLinear` with `𝒪_X(-) ⊗_A g` corresponds to precomposing with `g`. -/
 lemma presheafMap_comp_homOfLinear {N' : ModuleCat.{u} A}
     (G : PresheafOfModules.{u} (ringCatSheafOf R).obj) (g : N' ⟶ N)
     (c : N ⟶ (ModuleCat.restrictScalars (baseMap φ ⊤)).obj (G.obj (op ⊤))) :
@@ -369,6 +385,7 @@ lemma presheafMap_comp_homOfLinear {N' : ModuleCat.{u} A}
   | add t t' ht ht' =>
     exact (map_add _ _ _).trans ((congrArg₂ (· + ·) ht ht').trans (map_add _ _ _).symm)
 
+/-- `homOfLinear` of the zero map is zero. -/
 lemma homOfLinear_zero (G : PresheafOfModules.{u} (ringCatSheafOf R).obj) :
     homOfLinear φ G (0 : N ⟶ (ModuleCat.restrictScalars (baseMap φ ⊤)).obj (G.obj (op ⊤))) =
       0 := by
@@ -451,6 +468,7 @@ noncomputable def overHomEquiv (W : Opens X) :
     rw [show (homOfLE (le_refl W)).op = 𝟙 (op W) from rfl, PresheafOfModules.map_id]
     rfl
 
+/-- `overHomEquiv` evaluates at `1 ⊗ n`. -/
 lemma overHomEquiv_apply (W : Opens X) (σ : (sheaf φ N).over W ⟶ G.over W) (m : N) :
     overHomEquiv φ G W σ m =
       σ.val.app (op (Over.mk (𝟙 W))) ((1 : R.obj.obj (op W)) ⊗ₜ[A, baseMap φ W] m) :=
