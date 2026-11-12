@@ -25,7 +25,7 @@ $\mathcal{O}_{\widehat{X}} / J^{n+1} \cong \widetilde{A/I^{n+1}}$.
 - [Exactness of the tilde functor](../../modules-and-quasicoherent/affine-tilde/tilde-exactness.md)
 - [Quotients of an adic completion](../adic-completion/adic-completion-quotients.md)
 - [Completed ideals and their powers](../adic-completion/completed-ideal-powers.md)
-- [The affine section comparison on a basis of affine opens](formal-completion-affine-sections.md)
+- [Affine sections of a formal completion](formal-completion-affine-sections.md)
 
 ## Sources
 
