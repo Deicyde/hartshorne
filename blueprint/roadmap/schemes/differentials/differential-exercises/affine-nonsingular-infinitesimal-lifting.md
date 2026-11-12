@@ -10,9 +10,12 @@ proof: formalized
 # Infinitesimal lifting for a nonsingular affine scheme
 
 Let $k$ be algebraically closed and let $A$ be a finitely generated
-$k$-algebra such that $\operatorname{Spec} A$ is nonsingular. For every surjection of
-$k$-algebras $B' \to B$ with square-zero kernel and every $k$-algebra map
+$k$-algebra such that $\operatorname{Spec} A$ is a nonsingular variety over $k$. For every
+surjection of $k$-algebras $B' \to B$ with square-zero kernel and every $k$-algebra map
 $A \to B$, there is a lift $A \to B'$.
+
+The proof uses only that every local ring of $\operatorname{Spec} A$ is regular; the variety
+hypothesis is kept because it is Hartshorne's setting.
 
 ## Depends on
 
