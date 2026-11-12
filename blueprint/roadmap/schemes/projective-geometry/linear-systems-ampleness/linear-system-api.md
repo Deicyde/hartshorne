@@ -27,9 +27,11 @@ is assigned when $Y$ lies in the support of $D$.
 - [Finite-dimensional projective global sections](../../projective-sheaves/projective-global-sections-finite.md)
 - [Ambient hypersurfaces cut divisors](../../divisors/divisor-exercises/projective-intersection-divisor.md)
 - [Morphisms from generated invertible sheaves](morphism-from-generated-line-bundle.md)
+- [The zero scheme of a section of a locally free sheaf](../../../intersection-theory/chern-classes/section-zero-scheme.md)
 
 ## Proof depends on
 
+- [Rees algebras and blowups](../blowups/rees-algebra-sheaf-and-blowup.md)
 - Pullback of the associated invertible sheaf and restriction of sections
   along the closed immersion defining a trace.
 
