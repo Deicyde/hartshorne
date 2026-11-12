@@ -9,6 +9,8 @@ import Hartshorne.Intersection.ProjectivePointDegree
 import Hartshorne.Projective.LinearSeparation
 import Hartshorne.Scheme.InvertibleSectionDivisor
 import Hartshorne.Scheme.VeryAmpleTensorProduct
+import Hartshorne.Intersection.ProjectiveLinearSubspaceCycle
+import Hartshorne.Scheme.RegularLocalFactorial
 
 /-!
 # The degree of an embedded curve and hyperplane sections
@@ -328,6 +330,107 @@ theorem cartierToWeil_eq_projectiveIntersectionDivisor_hyperplane
       X.presheaf.germ_res_apply, X.presheaf.germ_res_apply]
   exact (ord_algebraMap_stalk_eq_of_associated'' hassoc.symm hr0).symm
 
+/-- The pulled-back coordinate section `ι^* xᵢ` is nonzero when `xᵢ` does not vanish at the
+image of the generic point: it generates `ι^* 𝒪(1)` on the nonempty open set `ι⁻¹ D₊(xᵢ)`. -/
+private theorem pullback_degreeOneSection_ne_zero [IsIntegral X] (ι : X ⟶ Proj 𝒜)
+    (i : Fin (n + 1))
+    (hi : (MvPolynomial.X i : S) ∉ (ι.base (genericPoint X)).asHomogeneousIdeal) :
+    Ringed.etaSec (φ := ι.toRingCatSheafHom) (E := projTwistingSheaf 𝒜 1) (W := ⊤)
+      (ProjTwistingSheaf.degreeOneSection
+        ⟨MvPolynomial.X i, X_mem_homogeneousSubmodule_one (R := k) i⟩) ≠ 0 := by
+  intro h0
+  have hF := Ringed.IsLocalFrame.pullback (φ := ι.toRingCatSheafHom)
+    (ProjTwistingSheaf.isLocalFrame_degreeOneSection (X_mem_homogeneousSubmodule_one (R := k) i))
+  have h1 : Ringed.etaSec (φ := ι.toRingCatSheafHom) (E := projTwistingSheaf 𝒜 1)
+      (W := ProjectiveSpectrum.basicOpen 𝒜 (MvPolynomial.X i))
+      ((projTwistingSheaf 𝒜 1).val.presheaf.map
+        (homOfLE (le_top : ProjectiveSpectrum.basicOpen 𝒜 (MvPolynomial.X i) ≤ ⊤)).op
+        (ProjTwistingSheaf.degreeOneSection
+          ⟨MvPolynomial.X i, X_mem_homogeneousSubmodule_one (R := k) i⟩)) = 0 := by
+    erw [Ringed.etaSec_restrict, h0, map_zero]
+  have hV : Nonempty ((Opens.map ι.base).obj
+      (ProjectiveSpectrum.basicOpen 𝒜 (MvPolynomial.X i))) := ⟨⟨genericPoint X, hi⟩⟩
+  have hsz : ∀ (M : PresheafOfModules.{u} (ringCatSheafOf X.sheaf).obj) (W : X.Opensᵒᵖ)
+      (a : (ringCatSheafOf X.sheaf).obj.obj W), a • (0 : M.presheaf.obj W) = 0 :=
+    fun _ _ a ↦ smul_zero a
+  have h2 := (hF _ le_rfl).1 (a₁ := fun _ ↦ 1) (a₂ := 0) (by
+    erw [Ringed.localFrameMap_apply, Ringed.localFrameMap_apply, Fintype.sum_unique,
+      Fintype.sum_unique, h1]
+    rw [map_zero]
+    exact (hsz _ _ _).trans (hsz _ _ _).symm)
+  exact one_ne_zero (α := Γ(X, (Opens.map ι.base).obj
+    (ProjectiveSpectrum.basicOpen 𝒜 (MvPolynomial.X i)))) (congrFun h2 PUnit.unit)
+
 end DivisorOfZeros
+
+section Assembly
+
+open Opposite Scheme.CartierDivisor
+
+variable {X : Scheme.{u}} [X.Over (Spec (.of k))] [IsIntegral X]
+
+/-- A nonsingular curve over `k` is separated. -/
+theorem isSeparated_of_isNonsingularCurve (hX : X.IsNonsingularCurve k) : X.IsSeparated := by
+  have := hX.isSeparated
+  refine ⟨?_⟩
+  rw [show Limits.terminal.from X = (X ↘ Spec (.of k)) ≫ Limits.terminal.from _ from
+    Limits.terminal.hom_ext _ _]
+  infer_instance
+
+/-- A nonsingular curve admits no closed immersion into `ℙ⁰_k`: the image of the generic point
+specializes strictly to the image of a closed point, while the homogeneous primes of `ℙ⁰_k` form a
+poset of dimension zero. -/
+theorem pos_of_isClosedImmersion_of_isNonsingularCurve (hX : X.IsNonsingularCurve k)
+    (ι : X ⟶ Proj 𝒜) [IsClosedImmersion ι] : 0 < n := by
+  obtain ⟨x, hx⟩ := hX.exists_ne_genericPoint
+  have hsp : ι.base (genericPoint X) ⤳ ι.base x :=
+    ((genericPoint_spec X).specializes trivial).map ι.continuous
+  rw [projectiveSpace_specializes_iff_le] at hsp
+  have hne : ι.base (genericPoint X) ≠ ι.base x := fun h ↦
+    hx (ι.isClosedEmbedding.injective h).symm
+  have hlt : @LT.lt (ProjectiveSpectrum 𝒜) _ (ι.base (genericPoint X)) (ι.base x) :=
+    lt_of_le_of_ne (α := ProjectiveSpectrum 𝒜) hsp hne
+  have h := (Order.krullDim_pos_iff (α := ProjectiveSpectrum 𝒜)).mpr ⟨_, _, hlt⟩
+  rw [krullDim_projectiveSpectrum] at h
+  exact_mod_cast h
+
+/-- **Embedded degree is the degree of a divisor linearly equivalent to `D`** (Hartshorne IV,
+Example 3.3.2, up to the invariance of degree under linear equivalence). Let `k` be algebraically
+closed, `X` a nonsingular curve over `k`, `D` a divisor on `X`, and `ι : X ⟶ ℙⁿ_k` a closed
+immersion with `ι^* 𝒪(1) ≅ 𝒪_X(D)`. Then there is an effective divisor `E` linearly equivalent
+to `D` with `deg ι(X) = deg E`: for a coordinate hyperplane `H` not containing `X`, the hyperplane
+section `E = H · X` is the divisor of zeros of the pulled-back section `ι^* xᵢ` of
+`ι^* 𝒪(1) ≅ 𝒪_X(D)`, so is effective and linearly equivalent to `D` (II, Proposition 7.7), and its
+degree is `deg ι(X)` by Bézout with `deg H = 1`. -/
+theorem exists_linearEquivalent_projectiveSpectrumPointDegree_eq_divisorDegree [IsAlgClosed k]
+    (hX : X.IsNonsingularCurve k) (ι : X ⟶ Proj 𝒜) [IsClosedImmersion ι] (D : X.WeilDivisor) :
+    let _ : IsNoetherian X := hX.satisfiesConditionStar.isNoetherian
+    let _ : X.IsSeparated := isSeparated_of_isNonsingularCurve hX
+    let hlf : X.IsLocallyFactorial :=
+      X.isLocallyFactorial_of_isRegularLocalRing hX.isRegularLocalRing_stalk
+    Nonempty ((Scheme.Modules.pullback ι).obj (projTwistingSheaf 𝒜 1) ≅
+      (Scheme.weilCartierEquiv hlf D).sheaf) →
+    ∃ E : X.WeilDivisor, Scheme.WeilDivisor.IsEffective E ∧
+      Scheme.WeilDivisor.LinearEquivalent (Scheme.satisfiesConditionStar_of_isLocallyFactorial hlf)
+        E D ∧
+      projectiveSpectrumPointDegree (ι.base (genericPoint X)) = hX.divisorDegree E := by
+  intro _ _ hlf ⟨e⟩
+  have hn := pos_of_isClosedImmersion_of_isNonsingularCurve hX ι
+  obtain ⟨i, hi⟩ := exists_X_notMem_projectiveSpace (ι.base (genericPoint X))
+  obtain ⟨E, hE, hEeff, hElin⟩ :=
+    (Scheme.weil_isDivisorOfZeros hlf e).1 _ (pullback_degreeOneSection_ne_zero ι i hi)
+  refine ⟨E, hEeff, hElin, ?_⟩
+  have hXV : ¬Set.range ι ⊆ closure ({(projectiveHypersurfacePrimeDivisor hn (isHomogeneous_X k i)
+      (MvPolynomial.X_prime (R := k) (i := i)).irreducible).1} : Set (Proj 𝒜)) := fun h ↦ hi <|
+    (mem_closure_projectiveHypersurfacePrimeDivisor_iff hn _ _ _).mp (h ⟨genericPoint X, rfl⟩)
+  have h1 := cartierToWeil_eq_projectiveIntersectionDivisor_hyperplane
+    hX.satisfiesConditionStar ι hn i hXV e hE
+  have hEE : Scheme.cartierToWeil (Scheme.weilCartierEquiv hlf E) = E := by
+    rw [← Scheme.weilCartierEquiv_symm_apply hlf, AddEquiv.symm_apply_apply]
+  rw [projectiveSpectrumPointDegree_eq_divisorDegree_hyperplane hX ι hn i hi]
+  simp only at h1
+  rw [← h1, hEE]
+
+end Assembly
 
 end Hartshorne
