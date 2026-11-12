@@ -227,7 +227,6 @@ theorem fibreOrdFormula_specMap_integralClosure (Q : Spec D) (hQ : coheight Q = 
   · exact (map_ne_zero_iff _ (IsFractionRing.injective (closureRing D) _)).mpr
       fun h ↦ hb0 (closureHom_injective D (h.trans (map_zero _).symm))
 
-
 omit [IsNoetherianRing D] [Module.Finite D (integralClosure D (FractionRing D))] in
 private theorem birational_closureHom (a : integralClosure D (FractionRing D)) :
     ∃ d₁ d₂ : D, d₂ ≠ 0 ∧ algebraMap D (integralClosure D (FractionRing D)) d₂ * a =

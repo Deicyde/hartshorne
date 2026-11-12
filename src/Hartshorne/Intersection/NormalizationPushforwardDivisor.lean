@@ -59,7 +59,7 @@ theorem coheight_apply_eq_of_isFinite {k : Type u} [Field k] {W Y : Scheme.{u}} 
   exact WithTop.add_left_cancel hne (e2.trans e1.symm)
 
 /-- Closed immersions have residue degree one. -/
-private theorem residueDegree_eq_one_of_isClosedImmersion' {X Y : Scheme.{u}} (e : Y ⟶ X)
+private theorem residueDegree_eq_one_of_isClosedImmersion {X Y : Scheme.{u}} (e : Y ⟶ X)
     [IsClosedImmersion e] (y : Y) : e.residueDegree y = 1 := by
   have h := rawCyclePushforwardCoeff_eq_one_of_isClosedImmersion e y
   rw [rawCyclePushforwardCoeff_eq_ite] at h
@@ -109,7 +109,7 @@ theorem subvarietyNormalizationPushforward_principalDivisor_apply [IsLocallyNoet
     have hh := FlatEquidimensional.height_eq_height_of_forall (ν ≫ p) p hp' hp ν w hmin
     rw [rawCyclePushforwardCoeff_eq_ite, if_neg (by rw [← hh]; exact lt_irrefl _)]
     change (((ν' ≫ i).residueDegree w : ℕ) : ℤ) = _
-    rw [residueDegree_comp, residueDegree_eq_one_of_isClosedImmersion', one_mul]
+    rw [residueDegree_comp, residueDegree_eq_one_of_isClosedImmersion, one_mul]
   -- the coefficient is a sum over the fibre of `ν` over `x`
   have hL : (subvarietyNormalizationPushforward p hp hn i hV
       (weilDivisorToCodimOneCycles hS ((absoluteNormalization V).principalDivisor hS
