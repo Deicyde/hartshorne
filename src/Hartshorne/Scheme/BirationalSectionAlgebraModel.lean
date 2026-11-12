@@ -357,6 +357,20 @@ theorem exists_iso_proj_sectionAlgebraPiece_eq_veronese (k : Type u) [Field k] [
       (fun j => mk_mem_gradedQuotient (MvPolynomial.isHomogeneous_X R j))
       (adjoin_coord_eq_top I) hirr⟩
 
+/-- For `X` locally of finite type over a field `k` and an affine open `U ⊆ X`, `Γ(X, U)` is a
+finitely generated `k`-algebra (through `pX`). -/
+theorem exists_algebra_finiteType_of_locallyOfFiniteType (k : Type u) [Field k] {X : Scheme.{u}}
+    (pX : X ⟶ Spec (.of k)) [LocallyOfFiniteType pX] {U : X.Opens} (hU : IsAffineOpen U) :
+    ∃ _ : Algebra k Γ(X, U), Algebra.FiniteType k Γ(X, U) := by
+  let φU : k →+* Γ(X, U) := (pX.appLE ⊤ U le_top).hom.comp (Scheme.ΓSpecIso (.of k)).inv.hom
+  have hinv : Function.Surjective (Scheme.ΓSpecIso (.of k)).inv := by
+    intro z
+    exact ⟨(Scheme.ΓSpecIso (.of k)).hom z, by simp⟩
+  have hφU : φU.FiniteType :=
+    (pX.finiteType_appLE (isAffineOpen_top _) hU le_top).comp
+      (RingHom.FiniteType.of_surjective _ hinv)
+  exact ⟨φU.toAlgebra, hφU⟩
+
 /-- **Step 2 of the proof of Theorem 7.17 over an affine open of the base** (Hartshorne II,
 pp. 166–167). Let `i : Z ⟶ ℙʳ_X` be a closed immersion of an integral scheme, `f = π ∘ i`, and
 `L = i^* 𝒪(1)`. Let `U ⊆ X` be an affine open with `Γ(X, U)` a finitely generated algebra over a
