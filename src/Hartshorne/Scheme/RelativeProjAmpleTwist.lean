@@ -58,7 +58,8 @@ theorem projective_projection_and_isVeryAmpleRelative_of_isAmple {L : X.Modules}
           (isInvertible_pullback_projectiveSpaceTwistingSheaf φ)) e),
       N, D.relativeProj, 𝟙 _, φ, inferInstance, hcl, by rw [Category.id_comp, hφ],
       ⟨(Scheme.Modules.pullbackCongr (Category.id_comp φ)).app _ ≪≫ e⟩⟩
-  have hr : ((Scheme.Modules.pullback D.projection).obj (moduleSheafTensorPower r L)).IsInvertible :=
+  have hr : Scheme.Modules.IsInvertible
+      ((Scheme.Modules.pullback D.projection).obj (moduleSheafTensorPower r L)) :=
     Scheme.Modules.IsInvertible.pullback _ (isInvertible_moduleSheafTensorPower hL.1 r)
   have h := isVeryAmpleRelative_moduleSheafTensor_of_hom hm hr (D.projection ≫ gr)
     (by rw [Category.assoc, hgr, Category.comp_id])

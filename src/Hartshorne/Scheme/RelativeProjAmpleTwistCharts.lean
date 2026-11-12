@@ -22,9 +22,11 @@ Auxiliary results for Hartshorne II, Proposition 7.10(b).
 * `isImmersion_of_forall_isClosedImmersion_morphismRestrict`: a morphism which is a closed
   immersion over each member of a family of opens whose preimages cover the source is an
   immersion.
-* `HomogeneousLocalization.Away.mem_closure_of_adjoin_eq_top`: if `A` is generated over `A₀` by
-  elements `vᵢ` of degree one and `f` has degree one, then `A_(f)` is generated as a ring by the
-  image of `A₀` and the fractions `vᵢ/f`.
+* `appIso_inv_comp_appLE`: pulling a function back along `f ≫ g`, for an open immersion `f`, and
+  transporting it along `f` is pulling it back along `g`.
+* `away_mem_closure_of_adjoin_eq_top`: if `A` is generated over `A₀` by elements `vᵢ` of degree
+  one and `f` has degree one, then `A_(f)` is generated as a ring by the image of `A₀` and the
+  fractions `vᵢ/f`.
 -/
 
 noncomputable section
@@ -59,7 +61,7 @@ theorem IsTrivializingSection.sectionPowSMul {F L : X.Modules} {U : X.Opens} {s 
       (Ringed.IsLocalFrame.moduleSheafTensorPower (isLocalFrame_of_isTrivializingSection hf) n))
 
 /-- `f^n (a s) = a (f^n s)`. -/
-theorem sectionPowSMul_smul_right {F L : X.Modules} {n : ℕ} {U : X.Opens} (f : Γ(L, U))
+theorem sectionPowSMul_smul_section {F L : X.Modules} {n : ℕ} {U : X.Opens} (f : Γ(L, U))
     (a : Γ(X, U)) (s : Γ(F, U)) :
     Hartshorne.sectionPowSMul F L n f (a • s) = a • Hartshorne.sectionPowSMul F L n f s := by
   unfold Hartshorne.sectionPowSMul
