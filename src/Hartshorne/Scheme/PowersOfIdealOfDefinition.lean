@@ -3,6 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.LargestIdealOfDefinition
+import Hartshorne.Scheme.IdealsOfDefinitionCofinal
 
 /-!
 # Powers of an ideal of definition
@@ -140,6 +141,11 @@ def stalkIdeal (x : T) : Ideal (R.presheaf.stalk x) where
 lemma germ_mem_stalkIdeal {x : T} {V : Opens T} (hx : x ∈ V) {s : R.presheaf.obj (op V)}
     (hs : s ∈ J.ideal V) : R.presheaf.germ V x hx s ∈ J.stalkIdeal x :=
   ⟨V, hx, s, hs, rfl⟩
+
+lemma stalkIdeal_mono {J' : IdealSubsheaf R} (h : J ≤ J') (x : T) :
+    J.stalkIdeal x ≤ J'.stalkIdeal x := by
+  rintro _ ⟨V, hx, s, hs, rfl⟩
+  exact ⟨V, hx, s, le_iff.mp h V hs, rfl⟩
 
 /-- The germ of a section `s` lies in `J_x` exactly when `s` lies in `J` near `x`. -/
 lemma germ_mem_stalkIdeal_iff {x : T} {V : Opens T} (hx : x ∈ V) (s : R.presheaf.obj (op V)) :
@@ -489,7 +495,8 @@ private lemma isKernelChart_comp_specMap_quotient {X : LocallyRingedSpace.{u}}
     (hc : ∀ w : PrimeSpectrum B, Ideal.comap (g.stalkMap w).hom
       (c.map (algebraMap B ((structureSheaf B).presheaf.stalk w))) = L.stalkIdeal (g.base w))
     (hL : ∀ x, L.stalkIdeal x ≠ ⊤) :
-    L.IsKernelChart ((Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk c))).toLRSHom ≫ g) := by
+    L.IsKernelChart ((Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk c))).toLRSHom ≫ g) ∧
+      Function.Surjective (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk c))).base := by
   set f : B ⟶ CommRingCat.of (B ⧸ c) := CommRingCat.ofHom (Ideal.Quotient.mk c)
   have hcw : ∀ w : PrimeSpectrum B, c ≤ w.asIdeal := by
     intro w b hb
@@ -506,6 +513,7 @@ private lemma isKernelChart_comp_specMap_quotient {X : LocallyRingedSpace.{u}}
         Ideal.mk_ker]
       exact hcw w
     exact hw
+  refine ⟨?_, hsurj⟩
   rw [IdealSubsheaf.isKernelChart_iff]
   refine ⟨?_, fun v => ?_, fun v => ?_⟩
   · rw [LocallyRingedSpace.comp_base, TopCat.coe_comp]
@@ -968,5 +976,206 @@ private lemma ker_stalkMap_fromNeighborhood (hπ : TopCat.Presheaf.IsLocallySurj
         h0)).trans (map_zero _))
 
 end thickeningCharts
+
+section main
+
+/-- A morphism of locally ringed spaces which is an open embedding with surjective stalk maps.
+Copied from the private declaration of the same name in
+`Hartshorne.Scheme.LargestIdealOfDefinition`. -/
+private def IsChartMap {A B : LocallyRingedSpace.{u}} (f : A ⟶ B) : Prop :=
+  IsOpenEmbedding f.base ∧ ∀ a, Function.Surjective (f.stalkMap a)
+
+private lemma IsChartMap.comp {A B C : LocallyRingedSpace.{u}} {f : A ⟶ B} {g : B ⟶ C}
+    (hf : IsChartMap f) (hg : IsChartMap g) : IsChartMap (f ≫ g) := by
+  refine ⟨?_, fun a => ?_⟩
+  · rw [LocallyRingedSpace.comp_base, TopCat.coe_comp]
+    exact hg.1.comp hf.1
+  · rw [LocallyRingedSpace.stalkMap_comp]
+    exact (hf.2 a).comp (hg.2 _)
+
+private lemma isChartMap_of_isOpenImmersion {A B : LocallyRingedSpace.{u}} (f : A ⟶ B)
+    [H : LocallyRingedSpace.IsOpenImmersion f] : IsChartMap f :=
+  ⟨H.base_open, fun a =>
+    (@ConcreteCategory.bijective_of_isIso _ _ _ _ _ _ _ _ (f.stalkMap a)
+      (LocallyRingedSpace.IsOpenImmersion.stalk_iso f a)).2⟩
+
+private lemma injective_stalkMap_of_isOpenImmersion {A B : LocallyRingedSpace.{u}} (f : A ⟶ B)
+    [LocallyRingedSpace.IsOpenImmersion f] (a : A) : Function.Injective (f.stalkMap a) :=
+  (@ConcreteCategory.bijective_of_isIso _ _ _ _ _ _ _ _ (f.stalkMap a)
+    (LocallyRingedSpace.IsOpenImmersion.stalk_iso f a)).1
+
+/-- A Noetherian formal scheme is quasi-compact. Copied from the private lemma of the same name in
+`Hartshorne.Scheme.LargestIdealOfDefinition`. -/
+private lemma compactSpace_noetherianFormalScheme (X : NoetherianFormalScheme.{u}) :
+    CompactSpace X.toLocallyRingedSpace := by
+  obtain ⟨ι, hι, U, hU, hchart⟩ := X.isNoetherianFormalScheme
+  have hcpt : ∀ i, IsCompact (SetLike.coe (U i)) := by
+    intro i
+    obtain ⟨Y, hY, I, ⟨e⟩⟩ := hchart i
+    have : CompactSpace (I.infinitesimalNeighborhood 1) :=
+      (I.infinitesimalNeighborhoodι 1).isClosedEmbedding.compactSpace
+    have : CompactSpace I.formalCompletion.toPresheafedSpace :=
+      inferInstanceAs (CompactSpace (I.infinitesimalNeighborhood 1))
+    let f := e.inv ≫ X.toLocallyRingedSpace.ofRestrict (U i).isOpenEmbedding
+    have hrange : SetLike.coe (U i) = Set.range f.base := by
+      ext y
+      constructor
+      · intro hy
+        refine ⟨e.hom.base ⟨y, hy⟩, ?_⟩
+        exact (congrArg (fun p => (X.toLocallyRingedSpace.ofRestrict (U i).isOpenEmbedding).base p)
+          (LocallyRingedSpace.iso_hom_base_inv_base_apply e ⟨y, hy⟩)).trans rfl
+      · rintro ⟨p, rfl⟩
+        exact (e.inv.base p).2
+    rw [hrange]
+    exact isCompact_range f.base.hom.continuous
+  refine ⟨?_⟩
+  have hcov : Set.univ = ⋃ i, SetLike.coe (U i) := by
+    rw [← Opens.coe_iSup, hU]
+    rfl
+  rw [hcov]
+  exact isCompact_iUnion hcpt
+
+/-- **Affine charts with small kernels.** Every point of a Noetherian formal scheme `X` lies in the
+image of an open embedding `Spec B ⟶ X` with surjective stalk maps, `B` Noetherian, whose stalk
+kernels lie in the `(m+1)`-st powers of the stalks of `J_red`: take an affine open of the thickening
+`Y_(m+1)` of a chart `X ⊇ U ≅ Ŷ`. -/
+private lemma exists_chart (X : NoetherianFormalScheme.{u}) (x : X.toLocallyRingedSpace) (m : ℕ) :
+    ∃ (B : CommRingCat.{u}) (_ : IsNoetherianRing B)
+      (g : (Spec B).toLocallyRingedSpace ⟶ X.toLocallyRingedSpace), IsOpenEmbedding g.base ∧
+        (∀ w, Function.Surjective (g.stalkMap w)) ∧ x ∈ Set.range g.base ∧
+        ∀ w, RingHom.ker (g.stalkMap w).hom ≤
+          (vanishingIdealSubsheaf X.toLocallyRingedSpace).stalkIdeal (g.base w) ^ (m + 1) := by
+  obtain ⟨ι, hι, U, hU, hchart⟩ := X.isNoetherianFormalScheme
+  obtain ⟨i, hi⟩ : ∃ i, x ∈ U i := Opens.mem_iSup.mp (hU.symm ▸ trivial)
+  obtain ⟨Y, hY, I, ⟨e⟩⟩ := hchart i
+  let T := e.inv ≫ X.toLocallyRingedSpace.ofRestrict (U i).isOpenEmbedding
+  have hT : IsChartMap T := (isChartMap_of_isOpenImmersion e.inv).comp
+    (isChartMap_of_isOpenImmersion _)
+  let FN := fromNeighborhood I (I.infinitesimalNeighborhoodFromOne m)
+    (I.isOpenEmbedding_infinitesimalNeighborhoodFromOne m)
+    (I.isLocallySurjective_formalCompletionπ m)
+  have hFN : IsChartMap FN :=
+    ⟨IsOpenEmbedding.id, surjective_stalkMap_fromNeighborhoodHom I _ _
+      (I.isLocallySurjective_formalCompletionπ m)⟩
+  let F0 := fromNeighborhood I (I.infinitesimalNeighborhoodFromOne 0)
+    (I.isOpenEmbedding_infinitesimalNeighborhoodFromOne 0)
+    (I.isLocallySurjective_formalCompletionπ 0)
+  let ι0 := (neighborhoodIso I (I.infinitesimalNeighborhoodFromOne m)
+    (I.isOpenEmbedding_infinitesimalNeighborhoodFromOne m)
+    (I.infinitesimalNeighborhoodFromOne_surjective m))
+  let Z := I.infinitesimalNeighborhood (m + 1)
+  have : IsLocallyNoetherian Z := LocallyOfFiniteType.isLocallyNoetherian (I.infinitesimalNeighborhoodι (m + 1))
+  let y : I.formalCompletion := e.hom.base ⟨x, hi⟩
+  let z : Z := ι0.inv.base y
+  obtain ⟨V, hV, hzV, -⟩ := Opens.isBasis_iff_nbhd.mp Z.isBasis_affineOpens
+    (show z ∈ (⊤ : Z.Opens) from trivial)
+  obtain ⟨w, hw⟩ : z ∈ Set.range hV.fromSpec := by rw [hV.range_fromSpec]; exact hzV
+  have : LocallyRingedSpace.IsOpenImmersion hV.fromSpec.toLRSHom :=
+    IsAffineOpen.isOpenImmersion_fromSpec hV
+  let F1 := hV.fromSpec.toLRSHom ≫ ι0.hom
+  have hF1 : IsChartMap F1 := (isChartMap_of_isOpenImmersion _).comp
+    (isChartMap_of_isOpenImmersion _)
+  have hF1inj : ∀ a, Function.Injective (F1.stalkMap a) := fun a => by
+    change Function.Injective ((hV.fromSpec.toLRSHom ≫ ι0.hom).stalkMap a)
+    rw [LocallyRingedSpace.stalkMap_comp]
+    exact (injective_stalkMap_of_isOpenImmersion _ _).comp
+      (injective_stalkMap_of_isOpenImmersion _ _)
+  have hg := hF1.comp (hFN.comp hT)
+  refine ⟨Γ(Z, V), IsLocallyNoetherian.component_noetherian ⟨V, hV⟩, F1 ≫ FN ≫ T, hg.1, hg.2,
+    ⟨w, ?_⟩, fun w' => ?_⟩
+  · change T.base (FN.base (ι0.hom.base (hV.fromSpec w))) = x
+    rw [hw]
+    change T.base (ι0.hom.base (ι0.inv.base y)) = x
+    refine (congrArg (fun p => T.base p)
+      (LocallyRingedSpace.iso_inv_base_hom_base_apply ι0 y)).trans ?_
+    exact (congrArg (fun p => (X.toLocallyRingedSpace.ofRestrict (U i).isOpenEmbedding).base p)
+      (LocallyRingedSpace.iso_hom_base_inv_base_apply e ⟨x, hi⟩)).trans rfl
+  rw [ker_stalkMap_comp_of_injective F1 (FN ≫ T) hF1inj w', LocallyRingedSpace.stalkMap_comp]
+  set y' := F1.base w'
+  change Ideal.comap (T.stalkMap y').hom (RingHom.ker (FN.stalkMap y').hom) ≤ _
+  refine (le_of_eq (congrArg (Ideal.comap (T.stalkMap y').hom)
+    (ker_stalkMap_fromNeighborhood I _ _ _ (m + 1) (I.mem_formalCompletionIdealPow_iff m) y'))).trans
+    ?_
+  have hτ : Function.Bijective (T.stalkMap y').hom :=
+    ⟨injective_stalkMap_of_isOpenImmersion T y', hT.2 y'⟩
+  set K := (formalIdeal I).stalkIdeal y'
+  have hK : K.comap (T.stalkMap y').hom ≤
+      (vanishingIdealSubsheaf X.toLocallyRingedSpace).stalkIdeal (T.base y') := by
+    intro u hu
+    have hker0 := ker_stalkMap_fromNeighborhood I _ _ (I.isLocallySurjective_formalCompletionπ 0)
+      1 (I.mem_formalCompletionIdealPow_iff 0) y'
+    rw [_root_.pow_one] at hker0
+    have h0 : (F0.stalkMap y').hom ((T.stalkMap y').hom u) = 0 :=
+      (SetLike.ext_iff.mp hker0 _).mpr hu
+    have hu0 : u ∈ RingHom.ker ((F0 ≫ T).stalkMap y').hom :=
+      RingHom.mem_ker.mpr ((congrArg (fun φ => (CommRingCat.Hom.hom φ) u)
+        (LocallyRingedSpace.stalkMap_comp F0 T y')).trans h0)
+    exact ker_stalkMap_le_stalkIdeal_vanishing (F0 ≫ T)
+      ((isChartMap_of_isOpenImmersion T).1.isOpenMap) y' hu0
+  calc (K ^ (m + 1)).comap (T.stalkMap y').hom
+      = Ideal.comap (T.stalkMap y').hom
+          (Ideal.map (T.stalkMap y').hom (K.comap (T.stalkMap y').hom ^ (m + 1))) :=
+        congrArg _ ((Ideal.map_pow _ _ _).trans
+          (congrArg (· ^ (m + 1)) (Ideal.map_comap_of_surjective _ hτ.2 K))).symm
+    _ = K.comap (T.stalkMap y').hom ^ (m + 1) := Ideal.comap_map_of_bijective _ hτ
+    _ ≤ _ := Ideal.pow_right_mono hK _
+
+end main
+
+namespace IsIdealOfDefinition
+
+variable {X : NoetherianFormalScheme.{u}} {J : IdealSubsheaf X.toLocallyRingedSpace.sheaf}
+
+/-- **Powers of an ideal of definition** (Hartshorne II, Proposition 9.5(c), p. 197). If `J` is an
+ideal of definition of a Noetherian formal scheme `X`, then so is `J ^ (n + 1)` for every `n`. -/
+theorem pow_succ (h : IsIdealOfDefinition X J) (n : ℕ) : IsIdealOfDefinition X (J ^ (n + 1)) where
+  support_eq_univ := h.sheafSupport_quotientAb_pow n
+  isNoetherianScheme := by
+    have := compactSpace_noetherianFormalScheme X
+    set JR := vanishingIdealSubsheaf X.toLocallyRingedSpace
+    obtain ⟨a, -, ha, -, hab, -⟩ :=
+      exists_pow_le_and_pow_le h (isIdealOfDefinition_vanishingIdealSubsheaf X)
+    have hJR : J ^ (n + 1) ≤ JR :=
+      (J.pow_succ_le_self n).trans ((isGreatest_vanishingIdealSubsheaf X).1.2 h)
+    have hL : ∀ x, (J ^ (n + 1)).stalkIdeal x ≠ ⊤ := by
+      intro x htop
+      have h1 := (J ^ (n + 1)).stalkIdeal_mono hJR x (htop ▸ Submodule.mem_top :
+        (1 : X.toLocallyRingedSpace.sheaf.presheaf.stalk x) ∈ (J ^ (n + 1)).stalkIdeal x)
+      obtain ⟨V, hx, s, hs, h1⟩ := h1
+      refine (mem_vanishingIdealSubsheaf_iff (X := X.toLocallyRingedSpace) s).mp hs x hx ?_
+      exact h1 ▸ isUnit_one
+    refine IdealSubsheaf.exists_isNoetherian_iso_quotientSheafedSpace_of_charts _ fun x => ?_
+    obtain ⟨B, hB, g, hg, hs, hx, hker⟩ := exists_chart X x (a * (n + 1) - 1)
+    have hexp : a * (n + 1) - 1 + 1 = a * (n + 1) :=
+      Nat.sub_add_cancel (Nat.one_le_iff_ne_zero.mpr (Nat.mul_ne_zero ha.ne' n.succ_ne_zero))
+    have hkerJ : ∀ w, RingHom.ker (g.stalkMap w).hom ≤ J.stalkIdeal (g.base w) ^ (n + 1) := by
+      intro w
+      refine (hker w).trans ?_
+      rw [hexp, pow_mul, ← IdealSubsheaf.stalkIdeal_pow]
+      exact Ideal.pow_right_mono (IdealSubsheaf.stalkIdeal_mono _ hab _) _
+    obtain ⟨c, hc⟩ := exists_ideal_map_eq h g hg hs fun w =>
+      (hkerJ w).trans (Ideal.pow_le_self n.succ_ne_zero)
+    have hc' : ∀ w : PrimeSpectrum B, Ideal.comap (g.stalkMap w).hom
+        ((c ^ (n + 1)).map (algebraMap B ((Spec.structureSheaf B).presheaf.stalk w))) =
+          (J ^ (n + 1)).stalkIdeal (g.base w) := by
+      intro w
+      have e1 : (c ^ (n + 1)).map (StructureSheaf.toStalk B w).hom =
+          (J.stalkIdeal (g.base w)).map (g.stalkMap w).hom ^ (n + 1) :=
+        (Ideal.map_pow _ c (n + 1)).trans (congrArg (· ^ (n + 1)) (hc w))
+      have step2 : Ideal.comap (g.stalkMap w).hom
+          ((J.stalkIdeal (g.base w) ^ (n + 1)).map (g.stalkMap w).hom) =
+            J.stalkIdeal (g.base w) ^ (n + 1) := by
+        refine (Ideal.comap_map_of_surjective (g.stalkMap w).hom (hs w) _).trans ?_
+        rw [← RingHom.ker_eq_comap_bot]
+        exact sup_eq_left.mpr (hkerJ w)
+      exact (congrArg _ (e1.trans (Ideal.map_pow _ _ _).symm)).trans
+        (step2.trans (IdealSubsheaf.stalkIdeal_pow _ _ _).symm)
+    obtain ⟨hK, hsurj⟩ := isKernelChart_comp_specMap_quotient (J ^ (n + 1)) g hg hs (c ^ (n + 1))
+      hc' hL
+    obtain ⟨w, rfl⟩ := hx
+    obtain ⟨v, rfl⟩ := hsurj w
+    exact ⟨CommRingCat.of (B ⧸ c ^ (n + 1)), inferInstance, _, hK, v, rfl⟩
+
+end IsIdealOfDefinition
 
 end Hartshorne
