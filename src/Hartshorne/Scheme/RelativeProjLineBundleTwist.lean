@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.ProjectiveBundle
 import Hartshorne.Scheme.SegreProductTrivialization
+import Hartshorne.RingedSpace.PicardGroup
 
 /-!
 # Twisting a quasi-coherent graded algebra by an invertible sheaf
@@ -211,6 +212,53 @@ theorem lineBundleTwistProjIsoOfFrame_eq {e' : ULift.{u} (Fin 1) → Γ(L, U.1)}
     S.lineBundleTwistProjIsoOfFrame hL he' = S.lineBundleTwistProjIsoOfFrame hL he :=
   SegreProduct.projIsoOfGenerator_eq _ _ _ _ frameGenerator_mem frameGenerator_mem
     (frameGenerator_free he) (frameGenerator_free he')
+
+/-- The restriction of a family of sections of `L` along an arrow `U ⟶ V` of affine opens. -/
+abbrev restrictFrame {U V : X.AffineZariskiSite} (f : U ⟶ V)
+    (e : ULift.{u} (Fin 1) → Γ(L, V.1)) : ULift.{u} (Fin 1) → Γ(L, U.1) :=
+  fun i => L.presheaf.map (homOfLE ((toOpensFunctor X).map f).le).op (e i)
+
+theorem isLocalFrame_restrictFrame {U V : X.AffineZariskiSite} (f : U ⟶ V)
+    {e : ULift.{u} (Fin 1) → Γ(L, V.1)} (he : Ringed.IsLocalFrame (R := X.sheaf) L V.1 e) :
+    Ringed.IsLocalFrame (R := X.sheaf) L U.1 (restrictFrame f e) :=
+  he.restrictLE ((toOpensFunctor X).map f).le
+
+set_option backward.isDefEq.respectTransparency false in
+theorem restrict_frameGenerator {U V : X.AffineZariskiSite} (f : U ⟶ V)
+    (e : ULift.{u} (Fin 1) → Γ(L, V.1)) :
+    (lineBundleSym L hL).restrict f (frameGenerator (hL := hL) e) =
+      frameGenerator (hL := hL) (restrictFrame f e) := by
+  change ModuleSheafAlgebra.sectionsRestrict _ (homOfLE ((toOpensFunctor X).map f).le)
+      (L.chartRingHom V.1 e (MvPolynomial.rename ULift.up (MvPolynomial.X 0))) =
+    L.chartRingHom U.1 (restrictFrame f e) (MvPolynomial.rename ULift.up (MvPolynomial.X 0))
+  refine (L.chartRingHom_naturality ((toOpensFunctor X).map f).le e _).trans ?_
+  simp only [MvPolynomial.rename_X, MvPolynomial.map_X]
+  rfl
+
+/-- **Naturality of the local isomorphism** along a basic open inclusion `U ⊆ V`, with the
+restricted frame on `U`. -/
+theorem lineBundleTwistProjIsoOfFrame_naturality {U V : X.AffineZariskiSite} (f : U ⟶ V)
+    {e : ULift.{u} (Fin 1) → Γ(L, V.1)} (he : Ringed.IsLocalFrame (R := X.sheaf) L V.1 e) :
+    Proj.map ((S.lineBundleTwist L hL).restrict f) ((S.lineBundleTwist L hL).irrelevant_le f) ≫
+        (S.lineBundleTwistProjIsoOfFrame hL he).hom =
+      (S.lineBundleTwistProjIsoOfFrame hL (isLocalFrame_restrictFrame f he)).hom ≫
+        Proj.map (S.restrict f) (S.irrelevant_le f) := by
+  have ht := restrict_frameGenerator (hL := hL) f e
+  have hfree' : ∀ d, ∀ x ∈ (lineBundleSym L hL).grading U d, ∃! a : Γ(X, U.1),
+      a • (lineBundleSym L hL).restrict f (frameGenerator (hL := hL) e) ^ d = x := by
+    rw [ht]
+    exact frameGenerator_free (isLocalFrame_restrictFrame f he)
+  have key := SegreProduct.projIsoOfGenerator_naturality (S.grading V)
+    ((lineBundleSym L hL).grading V) (S.algebraMap_sections_mem V)
+    ((lineBundleSym L hL).algebraMap_sections_mem V) frameGenerator_mem
+    (S.algebraMap_sections_mem U) ((lineBundleSym L hL).algebraMap_sections_mem U)
+    (baseRestrict f) (S.restrict f) ((lineBundleSym L hL).restrict f) (S.restrict_algebraMap f)
+    ((lineBundleSym L hL).restrict_algebraMap f) (frameGenerator_free he) hfree'
+    ((S.lineBundleTwist L hL).irrelevant_le f) (S.irrelevant_le f)
+  refine key.trans ?_
+  congr 2
+  exact SegreProduct.projIsoOfGenerator_eq _ _ _ _ frameGenerator_mem _
+    (frameGenerator_free (isLocalFrame_restrictFrame f he)) hfree'
 
 end QuasiCoherentGradedAlgebra
 
