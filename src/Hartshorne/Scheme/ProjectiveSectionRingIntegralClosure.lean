@@ -5,7 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.ProjectiveSpaceSectionRing
 import Hartshorne.Scheme.ProjClosedSubschemeTruncation
 import Hartshorne.Scheme.AbsoluteNormalizationUniversal
-import Hartshorne.Scheme.ProjectiveSpaceClassGroup
+import Hartshorne.Scheme.ProjectiveSpaceNoetherian
 
 /-!
 # The projective section ring is the integral closure
