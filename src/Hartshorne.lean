@@ -694,6 +694,7 @@ import Hartshorne.Scheme.FormalCompletion
 import Hartshorne.Scheme.FormalCompletionAffineSections
 import Hartshorne.Scheme.FormalSpectrum
 import Hartshorne.Scheme.FormalCompletionSupport
+import Hartshorne.Scheme.NoetherianFormalScheme
 import Hartshorne.Weil.GeometricallyConnectedSmoothProjective
 import Hartshorne.Surface.KodairaDimensionBirational
 import Hartshorne.Surface.GeneralType
