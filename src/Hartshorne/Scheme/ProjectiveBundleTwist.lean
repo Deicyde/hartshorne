@@ -25,8 +25,10 @@ open AlgebraicGeometry
 /-- A trivializing section of the restriction `M|_Z` of `M` along an open immersion `f : Z ⟶ Y`
 over `W` is a trivializing section of `M` over `f(W)`. -/
 theorem IsTrivializingSection.image_of_restrict {Z Y : Scheme.{u}} (f : Z ⟶ Y)
-    [IsOpenImmersion f] {M : Y.Modules} {W : Z.Opens} {t : Γ(M, f ''ᵁ W)}
-    (ht : IsTrivializingSection (M.restrict f) W t) : IsTrivializingSection M (f ''ᵁ W) t := by
+    [IsOpenImmersion f] {M : Y.Modules} {W : Z.Opens} {t : Γ(M.restrict f, W)}
+    (ht : IsTrivializingSection (M.restrict f) W t) :
+    IsTrivializingSection M (f ''ᵁ W) ((M.restrictAppIso f W).hom t) := by
+  change IsTrivializingSection M (f ''ᵁ W) (show Γ(M, f ''ᵁ W) from t)
   have key : ∀ {V₁ V₂ : Y.Opens} (_ : V₁ = V₂) (h₁ : V₁ ≤ f ''ᵁ W) (h₂ : V₂ ≤ f ''ᵁ W),
       Function.Bijective (fun a : Γ(Y, V₁) => a • M.presheaf.map (homOfLE h₁).op t) →
       Function.Bijective (fun a : Γ(Y, V₂) => a • M.presheaf.map (homOfLE h₂).op t) := by
@@ -67,11 +69,11 @@ theorem DirectedModuleGluing.DataTr.ψ_hom_app_top {Y : Scheme.{u}}
     (DirectedModuleGluing.pmap_map E.glue _ _ _ x)
 
 /-- Scalars act on the sections of a restriction along an open immersion through `appIso`. -/
-theorem smul_eq_restrict_smul {Z Y : Scheme.{u}} (f : Z ⟶ Y) [IsOpenImmersion f] (N : Y.Modules)
-    (D : Z.Opens) (a : Γ(Y, f ''ᵁ D)) (t : Γ(N, f ''ᵁ D)) :
-    (a • t : Γ(N, f ''ᵁ D)) =
-      ((f.appIso D).hom a • (show Γ(N.restrict f, D) from t) : Γ(N.restrict f, D)) := by
-  change _ = (f.appIso D).inv ((f.appIso D).hom a) • t
+theorem restrictAppIso_inv_smul {Z Y : Scheme.{u}} (f : Z ⟶ Y) [IsOpenImmersion f]
+    (N : Y.Modules) (D : Z.Opens) (a : Γ(Y, f ''ᵁ D)) (t : Γ(N, f ''ᵁ D)) :
+    (N.restrictAppIso f D).inv (a • t) =
+      (f.appIso D).hom a • (N.restrictAppIso f D).inv t := by
+  change (a • t) = (f.appIso D).inv ((f.appIso D).hom a) • t
   rw [Iso.hom_inv_id_apply]
 
 /-- A relation `x₂ = r x₁` over `W₁` between restrictions of global sections gives the
@@ -502,6 +504,140 @@ private lemma pieceι_appIso_ratio {V : X.Opens} (hV : IsAffineOpen V) (hVU : V 
   rw [Scheme.Hom.appIso_hom', ← pieceι_appLE_ratio hE hfin he ψ hψ hV hVU i j]
   rw [← ConcreteCategory.comp_apply, Scheme.Hom.map_appLE]
   conv_rhs => rw [← ConcreteCategory.comp_apply, Scheme.Hom.appLE_map]
+
+private lemma pieceIso_hom_app_global' {V : X.Opens} (hV : IsAffineOpen V) (hVU : V ≤ U)
+    (i : Fin (n + 1)) (s : Γ(M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι, ⊤))
+    (hs : M.presheaf.map (homOfLE (projι_image_top_le hE hfin hV hVU)).op
+      ((M.restrictAppIso (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι ⊤).hom s) =
+      pieceSection hE hfin (e := e) M α hV hVU i)
+    (D : (Proj ((symmetricGradedAlgebra hE hfin).grading (site hV))).Opens) :
+    (pieceIso hE hfin M α hV hVU).hom.app D
+        (((M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).restrictAppIso
+          (pieceι hE hfin hV hVU) D).inv
+        ((M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).presheaf.map
+          (homOfLE (le_top : pieceι hE hfin hV hVU ''ᵁ D ≤ ⊤)).op s)) =
+      (projTwistingSheaf ((symmetricGradedAlgebra hE hfin).grading (site hV)) 1).presheaf.map
+        (homOfLE (le_top : D ≤ ⊤)).op
+        (ProjTwistingSheaf.degreeOneSection ⟨pieceElt hE hfin (e := e) hV hVU i,
+          pieceElt_mem hE hfin hV hVU i⟩) :=
+  pieceIso_hom_app_global hE hfin M α hV hVU i _ hs D
+
+omit [IsNoetherian X] in
+private lemma iso_inv_hom_app {Z : Scheme.{u}} {M N : Z.Modules} (α : M ≅ N) (W : Z.Opens)
+    (x : Γ(M, W)) : α.inv.app W (α.hom.app W x) = x := by
+  rw [← ConcreteCategory.comp_apply, ← Scheme.Modules.Hom.comp_app, α.hom_inv_id,
+    Scheme.Modules.Hom.id_app]
+  rfl
+
+include he hψ in
+/-- **Transition functions.** On `ψ⁻¹(D₊(z_i))`, the glued section `s_j` is `ψ^#(z_j/z_i) s_i`. -/
+private lemma global_transition
+    (s : Fin (n + 1) → Γ(M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι, ⊤))
+    (hs : ∀ i (V : X.Opens) (hV : IsAffineOpen V) (hVU : V ≤ U),
+      M.presheaf.map (homOfLE (projι_image_top_le hE hfin hV hVU)).op
+        ((M.restrictAppIso (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι ⊤).hom (s i)) =
+        pieceSection hE hfin (e := e) M α hV hVU i) (i j : Fin (n + 1)) :
+    (M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).presheaf.map
+        (homOfLE (le_top : chartPreimage ψ.hom i ≤ ⊤)).op (s j) =
+      (toIntMap ψ.hom).app (chartInt n i) (ratioInt n i j) •
+        (M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).presheaf.map
+          (homOfLE (le_top : chartPreimage ψ.hom i ≤ ⊤)).op (s i) := by
+  refine DirectedModuleGluing.mod_ext (M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι)
+    (fun V : AffinesIn U => pieceι hE hfin V.2.1 V.2.2 ''ᵁ
+      (pieceι hE hfin V.2.1 V.2.2 ⁻¹ᵁ chartPreimage ψ.hom i))
+    (fun V => Scheme.Hom.image_preimage_le _ _) ?_ _ _ (fun V => ?_)
+  · intro x hx
+    obtain ⟨V, y, rfl⟩ := exists_pieceι_eq hE hfin x
+    exact Opens.mem_iSup.2 ⟨V, ⟨y, hx, rfl⟩⟩
+  · obtain ⟨V, hV, hVU⟩ := V
+    rw [Scheme.Modules.map_map_homOfLE, Scheme.Modules.map_smul, Scheme.Modules.map_map_homOfLE]
+    apply ((ConcreteCategory.bijective_of_isIso ((pieceIso hE hfin M α hV hVU).hom.app
+      (pieceι hE hfin hV hVU ⁻¹ᵁ chartPreimage ψ.hom i))).comp
+      (ConcreteCategory.bijective_of_isIso
+        (((M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).restrictAppIso
+          (pieceι hE hfin hV hVU) (pieceι hE hfin hV hVU ⁻¹ᵁ chartPreimage ψ.hom i)).inv))).1
+    simp only [Function.comp_apply]
+    rw [restrictAppIso_inv_smul, Scheme.Modules.Hom.app_smul,
+      pieceIso_hom_app_global' hE hfin M α hV hVU j (s j) (hs j V hV hVU),
+      pieceIso_hom_app_global' hE hfin M α hV hVU i (s i) (hs i V hV hVU),
+      pieceι_appIso_ratio hE hfin he ψ hψ hV hVU i j]
+    exact degreeOne_restrict_smul hE hfin hV hVU i j _ _
+
+include he hψ in
+/-- **Frames.** On `ψ⁻¹(D₊(z_i))`, the glued section `s_i` trivializes `M|_{π⁻¹(U)}`. -/
+private lemma global_trivializing (i : Fin (n + 1))
+    (s : Γ(M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι, ⊤))
+    (hs : ∀ (V : X.Opens) (hV : IsAffineOpen V) (hVU : V ≤ U),
+      M.presheaf.map (homOfLE (projι_image_top_le hE hfin hV hVU)).op
+        ((M.restrictAppIso (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι ⊤).hom s) =
+        pieceSection hE hfin (e := e) M α hV hVU i) :
+    IsTrivializingSection (M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι)
+      (chartPreimage ψ.hom i)
+      ((M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).presheaf.map
+        (homOfLE (le_top : chartPreimage ψ.hom i ≤ ⊤)).op s) := by
+  refine IsTrivializingSection.of_local fun x hx => ?_
+  obtain ⟨⟨V, hV, hVU⟩, y, rfl⟩ := exists_pieceι_eq hE hfin x
+  refine ⟨pieceι hE hfin hV hVU ''ᵁ (pieceι hE hfin hV hVU ⁻¹ᵁ chartPreimage ψ.hom i),
+    Scheme.Hom.image_preimage_le _ _, ⟨y, hx, rfl⟩, ?_⟩
+  rw [Scheme.Modules.map_map_homOfLE, ← Iso.inv_hom_id_apply
+    ((M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).restrictAppIso
+      (pieceι hE hfin hV hVU) (pieceι hE hfin hV hVU ⁻¹ᵁ chartPreimage ψ.hom i))
+    ((M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).presheaf.map
+      (homOfLE (le_top : pieceι hE hfin hV hVU ''ᵁ
+        (pieceι hE hfin hV hVU ⁻¹ᵁ chartPreimage ψ.hom i) ≤ ⊤)).op s)]
+  apply IsTrivializingSection.image_of_restrict
+  rw [← iso_inv_hom_app (pieceIso hE hfin M α hV hVU)
+    (pieceι hE hfin hV hVU ⁻¹ᵁ chartPreimage ψ.hom i)
+    (((M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).restrictAppIso
+      (pieceι hE hfin hV hVU) (pieceι hE hfin hV hVU ⁻¹ᵁ chartPreimage ψ.hom i)).inv
+    ((M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).presheaf.map
+      (homOfLE (le_top : pieceι hE hfin hV hVU ''ᵁ
+        (pieceι hE hfin hV hVU ⁻¹ᵁ chartPreimage ψ.hom i) ≤ ⊤)).op s)),
+    pieceIso_hom_app_global' hE hfin M α hV hVU i s (hs V hV hVU)]
+  refine IsTrivializingSection.map_iso (pieceIso hE hfin M α hV hVU).symm ?_
+  have h := (IsTrivializingSection.of_isLocalFrame (ι := PUnit.{u + 1})
+    (ProjTwistingSheaf.isLocalFrame_degreeOneSection
+      (pieceElt_mem hE hfin (e := e) hV hVU i))).restrict
+    (pieceι_preimage_chart hE hfin he ψ hψ hV hVU i).le
+  convert h using 1
+  exact (Scheme.Modules.map_map_homOfLE _ _ _ _).symm
+
+include he hψ hα in
+/-- **`ψ^* 𝒪(1) ≅ M|_{π⁻¹(U)}`**, glued from the frames `ψ^* z_i` and `s_i` on the opens
+`ψ⁻¹(D₊(z_i))`, which have the same transition functions. -/
+private lemma nonempty_pullbackTwist_iso :
+    Nonempty (pullbackTwist ψ.hom ≅ M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι) := by
+  choose s₀ hs₀ using exists_globalSection hE hfin (e := e) M α hα
+  let s : Fin (n + 1) → Γ(M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι, ⊤) :=
+    fun i => (M.restrictAppIso (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι ⊤).inv (s₀ i)
+  have hs : ∀ i (V : X.Opens) (hV : IsAffineOpen V) (hVU : V ≤ U),
+      M.presheaf.map (homOfLE (projι_image_top_le hE hfin hV hVU)).op
+        ((M.restrictAppIso (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι ⊤).hom (s i)) =
+      pieceSection hE hfin (e := e) M α hV hVU i := by
+    intro i V hV hVU
+    simp only [s, Iso.inv_hom_id_apply]
+    exact hs₀ i V hV hVU
+  let W : ULift.{u} (Fin (n + 1)) → (projectiveBundleProj hE hfin ⁻¹ᵁ U).toScheme.Opens :=
+    fun k => chartPreimage ψ.hom k.down
+  have hW : ⊤ ≤ iSup W := by
+    intro x _
+    obtain ⟨k, hk⟩ := exists_mem_chartPreimage ψ.hom x
+    exact Opens.mem_iSup.2 ⟨⟨k⟩, hk⟩
+  have σ : PUnit.{u + 1} ≃ ULift.{u} (Fin 1) := Equiv.ofUnique _ _
+  obtain ⟨φ, -⟩ := Ringed.exists_iso_of_frames
+    (R := (projectiveBundleProj hE hfin ⁻¹ᵁ U).toScheme.sheaf) W hW
+    (fun k => (pullbackTwist ψ.hom).presheaf.map (homOfLE le_top).op
+      (pullbackGlobalSection ψ.hom (projectiveSpaceCoordinate n U k.down)))
+    (fun k => (M.restrict (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι).presheaf.map
+      (homOfLE le_top).op (s k.down))
+    (fun k => (isLocalFrame_of_isTrivializingSection
+      (isTrivializingSection_chartPreimage ψ.hom k.down)).reindex σ)
+    (fun k => (isLocalFrame_of_isTrivializingSection
+      (global_trivializing hE hfin he ψ hψ M α k.down (s k.down) (hs k.down))).reindex σ)
+    (fun i j => ⟨_, restrict_inf_smul _ _ _
+      (restrict_pullbackGlobalSection_eq_smul ψ.hom i.down j.down),
+      restrict_inf_smul _ _ _ (global_transition hE hfin he ψ hψ M α s hs i.down j.down)⟩)
+  exact ⟨φ⟩
 
 end Abstract2
 
