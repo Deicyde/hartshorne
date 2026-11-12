@@ -9,7 +9,10 @@ lean: Hartshorne.finiteType_iff_everyAffineTarget
 
 # Morphisms of finite type
 
-A morphism is of finite type exactly when it is locally of finite type and quasi-compact.
+A morphism $f : X \to Y$ of schemes is of finite type if there exists a covering of $Y$ by
+open affine subsets $V_i = \operatorname{Spec} B_i$ such that for each $i$, $f^{-1}(V_i)$ can be
+covered by a finite number of open affine subsets $U_{ij} = \operatorname{Spec} A_{ij}$, where each
+$A_{ij}$ is a finitely generated $B_i$-algebra.
 
 ## Depends on
 
