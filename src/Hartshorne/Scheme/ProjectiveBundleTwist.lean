@@ -7,7 +7,23 @@ import Hartshorne.Scheme.ProjectiveBundleGluing
 /-!
 # The twisting sheaf of a projective bundle over an open where the module is free
 
-Hartshorne, *Algebraic Geometry*, II.7, p. 162.
+Hartshorne, *Algebraic Geometry*, II.7, p. 162: if `E` is free of rank `n + 1` over an open
+`U ⊆ X`, then `P(E)|_U ≅ ℙⁿ_U`, compatibly with the projection and with `𝒪(1)`.
+
+For a frame `e` of `E` over an arbitrary open `U`, `Scheme.Modules.exists_projectiveBundleIso_of_frame`
+gives `ψ : π⁻¹(U) ≅ ℙⁿ_U` over `U`. Here we show `ψ^* 𝒪_{ℙⁿ_U}(1) ≅ 𝒪_{P(E)}(1)|_{π⁻¹(U)}`
+(`Scheme.Modules.exists_projectiveBundleIso_of_frame_twist`, and
+`Scheme.Modules.nonempty_projectiveBundle_iso_twist_of_restrict_iso_free` from `E|_U ≅ 𝒪_U^{n+1}`).
+
+## Proof
+
+On the affine piece `Proj Γ(V, S(E))` over an affine open `V ⊆ U`, the morphism
+`π⁻¹(U) ≅ ℙⁿ_U ⟶ ℙⁿ_ℤ` is `Proj` of `z_k ↦ e_k`; so `ψ⁻¹(D₊(z_i))` meets the piece in `D₊(e_i)`
+and `ψ^#(z_j/z_i) = e_j/e_i` there. The degree-one sections `e_i` of the twisting sheaves of the
+affine pieces are compatible with the transition maps along basic opens, so they glue to sections
+`s_i` of `𝒪_{P(E)}(1)` over `π⁻¹(U)`. On `ψ⁻¹(D₊(z_i))` both `ψ^* z_i` and `s_i` are frames, and
+both families have the transition functions `ψ^#(z_j/z_i)`; hence the two invertible sheaves are
+isomorphic (`Hartshorne.Ringed.exists_iso_of_frames`), as in the proof of Theorem II.7.1.
 -/
 
 universe u
@@ -639,6 +655,38 @@ private lemma nonempty_pullbackTwist_iso :
       restrict_inf_smul _ _ _ (global_transition hE hfin he ψ hψ M α s hs i.down j.down)⟩)
   exact ⟨φ⟩
 
+include he in
+/-- **`P(E)` over an open with a frame, with its twisting sheaf** (Hartshorne II.7, p. 162): a
+frame `e` of `E` of rank `n + 1` over an arbitrary open `U ⊆ X` gives an isomorphism
+`ψ : π⁻¹(U) ≅ ℙⁿ_U` over `U` with `ψ^* 𝒪_{ℙⁿ_U}(1) ≅ 𝒪_{P(E)}(1)|_{π⁻¹(U)}`. -/
+theorem exists_projectiveBundleIso_of_frame_twist :
+    ∃ ψ : (projectiveBundleProj hE hfin ⁻¹ᵁ U).toScheme ≅ projectiveSpaceOverScheme n U,
+      ψ.hom ≫ projectiveSpaceOverSchemeProjection n U = projectiveBundleProj hE hfin ∣_ U ∧
+      Nonempty ((Scheme.Modules.pullback ψ.hom).obj (projectiveSpaceTwistingSheaf n U 1) ≅
+        (projectiveBundleTwistingSheaf hE hfin 1).restrict
+          (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι) := by
+  obtain ⟨ψ, hψ₁, hψ₂⟩ := exists_projectiveBundleIso_of_frame hE hfin he
+  refine ⟨ψ, hψ₁, nonempty_pullbackTwist_iso hE hfin he ψ hψ₂ _
+    (fun V => (symmetricGradedAlgebra hE hfin).relTwistingSheafRestrictIso 1 V) ?_⟩
+  intro V hV r x
+  exact ((symmetricGradedAlgebra hE hfin).twistData 1).ψ_hom_app_top (basicArrow hV r)
+    (colimit.w (symmetricGradedAlgebra hE hfin).relativeGluingData.functor (basicArrow hV r))
+    (projι_image_basicArrow hE hfin hV r) x
+
 end Abstract2
+
+/-- **Projective bundles of free modules** (Hartshorne II.7, p. 162): if `E` is free of rank
+`n + 1` on an open `U ⊆ X`, i.e. `E|_U ≅ 𝒪_U^{n+1}`, then `P(E)|_U = π⁻¹(U) ≅ ℙⁿ_U` over `U`,
+by an isomorphism `ψ` with `ψ^* 𝒪_{ℙⁿ_U}(1) ≅ 𝒪_{P(E)}(1)|_{π⁻¹(U)}`. -/
+theorem nonempty_projectiveBundle_iso_twist_of_restrict_iso_free {U : X.Opens} {n : ℕ}
+    (α : E.restrict U.ι ≅ SheafOfModules.free (ULift.{u} (Fin (n + 1)))) :
+    ∃ ψ : (projectiveBundleProj hE hfin ⁻¹ᵁ U).toScheme ≅ projectiveSpaceOverScheme n U,
+      ψ.hom ≫ projectiveSpaceOverSchemeProjection n U = projectiveBundleProj hE hfin ∣_ U ∧
+      Nonempty ((Scheme.Modules.pullback ψ.hom).obj (projectiveSpaceTwistingSheaf n U 1) ≅
+        (projectiveBundleTwistingSheaf hE hfin 1).restrict
+          (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι) := by
+  obtain ⟨β⟩ := (nonempty_restrict_iso_free_iff E U _).mp ⟨α⟩
+  exact exists_projectiveBundleIso_of_frame_twist hE hfin
+    (Ringed.isLocalFrame_of_over_iso (R := X.sheaf) β)
 
 end AlgebraicGeometry.Scheme.Modules
