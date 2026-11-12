@@ -33,6 +33,7 @@ This is the setting used in Hartshorne's Remark III.10.9.2.
 - [The zero scheme of a section of a locally free sheaf](../../intersection-theory/chern-classes/section-zero-scheme.md)
 - [Clearing denominators with an invertible section](../../schemes/projective-sheaves/invertible-section-clearing-denominators.md)
 - [Projection from a point is a morphism](../../curves/projective-embeddings/prerequisites/projection-from-point-morphism.md)
+- [Linear systems](../../schemes/projective-geometry/linear-systems-ampleness/linear-system-api.md)
 
 ## Proof depends on
 
