@@ -15,6 +15,7 @@ $\mathcal{O}_{\widehat{X}_Y} = \varprojlim_{n \ge 1} (\mathcal{O}_X / I^{n})|_{|
 Equip every stalk with its induced local-ring structure, making $\widehat{X}_Y$ a
 locally ringed space. This is Hartshorne's plain ring-valued construction: no
 topology is added to section rings.
+The construction does not use that $X$ is Noetherian; the hypothesis is kept because it is Hartshorne's setting for formal completions.
 
 ## Depends on
 
