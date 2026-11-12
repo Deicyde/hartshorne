@@ -4,27 +4,41 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Cohomology.SerreAffinenessCriterion
 import Hartshorne.Scheme.IdealPowerProduct
+import Hartshorne.Scheme.ReducedInducedSubscheme
 
 /-!
 # Affineness is invariant under reduction
 
 Hartshorne, *Algebraic Geometry*, III, Exercise 3.1 (p. 216).
 
-For a Noetherian scheme `X`, `X` is affine if and only if `X_red` is affine. Here `X_red` is the
-closed subscheme cut out by the nilradical (`X.nilradical.subscheme`).
+For a Noetherian scheme `X`, `X` is affine if and only if `X_red` is affine
+(`Hartshorne.ReductionAffine.isAffine_iff_isAffine_reduced`). Here `X_red` is the closed
+subscheme cut out by the nilradical (`X.nilradical.subscheme`), which is reduced
+(`Hartshorne.ReductionAffine.isReduced_reduced`).
 
 ## Proof
 
 A closed subscheme of an affine scheme is affine, which gives one direction
 (`Hartshorne.ReductionAffine.isAffine_reduced_of_isAffine`).
 
-For the converse we use Serre's criterion (Hartshorne III.3.7): it suffices that
-`H^1(X, J) = 0` for every coherent ideal sheaf `J`. The nilradical `𝒩` is nilpotent on a Noetherian
-scheme (`exists_nilradical_pow_eq_bot`), so `J ⊇ 𝒩 J ⊇ 𝒩^2 J ⊇ ⋯ ⊇ 𝒩^m J = 0`. Each quotient
+For the converse we use Serre's criterion (Hartshorne III.3.7,
+`Hartshorne.isAffine_tfae_sheafCohomology`): it suffices that `H^1(X, J) = 0` for every coherent
+ideal sheaf `J`. The nilradical `𝒩` is nilpotent on a Noetherian scheme
+(`exists_nilradical_pow_eq_bot`), so `J ⊇ 𝒩 J ⊇ 𝒩^2 J ⊇ ⋯ ⊇ 𝒩^m J = 0`. Each quotient
 `𝒩^k J / 𝒩^{k+1} J` is a quasi-coherent `𝒪_X`-module killed by the nilpotent sections of `𝒪_X`
 (`smul_eq_zero_cokernel`). The long exact sequence of cohomology and descending induction on `k`
 reduce the vanishing of `H^1(X, J)` to that of `H^1` of these quotients
 (`isAffine_of_forall_isZero_H1`).
+
+A quasi-coherent `𝒪_X`-module `Q` killed by the nilpotent sections is a quasi-coherent
+`𝒪_{X_red}`-module on the same underlying space (`redModules`): the map `X_red ⟶ X` is a
+homeomorphism (`redHomeo`), and a section `a` of `𝒪_{X_red}` acts on a section `s` of `Q` by
+gluing `b • s` over the affine opens `W`, where `b ∈ Γ(W, 𝒪_X)` lifts `a` (on affine opens
+`Γ(W, 𝒪_X) ⟶ Γ(W ∩ X_red, 𝒪_{X_red})` is surjective with kernel the nilradical, which kills `Q`).
+On `W ∩ X_red` this module is the tilde of `Γ(W, Q)`, because `Q` is quasi-coherent on `W`
+(`isQuasicoherent_redModules`). If `X_red` is affine, Theorem III.3.5 gives
+`H^1(X_red, Q) = 0`, and the cohomology of the same abelian sheaf on `X` is the same, since the
+two spaces are homeomorphic (`isZero_H1_of_isAffine_red`).
 -/
 
 noncomputable section
@@ -173,7 +187,8 @@ theorem isZero_filt {m : ℕ} (hm : X.nilradical ^ m = ⊥) : IsZero (filt J m) 
   rw [IsZero.iff_id_eq_zero]
   ext U s : 3
   have hs := PresheafOfModules.Submodule.le_iff.1
-    (powSmul_eq_bot_of_pow_eq_bot hm J.carrier).le _ (s : sub (powSmul X.nilradical m J.carrier) U).2
+    (powSmul_eq_bot_of_pow_eq_bot hm J.carrier).le _
+    (s : sub (powSmul X.nilradical m J.carrier) U).2
   change s = 0
   exact Subtype.ext ((Submodule.mem_bot _).mp hs)
 
@@ -260,7 +275,8 @@ theorem redOpen_preimage (U : X.Opens) : redOpen ((redι X) ⁻¹ᵁ U) = U := r
 /-- Restriction of sections of `𝒪_X` is compatible with `X_red ⟶ X`. -/
 theorem app_res {U W : X.Opens} (h : W ≤ U) (c : Γ(X, U)) :
     (redι X).app W (X.presheaf.map (homOfLE h).op c) =
-      (red X).presheaf.map (homOfLE (fun _ hz => h hz : (redι X) ⁻¹ᵁ W ≤ (redι X) ⁻¹ᵁ U)).op ((redι X).app U c) := by
+      (red X).presheaf.map (homOfLE (fun _ hz => h hz : (redι X) ⁻¹ᵁ W ≤ (redι X) ⁻¹ᵁ U)).op
+        ((redι X).app U c) := by
   exact congrArg (fun φ => φ.hom c) ((redι X).naturality (homOfLE h).op)
 
 variable {Q : X.Modules}
@@ -285,15 +301,15 @@ theorem smul_eq_zero_of_app_eq_zero {U : X.Opens} (c : Γ(X, U)) (hc : (redι X)
   exact mem_nilradical.mp h2
 
 /-- `b` lifts `a` over `W`. -/
-def IsLift {V : (red X).Opens} (a : Γ((red X), V)) {W : X.Opens} (hW : W ≤ redOpen V) (b : Γ(X, W)) :
-    Prop :=
+def IsLift {V : (red X).Opens} (a : Γ(red X, V)) {W : X.Opens} (hW : W ≤ redOpen V)
+    (b : Γ(X, W)) : Prop :=
   (redι X).app W b = (red X).presheaf.map (homOfLE (fun _ hz => hW hz : (redι X) ⁻¹ᵁ W ≤ V)).op a
 
-theorem exists_isLift {V : (red X).Opens} (a : Γ((red X), V)) (W : X.affineOpens)
+theorem exists_isLift {V : (red X).Opens} (a : Γ(red X, V)) (W : X.affineOpens)
     (hW : (W : X.Opens) ≤ redOpen V) : ∃ b : Γ(X, W), IsLift a hW b :=
   X.nilradical.subschemeι_app_surjective W _
 
-theorem IsLift.res {V : (red X).Opens} {a : Γ((red X), V)} {W : X.Opens} {hW : W ≤ redOpen V}
+theorem IsLift.res {V : (red X).Opens} {a : Γ(red X, V)} {W : X.Opens} {hW : W ≤ redOpen V}
     {b : Γ(X, W)} (hb : IsLift a hW b) {W' : X.Opens} (h : W' ≤ W) :
     IsLift a (h.trans hW) (X.presheaf.map (homOfLE h).op b) := by
   unfold IsLift at hb ⊢
@@ -301,7 +317,7 @@ theorem IsLift.res {V : (red X).Opens} {a : Γ((red X), V)} {W : X.Opens} {hW : 
   rfl
 
 include hQ in
-theorem IsLift.smul_eq {V : (red X).Opens} {a : Γ((red X), V)} {W : X.Opens} {hW : W ≤ redOpen V}
+theorem IsLift.smul_eq {V : (red X).Opens} {a : Γ(red X, V)} {W : X.Opens} {hW : W ≤ redOpen V}
     {b b' : Γ(X, W)} (hb : IsLift a hW b) (hb' : IsLift a hW b') (s : Γ(Q, W)) :
     b • s = b' • s := by
   rw [← sub_eq_zero, ← sub_smul]
@@ -310,7 +326,7 @@ theorem IsLift.smul_eq {V : (red X).Opens} {a : Γ((red X), V)} {W : X.Opens} {h
   exact sub_eq_zero.mpr (hb.trans hb'.symm)
 
 include hQ in
-theorem exists_glue (V : (red X).Opens) (a : Γ((red X), V)) (s : Γ(Q, redOpen V)) :
+theorem exists_glue (V : (red X).Opens) (a : Γ(red X, V)) (s : Γ(Q, redOpen V)) :
     ∃ t : Γ(Q, redOpen V), ∀ (W : X.Opens) (hW : W ≤ redOpen V) (b : Γ(X, W)),
       IsLift a hW b → res Q hW t = b • res Q hW s := by
   let ι := {W : X.affineOpens // (W : X.Opens) ≤ redOpen V}
@@ -340,10 +356,10 @@ theorem exists_glue (V : (red X).Opens) (a : Γ((red X), V)) (s : Γ(Q, redOpen 
   exact (hb ⟨W', hW'.trans hW⟩).smul_eq hQ (hc.res hW') _
 
 /-- The action of `Γ(X_red, V)` on `Γ(Q, V)`. -/
-def redSMul (V : (red X).Opens) (a : Γ((red X), V)) (s : Γ(Q, redOpen V)) : Γ(Q, redOpen V) :=
+def redSMul (V : (red X).Opens) (a : Γ(red X, V)) (s : Γ(Q, redOpen V)) : Γ(Q, redOpen V) :=
   (exists_glue hQ V a s).choose
 
-theorem redSMul_spec (V : (red X).Opens) (a : Γ((red X), V)) (s : Γ(Q, redOpen V)) {W : X.Opens}
+theorem redSMul_spec (V : (red X).Opens) (a : Γ(red X, V)) (s : Γ(Q, redOpen V)) {W : X.Opens}
     (hW : W ≤ redOpen V) {b : Γ(X, W)} (hb : IsLift a hW b) :
     res Q hW (redSMul hQ V a s) = b • res Q hW s :=
   (exists_glue hQ V a s).choose_spec W hW b hb
@@ -354,12 +370,14 @@ theorem isLift_one (V : (red X).Opens) {W : X.Opens} (hW : W ≤ redOpen V) :
   rw [map_one, map_one]
 
 theorem IsLift.mul {V : (red X).Opens} {a a' : Γ(red X, V)} {W : X.Opens} {hW : W ≤ redOpen V}
-    {b b' : Γ(X, W)} (hb : IsLift a hW b) (hb' : IsLift a' hW b') : IsLift (a * a') hW (b * b') := by
+    {b b' : Γ(X, W)} (hb : IsLift a hW b) (hb' : IsLift a' hW b') :
+    IsLift (a * a') hW (b * b') := by
   unfold IsLift at *
   rw [map_mul, map_mul, hb, hb']
 
 theorem IsLift.add {V : (red X).Opens} {a a' : Γ(red X, V)} {W : X.Opens} {hW : W ≤ redOpen V}
-    {b b' : Γ(X, W)} (hb : IsLift a hW b) (hb' : IsLift a' hW b') : IsLift (a + a') hW (b + b') := by
+    {b b' : Γ(X, W)} (hb : IsLift a hW b) (hb' : IsLift a' hW b') :
+    IsLift (a + a') hW (b + b') := by
   unfold IsLift at *
   rw [map_add, map_add, hb, hb']
 
@@ -444,7 +462,8 @@ theorem redSMul_eq_of (V : (red X).Opens) (a : Γ(red X, V)) (s : Γ(Q, redOpen 
   have := redSMul_spec hQ V a s le_rfl hb'
   rwa [res_refl, res_refl] at this
 
-theorem exists_pow_smul_eq_zero_aux [Q.IsQuasicoherent] (U : X.affineOpens) (g : Γ(X, U)) {W : X.Opens}
+theorem exists_pow_smul_eq_zero_aux [Q.IsQuasicoherent] (U : X.affineOpens) (g : Γ(X, U))
+    {W : X.Opens}
     (hW : W = X.basicOpen g) (hWU : W ≤ U) (s : Γ(Q, U)) (hs : res Q hWU s = 0) :
     ∃ n : ℕ, g ^ n • s = 0 := by
   subst hW
@@ -502,11 +521,11 @@ theorem isLocallyNoetherian_red [IsLocallyNoetherian X] : IsLocallyNoetherian (r
   exact isNoetherianRing_of_surjective _ _ _ (X.nilradical.subschemeι_app_surjective U)
 
 include hQ in
-/-- **`H^1` of a module killed by the nilradical** (Hartshorne III, Exercise 3.1, the step using
-Lemma III.2.10). If `X_red` is affine and Noetherian and `Q` is a quasi-coherent `𝒪_X`-module
-killed by the nilpotent sections of `𝒪_X`, then `H^1(X, Q) = 0`: `Q` is a quasi-coherent
-`𝒪_{X_red}`-module (`redModules`) on the same underlying space, so its cohomology vanishes by
-Theorem III.3.5. -/
+/-- **`H^1` of a module killed by the nilradical** (the step of Hartshorne III, Exercise 3.1 on
+the quotients of the filtration). If `X_red` is affine and Noetherian and `Q` is a quasi-coherent
+`𝒪_X`-module killed by the nilpotent sections of `𝒪_X`, then `H^1(X, Q) = 0`: `Q` is a
+quasi-coherent `𝒪_{X_red}`-module (`redModules`) on the same underlying space, so its
+cohomology vanishes by Theorem III.3.5. -/
 theorem isZero_H1_of_isAffine_red [IsLocallyNoetherian (red X)] [IsAffine (red X)]
     [Q.IsQuasicoherent] : IsZero (H 1 Q) := by
   have := isQuasicoherent_redModules hQ
@@ -520,6 +539,11 @@ end Descent
 is. -/
 theorem isAffine_reduced_of_isAffine [IsAffine X] : IsAffine X.nilradical.subscheme :=
   (IsClosedImmersion.isAffine_surjective_of_isAffine X.nilradical.subschemeι).1
+
+/-- `X_red` is reduced: it is the reduced induced closed subscheme on all of `X`. -/
+instance isReduced_reduced (X : Scheme.{u}) : IsReduced X.nilradical.subscheme := by
+  rw [← Scheme.IdealSheafData.vanishingIdeal_top]
+  exact isReduced_reducedInducedSubscheme ⊤
 
 /-- **Affineness is invariant under reduction** (Hartshorne III, Exercise 3.1). A Noetherian
 scheme `X` is affine if and only if its reduction `X_red` (the closed subscheme cut out by the
