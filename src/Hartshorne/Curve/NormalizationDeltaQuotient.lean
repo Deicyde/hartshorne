@@ -10,6 +10,7 @@ import Hartshorne.Scheme.CoherentFreeLocus
 import Hartshorne.Scheme.AffineGlobalSectionsExact
 import Hartshorne.Scheme.ModuleSheafTensor
 import Hartshorne.Scheme.NormalizationDivisorDescent
+import Hartshorne.RingedSpace.ModuleSkyscraperSum
 import Hartshorne.Cohomology.Flatness.CoherentSelfFlatLocallyFree
 import Mathlib.RingTheory.OrderOfVanishing.Basic
 import Mathlib.Algebra.Category.ModuleCat.Sheaf.PullbackFree
@@ -38,7 +39,9 @@ If moreover `X` is of finite type over a field (Hartshorne's `X` is projective o
 algebraically closed field), then `𝒪_X`, `ν_* 𝒪_X̃` and `Q` are coherent, `Õ_P` is a finite
 `𝒪_{X,P}`-module with finitely many maximal ideals; if also `dim X = 1`, then `Q` has finite
 support, each `δ_P = length (Õ_P / 𝒪_{X,P})` is finite (`normalizationDelta_ne_top`), and only
-finitely many `δ_P` are nonzero (`finite_setOf_normalizationDelta_ne_zero`).
+finitely many `δ_P` are nonzero (`finite_setOf_normalizationDelta_ne_zero`). The points of the
+support are closed, so `Q ≅ ⨁_P Õ_P / 𝒪_{X,P}`, the direct sum over the support of the skyscraper
+sheaves at `P` with these stalks (`normalizationDeltaQuotientIsoBiproduct`).
 
 The stalk computation maps the germ of a section of `𝒪_X̃` over `ν⁻¹ V` to its value at the
 generic point. Over an affine `V` the sections of `𝒪_X̃` are the integral closure of `Γ(X, V)`
@@ -56,6 +59,9 @@ open AlgebraicGeometry
 -- A definitionally equal duplicate of `schemeModulesStalkModule`; erased so that the germ
 -- lemma `schemeModules_germ_smul` applies syntactically.
 attribute [-instance] moduleSheafStalkModule
+
+-- Finite biproducts of `𝒪_X`-modules, from finite products in the preadditive category.
+attribute [local instance] HasFiniteBiproducts.of_hasFiniteProducts
 
 universe u
 
@@ -532,6 +538,28 @@ lemma krullDimLE_one_stalk (hdim : topologicalKrullDim X = 1) (P : X) :
   rw [Ring.krullDimLE_iff, ringKrullDim_stalk_eq_coheight]
   exact (Order.coheight_le_krullDim P).trans hkd
 
+omit [IsIntegral X] in
+/-- In a `T0` space of Krull dimension at most one in which `X` itself is irreducible, a point
+whose closure is not everything is closed. -/
+lemma isClosed_singleton_of_closure_ne_univ {T : Type*} [TopologicalSpace T] [T0Space T]
+    [IrreducibleSpace T] (hdim : topologicalKrullDim T ≤ 1) {P : T}
+    (hP : closure ({P} : Set T) ≠ Set.univ) : IsClosed ({P} : Set T) := by
+  let C : IrreducibleCloseds T := ⟨closure {P}, isIrreducible_singleton.closure, isClosed_closure⟩
+  let U : IrreducibleCloseds T :=
+    ⟨Set.univ, IrreducibleSpace.isIrreducible_univ T, isClosed_univ⟩
+  have hCU : C < U := lt_of_le_of_ne (Set.subset_univ _) fun h =>
+    hP (congrArg (fun W : IrreducibleCloseds T => (W : Set T)) h)
+  have hdim' : Order.krullDim (IrreducibleCloseds T) ≤ 1 := by
+    simpa [topologicalKrullDim] using hdim
+  have hCmin : IsMin C :=
+    (Order.krullDim_le_one_iff.mp hdim' C).resolve_right fun hCmax => hCmax.not_lt hCU
+  refine isClosed_of_closure_subset fun y hy => ?_
+  let D : IrreducibleCloseds T := ⟨closure {y}, isIrreducible_singleton.closure, isClosed_closure⟩
+  have hDC : D ≤ C := isClosed_closure.closure_subset_iff.mpr (Set.singleton_subset_iff.mpr hy)
+  have heq : closure ({y} : Set T) = closure {P} :=
+    congrArg (fun W : IrreducibleCloseds T => (W : Set T)) (hCmin.eq_of_le hDC)
+  exact (inseparable_iff_closure_eq.mpr heq).eq
+
 section Curve
 
 variable (k : Type u) [Field k] (s : X ⟶ Spec (.of k)) (hs : FiniteType s)
@@ -630,6 +658,40 @@ theorem normalizationDeltaQuotient_spec :
     finite_moduleSheafSupport_normalizationDeltaQuotient X k s hs hdim,
     fun P => ⟨normalizationDeltaQuotientStalkEquiv X P⟩, normalizationDelta_ne_top X k s hs hdim,
     finite_setOf_normalizationDelta_ne_zero X k s hs hdim⟩
+
+/-- Every point of the support of `Q` is closed: the support is a closed proper subset, so the
+closure of each of its points is a proper irreducible closed subset of the curve. -/
+theorem isClosed_singleton_of_mem_moduleSheafSupport_normalizationDeltaQuotient {P : X}
+    (hP : P ∈ moduleSheafSupport (normalizationDeltaQuotient X)) : IsClosed ({P} : Set X) := by
+  have := isLocallyNoetherian_of_finiteType X k s hs
+  have hZ := isClosed_moduleSheafSupport_of_isCoherent _
+    (isCoherent_normalizationDeltaQuotient X k s hs)
+  refine isClosed_singleton_of_closure_ne_univ hdim.le fun h => genericPoint_not_mem_support X ?_
+  exact hZ.closure_subset_iff.mpr (Set.singleton_subset_iff.mpr hP) (h ▸ Set.mem_univ _)
+
+/-- **Hartshorne IV, Exercise 1.8 (preamble), p. 298: `Q` is the direct sum of skyscraper
+sheaves.** If `X` is an integral one-dimensional scheme of finite type over a field, then
+`Q ≅ ⨁_P Õ_P / 𝒪_{X,P}`: `Q` is isomorphic to the direct sum, over the finitely many points `P` of
+its support, of the skyscraper sheaves at `P` with value the `𝒪_{X,P}`-module `Õ_P / 𝒪_{X,P}`. At
+every other point `Õ_P / 𝒪_{X,P} = 0`, so these are the only nonzero summands of Hartshorne's
+sum `Σ_{P ∈ X} Õ_P / 𝒪_P`. The isomorphism is the sum of the units `Q ⟶ P_*(Q_P)` of the
+stalk–skyscraper adjunctions, followed by `Q_P ≅ Õ_P / 𝒪_{X,P}`. -/
+noncomputable def normalizationDeltaQuotientIsoBiproduct :
+    normalizationDeltaQuotient X ≅
+      (⨁ fun P : (finite_moduleSheafSupport_normalizationDeltaQuotient X k s hs hdim).toFinset =>
+        (Ringed.moduleSkyscraper (R := X.sheaf) P.1).obj
+          (ModuleCat.of (X.presheaf.stalk P.1) (normalizationDefectModule X P.1)) :
+        SheafOfModules (ringCatSheafOf X.sheaf)) :=
+  Ringed.moduleSheafIsoBiproductSkyscraper
+      (normalizationDeltaQuotient X : SheafOfModules (ringCatSheafOf X.sheaf)) _
+      (fun P hP => isClosed_singleton_of_mem_moduleSheafSupport_normalizationDeltaQuotient X k s hs
+        hdim ((Set.Finite.mem_toFinset _).mp hP))
+      (fun P hP => by
+        rw [Set.Finite.mem_toFinset, mem_moduleSheafSupport_iff,
+          ← not_subsingleton_iff_nontrivial, not_not] at hP
+        exact hP) ≪≫
+    biproduct.mapIso (C := SheafOfModules (ringCatSheafOf X.sheaf)) fun P =>
+      (Ringed.moduleSkyscraper P.1).mapIso (normalizationDeltaQuotientStalkEquiv X P.1).toModuleIso
 
 end Curve
 
