@@ -23,6 +23,7 @@ projective.
 - Integrality of the Rees algebra inside $\mathcal{O}_X[T]$.
 - Closedness of a proper morphism's image and density of the complement.
 - [Projective-morphism calculus](../../proper-and-projective/projective-morphism-calculus.md)
+- [A very ample power implies ampleness](../linear-systems-ampleness/very-ample-power-implies-ample.md)
 
 ## Sources
 
