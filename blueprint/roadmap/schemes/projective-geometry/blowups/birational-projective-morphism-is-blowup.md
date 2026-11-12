@@ -2,6 +2,7 @@
 article_id: af_9d9a51d58b3737f4409894f8
 declaration: theorem
 origin: cited
+lean: Hartshorne.exists_iso_blowup_of_birational_projective
 ---
 
 # A birational projective morphism is a blowup
