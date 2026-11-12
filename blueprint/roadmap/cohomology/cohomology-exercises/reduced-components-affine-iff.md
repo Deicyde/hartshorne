@@ -22,6 +22,7 @@ components, with the reduced induced structure, is affine.
 - [Serre's affineness criterion](../affine-cohomology/serre-affineness-criterion.md)
 - [Closed subschemes and ideal data](../../schemes/coherent-sheaves/closed-subschemes-ideal-data.md)
 - [Closed pushforward preserves cohomology](../sheaf-cohomology/closed-pushforward-cohomology.md)
+- [The smallest structure on a closed subset](../../schemes/subschemes-and-dimension/reduced-induced-smallest.md)
 - A reduced Noetherian scheme has finitely many irreducible components.
 - Induction on the number of components and the exact sequence comparing a
   union, its two pieces, and their intersection.
