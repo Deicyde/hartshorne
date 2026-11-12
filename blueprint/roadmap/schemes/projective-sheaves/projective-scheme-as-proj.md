@@ -3,6 +3,8 @@ article_id: af_9860658fec295be8bf567596
 declaration: theorem
 origin: cited
 lean: Hartshorne.projective_iff_exists_iso_proj
+statement: formalized
+proof: formalized
 ---
 
 # Projective schemes as Proj
