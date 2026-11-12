@@ -719,7 +719,8 @@ abbrev quotientOfHom (φ : Y ⟶ projectiveBundle hE hfin)
 
 /-- `φ : Y ⟶ P(E)` over `g` *represents* the quotient `q : g^* E ⟶ L` if some isomorphism
 `φ^* M ≅ L` carries the quotient attached to `φ` to `q`. -/
-def Represents (φ : Y ⟶ projectiveBundle hE hfin) (hφ : φ ≫ projectiveBundleProj hE hfin = g)
+def RepresentsQuotient (φ : Y ⟶ projectiveBundle hE hfin)
+    (hφ : φ ≫ projectiveBundleProj hE hfin = g)
     {L : Y.Modules} (q : (Scheme.Modules.pullback g).obj E ⟶ L) : Prop :=
   ∃ d : (Scheme.Modules.pullback φ).obj M ≅ L, quotientOfHom hE hfin M α hα φ hφ ≫ d.hom = q
 
@@ -733,35 +734,36 @@ variable {M : (projectiveBundle hE hfin).Modules}
   {hα : TwistCompatible M α}
 
 /-- Representing is invariant under equality of morphisms. -/
-theorem Represents.of_eq {φ φ' : Y ⟶ projectiveBundle hE hfin}
+theorem RepresentsQuotient.of_eq {φ φ' : Y ⟶ projectiveBundle hE hfin}
     {hφ : φ ≫ projectiveBundleProj hE hfin = g} (hφ' : φ' ≫ projectiveBundleProj hE hfin = g)
     (h : φ = φ') {L : Y.Modules} {q : (Scheme.Modules.pullback g).obj E ⟶ L}
-    (hr : Represents hE hfin M α hα φ hφ q) : Represents hE hfin M α hα φ' hφ' q := by
+    (hr : RepresentsQuotient hE hfin M α hα φ hφ q) :
+    RepresentsQuotient hE hfin M α hα φ' hφ' q := by
   subst h
   exact hr
 
 /-- Representing is invariant under isomorphisms of the target of the quotient. -/
-theorem Represents.comp_iso {φ : Y ⟶ projectiveBundle hE hfin}
+theorem RepresentsQuotient.comp_iso {φ : Y ⟶ projectiveBundle hE hfin}
     {hφ : φ ≫ projectiveBundleProj hE hfin = g} {L L' : Y.Modules}
-    {q : (Scheme.Modules.pullback g).obj E ⟶ L} (hr : Represents hE hfin M α hα φ hφ q)
-    (d : L ≅ L') : Represents hE hfin M α hα φ hφ (q ≫ d.hom) := by
+    {q : (Scheme.Modules.pullback g).obj E ⟶ L} (hr : RepresentsQuotient hE hfin M α hα φ hφ q)
+    (d : L ≅ L') : RepresentsQuotient hE hfin M α hα φ hφ (q ≫ d.hom) := by
   obtain ⟨d₀, hd₀⟩ := hr
   exact ⟨d₀ ≪≫ d, by rw [Iso.trans_hom, ← Category.assoc, hd₀]⟩
 
 /-- A morphism represents its own quotient. -/
-theorem Represents.refl (φ : Y ⟶ projectiveBundle hE hfin)
+theorem RepresentsQuotient.refl (φ : Y ⟶ projectiveBundle hE hfin)
     (hφ : φ ≫ projectiveBundleProj hE hfin = g) :
-    Represents hE hfin M α hα φ hφ (quotientOfHom hE hfin M α hα φ hφ) :=
+    RepresentsQuotient hE hfin M α hα φ hφ (quotientOfHom hE hfin M α hα φ hφ) :=
   ⟨Iso.refl _, Category.comp_id _⟩
 
 /-- **Pulling back a represented quotient.** If `φ` represents `q`, then `k ≫ φ` represents the
 pullback `k^* q`. -/
-theorem Represents.pullback {φ : Y ⟶ projectiveBundle hE hfin}
+theorem RepresentsQuotient.pullback {φ : Y ⟶ projectiveBundle hE hfin}
     {hφ : φ ≫ projectiveBundleProj hE hfin = g} {L : Y.Modules}
-    {q : (Scheme.Modules.pullback g).obj E ⟶ L} (hr : Represents hE hfin M α hα φ hφ q)
+    {q : (Scheme.Modules.pullback g).obj E ⟶ L} (hr : RepresentsQuotient hE hfin M α hα φ hφ q)
     {W : Scheme.{u}} (k : W ⟶ Y) {g' : W ⟶ X} (hk : k ≫ g = g')
     (h' : (k ≫ φ) ≫ projectiveBundleProj hE hfin = g') :
-    Represents hE hfin M α hα (k ≫ φ) h'
+    RepresentsQuotient hE hfin M α hα (k ≫ φ) h'
       ((pullbackObjIsoOfComp k g hk E).hom ≫ (Scheme.Modules.pullback k).map q) := by
   obtain ⟨d, hd⟩ := hr
   refine ⟨((Scheme.Modules.pullbackComp k φ).app M).symm ≪≫
@@ -775,16 +777,16 @@ theorem Represents.pullback {φ : Y ⟶ projectiveBundle hE hfin}
 
 /-- **Representing is local.** If `V_i ≫ φ` represents the pullback of `q` to each member `V_i`
 of an open cover of `Y`, then `φ` represents `q`. -/
-theorem Represents.of_cover {φ : Y ⟶ projectiveBundle hE hfin}
+theorem RepresentsQuotient.of_cover {φ : Y ⟶ projectiveBundle hE hfin}
     (hφ : φ ≫ projectiveBundleProj hE hfin = g) {L : Y.Modules}
     (q : (Scheme.Modules.pullback g).obj E ⟶ L) [Epi q] {ι : Type u} (V : ι → Y.Opens)
     (hV : ∀ y, ∃ i, y ∈ V i)
-    (h : ∀ i, Represents hE hfin M α hα ((V i).ι ≫ φ)
+    (h : ∀ i, RepresentsQuotient hE hfin M α hα ((V i).ι ≫ φ)
       (by rw [Category.assoc, hφ])
       ((pullbackObjIsoOfComp (V i).ι g rfl E).hom ≫ (Scheme.Modules.pullback (V i).ι).map q)) :
-    Represents hE hfin M α hα φ hφ q := by
+    RepresentsQuotient hE hfin M α hα φ hφ q := by
   refine exists_iso_comp_eq_of_pullback _ q V hV fun i => ?_
-  obtain ⟨d₁, hd₁⟩ := (Represents.refl hE hfin φ hφ).pullback hE hfin (V i).ι rfl
+  obtain ⟨d₁, hd₁⟩ := (RepresentsQuotient.refl hE hfin φ hφ).pullback hE hfin (V i).ι rfl
     (by rw [Category.assoc, hφ])
   obtain ⟨d₂, hd₂⟩ := h i
   refine ⟨d₁.symm ≪≫ d₂, ?_⟩
@@ -909,7 +911,8 @@ over `g : Y ⟶ U ⊆ X` representing the same quotient coincide. -/
 theorem eq_of_represents_local {φ φ' : Y ⟶ projectiveBundle hE hfin}
     (hφ : φ ≫ projectiveBundleProj hE hfin = g) (hφ' : φ' ≫ projectiveBundleProj hE hfin = g)
     {L : Y.Modules} {q : (Scheme.Modules.pullback g).obj E ⟶ L}
-    (h₁ : Represents hE hfin M α hα φ hφ q) (h₂ : Represents hE hfin M α hα φ' hφ' q) :
+    (h₁ : RepresentsQuotient hE hfin M α hα φ hφ q)
+    (h₂ : RepresentsQuotient hE hfin M α hα φ' hφ' q) :
     φ = φ' := by
   have hr : ∀ {φ₀ : Y ⟶ projectiveBundle hE hfin}, φ₀ ≫ projectiveBundleProj hE hfin = g →
       Set.range φ₀ ⊆ Set.range (projectiveBundleProj hE hfin ⁻¹ᵁ U).ι := by
@@ -972,7 +975,7 @@ include hb hψ₁ he hgU in
 theorem exists_represents_local {L : Y.Modules} (hL : L.IsInvertible)
     (q : (Scheme.Modules.pullback g).obj E ⟶ L) [Epi q] :
     ∃ (φ : Y ⟶ projectiveBundle hE hfin) (hφ : φ ≫ projectiveBundleProj hE hfin = g),
-      Represents hE hfin M α hα φ hφ q := by
+      RepresentsQuotient hE hfin M α hα φ hφ q := by
   let gU := IsOpenImmersion.lift U.ι g (range_subset_of_le_preimage hgU)
   have hgU' : gU ≫ U.ι = g := IsOpenImmersion.lift_fac _ _ _
   have hfr := (Ringed.IsLocalFrame.pullback (φ := g.toRingCatSheafHom) he).restrictLE hgU
@@ -1035,7 +1038,8 @@ represent the same quotient of `g^* E` coincide. -/
 theorem eq_of_represents {φ φ' : Y ⟶ projectiveBundle hE hfin}
     (hφ : φ ≫ projectiveBundleProj hE hfin = g) (hφ' : φ' ≫ projectiveBundleProj hE hfin = g)
     {L : Y.Modules} {q : (Scheme.Modules.pullback g).obj E ⟶ L}
-    (h₁ : Represents hE hfin M α hα φ hφ q) (h₂ : Represents hE hfin M α hα φ' hφ' q) :
+    (h₁ : RepresentsQuotient hE hfin M α hα φ hφ q)
+    (h₂ : RepresentsQuotient hE hfin M α hα φ' hφ' q) :
     φ = φ' := by
   refine hom_ext_of_forall _ _ fun y => ?_
   obtain ⟨U, r, e, hyU, he⟩ := exists_isLocalFrame_fin hE hfin (g y)
@@ -1059,7 +1063,7 @@ theorem exists_represents_of_isLocalFrame {U : X.Opens} {r : ℕ}
     [Nonempty Y] (hgU : ⊤ ≤ g ⁻¹ᵁ U) {L : Y.Modules} (hL : L.IsInvertible)
     (q : (Scheme.Modules.pullback g).obj E ⟶ L) [Epi q] :
     ∃ (φ : Y ⟶ projectiveBundle hE hfin) (hφ : φ ≫ projectiveBundleProj hE hfin = g),
-      Represents hE hfin M α hα φ hφ q := by
+      RepresentsQuotient hE hfin M α hα φ hφ q := by
   cases r with
   | zero =>
     have := isEmpty_of_isLocalFrame_zero he hgU hL q
@@ -1086,12 +1090,12 @@ represented by a morphism `Y ⟶ P(E)` over `g`. -/
 theorem exists_represents {L : Y.Modules} (hL : L.IsInvertible)
     (q : (Scheme.Modules.pullback g).obj E ⟶ L) [Epi q] :
     ∃ (φ : Y ⟶ projectiveBundle hE hfin) (hφ : φ ≫ projectiveBundleProj hE hfin = g),
-      Represents hE hfin M α hα φ hφ q := by
+      RepresentsQuotient hE hfin M α hα φ hφ q := by
   choose U r e hyU he using fun y : Y => exists_isLocalFrame_fin hE hfin (g y)
   let V : Y → Y.Opens := fun y => g ⁻¹ᵁ U y
   have hloc : ∀ y, ∃ (φ : (V y).toScheme ⟶ projectiveBundle hE hfin)
       (hφ : φ ≫ projectiveBundleProj hE hfin = (V y).ι ≫ g),
-      Represents hE hfin M α hα φ hφ
+      RepresentsQuotient hE hfin M α hα φ hφ
         ((pullbackObjIsoOfComp (V y).ι g rfl E).hom ≫ (Scheme.Modules.pullback (V y).ι).map q) :=
     fun y => by
       have : Nonempty (V y).toScheme := ⟨⟨y, hyU y⟩⟩
@@ -1131,13 +1135,13 @@ theorem exists_represents {L : Y.Modules} (hL : L.IsInvertible)
     have eq₂ := pullbackObjIsoOfComp_hom_comp (pullback.snd (𝒰.f y) (𝒰.f z)) (V z).ι g rfl hk₂
       h₀ q
     have eq₃ := pullbackObjIsoOfComp_hom_congr hc ((Category.assoc _ _ _).trans rfl) h₀ q
-    have r₁'' : Represents hE hfin M α hα (pullback.fst (𝒰.f y) (𝒰.f z) ≫ φ y)
+    have r₁'' : RepresentsQuotient hE hfin M α hα (pullback.fst (𝒰.f y) (𝒰.f z) ≫ φ y)
         ((Category.assoc _ _ _).trans (congrArg _ (hφ y)))
         ((pullbackObjIsoOfComp (pullback.snd (𝒰.f y) (𝒰.f z) ≫ (V z).ι) g h₀ E).hom ≫
           (Scheme.Modules.pullback (pullback.snd (𝒰.f y) (𝒰.f z) ≫ (V z).ι)).map q) := by
       rw [← eq₃, ← reassoc_of% eq₁]
       simpa only [Iso.trans_hom, Iso.app_hom, Category.assoc] using r₁'
-    have r₂'' : Represents hE hfin M α hα (pullback.snd (𝒰.f y) (𝒰.f z) ≫ φ z)
+    have r₂'' : RepresentsQuotient hE hfin M α hα (pullback.snd (𝒰.f y) (𝒰.f z) ≫ φ z)
         ((Category.assoc _ _ _).trans ((congrArg _ (hφ z)).trans hk₂))
         ((pullbackObjIsoOfComp (pullback.snd (𝒰.f y) (𝒰.f z) ≫ (V z).ι) g h₀ E).hom ≫
           (Scheme.Modules.pullback (pullback.snd (𝒰.f y) (𝒰.f z) ≫ (V z).ι)).map q) := by
@@ -1148,7 +1152,7 @@ theorem exists_represents {L : Y.Modules} (hL : L.IsInvertible)
   · refine 𝒰.hom_ext _ _ fun y => ?_
     rw [← Category.assoc, 𝒰.ι_glueMorphisms φ hcompat y]
     exact hφ y
-  · exact Represents.of_cover hE hfin _ q V (fun y => ⟨y, hyU y⟩) fun y =>
+  · exact RepresentsQuotient.of_cover hE hfin _ q V (fun y => ⟨y, hyU y⟩) fun y =>
       (hrep y).of_eq hE hfin _ (𝒰.ι_glueMorphisms φ hcompat y).symm
 
 end Global
@@ -1163,7 +1167,8 @@ section Main
 theorem projectiveBundleInvertibleQuotientOfHom_equiv_iff (φ : Y ⟶ projectiveBundle hE hfin)
     (hφ : φ ≫ projectiveBundleProj hE hfin = g) (a : InvertibleQuotient ((pullback g).obj E)) :
     InvertibleQuotient.Equiv (projectiveBundleInvertibleQuotientOfHom hE hfin φ hφ) a ↔
-      Represents hE hfin (projectiveBundleTwistingSheaf hE hfin 1) (twistOneRestrictIso hE hfin)
+      RepresentsQuotient hE hfin (projectiveBundleTwistingSheaf hE hfin 1)
+        (twistOneRestrictIso hE hfin)
         (twistCompatible_one hE hfin) φ hφ a.quotient :=
   Iff.rfl
 
@@ -1194,7 +1199,7 @@ theorem projectiveBundle_hom_eq_of_equiv {φ φ' : Y ⟶ projectiveBundle hE hfi
   eq_of_represents hE hfin (twistCompatible_one hE hfin)
     (isInvertible_projectiveBundleTwistingSheaf_one hE hfin) hφ hφ'
     ((projectiveBundleInvertibleQuotientOfHom_equiv_iff hE hfin φ hφ _).1 h)
-    (Represents.refl hE hfin φ' hφ')
+    (RepresentsQuotient.refl hE hfin φ' hφ')
 
 variable (g) in
 /-- **The functor of points of `P(E)`** (Hartshorne II, Proposition 7.12): for `g : Y ⟶ X`,
