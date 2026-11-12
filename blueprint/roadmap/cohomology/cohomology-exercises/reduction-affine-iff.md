@@ -13,6 +13,7 @@ $X_{\mathrm{red}}$ is affine.
 ## Depends on
 
 - [Reduced schemes](../../schemes/first-properties/reduced-scheme.md)
+- [The reduced induced closed subscheme](../../schemes/subschemes-and-dimension/reduced-induced-closed-subscheme.md)
 
 ## Proof depends on
 
