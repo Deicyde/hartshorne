@@ -250,7 +250,7 @@ theorem map_stalkD_relativeDifferentialsCompToLeft {X Y S : Scheme.{u}} (f : X �
 This is deduced from the sheaf-level sequence `f^*Ω_{Y/S} ⟶ Ω_{X/S} ⟶ Ω_{X/Y} ⟶ 0`
 (`relativeDifferentialsTransitivityIsColimit`): its stalk at `x` is exact, and it is compared with
 the algebraic sequence by `1 ⊗ db ↦ (f^* d b)_x`, which is surjective, and `dc ↦ (d c)_x`, which
-is bijective for both `Ω_{C/A}` and `Ω_{C/B}`. -/
+is injective for both `Ω_{C/A}` and `Ω_{C/B}`. -/
 theorem stalk_kaehler_transitivity_exact {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ S) (x : X) :
     letI := (f.stalkMap x).hom.toAlgebra
     letI := (g.stalkMap (f x)).hom.toAlgebra
