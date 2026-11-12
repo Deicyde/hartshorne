@@ -926,6 +926,22 @@ theorem sectionsModule_isLocallyFreeOfRank : G.sectionsModule.IsLocallyFreeOfRan
   obtain ⟨i, hi⟩ := Opens.mem_iSup.mp (G.iSup_eq_top.ge (Set.mem_univ y))
   exact ⟨G.U i, G.frameSection i, hi, G.isLocalFrame_frameSection i⟩
 
+/-- The sheaf of sets underlying `G.sectionsModule` is the sheaf of sections `𝒮(X/Y)`. -/
+def sectionsModuleForgetIso :
+    G.sectionsModule.val.presheaf ⋙ CategoryTheory.forget Ab ≅ sectionsPresheaf f :=
+  NatIso.ofComponents (fun _ => Iso.refl _) (fun _ => by ext; rfl)
+
+/-- **The chart coordinates are additive** on the sections of `G.sectionsModule`. -/
+lemma coordY_add (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i) (s t : Γ(G.sectionsModule, V)) :
+    G.coordY i hi (s + t) = G.coordY i hi s + G.coordY i hi t :=
+  G.coordY_secAdd i hi s t
+
+/-- **The chart coordinates are `𝒪_Y(V)`-linear** on the sections of `G.sectionsModule`. -/
+lemma coordY_smul (i : G.ι) {V : Y.Opens} (hi : V ≤ G.U i) (r : Γ(Y, V))
+    (s : Γ(G.sectionsModule, V)) :
+    G.coordY i hi (r • s) = r • G.coordY i hi s :=
+  G.coordY_secSmul i hi r s
+
 end GeometricVectorBundle
 
 namespace Scheme.Modules
