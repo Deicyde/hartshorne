@@ -267,6 +267,115 @@ theorem homRes_ext {U V : Y.AffineZariskiSite} (i : U ⟶ V)
     (LinearMap.ext H)
   exact LinearMap.ext fun m => LinearMap.congr_fun this m
 
+theorem homRes_add {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    (h h' : Γ((Scheme.Modules.pushforward f).obj M, V.1) →ₗ[Γ(Y, V.1)] Γ(F, V.1)) :
+    homRes f M F i (h + h') = homRes f M F i h + homRes f M F i h' :=
+  homRes_ext f M F i fun m => by
+    rw [LinearMap.add_apply, homRes_res, homRes_res, homRes_res, LinearMap.add_apply, map_add]
+
+theorem homRes_comp {U V W : Y.AffineZariskiSite} (i : U ⟶ V) (j : V ⟶ W)
+    (h : Γ((Scheme.Modules.pushforward f).obj M, W.1) →ₗ[Γ(Y, W.1)] Γ(F, W.1)) :
+    homRes f M F (i ≫ j) h = homRes f M F i (homRes f M F j h) :=
+  homRes_ext f M F (i ≫ j) fun m => by
+    have e1 : ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom (i ≫ j))).op m =
+        ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom i)).op
+          (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom j)).op m) :=
+      (DirectedModuleGluing.pmap_map _ _ _ _ m).symm
+    have e2 : F.presheaf.map (homOfLE (le_of_hom (i ≫ j))).op (h m) =
+        F.presheaf.map (homOfLE (le_of_hom i)).op (F.presheaf.map (homOfLE (le_of_hom j)).op (h m)) :=
+      (DirectedModuleGluing.pmap_map _ _ _ _ _).symm
+    rw [homRes_res, e1, homRes_res, homRes_res, e2]
+
+theorem mulB_res {U V : Y.Opens} (hUV : U ≤ V) (b : Γ(X, f ⁻¹ᵁ V))
+    (m : Γ((Scheme.Modules.pushforward f).obj M, V)) :
+    mulB f M U (X.presheaf.map (homOfLE (f.preimage_mono hUV)).op b)
+        (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE hUV).op m) =
+      ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE hUV).op (mulB f M V b m) :=
+  (M.val.map_smul (homOfLE (f.preimage_mono hUV)).op b (show Γ(M, f ⁻¹ᵁ V) from m)).symm
+
+theorem homRes_smul {U V : Y.AffineZariskiSite} (i : U ⟶ V) (b : Γ(X, f ⁻¹ᵁ V.1))
+    (h : homSec f M F V.1) :
+    homRes f M F i (homSec.lin f M F (b • h)) = homSec.lin f M F
+      ((X.presheaf.map (homOfLE (f.preimage_mono (le_of_hom i))).op b) •
+        (show homSec f M F U.1 from homRes f M F i (homSec.lin f M F h))) :=
+  homRes_ext f M F i fun m => by
+    rw [homRes_res, homSec.smul_lin, homSec.smul_lin, mulB_res]
+    exact (homRes_res f M F i _ _).symm
+
+/-- The restriction of homomorphisms as a semilinear map `homSec V ⟶ homSec U`. -/
+def homResHom {U V : Y.AffineZariskiSite} (i : U ⟶ V) :
+    homSec f M F V.1 ⟶ (ModuleCat.restrictScalars
+      (X.presheaf.map (homOfLE (f.preimage_mono (le_of_hom i))).op).hom).obj
+        (homSec f M F U.1) :=
+  ModuleCat.semilinearMapAddEquiv _ _ _
+    { toFun := fun h => homRes f M F i (homSec.lin f M F h)
+      map_add' := fun h h' => homRes_add f M F i h h'
+      map_smul' := fun b h => homRes_smul f M F i b h }
+
+theorem homResHom_apply {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    (h : homSec f M F V.1) :
+    homSec.lin f M F ((homResHom f M F i).hom h) = homRes f M F i (homSec.lin f M F h) := rfl
+
+/-- **Localization of homomorphisms**: since `Γ(V, f_* M)` is finitely presented, restriction of
+homomorphisms to `U = D(r) ⊆ V` is the localization at the powers of `r`. -/
+theorem isLocalizedModule_homResHom {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    [Module.FinitePresentation Γ(Y, V.1) Γ((Scheme.Modules.pushforward f).obj M, V.1)] :
+    IsLocalizedModule (Submonoid.powers (f.app V.1 (transElt i))) (homResHom f M F i).hom := by
+  letI := transAlgebra i
+  letI := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
+    (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  letI := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
+    IsScalarTower.of_compHom _ _ _
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
+  haveI := transIsLocalization i
+  haveI := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
+    (le_of_hom i) (basicOpen_transElt i)
+  haveI := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
+  have hR : IsLocalizedModule (Submonoid.powers (transElt i))
+      (IsLocalizedModule.mapExtendScalars (Submonoid.powers (transElt i))
+        (resₗ ((Scheme.Modules.pushforward f).obj M) (le_of_hom i)) (resₗ F (le_of_hom i))
+        Γ(Y, U.1)) := inferInstance
+  let r := transElt i
+  -- the action of `f^# r` on `homSec U` agrees with the action of `r`
+  have hactU : ∀ (n : ℕ) (h : homSec f M F U.1),
+      homSec.lin f M F ((X.presheaf.map (homOfLE (f.preimage_mono (le_of_hom i))).op
+        (f.app V.1 r ^ n)) • h) = r ^ n • homSec.lin f M F h := by
+    intro n h
+    have hnat : X.presheaf.map (homOfLE (f.preimage_mono (le_of_hom i))).op (f.app V.1 r ^ n) =
+        f.app U.1 (Y.presheaf.map (homOfLE (le_of_hom i)).op (r ^ n)) := by
+      rw [map_pow, map_pow, map_pow]
+      congr 1
+      exact (ConcreteCategory.congr_hom (f.naturality (homOfLE (le_of_hom i)).op) r).symm
+    rw [hnat, homSec.app_smul]
+    rfl
+  have hactV : ∀ (n : ℕ) (h : homSec f M F V.1),
+      homSec.lin f M F ((f.app V.1 r ^ n) • h) = r ^ n • homSec.lin f M F h := by
+    intro n h
+    rw [← map_pow, homSec.app_smul]
+  refine ⟨fun s => ?_, fun h' => ?_, fun {h₁ h₂} e => ?_⟩
+  · obtain ⟨_, n, rfl⟩ := s
+    have hu := hR.map_units ⟨r ^ n, n, rfl⟩
+    rw [Module.End.isUnit_iff] at hu ⊢
+    have key : (⇑(algebraMap Γ(X, f ⁻¹ᵁ V.1) (Module.End Γ(X, f ⁻¹ᵁ V.1)
+        ((ModuleCat.restrictScalars (X.presheaf.map (homOfLE (f.preimage_mono
+          (le_of_hom i))).op).hom).obj (homSec f M F U.1))) (f.app V.1 r ^ n))) =
+        ⇑(algebraMap Γ(Y, V.1) (Module.End Γ(Y, V.1) (Γ((Scheme.Modules.pushforward f).obj M,
+          U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1))) (r ^ n)) :=
+      funext fun h => hactU n h
+    rw [key]
+    exact hu
+  · obtain ⟨⟨h, ⟨_, n, rfl⟩⟩, e⟩ := hR.surj (homSec.lin f M F h')
+    refine ⟨⟨h, ⟨_, n, rfl⟩⟩, ?_⟩
+    simp only [Submonoid.smul_def] at e ⊢
+    exact (hactU n h').trans (e.trans (homResHom_apply f M F i h).symm)
+  · obtain ⟨⟨_, n, rfl⟩, e'⟩ := hR.exists_of_eq (S := Submonoid.powers r)
+      (x₁ := homSec.lin f M F h₁) (x₂ := homSec.lin f M F h₂)
+      ((homResHom_apply f M F i h₁).symm.trans (e.trans (homResHom_apply f M F i h₂)))
+    refine ⟨⟨_, n, rfl⟩, ?_⟩
+    simp only [Submonoid.smul_def] at e' ⊢
+    exact (hactV n h₁).trans (e'.trans (hactV n h₂).symm)
+
 end Restriction
 
 end ChevalleyApprox
