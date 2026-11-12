@@ -8,6 +8,38 @@ import Hartshorne.Scheme.ModuleIdealSheafData
 import Hartshorne.Scheme.QuasicoherentAbelianClosure
 import Hartshorne.Scheme.AffineGlobalSectionsExact
 
+/-!
+# Serre's criterion for affineness
+
+Hartshorne, *Algebraic Geometry*, III, Theorem 3.7 (pp. 215–216).
+
+For a Noetherian scheme `X` the following are equivalent: `X` is affine; `H^i(X, F) = 0` for all
+quasi-coherent `F` and `i > 0`; `H^1(X, J) = 0` for all coherent ideal sheaves `J`
+(`Hartshorne.isAffine_tfae_sheafCohomology`).
+
+## Proof
+
+(i) ⇒ (ii) is Theorem III.3.5 (`Hartshorne.sheafCohomology_isZero_of_isQuasicoherent_of_isAffine`)
+and (ii) ⇒ (iii) is trivial. For (iii) ⇒ (i) we follow Hartshorne and use the criterion of
+Ex. II.2.17 (`AlgebraicGeometry.isAffine_of_isAffineOpen_basicOpen`).
+
+* *Local step* (`SerreAffineness.exists_affine_basicOpen_of_isClosed`): for a closed point `P`
+  with affine neighbourhood `U` and `Y = X ∖ U`, the vanishing of `H^1(X, I_{Y ∪ P})` makes
+  `Γ(X, I_Y) ⟶ Γ(X, I_Y / I_{Y ∪ P})` surjective; lifting the section which is `1` near `P` and `0`
+  away from `P` gives `f ∈ Γ(X, I_Y)` with `P ∈ X_f ⊆ U`, so `X_f = U_f` is affine.
+* *Generation step* (`SerreAffineness.span_eq_top_of_cover`): if `X_{f_1}, …, X_{f_r}` cover `X`,
+  then `(f_i) : 𝒪_X^r ⟶ 𝒪_X` is surjective, and its kernel has a filtration whose quotients are
+  ideal sheaves (the images of the first coordinate), so `H^1` of the kernel vanishes and `1` lies
+  in the image of `Γ(X, 𝒪_X^r)`, i.e. `(f_1, …, f_r) = Γ(X, 𝒪_X)`.
+* Every point specializes to a closed point, so the affine `X_f` cover `X`; quasi-compactness and
+  the generation step give finitely many generating the unit ideal.
+
+Coherent ideal sheaves are quasi-coherent ideal subsheaves of `𝒪_X`
+(`Hartshorne.QuasicoherentIdealSubsheaf`); on a Noetherian scheme they are all coherent
+(`SerreAffineness.isCoherent_toModules`). Subobjects of `𝒪_X` given by monomorphisms are turned into
+such ideal subsheaves by `SerreAffineness.idealOfMono`.
+-/
+
 noncomputable section
 
 universe u
@@ -180,6 +212,13 @@ def αL : (l : List Γ(X, ⊤)) → (freeL l ⟶ unitMod X)
 
 /-- A section of `𝒪_X`, viewed as an `𝒪_X`-module, as a section of the structure sheaf. -/
 abbrev toRing {U : X.Opens} (x : Γ(unitMod X, U)) : Γ(X, U) := x
+
+/-- A section of the structure sheaf, as a section of `𝒪_X` viewed as an `𝒪_X`-module. -/
+abbrev ofRing {U : X.Opens} (r : Γ(X, U)) : Γ(unitMod X, U) := r
+
+theorem res_ofRing {U V : X.Opens} (h : V ≤ U) (r : Γ(X, U)) :
+    ArtinReesKernelSheaf.res (unitMod X) h (ofRing r) = ofRing (X.presheaf.map (homOfLE h).op r) :=
+  rfl
 
 theorem restrict_top_self (f : Γ(X, ⊤)) :
     X.presheaf.map (homOfLE le_top : (⊤ : X.Opens) ⟶ ⊤).op f = f := by
@@ -399,6 +438,219 @@ theorem span_eq_top_of_cover (hIII : ∀ J : QuasicoherentIdealSubsheaf X, IsZer
 
 end Generation
 
+/-! ### The local step -/
+
+section Local
+
+open ArtinReesKernelSheaf
+
+/-- A section over an affine open vanishes at the point of a prime ideal exactly when it lies in
+that prime. -/
+theorem fromSpec_mem_basicOpen_iff {U : X.Opens} (hU : IsAffineOpen U) (f : Γ(X, U))
+    (p : PrimeSpectrum Γ(X, U)) : hU.fromSpec p ∈ X.basicOpen f ↔ f ∉ p.asIdeal := by
+  have h := congrArg (fun W : (Spec Γ(X, U)).Opens => p ∈ W) (hU.fromSpec_preimage_basicOpen f)
+  exact h.to_iff
+
+/-- A section of the vanishing ideal of `Z` over an affine open `V` vanishes at every point of
+`Z ∩ V`. -/
+theorem not_mem_basicOpen_of_mem_vanishingIdeal {Z : Closeds X} {V : X.affineOpens}
+    {f : Γ(X, (V : X.Opens))} (hf : f ∈ (Scheme.IdealSheafData.vanishingIdeal Z).ideal V)
+    {x : X} (hxV : x ∈ (V : X.Opens)) (hxZ : x ∈ Z) : x ∉ X.basicOpen f := by
+  rw [Scheme.IdealSheafData.vanishingIdeal_ideal, PrimeSpectrum.mem_vanishingIdeal] at hf
+  obtain ⟨p, rfl⟩ : x ∈ Set.range V.2.fromSpec := by rwa [V.2.range_fromSpec]
+  exact fun h => (fromSpec_mem_basicOpen_iff V.2 f p).1 h (hf p hxZ)
+
+/-- The vanishing ideal of `Z` is the unit ideal over an affine open disjoint from `Z`. -/
+theorem one_mem_vanishingIdeal {Z : Closeds X} {V : X.affineOpens}
+    (hV : ∀ x ∈ (V : X.Opens), x ∉ Z) :
+    (1 : Γ(X, (V : X.Opens))) ∈ (Scheme.IdealSheafData.vanishingIdeal Z).ideal V := by
+  rw [Scheme.IdealSheafData.vanishingIdeal_ideal, PrimeSpectrum.mem_vanishingIdeal]
+  intro p hp
+  have hmem : V.2.fromSpec p ∈ (V : X.Opens) :=
+    (Set.ext_iff.mp (IsAffineOpen.range_fromSpec (U := (V : X.Opens)) V.2) _).mp
+      (Set.mem_range_self p)
+  exact absurd hp (hV _ hmem)
+
+/-- The ideal sheaf `I_Z` of a closed subset (of its reduced induced structure). -/
+def vI (Z : Closeds X) : QuasicoherentIdealSubsheaf X :=
+  idealSheafDataToSubsheaf (Scheme.IdealSheafData.vanishingIdeal Z)
+
+theorem mem_vI_iff (Z : Closeds X) (V : X.affineOpens) (s : Γ(unitMod X, (V : X.Opens))) :
+    s ∈ sub (vI Z).carrier V ↔
+      toRing s ∈ (Scheme.IdealSheafData.vanishingIdeal Z).ideal V := by
+  change toRing s ∈ (vI Z).ideal V ↔ _
+  rw [vI, ideal_idealSheafDataToSubsheaf]
+
+/-- A section lies in `I_Z` if it lies in the vanishing ideal of `Z` on affine opens covering its
+domain. -/
+theorem mem_vI_of_local (Z : Closeds X) {W : X.Opens} (s : Γ(unitMod X, W))
+    (h : ∀ V : X.affineOpens, (V : X.Opens) ≤ W →
+      ∀ hVW : (V : X.Opens) ≤ W, toRing (res (unitMod X) hVW s) ∈
+        (Scheme.IdealSheafData.vanishingIdeal Z).ideal V) :
+    s ∈ sub (vI Z).carrier W := by
+  refine (vI Z).isLocal W s fun x hx => ?_
+  obtain ⟨V, hVW, hxV⟩ := exists_affine_le hx
+  exact ⟨V, hVW, hxV, (mem_vI_iff Z V _).2 (h V hVW hVW)⟩
+
+theorem vI_le {Y Z : Closeds X} (h : Y ≤ Z) : (vI Z).carrier ≤ (vI Y).carrier := by
+  rw [PresheafOfModules.Submodule.le_iff]
+  intro W s hs
+  refine mem_vI_of_local Y s fun V _ hVW => ?_
+  have h1 := res_mem (vI Z).carrier hVW hs
+  rw [mem_vI_iff] at h1
+  exact (Scheme.IdealSheafData.le_def.mp (Scheme.IdealSheafData.vanishingIdeal_antimono h) V) h1
+
+/-- The inclusion `I_Z ⟶ I_Y` for `Y ⊆ Z`. -/
+def vIIncl {Y Z : Closeds X} (h : Y ≤ Z) : (vI Z).toModules ⟶ (vI Y).toModules :=
+  inclusion (vI Z).isLocal (vI Y).isLocal (vI_le h)
+
+theorem inclusion_app_val {E : X.Modules} {N₁ N₂ : E.val.Submodule} (h₁ : IsLocal N₁)
+    (h₂ : IsLocal N₂) (h : N₁ ≤ N₂) (V : X.Opens) (g : Γ(toModules N₁ h₁, V)) :
+    ((inclusion h₁ h₂ h).app V g).1 = g.1 :=
+  rfl
+
+theorem vIIncl_app_val {Y Z : Closeds X} (h : Y ≤ Z) (V : X.Opens)
+    (g : Γ((vI Z).toModules, V)) : ((vIIncl h).app V g).1 = g.1 :=
+  inclusion_app_val _ _ _ V g
+
+instance {Y Z : Closeds X} (h : Y ≤ Z) : Mono (vIIncl h) := by
+  have : Mono ((SheafOfModules.forget X.ringCatSheaf).map (vIIncl h)) :=
+    inferInstanceAs (Mono (PresheafOfModules.Submodule.homOfLE (vI_le h)))
+  exact (SheafOfModules.forget X.ringCatSheaf).mono_of_mono_map this
+
+/-- **Local step** (Hartshorne III.3.7): if `H^1` vanishes on all quasi-coherent ideal sheaves,
+every closed point `P` has an affine neighbourhood of the form `X_f`. Take an affine open
+`U ∋ P`, `Y = X ∖ U`, and the ideal sheaves `I_{Y ∪ P} ⊆ I_Y`; since `H^1(X, I_{Y ∪ P}) = 0`, the
+section of `I_Y / I_{Y ∪ P}` equal to `1` near `P` and `0` away from `P` lifts to
+`f ∈ Γ(X, I_Y)`; then `P ∈ X_f ⊆ U`, so `X_f = U_f` is affine. -/
+theorem exists_affine_basicOpen_of_isClosed
+    (hIII : ∀ J : QuasicoherentIdealSubsheaf X, IsZero (H 1 J.toModules)) (P : X)
+    (hP : IsClosed ({P} : Set X)) :
+    ∃ f : Γ(X, ⊤), P ∈ X.basicOpen f ∧ IsAffineOpen (X.basicOpen f) := by
+  obtain ⟨U, -, hPU⟩ := exists_affine_le (show P ∈ (⊤ : X.Opens) from trivial)
+  let Y : Closeds X := ⟨((U : X.Opens) : Set X)ᶜ, (U : X.Opens).isOpen.isClosed_compl⟩
+  let Z : Closeds X := Y ⊔ ⟨{P}, hP⟩
+  have hYZ : Y ≤ Z := le_sup_left
+  have hPZ : P ∈ Z := Or.inr rfl
+  let ι := vIIncl hYZ
+  let S := ShortComplex.mk ι (cokernel.π ι) (cokernel.condition ι)
+  have hS : S.ShortExact :=
+    ShortComplex.ShortExact.mk' (S.exact_of_g_is_cokernel (cokernelIsCokernel _)) inferInstance
+      inferInstance
+  have hsurj := surjective_app_top hS (hIII (vI Z))
+  let Pc : X.Opens := ⟨({P} : Set X)ᶜ, hP.isOpen_compl⟩
+  -- the section `1` of `I_Y` over `U`
+  have h1U : ofRing (1 : Γ(X, (U : X.Opens))) ∈ sub (vI Y).carrier (U : X.Opens) :=
+    (mem_vI_iff Y U _).2 (one_mem_vanishingIdeal fun x hx hxY => hxY hx)
+  let oneU : Γ((vI Y).toModules, (U : X.Opens)) := ⟨ofRing 1, h1U⟩
+  -- away from `P`, the section `1` of `𝒪_X` over a part of `U` lies in `I_Z`
+  have h1V : ∀ (V : X.Opens), V ≤ (U : X.Opens) → V ≤ Pc →
+      ofRing (1 : Γ(X, V)) ∈ sub (vI Z).carrier V := by
+    intro V hVU hVP
+    refine mem_vI_of_local Z _ fun V' hV' hV'' => ?_
+    rw [res_ofRing, map_one]
+    refine one_mem_vanishingIdeal fun x hx hxZ => ?_
+    rcases hxZ with hxY | hxP
+    · exact hxY (hVU (hV' hx))
+    · exact hVP (hV' hx) hxP
+  let Q := cokernel ι
+  have hres : ∀ (V : X.Opens) (hVU : V ≤ (U : X.Opens)), V ≤ Pc →
+      Q.presheaf.map (homOfLE hVU).op ((cokernel.π ι).app (U : X.Opens) oneU) = 0 := by
+    intro V hVU hVP
+    have hnat := ConcreteCategory.congr_hom ((cokernel.π ι).mapPresheaf.naturality
+      (homOfLE hVU).op) oneU
+    simp only [Scheme.Modules.mapPresheaf_app] at hnat
+    change ((vI Y).toModules.presheaf.map (homOfLE hVU).op ≫
+      (cokernel.π ι).app V) oneU = _ at hnat
+    rw [← ConcreteCategory.comp_apply, ← hnat]
+    have hel : (vI Y).toModules.presheaf.map (homOfLE hVU).op oneU =
+        ι.app V ⟨ofRing 1, h1V V hVU hVP⟩ := by
+      apply Subtype.ext
+      exact map_one (X.presheaf.map (homOfLE hVU).op).hom
+    rw [ConcreteCategory.comp_apply, hel]
+    exact (ConcreteCategory.congr_hom (congrArg (fun φ => φ.app V)
+      (cokernel.condition ι)) _).trans rfl
+  let F : TopCat.Sheaf AddCommGrpCat.{u} X := (SheafOfModules.toSheaf X.ringCatSheaf).obj Q
+  let W : Bool → X.Opens := fun b => cond b (U : X.Opens) Pc
+  let sf : ∀ b : Bool, ToType (F.1.obj (op (W b))) := fun b => match b with
+    | true => (cokernel.π ι).app (U : X.Opens) oneU
+    | false => 0
+  have hcompat : TopCat.Presheaf.IsCompatible F.1 W sf := by
+    intro i j
+    cases i <;> cases j
+    · rfl
+    · exact (map_zero _).trans (hres _ _ inf_le_left).symm
+    · exact (hres _ _ inf_le_right).trans (map_zero _).symm
+    · rfl
+  have hcover : (⊤ : X.Opens) ≤ iSup W := by
+    intro x _
+    refine Opens.mem_iSup.mpr ?_
+    by_cases hx : x = P
+    · exact ⟨true, hx ▸ hPU⟩
+    · exact ⟨false, hx⟩
+  obtain ⟨t, ht, -⟩ := F.existsUnique_gluing' W ⊤ (fun b => homOfLE le_top) hcover sf hcompat
+  obtain ⟨f₀, hf₀⟩ := hsurj t
+  let f : Γ(X, ⊤) := toRing (f₀ : Γ((vI Y).toModules, ⊤)).1
+  -- `P ∈ X_f`
+  have hPf : P ∈ X.basicOpen f := by
+    let r : Γ((vI Y).toModules, (U : X.Opens)) :=
+      (vI Y).toModules.presheaf.map (homOfLE le_top : (U : X.Opens) ⟶ ⊤).op f₀ - oneU
+    have hr : (cokernel.π ι).app (U : X.Opens) r = 0 := by
+      have hnat := ConcreteCategory.congr_hom ((cokernel.π ι).mapPresheaf.naturality
+        (homOfLE le_top : (U : X.Opens) ⟶ ⊤).op) f₀
+      simp only [Scheme.Modules.mapPresheaf_app] at hnat
+      rw [map_sub, sub_eq_zero]
+      refine hnat.trans ?_
+      rw [ConcreteCategory.comp_apply]
+      change F.1.map _ ((cokernel.π ι).app ⊤ f₀) = _
+      rw [show (cokernel.π ι).app ⊤ f₀ = t from hf₀]
+      exact ht true
+    have : Mono S.f := inferInstanceAs (Mono ι)
+    obtain ⟨g, hg⟩ := modules_sections_exact hS.exact (U := (U : X.Opens)) r hr
+    have hmem : (r : Γ((vI Y).toModules, (U : X.Opens))).1 ∈ sub (vI Z).carrier (U : X.Opens) := by
+      rw [← hg]
+      change ((vIIncl hYZ).app (U : X.Opens) g).1 ∈ _
+      rw [vIIncl_app_val]
+      exact g.2
+    have hnot := not_mem_basicOpen_of_mem_vanishingIdeal ((mem_vI_iff Z U _).1 hmem) hPU hPZ
+    obtain ⟨p, hp⟩ : P ∈ Set.range U.2.fromSpec := by rwa [U.2.range_fromSpec]
+    by_contra hPf'
+    have h1 : X.presheaf.map (homOfLE le_top : (U : X.Opens) ⟶ ⊤).op f ∈ p.asIdeal := by
+      by_contra hc
+      have h := (fromSpec_mem_basicOpen_iff U.2 _ p).2 hc
+      rw [hp, Scheme.basicOpen_res] at h
+      exact hPf' h.2
+    have h2 : toRing r.1 ∈ p.asIdeal := by
+      by_contra hc
+      have h := (fromSpec_mem_basicOpen_iff U.2 _ p).2 hc
+      rw [hp] at h
+      exact hnot h
+    have h3 : toRing r.1 = X.presheaf.map (homOfLE le_top : (U : X.Opens) ⟶ ⊤).op f - 1 := rfl
+    rw [h3] at h2
+    have h4 := p.asIdeal.sub_mem h1 h2
+    rw [sub_sub_cancel] at h4
+    exact p.isPrime.ne_top ((Ideal.eq_top_iff_one _).2 h4)
+  -- `X_f ⊆ U`
+  have hfU : X.basicOpen f ≤ (U : X.Opens) := by
+    intro x hxf
+    by_contra hxU
+    obtain ⟨V, -, hxV⟩ := exists_affine_le (show x ∈ (⊤ : X.Opens) from trivial)
+    have hmem := res_mem (vI Y).carrier (le_top : (V : X.Opens) ≤ ⊤)
+      (f₀ : Γ((vI Y).toModules, ⊤)).2
+    have hnot := not_mem_basicOpen_of_mem_vanishingIdeal ((mem_vI_iff Y V _).1 hmem) hxV hxU
+    change x ∉ X.basicOpen (X.presheaf.map (homOfLE le_top : (V : X.Opens) ⟶ ⊤).op f) at hnot
+    rw [Scheme.basicOpen_res] at hnot
+    exact hnot ⟨hxV, hxf⟩
+  refine ⟨f, hPf, ?_⟩
+  have hb : X.basicOpen (X.presheaf.map (homOfLE le_top : (U : X.Opens) ⟶ ⊤).op f) =
+      X.basicOpen f := by
+    rw [Scheme.basicOpen_res]
+    exact inf_eq_right.2 hfU
+  rw [← hb]
+  exact U.2.basicOpen _
+
+end Local
+
 /-- **Combination step** (Hartshorne III.3.7, end of the proof, via Ex. II.2.17): if every closed
 point of a Noetherian scheme has an affine neighbourhood `X_f`, and every finite family `f_i`
 with `⋃ X_{f_i} = X` generates the unit ideal of `Γ(X, 𝒪_X)`, then `X` is affine. -/
@@ -428,6 +680,47 @@ theorem isAffine_of_local_of_generation [IsNoetherian X]
   obtain ⟨g, -, rfl⟩ := Finset.mem_image.mp hf
   exact g.2
 
+/-- **(iii) ⇒ (i)** of Hartshorne III, Theorem 3.7: a Noetherian scheme on which `H^1` vanishes
+for every quasi-coherent ideal sheaf is affine. -/
+theorem isAffine_of_isZero_H1 [IsNoetherian X]
+    (hIII : ∀ J : QuasicoherentIdealSubsheaf X, IsZero (H 1 J.toModules)) : IsAffine X := by
+  refine isAffine_of_local_of_generation (fun P hP => exists_affine_basicOpen_of_isClosed hIII P hP)
+    fun t ht => ?_
+  have h := span_eq_top_of_cover hIII t.toList fun x => by
+    obtain ⟨f, hf, hx⟩ := ht x
+    exact ⟨f, Finset.mem_toList.2 hf, hx⟩
+  have he : {g | g ∈ t.toList} = (t : Set Γ(X, ⊤)) := by
+    ext g
+    simp
+  rwa [he] at h
+
 end SerreAffineness
+
+open SerreAffineness in
+/-- **Serre's criterion for affineness** (Hartshorne III, Theorem 3.7). For a Noetherian scheme
+`X` the following are equivalent:
+1. `X` is affine;
+2. `H^i(X, F) = 0` for every quasi-coherent `𝒪_X`-module `F` and every `i > 0`;
+3. `H^1(X, J) = 0` for every coherent ideal sheaf `J ⊆ 𝒪_X`.
+
+Cohomology is that of the underlying abelian sheaf; ideal sheaves are quasi-coherent ideal
+subsheaves of `𝒪_X`. -/
+theorem isAffine_tfae_sheafCohomology (X : Scheme.{u}) [IsNoetherian X] :
+    List.TFAE
+      [IsAffine X,
+        ∀ (F : X.Modules) [F.IsQuasicoherent] (i : ℕ), 0 < i →
+          IsZero ((sheafCohomology X.toTopCat i).obj
+            ((SheafOfModules.toSheaf X.ringCatSheaf).obj F)),
+        ∀ J : QuasicoherentIdealSubsheaf X, IsCoherent J.toModules →
+          IsZero ((sheafCohomology X.toTopCat 1).obj
+            ((SheafOfModules.toSheaf X.ringCatSheaf).obj J.toModules))] := by
+  tfae_have 1 → 2 := fun h F _ i hi => by
+    have := h
+    exact sheafCohomology_isZero_of_isQuasicoherent_of_isAffine F i hi
+  tfae_have 2 → 3 := fun h J _ => by
+    have := J.isQuasicoherent
+    exact h J.toModules 1 Nat.one_pos
+  tfae_have 3 → 1 := fun h => isAffine_of_isZero_H1 fun J => h J (isCoherent_toModules J)
+  tfae_finish
 
 end Hartshorne
