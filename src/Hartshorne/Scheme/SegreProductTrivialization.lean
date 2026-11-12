@@ -3,7 +3,7 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.SegreProductGradedAlgebra
-import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Functor
+import Hartshorne.Scheme.ProjectiveBundleTrivialization
 
 /-!
 # The diagonal product with a free rank-one graded algebra
@@ -192,92 +192,19 @@ include h𝒮 h𝒯 hfree in
 theorem ofGenerator_bijective : Function.Bijective (ofGenerator A 𝒮 𝒯 ht) :=
   ⟨ofGenerator_injective 𝒮 𝒯 h𝒮 h𝒯 ht hfree, ofGenerator_surjective 𝒮 𝒯 h𝒮 ht hfree⟩
 
-/-- `S ≅ S ×_A T` as rings, `s ↦ s ⊗ t^d` for `s ∈ S_d`, when `T_d` is free on `t^d`. -/
-def ofGeneratorEquiv : S ≃+* diagonal A 𝒮 𝒯 :=
-  RingEquiv.ofBijective (ofGenerator A 𝒮 𝒯 ht : S →+* diagonal A 𝒮 𝒯)
-    (ofGenerator_bijective 𝒮 𝒯 h𝒮 h𝒯 ht hfree)
-
-theorem ofGeneratorEquiv_symm_mem {d : ℕ} {y : diagonal A 𝒮 𝒯} (hy : y ∈ grading A 𝒮 𝒯 d) :
-    letI := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
-    (ofGeneratorEquiv 𝒮 𝒯 h𝒮 h𝒯 ht hfree).symm y ∈ 𝒮 d := by
-  classical
-  let := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
-  set x := (ofGeneratorEquiv 𝒮 𝒯 h𝒮 h𝒯 ht hfree).symm y
-  have hxy : ofGenerator A 𝒮 𝒯 ht x = y :=
-    (ofGeneratorEquiv 𝒮 𝒯 h𝒮 h𝒯 ht hfree).apply_symm_apply y
-  have hcomp : ∀ e, e ≠ d → (decompose 𝒮 x e : S) = 0 := by
-    intro e he
-    apply ofGenerator_injective 𝒮 𝒯 h𝒮 h𝒯 ht hfree
-    rw [map_zero, GradedRingHom.map_directSumDecompose, hxy, decompose_of_mem_ne _ hy he.symm]
-  have : x = decompose 𝒮 x d := by
-    conv_lhs => rw [← sum_support_decompose 𝒮 x]
-    refine Finset.sum_eq_single d (fun e _ he => hcomp e he) fun hd => ?_
-    simpa using hd
-  rw [this]
-  exact (decompose 𝒮 x d).2
-
-/-- The inverse `S ×_A T → S` of `s ↦ s ⊗ t^d`, as a graded ring map. -/
-def ofGeneratorInv :
-    letI := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
-    grading A 𝒮 𝒯 →+*ᵍ 𝒮 :=
-  letI := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
-  { toRingHom := (ofGeneratorEquiv 𝒮 𝒯 h𝒮 h𝒯 ht hfree).symm.toRingHom
-    map_mem := fun hy => ofGeneratorEquiv_symm_mem 𝒮 𝒯 h𝒮 h𝒯 ht hfree hy }
-
-include hfree in
-theorem irrelevant_le_ofGenerator :
-    letI := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
-    HomogeneousIdeal.irrelevant (grading A 𝒮 𝒯) ≤
-      (HomogeneousIdeal.irrelevant 𝒮).map (ofGenerator A 𝒮 𝒯 ht) := by
-  let := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
-  rw [← toIdeal_le_toIdeal_iff, HomogeneousIdeal.toIdeal_irrelevant_le]
-  intro i hi y hy
-  have hy' : ofGenerator A 𝒮 𝒯 ht ((ofGeneratorEquiv 𝒮 𝒯 h𝒮 h𝒯 ht hfree).symm y) = y :=
-    (ofGeneratorEquiv 𝒮 𝒯 h𝒮 h𝒯 ht hfree).apply_symm_apply y
-  change y ∈ ((HomogeneousIdeal.irrelevant 𝒮).map (ofGenerator A 𝒮 𝒯 ht)).toIdeal
-  rw [← hy']
-  exact Ideal.mem_map_of_mem _ (HomogeneousIdeal.mem_irrelevant_of_mem 𝒮 hi
-    (ofGeneratorEquiv_symm_mem 𝒮 𝒯 h𝒮 h𝒯 ht hfree hy))
-
-theorem irrelevant_le_ofGeneratorInv :
-    letI := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
-    HomogeneousIdeal.irrelevant 𝒮 ≤
-      (HomogeneousIdeal.irrelevant (grading A 𝒮 𝒯)).map (ofGeneratorInv 𝒮 𝒯 h𝒮 h𝒯 ht hfree) := by
-  let := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
-  rw [← toIdeal_le_toIdeal_iff, HomogeneousIdeal.toIdeal_irrelevant_le]
-  intro i hi s hs
-  have hs' : ofGeneratorInv 𝒮 𝒯 h𝒮 h𝒯 ht hfree (ofGenerator A 𝒮 𝒯 ht s) = s :=
-    (ofGeneratorEquiv 𝒮 𝒯 h𝒮 h𝒯 ht hfree).symm_apply_apply s
-  change s ∈ ((HomogeneousIdeal.irrelevant _).map (ofGeneratorInv 𝒮 𝒯 h𝒮 h𝒯 ht hfree)).toIdeal
-  rw [← hs']
-  exact Ideal.mem_map_of_mem _ (HomogeneousIdeal.mem_irrelevant_of_mem _ hi
-    ((ofGenerator A 𝒮 𝒯 ht).map_mem hs))
-
 /-- **The local isomorphism** `Proj (S ×_A T) ≅ Proj S` induced by `s ↦ s ⊗ t^d`, when every
 `T_d` is free on `t^d`. -/
 def projIsoOfGenerator :
     letI := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
     Proj (grading A 𝒮 𝒯) ≅ Proj 𝒮 :=
   letI := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
-  { hom := Proj.map (ofGenerator A 𝒮 𝒯 ht) (irrelevant_le_ofGenerator 𝒮 𝒯 h𝒮 h𝒯 ht hfree)
-    inv := Proj.map (ofGeneratorInv 𝒮 𝒯 h𝒮 h𝒯 ht hfree)
-      (irrelevant_le_ofGeneratorInv 𝒮 𝒯 h𝒮 h𝒯 ht hfree)
-    hom_inv_id := by
-      rw [← Proj.map_comp, ← Proj.map_id]
-      congr 1
-      exact GradedRingHom.ext fun y =>
-        (ofGeneratorEquiv 𝒮 𝒯 h𝒮 h𝒯 ht hfree).apply_symm_apply y
-    inv_hom_id := by
-      rw [← Proj.map_comp, ← Proj.map_id]
-      congr 1
-      exact GradedRingHom.ext fun s =>
-        (ofGeneratorEquiv 𝒮 𝒯 h𝒮 h𝒯 ht hfree).symm_apply_apply s }
+  projIsoOfBijective (ofGenerator A 𝒮 𝒯 ht) (ofGenerator_bijective 𝒮 𝒯 h𝒮 h𝒯 ht hfree)
 
 theorem projIsoOfGenerator_hom :
     letI := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
-    (projIsoOfGenerator 𝒮 𝒯 h𝒮 h𝒯 ht hfree).hom =
-      Proj.map (ofGenerator A 𝒮 𝒯 ht) (irrelevant_le_ofGenerator 𝒮 𝒯 h𝒮 h𝒯 ht hfree) :=
-  rfl
+    ∃ h, (projIsoOfGenerator 𝒮 𝒯 h𝒮 h𝒯 ht hfree).hom = Proj.map (ofGenerator A 𝒮 𝒯 ht) h :=
+  let := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
+  ⟨_, projIsoOfBijective_hom _ _⟩
 
 end Free
 
@@ -383,14 +310,61 @@ theorem projIsoOfGenerator_smul (hu : IsUnit u) (ht' : u • t ∈ 𝒯 1)
     projIsoOfGenerator 𝒮 𝒯 h𝒮 h𝒯 ht' hfree' = projIsoOfGenerator 𝒮 𝒯 h𝒮 h𝒯 ht hfree := by
   let := gradedRing A 𝒮 𝒯 h𝒮 h𝒯
   refine Iso.ext ?_
-  rw [projIsoOfGenerator_hom, projIsoOfGenerator_hom]
+  obtain ⟨h₁, e₁⟩ := projIsoOfGenerator_hom 𝒮 𝒯 h𝒮 h𝒯 ht' hfree'
+  obtain ⟨h₂, e₂⟩ := projIsoOfGenerator_hom 𝒮 𝒯 h𝒮 h𝒯 ht hfree
+  rw [e₁, e₂]
   have e : ofGenerator A 𝒮 𝒯 ht' = (ofGenerator A 𝒮 𝒯 ht).comp (scale 𝒮 h𝒮 u) :=
     GradedRingHom.ext (ofGenerator_smul 𝒮 𝒯 h𝒮 ht u ht')
   exact (projMap_congr e _ _).trans ((Proj.map_comp _ _ (irrelevant_le_scale 𝒮 h𝒮 hu)
-    (irrelevant_le_ofGenerator 𝒮 𝒯 h𝒮 h𝒯 ht hfree)).trans
-    (by rw [projMap_scale 𝒮 h𝒮 hu, Category.comp_id]))
+    h₂).trans (by rw [projMap_scale 𝒮 h𝒮 hu, Category.comp_id]))
+
+/-- **Independence of the generator**: any two generators `t, t'` of `T` (elements of `T_1` such
+that every `T_d` is free on `t^d`, resp. `t'^d`) give the same isomorphism
+`Proj (S ×_A T) ≅ Proj S`. -/
+theorem projIsoOfGenerator_eq {t' : T} (ht' : t' ∈ 𝒯 1)
+    (hfree : ∀ d, ∀ x ∈ 𝒯 d, ∃! a : A, a • t ^ d = x)
+    (hfree' : ∀ d, ∀ x ∈ 𝒯 d, ∃! a : A, a • t' ^ d = x) :
+    projIsoOfGenerator 𝒮 𝒯 h𝒮 h𝒯 ht' hfree' = projIsoOfGenerator 𝒮 𝒯 h𝒮 h𝒯 ht hfree := by
+  obtain ⟨a, ha, -⟩ := hfree 1 t' ht'
+  obtain ⟨b, hb, -⟩ := hfree' 1 t ht
+  rw [pow_one] at ha hb
+  have hba : b * a = 1 := (hfree 1 t ht).unique (by rw [pow_one, mul_smul, ha, hb])
+    (by rw [pow_one, one_smul])
+  subst ha
+  exact projIsoOfGenerator_smul 𝒮 𝒯 h𝒮 h𝒯 ht (IsUnit.of_mul_eq_one_right b hba) ht' hfree hfree'
 
 end Scale
+
+/-! ### Compatibility with base change -/
+
+section Naturality
+
+variable {A' S' T' : Type u} [CommRing A'] [CommRing S'] [CommRing T'] [Algebra A' S']
+  [Algebra A' T'] {𝒮' : ℕ → AddSubgroup S'} {𝒯' : ℕ → AddSubgroup T'} [GradedRing 𝒮']
+  [GradedRing 𝒯'] (h𝒮' : ∀ a : A', algebraMap A' S' a ∈ 𝒮' 0)
+  (h𝒯' : ∀ a : A', algebraMap A' T' a ∈ 𝒯' 0) (α : A →+* A') (σ : 𝒮 →+*ᵍ 𝒮') (τ : 𝒯 →+*ᵍ 𝒯')
+  (hσ : ∀ a, σ (algebraMap A S a) = algebraMap A' S' (α a))
+  (hτ : ∀ a, τ (algebraMap A T a) = algebraMap A' T' (α a))
+
+/-- The map of diagonal products induced by `σ`, `τ` over `α`, as a graded ring map. -/
+def diagonalGradedMap : grading A 𝒮 𝒯 →+*ᵍ grading A' 𝒮' 𝒯' where
+  __ := diagonalMap α σ τ hσ hτ
+  map_mem hx := diagonalMap_mem_grading α σ τ hσ hτ hx
+
+theorem diagonalMap_ofGenerator (s : S) :
+    diagonalMap α σ τ hσ hτ (ofGenerator A 𝒮 𝒯 ht s) =
+      ofGenerator A' 𝒮' 𝒯' (τ.map_mem ht) (σ s) := by
+  have := ringHom_ext_of_homogeneous (𝒮 := 𝒮) (R := diagonal A' 𝒮' 𝒯')
+    (f := (diagonalMap α σ τ hσ hτ).comp (ofGenerator A 𝒮 𝒯 ht).toRingHom)
+    (g := (ofGenerator A' 𝒮' 𝒯' (τ.map_mem ht)).toRingHom.comp σ.toRingHom) fun d s hs => by
+      refine Subtype.ext ?_
+      change tensorMap α σ τ hσ hτ (ofGenerator A 𝒮 𝒯 ht s : S ⊗[A] T) =
+        (ofGenerator A' 𝒮' 𝒯' (τ.map_mem ht) (σ s) : S' ⊗[A'] T')
+      rw [coe_ofGenerator_of_mem 𝒮 𝒯 ht hs, tensorMap_tmul, map_pow]
+      exact (coe_ofGenerator_of_mem 𝒮' 𝒯' (τ.map_mem ht) (σ.map_mem hs)).symm
+  exact congr($this s)
+
+end Naturality
 
 end SegreProduct
 
