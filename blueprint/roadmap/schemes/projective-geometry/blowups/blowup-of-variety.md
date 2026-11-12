@@ -24,6 +24,7 @@ projective.
 - Closedness of a proper morphism's image and density of the complement.
 - [Projective-morphism calculus](../../proper-and-projective/projective-morphism-calculus.md)
 - [A very ample power implies ampleness](../linear-systems-ampleness/very-ample-power-implies-ample.md)
+- [Projective morphisms are proper](../../proper-and-projective/projective-morphism-proper.md)
 
 ## Sources
 
