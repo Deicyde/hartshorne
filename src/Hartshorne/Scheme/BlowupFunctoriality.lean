@@ -180,7 +180,7 @@ private theorem isClosedImmersion_pullback_snd_projι [IsClosedImmersion f]
   rw [← hpb.flip.isoPullback_inv_snd]
   infer_instance
 
-/-- **Hartshorne II, Corollary 7.15 (blowing up a closed subscheme).** Let `f : Y ⟶ X` be a
+/-- **Hartshorne II, Corollary 7.15 (closed immersions).** Let `f : Y ⟶ X` be a
 closed immersion of Noetherian schemes, `I` a coherent sheaf of ideals on `X`, `π : X̃ ⟶ X` the
 blowing-up of `I` and `π' : Ỹ ⟶ Y` the blowing-up of the inverse image ideal sheaf `f⁻¹I · 𝒪_Y`.
 Then the morphism `f̃ : Ỹ ⟶ X̃` with `π ∘ f̃ = f ∘ π'` (unique by `existsUnique_blowup_map`) is a
