@@ -36,7 +36,7 @@ invertible sheaf on `X`. Then `Γ(X, L)` is a `k`-vector space through the const
   an integral scheme these are the points lying in the support of every divisor of the system
   (`LinearSystem.isBasePoint_iff`); they form the base locus of the existing finite-dimensional
   linear system API (`LinearSystem.mem_support_baseLocusIdeal_iff`), and the linear system spanned
-  by a family is `Hartshorne.linearSystem` (`LinearSystem.coe_ofFamily_sections`).
+  by a family is `Hartshorne.linearSystem` (`LinearSystem.mem_ofFamily_sections_iff`).
 * `LinearSystem.trace`: the **trace** of a linear system along a morphism `i : Y ⟶ X` (for
   Hartshorne a closed immersion of nonsingular projective varieties), the linear system of `i^* L`
   given by the image of `V` under `Γ(X, L) → Γ(Y, i^* L)`.
@@ -292,7 +292,7 @@ theorem mem_divisors_complete_iff [IsIntegral X] (hq : Projective q) (hL : L.IsI
 
 open AlgebraicGeometry.Scheme in
 /-- **The complete linear system is `|D₀|`, Weil-divisor form** (Hartshorne II.7, p.157, via
-Proposition 7.7(a), (b)). Let `X` be a nonsingular projective variety over `k` and
+Proposition 7.7(a), (b)). Let `X` be a regular integral scheme projective over `k` and
 `L ≅ 𝒪_X(D₀)` for a Weil divisor `D₀`. A Weil divisor `D` is a divisor of the complete linear
 system of `L` exactly when it is effective and linearly equivalent to `D₀`. -/
 theorem mem_divisors_complete_iff_weil [IsIntegral X] (hq : Projective q) (hreg : X.IsRegular)
@@ -351,8 +351,9 @@ theorem dim_mono {𝔡 𝔡' : LinearSystem q L} (h : 𝔡 ≤ 𝔡') : 𝔡.dim
     inf_eq_right.mpr h] at this
   exact this
 
-/-- **A base point** of a linear system (Hartshorne II.7, p.158): a point at which every section
-of `V` vanishes. -/
+/-- **A base point** of a linear system: a point at which every section of `V` vanishes, the
+criterion of Hartshorne II.7, Lemma 7.8. Hartshorne's definition (a point in the support of every
+divisor of the system) is equivalent on an integral scheme (`LinearSystem.isBasePoint_iff`). -/
 def IsBasePoint (𝔡 : LinearSystem q L) (x : X) : Prop :=
   ∀ s ∈ 𝔡.sections, x ∉ nonvanishingLocus L (toSection s)
 
@@ -383,7 +384,7 @@ theorem isBasePoint_iff [IsIntegral X] (𝔡 : LinearSystem q L) (x : X) :
       exact (hD.mem_support_iff 𝔡.isInvertible hDeff x).mp (h D hDmem hDeff)
 
 /-- **The linear system spanned by a family** `s₀, …, sₙ` of sections of `L`. Its subspace is the
-set `Hartshorne.linearSystem q s` of combinations `∑ aᵢ sᵢ` (`coe_ofFamily_sections`). -/
+set `Hartshorne.linearSystem q s` of combinations `∑ aᵢ sᵢ` (`mem_ofFamily_sections_iff`). -/
 def ofFamily (hL : L.IsInvertible) {n : ℕ} (s : Fin (n + 1) → globalSectionsOverField q L) :
     LinearSystem q L where
   isInvertible := hL
@@ -469,9 +470,10 @@ namespace LinearSystem
 
 variable {q : X ⟶ Spec (.of k)} {L : X.Modules} {Y : Scheme.{u}}
 
-/-- **The divisors of the trace** (Hartshorne II.7, p.158). For integral schemes `X` and `Y` and
-a morphism `i : Y ⟶ X`, the divisors of the trace of `𝔡` on `Y` are exactly the intersection
-divisors `D·Y` for the divisors `D` of `𝔡` whose support does not contain the image of `Y`; no
+/-- **The divisors of the trace** (generalizing Hartshorne II.7, p.158, where `i` is a closed
+immersion of nonsingular projective varieties). For integral schemes `X` and `Y` and a morphism
+`i : Y ⟶ X`, the divisors of the trace of `𝔡` on `Y` are exactly the intersection divisors
+`D·Y` for the divisors `D` of `𝔡` whose support does not contain the image of `Y`; no
 intersection divisor is assigned to a `D` whose support contains the image of `Y`, since then
 the restricted section is zero. -/
 theorem mem_trace_divisors_iff [IsIntegral X] [IsIntegral Y] (𝔡 : LinearSystem q L) (i : Y ⟶ X)
