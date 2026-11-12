@@ -193,7 +193,8 @@ def isoSkyscraperPresheafPUnit (G : TopCat.Presheaf CommRingCat.{u} (onePointSpa
         (isTerminalSkyscraperSheafObjObjOfNotMem (p₀ := ⋆) (A := R) h) _
   haveI := NatIso.isIso_of_isIso_app (StalkSkyscraperPresheafAdjunctionAuxs.toSkyscraperPresheaf ⋆
       (inv (G.germ ⊤ ⋆ (Opens.mem_top _)) ≫ e.hom))
-  asIso (StalkSkyscraperPresheafAdjunctionAuxs.toSkyscraperPresheaf ⋆ (inv (G.germ ⊤ ⋆ (Opens.mem_top _)) ≫ e.hom))
+  asIso (StalkSkyscraperPresheafAdjunctionAuxs.toSkyscraperPresheaf ⋆
+    (inv (G.germ ⊤ ⋆ (Opens.mem_top _)) ≫ e.hom))
 
 /-- **The one-point locally ringed space** with ring `R`: the one-point space with the skyscraper
 sheaf of value `R`, whose only stalk is `R`. -/
@@ -237,9 +238,10 @@ lemma infinitesimalNeighborhoodι_closedPointIdealSubsheaf_apply
 /-- The underlying space of the completion along `P` has at most one point. -/
 instance subsingleton_formalCompletion_closedPointIdealSubsheaf :
     Subsingleton (closedPointIdealSubsheaf P hP).formalCompletion.carrier :=
-  ⟨fun y z => ((closedPointIdealSubsheaf P hP).infinitesimalNeighborhoodι 1).isClosedEmbedding.injective
-    ((infinitesimalNeighborhoodι_closedPointIdealSubsheaf_apply P hP y).trans
-      (infinitesimalNeighborhoodι_closedPointIdealSubsheaf_apply P hP z).symm)⟩
+  ⟨fun y z =>
+    ((closedPointIdealSubsheaf P hP).infinitesimalNeighborhoodι 1).isClosedEmbedding.injective
+      ((infinitesimalNeighborhoodι_closedPointIdealSubsheaf_apply P hP y).trans
+        (infinitesimalNeighborhoodι_closedPointIdealSubsheaf_apply P hP z).symm)⟩
 
 /-- The point of the completion along `P`, lying over `P`. -/
 def formalCompletionClosedPointPt : (closedPointIdealSubsheaf P hP).formalCompletion.carrier :=
