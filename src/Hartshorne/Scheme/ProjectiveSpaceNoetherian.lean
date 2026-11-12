@@ -11,8 +11,8 @@ import Hartshorne.Scheme.ProjectiveSpaceChart
 
 Hartshorne, *Algebraic Geometry*, II.2, Example 2.5.1 (p. 77) sets up `ℙⁿ_A = Proj A[x₀, …, xₙ]`
 with its standard affine charts; II.3, the definition of a Noetherian scheme and Proposition 3.2
-(pp. 83–84), relate Noetherian schemes to finite covers by spectra of Noetherian rings. Together they give the fact proved
-here, which supplements the book's text.
+(pp. 83–84), relate Noetherian schemes to finite covers by spectra of Noetherian rings.
+Together they give the fact proved here, which supplements the book's text.
 
 ## Proof
 
