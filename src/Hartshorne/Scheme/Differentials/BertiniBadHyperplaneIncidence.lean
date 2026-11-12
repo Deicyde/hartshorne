@@ -362,6 +362,99 @@ theorem ker_stalkMap_eq_map_ker_app (ι : Y ⟶ X) [IsClosedImmersion ι] (z : Y
 
 end ClosedImmersionStalk
 
+/-! ### Regularity of the zero scheme of a section at a point -/
+
+section ZeroScheme
+
+variable {X : Scheme.{u}} {L : X.Modules} (hL : L.IsInvertible)
+
+/-- **The zero scheme `Z(t)` is singular at `x` exactly when `t_x ∈ 𝔪_x² L_x`.** Let `X` be
+integral, `L` invertible, and let `𝒪_{X,x}` be regular. For a global section `t` of `L`, the germ
+`t_x` lies in `𝔪_x² L_x` iff either `t = 0` (so `Z(t) = X`), or `x ∈ Z(t)` and the local ring of
+`Z(t)` at `x` is not regular. Near `x`, `t = f e` for a generator `e`, and `𝒪_{Z(t),x} = 𝒪_{X,x}/(f)`;
+the regular hypersurface criterion applies. -/
+theorem germ_mem_maximalIdeal_sq_smul_top_iff [IsIntegral X] (t : Γ(L, ⊤)) (x : X)
+    [IsRegularLocalRing (X.presheaf.stalk x)] :
+    L.presheaf.germ ⊤ x trivial t ∈ maximalIdeal (X.presheaf.stalk x) ^ 2 •
+        (⊤ : Submodule (X.presheaf.stalk x) (L.presheaf.stalk x)) ↔
+      t = 0 ∨ ∃ z : (invertibleZeroIdeal hL t).subscheme,
+        (invertibleZeroIdeal hL t).subschemeι z = x ∧
+          ¬ IsRegularLocalRing ((invertibleZeroIdeal hL t).subscheme.presheaf.stalk z) := by
+  obtain ⟨U, e, hxU, hU, he⟩ := exists_isAffineOpen_isTrivializingSection hL x
+  obtain ⟨f, hf⟩ := he.exists_eq_smul t
+  set I := invertibleZeroIdeal hL t with hI_def
+  have hI : I.ideal ⟨U, hU⟩ = Ideal.span {f} :=
+    invertibleZeroIdeal_ideal_eq_span hL (U := ⟨U, hU⟩) he hf
+  have hgerm : L.presheaf.germ ⊤ x trivial t =
+      X.presheaf.germ U x hxU f • L.presheaf.germ U x hxU e := by
+    rw [← germ_smul_module, ← hf, TopCat.Presheaf.germ_res_apply]
+  have hmem : L.presheaf.germ ⊤ x trivial t ∈ maximalIdeal (X.presheaf.stalk x) ^ 2 •
+        (⊤ : Submodule (X.presheaf.stalk x) (L.presheaf.stalk x)) ↔
+      X.presheaf.germ U x hxU f ∈ maximalIdeal (X.presheaf.stalk x) ^ 2 := by
+    rw [hgerm]
+    exact smul_germ_mem_smul_top_iff he hxU _ _
+  -- a nonzero section has a nonzero local equation
+  have hb0 : t ≠ 0 → X.presheaf.germ U x hxU f ≠ 0 := by
+    intro ht hb
+    have : Nonempty U := ⟨⟨x, hxU⟩⟩
+    have hf0 : f = 0 := (germ_injective_of_isIntegral X x hxU) (hb.trans (map_zero _).symm)
+    apply ht
+    refine eq_zero_of_forall_notMem_nonvanishingLocus hL fun y hy => ?_
+    have h1 := he.nonvanishingLocus_inter_eq hf
+    rw [hf0, X.basicOpen_zero] at h1
+    obtain ⟨z, hz⟩ := nonempty_preirreducible_inter (isOpen_nonvanishingLocus hL t) U.isOpen
+      ⟨y, hy⟩ ⟨x, hxU⟩
+    rw [h1] at hz
+    exact hz
+  -- the support of `Z(t)` near `x`
+  have hsupp : x ∈ Set.range I.subschemeι ↔
+      X.presheaf.germ U x hxU f ∈ maximalIdeal (X.presheaf.stalk x) := by
+    rw [I.range_subschemeι, SetLike.mem_coe, hI_def, mem_support_invertibleZeroIdeal_iff,
+      he.mem_nonvanishingLocus_iff hf hxU, Scheme.mem_basicOpen X f x hxU, mem_maximalIdeal,
+      mem_nonunits_iff]
+  -- the local ring of `Z(t)` at a point over `x`
+  have hloc : ∀ z : I.subscheme, ∀ hz : I.subschemeι z = x,
+      (IsRegularLocalRing (I.subscheme.presheaf.stalk z) ↔
+        IsRegularLocalRing (X.presheaf.stalk x ⧸ Ideal.span {X.presheaf.germ U x hxU f})) := by
+    intro z hz
+    subst hz
+    have hker : RingHom.ker (I.subschemeι.stalkMap z).hom =
+        Ideal.span {X.presheaf.germ U (I.subschemeι z) hxU f} := by
+      rw [ker_stalkMap_eq_map_ker_app I.subschemeι z hU hxU,
+        show RingHom.ker (I.subschemeι.app U).hom = I.ideal ⟨U, hU⟩ from
+          I.ker_subschemeι_app ⟨U, hU⟩, hI, Ideal.map_span, Set.image_singleton]
+    let eq : X.presheaf.stalk (I.subschemeι z) ⧸
+        Ideal.span {X.presheaf.germ U (I.subschemeι z) hxU f} ≃+* I.subscheme.presheaf.stalk z :=
+      (Ideal.quotEquivOfEq hker.symm).trans
+        (RingHom.quotientKerEquivOfSurjective (I.subschemeι.stalkMap_surjective z))
+    exact ⟨fun h => h.of_ringEquiv eq.symm, fun h => h.of_ringEquiv eq⟩
+  constructor
+  · intro h
+    rw [hmem] at h
+    by_cases ht : t = 0
+    · exact Or.inl ht
+    right
+    have hbm : X.presheaf.germ U x hxU f ∈ maximalIdeal (X.presheaf.stalk x) :=
+      Ideal.pow_le_self two_ne_zero h
+    obtain ⟨z, hz⟩ := hsupp.mpr hbm
+    refine ⟨z, hz, fun hreg => ?_⟩
+    rw [hloc z hz, isRegularLocalRing_quotient_span_singleton_iff_notMem_sq (hb0 ht) hbm] at hreg
+    exact hreg h
+  · rintro (ht | ⟨z, hz, hreg⟩)
+    · rw [ht, map_zero]
+      exact zero_mem _
+    by_cases ht : t = 0
+    · rw [ht, map_zero]
+      exact zero_mem _
+    rw [hmem]
+    have hbm : X.presheaf.germ U x hxU f ∈ maximalIdeal (X.presheaf.stalk x) :=
+      hsupp.mp ⟨z, hz⟩
+    by_contra hsq
+    exact hreg ((hloc z hz).mpr
+      ((isRegularLocalRing_quotient_span_singleton_iff_notMem_sq (hb0 ht) hbm).mpr hsq))
+
+end ZeroScheme
+
 end BertiniIncidence
 
 end Hartshorne
