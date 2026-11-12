@@ -3,6 +3,8 @@ article_id: af_35ab5f2f11a618a550cc6e45
 declaration: theorem
 origin: cited
 lean: Hartshorne.isAffine_tfae_sheafCohomology
+statement: formalized
+proof: formalized
 ---
 
 # Serre's affineness criterion
