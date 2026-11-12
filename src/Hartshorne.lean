@@ -702,6 +702,7 @@ import Hartshorne.Scheme.NoetherianFormalScheme
 import Hartshorne.Scheme.IdealOfDefinition
 import Hartshorne.Scheme.FormalCompletionClosedPoint
 import Hartshorne.Scheme.AlgebraizableFormalScheme
+import Hartshorne.Scheme.SchemeAsFormalScheme
 import Hartshorne.Weil.GeometricallyConnectedSmoothProjective
 import Hartshorne.Surface.KodairaDimensionBirational
 import Hartshorne.Surface.GeneralType
