@@ -28,6 +28,13 @@ Let `X` be a locally ringed space, `J` an ideal subsheaf of `𝒪_X` and `F` an 
   `F|_{Uᵢ}` is complete for `J|_{Uᵢ}`, then `F` is complete for `J`.
 * `Hartshorne.IdealSubsheaf.mem_powSubmodule_of_powQuotientπ_app_eq_zero`: the kernel of
   `F(W) ⟶ (F / J ^ (n + 1) F)(W)` is `(J ^ (n + 1) F)(W)`.
+* `Hartshorne.IdealSubsheaf.isIso_toLimitPowQuotient_iff_of_kernel`: if epimorphisms
+  `π n : F ⟶ Q n` with kernels `J ^ (n + 1) F` are compatible with maps `Q (n + 1) ⟶ Q n`, then
+  `F` is complete for `J` iff `F` is the limit of the `Q n` (`IdealSubsheaf.coneOfπ`); the
+  quotients are identified by `IdealSubsheaf.powQuotientIsoOfKernel`.
+* `Hartshorne.IdealSubsheaf.isIso_toLimitPowQuotient_of_iso`: completeness is invariant under
+  isomorphism of modules; `IdealSubsheaf.map_mem_smulSubmodule`: a morphism maps `J M` into
+  `J N`.
 
 The restricted quotient is identified through exactness, checked on sections, rather than through
 a general statement that restriction to an open preserves cokernels.
@@ -345,4 +352,124 @@ theorem isIso_toLimitPowQuotient_of_iSup_eq_top {ι : Type*} (U : ι → Opens X
     rwa [functor_obj_map_obj_of_le hWi] at this
 
 end IdealSubsheaf
+/-! ### Completeness through a presentation of the quotients; invariance under isomorphism -/
+
+namespace IdealSubsheaf
+variable {T : TopCat.{u}} {R : TopCat.Sheaf CommRingCat.{u} T} (J : IdealSubsheaf R)
+  {M : SheafOfModules.{u} (ringCatSheafOf R)}
+  {Q : ℕ → SheafOfModules.{u} (ringCatSheafOf R)} (π : ∀ n, M ⟶ Q n) [∀ n, Epi (π n)]
+  (hz : ∀ n, (J ^ (n + 1)).smulι M ≫ π n = 0)
+  (hex : ∀ n (W : Opens T) (s : M.val.obj (op W)), (π n).val.app (op W) s = 0 →
+    s ∈ (J.powSubmodule M n).obj (op W))
+
+omit [∀ n, Epi (π n)] in
+include hex in
+/-- If `π n : M ⟶ Q n` kills `J ^ (n + 1) M` and its kernel on sections is `J ^ (n + 1) M`, then
+`J ^ (n + 1) M ⟶ M ⟶ Q n` is exact. -/
+lemma exact_of_kernel (n : ℕ) : (ShortComplex.mk _ _ (hz n)).Exact := by
+  refine sheafOfModules_exact_of_isBasis_sections _ (B := Set.univ)
+    (Opens.isBasis_iff_nbhd.mpr fun {V x} hx => ⟨V, trivial, hx, le_rfl⟩) ?_
+  intro V _ x hx
+  exact ⟨⟨x, hex n V x hx⟩, rfl⟩
+
+/-- If `π n : M ⟶ Q n` is an epimorphism with kernel `J ^ (n + 1) M`, then
+`M / J ^ (n + 1) M ≅ Q n`. -/
+def powQuotientIsoOfKernel (n : ℕ) : J.powQuotient M n ≅ Q n :=
+  (colimit.isColimit _).coconePointUniqueUpToIso (J.exact_of_kernel π hz hex n).gIsCokernel
+
+@[reassoc (attr := simp)]
+lemma powQuotientπ_powQuotientIsoOfKernel_hom (n : ℕ) :
+    J.powQuotientπ M n ≫ (J.powQuotientIsoOfKernel π hz hex n).hom = π n :=
+  (colimit.isColimit _).comp_coconePointUniqueUpToIso_hom _ WalkingParallelPair.one
+
+variable (t : ∀ n, Q (n + 1) ⟶ Q n) (ht : ∀ n, π (n + 1) ≫ t n = π n)
+
+/-- The cone over `n ↦ Q n` with vertex `M` given by the `π n`. -/
+def coneOfπ : Cone (Functor.ofOpSequence t) where
+  pt := M
+  π := NatTrans.ofOpSequence (fun n => π n) (fun n => by
+    rw [Functor.ofOpSequence_map_homOfLE_succ]
+    exact (Category.id_comp _).trans (ht n).symm)
+
+include hz hex ht in
+/-- **Completeness through any presentation of the quotients.** If the `π n : M ⟶ Q n` are
+epimorphisms with kernels `J ^ (n + 1) M`, compatible with maps `Q (n + 1) ⟶ Q n`, then `M` is
+complete for `J` iff `M` is the limit of the `Q n`. -/
+theorem isIso_toLimitPowQuotient_iff_of_kernel :
+    IsIso (J.toLimitPowQuotient M) ↔ Nonempty (IsLimit (coneOfπ π t ht)) := by
+  let Ψ : J.powQuotientDiagram M ⟶ Functor.ofOpSequence t :=
+    NatTrans.ofOpSequence (fun n => (J.powQuotientIsoOfKernel π hz hex n).hom) (fun n => by
+      rw [Functor.ofOpSequence_map_homOfLE_succ, show (J.powQuotientDiagram M).map
+        (homOfLE (n.le_add_right 1)).op = J.powQuotientMap M n from
+        Functor.ofOpSequence_map_homOfLE_succ _ n]
+      refine (cancel_epi (J.powQuotientπ M (n + 1))).mp ?_
+      exact (J.powQuotientπ_powQuotientMap_assoc M n _).trans
+        ((J.powQuotientπ_powQuotientIsoOfKernel_hom π hz hex n).trans ((ht n).symm.trans
+          (J.powQuotientπ_powQuotientIsoOfKernel_hom_assoc π hz hex (n + 1) (t n)).symm)))
+  have : IsIso Ψ := by
+    have : ∀ n : ℕᵒᵖ, IsIso (Ψ.app n) := fun ⟨n⟩ =>
+      inferInstanceAs (IsIso (J.powQuotientIsoOfKernel π hz hex n).hom)
+    exact NatIso.isIso_of_isIso_app _
+  have e : (Cone.postcompose Ψ).obj (J.powQuotientCone M) ≅ coneOfπ π t ht :=
+    Cone.ext (Iso.refl _) fun ⟨n⟩ => by
+      change J.powQuotientπ M n ≫ (J.powQuotientIsoOfKernel π hz hex n).hom = 𝟙 _ ≫ π n
+      exact (J.powQuotientπ_powQuotientIsoOfKernel_hom π hz hex n).trans (Category.id_comp _).symm
+  constructor
+  · intro hI
+    exact ⟨(IsLimit.postcomposeHomEquiv (asIso Ψ) _).symm
+      (J.isLimitPowQuotientConeOfIsIso M) |>.ofIsoLimit e⟩
+  · rintro ⟨hc⟩
+    have hc' := IsLimit.postcomposeHomEquiv (asIso Ψ) _ (hc.ofIsoLimit e.symm)
+    have : J.toLimitPowQuotient M = (hc'.conePointUniqueUpToIso (limit.isLimit _)).hom := rfl
+    rw [this]
+    exact (hc'.conePointUniqueUpToIso (limit.isLimit _)).isIso_hom
+
+omit [∀ n, Epi (π n)] in
+/-- A morphism of modules maps `J M` into `J N`. -/
+lemma map_mem_smulSubmodule {N : SheafOfModules.{u} (ringCatSheafOf R)} (g : M ⟶ N)
+    {W : Opens T} {s : M.val.obj (op W)} (hs : s ∈ (J.smulSubmodule M).obj (op W)) :
+    g.val.app (op W) s ∈ (J.smulSubmodule N).obj (op W) := by
+  have key : ∀ {V : Opens T} {m : M.val.obj (op V)}, m ∈ J.sectionsSmul M V →
+      g.val.app (op V) m ∈ J.sectionsSmul N V := fun hm => by
+    refine Submodule.smul_induction_on hm (fun r hr m _ => ?_) (fun a b ha hb => ?_)
+    · rw [map_smul]
+      exact Submodule.smul_mem_smul hr trivial
+    · rw [map_add]
+      exact add_mem ha hb
+  intro x hx
+  obtain ⟨V, hVW, hxV, hsV⟩ := hs x hx
+  refine ⟨V, hVW, hxV, ?_⟩
+  have e : g.val.app (op V) (M.val.map (homOfLE hVW).op s) =
+      N.val.map (homOfLE hVW).op (g.val.app (op W) s) :=
+    PresheafOfModules.naturality_apply g.val (homOfLE hVW).op s
+  exact e ▸ key hsV
+
+omit [∀ n, Epi (π n)] in
+/-- **Completeness is invariant under isomorphism of modules.** -/
+theorem isIso_toLimitPowQuotient_of_iso {M' : SheafOfModules.{u} (ringCatSheafOf R)} (φ : M ≅ M')
+    [IsIso (J.toLimitPowQuotient M)] : IsIso (J.toLimitPowQuotient M') := by
+  have hz : ∀ n, (J ^ (n + 1)).smulι M' ≫ (φ.inv ≫ J.powQuotientπ M n) = 0 := fun n => by
+    refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun V => ?_)
+    ext ⟨s, hs⟩
+    exact J.powQuotientπ_app_eq_zero M n _ ((J ^ (n + 1)).map_mem_smulSubmodule φ.inv hs)
+  have hex : ∀ n (W : Opens T) (s : M'.val.obj (op W)),
+      (φ.inv ≫ J.powQuotientπ M n).val.app (op W) s = 0 → s ∈ (J.powSubmodule M' n).obj (op W) := by
+    intro n W s hs
+    have h1 : φ.hom.val.app (op W) (φ.inv.val.app (op W) s) ∈ (J.powSubmodule M' n).obj (op W) :=
+      (J ^ (n + 1)).map_mem_smulSubmodule φ.hom
+        (J.mem_powSubmodule_of_powQuotientπ_app_eq_zero M n _ hs)
+    have h2 : φ.hom.val.app (op W) (φ.inv.val.app (op W) s) = s :=
+      congrArg (fun k => k.val.app (op W) s) φ.inv_hom_id
+    rwa [h2] at h1
+  have ht : ∀ n, (φ.inv ≫ J.powQuotientπ M (n + 1)) ≫ J.powQuotientMap M n =
+      φ.inv ≫ J.powQuotientπ M n := fun n => by
+    rw [Category.assoc, powQuotientπ_powQuotientMap]
+  refine (J.isIso_toLimitPowQuotient_iff_of_kernel (fun n => φ.inv ≫ J.powQuotientπ M n) hz hex
+    (J.powQuotientMap M) ht).mpr ⟨(J.isLimitPowQuotientConeOfIsIso M).ofIsoLimit
+      (Cone.ext φ fun ⟨n⟩ => ?_)⟩
+  change J.powQuotientπ M n = φ.hom ≫ φ.inv ≫ J.powQuotientπ M n
+  rw [φ.hom_inv_id_assoc]
+
+end IdealSubsheaf
+
 end Hartshorne
