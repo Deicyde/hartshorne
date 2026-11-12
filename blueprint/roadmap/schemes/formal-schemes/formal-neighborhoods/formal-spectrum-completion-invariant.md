@@ -3,6 +3,8 @@ article_id: af_002135c46b13e5a861f9ddf7
 declaration: theorem
 origin: bridged
 lean: Hartshorne.spf_completion_invariant Hartshorne.spfCompletionIso Hartshorne.spec_map_algebraMap_spfCompletionIso_hom_base Hartshorne.spfCompletionIso_hom_c_app_π Hartshorne.spfCompletionNeighborhoodIso Hartshorne.QuasicoherentIdealSubsheaf.formalCompletionIsoOfNeighborhoodIso
+statement: formalized
+proof: formalized
 ---
 
 # Formal spectrum is invariant under adic completion
