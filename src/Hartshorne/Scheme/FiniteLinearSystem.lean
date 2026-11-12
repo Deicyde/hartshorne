@@ -30,8 +30,8 @@ structure morphism.
   sections, the closed subscheme with ideal `∑_{t ∈ S} I_{Z(t)}`; a point lies in it exactly when
   every member of `S` vanishes there (`mem_support_baseLocusIdeal_iff`).
 * `linearSystemDomain hL s`: the open `X - B = ⋃ X_{sᵢ}` (`mem_linearSystemDomain_iff`,
-  `range_baseLocus_subschemeι`). On it the evaluation map is surjective (`span_germ_linearSystem_eq_top`,
-  `isGeneratedBySections_linearSystemSections`).
+  `range_baseLocus_subschemeι`). On it the evaluation map is surjective
+  (`span_germ_linearSystem_eq_top`, `isGeneratedBySections_linearSystemSections`).
 * `linearSystemMorphism q hL s : X - B ⟶ ℙⁿ_k`: the morphism defined (Hartshorne II,
   Theorem 7.1) by the `sᵢ|_{X - B}` (`existsUnique_linearSystemMorphism`,
   `linearSystemMorphism_spec`).
