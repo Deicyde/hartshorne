@@ -7,18 +7,15 @@ statement: formalized
 proof: formalized
 ---
 
-# The project formal-spectrum bridge
+# Affine formal schemes
 
-For a Noetherian ring $A$ and ideal $I$, define project notation
+For a Noetherian ring $A$ and an ideal $I$, write $\operatorname{Spf}_I(A)$ for the completion of
+$\operatorname{Spec} A$ along $V(I)$. An affine Noetherian formal scheme is one isomorphic to some
+$\operatorname{Spf}_I(A)$; this is Hartshorne's definition (p.195): "a formal scheme obtained by
+completing a single affine noetherian scheme along a closed subscheme".
 
-$\operatorname{Spf}_I(A)=\widehat{\operatorname{Spec}A}_{V(I)}$.
-
-The construction does not use that $A$ is Noetherian; the hypothesis is kept because it is Hartshorne's setting for formal schemes.
-
-An affine Noetherian formal scheme is one isomorphic to such an object. This
-is a representation bridge for Hartshorne's affine-completion definition;
-Hartshorne does not introduce the notation $\operatorname{Spf}$, and this node asserts no
-continuous-ring classification of morphisms.
+The construction does not use that $A$ is Noetherian; the hypothesis is kept because it is
+Hartshorne's setting for formal schemes.
 
 ## Depends on
 

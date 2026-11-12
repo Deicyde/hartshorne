@@ -19,7 +19,7 @@ defines nor invokes a completed tensor product.
 
 - [Completion of a coherent module](completed-coherent-module.md)
 - [Coherent modules on a Noetherian formal scheme](coherent-formal-module.md)
-- [The project formal-spectrum bridge](../formal-neighborhoods/formal-spectrum.md)
+- [Affine formal schemes](../formal-neighborhoods/formal-spectrum.md)
 - [Tensor products of module sheaves](../../modules-and-quasicoherent/module-tensor-product.md)
 
 ## Proof depends on

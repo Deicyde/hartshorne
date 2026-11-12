@@ -19,7 +19,7 @@ is exact. Neither $F$ nor $F''$ is assumed coherent.
 ## Depends on
 
 - [Coherent modules on a Noetherian formal scheme](coherent-formal-module.md)
-- [The project formal-spectrum bridge](../formal-neighborhoods/formal-spectrum.md)
+- [Affine formal schemes](../formal-neighborhoods/formal-spectrum.md)
 
 ## Proof depends on
 

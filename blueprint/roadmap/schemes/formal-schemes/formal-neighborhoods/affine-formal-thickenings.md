@@ -17,7 +17,7 @@ $\mathcal{O}_{\widehat{X}} / J^{n+1} \cong \widetilde{A/I^{n+1}}$.
 
 ## Depends on
 
-- [The project formal-spectrum bridge](formal-spectrum.md)
+- [Affine formal schemes](formal-spectrum.md)
 - [Module ideal sheaves and ideal data](../../coherent-sheaves/module-ideal-sheaf-data.md)
 
 ## Proof depends on

@@ -24,7 +24,7 @@ does not identify Hartshorne's morphisms with continuous ring homomorphisms.
 
 ## Depends on
 
-- [The project formal-spectrum bridge](formal-spectrum.md)
+- [Affine formal schemes](formal-spectrum.md)
 - [Adic completion of rings and modules](../adic-completion/adic-completion.md)
 - [Noetherianity of adic completion](../adic-completion/adic-completion-noetherian.md)
 

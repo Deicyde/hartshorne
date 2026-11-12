@@ -13,7 +13,7 @@ develops affine formal thickenings and ideals of definition.
 3. [Completion depends only on the closed support](formal-completion-support-invariant.md)
 4. [Affine sections of a formal completion](formal-completion-affine-sections.md)
 5. [Noetherian formal schemes](noetherian-formal-scheme.md)
-6. [The project formal-spectrum bridge](formal-spectrum.md)
+6. [Affine formal schemes](formal-spectrum.md)
 7. [Formal spectrum is invariant under adic completion](formal-spectrum-completion-invariant.md)
 8. [Scheme completions are formal schemes](completion-is-formal-scheme.md)
 9. [Schemes as formal schemes](schemes-as-formal-schemes.md)

@@ -26,7 +26,7 @@ modules is supplied later by the affine formal module equivalence.
 - Affine localization near $P$ and invariance of completion under replacing
   the affine ring by its local ring at the corresponding maximal ideal.
 - [Affine sections of a formal completion](formal-completion-affine-sections.md)
-- [The project formal-spectrum bridge](formal-spectrum.md)
+- [Affine formal schemes](formal-spectrum.md)
 
 ## Sources
 
