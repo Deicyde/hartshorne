@@ -2,6 +2,7 @@
 article_id: af_8e78e11352c545c31c5d6594
 declaration: isomorphism
 origin: cited
+lean: Hartshorne.sheafCohomologyIsoPushforwardOfIsAffineHom Hartshorne.sheafCohomologyIsoPushforwardOfIsAffineHom_hom_naturality
 ---
 
 # Cohomology under an affine morphism
