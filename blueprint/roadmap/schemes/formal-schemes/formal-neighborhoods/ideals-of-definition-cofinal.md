@@ -3,6 +3,8 @@ article_id: af_34de807f9b5a67a4c3b150c6
 declaration: theorem
 origin: cited
 lean: Hartshorne.IsIdealOfDefinition.exists_pow_le_and_pow_le
+statement: formalized
+proof: formalized
 ---
 
 # Ideals of definition are cofinal
