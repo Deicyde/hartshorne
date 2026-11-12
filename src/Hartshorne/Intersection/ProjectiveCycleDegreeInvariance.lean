@@ -442,4 +442,95 @@ theorem finsum_ord_mul_projectiveSpectrumPointDegree_eq_zero [IsAlgClosed k] {V 
 
 end Bezout
 
+section Invariance
+
+/-- The degree of the pushforward `ν_* div(G)` to `ℙⁿ_k` of a principal divisor on the
+normalization `Ṽ` of an integral closed subvariety `V` is zero. -/
+private theorem cycleProjectiveDegree_subvarietyNormalizationPushforward [IsAlgClosed k]
+    {V : Scheme.{u}} [IsIntegral V] (i : V ⟶ Proj 𝒜) [IsClosedImmersion i] {r : ℕ}
+    (hV : codim (Set.range i) + 1 = r) (G : (absoluteNormalization V).functionFieldˣ) :
+    cycleProjectiveDegree r (subvarietyNormalizationPushforward projectiveSpaceStructureMorphism
+      finiteType_projectiveSpaceStructureMorphism topologicalKrullDim_projectiveSpace i hV
+      (weilDivisorToCodimOneCycles (satisfiesConditionStar_absoluteNormalization
+        projectiveSpaceStructureMorphism finiteType_projectiveSpaceStructureMorphism i)
+        ((absoluteNormalization V).principalDivisor (satisfiesConditionStar_absoluteNormalization
+          projectiveSpaceStructureMorphism finiteType_projectiveSpaceStructureMorphism i) G))) =
+      0 := by
+  classical
+  set p := projectiveSpaceStructureMorphism (k := k) (n := n)
+  have hp := finiteType_projectiveSpaceStructureMorphism (k := k) (n := n)
+  have := hp.1
+  have := hp.2
+  have hVp : FiniteType (i ≫ p) := ⟨inferInstance, inferInstance⟩
+  have : IsLocallyNoetherian V := LocallyOfFiniteType.isLocallyNoetherian (i ≫ p)
+  have := absoluteNormalizationMap_isDominant V
+  have hν := Scheme.Hom.apply_genericPoint_of_isDominant (absoluteNormalizationMap V)
+  obtain ⟨g, hgG⟩ := (genericFunctionFieldMap_absoluteNormalizationMap_bijective (i ≫ p) hVp
+    hν).2 G
+  have hg : g ≠ 0 := by
+    rintro rfl
+    rw [map_zero] at hgG
+    exact G.ne_zero hgG.symm
+  have hG : G = Units.mk0 ((absoluteNormalizationMap V).genericFunctionFieldMap hν g)
+      ((map_ne_zero_iff _ ((absoluteNormalizationMap V).genericFunctionFieldMap
+        hν).hom.injective).mpr hg) := Units.ext hgG.symm
+  subst hG
+  set c := subvarietyNormalizationPushforward p hp topologicalKrullDim_projectiveSpace i hV _
+  have hc : ∀ x, (c : AlgebraicCycle (Proj 𝒜) ℤ) x = ∑ᶠ y ∈ i ⁻¹' {x}, V.ord g y :=
+    subvarietyNormalizationPushforward_principalDivisor_apply p hp _ i hV hν g hg
+  change ∑ᶠ x : Proj 𝒜, (c : AlgebraicCycle (Proj 𝒜) ℤ) x * projectiveSpectrumPointDegree x = 0
+  have hrange : ∑ᶠ x : Proj 𝒜, (c : AlgebraicCycle (Proj 𝒜) ℤ) x *
+      projectiveSpectrumPointDegree x = ∑ᶠ x ∈ Set.range i,
+        (c : AlgebraicCycle (Proj 𝒜) ℤ) x * projectiveSpectrumPointDegree x := by
+    rw [finsum_mem_def]
+    refine finsum_congr fun x ↦ ?_
+    by_cases hx : x ∈ Set.range i
+    · rw [Set.indicator_of_mem hx]
+    · rw [Set.indicator_of_notMem hx, hc]
+      have h2 : i ⁻¹' {x} = ∅ := by
+        ext y
+        simp only [Set.mem_preimage, Set.mem_singleton_iff, Set.mem_empty_iff_false, iff_false]
+        exact fun h ↦ hx ⟨y, h⟩
+      rw [h2, finsum_mem_empty, zero_mul]
+  rw [hrange, finsum_mem_range i.isClosedEmbedding.injective]
+  refine (finsum_congr fun y ↦ ?_).trans (finsum_ord_mul_projectiveSpectrumPointDegree_eq_zero i hg)
+  have hi : i ⁻¹' {i y} = {y} := by
+    ext y'
+    exact i.isClosedEmbedding.injective.eq_iff
+  rw [hc, hi, finsum_mem_singleton]
+
+/-- **The degree of cycles on `ℙⁿ_k` is invariant under rational equivalence.** Let `k` be
+algebraically closed. The degree `deg (∑ nᵢ [Yᵢ]) = ∑ nᵢ deg Yᵢ` of codimension-`r` cycles on
+`ℙⁿ_k` vanishes on the rational-equivalence subgroup: for every integral subvariety `V` of
+codimension `r - 1` with normalization `ν : Ṽ ⟶ ℙⁿ_k` and every nonzero rational function `g`
+on `Ṽ`, `deg ν_* div(g) = 0`. -/
+theorem cycleProjectiveDegree_eq_zero_of_mem_rationalEquivalenceSubgroup [IsAlgClosed k] {r : ℕ}
+    {c : codimensionCycles (Proj 𝒜) r}
+    (hc : c ∈ rationalEquivalenceSubgroup projectiveSpaceStructureMorphism
+      finiteType_projectiveSpaceStructureMorphism topologicalKrullDim_projectiveSpace r) :
+    cycleProjectiveDegree r c = 0 := by
+  rw [rationalEquivalenceSubgroup_eq_closure_principalDivisor] at hc
+  induction hc using AddSubgroup.closure_induction with
+  | mem c hc =>
+    obtain ⟨V, hVi, i, hi, hV, G, rfl⟩ := hc
+    exact cycleProjectiveDegree_subvarietyNormalizationPushforward i hV G
+  | zero => exact map_zero _
+  | add c d _ _ hc hd => rw [map_add, hc, hd, add_zero]
+  | neg c _ hc => rw [map_neg, hc, neg_zero]
+
+/-- **The degree on the Chow groups of `ℙⁿ_k`.** For `k` algebraically closed, the degree of
+codimension-`r` cycles on `ℙⁿ_k` descends to a homomorphism `deg : A^r(ℙⁿ_k) → ℤ`. -/
+noncomputable def chowGroupProjectiveDegree [IsAlgClosed k] (r : ℕ) :
+    chowGroup projectiveSpaceStructureMorphism finiteType_projectiveSpaceStructureMorphism
+      (topologicalKrullDim_projectiveSpace (k := k) (n := n)) r →+ ℤ :=
+  QuotientAddGroup.lift _ (cycleProjectiveDegree r) fun _ hc ↦
+    cycleProjectiveDegree_eq_zero_of_mem_rationalEquivalenceSubgroup hc
+
+/-- The degree of the class of a cycle is the degree of the cycle. -/
+theorem chowGroupProjectiveDegree_mk [IsAlgClosed k] {r : ℕ} (c : codimensionCycles (Proj 𝒜) r) :
+    chowGroupProjectiveDegree r (QuotientAddGroup.mk c) = cycleProjectiveDegree r c :=
+  rfl
+
+end Invariance
+
 end Hartshorne
