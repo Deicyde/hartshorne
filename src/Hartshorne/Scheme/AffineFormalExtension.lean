@@ -9,9 +9,36 @@ import Hartshorne.Scheme.SchemeCompletionExact
 /-!
 # Extensions of completed modules on an affine formal scheme
 
-WIP
--/
+Hartshorne, *Algebraic Geometry*, II.9, Remark 9.9.1 and Exercise 9.4 (pp. 199–200), the affine
+step: on `X̂ = Spf_I(A)`, for `A` Noetherian and `I`-adically complete, an extension of
+completed finite modules is again the completion of a finite module, namely of its global
+sections. This file supplies that step; it does not prove Exercise 9.4 on a general Noetherian
+formal scheme.
 
+Write `L(M) = (M~)|_{V(I)} ⊗ 𝒪_X̂` (module pullback along `X̂ ⟶ Spec A`, isomorphic to `(M~)^`
+for `M` finite by Proposition 9.4(b)) and `R(F) = Γ(X̂, F)`, an `A`-module through
+`A ⟶ Γ(X̂, 𝒪_X̂)`.
+
+* `Hartshorne.isAdicComplete_of_finite_of_isNoetherianRing`: a finite module over a Noetherian
+  `I`-adically complete ring is `I`-adically complete.
+* `Hartshorne.QuasicoherentIdealSubsheaf.toModuleCompletionPushforward_app_bijective`: for `F`
+  quasi-coherent and `U` affine with `Γ(U, F)` complete for `I(U)`, the canonical map
+  `Γ(U, F) ⟶ Γ(U ∩ |Y|, F̂)` is bijective.
+* `Hartshorne.specIdealSubsheaf_ideal_top`: the global ideal of the ideal sheaf of `I` is `I`.
+* `Hartshorne.affineFormalTildeAdjunction`: the adjunction `L ⊣ R`.
+* `Hartshorne.isIso_affineFormalTildeAdjunction_unit_app`: for `A` complete and `N` finite, the
+  unit `N ⟶ Γ(X̂, L(N))` is an isomorphism, so `Γ(X̂, (N~)^) ≅ N`;
+  `Hartshorne.isIso_affineFormalTildeAdjunction_counit_app`: hence the counit is an isomorphism
+  at `L(N)`.
+* `Hartshorne.isCoherent_tilde_of_finite`: `N~` is coherent for `N` finite over Noetherian `A`.
+* `Hartshorne.affineFormal_extension_moduleCompletion`: for a short exact sequence
+  `0 ⟶ F' ⟶ F ⟶ F'' ⟶ 0` on `X̂` with `F' ≅ (M'~)^`, `F'' ≅ (M''~)^` (`M'`, `M''` finite),
+  `Γ(X̂, F)` is finite and `F ≅ (Γ(X̂, F)~)^`. Global sections of the sequence are exact
+  (Exercise 9.3, as `F'` is coherent), so `Γ(X̂, F)` is an extension of `M''` by `M'`; completion
+  is exact on finite modules (Proposition 9.4(c)), and the counit compares the two short exact
+  sequences, an isomorphism on the outer terms and therefore in the middle.
+* `Hartshorne.affineFormal_extension_isCoherentFormalModule`: such an `F` is coherent.
+-/
 noncomputable section
 
 open CategoryTheory Limits Opposite TopologicalSpace AlgebraicGeometry TensorProduct

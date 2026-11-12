@@ -781,6 +781,7 @@ import Hartshorne.Scheme.SheafCechOneLift
 import Hartshorne.Scheme.IdealOfDefinitionTransition
 import Hartshorne.Scheme.AffineFormalIdealOfDefinition
 import Hartshorne.Scheme.AffineFormalGlobalSectionsExact
+import Hartshorne.Scheme.AffineFormalExtension
 import Hartshorne.Scheme.SeparatesPointsTangentVectors
 import Hartshorne.Scheme.BirationalDenominatorIdeal
 import Hartshorne.Scheme.ProjectivelyNormalVeronese
