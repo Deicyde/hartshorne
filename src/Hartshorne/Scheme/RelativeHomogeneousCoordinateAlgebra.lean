@@ -139,6 +139,84 @@ theorem projMap_polyMap_comp_projectiveSpaceOverSpecIso {R R' : CommRingCat.{u}}
 
 end Naturality
 
+/-! ### Localizing a quotient of a polynomial ring -/
+
+section Localization
+
+variable {σ : Type*} {R R' : Type u} [CommRing R] [CommRing R'] (ρ : R →+* R') (g : R)
+
+/-- If `R' = R[1/g]`, every polynomial over `R'` is the image of a polynomial over `R` divided by a
+power of `g`. -/
+private theorem exists_mul_pow_eq_map (hρ : letI := ρ.toAlgebra; IsLocalization.Away g R')
+    (p' : MvPolynomial σ R') :
+    ∃ (p : MvPolynomial σ R) (k : ℕ), p' * MvPolynomial.C (ρ g) ^ k = MvPolynomial.map ρ p := by
+  let := ρ.toAlgebra
+  induction p' using MvPolynomial.induction_on with
+  | C c =>
+    obtain ⟨⟨a, ⟨_, k, rfl⟩⟩, h⟩ := IsLocalization.surj (Submonoid.powers g) c
+    refine ⟨MvPolynomial.C a, k, ?_⟩
+    rw [MvPolynomial.map_C, ← map_pow, ← map_mul]
+    congr 1
+    simpa [RingHom.algebraMap_toAlgebra] using h
+  | add p q hp hq =>
+    obtain ⟨P, k, hP⟩ := hp
+    obtain ⟨Q, l, hQ⟩ := hq
+    refine ⟨P * MvPolynomial.C g ^ l + Q * MvPolynomial.C g ^ k, k + l, ?_⟩
+    simp only [map_add, map_mul, map_pow, MvPolynomial.map_C, ← hP, ← hQ]
+    ring
+  | mul_X p j hp =>
+    obtain ⟨P, k, hP⟩ := hp
+    refine ⟨P * MvPolynomial.X j, k, ?_⟩
+    rw [map_mul, MvPolynomial.map_X, ← hP]
+    ring
+
+/-- **Localizing a graded quotient on the base.** Let `R' = R[1/g]`, `I ⊆ R[x]` and
+`J ⊆ R'[x]` with `J ∩ R[x] = I`. Then `R'[x]/J = (R[x]/I)[1/g]`. -/
+theorem isLocalizationAway_quotientMap (hρ : letI := ρ.toAlgebra; IsLocalization.Away g R')
+    (I : Ideal (MvPolynomial σ R)) (J : Ideal (MvPolynomial σ R'))
+    (hIJ : J.comap (MvPolynomial.map ρ) = I) :
+    letI := (Ideal.quotientMap J (MvPolynomial.map ρ) hIJ.ge).toAlgebra
+    IsLocalization.Away (Ideal.Quotient.mk I (MvPolynomial.C g)) (MvPolynomial σ R' ⧸ J) := by
+  let := (Ideal.quotientMap J (MvPolynomial.map ρ) hIJ.ge).toAlgebra
+  have halg : ∀ p, algebraMap (MvPolynomial σ R ⧸ I) (MvPolynomial σ R' ⧸ J)
+      (Ideal.Quotient.mk I p) = Ideal.Quotient.mk J (MvPolynomial.map ρ p) := fun p =>
+    Ideal.quotientMap_mk
+  constructor; constructor
+  · rintro ⟨_, n, rfl⟩
+    change IsUnit (algebraMap _ _ (Ideal.Quotient.mk I (MvPolynomial.C g) ^ n))
+    rw [map_pow, halg, MvPolynomial.map_C]
+    let := ρ.toAlgebra
+    exact (((IsLocalization.Away.algebraMap_isUnit g).map MvPolynomial.C).map
+      (Ideal.Quotient.mk J)).pow n
+  · intro z
+    obtain ⟨p', rfl⟩ := Ideal.Quotient.mk_surjective z
+    obtain ⟨p, k, h⟩ := exists_mul_pow_eq_map ρ g hρ p'
+    refine ⟨⟨Ideal.Quotient.mk I p, ⟨_, k, rfl⟩⟩, ?_⟩
+    simp only [map_pow, halg, MvPolynomial.map_C]
+    rw [← map_pow, ← map_mul, h]
+  · intro x y e
+    obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective x
+    obtain ⟨q, rfl⟩ := Ideal.Quotient.mk_surjective y
+    refine ⟨1, ?_⟩
+    rw [halg, halg, Ideal.Quotient.eq, ← map_sub] at e
+    have : p - q ∈ I := by rw [← hIJ]; exact e
+    simp only [OneMemClass.coe_one, one_mul]
+    exact Ideal.Quotient.eq.mpr this
+
+/-- A map to the zero ring is the localization at an element mapping to zero. -/
+theorem isLocalizationAway_of_subsingleton {A B : Type u} [CommRing A] [CommRing B] [Algebra A B]
+    [Subsingleton B] {x : A} (hx : x = 0) : IsLocalization.Away x B := by
+  constructor; constructor
+  · intro _
+    exact isUnit_of_subsingleton _
+  · intro z
+    exact ⟨⟨0, 1⟩, Subsingleton.elim _ _⟩
+  · intro a b _
+    refine ⟨⟨x, 1, pow_one x⟩, ?_⟩
+    simp [hx]
+
+end Localization
+
 /-! ### Compatibility of the embeddings over affine opens -/
 
 section Compat
@@ -226,6 +304,12 @@ theorem comap_chartIdeal {U V : X.Opens} (hU : IsAffineOpen U) (hV : IsAffineOpe
   rw [← this]
   rfl
 
+theorem comap_map_chartIdeal {U V : X.Opens} (hU : IsAffineOpen U) (hV : IsAffineOpen V)
+    (h : U ≤ V) (hη : genericPoint Z ∈ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U) :
+    (chartIdeal i U hU).toIdeal.comap (MvPolynomial.map (X.presheaf.map (homOfLE h).op).hom) =
+      (chartIdeal i V hV).toIdeal :=
+  congrArg HomogeneousIdeal.toIdeal (comap_chartIdeal i hU hV h hη)
+
 theorem chartIdeal_le_comap {U V : X.Opens} (hU : IsAffineOpen U) (hV : IsAffineOpen V)
     (h : U ≤ V) :
     chartIdeal i V hV ≤
@@ -236,7 +320,145 @@ theorem chartIdeal_le_comap {U V : X.Opens} (hU : IsAffineOpen U) (hV : IsAffine
     intro x _
     trivial
 
+omit [IsIntegral Z] in
+/-- **The degree-zero part of `I_U`**: for `z ∈ f⁻¹(U)` and `a ∈ Γ(X, U)`, the constant `a` lies in
+the homogeneous prime of `z` iff `f(z) ∉ D(a)`. -/
+theorem C_mem_chartPoint_iff {U : X.Opens} (hU : IsAffineOpen U)
+    (z : ((i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U).toScheme) (a : Γ(X, U)) :
+    MvPolynomial.C a ∈ (chartPoint i hU z).asHomogeneousIdeal ↔
+      (i ≫ projectiveSpaceOverSchemeProjection r X) z.1 ∉ X.basicOpen a := by
+  let P := projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)
+  have h1 : chartPoint i hU z ∈ Proj.basicOpen _ (MvPolynomial.C a) ↔
+      chartPoint i hU z ∈ (P.hom ≫ projectiveSpaceOverSchemeProjection r _) ⁻¹ᵁ
+        PrimeSpectrum.basicOpen a := by
+    rw [projectiveSpaceOverSpecIso_hom, projToProjectiveSpaceOverSpec_projection,
+      toSpecZero_comp_preimage_basicOpen]
+    rfl
+  have h2 : (P.hom ≫ projectiveSpaceOverSchemeProjection r _) (chartPoint i hU z) =
+      hU.isoSpec.hom (((i ≫ projectiveSpaceOverSchemeProjection r X) ∣_ U) z) := by
+    have hPP : ∀ y, P.hom (P.inv y) = y := fun y => by
+      rw [← Scheme.Hom.comp_apply, Iso.inv_hom_id]
+      rfl
+    rw [Scheme.Hom.comp_apply, chartPoint, hPP]
+    exact congr($(chartEmbedding_projection i hU) z)
+  have h3 : hU.fromSpec (hU.isoSpec.hom (((i ≫ projectiveSpaceOverSchemeProjection r X) ∣_ U) z)) =
+      (i ≫ projectiveSpaceOverSchemeProjection r X) z.1 := by
+    rw [← Scheme.Hom.comp_apply, IsAffineOpen.isoSpec_hom_fromSpec, ← Scheme.Hom.comp_apply,
+      morphismRestrict_ι, Scheme.Hom.comp_apply]
+    rfl
+  rw [← not_iff_not, not_not, ← Proj.mem_basicOpen, h1]
+  change (P.hom ≫ projectiveSpaceOverSchemeProjection r _) (chartPoint i hU z) ∈
+    PrimeSpectrum.basicOpen a ↔ _
+  rw [h2, ← h3, ← IsAffineOpen.fromSpec_preimage_basicOpen hU]
+  rfl
+
+theorem C_mem_chartIdeal_iff {U : X.Opens} (hU : IsAffineOpen U)
+    (h : genericPoint Z ∈ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U) (a : Γ(X, U)) :
+    MvPolynomial.C a ∈ chartIdeal i U hU ↔
+      (i ≫ projectiveSpaceOverSchemeProjection r X) (genericPoint Z) ∉ X.basicOpen a := by
+  rw [chartIdeal_of_mem i hU h]
+  exact C_mem_chartPoint_iff i hU ⟨_, h⟩ a
+
 end Compat
+
+/-! ### The quasi-coherent graded algebra `U ↦ Γ(X, U)[x] / I_U` -/
+
+section CoordinateAlgebra
+
+open Scheme.AffineZariskiSite
+
+variable {X Z : Scheme.{u}} (i : Z ⟶ projectiveSpaceOverScheme r X) [IsIntegral Z]
+
+/-- The restriction `Γ(X, V)[x] / I_V → Γ(X, U)[x] / I_U` for affine opens `U ⊆ V`. -/
+def coordRestrict {U V : X.Opens} (hU : IsAffineOpen U) (hV : IsAffineOpen V) (h : U ≤ V) :
+    MvPolynomial (Fin (r + 1)) Γ(X, V) ⧸ (chartIdeal i V hV).toIdeal →+*
+      MvPolynomial (Fin (r + 1)) Γ(X, U) ⧸ (chartIdeal i U hU).toIdeal :=
+  Ideal.quotientMap _ (MvPolynomial.map (X.presheaf.map (homOfLE h).op).hom)
+    (chartIdeal_le_comap i hU hV h)
+
+theorem coordRestrict_mk {U V : X.Opens} (hU : IsAffineOpen U) (hV : IsAffineOpen V) (h : U ≤ V)
+    (p : MvPolynomial (Fin (r + 1)) Γ(X, V)) :
+    coordRestrict i hU hV h (Ideal.Quotient.mk _ p) =
+      Ideal.Quotient.mk _ (MvPolynomial.map (X.presheaf.map (homOfLE h).op).hom p) :=
+  Ideal.quotientMap_mk
+
+/-- The functor `U ↦ Γ(X, U)[x] / I_U` on the affine opens of `X`. -/
+abbrev coordFunctor : X.AffineZariskiSiteᵒᵖ ⥤ CommRingCat.{u} where
+  obj U := CommRingCat.of
+    (MvPolynomial (Fin (r + 1)) Γ(X, U.unop.1) ⧸ (chartIdeal i U.unop.1 U.unop.2).toIdeal)
+  map f := CommRingCat.ofHom (coordRestrict i _ _ (toOpens_mono f.unop.le))
+  map_id U := by
+    refine CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext (RingHom.ext fun p => ?_))
+    simp only [RingHom.comp_apply, CommRingCat.hom_ofHom, coordRestrict_mk, CommRingCat.hom_id,
+      RingHom.id_apply]
+    congr 1
+    rw [show (homOfLE (toOpens_mono (𝟙 U : U ⟶ U).unop.le)).op = 𝟙 (op U.unop.1) from
+      Subsingleton.elim _ _, X.presheaf.map_id, CommRingCat.hom_id, MvPolynomial.map_id]
+  map_comp f g := by
+    refine CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext (RingHom.ext fun p => ?_))
+    simp only [RingHom.comp_apply, CommRingCat.hom_ofHom, coordRestrict_mk, CommRingCat.hom_comp]
+    rw [MvPolynomial.map_map, ← CommRingCat.hom_comp, ← X.presheaf.map_comp]
+    rfl
+
+variable (r) in
+omit [IsIntegral Z] in
+private theorem C_mem_zero (U : X.Opens) (a : Γ(X, U)) :
+    (MvPolynomial.C a : MvPolynomial (Fin (r + 1)) Γ(X, U)) ∈
+      MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U) 0 :=
+  (MvPolynomial.mem_homogeneousSubmodule _ _).2 (MvPolynomial.isHomogeneous_C _ a)
+
+/-- Quasi-coherence of the relative homogeneous coordinate algebra:
+`Γ(X, D(g))[x] / I_{D(g)} = (Γ(X, U)[x] / I_U)[1/g]`. -/
+theorem coordinateAlgebra_isLocalizationAway (U : X.AffineZariskiSite) (g : Γ(X, U.1)) :
+    letI := (coordRestrict i (U.basicOpen g).2 U.2 (X.basicOpen_le g)).toAlgebra
+    IsLocalization.Away (Ideal.Quotient.mk (chartIdeal i U.1 U.2).toIdeal (MvPolynomial.C g))
+      (MvPolynomial (Fin (r + 1)) Γ(X, (U.basicOpen g).1) ⧸
+        (chartIdeal i (U.basicOpen g).1 (U.basicOpen g).2).toIdeal) := by
+  by_cases hη : genericPoint Z ∈ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ X.basicOpen g
+  · exact isLocalizationAway_quotientMap (X.presheaf.map (homOfLE (X.basicOpen_le g)).op).hom g
+      (U.2.isLocalization_basicOpen g) (chartIdeal i U.1 U.2).toIdeal
+      (chartIdeal i (X.basicOpen g) (U.basicOpen g).2).toIdeal
+      (comap_map_chartIdeal i (U.basicOpen g).2 U.2 (X.basicOpen_le g) hη)
+  · let := (coordRestrict i (U.basicOpen g).2 U.2 (X.basicOpen_le g)).toAlgebra
+    have hJ : chartIdeal i (U.basicOpen g).1 (U.basicOpen g).2 = ⊤ := chartIdeal_of_not_mem i _ hη
+    have : Subsingleton (MvPolynomial (Fin (r + 1)) Γ(X, (U.basicOpen g).1) ⧸
+        (chartIdeal i (U.basicOpen g).1 (U.basicOpen g).2).toIdeal) :=
+      Ideal.Quotient.subsingleton_iff.mpr (by rw [hJ]; rfl)
+    refine isLocalizationAway_of_subsingleton (Ideal.Quotient.eq_zero_iff_mem.mpr ?_)
+    by_cases hηU : genericPoint Z ∈ (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1
+    · exact (C_mem_chartIdeal_iff i U.2 hηU g).mpr hη
+    · rw [chartIdeal_of_not_mem i U.2 hηU]
+      trivial
+
+/-- **The relative homogeneous coordinate algebra** of the closed subscheme `Z ⊆ ℙʳ_X` (`Z`
+integral): the quasi-coherent graded `𝒪_X`-algebra `U ↦ Γ(X, U)[x₀, …, xᵣ] / I_U`, where `I_U` is
+the homogeneous ideal of `f⁻¹(U) ⊆ ℙʳ_{Spec Γ(X, U)}`. Quasi-coherence (`T(D(g)) = T(U)_g`) holds
+because `I_{D(g)} ∩ Γ(X, U)[x] = I_U`. -/
+abbrev coordinateAlgebra : QuasiCoherentGradedAlgebra X where
+  obj := coordFunctor i
+  structureMap :=
+    { app U := CommRingCat.ofHom ((Ideal.Quotient.mk _).comp MvPolynomial.C)
+      naturality U V f := by
+        ext a
+        change Ideal.Quotient.mk (chartIdeal i V.unop.1 V.unop.2).toIdeal
+            (MvPolynomial.C (X.presheaf.map ((toOpensFunctor X).map f.unop).op a)) =
+          coordRestrict i V.unop.2 U.unop.2 (toOpens_mono f.unop.le)
+            (Ideal.Quotient.mk _ (MvPolynomial.C a))
+        rw [coordRestrict_mk, MvPolynomial.map_C]
+        rfl }
+  coequifibered := coequifibered_iff_forall_isLocalizationAway.mpr fun U g =>
+    coordinateAlgebra_isLocalizationAway i U g
+  grading U := gradedQuotient (MvPolynomial.homogeneousSubmodule (Fin (r + 1)) Γ(X, U.1))
+    (chartIdeal i U.1 U.2)
+  gradedRing _ := inferInstance
+  map_mem f n x hx := by
+    obtain ⟨p, hp, rfl⟩ := mem_gradedQuotient_iff.mp hx
+    change coordRestrict i _ _ _ (Ideal.Quotient.mk _ p) ∈ _
+    rw [coordRestrict_mk]
+    exact mk_mem_gradedQuotient ((polyMap (r := r) _).map_mem hp)
+  structureMap_mem U a := mk_mem_gradedQuotient (C_mem_zero r U.1 a)
+
+end CoordinateAlgebra
 
 end SectionAlgebraModel
 
