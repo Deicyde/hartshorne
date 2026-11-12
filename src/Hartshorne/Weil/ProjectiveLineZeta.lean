@@ -149,7 +149,7 @@ theorem hasseWeilZetaSeries_projectiveLine (k : Type u) [Field k] [Finite k] :
       coeff_mk]
     split_ifs with hn
     · simp
-    · erw [pointCountSequence_projectiveLine k ⟨n, Nat.pos_of_ne_zero hn⟩]
+    · rw [pointCountSequence_projectiveLine k ⟨n, Nat.pos_of_ne_zero hn⟩]
       rw [hq]
       push_cast
       rw [PNat.mk_coe]
@@ -158,9 +158,9 @@ theorem hasseWeilZetaSeries_projectiveLine (k : Type u) [Field k] [Finite k] :
     rw [hZ, hasseWeilZetaSeries, hlog,
       exp_subst_add (constantCoeff_negLogOneSub 1) (constantCoeff_negLogOneSub q)]
     have h1 := exp_subst_negLogOneSub_mul 1
-    have hq := exp_subst_negLogOneSub_mul q
+    have h2 := exp_subst_negLogOneSub_mul q
     rw [map_one, one_mul] at h1
-    linear_combination ((exp ℚ).subst (negLogOneSub q) * (1 - C q * X)) * h1 + hq
+    linear_combination ((exp ℚ).subst (negLogOneSub q) * (1 - C q * X)) * h1 + h2
   have hP0 : constantCoeff ((1 - X : ℚ⟦X⟧) * (1 - C q * X)) ≠ 0 := by simp
   refine ⟨(PowerSeries.eq_inv_iff_mul_eq_one hP0).mpr hmul, ?_⟩
   -- Pass to Laurent series.
