@@ -28,6 +28,8 @@ noncomputable section
 
 open CategoryTheory Opposite TopologicalSpace AlgebraicGeometry
 
+open scoped TensorProduct
+
 namespace Hartshorne
 
 namespace IsTrivializingSection
@@ -170,7 +172,7 @@ variable (M) in
 /-- Compatibility of the isomorphisms `α U` with the transition isomorphisms of the twisting
 sheaves, in the form of `DirectedModuleGluing.DataTr.ψ_hom_app_top`. -/
 def PieceIsosCompatible : Prop :=
-  ∀ {U V : X.AffineZariskiSite} (f : V ⟶ U)
+  ∀ (U V : X.AffineZariskiSite) (f : V ⟶ U)
     (hle : A.projι U ''ᵁ (Proj.map (A.restrict f) (A.irrelevant_le f) ''ᵁ ⊤) ≤ A.projι V ''ᵁ ⊤)
     (x : Γ(M, A.projι V ''ᵁ ⊤)),
     (α V).hom.app ⊤ ((M.restrictAppIso (A.projι V) ⊤).inv x) =
@@ -193,14 +195,14 @@ theorem pieceDegreeOneSection_restrict (hα : PieceIsosCompatible M α) {U V : X
       A.projι V ''ᵁ ⊤ := by
     rintro _ ⟨_, ⟨z, -, rfl⟩, rfl⟩
     exact ⟨z, trivial, by rw [← restrict_projι A f]; rfl⟩
-  rw [hα f hle', DirectedModuleGluing.pmap_map M (homOfLE hle).op (homOfLE hle').op
+  rw [hα _ _ f hle', DirectedModuleGluing.pmap_map M (homOfLE hle).op (homOfLE hle').op
     (homOfLE (Scheme.Hom.image_mono _ le_top)).op, hom_app_pieceDegreeOneSection α hx,
     pieceDegreeOneSection, Iso.hom_inv_id_apply, modules_iso_hom_inv_app]
   exact ProjTwistMap.twistRestrictHom_app_degreeOneSection _ _ hx
 
 theorem pieceIsosCompatible_relTwistingSheaf (A : QuasiCoherentGradedAlgebra X) :
     PieceIsosCompatible (A.relTwistingSheaf 1) (A.relTwistingSheafRestrictIso 1) :=
-  fun f hle x => (A.twistData 1).ψ_hom_app_top f (restrict_projι A f) hle x
+  fun _ _ f hle x => (A.twistData 1).ψ_hom_app_top f (restrict_projι A f) hle x
 
 end QuasiCoherentGradedAlgebra
 
@@ -383,6 +385,95 @@ theorem iSup_opens (hS : S.GeneratedInDegreeOne) : ⊤ ≤ ⨆ i : TwistChart S 
   obtain ⟨f, hf⟩ := Opens.mem_iSup.1 hmem
   exact Opens.mem_iSup.2 ⟨⟨U.obj, U.property.choose, U.property.choose_spec, f, f.2⟩,
     z, hf, hz⟩
+
+end TwistChart
+
+/-! ### Restricting a chart -/
+
+namespace TwistChart
+
+/-- The restriction of a chart along `f : V ⟶ U`. -/
+def restrictChart (i : TwistChart S L) {V : X.AffineZariskiSite} (f : V ⟶ i.U) :
+    TwistChart S L :=
+  ⟨V, restrictFrame f i.e, isLocalFrame_restrictFrame f i.he, S.restrict f i.s,
+    S.map_mem f i.hs⟩
+
+theorem gen_restrictChart (i : TwistChart S L) {V : X.AffineZariskiSite} (f : V ⟶ i.U) :
+    (i.restrictChart f).gen hL = SegreProduct.ofGenerator Γ(X, V.1) (S.grading V)
+      ((lineBundleSym L hL).grading V) (frameGenerator_mem (hL := hL) (e := restrictFrame f i.e)) :=
+  rfl
+
+set_option backward.isDefEq.respectTransparency false in
+theorem restrict_gen (i : TwistChart S L) {V : X.AffineZariskiSite} (f : V ⟶ i.U) :
+    (S.lineBundleTwist L hL).restrict f (i.gen hL i.s) =
+      (i.restrictChart f).gen hL (i.restrictChart f).s := by
+  apply Subtype.ext
+  change ((S.diagonalRestrict (lineBundleSym L hL) f (i.gen hL i.s)) :
+    S.obj.obj (op V) ⊗[Γ(X, V.1)] (lineBundleSym L hL).obj.obj (op V)) = _
+  rw [diagonalRestrict, SegreProduct.coe_diagonalMap, gen_restrictChart]
+  erw [SegreProduct.coe_ofGenerator_of_mem _ _ _ i.hs,
+    SegreProduct.coe_ofGenerator_of_mem _ _ _ (S.map_mem f i.hs)]
+  rw [SegreProduct.tensorMap_tmul, pow_one, pow_one, restrict_frameGenerator]
+  rfl
+
+theorem piece_le_piece {V U : X.AffineZariskiSite} (f : V ⟶ U) (A : QuasiCoherentGradedAlgebra X) :
+    A.projι V ''ᵁ ⊤ ≤ A.projι U ''ᵁ ⊤ := by
+  rintro _ ⟨z, -, rfl⟩
+  exact ⟨_, trivial, by rw [← restrict_projι A f]; rfl⟩
+
+theorem mem_opens_restrictChart (i : TwistChart S L) {V : X.AffineZariskiSite} (f : V ⟶ i.U)
+    {y : (S.lineBundleTwist L hL).relProj} (hyi : y ∈ i.opens hL)
+    (hyV : y ∈ (S.lineBundleTwist L hL).projι V ''ᵁ ⊤) : y ∈ (i.restrictChart f).opens hL := by
+  obtain ⟨z, hz, rfl⟩ := hyi
+  obtain ⟨w, -, hw⟩ := hyV
+  have hw' : (S.lineBundleTwist L hL).projι i.U
+      (Proj.map ((S.lineBundleTwist L hL).restrict f)
+        ((S.lineBundleTwist L hL).irrelevant_le f) w) = (S.lineBundleTwist L hL).projι i.U z := by
+    have := congrArg (fun g => g w) (restrict_projι (S.lineBundleTwist L hL) f)
+    simp only [Scheme.Hom.comp_apply] at this
+    exact this.trans hw
+  have hwz := (S.lineBundleTwist L hL).projι i.U |>.isOpenEmbedding.injective hw'
+  refine ⟨w, ?_, hw⟩
+  rw [← restrict_gen]
+  have : Proj.map ((S.lineBundleTwist L hL).restrict f)
+      ((S.lineBundleTwist L hL).irrelevant_le f) w ∈ Proj.basicOpen _ (i.gen hL i.s) :=
+    hwz ▸ hz
+  exact this
+
+theorem pieceDegreeOneSection_congr {A : QuasiCoherentGradedAlgebra X} (M : A.relProj.Modules)
+    (α : ∀ U : X.AffineZariskiSite, M.restrict (A.projι U) ≅ A.twistingSheaf 1 U)
+    {U : X.AffineZariskiSite} {x y : A.obj.obj (.op U)} (hx : x ∈ A.grading U 1)
+    (hy : y ∈ A.grading U 1) (h : x = y) :
+    pieceDegreeOneSection M α U hx = pieceDegreeOneSection M α U hy := by
+  subst h; rfl
+
+variable {MT αT MS αS}
+
+theorem restrict_pieceDegreeOneSection_gen (hαT : PieceIsosCompatible MT αT) (i : TwistChart S L)
+    {V : X.AffineZariskiSite} (f : V ⟶ i.U) :
+    MT.presheaf.map (homOfLE (piece_le_piece f _)).op
+        (pieceDegreeOneSection MT αT i.U (i.gen_mem hL)) =
+      pieceDegreeOneSection MT αT V ((i.restrictChart f).gen_mem hL) :=
+  (pieceDegreeOneSection_restrict αT hαT f _ _).trans
+    (pieceDegreeOneSection_congr _ _ _ _ (i.restrict_gen hL f))
+
+theorem restrict_bTop (hαS : PieceIsosCompatible MS αS) (i : TwistChart S L)
+    {V : X.AffineZariskiSite} (f : V ⟶ i.U) :
+    (tensorModule (pullS hL MS) (pullL L hL)).presheaf.map (homOfLE (piece_le_piece f _)).op
+        (i.bTop hL MS αS) = (i.restrictChart f).bTop hL MS αS := by
+  rw [bTop, bTop, tmul_section_restrict]
+  refine congrArg₂ (fun a b => (moduleSheafTensorBilinear _ _).app _ a b) ?_ ?_
+  · refine Eq.trans ?_ (congrArg (fun x => (pullS hL MS).presheaf.map
+      (homOfLE ((i.restrictChart f).piece_le_preimage hL)).op
+      (Ringed.etaSec (φ := (S.lineBundleTwistHom hL).toRingCatSheafHom) x))
+        (pieceDegreeOneSection_restrict αS hαS f i.hs (piece_le_piece f S)))
+    erw [Ringed.etaSec_restrict]
+    exact (Scheme.Modules.map_map_homOfLE _ _ _ _).trans
+      (Scheme.Modules.map_map_homOfLE _ _ _ _).symm
+  · change _ = (pullL L hL).presheaf.map _ (Ringed.etaSec (L.presheaf.map _ (i.e default)))
+    erw [Ringed.etaSec_restrict]
+    exact (Scheme.Modules.map_map_homOfLE _ _ _ _).trans
+      (Scheme.Modules.map_map_homOfLE _ _ _ _).symm
 
 end TwistChart
 
