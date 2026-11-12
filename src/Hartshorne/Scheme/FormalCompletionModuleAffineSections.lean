@@ -33,7 +33,11 @@ ideal of `I`, its sections over `U ∩ |Y|` are `Γ(U, F) / I(U) ^ (n + 1) Γ(U,
 * `Hartshorne.pullbackUnitTransition_app_unit`, `Hartshorne.pullbackUnitTransitionRestrict_val_app_unit`:
   the generic transition maps behind `moduleCompletionMap` (see `moduleCompletionMap_eq`) carry the
   pullback of a section `x` to the pullback of its image; `pullbackUnitTransitionRestrict_val_app`
-  is the section formula for `pullbackUnitTransitionRestrict`.
+  is the section formula for `pullbackUnitTransitionRestrict`, and
+  `Hartshorne.pushforward_pullback_map_val_app_unit` the one for a pulled-back map `a^* u`.
+* `pushforward_pullback_cokernelπ_comp_moduleCompletionMap`: the transition map composed with the
+  pullback of `F ⟶ F / I ^ (n + 2) F` equals restriction from `Y_(n+2)` to `Y_(n+1)` followed by the
+  pullback of `F ⟶ F / I ^ (n + 1) F` (a square of morphisms over the completed structure sheaf).
 
 Hartshorne works with a coherent sheaf on a Noetherian scheme; the computation uses only
 quasi-coherence.
@@ -285,6 +289,26 @@ private lemma presheaf_map_map_map {X : Scheme.{u}} (M : X.Modules) {A B C D : X
     ← Functor.map_comp]
   rfl
 
+/-- On the restriction of a section `a^* x` pulled back along `a`, the transport along `φ₂` of the
+pullback `a^* u` of a map `u : P ⟶ Q` is the restriction of `a^* (u x)`. -/
+theorem pushforward_pullback_map_val_app_unit {Y W : Scheme.{u}} (a : Y ⟶ W) {C : Type*}
+    [Category C] {J : GrothendieckTopology C} {F₂ : C ⥤ Opens Y}
+    [F₂.IsContinuous J (Opens.grothendieckTopology Y)] {T : Sheaf J RingCat.{u}}
+    (φ₂ : T ⟶ (F₂.sheafPushforwardContinuous RingCat.{u} _ _).obj Y.ringCatSheaf)
+    {P Q : W.Modules} (u : P ⟶ Q) (V : C) (U : W.Opens) (h₂ : F₂.obj V ≤ a ⁻¹ᵁ U) (x : Γ(P, U)) :
+    ((SheafOfModules.pushforward.{u} φ₂).map ((Scheme.Modules.pullback a).map u)).val.app (op V)
+        (((Scheme.Modules.pullback a).obj P).presheaf.map (homOfLE h₂).op
+          (((pullbackPushforwardAdjunction a).unit.app P).app U x)) =
+      ((Scheme.Modules.pullback a).obj Q).presheaf.map (homOfLE h₂).op
+        (((pullbackPushforwardAdjunction a).unit.app Q).app U (u.app U x)) := by
+  have e1 : ((Scheme.Modules.pullback a).map u).app (a ⁻¹ᵁ U)
+      (((pullbackPushforwardAdjunction a).unit.app P).app U x) =
+      ((pullbackPushforwardAdjunction a).unit.app Q).app U (u.app U x) :=
+    (ConcreteCategory.congr_hom (congrArg (fun φ => Hom.app φ U)
+      ((pullbackPushforwardAdjunction a).unit.naturality u)) x).symm
+  refine (app_presheaf_map ((Scheme.Modules.pullback a).map u) (homOfLE h₂) _).trans ?_
+  rw [e1]
+
 variable {Z Y W : Scheme.{u}} (s : Z ⟶ Y) (a : Y ⟶ W) (b : Z ⟶ W) (h : s ≫ a = b)
 
 /-- On a section `a^* x` pulled back along `a`, the map `pullbackUnitTransition` induced by
@@ -371,6 +395,35 @@ lemma moduleCompletionSectionsMap_apply (n : ℕ) (U : X.Opens) (s : Γ(F, U)) :
         (((pullbackPushforwardAdjunction (I.infinitesimalNeighborhoodι (n + 1))).unit.app
           (I.moduleCompletionQuotient F n)).app U ((cokernel.π (I.powSmulι F n)).app U s)) :=
   rfl
+
+/-- **The transition maps at the morphism level.** Pulling `F ⟶ F / I ^ (n + 2) F` back to
+`Y_(n+2)` and then applying the transition map is the same as restricting the pullback of `F`
+from `Y_(n+2)` to `Y_(n+1)` and then pulling back `F ⟶ F / I ^ (n + 1) F`, as maps of modules over
+the completed structure sheaf on `|Y|`. -/
+lemma pushforward_pullback_cokernelπ_comp_moduleCompletionMap (n : ℕ) :
+    (SheafOfModules.pushforward.{u} (I.formalCompletionRingCatSheafπ (n + 1))).map
+        ((Scheme.Modules.pullback (I.infinitesimalNeighborhoodι (n + 1 + 1))).map
+          (cokernel.π (I.powSmulι F (n + 1)))) ≫
+      I.moduleCompletionMap F n =
+    pullbackUnitTransitionRestrict (I.infinitesimalNeighborhoodSucc n)
+        (I.infinitesimalNeighborhoodι (n + 1 + 1)) (I.infinitesimalNeighborhoodι (n + 1))
+        (Scheme.IdealSheafData.inclusion_subschemeι _)
+        (I.functorToPreimageInfinitesimalNeighborhoodSucc n)
+        (I.formalCompletionRingCatSheafπ (n + 1)) (I.formalCompletionRingCatSheafπ n)
+        (fun V r => I.formalCompletionSheafMap_limit_π_apply n V.unop r) (𝟙 F) ≫
+      (SheafOfModules.pushforward.{u} (I.formalCompletionRingCatSheafπ n)).map
+        ((Scheme.Modules.pullback (I.infinitesimalNeighborhoodι (n + 1))).map
+          (cokernel.π (I.powSmulι F n))) := by
+  rw [moduleCompletionMap_eq]
+  exact pullbackUnitTransitionRestrict_naturality (I.infinitesimalNeighborhoodSucc n)
+    (I.infinitesimalNeighborhoodι (n + 1 + 1)) (I.infinitesimalNeighborhoodι (n + 1))
+    (Scheme.IdealSheafData.inclusion_subschemeι _)
+    (I.functorToPreimageInfinitesimalNeighborhoodSucc n)
+    (I.formalCompletionRingCatSheafπ (n + 1)) (I.formalCompletionRingCatSheafπ n)
+    (fun V r => I.formalCompletionSheafMap_limit_π_apply n V.unop r)
+    (𝟙 F) (I.moduleCompletionQuotientMap F n)
+    (cokernel.π (I.powSmulι F (n + 1))) (cokernel.π (I.powSmulι F n))
+    ((Category.id_comp _).trans (I.π_moduleCompletionQuotientMap F n).symm)
 
 /-- Restriction between equal opens is bijective on sections. -/
 private lemma bijective_presheaf_map_of_eq {Y : Scheme.{u}} (P : Y.Modules) {V W : Y.Opens}
