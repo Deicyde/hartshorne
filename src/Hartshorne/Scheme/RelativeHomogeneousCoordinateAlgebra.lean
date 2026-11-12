@@ -4,6 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Scheme.BirationalSectionAlgebraModel
 import Hartshorne.Scheme.RelativeProjVeronese
+import Hartshorne.Scheme.QcqsPushforwardQuasicoherent
+import Hartshorne.Scheme.InvertibleSectionClearingDenominators
 
 /-!
 # The relative homogeneous coordinate algebra of a closed subscheme of `ℙʳ_X`
@@ -540,7 +542,8 @@ theorem exists_chartIso (U : X.Opens) (hU : IsAffineOpen U) :
       have hpt : chartPoint i hU η' = projQuotientι _ I (e.hom η') := by
         have key : (e.hom ≫ projQuotientι _ I ≫
             (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).hom) ≫
-              (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).inv = e.hom ≫ projQuotientι _ I := by
+              (projectiveSpaceOverSpecIso Γ(X, U) r (Equiv.refl _)).inv =
+            e.hom ≫ projQuotientι _ I := by
           rw [Category.assoc, Category.assoc, Iso.hom_inv_id, Category.comp_id]
         rw [chartPoint, ← hfac, ← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply]
         exact congr($key η')
@@ -766,7 +769,8 @@ the coordinates. -/
 theorem degreeOneCoherent_veronese :
     ((coordinateAlgebra i).veronese d).DegreeOneCoherent := by
   intro U
-  refine ⟨Veronese.dupleN r d + 1, fun j => Veronese.dupleCoords d (coordGen i U) (coordGen_mem i U) j,
+  refine ⟨Veronese.dupleN r d + 1,
+    fun j => Veronese.dupleCoords d (coordGen i U) (coordGen_mem i U) j,
     fun j => Veronese.dupleCoords_mem d _ _ j, ?_⟩
   intro y hy
   obtain ⟨p, hp, hpy⟩ := mem_gradedQuotient_iff.mp (Veronese.mem_veronese_iff.mp hy)
@@ -889,6 +893,39 @@ theorem exists_finite_cover_addEquiv_sections_veronese [CompactSpace X]
     exact ⟨e.trans (veronesePieceEquiv _ d m).symm⟩
 
 end Comparison
+
+/-! ### Sections of `f_* F` over basic opens -/
+
+section PushforwardLocalization
+
+variable {X Z : Scheme.{u}} (f : Z ⟶ X) [QuasiCompact f] [QuasiSeparated f] (F : Z.Modules)
+  [F.IsQuasicoherent]
+
+/-- **Hartshorne II, Lemma 5.3(a), applied to `f_* F`** (`f` quasi-compact and
+quasi-separated, `F` quasi-coherent, `U ⊆ X` affine): a section of `F` over `f⁻¹(U)` vanishing on
+`f⁻¹(D(g))` is killed by a power of `g`. -/
+theorem exists_pow_smul_eq_zero_of_isAffineOpen_preimage {U : X.Opens} (hU : IsAffineOpen U)
+    (g : Γ(X, U)) (s : Γ(F, f ⁻¹ᵁ U))
+    (hs : F.presheaf.map (homOfLE (f.preimage_mono (X.basicOpen_le g))).op s = 0) :
+    ∃ n : ℕ, f.app U g ^ n • s = 0 := by
+  have := isQuasicoherent_pushforward_of_qcqs f F
+  obtain ⟨n, hn⟩ :=
+    exists_pow_smul_eq_zero_of_isAffineOpen ((Scheme.Modules.pushforward f).obj F) hU g s hs
+  exact ⟨n, by rw [← map_pow]; exact hn⟩
+
+/-- **Hartshorne II, Lemma 5.3(b), applied to `f_* F`**: for a section `t` of `F` over
+`f⁻¹(D(g))`, some `g^n t` extends to `f⁻¹(U)`. -/
+theorem exists_pow_smul_extension_of_isAffineOpen_preimage {U : X.Opens} (hU : IsAffineOpen U)
+    (g : Γ(X, U)) (t : Γ(F, f ⁻¹ᵁ X.basicOpen g)) :
+    ∃ (n : ℕ) (t' : Γ(F, f ⁻¹ᵁ U)),
+      F.presheaf.map (homOfLE (f.preimage_mono (X.basicOpen_le g))).op t' =
+        f.app (X.basicOpen g) (X.presheaf.map (homOfLE (X.basicOpen_le g)).op g) ^ n • t := by
+  have := isQuasicoherent_pushforward_of_qcqs f F
+  obtain ⟨n, t', ht'⟩ :=
+    exists_pow_smul_extension_of_isAffineOpen ((Scheme.Modules.pushforward f).obj F) hU g t
+  exact ⟨n, t', by rw [← map_pow]; exact ht'⟩
+
+end PushforwardLocalization
 
 /-! ### The section-algebra model (partial form of the theorem) -/
 
