@@ -514,6 +514,7 @@ import Hartshorne.RingedSpace.FiniteLocallyFreeProjectionFormula
 import Hartshorne.Scheme.Differentials.RelativeDifferentialsTransitivity
 import Hartshorne.Scheme.SheafTensorOperations
 import Hartshorne.Scheme.SheafAlgebraOperations
+import Hartshorne.RingedSpace.GradedSheafSections
 import Hartshorne.Scheme.SheafTensorAlgebras
 import Hartshorne.Scheme.ExteriorPowerFiltrationAlgebra
 import Hartshorne.Scheme.ExteriorPowerExactFiltration
@@ -776,3 +777,4 @@ import Hartshorne.Scheme.SymmetricAlgebraAffineSections
 import Hartshorne.Scheme.GeometricVectorBundle
 import Hartshorne.Scheme.BaseLocusBlowup
 import Hartshorne.Scheme.BlowupStrictTransform
+import Hartshorne.Scheme.ProjectiveBundle
