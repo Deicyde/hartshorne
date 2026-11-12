@@ -103,8 +103,8 @@ end PushforwardMap
 
 variable {k : Type u} [Field k] {V Y : Scheme.{u}} (f : V ⟶ Y) (p : Y ⟶ Spec (.of k))
 
-/-- **Pullback of top differential forms.** The morphism
-`⋀^n Ω_{Y/k} ⟶ f_*(⋀^n Ω_{V/k})`, `ω_1 ∧ ⋯ ∧ ω_n ↦ f^*ω_1 ∧ ⋯ ∧ f^*ω_n`: the top exterior
+/-- **Pullback of differential `n`-forms** (top forms when `n = dim`). The morphism
+`⋀^n Ω_{Y/k} ⟶ f_*(⋀^n Ω_{V/k})`, `ω_1 ∧ ⋯ ∧ ω_n ↦ f^*ω_1 ∧ ⋯ ∧ f^*ω_n`: the `n`-th exterior
 power of the adjoint form `Ω_{Y/k} ⟶ f_*Ω_{V/k}` of the map `f^*Ω_{Y/k} ⟶ Ω_{V/k}` of the
 transitivity sequence (8.11) (see `Hartshorne.exteriorPowerPullback_eq_transitivity`). -/
 def exteriorPowerPullback (n : ℕ) :
