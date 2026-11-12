@@ -68,13 +68,17 @@ def stalkConst (P : X) : k →+* X.presheaf.stalk P :=
 def SectionsSeparatePoints (V : Set Γ(L, ⊤)) : Prop :=
   ∀ P Q : X, IsClosed {P} → IsClosed {Q} → P ≠ Q → ∃ t ∈ V,
     (L.presheaf.germ ⊤ P trivial t ∈
-        IsLocalRing.maximalIdeal (X.presheaf.stalk P) • (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P)) ∧
+        IsLocalRing.maximalIdeal (X.presheaf.stalk P) •
+          (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P)) ∧
       L.presheaf.germ ⊤ Q trivial t ∉
-        IsLocalRing.maximalIdeal (X.presheaf.stalk Q) • (⊤ : Submodule (X.presheaf.stalk Q) (L.presheaf.stalk Q))) ∨
+        IsLocalRing.maximalIdeal (X.presheaf.stalk Q) •
+          (⊤ : Submodule (X.presheaf.stalk Q) (L.presheaf.stalk Q))) ∨
     (L.presheaf.germ ⊤ Q trivial t ∈
-        IsLocalRing.maximalIdeal (X.presheaf.stalk Q) • (⊤ : Submodule (X.presheaf.stalk Q) (L.presheaf.stalk Q)) ∧
+        IsLocalRing.maximalIdeal (X.presheaf.stalk Q) •
+          (⊤ : Submodule (X.presheaf.stalk Q) (L.presheaf.stalk Q)) ∧
       L.presheaf.germ ⊤ P trivial t ∉
-        IsLocalRing.maximalIdeal (X.presheaf.stalk P) • (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P)))
+        IsLocalRing.maximalIdeal (X.presheaf.stalk P) •
+          (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P)))
 
 /-- **Separation of tangent vectors** (Hartshorne II, p. 152). A set `V` of global sections of an
 `𝒪_X`-module `L` on a scheme over `k` separates tangent vectors if for each closed point `P` of
@@ -83,10 +87,12 @@ def SectionsSeparatePoints (V : Set Γ(L, ⊤)) : Prop :=
 of sections `tᵢ ∈ V` with `(tᵢ)_P ∈ 𝔪_P L_P` (`k` acting on `L_P` through `𝒪_{X,P}`). -/
 def SectionsSeparateTangentVectors (V : Set Γ(L, ⊤)) : Prop :=
   ∀ P : X, IsClosed {P} → ∀ z ∈
-      IsLocalRing.maximalIdeal (X.presheaf.stalk P) • (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P)),
+      IsLocalRing.maximalIdeal (X.presheaf.stalk P) •
+          (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P)),
     ∃ (m : ℕ) (c : Fin m → k) (t : Fin m → Γ(L, ⊤)),
       (∀ i, t i ∈ V ∧ L.presheaf.germ ⊤ P trivial (t i) ∈
-        IsLocalRing.maximalIdeal (X.presheaf.stalk P) • (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P))) ∧
+        IsLocalRing.maximalIdeal (X.presheaf.stalk P) •
+          (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P))) ∧
       z - ∑ i, stalkConst q P (c i) • L.presheaf.germ ⊤ P trivial (t i) ∈
         IsLocalRing.maximalIdeal (X.presheaf.stalk P) ^ 2 •
           (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P))
@@ -94,7 +100,8 @@ def SectionsSeparateTangentVectors (V : Set Γ(L, ⊤)) : Prop :=
 /-- `s_P ∈ 𝔪_P L_P` exactly when `P` is not in the nonvanishing locus `X_s` of `s`. -/
 theorem germ_mem_maximalIdeal_smul_top_iff (t : Γ(L, ⊤)) (P : X) :
     L.presheaf.germ ⊤ P trivial t ∈
-        IsLocalRing.maximalIdeal (X.presheaf.stalk P) • (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P)) ↔
+        IsLocalRing.maximalIdeal (X.presheaf.stalk P) •
+          (⊤ : Submodule (X.presheaf.stalk P) (L.presheaf.stalk P)) ↔
       P ∉ nonvanishingLocus L t :=
   not_not.symm
 
@@ -659,5 +666,126 @@ theorem isClosedImmersion_of_sectionsSeparatePoints_of_sectionsSeparateTangentVe
     fun P _ => moduleFinite_stalk_of_sectionsSeparatePoints q s φ hφ e he hX hsep P
 
 end Converse
+
+
+/-! ### Proposition 7.3, (⇒): separation of points -/
+
+section ForwardPoints
+
+variable {k : Type u} [Field k] {n : ℕ}
+
+/-- **Homogeneous coordinates of a `k`-point.** A `k`-point `σ` of `ℙⁿ_k` lying in `D₊(xⱼ)` is the
+point `(a₀ : ⋯ : aₙ)` for some `a` with `aⱼ = 1`: on `Spec k` the section `σ^* xⱼ` trivializes
+`σ^* 𝒪(1)`, and `σ^* xᵢ = aᵢ σ^* xⱼ`. -/
+private theorem exists_eq_projectivePoint
+    (σ : Spec (CommRingCat.of k) ⟶ projectiveSpaceOverScheme n (Spec (CommRingCat.of k)))
+    (hσ : σ ≫ projectiveSpaceOverSchemeProjection n _ = 𝟙 _) (j : Fin (n + 1))
+    (y : Spec (CommRingCat.of k)) (hj : σ y ∈ projectiveSpaceChart n _ j) :
+    ∃ (a : Fin (n + 1) → k) (ha : a ≠ 0), a j = 1 ∧ σ = projectivePoint k a ha := by
+  set M := (Scheme.Modules.pullback σ).obj (projectiveSpaceTwistingSheaf n _ 1)
+  set t : Fin (n + 1) → Γ(M, ⊤) := fun i =>
+    pullbackGlobalSection σ (projectiveSpaceCoordinate n _ i)
+  have hM : M.IsInvertible := isInvertible_pullback_projectiveSpaceTwistingSheaf σ
+  have hpre : σ ⁻¹ᵁ projectiveSpaceChart n _ j = nonvanishingLocusOpens hM (t j) :=
+    preimage_projectiveSpaceChart_eq_nonvanishingLocusOpens hM t σ (Iso.refl _) (fun _ => rfl) j
+  have hall : ∀ y', y' ∈ nonvanishingLocus M (t j) := by
+    intro y'
+    obtain rfl : y' = y := Subsingleton.elim (α := PrimeSpectrum k) _ _
+    have : y' ∈ σ ⁻¹ᵁ projectiveSpaceChart n _ j := hj
+    rw [hpre] at this
+    exact this
+  have htriv : IsTrivializingSection M ⊤ (t j) :=
+    IsTrivializingSection.of_local fun y' _ => ⟨nonvanishingLocusOpens hM (t j),
+      le_top, hall y', isTrivializingSection_nonvanishingLocusOpens hM _⟩
+  choose r hr using fun i => htriv.exists_eq_smul (t i)
+  have hr' : ∀ i, t i = r i • t j := fun i => by rw [← hr i, map_homOfLE_top]
+  have hrj : r j = 1 := by
+    have h := (htriv ⊤ le_rfl).1 (a₁ := r j) (a₂ := 1)
+    simp only [map_homOfLE_top, one_smul] at h
+    exact h (hr' j).symm
+  let a : Fin (n + 1) → k := fun i => (Scheme.ΓSpecIso (CommRingCat.of k)).hom (r i)
+  have haj : a j = 1 := by
+    simp only [a, hrj, map_one]
+  have ha : a ≠ 0 := fun h => one_ne_zero (haj.symm.trans (congrFun h j))
+  have hu := isTrivializingSection_structureModuleSection_one (Spec (CommRingCat.of k))
+  have e₁ : PUnit.{u + 1} ≃ ULift.{u} (Fin 1) := Equiv.ofUnique _ _
+  obtain ⟨α, hα⟩ := Ringed.exists_iso_of_frames (R := (Spec (CommRingCat.of k)).sheaf)
+    (fun _ : PUnit.{u + 1} => ⊤) (le_iSup (fun _ : PUnit.{u + 1} => ⊤) PUnit.unit)
+    (A := M) (B := structureModuleOf (Spec (CommRingCat.of k)))
+    (fun _ => t j) (fun _ => structureModuleSection _ 1)
+    (fun _ => (isLocalFrame_of_isTrivializingSection htriv).reindex e₁)
+    (fun _ => (isLocalFrame_of_isTrivializingSection hu).reindex e₁)
+    (fun _ _ => ⟨1, by rw [one_smul], by rw [one_smul]⟩)
+  let α' : M ≅ structureModuleOf (Spec (CommRingCat.of k)) := α
+  have hα' : α'.hom.app ⊤ (t j) = structureModuleSection _ 1 := hα PUnit.unit
+  have hsec : ∀ i, α'.hom.app ⊤ (pullbackGlobalSection σ (projectiveSpaceCoordinate n _ i)) =
+      pointSections k a i := by
+    intro i
+    change α'.hom.app ⊤ (t i) = _
+    rw [hr' i, Scheme.Modules.Hom.app_smul, hα', ← structureModuleSection_eq_smul]
+    change structureModuleSection _ (r i) =
+      structureModuleSection _ ((Scheme.ΓSpecIso (CommRingCat.of k)).inv
+        ((Scheme.ΓSpecIso (CommRingCat.of k)).hom (r i)))
+    rw [← CommRingCat.comp_apply, Iso.hom_inv_id]
+    rfl
+  exact ⟨a, ha, haj, eq_projectivePoint ha hσ α' hsec⟩
+
+variable [IsAlgClosed k] {X : Scheme.{u}} (q : X ⟶ Spec (CommRingCat.of k)) [LocallyOfFiniteType q]
+  {L : X.Modules} (hL : L.IsInvertible) (s : Fin (n + 1) → Γ(L, ⊤))
+  (φ : X ⟶ projectiveSpaceOverScheme n (Spec (CommRingCat.of k)))
+  (hφ : φ ≫ projectiveSpaceOverSchemeProjection n _ = q)
+  (e : (Scheme.Modules.pullback φ).obj (projectiveSpaceTwistingSheaf n _ 1) ≅ L)
+  (he : ∀ i, e.hom.app ⊤ (pullbackGlobalSection φ (projectiveSpaceCoordinate n _ i)) = s i)
+
+include hL hφ he in
+/-- **Hartshorne II, Proposition 7.3, (⇒), for points.** Let `X` be locally of finite type over
+an algebraically closed field `k`, and let `φ : X ⟶ ℙⁿ_k` be defined by the sections `sᵢ`. If
+`φ` is injective (for instance a closed immersion), the subspace `V` spanned by the `sᵢ` separates
+points: the closed points `φ(P) ≠ φ(Q)` are `k`-points, so some hyperplane contains exactly one of
+them, and its pullback is a section of `V` vanishing at exactly one of `P`, `Q`. -/
+theorem sectionsSeparatePoints_of_injective (hinj : Function.Injective φ) :
+    SectionsSeparatePoints (linearSystem q s) := by
+  intro P Q hP hQ hPQ
+  let σP := pointOfClosedPoint q P hP ≫ φ
+  let σQ := pointOfClosedPoint q Q hQ ≫ φ
+  have hσP : σP ≫ projectiveSpaceOverSchemeProjection n _ = 𝟙 _ := by
+    simp only [σP, Category.assoc, hφ, pointOfClosedPoint_comp]
+  have hσQ : σQ ≫ projectiveSpaceOverSchemeProjection n _ = 𝟙 _ := by
+    simp only [σQ, Category.assoc, hφ, pointOfClosedPoint_comp]
+  have hσP_apply : ∀ y, σP y = φ P := fun y => by
+    simp only [σP, Scheme.Hom.comp_apply, pointOfClosedPoint_apply]
+  have hσQ_apply : ∀ y, σQ y = φ Q := fun y => by
+    simp only [σQ, Scheme.Hom.comp_apply, pointOfClosedPoint_apply]
+  let y₀ : Spec (CommRingCat.of k) := IsLocalRing.closedPoint k
+  obtain ⟨j, hj⟩ := exists_mem_chartPreimage φ P
+  have hjP : φ P ∈ projectiveSpaceChart n _ j := hj
+  have hsj : ∀ x, x ∈ nonvanishingLocus L (s j) ↔ φ x ∈ projectiveSpaceChart n _ j := fun x => by
+    change x ∈ nonvanishingLocusOpens hL (s j) ↔ x ∈ φ ⁻¹ᵁ projectiveSpaceChart n _ j
+    rw [preimage_projectiveSpaceChart_eq_nonvanishingLocusOpens hL s φ e he j]
+  by_cases hjQ : φ Q ∈ projectiveSpaceChart n _ j
+  · obtain ⟨a, ha, haj, hσa⟩ :=
+      exists_eq_projectivePoint σP hσP j y₀ (by rw [hσP_apply]; exact hjP)
+    obtain ⟨b, hb, hbj, hσb⟩ :=
+      exists_eq_projectivePoint σQ hσQ j y₀ (by rw [hσQ_apply]; exact hjQ)
+    have hab : a ≠ b := by
+      rintro rfl
+      exact hPQ (hinj (by rw [← hσP_apply y₀, ← hσQ_apply y₀, hσa, hσb]))
+    obtain ⟨l, hl⟩ := Function.ne_iff.mp hab
+    let v : Fin (n + 1) → k := Pi.single l 1 - a l • Pi.single j 1
+    refine ⟨linearSystemSection q s v, ⟨v, rfl⟩, Or.inl ⟨?_, ?_⟩⟩
+    · rw [germ_mem_maximalIdeal_smul_top_iff, mem_nonvanishingLocus_linearSystemSection_iff q s φ hφ e he,
+        ← hσP_apply y₀, hσa, projectivePoint_mem_nonvanishingLocus_linearSection_iff, not_not]
+      simp [v, sub_dotProduct, smul_dotProduct, single_dotProduct, haj]
+    · rw [germ_mem_maximalIdeal_smul_top_iff, not_not,
+        mem_nonvanishingLocus_linearSystemSection_iff q s φ hφ e he,
+        ← hσQ_apply y₀, hσb, projectivePoint_mem_nonvanishingLocus_linearSection_iff]
+      simpa [v, sub_dotProduct, smul_dotProduct, single_dotProduct, hbj, sub_eq_zero] using hl.symm
+  · refine ⟨s j, mem_linearSystem q s j, Or.inr ⟨?_, ?_⟩⟩
+    · rw [germ_mem_maximalIdeal_smul_top_iff, hsj]
+      exact hjQ
+    · rw [germ_mem_maximalIdeal_smul_top_iff, not_not, hsj]
+      exact hjP
+
+end ForwardPoints
 
 end Hartshorne
