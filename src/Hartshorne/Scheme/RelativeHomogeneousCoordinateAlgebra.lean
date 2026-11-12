@@ -724,7 +724,88 @@ theorem generatedInDegreeOne_veronese :
   · exact Or.inl c.2
   · exact Or.inr (Veronese.dupleCoords_mem d _ _ j)
 
+omit [NeZero d] in
+/-- A homogeneous polynomial of degree `d` is the sum of its terms, indexed by the monomials of
+degree `d`. -/
+private theorem sum_dupleIndex_monomial {R : Type u} [CommRing R] (p : MvPolynomial (Fin (r + 1)) R)
+    (hp : p.IsHomogeneous d) :
+    ∑ j : Fin (Veronese.dupleN r d + 1), MvPolynomial.monomial (Veronese.dupleEquiv r d j).1
+      (p.coeff (Veronese.dupleEquiv r d j).1) = p := by
+  classical
+  rw [Equiv.sum_comp (Veronese.dupleEquiv r d)
+    (fun m : Veronese.DupleIndex r d => MvPolynomial.monomial m.1 (p.coeff m.1)),
+    ← Finset.sum_subtype (F := (inferInstance : Fintype (Veronese.DupleIndex r d)))
+      (Finsupp.finite_of_degree_eq (σ := Fin (r + 1)) d).toFinset
+      (fun m => Set.Finite.mem_toFinset _) (fun m => MvPolynomial.monomial m (p.coeff m))]
+  conv_rhs => rw [p.as_sum]
+  symm
+  refine Finset.sum_subset (fun m hm => ?_) (fun m _ hm => ?_)
+  · rw [Set.Finite.mem_toFinset]
+    have := hp (MvPolynomial.mem_support_iff.mp hm)
+    rw [Finsupp.degree_eq_weight_one]
+    exact this
+  · rw [MvPolynomial.notMem_support_iff.mp hm, map_zero]
+
+/-- **`T^{(d)}_1 = T_d` is coherent**: it is generated over `𝒪_X` by the monomials of degree `d` in
+the coordinates. -/
+theorem degreeOneCoherent_veronese :
+    ((coordinateAlgebra i).veronese d).DegreeOneCoherent := by
+  intro U
+  refine ⟨Veronese.dupleN r d + 1, fun j => Veronese.dupleCoords d (coordGen i U) (coordGen_mem i U) j,
+    fun j => Veronese.dupleCoords_mem d _ _ j, ?_⟩
+  intro y hy
+  obtain ⟨p, hp, hpy⟩ := mem_gradedQuotient_iff.mp (Veronese.mem_veronese_iff.mp hy)
+  rw [one_mul, MvPolynomial.mem_homogeneousSubmodule] at hp
+  refine ⟨fun j => p.coeff (Veronese.dupleEquiv r d j).1, ?_⟩
+  apply Subtype.ext
+  rw [← hpy]
+  conv_lhs => rw [← sum_dupleIndex_monomial d p hp, map_sum]
+  simp only [AddSubmonoidClass.coe_finsetSum, Subring.coe_mul]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  change _ = Ideal.Quotient.mk _ (MvPolynomial.C _) *
+    Veronese.monomialOf (coordGen i U) (Veronese.dupleEquiv r d j).1
+  rw [MvPolynomial.monomial_eq, map_mul, Veronese.monomialOf, Finsupp.prod, Finsupp.prod,
+    map_prod]
+  simp only [map_pow]
+  rfl
+
 end Data
+
+/-! ### The relative Proj datum and its identification with `Z` -/
+
+section Model
+
+variable {X Z : Scheme.{u}} [IsNoetherian X] [IsIntegral X] [IsIntegral Z]
+  (i : Z ⟶ projectiveSpaceOverScheme r X) [IsClosedImmersion i]
+  (hgen : (i ≫ projectiveSpaceOverSchemeProjection r X) (genericPoint Z) = genericPoint X)
+  (d : ℕ) [NeZero d]
+
+/-- **The section-algebra model as a relative Proj datum** (Hartshorne II, proof of Theorem 7.17,
+Steps 2–3). For a closed immersion `i : Z ⟶ ℙʳ_X` of an integral scheme with `f = π ∘ i` dominant
+onto the integral Noetherian scheme `X`, and `d > 0`, the Veronese subalgebra `T^{(d)}` of the
+relative homogeneous coordinate algebra satisfies Hartshorne's hypotheses for relative Proj:
+`T^{(d)}_0 = 𝒪_X`, `T^{(d)}_1 = T_d` coherent, generated in degree one. -/
+def sectionAlgebraRelativeProjData : RelativeProjData X where
+  algebra := (coordinateAlgebra i).veronese d
+  degreeZero := QuasiCoherentGradedAlgebra.DegreeZeroIsStructureSheaf.veronese _ d
+    (degreeZero_coordinateAlgebra i hgen)
+  degreeOne_coherent := degreeOneCoherent_veronese i d
+  generated := generatedInDegreeOne_veronese i d
+
+/-- **`Proj_X T^{(d)} ≅ Z`** (Hartshorne II, proof of Theorem 7.17, Step 3). -/
+def sectionAlgebraRelativeProjIso :
+    (sectionAlgebraRelativeProjData i hgen d).relativeProj ≅ Z :=
+  ((coordinateAlgebra i).relProjVeroneseIso d) ≪≫ relProjCoordinateAlgebraIso i
+
+/-- The isomorphism `Proj_X T^{(d)} ≅ Z` lies over `X`. -/
+theorem sectionAlgebraRelativeProjIso_hom_comp :
+    (sectionAlgebraRelativeProjIso i hgen d).hom ≫ (i ≫ projectiveSpaceOverSchemeProjection r X) =
+      (sectionAlgebraRelativeProjData i hgen d).projection := by
+  rw [sectionAlgebraRelativeProjIso, Iso.trans_hom, Category.assoc,
+    relProjCoordinateAlgebraIso_hom_comp]
+  exact QuasiCoherentGradedAlgebra.relProjVeroneseIso_hom_relProjToBase _ d
+
+end Model
 
 end SectionAlgebraModel
 
