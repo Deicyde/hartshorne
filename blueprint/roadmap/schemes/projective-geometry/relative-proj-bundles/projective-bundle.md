@@ -23,6 +23,7 @@ and $\mathcal{O}(1)$.
 
 - [Morphisms from generated invertible sheaves](../linear-systems-ampleness/morphism-from-generated-line-bundle.md)
 - [Generation by global sections](../../projective-sheaves/globally-generated-module-sheaf.md)
+- [The split quadric surface is $\mathbb{P}^1 \times \mathbb{P}^1$](../../divisors/weil-divisors/split-quadric-product-of-lines.md)
 
 ## Sources
 
