@@ -135,7 +135,6 @@ noncomputable def presheafPairing :
   app := pairingApp F r
   naturality := pairingApp_naturality F r
 
-
 /-- The determinant pairing `⋀^r F × ⋀^r F^∨ → 𝒪_X` on the sheaf exterior powers,
 `(x₁ ∧ ⋯ ∧ x_r, ψ₁ ∧ ⋯ ∧ ψ_r) ↦ det (ψ_j(x_i))`: the extension to sheafifications of
 `presheafPairing`, with its arguments swapped. -/
@@ -143,7 +142,8 @@ noncomputable def sheafPairing :
     ModuleSheafBilinear (moduleSheafExteriorPower r F)
       (moduleSheafExteriorPower r (moduleSheafDual F)) (structureModule R) where
   app U := ((extendBilinear (H := structureModule R) (presheafPairing F r)).app U).flip
-  naturality i a b := (extendBilinear (H := structureModule R) (presheafPairing F r)).naturality i b a
+  naturality i a b :=
+    (extendBilinear (H := structureModule R) (presheafPairing F r)).naturality i b a
 
 /-- The comparison morphism `⋀^r F^∨ ⟶ (⋀^r F)^∨` induced by the determinant pairing. -/
 noncomputable def exteriorPowerDualMap :
