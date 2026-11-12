@@ -14,6 +14,7 @@ $\widehat{F}=\varprojlim_n\left(F/I^{n+1}F\right)|_{|Y|}$.
 The quotients and their transition maps give the completion its
 natural module structure over the completed structure sheaf. Powers
 are taken in the ideal sheaf of $Y$.
+The construction uses neither that $X$ is Noetherian nor that $F$ is coherent; both hypotheses are kept because they are Hartshorne's setting.
 
 ## Depends on
 
