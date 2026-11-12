@@ -8,27 +8,43 @@ import Hartshorne.Scheme.TopIsoRestriction
 import Hartshorne.Intersection.GradedPrimeFiltration
 
 /-!
-# Finiteness of projective global sections: the integral case
+# Finiteness of projective global sections on `Proj S`
 
-Hartshorne, *Algebraic Geometry*, II, Theorem 5.19 (pp. 122–123), the last step of the proof.
+Hartshorne, *Algebraic Geometry*, II, Theorem 5.19 (pp. 122–123), for the sheaf `M~` of a
+finitely generated graded module on `Proj S`.
 
-Let `S` be a graded domain, finitely generated as an algebra over a field `k`, and generated over
-`S₀` by finitely many elements `f₁, …, f_m` of degree one. Then for every `n ≥ 0` the global
-sections `Γ(Proj S, 𝒪(n))` form a finitely generated `S₀`-module.
+Let `S` be a graded ring which is a finite-type algebra over a field `k` and is generated over
+`S₀` by finitely many elements `f₁, …, f_m` of degree one, and let `M` be a finitely generated
+graded `S`-module. Then `Γ(Proj S, M~)` is a finitely generated `S₀`-module
+(`moduleFinite_sections_of_finite`). The `S₀`-module structure is restriction of scalars along
+`degreeZeroToGlobal`, the ring map `S₀ → Γ(Proj S, 𝒪)` of `Proj S ⟶ Spec S₀`.
 
 ## Proof
 
-Following Hartshorne. A global section of `𝒪(n)` is determined by its value `z` in the fraction
-field `K` of `S` (`ProjectiveSectionRing.sectionToFraction`). On each chart `D₊(fᵢ)` it is a single
-fraction `aᵢ / fᵢ^{jᵢ}` with `aᵢ ∈ S_{jᵢ + n}`, so `z` satisfies the chart condition `ChartCond`.
-Such a `z` multiplies the nonzero finitely generated ideal `S_{≥ ∑ jᵢ}` into itself
-(`exists_mem_mul_of_le`, where `S` is spanned in each degree by monomials in the `fᵢ`), so it is
-integral over `S` (`isIntegral_of_chartCond`). The integral closure of `S` in `K` is a finite
-`S`-module (Theorem I.3.9A), so the `S`-span of all such `z` is finitely generated, by finitely
-many of them. Comparing homogeneous components in `K` of a relation
-`z = ∑ cᵢ zᵢ` (`ProjectiveSectionRing.eq_zero_of_sum_isHomFrac_eq_zero`) replaces each `cᵢ` by its
-degree-zero part, so these finitely many sections generate over `S₀`
-(`exists_finset_of_chartCond`).
+Following Hartshorne.
+
+* **Filtration** (`moduleFinite_sections_of_primeFactors`). By Proposition I.7.4
+  (`exists_gradedPrimeFiltration`, stated for `ℤ`-graded algebras, applied through the
+  `ℤ`-extension `intGrading` of the grading) `M` has a filtration by graded submodules with
+  factors `(S/𝔭)(l)` (`primeFactor`), `𝔭` a homogeneous prime. Global sections of `M~` are left
+  exact (`exists_sections_of_gradedLocMap_eq_zero`: a section of `M~` locally `m / f` with image
+  `0` in `M''~` is locally `m' / c f` with `g(m') = c m`), so finiteness passes along the
+  filtration since `S₀` is Noetherian (`moduleFinite_sections_of_exact`,
+  `moduleFinite_sections_of_injective`).
+* **The factors** (`moduleFinite_sections_primeFactor`). If `S₊ ⊆ 𝔭` the sheaf `(S/𝔭)(l)~`
+  vanishes. Otherwise `𝔭` is a point of `Proj S`, and a global section is determined by its value
+  in the fraction field `K` of the domain `S/𝔭` at that point. On each chart `D₊(fᵢ)` it is a single
+  fraction `aᵢ / fᵢ^{jᵢ}` with `aᵢ ∈ (S/𝔭)_{jᵢ + l}`: the value satisfies the chart condition
+  `ChartCond`. Such a `z` multiplies the nonzero finitely generated ideal `(S/𝔭)_{≥ ∑ jᵢ}` into
+  itself (`exists_mem_mul_of_le`), so it is integral over `S/𝔭` (`isIntegral_of_chartCond`).
+  The integral closure of `S/𝔭` in `K` is a finite module (Theorem I.3.9A,
+  `moduleFinite_integralClosure_of_finiteType_of_field`), so the span of all such values is
+  finitely generated, by finitely many of them; comparing homogeneous components of a relation
+  `z = ∑ cᵢ zᵢ` replaces each `cᵢ` by its degree-zero part (`exists_finset_of_chartCond`).
+  Negative twists are handled by multiplying by a power of a generator outside `𝔭`.
+
+The same argument gives the integral case on `Proj S` itself for `𝒪(n)`
+(`moduleFinite_projTwistingSheaf_of_isDomain`).
 -/
 
 universe u
