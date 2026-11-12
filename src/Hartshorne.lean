@@ -693,6 +693,7 @@ import Hartshorne.Scheme.InfinitesimalNeighborhoods
 import Hartshorne.Scheme.FormalCompletion
 import Hartshorne.Scheme.FormalCompletionAffineSections
 import Hartshorne.Scheme.FormalSpectrum
+import Hartshorne.Scheme.AffineFormalThickenings
 import Hartshorne.Scheme.FormalCompletionSupport
 import Hartshorne.Scheme.NoetherianFormalScheme
 import Hartshorne.Scheme.FormalCompletionClosedPoint
