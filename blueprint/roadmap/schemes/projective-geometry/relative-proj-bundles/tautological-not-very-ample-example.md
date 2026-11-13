@@ -26,7 +26,6 @@ sections.
 
 - [The Picard group of projective space](../../divisors/cartier-picard/projective-space-picard-group.md)
 - The calculation $\Gamma (\mathbb{P}^1,\mathcal{O}(-1)) = 0$.
-- [The universal property of a blowup](../blowups/universal-property.md)
 
 ## Sources
 
