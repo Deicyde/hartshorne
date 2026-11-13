@@ -91,6 +91,21 @@ lemma localApp_map {V : Opens X} (φ : E ⟶ T) {U : Opens X} (h : U ≤ V) (x :
   erw [hn]
   rw [map_map, map_self]
 
+/-- `localApp` of a composite is the composite of the `localApp`s. -/
+lemma localApp_comp {Z : SheafOfModules.{u} (ringCatSheafOf R)} {V : Opens X}
+    (φ : (moduleRestrict V).obj E ⟶ (moduleRestrict V).obj T)
+    (χ : (moduleRestrict V).obj T ⟶ (moduleRestrict V).obj Z) {U : Opens X} (h : U ≤ V)
+    (x : E.val.obj (op U)) : localApp (φ ≫ χ) h x = localApp χ h (localApp φ h x) := by
+  simp only [localApp]
+  rw [map_map T, map_self]
+  rfl
+
+/-- `localApp` sends `0` to `0`. -/
+lemma localApp_zero {V : Opens X}
+    (ψ : (moduleRestrict V).obj E ⟶ (moduleRestrict V).obj T) {U : Opens X} (h : U ≤ V) :
+    localApp ψ h 0 = 0 := by
+  simp only [localApp, map_zero]
+
 /-- `localApp` is additive. -/
 lemma localApp_add {V : Opens X}
     (ψ : (moduleRestrict V).obj E ⟶ (moduleRestrict V).obj T) {U : Opens X} (h : U ≤ V)

@@ -22,6 +22,41 @@ open CategoryTheory Limits Opposite TopologicalSpace
 definitionally (not reducibly) the underlying modules. -/
 set_option backward.isDefEq.respectTransparency false
 
+/- Implementation note. Every identification below is stated with nested objects
+(`G.obj (F.obj X)`, never `(F ⋙ G).obj X`) and with the restricted module written as
+`(i_* 𝒪_X)|_{V₀}` (the argument `F` of `extTopMap` given explicitly). Mixing the two forms inside
+`sheafExt` or between a composite and a nested functor makes the kernel unfold the restriction and
+`ℰxt` functors and was the cause of the earlier time and memory use. -/
+
+namespace Hartshorne.CompIso
+
+variable {𝒞 𝒟 𝒱 ℰ : Type*} [Category 𝒞] [Category 𝒟] [Category 𝒱] [Category ℰ]
+  {Φ₁ : 𝒞 ⥤ 𝒟} {Φ₂ : 𝒟 ⥤ ℰ} {Ψ₁ : 𝒞 ⥤ 𝒱} {Ψ₂ : 𝒱 ⥤ ℰ}
+
+/-- The component at `X` of a natural isomorphism `Φ₁ ⋙ Φ₂ ≅ Ψ₁ ⋙ Ψ₂`, typed with the nested
+objects `Φ₂(Φ₁ X)` and `Ψ₂(Ψ₁ X)`. -/
+def app (c : Φ₁ ⋙ Φ₂ ≅ Ψ₁ ⋙ Ψ₂) (X : 𝒞) : Φ₂.obj (Φ₁.obj X) ≅ Ψ₂.obj (Ψ₁.obj X) :=
+  c.app X
+
+/-- `CompIso.app` is the component of the natural isomorphism. -/
+lemma app_hom (c : Φ₁ ⋙ Φ₂ ≅ Ψ₁ ⋙ Ψ₂) (X : 𝒞) : (app c X).hom = c.hom.app X := rfl
+
+/-- An identity of the shape of `Hartshorne.Ringed.sheafExtRestrictIso_restrict_restrict`, restated
+with the components `CompIso.app` typed with nested objects. Stated for arbitrary functors, so that
+the comparison of `(Φ₁ ⋙ Φ₂).obj X` with `Φ₂.obj (Φ₁.obj X)` is checked only once, abstractly. -/
+theorem restate₁ (c : Φ₁ ⋙ Φ₂ ≅ Ψ₁ ⋙ Ψ₂) (Ext : ℰ → ℰ ⥤ ℰ)
+    (P : ∀ {X Y : ℰ} (_ : X ⟶ Y) (G' : ℰ), (Ext Y).obj G' ⟶ (Ext X).obj G')
+    {F G E1 : 𝒞} {E2 : 𝒟} {E3 : 𝒱} (a : Φ₁.obj E1 ⟶ E2)
+    (b : Φ₂.obj E2 ⟶ (Ext (Φ₂.obj (Φ₁.obj F))).obj (Φ₂.obj (Φ₁.obj G))) (d : Ψ₁.obj E1 ⟶ E3)
+    (e : Ψ₂.obj E3 ⟶ (Ext (Ψ₂.obj (Ψ₁.obj F))).obj (Ψ₂.obj (Ψ₁.obj G)))
+    (h : Φ₂.map a ≫ b ≫ (Ext _).map (c.hom.app G) =
+      c.hom.app _ ≫ Ψ₂.map d ≫ e ≫ P (c.hom.app F) _) :
+    Φ₂.map a ≫ b ≫ (Ext (Φ₂.obj (Φ₁.obj F))).map (app c G).hom =
+      (app c E1).hom ≫ Ψ₂.map d ≫ e ≫ P (app c F).hom (Ψ₂.obj (Ψ₁.obj G)) :=
+  h
+
+end Hartshorne.CompIso
+
 namespace Hartshorne
 
 namespace Ringed
@@ -38,7 +73,7 @@ restriction and the transported restriction written out. -/
 noncomputable def restrictCompIsoApp (F : SheafOfModules.{u} (ringCatSheafOf R)) :
     (moduleRestrict (R := restrictRingSheaf R U) V').obj ((moduleRestrict U).obj F) ≅
       (transport (ringTransport U V' R)).obj ((moduleRestrict ((incl U).obj V')).obj F) :=
-  (restrictCompIso U V' R).app F
+  CompIso.app (restrictCompIso U V' R) F
 
 lemma restrictCompIsoApp_hom (F : SheafOfModules.{u} (ringCatSheafOf R)) :
     (restrictCompIsoApp U V' R F).hom = (restrictCompIso U V' R).hom.app F :=
@@ -53,6 +88,83 @@ lemma restrictCompIsoApp_hom_naturality {F G : SheafOfModules.{u} (ringCatSheafO
   (restrictCompIso U V' R).hom.naturality g
 
 end RestrictCompose
+
+section Abstract
+
+open SheafExtRestrict Transport
+
+variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+
+attribute [local instance 2000] Abelian.toPreadditive
+
+/-- **`extTopMap` restricted to an open subset, with a change of coefficients.** For resolutions
+`L_• ⟶ F` on `X` and `L'_• ⟶ F|_U` on `U` related by `ψ : L_•|_U ⟶ L'_•`, a morphism
+`g : G|_U ⟶ G'` and top maps `t`, `t'` with `g_* ∘ t' = e ∘ t|_U` (read through `ψ`), the
+restriction of the map out of `ℰxt^{s+1}_X(F, G)` induced by `t`, followed by `e`, is the
+identification `ℰxt^{s+1}_X(F, G)|_U ≅ ℰxt^{s+1}_U(F|_U, G|_U)` followed by `g` and the map
+induced by `t'`. -/
+theorem extTopMap_restrict_map (U : Opens X) {F : SheafOfModules.{u} (ringCatSheafOf R)}
+    (L : ChainComplex (SheafOfModules.{u} (ringCatSheafOf R)) ℕ)
+    (π : L ⟶ (ChainComplex.single₀ _).obj F) [QuasiIso π] (hL : ∀ p, IsFiniteLocallyFree (L.X p))
+    (L' : ChainComplex (SheafOfModules.{u} (ringCatSheafOf (restrictRingSheaf R U))) ℕ)
+    (π' : L' ⟶ (ChainComplex.single₀ _).obj ((moduleRestrict U).obj F)) [QuasiIso π']
+    (hL' : ∀ p, IsFiniteLocallyFree (L'.X p))
+    (ψ : ((moduleRestrict U).mapHomologicalComplex _).obj L ⟶ L')
+    (hψ : ψ.f 0 ≫ π'.f 0 = (moduleRestrict U).map (π.f 0)) {s : ℕ}
+    (G : SheafOfModules.{u} (ringCatSheafOf R)) {E : SheafOfModules.{u} (ringCatSheafOf R)}
+    (t : ((moduleSheafHomComplex L).obj G).X (s + 1) ⟶ E)
+    (w : ((moduleSheafHomComplex L).obj G).d s (s + 1) ≫ t = 0)
+    {G' E' : SheafOfModules.{u} (ringCatSheafOf (restrictRingSheaf R U))}
+    (g : (moduleRestrict U).obj G ⟶ G')
+    (t' : ((moduleSheafHomComplex L').obj G').X (s + 1) ⟶ E')
+    (w' : ((moduleSheafHomComplex L').obj G').d s (s + 1) ≫ t' = 0)
+    (e : (moduleRestrict U).obj E ⟶ E')
+    (he : ((moduleSheafHomComplex L').map g).f (s + 1) ≫ t' =
+      ((moduleSheafHomComplexMap ψ).app _).f (s + 1) ≫
+        (homRestrictIso U (L.X (s + 1))).inv.app G ≫ (moduleRestrict U).map t ≫ e) :
+    (moduleRestrict U).map (extTopMap L π hL G t w) ≫ e =
+      (sheafExtRestrictIso U F G (s + 1)).hom ≫
+        (sheafExt ((moduleRestrict U).obj F) (s + 1)).map g ≫ extTopMap L' π' hL' G' t' w' := by
+  rw [extTopMap_map L' π' hL' g t' w', ← Iso.inv_comp_eq]
+  exact extTopMap_restrict U L π hL L' π' hL' ψ hψ G t w _ _ e he.symm
+
+/-- **`extTopMap` transported along a homeomorphism, with a change of the resolved module.** For a
+resolution `L_• ⟶ F` on `B` whose transport `π'' : τ L_• ⟶ τF` is again a resolution, a resolution
+`L'_• ⟶ F'` on `A`, `u : F' ⟶ τF` with a chain map `φ : L'_• ⟶ τ L_•` over `u`, and top maps with
+`φ^* ∘ t' = e ∘ τ t`, the identification `τ ℰxt^{s+1}_B(F, G) ≅ ℰxt^{s+1}_A(τF, τG)` followed by
+`u^*` and the map induced by `t'` is the transport of the map induced by `t`, followed by `e`. -/
+theorem extTopMap_transport_precomp {A B : TopCat.{u}} {Hh : B ≅ A}
+    {S : Sheaf (Opens.grothendieckTopology A) CommRingCat.{u}}
+    {T : Sheaf (Opens.grothendieckTopology B) CommRingCat.{u}} (ρ : RingTransport Hh S T)
+    {F : SheafOfModules.{u} (ringCatSheafOf T)}
+    (L : ChainComplex (SheafOfModules.{u} (ringCatSheafOf T)) ℕ)
+    (π : L ⟶ (ChainComplex.single₀ _).obj F) [QuasiIso π] (hL : ∀ p, IsFiniteLocallyFree (L.X p))
+    (π'' : ((transport ρ).mapHomologicalComplex _).obj L ⟶
+      (ChainComplex.single₀ _).obj ((transport ρ).obj F)) [QuasiIso π'']
+    (hL'' : ∀ p, IsFiniteLocallyFree ((((transport ρ).mapHomologicalComplex _).obj L).X p))
+    (hπ'' : π''.f 0 = (transport ρ).map (π.f 0)) {F' : SheafOfModules.{u} (ringCatSheafOf S)}
+    (u : F' ⟶ (transport ρ).obj F) (L' : ChainComplex (SheafOfModules.{u} (ringCatSheafOf S)) ℕ)
+    (π' : L' ⟶ (ChainComplex.single₀ _).obj F') [QuasiIso π']
+    (hL' : ∀ p, IsFiniteLocallyFree (L'.X p))
+    (φ : L' ⟶ ((transport ρ).mapHomologicalComplex _).obj L)
+    (hφ : φ ≫ π'' = π' ≫ (ChainComplex.single₀ _).map u) {s : ℕ}
+    (G : SheafOfModules.{u} (ringCatSheafOf T)) {E : SheafOfModules.{u} (ringCatSheafOf T)}
+    (t : ((moduleSheafHomComplex L).obj G).X (s + 1) ⟶ E)
+    (w : ((moduleSheafHomComplex L).obj G).d s (s + 1) ≫ t = 0)
+    {E' : SheafOfModules.{u} (ringCatSheafOf S)}
+    (t' : ((moduleSheafHomComplex L').obj ((transport ρ).obj G)).X (s + 1) ⟶ E')
+    (w' : ((moduleSheafHomComplex L').obj ((transport ρ).obj G)).d s (s + 1) ≫ t' = 0)
+    (e : (transport ρ).obj E ⟶ E')
+    (he : ((moduleSheafHomComplexMap φ).app _).f (s + 1) ≫ t' =
+      (homTransportIso ρ (L.X (s + 1))).inv.app G ≫ (transport ρ).map t ≫ e) :
+    (sheafExtTransportIso ρ F G (s + 1)).hom ≫ sheafExtPrecomp u ((transport ρ).obj G) (s + 1) ≫
+        extTopMap L' π' hL' _ t' w' =
+      (transport ρ).map (extTopMap L π hL G t w) ≫ e := by
+  rw [extTopMap_precomp π' π'' hL' hL'' φ hφ _ t' w',
+    ← extTopMap_transport_id ρ L π hL π'' hL'' hπ'' G t w _ _ e he.symm, Iso.hom_inv_id_assoc]
+
+
+end Abstract
 
 open SheafExtRestrict Transport RestrictCompose
 
@@ -72,7 +184,9 @@ theorem sheafExtRestrictIso_restrict_restrict' (F G : SheafOfModules.{u} (ringCa
       (transport (ringTransport U V' R)).map (sheafExtRestrictIso ((incl U).obj V') F G n).hom ≫
         (sheafExtTransportIso (ringTransport U V' R) _ _ n).hom ≫
           sheafExtPrecomp (restrictCompIsoApp U V' R F).hom _ n :=
-  sheafExtRestrictIso_restrict_restrict U V' R F G n
+  CompIso.restate₁ (restrictCompIso U V' R) (fun K => sheafExt K n)
+    (fun u G' => sheafExtPrecomp u G' n) _ _ _ _
+    (sheafExtRestrictIso_restrict_restrict U V' R F G n)
 
 end Ringed
 
@@ -97,8 +211,6 @@ noncomputable abbrev topMapRestrict :
   Ringed.homEvalAt (topSection (restrictBase (restrictPhi V₀) W') f ⊤) _ ≫
     (transport (ringTransport V₀ W' Y.sheaf)).map (unitRestrict i M ((incl V₀).obj W'))
 
--- Comparing the two typings of the components of `restrictCompIso` unfolds the restrictions.
-set_option maxHeartbeats 1000000 in
 /-- `topMap_restrict_eq`, stated with `restrictCompIsoApp`. -/
 lemma topMap_restrict_eq' :
     ((Ringed.moduleSheafHomComplex (complex (restrictBase (restrictPhi V₀) W') f)).map
@@ -112,8 +224,6 @@ lemma topMap_restrict_eq' :
           ((Scheme.Modules.pushforward i).obj ((Scheme.Modules.pullback i).obj M))).hom :=
   topMap_restrict_eq W' i f M
 
--- Comparing the two typings of the components of `restrictCompIso` unfolds the restrictions.
-set_option maxHeartbeats 1000000 in
 /-- `compareChain_augmentation`, stated with `restrictCompIsoApp`. -/
 lemma compareChain_augmentation' [IsClosedImmersion i]
     (hI : i.ker.ideal ⟨V₀, hV₀⟩ = Ideal.span (Set.range f))
@@ -147,16 +257,27 @@ lemma topMapRestrict_w [IsClosedImmersion i]
       (restrictCompIsoApp V₀ W' Y.sheaf M)) s).hom, comp_zero]
   exact key
 
--- Matching the restricted, transported and twice restricted modules unfolds the restrictions when
--- the kernel checks the proof.
-set_option maxHeartbeats 1000000 in
+/-- The comparison `L_•|_{W'} ⟶ L'_•` lies over the identity in degree zero. -/
+lemma restrictComplexIso_inv_f_zero_comp [IsClosedImmersion i]
+    (hI : i.ker.ideal ⟨V₀, hV₀⟩ = Ideal.span (Set.range f)) :
+    (restrictComplexIso (restrictPhi V₀) f W').inv.f 0 ≫
+        (restrictAugmentation (restrictPhi V₀) f W' (augHom i f) (d_comp_augHom hV₀ i f hI)).f 0 =
+      (Ringed.moduleRestrict W').map
+        ((augmentation (restrictPhi V₀) f (augHom i f) (d_comp_augHom hV₀ i f hI)).f 0) := by
+  change (restrictComplexIso (restrictPhi V₀) f W').inv.f 0 ≫
+    (restrictComplexIso (restrictPhi V₀) f W').hom.f 0 ≫ (Ringed.moduleRestrict W').map
+      (augHom i f) = (Ringed.moduleRestrict W').map (augHom i f)
+  rw [← Category.assoc, ← HomologicalComplex.comp_f, Iso.inv_hom_id, HomologicalComplex.id_f,
+    Category.id_comp]
+
 /-- **The restriction step.** The restriction to `W'` of the top-Ext map on `V₀`, followed by
 `(i_* i^* M)|_{V₀}|_{W'} ≅ τ((i_* i^* M)|_W)`, is the identification of `ℰxt` on `W'` followed by
 the change of coefficients `M|_{V₀}|_{W'} ≅ τ(M|_W)` and the top map `topMapRestrict`. -/
 lemma extTopMap_restrict_step [IsClosedImmersion i]
     (hI : i.ker.ideal ⟨V₀, hV₀⟩ = Ideal.span (Set.range f))
     [QuasiIso (augmentation (restrictPhi V₀) f (augHom i f) (d_comp_augHom hV₀ i f hI))] :
-    (Ringed.moduleRestrict W').map (Ringed.extTopMap _
+    (Ringed.moduleRestrict W').map (Ringed.extTopMap (F := (Ringed.moduleRestrict V₀).obj
+          ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf))) _
         (augmentation (restrictPhi V₀) f (augHom i f) (d_comp_augHom hV₀ i f hI))
         (isFiniteLocallyFree_complex (restrictPhi V₀) f) _ (topHom i f M)
         (d_comp_topHom hV₀ i f M hI)) ≫
@@ -168,39 +289,30 @@ lemma extTopMap_restrict_step [IsClosedImmersion i]
       (Ringed.sheafExt ((Ringed.moduleRestrict W').obj ((Ringed.moduleRestrict V₀).obj
         ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf)))) (s + 1)).map
           (restrictCompIsoApp V₀ W' Y.sheaf M).hom ≫
-      Ringed.extTopMap (complex (restrictBase (restrictPhi V₀) W') f)
+      Ringed.extTopMap (F := (Ringed.moduleRestrict W').obj ((Ringed.moduleRestrict V₀).obj
+        ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf))))
+        (complex (restrictBase (restrictPhi V₀) W') f)
         (restrictAugmentation (restrictPhi V₀) f W' (augHom i f) (d_comp_augHom hV₀ i f hI))
         (isFiniteLocallyFree_complex _ f) _ (topMapRestrict W' i f M)
         (topMapRestrict_w W' hV₀ i f M hI) := by
-  have hG := Ringed.extTopMap_map (complex (restrictBase (restrictPhi V₀) W') f)
-    (restrictAugmentation (restrictPhi V₀) f W' (augHom i f) (d_comp_augHom hV₀ i f hI))
-    (isFiniteLocallyFree_complex _ f) (restrictCompIsoApp V₀ W' Y.sheaf M).hom
-    (topMapRestrict W' i f M) (topMapRestrict_w W' hV₀ i f M hI)
-  have hR := Ringed.extTopMap_restrict W' (complex (restrictPhi V₀) f)
+  have h := Ringed.extTopMap_restrict_map W'
+    (F := (Ringed.moduleRestrict V₀).obj
+      ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf)))
+    (complex (restrictPhi V₀) f)
     (augmentation (restrictPhi V₀) f (augHom i f) (d_comp_augHom hV₀ i f hI))
     (isFiniteLocallyFree_complex (restrictPhi V₀) f)
     (complex (restrictBase (restrictPhi V₀) W') f)
     (restrictAugmentation (restrictPhi V₀) f W' (augHom i f) (d_comp_augHom hV₀ i f hI))
     (isFiniteLocallyFree_complex _ f) (restrictComplexIso (restrictPhi V₀) f W').inv
-    (by
-      change (restrictComplexIso (restrictPhi V₀) f W').inv.f 0 ≫
-        (restrictComplexIso (restrictPhi V₀) f W').hom.f 0 ≫ (Ringed.moduleRestrict W').map
-          (augHom i f) = (Ringed.moduleRestrict W').map (augHom i f)
-      rw [← Category.assoc, ← HomologicalComplex.comp_f, Iso.inv_hom_id, HomologicalComplex.id_f,
-        Category.id_comp])
+    (restrictComplexIso_inv_f_zero_comp W' hV₀ i f hI)
     ((Ringed.moduleRestrict V₀).obj M) (topHom i f M) (d_comp_topHom hV₀ i f M hI)
-    (((Ringed.moduleSheafHomComplex (complex (restrictBase (restrictPhi V₀) W') f)).map
-        (restrictCompIsoApp V₀ W' Y.sheaf M).hom).f (s + 1) ≫ topMapRestrict W' i f M)
-    (by rw [← HomologicalComplex.Hom.comm_assoc, topMapRestrict_w W' hV₀ i f M hI, comp_zero])
+    (restrictCompIsoApp V₀ W' Y.sheaf M).hom (topMapRestrict W' i f M)
+    (topMapRestrict_w W' hV₀ i f M hI)
     (restrictCompIsoApp V₀ W' Y.sheaf
       ((Scheme.Modules.pushforward i).obj ((Scheme.Modules.pullback i).obj M))).hom
-    (topMap_restrict_eq' W' i f M).symm
-  rw [← hG] at hR
-  exact (Iso.inv_comp_eq _).mp hR
+    (topMap_restrict_eq' W' i f M)
+  exact h
 
--- Matching the restricted, transported and twice restricted modules unfolds the restrictions when
--- the kernel checks the proof.
-set_option maxHeartbeats 1000000 in
 /-- **The transport step.** The identification of `ℰxt` on `W'` with the transport of `ℰxt` on
 `W`, followed by the change of the resolved module `(i_* 𝒪_X)|_{V₀}|_{W'} ≅ τ((i_* 𝒪_X)|_W)` and
 the top map `topMapRestrict`, is the transport of the top-Ext map on `W`. -/
@@ -219,11 +331,15 @@ lemma extTopMap_transport_step [IsClosedImmersion i]
         ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf))).hom
         ((transport (ringTransport V₀ W' Y.sheaf)).obj
           ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M)) (s + 1) ≫
-      Ringed.extTopMap (complex (restrictBase (restrictPhi V₀) W') f)
+      Ringed.extTopMap (F := (Ringed.moduleRestrict W').obj ((Ringed.moduleRestrict V₀).obj
+        ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf))))
+        (complex (restrictBase (restrictPhi V₀) W') f)
         (restrictAugmentation (restrictPhi V₀) f W' (augHom i f) (d_comp_augHom hV₀ i f hI))
         (isFiniteLocallyFree_complex _ f) _ (topMapRestrict W' i f M)
         (topMapRestrict_w W' hV₀ i f M hI) =
-    (transport (ringTransport V₀ W' Y.sheaf)).map (Ringed.extTopMap _
+    (transport (ringTransport V₀ W' Y.sheaf)).map (Ringed.extTopMap
+      (F := (Ringed.moduleRestrict ((incl V₀).obj W')).obj
+      ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf))) _
       (augmentation (restrictPhi ((incl V₀).obj W')) _ (augHom i _) (d_comp_augHom hW i _ hI'))
       (isFiniteLocallyFree_complex _ _) _ (topHom i _ M) (d_comp_topHom hW i _ M hI')) := by
   have hL'' : ∀ p, Ringed.IsFiniteLocallyFree
@@ -243,27 +359,40 @@ lemma extTopMap_transport_step [IsClosedImmersion i]
         (d_comp_augHom hW i _ hI')).f 0) := by
     simp only [π'', HomologicalComplex.comp_f, Functor.mapHomologicalComplex_map_f]
     erw [HomologicalComplex.singleMapHomologicalComplex_hom_app_self, Category.comp_id]
-  have hF := Ringed.extTopMap_precomp
-    (restrictAugmentation (restrictPhi V₀) f W' (augHom i f) (d_comp_augHom hV₀ i f hI)) π''
-    (isFiniteLocallyFree_complex _ f) hL'' (compareChain W' f)
-    (compareChain_augmentation' W' hV₀ i f hI hW hI') _ (topMapRestrict W' i f M)
-    (topMapRestrict_w W' hV₀ i f M hI)
-  have hT := Ringed.extTopMap_transport_id (ringTransport V₀ W' Y.sheaf)
+  have h := Ringed.extTopMap_transport_precomp (ringTransport V₀ W' Y.sheaf)
+    (F := (Ringed.moduleRestrict ((incl V₀).obj W')).obj
+      ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf)))
     (complex (restrictPhi ((incl V₀).obj W')) (fun j => resRing W' (f j)))
     (augmentation (restrictPhi ((incl V₀).obj W')) _ (augHom i _) (d_comp_augHom hW i _ hI'))
     (isFiniteLocallyFree_complex _ _) π'' hL'' hπ''
+    (restrictCompIsoApp V₀ W' Y.sheaf
+      ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf))).hom
+    (complex (restrictBase (restrictPhi V₀) W') f)
+    (restrictAugmentation (restrictPhi V₀) f W' (augHom i f) (d_comp_augHom hV₀ i f hI))
+    (isFiniteLocallyFree_complex _ f) (compareChain W' f)
+    (compareChain_augmentation' W' hV₀ i f hI hW hI')
     ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M) (topHom i _ M)
-    (d_comp_topHom hW i _ M hI')
-    (((Ringed.moduleSheafHomComplexMap (compareChain W' f)).app _).f (s + 1) ≫
-      topMapRestrict W' i f M)
-    (by
-      rw [← HomologicalComplex.Hom.comm_assoc, topMapRestrict_w W' hV₀ i f M hI, comp_zero])
-    (𝟙 _) (topMap_transport_eq W' i f M).symm
-  rw [hF, ← hT, Iso.hom_inv_id_assoc, Category.comp_id]
+    (d_comp_topHom hW i _ M hI') (topMapRestrict W' i f M) (topMapRestrict_w W' hV₀ i f M hI)
+    (𝟙 _) (topMap_transport_eq W' i f M)
+  rw [Category.comp_id] at h
+  exact h
 
 -- The statement compares `ℰxt` on the twice restricted and on the transported subspace; checking
 -- the assembled proof needs more than the default budget.
-set_option maxHeartbeats 1000000 in
+/-- `localTopExtIso_hom_eq` with the resolved module written as `(i_* 𝒪_X)|_{V₀}`. -/
+lemma localTopExtIso_hom_eq' {V₀ : Y.Opens} (hV₀ : IsAffineOpen V₀) (f : Fin (s + 1) → Γ(Y, V₀))
+    [IsClosedImmersion i] (hI : i.ker.ideal ⟨V₀, hV₀⟩ = Ideal.span (Set.range f))
+    [M.IsQuasicoherent] (hf : IsKoszulRegular f (ModuleCat.of Γ(Y, V₀) Γ(Y, V₀))) :
+    have := quasiIso_koszulAugmentation hV₀ i f hI hf
+    (localTopExtIso hV₀ i f M hI hf).hom = (Ringed.sheafExtRestrictIso V₀
+        ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf)) M (s + 1)).hom ≫
+      Ringed.extTopMap (F := (Ringed.moduleRestrict V₀).obj
+          ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf))) _
+        (augmentation (restrictPhi V₀) f (augHom i f) (d_comp_augHom hV₀ i f hI))
+        (isFiniteLocallyFree_complex (restrictPhi V₀) f) _ (topHom i f M)
+        (d_comp_topHom hV₀ i f M hI) :=
+  localTopExtIso_hom_eq hV₀ i f M hI hf
+
 /-- **Restricting a local top-Ext isomorphism to a smaller affine open.** Let `V₀` be an affine
 open on which the ideal of `i` is generated by a Koszul-regular sequence `f`, and `W ⊆ V₀` an affine
 open on which the restricted sequence `f|_W` has the same properties. Then the restriction to `W` of
@@ -287,12 +416,14 @@ theorem localTopExtIso_restrict [IsClosedImmersion i] [M.IsQuasicoherent]
           (localTopExtIso hW i (fun j => resRing W' (f j)) M hI' hf').hom := by
   have q1 := quasiIso_koszulAugmentation hV₀ i f hI hf
   have q2 := quasiIso_koszulAugmentation hW i _ hI' hf'
-  rw [localTopExtIso_hom_eq hV₀ i f M hI hf,
-    localTopExtIso_hom_eq hW i (fun j => resRing W' (f j)) M hI' hf', Functor.map_comp,
+  rw [localTopExtIso_hom_eq' i M hV₀ f hI hf,
+    localTopExtIso_hom_eq' i M hW (fun j => resRing W' (f j)) hI' hf', Functor.map_comp,
     Functor.map_comp, Category.assoc, extTopMap_restrict_step W' hV₀ i f M hI]
   have hRR := eq_whisker (Ringed.sheafExtRestrictIso_restrict_restrict' V₀ W' Y.sheaf
     ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf)) M (s + 1))
-    (Ringed.extTopMap (complex (restrictBase (restrictPhi V₀) W') f)
+    (Ringed.extTopMap (F := (Ringed.moduleRestrict W').obj ((Ringed.moduleRestrict V₀).obj
+        ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf))))
+        (complex (restrictBase (restrictPhi V₀) W') f)
       (restrictAugmentation (restrictPhi V₀) f W' (augHom i f) (d_comp_augHom hV₀ i f hI))
       (isFiniteLocallyFree_complex _ f) _ (topMapRestrict W' i f M)
       (topMapRestrict_w W' hV₀ i f M hI))
