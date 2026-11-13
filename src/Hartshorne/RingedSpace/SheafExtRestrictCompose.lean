@@ -24,6 +24,14 @@ soon as the underlying identifications of sheaf Hom agree
 (`Hartshorne.RightDerivedComp.rightDerivedCompIso_comp_naturality`). For sheaf Hom this is a
 computation on sections: both sides send a morphism `σ : F|_W ⟶ G|_W` to the morphism given on
 sections by `σ` itself.
+
+## Implementation note
+
+The kernel compares two terms that agree only up to unfolding, such as `ℰxtⁿ(F, -)` and the right
+derived functor it is defined as, by evaluating them, and evaluating `ℰxt` objects is very costly.
+The proofs therefore go through private lemmas stated for abstract categories, bifunctors and
+derived-functor families, with every isomorphism a variable given by an equation; instantiated
+with `ℰxt`, their conclusions are syntactically the statements, and the equations hold by `rfl`.
 -/
 
 universe u

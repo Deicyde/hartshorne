@@ -21,6 +21,14 @@ homeomorphism, together with identifications `Φ(ℋom(F, G)) ≅ ℋom(ΦF, ΦG
 
 As in `Hartshorne.RingedSpace.SheafExtLocallyFreeResolution`, the homological algebra is done for
 abstract bifunctors `H : Cᵒᵖ ⥤ C ⥤ C` and `H' : Dᵒᵖ ⥤ D ⥤ D`.
+
+## Implementation note
+
+The kernel compares two terms that agree only up to unfolding, such as `ℰxtⁿ(F, -)` and the right
+derived functor it is defined as, by evaluating them, and evaluating `ℰxt` objects is very costly.
+The proofs therefore go through private lemmas stated for abstract categories, bifunctors and
+derived-functor families, with every isomorphism a variable given by an equation; instantiated
+with `ℰxt`, their conclusions are syntactically the statements, and the equations hold by `rfl`.
 -/
 
 universe u v' u' v'' u''
