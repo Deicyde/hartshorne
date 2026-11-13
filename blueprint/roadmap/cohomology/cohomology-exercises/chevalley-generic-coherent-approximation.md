@@ -23,6 +23,7 @@ which is an isomorphism at the generic point of $Y$.
 - [Finite pushforward preserves coherence](../../schemes/modules-and-quasicoherent/finite-pushforward-coherent.md)
 - [A generic finite-module frame](chevalley-generic-finite-module-frame.md)
 - [The sheaf Hom of module sheaves](../../schemes/modules-and-quasicoherent/module-sheaf-hom.md)
+- [Relative Spec of a quasi-coherent algebra](../../schemes/module-exercises/relative-spec.md)
 - Apply sheaf Hom into $F$ to the generic frame.
 - Hartshorne II, Exercise 5.17(e), supplying the finite-morphism Hom and
   pushforward comparison.
