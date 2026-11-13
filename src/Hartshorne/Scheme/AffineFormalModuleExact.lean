@@ -14,9 +14,14 @@ import Hartshorne.Scheme.CoherentAffineLocalCriterion
 
 Hartshorne, *Algebraic Geometry*, II, Proposition 9.4(c) (pp. 195–196): for a Noetherian ring `A`
 and an ideal `I`, the functor `M ↦ M^Δ` from finite `A`-modules to modules on `Spf_I(A)` is exact.
-This proof checks exactness on stalks: on the basic opens `D(f) ∩ V(I)` the sections of `M^Δ` are
-the completions of the `M_f`, completion is exact on finite modules, and stalks are filtered
-colimits of sections over basic neighbourhoods. The proof here follows that route.
+Hartshorne's proof works with sections over every open affine `U = Spec B` of `Spec A`: with
+`J = Γ(U, I~)` and `N = Γ(U, M~)` he computes `Γ(U, M^Δ) = lim N / JⁿN = N̂` by (9.2), and since
+`M ↦ N` is exact (5.5) and `N ↦ N̂` is exact (9.3A), `M ↦ Γ(U, M^Δ)` is exact for each `U`, so
+`M ↦ M^Δ` is exact. The proof here specializes this to the basic opens `D(f)`, where `B = A_f` and
+`N = M_f`, so that the sections of `M^Δ` over `D(f) ∩ V(I)` are the completions of the `M_f`, and
+it passes from exactness of sections over this basis to exactness of sheaves through stalks, which
+are filtered colimits of sections over basic neighbourhoods. The specialization to basic opens and
+the stalk step are this formalization's, not Hartshorne's.
 
 * `Hartshorne.moduleCompletion_tilde_exact`: the main result. For an exact sequence
   `M' ⟶ M ⟶ M''` of `A`-modules with `M` and `M''` finite, the completions of `M'~ ⟶ M~ ⟶ M''~`

@@ -29,9 +29,10 @@ Let `X` be a scheme over a field `k` (structure morphism `q`), `L` an invertible
   determines a unique `k`-morphism `φ : X ⟶ ℙⁿ_k` with `φ^* 𝒪(1) ≅ L` carrying `φ^* xᵢ` to `sᵢ`
   (Theorem 7.1). Conversely the coordinate sections `φ^* xᵢ` of any `φ : X ⟶ ℙⁿ_k` span a
   base-point-free linear system of `φ^* 𝒪(1)` (`LinearSystem.isBasePointFree_ofFamily_pullback`).
-* `LinearSystem.isClosedImmersion_morphism_iff`: Remark 7.8.2: for `X` projective over an
-  algebraically closed field, this morphism is a closed immersion exactly when `V` separates
-  points and tangent vectors (Proposition 7.3).
+* `LinearSystem.isClosedImmersion_morphism_iff`: Proposition 7.3, in its section form, for the
+  morphism of Remark 7.8.1: for `X` projective over an algebraically closed field, this morphism
+  is a closed immersion exactly when `V` separates points and tangent vectors. Remark 7.8.2
+  rephrases this criterion in terms of the divisors of `𝔡`.
 
 ## Proof
 
@@ -232,7 +233,8 @@ private theorem image_toSection_eq_linearSystem (𝔡 : LinearSystem q L) {n : �
     rw [← hs]
     exact (mem_ofFamily_sections_iff 𝔡.isInvertible s t).mpr ht
 
-/-- **Hartshorne II, Remark 7.8.2, for any morphism defined by a spanning family.** Let `X` be
+/-- **Hartshorne II, Proposition 7.3 (section form), for any morphism defined by a spanning
+family** (the section form of the criterion Remark 7.8.2 states with divisors). Let `X` be
 projective over an algebraically closed field `k`, let `s₀, …, sₙ` span the subspace `V` of a
 linear system `𝔡`, and let `φ : X ⟶ ℙⁿ_k` come with an isomorphism `φ^* 𝒪(1) ≅ L` carrying each
 `φ^* xᵢ` to `sᵢ`. Then `φ` is a closed immersion exactly when `V` separates points and tangent
@@ -253,11 +255,14 @@ theorem isClosedImmersion_iff_of_span_eq [IsAlgClosed k] (hX : Projective q)
   exact isClosedImmersion_iff_sectionsSeparatePoints_and_sectionsSeparateTangentVectors q
     𝔡.isInvertible _ φ hφ e he hX
 
-/-- **Hartshorne II, Remark 7.8.2.** Let `X` be projective over an algebraically closed field `k`
-and `𝔡` a base-point-free linear system with a family
-`s₀, …, sₙ` spanning its subspace `V`. The morphism `φ : X ⟶ ℙⁿ_k` it determines (Remark 7.8.1) is a
-closed immersion exactly when `V` separates points and tangent vectors. (Hartshorne takes `X` a
-projective variety.) -/
+/-- **Hartshorne II, Proposition 7.3 (section form), for the morphism of Remark 7.8.1.** Let `X`
+be projective over an algebraically closed field `k` and `𝔡` a base-point-free linear system with a
+family `s₀, …, sₙ` spanning its subspace `V`. The morphism `φ : X ⟶ ℙⁿ_k` it determines
+(Remark 7.8.1) is a closed immersion exactly when the sections in `V` separate points and tangent
+vectors in the sense of Proposition 7.3. Remark 7.8.2 rephrases this criterion in terms of the
+divisors of `𝔡` (`P ∈ Supp D`, `Q ∉ Supp D`, `t ∉ T_P(D)`); that divisor form is not stated here.
+(Hartshorne's `X` there is a nonsingular projective variety over an algebraically closed field,
+p. 156.) -/
 theorem isClosedImmersion_morphism_iff [IsAlgClosed k] (hX : Projective q)
     (𝔡 : LinearSystem q L) (h𝔡 : 𝔡.IsBasePointFree) {n : ℕ}
     (s : Fin (n + 1) → globalSectionsOverField q L)
