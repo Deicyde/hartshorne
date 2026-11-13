@@ -178,3 +178,83 @@ end RestrictCompose
 end Ringed
 
 end Hartshorne
+
+namespace Hartshorne
+
+namespace Ringed
+
+open SheafExtRestrict Transport RestrictCompose
+
+variable {X : TopCat.{u}} (U : Opens X) (V' : Opens ((Opens.toTopCat X).obj U))
+  (R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u})
+
+attribute [local instance 2000] Abelian.toPreadditive
+
+lemma homRestrict_restrict_restrict (F Y : SheafOfModules.{u} (ringCatSheafOf R)) :
+    (moduleRestrict (R := restrictRingSheaf R U) V').map ((homRestrictIso U F).hom.app Y) ≫
+      (homRestrictIso V' ((moduleRestrict U).obj F)).hom.app ((moduleRestrict U).obj Y) ≫
+        (moduleSheafHomFunctor _).map ((restrictCompIso U V' R).hom.app Y) =
+    (restrictCompIso U V' R).hom.app (moduleSheafHom F Y) ≫
+      (transport (ringTransport U V' R)).map ((homRestrictIso ((incl U).obj V') F).hom.app Y) ≫
+        (homTransportIso (ringTransport U V' R) _).hom.app
+          ((moduleRestrict ((incl U).obj V')).obj Y) ≫
+          (moduleSheafHomPrecomp ((restrictCompIso U V' R).hom.app F)).app _ := by
+  apply SheafOfModules.hom_ext
+  ext W σ : 3
+  apply SheafOfModules.hom_ext
+  ext A' x
+  let L : Over ((incl U).obj ((incl V').obj W.unop)) :=
+    (Over.post (incl U)).obj ((Over.post (incl V')).obj A'.unop)
+  let R' : Over ((incl U).obj ((incl V').obj W.unop)) :=
+    Over.mk (homOfLE ((jB_le_jA U V' A'.unop.left).trans (leOfHom L.hom)))
+  exact (PresheafOfModules.naturality_apply σ.val
+    (Over.homMk (U := R') (V := L) (homOfLE (jB_le_jA U V' A'.unop.left))
+      (Subsingleton.elim _ _)).op x).symm
+
+lemma _root_.Hartshorne.Ringed.sheafExtPrecomp_eq_rightDerived {Y : TopCat.{u}}
+    {S : Sheaf (Opens.grothendieckTopology Y) CommRingCat.{u}}
+    {F' F : SheafOfModules.{u} (ringCatSheafOf S)} (f : F' ⟶ F)
+    (G : SheafOfModules.{u} (ringCatSheafOf S)) (n : ℕ) :
+    sheafExtPrecomp f G n = (NatTrans.rightDerived (moduleSheafHomPrecomp f) n).app G := by
+  simp only [sheafExtPrecomp, SheafExtContravariant.extMap]
+  rfl
+
+lemma sheafExtTransportIso_eq_rightDerivedCompIso {A B : TopCat.{u}} {H : B ≅ A}
+    {S : Sheaf (Opens.grothendieckTopology A) CommRingCat.{u}}
+    {T : Sheaf (Opens.grothendieckTopology B) CommRingCat.{u}} (ρ : RingTransport H S T)
+    (F G : SheafOfModules.{u} (ringCatSheafOf T)) (n : ℕ) :
+    sheafExtTransportIso ρ F G n = RightDerivedComp.rightDerivedCompIso (Φ := transport ρ)
+      (H := moduleSheafHomFunctor F) (H' := moduleSheafHomFunctor ((transport ρ).obj F))
+      (injective_transport_obj ρ) (homTransportIso ρ F) G n :=
+  rfl
+
+-- The kernel compares `sheafExt` with the right derived functor it is defined as, inside
+-- `Functor.map`; this needs more than the default budget.
+set_option maxHeartbeats 1000000 in
+/-- **Sheaf Ext restricted twice** (supplementing Hartshorne III.6, Proposition 6.2). For opens
+`V' ⊆ U` of `X`, with `V` the open of `X` corresponding to `V'`, the isomorphism
+`ℰxtⁿ_X(F, G)|_U ≅ ℰxtⁿ_U(F|_U, G|_U)` restricted to `V'`, followed by the isomorphism for `V' ⊆ U`,
+is the transport along the homeomorphism `V ≅ V'` of the isomorphism for `V ⊆ X`, up to the
+identifications `(F|_U)|_{V'} ≅ τ(F|_V)` and `(G|_U)|_{V'} ≅ τ(G|_V)`. -/
+theorem sheafExtRestrictIso_restrict_restrict (F G : SheafOfModules.{u} (ringCatSheafOf R))
+    (n : ℕ) :
+    (moduleRestrict (R := restrictRingSheaf R U) V').map (sheafExtRestrictIso U F G n).hom ≫
+      (sheafExtRestrictIso V' ((moduleRestrict U).obj F) ((moduleRestrict U).obj G) n).hom ≫
+        (sheafExt _ n).map ((restrictCompIso U V' R).hom.app G) =
+    (restrictCompIso U V' R).hom.app _ ≫
+      (transport (ringTransport U V' R)).map (sheafExtRestrictIso ((incl U).obj V') F G n).hom ≫
+        (sheafExtTransportIso (ringTransport U V' R) _ _ n).hom ≫
+          sheafExtPrecomp ((restrictCompIso U V' R).hom.app F) _ n := by
+  rw [sheafExtPrecomp_eq_rightDerived, sheafExtRestrictIso_eq_rightDerivedCompIso,
+    sheafExtRestrictIso_eq_rightDerivedCompIso, sheafExtRestrictIso_eq_rightDerivedCompIso,
+    sheafExtTransportIso_eq_rightDerivedCompIso]
+  exact RightDerivedComp.rightDerivedCompIso_comp_naturality (homRestrictIso U F)
+    (homRestrictIso V' _) (homRestrictIso _ F) (homTransportIso _ _) (restrictCompIso U V' R)
+    (moduleSheafHomPrecomp _) (fun I _ => injective_moduleSheafRestrict_obj U _ I)
+    (fun I _ => injective_moduleSheafRestrict_obj V' _ I)
+    (fun I _ => injective_moduleSheafRestrict_obj _ _ I) (injective_transport_obj _)
+    (homRestrict_restrict_restrict U V' R F) G n
+
+end Ringed
+
+end Hartshorne
