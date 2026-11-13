@@ -15,8 +15,8 @@ every affine open `U`, and for every basic open inclusion `D(r) ⊆ U` a semilin
 `ρ : N(U) ⟶ N(D(r))` which is a localization at the powers of the image of `r` in `A(U)`,
 compatibly with composition. Then the sheaves `N(U)~` on the pieces glue to an `𝒪`-module on
 `Spec_Y A` whose restriction to each piece is `N(U)~`. This is the construction of the
-quasi-coherent module on `Spec_Y A` attached to a quasi-coherent `A`-module (the essential
-surjectivity part of Hartshorne II, Exercise 5.17(e), in the form needed here).
+quasi-coherent module on `Spec_Y A` attached to a quasi-coherent `A`-module (the
+construction underlying the essential surjectivity part of Hartshorne II, Exercise 5.17(e)).
 
 ## Main definitions and results
 
