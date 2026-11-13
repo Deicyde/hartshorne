@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Hartshorne.Scheme.NowhereVanishingSectionCount
 import Hartshorne.Scheme.LocalFrameGerms
 import Hartshorne.Scheme.LinearSystemBase
+import Hartshorne.Scheme.LinearSystem
 import Hartshorne.Scheme.DimensionCodimension
 import Hartshorne.Scheme.CoherentFibreRank
 import Hartshorne.Scheme.QuasicoherentAbelianClosure
@@ -21,6 +22,11 @@ locally free sheaf of rank `r > n`, and let `V ⊆ Γ(X, E)` be the `k`-span of 
 global sections `v_0, …, v_N` which generate `E`. Then some `s ∈ V` satisfies `s_x ∉ 𝔪_x E_x`
 for every `x ∈ X`, and the morphism `𝒪_X → E`, `1 ↦ s`, sits in an exact sequence
 `0 → 𝒪_X → E → E' → 0` with `E'` locally free (of rank `r - 1`).
+
+Hartshorne allows any `k`-subspace `V ⊆ Γ(X, E)` whose sections generate `E`
+(`exists_nonvanishing_section_shortExact_of_submodule`). That form reduces to the finite one:
+near every point some `r` members of `V` form a local frame of `E`, and `X` is quasi-compact,
+so finitely many members of `V` generate `E`, and their `k`-span lies in `V`.
 
 ## Proof
 
@@ -413,17 +419,56 @@ theorem shortExact_and_isLocallyFreeOfRank_cokernel [IsReduced X] [IsLocallyNoet
 
 end ExactSequence
 
+/-! ### Finitely many generating sections -/
+
+section FiniteGeneration
+
+variable {X : Scheme.{u}} [CompactSpace X] {E : X.Modules} {r : ℕ}
+
+/-- On a quasi-compact scheme, if a family `v` of global sections generates a locally free
+sheaf `E` of finite rank, then finitely many members `v (f 0), …, v (f N)` of the family already
+generate `E`: near every point some `r` of the `v i` form a local frame, and finitely many of
+these neighbourhoods cover `X`. -/
+theorem exists_fin_isGeneratedBySections (hE : E.IsLocallyFreeOfRank r) {ι : Type u}
+    [Nonempty ι] (v : ι → Γ(E, ⊤)) (hv : E.IsGeneratedBySections v) :
+    ∃ (N : ℕ) (f : Fin (N + 1) → ι),
+      E.IsGeneratedBySections (fun i : ULift.{u} (Fin (N + 1)) => v (f i.down)) := by
+  classical
+  choose σ U hxU hU using exists_embedding_isLocalFrame hE v hv
+  obtain ⟨F, hF⟩ := isCompact_univ.elim_finite_subcover (fun x => (U x : Set X))
+    (fun x => (U x).isOpen) (fun x _ => Set.mem_iUnion.mpr ⟨x, hxU x⟩)
+  let T : Finset ι := F.biUnion fun x => Finset.univ.map (σ x)
+  let f : Fin (T.card + 1) → ι := fun i =>
+    if h : i.val < T.card then T.equivFin.symm ⟨i.val, h⟩ else Classical.arbitrary ι
+  have hf : ∀ a ∈ T, ∃ i, f i = a := by
+    intro a ha
+    refine ⟨⟨(T.equivFin ⟨a, ha⟩).val, by omega⟩, ?_⟩
+    simp only [f, Fin.is_lt, dif_pos, Fin.eta, Equiv.symm_apply_apply]
+  refine ⟨T.card, f, fun y => ?_⟩
+  obtain ⟨x, hxF, hy⟩ := Set.mem_iUnion₂.mp (hF (Set.mem_univ y))
+  rw [eq_top_iff, ← span_germ_of_isLocalFrame (hU x) hy]
+  refine Submodule.span_mono ?_
+  rintro _ ⟨j, rfl⟩
+  obtain ⟨i, hi⟩ := hf (σ x j)
+    (Finset.mem_biUnion.mpr ⟨x, hxF, Finset.mem_map_of_mem _ (Finset.mem_univ j)⟩)
+  refine ⟨ULift.up i, ?_⟩
+  change E.presheaf.germ ⊤ y trivial (v (f i)) = _
+  rw [hi]
+  exact (E.presheaf.germ_res_apply _ y hy _).symm
+
+end FiniteGeneration
+
 end NowhereVanishingSection
 
 /-! ### Main result -/
 
 open NowhereVanishingSection in
-/-- **Hartshorne II, Exercise 8.2.** Let `X` be a variety of dimension `n` over an algebraically
-closed field `k` (an integral separated scheme of finite type over `k`), let `E` be a locally
-free `𝒪_X`-module of rank `r > n`, and let `V ⊆ Γ(X, E)` be the `k`-span of global sections
-`v_0, …, v_N` which generate `E`. Then some `s ∈ V` satisfies `s_x ∉ 𝔪_x E_x` for every
-`x ∈ X`, and the morphism `𝒪_X → E`, `1 ↦ s`, sits in a short exact sequence
-`0 → 𝒪_X → E → E' → 0` with `E'` locally free (of rank `r - 1`). -/
+/-- **Hartshorne II, Exercise 8.2 (p. 187), for a finitely spanned `V`.** Let `X` be a variety
+of dimension `n` over an algebraically closed field `k` (an integral separated scheme of finite
+type over `k`), let `E` be a locally free `𝒪_X`-module of rank `r > n`, and let `V ⊆ Γ(X, E)` be
+the `k`-span of global sections `v_0, …, v_N` which generate `E`. Then some `s ∈ V` satisfies
+`s_x ∉ 𝔪_x E_x` for every `x ∈ X`, and the morphism `𝒪_X → E`, `1 ↦ s`, sits in a short exact
+sequence `0 → 𝒪_X → E → E' → 0` with `E'` locally free (of rank `r - 1`). -/
 theorem exists_nonvanishing_section_shortExact {k : Type u} [Field k] [IsAlgClosed k]
     {X : Scheme.{u}} (q : X ⟶ Spec (.of k)) [IsIntegral X] (hq : FiniteType q) [IsSeparated q]
     {n : ℕ} (hn : topologicalKrullDim X = n) {E : X.Modules} {r : ℕ}
@@ -438,5 +483,32 @@ theorem exists_nonvanishing_section_shortExact {k : Type u} [Field k] [IsAlgClos
   have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian q
   obtain ⟨hS, hfree⟩ := shortExact_and_isLocallyFreeOfRank_cokernel hE hs
   exact ⟨s, hsV, hs, _, _, _, hS, hfree⟩
+
+open NowhereVanishingSection in
+/-- **Hartshorne II, Exercise 8.2 (p. 187).** Let `X` be a variety of dimension `n` over an
+algebraically closed field `k` (an integral separated scheme of finite type over `k`), let `E`
+be a locally free `𝒪_X`-module of rank `r > n`, and let `V ⊆ Γ(X, E)` be a `k`-subspace whose
+sections generate `E`. Then some `s ∈ V` satisfies `s_x ∉ 𝔪_x E_x` for every `x ∈ X`, and the
+morphism `𝒪_X → E`, `1 ↦ s`, sits in a short exact sequence `0 → 𝒪_X → E → E' → 0` with `E'`
+locally free (of rank `r - 1`).
+
+Finitely many members of `V` already generate `E` (`exists_fin_isGeneratedBySections`), and
+their `k`-span lies in `V`; so this follows from the finite form
+`exists_nonvanishing_section_shortExact`. -/
+theorem exists_nonvanishing_section_shortExact_of_submodule {k : Type u} [Field k]
+    [IsAlgClosed k] {X : Scheme.{u}} (q : X ⟶ Spec (.of k)) [IsIntegral X] (hq : FiniteType q)
+    [IsSeparated q] {n : ℕ} (hn : topologicalKrullDim X = n) {E : X.Modules} {r : ℕ}
+    (hE : E.IsLocallyFreeOfRank r) (hr : n < r) (V : Submodule k (globalSectionsOverField q E))
+    (hV : E.IsGeneratedBySections (fun s : V => (s.1 : Γ(E, ⊤)))) :
+    ∃ s ∈ V, nonvanishingLocus E s = Set.univ ∧
+      ∃ (E' : X.Modules) (p : E ⟶ E') (w : sectionHom E s ≫ p = 0),
+        (ShortComplex.mk (sectionHom E s) p w).ShortExact ∧ E'.IsLocallyFreeOfRank (r - 1) := by
+  have : QuasiCompact q := hq.2
+  have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace q
+  obtain ⟨N, f, hf⟩ := exists_fin_isGeneratedBySections hE _ hV
+  obtain ⟨s, ⟨t, rfl⟩, hs⟩ :=
+    exists_nonvanishing_section_shortExact q hq hn hE hr (fun i => ((f i).1 : Γ(E, ⊤))) hf
+  refine ⟨_, ?_, hs⟩
+  exact V.sum_mem fun i _ => V.smul_mem (t i) (f i).2
 
 end Hartshorne
