@@ -19,6 +19,8 @@ open CategoryTheory Limits Opposite TopologicalSpace AlgebraicGeometry
 
 namespace Hartshorne
 
+attribute [local instance] HasFiniteBiproducts.of_hasFiniteProducts
+
 namespace ChevalleyDescent
 
 open SerreAffineness ArtinReesKernelSheaf
@@ -241,6 +243,98 @@ theorem isZero_H_of_support_le [IsNoetherian Y] (K : Y.Modules) (hK : IsCoherent
   rw [Nat.sub_self] at h0
   exact h0.of_iso ((sheafCohomology Y.toTopCat i).mapIso
     ((SheafOfModules.toSheaf Y.ringCatSheaf).mapIso (filtZeroIso I K).symm))
+
+/-- If `ι` is the first map of a short exact sequence of `𝒪_Y`-modules and `ι ≫ φ = 0` for a
+morphism `φ` which is an isomorphism on stalks at `x`, then `x` is not in the support of the
+source of `ι`. -/
+theorem not_mem_support_of_shortExact {S : ShortComplex Y.Modules} (hS : S.ShortExact)
+    {C : Y.Modules} (φ : S.X₂ ⟶ C) (h : S.f ≫ φ = 0) (x : Y)
+    (hφ : IsIso ((Scheme.Modules.toPresheaf Y ⋙
+      TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map φ)) :
+    x ∉ moduleSheafSupport S.X₁ := by
+  set Φ := Scheme.Modules.toPresheaf Y ⋙ TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x
+  have h0 : Φ.map S.f = 0 := by
+    rw [← cancel_mono (Φ.map φ), ← Φ.map_comp, h, Φ.map_zero, zero_comp]
+  have hmono : Mono (Φ.map S.f) :=
+    (TopCat.Presheaf.mono_iff_stalk_mono _).1 (sab_shortExact hS).mono_f x
+  rw [h0] at hmono
+  have hz : IsZero (Φ.obj S.X₁) := IsZero.of_mono_zero _ (Φ.obj S.X₂)
+  rw [mem_moduleSheafSupport_iff, not_nontrivial_iff_subsingleton]
+  exact AddCommGrpCat.subsingleton_of_isZero hz
+
+/-- If `π` is an epimorphism of `𝒪_Y`-modules and `φ ≫ π = 0` for a morphism `φ` which is an
+isomorphism on stalks at `x`, then `x` is not in the support of the target of `π`. -/
+theorem not_mem_support_of_epi {A B C : Y.Modules} (φ : A ⟶ B) (π : B ⟶ C) [Epi π]
+    (h : φ ≫ π = 0) (x : Y)
+    (hφ : IsIso ((Scheme.Modules.toPresheaf Y ⋙
+      TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map φ)) :
+    x ∉ moduleSheafSupport C := by
+  set Φ := Scheme.Modules.toPresheaf Y ⋙ TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x
+  have h0 : Φ.map π = 0 := by
+    rw [← cancel_epi (Φ.map φ), ← Φ.map_comp, h, Φ.map_zero, comp_zero]
+  have hsurj : Function.Surjective (Φ.map π) := by
+    refine (TopCat.Presheaf.locally_surjective_iff_surjective_on_stalks _).1 ?_ x
+    refine (TopCat.Presheaf.isLocallySurjective_iff _).2 fun U t y hy => ?_
+    obtain ⟨V, hVU, hyV, s, hs⟩ := Hartshorne.modules_exists_local_lift π t hy
+    exact ⟨V, hVU, ⟨s, hs⟩, hyV⟩
+  rw [mem_moduleSheafSupport_iff, not_nontrivial_iff_subsingleton]
+  refine ⟨fun a b => ?_⟩
+  obtain ⟨a', rfl⟩ := hsurj a
+  obtain ⟨b', rfl⟩ := hsurj b
+  rw [h0]
+  rfl
+
+/-- **The integral case of Chevalley's theorem.** Let `f : X ⟶ Y` be a finite surjective
+morphism from an affine Noetherian scheme to an integral Noetherian separated scheme. If the
+reduced induced subscheme on every proper closed subset of `Y` is affine, then `Y` is affine. -/
+theorem isAffine_of_isIntegral {X Y : Scheme.{u}} (f : X ⟶ Y) [IsFinite f] [Surjective f]
+    [IsIntegral Y] [IsNoetherian Y] [Y.IsSeparated] [IsNoetherian X] [IsAffine X]
+    (hW : ∀ W : Closeds Y, W ≠ ⊤ → IsAffine (reducedInducedSubscheme W)) : IsAffine Y := by
+  refine ((isAffine_tfae_sheafCohomology Y).out 2 0).mp fun J hJ => ?_
+  obtain ⟨M, hM, r, hr, α, hα⟩ := exists_genericFiniteModuleFrame f
+  obtain ⟨G, hG, β, hβ⟩ := exists_genericCoherentApproximation f M hM r α hα J.toModules hJ
+  have : G.IsQuasicoherent := hG.isQuasicoherent
+  have hE : IsCoherent (⨁ fun _ : Fin r => J.toModules) :=
+    (coherentModules Y).prop_of_isLimit_fan (biproduct.isLimit _) fun _ => hJ
+  have hfG : IsCoherent ((Scheme.Modules.pushforward f).obj G) :=
+    isCoherent_pushforward_of_isFinite f hG
+  let S₁ := ShortComplex.mk (kernel.ι (Abelian.factorThruImage β)) (Abelian.factorThruImage β)
+    (kernel.condition _)
+  have hS₁ : S₁.ShortExact := ShortComplex.ShortExact.mk'
+    (S₁.exact_of_f_is_kernel (kernelIsKernel _)) inferInstance inferInstance
+  let S₂ := ShortComplex.mk (kernel.ι (cokernel.π β)) (cokernel.π β) (kernel.condition _)
+  have hS₂ : S₂.ShortExact := ShortComplex.ShortExact.mk'
+    (S₂.exact_of_f_is_kernel (kernelIsKernel _)) inferInstance inferInstance
+  have hC : IsCoherent (cokernel β) := isCoherent_cokernel β hfG hE
+  have hK : IsCoherent (kernel (Abelian.factorThruImage β)) :=
+    isCoherent_kernel _ hfG (isCoherent_kernel _ hE hC)
+  have hηK : genericPoint Y ∉ moduleSheafSupport S₁.X₁ := by
+    refine not_mem_support_of_shortExact hS₁ β ?_ _ hβ
+    change kernel.ι _ ≫ β = 0
+    calc kernel.ι (Abelian.factorThruImage β) ≫ β =
+        kernel.ι (Abelian.factorThruImage β) ≫ (Abelian.factorThruImage β ≫
+          Abelian.image.ι β) := by rw [Abelian.image.fac]
+      _ = 0 := by rw [← Category.assoc, kernel.condition, zero_comp]
+  have hηC : genericPoint Y ∉ moduleSheafSupport (cokernel β) :=
+    not_mem_support_of_epi β (cokernel.π β) (cokernel.condition β) _ hβ
+  let W₁ : Closeds Y := ⟨_, isClosed_moduleSheafSupport_of_isCoherent _ hK⟩
+  let W₂ : Closeds Y := ⟨_, isClosed_moduleSheafSupport_of_isCoherent _ hC⟩
+  have := hW W₁ fun h => hηK (show genericPoint Y ∈ (W₁ : Set Y) by rw [h]; trivial)
+  have := hW W₂ fun h => hηC (show genericPoint Y ∈ (W₂ : Set Y) by rw [h]; trivial)
+  have hH₁ : IsZero (H 1 ((Scheme.Modules.pushforward f).obj G)) :=
+    (sheafCohomology_isZero_of_isQuasicoherent_of_isAffine G 1 one_pos).of_iso
+      (sheafCohomologyIsoPushforwardOfIsAffineHom f G 1).symm
+  have hIm : IsZero (H 1 S₁.X₃) :=
+    isZero_H_of_shortExact₃ hS₁ 1 hH₁ (isZero_H_of_support_le _ hK W₁ subset_rfl 2 two_pos)
+  have hsum : IsZero (H 1 S₂.X₂) :=
+    isZero_H_of_shortExact hS₂ 1 hIm (isZero_H_of_support_le _ hC W₂ subset_rfl 1 one_pos)
+  let Fc : Y.Modules ⥤ AddCommGrpCat.{u} :=
+    SheafOfModules.toSheaf Y.ringCatSheaf ⋙ sheafCohomology Y.toTopCat 1
+  have hcomp : Fc.map (biproduct.ι (fun _ : Fin r => J.toModules) ⟨0, hr⟩) ≫
+      Fc.map (biproduct.π (fun _ : Fin r => J.toModules) ⟨0, hr⟩) = 𝟙 _ := by
+    rw [← Fc.map_comp, biproduct.ι_π_self, Fc.map_id]
+  change IsZero (Fc.obj J.toModules)
+  rw [IsZero.iff_id_eq_zero, ← hcomp, hsum.eq_of_tgt (Fc.map (biproduct.ι _ _)) 0, zero_comp]
 
 end ChevalleyDescent
 
