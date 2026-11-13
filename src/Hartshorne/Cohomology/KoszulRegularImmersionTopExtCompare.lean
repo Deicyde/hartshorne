@@ -156,6 +156,14 @@ lemma degreeZeroEquiv_koszulBaseChangeMap (x : (sequenceKoszulComplex f (ModuleC
       rw [← TensorProduct.smul_tmul', map_smulₛₗ, LinearEquiv.map_smul, LinearEquiv.map_smul, hy,
         smul_eq_mul, smul_eq_mul, map_mul]
 
+/-- The base change map sends `k₀` to `k₀`. -/
+lemma koszulBaseChangeMap_k₀ :
+    koszulBaseChangeMap σ f 0 (Ringed.KoszulSheaf.k₀ f) =
+      Ringed.KoszulSheaf.k₀ (fun j => σ (f j)) := by
+  apply (degreeZeroEquiv (V := Fin r → B) B).injective
+  rw [degreeZeroEquiv_koszulBaseChangeMap, Ringed.KoszulSheaf.k₀, Ringed.KoszulSheaf.k₀,
+    LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply, map_one]
+
 end Koszul
 
 namespace Ringed
@@ -200,6 +208,8 @@ lemma isFiniteLocallyFree_of_iso {X : TopCat.{u}} {R : Sheaf (Opens.grothendieck
 
 namespace KoszulSheaf
 
+open Koszul ScalarExtension
+
 variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
   {A : Type u} [CommRing A] (φ : A →+* R.obj.obj (op ⊤)) {s : ℕ} (f : Fin (s + 1) → A)
 
@@ -228,6 +238,28 @@ lemma restrictComplexIso_inv_topSection (U : Opens X) :
     (op ⊤) _ = _
   rw [← HomologicalComplex.comp_f, Iso.hom_inv_id]
   rfl
+
+omit f in
+/-- Morphisms out of `𝒪_X ⊗_A K_0` are determined by the image of `1 ⊗ k₀`. -/
+lemma hom_ext_k₀ {r : ℕ} (g : Fin r → A) {G : SheafOfModules.{u} (ringCatSheafOf R)}
+    {p q : (complex φ g).X 0 ⟶ G}
+    (h : p.val.app (op ⊤) ((1 : R.obj.obj (op ⊤)) ⊗ₜ[A, baseMap φ ⊤] k₀ g) =
+      q.val.app (op ⊤) ((1 : R.obj.obj (op ⊤)) ⊗ₜ[A, baseMap φ ⊤] k₀ g)) : p = q := by
+  apply hom_ext_of_tmul_one
+  intro n
+  have e : ((1 : R.obj.obj (op ⊤)) ⊗ₜ[A, baseMap φ ⊤] n :
+        (ModuleCat.extendScalars (baseMap φ ⊤)).obj ((K g).X 0)) =
+      baseMap φ ⊤ (degreeZeroEquiv (V := Fin r → A) A n) •
+        ((1 : R.obj.obj (op ⊤)) ⊗ₜ[A, baseMap φ ⊤] k₀ g :
+          (ModuleCat.extendScalars (baseMap φ ⊤)).obj ((K g).X 0)) := by
+    refine (congrArg (fun x => (1 : R.obj.obj (op ⊤)) ⊗ₜ[A, baseMap φ ⊤] x)
+      (eq_smul_k₀ g n)).trans ?_
+    refine (TensorProduct.smul_tmul (R := A) (M := (ModuleCat.restrictScalars (baseMap φ ⊤)).obj
+      (ModuleCat.of _ (R.obj.obj (op ⊤)))) (degreeZeroEquiv (V := Fin r → A) A n)
+        (1 : R.obj.obj (op ⊤)) (k₀ g)).symm.trans ?_
+    exact (ModuleCat.ExtendScalars.smul_tmul (f := baseMap φ ⊤) _ 1 _).symm
+  erw [e, map_smul, map_smul]
+  exact congrArg _ h
 
 end KoszulSheaf
 
@@ -455,6 +487,68 @@ lemma resRing_compat (a : Γ(Y, V₀)) :
     (Y.presheaf.map _ ≫ Y.presheaf.map _ ≫ Y.presheaf.map _) a
   simp only [← Functor.map_comp]
   rfl
+
+variable (hV₀ : IsAffineOpen V₀) {X : Scheme.{u}} (i : X ⟶ Y) {s : ℕ} (f : Fin (s + 1) → Γ(Y, V₀))
+
+/-- The comparison chain map for the Koszul complexes of `f` on `V₀` and of `f|_{W'}` on `W'`. -/
+noncomputable abbrev compareChain :=
+  compareComplex V₀ W' (restrictPhi V₀) (restrictPhi ((incl V₀).obj W')) (resRing W')
+    (resRing_compat W') f
+
+-- Sections of transported and twice restricted modules are only definitionally sections of the
+-- original modules; matching them unfolds the pushforwards and needs more than the default budget.
+set_option maxHeartbeats 1000000 in
+/-- **The comparison chain map is compatible with the augmentations** to `(i_* 𝒪_X)|_{W'}`. -/
+lemma compareChain_augmentation [IsClosedImmersion i]
+    (hI : i.ker.ideal ⟨V₀, hV₀⟩ = Ideal.span (Set.range f))
+    (hW : IsAffineOpen ((incl V₀).obj W'))
+    (hI' : i.ker.ideal ⟨_, hW⟩ = Ideal.span (Set.range (fun j => resRing W' (f j)))) :
+    compareChain W' f ≫
+        ((transport (ringTransport V₀ W' Y.sheaf)).mapHomologicalComplex _).map
+          (augmentation (restrictPhi ((incl V₀).obj W')) _ (augHom i _)
+            (d_comp_augHom hW i _ hI')) ≫
+        (HomologicalComplex.singleMapHomologicalComplex (transport (ringTransport V₀ W' Y.sheaf)) _
+          0).hom.app _ =
+      restrictAugmentation (restrictPhi V₀) f W' (augHom i f) (d_comp_augHom hV₀ i f hI) ≫
+        (ChainComplex.single₀ _).map ((restrictCompIso V₀ W' Y.sheaf).hom.app
+          ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf))) := by
+  apply (ChainComplex.toSingle₀Equiv _ _).injective
+  apply Subtype.ext
+  rw [ChainComplex.toSingle₀Equiv_apply_coe, ChainComplex.toSingle₀Equiv_apply_coe]
+  simp only [HomologicalComplex.comp_f, Functor.mapHomologicalComplex_map_f,
+    ChainComplex.toSingle₀Equiv_symm_apply_f_zero, ChainComplex.single₀_map_f_zero]
+  erw [HomologicalComplex.singleMapHomologicalComplex_hom_app_self, Category.comp_id]
+  apply hom_ext_k₀
+  simp only [SheafOfModules.comp_val, PresheafOfModules.comp_app, ConcreteCategory.comp_apply,
+    compareChain, compareComplex_f]
+  have h1 := compareHom_app_one V₀ W' (restrictPhi V₀) (restrictPhi ((incl V₀).obj W'))
+    (resRing W') (resRing_compat W') f 0 (k₀ f)
+  have h5 : (1 : (Ringed.restrictRingSheaf Y.sheaf ((incl V₀).obj W')).obj.obj
+        (op ((opensEquiv (homeo V₀ W')).functor.obj ⊤))) ⊗ₜ[Γ(Y, (incl V₀).obj W'),
+          baseMap (restrictPhi ((incl V₀).obj W')) ((opensEquiv (homeo V₀ W')).functor.obj ⊤)]
+          koszulBaseChangeMap (resRing W') f 0 (k₀ f) =
+      (1 : (Ringed.restrictRingSheaf Y.sheaf ((incl V₀).obj W')).obj.obj
+        (op ((opensEquiv (homeo V₀ W')).functor.obj ⊤))) ⊗ₜ[Γ(Y, (incl V₀).obj W'),
+          baseMap (restrictPhi ((incl V₀).obj W')) ((opensEquiv (homeo V₀ W')).functor.obj ⊤)]
+          k₀ (fun j => resRing W' (f j)) := by
+    rw [koszulBaseChangeMap_k₀]
+  have h2 := augHom_app_tmul_k₀ (V₀ := (incl V₀).obj W') i (fun j => resRing W' (f j))
+    ((opensEquiv (homeo V₀ W')).functor.obj ⊤) 1
+  have h3 := augHom_app_tmul_k₀ (V₀ := V₀) i f (W'.isOpenEmbedding.functor.obj ⊤) 1
+  have h4 := restrictSheafHom_app_tmul (restrictPhi V₀) W' ((K f).X 0) ⊤ 1 (k₀ f)
+  refine (congrArg (((transport (ringTransport V₀ W' Y.sheaf)).map
+    (augHom i (fun j => resRing W' (f j)))).val.app (op ⊤)) h1).trans ?_
+  refine (congrArg ((augHom i (fun j => resRing W' (f j))).val.app
+    (op ((opensEquiv (homeo V₀ W')).functor.obj ⊤))) h5).trans ?_
+  refine h2.trans ?_
+  refine Eq.trans ?_ (congrArg (fun x => ((restrictCompIso V₀ W' Y.sheaf).hom.app
+    ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf))).val.app (op ⊤)
+      (((Ringed.moduleRestrict W').map (augHom i f)).val.app (op ⊤) x)) h4).symm
+  refine Eq.trans ?_ (congrArg (fun x => ((restrictCompIso V₀ W' Y.sheaf).hom.app
+    ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf))).val.app (op ⊤) x)
+      h3).symm
+  rw [restrictCompIso_hom_app_val_app, map_one, map_one]
+  exact (map_one (X.presheaf.map _).hom).symm
 
 end Compare
 
