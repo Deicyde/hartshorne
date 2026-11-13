@@ -555,6 +555,79 @@ theorem homOf_res {W U : Y.AffineZariskiSite} (i : W ⟶ U)
   rw [h1]
   exact (homData f M F).θ_hom_app_top_toOpen i (homOf f M F U x)
 
+theorem appLE_specMap_fromSpec {R : CommRingCat.{u}} {W V : Y.Opens} (hW : IsAffineOpen W)
+    (φ : Γ(Y, W) ⟶ R) (hWV : W ≤ V) (e : ⊤ ≤ (Spec.map φ ≫ hW.fromSpec) ⁻¹ᵁ V) (a : Γ(Y, V)) :
+    (Spec.map φ ≫ hW.fromSpec).appLE V ⊤ e a =
+      (Scheme.ΓSpecIso R).inv (φ (Y.presheaf.map (homOfLE hWV).op a)) := by
+  rw [Scheme.Hom.comp_appLE, IsAffineOpen.fromSpec_app_of_le hW V hWV]
+  simp only [Category.assoc]
+  erw [Scheme.Hom.map_appLE]
+  have htop : ∀ {Y' Z : Scheme.{u}} (g : Y' ⟶ Z) (e' : (⊤ : Y'.Opens) ≤ g ⁻¹ᵁ ⊤),
+      g.appLE ⊤ ⊤ e' = g.appTop := by
+    intro Y' Z g e'
+    rw [Scheme.Hom.appLE]
+    conv_rhs => rw [← Category.comp_id g.appTop, ← Y'.presheaf.map_id]
+    rfl
+  erw [htop]
+  rw [← Scheme.ΓSpecIso_inv_naturality]
+  rfl
+
+/-- A function on `Y`, pulled back to the piece `Spec Γ(f⁻¹ U, 𝒪_X)` of `Spec_Y (f_* 𝒪_X)`, is its
+image under `f^#`. -/
+theorem appIso_hom_relSpecToBase_app {U : Y.AffineZariskiSite} {V : Y.Opens} (hUV : U.1 ≤ V)
+    (a : Γ(Y, V)) :
+    (((ofHom f).ι U).appIso ⊤).hom ((ofHom f).relSpec.presheaf.map (homOfLE (piece_le f hUV)).op
+      ((ofHom f).relSpecToBase.app V a)) =
+      (Scheme.ΓSpecIso Γ(X, f ⁻¹ᵁ U.1)).inv (f.app U.1 (Y.presheaf.map (homOfLE hUV).op a)) := by
+  have hg : (ofHom f).ι U ≫ (ofHom f).relSpecToBase = Spec.map (f.app U.1) ≫ U.2.fromSpec :=
+    (ofHom f).ι_relSpecToBase U
+  erw [Scheme.Hom.appIso_hom', ← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply,
+    Scheme.Hom.map_appLE, ← Scheme.Hom.comp_appLE]
+  have key : ∀ (g : Spec Γ(X, f ⁻¹ᵁ U.1) ⟶ Y)
+      (_ : g = Spec.map (f.app U.1) ≫ U.2.fromSpec) (e),
+      g.appLE V ⊤ e a =
+        (Scheme.ΓSpecIso Γ(X, f ⁻¹ᵁ U.1)).inv (f.app U.1 (Y.presheaf.map (homOfLE hUV).op a)) := by
+    rintro _ rfl e
+    exact appLE_specMap_fromSpec U.2 (f.app U.1) hUV e a
+  exact key _ hg _
+
+/-- The attached homomorphism is linear over `𝒪_Y`, which acts on the glued module through
+`Spec_Y (f_* 𝒪_X) ⟶ Y` and on `homSec U` through `f^#`. -/
+theorem homOf_smul {U : Y.AffineZariskiSite} {V : Y.Opens} (hUV : U.1 ≤ V) (a : Γ(Y, V))
+    (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    homOf f M F U ((homData f M F).glue.presheaf.map (homOfLE (piece_le f hUV)).op
+      ((ofHom f).relSpecToBase.app V a • s)) =
+      f.app U.1 (Y.presheaf.map (homOfLE hUV).op a) •
+        homOf f M F U ((homData f M F).glue.presheaf.map (homOfLE (piece_le f hUV)).op s) := by
+  have h1 := (homData f M F).glue.val.map_smul (homOfLE (piece_le f hUV)).op
+    ((ofHom f).relSpecToBase.app V a) s
+  rw [homOf]
+  erw [h1]
+  have h2 : ∀ (c' : Γ((ofHom f).relSpec, (ofHom f).ι U ''ᵁ ⊤))
+      (y : Γ((homData f M F).glue, (ofHom f).ι U ''ᵁ ⊤)),
+      ((homData f M F).ψ U).hom.app ⊤ (c' • y) =
+        (((ofHom f).ι U).appIso ⊤).hom c' • ((homData f M F).ψ U).hom.app ⊤ y := by
+    intro c' y
+    have := Scheme.Modules.Hom.app_smul ((homData f M F).ψ U).hom
+      ((((ofHom f).ι U).appIso ⊤).hom c') (show Γ((homData f M F).glue.restrict
+        ((ofHom f).ι U), ⊤) from y)
+    refine Eq.trans ?_ this
+    congr 1
+    change c' • y = (((ofHom f).ι U).appIso ⊤).inv ((((ofHom f).ι U).appIso ⊤).hom c') • y
+    rw [Iso.hom_inv_id_apply]
+  erw [h2, appIso_hom_relSpecToBase_app f hUV a]
+  have key : ∀ (b : Γ(X, f ⁻¹ᵁ U.1)) (z : Γ(tilde (homSec f M F U.1), ⊤)),
+      (tilde.isoTop (homSec f M F U.1)).inv ((Scheme.ΓSpecIso Γ(X, f ⁻¹ᵁ U.1)).inv b • z) =
+        b • (tilde.isoTop (homSec f M F U.1)).inv z := by
+    intro b z
+    have hz : (Scheme.ΓSpecIso Γ(X, f ⁻¹ᵁ U.1)).inv b • z =
+        (b • z : (modulesSpecToSheaf.obj (tilde (homSec f M F U.1))).presheaf.obj (op ⊤)) := by
+      rw [Scheme.Modules.smul_Spec_def]
+      congr 1
+    rw [hz]
+    exact (tilde.isoTop (homSec f M F U.1)).inv.hom.map_smul b z
+  exact key _ _
+
 end Glue
 
 end ChevalleyApprox
