@@ -25,7 +25,9 @@ $\widetilde V$,
 $\deg\nu_*\operatorname{div}(g)=0$.
 
 Hence the degree descends to a homomorphism
-$\deg:A^{n-m}(\mathbb{P}^n_k)\to\mathbb{Z}$.
+$\deg:A^{n-m}(\mathbb{P}^n_k)\to\mathbb{Z}$. For $m = 0$ this is the degree
+$A^n(\mathbb{P}^n_k) \to \mathbb{Z}$ of Appendix A.1 (p.426), which Hartshorne shows
+is well defined by (II, 6.10).
 
 Write $g=F/G$ with $F,G$ forms of the same degree $e$, neither vanishing
 identically on $V$, and factor $F=\prod_j F_j$ and $G=\prod_l G_l$ into
@@ -39,8 +41,9 @@ and additivity of orders, this equals
 $\sum_j i(V,Z(F_j);Y)-\sum_l i(V,Z(G_l);Y)$, a term being $0$ when $Y$ is not
 a component of the intersection; identifying the length over
 $\mathcal{O}_{V,Y}$ with the multiplicity at the homogeneous prime of $Y$
-compares the degree-zero and homogeneous localizations of the coordinate ring
-of $V$. Bézout for $V$ and each irreducible hypersurface $Z(F_j)$, $Z(G_l)$
+compares lengths over the degree-zero localization
+$S(V)_{(\mathfrak{p}_Y)} = \mathcal{O}_{V,Y}$ and over the ordinary localization
+$S(V)_{\mathfrak{p}_Y}$. Bézout for $V$ and each irreducible hypersurface $Z(F_j)$, $Z(G_l)$
 then gives
 $\deg\nu_*\operatorname{div}(g)=\sum_j\deg F_j\deg V-\sum_l\deg G_l\deg V=e\deg V-e\deg V=0$.
 
@@ -68,4 +71,6 @@ $\deg\nu_*\operatorname{div}(g)=\sum_j\deg F_j\deg V-\sum_l\deg G_l\deg V=e\deg 
 
 ## Sources
 
-- Fulton, *Intersection Theory*, §1.4 and §2.5 (degree of cycles on projective space; locator not confirmed against the text).
+- [Hartshorne Appendix A.1, the degree $A^n(X) \to \mathbb{Z}$, p.426](../../../../sources/hartshorne-appendix-a-1-2.md#cycles-and-rational-equivalence-printed-pp425426)
+- [Hartshorne Appendix A.2, Example 2.0.1, p.429](../../../../sources/hartshorne-appendix-a-1-2.md#properties-of-the-chow-ring-printed-pp428429)
+- Fulton, *Intersection Theory*, §1.4 and §2.5.
