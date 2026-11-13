@@ -25,7 +25,7 @@ abstract bifunctors `H : Cᵒᵖ ⥤ C ⥤ C` and `H' : Dᵒᵖ ⥤ D ⥤ D`.
 
 universe u v' u' v'' u''
 
-open CategoryTheory Limits Opposite
+open CategoryTheory Limits Opposite TopologicalSpace
 
 /- The objects of `Φ(K)` for a complex `K` are only definitionally (not reducibly) the images of
 the objects of `K`; rewriting along such identifications needs the default transparency. -/
@@ -736,6 +736,91 @@ theorem isoAux_comp (G : C) : ∀ (i : ℕ) {F : C} {F' : D} (P : Resolution F) 
 end ExactFunctor
 
 end LocallyFreeResolutionExt
+
+/-! ### Sheaf `ℰxt`: restriction to an open subset -/
+
+section Sheaf
+
+open LocallyFreeResolutionExt SheafExtContravariant
+
+attribute [local instance 2000] Abelian.toPreadditive
+
+/-- Injective resolutions of module sheaves, as a single constant (see
+`Hartshorne.RingedSpace.SheafExtLongExact`). -/
+private theorem sheafOfModules_hasInjectiveResolutions₃ {Y : TopCat.{u}}
+    {S : Sheaf (Opens.grothendieckTopology Y) CommRingCat.{u}} :
+    HasInjectiveResolutions (SheafOfModules.{u} (ringCatSheafOf S)) :=
+  inferInstance
+
+attribute [local instance 3000] sheafOfModules_hasInjectiveResolutions₃
+
+variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+  (U : Opens X)
+
+/-- The identification `ℋom_X(F, G)|_U ≅ ℋom_U(F|_U, G|_U)` is natural in `F`. -/
+lemma homRestrict_precomp_naturality {F' F : SheafOfModules.{u} (ringCatSheafOf R)} (f : F' ⟶ F)
+    (G : SheafOfModules.{u} (ringCatSheafOf R)) :
+    (moduleRestrict U).map ((moduleSheafHomPrecomp f).app G) ≫ homRestrict F' G =
+      homRestrict F G ≫ (moduleSheafHomPrecomp ((moduleRestrict U).map f)).app
+        ((moduleRestrict U).obj G) := by
+  apply SheafOfModules.hom_ext
+  ext W σ : 3
+  apply SheafOfModules.hom_ext
+  ext A x
+  rfl
+
+/-- The isomorphism `hⁱ(ℋom_X(L_•, G))|_U ≅ hⁱ(ℋom_U(L_•|_U, G|_U))`. -/
+noncomputable def homologyHomComplexRestrictIso (L : ChainComplex (SheafOfModules.{u}
+    (ringCatSheafOf R)) ℕ) (G : SheafOfModules.{u} (ringCatSheafOf R)) (i : ℕ) :
+    (moduleRestrict U).obj (((moduleSheafHomComplex L).obj G).homology i) ≅
+      ((moduleSheafHomComplex (((moduleRestrict U).mapHomologicalComplex _).obj L)).obj
+        ((moduleRestrict U).obj G)).homology i :=
+  homologyCompIso' (moduleSheafHomBifunctor R) (moduleSheafHomBifunctor (restrictRingSheaf R U))
+    (fun F => homRestrictIso U F) (fun f G => homRestrict_precomp_naturality U f G) L G i
+
+-- Matching `sheafExtRestrictIso` and the sheaf-level complexes with their abstract forms unfolds
+-- `sheafExt` to the right derived functor it is defined as; this needs more than the default
+-- budget.
+set_option maxHeartbeats 1000000 in
+/-- **The resolution isomorphism restricted to an open subset** (supplementing Hartshorne III.6,
+Propositions 6.2 and 6.5). Let `L_• ⟶ F` be a resolution of an `𝒪_X`-module by locally free
+`𝒪_X`-modules of finite rank, `L'_• ⟶ F|_U` one of `F|_U` by locally free `𝒪_U`-modules of finite
+rank and `ψ : L_•|_U ⟶ L'_•` a chain map over the identity of `F|_U`. Then the restriction to `U`
+of `ℰxtⁱ_X(F, G) ≅ hⁱ(ℋom_X(L_•, G))`, read through `ℰxtⁱ_X(F, G)|_U ≅ ℰxtⁱ_U(F|_U, G|_U)` and
+`ℋom_X(L_p, G)|_U ≅ ℋom_U(L_p|_U, G|_U)`, is `ℰxtⁱ_U(F|_U, G|_U) ≅ hⁱ(ℋom_U(L'_•, G|_U))` followed
+by the map induced by `ψ`. -/
+theorem sheafExtIsoHomologyOfLocallyFreeResolution_restrict
+    {F : SheafOfModules.{u} (ringCatSheafOf R)} (L : ChainComplex (SheafOfModules.{u}
+      (ringCatSheafOf R)) ℕ) (π : L ⟶ (ChainComplex.single₀ _).obj F) [QuasiIso π]
+    (hL : ∀ p, IsFiniteLocallyFree (L.X p))
+    (L' : ChainComplex (SheafOfModules.{u} (ringCatSheafOf (restrictRingSheaf R U))) ℕ)
+    (π' : L' ⟶ (ChainComplex.single₀ _).obj ((moduleRestrict U).obj F)) [QuasiIso π']
+    (hL' : ∀ p, IsFiniteLocallyFree (L'.X p))
+    (ψ : ((moduleRestrict U).mapHomologicalComplex _).obj L ⟶ L')
+    (hψ : ψ.f 0 ≫ π'.f 0 = (moduleRestrict U).map (π.f 0)) (i : ℕ)
+    (G : SheafOfModules.{u} (ringCatSheafOf R)) :
+    (sheafExtRestrictIso U F G i).inv ≫
+        (moduleRestrict U).map ((sheafExtIsoHomologyOfLocallyFreeResolution L π hL i).hom.app G) ≫
+          (homologyHomComplexRestrictIso U L G i).hom =
+      (sheafExtIsoHomologyOfLocallyFreeResolution L' π' hL' i).hom.app
+          ((moduleRestrict U).obj G) ≫
+        HomologicalComplex.homologyMap ((moduleSheafHomComplexMap ψ).app _) i := by
+  have h := isoAux_comp (Φ := moduleRestrict U) (moduleSheafHomBifunctor R)
+    (moduleSheafHomBifunctor (restrictRingSheaf R U)) (fun F => homRestrictIso U F)
+    (fun f G => homRestrict_precomp_naturality U f G) sheafExt (fun _ _ => rfl) sheafExt
+    (fun _ _ => rfl) (fun I _ => injective_moduleSheafRestrict_obj U (ringCatSheafOf R) I)
+    moduleSheafHom_shortExact_of_injective moduleSheafHom_shortExact_of_injective G i
+    (Resolution.ofQuasiIso L π) (Resolution.ofQuasiIso L' π') (𝟙 _) ψ
+    (hψ.trans (Category.comp_id _).symm)
+    (fun p n G => isZero_sheafExt_of_isFiniteLocallyFree (hL p) G n.succ_pos)
+    (fun p n G => isZero_sheafExt_of_isFiniteLocallyFree (hL' p) G n.succ_pos)
+  rw [extMap_id, Category.id_comp] at h
+  unfold sheafExtIsoHomologyOfLocallyFreeResolution moduleSheafHomComplexMap
+    homologyHomComplexRestrictIso
+  convert h using 2 <;> rfl
+
+end Sheaf
+
 
 end Ringed
 
