@@ -414,6 +414,238 @@ theorem exists_local_incidence_equations_of_isOpen [IsAlgClosed k] [IsClosedImme
       rw [badHyperplaneSubspace, incidence_mem_badSubspace_iff_chart q hL s i halg x hxU, hsq]
       exact hμ ev (left_ne_zero_of_mul hevD) b hb
 
+/-! ### The incidence correspondence over the regular points -/
+
+/-- A hyperplane bad at `x` passes through `x`. -/
+theorem mem_support_of_isBadHyperplaneAt {a : Fin (n + 1) → k} {x : X}
+    (h : IsBadHyperplaneAt φ a x) : x ∈ (hyperplaneSectionIdeal φ a).support := by
+  rcases h with h | ⟨z, rfl, -⟩
+  · exact h x
+  · change _ ∈ ((hyperplaneSectionIdeal φ a).support : Set X)
+    rw [← Scheme.IdealSheafData.range_subschemeι]
+    exact ⟨z, rfl⟩
+
+/-- **The bad-hyperplane incidence over an open set of regular points.** Let `k` be algebraically
+closed, `φ : X ⟶ ℙⁿ_k` a closed immersion of an integral scheme of dimension `r < n`, and `O ⊆ X`
+an open set whose closed points are regular points of `X`. There is a closed subset `Z` of
+`X ×_k (ℙⁿ_k)^∨` of dimension at most `n - 1`, contained in the universal hyperplane, whose
+closed points over `O` are exactly the pairs `(x, H_a)` with `H_a` bad at `x`. Here `Z` is the
+closure of these pairs; on the charts over `O` it is computed by local equations, it is
+irreducible, and its dimension is that of its trace over `O`. -/
+theorem bertini_bad_hyperplane_incidence_of_isOpen [IsAlgClosed k] [IsClosedImmersion φ]
+    [IsIntegral X] {O : Set X} (hO : IsOpen O) (hreg : ∀ x ∈ O, IsClosed {x} → X.IsRegularAt x)
+    {r : ℕ} (hr : topologicalKrullDim X = r) (hrn : r < n) :
+    ∃ Z : Set (incidenceAmbient (φ ≫ projectiveSpaceOverSchemeProjection n _) n),
+      IsClosed Z ∧ Z ⊆ universalHyperplane φ ∧
+      topologicalKrullDim Z ≤ ((n - 1 : ℕ) : WithBot ℕ∞) ∧
+      ∀ z, IsClosed {z} → pullback.fst _ (dualProjectiveSpaceStructure k n) z ∈ O →
+        ∀ a : Fin (n + 1) → k, a ≠ 0 →
+        Represents a (pullback.snd _ (dualProjectiveSpaceStructure k n) z) →
+        (z ∈ Z ↔
+          IsBadHyperplaneAt φ a (pullback.fst _ (dualProjectiveSpaceStructure k n) z)) := by
+  classical
+  have : IsProper (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) :=
+    projectiveSpaceOverSchemeProjection_isProper n _
+  have hqft : FiniteType (qφ) := ⟨inferInstance, inferInstance⟩
+  have : JacobsonSpace X := LocallyOfFiniteType.jacobsonSpace (qφ)
+  have : JacobsonSpace (incidenceAmbient (qφ) n) :=
+    LocallyOfFiniteType.jacobsonSpace (pullback.fst (qφ) (dualProjectiveSpaceStructure k n) ≫ qφ)
+  set q := φ ≫ projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k)) with hq_def
+  set P := incidenceAmbient q n
+  set fst := pullback.fst q (dualProjectiveSpaceStructure k n)
+  set snd := pullback.snd q (dualProjectiveSpaceStructure k n)
+  set K := badHyperplaneSubspace φ
+  have hfO : IsOpen (fst ⁻¹' O) := hO.preimage fst.continuous
+  -- local equations near each closed point of `O`
+  choose V hV hxV hVO μ J hdet hiff using fun (x₀ : X) (h₀O : x₀ ∈ O) (h₀ : IsClosed {x₀}) =>
+    exists_local_incidence_equations_of_isOpen φ hO hreg hr x₀ h₀O h₀
+  set B := incidencePoints φ ∩ fst ⁻¹' O
+  set Z := closure B
+  -- the closure of `B` on a chart
+  have hchart : ∀ x₀ h₀O h₀ β,
+      Z ∩ (incidenceChart q (V x₀ h₀O h₀) β : Set P) = chartIncidence q (μ x₀ h₀O h₀) β := by
+    intro x₀ h₀O h₀ β
+    set W := incidenceChart q (V x₀ h₀O h₀) β
+    have hWO : ∀ z ∈ W, fst z ∈ O := fun z hz => hVO x₀ h₀O h₀ (incidenceChart_le_fst q _ β hz)
+    have hpt : ∀ z ∈ W, IsClosed {z} → (z ∈ B ↔ z ∈ chartIncidence q (μ x₀ h₀O h₀) β) := by
+      intro z hzW hz
+      obtain ⟨hfz, -, a, ha, hra⟩ := incidenceAmbient_closedPoint q z hz
+      constructor
+      · rintro ⟨⟨-, a', ha', hra', hK⟩, -⟩
+        rw [mem_chartIncidence_iff q (μ x₀ h₀O h₀) β hzW ha' hra']
+        exact (hiff x₀ h₀O h₀ (fst z) (incidenceChart_le_fst q _ β hzW) hfz a').mp hK
+      · intro hC
+        exact ⟨⟨hz, a, ha, hra, (hiff x₀ h₀O h₀ (fst z) (incidenceChart_le_fst q _ β hzW) hfz
+          a).mpr ((mem_chartIncidence_iff q (μ x₀ h₀O h₀) β hzW ha hra).mp hC)⟩, hWO z hzW⟩
+    set U := ⋃ ℓ, (P.basicOpen (incidenceChartEquation q (μ x₀ h₀O h₀) β ℓ) : Set P)
+    have hU : IsOpen U := isOpen_iUnion fun ℓ => (P.basicOpen _).isOpen
+    have hC : chartIncidence q (μ x₀ h₀O h₀) β = (W : Set P) ∩ Uᶜ := Set.sdiff_eq _ _
+    apply le_antisymm
+    · rintro z ⟨hzZ, hzW⟩
+      refine ⟨hzW, fun hzU => ?_⟩
+      obtain ⟨b, ⟨hbU, hbW⟩, hbB⟩ := mem_closure_iff.mp hzZ _ (hU.inter W.isOpen) ⟨hzU, hzW⟩
+      have := (hpt b hbW hbB.1.1).mp hbB
+      rw [hC] at this
+      exact this.2 hbU
+    · intro z hz
+      refine ⟨?_, (hC ▸ hz).1⟩
+      have hlc : IsLocallyClosed (chartIncidence q (μ x₀ h₀O h₀) β) := by
+        rw [hC]; exact W.isOpen.isLocallyClosed.inter hU.isClosed_compl.isLocallyClosed
+      have hsub : chartIncidence q (μ x₀ h₀O h₀) β ∩ closedPoints P ⊆ B := fun w ⟨hwC, hwc⟩ =>
+        (hpt w (hC ▸ hwC).1 hwc).mpr hwC
+      have : z ∈ closure (chartIncidence q (μ x₀ h₀O h₀) β) := subset_closure hz
+      rw [← JacobsonSpace.closure_inter_closedPoints_eq_closure hlc] at this
+      exact closure_mono hsub this
+  -- membership of a closed point over `O`
+  have hmem : ∀ z, IsClosed {z} → fst z ∈ O → ∀ a : Fin (n + 1) → k, a ≠ 0 →
+      Represents a (snd z) → (z ∈ Z ↔ a ∈ K (fst z)) := by
+    intro z hz hzO a ha hra
+    refine ⟨fun hzZ => ?_, fun hK => subset_closure ⟨⟨hz, a, ha, hra, hK⟩, hzO⟩⟩
+    obtain ⟨hfz, -, -⟩ := incidenceAmbient_closedPoint q z hz
+    obtain ⟨β, hβ⟩ := Function.ne_iff.mp ha
+    have hzW : z ∈ incidenceChart q (V (fst z) hzO hfz) β :=
+      ⟨hxV _ hzO hfz, (represents_mem_basicOpen_iff hra ha β).mpr hβ⟩
+    have hzC : z ∈ chartIncidence q (μ (fst z) hzO hfz) β := hchart _ hzO hfz β ▸ ⟨hzZ, hzW⟩
+    exact (hiff _ hzO hfz (fst z) (hxV _ hzO hfz) hfz a).mpr
+      ((mem_chartIncidence_iff q _ β hzW ha hra).mp hzC)
+  -- `Z` lies on the universal hyperplane
+  have hZU : Z ⊆ universalHyperplane φ := by
+    refine closure_minimal ?_ (isClosed_universalHyperplane φ)
+    rintro z ⟨⟨hz, a, ha, hra, hK⟩, hzO⟩
+    obtain ⟨hfz, -, -⟩ := incidenceAmbient_closedPoint q z hz
+    have : IsRegularLocalRing (X.presheaf.stalk (fst z)) := hreg _ hzO hfz
+    exact (mem_universalHyperplane_iff φ ha hra).mpr
+      (mem_support_of_isBadHyperplaneAt φ ((mem_badHyperplaneSubspace_iff φ (fst z) a).mp hK))
+  -- the bad subspace has vectors with a prescribed coordinate outside `J` nonzero
+  have hcardJ : ∀ x₀ h₀O h₀, Fintype.card {j // j ∉ Set.range (J x₀ h₀O h₀)} = n - r := by
+    intro x₀ h₀O h₀
+    rw [Fintype.card_subtype_compl, Set.card_range_of_injective (J x₀ h₀O h₀).injective,
+      Fintype.card_fin, Fintype.card_fin]
+    omega
+  have hexists : ∀ x₀ h₀O h₀ β, β ∉ Set.range (J x₀ h₀O h₀) →
+      ∀ x (hx : x ∈ V x₀ h₀O h₀), IsClosed {x} → ∃ a ∈ K x, a β ≠ 0 := by
+    intro x₀ h₀O h₀ β hβ x hx hxc
+    let ρ : K x →ₗ[k] ({j // j ∉ Set.range (J x₀ h₀O h₀)} → k) :=
+      (LinearMap.funLeft k k Subtype.val).comp (K x).subtype
+    have hinj : Function.Injective ρ := by
+      rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
+      intro a ha
+      apply Subtype.ext
+      refine eq_zero_of_local_equations φ (μ x₀ h₀O h₀) (J x₀ h₀O h₀) (hdet x₀ h₀O h₀) hx
+        ((hiff x₀ h₀O h₀ x hx hxc a).mp a.2) fun j hj => ?_
+      exact congrFun ha ⟨j, hj⟩
+    have hsurj : Function.Surjective ρ := by
+      refine (LinearMap.injective_iff_surjective_of_finrank_eq_finrank ?_).mp hinj
+      rw [finrank_badHyperplaneSubspace_of_isRegularAt φ hr x hxc
+          (hreg x (hVO x₀ h₀O h₀ hx) hxc), Module.finrank_fintype_fun_eq_card, hcardJ]
+    obtain ⟨a, ha⟩ := hsurj (Pi.single ⟨β, hβ⟩ 1)
+    refine ⟨a, a.2, ?_⟩
+    have := congrFun ha ⟨β, hβ⟩
+    simp only [Pi.single_eq_same] at this
+    change (a : Fin (n + 1) → k) β = 1 at this
+    rw [this]
+    exact one_ne_zero
+  -- the charts
+  let ι := Σ' (x₀ : X) (h₀O : x₀ ∈ O) (h₀ : IsClosed {x₀}) (β : Fin (n + 1)),
+    β ∉ Set.range (J x₀ h₀O h₀)
+  let W : ι → Set P := fun i => incidenceChart q (V i.1 i.2.1 i.2.2.1) i.2.2.2.1
+  have hWopen : ∀ i, IsOpen (W i) := fun i => (incidenceChart q _ _).isOpen
+  set Z' := Z ∩ fst ⁻¹' O
+  have hZ'W : ∀ i, Z' ∩ W i = Z ∩ W i := by
+    intro i
+    ext z
+    refine ⟨fun h => ⟨h.1.1, h.2⟩, fun h => ⟨⟨h.1, ?_⟩, h.2⟩⟩
+    exact hVO _ _ _ (incidenceChart_le_fst q _ _ h.2)
+  have hpiece : ∀ i, IsIrreducible (Z' ∩ W i) ∧
+      topologicalKrullDim (Z' ∩ W i : Set P) = ((n - 1 : ℕ) : WithBot ℕ∞) := by
+    intro i
+    rw [hZ'W]
+    obtain ⟨x₀, h₀O, h₀, β, hβ⟩ := i
+    have : Nonempty (V x₀ h₀O h₀) := ⟨⟨x₀, hxV x₀ h₀O h₀⟩⟩
+    change IsIrreducible (Z ∩ (incidenceChart q (V x₀ h₀O h₀) β : Set P)) ∧ _
+    rw [hchart x₀ h₀O h₀ β]
+    exact chartIncidence_isIrreducible_and_topologicalKrullDim q (μ x₀ h₀O h₀) β hqft
+      (hV x₀ h₀O h₀) hr hrn (J x₀ h₀O h₀) (hdet x₀ h₀O h₀) hβ
+  -- a closed point of `Z` over `O` lies in a chart
+  have hcovc : ∀ z ∈ Z, fst z ∈ O → IsClosed {z} → ∃ i, z ∈ W i := by
+    intro z hzZ hzO hz
+    obtain ⟨hfz, -, a, ha, hra⟩ := incidenceAmbient_closedPoint q z hz
+    have hK := (hmem z hz hzO a ha hra).mp hzZ
+    have hloc := (hiff _ hzO hfz (fst z) (hxV _ hzO hfz) hfz a).mp hK
+    obtain ⟨β, hβJ, hβ⟩ : ∃ β, β ∉ Set.range (J _ hzO hfz) ∧ a β ≠ 0 := by
+      by_contra hcon
+      push Not at hcon
+      exact ha (eq_zero_of_local_equations φ (μ _ hzO hfz) (J _ hzO hfz) (hdet _ hzO hfz)
+        (hxV _ hzO hfz) hloc hcon)
+    exact ⟨⟨fst z, hzO, hfz, β, hβJ⟩, hxV _ hzO hfz, (represents_mem_basicOpen_iff hra ha β).mpr hβ⟩
+  have hcov : Z' ⊆ ⋃ i, W i := by
+    rintro z ⟨hzZ, hzO⟩
+    obtain ⟨z', ⟨hz'z, hz'O⟩, hz'c⟩ := nonempty_inter_closedPoints
+      (Z := closure {z} ∩ fst ⁻¹' O) ⟨z, subset_closure rfl, hzO⟩
+      (isClosed_closure.isLocallyClosed.inter hfO.isLocallyClosed)
+    have hz'Z : z' ∈ Z := closure_minimal (Set.singleton_subset_iff.mpr hzZ) isClosed_closure hz'z
+    obtain ⟨i, hi⟩ := hcovc z' hz'Z hz'O hz'c
+    obtain ⟨w, hw, rfl⟩ := mem_closure_iff.mp hz'z _ (hWopen i) hi
+    exact Set.mem_iUnion.mpr ⟨i, hw⟩
+  -- a closed point of `B` over a closed point `x`, in two prescribed charts
+  have hmeet : ∀ i j, (Z' ∩ W i ∩ W j).Nonempty := by
+    rintro ⟨x₀, h₀O, h₀, β, hβ⟩ ⟨x₁, h₁O, h₁, γ, hγ⟩
+    obtain ⟨y, hy0, hy1⟩ := nonempty_preirreducible_inter (V x₀ h₀O h₀).isOpen
+      (V x₁ h₁O h₁).isOpen ⟨x₀, hxV x₀ h₀O h₀⟩ ⟨x₁, hxV x₁ h₁O h₁⟩
+    obtain ⟨x, ⟨hx0, hx1⟩, hxc⟩ := nonempty_inter_closedPoints (X := X)
+      (Z := (V x₀ h₀O h₀ : Set X) ∩ V x₁ h₁O h₁) ⟨y, hy0, hy1⟩
+      ((V x₀ h₀O h₀).isOpen.inter (V x₁ h₁O h₁).isOpen).isLocallyClosed
+    obtain ⟨u, hu, huβ⟩ := hexists x₀ h₀O h₀ β hβ x hx0 hxc
+    obtain ⟨v, hv, hvγ⟩ := hexists x₁ h₁O h₁ γ hγ x hx1 hxc
+    obtain ⟨w, hw, hwβ, hwγ⟩ : ∃ w ∈ K x, w β ≠ 0 ∧ w γ ≠ 0 := by
+      by_cases huγ : u γ ≠ 0
+      · exact ⟨u, hu, huβ, huγ⟩
+      by_cases hvβ : v β ≠ 0
+      · exact ⟨v, hv, hvβ, hvγ⟩
+      push Not at huγ hvβ
+      refine ⟨u + v, add_mem hu hv, ?_, ?_⟩
+      · simpa [hvβ] using huβ
+      · simpa [huγ] using hvγ
+    have hw0 : w ≠ 0 := fun h => hwβ (by rw [h, Pi.zero_apply])
+    obtain ⟨z, hz, hzx, hzr⟩ := incidenceAmbient_exists_closedPoint q x hxc hw0
+    have hzO : fst z ∈ O := by rw [hzx]; exact hVO x₀ h₀O h₀ hx0
+    have hzB : z ∈ B := ⟨⟨hz, w, hw0, hzr, by rw [hzx]; exact hw⟩, hzO⟩
+    refine ⟨z, ⟨⟨subset_closure hzB, hzO⟩, ?_⟩, ?_⟩
+    · exact ⟨show fst z ∈ V x₀ h₀O h₀ by rw [hzx]; exact hx0,
+        (represents_mem_basicOpen_iff hzr hw0 β).mpr hwβ⟩
+    · exact ⟨show fst z ∈ V x₁ h₁O h₁ by rw [hzx]; exact hx1,
+        (represents_mem_basicOpen_iff hzr hw0 γ).mpr hwγ⟩
+  refine ⟨Z, isClosed_closure, hZU, ?_, fun z hz hzO a ha hra => ?_⟩
+  · rcases Z'.eq_empty_or_nonempty with hZ'e | hZ'ne
+    · have hZe : Z = ∅ := by
+        have hB : B = ∅ := Set.eq_empty_of_subset_empty fun z hz =>
+          hZ'e ▸ ⟨subset_closure hz, hz.2⟩
+        change closure B = ∅
+        rw [hB, closure_empty]
+      rw [hZe]
+      have : IsEmpty (IrreducibleCloseds (∅ : Set P)) :=
+        ⟨fun T => by obtain ⟨⟨x, hx⟩, -⟩ := T.isIrreducible.nonempty; exact hx⟩
+      rw [topologicalKrullDim, Order.krullDim_eq_bot]
+      exact bot_le
+    · have hZ'irr : IsIrreducible Z' :=
+        isIrreducible_of_isOpen_cover W hWopen hcov (fun i _ => (hpiece i).1)
+          (fun i j _ _ => hmeet i j) hZ'ne
+      have hZcl : closure Z' = Z := by
+        refine le_antisymm (closure_minimal Set.inter_subset_left isClosed_closure) ?_
+        exact closure_mono fun z hz => ⟨subset_closure hz, hz.2⟩
+      have hZirr : IsIrreducible Z := hZcl ▸ hZ'irr.closure
+      refine (topologicalKrullDim_le_inter_of_isIrreducible (fst ≫ q) ⟨inferInstance,
+        inferInstance⟩ isClosed_closure hZirr hfO hZ'ne).trans ?_
+      refine BaseExtensionComponentDimension.topologicalKrullDim_le_of_forall_isOpenEmbedding _
+        fun y => ?_
+      obtain ⟨i, hi⟩ := Set.mem_iUnion.mp (hcov y.2)
+      refine ⟨(Z' ∩ W i : Set P), inferInstance, Set.inclusion Set.inter_subset_left,
+        isOpenEmbedding_inclusion_inter (hWopen i), ⟨⟨y.1, y.2, hi⟩, rfl⟩, (hpiece i).2.le⟩
+  · obtain ⟨hfz, -, -⟩ := incidenceAmbient_closedPoint q z hz
+    have : IsRegularLocalRing (X.presheaf.stalk (fst z)) := hreg _ hzO hfz
+    rw [hmem z hz hzO a ha hra]
+    exact mem_badHyperplaneSubspace_iff φ (fst z) a
+
 end Universal
 
 end BertiniIncidence
