@@ -102,7 +102,8 @@ lemma mapHomologyIso_comp {C D E : Type*} [Category C] [Category D] [Category E]
   ext
   dsimp only [Iso.trans, Functor.mapIso, Iso.symm]
   have h : G.map (S.homologyData.left.map F).homologyIso.inv ≫
-      G.map ((S.homologyData.left.map F).homologyIso.hom ≫ F.map S.homologyData.left.homologyIso.inv) =
+      G.map ((S.homologyData.left.map F).homologyIso.hom ≫
+        F.map S.homologyData.left.homologyIso.inv) =
       G.map (F.map S.homologyData.left.homologyIso.inv) := by
     rw [← Functor.map_comp]
     exact congrArg G.map (Iso.inv_hom_id_assoc _ _)
@@ -156,6 +157,24 @@ lemma diagram_aux {E : Type*} [Category E] {P0 P1 P2 P3 P4 P5 Q1 R0 R1 R2 R3 R4 
     (h3 : γ ≫ N = M ≫ κ) (h4 : b' ≫ x ≫ y = κ ≫ β' ≫ u ≫ v) :
     a ≫ b ≫ d ≫ x ≫ y = γ ≫ a' ≫ β ≫ δ ≫ u ≫ v := by
   rw [reassoc_of% h1, reassoc_of% h2, h4, reassoc_of% h1', reassoc_of% h2', reassoc_of% h3]
+
+omit [HasInjectiveResolutions C] [HasInjectiveResolutions D] in
+/-- A reassociation. -/
+lemma reassoc_aux3 {E : Type*} [Category E] {X₀ X₁ X₂ X₃ X₄ X₅ Y₁ Y₂ Y₃ : E}
+    {p : X₀ ⟶ X₁} {a₁ : X₁ ⟶ X₂} {a₂ : X₂ ⟶ X₃} {a₃ : X₃ ⟶ X₄} {i : X₄ ⟶ X₅}
+    {b₁ : X₁ ⟶ Y₁} {b₂ : Y₁ ⟶ Y₂} {b₃ : Y₂ ⟶ Y₃} {b₄ : Y₃ ⟶ X₄}
+    (h : a₁ ≫ a₂ ≫ a₃ = b₁ ≫ b₂ ≫ b₃ ≫ b₄) :
+    p ≫ a₁ ≫ a₂ ≫ a₃ ≫ i = p ≫ b₁ ≫ b₂ ≫ b₃ ≫ b₄ ≫ i := by
+  simp only [reassoc_of% h]
+
+omit [HasInjectiveResolutions C] [HasInjectiveResolutions D] in
+/-- A reassociation. -/
+lemma reassoc_aux2 {E : Type*} [Category E] {X₀ X₁ X₂ X₃ X₄ X₅ Y₀ Y₁ Y₂ Y₃ Y₄ : E}
+    {p : X₀ ⟶ X₁} {q : X₁ ⟶ X₂} {r : X₂ ⟶ X₃} {s : X₃ ⟶ X₄} {t : X₄ ⟶ X₅} {γ : X₀ ⟶ Y₀}
+    {p' : Y₀ ⟶ Y₁} {q' : Y₁ ⟶ Y₂} {r' : Y₂ ⟶ Y₃} {s' : Y₃ ⟶ Y₄} {t' : Y₄ ⟶ X₅}
+    (h : p ≫ q ≫ r ≫ s ≫ t = γ ≫ p' ≫ q' ≫ r' ≫ s' ≫ t') :
+    (p ≫ q) ≫ (r ≫ s) ≫ t = γ ≫ (p' ≫ q') ≫ (r' ≫ s') ≫ t' := by
+  simpa only [Category.assoc] using h
 
 omit [HasInjectiveResolutions C] [HasInjectiveResolutions D] in
 /-- `diagram_aux` with the last maps induced by morphisms of short complexes. -/
@@ -229,6 +248,73 @@ lemma mapHomologyIso_comp_naturality
         (S.map Ψ₁).mapNatTrans f₂.hom ≫ ((S.map Ψ₁).map Ψ₂).mapNatTrans θ := by
     ext <;> exact hθ _
   exact diagram_aux' h1 h2 h1' h2' h3 h4'
+
+variable [HasInjectiveResolutions C] [HasInjectiveResolutions D₁] [HasInjectiveResolutions D₂]
+  [HasInjectiveResolutions E] (hΦ₁ : ∀ I : C, Injective I → Injective (Φ₁.obj I))
+  (hΦ₂ : ∀ I : D₁, Injective I → Injective (Φ₂.obj I))
+  (hΨ₁ : ∀ I : C, Injective I → Injective (Ψ₁.obj I))
+  (hΨ₂ : ∀ I : D₂, Injective I → Injective (Ψ₂.obj I))
+
+/-- **Two composites of comparison isomorphisms agree.** Let `Φ₂ ∘ Φ₁` and `Ψ₂ ∘ Ψ₁` be exact
+functors preserving injectives, identified by `c`, with compatible identifications `e₁, e₂` and
+`f₁, f₂` of `H` with `H₂` and with `K₂`, the latter related by `θ : K₂ ⟶ H₂`. Then the composite
+isomorphisms `Φ₂Φ₁(RⁿH(G)) ≅ RⁿH₂(Φ₂Φ₁G)` and `Ψ₂Ψ₁(RⁿH(G)) ≅ RⁿK₂(Ψ₂Ψ₁G)` correspond under `c`
+and `θ`. -/
+lemma rightDerivedCompIso_comp_naturality
+    (hθ : ∀ Y, Φ₂.map (e₁.hom.app Y) ≫ e₂.hom.app (Φ₁.obj Y) ≫ H₂.map (c.hom.app Y) =
+      c.hom.app (H.obj Y) ≫ Ψ₂.map (f₁.hom.app Y) ≫ f₂.hom.app (Ψ₁.obj Y) ≫
+        θ.app (Ψ₂.obj (Ψ₁.obj Y)))
+    (G : C) (n : ℕ) :
+    Φ₂.map (rightDerivedCompIso hΦ₁ e₁ G n).hom ≫
+        (rightDerivedCompIso hΦ₂ e₂ (Φ₁.obj G) n).hom ≫ (H₂.rightDerived n).map (c.hom.app G) =
+      c.hom.app _ ≫ Ψ₂.map (rightDerivedCompIso hΨ₁ f₁ G n).hom ≫
+        (rightDerivedCompIso hΨ₂ f₂ (Ψ₁.obj G) n).hom ≫
+          (NatTrans.rightDerived θ n).app (Ψ₂.obj (Ψ₁.obj G)) := by
+  let I := injectiveResolution G
+  rw [rightDerivedCompIso_eq_ofResolution hΦ₁ e₁ I,
+    rightDerivedCompIso_eq_ofResolution hΦ₂ e₂ (mapInjectiveResolution hΦ₁ I),
+    rightDerivedCompIso_eq_ofResolution hΨ₁ f₁ I,
+    rightDerivedCompIso_eq_ofResolution hΨ₂ f₂ (mapInjectiveResolution hΨ₁ I)]
+  simp only [rightDerivedCompIsoOfResolution, Iso.trans_hom, Functor.mapIso_hom, Iso.app_hom,
+    Iso.symm_hom, Functor.map_comp, Category.assoc, Iso.map_inv_hom_id_assoc]
+  have hcomm : (mapInjectiveResolution hΦ₂ (mapInjectiveResolution hΦ₁ I)).ι.f 0 ≫
+      ((NatTrans.mapHomologicalComplex c.hom _).app I.cocomplex).f 0 =
+      c.hom.app G ≫ (mapInjectiveResolution hΨ₂ (mapInjectiveResolution hΨ₁ I)).ι.f 0 := by
+    have h := c.hom.naturality (I.ι.f 0)
+    simp only [Functor.comp_map] at h
+    simp [mapInjectiveResolution]
+    erw [Category.id_comp, CategoryTheory.Functor.map_id, Category.id_comp, Category.id_comp,
+      CategoryTheory.Functor.map_id, Category.id_comp]
+    exact h
+  rw [InjectiveResolution.isoRightDerivedObj_inv_naturality (c.hom.app G)
+      (mapInjectiveResolution hΦ₂ (mapInjectiveResolution hΦ₁ I))
+      (mapInjectiveResolution hΨ₂ (mapInjectiveResolution hΨ₁ I))
+      ((NatTrans.mapHomologicalComplex c.hom _).app I.cocomplex) hcomm H₂ n,
+    InjectiveResolution.rightDerived_app_eq θ
+      (mapInjectiveResolution hΨ₂ (mapInjectiveResolution hΨ₁ I)) n, Iso.inv_hom_id_assoc]
+  have hnat := c.hom.naturality (I.isoRightDerivedObj H n).hom
+  simp only [Functor.comp_map] at hnat
+  rw [← reassoc_of% hnat]
+  have key : Φ₂.map ((homologyCompIso e₁ n).hom.app I.cocomplex) ≫
+      (homologyCompIso e₂ n).hom.app ((Φ₁.mapHomologicalComplex (ComplexShape.up ℕ)).obj
+        I.cocomplex) ≫
+      (H₂.mapHomologicalComplex (ComplexShape.up ℕ) ⋙
+        HomologicalComplex.homologyFunctor E (ComplexShape.up ℕ) n).map
+          ((NatTrans.mapHomologicalComplex c.hom (ComplexShape.up ℕ)).app I.cocomplex) =
+      c.hom.app ((HomologicalComplex.homologyFunctor C (ComplexShape.up ℕ) n).obj
+          ((H.mapHomologicalComplex (ComplexShape.up ℕ)).obj I.cocomplex)) ≫
+        Ψ₂.map ((homologyCompIso f₁ n).hom.app I.cocomplex) ≫
+          (homologyCompIso f₂ n).hom.app ((Ψ₁.mapHomologicalComplex (ComplexShape.up ℕ)).obj
+            I.cocomplex) ≫
+            (HomologicalComplex.homologyFunctor E (ComplexShape.up ℕ) n).map
+              ((NatTrans.mapHomologicalComplex θ (ComplexShape.up ℕ)).app
+                (mapInjectiveResolution hΨ₂ (mapInjectiveResolution hΨ₁ I)).cocomplex) := by
+    rw [homologyCompIso_hom_app, homologyCompIso_hom_app, homologyCompIso_hom_app,
+      homologyCompIso_hom_app]
+    refine (congrArg (· ≫ _) (Φ₂.map_comp _ _)).trans ?_
+    refine Eq.trans ?_ (congrArg (fun t => c.hom.app _ ≫ t ≫ _) (Ψ₂.map_comp _ _)).symm
+    exact reassoc_aux2 (mapHomologyIso_comp_naturality e₁ e₂ f₁ f₂ c θ hθ (I.cocomplex.sc n))
+  exact reassoc_aux3 key
 
 end Composite
 
