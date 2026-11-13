@@ -177,6 +177,12 @@ theorem coe_dupleMonomial_powIndex (i : Fin (n + 1)) :
 
 /-! ### The `d`-uple morphism -/
 
+variable (k n) in
+/-- The structure morphism `ℙⁿ_k ⟶ Spec k`. (It is the structure morphism of the dual projective
+space in Bertini's theorem, a projective space being the same scheme as its dual.) -/
+abbrev baseMorphism : Proj 𝒮 ⟶ Spec (.of k) :=
+  BertiniIncidence.dualProjectiveSpaceStructure k n
+
 variable (k n d) in
 /-- The global sections `x^m` of `𝒪(d)`, `m` running over the monomials of degree `d`. -/
 def dupleSections (j : Fin (Veronese.dupleN n d + 1)) : Γ(projTwistingSheaf 𝒮 (d : ℤ), ⊤) :=
@@ -200,13 +206,13 @@ variable (k n d) in
 `𝒪(d)` and the coordinate `y_m` back to `x^m` (Theorem II.7.1). -/
 theorem exists_dupleMorphism :
     ∃ φ : Proj 𝒮 ⟶ projectiveSpaceOverScheme (Veronese.dupleN n d) (Spec (.of k)),
-      φ ≫ projectiveSpaceOverSchemeProjection _ _ = projectiveSpaceStructureMorphism ∧
+      φ ≫ projectiveSpaceOverSchemeProjection _ _ = (baseMorphism k n) ∧
       ∃ e : (Scheme.Modules.pullback φ).obj
           (projectiveSpaceTwistingSheaf (Veronese.dupleN n d) (Spec (.of k)) 1) ≅
           projTwistingSheaf 𝒮 (d : ℤ),
         ∀ j, e.hom.app ⊤ (pullbackGlobalSection φ (projectiveSpaceCoordinate _ _ j)) =
           dupleSections k n d j :=
-  (existsUnique_morphism_of_isGeneratedBySections projectiveSpaceStructureMorphism
+  (existsUnique_morphism_of_isGeneratedBySections (baseMorphism k n)
     (isInvertible_twist k n d) (dupleSections k n d) isGeneratedBySections_dupleSections).exists
 
 variable (k n d) in
@@ -218,7 +224,7 @@ def dupleMorphism : Proj 𝒮 ⟶ projectiveSpaceOverScheme (Veronese.dupleN n d
 /-- The `d`-uple morphism is a morphism over `k`. -/
 theorem dupleMorphism_projection :
     dupleMorphism k n d ≫ projectiveSpaceOverSchemeProjection _ _ =
-      projectiveSpaceStructureMorphism :=
+      (baseMorphism k n) :=
   (exists_dupleMorphism k n d).choose_spec.1
 
 /-- The `d`-uple morphism pulls `𝒪(1)` back to `𝒪(d)` and `y_m` back to `x^m`. -/
@@ -232,10 +238,12 @@ theorem exists_dupleMorphism_iso :
 
 /-- Constants act on the sections `f / 1` through scalar multiplication of `f`. -/
 theorem kConst_smul_hypersurfaceSection (c : k) (f : 𝒮 d) :
-    kConst (projectiveSpaceStructureMorphism (k := k) (n := n)) c • hypersurfaceSection f =
+    kConst (baseMorphism k n) c • hypersurfaceSection f =
       hypersurfaceSection (c • f) := by
-  rw [kConst_apply, projectiveSpaceStructureMorphism, Scheme.Hom.comp_appTop,
-    CommRingCat.comp_apply, specConst, ← CommRingCat.comp_apply (Scheme.ΓSpecIso _).inv,
+  rw [kConst_apply, baseMorphism, BertiniIncidence.dualProjectiveSpaceStructure,
+    Scheme.Hom.comp_appTop]
+  erw [CommRingCat.comp_apply]
+  rw [specConst, ← CommRingCat.comp_apply (Scheme.ΓSpecIso _).inv,
     ← Scheme.ΓSpecIso_inv_naturality, CommRingCat.comp_apply]
   refine (SectionAlgebraModel.toSpecZero_appTop_smul_twistSection _ d f).trans ?_
   change twistSection d _ (op ⊤) = twistSection d _ (op ⊤)
@@ -314,14 +322,14 @@ theorem isClosedImmersion_dupleMorphism (hd : 0 < d) :
   set hL := isInvertible_twist k n d
   set s := dupleSections k n d with hs
   rw [isClosedImmersion_iff_isAffineOpen_and_surjective_chartSectionPolynomialMap hL s
-    projectiveSpaceStructureMorphism _ e he dupleMorphism_projection]
+    (baseMorphism k n) _ e he dupleMorphism_projection]
   intro i
   set g := dupleMonomial k n d i
   have hV : nonvanishingLocusOpens hL (s i) = Proj.basicOpen 𝒮 (g : S) :=
     Opens.ext (Set.ext fun x =>
       mem_nonvanishingLocus_twistSection (ProjectiveSpacePicard.adjoin_one_eq_top k n) g x)
   refine ⟨hV ▸ Proj.isAffineOpen_basicOpen 𝒮 (g : S) g.2 hd, ?_⟩
-  set χ := chartSectionPolynomialMap hL s projectiveSpaceStructureMorphism i
+  set χ := chartSectionPolynomialMap hL s (baseMorphism k n) i
   let ρ := ((Proj 𝒮).presheaf.map (homOfLE hV.ge).op).hom
   have hρ : Function.Injective ρ := by
     intro a b hab
@@ -345,9 +353,9 @@ theorem isClosedImmersion_dupleMorphism (hd : 0 < d) :
     simp only [RingHom.comp_apply, χ, chartSectionPolynomialMap, MvPolynomial.coe_eval₂Hom,
       MvPolynomial.eval₂_C, ρ]
     have hc : ((Proj 𝒮).presheaf.map (homOfLE hV.ge).op).hom
-        ((projectiveSpaceStructureMorphism.appLE ⊤ (nonvanishingLocusOpens hL (s i)) le_top).hom
+        (((baseMorphism k n).appLE ⊤ (nonvanishingLocusOpens hL (s i)) le_top).hom
           (specConst k c)) = (Proj 𝒮).presheaf.map (homOfLE le_top).op
-            (kConst projectiveSpaceStructureMorphism c) := by
+            (kConst (baseMorphism k n) c) := by
       rw [← CommRingCat.comp_apply, Scheme.Hom.appLE_map, kConst_apply, Scheme.Hom.appLE]
       rfl
     rw [hc, ← Scheme.Modules.map_smul, hs, dupleSections, kConst_smul_hypersurfaceSection]
@@ -595,7 +603,12 @@ theorem exists_eq_mul_mem_mem [IsAlgClosed k] (hn : 2 ≤ n) (hd : 1 ≤ d) (f :
   obtain ⟨hYp, hdp⟩ := isProjVariety_projDim_projZeroSet (by omega) hp hj0 hpj
   obtain ⟨hYq, hdq⟩ := isProjVariety_projDim_projZeroSet (by omega) hq hj'0 hqj
   obtain ⟨P, hPp, hPq⟩ := projective_inter_nonempty_of_dim hYp hYq hdp hdq (by omega)
-  let x : Proj 𝒮 := VeryAmpleHilbert.classicalPoint P
+  have hPprime := isPrime_homogeneousVanishingIdeal_singleton P
+  let x : Proj 𝒮 :=
+    ⟨⟨homogeneousVanishingIdeal {P}, isHomogeneousIdeal_homogeneousVanishingIdeal _⟩, hPprime,
+      (projZeroSet_nonempty_iff_not_irrelevant_le
+        (isHomogeneousIdeal_homogeneousVanishingIdeal _)).1
+        ⟨P, by rw [projZeroSet_homogeneousVanishingIdeal_eq_closure]; exact subset_closure rfl⟩⟩
   have hmem : ∀ {r : S} {e : ℕ}, r.IsHomogeneous e → P ∈ projZeroSet ({r} : Set S) →
       r ∈ x.asHomogeneousIdeal := fun hr hP =>
     (mem_homogeneousVanishingIdeal_singleton_iff hr P).2 (hP _ rfl)
