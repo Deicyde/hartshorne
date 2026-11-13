@@ -77,11 +77,11 @@ outside the formalization targets.
   regularity, not connectedness or irreducibility; those are supplied later in
   III.7.9.1.
 
-The proof treats `X = P^n` separately. In the remaining case `dim X < n`, the
-bad hyperplanes at a point form `P^(n-r-1)`. The local input is the regular-
-local criterion that, for a regular local ring and a nonzero hypersurface
-equation in its maximal ideal, the quotient is regular exactly when the
-equation is not in the square of the maximal ideal.
+The printed count covers `X = P^n` too: then each `B_x` is empty. For
+`dim X = r`, the bad hyperplanes at a point form `P^(n-r-1)`. The local input
+is the regular-local criterion that, for a regular local ring and a nonzero
+hypersurface equation in its maximal ideal, the quotient is regular exactly
+when the equation is not in the square of the maximal ideal.
 
 The field is algebraically closed here. The roadmap does not silently replace
 Hartshorne's nonsingularity by scheme smoothness over an arbitrary field: over

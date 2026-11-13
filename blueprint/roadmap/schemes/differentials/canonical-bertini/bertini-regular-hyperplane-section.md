@@ -14,20 +14,22 @@ closed. The hyperplanes $H$ not containing $X$ for which the scheme
 $H \cap X$ is regular at every point form an open dense subset of the
 complete linear system of hyperplanes.
 
-This theorem asserts regularity only. Connectedness and hence irreducibility
-in dimension at least two are later results and are not included here.
+By Remark III.7.9.1 (p.245), if $\dim X \ge 2$ then $H \cap X$ is also connected,
+hence irreducible, so it is a nonsingular variety.
 
 ## Depends on
 
-- [The projective-space case of Bertini](bertini-projective-space-case.md)
-- [The bad-hyperplane incidence correspondence](bertini-bad-hyperplane-incidence.md)
+- [Linear systems](../../projective-geometry/linear-systems-ampleness/linear-system-api.md)
+- [Regular points and nonsingular schemes](../scheme-differentials/regular-points-and-nonsingular-schemes.md)
 
 ## Proof depends on
 
+- [The bad-hyperplane incidence correspondence](bertini-bad-hyperplane-incidence.md)
 - [Images of proper schemes](../../proper-and-projective/proper-image.md)
 - [Projective space is proper](../../proper-and-projective/projective-space-proper.md)
-- A proper closed subset of an irreducible projective space has smaller
-  dimension.
+- $p_2(B)$ has dimension at most $\dim B = n - 1 < n = \dim |H|$, so it is a
+  proper closed subset of the irreducible $|H|$, and its complement is open and
+  dense.
 
 ## Sources
 
