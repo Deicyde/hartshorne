@@ -30,6 +30,8 @@ Koszul basis under a change of local generators.
 
 - Sheafification of local Koszul resolutions.
 - Gluing the local top-Ext calculations using the determinant transition law.
+- [Sheaf Ext from the structure sheaf](../../ext-groups/sheaf-ext/sheaf-ext-structure-sheaf.md)
+- [The Picard group of a ringed space](../../../schemes/divisors/cartier-picard/invertible-sheaf-group.md)
 
 ## Sources
 
