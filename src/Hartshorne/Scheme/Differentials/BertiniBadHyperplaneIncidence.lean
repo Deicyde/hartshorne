@@ -11,6 +11,26 @@ import Hartshorne.Scheme.Regular
 # Bad hyperplanes at a point
 
 Hartshorne, *Algebraic Geometry*, II.8, proof of Theorem 8.18 (pp. 179–180).
+
+Let `k` be algebraically closed and `φ : X ⟶ ℙⁿ_k` a closed immersion of a nonsingular integral
+scheme of dimension `r`. A hyperplane `H_a = {∑ aᵢ xᵢ = 0}` is indexed by its coefficient vector
+`a ∈ kⁿ⁺¹`, and `H_a ∩ X` is the scheme-theoretic preimage of `H_a`. At a closed point `x`, the
+hyperplane `H_a` is *bad* when it contains `X`, or when `x ∈ H_a ∩ X` and `H_a ∩ X` is not regular
+at `x`.
+
+## Proof
+
+Near `x`, the pulled-back linear form is `f · s` for a local generator `s` of `𝒪_X(1)`, and the
+local ring of `H_a ∩ X` at `x` is `𝒪_{X,x}/(f)`. By the regular-hypersurface criterion, `H_a` is
+bad at `x` iff `f ∈ 𝔪_x²`. The map `kⁿ⁺¹ → 𝒪_{X,x}/𝔪_x²` sending `a` to the class of `f` is
+`k`-linear and surjective, because the linear forms separate tangent vectors on `X`
+(Proposition II.7.3) and one coordinate is a unit at `x`; its target has dimension `r + 1`. Hence
+the bad vectors form a subspace of dimension `n + 1 - (r + 1) = n - r`.
+
+## Main results
+
+* `Hartshorne.BertiniIncidence.mem_badHyperplaneSubspace_iff`
+* `Hartshorne.BertiniIncidence.finrank_badHyperplaneSubspace`
 -/
 
 noncomputable section
@@ -372,8 +392,8 @@ variable {X : Scheme.{u}} {L : X.Modules} (hL : L.IsInvertible)
 /-- **The zero scheme `Z(t)` is singular at `x` exactly when `t_x ∈ 𝔪_x² L_x`.** Let `X` be
 integral, `L` invertible, and let `𝒪_{X,x}` be regular. For a global section `t` of `L`, the germ
 `t_x` lies in `𝔪_x² L_x` iff either `t = 0` (so `Z(t) = X`), or `x ∈ Z(t)` and the local ring of
-`Z(t)` at `x` is not regular. Near `x`, `t = f e` for a generator `e`, and `𝒪_{Z(t),x} = 𝒪_{X,x}/(f)`;
-the regular hypersurface criterion applies. -/
+`Z(t)` at `x` is not regular. Near `x`, `t = f e` for a generator `e`, and
+`𝒪_{Z(t),x} = 𝒪_{X,x}/(f)`; the regular hypersurface criterion applies. -/
 theorem germ_mem_maximalIdeal_sq_smul_top_iff [IsIntegral X] (t : Γ(L, ⊤)) (x : X)
     [IsRegularLocalRing (X.presheaf.stalk x)] :
     L.presheaf.germ ⊤ x trivial t ∈ maximalIdeal (X.presheaf.stalk x) ^ 2 •
@@ -493,8 +513,9 @@ theorem linearSystemSection_pulledBackCoordinates (a : Fin (n + 1) → k) :
   (iso_app_linearSection rfl (Iso.refl _) (fun _ => rfl) a).symm
 
 theorem hyperplaneSectionIdeal_eq (a : Fin (n + 1) → k) :
-    hyperplaneSectionIdeal φ a = invertibleZeroIdeal (isInvertible_pullback_projectiveSpaceTwistingSheaf φ)
-      (pullbackGlobalSection φ (linearSection k n a)) :=
+    hyperplaneSectionIdeal φ a =
+      invertibleZeroIdeal (isInvertible_pullback_projectiveSpaceTwistingSheaf φ)
+        (pullbackGlobalSection φ (linearSection k n a)) :=
   (invertibleZeroIdeal_pullbackGlobalSection _ φ _).symm
 
 /-- **Bad hyperplanes are the linear forms vanishing to second order** (Hartshorne II, proof of
