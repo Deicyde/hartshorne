@@ -54,7 +54,8 @@ lemma homologyπ_mapHomologyIso_hom (S : ShortComplex C) :
 
 @[reassoc]
 lemma map_homologyπ_mapHomologyIso_inv (S : ShortComplex C) :
-    Φ.map S.homologyπ ≫ (S.mapHomologyIso Φ).inv = (S.mapCyclesIso Φ).inv ≫ (S.map Φ).homologyπ := by
+    Φ.map S.homologyπ ≫ (S.mapHomologyIso Φ).inv =
+      (S.mapCyclesIso Φ).inv ≫ (S.map Φ).homologyπ := by
   rw [Iso.comp_inv_eq, Category.assoc, homologyπ_mapHomologyIso_hom, Iso.inv_hom_id_assoc]
 
 open ShortComplex in
@@ -340,19 +341,25 @@ lemma δ_comp_extCompIso {S : ShortComplex C} (hS : S.ShortExact) (G : C) (n : �
         δ H' E' hE' hH' (hS.map_of_exact Φ) (Φ.obj G) n := by
   have hT := T'_shortExact H hH hS (injectiveResolution G)
   have h1 := ExactFunctorHomology.δ_map Φ hT n (n + 1) (RightDerivedLES.upRel n)
-  have h2 := HomologicalComplex.HomologySequence.δ_naturality (Tcomp H H' α hα S (injectiveResolution G).cocomplex)
+  have h2 := HomologicalComplex.HomologySequence.δ_naturality
+    (Tcomp H H' α hα S (injectiveResolution G).cocomplex)
     (hT.map_of_exact (Φ.mapHomologicalComplex _))
-    (T'_shortExact H' hH' (hS.map_of_exact Φ) (mapInjectiveResolution hΦ (injectiveResolution G))) n (n + 1) (RightDerivedLES.upRel n)
+    (T'_shortExact H' hH' (hS.map_of_exact Φ) (mapInjectiveResolution hΦ (injectiveResolution G)))
+    n (n + 1) (RightDerivedLES.upRel n)
   have key : Φ.map (hT.δ n (n + 1) (RightDerivedLES.upRel n)) ≫
       (((T' H S (injectiveResolution G).cocomplex).X₁.sc (n + 1)).mapHomologyIso Φ).inv ≫
-        HomologicalComplex.homologyMap (Tcomp H H' α hα S (injectiveResolution G).cocomplex).τ₁ (n + 1) =
+        HomologicalComplex.homologyMap (Tcomp H H' α hα S (injectiveResolution G).cocomplex).τ₁
+          (n + 1) =
       (((T' H S (injectiveResolution G).cocomplex).X₃.sc n).mapHomologyIso Φ).inv ≫
         HomologicalComplex.homologyMap (Tcomp H H' α hα S (injectiveResolution G).cocomplex).τ₃ n ≫
-          (T'_shortExact H' hH' (hS.map_of_exact Φ) (mapInjectiveResolution hΦ (injectiveResolution G))).δ n (n + 1) (RightDerivedLES.upRel n) := by
+          (T'_shortExact H' hH' (hS.map_of_exact Φ)
+            (mapInjectiveResolution hΦ (injectiveResolution G))).δ n (n + 1)
+              (RightDerivedLES.upRel n) := by
     rw [← h2, ← Category.assoc, ← Category.assoc]
     refine congrArg (· ≫ _) ?_
     rw [Iso.comp_inv_eq, Category.assoc, h1, Iso.inv_hom_id_assoc]
-  rw [δ_eq_ofResolution H' E' hE' hH' (hS.map_of_exact Φ) (mapInjectiveResolution hΦ (injectiveResolution G)) n, δ, isoE_eq_isoEOf,
+  rw [δ_eq_ofResolution H' E' hE' hH' (hS.map_of_exact Φ)
+      (mapInjectiveResolution hΦ (injectiveResolution G)) n, δ, isoE_eq_isoEOf,
     isoE_eq_isoEOf, extCompIso_hom_eq _ _ _ _ _ _ _ _ _ _ (injectiveResolution G),
     extCompIso_hom_eq _ _ _ _ _ _ _ _ _ _ (injectiveResolution G)]
   simp only [Functor.map_comp, Category.assoc]
@@ -491,7 +498,8 @@ lemma map_homologyπ_comp_homologyCompIso'_hom (L : ChainComplex C ℕ) (G : C) 
         HomologicalComplex.cyclesMap (homComplexCompIso H H' α hα L G).hom i ≫
           ((homComplex H' ((Φ.mapHomologicalComplex _).obj L)).obj (Φ.obj G)).homologyπ i := by
   rw [homologyCompIso', Iso.trans_hom, Iso.symm_hom, HomologicalComplex.homologyMapIso_hom]
-  erw [ExactFunctorHomology.map_homologyπ_mapHomologyIso_inv_assoc Φ (((homComplex H L).obj G).sc i)]
+  erw [ExactFunctorHomology.map_homologyπ_mapHomologyIso_inv_assoc Φ
+    (((homComplex H L).obj G).sc i)]
   exact congrArg (_ ≫ ·)
     (HomologicalComplex.homologyπ_naturality (homComplexCompIso H H' α hα L G).hom i)
 
