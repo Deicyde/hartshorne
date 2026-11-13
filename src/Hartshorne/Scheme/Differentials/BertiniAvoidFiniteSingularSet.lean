@@ -9,6 +9,40 @@ import Hartshorne.Scheme.ReducedInducedSubscheme
 # Bertini's theorem with finitely many singular points
 
 Hartshorne, *Algebraic Geometry*, II.8, Remark 8.18.1 (p. 180).
+
+Let `k` be algebraically closed and `X ⊆ ℙⁿ_k` a projective variety with only finitely many
+singular closed points. There is a dense open set of hyperplanes `H` of `ℙⁿ_k` containing none
+of these points, not containing `X`, and with `H ∩ X` regular at every point. More generally,
+for a finite set `S` of closed points of `ℙⁿ_k`, the hyperplanes avoiding `S` form a dense open
+subset of `(ℙⁿ_k)^∨`, and on a nonsingular `X` this condition can be imposed together with the
+regularity of `H ∩ X` from Theorem 8.18.
+
+## Proof
+
+The universal hyperplane `{(x, H) : x ∈ H}` is closed in `X ×_k (ℙⁿ_k)^∨`, being cut out on the
+charts `X_{sᵢ} ×_k D₊(a_β)` by a single function. Its fibre over a closed point `x` projects onto
+the set of hyperplanes through `φ(x)`, which is closed because `X` is proper, and proper because
+a coordinate hyperplane misses `φ(x)`. A finite union of proper closed subsets of the irreducible
+space `(ℙⁿ_k)^∨` is proper, which gives the avoidance statement.
+
+For the main statement, let `S` be the finite set of singular closed points and `O = X - S`, an
+open set whose closed points are regular. Let `r = dim X`. If `r < n`, the incidence argument of
+Theorem 8.18 runs over `O`: near each closed point of `O` the hyperplanes bad at `x` are given by
+local equations, the closure `Z` of the set of pairs `(x, H)` with `x ∈ O` closed and `H` bad at
+`x` is irreducible, and its trace over `O` is covered by charts of dimension `n - 1`. As `Z` with
+its reduced structure is an integral scheme of finite type over `k`, `dim Z` equals the dimension
+of this trace, so `dim Z ≤ n - 1`. The image of `Z` in `(ℙⁿ_k)^∨` is closed of dimension at most
+`n - 1`, hence proper. Moreover `Z` lies on the universal hyperplane, so a pair `(x, H) ∈ Z` with
+`x ∈ S` has `x ∈ H`. A hyperplane avoiding `S` meets `X` inside `O`, and is good exactly when it
+is bad at no closed point of `O`; the dense open set is the complement of the image of `Z`
+intersected with the set of hyperplanes avoiding `S`. If `r ≥ n`, no hyperplane is bad at a
+regular closed point.
+
+## Main results
+
+* `Hartshorne.BertiniIncidence.bertini_avoid_finite_singular_set`
+* `Hartshorne.BertiniIncidence.hyperplanes_avoiding_finite_set_dense`
+* `Hartshorne.BertiniIncidence.bertini_regular_hyperplane_section_avoiding`
 -/
 
 noncomputable section
@@ -179,11 +213,13 @@ theorem isClosed_universalHyperplane : IsClosed (universalHyperplane φ) :=
 /-- **Points of the universal hyperplane.** If the image of `z` in `(ℙⁿ_k)^∨` represents the
 nonzero vector `a`, then `z` lies on the universal hyperplane exactly when its image in `X` lies
 on the hyperplane section `H_a ∩ X`. -/
-theorem mem_universalHyperplane_iff {z : incidenceAmbient (φ ≫ projectiveSpaceOverSchemeProjection n _) n}
-    {a : Fin (n + 1) → k} (ha : a ≠ 0)
+theorem mem_universalHyperplane_iff
+    {z : incidenceAmbient (φ ≫ projectiveSpaceOverSchemeProjection n _) n} {a : Fin (n + 1) → k}
+    (ha : a ≠ 0)
     (hza : Represents a (pullback.snd _ (dualProjectiveSpaceStructure k n) z)) :
     z ∈ universalHyperplane φ ↔
-      pullback.fst _ (dualProjectiveSpaceStructure k n) z ∈ (hyperplaneSectionIdeal φ a).support := by
+      pullback.fst _ (dualProjectiveSpaceStructure k n) z ∈
+        (hyperplaneSectionIdeal φ a).support := by
   have hchart : ∀ i β (hz : z ∈ incidenceChart qφ (nonvanishingLocusOpens hLφ
       (pulledBackCoordinates φ i)) β),
       z ∈ chartIncidence qφ (r := 0) (fun _ j => sectionRatio hLφ (pulledBackCoordinates φ) i j) β ↔
@@ -224,7 +260,8 @@ point of `X`. The set of hyperplanes containing `φ(x)` is closed in `(ℙⁿ_k)
 theorem hyperplanesThrough_spec [IsAlgClosed k] [IsClosedImmersion φ] (x : X) (hx : IsClosed {x}) :
     IsClosed (hyperplanesThrough φ x) ∧ hyperplanesThrough φ x ≠ Set.univ ∧
       ∀ H : projectiveSpaceScheme k n, IsClosed {H} → ∀ a : Fin (n + 1) → k, a ≠ 0 →
-        Represents a H → (H ∈ hyperplanesThrough φ x ↔ x ∈ (hyperplaneSectionIdeal φ a).support) := by
+        Represents a H →
+        (H ∈ hyperplanesThrough φ x ↔ x ∈ (hyperplaneSectionIdeal φ a).support) := by
   have : IsProper (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) :=
     projectiveSpaceOverSchemeProjection_isProper n _
   set q := φ ≫ projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))
@@ -688,6 +725,8 @@ end BertiniIncidence
 end Hartshorne
 
 namespace Hartshorne.BertiniIncidence
+
+universe u
 
 attribute [local instance] MvPolynomial.gradedAlgebra
 
