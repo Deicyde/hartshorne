@@ -2,6 +2,7 @@
 article_id: af_d36c8574cc6f669d4441c1d4
 declaration: theorem
 origin: cited
+lean: Hartshorne.BertiniIncidence.bertini_avoid_finite_singular_set Hartshorne.BertiniIncidence.hyperplanes_avoiding_finite_set_dense Hartshorne.BertiniIncidence.bertini_regular_hyperplane_section_avoiding
 ---
 
 # Bertini with finitely many singular points
