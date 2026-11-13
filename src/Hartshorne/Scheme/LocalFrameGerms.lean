@@ -41,14 +41,14 @@ universe u
 variable {X : Scheme.{u}} {E : X.Modules}
 
 /-- Germs of module sections are compatible with the action of functions. -/
-theorem germ_smul_frame (F : X.Modules) {U : X.Opens} (x : X) (hx : x ∈ U) (r : Γ(X, U))
+theorem germ_smul_moduleSection (F : X.Modules) {U : X.Opens} (x : X) (hx : x ∈ U) (r : Γ(X, U))
     (m : Γ(F, U)) :
     F.presheaf.germ U x hx (r • m) = X.presheaf.germ U x hx r • F.presheaf.germ U x hx m :=
   let M : PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat RingCat) := F.val
   PresheafOfModules.germ_smul M x U hx r m
 
 /-- Two successive restrictions of module sections compose to a restriction. -/
-theorem res_res_frame (F : X.Modules) {U V W : X.Opens} (h₁ : V ≤ U) (h₂ : W ≤ V)
+theorem res_res_moduleSection (F : X.Modules) {U V W : X.Opens} (h₁ : V ≤ U) (h₂ : W ≤ V)
     (h₃ : W ≤ U) (m : Γ(F, U)) :
     F.presheaf.map (homOfLE h₂).op (F.presheaf.map (homOfLE h₁).op m) =
       F.presheaf.map (homOfLE h₃).op m := by
@@ -89,7 +89,7 @@ theorem linearIndependent_germ_of_isLocalFrame (he : Ringed.IsLocalFrame (R := X
       E.presheaf.germ W x hxW 0 := by
     rw [map_zero, localFrameMap_apply_scheme, map_sum, ← hg]
     refine Finset.sum_congr rfl fun i _ => ?_
-    rw [germ_smul_frame, hc']
+    rw [germ_smul_moduleSection, hc']
     congr 1
     exact E.presheaf.germ_res_apply _ x hxW _
   obtain ⟨W', hxW', i₁, i₂, heq⟩ := E.presheaf.germ_eq x hxW hxW _ _ hgerm
@@ -114,7 +114,7 @@ theorem span_germ_of_isLocalFrame (he : Ringed.IsLocalFrame (R := X.sheaf) E U e
     (he W hWU).2 t
   rw [← ha, localFrameMap_apply_scheme e hWU a, map_sum]
   refine Submodule.sum_mem _ fun i _ => ?_
-  rw [germ_smul_frame]
+  rw [germ_smul_moduleSection]
   refine Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, ?_⟩)
   exact (E.presheaf.germ_res_apply _ x hxW _).symm
 
@@ -169,7 +169,7 @@ theorem exists_isLocalFrame_basicOpen_of_span_germ {U' : X.Opens} {f : κ → Γ
     refine h.trans ?_
     rw [localFrameMap_apply_scheme, map_sum]
     refine Finset.sum_congr rfl fun j _ => ?_
-    rw [germ_smul_frame]
+    rw [germ_smul_moduleSection]
     congr 1
     · exact X.presheaf.germ_res_apply _ x hx _
     · exact E.presheaf.germ_res_apply _ x hx _
@@ -220,7 +220,7 @@ theorem exists_isLocalFrame_basicOpen_of_span_germ {U' : X.Opens} {f : κ → Γ
         (E.presheaf.map (homOfLE (X.basicOpen_le d)).op (e i)) =
           ∑ j, N i j • E.presheaf.map (homOfLE hVU').op (f j) := by
       intro i
-      erw [res_res_frame E (X.basicOpen_le d) hV hVU' (e i)]
+      erw [res_res_moduleSection E (X.basicOpen_le d) hV hVU' (e i)]
       exact (hC hVU' i).trans (localFrameMap_apply_scheme f hVU' _)
     have h4 : ∑ i, a i • E.presheaf.map (homOfLE hV).op
         (E.presheaf.map (homOfLE (X.basicOpen_le d)).op (e i)) =
@@ -283,7 +283,7 @@ theorem exists_embedding_isLocalFrame {r : ℕ} (hE : E.IsLocallyFreeOfRank r) {
   have hfam : (fun j => E.presheaf.map (homOfLE (X.basicOpen_le d)).op (e j)) =
       (fun j => E.presheaf.map (homOfLE le_top).op (v (σ j))) := by
     funext j
-    exact res_res_frame E le_top (X.basicOpen_le d) le_top (v (σ j))
+    exact res_res_moduleSection E le_top (X.basicOpen_le d) le_top (v (σ j))
   rw [← hfam]
   exact hd
 

@@ -184,7 +184,7 @@ theorem exists_open_polynomial (x : X) :
     have hfam : (fun j => E.presheaf.map (homOfLE hWU).op
         (E.presheaf.map (homOfLE le_top).op (v (σ₀ j).down))) = w := by
       funext j
-      exact res_res_frame E le_top hWU le_top _
+      exact res_res_moduleSection E le_top hWU le_top _
     rw [← hfam]
     exact h
   have : Nonempty W := ⟨⟨x, hxW⟩⟩
@@ -237,7 +237,7 @@ theorem exists_open_polynomial (x : X) :
       ∑ j, X.presheaf.germ W y hy (g j) • b j := by
     rw [← E.presheaf.germ_res_apply (homOfLE le_top) y hy, hres, map_sum]
     refine Finset.sum_congr rfl fun j _ => ?_
-    rw [germ_smul_frame, hb]
+    rw [germ_smul_moduleSection, hb]
   have hrepr : ∀ j, X.presheaf.germ W y hy (g j) ∈ maximalIdeal (X.presheaf.stalk y) := by
     intro j
     have := repr_mem_of_mem_smul_top b _ hmem j
@@ -313,7 +313,7 @@ theorem mono_sectionHom : Mono (sectionHom E s) := by
       exact this
     have h0 : X.presheaf.germ U y hy b • E.presheaf.germ ⊤ y trivial s = 0 := by
       have := congrArg (E.presheaf.germ U y hy) hb
-      rw [germ_smul_frame, E.presheaf.germ_res_apply, map_zero] at this
+      rw [germ_smul_moduleSection, E.presheaf.germ_res_apply, map_zero] at this
       exact this
     have hg : X.presheaf.germ U y hy b = X.presheaf.germ U y hy 0 := by
       rw [eq_zero_of_smul_eq_zero_of_notMem bas hsy h0, map_zero]
@@ -391,7 +391,7 @@ theorem shortExact_and_isLocallyFreeOfRank_cokernel [IsReduced X] [IsLocallyNoet
     have h1 := Ringed.moduleStalkFunctor_map_germ (R := X.sheaf) x (sectionHom E s) U hU t
     refine h1.trans ?_
     change E.presheaf.germ U x hU (Scheme.Modules.Hom.app (sectionHom E s) U t) = _
-    rw [sectionHom_app, germ_smul_frame, E.presheaf.germ_res_apply]
+    rw [sectionHom_app, germ_smul_moduleSection, E.presheaf.germ_res_apply]
     rfl
   have hrange : LinearMap.range φ = Submodule.span (ringSheafStalk X.sheaf x) {m} := by
     refine le_antisymm ?_ ?_
