@@ -7,8 +7,8 @@ lean: Hartshorne.exists_lineBundleFiltration Hartshorne.exists_lineBundleFiltrat
 
 # Vector bundles on curves are successive extensions of line bundles
 
-Let $E$ be a finite locally free sheaf of rank $r$ on a nonsingular curve
-$C$. There is a filtration by locally free subsheaves
+Let $E$ be a finite locally free sheaf of rank $r$ on a nonsingular projective
+curve $C$. There is a filtration by locally free subsheaves
 
 $0=E_0 \subset E_1 \subset \ldots \subset E_r=E$
 
