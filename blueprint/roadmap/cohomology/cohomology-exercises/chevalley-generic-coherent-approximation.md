@@ -3,6 +3,8 @@ article_id: af_27e7f5a100771d1673bb38cc
 declaration: theorem
 origin: cited
 lean: Hartshorne.exists_genericCoherentApproximation
+statement: formalized
+proof: formalized
 ---
 
 # Generic coherent pushforward approximation
