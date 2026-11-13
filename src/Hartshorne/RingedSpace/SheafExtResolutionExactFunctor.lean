@@ -50,6 +50,12 @@ lemma homologyπ_mapHomologyIso_hom (S : ShortComplex C) :
   rw [Iso.eq_inv_comp, ← Category.assoc, ← h, Category.assoc, Iso.hom_inv_id, Category.comp_id]
 
 set_option backward.isDefEq.respectTransparency false in
+@[reassoc]
+lemma map_homologyπ_mapHomologyIso_inv (S : ShortComplex C) :
+    Φ.map S.homologyπ ≫ (S.mapHomologyIso Φ).inv = (S.mapCyclesIso Φ).inv ≫ (S.map Φ).homologyπ := by
+  rw [Iso.comp_inv_eq, Category.assoc, homologyπ_mapHomologyIso_hom, Iso.inv_hom_id_assoc]
+
+set_option backward.isDefEq.respectTransparency false in
 open ShortComplex in
 @[reassoc]
 lemma mapHomologyIso_inv_homologyι (S : ShortComplex C) :
@@ -142,6 +148,20 @@ lemma δ_map {S : ShortComplex (HomologicalComplex C c)} (hS : S.ShortExact) (i 
   refine (congrArg (Φ.map SI.φ₁ ≫ ·) ?_).trans (Φ.map_comp _ _).symm
   exact (congrArg (_ ≫ ·) (homologyπ_mapHomologyIso_hom Φ (S.X₁.sc j))).trans
     (Iso.inv_hom_id_assoc _ _)
+
+omit [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ] in
+/-- A reindexing of complexes by `XIsoOfEq` commutes with `Φ` and morphisms out of the images. -/
+lemma map_XIsoOfEq_comp {K₁ K₂ : HomologicalComplex C c} {K₁' K₂' : HomologicalComplex D c}
+    (c₁ : (Φ.mapHomologicalComplex c).obj K₁ ⟶ K₁') (c₂ : (Φ.mapHomologicalComplex c).obj K₂ ⟶ K₂')
+    {a b a' b' : ι} (ha : a = b) (ha' : a' = b') (hX : K₁.X b = K₂.X b')
+    (hX' : K₁'.X b = K₂'.X b')
+    (hc : c₁.f b ≫ eqToHom hX' = eqToHom (congrArg Φ.obj hX) ≫ c₂.f b') :
+    Φ.map ((K₁.XIsoOfEq ha).hom ≫ eqToHom hX ≫ (K₂.XIsoOfEq ha').inv) ≫ c₂.f a' =
+      c₁.f a ≫ (K₁'.XIsoOfEq ha).hom ≫ eqToHom hX' ≫ (K₂'.XIsoOfEq ha').inv := by
+  subst ha ha'
+  simp only [HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom, Iso.refl_inv, Category.id_comp,
+    Category.comp_id, eqToHom_map]
+  exact hc.symm
 
 end ExactFunctorHomology
 
@@ -383,8 +403,7 @@ lemma η_comp_extCompIso (F G : C) :
   rw [← Category.assoc, ← Category.assoc]
   refine congrArg (· ≫ _) ?_
   rw [← cancel_mono (HomologicalComplex.iCycles _ 0)]
-  simp only [Category.assoc, HomologicalComplex.cyclesMap_i,
-    InjectiveResolution.toRightDerivedZero'_comp_iCycles]
+  simp only [Category.assoc, HomologicalComplex.cyclesMap_i]
   erw [ExactFunctorHomology.mapCyclesIso_inv_iCycles_assoc Φ]
   rw [← Φ.map_comp_assoc]
   erw [InjectiveResolution.toRightDerivedZero'_comp_iCycles]
@@ -393,9 +412,146 @@ lemma η_comp_extCompIso (F G : C) :
   refine congrArg (_ ≫ ·) (congrArg (H'.obj (op (Φ.obj F))).map ?_)
   simp [mapInjectiveResolution]
 
+include hα in
+/-- **The first connecting morphism `H(F', G) ⟶ E F'' 1 G` commutes with an exact functor.** -/
+lemma homδ_comp_extCompIso {S : ShortComplex C}
+    (hS : S.ShortExact) (G : C) :
+    Φ.map (homδ H E hE hH hS G) ≫ (extCompIso H E hE H' E' hE' hΦ α S.X₃ G 1).hom =
+      (α S.X₁).hom.app G ≫ homδ H' E' hE' hH' (hS.map_of_exact Φ) (Φ.obj G) := by
+  rw [homδ, Φ.map_comp_assoc, δ_comp_extCompIso H E hE H' E' hE' hΦ α hα hH hH' hS G 0]
+  erw [reassoc_of% (η_comp_extCompIso H E hE H' E' hE' hΦ α S.X₁ G)]
+  rfl
+
 end ExactFunctor
 
 end SheafExtContravariant
+
+namespace LocallyFreeResolutionExt
+
+open SheafExtContravariant RightDerivedComp
+
+section ExactFunctor
+
+variable {C : Type u'} [Category.{v'} C] [Abelian C]
+  {D : Type u''} [Category.{v''} D] [Abelian D]
+  {Φ : C ⥤ D} [Φ.Additive] [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ]
+
+/-- The image of a resolution under an exact functor. -/
+noncomputable def Resolution.map {F : C} (P : Resolution F) (Φ : C ⥤ D) [Φ.Additive]
+    [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ] : Resolution (Φ.obj F) where
+  L := (Φ.mapHomologicalComplex _).obj P.L
+  ε := Φ.map P.ε
+  w := by
+    change Φ.map (P.L.d 1 0) ≫ Φ.map P.ε = 0
+    rw [← Φ.map_comp, P.w, Φ.map_zero]
+  epi_ε := by
+    have := P.epi_ε
+    exact Φ.map_epi _
+  exact₀ := P.exact₀.map Φ
+  exactAt n := (P.exactAt n).map Φ
+
+@[simp]
+lemma Resolution.map_L {F : C} (P : Resolution F) :
+    (P.map Φ).L = (Φ.mapHomologicalComplex _).obj P.L := rfl
+
+@[simp]
+lemma Resolution.map_ε {F : C} (P : Resolution F) : (P.map Φ).ε = Φ.map P.ε := rfl
+
+variable (H : Cᵒᵖ ⥤ C ⥤ C) [H.PreservesZeroMorphisms] (H' : Dᵒᵖ ⥤ D ⥤ D)
+  [H'.PreservesZeroMorphisms] (α : ∀ F : C, H.obj (op F) ⋙ Φ ≅ Φ ⋙ H'.obj (op (Φ.obj F)))
+  (hα : ∀ {F' F : C} (f : F' ⟶ F) (G : C),
+    Φ.map ((H.map f.op).app G) ≫ (α F').hom.app G =
+      (α F).hom.app G ≫ (H'.map (Φ.map f).op).app (Φ.obj G))
+
+include hα in
+/-- The isomorphism of complexes `Φ(H(L_•, G)) ≅ H'(Φ L_•, Φ G)` given termwise by `α`. -/
+noncomputable def homComplexCompIso (L : ChainComplex C ℕ) (G : C) :
+    (Φ.mapHomologicalComplex _).obj ((homComplex H L).obj G) ≅
+      (homComplex H' ((Φ.mapHomologicalComplex _).obj L)).obj (Φ.obj G) :=
+  HomologicalComplex.Hom.isoOfComponents (fun p => (α (L.X p)).app G) (by
+    intro p q hpq
+    obtain rfl : p + 1 = q := hpq
+    change (α (L.X p)).hom.app G ≫
+        ((homComplex H' ((Φ.mapHomologicalComplex _).obj L)).obj (Φ.obj G)).d p (p + 1) =
+      Φ.map (((homComplex H L).obj G).d p (p + 1)) ≫ (α (L.X (p + 1))).hom.app G
+    rw [homComplex_d, homComplex_d]
+    exact (hα (L.d (p + 1) p) G).symm)
+
+@[simp]
+lemma homComplexCompIso_hom_f (L : ChainComplex C ℕ) (G : C) (p : ℕ) :
+    (homComplexCompIso H H' α hα L G).hom.f p = (α (L.X p)).hom.app G := rfl
+
+/-- The isomorphism `Φ(hⁱ(H(L_•, G))) ≅ hⁱ(H'(Φ L_•, Φ G))`. -/
+noncomputable def homologyCompIso' (L : ChainComplex C ℕ) (G : C) (i : ℕ) :
+    Φ.obj (((homComplex H L).obj G).homology i) ≅
+      ((homComplex H' ((Φ.mapHomologicalComplex _).obj L)).obj (Φ.obj G)).homology i :=
+  ((((homComplex H L).obj G).sc i).mapHomologyIso Φ).symm ≪≫
+    HomologicalComplex.homologyMapIso (homComplexCompIso H H' α hα L G) i
+
+set_option backward.isDefEq.respectTransparency false in
+/-- `homologyCompIso'` on cycles. -/
+lemma map_homologyπ_comp_homologyCompIso'_hom (L : ChainComplex C ℕ) (G : C) (i : ℕ) :
+    Φ.map (((homComplex H L).obj G).homologyπ i) ≫ (homologyCompIso' H H' α hα L G i).hom =
+      ((((homComplex H L).obj G).sc i).mapCyclesIso Φ).inv ≫
+        HomologicalComplex.cyclesMap (homComplexCompIso H H' α hα L G).hom i ≫
+          ((homComplex H' ((Φ.mapHomologicalComplex _).obj L)).obj (Φ.obj G)).homologyπ i := by
+  rw [homologyCompIso', Iso.trans_hom, Iso.symm_hom, HomologicalComplex.homologyMapIso_hom]
+  erw [ExactFunctorHomology.map_homologyπ_mapHomologyIso_inv_assoc Φ (((homComplex H L).obj G).sc i)]
+  exact congrArg (_ ≫ ·)
+    (HomologicalComplex.homologyπ_naturality (homComplexCompIso H H' α hα L G).hom i)
+
+set_option backward.isDefEq.respectTransparency false in
+lemma mapCyclesIso_inv_cyclesMap_iCycles (L : ChainComplex C ℕ) (G : C) (i : ℕ) :
+    ((((homComplex H L).obj G).sc i).mapCyclesIso Φ).inv ≫
+        HomologicalComplex.cyclesMap (homComplexCompIso H H' α hα L G).hom i ≫
+          ((homComplex H' ((Φ.mapHomologicalComplex _).obj L)).obj (Φ.obj G)).iCycles i =
+      Φ.map (((homComplex H L).obj G).iCycles i) ≫ (α (L.X i)).hom.app G := by
+  rw [HomologicalComplex.cyclesMap_i]
+  erw [ExactFunctorHomology.mapCyclesIso_inv_iCycles_assoc Φ]
+  rfl
+
+set_option backward.isDefEq.respectTransparency false in
+lemma shiftIso_hom_app {F : C} (P : Resolution F) (n : ℕ) (G : C) :
+    (shiftIso H P n).hom.app G = ShortComplex.homologyMap
+      ((HomologicalComplex.natIsoSc' C _ n (n + 1) (n + 2) (by simp) (by simp)).hom.app
+          ((homComplex H P.truncate.L).obj G) ≫ (scShiftIso H P n).hom.app G ≫
+        (HomologicalComplex.natIsoSc' C _ (n + 1) (n + 2) (n + 3) (by simp) (by simp)).inv.app
+          ((homComplex H P.L).obj G)) := by
+  simp [shiftIso, HomologicalComplex.homologyFunctorIso', HomologicalComplex.homologyFunctorIso,
+    ShortComplex.homologyMap_comp]
+
+set_option backward.isDefEq.respectTransparency false in
+/-- The reindexing `h^{n+1}(H(L_{•+1}, -)) ≅ h^{n+2}(H(L_•, -))` commutes with `Φ`. -/
+lemma shiftIso_comp_homologyCompIso' {F : C} (P : Resolution F) (n : ℕ) (G : C) :
+    Φ.map ((shiftIso H P n).hom.app G) ≫ (homologyCompIso' H H' α hα P.L G (n + 2)).hom =
+      (homologyCompIso' H H' α hα P.truncate.L G (n + 1)).hom ≫
+        (shiftIso H' (P.map Φ) n).hom.app (Φ.obj G) := by
+  rw [shiftIso_hom_app, shiftIso_hom_app, homologyCompIso', homologyCompIso', Iso.trans_hom,
+    Iso.trans_hom, Iso.symm_hom, Iso.symm_hom, HomologicalComplex.homologyMapIso_hom,
+    HomologicalComplex.homologyMapIso_hom]
+  erw [ShortComplex.mapHomologyIso_inv_naturality_assoc]
+  simp only [HomologicalComplex.homologyMap, Category.assoc, ← ShortComplex.homologyMap_comp]
+  refine congrArg (_ ≫ ·) ?_
+  congr 1
+  ext
+  · exact ExactFunctorHomology.map_XIsoOfEq_comp Φ
+      (homComplexCompIso H H' α hα P.truncate.L G).hom (homComplexCompIso H H' α hα P.L G).hom
+      (by simp : (ComplexShape.up ℕ).prev (n + 1) = n)
+      (by simp : (ComplexShape.up ℕ).prev (n + 2) = n + 1) rfl rfl
+      ((Category.comp_id _).trans (Category.id_comp _).symm)
+  · simp [scShiftIso, HomologicalComplex.natIsoSc']
+    erw [Category.id_comp, Category.id_comp, Φ.map_id, Category.id_comp, Category.comp_id,
+      Category.comp_id]
+    rfl
+  · exact ExactFunctorHomology.map_XIsoOfEq_comp Φ
+      (homComplexCompIso H H' α hα P.truncate.L G).hom (homComplexCompIso H H' α hα P.L G).hom
+      (by simp : (ComplexShape.up ℕ).next (n + 1) = n + 2)
+      (by simp : (ComplexShape.up ℕ).next (n + 2) = n + 3) rfl rfl
+      ((Category.comp_id _).trans (Category.id_comp _).symm)
+
+end ExactFunctor
+
+end LocallyFreeResolutionExt
 
 end Ringed
 
