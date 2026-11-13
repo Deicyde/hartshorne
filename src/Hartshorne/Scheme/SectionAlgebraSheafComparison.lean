@@ -739,6 +739,14 @@ noncomputable def tensorPowerTwistOnZIso (n : ℕ) (hn : 0 < n) : tensorPowerL i
       (pullback.fst (projectiveSpaceOverIntegersMap r) (schemeToSpecZ X))).app _ ≪≫
     eqToIso (by rw [Nat.sub_add_cancel hn]; rfl)
 
+/-- `Scheme.Modules.Hom.app_smul` with the map of abelian groups written as
+`AddCommGrpCat.Hom.hom`, the form produced by unfolding `veroneseTwistSection`. Rewriting with
+the `ConcreteCategory.hom` form makes the kernel unfold the maps on sections of the tensor powers
+to compare the two forms, which is very slow. -/
+private theorem app_smul_hom {Y : Scheme.{u}} {M N : Y.Modules} (φ : M ⟶ N) {U : Y.Opens}
+    (r : Γ(Y, U)) (x : Γ(M, U)) : (φ.app U).hom (r • x) = r • (φ.app U).hom x :=
+  Scheme.Modules.Hom.app_smul φ r x
+
 private theorem mul_pos_of_neZero {m : ℕ} (d : ℕ) [NeZero d] (hm : 0 < m) : 0 < m * d :=
   Nat.mul_pos hm (Nat.pos_of_ne_zero (NeZero.ne d))
 
@@ -786,23 +794,17 @@ theorem veronese_structureMap_mul_mem (d : ℕ) [NeZero d] (U : X.AffineZariskiS
       ((coordinateAlgebra i).veronese d).grading U m := by
   simpa using SetLike.mul_mem_graded (((coordinateAlgebra i).veronese d).structureMap_mem U a) y.2
 
--- The presentations of `Proj T(U)` in the types of `coordToZ` and `chartTwistIso` differ by
--- auxiliary proof terms; unifying them needs more than the default heartbeats.
-set_option maxHeartbeats 1000000 in
 /-- The comparison is `Γ(X, U)`-linear. -/
 theorem veroneseTwistSection_structureMap_mul (d : ℕ) [NeZero d] (U : X.AffineZariskiSite)
     {m : ℕ} (hm : 0 < m) (a : Γ(X, U.1)) (y : ((coordinateAlgebra i).veronese d).grading U m) :
     veroneseTwistSection i d U hm ⟨_, veronese_structureMap_mul_mem i d U a y⟩ =
       (i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a •
         veroneseTwistSection i d U hm y := by
-  simp only [veroneseTwistSection, AddMonoidHom.coe_comp, Function.comp_apply,
-    AddEquiv.coe_toAddMonoidHom]
-  rw [← Scheme.Modules.Hom.app_smul, ← coordTwistSection_structureMap_mul]
+  rw [veroneseTwistSection, AddMonoidHom.comp_apply, AddMonoidHom.comp_apply,
+    AddMonoidHom.comp_apply, AddMonoidHom.comp_apply, ← app_smul_hom,
+    ← coordTwistSection_structureMap_mul]
   exact congrArg _ (congrArg _ (Subtype.ext rfl))
 
--- The presentations of `Proj T(U)` in the types of `coordToZ` and `chartTwistIso` differ by
--- auxiliary proof terms; unifying them needs more than the default heartbeats.
-set_option maxHeartbeats 1000000 in
 open Scheme.AffineZariskiSite in
 /-- **The section-algebra model of a projective birational morphism, sheaf form** (Hartshorne II,
 proof of Theorem 7.17, Steps 1–3). Let `X` be an integral quasi-compact scheme locally of finite
@@ -853,20 +855,21 @@ theorem exists_sectionAlgebraModel_natural (k : Type u) [Field k] [IsIntegral X]
       (n := (tensorPowerL i (m * d)).presheaf.map
         (homOfLE ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono
           (toOpens_mono h.le))).op s)
-    have key := veroneseTwistSection_restrict i d h hm
-      ((AddEquiv.ofBijective (veroneseTwistSection i d U hm) (hG U hm)).symm s)
+    -- The argument of `veroneseTwistSection_restrict` is left to unification with `hy`: spelled
+    -- out, its instance arguments are elaborated differently from those in `hy`, and the kernel
+    -- then unfolds the comparison maps on sections to check the composite (very slow).
     have := (hG V hm).1 (hz.trans ((congrArg (fun t => (tensorPowerL i (m * d)).presheaf.map
         (homOfLE ((i ≫ projectiveSpaceOverSchemeProjection r X).preimage_mono
-          (toOpens_mono h.le))).op t) hy.symm).trans key))
+          (toOpens_mono h.le))).op t) hy.symm).trans (veroneseTwistSection_restrict i d h hm _)))
     exact congrArg Subtype.val this
   · have hy := AddEquiv.ofBijective_apply_symm_apply (n := s) (veroneseTwistSection i d U hm)
       (hG U hm)
     have hz := AddEquiv.ofBijective_apply_symm_apply (veroneseTwistSection i d U hm) (hG U hm)
       (n := (i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a • s)
-    have key := veroneseTwistSection_structureMap_mul i d U hm a
-      ((AddEquiv.ofBijective (veroneseTwistSection i d U hm) (hG U hm)).symm s)
+    -- As above, the argument of `veroneseTwistSection_structureMap_mul` is left to unification.
     have := (hG U hm).1 (hz.trans ((congrArg (fun t =>
-      (i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a • t) hy.symm).trans key.symm))
+      (i ≫ projectiveSpaceOverSchemeProjection r X).app U.1 a • t) hy.symm).trans
+        (veroneseTwistSection_structureMap_mul i d U hm a _).symm))
     exact congrArg Subtype.val this
 
 end Comparison
