@@ -74,6 +74,18 @@ private theorem sectionsMap_comp_apply {A B C : SheafOfModules.{u} (ringCatSheaf
     sectionsMap (f ≫ g) U x = sectionsMap g U (sectionsMap f U x) :=
   rfl
 
+/-- The associator `(A ⊗ B) ⊗ C ≅ A ⊗ (B ⊗ C)` on elementary tensors, for arbitrary modules (checked
+once here; unfolding the associator inside the proof below made the kernel compare the two
+presentations of its forward map for every use, about ten seconds). -/
+private theorem moduleSheafTensorAssoc_hom_tmul (A B C : SheafOfModules.{u} (ringCatSheafOf R))
+    {U : Opens X} (a : A.val.obj (op U)) (b : B.val.obj (op U)) (c : C.val.obj (op U)) :
+    sectionsMap (moduleSheafTensorAssoc A B C).hom U
+        ((moduleSheafTensorBilinear (moduleSheafTensor A B) C).app (op U)
+          ((moduleSheafTensorBilinear A B).app (op U) a b) c) =
+      (moduleSheafTensorBilinear A (moduleSheafTensor B C)).app (op U) a
+        ((moduleSheafTensorBilinear B C).app (op U) b c) :=
+  (assocTrilinear A B C).tensorDesc_tmul a b c
+
 /-- The case `b = 0` of `moduleSheafTensorPowerAddIso_hom_tprod_append`. -/
 private theorem tensorPowerAddIso_hom_tprod_append_zero (a : ℕ) (U : Opens X)
     (m : Fin a → F.val.obj (op U)) (m' : Fin 0 → F.val.obj (op U)) :
@@ -147,16 +159,10 @@ private theorem tensorPowerAddIso_hom_tprod_append_succ (a b : ℕ)
         (sectionsMap (modulesTensorMap (moduleSheafTensorPowerAddIso F a b).hom (𝟙 F)) U y)))
     h3).trans ?_
   dsimp only
-  rw [modulesTensorMap_tmul, ih U m m'']
-  rw [show (moduleSheafTensorAssoc (moduleSheafTensorPower a F) (moduleSheafTensorPower b F)
-    F).hom = (assocTrilinear _ _ _).tensorDesc from rfl, ModuleSheafTrilinear.tensorDesc_tmul]
-  have h4 : ∀ (A B C : SheafOfModules.{u} (ringCatSheafOf R)) (l : A.val.obj (op U))
-      (l' : B.val.obj (op U)) (l'' : C.val.obj (op U)),
-      (assocTrilinear A B C).app U l l' l'' = (moduleSheafTensorBilinear A _).app (op U) l
-        ((moduleSheafTensorBilinear B C).app (op U) l' l'') := fun _ _ _ _ _ _ => rfl
+  rw [modulesTensorMap_tmul, ih U m m'', moduleSheafTensorAssoc_hom_tmul]
   have h5 : ∀ (A : SheafOfModules.{u} (ringCatSheafOf R)) (l : A.val.obj (op U)),
       sectionsMap (𝟙 A) U l = l := fun _ _ => rfl
-  rw [h4, modulesTensorMap_tmul, h5, h5, moduleSheafTensorPowerSuccIso_inv_tmul]
+  rw [modulesTensorMap_tmul, h5, h5, moduleSheafTensorPowerSuccIso_inv_tmul]
 
 /-- `T^{a+b} F ≅ T^a F ⊗ T^b F` sends `f₁ ⊗ ⋯ ⊗ f_{a+b}` to
 `(f₁ ⊗ ⋯ ⊗ f_a) ⊗ (f_{a+1} ⊗ ⋯ ⊗ f_{a+b})`. -/
