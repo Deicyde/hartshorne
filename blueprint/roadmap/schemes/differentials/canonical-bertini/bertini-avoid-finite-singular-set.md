@@ -9,16 +9,17 @@ proof: formalized
 
 # Bertini with finitely many singular points
 
-Let $X$ be a projective variety with only finitely many singular closed
-points. There is an open dense set of hyperplanes avoiding all those points
-whose intersection with the nonsingular locus of $X$ is regular everywhere.
-Equivalently, the corresponding hyperplane section is regular at every one of
-its points.
+Let $X$ be a closed subvariety of $\mathbb{P}^n_k$, with $k$ algebraically closed,
+having only finitely many singular points. The hyperplanes $H$ that contain none
+of these points and do not contain $X$, and for which the scheme $H \cap X$ is
+regular at every point, form an open dense subset of the complete linear system
+$|H|$.
 
-More generally, for any prescribed finite set $S$ of closed projective
-points, hyperplanes avoiding every point of $S$ form a dense open subset of
-the dual projective space. Thus on a regular projective variety, finite-point
-avoidance can be imposed simultaneously with the regular Bertini condition.
+The reason (p.180): for a finite set $S$ of closed points of $\mathbb{P}^n_k$, the
+hyperplanes containing no point of $S$ form an open dense subset of $|H|$.
+
+For nonsingular $X$ one may also require $H$ to avoid a given finite set of
+closed points; Hartshorne does not state this.
 
 ## Depends on
 
