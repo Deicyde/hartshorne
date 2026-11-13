@@ -70,7 +70,8 @@ theorem biproduct_sections_bijective (F : Y.Modules) (r : ℕ) (U : Y.Opens) :
         if k = j then t else 0 := by
     intro k j t
     have h := congrArg (fun φ => appAddHom U t φ) (biproduct.ι_π (fun _ : Fin r => F) k j)
-    change (biproduct.ι (fun _ : Fin r => F) k ≫ biproduct.π (fun _ : Fin r => F) j).app U t = _ at h
+    change (biproduct.ι (fun _ : Fin r => F) k ≫
+      biproduct.π (fun _ : Fin r => F) j).app U t = _ at h
     refine (Eq.trans rfl h).trans ?_
     split_ifs with hkj
     · subst hkj
@@ -151,7 +152,8 @@ theorem exists_basis_free_top {R : CommRingCat.{u}} (I : Type u) :
     (tilde N).freeHomEquiv.symm (fun i => Scheme.Modules.tildeSection (bs i))
   have hG : IsIso G := Scheme.Modules.isIso_freeHomEquiv_symm_tildeSection bs
   let e : (moduleSpecΓFunctor (R := R)).obj (SheafOfModules.free I) ≃ₗ[R] N :=
-    (moduleSpecΓFunctor.mapIso (@asIso _ _ _ _ G hG)).toLinearEquiv ≪≫ₗ (tilde.isoTop N).symm.toLinearEquiv
+    (moduleSpecΓFunctor.mapIso (@asIso _ _ _ _ G hG)).toLinearEquiv ≪≫ₗ
+      (tilde.isoTop N).symm.toLinearEquiv
   refine ⟨bs.map e.symm, fun i => ?_⟩
   rw [Module.Basis.map_apply]
   apply e.injective
@@ -161,7 +163,8 @@ theorem exists_basis_free_top {R : CommRingCat.{u}} (I : Type u) :
     (SheafOfModules.sectionsMap_freeHomEquiv_symm_freeSection
       (fun i => Scheme.Modules.tildeSection (bs i)) i)
   change (tilde.isoTop N).inv (Scheme.Modules.Hom.app G ⊤ _) = bs i
-  have h' : Scheme.Modules.Hom.app G ⊤ ((SheafOfModules.freeSection (R := (Spec R).ringCatSheaf) i).val (op ⊤)) =
+  have h' : Scheme.Modules.Hom.app G ⊤
+      ((SheafOfModules.freeSection (R := (Spec R).ringCatSheaf) i).val (op ⊤)) =
       (tilde.toOpen N ⊤).hom (bs i) := h
   rw [h']
   exact (tilde.isoTop N).hom_inv_id_apply (bs i)
@@ -232,7 +235,8 @@ theorem stalk_map_smul {M N : Y.Modules} (φ : M ⟶ N) (y : Y) (c : Y.presheaf.
     ((Scheme.Modules.toPresheaf Y ⋙ TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map φ
       (c • z) : N.presheaf.stalk y) =
       c • (show N.presheaf.stalk y from
-        (Scheme.Modules.toPresheaf Y ⋙ TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map φ z) := by
+        (Scheme.Modules.toPresheaf Y ⋙
+          TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map φ z) := by
   obtain ⟨V, hyV, s, rfl⟩ := M.presheaf.exists_germ_eq z
   obtain ⟨V', hyV', a, rfl⟩ := Y.presheaf.exists_germ_eq c
   let W := V ⊓ V'
@@ -285,7 +289,8 @@ theorem exists_bijective_app [Finite I] [Q.IsQuasicoherent]
   let Lη : E.presheaf.stalk y →ₗ[Γ(Y, W0)] Q.presheaf.stalk y :=
     { toFun := ConcreteCategory.hom Φ
       map_add' := map_add (ConcreteCategory.hom Φ)
-      map_smul' := fun a z => stalk_map_smul α y (algebraMap Γ(Y, W0) (Y.presheaf.stalk (yW : Y)) a) z }
+      map_smul' := fun a z =>
+        stalk_map_smul α y (algebraMap Γ(Y, W0) (Y.presheaf.stalk (yW : Y)) a) z }
   have hcomp : Lη ∘ₗ FiberDimAux.germₗ E yW = FiberDimAux.germₗ Q yW ∘ₗ appₗ Q α W0 := by
     ext s
     change (TopCat.Presheaf.stalkFunctor AddCommGrpCat y).map α.mapPresheaf _ = _
@@ -397,7 +402,8 @@ def evalSum {r : ℕ} (m : Fin r → Γ((Scheme.Modules.pushforward f).obj M, �
 theorem bijective_evalSum_app {r : ℕ} (m : Fin r → Γ((Scheme.Modules.pushforward f).obj M, ⊤))
     (U : Y.AffineZariskiSite)
     (b : Module.Basis (Fin r) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1))
-    (hb : ∀ k, b k = ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE le_top).op (m k)) :
+    (hb : ∀ k,
+      b k = ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE le_top).op (m k)) :
     Function.Bijective ((evalSum f M F m).app U.1) := by
   refine (Function.Bijective.of_comp_iff' (biproduct_sections_bijective F r U.1) _).mp ?_
   have hR := modules_map_bijective_of_eq (homData f M F).glue (piece_le f (le_refl U.1))

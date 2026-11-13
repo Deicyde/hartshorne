@@ -850,3 +850,6 @@ import Hartshorne.Scheme.BirationalBlowupSectionEmbedding
 import Hartshorne.Scheme.BirationalBlowupIdeal
 import Hartshorne.Scheme.BirationalBlowupRees
 import Hartshorne.Scheme.BirationalProjectiveBlowup
+import Hartshorne.Scheme.RelativeSpecModuleGluing
+import Hartshorne.Cohomology.ChevalleyGenericApproximationGlue
+import Hartshorne.Cohomology.ChevalleyGenericApproximation

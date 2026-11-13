@@ -229,7 +229,8 @@ theorem θ_hom_app_top_toOpen {U V : Y.AffineZariskiSite} (i : U ⟶ V) (n : D.N
 /-- The global sections of `N(V)~|_{Spec A(U)}` are generated, up to the units `s ^ k`, by the
 sections `n / 1` for `n ∈ N(V)`, and morphisms are linear: so they are determined by their values on
 the sections `n / 1`. -/
-theorem hom_ext_toOpen {U V : Y.AffineZariskiSite} (i : U ⟶ V) {Q : (Spec (A.sections.obj (op U))).Modules}
+theorem hom_ext_toOpen {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    {Q : (Spec (A.sections.obj (op U))).Modules}
     {g h : (tilde (D.N V)).restrict (Spec.map (A.sections.map i.op)) ⟶ Q}
     (hQ : ∀ (a : A.sections.obj (op U)) (q : Γ(Q, ⊤)), IsUnit a → a • q = 0 → q = 0)
     (H : ∀ n : D.N V,
@@ -284,7 +285,8 @@ theorem θ_comp {U V W : Y.AffineZariskiSite} (i : U ⟶ V) (j : V ⟶ W) :
             ((tilde.toOpen (D.N W) (Spec.map (A.sections.map j.op) ''ᵁ ⊤)).hom n)) =
           (tilde (D.N V)).presheaf.map
             (homOfLE (le_top : Spec.map (A.sections.map i.op) ''ᵁ ⊤ ≤ ⊤)).op
-            ((D.θ j).hom.app ⊤ ((tilde.toOpen (D.N W) (Spec.map (A.sections.map j.op) ''ᵁ ⊤)).hom n)) :=
+            ((D.θ j).hom.app ⊤
+              ((tilde.toOpen (D.N W) (Spec.map (A.sections.map j.op) ''ᵁ ⊤)).hom n)) :=
         ConcreteCategory.congr_hom ((D.θ j).hom.mapPresheaf.naturality
           (homOfLE (le_top : Spec.map (A.sections.map i.op) ''ᵁ ⊤ ≤ ⊤)).op) _
       rw [θ_hom_app_top_toOpen] at h2

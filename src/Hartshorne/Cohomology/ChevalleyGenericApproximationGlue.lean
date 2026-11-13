@@ -229,17 +229,17 @@ theorem homRes_res {U V : Y.AffineZariskiSite} (i : U ⟶ V)
     (m : Γ((Scheme.Modules.pushforward f).obj M, V.1)) :
     homRes f M F i h (((Scheme.Modules.pushforward f).obj M).presheaf.map
       (homOfLE (le_of_hom i)).op m) = F.presheaf.map (homOfLE (le_of_hom i)).op (h m) := by
-  letI := transAlgebra i
-  letI := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
+  let _ := transAlgebra i
+  let _ := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
     (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
-  letI := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
-  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
+  let _ := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  have : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
     IsScalarTower.of_compHom _ _ _
-  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
-  haveI := transIsLocalization i
-  haveI := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
+  have : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
+  have := transIsLocalization i
+  have := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
     (le_of_hom i) (basicOpen_transElt i)
-  haveI := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
+  have := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
   exact IsLocalizedModule.map_apply (Submonoid.powers (transElt i))
     (resₗ ((Scheme.Modules.pushforward f).obj M) (le_of_hom i)) (resₗ F (le_of_hom i)) h m
 
@@ -250,16 +250,16 @@ theorem homRes_ext {U V : Y.AffineZariskiSite} (i : U ⟶ V)
       g (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom i)).op m) =
         g' (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom i)).op m)) :
     g = g' := by
-  letI := transAlgebra i
-  letI := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
+  let _ := transAlgebra i
+  let _ := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
     (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
-  letI := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
-  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
+  let _ := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  have : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
     IsScalarTower.of_compHom _ _ _
-  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
-  haveI := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
+  have : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
+  have := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
     (le_of_hom i) (basicOpen_transElt i)
-  haveI := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
+  have := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
   have := IsLocalizedModule.ext (Submonoid.powers (transElt i))
     (resₗ ((Scheme.Modules.pushforward f).obj M) (le_of_hom i))
     (IsLocalizedModule.map_units (resₗ F (le_of_hom i)))
@@ -277,15 +277,18 @@ theorem homRes_comp {U V W : Y.AffineZariskiSite} (i : U ⟶ V) (j : V ⟶ W)
     (h : Γ((Scheme.Modules.pushforward f).obj M, W.1) →ₗ[Γ(Y, W.1)] Γ(F, W.1)) :
     homRes f M F (i ≫ j) h = homRes f M F i (homRes f M F j h) :=
   homRes_ext f M F (i ≫ j) fun m => by
-    have e1 : ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom (i ≫ j))).op m =
+    have e1 :
+        ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom (i ≫ j))).op m =
         ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom i)).op
           (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom j)).op m) :=
       (DirectedModuleGluing.pmap_map _ _ _ _ m).symm
     have e2 : F.presheaf.map (homOfLE (le_of_hom (i ≫ j))).op (h m) =
-        F.presheaf.map (homOfLE (le_of_hom i)).op (F.presheaf.map (homOfLE (le_of_hom j)).op (h m)) :=
+        F.presheaf.map (homOfLE (le_of_hom i)).op
+          (F.presheaf.map (homOfLE (le_of_hom j)).op (h m)) :=
       (DirectedModuleGluing.pmap_map _ _ _ _ _).symm
     rw [homRes_res, e1, homRes_res, homRes_res, e2]
 
+omit [((Scheme.Modules.pushforward f).obj M).IsQuasicoherent] in
 theorem mulB_res {U V : Y.Opens} (hUV : U ≤ V) (b : Γ(X, f ⁻¹ᵁ V))
     (m : Γ((Scheme.Modules.pushforward f).obj M, V)) :
     mulB f M U (X.presheaf.map (homOfLE (f.preimage_mono hUV)).op b)
@@ -321,17 +324,17 @@ homomorphisms to `U = D(r) ⊆ V` is the localization at the powers of `r`. -/
 theorem isLocalizedModule_homResHom {U V : Y.AffineZariskiSite} (i : U ⟶ V)
     [Module.FinitePresentation Γ(Y, V.1) Γ((Scheme.Modules.pushforward f).obj M, V.1)] :
     IsLocalizedModule (Submonoid.powers (f.app V.1 (transElt i))) (homResHom f M F i).hom := by
-  letI := transAlgebra i
-  letI := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
+  let _ := transAlgebra i
+  let _ := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
     (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
-  letI := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
-  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
+  let _ := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  have : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
     IsScalarTower.of_compHom _ _ _
-  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
-  haveI := transIsLocalization i
-  haveI := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
+  have : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
+  have := transIsLocalization i
+  have := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
     (le_of_hom i) (basicOpen_transElt i)
-  haveI := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
+  have := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
   have hR : IsLocalizedModule (Submonoid.powers (transElt i))
       (IsLocalizedModule.mapExtendScalars (Submonoid.powers (transElt i))
         (resₗ ((Scheme.Modules.pushforward f).obj M) (le_of_hom i)) (resₗ F (le_of_hom i))
@@ -386,7 +389,7 @@ theorem finite_linearMap_of_isNoetherianRing {R P Q : Type*} [CommRing R] [IsNoe
   let Φ : (P →ₗ[R] Q) →ₗ[R] (Fin n → Q) := LinearMap.pi fun j => LinearMap.applyₗ (v j)
   have hΦ : Function.Injective Φ := fun h h' e =>
     LinearMap.ext_on_range hv fun j => congrFun e j
-  haveI : IsNoetherian R (P →ₗ[R] Q) := isNoetherian_of_injective Φ hΦ
+  have : IsNoetherian R (P →ₗ[R] Q) := isNoetherian_of_injective Φ hΦ
   infer_instance
 
 /-! ### The glued module -/
@@ -438,18 +441,20 @@ def pushforwardApproxIso :
   (Scheme.Modules.pushforwardComp (relSpecOfHomIso f).hom f).app _ ≪≫
     (Scheme.Modules.pushforwardCongr (relSpecOfHomIso_hom_comp f)).app _
 
+omit [IsAffineHom f] [((Scheme.Modules.pushforward f).obj M).IsQuasicoherent]
+  [F.IsQuasicoherent] hfp in
 /-- `homSec U` is a finite `Γ(f⁻¹ U, 𝒪_X)`-module when `Γ(U, f_* M)` and `Γ(U, F)` are finite over
 the Noetherian ring `Γ(U, 𝒪_Y)`. -/
 theorem finite_homSec (U : Y.AffineZariskiSite) [IsNoetherianRing Γ(Y, U.1)]
     [Module.Finite Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1)]
     [Module.Finite Γ(Y, U.1) Γ(F, U.1)] :
     Module.Finite Γ(X, f ⁻¹ᵁ U.1) (homSec f M F U.1) := by
-  letI : Algebra Γ(Y, U.1) Γ(X, f ⁻¹ᵁ U.1) := (f.app U.1).hom.toAlgebra
-  letI := homModule f M F U.1
-  haveI : Module.Finite Γ(Y, U.1)
+  let _ : Algebra Γ(Y, U.1) Γ(X, f ⁻¹ᵁ U.1) := (f.app U.1).hom.toAlgebra
+  let _ := homModule f M F U.1
+  have : Module.Finite Γ(Y, U.1)
       (Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1)) :=
     finite_linearMap_of_isNoetherianRing
-  haveI : IsScalarTower Γ(Y, U.1) Γ(X, f ⁻¹ᵁ U.1)
+  have : IsScalarTower Γ(Y, U.1) Γ(X, f ⁻¹ᵁ U.1)
       (Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1)) := by
     refine ⟨fun a b h => LinearMap.ext fun m => ?_⟩
     change h (mulB f M U.1 (f.app U.1 a * b) m) = a • h (mulB f M U.1 b m)
@@ -461,6 +466,7 @@ theorem finite_homSec (U : Y.AffineZariskiSite) [IsNoetherianRing Γ(Y, U.1)]
   exact Module.Finite.of_restrictScalars_finite Γ(Y, U.1) Γ(X, f ⁻¹ᵁ U.1)
     (Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1))
 
+omit [IsAffineHom f] in
 theorem iSup_preimage_eq_top :
     (⨆ U : Y.AffineZariskiSite, f ⁻¹ᵁ U.1) = ⊤ := by
   refine eq_top_iff.mpr fun x _ => ?_
@@ -476,7 +482,7 @@ theorem isCoherent_approx [IsLocallyNoetherian Y]
     IsCoherent (approx f M F) := by
   refine ⟨Y.AffineZariskiSite, fun U => ⟨f ⁻¹ᵁ U.1, U.2.preimage f⟩, iSup_preimage_eq_top f,
     fun U => ⟨homSec f M F U.1, ?_, ⟨(approxRestrictIso f M F U).symm⟩⟩⟩
-  haveI : IsNoetherianRing Γ(Y, U.1) := IsLocallyNoetherian.component_noetherian ⟨U.1, U.2⟩
+  have : IsNoetherianRing Γ(Y, U.1) := IsLocallyNoetherian.component_noetherian ⟨U.1, U.2⟩
   exact finite_homSec f M F U
 
 /-! ### Sections of the glued module over the pieces -/
