@@ -2,6 +2,7 @@
 article_id: af_3122495be6d2ec287ac6e2a2
 declaration: def
 origin: bridged
+lean: Hartshorne.pluricanonicalMap Hartshorne.pluricanonicalSystem Hartshorne.mem_pluricanonicalDomain_iff Hartshorne.pluricanonicalImage Hartshorne.pluricanonicalImageDim Hartshorne.pluricanonicalSystem_divisors_eq_empty_iff Hartshorne.pluricanonicalSystem_dim_eq_neg_one_iff Hartshorne.pluricanonicalImageDim_eq_zero Hartshorne.pluricanonicalMap_eq_of_fixedPart Hartshorne.pluricanonicalImage_eq_of_fixedPart Hartshorne.linearSystemMorphism_map
 ---
 
 # Pluricanonical rational maps and their image dimensions
