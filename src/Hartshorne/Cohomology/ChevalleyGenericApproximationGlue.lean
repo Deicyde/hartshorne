@@ -1,0 +1,752 @@
+/-
+Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
+import Hartshorne.Scheme.RelativeSpecModuleGluing
+import Hartshorne.Cohomology.ChevalleyGenericFrame
+import Hartshorne.Cohomology.Semicontinuity.CoherentFiberDimension
+
+/-!
+# The module of homomorphisms over a finite morphism
+
+Construction for Hartshorne, *Algebraic Geometry*, III, Exercise 4.2(b) (p. 223).
+
+Let `f : X ⟶ Y` be a finite morphism, `M` an `𝒪_X`-module with `f_* M` of finite presentation on
+affine opens, and `F` a quasi-coherent `𝒪_Y`-module. We construct the `𝒪_X`-module `G`
+corresponding to `ℋom(f_* M, F)` with its `f_* 𝒪_X`-module structure, its coherence, and the
+evaluation morphisms `f_* G ⟶ F` at global sections of `f_* M`.
+
+## Construction
+
+The module `G` corresponds to the sheaf `ℋom(f_* M, F)` with its `f_* 𝒪_X`-module structure. Over
+an affine open `U ⊆ Y`, with `A = Γ(U, 𝒪_Y)` and `B = Γ(f⁻¹ U, 𝒪_X)`, it is the sheaf on
+`f⁻¹ U = Spec B` associated to the `B`-module `Hom_A(M(f⁻¹ U), F(U))`, on which `b ∈ B` acts by
+precomposition with multiplication by `b`. For a basic open `D(r) ⊆ U` restriction of
+homomorphisms identifies `Hom_{A_r}(M(f⁻¹ U)_r, F(U)_r)` with the localization of
+`Hom_A(M(f⁻¹ U), F(U))` at `r`, since `M(f⁻¹ U)` is finitely presented over the Noetherian ring
+`A`. These modules glue over the relative spectrum `Spec_Y (f_* 𝒪_X) ≅ X`
+(`Hartshorne.RelSpecModuleData`).
+
+The global sections `mᵢ` of `f_* M` defining `α` give, over each affine `U`, the evaluation maps
+`h ↦ h(mᵢ|_U) : Hom_A(M(f⁻¹ U), F(U)) ⟶ F(U)`; they glue to morphisms `f_* G ⟶ F`, whence
+`f_* G ⟶ F^r`. Near `η` the `mᵢ` form a basis of `M(f⁻¹ U)`, so the map is bijective on sections
+over small affine neighbourhoods of `η`.
+-/
+
+universe u
+
+open CategoryTheory Opposite TopologicalSpace AlgebraicGeometry Limits
+
+noncomputable section
+
+namespace Hartshorne
+
+namespace ChevalleyApprox
+
+/-! ### Sections of a quasi-coherent module over basic opens -/
+
+section BasicOpen
+
+variable {Y : Scheme.{u}} (P : Y.Modules) {U : Y.Opens}
+
+/-- The restriction `Γ(U, P) → Γ(W, P)` to an open `W ⊆ U`, as a `Γ(Y, U)`-linear map, where
+`Γ(Y, U)` acts on `Γ(W, P)` through the restriction of functions. -/
+def resₗ {W : Y.Opens} (h : W ≤ U) :
+    letI := Module.compHom Γ(P, W) (Y.presheaf.map (homOfLE h).op).hom
+    Γ(P, U) →ₗ[Γ(Y, U)] Γ(P, W) :=
+  letI := Module.compHom Γ(P, W) (Y.presheaf.map (homOfLE h).op).hom
+  { toFun := P.presheaf.map (homOfLE h).op
+    map_add' := map_add _
+    map_smul' := fun a x => P.val.map_smul (homOfLE h).op a x }
+
+theorem resₗ_apply {W : Y.Opens} (h : W ≤ U) (x : Γ(P, U)) :
+    resₗ P h x = P.presheaf.map (homOfLE h).op x := rfl
+
+/-- **Sections over basic opens are localizations**: for a quasi-coherent module `P`, an affine
+open `U` and `r ∈ Γ(U, 𝒪_Y)`, the restriction `Γ(U, P) → Γ(D(r), P)` is the localization at the
+powers of `r`. -/
+theorem isLocalizedModule_resₗ (hU : IsAffineOpen U) [IsIso (P.restrict hU.fromSpec).fromTildeΓ]
+    (r : Γ(Y, U)) {W : Y.Opens} (h : W ≤ U) (hW : Y.basicOpen r = W) :
+    letI := Module.compHom Γ(P, W) (Y.presheaf.map (homOfLE h).op).hom
+    IsLocalizedModule (Submonoid.powers r) (resₗ P h) := by
+  subst hW
+  let := Module.compHom Γ(P, Y.basicOpen r) (Y.presheaf.map (homOfLE h).op).hom
+  let e := CoherentAux.sectionsEquiv P hU
+  let ρ : Γ(P.restrict hU.fromSpec, ⊤) →ₗ[Γ(Y, U)] Γ(P.restrict hU.fromSpec, CoherentAux.D r) :=
+    ((modulesSpecToSheaf.obj (P.restrict hU.fromSpec)).obj.map (CoherentAux.D r).leTop.op).hom
+  have hρ : IsLocalizedModule (Submonoid.powers r) ρ :=
+    (isIso_fromTildeΓ_iff_isLocalizing (P.restrict hU.fromSpec)).mp inferInstance r
+  have himg : hU.fromSpec ''ᵁ PrimeSpectrum.basicOpen r = Y.basicOpen r :=
+    hU.fromSpec_image_basicOpen r
+  let e3 : Γ(P.restrict hU.fromSpec, CoherentAux.D r) ≃ₗ[Γ(Y, U)] Γ(P, Y.basicOpen r) :=
+    { toFun := fun t => P.presheaf.map (eqToHom himg.symm).op t
+      invFun := fun t => P.presheaf.map (eqToHom himg).op t
+      left_inv := fun t => CoherentAux.map_eqToHom_map_eqToHom P himg.symm t
+      right_inv := fun t => CoherentAux.map_eqToHom_map_eqToHom P himg t
+      map_add' := fun _ _ => map_add _ _ _
+      map_smul' := fun a t => by
+        rw [Scheme.Modules.smul_Spec_def]
+        change P.presheaf.map (eqToHom himg.symm).op
+            ((((Spec Γ(Y, U)).presheaf.map (CoherentAux.D r).leTop.op ≫
+              (hU.fromSpec.appIso (PrimeSpectrum.basicOpen r)).inv)
+              ((Scheme.ΓSpecIso Γ(Y, U)).inv a)) •
+              (show Γ(P, hU.fromSpec ''ᵁ PrimeSpectrum.basicOpen r) from t)) = _
+        have hc := ConcreteCategory.congr_hom (FiberDimAux.ring_compat_basicOpen hU r) a
+        rw [← Category.assoc] at hc
+        erw [← ConcreteCategory.comp_apply, hc]
+        refine (P.val.map_smul (eqToHom himg.symm).op _ t).trans ?_
+        congr 1
+        change (Y.presheaf.map (homOfLE (FiberDimAux.fromSpec_image_basicOpen_le hU r)).op ≫
+          Y.presheaf.map (eqToHom himg.symm).op) a = Y.presheaf.map (homOfLE h).op a
+        rw [← Functor.map_comp]
+        rfl }
+  have heq : resₗ P h = e3.toLinearMap ∘ₗ ρ ∘ₗ e.toLinearMap := by
+    ext x
+    change P.presheaf.map (homOfLE h).op x = P.presheaf.map (eqToHom himg.symm).op
+      (P.presheaf.map _ (P.presheaf.map _ x))
+    rw [← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, ← Functor.map_comp,
+      ← Functor.map_comp]
+    rfl
+  rw [heq]
+  exact IsLocalizedModule.of_linearEquiv _ _ _
+
+end BasicOpen
+
+/-! ### The modules of homomorphisms over affine opens -/
+
+section HomModule
+
+variable {X Y : Scheme.{u}} (f : X ⟶ Y) (M : X.Modules) (F : Y.Modules)
+
+/-- Multiplication by a section `b` of `𝒪_X` over `f⁻¹ U` on `Γ(U, f_* M)`, which is
+`Γ(U, 𝒪_Y)`-linear. -/
+def mulB (U : Y.Opens) (b : Γ(X, f ⁻¹ᵁ U)) :
+    Γ((Scheme.Modules.pushforward f).obj M, U) →ₗ[Γ(Y, U)]
+      Γ((Scheme.Modules.pushforward f).obj M, U) where
+  toFun m := (b • (show Γ(M, f ⁻¹ᵁ U) from m) : Γ(M, f ⁻¹ᵁ U))
+  map_add' x y := smul_add b (show Γ(M, f ⁻¹ᵁ U) from x) y
+  map_smul' a m := by
+    change b • (f.app U a • (show Γ(M, f ⁻¹ᵁ U) from m)) =
+      f.app U a • (b • (show Γ(M, f ⁻¹ᵁ U) from m))
+    rw [smul_smul, smul_smul, mul_comm]
+
+theorem mulB_app (U : Y.Opens) (a : Γ(Y, U)) (m : Γ((Scheme.Modules.pushforward f).obj M, U)) :
+    mulB f M U (f.app U a) m = a • m := rfl
+
+/-- The `Γ(f⁻¹ U, 𝒪_X)`-module structure on `Hom_{Γ(U, 𝒪_Y)}(Γ(U, f_* M), Γ(U, F))`, by
+precomposition with multiplication. -/
+@[reducible] def homModule (U : Y.Opens) :
+    Module Γ(X, f ⁻¹ᵁ U) (Γ((Scheme.Modules.pushforward f).obj M, U) →ₗ[Γ(Y, U)] Γ(F, U)) where
+  smul b h := h ∘ₗ mulB f M U b
+  one_smul h := LinearMap.ext fun m => congrArg h (one_smul _ (show Γ(M, f ⁻¹ᵁ U) from m))
+  mul_smul b b' h := LinearMap.ext fun m => congrArg h (by
+    change (b * b') • (show Γ(M, f ⁻¹ᵁ U) from m) = b' • b • (show Γ(M, f ⁻¹ᵁ U) from m)
+    rw [mul_comm, mul_smul])
+  smul_zero b := LinearMap.zero_comp _
+  smul_add b h h' := LinearMap.add_comp _ _ _
+  add_smul b b' h := LinearMap.ext fun m => by
+    change h ((b + b') • (show Γ(M, f ⁻¹ᵁ U) from m)) =
+      h (b • (show Γ(M, f ⁻¹ᵁ U) from m)) + h (b' • (show Γ(M, f ⁻¹ᵁ U) from m))
+    rw [add_smul]
+    exact map_add h _ _
+  zero_smul h := LinearMap.ext fun m => by
+    change h ((0 : Γ(X, f ⁻¹ᵁ U)) • (show Γ(M, f ⁻¹ᵁ U) from m)) = 0
+    rw [zero_smul]
+    exact map_zero h
+
+/-- The module `Hom_{Γ(U, 𝒪_Y)}(Γ(U, f_* M), Γ(U, F))` over `Γ(f⁻¹ U, 𝒪_X)`. -/
+def homSec (U : Y.Opens) : ModuleCat.{u} Γ(X, f ⁻¹ᵁ U) :=
+  letI := homModule f M F U
+  ModuleCat.of Γ(X, f ⁻¹ᵁ U) (Γ((Scheme.Modules.pushforward f).obj M, U) →ₗ[Γ(Y, U)] Γ(F, U))
+
+/-- An element of `homSec` as a linear map. -/
+def homSec.lin {U : Y.Opens} (h : homSec f M F U) :
+    Γ((Scheme.Modules.pushforward f).obj M, U) →ₗ[Γ(Y, U)] Γ(F, U) := h
+
+theorem homSec.smul_lin {U : Y.Opens} (b : Γ(X, f ⁻¹ᵁ U)) (h : homSec f M F U)
+    (m : Γ((Scheme.Modules.pushforward f).obj M, U)) :
+    homSec.lin f M F (b • h) m = homSec.lin f M F h (mulB f M U b m) := rfl
+
+theorem homSec.lin_add {U : Y.Opens} (h h' : homSec f M F U) :
+    homSec.lin f M F (h + h') = homSec.lin f M F h + homSec.lin f M F h' := rfl
+
+/-- On `homSec`, sections of `𝒪_Y` act through `f` as they act on the values. -/
+theorem homSec.app_smul {U : Y.Opens} (a : Γ(Y, U)) (h : homSec f M F U) :
+    homSec.lin f M F (f.app U a • h) = a • homSec.lin f M F h :=
+  LinearMap.ext fun m => (homSec.smul_lin f M F _ h m).trans ((homSec.lin f M F h).map_smul a m)
+
+end HomModule
+
+/-! ### Restriction of homomorphisms to basic opens -/
+
+section Restriction
+
+open RelSpecModuleData
+
+variable {X Y : Scheme.{u}} (f : X ⟶ Y) (M : X.Modules) (F : Y.Modules)
+
+theorem le_of_hom {U V : Y.AffineZariskiSite} (i : U ⟶ V) : U.1 ≤ V.1 :=
+  Scheme.AffineZariskiSite.toOpens_mono (leOfHom i)
+
+/-- The restriction `Γ(V, 𝒪_Y) → Γ(U, 𝒪_Y)` as an algebra. -/
+abbrev transAlgebra {U V : Y.AffineZariskiSite} (i : U ⟶ V) : Algebra Γ(Y, V.1) Γ(Y, U.1) :=
+  (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom.toAlgebra
+
+theorem transIsLocalization {U V : Y.AffineZariskiSite} (i : U ⟶ V) :
+    letI := transAlgebra i
+    IsLocalization.Away (transElt i) Γ(Y, U.1) := by
+  have hr := basicOpen_transElt i
+  revert hr
+  generalize transElt i = r
+  intro hr
+  obtain rfl : U = V.basicOpen r := Subtype.ext hr.symm
+  exact V.2.isLocalization_basicOpen r
+
+variable [((Scheme.Modules.pushforward f).obj M).IsQuasicoherent] [F.IsQuasicoherent]
+
+/-- **Restriction of homomorphisms**: for a basic open `U = D(r) ⊆ V`, a homomorphism
+`Γ(V, f_* M) → Γ(V, F)` induces `Γ(U, f_* M) = Γ(V, f_* M)_r → Γ(V, F)_r = Γ(U, F)`. -/
+def homRes {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    (h : Γ((Scheme.Modules.pushforward f).obj M, V.1) →ₗ[Γ(Y, V.1)] Γ(F, V.1)) :
+    Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1) :=
+  letI := transAlgebra i
+  letI := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
+    (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  letI := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
+    IsScalarTower.of_compHom _ _ _
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
+  haveI := transIsLocalization i
+  haveI := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
+    (le_of_hom i) (basicOpen_transElt i)
+  haveI := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
+  IsLocalizedModule.mapExtendScalars (Submonoid.powers (transElt i))
+    (resₗ ((Scheme.Modules.pushforward f).obj M) (le_of_hom i)) (resₗ F (le_of_hom i))
+    Γ(Y, U.1) h
+
+theorem homRes_res {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    (h : Γ((Scheme.Modules.pushforward f).obj M, V.1) →ₗ[Γ(Y, V.1)] Γ(F, V.1))
+    (m : Γ((Scheme.Modules.pushforward f).obj M, V.1)) :
+    homRes f M F i h (((Scheme.Modules.pushforward f).obj M).presheaf.map
+      (homOfLE (le_of_hom i)).op m) = F.presheaf.map (homOfLE (le_of_hom i)).op (h m) := by
+  letI := transAlgebra i
+  letI := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
+    (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  letI := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
+    IsScalarTower.of_compHom _ _ _
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
+  haveI := transIsLocalization i
+  haveI := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
+    (le_of_hom i) (basicOpen_transElt i)
+  haveI := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
+  exact IsLocalizedModule.map_apply (Submonoid.powers (transElt i))
+    (resₗ ((Scheme.Modules.pushforward f).obj M) (le_of_hom i)) (resₗ F (le_of_hom i)) h m
+
+/-- Homomorphisms over a basic open are determined by their values on restricted sections. -/
+theorem homRes_ext {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    {g g' : Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1)}
+    (H : ∀ m : Γ((Scheme.Modules.pushforward f).obj M, V.1),
+      g (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom i)).op m) =
+        g' (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom i)).op m)) :
+    g = g' := by
+  letI := transAlgebra i
+  letI := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
+    (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  letI := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
+    IsScalarTower.of_compHom _ _ _
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
+  haveI := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
+    (le_of_hom i) (basicOpen_transElt i)
+  haveI := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
+  have := IsLocalizedModule.ext (Submonoid.powers (transElt i))
+    (resₗ ((Scheme.Modules.pushforward f).obj M) (le_of_hom i))
+    (IsLocalizedModule.map_units (resₗ F (le_of_hom i)))
+    (j := g.restrictScalars Γ(Y, V.1)) (k := g'.restrictScalars Γ(Y, V.1))
+    (LinearMap.ext H)
+  exact LinearMap.ext fun m => LinearMap.congr_fun this m
+
+theorem homRes_add {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    (h h' : Γ((Scheme.Modules.pushforward f).obj M, V.1) →ₗ[Γ(Y, V.1)] Γ(F, V.1)) :
+    homRes f M F i (h + h') = homRes f M F i h + homRes f M F i h' :=
+  homRes_ext f M F i fun m => by
+    rw [LinearMap.add_apply, homRes_res, homRes_res, homRes_res, LinearMap.add_apply, map_add]
+
+theorem homRes_comp {U V W : Y.AffineZariskiSite} (i : U ⟶ V) (j : V ⟶ W)
+    (h : Γ((Scheme.Modules.pushforward f).obj M, W.1) →ₗ[Γ(Y, W.1)] Γ(F, W.1)) :
+    homRes f M F (i ≫ j) h = homRes f M F i (homRes f M F j h) :=
+  homRes_ext f M F (i ≫ j) fun m => by
+    have e1 : ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom (i ≫ j))).op m =
+        ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom i)).op
+          (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom j)).op m) :=
+      (DirectedModuleGluing.pmap_map _ _ _ _ m).symm
+    have e2 : F.presheaf.map (homOfLE (le_of_hom (i ≫ j))).op (h m) =
+        F.presheaf.map (homOfLE (le_of_hom i)).op (F.presheaf.map (homOfLE (le_of_hom j)).op (h m)) :=
+      (DirectedModuleGluing.pmap_map _ _ _ _ _).symm
+    rw [homRes_res, e1, homRes_res, homRes_res, e2]
+
+theorem mulB_res {U V : Y.Opens} (hUV : U ≤ V) (b : Γ(X, f ⁻¹ᵁ V))
+    (m : Γ((Scheme.Modules.pushforward f).obj M, V)) :
+    mulB f M U (X.presheaf.map (homOfLE (f.preimage_mono hUV)).op b)
+        (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE hUV).op m) =
+      ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE hUV).op (mulB f M V b m) :=
+  (M.val.map_smul (homOfLE (f.preimage_mono hUV)).op b (show Γ(M, f ⁻¹ᵁ V) from m)).symm
+
+theorem homRes_smul {U V : Y.AffineZariskiSite} (i : U ⟶ V) (b : Γ(X, f ⁻¹ᵁ V.1))
+    (h : homSec f M F V.1) :
+    homRes f M F i (homSec.lin f M F (b • h)) = homSec.lin f M F
+      ((X.presheaf.map (homOfLE (f.preimage_mono (le_of_hom i))).op b) •
+        (show homSec f M F U.1 from homRes f M F i (homSec.lin f M F h))) :=
+  homRes_ext f M F i fun m => by
+    rw [homRes_res, homSec.smul_lin, homSec.smul_lin, mulB_res]
+    exact (homRes_res f M F i _ _).symm
+
+/-- The restriction of homomorphisms as a semilinear map `homSec V ⟶ homSec U`. -/
+def homResHom {U V : Y.AffineZariskiSite} (i : U ⟶ V) :
+    homSec f M F V.1 ⟶ (ModuleCat.restrictScalars
+      (X.presheaf.map (homOfLE (f.preimage_mono (le_of_hom i))).op).hom).obj
+        (homSec f M F U.1) :=
+  ModuleCat.semilinearMapAddEquiv _ _ _
+    { toFun := fun h => homRes f M F i (homSec.lin f M F h)
+      map_add' := fun h h' => homRes_add f M F i h h'
+      map_smul' := fun b h => homRes_smul f M F i b h }
+
+theorem homResHom_apply {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    (h : homSec f M F V.1) :
+    homSec.lin f M F ((homResHom f M F i).hom h) = homRes f M F i (homSec.lin f M F h) := rfl
+
+/-- **Localization of homomorphisms**: since `Γ(V, f_* M)` is finitely presented, restriction of
+homomorphisms to `U = D(r) ⊆ V` is the localization at the powers of `r`. -/
+theorem isLocalizedModule_homResHom {U V : Y.AffineZariskiSite} (i : U ⟶ V)
+    [Module.FinitePresentation Γ(Y, V.1) Γ((Scheme.Modules.pushforward f).obj M, V.1)] :
+    IsLocalizedModule (Submonoid.powers (f.app V.1 (transElt i))) (homResHom f M F i).hom := by
+  letI := transAlgebra i
+  letI := Module.compHom Γ((Scheme.Modules.pushforward f).obj M, U.1)
+    (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  letI := Module.compHom Γ(F, U.1) (Y.presheaf.map (homOfLE (le_of_hom i)).op).hom
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
+    IsScalarTower.of_compHom _ _ _
+  haveI : IsScalarTower Γ(Y, V.1) Γ(Y, U.1) Γ(F, U.1) := IsScalarTower.of_compHom _ _ _
+  haveI := transIsLocalization i
+  haveI := isLocalizedModule_resₗ ((Scheme.Modules.pushforward f).obj M) V.2 (transElt i)
+    (le_of_hom i) (basicOpen_transElt i)
+  haveI := isLocalizedModule_resₗ F V.2 (transElt i) (le_of_hom i) (basicOpen_transElt i)
+  have hR : IsLocalizedModule (Submonoid.powers (transElt i))
+      (IsLocalizedModule.mapExtendScalars (Submonoid.powers (transElt i))
+        (resₗ ((Scheme.Modules.pushforward f).obj M) (le_of_hom i)) (resₗ F (le_of_hom i))
+        Γ(Y, U.1)) := inferInstance
+  let r := transElt i
+  -- the action of `f^# r` on `homSec U` agrees with the action of `r`
+  have hactU : ∀ (n : ℕ) (h : homSec f M F U.1),
+      homSec.lin f M F ((X.presheaf.map (homOfLE (f.preimage_mono (le_of_hom i))).op
+        (f.app V.1 r ^ n)) • h) = r ^ n • homSec.lin f M F h := by
+    intro n h
+    have hnat : X.presheaf.map (homOfLE (f.preimage_mono (le_of_hom i))).op (f.app V.1 r ^ n) =
+        f.app U.1 (Y.presheaf.map (homOfLE (le_of_hom i)).op (r ^ n)) := by
+      rw [map_pow, map_pow, map_pow]
+      congr 1
+      exact (ConcreteCategory.congr_hom (f.naturality (homOfLE (le_of_hom i)).op) r).symm
+    rw [hnat, homSec.app_smul]
+    rfl
+  have hactV : ∀ (n : ℕ) (h : homSec f M F V.1),
+      homSec.lin f M F ((f.app V.1 r ^ n) • h) = r ^ n • homSec.lin f M F h := by
+    intro n h
+    rw [← map_pow, homSec.app_smul]
+  refine ⟨fun s => ?_, fun h' => ?_, fun {h₁ h₂} e => ?_⟩
+  · obtain ⟨_, n, rfl⟩ := s
+    have hu := hR.map_units ⟨r ^ n, n, rfl⟩
+    rw [Module.End.isUnit_iff] at hu ⊢
+    have key : (⇑(algebraMap Γ(X, f ⁻¹ᵁ V.1) (Module.End Γ(X, f ⁻¹ᵁ V.1)
+        ((ModuleCat.restrictScalars (X.presheaf.map (homOfLE (f.preimage_mono
+          (le_of_hom i))).op).hom).obj (homSec f M F U.1))) (f.app V.1 r ^ n))) =
+        ⇑(algebraMap Γ(Y, V.1) (Module.End Γ(Y, V.1) (Γ((Scheme.Modules.pushforward f).obj M,
+          U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1))) (r ^ n)) :=
+      funext fun h => hactU n h
+    rw [key]
+    exact hu
+  · obtain ⟨⟨h, ⟨_, n, rfl⟩⟩, e⟩ := hR.surj (homSec.lin f M F h')
+    refine ⟨⟨h, ⟨_, n, rfl⟩⟩, ?_⟩
+    simp only [Submonoid.smul_def] at e ⊢
+    exact (hactU n h').trans (e.trans (homResHom_apply f M F i h).symm)
+  · obtain ⟨⟨_, n, rfl⟩, e'⟩ := hR.exists_of_eq (S := Submonoid.powers r)
+      (x₁ := homSec.lin f M F h₁) (x₂ := homSec.lin f M F h₂)
+      ((homResHom_apply f M F i h₁).symm.trans (e.trans (homResHom_apply f M F i h₂)))
+    refine ⟨⟨_, n, rfl⟩, ?_⟩
+    simp only [Submonoid.smul_def] at e' ⊢
+    exact (hactV n h₁).trans (e'.trans (hactV n h₂).symm)
+
+end Restriction
+
+/-- Over a Noetherian ring, homomorphisms between finite modules form a finite module. -/
+theorem finite_linearMap_of_isNoetherianRing {R P Q : Type*} [CommRing R] [IsNoetherianRing R]
+    [AddCommGroup P] [Module R P] [AddCommGroup Q] [Module R Q] [Module.Finite R P]
+    [Module.Finite R Q] : Module.Finite R (P →ₗ[R] Q) := by
+  obtain ⟨n, v, hv⟩ := Module.Finite.exists_fin (R := R) (M := P)
+  let Φ : (P →ₗ[R] Q) →ₗ[R] (Fin n → Q) := LinearMap.pi fun j => LinearMap.applyₗ (v j)
+  have hΦ : Function.Injective Φ := fun h h' e =>
+    LinearMap.ext_on_range hv fun j => congrFun e j
+  haveI : IsNoetherian R (P →ₗ[R] Q) := isNoetherian_of_injective Φ hΦ
+  infer_instance
+
+/-! ### The glued module -/
+
+section Glue
+
+open RelSpecModuleData QuasiCoherentAlgebra
+
+variable {X Y : Scheme.{u}} (f : X ⟶ Y) [IsAffineHom f] (M : X.Modules) (F : Y.Modules)
+  [((Scheme.Modules.pushforward f).obj M).IsQuasicoherent] [F.IsQuasicoherent]
+  [hfp : ∀ V : Y.AffineZariskiSite,
+    Module.FinitePresentation Γ(Y, V.1) Γ((Scheme.Modules.pushforward f).obj M, V.1)]
+
+/-- The modules `Hom_{Γ(U, 𝒪_Y)}(Γ(U, f_* M), Γ(U, F))` with their restriction maps, as a
+quasi-coherent module over `f_* 𝒪_X`. -/
+def homData : RelSpecModuleData (QuasiCoherentAlgebra.ofHom f) where
+  N U := homSec f M F U.1
+  ρ i := homResHom f M F i
+  ρ_comp i j h := homRes_comp f M F i j (homSec.lin f M F h)
+  isLocalizedModule i := isLocalizedModule_homResHom f M F i
+
+/-- **The approximating module** `G` on `X`: the module glued from the sheaves associated to the
+`Γ(f⁻¹ U, 𝒪_X)`-modules `Hom_{Γ(U, 𝒪_Y)}(Γ(U, f_* M), Γ(U, F))`, transported along
+`Spec_Y (f_* 𝒪_X) ≅ X`. -/
+def approx : X.Modules :=
+  (Scheme.Modules.pushforward (relSpecOfHomIso f).hom).obj (homData f M F).glue
+
+theorem fromSpec_eq_ι_comp (U : Y.AffineZariskiSite) :
+    (U.2.preimage f).fromSpec = (QuasiCoherentAlgebra.ofHom f).ι U ≫ (relSpecOfHomIso f).hom :=
+  (ι_relSpecOfHomHom f U).symm
+
+/-- The restriction of `G` to the affine open `f⁻¹ U` is the sheaf associated to `homSec U`. -/
+def approxRestrictIso (U : Y.AffineZariskiSite) :
+    (approx f M F).restrict (U.2.preimage f).fromSpec ≅ tilde (homSec f M F U.1) :=
+  (@Scheme.Modules.restrictFunctorCongr _ _ _ _ (fromSpec_eq_ι_comp f U) inferInstance
+      (@IsOpenImmersion.comp _ _ _ _ _ (QuasiCoherentAlgebra.isOpenImmersion_ι (ofHom f) U)
+        inferInstance)).app _ ≪≫
+    (@Scheme.Modules.restrictFunctorComp _ _ _ _ _
+      (QuasiCoherentAlgebra.isOpenImmersion_ι (ofHom f) U) inferInstance).app _ ≪≫
+    (@Scheme.Modules.restrictFunctor _ _ _
+      (QuasiCoherentAlgebra.isOpenImmersion_ι (ofHom f) U)).mapIso
+      ((asIso (Scheme.Modules.restrictAdjunction (relSpecOfHomIso f).hom).counit).app _) ≪≫
+    (homData f M F).ψ U
+
+/-- `f_* G` is the pushforward of the glued module along `Spec_Y (f_* 𝒪_X) ⟶ Y`. -/
+def pushforwardApproxIso :
+    (Scheme.Modules.pushforward f).obj (approx f M F) ≅
+      (Scheme.Modules.pushforward (ofHom f).relSpecToBase).obj (homData f M F).glue :=
+  (Scheme.Modules.pushforwardComp (relSpecOfHomIso f).hom f).app _ ≪≫
+    (Scheme.Modules.pushforwardCongr (relSpecOfHomIso_hom_comp f)).app _
+
+/-- `homSec U` is a finite `Γ(f⁻¹ U, 𝒪_X)`-module when `Γ(U, f_* M)` and `Γ(U, F)` are finite over
+the Noetherian ring `Γ(U, 𝒪_Y)`. -/
+theorem finite_homSec (U : Y.AffineZariskiSite) [IsNoetherianRing Γ(Y, U.1)]
+    [Module.Finite Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1)]
+    [Module.Finite Γ(Y, U.1) Γ(F, U.1)] :
+    Module.Finite Γ(X, f ⁻¹ᵁ U.1) (homSec f M F U.1) := by
+  letI : Algebra Γ(Y, U.1) Γ(X, f ⁻¹ᵁ U.1) := (f.app U.1).hom.toAlgebra
+  letI := homModule f M F U.1
+  haveI : Module.Finite Γ(Y, U.1)
+      (Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1)) :=
+    finite_linearMap_of_isNoetherianRing
+  haveI : IsScalarTower Γ(Y, U.1) Γ(X, f ⁻¹ᵁ U.1)
+      (Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1)) := by
+    refine ⟨fun a b h => LinearMap.ext fun m => ?_⟩
+    change h (mulB f M U.1 (f.app U.1 a * b) m) = a • h (mulB f M U.1 b m)
+    rw [← map_smul]
+    congr 1
+    change (f.app U.1 a * b) • (show Γ(M, f ⁻¹ᵁ U.1) from m) =
+      f.app U.1 a • b • (show Γ(M, f ⁻¹ᵁ U.1) from m)
+    rw [mul_smul]
+  exact Module.Finite.of_restrictScalars_finite Γ(Y, U.1) Γ(X, f ⁻¹ᵁ U.1)
+    (Γ((Scheme.Modules.pushforward f).obj M, U.1) →ₗ[Γ(Y, U.1)] Γ(F, U.1))
+
+theorem iSup_preimage_eq_top :
+    (⨆ U : Y.AffineZariskiSite, f ⁻¹ᵁ U.1) = ⊤ := by
+  refine eq_top_iff.mpr fun x _ => ?_
+  obtain ⟨_, ⟨V, hV, rfl⟩, hxV, -⟩ :=
+    Y.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ (f x)) isOpen_univ
+  exact Opens.mem_iSup.mpr ⟨⟨V, hV⟩, hxV⟩
+
+/-- **`G` is coherent.** -/
+theorem isCoherent_approx [IsLocallyNoetherian Y]
+    [∀ U : Y.AffineZariskiSite,
+      Module.Finite Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1)]
+    [∀ U : Y.AffineZariskiSite, Module.Finite Γ(Y, U.1) Γ(F, U.1)] :
+    IsCoherent (approx f M F) := by
+  refine ⟨Y.AffineZariskiSite, fun U => ⟨f ⁻¹ᵁ U.1, U.2.preimage f⟩, iSup_preimage_eq_top f,
+    fun U => ⟨homSec f M F U.1, ?_, ⟨(approxRestrictIso f M F U).symm⟩⟩⟩
+  haveI : IsNoetherianRing Γ(Y, U.1) := IsLocallyNoetherian.component_noetherian ⟨U.1, U.2⟩
+  exact finite_homSec f M F U
+
+/-! ### Sections of the glued module over the pieces -/
+
+theorem piece_eq (U : Y.AffineZariskiSite) :
+    (ofHom f).ι U ''ᵁ ⊤ = (ofHom f).relSpecToBase ⁻¹ᵁ U.1 := by
+  rw [Scheme.Hom.image_top_eq_opensRange]
+  exact ((ofHom f).relSpecToBase_preimage U).symm
+
+theorem piece_le {V : Y.Opens} {U : Y.AffineZariskiSite} (h : U.1 ≤ V) :
+    (ofHom f).ι U ''ᵁ ⊤ ≤ (ofHom f).relSpecToBase ⁻¹ᵁ V := by
+  rw [piece_eq]
+  exact Scheme.Hom.preimage_mono _ h
+
+theorem piece_mono {U V : Y.AffineZariskiSite} (i : U ⟶ V) :
+    (ofHom f).ι U ''ᵁ ⊤ ≤ (ofHom f).ι V ''ᵁ ⊤ := by
+  rw [piece_eq, piece_eq]
+  exact Scheme.Hom.preimage_mono _ (le_of_hom i)
+
+theorem image_trans_le {U V : Y.AffineZariskiSite} (i : U ⟶ V) :
+    (ofHom f).ι V ''ᵁ (Spec.map ((ofHom f).sections.map i.op) ''ᵁ ⊤) ≤ (ofHom f).ι U ''ᵁ ⊤ := by
+  rintro _ ⟨_, ⟨y, -, rfl⟩, rfl⟩
+  exact ⟨y, trivial, by rw [← (ofHom f).map_ι i]; rfl⟩
+
+/-- The homomorphism attached to a section of the glued module over the piece over `U`. -/
+def homOf (U : Y.AffineZariskiSite) (x : Γ((homData f M F).glue, (ofHom f).ι U ''ᵁ ⊤)) :
+    homSec f M F U.1 :=
+  (tilde.isoTop (homSec f M F U.1)).inv (((homData f M F).ψ U).hom.app ⊤ x)
+
+theorem toOpen_homOf (U : Y.AffineZariskiSite)
+    (x : Γ((homData f M F).glue, (ofHom f).ι U ''ᵁ ⊤)) :
+    (tilde.toOpen (homSec f M F U.1) ⊤).hom (homOf f M F U x) =
+      ((homData f M F).ψ U).hom.app ⊤ x :=
+  (tilde.isoTop (homSec f M F U.1)).inv_hom_id_apply _
+
+theorem homOf_injective (U : Y.AffineZariskiSite) : Function.Injective (homOf f M F U) :=
+  (ConcreteCategory.bijective_of_isIso (tilde.isoTop (homSec f M F U.1)).inv).1.comp
+    (ConcreteCategory.bijective_of_isIso (((homData f M F).ψ U).hom.app ⊤)).1
+
+theorem homOf_surjective (U : Y.AffineZariskiSite) : Function.Surjective (homOf f M F U) :=
+  (ConcreteCategory.bijective_of_isIso (tilde.isoTop (homSec f M F U.1)).inv).2.comp
+    (ConcreteCategory.bijective_of_isIso (((homData f M F).ψ U).hom.app ⊤)).2
+
+theorem homOf_add (U : Y.AffineZariskiSite) (x y : Γ((homData f M F).glue, (ofHom f).ι U ''ᵁ ⊤)) :
+    homOf f M F U (x + y) = homOf f M F U x + homOf f M F U y := by
+  rw [homOf, homOf, homOf]
+  erw [map_add, map_add]
+
+theorem homOf_zero (U : Y.AffineZariskiSite) : homOf f M F U 0 = 0 := by
+  have h := homOf_add f M F U 0 0
+  rw [add_zero] at h
+  exact left_eq_add.mp h
+
+/-- Restricting a section from the piece over `U` to the piece over a basic open `W ⊆ U`
+restricts the attached homomorphism. -/
+theorem homOf_res {W U : Y.AffineZariskiSite} (i : W ⟶ U)
+    (x : Γ((homData f M F).glue, (ofHom f).ι U ''ᵁ ⊤)) :
+    homSec.lin f M F (homOf f M F W ((homData f M F).glue.presheaf.map
+      (homOfLE (piece_mono f i)).op x)) = homRes f M F i (homSec.lin f M F (homOf f M F U x)) := by
+  apply (ConcreteCategory.bijective_of_isIso (tilde.isoTop (homSec f M F W.1)).hom).1
+  change (tilde.toOpen (homSec f M F W.1) ⊤).hom (homOf f M F W _) =
+    (tilde.toOpen (homSec f M F W.1) ⊤).hom ((homResHom f M F i).hom (homOf f M F U x))
+  rw [toOpen_homOf, (homData f M F).ψ_hom_app_top i (image_trans_le f i)]
+  have h1 : ((homData f M F).ψ U).hom.app (Spec.map ((ofHom f).sections.map i.op) ''ᵁ ⊤)
+      ((homData f M F).glue.presheaf.map (homOfLE (image_trans_le f i)).op
+        ((homData f M F).glue.presheaf.map (homOfLE (piece_mono f i)).op x)) =
+      (tilde.toOpen (homSec f M F U.1) (Spec.map ((ofHom f).sections.map i.op) ''ᵁ ⊤)).hom
+        (homOf f M F U x) := by
+    rw [DirectedModuleGluing.pmap_map]
+    have h2 := ConcreteCategory.congr_hom (((homData f M F).ψ U).hom.mapPresheaf.naturality
+      (homOfLE (le_top : Spec.map ((ofHom f).sections.map i.op) ''ᵁ ⊤ ≤ ⊤)).op) x
+    refine h2.trans ?_
+    change (tilde (homSec f M F U.1)).presheaf.map _ (((homData f M F).ψ U).hom.app ⊤ x) = _
+    rw [← toOpen_homOf]
+    rfl
+  rw [h1]
+  exact (homData f M F).θ_hom_app_top_toOpen i (homOf f M F U x)
+
+theorem appLE_specMap_fromSpec {R : CommRingCat.{u}} {W V : Y.Opens} (hW : IsAffineOpen W)
+    (φ : Γ(Y, W) ⟶ R) (hWV : W ≤ V) (e : ⊤ ≤ (Spec.map φ ≫ hW.fromSpec) ⁻¹ᵁ V) (a : Γ(Y, V)) :
+    (Spec.map φ ≫ hW.fromSpec).appLE V ⊤ e a =
+      (Scheme.ΓSpecIso R).inv (φ (Y.presheaf.map (homOfLE hWV).op a)) := by
+  rw [Scheme.Hom.comp_appLE, IsAffineOpen.fromSpec_app_of_le hW V hWV]
+  simp only [Category.assoc]
+  erw [Scheme.Hom.map_appLE]
+  have htop : ∀ {Y' Z : Scheme.{u}} (g : Y' ⟶ Z) (e' : (⊤ : Y'.Opens) ≤ g ⁻¹ᵁ ⊤),
+      g.appLE ⊤ ⊤ e' = g.appTop := by
+    intro Y' Z g e'
+    rw [Scheme.Hom.appLE]
+    conv_rhs => rw [← Category.comp_id g.appTop, ← Y'.presheaf.map_id]
+    rfl
+  erw [htop]
+  rw [← Scheme.ΓSpecIso_inv_naturality]
+  rfl
+
+/-- A function on `Y`, pulled back to the piece `Spec Γ(f⁻¹ U, 𝒪_X)` of `Spec_Y (f_* 𝒪_X)`, is its
+image under `f^#`. -/
+theorem appIso_hom_relSpecToBase_app {U : Y.AffineZariskiSite} {V : Y.Opens} (hUV : U.1 ≤ V)
+    (a : Γ(Y, V)) :
+    (((ofHom f).ι U).appIso ⊤).hom ((ofHom f).relSpec.presheaf.map (homOfLE (piece_le f hUV)).op
+      ((ofHom f).relSpecToBase.app V a)) =
+      (Scheme.ΓSpecIso Γ(X, f ⁻¹ᵁ U.1)).inv (f.app U.1 (Y.presheaf.map (homOfLE hUV).op a)) := by
+  have hg : (ofHom f).ι U ≫ (ofHom f).relSpecToBase = Spec.map (f.app U.1) ≫ U.2.fromSpec :=
+    (ofHom f).ι_relSpecToBase U
+  erw [Scheme.Hom.appIso_hom', ← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply,
+    Scheme.Hom.map_appLE, ← Scheme.Hom.comp_appLE]
+  have key : ∀ (g : Spec Γ(X, f ⁻¹ᵁ U.1) ⟶ Y)
+      (_ : g = Spec.map (f.app U.1) ≫ U.2.fromSpec) (e),
+      g.appLE V ⊤ e a =
+        (Scheme.ΓSpecIso Γ(X, f ⁻¹ᵁ U.1)).inv (f.app U.1 (Y.presheaf.map (homOfLE hUV).op a)) := by
+    rintro _ rfl e
+    exact appLE_specMap_fromSpec U.2 (f.app U.1) hUV e a
+  exact key _ hg _
+
+/-- The attached homomorphism is linear over `𝒪_Y`, which acts on the glued module through
+`Spec_Y (f_* 𝒪_X) ⟶ Y` and on `homSec U` through `f^#`. -/
+theorem homOf_smul {U : Y.AffineZariskiSite} {V : Y.Opens} (hUV : U.1 ≤ V) (a : Γ(Y, V))
+    (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    homOf f M F U ((homData f M F).glue.presheaf.map (homOfLE (piece_le f hUV)).op
+      ((ofHom f).relSpecToBase.app V a • s)) =
+      f.app U.1 (Y.presheaf.map (homOfLE hUV).op a) •
+        homOf f M F U ((homData f M F).glue.presheaf.map (homOfLE (piece_le f hUV)).op s) := by
+  have h1 := (homData f M F).glue.val.map_smul (homOfLE (piece_le f hUV)).op
+    ((ofHom f).relSpecToBase.app V a) s
+  rw [homOf]
+  erw [h1]
+  have h2 : ∀ (c' : Γ((ofHom f).relSpec, (ofHom f).ι U ''ᵁ ⊤))
+      (y : Γ((homData f M F).glue, (ofHom f).ι U ''ᵁ ⊤)),
+      ((homData f M F).ψ U).hom.app ⊤ (c' • y) =
+        (((ofHom f).ι U).appIso ⊤).hom c' • ((homData f M F).ψ U).hom.app ⊤ y := by
+    intro c' y
+    have := Scheme.Modules.Hom.app_smul ((homData f M F).ψ U).hom
+      ((((ofHom f).ι U).appIso ⊤).hom c') (show Γ((homData f M F).glue.restrict
+        ((ofHom f).ι U), ⊤) from y)
+    refine Eq.trans ?_ this
+    congr 1
+    change c' • y = (((ofHom f).ι U).appIso ⊤).inv ((((ofHom f).ι U).appIso ⊤).hom c') • y
+    rw [Iso.hom_inv_id_apply]
+  erw [h2, appIso_hom_relSpecToBase_app f hUV a]
+  have key : ∀ (b : Γ(X, f ⁻¹ᵁ U.1)) (z : Γ(tilde (homSec f M F U.1), ⊤)),
+      (tilde.isoTop (homSec f M F U.1)).inv ((Scheme.ΓSpecIso Γ(X, f ⁻¹ᵁ U.1)).inv b • z) =
+        b • (tilde.isoTop (homSec f M F U.1)).inv z := by
+    intro b z
+    have hz : (Scheme.ΓSpecIso Γ(X, f ⁻¹ᵁ U.1)).inv b • z =
+        (b • z : (modulesSpecToSheaf.obj (tilde (homSec f M F U.1))).presheaf.obj (op ⊤)) := by
+      rw [Scheme.Modules.smul_Spec_def]
+      congr 1
+    rw [hz]
+    exact (tilde.isoTop (homSec f M F U.1)).inv.hom.map_smul b z
+  exact key _ _
+
+/-! ### Evaluation morphisms -/
+
+/-- The affine opens of `Y` contained in an open `V`. -/
+abbrev AffineIn (V : Y.Opens) : Type u := {U : Y.AffineZariskiSite // U.1 ≤ V}
+
+theorem le_iSup_affineIn (V : Y.Opens) : V ≤ ⨆ U : AffineIn V, U.1.1 := by
+  intro y hy
+  obtain ⟨_, ⟨W, hW, rfl⟩, hyW, hWV⟩ := Y.isBasis_affineOpens.exists_subset_of_mem_open hy V.2
+  exact Opens.mem_iSup.2 ⟨⟨⟨W, hW⟩, hWV⟩, hyW⟩
+
+variable (m : Γ((Scheme.Modules.pushforward f).obj M, ⊤))
+
+/-- Evaluation at `m|_U` of the homomorphism attached to a section over the piece over `U`. -/
+def localEval {V : Y.Opens} (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V))
+    (U : AffineIn V) : Γ(F, U.1.1) :=
+  homSec.lin f M F (homOf f M F U.1 ((homData f M F).glue.presheaf.map
+    (homOfLE (piece_le f U.2)).op s))
+    (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE le_top).op m)
+
+theorem localEval_restrict {V : Y.Opens}
+    (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) {U W : AffineIn V}
+    (i : W.1 ⟶ U.1) :
+    F.presheaf.map (homOfLE (le_of_hom i)).op (localEval f M F m s U) =
+      localEval f M F m s W := by
+  have hx : (homData f M F).glue.presheaf.map (homOfLE (piece_le f W.2)).op s =
+      (homData f M F).glue.presheaf.map (homOfLE (piece_mono f i)).op
+        ((homData f M F).glue.presheaf.map (homOfLE (piece_le f U.2)).op s) :=
+    (DirectedModuleGluing.pmap_map _ _ _ _ s).symm
+  have hm : ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE le_top).op m =
+      ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom i)).op
+        (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE le_top).op m) :=
+    (DirectedModuleGluing.pmap_map _ _ _ _ m).symm
+  rw [localEval, localEval, hx, hm, homOf_res f M F i, homRes_res f M F i]
+
+theorem exists_eval_glue {V : Y.Opens}
+    (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    ∃ t : Γ(F, V), ∀ U : AffineIn V,
+      F.presheaf.map (homOfLE U.2).op t = localEval f M F m s U := by
+  refine DirectedModuleGluing.mod_glue F (fun U : AffineIn V => U.1.1) (fun U => U.2)
+    (le_iSup_affineIn V) (fun U => localEval f M F m s U) ?_
+  intro k k'
+  choose R T hRT hpR using fun p : ↥(k.1.1 ⊓ k'.1.1) =>
+    exists_basicOpen_le_affine_inter k.1.2 k'.1.2 p.1 p.2
+  let W : ↥(k.1.1 ⊓ k'.1.1) → AffineIn V :=
+    fun p => ⟨k.1.basicOpen (R p), (Y.basicOpen_le _).trans k.2⟩
+  let i : ∀ p, (W p).1 ⟶ k.1 := fun p => homOfLE (k.1.basicOpen_le (R p))
+  let i' : ∀ p, (W p).1 ⟶ k'.1 := fun p => homOfLE (show (W p).1 ≤ k'.1 from ⟨T p, (hRT p).symm⟩)
+  have h1 : ∀ p, (W p).1.1 ≤ k.1.1 ⊓ k'.1.1 := fun p => le_inf (le_of_hom (i p)) (le_of_hom (i' p))
+  refine DirectedModuleGluing.mod_ext F (fun p => (W p).1.1) h1 ?_ _ _ fun p => ?_
+  · intro q hq
+    exact Opens.mem_iSup.2 ⟨⟨q, hq⟩, hpR ⟨q, hq⟩⟩
+  · rw [DirectedModuleGluing.pmap_map F _ _ (homOfLE (le_of_hom (i p))).op,
+      DirectedModuleGluing.pmap_map F _ _ (homOfLE (le_of_hom (i' p))).op,
+      localEval_restrict f M F m s (i p), localEval_restrict f M F m s (i' p)]
+
+/-- The section of `F` over `V` glued from the evaluations over the affine opens in `V`. -/
+def evalSec (V : Y.Opens) (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    Γ(F, V) :=
+  (exists_eval_glue f M F m s).choose
+
+theorem evalSec_spec {V : Y.Opens} (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V))
+    (U : AffineIn V) :
+    F.presheaf.map (homOfLE U.2).op (evalSec f M F m V s) = localEval f M F m s U :=
+  (exists_eval_glue f M F m s).choose_spec U
+
+omit [F.IsQuasicoherent] in
+theorem evalSec_ext {V : Y.Opens} {t t' : Γ(F, V)}
+    (h : ∀ U : AffineIn V, F.presheaf.map (homOfLE U.2).op t = F.presheaf.map (homOfLE U.2).op t') :
+    t = t' :=
+  DirectedModuleGluing.mod_ext F _ (fun U : AffineIn V => U.2) (le_iSup_affineIn V) t t' h
+
+theorem evalSec_add {V : Y.Opens} (s s' : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    evalSec f M F m V (s + s') = evalSec f M F m V s + evalSec f M F m V s' := by
+  refine evalSec_ext F fun U => ?_
+  rw [map_add, evalSec_spec, evalSec_spec, evalSec_spec, localEval, localEval, localEval,
+    map_add, homOf_add, homSec.lin_add, LinearMap.add_apply]
+
+theorem evalSec_restrict {V V' : Y.Opens} (h : V' ≤ V)
+    (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    F.presheaf.map (homOfLE h).op (evalSec f M F m V s) =
+      evalSec f M F m V' ((homData f M F).glue.presheaf.map
+        (homOfLE (Scheme.Hom.preimage_mono _ h)).op s) := by
+  refine evalSec_ext F fun U => ?_
+  rw [DirectedModuleGluing.pmap_map F _ _ (homOfLE (U.2.trans h)).op,
+    evalSec_spec f M F m s ⟨U.1, U.2.trans h⟩, evalSec_spec, localEval, localEval,
+    DirectedModuleGluing.pmap_map (homData f M F).glue _ _ (homOfLE (piece_le f (U.2.trans h))).op]
+
+theorem evalSec_smul {V : Y.Opens} (a : Γ(Y, V))
+    (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    evalSec f M F m V ((ofHom f).relSpecToBase.app V a • s) = a • evalSec f M F m V s := by
+  refine evalSec_ext F fun U => ?_
+  rw [Scheme.Modules.map_smul, evalSec_spec, evalSec_spec, localEval, localEval,
+    homOf_smul f M F U.2, homSec.app_smul]
+  rfl
+
+/-- **The evaluation morphism** `p_* G ⟶ F` at a global section `m` of `f_* M`, where
+`p : Spec_Y (f_* 𝒪_X) ⟶ Y`: over an affine open `U`, a homomorphism `h` goes to `h(m|_U)`. -/
+def evalHom :
+    (Scheme.Modules.pushforward (ofHom f).relSpecToBase).obj (homData f M F).glue ⟶ F :=
+  ⟨PresheafOfModules.homMk
+    { app := fun V => AddCommGrpCat.ofHom
+        { toFun := evalSec f M F m V.unop
+          map_zero' := by
+            have h := evalSec_add f M F m (V := V.unop) 0 0
+            rw [add_zero] at h
+            exact left_eq_add.mp h
+          map_add' := evalSec_add f M F m }
+      naturality := fun V V' i => by
+        ext s
+        exact (evalSec_restrict f M F m (leOfHom i.unop) s).symm }
+    fun V a s => evalSec_smul f M F m a s⟩
+
+theorem evalHom_app_restrict {V : Y.Opens} (U : AffineIn V)
+    (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    F.presheaf.map (homOfLE U.2).op ((evalHom f M F m).app V s) = localEval f M F m s U :=
+  evalSec_spec f M F m s U
+
+end Glue
+
+end ChevalleyApprox
+
+end Hartshorne
