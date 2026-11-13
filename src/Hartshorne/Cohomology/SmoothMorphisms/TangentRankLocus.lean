@@ -10,7 +10,8 @@ import Mathlib.Topology.Constructible
 /-!
 # Constructible tangent-rank loci
 
-Hartshorne, *Algebraic Geometry*, III, the rank loci in the proof of Proposition 10.6 (p. 272).
+This supplements Hartshorne, *Algebraic Geometry*, III, Proposition 10.6 (p. 272), which
+concerns the closed-point loci `X_r = {x | rank (T_x f) ≤ r}`.
 
 Let `f : X → Y` be a morphism of schemes of finite type over an algebraically closed field `k`.
 For an integer `r`, the closed points `x ∈ X` at which the Zariski tangent map
@@ -27,6 +28,14 @@ of `X`.
   `dim Ω_{X/k} ⊗ k(x) ≤ dim Ω_{X/Y} ⊗ k(x) + r` is constructible.
 * `Hartshorne.TangentRank.exists_isConstructible_tangentRank_le`: the closed points at which the
   tangent map has rank at most `r` are the closed points of a constructible set.
+* `Hartshorne.TangentRank.exists_isOpen_subset_tangentRank_eq`: on an irreducible closed set `Z`,
+  a nonempty open part of `Z` on which the rank is constant and the reduced induced structures on
+  `Z` and on the closure of `f(Z)` are nonsingular.
+* `Hartshorne.TangentRank.exists_isOpen_tangentRank_eq_of_maximal`: every irreducible component
+  of the closure of the rank locus contains such a dense stratum, of rank at most `r`, whose
+  closed points are dense in it and map to closed points dense in the closure of its image.
+* `Hartshorne.TangentRank.exists_finite_tangentRank_stratification`: a finite stratification of
+  `X` by such strata.
 
 ## Proof
 
@@ -39,6 +48,19 @@ semicontinuous functions of `x` (the sheaves are coherent), and the first is bou
 quasi-compact scheme `X`. So the set where `dim Ω_{X/k} ⊗ k(x) ≤ dim Ω_{X/Y} ⊗ k(x) + r` is a
 finite union of locally closed sets, which is constructible in the Noetherian space `X`, and its
 closed points are those where the tangent map has rank at most `r`.
+
+For the strata, let `Z` be irreducible and closed with generic point `η`. By upper
+semicontinuity both fibre dimensions are at least their values at `η` on `Z` and at most these
+values near `η`, so they are constant on a neighbourhood of `η` in `Z`, and hence so is the rank
+at closed points. The reduced induced closed subschemes on `Z` and on the closure of `f(Z)` are
+varieties over `k`, so their regular loci contain nonempty open sets, which contain the generic
+points; shrinking the neighbourhood gives the stratum. Noetherian induction over the closed
+subsets of `X`, removing at each step such a stratum on an irreducible component that is open in
+the remaining closed set, gives the finite stratification. For an irreducible component `Z` of
+the closure of the rank locus, the rank locus is dense in `Z`, so it meets the stratum, which
+bounds the constant rank by `r`; closed points are dense in the stratum because `X` is a Jacobson
+space, and a morphism locally of finite type between Jacobson schemes maps closed points to closed
+points.
 -/
 
 namespace Hartshorne
