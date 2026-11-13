@@ -621,6 +621,7 @@ import Hartshorne.RingedSpace.SheafExtRestrictIterated
 import Hartshorne.RingedSpace.SheafExtTransport
 import Hartshorne.RingedSpace.SheafExtRestrictCompose
 import Hartshorne.RingedSpace.SheafExtResolutionExactFunctor
+import Hartshorne.RingedSpace.SheafExtTopMap
 import Hartshorne.RingedSpace.ScalarExtensionSheaf
 import Hartshorne.Intersection.ProjectiveLinearSubspaceCycle
 import Hartshorne.Intersection.ProjectiveLinearSubspaceGeneration
