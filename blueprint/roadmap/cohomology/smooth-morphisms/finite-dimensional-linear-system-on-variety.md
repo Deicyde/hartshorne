@@ -2,7 +2,7 @@
 article_id: af_81dbc7a4e0db6808ddcfb8a4
 declaration: def
 origin: bridged
-lean: Hartshorne.existsUnique_linearSystemMorphism Hartshorne.linearSystemMorphism Hartshorne.linearSystemMorphism_spec Hartshorne.comap_invertibleZeroIdeal_linearSystemSection Hartshorne.isLocallyPrincipalNonZeroDivisor_invertibleZeroIdeal Hartshorne.exists_isEffective_idealSheafData_eq_invertibleZeroIdeal
+lean: Hartshorne.comap_invertibleZeroIdeal_linearSystemSection Hartshorne.isLocallyPrincipalNonZeroDivisor_invertibleZeroIdeal Hartshorne.exists_isEffective_idealSheafData_eq_invertibleZeroIdeal
 statement: formalized
 proof: formalized
 ---
@@ -32,7 +32,6 @@ This is the setting used in Hartshorne's Remark III.10.9.2.
 - [Morphisms from generated invertible sheaves](../../schemes/projective-geometry/linear-systems-ampleness/morphism-from-generated-line-bundle.md)
 - [The zero scheme of a section of a locally free sheaf](../../intersection-theory/chern-classes/section-zero-scheme.md)
 - [Clearing denominators with an invertible section](../../schemes/projective-sheaves/invertible-section-clearing-denominators.md)
-- [Projection from a point is a morphism](../../curves/projective-embeddings/prerequisites/projection-from-point-morphism.md)
 - [Linear systems](../../schemes/projective-geometry/linear-systems-ampleness/linear-system-api.md)
 
 ## Proof depends on

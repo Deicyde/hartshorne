@@ -26,7 +26,6 @@ closed points and tangent vectors.
 - [Images of proper schemes](../../proper-and-projective/proper-image.md)
 - [Coherence of projective pushforward](../../projective-sheaves/projective-pushforward-coherent.md)
 - [The projective closed-immersion chart criterion](projective-closed-immersion-chart-criterion.md)
-- [Projection from a point is a morphism](../../../curves/projective-embeddings/prerequisites/projection-from-point-morphism.md)
 - [Projective-morphism calculus](../../proper-and-projective/projective-morphism-calculus.md)
 
 ## Sources

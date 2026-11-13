@@ -3,7 +3,7 @@ article_id: af_d57f61f4d4fc1f1d460bb022
 declaration: def
 origin: cited
 statement: formalized
-lean: Hartshorne.projectiveSpaceScheme
+lean: Hartshorne.projectiveSpaceScheme Hartshorne.projectiveSpaceStructureMorphism Hartshorne.finiteType_projectiveSpaceStructureMorphism Hartshorne.topologicalKrullDim_projectiveSpace
 ---
 
 # Projective space over a ring
