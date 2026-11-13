@@ -628,6 +628,123 @@ theorem homOf_smul {U : Y.AffineZariskiSite} {V : Y.Opens} (hUV : U.1 ≤ V) (a 
     exact (tilde.isoTop (homSec f M F U.1)).inv.hom.map_smul b z
   exact key _ _
 
+/-! ### Evaluation morphisms -/
+
+/-- The affine opens of `Y` contained in an open `V`. -/
+abbrev AffineIn (V : Y.Opens) : Type u := {U : Y.AffineZariskiSite // U.1 ≤ V}
+
+theorem le_iSup_affineIn (V : Y.Opens) : V ≤ ⨆ U : AffineIn V, U.1.1 := by
+  intro y hy
+  obtain ⟨_, ⟨W, hW, rfl⟩, hyW, hWV⟩ := Y.isBasis_affineOpens.exists_subset_of_mem_open hy V.2
+  exact Opens.mem_iSup.2 ⟨⟨⟨W, hW⟩, hWV⟩, hyW⟩
+
+variable (m : Γ((Scheme.Modules.pushforward f).obj M, ⊤))
+
+/-- Evaluation at `m|_U` of the homomorphism attached to a section over the piece over `U`. -/
+def localEval {V : Y.Opens} (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V))
+    (U : AffineIn V) : Γ(F, U.1.1) :=
+  homSec.lin f M F (homOf f M F U.1 ((homData f M F).glue.presheaf.map
+    (homOfLE (piece_le f U.2)).op s))
+    (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE le_top).op m)
+
+theorem localEval_restrict {V : Y.Opens}
+    (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) {U W : AffineIn V}
+    (i : W.1 ⟶ U.1) :
+    F.presheaf.map (homOfLE (le_of_hom i)).op (localEval f M F m s U) =
+      localEval f M F m s W := by
+  have hx : (homData f M F).glue.presheaf.map (homOfLE (piece_le f W.2)).op s =
+      (homData f M F).glue.presheaf.map (homOfLE (piece_mono f i)).op
+        ((homData f M F).glue.presheaf.map (homOfLE (piece_le f U.2)).op s) :=
+    (DirectedModuleGluing.pmap_map _ _ _ _ s).symm
+  have hm : ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE le_top).op m =
+      ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE (le_of_hom i)).op
+        (((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE le_top).op m) :=
+    (DirectedModuleGluing.pmap_map _ _ _ _ m).symm
+  rw [localEval, localEval, hx, hm, homOf_res f M F i, homRes_res f M F i]
+
+theorem exists_eval_glue {V : Y.Opens}
+    (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    ∃ t : Γ(F, V), ∀ U : AffineIn V,
+      F.presheaf.map (homOfLE U.2).op t = localEval f M F m s U := by
+  refine DirectedModuleGluing.mod_glue F (fun U : AffineIn V => U.1.1) (fun U => U.2)
+    (le_iSup_affineIn V) (fun U => localEval f M F m s U) ?_
+  intro k k'
+  choose R T hRT hpR using fun p : ↥(k.1.1 ⊓ k'.1.1) =>
+    exists_basicOpen_le_affine_inter k.1.2 k'.1.2 p.1 p.2
+  let W : ↥(k.1.1 ⊓ k'.1.1) → AffineIn V :=
+    fun p => ⟨k.1.basicOpen (R p), (Y.basicOpen_le _).trans k.2⟩
+  let i : ∀ p, (W p).1 ⟶ k.1 := fun p => homOfLE (k.1.basicOpen_le (R p))
+  let i' : ∀ p, (W p).1 ⟶ k'.1 := fun p => homOfLE (show (W p).1 ≤ k'.1 from ⟨T p, (hRT p).symm⟩)
+  have h1 : ∀ p, (W p).1.1 ≤ k.1.1 ⊓ k'.1.1 := fun p => le_inf (le_of_hom (i p)) (le_of_hom (i' p))
+  refine DirectedModuleGluing.mod_ext F (fun p => (W p).1.1) h1 ?_ _ _ fun p => ?_
+  · intro q hq
+    exact Opens.mem_iSup.2 ⟨⟨q, hq⟩, hpR ⟨q, hq⟩⟩
+  · rw [DirectedModuleGluing.pmap_map F _ _ (homOfLE (le_of_hom (i p))).op,
+      DirectedModuleGluing.pmap_map F _ _ (homOfLE (le_of_hom (i' p))).op,
+      localEval_restrict f M F m s (i p), localEval_restrict f M F m s (i' p)]
+
+/-- The section of `F` over `V` glued from the evaluations over the affine opens in `V`. -/
+def evalSec (V : Y.Opens) (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    Γ(F, V) :=
+  (exists_eval_glue f M F m s).choose
+
+theorem evalSec_spec {V : Y.Opens} (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V))
+    (U : AffineIn V) :
+    F.presheaf.map (homOfLE U.2).op (evalSec f M F m V s) = localEval f M F m s U :=
+  (exists_eval_glue f M F m s).choose_spec U
+
+omit [F.IsQuasicoherent] in
+theorem evalSec_ext {V : Y.Opens} {t t' : Γ(F, V)}
+    (h : ∀ U : AffineIn V, F.presheaf.map (homOfLE U.2).op t = F.presheaf.map (homOfLE U.2).op t') :
+    t = t' :=
+  DirectedModuleGluing.mod_ext F _ (fun U : AffineIn V => U.2) (le_iSup_affineIn V) t t' h
+
+theorem evalSec_add {V : Y.Opens} (s s' : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    evalSec f M F m V (s + s') = evalSec f M F m V s + evalSec f M F m V s' := by
+  refine evalSec_ext F fun U => ?_
+  rw [map_add, evalSec_spec, evalSec_spec, evalSec_spec, localEval, localEval, localEval,
+    map_add, homOf_add, homSec.lin_add, LinearMap.add_apply]
+
+theorem evalSec_restrict {V V' : Y.Opens} (h : V' ≤ V)
+    (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    F.presheaf.map (homOfLE h).op (evalSec f M F m V s) =
+      evalSec f M F m V' ((homData f M F).glue.presheaf.map
+        (homOfLE (Scheme.Hom.preimage_mono _ h)).op s) := by
+  refine evalSec_ext F fun U => ?_
+  rw [DirectedModuleGluing.pmap_map F _ _ (homOfLE (U.2.trans h)).op,
+    evalSec_spec f M F m s ⟨U.1, U.2.trans h⟩, evalSec_spec, localEval, localEval,
+    DirectedModuleGluing.pmap_map (homData f M F).glue _ _ (homOfLE (piece_le f (U.2.trans h))).op]
+
+theorem evalSec_smul {V : Y.Opens} (a : Γ(Y, V))
+    (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    evalSec f M F m V ((ofHom f).relSpecToBase.app V a • s) = a • evalSec f M F m V s := by
+  refine evalSec_ext F fun U => ?_
+  rw [Scheme.Modules.map_smul, evalSec_spec, evalSec_spec, localEval, localEval,
+    homOf_smul f M F U.2, homSec.app_smul]
+  rfl
+
+/-- **The evaluation morphism** `p_* G ⟶ F` at a global section `m` of `f_* M`, where
+`p : Spec_Y (f_* 𝒪_X) ⟶ Y`: over an affine open `U`, a homomorphism `h` goes to `h(m|_U)`. -/
+def evalHom :
+    (Scheme.Modules.pushforward (ofHom f).relSpecToBase).obj (homData f M F).glue ⟶ F :=
+  ⟨PresheafOfModules.homMk
+    { app := fun V => AddCommGrpCat.ofHom
+        { toFun := evalSec f M F m V.unop
+          map_zero' := by
+            have h := evalSec_add f M F m (V := V.unop) 0 0
+            rw [add_zero] at h
+            exact left_eq_add.mp h
+          map_add' := evalSec_add f M F m }
+      naturality := fun V V' i => by
+        ext s
+        exact (evalSec_restrict f M F m (leOfHom i.unop) s).symm }
+    fun V a s => evalSec_smul f M F m a s⟩
+
+theorem evalHom_app_restrict {V : Y.Opens} (U : AffineIn V)
+    (s : Γ((homData f M F).glue, (ofHom f).relSpecToBase ⁻¹ᵁ V)) :
+    F.presheaf.map (homOfLE U.2).op ((evalHom f M F m).app V s) = localEval f M F m s U :=
+  evalSec_spec f M F m s U
+
 end Glue
 
 end ChevalleyApprox
