@@ -9,24 +9,22 @@ proof: formalized
 
 # The bad-hyperplane incidence correspondence
 
-Let $X$ be a nonsingular closed $r$-dimensional proper subvariety of $\mathbb{P}^n_k$,
-with $k$ algebraically closed and $r < n$. For each closed point $x \in X$, the hyperplanes that
-contain $X$, or whose section with $X$ is not regular at $x$, form a projective
-linear subspace $B_x$ of dimension $n - r - 1$. The incidence subset
-
-$B = \{(x,H) | H \text{belongs} \to B_x\} \subset X \times |H|$
-
-is closed and irreducible, and has dimension $n - 1$.
+Let $X \subseteq \mathbb{P}^n_k$ be a nonsingular closed subvariety of dimension
+$r < n$, with $k$ algebraically closed. For each closed point $x \in X$, the
+hyperplanes that contain $X$, or whose section with $X$ is not regular at $x$,
+form a projective linear subspace $B_x$ of dimension $n - r - 1$. The pairs
+$(x, H)$ with $x \in X$ closed and $H \in B_x$ are the closed points of a closed
+irreducible subset $B \subseteq X \times |H|$ of dimension $n - 1$. (For $r = n$
+each $B_x$ is empty.)
 
 ## Depends on
 
-- [The conormal criterion for nonsingularity](../scheme-differentials/conormal-criterion-nonsingular.md)
-- [Regular hypersurface quotients of a regular local ring](regular-hypersurface-local-criterion.md)
 - [Linear systems](../../projective-geometry/linear-systems-ampleness/linear-system-api.md)
 - [Dimension of a projective variety](../../../projective-varieties/projective-dimension.md)
 
 ## Proof depends on
 
+- [Regular hypersurface quotients of a regular local ring](regular-hypersurface-local-criterion.md)
 - [Separation of points and tangent vectors](../../projective-geometry/linear-systems-ampleness/separates-points-tangents-iff-closed-immersion.md)
 - The projective bundle associated to the kernels of the pointwise first-jet
   evaluation maps.
