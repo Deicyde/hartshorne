@@ -582,6 +582,54 @@ theorem exists_eq_mul_mem_mem [IsAlgClosed k] (hn : 2 ≤ n) (hd : 1 ≤ d) (f :
       DirectSum.coe_decompose_mul_add_of_left_mem 𝒮
         ((MvPolynomial.mem_homogeneousSubmodule _ _).2 hpj)
 
+/-! ### Regular hypersurfaces are integral -/
+
+/-- A regular scheme is reduced: its local rings are regular, hence domains. -/
+theorem isReduced_of_isRegular' {X : Scheme.{u}} (hX : X.IsRegular) : IsReduced X := by
+  have : ∀ x : X, _root_.IsReduced (X.presheaf.stalk x) := fun x => by
+    have : IsRegularLocalRing (X.presheaf.stalk x) := hX.2 x
+    have := RegularLocal.isDomain (X.presheaf.stalk x)
+    infer_instance
+  exact isReduced_of_isReduced_stalk X
+
+/-- **A regular hypersurface of `ℙⁿ`, `n ≥ 2`, is integral.** Let `k` be algebraically closed and
+`f ≠ 0` homogeneous of degree `d ≥ 1`. If `V(f)` is regular, then `f` is irreducible, since a
+factorization `f = p w` gives a point on both `V(p)` and `V(w)` at which `V(f)` is singular. So
+`(f)` is a homogeneous prime, `V(f)` is the closure of the point `(f)` of `ℙⁿ_k`, hence irreducible,
+and being regular it is reduced. -/
+theorem isIntegral_of_isRegular [IsAlgClosed k] (hn : 2 ≤ n) (hd : 1 ≤ d) (f : 𝒮 d)
+    (hf0 : (f : S) ≠ 0) (hreg : (hypersurfaceIdeal f).subscheme.IsRegular) :
+    IsIntegral (hypersurfaceIdeal f).subscheme := by
+  have hirr : Irreducible (f : S) := by
+    by_contra hirr
+    obtain ⟨j, l, p, w, x, hjl, hf, hp, hw⟩ := exists_eq_mul_mem_mem hn hd f hf0 hirr
+    exact not_isRegular_of_eq_mul f hf0 p w hjl hf x hp hw hreg
+  have hprime := hirr.prime
+  let ξ : Proj 𝒮 := ⟨⟨Ideal.span {(f : S)}, Ideal.homogeneous_span _ _ (by
+      rintro _ rfl
+      exact ⟨d, f.2⟩)⟩,
+    (Ideal.span_singleton_prime hprime.ne_zero).2 hprime, not_irrelevant_le_span (by omega) hprime⟩
+  set I := hypersurfaceIdeal f
+  have hsupp : (I.support : Set (Proj 𝒮)) = closure {ξ} := by
+    ext x
+    rw [SetLike.mem_coe, mem_support_hypersurfaceIdeal_iff, ← specializes_iff_mem_closure,
+      projectiveSpace_specializes_iff_le]
+    constructor
+    · intro h
+      change Ideal.span {(f : S)} ≤ x.asHomogeneousIdeal.toIdeal
+      rwa [Ideal.span_singleton_le_iff_mem]
+    · intro h
+      exact h (Ideal.mem_span_singleton_self (f : S))
+  have hirrsupp : IsIrreducible (Set.range I.subschemeι) := by
+    rw [I.range_subschemeι, hsupp]
+    exact isIrreducible_singleton.closure
+  have : IrreducibleSpace (Set.range I.subschemeι) := Subtype.irreducibleSpace hirrsupp
+  have : IrreducibleSpace I.subscheme :=
+    let e := I.subschemeι.isClosedEmbedding.isEmbedding.toHomeomorph
+    e.symm.surjective.irreducibleSpace e.symm.continuous
+  have : IsReduced I.subscheme := isReduced_of_isRegular' hreg
+  exact isIntegral_of_irreducibleSpace_of_isReduced _
+
 end SmoothHypersurface
 
 end Hartshorne
