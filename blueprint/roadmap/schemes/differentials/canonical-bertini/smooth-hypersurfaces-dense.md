@@ -2,6 +2,7 @@
 article_id: af_4abc21f08a7265779b71f0f3
 declaration: theorem
 origin: cited
+lean: Hartshorne.SmoothHypersurface.dupleMonomial Hartshorne.SmoothHypersurface.hypersurfacePolynomial Hartshorne.SmoothHypersurface.hypersurfaceSection Hartshorne.SmoothHypersurface.hypersurfaceIdeal Hartshorne.SmoothHypersurface.hypersurfaceIdeal_ideal_basicOpen Hartshorne.SmoothHypersurface.dupleMorphism Hartshorne.SmoothHypersurface.isClosedImmersion_dupleMorphism Hartshorne.SmoothHypersurface.hyperplaneSectionIdeal_dupleMorphism Hartshorne.SmoothHypersurface.isIntegral_hypersurface_of_isRegular Hartshorne.SmoothHypersurface.smooth_hypersurfaces_dense
 ---
 
 # Smooth hypersurfaces form a dense open family
