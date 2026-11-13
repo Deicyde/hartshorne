@@ -2,7 +2,7 @@
 article_id: af_65374443c368263bedb9a175
 declaration: theorem
 origin: cited
-lean: Hartshorne.QuasicoherentIdealSubsheaf.existsUnique_blowup_lift Hartshorne.Ringed.isIso_of_epi_of_isInvertible Hartshorne.isIso_of_epi_of_isInvertible
+lean: Hartshorne.QuasicoherentIdealSubsheaf.existsUnique_blowup_lift
 statement: formalized
 proof: formalized
 ---
@@ -20,6 +20,9 @@ a surjective morphism between invertible sheaves is an isomorphism.
 
 ## Proof depends on
 
+- [Locally free and invertible module sheaves](../../modules-and-quasicoherent/locally-free-and-invertible.md),
+  for Exercise 7.1: a surjective map of invertible sheaves on a locally ringed
+  space is an isomorphism.
 - Local finite generators of $I$ and the resulting closed immersion of its
   Rees Proj into projective space.
 
