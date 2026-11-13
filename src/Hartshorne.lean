@@ -862,3 +862,4 @@ import Hartshorne.Scheme.NowhereVanishingSectionCount
 import Hartshorne.Scheme.LocalFrameGerms
 import Hartshorne.Scheme.NowhereVanishingSection
 import Hartshorne.Cohomology.ChevalleyAffineDescent
+import Hartshorne.Scheme.Differentials.SmoothHypersurfacesDense
