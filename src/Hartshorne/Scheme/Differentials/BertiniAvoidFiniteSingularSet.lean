@@ -20,6 +20,28 @@ namespace Hartshorne
 
 universe u
 
+/-! ### Finite unions of proper closed sets -/
+
+/-- In an irreducible space, a finite union of proper closed subsets is a proper subset. -/
+theorem biUnion_ne_univ_of_irreducibleSpace {α ι : Type*} [TopologicalSpace α] [IrreducibleSpace α]
+    {S : Set ι} (hS : S.Finite) {T : ι → Set α} (hT : ∀ i ∈ S, IsClosed (T i))
+    (hne : ∀ i ∈ S, T i ≠ Set.univ) : (⋃ i ∈ S, T i) ≠ Set.univ := by
+  classical
+  intro h
+  obtain ⟨z, hz, hsub⟩ := isIrreducible_iff_sUnion_isClosed.mp
+    (IrreducibleSpace.isIrreducible_univ α) (hS.toFinset.image T)
+    (by
+      intro z hz
+      obtain ⟨i, hi, rfl⟩ := Finset.mem_image.mp hz
+      exact hT i (hS.mem_toFinset.mp hi))
+    (by
+      rw [← h]
+      intro y hy
+      obtain ⟨i, hi, hyi⟩ := Set.mem_iUnion₂.mp hy
+      exact Set.mem_sUnion.mpr ⟨T i, by simpa using ⟨i, hi, rfl⟩, hyi⟩)
+  obtain ⟨i, hi, rfl⟩ := Finset.mem_image.mp hz
+  exact hne i (hS.mem_toFinset.mp hi) (Set.eq_univ_of_univ_subset hsub)
+
 /-! ### Dimension of a closed irreducible set and of its open traces -/
 
 section Dimension
@@ -229,8 +251,81 @@ theorem hyperplanesThrough_spec [IsAlgClosed k] [IsClosedImmersion φ] (x : X) (
   exact notMem_support_hyperplaneSectionIdeal_single φ hi
     ((hmem H hH _ h1 hra).mp (huniv ▸ Set.mem_univ H))
 
+/-! ### Avoiding finitely many points -/
+
+/-- **Hyperplanes avoiding finitely many points.** Let `φ : X ⟶ ℙⁿ_k` be a closed immersion over
+an algebraically closed field `k` and `S` a finite set of closed points of `X`. There is a dense
+open subset `A` of `(ℙⁿ_k)^∨` whose closed points are exactly the hyperplanes `H_a` with
+`x ∉ H_a ∩ X` for every `x ∈ S`. -/
+theorem exists_isOpen_dense_avoiding [IsAlgClosed k] [IsClosedImmersion φ] {S : Set X}
+    (hS : S.Finite) (hSc : ∀ x ∈ S, IsClosed {x}) :
+    ∃ A : Set (projectiveSpaceScheme k n), IsOpen A ∧ Dense A ∧
+      ∀ H : projectiveSpaceScheme k n, IsClosed {H} → ∀ a : Fin (n + 1) → k, a ≠ 0 →
+        Represents a H → (H ∈ A ↔ ∀ x ∈ S, x ∉ (hyperplaneSectionIdeal φ a).support) := by
+  have : IrreducibleSpace (projectiveSpaceScheme k n) :=
+    projectiveSpace_irreducibleSpace (k := k) (n := n)
+  have hcl : IsClosed (⋃ x ∈ S, hyperplanesThrough φ x) :=
+    hS.isClosed_biUnion fun x hx => (hyperplanesThrough_spec φ x (hSc x hx)).1
+  refine ⟨(⋃ x ∈ S, hyperplanesThrough φ x)ᶜ, hcl.isOpen_compl,
+    hcl.isOpen_compl.dense (Set.nonempty_compl.mpr (biUnion_ne_univ_of_irreducibleSpace hS
+      (fun x hx => (hyperplanesThrough_spec φ x (hSc x hx)).1)
+      (fun x hx => (hyperplanesThrough_spec φ x (hSc x hx)).2.1))), fun H hH a ha hra => ?_⟩
+  simp only [Set.mem_compl_iff, Set.mem_iUnion₂, not_exists]
+  exact forall₂_congr fun x hx =>
+    not_congr ((hyperplanesThrough_spec φ x (hSc x hx)).2.2 H hH a ha hra)
+
 end Universal
 
 end BertiniIncidence
 
 end Hartshorne
+
+namespace Hartshorne.BertiniIncidence
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+variable {k : Type u} [Field k] {n : ℕ}
+
+/-- **Hyperplanes avoiding a finite set of points** (Hartshorne II, Remark 8.18.1). Let `k` be
+algebraically closed and `S` a finite set of closed points of `ℙⁿ_k`. The hyperplanes avoiding
+every point of `S` form a dense open subset of the dual projective space: there is a dense open
+`A ⊆ (ℙⁿ_k)^∨` whose closed points are exactly the hyperplanes `H_a = {∑ aᵢ xᵢ = 0}` (the zero
+schemes of the linear forms `∑ aᵢ xᵢ ∈ Γ(ℙⁿ_k, 𝒪(1))`, `a ≠ 0`) containing no point of `S`. -/
+theorem hyperplanes_avoiding_finite_set_dense [IsAlgClosed k]
+    {S : Set (projectiveSpaceOverScheme n (Spec (CommRingCat.of k)))} (hS : S.Finite)
+    (hSc : ∀ P ∈ S, IsClosed {P}) :
+    ∃ A : Set (projectiveSpaceScheme k n), IsOpen A ∧ Dense A ∧
+      ∀ H : projectiveSpaceScheme k n, IsClosed {H} → ∀ a : Fin (n + 1) → k, a ≠ 0 →
+        Represents a H →
+        (H ∈ A ↔ ∀ P ∈ S, P ∉ (invertibleZeroIdeal (isInvertible_projectiveSpaceTwistingSheaf n _ 1)
+          (linearSection k n a)).support) := by
+  obtain ⟨A, hAo, hAd, hA⟩ := exists_isOpen_dense_avoiding
+    (𝟙 (projectiveSpaceOverScheme n (Spec (CommRingCat.of k)))) hS hSc
+  refine ⟨A, hAo, hAd, fun H hH a ha hra => ?_⟩
+  rw [hA H hH a ha hra]
+  simp only [hyperplaneSectionIdeal, Scheme.IdealSheafData.support_comap]
+  rfl
+
+/-- **Regular hyperplane sections avoiding finitely many points** (Hartshorne II, Theorem 8.18 and
+Remark 8.18.1). Let `k` be algebraically closed, `φ : X ⟶ ℙⁿ_k` a closed immersion of a
+nonsingular integral scheme, and `S` a finite set of closed points of `ℙⁿ_k`. There is a dense
+open subset `U` of `(ℙⁿ_k)^∨` whose closed points are exactly the hyperplanes `H_a` containing no
+point of `S`, not containing `X`, and with `H_a ∩ X` regular at every point. -/
+theorem bertini_regular_hyperplane_section_avoiding [IsAlgClosed k] {X : Scheme.{u}}
+    (φ : X ⟶ projectiveSpaceOverScheme n (Spec (CommRingCat.of k))) [IsClosedImmersion φ]
+    [IsIntegral X] (hX : X.IsRegular)
+    {S : Set (projectiveSpaceOverScheme n (Spec (CommRingCat.of k)))} (hS : S.Finite)
+    (hSc : ∀ P ∈ S, IsClosed {P}) :
+    ∃ U : Set (projectiveSpaceScheme k n), IsOpen U ∧ Dense U ∧
+      ∀ H : projectiveSpaceScheme k n, IsClosed {H} → ∀ a : Fin (n + 1) → k, a ≠ 0 →
+        Represents a H →
+        (H ∈ U ↔ (∀ P ∈ S, P ∉ (invertibleZeroIdeal
+            (isInvertible_projectiveSpaceTwistingSheaf n _ 1) (linearSection k n a)).support) ∧
+          (∃ x : X, x ∉ (hyperplaneSectionIdeal φ a).support) ∧
+          (hyperplaneSectionIdeal φ a).subscheme.IsRegular) := by
+  obtain ⟨A, hAo, hAd, hA⟩ := hyperplanes_avoiding_finite_set_dense hS hSc
+  obtain ⟨B, hBo, hBd, hB⟩ := bertini_regular_hyperplane_section φ hX
+  refine ⟨A ∩ B, hAo.inter hBo, hAd.inter_of_isOpen_left hBd hAo, fun H hH a ha hra => ?_⟩
+  rw [Set.mem_inter_iff, hA H hH a ha hra, hB H hH a ha hra]
+
+end Hartshorne.BertiniIncidence
