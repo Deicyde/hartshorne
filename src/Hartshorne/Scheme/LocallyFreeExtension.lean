@@ -56,8 +56,8 @@ theorem isLocallyFreeOfRank_of_shortExact {X : Scheme.{u}} [IsReduced X] [IsLoca
   have : Module.Finite O (Fx.obj S.X₂) := Module.Finite.equiv e'.symm
   have key : finrank (IsLocalRing.ResidueField O) (IsLocalRing.ResidueField O ⊗[O] Fx.obj S.X₂) =
       a + b := by
-    rw [Module.finrank_baseChange, e'.finrank_eq, Module.finrank_fintype_fun_eq_card, Fintype.card_sum,
-      Fintype.card_fin, Fintype.card_fin]
+    rw [Module.finrank_baseChange, e'.finrank_eq, Module.finrank_fintype_fun_eq_card,
+      Fintype.card_sum, Fintype.card_fin, Fintype.card_fin]
   exact key
 
 end Hartshorne

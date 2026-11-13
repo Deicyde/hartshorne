@@ -863,3 +863,6 @@ import Hartshorne.Scheme.LocalFrameGerms
 import Hartshorne.Scheme.NowhereVanishingSection
 import Hartshorne.Cohomology.ChevalleyAffineDescent
 import Hartshorne.Scheme.Differentials.SmoothHypersurfacesDense
+import Hartshorne.RingedSpace.InvertibleTensorEquivalence
+import Hartshorne.Scheme.LocallyFreeExtension
+import Hartshorne.Curve.VectorBundleLineFiltration

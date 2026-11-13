@@ -115,7 +115,8 @@ noncomputable def tensorLeftCompIsoOfTensorIso
 /-- **Tensoring with an invertible sheaf is an autoequivalence**: for an invertible `L`, the
 functor `F ↦ L ⊗ F` is an equivalence, with quasi-inverse `F ↦ L^∨ ⊗ F`. -/
 noncomputable def invertibleTensorEquivalence {L : 𝓜} (hL : IsInvertible L) : 𝓜 ≌ 𝓜 :=
-  CategoryTheory.Equivalence.mk (moduleSheafTensorLeft L) (moduleSheafTensorLeft (moduleSheafDual L))
+  CategoryTheory.Equivalence.mk (moduleSheafTensorLeft L)
+    (moduleSheafTensorLeft (moduleSheafDual L))
     (tensorLeftCompIsoOfTensorIso
       (moduleSheafTensorComm _ _ ≪≫ moduleSheafDualEvalIso L hL)).symm
     (tensorLeftCompIsoOfTensorIso (moduleSheafDualEvalIso L hL))
