@@ -30,6 +30,8 @@ Separatedness, part of the definition of a variety, is not used in the proof.
 ## Proof depends on
 
 - [The bad-hyperplane incidence correspondence](../../schemes/differentials/canonical-bertini/bertini-bad-hyperplane-incidence.md)
+- Finitely many members of $V$ already generate $E$ (local frames and
+  quasi-compactness), so one may assume $V$ is finite-dimensional.
 - The incidence of pairs $(x,s)$ with $s(x)=0$ has fibres in $V$ of
   codimension $\operatorname{rank} (E)>\dim X$; its image has proper closure in $V$.
 - Outside that image, the section is a unimodular element in every stalk;
