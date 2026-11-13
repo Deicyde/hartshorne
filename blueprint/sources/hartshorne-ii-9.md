@@ -87,10 +87,26 @@ representations were identical.
   Coherent modules are locally completions of coherent modules on such charts.
   This is Hartshorne's plain locally ringed-space definition; no topology on
   the section rings is added.
+  Verbatim: "A noetherian formal scheme is a locally ringed space (𝔛, O_𝔛)
+  which has a finite open cover {𝔘_i} such that for each i, the pair
+  (𝔘_i, O_𝔛|𝔘_i) is isomorphic, as a locally ringed space, to the completion of
+  some noetherian scheme X_i along a closed subscheme Y_i. A morphism of
+  noetherian formal schemes is a morphism as locally ringed spaces. A sheaf 𝔉
+  of O_𝔛-modules is said to be coherent if there is a finite open cover 𝔘_i as
+  above, with 𝔘_i ≅ X̂_i, and for each i there is a coherent sheaf ℱ_i on X_i
+  such that 𝔉|𝔘_i ≅ ℱ̂_i as O_{X̂_i}-modules via the given isomorphism
+  𝔘_i ≅ X̂_i." Neither clause requires the X_i to be affine; affine formal
+  schemes are defined separately on p.195.
 - **Examples 9.3.2–9.3.4 and affine formal schemes, p.195.** Scheme completions are algebraizable formal
   schemes, an ordinary Noetherian scheme is recovered by completing along
   itself, and completion at a closed point is the one-point locally ringed
   space with completed local ring.
+  Example 9.3.3 reads, verbatim: "If X is a noetherian scheme, and we take
+  Y = X, then X̂ = X. Thus the category of noetherian formal schemes includes
+  all noetherian schemes." Hartshorne does not say "embedding" or "full
+  subcategory"; fullness is the project's gloss, immediate from the p.194
+  definition (morphisms are morphisms of locally ringed spaces, as for
+  schemes, p.74).
 
 The existence of nonalgebraizable formal schemes mentioned in Example 9.3.2
 is `OUT`: it is contextual evidence that algebraizability is restrictive, not
@@ -119,6 +135,25 @@ or cited by the bridge leaf rather than built into Hartshorne's definition.
   `Mtilde tensor O_hat`, and completion is exact on finite modules. This is an
   ordinary tensor product of module sheaves, not a newly invented completed
   tensor product.
+  The proof of (c), verbatim (pp.195–196): "In each case we have a statement
+  about sheaves on 𝔛. Since the open affine subsets of X form a base for the
+  topology of X, and their intersections with Y a base for the topology of Y,
+  it will be sufficient to establish the corresponding property of the
+  sections over any such open set. So let U = Spec B be an open affine subset
+  of X, let J = Γ(U, Ĩ), and for any finitely generated A-module M, let
+  N = Γ(U, M̃). Then B is a noetherian ring (3.2), N is a finitely generated
+  B-module (5.4), and the functor M ↦ N is an exact functor from A-modules to
+  B-modules (5.5). We prove (c) first. So let M be a finitely generated
+  A-module. Then M^Δ = lim M̃/I^nM̃ by definition, so by (9.2),
+  Γ(U, M^Δ) = lim Γ(U, M̃/I^nM̃). But this is equal to lim N/J^nN = N̂, where
+  ^ now denotes the J-adic completion of a B-module. Now M ↦ N is exact as we
+  saw above, and N ↦ N̂ is exact by (9.3A). Thus M ↦ Γ(U, M^Δ) is exact for
+  each U, and so M ↦ M^Δ is exact." Hartshorne takes every open affine
+  U = Spec B of X, not only basic opens, and argues with sections over a
+  base; he does not mention stalks. For U = D(f) one has B = A_f and N = M_f
+  (Proposition 5.1(c)), which gives the completions of the M_f on
+  D(f) ∩ V(I). That specialization, and the passage from exactness on
+  sections over a base to exactness of sheaves, are the project's.
 - **Definition and Proposition 9.5, pp.196–197.** An ideal of definition has
   full support and Noetherian scheme quotient. Any two ideals of definition
   are adically cofinal; there is a unique largest one, characterized by its
