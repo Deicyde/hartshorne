@@ -10,8 +10,7 @@ proof: formalized
 # The universal property of a blowup
 
 If $f : Z \to X$ makes the inverse-image ideal $f^{-1}I \cdot \mathcal{O}_Z$ invertible,
-there is a unique factorization $Z \to Bl_I(X) \to X$. As a supporting lemma,
-a surjective morphism between invertible sheaves is an isomorphism.
+there is a unique factorization $Z \to Bl_I(X) \to X$.
 
 ## Depends on
 

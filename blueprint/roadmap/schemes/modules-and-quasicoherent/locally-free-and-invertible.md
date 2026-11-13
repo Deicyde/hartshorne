@@ -18,6 +18,10 @@ hypothesis on the stalks is needed: if $\mathcal{O} _{X,x} = 0$, then
 $\mathcal{O} _X$ vanishes on a neighbourhood of $x$, where every module is free
 of every rank.
 
+A surjective map of invertible sheaves on a locally ringed space is an
+isomorphism (Exercise II.7.1); the proof does not use that the space is locally
+ringed.
+
 ## Depends on
 
 - [Sheaves of modules](sheaves-of-modules.md)
@@ -31,3 +35,4 @@ of every rank.
 ## Sources
 
 - [Hartshorne II.5, free, locally free, and invertible sheaves on printed p. 109](../../../sources/hartshorne-ii-5.md#modules-quasi-coherence-and-exactness)
+- [Hartshorne II.7, Exercise 7.1 (p.169)](../../../sources/hartshorne-ii-7.md#adopted-exercises)
