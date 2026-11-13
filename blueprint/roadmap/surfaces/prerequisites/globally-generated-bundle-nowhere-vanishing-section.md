@@ -2,6 +2,7 @@
 article_id: af_094f67cb8eec8e36da045be8
 declaration: theorem
 origin: cited
+lean: Hartshorne.exists_nonvanishing_section_shortExact Hartshorne.NowhereVanishingSection.sectionHom
 ---
 
 # A nowhere-vanishing section of a high-rank generated bundle
