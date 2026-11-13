@@ -274,6 +274,146 @@ theorem exists_isOpen_dense_avoiding [IsAlgClosed k] [IsClosedImmersion φ] {S :
   exact forall₂_congr fun x hx =>
     not_congr ((hyperplanesThrough_spec φ x (hSc x hx)).2.2 H hH a ha hra)
 
+/-! ### Local equations near regular points -/
+
+/-- **The bad hyperplanes at a regular closed point.** Let `k` be algebraically closed and
+`φ : X ⟶ ℙⁿ_k` a closed immersion of an integral scheme of dimension `r`. At a closed point `x`
+where `X` is regular, the coefficient vectors of the bad hyperplanes form a subspace of `kⁿ⁺¹` of
+dimension `n - r`. -/
+theorem finrank_badHyperplaneSubspace_of_isRegularAt [IsAlgClosed k] [IsClosedImmersion φ]
+    [IsIntegral X] {r : ℕ} (hr : topologicalKrullDim X = r) (x : X) (hx : IsClosed {x})
+    (hreg : X.IsRegularAt x) :
+    Module.finrank k (badHyperplaneSubspace φ x) = n - r := by
+  have : IsProper (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) :=
+    projectiveSpaceOverSchemeProjection_isProper n _
+  have : IsRegularLocalRing (X.presheaf.stalk x) := hreg
+  have hdim := dimension_at_closed_point (φ ≫ projectiveSpaceOverSchemeProjection n _)
+    ⟨inferInstance, inferInstance⟩ x hx
+  rw [hr] at hdim
+  exact finrank_badSubspace _ (isInvertible_pullback_projectiveSpaceTwistingSheaf φ) _ φ rfl
+    (Iso.refl _) (fun _ => rfl) x hx hdim.symm
+
+/-- **Local equations for the bad hyperplanes near regular points.** Let `k` be algebraically
+closed, `φ : X ⟶ ℙⁿ_k` a closed immersion of an integral scheme of dimension `r`, and `O ⊆ X` an
+open set whose closed points are regular points of `X`. Every closed point `x₀ ∈ O` has an affine
+neighbourhood `V ⊆ O` carrying functions `μ ℓ j` (`ℓ ≤ r`, `j ≤ n`) with an `(r + 1)`-minor
+invertible on `V`, such that at every closed point `x ∈ V`, `a ∈ K_x` iff the `r + 1` functions
+`∑ⱼ aⱼ μ ℓ j` all vanish at `x`. -/
+theorem exists_local_incidence_equations_of_isOpen [IsAlgClosed k] [IsClosedImmersion φ]
+    [IsIntegral X] {O : Set X} (hO : IsOpen O) (hreg : ∀ x ∈ O, IsClosed {x} → X.IsRegularAt x)
+    {r : ℕ} (hr : topologicalKrullDim X = r) (x₀ : X) (hx₀O : x₀ ∈ O) (hx₀ : IsClosed {x₀}) :
+    ∃ (V : X.Opens) (_ : IsAffineOpen V) (_ : x₀ ∈ V) (_ : (V : Set X) ⊆ O)
+      (μ : Fin (r + 1) → Fin (n + 1) → Γ(X, V)) (J : Fin (r + 1) ↪ Fin (n + 1)),
+      IsUnit (Matrix.det (Matrix.of fun ℓ ℓ' => μ ℓ (J ℓ'))) ∧
+      ∀ (x : X) (hx : x ∈ V), IsClosed {x} → ∀ a : Fin (n + 1) → k,
+        (a ∈ badHyperplaneSubspace φ x ↔
+          ∀ ℓ, X.presheaf.germ V x hx (∑ j, X.presheaf.map (homOfLE le_top).op
+            (kConst (φ ≫ projectiveSpaceOverSchemeProjection n _) (a j)) * μ ℓ j) ∈
+            IsLocalRing.maximalIdeal (X.presheaf.stalk x)) := by
+  classical
+  have : IsProper (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) :=
+    projectiveSpaceOverSchemeProjection_isProper n _
+  set q := φ ≫ projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k)) with hq
+  have hL := isInvertible_pullback_projectiveSpaceTwistingSheaf φ
+  set s := pulledBackCoordinates φ with hs
+  obtain ⟨i, hi⟩ := exists_mem_chartPreimage φ x₀
+  set U := nonvanishingLocusOpens hL (s i) with hU_def
+  have hx₀U : x₀ ∈ U := by
+    rw [hU_def, ← preimage_projectiveSpaceChart_eq_nonvanishingLocusOpens hL s φ (Iso.refl _)
+      (fun _ => rfl) i]
+    exact hi
+  obtain ⟨hU, hsurj⟩ :=
+    (isClosedImmersion_iff_isAffineOpen_and_surjective_chartSectionPolynomialMap hL s q φ
+      (Iso.refl _) (fun _ => rfl) rfl).1 inferInstance i
+  let : Algebra k Γ(X, U) :=
+    ((X.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op).hom.comp (kConst q)).toAlgebra
+  have halg : ∀ c, algebraMap k Γ(X, U) c = X.presheaf.map (homOfLE le_top).op (kConst q c) :=
+    fun _ => rfl
+  let f : Fin (n + 1) → Γ(X, U) := sectionRatio hL s i
+  have hgen : Algebra.adjoin k (Set.range f) = ⊤ := by
+    rw [Algebra.adjoin_range_eq_range_aeval, eq_top_iff]
+    rintro g -
+    obtain ⟨P, rfl⟩ := hsurj g
+    refine (AlgHom.mem_range _).2
+      ⟨MvPolynomial.map (Scheme.ΓSpecIso (CommRingCat.of k)).hom.hom P, ?_⟩
+    rw [MvPolynomial.aeval_def, MvPolynomial.eval₂_map, chartSectionPolynomialMap,
+      MvPolynomial.coe_eval₂Hom]
+    congr 1
+    ext b
+    change X.presheaf.map _ (q.appTop ((Scheme.ΓSpecIso _).inv ((Scheme.ΓSpecIso _).hom b))) = _
+    rw [Iso.hom_inv_id_apply]
+    rfl
+  have : Algebra.FiniteType k Γ(X, U) :=
+    ⟨⟨Finset.univ.image f, by rw [Finset.coe_image, Finset.coe_univ, Set.image_univ, hgen]⟩⟩
+  have hpt : ∀ (x : X) (hx : x ∈ U), x ∈ O → IsClosed {x} → ∃ ev : Γ(X, U) →ₐ[k] k,
+      (∀ g, ev g = 0 ↔ X.presheaf.germ U x hx g ∈ maximalIdeal (X.presheaf.stalk x)) ∧
+      (∀ g, X.presheaf.germ U x hx g ∈ maximalIdeal (X.presheaf.stalk x) ^ 2 ↔
+        g ∈ RingHom.ker ev ^ 2) ∧
+      Module.finrank k (Γ(X, U) ⧸ RingHom.ker ev ^ 2) = r + 1 := by
+    intro x hx hxO hxc
+    have : IsRegularLocalRing (X.presheaf.stalk x) := hreg x hxO hxc
+    obtain ⟨ev, h1, h2, h3⟩ := incidence_exists_kPoint_chart q hU halg x hx hxc
+    refine ⟨ev, h1, h2, ?_⟩
+    have hdim := dimension_at_closed_point q ⟨inferInstance, inferInstance⟩ x hxc
+    rw [hr] at hdim
+    have h := (IsRegularLocalRing.iff_finrank_cotangentSpace (X.presheaf.stalk x)).mp
+      inferInstance
+    rw [← hdim] at h
+    have h' : Module.finrank (ResidueField (X.presheaf.stalk x))
+        (CotangentSpace (X.presheaf.stalk x)) = r := by exact_mod_cast h
+    rw [h3, h']
+  obtain ⟨ev₀, hev₀, -, hdim₀⟩ := hpt x₀ hx₀U hx₀O hx₀
+  obtain ⟨J, μ, h, hh, hμ⟩ := exists_jetFrame_incidence_equations f ev₀
+    (incidence_exists_sub_sum_mem_ker_sq f i (sectionRatio_self hL s i) hgen ev₀) hdim₀
+  obtain ⟨g, hgO, hx₀g⟩ := hU.exists_basicOpen_le (V := ⟨O, hO⟩) ⟨x₀, hx₀O⟩ hx₀U
+  set D := h * (Matrix.of fun ℓ ℓ' => μ ℓ (J ℓ')).det * g with hD
+  have hEunit : ∀ (E : Γ(X, U)) (x : X) (hxU : x ∈ U) (ev : Γ(X, U) →ₐ[k] k),
+      (∀ g, ev g = 0 ↔ X.presheaf.germ U x hxU g ∈ maximalIdeal (X.presheaf.stalk x)) →
+      (x ∈ X.basicOpen E ↔ ev E ≠ 0) := by
+    intro E x hxU ev hev
+    rw [X.mem_basicOpen E x hxU, Ne, hev, notMem_maximalIdeal]
+  have hg₀ : ev₀ g ≠ 0 := (hEunit g x₀ hx₀U ev₀ hev₀).1 hx₀g
+  have hDO : (X.basicOpen D : Set X) ⊆ O := by
+    intro x hx
+    rw [hD, Scheme.basicOpen_mul] at hx
+    exact hgO hx.2
+  refine ⟨X.basicOpen D, hU.basicOpen D, (hEunit D x₀ hx₀U ev₀ hev₀).2 (by
+      rw [hD, map_mul]; exact mul_ne_zero hh hg₀), hDO,
+    fun ℓ j => X.presheaf.map (homOfLE (X.basicOpen_le D)).op (μ ℓ j), J, ?_, ?_⟩
+  · have hdet : Matrix.det (Matrix.of fun ℓ ℓ' =>
+        X.presheaf.map (homOfLE (X.basicOpen_le D)).op (μ ℓ (J ℓ'))) =
+        X.presheaf.map (homOfLE (X.basicOpen_le D)).op (Matrix.of fun ℓ ℓ' => μ ℓ (J ℓ')).det := by
+      rw [RingHom.map_det]
+      rfl
+    rw [hdet]
+    have hu := X.toRingedSpace.isUnit_res_basicOpen D
+    change IsUnit (X.presheaf.map (homOfLE (X.basicOpen_le D)).op D) at hu
+    rw [hD, map_mul, map_mul] at hu
+    exact isUnit_of_mul_isUnit_right (isUnit_of_mul_isUnit_left hu)
+  · intro x hx hxc a
+    have hxU : x ∈ U := X.basicOpen_le D hx
+    have hxO : x ∈ O := hDO hx
+    obtain ⟨ev, hev, hsq, -⟩ := hpt x hxU hxO hxc
+    have hevD' := (hEunit D x hxU ev hev).1 hx
+    rw [hD, map_mul, map_mul] at hevD'
+    have hevD := left_ne_zero_of_mul hevD'
+    have hgerm : ∀ ℓ, X.presheaf.germ (X.basicOpen D) x hx
+        (∑ j, X.presheaf.map (homOfLE le_top).op (kConst q (a j)) *
+          X.presheaf.map (homOfLE (X.basicOpen_le D)).op (μ ℓ j)) =
+        X.presheaf.germ U x hxU (∑ j, algebraMap k _ (a j) * μ ℓ j) := by
+      intro ℓ
+      simp only [map_sum, map_mul, TopCat.Presheaf.germ_res_apply, halg]
+    simp_rw [hgerm, ← hev]
+    simp only [map_sum, map_mul, AlgHom.commutes, Algebra.algebraMap_self, RingHom.id_apply]
+    refine incidence_mem_iff_of_minor (fun ℓ j => ev (μ ℓ j)) J ?_ _
+      (finrank_badHyperplaneSubspace_of_isRegularAt φ hr x hxc (hreg x hxO hxc)) ?_ a
+    · convert right_ne_zero_of_mul hevD using 1
+      rw [AlgHom.map_det]
+      rfl
+    · intro b hb
+      rw [badHyperplaneSubspace, incidence_mem_badSubspace_iff_chart q hL s i halg x hxU, hsq]
+      exact hμ ev (left_ne_zero_of_mul hevD) b hb
+
 end Universal
 
 end BertiniIncidence
