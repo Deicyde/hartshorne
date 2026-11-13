@@ -339,6 +339,144 @@ theorem exists_bijective_app [Finite I] [Q.IsQuasicoherent]
 
 end Spread
 
+/-! ### Bases near a point -/
+
+/-- If `α : 𝒪_Y^r ⟶ Q` is an isomorphism on stalks at `y`, then over every basic open of some
+affine neighbourhood of `y` the restrictions of the global sections defining `α` form a basis
+of the sections of `Q`. -/
+theorem exists_basis_near {Y : Scheme.{u}} {r : ℕ} (Q : Y.Modules)
+    (α : (show Y.Modules from SheafOfModules.free (ULift.{u} (Fin r))) ⟶ Q) [Q.IsQuasicoherent]
+    [∀ V : Y.AffineZariskiSite, Module.FinitePresentation Γ(Y, V.1) Γ(Q, V.1)] (y : Y)
+    (hα : IsIso ((Scheme.Modules.toPresheaf Y ⋙
+      TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map α)) :
+    ∃ W : Y.AffineZariskiSite, y ∈ W.1 ∧ ∀ U : Y.AffineZariskiSite, U ≤ W →
+      ∃ b : Module.Basis (Fin r) Γ(Y, U.1) Γ(Q, U.1), ∀ k,
+        b k = Q.presheaf.map (homOfLE le_top).op ((Q.freeHomEquiv α (ULift.up k)).val (op ⊤)) := by
+  obtain ⟨W, hyW, hW⟩ := exists_bijective_app Q α y hα
+  refine ⟨W, hyW, fun U hU => ?_⟩
+  obtain ⟨bE, hbE⟩ := exists_basis_free_sections U.2 (ULift.{u} (Fin r))
+  let e := LinearEquiv.ofBijective (appₗ Q α U.1) (hW U hU)
+  refine ⟨(bE.reindex Equiv.ulift).map e, fun k => ?_⟩
+  rw [Module.Basis.map_apply, Module.Basis.reindex_apply, hbE]
+  exact (PresheafOfModules.sections_property (Q.freeHomEquiv α (ULift.up k))
+    (homOfLE (le_top : U.1 ≤ ⊤)).op).symm
+
+/-! ### The combined evaluation morphism -/
+
+theorem modules_map_bijective_of_eq {Z : Scheme.{u}} (P : Z.Modules) {A B : Z.Opens} (h : A ≤ B)
+    (e : A = B) : Function.Bijective (P.presheaf.map (homOfLE h).op) := by
+  subst e
+  have : (homOfLE h).op = 𝟙 (op A) := rfl
+  rw [this]
+  exact ConcreteCategory.bijective_of_isIso _
+
+theorem modules_map_refl {Z : Scheme.{u}} (P : Z.Modules) (A : Z.Opens) (x : Γ(P, A)) :
+    P.presheaf.map (homOfLE (le_refl A)).op x = x := by
+  have : (homOfLE (le_refl A)).op = 𝟙 (op A) := rfl
+  rw [this, CategoryTheory.Functor.map_id]
+  rfl
+
+section Eval
+
+open QuasiCoherentAlgebra
+
+variable {X Y : Scheme.{u}} (f : X ⟶ Y) [IsAffineHom f] (M : X.Modules) (F : Y.Modules)
+  [((Scheme.Modules.pushforward f).obj M).IsQuasicoherent] [F.IsQuasicoherent]
+  [hfp : ∀ V : Y.AffineZariskiSite,
+    Module.FinitePresentation Γ(Y, V.1) Γ((Scheme.Modules.pushforward f).obj M, V.1)]
+
+/-- The evaluation morphisms at global sections `m₁, …, m_r` of `f_* M`, combined into a
+morphism to `F^r`. -/
+def evalSum {r : ℕ} (m : Fin r → Γ((Scheme.Modules.pushforward f).obj M, ⊤)) :
+    (Scheme.Modules.pushforward (ofHom f).relSpecToBase).obj (homData f M F).glue ⟶
+      ⨁ fun _ : Fin r => F :=
+  biproduct.lift fun k => evalHom f M F (m k)
+
+/-- Over an affine open `U` on which the restrictions of the `mᵢ` form a basis of the sections of
+`f_* M`, the combined evaluation morphism is bijective on sections. -/
+theorem bijective_evalSum_app {r : ℕ} (m : Fin r → Γ((Scheme.Modules.pushforward f).obj M, ⊤))
+    (U : Y.AffineZariskiSite)
+    (b : Module.Basis (Fin r) Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1))
+    (hb : ∀ k, b k = ((Scheme.Modules.pushforward f).obj M).presheaf.map (homOfLE le_top).op (m k)) :
+    Function.Bijective ((evalSum f M F m).app U.1) := by
+  refine (Function.Bijective.of_comp_iff' (biproduct_sections_bijective F r U.1) _).mp ?_
+  have hR := modules_map_bijective_of_eq (homData f M F).glue (piece_le f (le_refl U.1))
+    (piece_eq f U)
+  have hlin : Function.Bijective (homSec.lin f M F (U := U.1)) := Function.bijective_id
+  have key : ((fun x k => (biproduct.π (fun _ : Fin r => F) k).app U.1 x) ∘
+      (evalSum f M F m).app U.1) = (b.constr ℤ).symm ∘ homSec.lin f M F ∘ homOf f M F U ∘
+        (homData f M F).glue.presheaf.map (homOfLE (piece_le f (le_refl U.1))).op := by
+    funext s k
+    change (evalSum f M F m ≫ biproduct.π (fun _ : Fin r => F) k).app U.1 s = _
+    rw [evalSum, biproduct.lift_π, ← modules_map_refl F U.1 ((evalHom f M F (m k)).app U.1 s)]
+    erw [evalHom_app_restrict f M F (m k) (V := U.1) ⟨U, le_refl U.1⟩ s]
+    change _ = homSec.lin f M F (homOf f M F U ((homData f M F).glue.presheaf.map
+      (homOfLE (piece_le f (le_refl U.1))).op s)) (b k)
+    rw [hb]
+    rfl
+  rw [key]
+  have hhom : Function.Bijective (homOf f M F U) :=
+    ⟨homOf_injective f M F U, homOf_surjective f M F U⟩
+  exact (b.constr ℤ).symm.bijective.comp (hlin.comp (hhom.comp hR))
+
+/-- If `α : 𝒪_Y^r ⟶ f_* M` is an isomorphism on stalks at `y`, the combined evaluation morphism
+at the global sections defining `α` is an isomorphism on stalks at `y`. -/
+theorem isIso_stalk_evalSum (y : Y) {r : ℕ}
+    (α : (show Y.Modules from SheafOfModules.free (ULift.{u} (Fin r))) ⟶
+      (Scheme.Modules.pushforward f).obj M)
+    (hα : IsIso ((Scheme.Modules.toPresheaf Y ⋙
+      TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map α)) :
+    IsIso ((Scheme.Modules.toPresheaf Y ⋙ TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map
+      (evalSum f M F fun k =>
+        (((Scheme.Modules.pushforward f).obj M).freeHomEquiv α (ULift.up k)).val (op ⊤))) := by
+  obtain ⟨W, hyW, hW⟩ := exists_basis_near _ α y hα
+  refine isIso_stalk_of_forall_exists_bijective _ y fun V hyV => ?_
+  obtain ⟨g, hgV, hyg⟩ := W.2.exists_basicOpen_le ⟨y, hyV⟩ hyW
+  refine ⟨Y.basicOpen g, hyg, hgV, ?_⟩
+  obtain ⟨b, hb⟩ := hW (W.basicOpen g) (W.basicOpen_le g)
+  exact bijective_evalSum_app f M F _ (W.basicOpen g) b hb
+
+end Eval
+
 end ChevalleyApprox
+
+open ChevalleyApprox in
+/-- **Generic coherent pushforward approximation** (Hartshorne III, Exercise 4.2(b)). Let
+`f : X ⟶ Y` be a finite morphism with `Y` integral and Noetherian, `M` a coherent `𝒪_X`-module
+and `α : 𝒪_Y^r ⟶ f_* M` an isomorphism at the generic point of `Y`. For every coherent
+`𝒪_Y`-module `F` there are a coherent `𝒪_X`-module `G` and a morphism `f_* G ⟶ F^r` which is an
+isomorphism at the generic point of `Y`. -/
+theorem exists_genericCoherentApproximation {X Y : Scheme.{u}} (f : X ⟶ Y) [IsFinite f]
+    [IsIntegral Y] [IsNoetherian Y] (M : X.Modules) (hM : IsCoherent M)
+    (r : ℕ) (α : (SheafOfModules.free (ULift.{u} (Fin r)) : Y.Modules) ⟶
+      (Scheme.Modules.pushforward f).obj M)
+    (hα : IsIso ((Scheme.Modules.toPresheaf Y ⋙
+      TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} (genericPoint Y)).map α))
+    (F : Y.Modules) (hF : IsCoherent F) :
+    ∃ (G : X.Modules) (_ : IsCoherent G)
+      (β : (Scheme.Modules.pushforward f).obj G ⟶ ⨁ fun _ : Fin r => F),
+      IsIso ((Scheme.Modules.toPresheaf Y ⋙
+        TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} (genericPoint Y)).map β) := by
+  have hfM := isCoherent_pushforward_of_isFinite f hM
+  have : ((Scheme.Modules.pushforward f).obj M).IsQuasicoherent := hfM.isQuasicoherent
+  have : F.IsQuasicoherent := hF.isQuasicoherent
+  have hfin : ∀ U : Y.AffineZariskiSite,
+      Module.Finite Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) :=
+    fun U => module_finite_pushforward_sections f hM ⟨U.1, U.2⟩
+  have : ∀ U : Y.AffineZariskiSite, Module.Finite Γ(Y, U.1) Γ(F, U.1) :=
+    fun U => (forall_affine_finite_of_isCoherent F hF ⟨U.1, U.2⟩).1
+  have : ∀ U : Y.AffineZariskiSite,
+      Module.FinitePresentation Γ(Y, U.1) Γ((Scheme.Modules.pushforward f).obj M, U.1) := by
+    intro U
+    have : IsNoetherianRing Γ(Y, U.1) := IsLocallyNoetherian.component_noetherian ⟨U.1, U.2⟩
+    have := hfin U
+    exact Module.finitePresentation_of_finite _ _
+  let m : Fin r → Γ((Scheme.Modules.pushforward f).obj M, ⊤) := fun k =>
+    (((Scheme.Modules.pushforward f).obj M).freeHomEquiv α (ULift.up k)).val (op ⊤)
+  refine ⟨approx f M F, isCoherent_approx f M F,
+    (pushforwardApproxIso f M F).hom ≫ evalSum f M F m, ?_⟩
+  have := isIso_stalk_evalSum f M F (genericPoint Y) α hα
+  rw [Functor.map_comp]
+  infer_instance
 
 end Hartshorne
