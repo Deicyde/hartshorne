@@ -20,8 +20,8 @@ is the set of closed points of a closed irreducible subset of `X ×_k (ℙⁿ_k)
 
 ## Proof
 
-The incidence set `B` of closed points is the closure of its closed points intersected with each
-chart. Near a closed point `x₀`, the subspaces `K_x` are the kernels of `r + 1` linear forms whose
+Let `Z` be the closure of the set `B` of closed incidence points; we compute `Z` on charts.
+Near a closed point `x₀`, the subspaces `K_x` are the kernels of `r + 1` linear forms whose
 coefficients are regular functions on an affine neighbourhood `V` and which have an invertible
 `(r + 1)`-minor with columns `J` (`exists_local_incidence_equations`). On the chart
 `V ×_k D₊(a_β)` the closure `Z` of `B` is therefore the common zero locus of these forms
