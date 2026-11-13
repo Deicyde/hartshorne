@@ -11,8 +11,8 @@ import Hartshorne.Scheme.IdealPowerProduct
 # Blowing up a power of the center
 
 Hartshorne, *Algebraic Geometry*, II, Exercise 7.11(a) (p. 171): for a coherent sheaf of ideals
-`I` on a Noetherian scheme `X` and `d > 0`, the blowup of `X` along `Iᵈ` is canonically
-isomorphic over `X` to the blowup along `I`.
+`I` on a Noetherian scheme `X` and `d > 0`, the blowup of `X` along `Iᵈ` is isomorphic to the
+blowup along `I`; the isomorphism constructed here is canonical and lies over `X`.
 
 ## Proof
 
@@ -313,10 +313,11 @@ theorem projFunctorPowIso_hom_natTrans (U : X.AffineZariskiSite) :
 
 variable [IsNoetherian X] (hI : IsCoherent I.toModules)
 
-/-- **Blowups are invariant under powers of the center** (Hartshorne II, Exercise 7.11(a)). For a
-coherent sheaf of ideals `I` on a Noetherian scheme `X` and `d > 0`, the blowup of `X` along `Iᵈ`
-is canonically isomorphic to the blowup along `I`, over `X`
-(`blowupPowIso_hom_blowupProjection`). Over an affine open `U`, it is the isomorphism
+/-- **Blowups are invariant under powers of the center** (Hartshorne II, Exercise 7.11(a): the two
+blowups are isomorphic). For a coherent sheaf of ideals `I` on a Noetherian scheme `X` and `d > 0`,
+the blowup of `X` along `Iᵈ` is canonically isomorphic to the blowup along `I`, over `X`
+(`blowupPowIso_hom_blowupProjection`); this canonical isomorphism over `X` strengthens
+Hartshorne's statement. Over an affine open `U`, it is the isomorphism
 `Proj Γ(U, ⨁ₙ (Iᵈ)ⁿ) ≅ Proj Γ(U, ⨁ₙ Iⁿ)^{(d)} ≅ Proj Γ(U, ⨁ₙ Iⁿ)`, the Rees algebra of `Iᵈ` being
 the `d`-th Veronese subring of the Rees algebra of `I`. -/
 def blowupPowIso (d : ℕ) (hd : 0 < d) : (I ^ d).blowup (I.isCoherent_pow d) ≅ I.blowup hI :=

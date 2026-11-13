@@ -10,7 +10,8 @@ proof: formalized
 # Blowups are invariant under powers of the center
 
 For every coherent ideal $I$ and positive integer $d$, the blowup along $I^d$
-is canonically isomorphic over $X$ to the blowup along $I$.
+is isomorphic to the blowup along $I$. Hartshorne asks only for an isomorphic
+scheme; the formalization gives a canonical isomorphism over $X$.
 
 ## Depends on
 
