@@ -21,4 +21,4 @@ locally free sheaf is such a bundle.
 
 ## Sources
 
-- [Hartshorne II.7, Exercise 7.10(a,b) (pp.170–171)](../../../../sources/hartshorne-ii-7.md#adopted-exercises)
+- [Hartshorne II.7, Exercise 7.10(a,b) (p.170)](../../../../sources/hartshorne-ii-7.md#adopted-exercises)

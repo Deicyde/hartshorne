@@ -7,7 +7,7 @@ import Hartshorne.Scheme.ProjectiveBundleGluing
 /-!
 # Projective-space bundles
 
-Hartshorne, *Algebraic Geometry*, II, Exercise 7.10(a,b) (pp. 170–171).
+Hartshorne, *Algebraic Geometry*, II, Exercise 7.10(a,b) (p. 170).
 
 ## Projective `n`-space bundles
 

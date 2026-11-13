@@ -11,8 +11,10 @@ proof: formalized
 
 If a Noetherian scheme $X$ is completed along the closed subscheme $Y = X$,
 then the canonical map identifies its completion with $X$ as a locally ringed
-space. Consequently Noetherian schemes embed into Hartshorne's category of
-Noetherian formal schemes.
+space. Consequently the category of Noetherian formal schemes includes all
+Noetherian schemes. The inclusion is full, because morphisms of schemes (p.74)
+and morphisms of Noetherian formal schemes (p.194) are both defined as
+morphisms of locally ringed spaces.
 
 ## Depends on
 
