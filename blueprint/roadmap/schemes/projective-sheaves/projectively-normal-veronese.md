@@ -9,14 +9,16 @@ proof: formalized
 
 # Projectively normal Veronese embeddings
 
-Let $k$ be algebraically closed and let $X \subseteq \mathbb{P}^r_{k}$ be connected and normal.
-For all sufficiently large $d$, the $d$-uple embedding of $X$ is projectively
-normal.
+Let $k$ be algebraically closed and let $X \subseteq \mathbb{P}^r_{k}$ be connected and normal,
+with homogeneous coordinate ring $S$ and $S' = \bigoplus_{n \ge 0} \Gamma (X,\mathcal{O}_X(n))$.
 
-The proof first uses eventual recovery to show equality between the
-homogeneous coordinate ring and its integral-closure section ring in all
-sufficiently large degrees, then passes to a sufficiently high Veronese
-subring.
+(b) $S_d = S'_d$ for all sufficiently large $d$.
+
+(c) The Veronese subring $S^{(d)}$ is integrally closed for all sufficiently large $d$; hence
+for all sufficiently large $d$ the $d$-uple embedding of $X$ is projectively normal.
+
+The proof of (b) uses eventual recovery (Ex. 5.9); (c) then passes to a sufficiently high
+Veronese subring.
 
 ## Depends on
 
