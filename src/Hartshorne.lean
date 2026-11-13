@@ -587,6 +587,7 @@ import Hartshorne.Intersection.NormalizationPushforwardOrder
 import Hartshorne.Intersection.NormalizationFibreOrder
 import Hartshorne.Intersection.NormalizationPushforwardDivisor
 import Hartshorne.Intersection.ProjectiveCycleDegreeInvariance
+import Hartshorne.Intersection.ProjectiveCycleLinearSpaceEquivalence
 import Hartshorne.Intersection.RationalEquivalenceLocalization
 import Hartshorne.RingedSpace.ModuleSheafTensorPowerIso
 import Hartshorne.Scheme.AmplePowerEquivalence
