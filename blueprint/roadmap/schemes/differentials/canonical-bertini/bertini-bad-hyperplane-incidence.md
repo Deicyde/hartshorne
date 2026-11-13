@@ -24,6 +24,7 @@ is closed and irreducible, and has dimension $n - 1$.
 
 ## Proof depends on
 
+- [Separation of points and tangent vectors](../../projective-geometry/linear-systems-ampleness/separates-points-tangents-iff-closed-immersion.md)
 - The projective bundle associated to the kernels of the pointwise first-jet
   evaluation maps.
 
