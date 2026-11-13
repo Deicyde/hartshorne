@@ -15,6 +15,15 @@ Let `Φ : C ⥤ D` be an exact functor between abelian categories preserving inj
 `Φ(RⁿH(G)) ≅ Φ(hⁿ(H(I))) ≅ hⁿ(H'(Φ(I))) ≅ RⁿH'(Φ(G))`, where `Φ(I)` is the image injective
 resolution of `Φ(G)`. In particular this applies to `Hartshorne.Ringed.sheafExtRestrictIso`
 (`Hartshorne.Ringed.sheafExtRestrictIso_eq_ofResolution`).
+
+For two composites `Φ₂ ∘ Φ₁` and `Ψ₂ ∘ Ψ₁` of such functors, identified by an isomorphism `c`, the
+composite isomorphisms `Φ₂Φ₁(RⁿH(G)) ≅ RⁿH₂(Φ₂Φ₁G)` and `Ψ₂Ψ₁(RⁿH(G)) ≅ RⁿK₂(Ψ₂Ψ₁G)` agree up
+to `c` as soon as the underlying identifications `H ≅ H₂` and `H ≅ K₂` agree in each degree
+(`Hartshorne.RightDerivedComp.rightDerivedCompIso_comp_naturality`). The proof computes everything
+with one injective resolution and reduces to a statement about short complexes
+(`Hartshorne.RightDerivedComp.mapHomologyIso_comp_naturality`), using the composition law for the
+isomorphisms `(S.map F).homology ≅ F(S.homology)`
+(`Hartshorne.RightDerivedComp.mapHomologyIso_comp`).
 -/
 
 universe u
