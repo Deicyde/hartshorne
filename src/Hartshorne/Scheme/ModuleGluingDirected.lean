@@ -87,8 +87,41 @@ noncomputable def N : (piP S P).Submodule where
       (P (tgt a)).val.map f (s (tgt a))
     rw [PresheafOfModules.naturality_apply, hs a]
 
-/-- The presheaf of compatible families. -/
-noncomputable abbrev Fpre : PresheafOfModules.{u} S.obj := (N S P src tgt α).toPresheafOfModules
+/-! The module of compatible families over `V` is built from the separate definitions
+`FamilyType`, `familyAddCommGroup`, `familyModule` and `Fobj` below rather than inline. When the
+kernel compares two such modules over opens that agree only up to unfolding (for instance the
+sections of a restriction of the glued module against the sections of the glued module itself),
+it can then compare the opens directly, instead of unfolding the compatibility conditions and the
+module structures of all the pieces, which is extremely slow and memory-hungry. -/
+
+/-- The type of compatible families over `V`. -/
+def FamilyType (V : (Opens T)ᵒᵖ) : Type u := ↥((N S P src tgt α).obj V)
+
+/-- The additive group of compatible families over `V`. -/
+@[instance_reducible]
+noncomputable def familyAddCommGroup (V : (Opens T)ᵒᵖ) :
+    AddCommGroup (FamilyType S P src tgt α V) :=
+  inferInstanceAs (AddCommGroup ↥((N S P src tgt α).obj V))
+
+/-- The module of compatible families over `V`. -/
+@[instance_reducible]
+noncomputable def familyModule (V : (Opens T)ᵒᵖ) :
+    @Module (S.obj.obj V) (FamilyType S P src tgt α V) _
+      (familyAddCommGroup S P src tgt α V).toAddCommMonoid :=
+  inferInstanceAs (Module (S.obj.obj V) ↥((N S P src tgt α).obj V))
+
+/-- The module of compatible families over `V`, as an object of `ModuleCat`. -/
+noncomputable def Fobj (V : (Opens T)ᵒᵖ) : ModuleCat.{u} (S.obj.obj V) :=
+  @ModuleCat.of (S.obj.obj V) _ (FamilyType S P src tgt α V) (familyAddCommGroup S P src tgt α V)
+    (familyModule S P src tgt α V)
+
+/-- The presheaf of compatible families: the presheaf of modules of the submodule `N` of the
+product, with its modules of sections given by `Fobj`. -/
+noncomputable abbrev Fpre : PresheafOfModules.{u} S.obj where
+  obj V := Fobj S P src tgt α V
+  map f := (N S P src tgt α).toPresheafOfModules.map f
+  map_id V := (N S P src tgt α).toPresheafOfModules.map_id V
+  map_comp f g := (N S P src tgt α).toPresheafOfModules.map_comp f g
 
 lemma isSheaf_Fpre :
     Presheaf.IsSheaf (Opens.grothendieckTopology T) (Fpre S P src tgt α).presheaf := by
