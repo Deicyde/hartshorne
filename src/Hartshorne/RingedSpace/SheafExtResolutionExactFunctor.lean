@@ -819,6 +819,75 @@ theorem sheafExtIsoHomologyOfLocallyFreeResolution_restrict
     homologyHomComplexRestrictIso
   convert h using 2 <;> rfl
 
+
+open LocallyFreeResolutionExt SheafExtContravariant Transport
+
+variable {A B : TopCat.{u}} {Hh : B ≅ A} {S : Sheaf (Opens.grothendieckTopology A) CommRingCat.{u}}
+  {T : Sheaf (Opens.grothendieckTopology B) CommRingCat.{u}} (ρ : RingTransport Hh S T)
+
+/-- The identification `τ(ℋom_B(F, G)) ≅ ℋom_A(τF, τG)` is natural in `F`. -/
+lemma homTransport_precomp_naturality {F' F : SheafOfModules.{u} (ringCatSheafOf T)} (f : F' ⟶ F)
+    (G : SheafOfModules.{u} (ringCatSheafOf T)) :
+    (transport ρ).map ((moduleSheafHomPrecomp f).app G) ≫ homTransport ρ F' G =
+      homTransport ρ F G ≫ (moduleSheafHomPrecomp ((transport ρ).map f)).app
+        ((transport ρ).obj G) := by
+  apply SheafOfModules.hom_ext
+  ext W σ : 3
+  apply SheafOfModules.hom_ext
+  ext A' x
+  rfl
+
+/-- The isomorphism `τ(hⁱ(ℋom_B(L_•, G))) ≅ hⁱ(ℋom_A(τ L_•, τ G))`. -/
+noncomputable def homologyHomComplexTransportIso (L : ChainComplex (SheafOfModules.{u}
+    (ringCatSheafOf T)) ℕ) (G : SheafOfModules.{u} (ringCatSheafOf T)) (i : ℕ) :
+    (transport ρ).obj (((moduleSheafHomComplex L).obj G).homology i) ≅
+      ((moduleSheafHomComplex (((transport ρ).mapHomologicalComplex _).obj L)).obj
+        ((transport ρ).obj G)).homology i :=
+  homologyCompIso' (moduleSheafHomBifunctor T) (moduleSheafHomBifunctor S)
+    (fun F => homTransportIso ρ F) (fun f G => homTransport_precomp_naturality ρ f G) L G i
+
+-- Matching `sheafExtTransportIso` and the sheaf-level complexes with their abstract forms unfolds
+-- `sheafExt` to the right derived functor it is defined as; this needs more than the default
+-- budget.
+set_option maxHeartbeats 1000000 in
+/-- **The resolution isomorphism transported along a homeomorphism** (supplementing Hartshorne
+III.6, Proposition 6.5). For a resolution `L_• ⟶ F` by locally free modules of finite rank on `B`,
+one `L'_• ⟶ τF` on `A` and a chain map `ψ : τ L_• ⟶ L'_•` over the identity, the transport of
+`ℰxtⁱ_B(F, G) ≅ hⁱ(ℋom_B(L_•, G))`, read through `τ ℰxtⁱ_B(F, G) ≅ ℰxtⁱ_A(τF, τG)` and
+`τ ℋom_B(L_p, G) ≅ ℋom_A(τ L_p, τ G)`, is `ℰxtⁱ_A(τF, τG) ≅ hⁱ(ℋom_A(L'_•, τG))` followed by the map
+induced by `ψ`. -/
+theorem sheafExtIsoHomologyOfLocallyFreeResolution_transport
+    {F : SheafOfModules.{u} (ringCatSheafOf T)} (L : ChainComplex (SheafOfModules.{u}
+      (ringCatSheafOf T)) ℕ) (π : L ⟶ (ChainComplex.single₀ _).obj F) [QuasiIso π]
+    (hL : ∀ p, IsFiniteLocallyFree (L.X p))
+    (L' : ChainComplex (SheafOfModules.{u} (ringCatSheafOf S)) ℕ)
+    (π' : L' ⟶ (ChainComplex.single₀ _).obj ((transport ρ).obj F)) [QuasiIso π']
+    (hL' : ∀ p, IsFiniteLocallyFree (L'.X p))
+    (ψ : ((transport ρ).mapHomologicalComplex _).obj L ⟶ L')
+    (hψ : ψ.f 0 ≫ π'.f 0 = (transport ρ).map (π.f 0)) (i : ℕ)
+    (G : SheafOfModules.{u} (ringCatSheafOf T)) :
+    (sheafExtTransportIso ρ F G i).inv ≫
+        (transport ρ).map ((sheafExtIsoHomologyOfLocallyFreeResolution L π hL i).hom.app G) ≫
+          (homologyHomComplexTransportIso ρ L G i).hom =
+      (sheafExtIsoHomologyOfLocallyFreeResolution L' π' hL' i).hom.app
+          ((transport ρ).obj G) ≫
+        HomologicalComplex.homologyMap ((moduleSheafHomComplexMap ψ).app _) i := by
+  have h := isoAux_comp (Φ := transport ρ) (moduleSheafHomBifunctor T)
+    (moduleSheafHomBifunctor S) (fun F => homTransportIso ρ F)
+    (fun f G => homTransport_precomp_naturality ρ f G) sheafExt (fun _ _ => rfl) sheafExt
+    (fun _ _ => rfl) (injective_transport_obj ρ)
+    moduleSheafHom_shortExact_of_injective moduleSheafHom_shortExact_of_injective G i
+    (Resolution.ofQuasiIso L π) (Resolution.ofQuasiIso L' π') (𝟙 _) ψ
+    (hψ.trans (Category.comp_id _).symm)
+    (fun p n G => isZero_sheafExt_of_isFiniteLocallyFree (hL p) G n.succ_pos)
+    (fun p n G => isZero_sheafExt_of_isFiniteLocallyFree (hL' p) G n.succ_pos)
+  rw [extMap_id, Category.id_comp] at h
+  unfold sheafExtIsoHomologyOfLocallyFreeResolution moduleSheafHomComplexMap
+    homologyHomComplexTransportIso
+  convert h using 2 <;> rfl
+
+
+
 end Sheaf
 
 
