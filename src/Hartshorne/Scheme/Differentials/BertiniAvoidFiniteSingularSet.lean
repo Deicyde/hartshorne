@@ -646,6 +646,41 @@ theorem bertini_bad_hyperplane_incidence_of_isOpen [IsAlgClosed k] [IsClosedImme
     rw [hmem z hz hzO a ha hra]
     exact mem_badHyperplaneSubspace_iff φ (fst z) a
 
+/-! ### Good hyperplanes on a scheme with finitely many singular points -/
+
+/-- Let `X` be a nonempty locally Noetherian scheme with a closed immersion `φ : X ⟶ ℙⁿ_k`. The
+hyperplane `H_a` is bad at no closed point of `X` exactly when it does not contain `X` and
+`H_a ∩ X` is regular: singular points of `H_a ∩ X` specialize to closed singular points. -/
+theorem forall_not_isBadHyperplaneAt_iff_of_isLocallyNoetherian [IsClosedImmersion φ] [Nonempty X]
+    [IsLocallyNoetherian X] (a : Fin (n + 1) → k) :
+    (∀ x : X, IsClosed {x} → ¬ IsBadHyperplaneAt φ a x) ↔
+      (∃ x : X, x ∉ (hyperplaneSectionIdeal φ a).support) ∧
+        (hyperplaneSectionIdeal φ a).subscheme.IsRegular := by
+  have : IsProper (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) :=
+    projectiveSpaceOverSchemeProjection_isProper n _
+  set I := hyperplaneSectionIdeal φ a
+  constructor
+  · intro h
+    have : JacobsonSpace X := LocallyOfFiniteType.jacobsonSpace (qφ)
+    have : JacobsonSpace I.subscheme := LocallyOfFiniteType.jacobsonSpace (I.subschemeι ≫ qφ)
+    obtain ⟨x₀, -, hx₀⟩ := nonempty_inter_closedPoints (X := X) (Z := Set.univ)
+      Set.univ_nonempty isClosed_univ.isLocallyClosed
+    refine ⟨?_, LocallyOfFiniteType.isLocallyNoetherian I.subschemeι, fun y => ?_⟩
+    · by_contra hcon
+      push Not at hcon
+      exact h x₀ hx₀ (Or.inl hcon)
+    obtain ⟨y', hy'y, hy'c⟩ := nonempty_inter_closedPoints (Set.singleton_nonempty y).closure
+      isClosed_closure.isLocallyClosed
+    refine isRegularAt_of_specializes (specializes_iff_mem_closure.mpr hy'y) ?_
+    have hxc : IsClosed {I.subschemeι y'} := by
+      rw [← Set.image_singleton]
+      exact I.subschemeι.isClosedEmbedding.isClosedMap _ hy'c
+    by_contra hreg
+    exact h _ hxc (Or.inr ⟨y', rfl, hreg⟩)
+  · rintro ⟨⟨y, hy⟩, hreg⟩ x - (h | ⟨z, -, hz⟩)
+    · exact hy (h y)
+    · exact hz (hreg.2 z)
+
 end Universal
 
 end BertiniIncidence
@@ -699,5 +734,104 @@ theorem bertini_regular_hyperplane_section_avoiding [IsAlgClosed k] {X : Scheme.
   obtain ⟨B, hBo, hBd, hB⟩ := bertini_regular_hyperplane_section φ hX
   refine ⟨A ∩ B, hAo.inter hBo, hAd.inter_of_isOpen_left hBd hAo, fun H hH a ha hra => ?_⟩
   rw [Set.mem_inter_iff, hA H hH a ha hra, hB H hH a ha hra]
+
+/-- **Bertini's theorem with finitely many singular points** (Hartshorne II, Remark 8.18.1). Let
+`k` be algebraically closed and `φ : X ⟶ ℙⁿ_k` a closed immersion of an integral scheme, so that
+`X` is a projective variety, and suppose `X` has only finitely many singular closed points. Then
+there is a dense open subset `U` of `(ℙⁿ_k)^∨` whose closed points are exactly the hyperplanes
+`H_a` (`a ≠ 0`) that contain none of the singular closed points of `X`, do not contain `X`, and
+for which the hyperplane section `H_a ∩ X` is regular at every point. -/
+theorem bertini_avoid_finite_singular_set [IsAlgClosed k] {X : Scheme.{u}}
+    (φ : X ⟶ projectiveSpaceOverScheme n (Spec (CommRingCat.of k))) [IsClosedImmersion φ]
+    [IsIntegral X] (hS : {x : X | IsClosed {x} ∧ ¬ X.IsRegularAt x}.Finite) :
+    ∃ U : Set (projectiveSpaceScheme k n), IsOpen U ∧ Dense U ∧
+      ∀ H : projectiveSpaceScheme k n, IsClosed {H} → ∀ a : Fin (n + 1) → k, a ≠ 0 →
+        Represents a H →
+        (H ∈ U ↔ (∀ x : X, IsClosed {x} → ¬ X.IsRegularAt x →
+            x ∉ (hyperplaneSectionIdeal φ a).support) ∧
+          (∃ x : X, x ∉ (hyperplaneSectionIdeal φ a).support) ∧
+          (hyperplaneSectionIdeal φ a).subscheme.IsRegular) := by
+  classical
+  have : IsProper (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) :=
+    projectiveSpaceOverSchemeProjection_isProper n _
+  set q := φ ≫ projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))
+  set g := dualProjectiveSpaceStructure k n
+  have : JacobsonSpace (incidenceAmbient q n) :=
+    LocallyOfFiniteType.jacobsonSpace (pullback.fst q g ≫ q)
+  have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian q
+  have : IrreducibleSpace (projectiveSpaceScheme k n) :=
+    projectiveSpace_irreducibleSpace (k := k) (n := n)
+  set S := {x : X | IsClosed {x} ∧ ¬ X.IsRegularAt x}
+  have hSc : ∀ x ∈ S, IsClosed {x} := fun x hx => hx.1
+  have hSclosed : IsClosed S := by
+    have := hS.isClosed_biUnion fun x hx => hSc x hx
+    rwa [Set.biUnion_of_singleton] at this
+  have hreg : ∀ x ∈ Sᶜ, IsClosed {x} → X.IsRegularAt x := by
+    intro x hx hxc
+    by_contra h
+    exact hx ⟨hxc, h⟩
+  obtain ⟨A, hAo, hAd, hA⟩ := exists_isOpen_dense_avoiding φ hS hSc
+  -- for hyperplanes avoiding `S`, goodness only needs to be checked at closed points off `S`
+  have key : ∀ a : Fin (n + 1) → k, (∀ x ∈ S, x ∉ (hyperplaneSectionIdeal φ a).support) →
+      ((∃ x : X, x ∉ (hyperplaneSectionIdeal φ a).support) ∧
+        (hyperplaneSectionIdeal φ a).subscheme.IsRegular ↔
+      ∀ x : X, IsClosed {x} → x ∈ Sᶜ → ¬ IsBadHyperplaneAt φ a x) := by
+    intro a havoid
+    rw [← forall_not_isBadHyperplaneAt_iff_of_isLocallyNoetherian]
+    refine ⟨fun h x hx _ => h x hx, fun h x hx hbad => ?_⟩
+    by_cases hxS : x ∈ S
+    · exact havoid x hxS (mem_support_of_isBadHyperplaneAt φ hbad)
+    · exact h x hx hxS hbad
+  have havoid_iff : ∀ a : Fin (n + 1) → k, (∀ x : X, IsClosed {x} → ¬ X.IsRegularAt x →
+      x ∉ (hyperplaneSectionIdeal φ a).support) ↔
+        ∀ x ∈ S, x ∉ (hyperplaneSectionIdeal φ a).support :=
+    fun a => ⟨fun h x hx => h x hx.1 hx.2, fun h x hx hreg => h x ⟨hx, hreg⟩⟩
+  obtain ⟨r, hr, -⟩ := exists_topologicalKrullDim_eq_trdeg q ⟨inferInstance, inferInstance⟩
+  rcases lt_or_ge r n with hrn | hnr
+  · obtain ⟨Z, hZc, hZU, hZdim, hZmem⟩ :=
+      bertini_bad_hyperplane_incidence_of_isOpen φ hSclosed.isOpen_compl hreg hr hrn
+    set T := pullback.snd q g '' Z
+    have hTc : IsClosed T := isClosed_image_snd q Z hZc
+    have hTdim : topologicalKrullDim T ≤ ((n - 1 : ℕ) : WithBot ℕ∞) :=
+      (topologicalKrullDim_image_le (pullback.snd q g).continuous hZc
+        fun C hC _ => isClosed_image_snd q C hC).trans hZdim
+    have hTne : T ≠ Set.univ := by
+      intro hT
+      have hdim : topologicalKrullDim (Set.univ : Set (projectiveSpaceScheme k n)) = n := by
+        rw [IsHomeomorph.topologicalKrullDim_eq _ (Homeomorph.Set.univ _).isHomeomorph]
+        exact topologicalKrullDim_projectiveSpace
+      rw [hT, hdim] at hTdim
+      have : n ≤ n - 1 := by exact_mod_cast hTdim
+      omega
+    have hTd : Dense Tᶜ := hTc.isOpen_compl.dense (Set.nonempty_compl.mpr hTne)
+    refine ⟨Tᶜ ∩ A, hTc.isOpen_compl.inter hAo, hTd.inter_of_isOpen_left hAd hTc.isOpen_compl,
+      fun H hH a ha hra => ?_⟩
+    rw [Set.mem_inter_iff, hA H hH a ha hra, havoid_iff]
+    constructor
+    · rintro ⟨hT, havoid⟩
+      refine ⟨havoid, (key a havoid).mpr fun x hx hxO hbad => hT ?_⟩
+      obtain ⟨z, hzc, hzx, hzH⟩ := incidenceAmbient_exists_closedPoint_of_isClosed q x hx H hH
+      exact ⟨z, (hZmem z hzc (hzx ▸ hxO) a ha (hzH ▸ hra)).mpr (hzx ▸ hbad), hzH⟩
+    · rintro ⟨havoid, hgood⟩
+      refine ⟨?_, havoid⟩
+      rintro ⟨z₀, hz₀, hz₀H⟩
+      obtain ⟨z, ⟨hzZ, hzH⟩, hzc⟩ := nonempty_inter_closedPoints (X := incidenceAmbient q n)
+        (Z := Z ∩ pullback.snd q g ⁻¹' {H}) ⟨z₀, hz₀, hz₀H⟩
+        (hZc.inter (hH.preimage (pullback.snd q g).continuous)).isLocallyClosed
+      have hzH : pullback.snd q g z = H := hzH
+      have hfz := (incidenceAmbient_closedPoint q z hzc).1
+      by_cases hxS : pullback.fst q g z ∈ S
+      · exact havoid _ hxS ((mem_universalHyperplane_iff φ ha (hzH ▸ hra)).mp (hZU hzZ))
+      · exact (key a havoid).mp hgood _ hfz hxS
+          ((hZmem z hzc hxS a ha (hzH ▸ hra)).mp hzZ)
+  · refine ⟨A, hAo, hAd, fun H hH a ha hra => ?_⟩
+    rw [hA H hH a ha hra, havoid_iff]
+    refine ⟨fun havoid => ⟨havoid, (key a havoid).mpr fun x hx hxO hbad => ?_⟩, fun h => h.1⟩
+    have : IsRegularLocalRing (X.presheaf.stalk x) := hreg x hxO hx
+    have hmem := (mem_badHyperplaneSubspace_iff φ x a).mpr hbad
+    have hfin := finrank_badHyperplaneSubspace_of_isRegularAt φ hr x hx (hreg x hxO hx)
+    rw [Nat.sub_eq_zero_of_le hnr, Submodule.finrank_eq_zero] at hfin
+    rw [hfin] at hmem
+    exact ha ((Submodule.mem_bot k).mp hmem)
 
 end Hartshorne.BertiniIncidence
