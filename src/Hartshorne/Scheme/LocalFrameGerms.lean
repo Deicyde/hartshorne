@@ -240,7 +240,7 @@ theorem exists_isLocalFrame_basicOpen_of_span_germ {U' : X.Opens} {f : κ → Γ
 finitely many global sections `v_l`. Then every point has an open neighbourhood over which the
 restrictions of some `r` of the `v_l` form a local frame. -/
 theorem exists_embedding_isLocalFrame {r : ℕ} (hE : E.IsLocallyFreeOfRank r) {ι : Type u}
-    [Fintype ι] (v : ι → Γ(E, ⊤)) (hv : E.IsGeneratedBySections v) (x : X) :
+    (v : ι → Γ(E, ⊤)) (hv : E.IsGeneratedBySections v) (x : X) :
     ∃ (σ : Fin r ↪ ι) (U : X.Opens), x ∈ U ∧ Ringed.IsLocalFrame (R := X.sheaf) E U
       (fun j => E.presheaf.map (homOfLE le_top).op (v (σ j))) := by
   classical

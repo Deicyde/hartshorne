@@ -855,3 +855,6 @@ import Hartshorne.Scheme.BirationalProjectiveBlowup
 import Hartshorne.Scheme.RelativeSpecModuleGluing
 import Hartshorne.Cohomology.ChevalleyGenericApproximationGlue
 import Hartshorne.Cohomology.ChevalleyGenericApproximation
+import Hartshorne.Scheme.NowhereVanishingSectionCount
+import Hartshorne.Scheme.LocalFrameGerms
+import Hartshorne.Scheme.NowhereVanishingSection

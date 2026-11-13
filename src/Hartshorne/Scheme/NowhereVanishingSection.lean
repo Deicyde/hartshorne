@@ -49,9 +49,9 @@ open scoped TensorProduct
 
 namespace Hartshorne
 
-namespace NowhereVanishingSection
-
 universe u
+
+namespace NowhereVanishingSection
 
 /-! ### Linear algebra over a local ring -/
 
@@ -217,7 +217,8 @@ theorem exists_open_polynomial (x : X) :
     change a j (σ j') = _ at this
     rw [this]
     by_cases hjj : j = j' <;> simp [hjj] <;> rfl
-  obtain ⟨P, hP, hgood⟩ := exists_ne_zero_forall_span_eq_top (k := k) σ a ha hdim (by simpa using hr)
+  obtain ⟨P, hP, hgood⟩ :=
+    exists_ne_zero_forall_span_eq_top (k := k) σ a ha hdim (by simpa using hr)
   refine ⟨W, P, hxW, hP, fun t ht y hy => ?_⟩
   have hspan := hgood t ht
   set g : Fin r → Γ(X, W) := fun j => ∑ l, algebraMap k Γ(X, W) (t l) * a j l with hg
@@ -355,7 +356,8 @@ theorem shortExact_and_isLocallyFreeOfRank_cokernel [IsReduced X] [IsLocallyNoet
     obtain ⟨U, hxU, h⟩ := (Scheme.Modules.isLocallyFreeOfRank_iff_ringed E r).mp hE x
     exact ⟨U, hxU, r, h⟩
   have hEc : IsCoherent E :=
-    ((coherent_affine_local_tfae E).out 1 0).mp (Ringed.IsFiniteLocallyFree.isFinitePresentation hfl)
+    ((coherent_affine_local_tfae E).out 1 0).mp
+      (Ringed.IsFiniteLocallyFree.isFinitePresentation hfl)
   have hE'c : IsCoherent (cokernel (C := X.Modules) (sectionHom E s)) :=
     isCoherent_cokernel _ (isCoherent_structureSheafModule X) hEc
   refine (isLocallyFreeOfRank_iff_forall_finrank_fibre _ hE'c (r - 1)).mpr fun x => ?_
@@ -412,5 +414,29 @@ theorem shortExact_and_isLocallyFreeOfRank_cokernel [IsReduced X] [IsLocallyNoet
 end ExactSequence
 
 end NowhereVanishingSection
+
+/-! ### Main result -/
+
+open NowhereVanishingSection in
+/-- **Hartshorne II, Exercise 8.2.** Let `X` be a variety of dimension `n` over an algebraically
+closed field `k` (an integral separated scheme of finite type over `k`), let `E` be a locally
+free `𝒪_X`-module of rank `r > n`, and let `V ⊆ Γ(X, E)` be the `k`-span of global sections
+`v_0, …, v_N` which generate `E`. Then some `s ∈ V` satisfies `s_x ∉ 𝔪_x E_x` for every
+`x ∈ X`, and the morphism `𝒪_X → E`, `1 ↦ s`, sits in a short exact sequence
+`0 → 𝒪_X → E → E' → 0` with `E'` locally free (of rank `r - 1`). -/
+theorem exists_nonvanishing_section_shortExact {k : Type u} [Field k] [IsAlgClosed k]
+    {X : Scheme.{u}} (q : X ⟶ Spec (.of k)) [IsIntegral X] (hq : FiniteType q) [IsSeparated q]
+    {n : ℕ} (hn : topologicalKrullDim X = n) {E : X.Modules} {r : ℕ}
+    (hE : E.IsLocallyFreeOfRank r) (hr : n < r) {N : ℕ} (v : Fin (N + 1) → Γ(E, ⊤))
+    (hv : E.IsGeneratedBySections (fun i : ULift.{u} (Fin (N + 1)) => v i.down)) :
+    ∃ s ∈ linearSystem q v, nonvanishingLocus E s = Set.univ ∧
+      ∃ (E' : X.Modules) (p : E ⟶ E') (w : sectionHom E s ≫ p = 0),
+        (ShortComplex.mk (sectionHom E s) p w).ShortExact ∧ E'.IsLocallyFreeOfRank (r - 1) := by
+  obtain ⟨s, hsV, hs⟩ :=
+    exists_mem_linearSystem_nonvanishingLocus_eq_univ q hq hn hE hr v hv
+  have : LocallyOfFiniteType q := hq.1
+  have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian q
+  obtain ⟨hS, hfree⟩ := shortExact_and_isLocallyFreeOfRank_cokernel hE hs
+  exact ⟨s, hsV, hs, _, _, _, hS, hfree⟩
 
 end Hartshorne
