@@ -9,6 +9,39 @@ import Hartshorne.Scheme.ModuleSheafSupport
 
 /-!
 # Chevalley's affine descent theorem
+
+Hartshorne, *Algebraic Geometry*, III, Exercise 4.2(c) (p. 223): if `f : X ⟶ Y` is a finite
+surjective morphism, `Y` is Noetherian and separated and `X` is affine, then `Y` is affine
+(`Hartshorne.isAffine_of_isFinite_of_surjective`).
+
+## Proof
+
+By Noetherian induction on the closed subsets `W` of `Y` we show that the reduced induced
+subscheme `W_red` on every `W` is affine (`ChevalleyDescent.isAffine_reducedInducedSubscheme`);
+for `W = Y` this is `Y_red`, and `Y` is affine because `Y_red` is (III, Ex. 3.1). The base change
+of `f` to `W_red` is finite and surjective with affine source, and the proper closed subsets of
+`W_red` have affine reduced structures by induction, so it suffices to treat a reduced `Y` all of
+whose proper closed subsets have affine reduced structures.
+
+* Reduced case (`ChevalleyDescent.isAffine_of_isReduced`): by III, Ex. 3.2, `Y` is affine if
+  every irreducible component with its reduced structure is. A proper component is affine by
+  assumption; if `Y` itself is irreducible, it is integral.
+* Integral case (`ChevalleyDescent.isAffine_of_isIntegral`): by Serre's criterion (III,
+  Theorem 3.7) it suffices that `H^1(Y, J) = 0` for coherent ideal sheaves `J`. By III,
+  Ex. 4.2(a) and (b) there are a coherent `𝒪_X`-module `G`, an integer `r > 0` and a morphism
+  `β : f_* G ⟶ J^r` which is an isomorphism at the generic point. Its kernel and cokernel are
+  coherent and vanish at the generic point, so their supports are proper closed subsets. Now
+  `H^1(Y, f_* G) = H^1(X, G) = 0` (III, Ex. 4.1, and III, Theorem 3.5), and the long exact
+  sequences of `0 ⟶ ker β ⟶ f_* G ⟶ im β ⟶ 0` and `0 ⟶ im β ⟶ J^r ⟶ coker β ⟶ 0` give
+  `H^1(Y, J^r) = 0`, hence `H^1(Y, J) = 0`.
+* Modules supported on a proper closed subset (`ChevalleyDescent.isZero_H_of_support_le`): if
+  the support of a coherent `K` lies in a closed `W` whose reduced structure is affine, then
+  `H^i(Y, K) = 0` for `i > 0`. A power of the ideal sheaf `I` of `W` kills `K`
+  (`ChevalleyDescent.exists_isZero_powSmul`: on an affine open `U`, every section of `I(U)`
+  is invertible off `W`, where the sections of `K` vanish, so it kills `Γ(U, K)` after raising to
+  a power), so `K ⊇ I K ⊇ I^2 K ⊇ ⋯` is a finite filtration. Its quotients are killed by `I`,
+  hence are pushforwards of quasi-coherent modules on the affine scheme `W_red`, and have
+  vanishing higher cohomology.
 -/
 
 noncomputable section
@@ -104,8 +137,9 @@ theorem exists_isZero_powSmul [IsNoetherian Y] (K : Y.Modules) (hK : IsCoherent 
   · apply Subtype.ext
     obtain ⟨v, hv⟩ := s
     change (v : Γ(K, (U.1 : Y.Opens))) = 0
-    have hs : (v : Γ(K, (U.1 : Y.Opens))) ∈ sub (powSmul (Scheme.IdealSheafData.vanishingIdeal W) (t.sup n)
-        (⊤ : K.val.Submodule)) U.1 := hv
+    have hs : (v : Γ(K, (U.1 : Y.Opens))) ∈
+        sub (powSmul (Scheme.IdealSheafData.vanishingIdeal W) (t.sup n) (⊤ : K.val.Submodule))
+          U.1 := hv
     rw [sub_powSmul_eq _ _ isLocal_top U.1] at hs
     refine Submodule.smul_induction_on (p := fun x : Γ(K, (U.1 : Y.Opens)) => x = 0) hs
       (fun c hc y _ => ?_) (fun _ _ h₁ h₂ => ?_)
@@ -284,12 +318,19 @@ theorem not_mem_support_of_epi {A B C : Y.Modules} (φ : A ⟶ B) (π : B ⟶ C)
   rw [h0]
   rfl
 
+/-- A scheme which is affine and finite over a Noetherian scheme is Noetherian. -/
+theorem isNoetherian_of_isFinite {X Y : Scheme.{u}} (f : X ⟶ Y) [IsFinite f] [IsNoetherian Y]
+    [IsAffine X] : IsNoetherian X :=
+  have := LocallyOfFiniteType.isLocallyNoetherian f
+  {}
+
 /-- **The integral case of Chevalley's theorem.** Let `f : X ⟶ Y` be a finite surjective
-morphism from an affine Noetherian scheme to an integral Noetherian separated scheme. If the
+morphism from an affine scheme to an integral Noetherian separated scheme. If the
 reduced induced subscheme on every proper closed subset of `Y` is affine, then `Y` is affine. -/
 theorem isAffine_of_isIntegral {X Y : Scheme.{u}} (f : X ⟶ Y) [IsFinite f] [Surjective f]
-    [IsIntegral Y] [IsNoetherian Y] [Y.IsSeparated] [IsNoetherian X] [IsAffine X]
+    [IsIntegral Y] [IsNoetherian Y] [Y.IsSeparated] [IsAffine X]
     (hW : ∀ W : Closeds Y, W ≠ ⊤ → IsAffine (reducedInducedSubscheme W)) : IsAffine Y := by
+  have := isNoetherian_of_isFinite f
   refine ((isAffine_tfae_sheafCohomology Y).out 2 0).mp fun J hJ => ?_
   obtain ⟨M, hM, r, hr, α, hα⟩ := exists_genericFiniteModuleFrame f
   obtain ⟨G, hG, β, hβ⟩ := exists_genericCoherentApproximation f M hM r α hα J.toModules hJ
@@ -336,6 +377,69 @@ theorem isAffine_of_isIntegral {X Y : Scheme.{u}} (f : X ⟶ Y) [IsFinite f] [Su
   change IsZero (Fc.obj J.toModules)
   rw [IsZero.iff_id_eq_zero, ← hcomp, hsum.eq_of_tgt (Fc.map (biproduct.ι _ _)) 0, zero_comp]
 
+/-- **The reduced case of Chevalley's theorem.** Let `f : X ⟶ Y` be a finite surjective morphism
+from an affine scheme to a reduced Noetherian separated scheme. If the reduced induced subscheme
+on every proper closed subset of `Y` is affine, then `Y` is affine. -/
+theorem isAffine_of_isReduced {X Y : Scheme.{u}} (f : X ⟶ Y) [IsFinite f] [Surjective f]
+    [IsReduced Y] [IsNoetherian Y] [Y.IsSeparated] [IsAffine X]
+    (hW : ∀ W : Closeds Y, W ≠ ⊤ → IsAffine (reducedInducedSubscheme W)) : IsAffine Y := by
+  refine (isAffine_iff_forall_irreducibleComponents_isAffine Y).2 fun Z hZ => ?_
+  by_cases h : Z = Set.univ
+  · have hirr := hZ.prop
+    rw [h] at hirr
+    have : IrreducibleSpace Y := (irreducibleSpace_def Y).2 hirr
+    have : IsIntegral Y := isIntegral_of_irreducibleSpace_of_isReduced Y
+    have := isAffine_of_isIntegral f hW
+    exact isAffine_reducedInducedSubscheme_of_isAffine _
+  · exact hW _ fun h' => h (congrArg (fun W : Closeds Y => (W : Set Y)) h')
+
+/-- **Noetherian induction for Chevalley's theorem.** Let `f : X ⟶ Y` be a finite surjective
+morphism from an affine scheme to a Noetherian separated scheme. Then the reduced induced
+subscheme on every closed subset of `Y` is affine. -/
+theorem isAffine_reducedInducedSubscheme {X Y : Scheme.{u}} (f : X ⟶ Y) [IsFinite f]
+    [Surjective f] [IsNoetherian Y] [Y.IsSeparated] [IsAffine X] (W : Closeds Y) :
+    IsAffine (reducedInducedSubscheme W) := by
+  induction W using WellFoundedLT.induction with
+  | ind W IH =>
+  set ι := reducedInducedSubschemeι W
+  have : IsAffine (pullback f ι) := isAffine_of_isAffineHom (pullback.fst f ι)
+  have : (reducedInducedSubscheme W).IsSeparated := by
+    refine ⟨?_⟩
+    rw [← terminal.comp_from ι]
+    infer_instance
+  refine isAffine_of_isReduced (pullback.snd f ι) fun A hA => ?_
+  let A' : Closeds Y := ⟨ι '' A, ι.isClosedEmbedding.isClosedMap _ A.isClosed⟩
+  have hA'W : A' ≤ W := by
+    rintro _ ⟨y, -, rfl⟩
+    change ι y ∈ (W : Set Y)
+    rw [← range_reducedInducedSubschemeι]
+    exact ⟨y, rfl⟩
+  have hpre : ReducedComponentsAffine.preimageCloseds W A' = A :=
+    Closeds.ext (Set.preimage_image_eq _ ι.isClosedEmbedding.injective)
+  have hlt : A' < W := by
+    refine lt_of_le_of_ne hA'W fun h => hA ?_
+    rw [← hpre, h]
+    refine Closeds.ext (Set.eq_univ_of_forall fun y => ?_)
+    change ι y ∈ (W : Set Y)
+    rw [← range_reducedInducedSubschemeι]
+    exact ⟨y, rfl⟩
+  have := IH A' hlt
+  rw [← hpre]
+  exact ReducedComponentsAffine.isAffine_reducedInducedSubscheme_preimageCloseds hA'W
+
 end ChevalleyDescent
+
+open ChevalleyDescent in
+/-- **Chevalley's theorem** (Hartshorne III, Exercise 4.2(c)). Let `f : X ⟶ Y` be a finite
+surjective morphism with `Y` Noetherian and separated. If `X` is affine, then `Y` is affine.
+
+Hartshorne assumes `X` Noetherian and separated as well; both are automatic, `X` being affine and
+finite over the Noetherian scheme `Y`. -/
+theorem isAffine_of_isFinite_of_surjective {X Y : Scheme.{u}} (f : X ⟶ Y) [IsFinite f]
+    [Surjective f] [IsNoetherian Y] [Y.IsSeparated] [IsAffine X] : IsAffine Y := by
+  have h := isAffine_reducedInducedSubscheme f ⊤
+  rw [ReductionAffine.isAffine_iff_isAffine_reduced]
+  unfold reducedInducedSubscheme at h
+  rwa [Scheme.IdealSheafData.vanishingIdeal_top] at h
 
 end Hartshorne
