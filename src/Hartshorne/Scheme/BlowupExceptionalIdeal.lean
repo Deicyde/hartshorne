@@ -1126,6 +1126,65 @@ private theorem hom_comp_eq_of_iso_eq {C : Type*} [Category C] {F G H : C} {e e'
 
 end Congruence
 
+namespace DirectedModuleGluing.Data
+
+open Scheme.Modules
+
+variable {Y : Scheme.{u}} {𝒰 : Scheme.OpenCover.{u} Y} [Category.{u} 𝒰.I₀]
+  [𝒰.LocallyDirected] (D : Data 𝒰) (G : Y.Modules)
+  (e : ∀ k, G.restrict (𝒰.f k) ≅ D.M k)
+
+set_option backward.isDefEq.respectTransparency false in
+/-- Compatibility of isomorphisms `G|_{𝒰.X k} ≅ M k` can be checked after composing with
+monomorphisms `M k ⟶ 𝒪` that are compatible with the transition isomorphisms, when the
+isomorphisms identify these monomorphisms with the restrictions of one `G ⟶ 𝒪`. -/
+theorem compatibleIsos_of_comp_unit
+    (φ : ∀ k, D.M k ⟶ SheafOfModules.unit (𝒰.X k).ringCatSheaf) (hφ : ∀ k, Mono (φ k))
+    (ι : G ⟶ SheafOfModules.unit Y.ringCatSheaf)
+    (he : ∀ k, (e k).hom ≫ φ k = restrictToUnit ι (𝒰.f k))
+    (hθ : ∀ {i j : 𝒰.I₀} (f : i ⟶ j), (D.θ f).hom ≫ φ i =
+      (restrictFunctor (𝒰.trans f)).map (φ j) ≫ (restrictUnitIso (𝒰.trans f)).hom) :
+    D.CompatibleIsos G e := by
+  intro i j f
+  have := hφ i
+  rw [← cancel_mono (φ i), he i]
+  simp only [Category.assoc, hθ f]
+  rw [← Functor.map_comp_assoc, he j]
+  simp only [restrictToUnit, Functor.map_comp, Category.assoc]
+  rw [← Functor.comp_map (restrictFunctor (𝒰.f j)) (restrictFunctor (𝒰.trans f)) ι,
+    ← NatTrans.naturality_assoc, restrictUnitIso_comp', ← NatTrans.naturality_assoc,
+    restrictFunctorCongr_inv_restrictUnitIso]
+
+/-- The family `e`, with its type written exactly as the hypothesis of `CompatibleIsos`, `liftIso`
+and `compatibleIsos_of_comp_unit`. Passing `familyOf D G e` instead of `e` there spares the kernel
+from comparing the declared type of `e` with that hypothesis at every use. -/
+private def familyOf : ∀ k, G.restrict (𝒰.f k) ≅ D.M k := e
+
+end DirectedModuleGluing.Data
+
+namespace DirectedModuleGluing.DataTr
+
+open Scheme.Modules
+
+variable {Y : Scheme.{u}} {𝒰 : Scheme.OpenCover.{u} Y} [Category.{u} 𝒰.I₀]
+  [𝒰.LocallyDirected] (E : DataTr 𝒰) (G : Y.Modules)
+  (e : ∀ k, G.restrict (𝒰.f k) ≅ E.M k)
+
+set_option backward.isDefEq.respectTransparency false in
+/-- `Data.compatibleIsos_of_comp_unit` for descent data with separate transition maps. -/
+theorem compatibleIsos_of_comp_unit
+    (φ : ∀ k, E.M k ⟶ SheafOfModules.unit (𝒰.X k).ringCatSheaf) (hφ : ∀ k, Mono (φ k))
+    (ι : G ⟶ SheafOfModules.unit Y.ringCatSheaf)
+    (he : ∀ k, (e k).hom ≫ φ k = restrictToUnit ι (𝒰.f k))
+    (hθ : ∀ {i j : 𝒰.I₀} (f : i ⟶ j), (E.θ f).hom ≫ φ i =
+      (restrictFunctor (E.tr f)).map (φ j) ≫ (restrictUnitIso (E.tr f)).hom) :
+    E.toData.CompatibleIsos G e := by
+  refine Data.compatibleIsos_of_comp_unit _ _ _ φ hφ ι he fun {i j} f => ?_
+  dsimp only [toData, Iso.trans_hom, Iso.app_hom, Iso.symm_hom]
+  rw [Category.assoc, hθ f, ← NatTrans.naturality_assoc, restrictFunctorCongr_inv_restrictUnitIso]
+
+end DirectedModuleGluing.DataTr
+
 /-! ### Division by `t` and the transition maps -/
 
 theorem reesShift_reesMap {R R' : Type u} [CommRing R] [CommRing R'] {I : Ideal R}
@@ -1311,6 +1370,20 @@ instance (U : X.AffineZariskiSite) : Mono (pieceDivX J U) := mono_twistDivXHom _
 instance (U : X.AffineZariskiSite) : ((reesAlgebraSheaf J).twistingSheaf 1 U).IsQuasicoherent :=
   ProjGradedModuleSheaf.isQuasicoherent _ _
 
+/-- Division by `t` commutes with the transition maps of the twisting sheaves of the pieces. -/
+theorem twistTransitionHom_comp_pieceDivX {U V : X.AffineZariskiSite} (f : U ⟶ V) :
+    (reesAlgebraSheaf J).twistTransitionHom 1 f ≫ pieceDivX J U =
+      (restrictFunctor (Proj.map ((reesAlgebraSheaf J).restrict f)
+        ((reesAlgebraSheaf J).irrelevant_le f))).map (pieceDivX J V) ≫
+        (restrictUnitIso _).hom :=
+  restrict_comp_eq_congr
+    (@twistRestrictHom_comp_twistDivXHom _ _ _ _ (idealOn J V) (idealOn J U)
+      ((reesAlgebraSheaf J).restrict f)
+      (fun y => reesShift_reesMap _ (map_idealOn J f.op.unop).le y)
+      ((reesAlgebraSheaf J).irrelevant_le f)
+      ((reesAlgebraSheaf J).isOpenImmersion_projMap_restrict f))
+    rfl rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl
+
 theorem homRangeIdeal_pieceDivX_chart (U : X.AffineZariskiSite) {a : Γ(X, U.1)}
     (ha : a ∈ idealOn J U) :
     homRangeIdeal (pieceDivX J U)
@@ -1353,87 +1426,6 @@ theorem idealSheafDataOfHom_pieceDivX (U : X.AffineZariskiSite) :
 end ReesAlgebraSheaf
 
 end ChartPart
-
-namespace ReesAlgebraSheaf
-
-open Scheme.Modules
-
-variable {X : Scheme.{u}} (J : X.IdealSheafData)
-
-/-- Division by `t` commutes with the transition maps of the twisting sheaves of the pieces. -/
-theorem twistTransitionHom_comp_pieceDivX {U V : X.AffineZariskiSite} (f : U ⟶ V) :
-    (reesAlgebraSheaf J).twistTransitionHom 1 f ≫ pieceDivX J U =
-      (restrictFunctor (Proj.map ((reesAlgebraSheaf J).restrict f)
-        ((reesAlgebraSheaf J).irrelevant_le f))).map (pieceDivX J V) ≫
-        (restrictUnitIso _).hom :=
-  restrict_comp_eq_congr
-    (@twistRestrictHom_comp_twistDivXHom _ _ _ _ (idealOn J V) (idealOn J U)
-      ((reesAlgebraSheaf J).restrict f)
-      (fun y => reesShift_reesMap _ (map_idealOn J f.op.unop).le y)
-      ((reesAlgebraSheaf J).irrelevant_le f)
-      ((reesAlgebraSheaf J).isOpenImmersion_projMap_restrict f))
-    rfl rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl
-
-end ReesAlgebraSheaf
-
-namespace DirectedModuleGluing.Data
-
-open Scheme.Modules
-
-variable {Y : Scheme.{u}} {𝒰 : Scheme.OpenCover.{u} Y} [Category.{u} 𝒰.I₀]
-  [𝒰.LocallyDirected] (D : Data 𝒰) (G : Y.Modules)
-  (e : ∀ k, G.restrict (𝒰.f k) ≅ D.M k)
-
-set_option backward.isDefEq.respectTransparency false in
-/-- Compatibility of isomorphisms `G|_{𝒰.X k} ≅ M k` can be checked after composing with
-monomorphisms `M k ⟶ 𝒪` that are compatible with the transition isomorphisms, when the
-isomorphisms identify these monomorphisms with the restrictions of one `G ⟶ 𝒪`. -/
-theorem compatibleIsos_of_comp_unit
-    (φ : ∀ k, D.M k ⟶ SheafOfModules.unit (𝒰.X k).ringCatSheaf) (hφ : ∀ k, Mono (φ k))
-    (ι : G ⟶ SheafOfModules.unit Y.ringCatSheaf)
-    (he : ∀ k, (e k).hom ≫ φ k = restrictToUnit ι (𝒰.f k))
-    (hθ : ∀ {i j : 𝒰.I₀} (f : i ⟶ j), (D.θ f).hom ≫ φ i =
-      (restrictFunctor (𝒰.trans f)).map (φ j) ≫ (restrictUnitIso (𝒰.trans f)).hom) :
-    D.CompatibleIsos G e := by
-  intro i j f
-  have := hφ i
-  rw [← cancel_mono (φ i), he i]
-  simp only [Category.assoc, hθ f]
-  rw [← Functor.map_comp_assoc, he j]
-  simp only [restrictToUnit, Functor.map_comp, Category.assoc]
-  rw [← Functor.comp_map (restrictFunctor (𝒰.f j)) (restrictFunctor (𝒰.trans f)) ι,
-    ← NatTrans.naturality_assoc, restrictUnitIso_comp', ← NatTrans.naturality_assoc,
-    restrictFunctorCongr_inv_restrictUnitIso]
-
-/-- The family `e`, with its type written exactly as the hypothesis of `CompatibleIsos`, `liftIso`
-and `compatibleIsos_of_comp_unit`. Passing `familyOf D G e` instead of `e` there spares the kernel
-from comparing the declared type of `e` with that hypothesis at every use. -/
-private def familyOf : ∀ k, G.restrict (𝒰.f k) ≅ D.M k := e
-
-end DirectedModuleGluing.Data
-
-namespace DirectedModuleGluing.DataTr
-
-open Scheme.Modules
-
-variable {Y : Scheme.{u}} {𝒰 : Scheme.OpenCover.{u} Y} [Category.{u} 𝒰.I₀]
-  [𝒰.LocallyDirected] (E : DataTr 𝒰) (G : Y.Modules)
-  (e : ∀ k, G.restrict (𝒰.f k) ≅ E.M k)
-
-set_option backward.isDefEq.respectTransparency false in
-/-- `Data.compatibleIsos_of_comp_unit` for descent data with separate transition maps. -/
-theorem compatibleIsos_of_comp_unit
-    (φ : ∀ k, E.M k ⟶ SheafOfModules.unit (𝒰.X k).ringCatSheaf) (hφ : ∀ k, Mono (φ k))
-    (ι : G ⟶ SheafOfModules.unit Y.ringCatSheaf)
-    (he : ∀ k, (e k).hom ≫ φ k = restrictToUnit ι (𝒰.f k))
-    (hθ : ∀ {i j : 𝒰.I₀} (f : i ⟶ j), (E.θ f).hom ≫ φ i =
-      (restrictFunctor (E.tr f)).map (φ j) ≫ (restrictUnitIso (E.tr f)).hom) :
-    E.toData.CompatibleIsos G e := by
-  refine Data.compatibleIsos_of_comp_unit _ _ _ φ hφ ι he fun {i j} f => ?_
-  dsimp only [toData, Iso.trans_hom, Iso.app_hom, Iso.symm_hom]
-  rw [Category.assoc, hθ f, ← NatTrans.naturality_assoc, restrictFunctorCongr_inv_restrictUnitIso]
-
-end DirectedModuleGluing.DataTr
 
 /-! ### The exceptional ideal sheaf is `𝒪(1)` -/
 
