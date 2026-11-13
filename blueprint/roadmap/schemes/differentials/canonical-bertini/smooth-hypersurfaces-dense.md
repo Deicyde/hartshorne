@@ -15,12 +15,13 @@ subset of the complete linear system $|dH|$.
 
 ## Depends on
 
-- [Regular hyperplane sections](bertini-regular-hyperplane-section.md)
 - [Linear systems](../../projective-geometry/linear-systems-ampleness/linear-system-api.md)
-- [Projective intersections are nonempty](../../../intersections-projective-space/dimension/projective-intersection-nonempty.md)
+- [Regular points and nonsingular schemes](../scheme-differentials/regular-points-and-nonsingular-schemes.md)
 
 ## Proof depends on
 
+- [Regular hyperplane sections](bertini-regular-hyperplane-section.md)
+- [Projective intersections are nonempty](../../../intersections-projective-space/dimension/projective-intersection-nonempty.md)
 - [Veronese Proj and twists](../../projective-sheaves/veronese-proj-twist.md), for the
   $d$-uple embedding, whose hyperplane sections are the degree-$d$ hypersurfaces.
 - A regular hypersurface cannot have two irreducible components meeting at a
