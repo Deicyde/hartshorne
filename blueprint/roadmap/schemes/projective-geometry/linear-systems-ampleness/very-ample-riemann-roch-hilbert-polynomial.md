@@ -9,17 +9,16 @@ proof: formalized
 
 # Very ample linear systems and the Hilbert polynomial
 
-Let $D$ be a very ample divisor on a nonsingular projective variety and use
-its complete linear system to embed $X$ in projective space. For every
-sufficiently large $n$,
+Let $X$ be a nonsingular projective variety over an algebraically closed field
+$k$, let $D$ be a very ample divisor on $X$, and let $X \subseteq \mathbb{P}^N_k$ be a
+corresponding embedding, so that $\mathcal{O}_X(1) \cong \mathcal{L}(D)$. Then
 
-$\dim |nD| = P_X(n) - 1$,
+$\dim |nD| = P_X(n) - 1$
 
-where $P_X$ is the Hilbert polynomial of this embedding.
+for all $n$ sufficiently large, where $P_X$ is the Hilbert polynomial of $X$. So
+$\dim |nD|$ is a polynomial function of $n$ for $n$ large.
 
-The proof works for any closed embedding over the ground field whose pullback of
-$\mathcal{O}(1)$ is $\mathcal{O}_X(D)$ and, for Cartier divisors, without nonsingularity; the
-hypotheses are kept because they are Hartshorne's setting.
+For a Cartier divisor $D$ the proof does not use that $X$ is nonsingular.
 
 ## Depends on
 
