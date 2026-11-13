@@ -482,6 +482,106 @@ theorem not_isRegular_of_eq_mul {j l : ℕ} (f : 𝒮 d) (hf0 : (f : S) ≠ 0) (
     exact notMem_genericPoint_proj 𝒮 hf0 hg
   · exact hz (hreg.2 z)
 
+/-! ### Two hypersurfaces of `ℙⁿ`, `n ≥ 2`, meet -/
+
+/-- For `n ≥ 1`, a prime `p` never generates an ideal containing the irrelevant ideal: otherwise
+`p` would divide both `x₀` and `x₁`, hence be associated to both. -/
+theorem not_irrelevant_le_span (hn : 1 ≤ n) {p : S} (hp : Prime p) :
+    ¬ (HomogeneousIdeal.irrelevant 𝒮).toIdeal ≤ Ideal.span {p} := by
+  intro hle
+  have hX : ∀ i, p ∣ (MvPolynomial.X i : S) := fun i => Ideal.mem_span_singleton.1
+    (hle (HomogeneousIdeal.mem_irrelevant_of_mem 𝒮 one_pos
+      (X_mem_homogeneousSubmodule_one k i)))
+  have ha := hp.irreducible.associated_of_dvd MvPolynomial.X_prime.irreducible (hX 0)
+  have h01 := ha.symm.dvd.trans (hX ⟨1, by omega⟩)
+  rw [MvPolynomial.X_dvd_X] at h01
+  exact absurd (congrArg Fin.val h01) (by simp)
+
+/-- The zero set in `ℙⁿ(k)` of a homogeneous prime `p` of positive degree is a projective
+variety of dimension `n - 1`. -/
+theorem isProjVariety_projDim_projZeroSet [IsAlgClosed k] (hn : 1 ≤ n) {p : S} (hp : Prime p)
+    {j : ℕ} (hj : 0 < j) (hhom : p.IsHomogeneous j) :
+    IsProjVariety (projZeroSet ({p} : Set S)) ∧
+      projDim (projZeroSet ({p} : Set S)) = ((n - 1 : ℕ) : WithBot ℕ∞) := by
+  let q : Proj 𝒮 := ⟨⟨Ideal.span {p}, Ideal.homogeneous_span _ _ (by
+      rintro _ rfl
+      exact ⟨j, (MvPolynomial.mem_homogeneousSubmodule _ _).2 hhom⟩)⟩,
+    (Ideal.span_singleton_prime hp.ne_zero).2 hp, not_irrelevant_le_span hn hp⟩
+  have hY : IsProjVariety (projZeroSet ({p} : Set S)) := by
+    have := (isProjVariety_projZeroSet_asHomogeneousIdeal q).1
+    rwa [show (q.asHomogeneousIdeal.toIdeal : Set S) = (Ideal.span {p} : Set S) from rfl,
+      projZeroSet_span] at this
+  exact ⟨hY, (projective_codimension_one_iff_hypersurface hY (by omega)).2
+    ⟨p, j, hj, hhom, hp.irreducible, rfl⟩⟩
+
+/-- A prime factor of a nonzero homogeneous polynomial of positive degree which is not a unit
+is homogeneous of positive degree. -/
+theorem exists_pos_isHomogeneous_of_prime_dvd {f p : S} (hf : f.IsHomogeneous d) (hf0 : f ≠ 0)
+    (hp : Prime p) (hpf : p ∣ f) : ∃ j, 0 < j ∧ j ≤ d ∧ p.IsHomogeneous j := by
+  obtain ⟨j, hj⟩ := exists_isHomogeneous_of_prime_dvd hf hf0 hp hpf
+  refine ⟨j, Nat.pos_of_ne_zero fun h0 => ?_, ?_, hj⟩
+  · subst h0
+    have hc := MvPolynomial.totalDegree_eq_zero_iff_eq_C.1 (hj.totalDegree hp.ne_zero)
+    refine hp.not_isUnit ?_
+    rw [hc]
+    refine (MvPolynomial.isUnit_iff_eq_C_of_isReduced).2 ⟨_, ?_, rfl⟩
+    exact isUnit_iff_ne_zero.2 fun h => hp.ne_zero (by rw [hc, h, map_zero])
+  · obtain ⟨c, hc⟩ := hpf
+    rw [hc, mul_comm] at hf hf0
+    exact le_of_mul_isHomogeneous hj hf hf0
+
+/-- **A reducible hypersurface of `ℙⁿ`, `n ≥ 2`, has two components meeting at a point.** If a
+nonzero homogeneous `f` of degree `d ≥ 1` is not irreducible, then `f = p w` with `p, w`
+homogeneous and some point of `ℙⁿ_k` lying on both `V(p)` and `V(w)`: for prime factors `p` of
+one factor and `q` of the other, the hypersurfaces `V(p)` and `V(q)` have dimension `n - 1` and
+`(n - 1) + (n - 1) ≥ n`, so they meet by the projective dimension theorem. -/
+theorem exists_eq_mul_mem_mem [IsAlgClosed k] (hn : 2 ≤ n) (hd : 1 ≤ d) (f : 𝒮 d)
+    (hf0 : (f : S) ≠ 0) (hirr : ¬ Irreducible (f : S)) :
+    ∃ (j l : ℕ) (p : 𝒮 j) (w : 𝒮 l) (x : Proj 𝒮), j + l = d ∧ (f : S) = p * w ∧
+      (p : S) ∈ x.asHomogeneousIdeal ∧ (w : S) ∈ x.asHomogeneousIdeal := by
+  have hfh : (f : S).IsHomogeneous d := (MvPolynomial.mem_homogeneousSubmodule _ _).1 f.2
+  have hfu : ¬ IsUnit (f : S) := by
+    intro hu
+    have := (MvPolynomial.isUnit_iff_totalDegree_of_isReduced.1 hu).2
+    rw [hfh.totalDegree hf0] at this
+    omega
+  obtain ⟨g, h, hgh, hg, hh⟩ : ∃ g h : S, (f : S) = g * h ∧ ¬ IsUnit g ∧ ¬ IsUnit h := by
+    by_contra! H
+    exact hirr ⟨hfu, fun a b hab => by
+      by_contra! H'
+      exact H'.2 (H a b hab H'.1)⟩
+  have hg0 : g ≠ 0 := fun h0 => hf0 (by rw [hgh, h0, zero_mul])
+  have hh0 : h ≠ 0 := fun h0 => hf0 (by rw [hgh, h0, mul_zero])
+  obtain ⟨p, hpi, hpg⟩ := WfDvdMonoid.exists_irreducible_factor hg hg0
+  obtain ⟨q, hqi, hqh⟩ := WfDvdMonoid.exists_irreducible_factor hh hh0
+  have hp := hpi.prime
+  have hq := hqi.prime
+  obtain ⟨g', rfl⟩ := hpg
+  obtain ⟨h', rfl⟩ := hqh
+  have hpf : p ∣ (f : S) := ⟨g' * (q * h'), by rw [hgh]; ring⟩
+  have hqf : q ∣ (f : S) := ⟨p * g' * h', by rw [hgh]; ring⟩
+  obtain ⟨j, hj0, hjd, hpj⟩ := exists_pos_isHomogeneous_of_prime_dvd hfh hf0 hp hpf
+  obtain ⟨j', hj'0, -, hqj⟩ := exists_pos_isHomogeneous_of_prime_dvd hfh hf0 hq hqf
+  obtain ⟨hYp, hdp⟩ := isProjVariety_projDim_projZeroSet (by omega) hp hj0 hpj
+  obtain ⟨hYq, hdq⟩ := isProjVariety_projDim_projZeroSet (by omega) hq hj'0 hqj
+  obtain ⟨P, hPp, hPq⟩ := projective_inter_nonempty_of_dim hYp hYq hdp hdq (by omega)
+  let x : Proj 𝒮 := VeryAmpleHilbert.classicalPoint P
+  have hmem : ∀ {r : S} {e : ℕ}, r.IsHomogeneous e → P ∈ projZeroSet ({r} : Set S) →
+      r ∈ x.asHomogeneousIdeal := fun hr hP =>
+    (mem_homogeneousVanishingIdeal_singleton_iff hr P).2 (hP _ rfl)
+  have hf' : (f : S) = p * (g' * (q * h')) := by rw [hgh]; ring
+  have hw0 : g' * (q * h') ∈ x.asHomogeneousIdeal :=
+    Ideal.mul_mem_left _ _ (Ideal.mul_mem_right _ _ (hmem hqj hPq))
+  refine ⟨j, d - j, ⟨p, (MvPolynomial.mem_homogeneousSubmodule _ _).2 hpj⟩,
+    DirectSum.decompose 𝒮 (g' * (q * h')) (d - j), x, by omega, ?_, hmem hpj hPp,
+    x.asHomogeneousIdeal.isHomogeneous (d - j) hw0⟩
+  calc (f : S) = DirectSum.decompose 𝒮 (f : S) d := (DirectSum.decompose_of_mem_same 𝒮 f.2).symm
+    _ = DirectSum.decompose 𝒮 (p * (g' * (q * h'))) (j + (d - j)) := by
+      rw [← hf', Nat.add_sub_cancel' hjd]
+    _ = p * DirectSum.decompose 𝒮 (g' * (q * h')) (d - j) :=
+      DirectSum.coe_decompose_mul_add_of_left_mem 𝒮
+        ((MvPolynomial.mem_homogeneousSubmodule _ _).2 hpj)
+
 end SmoothHypersurface
 
 end Hartshorne
