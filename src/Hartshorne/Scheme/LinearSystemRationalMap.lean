@@ -320,7 +320,7 @@ theorem subsingleton_projectiveSpaceOverScheme_zero (k : Type u) [Field k] :
   exact (projectiveSpaceOverSpecIso k 0 (Equiv.refl _)).inv.isOpenEmbedding.injective.subsingleton
 
 /-- A nonempty space with at most one point has topological Krull dimension zero. -/
-theorem topologicalKrullDim_eq_zero_of_subsingleton (T : Type*) [TopologicalSpace T]
+private theorem topologicalKrullDim_eq_zero_of_subsingleton' (T : Type*) [TopologicalSpace T]
     [Subsingleton T] [Nonempty T] : topologicalKrullDim T = 0 := by
   have huniv : IsIrreducible (Set.univ : Set T) := by
     obtain ⟨t⟩ := ‹Nonempty T›
@@ -348,7 +348,7 @@ theorem linearSystemImageDim_eq_zero [IsIntegral X] {s : Fin (0 + 1) → Γ(L, �
   have : Nonempty (linearSystemImage q hL s : Set (projectiveSpaceOverScheme 0
       (Spec (CommRingCat.of k)))) :=
     ⟨⟨linearSystemMorphism q hL s ⟨x, hx⟩, subset_closure ⟨⟨x, hx⟩, rfl⟩⟩⟩
-  exact topologicalKrullDim_eq_zero_of_subsingleton _
+  exact topologicalKrullDim_eq_zero_of_subsingleton' _
 
 end ProjectiveSpaceZero
 

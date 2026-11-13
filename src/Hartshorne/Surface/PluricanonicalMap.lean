@@ -22,8 +22,8 @@ The projective space `P(H⁰(X, ω_X^{⊗ n}))` is identified with `ℙᴺ_k`, `
 basis `s₀, …, s_N` of `H⁰(X, ω_X^{⊗ n})` (`pluricanonicalBasis`, chosen once and for all): the
 morphism defined by the `sᵢ` is the one with `xᵢ ↦ sᵢ`, i.e. the sections define a surjection
 `𝒪ᴺ⁺¹ → ω_X^{⊗ n}` off the base locus (Theorem II.7.1). Another basis changes the map by a
-linear automorphism of `ℙᴺ_k`. The constructions are made for every `n`; the case of interest is
-`n > 0`.
+linear automorphism of `ℙᴺ_k` (not formalized). The constructions are made for every `n`; the
+case of interest is `n > 0`.
 
 ## Main definitions and results
 
