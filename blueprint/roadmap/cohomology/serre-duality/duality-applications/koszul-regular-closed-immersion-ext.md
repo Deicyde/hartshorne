@@ -2,6 +2,7 @@
 article_id: af_f04792053490cdb3cfea1350
 declaration: isomorphism
 origin: cited
+lean: Hartshorne.IsKoszulRegularImmersion.exists_isKoszulRegular_sections Hartshorne.IsKoszulRegularImmersion.isZero_sheafExt Hartshorne.KoszulTarget.sheafExtIsoDualTensor
 ---
 
 # Sheaf Ext for a Koszul-regular immersion
