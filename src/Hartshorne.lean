@@ -614,6 +614,7 @@ import Hartshorne.Cohomology.Flatness.ModuleSheafFlatBaseChange
 import Hartshorne.RingedSpace.GlobalToSheafExt
 import Hartshorne.RingedSpace.SheafExtFiniteLocallyFree
 import Hartshorne.RingedSpace.SheafExtLocallyFreeResolution
+import Hartshorne.RingedSpace.SheafExtResolutionNaturality
 import Hartshorne.Intersection.ProjectiveHyperplaneChart
 import Hartshorne.RingedSpace.SheafExtRestrict
 import Hartshorne.RingedSpace.ScalarExtensionSheaf
