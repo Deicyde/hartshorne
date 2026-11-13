@@ -277,8 +277,7 @@ section ExactSequence
 variable {X : Scheme.{u}}
 
 /-- The morphism `𝒪_X → E` sending `1` to the global section `s`. -/
-def sectionHom (E : X.Modules) (s : Γ(E, ⊤)) :
-    (SheafOfModules.unit X.ringCatSheaf : X.Modules) ⟶ E :=
+def sectionHom (E : X.Modules) (s : Γ(E, ⊤)) : structureModuleOf X ⟶ E :=
   E.unitHomEquiv.symm (Scheme.Modules.GloballyGenerated.sectionsOfTop E s)
 
 /-- On sections over `U`, the morphism `𝒪_X → E`, `1 ↦ s`, is `b ↦ b s|_U`. -/
@@ -334,6 +333,81 @@ theorem mono_sectionHom : Mono (sectionHom E s) := by
     exact NatTrans.mono_of_mono_app _
   have h2 : Mono (sectionHom E s).val := (PresheafOfModules.toPresheaf _).mono_of_mono_map h1
   exact (SheafOfModules.forget _).mono_of_mono_map h2
+
+include hE hs in
+/-- **The quotient by a nowhere-vanishing section.** On a reduced locally Noetherian scheme, if
+`E` is locally free of rank `r` and `s` is nowhere vanishing, then
+`0 → 𝒪_X → E → E / 𝒪_X s → 0` is exact and the cokernel is locally free of rank `r - 1`. -/
+theorem shortExact_and_isLocallyFreeOfRank_cokernel [IsReduced X] [IsLocallyNoetherian X] :
+    (ShortComplex.mk (C := X.Modules) (sectionHom E s) (cokernel.π (sectionHom E s))
+        (cokernel.condition _)).ShortExact ∧
+      Scheme.Modules.IsLocallyFreeOfRank (cokernel (C := X.Modules) (sectionHom E s))
+        (r - 1) := by
+  have hmono := mono_sectionHom hE hs
+  let S := ShortComplex.mk (C := X.Modules) (sectionHom E s) (cokernel.π (sectionHom E s))
+    (cokernel.condition _)
+  have hS : S.ShortExact :=
+    ShortComplex.ShortExact.mk' (S.exact_of_g_is_cokernel (cokernelIsCokernel _))
+      hmono inferInstance
+  refine ⟨hS, ?_⟩
+  -- coherence of `E` and of the cokernel
+  have hfl : Ringed.IsFiniteLocallyFree (R := X.sheaf) E := fun x => by
+    obtain ⟨U, hxU, h⟩ := (Scheme.Modules.isLocallyFreeOfRank_iff_ringed E r).mp hE x
+    exact ⟨U, hxU, r, h⟩
+  have hEc : IsCoherent E :=
+    ((coherent_affine_local_tfae E).out 1 0).mp (Ringed.IsFiniteLocallyFree.isFinitePresentation hfl)
+  have hE'c : IsCoherent (cokernel (C := X.Modules) (sectionHom E s)) :=
+    isCoherent_cokernel _ (isCoherent_structureSheafModule X) hEc
+  refine (isLocallyFreeOfRank_iff_forall_finrank_fibre _ hE'c (r - 1)).mpr fun x => ?_
+  have : IsLocalRing (ringSheafStalk X.sheaf x) :=
+    inferInstanceAs (IsLocalRing (X.presheaf.stalk x))
+  obtain ⟨hex, hsurj⟩ := NonsingularConormal.stalk_exact_and_surjective (R := X.sheaf) S
+    hS.exact hS.epi_g x
+  obtain ⟨U', f, hxU', hf⟩ := Ringed.exists_isLocalFrame_of_isLocallyFreeOfRank
+    ((Scheme.Modules.isLocallyFreeOfRank_iff_ringed E r).mp hE) x
+  obtain ⟨bas, -⟩ := exists_basis_germ_of_isLocalFrame hf hxU'
+  have : Module.Free (X.presheaf.stalk x) (E.presheaf.stalk x) := Module.Free.of_basis bas
+  have : Module.Finite (X.presheaf.stalk x) (E.presheaf.stalk x) := Module.Finite.of_basis bas
+  have hrank : Module.finrank (X.presheaf.stalk x) (E.presheaf.stalk x) = r := by
+    rw [Module.finrank_eq_card_basis bas]
+    simp
+  have hsx : E.presheaf.germ ⊤ x trivial s ∉
+      maximalIdeal (X.presheaf.stalk x) •
+        (⊤ : Submodule (X.presheaf.stalk x) (E.presheaf.stalk x)) := by
+    have : x ∈ nonvanishingLocus E s := hs ▸ Set.mem_univ x
+    exact this
+  let Fx := Ringed.moduleStalkFunctor (R := X.sheaf) x
+  let φ := (Fx.map S.f).hom
+  let ψ := (Fx.map S.g).hom
+  let m : Fx.obj E := E.presheaf.germ ⊤ x trivial s
+  have hm : m ∉ maximalIdeal (ringSheafStalk X.sheaf x) •
+      (⊤ : Submodule (ringSheafStalk X.sheaf x) (Fx.obj E)) := hsx
+  have hφ : ∀ (U : X.Opens) (hU : x ∈ U) (t : Γ(X, U)),
+      φ (ModuleSheafTensor.sectionGerm _ x U hU t) =
+        (show ringSheafStalk X.sheaf x from X.presheaf.germ U x hU t) • m := by
+    intro U hU t
+    have h1 := Ringed.moduleStalkFunctor_map_germ (R := X.sheaf) x (sectionHom E s) U hU t
+    refine h1.trans ?_
+    change E.presheaf.germ U x hU (Scheme.Modules.Hom.app (sectionHom E s) U t) = _
+    rw [sectionHom_app, germ_smul_frame, E.presheaf.germ_res_apply]
+    rfl
+  have hrange : LinearMap.range φ = Submodule.span (ringSheafStalk X.sheaf x) {m} := by
+    refine le_antisymm ?_ ?_
+    · rintro _ ⟨z, rfl⟩
+      obtain ⟨U, hU, t, rfl⟩ := ModuleSheafTensor.exists_sectionGerm _ x z
+      rw [hφ U hU t]
+      exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
+    · rw [Submodule.span_le, Set.singleton_subset_iff]
+      refine ⟨ModuleSheafTensor.sectionGerm _ x ⊤ trivial (1 : Γ(X, ⊤)), ?_⟩
+      refine (hφ ⊤ trivial (1 : Γ(X, ⊤))).trans ?_
+      convert one_smul (ringSheafStalk X.sheaf x) m using 2
+      exact map_one (X.presheaf.germ ⊤ x trivial).hom
+  have : Module.Free (ringSheafStalk X.sheaf x) (Fx.obj E) := Module.Free.of_basis bas
+  have : Module.Finite (ringSheafStalk X.sheaf x) (Fx.obj E) := Module.Finite.of_basis bas
+  have key := finrank_residueField_tensor_eq_sub_one φ ψ hex hsurj hm hrange
+  have hrank' : Module.finrank (ringSheafStalk X.sheaf x) (Fx.obj E) = r := hrank
+  rw [hrank'] at key
+  exact key
 
 end ExactSequence
 
