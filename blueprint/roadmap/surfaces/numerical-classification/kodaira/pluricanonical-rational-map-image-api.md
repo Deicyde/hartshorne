@@ -28,6 +28,10 @@ dimension zero.
 - [Projective closure](../../../rational-maps/projective-closure.md)
 - [Finite-dimensional linear systems on an arbitrary variety](../../../cohomology/smooth-morphisms/finite-dimensional-linear-system-on-variety.md)
 
+## Proof depends on
+
+- [The universal property of a blowup](../../../schemes/projective-geometry/blowups/universal-property.md)
+
 ## Sources
 
 - [Hartshorne V.6, pluricanonical-map formulation, pp.421–422](../../../../sources/hartshorne-v-6.md)
