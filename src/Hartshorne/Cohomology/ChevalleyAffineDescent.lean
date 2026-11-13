@@ -281,7 +281,7 @@ theorem isZero_H_of_support_le [IsNoetherian Y] (K : Y.Modules) (hK : IsCoherent
 /-- If `ι` is the first map of a short exact sequence of `𝒪_Y`-modules and `ι ≫ φ = 0` for a
 morphism `φ` which is an isomorphism on stalks at `x`, then `x` is not in the support of the
 source of `ι`. -/
-theorem not_mem_support_of_shortExact {S : ShortComplex Y.Modules} (hS : S.ShortExact)
+theorem notMem_support_of_shortExact {S : ShortComplex Y.Modules} (hS : S.ShortExact)
     {C : Y.Modules} (φ : S.X₂ ⟶ C) (h : S.f ≫ φ = 0) (x : Y)
     (hφ : IsIso ((Scheme.Modules.toPresheaf Y ⋙
       TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map φ)) :
@@ -298,7 +298,7 @@ theorem not_mem_support_of_shortExact {S : ShortComplex Y.Modules} (hS : S.Short
 
 /-- If `π` is an epimorphism of `𝒪_Y`-modules and `φ ≫ π = 0` for a morphism `φ` which is an
 isomorphism on stalks at `x`, then `x` is not in the support of the target of `π`. -/
-theorem not_mem_support_of_epi {A B C : Y.Modules} (φ : A ⟶ B) (π : B ⟶ C) [Epi π]
+theorem notMem_support_of_epi {A B C : Y.Modules} (φ : A ⟶ B) (π : B ⟶ C) [Epi π]
     (h : φ ≫ π = 0) (x : Y)
     (hφ : IsIso ((Scheme.Modules.toPresheaf Y ⋙
       TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map φ)) :
@@ -350,14 +350,14 @@ theorem isAffine_of_isIntegral {X Y : Scheme.{u}} (f : X ⟶ Y) [IsFinite f] [Su
   have hK : IsCoherent (kernel (Abelian.factorThruImage β)) :=
     isCoherent_kernel _ hfG (isCoherent_kernel _ hE hC)
   have hηK : genericPoint Y ∉ moduleSheafSupport S₁.X₁ := by
-    refine not_mem_support_of_shortExact hS₁ β ?_ _ hβ
+    refine notMem_support_of_shortExact hS₁ β ?_ _ hβ
     change kernel.ι _ ≫ β = 0
     calc kernel.ι (Abelian.factorThruImage β) ≫ β =
         kernel.ι (Abelian.factorThruImage β) ≫ (Abelian.factorThruImage β ≫
           Abelian.image.ι β) := by rw [Abelian.image.fac]
       _ = 0 := by rw [← Category.assoc, kernel.condition, zero_comp]
   have hηC : genericPoint Y ∉ moduleSheafSupport (cokernel β) :=
-    not_mem_support_of_epi β (cokernel.π β) (cokernel.condition β) _ hβ
+    notMem_support_of_epi β (cokernel.π β) (cokernel.condition β) _ hβ
   let W₁ : Closeds Y := ⟨_, isClosed_moduleSheafSupport_of_isCoherent _ hK⟩
   let W₂ : Closeds Y := ⟨_, isClosed_moduleSheafSupport_of_isCoherent _ hC⟩
   have := hW W₁ fun h => hηK (show genericPoint Y ∈ (W₁ : Set Y) by rw [h]; trivial)
