@@ -107,6 +107,31 @@ lemma koszulBaseChangeMap_topForm :
   funext i
   exact piMapSemilinear_basisFun σ _
 
+/-- The base change map sends the standard basis vector `e_I ⊗ 1` to `e_I ⊗ 1`. -/
+lemma koszulBaseChangeMap_basis (p : ℕ) (I : Set.powersetCard (Fin r) p) :
+    koszulBaseChangeMap σ f p (exteriorPower.ιMulti_family A p (Pi.basisFun A (Fin r)) I ⊗ₜ[A]
+      (1 : A)) = exteriorPower.ιMulti_family B p (Pi.basisFun B (Fin r)) I ⊗ₜ[B] (1 : B) := by
+  rw [exteriorPower.ιMulti_family, exteriorPower.ιMulti_family, koszulBaseChangeMap_tmul_ιMulti,
+    map_one]
+  congr 2
+  funext i
+  exact piMapSemilinear_basisFun σ _
+
+/-- The standard basis `e_I ⊗ 1` of `K_p(f; A) = ⋀^p A^r ⊗_A A`. -/
+noncomputable def koszulBasis (p : ℕ) :
+    Module.Basis (ULift.{u} (Set.powersetCard (Fin r) p)) A
+      ((sequenceKoszulComplex f (ModuleCat.of A A)).X p) :=
+  (((Pi.basisFun A (Fin r)).exteriorPower (n := p)).map
+    (TensorProduct.rid A (⋀[A]^p (Fin r → A))).symm).reindex Equiv.ulift.symm
+
+lemma koszulBasis_apply (p : ℕ) (I : ULift.{u} (Set.powersetCard (Fin r) p)) :
+    koszulBasis f p I =
+      exteriorPower.ιMulti_family A p (Pi.basisFun A (Fin r)) I.down ⊗ₜ[A] (1 : A) := by
+  have h := Module.Basis.reindex_apply (((Pi.basisFun A (Fin r)).exteriorPower (n := p)).map
+    (TensorProduct.rid A (⋀[A]^p (Fin r → A))).symm) Equiv.ulift.symm I
+  rw [Module.Basis.map_apply, exteriorPower.basis_apply, TensorProduct.rid_symm_apply] at h
+  exact h
+
 /-- In degree zero, the base change map is `σ` under `K_0 ≅ A`, `K_0 ≅ B`. -/
 lemma degreeZeroEquiv_koszulBaseChangeMap (x : (sequenceKoszulComplex f (ModuleCat.of A A)).X 0) :
     degreeZeroEquiv (V := Fin r → B) B (koszulBaseChangeMap σ f 0 x) =
@@ -165,6 +190,46 @@ lemma hom_ext_of_tmul_one {G : SheafOfModules.{u} (ringCatSheafOf R)} {p q : she
   exact hp.trans ((congrArg _ (h m)).trans hq.symm)
 
 end ScalarExtension
+
+/-- Local freeness of finite rank is invariant under isomorphism. -/
+lemma isFiniteLocallyFree_of_iso {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X)
+    CommRingCat.{u}} {F G : SheafOfModules.{u} (ringCatSheafOf R)} (e : F ≅ G)
+    (hF : IsFiniteLocallyFree F) : IsFiniteLocallyFree G := fun x => by
+  obtain ⟨U, hx, r, ⟨e'⟩⟩ := hF x
+  exact ⟨U, hx, r, ⟨(SheafOfModules.overFunctor _ U).mapIso e.symm ≪≫ e'⟩⟩
+
+namespace KoszulSheaf
+
+variable {X : TopCat.{u}} {R : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+  {A : Type u} [CommRing A] (φ : A →+* R.obj.obj (op ⊤)) {s : ℕ} (f : Fin (s + 1) → A)
+
+/-- Evaluation at the top generator is evaluation at the global section `topSection`. -/
+lemma topEval_eq_homEvalAt (G : SheafOfModules.{u} (ringCatSheafOf R)) :
+    topEval φ f G = homEvalAt (topSection φ f ⊤) G := by
+  apply SheafOfModules.hom_ext
+  ext W σ
+  change moduleSheafHomEval σ (le_refl _) (topSection φ f W.unop) =
+    moduleSheafHomEval σ (le_refl _)
+      (((complex φ f).X (s + 1)).val.presheaf.map (homOfLE le_top).op (topSection φ f ⊤))
+  rw [topSection_restrict]
+
+/-- The restriction of `topSection` to an open subspace `U`, pulled back to `𝒪_U ⊗_A K_r`, is
+`topSection` of `U`. -/
+lemma restrictComplexIso_inv_topSection (U : Opens X) :
+    ((restrictComplexIso φ f U).inv.f (s + 1)).val.app (op ⊤)
+        (restrictSection U (topSection φ f ⊤)) = topSection (restrictBase φ U) f ⊤ := by
+  have h1 : restrictSection U (topSection φ f ⊤) =
+      (restrictSheafHom φ U ((K f).X (s + 1))).val.app (op ⊤)
+        (topSection (restrictBase φ U) f ⊤) := by
+    rw [restrictSheafHom_topSection]
+    exact topSection_restrict φ f le_top
+  rw [h1]
+  change ((restrictComplexIso φ f U).hom.f (s + 1) ≫ (restrictComplexIso φ f U).inv.f (s + 1)).val.app
+    (op ⊤) _ = _
+  rw [← HomologicalComplex.comp_f, Iso.hom_inv_id]
+  rfl
+
+end KoszulSheaf
 
 end Ringed
 
@@ -278,6 +343,78 @@ noncomputable def compareComplex :
         koszulBaseChangeMap σ f j (((K f).d (j + 1) j).hom n)
     rw [koszulBaseChangeMap_d]
 
+lemma compareHom_topSection {s : ℕ} (g : Fin (s + 1) → A) :
+    (compareHom U V' φA φB σ hσ g (s + 1)).val.app (op ⊤) (topSection (restrictBase φA V') g ⊤) =
+      transportSection (ringTransport U V' R) (topSection φB (fun j => σ (g j)) ⊤) := by
+  refine (compareHom_app_one U V' φA φB σ hσ g (s + 1) (topElt g)).trans ?_
+  refine Eq.trans ?_ (topSection_restrict φB (fun j => σ (g j))
+    (le_top : (opensEquiv (homeo U V')).functor.obj ⊤ ≤ ⊤)).symm
+  show (1 : (restrictRingSheaf R ((incl U).obj V')).obj.obj
+      (op ((opensEquiv (homeo U V')).functor.obj ⊤))) ⊗ₜ[B,
+        baseMap φB ((opensEquiv (homeo U V')).functor.obj ⊤)]
+      koszulBaseChangeMap σ g (s + 1) (topForm (s + 1) ⊗ₜ[A] (1 : A)) =
+    (1 : (restrictRingSheaf R ((incl U).obj V')).obj.obj
+      (op ((opensEquiv (homeo U V')).functor.obj ⊤))) ⊗ₜ[B,
+        baseMap φB ((opensEquiv (homeo U V')).functor.obj ⊤)] (topForm (s + 1) ⊗ₜ[B] (1 : B))
+  rw [koszulBaseChangeMap_topForm]
+
+/-- The structure maps of the twice restricted and the once restricted ring sheaves are bijective
+on sections. -/
+lemma ringTransport_φ_bijective (O : Opens ((Opens.toTopCat ((Opens.toTopCat X).obj U)).obj V')) :
+    Function.Bijective ((ringTransport U V' R).φ.hom.app (op O)) := by
+  let e : (ringCatSheafOf R).obj.obj (op (jA U V' O)) ≅
+      (ringCatSheafOf R).obj.obj (op (jB U V' ((opensEquiv (homeo U V')).functor.obj O))) :=
+    (ringCatSheafOf R).obj.mapIso
+      (Iso.op ⟨homOfLE (jB_le_jA U V' O), homOfLE (jA_le_jB U V' O), rfl, rfl⟩)
+  exact ConcreteCategory.bijective_of_isIso e.hom
+
+-- Identifying the module structure of a transported sheaf with that of the original sheaf unfolds
+-- the pushforward along the homeomorphism; this needs more than the default budget.
+set_option maxHeartbeats 1000000 in
+/-- **The comparison morphisms are isomorphisms.** -/
+instance isIso_compareHom (p : ℕ) : IsIso (compareHom U V' φA φB σ hσ f p) := by
+  refine ModuleGluing.isIso_of_bijective _ fun O => ?_
+  let b := koszulBasis f p
+  let b' := koszulBasis (fun j => σ (f j)) p
+  have h : (compareHom U V' φA φB σ hσ f p).val.app O ∘ basisMap (restrictBase φA V') _ b O.unop =
+      basisMap φB _ b' ((opensEquiv (homeo U V')).functor.obj O.unop) ∘
+        (fun c => (ringTransport U V' R).φ.hom.app O ∘ c) := by
+    funext c
+    simp only [Function.comp_apply, basisMap, map_sum]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    refine (homOfLinear_app_tmul _ _ _ O (c j) (b j)).trans ?_
+    have hb : koszulBaseChangeMap σ f p (b j) = b' j := by
+      rw [koszulBasis_apply, koszulBasis_apply]
+      exact koszulBaseChangeMap_basis σ f p j.down
+    have hm : ((complex φB (fun j => σ (f j))).X p).val.map
+          ((opensEquiv (homeo U V')).functor.map (homOfLE (le_top : O.unop ≤ ⊤))).op
+          ((1 : (restrictRingSheaf R ((incl U).obj V')).obj.obj
+            (op ((opensEquiv (homeo U V')).functor.obj ⊤))) ⊗ₜ[B,
+              baseMap φB ((opensEquiv (homeo U V')).functor.obj ⊤)] b' j) =
+        ((1 : (restrictRingSheaf R ((incl U).obj V')).obj.obj
+            (op ((opensEquiv (homeo U V')).functor.obj O.unop))) ⊗ₜ[B,
+              baseMap φB ((opensEquiv (homeo U V')).functor.obj O.unop)] b' j) := by
+      refine (presheaf_map_tmul φB _ _ _ _).trans ?_
+      rw [map_one]
+    change (ringTransport U V' R).φ.hom.app O (c j) •
+        ((complex φB (fun j => σ (f j))).X p).val.map
+          ((opensEquiv (homeo U V')).functor.map (homOfLE (le_top : O.unop ≤ ⊤))).op
+          ((1 : (restrictRingSheaf R ((incl U).obj V')).obj.obj
+            (op ((opensEquiv (homeo U V')).functor.obj ⊤))) ⊗ₜ[B,
+              baseMap φB ((opensEquiv (homeo U V')).functor.obj ⊤)]
+                koszulBaseChangeMap σ f p (b j)) = _
+    rw [hb, hm]
+    exact (ModuleCat.ExtendScalars.smul_tmul
+      (f := baseMap φB ((opensEquiv (homeo U V')).functor.obj O.unop)) _ _ _).trans
+        (by rw [mul_one])
+  have h2 : Function.Bijective (basisMap φB _ b' ((opensEquiv (homeo U V')).functor.obj O.unop) ∘
+      (fun c => (ringTransport U V' R).φ.hom.app O ∘ c)) :=
+    (basisMap_bijective φB _ b' ((opensEquiv (homeo U V')).functor.obj O.unop)).comp
+      (Function.Bijective.comp_left (ringTransport_φ_bijective U V' O.unop))
+  rw [← h] at h2
+  exact (Function.Bijective.of_comp_iff _
+    (basisMap_bijective (restrictBase φA V') _ b O.unop)).1 h2
+
 @[simp]
 lemma compareComplex_f (p : ℕ) :
     (compareComplex U V' φA φB σ hσ f).f p = compareHom U V' φA φB σ hσ f p := rfl
@@ -287,5 +424,40 @@ end Compare
 end KoszulSheaf
 
 end Ringed
+
+end Hartshorne
+
+namespace Hartshorne
+
+namespace KoszulImmersion
+
+open AlgebraicGeometry Koszul Ringed.KoszulSheaf Ringed.ScalarExtension Ringed.Transport
+  Ringed.RestrictCompose Ringed.SheafExtRestrict
+
+section Compare
+
+variable {Y : Scheme.{u}} {V₀ : Y.Opens} (W' : Opens ((Opens.toTopCat Y).obj V₀))
+
+/-- An open of the subspace `V₀`, as an open of `Y`, is contained in `V₀`. -/
+lemma incl_obj_le : (incl V₀).obj W' ≤ V₀ := incl_le W'
+
+/-- The restriction map `Γ(Y, V₀) → Γ(Y, W')`. -/
+noncomputable abbrev resRing : Γ(Y, V₀) →+* Γ(Y, (incl V₀).obj W') :=
+  (Y.presheaf.map (homOfLE (incl_obj_le W')).op).hom
+
+lemma resRing_compat (a : Γ(Y, V₀)) :
+    (ringTransport V₀ W' Y.sheaf).φ.hom.app (op ⊤)
+        (baseMap (restrictBase (restrictPhi V₀) W') ⊤ a) =
+      baseMap (restrictPhi ((incl V₀).obj W')) ((opensEquiv (homeo V₀ W')).functor.obj ⊤)
+        (resRing W' a) := by
+  dsimp only [baseMap, restrictBase, restrictPhi, resRing, RingHom.comp_apply]
+  change (Y.presheaf.map _ ≫ Y.presheaf.map _ ≫ Y.presheaf.map _ ≫ Y.presheaf.map _) a =
+    (Y.presheaf.map _ ≫ Y.presheaf.map _ ≫ Y.presheaf.map _) a
+  simp only [← Functor.map_comp]
+  rfl
+
+end Compare
+
+end KoszulImmersion
 
 end Hartshorne

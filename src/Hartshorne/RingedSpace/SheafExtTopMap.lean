@@ -95,6 +95,23 @@ lemma homologyCompIso'_inv_map_desc (L : ChainComplex C ℕ) (G : C) {s : ℕ} {
   have h := mapCyclesIso_inv_cyclesMap_iCycles (Φ := Φ) H H' α hα L G (s + 1)
   rw [reassoc_of% h, Iso.hom_inv_id_app_assoc]
 
+omit [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ] in
+include hα in
+/-- A top map transported along `α` and pulled back along a chain map still kills the image of the
+previous term. -/
+lemma comp_inv_map_eq_zero (L : ChainComplex C ℕ) (G : C) {s : ℕ} {T : C}
+    (t : ((homComplex H L).obj G).X (s + 1) ⟶ T)
+    (w : ((homComplex H L).obj G).d s (s + 1) ≫ t = 0) {K' : CochainComplex D ℕ}
+    (χ : K' ⟶ (homComplex H' ((Φ.mapHomologicalComplex _).obj L)).obj (Φ.obj G)) {E' : D}
+    (e : Φ.obj T ⟶ E') :
+    K'.d s (s + 1) ≫ χ.f (s + 1) ≫ (α (L.X (s + 1))).inv.app G ≫ Φ.map t ≫ e = 0 := by
+  have h : ((homComplex H' ((Φ.mapHomologicalComplex _).obj L)).obj (Φ.obj G)).d s (s + 1) ≫
+      (α (L.X (s + 1))).inv.app G =
+        (α (L.X s)).inv.app G ≫ Φ.map (((homComplex H L).obj G).d s (s + 1)) :=
+    ((homComplexCompIso H H' α hα L G).inv.comm s (s + 1)).symm
+  rw [← χ.comm_assoc, reassoc_of% h, ← Φ.map_comp_assoc, w, Φ.map_zero, zero_comp, comp_zero,
+    comp_zero]
+
 end ExactFunctor
 
 end LocallyFreeResolutionExt
@@ -191,6 +208,44 @@ theorem extTopMap_map {F : SheafOfModules.{u} (ringCatSheafOf R)}
     Category.assoc]
   congr 1
   exact CochainTop.homologyMap_desc _ ((moduleSheafHomComplex L).map g) t' w'
+
+/-- The top map on `U` induced by a top map on `X` through a chain map `L_•|_U ⟶ L'_•` kills the
+image of the previous term. -/
+lemma restrict_top_eq_zero (U : Opens X) (L : ChainComplex (SheafOfModules.{u} (ringCatSheafOf R)) ℕ)
+    {L' : ChainComplex (SheafOfModules.{u} (ringCatSheafOf (restrictRingSheaf R U))) ℕ}
+    (ψ : ((moduleRestrict U).mapHomologicalComplex _).obj L ⟶ L') {s : ℕ}
+    (G : SheafOfModules.{u} (ringCatSheafOf R)) {E : SheafOfModules.{u} (ringCatSheafOf R)}
+    (t : ((moduleSheafHomComplex L).obj G).X (s + 1) ⟶ E)
+    (w : ((moduleSheafHomComplex L).obj G).d s (s + 1) ≫ t = 0)
+    {E' : SheafOfModules.{u} (ringCatSheafOf (restrictRingSheaf R U))}
+    (e : (moduleRestrict U).obj E ⟶ E') :
+    ((moduleSheafHomComplex L').obj ((moduleRestrict U).obj G)).d s (s + 1) ≫
+      ((moduleSheafHomComplexMap ψ).app _).f (s + 1) ≫
+        (homRestrictIso U (L.X (s + 1))).inv.app G ≫ (moduleRestrict U).map t ≫ e = 0 :=
+  comp_inv_map_eq_zero (Φ := moduleRestrict U) (moduleSheafHomBifunctor R)
+    (moduleSheafHomBifunctor (restrictRingSheaf R U)) (fun F => homRestrictIso U F)
+    (fun f G => homRestrict_precomp_naturality U f G) L G t w ((moduleSheafHomComplexMap ψ).app _) e
+
+open Transport in
+/-- The transported top map pulled back along a chain map `τ L_• ⟶ L'_•` kills the image of the
+previous term. -/
+lemma transport_top_eq_zero {A B : TopCat.{u}} {Hh : B ≅ A}
+    {S : Sheaf (Opens.grothendieckTopology A) CommRingCat.{u}}
+    {T : Sheaf (Opens.grothendieckTopology B) CommRingCat.{u}} (ρ : RingTransport Hh S T)
+    (L : ChainComplex (SheafOfModules.{u} (ringCatSheafOf T)) ℕ)
+    {L' : ChainComplex (SheafOfModules.{u} (ringCatSheafOf S)) ℕ}
+    (ψ : ((transport ρ).mapHomologicalComplex _).obj L ⟶ L') {s : ℕ}
+    (G : SheafOfModules.{u} (ringCatSheafOf T)) {E : SheafOfModules.{u} (ringCatSheafOf T)}
+    (t : ((moduleSheafHomComplex L).obj G).X (s + 1) ⟶ E)
+    (w : ((moduleSheafHomComplex L).obj G).d s (s + 1) ≫ t = 0)
+    {E' : SheafOfModules.{u} (ringCatSheafOf S)} (e : (transport ρ).obj E ⟶ E') :
+    ((moduleSheafHomComplex L').obj ((transport ρ).obj G)).d s (s + 1) ≫
+      ((moduleSheafHomComplexMap ψ).app _).f (s + 1) ≫
+        (homTransportIso ρ (L.X (s + 1))).inv.app G ≫ (transport ρ).map t ≫ e = 0 :=
+  comp_inv_map_eq_zero (Φ := transport ρ) (moduleSheafHomBifunctor T)
+    (moduleSheafHomBifunctor S) (fun F => homTransportIso ρ F)
+    (fun f G => homTransport_precomp_naturality ρ f G) L G t w
+    ((moduleSheafHomComplexMap ψ).app _) e
 
 /-- **`extTopMap` restricted to an open subset.** Let `L_• ⟶ F` be a resolution on `X`, `L'_• ⟶ F|_U`
 one on `U` and `ψ : L_•|_U ⟶ L'_•` a chain map over the identity, all by locally free modules of
