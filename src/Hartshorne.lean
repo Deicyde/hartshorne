@@ -658,6 +658,7 @@ import Hartshorne.Surface.PointBlowupFundamentalPoint
 import Hartshorne.Scheme.RegularLocalInitialForm
 import Hartshorne.Surface.PointMultiplicity
 import Hartshorne.RingedSpace.ModuleGluing
+import Hartshorne.RingedSpace.ModuleRestrictGlue
 import Hartshorne.Scheme.ModuleGluingDirected
 import Hartshorne.Scheme.ModuleGluingScheme
 import Hartshorne.Scheme.RelativeProjTwistingSheaf
