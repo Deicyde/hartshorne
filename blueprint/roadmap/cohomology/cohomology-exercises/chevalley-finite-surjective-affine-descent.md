@@ -9,6 +9,9 @@ origin: cited
 Let $f : X \longrightarrow Y$ be a finite surjective morphism of Noetherian separated
 schemes. If $X$ is affine, then $Y$ is affine.
 
+The hypotheses on $X$ are automatic: an affine scheme is separated, and $X$ is Noetherian
+because it is finite over the Noetherian scheme $Y$.
+
 ## Depends on
 
 - [Finite morphisms](../../schemes/first-properties/finite-morphism.md)
