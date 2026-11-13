@@ -130,7 +130,7 @@ theorem mem_pluricanonicalDomain_iff (n : ℕ)
     (span_pluricanonicalBasis f hf hω n h) x
 
 /-- **The pluricanonical rational map** `φ_n : X ⇢ P(H⁰(X, ω_X^{⊗ n})) ≅ ℙᴺ_k` (Hartshorne V.6,
-p. 421), for `H⁰(X, ω_X^{⊗ n}) ≠ 0` on an integral scheme: the class of the morphism
+pp. 421–422), for `H⁰(X, ω_X^{⊗ n}) ≠ 0` on an integral scheme: the class of the morphism
 `X - B ⟶ ℙᴺ_k` defined by the basis sections on the complement of the base locus of `|nK|`. -/
 def pluricanonicalMap [IsIntegral X] (n : ℕ)
     (h : ∃ s : CanonicalSectionRing.Component f n, s ≠ 0) :
