@@ -19,6 +19,8 @@ $0 \to \mathcal{O}_X \to E \to E' \to 0$
 
 with $E'$ locally free.
 
+Separatedness, part of the definition of a variety, is not used in the proof.
+
 ## Depends on
 
 - [Generation by global sections](../../schemes/projective-sheaves/globally-generated-module-sheaf.md)
