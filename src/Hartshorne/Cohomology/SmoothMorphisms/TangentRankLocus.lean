@@ -3,6 +3,8 @@ Copyright (c) 2026 Hartshorne formalization contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Cohomology.SmoothMorphisms.SmoothTangentCriterion
+import Hartshorne.Scheme.Differentials.DenseNonsingularLocus
+import Hartshorne.Scheme.ReducedInducedSubscheme
 import Mathlib.Topology.Constructible
 
 /-!
@@ -240,6 +242,191 @@ theorem exists_isConstructible_tangentRank_le [LocallyOfFiniteType X.hom] [Quasi
     omega
 
 end Constructible
+
+section DenseStratum
+
+open TopologicalSpace
+
+/-- An irreducible component `Z` of the closure of a subset `S` of a Noetherian space is closed,
+and `S ∩ Z` is dense in `Z`. -/
+theorem isClosed_and_closure_inter_eq_of_maximal {α : Type*} [TopologicalSpace α]
+    [NoetherianSpace α] {S Z : Set α}
+    (hZ : Maximal (fun T : Set α ↦ IsIrreducible T ∧ T ⊆ closure S) Z) :
+    IsClosed Z ∧ closure (S ∩ Z) = Z := by
+  have hcl : IsClosed Z := closure_subset_iff_isClosed.mp
+    (hZ.2 ⟨hZ.1.1.closure, closure_minimal hZ.1.2 isClosed_closure⟩ subset_closure)
+  refine ⟨hcl, (closure_minimal Set.inter_subset_right hcl).antisymm ?_⟩
+  obtain ⟨F, hFirr, hF⟩ :=
+    NoetherianSpace.exists_finset_irreducible ⟨closure S, isClosed_closure⟩
+  have hF' : closure S = ⋃ s ∈ F, (s : Set α) := by
+    simpa [Closeds.coe_finset_sup] using congrArg (fun C : Closeds α ↦ (C : Set α)) hF
+  classical
+  let G : Finset (Set α) := F.image fun s : Closeds α ↦ closure (S ∩ (s : Set α))
+  have hG : Z ⊆ ⋃₀ (G : Set (Set α)) := by
+    refine hZ.1.2.trans (closure_minimal ?_ ?_)
+    · intro x hx
+      obtain ⟨s, hs, hxs⟩ := Set.mem_iUnion₂.1 (hF' ▸ subset_closure hx :
+        x ∈ ⋃ s ∈ F, (s : Set α))
+      exact Set.mem_sUnion.2 ⟨_, Finset.mem_coe.2 (Finset.mem_image_of_mem _ hs),
+        subset_closure ⟨hx, hxs⟩⟩
+    · rw [Finset.coe_image, Set.sUnion_image]
+      exact isClosed_biUnion_finset fun s _ ↦ isClosed_closure
+  obtain ⟨y, hy, hZy⟩ := isIrreducible_iff_sUnion_isClosed.mp hZ.1.1 G
+    (fun y hy ↦ by obtain ⟨s, -, rfl⟩ := Finset.mem_image.1 hy; exact isClosed_closure) hG
+  obtain ⟨s, hs, rfl⟩ := Finset.mem_image.1 hy
+  have hsS : (s : Set α) ⊆ closure S := by
+    rw [hF']
+    exact Set.subset_biUnion_of_mem (u := fun s : Closeds α ↦ (s : Set α)) hs
+  have hsZ : (s : Set α) ⊆ Z := hZ.2 ⟨hFirr ⟨s, hs⟩, hsS⟩
+    (hZy.trans (closure_minimal Set.inter_subset_right s.isClosed))
+  exact hZy.trans (closure_mono (Set.inter_subset_inter_right _ hsZ))
+
+/-- Let `S` be a scheme locally of finite type over an algebraically closed field `k` and `Z` an
+irreducible closed subset of `S`. Then there is an open set `V` of `S` meeting `Z` such that the
+reduced induced closed subscheme on `Z` is nonsingular at every point lying in `V`: this
+subscheme is a variety over `k`, so its regular points contain a nonempty open set. -/
+theorem exists_isOpen_isRegularAt_reducedInducedSubscheme {k : Type u} [Field k] [IsAlgClosed k]
+    {S : Scheme.{u}} (p : S ⟶ Spec (CommRingCat.of k)) [LocallyOfFiniteType p] (Z : Closeds S)
+    (hZ : IsIrreducible (Z : Set S)) :
+    ∃ V : Set S, IsOpen V ∧ (V ∩ Z).Nonempty ∧
+      ∀ z : reducedInducedSubscheme Z, reducedInducedSubschemeι Z z ∈ V →
+        (reducedInducedSubscheme Z).IsRegularAt z := by
+  let ι := reducedInducedSubschemeι Z
+  have hrange : Set.range ι = Z := range_reducedInducedSubschemeι Z
+  have hemb : IsEmbedding ι := ι.isClosedEmbedding.isEmbedding
+  have : IrreducibleSpace (reducedInducedSubscheme Z) := by
+    have : IrreducibleSpace (Set.range ι) := by
+      rw [hrange]
+      exact Subtype.irreducibleSpace hZ
+    exact (Homeomorph.irreducibleSpace_iff hemb.toHomeomorph).mpr this
+  have : IsIntegral (reducedInducedSubscheme Z) := isIntegral_of_irreducibleSpace_of_isReduced _
+  obtain ⟨U, ⟨u, hu⟩, -, hreg⟩ := exists_nonempty_dense_isRegularAt (k := k) (ι ≫ p)
+  obtain ⟨V, hV, hVU⟩ := hemb.isInducing.isOpen_iff.1 U.isOpen
+  refine ⟨V, hV, ⟨ι u, ?_, hrange ▸ Set.mem_range_self u⟩, fun z hz ↦ hreg z ?_⟩
+  · rw [← Set.mem_preimage, hVU]
+    exact hu
+  · rw [← SetLike.mem_coe, ← hVU]
+    exact hz
+
+variable {k : Type u} [Field k] [IsAlgClosed k] {X Y : Over (Spec (CommRingCat.of k))}
+
+/-- **A dense stratum of constant tangent rank.** Let `f : X ⟶ Y` be a morphism of schemes over an
+algebraically closed field `k`, with `X` of finite type and `Y` locally of finite type over `k`,
+and let `Z` be an irreducible component of the closure of the set `X_r` of closed points at which
+the tangent map of `f` has rank at most `r`. Then there is an open set `U` of `X` meeting `Z` (so
+that `U ∩ Z` is a dense irreducible open subset of `Z`) such that the tangent map has the same
+rank `n ≤ r` at every closed point of `U ∩ Z`, the closed points of `U ∩ Z` are dense in `Z`, and
+their images are closed points of `Y`, dense in the closure of `f(Z)`. Moreover the reduced
+induced closed subschemes on `Z` and on the closure of `f(Z)` are nonsingular at the points of
+`U ∩ Z` and of `f(U ∩ Z)` respectively. -/
+theorem exists_isOpen_tangentRank_eq_of_maximal [LocallyOfFiniteType X.hom] [QuasiCompact X.hom]
+    [LocallyOfFiniteType Y.hom] (f : X ⟶ Y) (r : ℕ) {Z : Set X.left}
+    (hZ : haveI := LocallyOfFiniteType.isLocallyNoetherian Y.hom
+      Maximal (fun T : Set X.left ↦ IsIrreducible T ∧ T ⊆ closure
+        {x : X.left | IsClosed ({x} : Set X.left) ∧
+          finrank (ResidueField (X.left.presheaf.stalk x))
+            (LinearMap.range (zariskiTangentMap f.left x)) ≤ r}) Z) :
+    haveI := LocallyOfFiniteType.isLocallyNoetherian Y.hom
+    ∃ U : Set X.left, IsOpen U ∧ (U ∩ Z).Nonempty ∧
+      (∃ n ≤ r, ∀ x ∈ U ∩ Z, IsClosed ({x} : Set X.left) →
+        finrank (ResidueField (X.left.presheaf.stalk x))
+          (LinearMap.range (zariskiTangentMap f.left x)) = n) ∧
+      closure (U ∩ Z ∩ {x : X.left | IsClosed ({x} : Set X.left)}) = Z ∧
+      f.left '' (U ∩ Z ∩ {x : X.left | IsClosed ({x} : Set X.left)}) ⊆
+        {y : Y.left | IsClosed ({y} : Set Y.left)} ∧
+      closure (f.left '' (U ∩ Z ∩ {x : X.left | IsClosed ({x} : Set X.left)})) =
+        closure (f.left '' Z) ∧
+      (∀ z : reducedInducedSubscheme ⟨closure Z, isClosed_closure⟩,
+        reducedInducedSubschemeι _ z ∈ U → (reducedInducedSubscheme _).IsRegularAt z) ∧
+      ∀ w : reducedInducedSubscheme ⟨closure (f.left '' Z), isClosed_closure⟩,
+        reducedInducedSubschemeι _ w ∈ f.left '' (U ∩ Z) →
+          (reducedInducedSubscheme _).IsRegularAt w := by
+  have := LocallyOfFiniteType.isLocallyNoetherian Y.hom
+  have := LocallyOfFiniteType.isLocallyNoetherian X.hom
+  have : CompactSpace X.left := QuasiCompact.compactSpace_of_compactSpace X.hom
+  have : IsNoetherian X.left := {}
+  have : JacobsonSpace X.left := LocallyOfFiniteType.jacobsonSpace X.hom
+  have : JacobsonSpace Y.left := LocallyOfFiniteType.jacobsonSpace Y.hom
+  have : LocallyOfFiniteType f.left := by
+    have : LocallyOfFiniteType (f.left ≫ Y.hom) := by rw [Over.w f]; infer_instance
+    exact locallyOfFiniteType_of_comp f.left Y.hom
+  obtain ⟨hZc, hSZ⟩ := isClosed_and_closure_inter_eq_of_maximal hZ
+  -- the generic point `η` of `Z`
+  let η := hZ.1.1.genericPoint
+  have hη : closure {η} = Z := by
+    have := hZ.1.1.isGenericPoint_genericPoint_closure
+    rwa [hZc.closure_eq] at this
+  have hηZ : η ∈ Z := hη ▸ subset_closure rfl
+  -- the fibre dimensions are at least their generic values on `Z`
+  have hge : ∀ G : X.left.Modules, IsCoherent G → ∀ z ∈ Z,
+      moduleFiberDim G η ≤ moduleFiberDim G z := by
+    intro G hG z hz
+    have hc := isClosed_setOf_le_moduleFiberDim_of_isCoherent G hG (moduleFiberDim G η)
+    have : Z ⊆ {y : X.left | (moduleFiberDim G η : ℤ) ≤ moduleFiberDim G y} :=
+      hη ▸ closure_minimal (Set.singleton_subset_iff.2 (le_refl (moduleFiberDim G η : ℤ))) hc
+    exact_mod_cast this hz
+  have hk := Scheme.relativeDifferentials_isCoherent_of_locallyOfFiniteType X.hom
+  have hf := Scheme.relativeDifferentials_isCoherent_of_locallyOfFiniteType f.left
+  -- and at most their generic values near `η`
+  obtain ⟨Ua, hηa, hUa⟩ := exists_nhds_moduleFiberDim_le_of_isCoherent _ hk η
+  obtain ⟨Ub, hηb, hUb⟩ := exists_nhds_moduleFiberDim_le_of_isCoherent _ hf η
+  -- every open set meeting `Z` contains `η`
+  have hgen : ∀ O : Set X.left, IsOpen O → (O ∩ Z).Nonempty → η ∈ O := by
+    rintro O hO ⟨z, hzO, hzZ⟩
+    by_contra h
+    have : Z ⊆ Oᶜ := hη ▸ closure_minimal (Set.singleton_subset_iff.2 h) hO.isClosed_compl
+    exact this hzZ hzO
+  -- the regular loci of the reduced induced subschemes on `Z` and on the closure of `f(Z)`
+  obtain ⟨VZ, hVZ, hVZne, hregZ⟩ := exists_isOpen_isRegularAt_reducedInducedSubscheme X.hom
+    ⟨closure Z, isClosed_closure⟩ hZ.1.1.closure
+  rw [show ((⟨closure Z, isClosed_closure⟩ : Closeds X.left) : Set X.left) = Z from
+    hZc.closure_eq] at hVZne
+  obtain ⟨VW, hVW, hVWne, hregW⟩ := exists_isOpen_isRegularAt_reducedInducedSubscheme Y.hom
+    ⟨closure (f.left '' Z), isClosed_closure⟩
+    (hZ.1.1.image f.left f.left.continuous.continuousOn).closure
+  have hηW : η ∈ f.left ⁻¹' VW := by
+    refine hgen _ (hVW.preimage f.left.continuous) ?_
+    obtain ⟨_, ⟨z, hz, rfl⟩, hzV⟩ := (closure_inter_open_nonempty_iff hVW).1
+      (Set.inter_comm _ _ ▸ hVWne)
+    exact ⟨z, hzV, hz⟩
+  let U : Set X.left := (Ua : Set X.left) ∩ Ub ∩ VZ ∩ f.left ⁻¹' VW
+  have hU : IsOpen U :=
+    ((Ua.isOpen.inter Ub.isOpen).inter hVZ).inter (hVW.preimage f.left.continuous)
+  have hηU : η ∈ U ∩ Z := ⟨⟨⟨⟨hηa, hηb⟩, hgen VZ hVZ hVZne⟩, hηW⟩, hηZ⟩
+  have hrank : ∀ x ∈ U ∩ Z, IsClosed ({x} : Set X.left) →
+      finrank (ResidueField (X.left.presheaf.stalk x))
+          (LinearMap.range (zariskiTangentMap f.left x)) =
+        moduleFiberDim (Scheme.relativeDifferentials X.hom) η -
+          moduleFiberDim (Scheme.relativeDifferentials f.left) η := by
+    rintro x ⟨⟨⟨⟨hxa, hxb⟩, -⟩, -⟩, hxZ⟩ hx
+    have h₁ := hUa x hxa
+    have h₂ := hUb x hxb
+    have h₃ := hge _ hk x hxZ
+    have h₄ := hge _ hf x hxZ
+    have := moduleFiberDim_add_finrank_range_zariskiTangentMap f x hx
+    omega
+  -- `U ∩ Z` is dense in `Z`, and so are its closed points
+  have hdense : closure (U ∩ Z ∩ {x : X.left | IsClosed ({x} : Set X.left)}) = Z := by
+    rw [show U ∩ Z ∩ {x : X.left | IsClosed ({x} : Set X.left)} =
+        U ∩ Z ∩ closedPoints X.left from rfl,
+      JacobsonSpace.closure_inter_closedPoints_eq_closure
+        (hU.isLocallyClosed.inter hZc.isLocallyClosed)]
+    exact (closure_minimal Set.inter_subset_right hZc).antisymm
+      (hη.symm.subset.trans (closure_mono (Set.singleton_subset_iff.2 hηU)))
+  -- `U ∩ Z` meets `X_r`, which fixes the rank
+  obtain ⟨x, hxU, hxS, hxZ⟩ := mem_closure_iff.1 (hSZ.symm ▸ hηZ : η ∈ closure _) U hU hηU.1
+  refine ⟨U, hU, ⟨η, hηU⟩, ⟨_, (hrank x ⟨hxU, hxZ⟩ hxS.1) ▸ hxS.2, hrank⟩, hdense, ?_, ?_,
+    fun z hz ↦ hregZ z hz.1.2, ?_⟩
+  · rintro _ ⟨x, hx, rfl⟩
+    exact f.left.closePoints_subset_preimage_closedPoints hx.2
+  · refine (closure_mono (Set.image_mono fun x hx ↦ hx.1.2)).antisymm
+      (closure_minimal ?_ isClosed_closure)
+    conv_lhs => rw [← hdense]
+    exact image_closure_subset_closure_image f.left.continuous
+  · rintro w ⟨x, hx, hxw⟩
+    exact hregW w (hxw ▸ hx.1.2)
+
+end DenseStratum
 
 end TangentRank
 
