@@ -12,7 +12,9 @@ proof: formalized
 A point is a base point of the linear system represented by $V$ exactly when
 every section in $V$ vanishes in its fibre. Consequently the system is
 base-point-free exactly when $V$ generates the associated invertible sheaf.
-Expose the induced morphism and closed-immersion criteria as corollaries.
+It follows that a base-point-free linear system determines a morphism to projective space
+(Remark 7.8.1), and Proposition 7.3 can be restated in terms of linear systems
+(Remark 7.8.2).
 
 ## Depends on
 
