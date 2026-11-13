@@ -94,7 +94,8 @@ variable {k : Type u} [Field k] (q : X ⟶ Spec (CommRingCat.of k)) {n : ℕ}
 
 /-- **The base locus can only grow when a fixed part is added**: for `m : L' ⟶ L`, the
 complement of the base locus of the sections `m(s'ᵢ)` lies in that of the `s'ᵢ`. -/
-theorem linearSystemDomain_map_le (hL' : L'.IsInvertible) (m : L' ⟶ L) (s' : Fin (n + 1) → Γ(L', ⊤)) :
+theorem linearSystemDomain_map_le (hL' : L'.IsInvertible) (m : L' ⟶ L)
+    (s' : Fin (n + 1) → Γ(L', ⊤)) :
     linearSystemDomain hL (fun i => m.app ⊤ (s' i)) ≤ linearSystemDomain hL' s' := by
   intro x hx
   obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp hx
@@ -148,7 +149,8 @@ theorem isIso_pullback_map_linearSystemDomain (hL' : L'.IsInvertible) (m : L' �
 invertible sheaves (for instance multiplication by a section whose divisor of zeros `F` is the
 fixed part) and `sᵢ = m(s'ᵢ)`. On the complement of the base locus of the `sᵢ`, the morphism
 to `ℙⁿ_k` they define is the restriction of the morphism defined by the `s'ᵢ`. -/
-theorem linearSystemMorphism_map (hL' : L'.IsInvertible) (m : L' ⟶ L) (s' : Fin (n + 1) → Γ(L', ⊤)) :
+theorem linearSystemMorphism_map (hL' : L'.IsInvertible) (m : L' ⟶ L)
+    (s' : Fin (n + 1) → Γ(L', ⊤)) :
     linearSystemMorphism q hL (fun i => m.app ⊤ (s' i)) =
       X.homOfLE (linearSystemDomain_map_le hL hL' m s') ≫ linearSystemMorphism q hL' s' := by
   let W := linearSystemDomain hL (fun i => m.app ⊤ (s' i))
@@ -212,6 +214,13 @@ on the complement of the base locus. -/
 def linearSystemRationalMap [IsIntegral X] (s : Fin (n + 1) → Γ(L, ⊤)) (hs : s ≠ 0) :
     X ⤏ projectiveSpaceOverScheme n (Spec (CommRingCat.of k)) :=
   (linearSystemPartialMap q hL s hs).toRationalMap
+
+/-- The rational map depends only on the family of sections. -/
+theorem linearSystemRationalMap_congr [IsIntegral X] {s t : Fin (n + 1) → Γ(L, ⊤)} (h : s = t)
+    (hs : s ≠ 0) (ht : t ≠ 0) :
+    linearSystemRationalMap q hL s hs = linearSystemRationalMap q hL t ht := by
+  subst h
+  rfl
 
 /-- **The image of the map defined by a linear system**: the closure `\overline{φ(X - B)}` in
 `ℙⁿ_k` of the image of the morphism `φ` defined by `s₀, …, sₙ` on the complement of the base

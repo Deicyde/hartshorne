@@ -796,6 +796,8 @@ import Hartshorne.Scheme.SchemeCompletionQuotient
 import Hartshorne.Scheme.FormalCompletionModuleAffineSections
 import Hartshorne.Scheme.ProjectiveNormalityCriterion
 import Hartshorne.Scheme.LinearSystem
+import Hartshorne.Scheme.LinearSystemRationalMap
+import Hartshorne.Surface.PluricanonicalMap
 import Hartshorne.Scheme.TorsionLinearSystem
 import Hartshorne.Scheme.VeryAmpleHilbertPolynomial
 import Hartshorne.Scheme.BirationalSectionAlgebraModel
