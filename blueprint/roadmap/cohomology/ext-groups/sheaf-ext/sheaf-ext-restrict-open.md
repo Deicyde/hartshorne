@@ -11,8 +11,7 @@ construct natural isomorphisms
 
 $\mathcal{E}xt^i_X(F,G)|_U \cong \mathcal{E}xt^i_U(F|_U,G|_U)$.
 
-This statement is for arbitrary module sheaves $F,G$; finite presentation is
-needed only for the later stalk comparison, not for open restriction.
+This statement is for arbitrary module sheaves $F,G$.
 
 ## Depends on
 
