@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Hartshorne.Cohomology.KoszulRegularImmersionExt
 import Hartshorne.Scheme.FormalCompletionModuleAffineSections
+import Hartshorne.RingedSpace.SheafExtResolutionNaturality
 
 universe u
 
@@ -31,6 +32,13 @@ of the dual `ℋom(𝒪_{V₀} ⊗_A K_•(f; A), M|_{V₀})` of the sheafified 
   to `V₀`; it kills the image of the last differential (`d_comp_topHom`), and
   `Hartshorne.KoszulImmersion.topHomologyIso` is the induced isomorphism
   `h^r(ℋom(𝒪_{V₀} ⊗_A K_•(f; A), M|_{V₀})) ≅ (i_* i^* M)|_{V₀}` for quasi-coherent `M`.
+* `Hartshorne.KoszulImmersion.localTopExtIso`: for `f` Koszul-regular, the composite
+  `ℰxt^r_Y(i_* 𝒪_X, M)|_{V₀} ≅ (i_* i^* M)|_{V₀}` with the restriction isomorphism of `ℰxt` and the
+  isomorphism `ℰxt^r ≅ h^r(ℋom(𝒪_{V₀} ⊗_A K_•(f; A), -))` of the Koszul resolution.
+* `Hartshorne.KoszulImmersion.localTopExtIso_changeOfBasis` (the determinant transition law):
+  replacing `f` by `f Q` for an invertible matrix `Q` multiplies `localTopExtIso` by `det Q`
+  (`Hartshorne.Ringed.KoszulSheaf.scalarHom`). The comparison goes through the change-of-basis map
+  `K_•(f Q; A) ⟶ K_•(f; A)` and the naturality of the resolution isomorphism in the resolution.
 
 On a basic open `W = D(g) ⊆ V₀` the sections of `ℋom(𝒪 ⊗_A K_p, M)` are `Hom_A(K_p, M(W))`, the
 evaluation is the top map `Hom_A(K_r, M(W)) → M(W) / (f) M(W)` of
@@ -308,6 +316,87 @@ lemma homComplex_d_top :
     rfl
   rw [hz, zero_comp]
 
+/-- Multiplication by a global section `c` of `𝒪_X`, as an endomorphism of an `𝒪_X`-module. -/
+noncomputable def scalarHom (c : R.obj.obj (op ⊤)) (G : SheafOfModules.{u} (ringCatSheafOf R)) :
+    G ⟶ G :=
+  modulesHomMk (fun W =>
+    { toFun x := (R.obj.map (homOfLE (le_top : W ≤ ⊤)).op c) • x
+      map_add' := smul_add _
+      map_smul' a x := smul_comm _ a x }) fun W V i x => by
+    change (R.obj.map (homOfLE (le_top : V ≤ ⊤)).op c) • G.val.presheaf.map (homOfLE i).op x =
+      G.val.presheaf.map (homOfLE i).op ((R.obj.map (homOfLE (le_top : W ≤ ⊤)).op c) • x)
+    refine Eq.trans ?_ (G.val.map_smul (homOfLE i).op _ x).symm
+    congr 1
+    change _ = (R.obj.map (homOfLE (le_top : W ≤ ⊤)).op ≫ R.obj.map (homOfLE i).op) c
+    rw [← Functor.map_comp]
+    rfl
+
+/-- `scalarHom` on sections. -/
+lemma scalarHom_app (c : R.obj.obj (op ⊤)) (G : SheafOfModules.{u} (ringCatSheafOf R))
+    (W : Opens X) (x : G.val.obj (op W)) :
+    ((scalarHom c G).val.app (op W)).hom x = (R.obj.map (homOfLE (le_top : W ≤ ⊤)).op c) • x :=
+  rfl
+
+/-- Multiplication by a global section commutes with morphisms of `𝒪_X`-modules. -/
+@[reassoc]
+lemma scalarHom_naturality (c : R.obj.obj (op ⊤)) {G G' : SheafOfModules.{u} (ringCatSheafOf R)}
+    (g : G ⟶ G') : scalarHom c G ≫ g = g ≫ scalarHom c G' := by
+  apply SheafOfModules.hom_ext
+  ext W x
+  exact (g.val.app W).hom.map_smul _ x
+
+/-- The sheafification `𝒪_X ⊗_A c` of a chain map `c : K_•(f'; A) ⟶ K_•(f; A)`. -/
+noncomputable def complexMap {r : ℕ} {f₁ f₂ : Fin r → A} (c : K f₁ ⟶ K f₂) :
+    complex φ f₁ ⟶ complex φ f₂ where
+  f p := sheafMap φ (c.f p)
+  comm' p q _ := by
+    change sheafMap φ (c.f p) ≫ sheafMap φ ((K f₂).d p q) =
+      sheafMap φ ((K f₁).d p q) ≫ sheafMap φ (c.f q)
+    rw [← sheafMap_comp, ← sheafMap_comp, c.comm]
+
+/-- **The determinant transition law for the evaluation at the top generator.** Precomposing with
+the change-of-basis map `𝒪 ⊗ K_r(f Q; A) ⟶ 𝒪 ⊗ K_r(f; A)` turns evaluation at
+`e₁ ∧ ⋯ ∧ e_r ⊗ 1` for `f Q` into `det Q` times evaluation for `f`. -/
+lemma topEval_changeOfBasis (Q : Matrix (Fin (s + 1)) (Fin (s + 1)) A) :
+    (moduleSheafHomPrecomp
+        ((complexMap φ (sequenceKoszulChangeOfBasis f Q (ModuleCat.of A A))).f (s + 1))).app G ≫
+      topEval φ (Matrix.vecMul f Q) G = topEval φ f G ≫ scalarHom (φ Q.det) G := by
+  apply SheafOfModules.hom_ext
+  ext W σ
+  change ((topEval φ (Matrix.vecMul f Q) G).val.app W).hom
+    (SheafOfModules.Hom.over
+      (sheafMap φ ((sequenceKoszulChangeOfBasis f Q (ModuleCat.of A A)).f (s + 1))) W.unop ≫ (σ : ((complex φ f).X (s + 1)).over W.unop ⟶ G.over W.unop)) =
+    (R.obj.map (homOfLE (le_top : W.unop ≤ ⊤)).op (φ Q.det)) •
+      ((topEval φ f G).val.app W).hom σ
+  rw [topEval_app, topEval_app, overHomEquiv_comp]
+  have h : ((sequenceKoszulChangeOfBasis f Q (ModuleCat.of A A)).f (s + 1)).hom
+      (topElt (Matrix.vecMul f Q)) = Q.det • topElt f := by
+    change (exteriorPower.map (s + 1) (Matrix.toLin' Q)).rTensor A (topForm (s + 1) ⊗ₜ 1) = _
+    rw [LinearMap.rTensor_tmul, exteriorPower_map_topForm, ← TensorProduct.smul_tmul']
+    rfl
+  change (overHomEquiv φ G W.unop σ).hom
+    (((sequenceKoszulChangeOfBasis f Q (ModuleCat.of A A)).f (s + 1)).hom
+      (topElt (Matrix.vecMul f Q))) = _
+  rw [h, map_smul]
+  rfl
+
+omit φ in
+/-- In degree zero the change-of-basis map is the identity of `K_0 = A`. -/
+lemma degreeZeroEquiv_changeOfBasis (Q : Matrix (Fin (s + 1)) (Fin (s + 1)) A)
+    (k : (K (Matrix.vecMul f Q)).X 0) :
+    degreeZeroEquiv (V := Fin (s + 1) → A) A
+        (((sequenceKoszulChangeOfBasis f Q (ModuleCat.of A A)).f 0).hom k) =
+      degreeZeroEquiv (V := Fin (s + 1) → A) A k := by
+  have h : (degreeZeroEquiv (V := Fin (s + 1) → A) A).toLinearMap ∘ₗ
+      (exteriorPower.map 0 (Matrix.toLin' Q)).rTensor A =
+      (degreeZeroEquiv (V := Fin (s + 1) → A) A).toLinearMap :=
+    TensorProduct.ext' fun x a => by
+      rw [LinearMap.comp_apply, LinearMap.rTensor_tmul, LinearEquiv.coe_coe, degreeZeroEquiv_tmul,
+        degreeZeroEquiv_tmul]
+      exact congrArg (fun c => c • a)
+        (LinearMap.congr_fun (exteriorPower.zeroEquiv_naturality (Matrix.toLin' Q)) x)
+  exact LinearMap.congr_fun h k
+
 end KoszulSheaf
 
 end Ringed
@@ -536,6 +625,124 @@ lemma homologyπ_comp_topHomologyIso_hom :
   exact IsColimit.comp_coconePointUniqueUpToIso_hom
     ((dualComplex f M).opcyclesIsCokernel s (s + 1) (by simp))
     ((topHom_exact hV₀ i f M hI).gIsCokernel) WalkingParallelPair.one
+
+omit hI [IsClosedImmersion i] [M.IsQuasicoherent] in
+/-- **The determinant transition law for the local top-Ext map.** -/
+lemma topHom_changeOfBasis (Q : Matrix (Fin (s + 1)) (Fin (s + 1)) Γ(Y, V₀)) :
+    (Ringed.moduleSheafHomPrecomp ((complexMap (restrictPhi V₀)
+        (sequenceKoszulChangeOfBasis f Q (ModuleCat.of _ _))).f (s + 1))).app _ ≫
+      topHom i (Matrix.vecMul f Q) M =
+    topHom i f M ≫ scalarHom (restrictPhi V₀ Q.det) (pullbackRestrict i M V₀) := by
+  rw [topHom, topHom, ← Category.assoc, topEval_changeOfBasis, Category.assoc,
+    scalarHom_naturality, Category.assoc]
+
+/-- **The local top-Ext isomorphisms change by `det Q`** on cohomology: the map on `h^r` induced by
+the change-of-basis map `K_•(f Q) ⟶ K_•(f)`, followed by the isomorphism for `f Q`, is the
+isomorphism for `f` followed by multiplication by `det Q`. -/
+lemma homologyMap_comp_topHomologyIso_hom (Q : Matrix (Fin (s + 1)) (Fin (s + 1)) Γ(Y, V₀))
+    (hI' : i.ker.ideal ⟨V₀, hV₀⟩ = Ideal.span (Set.range (Matrix.vecMul f Q))) :
+    HomologicalComplex.homologyMap ((Ringed.moduleSheafHomComplexMap (complexMap (restrictPhi V₀)
+        (sequenceKoszulChangeOfBasis f Q (ModuleCat.of _ _)))).app
+          ((Ringed.moduleRestrict V₀).obj M)) (s + 1) ≫
+      (topHomologyIso hV₀ i (Matrix.vecMul f Q) M hI').hom =
+    (topHomologyIso hV₀ i f M hI).hom ≫
+      scalarHom (restrictPhi V₀ Q.det) (pullbackRestrict i M V₀) := by
+  rw [← cancel_epi ((dualComplex f M).homologyπ (s + 1)),
+    HomologicalComplex.homologyπ_naturality_assoc, homologyπ_comp_topHomologyIso_hom,
+    reassoc_of% (homologyπ_comp_topHomologyIso_hom hV₀ i f M hI),
+    HomologicalComplex.cyclesMap_i_assoc, Ringed.moduleSheafHomComplexMap_app_f,
+    topHom_changeOfBasis]
+
+omit [M.IsQuasicoherent] in
+/-- The sheafified Koszul complex of a Koszul-regular sequence generating the ideal of `i` on
+`V₀` resolves `(i_* 𝒪_X)|_{V₀}`. -/
+lemma quasiIso_koszulAugmentation (hf : IsKoszulRegular f (ModuleCat.of Γ(Y, V₀) Γ(Y, V₀))) :
+    QuasiIso (augmentation (restrictPhi V₀) f (augHom i f) (d_comp_augHom hV₀ i f hI)) := by
+  refine quasiIso_augmentation (restrictPhi V₀) f hf (augHom i f) (d_comp_augHom hV₀ i f hI)
+    (isBasis_basicOpen hV₀) ?_ (fun W ⟨g, hg⟩ => augHom_exact hV₀ i f hI W g hg)
+  rintro W ⟨g, hg⟩
+  rw [restrictPhi, baseMap_eq W]
+  exact flat_of_eq_basicOpen hV₀ g _ hg (incl_le W)
+
+omit [M.IsQuasicoherent] in
+/-- The sheafified change-of-basis map is compatible with the augmentations. -/
+lemma complexMap_comp_augmentation (Q : Matrix (Fin (s + 1)) (Fin (s + 1)) Γ(Y, V₀))
+    (hI' : i.ker.ideal ⟨V₀, hV₀⟩ = Ideal.span (Set.range (Matrix.vecMul f Q))) :
+    complexMap (restrictPhi V₀) (sequenceKoszulChangeOfBasis f Q (ModuleCat.of _ _)) ≫
+        augmentation (restrictPhi V₀) f (augHom i f) (d_comp_augHom hV₀ i f hI) =
+      augmentation (restrictPhi V₀) (Matrix.vecMul f Q) (augHom i (Matrix.vecMul f Q))
+        (d_comp_augHom hV₀ i _ hI') := by
+  apply (ChainComplex.toSingle₀Equiv _ _).injective
+  apply Subtype.ext
+  rw [ChainComplex.toSingle₀Equiv_apply_coe, ChainComplex.toSingle₀Equiv_apply_coe,
+    HomologicalComplex.comp_f, ChainComplex.toSingle₀Equiv_symm_apply_f_zero,
+    ChainComplex.toSingle₀Equiv_symm_apply_f_zero]
+  apply SheafOfModules.hom_ext
+  refine (presheafMap_comp_homOfLinear _ _ _ (augLinear i f)).trans ?_
+  congr 1
+  ext k
+  change (LinearMap.toSpanSingleton _ _ _ ∘ₗ
+      (degreeZeroEquiv (V := Fin (s + 1) → Γ(Y, V₀)) Γ(Y, V₀)).toLinearMap)
+        (((sequenceKoszulChangeOfBasis f Q (ModuleCat.of _ _)).f 0).hom k) =
+    (LinearMap.toSpanSingleton _ _ _ ∘ₗ
+      (degreeZeroEquiv (V := Fin (s + 1) → Γ(Y, V₀)) Γ(Y, V₀)).toLinearMap) k
+  rw [LinearMap.comp_apply, LinearMap.comp_apply]
+  exact congrArg _ (degreeZeroEquiv_changeOfBasis f Q k)
+
+/-- **The local top-Ext isomorphism**: for a closed immersion `i`, an affine open `V₀` on which the
+ideal of `i` is generated by a Koszul-regular sequence `f₁, …, f_r`, and a quasi-coherent `M`,
+`ℰxt^r_Y(i_* 𝒪_X, M)|_{V₀} ≅ (i_* i^* M)|_{V₀}`, through the Koszul resolution. -/
+noncomputable def localTopExtIso (hf : IsKoszulRegular f (ModuleCat.of Γ(Y, V₀) Γ(Y, V₀))) :
+    (Ringed.moduleRestrict V₀).obj ((Ringed.sheafExt (R := Y.sheaf)
+      ((Scheme.Modules.pushforward i).obj (SheafOfModules.unit X.ringCatSheaf)) (s + 1)).obj M) ≅
+      pullbackRestrict i M V₀ :=
+  have := quasiIso_koszulAugmentation hV₀ i f hI hf
+  Ringed.sheafExtRestrictIso V₀ _ M (s + 1) ≪≫
+    (Ringed.sheafExtIsoHomologyOfLocallyFreeResolution _
+      (augmentation (restrictPhi V₀) f (augHom i f) (d_comp_augHom hV₀ i f hI))
+      (isFiniteLocallyFree_complex (restrictPhi V₀) f) (s + 1)).app _ ≪≫
+    topHomologyIso hV₀ i f M hI
+
+/-- The local top-Ext isomorphism as a composite. -/
+lemma localTopExtIso_hom (hf : IsKoszulRegular f (ModuleCat.of Γ(Y, V₀) Γ(Y, V₀))) :
+    have := quasiIso_koszulAugmentation hV₀ i f hI hf
+    (localTopExtIso hV₀ i f M hI hf).hom = (Ringed.sheafExtRestrictIso V₀ _ M (s + 1)).hom ≫
+      (Ringed.sheafExtIsoHomologyOfLocallyFreeResolution _
+        (augmentation (restrictPhi V₀) f (augHom i f) (d_comp_augHom hV₀ i f hI))
+        (isFiniteLocallyFree_complex (restrictPhi V₀) f) (s + 1)).hom.app _ ≫
+      (topHomologyIso hV₀ i f M hI).hom :=
+  rfl
+
+/-- **The determinant transition law** (Hartshorne III.7, proof of Theorem 7.11). Replacing the
+generators `f` by `f Q` for an invertible matrix `Q` multiplies the local top-Ext isomorphism
+`ℰxt^r_Y(i_* 𝒪_X, M)|_{V₀} ≅ (i_* i^* M)|_{V₀}` by `det Q`. -/
+theorem localTopExtIso_changeOfBasis (Q : Matrix (Fin (s + 1)) (Fin (s + 1)) Γ(Y, V₀))
+    (hf : IsKoszulRegular f (ModuleCat.of Γ(Y, V₀) Γ(Y, V₀)))
+    (hI' : i.ker.ideal ⟨V₀, hV₀⟩ = Ideal.span (Set.range (Matrix.vecMul f Q)))
+    (hf' : IsKoszulRegular (Matrix.vecMul f Q) (ModuleCat.of Γ(Y, V₀) Γ(Y, V₀))) :
+    (localTopExtIso hV₀ i (Matrix.vecMul f Q) M hI' hf').hom =
+      (localTopExtIso hV₀ i f M hI hf).hom ≫
+        scalarHom (restrictPhi V₀ Q.det) (pullbackRestrict i M V₀) := by
+  have := quasiIso_koszulAugmentation hV₀ i f hI hf
+  have := quasiIso_koszulAugmentation hV₀ i _ hI' hf'
+  have h := Ringed.sheafExtIsoHomologyOfLocallyFreeResolution_comp_homologyMap
+    (augmentation (restrictPhi V₀) (Matrix.vecMul f Q) (augHom i (Matrix.vecMul f Q))
+      (d_comp_augHom hV₀ i _ hI'))
+    (augmentation (restrictPhi V₀) f (augHom i f) (d_comp_augHom hV₀ i f hI))
+    (isFiniteLocallyFree_complex (restrictPhi V₀) _)
+    (isFiniteLocallyFree_complex (restrictPhi V₀) f)
+    (complexMap (restrictPhi V₀) (sequenceKoszulChangeOfBasis f Q (ModuleCat.of _ _)))
+    (complexMap_comp_augmentation hV₀ i f hI Q hI') (s + 1) ((Ringed.moduleRestrict V₀).obj M)
+  have h2 : (Functor.whiskerRight (Ringed.moduleSheafHomComplexMap (complexMap (restrictPhi V₀)
+        (sequenceKoszulChangeOfBasis f Q (ModuleCat.of _ _))))
+          (HomologicalComplex.homologyFunctor _ (ComplexShape.up ℕ) (s + 1))).app
+            ((Ringed.moduleRestrict V₀).obj M) =
+      HomologicalComplex.homologyMap ((Ringed.moduleSheafHomComplexMap (complexMap (restrictPhi V₀)
+        (sequenceKoszulChangeOfBasis f Q (ModuleCat.of _ _)))).app
+          ((Ringed.moduleRestrict V₀).obj M)) (s + 1) := rfl
+  rw [localTopExtIso_hom, localTopExtIso_hom, ← h, h2, Category.assoc, Category.assoc,
+    homologyMap_comp_topHomologyIso_hom hV₀ i f M hI Q hI']
+  simp only [Category.assoc]
 
 end Basic
 
