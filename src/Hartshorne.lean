@@ -374,6 +374,7 @@ import Hartshorne.Scheme.Differentials.BertiniBadHyperplaneIncidence
 import Hartshorne.Scheme.Differentials.BertiniJetFrame
 import Hartshorne.Scheme.Differentials.BertiniIncidenceLocalEquations
 import Hartshorne.Scheme.Differentials.BertiniIncidenceAmbient
+import Hartshorne.Scheme.Differentials.BertiniIncidenceChart
 import Hartshorne.Scheme.HeightOneLocalizationIntersection
 import Hartshorne.Cohomology.SmoothMorphisms.LocalFlatnessNonZeroDivisor
 import Hartshorne.Scheme.ProjPartialMap
