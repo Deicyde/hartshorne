@@ -3,6 +3,8 @@ article_id: af_bb705c242ed303bd490666bd
 declaration: theorem
 origin: cited
 lean: Hartshorne.isAffine_of_isFinite_of_surjective
+statement: formalized
+proof: formalized
 ---
 
 # Chevalley's affine descent theorem
