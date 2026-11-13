@@ -202,6 +202,200 @@ theorem hyperplaneSectionIdeal_dupleMorphism (a : Fin (Veronese.dupleN n d + 1) 
       hypersurfaceSection, hypersurfaceSection, SectionAlgebraModel.twistSection_add]
     rfl
 
+/-! ### The `d`-uple morphism is a closed immersion -/
+
+theorem twistSection_res {e : ℕ} (h : 𝒮 e) (V : (Proj 𝒮).Opens) :
+    (projTwistingSheaf 𝒮 (e : ℤ)).presheaf.map (homOfLE (le_top : V ≤ ⊤)).op
+        (show Γ(projTwistingSheaf 𝒮 (e : ℤ), ⊤) from twistSection e h (op ⊤)) =
+      (show Γ(projTwistingSheaf 𝒮 (e : ℤ), V) from twistSection e h (op V)) :=
+  rfl
+
+/-- Induction over the homogeneous elements of degree `m`: they are sums of terms `c x^α`
+with `|α| = m`. -/
+theorem homogeneous_induction {m : ℕ} (P : S → Prop) (h0 : P 0)
+    (hadd : ∀ a b, a ∈ 𝒮 m → b ∈ 𝒮 m → P a → P b → P (a + b))
+    (hmono : ∀ (α : Fin (n + 1) →₀ ℕ) (c : k), α.degree = m → P (MvPolynomial.monomial α c))
+    (a : S) (ha : a ∈ 𝒮 m) : P a := by
+  have hdeg : ∀ α ∈ a.support, α.degree = m := fun α hα => by
+    by_contra h
+    exact (MvPolynomial.mem_support_iff.1 hα)
+      (((MvPolynomial.mem_homogeneousSubmodule m a).1 ha).coeff_eq_zero h)
+  have key : ∀ t : Finset (Fin (n + 1) →₀ ℕ), t ⊆ a.support →
+      (∑ α ∈ t, MvPolynomial.monomial α (MvPolynomial.coeff α a)) ∈ 𝒮 m ∧
+        P (∑ α ∈ t, MvPolynomial.monomial α (MvPolynomial.coeff α a)) := by
+    intro t
+    induction t using Finset.induction_on with
+    | empty => exact fun _ => ⟨by simp, by simpa using h0⟩
+    | insert α t hα ih =>
+      intro hsub
+      rw [Finset.sum_insert hα]
+      have hαd := hdeg α (hsub (Finset.mem_insert_self α t))
+      have hmα : MvPolynomial.monomial α (MvPolynomial.coeff α a) ∈ 𝒮 m :=
+        (MvPolynomial.mem_homogeneousSubmodule _ _).2 (MvPolynomial.isHomogeneous_monomial _ hαd)
+      obtain ⟨h1, h2⟩ := ih ((Finset.subset_insert α t).trans hsub)
+      exact ⟨add_mem hmα h1, hadd _ _ hmα h1 (hmono _ _ hαd) h2⟩
+  have := (key a.support subset_rfl).2
+  rwa [← MvPolynomial.as_sum] at this
+
+theorem away_mk_add {e : ℕ} {g : S} (hg : g ∈ 𝒮 e) (r : ℕ) (a b : S) (ha : a ∈ 𝒮 (r • e))
+    (hb : b ∈ 𝒮 (r • e)) :
+    Away.mk 𝒮 hg r (a + b) (add_mem ha hb) = Away.mk 𝒮 hg r a ha + Away.mk 𝒮 hg r b hb := by
+  apply HomogeneousLocalization.val_injective
+  simp only [Away.val_mk, HomogeneousLocalization.val_add, Localization.add_mk_self]
+
+theorem away_mk_zero {e : ℕ} {g : S} (hg : g ∈ 𝒮 e) (r : ℕ) :
+    Away.mk 𝒮 hg r 0 (zero_mem _) = 0 := by
+  apply HomogeneousLocalization.val_injective
+  simp only [Away.val_mk, HomogeneousLocalization.val_zero, Localization.mk_zero]
+
+theorem away_mk_one_eq {e : ℕ} {g : S} (hg : g ∈ 𝒮 e) (a : S) (ha : a ∈ 𝒮 (1 • e)) :
+    Away.mk 𝒮 hg 1 a ha = (HomogeneousLocalization.mk ⟨e, ⟨a, by simpa using ha⟩, ⟨g, hg⟩,
+      ⟨1, pow_one g⟩⟩ : Away 𝒮 g) := by
+  apply HomogeneousLocalization.val_injective
+  simp only [Away.val_mk, HomogeneousLocalization.val_mk]
+  congr 1
+  ext
+  simp
+
+/-- **The `d`-uple morphism is a closed immersion** (for `d > 0`). On the chart `X_{x^m} = D₊(x^m)`
+the ring `S_(x^m)` is generated over `k` by the ratios `x^{m'} / x^m`, since every monomial of
+degree `r d` is a product of `r` monomials of degree `d`. -/
+theorem isClosedImmersion_dupleMorphism (hd : 0 < d) :
+    IsClosedImmersion (dupleMorphism k n d) := by
+  obtain ⟨e, he⟩ := exists_dupleMorphism_iso (k := k) (n := n) (d := d)
+  set hL := isInvertible_twist k n d
+  set s := dupleSections k n d with hs
+  rw [isClosedImmersion_iff_isAffineOpen_and_surjective_chartSectionPolynomialMap hL s
+    projectiveSpaceStructureMorphism _ e he dupleMorphism_projection]
+  intro i
+  set g := dupleMonomial k n d i
+  have hV : nonvanishingLocusOpens hL (s i) = Proj.basicOpen 𝒮 (g : S) :=
+    Opens.ext (Set.ext fun x =>
+      mem_nonvanishingLocus_twistSection (ProjectiveSpacePicard.adjoin_one_eq_top k n) g x)
+  refine ⟨hV ▸ Proj.isAffineOpen_basicOpen 𝒮 (g : S) g.2 hd, ?_⟩
+  set χ := chartSectionPolynomialMap hL s projectiveSpaceStructureMorphism i
+  let ρ := ((Proj 𝒮).presheaf.map (homOfLE hV.ge).op).hom
+  have hρ : Function.Injective ρ := by
+    intro a b hab
+    have h2 := congrArg ((Proj 𝒮).presheaf.map (homOfLE hV.le).op).hom hab
+    simp only [ρ, ← CommRingCat.comp_apply, ← Functor.map_comp, ← op_comp, homOfLE_comp,
+      homOfLE_refl, op_id] at h2
+    simpa using h2
+  let R : Subring Γ(Proj 𝒮, Proj.basicOpen 𝒮 (g : S)) := (ρ.comp χ).range
+  have hR : ∀ j, ringFrac d (dupleMonomial k n d j) g ∈ R := by
+    intro j
+    refine ⟨MvPolynomial.X j, ?_⟩
+    apply eq_of_smul_eq hL s i hV.ge
+    simp only [RingHom.comp_apply, χ, chartSectionPolynomialMap, MvPolynomial.coe_eval₂Hom,
+      MvPolynomial.eval₂_X, ρ]
+    rw [← restrict_eq_sectionRatio_smul hL s i j hV.ge]
+    exact twistSection_res_eq_ringFrac_smul _ _
+  have hK : ∀ c : k, ringFrac d (c • g) g ∈ R := by
+    intro c
+    refine ⟨MvPolynomial.C (specConst k c), ?_⟩
+    apply eq_of_smul_eq hL s i hV.ge
+    simp only [RingHom.comp_apply, χ, chartSectionPolynomialMap, MvPolynomial.coe_eval₂Hom,
+      MvPolynomial.eval₂_C, ρ]
+    have hc : ((Proj 𝒮).presheaf.map (homOfLE hV.ge).op).hom
+        ((projectiveSpaceStructureMorphism.appLE ⊤ (nonvanishingLocusOpens hL (s i)) le_top).hom
+          (specConst k c)) = (Proj 𝒮).presheaf.map (homOfLE le_top).op
+            (kConst projectiveSpaceStructureMorphism c) := by
+      rw [← CommRingCat.comp_apply, Scheme.Hom.appLE_map, kConst_apply, Scheme.Hom.appLE]
+      rfl
+    rw [hc, ← Scheme.Modules.map_smul, hs, dupleSections, kConst_smul_hypersurfaceSection]
+    exact twistSection_res_eq_ringFrac_smul _ _
+  let T : Subring (Away 𝒮 (g : S)) := R.comap (Proj.awayToSection 𝒮 (g : S)).hom
+  have hT1 : ∀ (a : S) (ha : a ∈ 𝒮 (1 • d)), Away.mk 𝒮 g.2 1 a ha ∈ T := by
+    intro a ha
+    refine homogeneous_induction (fun a => ∀ ha : a ∈ 𝒮 (1 • d), Away.mk 𝒮 g.2 1 a ha ∈ T)
+      (fun _ => by rw [away_mk_zero]; exact zero_mem _)
+      (fun a b ha hb Ha Hb _ => by rw [away_mk_add _ _ _ _ ha hb]; exact add_mem (Ha ha) (Hb hb))
+      ?_ a ha ha
+    intro α c hα hm
+    rw [one_smul] at hα
+    let j := (Veronese.dupleEquiv n d).symm ⟨α, hα⟩
+    have hj : (dupleMonomial k n d j : S) = MvPolynomial.monomial α 1 := by
+      simp [dupleMonomial, j]
+    have heq : Away.mk 𝒮 g.2 1 (MvPolynomial.monomial α c) hm =
+        (HomogeneousLocalization.mk ⟨d, c • g, g, ⟨1, pow_one _⟩⟩ : Away 𝒮 (g : S)) *
+          (HomogeneousLocalization.mk ⟨d, dupleMonomial k n d j, g, ⟨1, pow_one _⟩⟩ :
+            Away 𝒮 (g : S)) := by
+      apply HomogeneousLocalization.val_injective
+      simp only [Away.val_mk, HomogeneousLocalization.val_mul, HomogeneousLocalization.val_mk,
+        Localization.mk_mul, hj]
+      rw [Localization.mk_eq_mk_iff, Localization.r_iff_exists]
+      refine ⟨1, ?_⟩
+      simp only [OneMemClass.coe_one, one_mul, Submonoid.coe_mul, pow_one, Submodule.coe_smul,
+        MvPolynomial.smul_eq_C_mul]
+      rw [show MvPolynomial.monomial α c = MvPolynomial.C c * MvPolynomial.monomial α 1 by
+        rw [MvPolynomial.C_mul_monomial, mul_one]]
+      ring
+    rw [heq]
+    exact mul_mem (hK c) (hR j)
+  have hT : ∀ (r : ℕ) (a : S) (ha : a ∈ 𝒮 (r • d)), Away.mk 𝒮 g.2 r a ha ∈ T := by
+    intro r
+    induction r with
+    | zero =>
+      intro a ha
+      refine homogeneous_induction (fun a => ∀ ha : a ∈ 𝒮 (0 • d), Away.mk 𝒮 g.2 0 a ha ∈ T)
+        (fun _ => by rw [away_mk_zero]; exact zero_mem _)
+        (fun a b ha hb Ha Hb _ => by
+          rw [away_mk_add _ _ _ _ ha hb]; exact add_mem (Ha ha) (Hb hb)) ?_ a ha ha
+      intro α c hα hm
+      rw [zero_smul] at hα
+      obtain rfl : α = 0 := (Finsupp.degree_eq_zero_iff α).1 hα
+      have heq : Away.mk 𝒮 g.2 0 (MvPolynomial.monomial 0 c) hm =
+          (HomogeneousLocalization.mk ⟨d, c • g, g, ⟨1, pow_one _⟩⟩ : Away 𝒮 (g : S)) := by
+        apply HomogeneousLocalization.val_injective
+        simp only [Away.val_mk, HomogeneousLocalization.val_mk]
+        rw [Localization.mk_eq_mk_iff, Localization.r_iff_exists]
+        refine ⟨1, ?_⟩
+        simp only [OneMemClass.coe_one, one_mul, pow_zero, Submodule.coe_smul,
+          MvPolynomial.smul_eq_C_mul, MvPolynomial.monomial_zero']
+        ring
+      rw [heq]
+      exact hK c
+    | succ r ih =>
+      intro a ha
+      refine homogeneous_induction
+        (fun a => ∀ ha : a ∈ 𝒮 ((r + 1) • d), Away.mk 𝒮 g.2 (r + 1) a ha ∈ T)
+        (fun _ => by rw [away_mk_zero]; exact zero_mem _)
+        (fun a b ha hb Ha Hb _ => by
+          rw [away_mk_add _ _ _ _ ha hb]; exact add_mem (Ha ha) (Hb hb)) ?_ a ha ha
+      intro α c hα hm
+      obtain ⟨β, hβα, hβ⟩ := Veronese.exists_le_degree_eq α d
+        (by rw [hα, smul_eq_mul]; nlinarith)
+      have hγ : (α - β).degree = r • d := by
+        have := congrArg Finsupp.degree (add_tsub_cancel_of_le hβα)
+        rw [map_add, hβ, hα, smul_eq_mul] at this
+        rw [smul_eq_mul]
+        rw [add_mul, one_mul] at this
+        omega
+      have hmβ : MvPolynomial.monomial β c ∈ 𝒮 (1 • d) :=
+        (MvPolynomial.mem_homogeneousSubmodule _ _).2
+          (MvPolynomial.isHomogeneous_monomial _ (by rw [hβ, one_smul]))
+      have hmγ : MvPolynomial.monomial (α - β) (1 : k) ∈ 𝒮 (r • d) :=
+        (MvPolynomial.mem_homogeneousSubmodule _ _).2 (MvPolynomial.isHomogeneous_monomial _ hγ)
+      have heq : Away.mk 𝒮 g.2 (r + 1) (MvPolynomial.monomial α c) hm =
+          Away.mk 𝒮 g.2 1 (MvPolynomial.monomial β c) hmβ *
+            Away.mk 𝒮 g.2 r (MvPolynomial.monomial (α - β) 1) hmγ := by
+        apply HomogeneousLocalization.val_injective
+        simp only [Away.val_mk, HomogeneousLocalization.val_mul, Localization.mk_mul]
+        congr 1
+        · rw [MvPolynomial.monomial_mul, mul_one, add_tsub_cancel_of_le hβα]
+        · ext
+          simp [pow_succ, mul_comm]
+      rw [heq]
+      exact mul_mem (hT1 _ _) (ih _ _)
+  have hsurj : Function.Surjective (Proj.awayToSection 𝒮 (g : S)).hom := by
+    have := (ConcreteCategory.bijective_of_isIso (Proj.basicOpenIsoAway 𝒮 (g : S) g.2 hd).hom).2
+    rwa [Proj.basicOpenIsoAway_hom] at this
+  intro t
+  obtain ⟨z, hz⟩ := hsurj (ρ t)
+  obtain ⟨r, a, ha, rfl⟩ := Away.mk_surjective 𝒮 g.2 z
+  obtain ⟨y, hy⟩ := hT r a ha
+  exact ⟨y, hρ (hy.trans hz)⟩
+
 end SmoothHypersurface
 
 end Hartshorne
