@@ -152,6 +152,46 @@ theorem extTopMap_naturality {F : SheafOfModules.{u} (ringCatSheafOf R)}
   exact (CochainTop.desc_congr _ _ _ he.symm).trans
     (CochainTop.homologyMap_desc _ ((moduleSheafHomComplexMap φ).app G) t w).symm
 
+/-- **`extTopMap` and a change of the first argument.** For resolutions `L_• ⟶ F`, `L'_• ⟶ F'`
+and a chain map `φ : L_• ⟶ L'_•` over `u : F ⟶ F'`, the map `ℰxt^{s+1}(F', G) ⟶ ℰxt^{s+1}(F, G)`
+followed by the map induced by `t` is the map induced by `t ∘ φ^*`. -/
+theorem extTopMap_precomp {F F' : SheafOfModules.{u} (ringCatSheafOf R)} {u : F ⟶ F'}
+    {L L' : ChainComplex (SheafOfModules.{u} (ringCatSheafOf R)) ℕ}
+    (π : L ⟶ (ChainComplex.single₀ _).obj F) [QuasiIso π]
+    (π' : L' ⟶ (ChainComplex.single₀ _).obj F') [QuasiIso π']
+    (hL : ∀ p, IsFiniteLocallyFree (L.X p)) (hL' : ∀ p, IsFiniteLocallyFree (L'.X p))
+    (φ : L ⟶ L') (hφ : φ ≫ π' = π ≫ (ChainComplex.single₀ _).map u) {s : ℕ}
+    (G : SheafOfModules.{u} (ringCatSheafOf R)) {E : SheafOfModules.{u} (ringCatSheafOf R)}
+    (t : ((moduleSheafHomComplex L).obj G).X (s + 1) ⟶ E)
+    (w : ((moduleSheafHomComplex L).obj G).d s (s + 1) ≫ t = 0) :
+    sheafExtPrecomp u G (s + 1) ≫ extTopMap L π hL G t w =
+      extTopMap L' π' hL' G (((moduleSheafHomComplexMap φ).app G).f (s + 1) ≫ t)
+        (by rw [← ((moduleSheafHomComplexMap φ).app G).comm_assoc, w, comp_zero]) := by
+  rw [extTopMap, extTopMap, ← Category.assoc,
+    sheafExtIsoHomologyOfLocallyFreeResolution_naturality π π' hL hL' φ hφ (s + 1) G,
+    Category.assoc]
+  congr 1
+  exact CochainTop.homologyMap_desc _ ((moduleSheafHomComplexMap φ).app G) t w
+
+/-- **`extTopMap` and a change of the second argument.** For `g : G ⟶ G'`, the map
+`ℰxt^{s+1}(F, G) ⟶ ℰxt^{s+1}(F, G')` followed by the map induced by `t'` is the map induced by
+`t' ∘ g_*`. -/
+theorem extTopMap_map {F : SheafOfModules.{u} (ringCatSheafOf R)}
+    (L : ChainComplex (SheafOfModules.{u} (ringCatSheafOf R)) ℕ)
+    (π : L ⟶ (ChainComplex.single₀ _).obj F) [QuasiIso π] (hL : ∀ p, IsFiniteLocallyFree (L.X p))
+    {s : ℕ} {G G' : SheafOfModules.{u} (ringCatSheafOf R)} (g : G ⟶ G')
+    {E : SheafOfModules.{u} (ringCatSheafOf R)}
+    (t' : ((moduleSheafHomComplex L).obj G').X (s + 1) ⟶ E)
+    (w' : ((moduleSheafHomComplex L).obj G').d s (s + 1) ≫ t' = 0) :
+    (sheafExt F (s + 1)).map g ≫ extTopMap L π hL G' t' w' =
+      extTopMap L π hL G (((moduleSheafHomComplex L).map g).f (s + 1) ≫ t')
+        (by rw [← ((moduleSheafHomComplex L).map g).comm_assoc, w', comp_zero]) := by
+  rw [extTopMap, extTopMap, ← Category.assoc,
+    (sheafExtIsoHomologyOfLocallyFreeResolution L π hL (s + 1)).hom.naturality g,
+    Category.assoc]
+  congr 1
+  exact CochainTop.homologyMap_desc _ ((moduleSheafHomComplex L).map g) t' w'
+
 /-- **`extTopMap` restricted to an open subset.** Let `L_• ⟶ F` be a resolution on `X`, `L'_• ⟶ F|_U`
 one on `U` and `ψ : L_•|_U ⟶ L'_•` a chain map over the identity, all by locally free modules of
 finite rank. If the top map `t'` on `U` is the restriction of `t` followed by `e`, read through
