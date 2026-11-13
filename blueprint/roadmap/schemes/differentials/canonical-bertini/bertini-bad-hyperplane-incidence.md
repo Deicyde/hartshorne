@@ -19,7 +19,6 @@ each $B_x$ is empty.)
 
 ## Depends on
 
-- [The conormal criterion for nonsingularity](../scheme-differentials/conormal-criterion-nonsingular.md)
 - [Linear systems](../../projective-geometry/linear-systems-ampleness/linear-system-api.md)
 - [Dimension of a projective variety](../../../projective-varieties/projective-dimension.md)
 
@@ -27,6 +26,8 @@ each $B_x$ is empty.)
 
 - [Regular hypersurface quotients of a regular local ring](regular-hypersurface-local-criterion.md)
 - [Separation of points and tangent vectors](../../projective-geometry/linear-systems-ampleness/separates-points-tangents-iff-closed-immersion.md)
+- [Dimension at a closed point](../../subschemes-and-dimension/dimension-at-closed-point.md)
+- [Constant fibre dimension forces local freeness](../../coherent-sheaves/coherent-constant-fibre-rank-locally-free.md)
 - The projective bundle associated to the kernels of the pointwise first-jet
   evaluation maps.
 

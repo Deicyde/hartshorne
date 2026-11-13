@@ -20,6 +20,7 @@ subset of the complete linear system $|dH|$.
 
 ## Proof depends on
 
+- [The projective-space case of Bertini](bertini-projective-space-case.md)
 - [Regular hyperplane sections](bertini-regular-hyperplane-section.md)
 - [Projective intersections are nonempty](../../../intersections-projective-space/dimension/projective-intersection-nonempty.md)
 - [Veronese Proj and twists](../../projective-sheaves/veronese-proj-twist.md), for the
