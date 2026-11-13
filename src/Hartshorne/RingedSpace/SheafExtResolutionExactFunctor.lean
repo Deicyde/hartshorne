@@ -749,6 +749,42 @@ theorem isoAux_comp (G : C) : ∀ (i : ℕ) {F : C} {F' : D} (P : Resolution F) 
     erw [hsn]
     rfl
 
+/-- `isoAux_comp` over the identity of `Φ F`, for resolutions given by quasi-isomorphisms, with the
+isomorphisms, the families of `Hom` complexes and the map of complexes as variables equal to their
+abstract forms. Instantiated with sheaf `ℰxt`, the conclusion is syntactically the statement about
+`ℰxt`, so the kernel does not evaluate either side. -/
+private theorem isoAux_comp_of_eq (G : C) (i : ℕ) {F : C} (L : ChainComplex C ℕ)
+    (π : L ⟶ (ChainComplex.single₀ C).obj F) [QuasiIso π] (L' : ChainComplex D ℕ)
+    (π' : L' ⟶ (ChainComplex.single₀ D).obj (Φ.obj F)) [QuasiIso π']
+    (ψ : (Φ.mapHomologicalComplex _).obj L ⟶ L') (hψ : ψ.f 0 ≫ π'.f 0 = Φ.map (π.f 0))
+    (hP : ∀ p n G, IsZero ((E ((Resolution.ofQuasiIso L π).L.X p) (n + 1)).obj G))
+    (hP' : ∀ p n G, IsZero ((E' ((Resolution.ofQuasiIso L' π').L.X p) (n + 1)).obj G))
+    (K : ChainComplex C ℕ → C ⥤ CochainComplex C ℕ) (hK : ∀ L, K L = homComplex H L)
+    (K' : ChainComplex D ℕ → D ⥤ CochainComplex D ℕ) (hK' : ∀ L, K' L = homComplex H' L)
+    (a : Φ.obj ((E F i).obj G) ≅ (E' (Φ.obj F) i).obj (Φ.obj G))
+    (ha : a = extCompIso H E hE H' E' hE' hΦ α F G i)
+    (b : E F i ≅ K L ⋙ HomologicalComplex.homologyFunctor C (ComplexShape.up ℕ) i)
+    (hb : HEq b (isoAux H E hE hH i (Resolution.ofQuasiIso L π) hP))
+    (c : Φ.obj (((K L).obj G).homology i) ≅
+      ((K' ((Φ.mapHomologicalComplex _).obj L)).obj (Φ.obj G)).homology i)
+    (hc : HEq c (homologyCompIso' H H' α hα L G i))
+    (b' : E' (Φ.obj F) i ≅ K' L' ⋙ HomologicalComplex.homologyFunctor D (ComplexShape.up ℕ) i)
+    (hb' : HEq b' (isoAux H' E' hE' hH' i (Resolution.ofQuasiIso L' π') hP'))
+    (m : K' L' ⟶ K' ((Φ.mapHomologicalComplex _).obj L)) (hm : HEq m (homComplexMap H' ψ)) :
+    a.inv ≫ Φ.map (b.hom.app G) ≫ c.hom =
+      b'.hom.app (Φ.obj G) ≫ HomologicalComplex.homologyMap (m.app _) i := by
+  obtain rfl : K = homComplex H := funext hK
+  obtain rfl : K' = homComplex H' := funext hK'
+  subst ha
+  obtain rfl := eq_of_heq hb
+  obtain rfl := eq_of_heq hc
+  obtain rfl := eq_of_heq hb'
+  obtain rfl := eq_of_heq hm
+  have h := isoAux_comp H H' α hα E hE E' hE' hΦ hH hH' G i (Resolution.ofQuasiIso L π)
+    (Resolution.ofQuasiIso L' π') (𝟙 _) ψ (hψ.trans (Category.comp_id _).symm) hP hP'
+  rw [extMap_id, Category.id_comp] at h
+  exact h
+
 end ExactFunctor
 
 end LocallyFreeResolutionExt
@@ -794,10 +830,6 @@ noncomputable def homologyHomComplexRestrictIso (L : ChainComplex (SheafOfModule
   homologyCompIso' (moduleSheafHomBifunctor R) (moduleSheafHomBifunctor (restrictRingSheaf R U))
     (fun F => homRestrictIso U F) (fun f G => homRestrict_precomp_naturality U f G) L G i
 
--- Matching `sheafExtRestrictIso` and the sheaf-level complexes with their abstract forms unfolds
--- `sheafExt` to the right derived functor it is defined as; this needs more than the default
--- budget.
-set_option maxHeartbeats 1000000 in
 /-- **The resolution isomorphism restricted to an open subset** (supplementing Hartshorne III.6,
 Propositions 6.2 and 6.5). Let `L_• ⟶ F` be a resolution of an `𝒪_X`-module by locally free
 `𝒪_X`-modules of finite rank, `L'_• ⟶ F|_U` one of `F|_U` by locally free `𝒪_U`-modules of finite
@@ -821,19 +853,16 @@ theorem sheafExtIsoHomologyOfLocallyFreeResolution_restrict
       (sheafExtIsoHomologyOfLocallyFreeResolution L' π' hL' i).hom.app
           ((moduleRestrict U).obj G) ≫
         HomologicalComplex.homologyMap ((moduleSheafHomComplexMap ψ).app _) i := by
-  have h := isoAux_comp (Φ := moduleRestrict U) (moduleSheafHomBifunctor R)
+  exact isoAux_comp_of_eq (Φ := moduleRestrict U) (moduleSheafHomBifunctor R)
     (moduleSheafHomBifunctor (restrictRingSheaf R U)) (fun F => homRestrictIso U F)
     (fun f G => homRestrict_precomp_naturality U f G) sheafExt (fun _ _ => rfl) sheafExt
     (fun _ _ => rfl) (fun I _ => injective_moduleSheafRestrict_obj U (ringCatSheafOf R) I)
-    moduleSheafHom_shortExact_of_injective moduleSheafHom_shortExact_of_injective G i
-    (Resolution.ofQuasiIso L π) (Resolution.ofQuasiIso L' π') (𝟙 _) ψ
-    (hψ.trans (Category.comp_id _).symm)
-    (fun p n G => isZero_sheafExt_of_isFiniteLocallyFree (hL p) G n.succ_pos)
-    (fun p n G => isZero_sheafExt_of_isFiniteLocallyFree (hL' p) G n.succ_pos)
-  rw [extMap_id, Category.id_comp] at h
-  unfold sheafExtIsoHomologyOfLocallyFreeResolution moduleSheafHomComplexMap
-    homologyHomComplexRestrictIso
-  convert h using 2 <;> rfl
+    moduleSheafHom_shortExact_of_injective moduleSheafHom_shortExact_of_injective G i L π L' π'
+    ψ hψ _ _ moduleSheafHomComplex (fun _ => rfl) moduleSheafHomComplex (fun _ => rfl)
+    (sheafExtRestrictIso U F G i) rfl (sheafExtIsoHomologyOfLocallyFreeResolution L π hL i) HEq.rfl
+    (homologyHomComplexRestrictIso U L G i) HEq.rfl
+    (sheafExtIsoHomologyOfLocallyFreeResolution L' π' hL' i) HEq.rfl (moduleSheafHomComplexMap ψ)
+    HEq.rfl
 
 
 open LocallyFreeResolutionExt SheafExtContravariant Transport
@@ -862,10 +891,6 @@ noncomputable def homologyHomComplexTransportIso (L : ChainComplex (SheafOfModul
   homologyCompIso' (moduleSheafHomBifunctor T) (moduleSheafHomBifunctor S)
     (fun F => homTransportIso ρ F) (fun f G => homTransport_precomp_naturality ρ f G) L G i
 
--- Matching `sheafExtTransportIso` and the sheaf-level complexes with their abstract forms unfolds
--- `sheafExt` to the right derived functor it is defined as; this needs more than the default
--- budget.
-set_option maxHeartbeats 1000000 in
 /-- **The resolution isomorphism transported along a homeomorphism** (supplementing Hartshorne
 III.6, Proposition 6.5). For a resolution `L_• ⟶ F` by locally free modules of finite rank on `B`,
 one `L'_• ⟶ τF` on `A` and a chain map `ψ : τ L_• ⟶ L'_•` over the identity, the transport of
@@ -888,19 +913,16 @@ theorem sheafExtIsoHomologyOfLocallyFreeResolution_transport
       (sheafExtIsoHomologyOfLocallyFreeResolution L' π' hL' i).hom.app
           ((transport ρ).obj G) ≫
         HomologicalComplex.homologyMap ((moduleSheafHomComplexMap ψ).app _) i := by
-  have h := isoAux_comp (Φ := transport ρ) (moduleSheafHomBifunctor T)
+  exact isoAux_comp_of_eq (Φ := transport ρ) (moduleSheafHomBifunctor T)
     (moduleSheafHomBifunctor S) (fun F => homTransportIso ρ F)
     (fun f G => homTransport_precomp_naturality ρ f G) sheafExt (fun _ _ => rfl) sheafExt
     (fun _ _ => rfl) (injective_transport_obj ρ)
-    moduleSheafHom_shortExact_of_injective moduleSheafHom_shortExact_of_injective G i
-    (Resolution.ofQuasiIso L π) (Resolution.ofQuasiIso L' π') (𝟙 _) ψ
-    (hψ.trans (Category.comp_id _).symm)
-    (fun p n G => isZero_sheafExt_of_isFiniteLocallyFree (hL p) G n.succ_pos)
-    (fun p n G => isZero_sheafExt_of_isFiniteLocallyFree (hL' p) G n.succ_pos)
-  rw [extMap_id, Category.id_comp] at h
-  unfold sheafExtIsoHomologyOfLocallyFreeResolution moduleSheafHomComplexMap
-    homologyHomComplexTransportIso
-  convert h using 2 <;> rfl
+    moduleSheafHom_shortExact_of_injective moduleSheafHom_shortExact_of_injective G i L π L' π'
+    ψ hψ _ _ moduleSheafHomComplex (fun _ => rfl) moduleSheafHomComplex (fun _ => rfl)
+    (sheafExtTransportIso ρ F G i) rfl (sheafExtIsoHomologyOfLocallyFreeResolution L π hL i)
+    HEq.rfl (homologyHomComplexTransportIso ρ L G i) HEq.rfl
+    (sheafExtIsoHomologyOfLocallyFreeResolution L' π' hL' i) HEq.rfl (moduleSheafHomComplexMap ψ)
+    HEq.rfl
 
 
 
