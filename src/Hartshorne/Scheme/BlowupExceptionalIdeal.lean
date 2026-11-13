@@ -1100,6 +1100,24 @@ private theorem iso_hom_comp_congr {Y Y' Z : Scheme.{u}} {j : Y ⟶ Z} {j' : Y' 
   cases hφ
   exact H
 
+/-- Transport the compatibility of maps `φ_U : 𝒪_{Proj S(U)}(1) ⟶ 𝒪` with the transition maps of
+the twisting sheaves along an equality of graded algebras `S = S'`. -/
+private theorem twistTransitionHom_comp_congr {X : Scheme.{u}}
+    {S S' : QuasiCoherentGradedAlgebra X}
+    {φ : ∀ U, S.twistingSheaf 1 U ⟶ SheafOfModules.unit (Proj (S.grading U)).ringCatSheaf}
+    {φ' : ∀ U, S'.twistingSheaf 1 U ⟶ SheafOfModules.unit (Proj (S'.grading U)).ringCatSheaf}
+    {U V : X.AffineZariskiSite} (f : U ⟶ V)
+    (H : S.twistTransitionHom 1 f ≫ φ U =
+      (restrictFunctor (Proj.map (S.restrict f) (S.irrelevant_le f))).map (φ V) ≫
+        (restrictUnitIso _).hom)
+    (hS : S = S') (hφ : HEq φ φ') :
+    S'.twistTransitionHom 1 f ≫ φ' U =
+      (restrictFunctor (Proj.map (S'.restrict f) (S'.irrelevant_le f))).map (φ' V) ≫
+        (restrictUnitIso _).hom := by
+  subst hS
+  cases hφ
+  exact H
+
 /-- Replace the isomorphism in `e.hom ≫ ψ = φ` by an equal one. -/
 private theorem hom_comp_eq_of_iso_eq {C : Type*} [Category C] {F G H : C} {e e' : F ≅ G}
     {ψ : G ⟶ H} {φ : F ⟶ H} (h : e'.hom ≫ ψ = φ) (he : e = e') : e.hom ≫ ψ = φ := by
@@ -1497,8 +1515,8 @@ theorem twistTransitionHom_comp_pieceDivX {U V : X.AffineZariskiSite} (f : U ⟶
       (restrictFunctor (Proj.map ((I.blowupData hI).algebra.restrict f)
         ((I.blowupData hI).algebra.irrelevant_le f))).map (I.pieceDivX hI V) ≫
         (restrictUnitIso _).hom :=
-  restrict_comp_eq_congr (ReesAlgebraSheaf.twistTransitionHom_comp_pieceDivX _ f)
-    rfl rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl
+  twistTransitionHom_comp_congr f (ReesAlgebraSheaf.twistTransitionHom_comp_pieceDivX _ f) rfl
+    HEq.rfl
 
 /-- `exceptionalIdealSheafRestrictIso`, as a family indexed by the cover of `Proj_X (⨁ Iᵈ)`
 (see `DirectedModuleGluing.Data.familyOf`). -/
