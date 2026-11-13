@@ -246,7 +246,7 @@ theorem bertini_regular_hyperplane_section [IsAlgClosed k] [IsClosedImmersion φ
   classical
   have : IsProper (projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))) :=
     projectiveSpaceOverSchemeProjection_isProper n _
-  set q := φ ≫ projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k)) with hq_def
+  set q := φ ≫ projectiveSpaceOverSchemeProjection n (Spec (CommRingCat.of k))
   set g := dualProjectiveSpaceStructure k n
   have : JacobsonSpace (incidenceAmbient q n) :=
     LocallyOfFiniteType.jacobsonSpace (pullback.fst q g ≫ q)
