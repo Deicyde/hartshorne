@@ -10,9 +10,9 @@ import Hartshorne.Scheme.ModuleSheafSupport
 /-!
 # Chevalley's affine descent theorem
 
-Hartshorne, *Algebraic Geometry*, III, Exercise 4.2(c) (p. 223): if `f : X ⟶ Y` is a finite
-surjective morphism, `Y` is Noetherian and separated and `X` is affine, then `Y` is affine
-(`Hartshorne.isAffine_of_isFinite_of_surjective`).
+Hartshorne, *Algebraic Geometry*, III, Exercise 4.2 (p. 222; part (c), p. 223): if
+`f : X ⟶ Y` is a finite surjective morphism, `Y` is Noetherian and separated and `X` is affine,
+then `Y` is affine (`Hartshorne.isAffine_of_isFinite_of_surjective`).
 
 ## Proof
 

@@ -33,5 +33,5 @@ because it is finite over the Noetherian scheme $Y$.
 
 ## Sources
 
-- [Hartshorne III, Exercise 4.2(c) (p.223)](../../../sources/hartshorne-iii-3-4.md#adopted-exercises-and-later-use)
+- [Hartshorne III, Exercise 4.2 (p.222; part (c), p.223)](../../../sources/hartshorne-iii-3-4.md#adopted-exercises-and-later-use)
 - [External proof obligations](../../../sources/hartshorne-iii-3-4.md#external-proof-obligations)
