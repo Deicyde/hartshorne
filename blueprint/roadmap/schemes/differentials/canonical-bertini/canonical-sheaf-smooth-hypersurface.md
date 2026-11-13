@@ -14,9 +14,9 @@ Then
 
 $\omega _Y \simeq \mathcal{O}_Y(d - n - 1)$.
 
-In particular, when $d \ge n + 1$, $Y$ has positive geometric genus and is not
-rational. The individual curve, surface, and threefold cases in the source are
-recorded as applications of this formula rather than separate graph nodes.
+For instance (p.183), a nonsingular plane cubic has $p_g = 1$ and is not rational. In
+general, as a consequence of the formula, when $d \ge n + 1$, $Y$ has positive geometric
+genus and is not rational.
 
 ## Depends on
 
