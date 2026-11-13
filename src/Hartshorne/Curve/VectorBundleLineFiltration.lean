@@ -315,10 +315,10 @@ theorem exists_lineBundleFiltration_of_projective {k : Type u} [Field k] [IsAlgC
             ((Scheme.Modules.isLocallyFreeOfRank_iff_ringed _ _).mp (by simpa using hE'')))
       exact lineFiltration_of_shortExact hS'' h₁ hEc (ih _ h₃)
 
-/-- **Hartshorne V, Exercise 2.3(a).** Let `C` be a nonsingular projective curve over an
-algebraically closed field `k` and `E` a locally free sheaf of rank `r` on `C`. There is a
-filtration `0 = E_0 ⊆ E_1 ⊆ ⋯ ⊆ E_r = E` by locally free subsheaves (`E_i` of rank `i`) such that
-every quotient `E_{i+1} / E_i` is invertible. -/
+/-- **Hartshorne V, Exercise 2.3(a)**, for `C` projective. Let `C` be a nonsingular projective
+curve over an algebraically closed field `k` and `E` a locally free sheaf of rank `r` on `C`.
+There is a filtration `0 = E_0 ⊆ E_1 ⊆ ⋯ ⊆ E_r = E` by locally free subsheaves (`E_i` of rank
+`i`) such that every quotient `E_{i+1} / E_i` is invertible. -/
 theorem exists_lineBundleFiltration {k : Type u} [Field k] [IsAlgClosed k] {C : Scheme.{u}}
     [C.Over (Spec (.of k))] [IsIntegral C] (hC : C.IsNonsingularCurve k)
     (hproj : Projective (C ↘ Spec (.of k))) {E : C.Modules} {r : ℕ}
