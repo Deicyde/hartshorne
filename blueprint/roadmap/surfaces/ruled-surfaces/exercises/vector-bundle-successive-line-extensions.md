@@ -17,6 +17,7 @@ such that every quotient $E_i/E_{(i-1)}$ is invertible.
 
 - [A nowhere-vanishing section of a high-rank generated bundle](../../prerequisites/globally-generated-bundle-nowhere-vanishing-section.md)
 - [Serre global generation](../../../schemes/projective-sheaves/serre-global-generation.md)
+- [Nonsingular curves over a field](../../../schemes/divisors/curve-divisors/nonsingular-curve.md)
 
 ## Proof depends on
 
