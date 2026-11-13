@@ -630,6 +630,61 @@ theorem isIntegral_of_isRegular [IsAlgClosed k] (hn : 2 ≤ n) (hd : 1 ≤ d) (f
   have : IsReduced I.subscheme := isReduced_of_isRegular' hreg
   exact isIntegral_of_irreducibleSpace_of_isReduced _
 
+/-! ### The main theorem -/
+
+/-- The coefficient of the monomial `x^{mⱼ}` in `f_a` is `aⱼ`. -/
+theorem coeff_hypersurfacePolynomial (a : Fin (Veronese.dupleN n d + 1) → k)
+    (j : Fin (Veronese.dupleN n d + 1)) :
+    MvPolynomial.coeff (Veronese.dupleEquiv n d j).1 (hypersurfacePolynomial a : S) = a j := by
+  classical
+  simp only [hypersurfacePolynomial, dupleMonomial, Submodule.coe_sum, Submodule.coe_smul,
+    MvPolynomial.coeff_sum, MvPolynomial.coeff_smul, MvPolynomial.coeff_monomial]
+  rw [Finset.sum_eq_single j]
+  · simp
+  · intro b _ hb
+    rw [if_neg (Subtype.val_injective.ne ((Veronese.dupleEquiv n d).injective.ne hb)),
+      smul_zero]
+  · simp
+
+theorem hypersurfacePolynomial_ne_zero {a : Fin (Veronese.dupleN n d + 1) → k} (ha : a ≠ 0) :
+    (hypersurfacePolynomial a : S) ≠ 0 := by
+  intro h
+  refine ha (funext fun j => ?_)
+  rw [Pi.zero_apply, ← coeff_hypersurfacePolynomial a j, h, MvPolynomial.coeff_zero]
+
+/-- **Smooth hypersurfaces form a dense open family** (Hartshorne II, Example 8.20.2). Let `k` be
+algebraically closed, `n ≥ 2` and `d ≥ 1`. The complete linear system `|dH|` of degree-`d`
+hypersurfaces of `ℙⁿ_k = Proj k[x₀, …, xₙ]` is the projective space `ℙᴺ_k` of coefficient
+vectors, with coordinates indexed by the `N + 1` monomials `x^{mⱼ}` of degree `d`: a closed point
+`H` represents the vectors `a ≠ 0` with `H = [a]`, and the corresponding hypersurface is
+`V(f_a) ⊆ ℙⁿ_k`, the zero scheme of the section `f_a = ∑ⱼ aⱼ x^{mⱼ}` of `𝒪(d)`. Then there is a
+dense open subset `U ⊆ ℙᴺ_k` whose closed points are exactly the `[a]` for which `V(f_a)` is a
+nonsingular variety, i.e. integral with regular local rings (as a closed subscheme of `ℙⁿ_k` it
+is automatically separated and of finite type over `k`).
+
+The `d`-uple morphism `ℙⁿ_k ⟶ ℙᴺ_k`, `y_m ↦ x^m`, is a closed immersion whose hyperplane sections
+are the hypersurfaces `V(f_a)`, so Bertini's theorem gives `U`, the locus where `V(f_a)` is regular
+(it is never all of `ℙⁿ_k`, as `f_a ≠ 0`). A regular `V(f_a)` is integral, since `n ≥ 2`. -/
+theorem smooth_hypersurfaces_dense [IsAlgClosed k] (hn : 2 ≤ n) (hd : 1 ≤ d) :
+    ∃ U : Set (projectiveSpaceScheme k (Veronese.dupleN n d)), IsOpen U ∧ Dense U ∧
+      ∀ H : projectiveSpaceScheme k (Veronese.dupleN n d), IsClosed {H} →
+        ∀ a : Fin (Veronese.dupleN n d + 1) → k, a ≠ 0 → BertiniIncidence.Represents a H →
+          (H ∈ U ↔ (hypersurfaceIdeal (hypersurfacePolynomial a)).subscheme.IsRegular ∧
+            IsIntegral (hypersurfaceIdeal (hypersurfacePolynomial a)).subscheme) := by
+  have : IsClosedImmersion (dupleMorphism k n d) := isClosedImmersion_dupleMorphism (by omega)
+  obtain ⟨U, hUo, hUd, hU⟩ := BertiniIncidence.bertini_regular_hyperplane_section
+    (dupleMorphism k n d) projectiveSpace_isRegular
+  refine ⟨U, hUo, hUd, fun H hH a ha hra => ?_⟩
+  rw [hU H hH a ha hra, hyperplaneSectionIdeal_dupleMorphism]
+  have hf0 := hypersurfacePolynomial_ne_zero ha
+  constructor
+  · rintro ⟨-, hreg⟩
+    exact ⟨hreg, isIntegral_of_isRegular hn hd _ hf0 hreg⟩
+  · rintro ⟨hreg, -⟩
+    refine ⟨⟨genericPoint (Proj 𝒮), ?_⟩, hreg⟩
+    rw [mem_support_hypersurfaceIdeal_iff]
+    exact notMem_genericPoint_proj 𝒮 hf0
+
 end SmoothHypersurface
 
 end Hartshorne
