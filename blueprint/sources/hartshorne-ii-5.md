@@ -92,6 +92,11 @@ then reuses `IsClosedImmersion.overEquivIdealSheafData`.
 - **Corollary 5.16, pp.119–120.** Every closed subscheme of projective space is
   defined by a homogeneous ideal, and projective schemes over `Spec A` are
   exactly `Proj S` for suitable degree-one-generated graded `A`-algebras.
+  Part (a) reads, verbatim (p.119): "Let A be a ring. (a) If Y is a closed
+  subscheme of P^r_A, then there is a homogeneous ideal I ⊆ S = A[x_0, ..., x_r]
+  such that Y is the closed subscheme determined by I (Ex. 3.12)." The proof
+  (p.120) takes I = Γ_*(ℐ_Y) and ends: "In fact, Γ_*(ℐ_Y) is the largest ideal
+  in S defining Y (Ex. 5.10)."
 
 ## Very ample sheaves and projective finiteness
 
@@ -151,7 +156,30 @@ then reuses `IsClosedImmersion.overEquivIdealSheafData`.
   Used on II pp.155 and 167.
 - **Exercise 5.14(a–d), p.126.** Section rings, integral closure,
   projectively normal Veronese embeddings, and the section-surjectivity
-  criterion. Used by Remark 5.13.1 and later in Chapters II and III.
+  criterion. Used by Caution 5.13.1 and later in Chapters II and III. The
+  preamble reads, verbatim: "Let A be a ring, and let X be a closed subscheme
+  of P^r_A. We define the homogeneous coordinate ring S(X) of X for the given
+  embedding to be A[x_0, ..., x_r]/I, where I is the ideal Γ_*(ℐ_X)
+  constructed in the proof of (5.16). (Of course if A is a field and X a
+  variety, this coincides with the definition given in (I, §2)!) Recall that a
+  scheme X is normal if its local rings are integrally closed domains. A
+  closed subscheme X ⊆ P^r_A is projectively normal for the given embedding,
+  if its homogeneous coordinate ring S(X) is an integrally closed domain (cf.
+  (I, Ex. 3.18)). Now assume that k is an algebraically closed field, and that
+  X is a connected, normal closed subscheme of P^r_k. Show that for some
+  d > 0, the d-uple embedding of X is projectively normal, as follows." Part
+  (d) reads: "As a corollary of (a), show that a closed subscheme X ⊆ P^r_k is
+  projectively normal if and only if it is normal, and for every n ≥ 0 the
+  natural map Γ(P^r, O_{P^r}(n)) → Γ(X, O_X(n)) is surjective." The
+  definition has no normality clause. The standing hypotheses (k
+  algebraically closed, X connected and normal) are stated for the d-uple
+  claim of (a)–(c); (d) restates "a closed subscheme" and puts normality in
+  the conclusion, and the book does not say whether (d) keeps connectedness.
+  The scan prints every projective space on this page as "P~", so the
+  subscripts A and k are readings. Chapter I's definition, I Ex. 3.18 (p.23),
+  reads: "A projective variety Y ⊆ P^n is projectively normal (with respect
+  to the given embedding) if its homogeneous coordinate ring S(Y) is
+  integrally closed. (a) If Y is projectively normal, then Y is normal."
 - **Exercise 5.15(a–d), pp.126–127.** Extension of coherent sheaves from an
   open subset of a Noetherian scheme: (a) on an affine Noetherian scheme every
   quasi-coherent sheaf is the union of its coherent subsheaves; (b) the affine
@@ -182,9 +210,62 @@ then reuses `IsClosedImmersion.overEquivIdealSheafData`.
   library gap, not a change of hypothesis.
 - **Exercise 5.18(a–d), pp.128–129.** Geometric vector bundles and their
   correspondence with finite locally free sheaves. Explicitly referenced on
-  II p.163. Hartshorne uses the convention `V(E)=Spec Sym(E)`, so its sheaf of
-  sections is `E dual`; replacing `E` by `E dual` silently reverses the
-  convention.
+  II p.163 and in Exercise 7.10(a). Hartshorne uses the convention
+  `V(E)=Spec Sym(E)`, so its sheaf of sections is `E dual`; replacing `E` by
+  `E dual` silently reverses the convention. Part by part, verbatim:
+  - Preamble (p.128): "Vector Bundles. Let Y be a scheme. A (geometric)
+    vector bundle of rank n over Y is a scheme X and a morphism f: X → Y,
+    together with additional data consisting of an open covering {U_i} of Y,
+    and isomorphisms ψ_i: f⁻¹(U_i) → A^n_{U_i}, such that for any i, j, and
+    for any open affine subset V = Spec A ⊆ U_i ∩ U_j, the automorphism
+    ψ = ψ_i ∘ ψ_j⁻¹ of A^n_V = Spec A[x_1, ..., x_n] is given by a linear
+    automorphism θ of A[x_1, ..., x_n], i.e., θ(a) = a for any a ∈ A, and
+    θ(x_i) = Σ a_ij x_j for suitable a_ij ∈ A. An isomorphism
+    g: (X, f, {U_i}, {ψ_i}) → (X', f', {U_i'}, {ψ_i'}) of one vector bundle
+    of rank n to another one is an isomorphism g: X → X' of the underlying
+    schemes, such that f = f' ∘ g, and such that X, f, together with the
+    covering of Y consisting of all the U_i and U_i', and the isomorphisms
+    ψ_i and ψ_i' ∘ g, is also a vector bundle structure on X." The scan
+    cannot tell the subscripts in ψ_i ∘ ψ_j⁻¹ apart.
+  - (a), p.128, constructs V(ℰ): "Let ℰ be a locally free sheaf of rank n
+    on a scheme Y. Let S(ℰ) be the symmetric algebra on ℰ, and let
+    X = Spec S(ℰ), with projection morphism f: X → Y. For each open affine
+    subset U ⊆ Y for which ℰ|_U is free, choose a basis of ℰ, and let
+    ψ: f⁻¹(U) → A^n_U be the isomorphism resulting from the identification
+    of S(ℰ(U)) with O(U)[x_1, ..., x_n]. Then (X, f, {U}, {ψ}) is a vector
+    bundle of rank n over Y, which (up to isomorphism) does not depend on
+    the bases of ℰ_U chosen. We call it the geometric vector bundle
+    associated to ℰ, and denote it by V(ℰ)."
+  - (b), p.129: "For any morphism f: X → Y, a section of f over an open set
+    U ⊆ Y is a morphism s: U → X such that f ∘ s = id_U. It is clear how to
+    restrict sections to smaller open sets, or how to glue them together, so
+    we see that the presheaf U ↦ {set of sections of f over U} is a sheaf of
+    sets on Y, which we denote by 𝒮(X/Y). Show that if f: X → Y is a vector
+    bundle of rank n, then the sheaf of sections 𝒮(X/Y) has a natural
+    structure of O_Y-module, which makes it a locally free O_Y-module of
+    rank n. [Hint: It is enough to define the module structure locally, so
+    we can assume Y = Spec A is affine, and X = A^n_A. Then a section
+    s: Y → X comes from an A-algebra homomorphism θ: A[x_1, ..., x_n] → A,
+    which in turn determines an ordered n-tuple ⟨θ(x_1), ..., θ(x_n)⟩ of
+    elements of A. Use this correspondence between sections s and ordered
+    n-tuples of elements of A to define the module structure.]"
+  - (c), p.129: "Again let ℰ be a locally free sheaf of rank n on Y, let
+    X = V(ℰ), and let 𝒮 = 𝒮(X/Y) be the sheaf of sections of X over Y.
+    Show that 𝒮 ≅ ℰ^∨, as follows. Given a section s ∈ Γ(V, ℰ^∨) over any
+    open set V, we think of s as an element of Hom(ℰ|_V, O_V). So s
+    determines an O_V-algebra homomorphism S(ℰ|_V) → O_V. This determines a
+    morphism of spectra V = Spec O_V → Spec S(ℰ|_V) = f⁻¹(V), which is a
+    section of X/Y. Show that this construction gives an isomorphism of ℰ^∨
+    to 𝒮."
+  - (d), p.129: "Summing up, show that we have established a one-to-one
+    correspondence between isomorphism classes of locally free sheaves of
+    rank n on Y, and isomorphism classes of vector bundles of rank n over Y.
+    Because of this, we sometimes use the words "locally free sheaf" and
+    "vector bundle" interchangeably, if no confusion seems likely to
+    result."
+  The roadmap maps these as geometric-vector-bundle (a),
+  vector-bundle-sections (b),(c), and vector-bundle-equivalence (d). Here
+  ℰ^∨ stands for the book's check-accent dual of ℰ.
 
 ## Excluded exercise clauses
 
