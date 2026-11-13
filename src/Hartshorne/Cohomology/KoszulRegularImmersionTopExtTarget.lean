@@ -16,7 +16,7 @@ one-element frame of `L` over `i⁻¹ V` (`isIso_frameEval`), it is compatible w
 `ω` (`localApp_frameEval_restrict`), and evaluation at `a ω` is evaluation at `ω` followed by
 multiplication by `a` (`frameEval_smul`).
 
-Consequently (`nonempty_sheafExt_iso_of_frames`): for a closed immersion `i`, a quasi-coherent
+Consequently (`sheafExtIsoOfFrames`): for a closed immersion `i`, a quasi-coherent
 `M` and frames `ω_c` of an invertible `L` over `i⁻¹ V` for the Koszul charts `c` covering `Y`,
 compatible with restriction to basic opens and satisfying `ω_{f Q} = det Q · ω_f`, there is an
 isomorphism `ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_* ℋom(L, i^* M)`. For `L = ⋀^r(i^* I)` the frame of a chart is
@@ -217,32 +217,64 @@ lemma frameEvalIso_hom {V : Y.Opens} (c : KoszulChart i (s + 1) V) :
     (frameEvalIso M L ω hω c).hom = frameEval i L ((Scheme.Modules.pullback i).obj M) (ω V c) :=
   rfl
 
-include hω in
-/-- **The top-Ext isomorphism from frames.** Frames `ω_c` of `L` over `i⁻¹ V` for the Koszul
-charts `c` of `i`, compatible with restriction to basic opens and transforming by
-`ω_{f Q} = det Q · ω_f` under a change of generators, give an isomorphism
-`ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_* ℋom(L, i^* M)` when the charts cover `Y`. -/
-theorem nonempty_sheafExt_iso_of_frames [IsClosedImmersion i] [M.IsQuasicoherent]
-    (hres : ∀ (V : Y.Opens) (c : KoszulChart i (s + 1) V) (W : Y.Opens) (b : Γ(Y, V))
+variable (hωres : ∀ (V : Y.Opens) (c : KoszulChart i (s + 1) V) (W : Y.Opens) (b : Γ(Y, V))
       (hb : Y.basicOpen b = W),
       L.val.presheaf.map (homOfLE (i.preimage_mono (le_of_basicOpen_eq b hb))).op (ω V c) =
         ω W (c.restrict W b hb))
-    (hdet : ∀ (V : Y.Opens) (c : KoszulChart i (s + 1) V) (g : Fin (s + 1) → Γ(Y, V))
+  (hωdet : ∀ (V : Y.Opens) (c : KoszulChart i (s + 1) V) (g : Fin (s + 1) → Γ(Y, V))
       (hIg : i.ker.ideal ⟨V, c.hV⟩ = Ideal.span (Set.range g))
       (hfg : IsKoszulRegular g (ModuleCat.of Γ(Y, V) Γ(Y, V)))
       (Q : Matrix (Fin (s + 1)) (Fin (s + 1)) Γ(Y, V)) (_ : g = Matrix.vecMul c.f Q),
       ω V ⟨c.hV, g, hIg, hfg⟩ = i.app V Q.det • (show Γ(L, i ⁻¹ᵁ V) from ω V c))
+
+include hωres in
+/-- Evaluation at the frames is compatible with restriction to basic opens. -/
+lemma localApp_frameEvalIso_restrict (V : Y.Opens) (c : KoszulChart i (s + 1) V) (W : Y.Opens)
+    (b : Γ(Y, V)) (hb : Y.basicOpen b = W) {U : Y.Opens} (hU : U ≤ W)
+    (x : ((Scheme.Modules.pushforward i).obj
+      (moduleSheafHom (R := X.sheaf) L ((Scheme.Modules.pullback i).obj M))).val.obj (op U)) :
+    localApp (frameEvalIso M L ω hω c).hom (hU.trans (le_of_basicOpen_eq b hb)) x =
+      localApp (frameEvalIso M L ω hω (c.restrict W b hb)).hom hU x := by
+  rw [frameEvalIso_hom, frameEvalIso_hom]
+  exact localApp_frameEval_restrict i L _ (le_of_basicOpen_eq b hb) _ _ (hωres V c W b hb) hU x
+
+include hωdet in
+/-- Evaluation at the frames transforms by `det Q` under a change of generators `f ↦ f Q`. -/
+lemma frameEvalIso_hom_of_eq_vecMul (V : Y.Opens) (c : KoszulChart i (s + 1) V)
+    (g : Fin (s + 1) → Γ(Y, V)) (hIg : i.ker.ideal ⟨V, c.hV⟩ = Ideal.span (Set.range g))
+    (hfg : IsKoszulRegular g (ModuleCat.of Γ(Y, V) Γ(Y, V)))
+    (Q : Matrix (Fin (s + 1)) (Fin (s + 1)) Γ(Y, V)) (hg : g = Matrix.vecMul c.f Q) :
+    (frameEvalIso M L ω hω (⟨c.hV, g, hIg, hfg⟩ : KoszulChart i (s + 1) V)).hom =
+      (frameEvalIso M L ω hω c).hom ≫ scalarHom (restrictPhi V Q.det) (pullbackRestrict i M V) := by
+  rw [frameEvalIso_hom, frameEvalIso_hom, hωdet V c g hIg hfg Q hg]
+  exact frameEval_smul i L _ Q.det (ω V c)
+
+/-- **The top-Ext isomorphism from frames.** Frames `ω_c` of `L` over `i⁻¹ V` for the Koszul
+charts `c` of `i`, compatible with restriction to basic opens and transforming by
+`ω_{f Q} = det Q · ω_f` under a change of generators, give an isomorphism
+`ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_* ℋom(L, i^* M)` when the charts cover `Y`; on a chart `c` its inverse
+is evaluation at `ω_c` followed by the inverse local top-Ext isomorphism
+(`sheafExtIsoOfFrames_inv_restrict`). -/
+noncomputable def sheafExtIsoOfFrames [IsClosedImmersion i] [M.IsQuasicoherent]
     (hcover : ∀ y : Y, ∃ (V : Y.Opens) (_ : KoszulChart i (s + 1) V), y ∈ V) :
-    Nonempty ((Ringed.sheafExt (R := Y.sheaf) ((Scheme.Modules.pushforward i).obj
+    (Ringed.sheafExt (R := Y.sheaf) ((Scheme.Modules.pushforward i).obj
       (SheafOfModules.unit X.ringCatSheaf)) (s + 1)).obj M ≅
         (Scheme.Modules.pushforward i).obj
-          (moduleSheafHom (R := X.sheaf) L ((Scheme.Modules.pullback i).obj M))) := by
-  refine nonempty_sheafExt_iso_of_localIso M _ (fun V c => frameEvalIso M L ω hω c)
-    (fun V c W b hb U hU x => ?_) (fun V c g hIg hfg Q hg => ?_) hcover
-  · rw [frameEvalIso_hom, frameEvalIso_hom]
-    exact localApp_frameEval_restrict i L _ (le_of_basicOpen_eq b hb) _ _ (hres V c W b hb) hU x
-  · rw [frameEvalIso_hom, frameEvalIso_hom, hdet V c g hIg hfg Q hg]
-    exact frameEval_smul i L _ Q.det (ω V c)
+          (moduleSheafHom (R := X.sheaf) L ((Scheme.Modules.pullback i).obj M)) :=
+  sheafExtIsoOfLocalIso M _ (fun _ c => frameEvalIso M L ω hω c)
+    (localApp_frameEvalIso_restrict M L ω hω hωres)
+    (frameEvalIso_hom_of_eq_vecMul M L ω hω hωdet) hcover
+
+/-- On a chart `c` on `V`, the inverse of `sheafExtIsoOfFrames` is evaluation at `ω_c` followed by
+the inverse of the local top-Ext isomorphism of `c`. -/
+lemma sheafExtIsoOfFrames_inv_restrict [IsClosedImmersion i] [M.IsQuasicoherent]
+    (hcover : ∀ y : Y, ∃ (V : Y.Opens) (_ : KoszulChart i (s + 1) V), y ∈ V) {V : Y.Opens}
+    (c : KoszulChart i (s + 1) V) :
+    (moduleRestrict V).map (sheafExtIsoOfFrames M L ω hω hωres hωdet hcover).inv =
+      frameEval i L ((Scheme.Modules.pullback i).obj M) (ω V c) ≫ (c.topExtIso M).inv :=
+  sheafExtIsoOfLocalIso_inv_restrict M _ (fun _ c => frameEvalIso M L ω hω c)
+    (localApp_frameEvalIso_restrict M L ω hω hωres)
+    (frameEvalIso_hom_of_eq_vecMul M L ω hω hωdet) hcover c
 
 end Frames
 

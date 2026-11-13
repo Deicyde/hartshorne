@@ -18,11 +18,9 @@ sections restrict to those of the restricted charts (`conormalFrame_restrict`) a
 determinant transition law `ω_{f Q} = det Q · ω_f` (`conormalFrame_of_eq_vecMul`, from
 `Hartshorne.Koszul.ιMulti_family_topIndex_vecMul`).
 
-If the `[fⱼ]` form a frame of `i^* I` over `i⁻¹ V`, then `ω_c` is a frame of `⋀^r(i^* I)`
-(`isLocalFrame_conormalFrame`), and the gluing of the local top-Ext isomorphisms gives
-`ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_* ℋom(⋀^r(i^* I), i^* M)` for a Koszul-regular immersion and a
-quasi-coherent `M`
-(`Hartshorne.KoszulTarget.nonempty_sheafExt_iso_of_isLocalFrame_conormalSection`).
+If the `[fⱼ]` form a frame of `i^* I` over `i⁻¹ V` (proved in
+`Hartshorne.Cohomology.KoszulRegularImmersionTopExtConormalFrame`), then `ω_c` is a frame of
+`⋀^r(i^* I)` (`isLocalFrame_conormalFrame`).
 -/
 
 universe u
@@ -231,38 +229,5 @@ lemma KoszulChart.isLocalFrame_conormalFrame {V : Y.Opens} (c : KoszulChart i (s
     (s + 1)).reindex σ
 
 end KoszulImmersion
-
-namespace KoszulTarget
-
-open AlgebraicGeometry Koszul KoszulImmersion KoszulConormal Ringed
-
-variable {Y X : Scheme.{u}} {i : X ⟶ Y} {s : ℕ}
-
-/-- **The top sheaf Ext of a Koszul-regular immersion, assuming the conormal frames.** For a
-Koszul-regular closed immersion `i : X ⟶ Y` of codimension `s + 1` with ideal sheaf `I` and a
-quasi-coherent `𝒪_Y`-module `M`, if the conormal classes of the generators of every Koszul chart
-form a frame of `i^* I` over the preimage of the chart, then
-`ℰxt^{s+1}_Y(i_* 𝒪_X, M) ≅ i_* ℋom(⋀^{s+1}(i^* I), i^* M)`. -/
-theorem nonempty_sheafExt_iso_of_isLocalFrame_conormalSection
-    (h : IsKoszulRegularImmersion i (s + 1)) (M : Y.Modules) [M.IsQuasicoherent]
-    (hc : haveI := h.isClosedImmersion
-      ∀ (V : Y.Opens) (c : KoszulChart i (s + 1) V),
-        IsLocalFrame (R := X.sheaf) ((Scheme.Modules.pullback i).obj
-          (closedImmersionIdealSheaf i)) (i ⁻¹ᵁ V) (fun j => c.conormalSection j)) :
-    Nonempty ((Ringed.sheafExt (R := Y.sheaf) ((Scheme.Modules.pushforward i).obj
-      (SheafOfModules.unit X.ringCatSheaf)) (s + 1)).obj M ≅
-        (Scheme.Modules.pushforward i).obj (moduleSheafHom (R := X.sheaf)
-          (moduleSheafExteriorPower (R := X.sheaf) (s + 1)
-            ((Scheme.Modules.pullback i).obj (closedImmersionIdealSheaf i)))
-          ((Scheme.Modules.pullback i).obj M))) := by
-  have := h.isClosedImmersion
-  refine nonempty_sheafExt_iso_of_frames M _ (fun V c => c.conormalFrame)
-    (fun V c => c.isLocalFrame_conormalFrame (hc V c))
-    (fun V c W b hb => c.conormalFrame_restrict W b hb)
-    (fun V c g hIg hfg Q hg => c.conormalFrame_of_eq_vecMul g hIg hfg Q hg) fun y => ?_
-  obtain ⟨U, hyU, f, hI, hf⟩ := h.exists_isKoszulRegular y
-  exact ⟨U, ⟨U.2, f, hI, hf⟩, hyU⟩
-
-end KoszulTarget
 
 end Hartshorne

@@ -18,7 +18,8 @@ compatible with restriction to basic opens and transforming under a change of ge
 `f ↦ f Q` by multiplication with `det Q` (the transition law of the local top-Ext isomorphisms,
 `KoszulChart.topExtIso_hom_of_eq_vecMul`), the composites `ν_c ≫ (topExtIso c)⁻¹` agree on
 overlaps (`compatible_localMap`) and glue to an isomorphism
-`ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_* G` when the charts cover `Y` (`nonempty_sheafExt_iso_of_localIso`).
+`ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_* G` when the charts cover `Y` (`sheafExtIsoOfLocalIso`, restricting on
+each chart to `ν_c ≫ (topExtIso c)⁻¹` by `sheafExtIsoOfLocalIso_inv_restrict`).
 
 Agreement near a point `y` of `V ∩ V'`: restrict both charts to a common basic open `W ∋ y`
 (`exists_basicOpen_le_affine_inter`). The two generating sequences on `W` differ by a matrix `Q`
@@ -343,22 +344,54 @@ lemma compatible_localMap :
   rw [localApp_naturality, localApp_naturality]
   exact hN y _ _ _ inf_le_right _
 
+omit [IsClosedImmersion i] [M.IsQuasicoherent] in
+/-- The Koszul charts cover `Y` if their opens do. -/
+lemma top_le_iSup_chartIndex
+    (hcover : ∀ y : Y, ∃ (V : Y.Opens) (_ : KoszulChart i (s + 1) V), y ∈ V) :
+    ⊤ ≤ iSup (fun k : ChartIndex i (s + 1) => k.1) := fun y _ => by
+  obtain ⟨V, c, hc⟩ := hcover y
+  exact Opens.mem_iSup.mpr ⟨⟨V, c⟩, hc⟩
+
+include hres htrans in
+/-- The glued morphism `i_* G ⟶ ℰxt^r_Y(i_* 𝒪_X, M)` is an isomorphism. -/
+lemma isIso_glueHom_localMap
+    (hcover : ∀ y : Y, ∃ (V : Y.Opens) (_ : KoszulChart i (s + 1) V), y ∈ V) :
+    IsIso (glueHom (top_le_iSup_chartIndex hcover) (compatible_localMap M G ν hres htrans)) :=
+  isIso_glueHom _ _ fun _ => by rw [localMap_def]; infer_instance
+
 include hres htrans in
 /-- **Gluing the local top-Ext isomorphisms.** Local isomorphisms `ν_c : (i_* G)|_V ≅
 (i_* i^* M)|_V` on the Koszul charts `c` of `i`, compatible on sections with restriction to basic
-opens and transforming like the local top-Ext isomorphisms under a change of generators, give an
-isomorphism `ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_* G` when the charts cover `Y`. -/
-theorem nonempty_sheafExt_iso_of_localIso
+opens and transforming like the local top-Ext isomorphisms under a change of generators, glue to
+an isomorphism `ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_* G` when the charts cover `Y`; on a chart `c` its inverse
+is `ν_c` followed by the inverse local top-Ext isomorphism (`sheafExtIsoOfLocalIso_inv_restrict`).
+-/
+noncomputable def sheafExtIsoOfLocalIso
     (hcover : ∀ y : Y, ∃ (V : Y.Opens) (_ : KoszulChart i (s + 1) V), y ∈ V) :
-    Nonempty ((Ringed.sheafExt (R := Y.sheaf) ((Scheme.Modules.pushforward i).obj
+    (Ringed.sheafExt (R := Y.sheaf) ((Scheme.Modules.pushforward i).obj
       (SheafOfModules.unit X.ringCatSheaf)) (s + 1)).obj M ≅
-        (Scheme.Modules.pushforward i).obj G) := by
-  have hcov : ⊤ ≤ iSup (fun k : ChartIndex i (s + 1) => k.1) := fun y _ => by
-    obtain ⟨V, c, hc⟩ := hcover y
-    exact Opens.mem_iSup.mpr ⟨⟨V, c⟩, hc⟩
-  have hψ := compatible_localMap M G ν hres htrans
-  have := isIso_glueHom hcov hψ (fun k => by rw [localMap_def]; infer_instance)
-  exact ⟨(asIso (glueHom hcov hψ)).symm⟩
+        (Scheme.Modules.pushforward i).obj G :=
+  haveI := isIso_glueHom_localMap M G ν hres htrans hcover
+  (asIso (glueHom (top_le_iSup_chartIndex hcover) (compatible_localMap M G ν hres htrans))).symm
+
+/-- The inverse of the glued isomorphism is the glued morphism. -/
+lemma sheafExtIsoOfLocalIso_inv
+    (hcover : ∀ y : Y, ∃ (V : Y.Opens) (_ : KoszulChart i (s + 1) V), y ∈ V) :
+    (sheafExtIsoOfLocalIso M G ν hres htrans hcover).inv =
+      glueHom (top_le_iSup_chartIndex hcover) (compatible_localMap M G ν hres htrans) :=
+  rfl
+
+/-- On a chart `c` on `V`, the inverse of the glued isomorphism is `ν_c` followed by the inverse
+of the local top-Ext isomorphism of `c`. -/
+lemma sheafExtIsoOfLocalIso_inv_restrict
+    (hcover : ∀ y : Y, ∃ (V : Y.Opens) (_ : KoszulChart i (s + 1) V), y ∈ V) {V : Y.Opens}
+    (c : KoszulChart i (s + 1) V) :
+    (Ringed.moduleRestrict V).map (sheafExtIsoOfLocalIso M G ν hres htrans hcover).inv =
+      (ν V c).hom ≫ (c.topExtIso M).inv := by
+  have h := glueHom_restrict (top_le_iSup_chartIndex hcover)
+    (compatible_localMap M G ν hres htrans) (⟨V, c⟩ : ChartIndex i (s + 1))
+  rw [sheafExtIsoOfLocalIso_inv, ← localMap_def]
+  exact h
 
 end KoszulImmersion
 

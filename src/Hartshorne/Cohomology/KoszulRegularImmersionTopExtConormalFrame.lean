@@ -15,10 +15,12 @@ are the pullbacks of the generators (`pullbackIdealFrame_freeSection_eq_unit`); 
 along the open immersion `Spec Γ(X, i⁻¹ V) ⟶ X` (`isLocalFrame_of_restrict`), using that the
 tautological sections of a finite free module form a frame (`Ringed.isLocalFrame_free_top`).
 
-With the determinant frames this proves the sheaf form of the top-Ext calculation
-(`Hartshorne.KoszulTarget.nonempty_sheafExt_iso_pushforward_hom`): for a Koszul-regular closed
-immersion of codimension `r = s + 1` and a quasi-coherent `M`,
-`ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_* ℋom(⋀^r(i^* I), i^* M)`.
+With the determinant frames this proves the sheaf form of the top-Ext calculation: for a
+Koszul-regular closed immersion of codimension `r = s + 1` and a quasi-coherent `M`, the glued
+isomorphism `ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_* ℋom(⋀^r(i^* I), i^* M)`
+(`Hartshorne.KoszulTarget.sheafExtTopIso`, given on each chart by `sheafExtTopIso_inv_restrict`)
+and its determinant form `ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_*((⋀^r(i^* I))^∨ ⊗ i^* M)`
+(`sheafExtTopIsoDualTensor`); `⋀^r(i^* I)` is invertible (`isLocallyFreeOfRank_exteriorPower`).
 -/
 
 universe u
@@ -251,21 +253,74 @@ open AlgebraicGeometry Koszul KoszulImmersion KoszulConormal Ringed
 
 variable {Y X : Scheme.{u}} {i : X ⟶ Y} {s : ℕ}
 
+/-- The Koszul charts of a Koszul-regular immersion cover `Y`. -/
+lemma exists_koszulChart (h : IsKoszulRegularImmersion i (s + 1)) (y : Y) :
+    ∃ (V : Y.Opens) (_ : KoszulChart i (s + 1) V), y ∈ V := by
+  obtain ⟨U, hyU, f, hI, hf⟩ := h.exists_isKoszulRegular y
+  exact ⟨U, ⟨U.2, f, hI, hf⟩, hyU⟩
+
 /-- **The top sheaf Ext of a Koszul-regular immersion.** For a Koszul-regular closed immersion
 `i : X ⟶ Y` of codimension `s + 1` with ideal sheaf `I` and a quasi-coherent `𝒪_Y`-module `M`,
-`ℰxt^{s+1}_Y(i_* 𝒪_X, M) ≅ i_* ℋom(⋀^{s+1}(i^* I), i^* M)`; locally on a Koszul chart it is the
-Koszul top-Ext isomorphism followed by evaluation at `[f₁] ∧ ⋯ ∧ [f_{s+1}]`. -/
-theorem nonempty_sheafExt_iso_pushforward_hom (h : IsKoszulRegularImmersion i (s + 1))
-    (M : Y.Modules) [M.IsQuasicoherent] :
-    Nonempty ((Ringed.sheafExt (R := Y.sheaf) ((Scheme.Modules.pushforward i).obj
+the isomorphism `ℰxt^{s+1}_Y(i_* 𝒪_X, M) ≅ i_* ℋom(⋀^{s+1}(i^* I), i^* M)` obtained by gluing,
+over the Koszul charts `c`, the local top-Ext isomorphisms followed by evaluation at the
+determinant frames `[f₁] ∧ ⋯ ∧ [f_{s+1}]` (`sheafExtTopIso_inv_restrict`). It involves no choice
+of charts or generators. -/
+noncomputable def sheafExtTopIso (h : IsKoszulRegularImmersion i (s + 1)) (M : Y.Modules)
+    [M.IsQuasicoherent] :
+    (Ringed.sheafExt (R := Y.sheaf) ((Scheme.Modules.pushforward i).obj
       (SheafOfModules.unit X.ringCatSheaf)) (s + 1)).obj M ≅
         (Scheme.Modules.pushforward i).obj (moduleSheafHom (R := X.sheaf)
           (moduleSheafExteriorPower (R := X.sheaf) (s + 1)
             ((Scheme.Modules.pullback i).obj (closedImmersionIdealSheaf i)))
-          ((Scheme.Modules.pullback i).obj M))) :=
+          ((Scheme.Modules.pullback i).obj M)) :=
   haveI := h.isClosedImmersion
-  nonempty_sheafExt_iso_of_isLocalFrame_conormalSection h M fun _ c =>
-    c.isLocalFrame_conormalSection
+  sheafExtIsoOfFrames M _ (fun _ c => c.conormalFrame)
+    (fun _ c => c.isLocalFrame_conormalFrame c.isLocalFrame_conormalSection)
+    (fun _ c W b hb => c.conormalFrame_restrict W b hb)
+    (fun _ c g hIg hfg Q hg => c.conormalFrame_of_eq_vecMul g hIg hfg Q hg)
+    (exists_koszulChart h)
+
+/-- On a Koszul chart `c` on `V`, the inverse of `sheafExtTopIso` is evaluation at the
+determinant frame `[f₁] ∧ ⋯ ∧ [f_{s+1}]` followed by the inverse of the local top-Ext
+isomorphism of `c`. -/
+lemma sheafExtTopIso_inv_restrict (h : IsKoszulRegularImmersion i (s + 1)) (M : Y.Modules)
+    [M.IsQuasicoherent] [IsClosedImmersion i] {V : Y.Opens} (c : KoszulChart i (s + 1) V) :
+    (moduleRestrict V).map (sheafExtTopIso h M).inv =
+      frameEval i _ ((Scheme.Modules.pullback i).obj M) c.conormalFrame ≫ (c.topExtIso M).inv :=
+  sheafExtIsoOfFrames_inv_restrict M _ (fun _ c => c.conormalFrame)
+    (fun _ c => c.isLocalFrame_conormalFrame c.isLocalFrame_conormalSection)
+    (fun _ c W b hb => c.conormalFrame_restrict W b hb)
+    (fun _ c g hIg hfg Q hg => c.conormalFrame_of_eq_vecMul g hIg hfg Q hg)
+    (exists_koszulChart h) c
+
+/-- The top exterior power of the conormal sheaf of a Koszul-regular immersion is invertible. -/
+lemma isLocallyFreeOfRank_exteriorPower (h : IsKoszulRegularImmersion i (s + 1)) :
+    IsLocallyFreeOfRank (R := X.sheaf) (moduleSheafExteriorPower (R := X.sheaf) (s + 1)
+      ((Scheme.Modules.pullback i).obj (closedImmersionIdealSheaf i))) 1 := by
+  have := h.isClosedImmersion
+  refine isLocallyFreeOfRank_of_isLocalFrame fun x => ?_
+  obtain ⟨V, c, hV⟩ := exists_koszulChart h (i.base x)
+  exact ⟨i ⁻¹ᵁ V, fun _ => c.conormalFrame, hV,
+    (c.isLocalFrame_conormalFrame c.isLocalFrame_conormalSection).reindex
+      ⟨fun _ => PUnit.unit, fun _ => ⟨0⟩, fun _ => Subsingleton.elim _ _, fun _ => rfl⟩⟩
+
+/-- **The top sheaf Ext of a Koszul-regular immersion, determinant form.** For a Koszul-regular
+closed immersion `i : X ⟶ Y` of codimension `r = s + 1` with ideal sheaf `I` and a
+quasi-coherent `𝒪_Y`-module `M`,
+`ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_*((⋀^r(i^* I))^∨ ⊗ i^* M)`, where `i^* I` is the conormal sheaf
+`I/I²` on `X`: `sheafExtTopIso` followed by `ℋom(L, N) ≅ L^∨ ⊗ N` for the invertible
+`L = ⋀^r(i^* I)`. -/
+noncomputable def sheafExtTopIsoDualTensor (h : IsKoszulRegularImmersion i (s + 1))
+    (M : Y.Modules) [M.IsQuasicoherent] :
+    (Ringed.sheafExt (R := Y.sheaf) ((Scheme.Modules.pushforward i).obj
+      (SheafOfModules.unit X.ringCatSheaf)) (s + 1)).obj M ≅
+        (Scheme.Modules.pushforward i).obj (moduleSheafTensor (R := X.sheaf)
+          (moduleSheafDual (R := X.sheaf) (moduleSheafExteriorPower (R := X.sheaf) (s + 1)
+            ((Scheme.Modules.pullback i).obj (closedImmersionIdealSheaf i))))
+          ((Scheme.Modules.pullback i).obj M)) :=
+  sheafExtTopIso h M ≪≫ (Scheme.Modules.pushforward i).mapIso
+    (moduleSheafDualTensorIso (R := X.sheaf) _ _
+      (isLocallyFreeOfRank_exteriorPower h).isFiniteLocallyFree).symm
 
 end KoszulTarget
 
