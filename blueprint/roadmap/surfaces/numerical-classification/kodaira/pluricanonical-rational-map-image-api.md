@@ -26,6 +26,7 @@ dimension zero.
 - [Linear systems](../../../schemes/projective-geometry/linear-systems-ampleness/linear-system-api.md)
 - [Rational maps](../../../rational-maps/rational-map.md)
 - [Projective closure](../../../rational-maps/projective-closure.md)
+- [Finite-dimensional linear systems on an arbitrary variety](../../../cohomology/smooth-morphisms/finite-dimensional-linear-system-on-variety.md)
 
 ## Sources
 
