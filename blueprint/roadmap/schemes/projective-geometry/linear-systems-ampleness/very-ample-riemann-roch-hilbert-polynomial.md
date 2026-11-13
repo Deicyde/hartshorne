@@ -29,6 +29,7 @@ hypotheses are kept because they are Hartshorne's setting.
 - Eventual surjectivity from ambient homogeneous polynomials to the global
   sections of $\mathcal{O}_X(n)$.
 - [Eventual recovery from graded sections](../../projective-sheaves/proj-eventual-section-recovery.md)
+- [The scheme-theoretic image of a reduced source](../../subschemes-and-dimension/scheme-theoretic-image-reduced-source.md)
 
 ## Sources
 
