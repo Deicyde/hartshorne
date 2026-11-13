@@ -2,6 +2,7 @@
 article_id: af_65a92cc584948964142a20b3
 declaration: theorem
 origin: cited
+lean: Hartshorne.LinearSystem.exists_dim_complete_nsmul_eq_projectiveHilbertPolynomial Hartshorne.LinearSystem.exists_dim_complete_weil_nsmul_eq_projectiveHilbertPolynomial Hartshorne.VeryAmpleHilbert.classicalPoint Hartshorne.VeryAmpleHilbert.mem_projZeroSet_iff_classicalPoint_mem_range
 ---
 
 # Very ample linear systems and the Hilbert polynomial
