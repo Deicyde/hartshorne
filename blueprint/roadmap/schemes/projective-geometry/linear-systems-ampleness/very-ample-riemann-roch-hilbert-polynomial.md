@@ -14,6 +14,10 @@ $\dim |nD| = P_X(n) - 1$,
 
 where $P_X$ is the Hilbert polynomial of this embedding.
 
+The proof works for any closed embedding over the ground field whose pullback of
+$\mathcal{O}(1)$ is $\mathcal{O}_X(D)$ and, for Cartier divisors, without nonsingularity; the
+hypotheses are kept because they are Hartshorne's setting.
+
 ## Depends on
 
 - [Linear systems](linear-system-api.md)
