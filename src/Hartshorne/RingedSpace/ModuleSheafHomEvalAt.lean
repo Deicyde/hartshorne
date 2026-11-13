@@ -70,6 +70,7 @@ lemma homEvalAt_app {L : SheafOfModules.{u} (ringCatSheafOf R)} (ℓ : L.val.obj
       moduleSheafHomEval ψ (le_refl W) (L.val.presheaf.map (homOfLE le_top).op ℓ) := rfl
 
 /-- Evaluating `ψ ∘ g` at `ℓ` is evaluating `ψ` at `g(ℓ)`. -/
+@[reassoc]
 lemma moduleSheafHomPrecomp_homEvalAt {L L' : SheafOfModules.{u} (ringCatSheafOf R)}
     (g : L' ⟶ L) (ℓ : L'.val.obj (op ⊤)) (G : SheafOfModules.{u} (ringCatSheafOf R)) :
     (moduleSheafHomPrecomp g).app G ≫ homEvalAt ℓ G = homEvalAt (g.val.app (op ⊤) ℓ) G := by

@@ -263,6 +263,8 @@ lemma hom_ext_k₀ {r : ℕ} (g : Fin r → A) {G : SheafOfModules.{u} (ringCatS
 
 end KoszulSheaf
 
+
+
 end Ringed
 
 end Hartshorne
@@ -549,6 +551,115 @@ lemma compareChain_augmentation [IsClosedImmersion i]
       h3).symm
   rw [restrictCompIso_hom_app_val_app, map_one, map_one]
   exact (map_one (X.presheaf.map _).hom).symm
+
+variable (M : Y.Modules)
+
+/-- The local top-Ext map is evaluation at the global section `topSection`, followed by the unit. -/
+lemma topHom_eq_homEvalAt :
+    topHom i f M = Ringed.homEvalAt (topSection (restrictPhi V₀) f ⊤) ((Ringed.moduleRestrict V₀).obj M) ≫
+      unitRestrict i M V₀ := by
+  rw [topHom, topEval_eq_homEvalAt]
+
+/-- **The local top-Ext isomorphism as a map induced by a top map** (`Ringed.extTopMap`). -/
+lemma localTopExtIso_hom_eq [IsClosedImmersion i]
+    (hI : i.ker.ideal ⟨V₀, hV₀⟩ = Ideal.span (Set.range f)) [M.IsQuasicoherent]
+    (hf : IsKoszulRegular f (ModuleCat.of Γ(Y, V₀) Γ(Y, V₀))) :
+    have := quasiIso_koszulAugmentation hV₀ i f hI hf
+    (localTopExtIso hV₀ i f M hI hf).hom = (Ringed.sheafExtRestrictIso V₀ _ M (s + 1)).hom ≫
+      Ringed.extTopMap _ (augmentation (restrictPhi V₀) f (augHom i f) (d_comp_augHom hV₀ i f hI))
+        (isFiniteLocallyFree_complex (restrictPhi V₀) f) _ (topHom i f M)
+        (d_comp_topHom hV₀ i f M hI) := by
+  intro _
+  rw [localTopExtIso_hom, Ringed.extTopMap]
+  congr 2
+  rw [← cancel_epi (HomologicalComplex.homologyπ _ (s + 1)), homologyπ_comp_topHomologyIso_hom,
+    CochainTop.homologyπ_desc]
+
+-- The terms of the restricted and transported complexes are only definitionally the restricted and
+-- transported terms; matching them unfolds the pushforwards and needs more than the default budget.
+set_option maxHeartbeats 1000000 in
+/-- The top map on `W'` obtained by restricting the local top-Ext map of `V₀`. -/
+lemma topMap_restrict_eq :
+    ((Ringed.moduleSheafHomComplex (complex (restrictBase (restrictPhi V₀) W') f)).map
+        ((restrictCompIso V₀ W' Y.sheaf).hom.app M)).f (s + 1) ≫
+      Ringed.homEvalAt (topSection (restrictBase (restrictPhi V₀) W') f ⊤) _ ≫
+        (transport (ringTransport V₀ W' Y.sheaf)).map (unitRestrict i M ((incl V₀).obj W')) =
+    ((Ringed.moduleSheafHomComplexMap (restrictComplexIso (restrictPhi V₀) f W').inv).app _).f
+        (s + 1) ≫
+      (Ringed.homRestrictIso W' ((complex (restrictPhi V₀) f).X (s + 1))).inv.app
+        ((Ringed.moduleRestrict V₀).obj M) ≫
+      (Ringed.moduleRestrict W').map (topHom i f M) ≫
+        (restrictCompIso V₀ W' Y.sheaf).hom.app
+          ((Scheme.Modules.pushforward i).obj ((Scheme.Modules.pullback i).obj M)) := by
+  change (Ringed.moduleSheafHomFunctor _).map ((restrictCompIso V₀ W' Y.sheaf).hom.app M) ≫ _ = _
+  have hR := Ringed.homRestrict_homEvalAt W' (topSection (restrictPhi V₀) f ⊤)
+    ((Ringed.moduleRestrict V₀).obj M)
+  have hinv : (Ringed.homRestrictIso W' ((complex (restrictPhi V₀) f).X (s + 1))).inv.app
+      ((Ringed.moduleRestrict V₀).obj M) ≫ Ringed.homRestrict (U := W')
+        ((complex (restrictPhi V₀) f).X (s + 1)) ((Ringed.moduleRestrict V₀).obj M) = 𝟙 _ :=
+    (Ringed.homRestrictIso W' ((complex (restrictPhi V₀) f).X (s + 1))).inv_hom_id_app _
+  have key : (Ringed.homRestrictIso W' ((complex (restrictPhi V₀) f).X (s + 1))).inv.app
+      ((Ringed.moduleRestrict V₀).obj M) ≫ (Ringed.moduleRestrict W').map
+        (Ringed.homEvalAt (topSection (restrictPhi V₀) f ⊤) ((Ringed.moduleRestrict V₀).obj M)) =
+      Ringed.homEvalAt (Ringed.restrictSection W' (topSection (restrictPhi V₀) f ⊤))
+        ((Ringed.moduleRestrict W').obj ((Ringed.moduleRestrict V₀).obj M)) := by
+    rw [← hR, ← Category.assoc, hinv, Category.id_comp]
+  rw [← Category.assoc, Ringed.homEvalAt_comp, Category.assoc, topHom_eq_homEvalAt,
+    Functor.map_comp]
+  simp only [Category.assoc]
+  rw [reassoc_of% key, Ringed.moduleSheafHomComplexMap_app_f,
+    Ringed.moduleSheafHomPrecomp_homEvalAt_assoc]
+  refine Eq.trans ?_ (congrArg (fun z => Ringed.homEvalAt z ((Ringed.moduleRestrict W').obj
+    ((Ringed.moduleRestrict V₀).obj M)) ≫ (Ringed.moduleRestrict W').map (unitRestrict i M V₀) ≫
+      (restrictCompIso V₀ W' Y.sheaf).hom.app ((Scheme.Modules.pushforward i).obj
+        ((Scheme.Modules.pullback i).obj M)))
+          (restrictComplexIso_inv_topSection (restrictPhi V₀) f W')).symm
+  congr 1
+  exact ((restrictCompIso V₀ W' Y.sheaf).hom.naturality
+    ((Scheme.Modules.pullbackPushforwardAdjunction i).unit.app M)).symm
+
+-- The terms of the restricted and transported complexes are only definitionally the restricted and
+-- transported terms; matching them unfolds the pushforwards and needs more than the default budget.
+set_option maxHeartbeats 1000000 in
+/-- The top map on `W'` obtained by transporting the local top-Ext map of `W`. -/
+lemma topMap_transport_eq :
+    ((Ringed.moduleSheafHomComplexMap (compareChain W' f)).app _).f (s + 1) ≫
+      Ringed.homEvalAt (topSection (restrictBase (restrictPhi V₀) W') f ⊤) _ ≫
+        (transport (ringTransport V₀ W' Y.sheaf)).map (unitRestrict i M ((incl V₀).obj W')) =
+    (homTransportIso (ringTransport V₀ W' Y.sheaf)
+        ((complex (restrictPhi ((incl V₀).obj W')) (fun j => resRing W' (f j))).X (s + 1))).inv.app
+          ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M) ≫
+      (transport (ringTransport V₀ W' Y.sheaf)).map (topHom i (fun j => resRing W' (f j)) M) ≫
+        𝟙 _ := by
+  have hT := Ringed.homTransport_homEvalAt (ringTransport V₀ W' Y.sheaf)
+    (topSection (restrictPhi ((incl V₀).obj W')) (fun j => resRing W' (f j)) ⊤)
+    ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M)
+  have hinv : (homTransportIso (ringTransport V₀ W' Y.sheaf)
+      ((complex (restrictPhi ((incl V₀).obj W')) (fun j => resRing W' (f j))).X (s + 1))).inv.app
+        ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M) ≫ homTransport (ringTransport V₀ W' Y.sheaf)
+          ((complex (restrictPhi ((incl V₀).obj W')) (fun j => resRing W' (f j))).X (s + 1))
+          ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M) = 𝟙 _ :=
+    (homTransportIso (ringTransport V₀ W' Y.sheaf) _).inv_hom_id_app _
+  have key : (homTransportIso (ringTransport V₀ W' Y.sheaf)
+      ((complex (restrictPhi ((incl V₀).obj W')) (fun j => resRing W' (f j))).X (s + 1))).inv.app
+        ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M) ≫
+      (transport (ringTransport V₀ W' Y.sheaf)).map (Ringed.homEvalAt
+        (topSection (restrictPhi ((incl V₀).obj W')) (fun j => resRing W' (f j)) ⊤)
+        ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M)) =
+      Ringed.homEvalAt (Ringed.transportSection (ringTransport V₀ W' Y.sheaf)
+        (topSection (restrictPhi ((incl V₀).obj W')) (fun j => resRing W' (f j)) ⊤))
+        ((transport (ringTransport V₀ W' Y.sheaf)).obj
+          ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M)) := by
+    rw [← hT, ← Category.assoc, hinv, Category.id_comp]
+  rw [Category.comp_id, topHom_eq_homEvalAt, Functor.map_comp,
+    Ringed.moduleSheafHomComplexMap_app_f (compareChain W' f),
+    Ringed.moduleSheafHomPrecomp_homEvalAt_assoc]
+  refine (congrArg (fun z => Ringed.homEvalAt z ((transport (ringTransport V₀ W' Y.sheaf)).obj
+    ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M)) ≫
+      (transport (ringTransport V₀ W' Y.sheaf)).map (unitRestrict i M ((incl V₀).obj W')))
+        (compareHom_topSection V₀ W' (restrictPhi V₀) (restrictPhi ((incl V₀).obj W'))
+          (resRing W') (resRing_compat W') f)).trans ?_
+  exact ((reassoc_of% key) _).symm
 
 end Compare
 

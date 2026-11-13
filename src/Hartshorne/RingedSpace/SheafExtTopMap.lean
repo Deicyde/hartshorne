@@ -339,6 +339,44 @@ theorem extTopMap_transport {A B : TopCat.{u}} {Hh : B ≅ A}
       exact (CochainTop.homologyMap_desc _ _ _ _).trans
         (CochainTop.desc_congr _ _ _ (by rw [← he]; simp only [Category.assoc]; try rfl))
 
+/-- The map of `ℋom` complexes induced by the identity is the identity. -/
+lemma moduleSheafHomComplexMap_id_app_f
+    (L : ChainComplex (SheafOfModules.{u} (ringCatSheafOf R)) ℕ)
+    (G : SheafOfModules.{u} (ringCatSheafOf R)) (p : ℕ) :
+    ((moduleSheafHomComplexMap (𝟙 L)).app G).f p = 𝟙 _ := by
+  rw [moduleSheafHomComplexMap_app_f]
+  exact congrArg (fun φ => NatTrans.app φ G) ((moduleSheafHomBifunctor R).map_id (op (L.X p)))
+
+open Transport in
+/-- **`extTopMap` transported along a homeomorphism, computed with the transported resolution.**
+For a resolution `L_• ⟶ F` on `B` whose transport `τ L_• ⟶ τF` is again a resolution by locally
+free modules of finite rank, and a top map `t'` on `A` that is the transport of `t` followed by
+`e`, the transport of the map induced by `t`, followed by `e`, is the map induced by `t'`. -/
+theorem extTopMap_transport_id {A B : TopCat.{u}} {Hh : B ≅ A}
+    {S : Sheaf (Opens.grothendieckTopology A) CommRingCat.{u}}
+    {T : Sheaf (Opens.grothendieckTopology B) CommRingCat.{u}} (ρ : RingTransport Hh S T)
+    {F : SheafOfModules.{u} (ringCatSheafOf T)}
+    (L : ChainComplex (SheafOfModules.{u} (ringCatSheafOf T)) ℕ)
+    (π : L ⟶ (ChainComplex.single₀ _).obj F) [QuasiIso π] (hL : ∀ p, IsFiniteLocallyFree (L.X p))
+    (π' : ((transport ρ).mapHomologicalComplex _).obj L ⟶
+      (ChainComplex.single₀ _).obj ((transport ρ).obj F)) [QuasiIso π']
+    (hL' : ∀ p, IsFiniteLocallyFree ((((transport ρ).mapHomologicalComplex _).obj L).X p))
+    (hπ : π'.f 0 = (transport ρ).map (π.f 0)) {s : ℕ}
+    (G : SheafOfModules.{u} (ringCatSheafOf T)) {E : SheafOfModules.{u} (ringCatSheafOf T)}
+    (t : ((moduleSheafHomComplex L).obj G).X (s + 1) ⟶ E)
+    (w : ((moduleSheafHomComplex L).obj G).d s (s + 1) ≫ t = 0)
+    {E' : SheafOfModules.{u} (ringCatSheafOf S)}
+    (t' : ((moduleSheafHomComplex (((transport ρ).mapHomologicalComplex _).obj L)).obj
+      ((transport ρ).obj G)).X (s + 1) ⟶ E')
+    (w' : ((moduleSheafHomComplex (((transport ρ).mapHomologicalComplex _).obj L)).obj
+      ((transport ρ).obj G)).d s (s + 1) ≫ t' = 0)
+    (e : (transport ρ).obj E ⟶ E')
+    (he : (homTransportIso ρ (L.X (s + 1))).inv.app G ≫ (transport ρ).map t ≫ e = t') :
+    (sheafExtTransportIso ρ F G (s + 1)).inv ≫ (transport ρ).map (extTopMap L π hL G t w) ≫ e =
+      extTopMap _ π' hL' _ t' w' :=
+  extTopMap_transport ρ L π hL _ π' hL' (𝟙 _) (by rw [hπ]; exact Category.id_comp _) G t w t' w' e
+    (by rw [moduleSheafHomComplexMap_id_app_f, Category.id_comp, he])
+
 end Sheaf
 
 end Ringed
