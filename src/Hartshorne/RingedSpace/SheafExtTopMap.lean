@@ -147,6 +147,16 @@ noncomputable def extTopMap {F : SheafOfModules.{u} (ringCatSheafOf R)}
     (sheafExt F (s + 1)).obj G ⟶ E :=
   (sheafExtIsoHomologyOfLocallyFreeResolution L π hL (s + 1)).hom.app G ≫ CochainTop.desc _ t w
 
+lemma extTopMap_congr {F : SheafOfModules.{u} (ringCatSheafOf R)}
+    (L : ChainComplex (SheafOfModules.{u} (ringCatSheafOf R)) ℕ)
+    (π : L ⟶ (ChainComplex.single₀ _).obj F) [QuasiIso π] (hL : ∀ p, IsFiniteLocallyFree (L.X p))
+    {s : ℕ} (G : SheafOfModules.{u} (ringCatSheafOf R)) {E : SheafOfModules.{u} (ringCatSheafOf R)}
+    {t t' : ((moduleSheafHomComplex L).obj G).X (s + 1) ⟶ E}
+    (w : ((moduleSheafHomComplex L).obj G).d s (s + 1) ≫ t = 0)
+    (w' : ((moduleSheafHomComplex L).obj G).d s (s + 1) ≫ t' = 0) (h : t = t') :
+    extTopMap L π hL G t w = extTopMap L π hL G t' w' := by
+  subst h; rfl
+
 /-- **Naturality of `extTopMap` in the resolution.** For a chain map `φ : L_• ⟶ L'_•` over the
 identity of `F` and top maps `t`, `t'` with `t ∘ φ^* = e ∘ t'`, the induced maps out of
 `ℰxt^{s+1}(F, G)` satisfy `e ∘ (map for t') = (map for t)`. -/
@@ -211,7 +221,8 @@ theorem extTopMap_map {F : SheafOfModules.{u} (ringCatSheafOf R)}
 
 /-- The top map on `U` induced by a top map on `X` through a chain map `L_•|_U ⟶ L'_•` kills the
 image of the previous term. -/
-lemma restrict_top_eq_zero (U : Opens X) (L : ChainComplex (SheafOfModules.{u} (ringCatSheafOf R)) ℕ)
+lemma restrict_top_eq_zero (U : Opens X)
+    (L : ChainComplex (SheafOfModules.{u} (ringCatSheafOf R)) ℕ)
     {L' : ChainComplex (SheafOfModules.{u} (ringCatSheafOf (restrictRingSheaf R U))) ℕ}
     (ψ : ((moduleRestrict U).mapHomologicalComplex _).obj L ⟶ L') {s : ℕ}
     (G : SheafOfModules.{u} (ringCatSheafOf R)) {E : SheafOfModules.{u} (ringCatSheafOf R)}
@@ -247,8 +258,8 @@ lemma transport_top_eq_zero {A B : TopCat.{u}} {Hh : B ≅ A}
     (fun f G => homTransport_precomp_naturality ρ f G) L G t w
     ((moduleSheafHomComplexMap ψ).app _) e
 
-/-- **`extTopMap` restricted to an open subset.** Let `L_• ⟶ F` be a resolution on `X`, `L'_• ⟶ F|_U`
-one on `U` and `ψ : L_•|_U ⟶ L'_•` a chain map over the identity, all by locally free modules of
+/-- **`extTopMap` restricted to an open subset.** Let `L_• ⟶ F` be a resolution on `X`,
+`L'_• ⟶ F|_U` one on `U` and `ψ : L_•|_U ⟶ L'_•` a chain map over the identity, all by locally free modules of
 finite rank. If the top map `t'` on `U` is the restriction of `t` followed by `e`, read through
 `ψ` and `ℋom_X(L_{s+1}, G)|_U ≅ ℋom_U(L_{s+1}|_U, G|_U)`, then the restriction of the map out of
 `ℰxt^{s+1}_X(F, G)` induced by `t`, followed by `e`, is the map out of
@@ -279,9 +290,11 @@ theorem extTopMap_restrict (U : Opens X) {F : SheafOfModules.{u} (ringCatSheafOf
   change (homologyHomComplexRestrictIso U L G (s + 1)).inv ≫ _ = _ at h2
   rw [extTopMap, extTopMap, Functor.map_comp]
   calc _ = ((sheafExtRestrictIso U F G (s + 1)).inv ≫
-        (moduleRestrict U).map ((sheafExtIsoHomologyOfLocallyFreeResolution L π hL (s + 1)).hom.app G) ≫
+        (moduleRestrict U).map
+          ((sheafExtIsoHomologyOfLocallyFreeResolution L π hL (s + 1)).hom.app G) ≫
           (homologyHomComplexRestrictIso U L G (s + 1)).hom) ≫
-        ((homologyHomComplexRestrictIso U L G (s + 1)).inv ≫ (moduleRestrict U).map (CochainTop.desc _ t w)) ≫ e := by
+        ((homologyHomComplexRestrictIso U L G (s + 1)).inv ≫
+          (moduleRestrict U).map (CochainTop.desc _ t w)) ≫ e := by
           simp only [Category.assoc, Iso.hom_inv_id_assoc]
     _ = _ := by
       rw [h]
@@ -329,7 +342,8 @@ theorem extTopMap_transport {A B : TopCat.{u}} {Hh : B ≅ A}
   calc _ = ((sheafExtTransportIso ρ F G (s + 1)).inv ≫
         (transport ρ).map ((sheafExtIsoHomologyOfLocallyFreeResolution L π hL (s + 1)).hom.app G) ≫
           (homologyHomComplexTransportIso ρ L G (s + 1)).hom) ≫
-        ((homologyHomComplexTransportIso ρ L G (s + 1)).inv ≫ (transport ρ).map (CochainTop.desc _ t w)) ≫ e := by
+        ((homologyHomComplexTransportIso ρ L G (s + 1)).inv ≫
+          (transport ρ).map (CochainTop.desc _ t w)) ≫ e := by
           simp only [Category.assoc, Iso.hom_inv_id_assoc]
     _ = _ := by
       rw [h]
@@ -346,6 +360,22 @@ lemma moduleSheafHomComplexMap_id_app_f
     ((moduleSheafHomComplexMap (𝟙 L)).app G).f p = 𝟙 _ := by
   rw [moduleSheafHomComplexMap_app_f]
   exact congrArg (fun φ => NatTrans.app φ G) ((moduleSheafHomBifunctor R).map_id (op (L.X p)))
+
+open Transport in
+/-- The transported top map kills the image of the previous term. -/
+lemma transport_top_eq_zero_id {A B : TopCat.{u}} {Hh : B ≅ A}
+    {S : Sheaf (Opens.grothendieckTopology A) CommRingCat.{u}}
+    {T : Sheaf (Opens.grothendieckTopology B) CommRingCat.{u}} (ρ : RingTransport Hh S T)
+    (L : ChainComplex (SheafOfModules.{u} (ringCatSheafOf T)) ℕ) {s : ℕ}
+    (G : SheafOfModules.{u} (ringCatSheafOf T)) {E : SheafOfModules.{u} (ringCatSheafOf T)}
+    (t : ((moduleSheafHomComplex L).obj G).X (s + 1) ⟶ E)
+    (w : ((moduleSheafHomComplex L).obj G).d s (s + 1) ≫ t = 0)
+    {E' : SheafOfModules.{u} (ringCatSheafOf S)} (e : (transport ρ).obj E ⟶ E') :
+    ((moduleSheafHomComplex (((transport ρ).mapHomologicalComplex _).obj L)).obj
+      ((transport ρ).obj G)).d s (s + 1) ≫
+        (homTransportIso ρ (L.X (s + 1))).inv.app G ≫ (transport ρ).map t ≫ e = 0 := by
+  have h := transport_top_eq_zero ρ L (𝟙 _) G t w e
+  rwa [moduleSheafHomComplexMap_id_app_f, Category.id_comp] at h
 
 open Transport in
 /-- **`extTopMap` transported along a homeomorphism, computed with the transported resolution.**

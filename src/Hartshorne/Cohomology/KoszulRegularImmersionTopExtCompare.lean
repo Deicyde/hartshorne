@@ -67,7 +67,8 @@ lemma koszulForm_piMapSemilinear (v : Fin r → A) :
 lemma koszulBaseChangeMap_d (p : ℕ) (x : (sequenceKoszulComplex f (ModuleCat.of A A)).X (p + 1)) :
     ((sequenceKoszulComplex (fun j => σ (f j)) (ModuleCat.of B B)).d (p + 1) p).hom
         (koszulBaseChangeMap σ f (p + 1) x) =
-      koszulBaseChangeMap σ f p (((sequenceKoszulComplex f (ModuleCat.of A A)).d (p + 1) p).hom x) := by
+      koszulBaseChangeMap σ f p
+        (((sequenceKoszulComplex f (ModuleCat.of A A)).d (p + 1) p).hom x) := by
   induction x using TensorProduct.induction_on with
   | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
@@ -234,8 +235,8 @@ lemma restrictComplexIso_inv_topSection (U : Opens X) :
     rw [restrictSheafHom_topSection]
     exact topSection_restrict φ f le_top
   rw [h1]
-  change ((restrictComplexIso φ f U).hom.f (s + 1) ≫ (restrictComplexIso φ f U).inv.f (s + 1)).val.app
-    (op ⊤) _ = _
+  change ((restrictComplexIso φ f U).hom.f (s + 1) ≫
+    (restrictComplexIso φ f U).inv.f (s + 1)).val.app (op ⊤) _ = _
   rw [← HomologicalComplex.comp_f, Iso.hom_inv_id]
   rfl
 
@@ -556,7 +557,8 @@ variable (M : Y.Modules)
 
 /-- The local top-Ext map is evaluation at the global section `topSection`, followed by the unit. -/
 lemma topHom_eq_homEvalAt :
-    topHom i f M = Ringed.homEvalAt (topSection (restrictPhi V₀) f ⊤) ((Ringed.moduleRestrict V₀).obj M) ≫
+    topHom i f M =
+      Ringed.homEvalAt (topSection (restrictPhi V₀) f ⊤) ((Ringed.moduleRestrict V₀).obj M) ≫
       unitRestrict i M V₀ := by
   rw [topHom, topEval_eq_homEvalAt]
 
@@ -581,8 +583,13 @@ set_option maxHeartbeats 1000000 in
 /-- The top map on `W'` obtained by restricting the local top-Ext map of `V₀`. -/
 lemma topMap_restrict_eq :
     ((Ringed.moduleSheafHomComplex (complex (restrictBase (restrictPhi V₀) W') f)).map
+        (X := (Ringed.moduleRestrict W').obj ((Ringed.moduleRestrict V₀).obj M))
+        (Y := (transport (ringTransport V₀ W' Y.sheaf)).obj
+          ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M))
         ((restrictCompIso V₀ W' Y.sheaf).hom.app M)).f (s + 1) ≫
-      Ringed.homEvalAt (topSection (restrictBase (restrictPhi V₀) W') f ⊤) _ ≫
+      Ringed.homEvalAt (topSection (restrictBase (restrictPhi V₀) W') f ⊤)
+        ((transport (ringTransport V₀ W' Y.sheaf)).obj
+          ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M)) ≫
         (transport (ringTransport V₀ W' Y.sheaf)).map (unitRestrict i M ((incl V₀).obj W')) =
     ((Ringed.moduleSheafHomComplexMap (restrictComplexIso (restrictPhi V₀) f W').inv).app _).f
         (s + 1) ≫
@@ -636,7 +643,8 @@ lemma topMap_transport_eq :
     ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M)
   have hinv : (homTransportIso (ringTransport V₀ W' Y.sheaf)
       ((complex (restrictPhi ((incl V₀).obj W')) (fun j => resRing W' (f j))).X (s + 1))).inv.app
-        ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M) ≫ homTransport (ringTransport V₀ W' Y.sheaf)
+        ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M) ≫
+          homTransport (ringTransport V₀ W' Y.sheaf)
           ((complex (restrictPhi ((incl V₀).obj W')) (fun j => resRing W' (f j))).X (s + 1))
           ((Ringed.moduleRestrict ((incl V₀).obj W')).obj M) = 𝟙 _ :=
     (homTransportIso (ringTransport V₀ W' Y.sheaf) _).inv_hom_id_app _

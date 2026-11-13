@@ -780,6 +780,7 @@ import Hartshorne.Cohomology.KoszulRegularImmersion
 import Hartshorne.Cohomology.KoszulRegularImmersionExt
 import Hartshorne.Cohomology.KoszulRegularImmersionTopExt
 import Hartshorne.Cohomology.KoszulRegularImmersionTopExtRestrict
+import Hartshorne.Cohomology.KoszulRegularImmersionTopExtCompare
 import Hartshorne.Cohomology.KoszulRegularImmersionConormal
 import Hartshorne.Scheme.ProjGammaStarReconstruction
 import Hartshorne.Scheme.ProjectiveSectionRingIntegralClosure
