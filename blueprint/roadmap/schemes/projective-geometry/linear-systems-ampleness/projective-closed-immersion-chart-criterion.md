@@ -20,7 +20,6 @@ $A[x_j/x_i] \to \Gamma (X_{s_i}, \mathcal{O}_X)$ is surjective.
 
 ## Proof depends on
 
-- [A finite principal-open affine criterion](../../foundational-properties/affine-cover-criterion.md)
 - [Surjections induce closed immersions](../../foundational-properties/surjection-closed-immersion.md)
 - [Closed subschemes of an affine scheme](../../subschemes-and-dimension/affine-closed-subschemes.md)
 
