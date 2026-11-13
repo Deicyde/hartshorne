@@ -73,6 +73,22 @@ jobs:
       - name: Fetch the Mathlib build cache
         run: lake exe cache get || echo "no cache available — building from source"
 
+      # A full rebuild can need more than the hosted runner's 16 GB of memory, and
+      # then the runner shuts down mid-build (exit 143). Swap on the runner's
+      # temporary disk gives the build room.
+      - name: Add swap
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          sudo swapoff -a
+          sudo rm -f /mnt/swapfile
+          sudo fallocate -l 16G /mnt/autoform-swapfile
+          sudo chmod 600 /mnt/autoform-swapfile
+          sudo mkswap /mnt/autoform-swapfile
+          sudo swapon /mnt/autoform-swapfile
+          free -m
+          df -h / /mnt
+
       # Evaluate either Lake manifest language, then clean only the root package.
       # Bare `lake clean` would also delete dependency build caches.
       - name: Build Lean
@@ -86,7 +102,11 @@ jobs:
           echo "AUTOFORM_ROOT_PACKAGE=$root_package" >> "$GITHUB_ENV"
           lake check-build
           lake clean "$root_package"
+          # Memory once a minute, so a run that dies still shows why.
+          (while sleep 60; do free -m | awk 'NR==2 {m=$3; a=$7} NR==3 {s=$3} END {printf "memory: %s MB used, %s MB available, %s MB swap used\n", m, a, s}'; done) &
+          monitor=$!
           lake build
+          kill "$monitor"
 
       - name: Audit every root-package declaration
         run: |
