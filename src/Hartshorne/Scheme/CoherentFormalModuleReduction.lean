@@ -377,6 +377,35 @@ def presentationOverOfRestrict {Z : Scheme.{u}} (M : Z.Modules) (W : Z.Opens)
   exact SheafOfModules.Presentation.ofIsIso e.inv Q
 
 set_option backward.isDefEq.respectTransparency false in
+/-- `presentationOverOfRestrict` keeps the generators and relations, so it preserves
+finiteness. -/
+private lemma isFinite_presentationOverOfRestrict {Z : Scheme.{u}} (M : Z.Modules) (W : Z.Opens)
+    (P : (M.restrict W.ι).Presentation) [P.IsFinite] :
+    (presentationOverOfRestrict M W P).IsFinite where
+  isFiniteType_generators :=
+    ⟨(SheafOfModules.Presentation.IsFinite.isFiniteType_generators (p := P)).finite⟩
+  isFiniteType_relations :=
+    ⟨(SheafOfModules.Presentation.IsFinite.isFiniteType_relations (p := P)).finite⟩
+
+/-- Transporting a presentation along an isomorphism preserves finiteness. -/
+private lemma isFinite_ofIsIso {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
+    {R : Sheaf J RingCat.{u}} [HasSheafify J AddCommGrpCat.{u}]
+    [J.WEqualsLocallyBijective AddCommGrpCat.{u}] {M N : SheafOfModules.{u} R} (f : M ⟶ N)
+    [IsIso f] (P : M.Presentation) [P.IsFinite] : (P.ofIsIso f).IsFinite :=
+  inferInstance
+
+set_option backward.isDefEq.respectTransparency false in
+/-- `Scheme.Modules.presentationRestrict` keeps the generators and relations, so it preserves
+finiteness. -/
+private lemma isFinite_presentationRestrict {X Y : Scheme.{u}} (f : Y ⟶ X) [IsOpenImmersion f]
+    {M : X.Modules} (P : M.Presentation) [P.IsFinite] :
+    (Scheme.Modules.presentationRestrict f P).IsFinite where
+  isFiniteType_generators :=
+    ⟨(SheafOfModules.Presentation.IsFinite.isFiniteType_generators (p := P)).finite⟩
+  isFiniteType_relations :=
+    ⟨(SheafOfModules.Presentation.IsFinite.isFiniteType_relations (p := P)).finite⟩
+
+set_option backward.isDefEq.respectTransparency false in
 /-- A module on a scheme which near every point has a finite presentation is of finite
 presentation. -/
 theorem isFinitePresentation_of_forall_exists {Z : Scheme.{u}} (M : Z.Modules)
@@ -392,12 +421,8 @@ theorem isFinitePresentation_of_forall_exists {Z : Scheme.{u}} (M : Z.Modules)
   have hσ : σ.IsFinitePresentation := by
     constructor
     intro x
-    have h₁ : Finite (P x).generators.I :=
-      (SheafOfModules.Presentation.IsFinite.isFiniteType_generators (p := P x)).finite
-    have h₂ : Finite (P x).relations.I :=
-      (SheafOfModules.Presentation.IsFinite.isFiniteType_relations (p := P x)).finite
-    exact ⟨⟨inferInstanceAs (Finite (P x).generators.I)⟩,
-      ⟨inferInstanceAs (Finite (P x).relations.I)⟩⟩
+    have := hP x
+    exact isFinite_presentationOverOfRestrict M (W x) (P x)
   exact SheafOfModules.IsFinitePresentation.mk.{u, u, u} ⟨σ, hσ⟩
 
 set_option backward.isDefEq.respectTransparency false in
@@ -420,14 +445,13 @@ theorem exists_presentation_of_isCoherent_restrict {Z V : Scheme.{u}} [IsLocally
   let P₄ : (M.restrict j.opensRange.ι).Presentation :=
     P₃.ofIsIso (((Scheme.Modules.restrictFunctorComp j.isoOpensRange.inv j).app M).inv ≫
       (Scheme.Modules.restrictFunctorCongr (Scheme.Hom.isoOpensRange_inv_comp j)).hom.app M)
-  have h₁ : Finite P₀.generators.I :=
-    (SheafOfModules.Presentation.IsFinite.isFiniteType_generators (p := P₀)).finite
-  have h₂ : Finite P₀.relations.I :=
-    (SheafOfModules.Presentation.IsFinite.isFiniteType_relations (p := P₀)).finite
+  have hP₁ : P₁.IsFinite := isFinite_ofIsIso _ P₀
+  have hP₂ : P₂.IsFinite := isFinite_ofIsIso _ P₁
+  have hP₃ : P₃.IsFinite := isFinite_presentationRestrict _ P₂
+  have hP₄ : P₄.IsFinite := isFinite_ofIsIso _ P₃
   have hv : v ∈ Set.range hW₀.fromSpec := by rw [hW₀.range_fromSpec]; exact hvW₀
   obtain ⟨w, hw⟩ := hv
-  refine ⟨j.opensRange, ⟨w, ?_⟩, P₄, ⟨⟨inferInstanceAs (Finite P₀.generators.I)⟩,
-    ⟨inferInstanceAs (Finite P₀.relations.I)⟩⟩⟩
+  refine ⟨j.opensRange, ⟨w, ?_⟩, P₄, hP₄⟩
   simp [j, hw]
 
 /-- **Coherence is local**: a module on a locally Noetherian scheme whose restrictions to the
