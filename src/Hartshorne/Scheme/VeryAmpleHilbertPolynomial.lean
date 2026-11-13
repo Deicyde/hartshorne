@@ -41,6 +41,8 @@ Supporting results, in `Hartshorne.VeryAmpleHilbert`:
 * `nonempty_nsmul_sheaf_iso`: if `ι^* 𝒪(1) ≅ 𝒪_X(D)` then `ι^* 𝒪(n) ≅ 𝒪_X(nD)` for `n ≥ 1`.
 * `finrank_globalSectionsOverField_congr`: isomorphic sheaves have global sections of the same
   dimension.
+* `mem_projZeroSet_iff_classicalPoint_mem_range`: `Y` is the set of classical points of `ι(X)`,
+  through the point `classicalPoint P` of `ℙᴺ_k` with homogeneous prime `J({P})`.
 
 ## Proof
 
@@ -63,6 +65,7 @@ namespace VeryAmpleHilbert
 
 attribute [local instance] MvPolynomial.gradedAlgebra
 
+/-- `Proj` of a graded domain is reduced: its stalks embed in localizations of the domain. -/
 private theorem isReduced_proj_of_isDomain {A σ : Type u} [CommRing A] [IsDomain A]
     [SetLike σ A] [AddSubgroupClass σ A] {𝒜 : ℕ → σ} [GradedRing 𝒜] : IsReduced (Proj 𝒜) := by
   have : ∀ x : Proj 𝒜, _root_.IsReduced ((Proj 𝒜).presheaf.stalk x) := by
@@ -80,6 +83,8 @@ private theorem isReduced_proj_of_isDomain {A σ : Type u} [CommRing A] [IsDomai
 variable {k : Type u} [Field k] {N : ℕ}
 local notation "𝒮" => homogeneousSubmodule (Fin (N + 1)) k
 
+/-- The homogeneous prime of the image of a point of `Proj (S/I)` in `ℙᴺ_k` is its preimage in
+`S`. -/
 private theorem projQuotientι_base_asHomogeneousIdeal (I : HomogeneousIdeal 𝒮)
     (w : Proj (gradedQuotient 𝒮 I)) :
     ((projQuotientι 𝒮 I).base w).asHomogeneousIdeal =
@@ -108,6 +113,7 @@ private abbrev embeddedSet {X : Scheme.{u}} [IsIntegral X] (ι : X ⟶ Proj 𝒮
     Set (ProjectiveSpace k (Fin (N + 1))) :=
   projZeroSet ((genericIdeal ι).toIdeal : Set (MvPolynomial (Fin (N + 1)) k))
 
+/-- Nullstellensatz: `J(Z(𝔭)) = 𝔭` for the relevant homogeneous prime `𝔭`. -/
 private theorem projVanishingIdeal_embeddedSet [IsAlgClosed k] {X : Scheme.{u}} [IsIntegral X]
     (ι : X ⟶ Proj 𝒮) :
     (projVanishingIdeal (embeddedSet ι)).toIdeal = (genericIdeal ι).toIdeal :=
@@ -189,7 +195,8 @@ theorem exists_iso_projQuotientι {X : Scheme.{u}} [IsIntegral X] (ι : X ⟶ Pr
 /-- Two vector spaces mapping bijectively and compatibly with scalars onto the same module (with
 scalars acting through a ring map) have the same dimension. -/
 private theorem finrank_eq_of_bijective {K R G V W : Type*} [Field K] [CommRing R]
-    [AddCommGroup G] [Module R G] [AddCommGroup V] [Module K V] [AddCommGroup W] [Module K W] (κ : K →+* R)
+    [AddCommGroup G] [Module R G] [AddCommGroup V] [Module K V] [AddCommGroup W] [Module K W]
+    (κ : K →+* R)
     (ψ : V →+ G) (χ : W →+ G) (hψ : Function.Bijective ψ) (hχ : Function.Bijective χ)
     (hψs : ∀ (c : K) (v : V), ψ (c • v) = κ c • ψ v)
     (hχs : ∀ (c : K) (w : W), χ (c • w) = κ c • χ w) :
@@ -201,10 +208,12 @@ private theorem finrank_eq_of_bijective {K R G V W : Type*} [Field K] [CommRing 
     LinearEquiv.ofBijective ({ χ with map_smul' := hχs } : W →ₗ[K] G) hχ
   exact (eV.trans eW.symm).finrank_eq
 
+/-- On global sections, `Spec.map f` is `f` under `Γ(Spec R) ≅ R`. -/
 private theorem spec_map_appTop_ΓSpecIso_inv {R S : CommRingCat.{u}} (f : R ⟶ S) (c : R) :
     (Spec.map f).appTop ((Scheme.ΓSpecIso R).inv c) = (Scheme.ΓSpecIso S).inv (f c) := by
   rw [← CommRingCat.comp_apply, ← Scheme.ΓSpecIso_inv_naturality, CommRingCat.comp_apply]
 
+/-- The two gradings of `S/I` have the same pieces: the images of the `S_n`. -/
 private theorem mem_gradedQuotient_iff_mem_quotGrading (I : HomogeneousIdeal 𝒮) (n : ℕ)
     (m : MvPolynomial (Fin (N + 1)) k ⧸ I.toIdeal) :
     m ∈ gradedQuotient 𝒮 I n ↔ m ∈ quotGrading 𝒮 I n := by
@@ -218,6 +227,8 @@ private abbrev vanishingHomogeneousIdeal (Y : Set (ProjectiveSpace k (Fin (N + 1
     HomogeneousIdeal 𝒮 :=
   ⟨homogeneousVanishingIdeal Y, isHomogeneousIdeal_homogeneousVanishingIdeal Y⟩
 
+/-- The function on `Z` pulled back from `c ∈ R` along `Z ⟶ Spec S ⟶ Spec R` is the one pulled
+back from `f(c) ∈ S`. -/
 private theorem appTop_comp_spec_map_ΓSpecIso_inv {Z : Scheme.{u}} {R S : CommRingCat.{u}}
     (g : Z ⟶ Spec S) (f : R ⟶ S) (c : R) :
     (g ≫ Spec.map f).appTop ((Scheme.ΓSpecIso R).inv c) =
@@ -225,6 +236,10 @@ private theorem appTop_comp_spec_map_ΓSpecIso_inv {Z : Scheme.{u}} {R S : CommR
   rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply, spec_map_appTop_ΓSpecIso_inv]
 
 open SectionAlgebraModel GradedGlobalSections in
+/-- **Sections of twists of an integral closed subscheme** (supplementing Hartshorne II,
+Exercise 5.9(b)). Let `ι : X ⟶ ℙᴺ_k` be a closed immersion over `k` of an integral scheme, and let
+the homogeneous ideal `I` be the homogeneous prime of the image of the generic point. Then for all
+large `n`, `dim_k Γ(X, ι^* 𝒪(n)) = dim_k (S/I)_n`. -/
 theorem exists_finrank_pullback_twist_eq {X : Scheme.{u}} [IsIntegral X] {q : X ⟶ Spec (.of k)}
     (ι : X ⟶ Proj 𝒮) [IsClosedImmersion ι] (hι : ι ≫ projectiveSpaceStructureMorphism = q)
     (I : HomogeneousIdeal 𝒮)
@@ -302,6 +317,7 @@ theorem finrank_globalSectionsOverField_congr {X : Scheme.{u}} (q : X ⟶ Spec (
   exact Scheme.Modules.Hom.app_smul e.hom _ v
 
 open Ringed in
+/-- `[𝒪(1)]^n = [𝒪(n)]` in `Pic ℙᴺ_k` for `n ≥ 1`. -/
 private theorem pic_mk_twist_pow {n : ℕ} (hn : 1 ≤ n) :
     Pic.mk (R := (Proj 𝒮).sheaf) (projTwistingSheaf 𝒮 1)
         ((Scheme.Modules.isInvertible_iff_ringed _).1
@@ -339,6 +355,37 @@ theorem nonempty_nsmul_sheaf_iso {X : Scheme.{u}} (ι : X ⟶ Proj 𝒮) (D : X.
       Pic.pullback ι (Pic.mk (R := (Proj 𝒮).sheaf) _ (hO n)) := by
     rw [h2, h1, ← map_pow, pic_mk_twist_pow hn]
   exact (Pic.mk_eq_mk_iff _ _).1 h3
+
+/-- The point of `ℙᴺ_k` corresponding to a classical point `P ∈ ℙᴺ(k)`: the relevant homogeneous
+prime `J({P})` of polynomials vanishing at `P`. -/
+def classicalPoint [IsAlgClosed k] (P : ProjectiveSpace k (Fin (N + 1))) : Proj 𝒮 :=
+  have := isPrime_homogeneousVanishingIdeal_singleton P
+  ⟨vanishingHomogeneousIdeal {P}, isPrime_homogeneousVanishingIdeal_singleton P,
+    (projZeroSet_nonempty_iff_not_irrelevant_le
+      (isHomogeneousIdeal_homogeneousVanishingIdeal _)).1
+      ⟨P, by rw [projZeroSet_homogeneousVanishingIdeal_eq_closure]; exact subset_closure rfl⟩⟩
+
+/-- **The classical image of an embedding.** For an integral closed subscheme `ι : X ⟶ ℙᴺ_k`, a
+classical point `P ∈ ℙᴺ(k)` lies in the zero set `Z(𝔭)` of the homogeneous prime `𝔭` of the image
+of the generic point exactly when the corresponding point of `ℙᴺ_k` lies in `ι(X)`. -/
+theorem mem_projZeroSet_iff_classicalPoint_mem_range [IsAlgClosed k] {X : Scheme.{u}}
+    [IsIntegral X] (ι : X ⟶ Proj 𝒮) [IsClosedImmersion ι] (P : ProjectiveSpace k (Fin (N + 1))) :
+    P ∈ projZeroSet ((ι.base (genericPoint X)).asHomogeneousIdeal.toIdeal :
+        Set (MvPolynomial (Fin (N + 1)) k)) ↔ classicalPoint P ∈ Set.range ι := by
+  have hJ := projVanishingIdeal_embeddedSet ι
+  have hrange : Set.range ι = closure {ι.base (genericPoint X)} := by
+    rw [← closure_range_eq, ι.isClosedEmbedding.isClosed_range.closure_eq]
+  rw [hrange, ← specializes_iff_mem_closure, projectiveSpace_specializes_iff_le]
+  change _ ↔ (genericIdeal ι).toIdeal ≤ homogeneousVanishingIdeal {P}
+  constructor
+  · intro hP
+    rw [← hJ]
+    exact homogeneousVanishingIdeal_anti_mono (Set.singleton_subset_iff.2 hP)
+  · intro hle
+    have hP : P ∈ projZeroSet (homogeneousVanishingIdeal ({P} : Set _) :
+        Set (MvPolynomial (Fin (N + 1)) k)) := by
+      rw [projZeroSet_homogeneousVanishingIdeal_eq_closure]; exact subset_closure rfl
+    exact projZeroSet_anti_mono hle hP
 
 end VeryAmpleHilbert
 
