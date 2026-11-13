@@ -220,6 +220,125 @@ theorem exists_basis_free_sections {Y : Scheme.{u}} {U : Y.Opens} (hU : IsAffine
 
 end Free
 
+/-! ### Spreading out an isomorphism on stalks -/
+
+section Spread
+
+variable {Y : Scheme.{u}}
+
+/-- Stalk maps of morphisms of module sheaves are linear over the local ring. -/
+theorem stalk_map_smul {M N : Y.Modules} (φ : M ⟶ N) (y : Y) (c : Y.presheaf.stalk y)
+    (z : M.presheaf.stalk y) :
+    ((Scheme.Modules.toPresheaf Y ⋙ TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map φ
+      (c • z) : N.presheaf.stalk y) =
+      c • (show N.presheaf.stalk y from
+        (Scheme.Modules.toPresheaf Y ⋙ TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map φ z) := by
+  obtain ⟨V, hyV, s, rfl⟩ := M.presheaf.exists_germ_eq z
+  obtain ⟨V', hyV', a, rfl⟩ := Y.presheaf.exists_germ_eq c
+  let W := V ⊓ V'
+  have hyW : y ∈ W := ⟨hyV, hyV'⟩
+  rw [← TopCat.Presheaf.germ_res_apply M.presheaf (homOfLE inf_le_left : W ⟶ V) y hyW,
+    ← TopCat.Presheaf.germ_res_apply Y.presheaf (homOfLE inf_le_right : W ⟶ V') y hyW]
+  erw [← schemeModules_germ_smul, TopCat.Presheaf.stalkFunctor_map_germ_apply,
+    TopCat.Presheaf.stalkFunctor_map_germ_apply]
+  erw [Scheme.Modules.Hom.app_smul, schemeModules_germ_smul]
+  rfl
+
+variable {I : Type u} (Q : Y.Modules) (α : (show Y.Modules from SheafOfModules.free I) ⟶ Q)
+
+/-- `α` on sections over `U`, as a linear map. -/
+def appₗ (U : Y.Opens) :
+    Γ((show Y.Modules from SheafOfModules.free I), U) →ₗ[Γ(Y, U)] Γ(Q, U) where
+  toFun := α.app U
+  map_add' := map_add _
+  map_smul' := Scheme.Modules.Hom.app_smul α
+
+theorem isIso_fromTildeΓ_free {U : Y.Opens} (hU : IsAffineOpen U) :
+    IsIso ((show Y.Modules from SheafOfModules.free I).restrict hU.fromSpec).fromTildeΓ :=
+  isIso_fromTildeΓ_iff.mpr
+    ⟨_, ⟨tildeFinsupp I ≪≫ (Scheme.Modules.restrictFreeIso hU.fromSpec I).symm⟩⟩
+
+/-- **Spreading out**: if `α : 𝒪^{(I)} ⟶ Q` (with `I` finite and `Q` quasi-coherent with finitely
+presented sections) is an isomorphism on stalks at `y`, then `α` is bijective on sections over
+every basic open of some affine neighbourhood of `y`. -/
+theorem exists_bijective_app [Finite I] [Q.IsQuasicoherent]
+    [hfp : ∀ V : Y.AffineZariskiSite, Module.FinitePresentation Γ(Y, V.1) Γ(Q, V.1)] (y : Y)
+    (hα : IsIso ((Scheme.Modules.toPresheaf Y ⋙
+      TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map α)) :
+    ∃ W : Y.AffineZariskiSite, y ∈ W.1 ∧
+      ∀ U : Y.AffineZariskiSite, U ≤ W → Function.Bijective (α.app U.1) := by
+  obtain ⟨_, ⟨W0, hW0', rfl⟩, hyW0, -⟩ :=
+    Y.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ y) isOpen_univ
+  have hW0 : IsAffineOpen W0 := hW0'
+  let E : Y.Modules := SheafOfModules.free I
+  let yW : W0 := ⟨y, hyW0⟩
+  let S := (hW0.primeIdealOf yW).asIdeal.primeCompl
+  have := isIso_fromTildeΓ_free (I := I) hW0
+  have : IsIso (Q.restrict hW0.fromSpec).fromTildeΓ := inferInstance
+  let _ : Algebra Γ(Y, W0) (Y.presheaf.stalk (yW : Y)) := Y.presheaf.algebra_section_stalk yW
+  have := hW0.isLocalization_stalk yW
+  let _ := FiberDimAux.stalkModuleSections E yW
+  let _ := FiberDimAux.stalkModuleSections Q yW
+  have hlE := FiberDimAux.isLocalizedModule_germₗ E hW0 inferInstance yW
+  have hlQ := FiberDimAux.isLocalizedModule_germₗ Q hW0 inferInstance yW
+  let Φ := (Scheme.Modules.toPresheaf Y ⋙ TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map α
+  let Lη : E.presheaf.stalk y →ₗ[Γ(Y, W0)] Q.presheaf.stalk y :=
+    { toFun := ConcreteCategory.hom Φ
+      map_add' := map_add (ConcreteCategory.hom Φ)
+      map_smul' := fun a z => stalk_map_smul α y (algebraMap Γ(Y, W0) (Y.presheaf.stalk (yW : Y)) a) z }
+  have hcomp : Lη ∘ₗ FiberDimAux.germₗ E yW = FiberDimAux.germₗ Q yW ∘ₗ appₗ Q α W0 := by
+    ext s
+    change (TopCat.Presheaf.stalkFunctor AddCommGrpCat y).map α.mapPresheaf _ = _
+    erw [TopCat.Presheaf.stalkFunctor_map_germ_apply]
+    rfl
+  have hLη : Lη = IsLocalizedModule.map S (FiberDimAux.germₗ E yW) (FiberDimAux.germₗ Q yW)
+      (appₗ Q α W0) := by
+    refine IsLocalizedModule.ext S (FiberDimAux.germₗ E yW)
+      (IsLocalizedModule.map_units (FiberDimAux.germₗ Q yW)) ?_
+    rw [hcomp, IsLocalizedModule.map_comp]
+  have hbij : Function.Bijective (IsLocalizedModule.map S (FiberDimAux.germₗ E yW)
+      (FiberDimAux.germₗ Q yW) (appₗ Q α W0)) := by
+    rw [← hLη]
+    exact ConcreteCategory.bijective_of_isIso Φ
+  obtain ⟨bE, -⟩ := exists_basis_free_sections hW0 I
+  have : Module.Finite Γ(Y, W0) Γ(E, W0) := Module.Finite.of_basis bE
+  have : Module.FinitePresentation Γ(Y, W0) Γ(Q, W0) := hfp ⟨W0, hW0⟩
+  obtain ⟨g, hgS, hg⟩ := exists_bijective_map_powers S (FiberDimAux.germₗ E yW)
+    (FiberDimAux.germₗ Q yW) (appₗ Q α W0) hbij
+  have hyg : y ∈ Y.basicOpen g := by
+    refine (Y.mem_basicOpen' g yW).mpr ?_
+    exact (IsLocalization.AtPrime.isUnit_to_map_iff (Y.presheaf.stalk (yW : Y)) _ g).mpr hgS
+  refine ⟨Scheme.AffineZariskiSite.basicOpen ⟨W0, hW0⟩ g, hyg, fun U hU => ?_⟩
+  have hUW0 : U ≤ ⟨W0, hW0⟩ := hU.trans (Scheme.AffineZariskiSite.basicOpen_le ⟨W0, hW0⟩ g)
+  have hle : U.1 ≤ W0 := Scheme.AffineZariskiSite.toOpens_mono hUW0
+  obtain ⟨t0, ht0⟩ := hUW0
+  have hU' : U.1 ≤ Y.basicOpen g := Scheme.AffineZariskiSite.toOpens_mono hU
+  have ht : Y.basicOpen (g * t0) = U.1 := by
+    rw [Y.basicOpen_mul, ht0]
+    exact inf_eq_right.mpr hU'
+  have hlocE := isLocalizedModule_resₗ E hW0 (g * t0) hle ht
+  have hlocQ := isLocalizedModule_resₗ Q hW0 (g * t0) hle ht
+  let _ := Module.compHom Γ(E, U.1) (Y.presheaf.map (homOfLE hle).op).hom
+  let _ := Module.compHom Γ(Q, U.1) (Y.presheaf.map (homOfLE hle).op).hom
+  let LU : Γ(E, U.1) →ₗ[Γ(Y, W0)] Γ(Q, U.1) :=
+    { toFun := α.app U.1
+      map_add' := map_add _
+      map_smul' := fun a x => Scheme.Modules.Hom.app_smul α _ x }
+  have hLU : LU = IsLocalizedModule.map (Submonoid.powers (g * t0)) (resₗ E hle) (resₗ Q hle)
+      (appₗ Q α W0) := by
+    refine IsLocalizedModule.ext (Submonoid.powers (g * t0)) (resₗ E hle)
+      (IsLocalizedModule.map_units (resₗ Q hle)) ?_
+    rw [IsLocalizedModule.map_comp]
+    ext x
+    exact ConcreteCategory.congr_hom (α.mapPresheaf.naturality (homOfLE hle).op) x
+  have := (IsLocalizedModule.map_bijective_iff_localizedModuleMap_bijective (resₗ E hle)
+    (resₗ Q hle) (S := Submonoid.powers (g * t0)) (l := appₗ Q α W0)).mpr
+    (hg (g * t0) (dvd_mul_right g t0))
+  rw [← hLU] at this
+  exact this
+
+end Spread
+
 end ChevalleyApprox
 
 end Hartshorne
