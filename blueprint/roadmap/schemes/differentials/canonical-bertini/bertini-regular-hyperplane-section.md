@@ -2,6 +2,7 @@
 article_id: af_0f5b64d10c5dd8ceb550ec55
 declaration: theorem
 origin: cited
+lean: Hartshorne.BertiniIncidence.bertini_regular_hyperplane_section
 ---
 
 # Regular hyperplane sections
