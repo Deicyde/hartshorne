@@ -112,7 +112,8 @@ lemma sheafExtRestrictIso_eq_ofResolution (F : SheafOfModules.{u} (ringCatSheafO
     {G : SheafOfModules.{u} (ringCatSheafOf R)} (I : InjectiveResolution G) (n : ℕ) :
     sheafExtRestrictIso U F G n = RightDerivedComp.rightDerivedCompIsoOfResolution
       (Φ := moduleRestrict U) (H := moduleSheafHomFunctor F)
-      (H' := moduleSheafHomFunctor ((moduleRestrict U).obj F)) (fun I _ => injective_moduleSheafRestrict_obj U (ringCatSheafOf R) I)
+      (H' := moduleSheafHomFunctor ((moduleRestrict U).obj F))
+      (fun I _ => injective_moduleSheafRestrict_obj U (ringCatSheafOf R) I)
       (homRestrictIso U F) I n :=
   RightDerivedComp.rightDerivedCompIso_eq_ofResolution _ _ I n
 
