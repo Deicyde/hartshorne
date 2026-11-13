@@ -399,3 +399,89 @@ theorem isClosedImmersion_dupleMorphism (hd : 0 < d) :
 end SmoothHypersurface
 
 end Hartshorne
+
+namespace Hartshorne
+
+namespace SmoothHypersurface
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+open GradedGlobalSections GammaStarReconstruction ProjGradedModuleSheaf
+
+variable {k : Type u} [Field k] {n d : ℕ}
+
+local notation "𝒮" => MvPolynomial.homogeneousSubmodule (Fin (n + 1)) k
+
+local notation "S" => MvPolynomial (Fin (n + 1)) k
+
+/-! ### Reducible hypersurfaces are singular -/
+
+/-- If `f = p w` with `p, w` homogeneous and both in the homogeneous prime of `x`, the germ of
+the section `f` of `𝒪(d)` at `x` lies in `𝔪ₓ² 𝒪(d)ₓ`: near `x`, `f = (p / xᵢ^j)(w / xᵢ^l) xᵢ^d`
+with both fractions in `𝔪ₓ`. -/
+theorem germ_mem_maximalIdeal_sq {j l : ℕ} (f : 𝒮 d) (p : 𝒮 j) (w : 𝒮 l) (hjl : j + l = d)
+    (hf : (f : S) = p * w) (x : Proj 𝒮) (hp : (p : S) ∈ x.asHomogeneousIdeal)
+    (hw : (w : S) ∈ x.asHomogeneousIdeal) :
+    (projTwistingSheaf 𝒮 (d : ℤ)).presheaf.germ ⊤ x trivial (hypersurfaceSection f) ∈
+      maximalIdeal ((Proj 𝒮).presheaf.stalk x) ^ 2 •
+        (⊤ : Submodule ((Proj 𝒮).presheaf.stalk x)
+          ((projTwistingSheaf 𝒮 (d : ℤ)).presheaf.stalk x)) := by
+  obtain ⟨i, hi⟩ := exists_X_notMem x
+  have hpow : ∀ e : ℕ, (MvPolynomial.X i ^ e : S) ∈ 𝒮 e := fun e =>
+    (MvPolynomial.mem_homogeneousSubmodule _ _).2 (MvPolynomial.isHomogeneous_X_pow i e)
+  have hpowx : ∀ e : ℕ, (MvPolynomial.X i ^ e : S) ∉ x.asHomogeneousIdeal := fun e hm =>
+    hi (x.isPrime.mem_of_pow_mem e hm)
+  let h : 𝒮 d := ⟨MvPolynomial.X i ^ d, hpow d⟩
+  have hx : x ∈ Proj.basicOpen 𝒮 (h : S) := hpowx d
+  have he := isTrivializingSection_twistSection h
+  have hgerm : (projTwistingSheaf 𝒮 (d : ℤ)).presheaf.germ ⊤ x trivial (hypersurfaceSection f) =
+      (Proj 𝒮).presheaf.germ _ x hx (ringFrac d f h) •
+        (projTwistingSheaf 𝒮 (d : ℤ)).presheaf.germ _ x hx
+          (show Γ(projTwistingSheaf 𝒮 (d : ℤ), Proj.basicOpen 𝒮 (h : S)) from
+            twistSection d h (op (Proj.basicOpen 𝒮 (h : S)))) := by
+    rw [← BertiniIncidence.germ_smul_module, ← twistSection_res_eq_ringFrac_smul f h,
+      TopCat.Presheaf.germ_res_apply]
+    rfl
+  rw [hgerm, BertiniIncidence.smul_germ_mem_smul_top_iff he hx, germ_ringFrac]
+  let u : HomogeneousLocalization.AtPrime 𝒮 x.asHomogeneousIdeal.toIdeal :=
+    HomogeneousLocalization.mk ⟨j, p, ⟨_, hpow j⟩, hpowx j⟩
+  let v : HomogeneousLocalization.AtPrime 𝒮 x.asHomogeneousIdeal.toIdeal :=
+    HomogeneousLocalization.mk ⟨l, w, ⟨_, hpow l⟩, hpowx l⟩
+  have huv : (HomogeneousLocalization.mk ⟨d, f, h, hx⟩ :
+      HomogeneousLocalization.AtPrime 𝒮 x.asHomogeneousIdeal.toIdeal) = u * v := by
+    apply HomogeneousLocalization.val_injective
+    simp only [u, v, HomogeneousLocalization.val_mk, HomogeneousLocalization.val_mul,
+      Localization.mk_mul]
+    rw [Localization.mk_eq_mk_iff, Localization.r_iff_exists]
+    refine ⟨1, ?_⟩
+    simp only [OneMemClass.coe_one, one_mul, Submonoid.coe_mul, h, hf, ← hjl, pow_add]
+  have hmax : ∀ {e : ℕ} (a : 𝒮 e) (ha : (a : S) ∈ x.asHomogeneousIdeal),
+      stalkRingHomInv 𝒮 x (HomogeneousLocalization.mk ⟨e, a, ⟨_, hpow e⟩, hpowx e⟩) ∈
+        maximalIdeal ((Proj 𝒮).presheaf.stalk x) := by
+    intro e a ha
+    rw [mem_maximalIdeal, mem_nonunits_iff]
+    change ¬ IsUnit ((stalkRingEquiv 𝒮 x).symm _)
+    rw [isUnit_map_iff, isUnit_mk_iff x a ⟨_, hpow e⟩ (hpowx e), not_not]
+    exact ha
+  rw [huv, map_mul, pow_two]
+  exact Ideal.mul_mem_mul (hmax p hp) (hmax w hw)
+
+/-- **A hypersurface `V(p w)` with `V(p) ∩ V(w) ≠ ∅` is singular.** -/
+theorem not_isRegular_of_eq_mul {j l : ℕ} (f : 𝒮 d) (hf0 : (f : S) ≠ 0) (p : 𝒮 j) (w : 𝒮 l)
+    (hjl : j + l = d) (hf : (f : S) = p * w) (x : Proj 𝒮) (hp : (p : S) ∈ x.asHomogeneousIdeal)
+    (hw : (w : S) ∈ x.asHomogeneousIdeal) : ¬ (hypersurfaceIdeal f).subscheme.IsRegular := by
+  intro hreg
+  have : IsRegularLocalRing ((Proj 𝒮).presheaf.stalk x) := projectiveSpace_isRegular.2 x
+  rcases (BertiniIncidence.germ_mem_maximalIdeal_sq_smul_top_iff (isInvertible_twist k n d)
+      (hypersurfaceSection f) x).1 (germ_mem_maximalIdeal_sq f p w hjl hf x hp hw) with
+    h0 | ⟨z, -, hz⟩
+  · have hg : genericPoint (Proj 𝒮) ∈ (hypersurfaceIdeal f).support := by
+      rw [hypersurfaceIdeal, mem_support_invertibleZeroIdeal_iff, h0, nonvanishingLocus_zero]
+      exact Set.notMem_empty _
+    rw [mem_support_hypersurfaceIdeal_iff] at hg
+    exact notMem_genericPoint_proj 𝒮 hf0 hg
+  · exact hz (hreg.2 z)
+
+end SmoothHypersurface
+
+end Hartshorne
