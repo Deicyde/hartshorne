@@ -39,6 +39,10 @@ of the dual `ℋom(𝒪_{V₀} ⊗_A K_•(f; A), M|_{V₀})` of the sheafified 
   replacing `f` by `f Q` for an invertible matrix `Q` multiplies `localTopExtIso` by `det Q`
   (`Hartshorne.Ringed.KoszulSheaf.scalarHom`). The comparison goes through the change-of-basis map
   `K_•(f Q; A) ⟶ K_•(f; A)` and the naturality of the resolution isomorphism in the resolution.
+* Restriction to an open subspace `U`: `Hartshorne.Ringed.KoszulSheaf.restrictSheafHom`, the
+  isomorphism `𝒪_U ⊗_A N ≅ (𝒪_X ⊗_A N)|_U` (natural in `N`), and
+  `Hartshorne.Ringed.KoszulSheaf.topEval_restrict`: evaluation at the top generator commutes with
+  restriction through `ℋom_X(F, G)|_U ≅ ℋom_U(F|_U, G|_U)`.
 
 On a basic open `W = D(g) ⊆ V₀` the sections of `ℋom(𝒪 ⊗_A K_p, M)` are `Hom_A(K_p, M(W))`, the
 evaluation is the top map `Hom_A(K_r, M(W)) → M(W) / (f) M(W)` of
@@ -365,7 +369,8 @@ lemma topEval_changeOfBasis (Q : Matrix (Fin (s + 1)) (Fin (s + 1)) A) :
   ext W σ
   change ((topEval φ (Matrix.vecMul f Q) G).val.app W).hom
     (SheafOfModules.Hom.over
-      (sheafMap φ ((sequenceKoszulChangeOfBasis f Q (ModuleCat.of A A)).f (s + 1))) W.unop ≫ (σ : ((complex φ f).X (s + 1)).over W.unop ⟶ G.over W.unop)) =
+      (sheafMap φ ((sequenceKoszulChangeOfBasis f Q (ModuleCat.of A A)).f (s + 1))) W.unop ≫
+        (σ : ((complex φ f).X (s + 1)).over W.unop ⟶ G.over W.unop)) =
     (R.obj.map (homOfLE (le_top : W.unop ≤ ⊤)).op (φ Q.det)) •
       ((topEval φ f G).val.app W).hom σ
   rw [topEval_app, topEval_app, overHomEquiv_comp]
@@ -396,6 +401,129 @@ lemma degreeZeroEquiv_changeOfBasis (Q : Matrix (Fin (s + 1)) (Fin (s + 1)) A)
       exact congrArg (fun c => c • a)
         (LinearMap.congr_fun (exteriorPower.zeroEquiv_naturality (Matrix.toLin' Q)) x)
   exact LinearMap.congr_fun h k
+
+/-! ### Restriction to an open subspace -/
+
+section Restrict
+
+variable (U : Opens X)
+
+/-- The structure map `A → 𝒪_U(U)` of an open subspace `U`. -/
+noncomputable abbrev restrictBase : A →+* (restrictRingSheaf R U).obj.obj (op ⊤) :=
+  baseMap φ (U.isOpenEmbedding.functor.obj ⊤)
+
+/-- The structure maps of the subspace `U` are those of `X`. -/
+lemma baseMap_restrictBase (W : Opens ((Opens.toTopCat X).obj U)) (a : A) :
+    baseMap (restrictBase φ U) W a = baseMap φ (U.isOpenEmbedding.functor.obj W) a :=
+  congrArg (fun g : A →+* R.obj.obj (op (U.isOpenEmbedding.functor.obj W)) => g a)
+    (baseMap_comp φ (U.isOpenEmbedding.functor.map (homOfLE (le_top : W ≤ ⊤))).op)
+
+variable (N : ModuleCat.{u} A) [Module.Free A N] [Module.Finite A N]
+
+/-- The `A`-linear map `N → (𝒪_X ⊗_A N)(U)`, `n ↦ 1 ⊗ n`. -/
+noncomputable def restrictLinear :
+    N ⟶ (ModuleCat.restrictScalars (baseMap (restrictBase φ U) ⊤)).obj
+      (((moduleRestrict U).obj (sheaf φ N)).val.obj (op ⊤)) :=
+  ModuleCat.ofHom (X := N) (Y := (ModuleCat.restrictScalars (baseMap (restrictBase φ U) ⊤)).obj
+      (((moduleRestrict U).obj (sheaf φ N)).val.obj (op ⊤)))
+    { toFun n := (1 : R.obj.obj (op (U.isOpenEmbedding.functor.obj ⊤))) ⊗ₜ[A,
+        baseMap φ (U.isOpenEmbedding.functor.obj ⊤)] n
+      map_add' n n' := TensorProduct.tmul_add _ _ _
+      map_smul' a n := by
+        refine (TensorProduct.smul_tmul (R := A) (M := (ModuleCat.restrictScalars
+          (baseMap φ (U.isOpenEmbedding.functor.obj ⊤))).obj (ModuleCat.of _
+            (R.obj.obj (op (U.isOpenEmbedding.functor.obj ⊤))))) a _ n).symm.trans ?_
+        refine Eq.trans ?_ (ModuleCat.ExtendScalars.smul_tmul
+          (f := baseMap φ (U.isOpenEmbedding.functor.obj ⊤)) _ 1 n).symm
+        congr 1
+        change baseMap φ (U.isOpenEmbedding.functor.obj ⊤) a * 1 = _
+        rw [← baseMap_restrictBase]
+        rfl }
+
+/-- **Restriction of `𝒪_X ⊗_A N` to an open subspace**: the comparison morphism
+`𝒪_U ⊗_A N ⟶ (𝒪_X ⊗_A N)|_U`, `a ⊗ n ↦ a ⊗ n`. -/
+noncomputable def restrictSheafHom :
+    sheaf (restrictBase φ U) N ⟶ (moduleRestrict U).obj (sheaf φ N) :=
+  ⟨homOfLinear (restrictBase φ U) ((moduleRestrict U).obj (sheaf φ N)).val
+    (restrictLinear φ U N)⟩
+
+/-- `restrictSheafHom` on elementary tensors. -/
+lemma restrictSheafHom_app_tmul (W : Opens ((Opens.toTopCat X).obj U))
+    (a : (restrictRingSheaf R U).obj.obj (op W)) (n : N) :
+    (restrictSheafHom φ U N).val.app (op W) (a ⊗ₜ[A, baseMap (restrictBase φ U) W] n) =
+      (a ⊗ₜ[A, baseMap φ (U.isOpenEmbedding.functor.obj W)] n :
+        (sheaf φ N).val.obj (op (U.isOpenEmbedding.functor.obj W))) := by
+  refine (homOfLinear_app_tmul _ _ (restrictLinear φ U N) (op W) a n).trans ?_
+  have h1 : ((moduleRestrict U).obj (sheaf φ N)).val.map (homOfLE (le_top : W ≤ ⊤)).op
+      (restrictLinear φ U N n) =
+      ((1 : R.obj.obj (op (U.isOpenEmbedding.functor.obj W))) ⊗ₜ[A,
+        baseMap φ (U.isOpenEmbedding.functor.obj W)] n :
+          (sheaf φ N).val.obj (op (U.isOpenEmbedding.functor.obj W))) := by
+    refine (presheaf_map_tmul φ N _ _ n).trans ?_
+    rw [map_one]
+  erw [h1]
+  refine (ModuleCat.ExtendScalars.smul_tmul (f := baseMap φ (U.isOpenEmbedding.functor.obj W))
+    (show R.obj.obj (op (U.isOpenEmbedding.functor.obj W)) from a) 1 n).trans ?_
+  rw [mul_one]
+
+/-- The comparison morphism is an isomorphism. -/
+instance isIso_restrictSheafHom : IsIso (restrictSheafHom φ U N) := by
+  refine ModuleGluing.isIso_of_bijective _ fun W => ?_
+  let b := Module.Free.chooseBasis A N
+  have h : (restrictSheafHom φ U N).val.app W ∘ basisMap (restrictBase φ U) N b W.unop =
+      basisMap φ N b (U.isOpenEmbedding.functor.obj W.unop) := by
+    funext c
+    simp only [Function.comp_apply, basisMap, map_sum]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    exact restrictSheafHom_app_tmul φ U N W.unop (c j) (b j)
+  have h2 := basisMap_bijective φ N b (U.isOpenEmbedding.functor.obj W.unop)
+  rw [← h] at h2
+  exact (Function.Bijective.of_comp_iff _ (basisMap_bijective (restrictBase φ U) N b W.unop)).1 h2
+
+variable {N} in
+/-- The comparison morphisms are natural in `N`. -/
+@[reassoc]
+lemma restrictSheafHom_naturality {N' : ModuleCat.{u} A} [Module.Free A N'] [Module.Finite A N']
+    (g : N ⟶ N') :
+    restrictSheafHom φ U N ≫ (moduleRestrict U).map (sheafMap φ g) =
+      sheafMap (restrictBase φ U) g ≫ restrictSheafHom φ U N' := by
+  apply SheafOfModules.hom_ext
+  ext W t
+  induction t using TensorProduct.induction_on with
+  | zero => exact (map_zero _).trans (map_zero _).symm
+  | tmul a n =>
+    change (presheafMap φ g).app (op (U.isOpenEmbedding.functor.obj W.unop))
+      ((restrictSheafHom φ U N).val.app W (a ⊗ₜ[A, baseMap (restrictBase φ U) W.unop] n)) =
+      (restrictSheafHom φ U N').val.app W
+        ((presheafMap (restrictBase φ U) g).app W (a ⊗ₜ[A, baseMap (restrictBase φ U) W.unop] n))
+    rw [restrictSheafHom_app_tmul, presheafMap_app_tmul, presheafMap_app_tmul,
+      restrictSheafHom_app_tmul]
+  | add t t' ht ht' =>
+    exact (map_add _ _ _).trans ((congrArg₂ (· + ·) ht ht').trans (map_add _ _ _).symm)
+
+/-- On sections over `W ⊆ U`, the comparison morphism sends `topSection` to `topSection`. -/
+lemma restrictSheafHom_topSection (W : Opens ((Opens.toTopCat X).obj U)) :
+    (restrictSheafHom φ U ((K f).X (s + 1))).val.app (op W) (topSection (restrictBase φ U) f W) =
+      topSection φ f (U.isOpenEmbedding.functor.obj W) := by
+  rw [topSection, restrictSheafHom_app_tmul]
+  rfl
+
+/-- **Evaluation at the top generator commutes with restriction**: restricting `topEval` to `U`
+is `topEval` on `U`, through `ℋom_X(F, G)|_U ≅ ℋom_U(F|_U, G|_U)` and `restrictSheafHom`. -/
+lemma topEval_restrict :
+    (moduleRestrict U).map (topEval φ f G) =
+      homRestrict _ G ≫ (moduleSheafHomPrecomp (restrictSheafHom φ U ((K f).X (s + 1)))).app _ ≫
+        topEval (restrictBase φ U) f ((moduleRestrict U).obj G) := by
+  apply SheafOfModules.hom_ext
+  ext W σ
+  change moduleSheafHomEval σ (le_refl _) (topSection φ f (U.isOpenEmbedding.functor.obj W.unop)) =
+    moduleSheafHomEval (((moduleSheafHomPrecomp (restrictSheafHom φ U ((K f).X (s + 1)))).app
+      ((moduleRestrict U).obj G)).val.app W ((homRestrict _ G).val.app W σ)) (le_refl _)
+        (topSection (restrictBase φ U) f W.unop)
+  rw [← restrictSheafHom_topSection]
+  rfl
+
+end Restrict
 
 end KoszulSheaf
 
