@@ -186,6 +186,15 @@ theorem exists_affine_isLocalFrame_of_two_le_rankAt (hrank : ∀ x, 2 ≤ E.rank
   exact ⟨⟨V, hV⟩, hxV, hVle.trans inf_le_left, n, by omega, _,
     he.restrictLE (hVle.trans inf_le_right)⟩
 
+/-- The relative twisting sheaves of `Proj_X S(E)` are compatible with the transition maps of the
+affine pieces. Stated as its own lemma so that the instantiation is elaborated once, with its
+type in folded form; inlining it into terms makes the kernel compare an unfolded copy of
+`TwistCompatible` against the folded one, which is very slow and memory-hungry. -/
+theorem twistCompatible_symmetricRelTwistingSheaf (l : ℕ) :
+    TwistCompatible ((symmetricGradedAlgebra hE hfin).relTwistingSheaf (l : ℤ))
+      ((symmetricGradedAlgebra hE hfin).relTwistingSheafRestrictIso (l : ℤ)) :=
+  twistCompatible_relTwistingSheaf (symmetricGradedAlgebra hE hfin) l
+
 variable [IsNoetherian X]
 
 /-- **The natural map `S^l(E) ⟶ π_* 𝒪_{P(E)}(l)`**: a section `s` of `S^l(E)` over an open
@@ -197,7 +206,7 @@ def projectiveBundlePushforwardTwistHom (l : ℕ) :
   pushforwardTwistHom ((symmetricGradedAlgebra hE hfin).relTwistingSheaf (l : ℤ))
     ((symmetricGradedAlgebra hE hfin).relTwistingSheafRestrictIso (l : ℤ))
     (symmetricPowerGradedSectionsMap hE hfin l)
-    (twistCompatible_relTwistingSheaf (symmetricGradedAlgebra hE hfin) l)
+    (twistCompatible_symmetricRelTwistingSheaf hE hfin l)
 
 /-- **The natural map is induced by the degree-`l` sections**: for an affine open `U ⊆ V` and a
 section `s` of `S^l(E)` over `V`, the section of `𝒪(l)` attached to `s`, restricted to
@@ -212,11 +221,8 @@ theorem projectiveBundlePushforwardTwistHom_app_restrict (l : ℕ) {V : X.Opens}
         ((symmetricPowerGradedSectionsMap hE hfin l).toFun U
           ((E.symmetricPower l).presheaf.map (homOfLE hUV).op s)) (op ⊤) :=
   pushforwardTwistHom_app_restrict _ _ (symmetricPowerGradedSectionsMap hE hfin l)
-    (twistCompatible_relTwistingSheaf (symmetricGradedAlgebra hE hfin) l) U hUV s
+    (twistCompatible_symmetricRelTwistingSheaf hE hfin l) U hUV s
 
--- The kernel check of the instantiation of `pushforwardTwistHom_mul` unfolds the projective
--- bundle to the relative `Proj` of `S(E)` and exceeds the default limit.
-set_option maxHeartbeats 1000000 in
 open ProjGradedModuleSheaf Ringed in
 /-- **Compatibility with multiplication**: over an affine open `U ⊆ V`, the natural maps are
 compatible with the products `S^a(E) × S^b(E) → S^{a+b}(E)` (here `u = s t`, as sections of the
@@ -258,9 +264,9 @@ theorem projectiveBundlePushforwardTwistHom_mul (a b : ℕ) {V : X.Opens} (U : X
       (homOfLE hUV).op y
   refine pushforwardTwistHom_mul _ _ _ _ _ _ (symmetricPowerGradedSectionsMap hE hfin a)
     (symmetricPowerGradedSectionsMap hE hfin b) (symmetricPowerGradedSectionsMap hE hfin (a + b))
-    (twistCompatible_relTwistingSheaf (symmetricGradedAlgebra hE hfin) a)
-    (twistCompatible_relTwistingSheaf (symmetricGradedAlgebra hE hfin) b)
-    (twistCompatible_relTwistingSheaf (symmetricGradedAlgebra hE hfin) (a + b)) U hUV s t u ?_ x
+    (twistCompatible_symmetricRelTwistingSheaf hE hfin a)
+    (twistCompatible_symmetricRelTwistingSheaf hE hfin b)
+    (twistCompatible_symmetricRelTwistingSheaf hE hfin (a + b)) U hUV s t u ?_ x
   change (show E.symSections U.1 from
       ((symmetricPowerGradedSectionsMap hE hfin (a + b)).toFun U _).1) =
     (show E.symSections U.1 from ((symmetricPowerGradedSectionsMap hE hfin a).toFun U _).1) *
@@ -276,7 +282,7 @@ theorem isIso_projectiveBundlePushforwardTwistHom (hrank : ∀ x, 2 ≤ E.rankAt
     exists_affine_isLocalFrame_of_two_le_rankAt hE hfin hrank x W hx
   exact ⟨U.1, hxU, hUW, pushforwardTwistHom_app_bijective _ _
     (symmetricPowerGradedSectionsMap hE hfin l)
-    (twistCompatible_relTwistingSheaf (symmetricGradedAlgebra hE hfin) l) U
+    (twistCompatible_symmetricRelTwistingSheaf hE hfin l) U
     (symmetricPowerGradedSectionsMap_bijective hE hfin l U)
     (twistSection_top_bijective_of_isLocalFrame hE hfin hn he l)⟩
 
