@@ -213,6 +213,8 @@ lemma KoszulChart.idealSection_eq_generatorSection {V : Y.Opens} (c : KoszulChar
   refine (PresheafOfModules.naturality_apply (closedImmersionIdealSheafι i).val _ _).trans ?_
   exact idealSectionsToSections_generatorSection i ⟨V, c.hV⟩ c.hI j
 
+-- Unfolding the pullback of the ideal-sheaf frame on sections recurses deeply, as in
+-- `pullbackIdealFrame_freeSection_eq_unit`.
 set_option maxRecDepth 10000 in
 /-- **The conormal classes of a chart form a frame.** For a Koszul chart on `V` with generators
 `f₁, …, f_r`, the classes `[fⱼ]` form a frame of `i^* I` over `i⁻¹ V`. -/

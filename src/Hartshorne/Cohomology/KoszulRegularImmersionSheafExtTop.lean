@@ -144,7 +144,8 @@ noncomputable def sheafExtZeroIsoDualTensor (h : IsKoszulRegularImmersion i 0) (
 /-- **The top sheaf Ext of a Koszul-regular immersion.** For a Koszul-regular closed immersion
 `i : X ⟶ Y` of codimension `r` with ideal sheaf `I` and a quasi-coherent `𝒪_Y`-module `M`,
 `ℰxt^r_Y(i_* 𝒪_X, M) ≅ i_*((⋀^r(i^* I))^∨ ⊗ i^* M)`, where `i^* I` is the conormal sheaf `I/I²`
-on `X` (`sheafExtTopIsoDualTensor` for `r ≥ 1`, `sheafExtZeroIsoDualTensor` for `r = 0`). -/
+on `X` (`sheafExtTopIsoDualTensor` for `r ≥ 1`, `sheafExtZeroIsoDualTensor` for `r = 0`).
+Compare Hartshorne III.7, proof of Theorem 7.11. -/
 noncomputable def sheafExtIsoDualTensor : ∀ {r : ℕ} (_ : IsKoszulRegularImmersion i r)
     (M : Y.Modules) [M.IsQuasicoherent],
     (Ringed.sheafExt (R := Y.sheaf) ((Scheme.Modules.pushforward i).obj

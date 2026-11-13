@@ -873,7 +873,7 @@ variable {i : X ⟶ Y} {r : ℕ}
 module.** For a codimension-`r` Koszul-regular closed immersion `i : X ⟶ Y` with ideal sheaf `I`
 and a finite locally free `𝒪_Y`-module `M`, every point of `Y` has an affine open neighbourhood
 `U` with a sequence `f₁, …, f_r` generating `I(U)` that is Koszul-regular both on `Γ(Y, U)` and on
-`Γ(M, U)`. -/
+`Γ(M, U)`. Compare Hartshorne III.7, proof of Theorem 7.11. -/
 theorem IsKoszulRegularImmersion.exists_isKoszulRegular_sections
     (h : IsKoszulRegularImmersion i r) {M : Y.Modules}
     (hM : Ringed.IsFiniteLocallyFree (R := Y.sheaf) M) (y : Y) :
