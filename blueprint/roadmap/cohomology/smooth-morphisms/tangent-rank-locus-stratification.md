@@ -31,6 +31,8 @@ a determinantal closed subscheme.
   presentations, followed by local matrix-minor rank strata.
 - Noetherian induction to obtain finitely many locally closed strata and
   Chevalley constructibility for their images.
+- [Fibre dimension of a coherent sheaf is upper semicontinuous](../semicontinuity/foundations/coherent-fiber-dimension-upper-semicontinuous.md)
+- [The transitivity sequence for differential sheaves](../../schemes/differentials/scheme-differentials/relative-differentials-transitivity.md)
 
 ## Sources
 
