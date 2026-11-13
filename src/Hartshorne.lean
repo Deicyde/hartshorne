@@ -617,6 +617,7 @@ import Hartshorne.RingedSpace.SheafExtLocallyFreeResolution
 import Hartshorne.RingedSpace.SheafExtResolutionNaturality
 import Hartshorne.Intersection.ProjectiveHyperplaneChart
 import Hartshorne.RingedSpace.SheafExtRestrict
+import Hartshorne.RingedSpace.SheafExtRestrictIterated
 import Hartshorne.RingedSpace.ScalarExtensionSheaf
 import Hartshorne.Intersection.ProjectiveLinearSubspaceCycle
 import Hartshorne.Intersection.ProjectiveLinearSubspaceGeneration
