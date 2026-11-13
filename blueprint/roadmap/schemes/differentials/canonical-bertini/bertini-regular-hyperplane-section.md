@@ -19,6 +19,7 @@ hence irreducible, so it is a nonsingular variety.
 
 ## Depends on
 
+- [The projective-space case of Bertini](bertini-projective-space-case.md)
 - [Linear systems](../../projective-geometry/linear-systems-ampleness/linear-system-api.md)
 - [Regular points and nonsingular schemes](../scheme-differentials/regular-points-and-nonsingular-schemes.md)
 

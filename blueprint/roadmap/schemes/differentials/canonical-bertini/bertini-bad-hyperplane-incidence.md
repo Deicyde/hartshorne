@@ -19,6 +19,7 @@ each $B_x$ is empty.)
 
 ## Depends on
 
+- [The conormal criterion for nonsingularity](../scheme-differentials/conormal-criterion-nonsingular.md)
 - [Linear systems](../../projective-geometry/linear-systems-ampleness/linear-system-api.md)
 - [Dimension of a projective variety](../../../projective-varieties/projective-dimension.md)
 
