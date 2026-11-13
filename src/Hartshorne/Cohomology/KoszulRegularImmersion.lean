@@ -59,7 +59,9 @@ sections of `𝒪_Y` over `U`.
   `I/I²` over `A/I` (`Hartshorne.Koszul.mem_of_sum_mul_mem_sq`). If `∑ aⱼ fⱼ ∈ I²`, subtracting
   an expression `∑ cⱼ fⱼ` with `cⱼ ∈ I` gives a Koszul `1`-cycle, which is a boundary; the
   Koszul differentials take values in `I K_•` (`Hartshorne.Koszul.contraction_mem_smul_top`), so
-  every `aⱼ` lies in `I`.
+  every `aⱼ` lies in `I`. For an `A`-algebra `B` killing `I`, `B ⊗_A I` is free on
+  `1 ⊗ f₁, …, 1 ⊗ f_r` (`Hartshorne.Koszul.baseChangeIdealEquiv`,
+  `Hartshorne.Koszul.baseChangeIdealBasis`).
 
 ## Proof
 
@@ -719,6 +721,74 @@ lemma cotangentBasis_apply (hf : IsKoszulRegular f (ModuleCat.of A A)) (j : Fin 
   Module.Basis.mk_apply _ _ _
 
 end Conormal
+
+section BaseChange
+
+variable (hf : IsKoszulRegular f (ModuleCat.of A A)) {B : Type u} [CommRing B] [Algebra A B]
+  (hker : Ideal.span (Set.range f) ≤ RingHom.ker (algebraMap A B))
+
+/-- The coordinates of a section of `I` in the generators `f`, read in `B`. -/
+noncomputable def idealCoordB : Ideal.span (Set.range f) →ₗ[A] (Fin r → B) :=
+  (Ideal.Quotient.liftₐ (Ideal.span (Set.range f)) (Algebra.ofId A B)
+      (fun _ ha => hker ha)).toLinearMap.compLeft (Fin r) ∘ₗ
+    ((Finsupp.lcoeFun (R := A ⧸ Ideal.span (Set.range f)) (α := Fin r)
+      (M := A ⧸ Ideal.span (Set.range f))).restrictScalars A) ∘ₗ
+    ((cotangentBasis f hf).repr.toLinearMap.restrictScalars A) ∘ₗ
+    (Ideal.toCotangent (Ideal.span (Set.range f)))
+
+lemma idealCoordB_generator (j : Fin r) :
+    idealCoordB f hf hker ⟨f j, Ideal.subset_span ⟨j, rfl⟩⟩ = Pi.single j 1 := by
+  ext k
+  simp only [idealCoordB, LinearMap.coe_comp, Function.comp_apply, LinearMap.compLeft_apply,
+    LinearMap.coe_restrictScalars, LinearEquiv.coe_coe, ← cotangentBasis_apply f hf,
+    Module.Basis.repr_self, Finsupp.lcoeFun_apply, Finsupp.single_eq_pi_single]
+  by_cases h : k = j
+  · subst h; simp
+  · simp [h]
+
+/-- **Base change of the ideal of a Koszul-regular sequence.** If `f` is Koszul-regular on `A`,
+`I = (f₁, …, f_r)`, and `B` is an `A`-algebra in which `I` vanishes, then `B ⊗_A I` is free over
+`B` on `1 ⊗ f₁, …, 1 ⊗ f_r`: indeed `B ⊗_A I = B ⊗_{A/I} I/I²`. -/
+noncomputable def baseChangeIdealEquiv :
+    B ⊗[A] Ideal.span (Set.range f) ≃ₗ[B] (Fin r → B) :=
+  LinearEquiv.ofLinearMap (LinearMap.liftBaseChange B (idealCoordB f hf hker))
+    (Fintype.linearCombination B (fun j => (1 : B) ⊗ₜ[A]
+      (⟨f j, Ideal.subset_span ⟨j, rfl⟩⟩ : Ideal.span (Set.range f))))
+    (by
+      ext j : 1
+      apply LinearMap.ext_ring
+      rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearMap.single_apply,
+        Fintype.linearCombination_apply_single, one_smul, LinearMap.liftBaseChange_tmul,
+        one_smul, idealCoordB_generator, LinearMap.id_comp, LinearMap.single_apply])
+    (by
+      refine TensorProduct.AlgebraTensorModule.ext fun b x => ?_
+      obtain ⟨x, hx⟩ := x
+      obtain ⟨c, rfl⟩ := (Submodule.mem_span_range_iff_exists_fun A).1 hx
+      have hx' : (⟨∑ k, c k • f k, hx⟩ : Ideal.span (Set.range f)) =
+          ∑ k, c k • ⟨f k, Ideal.subset_span ⟨k, rfl⟩⟩ := by
+        apply Subtype.ext
+        simp
+      rw [LinearMap.comp_apply, LinearMap.liftBaseChange_tmul, LinearMap.id_apply, hx', map_sum]
+      simp only [map_smul, idealCoordB_generator, map_sum, LinearMap.map_smul_of_tower,
+        Fintype.linearCombination_apply_single, TensorProduct.tmul_sum]
+      rw [Finset.smul_sum]
+      refine Finset.sum_congr rfl fun k _ => ?_
+      rw [one_smul, TensorProduct.tmul_smul, smul_comm, TensorProduct.smul_tmul', smul_eq_mul,
+        mul_one])
+
+/-- The basis `1 ⊗ f₁, …, 1 ⊗ f_r` of `B ⊗_A I` (`baseChangeIdealEquiv`). -/
+noncomputable def baseChangeIdealBasis :
+    Module.Basis (Fin r) B (B ⊗[A] Ideal.span (Set.range f)) :=
+  Module.Basis.ofEquivFun (baseChangeIdealEquiv f hf hker)
+
+lemma baseChangeIdealBasis_apply (j : Fin r) :
+    baseChangeIdealBasis f hf hker j =
+      (1 : B) ⊗ₜ[A] (⟨f j, Ideal.subset_span ⟨j, rfl⟩⟩ : Ideal.span (Set.range f)) := by
+  rw [baseChangeIdealBasis, Module.Basis.coe_ofEquivFun]
+  change Fintype.linearCombination B _ _ = _
+  rw [Fintype.linearCombination_apply_single, one_smul]
+
+end BaseChange
 
 end Koszul
 
