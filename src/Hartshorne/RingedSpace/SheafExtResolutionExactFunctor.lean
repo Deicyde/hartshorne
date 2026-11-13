@@ -457,6 +457,7 @@ variable (H : Cᵒᵖ ⥤ C ⥤ C) [H.PreservesZeroMorphisms] (H' : Dᵒᵖ ⥤ 
     Φ.map ((H.map f.op).app G) ≫ (α F').hom.app G =
       (α F).hom.app G ≫ (H'.map (Φ.map f).op).app (Φ.obj G))
 
+omit [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ] in
 include hα in
 /-- The isomorphism of complexes `Φ(H(L_•, G)) ≅ H'(Φ L_•, Φ G)` given termwise by `α`. -/
 noncomputable def homComplexCompIso (L : ChainComplex C ℕ) (G : C) :
@@ -471,6 +472,7 @@ noncomputable def homComplexCompIso (L : ChainComplex C ℕ) (G : C) :
     rw [homComplex_d, homComplex_d]
     exact (hα (L.d (p + 1) p) G).symm)
 
+omit [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ] in
 @[simp]
 lemma homComplexCompIso_hom_f (L : ChainComplex C ℕ) (G : C) (p : ℕ) :
     (homComplexCompIso H H' α hα L G).hom.f p = (α (L.X p)).hom.app G := rfl
@@ -546,26 +548,31 @@ section Comparison
 variable {F : C} {F' : D} (P : Resolution F) (P' : Resolution F') (u : Φ.obj F ⟶ F')
   (ψ : (Φ.mapHomologicalComplex _).obj P.L ⟶ P'.L) (hψ : ψ.f 0 ≫ P'.ε = Φ.map P.ε ≫ u)
 
+omit [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ] in
 include hψ in
 lemma kerMap_w : (Φ.map (kernel.ι P.ε) ≫ ψ.f 0) ≫ P'.ε = 0 := by
   rw [Category.assoc]
   erw [hψ]
   rw [← Φ.map_comp_assoc, kernel.condition, Φ.map_zero, zero_comp]
 
+omit [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ] in
 /-- The morphism `Φ(ker(L₀ ⟶ F)) ⟶ ker(L'₀ ⟶ F')` induced by a chain map `Φ L_• ⟶ L'_•` over
 `u : Φ F ⟶ F'`. -/
 noncomputable def kerMap : Φ.obj (kernel P.ε) ⟶ kernel P'.ε :=
   kernel.lift P'.ε (Φ.map (kernel.ι P.ε) ≫ ψ.f 0) (kerMap_w P P' u ψ hψ)
 
+omit [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ] in
 @[reassoc (attr := simp)]
 lemma kerMap_ι : kerMap P P' u ψ hψ ≫ kernel.ι P'.ε = Φ.map (kernel.ι P.ε) ≫ ψ.f 0 :=
   kernel.lift_ι _ _ _
 
+omit [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ] in
 lemma lift_kerMap : ψ.f 1 ≫ P'.lift = Φ.map P.lift ≫ kerMap P P' u ψ hψ := by
   rw [← cancel_mono (kernel.ι P'.ε), Category.assoc, Resolution.lift_ι, Category.assoc, kerMap_ι,
     ← Φ.map_comp_assoc, Resolution.lift_ι]
   exact ψ.comm 1 0
 
+omit [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ] in
 /-- The morphism of short exact sequences `Φ(0 ⟶ K ⟶ L₀ ⟶ F ⟶ 0) ⟶ (0 ⟶ K' ⟶ L'₀ ⟶ F' ⟶ 0)`. -/
 @[simps]
 noncomputable def sesMap : P.ses.map Φ ⟶ P'.ses where
@@ -575,11 +582,13 @@ noncomputable def sesMap : P.ses.map Φ ⟶ P'.ses where
   comm₁₂ := kerMap_ι P P' u ψ hψ
   comm₂₃ := hψ
 
+omit [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ] in
 /-- The chain map between the truncated resolutions. -/
 noncomputable def truncMap :
     (Φ.mapHomologicalComplex _).obj P.truncate.L ⟶ P'.truncate.L :=
   (ChainComplex.truncate).map ψ
 
+omit [PreservesFiniteLimits Φ] [PreservesFiniteColimits Φ] in
 lemma truncMap_comm :
     (truncMap P P' ψ).f 0 ≫ P'.truncate.ε = Φ.map P.truncate.ε ≫ kerMap P P' u ψ hψ :=
   lift_kerMap P P' u ψ hψ
@@ -606,9 +615,8 @@ the comparison `Φ(E F i G) ≅ E' (Φ F) i (Φ G)`, the identification
 `Φ(hⁱ(H(L_•, G))) ≅ hⁱ(H'(Φ L_•, Φ G))` and the maps induced by `u` and `ψ` form a commutative
 square. -/
 theorem isoAux_comp (G : C) : ∀ (i : ℕ) {F : C} {F' : D} (P : Resolution F) (P' : Resolution F')
-    (u : Φ.obj F ⟶ F') (ψ : (Φ.mapHomologicalComplex _).obj P.L ⟶ P'.L)
-    (hψ : ψ.f 0 ≫ P'.ε = Φ.map P.ε ≫ u)
-    (hP : ∀ p n G, IsZero ((E (P.L.X p) (n + 1)).obj G))
+    (u : Φ.obj F ⟶ F') (ψ : (Φ.mapHomologicalComplex _).obj P.L ⟶ P'.L),
+    ψ.f 0 ≫ P'.ε = Φ.map P.ε ≫ u → ∀ (hP : ∀ p n G, IsZero ((E (P.L.X p) (n + 1)).obj G))
     (hP' : ∀ p n G, IsZero ((E' (P'.L.X p) (n + 1)).obj G)),
     extMap H' E' hE' u (Φ.obj G) i ≫ (extCompIso H E hE H' E' hE' hΦ α F G i).inv ≫
         Φ.map ((isoAux H E hE hH i P hP).hom.app G) ≫ (homologyCompIso' H H' α hα P.L G i).hom =
