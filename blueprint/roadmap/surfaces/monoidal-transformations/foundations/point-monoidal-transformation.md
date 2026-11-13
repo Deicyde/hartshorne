@@ -9,7 +9,8 @@ proof: formalized
 
 # Monoidal transformation at a point
 
-Let $X$ be a Chapter-V surface and $P$ a closed point. Define the monoidal
+Let $X$ be a surface (in Chapter V: nonsingular and projective over an algebraically closed
+field) and $P$ a closed point. Define the monoidal
 transformation with center $P$ to be the blowup
 
 $\pi : \widetilde{X} = Bl_P(X) \to X$.

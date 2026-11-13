@@ -15,8 +15,8 @@ isomorphic to
 
 $\left.\widetilde{M}\right|_{V(I)}\otimes_{\left.\mathcal{O}_{\operatorname{Spec}A}\right|_{V(I)}}\mathcal{O}_{\widehat{X}}$.
 
-This is the ordinary tensor product of sheaves of modules. The node neither
-defines nor invokes a completed tensor product.
+This is the ordinary tensor product of sheaves of modules. No completed tensor product is
+involved.
 
 ## Depends on
 

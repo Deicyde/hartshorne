@@ -12,12 +12,12 @@ proof: formalized
 Let $\widehat{X}$ be a Noetherian formal scheme, $J$ an ideal of definition, and
 $F$ a coherent formal module. For nonnegative integer $n$, set
 
-$F n = F / J^{n+1} F$.
+$F_n = F / J^{n+1} F$.
 
-Then $F n$ is coherent on the scheme
+Then $F_n$ is coherent on the scheme
 $(\widehat{X} ,\mathcal{O}_{\widehat{X}} /J^{n+1})$, and the canonical map
 
-$F \longrightarrow \lim _n F n$
+$F \longrightarrow \lim _n F_n$
 
 is an isomorphism.
 

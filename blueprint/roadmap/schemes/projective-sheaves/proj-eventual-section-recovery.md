@@ -20,9 +20,8 @@ is an isomorphism in every sufficiently large degree.
 For homogeneous $m \in M_d$, its degree-$d$ component is the global section of
 $\widetilde{M}(d)$ obtained from $m \in M(d)_0$ through the sheaf map
 $M(d)_0\to\Gamma(\operatorname{Proj}S,\widetilde{M(d)})$ and the isomorphism
-$\widetilde{M(d)}\cong\widetilde{M}(d)$. Construction and naturality of this graded map are included
-as supporting data; the twist is essential because $\widetilde{M}$ need not have
-a global section $m$ in every degree.
+$\widetilde{M(d)}\cong\widetilde{M}(d)$. The twist is essential because $\widetilde{M}$ need not
+have a global section $m$ in every degree.
 
 ## Depends on
 

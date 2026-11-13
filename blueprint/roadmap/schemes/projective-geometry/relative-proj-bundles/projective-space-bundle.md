@@ -10,7 +10,7 @@ proof: formalized
 # Projective-space bundles
 
 Define a projective $n$-space bundle over $X$ as a morphism locally isomorphic
-to $U x \mathbb{P}^n \to U$, with transition automorphisms induced by linear changes of
+to $U \times \mathbb{P}^n \to U$, with transition automorphisms induced by linear changes of
 homogeneous coordinates. Prove that the projectivization of a rank $n + 1$
 locally free sheaf is such a bundle.
 
