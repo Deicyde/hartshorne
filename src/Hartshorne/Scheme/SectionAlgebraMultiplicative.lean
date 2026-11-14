@@ -74,6 +74,96 @@ private theorem sectionsMap_comp_apply {A B C : SheafOfModules.{u} (ringCatSheaf
     sectionsMap (f ≫ g) U x = sectionsMap g U (sectionsMap f U x) :=
   rfl
 
+/-- The associator `(A ⊗ B) ⊗ C ≅ A ⊗ (B ⊗ C)` on elementary tensors, for arbitrary modules (checked
+once here; unfolding the associator inside the proof below made the kernel compare the two
+presentations of its forward map for every use, about ten seconds). -/
+private theorem moduleSheafTensorAssoc_hom_tmul (A B C : SheafOfModules.{u} (ringCatSheafOf R))
+    {U : Opens X} (a : A.val.obj (op U)) (b : B.val.obj (op U)) (c : C.val.obj (op U)) :
+    sectionsMap (moduleSheafTensorAssoc A B C).hom U
+        ((moduleSheafTensorBilinear (moduleSheafTensor A B) C).app (op U)
+          ((moduleSheafTensorBilinear A B).app (op U) a b) c) =
+      (moduleSheafTensorBilinear A (moduleSheafTensor B C)).app (op U) a
+        ((moduleSheafTensorBilinear B C).app (op U) b c) :=
+  (assocTrilinear A B C).tensorDesc_tmul a b c
+
+/-- The case `b = 0` of `moduleSheafTensorPowerAddIso_hom_tprod_append`. -/
+private theorem tensorPowerAddIso_hom_tprod_append_zero (a : ℕ) (U : Opens X)
+    (m : Fin a → F.val.obj (op U)) (m' : Fin 0 → F.val.obj (op U)) :
+    sectionsMap (moduleSheafTensorPowerAddIso F a 0).hom U
+        ((moduleSheafTensorPowerMultilinear (a + 0) F).app (op U) (Fin.append m m')) =
+      (moduleSheafTensorBilinear (moduleSheafTensorPower a F) (moduleSheafTensorPower 0 F)).app
+        (op U) ((moduleSheafTensorPowerMultilinear a F).app (op U) m)
+        ((moduleSheafTensorPowerMultilinear 0 F).app (op U) m') := by
+  have hm : Fin.append m m' = m := by
+    funext k
+    exact Fin.append_left m m' k
+  have hm' : tensorPowerZeroSection F U =
+      (moduleSheafTensorPowerMultilinear 0 F).app (op U) m' :=
+    congrArg ((moduleSheafTensorPowerMultilinear 0 F).app (op U)) (funext fun k => k.elim0)
+  rw [hm]
+  have e : (moduleSheafTensorPowerAddIso F a 0).hom =
+    (moduleSheafUnitTensor _).inv ≫ (moduleSheafTensorComm _ _).hom ≫
+      modulesTensorMap (𝟙 _) (tensorPowerZeroInv F) := rfl
+  rw [e, sectionsMap_comp_apply, sectionsMap_comp_apply]
+  have h1 : ∀ (G : SheafOfModules.{u} (ringCatSheafOf R)) y,
+      sectionsMap (moduleSheafUnitTensor G).inv U y =
+      (moduleSheafTensorBilinear (structureModule R) G).app (op U)
+        (show (structureModule R).val.obj (op U) from (1 : R.obj.obj (op U))) y :=
+    fun _ _ => rfl
+  have h2 : sectionsMap (tensorPowerZeroInv F) U
+      (show (structureModule R).val.obj (op U) from (1 : R.obj.obj (op U))) =
+      tensorPowerZeroSection F U := by
+    change ((1 : (R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)) •
+      tensorPowerZeroSection F U) = _
+    exact one_smul _ _
+  rw [h1, show ∀ E G : SheafOfModules.{u} (ringCatSheafOf R),
+    (moduleSheafTensorComm E G).hom = moduleSheafTensorFlip E G from fun _ _ => rfl,
+    moduleSheafTensorFlip_tmul, modulesTensorMap_tmul, h2, ← hm']
+  rfl
+
+/-- The inductive step of `moduleSheafTensorPowerAddIso_hom_tprod_append`. It is stated separately
+and used through `induction` rather than structural recursion: checking the structurally recursive
+proof made the kernel compare the recursive call with the unfolded recursor (about a minute). -/
+private theorem tensorPowerAddIso_hom_tprod_append_succ (a b : ℕ)
+    (ih : ∀ (U : Opens X) (m : Fin a → F.val.obj (op U)) (m' : Fin b → F.val.obj (op U)),
+      sectionsMap (moduleSheafTensorPowerAddIso F a b).hom U
+          ((moduleSheafTensorPowerMultilinear (a + b) F).app (op U) (Fin.append m m')) =
+        (moduleSheafTensorBilinear (moduleSheafTensorPower a F) (moduleSheafTensorPower b F)).app
+          (op U) ((moduleSheafTensorPowerMultilinear a F).app (op U) m)
+          ((moduleSheafTensorPowerMultilinear b F).app (op U) m'))
+    (U : Opens X) (m : Fin a → F.val.obj (op U)) (m' : Fin (b + 1) → F.val.obj (op U)) :
+    sectionsMap (moduleSheafTensorPowerAddIso F a (b + 1)).hom U
+        ((moduleSheafTensorPowerMultilinear (a + (b + 1)) F).app (op U) (Fin.append m m')) =
+      (moduleSheafTensorBilinear (moduleSheafTensorPower a F)
+          (moduleSheafTensorPower (b + 1) F)).app (op U)
+        ((moduleSheafTensorPowerMultilinear a F).app (op U) m)
+        ((moduleSheafTensorPowerMultilinear (b + 1) F).app (op U) m') := by
+  obtain ⟨m'', x, rfl⟩ : ∃ m'' x, m' = Fin.snoc m'' x :=
+    ⟨Fin.init m', m' (Fin.last b), (Fin.snoc_init_self m').symm⟩
+  have e : (moduleSheafTensorPowerAddIso F a (b + 1)).hom =
+    (moduleSheafTensorPowerSuccIso F (a + b)).hom ≫
+      modulesTensorMap (moduleSheafTensorPowerAddIso F a b).hom (𝟙 F) ≫
+      (moduleSheafTensorAssoc _ _ _).hom ≫
+      modulesTensorMap (𝟙 _) (moduleSheafTensorPowerSuccIso F b).inv := by
+    rw [moduleSheafTensorPowerAddIso.eq_2]
+    rfl
+  rw [Fin.append_snoc, e, sectionsMap_comp_apply, sectionsMap_comp_apply,
+    sectionsMap_comp_apply]
+  have h3 := moduleSheafTensorPowerSuccIso_hom_tprod (F := F) (a + b) U
+    (Fin.snoc (Fin.append m m'') x)
+  rw [Fin.init_snoc, Fin.snoc_last] at h3
+  refine (congrArg (fun y => sectionsMap (modulesTensorMap (𝟙 (moduleSheafTensorPower a F))
+    (moduleSheafTensorPowerSuccIso F b).inv) U
+      (sectionsMap (moduleSheafTensorAssoc (moduleSheafTensorPower a F)
+        (moduleSheafTensorPower b F) F).hom U
+        (sectionsMap (modulesTensorMap (moduleSheafTensorPowerAddIso F a b).hom (𝟙 F)) U y)))
+    h3).trans ?_
+  dsimp only
+  rw [modulesTensorMap_tmul, ih U m m'', moduleSheafTensorAssoc_hom_tmul]
+  have h5 : ∀ (A : SheafOfModules.{u} (ringCatSheafOf R)) (l : A.val.obj (op U)),
+      sectionsMap (𝟙 A) U l = l := fun _ _ => rfl
+  rw [modulesTensorMap_tmul, h5, h5, moduleSheafTensorPowerSuccIso_inv_tmul]
+
 /-- `T^{a+b} F ≅ T^a F ⊗ T^b F` sends `f₁ ⊗ ⋯ ⊗ f_{a+b}` to
 `(f₁ ⊗ ⋯ ⊗ f_a) ⊗ (f_{a+1} ⊗ ⋯ ⊗ f_{a+b})`. -/
 theorem moduleSheafTensorPowerAddIso_hom_tprod_append (a : ℕ) : ∀ (b : ℕ) (U : Opens X)
@@ -82,64 +172,11 @@ theorem moduleSheafTensorPowerAddIso_hom_tprod_append (a : ℕ) : ∀ (b : ℕ) 
         ((moduleSheafTensorPowerMultilinear (a + b) F).app (op U) (Fin.append m m')) =
       (moduleSheafTensorBilinear (moduleSheafTensorPower a F) (moduleSheafTensorPower b F)).app
         (op U) ((moduleSheafTensorPowerMultilinear a F).app (op U) m)
-        ((moduleSheafTensorPowerMultilinear b F).app (op U) m')
-  | 0, U, m, m' => by
-    have hm : Fin.append m m' = m := by
-      funext k
-      exact Fin.append_left m m' k
-    have hm' : tensorPowerZeroSection F U =
-        (moduleSheafTensorPowerMultilinear 0 F).app (op U) m' :=
-      congrArg ((moduleSheafTensorPowerMultilinear 0 F).app (op U)) (funext fun k => k.elim0)
-    rw [hm]
-    have e : (moduleSheafTensorPowerAddIso F a 0).hom =
-      (moduleSheafUnitTensor _).inv ≫ (moduleSheafTensorComm _ _).hom ≫
-        modulesTensorMap (𝟙 _) (tensorPowerZeroInv F) := rfl
-    rw [e, sectionsMap_comp_apply, sectionsMap_comp_apply]
-    have h1 : ∀ (G : SheafOfModules.{u} (ringCatSheafOf R)) y,
-        sectionsMap (moduleSheafUnitTensor G).inv U y =
-        (moduleSheafTensorBilinear (structureModule R) G).app (op U)
-          (show (structureModule R).val.obj (op U) from (1 : R.obj.obj (op U))) y :=
-      fun _ _ => rfl
-    have h2 : sectionsMap (tensorPowerZeroInv F) U
-        (show (structureModule R).val.obj (op U) from (1 : R.obj.obj (op U))) =
-        tensorPowerZeroSection F U := by
-      change ((1 : (R.obj ⋙ forget₂ CommRingCat RingCat).obj (op U)) •
-        tensorPowerZeroSection F U) = _
-      exact one_smul _ _
-    rw [h1, show ∀ E G : SheafOfModules.{u} (ringCatSheafOf R),
-      (moduleSheafTensorComm E G).hom = moduleSheafTensorFlip E G from fun _ _ => rfl,
-      moduleSheafTensorFlip_tmul, modulesTensorMap_tmul, h2, ← hm']
-    rfl
-  | b + 1, U, m, m' => by
-    obtain ⟨m'', x, rfl⟩ : ∃ m'' x, m' = Fin.snoc m'' x :=
-      ⟨Fin.init m', m' (Fin.last b), (Fin.snoc_init_self m').symm⟩
-    have e : (moduleSheafTensorPowerAddIso F a (b + 1)).hom =
-      (moduleSheafTensorPowerSuccIso F (a + b)).hom ≫
-        modulesTensorMap (moduleSheafTensorPowerAddIso F a b).hom (𝟙 F) ≫
-        (moduleSheafTensorAssoc _ _ _).hom ≫
-        modulesTensorMap (𝟙 _) (moduleSheafTensorPowerSuccIso F b).inv := rfl
-    rw [Fin.append_snoc, e, sectionsMap_comp_apply, sectionsMap_comp_apply,
-      sectionsMap_comp_apply]
-    have h3 := moduleSheafTensorPowerSuccIso_hom_tprod (F := F) (a + b) U
-      (Fin.snoc (Fin.append m m'') x)
-    rw [Fin.init_snoc, Fin.snoc_last] at h3
-    refine (congrArg (fun y => sectionsMap (modulesTensorMap (𝟙 (moduleSheafTensorPower a F))
-      (moduleSheafTensorPowerSuccIso F b).inv) U
-        (sectionsMap (moduleSheafTensorAssoc (moduleSheafTensorPower a F)
-          (moduleSheafTensorPower b F) F).hom U
-          (sectionsMap (modulesTensorMap (moduleSheafTensorPowerAddIso F a b).hom (𝟙 F)) U y)))
-      h3).trans ?_
-    dsimp only
-    rw [modulesTensorMap_tmul, moduleSheafTensorPowerAddIso_hom_tprod_append a b U m m'']
-    rw [show (moduleSheafTensorAssoc (moduleSheafTensorPower a F) (moduleSheafTensorPower b F)
-      F).hom = (assocTrilinear _ _ _).tensorDesc from rfl, ModuleSheafTrilinear.tensorDesc_tmul]
-    have h4 : ∀ (A B C : SheafOfModules.{u} (ringCatSheafOf R)) (l : A.val.obj (op U))
-        (l' : B.val.obj (op U)) (l'' : C.val.obj (op U)),
-        (assocTrilinear A B C).app U l l' l'' = (moduleSheafTensorBilinear A _).app (op U) l
-          ((moduleSheafTensorBilinear B C).app (op U) l' l'') := fun _ _ _ _ _ _ => rfl
-    have h5 : ∀ (A : SheafOfModules.{u} (ringCatSheafOf R)) (l : A.val.obj (op U)),
-        sectionsMap (𝟙 A) U l = l := fun _ _ => rfl
-    rw [h4, modulesTensorMap_tmul, h5, h5, moduleSheafTensorPowerSuccIso_inv_tmul]
+        ((moduleSheafTensorPowerMultilinear b F).app (op U) m') := by
+  intro b
+  induction b with
+  | zero => exact tensorPowerAddIso_hom_tprod_append_zero a
+  | succ b ih => exact tensorPowerAddIso_hom_tprod_append_succ a b ih
 
 /-! ### The product of sections of tensor powers -/
 
@@ -1133,10 +1170,50 @@ omit hE hV
 
 end Model
 
--- Checking the assembled existential (the comparison maps `E` inside `∃`, with `S` given by
--- `sectionAlgebraRelativeProjData`) takes the kernel about three minutes; the default heartbeats
--- are not enough.
-set_option maxHeartbeats 1000000 in
+/-! ### The comparison isomorphisms of the model -/
+
+/-- `f x = n` from `x = y` and `f y = n`. Used with `y` given explicitly: the kernel then compares
+`x` with `y` directly, whereas comparing `f x` with `f y` makes it unfold `f` first. -/
+private theorem apply_eq_of_eq {M N : Type*} (f : M → N) {x y : M} {n : N} (h : x = y)
+    (hy : f y = n) : f x = n :=
+  h ▸ hy
+
+section ModelEquiv
+
+variable [IsNoetherian X] [IsIntegral X]
+  (hf : (i ≫ projectiveSpaceOverSchemeProjection r X) (genericPoint Z) = genericPoint X)
+  (d : ℕ) [NeZero d]
+  (hG : ∀ (U : X.AffineZariskiSite) {m : ℕ} (hm : 0 < m),
+    Function.Bijective (veroneseTwistSection i d U hm))
+
+/-- The inverses `Γ(f⁻¹(U), L^{md}) ≅ T^{(d)}(U)_m` of bijective comparison maps, built with the
+grading of `sectionAlgebraRelativeProjData` as domain. As a definition (rather than a `fun`), it
+appears literally in the hypotheses of `sectionAlgebraModel_restrict` and its siblings; passing a
+`fun` there made the kernel unfold the comparison maps to check each use (about a minute and a
+half each). -/
+private noncomputable def sectionAlgebraModelEquiv : ∀ (U : X.AffineZariskiSite) {m : ℕ}, 0 < m →
+    Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1) ≃+
+      (sectionAlgebraRelativeProjData i hf d).algebra.grading U m :=
+  fun U m hm => (AddEquiv.ofBijective
+    (M := (sectionAlgebraRelativeProjData i hf d).algebra.grading U m)
+    (F := (sectionAlgebraRelativeProjData i hf d).algebra.grading U m →+ Γᴸ[m * d])
+    (veroneseTwistSection i d U hm) (hG U hm)).symm
+
+/-- `sectionAlgebraModelEquiv` is a right inverse of the comparison maps. -/
+private theorem veroneseTwistSection_sectionAlgebraModelEquiv (U : X.AffineZariskiSite) {m : ℕ}
+    (hm : 0 < m)
+    (s : Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)) :
+    veroneseTwistSection i d U hm (sectionAlgebraModelEquiv i hf d hG U hm s) = s :=
+  apply_eq_of_eq (veroneseTwistSection i d U hm)
+    (y := (AddEquiv.ofBijective (M := (sectionAlgebraRelativeProjData i hf d).algebra.grading U m)
+      (F := (sectionAlgebraRelativeProjData i hf d).algebra.grading U m →+ Γᴸ[m * d])
+      (veroneseTwistSection i d U hm) (hG U hm)).symm s) rfl
+    ((AddEquiv.ofBijective (M := (sectionAlgebraRelativeProjData i hf d).algebra.grading U m)
+      (F := (sectionAlgebraRelativeProjData i hf d).algebra.grading U m →+ Γᴸ[m * d])
+      (veroneseTwistSection i d U hm) (hG U hm)).apply_symm_apply s)
+
+end ModelEquiv
+
 open Scheme.AffineZariskiSite in
 /-- **The section-algebra model of a projective birational morphism** (Hartshorne II, proof of
 Theorem 7.17, Steps 1–3). Let `X` be an integral quasi-compact scheme locally of finite type over a
@@ -1185,16 +1262,13 @@ theorem exists_sectionAlgebraModel_multiplicative (k : Type u) [Field k] [IsInte
       Function.Bijective (veroneseTwistSection i d U hm) := fun U m hm =>
     veroneseTwistSection_bijective i d U hm
       (hd₀ U (m * d) (hd.trans (Nat.le_mul_of_pos_left d hm)))
-  have hE : ∀ (U : X.AffineZariskiSite) {m : ℕ} (hm : 0 < m)
-      (s : Γ(tensorPowerL i (m * d), (i ≫ projectiveSpaceOverSchemeProjection r X) ⁻¹ᵁ U.1)),
-      veroneseTwistSection i d U hm
-        ((AddEquiv.ofBijective (veroneseTwistSection i d U hm) (hG U hm)).symm s) = s :=
-    fun U m hm s => AddEquiv.ofBijective_apply_symm_apply _ (hG U hm)
-  exact ⟨sectionAlgebraRelativeProjData i hf d,
-    fun U m hm => (AddEquiv.ofBijective (veroneseTwistSection i d U hm) (hG U hm)).symm,
-    sectionAlgebraModel_restrict i hf d _ hE (fun U m hm => (hG U hm).1),
-    sectionAlgebraModel_structureMap_mul i hf d _ hE (fun U m hm => (hG U hm).1),
-    sectionAlgebraModel_mul i hf d _ hE (fun U m hm => (hG U hm).1),
+  exact ⟨sectionAlgebraRelativeProjData i hf d, sectionAlgebraModelEquiv i hf d hG,
+    sectionAlgebraModel_restrict i hf d _ (veroneseTwistSection_sectionAlgebraModelEquiv i hf d hG)
+      (fun U m hm => (hG U hm).1),
+    sectionAlgebraModel_structureMap_mul i hf d _
+      (veroneseTwistSection_sectionAlgebraModelEquiv i hf d hG) (fun U m hm => (hG U hm).1),
+    sectionAlgebraModel_mul i hf d _ (veroneseTwistSection_sectionAlgebraModelEquiv i hf d hG)
+      (fun U m hm => (hG U hm).1),
     sectionAlgebraRelativeProjIso i hf d, sectionAlgebraRelativeProjIso_hom_comp i hf d⟩
 
 end Local

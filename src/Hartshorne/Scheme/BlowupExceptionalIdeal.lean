@@ -1051,6 +1051,163 @@ private theorem restrictFunctorCongr_inv_restrictUnitIso {f f' : X ⟶ Y} [IsOpe
 
 end Coherence
 
+section Congruence
+
+/-! The statements below are written over the sheaf of Rees algebras, the blowing-up data or the
+gluing data, while the lemmas proving them are written over `reesGrading` or another of these.
+The two forms are definitionally equal, but checking a whole equation of morphisms against the
+other form makes the kernel unfold the twisting sheaves and the `Proj` schemes (over a minute and
+several GB per statement). The congruence lemmas below take the proved equation together with
+componentwise equalities (each `rfl` or `HEq.rfl`, cheap to check on its own), and their
+conclusions are literally the statements. -/
+
+open Scheme.Modules
+
+/-- Transport an equation `t ≫ φ_Y = (φ_Z)|_Y ≫ (𝒪_Z|_Y ≅ 𝒪_Y)` along componentwise equalities of
+its data. -/
+private theorem restrict_comp_eq_congr {Y Z Y' Z' : Scheme.{u}} {g : Y ⟶ Z} {g' : Y' ⟶ Z'}
+    {ig : IsOpenImmersion g} {ig' : IsOpenImmersion g'} {FY : Y.Modules} {FZ : Z.Modules}
+    {FY' : Y'.Modules} {FZ' : Z'.Modules} {t : FZ.restrict g ⟶ FY} {t' : FZ'.restrict g' ⟶ FY'}
+    {φY : FY ⟶ SheafOfModules.unit Y.ringCatSheaf}
+    {φY' : FY' ⟶ SheafOfModules.unit Y'.ringCatSheaf}
+    {φZ : FZ ⟶ SheafOfModules.unit Z.ringCatSheaf}
+    {φZ' : FZ' ⟶ SheafOfModules.unit Z'.ringCatSheaf}
+    (H : t ≫ φY = (restrictFunctor g).map φZ ≫ (restrictUnitIso g).hom)
+    (hY : Y = Y') (hZ : Z = Z') (hg : HEq g g') (hFY : HEq FY FY') (hFZ : HEq FZ FZ')
+    (ht : HEq t t') (hφY : HEq φY φY') (hφZ : HEq φZ φZ') :
+    t' ≫ φY' = (restrictFunctor g').map φZ' ≫ (restrictUnitIso g').hom := by
+  subst hY hZ
+  cases hg
+  cases hFY
+  cases hFZ
+  cases ht
+  cases hφY
+  cases hφZ
+  exact H
+
+/-- Transport an equation `e.hom ≫ φ = ι|_Y` along componentwise equalities of its data. -/
+private theorem iso_hom_comp_congr {Y Y' Z : Scheme.{u}} {j : Y ⟶ Z} {j' : Y' ⟶ Z}
+    {ij : IsOpenImmersion j} {ij' : IsOpenImmersion j'} {G : Z.Modules} {M : Y.Modules}
+    {M' : Y'.Modules} {e : G.restrict j ≅ M} {e' : G.restrict j' ≅ M'}
+    {φ : M ⟶ SheafOfModules.unit Y.ringCatSheaf} {φ' : M' ⟶ SheafOfModules.unit Y'.ringCatSheaf}
+    {ι : G ⟶ SheafOfModules.unit Z.ringCatSheaf}
+    (H : e.hom ≫ φ = restrictToUnit ι j) (hY : Y = Y') (hj : HEq j j') (hM : HEq M M')
+    (he : HEq e e') (hφ : HEq φ φ') : e'.hom ≫ φ' = restrictToUnit ι j' := by
+  subst hY
+  cases hj
+  cases hM
+  cases he
+  cases hφ
+  exact H
+
+/-- Transport the compatibility of maps `φ_U : 𝒪_{Proj S(U)}(1) ⟶ 𝒪` with the transition maps of
+the twisting sheaves along an equality of graded algebras `S = S'`. -/
+private theorem twistTransitionHom_comp_congr {X : Scheme.{u}}
+    {S S' : QuasiCoherentGradedAlgebra X}
+    {φ : ∀ U, S.twistingSheaf 1 U ⟶ SheafOfModules.unit (Proj (S.grading U)).ringCatSheaf}
+    {φ' : ∀ U, S'.twistingSheaf 1 U ⟶ SheafOfModules.unit (Proj (S'.grading U)).ringCatSheaf}
+    {U V : X.AffineZariskiSite} (f : U ⟶ V)
+    (H : S.twistTransitionHom 1 f ≫ φ U =
+      (restrictFunctor (Proj.map (S.restrict f) (S.irrelevant_le f))).map (φ V) ≫
+        (restrictUnitIso _).hom)
+    (hS : S = S') (hφ : HEq φ φ') :
+    S'.twistTransitionHom 1 f ≫ φ' U =
+      (restrictFunctor (Proj.map (S'.restrict f) (S'.irrelevant_le f))).map (φ' V) ≫
+        (restrictUnitIso _).hom := by
+  subst hS
+  cases hφ
+  exact H
+
+/-- Replace the isomorphism in `e.hom ≫ ψ = φ` by an equal one. -/
+private theorem hom_comp_eq_of_iso_eq {C : Type*} [Category C] {F G H : C} {e e' : F ≅ G}
+    {ψ : G ⟶ H} {φ : F ⟶ H} (h : e'.hom ≫ ψ = φ) (he : e = e') : e.hom ≫ ψ = φ := by
+  subst he
+  exact h
+
+end Congruence
+
+namespace DirectedModuleGluing.Data
+
+open Scheme.Modules
+
+variable {Y : Scheme.{u}} {𝒰 : Scheme.OpenCover.{u} Y} [Category.{u} 𝒰.I₀]
+  [𝒰.LocallyDirected] (D : Data 𝒰) (G : Y.Modules)
+  (e : ∀ k, G.restrict (𝒰.f k) ≅ D.M k)
+
+set_option backward.isDefEq.respectTransparency false in
+/-- Compatibility of isomorphisms `G|_{𝒰.X k} ≅ M k` can be checked after composing with
+monomorphisms `M k ⟶ 𝒪` that are compatible with the transition isomorphisms, when the
+isomorphisms identify these monomorphisms with the restrictions of one `G ⟶ 𝒪`. -/
+theorem compatibleIsos_of_comp_unit
+    (φ : ∀ k, D.M k ⟶ SheafOfModules.unit (𝒰.X k).ringCatSheaf) (hφ : ∀ k, Mono (φ k))
+    (ι : G ⟶ SheafOfModules.unit Y.ringCatSheaf)
+    (he : ∀ k, (e k).hom ≫ φ k = restrictToUnit ι (𝒰.f k))
+    (hθ : ∀ {i j : 𝒰.I₀} (f : i ⟶ j), (D.θ f).hom ≫ φ i =
+      (restrictFunctor (𝒰.trans f)).map (φ j) ≫ (restrictUnitIso (𝒰.trans f)).hom) :
+    D.CompatibleIsos G e := by
+  intro i j f
+  have := hφ i
+  rw [← cancel_mono (φ i), he i]
+  simp only [Category.assoc, hθ f]
+  rw [← Functor.map_comp_assoc, he j]
+  simp only [restrictToUnit, Functor.map_comp, Category.assoc]
+  rw [← Functor.comp_map (restrictFunctor (𝒰.f j)) (restrictFunctor (𝒰.trans f)) ι,
+    ← NatTrans.naturality_assoc, restrictUnitIso_comp', ← NatTrans.naturality_assoc,
+    restrictFunctorCongr_inv_restrictUnitIso]
+
+/-- The family `e`, with its type written exactly as the hypothesis of `CompatibleIsos`, `liftIso`
+and `compatibleIsos_of_comp_unit`. Passing `familyOf D G e` instead of `e` there spares the kernel
+from comparing the declared type of `e` with that hypothesis at every use. -/
+private def familyOf : ∀ k, G.restrict (𝒰.f k) ≅ D.M k := e
+
+end DirectedModuleGluing.Data
+
+namespace DirectedModuleGluing.DataTr
+
+open Scheme.Modules
+
+variable {Y : Scheme.{u}} {𝒰 : Scheme.OpenCover.{u} Y} [Category.{u} 𝒰.I₀]
+  [𝒰.LocallyDirected] (E : DataTr 𝒰) (G : Y.Modules)
+  (e : ∀ k, G.restrict (𝒰.f k) ≅ E.M k)
+
+set_option backward.isDefEq.respectTransparency false in
+/-- `Data.compatibleIsos_of_comp_unit` for descent data with separate transition maps. -/
+theorem compatibleIsos_of_comp_unit
+    (φ : ∀ k, E.M k ⟶ SheafOfModules.unit (𝒰.X k).ringCatSheaf) (hφ : ∀ k, Mono (φ k))
+    (ι : G ⟶ SheafOfModules.unit Y.ringCatSheaf)
+    (he : ∀ k, (e k).hom ≫ φ k = restrictToUnit ι (𝒰.f k))
+    (hθ : ∀ {i j : 𝒰.I₀} (f : i ⟶ j), (E.θ f).hom ≫ φ i =
+      (restrictFunctor (E.tr f)).map (φ j) ≫ (restrictUnitIso (E.tr f)).hom) :
+    E.toData.CompatibleIsos G e := by
+  refine Data.compatibleIsos_of_comp_unit _ _ _ φ hφ ι he fun {i j} f => ?_
+  dsimp only [toData, Iso.trans_hom, Iso.app_hom, Iso.symm_hom]
+  rw [Category.assoc, hθ f, ← NatTrans.naturality_assoc, restrictFunctorCongr_inv_restrictUnitIso]
+
+end DirectedModuleGluing.DataTr
+
+namespace QuasiCoherentGradedAlgebra
+
+open Scheme.Modules
+
+/-- `DataTr.compatibleIsos_of_comp_unit` for the descent datum of the twisting sheaves `𝒪(1)` of
+`Proj_X S`, with the hypotheses stated over `S` (as the statements that fill them are). -/
+private theorem twistData_compatibleIsos_of_comp_unit {X : Scheme.{u}}
+    (S : QuasiCoherentGradedAlgebra X) (G : S.relProj.Modules)
+    (e : ∀ U, G.restrict (S.projι U) ≅ S.twistingSheaf 1 U)
+    (φ : ∀ U, S.twistingSheaf 1 U ⟶ SheafOfModules.unit (Proj (S.grading U)).ringCatSheaf)
+    (hφ : ∀ U, Mono (φ U)) (ι : G ⟶ SheafOfModules.unit S.relProj.ringCatSheaf)
+    (he : ∀ U, (e U).hom ≫ φ U = restrictToUnit ι (S.projι U))
+    (hθ : ∀ {U V : X.AffineZariskiSite} (f : U ⟶ V), S.twistTransitionHom 1 f ≫ φ U =
+      (restrictFunctor (Proj.map (S.restrict f) (S.irrelevant_le f))).map (φ V) ≫
+        (restrictUnitIso _).hom) :
+    (S.twistData 1).toData.CompatibleIsos G e :=
+  DirectedModuleGluing.DataTr.compatibleIsos_of_comp_unit (S.twistData 1) G e φ hφ ι
+    (fun U => iso_hom_comp_congr (he U) rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl)
+    (fun f => restrict_comp_eq_congr (hθ f) rfl rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl
+      HEq.rfl)
+
+end QuasiCoherentGradedAlgebra
+
 /-! ### Division by `t` and the transition maps -/
 
 theorem reesShift_reesMap {R R' : Type u} [CommRing R] [CommRing R'] {I : Ideal R}
@@ -1182,7 +1339,6 @@ theorem twistDivXHom_app_eq_of_values
   rw [hs x]
   exact twistDivX_mapOfLE I ha _ (exists_reesGrading_one_mem_primeCompl I _) y
 
-set_option maxHeartbeats 800000 in
 /-- **The image of division by `t` on a chart**: over `D₊(a t)`, the image of `𝒪(1) ⟶ 𝒪` is the
 ideal generated by `I`. -/
 theorem homRangeIdeal_twistDivXHom_chart :
@@ -1237,7 +1393,20 @@ instance (U : X.AffineZariskiSite) : Mono (pieceDivX J U) := mono_twistDivXHom _
 instance (U : X.AffineZariskiSite) : ((reesAlgebraSheaf J).twistingSheaf 1 U).IsQuasicoherent :=
   ProjGradedModuleSheaf.isQuasicoherent _ _
 
-set_option maxHeartbeats 400000 in
+/-- Division by `t` commutes with the transition maps of the twisting sheaves of the pieces. -/
+theorem twistTransitionHom_comp_pieceDivX {U V : X.AffineZariskiSite} (f : U ⟶ V) :
+    (reesAlgebraSheaf J).twistTransitionHom 1 f ≫ pieceDivX J U =
+      (restrictFunctor (Proj.map ((reesAlgebraSheaf J).restrict f)
+        ((reesAlgebraSheaf J).irrelevant_le f))).map (pieceDivX J V) ≫
+        (restrictUnitIso _).hom :=
+  restrict_comp_eq_congr
+    (@twistRestrictHom_comp_twistDivXHom _ _ _ _ (idealOn J V) (idealOn J U)
+      ((reesAlgebraSheaf J).restrict f)
+      (fun y => reesShift_reesMap _ (map_idealOn J f.op.unop).le y)
+      ((reesAlgebraSheaf J).irrelevant_le f)
+      ((reesAlgebraSheaf J).isOpenImmersion_projMap_restrict f))
+    rfl rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl HEq.rfl
+
 theorem homRangeIdeal_pieceDivX_chart (U : X.AffineZariskiSite) {a : Γ(X, U.1)}
     (ha : a ∈ idealOn J U) :
     homRangeIdeal (pieceDivX J U)
@@ -1247,7 +1416,6 @@ theorem homRangeIdeal_pieceDivX_chart (U : X.AffineZariskiSite) {a : Γ(X, U.1)}
         ((Proj.awayι _ (chartElt J U ha) (chartElt_mem J U ha) one_pos).appIso ⊤).inv.hom :=
   homRangeIdeal_twistDivXHom_chart (idealOn J U) ha
 
-set_option maxHeartbeats 400000 in
 theorem ideal_pieceDivX_chart (U : X.AffineZariskiSite) {a : Γ(X, U.1)} (ha : a ∈ idealOn J U) :
     (idealSheafDataOfHom (pieceDivX J U)).ideal
         ⟨Proj.awayι _ (chartElt J U ha) (chartElt_mem J U ha) one_pos ''ᵁ ⊤,
@@ -1260,7 +1428,6 @@ theorem ideal_pieceDivX_chart (U : X.AffineZariskiSite) {a : Γ(X, U.1)} (ha : a
       ← Scheme.IdealSheafData.comap_comp, awayι_projToOpen_ι J U ha,
       ideal_top_comap_specMap_fromSpec J ⟨U.1, U.2⟩, CommRingCat.hom_comp, ← Ideal.map_map]
 
-set_option maxHeartbeats 400000 in
 theorem idealSheafDataOfHom_pieceDivX (U : X.AffineZariskiSite) :
     idealSheafDataOfHom (pieceDivX J U) =
       inverseImageIdeal ((reesAlgebraSheaf J).projToOpen U ≫ U.1.ι) J := by
@@ -1282,78 +1449,6 @@ theorem idealSheafDataOfHom_pieceDivX (U : X.AffineZariskiSite) :
 end ReesAlgebraSheaf
 
 end ChartPart
-
-namespace ReesAlgebraSheaf
-
-open Scheme.Modules
-
-variable {X : Scheme.{u}} (J : X.IdealSheafData)
-
-/-- Division by `t` commutes with the transition maps of the twisting sheaves of the pieces. -/
-theorem twistTransitionHom_comp_pieceDivX {U V : X.AffineZariskiSite} (f : U ⟶ V) :
-    (reesAlgebraSheaf J).twistTransitionHom 1 f ≫ pieceDivX J U =
-      (restrictFunctor (Proj.map ((reesAlgebraSheaf J).restrict f)
-        ((reesAlgebraSheaf J).irrelevant_le f))).map (pieceDivX J V) ≫
-        (restrictUnitIso _).hom :=
-  @twistRestrictHom_comp_twistDivXHom _ _ _ _ _ _ ((reesAlgebraSheaf J).restrict f)
-    (fun y => reesShift_reesMap _ (map_idealOn J f.op.unop).le y) _
-    ((reesAlgebraSheaf J).isOpenImmersion_projMap_restrict f)
-
-end ReesAlgebraSheaf
-
-namespace DirectedModuleGluing.Data
-
-open Scheme.Modules
-
-variable {Y : Scheme.{u}} {𝒰 : Scheme.OpenCover.{u} Y} [Category.{u} 𝒰.I₀]
-  [𝒰.LocallyDirected] (D : Data 𝒰) (G : Y.Modules)
-  (e : ∀ k, G.restrict (𝒰.f k) ≅ D.M k)
-
-set_option backward.isDefEq.respectTransparency false in
-/-- Compatibility of isomorphisms `G|_{𝒰.X k} ≅ M k` can be checked after composing with
-monomorphisms `M k ⟶ 𝒪` that are compatible with the transition isomorphisms, when the
-isomorphisms identify these monomorphisms with the restrictions of one `G ⟶ 𝒪`. -/
-theorem compatibleIsos_of_comp_unit
-    (φ : ∀ k, D.M k ⟶ SheafOfModules.unit (𝒰.X k).ringCatSheaf) (hφ : ∀ k, Mono (φ k))
-    (ι : G ⟶ SheafOfModules.unit Y.ringCatSheaf)
-    (he : ∀ k, (e k).hom ≫ φ k = restrictToUnit ι (𝒰.f k))
-    (hθ : ∀ {i j : 𝒰.I₀} (f : i ⟶ j), (D.θ f).hom ≫ φ i =
-      (restrictFunctor (𝒰.trans f)).map (φ j) ≫ (restrictUnitIso (𝒰.trans f)).hom) :
-    D.CompatibleIsos G e := by
-  intro i j f
-  have := hφ i
-  rw [← cancel_mono (φ i), he i]
-  simp only [Category.assoc, hθ f]
-  rw [← Functor.map_comp_assoc, he j]
-  simp only [restrictToUnit, Functor.map_comp, Category.assoc]
-  rw [← Functor.comp_map (restrictFunctor (𝒰.f j)) (restrictFunctor (𝒰.trans f)) ι,
-    ← NatTrans.naturality_assoc, restrictUnitIso_comp', ← NatTrans.naturality_assoc,
-    restrictFunctorCongr_inv_restrictUnitIso]
-
-end DirectedModuleGluing.Data
-
-namespace DirectedModuleGluing.DataTr
-
-open Scheme.Modules
-
-variable {Y : Scheme.{u}} {𝒰 : Scheme.OpenCover.{u} Y} [Category.{u} 𝒰.I₀]
-  [𝒰.LocallyDirected] (E : DataTr 𝒰) (G : Y.Modules)
-  (e : ∀ k, G.restrict (𝒰.f k) ≅ E.M k)
-
-set_option backward.isDefEq.respectTransparency false in
-/-- `Data.compatibleIsos_of_comp_unit` for descent data with separate transition maps. -/
-theorem compatibleIsos_of_comp_unit
-    (φ : ∀ k, E.M k ⟶ SheafOfModules.unit (𝒰.X k).ringCatSheaf) (hφ : ∀ k, Mono (φ k))
-    (ι : G ⟶ SheafOfModules.unit Y.ringCatSheaf)
-    (he : ∀ k, (e k).hom ≫ φ k = restrictToUnit ι (𝒰.f k))
-    (hθ : ∀ {i j : 𝒰.I₀} (f : i ⟶ j), (E.θ f).hom ≫ φ i =
-      (restrictFunctor (E.tr f)).map (φ j) ≫ (restrictUnitIso (E.tr f)).hom) :
-    E.toData.CompatibleIsos G e := by
-  refine Data.compatibleIsos_of_comp_unit _ _ _ φ hφ ι he fun {i j} f => ?_
-  dsimp only [toData, Iso.trans_hom, Iso.app_hom, Iso.symm_hom]
-  rw [Category.assoc, hθ f, ← NatTrans.naturality_assoc, restrictFunctorCongr_inv_restrictUnitIso]
-
-end DirectedModuleGluing.DataTr
 
 /-! ### The exceptional ideal sheaf is `𝒪(1)` -/
 
@@ -1405,45 +1500,66 @@ theorem idealSheafDataOfHom_restrictToUnit_exceptional (U : X.AffineZariskiSite)
     comap_projι_exceptionalIdealRel]
   exact (ReesAlgebraSheaf.idealSheafDataOfHom_pieceDivX _ U).symm
 
+/-- `exceptionalIdealSheafRestrictIso`, with the equality of image ideals as a hypothesis (with
+the proof inlined, the kernel check of the definition is several times more expensive). -/
+private def exceptionalIdealSheafRestrictIsoAux (U : X.AffineZariskiSite)
+    (h : idealSheafDataOfHom (restrictToUnit
+        (closedImmersionIdealSheafι (I.exceptionalIdealRel hI).subschemeι)
+        ((I.blowupData hI).algebra.projι U)) =
+      idealSheafDataOfHom (I.pieceDivX hI U)) :
+    (I.exceptionalIdealSheafRel hI).restrict ((I.blowupData hI).algebra.projι U) ≅
+      (I.blowupData hI).algebra.twistingSheaf 1 U :=
+  isoOfIdealSheafDataOfHomEq _ _ h
+
 /-- **On each affine piece, `I_E ≅ 𝒪(1)`**: over an affine open `U ⊆ X`, the restriction of the
 exceptional ideal sheaf to `Proj A[It]` is `𝒪(1)`, compatibly with the inclusions into `𝒪`
 (`𝒪(1) ⟶ 𝒪` being division by `t`). -/
 def exceptionalIdealSheafRestrictIso (U : X.AffineZariskiSite) :
     (I.exceptionalIdealSheafRel hI).restrict ((I.blowupData hI).algebra.projι U) ≅
       (I.blowupData hI).algebra.twistingSheaf 1 U :=
-  isoOfIdealSheafDataOfHomEq _ _ (I.idealSheafDataOfHom_restrictToUnit_exceptional hI U)
+  I.exceptionalIdealSheafRestrictIsoAux hI U (I.idealSheafDataOfHom_restrictToUnit_exceptional hI U)
 
 theorem exceptionalIdealSheafRestrictIso_hom_comp (U : X.AffineZariskiSite) :
     (I.exceptionalIdealSheafRestrictIso hI U).hom ≫ I.pieceDivX hI U =
       restrictToUnit (closedImmersionIdealSheafι (I.exceptionalIdealRel hI).subschemeι)
         ((I.blowupData hI).algebra.projι U) :=
-  isoOfIdealSheafDataOfHomEq_hom_comp _ _ _
+  hom_comp_eq_of_iso_eq (isoOfIdealSheafDataOfHomEq_hom_comp _ _ _) rfl
 
 theorem twistTransitionHom_comp_pieceDivX {U V : X.AffineZariskiSite} (f : U ⟶ V) :
     (I.blowupData hI).algebra.twistTransitionHom 1 f ≫ I.pieceDivX hI U =
       (restrictFunctor (Proj.map ((I.blowupData hI).algebra.restrict f)
         ((I.blowupData hI).algebra.irrelevant_le f))).map (I.pieceDivX hI V) ≫
         (restrictUnitIso _).hom :=
-  ReesAlgebraSheaf.twistTransitionHom_comp_pieceDivX _ f
+  twistTransitionHom_comp_congr f (ReesAlgebraSheaf.twistTransitionHom_comp_pieceDivX _ f) rfl
+    HEq.rfl
 
-set_option maxHeartbeats 400000 in
+/-- `exceptionalIdealSheafRestrictIso`, as a family indexed by the cover of `Proj_X (⨁ Iᵈ)`
+(see `DirectedModuleGluing.Data.familyOf`). -/
+private def exceptionalIdealSheafRestrictIsoFamily :=
+  ((I.blowupData hI).algebra.twistData 1).toData.familyOf (I.exceptionalIdealSheafRel hI)
+    (I.exceptionalIdealSheafRestrictIso hI)
+
 theorem compatibleIsos_exceptionalIdealSheafRestrictIso :
     ((I.blowupData hI).algebra.twistData 1).toData.CompatibleIsos (I.exceptionalIdealSheafRel hI)
-      (I.exceptionalIdealSheafRestrictIso hI) := by
-  refine DirectedModuleGluing.DataTr.compatibleIsos_of_comp_unit
-    ((I.blowupData hI).algebra.twistData 1) (I.exceptionalIdealSheafRel hI)
-    (I.exceptionalIdealSheafRestrictIso hI) (fun U => I.pieceDivX hI U)
-    (fun U => I.mono_pieceDivX hI U)
-    (closedImmersionIdealSheafι (I.exceptionalIdealRel hI).subschemeι) ?_ ?_
-  · intro U
-    exact I.exceptionalIdealSheafRestrictIso_hom_comp hI U
-  · intro U V f
-    exact I.twistTransitionHom_comp_pieceDivX hI f
+      (I.exceptionalIdealSheafRestrictIso hI) :=
+  (I.blowupData hI).algebra.twistData_compatibleIsos_of_comp_unit _ _ (I.pieceDivX hI)
+    (I.mono_pieceDivX hI) (closedImmersionIdealSheafι (I.exceptionalIdealRel hI).subschemeι)
+    (I.exceptionalIdealSheafRestrictIso_hom_comp hI) (I.twistTransitionHom_comp_pieceDivX hI)
+
+/-- `exceptionalIdealSheafIsoTwistingSheaf`, with the compatibility of the local isomorphisms as
+a hypothesis. (With the compatibility proof inlined, or with `exceptionalIdealSheafRestrictIso`
+in place of `exceptionalIdealSheafRestrictIsoFamily`, the kernel check of the application of
+`liftIso` is several times more expensive.) -/
+private def exceptionalIdealSheafIsoTwistingSheafAux
+    (he : ((I.blowupData hI).algebra.twistData 1).toData.CompatibleIsos
+      (I.exceptionalIdealSheafRel hI) (I.exceptionalIdealSheafRestrictIsoFamily hI)) :
+    I.exceptionalIdealSheaf hI ≅ (I.blowupData hI).algebra.relTwistingSheaf 1 :=
+  ((I.blowupData hI).algebra.twistData 1).toData.liftIso (I.exceptionalIdealSheafRel hI) _ he
 
 /-- **Hartshorne II, Proposition 7.13(a), `I_E ≅ 𝒪(1)`.** -/
 def exceptionalIdealSheafIsoTwistingSheaf :
     I.exceptionalIdealSheaf hI ≅ (I.blowupData hI).algebra.relTwistingSheaf 1 :=
-  ((I.blowupData hI).algebra.twistData 1).toData.liftIso (I.exceptionalIdealSheafRel hI) _
+  I.exceptionalIdealSheafIsoTwistingSheafAux hI
     (I.compatibleIsos_exceptionalIdealSheafRestrictIso hI)
 
 /-- **`𝒪(1) ≅ 𝒪(-E)`**: Hartshorne II, Proposition 7.13(a) (`I_E ≅ 𝒪(1)`) combined with

@@ -172,6 +172,22 @@ theorem eqToHom_apply_val {a b : ℤ} (h : a = b) {U : (Opens (ProjectiveSpectru
   simp only [eqToHom_refl]
   rfl
 
+/-- `tensor_hom_ext` restated for `𝒪_X`-modules on a scheme, so that the sections in its hypothesis
+are written over `X.ringCatSheaf` as in `mulMap_tmulSection` (the generic statement writes them
+over `ringCatSheafOf X.sheaf`, and the kernel then unfolds the maps on sections to compare). -/
+private theorem scheme_tensor_hom_ext {Y : Scheme.{u}} {F G H : Y.Modules} {φ ψ : F ⊗ G ⟶ H}
+    (h : ∀ (U : (Opens Y)ᵒᵖ) (f : F.val.obj U) (g : G.val.obj U),
+      φ.val.app U (tmulSection F G f g) = ψ.val.app U (tmulSection F G f g)) : φ = ψ :=
+  tensor_hom_ext h
+
+/-- `(φ ≫ ψ)(x) = ψ(φ(x))` on sections, for arbitrary modules (so that the kernel checks it once,
+and the proofs below compare syntactically equal terms instead of unfolding the composite). The
+type of `U` is left to unification, so that it is written as in `φ.val.app`. -/
+private theorem val_app_comp_apply {Y : Scheme.{u}} {M N P : Y.Modules} (φ : M ⟶ N) (ψ : N ⟶ P)
+    (U : _) (x : M.val.obj U) :
+    (φ ≫ ψ).val.app U x = ψ.val.app U (φ.val.app U x) :=
+  rfl
+
 theorem mulMap_add (n : ℤ) (d : ℕ) (s s' : 𝒜 d) :
     mulMap F n d (s + s') = mulMap F n d s + mulMap F n d s' := by
   apply tensor_hom_ext
@@ -196,18 +212,19 @@ theorem mulMap_add (n : ℤ) (d : ℕ) (s s' : 𝒜 d) :
       rw [key, key]
     _ = _ := rfl
 
--- The kernel check unfolds the generic and scheme monoidal instances against each other.
-set_option maxHeartbeats 1000000 in
-theorem mulMap_mul (n : ℤ) (d e : ℕ) (s : 𝒜 d) (t : 𝒜 e) :
-    mulMap F n d s ≫ mulMap F (n + d) e t =
-      mulMap F n (d + e) ⟨s * t, SetLike.GradedMul.mul_mem s.2 t.2⟩ ≫
-        eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m)
-          (show n + ((d + e : ℕ) : ℤ) = n + d + e by push_cast; ring)) := by
-  have h : n + ((d + e : ℕ) : ℤ) = n + d + e := by push_cast; ring
-  apply tensor_hom_ext
+/-- `mulMap_mul` with the degree identity as a hypothesis: the proof then mentions one proof term
+of it throughout, and the kernel compares syntactically equal sections (comparing differently
+elaborated proofs under the maps on sections makes it unfold the monoidal structure). -/
+private theorem mulMap_mul_of_eq (n : ℤ) (d e : ℕ) (s : 𝒜 d) (t : 𝒜 e) (st : A)
+    (hst : st ∈ 𝒜 (d + e)) (hst' : (s : A) * t = st) (h : n + ((d + e : ℕ) : ℤ) = n + d + e)
+    (h' : F ⊗ projTwistingSheaf 𝒜 (n + ((d + e : ℕ) : ℤ)) = F ⊗ projTwistingSheaf 𝒜 (n + d + e)) :
+    mulMap F n d s ≫ mulMap F (n + d) e t = mulMap F n (d + e) ⟨st, hst⟩ ≫ eqToHom h' := by
+  subst hst'
+  obtain rfl : h' = congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) h := proof_irrel _ _
+  apply scheme_tensor_hom_ext
   intro U f g
   calc _ = (mulMap F (n + d) e t).val.app U ((mulMap F n d s).val.app U
-        (tmulSection _ _ f g)) := rfl
+        (tmulSection _ _ f g)) := val_app_comp_apply _ _ U _
     _ = (mulMap F (n + d) e t).val.app U (tmulSection _ _ f
           ((twistMulHom 𝒜 n d).val.app U (tmulSection _ _ g (twistSection d s U)))) :=
         congrArg _ (mulMap_tmulSection F n d s f g)
@@ -216,7 +233,7 @@ theorem mulMap_mul (n : ℤ) (d e : ℕ) (s : 𝒜 d) (t : 𝒜 e) :
           (twistSection e t U))) := mulMap_tmulSection F (n + d) e t f _
     _ = tmulSection _ _ f ((eqToHom (congrArg (projTwistingSheaf 𝒜) h)).val.app U
           ((twistMulHom 𝒜 n (d + e : ℕ)).val.app U (tmulSection _ _ g
-            (twistSection (d + e) ⟨(s : A) * t, SetLike.GradedMul.mul_mem s.2 t.2⟩ U)))) := by
+            (twistSection (d + e) ⟨(s : A) * t, hst⟩ U)))) := by
       refine congrArg (tmulSection _ _ f) ?_
       apply section_ext
       intro x
@@ -227,25 +244,30 @@ theorem mulMap_mul (n : ℤ) (d e : ℕ) (s : 𝒜 d) (t : 𝒜 e) :
       rw [mul_comm, mul_smul]
     _ = (eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) h)).val.app U
           (tmulSection _ _ f ((twistMulHom 𝒜 n (d + e : ℕ)).val.app U (tmulSection _ _ g
-            (twistSection (d + e) ⟨(s : A) * t, SetLike.GradedMul.mul_mem s.2 t.2⟩ U)))) :=
+            (twistSection (d + e) ⟨(s : A) * t, hst⟩ U)))) :=
         (eqToHom_tmulSection F h f _).symm
     _ = (eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) h)).val.app U
-          ((mulMap F n (d + e) ⟨(s : A) * t, SetLike.GradedMul.mul_mem s.2 t.2⟩).val.app U
+          ((mulMap F n (d + e) ⟨(s : A) * t, hst⟩).val.app U
             (tmulSection _ _ f g)) :=
         congrArg _ (mulMap_tmulSection F n (d + e) _ f g).symm
-    _ = _ := rfl
+    _ = _ := (val_app_comp_apply _ _ U _).symm
 
--- The kernel check unfolds the generic and scheme monoidal instances against each other.
-set_option maxHeartbeats 1000000 in
-theorem mulMap_one (n : ℤ) :
-    mulMap F n 0 ⟨1, SetLike.GradedOne.one_mem⟩ =
-      eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m)
-        (show n = n + ((0 : ℕ) : ℤ) by push_cast; ring)) := by
-  have h : n = n + ((0 : ℕ) : ℤ) := by push_cast; ring
-  apply tensor_hom_ext
+theorem mulMap_mul (n : ℤ) (d e : ℕ) (s : 𝒜 d) (t : 𝒜 e) :
+    mulMap F n d s ≫ mulMap F (n + d) e t =
+      mulMap F n (d + e) ⟨s * t, SetLike.GradedMul.mul_mem s.2 t.2⟩ ≫
+        eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m)
+          (show n + ((d + e : ℕ) : ℤ) = n + d + e by push_cast; ring)) := by
+  exact mulMap_mul_of_eq F n d e s t _ _ rfl (by push_cast; ring) _
+
+/-- `mulMap_one` with the degree identity as a hypothesis (as for `mulMap_mul_of_eq`). -/
+private theorem mulMap_one_of_eq (n : ℤ) (h1 : (1 : A) ∈ 𝒜 0) (h : n = n + ((0 : ℕ) : ℤ))
+    (h' : F ⊗ projTwistingSheaf 𝒜 n = F ⊗ projTwistingSheaf 𝒜 (n + ((0 : ℕ) : ℤ))) :
+    mulMap F n 0 ⟨1, h1⟩ = eqToHom h' := by
+  obtain rfl : h' = congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) h := proof_irrel _ _
+  apply scheme_tensor_hom_ext
   intro U f g
   calc _ = tmulSection _ _ f ((twistMulHom 𝒜 n (0 : ℕ)).val.app U
-        (tmulSection _ _ g (twistSection 0 ⟨1, SetLike.GradedOne.one_mem⟩ U))) :=
+        (tmulSection _ _ g (twistSection 0 ⟨1, h1⟩ U))) :=
       mulMap_tmulSection F n 0 _ f g
     _ = tmulSection _ _ f ((eqToHom (congrArg (projTwistingSheaf 𝒜) h)).val.app U g) := by
       refine congrArg (tmulSection _ _ f) ?_
@@ -255,6 +277,12 @@ theorem mulMap_one (n : ℤ) :
       rw [twistMulHom_tmul_twistSection_apply, eqToHom_apply_val h]
       exact one_smul _ _
     _ = _ := (eqToHom_tmulSection F h f g).symm
+
+theorem mulMap_one (n : ℤ) :
+    mulMap F n 0 ⟨1, SetLike.GradedOne.one_mem⟩ =
+      eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m)
+        (show n = n + ((0 : ℕ) : ℤ) by push_cast; ring)) := by
+  exact mulMap_one_of_eq F n _ (by push_cast; ring) _
 
 end MulMap
 
@@ -271,6 +299,12 @@ abbrev GammaStar : Type u := DirectSum ℤ fun n => twistGlobal F n
 /-- Multiplication by `s ∈ S_d` on global sections, `Γ(X, F(n)) → Γ(X, F(n + d))`. -/
 def mulGlobal (n : ℤ) (d : ℕ) (s : 𝒜 d) : twistGlobal F n →+ twistGlobal F (n + d) :=
   ((mulMap F n d s).val.app (op ⊤)).hom.toAddMonoidHom
+
+/-- `mulGlobal` is `mulMap` on global sections (stated once, so that the proofs below compare
+syntactically equal sections). -/
+private theorem mulGlobal_apply (n : ℤ) (d : ℕ) (s : 𝒜 d) (x : twistGlobal F n) :
+    mulGlobal F n d s x = (mulMap F n d s).val.app (op ⊤) x :=
+  rfl
 
 theorem mulMap_zero (n : ℤ) (d : ℕ) : mulMap F n d 0 = 0 := by
   have h := mulMap_add F n d 0 0
@@ -341,13 +375,13 @@ theorem actHom_one : actHom F 1 = 1 := by
           ((mulMap F n 0 ⟨1, SetLike.GradedOne.one_mem⟩).val.app (op ⊤) x) :=
         mulStar_of F 0 _ n x
     _ = DirectSum.of (fun m => twistGlobal F m) (n + ((0 : ℕ) : ℤ))
-          ((eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) h)).val.app (op ⊤) x) := by
-        rw [mulMap_one]
+          ((eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) h)).val.app (op ⊤) x) :=
+        congrArg (fun φ => DirectSum.of (fun m => twistGlobal F m) (n + ((0 : ℕ) : ℤ))
+          (φ.val.app (op ⊤) x)) (mulMap_one_of_eq F n SetLike.GradedOne.one_mem h
+            (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) h))
     _ = DirectSum.of (fun m => twistGlobal F m) n x := of_eqToHom F h x
     _ = _ := rfl
 
--- The kernel check unfolds the generic and scheme monoidal instances against each other.
-set_option maxHeartbeats 1000000 in
 -- Elaborating the `calc` steps up to defeq needs deep unfolding.
 set_option maxRecDepth 10000 in
 theorem actHom_mul_of_mem {i j : ℕ} {a b : A} (ha : a ∈ 𝒜 i) (hb : b ∈ 𝒜 j) :
@@ -355,14 +389,26 @@ theorem actHom_mul_of_mem {i j : ℕ} {a b : A} (ha : a ∈ 𝒜 i) (hb : b ∈ 
   rw [actHom_of_mem F (SetLike.GradedMul.mul_mem ha hb), actHom_of_mem F ha,
     actHom_of_mem F hb]
   refine DirectSum.addHom_ext fun n x => ?_
+  have hji : n + ((j + i : ℕ) : ℤ) = n + j + i := by push_cast; ring
   have h2 : DirectSum.of (fun m => twistGlobal F m) (n + j + i)
       ((mulMap F (n + j) i ⟨a, ha⟩).val.app (op ⊤)
         ((mulMap F n j ⟨b, hb⟩).val.app (op ⊤) x)) =
       DirectSum.of (fun m => twistGlobal F m) (n + ((j + i : ℕ) : ℤ))
         ((mulMap F n (j + i) ⟨b * a, SetLike.GradedMul.mul_mem hb ha⟩).val.app (op ⊤) x) :=
-    (congrArg (fun φ => DirectSum.of (fun m => twistGlobal F m) (n + j + i) (φ.val.app (op ⊤) x))
-      (mulMap_mul F n j i ⟨b, hb⟩ ⟨a, ha⟩)).trans
-      (of_eqToHom F (show n + ((j + i : ℕ) : ℤ) = n + j + i by push_cast; ring) _)
+    ((congrArg (DirectSum.of (fun m => twistGlobal F m) (n + j + i))
+      (val_app_comp_apply (mulMap F n j ⟨b, hb⟩) (mulMap F (n + j) i ⟨a, ha⟩) (op ⊤) x)).symm.trans
+      (congrArg (fun φ => DirectSum.of (fun m => twistGlobal F m) (n + j + i) (φ.val.app (op ⊤) x))
+        (mulMap_mul_of_eq F n j i ⟨b, hb⟩ ⟨a, ha⟩ (b * a) (SetLike.GradedMul.mul_mem hb ha) rfl hji
+          (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) hji)))).trans
+      ((congrArg (DirectSum.of (fun m => twistGlobal F m) (n + j + i))
+        (val_app_comp_apply (mulMap F n (j + i) ⟨b * a, SetLike.GradedMul.mul_mem hb ha⟩)
+          (eqToHom (congrArg (fun m => F ⊗ projTwistingSheaf 𝒜 m) hji)) (op ⊤) x)).trans
+        (of_eqToHom F hji _))
+  have h3 : (mulMap F (n + j) i ⟨a, ha⟩).val.app (op ⊤)
+        ((mulMap F n j ⟨b, hb⟩).val.app (op ⊤) x) =
+      mulGlobal F (n + j) i ⟨a, ha⟩ (mulGlobal F n j ⟨b, hb⟩ x) :=
+    (congrArg (fun y => (mulMap F (n + j) i ⟨a, ha⟩).val.app (op ⊤) y)
+      (mulGlobal_apply F n j ⟨b, hb⟩ x).symm).trans (mulGlobal_apply F (n + j) i ⟨a, ha⟩ _).symm
   calc mulStar F (i + j) ⟨a * b, SetLike.GradedMul.mul_mem ha hb⟩
         (DirectSum.of (fun m => twistGlobal F m) n x)
       = DirectSum.of (fun m => twistGlobal F m) (n + ((i + j : ℕ) : ℤ))
@@ -371,15 +417,22 @@ theorem actHom_mul_of_mem {i j : ℕ} {a b : A} (ha : a ∈ 𝒜 i) (hb : b ∈ 
     _ = DirectSum.of (fun m => twistGlobal F m) (n + ((j + i : ℕ) : ℤ))
           (mulGlobal F n (j + i) ⟨b * a, SetLike.GradedMul.mul_mem hb ha⟩ x) :=
         of_mulGlobal_congr F n (add_comm i j) _ _ (mul_comm a b) x
+    _ = DirectSum.of (fun m => twistGlobal F m) (n + ((j + i : ℕ) : ℤ))
+          ((mulMap F n (j + i) ⟨b * a, SetLike.GradedMul.mul_mem hb ha⟩).val.app (op ⊤) x) :=
+        congrArg (DirectSum.of (fun m => twistGlobal F m) (n + ((j + i : ℕ) : ℤ)))
+          (mulGlobal_apply F n (j + i) _ x)
     _ = DirectSum.of (fun m => twistGlobal F m) (n + j + i)
           ((mulMap F (n + j) i ⟨a, ha⟩).val.app (op ⊤)
             ((mulMap F n j ⟨b, hb⟩).val.app (op ⊤) x)) := h2.symm
+    _ = DirectSum.of (fun m => twistGlobal F m) (n + j + i)
+          (mulGlobal F (n + j) i ⟨a, ha⟩ (mulGlobal F n j ⟨b, hb⟩ x)) :=
+        congrArg (DirectSum.of (fun m => twistGlobal F m) (n + j + i)) h3
     _ = mulStar F i ⟨a, ha⟩ (DirectSum.of (fun m => twistGlobal F m) (n + j)
           (mulGlobal F n j ⟨b, hb⟩ x)) := (mulStar_of F i _ (n + j) _).symm
     _ = mulStar F i ⟨a, ha⟩ (mulStar F j ⟨b, hb⟩
           (DirectSum.of (fun m => twistGlobal F m) n x)) :=
-        congrArg _ (mulStar_of F j _ n x).symm
-    _ = _ := rfl
+        congrArg (mulStar F i ⟨a, ha⟩) (mulStar_of F j _ n x).symm
+    _ = _ := (congrFun (AddMonoid.End.coe_mul _ _ _) _).symm
 
 /-- The action of `S` on `Γ_*(F)`, as a ring homomorphism to additive endomorphisms. -/
 def actRingHom : A →+* AddMonoid.End (GammaStar F) where

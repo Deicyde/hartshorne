@@ -33,9 +33,6 @@ hypotheses (†), `π : P = Proj_X S ⟶ X` the projection and `L` an ample inve
   is pulled back from `𝒪(1)` along some `Y`-morphism to `ℙˢ_Y`, then `L ⊗ M` is very ample.
 * `IsAmple.exists_hom_projectiveSpace_tensorPower`: high powers of an ample sheaf define
   `X`-morphisms `X ⟶ ℙˢ_X`.
-
-The proof of `exists_isImmersion_twist` is one long chart computation; it needs a heartbeat
-budget of `1000000`.
 -/
 
 noncomputable section
@@ -139,12 +136,46 @@ theorem IsAmple.exists_hom_projectiveSpace_tensorPower {X : Scheme.{u}} [IsNoeth
 
 /-! ### The embedding of `Proj_X S` -/
 
+section Transport
+
+variable {X : Scheme.{u}}
+
+/- The two lemmas below restate `IsTrivializingSection.sectionPowSMul` and an equation
+`x|_{A'} = c' • y|_{A'}` along equalities of opens `A = A'`, `B = B'`. In
+`RelativeProjData.exists_isImmersion_twist` the opens of the chart lemmas are spelled as images
+`projι U ''ᵁ D₊(g)`, while the proof names them `V p`; going through these lemmas, the kernel
+compares the two spellings only as opens, never inside the restriction maps of the twisting
+sheaf (which it would otherwise unfold). -/
+
+private lemma isTrivializingSection_sectionPowSMul_of_eq {F L : X.Modules} {A A' B B' : X.Opens}
+    {h' : A' ≤ B'} {x' : Γ(F, B')}
+    (hs : IsTrivializingSection F A' (F.presheaf.map (homOfLE h').op x'))
+    (h : A ≤ B) (hA : A = A') (hB : B = B') (x : Γ(F, B)) (hx : HEq x x') {f : Γ(L, A)}
+    (hf : IsTrivializingSection L A f) (n : ℕ) :
+    IsTrivializingSection (tensorPowerTwist F L n) A
+      (sectionPowSMul F L n f (F.presheaf.map (homOfLE h).op x)) := by
+  subst hA hB
+  cases hx
+  exact hs.sectionPowSMul hf n
+
+private lemma map_homOfLE_eq_smul_of_eq (F : X.Modules) {A A' B B' : X.Opens} {h' : A' ≤ B'}
+    {x' y' : Γ(F, B')} {c' : Γ(X, A')}
+    (H : F.presheaf.map (homOfLE h').op x' = c' • F.presheaf.map (homOfLE h').op y')
+    (h : A ≤ B) (hA : A = A') (hB : B = B') (x y : Γ(F, B)) (hx : HEq x x') (hy : HEq y y')
+    (c : Γ(X, A)) (hc : HEq c c') :
+    F.presheaf.map (homOfLE h).op x = c • F.presheaf.map (homOfLE h).op y := by
+  subst hA hB
+  cases hx
+  cases hy
+  cases hc
+  exact H
+
+end Transport
+
 namespace RelativeProjData
 
 variable {X : Scheme.{u}} [IsNoetherian X] (D : RelativeProjData X)
 
--- One long chart computation (closed immersion over each chart of ℙᴺ_X); needs 1000000.
-set_option maxHeartbeats 1000000 in
 /-- For some `m`, there is an immersion
 `φ : Proj_X S ⟶ ℙᴺ_X` over `X` with `φ^* 𝒪(1) ≅ 𝒪(1) ⊗ π^* L^m`. -/
 theorem exists_isImmersion_twist {L : X.Modules} (hL : L.IsAmple) :
@@ -155,13 +186,14 @@ theorem exists_isImmersion_twist {L : X.Modules} (hL : L.IsAmple) :
           ((Scheme.Modules.pullback D.projection).obj (moduleSheafTensorPower m L))) := by
   classical
   let S := D.algebra
-  let P := S.relProj
-  let π : P ⟶ X := S.relProjToBase
+  -- `Proj_X S` and `𝒪(1)` are written out, not named by `let`: the chart lemmas state them
+  -- unfolded, and the kernel would unfold the twisting sheaf to match a `let` name against them.
+  let π : S.relProj ⟶ X := S.relProjToBase
   have hS : S.GeneratedInDegreeOne := D.generated
-  let O : P.Modules := S.relTwistingSheaf 1
-  have hO : O.IsInvertible := S.isInvertible_relTwistingSheaf 1 hS
-  have : O.IsQuasicoherent := Ringed.IsFiniteLocallyFree.isQuasicoherent
-    (Ringed.IsInvertible.isFiniteLocallyFree ((Scheme.Modules.isInvertible_iff_ringed O).1 hO))
+  have hO : (S.relTwistingSheaf 1).IsInvertible := S.isInvertible_relTwistingSheaf 1 hS
+  have : (S.relTwistingSheaf 1).IsQuasicoherent := Ringed.IsFiniteLocallyFree.isQuasicoherent
+    (Ringed.IsInvertible.isFiniteLocallyFree
+      ((Scheme.Modules.isInvertible_iff_ringed (S.relTwistingSheaf 1)).1 hO))
   -- Finitely many affine `X_{w}`, `w ∈ Γ(X, L^a)`, cover `X`.
   obtain ⟨a, ha⟩ := hL.exists_isAffineOpen_nonvanishingLocus
   have hLa : Scheme.Modules.IsInvertible (moduleSheafTensorPower a L) :=
@@ -180,7 +212,7 @@ theorem exists_isImmersion_twist {L : X.Modules} (hL : L.IsAmple) :
     refine Subalgebra.sum_mem _ fun i _ => Subalgebra.mul_mem _ ?_ (Algebra.subset_adjoin ⟨i, rfl⟩)
     exact Subalgebra.algebraMap_mem _ (S.toZero (U y) (cf i))
   let J := Σ y : T, Fin (k y)
-  let V : J → P.Opens := fun p => S.projι (U p.1) ''ᵁ Proj.basicOpen _ (g p.1 p.2)
+  let V : J → S.relProj.Opens := fun p => S.projι (U p.1) ''ᵁ Proj.basicOpen _ (g p.1 p.2)
   have hVle : ∀ p : J, V p ≤ S.projι (U p.1) ''ᵁ ⊤ := fun p => Scheme.Hom.image_mono _ le_top
   have hVsup : ⨆ p, V p = ⊤ := by
     refine top_le_iff.mp fun x _ => ?_
@@ -196,14 +228,14 @@ theorem exists_isImmersion_twist {L : X.Modules} (hL : L.IsAmple) :
   have hVaff : ∀ p, IsAffineOpen (V p) := fun p =>
     (Proj.isAffineOpen_basicOpen _ _ (hg p.1 p.2) Nat.one_pos).image_of_isOpenImmersion _
   have : IsProper π := D.isProper_projection
-  have : IsNoetherian P := by
-    have : IsLocallyNoetherian P := LocallyOfFiniteType.isLocallyNoetherian π
-    have : CompactSpace P := QuasiCompact.compactSpace_of_compactSpace π
+  have : IsNoetherian S.relProj := by
+    have : IsLocallyNoetherian S.relProj := LocallyOfFiniteType.isLocallyNoetherian π
+    have : CompactSpace S.relProj := QuasiCompact.compactSpace_of_compactSpace π
     exact {}
-  have hqc : ∀ p q, IsCompact ((V p ⊓ V q : P.Opens) : Set P) := fun _ _ =>
+  have hqc : ∀ p q, IsCompact ((V p ⊓ V q : S.relProj.Opens) : Set S.relProj) := fun _ _ =>
     NoetherianSpace.isCompact _
   -- The pullback `L' = π^* L^a` and its sections `π^* w`.
-  let L' : P.Modules := (Scheme.Modules.pullback π).obj (moduleSheafTensorPower a L)
+  let L' : S.relProj.Modules := (Scheme.Modules.pullback π).obj (moduleSheafTensorPower a L)
   have hL' : L'.IsInvertible := Scheme.Modules.IsInvertible.pullback π hLa
   let f : T → Γ(L', ⊤) := fun y => pullbackGlobalSection π (w y)
   have hnl : ∀ y, nonvanishingLocusOpens hL' (f y) = S.projι (U y) ''ᵁ ⊤ := fun y => by
@@ -217,40 +249,52 @@ theorem exists_isImmersion_twist {L : X.Modules} (hL : L.IsAmple) :
     rwa [Scheme.Modules.map_map_homOfLE] at h
   -- The degree-one sections `g_{y j}` of `𝒪(1)` over `π⁻¹(U_y)`.
   let α := S.relTwistingSheafRestrictIso 1
-  let piece : ∀ y : T, Fin (k y) → Γ(O, S.projι (U y) ''ᵁ ⊤) := fun y j =>
-    QuasiCoherentGradedAlgebra.pieceDegreeOneSection O α (U y) (hg y j)
-  let σ : ∀ p : J, Γ(O, nonvanishingLocusOpens hL' (f p.1)) := fun p =>
-    O.presheaf.map (homOfLE (hnl p.1).le).op (piece p.1 p.2)
-  -- Serre's extension: `f^n σ` extends to a global section of `O ⊗ L'^{⊗ n}`.
-  have hext := fun p : J => exists_forall_sectionPowSMul_extension hL' (f p.1) O V hVsup hVaff
-    ef hef hqc (σ p)
+  let piece : ∀ y : T, Fin (k y) → Γ(S.relTwistingSheaf 1, S.projι (U y) ''ᵁ ⊤) := fun y j =>
+    QuasiCoherentGradedAlgebra.pieceDegreeOneSection (S.relTwistingSheaf 1) α (U y) (hg y j)
+  let σ : ∀ p : J, Γ(S.relTwistingSheaf 1, nonvanishingLocusOpens hL' (f p.1)) := fun p =>
+    (S.relTwistingSheaf 1).presheaf.map (homOfLE (hnl p.1).le).op (piece p.1 p.2)
+  -- Serre's extension: `f^n σ` extends to a global section of `𝒪(1) ⊗ L'^{⊗ n}`.
+  have hext := fun p : J => exists_forall_sectionPowSMul_extension hL' (f p.1)
+    (S.relTwistingSheaf 1) V hVsup hVaff ef hef hqc (σ p)
   choose K hK using hext
   let n := Finset.univ.sup K
   choose u hu using fun p => hK p n (Finset.le_sup (Finset.mem_univ p))
-  let M : P.Modules := tensorPowerTwist O L' n
+  let M : S.relProj.Modules := tensorPowerTwist (S.relTwistingSheaf 1) L' n
   have hM : M.IsInvertible := (Scheme.Modules.isInvertible_iff_ringed _).mpr
     (Ringed.isInvertible_moduleSheafTensor ((Scheme.Modules.isInvertible_iff_ringed _).mp hO)
       (Ringed.isInvertible_moduleSheafTensorPower
         ((Scheme.Modules.isInvertible_iff_ringed _).mp hL') n))
   have hu' : ∀ (y : T) (j j' : Fin (k y)),
       M.presheaf.map (homOfLE (le_top : V ⟨y, j'⟩ ≤ ⊤)).op (u ⟨y, j⟩) =
-        sectionPowSMul O L' n (ef ⟨y, j'⟩)
-          (O.presheaf.map (homOfLE (hVle ⟨y, j'⟩)).op (piece y j)) := fun y j j' => by
-    have hle : V ⟨y, j'⟩ ≤ nonvanishingLocusOpens hL' (f y) := (hVle ⟨y, j'⟩).trans (hnl y).ge
-    calc M.presheaf.map (homOfLE le_top).op (u ⟨y, j⟩)
-        = M.presheaf.map (homOfLE hle).op (M.presheaf.map (homOfLE le_top).op (u ⟨y, j⟩)) := by
-          rw [Scheme.Modules.map_map_homOfLE]
-      _ = _ := by
-          erw [hu ⟨y, j⟩, sectionPowSMul_map]
-          simp only [ef, σ, Scheme.Modules.map_map_homOfLE]
+        sectionPowSMul (S.relTwistingSheaf 1) L' n (ef ⟨y, j'⟩)
+          ((S.relTwistingSheaf 1).presheaf.map (homOfLE (hVle ⟨y, j'⟩)).op (piece y j)) :=
+    fun y j j' => by
+      have hle : V ⟨y, j'⟩ ≤ nonvanishingLocusOpens hL' (f y) := (hVle ⟨y, j'⟩).trans (hnl y).ge
+      calc M.presheaf.map (homOfLE le_top).op (u ⟨y, j⟩)
+          = M.presheaf.map (homOfLE hle).op (M.presheaf.map (homOfLE le_top).op (u ⟨y, j⟩)) := by
+            rw [Scheme.Modules.map_map_homOfLE]
+        _ = _ := by
+            erw [hu ⟨y, j⟩, sectionPowSMul_map]
+            simp only [ef, σ, Scheme.Modules.map_map_homOfLE]
+  have hu₀ : ∀ p : J, M.presheaf.map (homOfLE (le_top : V p ≤ ⊤)).op (u p) =
+      sectionPowSMul (S.relTwistingSheaf 1) L' n (ef p)
+        ((S.relTwistingSheaf 1).presheaf.map (homOfLE (hVle p)).op (piece p.1 p.2)) :=
+    fun p => by
+      have hle : V p ≤ nonvanishingLocusOpens hL' (f p.1) := (hVle p).trans (hnl p.1).ge
+      calc M.presheaf.map (homOfLE le_top).op (u p)
+          = M.presheaf.map (homOfLE hle).op (M.presheaf.map (homOfLE le_top).op (u p)) := by
+            rw [Scheme.Modules.map_map_homOfLE]
+        _ = _ := by
+            erw [hu p, sectionPowSMul_map]
+            simp only [ef, σ, Scheme.Modules.map_map_homOfLE]
   have htriv : ∀ p, IsTrivializingSection M (V p) (M.presheaf.map (homOfLE le_top).op (u p)) :=
     fun p => by
-      rw [hu' p.1 p.2 p.2]
-      exact (QuasiCoherentGradedAlgebra.isTrivializingSection_pieceDegreeOneSection α
-        (hg p.1 p.2)).sectionPowSMul
-        (hef p) n
+      rw [hu₀ p]
+      exact isTrivializingSection_sectionPowSMul_of_eq
+        (QuasiCoherentGradedAlgebra.isTrivializingSection_pieceDegreeOneSection α (hg p.1 p.2))
+        (hVle p) rfl rfl (piece p.1 p.2) HEq.rfl (hef p) n
   -- The coefficient `g_{y j} / g_{y j'}` on `V (y, j')`.
-  let c : ∀ (y : T) (j j' : Fin (k y)), Γ(P, V ⟨y, j'⟩) := fun y j j' =>
+  let c : ∀ (y : T) (j j' : Fin (k y)), Γ(S.relProj, V ⟨y, j'⟩) := fun y j j' =>
     ((S.projι (U y)).appIso _).inv (Proj.awayToSection _ (g y j')
       (HomogeneousLocalization.Away.mk _ (hg y j') 1 (g y j)
         (by rw [smul_eq_mul, mul_one]; exact hg y j)))
@@ -258,8 +302,10 @@ theorem exists_isImmersion_twist {L : X.Modules} (hL : L.IsAmple) :
       M.presheaf.map (homOfLE (le_top : V ⟨y, j'⟩ ≤ ⊤)).op (u ⟨y, j⟩) =
         c y j j' • M.presheaf.map (homOfLE (le_top : V ⟨y, j'⟩ ≤ ⊤)).op (u ⟨y, j'⟩) :=
     fun y j j' => by
-      rw [hu' y j j', hu' y j' j']
-      erw [QuasiCoherentGradedAlgebra.pieceDegreeOneSection_eq_smul (M := O) α (hg y j') (hg y j)]
+      rw [hu' y j j', hu' y j' j', map_homOfLE_eq_smul_of_eq (S.relTwistingSheaf 1)
+        (QuasiCoherentGradedAlgebra.pieceDegreeOneSection_eq_smul (M := S.relTwistingSheaf 1) α
+          (hg y j') (hg y j))
+        (hVle ⟨y, j'⟩) rfl rfl (piece y j) (piece y j') HEq.rfl HEq.rfl (c y j j') HEq.rfl]
       exact sectionPowSMul_smul_section _ _ _
   -- Theorem 7.1: the sections `u` define `φ : Proj_X S ⟶ ℙᴺ_X`.
   let N' := Fintype.card J
@@ -309,7 +355,7 @@ theorem exists_isImmersion_twist {L : X.Modules} (hL : L.IsAmple) :
   have hsurj : ∀ p, Function.Surjective (φ.appLE (W p) (V p) (hpreW p).ge) := by
     rintro ⟨y, j⟩ z
     let 𝒜 := S.grading (U y)
-    let ψ : HomogeneousLocalization.Away 𝒜 (g y j) →+* Γ(P, V ⟨y, j⟩) :=
+    let ψ : HomogeneousLocalization.Away 𝒜 (g y j) →+* Γ(S.relProj, V ⟨y, j⟩) :=
       ((S.projι (U y)).appIso _).inv.hom.comp (Proj.awayToSection 𝒜 (g y j)).hom
     have hψ : Function.Surjective ψ :=
       (ConcreteCategory.bijective_of_isIso ((S.projι (U y)).appIso _).inv).2.comp
@@ -361,9 +407,10 @@ theorem exists_isImmersion_twist {L : X.Modules} (hL : L.IsAmple) :
     exact ⟨hVaff p, hsurj p⟩
   have himm : IsImmersion φ := isImmersion_of_forall_isClosedImmersion_morphismRestrict φ W
     (by simp_rw [hpreW]; exact hVsup) hcl
-  refine ⟨a * n, N', φ, himm, hφ, ⟨e ≪≫ Ringed.moduleSheafTensorIsoOfIso (Iso.refl O)
-    ((nonempty_pullback_tensorPower_iso π hLa n).some.symm ≪≫
-      (Scheme.Modules.pullback π).mapIso (Ringed.moduleSheafTensorPowerMulIso L a n))⟩⟩
+  refine ⟨a * n, N', φ, himm, hφ, ⟨e ≪≫
+    Ringed.moduleSheafTensorIsoOfIso (Iso.refl (S.relTwistingSheaf 1))
+      ((nonempty_pullback_tensorPower_iso π hLa n).some.symm ≪≫
+        (Scheme.Modules.pullback π).mapIso (Ringed.moduleSheafTensorPowerMulIso L a n))⟩⟩
 
 end RelativeProjData
 
