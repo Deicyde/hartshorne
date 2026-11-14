@@ -33,8 +33,10 @@ permissions:
 env:
   AUTOFORM_SOURCE: "https://github.com/facebookresearch/autoform-bot.git"
 
+# One queue per ref: with the Lean build a run takes minutes, and a pull
+# request's run waiting in main's queue would replace a waiting deploy.
 concurrency:
-  group: blueprint-pages
+  group: blueprint-pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -89,6 +91,26 @@ jobs:
           uvx --from "git+${AUTOFORM_SOURCE}@${AUTOFORM_REF}"
           autoform doctor blueprint --lean-root .
 
+      # Records the declaration Lean resolved each name in the sources to, in
+      # .lake/build/lib/lean's .ilean files, which render reads to link each
+      # name in a statement's Lean exactly. If Mathlib's cache or the build
+      # fails, render links names as before, and the deploy goes ahead.
+      - name: Build Lean
+        continue-on-error: true
+        timeout-minutes: 60
+        run: |
+          set -euo pipefail
+          curl -sSfL \
+            https://github.com/leanprover/elan/releases/download/v4.2.3/elan-x86_64-unknown-linux-gnu.tar.gz \
+            -o "$RUNNER_TEMP/elan.tar.gz"
+          echo "df0b2b3a439961ffcbb3985214365ffe40f49bc871df04dff268c7d8e21ca8b2  $RUNNER_TEMP/elan.tar.gz" \
+            | sha256sum --check --strict
+          tar xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP"
+          "$RUNNER_TEMP/elan-init" -y --default-toolchain none
+          export PATH="$HOME/.elan/bin:$PATH"
+          lake exe cache get
+          lake build
+
       # Writes site-src/: statement boxes, derived statuses, the Mermaid graph,
       # and permalinks into the Lean code at this exact commit.
       - name: Render the blueprint
@@ -98,6 +120,7 @@ jobs:
           --output site-src
           --lean-root .
           --require-declarations
+          --ileans .lake/build/lib/lean
 
       - name: Build the Markdown site
         run: >-
