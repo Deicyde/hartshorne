@@ -38,7 +38,7 @@ jobs:
       - name: Validate the blueprint contract
         run: >-
           uvx --from "git+${AUTOFORM_SOURCE}@${AUTOFORM_REF}"
-          autoform doctor blueprint --lean-root .
+          autoform audit blueprint --lean-root .
 
       - name: Install elan
         run: |
