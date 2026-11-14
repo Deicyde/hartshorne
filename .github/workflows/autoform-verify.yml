@@ -22,7 +22,8 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    # Two compiles at a time make a full build take longer than two hours.
+    timeout-minutes: 330
     steps:
       - name: Check out project
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -73,9 +74,28 @@ jobs:
       - name: Fetch the Mathlib build cache
         run: lake exe cache get || echo "no cache available — building from source"
 
+      # Four compiles at once need about 31 GB at this project's size, nearly twice
+      # the hosted runner's 16 GB, and the runner shuts down mid-build (exit 143).
+      # Build Lean runs two at a time; swap on the runner's disk covers the peaks.
+      - name: Add swap
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          sudo swapoff -a
+          sudo rm -f /mnt/swapfile
+          sudo fallocate -l 16G /mnt/autoform-swapfile
+          sudo chmod 600 /mnt/autoform-swapfile
+          sudo mkswap /mnt/autoform-swapfile
+          sudo swapon /mnt/autoform-swapfile
+          free -m
+          df -h / /mnt
+
       # Evaluate either Lake manifest language, then clean only the root package.
       # Bare `lake clean` would also delete dependency build caches.
       - name: Build Lean
+        env:
+          # Lake runs its jobs on Lean's thread pool, so this caps parallel compiles.
+          LEAN_NUM_THREADS: "2"
         run: |
           set -euo pipefail
           evaluated_config="$(mktemp "${RUNNER_TEMP:-/tmp}/autoform-lake-config.XXXXXX.toml")"
@@ -86,7 +106,11 @@ jobs:
           echo "AUTOFORM_ROOT_PACKAGE=$root_package" >> "$GITHUB_ENV"
           lake check-build
           lake clean "$root_package"
+          # Memory and running compiles once a minute, so a run that dies still shows why.
+          (while sleep 60; do echo "memory: $(free -m | awk 'NR==2 {m=$3; a=$7} NR==3 {s=$3} END {printf "%s MB used, %s MB available, %s MB swap used", m, a, s}'), $(pgrep -c -x lean || true) lean processes"; done) &
+          monitor=$!
           lake build
+          kill "$monitor"
 
       - name: Audit every root-package declaration
         run: |
