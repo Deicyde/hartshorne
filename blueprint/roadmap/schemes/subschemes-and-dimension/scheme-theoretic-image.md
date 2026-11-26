@@ -1,12 +1,3 @@
----
-article_id: af_aaa59dc38407697cafd8a7df
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Scheme.kerAdjunction
-mathlib_file: Mathlib/AlgebraicGeometry/IdealSheaf/Subscheme.lean
----
-
 # The scheme-theoretic image
 
 For every morphism $f:Z\to X$, there is a closed subscheme

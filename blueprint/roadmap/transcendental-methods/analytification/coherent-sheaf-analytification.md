@@ -1,9 +1,3 @@
----
-article_id: af_c134acd46ff38429a1773ebf
-declaration: functor
-origin: cited
----
-
 # Analytification of a coherent algebraic sheaf
 
 Analytify a local finite free presentation of a coherent $\mathcal{O}_X$-module and

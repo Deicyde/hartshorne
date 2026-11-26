@@ -1,9 +1,3 @@
----
-article_id: af_6ddbc573b47584e300fce5cf
-declaration: theorem
-origin: background
----
-
 # Generation of the elliptic-function field
 
 For a complex lattice $\Lambda$, every elliptic function with periods in

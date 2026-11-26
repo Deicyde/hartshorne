@@ -1,12 +1,3 @@
----
-article_id: af_2217eb9deafef6d890207798
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_dense_isFinite_morphismRestrict_of_genericallyFinite
----
-
 # A generically finite morphism is finite over a dense open
 
 Let $f : X \to Y$ be dominant, generically finite, finite type, with $X$ and $Y$ integral. There is a dense open $U \subseteq Y$ such that $f^{-1}(U) \to U$ is finite.

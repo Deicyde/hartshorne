@@ -1,7 +1,3 @@
----
-article_id: af_cb60870356cd19fc91915af8
----
-
 # Low-degree space-curve classifications
 
 - [Curves of degree at most four](space-curves-degree-at-most-four.md)

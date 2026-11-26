@@ -1,12 +1,3 @@
----
-article_id: af_04f823fdc3f938711c5a757f
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.finiteType_of_comp
----
-
 # Cancellation for finite type
 
 If $f : X \to Y$ is quasi-compact and $g \circ f : X \to Z$ is finite type, then $f$ is finite type.

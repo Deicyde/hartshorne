@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/proper-and-projective/generated-proj-projective.md"}], "object": [{"location": {"declaration": "Hartshorne.projective_projToSpecZero_of_degreeOne_generators"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_b393ed07c0bc9cca0801abd3", "extensions": {"org.autoform": {"origin": "cited"}}}

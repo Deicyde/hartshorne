@@ -1,10 +1,3 @@
----
-article_id: af_ca7f077876a7f2d58fc6288d
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Abelian and hyperelliptic surface data
 
 For a two-dimensional abelian variety $A$ over an algebraically closed field

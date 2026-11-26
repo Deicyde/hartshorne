@@ -1,7 +1,3 @@
----
-article_id: af_317cf965850dffd82265bbc3
----
-
 # Numerical polynomials and graded Hilbert theory
 
 This chapter makes Hartshorne's integer-indexed grading literal, proves the

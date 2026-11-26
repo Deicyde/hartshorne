@@ -1,9 +1,3 @@
----
-article_id: af_a905e7af2a9a8857e29887f3
-declaration: equivalence
-origin: cited
----
-
 # The affine formal module equivalence
 
 Let $A$ be Noetherian and complete for an ideal $I$. Completion and global

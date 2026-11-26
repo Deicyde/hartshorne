@@ -1,7 +1,3 @@
----
-article_id: af_8c0bb06941286b62e3549f9e
----
-
 # Morphisms
 
 Regular functions and morphisms connect the varieties constructed in the

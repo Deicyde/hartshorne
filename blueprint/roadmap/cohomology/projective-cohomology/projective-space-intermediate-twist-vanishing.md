@@ -1,9 +1,3 @@
----
-article_id: af_cfba695f9d2a3f9721636d32
-declaration: theorem
-origin: cited
----
-
 # Intermediate twist cohomology vanishes
 
 Let $A$ be Noetherian and $r\ge 1$. For every $n \in \mathbb{Z}$ and $0<i<r$,

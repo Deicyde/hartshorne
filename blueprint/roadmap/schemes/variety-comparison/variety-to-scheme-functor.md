@@ -1,12 +1,3 @@
----
-article_id: af_5c458a9d4ad20b0ba2cb1454
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.varietyToSchemeFunctor Hartshorne.VarietyHom.associatedSchemeHom Hartshorne.VarietyHom.associatedSchemeHom_toShHom Hartshorne.VarietyHom.isLocalHom_genericCompletionHom_stalkMap Hartshorne.VarietyHom.associatedSchemeHom_comp_structureMorphism Hartshorne.VarietyHom.associatedSchemeHom_isOver Hartshorne.VarietyHom.associatedSchemeHom_id Hartshorne.VarietyHom.associatedSchemeHom_comp
----
-
 # The variety-to-scheme functor
 
 A variety morphism $f : V \to W$ sends an irreducible closed subset $Z$ to the

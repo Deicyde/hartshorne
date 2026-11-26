@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/sheaf-functors/restriction-stalk.md"}], "object": [{"location": {"declaration": "Hartshorne.exists_restrictionStalkIso"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_998ec5272223d187cf27ff4c", "extensions": {"org.autoform": {"origin": "cited"}}}

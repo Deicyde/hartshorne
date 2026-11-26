@@ -1,12 +1,3 @@
----
-article_id: af_b49e8cf565a740bf11cf4dc1
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.pointCountSequence
----
-
 # The finite-extension point-count sequence
 
 For a finite-type $\mathbb{F}_q$-scheme $X$, define

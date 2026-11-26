@@ -1,12 +1,3 @@
----
-article_id: af_a4166655df320f52f167be2a
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: CategoryTheory.Abelian.Ext.covariantSequence_exact
-mathlib_file: Mathlib/Algebra/Homology/DerivedCategory/Ext/ExactSequences.lean
----
-
 # The covariant long exact sequence of global Ext
 
 For an object $F$ and a short exact sequence

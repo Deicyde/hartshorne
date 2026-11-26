@@ -1,9 +1,3 @@
----
-article_id: af_6b9202da3e546beacdc064d8
-declaration: theorem
-origin: cited
----
-
 # Curves of degree five and six
 
 For degree five, the possibilities are the plane quintic of genus six and

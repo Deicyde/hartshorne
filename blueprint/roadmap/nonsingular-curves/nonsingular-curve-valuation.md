@@ -1,12 +1,3 @@
----
-article_id: af_82b63943cf8eb3b9f988705c
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.HasAffineOpenBasis.valuationAt Hartshorne.Variety.HasAffineOpenBasis.valuationSubringAt
----
-
 # Nonsingular curve points define discrete valuations
 
 Let $X$ be a curve over $k$ with an affine-open basis, and let $P$ be a

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/rational-maps/morphism-agreement.md"}], "object": [{"location": {"declaration": "Hartshorne.eq_of_eqOn_isOpen_hom"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_daad9faeda5a941ac86e9d79", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,9 +1,3 @@
----
-article_id: af_37218c6cd7786b0917e8ded8
-declaration: theorem
-origin: cited
----
-
 # Strict transforms and the classical affine blowup
 
 Define the strict transform of a closed subscheme $Y \to X$ as its blowup along

@@ -1,12 +1,3 @@
----
-article_id: af_60e022055cc61a837f59d6a3
-declaration: definition
-origin: cited
-lean: Hartshorne.normalSheaf Hartshorne.normalSheaf_isLocallyFreeOfRank Hartshorne.immersionConormalSheaf_isLocallyFreeOfRank Hartshorne.immersionConormalSheafPushforwardIso Hartshorne.immersionConormalSheafIso
-statement: formalized
-proof: formalized
----
-
 # Normal and conormal sheaves
 
 For a nonsingular closed subvariety $Y$ of a nonsingular variety $X$, define

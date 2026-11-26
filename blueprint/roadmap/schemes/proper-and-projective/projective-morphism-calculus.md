@@ -1,12 +1,3 @@
----
-article_id: af_bed4216d10a1747d063901f2
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveMorphismCalculus Hartshorne.Projective.comp Hartshorne.Projective.of_comp
----
-
 # Projective-morphism calculus
 
 The two later-used conclusions of Exercises 4.8–4.9 are:

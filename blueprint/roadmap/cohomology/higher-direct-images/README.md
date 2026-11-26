@@ -1,7 +1,3 @@
----
-article_id: af_6822bde092b8c72dc1a0812c
----
-
 # Higher direct images of sheaves
 
 Hartshorne III.8 defines higher direct images, gives their local cohomology

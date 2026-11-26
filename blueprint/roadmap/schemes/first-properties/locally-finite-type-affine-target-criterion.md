@@ -1,12 +1,3 @@
----
-article_id: af_7a7e7db275904105a90711a5
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.locallyOfFiniteType_iff_everyAffineTarget
----
-
 # The affine-target criterion for local finite type
 
 A morphism $f : X \to Y$ is locally of finite type if and only if, for every

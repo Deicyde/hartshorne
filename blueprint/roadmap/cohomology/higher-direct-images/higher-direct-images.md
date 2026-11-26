@@ -1,12 +1,3 @@
----
-article_id: af_c6ff9d0799602be5f5795566
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.abelianHigherDirectImage Hartshorne.abelianHigherDirectImageZeroIso
----
-
 # Higher direct images of abelian sheaves
 
 For a continuous map $f : X \to Y$ and $i \in N$, define the higher direct

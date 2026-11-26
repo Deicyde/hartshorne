@@ -1,12 +1,3 @@
----
-article_id: af_40231fde0010c4c5ac29c28f
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.injectiveLocalizationMap_surjective
----
-
 # Localization of an injective module is reached globally
 
 Let $A$ be Noetherian, $I$ an injective $A$-module, and $f \in A$. The

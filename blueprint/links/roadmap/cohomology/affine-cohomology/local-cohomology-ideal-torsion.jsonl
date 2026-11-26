@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/cohomology/affine-cohomology/local-cohomology-ideal-torsion.md"}], "object": [{"location": {"declaration": "Hartshorne.localCohomology_primaryComponent_eq_top"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_e2e9a698ad1531043af1a1cb", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,9 +1,3 @@
----
-article_id: af_e295c354da9736c896768fed
-declaration: theorem
-origin: cited
----
-
 # Degree-two maps are equivalent
 
 If $f_1,f_2 : X \to \mathbb{P}^1$ are degree-two morphisms from one elliptic curve,

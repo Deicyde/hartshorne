@@ -1,12 +1,3 @@
----
-article_id: af_813ed5a3017d80bd70095202
-declaration: theorem
-origin: bridged
-lean: Hartshorne.openExtensionByZero_adjunction_canonical
-statement: formalized
-proof: formalized
----
-
 # Open extension by zero is left adjoint to restriction
 
 Let $j : U \hookrightarrow X$ be an open immersion. The conditional-presheaf construction

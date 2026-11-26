@@ -1,9 +1,3 @@
----
-article_id: af_6a489d0c7084c19a6578367e
-declaration: theorem
-origin: cited
----
-
 # ℓ-adic fibre dimensions are locally constant in a smooth proper family
 
 Let $f:X\to Y$ be smooth and proper.  For every $i$,

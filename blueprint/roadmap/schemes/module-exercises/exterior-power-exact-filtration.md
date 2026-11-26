@@ -1,12 +1,3 @@
----
-article_id: af_3fbc46711bd77afee0c430be
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ExteriorPowerExactFiltration.exteriorPower_exact_filtration_of_isLocallyFree Hartshorne.ExteriorPowerExactFiltration.exists_exteriorPower_exact_filtration_of_isLocallyFree Hartshorne.ExteriorPowerExactFiltration.exteriorPower_exact_det Hartshorne.ExteriorPowerExactFiltration.exteriorPowerExactDetIso Hartshorne.ExteriorPowerExactFiltration.filSh Hartshorne.ExteriorPowerExactFiltration.wedgeSheafMap Hartshorne.ExteriorPowerExactFiltration.filSh_eq_imageSubobject
----
-
 # Exterior powers of an exact sequence
 
 For a short exact sequence of locally free sheaves (of arbitrary rank)

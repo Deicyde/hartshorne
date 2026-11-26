@@ -1,9 +1,3 @@
----
-article_id: af_7482bfa677b55eb9385c7def
-declaration: theorem
-origin: bridged
----
-
 # Projection from a strange point is inseparable
 
 Let $X \subset \mathbb{P}^3$ be strange with strange point $A$. Projection from $A$ is

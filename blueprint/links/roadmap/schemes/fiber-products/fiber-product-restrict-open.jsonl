@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/fiber-products/fiber-product-restrict-open.md"}], "object": [{"location": {"declaration": "Hartshorne.isPullback_fiberProductRestrictOpen"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_29b007474e7b2509a279e34c", "extensions": {"org.autoform": {"origin": "cited"}}}

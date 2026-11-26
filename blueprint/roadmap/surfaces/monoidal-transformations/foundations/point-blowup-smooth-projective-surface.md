@@ -1,9 +1,3 @@
----
-article_id: af_c0963bd7214310417f6834e9
-declaration: theorem
-origin: cited
----
-
 # Blowing up a point preserves smooth projective surfaces
 
 The monoidal transformation $\widetilde{X}=Bl_P(X)$ of a Chapter-V surface is

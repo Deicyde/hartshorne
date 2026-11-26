@@ -1,9 +1,3 @@
----
-article_id: af_0ebb1feadab23251442f2c8e
-declaration: theorem
-origin: cited
----
-
 # High-degree divisors are nonspecial
 
 Define the index of speciality of a divisor $D$ to be $l(K-D)$ and call $D$

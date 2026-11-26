@@ -1,9 +1,3 @@
----
-article_id: af_e34d485edeb7eceab81a2fe4
-declaration: theorem
-origin: cited
----
-
 # Global generation of the Castelnuovo contraction bundle
 
 With the notation of the cohomology ladder, the invertible sheaf

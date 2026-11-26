@@ -1,9 +1,3 @@
----
-article_id: af_1b585686585d1f47de721a3e
-declaration: theorem
-origin: cited
----
-
 # Every negative irreducible curve is a line
 
 Let $C$ be an irreducible curve on the marked cubic surface.  If $C ^2<0$,

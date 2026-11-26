@@ -1,10 +1,3 @@
----
-article_id: af_efd3359b326ef3ff507c0663
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Pluricanonical birationality in Kodaira dimension two
 
 For a Chapter-V surface $X$, the following are equivalent:

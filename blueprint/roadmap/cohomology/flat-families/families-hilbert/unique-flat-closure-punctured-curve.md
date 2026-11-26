@@ -1,10 +1,3 @@
----
-article_id: af_ef4a06e45e94f8adde10dd08
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The unique flat closure over a punctured curve
 
 Let $Y$ be a regular integral one-dimensional scheme, let $P$ be a closed

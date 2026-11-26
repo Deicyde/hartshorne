@@ -1,12 +1,3 @@
----
-article_id: af_a9e57f8d9d634fcf8140cc0b
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.dimAffineSpace_eq Hartshorne.vanishingIdeal_univ
----
-
 # The dimension of affine space
 
 $$\dim\mathbb{A}^n=n.$$

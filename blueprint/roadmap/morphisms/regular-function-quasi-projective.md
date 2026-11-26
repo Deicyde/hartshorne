@@ -1,12 +1,3 @@
----
-article_id: af_3f6ebf4555248edb9ac0b577
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsRegularAtProjVia Hartshorne.IsRegularProjVia Hartshorne.IsRegularProj
----
-
 # Regular functions on a quasi-projective variety
 
 Let $Y\subseteq\mathbb P^n$ be quasi-projective. A function $f:Y\to k$

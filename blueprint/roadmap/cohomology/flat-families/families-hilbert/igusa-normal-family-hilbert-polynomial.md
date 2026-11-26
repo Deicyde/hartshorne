@@ -1,10 +1,3 @@
----
-article_id: af_ada9ba575973f691d6ee9799
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Igusa constancy for normal projective families
 
 Let $X^{t}$ be an algebraic family of normal varieties embedded in fixed

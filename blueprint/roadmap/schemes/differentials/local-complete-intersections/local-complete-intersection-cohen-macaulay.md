@@ -1,12 +1,3 @@
----
-article_id: af_50ff8ee43572883918910b8b
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isCohenMacaulay_of_isLocalCompleteIntersectionIn
----
-
 # Local complete intersections are Cohen–Macaulay
 
 Every local complete intersection subscheme of a nonsingular variety is a

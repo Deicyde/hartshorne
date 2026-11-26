@@ -1,9 +1,3 @@
----
-article_id: af_24f555d2ced31b0d8d5d2211
-declaration: def
-origin: cited
----
-
 # Divisor sections and complete linear systems
 
 For a divisor $D$ on a Chapter IV curve, define

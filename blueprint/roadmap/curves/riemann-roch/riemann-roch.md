@@ -1,9 +1,3 @@
----
-article_id: af_cdbea3a99cad059dae2102b0
-declaration: theorem
-origin: cited
----
-
 # The Riemann–Roch theorem
 
 Let $D$ be a divisor on a Chapter IV curve $X$ of genus $g$, and let $K$ be a

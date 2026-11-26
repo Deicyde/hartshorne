@@ -1,12 +1,3 @@
----
-article_id: af_f738e02ee27aca87ee002bce
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.height_le_height_comap_of_isIntegral Hartshorne.height_comap_le_height_of_hasGoingDown Hartshorne.height_comap_eq_height_of_isIntegral
----
-
 # Height is preserved by contraction along an integral extension
 
 Let $A\subseteq B$ be an integral extension of domains, with $A$

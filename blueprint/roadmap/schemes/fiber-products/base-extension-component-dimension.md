@@ -1,12 +1,3 @@
----
-article_id: af_aa7d8d94ee5baa072d738b95
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.baseExtension_irreducibleComponent_topologicalKrullDim
----
-
 # Dimension after extending the ground field
 
 Let $X$ be integral and finite type over a field $k$. For every extension $k \subseteq k'$, each irreducible component of $X \times _k k'$ has dimension $\dim X$.

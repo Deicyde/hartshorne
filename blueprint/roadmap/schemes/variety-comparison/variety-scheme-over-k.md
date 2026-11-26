@@ -1,12 +1,3 @@
----
-article_id: af_b8676c84ea1c7ada3d8fddba
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.varietyAssociatedSchemeConstants Hartshorne.varietyAssociatedSchemeStructureMorphism Hartshorne.varietyAssociatedScheme_structureMorphism_appTop Hartshorne.varietyAssociatedScheme_structureMorphism_unique Hartshorne.varietyAssociatedSchemeCanonicallyOver Hartshorne.varietyAssociatedScheme_over Hartshorne.SchemeVarietyCat.toSchemeCanonicallyOver
----
-
 # The associated scheme is a scheme over the base field
 
 For a variety $V$ over $k$, the inclusion of constant regular functions

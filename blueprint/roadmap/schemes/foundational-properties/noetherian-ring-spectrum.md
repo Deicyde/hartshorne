@@ -1,12 +1,3 @@
----
-article_id: af_57d2b354da4767c96224d3a6
-declaration: instance
-origin: cited
-mathlib: true
-mathlib_declaration: PrimeSpectrum.instNoetherianSpace
-mathlib_file: Mathlib/RingTheory/Spectrum/Prime/Noetherian.lean
----
-
 # Spectra of Noetherian rings are Noetherian
 
 If $A$ is a Noetherian commutative ring, then the topological space $\operatorname{Spec} A$

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/nonsingular-curves/local-ring-fraction-field.md"}], "object": [{"location": {"declaration": "Hartshorne.Variety.HasAffineOpenBasis.isFractionRing_localRingAt"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_20bb708fcbe056188c33a53a", "extensions": {"org.autoform": {"origin": "cited"}}}

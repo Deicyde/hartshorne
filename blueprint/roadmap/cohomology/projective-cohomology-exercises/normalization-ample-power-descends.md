@@ -1,12 +1,3 @@
----
-article_id: af_059d05b4cdfaf27a571796f5
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.exists_pullback_iso_of_isVeryAmpleRelative
----
-
 # A very ample sheaf descends from a curve normalization
 
 Let $X$ be a proper integral one-dimensional scheme over an algebraically

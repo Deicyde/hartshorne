@@ -1,9 +1,3 @@
----
-article_id: af_fd64188feaa0764789f4e055
-declaration: theorem
-origin: cited
----
-
 # Coplanar tangents have a common point
 
 Let $X \subset \mathbb{P}^3$ be a nonplanar curve. If the tangent lines at every pair of

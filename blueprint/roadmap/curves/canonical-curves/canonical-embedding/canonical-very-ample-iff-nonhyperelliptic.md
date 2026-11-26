@@ -1,9 +1,3 @@
----
-article_id: af_8f2edda06b77a7e8dccf91d7
-declaration: theorem
-origin: cited
----
-
 # The canonical divisor is very ample exactly off the hyperelliptic locus
 
 For a Chapter IV curve $X$ of genus $g\ge 2$, the canonical divisor is very

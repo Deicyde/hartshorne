@@ -1,10 +1,3 @@
----
-article_id: af_1e948450645c64a10c7af13c
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Hirzebruch–Riemann–Roch
 
 For a nonsingular projective variety $X$ and a finite locally free sheaf $E$,

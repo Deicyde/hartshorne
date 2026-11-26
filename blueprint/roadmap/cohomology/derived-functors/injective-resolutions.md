@@ -1,12 +1,3 @@
----
-article_id: af_38456e94f3730e3cbfa68c65
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: CategoryTheory.InjectiveResolution.homotopyEquiv
-mathlib_file: Mathlib/CategoryTheory/Abelian/Injective/Resolution.lean
----
-
 # Injective resolutions
 
 In an abelian category with enough injectives, every object admits an

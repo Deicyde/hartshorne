@@ -1,12 +1,3 @@
----
-article_id: af_097bf715c669908a47568ca2
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.injectiveModuleSheaf_isFlasque
----
-
 # Injective module sheaves are flasque
 
 Every injective sheaf of modules on a ringed space is flasque as an underlying

@@ -1,9 +1,3 @@
----
-article_id: af_8d78c10a97777829b9f0345f
-declaration: isomorphism
-origin: cited
----
-
 # Čech complexes compute higher direct images
 
 Let $f : X \to Y$ be a morphism of separated Noetherian schemes, let $F$ be

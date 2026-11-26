@@ -1,12 +1,3 @@
----
-article_id: af_8e36413bda07e664a6477f0f
-declaration: definition
-origin: cited
-mathlib: true
-mathlib_declaration: CategoryTheory.Functor.rightDerived
-mathlib_file: Mathlib/CategoryTheory/Abelian/RightDerived.lean
----
-
 # Right derived functors
 
 For an additive functor $F : A \longrightarrow B$, where $A$ and $B$ are abelian and $A$

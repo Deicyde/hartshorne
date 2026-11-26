@@ -1,9 +1,3 @@
----
-article_id: af_cebe419d811e1ddbb4cf18e4
-declaration: theorem
-origin: cited
----
-
 # Coherence of projective higher direct images
 
 Let $f : X \to Y$ be a projective morphism of Noetherian schemes and let $F$

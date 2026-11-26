@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/schemes/differentials/kaehler-differentials/kahler-differential-base-change.md"}], "object": [{"location": {"declaration": "KaehlerDifferential.tensorKaehlerEquiv", "module": "Mathlib.RingTheory.Kaehler.TensorProduct"}}], "id": "af_d15239e64c87122975f4ca4a"}

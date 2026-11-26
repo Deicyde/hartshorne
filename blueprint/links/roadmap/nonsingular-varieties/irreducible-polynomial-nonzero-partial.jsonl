@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/nonsingular-varieties/irreducible-polynomial-nonzero-partial.md"}], "object": [{"location": {"declaration": "Hartshorne.exists_pderiv_ne_zero_of_irreducible"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_4c4647da1060e1836668271e", "extensions": {"org.autoform": {"origin": "bridged"}}}

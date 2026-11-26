@@ -1,12 +1,3 @@
----
-article_id: af_903d71598a93080c404c0326
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.RegularLocal.projectiveDimension_residueField_eq_ringKrullDim Hartshorne.RegularLocal.projectiveDimension_residueField
----
-
 # Projective dimension of the residue field
 
 Let $(A,m,k)$ be a Noetherian regular local ring. Then

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/morphisms/function-field-functorial.md"}], "object": [{"location": {"declaration": "Hartshorne.VarietyHom.functionFieldHom"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_3bfd873df32de1e7b9c89d8a", "extensions": {"org.autoform": {"origin": "bridged"}}}

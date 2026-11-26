@@ -1,9 +1,3 @@
----
-article_id: af_7efdf75914353df085783bce
-declaration: theorem
-origin: cited
----
-
 # A line can be moved to an exceptional curve
 
 For any one of the twenty-seven lines $L$ on the marked cubic surface, there

@@ -1,9 +1,3 @@
----
-article_id: af_547b173bdeb4afe85cf96dfa
-declaration: theorem
-origin: cited
----
-
 # Very ample divisors on a genus-one curve
 
 Let $X$ be a Chapter IV curve of genus one. A divisor $D$ is very ample if

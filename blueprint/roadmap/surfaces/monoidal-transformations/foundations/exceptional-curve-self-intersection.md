@@ -1,9 +1,3 @@
----
-article_id: af_9046486ffc5007a6afee01b6
-declaration: theorem
-origin: cited
----
-
 # The exceptional curve has self-intersection minus one
 
 For the exceptional curve of a monoidal transformation,

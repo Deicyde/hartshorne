@@ -1,9 +1,3 @@
----
-article_id: af_738b1119787492545971d003
-declaration: theorem
-origin: cited
----
-
 # Minimal-degree curves are rational normal
 
 Let $X$ be a Chapter-IV curve of projective degree $d$ in $\mathbb{P}^n$, not

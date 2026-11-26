@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/hilbert/graded-multiplicity.md"}], "object": [{"location": {"declaration": "Hartshorne.gradedPrimeFiltration_multiplicity_eq_count"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_4b49ee4a3033d8c3e5250ee9", "extensions": {"org.autoform": {"origin": "cited"}}}

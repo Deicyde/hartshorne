@@ -1,12 +1,3 @@
----
-article_id: af_75252423265930a00209b0e9
-declaration: theorem
-origin: background
-mathlib: true
-mathlib_declaration: Module.Flat.baseChange
-mathlib_file: Mathlib/RingTheory/Flat/Stability.lean
----
-
 # Flat modules remain flat after base change
 
 If $M$ is flat over a commutative ring $R$ and $S$ is an $R$-algebra, then

@@ -1,12 +1,3 @@
----
-article_id: af_b393ed07c0bc9cca0801abd3
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projective_projToSpecZero_of_degreeOne_generators
----
-
 # Degree-one-generated Proj is projective
 
 Let $S$ be a graded ring with $S_{0} = A$, finitely generated as an $A$-algebra

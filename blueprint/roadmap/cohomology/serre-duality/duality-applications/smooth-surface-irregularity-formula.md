@@ -1,9 +1,3 @@
----
-article_id: af_19e7ed1992d80e44da3d2567
-declaration: theorem
-origin: cited
----
-
 # The irregularity formula for a nonsingular surface
 
 For a nonsingular projective surface $X$ over an algebraically closed field

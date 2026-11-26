@@ -1,9 +1,3 @@
----
-article_id: af_6ac282d8a2da1dc495d1f589
-declaration: theorem
-origin: cited
----
-
 # Samuel's classification of strange curves
 
 Over an algebraically closed field, the only strange projective curves are a

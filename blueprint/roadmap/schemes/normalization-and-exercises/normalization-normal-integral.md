@@ -1,12 +1,3 @@
----
-article_id: af_2bfd72e7e5083e3b8b9be4c0
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.absoluteNormalization_isNormal_and_isIntegral
----
-
 # The normalization is normal and integral
 
 The normalization $\widetilde{X}$ of an integral scheme is a normal integral scheme.

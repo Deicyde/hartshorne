@@ -1,7 +1,3 @@
----
-article_id: af_ed89215a4d06659a130c6da1
----
-
 # Local structure of nonsingular curves
 
 Hartshorne's study of curves starts with a description of their local rings

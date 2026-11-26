@@ -1,9 +1,3 @@
----
-article_id: af_30ba0ad4243e81ed0f615337
-declaration: theorem
-origin: cited
----
-
 # Ext from the structure sheaf is cohomology
 
 For every $\mathcal{O}_X$-module $G$ and $i \ge 0$, construct natural isomorphisms

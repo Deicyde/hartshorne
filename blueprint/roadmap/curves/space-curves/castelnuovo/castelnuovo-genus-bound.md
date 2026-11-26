@@ -1,9 +1,3 @@
----
-article_id: af_dc5982b092e4e926deb8025c
-declaration: theorem
-origin: cited
----
-
 # The summed Castelnuovo bound
 
 Let $X \subset \mathbb{P}^3$ be a nonplanar curve of degree $d$ and genus $g$. Then

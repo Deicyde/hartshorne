@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/cohomology/ext-groups/global-ext/global-ext-covariant-long-exact.md"}], "object": [{"location": {"declaration": "CategoryTheory.Abelian.Ext.covariantSequence_exact", "module": "Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences"}}], "id": "af_a4166655df320f52f167be2a"}

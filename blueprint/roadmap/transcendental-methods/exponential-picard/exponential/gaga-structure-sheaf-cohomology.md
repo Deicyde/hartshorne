@@ -1,9 +1,3 @@
----
-article_id: af_5940d8b188a8e88280867058
-declaration: isomorphism
-origin: cited
----
-
 # GAGA comparison for the structure sheaf
 
 For a projective scheme $X$ over $\mathbb{C}$, analytification induces natural

@@ -1,9 +1,3 @@
----
-article_id: af_2a7d54dd8ee09656e7641c51
-declaration: theorem
-origin: cited
----
-
 # Intersection number as a sum of local lengths
 
 If effective curves $C ,D$ on a Chapter V surface have no common irreducible

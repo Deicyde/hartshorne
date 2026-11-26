@@ -1,9 +1,3 @@
----
-article_id: af_f67c181d14215539d2994c2e
-declaration: theorem
-origin: cited
----
-
 # Depth-two negative-twist vanishing
 
 Let $X$ be proper over an algebraically closed field, $L$ ample, and $F$

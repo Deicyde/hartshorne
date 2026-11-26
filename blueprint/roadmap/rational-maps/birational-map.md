@@ -1,11 +1,3 @@
----
-article_id: af_9b610e24170abc06369e25d0
-declaration: abbrev
-origin: cited
-statement: formalized
-lean: Hartshorne.BirationalMap
----
-
 # Birational maps
 
 A *birational map* $\varphi : X \dashrightarrow Y$ is a rational map admitting an inverse: a

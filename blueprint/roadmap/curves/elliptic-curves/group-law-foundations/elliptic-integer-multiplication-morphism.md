@@ -1,9 +1,3 @@
----
-article_id: af_ad16123b152bba871925073f
-declaration: theorem
-origin: cited
----
-
 # Integer multiplication is a morphism
 
 For every integer $n$, iterated addition and inversion define a group-scheme

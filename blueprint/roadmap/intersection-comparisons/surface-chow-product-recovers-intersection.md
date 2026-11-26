@@ -1,9 +1,3 @@
----
-article_id: af_58f551a20213eb1e8f62cbab
-declaration: theorem
-origin: cited
----
-
 # On a smooth projective surface the Chow product recovers divisor intersection
 
 Let $X$ be a Chapter-V surface. Under $A^1(X)\simeq \operatorname{Pic} (X)$, the composite

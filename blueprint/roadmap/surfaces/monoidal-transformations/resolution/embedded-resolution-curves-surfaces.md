@@ -1,9 +1,3 @@
----
-article_id: af_2e3ff670e887fb0173e1c6a6
-declaration: theorem
-origin: cited
----
-
 # Embedded resolution of curves on surfaces
 
 Let $Y$ be any effective curve on a Chapter V surface. There is a finite

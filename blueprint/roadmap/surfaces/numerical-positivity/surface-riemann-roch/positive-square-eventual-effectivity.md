@@ -1,9 +1,3 @@
----
-article_id: af_7f67904375d40f5cc798cff3
-declaration: theorem
-origin: cited
----
-
 # Positive square gives eventual effectivity
 
 Let $H$ be ample and let $D$ be a divisor on a Chapter V surface with

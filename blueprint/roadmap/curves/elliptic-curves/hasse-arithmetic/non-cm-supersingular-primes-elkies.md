@@ -1,10 +1,3 @@
----
-article_id: af_65e1189b1a33bba2440fc12f
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Non-CM supersingular primes
 
 Let $E/Q$ be an elliptic curve without complex multiplication, given by an

@@ -1,12 +1,3 @@
----
-article_id: af_587d2163b44f5944c3c8c7be
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_affine_open_cover_iff_forall_isAffineOpen_preimage
----
-
 # The affine-morphism criterion
 
 A morphism $f : X \to Y$ is affine when there exists an affine open cover

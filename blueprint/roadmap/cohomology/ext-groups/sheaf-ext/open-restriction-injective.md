@@ -1,12 +1,3 @@
----
-article_id: af_988ffcee9c967e9494cbaeeb
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.injective_moduleSheafRestrict_obj
----
-
 # Injectives restrict to open subsets
 
 Let $j : U \hookrightarrow X$ be an open inclusion. If $J$ is injective in the category of $\mathcal{O}_X$-modules,

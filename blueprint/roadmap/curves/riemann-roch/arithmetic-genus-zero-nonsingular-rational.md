@@ -1,9 +1,3 @@
----
-article_id: af_aa83cbf389d27de5ef061c0f
-declaration: theorem
-origin: cited
----
-
 # Arithmetic genus zero forces nonsingularity and rationality
 
 Let $X$ be an integral projective one-dimensional scheme over an

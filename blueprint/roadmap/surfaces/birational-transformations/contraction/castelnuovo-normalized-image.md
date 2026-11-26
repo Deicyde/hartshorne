@@ -1,9 +1,3 @@
----
-article_id: af_0fd218249869442782bbc3b6
-declaration: theorem
-origin: cited
----
-
 # Normalization of the Castelnuovo contraction image
 
 Let $X_0$ be the normalization of $X_1$.  The morphism from the nonsingular,

@@ -1,9 +1,3 @@
----
-article_id: af_c7162264c0f56397e4edc13d
-declaration: theorem
-origin: cited
----
-
 # Determinants and pushforward of curve divisors
 
 Let $f : X \to Y$ be a finite morphism of curves of degree $n$. Define

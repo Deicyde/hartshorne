@@ -1,12 +1,3 @@
----
-article_id: af_6ae7ab997d79403ec249423a
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.FunctionFieldDVR.residueAt
----
-
 # Residue fields of function-field DVRs
 
 Let $k$ be algebraically closed, let $K/k$ be a finitely generated field

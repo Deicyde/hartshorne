@@ -1,9 +1,3 @@
----
-article_id: af_1f06f31606760412c5e52f6d
-declaration: structure
-origin: cited
----
-
 # Abstract and complete varieties
 
 For an algebraically closed field $k$, define an abstract variety to be a

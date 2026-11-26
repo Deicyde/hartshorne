@@ -1,12 +1,3 @@
----
-article_id: af_80f6d4cc27ebb567666021b8
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.cartierToWeil AlgebraicGeometry.Scheme.cartierToWeil_apply AlgebraicGeometry.Scheme.weilCartierEquiv AlgebraicGeometry.Scheme.weilCartierEquiv_symm_apply AlgebraicGeometry.Scheme.weilCartierEquiv_principalDivisor AlgebraicGeometry.Scheme.map_principalDivisorSubgroup_weilCartierEquiv AlgebraicGeometry.Scheme.isLocallyPrincipal_of_isLocallyFactorial AlgebraicGeometry.Scheme.cartierEquivLocallyPrincipal AlgebraicGeometry.Scheme.coe_cartierEquivLocallyPrincipal AlgebraicGeometry.Scheme.mem_locallyPrincipalWeilDivisors
----
-
 # Weil and Cartier divisors on locally factorial schemes
 
 Let $X$ be integral, separated, Noetherian, and locally factorial. Construct

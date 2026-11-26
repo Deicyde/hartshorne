@@ -1,9 +1,3 @@
----
-article_id: af_04e885e18497452a549dc35e
-declaration: theorem
-origin: cited
----
-
 # The cohomological ampleness criterion
 
 Let $A$ be Noetherian, let $X$ be proper over $\operatorname{Spec} A$, and let $L$ be

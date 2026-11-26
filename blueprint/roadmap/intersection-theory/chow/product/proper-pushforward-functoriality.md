@@ -1,9 +1,3 @@
----
-article_id: af_31f726708a7e9e3ed6ed0458
-declaration: theorem
-origin: cited
----
-
 # Proper pushforward is functorial on Chow groups
 
 For a proper morphism $f:X\to X'$, cycle pushforward induces

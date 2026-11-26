@@ -1,10 +1,3 @@
----
-article_id: af_5dea97a1b51ab6a9c6cd36d7
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Chow's moving lemma
 
 Let $X$ be a nonsingular quasi-projective variety over the algebraically

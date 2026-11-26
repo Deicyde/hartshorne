@@ -1,9 +1,3 @@
----
-article_id: af_23cbd228588288b540c27911
-declaration: definition
-origin: cited
----
-
 # The Grothendieck group of coherent sheaves
 
 For a Noetherian scheme $X$, define $K(X)$ as the quotient of the free

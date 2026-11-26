@@ -1,9 +1,3 @@
----
-article_id: af_2cf6f53fcdfc9109251d4fc5
-declaration: theorem
-origin: cited
----
-
 # Bounds for the invariant of an indecomposable bundle
 
 Let $E$ be a normalized indecomposable rank-two bundle on a genus-$g$ curve.

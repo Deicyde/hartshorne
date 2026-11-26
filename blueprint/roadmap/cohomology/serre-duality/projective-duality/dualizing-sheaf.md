@@ -1,12 +1,3 @@
----
-article_id: af_75374f590a194c0db1b7c924
-declaration: definition
-origin: cited
-lean: Hartshorne.DualizingSheaf Hartshorne.DualizingSheaf.dualityEquiv Hartshorne.DualizingSheaf.dualityEquiv_naturality Hartshorne.dualityPairingMap Hartshorne.dualityPairingMap_naturality Hartshorne.cohomologyOverField Hartshorne.homOverField Hartshorne.baseFieldToGlobalSections Hartshorne.Ringed.moduleSheafCohomologyModule_map_globalScalar
-statement: formalized
-proof: formalized
----
-
 # Dualizing sheaves
 
 Let $X$ be a proper scheme of dimension $n$ over a field $k$. A dualizing

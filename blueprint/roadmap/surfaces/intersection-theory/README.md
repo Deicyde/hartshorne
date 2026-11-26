@@ -1,7 +1,3 @@
----
-article_id: af_8e37f63451ac1ab6cf9503d9
----
-
 # Intersection theory and adjunction on surfaces
 
 The direct intersection pairing on a smooth projective surface provides the

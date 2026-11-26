@@ -1,10 +1,3 @@
----
-article_id: af_7589de0d2a6ba98ed3605507
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Lefschetz-pencil and monodromy proof architecture
 
 Deligne's proof of purity uses Lefschetz pencils, the geometry of singular

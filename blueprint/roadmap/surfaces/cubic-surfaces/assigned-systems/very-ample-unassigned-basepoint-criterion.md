@@ -1,9 +1,3 @@
----
-article_id: af_f80e354a3082360ca1424b23
-declaration: theorem
-origin: cited
----
-
 # Very ampleness via unassigned base points
 
 A complete system $|D|$ on a projective surface is very ample if and only if

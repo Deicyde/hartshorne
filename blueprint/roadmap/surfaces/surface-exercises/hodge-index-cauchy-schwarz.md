@@ -1,9 +1,3 @@
----
-article_id: af_42004335b0a38d8bb41d9b2a
-declaration: theorem
-origin: cited
----
-
 # The Hodge-index Cauchy–Schwarz inequality
 
 Let $H$ be an ample divisor on a Chapter-V surface and let $D$ be any divisor.

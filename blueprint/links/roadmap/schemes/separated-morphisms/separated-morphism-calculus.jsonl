@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/separated-morphisms/separated-morphism-calculus.md"}], "object": [{"location": {"declaration": "Hartshorne.separatedMorphismCalculus"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_4148828d8cb4ae4679557610", "extensions": {"org.autoform": {"origin": "cited"}}}

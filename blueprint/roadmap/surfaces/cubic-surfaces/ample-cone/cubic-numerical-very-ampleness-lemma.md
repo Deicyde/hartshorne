@@ -1,9 +1,3 @@
----
-article_id: af_e51710a668272c4dee10196e
-declaration: theorem
-origin: cited
----
-
 # A numerical very-ampleness lemma
 
 Let

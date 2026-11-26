@@ -1,12 +1,3 @@
----
-article_id: af_33e0735e317f0ed6698a6053
-declaration: definition
-origin: cited
-lean: Hartshorne.openExtensionByZero
-statement: formalized
-proof: formalized
----
-
 # Open extension by zero
 
 Let $j : U \hookrightarrow X$ be the inclusion of an open subspace and $F$ a sheaf on $U$.

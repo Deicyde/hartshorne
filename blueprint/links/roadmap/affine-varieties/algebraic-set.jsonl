@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/affine-varieties/algebraic-set.md"}], "object": [{"location": {"declaration": "Hartshorne.zeroSet"}, "role": "states"}, {"location": {"declaration": "Hartshorne.IsAlgebraicSet"}}], "status": "formalized", "kind": "def", "id": "af_7784104b5370425681c0fc40", "extensions": {"org.autoform": {"origin": "cited"}}}

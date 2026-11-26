@@ -1,10 +1,3 @@
----
-article_id: af_276cce078a9da6bc83ed473e
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Class-field facts for complex multiplication
 
 Let $X/\mathbb{C}$ have complex multiplication by an order $R$ with quotient field

@@ -1,7 +1,3 @@
----
-article_id: af_772057b7e591e5272d564c87
----
-
 # Grauert and cohomology and base change
 
 These articles turn the finite-free cohomology model, semicontinuity, and

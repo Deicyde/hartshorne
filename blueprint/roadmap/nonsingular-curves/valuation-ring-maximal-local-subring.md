@@ -1,12 +1,3 @@
----
-article_id: af_2676126077d19db346a29821
-declaration: lemma
-origin: background
-mathlib: true
-mathlib_declaration: LocalSubring.isMax_iff
-mathlib_file: Mathlib/RingTheory/Valuation/LocalSubring.lean
----
-
 # Valuation rings are maximal local subrings
 
 Let $K$ be a field and let $A$ be a local subring of $K$. Then $A$ is maximal

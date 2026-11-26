@@ -1,10 +1,3 @@
----
-article_id: af_20f45557c761e5b4d08a43a3
-declaration: exact_sequence
-origin: background
-not_ready: true
----
-
 # Localization exact sequence for Chow groups
 
 Let $i:Y\to X$ be a nonsingular closed subvariety of a nonsingular

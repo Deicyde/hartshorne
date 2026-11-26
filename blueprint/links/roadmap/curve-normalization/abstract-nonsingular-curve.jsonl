@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/curve-normalization/abstract-nonsingular-curve.md"}], "object": [{"location": {"declaration": "Hartshorne.ValuationSpace.abstractNonsingularCurve"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_e31d8787e86350185ec8ff60", "extensions": {"org.autoform": {"origin": "cited"}}}

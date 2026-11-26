@@ -1,9 +1,3 @@
----
-article_id: af_25fa2019490af546fc45452f
-declaration: isomorphism
-origin: cited
----
-
 # The Chow ring of projective space
 
 For projective $n$-space and the hyperplane class $h \in A^1(\mathbb{P}^n)$,

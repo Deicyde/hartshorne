@@ -1,9 +1,3 @@
----
-article_id: af_bfdef3fe78af03a0a9f3c667
-declaration: theorem
-origin: cited
----
-
 # Numerical invariants in a flat projective family
 
 Let $T$ be connected and Noetherian and $X$ a closed subscheme of $\mathbb{P}^n_T$

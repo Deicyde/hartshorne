@@ -1,12 +1,3 @@
----
-article_id: af_ca2bfce28489b72dde40649c
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_isNumericalPolynomial_eventuallyEq_of_diff
----
-
 # Discrete antidifferentiation of a numerical polynomial
 
 Let $f:\mathbb Z\to\mathbb Z$. Suppose that a numerical polynomial

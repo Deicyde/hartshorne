@@ -1,9 +1,3 @@
----
-article_id: af_748d151594bddbbda1920cab
-declaration: theorem
-origin: cited
----
-
 # A rank-two projective bundle over a curve is ruled
 
 Let $C$ be a nonsingular projective curve and $E$ a rank-two locally free

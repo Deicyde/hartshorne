@@ -1,12 +1,3 @@
----
-article_id: af_90bc230b641c7c0c74c4e077
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Flat.iff_flat_stalkMap
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Flat.lean
----
-
 # The stalk criterion for flat morphisms
 
 A scheme morphism $f : X \to Y$ is flat if and only if every stalk map

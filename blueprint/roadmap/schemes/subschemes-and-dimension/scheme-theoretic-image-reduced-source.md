@@ -1,12 +1,3 @@
----
-article_id: af_d025599c8fd888815a2f19dd
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ker_eq_vanishingIdeal_closure_range Hartshorne.exists_image_iso_reducedInducedSubscheme
----
-
 # The scheme-theoretic image of a reduced source
 
 If $f : Z \to X$ has reduced source, its scheme-theoretic image is the reduced

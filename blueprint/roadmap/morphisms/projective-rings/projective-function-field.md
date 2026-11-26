@@ -1,12 +1,3 @@
----
-article_id: af_2083bac423a66fdd008a0280
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projFunctionFieldEquivGraded
----
-
 # The function field of a projective variety
 
 Let $Y$ be a projective variety meeting a standard affine chart $U_i$.

@@ -1,12 +1,3 @@
----
-article_id: af_edca491800739a4911ebe070
-declaration: instance
-origin: cited
-mathlib: true
-mathlib_declaration: KaehlerDifferential.finite
-mathlib_file: Mathlib/RingTheory/Kaehler/Basic.lean
----
-
 # Finiteness of differentials
 
 If $B$ is an essentially finite-type $A$-algebra, then $\Omega_{B/ A}$ is a finitely

@@ -1,9 +1,3 @@
----
-article_id: af_1c0f1e606c39613868b3236f
-declaration: morphism
-origin: cited
----
-
 # Natural algebraic-to-analytic cohomology comparison maps
 
 For every coherent algebraic sheaf $F$ and every $i\ge 0$, the analytification

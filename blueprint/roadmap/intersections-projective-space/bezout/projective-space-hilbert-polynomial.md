@@ -1,12 +1,3 @@
----
-article_id: af_4ee23cb4a05987294f599913
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveSpace_hilbertPolynomial_and_degree
----
-
 # Projective space has degree one
 
 For projective $n$-space, the Hilbert function in nonnegative degree $l$ is

@@ -1,9 +1,3 @@
----
-article_id: af_52d85accfe670b9bbc2c4cb1
-declaration: theorem
-origin: cited
----
-
 # The Chern polynomial of a tensor product
 
 For locally free sheaves $E,F$ with formal Chern roots $a_i,b_j$, the Chern

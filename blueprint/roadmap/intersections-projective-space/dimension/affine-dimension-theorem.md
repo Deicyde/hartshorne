@@ -1,12 +1,3 @@
----
-article_id: af_e751a901985e442f87371072
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.affine_dimension_theorem
----
-
 # The affine dimension theorem
 
 Let $Y,Z\subseteq\mathbb A^n$ be affine varieties and let $W$ be an

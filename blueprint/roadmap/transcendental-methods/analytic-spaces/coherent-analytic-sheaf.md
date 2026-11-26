@@ -1,10 +1,3 @@
----
-article_id: af_959cde5401e33141388f87d0
-declaration: structure
-origin: cited
-not_ready: true
----
-
 # Coherent analytic sheaves
 
 On a complex analytic space, define a coherent analytic module sheaf to be a

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/sheaves/regular-functions-stalk.md"}], "object": [{"location": {"declaration": "Hartshorne.Variety.exists_regularSheafStalkEquivLocalRing"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_137c79182a944202199147a5", "extensions": {"org.autoform": {"origin": "cited"}}}

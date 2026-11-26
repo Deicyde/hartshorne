@@ -1,12 +1,3 @@
----
-article_id: af_afdae7c93f1d1ddc7a1894cb
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.pointsEquivMaximalIdeals
----
-
 # Points and maximal ideals
 
 For an affine algebraic set $Y$, sending $P$ to the ideal $\mathfrak{m} _P$ of functions

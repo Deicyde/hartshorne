@@ -1,7 +1,3 @@
----
-article_id: af_e89774eb9ca3588b1b351dfb
----
-
 # Proper and projective morphisms
 
 This chapter covers universal closedness, properness and its valuative

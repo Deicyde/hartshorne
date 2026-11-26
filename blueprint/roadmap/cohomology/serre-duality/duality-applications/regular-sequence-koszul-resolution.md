@@ -1,12 +1,3 @@
----
-article_id: af_cefd5671b7a80410e671151c
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Koszul.isZero_sequenceKoszulComplex_homology_of_isWeaklyRegular Hartshorne.Koszul.quasiIso_sequenceKoszulAugmentation Hartshorne.Koszul.sequenceKoszulAugmentation
----
-
 # A regular sequence gives a Koszul resolution
 
 If $f_{1},\ldots ,f_{r}$ is a regular sequence on an $A$-module $M$, then

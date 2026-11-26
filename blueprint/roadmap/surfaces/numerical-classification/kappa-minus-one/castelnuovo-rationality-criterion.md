@@ -1,10 +1,3 @@
----
-article_id: af_5fdbfb3f349ccef297b1123b
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Castelnuovo's rationality criterion
 
 For a Chapter-V surface $X$ over an algebraically closed field,

@@ -1,12 +1,3 @@
----
-article_id: af_be595eb6efbe593de0abb2cf
-declaration: def
-origin: cited
-lean: Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletion Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionDiagram Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionMap Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionObj Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionNeighborhood Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionQuotient Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionπ Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletionπ_comp_moduleCompletionMap Hartshorne.QuasicoherentIdealSubsheaf.isLimitModuleCompletionSections Hartshorne.QuasicoherentIdealSubsheaf.formalCompletionRingCatSheaf
-statement: formalized
-proof: formalized
----
-
 # Completion of a coherent module
 
 Let $X$ be Noetherian, let $Y \hookrightarrow X$ have module ideal sheaf $I$, and let $F$

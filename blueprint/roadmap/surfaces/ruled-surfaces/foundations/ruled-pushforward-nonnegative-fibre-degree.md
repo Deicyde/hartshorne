@@ -1,9 +1,3 @@
----
-article_id: af_71762413ba4594c81449e8ad
-declaration: theorem
-origin: cited
----
-
 # Pushforward in nonnegative fibre degree
 
 Let $\pi : X \to C$ be a ruled surface and let $D$ be a divisor with

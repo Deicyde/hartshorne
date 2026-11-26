@@ -1,12 +1,3 @@
----
-article_id: af_6d13455c92da585d27acc3ec
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.geometricGenus Hartshorne.GlobalSectionsOver Hartshorne.GlobalSectionsOver.smul_def Hartshorne.structureRingHom
----
-
 # Geometric genus
 
 For a nonsingular projective variety $X$ over $k$, define its geometric genus

@@ -1,12 +1,3 @@
----
-article_id: af_541d8809de4dba4589651a1e
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.properImage
----
-
 # Images of proper schemes
 
 Let $X$ and $Y$ be separated finite-type schemes over a Noetherian scheme

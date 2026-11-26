@@ -1,10 +1,3 @@
----
-article_id: af_ed9689204de35acb94adab0f
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Deligne integrality and ℓ-independence
 
 For smooth projective $X/\mathbb{F}_q$, every Frobenius polynomial

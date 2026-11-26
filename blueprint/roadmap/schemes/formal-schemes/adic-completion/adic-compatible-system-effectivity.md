@@ -1,10 +1,3 @@
----
-article_id: af_a543a3f4abc91565119485cc
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Effectivity of compatible adic module systems
 
 Let $A$ be Noetherian and $I$ an ideal. Suppose $M n$ is a finite

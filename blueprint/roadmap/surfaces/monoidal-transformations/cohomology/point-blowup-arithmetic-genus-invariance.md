@@ -1,9 +1,3 @@
----
-article_id: af_f62d48a7ce9e8a67001ffe80
-declaration: theorem
-origin: cited
----
-
 # Arithmetic genus is invariant under a point blowup
 
 For a monoidal transformation $\pi:\widetilde X\to X$,

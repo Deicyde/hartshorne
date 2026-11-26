@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/module-exercises/coherent-pushforward-counterexample.md"}], "object": [{"location": {"declaration": "Hartshorne.exists_isCoherent_not_isCoherent_pushforward"}, "role": "states"}], "status": "formalized", "kind": "example", "id": "af_ae2f3f77382fd38d7e6b7097", "extensions": {"org.autoform": {"origin": "cited"}}}

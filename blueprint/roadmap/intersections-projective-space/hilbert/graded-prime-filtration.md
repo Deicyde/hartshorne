@@ -1,12 +1,3 @@
----
-article_id: af_cf06bb1e31416a59c82e0a20
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_gradedPrimeFiltration
----
-
 # Graded prime filtrations
 
 Let $S$ be a Noetherian integer-graded ring and let $M$ be a finitely

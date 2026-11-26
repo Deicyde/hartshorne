@@ -1,9 +1,3 @@
----
-article_id: af_0aca9bbd8c9ccb9fae106929
-declaration: theorem
-origin: cited
----
-
 # Quasi-coherence of sheaf Ext
 
 Let $X$ be Noetherian, let $F$ be coherent, and let $G$ be quasi-coherent.

@@ -1,9 +1,3 @@
----
-article_id: af_563e938ecbb3df1d3d34ab9e
-declaration: theorem
-origin: bridged
----
-
 # Ampleness on an effective divisor
 
 Let $D$ be an effective, possibly singular, reducible, or nonreduced divisor

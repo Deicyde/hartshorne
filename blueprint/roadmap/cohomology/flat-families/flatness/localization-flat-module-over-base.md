@@ -1,12 +1,3 @@
----
-article_id: af_bb4d90561957ab97003d834b
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.localizedModule_flat_over_base
----
-
 # Localization of a flat module over its base
 
 Let $A \to B$ be a ring map, let $M$ be a $B$-module flat over $A$, and let

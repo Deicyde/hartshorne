@@ -1,12 +1,3 @@
----
-article_id: af_87756b03c53d40cd10c6801e
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: TopCat.Presheaf.isIso_iff_stalkFunctor_map_iso
-mathlib_file: Mathlib/Topology/Sheaves/Stalks.lean
----
-
 # Isomorphisms are detected on stalks
 
 For a morphism $\varphi : F \longrightarrow G$ of sheaves on $X$, $\varphi$ is an isomorphism if and

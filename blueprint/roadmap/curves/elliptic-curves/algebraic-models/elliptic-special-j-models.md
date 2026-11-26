@@ -1,9 +1,3 @@
----
-article_id: af_6bf706db4084a7d6301a454c
-declaration: theorem
-origin: cited
----
-
 # The special models with j zero and 1728
 
 Over an algebraically closed field of characteristic different from two:

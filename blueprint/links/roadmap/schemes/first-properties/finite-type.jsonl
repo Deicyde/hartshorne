@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/first-properties/finite-type.md"}], "object": [{"location": {"declaration": "Hartshorne.finiteType_iff_exists_affine_cover"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_9c4d4fb277a1234fb29a6c06", "extensions": {"org.autoform": {"origin": "cited"}}}

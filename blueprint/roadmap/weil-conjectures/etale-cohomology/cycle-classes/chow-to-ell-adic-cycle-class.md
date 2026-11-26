@@ -1,9 +1,3 @@
----
-article_id: af_20ab49bacd0ec14038c8b653
-declaration: ring_hom
-origin: cited
----
-
 # The Chow ring maps to Tate-twisted ℓ-adic cohomology
 
 For smooth proper $X$, cycle classes induce a graded ring homomorphism

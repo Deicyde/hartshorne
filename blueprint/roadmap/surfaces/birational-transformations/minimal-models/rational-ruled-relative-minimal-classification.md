@@ -1,10 +1,3 @@
----
-article_id: af_2e234d9cf0a50fb50ce1da2b
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Classification of relatively minimal rational and ruled surfaces
 
 Every relatively minimal rational or ruled surface is one of the models

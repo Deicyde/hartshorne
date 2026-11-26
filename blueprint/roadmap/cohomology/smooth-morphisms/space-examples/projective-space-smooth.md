@@ -1,12 +1,3 @@
----
-article_id: af_6572c1c9f15a2e6280655f06
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveSpace_smoothOfRelativeDimension_finiteTypeOverField
----
-
 # Projective space is smooth
 
 Let $k$ be a field and let $Y$ be a scheme of finite type over $\operatorname{Spec} k$.

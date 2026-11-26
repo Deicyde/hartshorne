@@ -1,9 +1,3 @@
----
-article_id: af_7a3b18f92e5bc02037190e6c
-declaration: theorem
-origin: cited
----
-
 # Relative minimality and exceptional curves
 
 A nonsingular projective surface $X$ is relatively minimal when every

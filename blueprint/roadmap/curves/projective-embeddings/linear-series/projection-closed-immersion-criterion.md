@@ -1,9 +1,3 @@
----
-article_id: af_2b57f3b6f4fdb121fb067460
-declaration: theorem
-origin: cited
----
-
 # Projection is an embedding away from secants and tangents
 
 Let $X \to \mathbb{P}^n$ be an embedded Chapter IV curve and let $O$ be a point outside

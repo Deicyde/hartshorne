@@ -1,12 +1,3 @@
----
-article_id: af_0263b9a6cf55881f4b2a803d
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.quasiCompactOpenImmersion_finiteType
----
-
 # Quasi-compact open immersions are finite type
 
 Every quasi-compact open immersion of schemes is a morphism of finite type.

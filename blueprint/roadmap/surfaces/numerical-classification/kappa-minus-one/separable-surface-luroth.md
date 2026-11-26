@@ -1,10 +1,3 @@
----
-article_id: af_df08ac771d2a48bb0bd6a0de
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The separable surface Lüroth theorem
 
 Let $k$ be algebraically closed and let

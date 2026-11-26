@@ -1,9 +1,3 @@
----
-article_id: af_3b7d7e3b40859ae3eafd05b7
-declaration: theorem
-origin: cited
----
-
 # Intersection of cycles becomes cup product
 
 For cycles $\alpha$ and $\beta$ of codimensions $q$ and $r$ on a smooth proper

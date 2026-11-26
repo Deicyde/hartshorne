@@ -1,9 +1,3 @@
----
-article_id: af_4507a0b1e054c61ebe41712e
-declaration: isomorphism
-origin: bridged
----
-
 # Complex comparison after choosing an embedding of coefficient fields
 
 Let $X$ be smooth and proper over $\mathbb{C}$, and choose an abstract field embedding

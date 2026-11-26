@@ -1,9 +1,3 @@
----
-article_id: af_ba2d01a666b57742e5fed938
-declaration: theorem
-origin: cited
----
-
 # The hyperelliptic locus
 
 Over an algebraically closed field of characteristic different from two,

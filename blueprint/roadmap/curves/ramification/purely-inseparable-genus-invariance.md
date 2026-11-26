@@ -1,9 +1,3 @@
----
-article_id: af_1af35e3db1231274f1f61631
-declaration: theorem
-origin: cited
----
-
 # Genus invariance under purely inseparable curve maps
 
 Under the hypotheses of the purely inseparable Frobenius factorization,

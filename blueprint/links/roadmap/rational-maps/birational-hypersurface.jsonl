@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/rational-maps/birational-hypersurface.md"}], "object": [{"location": {"declaration": "Hartshorne.exists_birational_projective_hypersurface"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_282371bb38115fa34ae6b5a5", "extensions": {"org.autoform": {"origin": "cited"}}}

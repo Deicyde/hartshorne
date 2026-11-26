@@ -1,12 +1,3 @@
----
-article_id: af_0e77b22f571f2b7eaeff25ed
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.homogeneousVanishingIdeal_projZeroSet Hartshorne.isIrreducible_iff_isPrime_homogeneousVanishingIdeal
----
-
 # Algebraic sets and homogeneous radical ideals
 
 $Y \mapsto J(Y)$ and $\mathfrak{a} \mapsto Z(\mathfrak{a} )$ are mutually inverse, inclusion-reversing bijections

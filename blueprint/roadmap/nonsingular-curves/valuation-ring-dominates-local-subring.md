@@ -1,12 +1,3 @@
----
-article_id: af_dc1c548ddbcb3dffbb3f947e
-declaration: lemma
-origin: background
-mathlib: true
-mathlib_declaration: LocalSubring.exists_le_valuationSubring
-mathlib_file: Mathlib/RingTheory/Valuation/LocalSubring.lean
----
-
 # Every local subring is dominated by a valuation ring
 
 For every local subring $A$ of a field $K$, there is a valuation ring $B$ of

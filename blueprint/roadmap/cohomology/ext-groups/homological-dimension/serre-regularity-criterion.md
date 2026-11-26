@@ -1,12 +1,3 @@
----
-article_id: af_a1e3f0fa0e273a17ac6a5d1c
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.SerreRegularity.isRegularLocalRing_of_hasProjectiveDimensionLE
----
-
 # Serre's criterion for regularity
 
 Let $(A, \mathfrak m, k)$ be a Noetherian local ring such that

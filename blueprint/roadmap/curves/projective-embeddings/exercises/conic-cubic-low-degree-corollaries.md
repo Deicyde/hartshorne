@@ -1,9 +1,3 @@
----
-article_id: af_aec9a5632d607127087c05dd
-declaration: theorem
-origin: cited
----
-
 # Curves of degree two and three
 
 Every curve of projective degree two is a conic in a projective plane. Every

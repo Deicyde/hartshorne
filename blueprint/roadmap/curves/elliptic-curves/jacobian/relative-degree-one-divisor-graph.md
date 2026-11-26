@@ -1,9 +1,3 @@
----
-article_id: af_c5cd9cbb59ec5e888ee944e2
-declaration: theorem
-origin: bridged
----
-
 # A relative degree-one divisor is a graph
 
 Let $T$ be a finite-type scheme, not necessarily reduced, and let

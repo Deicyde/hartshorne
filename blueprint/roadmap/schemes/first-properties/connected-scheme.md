@@ -1,12 +1,3 @@
----
-article_id: af_40a2b6a911ef476299d9e912
-declaration: class
-origin: cited
-mathlib: true
-mathlib_declaration: ConnectedSpace
-mathlib_file: Mathlib/Topology/Connected/Basic.lean
----
-
 # Connected schemes
 
 A scheme is connected when its underlying topological space is connected.

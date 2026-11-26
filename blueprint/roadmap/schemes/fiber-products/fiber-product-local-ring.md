@@ -1,12 +1,3 @@
----
-article_id: af_9adbd4ff3083345a89959c56
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.FiberProductStalk.isLocalization_tensorToStalk Hartshorne.FiberProductStalk.flat_tensorToStalk Hartshorne.FiberProductStalk.tensorToStalk
----
-
 # Local rings of a fibre product
 
 Let $f : X \to Y$ and $g : Y' \to Y$ be morphisms of schemes, and let

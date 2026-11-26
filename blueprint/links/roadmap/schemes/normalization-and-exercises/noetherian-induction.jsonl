@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/normalization-and-exercises/noetherian-induction.md"}], "object": [{"location": {"declaration": "Hartshorne.noetherianInduction"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_125a652c8b4feeacb57fa1d7", "extensions": {"org.autoform": {"origin": "cited"}}}

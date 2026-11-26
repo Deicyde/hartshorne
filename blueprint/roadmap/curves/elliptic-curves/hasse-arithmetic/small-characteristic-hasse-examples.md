@@ -1,9 +1,3 @@
----
-article_id: af_ee8b33fcd15c516d22f97891
-declaration: theorem
-origin: cited
----
-
 # Small-characteristic Hasse examples
 
 Compute the Legendre Hasse polynomials in characteristics three, five, and

@@ -1,12 +1,3 @@
----
-article_id: af_ddfde14e72339cd42239e1be
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Ringed.moduleSheafDual Hartshorne.Ringed.moduleSheafDoubleDualMap Hartshorne.Ringed.moduleSheafDoubleDualMap_naturality Hartshorne.Ringed.moduleSheafDoubleDualMap_isIso Hartshorne.Ringed.moduleSheafDoubleDualIso Hartshorne.Ringed.moduleSheafDualTensorMap Hartshorne.Ringed.moduleSheafDualTensorMap_naturality_left Hartshorne.Ringed.moduleSheafDualTensorMap_naturality_right Hartshorne.Ringed.moduleSheafDualTensorMap_isIso Hartshorne.Ringed.moduleSheafDualTensorIso Hartshorne.Ringed.moduleSheafTensorHomAdjunction Hartshorne.Ringed.moduleSheafTensorHomAdjunction_naturality_left Hartshorne.Ringed.moduleSheafTensorHomAdjunction_naturality_right Hartshorne.Ringed.moduleSheafTensorHomAdjunction_naturality_target Hartshorne.Ringed.moduleSheafTensorHomAdjunction_add Hartshorne.Ringed.moduleSheafTensorHomAddEquiv AlgebraicGeometry.Scheme.Modules.tensorHomAddEquiv Hartshorne.Ringed.IsFiniteLocallyFree AlgebraicGeometry.Scheme.Modules.isFiniteLocallyFree_iff
----
-
 # Duality for finite locally free sheaves
 
 For a finite locally free $\mathcal{O} _X$-module $E$, let

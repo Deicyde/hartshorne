@@ -1,12 +1,3 @@
----
-article_id: af_a653569ade09d3f85b877dea
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: TopCat.limit_isSheaf
-mathlib_file: Mathlib/Topology/Sheaves/Limits.lean
----
-
 # Kernels of sheaf morphisms
 
 The pointwise kernel of a morphism of sheaves of abelian groups satisfies the

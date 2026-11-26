@@ -1,9 +1,3 @@
----
-article_id: af_766fb349b00b9148f89f6b6b
-declaration: theorem
-origin: cited
----
-
 # Trigonal systems in genus three
 
 Every genus-three curve has a $g^1_3$. For a hyperelliptic curve, add one

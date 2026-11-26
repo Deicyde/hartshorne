@@ -1,9 +1,3 @@
----
-article_id: af_bc7a9593f1482614b9c9ff6e
-declaration: theorem
-origin: cited
----
-
 # Nonconstant maps of complete curves are finite
 
 Let $X$ be a complete nonsingular curve over an algebraically closed field and

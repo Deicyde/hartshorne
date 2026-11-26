@@ -1,9 +1,3 @@
----
-article_id: af_0a1a6b630df528c46f52f932
-declaration: theorem
-origin: cited
----
-
 # Severi parameters, genus, and the extreme cases
 
 For $d \ge 1$, degree-$d$ plane curves are parametrized by a projective space of dimension

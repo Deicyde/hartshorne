@@ -1,12 +1,3 @@
----
-article_id: af_4e17f763aa8b789939a367cb
-declaration: def
-origin: cited
-lean: AlgebraicGeometry.Scheme.relativeDifferentialsWithDerivation AlgebraicGeometry.Scheme.relativeDifferentials
-statement: formalized
-proof: formalized
----
-
 # The relative differential sheaf
 
 For a scheme morphism $f : X \to Y$, construct an $\mathcal{O} _X$-module $\Omega_{X/Y}$ and a

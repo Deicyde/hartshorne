@@ -1,12 +1,3 @@
----
-article_id: af_f44c38ec3ee73430940f4f25
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.sheafCohomology_isZero_of_isFlasque Hartshorne.isRightAcyclic_sheafSectionsOver_top_of_isFlasque
----
-
 # Flasque sheaves are acyclic
 
 If $F$ is a flasque abelian sheaf on $X$, then $H^{n}(X,F)=0$ for every

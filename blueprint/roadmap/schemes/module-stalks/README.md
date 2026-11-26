@@ -1,7 +1,3 @@
----
-article_id: af_2fb25d4265bc04a9d7d3cad6
----
-
 # Stalks of module sheaves
 
 The stalk of a module sheaf at a point is a module over the local ring there,

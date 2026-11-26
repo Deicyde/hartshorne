@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/cohomology/sheaf-cohomology/flasque-short-exact-closure.md"}], "object": [{"location": {"declaration": "TopCat.Sheaf.IsFlasque.of_shortExact_of_isFlasque₁₂", "module": "Mathlib.Topology.Sheaves.Flasque"}}], "id": "af_715fb5ec66f4afe0a1b18ada"}

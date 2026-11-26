@@ -1,9 +1,3 @@
----
-article_id: af_54eadb9e8415dae30ca8ba4a
-declaration: theorem
-origin: cited
----
-
 # The canonical double cover of a genus-two curve
 
 Let $k$ be algebraically closed of characteristic different from two and let

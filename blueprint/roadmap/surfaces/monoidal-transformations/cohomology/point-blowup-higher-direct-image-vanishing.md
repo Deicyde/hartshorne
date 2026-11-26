@@ -1,9 +1,3 @@
----
-article_id: af_77f7f80c6f58168d76ce8935
-declaration: theorem
-origin: cited
----
-
 # Higher direct images of the point-blowup structure sheaf vanish
 
 For the monoidal transformation $\pi:\widetilde X\to X$,

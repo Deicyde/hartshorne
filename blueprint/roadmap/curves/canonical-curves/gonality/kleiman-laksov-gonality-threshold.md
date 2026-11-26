@@ -1,10 +1,3 @@
----
-article_id: af_62b270ed526b6317e05708d1
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The Kleiman–Laksov gonality threshold
 
 Let $g$ and $d$ be positive integers.

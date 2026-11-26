@@ -1,9 +1,3 @@
----
-article_id: af_5aa7a1c5b1f49c57bead44c1
-declaration: theorem
-origin: cited
----
-
 # Ampleness and reduction
 
 Let $X$ be proper over a Noetherian ring, let $i:X_{\mathrm{red}}\to X$ be its reduction,

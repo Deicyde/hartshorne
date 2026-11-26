@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/subschemes-and-dimension/scheme-dimension.md"}], "object": [{"location": {"declaration": "topologicalKrullDim", "module": "Mathlib.Topology.KrullDimension"}}], "id": "af_c7b60a841d6ee585d274ef48"}

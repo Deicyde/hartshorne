@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/rational-maps/principal-open-coordinate-ring.md"}], "object": [{"location": {"declaration": "Hartshorne.principalOpenCoordinateRingEquiv"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_8a05003a5be1e12ca9cc7683", "extensions": {"org.autoform": {"origin": "cited"}}}

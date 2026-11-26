@@ -1,12 +1,3 @@
----
-article_id: af_c7b60a841d6ee585d274ef48
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: topologicalKrullDim
-mathlib_file: Mathlib/Topology/KrullDimension.lean
----
-
 # Dimension of a scheme
 
 The dimension of a scheme is the supremum of lengths of chains of irreducible closed subsets of its underlying topological space.

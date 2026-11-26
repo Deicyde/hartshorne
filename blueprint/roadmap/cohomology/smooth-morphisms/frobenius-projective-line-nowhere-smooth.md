@@ -1,12 +1,3 @@
----
-article_id: af_57d1e0d21cc249bf8c29e656
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.frobenius_projectiveLine_nowhere_smooth
----
-
 # Frobenius on the projective line is nowhere smooth
 
 Let $k$ be algebraically closed of characteristic $p>0$. The Frobenius

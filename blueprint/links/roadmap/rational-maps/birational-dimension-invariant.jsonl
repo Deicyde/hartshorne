@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/rational-maps/birational-dimension-invariant.md"}], "object": [{"location": {"declaration": "Hartshorne.birational_topologicalKrullDim_eq"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_5df81cbf56c04ce019c9249d", "extensions": {"org.autoform": {"origin": "cited"}}}

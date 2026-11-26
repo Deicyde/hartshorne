@@ -1,12 +1,3 @@
----
-article_id: af_9c9930d44cbc4c262ab0f578
-declaration: lemma
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsAffineOpen.inf
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Affine.lean
----
-
 # Affine intersections in a separated scheme
 
 If the diagonal of a scheme $X$ is affine, the intersection $U \cap V$ of two

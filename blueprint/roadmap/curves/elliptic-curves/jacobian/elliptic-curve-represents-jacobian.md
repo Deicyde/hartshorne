@@ -1,9 +1,3 @@
----
-article_id: af_a0c057a0af51ec9c9d424eaf
-declaration: theorem
-origin: cited
----
-
 # A pointed elliptic curve represents its Jacobian
 
 For a pointed elliptic curve $(X,P_0)$, Hartshorne's Poincaré relative class

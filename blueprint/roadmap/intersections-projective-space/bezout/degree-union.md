@@ -1,12 +1,3 @@
----
-article_id: af_2bbb46bd7eb09b087128b5f9
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveDegree_union
----
-
 # Degree is additive across a top-dimensional union
 
 Let $Y = Y_{1} \cup Y_{2}$ be a projective algebraic set. If $Y_{1}$ and $Y_{2}$ both have

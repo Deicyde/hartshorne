@@ -1,12 +1,3 @@
----
-article_id: af_3e20fae8ae51931559b4fa76
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.isNoetherian_iff_of_finite_affine_openCover
-mathlib_file: Mathlib/AlgebraicGeometry/Noetherian.lean
----
-
 # Noetherian schemes and finite affine covers
 
 A scheme is Noetherian if and only if it has a finite affine open cover whose

@@ -1,10 +1,3 @@
----
-article_id: af_cfb870bb6072cbec59929209
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Regular projective-space bundles are projectivizations
 
 Over a regular Noetherian scheme, every projective $n$-space bundle is

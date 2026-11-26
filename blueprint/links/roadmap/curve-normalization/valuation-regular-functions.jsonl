@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/curve-normalization/valuation-regular-functions.md"}], "object": [{"location": {"declaration": "Hartshorne.ValuationSpace.regularFunctions"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_9d9ddee15270ff39e2460179", "extensions": {"org.autoform": {"origin": "cited"}}}

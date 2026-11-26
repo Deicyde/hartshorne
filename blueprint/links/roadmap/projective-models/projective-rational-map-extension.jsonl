@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/projective-rational-map-extension.md"}], "object": [{"location": {"declaration": "Hartshorne.DominantRatMap.existsUnique_projectiveCurve_extension"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_80c5665b10ceeb3789f03554", "extensions": {"org.autoform": {"origin": "bridged"}}}

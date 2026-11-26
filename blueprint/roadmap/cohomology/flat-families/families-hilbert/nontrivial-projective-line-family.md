@@ -1,10 +1,3 @@
----
-article_id: af_3af8125d5d6b62b771af1d2a
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # A nontrivial projective-line family
 
 Construct a proper flat morphism $f : X \to A^2$ over an algebraically closed

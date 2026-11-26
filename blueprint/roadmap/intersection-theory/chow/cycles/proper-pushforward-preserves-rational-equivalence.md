@@ -1,10 +1,3 @@
----
-article_id: af_c494e17c13b407e953c38101
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Proper pushforward preserves rational equivalence
 
 For a proper morphism of varieties $f:X\to X'$, raw cycle pushforward sends

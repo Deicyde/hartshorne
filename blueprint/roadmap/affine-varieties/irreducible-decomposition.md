@@ -1,12 +1,3 @@
----
-article_id: af_3a1b61ce82b649c859736803
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_unique_irredundant_decomposition Hartshorne.IsAlgebraicSet.exists_unique_decomposition Hartshorne.IsIrreducible.exists_mem_subset_of_subset_biUnion Hartshorne.irredundant_decomposition_unique
----
-
 # Decomposition into irreducible components
 
 In a Noetherian topological space, every nonempty closed subset $Y$ is a

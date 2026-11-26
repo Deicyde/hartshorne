@@ -1,7 +1,3 @@
----
-article_id: af_afbd84e57f00a41f7ba887f3
----
-
 # Valuation-space topology
 
 For a one-dimensional function field $K/k$, this subchapter defines the

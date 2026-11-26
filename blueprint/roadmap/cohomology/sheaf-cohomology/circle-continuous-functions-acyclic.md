@@ -1,10 +1,3 @@
----
-article_id: af_f6c6d7c60941e8d9eb2cd75f
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Continuous functions on the circle are acyclic
 
 Let $C ^{0}_R$ be the sheaf of germs of continuous real-valued functions on the

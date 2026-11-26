@@ -1,9 +1,3 @@
----
-article_id: af_bfb2347e5010a431c84d6321
-declaration: theorem
-origin: cited
----
-
 # The intersection form on the projective plane
 
 Let $h$ be the divisor class of a line in $\mathbb{P}^2$. Then $\operatorname{Pic} (\mathbb{P}^2)=\mathbb{Z}\cdot h$ and

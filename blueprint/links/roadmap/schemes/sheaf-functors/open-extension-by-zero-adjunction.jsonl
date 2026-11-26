@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/sheaf-functors/open-extension-by-zero-adjunction.md"}], "object": [{"location": {"declaration": "Hartshorne.openExtensionByZero_adjunction_canonical"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_813ed5a3017d80bd70095202", "extensions": {"org.autoform": {"origin": "bridged"}}}

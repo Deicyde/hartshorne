@@ -1,10 +1,3 @@
----
-article_id: af_ab6e0d31445aab25db83c2b2
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Homological and numerical equivalence for surface divisors
 
 For divisors on a smooth projective complex surface, homological equivalence

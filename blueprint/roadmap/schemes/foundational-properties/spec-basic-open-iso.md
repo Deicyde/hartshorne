@@ -1,12 +1,3 @@
----
-article_id: af_e98865ece51a18e8cb2609e5
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.basicOpenIsoSpecAway
-mathlib_file: Mathlib/AlgebraicGeometry/Restrict.lean
----
-
 # A principal open is an affine localization
 
 For a commutative ring $A$ and $f \in A$, the induced open subscheme on

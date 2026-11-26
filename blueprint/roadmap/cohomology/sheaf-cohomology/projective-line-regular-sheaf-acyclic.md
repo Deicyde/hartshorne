@@ -1,12 +1,3 @@
----
-article_id: af_12110d5613bf6beef1413ecd
-declaration: theorem
-origin: cited
-lean: Hartshorne.projectiveLine_sheafCohomology_regular_isZero Hartshorne.isFlasque_locallyFiniteSumSheaf
-statement: formalized
-proof: formalized
----
-
 # Acyclicity of $O$ on the projective line
 
 Let $k$ be an algebraically closed field and let $X = \mathbb{P}^{1}$ be the

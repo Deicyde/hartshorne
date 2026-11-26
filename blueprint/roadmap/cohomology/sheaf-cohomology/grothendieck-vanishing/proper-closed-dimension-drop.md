@@ -1,12 +1,3 @@
----
-article_id: af_1f6c5c9f0819848cc0b219bf
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: topologicalKrullDim_lt_of_isClosed_ssubset
----
-
 # Dimension drops on proper closed subsets
 
 Let $X$ be an irreducible noetherian topological space with

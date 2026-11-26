@@ -1,10 +1,3 @@
----
-article_id: af_ca59d42024762a29bf6bd470
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Cohen's field of representatives
 
 Let $A$ be a complete local ring containing a field $k$. If the residue field

@@ -1,9 +1,3 @@
----
-article_id: af_e82d0eddd1b3083f9bc1f1a9
-declaration: structure
-origin: cited
----
-
 # Hodge manifolds have an integral Kähler class
 
 A Hodge manifold is a compact complex manifold equipped with a Kähler form

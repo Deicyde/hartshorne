@@ -1,9 +1,3 @@
----
-article_id: af_6529eecc05e492dff53a5801
-declaration: isomorphism
-origin: cited
----
-
 # The Picard group of a product when H¹ vanishes
 
 Let $X$ be an integral projective scheme over an algebraically closed field

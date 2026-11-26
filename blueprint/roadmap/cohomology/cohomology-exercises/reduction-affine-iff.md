@@ -1,12 +1,3 @@
----
-article_id: af_944457c173b01cba681de033
-declaration: theorem
-origin: cited
-lean: Hartshorne.ReductionAffine.isAffine_iff_isAffine_reduced Hartshorne.ReductionAffine.isReduced_reduced
-statement: formalized
-proof: formalized
----
-
 # Affineness is invariant under reduction
 
 For a Noetherian scheme $X$, $X$ is affine if and only if its reduction

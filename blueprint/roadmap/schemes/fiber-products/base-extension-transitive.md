@@ -1,12 +1,3 @@
----
-article_id: af_2b6de44fda6e34c2cdbf9764
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: CategoryTheory.Limits.pullbackAssoc
-mathlib_file: Mathlib/CategoryTheory/Limits/Shapes/Pullback/Assoc.lean
----
-
 # Transitivity of base extension
 
 For $S'' \to S' \to S$, there is a canonical isomorphism $(X \times _S S') \times _{S'} S'' \cong X \times _S S''$, compatible with all projections.

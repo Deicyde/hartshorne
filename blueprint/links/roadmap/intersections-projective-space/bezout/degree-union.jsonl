@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/bezout/degree-union.md"}], "object": [{"location": {"declaration": "Hartshorne.projectiveDegree_union"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_2bbb46bd7eb09b087128b5f9", "extensions": {"org.autoform": {"origin": "cited"}}}

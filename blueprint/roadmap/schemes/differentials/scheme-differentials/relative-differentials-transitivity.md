@@ -1,12 +1,3 @@
----
-article_id: af_673f278244a32c7f7febc7e0
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.relativeDifferentials_transitivity_exact AlgebraicGeometry.Scheme.pullbackRelativeDifferentialsToComp AlgebraicGeometry.Scheme.relativeDifferentialsCompToLeft AlgebraicGeometry.Scheme.relativeDifferentialsTransitivityIsColimit AlgebraicGeometry.Scheme.pullbackRelativeDifferentialsToComp_unit_d AlgebraicGeometry.Scheme.relativeDifferentialsCompToLeft_d AlgebraicGeometry.Scheme.relativeDifferentialsCompToLeft_spec AlgebraicGeometry.Scheme.pullbackRelativeDifferentialsToComp_spec
----
-
 # The transitivity sequence for differential sheaves
 
 For scheme morphisms $X \to Y \to Z$, construct the natural right-exact sequence

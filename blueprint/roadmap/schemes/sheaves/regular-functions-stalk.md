@@ -1,12 +1,3 @@
----
-article_id: af_137c79182a944202199147a5
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.exists_regularSheafStalkEquivLocalRing
----
-
 # The regular-functions stalk is the local ring
 
 For a variety $X$ and a point $P\in X$, the stalk of the regular-

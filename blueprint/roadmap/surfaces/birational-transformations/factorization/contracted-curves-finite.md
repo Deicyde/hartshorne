@@ -1,12 +1,3 @@
----
-article_id: af_1a6475a7209b134c37f98148
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.contractedCurves Hartshorne.numContractedCurves Hartshorne.contractedCurves_finite Hartshorne.contractedCurves_finite_of_isNormal
----
-
 # A birational morphism of smooth projective surfaces contracts finitely many curves
 
 For a birational morphism $f:X'\to X$ of nonsingular projective surfaces, only

@@ -1,12 +1,3 @@
----
-article_id: af_29b007474e7b2509a279e34c
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isPullback_fiberProductRestrictOpen
----
-
 # Restricting a fiber product to an open subscheme
 
 If $P = X \times _S Y$ and $U \subseteq X$ is open, the inverse image of $U$ under the first projection, with its open-subscheme structure, represents $U \times _S Y$.

@@ -1,12 +1,3 @@
----
-article_id: af_8e01c8517b532b7bc943c7e8
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_pow_mem_of_forall_homogeneousVanish Hartshorne.zeroSet_smul_of_isHomogeneousIdeal Hartshorne.eval_zero_of_isHomogeneous
----
-
 # The homogeneous Nullstellensatz
 
 Let $\mathfrak{a} \subseteq S$ be a homogeneous ideal and $f \in S$ homogeneous with $\deg f > 0$. If

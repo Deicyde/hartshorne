@@ -1,12 +1,3 @@
----
-article_id: af_bd803513c2cf8bb75a012817
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.mem_associatedPoints_iff_maximalIdeal_subset_zeroDivisors
----
-
 # Associated points of a scheme
 
 A point $x$ of a locally Noetherian scheme $X$ is associated when the maximal

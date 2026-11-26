@@ -1,9 +1,3 @@
----
-article_id: af_0f687a8658273fd366911c97
-declaration: theorem
-origin: cited
----
-
 # The Chern character is a ring homomorphism
 
 Tensor product makes $K0(X)$ a ring for smooth $X$, and

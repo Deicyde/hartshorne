@@ -1,12 +1,3 @@
----
-article_id: af_0fa1175e2576c8992d008986
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.IsRegularInCodimensionOne AlgebraicGeometry.Scheme.SatisfiesConditionStar
----
-
 # Regularity in codimension one
 
 A scheme $X$ is regular in codimension one when the local ring

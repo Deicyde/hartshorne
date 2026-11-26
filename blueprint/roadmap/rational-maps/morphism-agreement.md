@@ -1,12 +1,3 @@
----
-article_id: af_daad9faeda5a941ac86e9d79
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.eq_of_eqOn_isOpen_hom
----
-
 # Morphisms agreeing on an open set
 
 Let $X$ and $Y$ be varieties and $\varphi , \psi : X \to Y$ morphisms. If there is a

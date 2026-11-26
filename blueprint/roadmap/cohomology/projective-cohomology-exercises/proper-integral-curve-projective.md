@@ -1,9 +1,3 @@
----
-article_id: af_837d414d7e691ae0008b76af
-declaration: theorem
-origin: cited
----
-
 # Proper integral curves are projective
 
 Every proper integral one-dimensional scheme over an algebraically closed

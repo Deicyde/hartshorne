@@ -1,12 +1,3 @@
----
-article_id: af_7641a33cab715c6d10fcd498
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.hilbertFunction
----
-
 # The Hilbert function
 
 For a finitely generated integer-graded module

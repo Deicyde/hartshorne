@@ -1,12 +1,3 @@
----
-article_id: af_129a7a2a84a9a482e9669070
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.SheafifiedCech.augmentedSheafifiedCechComplex_exactAt Hartshorne.SheafifiedCech.globalSectionsIso Hartshorne.SheafifiedCech.cochainSheaf Hartshorne.SheafifiedCech.cochainSheafIsProduct Hartshorne.SheafifiedCech.sheafifiedCechComplex Hartshorne.SheafifiedCech.augmentation Hartshorne.SheafifiedCech.augmentedSheafifiedCechComplex Hartshorne.SheafifiedCech.sheafifiedCechComplexFunctor Hartshorne.SheafifiedCech.augmentationNatTrans Hartshorne.SheafifiedCech.augmentation_naturality Hartshorne.SheafifiedCech.quasiIso_augmentationHom Hartshorne.SheafifiedCech.globalSectionsNatIso Hartshorne.SheafifiedCech.augmentedSheafifiedCechComplexFunctor
----
-
 # The sheafified Čech resolution
 
 For an open cover $U$ and abelian sheaf $F$, let the degree-$p$ term

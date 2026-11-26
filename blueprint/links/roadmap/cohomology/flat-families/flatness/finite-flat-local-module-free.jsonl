@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/cohomology/flat-families/flatness/finite-flat-local-module-free.md"}], "object": [{"location": {"declaration": "Hartshorne.finiteFlat_iff_free"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_32845d44d3ee74013b434f9f", "extensions": {"org.autoform": {"origin": "background"}}}

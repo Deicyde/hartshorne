@@ -1,9 +1,3 @@
----
-article_id: af_db0b9dd9b2037affb3ce58d6
-declaration: theorem
-origin: cited
----
-
 # The incidence configuration of the twenty-seven lines
 
 Intersection in the cubic-surface lattice gives all pairwise incidence

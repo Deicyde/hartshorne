@@ -1,10 +1,3 @@
----
-article_id: af_68c6eda3a62de6c4d07e4bc9
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The Picard group of a projective bundle
 
 If $X$ is regular Noetherian and $E$ is finite locally free of rank at least

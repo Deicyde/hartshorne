@@ -1,12 +1,3 @@
----
-article_id: af_b8bd33e236bd945e0f270310
-declaration: theorem
-origin: cited
-lean: Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletion_exact Hartshorne.QuasicoherentIdealSubsheaf.moduleCompletion_shortExact Hartshorne.QuasicoherentIdealSubsheaf.isCoherentFormalModule_moduleCompletion
-statement: formalized
-proof: formalized
----
-
 # Exactness of scheme-theoretic completion
 
 For a Noetherian scheme $X$ completed along a closed subscheme with ideal $I$,

@@ -1,12 +1,3 @@
----
-article_id: af_ed72e66c33713fdbffbf3101
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.relativeDifferentials_isQuasicoherent AlgebraicGeometry.Scheme.relativeDifferentials_isCoherent AlgebraicGeometry.Scheme.relativeDifferentials_isCoherent_of_locallyOfFiniteType
----
-
 # Quasi-coherence and coherence of differentials
 
 For every scheme morphism $f : X \to Y$, the relative differential sheaf

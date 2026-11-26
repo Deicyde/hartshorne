@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/affine-varieties/trdeg-drop-height-one.md"}], "object": [{"location": {"declaration": "Hartshorne.exists_trdeg_of_height_eq_one"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_8a649f06764de378e6f03c08", "extensions": {"org.autoform": {"origin": "background"}}}

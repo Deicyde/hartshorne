@@ -1,10 +1,3 @@
----
-article_id: af_30dca7e1e40fc76a465150d9
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Smooth proper higher direct images are lisse
 
 Under a smooth proper morphism $f:X\to Y$, each torsion sheaf

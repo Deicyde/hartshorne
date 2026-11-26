@@ -1,9 +1,3 @@
----
-article_id: af_e55e6c1be6f0cbb3a5ade794
-declaration: theorem
-origin: cited
----
-
 # The degree-six special curve is canonical
 
 Let $X \subset \mathbb{P}^3$ be nonplanar with special hyperplane divisor and degree

@@ -1,12 +1,3 @@
----
-article_id: af_b68156c114d04440f9ad68bd
-declaration: def
-origin: cited
-lean: AlgebraicGeometry.GeometricVectorBundle AlgebraicGeometry.Scheme.Modules.vectorBundle AlgebraicGeometry.Scheme.Modules.vectorBundleAtlas
-statement: formalized
-proof: formalized
----
-
 # Geometric vector bundles from locally free sheaves
 
 For a locally free sheaf $E$ of rank $n$ on $Y$, define

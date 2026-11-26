@@ -1,12 +1,3 @@
----
-article_id: af_b1f590b6e9f03bcd999f1df2
-declaration: structure
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.ValuativeCommSq
-mathlib_file: Mathlib/AlgebraicGeometry/ValuativeCriterion.lean
----
-
 # Valuative commutative squares
 
 For a morphism $f : X \longrightarrow Y$, a valuative square consists of a valuation

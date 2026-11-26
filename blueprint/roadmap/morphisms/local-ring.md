@@ -1,12 +1,3 @@
----
-article_id: af_2ee7948708b181e79fc71226
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.LocalRingAt Hartshorne.Variety.LocalRingAt Hartshorne.localRingEquivAffine
----
-
 # The local ring at a point
 
 For a point $P$ of a variety $Y$, the *local ring* $\mathcal O_{P,Y}$

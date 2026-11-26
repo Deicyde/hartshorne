@@ -1,9 +1,3 @@
----
-article_id: af_210e09f6dc9f6e6c02e8a6b5
-declaration: theorem
-origin: cited
----
-
 # A compact complex manifold has at most one algebraization
 
 Let $M$ be a compact complex manifold.  If finite-type $\mathbb{C}$-schemes $X$ and

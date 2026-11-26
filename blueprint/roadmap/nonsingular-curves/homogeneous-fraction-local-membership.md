@@ -1,12 +1,3 @@
----
-article_id: af_fc163557346aca575b9a0fd2
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.projRatClass_mem_localRingRange_iff
----
-
 # Membership of a homogeneous fraction in a local ring
 
 Let $Y$ be a quasi-projective variety, let $P\in Y$, and let $g,h$ be

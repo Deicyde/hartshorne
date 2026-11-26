@@ -1,9 +1,3 @@
----
-article_id: af_5c76aef5834ab47e95196990
-declaration: theorem
-origin: cited
----
-
 # Euler characteristic and divisor degree
 
 For every divisor $D$ on a Chapter IV curve of genus $g$,

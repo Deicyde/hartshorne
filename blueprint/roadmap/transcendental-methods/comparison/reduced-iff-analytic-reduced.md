@@ -1,10 +1,3 @@
----
-article_id: af_cad8b8f8827f2a918d33a6d4
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Algebraic reducedness agrees with analytic reducedness
 
 A finite-type complex scheme $X$ is reduced if and only if its analytic

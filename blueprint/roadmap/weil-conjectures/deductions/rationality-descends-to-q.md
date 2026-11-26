@@ -1,9 +1,3 @@
----
-article_id: af_0afde8f13b250fd842452ae6
-declaration: theorem
-origin: cited
----
-
 # Rationality descends from Qℓ to Q
 
 If a formal power series has rational coefficients and represents a rational

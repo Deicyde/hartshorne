@@ -1,12 +1,3 @@
----
-article_id: af_a34d30b29e3edb0314f863e6
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.gradedCyclicModuleEquiv
----
-
 # Homogeneous annihilators and cyclic modules
 
 For an integer-graded $S$-module $M$, the annihilator

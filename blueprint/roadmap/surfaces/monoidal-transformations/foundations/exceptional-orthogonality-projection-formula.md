@@ -1,9 +1,3 @@
----
-article_id: af_d695a833291f0f8b8a466e3c
-declaration: theorem
-origin: cited
----
-
 # Exceptional orthogonality and the blowup projection formula
 
 For every divisor class $C$ on $X$, $(\pi^*C)\cdot E=0$. Let

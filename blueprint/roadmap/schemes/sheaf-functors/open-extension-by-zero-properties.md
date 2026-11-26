@@ -1,12 +1,3 @@
----
-article_id: af_0bfcbd42273250dba6a2230e
-declaration: theorem
-lean: Hartshorne.openExtensionByZero_properties
-statement: formalized
-proof: formalized
-origin: cited
----
-
 # Restriction, stalks, and characterization of open extension by zero
 
 Let $j : U \hookrightarrow X$ be an open immersion and $F$ a sheaf on $U$. There is a

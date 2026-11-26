@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/dimension/affine-cone-dimension.md"}], "object": [{"location": {"declaration": "Hartshorne.dim_affineCone"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_9d9300915c4c47e6aac793b5", "extensions": {"org.autoform": {"origin": "cited"}}}

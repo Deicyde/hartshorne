@@ -1,12 +1,3 @@
----
-article_id: af_b30a1d9b74972ff667ac37db
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.bijective_localRingHom_inclHom Hartshorne.Variety.HasAffineOpenBasis.isNoetherianRing_localRingAt
----
-
 # Local rings are unchanged on open neighbourhoods
 
 Let $U$ be a nonempty open subvariety of a variety $X$, and let $P \in U$.

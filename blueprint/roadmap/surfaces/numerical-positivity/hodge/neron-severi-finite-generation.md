@@ -1,10 +1,3 @@
----
-article_id: af_4027fe4b44ca17c3fbbceb63
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Néron–Severi finite generation
 
 For a Chapter V surface, the group of divisor classes modulo algebraic

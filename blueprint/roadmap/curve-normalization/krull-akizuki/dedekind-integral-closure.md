@@ -1,12 +1,3 @@
----
-article_id: af_cdbb59a26819ffce4274f733
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.integralClosure_isDedekindDomain_of_finite_extension Hartshorne.ringKrullDim_integralClosure_eq_one_of_finite_extension
----
-
 # Integral closures of Dedekind domains
 
 Let $A$ be an integrally closed Noetherian domain of Krull dimension one with

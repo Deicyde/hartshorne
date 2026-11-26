@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/cohomology/flat-families/flatness/open-immersion-flat.md"}], "object": [{"location": {"declaration": "Hartshorne.flat_of_isOpenImmersion"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_e3015ceb0a02f086ffb69977", "extensions": {"org.autoform": {"origin": "cited"}}}

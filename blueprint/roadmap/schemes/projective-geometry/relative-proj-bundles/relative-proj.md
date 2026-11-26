@@ -1,12 +1,3 @@
----
-article_id: af_b0a2ac1a142639690e3c7c15
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.QuasiCoherentGradedAlgebra Hartshorne.RelativeProjData Hartshorne.RelativeProjData.relativeProj Hartshorne.RelativeProjData.projection Hartshorne.RelativeProjData.restrictIso Hartshorne.RelativeProjData.restrictIso_hom_projToOpen
----
-
 # Relative Proj
 
 For a Noetherian scheme $X$ and a quasi-coherent graded $\mathcal{O}_X$-algebra $S$

@@ -1,10 +1,3 @@
----
-article_id: af_88ad8012bd0eacaf51eed43b
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Uniqueness outside the rational and ruled classes
 
 Every surface that is neither rational nor birationally ruled is birational

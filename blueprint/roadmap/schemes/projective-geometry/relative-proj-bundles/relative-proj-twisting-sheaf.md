@@ -1,12 +1,3 @@
----
-article_id: af_de36af0b3bcf4daf571b0c25
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.QuasiCoherentGradedAlgebra.relTwistingSheaf Hartshorne.QuasiCoherentGradedAlgebra.relTwistingSheafRestrictIso Hartshorne.QuasiCoherentGradedAlgebra.isInvertible_relTwistingSheaf Hartshorne.QuasiCoherentGradedAlgebra.relTwistingSheafAffineIso Hartshorne.QuasiCoherentGradedAlgebra.twistTransition Hartshorne.QuasiCoherentGradedAlgebra.twistTransitionHom_comp Hartshorne.QuasiCoherentGradedAlgebra.twistTransitionHom_id Hartshorne.QuasiCoherentGradedAlgebra.isInvertible_twistingSheaf
----
-
 # The relative twisting sheaf
 
 Let $X$ and $S$ satisfy condition (†): $X$ is a Noetherian scheme and $S$ is a

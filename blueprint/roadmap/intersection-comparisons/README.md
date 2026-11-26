@@ -1,7 +1,3 @@
----
-article_id: af_cf8575ed0aeb5983c8c3a8dd
----
-
 # Cross-chapter intersection comparisons
 
 These Appendix A consequences compare the new Chow/cohomological

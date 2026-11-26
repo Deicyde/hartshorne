@@ -1,9 +1,3 @@
----
-article_id: af_ba6c397a753afad1130d3251
-declaration: theorem
-origin: cited
----
-
 # The canonical-divisor ramification formula
 
 Let $f : X \to Y$ be a finite separable morphism of curves and let $R_f$ be

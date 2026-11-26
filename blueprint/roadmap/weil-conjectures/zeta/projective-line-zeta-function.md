@@ -1,12 +1,3 @@
----
-article_id: af_22776d0fa8f18f49063c6e2d
-declaration: theorem
-origin: cited
-lean: Hartshorne.hasseWeilZetaSeries_projectiveLine
-statement: formalized
-proof: formalized
----
-
 # The zeta function of the projective line
 
 As both a formal series at the origin and its displayed rational

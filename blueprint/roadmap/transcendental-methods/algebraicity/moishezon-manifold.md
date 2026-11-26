@@ -1,9 +1,3 @@
----
-article_id: af_3aa77c899a2734275cbb7408
-declaration: def
-origin: cited
----
-
 # Moishezon manifolds
 
 A connected compact complex manifold $M$ of dimension $n$ is Moishezon when

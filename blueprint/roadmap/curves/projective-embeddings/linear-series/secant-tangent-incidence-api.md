@@ -1,9 +1,3 @@
----
-article_id: af_90280a4f318df0b5cd66aea9
-declaration: def
-origin: cited
----
-
 # Secant and tangent incidence for an embedded curve
 
 Let $X \to \mathbb{P}^n$ be a closed immersion of a Chapter IV curve. For distinct

@@ -1,9 +1,3 @@
----
-article_id: af_28ecac8a09c742cc75d72d60
-declaration: theorem
-origin: cited
----
-
 # Formal functions for projective twists
 
 Let $A$ be a Noetherian local ring with maximal ideal $m$, let

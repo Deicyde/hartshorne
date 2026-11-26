@@ -1,9 +1,3 @@
----
-article_id: af_8f5a44c899d79e259f2c1159
-declaration: theorem
-origin: cited
----
-
 # Arithmetic and geometric genus of a nonsingular curve
 
 For a nonsingular projective curve $X$ over an algebraically closed field,

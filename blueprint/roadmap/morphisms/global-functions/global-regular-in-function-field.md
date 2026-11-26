@@ -1,12 +1,3 @@
----
-article_id: af_ee708c56a9d1c21e6fd3eca4
-declaration: def
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.globalToFunctionField
----
-
 # Global regular functions inside the function field
 
 For a variety $X$, viewing a global regular function as a rational

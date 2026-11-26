@@ -1,12 +1,3 @@
----
-article_id: af_1d979119a72daf4ba70d3a3b
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_ringKrullDim_eq_natCast Hartshorne.finiteRingKrullDim_of_finiteType
----
-
 # A finitely generated algebra over a field has finite dimension
 
 Let $k$ be a field and let $R$ be a nontrivial finitely generated

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/sheaves/limits-of-sheaves.md"}], "object": [{"location": {"declaration": "CategoryTheory.Sheaf.isSheaf_of_isLimit", "module": "Mathlib.CategoryTheory.Sites.Limits"}}], "id": "af_8197f6c713ed2d28d1473bba"}

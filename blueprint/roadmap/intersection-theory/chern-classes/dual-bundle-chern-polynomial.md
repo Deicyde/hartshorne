@@ -1,9 +1,3 @@
----
-article_id: af_14fee3280346649e1534e398
-declaration: theorem
-origin: cited
----
-
 # The Chern polynomial of a dual bundle
 
 If $E$ has formal Chern roots $a_1,\ldots ,a_r$, then

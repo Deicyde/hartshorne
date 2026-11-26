@@ -1,12 +1,3 @@
----
-article_id: af_fafecc79e29b16ac1c177635
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.Modules.IsAmple.exists_isAffineOpen_nonvanishingLocus_of_finiteType
----
-
 # Ample sections form an affine basis
 
 If $L$ is ample on a finite-type scheme over a Noetherian ring, then every

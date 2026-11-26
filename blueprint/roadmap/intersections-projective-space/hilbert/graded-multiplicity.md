@@ -1,12 +1,3 @@
----
-article_id: af_4b49ee4a3033d8c3e5250ee9
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.gradedPrimeFiltration_multiplicity_eq_count
----
-
 # Multiplicity in a graded prime filtration
 
 For a prime $\mathfrak p$ minimal over $\operatorname{Ann}M$, define

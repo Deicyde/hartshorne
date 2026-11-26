@@ -1,9 +1,3 @@
----
-article_id: af_50b918b65c1292bf33515c10
-declaration: theorem
-origin: cited
----
-
 # Principal curve divisors have degree zero
 
 On a complete nonsingular curve $X$, every principal divisor has degree zero.

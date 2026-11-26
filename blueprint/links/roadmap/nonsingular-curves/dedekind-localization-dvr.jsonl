@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/nonsingular-curves/dedekind-localization-dvr.md"}], "object": [{"location": {"declaration": "Hartshorne.dedekind_localization_dvr"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_f77fddedd3b45d252d8d3124", "extensions": {"org.autoform": {"origin": "background"}}}

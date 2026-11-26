@@ -1,12 +1,3 @@
----
-article_id: af_9d9ddee15270ff39e2460179
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationSpace.regularFunctions
----
-
 # Regular functions on the valuation space
 
 Let $k$ be algebraically closed, let $K/k$ be a finitely generated field

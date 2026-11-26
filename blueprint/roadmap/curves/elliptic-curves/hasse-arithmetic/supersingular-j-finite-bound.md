@@ -1,9 +1,3 @@
----
-article_id: af_bb7318f4a1110caaad2c6a79
-declaration: theorem
-origin: cited
----
-
 # There are finitely many supersingular j-invariants
 
 For a fixed odd characteristic $p$, only finitely many elliptic curves

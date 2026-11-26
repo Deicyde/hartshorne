@@ -1,12 +1,3 @@
----
-article_id: af_97cc916cf87b2af3b01cf56b
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.HasAffineOpenBasis.isDiscreteValuationRing_localRingAt_of_nonsingularAt
----
-
 # Local rings of nonsingular curves are DVRs
 
 Let $X$ be a curve with an affine-open basis and let $P$ be a nonsingular

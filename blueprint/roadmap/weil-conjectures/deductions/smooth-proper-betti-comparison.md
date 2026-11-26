@@ -1,9 +1,3 @@
----
-article_id: af_2a431e0a4f0065af74b476b9
-declaration: theorem
-origin: cited
----
-
 # Smooth-proper Betti-number comparison
 
 Let $R$ be a localization of a number ring and let $Y\to \operatorname{Spec} R$ be smooth and

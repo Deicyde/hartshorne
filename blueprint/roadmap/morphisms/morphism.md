@@ -1,12 +1,3 @@
----
-article_id: af_300dd006c62e894e27ba7e7b
-declaration: structure
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.VarietyHom
----
-
 # Morphisms
 
 A *morphism* $\varphi : X \to Y$ of varieties is a continuous map such that for every

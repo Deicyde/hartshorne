@@ -1,7 +1,3 @@
----
-article_id: af_6d54b23eacdae0d9620ad95c
----
-
 # Cohomological deductions of the Weil conjectures
 
 - [Frobenius determinant factorization of the zeta function](frobenius-determinant-factorization.md)

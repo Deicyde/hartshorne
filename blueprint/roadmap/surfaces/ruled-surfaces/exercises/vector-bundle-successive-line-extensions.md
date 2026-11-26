@@ -1,12 +1,3 @@
----
-article_id: af_caf33dec696382cdfa3d5a22
-declaration: theorem
-origin: cited
-lean: Hartshorne.exists_lineBundleFiltration Hartshorne.exists_lineBundleFiltration_of_projective
-statement: formalized
-proof: formalized
----
-
 # Vector bundles on curves are successive extensions of line bundles
 
 Let $E$ be a finite locally free sheaf of rank $r$ on a nonsingular projective

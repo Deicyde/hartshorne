@@ -1,12 +1,3 @@
----
-article_id: af_83a64170587955ab5c10023b
-declaration: abbrev
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationSpace
----
-
 # The cofinite valuation space
 
 For a field extension $K/k$, equip the set $C_K$ of discrete valuation

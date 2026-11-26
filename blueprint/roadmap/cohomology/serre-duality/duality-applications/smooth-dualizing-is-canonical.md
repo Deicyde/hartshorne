@@ -1,9 +1,3 @@
----
-article_id: af_fc483eeacb213b975da54846
-declaration: isomorphism
-origin: cited
----
-
 # The dualizing sheaf is canonical in the nonsingular case
 
 For a nonsingular projective variety $X$ of dimension $n$ over an

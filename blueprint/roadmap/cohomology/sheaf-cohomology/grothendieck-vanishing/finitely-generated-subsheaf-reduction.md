@@ -1,9 +1,3 @@
----
-article_id: af_2d214d3484d1c181641d7b12
-declaration: theorem
-origin: cited
----
-
 # Reduction to subsheaves of $\mathbb{Z}_U$
 
 Fix $n$. Assume that for every open $U$, both $\mathbb{Z}_U$ and every subsheaf of

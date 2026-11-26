@@ -1,12 +1,3 @@
----
-article_id: af_73881b6e8d56162d53f2cfa2
-declaration: class
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsReduced
-mathlib_file: Mathlib/AlgebraicGeometry/Properties.lean
----
-
 # Reduced schemes
 
 A scheme $X$ is reduced when every ring $\Gamma (X,U)$ is reduced.

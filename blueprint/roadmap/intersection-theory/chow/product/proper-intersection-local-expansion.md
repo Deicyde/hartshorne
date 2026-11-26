@@ -1,9 +1,3 @@
----
-article_id: af_af4fde35ff9c0baf498fa50e
-declaration: theorem
-origin: cited
----
-
 # A proper intersection expands with local multiplicities
 
 If irreducible subvarieties $Y,Z \subset X$ meet properly, every irreducible

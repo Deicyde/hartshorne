@@ -1,12 +1,3 @@
----
-article_id: af_5b194d5c093d9edcf997fc6c
-declaration: equivalence
-origin: background
-mathlib: true
-mathlib_declaration: AdicCompletion.ofTensorProductEquivOfFiniteNoetherian
-mathlib_file: Mathlib/RingTheory/AdicCompletion/AsTensorProduct.lean
----
-
 # Finite-module completion as tensor product
 
 If $A$ is Noetherian and $M$ is a finite $A$-module, the canonical map is a

@@ -1,12 +1,3 @@
----
-article_id: af_9d74ff504ccb56bf61fb3246
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.FunctionFieldDVR.center_ne_bot Hartshorne.FunctionFieldDVR.center_isMaximal Hartshorne.FunctionFieldDVR.localizationAtCenter_eq Hartshorne.FunctionFieldDVR.center_injective
----
-
 # A DVR containing a Dedekind subring is its localization
 
 Let $B$ be a Dedekind domain of Krull dimension one embedded in its fraction

@@ -1,9 +1,3 @@
----
-article_id: af_aa22aa63e0091cbceda4245a
-declaration: isomorphism
-origin: cited
----
-
 # The algebraic fundamental group is the profinite completion of the topological one
 
 For a connected normal finite-type $\mathbb{C}$-scheme $X$ and compatible algebraic

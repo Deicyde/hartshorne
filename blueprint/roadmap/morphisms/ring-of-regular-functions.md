@@ -1,12 +1,3 @@
----
-article_id: af_93d17cf8e41f0ee7a7cf9564
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.globalRegular Hartshorne.VarietyHom.pullback
----
-
 # The ring of regular functions
 
 For a variety $Y$, the ring $\mathcal O(Y)$ of regular functions $Y\to k$

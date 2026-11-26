@@ -1,9 +1,3 @@
----
-article_id: af_222403acb31e789596fd6f07
-declaration: theorem
-origin: cited
----
-
 # Purely inseparable curve maps are iterated Frobenius
 
 Let $f : X \to Y$ be a finite morphism of curves over an algebraically closed

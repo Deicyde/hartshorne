@@ -1,9 +1,3 @@
----
-article_id: af_41f0830d07588ef31e11f8c5
-declaration: theorem
-origin: cited
----
-
 # The two degree-nine genus-ten families
 
 There are two distinct types of degree-nine, genus-ten curves in $\mathbb{P}^3$:

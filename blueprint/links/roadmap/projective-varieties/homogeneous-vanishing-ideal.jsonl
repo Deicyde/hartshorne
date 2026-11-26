@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-varieties/homogeneous-vanishing-ideal.md"}], "object": [{"location": {"declaration": "Hartshorne.homogeneousVanishingIdeal"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_f2cb5dcdc3a20e91797c3dee", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,9 +1,3 @@
----
-article_id: af_79a149a5ea654673ccc1d961
-declaration: isomorphism
-origin: cited
----
-
 # Serre symmetry for differential forms
 
 Let $X$ be a nonsingular projective $n$-fold over an algebraically closed

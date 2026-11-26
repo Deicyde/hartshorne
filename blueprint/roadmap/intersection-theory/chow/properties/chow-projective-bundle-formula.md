@@ -1,10 +1,3 @@
----
-article_id: af_1a7f7498bc2c931bc2d0796c
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The Chow projective-bundle formula
 
 Let $E$ be locally free of rank $r>0$ on a nonsingular quasi-projective

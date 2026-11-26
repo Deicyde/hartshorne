@@ -1,9 +1,3 @@
----
-article_id: af_f18490c599ef3a19dd4c5bb6
-declaration: theorem
-origin: cited
----
-
 # The exceptional divisor as a projectivized conormal bundle
 
 Let $Y$ be a nonsingular codimension-$r$ closed subvariety of a nonsingular

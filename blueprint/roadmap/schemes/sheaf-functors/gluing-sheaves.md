@@ -1,12 +1,3 @@
----
-article_id: af_dcdda2fad8a15289fa0cc489
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.SheafGluing.GluingData.exists_unique_gluing Hartshorne.SheafGluing.exists_unique_gluing_addCommGrp
----
-
 # Gluing sheaves on an open cover
 
 Let $\{U_{i}\}$ cover $X$, let $F_{i}$ be a sheaf on $U_{i}$, and suppose isomorphisms

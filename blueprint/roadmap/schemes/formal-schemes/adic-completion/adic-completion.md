@@ -1,12 +1,3 @@
----
-article_id: af_8c189989ca7f6150d723a7af
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AdicCompletion
-mathlib_file: Mathlib/RingTheory/AdicCompletion/Basic.lean
----
-
 # Adic completion of rings and modules
 
 For an ideal $I$ of a commutative ring $A$ and an $A$-module $M$, define

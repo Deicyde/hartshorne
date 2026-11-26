@@ -1,12 +1,3 @@
----
-article_id: af_3e2d238148acf0d62052e212
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.openImmersion_smoothOfRelativeDimension_zero_finiteTypeOverField Hartshorne.smoothOfRelativeDimension_baseChange_finiteTypeOverField Hartshorne.smoothOfRelativeDimension_comp_finiteTypeOverField Hartshorne.smoothOfRelativeDimension_product_finiteTypeOverField
----
-
 # Smooth relative-dimension calculus in Hartshorne's setting
 
 Fix a field $k$ and work with finite-type schemes over $\operatorname{Spec} k$. Open

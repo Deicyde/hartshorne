@@ -1,12 +1,3 @@
----
-article_id: af_4c750d75c9abbf05e8b839b5
-declaration: instance
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projZariskiTopology
----
-
 # The Zariski topology on projective space
 
 Taking the algebraic sets of $\mathbb{P} ^{n}$ as the closed sets defines the *Zariski

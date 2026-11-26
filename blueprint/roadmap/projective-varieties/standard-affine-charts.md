@@ -1,12 +1,3 @@
----
-article_id: af_dddc3e684133ba9c97f4a783
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.chartHomeomorph Hartshorne.chartEquiv Hartshorne.awayChartEquiv
----
-
 # The standard affine charts
 
 Let $H_{i} = Z(x_{i})$ and $U_{i} = \mathbb{P} ^{n} \setminus H_{i}$. The map $\varphi _{i} : U_{i} \to \mathbb{A} ^{n}$ sending

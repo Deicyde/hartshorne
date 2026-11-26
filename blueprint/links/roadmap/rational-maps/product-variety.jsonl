@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/rational-maps/product-variety.md"}], "object": [{"location": {"declaration": "Hartshorne.product_variety"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_7b4c04ecca578f6cd6b4d287", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,12 +1,3 @@
----
-article_id: af_8e577798813a238393a6f5b5
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.InverseSystem.isMittagLeffler_quotient
----
-
 # Mittag–Leffler descends to quotients
 
 In a levelwise short exact sequence of sequential inverse systems

@@ -1,12 +1,3 @@
----
-article_id: af_9326aa06c71386df9645ee23
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.affineSpace_smoothOfRelativeDimension Hartshorne.affineSpace_smooth
----
-
 # Affine space is smooth over an arbitrary base
 
 For every scheme $Y$, the projection $A^n_Y \to Y$ is smooth of relative

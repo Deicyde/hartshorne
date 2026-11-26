@@ -1,9 +1,3 @@
----
-article_id: af_6dde09ee9211b4d76f7e8c8b
-declaration: theorem
-origin: bridged
----
-
 # The tangent criterion for a simple fixed point
 
 Let $X$ be smooth and $f:X\to X$.  At a fixed closed point $x$, the graph of

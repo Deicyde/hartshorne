@@ -1,9 +1,3 @@
----
-article_id: af_6377c466a842353e4c12b4e2
-declaration: theorem
-origin: cited
----
-
 # An algebraically contracted curve has negative self-intersection
 
 If an irreducible curve $Y$ on a nonsingular projective surface is exactly the

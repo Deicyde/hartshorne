@@ -1,10 +1,3 @@
----
-article_id: af_a29c104880acc2ae7286db7a
-declaration: equivalence
-origin: background
-not_ready: true
----
-
 # Projective GAGA is an equivalence on coherent sheaves
 
 For every projective scheme $X$ over $\mathbb{C}$, analytification induces an

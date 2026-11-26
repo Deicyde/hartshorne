@@ -1,12 +1,3 @@
----
-article_id: af_8050d89a6a44d6f922db6a21
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationSpace.abstractNonsingularCurveToFunctionFieldAlgHom_bijective
----
-
 # The function field of an abstract nonsingular curve
 
 Let $k$ be algebraically closed, let $K/k$ be an essentially finite-type field

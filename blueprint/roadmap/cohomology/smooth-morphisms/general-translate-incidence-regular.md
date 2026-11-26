@@ -1,9 +1,3 @@
----
-article_id: af_0bafb896f1549ed568d2f3b4
-declaration: theorem
-origin: bridged
----
-
 # The general-translate incidence space is nonsingular
 
 For maps $f : Y \to X$ and $g : Z \to X$ from nonsingular varieties as in

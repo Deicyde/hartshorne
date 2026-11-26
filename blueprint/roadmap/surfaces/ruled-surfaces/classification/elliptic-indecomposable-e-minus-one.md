@@ -1,9 +1,3 @@
----
-article_id: af_ce6afc9ac7cab97ff8bfce52
-declaration: theorem
-origin: cited
----
-
 # The elliptic indecomposable case with invariant minus one
 
 Assume the algebraically closed ground field has characteristic different

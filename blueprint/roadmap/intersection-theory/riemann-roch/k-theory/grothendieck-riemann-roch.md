@@ -1,10 +1,3 @@
----
-article_id: af_67e4b6719aa73b416a7da3f3
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Grothendieck–Riemann–Roch
 
 Let $f:X\to Y$ be a smooth projective morphism of smooth quasi-projective

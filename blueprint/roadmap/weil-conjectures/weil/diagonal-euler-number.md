@@ -1,9 +1,3 @@
----
-article_id: af_b299653d0438e63f31acc912
-declaration: def
-origin: cited
----
-
 # The diagonal Euler number
 
 For a smooth projective geometrically connected $n$-fold $X/\mathbb{F}_q$, define

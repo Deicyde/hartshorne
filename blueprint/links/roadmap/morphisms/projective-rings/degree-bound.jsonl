@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/morphisms/projective-rings/degree-bound.md"}], "object": [{"location": {"declaration": "Hartshorne.mul_mem_gradedImage"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_c1f0eb64f03403a0fa846bde", "extensions": {"org.autoform": {"origin": "bridged"}}}

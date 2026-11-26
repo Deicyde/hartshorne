@@ -1,9 +1,3 @@
----
-article_id: af_a07c63d890d5ffaed1388621
-declaration: theorem
-origin: cited
----
-
 # Arithmetic genus and the embedded Hilbert polynomial
 
 If $X\subseteq \mathbb{P}^N_k$ is a closed projective subvariety with $\dim X=r$, the

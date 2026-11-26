@@ -1,9 +1,3 @@
----
-article_id: af_6f8781756927499bdfbb0bcf
-declaration: theorem
-origin: cited
----
-
 # Uniqueness of the Chow intersection product
 
 There is at most one intersection theory on nonsingular quasi-projective

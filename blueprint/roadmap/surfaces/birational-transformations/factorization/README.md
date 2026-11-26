@@ -1,7 +1,3 @@
----
-article_id: af_de412a8683b71304b386c7bd
----
-
 # Factorization of birational maps of surfaces
 
 This subchapter proves that a birational morphism of nonsingular projective

@@ -1,10 +1,3 @@
----
-article_id: af_2bcf01db57821ac1ef03e640
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Parameter spaces of smooth space curves
 
 For fixed integers $d,g$, nonsingular curves of degree $d$ and genus $g$ in

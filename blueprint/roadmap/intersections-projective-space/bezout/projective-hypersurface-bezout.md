@@ -1,12 +1,3 @@
----
-article_id: af_ebfe1efe16cc411a6325bf8f
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projective_hypersurface_bezout
----
-
 # Bézout for a projective variety and a hypersurface
 
 Let $Y \subseteq \mathbb{P} ^{n}$ be a projective variety of dimension at least one, and let $H$

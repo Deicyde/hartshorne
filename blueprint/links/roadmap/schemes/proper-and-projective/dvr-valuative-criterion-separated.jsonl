@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/proper-and-projective/dvr-valuative-criterion-separated.md"}], "object": [{"location": {"declaration": "Hartshorne.isSeparated_iff_dvr_valuativeCriterion"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_76c399f9efcbb25ce4ccd596", "extensions": {"org.autoform": {"origin": "cited"}}}

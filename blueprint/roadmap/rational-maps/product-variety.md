@@ -1,12 +1,3 @@
----
-article_id: af_7b4c04ecca578f6cd6b4d287
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.product_variety
----
-
 # Products of varieties
 
 Use [the Segre embedding](segre-embedding.md) to identify $\mathbb{P} ^{r} \times \mathbb{P} ^{s}$ with its

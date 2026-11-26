@@ -1,12 +1,3 @@
----
-article_id: af_3f8a16b57e3c983315a69204
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.coherent_affine_local_tfae Hartshorne.module_linearEquiv_sections_of_tilde_iso Hartshorne.IsCoherent
----
-
 # The affine-local criterion for coherence
 
 Let $X$ be a locally Noetherian scheme.  For an $\mathcal{O} _X$-module $F$, prove that

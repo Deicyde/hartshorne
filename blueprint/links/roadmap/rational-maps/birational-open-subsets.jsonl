@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/rational-maps/birational-open-subsets.md"}], "object": [{"location": {"declaration": "Hartshorne.birational_iff_hasIsomorphicOpenSubsets"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_66e36fc9e3926617642cdd2d", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,9 +1,3 @@
----
-article_id: af_aa182c43459834fa779253d9
-declaration: theorem
-origin: cited
----
-
 # Classical varieties are the quasi-projective integral schemes
 
 Let $k$ be algebraically closed. The essential image of the existing

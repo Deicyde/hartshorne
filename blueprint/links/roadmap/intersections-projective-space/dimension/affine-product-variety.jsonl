@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/dimension/affine-product-variety.md"}], "object": [{"location": {"declaration": "Hartshorne.isAffineVariety_affineProduct"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_6ab332f43691470db2219d1f", "extensions": {"org.autoform": {"origin": "cited"}}}

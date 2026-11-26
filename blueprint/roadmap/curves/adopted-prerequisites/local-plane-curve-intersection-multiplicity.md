@@ -1,12 +1,3 @@
----
-article_id: af_5ffc461f2f07008cebf36805
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.affineLocalIntersectionMultiplicity Hartshorne.affineLocalIntersectionMultiplicity_ne_top_and_ge Hartshorne.finite_lines_affineLocalIntersectionMultiplicity_ne Hartshorne.projectivePlaneLocalIntersectionMultiplicity Hartshorne.finite_and_finsum_projectivePlaneLocalIntersectionMultiplicity
----
-
 # Local intersection multiplicity of plane curves
 
 For distinct affine plane curves $Y=(f=0)$ and $Z=(g=0)$ and a point

@@ -1,9 +1,3 @@
----
-article_id: af_5c0fe3a1c5adaf476ed7f2d5
-declaration: theorem
-origin: cited
----
-
 # Arithmetic-genus drop under blowup
 
 Let $C$ be an effective divisor on a smooth surface with multiplicity $r$ at

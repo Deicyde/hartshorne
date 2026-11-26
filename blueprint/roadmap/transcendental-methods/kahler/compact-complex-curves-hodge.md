@@ -1,10 +1,3 @@
----
-article_id: af_fc5d0c9823441f9a690ec776
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Every compact complex curve is a Hodge manifold
 
 Every connected compact complex one-manifold admits a Kähler form whose

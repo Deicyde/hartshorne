@@ -1,9 +1,3 @@
----
-article_id: af_449d3a13669204d4b69cf9be
-declaration: theorem
-origin: cited
----
-
 # The anticanonical embedding of a plane point blowup
 
 Let $X_r$ be $\mathbb{P}^2$ blown up at $0\le r\le 6$ ordinary points, no three

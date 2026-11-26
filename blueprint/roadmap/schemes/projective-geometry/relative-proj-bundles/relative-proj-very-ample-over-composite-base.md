@@ -1,9 +1,3 @@
----
-article_id: af_55b8c86bcc2c8519a9ba64c9
-declaration: theorem
-origin: cited
----
-
 # Very ampleness over a composite base
 
 Let $X \to Y$ be of finite type, let $L$ be ample on $X$, and let

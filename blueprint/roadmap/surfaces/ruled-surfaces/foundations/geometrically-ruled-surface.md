@@ -1,9 +1,3 @@
----
-article_id: af_b4066f7672f1b433e5cf33e5
-declaration: structure
-origin: cited
----
-
 # Geometrically ruled surfaces
 
 Over an algebraically closed field, package a geometrically ruled surface as

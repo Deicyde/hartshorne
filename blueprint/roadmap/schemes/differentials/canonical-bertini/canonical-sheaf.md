@@ -1,12 +1,3 @@
----
-article_id: af_65097b1b2f288bc110b57dce
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.canonicalSheaf Hartshorne.canonicalSheaf_eq Hartshorne.canonicalSheaf_isInvertible Hartshorne.canonicalSheaf_isInvertible_of_relativeDifferentials Hartshorne.Ringed.IsLocallyFreeOfRank.moduleSheafExteriorPower
----
-
 # The canonical sheaf
 
 For a nonsingular variety $X$ of dimension $n$ over $k$, define its canonical

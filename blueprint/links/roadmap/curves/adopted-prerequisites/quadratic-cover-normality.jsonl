@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/curves/adopted-prerequisites/quadratic-cover-normality.md"}], "object": [{"location": {"declaration": "Hartshorne.squareRootCover_isIntegrallyClosed"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_a22897f3ca54863fdb97d0d5", "extensions": {"org.autoform": {"origin": "cited"}}}

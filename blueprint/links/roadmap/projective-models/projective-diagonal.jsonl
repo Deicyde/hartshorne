@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/projective-diagonal.md"}], "object": [{"location": {"declaration": "Hartshorne.ValuationSpace.exists_dense_projective_diagonal"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_7573872cfdef047cd2572bae", "extensions": {"org.autoform": {"origin": "bridged"}}}

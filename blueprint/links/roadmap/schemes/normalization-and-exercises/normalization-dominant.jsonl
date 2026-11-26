@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/normalization-and-exercises/normalization-dominant.md"}], "object": [{"location": {"declaration": "Hartshorne.absoluteNormalizationMap_isDominant"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_a0bb7637a231a56ef17b4199", "extensions": {"org.autoform": {"origin": "cited"}}}

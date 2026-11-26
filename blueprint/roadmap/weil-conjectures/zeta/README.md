@@ -1,7 +1,3 @@
----
-article_id: af_0d3a5739c8fdc701dcabb929
----
-
 # Point counts and the Hasse–Weil zeta function
 
 This subchapter defines finite-extension point counts and the zeta function

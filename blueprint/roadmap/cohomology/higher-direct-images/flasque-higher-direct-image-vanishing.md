@@ -1,9 +1,3 @@
----
-article_id: af_d74fadfd8da94d1da7c414c0
-declaration: theorem
-origin: cited
----
-
 # Flasque sheaves have no positive higher direct images
 
 If $F$ is a flasque abelian sheaf on $X$, then for every continuous map

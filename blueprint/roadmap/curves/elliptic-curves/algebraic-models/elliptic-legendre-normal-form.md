@@ -1,9 +1,3 @@
----
-article_id: af_71caafdc78229cbfe1f308cb
-declaration: theorem
-origin: cited
----
-
 # Legendre normal form
 
 Every pointed elliptic curve over an algebraically closed field of

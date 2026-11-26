@@ -1,9 +1,3 @@
----
-article_id: af_bdd4f55743e7bfb4dc36dfd9
-declaration: theorem
-origin: cited
----
-
 # Extremal curves on a smooth quadric
 
 The Castelnuovo bound is attained for every $d\ge 3$. On a nonsingular quadric

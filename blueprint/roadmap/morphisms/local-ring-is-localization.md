@@ -1,12 +1,3 @@
----
-article_id: af_ee8518fd16a5e78a6cd4a378
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.localizationEquivLocalRing
----
-
 # The local ring is a localisation
 
 For an affine variety $Y$ and a point $P\in Y$,

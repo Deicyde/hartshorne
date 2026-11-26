@@ -1,12 +1,3 @@
----
-article_id: af_a52cb991e62958c97fc00e45
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.hilbertSerre
----
-
 # Hilbert–Serre
 
 Let $M$ be a finite integer-graded module over

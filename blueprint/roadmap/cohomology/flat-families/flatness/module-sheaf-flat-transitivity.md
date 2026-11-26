@@ -1,12 +1,3 @@
----
-article_id: af_8f159700097a79f55cfc8959
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.moduleSheaf_flatOver_comp
----
-
 # Transitivity for module sheaves flat over a base
 
 Let $f : X \to Y$ and $g : Y \to Z$. If an $\mathcal{O}_X$-module $F$ is flat over $Y$

@@ -1,9 +1,3 @@
----
-article_id: af_4377099e5c0746620ff58145
-declaration: theorem
-origin: cited
----
-
 # Universality characterizes derived functors
 
 If an abelian category has enough injectives and $F$ is left exact, the right

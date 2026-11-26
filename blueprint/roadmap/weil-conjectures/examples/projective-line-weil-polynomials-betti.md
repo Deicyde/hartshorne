@@ -1,9 +1,3 @@
----
-article_id: af_ad0b4faab9853e218a8a2870
-declaration: theorem
-origin: cited
----
-
 # Weil polynomials and Betti numbers of the projective line
 
 For $\mathbb P^1/\mathbb{F}_q$, the Weil polynomials are

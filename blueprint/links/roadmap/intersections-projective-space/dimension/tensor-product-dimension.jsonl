@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/dimension/tensor-product-dimension.md"}], "object": [{"location": {"declaration": "Hartshorne.ringKrullDim_tensorProduct"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_bb4d0c3b2bbb4d6b806f3089", "extensions": {"org.autoform": {"origin": "background"}}}

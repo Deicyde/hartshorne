@@ -1,12 +1,3 @@
----
-article_id: af_4d70319a29a0ec29f2c79a20
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.VarietyHom.isIso_iff_isHomeomorph_and_bijective_localRingHom
----
-
 # Isomorphisms from topology and local rings
 
 Let $\varphi : X \to Y$ be a morphism. Then $\varphi$ is an isomorphism of varieties if

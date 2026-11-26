@@ -1,9 +1,3 @@
----
-article_id: af_ed3918394416849b87d189af
-declaration: isomorphism
-origin: cited
----
-
 # Top cohomology of the canonical sheaf
 
 For a nonsingular projective variety $X$ of dimension $n$ over an

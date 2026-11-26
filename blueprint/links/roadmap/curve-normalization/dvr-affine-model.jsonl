@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/curve-normalization/dvr-affine-model.md"}], "object": [{"location": {"declaration": "Hartshorne.FunctionFieldDVR.exists_nonsingular_affine_model"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_99c0d90cb858f171e4e80de6", "extensions": {"org.autoform": {"origin": "cited"}}}

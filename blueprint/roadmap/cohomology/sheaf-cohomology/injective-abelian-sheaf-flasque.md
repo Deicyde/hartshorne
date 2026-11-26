@@ -1,12 +1,3 @@
----
-article_id: af_f4d14dde809a7c7b907cc33d
-declaration: theorem
-origin: cited
-lean: Hartshorne.injectiveAbelianSheaf_isFlasque
-statement: formalized
-proof: formalized
----
-
 # Injective abelian sheaves are flasque
 
 Every injective object in the category of abelian sheaves on a topological

@@ -1,9 +1,3 @@
----
-article_id: af_18a529d695b797ea804c319f
-declaration: theorem
-origin: cited
----
-
 # The two dual composites are multiplication
 
 Let $f : X \to X'$ preserve the origins and have degree $n$. Then

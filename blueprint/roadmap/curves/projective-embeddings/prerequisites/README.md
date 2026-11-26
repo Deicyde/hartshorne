@@ -1,7 +1,3 @@
----
-article_id: af_ccede61b7a6c5f1d20e227ff
----
-
 # Reactivated projection and node prerequisites
 
 The running proof of Hartshorne IV.3 uses two Chapter-I exercises that were

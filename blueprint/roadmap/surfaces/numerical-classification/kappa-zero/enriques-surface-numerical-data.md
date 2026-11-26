@@ -1,9 +1,3 @@
----
-article_id: af_157e1f91eab33ef938e3611e
-declaration: theorem
-origin: cited
----
-
 # Numerical data of an Enriques surface
 
 For an Enriques surface in characteristic different from two and three,

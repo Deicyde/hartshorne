@@ -1,10 +1,3 @@
----
-article_id: af_a80655e88b049d3b7cded4f5
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Étale purity and Gysin fundamental classes
 
 For a regular closed immersion $i:Z\to X$ of pure codimension $q$, with $X$

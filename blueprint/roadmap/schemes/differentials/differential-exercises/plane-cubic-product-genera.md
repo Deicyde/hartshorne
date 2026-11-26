@@ -1,10 +1,3 @@
----
-article_id: af_b418f347a44f3ffd56f6a563
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The genera of a product of plane cubics
 
 Let $Y$ be a nonsingular plane cubic and let $X = Y \times _k Y$. Then

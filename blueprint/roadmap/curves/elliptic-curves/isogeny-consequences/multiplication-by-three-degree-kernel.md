@@ -1,9 +1,3 @@
----
-article_id: af_8d8b6a9ff2b269c3c8f78ab0
-declaration: theorem
-origin: cited
----
-
 # Multiplication by three
 
 Over an algebraically closed field of characteristic different from two and

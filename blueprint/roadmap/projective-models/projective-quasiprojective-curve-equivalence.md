@@ -1,12 +1,3 @@
----
-article_id: af_8e64f12c6fbbdf121cc5ab92
-declaration: def
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveQuasiProjectiveCurveEquivalence
----
-
 # Projective and quasi-projective curve categories are equivalent
 
 The functor from nonsingular projective curves with dominant morphisms to

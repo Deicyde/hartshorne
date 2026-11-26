@@ -1,12 +1,3 @@
----
-article_id: af_f0e205e897d3676b25586b0f
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.finiteFieldQFrobeniusIterate AlgebraicGeometry.finiteFieldRationalPointToGeometricPoint AlgebraicGeometry.finiteFieldQFrobeniusIterate_fixedPoints AlgebraicGeometry.pointCountSequence_eq_card_finiteFieldQFrobeniusIterate_fixedPoints
----
-
 # Frobenius iterates and rational points
 
 For every $r\ge 1$, the geometric points fixed by $F^r$ are exactly the

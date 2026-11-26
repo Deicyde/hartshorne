@@ -1,12 +1,3 @@
----
-article_id: af_faa6bf29767e5c33aab9ef74
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.isLocallyNoetherian_iff_of_affine_openCover
-mathlib_file: Mathlib/AlgebraicGeometry/Noetherian.lean
----
-
 # Noetherianity is local on affine opens
 
 If $X$ is locally Noetherian, every affine open $U = \operatorname{Spec} A$ has $A$ Noetherian. In particular, $\operatorname{Spec} A$ is a Noetherian scheme if and only if $A$ is a Noetherian ring.

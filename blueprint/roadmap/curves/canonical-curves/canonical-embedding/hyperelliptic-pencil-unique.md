@@ -1,9 +1,3 @@
----
-article_id: af_a7e4d117c773b13c4ebad099
-declaration: theorem
-origin: cited
----
-
 # The hyperelliptic pencil is unique
 
 A hyperelliptic Chapter IV curve has exactly one $g^1_2$.

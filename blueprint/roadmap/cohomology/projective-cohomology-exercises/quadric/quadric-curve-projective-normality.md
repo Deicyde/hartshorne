@@ -1,9 +1,3 @@
----
-article_id: af_cb0c04b583ce802af9e11e42
-declaration: theorem
-origin: cited
----
-
 # Projective normality on a quadric
 
 Let $k$ be algebraically closed and let $Y\subseteq Q\subseteq \mathbb{P}^{3}_k$ be an irreducible

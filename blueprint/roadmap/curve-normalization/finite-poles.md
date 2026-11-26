@@ -1,12 +1,3 @@
----
-article_id: af_dc1508fedff9a089a2641a04
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.FunctionFieldDVR.finite_hasPoleAt Hartshorne.FunctionFieldDVR.finite_vanishesAt Hartshorne.FunctionFieldDVR.finite_mem_maximalIdeal
----
-
 # A rational function has finitely many poles
 
 Let $K/k$ be a one-dimensional function field and let $x\in K$.  Then

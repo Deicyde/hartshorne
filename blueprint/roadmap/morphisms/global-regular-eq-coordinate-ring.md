@@ -1,12 +1,3 @@
----
-article_id: af_00f356814aa13851cf5257ea
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.coordinateRingEquivGlobalRegular
----
-
 # The coordinate ring is the ring of regular functions
 
 For an affine variety $Y$, the map $\alpha : A(Y) \to \mathcal{O} (Y)$ sending a polynomial class

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/hilbert/hilbert-serre.md"}], "object": [{"location": {"declaration": "Hartshorne.hilbertSerre"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_a52cb991e62958c97fc00e45", "extensions": {"org.autoform": {"origin": "cited"}}}

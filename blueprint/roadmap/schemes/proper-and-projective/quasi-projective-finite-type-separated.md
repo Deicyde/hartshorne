@@ -1,12 +1,3 @@
----
-article_id: af_50efedaea918279cc0a904e9
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.QuasiProjective.finiteType_and_isSeparated Hartshorne.QuasiProjective.finiteType_and_isSeparated_of_isLocallyNoetherian
----
-
 # Quasi-projective morphisms are finite type and separated
 
 Let $f : X \longrightarrow Y$ be a quasi-projective morphism of Noetherian schemes. Then

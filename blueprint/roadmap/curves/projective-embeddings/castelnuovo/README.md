@@ -1,7 +1,3 @@
----
-article_id: af_0cf9ae0400f6f48a5929b73d
----
-
 # Castelnuovo prerequisites
 
 This downstream exercise result is retained because the running proof of

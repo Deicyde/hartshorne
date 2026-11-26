@@ -1,9 +1,3 @@
----
-article_id: af_36834f17c67da2ba23c8919e
-declaration: theorem
-origin: cited
----
-
 # Relative Serre vanishing
 
 Let $f : X \to Y$ be a projective morphism of Noetherian schemes, let

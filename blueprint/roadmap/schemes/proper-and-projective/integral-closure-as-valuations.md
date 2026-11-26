@@ -1,12 +1,3 @@
----
-article_id: af_bb6862dce79ab9993fdca2a4
-declaration: lemma
-origin: cited
-mathlib: true
-mathlib_declaration: iInf_valuationSubring_superset
-mathlib_file: Mathlib/RingTheory/Valuation/LocalSubring.lean
----
-
 # Integral closure as an intersection of valuation rings
 
 For a subset $s$ of a field $K$, the integral closure in $K$ of the subring

@@ -1,9 +1,3 @@
----
-article_id: af_7d08c7335c552ec29e1bc3f3
-declaration: theorem
-origin: cited
----
-
 # The ample cone when the invariant is negative
 
 Under the hypotheses $e<0$ and either $\operatorname{char} k=0$ or $g\le 1$, a divisor

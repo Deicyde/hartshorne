@@ -1,10 +1,3 @@
----
-article_id: af_4e1e45333cc25bee5871ea87
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Intermediate cohomology of a complete intersection
 
 Let $Y\subseteq \mathbb{P}^{r}_k$ be a projective complete-intersection closed subscheme of

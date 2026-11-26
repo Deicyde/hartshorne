@@ -1,10 +1,3 @@
----
-article_id: af_47c9b3b36e3583a38143c3c7
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Classification of embedded Del Pezzo surfaces
 
 Over an algebraically closed field of arbitrary characteristic, every

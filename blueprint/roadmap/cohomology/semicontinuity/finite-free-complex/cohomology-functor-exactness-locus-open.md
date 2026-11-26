@@ -1,9 +1,3 @@
----
-article_id: af_a58ce8b48823b2508bf38eb3
-declaration: theorem
-origin: cited
----
-
 # The exactness loci are open
 
 Let $y_0$ correspond to $p : \operatorname{Spec} A$. Restrict $T^i$ to $A_p$-modules by

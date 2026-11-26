@@ -1,12 +1,3 @@
----
-article_id: af_1cad7f1b7997a1ab9fac34b4
-declaration: abbrev
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.WeilClassGroup
----
-
 # Linear equivalence and the Weil class group
 
 For $X$ satisfying $(*)$, define two Weil divisors to be linearly equivalent

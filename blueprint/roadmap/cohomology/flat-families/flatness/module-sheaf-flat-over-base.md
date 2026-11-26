@@ -1,11 +1,3 @@
----
-article_id: af_4a47c5077a5ceb83f9e2d0ba
-declaration: def
-origin: cited
-statement: formalized
-lean: AlgebraicGeometry.Scheme.Modules.FlatOverAt AlgebraicGeometry.Scheme.Modules.FlatOver
----
-
 # A module sheaf flat over a base
 
 For $f : X \to Y$, an $\mathcal{O}_X$-module $F$ is flat over $Y$ at $x \in X$ when

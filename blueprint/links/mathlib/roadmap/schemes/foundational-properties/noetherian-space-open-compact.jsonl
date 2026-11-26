@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/foundational-properties/noetherian-space-open-compact.md"}], "object": [{"location": {"declaration": "TopologicalSpace.noetherianSpace_iff_opens", "module": "Mathlib.Topology.NoetherianSpace"}}], "id": "af_5b6ab4774e96f1607c608a58"}

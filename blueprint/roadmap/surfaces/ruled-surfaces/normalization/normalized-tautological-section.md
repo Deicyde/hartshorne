@@ -1,9 +1,3 @@
----
-article_id: af_2436fb6d02cdba56439bfed1
-declaration: theorem
-origin: cited
----
-
 # A normalized bundle has a distinguished tautological section
 
 Let $E$ be normalized. A nonzero global section induces an exact sequence

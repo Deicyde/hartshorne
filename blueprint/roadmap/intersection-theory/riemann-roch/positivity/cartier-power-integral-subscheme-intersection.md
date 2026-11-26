@@ -1,10 +1,3 @@
----
-article_id: af_5a8980323ba921affcd70298
-declaration: definition
-origin: cited
-not_ready: true
----
-
 # Cartier powers against integral subschemes
 
 Let $X$ be proper over an algebraically closed field, $D$ a Cartier divisor,

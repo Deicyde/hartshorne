@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/morphisms/global-functions/global-regular-in-function-field.md"}], "object": [{"location": {"declaration": "Hartshorne.Variety.globalToFunctionField"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_ee708c56a9d1c21e6fd3eca4", "extensions": {"org.autoform": {"origin": "bridged"}}}

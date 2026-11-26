@@ -1,9 +1,3 @@
----
-article_id: af_367253eea4f4ee7ad250b0d6
-declaration: equivalence
-origin: cited
----
-
 # Sections of a projective bundle are quotient line bundles
 
 Let $E$ be a rank-two locally free sheaf on a nonsingular projective curve

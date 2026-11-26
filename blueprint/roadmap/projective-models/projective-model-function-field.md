@@ -1,12 +1,3 @@
----
-article_id: af_27f35d9b8908d59f68689bd5
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveDiagonal_functionFieldAlgHom_bijective
----
-
 # The function field of the diagonal model
 
 For the dense diagonal morphism $\varphi:C_K\to Y$ of the projective

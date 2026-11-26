@@ -1,9 +1,3 @@
----
-article_id: af_f3ebbd4f5fa25177e7b5e328
-declaration: definition
-origin: cited
----
-
 # The Chern character
 
 For a finite locally free sheaf $E$ with formal Chern roots $a_i$, define

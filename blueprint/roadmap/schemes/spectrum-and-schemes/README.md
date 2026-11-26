@@ -1,7 +1,3 @@
----
-article_id: af_8fec9ab89768129f966417be
----
-
 # Spectra, locally ringed spaces, and schemes
 
 Hartshorne II.2 passes from the Zariski topology on $\operatorname{Spec} A$

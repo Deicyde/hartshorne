@@ -1,9 +1,3 @@
----
-article_id: af_54d728be6884be7c5b7dfbed
-declaration: theorem
-origin: cited
----
-
 # The canonical numerical class and square of a ruled surface
 
 For a ruled surface over a curve of genus $g$,

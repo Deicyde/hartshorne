@@ -1,10 +1,3 @@
----
-article_id: af_a3374aabc7bd53ea957c3027
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Topology of a compact genus-g Riemann surface
 
 The analytification of a smooth projective complex genus-$g$ curve is a

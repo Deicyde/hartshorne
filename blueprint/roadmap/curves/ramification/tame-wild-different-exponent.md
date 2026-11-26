@@ -1,9 +1,3 @@
----
-article_id: af_05b97d6063299d8b607ae5ae
-declaration: theorem
-origin: cited
----
-
 # Tame and wild different exponents
 
 Let $d_P = \operatorname{length} ((\Omega _{(X/Y)})_P)$ for a finite separable curve map. Then

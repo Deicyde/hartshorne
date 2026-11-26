@@ -1,12 +1,3 @@
----
-article_id: af_d8128a5cb18969009efd1f45
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isRegularLocalRing_quotient_span_singleton_iff_toCotangent_ne_zero Hartshorne.isRegularLocalRing_quotient_span_singleton_iff_notMem_sq
----
-
 # Regular hypersurface quotients of a regular local ring
 
 Let $(A, m)$ be a regular local domain and let $f$ be a nonzero element of

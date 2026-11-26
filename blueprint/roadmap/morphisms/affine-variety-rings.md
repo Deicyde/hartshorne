@@ -1,12 +1,3 @@
----
-article_id: af_01b34428bd087a4d13d151be
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.height_maximalIdealAt_eq Hartshorne.ringKrullDim_localRingAt_eq_dim
----
-
 # The local ring and function field of an affine variety
 
 Let $Y\subseteq\mathbb A^n$ be an affine variety and let $P\in Y$.

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/cohomology/affine-cohomology/serre-affineness-criterion.md"}], "object": [{"location": {"declaration": "Hartshorne.isAffine_tfae_sheafCohomology"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_35ab5f2f11a618a550cc6e45", "extensions": {"org.autoform": {"origin": "cited"}}}

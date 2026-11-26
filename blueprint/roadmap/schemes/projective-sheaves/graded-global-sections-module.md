@@ -1,12 +1,3 @@
----
-article_id: af_238f8cf474ceb885acdb0312
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.GradedGlobalSections.gammaStarModule Hartshorne.GradedGlobalSections.GammaStar Hartshorne.GradedGlobalSections.smul_of Hartshorne.GradedGlobalSections.twistSection Hartshorne.GradedGlobalSections.mulMap Hartshorne.GradedGlobalSections.mulMap_mul Hartshorne.GradedGlobalSections.mulMap_one Hartshorne.GradedGlobalSections.twistMulHom_tmul_twistSection_apply
----
-
 # The graded global-sections module
 
 For $X = \operatorname{Proj} S$ and a sheaf $F$ of $\mathcal{O}_X$-modules, define

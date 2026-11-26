@@ -1,9 +1,3 @@
----
-article_id: af_277a6c9700343049ece94cd2
-declaration: theorem
-origin: cited
----
-
 # The total-transform formula
 
 Let $D$ be an effective divisor of multiplicity $r$ at the center of a point

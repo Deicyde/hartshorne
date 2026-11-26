@@ -1,9 +1,3 @@
----
-article_id: af_75aaea6de0d5953db989eba8
-declaration: theorem
-origin: cited
----
-
 # Tensor-dual compatibility for sheaf Ext
 
 For a finite-rank locally free $\mathcal{O}_X$-module $L$ and arbitrary module sheaves

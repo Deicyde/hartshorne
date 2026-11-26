@@ -1,9 +1,3 @@
----
-article_id: af_8a8480685b1fec35c73a8055
-declaration: homomorphism
-origin: cited
----
-
 # The topological first Chern class
 
 For a projective complex scheme, the connecting map in the analytic

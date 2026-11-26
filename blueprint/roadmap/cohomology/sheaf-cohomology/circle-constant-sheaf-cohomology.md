@@ -1,10 +1,3 @@
----
-article_id: af_61de48fc9004ce7ad26d2a32
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Constant-sheaf cohomology of the circle
 
 For the circle $S^{1}$ with its usual topology and the constant integral sheaf

@@ -1,12 +1,3 @@
----
-article_id: af_8e803ce5c700cb235a8e2730
-declaration: theorem
-origin: cited
-lean: Hartshorne.tangentNormal_shortExact_pullback Hartshorne.exists_tangentNormal_shortExact Hartshorne.tangentNormal_shortExact Hartshorne.tangentToPullbackDual Hartshorne.pullbackDualToNormal Hartshorne.tangentToPullbackDual_comp_pullbackDualToNormal Hartshorne.pullbackDualMap Hartshorne.pullbackDualMap_isIso Hartshorne.pullbackDualIso Hartshorne.pullbackTensorMap_isIso_of_isLocallyFreeOfRank
-statement: formalized
-proof: formalized
----
-
 # The tangent-normal exact sequence
 
 For a nonsingular closed subvariety $Y$ of a nonsingular variety $X$,

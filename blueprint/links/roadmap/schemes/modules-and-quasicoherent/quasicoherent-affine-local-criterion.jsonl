@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/modules-and-quasicoherent/quasicoherent-affine-local-criterion.md"}], "object": [{"location": {"declaration": "Hartshorne.quasicoherent_affine_local_tfae"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_0034b5758463326d85c5e9ba", "extensions": {"org.autoform": {"origin": "cited"}}}

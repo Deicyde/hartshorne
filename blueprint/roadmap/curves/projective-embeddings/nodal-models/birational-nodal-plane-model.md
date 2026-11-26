@@ -1,9 +1,3 @@
----
-article_id: af_894f2c1f6a6dc7cd2f155a4a
-declaration: theorem
-origin: cited
----
-
 # Every curve has a birational nodal plane model
 
 Every Chapter IV curve is birationally equivalent to an integral plane curve

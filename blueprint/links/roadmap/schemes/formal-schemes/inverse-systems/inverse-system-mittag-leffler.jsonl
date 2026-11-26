@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/formal-schemes/inverse-systems/inverse-system-mittag-leffler.md"}], "object": [{"location": {"declaration": "Hartshorne.InverseSystem.IsMittagLeffler"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_95d1a2e01824862c840b8993", "extensions": {"org.autoform": {"origin": "cited"}}}

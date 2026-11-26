@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/variety-comparison/scheme-variety-category.md"}], "object": [{"location": {"declaration": "Hartshorne.SchemeVarietyCat"}, "role": "states"}], "status": "formalized", "kind": "structure", "id": "af_ebc1dcfd43a21c5bf2071417", "extensions": {"org.autoform": {"origin": "bridged"}}}

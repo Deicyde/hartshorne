@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/first-properties/finite-type-composition.md"}], "object": [{"location": {"declaration": "Hartshorne.finiteType_comp"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_88a5d15002ea2b25df784027", "extensions": {"org.autoform": {"origin": "cited"}}}

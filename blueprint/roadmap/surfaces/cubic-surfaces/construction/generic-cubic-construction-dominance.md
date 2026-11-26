@@ -1,10 +1,3 @@
----
-article_id: af_95d531999c19b563f562c4c0
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Generic dominance of the six-point cubic construction
 
 The family obtained from six ordered plane points in general position,

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/sheaves/regular-functions-sheaf.md"}], "object": [{"location": {"declaration": "Hartshorne.Variety.regularSheaf"}, "role": "states"}], "status": "formalized", "kind": "definition", "id": "af_5ab88e6586973fd7997b6527", "extensions": {"org.autoform": {"origin": "cited"}}}

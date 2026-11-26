@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/foundational-properties/affine-cover-criterion.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.isAffine_of_isAffineOpen_basicOpen", "module": "Mathlib.AlgebraicGeometry.Morphisms.Affine"}}], "id": "af_9792e3a0be9c839d50f33903"}

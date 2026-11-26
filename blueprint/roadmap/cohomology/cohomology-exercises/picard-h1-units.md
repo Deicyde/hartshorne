@@ -1,9 +1,3 @@
----
-article_id: af_6344590cb96ba27cc910e6bc
-declaration: isomorphism
-origin: cited
----
-
 # The Picard group as first unit-sheaf cohomology
 
 For every ringed space $(X,\mathcal{O}_X)$, transition functions give a natural group

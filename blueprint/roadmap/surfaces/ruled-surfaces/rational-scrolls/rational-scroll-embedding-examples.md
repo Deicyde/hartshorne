@@ -1,9 +1,3 @@
----
-article_id: af_9caafc53ef93d29bccd46916
-declaration: theorem
-origin: cited
----
-
 # Rational scroll embeddings and examples
 
 For $n>e\ge 0$, the divisor $C_0+n\cdot f$ embeds $X_e$ as a rational scroll of

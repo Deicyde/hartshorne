@@ -1,9 +1,3 @@
----
-article_id: af_11517fdb88efa2ce0d084d82
-declaration: theorem
-origin: cited
----
-
 # The Néron–Severi group embeds in integral cohomology
 
 For a projective complex variety, the topological first Chern class descends

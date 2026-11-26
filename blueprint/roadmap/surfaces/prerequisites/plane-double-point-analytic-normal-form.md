@@ -1,10 +1,3 @@
----
-article_id: af_6b2fdf978cc8317ae1161075
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Analytic normal form of a plane-curve double point
 
 Two pointed varieties are analytically isomorphic when their completed local

@@ -1,9 +1,3 @@
----
-article_id: af_6c91e060c36a0aafe219d211
-declaration: theorem
-origin: cited
----
-
 # A genus-five complete intersection with no trigonal system
 
 A nonsingular complete intersection of three quadric hypersurfaces in $\mathbb{P}^4$

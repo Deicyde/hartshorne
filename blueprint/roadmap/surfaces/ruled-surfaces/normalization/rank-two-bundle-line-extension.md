@@ -1,9 +1,3 @@
----
-article_id: af_e290774eb081270e20eef324
-declaration: theorem
-origin: cited
----
-
 # A rank-two bundle on a curve is an extension of line bundles
 
 Every rank-two locally free sheaf $E$ on a nonsingular projective curve fits

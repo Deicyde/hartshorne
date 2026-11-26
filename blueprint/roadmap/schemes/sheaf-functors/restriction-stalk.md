@@ -1,12 +1,3 @@
----
-article_id: af_998ec5272223d187cf27ff4c
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_restrictionStalkIso
----
-
 # Restriction preserves stalks
 
 Let $i : Z \hookrightarrow X$ be the inclusion of a topological subspace and define the

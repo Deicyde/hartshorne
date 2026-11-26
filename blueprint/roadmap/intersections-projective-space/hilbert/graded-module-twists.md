@@ -1,12 +1,3 @@
----
-article_id: af_b50502a7621858814a6db862
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.gradedModuleTwist
----
-
 # Integer-graded module twists
 
 Let $M=\bigoplus_{d\in\mathbb Z}M_d$ be a graded module over an

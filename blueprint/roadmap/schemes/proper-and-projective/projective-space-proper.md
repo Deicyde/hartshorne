@@ -1,12 +1,3 @@
----
-article_id: af_7d438e5682951dd9d44615d5
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveSpaceOverSchemeProjection_isProper
----
-
 # Projective space is proper
 
 For every Noetherian scheme $Y$ and every $n$, the projection

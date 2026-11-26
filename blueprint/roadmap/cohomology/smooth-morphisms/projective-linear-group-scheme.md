@@ -1,10 +1,3 @@
----
-article_id: af_1a5f1331a3ec9ff99fbc985d
-declaration: structure
-origin: bridged
-not_ready: true
----
-
 # The projective linear group scheme
 
 Construct $\operatorname{PGL} (n+1)$ over a field $k$ as a smooth finite-type group object over

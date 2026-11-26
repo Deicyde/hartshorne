@@ -1,10 +1,3 @@
----
-article_id: af_0f5b2ef5945f4360f3aed45f
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Analytic points correspond to closed algebraic points
 
 For a finite-type complex scheme $X$, there is a continuous map of underlying

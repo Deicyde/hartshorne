@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/affine-varieties/affine-variety.md"}], "object": [{"location": {"declaration": "Hartshorne.IsAffineVariety"}, "role": "states"}, {"location": {"declaration": "Hartshorne.IsQuasiAffineVariety"}}], "status": "formalized", "kind": "def", "id": "af_9b067939bc81da4d8c8a87af", "extensions": {"org.autoform": {"origin": "cited"}}}

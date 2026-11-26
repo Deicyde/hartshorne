@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/weil-conjectures/zeta/zeta-isomorphism-invariant.md"}], "object": [{"location": {"declaration": "Hartshorne.pointCountSequence_eq_and_hasseWeilZetaSeries_eq_of_iso"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_123ed946eb7e6b9d85dba656", "extensions": {"org.autoform": {"origin": "bridged"}}}

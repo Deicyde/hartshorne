@@ -1,7 +1,3 @@
----
-article_id: af_48b041f35fe4bfa4e7246d86
----
-
 # Affine and projective dimension theorems
 
 This chapter supplies the geometric branch of Hartshorne I.7: affine products,

@@ -1,9 +1,3 @@
----
-article_id: af_e569422e1dba8d1c08949a67
-declaration: equivalence
-origin: cited
----
-
 # Smooth infinitesimal deformations and tangent cohomology
 
 Let $X$ be nonsingular over an algebraically closed field $k$. Isomorphism

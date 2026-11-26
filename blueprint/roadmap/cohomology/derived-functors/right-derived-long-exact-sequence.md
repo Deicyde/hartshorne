@@ -1,12 +1,3 @@
----
-article_id: af_506417686fa10d6aee3f1db8
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.rightDerivedδ Hartshorne.rightDerived_mono_map_f Hartshorne.rightDerived_exact₂ Hartshorne.rightDerived_exact₃ Hartshorne.rightDerived_exact₁ Hartshorne.rightDerivedδ_naturality
----
-
 # The long exact sequence of right derived functors
 
 Let $F : A \longrightarrow B$ be additive and left exact, with $A$ an abelian category

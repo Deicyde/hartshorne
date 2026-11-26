@@ -1,9 +1,3 @@
----
-article_id: af_5cc880294e1e3bc7bfb6775f
-declaration: theorem
-origin: cited
----
-
 # The Jacobian is a commutative group scheme
 
 For a Jacobian $J$ representing $\operatorname{Pic} ^0(X/-)$, tensor product, dual line

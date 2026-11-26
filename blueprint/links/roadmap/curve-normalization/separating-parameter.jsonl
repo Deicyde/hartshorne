@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/curve-normalization/separating-parameter.md"}], "object": [{"location": {"declaration": "Hartshorne.exists_separatingParameter"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_cdd991fa7124477bed654f2a", "extensions": {"org.autoform": {"origin": "bridged"}}}

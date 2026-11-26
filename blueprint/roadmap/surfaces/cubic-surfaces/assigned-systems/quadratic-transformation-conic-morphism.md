@@ -1,9 +1,3 @@
----
-article_id: af_41e259ff6a8ac7ed7df1ee46
-declaration: theorem
-origin: cited
----
-
 # Conics through three points resolve the quadratic transformation
 
 Let $P_1,P_2,P_3$ be the three coordinate points of $\mathbb{P}^2$, and blow them up.

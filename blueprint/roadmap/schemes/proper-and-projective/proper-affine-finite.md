@@ -1,12 +1,3 @@
----
-article_id: af_29370f50e5f19d96a4c1293c
-declaration: lemma
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsFinite.iff_isProper_and_isAffineHom
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Proper.lean
----
-
 # Proper affine morphisms are finite
 
 A scheme morphism is finite exactly when it is both proper and affine. In

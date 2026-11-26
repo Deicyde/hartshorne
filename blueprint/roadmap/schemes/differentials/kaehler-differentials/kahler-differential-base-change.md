@@ -1,12 +1,3 @@
----
-article_id: af_d15239e64c87122975f4ca4a
-declaration: def
-origin: background
-mathlib: true
-mathlib_declaration: KaehlerDifferential.tensorKaehlerEquiv
-mathlib_file: Mathlib/RingTheory/Kaehler/TensorProduct.lean
----
-
 # Base change for Kähler differentials
 
 Given a pushout square of rings with $B=S\otimes_R A$, there is a canonical

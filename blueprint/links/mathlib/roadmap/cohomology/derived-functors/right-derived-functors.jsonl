@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/cohomology/derived-functors/right-derived-functors.md"}], "object": [{"location": {"declaration": "CategoryTheory.Functor.rightDerived", "module": "Mathlib.CategoryTheory.Abelian.RightDerived"}}], "id": "af_8e36413bda07e664a6477f0f"}

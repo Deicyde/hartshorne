@@ -1,12 +1,3 @@
----
-article_id: af_0f2fc7f66b84519f39d31cf5
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isIso_chartHom
----
-
 # The charts are isomorphisms of varieties
 
 The chart $\varphi _{i} : U_{i} \to \mathbb{A} ^{n}$ of [Proposition I.2.2](../../projective-varieties/standard-affine-charts.md) is an isomorphism of varieties, not

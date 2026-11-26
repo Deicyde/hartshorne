@@ -1,9 +1,3 @@
----
-article_id: af_f404a176222bca9f50c7bdc7
-declaration: theorem
-origin: cited
----
-
 # Resolution equivalence and double-point trees
 
 Define two reduced curve singularities on smooth surfaces to be equivalent

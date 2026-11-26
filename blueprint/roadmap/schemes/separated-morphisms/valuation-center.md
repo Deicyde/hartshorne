@@ -1,12 +1,3 @@
----
-article_id: af_5e43640b622d3636a61b759b
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationCenter Hartshorne.ValuationCenter.point Hartshorne.exists_valuationCenter_point_eq_iff Hartshorne.functionFieldBaseHom Hartshorne.ValuationCenter.lift_comp_over
----
-
 # Centers of valuations
 
 Let $X$ be an integral scheme over a field $k$, let $K = K(X)$, and let

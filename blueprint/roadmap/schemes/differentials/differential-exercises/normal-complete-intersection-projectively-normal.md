@@ -1,9 +1,3 @@
----
-article_id: af_3a60996655dfb203471745b7
-declaration: theorem
-origin: cited
----
-
 # Normal complete intersections are projectively normal
 
 Let $Y$ be a positive-dimensional normal global complete intersection in

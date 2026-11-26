@@ -1,12 +1,3 @@
----
-article_id: af_a80104f765e1ab68f0ef60db
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.krullAkizuki_quotientIdeal_isFiniteLength Hartshorne.krullAkizuki_quotientIdeal_moduleFinite
----
-
 # Finite-length quotients in Krull--Akizuki
 
 Let $A$ be a one-dimensional Noetherian domain with fraction field $K$, let

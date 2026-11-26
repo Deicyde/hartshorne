@@ -1,12 +1,3 @@
----
-article_id: af_29f475baa591ec20b277f792
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.kaehlerConormal_rightExact
----
-
 # The conormal exact sequence
 
 Let $B$ be an $A$-algebra, let $I \subseteq B$, and put $C = B/I$.  The canonical

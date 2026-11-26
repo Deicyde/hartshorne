@@ -1,10 +1,3 @@
----
-article_id: af_01aceeb0d90cc7197478baa9
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Negative-negative quadric H¹ vanishing
 
 For the split nonsingular quadric $Q$, if $a<0$ and $b<0$, then

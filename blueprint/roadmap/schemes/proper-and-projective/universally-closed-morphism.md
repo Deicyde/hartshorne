@@ -1,12 +1,3 @@
----
-article_id: af_4e295bffa818324292803ca3
-declaration: class
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.UniversallyClosed
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/UniversallyClosed.lean
----
-
 # Universally closed morphisms
 
 A scheme morphism $f : X \longrightarrow Y$ is universally closed when every pullback

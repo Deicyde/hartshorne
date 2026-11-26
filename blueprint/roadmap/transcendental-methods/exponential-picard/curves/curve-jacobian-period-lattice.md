@@ -1,9 +1,3 @@
----
-article_id: af_245e0916bd76481958b6a950
-declaration: theorem
-origin: cited
----
-
 # The Jacobian period lattice
 
 For a smooth projective complex genus-$g$ curve, the exponential boundary

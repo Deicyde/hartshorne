@@ -1,10 +1,3 @@
----
-article_id: af_1c52d61fb9e3f5ccbb4a2ee8
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Fine moduli and the isotrivial-family obstruction
 
 A fine moduli variety for genus-$g$ curves would carry a universal flat family

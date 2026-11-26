@@ -1,12 +1,3 @@
----
-article_id: af_f72c6f3e9d3b003757808e64
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Proj.affineOpenCover
-mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean
----
-
 # Positive-degree basic opens form an affine cover
 
 For every relevant homogeneous prime of $S$, some positive-degree homogeneous

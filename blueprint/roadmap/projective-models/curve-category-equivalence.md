@@ -1,12 +1,3 @@
----
-article_id: af_5bd96acb0a5232df552012b0
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveCurveFunctionFieldEquivalence
----
-
 # The curve/function-field category equivalence
 
 The function-field construction gives a contravariant equivalence between

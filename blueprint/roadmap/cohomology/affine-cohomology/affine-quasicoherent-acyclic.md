@@ -1,12 +1,3 @@
----
-article_id: af_7a1eda20268695795ed1e259
-declaration: theorem
-origin: cited
-lean: Hartshorne.sheafCohomology_isZero_of_isQuasicoherent_spec Hartshorne.sheafCohomology_isZero_of_isQuasicoherent_of_isAffine
-statement: formalized
-proof: formalized
----
-
 # Affine quasi-coherent sheaves are acyclic
 
 Let $X = \operatorname{Spec} A$ for a Noetherian ring $A$, and let $F$ be a quasi-coherent

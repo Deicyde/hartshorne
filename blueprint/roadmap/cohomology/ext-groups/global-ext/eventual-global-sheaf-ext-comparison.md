@@ -1,9 +1,3 @@
----
-article_id: af_9b9304827de9d70d1b48ba64
-declaration: theorem
-origin: cited
----
-
 # Eventual comparison of global and sheaf Ext
 
 Let $X$ be projective over a Noetherian ring, let $\mathcal{O}_X(1)$ be very ample, and

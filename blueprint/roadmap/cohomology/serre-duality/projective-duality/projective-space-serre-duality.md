@@ -1,9 +1,3 @@
----
-article_id: af_abfcf979527f856d5fb1d7d0
-declaration: isomorphism
-origin: cited
----
-
 # Serre duality on projective space
 
 For $X=\mathbb{P}^{n}_k$, every coherent $F$, and every $i \in \mathbb{N}$, there is a natural

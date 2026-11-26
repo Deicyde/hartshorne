@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/first-properties/noetherian-local-on-affines.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.isLocallyNoetherian_iff_of_affine_openCover", "module": "Mathlib.AlgebraicGeometry.Noetherian"}}], "id": "af_faa6bf29767e5c33aab9ef74"}

@@ -1,10 +1,3 @@
----
-article_id: af_7de41d48ff1c010ba6ac197a
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The line-configuration group is the Weyl group of type E6
 
 The automorphism group of the incidence configuration of the twenty-seven

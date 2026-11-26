@@ -1,7 +1,3 @@
----
-article_id: af_e77f60cc4fc60e9628357cc1
----
-
 # Standard intersection forms and adjunction
 
 This subchapter computes the elementary intersection forms of projective

@@ -1,12 +1,3 @@
----
-article_id: af_00d868cf7f23d86aaa14cd83
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.gradedSubquotient_exact
----
-
 # Integer-graded submodules and quotients
 
 Let $M=\bigoplus_{d\in\mathbb Z}M_d$ be an integer-graded $S$-module

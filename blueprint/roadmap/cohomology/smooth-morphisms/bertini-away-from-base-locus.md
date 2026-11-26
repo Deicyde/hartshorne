@@ -1,9 +1,3 @@
----
-article_id: af_345a31da80fa742b499d6792
-declaration: theorem
-origin: cited
----
-
 # Bertini away from the base locus
 
 Let $X$ be a nonsingular variety over an algebraically closed field of

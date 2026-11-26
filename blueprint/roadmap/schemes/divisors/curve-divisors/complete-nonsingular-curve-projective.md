@@ -1,9 +1,3 @@
----
-article_id: af_d17081af5eb5c9329ace705d
-declaration: theorem
-origin: cited
----
-
 # Complete nonsingular curves are projective
 
 Let $X$ be a nonsingular curve over an algebraically closed field $k$, with

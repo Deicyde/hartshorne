@@ -1,9 +1,3 @@
----
-article_id: af_1bd62629435be86e58c205b6
-declaration: theorem
-origin: cited
----
-
 # Countability of complex-multiplication invariants
 
 Only countably many complex values of the $j$-invariant correspond to

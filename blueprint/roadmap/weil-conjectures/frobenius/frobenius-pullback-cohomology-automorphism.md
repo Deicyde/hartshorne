@@ -1,10 +1,3 @@
----
-article_id: af_23e10c158717eb90b3c82a88
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Frobenius pullback is an automorphism of ℓ-adic cohomology
 
 Let $X/\mathbb{F}_q$ be finite type, let $\overline X$ be its base change to an algebraic

@@ -1,12 +1,3 @@
----
-article_id: af_a420ae851727966a108fdfc0
-declaration: instance
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.instNoetherianSpaceProjectiveSpace
----
-
 # Projective space is a Noetherian space
 
 $\mathbb{P} ^{n}$ with the Zariski topology is a Noetherian topological space, so every

@@ -1,12 +1,3 @@
----
-article_id: af_8a649f06764de378e6f03c08
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_trdeg_of_height_eq_one
----
-
 # A height-one prime drops the transcendence degree by one
 
 Let $B$ be a finitely generated domain over $k$ and $\mathfrak{p} \subseteq B$ a prime of height

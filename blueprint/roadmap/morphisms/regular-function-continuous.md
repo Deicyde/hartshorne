@@ -1,12 +1,3 @@
----
-article_id: af_575e619ae8ec073c42a7444a
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isClosed_eqLocus Hartshorne.eq_of_eqOn_isOpen
----
-
 # Regular functions are continuous
 
 A regular function $f : Y \to k$ is continuous when $k$ carries the Zariski

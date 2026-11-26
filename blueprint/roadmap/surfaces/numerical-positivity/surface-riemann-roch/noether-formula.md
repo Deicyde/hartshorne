@@ -1,9 +1,3 @@
----
-article_id: af_53edbbecaaba9421f92eaca0
-declaration: theorem
-origin: background
----
-
 # Noether's Chern-number formula
 
 For a Chapter V surface with canonical class $K$ and second tangent-sheaf

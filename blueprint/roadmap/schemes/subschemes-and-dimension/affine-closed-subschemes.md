@@ -1,12 +1,3 @@
----
-article_id: af_784fde36202d6caa05445aeb
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsClosedImmersion.Spec_iff
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean
----
-
 # Closed subschemes of an affine scheme
 
 For a morphism $f : X \to \operatorname{Spec} A$, $f$ is a closed immersion if and only if

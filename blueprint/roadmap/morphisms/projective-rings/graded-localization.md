@@ -1,12 +1,3 @@
----
-article_id: af_90818c4c3f8c5cdc256259f3
-declaration: abbrev
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.gradedLocalization Hartshorne.gradedLocalizationAway
----
-
 # Graded localization
 
 Let $S$ be a graded ring and let $\mathfrak p$ be a homogeneous prime.

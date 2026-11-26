@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/bezout/projective-hypersurface-bezout.md"}], "object": [{"location": {"declaration": "Hartshorne.projective_hypersurface_bezout"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_ebfe1efe16cc411a6325bf8f", "extensions": {"org.autoform": {"origin": "cited"}}}

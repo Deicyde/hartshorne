@@ -1,9 +1,3 @@
----
-article_id: af_48c2b5883f878b8a1e315b87
-declaration: theorem
-origin: cited
----
-
 # Canonical genus-three curves are plane quartics
 
 A nonhyperelliptic genus-three curve is canonically embedded as a nonsingular

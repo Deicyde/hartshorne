@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/formal-schemes/inverse-systems/mittag-leffler-quotient.md"}], "object": [{"location": {"declaration": "Hartshorne.InverseSystem.isMittagLeffler_quotient"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_8e577798813a238393a6f5b5", "extensions": {"org.autoform": {"origin": "cited"}}}

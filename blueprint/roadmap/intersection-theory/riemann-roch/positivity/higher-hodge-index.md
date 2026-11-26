@@ -1,10 +1,3 @@
----
-article_id: af_b9862416fee0a6a9d580c01d
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The higher-dimensional Hodge index theorem
 
 Let $X$ be a smooth projective complex variety of even dimension $2k$, $H$

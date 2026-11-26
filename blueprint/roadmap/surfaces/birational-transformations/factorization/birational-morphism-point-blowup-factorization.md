@@ -1,9 +1,3 @@
----
-article_id: af_f07d82265d84c18a6b89adc9
-declaration: theorem
-origin: cited
----
-
 # A birational morphism factors into exactly its contracted-curve count of point blowups
 
 Every birational morphism $f:X'\to X$ of nonsingular projective surfaces is a

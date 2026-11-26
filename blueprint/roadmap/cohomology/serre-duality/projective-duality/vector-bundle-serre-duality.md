@@ -1,9 +1,3 @@
----
-article_id: af_bfb8a81e0f80e28e9a4bd1a3
-declaration: isomorphism
-origin: cited
----
-
 # Vector-bundle Serre duality
 
 Let $X$ be a projective Cohen–Macaulay scheme, equidimensional of dimension

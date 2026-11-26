@@ -1,12 +1,3 @@
----
-article_id: af_881bbb9581972ab339f0acfd
-declaration: theorem
-origin: cited
-statement: formalized
-lean: Hartshorne.SeparatedVariety.exists_nonsingularAt Hartshorne.SeparatedVariety.singularLocus_isProper Hartshorne.Variety.HasAffineOpenBasis.singularLocus_isProper
-proof: formalized
----
-
 # The singular locus is proper and closed
 
 Let $X$ be a separated variety over an algebraically closed field, equipped

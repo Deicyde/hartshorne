@@ -1,9 +1,3 @@
----
-article_id: af_266764622803f046745c3968
-declaration: theorem
-origin: cited
----
-
 # Tensoring very ample with globally generated
 
 On a finite-type scheme over a Noetherian ring, if $L$ is very ample over the

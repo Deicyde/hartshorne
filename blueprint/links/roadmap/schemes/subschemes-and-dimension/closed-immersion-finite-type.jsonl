@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/subschemes-and-dimension/closed-immersion-finite-type.md"}], "object": [{"location": {"declaration": "Hartshorne.closedImmersion_finiteType"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_d2b56ed4e63b9c1b579c1af8", "extensions": {"org.autoform": {"origin": "cited"}}}

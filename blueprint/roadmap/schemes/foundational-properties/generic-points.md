@@ -1,12 +1,3 @@
----
-article_id: af_428fd8a4532036247e4153ec
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: irreducibleSetEquivPoints
-mathlib_file: Mathlib/Topology/Sober.lean
----
-
 # Irreducible closed subsets have unique generic points
 
 Every nonempty irreducible closed subset $Z$ of a scheme $X$ has a unique point

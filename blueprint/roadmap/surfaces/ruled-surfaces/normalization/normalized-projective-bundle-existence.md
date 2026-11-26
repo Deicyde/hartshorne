@@ -1,9 +1,3 @@
----
-article_id: af_905590cdd7433bed0a7401db
-declaration: theorem
-origin: cited
----
-
 # Every ruled surface has a normalized projective-bundle presentation
 
 For every ruled surface $X\to C$, there is a rank-two locally free sheaf $E$

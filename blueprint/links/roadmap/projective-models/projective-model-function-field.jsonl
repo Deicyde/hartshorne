@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/projective-model-function-field.md"}], "object": [{"location": {"declaration": "Hartshorne.projectiveDiagonal_functionFieldAlgHom_bijective"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_27f35d9b8908d59f68689bd5", "extensions": {"org.autoform": {"origin": "bridged"}}}

@@ -1,12 +1,3 @@
----
-article_id: af_89f3d075de6558df70213185
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.flat_shortExact_calculus
----
-
 # Flat modules in short exact sequences
 
 For a short exact sequence $0 \to M' \to M \to M'' \to 0$, the middle module is

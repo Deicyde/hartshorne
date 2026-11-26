@@ -1,9 +1,3 @@
----
-article_id: af_34c43c65d503d0d7672be7cd
-declaration: theorem
-origin: cited
----
-
 # Bertini for a basepoint-free linear system
 
 Let $X$ be a nonsingular variety over an algebraically closed field of

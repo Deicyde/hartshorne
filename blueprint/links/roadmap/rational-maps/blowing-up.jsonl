@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/rational-maps/blowing-up.md"}], "object": [{"location": {"declaration": "Hartshorne.blowing_up"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_4d390f0993f2c69e8e37f37c", "extensions": {"org.autoform": {"origin": "cited"}}}

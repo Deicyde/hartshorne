@@ -1,9 +1,3 @@
----
-article_id: af_bf77451d629d8a963527ef0e
-declaration: theorem
-origin: bridged
----
-
 # Constructible tangent-rank strata
 
 Let $f : X \to Y$ be a morphism of finite-type schemes over an algebraically

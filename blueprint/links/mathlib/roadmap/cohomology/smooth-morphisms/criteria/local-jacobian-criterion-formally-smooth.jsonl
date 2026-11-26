@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/cohomology/smooth-morphisms/criteria/local-jacobian-criterion-formally-smooth.md"}], "object": [{"location": {"declaration": "Algebra.FormallySmooth.iff_injective_cotangentComplexBaseChange", "module": "Mathlib.RingTheory.Smooth.Local"}}], "id": "af_94ada4945067ebd4c954f5cc"}

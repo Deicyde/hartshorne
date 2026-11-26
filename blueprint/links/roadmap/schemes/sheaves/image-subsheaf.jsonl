@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/sheaves/image-subsheaf.md"}], "object": [{"location": {"declaration": "Hartshorne.imageSheafification_mono"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_22028ab9c58689fa84aba6a3", "extensions": {"org.autoform": {"origin": "cited"}}}

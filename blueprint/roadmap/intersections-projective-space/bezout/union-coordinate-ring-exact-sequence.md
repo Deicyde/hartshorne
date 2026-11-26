@@ -1,12 +1,3 @@
----
-article_id: af_82927206aa5b303a075e9d11
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.unionCoordinateRing_exact
----
-
 # The coordinate-ring sequence for a union is exact
 
 For homogeneous ideals $I_{1},I_{2} \subseteq S$, the canonical sequence

@@ -1,9 +1,3 @@
----
-article_id: af_afda51ee7220d39139316960
-declaration: theorem
-origin: cited
----
-
 # The degree bound for a special hyperplane section
 
 Let $X \subset \mathbb{P}^3$ be a nonplanar curve and let $D=\mathcal{O}_X(1)$ be special. Then

@@ -1,9 +1,3 @@
----
-article_id: af_4e1724d5a008431b1e75af25
-declaration: theorem
-origin: cited
----
-
 # The étale class of an integral subvariety
 
 Let $X$ be smooth and proper over an algebraically closed field and let

@@ -1,9 +1,3 @@
----
-article_id: af_6cdac458e59ca020b44b2043
-declaration: theorem
-origin: background
----
-
 # The modular invariant and fundamental region
 
 For a period ratio $\tau$, define $J(\tau )=g_2^3/\Delta$, so Hartshorne's

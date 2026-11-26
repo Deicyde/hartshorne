@@ -1,12 +1,3 @@
----
-article_id: af_28fa997940eb0b698a2291fd
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.ΓSpec.adjunction
-mathlib_file: Mathlib/AlgebraicGeometry/GammaSpecAdjunction.lean
----
-
 # Morphisms to an affine scheme
 
 For a scheme $X$ and a commutative ring $A$, there is a natural equivalence

@@ -1,12 +1,3 @@
----
-article_id: af_a28ad959d1cb4b78bc7ab801
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isIrreducible_affineCone_iff
----
-
 # Irreducibility of the affine cone
 
 For a nonempty projective algebraic set $Y$, its affine cone $C(Y)$ is

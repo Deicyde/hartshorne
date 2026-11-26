@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/cohomology/flat-families/flatness/noetherian-adic-completion-is-flat.md"}], "object": [{"location": {"declaration": "AdicCompletion.flat_of_isNoetherian", "module": "Mathlib.RingTheory.AdicCompletion.AsTensorProduct"}}], "id": "af_e2d149f475a967b1dbe30f4c"}

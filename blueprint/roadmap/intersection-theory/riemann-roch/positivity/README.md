@@ -1,7 +1,3 @@
----
-article_id: af_468e8ec11ea6698dbef9d30e
----
-
 # Positivity and higher Hodge index
 
 - [Cartier powers against integral subschemes](cartier-power-integral-subscheme-intersection.md)

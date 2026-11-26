@@ -1,12 +1,3 @@
----
-article_id: af_ebc1dcfd43a21c5bf2071417
-declaration: structure
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.SchemeVarietyCat
----
-
 # The scheme-variety source category
 
 The category used in Hartshorne's Proposition II.2.6 has varieties

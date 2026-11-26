@@ -1,7 +1,3 @@
----
-article_id: af_84352c50babd44ce690f3003
----
-
 # Torsion and dual-isogeny exercises
 
 Exercises IV.4.6–4.7 supply the general torsion count and dual-isogeny

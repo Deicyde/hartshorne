@@ -1,9 +1,3 @@
----
-article_id: af_43f22301ca1b6091b09a1892
-declaration: theorem
-origin: cited
----
-
 # Divisor pushforward descends to Picard groups
 
 For a finite morphism $f : X \to Y$ of curves of degree $n$, divisor

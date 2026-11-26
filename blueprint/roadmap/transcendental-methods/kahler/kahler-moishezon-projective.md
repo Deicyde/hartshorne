@@ -1,10 +1,3 @@
----
-article_id: af_7db508bbff3447a289c6fb4e
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Every Kähler Moishezon manifold is projective algebraic
 
 If a connected compact complex manifold is both Kähler and Moishezon, then

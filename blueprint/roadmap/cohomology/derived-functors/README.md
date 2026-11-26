@@ -1,7 +1,3 @@
----
-article_id: af_cfa51f617e6eb85a1df75401
----
-
 # Derived functors
 1. [Complexes, homotopies, and cohomology](abelian-complexes-and-homotopy.md)
 2. [Injective resolutions](injective-resolutions.md)

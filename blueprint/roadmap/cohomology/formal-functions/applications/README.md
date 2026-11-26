@@ -1,7 +1,3 @@
----
-article_id: af_8627d9524866b374313966b3
----
-
 # Applications of formal functions
 
 This chapter covers Hartshorne III.11, Corollaries 11.2–11.5, together with

@@ -1,9 +1,3 @@
----
-article_id: af_66ccc467f6c0bc457b011571
-declaration: theorem
-origin: cited
----
-
 # High-degree divisors are generated and very ample
 
 Let $D$ be a divisor on a Chapter IV curve of genus $g$.

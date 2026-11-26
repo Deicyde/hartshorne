@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/morphisms/morphism.md"}], "object": [{"location": {"declaration": "Hartshorne.VarietyHom"}, "role": "states"}], "status": "formalized", "kind": "structure", "id": "af_300dd006c62e894e27ba7e7b", "extensions": {"org.autoform": {"origin": "cited"}}}

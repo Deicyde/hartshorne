@@ -1,9 +1,3 @@
----
-article_id: af_363afc5bb951feaadf99ac85
-declaration: short exact sequence
-origin: cited
----
-
 # The hyperplane exact-sequence bridge
 
 Let $H=V_{+}(x_{r})\subseteq \mathbb{P}^{r}_A$, identified with $\mathbb{P}^{r-1}_A$, and let $i:H\to \mathbb{P}^{r}_A$

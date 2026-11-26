@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/affine-varieties/nullstellensatz.md"}], "object": [{"location": {"declaration": "MvPolynomial.vanishingIdeal_zeroLocus_eq_radical", "module": "Mathlib.RingTheory.Nullstellensatz"}}], "id": "af_f8d7b54996f51594f707d44f"}

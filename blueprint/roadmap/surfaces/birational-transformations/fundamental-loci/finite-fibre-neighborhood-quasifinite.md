@@ -1,12 +1,3 @@
----
-article_id: af_7370d04f9ed05fa3fb569f11
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.Projective.exists_mem_locallyQuasiFinite_morphismRestrict Hartshorne.exists_mem_locallyQuasiFinite_morphismRestrict_of_isProper
----
-
 # A finite projective fibre has a quasi-finite neighbourhood
 
 Let $f : Z \to X$ be a projective finite-type morphism of Noetherian schemes.

@@ -1,9 +1,3 @@
----
-article_id: af_37ce61951385f8a61683c23e
-declaration: theorem
-origin: bridged
----
-
 # Local charts of a point blowup
 
 Choose regular parameters $x,y$ at the center of a surface point blowup. On

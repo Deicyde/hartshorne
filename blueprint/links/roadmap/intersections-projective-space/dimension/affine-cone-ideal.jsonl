@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/dimension/affine-cone-ideal.md"}], "object": [{"location": {"declaration": "Hartshorne.vanishingIdeal_affineCone"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_de59d13f77cc40e1ae7b206d", "extensions": {"org.autoform": {"origin": "cited"}}}

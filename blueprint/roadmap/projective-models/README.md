@@ -1,7 +1,3 @@
----
-article_id: af_becb3ae580c9c99e691ab5a6
----
-
 # Projective models of curves
 
 This 23-leaf milestone covers Hartshorne I.6, [Proposition I.6.8](projective-extension.md) through

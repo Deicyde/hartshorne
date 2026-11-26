@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/first-properties/finite-morphism-affine-criterion.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.HasAffineProperty.iff_of_iSup_eq_top", "module": "Mathlib.AlgebraicGeometry.Morphisms.Basic"}}], "id": "af_9acfb9146e45984cacdd1007"}

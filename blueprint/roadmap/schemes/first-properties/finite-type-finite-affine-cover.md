@@ -1,12 +1,3 @@
----
-article_id: af_87419a940773431b5efc1fd9
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.finiteType_iff_everyAffineTarget
----
-
 # The finite affine-cover criterion for finite type
 
 A morphism $f : X \to Y$ is finite type if and only if, for every affine open

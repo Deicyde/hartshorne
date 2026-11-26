@@ -1,12 +1,3 @@
----
-article_id: af_10042b25581c3b02ce260a77
-declaration: abbrev
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ProjectiveSpace
----
-
 # Projective space
 
 Projective $n$-space $\mathbb{P} ^{n}$ over $k$ is the set of equivalence classes of

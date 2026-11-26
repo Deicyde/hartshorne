@@ -1,9 +1,3 @@
----
-article_id: af_f1dfb2de2aab3c0a88c0afc3
-declaration: theorem
-origin: cited
----
-
 # Sections of decomposable normalized ruled surfaces
 
 For $E=\mathcal{O}_C\oplus L$:

@@ -1,9 +1,3 @@
----
-article_id: af_3ec3d18b7eae8baa9feff74f
-declaration: theorem
-origin: cited
----
-
 # Generic smoothness over the target
 
 Let $f : X \to Y$ be a morphism of varieties over an algebraically closed field

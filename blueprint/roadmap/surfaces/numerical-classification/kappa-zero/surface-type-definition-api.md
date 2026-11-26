@@ -1,9 +1,3 @@
----
-article_id: af_f1dc2d1ecea71624686b695a
-declaration: structure
-origin: bridged
----
-
 # The four Kodaira-dimension-zero surface types
 
 Over an algebraically closed field, the four surface types have the

@@ -1,12 +1,3 @@
----
-article_id: af_60da3831a0a4680540efae3e
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.totalQuotientSheaf AlgebraicGeometry.Scheme.toTotalQuotientSheaf AlgebraicGeometry.Scheme.structureUnitsSheaf AlgebraicGeometry.Scheme.totalQuotientUnitsSheaf AlgebraicGeometry.Scheme.structureUnitsToTotalQuotientUnits
----
-
 # The total quotient sheaf
 
 For an arbitrary scheme $X$ and an affine open $U = \operatorname{Spec} A$, define the total

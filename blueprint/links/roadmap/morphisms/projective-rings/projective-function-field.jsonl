@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/morphisms/projective-rings/projective-function-field.md"}], "object": [{"location": {"declaration": "Hartshorne.projFunctionFieldEquivGraded"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_2083bac423a66fdd008a0280", "extensions": {"org.autoform": {"origin": "cited"}}}

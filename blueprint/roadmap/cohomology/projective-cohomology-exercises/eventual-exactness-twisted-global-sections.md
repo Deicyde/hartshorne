@@ -1,9 +1,3 @@
----
-article_id: af_f4fd9a2b5afb357b2ea0fe1f
-declaration: theorem
-origin: cited
----
-
 # Eventual exactness of twisted global sections
 
 Let $X$ be projective over a Noetherian ring and let

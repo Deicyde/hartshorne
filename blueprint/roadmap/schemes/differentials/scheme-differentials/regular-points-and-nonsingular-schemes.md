@@ -1,12 +1,3 @@
----
-article_id: af_e4fcd8a2b244f4d54771fac6
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.IsRegularAt AlgebraicGeometry.Scheme.IsRegular
----
-
 # Regular points and nonsingular schemes
 
 A point $x$ of a locally Noetherian scheme $X$ is regular when the local ring

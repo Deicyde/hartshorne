@@ -1,12 +1,3 @@
----
-article_id: af_78997ddb7372a8a01620fefa
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationSpace.exists_nonsingular_projective_model
----
-
 # Nonsingular projective models of function fields
 
 Let $k$ be algebraically closed and let $K/k$ be a finitely generated field

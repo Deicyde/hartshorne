@@ -1,12 +1,3 @@
----
-article_id: af_4efd62a06d98b4e4b1a19941
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projDim_univ Hartshorne.projDim_univ_fin Hartshorne.projDim_univ_add_one Hartshorne.projDim_eq_projDim_closure Hartshorne.closure_chartMap_image Hartshorne.isOpenMap_chartInv Hartshorne.chartMap_image_univ
----
-
 # Dimension in projective space
 
 $\dim \mathbb{P} ^{n} = n$, and if $Y \subseteq \mathbb{P} ^{n}$ is quasi-projective then $\dim Y = \dim \overline{Y}$

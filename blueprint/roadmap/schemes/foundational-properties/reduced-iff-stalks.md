@@ -1,12 +1,3 @@
----
-article_id: af_fd9faf4b83e613d588358c6c
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.isReduced_of_isReduced_stalk
-mathlib_file: Mathlib/AlgebraicGeometry/Properties.lean
----
-
 # Reduced schemes are detected on stalks
 
 A scheme is reduced—every ring of sections has no nonzero nilpotents—if and

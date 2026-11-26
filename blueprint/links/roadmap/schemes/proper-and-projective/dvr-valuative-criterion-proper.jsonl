@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/proper-and-projective/dvr-valuative-criterion-proper.md"}], "object": [{"location": {"declaration": "Hartshorne.isProper_iff_dvr_valuativeCriterion"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_6941c1b179a9b3929ef4bbf0", "extensions": {"org.autoform": {"origin": "cited"}}}

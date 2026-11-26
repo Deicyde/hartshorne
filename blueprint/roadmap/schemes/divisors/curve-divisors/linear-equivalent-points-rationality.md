@@ -1,9 +1,3 @@
----
-article_id: af_35567688bb0f79c2babb440b
-declaration: theorem
-origin: cited
----
-
 # Linear equivalence of points detects rational curves
 
 A complete nonsingular curve $X$ over an algebraically closed field is

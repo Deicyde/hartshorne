@@ -1,9 +1,3 @@
----
-article_id: af_017a94ecfc1092596db68580
-declaration: theorem
-origin: bridged
----
-
 # Cohomology stabilization and global generation
 
 Let $D$ be effective on a Chapter V surface, put $L=\mathcal{O}_X(D)$, and assume

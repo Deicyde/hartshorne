@@ -1,12 +1,3 @@
----
-article_id: af_29c80a8b62684c58f6141b1b
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.exists_invertibleTotalQuotientSubmodule_iso AlgebraicGeometry.Scheme.exists_cartierDivisor_sheaf_iso AlgebraicGeometry.Scheme.cartierClassToPicard_surjective AlgebraicGeometry.Scheme.cartierClassToPicard_bijective AlgebraicGeometry.Scheme.cartierClassEquivPicard AlgebraicGeometry.Scheme.cartierClassEquivPicard_apply
----
-
 # Cartier classes and the Picard group of an integral scheme
 
 If $X$ is an integral scheme, prove that every invertible sheaf is isomorphic

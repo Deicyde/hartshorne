@@ -1,12 +1,3 @@
----
-article_id: af_bd9cf43e2cf8441147189992
-declaration: def
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.quasiProjectiveCurveFunctionFieldEquivalence
----
-
 # Quasi-projective curves and one-dimensional function fields are equivalent
 
 The opposite of the category of quasi-projective curves with dominant

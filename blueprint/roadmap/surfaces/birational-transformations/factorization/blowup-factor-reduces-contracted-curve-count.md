@@ -1,9 +1,3 @@
----
-article_id: af_587b17aed059f23afaa1a20d
-declaration: theorem
-origin: cited
----
-
 # Factoring through one point blowup lowers the contracted-curve count by one
 
 In the factorization $f=\pi\circ f_1$ supplied by a fundamental point of

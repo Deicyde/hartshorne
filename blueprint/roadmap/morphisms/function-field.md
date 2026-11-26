@@ -1,12 +1,3 @@
----
-article_id: af_f960b52328c9616ca4870018
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.FunctionField
----
-
 # The function field
 
 The *function field* $K(Y)$ of a variety $Y$ consists of equivalence classes of

@@ -1,9 +1,3 @@
----
-article_id: af_e0fafd180721773f1532421f
-declaration: theorem
-origin: cited
----
-
 # The Picard sequence of a square-zero thickening
 
 Let $J \subseteq \mathcal{O}_X$ satisfy $J^2=0$, and let $X_0=(X,\mathcal{O}_X/J)$. The map

@@ -1,12 +1,3 @@
----
-article_id: af_81e2ebb7190758fe5ee3491b
-declaration: instance
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.StructureSheaf.IsLocalization.to_basicOpen
-mathlib_file: Mathlib/AlgebraicGeometry/StructureSheaf.lean
----
-
 # Sections on a principal open
 
 For $f \in A$, the canonical map from $A$ to the structure-sheaf sections on

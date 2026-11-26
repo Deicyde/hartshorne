@@ -1,9 +1,3 @@
----
-article_id: af_3baf0317f4c0523b757d775a
-declaration: theorem
-origin: cited
----
-
 # Quadric-cubic complete intersections are canonical genus-four curves
 
 Let $X \subset \mathbb{P}^3$ be a nonsingular complete intersection of an irreducible

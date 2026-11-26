@@ -1,7 +1,3 @@
----
-article_id: af_60ec7457b43afc359825d233
----
-
 # K-theory and generalized Riemann–Roch
 
 - [Vector-bundle and coherent-sheaf K0 on a smooth variety](smooth-k0-vector-bundle-coherent-comparison.md)

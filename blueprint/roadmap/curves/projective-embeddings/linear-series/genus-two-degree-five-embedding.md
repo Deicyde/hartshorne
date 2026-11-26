@@ -1,9 +1,3 @@
----
-article_id: af_40f8ead0c942a54ac5d389bf
-declaration: theorem
-origin: cited
----
-
 # Degree-five embeddings of genus-two curves
 
 Let $X$ be a Chapter IV curve of genus two. Every divisor $D$ of degree five

@@ -1,12 +1,3 @@
----
-article_id: af_1dc9a0a215615df771005773
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Scheme.Cover.glueMorphisms
-mathlib_file: Mathlib/AlgebraicGeometry/Gluing.lean
----
-
 # Gluing scheme morphisms
 
 Morphisms from the members of an open cover of $X$ to a scheme $Y$ that agree on every pairwise overlap glue to a unique morphism $X \to Y$.

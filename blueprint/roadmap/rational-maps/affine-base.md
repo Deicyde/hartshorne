@@ -1,12 +1,3 @@
----
-article_id: af_dae717a792f8af7b8c1043d8
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.hasAffineOpenBasis_ofQuasiProjective Hartshorne.Variety.hasAffineOpenBasis_ofQuasiAffine Hartshorne.Variety.hasAffineOpenBasis_ofProjective
----
-
 # Open affine sets are a base for the topology
 
 For every variety in Hartshorne's four concrete classes, the open subsets that

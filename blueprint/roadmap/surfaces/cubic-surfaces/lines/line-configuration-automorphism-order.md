@@ -1,9 +1,3 @@
----
-article_id: af_e1541e99698040ea1a5cc4f0
-declaration: theorem
-origin: cited
----
-
 # The line-configuration automorphism group has order 51840
 
 The automorphism group of the incidence configuration of the twenty-seven

@@ -1,9 +1,3 @@
----
-article_id: af_90e1910f5b54c77212d34bdb
-declaration: theorem
-origin: cited
----
-
 # The zeta functional equation
 
 Let $X/\mathbb{F}_q$ be smooth, projective, geometrically connected, and pure of

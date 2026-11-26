@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/nonsingular-curves/valuation-ring-maximal-local-subring.md"}], "object": [{"location": {"declaration": "LocalSubring.isMax_iff", "module": "Mathlib.RingTheory.Valuation.LocalSubring"}}], "id": "af_2676126077d19db346a29821"}

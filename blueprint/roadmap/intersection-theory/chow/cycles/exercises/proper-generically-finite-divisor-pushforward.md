@@ -1,10 +1,3 @@
----
-article_id: af_bf2c13afb69f4bbe0b3293cb
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Proper generically finite pushforward preserves linear equivalence
 
 Let $f:X\to X'$ be a proper generically finite morphism of normal varieties.

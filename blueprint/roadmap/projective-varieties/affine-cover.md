@@ -1,12 +1,3 @@
----
-article_id: af_cace6cae38334dde8edf5e10
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isAffineVariety_chartMap_image Hartshorne.isQuasiAffineVariety_chartMap_image Hartshorne.iUnion_standardChart Hartshorne.chartMap_image_eq_chartInv_preimage Hartshorne.homogeneousVanish_iff_eval_dehomogenize Hartshorne.dehomogenize_mem_vanishingIdeal_iff Hartshorne.homogeneousVanish_of_mem_homogeneousVanishingIdeal
----
-
 # Varieties are covered by affine pieces
 
 If $Y$ is a projective variety then the sets $Y \cap U_{i}$ for $i = 0,\ldots ,n$ form an

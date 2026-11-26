@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/morphisms/global-regular-eq-coordinate-ring.md"}], "object": [{"location": {"declaration": "Hartshorne.coordinateRingEquivGlobalRegular"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_00f356814aa13851cf5257ea", "extensions": {"org.autoform": {"origin": "cited"}}}

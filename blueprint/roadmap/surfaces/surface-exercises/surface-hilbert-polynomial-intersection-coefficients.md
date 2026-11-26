@@ -1,9 +1,3 @@
----
-article_id: af_74d81c776984f7cae56160bb
-declaration: theorem
-origin: cited
----
-
 # Hilbert-polynomial coefficients and intersection degrees
 
 Let $H$ be a very ample divisor on a Chapter-V surface $X$, defining

@@ -1,9 +1,3 @@
----
-article_id: af_afc84436d09f02e9066df518
-declaration: theorem
-origin: cited
----
-
 # Projective flatness and eventual free sections
 
 Let $A$ be a local Noetherian domain, $X=\mathbb{P}^n_A$, and $F$ a coherent

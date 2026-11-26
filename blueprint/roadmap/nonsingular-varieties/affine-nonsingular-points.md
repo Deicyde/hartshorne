@@ -1,12 +1,3 @@
----
-article_id: af_2136720d3c5831f8df18c545
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsAffineNonsingularAt Hartshorne.IsAffineNonsingular
----
-
 # Nonsingular points of an affine variety
 
 Let $Y\subseteq\mathbb A^n$ be an affine variety of dimension $r$.

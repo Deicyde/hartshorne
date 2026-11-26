@@ -1,9 +1,3 @@
----
-article_id: af_e53b9034bd9ca40b761d20d0
-declaration: theorem
-origin: cited
----
-
 # Negative-twist vanishing detects Cohen–Macaulayness
 
 Let $X$ be an arbitrary projective scheme of dimension $n$ over an

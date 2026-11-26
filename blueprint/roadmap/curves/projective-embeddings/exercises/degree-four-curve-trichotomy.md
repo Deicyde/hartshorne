@@ -1,9 +1,3 @@
----
-article_id: af_f9329786cc5ce68db65d2b2b
-declaration: theorem
-origin: cited
----
-
 # The degree-four curve trichotomy
 
 Let $X$ be a curve of projective degree four and replace the ambient space by

@@ -1,9 +1,3 @@
----
-article_id: af_d0a1373dcc7bd7f9f22cf28d
-declaration: theorem
-origin: cited
----
-
 # The tangent Chern classes of projective four-space
 
 Let $h$ be the hyperplane class on $\mathbb{P}^4$. The Euler sequence gives

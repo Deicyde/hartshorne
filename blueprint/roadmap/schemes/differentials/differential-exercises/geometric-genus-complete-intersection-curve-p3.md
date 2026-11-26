@@ -1,10 +1,3 @@
----
-article_id: af_84e35bab976de06defae8cc5
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The genus of a complete-intersection curve in projective three-space
 
 Let $k$ be algebraically closed, let $d,e \ge 1$, and let $Y \subset \mathbb{P}^3_k$ be a

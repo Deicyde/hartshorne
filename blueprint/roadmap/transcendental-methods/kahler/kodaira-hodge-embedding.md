@@ -1,10 +1,3 @@
----
-article_id: af_03a0c0d643e4fedb9cf63923
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Kodaira's embedding theorem
 
 Every Hodge manifold is isomorphic to the analytification of a smooth

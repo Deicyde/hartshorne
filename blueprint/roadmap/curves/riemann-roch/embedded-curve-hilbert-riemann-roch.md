@@ -1,9 +1,3 @@
----
-article_id: af_178fb38684a19a98cd5ffda9
-declaration: theorem
-origin: cited
----
-
 # Compatibility with the embedded Hilbert polynomial
 
 Let $X$ be a Chapter IV curve embedded in projective space with projective

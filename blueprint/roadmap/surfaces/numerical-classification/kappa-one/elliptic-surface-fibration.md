@@ -1,9 +1,3 @@
----
-article_id: af_680d1273d254a96b9bf7a862
-declaration: definition
-origin: cited
----
-
 # Elliptic surface fibrations
 
 An elliptic surface in Hartshorne V.6 is a Chapter-V surface $X$ equipped

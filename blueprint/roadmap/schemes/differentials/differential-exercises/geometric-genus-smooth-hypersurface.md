@@ -1,9 +1,3 @@
----
-article_id: af_2da44b71de029b108893523a
-declaration: theorem
-origin: cited
----
-
 # The geometric genus of a smooth hypersurface
 
 Let $k$ be algebraically closed, $n \ge 2$, and $d \ge 1$. If

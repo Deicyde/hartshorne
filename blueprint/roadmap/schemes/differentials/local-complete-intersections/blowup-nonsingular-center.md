@@ -1,9 +1,3 @@
----
-article_id: af_5705725498c9d2fad3d57781
-declaration: theorem
-origin: cited
----
-
 # Blowing up a nonsingular center preserves nonsingularity
 
 Let $X$ be a nonsingular variety and $Y$ a nonsingular closed subvariety. The

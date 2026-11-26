@@ -1,9 +1,3 @@
----
-article_id: af_5a51807c2b9f9a6605c9f3c0
-declaration: theorem
-origin: cited
----
-
 # Samuel's Hurwitz calculation
 
 Let $X \subset \mathbb{P}^3$ be a nonline strange curve of degree $d$ and genus $g$,

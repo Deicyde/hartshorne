@@ -1,9 +1,3 @@
----
-article_id: af_745add23b22fd55feacf5a5d
-declaration: theorem
-origin: cited
----
-
 # Addition is a morphism
 
 For a pointed elliptic curve, point addition defines a scheme morphism

@@ -1,10 +1,3 @@
----
-article_id: af_22a3b1b1ada2960a0cfba3be
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Depth detected by local cohomology
 
 Let $A$ be Noetherian, $a$ an ideal, and $M$ a finite $A$-module. For every

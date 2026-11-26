@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/first-properties/finite-type-cancellation.md"}], "object": [{"location": {"declaration": "Hartshorne.finiteType_of_comp"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_04f823fdc3f938711c5a757f", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,7 +1,3 @@
----
-article_id: af_2fe2c903a92da4c6051cb497
----
-
 # Flatness foundations
 
 Hartshorne's Proposition III.9.1A and Examples III.9.1.1–3 describe

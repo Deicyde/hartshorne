@@ -1,10 +1,3 @@
----
-article_id: af_07427fe782b1db375fa656d3
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Zariski connectedness agrees with analytic connectedness
 
 A finite-type complex scheme $X$ is connected in its Zariski topology if and

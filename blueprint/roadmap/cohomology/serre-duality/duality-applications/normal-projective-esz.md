@@ -1,9 +1,3 @@
----
-article_id: af_b9b8009380606faa4d738370
-declaration: theorem
-origin: cited
----
-
 # Enriques–Severi–Zariski for normal projective schemes
 
 Let $X$ be a normal projective scheme of dimension at least two over an

@@ -1,12 +1,3 @@
----
-article_id: af_4385eae4c6f0422daac639dc
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: KaehlerDifferential.mvPolynomialBasis
-mathlib_file: Mathlib/RingTheory/Kaehler/Polynomial.lean
----
-
 # Differentials of a polynomial algebra
 
 For a polynomial algebra $A[x_{i} | i \in \iota ]$, the differentials $dx_{i}$ form a

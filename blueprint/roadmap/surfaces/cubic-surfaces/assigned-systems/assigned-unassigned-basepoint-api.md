@@ -1,9 +1,3 @@
----
-article_id: af_0bef5587432a4fb3823f032e
-declaration: def
-origin: cited
----
-
 # Assigned and unassigned base points of a linear system
 
 For a complete system $|D|$ on a surface and assigned points

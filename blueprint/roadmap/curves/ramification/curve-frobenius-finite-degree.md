@@ -1,9 +1,3 @@
----
-article_id: af_76415c5d26a56f511de69176
-declaration: theorem
-origin: cited
----
-
 # Degree of Frobenius on a curve
 
 Let $X$ be a curve over an algebraically closed field $k$ of characteristic

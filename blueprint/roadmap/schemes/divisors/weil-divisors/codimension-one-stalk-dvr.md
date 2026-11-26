@@ -1,12 +1,3 @@
----
-article_id: af_f4ea32035ecabdcf1674e94f
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.codimensionOneStalk_isDiscreteValuationRing AlgebraicGeometry.Scheme.functionField_isFractionRing_of_stalk_of_satisfiesConditionStar AlgebraicGeometry.Scheme.ordHom_eq_codimensionOneStalkValuation AlgebraicGeometry.Scheme.ord_eq_codimensionOneStalkValuation
----
-
 # Codimension-one stalks are DVRs
 
 If $X$ satisfies $(*)$ and $x\in X$ is a point of codimension one,

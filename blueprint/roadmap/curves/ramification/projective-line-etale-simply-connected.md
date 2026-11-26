@@ -1,9 +1,3 @@
----
-article_id: af_7953103f4995d539c6989e34
-declaration: theorem
-origin: cited
----
-
 # The projective line is étale simply connected
 
 Over an algebraically closed field, every finite étale covering of $\mathbb{P}^1$ is a

@@ -1,12 +1,3 @@
----
-article_id: af_bbb21dc5b1213e119c6d8a5d
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.plane_curve_bezout
----
-
 # Bézout's theorem for distinct plane curves
 
 Let $Y,Z \subseteq \mathbb{P} ^{2}$ be distinct projective curves of degrees $d,e$. Their

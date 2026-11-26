@@ -1,9 +1,3 @@
----
-article_id: af_02c0b2b4052b1c39b74471a7
-declaration: theorem
-origin: cited
----
-
 # The Cohen–Macaulay Serre-duality equivalences
 
 Let $X$ be an arbitrary projective scheme of dimension $n$ over an

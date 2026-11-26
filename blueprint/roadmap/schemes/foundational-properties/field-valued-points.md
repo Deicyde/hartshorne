@@ -1,12 +1,3 @@
----
-article_id: af_7e6d3d87166ea4cacb15b7ab
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Scheme.SpecToEquivOfField
-mathlib_file: Mathlib/AlgebraicGeometry/ResidueField.lean
----
-
 # Field-valued points of a scheme
 
 For a scheme $X$ and a field $K$, morphisms $\operatorname{Spec} K \to X$ correspond

@@ -1,9 +1,3 @@
----
-article_id: af_c4818b258487c62f0653e5ec
-declaration: theorem
-origin: cited
----
-
 # Picard restriction to the components of a reduced curve
 
 Let $X$ be a reduced proper one-dimensional scheme over an algebraically

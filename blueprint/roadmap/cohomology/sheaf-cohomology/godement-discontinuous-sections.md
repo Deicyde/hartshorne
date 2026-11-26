@@ -1,12 +1,3 @@
----
-article_id: af_843eb1daa6fee504291d18dc
-declaration: instance
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.toGodement_mono Hartshorne.godementFunctor_obj_isFlasque
----
-
 # The Godement flasque embedding
 
 For every abelian sheaf $F$ on a topological space, the sheaf

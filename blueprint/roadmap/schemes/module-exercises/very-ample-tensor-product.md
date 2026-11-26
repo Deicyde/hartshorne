@@ -1,9 +1,3 @@
----
-article_id: af_17c374a22a06e920ae8bc56f
-declaration: theorem
-origin: cited
----
-
 # Tensor products of very ample sheaves
 
 If $L$ and $M$ are invertible sheaves very ample relative to $Y$ on the same

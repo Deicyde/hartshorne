@@ -1,9 +1,3 @@
----
-article_id: af_54d8a61d825e137a0c89cb93
-declaration: equivalence
-origin: background
----
-
 # Uniformization by a Weierstrass cubic
 
 The map

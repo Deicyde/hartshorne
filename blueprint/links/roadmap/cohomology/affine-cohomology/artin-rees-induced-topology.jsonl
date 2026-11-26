@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/cohomology/affine-cohomology/artin-rees-induced-topology.md"}], "object": [{"location": {"declaration": "Hartshorne.artinRees_inducedTopology"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_af2bf5d05b56c3bddb7d1a51", "extensions": {"org.autoform": {"origin": "cited"}}}

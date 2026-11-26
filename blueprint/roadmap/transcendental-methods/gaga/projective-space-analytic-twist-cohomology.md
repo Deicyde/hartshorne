@@ -1,10 +1,3 @@
----
-article_id: af_a64b315019409aedae387555
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Analytic cohomology of projective-space twists agrees with algebraic cohomology
 
 For every $n\ge 0$, integer $q$, and cohomological degree $i$, analytification

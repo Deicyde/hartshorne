@@ -1,9 +1,3 @@
----
-article_id: af_32a637f34229b64527d88ce3
-declaration: theorem
-origin: cited
----
-
 # Integral cohomology of a compact Riemann surface
 
 For a compact genus-$g$ Riemann surface $C ^h$,

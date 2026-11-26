@@ -1,9 +1,3 @@
----
-article_id: af_4e0135614e49e1cdda7538a0
-declaration: theorem
-origin: cited
----
-
 # The canonical square drops by one under a point blowup
 
 For a monoidal transformation,

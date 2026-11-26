@@ -1,9 +1,3 @@
----
-article_id: af_9bd7ee98c8d444a53bbaf8ec
-declaration: theorem
-origin: bridged
----
-
 # The projective-linear hyperplane orbit map is open
 
 Fix a hyperplane $H$ in $\mathbb{P}^n$ over an algebraically closed field of

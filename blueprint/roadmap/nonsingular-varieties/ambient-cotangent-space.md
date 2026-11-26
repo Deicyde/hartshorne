@@ -1,12 +1,3 @@
----
-article_id: af_3ba438db4aaadf9e7dbd4162
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ambientCotangentEquiv_toCotangent Hartshorne.aeval_pderiv_eq_zero_of_mem_affinePointIdeal_sq Hartshorne.ambientCotangentEquiv_generator
----
-
 # The cotangent space of affine space
 
 For $P=(a_1,\ldots,a_n)\in\mathbb A^n$, let $\mathfrak n_P$ be

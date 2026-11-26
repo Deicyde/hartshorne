@@ -1,9 +1,3 @@
----
-article_id: af_a371c8706fe82d662f61bddb
-declaration: theorem
-origin: cited
----
-
 # The canonical divisor of a point blowup
 
 If $K_X$ and $K_{\widetilde X}$ are canonical divisors, then

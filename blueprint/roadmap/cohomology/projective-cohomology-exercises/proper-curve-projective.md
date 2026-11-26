@@ -1,9 +1,3 @@
----
-article_id: af_dbb57ba975840eca3e4a215b
-declaration: theorem
-origin: cited
----
-
 # One-dimensional proper schemes are projective
 
 Every one-dimensional proper scheme over an algebraically closed field is

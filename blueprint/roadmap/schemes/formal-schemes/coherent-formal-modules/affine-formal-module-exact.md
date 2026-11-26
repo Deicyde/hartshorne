@@ -1,12 +1,3 @@
----
-article_id: af_7a1942df5ca45e35c428a1c7
-declaration: theorem
-origin: cited
-lean: Hartshorne.moduleCompletion_tilde_exact Hartshorne.moduleCompletion_tilde_shortExact
-statement: formalized
-proof: formalized
----
-
 # Exactness of affine module completion
 
 For Noetherian $A$ and ideal $I$, the functor sending a finite $A$-module $M$

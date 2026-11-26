@@ -1,9 +1,3 @@
----
-article_id: af_a4bd0dc135d1611f4115877f
-declaration: theorem
-origin: cited
----
-
 # The canonical self-intersection
 
 For a Chapter V surface, choose a canonical divisor $K$ representing

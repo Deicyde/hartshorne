@@ -1,12 +1,3 @@
----
-article_id: af_b788bfcd173aff95570bd3a8
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.homogeneousVanishingIdeal_projectiveClosure Hartshorne.projectiveClosure_isProjVariety Hartshorne.chartMap_image_projectiveClosure_inter_standardChart Hartshorne.birational_projectiveClosure
----
-
 # The projective closure of an affine variety
 
 Identify $\mathbb{A} ^{n}$ with the chart $U_{0} \subseteq \mathbb{P} ^{n}$ by $\varphi _{0}$. For an affine variety

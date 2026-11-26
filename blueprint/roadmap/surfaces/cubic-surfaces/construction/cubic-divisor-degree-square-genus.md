@@ -1,9 +1,3 @@
----
-article_id: af_2c9434e6901f3ed91d2b136e
-declaration: theorem
-origin: cited
----
-
 # Degree, self-intersection, and arithmetic genus on a cubic surface
 
 For an effective divisor $D$ of class $al-\sum_i b_i e_i$, its degree in

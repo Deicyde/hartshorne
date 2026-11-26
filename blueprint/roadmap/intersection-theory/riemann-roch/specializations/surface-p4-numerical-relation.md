@@ -1,9 +1,3 @@
----
-article_id: af_966f62a092f0617660dbb349
-declaration: theorem
-origin: cited
----
-
 # The numerical relation for a smooth surface in projective four-space
 
 For a smooth degree-$d$ surface $X \subset \mathbb{P}^4$, with hyperplane class $H$,

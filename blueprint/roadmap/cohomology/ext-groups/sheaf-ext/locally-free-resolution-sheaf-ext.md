@@ -1,12 +1,3 @@
----
-article_id: af_165cb62f9400411061e1bfca
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Ringed.sheafExtIsoHomologyOfLocallyFreeResolution Hartshorne.Ringed.moduleSheafHomComplex Hartshorne.Ringed.moduleSheafHomComplex_d Hartshorne.Ringed.moduleSheafHomFunctor_preservesHomology Hartshorne.Ringed.isZero_sheafExt_of_isFiniteLocallyFree
----
-
 # Locally free resolutions compute sheaf Ext
 
 Suppose $L_{\bullet} \longrightarrow F \longrightarrow 0$ is a nonnegative homological resolution, possibly

@@ -1,9 +1,3 @@
----
-article_id: af_0821974dfa58620481bf4baa
-declaration: theorem
-origin: cited
----
-
 # Every line on the cubic surface has self-intersection minus one
 
 If $L$ is a line on the marked cubic surface $X$ in $\mathbb{P}^3$, then

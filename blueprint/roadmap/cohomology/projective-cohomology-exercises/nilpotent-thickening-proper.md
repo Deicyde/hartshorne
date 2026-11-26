@@ -1,12 +1,3 @@
----
-article_id: af_35119aefeffefa2be2819a3b
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isProper_iff_nilpotentThickening
----
-
 # Properness across a nilpotent thickening
 
 Let $X$ be a finite-type scheme over a field and let $i:X_{0}\to X$ be a closed

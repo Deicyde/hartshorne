@@ -1,9 +1,3 @@
----
-article_id: af_2bda38fe49e97f33a5398852
-declaration: theorem
-origin: cited
----
-
 # Cohomology classes recover surface intersections
 
 Let $X$ be a Chapter-V surface. Serre duality and exterior multiplication

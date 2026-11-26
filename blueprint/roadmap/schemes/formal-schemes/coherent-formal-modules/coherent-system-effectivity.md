@@ -1,9 +1,3 @@
----
-article_id: af_9d631ef18d43eaa2266f76ff
-declaration: theorem
-origin: cited
----
-
 # Effectivity of compatible coherent systems
 
 Let $J$ be an ideal of definition on a Noetherian formal scheme and let $F n$

@@ -1,9 +1,3 @@
----
-article_id: af_a41d97681565b344366503ca
-declaration: theorem
-origin: cited
----
-
 # The square, hexagonal, and nonmaximal examples
 
 For the square lattice $\tau =i$, the endomorphism ring is $\mathbb{Z}[i]$, the

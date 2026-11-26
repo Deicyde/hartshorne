@@ -1,9 +1,3 @@
----
-article_id: af_86469172ed1889dc503e95b5
-declaration: theorem
-origin: cited
----
-
 # Irreducible members of rational ruled linear systems
 
 For $D=a\cdot C_0+b\cdot f$ on $X_e$, the following are equivalent:

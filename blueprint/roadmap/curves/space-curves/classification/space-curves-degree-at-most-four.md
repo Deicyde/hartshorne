@@ -1,9 +1,3 @@
----
-article_id: af_1149d6e873bcdfc07f5cd32e
-declaration: theorem
-origin: cited
----
-
 # Curves of degree at most four
 
 The nonsingular curves of degree at most four in projective three-space are:

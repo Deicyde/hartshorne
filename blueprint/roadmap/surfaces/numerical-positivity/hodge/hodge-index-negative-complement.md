@@ -1,9 +1,3 @@
----
-article_id: af_02e7a1b4857369683ac879c8
-declaration: theorem
-origin: cited
----
-
 # The Hodge index theorem
 
 Let $H$ be ample on a Chapter V surface. If $D$ is not numerically trivial

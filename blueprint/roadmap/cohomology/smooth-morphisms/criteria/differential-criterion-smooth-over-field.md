@@ -1,12 +1,3 @@
----
-article_id: af_c9643a503ff4af4b2f570fa6
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.isSmoothAt_of_finrank_le Hartshorne.smooth_of_forall_finrank_le_ringKrullDim
----
-
 # The differential criterion for smoothness over a field
 
 Let $k$ be a field, let $T$ be a finitely generated $k$-algebra, let

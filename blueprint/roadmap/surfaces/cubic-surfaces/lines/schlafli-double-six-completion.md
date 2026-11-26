@@ -1,10 +1,3 @@
----
-article_id: af_5476ebc16c7fe4189d381a4b
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Completion and realization of a Schläfli double-six
 
 Five sufficiently general lines $G_2,\ldots ,G_6$ meeting a line $E_1$, and

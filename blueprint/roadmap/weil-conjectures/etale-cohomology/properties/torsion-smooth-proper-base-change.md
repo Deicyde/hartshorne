@@ -1,10 +1,3 @@
----
-article_id: af_e51282b9544899af174d7b12
-declaration: isomorphism
-origin: background
-not_ready: true
----
-
 # Torsion smooth proper base change
 
 Let $f:X\to Y$ be smooth and proper, let $\ell$ be invertible on $Y$, and let

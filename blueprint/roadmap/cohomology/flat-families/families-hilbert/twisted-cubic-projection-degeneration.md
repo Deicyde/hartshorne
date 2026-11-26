@@ -1,9 +1,3 @@
----
-article_id: af_f101299fd2a4b4f3814575c5
-declaration: theorem
-origin: cited
----
-
 # The twisted-cubic projection degeneration
 
 The scaling construction for projection from a point extends the twisted

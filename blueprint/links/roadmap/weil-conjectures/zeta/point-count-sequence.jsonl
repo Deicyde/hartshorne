@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/weil-conjectures/zeta/point-count-sequence.md"}], "object": [{"location": {"declaration": "Hartshorne.pointCountSequence"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_b49e8cf565a740bf11cf4dc1", "extensions": {"org.autoform": {"origin": "cited"}}}

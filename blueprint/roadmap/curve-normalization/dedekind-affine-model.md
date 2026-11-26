@@ -1,12 +1,3 @@
----
-article_id: af_64778191cf786477556c0eb8
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_dedekind_affine_model
----
-
 # Dedekind localizations occur on nonsingular affine curves
 
 Let $k$ be algebraically closed and let $B$ be a finitely generated

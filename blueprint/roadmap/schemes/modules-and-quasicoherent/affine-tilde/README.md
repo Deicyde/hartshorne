@@ -1,7 +1,3 @@
----
-article_id: af_d3f6d886924ddcdb4ad2171a
----
-
 # The affine tilde construction
 
 For a ring $A$, an $A$-module $M$ determines the sheaf $\widetilde{M}$ of

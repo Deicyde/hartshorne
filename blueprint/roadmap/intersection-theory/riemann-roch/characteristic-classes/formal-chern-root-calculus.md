@@ -1,9 +1,3 @@
----
-article_id: af_e3d042f4e96391509093d64b
-declaration: theorem
-origin: cited
----
-
 # Formal Chern-root calculus
 
 After pullback along a splitting space, write the total Chern class of a

@@ -1,12 +1,3 @@
----
-article_id: af_9a85f92e6194c64e719a9fdd
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveIntersectionDivisor Hartshorne.IsProjectiveHypersurfaceLocalEquation Hartshorne.exists_projectiveHypersurfaceLocalEquation Hartshorne.projectiveIntersectionDivisor_apply_eq_ord Hartshorne.projectiveIntersectionDivisor_apply_eq_zero_of_notMem Hartshorne.ambientDivisorsNotContaining Hartshorne.projectiveIntersectionDivisorHom Hartshorne.projectiveIntersectionDivisorHom_of_primeDivisor Hartshorne.projectiveHypersurfacePrimeDivisor Hartshorne.exists_projectivePrimeDivisor_equation
----
-
 # Ambient hypersurfaces cut divisors
 
 Let $k$ be algebraically closed, let $X \subseteq \mathbb{P}^n_k$ be a closed variety

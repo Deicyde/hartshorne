@@ -1,12 +1,3 @@
----
-article_id: af_3c0528225a28ac3897059bd7
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.scaledPerfectPairing_determinantIdentity
----
-
 # Determinants under a scaled perfect pairing
 
 Let $V$ and $W$ be $r$-dimensional vector spaces with a perfect pairing, a

@@ -1,12 +1,3 @@
----
-article_id: af_4c4647da1060e1836668271e
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_pderiv_ne_zero_of_irreducible
----
-
 # An irreducible polynomial has a nonzero partial derivative
 
 Let $k$ be algebraically closed and let $f \in k[x_{1},\ldots ,x_{n}]$ be irreducible

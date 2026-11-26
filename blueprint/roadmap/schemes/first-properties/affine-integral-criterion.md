@@ -1,12 +1,3 @@
----
-article_id: af_c867c279e82b191596424cd3
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.affine_isIntegral_iff
-mathlib_file: Mathlib/AlgebraicGeometry/Properties.lean
----
-
 # Integrality of an affine scheme
 
 For a commutative ring $A$, $\operatorname{Spec} A$ is integral if and only if $A$ is a

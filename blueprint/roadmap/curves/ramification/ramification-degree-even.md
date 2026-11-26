@@ -1,9 +1,3 @@
----
-article_id: af_c90e334f598dc5c7509226a3
-declaration: theorem
-origin: cited
----
-
 # The ramification divisor has even degree
 
 For every finite separable morphism of curves, the degree of its ramification

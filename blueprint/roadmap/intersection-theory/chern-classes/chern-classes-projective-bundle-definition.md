@@ -1,9 +1,3 @@
----
-article_id: af_1f814f85ea1d9f30e9756c16
-declaration: def
-origin: cited
----
-
 # Chern classes from the projective-bundle relation
 
 Let $E$ be locally free of positive rank $r$ on a nonsingular quasi-projective variety

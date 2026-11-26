@@ -1,7 +1,3 @@
----
-article_id: af_b9a7e8ef4ead61f0fe3a8d41
----
-
 # Normalization and the valuation-space curve
 
 This milestone continues Hartshorne I.6 from [Lemma I.6.5](finite-poles.md) through Proposition

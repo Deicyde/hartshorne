@@ -1,9 +1,3 @@
----
-article_id: af_06e061e479885250021ad800
-declaration: theorem
-origin: cited
----
-
 # Cohen–Macaulay schemes have negative-twist vanishing
 
 Let $X$ be a projective scheme of dimension $n$ over an algebraically closed

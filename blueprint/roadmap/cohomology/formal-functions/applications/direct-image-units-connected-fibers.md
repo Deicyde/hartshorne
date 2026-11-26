@@ -1,9 +1,3 @@
----
-article_id: af_44162530bf2011ebfb173818
-declaration: theorem
-origin: cited
----
-
 # Direct image of the structure sheaf forces connected fibres
 
 Let $f : X \to Y$ be a projective morphism of Noetherian schemes. If the

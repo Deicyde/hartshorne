@@ -1,10 +1,3 @@
----
-article_id: af_e8943546bb84ebf246487f83
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The Picard torus is algebraic
 
 For a smooth projective complex variety, the complex torus $\operatorname{Pic} ^0(X)$ is the

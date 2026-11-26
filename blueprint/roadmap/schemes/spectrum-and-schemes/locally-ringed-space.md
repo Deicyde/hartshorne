@@ -1,12 +1,3 @@
----
-article_id: af_fb83feaf3283e2c3a9e7c4e9
-declaration: structure
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.LocallyRingedSpace
-mathlib_file: Mathlib/Geometry/RingedSpace/LocallyRingedSpace.lean
----
-
 # Locally ringed spaces
 
 A locally ringed space is a topological space with a sheaf of commutative

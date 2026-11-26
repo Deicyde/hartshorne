@@ -1,12 +1,3 @@
----
-article_id: af_655a613445ec81df54de2d65
-declaration: abbrev
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.coordinateRing
----
-
 # The affine coordinate ring
 
 For an affine algebraic set $Y\subseteq\mathbb{A}^n$ over $k$, the

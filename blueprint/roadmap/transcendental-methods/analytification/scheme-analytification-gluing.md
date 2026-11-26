@@ -1,9 +1,3 @@
----
-article_id: af_7a8becaeaedc249b0cce3a12
-declaration: theorem
-origin: cited
----
-
 # Affine analytifications glue to the analytification of a scheme
 
 For a finite affine open cover of a finite-type complex scheme, glue the

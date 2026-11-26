@@ -1,12 +1,3 @@
----
-article_id: af_fc057601bafeb0de917d756b
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsClosedImmersion.iff_isFinite_and_mono
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Finite.lean
----
-
 # Closed immersions are finite
 
 A closed immersion of schemes is a finite morphism. More generally,

@@ -1,9 +1,3 @@
----
-article_id: af_372d54f0f215f54132e5e5fc
-declaration: structure
-origin: cited
----
-
 # The Chapter IV curve convention
 
 Over an algebraically closed field $k$, a Chapter IV curve is an integral

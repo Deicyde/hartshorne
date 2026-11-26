@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/foundational-properties/surjection-closed-immersion.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.IsClosedImmersion.spec_of_surjective", "module": "Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion"}}], "id": "af_4dcdfd3bd74213a9d46395d4"}

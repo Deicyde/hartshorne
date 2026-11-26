@@ -1,9 +1,3 @@
----
-article_id: af_2e76af07b73d297644581398
-declaration: theorem
-origin: cited
----
-
 # Grothendieck vanishing
 
 Let $X$ be a Noetherian topological space of finite dimension

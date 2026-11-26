@@ -1,9 +1,3 @@
----
-article_id: af_a974de2eff6495f870b81ede
-declaration: theorem
-origin: cited
----
-
 # Extensions of coherent formal modules
 
 Let

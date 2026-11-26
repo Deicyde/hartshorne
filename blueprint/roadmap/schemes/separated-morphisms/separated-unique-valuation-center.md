@@ -1,12 +1,3 @@
----
-article_id: af_512e70305ef49d24027b0d85
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationCenter.subsingleton_of_isSeparated Hartshorne.ValuationCenter.point_eq_of_isSeparated
----
-
 # Separated schemes have unique valuation centers
 
 Let $X$ be an integral scheme of finite type over a field $k$. If $X$ is

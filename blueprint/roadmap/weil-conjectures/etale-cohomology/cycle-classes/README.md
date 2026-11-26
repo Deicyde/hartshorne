@@ -1,7 +1,3 @@
----
-article_id: af_f74fefdbb88da546c57c05e4
----
-
 # Étale cycle classes
 
 - [Purity and Gysin fundamental classes](etale-purity-gysin-class.md)

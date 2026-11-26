@@ -1,12 +1,3 @@
----
-article_id: af_88d80c1a4a693b5b4a6cb07f
-declaration: instance
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Scheme.compactSpace_of_isAffine
-mathlib_file: Mathlib/AlgebraicGeometry/AffineScheme.lean
----
-
 # Affine schemes are quasi-compact
 
 The underlying topological space of every affine scheme is quasi-compact.

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/hilbert/finite-graded-pieces.md"}], "object": [{"location": {"declaration": "Hartshorne.finite_gradedPiece"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_e4e373a8fc28a4a63bcfb288", "extensions": {"org.autoform": {"origin": "bridged"}}}

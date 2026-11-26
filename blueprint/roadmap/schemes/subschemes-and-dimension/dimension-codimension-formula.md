@@ -1,12 +1,3 @@
----
-article_id: af_9dbe540cc0b435d1aea72750
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.dimension_codimension_formula
----
-
 # The dimension-codimension formula
 
 Let $X$ be an integral scheme of finite type over a field, and let $Y \subseteq X$ be

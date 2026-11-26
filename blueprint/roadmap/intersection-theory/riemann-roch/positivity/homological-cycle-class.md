@@ -1,10 +1,3 @@
----
-article_id: af_c586c7187acccccac279dd0e
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Cohomology classes and homological equivalence
 
 For a smooth projective complex variety, a codimension-$r$ algebraic cycle

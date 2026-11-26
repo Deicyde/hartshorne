@@ -1,12 +1,3 @@
----
-article_id: af_009ec6c4e8f0f5c28101b694
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: IsLocalization.flat
-mathlib_file: Mathlib/RingTheory/Flat/Localization.lean
----
-
 # Localizations are flat
 
 For a commutative ring $R$ and a submonoid $S$, the localization $S^{-1} R$ is

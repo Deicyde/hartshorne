@@ -1,10 +1,3 @@
----
-article_id: af_49b1b9c25bcbfbe4d03c5b72
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The Deligne–Mumford theorem on M_g
 
 For $g\ge 2$, the coarse moduli variety $M_g$ is irreducible and

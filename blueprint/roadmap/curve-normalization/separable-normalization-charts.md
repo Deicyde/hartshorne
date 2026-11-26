@@ -1,12 +1,3 @@
----
-article_id: af_9ccfa4b4af1188a70942772f
-declaration: def
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.separableNormalizationCharts
----
-
 # The two separable normalization charts
 
 Fix a separating parameter $t$ for the one-dimensional function field $K/k$.

@@ -1,12 +1,3 @@
----
-article_id: af_f1af0566371269504260bf8c
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.schemesHaveFiberProducts
----
-
 # Fiber products of schemes exist
 
 Every cospan of schemes has a fiber product, unique up to unique isomorphism.

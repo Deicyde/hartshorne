@@ -1,7 +1,3 @@
----
-article_id: af_6d9ec568d03bbdd07c0d3ad0
----
-
 # Adopted classical prerequisites for curves
 
 Later-used exercises in Hartshorne IV.2 activate three exercises that were

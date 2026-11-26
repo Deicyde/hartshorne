@@ -1,9 +1,3 @@
----
-article_id: af_87a92914ed8bd90099786800
-declaration: theorem
-origin: cited
----
-
 # Fibres of a ruled surface are algebraically equivalent
 
 Let $\pi : X \to C$ be a ruled surface. Any two fibre divisors of $\pi$ are

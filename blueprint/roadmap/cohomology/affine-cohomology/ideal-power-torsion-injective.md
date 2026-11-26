@@ -1,12 +1,3 @@
----
-article_id: af_e5014a9c3e68b574be1cd180
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.idealPowerTorsion_injective
----
-
 # Ideal-power torsion in an injective module
 
 Let $A$ be Noetherian, $a$ an ideal, and $I$ an injective $A$-module. The

@@ -1,12 +1,3 @@
----
-article_id: af_01b3b42bdfcfbcdd30757572
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.kaehlerFirstExactSequence
----
-
 # The first exact sequence
 
 For ring maps $A \to B \to C$, the natural sequence of $C$-modules

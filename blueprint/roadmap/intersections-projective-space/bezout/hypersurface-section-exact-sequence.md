@@ -1,12 +1,3 @@
----
-article_id: af_d1b9ce8ff30814a78d9c8131
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.hypersurfaceSection_degreewise_exact_int
----
-
 # The hypersurface-section coordinate-ring sequence is exact
 
 Assume $n > 0$. Let $Y \subseteq \mathbb{P} ^{n}$ be a projective variety, let $f$ be an

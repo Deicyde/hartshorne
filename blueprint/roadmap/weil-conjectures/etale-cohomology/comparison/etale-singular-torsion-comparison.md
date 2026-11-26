@@ -1,10 +1,3 @@
----
-article_id: af_0a4786ef9d8665e72e0c9ba3
-declaration: isomorphism
-origin: background
-not_ready: true
----
-
 # Torsion étale cohomology compares canonically with singular cohomology
 
 Let $X$ be smooth and proper over $\mathbb{C}$.  For every $r\ge 1$ and $i\ge 0$, there is

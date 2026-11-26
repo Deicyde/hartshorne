@@ -1,12 +1,3 @@
----
-article_id: af_6d8e8e0d65cf4d54a564f62b
-declaration: lemma
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.UniversallyClosed.eq_valuativeCriterion
-mathlib_file: Mathlib/AlgebraicGeometry/ValuativeCriterion.lean
----
-
 # Valuative criterion for universal closedness
 
 Universal closedness is exactly the conjunction of quasi-compactness and the

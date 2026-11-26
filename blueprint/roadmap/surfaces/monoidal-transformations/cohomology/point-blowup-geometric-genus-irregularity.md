@@ -1,9 +1,3 @@
----
-article_id: af_b3245bda6f24427ef2e892be
-declaration: theorem
-origin: cited
----
-
 # Geometric genus and irregularity are invariant under a point blowup
 
 For a monoidal transformation $\pi:\widetilde X\to X$,

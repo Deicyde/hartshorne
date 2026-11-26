@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/proper-and-projective/one-dimensional-local-overring.md"}], "object": [{"location": {"declaration": "Hartshorne.exists_oneDimensionalLocalOverring"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_3d3843d1e6c14bc20aa440c3", "extensions": {"org.autoform": {"origin": "cited"}}}

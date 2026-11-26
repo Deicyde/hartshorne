@@ -1,12 +1,3 @@
----
-article_id: af_509b1e0c7e515812bac12824
-declaration: instance
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.instNoetherianSpace
----
-
 # Affine space is a Noetherian space
 
 A topological space is *Noetherian* when its closed subsets satisfy the

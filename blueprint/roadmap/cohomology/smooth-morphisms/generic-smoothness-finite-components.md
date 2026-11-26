@@ -1,9 +1,3 @@
----
-article_id: af_7782d92ac520f8b250fc27cb
-declaration: theorem
-origin: bridged
----
-
 # Generic smoothness for finitely many regular components
 
 Let $f : X \to Y$ be a separated finite-type morphism over an algebraically

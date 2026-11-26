@@ -1,7 +1,3 @@
----
-article_id: af_a09a5c23fe30c49c5c6c4ff3
----
-
 # Nakai–Moishezon for surfaces
 
 - [Necessity of the numerical conditions](nakai-necessity.md)

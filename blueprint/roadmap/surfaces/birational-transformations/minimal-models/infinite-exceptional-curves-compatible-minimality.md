@@ -1,9 +1,3 @@
----
-article_id: af_4192213f516c995a7dd51170
-declaration: example
-origin: cited
----
-
 # Infinite exceptional curves do not prevent termination
 
 Over an uncountable algebraically closed field, blowing up at least nine

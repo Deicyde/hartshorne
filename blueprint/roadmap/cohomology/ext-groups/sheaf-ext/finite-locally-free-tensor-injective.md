@@ -1,12 +1,3 @@
----
-article_id: af_6404489b1b1d9aa0e33d8b68
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Ringed.moduleSheafTensor_injective
----
-
 # Tensoring an injective by a finite locally free sheaf
 
 If $L$ is a finite-rank locally free $\mathcal{O}_X$-module and $J$ is injective in

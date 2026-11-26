@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/cohomology/flat-families/flatness/pid-flat-iff-torsion-free.md"}], "object": [{"location": {"declaration": "Module.Flat.flat_iff_torsion_eq_bot_of_isBezout", "module": "Mathlib.RingTheory.Flat.TorsionFree"}}], "id": "af_d33d9084b1d39260a103d67c"}

@@ -1,12 +1,3 @@
----
-article_id: af_105e5c9ea0f8b6df2e6d90c7
-declaration: definition
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.reduciblePlaneCurveIntersectionMultiplicity
----
-
 # Pointwise multiplicity for reducible plane curves
 
 Let $Y,Z\subseteq\mathbb P^2$ be projective algebraic sets of dimension

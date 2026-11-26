@@ -1,12 +1,3 @@
----
-article_id: af_1f107512e01c4032a330c528
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projective_inter_nonempty_of_dim
----
-
 # Projective varieties of complementary dimension meet
 
 Let $Y,Z\subseteq\mathbb P^n$ be projective varieties of dimensions

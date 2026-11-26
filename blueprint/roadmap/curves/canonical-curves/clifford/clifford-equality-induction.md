@@ -1,9 +1,3 @@
----
-article_id: af_2eb3e90cd14f3d6950a47352
-declaration: theorem
-origin: cited
----
-
 # Equality forces hyperellipticity
 
 Let $D$ be an effective special divisor, linearly equivalent to neither zero

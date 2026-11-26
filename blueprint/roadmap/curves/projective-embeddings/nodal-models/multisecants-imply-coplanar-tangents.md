@@ -1,9 +1,3 @@
----
-article_id: af_8623253e888311c666db5836
-declaration: theorem
-origin: cited
----
-
 # Multisecants force coplanar tangents
 
 Let $X \subset \mathbb{P}^3$ be a nonplanar curve. If every secant of $X$ is a

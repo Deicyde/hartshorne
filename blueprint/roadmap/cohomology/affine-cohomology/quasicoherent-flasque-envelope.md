@@ -1,12 +1,3 @@
----
-article_id: af_c21cc96fe039f9f6878f806d
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_mono_isFlasque_isQuasicoherent
----
-
 # Quasi-coherent flasque envelopes
 
 If $X$ is Noetherian and $F$ is a quasi-coherent $\mathcal{O}_X$-module, there is a

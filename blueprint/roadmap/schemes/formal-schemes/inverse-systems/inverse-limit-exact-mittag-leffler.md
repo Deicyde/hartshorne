@@ -1,12 +1,3 @@
----
-article_id: af_6f4cbbd12a16d3bece4d77df
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.InverseSystem.inverseLimit_exact_of_isMittagLeffler
----
-
 # Exactness of inverse limits under Mittag–Leffler
 
 Let

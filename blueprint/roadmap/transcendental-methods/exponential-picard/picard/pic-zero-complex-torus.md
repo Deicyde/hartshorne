@@ -1,10 +1,3 @@
----
-article_id: af_a5ffbff86f372cef3496e8f5
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Pic0 is a complex torus
 
 For a smooth projective complex variety, the image of $H^1(X^h,\mathbb{Z})$ in the

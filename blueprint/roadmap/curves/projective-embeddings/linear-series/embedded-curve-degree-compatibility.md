@@ -1,9 +1,3 @@
----
-article_id: af_234103a9ef1ae9b83320ab5d
-declaration: theorem
-origin: cited
----
-
 # Embedded degree equals divisor degree
 
 Let a very ample divisor $D$ define a closed immersion

@@ -1,7 +1,3 @@
----
-article_id: af_430a8af54e5b37e77bb4ac7d
----
-
 # Source and milestone ledger
 
 This ledger organizes the adopted book passages into milestones and records

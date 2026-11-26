@@ -1,10 +1,3 @@
----
-article_id: af_99f66eb9e2f3f4a4ab765680
-declaration: isomorphism
-origin: cited
-not_ready: true
----
-
 # Leray's acyclic-cover comparison
 
 Let $U$ cover a topological space $X$, and let $F$ be an abelian sheaf.

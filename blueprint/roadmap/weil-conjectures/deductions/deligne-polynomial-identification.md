@@ -1,9 +1,3 @@
----
-article_id: af_bb7b4ac0f38ded823a03c14d
-declaration: theorem
-origin: cited
----
-
 # Identification of the Weil polynomials
 
 Deligne's integrality, ℓ-independence, and purity identify the cohomological

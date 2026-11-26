@@ -1,12 +1,3 @@
----
-article_id: af_f0e771c2f787c06e6215db4a
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: KaehlerDifferential.linearMapEquivDerivation
-mathlib_file: Mathlib/RingTheory/Kaehler/Basic.lean
----
-
 # The universal module of Kähler differentials
 
 For a ring map $A \to B$, the canonical derivation

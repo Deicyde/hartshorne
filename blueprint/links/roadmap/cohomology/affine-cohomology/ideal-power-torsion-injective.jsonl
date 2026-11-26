@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/cohomology/affine-cohomology/ideal-power-torsion-injective.md"}], "object": [{"location": {"declaration": "Hartshorne.idealPowerTorsion_injective"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_e5014a9c3e68b574be1cd180", "extensions": {"org.autoform": {"origin": "cited"}}}

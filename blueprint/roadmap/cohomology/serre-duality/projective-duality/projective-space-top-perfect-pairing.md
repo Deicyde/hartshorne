@@ -1,9 +1,3 @@
----
-article_id: af_00d764085d181071fc5965c4
-declaration: theorem
-origin: cited
----
-
 # The top perfect pairing on projective space
 
 For $X=\mathbb{P}^{n}_k$ and every coherent $\mathcal{O}_X$-module $F$, composition with the

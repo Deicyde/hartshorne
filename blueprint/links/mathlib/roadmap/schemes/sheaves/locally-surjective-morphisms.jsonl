@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/sheaves/locally-surjective-morphisms.md"}], "object": [{"location": {"declaration": "TopCat.Sheaf.isLocallySurjective_iff_epi", "module": "Mathlib.Topology.Sheaves.LocallySurjective"}}], "id": "af_086741f04b12f875a3c34599"}

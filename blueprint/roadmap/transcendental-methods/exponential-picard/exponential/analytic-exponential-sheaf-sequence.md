@@ -1,9 +1,3 @@
----
-article_id: af_cef8e93f063b5cf5e3cd4e21
-declaration: theorem
-origin: cited
----
-
 # The analytic exponential sheaf sequence
 
 On a reduced complex analytic space $X^h$, pointwise exponential gives an

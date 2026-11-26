@@ -1,12 +1,3 @@
----
-article_id: af_3aee8376bb8ad4560fb74e3e
-declaration: isomorphism
-lean: Hartshorne.moduleSectionsIso
-statement: formalized
-proof: formalized
-origin: cited
----
-
 # Sections of module sheaves are representable
 
 Let $(X,\mathcal{O}_X)$ be a ringed space and $j : U \hookrightarrow X$ an open inclusion. Write

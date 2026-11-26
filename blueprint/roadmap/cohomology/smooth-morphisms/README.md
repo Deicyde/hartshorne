@@ -1,7 +1,3 @@
----
-article_id: af_7fb2f63d04aa061f555260b2
----
-
 # Smooth morphisms and generic smoothness
 
 Hartshorne III.10 studies smooth morphisms through differential,

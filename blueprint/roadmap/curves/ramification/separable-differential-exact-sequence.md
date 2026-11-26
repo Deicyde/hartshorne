@@ -1,9 +1,3 @@
----
-article_id: af_98f5a9ebe6d2ee0d7943b38e
-declaration: exact sequence
-origin: cited
----
-
 # The differential sequence of a separable curve morphism
 
 Let $f : X \to Y$ be a finite separable morphism of curves. Then the standard

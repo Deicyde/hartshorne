@@ -1,9 +1,3 @@
----
-article_id: af_3f6b4bf0c6fab8ed5d1d7988
-declaration: isomorphism
-origin: cited
----
-
 # GAGA comparison of analytic and algebraic Picard groups
 
 For a projective scheme $X$ over $\mathbb{C}$, analytification induces an isomorphism

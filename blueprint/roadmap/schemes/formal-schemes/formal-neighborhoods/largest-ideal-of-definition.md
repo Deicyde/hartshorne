@@ -1,12 +1,3 @@
----
-article_id: af_6b65e0a5cb84739e9533bd1d
-declaration: theorem
-origin: cited
-lean: Hartshorne.IsIdealOfDefinition.isGreatest_vanishingIdealSubsheaf Hartshorne.IsIdealOfDefinition.isIdealOfDefinition_vanishingIdealSubsheaf
-statement: formalized
-proof: formalized
----
-
 # The largest ideal of definition
 
 Every Noetherian formal scheme has a unique largest ideal of definition

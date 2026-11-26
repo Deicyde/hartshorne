@@ -1,9 +1,3 @@
----
-article_id: af_e8a4eb52f8af14825c1eca04
-declaration: theorem
-origin: cited
----
-
 # The completed local ring at the contraction point is regular
 
 For the normalized contraction $f:X\to X_0$ and $P=f(Y)$, one has

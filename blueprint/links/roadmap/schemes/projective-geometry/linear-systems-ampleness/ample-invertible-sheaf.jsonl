@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/projective-geometry/linear-systems-ampleness/ample-invertible-sheaf.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.Scheme.Modules.IsAmple"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_a8ee1ddb785bf1a69b69a59d", "extensions": {"org.autoform": {"origin": "cited"}}}

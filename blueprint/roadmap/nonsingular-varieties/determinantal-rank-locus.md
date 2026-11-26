@@ -1,12 +1,3 @@
----
-article_id: af_80387e069a7fe6f488ba819e
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.rank_lt_iff_forall_minors_eq_zero Hartshorne.matrixRankDropLocus_eq_zeroSet Hartshorne.isClosed_matrixRankDropLocus Hartshorne.determinantalMinors_zero Hartshorne.matrixRankDropLocus_zero
----
-
 # Rank-drop loci are determinantal
 
 Let $k$ be a field and let $M$ be a finite matrix whose entries are

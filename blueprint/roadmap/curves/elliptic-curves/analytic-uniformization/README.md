@@ -1,7 +1,3 @@
----
-article_id: af_ee98fa81bf7682a299727e67
----
-
 # Analytic uniformization of complex elliptic curves
 
 This chapter records Hartshorne's explicitly imported analytic background

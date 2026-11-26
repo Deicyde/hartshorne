@@ -1,12 +1,3 @@
----
-article_id: af_9c77bf72ef5a300f435d6619
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveDegree_eq_natCast_of_nonempty
----
-
 # A nonempty projective algebraic set has positive integral degree
 
 Let $Y \subseteq \mathbb{P} ^{n}$ be a nonempty projective algebraic set of dimension $r$. Then

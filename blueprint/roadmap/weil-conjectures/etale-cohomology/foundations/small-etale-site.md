@@ -1,12 +1,3 @@
----
-article_id: af_6996e552979983497d8c0cea
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Scheme.smallEtaleTopology
-mathlib_file: Mathlib/AlgebraicGeometry/Sites/Etale.lean
----
-
 # The small étale site of a scheme
 
 For a scheme $X$, the small étale site has schemes étale over $X$ as objects

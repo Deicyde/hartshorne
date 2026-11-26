@@ -1,12 +1,3 @@
----
-article_id: af_6c5def371c0511bc41bb5822
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveSpace_satisfiesConditionStar Hartshorne.projectiveSpaceWeilDivisorDegree Hartshorne.projectiveSpaceWeilDivisorDegree_apply Hartshorne.projectivePrimeDivisorEquationDegree_eq Hartshorne.projectiveHyperplanePrimeDivisor Hartshorne.projectiveSpace_linearEquivalent_degree_smul_hyperplane Hartshorne.projectiveSpaceWeilDivisorDegree_principalDivisor Hartshorne.projectiveSpaceClassGroupEquiv Hartshorne.projectiveSpaceClassGroupEquiv_weilDivisorClassHom Hartshorne.projectiveSpaceClassGroupEquiv_hyperplane
----
-
 # The class group of projective space
 
 Let $k$ be a field and $n \ge 1$. For a Weil divisor on $\mathbb{P}^n_k$, define its

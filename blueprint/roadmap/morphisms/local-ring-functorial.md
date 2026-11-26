@@ -1,12 +1,3 @@
----
-article_id: af_59bf5c5a065cb7280464d06c
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.VarietyHom.localRingHom
----
-
 # The local ring is functorial
 
 A morphism $\varphi:X\to Y$ induces a contravariant ring map

@@ -1,12 +1,3 @@
----
-article_id: af_44d786c91bea248dd1d96d55
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_isGeneratedBySections_tensorPowerTwist_of_projective
----
-
 # Serre global generation
 
 Let $X$ be projective over a Noetherian ring $A$, let $\mathcal{O}_X(1)$ be a very ample

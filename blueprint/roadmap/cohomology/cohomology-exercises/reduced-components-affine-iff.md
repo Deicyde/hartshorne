@@ -1,12 +1,3 @@
----
-article_id: af_9beba574a4fcba63ef574292
-declaration: theorem
-origin: cited
-lean: Hartshorne.isAffine_iff_forall_irreducibleComponents_isAffine
-statement: formalized
-proof: formalized
----
-
 # Affineness of reduced irreducible components
 
 A reduced Noetherian scheme is affine if and only if each of its irreducible

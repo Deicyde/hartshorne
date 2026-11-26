@@ -1,12 +1,3 @@
----
-article_id: af_e2b12c96da8249f2a9c75798
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.coordinateRing_affineProductEquiv
----
-
 # The coordinate ring of an affine product
 
 For affine varieties $X\subseteq\mathbb A^m$ and

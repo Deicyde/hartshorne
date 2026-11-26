@@ -1,12 +1,3 @@
----
-article_id: af_743137b6496db0b30c6cc4d2
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsLocalCompleteIntersectionIn
----
-
 # Local complete intersections in a nonsingular ambient variety
 
 Let $Y$ be a closed subscheme of a nonsingular variety $X$. Define $Y$ to be a

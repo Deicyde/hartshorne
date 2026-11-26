@@ -1,9 +1,3 @@
----
-article_id: af_e53f6e30981d4a8b472b7178
-declaration: isomorphism
-origin: cited
----
-
 # The standard graded Čech complex
 
 Let $A$ be Noetherian, $S=A[x_{0},\ldots ,x_{r}]$, $r\ge 1$, $X=\operatorname{Proj} S$, and

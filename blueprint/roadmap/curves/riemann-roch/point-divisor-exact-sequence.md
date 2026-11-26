@@ -1,9 +1,3 @@
----
-article_id: af_b488a50018db3449aeac5cfd
-declaration: theorem
-origin: cited
----
-
 # The point-divisor exact sequence
 
 Let $P$ be a closed point of a Chapter IV curve. As an effective Cartier

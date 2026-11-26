@@ -1,9 +1,3 @@
----
-article_id: af_51b90c3b5c04ae97c6d873cb
-declaration: theorem
-origin: cited
----
-
 # Automorphisms act transitively on an elliptic curve
 
 For any two closed points $P,Q$ of an elliptic curve, there is a scheme

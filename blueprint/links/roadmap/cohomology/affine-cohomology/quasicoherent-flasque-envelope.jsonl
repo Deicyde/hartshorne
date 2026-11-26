@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/cohomology/affine-cohomology/quasicoherent-flasque-envelope.md"}], "object": [{"location": {"declaration": "Hartshorne.exists_mono_isFlasque_isQuasicoherent"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_c21cc96fe039f9f6878f806d", "extensions": {"org.autoform": {"origin": "cited"}}}

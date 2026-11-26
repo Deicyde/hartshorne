@@ -1,9 +1,3 @@
----
-article_id: af_49d02c3c5e4afeb0294bece2
-declaration: theorem
-origin: cited
----
-
 # Irreducible curves when the invariant is negative
 
 Let $X$ be ruled over a genus-$g$ curve with $e<0$, and assume either

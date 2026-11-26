@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/separated-morphisms/quasi-compact-image-closed.md"}], "object": [{"location": {"declaration": "Hartshorne.isClosed_range_iff_stableUnderSpecialization"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_2578974926636e66e8b2c175", "extensions": {"org.autoform": {"origin": "cited"}}}

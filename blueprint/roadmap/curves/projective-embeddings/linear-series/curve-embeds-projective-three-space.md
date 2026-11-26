@@ -1,9 +1,3 @@
----
-article_id: af_9515e7d6cd854d34e3ed04f6
-declaration: theorem
-origin: cited
----
-
 # Every curve embeds in projective three-space
 
 Every Chapter IV curve admits a closed immersion into $\mathbb{P}^3$.

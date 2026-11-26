@@ -1,12 +1,3 @@
----
-article_id: af_e7855d30b528371d2b2b6b45
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.krullAkizuki_principalQuotient_isFiniteLength
----
-
 # Principal quotients of finite-rank modules have finite length
 
 Let $A$ be a one-dimensional Noetherian domain with fraction field $K$, let

@@ -1,12 +1,3 @@
----
-article_id: af_0b225b32d588e72963878689
-declaration: def
-origin: cited
-lean: AlgebraicGeometry.ProjectiveSpaceBundle AlgebraicGeometry.linearSubstitutionGradedHom AlgebraicGeometry.projLinearAut AlgebraicGeometry.projectiveSpaceAffineChart AlgebraicGeometry.Scheme.Modules.nonempty_projectiveSpaceBundle_projectiveBundleProj
-statement: formalized
-proof: formalized
----
-
 # Projective-space bundles
 
 Define a projective $n$-space bundle over $X$ as a morphism locally isomorphic

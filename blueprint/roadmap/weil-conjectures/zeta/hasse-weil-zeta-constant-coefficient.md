@@ -1,12 +1,3 @@
----
-article_id: af_33b90b744269da1932fb678d
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.hasseWeilZetaSeries_constantCoeff
----
-
 # The Hasse–Weil zeta series has constant coefficient one
 
 For every finite-type scheme $X$ over a finite field,

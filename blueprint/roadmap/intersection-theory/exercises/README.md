@@ -1,7 +1,3 @@
----
-article_id: af_3491e65e4a053cf278025d75
----
-
 # Later-used Appendix A exercises
 
 - [Proper generically finite pushforward preserves linear equivalence](../chow/cycles/exercises/proper-generically-finite-divisor-pushforward.md)

@@ -1,7 +1,3 @@
----
-article_id: af_8397f8aa1285be2494a7095e
----
-
 # Birational transformations and minimal models
 
 Hartshorne V.5 proves factorization of birational maps of smooth projective

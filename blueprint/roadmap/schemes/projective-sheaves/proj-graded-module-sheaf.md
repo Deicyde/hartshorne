@@ -1,12 +1,3 @@
----
-article_id: af_a1514e0312b258aa9beb8176
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projGradedModuleSheaf Hartshorne.ProjGradedModuleSheaf.stalkLinearEquiv Hartshorne.ProjGradedModuleSheaf.stalkLinearEquiv_germ Hartshorne.ProjGradedModuleSheaf.chartIso Hartshorne.ProjGradedModuleSheaf.isQuasicoherent Hartshorne.ProjGradedModuleSheaf.isCoherent
----
-
 # The sheaf of a graded module on Proj
 
 For a graded ring $S$ and graded $S$-module $M$, construct an

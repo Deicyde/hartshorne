@@ -1,9 +1,3 @@
----
-article_id: af_fe76125c48f7e7797010595e
-declaration: theorem
-origin: cited
----
-
 # Cohomology and base change
 
 Let $f : X \to Y$ be projective between Noetherian schemes and let $F$ be a

@@ -1,7 +1,3 @@
----
-article_id: af_d30e42b7fc6d70a061a0fd65
----
-
 # Hartshorne, Algebraic Geometry
 
 An ordered guide to the definitions, theorems, and proof prerequisites in

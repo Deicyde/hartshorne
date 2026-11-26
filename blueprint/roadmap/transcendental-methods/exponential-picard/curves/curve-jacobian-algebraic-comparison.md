@@ -1,10 +1,3 @@
----
-article_id: af_4bd811f7e676520bb269192c
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Comparison with the algebraic Jacobian
 
 For a smooth projective complex genus-$g$ curve, the analytic torus

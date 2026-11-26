@@ -1,7 +1,3 @@
----
-article_id: af_3e547783c55e024152fb5a10
----
-
 # Degree and Bézout
 
 This chapter derives the basic degree identities, defines hypersurface

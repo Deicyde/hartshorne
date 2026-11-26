@@ -1,12 +1,3 @@
----
-article_id: af_6f4cedce9dd6f4d6acb39f77
-declaration: class
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsFinite
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Finite.lean
----
-
 # Finite morphisms
 
 A morphism $f : X \to Y$ is finite when every affine open $V \subseteq Y$ has affine inverse image and the induced coordinate-ring map is module finite.

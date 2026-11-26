@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/bezout/union-coordinate-ring-exact-sequence.md"}], "object": [{"location": {"declaration": "Hartshorne.unionCoordinateRing_exact"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_82927206aa5b303a075e9d11", "extensions": {"org.autoform": {"origin": "bridged"}}}

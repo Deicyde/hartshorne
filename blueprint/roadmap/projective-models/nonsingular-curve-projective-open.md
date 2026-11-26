@@ -1,12 +1,3 @@
----
-article_id: af_b2943a5ecb081bae1a005ce2
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsQuasiProjVariety.exists_nonsingular_projective_open_model
----
-
 # Completion of a nonsingular curve
 
 Every nonsingular quasi-projective curve is isomorphic to an open subcurve of

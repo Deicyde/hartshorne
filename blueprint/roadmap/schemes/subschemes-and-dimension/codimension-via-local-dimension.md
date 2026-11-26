@@ -1,12 +1,3 @@
----
-article_id: af_44b83243fe293608bea01657
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.codim_eq_iInf_ringKrullDim_stalk
----
-
 # Codimension as an infimum of local dimensions
 
 Let $X$ be an integral scheme of finite type over a field, and let $Y \subseteq X$ be

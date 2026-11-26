@@ -1,12 +1,3 @@
----
-article_id: af_1ead9758110d121889ff1b66
-declaration: theorem
-origin: cited
-lean: Hartshorne.QuasicoherentIdealSubsheaf.blowupPowIso Hartshorne.QuasicoherentIdealSubsheaf.blowupPowIso_hom_blowupProjection Hartshorne.QuasicoherentIdealSubsheaf.isCoherent_pow Hartshorne.reesVeronese Hartshorne.reesVeroneseInv Hartshorne.projReesVeroneseIso
-statement: formalized
-proof: formalized
----
-
 # Blowups are invariant under powers of the center
 
 For every coherent ideal $I$ and positive integer $d$, the blowup along $I^d$

@@ -1,10 +1,3 @@
----
-article_id: af_bb88cb0216efbfbbc66d1cc3
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The Gruson–Peskine proof of Halphen's existence classification
 
 Adopt a precise modern statement and proof of Halphen's general

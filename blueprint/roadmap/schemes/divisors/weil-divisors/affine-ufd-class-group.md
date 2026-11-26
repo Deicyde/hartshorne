@@ -1,12 +1,3 @@
----
-article_id: af_c4d1f0593a727c972632e4f6
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.uniqueFactorizationMonoid_iff_isNormal_spec_and_weilClassGroup_subsingleton
----
-
 # The affine UFD class-group criterion
 
 For a Noetherian domain $A$, prove that $A$ is a unique factorization domain

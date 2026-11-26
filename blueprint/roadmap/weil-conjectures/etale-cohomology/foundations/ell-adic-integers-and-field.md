@@ -1,12 +1,3 @@
----
-article_id: af_e3cca5b53e68a242841d754a
-declaration: structure
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.EllAdicCoefficientPackage
----
-
 # The ℓ-adic integers and coefficient field
 
 For a prime $\ell$, the ring of $\ell$-adic integers is

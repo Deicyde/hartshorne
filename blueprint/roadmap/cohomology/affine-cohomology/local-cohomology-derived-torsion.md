@@ -1,12 +1,3 @@
----
-article_id: af_91220b35caef1aca051b5e58
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.idealPowerTorsionFunctor Hartshorne.localCohomology Hartshorne.localCohomologyZeroIso
----
-
 # Algebraic local cohomology as derived torsion
 
 For a Noetherian ring $A$ and ideal $a$, the ideal-power torsion functor

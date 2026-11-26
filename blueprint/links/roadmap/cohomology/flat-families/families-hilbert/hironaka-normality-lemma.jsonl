@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/cohomology/flat-families/families-hilbert/hironaka-normality-lemma.md"}], "object": [{"location": {"declaration": "Hartshorne.hironaka_normality_lemma"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_7d5b5dcb8f543a104d25695b", "extensions": {"org.autoform": {"origin": "cited"}}}

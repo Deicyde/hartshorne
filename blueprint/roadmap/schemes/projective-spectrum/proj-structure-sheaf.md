@@ -1,12 +1,3 @@
----
-article_id: af_7e7c8bfc45525013c0d6b59b
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Proj.toLocallyRingedSpace
-mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/StructureSheaf.lean
----
-
 # The structure sheaf on Proj
 
 At a relevant homogeneous prime $\mathfrak{p}$, let $S_{(\mathfrak p)}$ be the degree-zero part of

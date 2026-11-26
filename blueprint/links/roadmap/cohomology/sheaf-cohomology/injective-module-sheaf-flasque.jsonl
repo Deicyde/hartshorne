@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/cohomology/sheaf-cohomology/injective-module-sheaf-flasque.md"}], "object": [{"location": {"declaration": "Hartshorne.injectiveModuleSheaf_isFlasque"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_097bf715c669908a47568ca2", "extensions": {"org.autoform": {"origin": "cited"}}}

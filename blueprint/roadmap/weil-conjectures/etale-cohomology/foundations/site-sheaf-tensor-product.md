@@ -1,12 +1,3 @@
----
-article_id: af_4a270209c8460746b8d4cd54
-declaration: def
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.sheafTensor Hartshorne.sheafTensorMap Hartshorne.sheafTensorMap_id Hartshorne.sheafTensorMap_comp Hartshorne.sheafTensorMap_comp_isoTensor Hartshorne.sheafTensorMonoidal Hartshorne.sheafTensorSymmetric Hartshorne.sheafTensorUnit_eq Hartshorne.sheafTensorIsoTensor Hartshorne.sheafTensorIsoTensor_hom_tmul Hartshorne.AbSheaf.associator_hom_tmulSection Hartshorne.AbSheaf.leftUnitor_hom_tmulSection Hartshorne.AbSheaf.rightUnitor_hom_tmulSection Hartshorne.AbSheaf.braiding_hom_tmulSection Hartshorne.sheafificationBraided Hartshorne.sheafTensorPowSucc Hartshorne.sheafTensorPowSuccFunctor Hartshorne.sheafTensorPowSuccAddIso Hartshorne.abSheafW_isMonoidal_of_essentiallySmall Hartshorne.abSheafW_isMonoidal_of_isCoverDense AlgebraicGeometry.Scheme.etaleW_isMonoidal
----
-
 # Tensor products of abelian sheaves on a site
 
 Let $(\mathcal C,J)$ be a site that is essentially small, or that has an essentially small dense subsite whose sheaf category is equivalent to that of $(\mathcal C,J)$; then presheaves of abelian groups on it have associated sheaves.

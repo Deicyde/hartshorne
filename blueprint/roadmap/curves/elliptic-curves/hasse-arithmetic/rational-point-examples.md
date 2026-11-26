@@ -1,10 +1,3 @@
----
-article_id: af_436be21844ae3cf373512489
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The Fermat and Tate rational-point examples
 
 The Fermat cubic $x^3+y^3=z^3$ has exactly three rational points, which form

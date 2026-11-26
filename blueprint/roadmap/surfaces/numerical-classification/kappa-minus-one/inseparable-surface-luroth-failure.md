@@ -1,10 +1,3 @@
----
-article_id: af_5d782f24c2e3680924ef2733
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Surface Lüroth fails without separability
 
 In positive characteristic there are algebraically closed fields $k$ and

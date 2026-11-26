@@ -1,9 +1,3 @@
----
-article_id: af_c54cfeb67dc9df26fbee97f7
-declaration: definition
-origin: cited
----
-
 # Frobenius on first cohomology and the Hasse invariant
 
 Let $X$ be an elliptic curve over an algebraically closed field $k$ of

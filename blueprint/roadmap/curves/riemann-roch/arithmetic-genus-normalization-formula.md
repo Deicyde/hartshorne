@@ -1,9 +1,3 @@
----
-article_id: af_df4c4a289cd81c0cfbc23bd6
-declaration: theorem
-origin: cited
----
-
 # Arithmetic genus under normalization
 
 With the normalization defect notation,

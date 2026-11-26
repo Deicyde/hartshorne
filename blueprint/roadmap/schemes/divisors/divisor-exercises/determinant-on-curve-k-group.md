@@ -1,9 +1,3 @@
----
-article_id: af_f91cfd30970e87c9d6797994
-declaration: theorem
-origin: cited
----
-
 # Determinant on the Grothendieck group of a curve
 
 Let $X$ be a nonsingular curve over an algebraically closed field. Every

@@ -1,10 +1,3 @@
----
-article_id: af_2acbe1b9d2daf54efdb7c1c9
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Mumford's coarse moduli variety of curves
 
 For every $g\ge 2$, there is a coarse moduli variety $M_g$ whose closed points

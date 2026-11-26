@@ -1,12 +1,3 @@
----
-article_id: af_086741f04b12f875a3c34599
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: TopCat.Sheaf.isLocallySurjective_iff_epi
-mathlib_file: Mathlib/Topology/Sheaves/LocallySurjective.lean
----
-
 # Epimorphisms are locally surjective
 
 A morphism of sheaves of abelian groups is epic if and only if every section

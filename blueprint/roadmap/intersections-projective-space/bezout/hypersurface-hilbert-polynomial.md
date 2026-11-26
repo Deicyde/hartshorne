@@ -1,12 +1,3 @@
----
-article_id: af_cfa44c986c3be95861967648
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.hypersurface_hilbertPolynomial_and_degree
----
-
 # A degree-d hypersurface has degree d
 
 Assume $n > 0$. Let $f \in k[x_{0},\ldots ,x_{n}]$ be an irreducible homogeneous

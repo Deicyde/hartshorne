@@ -1,12 +1,3 @@
----
-article_id: af_c5aaa0cd7091b530bdb5a3c7
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.FunctionField
----
-
 # The function field of an arbitrary variety
 
 For a variety $X$, rational functions are represented by regular functions

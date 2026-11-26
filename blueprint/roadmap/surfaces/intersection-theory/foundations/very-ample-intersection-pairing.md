@@ -1,9 +1,3 @@
----
-article_id: af_f05bcba26c521bb4e347db7e
-declaration: theorem
-origin: cited
----
-
 # Intersection of very ample divisors
 
 For very ample divisor classes $C ,D$ on a Chapter V surface, choose smooth

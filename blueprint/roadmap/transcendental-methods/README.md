@@ -1,7 +1,3 @@
----
-article_id: af_739e6ba91708dadd3458cfbf
----
-
 # Transcendental methods
 
 Hartshorne Appendix B connects algebraic geometry with complex analysis

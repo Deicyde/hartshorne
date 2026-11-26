@@ -1,10 +1,3 @@
----
-article_id: af_9099261931afe16f8edd7b10
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The SGA6 lci extension of GRR
 
 Let $Y$ be Noetherian with an ample invertible sheaf and let $f:X\to Y$ be a

@@ -1,12 +1,3 @@
----
-article_id: af_6fcb9ec05f4b4d2a25418790
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.dim
----
-
 # Dimension of a topological space and of a ring
 
 The *dimension* of a topological space $X$ is the supremum of the integers

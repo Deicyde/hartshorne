@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/divisors/cartier-picard/cartier-class-group.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.Scheme.CartierClassGroup"}, "role": "states"}], "status": "formalized", "kind": "abbrev", "id": "af_c40ccbe30e672e8f50d0163b", "extensions": {"org.autoform": {"origin": "cited"}}}

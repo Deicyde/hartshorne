@@ -1,9 +1,3 @@
----
-article_id: af_ce67a26922b17b6eceedbcb1
-declaration: theorem
-origin: cited
----
-
 # The j-invariant is rational in Weierstrass coefficients
 
 For a nonsingular Weierstrass plane cubic

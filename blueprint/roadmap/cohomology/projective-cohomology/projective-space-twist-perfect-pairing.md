@@ -1,9 +1,3 @@
----
-article_id: af_4f4c0521636cffbdd3a76d94
-declaration: theorem
-origin: cited
----
-
 # The perfect twist pairing
 
 For every $n \in \mathbb{Z}$, multiplication followed by the negative-monomial trace gives

@@ -1,9 +1,3 @@
----
-article_id: af_837cb88806e03ce10a12219d
-declaration: theorem
-origin: cited
----
-
 # Coordinate inequalities for the ample cone and smooth members
 
 For $D\sim al-\sum_i b_i e_i$ on the marked cubic surface, the following are

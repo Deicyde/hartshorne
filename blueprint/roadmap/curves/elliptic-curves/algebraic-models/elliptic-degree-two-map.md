@@ -1,9 +1,3 @@
----
-article_id: af_c6acbe700b34edf59a992925
-declaration: theorem
-origin: cited
----
-
 # The degree-two map attached to a pointed elliptic curve
 
 Let $X$ be a genus-one Chapter IV curve over an algebraically closed field of

@@ -1,9 +1,3 @@
----
-article_id: af_6a75c9941006691666969075
-declaration: isomorphism
-origin: cited
----
-
 # Restriction of higher direct images to an open base
 
 Let $j : V \to Y$ be an open immersion, let $f' : f^{-1}(V) \to V$ be the

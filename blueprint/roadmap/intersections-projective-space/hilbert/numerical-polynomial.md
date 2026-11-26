@@ -1,12 +1,3 @@
----
-article_id: af_e1172cc5a288e77e36d14b58
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsNumericalPolynomial
----
-
 # Numerical polynomials
 
 A polynomial $P\in\mathbb Q[z]$ is *numerical* if $P(n)$ is an integer

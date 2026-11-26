@@ -1,9 +1,3 @@
----
-article_id: af_1e0776da65772b996afa96a1
-declaration: theorem
-origin: cited
----
-
 # At least nine general blowups have infinitely many exceptional curves
 
 Assume the algebraically closed ground field is uncountable. Blow up

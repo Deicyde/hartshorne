@@ -1,9 +1,3 @@
----
-article_id: af_265db63a716d3b0f270c10b0
-declaration: theorem
-origin: cited
----
-
 # Differentials and canonical divisors on a curve
 
 For a Chapter IV curve $X$, the relative differential sheaf $\Omega [X/k]$ is

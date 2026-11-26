@@ -1,9 +1,3 @@
----
-article_id: af_0c732e5029cb0d5954d01931
-declaration: theorem
-origin: cited
----
-
 # Birkhoff–Grothendieck splitting on the projective line
 
 Every finite-rank locally free sheaf $E$ on $\mathbb{P}^1$ is isomorphic to a direct

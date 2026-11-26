@@ -1,12 +1,3 @@
----
-article_id: af_9580fea2449e7376bca1ba58
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveHypersurfaceSectionComponent_projDim_eq
----
-
 # Proper hypersurface sections are equidimensional
 
 Assume $n>0$. Let $Y\subseteq\mathbb P^n$ be a projective variety of

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/separated-morphisms/diagonal-range-closed.md"}], "object": [{"location": {"declaration": "Hartshorne.isSeparated_iff_isClosed_range_diagonal"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_211f39a4ee5bfc6bdffb1831", "extensions": {"org.autoform": {"origin": "cited"}}}

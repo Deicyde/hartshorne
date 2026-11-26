@@ -1,12 +1,3 @@
----
-article_id: af_af1e2ae4cfbebae9dc657103
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_epi_sigma_tensorZPow_of_projective Hartshorne.tensorZPow
----
-
 # Finite twisted free covers
 
 Let $X$ be projective over a Noetherian ring. Every coherent $\mathcal{O}_X$-module is

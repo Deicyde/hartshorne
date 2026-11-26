@@ -1,7 +1,3 @@
----
-article_id: af_ecb013ebbdc908ad91523f98
----
-
 # Projective varieties
 
 Projective geometry uses homogeneous equations in projective $n$-space

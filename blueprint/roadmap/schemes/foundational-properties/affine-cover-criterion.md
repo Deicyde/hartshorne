@@ -1,12 +1,3 @@
----
-article_id: af_9792e3a0be9c839d50f33903
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.isAffine_of_isAffineOpen_basicOpen
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Affine.lean
----
-
 # A finite principal-open affine criterion
 
 If $f_{1},\ldots ,f_{r} \in \Gamma (X,\mathcal{O} _X)$ generate the unit ideal

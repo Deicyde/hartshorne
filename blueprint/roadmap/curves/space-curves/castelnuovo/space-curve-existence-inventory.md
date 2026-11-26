@@ -1,9 +1,3 @@
----
-article_id: af_13821865e61070aba31c87e4
-declaration: theorem
-origin: cited
----
-
 # Inventory of known space-curve constructions
 
 The following families have the stated degrees and genera:

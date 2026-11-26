@@ -1,9 +1,3 @@
----
-article_id: af_26e164f23127b05fa632ca56
-declaration: theorem
-origin: cited
----
-
 # The genus-three moduli strata
 
 Over an algebraically closed field of characteristic zero, assuming $M_3$,

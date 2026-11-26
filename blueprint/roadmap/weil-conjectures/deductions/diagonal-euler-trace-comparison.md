@@ -1,9 +1,3 @@
----
-article_id: af_23a2da8096e18fc2e0d9e0e2
-declaration: theorem
-origin: cited
----
-
 # Diagonal self-intersection and cohomological Euler characteristic
 
 For a smooth projective variety, the self-intersection number of the diagonal

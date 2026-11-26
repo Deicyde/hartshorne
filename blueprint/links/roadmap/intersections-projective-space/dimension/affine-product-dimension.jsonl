@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/dimension/affine-product-dimension.md"}], "object": [{"location": {"declaration": "Hartshorne.dim_affineProduct"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_7235a2f155374776b41b4872", "extensions": {"org.autoform": {"origin": "cited"}}}

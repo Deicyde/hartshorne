@@ -1,9 +1,3 @@
----
-article_id: af_bfd7cf93a9e68944afe9f30d
-declaration: theorem
-origin: cited
----
-
 # Proper reduced curves are projective
 
 Every proper reduced one-dimensional scheme over an algebraically closed

@@ -1,9 +1,3 @@
----
-article_id: af_57d77d3472324284eae0dfe2
-declaration: theorem
-origin: cited
----
-
 # Invariant minus two is impossible over an elliptic curve
 
 There is no normalized indecomposable rank-two bundle of invariant $e=-2$

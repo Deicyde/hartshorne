@@ -1,10 +1,3 @@
----
-article_id: af_e76aa6830ed04bb8b3b29446
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Local residues on a nonsingular curve
 
 Let $X$ be a complete nonsingular curve over an algebraically closed field

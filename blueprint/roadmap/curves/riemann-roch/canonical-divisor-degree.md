@@ -1,9 +1,3 @@
----
-article_id: af_deef2841e849ccb20fc6072b
-declaration: theorem
-origin: cited
----
-
 # The degree of a canonical divisor
 
 On a Chapter IV curve of genus $g$, every canonical divisor $K$ has degree

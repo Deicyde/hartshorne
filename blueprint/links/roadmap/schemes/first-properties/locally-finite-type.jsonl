@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/first-properties/locally-finite-type.md"}], "object": [{"location": {"declaration": "Hartshorne.locallyOfFiniteType_iff_affineCovers"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_1a29a305023b847c4951dee1", "extensions": {"org.autoform": {"origin": "cited"}}}

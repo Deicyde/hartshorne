@@ -1,9 +1,3 @@
----
-article_id: af_19d60f2771966213b31a5852
-declaration: theorem
-origin: background
----
-
 # Every complex elliptic curve comes from a period lattice
 
 Let $c_2,c_3 \in \mathbb{C}$ satisfy $\Delta =c_2^3-27\cdot c_3^2 \ne 0$. There exist a nonreal

@@ -1,12 +1,3 @@
----
-article_id: af_84a1fe08857c7719e03e20fc
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.relativeSegre_eq_quadricSurfaceι Hartshorne.quadricSurfaceIsoSegreSource Hartshorne.quadricSurfaceι Hartshorne.ker_quadricCoordinateAlgHom Hartshorne.map_quadricCoordinateAlgHom_homogeneousSubmodule Hartshorne.quadricQuotientEquiv Hartshorne.projQuadricQuotientIso_hom_comp_quadricSurfaceι Hartshorne.projQuadricQuotientIso Hartshorne.ker_quadricSurfaceι Hartshorne.quadricSurfaceι_isClosedImmersion Hartshorne.QuadricRing Hartshorne.quadricGrading Hartshorne.quadricSurface Hartshorne.quadricIdeal Hartshorne.quadricQuotientHom
----
-
 # The split quadric surface is $\mathbb{P}^1 \times \mathbb{P}^1$
 
 Let $k$ be a field and let $x,y,z,w$ be the homogeneous coordinates of

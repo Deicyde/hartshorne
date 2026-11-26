@@ -1,12 +1,3 @@
----
-article_id: af_b501809e0faea306655db32d
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.reducible_plane_curve_bezout
----
-
 # Bézout for reducible plane curves without a common component
 
 Let $Y,Z\subseteq\mathbb P^2$ be projective algebraic sets of dimension

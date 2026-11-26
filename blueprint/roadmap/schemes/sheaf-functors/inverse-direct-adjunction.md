@@ -1,12 +1,3 @@
----
-article_id: af_f49fcf230234f702b571fac1
-declaration: definition
-origin: cited
-mathlib: true
-mathlib_declaration: TopCat.Sheaf.pullbackPushforwardAdjunction
-mathlib_file: Mathlib/Topology/Sheaves/Functors.lean
----
-
 # Inverse image is left adjoint to direct image
 
 For a continuous map $f : X \to Y$, sheaves $G$ on $Y$, and $F$ on $X$,

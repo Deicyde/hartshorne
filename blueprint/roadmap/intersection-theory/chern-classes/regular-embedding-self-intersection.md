@@ -1,10 +1,3 @@
----
-article_id: af_9b6d7c2ce48428cd944b22b2
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The regular-embedding self-intersection formula
 
 Let $i:Y\to X$ be a nonsingular closed subvariety of codimension $r$ in a

@@ -1,9 +1,3 @@
----
-article_id: af_8c75db0290464c4f2742f359
-declaration: theorem
-origin: cited
----
-
 # The local criterion for a nodal plane projection
 
 Let $X \to \mathbb{P}^3$ be an embedded Chapter IV curve, let $O$ lie outside $X$, and

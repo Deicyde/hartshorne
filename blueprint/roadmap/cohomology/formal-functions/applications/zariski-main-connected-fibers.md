@@ -1,9 +1,3 @@
----
-article_id: af_9a6620cdf66adc6f83ac5893
-declaration: theorem
-origin: cited
----
-
 # Zariski's Main Theorem: connected fibres
 
 Let $f : X \to Y$ be a birational projective morphism of Noetherian integral

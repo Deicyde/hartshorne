@@ -1,9 +1,3 @@
----
-article_id: af_4f1ec4e37c523c00054c13fa
-declaration: theorem
-origin: cited
----
-
 # Ramification has finite support
 
 For a finite separable morphism of curves $f : X \to Y$, the sheaf

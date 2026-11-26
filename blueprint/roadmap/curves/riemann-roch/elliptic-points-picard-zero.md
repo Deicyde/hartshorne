@@ -1,9 +1,3 @@
----
-article_id: af_55402432abc177f1e7630123
-declaration: equivalence
-origin: cited
----
-
 # Points of a genus-one curve and its degree-zero Picard group
 
 Let $X$ be a Chapter IV curve of genus one and choose a closed point $P_0$.

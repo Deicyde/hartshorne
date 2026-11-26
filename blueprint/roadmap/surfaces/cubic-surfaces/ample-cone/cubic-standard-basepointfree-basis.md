@@ -1,9 +1,3 @@
----
-article_id: af_74bc0484941b78f4f0b2e23c
-declaration: theorem
-origin: cited
----
-
 # The standard basepoint-free basis
 
 In the Picard group of the marked cubic surface, set

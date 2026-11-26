@@ -1,10 +1,3 @@
----
-article_id: af_98dccfab9c6aaaae4d6f87bc
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Separable generically finite maps descend surface invariants
 
 Let $F:X \dashrightarrow Y$ be a dominant generically finite separable

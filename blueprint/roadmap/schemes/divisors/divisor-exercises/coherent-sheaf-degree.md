@@ -1,9 +1,3 @@
----
-article_id: af_34bb3a4e4f2a64b2ed1b9d07
-declaration: theorem
-origin: cited
----
-
 # Degree of a coherent sheaf on a curve
 
 Let $X$ be a complete nonsingular curve. Prove that there is a unique integer

@@ -1,12 +1,3 @@
----
-article_id: af_4d439f866589bc1e692ad888
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isRegular_iff_relativeDifferentials_isLocallyFreeOfRank Hartshorne.isIntegral_of_isRegular
----
-
 # Differentials characterize nonsingular varieties
 
 Let $X$ be an irreducible separated scheme of finite type over an

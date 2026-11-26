@@ -1,12 +1,3 @@
----
-article_id: af_bdf2ee1d54fb313109446a89
-declaration: class
-origin: cited
-mathlib: true
-mathlib_declaration: IrreducibleSpace
-mathlib_file: Mathlib/Topology/Irreducible.lean
----
-
 # Irreducible schemes
 
 A scheme is irreducible when its underlying topological space is irreducible.

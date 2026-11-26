@@ -1,7 +1,3 @@
----
-article_id: af_1884803bd167c034b188adc2
----
-
 # Blowups
 
 - [Rees algebras and blowups](rees-algebra-sheaf-and-blowup.md)

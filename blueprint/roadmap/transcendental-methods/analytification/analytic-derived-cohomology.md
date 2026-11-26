@@ -1,9 +1,3 @@
----
-article_id: af_6cefaaa97ff77d6c356d103f
-declaration: def
-origin: cited
----
-
 # Derived-functor cohomology on a complex analytic space
 
 Define cohomology of analytic module sheaves as the right derived functors of

@@ -1,12 +1,3 @@
----
-article_id: af_6941c1b179a9b3929ef4bbf0
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isProper_iff_dvr_valuativeCriterion
----
-
 # DVR-valuative criterion for properness
 
 Let $f : X \longrightarrow Y$ be a finite-type morphism of Noetherian schemes. Then $f$

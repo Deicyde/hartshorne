@@ -1,9 +1,3 @@
----
-article_id: af_bedc83ed332488f5c326f5c1
-declaration: theorem
-origin: cited
----
-
 # Eventual polynomiality for ample divisors
 
 If $D$ is ample on a nonsingular projective variety, then $\dim |nD|$ is a

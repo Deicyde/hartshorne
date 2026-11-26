@@ -1,9 +1,3 @@
----
-article_id: af_902a94b792274e4598bf7de3
-declaration: theorem
-origin: cited
----
-
 # Degree-zero classes on a nonsingular plane cubic
 
 Let $X : y^2 z = x^3 - xz^2$ be the nonsingular plane cubic over an

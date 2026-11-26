@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/proper-and-projective/projective-morphism-proper.md"}], "object": [{"location": {"declaration": "Hartshorne.Projective.isProper"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_1264b3b942e153cce1a77b1d", "extensions": {"org.autoform": {"origin": "cited"}}}

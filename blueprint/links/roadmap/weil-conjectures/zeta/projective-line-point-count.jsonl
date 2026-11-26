@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/weil-conjectures/zeta/projective-line-point-count.md"}], "object": [{"location": {"declaration": "Hartshorne.pointCountSequence_projectiveLine"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_c25452c2234849d3af094f90", "extensions": {"org.autoform": {"origin": "cited"}}}

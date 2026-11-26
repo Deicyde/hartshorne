@@ -1,7 +1,3 @@
----
-article_id: af_a92a7c4ebfd3816dafd30edc
----
-
 # Serre duality and dualizing sheaves
 
 This chapter constructs projective dualizing sheaves, proves Serre duality

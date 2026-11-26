@@ -1,12 +1,3 @@
----
-article_id: af_e1eda74acb08a146e3482be5
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.affineSpace_smoothOfRelativeDimension_finiteTypeOverField
----
-
 # Affine space is smooth in Hartshorne's setting
 
 Let $k$ be a field and let $Y$ be a scheme of finite type over $\operatorname{Spec} k$. For

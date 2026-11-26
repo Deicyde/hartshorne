@@ -1,9 +1,3 @@
----
-article_id: af_e9cd0b6380ba10d63bd84309
-declaration: definition
-origin: cited
----
-
 # The Todd class
 
 For a finite locally free sheaf $E$ with formal Chern roots $a_i$, define

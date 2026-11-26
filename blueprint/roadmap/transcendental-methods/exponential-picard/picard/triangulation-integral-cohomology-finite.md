@@ -1,10 +1,3 @@
----
-article_id: af_08d815f5ef0e264efaad5c09
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Triangulation gives finitely generated integral cohomology
 
 The analytification of a complex algebraic variety is triangulable. Therefore

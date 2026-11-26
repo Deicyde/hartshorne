@@ -1,9 +1,3 @@
----
-article_id: af_258cedcef23ed48474e1995d
-declaration: def
-origin: cited
----
-
 # Exceptional curves of the first kind
 
 An exceptional curve of the first kind on a nonsingular projective surface is

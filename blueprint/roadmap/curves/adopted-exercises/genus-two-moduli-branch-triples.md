@@ -1,9 +1,3 @@
----
-article_id: af_79cd1314b29e05ddc2dce9b8
-declaration: theorem
-origin: cited
----
-
 # Genus-two curves are parametrized by branch triples
 
 Every ordered triple of distinct points of $\mathbb{P}^1$ is carried uniquely to

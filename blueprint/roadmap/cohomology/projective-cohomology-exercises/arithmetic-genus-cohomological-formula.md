@@ -1,9 +1,3 @@
----
-article_id: af_d621423f0cf2957bd3b8ea1e
-declaration: theorem
-origin: cited
----
-
 # Arithmetic genus and cohomology
 
 For a projective scheme $X$ of dimension $r$ over a field, define

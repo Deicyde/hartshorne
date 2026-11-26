@@ -1,12 +1,3 @@
----
-article_id: af_4ff6678fe30f65e86a6bb8b4
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.isIso_absoluteNormalizationMap_restrict_of_isNormal
----
-
 # The normalization is an isomorphism over a normal open
 
 Let $X$ be an integral scheme with normalization $\nu : \widetilde{X} \to X$, and let

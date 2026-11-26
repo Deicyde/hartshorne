@@ -1,10 +1,3 @@
----
-article_id: af_d6f0208bd260e0fe41e93b70
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The global residue theorem
 
 For every rational differential $\eta \in \Omega _{(K/k)}$ on a complete nonsingular

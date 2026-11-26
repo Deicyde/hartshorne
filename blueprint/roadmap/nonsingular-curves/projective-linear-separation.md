@@ -1,12 +1,3 @@
----
-article_id: af_53cc18015910ca620822fa44
-declaration: lemma
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_linear_forms_separating_projective_points
----
-
 # Linear fractions separate projective points
 
 Let $P\ne Q$ be points of projective space over the algebraically closed

@@ -1,9 +1,3 @@
----
-article_id: af_22bfbf8e338d81c1c0a97dab
-declaration: theorem
-origin: cited
----
-
 # Two-torsion and the degree-two pencil
 
 A point $P$ on a pointed elliptic curve has order dividing two exactly when

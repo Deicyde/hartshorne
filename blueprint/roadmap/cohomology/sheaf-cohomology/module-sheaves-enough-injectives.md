@@ -1,12 +1,3 @@
----
-article_id: af_572e68b826e8320afd8b7c41
-declaration: theorem
-origin: cited
-lean: Hartshorne.moduleSheaves_enoughInjectives
-statement: formalized
-proof: formalized
----
-
 # Module sheaves have enough injectives
 
 For a ringed space $(X,\mathcal{O}_X)$, every sheaf of $\mathcal{O}_X$-modules admits a

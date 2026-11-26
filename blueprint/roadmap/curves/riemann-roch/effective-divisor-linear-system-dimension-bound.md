@@ -1,9 +1,3 @@
----
-article_id: af_e57814eb743c332e5f11b056
-declaration: theorem
-origin: cited
----
-
 # The dimension bound for an effective divisor
 
 Let $D$ be an effective divisor on a Chapter IV curve of genus $g$. Then

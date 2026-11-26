@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/weil-conjectures/zeta/projective-line-zeta-function.md"}], "object": [{"location": {"declaration": "Hartshorne.hasseWeilZetaSeries_projectiveLine"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_22776d0fa8f18f49063c6e2d", "extensions": {"org.autoform": {"origin": "cited"}}}

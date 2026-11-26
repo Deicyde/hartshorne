@@ -1,12 +1,3 @@
----
-article_id: af_62bd92ce3f60f2c51058d115
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveDegree_eq_sum_projectiveComponents
----
-
 # Degree of a pure projective curve is the sum of component degrees
 
 Let $Y\subseteq\mathbb P^2$ be a projective algebraic set of dimension

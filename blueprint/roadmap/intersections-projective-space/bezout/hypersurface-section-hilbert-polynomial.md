@@ -1,12 +1,3 @@
----
-article_id: af_04d24636e86b8040a6664a1a
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.hypersurfaceSection_hilbertPolynomial_and_leadingCoeff
----
-
 # The Hilbert polynomial of a hypersurface section is a difference
 
 Let $Y$ be a projective variety and let $H = Z(f)$ be a degree-$d$

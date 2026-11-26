@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/projective-model-local-rings.md"}], "object": [{"location": {"declaration": "Hartshorne.projectiveDiagonal_localRingRange_eq"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_23b2537cc3ff2433010bec6d", "extensions": {"org.autoform": {"origin": "bridged"}}}

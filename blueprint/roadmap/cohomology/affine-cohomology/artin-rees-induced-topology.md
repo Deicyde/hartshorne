@@ -1,12 +1,3 @@
----
-article_id: af_af2bf5d05b56c3bddb7d1a51
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.artinRees_inducedTopology
----
-
 # Artin–Rees induced topology
 
 Let $A$ be Noetherian, $a$ an ideal, and $M \subseteq N$ finite $A$-modules. For

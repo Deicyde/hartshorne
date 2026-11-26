@@ -1,12 +1,3 @@
----
-article_id: af_06e9acaca163bf53920d3e2e
-declaration: theorem
-origin: bridged
-lean: AlgebraicGeometry.Scheme.relativeDifferentials_universal
-statement: formalized
-proof: formalized
----
-
 # The universal property of the relative differential sheaf
 
 For a scheme morphism $f : X \to Y$ and an $\mathcal{O} _X$-module $M$, composition with

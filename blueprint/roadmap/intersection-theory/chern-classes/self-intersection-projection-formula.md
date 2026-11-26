@@ -1,9 +1,3 @@
----
-article_id: af_f02861bbe175ecb1a0b14566
-declaration: theorem
-origin: cited
----
-
 # The projected self-intersection formula
 
 Under the hypotheses of the regular-embedding self-intersection theorem,

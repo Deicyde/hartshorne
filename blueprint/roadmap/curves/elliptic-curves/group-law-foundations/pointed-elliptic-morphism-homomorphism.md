@@ -1,9 +1,3 @@
----
-article_id: af_0039964240f0dad2efb2c24e
-declaration: theorem
-origin: cited
----
-
 # Pointed morphisms are homomorphisms
 
 Let $f : (X,P_0) \to (X',P'_0)$ be a morphism of pointed elliptic curves.

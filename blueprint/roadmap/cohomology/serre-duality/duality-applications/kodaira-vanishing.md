@@ -1,10 +1,3 @@
----
-article_id: af_43192f71c47b04d146a9f672
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Kodaira vanishing
 
 Let $X$ be a nonsingular projective complex variety of dimension $n$, and

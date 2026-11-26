@@ -1,9 +1,3 @@
----
-article_id: af_702716c82479811e1a71b787
-declaration: natural transformation
-origin: cited
----
-
 # The formal-functions comparison map
 
 For a projective morphism $f : X \to Y$ of Noetherian schemes, a coherent

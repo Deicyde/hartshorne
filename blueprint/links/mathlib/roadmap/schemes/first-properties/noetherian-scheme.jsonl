@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/first-properties/noetherian-scheme.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.isNoetherian_iff_of_finite_affine_openCover", "module": "Mathlib.AlgebraicGeometry.Noetherian"}}], "id": "af_3e20fae8ae51931559b4fa76"}

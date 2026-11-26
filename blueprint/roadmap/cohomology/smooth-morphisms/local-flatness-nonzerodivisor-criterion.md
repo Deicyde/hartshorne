@@ -1,12 +1,3 @@
----
-article_id: af_e7796a770635c750fe8f5d98
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.flat_iff_isSMulRegular_and_flat_quotSMulTop
----
-
 # The non-zero-divisor local criterion for flatness
 
 Let $A \to B$ be a local homomorphism of Noetherian local rings, let $M$ be a

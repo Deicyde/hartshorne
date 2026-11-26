@@ -1,9 +1,3 @@
----
-article_id: af_cca72061ae147c9db26c2391
-declaration: theorem
-origin: cited
----
-
 # The diagonal self-intersection is the top tangent Chern class
 
 Let $X$ be a nonsingular projective variety of dimension $n$, and let

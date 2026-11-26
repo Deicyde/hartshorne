@@ -1,9 +1,3 @@
----
-article_id: af_9ffc559d0f10221ca620d545
-declaration: isomorphism
-origin: cited
----
-
 # The tangent space of the Jacobian
 
 For a Jacobian $J$ of $X$, the tangent space at the identity is naturally

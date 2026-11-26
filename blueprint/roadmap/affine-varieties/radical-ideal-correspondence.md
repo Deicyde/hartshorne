@@ -1,12 +1,3 @@
----
-article_id: af_e7ef021d07d027ea3714eae3
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isIrreducible_iff_isPrime
----
-
 # Algebraic sets and radical ideals
 
 $Y \mapsto I(Y)$ and $\mathfrak{a} \mapsto Z(\mathfrak{a} )$ are mutually inverse, inclusion-reversing bijections

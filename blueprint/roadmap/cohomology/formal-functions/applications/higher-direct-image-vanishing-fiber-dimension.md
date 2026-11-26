@@ -1,9 +1,3 @@
----
-article_id: af_3593c3d595b41d9e85977241
-declaration: theorem
-origin: cited
----
-
 # Higher direct images vanish above the fibre dimension
 
 Let $f : X \to Y$ be a projective morphism of Noetherian schemes, let $F$ be a

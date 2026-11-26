@@ -1,9 +1,3 @@
----
-article_id: af_10e88fa14cc02e882980a4bd
-declaration: theorem
-origin: cited
----
-
 # The canonical divisor of a ruled surface
 
 With normalized notation and a canonical divisor $\kappa$ on the base curve,

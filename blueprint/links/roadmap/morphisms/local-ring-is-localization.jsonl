@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/morphisms/local-ring-is-localization.md"}], "object": [{"location": {"declaration": "Hartshorne.localizationEquivLocalRing"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_ee8518fd16a5e78a6cd4a378", "extensions": {"org.autoform": {"origin": "cited"}}}

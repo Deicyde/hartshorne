@@ -1,12 +1,3 @@
----
-article_id: af_adc120ac77975fd8f65f1adc
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.varietyAssociatedScheme Hartshorne.varietyAssociatedScheme_toSheafedSpace Hartshorne.varietyAssociatedScheme_presheaf Hartshorne.genericCompletionSheafedSpace Hartshorne.SchemeVarietyCat.toScheme
----
-
 # A variety with an affine-open basis has an associated scheme
 
 For a variety $V$ with an affine-open basis, the ringed space

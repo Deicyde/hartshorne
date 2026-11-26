@@ -1,9 +1,3 @@
----
-article_id: af_178e76efdf385a792f1924ea
-declaration: theorem
-origin: cited
----
-
 # Irreducibility of regular Bertini sections
 
 Let $X$ be a nonsingular projective variety of dimension at least two over an

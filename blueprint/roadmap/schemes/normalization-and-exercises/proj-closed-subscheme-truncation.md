@@ -1,12 +1,3 @@
----
-article_id: af_3d362d8f8650f81020fdb8a2
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ker_projQuotientι_homogeneousTruncation Hartshorne.exists_iso_projQuotientι_homogeneousTruncation Hartshorne.projQuotientι Hartshorne.gradedQuotient Hartshorne.homogeneousTruncation Hartshorne.mem_homogeneousTruncation_of_mem_iff
----
-
 # Homogeneous ideals and truncation define the same Proj subscheme
 
 A homogeneous ideal $I \subseteq S$ defines the closed subscheme $\operatorname{Proj} (S/I) \to \operatorname{Proj} S$. For any degree bound $d_{0}$, replacing $I$ by its truncation $\bigoplus _{d\ge d_{0}} I_d$ gives the same closed subscheme.

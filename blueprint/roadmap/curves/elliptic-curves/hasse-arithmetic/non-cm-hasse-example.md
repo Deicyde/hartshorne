@@ -1,9 +1,3 @@
----
-article_id: af_ad2575d633e51b1996c50675
-declaration: theorem
-origin: cited
----
-
 # A non-CM Hasse example
 
 For $X : y^2=x(x-1)(x+2)$, the model is nonsingular away from two and three,

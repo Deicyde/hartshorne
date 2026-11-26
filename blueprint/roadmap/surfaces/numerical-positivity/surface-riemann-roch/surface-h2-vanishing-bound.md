@@ -1,9 +1,3 @@
----
-article_id: af_466c8a767d4be85c13f91132
-declaration: theorem
-origin: cited
----
-
 # A numerical bound for second-cohomology vanishing
 
 Let $H$ be ample and $K$ canonical on a Chapter V surface. For every divisor

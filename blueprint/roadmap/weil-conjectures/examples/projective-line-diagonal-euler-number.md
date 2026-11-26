@@ -1,9 +1,3 @@
----
-article_id: af_b26c6e206cd588230ab57dcb
-declaration: theorem
-origin: cited
----
-
 # The diagonal Euler number of the projective line is two
 
 For $\mathbb P^1/\mathbb{F}_q$,

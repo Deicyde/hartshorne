@@ -1,12 +1,3 @@
----
-article_id: af_b98f93c716bddeea19728e16
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.ArtinReesKernelSheaf.isQuasicoherent_powSmul Hartshorne.ArtinReesKernelSheaf.sub_powSmul_eq Hartshorne.ArtinReesKernelSheaf.isCoherent_powSmul Hartshorne.ArtinReesKernelSheaf.powSmul Hartshorne.ArtinReesKernelSheaf.powSmul_zero Hartshorne.ArtinReesKernelSheaf.isQuasicoherent_top Hartshorne.ArtinReesKernelSheaf.isCoherent_top
----
-
 # Product of an ideal sheaf with a submodule sheaf
 
 Let $X$ be a scheme, let $\mathcal{I} \subseteq \mathcal{O}_X$ be a quasi-coherent ideal sheaf,

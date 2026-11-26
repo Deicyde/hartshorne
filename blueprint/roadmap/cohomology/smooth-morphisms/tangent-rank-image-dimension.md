@@ -1,9 +1,3 @@
----
-article_id: af_f6578968c99ddb2fb52cf1e8
-declaration: theorem
-origin: cited
----
-
 # The tangent-rank image-dimension bound
 
 Let $f : X \to Y$ be a morphism of finite-type schemes over an algebraically

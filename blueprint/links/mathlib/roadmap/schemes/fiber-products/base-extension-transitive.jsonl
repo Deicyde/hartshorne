@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/fiber-products/base-extension-transitive.md"}], "object": [{"location": {"declaration": "CategoryTheory.Limits.pullbackAssoc", "module": "Mathlib.CategoryTheory.Limits.Shapes.Pullback.Assoc"}}], "id": "af_2b6de44fda6e34c2cdbf9764"}

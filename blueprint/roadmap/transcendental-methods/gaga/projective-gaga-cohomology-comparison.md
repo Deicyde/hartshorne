@@ -1,10 +1,3 @@
----
-article_id: af_bb5f657828fb62aa96f11e98
-declaration: isomorphism
-origin: background
-not_ready: true
----
-
 # Projective GAGA identifies coherent cohomology
 
 Let $X$ be projective over $\mathbb{C}$ and $F$ coherent. For every $i\ge 0$, the

@@ -1,12 +1,3 @@
----
-article_id: af_e2d149f475a967b1dbe30f4c
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AdicCompletion.flat_of_isNoetherian
-mathlib_file: Mathlib/RingTheory/AdicCompletion/AsTensorProduct.lean
----
-
 # Noetherian adic completions are flat
 
 If $R$ is Noetherian and $I$ is an ideal, the $I$-adic completion of $R$ is

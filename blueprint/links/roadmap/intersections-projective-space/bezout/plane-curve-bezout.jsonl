@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/bezout/plane-curve-bezout.md"}], "object": [{"location": {"declaration": "Hartshorne.plane_curve_bezout"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_bbb21dc5b1213e119c6d8a5d", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,9 +1,3 @@
----
-article_id: af_83c19bbae744f9c601aa7adf
-declaration: theorem
-origin: cited
----
-
 # Collinearity and the point-group law
 
 Choose $P_0$ on an elliptic curve and transport the group structure of

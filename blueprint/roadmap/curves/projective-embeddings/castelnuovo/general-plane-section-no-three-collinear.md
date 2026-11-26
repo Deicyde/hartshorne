@@ -1,9 +1,3 @@
----
-article_id: af_a8ccf492e5e228b5b1158baf
-declaration: theorem
-origin: cited
----
-
 # A general plane section has no three collinear points
 
 Let $X \subset \mathbb{P}^3$ be a nonplanar Chapter IV curve of degree $d$. A nonempty

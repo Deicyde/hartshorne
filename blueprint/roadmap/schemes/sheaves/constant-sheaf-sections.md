@@ -1,12 +1,3 @@
----
-article_id: af_deb2840446acccc594f3bf7f
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_constantSheafSectionsEquivOfIsPreconnected Hartshorne.exists_constantSheafSectionsEquivConnectedComponents
----
-
 # Sections of a constant sheaf
 
 Let $A_X$ be the constant sheaf associated to $A$. If $U$ is a connected

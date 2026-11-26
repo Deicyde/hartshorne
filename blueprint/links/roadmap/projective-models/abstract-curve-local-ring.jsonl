@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/abstract-curve-local-ring.md"}], "object": [{"location": {"declaration": "Hartshorne.ValuationSpace.abstractNonsingularCurveLocalRingAlgEquiv"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_53c37b8474739d7a3ebebb55", "extensions": {"org.autoform": {"origin": "bridged"}}}

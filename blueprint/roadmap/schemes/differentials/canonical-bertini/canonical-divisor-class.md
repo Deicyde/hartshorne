@@ -1,12 +1,3 @@
----
-article_id: af_c47721d962aee6f03f7dc4f0
-declaration: definition
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.canonicalDivisorClass Hartshorne.cartierDivisorClassHom_eq_canonicalDivisorClass_iff Hartshorne.exists_cartierDivisor_canonicalDivisorClass
----
-
 # The canonical divisor class
 
 Let $X$ be a nonsingular integral variety. The invertible canonical sheaf

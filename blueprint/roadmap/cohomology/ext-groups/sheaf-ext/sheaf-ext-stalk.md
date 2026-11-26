@@ -1,9 +1,3 @@
----
-article_id: af_0b2355b27d83d899bb63817b
-declaration: theorem
-origin: cited
----
-
 # Stalks of sheaf Ext
 
 Let $X$ be locally Noetherian, let $F$ be coherent (hence locally finitely

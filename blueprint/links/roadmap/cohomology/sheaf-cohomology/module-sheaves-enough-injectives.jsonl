@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/cohomology/sheaf-cohomology/module-sheaves-enough-injectives.md"}], "object": [{"location": {"declaration": "Hartshorne.moduleSheaves_enoughInjectives"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_572e68b826e8320afd8b7c41", "extensions": {"org.autoform": {"origin": "cited"}}}

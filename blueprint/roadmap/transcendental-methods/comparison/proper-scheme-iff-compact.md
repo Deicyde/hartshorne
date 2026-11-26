@@ -1,10 +1,3 @@
----
-article_id: af_d34ea7e18fe312ec8f732172
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # A finite-type complex scheme is proper iff its analytification is compact
 
 For a finite-type complex scheme $X$, $X$ is proper over $\mathbb{C}$ exactly when

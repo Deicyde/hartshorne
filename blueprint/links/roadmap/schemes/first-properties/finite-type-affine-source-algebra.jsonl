@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/first-properties/finite-type-affine-source-algebra.md"}], "object": [{"location": {"declaration": "Hartshorne.finiteType_affineSource_algebra"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_58af7832c8e46634704bb4df", "extensions": {"org.autoform": {"origin": "cited"}}}

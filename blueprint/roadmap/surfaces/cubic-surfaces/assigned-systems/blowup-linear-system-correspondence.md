@@ -1,9 +1,3 @@
----
-article_id: af_7d5f5be23bdf6fa8c8dc087b
-declaration: equivalence
-origin: cited
----
-
 # Assigned-point systems correspond to complete systems on blowups
 
 Let $\pi :X'\to X$ be the iterated blowup of assigned points with multiplicities

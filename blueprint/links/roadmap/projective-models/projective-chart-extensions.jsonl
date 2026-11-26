@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/projective-chart-extensions.md"}], "object": [{"location": {"declaration": "Hartshorne.ValuationSpace.exists_two_projective_chart_extensions"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_07babcb2c7e4ec6fd15296d9", "extensions": {"org.autoform": {"origin": "bridged"}}}

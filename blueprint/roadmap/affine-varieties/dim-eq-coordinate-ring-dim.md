@@ -1,12 +1,3 @@
----
-article_id: af_2b5eb74d5e0861e7dca01d34
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.dim_eq_ringKrullDim_coordinateRing
----
-
 # Dimension is the dimension of the coordinate ring
 
 For an affine algebraic set $Y$, the dimension of $Y$ as a topological

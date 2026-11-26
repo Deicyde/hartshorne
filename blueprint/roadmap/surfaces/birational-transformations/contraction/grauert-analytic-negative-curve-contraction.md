@@ -1,10 +1,3 @@
----
-article_id: af_fde1e1ec52025d28871282fd
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Grauert's analytic contraction of a negative curve
 
 Let $X$ be a nonsingular projective surface over $C$, and let $Y$ be an

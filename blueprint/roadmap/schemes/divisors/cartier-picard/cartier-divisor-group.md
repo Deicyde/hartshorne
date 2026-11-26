@@ -1,12 +1,3 @@
----
-article_id: af_e7a329960aac05b71c31dfa5
-declaration: abbrev
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.structureUnitsAddSheaf AlgebraicGeometry.Scheme.totalQuotientUnitsAddSheaf AlgebraicGeometry.Scheme.structureUnitsToTotalQuotientUnitsAdd AlgebraicGeometry.Scheme.cartierDivisorSheaf AlgebraicGeometry.Scheme.toCartierDivisorSheaf AlgebraicGeometry.Scheme.CartierDivisor
----
-
 # The Cartier divisor group
 
 For an arbitrary scheme $X$, define the sheaf of Cartier divisors as the

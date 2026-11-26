@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/cohomology/ext-groups/sheaf-ext/finite-locally-free-tensor-injective.md"}], "object": [{"location": {"declaration": "Hartshorne.Ringed.moduleSheafTensor_injective"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_6404489b1b1d9aa0e33d8b68", "extensions": {"org.autoform": {"origin": "cited"}}}

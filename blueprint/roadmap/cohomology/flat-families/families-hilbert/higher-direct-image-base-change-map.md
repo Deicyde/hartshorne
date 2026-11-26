@@ -1,10 +1,3 @@
----
-article_id: af_f12d43eddb15d40dadcd429d
-declaration: natural transformation
-origin: cited
-not_ready: true
----
-
 # The higher-direct-image base-change map
 
 Let $f : X \to Y$ be a separated finite-type morphism of Noetherian schemes,

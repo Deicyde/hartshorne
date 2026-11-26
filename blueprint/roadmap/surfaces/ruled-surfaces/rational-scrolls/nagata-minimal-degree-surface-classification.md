@@ -1,10 +1,3 @@
----
-article_id: af_a59314e3fd7b4502a47eaf80
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Nagata's classification of minimal-degree surfaces
 
 Every nonsingular nondegenerate surface of degree $d$ in $\mathbb{P}^{d+1}$ is one of:

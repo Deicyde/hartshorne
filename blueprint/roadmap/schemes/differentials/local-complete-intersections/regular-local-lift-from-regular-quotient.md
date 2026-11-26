@@ -1,12 +1,3 @@
----
-article_id: af_daaa5dd40d2cb9028e72a7a8
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isRegularLocalRing_of_isRegularLocalRing_quotient_span_singleton
----
-
 # Lifting regularity from a regular hypersurface quotient
 
 Let $(A, m)$ be a Noetherian local ring and let $f$ be a non-zero-divisor in

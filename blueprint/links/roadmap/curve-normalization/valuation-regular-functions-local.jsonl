@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/curve-normalization/valuation-regular-functions-local.md"}], "object": [{"location": {"declaration": "Hartshorne.ValuationSpace.regularFunctions_axioms"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_0fdccec34faa6f6a85264973", "extensions": {"org.autoform": {"origin": "bridged"}}}

@@ -1,12 +1,3 @@
----
-article_id: af_137da62c2d76dfe275e505db
-declaration: abbrev
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Scheme.GlueData.glued
-mathlib_file: Mathlib/AlgebraicGeometry/Gluing.lean
----
-
 # Gluing schemes
 
 Given schemes $X_{i}$, open subschemes $U_{ij} \subseteq X_{i}$, inverse transition

@@ -1,12 +1,3 @@
----
-article_id: af_8096b27c624b16bd2619b652
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isNormal_iff_of_isLocalCompleteIntersectionIn
----
-
 # Normality of a local complete intersection
 
 Let $Y$ be a local complete intersection subscheme of a nonsingular variety.

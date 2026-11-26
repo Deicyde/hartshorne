@@ -1,9 +1,3 @@
----
-article_id: af_ea362043b196ecda553bf11b
-declaration: theorem
-origin: bridged
----
-
 # Projective space is homogeneous under the projective linear group
 
 Over an algebraically closed field, the scheme-level actions of $\operatorname{PGL} (n+1)$ on
