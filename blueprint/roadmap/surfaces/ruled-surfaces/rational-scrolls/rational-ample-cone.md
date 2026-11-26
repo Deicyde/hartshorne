@@ -1,9 +1,3 @@
----
-article_id: af_d282088c8d1815ef9f123ff1
-declaration: theorem
-origin: cited
----
-
 # The ample cone of a rational ruled surface
 
 For $D=a\cdot C_0+b\cdot f$ on $X_e$, the following are equivalent:

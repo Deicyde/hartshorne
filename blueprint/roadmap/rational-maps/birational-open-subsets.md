@@ -1,12 +1,3 @@
----
-article_id: af_66e36fc9e3926617642cdd2d
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.birational_iff_hasIsomorphicOpenSubsets
----
-
 # Birational varieties have isomorphic open subsets
 
 For separated varieties $X$ and $Y$, the following are equivalent:

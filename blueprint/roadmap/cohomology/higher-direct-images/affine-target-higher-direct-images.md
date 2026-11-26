@@ -1,9 +1,3 @@
----
-article_id: af_d6d3877d13e698f9ec675092
-declaration: isomorphism
-origin: cited
----
-
 # Higher direct images over an affine target
 
 Let $X$ be Noetherian, let $f : X \to \operatorname{Spec} A$ be a morphism, and let $F$ be a

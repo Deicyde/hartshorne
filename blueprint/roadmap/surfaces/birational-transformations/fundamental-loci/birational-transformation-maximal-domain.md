@@ -1,12 +1,3 @@
----
-article_id: af_af002c6c55b279781ec7601e
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.BirationalMap.dom Hartshorne.BirationalMap.domHom Hartshorne.BirationalMap.domRep_represents Hartshorne.BirationalMap.domHom_eq_eval Hartshorne.BirationalMap.le_dom Hartshorne.BirationalMap.isGreatest_dom Hartshorne.BirationalMap.domHom_unique Hartshorne.BirationalMap.fundamentalLocus Hartshorne.BirationalMap.fundamentalPoints Hartshorne.SchemeRationalMap.dom Hartshorne.SchemeRationalMap.domRep Hartshorne.SchemeRationalMap.domRep_domain Hartshorne.SchemeRationalMap.domHom Hartshorne.SchemeRationalMap.domRep_represents Hartshorne.SchemeRationalMap.homOfLE_domHom Hartshorne.SchemeRationalMap.le_dom Hartshorne.SchemeRationalMap.isGreatest_dom Hartshorne.SchemeRationalMap.domHom_unique Hartshorne.SchemeRationalMap.fundamentalLocus Hartshorne.SchemeRationalMap.fundamentalPoints
----
-
 # The maximal domain of a birational transformation
 
 For a birational transformation $T:X \dashrightarrow Y$ of projective

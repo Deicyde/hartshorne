@@ -1,9 +1,3 @@
----
-article_id: af_3ab16e81128c32e2228b79f1
-declaration: theorem
-origin: cited
----
-
 # The normal-bundle Chern classes of a surface in projective four-space
 
 Let $X \subset \mathbb{P}^4$ be a smooth surface, with hyperplane class $H$, canonical

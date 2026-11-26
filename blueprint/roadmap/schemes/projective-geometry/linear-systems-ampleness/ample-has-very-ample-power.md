@@ -1,12 +1,3 @@
----
-article_id: af_0dc453cd80f38d139bd91c17
-declaration: theorem
-origin: cited
-lean: AlgebraicGeometry.Scheme.Modules.IsAmple.exists_isVeryAmpleRelative_moduleSheafTensorPower
-statement: formalized
-proof: formalized
----
-
 # An ample sheaf has a very ample power
 
 Let $X$ be of finite type over a Noetherian ring. If $L$ is ample, then some

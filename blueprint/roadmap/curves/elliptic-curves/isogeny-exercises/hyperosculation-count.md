@@ -1,9 +1,3 @@
----
-article_id: af_ffd200b1b4497886af265708
-declaration: theorem
-origin: cited
----
-
 # Hyperosculation points
 
 Let a genus-$g$ curve be embedded nondegenerately with degree $d$ in

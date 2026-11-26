@@ -1,12 +1,3 @@
----
-article_id: af_033b202f183a3edc6e56c011
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: TopCat.Presheaf.stalkFunctor_map_unit_toSheafify_isIso
-mathlib_file: Mathlib/Topology/Sheaves/Sheafify.lean
----
-
 # Sheafification preserves stalks
 
 For every presheaf $F$ and point $x$, the map on stalks induced by the unit

@@ -1,7 +1,3 @@
----
-article_id: af_9c3af0aa09ded0dddeb23e4e
----
-
 # Sheaves on projective schemes
 
 Graded modules over $\operatorname{Proj}S$ lead to twisting sheaves,

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/cohomology/flat-families/flatness/localization-flat-module-over-base.md"}], "object": [{"location": {"declaration": "Hartshorne.localizedModule_flat_over_base"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_bb4d90561957ab97003d834b", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,12 +1,3 @@
----
-article_id: af_a114ce1b2fcf4b3fda7cf09c
-declaration: isomorphism
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.tildePushforwardIso Hartshorne.tildePullbackIso Hartshorne.pushforwardSpecΓIso
----
-
 # Tilde under affine change of rings
 
 Let $A \longrightarrow B$ induce $f : \operatorname{Spec} B \longrightarrow \operatorname{Spec} A$.  For a $B$-module $N$ and an

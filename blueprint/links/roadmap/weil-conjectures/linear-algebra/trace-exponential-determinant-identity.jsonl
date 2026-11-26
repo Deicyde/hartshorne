@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/weil-conjectures/linear-algebra/trace-exponential-determinant-identity.md"}], "object": [{"location": {"declaration": "Hartshorne.traceExponential_eq_inv_det"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_f94727becbaef06de2d68b36", "extensions": {"org.autoform": {"origin": "cited"}}}

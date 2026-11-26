@@ -1,12 +1,3 @@
----
-article_id: af_0f9b546532f105d1551796cb
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.gradedHilbertPolynomial_coeff_eq_sum_minimalPrimes
----
-
 # The leading Hilbert coefficient is a sum over minimal primes
 
 Let $M$ be a finite integer-graded module over $S = k[x_{0},\ldots ,x_{n}]$, and suppose

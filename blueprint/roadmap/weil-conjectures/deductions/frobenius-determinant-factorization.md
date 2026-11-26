@@ -1,9 +1,3 @@
----
-article_id: af_de27583d46290d8f47e3c89b
-declaration: theorem
-origin: cited
----
-
 # Frobenius determinant factorization of the zeta function
 
 For smooth projective $X/\mathbb{F}_q$, define

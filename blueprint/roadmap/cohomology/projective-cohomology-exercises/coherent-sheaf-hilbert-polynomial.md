@@ -1,10 +1,3 @@
----
-article_id: af_3d5a48adff36e9e23d0496af
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The coherent-sheaf Hilbert polynomial
 
 Let $X$ be projective over a field, let $\mathcal{O}_X(1)$ be very ample, and let $F$

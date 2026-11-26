@@ -1,9 +1,3 @@
----
-article_id: af_cdecc106f623975d5ccca7b8
-declaration: theorem
-origin: cited
----
-
 # The transformed six points remain in cubic general position
 
 Apply the standard quadratic transformation to three of the six marked plane

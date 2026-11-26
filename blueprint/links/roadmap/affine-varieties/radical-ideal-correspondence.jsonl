@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/affine-varieties/radical-ideal-correspondence.md"}], "object": [{"location": {"declaration": "Hartshorne.isIrreducible_iff_isPrime"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_e7ef021d07d027ea3714eae3", "extensions": {"org.autoform": {"origin": "cited"}}}

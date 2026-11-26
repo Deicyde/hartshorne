@@ -1,12 +1,3 @@
----
-article_id: af_dbf6174162e22fb1ef61e8b6
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.ringKrullDim_quotient_eq_coheight Hartshorne.height_add_ringKrullDim_quotient_le
----
-
 # One inequality of the dimension formula
 
 For a commutative ring $R$ and a prime ideal $\mathfrak p$,

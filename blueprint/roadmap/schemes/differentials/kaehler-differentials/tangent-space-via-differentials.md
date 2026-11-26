@@ -1,12 +1,3 @@
----
-article_id: af_700151556ae109a8e213b759
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.residueFieldAlgEquivOfLocalAlgHom Hartshorne.differentialFiberResidueFieldEquiv Hartshorne.cotangentEquivDifferentialFiber Hartshorne.cotangentDualEquivDifferentialFiberDual Hartshorne.differentialFiberDualEquivDerivation Hartshorne.differentialFiberDualEquivDualNumberLocalLift Hartshorne.rationalPointTangentEquivDifferentialFiberDual Hartshorne.rationalPointTangentEquivDerivation Hartshorne.rationalPointDifferentialFiberDualEquivDerivation Hartshorne.dualNumberLiftEquivDifferentialFiberDual Hartshorne.dualNumberLiftToDifferentialFiberDual
----
-
 # Tangent vectors via Kähler differentials
 
 Under the hypotheses of the local cotangent comparison, identify the Zariski

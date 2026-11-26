@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/morphisms/hom-affine-bijection.md"}], "object": [{"location": {"declaration": "Hartshorne.homEquivAlgHom"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_60f933bd73afed54cd8907e2", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,9 +1,3 @@
----
-article_id: af_c5efe51134bd2a5cda8c71bf
-declaration: theorem
-origin: cited
----
-
 # The canonical sheaf of a smooth complete intersection
 
 Let $k$ be algebraically closed, let $d_1, \ldots , d_r \ge 1$ with $r < n$, and

@@ -1,7 +1,3 @@
----
-article_id: af_f951e3ec4334bfc3379ec98a
----
-
 # Affine and local cohomology
 
 This chapter follows Hartshorne III.3. It builds the algebraic injective-module

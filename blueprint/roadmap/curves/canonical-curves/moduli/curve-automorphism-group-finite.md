@@ -1,9 +1,3 @@
----
-article_id: af_2f4d09c97f9a992454a01bf9
-declaration: theorem
-origin: cited
----
-
 # Automorphism groups of higher-genus curves are finite
 
 Let $X$ be a curve of genus at least two over an algebraically closed field of

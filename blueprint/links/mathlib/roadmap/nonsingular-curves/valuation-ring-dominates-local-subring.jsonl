@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/nonsingular-curves/valuation-ring-dominates-local-subring.md"}], "object": [{"location": {"declaration": "LocalSubring.exists_le_valuationSubring", "module": "Mathlib.RingTheory.Valuation.LocalSubring"}}], "id": "af_dc1c548ddbcb3dffbb3f947e"}

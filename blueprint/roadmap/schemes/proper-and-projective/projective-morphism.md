@@ -1,12 +1,3 @@
----
-article_id: af_545ab34bd95b9748d3c81bd8
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Projective
----
-
 # Projective morphisms
 
 A morphism $f : X \longrightarrow Y$ is projective when there are a natural number $n$

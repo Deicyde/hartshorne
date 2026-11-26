@@ -1,12 +1,3 @@
----
-article_id: af_ea760d2f38835a90cbc5ed92
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Spec.toLocallyRingedSpace
-mathlib_file: Mathlib/AlgebraicGeometry/Spec.lean
----
-
 # The contravariant Spec functor
 
 The spectrum of every commutative ring is a locally ringed space.  Every ring

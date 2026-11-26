@@ -1,10 +1,3 @@
----
-article_id: af_e89ba473a7204ca42f52edc8
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Kodaira-dimension-one surfaces are elliptic
 
 Assume the algebraically closed ground field has characteristic different

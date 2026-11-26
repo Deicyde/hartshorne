@@ -1,7 +1,3 @@
----
-article_id: af_a0c663862a8cb83c9c2e9b1d
----
-
 # Rational maps
 
 Rational maps compare varieties using morphisms defined on nonempty open

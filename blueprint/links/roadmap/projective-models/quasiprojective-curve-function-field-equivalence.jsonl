@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/quasiprojective-curve-function-field-equivalence.md"}], "object": [{"location": {"declaration": "Hartshorne.quasiProjectiveCurveFunctionFieldEquivalence"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_bd9cf43e2cf8441147189992", "extensions": {"org.autoform": {"origin": "bridged"}}}

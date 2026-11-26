@@ -1,12 +1,3 @@
----
-article_id: af_9d9a51d58b3737f4409894f8
-declaration: theorem
-origin: cited
-lean: Hartshorne.exists_iso_blowup_of_birational_projective
-statement: formalized
-proof: formalized
----
-
 # A birational projective morphism is a blowup
 
 Every birational projective morphism $f : Z \to X$ from a variety to a

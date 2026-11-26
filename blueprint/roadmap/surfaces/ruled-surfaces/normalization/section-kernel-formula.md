@@ -1,9 +1,3 @@
----
-article_id: af_3768c5fc2b317a2f201b81f2
-declaration: isomorphism
-origin: cited
----
-
 # The kernel formula for a section of a projective bundle
 
 In the section--quotient correspondence, let $D=\sigma (C )$ and

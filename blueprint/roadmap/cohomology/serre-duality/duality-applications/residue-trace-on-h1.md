@@ -1,9 +1,3 @@
----
-article_id: af_70d475ecdab192324f5a6983
-declaration: theorem
-origin: cited
----
-
 # The residue trace on first cohomology
 
 The sum of local residues on differential principal parts vanishes on the

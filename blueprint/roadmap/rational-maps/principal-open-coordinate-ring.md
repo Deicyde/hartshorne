@@ -1,12 +1,3 @@
----
-article_id: af_8a05003a5be1e12ca9cc7683
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.principalOpenCoordinateRingEquiv
----
-
 # The graph hypersurface has localized coordinate ring
 
 For $0 \ne f \in k[x_{1},\ldots ,x_n]$, let

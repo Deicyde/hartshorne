@@ -1,9 +1,3 @@
----
-article_id: af_e6d69cd18c591a10cd9ccda5
-declaration: theorem
-origin: cited
----
-
 # Right exactness and the cohomology-tensor comparison
 
 For every $A$-module $M$, functoriality gives a natural map

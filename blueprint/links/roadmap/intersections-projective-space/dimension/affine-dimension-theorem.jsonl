@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/dimension/affine-dimension-theorem.md"}], "object": [{"location": {"declaration": "Hartshorne.affine_dimension_theorem"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_e751a901985e442f87371072", "extensions": {"org.autoform": {"origin": "cited"}}}

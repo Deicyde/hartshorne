@@ -1,9 +1,3 @@
----
-article_id: af_7038dfadd8ba453a25ffb089
-declaration: theorem
-origin: cited
----
-
 # Construction and functoriality of the dual morphism
 
 For pointed elliptic curves and a morphism $f : X \to X'$, pullback on Picard

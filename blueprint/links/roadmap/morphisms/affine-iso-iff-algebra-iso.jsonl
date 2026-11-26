@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/morphisms/affine-iso-iff-algebra-iso.md"}], "object": [{"location": {"declaration": "Hartshorne.nonempty_isIso_iff_nonempty_algEquiv"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_ee5b9082258b320eb1d4eaa4", "extensions": {"org.autoform": {"origin": "cited"}}}

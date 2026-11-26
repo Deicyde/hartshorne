@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/curve-normalization/curve-local-ring-map-open.md"}], "object": [{"location": {"declaration": "Hartshorne.IsQuasiProjVariety.localRingMap_injective_open_homeomorph"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_e1ae36260cfcc00b57e99628", "extensions": {"org.autoform": {"origin": "cited"}}}

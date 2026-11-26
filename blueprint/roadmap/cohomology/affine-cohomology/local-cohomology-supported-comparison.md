@@ -1,10 +1,3 @@
----
-article_id: af_67d7529f54e42f5194bc155d
-declaration: isomorphism
-origin: cited
-not_ready: true
----
-
 # Algebraic and supported sheaf local cohomology
 
 Let $A$ be Noetherian, $a$ an ideal, $X = \operatorname{Spec} A$, $Y = V(a)$, and $M$ an

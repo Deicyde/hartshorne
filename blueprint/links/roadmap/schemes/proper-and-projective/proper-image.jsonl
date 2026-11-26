@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/proper-and-projective/proper-image.md"}], "object": [{"location": {"declaration": "Hartshorne.properImage"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_541d8809de4dba4589651a1e", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,12 +1,3 @@
----
-article_id: af_680755a0596316cf89003ad4
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_closedExtensionByZeroStalkIsos
----
-
 # Closed extension by zero
 
 Let $i : Z \hookrightarrow X$ be the inclusion of a closed subspace and $F$ a sheaf of

@@ -1,12 +1,3 @@
----
-article_id: af_14eaa7de868a5c79cf51f1a0
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsQuasiProjVariety.eq_of_localRingRange_le
----
-
 # The local ring determines the point
 
 Let $Y$ be a quasi-projective variety and let $P,Q\in Y$. Regard both local

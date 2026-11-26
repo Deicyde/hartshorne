@@ -1,12 +1,3 @@
----
-article_id: af_04772206f2f9ff79f9a593ac
-declaration: class
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsLocallyNoetherian
-mathlib_file: Mathlib/AlgebraicGeometry/Noetherian.lean
----
-
 # Locally Noetherian schemes
 
 A scheme is locally Noetherian when it admits an affine open cover whose coordinate rings are Noetherian.

@@ -1,9 +1,3 @@
----
-article_id: af_f0ee017b12507b77a218cfce
-declaration: theorem
-origin: cited
----
-
 # Dimension criteria for generated and very ample curve divisors
 
 Let $D$ be a divisor on a Chapter IV curve. Then:

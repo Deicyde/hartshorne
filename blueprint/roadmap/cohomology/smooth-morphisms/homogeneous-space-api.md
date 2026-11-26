@@ -1,12 +1,3 @@
----
-article_id: af_1ef0710a237ef97d9883d6eb
-declaration: structure
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.GroupVariety Hartshorne.AlgebraicGroupAction Hartshorne.HomogeneousSpace
----
-
 # Algebraic group actions and homogeneous spaces
 
 Over $S=\operatorname{Spec}k$, a group variety is an integral separated

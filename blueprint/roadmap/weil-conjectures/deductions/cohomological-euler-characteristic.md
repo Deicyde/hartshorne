@@ -1,9 +1,3 @@
----
-article_id: af_db84583f8825627309b015dc
-declaration: definition
-origin: cited
----
-
 # The cohomological Euler characteristic
 
 For a smooth projective variety, put

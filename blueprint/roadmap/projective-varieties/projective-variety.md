@@ -1,12 +1,3 @@
----
-article_id: af_a52093169757ed6b0988908f
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsProjVariety Hartshorne.IsQuasiProjVariety Hartshorne.projDim
----
-
 # Projective and quasi-projective varieties
 
 A *projective variety* is an irreducible algebraic set in $\mathbb{P} ^{n}$ with its induced

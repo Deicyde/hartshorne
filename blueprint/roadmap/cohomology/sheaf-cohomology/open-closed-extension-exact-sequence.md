@@ -1,12 +1,3 @@
----
-article_id: af_51775dda22df3e41da103fae
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.openClosedExtensionSequence_shortExact Hartshorne.openClosedExtensionSequence
----
-
 # The open–closed extension exact sequence
 
 Let $i : Y \hookrightarrow X$ be closed, let $j : U \hookrightarrow X$ be its open complement, and let

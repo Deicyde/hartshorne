@@ -1,9 +1,3 @@
----
-article_id: af_1048b3f51a1fa49409f063fd
-declaration: theorem
-origin: cited
----
-
 # Hyperelliptic curves exist in every genus
 
 For every integer $g\ge 2$, choose a nonsingular irreducible divisor of type

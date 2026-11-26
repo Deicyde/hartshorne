@@ -1,12 +1,3 @@
----
-article_id: af_94ada4945067ebd4c954f5cc
-declaration: theorem
-origin: background
-mathlib: true
-mathlib_declaration: Algebra.FormallySmooth.iff_injective_cotangentComplexBaseChange
-mathlib_file: Mathlib/RingTheory/Smooth/Local.lean
----
-
 # The Jacobian criterion for formally smooth local algebras
 
 Let $R$ be a commutative ring and let $S$ be a local $R$-algebra with maximal

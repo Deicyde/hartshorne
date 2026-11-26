@@ -1,12 +1,3 @@
----
-article_id: af_a5dfc40192ea62ea4180e6e2
-declaration: theorem
-origin: cited
-lean: Hartshorne.ProjectiveClosedSubscheme.saturation Hartshorne.ProjectiveClosedSubscheme.saturation_isHomogeneous Hartshorne.ProjectiveClosedSubscheme.le_saturation Hartshorne.ProjectiveClosedSubscheme.ker_projQuotientι_eq_iff Hartshorne.ProjectiveClosedSubscheme.ker_projQuotientι_le_iff Hartshorne.ProjectiveClosedSubscheme.saturation_gammaStarIdeal Hartshorne.ProjectiveClosedSubscheme.isGreatest_gammaStarIdeal Hartshorne.ProjectiveClosedSubscheme.le_gammaStarIdeal_of_ker_eq Hartshorne.ProjectiveClosedSubscheme.gammaStarIdeal_ker_projQuotientι
-statement: formalized
-proof: formalized
----
-
 # Saturation of projective ideals
 
 For a homogeneous ideal $I \subseteq S = A[x_{0},\ldots ,x_{r}]$, define its saturation by

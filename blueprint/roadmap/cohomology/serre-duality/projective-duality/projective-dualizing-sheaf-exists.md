@@ -1,9 +1,3 @@
----
-article_id: af_aaed9f1901509fee092d0d77
-declaration: theorem
-origin: cited
----
-
 # Existence of projective dualizing sheaves
 
 Every projective scheme $X$ over a field has a dualizing sheaf. For a closed

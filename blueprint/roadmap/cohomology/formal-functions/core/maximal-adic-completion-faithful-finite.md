@@ -1,12 +1,3 @@
----
-article_id: af_b158683b98fc932189c4cb8b
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.surjective_of_maximalAdicCompletionMap_surjective
----
-
 # Faithfulness of maximal-adic completion on finite modules
 
 Let $(A,m)$ be a Noetherian local ring and let $u : M \to N$ be a map of

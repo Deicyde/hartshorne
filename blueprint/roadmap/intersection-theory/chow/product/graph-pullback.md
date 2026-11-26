@@ -1,9 +1,3 @@
----
-article_id: af_1dcafce5c7f05800910cd5f9
-declaration: homomorphism
-origin: cited
----
-
 # Pullback by the graph construction
 
 Within an intersection theory, define pullback along $f:X\to X'$ by

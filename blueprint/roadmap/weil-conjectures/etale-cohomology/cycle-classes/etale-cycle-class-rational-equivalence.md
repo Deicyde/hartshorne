@@ -1,9 +1,3 @@
----
-article_id: af_fafa4ce9a929baae7f0cf138
-declaration: theorem
-origin: cited
----
-
 # Étale cycle classes are invariant under rational equivalence
 
 If codimension-$q$ cycles on a smooth proper variety are rationally

@@ -1,12 +1,3 @@
----
-article_id: af_71347b8169aa158ac22ab154
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.ProjTwistMap.twistRestrictIso Hartshorne.ProjTwistMap.isIso_twistRestrictHom Hartshorne.ProjTwistMap.twistRestrictIso_comp Hartshorne.ProjTwistMap.twistRestrictIso_id Hartshorne.ProjTwistMap.exists_isLocalizationAway_comp Hartshorne.isOpenImmersion_projMap Hartshorne.range_projMap Hartshorne.irrelevant_eq_map_of_isLocalizationAway Hartshorne.ProjTwistMap.twistRestrictHom_app_apply Hartshorne.ProjTwistMap.twistFiber_mk
----
-
 # Twisting sheaves under localization in degree zero
 
 Let $A$ be a graded ring, let $s \in A_0$ be homogeneous of degree zero, and let

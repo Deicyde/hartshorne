@@ -1,12 +1,3 @@
----
-article_id: af_c443fb28d7ae4626b5a146aa
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.moduleFinite_frobeniusPowerSubalgebra Hartshorne.frobeniusPowerHom_finite Hartshorne.iterateFrobenius_finite
----
-
 # Frobenius is finite on an affine algebra over a perfect field
 
 Let $k$ be a perfect field of positive characteristic $p$, let $A$ be a

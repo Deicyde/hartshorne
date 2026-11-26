@@ -1,9 +1,3 @@
----
-article_id: af_ac4c7d2c0a29cbf71251c205
-declaration: theorem
-origin: cited
----
-
 # Inflection points on nodal plane models
 
 Let a genus-$g$ curve be mapped birationally to a degree-$d$ plane curve

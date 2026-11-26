@@ -1,12 +1,3 @@
----
-article_id: af_2ff2bb8fe76379abcf802044
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.NonsingularAt Hartshorne.Variety.Nonsingular Hartshorne.Variety.SingularLocus Hartshorne.Variety.Singular
----
-
 # Intrinsic nonsingularity
 
 A variety $X$ is *nonsingular at* $P$ if its local ring

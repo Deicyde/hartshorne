@@ -1,12 +1,3 @@
----
-article_id: af_c6bf0d8d37f0cc07eedc10f3
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.FunctionFieldDVR Hartshorne.FunctionFieldDVR.HasPoleAt Hartshorne.FunctionFieldDVR.VanishesAt
----
-
 # Discrete valuation rings of a function field
 
 For a field extension $K/k$, let $C_K$ be the set of discrete valuation

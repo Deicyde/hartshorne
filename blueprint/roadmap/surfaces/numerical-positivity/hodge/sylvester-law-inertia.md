@@ -1,12 +1,3 @@
----
-article_id: af_be695ab22ad51676deaa22cf
-declaration: theorem
-origin: background
-mathlib: true
-mathlib_declaration: QuadraticForm.equivalent_one_neg_one_weighted_sum_squared
-mathlib_file: Mathlib/LinearAlgebra/QuadraticForm/Real.lean
----
-
 # Sylvester's law of inertia
 
 Every nondegenerate quadratic form on a finite-dimensional real vector space

@@ -1,12 +1,3 @@
----
-article_id: af_23b2537cc3ff2433010bec6d
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveDiagonal_localRingRange_eq
----
-
 # Local rings of the diagonal model
 
 For the diagonal model $\varphi:C_K\to Y$ and every point $P\in C_K$,

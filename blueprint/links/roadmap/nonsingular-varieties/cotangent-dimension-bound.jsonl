@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/nonsingular-varieties/cotangent-dimension-bound.md"}], "object": [{"location": {"declaration": "Hartshorne.ringKrullDim_le_finrank_cotangentSpace"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_eec06f727fc1cf5bb44d0721", "extensions": {"org.autoform": {"origin": "background"}}}

@@ -1,9 +1,3 @@
----
-article_id: af_d0c64760a66d7244f743b67c
-declaration: theorem
-origin: cited
----
-
 # A pointed elliptic curve is a group variety
 
 The identity section $P_0$, inversion, and addition make a pointed elliptic

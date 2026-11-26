@@ -1,7 +1,3 @@
----
-article_id: af_f2401e3dfd565728bd8c15dc
----
-
 # Foundational properties and adopted exercises
 
 This chapter records the §II.2 exercises that approved running text cites,

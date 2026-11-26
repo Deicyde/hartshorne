@@ -1,9 +1,3 @@
----
-article_id: af_3c30a4b88880530c14e4746e
-declaration: theorem
-origin: cited
----
-
 # Duality is additive and multiplication is self-dual
 
 For origin-preserving morphisms $f,g : X \to X'$,

@@ -1,9 +1,3 @@
----
-article_id: af_8265ea35a06e19e9f2bd6644
-declaration: def
-origin: cited
----
-
 # Numerical equivalence and the numerical divisor group
 
 A divisor $D$ on a Chapter V surface is numerically trivial when

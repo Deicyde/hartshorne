@@ -1,7 +1,3 @@
----
-article_id: af_068564825511431efe415c8c
----
-
 # Divisors and Picard groups
 
 Hartshorne II.6 develops codimension-one cycles on suitable integral schemes,

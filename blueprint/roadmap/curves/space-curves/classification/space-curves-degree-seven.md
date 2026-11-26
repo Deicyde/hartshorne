@@ -1,9 +1,3 @@
----
-article_id: af_d78126410a87d6b6fff7604a
-declaration: theorem
-origin: cited
----
-
 # Curves of degree seven
 
 The degree-seven possibilities recorded in Hartshorne are:

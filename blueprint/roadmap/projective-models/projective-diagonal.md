@@ -1,12 +1,3 @@
----
-article_id: af_7573872cfdef047cd2572bae
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationSpace.exists_dense_projective_diagonal
----
-
 # The projective diagonal model
 
 The extended morphisms $\varphi_0,\varphi_1$ give a diagonal map

@@ -1,9 +1,3 @@
----
-article_id: af_1599f798322d6b59744dfbf8
-declaration: theorem
-origin: cited
----
-
 # The functional equation from Poincaré duality
 
 For smooth projective $X/\mathbb{F}_q$ of dimension $n$, use the Tate-twisted perfect

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/morphisms/local-ring-functorial.md"}], "object": [{"location": {"declaration": "Hartshorne.VarietyHom.localRingHom"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_59bf5c5a065cb7280464d06c", "extensions": {"org.autoform": {"origin": "cited"}}}

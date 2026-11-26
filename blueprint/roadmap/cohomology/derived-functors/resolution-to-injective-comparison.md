@@ -1,12 +1,3 @@
----
-article_id: af_4ec5aec3816ae995bbf828db
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.resolutionToInjectiveComparison_exists_uniqueUpToHomotopy
----
-
 # Comparison with an injective resolution
 
 Let $A \longrightarrow C^{\bullet}$ be a resolution and $A \longrightarrow I^{\bullet}$ an injective resolution in an

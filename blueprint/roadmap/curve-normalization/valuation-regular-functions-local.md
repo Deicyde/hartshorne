@@ -1,12 +1,3 @@
----
-article_id: af_0fdccec34faa6f6a85264973
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationSpace.regularFunctions_axioms
----
-
 # The valuation-space regularity axioms
 
 Let $k$ be algebraically closed and let $K/k$ be a finitely generated

@@ -1,9 +1,3 @@
----
-article_id: af_f9818393078a0ffd9ab5f886
-declaration: isomorphism
-origin: cited
----
-
 # The original Castelnuovo contraction image is already normal
 
 The finite normalization map $X_0\to X_1$ in Castelnuovo's construction is an

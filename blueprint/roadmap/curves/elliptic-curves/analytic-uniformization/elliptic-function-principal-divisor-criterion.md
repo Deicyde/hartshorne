@@ -1,9 +1,3 @@
----
-article_id: af_4681eaa2c052d9d787d9159b
-declaration: theorem
-origin: background
----
-
 # Principal divisors of elliptic functions
 
 Let $a_1,\ldots ,a_q$ be distinct points of $\mathbb C/\Lambda$ and let $n1,\ldots ,nq$ be

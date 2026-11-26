@@ -1,10 +1,3 @@
----
-article_id: af_6e6c2d6289fa176c82885f0d
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The top Chern class is the cycle of an expected-codimension zero scheme
 
 Let $E$ have rank $r$ on a nonsingular quasi-projective variety $X$, and let

@@ -1,12 +1,3 @@
----
-article_id: af_dfec7c9ac3d21093d792a513
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.tilde.adjunction
-mathlib_file: Mathlib/AlgebraicGeometry/Modules/Tilde.lean
----
-
 # The tilde–global-sections adjunction
 
 For $X = \operatorname{Spec} A$, the tilde functor from $A$-modules to the category of $\mathcal{O}_X$-modules is left

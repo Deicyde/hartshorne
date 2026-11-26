@@ -1,10 +1,3 @@
----
-article_id: af_7914b6cb1c0fd0b1b71e09fe
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Generic trivialization inside $\mathbb{Z}_U$
 
 Let $X$ be irreducible, let $U \subseteq X$ be open, and let $0 \ne M \subseteq \mathbb{Z}_U$ be a

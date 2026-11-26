@@ -1,9 +1,3 @@
----
-article_id: af_2010bb9e38b9025b64467d40
-declaration: theorem
-origin: cited
----
-
 # Growth from a general hyperplane section
 
 Let $X \subset \mathbb{P}^3$ be a nonplanar degree-$d$ curve and choose a hyperplane

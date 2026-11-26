@@ -1,9 +1,3 @@
----
-article_id: af_a8f2ef0d79a60d1335d082cb
-declaration: def
-origin: cited
----
-
 # Analytification of an affine finite-type complex scheme
 
 Given a presentation

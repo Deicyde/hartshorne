@@ -1,9 +1,3 @@
----
-article_id: af_00aabc8da3c9fd45da7d0956
-declaration: theorem
-origin: cited
----
-
 # Transverse intersections and restricted divisor degree
 
 Let $C$ be a smooth irreducible curve on a Chapter V surface and let $D$ be

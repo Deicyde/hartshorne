@@ -1,7 +1,3 @@
----
-article_id: af_21c9cb401d2047b3887059a4
----
-
 # Intersections in projective space
 
 This 50-leaf milestone covers Hartshorne I.7's running mathematical text

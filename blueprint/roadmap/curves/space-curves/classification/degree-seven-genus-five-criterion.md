@@ -1,9 +1,3 @@
----
-article_id: af_3dc9d7e552f03f56d925abe6
-declaration: theorem
-origin: cited
----
-
 # Degree-seven embeddings of genus-five curves
 
 Let $X$ be a genus-five curve. It admits a very ample divisor of degree seven

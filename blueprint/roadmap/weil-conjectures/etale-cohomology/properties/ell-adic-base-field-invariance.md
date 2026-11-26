@@ -1,9 +1,3 @@
----
-article_id: af_b2ac9872e5a114c18381168f
-declaration: theorem
-origin: cited
----
-
 # ℓ-adic Betti numbers are invariant under algebraically closed base extension
 
 Let $K/k$ be an extension of algebraically closed fields, let $X$ be smooth

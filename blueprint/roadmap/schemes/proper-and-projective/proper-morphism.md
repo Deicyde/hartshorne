@@ -1,12 +1,3 @@
----
-article_id: af_34d8604346ef4939f63ecaf9
-declaration: class
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsProper
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Proper.lean
----
-
 # Proper morphisms
 
 A morphism is proper when it is separated, universally closed, and locally of

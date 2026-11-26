@@ -1,12 +1,3 @@
----
-article_id: af_9320492f02cd29177eca029f
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.disconnectedSpectrum_idempotents_products_tfae
----
-
 # Connected spectra, idempotents, and products
 
 For a commutative ring $A$, the following are equivalent:

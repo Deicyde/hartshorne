@@ -1,9 +1,3 @@
----
-article_id: af_adb6fd0e28c74c8bffea6869
-declaration: theorem
-origin: cited
----
-
 # The Nakai–Moishezon criterion
 
 A divisor $D$ on a Chapter V surface is ample if and only if

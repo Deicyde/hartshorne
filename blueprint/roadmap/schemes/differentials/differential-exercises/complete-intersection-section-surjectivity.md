@@ -1,9 +1,3 @@
----
-article_id: af_e32c5812a682914b676cd302
-declaration: theorem
-origin: cited
----
-
 # Sections on a complete intersection
 
 Let $Y$ be a positive-dimensional normal complete intersection in $\mathbb{P}^n_k$.

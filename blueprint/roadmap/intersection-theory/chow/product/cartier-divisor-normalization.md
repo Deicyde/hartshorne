@@ -1,9 +1,3 @@
----
-article_id: af_26f4a3f6dafed6527b1fd538
-declaration: theorem
-origin: cited
----
-
 # Intersection with a Cartier divisor is its restricted fundamental cycle
 
 Let $Y \subset X$ be an irreducible subvariety and let $Z$ be an effective

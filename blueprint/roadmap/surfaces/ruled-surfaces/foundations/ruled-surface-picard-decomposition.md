@@ -1,9 +1,3 @@
----
-article_id: af_5e8a9931493a47db1bf82b42
-declaration: isomorphism
-origin: cited
----
-
 # The Picard group of a ruled surface
 
 Let $\pi : X \to C$ be a ruled surface and fix a section $C_0$. Pullback and

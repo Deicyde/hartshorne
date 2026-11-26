@@ -1,9 +1,3 @@
----
-article_id: af_4b38ff5d312bc2a062078132
-declaration: theorem
-origin: background
----
-
 # Good reduction preserves the Betti numbers
 
 Let $R$ be a localization of a number ring and let $Y\to \operatorname{Spec} R$ be smooth and

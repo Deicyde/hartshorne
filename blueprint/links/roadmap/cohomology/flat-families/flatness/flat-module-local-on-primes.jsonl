@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/cohomology/flat-families/flatness/flat-module-local-on-primes.md"}], "object": [{"location": {"declaration": "Hartshorne.flat_iff_localizedModule_atPrime"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_e1d511e9a9e727ac4e14ccec", "extensions": {"org.autoform": {"origin": "background"}}}

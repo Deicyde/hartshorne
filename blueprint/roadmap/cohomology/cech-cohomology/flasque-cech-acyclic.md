@@ -1,12 +1,3 @@
----
-article_id: af_cbcffbd2a7ea53d9fc5b6caa
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.orderedCechCohomology_isZero_of_isFlasque Hartshorne.flasqueCechIso Hartshorne.SheafifiedCech.isFlasque_cochainSheaf
----
-
 # Flasque sheaves are Čech-acyclic
 
 If $F$ is flasque, then $\check{H}^p(U,F)=0$ for every open cover $U$ and every

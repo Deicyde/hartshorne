@@ -1,10 +1,3 @@
----
-article_id: af_278a78c5f2e89ea81e8814e3
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # A Moishezon manifold has a projective modification
 
 Every Moishezon manifold admits a finite sequence of analytic monoidal

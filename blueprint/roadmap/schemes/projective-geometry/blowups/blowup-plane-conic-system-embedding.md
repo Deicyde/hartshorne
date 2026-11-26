@@ -1,9 +1,3 @@
----
-article_id: af_5558102e2808607ba7240870
-declaration: theorem
-origin: cited
----
-
 # The cubic ruled surface from conics through a point
 
 Let $P$ be a point of $\mathbb{P}^2$. The subsystem of conics through $P$ embeds

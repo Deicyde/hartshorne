@@ -1,12 +1,3 @@
----
-article_id: af_2d9e96d3864feab2b19cf38e
-declaration: theorem
-origin: background
-mathlib: true
-mathlib_declaration: PeriodPair.derivWeierstrassP_sq
-mathlib_file: Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean
----
-
 # The Weierstrass differential equation
 
 Let $L$ be a pair of complex periods and let $z$ lie outside its lattice.

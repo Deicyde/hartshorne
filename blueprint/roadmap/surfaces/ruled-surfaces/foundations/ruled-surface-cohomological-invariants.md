@@ -1,9 +1,3 @@
----
-article_id: af_90efd8768767696b4f8f2a0f
-declaration: theorem
-origin: cited
----
-
 # Cohomological invariants of a ruled surface
 
 Let $X \to C$ be a ruled surface over a curve of genus $g$. With Hartshorne's

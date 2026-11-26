@@ -1,9 +1,3 @@
----
-article_id: af_86d73c974de3b896724ba769
-declaration: def
-origin: cited
----
-
 # Infinitely near points
 
 An infinitely near point of a smooth surface is a point on any surface

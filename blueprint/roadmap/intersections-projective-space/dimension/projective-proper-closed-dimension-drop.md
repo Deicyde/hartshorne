@@ -1,12 +1,3 @@
----
-article_id: af_c32cfee507fdcd0696b127dd
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.projDim_lt_of_closed_ssubset_isProjVariety Hartshorne.exists_projDim_eq_nat_of_isProjVariety
----
-
 # Proper closed subsets of projective varieties have smaller dimension
 
 Let $Y$ be a projective variety and let $Z\subsetneq Y$ be a closed

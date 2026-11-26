@@ -1,12 +1,3 @@
----
-article_id: af_f6b00ffd802f94ba2fdc9a07
-declaration: definition
-origin: cited
-mathlib: true
-mathlib_declaration: TopCat.Presheaf.stalk
-mathlib_file: Mathlib/Topology/Sheaves/Stalks.lean
----
-
 # Stalks and germs
 
 For a presheaf $F$ and $x \in X$, its stalk is the filtered colimit of $F(U)$

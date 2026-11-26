@@ -1,9 +1,3 @@
----
-article_id: af_c61254b1a2b2a6d508c5ed9a
-declaration: theorem
-origin: cited
----
-
 # Algebraicity implications for compact complex manifolds
 
 For connected compact complex manifolds:

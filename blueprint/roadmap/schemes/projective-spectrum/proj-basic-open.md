@@ -1,12 +1,3 @@
----
-article_id: af_ead6e18dfe722964d8637cbe
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Proj.basicOpenIsoSpec
-mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean
----
-
 # A standard Proj chart is affine
 
 If $f \in S_d$ is homogeneous of positive degree, then

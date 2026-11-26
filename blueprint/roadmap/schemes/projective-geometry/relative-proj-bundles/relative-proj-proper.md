@@ -1,12 +1,3 @@
----
-article_id: af_f5af5ac873c8d42f918a59ee
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.RelativeProjData.isProper_projection
----
-
 # Relative Proj is proper
 
 The projection $\operatorname{Proj} _X S \to X$ is proper for a graded algebra satisfying the

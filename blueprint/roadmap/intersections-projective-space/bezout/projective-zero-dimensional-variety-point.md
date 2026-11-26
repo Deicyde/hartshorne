@@ -1,12 +1,3 @@
----
-article_id: af_ff73a1797a4821e2d824dc1d
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsProjVariety.eq_singleton_of_projDim_eq_zero
----
-
 # A zero-dimensional projective variety is a point
 
 Let $Y$ be a projective variety. If

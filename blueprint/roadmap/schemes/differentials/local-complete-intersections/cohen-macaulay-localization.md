@@ -1,12 +1,3 @@
----
-article_id: af_b59d36c8e1d5c5fcf943deb1
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: IsCohenMacaulayLocalRing.of_isLocalization_atPrime IsCohenMacaulayLocalRing.localization_atPrime
----
-
 # Localization of Cohen–Macaulay rings
 
 If $A$ is a Noetherian Cohen–Macaulay local ring and $p$ is a prime ideal of

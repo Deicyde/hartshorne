@@ -1,12 +1,3 @@
----
-article_id: af_d551d55a6e1ffbb7c3e46a45
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Scheme.Hom.isoOpensRange
-mathlib_file: Mathlib/AlgebraicGeometry/Restrict.lean
----
-
 # Open immersions and open subschemes
 
 Every open subset of a scheme carries the restricted open-subscheme structure, and every open immersion is an isomorphism over its target onto that open image.

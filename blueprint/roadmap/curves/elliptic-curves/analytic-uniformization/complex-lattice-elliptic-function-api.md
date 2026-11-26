@@ -1,10 +1,3 @@
----
-article_id: af_6cb1d28505a530502db016bf
-declaration: structure
-origin: background
-not_ready: true
----
-
 # Complex lattices and elliptic functions
 
 For $\tau\in\mathbb{C}\setminus\mathbb{R}$, let

@@ -1,9 +1,3 @@
----
-article_id: af_f607d0c20b6f22d2a05a36c0
-declaration: isomorphism
-origin: cited
----
-
 # The normal bundle of the exceptional curve
 
 Under $E \simeq \mathbb{P}^1$, the normal bundle of the exceptional curve in the blown-up

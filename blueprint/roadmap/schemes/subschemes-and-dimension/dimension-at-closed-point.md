@@ -1,12 +1,3 @@
----
-article_id: af_b22063ac78ef7edd9e6fdd8c
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.dimension_at_closed_point
----
-
 # Dimension at a closed point
 
 Let $X$ be an integral scheme of finite type over a field. For every closed point $P \in X$, $\dim X=\dim\mathcal{O}_{X,P}$.

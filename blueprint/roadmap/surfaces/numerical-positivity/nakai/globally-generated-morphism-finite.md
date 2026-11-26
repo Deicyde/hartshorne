@@ -1,9 +1,3 @@
----
-article_id: af_045c0cceb053372079b6f9c8
-declaration: theorem
-origin: bridged
----
-
 # The globally generated morphism is finite
 
 Let $D$ be a divisor with $D\cdot C >0$ for every irreducible curve $C$, and assume

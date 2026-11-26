@@ -1,9 +1,3 @@
----
-article_id: af_10c6d13e1fbb756674261bd0
-declaration: theorem
-origin: cited
----
-
 # The j-line as coarse moduli for pointed elliptic curves
 
 Over an algebraically closed field of characteristic different from two, the

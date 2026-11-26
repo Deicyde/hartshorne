@@ -1,9 +1,3 @@
----
-article_id: af_043a870bc1a0d1140e2768b2
-declaration: theorem
-origin: cited
----
-
 # The genus of a smooth plane curve
 
 A smooth plane curve of degree $d$ has genus

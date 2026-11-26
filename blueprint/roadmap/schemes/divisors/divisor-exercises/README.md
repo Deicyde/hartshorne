@@ -1,7 +1,3 @@
----
-article_id: af_5df9607d6dca11bf97b31afb
----
-
 # Later-used divisor exercises
 
 Only the clauses required by later running text are adopted here. The broader

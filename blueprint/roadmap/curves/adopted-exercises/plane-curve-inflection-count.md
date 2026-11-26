@@ -1,9 +1,3 @@
----
-article_id: af_0ee0f5af72735b8f0b64bf10
-declaration: theorem
-origin: cited
----
-
 # The inflection count and the nine flexes of a cubic
 
 In the setting of the Gauss-pencil morphism for a nonsingular plane curve of

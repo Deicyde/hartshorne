@@ -1,9 +1,3 @@
----
-article_id: af_3b9b2ef531c10312c44f31f9
-declaration: theorem
-origin: cited
----
-
 # Higher direct images preserve quasi-coherence
 
 Let $f : X \to Y$ be a morphism of schemes with $X$ Noetherian, and let $F$

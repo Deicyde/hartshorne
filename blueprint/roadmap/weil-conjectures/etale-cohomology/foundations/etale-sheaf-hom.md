@@ -1,12 +1,3 @@
----
-article_id: af_beb483418f9bd16369fdfdc9
-declaration: def
-origin: bridged
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.etaleSheafHom AlgebraicGeometry.Scheme.etaleSheafHom_obj_obj AlgebraicGeometry.Scheme.etaleSheafHom_map_apply AlgebraicGeometry.Scheme.isSheaf_etaleHomPresheaf AlgebraicGeometry.Scheme.small_etaleHomOver AlgebraicGeometry.Scheme.EtaleHomOver AlgebraicGeometry.Scheme.etaleHomOverRestrict
----
-
 # The internal Hom of abelian étale sheaves
 
 Let $X$ be a scheme and let $F$ and $G$ be abelian sheaves on its small étale site.  For a

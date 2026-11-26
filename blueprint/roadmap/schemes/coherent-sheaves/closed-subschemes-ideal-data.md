@@ -1,12 +1,3 @@
----
-article_id: af_2cd51eb72c8dad4f900eb463
-declaration: equivalence
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsClosedImmersion.overEquivIdealSheafData
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean
----
-
 # Closed subschemes and ideal data
 
 For a scheme $X$, closed immersions into $X$, up to isomorphism

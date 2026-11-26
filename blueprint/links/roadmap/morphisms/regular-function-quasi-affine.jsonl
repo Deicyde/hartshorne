@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/morphisms/regular-function-quasi-affine.md"}], "object": [{"location": {"declaration": "Hartshorne.IsRegularAt"}, "role": "states"}, {"location": {"declaration": "Hartshorne.IsRegular"}}], "status": "formalized", "kind": "def", "id": "af_591daa60fe66a7f31be6c0b6", "extensions": {"org.autoform": {"origin": "cited"}}}

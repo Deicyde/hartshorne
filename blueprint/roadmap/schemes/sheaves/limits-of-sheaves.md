@@ -1,12 +1,3 @@
----
-article_id: af_8197f6c713ed2d28d1473bba
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: CategoryTheory.Sheaf.isSheaf_of_isLimit
-mathlib_file: Mathlib/CategoryTheory/Sites/Limits.lean
----
-
 # Limits of sheaves are computed pointwise
 
 The category of sheaves of abelian groups admits products and inverse limits,

@@ -1,10 +1,3 @@
----
-article_id: af_91f958a749d627857e3f31bf
-declaration: isomorphism
-origin: cited
-not_ready: true
----
-
 # The cohomological quotient description of Pic0
 
 For a smooth projective complex variety, exactness of the exponential

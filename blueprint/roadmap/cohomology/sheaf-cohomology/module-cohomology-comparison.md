@@ -1,12 +1,3 @@
----
-article_id: af_d77aa4b8be24b9adcbe9f1da
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.moduleSheafCohomology Hartshorne.moduleSheafCohomologyNatIso Hartshorne.moduleSheafCohomologyNatIso_δ Hartshorne.moduleSheafCohomologyModule Hartshorne.moduleSheafCohomologyModuleNatIso Hartshorne.moduleSheafCohomologyModuleNatIso_δ Hartshorne.moduleSheafCohomologyModule_δ_smul
----
-
 # Module and abelian-sheaf cohomology agree
 
 For a ringed space $(X,\mathcal{O}_X)$, the right derived functors of global sections

@@ -1,12 +1,3 @@
----
-article_id: af_bea91b5c0ddec6bb61bd8618
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.rank_fibre_relativeDifferentials_affine Hartshorne.rank_fibre_eq_of_iso_tilde Hartshorne.finrank_fibre_relativeDifferentials_affine Hartshorne.finrank_fibre_eq_of_iso_tilde
----
-
 # Fibres of the differential sheaf on an affine chart
 
 Let $f : X \to Y$ be a morphism of schemes, and let $U \subseteq X$ and

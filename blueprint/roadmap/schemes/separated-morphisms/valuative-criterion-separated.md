@@ -1,12 +1,3 @@
----
-article_id: af_ecf63b3f6b49a569c24a1d09
-declaration: lemma
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsSeparated.eq_valuativeCriterion
-mathlib_file: Mathlib/AlgebraicGeometry/ValuativeCriterion.lean
----
-
 # Valuative criterion for separatedness
 
 For a scheme morphism $f$, separatedness is equivalent to the conjunction of

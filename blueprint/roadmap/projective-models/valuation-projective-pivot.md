@@ -1,12 +1,3 @@
----
-article_id: af_d222888a4429ec3f3066f168
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.FunctionFieldDVR.exists_projective_pivot
----
-
 # A projective coordinate pivot
 
 For a nonzero finite family of homogeneous coordinates $f : \iota \to K$ and a

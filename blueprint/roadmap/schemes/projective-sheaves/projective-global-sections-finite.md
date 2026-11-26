@@ -1,12 +1,3 @@
----
-article_id: af_0ad985442b8cad5d403b98b0
-declaration: theorem
-origin: cited
-lean: Hartshorne.moduleFinite_globalSections_of_projective Hartshorne.finiteDimensional_globalSections_of_projective
-statement: formalized
-proof: formalized
----
-
 # Finiteness of projective global sections
 
 Let $k$ be a field, $A$ a finitely generated $k$-algebra, $X$ projective over

@@ -1,10 +1,3 @@
----
-article_id: af_f1d8f9b149a0b36dc276cce8
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Compact analytic subspaces of projective space are algebraic
 
 Let $\mathbb{Z}$ be a compact complex analytic subspace of $(\mathbb{P}_\mathbb{C}^n)^h$. There is a

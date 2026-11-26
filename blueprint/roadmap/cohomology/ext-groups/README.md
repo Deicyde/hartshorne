@@ -1,7 +1,3 @@
----
-article_id: af_a3830319a20ae69bb3577d0d
----
-
 # Ext groups and sheaves
 
 Hartshorne III.6 develops global Ext groups and sheaf Ext, then relates their

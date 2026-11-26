@@ -1,9 +1,3 @@
----
-article_id: af_e19682a9b8a1e89ba35f2ac4
-declaration: theorem
-origin: cited
----
-
 # Intersection with an ample divisor is positive degree
 
 Let $H$ be ample on a Chapter V surface and let $C$ be a nonzero irreducible

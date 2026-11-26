@@ -1,7 +1,3 @@
----
-article_id: af_53061fc0328cd5bea7adb81b
----
-
 # Adic completion
 
 The completion constructions and their algebraic properties are

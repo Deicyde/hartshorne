@@ -1,12 +1,3 @@
----
-article_id: af_fd6237e40274d9342ff299cf
-declaration: structure
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety
----
-
 # Varieties
 
 Hartshorne calls an affine, quasi-affine, projective, or quasi-projective

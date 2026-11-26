@@ -1,9 +1,3 @@
----
-article_id: af_0284303ce744725599fae034
-declaration: theorem
-origin: cited
----
-
 # Negative rational curves contract projectively
 
 Let $Y \simeq \mathbb{P}^1$ be a curve on a nonsingular projective surface $X$. If

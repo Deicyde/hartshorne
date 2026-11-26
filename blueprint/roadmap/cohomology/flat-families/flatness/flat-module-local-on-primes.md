@@ -1,12 +1,3 @@
----
-article_id: af_e1d511e9a9e727ac4e14ccec
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.flat_iff_localizedModule_atPrime
----
-
 # Flatness is local on prime localizations
 
 An $R$-module $M$ is flat if and only if $M_p$ is flat over $R_p$ for every

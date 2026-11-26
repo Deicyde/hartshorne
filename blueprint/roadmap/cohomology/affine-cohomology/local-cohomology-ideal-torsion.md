@@ -1,12 +1,3 @@
----
-article_id: af_e2e9a698ad1531043af1a1cb
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.localCohomology_primaryComponent_eq_top
----
-
 # Local cohomology is ideal-power torsion
 
 Let $A$ be Noetherian, $a$ an ideal, and $M$ an $A$-module. For every $i$

@@ -1,9 +1,3 @@
----
-article_id: af_1eecabb596c53fe42e9869c3
-declaration: theorem
-origin: cited
----
-
 # A curve divisor is ample exactly when its degree is positive
 
 For a divisor $D$ on a Chapter IV curve,

@@ -1,12 +1,3 @@
----
-article_id: af_57089588ba2c404e80de35a7
-declaration: theorem
-origin: cited
-lean: Hartshorne.exists_nonempty_open_smooth_of_isDominant Hartshorne.exists_nonempty_open_smoothOfRelativeDimension_of_isDominant
-statement: formalized
-proof: formalized
----
-
 # Dominant maps are generically smooth on the source in characteristic zero
 
 Let $f : X \to Y$ be a dominant morphism of integral finite-type schemes over

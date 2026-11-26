@@ -1,9 +1,3 @@
----
-article_id: af_b25487005e19b075b7a1a92a
-declaration: theorem
-origin: cited
----
-
 # The normalized degree is an invariant of a ruled surface
 
 If $E$ is a normalized rank-two bundle presenting a ruled surface

@@ -1,9 +1,3 @@
----
-article_id: af_20e6ce518700e4deb8b24862
-declaration: isomorphism
-origin: cited
----
-
 # Flat base change for higher direct images
 
 Let $f : X \to Y$ be separated and finite type between Noetherian schemes,

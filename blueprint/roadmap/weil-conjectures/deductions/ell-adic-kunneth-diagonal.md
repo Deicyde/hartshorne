@@ -1,10 +1,3 @@
----
-article_id: af_7f270d42e19695cdd7c2e397
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The ℓ-adic Künneth theorem and the diagonal coevaluation class
 
 Let $X$ be connected, smooth, and proper over an algebraically closed field.

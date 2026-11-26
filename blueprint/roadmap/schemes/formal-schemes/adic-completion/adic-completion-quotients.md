@@ -1,12 +1,3 @@
----
-article_id: af_2c04f4445787c66b36bedc16
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_adicCompletionQuotientRingEquiv
----
-
 # Quotients of an adic completion
 
 Let $A$ be Noetherian and $I$ an ideal. For every natural number $n$, reduction

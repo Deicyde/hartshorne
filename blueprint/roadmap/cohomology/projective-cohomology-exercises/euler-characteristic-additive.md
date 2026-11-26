@@ -1,9 +1,3 @@
----
-article_id: af_476ce91f67dd82c20e6495bd
-declaration: theorem
-origin: cited
----
-
 # Euler characteristic is additive
 
 For a coherent sheaf $F$ on a projective scheme over a field $k$, define

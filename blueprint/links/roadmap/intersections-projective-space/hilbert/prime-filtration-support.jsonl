@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/hilbert/prime-filtration-support.md"}], "object": [{"location": {"declaration": "Hartshorne.gradedPrimeFiltration_annihilator_le_iff"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_47ddc8c1c5ad90500da8b0d7", "extensions": {"org.autoform": {"origin": "cited"}}}

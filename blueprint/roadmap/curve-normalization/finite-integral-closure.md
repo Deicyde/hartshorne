@@ -1,12 +1,3 @@
----
-article_id: af_a79b80aca295435c1fad8a9f
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.moduleFinite_integralClosure_of_finiteType Hartshorne.finiteType_integralClosure_of_finiteType
----
-
 # Finiteness of integral closure
 
 Let $A$ be a finitely generated algebra domain over the algebraically closed

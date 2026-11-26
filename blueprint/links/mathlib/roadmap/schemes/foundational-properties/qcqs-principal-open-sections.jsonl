@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/foundational-properties/qcqs-principal-open-sections.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.isLocalization_basicOpen_of_qcqs", "module": "Mathlib.AlgebraicGeometry.Morphisms.QuasiSeparated"}}], "id": "af_777bdab39564bd4ef93338be"}

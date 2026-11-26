@@ -1,9 +1,3 @@
----
-article_id: af_41708e89a9a7c5bd181b770e
-declaration: def
-origin: cited
----
-
 # Embedded Del Pezzo surfaces from plane blowups
 
 Define an embedded Del Pezzo surface of degree $d$ to be a nonsingular

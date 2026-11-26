@@ -1,9 +1,3 @@
----
-article_id: af_941f40987f5bce55b223b3a2
-declaration: theorem
-origin: cited
----
-
 # A fundamental point of the inverse forces factorization through its blowup
 
 Let $f:X'\to X$ be a birational morphism of nonsingular projective surfaces.

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/sheaf-functors/support-of-sections-and-sheaves.md"}], "object": [{"location": {"declaration": "Hartshorne.isClosed_sectionSupport"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_765586c14a163cbbdb9f9f40", "extensions": {"org.autoform": {"origin": "cited"}}}

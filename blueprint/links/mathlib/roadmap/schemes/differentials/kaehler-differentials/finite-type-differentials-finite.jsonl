@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/schemes/differentials/kaehler-differentials/finite-type-differentials-finite.md"}], "object": [{"location": {"declaration": "KaehlerDifferential.finite", "module": "Mathlib.RingTheory.Kaehler.Basic"}}], "id": "af_edca491800739a4911ebe070"}

@@ -1,12 +1,3 @@
----
-article_id: af_abdf002c2a42e43676d8d3a1
-declaration: theorem
-origin: background
-mathlib: true
-mathlib_declaration: Module.Flat.trans
-mathlib_file: Mathlib/RingTheory/Flat/Stability.lean
----
-
 # Transitivity of flat modules
 
 Let $R \to S$ be a ring map. If $S$ is flat over $R$ and an $S$-module $M$

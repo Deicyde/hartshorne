@@ -1,12 +1,3 @@
----
-article_id: af_df471aad9bbb8883f7e475b7
-declaration: abbrev
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.PrimeDivisor AlgebraicGeometry.Scheme.WeilDivisor
----
-
 # The Weil divisor group
 
 For a scheme $X$ satisfying $(*)$, define a prime divisor as an integral

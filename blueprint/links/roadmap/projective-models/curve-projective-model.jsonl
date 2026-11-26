@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/curve-projective-model.md"}], "object": [{"location": {"declaration": "Hartshorne.IsQuasiProjVariety.birational_nonsingular_projective"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_7ec2c8292f28cc6598a1a58e", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,12 +1,3 @@
----
-article_id: af_32845d44d3ee74013b434f9f
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.finiteFlat_iff_free
----
-
 # Finite flat modules over local rings are free
 
 For a Noetherian local ring $R$ and a finitely generated $R$-module $M$, the

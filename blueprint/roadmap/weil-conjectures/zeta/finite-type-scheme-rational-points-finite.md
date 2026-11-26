@@ -1,12 +1,3 @@
----
-article_id: af_ab6547f969409d6c33d5d90d
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.finite_rationalPoints_of_finiteType
----
-
 # A finite-type scheme over a finite field has finitely many rational points
 
 Let $X$ be finite type over $\mathbb{F}_q$. For every $r\ge 1$, the set

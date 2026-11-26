@@ -1,9 +1,3 @@
----
-article_id: af_af7a2fe679784987c8bb96bb
-declaration: theorem
-origin: cited
----
-
 # The j=1728 congruence
 
 For the elliptic curve $y^2=x^3-x$, reduction at every odd prime is

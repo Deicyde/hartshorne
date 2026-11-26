@@ -1,12 +1,3 @@
----
-article_id: af_777bdab39564bd4ef93338be
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.isLocalization_basicOpen_of_qcqs
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/QuasiSeparated.lean
----
-
 # The qcqs principal-open lemma
 
 Let $U$ be a quasi-compact, quasi-separated open of a scheme $X$ and

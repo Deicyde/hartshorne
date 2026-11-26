@@ -1,12 +1,3 @@
----
-article_id: af_a7d1a97e3f9969001b1d67d0
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.globalToLocal_injective Hartshorne.localToFunctionField_injective
----
-
 # The underlying maps into germs and rational functions are injective
 
 For a quasi-affine variety $Y$ and a point $P\in Y$, passing from a

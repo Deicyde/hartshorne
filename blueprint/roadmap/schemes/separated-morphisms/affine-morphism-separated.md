@@ -1,12 +1,3 @@
----
-article_id: af_3f1a47b905324050aaee2347
-declaration: lemma
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsSeparated.of_isAffineHom
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Separated.lean
----
-
 # Affine morphisms are separated
 
 Every affine morphism of schemes is separated. In particular, every morphism

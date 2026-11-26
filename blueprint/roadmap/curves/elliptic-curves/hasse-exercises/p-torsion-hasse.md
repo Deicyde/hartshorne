@@ -1,9 +1,3 @@
----
-article_id: af_8e7bbf83de47b4c0ee3a050e
-declaration: theorem
-origin: cited
----
-
 # The p-torsion subgroup and the Hasse invariant
 
 For an elliptic curve in characteristic $p$, the subgroup of closed points

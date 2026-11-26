@@ -1,12 +1,3 @@
----
-article_id: af_0034b5758463326d85c5e9ba
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.quasicoherent_affine_local_tfae
----
-
 # The affine-local criterion for quasi-coherence
 
 For an $\mathcal{O} _X$-module $F$, prove the equivalence of the following conditions:

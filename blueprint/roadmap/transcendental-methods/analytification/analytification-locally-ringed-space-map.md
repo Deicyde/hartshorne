@@ -1,10 +1,3 @@
----
-article_id: af_92cb536140f719e636e5cd56
-declaration: morphism
-origin: background
-not_ready: true
----
-
 # The analytification comparison is a locally ringed-space morphism
 
 The closed-point map carries a natural local morphism of sheaves

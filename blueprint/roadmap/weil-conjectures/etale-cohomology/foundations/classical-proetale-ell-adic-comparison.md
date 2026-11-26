@@ -1,10 +1,3 @@
----
-article_id: af_aac120ace10f77b35e09cf8c
-declaration: isomorphism
-origin: background
-not_ready: true
----
-
 # Classical inverse-limit and pro-étale ℓ-adic cohomology agree
 
 Under the standard finite-type and constructibility hypotheses, compare the

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/subschemes-and-dimension/affine-closed-subschemes.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.IsClosedImmersion.Spec_iff", "module": "Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion"}}], "id": "af_784fde36202d6caa05445aeb"}

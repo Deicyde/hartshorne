@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/curve-normalization/curve-to-valuation-space-iso.md"}], "object": [{"location": {"declaration": "Hartshorne.IsQuasiProjVariety.localRingMapAbstractCurveHom_isIso"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_013c74c106370228b55e5404", "extensions": {"org.autoform": {"origin": "cited"}}}

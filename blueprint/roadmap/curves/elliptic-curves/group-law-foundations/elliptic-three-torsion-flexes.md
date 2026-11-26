@@ -1,9 +1,3 @@
----
-article_id: af_f82ae520e056d8233077cd80
-declaration: theorem
-origin: cited
----
-
 # Three-torsion and flexes
 
 In the plane cubic embedding by $|3P_0|$, a point has order dividing three

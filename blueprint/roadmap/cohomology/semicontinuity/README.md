@@ -1,7 +1,3 @@
----
-article_id: af_20c51ffbcc47982218dd7e1c
----
-
 # Semicontinuity and base change
 
 Hartshorne III.12 packages projective cohomology after tensoring into a

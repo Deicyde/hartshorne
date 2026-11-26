@@ -1,12 +1,3 @@
----
-article_id: af_3eef3cf7ecf8c4deb15fbf7b
-declaration: structure
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.InfinitesimalDeformation
----
-
 # Infinitesimal deformations over the dual numbers
 
 For $D=k[t]/(t^2)$, define an infinitesimal deformation of a finite-type

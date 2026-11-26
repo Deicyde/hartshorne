@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/subschemes-and-dimension/codimension-via-local-dimension.md"}], "object": [{"location": {"declaration": "Hartshorne.codim_eq_iInf_ringKrullDim_stalk"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_44b83243fe293608bea01657", "extensions": {"org.autoform": {"origin": "cited"}}}

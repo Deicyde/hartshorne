@@ -1,12 +1,3 @@
----
-article_id: af_768cb27118c861e6835ad334
-declaration: instance
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.instIsLocalRingLocalRingAt Hartshorne.Variety.instIsLocalRingLocalRingAt
----
-
 # The local ring is local
 
 The ring $\mathcal O_{P,Y}$ is local. Its unique maximal ideal consists

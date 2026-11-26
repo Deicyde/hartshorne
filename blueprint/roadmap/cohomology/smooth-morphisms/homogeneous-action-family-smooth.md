@@ -1,9 +1,3 @@
----
-article_id: af_b706b675a635d0b7e1242cf7
-declaration: theorem
-origin: bridged
----
-
 # The homogeneous action family is smooth
 
 Let a group variety $G$ act transitively on a homogeneous variety $X$ over an

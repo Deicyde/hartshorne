@@ -1,9 +1,3 @@
----
-article_id: af_0f0990326d655d8f69698851
-declaration: theorem
-origin: cited
----
-
 # The genus of a smooth curve on a quadric
 
 A smooth curve of type $(a,b)$ on a smooth quadric surface has genus

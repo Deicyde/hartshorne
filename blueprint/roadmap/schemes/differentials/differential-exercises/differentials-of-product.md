@@ -1,12 +1,3 @@
----
-article_id: af_1780280285ac2516c17e68bd
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.relativeDifferentialsProductIso AlgebraicGeometry.Scheme.biprod_inl_relativeDifferentialsProductIso_inv AlgebraicGeometry.Scheme.biprod_inr_relativeDifferentialsProductIso_inv AlgebraicGeometry.Scheme.relativeDifferentialsFstIso_inv
----
-
 # Differentials of a product
 
 For schemes $X$ and $Y$ over $S$, with projections from $X \times _S Y$, there

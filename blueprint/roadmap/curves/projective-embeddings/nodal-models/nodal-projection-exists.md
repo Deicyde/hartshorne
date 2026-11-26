@@ -1,9 +1,3 @@
----
-article_id: af_b6e462af855bb8b07b959332
-declaration: theorem
-origin: cited
----
-
 # A nodal plane projection exists
 
 Let $X$ be a curve embedded in $\mathbb{P}^3$. There is a point $O \notin X$ such that

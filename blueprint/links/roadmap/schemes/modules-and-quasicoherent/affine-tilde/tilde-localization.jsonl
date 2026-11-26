@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/modules-and-quasicoherent/affine-tilde/tilde-localization.md"}], "object": [{"location": {"declaration": "Hartshorne.affineTildeBasicOpenIso"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_e50bd55d0e4eeadcb033ff3f", "extensions": {"org.autoform": {"origin": "cited"}}}

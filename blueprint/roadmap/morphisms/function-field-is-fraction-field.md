@@ -1,12 +1,3 @@
----
-article_id: af_dd1cbde9cdbfd8ab2b1cd243
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isFractionRing_functionField Hartshorne.exists_dim_eq_trdeg_functionField
----
-
 # The function field is the fraction field
 
 For an affine variety $Y$, the function field $K(Y)$ is the fraction

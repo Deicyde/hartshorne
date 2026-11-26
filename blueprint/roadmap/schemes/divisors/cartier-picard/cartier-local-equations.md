@@ -1,12 +1,3 @@
----
-article_id: af_0bc2c79acfbc5253536624b0
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.toCartierDivisorSheaf_apply_eq_iff_ratio AlgebraicGeometry.Scheme.CartierLocalEquations.existsUnique_represents AlgebraicGeometry.Scheme.CartierLocalEquations.exists_localEquations AlgebraicGeometry.Scheme.CartierLocalEquations.sameDivisor_iff_commonRefinement
----
-
 # Local equations for Cartier divisors
 
 A global section of $K_X^* / \mathcal{O}_X^*$ is equivalently represented by an open

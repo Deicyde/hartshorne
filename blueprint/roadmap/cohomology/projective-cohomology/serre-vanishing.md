@@ -1,9 +1,3 @@
----
-article_id: af_e008c1fa9de9ba86d142eaf3
-declaration: theorem
-origin: cited
----
-
 # Serre vanishing
 
 Let $X$ be projective over a Noetherian ring $A$, let $\mathcal{O}_X(1)$ be very ample,

@@ -1,9 +1,3 @@
----
-article_id: af_839950afb5ef3e558ee775a5
-declaration: theorem
-origin: cited
----
-
 # Kleiman's general-translate theorem
 
 Let $X$ be a homogeneous space for a group variety $G$ over an algebraically

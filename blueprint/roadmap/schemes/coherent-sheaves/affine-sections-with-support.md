@@ -1,12 +1,3 @@
----
-article_id: af_725249038f35aab4717e6cb1
-declaration: isomorphism
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.sectionsWithSupportIso Hartshorne.sectionsWithSupport Hartshorne.isLocalizedModule_sectionsWithSupport_basicOpen Hartshorne.isLocalizedModule_sectionsWithSupport_stalk Hartshorne.isLocalizing_sectionsWithSupport
----
-
 # Affine sections with support
 
 Let $A$ be Noetherian, $X = \operatorname{Spec} A$, $Z = V(a)$, and $F=\widetilde{M}$. The subsheaf

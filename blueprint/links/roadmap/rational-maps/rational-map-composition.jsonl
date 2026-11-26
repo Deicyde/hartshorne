@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/rational-maps/rational-map-composition.md"}], "object": [{"location": {"declaration": "Hartshorne.DominantRatMap.comp"}, "role": "states"}], "status": "formalized", "kind": "definition", "id": "af_50d38585932c26a7be65604d", "extensions": {"org.autoform": {"origin": "bridged"}}}

@@ -1,9 +1,3 @@
----
-article_id: af_5751579faeac72bcf37aa015
-declaration: theorem
-origin: cited
----
-
 # Cubics through at most seven general assigned points have no extra base points
 
 Let plane cubics have ordinary assigned points $P_1,\ldots ,P_r$, where $r\le 7$, no four

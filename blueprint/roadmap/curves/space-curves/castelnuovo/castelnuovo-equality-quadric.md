@@ -1,9 +1,3 @@
----
-article_id: af_dc2cc25d3cbd405b373ccda5
-declaration: theorem
-origin: cited
----
-
 # Equality forces a containing quadric
 
 If a nonplanar space curve attains the Castelnuovo genus bound, then it is

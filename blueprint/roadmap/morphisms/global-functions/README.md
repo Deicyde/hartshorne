@@ -1,7 +1,3 @@
----
-article_id: af_dbd2705858c19fdfc6efd954
----
-
 # Global functions and local rings
 
 Hartshorne places the global ring and every local ring inside the function

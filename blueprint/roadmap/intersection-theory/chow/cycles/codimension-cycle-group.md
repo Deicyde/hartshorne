@@ -1,11 +1,3 @@
----
-article_id: af_09426dc441c92bf1aaec50d6
-declaration: def
-origin: cited
-statement: formalized
-lean: Hartshorne.codimensionCycles
----
-
 # Codimension cycles on a variety
 
 For a variety $X$ and $r\ge 0$, define $\mathbb{Z}^r(X)$ to be the free abelian group on

@@ -1,9 +1,3 @@
----
-article_id: af_41c548ef939b6bd2c193cf10
-declaration: isomorphism
-origin: cited
----
-
 # Top cohomology and negative monomials
 
 For $A$, $S$, and $X=\mathbb{P}^{r}_A$ as above, the graded $S$-module

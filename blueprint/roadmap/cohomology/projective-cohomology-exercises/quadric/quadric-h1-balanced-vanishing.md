@@ -1,10 +1,3 @@
----
-article_id: af_c956494f68cb06740af6d576
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Balanced quadric H¹ vanishing
 
 Let $Q\subseteq \mathbb{P}^{3}_k$ be the split nonsingular quadric $xy=zw$, with line bundles

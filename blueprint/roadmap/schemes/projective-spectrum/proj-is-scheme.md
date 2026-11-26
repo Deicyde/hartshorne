@@ -1,12 +1,3 @@
----
-article_id: af_73448e0739768435c19df66b
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Proj
-mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Scheme.lean
----
-
 # Proj is a scheme
 
 For every $\mathbb{N}$-graded commutative ring $S$, its projective spectrum with the

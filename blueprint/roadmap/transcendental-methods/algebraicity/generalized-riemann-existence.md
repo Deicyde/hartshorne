@@ -1,10 +1,3 @@
----
-article_id: af_f870900e08d1661c57a28744
-declaration: equivalence
-origin: background
-not_ready: true
----
-
 # Generalized Riemann existence for finite normal covers
 
 Let $X$ be a normal finite-type scheme over $\mathbb{C}$.  If $M$ is a normal complex

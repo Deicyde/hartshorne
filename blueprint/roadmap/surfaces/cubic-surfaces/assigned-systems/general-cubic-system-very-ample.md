@@ -1,9 +1,3 @@
----
-article_id: af_537bd3ade4791bb333c59595
-declaration: theorem
-origin: cited
----
-
 # The transformed cubic system through at most six general points is very ample
 
 Let $P_1,\ldots ,P_r$, $r\le 6$, be ordinary points of $\mathbb{P}^2$, with no three

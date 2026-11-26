@@ -1,12 +1,3 @@
----
-article_id: af_2be48af475bcbe3565ef8435
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.HasAffineOpenBasis.ringKrullDim_localRingAt_eq
----
-
 # Dimension of the local ring of a variety
 
 Let $X$ be a variety with an affine-open basis and let $P\in X$. Then

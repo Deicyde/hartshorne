@@ -1,12 +1,3 @@
----
-article_id: af_c1ad20c4747293c5e4936d68
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projective_codimension_one_iff_hypersurface
----
-
 # Projective codimension one is a hypersurface
 
 Let $Y \subseteq \mathbb{P} ^{n}$ be a projective variety. Then $\dim Y = n-1$ if and only if

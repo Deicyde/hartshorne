@@ -1,10 +1,3 @@
----
-article_id: af_f3652769c3a7409118ffe47b
-declaration: example
-origin: background
-not_ready: true
----
-
 # Serre's nonproper ruled-surface counterexample
 
 Let $C$ be a complex elliptic curve, $X$ the unique indecomposable ruled

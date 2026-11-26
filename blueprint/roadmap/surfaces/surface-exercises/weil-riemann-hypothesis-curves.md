@@ -1,9 +1,3 @@
----
-article_id: af_22f2dfb1016d73261a11dc02
-declaration: theorem
-origin: cited
----
-
 # Weil's Riemann-hypothesis bound for curves
 
 Let $C$ be a nonsingular projective genus-$g$ curve over $\mathbb F_q$, and let $N$

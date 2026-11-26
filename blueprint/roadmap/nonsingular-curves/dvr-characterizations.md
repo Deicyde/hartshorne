@@ -1,12 +1,3 @@
----
-article_id: af_860f4cc4dfa97f0017c8d7df
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.dvr_characterizations
----
-
 # Characterizations of discrete valuation rings
 
 Let $A$ be a Noetherian local domain of Krull dimension one, with maximal

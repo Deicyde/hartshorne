@@ -1,9 +1,3 @@
----
-article_id: af_6db2de4616aee3434e0068bf
-declaration: theorem
-origin: cited
----
-
 # Hyperelliptic curves and degree-two linear systems
 
 For a Chapter IV curve of genus at least two, the following are equivalent:

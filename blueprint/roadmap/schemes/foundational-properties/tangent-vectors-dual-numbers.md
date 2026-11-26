@@ -1,12 +1,3 @@
----
-article_id: af_a4a0543ea6d3bb728811d630
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.dualNumberLiftToTangent_bijective
----
-
 # Tangent vectors and the dual numbers
 
 Let $X$ be a scheme over a field $k$, and let $x \in X$ be $k$-rational.  If

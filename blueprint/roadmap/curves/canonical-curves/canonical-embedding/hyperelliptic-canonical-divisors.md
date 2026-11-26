@@ -1,9 +1,3 @@
----
-article_id: af_0e8b1e979f64f69315993c23
-declaration: theorem
-origin: cited
----
-
 # Canonical divisors on a hyperelliptic curve
 
 On a hyperelliptic genus-$g$ curve, every effective canonical divisor is a

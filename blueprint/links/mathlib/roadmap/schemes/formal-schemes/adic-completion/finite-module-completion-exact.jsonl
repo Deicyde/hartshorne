@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/schemes/formal-schemes/adic-completion/finite-module-completion-exact.md"}], "object": [{"location": {"declaration": "AdicCompletion.map_exact", "module": "Mathlib.RingTheory.AdicCompletion.Exactness"}}], "id": "af_0e5f5e0fad44547212ec5385"}

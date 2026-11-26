@@ -1,9 +1,3 @@
----
-article_id: af_7e0228ae084f86cc4b11a57e
-declaration: isomorphism
-origin: cited
----
-
 # Hom into top sheaf Ext
 
 Under the hypotheses of the ambient vanishing theorem, set

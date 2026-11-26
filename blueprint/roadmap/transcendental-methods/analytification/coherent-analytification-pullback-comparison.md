@@ -1,10 +1,3 @@
----
-article_id: af_9689cb7a25365808cbe4da45
-declaration: isomorphism
-origin: background
-not_ready: true
----
-
 # Coherent analytification is analytic scalar extension
 
 For every coherent algebraic sheaf $F$ on $X$, there is a natural isomorphism

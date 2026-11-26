@@ -1,10 +1,3 @@
----
-article_id: af_c4b63c0982df4af9e44a59b8
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Ruling-direction quadric H¹ nonvanishing
 
 For the split nonsingular quadric $Q$, if $a\le -2$, then

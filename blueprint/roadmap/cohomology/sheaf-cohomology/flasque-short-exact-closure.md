@@ -1,12 +1,3 @@
----
-article_id: af_715fb5ec66f4afe0a1b18ada
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: TopCat.Sheaf.IsFlasque.of_shortExact_of_isFlasque₁₂
-mathlib_file: Mathlib/Topology/Sheaves/Flasque.lean
----
-
 # Flasque closure in short exact sequences
 
 In a short exact sequence of abelian sheaves

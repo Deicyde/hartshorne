@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/fiber-products/finite-type-products.md"}], "object": [{"location": {"declaration": "Hartshorne.finiteType_products"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_83bb1eae9573b5bea8a6e259", "extensions": {"org.autoform": {"origin": "cited"}}}

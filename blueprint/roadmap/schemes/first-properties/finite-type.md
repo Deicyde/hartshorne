@@ -1,12 +1,3 @@
----
-article_id: af_9c4d4fb277a1234fb29a6c06
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.finiteType_iff_exists_affine_cover
----
-
 # Morphisms of finite type
 
 A morphism $f : X \to Y$ of schemes is of finite type if there exists a covering of $Y$ by

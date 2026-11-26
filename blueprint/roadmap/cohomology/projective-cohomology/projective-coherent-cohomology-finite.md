@@ -1,9 +1,3 @@
----
-article_id: af_c37a68bf16da875067370868
-declaration: theorem
-origin: cited
----
-
 # Coherent projective cohomology is finite
 
 Let $X$ be projective over a Noetherian ring $A$, with a chosen very ample

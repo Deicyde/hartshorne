@@ -1,12 +1,3 @@
----
-article_id: af_2b64070bd52242f68017926b
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projective_dimension_theorem
----
-
 # The projective dimension theorem for components
 
 Let $Y,Z\subseteq\mathbb P^n$ be projective varieties and let $W$ be

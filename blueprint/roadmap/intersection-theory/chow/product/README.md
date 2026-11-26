@@ -1,7 +1,3 @@
----
-article_id: af_ddffbb2501e43b2422e27e27
----
-
 # The Chow intersection product
 
 This subchapter records Hartshorne's A1–A7 interface, graph pullback, proper

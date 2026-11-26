@@ -1,12 +1,3 @@
----
-article_id: af_23c0fb3577cdca1063ee339a
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.finiteFieldExtensionPolynomial Hartshorne.finiteFieldExtension Hartshorne.finiteFieldExtensionHom
----
-
 # The finite-field extension tower
 
 Fix $k=\mathbb{F}_q$. For every integer $r\ge 1$, choose the degree-$r$ extension

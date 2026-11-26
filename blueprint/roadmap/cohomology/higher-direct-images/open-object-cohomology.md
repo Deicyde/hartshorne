@@ -1,10 +1,3 @@
----
-article_id: af_c9fee8195837cc5ddc2a73dc
-declaration: isomorphism
-origin: bridged
-not_ready: true
----
-
 # Cohomology on an open object
 
 For an abelian sheaf $F$ on $X$, an open subset $U$, and a

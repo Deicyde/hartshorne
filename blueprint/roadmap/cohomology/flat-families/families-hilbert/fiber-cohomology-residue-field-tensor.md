@@ -1,9 +1,3 @@
----
-article_id: af_2433bcfab3883a7e0a8e38b4
-declaration: isomorphism
-origin: cited
----
-
 # Fibre cohomology as residue-field tensor cohomology
 
 Let $f : X \to Y$ be a separated finite-type morphism of Noetherian schemes,

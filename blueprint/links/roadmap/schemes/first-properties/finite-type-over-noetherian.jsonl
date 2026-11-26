@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/first-properties/finite-type-over-noetherian.md"}], "object": [{"location": {"declaration": "Hartshorne.finiteType_isNoetherian"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_e7475ffec8d015d63e190f23", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,7 +1,3 @@
----
-article_id: af_71de0732595eff32118f92d1
----
-
 # Chern classes in the Chow ring
 
 For nonsingular quasi-projective varieties over the algebraically closed base

@@ -1,12 +1,3 @@
----
-article_id: af_3743230b14283596cc3b7225
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Ringed.moduleSheafHomData
----
-
 # The sheaf Hom of module sheaves
 
 For $\mathcal{O} _X$-modules $F$ and $G$, make the sheaf

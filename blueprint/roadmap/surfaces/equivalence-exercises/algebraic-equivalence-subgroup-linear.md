@@ -1,9 +1,3 @@
----
-article_id: af_4ba6335b637a8276c17321ce
-declaration: theorem
-origin: cited
----
-
 # The algebraically trivial divisors form a subgroup
 
 On a Chapter-V surface $X$, two effective divisors are prealgebraically

@@ -1,9 +1,3 @@
----
-article_id: af_9e2cbc568582ea453f3d1834
-declaration: structure
-origin: cited
----
-
 # The marked cubic-surface blowup model
 
 Fix six ordinary points $P_1,\ldots ,P_6$ of $\mathbb{P}^2$, no three collinear and not

@@ -1,9 +1,3 @@
----
-article_id: af_e10ae9ded178ecb27cb22707
-declaration: theorem
-origin: cited
----
-
 # Abelian closure of coherent formal modules
 
 The kernel, cokernel, and image of any morphism of coherent modules on a

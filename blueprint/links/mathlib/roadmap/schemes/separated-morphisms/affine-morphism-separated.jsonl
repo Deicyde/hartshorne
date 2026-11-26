@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/separated-morphisms/affine-morphism-separated.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.IsSeparated.of_isAffineHom", "module": "Mathlib.AlgebraicGeometry.Morphisms.Separated"}}], "id": "af_3f1a47b905324050aaee2347"}

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/hilbert/integer-polynomial-grading.md"}], "object": [{"location": {"declaration": "Hartshorne.integerHomogeneousSubmodule"}, "role": "states"}], "status": "formalized", "kind": "definition", "id": "af_c9b34d562bca7bd9350f8d51", "extensions": {"org.autoform": {"origin": "bridged"}}}

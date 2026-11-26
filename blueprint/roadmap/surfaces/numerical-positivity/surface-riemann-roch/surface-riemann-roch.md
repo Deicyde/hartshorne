@@ -1,9 +1,3 @@
----
-article_id: af_8d3cc712fbfd04c61ddb60b5
-declaration: theorem
-origin: cited
----
-
 # The surface Riemann–Roch theorem
 
 For every divisor $D$ on a Chapter V surface,

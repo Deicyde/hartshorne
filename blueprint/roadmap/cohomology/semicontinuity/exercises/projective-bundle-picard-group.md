@@ -1,9 +1,3 @@
----
-article_id: af_a20c7a4e46cf50484916c16c
-declaration: isomorphism
-origin: cited
----
-
 # The Picard group of a projective bundle
 
 Let $Y$ be an integral finite-type scheme over an algebraically closed field

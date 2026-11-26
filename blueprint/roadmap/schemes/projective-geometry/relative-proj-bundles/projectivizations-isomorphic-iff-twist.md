@@ -1,9 +1,3 @@
----
-article_id: af_fc84c33f2988d359ffce71c3
-declaration: theorem
-origin: cited
----
-
 # Isomorphic projectivizations differ by a line-bundle twist
 
 For finite locally free sheaves $E$ and $E'$ of the same constant rank at

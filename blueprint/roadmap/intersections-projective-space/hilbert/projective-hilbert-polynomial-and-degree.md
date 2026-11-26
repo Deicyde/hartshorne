@@ -1,12 +1,3 @@
----
-article_id: af_5b7e34d5e45271c5c73168b1
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveDegree Hartshorne.projectiveHilbertPolynomial
----
-
 # Hilbert polynomials and degrees of projective algebraic sets
 
 For a projective algebraic set $Y\subseteq\mathbb P^n$, its *Hilbert

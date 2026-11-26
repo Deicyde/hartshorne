@@ -1,12 +1,3 @@
----
-article_id: af_e89ce409714107e99d048946
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.properMorphismCalculus
----
-
 # Proper-morphism calculus
 
 Proper morphisms satisfy all clauses of Corollary 4.8: closed immersions are

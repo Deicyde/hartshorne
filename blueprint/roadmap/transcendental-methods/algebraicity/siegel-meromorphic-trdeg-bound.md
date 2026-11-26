@@ -1,10 +1,3 @@
----
-article_id: af_38b17892edb0956c2c895fa0
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Siegel's bound on meromorphic functions
 
 If $M$ is a connected compact complex manifold of dimension $n$, then

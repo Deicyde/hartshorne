@@ -1,9 +1,3 @@
----
-article_id: af_c9401acfc68bea7fe7687957
-declaration: theorem
-origin: cited
----
-
 # Necessity of the numerical conditions
 
 If $D$ is ample on a Chapter V surface, then

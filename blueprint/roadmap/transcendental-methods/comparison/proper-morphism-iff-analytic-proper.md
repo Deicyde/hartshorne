@@ -1,10 +1,3 @@
----
-article_id: af_4ca4e6129d5e86456557de82
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Algebraic properness agrees with topological properness after analytification
 
 For a morphism $f:X\to Y$ of finite-type complex schemes, $f$ is proper if and

@@ -1,12 +1,3 @@
----
-article_id: af_88a5d15002ea2b25df784027
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.finiteType_comp
----
-
 # Finite-type morphisms compose
 
 The composite of two morphisms of finite type is finite type.

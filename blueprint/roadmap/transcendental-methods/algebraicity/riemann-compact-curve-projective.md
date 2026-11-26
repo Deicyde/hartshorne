@@ -1,9 +1,3 @@
----
-article_id: af_d4e342a32217ef562d964528
-declaration: theorem
-origin: cited
----
-
 # Every compact Riemann surface is projective algebraic
 
 For every connected compact complex one-manifold $M$, there is a nonsingular

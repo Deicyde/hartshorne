@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/weil-conjectures/zeta/finite-type-scheme-rational-points-finite.md"}], "object": [{"location": {"declaration": "Hartshorne.finite_rationalPoints_of_finiteType"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_ab6547f969409d6c33d5d90d", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/cohomology/flat-families/flatness/module-sheaf-flat-transitivity.md"}], "object": [{"location": {"declaration": "Hartshorne.moduleSheaf_flatOver_comp"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_8f159700097a79f55cfc8959", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/separated-morphisms/valuative-criterion-separated.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.IsSeparated.eq_valuativeCriterion", "module": "Mathlib.AlgebraicGeometry.ValuativeCriterion"}}], "id": "af_ecf63b3f6b49a569c24a1d09"}

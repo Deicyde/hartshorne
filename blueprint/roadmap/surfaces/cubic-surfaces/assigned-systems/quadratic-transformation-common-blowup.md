@@ -1,9 +1,3 @@
----
-article_id: af_16f6a4a6876cf2395cf5917a
-declaration: isomorphism
-origin: cited
----
-
 # The graph of the quadratic transformation is a common three-point blowup
 
 Let $V$ in $\mathbb{P}^2_x \times \mathbb{P}^2_y$ be defined by

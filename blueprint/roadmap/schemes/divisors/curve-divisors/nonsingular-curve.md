@@ -1,12 +1,3 @@
----
-article_id: af_51b06323fde6cf7d8927b6ec
-declaration: structure
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.IsNonsingularCurve AlgebraicGeometry.Scheme.IsCurve AlgebraicGeometry.Scheme.IsNonsingularCurve.satisfiesConditionStar AlgebraicGeometry.Scheme.IsNonsingularCurve.isClosed_singleton_iff_coheight_eq_one AlgebraicGeometry.Scheme.IsNonsingularCurve.weilDivisorAddEquivClosedPointFinsupp
----
-
 # Nonsingular curves over a field
 
 Let $k$ be a field. A *curve over $k$* is an integral scheme $X$ that is

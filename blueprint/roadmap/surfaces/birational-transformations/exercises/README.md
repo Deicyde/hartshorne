@@ -1,7 +1,3 @@
----
-article_id: af_0a67819b987fab02b403d616
----
-
 # Later-used contraction exercises
 
 Remark V.5.7.2 uses the two adopted numerical contraction clauses below.

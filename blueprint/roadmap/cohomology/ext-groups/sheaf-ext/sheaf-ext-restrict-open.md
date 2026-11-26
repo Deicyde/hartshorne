@@ -1,9 +1,3 @@
----
-article_id: af_f00acd127719c5a52c84bbd9
-declaration: theorem
-origin: cited
----
-
 # Sheaf Ext restricts to open subsets
 
 For an open inclusion $j : U \hookrightarrow X$, $\mathcal{O}_X$-modules $F,G$, and every $i$,

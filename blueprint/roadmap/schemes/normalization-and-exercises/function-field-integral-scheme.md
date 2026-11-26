@@ -1,12 +1,3 @@
----
-article_id: af_dbf38db01c054237bc0f987d
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.functionField_isFractionRing_of_isAffineOpen
-mathlib_file: Mathlib/AlgebraicGeometry/FunctionField.lean
----
-
 # Affine opens have fraction field $K(X)$
 
 Let $X$ be integral and let $U \subseteq X$ be a nonempty affine open. Then the

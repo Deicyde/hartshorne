@@ -1,9 +1,3 @@
----
-article_id: af_2ec6a94da349817e80bbf56a
-declaration: theorem
-origin: cited
----
-
 # Genus-two curves are canonically hyperelliptic
 
 Let $X$ be a Chapter IV curve of genus two. Its canonical linear system has

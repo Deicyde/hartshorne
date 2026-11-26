@@ -1,9 +1,3 @@
----
-article_id: af_bcb6a84a0bf311c9d6622bf5
-declaration: theorem
-origin: cited
----
-
 # Classification of rational ruled surfaces
 
 Every normalized rank-two bundle on $\mathbb{P}^1$ is

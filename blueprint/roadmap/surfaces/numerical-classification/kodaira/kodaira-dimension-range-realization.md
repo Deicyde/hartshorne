@@ -1,10 +1,3 @@
----
-article_id: af_bef71213bd2fccc14400bf0e
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Range and realization of Kodaira dimension
 
 For a nonsingular projective integral variety of dimension $d$,

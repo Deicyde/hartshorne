@@ -1,9 +1,3 @@
----
-article_id: af_40c66ab41bbe07ce869cabe3
-declaration: theorem
-origin: cited
----
-
 # Dual Frobenius detects the Hasse invariant
 
 Let $F : X^p \to X$ be the $k$-linear Frobenius of an elliptic curve in

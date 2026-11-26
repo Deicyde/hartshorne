@@ -1,9 +1,3 @@
----
-article_id: af_7d09aca736d5ea2b05f6f3b3
-declaration: theorem
-origin: cited
----
-
 # Vector-bundle and coherent-sheaf K0 on a smooth variety
 
 For a smooth quasi-projective variety, the Grothendieck group of coherent

@@ -1,9 +1,3 @@
----
-article_id: af_0efd8cb6bb7f76278a425279
-declaration: isomorphism
-origin: cited
----
-
 # Blowing up the vertex of a cone gives a ruled surface
 
 Let $C$ be a nonsingular curve of degree $d$ embedded in $\mathbb{P}^n$, and let

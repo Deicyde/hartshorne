@@ -1,9 +1,3 @@
----
-article_id: af_f5d9d1ebb4e2f90a16f44a31
-declaration: def
-origin: cited
----
-
 # Linear series and trigonal curves
 
 A linear series $g^r_d$ on a Chapter IV curve consists of a degree-$d$

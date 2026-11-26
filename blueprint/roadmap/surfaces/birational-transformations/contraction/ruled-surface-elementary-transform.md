@@ -1,9 +1,3 @@
----
-article_id: af_314aaf6ad470aa80a33f386d
-declaration: theorem
-origin: cited
----
-
 # Elementary transformations of ruled surfaces
 
 Let $\pi :X\to C$ be a geometrically ruled surface, let $P$ lie on the fibre

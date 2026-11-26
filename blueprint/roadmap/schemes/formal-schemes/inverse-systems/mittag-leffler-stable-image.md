@@ -1,12 +1,3 @@
----
-article_id: af_c81659bacbfcb45cf90a32f1
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.InverseSystem.exists_stableImageSectionsAddEquiv
----
-
 # Stable-image replacement
 
 For a Mittag–Leffler inverse system $A$, let $A' n$ be its stable image in

@@ -1,7 +1,3 @@
----
-article_id: af_57e7a327fd202f9b1729e50f
----
-
 # Affine varieties
 
 Hartshorne begins over a fixed algebraically closed field $k$. The basic

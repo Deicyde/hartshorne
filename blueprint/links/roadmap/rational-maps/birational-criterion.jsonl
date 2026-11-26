@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/rational-maps/birational-criterion.md"}], "object": [{"location": {"declaration": "Hartshorne.birational_criterion"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_bee9a975db6a53592b5a0819", "extensions": {"org.autoform": {"origin": "cited"}}}

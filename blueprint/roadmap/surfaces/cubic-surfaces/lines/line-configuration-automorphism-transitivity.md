@@ -1,9 +1,3 @@
----
-article_id: af_51d646c5f9485636c6a1b326
-declaration: theorem
-origin: cited
----
-
 # Configuration automorphisms act simply transitively on ordered skew sextuples
 
 For every ordered sextuple of mutually skew lines among the twenty-seven,

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/curve-categories.md"}], "object": [{"location": {"declaration": "Hartshorne.ProjectiveNonsingularCurveCat"}, "role": "states"}], "status": "formalized", "kind": "structure", "id": "af_c7ac0a5fa52ef3a39637f1b5", "extensions": {"org.autoform": {"origin": "bridged"}}}

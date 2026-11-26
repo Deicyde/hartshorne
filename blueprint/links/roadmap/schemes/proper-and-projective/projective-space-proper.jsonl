@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/proper-and-projective/projective-space-proper.md"}], "object": [{"location": {"declaration": "Hartshorne.projectiveSpaceOverSchemeProjection_isProper"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_7d438e5682951dd9d44615d5", "extensions": {"org.autoform": {"origin": "cited"}}}

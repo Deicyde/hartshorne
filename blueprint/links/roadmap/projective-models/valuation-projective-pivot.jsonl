@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/valuation-projective-pivot.md"}], "object": [{"location": {"declaration": "Hartshorne.FunctionFieldDVR.exists_projective_pivot"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_d222888a4429ec3f3066f168", "extensions": {"org.autoform": {"origin": "bridged"}}}

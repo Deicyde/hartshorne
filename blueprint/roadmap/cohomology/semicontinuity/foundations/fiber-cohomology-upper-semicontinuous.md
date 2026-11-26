@@ -1,9 +1,3 @@
----
-article_id: af_32a7f76246d2503d86de96d7
-declaration: theorem
-origin: cited
----
-
 # Fibre cohomology dimension is upper semicontinuous
 
 Let $f : X \to Y$ be a projective morphism of Noetherian schemes and let $F$

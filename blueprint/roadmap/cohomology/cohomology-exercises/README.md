@@ -1,7 +1,3 @@
----
-article_id: af_6e1ee2ef539acd0257b5b994
----
-
 # Affineness, Picard, and dimension exercises
 
 These exercises from Hartshorne III.3–4 supply results used later

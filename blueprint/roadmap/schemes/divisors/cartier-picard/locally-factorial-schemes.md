@@ -1,11 +1,3 @@
----
-article_id: af_5b3313e3bdb0de65fbd87de7
-declaration: definition
-origin: cited
-statement: formalized
-lean: AlgebraicGeometry.Scheme.IsLocallyFactorial AlgebraicGeometry.Scheme.WeilDivisor.IsLocallyPrincipal
----
-
 # Locally factorial schemes
 
 Define a scheme to be locally factorial when each of its local rings is a

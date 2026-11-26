@@ -1,9 +1,3 @@
----
-article_id: af_44e75cc5f3291268f6ad9a8a
-declaration: isomorphism
-origin: cited
----
-
 # Structure-sheaf first cohomology of a curve
 
 For a smooth projective complex curve of genus $g$,

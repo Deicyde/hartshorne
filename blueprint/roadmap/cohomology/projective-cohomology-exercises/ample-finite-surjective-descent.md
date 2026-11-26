@@ -1,9 +1,3 @@
----
-article_id: af_5c97646969144440555d3131
-declaration: theorem
-origin: cited
----
-
 # Finite-surjective descent of ampleness
 
 Let $f:X\to Y$ be a finite surjective morphism of proper schemes over a

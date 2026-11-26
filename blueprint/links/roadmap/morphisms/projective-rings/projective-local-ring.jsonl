@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/morphisms/projective-rings/projective-local-ring.md"}], "object": [{"location": {"declaration": "Hartshorne.projLocalRingEquivGraded"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_81c10fb1e90a0ecf4e9aacdd", "extensions": {"org.autoform": {"origin": "cited"}}}

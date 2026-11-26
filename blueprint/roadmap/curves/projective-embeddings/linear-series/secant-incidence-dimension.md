@@ -1,9 +1,3 @@
----
-article_id: af_8c3de0bd33c9fabe279659ca
-declaration: theorem
-origin: cited
----
-
 # The secant incidence has dimension at most three
 
 For an embedded Chapter IV curve $X \to \mathbb{P}^n$, the union $\operatorname{Sec}(X)$ of actual

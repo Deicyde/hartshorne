@@ -1,12 +1,3 @@
----
-article_id: af_161a502758e7e12d572005a7
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.planeCurveMultiplicity Hartshorne.planeCurveMultiplicity_pos_iff Hartshorne.homogeneousComponent_eq_zero_of_lt_planeCurveMultiplicity Hartshorne.homogeneousComponent_planeCurveMultiplicity_ne_zero
----
-
 # Multiplicity of a point on a plane curve
 
 Let $k$ be algebraically closed, let $Y \subseteq \mathbb{A}^2$ be the plane curve

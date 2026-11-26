@@ -1,12 +1,3 @@
----
-article_id: af_7d9268752399c74032a1c3c3
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.finite_support_ord_of_satisfiesConditionStar
----
-
 # Principal divisors have finite support
 
 Let $X$ satisfy $(*)$ and let $f : K(X)$ be nonzero. Then

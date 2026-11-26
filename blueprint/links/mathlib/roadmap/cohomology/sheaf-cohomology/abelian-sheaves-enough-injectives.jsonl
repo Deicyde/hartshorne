@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/cohomology/sheaf-cohomology/abelian-sheaves-enough-injectives.md"}], "object": [{"location": {"declaration": "CategoryTheory.IsGrothendieckAbelian.enoughInjectives", "module": "Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives"}}], "id": "af_5ddce4f07a05e48ab6f2631d"}

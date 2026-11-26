@@ -1,12 +1,3 @@
----
-article_id: af_1a29a305023b847c4951dee1
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.locallyOfFiniteType_iff_affineCovers
----
-
 # Morphisms locally of finite type
 
 A morphism $f : X \to Y$ is locally of finite type when an affine cover of $Y$ pulls back to affine covers $\operatorname{Spec} A_{ij}$ for which each $A_{ij}$ is a finitely generated algebra over the corresponding target ring.

@@ -1,12 +1,3 @@
----
-article_id: af_6e65f145e033a68433e1565b
-declaration: class
-origin: bridged
-mathlib: true
-mathlib_declaration: SheafOfModules.IsFinitePresentation
-mathlib_file: Mathlib/Algebra/Category/ModuleCat/Sheaf/Quasicoherent.lean
----
-
 # Finite type and finite presentation for module sheaves
 
 A sheaf of modules is of finite type when it is locally finitely

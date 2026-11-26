@@ -1,12 +1,3 @@
----
-article_id: af_e067734e3eaa60839252f909
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.SchemeRationalMap.normal_projective_fundamentalLocus_codim_two Hartshorne.SchemeRationalMap.normal_projective_surface_fundamentalLocus_finite Hartshorne.SchemeRationalMap.mem_dom_of_coheight_eq_one Hartshorne.SchemeRationalMap.two_le_codim_fundamentalLocus Hartshorne.SchemeRationalMap.fundamentalLocus_finite_of_topologicalKrullDim_eq_two
----
-
 # The fundamental locus on a normal source has codimension at least two
 
 Let $T:X \dashrightarrow Y$ be a birational transformation of projective

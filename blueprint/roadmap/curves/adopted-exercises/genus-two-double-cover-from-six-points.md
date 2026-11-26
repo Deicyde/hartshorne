@@ -1,9 +1,3 @@
----
-article_id: af_73004ba4a8d518c75ef40b4b
-declaration: theorem
-origin: cited
----
-
 # Genus-two curves from six branch points
 
 Let $k$ be algebraically closed of characteristic different from two, and let

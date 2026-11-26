@@ -1,12 +1,3 @@
----
-article_id: af_23baadb1329327bb38ba2ae5
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.CartierDivisor.linearEquivalent_iff_nonempty_iso
----
-
 # Linear equivalence is isomorphism of divisor sheaves
 
 For Cartier divisors $D_1,D_2$ on a scheme $X$,

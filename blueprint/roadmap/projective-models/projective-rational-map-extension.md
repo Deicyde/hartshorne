@@ -1,12 +1,3 @@
----
-article_id: af_80c5665b10ceeb3789f03554
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.DominantRatMap.existsUnique_projectiveCurve_extension
----
-
 # Extension of dominant rational maps
 
 Every dominant rational map from a nonsingular projective curve to a

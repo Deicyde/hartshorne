@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/cohomology/cohomology-exercises/chevalley-generic-finite-module-frame.md"}], "object": [{"location": {"declaration": "Hartshorne.exists_genericFiniteModuleFrame"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_42df22992daf4d6cd4cc905d", "extensions": {"org.autoform": {"origin": "cited"}}}

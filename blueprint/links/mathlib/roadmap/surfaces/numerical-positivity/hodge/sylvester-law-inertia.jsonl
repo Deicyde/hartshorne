@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/surfaces/numerical-positivity/hodge/sylvester-law-inertia.md"}], "object": [{"location": {"declaration": "QuadraticForm.equivalent_one_neg_one_weighted_sum_squared", "module": "Mathlib.LinearAlgebra.QuadraticForm.Real"}}], "id": "af_be695ab22ad51676deaa22cf"}

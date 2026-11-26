@@ -1,9 +1,3 @@
----
-article_id: af_751d2b1ef14a4d39c297d0b6
-declaration: theorem
-origin: cited
----
-
 # The greedy skew-sextuple marking
 
 Suppose a divisor $D$ has positive intersection with every line on the marked

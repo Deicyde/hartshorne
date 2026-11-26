@@ -1,7 +1,3 @@
----
-article_id: af_8014ea5b4ffcb7e9a5688722
----
-
 # First properties and finiteness conditions
 
 This chapter develops the topological and ring-theoretic properties of schemes

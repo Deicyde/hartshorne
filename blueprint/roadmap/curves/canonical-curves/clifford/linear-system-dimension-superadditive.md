@@ -1,9 +1,3 @@
----
-article_id: af_5f3f550f0a18f7842e0ac9d8
-declaration: theorem
-origin: cited
----
-
 # Dimensions are superadditive under addition of linear systems
 
 For effective divisors $D,E$ on a Chapter IV curve, addition of divisors

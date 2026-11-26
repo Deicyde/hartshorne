@@ -1,12 +1,3 @@
----
-article_id: af_e1ae36260cfcc00b57e99628
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsQuasiProjVariety.localRingMap_injective_open_homeomorph
----
-
 # The local-ring map has open image
 
 Let $Y$ be a nonsingular quasi-projective curve with function field $K(Y)$.

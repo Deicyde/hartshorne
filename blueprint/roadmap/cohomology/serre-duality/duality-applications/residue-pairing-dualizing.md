@@ -1,10 +1,3 @@
----
-article_id: af_d8dc94a35250cef8b65876ad
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The residue pairing is perfect
 
 For a complete nonsingular curve $X$, composition followed by the residue

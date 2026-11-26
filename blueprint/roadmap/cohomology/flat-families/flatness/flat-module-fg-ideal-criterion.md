@@ -1,12 +1,3 @@
----
-article_id: af_7e05e1ff40009e30ed043232
-declaration: theorem
-origin: background
-mathlib: true
-mathlib_declaration: Module.Flat.iff_lift_lsmul_comp_subtype_injective
-mathlib_file: Mathlib/RingTheory/Flat/Tensor.lean
----
-
 # The finitely generated ideal criterion for flatness
 
 An $R$-module $M$ is flat if and only if, for every finitely generated ideal

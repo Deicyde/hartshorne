@@ -1,9 +1,3 @@
----
-article_id: af_ce0a815d2f2480c678c4aa42
-declaration: isomorphism
-origin: bridged
----
-
 # ℓ-adic étale cohomology compares with ℓ-adic singular cohomology
 
 For smooth proper $X/\mathbb{C}$, compatible torsion comparison isomorphisms induce

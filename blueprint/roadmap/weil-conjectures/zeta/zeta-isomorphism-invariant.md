@@ -1,12 +1,3 @@
----
-article_id: af_123ed946eb7e6b9d85dba656
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.pointCountSequence_eq_and_hasseWeilZetaSeries_eq_of_iso
----
-
 # The zeta function is invariant under scheme isomorphism
 
 An isomorphism of finite-type $\mathbb{F}_q$-schemes induces bijections on all

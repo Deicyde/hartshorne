@@ -1,9 +1,3 @@
----
-article_id: af_8950ea1318af39e6f4bac5fc
-declaration: theorem
-origin: bridged
----
-
 # The bad projection centers have dimension at most two
 
 Let $X \subset \mathbb{P}^3$ be a nonplanar curve that is neither a line nor a conic.

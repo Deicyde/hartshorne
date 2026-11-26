@@ -1,9 +1,3 @@
----
-article_id: af_94a3233ea0a650e94377f0e4
-declaration: theorem
-origin: cited
----
-
 # The canonical system is basepoint-free
 
 Let $X$ be a Chapter IV curve of genus $g\ge 2$. Its canonical linear system

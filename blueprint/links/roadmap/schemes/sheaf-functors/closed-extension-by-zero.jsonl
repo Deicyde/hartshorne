@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/sheaf-functors/closed-extension-by-zero.md"}], "object": [{"location": {"declaration": "Hartshorne.exists_closedExtensionByZeroStalkIsos"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_680755a0596316cf89003ad4", "extensions": {"org.autoform": {"origin": "cited"}}}

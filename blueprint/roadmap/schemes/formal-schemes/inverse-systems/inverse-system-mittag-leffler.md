@@ -1,12 +1,3 @@
----
-article_id: af_95d1a2e01824862c840b8993
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.InverseSystem.IsMittagLeffler
----
-
 # Inverse systems and the Mittag–Leffler condition
 
 For a sequence of abelian groups $A n$ with compatible transition maps from

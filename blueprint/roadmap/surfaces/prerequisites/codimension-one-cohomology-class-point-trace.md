@@ -1,9 +1,3 @@
----
-article_id: af_05a615e7cdc6a96bd7a4a93e
-declaration: theorem
-origin: cited
----
-
 # Codimension-one classes and the point trace
 
 Let $X$ be a nonsingular projective $n$-fold over an algebraically closed

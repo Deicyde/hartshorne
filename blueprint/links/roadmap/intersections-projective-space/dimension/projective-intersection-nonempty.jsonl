@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/dimension/projective-intersection-nonempty.md"}], "object": [{"location": {"declaration": "Hartshorne.projective_inter_nonempty_of_dim"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_1f107512e01c4032a330c528", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/schemes/formal-schemes/adic-completion/finite-module-completion-tensor.md"}], "object": [{"location": {"declaration": "AdicCompletion.ofTensorProductEquivOfFiniteNoetherian", "module": "Mathlib.RingTheory.AdicCompletion.AsTensorProduct"}}], "id": "af_5b194d5c093d9edcf997fc6c"}

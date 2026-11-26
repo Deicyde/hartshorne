@@ -1,9 +1,3 @@
----
-article_id: af_395e69cad5729006fe490652
-declaration: isomorphism
-origin: background
----
-
 # Compatibility with the elliptic-curve group law
 
 Under the Weierstrass uniformization, the additive group $\mathbb C/\Lambda$ is

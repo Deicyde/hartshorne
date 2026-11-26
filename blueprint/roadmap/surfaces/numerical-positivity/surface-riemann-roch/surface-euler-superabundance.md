@@ -1,9 +1,3 @@
----
-article_id: af_8e9a5484c35e650e6f4f633b
-declaration: def
-origin: cited
----
-
 # Sections, superabundance, and Euler characteristic
 
 For a divisor $D$ on a Chapter V surface $X$, define

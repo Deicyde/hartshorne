@@ -1,9 +1,3 @@
----
-article_id: af_0d210230e32596ac6a9e9cf7
-declaration: theorem
-origin: cited
----
-
 # Normalization genus and local delta from multiplicity sequences
 
 Let $C$ be an irreducible curve on a smooth surface, with normalization

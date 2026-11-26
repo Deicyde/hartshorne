@@ -1,12 +1,3 @@
----
-article_id: af_7b82f963dca3fff196678fde
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isQuasicoherent_closedImmersionIdealSheaf Hartshorne.isCoherent_closedImmersionIdealSheaf Hartshorne.closedImmersionIdealSheaf Hartshorne.closedImmersionIdealSheafι Hartshorne.structureSheafToPushforward
----
-
 # Ideal sheaves of closed immersions
 
 Let $i : Y \to X$ be a closed immersion and define its module ideal sheaf by

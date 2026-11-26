@@ -1,12 +1,3 @@
----
-article_id: af_f8921401797445306d9c2503
-declaration: def
-origin: bridged
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.constantTorsionEtaleSheaf
----
-
 # Constant torsion sheaves on the small étale site
 
 Let $\ell$ be a prime invertible on $X$ and $r\ge 1$.  Define the constant

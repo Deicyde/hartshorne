@@ -1,9 +1,3 @@
----
-article_id: af_f67130b01a3dcb9212031fa6
-declaration: theorem
-origin: cited
----
-
 # The Legendre Hasse polynomial
 
 Assume $p \ne 2$, put $m=(p-1)/2$, and let

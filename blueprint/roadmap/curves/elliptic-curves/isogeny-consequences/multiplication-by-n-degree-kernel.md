@@ -1,9 +1,3 @@
----
-article_id: af_3b9266a6a2037050c08c47f6
-declaration: theorem
-origin: cited
----
-
 # Degree and kernel of general multiplication
 
 Let $X$ be an elliptic curve over an algebraically closed field of

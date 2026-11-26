@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/cohomology/flat-families/flatness/flat-modules-short-exact-calculus.md"}], "object": [{"location": {"declaration": "Hartshorne.flat_shortExact_calculus"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_89f3d075de6558df70213185", "extensions": {"org.autoform": {"origin": "background"}}}

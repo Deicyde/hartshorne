@@ -1,10 +1,3 @@
----
-article_id: af_f185f5478da0748c2c9c1267
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Deligne purity for Frobenius on ℓ-adic cohomology
 
 Let $X/\mathbb{F}_q$ be smooth and projective. For every eigenvalue $\alpha$ of

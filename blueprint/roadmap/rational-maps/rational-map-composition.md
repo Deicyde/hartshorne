@@ -1,12 +1,3 @@
----
-article_id: af_50d38585932c26a7be65604d
-declaration: definition
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.DominantRatMap.comp
----
-
 # Composition of dominant rational maps
 
 Dominant rational maps compose. If $\varphi : X \dashrightarrow Y$ is represented by

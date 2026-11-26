@@ -1,12 +1,3 @@
----
-article_id: af_e31d8787e86350185ec8ff60
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationSpace.abstractNonsingularCurve
----
-
 # Abstract nonsingular curves
 
 Let $k$ be algebraically closed and let $K/k$ be a finitely generated

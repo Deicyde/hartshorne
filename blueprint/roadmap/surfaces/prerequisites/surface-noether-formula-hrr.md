@@ -1,9 +1,3 @@
----
-article_id: af_f2bbab9f3ce7bb526ef09d7c
-declaration: theorem
-origin: bridged
----
-
 # Hirzebruch–Riemann–Roch for surfaces
 
 For a nonsingular projective variety $X$ and a finite locally free sheaf $E$,

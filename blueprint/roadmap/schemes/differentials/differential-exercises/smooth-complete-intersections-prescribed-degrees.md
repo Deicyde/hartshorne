@@ -1,9 +1,3 @@
----
-article_id: af_39d552f51c26990472ae2453
-declaration: theorem
-origin: cited
----
-
 # Smooth complete intersections of prescribed degrees
 
 Let $d_1, \ldots , d_r \ge 1$ with $r < n$. Over an algebraically closed field

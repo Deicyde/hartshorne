@@ -1,12 +1,3 @@
----
-article_id: af_9b067939bc81da4d8c8a87af
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsAffineVariety Hartshorne.IsQuasiAffineVariety
----
-
 # Affine and quasi-affine varieties
 
 A nonempty subset $Y$ of a topological space is *irreducible* when it is not

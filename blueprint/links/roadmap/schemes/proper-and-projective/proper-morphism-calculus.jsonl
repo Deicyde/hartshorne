@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/proper-and-projective/proper-morphism-calculus.md"}], "object": [{"location": {"declaration": "Hartshorne.properMorphismCalculus"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_e89ce409714107e99d048946", "extensions": {"org.autoform": {"origin": "cited"}}}

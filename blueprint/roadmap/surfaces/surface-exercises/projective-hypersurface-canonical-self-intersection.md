@@ -1,9 +1,3 @@
----
-article_id: af_6da0125301381a989e8810ef
-declaration: theorem
-origin: cited
----
-
 # Canonical self-intersection of a smooth hypersurface
 
 If $X \subset \mathbb{P}^3$ is a smooth surface of degree $d$, then

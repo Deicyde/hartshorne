@@ -1,9 +1,3 @@
----
-article_id: af_f2675add00182e99db365e35
-declaration: theorem
-origin: cited
----
-
 # The tangent variety is closed of dimension at most two
 
 For an embedded Chapter IV curve $X \to \mathbb{P}^n$, the union $\operatorname{Tan}(X)$ of embedded

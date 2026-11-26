@@ -1,9 +1,3 @@
----
-article_id: af_6fee2a6c050cbceed00b22c2
-declaration: theorem
-origin: cited
----
-
 # The j-invariant classifies elliptic curves
 
 Over an algebraically closed field of characteristic different from two, two

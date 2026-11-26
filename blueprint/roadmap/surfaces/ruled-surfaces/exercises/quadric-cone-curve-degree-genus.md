@@ -1,9 +1,3 @@
----
-article_id: af_61c5c0ca06c160f3261905d3
-declaration: theorem
-origin: cited
----
-
 # Curves on a quadric cone
 
 Let $Y$ be a nonsingular curve on a quadric cone $X_0$ in $\mathbb{P}^3$.

@@ -1,12 +1,3 @@
----
-article_id: af_5ddce4f07a05e48ab6f2631d
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: CategoryTheory.IsGrothendieckAbelian.enoughInjectives
-mathlib_file: Mathlib/CategoryTheory/Abelian/GrothendieckCategory/EnoughInjectives.lean
----
-
 # Abelian sheaves have enough injectives
 
 For every topological space $X$, the abelian category of sheaves of abelian

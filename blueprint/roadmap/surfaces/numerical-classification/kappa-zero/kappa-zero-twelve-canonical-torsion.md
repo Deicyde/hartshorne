@@ -1,10 +1,3 @@
----
-article_id: af_1387cfd53356853ec72f2662
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Kodaira dimension zero and the twelfth canonical class
 
 Assume $X$ is a relatively minimal Chapter-V surface over an algebraically

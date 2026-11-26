@@ -1,10 +1,3 @@
----
-article_id: af_dbdaedaaed967bb909dec310
-declaration: isomorphism
-origin: background
-not_ready: true
----
-
 # Meromorphic functions on a proper algebraic analytification are rational
 
 Let $X$ be a nonsingular integral proper finite-type scheme over $\mathbb{C}$.

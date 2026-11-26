@@ -1,12 +1,3 @@
----
-article_id: af_b7ae0b84eda54002bfe67819
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.Modules.bijective_presheaf_map_top_of_two_le_codim
----
-
 # Locally free sections extend across codimension two
 
 Let $X$ be a normal integral Noetherian scheme, let $U \subset X$ be an open

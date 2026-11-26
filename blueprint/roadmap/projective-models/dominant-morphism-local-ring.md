@@ -1,12 +1,3 @@
----
-article_id: af_336eb54287251594421bfd3b
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.VarietyHom.injective_localRingHom_of_denseRange
----
-
 # Dense morphisms inject on local rings
 
 Let $\varphi : X \to Y$ be a morphism of varieties with dense image and let $P \in X$.

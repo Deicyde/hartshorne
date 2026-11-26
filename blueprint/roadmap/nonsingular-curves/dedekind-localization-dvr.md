@@ -1,12 +1,3 @@
----
-article_id: af_f77fddedd3b45d252d8d3124
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.dedekind_localization_dvr
----
-
 # Localizations of a Dedekind domain are DVRs
 
 Let $A$ be a Noetherian, integrally closed domain of Krull dimension one,

@@ -1,12 +1,3 @@
----
-article_id: af_4abc21f08a7265779b71f0f3
-declaration: theorem
-origin: cited
-lean: Hartshorne.SmoothHypersurface.smooth_hypersurfaces_dense Hartshorne.SmoothHypersurface.hypersurfacePolynomial Hartshorne.SmoothHypersurface.dupleMonomial Hartshorne.SmoothHypersurface.hypersurfaceIdeal Hartshorne.SmoothHypersurface.hypersurfaceSection Hartshorne.SmoothHypersurface.hypersurfaceIdeal_ideal_basicOpen Hartshorne.SmoothHypersurface.mem_support_hypersurfaceIdeal_iff Hartshorne.SmoothHypersurface.isIntegral_hypersurface_of_isRegular
-statement: formalized
-proof: formalized
----
-
 # Smooth hypersurfaces form a dense open family
 
 Let $k$ be algebraically closed, $n \ge 2$, and $d \ge 1$. The degree-$d$

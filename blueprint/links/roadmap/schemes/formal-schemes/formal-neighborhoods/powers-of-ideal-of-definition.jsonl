@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/formal-schemes/formal-neighborhoods/powers-of-ideal-of-definition.md"}], "object": [{"location": {"declaration": "Hartshorne.IsIdealOfDefinition.pow_succ"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_4e42dcd4bd8198090a5fcd96", "extensions": {"org.autoform": {"origin": "cited"}}}

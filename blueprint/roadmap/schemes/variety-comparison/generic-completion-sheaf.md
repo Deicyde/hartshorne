@@ -1,12 +1,3 @@
----
-article_id: af_a8a434c4482ee7dabb0f9d61
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.genericCompletionRegularSheaf Hartshorne.genericCompletionRegularSheaf_obj_eq_pushforward Hartshorne.genericCompletionRegularSectionsEquiv Hartshorne.genericCompletionRegularSectionsEquiv_restrict Hartshorne.genericCompletionRegularSectionsNatIso
----
-
 # The regular-function sheaf on the generic completion
 
 For a project variety $V$, transport its sheaf of regular functions across the

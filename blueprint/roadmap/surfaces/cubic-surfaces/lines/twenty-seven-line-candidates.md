@@ -1,9 +1,3 @@
----
-article_id: af_aa6eae6efa55413158c70c5a
-declaration: theorem
-origin: cited
----
-
 # The twenty-seven candidate lines
 
 Let $X$ be the marked cubic surface obtained by blowing up

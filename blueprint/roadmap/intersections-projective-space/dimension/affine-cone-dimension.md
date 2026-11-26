@@ -1,12 +1,3 @@
----
-article_id: af_9d9300915c4c47e6aac793b5
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.dim_affineCone
----
-
 # Dimension of the affine cone
 
 For every nonempty projective algebraic set $Y$, its affine cone $C(Y)$

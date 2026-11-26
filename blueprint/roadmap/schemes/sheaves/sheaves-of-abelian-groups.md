@@ -1,12 +1,3 @@
----
-article_id: af_f49474e068f3dc1f8626babc
-declaration: definition
-origin: cited
-mathlib: true
-mathlib_declaration: TopCat.Sheaf
-mathlib_file: Mathlib/Topology/Sheaves/Sheaf.lean
----
-
 # Sheaves of abelian groups
 
 On a topological space $X$, a presheaf of abelian groups is a contravariant

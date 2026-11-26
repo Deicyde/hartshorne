@@ -1,9 +1,3 @@
----
-article_id: af_80b0bc292401a68e56040b42
-declaration: theorem
-origin: cited
----
-
 # Chern classes of a bundle filtered by line bundles
 
 If a rank-$r$ locally free sheaf $E$ has a filtration whose successive

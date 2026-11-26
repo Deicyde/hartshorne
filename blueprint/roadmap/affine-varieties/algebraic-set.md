@@ -1,12 +1,3 @@
----
-article_id: af_7784104b5370425681c0fc40
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.zeroSet Hartshorne.IsAlgebraicSet
----
-
 # Algebraic sets
 
 Fix an algebraically closed field $k$ and let $A=k[x_1,\ldots,x_n]$.

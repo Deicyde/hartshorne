@@ -1,9 +1,3 @@
----
-article_id: af_c39df20a5461a0569674f96d
-declaration: theorem
-origin: cited
----
-
 # The E6 presentation of the line-configuration group
 
 Let $G$ be the automorphism group of the incidence configuration of the 27

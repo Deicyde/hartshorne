@@ -1,10 +1,3 @@
----
-article_id: af_b9401e961db0564c514fd4a6
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # A dimension-sized affine cover
 
 A quasi-projective scheme of dimension $r$ over a field admits a cover by

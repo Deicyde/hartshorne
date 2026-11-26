@@ -1,9 +1,3 @@
----
-article_id: af_051004e401e22b736e81c4db
-declaration: theorem
-origin: cited
----
-
 # Degree of multiplication on a complex elliptic curve
 
 Let $X$ be an elliptic curve over $\mathbb{C}$ and let $n$ be a nonzero integer. The

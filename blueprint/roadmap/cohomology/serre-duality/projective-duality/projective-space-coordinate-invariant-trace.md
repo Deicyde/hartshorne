@@ -1,10 +1,3 @@
----
-article_id: af_25720176eab66e6a1882eee0
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The coordinate-invariant trace normalization
 
 For $X=\mathbb{P}^{n}_k$, normalize the chosen trace so that the class of the standard

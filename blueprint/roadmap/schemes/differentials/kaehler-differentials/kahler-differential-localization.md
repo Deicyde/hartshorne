@@ -1,12 +1,3 @@
----
-article_id: af_fa39a1fdc6ec6ce41e14cdd1
-declaration: instance
-origin: background
-mathlib: true
-mathlib_declaration: KaehlerDifferential.isLocalizedModule_map
-mathlib_file: Mathlib/RingTheory/Etale/Kaehler.lean
----
-
 # Localization of Kähler differentials
 
 Let $T$ be a localization of an $R$-algebra $S$ at a submonoid $M$.  The

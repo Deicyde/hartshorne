@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/proper-and-projective/valuative-criterion-universally-closed.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.UniversallyClosed.eq_valuativeCriterion", "module": "Mathlib.AlgebraicGeometry.ValuativeCriterion"}}], "id": "af_6d8e8e0d65cf4d54a564f62b"}

@@ -1,7 +1,3 @@
----
-article_id: af_045de176ba235fca1c6086da
----
-
 # The theorem on formal functions
 
 This subchapter constructs the infinitesimal fibres and natural comparison

@@ -1,10 +1,3 @@
----
-article_id: af_2a2f4506df11c83ab4c6b923
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The twelfth plurigenus detects Kodaira dimension minus one
 
 For a Chapter-V surface $X$,

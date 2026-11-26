@@ -1,7 +1,3 @@
----
-article_id: af_99c81b5542eab10322cc973d
----
-
 # Sections and normalized ruled surfaces
 
 This subchapter develops the quotient-line description of sections and

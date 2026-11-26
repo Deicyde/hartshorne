@@ -1,10 +1,3 @@
----
-article_id: af_61f0ede5a8f3756e05a14bf3
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Flat algebraic families of Cartier divisors
 
 Let $X$ be finite type over an algebraically closed field, $T$ a nonsingular

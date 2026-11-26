@@ -1,9 +1,3 @@
----
-article_id: af_a5a1f9b93d3301702a63c835
-declaration: theorem
-origin: cited
----
-
 # The plane-cubic coefficient criterion
 
 Let $X \subset \mathbb{P}^2_k$ be an elliptic plane cubic with homogeneous equation

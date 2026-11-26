@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/two-affine-chart-cover.md"}], "object": [{"location": {"declaration": "Hartshorne.ValuationSpace.exists_two_affine_model_cover"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_7157364b8a6b0f58790df1e7", "extensions": {"org.autoform": {"origin": "bridged"}}}

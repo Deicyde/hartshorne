@@ -1,12 +1,3 @@
----
-article_id: af_0463158229157ce9dfe951a4
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.SmoothTangent.smoothOfRelativeDimension_tfae_of_isRegularAt
----
-
 # Smoothness by tangent-map surjectivity
 
 Let $f : X \to Y$ be a morphism of nonsingular varieties over an algebraically

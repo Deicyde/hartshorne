@@ -1,9 +1,3 @@
----
-article_id: af_257b099cc387c9d290e8e2e7
-declaration: theorem
-origin: cited
----
-
 # Grauert's constant-cohomology theorem
 
 Let $f : X \to Y$ be a projective morphism of Noetherian schemes, with $Y$

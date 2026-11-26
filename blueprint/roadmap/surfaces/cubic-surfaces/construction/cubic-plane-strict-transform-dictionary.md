@@ -1,9 +1,3 @@
----
-article_id: af_5d0b8bdafc158f89f3c59187
-declaration: theorem
-origin: cited
----
-
 # Curves on a marked cubic surface as strict transforms of plane curves
 
 Let $C$ be an irreducible curve on the marked cubic surface other than an

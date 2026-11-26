@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/cohomology/ext-groups/homological-dimension/projective-dimension-ext-criterion.md"}], "object": [{"location": {"declaration": "CategoryTheory.hasProjectiveDimensionLT_iff", "module": "Mathlib.CategoryTheory.Abelian.Projective.Dimension"}}], "id": "af_95ed156bd0241f4391ff6e6e"}

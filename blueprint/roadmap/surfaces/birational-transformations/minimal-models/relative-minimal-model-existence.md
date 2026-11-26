@@ -1,9 +1,3 @@
----
-article_id: af_b0d91500be594ae981f579b3
-declaration: theorem
-origin: cited
----
-
 # Existence of relatively minimal models
 
 Every nonsingular projective surface admits a birational morphism to a

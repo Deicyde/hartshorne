@@ -1,9 +1,3 @@
----
-article_id: af_99d4c936932e3f99dbaa6039
-declaration: theorem
-origin: cited
----
-
 # Trisecants and trigonal genus-five curves
 
 Let $X \subset \mathbb{P}^4$ be the canonical embedding of a nonhyperelliptic

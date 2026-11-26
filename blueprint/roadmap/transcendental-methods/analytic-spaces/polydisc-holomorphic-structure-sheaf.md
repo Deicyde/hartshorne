@@ -1,10 +1,3 @@
----
-article_id: af_9f3330b387f32049166c285f
-declaration: def
-origin: cited
-not_ready: true
----
-
 # Holomorphic structure sheaves on polydiscs and affine space
 
 For the open polydisc

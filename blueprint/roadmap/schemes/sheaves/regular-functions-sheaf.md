@@ -1,12 +1,3 @@
----
-article_id: af_5ab88e6586973fd7997b6527
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.regularSheaf
----
-
 # The sheaf of regular functions
 
 For a variety $X$, assign to each open subset $U$ the ring of

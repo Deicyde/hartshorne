@@ -1,12 +1,3 @@
----
-article_id: af_cbdf227317053eb5051629df
-declaration: theorem
-origin: background
-mathlib: true
-mathlib_declaration: AdicCompletion.pow_smul_top_eq_ker_eval
-mathlib_file: Mathlib/RingTheory/AdicCompletion/Completeness.lean
----
-
 # Powers in an adic completion
 
 If $I$ is finitely generated, then for every $n$, multiplication by the ideal

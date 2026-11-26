@@ -1,9 +1,3 @@
----
-article_id: af_9655f2e3e6860f997934f962
-declaration: theorem
-origin: cited
----
-
 # Picard lifting through a nilpotent thickening
 
 Let $X$ be a Noetherian scheme of dimension at most one and let

@@ -1,12 +1,3 @@
----
-article_id: af_7f3b0d6a9bc1810746558a00
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.moduleFiberDim Hartshorne.exists_nhds_moduleFiberDim_le_of_isCoherent Hartshorne.isClosed_setOf_le_moduleFiberDim_of_isCoherent
----
-
 # Fibre dimension of a coherent sheaf is upper semicontinuous
 
 Let $Y$ be a Noetherian scheme and $G$ a coherent $\mathcal{O}_Y$-module. The function

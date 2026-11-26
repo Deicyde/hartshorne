@@ -1,9 +1,3 @@
----
-article_id: af_3962ae9138ca9926cd84961a
-declaration: theorem
-origin: bridged
----
-
 # A positive-degree curve section ring has transcendence degree two
 
 Let $C$ be a nonsingular projective curve and let $L$ be an invertible sheaf

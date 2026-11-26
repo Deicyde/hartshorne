@@ -1,10 +1,3 @@
----
-article_id: af_e04b291513036803ad0131e9
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Existence of the Chow intersection product
 
 On the class of nonsingular quasi-projective varieties over the fixed

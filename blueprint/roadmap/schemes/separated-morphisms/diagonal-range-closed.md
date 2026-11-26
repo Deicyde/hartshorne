@@ -1,12 +1,3 @@
----
-article_id: af_211f39a4ee5bfc6bdffb1831
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isSeparated_iff_isClosed_range_diagonal
----
-
 # Closed range of the diagonal
 
 For every scheme morphism $f : X \longrightarrow Y$, the following are equivalent:

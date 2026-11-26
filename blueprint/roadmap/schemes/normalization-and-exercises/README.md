@@ -1,7 +1,3 @@
----
-article_id: af_f8e053a066c75b00e3bbb795
----
-
 # Normalization and later-used exercises
 
 These exercises are included only because later running text depends on them.

@@ -1,9 +1,3 @@
----
-article_id: af_c6c6decc803de170f3f9f202
-declaration: theorem
-origin: cited
----
-
 # The intersection lattice of a marked cubic surface
 
 In the Picard basis $l,e_1,\ldots ,e_6$,

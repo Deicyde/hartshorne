@@ -1,12 +1,3 @@
----
-article_id: af_3d9205412938cca078b5120b
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: IsRegularLocalRing.iff_finrank_cotangentSpace
-mathlib_file: Mathlib/RingTheory/RegularLocalRing/Defs.lean
----
-
 # Regular local rings
 
 Let $A$ be a Noetherian local ring, let $\mathfrak m$ be its maximal

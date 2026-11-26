@@ -1,12 +1,3 @@
----
-article_id: af_bda47588979c84d023027a74
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.flat_iff_forall_mem_associatedPoints_eq_genericPoint Hartshorne.forall_mem_associatedPoints_eq_genericPoint_iff_forall_dense_image Hartshorne.flat_iff_forall_mem_irreducibleComponents_dense_image
----
-
 # Flatness over a regular curve
 
 Let $f : X \to Y$, where $X$ is locally Noetherian and $Y$ is regular,

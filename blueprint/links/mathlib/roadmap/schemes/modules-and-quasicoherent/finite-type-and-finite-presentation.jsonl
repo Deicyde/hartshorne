@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/modules-and-quasicoherent/finite-type-and-finite-presentation.md"}], "object": [{"location": {"declaration": "SheafOfModules.IsFinitePresentation", "module": "Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent"}}], "id": "af_6e65f145e033a68433e1565b"}

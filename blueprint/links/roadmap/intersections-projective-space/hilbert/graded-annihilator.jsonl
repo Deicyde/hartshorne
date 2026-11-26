@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/hilbert/graded-annihilator.md"}], "object": [{"location": {"declaration": "Hartshorne.gradedCyclicModuleEquiv"}, "role": "states"}], "status": "formalized", "kind": "definition", "id": "af_a34d30b29e3edb0314f863e6", "extensions": {"org.autoform": {"origin": "cited"}}}

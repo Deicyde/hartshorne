@@ -1,7 +1,3 @@
----
-article_id: af_21e9092e7fda91311ac4fb7b
----
-
 # Strange curves and nodal plane models
 
 This chapter covers the later running text of Hartshorne IV.3, printed

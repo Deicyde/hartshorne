@@ -1,12 +1,3 @@
----
-article_id: af_ffc1f8639d78769d74b0efbe
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.RegularLocal.isRegularLocalRing_localization_atPrime Hartshorne.RegularLocal.hasProjectiveDimensionLE_residueField_localization Hartshorne.RegularLocal.localizedModuleQuotientIsoResidueField
----
-
 # Localizations of regular local rings
 
 If $A$ is a regular local ring and $\mathfrak{p}$ is a prime ideal of $A$, then the prime

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/abstract-curve-dimension.md"}], "object": [{"location": {"declaration": "Hartshorne.ValuationSpace.abstractNonsingularCurve_isCurve"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_0231ea26be501ebabff4b989", "extensions": {"org.autoform": {"origin": "bridged"}}}

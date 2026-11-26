@@ -1,12 +1,3 @@
----
-article_id: af_02e151839e4bfd37f77bdaf5
-declaration: isomorphism
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.affineTildeTensorIso Hartshorne.affineTildeTensorIso_hom_naturality Hartshorne.tildeCoreMonoidal Hartshorne.tildeFunctorMonoidal Hartshorne.tilde_δ_eq
----
-
 # Tilde commutes with tensor products
 
 For $A$-modules $M$ and $N$, construct the natural isomorphism

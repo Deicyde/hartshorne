@@ -1,12 +1,3 @@
----
-article_id: af_5eb05ef8388c7140be706e3a
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.relativeDifferentialsBaseChangeIso AlgebraicGeometry.Scheme.isIso_baseChangeRelativeDifferentialsMap AlgebraicGeometry.Scheme.baseChangeRelativeDifferentialsMap AlgebraicGeometry.Scheme.baseChangeRelativeDifferentialsMap_unit_d
----
-
 # Base change for differential sheaves
 
 Let $X' = X \times _Y Y'$, with projections $g' : X' \to X$ and $f' : X' \to Y'$.

@@ -1,10 +1,3 @@
----
-article_id: af_da2841f193ae0ec5d2cce782
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # A compact Riemann surface has a nonconstant meromorphic function
 
 Every connected compact complex manifold of dimension one admits a global

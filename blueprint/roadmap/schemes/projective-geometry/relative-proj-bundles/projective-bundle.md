@@ -1,12 +1,3 @@
----
-article_id: af_c05e78621794d3fff81b5c5a
-declaration: def
-origin: cited
-lean: AlgebraicGeometry.Scheme.Modules.symmetricRelativeProjData AlgebraicGeometry.Scheme.Modules.projectiveBundle AlgebraicGeometry.Scheme.Modules.projectiveBundleProj AlgebraicGeometry.Scheme.Modules.projectiveBundleTwistingSheaf AlgebraicGeometry.Scheme.Modules.nonempty_projectiveBundle_iso_twist_of_restrict_iso_free
-statement: formalized
-proof: formalized
----
-
 # Projective bundles
 
 Let $X$ be Noetherian and $E$ finite locally free. Define

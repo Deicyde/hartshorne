@@ -1,10 +1,3 @@
----
-article_id: af_50a6f8a9ab08a4e06c7e7600
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Jouanolou's integral closed-immersion formula
 
 For a closed immersion of smooth varieties, the Chern classes of the proper

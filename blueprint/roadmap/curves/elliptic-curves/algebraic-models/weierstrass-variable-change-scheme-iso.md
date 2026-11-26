@@ -1,9 +1,3 @@
----
-article_id: af_a2d3ed50484798c310154ddd
-declaration: theorem
-origin: bridged
----
-
 # Variable changes induce Weierstrass scheme isomorphisms
 
 A Weierstrass change of variables carrying one elliptic

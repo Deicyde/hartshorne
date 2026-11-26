@@ -1,9 +1,3 @@
----
-article_id: af_42ed22e1dd5ef7e9629f6a0c
-declaration: theorem
-origin: cited
----
-
 # Cohomology commutes with filtered colimits
 
 If $X$ is noetherian and $(F_a)$ is a filtered diagram of abelian sheaves,

@@ -1,7 +1,3 @@
----
-article_id: af_3c7301c0d7ed97def69cdc8a
----
-
 # Smooth affine and projective spaces
 
 This chapter separates reusable arbitrary-base smoothness theorems from the

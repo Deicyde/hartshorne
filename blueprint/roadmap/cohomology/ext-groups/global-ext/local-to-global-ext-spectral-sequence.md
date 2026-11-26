@@ -1,9 +1,3 @@
----
-article_id: af_9dca473fa700d719aa39e1c5
-declaration: theorem
-origin: cited
----
-
 # The local-to-global Ext spectral sequence
 
 For $\mathcal{O}_X$-modules $F,G$, take the derived-category inputs

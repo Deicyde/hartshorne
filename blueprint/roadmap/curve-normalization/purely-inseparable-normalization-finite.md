@@ -1,12 +1,3 @@
----
-article_id: af_267625a760ca87aba736c835
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.moduleFinite_integralClosure_of_isPurelyInseparable Hartshorne.algebraMap_integralClosure_surjective_of_charZero Hartshorne.moduleFinite_integralClosure_of_isPurelyInseparable_of_charP Hartshorne.exists_frobeniusExponent_and_fin_spanningFamily_integralClosure_of_charP
----
-
 # Purely inseparable normalizations are finite
 
 Let $k$ be an algebraically closed field, let $A$ be a finitely generated,

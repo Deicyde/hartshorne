@@ -1,15 +1,3 @@
----
-article_id: af_059bb65e4895179003b4a3ae
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Flat.isStableUnderBaseChange
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Flat.lean
-lean: Hartshorne.flat_isStableUnderBaseChange Hartshorne.flat_pullback_snd
-statement: formalized
-proof: formalized
----
-
 # Flat morphisms are stable under base change
 
 In a cartesian square of schemes, a pullback of a flat morphism is flat.

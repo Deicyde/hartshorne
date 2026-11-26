@@ -1,7 +1,3 @@
----
-article_id: af_c13f2f629c5f6e7082f582f0
----
-
 # Curves and the Riemann–Roch theorem
 
 Riemann–Roch connects divisor degree and Euler characteristic with the

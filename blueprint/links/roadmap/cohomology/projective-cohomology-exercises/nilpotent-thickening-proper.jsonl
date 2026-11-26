@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/cohomology/projective-cohomology-exercises/nilpotent-thickening-proper.md"}], "object": [{"location": {"declaration": "Hartshorne.isProper_iff_nilpotentThickening"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_35119aefeffefa2be2819a3b", "extensions": {"org.autoform": {"origin": "cited"}}}

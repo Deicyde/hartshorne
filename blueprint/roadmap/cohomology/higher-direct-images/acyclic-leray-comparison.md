@@ -1,12 +1,3 @@
----
-article_id: af_141b8fdd3c8a954816bedfd4
-declaration: isomorphism
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.acyclicLerayIso Hartshorne.acyclicLerayIso_naturality
----
-
 # The acyclic Leray comparison
 
 Let $f : X \to Y$ be a continuous map and let $F$ be an abelian sheaf on $X$.

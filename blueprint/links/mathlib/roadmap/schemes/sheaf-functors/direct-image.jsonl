@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/sheaf-functors/direct-image.md"}], "object": [{"location": {"declaration": "TopCat.Sheaf.pushforward", "module": "Mathlib.Topology.Sheaves.Functors"}}], "id": "af_4a417e63d714ab6f6e4c4aa5"}

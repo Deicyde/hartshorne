@@ -1,12 +1,3 @@
----
-article_id: af_bfda446a7ab93cf495b276ef
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.RationalMap.codim_compl_domain_birational
----
-
 # The domain of a birational map has codimension-two complement
 
 Let $X$ be a nonsingular variety and $X'$ a proper variety over $k$. For a

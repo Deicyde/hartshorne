@@ -1,9 +1,3 @@
----
-article_id: af_024955ba62880c4f7354c42b
-declaration: theorem
-origin: cited
----
-
 # Irreducible curves when the invariant is nonnegative
 
 Let $X$ be a ruled surface with invariant $e\ge 0$. If

@@ -1,12 +1,3 @@
----
-article_id: af_9100c83de0b845078bf4561b
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.componentIdeal_mem_minimalPrimes
----
-
 # Affine components as minimal primes of a cut ideal
 
 Let $X$ be an affine variety, let $T$ be a finite family of ambient

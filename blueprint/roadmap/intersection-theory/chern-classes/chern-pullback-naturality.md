@@ -1,9 +1,3 @@
----
-article_id: af_f81e55ec00ccd41a8d8ad98b
-declaration: theorem
-origin: cited
----
-
 # Chern classes are natural under pullback
 
 Let $f:X'\to X$ be a morphism of nonsingular quasi-projective varieties and

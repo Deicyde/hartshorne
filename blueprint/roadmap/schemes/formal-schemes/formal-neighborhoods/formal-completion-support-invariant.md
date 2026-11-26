@@ -1,12 +1,3 @@
----
-article_id: af_56636760e63acc3203c2e28c
-declaration: theorem
-origin: cited
-lean: Hartshorne.QuasicoherentIdealSubsheaf.formalCompletion_support_invariant Hartshorne.QuasicoherentIdealSubsheaf.formalCompletionIsoOfSupportEq Hartshorne.QuasicoherentIdealSubsheaf.formalCompletionIsoOfSupportEq_hom_c_app_π Hartshorne.QuasicoherentIdealSubsheaf.infinitesimalNeighborhoodι_formalCompletionIsoOfSupportEq_hom_base Hartshorne.QuasicoherentIdealSubsheaf.exists_pow_carrier_le_of_support_le
-statement: formalized
-proof: formalized
----
-
 # Completion depends only on the closed support
 
 If two coherent ideal sheaves $I$ and $J$ on a Noetherian scheme define

@@ -1,12 +1,3 @@
----
-article_id: af_db1104282c693bcd83a273b9
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projZeroSet Hartshorne.IsProjAlgebraicSet Hartshorne.IsHomogeneousSet
----
-
 # Projective algebraic sets
 
 A homogeneous $f \in S$ of degree $d$ satisfies $f(\lambda a) = \lambda ^{d} f(a)$, so whether

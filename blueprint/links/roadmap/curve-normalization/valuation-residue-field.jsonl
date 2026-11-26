@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/curve-normalization/valuation-residue-field.md"}], "object": [{"location": {"declaration": "Hartshorne.FunctionFieldDVR.residueAt"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_6ae7ab997d79403ec249423a", "extensions": {"org.autoform": {"origin": "cited"}}}

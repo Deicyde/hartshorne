@@ -1,7 +1,3 @@
----
-article_id: af_caff5746af6721ba8582bc9f
----
-
 # Kodaira dimension zero
 
 For relatively minimal surfaces in characteristic different from two and

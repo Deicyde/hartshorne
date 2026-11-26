@@ -1,12 +1,3 @@
----
-article_id: af_4d390f0993f2c69e8e37f37c
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.blowing_up
----
-
 # Blowing up a point
 
 The *blowing-up of $\mathbb{A} ^{n}$ at the origin* is the closed subset

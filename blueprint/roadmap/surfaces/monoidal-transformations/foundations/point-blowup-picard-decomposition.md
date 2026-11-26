@@ -1,9 +1,3 @@
----
-article_id: af_bddc667ee73c34544588f951
-declaration: isomorphism
-origin: cited
----
-
 # The Picard group of a point blowup
 
 For $\pi:\widetilde X\to X$, pullback and the exceptional class induce an isomorphism

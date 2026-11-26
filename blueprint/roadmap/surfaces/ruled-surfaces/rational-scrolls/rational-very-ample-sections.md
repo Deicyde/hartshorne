@@ -1,9 +1,3 @@
----
-article_id: af_832f210386701e31eb748953
-declaration: theorem
-origin: cited
----
-
 # Very ample section systems
 
 On $X_e$, the divisor $C_0+n\cdot f$ is very ample if and only if $n>e$.

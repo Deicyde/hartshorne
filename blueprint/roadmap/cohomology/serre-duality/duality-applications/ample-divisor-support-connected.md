@@ -1,9 +1,3 @@
----
-article_id: af_9376c963794350c1fe097a63
-declaration: theorem
-origin: cited
----
-
 # Connected support of an ample divisor
 
 Let $X$ be an integral normal projective variety of dimension at least two

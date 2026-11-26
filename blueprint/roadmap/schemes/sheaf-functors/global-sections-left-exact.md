@@ -1,12 +1,3 @@
----
-article_id: af_c22a2a7f1bb11480ec545980
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: TopCat.Sheaf.sections_exact_of_left_exact
-mathlib_file: Mathlib/Topology/Sheaves/AddCommGrpCat.lean
----
-
 # Global sections are left exact
 
 For every open $U$, if $0 \longrightarrow F' \longrightarrow F \longrightarrow F''$ is exact as a sequence of

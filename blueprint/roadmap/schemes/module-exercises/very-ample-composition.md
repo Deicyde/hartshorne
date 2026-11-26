@@ -1,9 +1,3 @@
----
-article_id: af_0257f6cf84d2c46eee5f8c18
-declaration: theorem
-origin: cited
----
-
 # Composition of very ample sheaves
 
 Let $X \to Y \to Z$, let $L$ be very ample on $X$ relative to $Y$, and let $M$

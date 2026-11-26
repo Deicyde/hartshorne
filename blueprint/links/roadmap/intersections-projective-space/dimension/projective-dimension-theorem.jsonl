@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/dimension/projective-dimension-theorem.md"}], "object": [{"location": {"declaration": "Hartshorne.projective_dimension_theorem"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_2b64070bd52242f68017926b", "extensions": {"org.autoform": {"origin": "cited"}}}

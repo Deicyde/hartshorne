@@ -1,9 +1,3 @@
----
-article_id: af_2ef77b7fb24c148d306eb5b9
-declaration: theorem
-origin: cited
----
-
 # Adjunction for a smooth curve on a surface
 
 Let $C$ be a smooth curve of genus $g$ on a Chapter V surface with canonical

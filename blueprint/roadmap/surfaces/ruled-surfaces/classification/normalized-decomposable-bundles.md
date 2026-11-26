@@ -1,9 +1,3 @@
----
-article_id: af_c16acb0841cb03f81d74d14f
-declaration: theorem
-origin: cited
----
-
 # Decomposable normalized bundles
 
 Let $E$ be a normalized decomposable rank-two bundle on a curve $C$. Then

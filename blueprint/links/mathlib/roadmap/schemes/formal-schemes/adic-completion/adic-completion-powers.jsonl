@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/schemes/formal-schemes/adic-completion/adic-completion-powers.md"}], "object": [{"location": {"declaration": "AdicCompletion.pow_smul_top_eq_ker_eval", "module": "Mathlib.RingTheory.AdicCompletion.Completeness"}}], "id": "af_cbdf227317053eb5051629df"}

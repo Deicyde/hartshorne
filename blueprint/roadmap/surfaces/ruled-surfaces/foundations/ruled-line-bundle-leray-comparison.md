@@ -1,9 +1,3 @@
----
-article_id: af_882f839aba1df46e2b2f3607
-declaration: isomorphism
-origin: cited
----
-
 # Leray comparison for ruled line bundles
 
 Let $D$ be a divisor on a ruled surface $\pi : X \to C$ with $D\cdot f\ge0$.

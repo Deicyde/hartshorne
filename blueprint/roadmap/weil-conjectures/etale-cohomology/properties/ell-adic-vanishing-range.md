@@ -1,10 +1,3 @@
----
-article_id: af_4848ac2d7d636e198ad2f6d0
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # ℓ-adic cohomology vanishes above twice the dimension
 
 Let $X$ be finite type of dimension $n$ over an algebraically closed field,

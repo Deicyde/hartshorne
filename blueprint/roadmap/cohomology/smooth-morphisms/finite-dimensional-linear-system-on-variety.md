@@ -1,12 +1,3 @@
----
-article_id: af_81dbc7a4e0db6808ddcfb8a4
-declaration: def
-origin: bridged
-lean: Hartshorne.existsUnique_linearSystemMorphism Hartshorne.linearSystemMorphism Hartshorne.linearSystemMorphism_spec Hartshorne.comap_invertibleZeroIdeal_linearSystemSection Hartshorne.isLocallyPrincipalNonZeroDivisor_invertibleZeroIdeal Hartshorne.exists_isEffective_idealSheafData_eq_invertibleZeroIdeal Hartshorne.linearSystemMorphism_map
-statement: formalized
-proof: formalized
----
-
 # Finite-dimensional linear systems on an arbitrary variety
 
 Let $X$ be an integral finite-type scheme over a field, $L$ an invertible

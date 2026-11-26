@@ -1,12 +1,3 @@
----
-article_id: af_0054399084d8fcffca7fc1f8
-declaration: def
-origin: cited
-lean: Hartshorne.QuasicoherentIdealSubsheaf.infinitesimalNeighborhood Hartshorne.QuasicoherentIdealSubsheaf.infinitesimalNeighborhoodι Hartshorne.QuasicoherentIdealSubsheaf.pow Hartshorne.QuasicoherentIdealSubsheaf.ideal_pow Hartshorne.quasicoherentIdealSubsheafEquiv_pow Hartshorne.QuasicoherentIdealSubsheaf.ker_infinitesimalNeighborhoodι Hartshorne.QuasicoherentIdealSubsheaf.quasicoherentIdealSubsheafEquiv_symm_ker_infinitesimalNeighborhoodι Hartshorne.infinitesimalNeighborhoodOneIso Hartshorne.infinitesimalNeighborhoodOneIso_hom_comp
-statement: formalized
-proof: formalized
----
-
 # Infinitesimal neighbourhoods
 
 Let $X$ be a Noetherian scheme and let $Y \hookrightarrow X$ be a closed subscheme with

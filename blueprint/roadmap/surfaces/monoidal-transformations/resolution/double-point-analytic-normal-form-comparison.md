@@ -1,9 +1,3 @@
----
-article_id: af_3af882edf15326f2a734438d
-declaration: theorem
-origin: cited
----
-
 # Analytic normal forms of double points
 
 Assume the algebraically closed ground field has characteristic different

@@ -1,9 +1,3 @@
----
-article_id: af_13f37b71ebc10fac44006c96
-declaration: theorem
-origin: cited
----
-
 # Rationality of the zeta function
 
 For a smooth projective geometrically connected variety $X/\mathbb{F}_q$, the formal

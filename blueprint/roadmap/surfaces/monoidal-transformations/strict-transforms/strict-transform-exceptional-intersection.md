@@ -1,9 +1,3 @@
----
-article_id: af_5a172f1478bc5780efa8c43f
-declaration: theorem
-origin: cited
----
-
 # Intersection with the exceptional curve
 
 Under the total-transform hypotheses,

@@ -1,12 +1,3 @@
----
-article_id: af_743d1a15c7f1fd1fc59e35c2
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.varietyAssociatedSchemeAlpha Hartshorne.varietyAssociatedScheme_isEmbedding_alpha_and_range Hartshorne.varietyClosedPointsHomeomorph Hartshorne.varietyClosedPointsHomeomorph_apply Hartshorne.varietyAssociatedSchemeResidueConstants Hartshorne.varietyAssociatedScheme_isClosed_singleton_iff
----
-
 # Classical points are the closed points
 
 For a variety $V$ over an algebraically closed field $k$, the map

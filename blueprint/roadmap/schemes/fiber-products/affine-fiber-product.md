@@ -1,12 +1,3 @@
----
-article_id: af_47bd3e64e420200b6686678a
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.pullbackSpecIso
-mathlib_file: Mathlib/AlgebraicGeometry/Pullbacks.lean
----
-
 # Fiber products of affine schemes
 
 For $R$-algebras $A$ and $B$, $\operatorname{Spec} A \times _{\operatorname{Spec} R} \operatorname{Spec} B$ is canonically isomorphic to $\operatorname{Spec}(A\otimes_R B)$, and the two projections correspond to the tensor-product inclusions.

@@ -1,10 +1,3 @@
----
-article_id: af_dbcbdd43b1946d2da34be1ec
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The ℓ-adic Lefschetz fixed-point formula for simple fixed points
 
 Let $X$ be smooth and proper over an algebraically closed field, and let

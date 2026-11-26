@@ -1,12 +1,3 @@
----
-article_id: af_0231ea26be501ebabff4b989
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationSpace.abstractNonsingularCurve_isCurve
----
-
 # Abstract valuation curves have dimension one
 
 Every nonempty abstract nonsingular open curve in $C_K$ has topological

@@ -1,7 +1,3 @@
----
-article_id: af_552caf076d2b4b50f1ff7bc9
----
-
 # Intersection numbers on a smooth projective surface
 
 This subchapter gives Hartshorne's elementary moving construction of the

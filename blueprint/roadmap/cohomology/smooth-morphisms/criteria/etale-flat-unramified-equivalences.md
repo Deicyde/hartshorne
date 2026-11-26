@@ -1,12 +1,3 @@
----
-article_id: af_9afe784f58dca3e19b05a327
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.etale_tfae_finiteTypeOverField Hartshorne.HartshorneUnramified
----
-
 # Étale, flat-unramified, and differential criteria
 
 Let $f : X \to Y$ be a morphism of schemes of finite type over a field. Define

@@ -1,9 +1,3 @@
----
-article_id: af_e7551dc3d493bef0e44aafab
-declaration: theorem
-origin: cited
----
-
 # Left exact cohomology functors are finitely represented
 
 Let $L$ be the finite-free model and put

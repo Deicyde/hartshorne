@@ -1,9 +1,3 @@
----
-article_id: af_58ce640788f701235bcea0f8
-declaration: theorem
-origin: cited
----
-
 # The Chow projection formula
 
 For a proper morphism $f:X\to X'$, $x \in A(X)$, and $y \in A(X')$,

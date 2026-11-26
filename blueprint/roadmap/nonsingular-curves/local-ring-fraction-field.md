@@ -1,12 +1,3 @@
----
-article_id: af_20bb708fcbe056188c33a53a
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.HasAffineOpenBasis.isFractionRing_localRingAt
----
-
 # The function field is the fraction field of every local ring
 
 Let $X$ be a variety over $k$ with an affine-open basis and let $P\in X$.

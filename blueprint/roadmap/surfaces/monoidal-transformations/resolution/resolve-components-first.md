@@ -1,9 +1,3 @@
----
-article_id: af_81d8932d41f0b674225fb547
-declaration: theorem
-origin: bridged
----
-
 # Resolve the irreducible components first
 
 For a reduced curve with finitely many irreducible components on a smooth

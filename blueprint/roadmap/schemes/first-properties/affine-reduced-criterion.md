@@ -1,12 +1,3 @@
----
-article_id: af_e8a03c60351ef112a6e45b5e
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.affine_isReduced_iff
-mathlib_file: Mathlib/AlgebraicGeometry/Properties.lean
----
-
 # Reducedness of an affine scheme
 
 For a commutative ring $A$, $\operatorname{Spec} A$ is reduced if and only if $A$ is reduced,

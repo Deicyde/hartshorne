@@ -1,9 +1,3 @@
----
-article_id: af_b5f03c5b05c66331dc7a7a00
-declaration: isomorphism
-origin: cited
----
-
 # The exceptional curve of a point blowup is a projective line
 
 For the monoidal transformation of a surface at $P$, the exceptional divisor

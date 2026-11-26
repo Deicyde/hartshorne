@@ -1,10 +1,3 @@
----
-article_id: af_049e182a2fc5195fb000370b
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Igusa's exact supersingular count
 
 Igusa's theorem makes every root of the Hasse polynomial simple. Consequently

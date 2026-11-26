@@ -1,12 +1,3 @@
----
-article_id: af_e24b5097e8af399428e20215
-declaration: def
-origin: cited
-lean: Hartshorne.Surface.pointMultiplicity Hartshorne.Surface.pointMultiplicity_eq Hartshorne.Surface.pointMultiplicity_eq_iff Hartshorne.Surface.pointMultiplicity_add Hartshorne.Surface.pointMultiplicity_eq_iff_exists_initialForm
-statement: formalized
-proof: formalized
----
-
 # Multiplicity of a divisor at a point
 
 Let $D$ be an effective divisor on a smooth surface and let $f$ be a local

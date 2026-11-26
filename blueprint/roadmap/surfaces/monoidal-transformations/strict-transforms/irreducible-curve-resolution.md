@@ -1,9 +1,3 @@
----
-article_id: af_5e5941d78f9264f84e7d035e
-declaration: theorem
-origin: cited
----
-
 # Resolution of an irreducible curve on a surface
 
 Let $C$ be an irreducible curve on a Chapter V surface. A finite succession

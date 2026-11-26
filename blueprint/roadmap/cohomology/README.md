@@ -1,7 +1,3 @@
----
-article_id: af_745921269e7ba37a2d4c1731
----
-
 # Cohomology foundations
 
 Hartshorne Chapter III defines sheaf cohomology through derived global

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/differentials/kaehler-differentials/kahler-first-exact-sequence.md"}], "object": [{"location": {"declaration": "Hartshorne.kaehlerFirstExactSequence"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_01b3b42bdfcfbcdd30757572", "extensions": {"org.autoform": {"origin": "background"}}}

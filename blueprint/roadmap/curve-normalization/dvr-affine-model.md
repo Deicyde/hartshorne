@@ -1,12 +1,3 @@
----
-article_id: af_99c0d90cb858f171e4e80de6
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.FunctionFieldDVR.exists_nonsingular_affine_model
----
-
 # Every function-field DVR has a nonsingular affine model
 
 Let $k$ be algebraically closed, let $K/k$ be a finitely generated field

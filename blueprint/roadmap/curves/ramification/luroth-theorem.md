@@ -1,12 +1,3 @@
----
-article_id: af_eb760bc1515441dff2797405
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: RatFunc.Luroth.algEquiv
-mathlib_file: Mathlib/FieldTheory/RatFunc/Luroth.lean
----
-
 # Lüroth's theorem
 
 Let $k$ be a field and let $L$ be an intermediate field between $k$ and the

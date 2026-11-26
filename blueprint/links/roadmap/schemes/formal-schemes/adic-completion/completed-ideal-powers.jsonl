@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/formal-schemes/adic-completion/completed-ideal-powers.md"}], "object": [{"location": {"declaration": "Hartshorne.completedIdealPowers"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_793552093819c4b5f36ad12d", "extensions": {"org.autoform": {"origin": "bridged"}}}

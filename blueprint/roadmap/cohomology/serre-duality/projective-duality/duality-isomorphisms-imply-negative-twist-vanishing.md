@@ -1,9 +1,3 @@
----
-article_id: af_e6f59b7ed8edac219557dbc2
-declaration: theorem
-origin: cited
----
-
 # Duality implies negative-twist vanishing
 
 Let $X$ be an arbitrary projective scheme of dimension $n$ over an

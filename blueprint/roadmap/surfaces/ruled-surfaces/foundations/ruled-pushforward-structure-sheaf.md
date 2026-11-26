@@ -1,9 +1,3 @@
----
-article_id: af_21152361fd1323d74c2aad49
-declaration: isomorphism
-origin: cited
----
-
 # The pushforward of the structure sheaf of a ruled surface
 
 For a ruled surface $\pi : X \to C$, the structural map is an isomorphism

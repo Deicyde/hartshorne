@@ -1,12 +1,3 @@
----
-article_id: af_20b90b5104320442f4732041
-declaration: def
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.sheafCohomologyIsoExt Hartshorne.sheafCohomologyIsoExt_zero Hartshorne.sheafCohomologyIsoExt_δ
----
-
 # Sheaf cohomology as Ext from the constant sheaf
 
 Let $X$ be a topological space, let $\mathfrak{Ab}(X)$ be the abelian

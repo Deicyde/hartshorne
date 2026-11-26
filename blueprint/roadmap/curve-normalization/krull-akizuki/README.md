@@ -1,7 +1,3 @@
----
-article_id: af_a8d73cceb5bdd50e5ccf0b86
----
-
 # Krull--Akizuki and Dedekind normalization
 
 This subchapter isolates the module-length core of Krull--Akizuki from its

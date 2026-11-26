@@ -1,9 +1,3 @@
----
-article_id: af_548ac7b8dbb17035e50a4c42
-declaration: theorem
-origin: cited
----
-
 # The exceptional infinitesimal-neighborhood filtration
 
 Let $I=\mathcal{O}_\widetilde{X}(-E)$ be the exceptional ideal and let $E_n$ be the closed

@@ -1,12 +1,3 @@
----
-article_id: af_edfd5d5cec98a8f47ed0cf78
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.strictMono_primeSpectrum_comap Hartshorne.ringKrullDim_le_of_isIntegral Hartshorne.le_ringKrullDim_of_isIntegral Hartshorne.ringKrullDim_eq_of_isIntegral
----
-
 # Krull dimension is invariant under integral extensions
 
 Let $R \to S$ be an injective integral ring extension. Then $\dim S = \dim R$.

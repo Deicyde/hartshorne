@@ -1,12 +1,3 @@
----
-article_id: af_53c37b8474739d7a3ebebb55
-declaration: def
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationSpace.abstractNonsingularCurveLocalRingAlgEquiv
----
-
 # The local ring of an abstract curve
 
 Let $X\subseteq C_K$ be an abstract nonsingular open curve and let $R\in X$.

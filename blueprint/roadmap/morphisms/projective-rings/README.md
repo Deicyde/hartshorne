@@ -1,7 +1,3 @@
----
-article_id: af_2a6659234206a788b61bfba3
----
-
 # The rings of a projective variety
 
 For an affine variety, Hartshorne's Theorem I.3.2 describes its

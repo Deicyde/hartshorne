@@ -1,10 +1,3 @@
----
-article_id: af_d1d9f0e2cf352aff8b65655f
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Kodaira dimension is the maximal pluricanonical image dimension
 
 For a nonsingular projective integral variety $X$, every positive

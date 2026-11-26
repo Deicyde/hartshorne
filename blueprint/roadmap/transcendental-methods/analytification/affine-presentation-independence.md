@@ -1,10 +1,3 @@
----
-article_id: af_03706ab81af13bacbda75025
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Affine analytification is independent of the polynomial presentation
 
 Any two finite polynomial presentations of a finite-type complex algebra

@@ -1,12 +1,3 @@
----
-article_id: af_0f15654e6777c4f9136535e1
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectivePoint_hilbertPolynomial_and_degree
----
-
 # A projective point has Hilbert polynomial and degree one
 
 For a point $P \in \mathbb{P} ^{n}$, the Hilbert polynomial of the singleton algebraic set

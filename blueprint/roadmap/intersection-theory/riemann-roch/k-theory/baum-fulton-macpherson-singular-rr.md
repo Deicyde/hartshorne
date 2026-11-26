@@ -1,10 +1,3 @@
----
-article_id: af_acea777f405057e5eb71e105
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Baum–Fulton–MacPherson singular Riemann–Roch
 
 There is a Riemann–Roch transformation for singular varieties extending the

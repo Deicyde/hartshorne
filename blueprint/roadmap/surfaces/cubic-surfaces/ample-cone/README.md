@@ -1,7 +1,3 @@
----
-article_id: af_f005eb1ad26f8f0fcadc1d43
----
-
 # The ample cone of a marked cubic surface
 
 The symmetry of the twenty-seven lines reduces very ampleness to explicit

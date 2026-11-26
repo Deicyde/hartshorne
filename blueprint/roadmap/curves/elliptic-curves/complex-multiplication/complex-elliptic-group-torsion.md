@@ -1,9 +1,3 @@
----
-article_id: af_6ca4269bf049f19bd2c49dbe
-declaration: isomorphism
-origin: cited
----
-
 # The abstract group and torsion of a complex elliptic curve
 
 For an elliptic curve $X$ over $\mathbb{C}$, analytic uniformization gives an abstract

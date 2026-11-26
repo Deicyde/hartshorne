@@ -1,9 +1,3 @@
----
-article_id: af_3eb31bd00c11b5f27c70c184
-declaration: equivalence
-origin: cited
----
-
 # Finite étale covers correspond to finite topological covers
 
 Let $X$ be a connected normal finite-type $\mathbb{C}$-scheme.  Analytification gives

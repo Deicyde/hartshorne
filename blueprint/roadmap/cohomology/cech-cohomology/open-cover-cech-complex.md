@@ -1,12 +1,3 @@
----
-article_id: af_12230dca41ee47c4aefe7488
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.OrderedCechIndex Hartshorne.orderedCechIntersection Hartshorne.orderedCechCochains Hartshorne.orderedCechCoface Hartshorne.orderedCechDifferential Hartshorne.orderedCechComplex Hartshorne.orderedCechCohomology
----
-
 # The ordered Čech complex
 
 For a well-ordered open cover $U = (U_i)$ and an abelian sheaf $F$, define

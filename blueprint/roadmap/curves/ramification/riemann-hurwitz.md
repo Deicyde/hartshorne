@@ -1,9 +1,3 @@
----
-article_id: af_c240c733af0c12f7989aecd1
-declaration: theorem
-origin: cited
----
-
 # Riemann–Hurwitz
 
 Let $f : X \to Y$ be a finite separable morphism of curves of degree $n$. Then

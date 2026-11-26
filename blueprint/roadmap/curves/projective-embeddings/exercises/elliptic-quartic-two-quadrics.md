@@ -1,9 +1,3 @@
----
-article_id: af_76e5080c4dc833f06ab4c39f
-declaration: theorem
-origin: cited
----
-
 # Elliptic quartics are intersections of two quadrics
 
 Let $X$ be a degree-four genus-one curve embedded nondegenerately in $\mathbb{P}^3$.

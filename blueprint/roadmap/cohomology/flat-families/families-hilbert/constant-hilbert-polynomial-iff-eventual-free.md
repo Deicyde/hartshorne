@@ -1,9 +1,3 @@
----
-article_id: af_f47b93c1a77233965577ae75
-declaration: theorem
-origin: cited
----
-
 # Constant Hilbert polynomial and eventual free sections
 
 Let $A$ be a local Noetherian domain, $X=\mathbb{P}^n_A$, and $F$ coherent. The

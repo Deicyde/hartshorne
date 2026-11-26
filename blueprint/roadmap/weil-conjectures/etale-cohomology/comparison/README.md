@@ -1,7 +1,3 @@
----
-article_id: af_942ecec453a16314802263b4
----
-
 # Comparison with classical topology
 
 - [Torsion étale–singular comparison](etale-singular-torsion-comparison.md)

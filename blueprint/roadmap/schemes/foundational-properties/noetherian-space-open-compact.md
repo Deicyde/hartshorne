@@ -1,12 +1,3 @@
----
-article_id: af_5b6ab4774e96f1607c608a58
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: TopologicalSpace.noetherianSpace_iff_opens
-mathlib_file: Mathlib/Topology/NoetherianSpace.lean
----
-
 # Noetherian spaces and quasi-compact opens
 
 A topological space is Noetherian if and only if every open subset is

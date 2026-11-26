@@ -1,10 +1,3 @@
----
-article_id: af_58614b8258dc26268403c62d
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Every Moishezon surface is projective algebraic
 
 Every compact complex manifold of dimension two with two algebraically

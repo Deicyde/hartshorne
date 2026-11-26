@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/divisors/weil-divisors/weil-linear-equivalence.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.Scheme.WeilClassGroup"}, "role": "states"}], "status": "formalized", "kind": "abbrev", "id": "af_1cad7f1b7997a1ab9fac34b4", "extensions": {"org.autoform": {"origin": "cited"}}}

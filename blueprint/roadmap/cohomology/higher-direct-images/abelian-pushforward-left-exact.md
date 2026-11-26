@@ -1,12 +1,3 @@
----
-article_id: af_b4538b8d609b98cbdc71bc46
-declaration: instance
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.abelianSheafPushforwardPreservesFiniteLimits
----
-
 # Abelian-sheaf pushforward is left exact
 
 For a continuous map $f : X \to Y$, the direct-image functor on abelian

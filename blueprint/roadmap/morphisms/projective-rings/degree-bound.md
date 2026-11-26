@@ -1,12 +1,3 @@
----
-article_id: af_c1f0eb64f03403a0fa846bde
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.mul_mem_gradedImage
----
-
 # The degree bound
 
 If $t$ lies in the fraction field of $S(Y)$ and $x_{i}^{N_{i}} \cdot t \in S(Y)$ for every

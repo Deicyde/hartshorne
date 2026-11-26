@@ -1,9 +1,3 @@
----
-article_id: af_7d052ca364ff396c6d137e72
-declaration: theorem
-origin: cited
----
-
 # Eight assigned points determine a cubic pencil and a ninth base point
 
 Under the no-four-collinear and no-seven-on-a-conic hypotheses, cubics

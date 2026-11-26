@@ -1,10 +1,3 @@
----
-article_id: af_231dc0735c260f770613c622
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Effaceable delta functors are universal
 
 A covariant delta functor $T^{n} : A \longrightarrow B$ whose positive-degree functors are

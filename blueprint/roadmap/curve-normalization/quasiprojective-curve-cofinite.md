@@ -1,12 +1,3 @@
----
-article_id: af_ce39f8914d2433976bdb3455
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsQuasiProjVariety.isCurve_infinite_and_isClosed_iff
----
-
 # Quasi-projective curves have the cofinite topology
 
 Let $Y$ be a quasi-projective curve over the algebraically closed field $k$.

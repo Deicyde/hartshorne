@@ -1,9 +1,3 @@
----
-article_id: af_f963192c767a624272243075
-declaration: theorem
-origin: cited
----
-
 # Arithmetic genus is a birational invariant of nonsingular projective surfaces
 
 Birationally equivalent nonsingular projective surfaces have equal arithmetic

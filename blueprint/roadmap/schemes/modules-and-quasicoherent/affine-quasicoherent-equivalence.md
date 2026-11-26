@@ -1,12 +1,3 @@
----
-article_id: af_b63d009aa8c0bd5b50a7bb2b
-declaration: equivalence
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.tildeEquiv
-mathlib_file: Mathlib/AlgebraicGeometry/Modules/Tilde.lean
----
-
 # Modules and quasi-coherent sheaves on an affine scheme
 
 For $X = \operatorname{Spec} A$, the tilde and global-sections functors give an equivalence

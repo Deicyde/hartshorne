@@ -1,12 +1,3 @@
----
-article_id: af_ae2f3f77382fd38d7e6b7097
-declaration: example
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_isCoherent_not_isCoherent_pushforward
----
-
 # A coherent pushforward counterexample
 
 There exist varieties $X$ and $Y$ over a field, a morphism $f : X \to Y$, and

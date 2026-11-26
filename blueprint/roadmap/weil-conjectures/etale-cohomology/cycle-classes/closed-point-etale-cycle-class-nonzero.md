@@ -1,9 +1,3 @@
----
-article_id: af_825ef572771ee5458450696d
-declaration: theorem
-origin: cited
----
-
 # The ℓ-adic cycle class of a closed point is nonzero
 
 Let $X$ be connected, smooth, and proper of dimension $n$ over an

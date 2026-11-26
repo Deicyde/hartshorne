@@ -1,10 +1,3 @@
----
-article_id: af_c51e5aa8b0bf1b12536d5a75
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Algebraic equivalence preserves the topological class
 
 Algebraically equivalent Cartier divisors on a projective complex variety

@@ -1,9 +1,3 @@
----
-article_id: af_f3e8cde7e66795320e685af7
-declaration: theorem
-origin: cited
----
-
 # The Hodge signature and the quadric example
 
 After tensoring the numerical divisor group with $R$, the nondegenerate

@@ -1,9 +1,3 @@
----
-article_id: af_dabc764964a1cfa1bb182121
-declaration: theorem
-origin: cited
----
-
 # Every ruled surface is birationally ruled
 
 If $X \to C$ is a ruled surface, then $X$ is birational over $C$ to

@@ -1,12 +1,3 @@
----
-article_id: af_765586c14a163cbbdb9f9f40
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isClosed_sectionSupport
----
-
 # The support of a section is closed
 
 For a section $s \in F(U)$, its support

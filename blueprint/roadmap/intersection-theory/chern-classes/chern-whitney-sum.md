@@ -1,10 +1,3 @@
----
-article_id: af_9970e636e1a1e8a9b9914b16
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The Whitney sum formula
 
 For a short exact sequence of locally free sheaves

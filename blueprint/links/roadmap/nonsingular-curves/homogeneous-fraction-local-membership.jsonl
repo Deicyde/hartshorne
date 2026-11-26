@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/nonsingular-curves/homogeneous-fraction-local-membership.md"}], "object": [{"location": {"declaration": "Hartshorne.projRatClass_mem_localRingRange_iff"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_fc163557346aca575b9a0fd2", "extensions": {"org.autoform": {"origin": "bridged"}}}

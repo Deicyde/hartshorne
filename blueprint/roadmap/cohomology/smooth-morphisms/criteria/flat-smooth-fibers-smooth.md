@@ -1,12 +1,3 @@
----
-article_id: af_c06c62b6ccda3c2abe4a9713
-declaration: theorem
-origin: background
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Smooth.of_smooth_fiberToSpecResidueField
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/SmoothFiber.lean
----
-
 # Flat morphisms with smooth fibres are smooth
 
 Let $f : X \to Y$ be a morphism of schemes that is flat and locally of finite

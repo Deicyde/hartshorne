@@ -1,12 +1,3 @@
----
-article_id: af_216e8eb4b2cf660392e118b5
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_affineNonsingularAt_zeroSet_irreducible Hartshorne.exists_nonsingularAt_of_eq_zeroSet_irreducible Hartshorne.hypersurface_singularLocus_isProper Hartshorne.hypersurface_zeroSet_singularLocus_isProper
----
-
 # An irreducible hypersurface has a nonsingular point
 
 Let $f \in k[x_{1},\ldots ,x_{n}]$ be irreducible and nonconstant, and let

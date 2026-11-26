@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/dominant-morphism-local-ring.md"}], "object": [{"location": {"declaration": "Hartshorne.VarietyHom.injective_localRingHom_of_denseRange"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_336eb54287251594421bfd3b", "extensions": {"org.autoform": {"origin": "cited"}}}

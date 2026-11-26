@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/subschemes-and-dimension/dimension-at-closed-point.md"}], "object": [{"location": {"declaration": "Hartshorne.dimension_at_closed_point"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_b22063ac78ef7edd9e6fdd8c", "extensions": {"org.autoform": {"origin": "cited"}}}

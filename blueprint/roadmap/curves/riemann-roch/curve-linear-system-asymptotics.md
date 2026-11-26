@@ -1,9 +1,3 @@
----
-article_id: af_b958f1c83fae5755217c8bee
-declaration: theorem
-origin: cited
----
-
 # Asymptotic dimensions of complete linear systems
 
 Let $D$ be a divisor on a Chapter IV curve of genus $g$.

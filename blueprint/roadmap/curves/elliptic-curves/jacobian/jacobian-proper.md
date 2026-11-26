@@ -1,9 +1,3 @@
----
-article_id: af_8f6138bf2fe5b6c07b89763d
-declaration: theorem
-origin: cited
----
-
 # The Jacobian is proper
 
 A Jacobian representing the degree-zero Picard functor of a Chapter IV curve

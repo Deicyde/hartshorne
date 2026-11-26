@@ -1,9 +1,3 @@
----
-article_id: af_8486b80789bd9c790b62f666
-declaration: theorem
-origin: cited
----
-
 # Tensor-dual compatibility for global Ext
 
 For a finite-rank locally free $\mathcal{O}_X$-module $L$, its dual $L^{\vee}$, and arbitrary

@@ -1,12 +1,3 @@
----
-article_id: af_ea453201101b8cd619e769e1
-declaration: theorem
-origin: cited
-lean: Hartshorne.DualizingSheaf.existsUnique_iso Hartshorne.DualizingSheaf.uniqueIso Hartshorne.DualizingSheaf.trace_eq_comp_uniqueIso Hartshorne.DualizingSheaf.representableBy Hartshorne.topCohomologyDual
-statement: formalized
-proof: formalized
----
-
 # Uniqueness of a dualizing sheaf with trace
 
 If $(\omega ,t)$ and $(\omega ',t')$ are dualizing sheaves on the same proper

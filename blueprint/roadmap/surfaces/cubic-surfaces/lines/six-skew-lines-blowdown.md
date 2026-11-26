@@ -1,9 +1,3 @@
----
-article_id: af_0a622b649044ddcb5430ef9b
-declaration: theorem
-origin: cited
----
-
 # Six mutually skew lines give another plane blowup marking
 
 Let $E'_1,\ldots ,E'_6$ be any six mutually skew lines among the twenty-seven.

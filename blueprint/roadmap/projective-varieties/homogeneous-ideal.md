@@ -1,12 +1,3 @@
----
-article_id: af_16f6490478043b77ce02d99f
-declaration: abbrev
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsHomogeneousIdeal
----
-
 # Homogeneous ideals
 
 A graded ring is a ring $S$ with a decomposition $S = \bigoplus _{d \ge 0} S_d$ into

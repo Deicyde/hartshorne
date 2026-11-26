@@ -1,9 +1,3 @@
----
-article_id: af_3bd48263ff576507bf667ebf
-declaration: theorem
-origin: cited
----
-
 # The extreme Frobenius polynomials
 
 For a geometrically connected smooth projective $n$-fold over $\mathbb{F}_q$,

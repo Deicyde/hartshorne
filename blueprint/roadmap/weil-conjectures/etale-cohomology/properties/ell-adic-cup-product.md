@@ -1,10 +1,3 @@
----
-article_id: af_65624e8c372d029f4d6b3e72
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Cup products in ℓ-adic cohomology
 
 There are natural bilinear products

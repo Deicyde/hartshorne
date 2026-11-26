@@ -1,12 +1,3 @@
----
-article_id: af_72f51b519fff302ff45444ad
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Ringed.projectionFormulaMap Hartshorne.Ringed.projectionFormulaMap_isIso Hartshorne.Ringed.projectionFormulaIso Hartshorne.Ringed.projectionFormulaMap_naturality_left Hartshorne.Ringed.projectionFormulaMap_naturality_right
----
-
 # Projection formula for finite locally free sheaves
 
 For a morphism of ringed spaces $f : X \longrightarrow Y$, an $\mathcal{O} _X$-module $F$, and a

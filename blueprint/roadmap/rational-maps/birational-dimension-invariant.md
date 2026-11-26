@@ -1,12 +1,3 @@
----
-article_id: af_5df81cbf56c04ce019c9249d
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.birational_topologicalKrullDim_eq
----
-
 # Dimension is a birational invariant
 
 Let $X$ and $Y$ be separated varieties over the same algebraically closed

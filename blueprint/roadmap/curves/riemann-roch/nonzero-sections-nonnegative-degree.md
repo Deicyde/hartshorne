@@ -1,9 +1,3 @@
----
-article_id: af_9c93f6b2bfc1cfac25665395
-declaration: theorem
-origin: cited
----
-
 # A divisor with a nonzero section has nonnegative degree
 
 Let $D$ be a divisor on a Chapter IV curve. If $l(D)>0$, then

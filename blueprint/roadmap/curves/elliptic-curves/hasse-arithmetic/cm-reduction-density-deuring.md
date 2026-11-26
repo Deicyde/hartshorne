@@ -1,10 +1,3 @@
----
-article_id: af_166164598ec4d752bc6cf41d
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # CM reduction and Deuring's criterion
 
 Let a complex elliptic curve with complex multiplication be defined over a

@@ -1,12 +1,3 @@
----
-article_id: af_63e19c88f95370a6c3bfb514
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.specZIsTerminal
-mathlib_file: Mathlib/AlgebraicGeometry/Limits.lean
----
-
 # Spec Z is terminal
 
 Every scheme has a unique morphism to $\operatorname{Spec} \mathbb{Z}$; hence $\operatorname{Spec} \mathbb{Z}$ is terminal in

@@ -1,12 +1,3 @@
----
-article_id: af_282371bb38115fa34ae6b5a5
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_birational_projective_hypersurface
----
-
 # Every variety is birational to a hypersurface
 
 Any variety $X$ of dimension $r$ in Hartshorne's four concrete classes — hence

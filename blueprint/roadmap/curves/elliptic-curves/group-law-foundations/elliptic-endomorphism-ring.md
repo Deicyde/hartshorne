@@ -1,9 +1,3 @@
----
-article_id: af_b037e5a1382243be0f09313a
-declaration: structure
-origin: cited
----
-
 # The endomorphism ring
 
 For a pointed elliptic curve, equip the pointed scheme endomorphisms with

@@ -1,12 +1,3 @@
----
-article_id: af_3bfd873df32de1e7b9c89d8a
-declaration: def
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.VarietyHom.functionFieldHom
----
-
 # The function field is functorial for dominant morphisms
 
 A dominant morphism $\varphi:X\to Y$ induces a pullback homomorphism

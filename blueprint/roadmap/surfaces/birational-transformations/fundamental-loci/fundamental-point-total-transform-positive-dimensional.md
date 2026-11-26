@@ -1,9 +1,3 @@
----
-article_id: af_50a87c383f4723cd67f53069
-declaration: theorem
-origin: cited
----
-
 # The total transform of a fundamental point is positive-dimensional
 
 Under the hypotheses of the connected-total-transform theorem, if $P$ is a

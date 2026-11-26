@@ -1,12 +1,3 @@
----
-article_id: af_305fb0c8dc6dbf812dd169a5
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.affine_globalSections_shortExact Hartshorne.modulesGlobalSections
----
-
 # Exactness of affine global sections
 
 Let $X$ be affine and let

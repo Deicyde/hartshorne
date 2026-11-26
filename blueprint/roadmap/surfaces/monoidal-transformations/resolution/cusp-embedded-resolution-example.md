@@ -1,9 +1,3 @@
----
-article_id: af_72c78fb232c40f2f65bc3bde
-declaration: example
-origin: cited
----
-
 # Embedded resolution of a cusp
 
 For the plane cusp $y^2=x^3$, one point blowup makes the strict transform

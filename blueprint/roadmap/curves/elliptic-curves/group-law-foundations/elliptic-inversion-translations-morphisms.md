@@ -1,9 +1,3 @@
----
-article_id: af_e0eb954bbf93b5d5ad733f11
-declaration: theorem
-origin: cited
----
-
 # Inversion and translations are morphisms
 
 For a pointed elliptic curve, inversion $P\mapsto-P$ is a scheme

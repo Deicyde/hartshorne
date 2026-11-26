@@ -1,12 +1,3 @@
----
-article_id: af_2a8ac3af6149ed66e0a221bd
-declaration: theorem
-origin: bridged
-lean: Hartshorne.DiagonalConormal.relativeDifferentialsDiagonalConormalIso Hartshorne.DiagonalConormal.relativeDifferentialsToDiagonalConormal Hartshorne.DiagonalConormal.isIso_relativeDifferentialsToDiagonalConormal Hartshorne.DiagonalConormal.relativeDifferentialsToDiagonalConormal_app_d Hartshorne.DiagonalConormal.relativeDifferentialsDiagonalConormalIso_d Hartshorne.DiagonalConormal.factorizationComparison Hartshorne.DiagonalConormal.factorizationComparison_toCanonical Hartshorne.DiagonalConormal.isIso_factorizationComparison Hartshorne.DiagonalConormal.factorizationComparison_comparison Hartshorne.DiagonalConormal.ι_idealSection
-statement: formalized
-proof: formalized
----
-
 # Relative differentials are the conormal sheaf of the diagonal
 
 For a scheme morphism $f : X \to Y$, let

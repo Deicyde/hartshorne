@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/dimension/affine-cone-irreducible.md"}], "object": [{"location": {"declaration": "Hartshorne.isIrreducible_affineCone_iff"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_a28ad959d1cb4b78bc7ab801", "extensions": {"org.autoform": {"origin": "cited"}}}

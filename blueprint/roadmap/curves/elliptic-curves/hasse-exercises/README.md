@@ -1,7 +1,3 @@
----
-article_id: af_2965a790674ccc02fd77f35b
----
-
 # Hasse-invariant exercises retained from IV.4
 
 These exercises supply the Fermat congruence and the dual-Frobenius torsion

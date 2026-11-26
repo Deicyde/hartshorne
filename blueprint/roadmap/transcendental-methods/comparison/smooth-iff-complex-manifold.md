@@ -1,10 +1,3 @@
----
-article_id: af_00e546b2ddc9634a4def8ad7
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # A finite-type complex scheme is smooth iff its analytification is a complex manifold
 
 For a finite-type complex scheme $X$, smoothness over $\mathbb{C}$ is equivalent to

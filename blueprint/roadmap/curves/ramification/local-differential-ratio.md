@@ -1,9 +1,3 @@
----
-article_id: af_a7f66c5afe47b2caf8819ce0
-declaration: def
-origin: cited
----
-
 # The local differential ratio
 
 For a finite separable curve map $f : X \to Y$, a point $P \in X$, $Q=f(P)$,

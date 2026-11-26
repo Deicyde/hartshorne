@@ -1,9 +1,3 @@
----
-article_id: af_d16837013c51602eb2f7478b
-declaration: isomorphism
-origin: cited
----
-
 # Eventual base change for twisted global sections
 
 Let $A$ be a local Noetherian domain, $X=\mathbb{P}^n_A$, $F$ coherent, and let $t$

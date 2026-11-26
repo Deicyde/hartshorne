@@ -1,12 +1,3 @@
----
-article_id: af_a8a006b5b8adef644af67dad
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: CategoryTheory.InjectiveResolution.extAddEquivCohomologyClass
-mathlib_file: Mathlib/CategoryTheory/Abelian/Injective/Ext.lean
----
-
 # Global Ext from an injective resolution
 
 If $G \longrightarrow I^{\bullet}$ is an injective resolution in an abelian category, then

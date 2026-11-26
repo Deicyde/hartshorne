@@ -1,9 +1,3 @@
----
-article_id: af_0c2e4e1a25164c28369b8368
-declaration: theorem
-origin: cited
----
-
 # The Chern polynomial of an exterior power
 
 If $E$ has rank $r$ and formal Chern roots $a_1,\ldots ,a_r$, then for

@@ -1,9 +1,3 @@
----
-article_id: af_938b36e600e7015017ea9390
-declaration: theorem
-origin: cited
----
-
 # Eventual relative generation
 
 Let $f : X \to Y$ be a projective morphism of Noetherian schemes, let

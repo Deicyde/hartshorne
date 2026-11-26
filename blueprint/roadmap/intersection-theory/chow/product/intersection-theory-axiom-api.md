@@ -1,9 +1,3 @@
----
-article_id: af_f8d91d7c9043dd284a1682ea
-declaration: structure
-origin: cited
----
-
 # The A1–A7 intersection-theory interface
 
 For a class of nonsingular quasi-projective varieties closed under products,

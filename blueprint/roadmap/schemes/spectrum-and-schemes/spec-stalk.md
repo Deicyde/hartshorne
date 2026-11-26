@@ -1,12 +1,3 @@
----
-article_id: af_583dcab868656eea7ba3f8e6
-declaration: abbrev
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.StructureSheaf.stalkIso
-mathlib_file: Mathlib/AlgebraicGeometry/StructureSheaf.lean
----
-
 # The stalk of Spec
 
 For $\mathfrak{p} \in \operatorname{Spec} A$, evaluation of a local section at $\mathfrak{p}$ induces an

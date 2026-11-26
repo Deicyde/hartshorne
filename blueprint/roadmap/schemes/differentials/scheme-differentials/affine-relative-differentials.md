@@ -1,12 +1,3 @@
----
-article_id: af_51fc36838ea41b9f10d277d9
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.relativeDifferentialsSpecIso AlgebraicGeometry.Scheme.relativeDifferentialsSpecIso_derivation AlgebraicGeometry.Scheme.relativeDifferentialsSpecIso_hom_d AlgebraicGeometry.Scheme.relativeDifferentials_mvPolynomial_free AlgebraicGeometry.Scheme.relativeDifferentials_affineSpace_free AlgebraicGeometry.Scheme.relativeDifferentials_affineSpaceOver_free AlgebraicGeometry.Scheme.relativeDifferentials_affineSpaceOver_free_rank
----
-
 # Differentials on affine schemes
 
 For a ring map $A \to B$, identify the relative differential sheaf on the

@@ -1,10 +1,3 @@
----
-article_id: af_939ab47a4eac74c69dc7b513
-declaration: example
-origin: background
-not_ready: true
----
-
 # Mumford's strictly-nef square-zero counterexample
 
 There is a smooth projective surface $X$ and a divisor $D$ such that

@@ -1,12 +1,3 @@
----
-article_id: af_a10e68c7ff360c43ea9f3e53
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: SheafOfModules.pullbackPushforwardAdjunction
-mathlib_file: Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackContinuous.lean
----
-
 # Pushforward, pullback, and their adjunction
 
 For a morphism of ringed spaces $f : (X,\mathcal{O}_X) \longrightarrow (Y,\mathcal{O}_Y)$, define the module

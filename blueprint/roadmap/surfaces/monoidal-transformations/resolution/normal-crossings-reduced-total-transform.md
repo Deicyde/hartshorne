@@ -1,9 +1,3 @@
----
-article_id: af_ba8f510c02121596c0d86815
-declaration: def
-origin: cited
----
-
 # Normal crossings and reduced total transforms
 
 A reduced divisor on a smooth surface has normal crossings when every

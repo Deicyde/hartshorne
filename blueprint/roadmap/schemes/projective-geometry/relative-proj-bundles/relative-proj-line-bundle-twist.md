@@ -1,12 +1,3 @@
----
-article_id: af_30bc344df7c12848051dfc69
-declaration: theorem
-origin: cited
-lean: Hartshorne.QuasiCoherentGradedAlgebra.lineBundleTwist Hartshorne.QuasiCoherentGradedAlgebra.lineBundleTwistIso Hartshorne.QuasiCoherentGradedAlgebra.lineBundleTwistIso_hom_relProjToBase Hartshorne.QuasiCoherentGradedAlgebra.nonempty_relTwistingSheaf_one_iso AlgebraicGeometry.Scheme.Modules.tensorPowerIsoSymmetricPower
-statement: formalized
-proof: formalized
----
-
 # Twisting a graded algebra by a line bundle
 
 For an invertible sheaf $L$ on $X$, put $(S \cdot L)_d = S_d \otimes L^d$. There is

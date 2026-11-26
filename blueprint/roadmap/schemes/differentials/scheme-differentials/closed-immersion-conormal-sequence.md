@@ -1,12 +1,3 @@
----
-article_id: af_7366ce782734f3f77e702dc7
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ClosedConormal.closedImmersion_conormal_exact
----
-
 # The conormal sequence of a closed immersion
 
 Let $Z \hookrightarrow X \to Y$ be a closed subscheme with ideal sheaf $J$.  Construct the

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/curve-normalization/quasiprojective-curve-cofinite.md"}], "object": [{"location": {"declaration": "Hartshorne.IsQuasiProjVariety.isCurve_infinite_and_isClosed_iff"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_ce39f8914d2433976bdb3455", "extensions": {"org.autoform": {"origin": "cited"}}}

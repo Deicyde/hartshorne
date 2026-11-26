@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/bezout/reducible-plane-curve-bezout.md"}], "object": [{"location": {"declaration": "Hartshorne.reducible_plane_curve_bezout"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_b501809e0faea306655db32d", "extensions": {"org.autoform": {"origin": "cited"}}}

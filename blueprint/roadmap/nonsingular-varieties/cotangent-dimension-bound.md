@@ -1,12 +1,3 @@
----
-article_id: af_eec06f727fc1cf5bb44d0721
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.ringKrullDim_le_finrank_cotangentSpace
----
-
 # The cotangent-dimension bound
 
 Let $A$ be a Noetherian local ring with maximal ideal $\mathfrak m$

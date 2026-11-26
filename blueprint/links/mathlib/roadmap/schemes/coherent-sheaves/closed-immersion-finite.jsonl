@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/coherent-sheaves/closed-immersion-finite.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.IsClosedImmersion.iff_isFinite_and_mono", "module": "Mathlib.AlgebraicGeometry.Morphisms.Finite"}}], "id": "af_fc057601bafeb0de917d756b"}

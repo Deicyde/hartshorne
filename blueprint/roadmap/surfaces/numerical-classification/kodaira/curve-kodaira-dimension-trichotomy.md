@@ -1,9 +1,3 @@
----
-article_id: af_2b30950f47649c873061792a
-declaration: theorem
-origin: cited
----
-
 # Kodaira dimension of a nonsingular projective curve
 
 Let $C$ be a nonsingular projective curve of genus $g$. Then

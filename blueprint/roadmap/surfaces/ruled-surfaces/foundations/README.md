@@ -1,7 +1,3 @@
----
-article_id: af_29185534176616269cf5c213
----
-
 # Foundations of ruled surfaces
 
 This subchapter develops the characteristic-free foundations of geometrically

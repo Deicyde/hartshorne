@@ -1,10 +1,3 @@
----
-article_id: af_be42d0ef0f300cc26613d5db
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Global complete intersections and hypersurface intersections
 
 Let $Y$ be a codimension-$r$ closed subscheme of $\mathbb{P}^n_k$. Its homogeneous

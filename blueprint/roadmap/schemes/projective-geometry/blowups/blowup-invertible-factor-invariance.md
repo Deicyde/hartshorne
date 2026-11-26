@@ -1,12 +1,3 @@
----
-article_id: af_82af21d2a2c6357aeda0a53e
-declaration: theorem
-origin: cited
-lean: Hartshorne.QuasicoherentIdealSubsheaf.blowupMulIso Hartshorne.QuasicoherentIdealSubsheaf.blowupMulIso_hom_blowupProjection Hartshorne.QuasicoherentIdealSubsheaf.ideal_mul Hartshorne.QuasicoherentIdealSubsheaf.isCoherent_mul Hartshorne.reesScale Hartshorne.reesScale_bijective
-statement: formalized
-proof: formalized
----
-
 # Blowups are invariant under invertible factors
 
 If $I$ is coherent and $L$ is an invertible ideal sheaf, the blowups along

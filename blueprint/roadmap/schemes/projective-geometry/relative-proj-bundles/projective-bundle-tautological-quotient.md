@@ -1,12 +1,3 @@
----
-article_id: af_fd293f974536e4abe8f4da0a
-declaration: theorem
-origin: cited
-lean: AlgebraicGeometry.Scheme.Modules.projectiveBundleTautologicalQuotient AlgebraicGeometry.Scheme.Modules.epi_projectiveBundleTautologicalQuotient AlgebraicGeometry.Scheme.Modules.InvertibleQuotient AlgebraicGeometry.Scheme.Modules.InvertibleQuotient.setoid AlgebraicGeometry.Scheme.Modules.projectiveBundleInvertibleQuotientOfHom AlgebraicGeometry.Scheme.Modules.projectiveBundle_exists_hom_of_invertibleQuotient AlgebraicGeometry.Scheme.Modules.projectiveBundle_hom_eq_of_equiv AlgebraicGeometry.Scheme.Modules.projectiveBundleHomEquiv AlgebraicGeometry.Scheme.Modules.projectiveBundleSectionEquiv AlgebraicGeometry.Scheme.Modules.projectiveBundleHomEquiv_apply AlgebraicGeometry.Scheme.Modules.projectiveBundleSectionEquiv_apply
-statement: formalized
-proof: formalized
----
-
 # The tautological quotient and functor of points
 
 For $\pi : P(E) \to X$, construct the natural surjection $\pi ^* E \to \mathcal{O}(1)$.

@@ -1,12 +1,3 @@
----
-article_id: af_af3944fcd0deb0669bccf027
-declaration: theorem
-origin: cited
-lean: Hartshorne.QuasicoherentIdealSubsheaf.existsUnique_blowup_map Hartshorne.QuasicoherentIdealSubsheaf.isClosedImmersion_of_blowup_map
-statement: formalized
-proof: formalized
----
-
 # Functoriality of blowups
 
 For $f : Y \to X$, blowing up $Y$ along the inverse-image ideal gives a unique

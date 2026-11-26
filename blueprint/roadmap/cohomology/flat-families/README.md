@@ -1,7 +1,3 @@
----
-article_id: af_d33a9986cd9b394aa65448cc
----
-
 # Flat morphisms and families
 
 Hartshorne III.9 develops flatness from algebraic modules through projective

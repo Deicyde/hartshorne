@@ -1,9 +1,3 @@
----
-article_id: af_2d2682154502c83e2d81766e
-declaration: theorem
-origin: cited
----
-
 # Finite generation of the complex Néron–Severi group
 
 The Néron–Severi group of a projective complex variety is finitely generated.

@@ -1,12 +1,3 @@
----
-article_id: af_65374443c368263bedb9a175
-declaration: theorem
-origin: cited
-lean: Hartshorne.QuasicoherentIdealSubsheaf.existsUnique_blowup_lift
-statement: formalized
-proof: formalized
----
-
 # The universal property of a blowup
 
 If $f : Z \to X$ makes the inverse-image ideal $f^{-1}I \cdot \mathcal{O}_Z$ invertible,

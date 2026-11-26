@@ -1,12 +1,3 @@
----
-article_id: af_e1eecc8dc2884eefd2335da4
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.FunctionFieldDVR.infinite_of_trdeg_eq_one Hartshorne.ValuationSpace.irreducibleSpace_of_trdeg_eq_one Hartshorne.ValuationSpace.infinite_of_isOpen_of_nonempty
----
-
 # The valuation space is infinite
 
 Let $k$ be algebraically closed and let $K/k$ be a finitely generated

@@ -1,9 +1,3 @@
----
-article_id: af_c9f4ccbc78d8514dc95f1998
-declaration: theorem
-origin: cited
----
-
 # Ambient sheaf Ext vanishes below codimension
 
 Let $i:X\longrightarrow \mathbb{P}^{N}_k$ be a closed subscheme of dimension $n$ and put

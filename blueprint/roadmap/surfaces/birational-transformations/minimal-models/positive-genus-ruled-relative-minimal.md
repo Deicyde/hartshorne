@@ -1,9 +1,3 @@
----
-article_id: af_3cb257341cc6aa9bfd6e385e
-declaration: theorem
-origin: cited
----
-
 # Positive-genus ruled surfaces are relatively minimal
 
 Let $C$ have genus $g>0$. Every geometrically ruled surface over $C$ is

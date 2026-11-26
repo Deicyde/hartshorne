@@ -1,9 +1,3 @@
----
-article_id: af_bbafdbc7526e9d2cb978d052
-declaration: theorem
-origin: cited
----
-
 # The total transform of a fundamental point is connected
 
 Let $T:X \dashrightarrow Y$ be a birational transformation of projective

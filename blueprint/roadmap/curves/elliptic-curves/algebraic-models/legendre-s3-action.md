@@ -1,9 +1,3 @@
----
-article_id: af_6d1c32e327b7be5f5226f722
-declaration: theorem
-origin: cited
----
-
 # The Legendre S3 action
 
 Permuting the branch points $0,1,\lambda$ and renormalizing the first two to

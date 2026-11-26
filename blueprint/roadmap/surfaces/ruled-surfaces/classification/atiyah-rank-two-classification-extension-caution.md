@@ -1,9 +1,3 @@
----
-article_id: af_358d8300bfa8a32f7e9c7f74
-declaration: theorem
-origin: cited
----
-
 # Atiyah's rank-two classification and the extension caution
 
 For every integer $n$, isomorphism classes of indecomposable rank-two,

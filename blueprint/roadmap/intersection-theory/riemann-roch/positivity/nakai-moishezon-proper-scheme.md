@@ -1,10 +1,3 @@
----
-article_id: af_40f8324abceabb5bdeddd4b0
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The Nakai–Moishezon criterion
 
 Let $X$ be proper over an algebraically closed field and $D$ a Cartier

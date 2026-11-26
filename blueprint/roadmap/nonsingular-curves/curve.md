@@ -1,12 +1,3 @@
----
-article_id: af_c9ec3c715008de92212224d1
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.IsCurve
----
-
 # Curves
 
 A curve is a variety $X$ of dimension one:

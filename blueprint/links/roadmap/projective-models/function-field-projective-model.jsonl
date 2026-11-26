@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/function-field-projective-model.md"}], "object": [{"location": {"declaration": "Hartshorne.ValuationSpace.exists_nonsingular_projective_model"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_78997ddb7372a8a01620fefa", "extensions": {"org.autoform": {"origin": "cited"}}}

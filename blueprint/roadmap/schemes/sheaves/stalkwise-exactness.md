@@ -1,12 +1,3 @@
----
-article_id: af_8074121fbfe5b41e473923a8
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: TopCat.Sheaf.exact_iff_stalkFunctor_map_exact
-mathlib_file: Mathlib/Topology/Sheaves/Abelian.lean
----
-
 # Exactness is detected on stalks
 
 A complex of sheaves of abelian groups is exact if and only if its stalk at

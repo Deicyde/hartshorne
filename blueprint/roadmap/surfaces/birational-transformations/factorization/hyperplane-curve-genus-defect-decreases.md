@@ -1,9 +1,3 @@
----
-article_id: af_1ef8d4d758eff98e0bb3e653
-declaration: theorem
-origin: cited
----
-
 # The hyperplane-section genus defect decreases under blowup
 
 Let $T:X \dashrightarrow X'$ be a birational transformation of nonsingular

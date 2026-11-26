@@ -1,12 +1,3 @@
----
-article_id: af_4b16d05f05c6a0069b4f524c
-declaration: instance
-origin: cited
-mathlib: true
-mathlib_declaration: ProjectiveSpectrum.zariskiTopology
-mathlib_file: Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Topology.lean
----
-
 # The topology on Proj
 
 For an $\mathbb{N}$-graded commutative ring $S$, $\operatorname{Proj} S$ is the set of homogeneous

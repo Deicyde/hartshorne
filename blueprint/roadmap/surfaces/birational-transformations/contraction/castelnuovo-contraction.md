@@ -1,9 +1,3 @@
----
-article_id: af_04df86bafed55610a72b5ba6
-declaration: theorem
-origin: cited
----
-
 # Castelnuovo's contraction theorem
 
 Let $Y$ be a curve on a nonsingular projective surface $X$ over an

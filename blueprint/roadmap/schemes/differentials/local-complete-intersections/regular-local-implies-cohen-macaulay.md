@@ -1,12 +1,3 @@
----
-article_id: af_82d0cf0c3b89ae8a0f4cd091
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: IsRegularLocalRing.isCohenMacaulayLocalRing
----
-
 # Regular local rings are Cohen–Macaulay
 
 Every Noetherian regular local ring is Cohen–Macaulay.

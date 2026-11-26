@@ -1,12 +1,3 @@
----
-article_id: af_b34fd5f14e95971801eb8c21
-declaration: theorem
-origin: cited
-lean: Hartshorne.isClosedImmersion_iff_isAffineOpen_and_surjective Hartshorne.isClosedImmersion_iff_isAffineOpen_and_surjective_chartSectionPolynomialMap Hartshorne.chartSectionPolynomialMap Hartshorne.chartSectionPolynomialMap_X_smul Hartshorne.projectiveSpaceChartPolynomialMap Hartshorne.projectiveSpaceChartPolynomialMap_surjective
-statement: formalized
-proof: formalized
----
-
 # The projective closed-immersion chart criterion
 
 The morphism associated to $L$ and $s_0,\ldots ,s_n$ is a closed immersion if and

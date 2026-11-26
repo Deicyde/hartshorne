@@ -1,10 +1,3 @@
----
-article_id: af_2c28732f9c0a1a1f981ca2e3
-declaration: isomorphism
-origin: background
-not_ready: true
----
-
 # Top ℓ-adic cohomology and the trace map
 
 Let $X$ be connected, smooth, and proper of pure dimension $n$ over an

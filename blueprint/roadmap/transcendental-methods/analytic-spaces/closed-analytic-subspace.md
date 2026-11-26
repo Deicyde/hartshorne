@@ -1,9 +1,3 @@
----
-article_id: af_392fa4cae82127b06a3c87e7
-declaration: def
-origin: cited
----
-
 # Closed analytic subspaces of a polydisc
 
 For holomorphic functions $f_1,\ldots ,f_q$ on a polydisc $U$, define their

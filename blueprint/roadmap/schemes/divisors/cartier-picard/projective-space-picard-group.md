@@ -1,12 +1,3 @@
----
-article_id: af_341d134f58a4a6e58ce14c1c
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_iso_projTwistingSheaf Hartshorne.exists_unique_iso_projTwistingSheaf Hartshorne.projectiveSpacePicardEquiv Hartshorne.projectiveSpacePicardEquiv_projTwistingSheaf
----
-
 # The Picard group of projective space
 
 Let $k$ be a field and $n \ge 0$. Every invertible sheaf on $\mathbb{P}^n_k$ is

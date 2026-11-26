@@ -1,9 +1,3 @@
----
-article_id: af_575b12944daa8058726e5f48
-declaration: def
-origin: cited
----
-
 # The normalized Poincaré class of an elliptic curve
 
 Let $(X,P_0)$ be a pointed elliptic curve, let $\Delta$ be the diagonal in

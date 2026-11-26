@@ -1,9 +1,3 @@
----
-article_id: af_d7fdb8737852935db8457013
-declaration: theorem
-origin: cited
----
-
 # The curve Riemann–Roch specialization
 
 For a smooth projective genus-$g$ curve and divisor $D$, HRR specializes to

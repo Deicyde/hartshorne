@@ -1,12 +1,3 @@
----
-article_id: af_a933157095e6b109ea006613
-declaration: theorem
-origin: cited
-lean: Hartshorne.projectiveSpaceChart Hartshorne.projectiveSpaceChartRatio Hartshorne.preimage_projectiveSpaceChart_eq_nonvanishingLocusOpens Hartshorne.appLE_projectiveSpaceChartRatio_smul Hartshorne.existsUnique_chartRingHom_of_iso Hartshorne.restrict_projectiveSpaceCoordinate_eq_smul Hartshorne.isTrivializingSection_projectiveSpaceChart
-statement: formalized
-proof: formalized
----
-
 # Coordinate nonvanishing opens
 
 For the morphism defined by generators $s_0,\ldots ,s_n$, the inverse image of

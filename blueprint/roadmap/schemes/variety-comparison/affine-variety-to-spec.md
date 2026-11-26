@@ -1,12 +1,3 @@
----
-article_id: af_6a2e5ff2057aec8d2fb1fb78
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.affineVarietyGenericCompletionIsoSpec Hartshorne.affineVarietyGenericCompletionLocallyRingedSpace Hartshorne.affineVarietyGenericCompletionSheafedSpaceIsoSpec Hartshorne.genericCompletionHomeomorphSpec Hartshorne.affineVarietyGenericCompletionIsoSpec_hom_base_asIdeal Hartshorne.affineVarietyGenericCompletionIsoSpec_hom_base_alpha Hartshorne.affineVarietyGenericCompletionIsoSpec_hom_c_app
----
-
 # An affine variety completes to its spectrum
 
 Let $V$ be an affine variety over an algebraically closed field $k$, with

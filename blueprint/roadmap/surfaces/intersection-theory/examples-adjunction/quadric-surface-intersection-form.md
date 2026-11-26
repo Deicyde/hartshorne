@@ -1,9 +1,3 @@
----
-article_id: af_1b1fbad3794803b3c2e4c06c
-declaration: theorem
-origin: cited
----
-
 # The intersection form on a smooth quadric
 
 On a smooth quadric surface, let $l$ and $m$ be lines from its two rulings.

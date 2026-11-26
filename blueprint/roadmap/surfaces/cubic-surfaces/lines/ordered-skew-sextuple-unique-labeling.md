@@ -1,9 +1,3 @@
----
-article_id: af_d86261b9c0a96cb2e1759f6a
-declaration: theorem
-origin: cited
----
-
 # An ordered skew sextuple uniquely labels the configuration
 
 Once six mutually skew lines are given ordered names $E_1,\ldots ,E_6$, the names

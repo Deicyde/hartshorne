@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/curve-normalization/separable-normalization-charts.md"}], "object": [{"location": {"declaration": "Hartshorne.separableNormalizationCharts"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_9ccfa4b4af1188a70942772f", "extensions": {"org.autoform": {"origin": "bridged"}}}

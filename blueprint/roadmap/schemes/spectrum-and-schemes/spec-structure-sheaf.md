@@ -1,12 +1,3 @@
----
-article_id: af_e41dd70530b195f86aa3a012
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Spec.structureSheaf
-mathlib_file: Mathlib/AlgebraicGeometry/StructureSheaf.lean
----
-
 # The structure sheaf on Spec
 
 For an open $U \subseteq \operatorname{Spec} A$, define $\mathcal{O} (U)$ to consist of dependent functions

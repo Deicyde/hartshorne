@@ -1,10 +1,3 @@
----
-article_id: af_934482ba148aa204e11b61d2
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The Auslander–Buchsbaum formula
 
 Let $A$ be a Noetherian regular local ring and $M$ a nonzero finitely

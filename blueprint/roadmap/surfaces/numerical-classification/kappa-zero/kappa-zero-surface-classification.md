@@ -1,10 +1,3 @@
----
-article_id: af_c370074530406d156da45984
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Exhaustive classification of Kodaira-dimension-zero surfaces
 
 Let $X$ be a relatively minimal Chapter-V surface over an algebraically

@@ -1,12 +1,3 @@
----
-article_id: af_a0c8794b480b1073153416e2
-declaration: structure
-origin: cited
-lean: Hartshorne.NoetherianFormalScheme Hartshorne.IsNoetherianFormalScheme Hartshorne.IsNoetherianFormalScheme.of_iso Hartshorne.NoetherianFormalScheme.category
-statement: formalized
-proof: formalized
----
-
 # Noetherian formal schemes
 
 Define a Noetherian formal scheme to be a locally ringed space with a finite

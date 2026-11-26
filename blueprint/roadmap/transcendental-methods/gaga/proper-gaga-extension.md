@@ -1,10 +1,3 @@
----
-article_id: af_0f7cae72feb335aa9973ac28
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Proper GAGA
 
 For a scheme $X$ proper over $\mathbb{C}$, analytification induces an equivalence on

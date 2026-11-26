@@ -1,10 +1,3 @@
----
-article_id: af_a4ea0b9cac62a762592e139e
-declaration: isomorphism
-origin: background
-not_ready: true
----
-
 # Affine-space pullback is an isomorphism on Chow rings
 
 For a nonsingular quasi-projective variety $X$ and $m\ge 0$, projection induces

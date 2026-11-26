@@ -1,9 +1,3 @@
----
-article_id: af_35a2a80fd345185a541aa4ab
-declaration: def
-origin: cited
----
-
 # The meromorphic-function field of a compact complex manifold
 
 For a connected complex manifold $M$, define $K(M)$ to be the field of global

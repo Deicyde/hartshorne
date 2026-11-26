@@ -1,7 +1,3 @@
----
-article_id: af_13eb10a276b90ab96c2b0c8a
----
-
 # Differential sheaves, regularity, and nonsingularity
 
 This subchapter globalizes Kähler differentials to scheme morphisms and covers

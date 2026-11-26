@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/first-properties/affine-reduced-criterion.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.affine_isReduced_iff", "module": "Mathlib.AlgebraicGeometry.Properties"}}], "id": "af_e8a03c60351ef112a6e45b5e"}

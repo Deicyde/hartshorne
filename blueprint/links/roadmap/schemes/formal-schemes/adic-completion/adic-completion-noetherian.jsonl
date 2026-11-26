@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/formal-schemes/adic-completion/adic-completion-noetherian.md"}], "object": [{"location": {"declaration": "Hartshorne.isNoetherianRing_adicCompletion"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_12b14eba4b45f85ba3eb4dca", "extensions": {"org.autoform": {"origin": "background"}}}

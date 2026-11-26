@@ -1,9 +1,3 @@
----
-article_id: af_39dc0c62390a36b3cc2aea9e
-declaration: theorem
-origin: cited
----
-
 # Surface tangent Chern data
 
 For a smooth projective surface with canonical class $K$,

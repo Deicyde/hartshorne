@@ -1,9 +1,3 @@
----
-article_id: af_3b58e0ea9d48b4517b1d4db5
-declaration: theorem
-origin: cited
----
-
 # Ampleness on irreducible components
 
 Let $X$ be a reduced proper Noetherian scheme with irreducible components

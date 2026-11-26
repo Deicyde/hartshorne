@@ -1,9 +1,3 @@
----
-article_id: af_35e47118105b2568fa6c75c8
-declaration: theorem
-origin: cited
----
-
 # Rational points form a subgroup
 
 Let a pointed plane elliptic curve $(X,P_0)$ and its cubic equation be defined

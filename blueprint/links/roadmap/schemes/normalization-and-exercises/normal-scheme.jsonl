@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/normalization-and-exercises/normal-scheme.md"}], "object": [{"location": {"declaration": "Hartshorne.IsNormal"}, "role": "states"}], "status": "formalized", "kind": "class", "id": "af_8b752e8f3ad59f5372d5df2c", "extensions": {"org.autoform": {"origin": "cited"}}}

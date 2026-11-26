@@ -1,9 +1,3 @@
----
-article_id: af_f6d6f05890ab0e997580cf38
-declaration: theorem
-origin: cited
----
-
 # The Castelnuovo morphism contracts exactly the minus-one curve
 
 The globally generated bundle $A=\mathcal{O}_X(H+kY)$ defines a morphism

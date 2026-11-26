@@ -1,9 +1,3 @@
----
-article_id: af_89154a6db7a00238a8b1276b
-declaration: isomorphism
-origin: cited
----
-
 # Infinitesimal neighborhoods of a minus-one curve
 
 Let $I$ be the ideal sheaf of an exceptional curve of the first kind $Y$,

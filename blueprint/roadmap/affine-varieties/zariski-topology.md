@@ -1,12 +1,3 @@
----
-article_id: af_02b813024028fb3b623f3d8b
-declaration: instance
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.zariskiTopology
----
-
 # The Zariski topology on affine space
 
 The union of two algebraic sets is algebraic, the intersection of an

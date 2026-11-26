@@ -1,12 +1,3 @@
----
-article_id: af_0e5f5e0fad44547212ec5385
-declaration: theorem
-origin: background
-mathlib: true
-mathlib_declaration: AdicCompletion.map_exact
-mathlib_file: Mathlib/RingTheory/AdicCompletion/Exactness.lean
----
-
 # Exactness of finite-module completion
 
 For a short exact sequence of finite modules over a Noetherian ring, applying

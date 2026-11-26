@@ -1,12 +1,3 @@
----
-article_id: af_5a4264a01d516d7b48449993
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: PrimeSpectrum.irreducibleSpace_iff_isPrime_nilradical
-mathlib_file: Mathlib/RingTheory/Spectrum/Prime/Topology.lean
----
-
 # Irreducibility of an affine scheme
 
 For a commutative ring $A$, $\operatorname{Spec} A$ is irreducible if and only if the

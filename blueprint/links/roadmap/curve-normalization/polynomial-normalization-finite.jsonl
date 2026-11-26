@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/curve-normalization/polynomial-normalization-finite.md"}], "object": [{"location": {"declaration": "Hartshorne.moduleFinite_integralClosure_mvPolynomial"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_7a8650a3a8f379e0ba31aae1", "extensions": {"org.autoform": {"origin": "bridged"}}}

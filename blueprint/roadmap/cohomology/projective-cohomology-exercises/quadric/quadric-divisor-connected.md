@@ -1,9 +1,3 @@
----
-article_id: af_db8255c5f36979ee51f94abe
-declaration: theorem
-origin: cited
----
-
 # Connected positive-type quadric divisors
 
 Let $Y\subseteq Q$ be a locally principal closed subscheme of type $(a,b)$ with

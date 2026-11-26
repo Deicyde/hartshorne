@@ -1,10 +1,3 @@
----
-article_id: af_1e9d4bdad81055ea4c74403b
-declaration: structure
-origin: cited
-not_ready: true
----
-
 # Complex analytic spaces
 
 Define a complex analytic space to be a locally ringed space admitting an

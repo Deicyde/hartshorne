@@ -1,9 +1,3 @@
----
-article_id: af_f9d919cf920f4ce46a36b605
-declaration: theorem
-origin: cited
----
-
 # A finite-free model for projective cohomology
 
 Under the fixed hypotheses $A$ Noetherian, $Y = \operatorname{Spec} A$, $f : X \to Y$

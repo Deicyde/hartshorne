@@ -1,9 +1,3 @@
----
-article_id: af_7bf2cffeb4c3cf5e1e525dc6
-declaration: theorem
-origin: cited
----
-
 # One projection lowers the ambient dimension
 
 Let $X \to \mathbb{P}^n$ be an embedded Chapter IV curve with $n\ge 4$. There exists a

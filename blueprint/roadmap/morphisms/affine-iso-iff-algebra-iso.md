@@ -1,12 +1,3 @@
----
-article_id: af_ee5b9082258b320eb1d4eaa4
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.nonempty_isIso_iff_nonempty_algEquiv
----
-
 # Isomorphism via coordinate rings
 
 Two affine varieties $X$ and $Y$ are isomorphic if and only if $A(X)$ and $A(Y)$

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/sheaf-functors/inverse-direct-adjunction.md"}], "object": [{"location": {"declaration": "TopCat.Sheaf.pullbackPushforwardAdjunction", "module": "Mathlib.Topology.Sheaves.Functors"}}], "id": "af_f49fcf230234f702b571fac1"}

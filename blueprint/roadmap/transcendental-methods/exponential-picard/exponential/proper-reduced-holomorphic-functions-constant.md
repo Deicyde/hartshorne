@@ -1,9 +1,3 @@
----
-article_id: af_45e577a0970cb20186a63d29
-declaration: theorem
-origin: cited
----
-
 # Holomorphic functions on a proper reduced analytification are constant
 
 If $X$ is a connected reduced projective variety over $\mathbb{C}$, then every global

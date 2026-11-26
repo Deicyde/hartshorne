@@ -1,9 +1,3 @@
----
-article_id: af_928212c9f24f9da2db1dfce2
-declaration: theorem
-origin: cited
----
-
 # Exactness of a cohomology functor
 
 For a fixed $i$, the functor $T^i$ is exact if and only if it is right exact

@@ -1,9 +1,3 @@
----
-article_id: af_d3eb17c92f012d2fe76cdda5
-declaration: theorem
-origin: cited
----
-
 # Characteristic-zero torsion has d² points
 
 Let $X$ be an elliptic curve in characteristic zero and let $d\ge 3$. Embed

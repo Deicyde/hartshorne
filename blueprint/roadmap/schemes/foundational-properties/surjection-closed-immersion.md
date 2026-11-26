@@ -1,12 +1,3 @@
----
-article_id: af_4dcdfd3bd74213a9d46395d4
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsClosedImmersion.spec_of_surjective
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean
----
-
 # Surjections induce closed immersions
 
 If $\varphi : A \to B$ is a surjective ring homomorphism, then

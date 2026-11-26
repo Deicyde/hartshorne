@@ -1,9 +1,3 @@
----
-article_id: af_13e3e858304794e1723c784a
-declaration: theorem
-origin: cited
----
-
 # Testing cohomological dimension on coherent sheaves
 
 For a Noetherian separated scheme $X$, the extended cohomological dimension

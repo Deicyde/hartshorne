@@ -1,7 +1,3 @@
----
-article_id: af_0246e6acc3f71cbfbff996a9
----
-
 # Canonical morphisms and hyperelliptic curves
 
 This subchapter covers Hartshorne IV.5 from the canonical linear system

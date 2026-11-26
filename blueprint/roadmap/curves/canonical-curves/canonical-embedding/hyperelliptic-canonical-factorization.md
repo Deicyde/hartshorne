@@ -1,9 +1,3 @@
----
-article_id: af_9375da07778d4103520bdd14
-declaration: theorem
-origin: cited
----
-
 # The hyperelliptic canonical map factors through a rational normal curve
 
 Let $X$ be hyperelliptic of genus $g\ge 2$ and choose a $g^1_2$ with morphism

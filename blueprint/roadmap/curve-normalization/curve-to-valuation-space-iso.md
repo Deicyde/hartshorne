@@ -1,12 +1,3 @@
----
-article_id: af_013c74c106370228b55e5404
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsQuasiProjVariety.localRingMapAbstractCurveHom_isIso
----
-
 # Nonsingular curves are open subcurves of their valuation spaces
 
 Let $Y$ be a nonsingular quasi-projective curve, let $K = K(Y)$, and let $U$

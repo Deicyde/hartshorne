@@ -1,12 +1,3 @@
----
-article_id: af_b83793cbddc5ebfa01ddcafe
-declaration: theorem
-origin: cited
-lean: Hartshorne.ProjectivelyNormalVeronese.exists_isProjectivelyNormal_image_projDupleMap Hartshorne.ProjectivelyNormalVeronese.exists_isProjectivelyNormal_projDupleEmbedding_of_saturated Hartshorne.ProjectivelyNormalVeronese.exists_isIntegrallyClosed_veroneseSubring Hartshorne.ProjectivelyNormalVeronese.exists_mem_algebraMap_eq_sectionToFraction Hartshorne.ProjectivelyNormalVeronese.isIntegrallyClosed_veroneseSubring Hartshorne.ProjectivelyNormalVeronese.projDupleMap Hartshorne.ProjectivelyNormalVeronese.projDupleEmbedding Hartshorne.ProjectivelyNormalVeronese.projQuotientι_comp_projDupleMap Hartshorne.ProjectivelyNormalVeronese.projDupleEmbedding_eq Hartshorne.ProjectivelyNormalVeronese.dupleIdeal Hartshorne.ProjectivelyNormalVeronese.dupleQuotientEquiv
-statement: formalized
-proof: formalized
----
-
 # Projectively normal Veronese embeddings
 
 Let $k$ be algebraically closed and let $X \subseteq \mathbb{P}^r_{k}$ be connected and normal,

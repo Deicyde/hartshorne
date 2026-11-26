@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/hilbert/graded-prime-filtration.md"}], "object": [{"location": {"declaration": "Hartshorne.exists_gradedPrimeFiltration"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_cf06bb1e31416a59c82e0a20", "extensions": {"org.autoform": {"origin": "cited"}}}

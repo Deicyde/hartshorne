@@ -1,9 +1,3 @@
----
-article_id: af_985bf6af6b7a0237ee56e692
-declaration: theorem
-origin: cited
----
-
 # A tetragonal system from projection in genus five
 
 Let $X \subset \mathbb{P}^4$ be the canonical genus-five complete intersection of three

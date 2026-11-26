@@ -1,9 +1,3 @@
----
-article_id: af_6645d7e56e692a01b9966df1
-declaration: theorem
-origin: cited
----
-
 # Abel maps determine the dimension and regularity of the Jacobian
 
 Fix a point $P_0$ on a genus-$g$ Chapter IV curve $X$ with Jacobian $J$. The

@@ -1,7 +1,3 @@
----
-article_id: af_8ef50ddf3a057850c1458f63
----
-
 # Surface Riemann–Roch and asymptotic effectivity
 
 - [Sections, superabundance, and Euler characteristic](surface-euler-superabundance.md)

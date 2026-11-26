@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/cohomology/sheaf-cohomology/injective-abelian-sheaf-flasque.md"}], "object": [{"location": {"declaration": "Hartshorne.injectiveAbelianSheaf_isFlasque"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_f4d14dde809a7c7b907cc33d", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,12 +1,3 @@
----
-article_id: af_10a3255f0a16cbd3bc79d444
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.isIntegral_iff_irreducibleSpace_and_isReduced
-mathlib_file: Mathlib/AlgebraicGeometry/Properties.lean
----
-
 # Integral if and only if reduced and irreducible
 
 A scheme is integral if and only if it is both reduced and irreducible.

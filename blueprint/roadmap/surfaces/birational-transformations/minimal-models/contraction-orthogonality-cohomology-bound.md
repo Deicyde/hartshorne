@@ -1,9 +1,3 @@
----
-article_id: af_9bb4ac20b9de1e51ec85fe4d
-declaration: theorem
-origin: cited
----
-
 # Orthogonality bounds the length of a contraction sequence
 
 For a sequence of $n$ contractions of exceptional curves of the first kind,

@@ -1,12 +1,3 @@
----
-article_id: af_8f10ec4eab25b1087868de48
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationCenter.nonempty_unique_of_isProper Hartshorne.ValuationCenter.existsUnique_point_of_isProper Hartshorne.ValuationCenter.existsUnique_dominates_of_isProper
----
-
 # Proper schemes have valuation centers
 
 Let $X$ be an integral scheme of finite type over a field $k$. If $X$ is

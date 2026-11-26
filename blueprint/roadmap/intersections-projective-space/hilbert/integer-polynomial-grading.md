@@ -1,12 +1,3 @@
----
-article_id: af_c9b34d562bca7bd9350f8d51
-declaration: definition
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.integerHomogeneousSubmodule
----
-
 # The integer grading on a polynomial ring
 
 For $S=k[x_0,\ldots,x_n]$, extend the total-degree grading to integer

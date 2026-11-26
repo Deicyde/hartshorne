@@ -1,10 +1,3 @@
----
-article_id: af_691414c736641ac47f1fa6e8
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Proper ℓ-adic cohomology is finite-dimensional
 
 If $X$ is proper and finite type over an algebraically closed field and

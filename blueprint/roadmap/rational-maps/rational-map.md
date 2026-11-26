@@ -1,11 +1,3 @@
----
-article_id: af_99a287d25bb1d1989e451bf8
-declaration: definition
-origin: cited
-statement: formalized
-lean: Hartshorne.RatMap Hartshorne.RatMapRep.IsDominant
----
-
 # Rational maps
 
 A *rational map* $\varphi : X \dashrightarrow Y$ between varieties is an equivalence class of pairs

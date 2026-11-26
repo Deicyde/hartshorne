@@ -1,9 +1,3 @@
----
-article_id: af_b3b4641697f07f433894b075
-declaration: isomorphism
-origin: cited
----
-
 # The local cohomology presheaf formula
 
 For a continuous map $f : X \to Y$, an abelian sheaf $F$ on $X$, and

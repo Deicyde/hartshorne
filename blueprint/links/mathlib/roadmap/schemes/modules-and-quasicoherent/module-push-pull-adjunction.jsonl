@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/modules-and-quasicoherent/module-push-pull-adjunction.md"}], "object": [{"location": {"declaration": "SheafOfModules.pullbackPushforwardAdjunction", "module": "Mathlib.Algebra.Category.ModuleCat.Sheaf.PullbackContinuous"}}], "id": "af_a10e68c7ff360c43ea9f3e53"}

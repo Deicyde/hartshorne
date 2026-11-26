@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/foundational-properties/noetherian-ring-spectrum.md"}], "object": [{"location": {"declaration": "PrimeSpectrum.instNoetherianSpace", "module": "Mathlib.RingTheory.Spectrum.Prime.Noetherian"}}], "id": "af_57d2b354da4767c96224d3a6"}

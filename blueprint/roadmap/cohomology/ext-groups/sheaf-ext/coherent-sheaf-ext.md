@@ -1,9 +1,3 @@
----
-article_id: af_54dedb4430d690e30072da40
-declaration: theorem
-origin: cited
----
-
 # Coherence of sheaf Ext
 
 Let $X$ be Noetherian and let $F,G$ be coherent $\mathcal{O}_X$-modules. Then

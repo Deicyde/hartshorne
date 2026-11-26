@@ -1,9 +1,3 @@
----
-article_id: af_692d1907afa860f1c3cd118d
-declaration: theorem
-origin: bridged
----
-
 # Bad multisecant and coplanar-tangent loci
 
 Let $X$ be a curve embedded in $\mathbb{P}^3$. On the distinct-pair locus in

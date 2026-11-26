@@ -1,12 +1,3 @@
----
-article_id: af_cf9947a2c272af7039551cf1
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.absoluteFrobenius AlgebraicGeometry.Scheme.specFrobenius AlgebraicGeometry.Scheme.frobeniusTwist AlgebraicGeometry.Scheme.frobeniusTwistTo
----
-
 # Absolute Frobenius and Hartshorne's Frobenius twist
 
 For a scheme $X$ whose local rings have characteristic $p$, the

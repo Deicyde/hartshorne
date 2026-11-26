@@ -1,9 +1,3 @@
----
-article_id: af_30bf08e6f3984c163844102c
-declaration: theorem
-origin: cited
----
-
 # Relatively minimal rational examples
 
 The projective plane and every rational ruled surface $X_e$ with $e\ge 0$ and

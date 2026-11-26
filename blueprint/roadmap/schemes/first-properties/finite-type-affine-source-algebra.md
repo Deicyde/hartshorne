@@ -1,12 +1,3 @@
----
-article_id: af_58af7832c8e46634704bb4df
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.finiteType_affineSource_algebra
----
-
 # Affine source opens of a finite-type morphism
 
 Let $f : X \to Y$ be finite type, let $V = \operatorname{Spec} B$ be affine in $Y$, and let

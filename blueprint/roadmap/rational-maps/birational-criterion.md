@@ -1,12 +1,3 @@
----
-article_id: af_bee9a975db6a53592b5a0819
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.birational_criterion
----
-
 # The birational criterion
 
 For varieties $X$ and $Y$ in Hartshorne's four concrete classes, carrying the

@@ -1,10 +1,3 @@
----
-article_id: af_03d8ba01fadd949183e2943c
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The Chow splitting principle
 
 For a locally free sheaf $E$ on a nonsingular quasi-projective variety $X$,

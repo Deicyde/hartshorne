@@ -1,7 +1,3 @@
----
-article_id: af_cef7a5b34bf9a0c78dc51155
----
-
 # Modules and quasi-coherent sheaves
 
 Sheaves of modules provide the linear algebra used on ringed spaces and

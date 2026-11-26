@@ -1,12 +1,3 @@
----
-article_id: af_bb4d0c3b2bbb4d6b806f3089
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.ringKrullDim_tensorProduct
----
-
 # Dimension of a tensor product of affine domains
 
 Let $A$ and $B$ be finitely generated domain algebras over a field $k$.

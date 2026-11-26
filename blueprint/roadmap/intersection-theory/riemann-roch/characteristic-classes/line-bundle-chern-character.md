@@ -1,9 +1,3 @@
----
-article_id: af_1bbd8e6cc8616666cb14b2aa
-declaration: theorem
-origin: cited
----
-
 # Chern character of an invertible sheaf
 
 For an invertible sheaf $\mathcal{O}_X(D)$,

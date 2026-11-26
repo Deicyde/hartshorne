@@ -1,12 +1,3 @@
----
-article_id: af_e7475ffec8d015d63e190f23
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.finiteType_isNoetherian
----
-
 # Finite type over a Noetherian scheme
 
 If $f : X \to Y$ is finite type and $Y$ is Noetherian, then $X$ is Noetherian.

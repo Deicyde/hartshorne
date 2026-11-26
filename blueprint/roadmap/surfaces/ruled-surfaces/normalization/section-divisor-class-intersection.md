@@ -1,9 +1,3 @@
----
-article_id: af_4235d13775ca1df18226f9d3
-declaration: theorem
-origin: cited
----
-
 # Divisor class and intersection of a section
 
 Fix normalized $E$, write $\det (E)=\mathcal{O}_C (\varepsilon )$, and let $C_0$ be a section with

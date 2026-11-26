@@ -1,12 +1,3 @@
----
-article_id: af_cc5b776dbee778ca137f2f01
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.ModuleGluing.GluingData.exists_unique_gluing Hartshorne.ModuleGluing.GluingData Hartshorne.ModuleGluing.SchemeGluingData.exists_unique_gluing Hartshorne.ModuleGluing.SchemeGluingData
----
-
 # Gluing sheaves of modules along open immersions
 
 Let $(X,\mathcal{O}_X)$ be a ringed space and let $\{U_i\}$ be an open cover of $X$, that is,

@@ -1,9 +1,3 @@
----
-article_id: af_88e66680201bf172d06fa720
-declaration: theorem
-origin: cited
----
-
 # Stability of normalized rank-two bundles
 
 For a locally free sheaf $E$ on a curve, use Hartshorne's quotient convention:

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/curves/elliptic-curves/analytic-uniformization/weierstrass-p-differential-equation.md"}], "object": [{"location": {"declaration": "PeriodPair.derivWeierstrassP_sq", "module": "Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass"}}], "id": "af_2d9e96d3864feab2b19cf38e"}

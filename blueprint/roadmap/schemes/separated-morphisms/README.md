@@ -1,7 +1,3 @@
----
-article_id: af_87ff389882eb7cd3465e4ad1
----
-
 # Separated morphisms and valuation centers
 
 This chapter covers the diagonal definition of separatedness, Hartshorne's

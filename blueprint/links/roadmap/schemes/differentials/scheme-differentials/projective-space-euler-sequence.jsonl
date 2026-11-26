@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/differentials/scheme-differentials/projective-space-euler-sequence.md"}], "object": [{"location": {"declaration": "Hartshorne.EulerSequence.eulerSequence"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_36ff6f8309143f85f6007e34", "extensions": {"org.autoform": {"origin": "cited"}}}

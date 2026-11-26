@@ -1,12 +1,3 @@
----
-article_id: af_125a652c8b4feeacb57fa1d7
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.noetherianInduction
----
-
 # Noetherian induction
 
 Let $P$ be a property of closed subsets of a Noetherian topological space. If

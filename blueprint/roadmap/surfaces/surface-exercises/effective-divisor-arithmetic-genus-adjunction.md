@@ -1,9 +1,3 @@
----
-article_id: af_036d35463abcdd885dfdf77f
-declaration: theorem
-origin: cited
----
-
 # Arithmetic genus and adjunction for an effective divisor
 
 Let $D$ be an effective divisor on a Chapter-V surface $X$, regarded as a

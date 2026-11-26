@@ -1,12 +1,3 @@
----
-article_id: af_c9b09b7dfb1cbf3560551fe4
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.abelianQuotientSheaf_stalkAddEquiv_exists
----
-
 # Stalks of quotient sheaves
 
 If $F'$ is a subsheaf of a sheaf of abelian groups $F$, define $F/F'$ by

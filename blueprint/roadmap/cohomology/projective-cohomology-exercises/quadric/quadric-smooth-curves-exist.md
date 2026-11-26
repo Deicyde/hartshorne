@@ -1,9 +1,3 @@
----
-article_id: af_35a1370e013d5fef896cd42b
-declaration: theorem
-origin: cited
----
-
 # Smooth irreducible curves on a quadric
 
 Let $k$ be algebraically closed and let $a,b>0$. On the split nonsingular

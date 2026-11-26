@@ -1,12 +1,3 @@
----
-article_id: af_9d8ff6a77ffaa25257116225
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.boundedFlatAcyclicComplex_homology_zero_flat
----
-
 # Zeroth cohomology of a bounded flat acyclic complex
 
 Let $C$ be a bounded cochain complex of flat modules over a ring $A$,

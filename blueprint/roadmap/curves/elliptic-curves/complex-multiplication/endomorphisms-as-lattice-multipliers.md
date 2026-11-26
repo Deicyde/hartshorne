@@ -1,10 +1,3 @@
----
-article_id: af_69464e79b4a1720514f414bc
-declaration: isomorphism
-origin: cited
-not_ready: true
----
-
 # Endomorphisms as lattice multipliers
 
 Let $X(\mathbb C)\simeq\mathbb C/\Lambda$ be a uniformized elliptic curve. Pointed algebraic

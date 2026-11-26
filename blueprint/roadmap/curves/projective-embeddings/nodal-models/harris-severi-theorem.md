@@ -1,10 +1,3 @@
----
-article_id: af_c64f4042f571a571cb12ee14
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The Harris–Severi theorem
 
 Over an algebraically closed field of characteristic zero, for every

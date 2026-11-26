@@ -1,12 +1,3 @@
----
-article_id: af_9373eedb5ff7c51ab189f22d
-declaration: theorem
-origin: cited
-lean: Hartshorne.ConormalCriterion.conormal_criterion_nonsingular
-statement: formalized
-proof: formalized
----
-
 # The conormal criterion for nonsingularity
 
 Let $Y \hookrightarrow X$ be an irreducible closed subscheme of a nonsingular variety over

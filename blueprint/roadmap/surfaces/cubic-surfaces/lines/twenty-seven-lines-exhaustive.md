@@ -1,9 +1,3 @@
----
-article_id: af_90b52bfcdf2b784e10b94667
-declaration: theorem
-origin: cited
----
-
 # The twenty-seven candidate lines exhaust all lines
 
 The marked cubic surface contains exactly the twenty-seven lines $E_i$,

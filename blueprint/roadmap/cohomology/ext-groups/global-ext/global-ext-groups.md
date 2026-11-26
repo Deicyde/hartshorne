@@ -1,12 +1,3 @@
----
-article_id: af_585e8ad059d75374368d3f37
-declaration: definition
-origin: cited
-mathlib: true
-mathlib_declaration: CategoryTheory.Abelian.Ext
-mathlib_file: Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean
----
-
 # Global Ext groups
 
 Assume that Ext groups exist in the category of

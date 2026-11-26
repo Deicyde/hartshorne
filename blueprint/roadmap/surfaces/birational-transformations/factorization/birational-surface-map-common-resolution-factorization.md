@@ -1,9 +1,3 @@
----
-article_id: af_b4d91bb67617d98c47375cc5
-declaration: theorem
-origin: cited
----
-
 # Every birational surface transformation has a common resolution and monoidal factorization
 
 Let $T:X \dashrightarrow X'$ be a birational transformation of nonsingular

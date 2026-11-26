@@ -1,12 +1,3 @@
----
-article_id: af_3d891fd4dc27c7d35fb269fe
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.gradedTwist Hartshorne.projTwistingSheaf Hartshorne.ProjTwistingSheaf.twistGenerator Hartshorne.ProjTwistingSheaf.twistAwayEquiv Hartshorne.ProjTwistingSheaf.twistAwayEquiv_apply Hartshorne.ProjTwistingSheaf.chartTrivialization Hartshorne.ProjTwistingSheaf.isInvertible
----
-
 # Twisting sheaves are invertible
 
 For every graded ring $S$ and $X = \operatorname{Proj} S$, define

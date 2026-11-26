@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/sheaves/associated-sheaf-stalks.md"}], "object": [{"location": {"declaration": "TopCat.Presheaf.stalkFunctor_map_unit_toSheafify_isIso", "module": "Mathlib.Topology.Sheaves.Sheafify"}}], "id": "af_033b202f183a3edc6e56c011"}

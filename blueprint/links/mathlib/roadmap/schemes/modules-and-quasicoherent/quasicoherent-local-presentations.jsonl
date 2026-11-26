@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/modules-and-quasicoherent/quasicoherent-local-presentations.md"}], "object": [{"location": {"declaration": "SheafOfModules.IsQuasicoherent", "module": "Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent"}}], "id": "af_7969084b278fd0629e4ab945"}

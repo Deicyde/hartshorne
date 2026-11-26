@@ -1,7 +1,3 @@
----
-article_id: af_1f8606b31289aa70a6a6a5fe
----
-
 # Étale and ℓ-adic cohomology
 
 This chapter expands Hartshorne Appendix C §3 into the étale-site,

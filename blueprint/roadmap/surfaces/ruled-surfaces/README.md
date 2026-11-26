@@ -1,7 +1,3 @@
----
-article_id: af_ebf4c92da9c6886bf446ea9f
----
-
 # Ruled surfaces
 
 Hartshorne V.2 identifies geometrically ruled surfaces with rank-two

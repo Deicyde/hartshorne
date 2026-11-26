@@ -1,9 +1,3 @@
----
-article_id: af_42aca34fba96fecc0e9661b7
-declaration: definition
-origin: cited
----
-
 # The projective duality comparison maps
 
 Let $X$ be an arbitrary projective scheme of dimension $n$ over an

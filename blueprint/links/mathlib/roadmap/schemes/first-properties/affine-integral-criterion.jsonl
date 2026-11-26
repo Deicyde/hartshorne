@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/first-properties/affine-integral-criterion.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.affine_isIntegral_iff", "module": "Mathlib.AlgebraicGeometry.Properties"}}], "id": "af_c867c279e82b191596424cd3"}

@@ -1,12 +1,3 @@
----
-article_id: af_4a417e63d714ab6f6e4c4aa5
-declaration: definition
-origin: cited
-mathlib: true
-mathlib_declaration: TopCat.Sheaf.pushforward
-mathlib_file: Mathlib/Topology/Sheaves/Functors.lean
----
-
 # Direct image of a sheaf
 
 For a continuous map $f : X \to Y$ and a sheaf $F$ on $X$, define the direct

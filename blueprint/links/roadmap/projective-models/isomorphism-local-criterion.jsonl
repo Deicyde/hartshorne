@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/isomorphism-local-criterion.md"}], "object": [{"location": {"declaration": "Hartshorne.VarietyHom.isIso_iff_isHomeomorph_and_bijective_localRingHom"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_4d70319a29a0ec29f2c79a20", "extensions": {"org.autoform": {"origin": "cited"}}}

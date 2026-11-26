@@ -1,12 +1,3 @@
----
-article_id: af_cbb14bbd237a44288abce54a
-declaration: def
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.affineDiagonalSectionHomeomorph
----
-
 # The diagonal section of an affine product
 
 Let $Y,Z\subseteq\mathbb A^n$. In $\mathbb A^{2n}$, with coordinate

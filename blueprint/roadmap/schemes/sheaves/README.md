@@ -1,7 +1,3 @@
----
-article_id: af_b7cd0f0799f32db50f28b544
----
-
 # Sheaves: foundations and operations
 
 Hartshorne II.1 introduces sheaves of abelian groups, their stalks,

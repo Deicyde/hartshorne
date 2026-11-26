@@ -1,9 +1,3 @@
----
-article_id: af_9b964585ab9b820ca0a05f6b
-declaration: theorem
-origin: cited
----
-
 # Hironaka's negative elliptic curve is not algebraically contractible
 
 Over an uncountable algebraically closed field $k$, there are ten

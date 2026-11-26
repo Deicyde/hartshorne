@@ -1,10 +1,3 @@
----
-article_id: af_af8b09d5a69f661c78c537b1
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # ℓ-adic Poincaré duality
 
 For connected smooth proper $X$ of pure dimension $n$, cup product followed

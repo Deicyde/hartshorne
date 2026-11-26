@@ -1,9 +1,3 @@
----
-article_id: af_d39bd5c65d4a965a9a40d0f7
-declaration: def
-origin: cited
----
-
 # Strict transforms under a point blowup
 
 Let $\pi:\widetilde X\to X$ be the blowup of a Chapter V surface at a closed

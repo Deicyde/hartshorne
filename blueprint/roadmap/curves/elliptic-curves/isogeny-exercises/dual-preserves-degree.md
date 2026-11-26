@@ -1,9 +1,3 @@
----
-article_id: af_318ee17ce6b6934795847bc1
-declaration: theorem
-origin: cited
----
-
 # Dual morphisms preserve degree
 
 For every nonconstant morphism of elliptic curves $f : X \to X'$, its dual

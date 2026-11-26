@@ -1,9 +1,3 @@
----
-article_id: af_86dff118c62f6c4032b33b54
-declaration: theorem
-origin: cited
----
-
 # Multiplication by two
 
 Over an algebraically closed field of characteristic different from two, the

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/fiber-products/fiber-product-universal-property.md"}], "object": [{"location": {"declaration": "CategoryTheory.Limits.pullbackIsPullback", "module": "Mathlib.CategoryTheory.Limits.Shapes.Pullback.HasPullback"}}], "id": "af_c5c28ba6c65a9a428ae30f3e"}

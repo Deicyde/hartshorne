@@ -1,12 +1,3 @@
----
-article_id: af_d5a015a131f44b4ff7a0d5e4
-declaration: structure
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Scheme
-mathlib_file: Mathlib/AlgebraicGeometry/Scheme.lean
----
-
 # Schemes and affine schemes
 
 A scheme is a locally ringed space in which every point has an open

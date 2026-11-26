@@ -1,12 +1,3 @@
----
-article_id: af_35d6b1a76e6551ec3a67f837
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.birational_iff_nonempty_functionField_algEquiv
----
-
 # Birational varieties have isomorphic function fields
 
 For separated varieties $X$ and $Y$ carrying affine-open-basis witnesses, the

@@ -1,11 +1,3 @@
----
-article_id: af_8b752e8f3ad59f5372d5df2c
-declaration: class
-origin: cited
-statement: formalized
-lean: Hartshorne.IsNormal
----
-
 # Normal schemes
 
 A scheme is normal when every local ring is an integrally closed domain.

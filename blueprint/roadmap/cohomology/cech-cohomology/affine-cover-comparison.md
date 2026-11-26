@@ -1,12 +1,3 @@
----
-article_id: af_01401eb12d08343aa0564e1e
-declaration: isomorphism
-origin: cited
-lean: Hartshorne.isIso_cechToSheafCohomology_of_isQuasicoherent Hartshorne.cechCohomologyIsoOfIsQuasicoherent
-statement: formalized
-proof: formalized
----
-
 # Affine covers compute quasi-coherent cohomology
 
 Let $X$ be a Noetherian separated scheme, $U$ an affine open cover, and $F$

@@ -1,10 +1,3 @@
----
-article_id: af_3f76bdec322b3bb8b71380b4
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Nodes and ordinary cusps have defect one
 
 Let $P$ be a node or ordinary cusp on an integral projective curve over an

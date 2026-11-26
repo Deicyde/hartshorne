@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/schemes/differentials/kaehler-differentials/kahler-differential-localization.md"}], "object": [{"location": {"declaration": "KaehlerDifferential.isLocalizedModule_map", "module": "Mathlib.RingTheory.Etale.Kaehler"}}], "id": "af_fa39a1fdc6ec6ce41e14cdd1"}

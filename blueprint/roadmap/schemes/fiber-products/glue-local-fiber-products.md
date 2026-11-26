@@ -1,12 +1,3 @@
----
-article_id: af_328d48a36735372ccbdec00c
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Scheme.Pullback.hasPullback_of_cover
-mathlib_file: Mathlib/AlgebraicGeometry/Pullbacks.lean
----
-
 # Gluing local fiber products
 
 If $\{X_{i}\}$ is an open cover of $X$ and every $X_{i} \times _S Y$ exists, then these local products glue to a fiber product $X \times _S Y$.

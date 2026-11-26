@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/curve-normalization/dedekind-affine-model.md"}], "object": [{"location": {"declaration": "Hartshorne.exists_dedekind_affine_model"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_64778191cf786477556c0eb8", "extensions": {"org.autoform": {"origin": "bridged"}}}

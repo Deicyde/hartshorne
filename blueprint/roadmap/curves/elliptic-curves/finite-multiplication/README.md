@@ -1,7 +1,3 @@
----
-article_id: af_a6cf83e152dcbf128c2887b1
----
-
 # Finite multiplication before dual isogenies
 
 These running-text results establish multiplication by two and the

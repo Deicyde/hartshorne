@@ -1,12 +1,3 @@
----
-article_id: af_793552093819c4b5f36ad12d
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.completedIdealPowers
----
-
 # Completed ideals and their powers
 
 Let $A$ be Noetherian, let $I$ be an ideal, and write $\widehat{A}$ for its adic

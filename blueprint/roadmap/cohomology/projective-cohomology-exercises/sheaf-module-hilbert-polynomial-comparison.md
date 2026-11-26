@@ -1,10 +1,3 @@
----
-article_id: af_68131e33cf6a034008e8c8ce
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Comparison with the graded-module Hilbert polynomial
 
 Let $X=\mathbb{P}^{r}_k$, $S=k[x_{0},\ldots ,x_{r}]$, $F$ coherent, and

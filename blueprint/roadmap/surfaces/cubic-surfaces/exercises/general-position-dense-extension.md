@@ -1,9 +1,3 @@
----
-article_id: af_1fb2908d8c7fdee62ee6d20a
-declaration: theorem
-origin: cited
----
-
 # General position is preserved and admits dense extensions
 
 Call a finite ordered set of points of $\mathbb{P}^2$ in general position when no

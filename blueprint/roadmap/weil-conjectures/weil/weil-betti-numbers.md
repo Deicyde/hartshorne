@@ -1,9 +1,3 @@
----
-article_id: af_5eda94a5970b9940b19a7f32
-declaration: def
-origin: cited
----
-
 # Weil Betti numbers
 
 For a smooth projective geometrically connected variety with Weil

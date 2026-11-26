@@ -1,9 +1,3 @@
----
-article_id: af_ee6ec8a649eb39735e86ae69
-declaration: theorem
-origin: cited
----
-
 # Testing cohomological dimension on vector bundles
 
 If $X$ is quasi-projective over a field, its cohomological dimension can be

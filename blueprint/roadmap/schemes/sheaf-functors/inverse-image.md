@@ -1,12 +1,3 @@
----
-article_id: af_d72b5b55337c6e5a69a60321
-declaration: definition
-origin: cited
-mathlib: true
-mathlib_declaration: TopCat.Sheaf.pullback
-mathlib_file: Mathlib/Topology/Sheaves/Functors.lean
----
-
 # Inverse image of a sheaf
 
 For a continuous map $f : X \to Y$ and a sheaf $G$ on $Y$, define $f^{-1}G$ as

@@ -1,10 +1,3 @@
----
-article_id: af_a0766b080758f7ae29cccd43
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # A nonprojective infinitesimal thickening of the plane
 
 Let $k$ be algebraically closed of characteristic zero, let $X=\mathbb{P}^{2}_k$, and let

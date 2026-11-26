@@ -1,12 +1,3 @@
----
-article_id: af_d698b877b48593d5c5ce14ee
-declaration: structure
-origin: cited
-mathlib: true
-mathlib_declaration: SheafOfModules
-mathlib_file: Mathlib/Algebra/Category/ModuleCat/Sheaf.lean
----
-
 # Sheaves of modules
 
 For a ringed space $(X, \mathcal{O}_X)$, define a sheaf of $\mathcal{O}_X$-modules as a presheaf

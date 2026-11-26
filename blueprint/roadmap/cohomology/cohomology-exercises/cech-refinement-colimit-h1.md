@@ -1,10 +1,3 @@
----
-article_id: af_95d08b5e7fef309b7b43e0d5
-declaration: isomorphism
-origin: cited
-not_ready: true
----
-
 # First cohomology as the refinement colimit
 
 For every topological space $X$, choose a small refinement category whose

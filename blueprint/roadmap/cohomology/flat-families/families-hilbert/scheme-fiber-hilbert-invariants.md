@@ -1,10 +1,3 @@
----
-article_id: af_6f65e5331e1b2653e86ba99c
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Scheme-theoretic invariants from the fibre Hilbert polynomial
 
 Let $K$ be a field and let $Z$ be a closed subscheme of $\mathbb{P}^n_K$. For the

@@ -1,9 +1,3 @@
----
-article_id: af_8fe9a9502640b57b17d55495
-declaration: isomorphism
-origin: cited
----
-
 # The lci dualizing-sheaf formula
 
 Let $X\longrightarrow \mathbb{P}^{N}_k$ be a codimension-$r$ local complete intersection with

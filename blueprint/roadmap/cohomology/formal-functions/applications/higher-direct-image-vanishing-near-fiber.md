@@ -1,9 +1,3 @@
----
-article_id: af_ce246e58846a20eb743cbb26
-declaration: theorem
-origin: cited
----
-
 # Higher direct-image vanishing near a fibre
 
 Let $f : X \to Y$ be a projective morphism of Noetherian schemes and let $F$

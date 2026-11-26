@@ -1,12 +1,3 @@
----
-article_id: af_9151d1a05185ce97d9df7ad5
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_awayToAtPrime_eq_of_globalRegular Hartshorne.exists_homogeneous_repr_of_globalRegular
----
-
 # Reading a global regular function on a chart
 
 Let $Y$ be a projective variety and let $f$ be a global regular function.

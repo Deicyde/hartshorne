@@ -1,9 +1,3 @@
----
-article_id: af_19a43ca0c3ab621b4bd6291e
-declaration: theorem
-origin: cited
----
-
 # Existence with nonspecial hyperplane section in projective three-space
 
 There is a degree-$d$, genus-$g$ curve in $\mathbb{P}^3$ whose hyperplane divisor is

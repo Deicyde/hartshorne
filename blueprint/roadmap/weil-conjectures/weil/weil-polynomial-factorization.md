@@ -1,9 +1,3 @@
----
-article_id: af_c49b3c028f4e4a5cc469b57f
-declaration: theorem
-origin: cited
----
-
 # The Weil polynomial factorization
 
 Let $X/\mathbb{F}_q$ be smooth, projective, geometrically connected, and pure of

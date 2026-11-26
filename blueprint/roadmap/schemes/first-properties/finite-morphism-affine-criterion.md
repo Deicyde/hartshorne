@@ -1,12 +1,3 @@
----
-article_id: af_9acfb9146e45984cacdd1007
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.HasAffineProperty.iff_of_iSup_eq_top
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Basic.lean
----
-
 # The affine-local criterion for finite morphisms
 
 It is enough to verify finiteness over one affine open cover of the target; equivalently the defining affine and module-finite condition holds over every affine target open.

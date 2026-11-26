@@ -1,9 +1,3 @@
----
-article_id: af_6f1a80c7229c9bf33edb4c1c
-declaration: theorem
-origin: cited
----
-
 # The Fermat cubic Hasse congruence
 
 For the Fermat cubic $x^3+y^3=z^3$ in characteristic $p \ne 3$, the Hasse

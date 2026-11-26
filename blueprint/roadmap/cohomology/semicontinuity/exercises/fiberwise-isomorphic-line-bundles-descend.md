@@ -1,9 +1,3 @@
----
-article_id: af_e109ddc0a4a353d0a283e020
-declaration: theorem
-origin: cited
----
-
 # Fibrewise-isomorphic line bundles descend from the base
 
 Let $f : X \to Y$ be a flat projective morphism of finite-type schemes over an

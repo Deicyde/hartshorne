@@ -1,10 +1,3 @@
----
-article_id: af_a3216c0ab2f4218de5482a3e
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Classification of indecomposable elliptic ruled surfaces
 
 Over an algebraically closed field of arbitrary characteristic, an

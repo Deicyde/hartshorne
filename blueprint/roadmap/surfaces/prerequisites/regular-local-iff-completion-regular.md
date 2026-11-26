@@ -1,10 +1,3 @@
----
-article_id: af_6e0877c22654c0e9f5938f66
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Regularity is reflected by maximal-adic completion
 
 Let $(A,m)$ be a Noetherian local ring and let $\widehat{A}$ be its $m$-adic

@@ -1,12 +1,3 @@
----
-article_id: af_de59d13f77cc40e1ae7b206d
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.vanishingIdeal_affineCone
----
-
 # The affine cone and its ideal
 
 Let $Y\subseteq\mathbb P^n$ be a nonempty projective algebraic set.

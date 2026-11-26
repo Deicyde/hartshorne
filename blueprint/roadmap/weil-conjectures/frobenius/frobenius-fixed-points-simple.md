@@ -1,9 +1,3 @@
----
-article_id: af_98776bfd0cc42f8a35d678ab
-declaration: theorem
-origin: cited
----
-
 # Frobenius fixed points are simple
 
 If $X/\mathbb{F}_q$ is smooth, every fixed point of every iterate $F^r$ is isolated

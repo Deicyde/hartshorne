@@ -1,9 +1,3 @@
----
-article_id: af_838bf13225de7edde3bea740
-declaration: theorem
-origin: cited
----
-
 # The ample cone of a nonsingular quadric
 
 On $\mathbb{P}^1 \times \mathbb{P}^1$, a divisor of type $(a,b)$ is ample if and only if

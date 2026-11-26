@@ -1,12 +1,3 @@
----
-article_id: af_922c19d6bd4da80267f81e54
-declaration: definition
-origin: cited
-mathlib: true
-mathlib_declaration: CategoryTheory.Sheaf.isColimitSheafifyCocone
-mathlib_file: Mathlib/CategoryTheory/Sites/Limits.lean
----
-
 # Colimits of sheaves are sheafified pointwise colimits
 
 The category of sheaves of abelian groups admits coproducts and direct limits.

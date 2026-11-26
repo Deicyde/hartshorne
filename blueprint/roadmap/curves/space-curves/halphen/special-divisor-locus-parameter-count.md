@@ -1,9 +1,3 @@
----
-article_id: af_cba4a4dc3f974d85da27fa30
-declaration: theorem
-origin: bridged
----
-
 # Dimension of the bad special-divisor locus
 
 Let $X$ have genus $g\ge 2$ and fix $d\ge g+3$. In the ordered effective-divisor

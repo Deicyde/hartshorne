@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/weil-conjectures/zeta/hasse-weil-zeta-constant-coefficient.md"}], "object": [{"location": {"declaration": "Hartshorne.hasseWeilZetaSeries_constantCoeff"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_33b90b744269da1932fb678d", "extensions": {"org.autoform": {"origin": "bridged"}}}

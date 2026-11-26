@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/curve-category-equivalence.md"}], "object": [{"location": {"declaration": "Hartshorne.projectiveCurveFunctionFieldEquivalence"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_5bd96acb0a5232df552012b0", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,12 +1,3 @@
----
-article_id: af_b44245000a814d95f5a85881
-declaration: class
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsClosedImmersion
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean
----
-
 # Closed immersions and closed subschemes
 
 A morphism is a closed immersion when its underlying map is a closed embedding and its induced maps on stalks are surjective. A closed subscheme of $X$ is such a morphism into $X$, considered up to isomorphism over $X$.

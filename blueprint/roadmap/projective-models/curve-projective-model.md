@@ -1,12 +1,3 @@
----
-article_id: af_7ec2c8292f28cc6598a1a58e
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.IsQuasiProjVariety.birational_nonsingular_projective
----
-
 # Projective models of curves
 
 Every curve is birational to a nonsingular projective curve.

@@ -1,9 +1,3 @@
----
-article_id: af_c643038a38c123d7df8f5372
-declaration: theorem
-origin: bridged
----
-
 # Riemann–Roch for a difference of smooth curves
 
 Let $D$ be linearly equivalent to $C -E$, where $C ,E$ are nonsingular curves

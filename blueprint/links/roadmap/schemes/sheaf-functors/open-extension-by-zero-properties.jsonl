@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/sheaf-functors/open-extension-by-zero-properties.md"}], "object": [{"location": {"declaration": "Hartshorne.openExtensionByZero_properties"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_0bfcbd42273250dba6a2230e", "extensions": {"org.autoform": {"origin": "cited"}}}

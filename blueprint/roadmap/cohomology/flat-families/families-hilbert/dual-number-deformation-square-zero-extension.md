@@ -1,10 +1,3 @@
----
-article_id: af_9e31ad15f60724820a2ab242
-declaration: equivalence
-origin: cited
-not_ready: true
----
-
 # Dual-number deformations and square-zero extensions
 
 For a finite-type $k$-scheme $X$, infinitesimal deformations over

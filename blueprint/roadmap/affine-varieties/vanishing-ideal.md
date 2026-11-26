@@ -1,12 +1,3 @@
----
-article_id: af_55226f15d7959f3667585ad1
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.vanishingIdeal_union Hartshorne.zeroLocus_vanishingIdeal_eq_closure
----
-
 # The vanishing ideal
 
 For $Y\subseteq\mathbb A^n$, its *vanishing ideal* is

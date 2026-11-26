@@ -1,9 +1,3 @@
----
-article_id: af_31c3f8aa36ba4a4a829b5aca
-declaration: theorem
-origin: cited
----
-
 # Conics through assigned points
 
 For ordinary assigned points in $\mathbb{P}^2$ with no three collinear, conics through

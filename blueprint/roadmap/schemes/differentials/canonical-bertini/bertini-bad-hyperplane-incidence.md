@@ -1,12 +1,3 @@
----
-article_id: af_b0aec91c31bd340fb59fa8fb
-declaration: theorem
-origin: cited
-lean: Hartshorne.BertiniIncidence.bertini_bad_hyperplane_incidence Hartshorne.BertiniIncidence.badHyperplaneSubspace Hartshorne.BertiniIncidence.IsBadHyperplaneAt Hartshorne.BertiniIncidence.hyperplaneSectionIdeal Hartshorne.BertiniIncidence.incidenceAmbient Hartshorne.BertiniIncidence.dualProjectiveSpaceStructure Hartshorne.BertiniIncidence.Represents
-statement: formalized
-proof: formalized
----
-
 # The bad-hyperplane incidence correspondence
 
 Let $X \subseteq \mathbb{P}^n_k$ be a nonsingular closed subvariety of dimension

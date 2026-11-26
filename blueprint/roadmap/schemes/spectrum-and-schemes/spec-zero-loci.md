@@ -1,12 +1,3 @@
----
-article_id: af_9bae5c6b234e1ce731b2c015
-declaration: instance
-origin: cited
-mathlib: true
-mathlib_declaration: PrimeSpectrum.zariskiTopology
-mathlib_file: Mathlib/RingTheory/Spectrum/Prime/Topology.lean
----
-
 # The Zariski topology on Spec
 
 For a commutative ring $A$, let $\operatorname{Spec} A$ be its prime ideals and

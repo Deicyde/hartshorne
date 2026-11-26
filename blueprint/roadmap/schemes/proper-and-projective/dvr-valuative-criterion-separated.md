@@ -1,12 +1,3 @@
----
-article_id: af_76c399f9efcbb25ce4ccd596
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isSeparated_iff_dvr_valuativeCriterion
----
-
 # DVR-valuative criterion for separatedness
 
 Let $f : X \longrightarrow Y$ be a finite-type morphism of Noetherian schemes. Then $f$

@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/first-properties/quasi-compact-morphism.md"}], "object": [{"location": {"declaration": "AlgebraicGeometry.quasiCompact_iff_forall_isAffineOpen", "module": "Mathlib.AlgebraicGeometry.Morphisms.QuasiCompact"}}], "id": "af_07befeaa968365b20f7a54ea"}

@@ -1,12 +1,3 @@
----
-article_id: af_f1362ef3c0165cf18af55a36
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.constantSheaf Hartshorne.constantSheafIsoSheafification Hartshorne.toSheafify_constantSheafIsoSheafification_inv
----
-
 # The constant sheaf
 
 For an abelian group $A$, define the constant sheaf on $X$ by assigning to an

@@ -1,12 +1,3 @@
----
-article_id: af_47ddc8c1c5ad90500da8b0d7
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.gradedPrimeFiltration_annihilator_le_iff
----
-
 # Minimal primes in a graded prime filtration
 
 Fix a graded prime filtration of $M$ with factor primes

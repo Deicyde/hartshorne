@@ -1,10 +1,3 @@
----
-article_id: af_6a40a5ac81241281e03dc3c2
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Serre's Tor formula gives the local intersection multiplicity
 
 For properly intersecting $Y,Z$ in a nonsingular variety and an irreducible

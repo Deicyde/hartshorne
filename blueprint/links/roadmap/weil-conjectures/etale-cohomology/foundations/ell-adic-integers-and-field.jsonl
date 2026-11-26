@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/weil-conjectures/etale-cohomology/foundations/ell-adic-integers-and-field.md"}], "object": [{"location": {"declaration": "Hartshorne.EllAdicCoefficientPackage"}, "role": "states"}], "status": "formalized", "kind": "structure", "id": "af_e3cca5b53e68a242841d754a", "extensions": {"org.autoform": {"origin": "bridged"}}}

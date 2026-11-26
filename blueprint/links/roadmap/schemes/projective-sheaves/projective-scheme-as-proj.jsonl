@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/projective-sheaves/projective-scheme-as-proj.md"}], "object": [{"location": {"declaration": "Hartshorne.projective_iff_exists_iso_proj"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_9860658fec295be8bf567596", "extensions": {"org.autoform": {"origin": "cited"}}}

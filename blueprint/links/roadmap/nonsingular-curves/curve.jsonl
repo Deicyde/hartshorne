@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/nonsingular-curves/curve.md"}], "object": [{"location": {"declaration": "Hartshorne.Variety.IsCurve"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_c9ec3c715008de92212224d1", "extensions": {"org.autoform": {"origin": "cited"}}}

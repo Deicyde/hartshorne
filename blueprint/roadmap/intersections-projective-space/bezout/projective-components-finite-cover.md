@@ -1,12 +1,3 @@
----
-article_id: af_48c7c4f5e9b312d11ea4f08a
-declaration: definition
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveComponents
----
-
 # Projective algebraic sets are finite unions of their components
 
 Every projective algebraic set $Y$ is the union of its finitely many

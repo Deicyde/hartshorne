@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../roadmap/schemes/first-properties/specialization.md"}], "object": [{"location": {"declaration": "specializes_iff_mem_closure", "module": "Mathlib.Topology.Inseparable"}}], "id": "af_13b9595707683ca9d52c5e69"}

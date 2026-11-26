@@ -1,12 +1,3 @@
----
-article_id: af_60f933bd73afed54cd8907e2
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.homEquivAlgHom
----
-
 # Morphisms into an affine variety
 
 Let $X$ be any variety and $Y$ an affine variety. Then there is a natural

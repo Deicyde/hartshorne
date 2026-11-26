@@ -1,9 +1,3 @@
----
-article_id: af_0865aa7471483ba3a9aa71a1
-declaration: theorem
-origin: cited
----
-
 # The j-invariant is intrinsic
 
 For a pointed elliptic curve in characteristic different from two, define

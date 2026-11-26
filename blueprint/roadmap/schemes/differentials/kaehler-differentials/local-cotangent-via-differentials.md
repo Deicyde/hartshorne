@@ -1,12 +1,3 @@
----
-article_id: af_048e21ad7cfd7c73799155a6
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.localCotangentToDifferentials_bijective
----
-
 # The local cotangent space via differentials
 
 Let $(B, \mathfrak{m} )$ be a local ring containing a field $k$ whose composite with the

@@ -1,12 +1,3 @@
----
-article_id: af_e99f3f871465b721e1a408b9
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.rationalEllAdicCohomology AlgebraicGeometry.Scheme.classicalEllAdicCohomologyModule
----
-
 # Rational ℓ-adic cohomology
 
 For $\ell$ invertible on $X$, define Hartshorne's rational ℓ-adic cohomology by

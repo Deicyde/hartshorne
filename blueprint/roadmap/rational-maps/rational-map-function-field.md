@@ -1,12 +1,3 @@
----
-article_id: af_efc666120dfb5881de675ab4
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.RationalMapFunctionField.bijective_functionFieldAlgHom_of_hasAffineOpenBasis Hartshorne.RationalMapFunctionField.functionFieldFunctor_isEquivalence
----
-
 # Rational maps and function fields
 
 For varieties $X$ and $Y$ in Hartshorne's four concrete classes, which have

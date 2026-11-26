@@ -1,12 +1,3 @@
----
-article_id: af_f02ee2c44243b7abda991fb9
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationSpace.abstractNonsingularCurve_isomorphic_quasiProjective
----
-
 # Abstract curves are quasi-projective
 
 Every abstract nonsingular curve over the algebraically closed base field is

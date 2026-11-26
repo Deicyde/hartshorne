@@ -1,12 +1,3 @@
----
-article_id: af_95ed156bd0241f4391ff6e6e
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: CategoryTheory.hasProjectiveDimensionLT_iff
-mathlib_file: Mathlib/CategoryTheory/Abelian/Projective/Dimension.lean
----
-
 # Projective-dimension bounds detected by Ext
 
 For an object $M$ in an abelian category in which Ext groups exist,

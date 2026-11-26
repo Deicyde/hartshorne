@@ -1,12 +1,3 @@
----
-article_id: af_cdd991fa7124477bed654f2a
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_separatingParameter
----
-
 # One-dimensional function fields have separating parameters
 
 Let $K/k$ be an essentially finitely generated field extension of

@@ -1,9 +1,3 @@
----
-article_id: af_ca1b9e9dbbc49be95e644d1a
-declaration: theorem
-origin: cited
----
-
 # Degree and flatness of a finite curve morphism
 
 Let $f : X \to Y$ be a finite morphism of curves over an algebraically closed

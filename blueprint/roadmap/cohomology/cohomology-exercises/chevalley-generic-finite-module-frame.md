@@ -1,12 +1,3 @@
----
-article_id: af_42df22992daf4d6cd4cc905d
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_genericFiniteModuleFrame
----
-
 # A generic finite-module frame
 
 Let $f : X \longrightarrow Y$ be a finite surjective morphism of integral Noetherian

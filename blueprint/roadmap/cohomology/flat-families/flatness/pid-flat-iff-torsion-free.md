@@ -1,12 +1,3 @@
----
-article_id: af_d33d9084b1d39260a103d67c
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: Module.Flat.flat_iff_torsion_eq_bot_of_isBezout
-mathlib_file: Mathlib/RingTheory/Flat/TorsionFree.lean
----
-
 # Flat modules over a PID are torsion-free modules
 
 For a principal ideal domain $R$, an $R$-module is flat if and only if its

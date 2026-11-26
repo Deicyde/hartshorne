@@ -1,11 +1,3 @@
----
-article_id: af_42effd85584b057e482049ca
-declaration: def
-origin: cited
-statement: formalized
-lean: Hartshorne.codim
----
-
 # Codimension in a scheme
 
 Codimension takes values in the extended naturals $\mathbb{N} \infty$. For an irreducible

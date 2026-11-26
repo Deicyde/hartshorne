@@ -1,12 +1,3 @@
----
-article_id: af_fc70eb5399a62a671cf2435a
-declaration: class
-origin: cited
-statement: formalized
-proof: formalized
-lean: IsCohenMacaulayLocalRing AlgebraicGeometry.Scheme.IsCohenMacaulay
----
-
 # Cohen–Macaulay local rings and schemes
 
 For a module over a Noetherian local ring, define depth as the supremum of the

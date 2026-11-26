@@ -1,9 +1,3 @@
----
-article_id: af_c17371859f0e0bfcf7d7b5f9
-declaration: theorem
-origin: cited
----
-
 # Genus drop for a reduced total transform
 
 Let $Y$ be a reduced connected curve on a smooth surface, let $P$ lie on

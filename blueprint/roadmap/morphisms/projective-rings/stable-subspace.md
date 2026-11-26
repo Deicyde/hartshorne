@@ -1,12 +1,3 @@
----
-article_id: af_0e226ccf6491b72157afd22a
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.isIntegral_of_mul_mem Hartshorne.exists_algebraMap_eq_of_isIntegral Hartshorne.exists_algebraMap_eq_of_mul_mem Hartshorne.fg_projCoordGrading Hartshorne.finiteDimensional_projCoordGrading
----
-
 # An element stabilising a finite-dimensional subspace is integral
 
 Let $K$ be a $k$-algebra domain, let $V\subseteq K$ be a nonzero

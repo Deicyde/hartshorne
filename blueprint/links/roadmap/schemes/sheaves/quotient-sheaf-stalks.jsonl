@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/sheaves/quotient-sheaf-stalks.md"}], "object": [{"location": {"declaration": "Hartshorne.abelianQuotientSheaf_stalkAddEquiv_exists"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_c9b09b7dfb1cbf3560551fe4", "extensions": {"org.autoform": {"origin": "cited"}}}

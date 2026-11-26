@@ -1,12 +1,3 @@
----
-article_id: af_069401b5e23eaef4de57a814
-declaration: theorem
-origin: background
-statement: formalized
-proof: formalized
-lean: Hartshorne.isAlgebraic_of_isFractionRing Hartshorne.exists_ringKrullDim_eq_trdeg
----
-
 # Dimension of a finitely generated domain
 
 Let $k$ be a field and let $B$ be a finitely generated $k$-algebra that is

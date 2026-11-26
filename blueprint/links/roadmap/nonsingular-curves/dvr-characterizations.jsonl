@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/nonsingular-curves/dvr-characterizations.md"}], "object": [{"location": {"declaration": "Hartshorne.dvr_characterizations"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_860f4cc4dfa97f0017c8d7df", "extensions": {"org.autoform": {"origin": "background"}}}

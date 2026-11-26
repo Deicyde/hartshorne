@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/affine-varieties/dim-quasi-affine.md"}], "object": [{"location": {"declaration": "Hartshorne.dim_eq_dim_closure"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_a583b15ad8a2e84459d9b21c", "extensions": {"org.autoform": {"origin": "cited"}}}

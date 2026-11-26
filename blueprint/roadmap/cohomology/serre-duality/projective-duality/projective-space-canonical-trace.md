@@ -1,9 +1,3 @@
----
-article_id: af_c07428be37deb8973d3512a1
-declaration: isomorphism
-origin: cited
----
-
 # A trace isomorphism on projective space
 
 Let $X=\mathbb{P}^{n}_k$. Choose a $k$-linear isomorphism

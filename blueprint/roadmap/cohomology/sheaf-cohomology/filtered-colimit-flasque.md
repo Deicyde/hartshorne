@@ -1,12 +1,3 @@
----
-article_id: af_35173dfc0d4a47b47315195b
-declaration: theorem
-origin: cited
-lean: Hartshorne.filteredColimit_isFlasque
-statement: formalized
-proof: formalized
----
-
 # Filtered colimits preserve flasqueness
 
 On a noetherian topological space, a filtered colimit of flasque abelian

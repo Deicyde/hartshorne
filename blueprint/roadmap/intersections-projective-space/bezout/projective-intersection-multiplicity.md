@@ -1,12 +1,3 @@
----
-article_id: af_10beeea75107994712e1057d
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.projectiveIntersectionMultiplicity
----
-
 # Intersection multiplicity with a hypersurface
 
 Let $Y\subseteq\mathbb P^n$ be a projective variety, let $H$ be a

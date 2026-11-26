@@ -1,10 +1,3 @@
----
-article_id: af_aee25a2db72fcf6c5670835b
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Smooth projective algebraic varieties are Hodge manifolds
 
 Complex projective space carries the Fubini–Study Kähler form with integral

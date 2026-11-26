@@ -1,9 +1,3 @@
----
-article_id: af_f33af267019c3fc1df169030
-declaration: equivalence
-origin: bridged
----
-
 # Abstract elliptic curves and Weierstrass scheme models
 
 From the general Weierstrass equation of a pointed abstract elliptic curve,

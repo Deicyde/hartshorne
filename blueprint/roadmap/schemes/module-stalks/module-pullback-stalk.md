@@ -1,12 +1,3 @@
----
-article_id: af_f67cd2877cf877d4cfc3a585
-declaration: def
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.pullbackStalkIso Hartshorne.pullbackStalkLinearEquiv
----
-
 # Stalks of the pullback of a module sheaf
 
 Let $h : X' \to X$ be a morphism of schemes, $F$ an $\mathcal{O}_X$-module, and

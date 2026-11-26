@@ -1,12 +1,3 @@
----
-article_id: af_a3d45df32cfc447043223c78
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Projective.isFinite_of_finite_fibres Hartshorne.Projective.isFinite_of_finite_preimage_singleton
----
-
 # Projective quasi-finite morphisms are finite
 
 Let $f : X \to Y$ be a projective morphism of Noetherian schemes. If every

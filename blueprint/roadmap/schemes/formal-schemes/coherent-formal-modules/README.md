@@ -1,7 +1,3 @@
----
-article_id: af_3dd2d0e29cda6593a28718e0
----
-
 # Coherent modules on formal schemes
 
 This milestone completes coherent sheaves, proves affine effectivity and the

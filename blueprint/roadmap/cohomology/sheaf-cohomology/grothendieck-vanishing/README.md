@@ -1,7 +1,3 @@
----
-article_id: af_48e2c777f6b660ef1f9be827
----
-
 # Grothendieck vanishing
 1. [Dimension drops on proper closed subsets](proper-closed-dimension-drop.md)
 2. [The irreducible dimension-zero base case](irreducible-dimension-zero-cohomology.md)

@@ -1,12 +1,3 @@
----
-article_id: af_c40ccbe30e672e8f50d0163b
-declaration: abbrev
-origin: cited
-statement: formalized
-proof: formalized
-lean: AlgebraicGeometry.Scheme.CartierClassGroup
----
-
 # Principal Cartier divisors and the Cartier class group
 
 Map every global total-quotient unit to its principal Cartier divisor. Define

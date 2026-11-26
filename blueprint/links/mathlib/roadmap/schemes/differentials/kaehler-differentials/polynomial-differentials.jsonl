@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../../../roadmap/schemes/differentials/kaehler-differentials/polynomial-differentials.md"}], "object": [{"location": {"declaration": "KaehlerDifferential.mvPolynomialBasis", "module": "Mathlib.RingTheory.Kaehler.Polynomial"}}], "id": "af_4385eae4c6f0422daac639dc"}

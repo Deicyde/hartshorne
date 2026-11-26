@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/fiber-products/finite-type-base-change.md"}], "object": [{"location": {"declaration": "Hartshorne.finiteType_baseExtension"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_613ad89782b11a573e70019d", "extensions": {"org.autoform": {"origin": "cited"}}}

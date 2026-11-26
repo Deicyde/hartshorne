@@ -1,9 +1,3 @@
----
-article_id: af_3961ce9be4e86fa76733f3f6
-declaration: theorem
-origin: cited
----
-
 # The elliptic indecomposable case with invariant zero
 
 On an elliptic curve, a normalized indecomposable rank-two bundle with

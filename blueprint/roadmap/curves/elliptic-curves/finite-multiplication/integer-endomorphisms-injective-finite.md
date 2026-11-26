@@ -1,9 +1,3 @@
----
-article_id: af_5ba96d53e0188ebaf1029708
-declaration: theorem
-origin: cited
----
-
 # Integer endomorphisms are injective and finite
 
 For a pointed elliptic curve over an algebraically closed field of

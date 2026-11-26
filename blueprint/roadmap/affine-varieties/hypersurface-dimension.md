@@ -1,12 +1,3 @@
----
-article_id: af_e6d7d33fe68baa6aa2beb588
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_dim_zeroSet_irreducible Hartshorne.exists_irreducible_eq_zeroSet
----
-
 # Hypersurfaces and codimension one
 
 A variety $Y \subseteq \mathbb{A} ^{n}$ has dimension $n - 1$ if and only if $Y = Z(f)$ for a single

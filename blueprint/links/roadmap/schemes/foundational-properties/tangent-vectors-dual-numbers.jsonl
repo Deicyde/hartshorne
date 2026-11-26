@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/foundational-properties/tangent-vectors-dual-numbers.md"}], "object": [{"location": {"declaration": "Hartshorne.dualNumberLiftToTangent_bijective"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_a4a0543ea6d3bb728811d630", "extensions": {"org.autoform": {"origin": "cited"}}}

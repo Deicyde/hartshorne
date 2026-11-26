@@ -1,12 +1,3 @@
----
-article_id: af_fa5c02aea72c3bfa6cab4757
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Scheme.Opens.toScheme
-mathlib_file: Mathlib/AlgebraicGeometry/Restrict.lean
----
-
 # Open subschemes
 
 If $X$ is a scheme and $U \subseteq X$ is open, the restricted locally ringed space

@@ -1,12 +1,3 @@
----
-article_id: af_c57647eb59b0b19fca17b898
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.affineSingularLocus_eq_preimage_matrixRankDropLocus Hartshorne.isClosed_affineSingularLocus Hartshorne.image_affineSingularLocus_eq_zeroSet_jacobianMinors Hartshorne.exists_generators_image_affineSingularLocus_eq_zeroSet
----
-
 # The affine singular locus is closed
 
 Let $Y \subseteq \mathbb{A} ^{n}$ be an affine variety of dimension $r$, and choose any

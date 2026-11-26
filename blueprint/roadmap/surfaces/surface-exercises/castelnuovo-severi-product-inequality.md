@@ -1,9 +1,3 @@
----
-article_id: af_adb237b8ff02cd887b2b06a4
-declaration: theorem
-origin: cited
----
-
 # The Castelnuovo–Severi product inequality
 
 Let $X=C \times C '$, $l=C \times \{pt\}$, and $m=\{pt\} \times C '$. If a divisor

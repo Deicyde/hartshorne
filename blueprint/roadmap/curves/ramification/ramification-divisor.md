@@ -1,9 +1,3 @@
----
-article_id: af_c28b5fc3e73512702bca1d6e
-declaration: def
-origin: cited
----
-
 # The ramification divisor
 
 For a finite separable morphism of curves, define the effective divisor

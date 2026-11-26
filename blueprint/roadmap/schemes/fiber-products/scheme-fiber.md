@@ -1,12 +1,3 @@
----
-article_id: af_c95901dee504501d1eb554dd
-declaration: def
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Scheme.Hom.fiber
-mathlib_file: Mathlib/AlgebraicGeometry/Fiber.lean
----
-
 # The fiber of a morphism
 
 For $f : X \to Y$ and $y \in Y$, the scheme-theoretic fiber is $X_y = X \times _Y \operatorname{Spec} \kappa (y)$, naturally a scheme over the residue field $\kappa (y)$.

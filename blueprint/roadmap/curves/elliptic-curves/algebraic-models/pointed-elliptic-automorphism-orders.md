@@ -1,9 +1,3 @@
----
-article_id: af_e20d24671743f015664b47a2
-declaration: theorem
-origin: cited
----
-
 # Pointed automorphism groups
 
 Let $(X,P_0)$ be an elliptic curve over an algebraically closed field of

@@ -1,7 +1,3 @@
----
-article_id: af_6a1f8802142c9151368ddbb4
----
-
 # Surfaces of general type
 
 Kodaira-dimension-two surfaces are the surface case of maximal Kodaira

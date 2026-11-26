@@ -1,12 +1,3 @@
----
-article_id: af_d0979ec4ff20812bcce7511f
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.weilDivisorProjectiveDegree Hartshorne.weilDivisorProjectiveDegree_of_primeDivisor Hartshorne.primeDivisorProjectiveDegree Hartshorne.projectiveSpectrumPointDegree_cast
----
-
 # Degree of a projective Weil divisor
 
 Let $k$ be algebraically closed and let $X \subseteq \mathbb{P}^n_k$ be a projective variety

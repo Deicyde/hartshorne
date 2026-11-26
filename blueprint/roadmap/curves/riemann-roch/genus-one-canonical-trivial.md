@@ -1,9 +1,3 @@
----
-article_id: af_9c7ee902cb5d662b872057db
-declaration: theorem
-origin: cited
----
-
 # The canonical divisor of a genus-one curve is trivial
 
 Let $X$ be a Chapter IV curve of genus one. Every canonical divisor $K$ has

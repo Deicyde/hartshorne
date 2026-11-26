@@ -1,7 +1,3 @@
----
-article_id: af_66a07da32afd333d65c202d4
----
-
 # Zeta functions and the Weil conjectures
 
 Hartshorne Appendix C defines the zeta function of a finite-type scheme over a

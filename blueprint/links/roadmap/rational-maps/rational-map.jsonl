@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/rational-maps/rational-map.md"}], "object": [{"location": {"declaration": "Hartshorne.RatMap"}, "role": "states"}, {"location": {"declaration": "Hartshorne.RatMapRep.IsDominant"}}], "status": "formalized", "kind": "definition", "id": "af_99a287d25bb1d1989e451bf8", "extensions": {"org.autoform": {"origin": "cited"}}}

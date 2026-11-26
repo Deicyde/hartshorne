@@ -1,10 +1,3 @@
----
-article_id: af_6aeda50bad67fe5a7d155076
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # The global dimension of a regular local ring
 
 Let $A$ be a Noetherian regular local ring. Every $A$-module $M$ has

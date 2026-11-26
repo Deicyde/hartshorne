@@ -1,9 +1,3 @@
----
-article_id: af_32a3231b7d0960c8d550b4f9
-declaration: theorem
-origin: cited
----
-
 # Halphen's nonspecial very-ample theorem
 
 Let $X$ be a curve of genus $g\ge 2$. There exists a nonspecial very ample

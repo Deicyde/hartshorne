@@ -1,12 +1,3 @@
----
-article_id: af_f36463cd8b128458d64f56d7
-declaration: class
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.IsSeparated
-mathlib_file: Mathlib/AlgebraicGeometry/Morphisms/Separated.lean
----
-
 # Separated morphisms
 
 A morphism $f:X\to Y$ is separated when its diagonal

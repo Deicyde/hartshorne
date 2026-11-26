@@ -1,10 +1,3 @@
----
-article_id: af_6c1dc735ef0841d77e59f50e
-declaration: theorem
-origin: cited
-not_ready: true
----
-
 # Infinitesimal extensions and tangent-valued cohomology
 
 Let $X$ be a nonsingular variety over an algebraically closed field $k$, and

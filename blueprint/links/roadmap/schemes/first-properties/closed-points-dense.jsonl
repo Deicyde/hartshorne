@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/first-properties/closed-points-dense.md"}], "object": [{"location": {"declaration": "Hartshorne.closedPoints_dense_of_finiteType"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_57c8a849b2c90ab49dc2af1c", "extensions": {"org.autoform": {"origin": "cited"}}}

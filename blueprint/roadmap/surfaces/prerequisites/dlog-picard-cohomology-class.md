@@ -1,9 +1,3 @@
----
-article_id: af_6d5f8a2a7d403b31408dd972
-declaration: definition
-origin: cited
----
-
 # The dlog Picard cohomology class
 
 For a finite-type scheme $X$ over $k$, logarithmic differentiation

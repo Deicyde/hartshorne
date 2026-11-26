@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/modules-and-quasicoherent/module-sheaf-hom.md"}], "object": [{"location": {"declaration": "Hartshorne.Ringed.moduleSheafHomData"}, "role": "states"}], "status": "formalized", "kind": "definition", "id": "af_3743230b14283596cc3b7225", "extensions": {"org.autoform": {"origin": "cited"}}}

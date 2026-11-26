@@ -1,12 +1,3 @@
----
-article_id: af_e597df3a5b7fded55fe3733e
-declaration: theorem
-origin: bridged
-statement: formalized
-proof: formalized
-lean: Hartshorne.ValuationSpace.abstractNonsingularCurveIsoOfAlgEquiv
----
-
 # Transporting valuation curves along a field equivalence
 
 An isomorphism of $k$-algebras $K\cong L$ between one-dimensional

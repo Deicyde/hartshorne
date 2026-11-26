@@ -1,9 +1,3 @@
----
-article_id: af_c6d122ad20bdb99b6df92d27
-declaration: theorem
-origin: cited
----
-
 # Exhaustivity in degree nine and genus ten
 
 Every degree-nine, genus-ten curve in $\mathbb{P}^3$ is exactly one of the two types:

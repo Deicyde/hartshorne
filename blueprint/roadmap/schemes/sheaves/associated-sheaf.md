@@ -1,12 +1,3 @@
----
-article_id: af_2859d187d0dccb6a619cb333
-declaration: definition
-origin: cited
-mathlib: true
-mathlib_declaration: CategoryTheory.sheafificationAdjunction
-mathlib_file: Mathlib/CategoryTheory/Sites/Sheafification.lean
----
-
 # The associated sheaf
 
 Every presheaf $F$ has an associated sheaf $F^{+}$ and a canonical map

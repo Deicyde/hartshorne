@@ -1,12 +1,3 @@
----
-article_id: af_e388e8e2f17dadc6c9fa2043
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.RegularLocal.hasProjectiveDimensionLE_iff_forall_subsingleton_ext
----
-
 # Projective dimension detected by Ext against the base ring
 
 Let $A$ be a Noetherian regular local ring and $M$ a finitely generated

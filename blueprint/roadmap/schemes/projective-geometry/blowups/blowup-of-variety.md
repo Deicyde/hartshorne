@@ -1,12 +1,3 @@
----
-article_id: af_b00e2a99d738dfdf6b9cd5b7
-declaration: theorem
-origin: cited
-lean: Hartshorne.QuasicoherentIdealSubsheaf.blowup_variety Hartshorne.QuasicoherentIdealSubsheaf.isIntegral_blowup
-statement: formalized
-proof: formalized
----
-
 # Blowing up a variety
 
 If $X$ is a variety and $I$ is a nonzero coherent ideal, then $Bl_I(X)$ is a

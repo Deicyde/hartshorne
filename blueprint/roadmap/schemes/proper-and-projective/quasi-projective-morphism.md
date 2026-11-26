@@ -1,12 +1,3 @@
----
-article_id: af_fd7f03cd7818de492f1610fc
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.QuasiProjective
----
-
 # Quasi-projective morphisms
 
 A morphism $f : X \longrightarrow Y$ is quasi-projective when there are a scheme $X'$,

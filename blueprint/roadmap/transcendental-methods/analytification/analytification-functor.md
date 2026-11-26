@@ -1,9 +1,3 @@
----
-article_id: af_cc460d33f21fd72bdd84efb4
-declaration: functor
-origin: cited
----
-
 # Analytification is a functor
 
 Analytification defines a functor from finite-type schemes over $\mathbb{C}$ to

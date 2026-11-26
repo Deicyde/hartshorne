@@ -1,12 +1,3 @@
----
-article_id: af_22028ab9c58689fa84aba6a3
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.imageSheafification_mono
----
-
 # The image is a subsheaf
 
 For a morphism of sheaves of abelian groups $\varphi : F \longrightarrow G$, sheafify the

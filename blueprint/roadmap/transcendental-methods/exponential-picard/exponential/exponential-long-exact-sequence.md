@@ -1,9 +1,3 @@
----
-article_id: af_6637f7fee7c52879bd00498b
-declaration: theorem
-origin: cited
----
-
 # The exponential long exact sequence
 
 For a connected reduced projective complex variety, the analytic exponential

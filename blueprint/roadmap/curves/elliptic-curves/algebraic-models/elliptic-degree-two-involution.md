@@ -1,9 +1,3 @@
----
-article_id: af_e03601f81955f10d1dd371ca
-declaration: theorem
-origin: cited
----
-
 # The involution attached to two points
 
 For points $P,Q$ on an elliptic curve, including $P=Q$, there is an

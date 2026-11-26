@@ -1,7 +1,3 @@
----
-article_id: af_8ad8bbe7187f52a73a7c45a7
----
-
 # Subschemes and dimension
 
 This chapter records open and closed embeddings, reduced induced structures,

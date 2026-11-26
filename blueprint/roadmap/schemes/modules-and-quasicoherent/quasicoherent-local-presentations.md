@@ -1,12 +1,3 @@
----
-article_id: af_7969084b278fd0629e4ab945
-declaration: class
-origin: bridged
-mathlib: true
-mathlib_declaration: SheafOfModules.IsQuasicoherent
-mathlib_file: Mathlib/Algebra/Category/ModuleCat/Sheaf/Quasicoherent.lean
----
-
 # Quasi-coherence by local presentations
 
 A sheaf of $\mathcal{O}_X$-modules has local presentations when

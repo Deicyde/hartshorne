@@ -1,10 +1,3 @@
----
-article_id: af_2ee5ce1202a77c456c9d57d5
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # The associated graded algebra of a regular-sequence ideal
 
 Let $A$ be a Cohen–Macaulay local ring and let $I = (x_1, \ldots , x_r)$, where

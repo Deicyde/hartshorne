@@ -1,12 +1,3 @@
----
-article_id: af_99905fcdb2a616c538f5d376
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.graphProjection_isIso
----
-
 # The complement of a hypersurface is affine
 
 Let $0 \ne f \in k[x_{1},\ldots ,x_n]$, let $Y = Z(f)$, and write

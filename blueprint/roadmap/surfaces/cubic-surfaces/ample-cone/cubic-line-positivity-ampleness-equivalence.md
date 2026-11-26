@@ -1,9 +1,3 @@
----
-article_id: af_a4edaa211819720320089adc
-declaration: theorem
-origin: cited
----
-
 # Line positivity, ampleness, and very ampleness
 
 For a divisor $D$ on the marked cubic surface, the following are equivalent:

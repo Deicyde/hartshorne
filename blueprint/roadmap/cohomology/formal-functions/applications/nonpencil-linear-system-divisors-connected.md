@@ -1,9 +1,3 @@
----
-article_id: af_1d074f70439f06a033485b4c
-declaration: theorem
-origin: cited
----
-
 # Divisors in a nonpencil linear system are connected
 
 Let $X$ be a normal projective variety over an algebraically closed field and

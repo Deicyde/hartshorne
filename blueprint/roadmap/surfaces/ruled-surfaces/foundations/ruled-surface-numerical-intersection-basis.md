@@ -1,9 +1,3 @@
----
-article_id: af_96269be1dc0a6983dffac4c4
-declaration: theorem
-origin: cited
----
-
 # The numerical intersection lattice of a ruled surface
 
 For a ruled surface with a section $C_0$ and fibre $f$,

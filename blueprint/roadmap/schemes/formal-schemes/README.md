@@ -1,7 +1,3 @@
----
-article_id: af_e7c20f91209b8147bd615731
----
-
 # Formal completions and formal schemes
 
 This chapter covers Hartshorne II.9: inverse systems, adic completion, formal

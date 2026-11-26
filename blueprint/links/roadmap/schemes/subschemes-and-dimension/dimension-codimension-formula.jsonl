@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/subschemes-and-dimension/dimension-codimension-formula.md"}], "object": [{"location": {"declaration": "Hartshorne.dimension_codimension_formula"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_9dbe540cc0b435d1aea72750", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,12 +1,3 @@
----
-article_id: af_436941c8814fd3a1df66a43d
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.bijective_toValuationSpecData Hartshorne.valuationSpecEquiv Hartshorne.ValuationSpecData Hartshorne.reducedPointClosureStalkToResidueField
----
-
 # Maps from spectra of valuation rings
 
 Let $R$ be a valuation ring with fraction field $K$. A morphism

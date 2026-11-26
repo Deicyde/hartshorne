@@ -1,9 +1,3 @@
----
-article_id: af_d6cccb607692a9f472bed44f
-declaration: def
-origin: cited
----
-
 # Strange curves and the basic examples
 
 An embedded curve $X \subset \mathbb{P}^n$ is strange when there is a point $A$ lying

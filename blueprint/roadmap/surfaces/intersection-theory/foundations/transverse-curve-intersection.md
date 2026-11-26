@@ -1,12 +1,3 @@
----
-article_id: af_c1c77f984dc0563442bc221d
-declaration: def
-origin: cited
-lean: Hartshorne.Surface.IsTransverseAt Hartshorne.Surface.isTransverseAt_iff Hartshorne.Surface.IsTransverseAt.isRegularLocalRing_left Hartshorne.Surface.IsTransverseAt.isRegularLocalRing_right Hartshorne.Surface.IsTransverseAt.length_eq_one Hartshorne.Surface.IsTransverseAt.localIntersectionMultiplicity_eq_one Hartshorne.Surface.IsTransverseAt.isReduced Hartshorne.Surface.IsTransverseAt.bijective_quotient_mk_comp_stalkStructureMap Hartshorne.Surface.IsTransverseAt.linearIndependent_toCotangent
-statement: formalized
-proof: formalized
----
-
 # Transverse intersection of curves
 
 Let $C ,D$ be effective curves on a Chapter V surface and let

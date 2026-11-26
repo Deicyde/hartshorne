@@ -1,9 +1,3 @@
----
-article_id: af_e13c600de8d4458b658cc324
-declaration: theorem
-origin: cited
----
-
 # Residue-field surjectivity implies right exactness
 
 Let $A$ be a Noetherian local ring with residue field $k$, let

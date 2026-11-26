@@ -1,9 +1,3 @@
----
-article_id: af_d200148a6e4ca681692071e6
-declaration: def
-origin: cited
----
-
 # Finite morphisms of complex analytic spaces
 
 A morphism of complex analytic spaces is finite when it is proper in the

@@ -1,9 +1,3 @@
----
-article_id: af_968e94796f3634439210bd1a
-declaration: theorem
-origin: cited
----
-
 # Fibres of a ruled surface are numerically equivalent
 
 All fibres $f$ of a ruled surface $\pi : X \to C$ are numerically equivalent.

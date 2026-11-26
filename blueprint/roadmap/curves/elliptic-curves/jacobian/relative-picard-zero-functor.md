@@ -1,9 +1,3 @@
----
-article_id: af_b48458c72585715ffb3969b0
-declaration: def
-origin: cited
----
-
 # The relative degree-zero Picard functor
 
 For a Chapter IV curve $X$ and a finite-type scheme $T$ over the base field,

@@ -1,12 +1,3 @@
----
-article_id: af_eb041e7dd513f21c1f08e47c
-declaration: abbrev
-origin: cited
-mathlib: true
-mathlib_declaration: AlgebraicGeometry.Scheme.Over
-mathlib_file: Mathlib/AlgebraicGeometry/Over.lean
----
-
 # Schemes over a base
 
 A scheme over $S$ is a scheme $X$ with a structure morphism $X \to S$.  A

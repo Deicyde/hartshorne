@@ -1,10 +1,3 @@
----
-article_id: af_a75ad56f51a25421ec5ba40b
-declaration: isomorphism
-origin: cited
-not_ready: true
----
-
 # Module and abelian higher direct images agree
 
 For a morphism of ringed spaces

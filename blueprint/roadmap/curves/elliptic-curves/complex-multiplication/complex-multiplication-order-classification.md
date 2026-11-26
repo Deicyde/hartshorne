@@ -1,9 +1,3 @@
----
-article_id: af_427839755df16337bb053fa0
-declaration: theorem
-origin: cited
----
-
 # Classification of complex multiplication orders
 
 Let $X(\mathbb C)=\mathbb C/(\mathbb Z+\mathbb Z\tau)$. If $\operatorname{End}(X,P_0)$ is larger than $\mathbb Z$, then $\tau$ belongs

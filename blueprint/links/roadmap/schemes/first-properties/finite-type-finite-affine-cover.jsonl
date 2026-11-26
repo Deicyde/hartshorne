@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/schemes/first-properties/finite-type-finite-affine-cover.md"}], "object": [{"location": {"declaration": "Hartshorne.finiteType_iff_everyAffineTarget"}, "role": "states"}], "status": "formalized", "kind": "theorem", "id": "af_87419a940773431b5efc1fd9", "extensions": {"org.autoform": {"origin": "cited"}}}

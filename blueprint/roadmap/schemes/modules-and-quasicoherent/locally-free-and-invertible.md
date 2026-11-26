@@ -1,12 +1,3 @@
----
-article_id: af_0a1032d4064bbb5485d0d291
-declaration: definition
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Ringed.IsFree Hartshorne.Ringed.IsLocallyFree Hartshorne.Ringed.IsLocallyFreeOfRank Hartshorne.Ringed.IsInvertible Hartshorne.Ringed.rankAt Hartshorne.Ringed.rankAt_eq Hartshorne.Ringed.isLocallyConstant_rankAt Hartshorne.Ringed.rankAt_eq_of_connectedSpace Hartshorne.Ringed.exists_over_iso_free_of_subsingleton_stalk Hartshorne.Ringed.exists_isZero_over_of_subsingleton_stalk AlgebraicGeometry.Scheme.Modules.isLocallyFree_iff_ringed AlgebraicGeometry.Scheme.Modules.isLocallyFreeOfRank_iff_ringed AlgebraicGeometry.Scheme.Modules.isInvertible_iff_ringed AlgebraicGeometry.Scheme.Modules.IsFree AlgebraicGeometry.Scheme.Modules.IsLocallyFree AlgebraicGeometry.Scheme.Modules.IsLocallyFreeOfRank AlgebraicGeometry.Scheme.Modules.IsInvertible AlgebraicGeometry.Scheme.Modules.rankAt AlgebraicGeometry.Scheme.Modules.rankAt_eq AlgebraicGeometry.Scheme.Modules.isLocallyConstant_rankAt AlgebraicGeometry.Scheme.Modules.rankAt_eq_of_connectedSpace AlgebraicGeometry.Scheme.Modules.rankAt_eq_ringed Hartshorne.Ringed.isIso_of_epi_of_isInvertible Hartshorne.isIso_of_epi_of_isInvertible
----
-
 # Locally free and invertible module sheaves
 
 Define free and locally free $\mathcal{O} _X$-modules, locally free modules of a specified

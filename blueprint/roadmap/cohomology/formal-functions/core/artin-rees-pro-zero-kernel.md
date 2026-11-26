@@ -1,12 +1,3 @@
----
-article_id: af_f0015eba983da3bec5f18766
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.ArtinReesKernel.system Hartshorne.ArtinReesKernel.system_isProZero Hartshorne.ArtinReesKernel.system_sections_eq_zero Hartshorne.ArtinReesKernelSheaf.kernelSystem Hartshorne.ArtinReesKernelSheaf.kernelSystem_isProZero Hartshorne.ArtinReesKernelSheaf.isZero_limit_kernelSystem Hartshorne.ArtinReesKernelSheaf.isCoherent_kernelSheaf
----
-
 # The Artin–Rees kernel system is pro-zero
 
 Let $A$ be Noetherian, let $a$ be an ideal, and let $R$ be a finite submodule

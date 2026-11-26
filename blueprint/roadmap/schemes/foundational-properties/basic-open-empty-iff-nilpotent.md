@@ -1,12 +1,3 @@
----
-article_id: af_3cc07813acd961f269cce0e1
-declaration: theorem
-origin: cited
-mathlib: true
-mathlib_declaration: PrimeSpectrum.basicOpen_eq_bot_iff
-mathlib_file: Mathlib/RingTheory/Spectrum/Prime/Topology.lean
----
-
 # An empty principal open detects nilpotence
 
 For $f$ in a commutative ring $A$, the principal open $D(f) \subseteq \operatorname{Spec} A$ is empty

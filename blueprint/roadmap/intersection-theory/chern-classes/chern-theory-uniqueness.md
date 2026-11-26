@@ -1,9 +1,3 @@
----
-article_id: af_52d78feae473fb8ec99e76dd
-declaration: theorem
-origin: cited
----
-
 # The line, naturality, and Whitney axioms determine Chern classes
 
 A theory assigning classes $c_i(E) \in A^i(X)$ to locally free sheaves on

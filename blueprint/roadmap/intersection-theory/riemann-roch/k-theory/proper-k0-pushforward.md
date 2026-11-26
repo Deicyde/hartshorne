@@ -1,9 +1,3 @@
----
-article_id: af_2bdc317ffaca82cacb1f9af2
-declaration: theorem
-origin: cited
----
-
 # Proper pushforward on K0
 
 For a proper morphism $f:X\to Y$, define

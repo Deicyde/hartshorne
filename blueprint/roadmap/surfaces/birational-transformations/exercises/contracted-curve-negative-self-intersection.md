@@ -1,9 +1,3 @@
----
-article_id: af_6e6d11a74623a46350f80ed0
-declaration: theorem
-origin: cited
----
-
 # A contracted curve has negative self-intersection
 
 Let $f:X \to X_0$ be a morphism from a nonsingular projective surface to a

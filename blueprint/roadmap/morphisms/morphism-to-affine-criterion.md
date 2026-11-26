@@ -1,12 +1,3 @@
----
-article_id: af_e7ed1858fb67ec6b479b1e43
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.exists_varietyHom_iff_coords_regular Hartshorne.regular_comp_of_coords_regular Hartshorne.Variety.continuous_of_coords_regular Hartshorne.Variety.eval_comp_mem_regular
----
-
 # Criterion for a morphism into an affine variety
 
 Let $X$ be a variety and let $Y\subseteq\mathbb A^n$ be an affine

@@ -1,7 +1,3 @@
----
-article_id: af_feefe997749b789386eb85e8
----
-
 # Projective spectrum
 
 Hartshorne's construction of $\operatorname{Proj}S$ leads to its

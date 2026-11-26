@@ -1,7 +1,3 @@
----
-article_id: af_d1a536551345aa386aacc485
----
-
 # Projective duality
 
 This milestone builds duality first on projective space, constructs the

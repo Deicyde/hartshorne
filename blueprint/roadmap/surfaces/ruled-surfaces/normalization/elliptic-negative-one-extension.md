@@ -1,9 +1,3 @@
----
-article_id: af_66125d60d978c9100ccb0df8
-declaration: theorem
-origin: cited
----
-
 # An elliptic ruled surface with invariant minus one
 
 Let $C$ be an elliptic curve and $P$ a point. Up to isomorphism there is a

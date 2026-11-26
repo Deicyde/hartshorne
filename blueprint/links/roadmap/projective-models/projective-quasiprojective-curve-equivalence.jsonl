@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../roadmap/projective-models/projective-quasiprojective-curve-equivalence.md"}], "object": [{"location": {"declaration": "Hartshorne.projectiveQuasiProjectiveCurveEquivalence"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_8e64f12c6fbbdf121cc5ab92", "extensions": {"org.autoform": {"origin": "bridged"}}}

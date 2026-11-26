@@ -1,9 +1,3 @@
----
-article_id: af_fb49c16fd15cb8723672d484
-declaration: theorem
-origin: cited
----
-
 # A ruled surface is a rank-two projective bundle
 
 Let $\pi : X \to C$ be a ruled surface and let $D$ be the image of a section.

@@ -1,12 +1,3 @@
----
-article_id: af_6ab332f43691470db2219d1f
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isAffineVariety_affineProduct
----
-
 # Affine products are varieties
 
 Let $X\subseteq\mathbb A^m$ and $Y\subseteq\mathbb A^n$ be affine

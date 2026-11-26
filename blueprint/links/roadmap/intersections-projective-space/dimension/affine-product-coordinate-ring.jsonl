@@ -1,0 +1,1 @@
+{"subject": [{"type": "generic", "uri": "../../../../roadmap/intersections-projective-space/dimension/affine-product-coordinate-ring.md"}], "object": [{"location": {"declaration": "Hartshorne.coordinateRing_affineProductEquiv"}, "role": "states"}], "status": "formalized", "kind": "def", "id": "af_e2b12c96da8249f2a9c75798", "extensions": {"org.autoform": {"origin": "cited"}}}

@@ -1,12 +1,3 @@
----
-article_id: af_406823956960a3ab123d308a
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.isQuasicoherent_pullback Hartshorne.isCoherent_pullback
----
-
 # Pullback preserves quasi-coherence
 
 For every scheme morphism $f : X \longrightarrow Y$, pullback sends quasi-coherent

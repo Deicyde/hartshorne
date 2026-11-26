@@ -1,12 +1,3 @@
----
-article_id: af_809e3b45710db9e293c80345
-declaration: theorem
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.Variety.isClosed_singularLocus_of_isIso Hartshorne.Variety.IsAffine.isClosed_singularLocus Hartshorne.Variety.HasAffineOpenBasis.isClosed_singularLocus
----
-
 # Closedness from affine charts
 
 Let $X$ be a variety carrying the affine-open-basis witness of Proposition 4.3.

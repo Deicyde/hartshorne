@@ -1,9 +1,3 @@
----
-article_id: af_0550c059198b648a1869f5ce
-declaration: isomorphism
-origin: cited
----
-
 # Structure-sheaf cohomology is invariant under a point blowup
 
 For every $i\ge 0$, a monoidal transformation induces a natural isomorphism

@@ -1,12 +1,3 @@
----
-article_id: af_1d46aac6dba6470680974531
-declaration: def
-origin: cited
-statement: formalized
-proof: formalized
-lean: Hartshorne.varietyRestrictedSheafIso Hartshorne.varietyRestrictedPresheafIso Hartshorne.varietyClosedPointsInclusion Hartshorne.varietyClosedPointsTopIso
----
-
 # Restricting the structure sheaf recovers regular functions
 
 Let $V$ be a variety over an algebraically closed field and identify it with

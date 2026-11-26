@@ -1,10 +1,3 @@
----
-article_id: af_569f72564ebd4bc4938b1ed7
-declaration: theorem
-origin: background
-not_ready: true
----
-
 # Analytification is compatible with principal localization and open overlaps
 
 For a finite-type complex algebra $A$ and $f \in A$, analytification identifies

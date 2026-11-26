@@ -1,7 +1,3 @@
----
-article_id: af_70d46bb56536a432530278f4
----
-
 # Nonsingular varieties
 
 Nonsingularity is the algebraic substitute for being a manifold. Hartshorne

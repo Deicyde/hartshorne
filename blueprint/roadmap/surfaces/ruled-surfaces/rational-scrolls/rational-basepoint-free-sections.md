@@ -1,9 +1,3 @@
----
-article_id: af_9e77b396c8fc7d8cae433759
-declaration: theorem
-origin: cited
----
-
 # Basepoint-free section systems
 
 On $X_e$, the complete linear system $|C_0+n\cdot f|$ is basepoint-free if and

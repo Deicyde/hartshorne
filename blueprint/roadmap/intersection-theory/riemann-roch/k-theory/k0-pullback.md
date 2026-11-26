@@ -1,9 +1,3 @@
----
-article_id: af_7f72b799e2afed7baf6fdd39
-declaration: theorem
-origin: cited
----
-
 # Pullback on K0
 
 A morphism $f:X'\to X$ of smooth varieties induces a ring homomorphism
