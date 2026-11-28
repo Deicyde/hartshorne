@@ -2,8 +2,7 @@
 
 These notes connect exact source passages with the roadmap articles that use
 them. Book locators refer to printed page numbers. Each statement's **Sources**
-links open the corresponding notes in the repository; the notes are kept
-alongside the wiki rather than published as book chapters.
+links open the corresponding note, which the wiki publishes under Sources.
 
 ## Primary and supporting references
 

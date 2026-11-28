@@ -11,7 +11,7 @@ schemes, cohomology, curves, surfaces, and the three appendices.
 - [Source coverage](coverage/README.md): adopted material, exercise policy,
   exclusions, and deferred source obligations.
 - [Source notes](sources/README.md): exact book locators and supporting
-  references, available in the repository.
+  references, published under Sources.
 - [Milestone ledger](roadmap/remaining-book/README.md): the source and
   prerequisite structure of the later chapters and appendices.
 
